@@ -19,8 +19,12 @@ framework. Serve the folder over HTTP, or hand out the single-file build.
   show how Japan held what it had taken: metropole, colonies, client states,
   military occupation, the fighting front. Names, dates and notes change with
   the date too — Singapore is Singapore in 1930 and Syonan-to in 1942.
-* **Explore** — hover over, or tap, anything to get its name in all three
-  languages, the date it changed hands, and a note on why it matters.
+* **Explore** — hover over, or tap, anything to get its name in all four
+  languages, the date it changed hands, and a note on why it matters. Hovering
+  also names the sub-unit under the pointer: the provinces of China, Manchukuo
+  and colonial Korea, the prefectures of Japan, the parts of French Indochina,
+  the Malay states with their federated status, the islands of the Indies and
+  the Philippines, and the island groups of the mandate.
 * **Quiz** — you are asked to find a place and you click it on the map. Wrong
   answers tell you what you actually clicked; the places you missed are listed
   at the end.

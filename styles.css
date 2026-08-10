@@ -201,12 +201,7 @@ button.plain:hover { background: #f2ede2; }
 .atom.hot { filter: brightness(1.12); }
 
 /* the province under the pointer, picked out inside the lit country */
-.atom .prov-hot {
-  stroke: rgba(30, 24, 16, .6);
-  vector-effect: non-scaling-stroke;
-  stroke-width: .9;
-  filter: brightness(1.06);
-}
+.atom .prov-hot { filter: brightness(1.06); }
 
 /* A unit inside a larger territory that shares its colour — the land ceded to
    Thailand in 1941, the four northern Malay states — outlined so it can be
@@ -217,18 +212,33 @@ button.plain:hover { background: #f2ede2; }
   stroke-dasharray: 3 2;
 }
 
-/* the selected territory's outline, drawn as a single silhouette */
-#sel-outline {
-  pointer-events: none;
+/* Outlines live above the map. The mask keeps only the half of each stroke
+   that falls outside the shape, so the widths here are doubled. */
+#highlight { pointer-events: none; }
+
+#highlight g path,
+#highlight g circle {
+  fill: none;
+  vector-effect: non-scaling-stroke;
+  stroke-linejoin: round;
 }
 
-#sel-outline path,
-#sel-outline circle {
-  fill: none;
+#highlight .hi-territory path,
+#highlight .hi-territory circle {
+  stroke: rgba(40, 33, 24, .75);
+  stroke-width: 3;
+}
+
+#highlight .hi-province path,
+#highlight .hi-province circle {
+  stroke: rgba(30, 24, 16, .65);
+  stroke-width: 2;
+}
+
+#highlight .hi-selected path,
+#highlight .hi-selected circle {
   stroke: #14110c;
-  vector-effect: non-scaling-stroke;
-  stroke-width: 2.6;
-  stroke-linejoin: round;
+  stroke-width: 5;
 }
 
 .site.sel .dot {

@@ -158,6 +158,37 @@ GIS_LAYERS = {
 # with Nepal and Bhutan rather than inside the Raj.
 PROTECTORATES_IND = {"Sikkim"}
 
+# Enclaves and a princely state inside British India that were not the Raj.
+# Hyderabad is approximated by Telangana, its Telugu core; the Nizam's dominion
+# also took in Marathi and Kannada districts now in Maharashtra and Karnataka.
+INDIA_ENCLAVES = {"Goa": "goa", "Puducherry": "pondicherry", "Telangāna": "hyderabad"}
+
+# Colonial Korea's thirteen provinces, from the modern units that make them up.
+KOREA_PROVINCES = {
+    "Seoul": "Keiki", "Incheon": "Keiki", "Gyeonggi": "Keiki",
+    "Gangwon": "Kogen", "Kangwon": "Kogen",
+    "North Chungcheong": "Chuseihoku", "South Chungcheong": "Chuseinan",
+    "Daejeon": "Chuseinan", "Sejong": "Chuseinan",
+    "North Jeolla": "Zenrahoku", "South Jeolla": "Zenranan",
+    "Gwangju": "Zenranan", "Jeju": "Zenranan",
+    "North Gyeongsang": "Keishohoku", "Daegu": "Keishohoku",
+    "South Gyeongsang": "Keishonan", "Busan": "Keishonan", "Ulsan": "Keishonan",
+    "North Hwanghae": "Kokai", "South Hwanghae": "Kokai",
+    "North Pyongan": "Heianhoku", "Jagang": "Heianhoku",
+    "South Pyongan": "Heiannan", "Pyongyang": "Heiannan", "Nampo": "Heiannan",
+    "North Hamgyong": "Kankyohoku", "Ryanggang": "Kankyohoku",
+    "South Hamgyong": "Kankyonan",
+}
+
+# Vietnam under the French was three: the colony of Cochinchina in the south
+# and the protectorates of Annam and Tonkin. These are the lines between them.
+TONKIN_CUT = ((103.9, 20.2), (106.6, 19.6))
+COCHIN_CUT = ((105.0, 12.4), (109.4, 11.2))
+
+# Papua, an Australian territory, and New Guinea, a League mandate: the
+# boundary ran from the Dutch border to the coast near Lae.
+PAPUA_CUT = ((141.0, -5.2), (147.4, -6.9))
+
 # The Yellow River's lower course was cut at Huayuankou in June 1938, when the
 # Chinese army breached the dikes to slow the Japanese advance. Until the
 # channel was closed again in 1947 the river ran south-east into the Huai
@@ -711,7 +742,8 @@ ON_TOP = ["kwantung"]
 
 ORDER = [
     "chinabase_ne", "chinabase_sw", "andaman", "ceylon", "ussr", "mongolia", "tibet",
-    "china", "xinjiang", "india", "other", "nepal", "sikkim", "bhutan",
+    "china", "xinjiang", "india", "hyderabad", "goa", "pondicherry",
+    "other", "nepal", "sikkim", "bhutan",
     "tuva", "weihaiwei", "guangzhouwan", "chahar", "suiyuan", "jehol", "manchuria",
     "siam", "burma", "indochina", "siamgain", "malaya", "malaya_thai", "sarawak", "northborneo", "brunei",
     "dei", "philippines",
@@ -777,9 +809,62 @@ def main():
                     groups[key].append(ring)
             continue
         key = ADMIN0.get(admin)
-        if key:
-            for ring in iter_rings(feat["geometry"]):
-                groups[key].append(ring)
+        if not key:
+            continue
+        rings_here = list(iter_rings(feat["geometry"]))
+        groups[key].extend(rings_here)
+        if admin == "Laos":
+            provinces["indochina"].append(("Laos", rings_here))
+        elif admin == "Cambodia":
+            provinces["indochina"].append(("Cambodia", rings_here))
+        elif admin == "Vietnam":
+            north = [line_plane(TONKIN_CUT[0], TONKIN_CUT[1], keep_right=False)]
+            south = [line_plane(COCHIN_CUT[0], COCHIN_CUT[1], keep_right=True)]
+            mid = [line_plane(TONKIN_CUT[0], TONKIN_CUT[1], keep_right=True),
+                   line_plane(COCHIN_CUT[0], COCHIN_CUT[1], keep_right=False)]
+            for label, planes in (("Tonkin", north), ("Annam", mid), ("Cochinchina", south)):
+                cut = [c for c in (clip_halfplanes(r, planes) for r in rings_here) if len(c) >= 3]
+                if cut:
+                    provinces["indochina"].append((label, cut))
+        elif admin == "Papua New Guinea":
+            north = [line_plane(PAPUA_CUT[0], PAPUA_CUT[1], keep_right=False)]
+            south = [line_plane(PAPUA_CUT[0], PAPUA_CUT[1], keep_right=True)]
+            for label, planes in (("NewGuineaMandate", north), ("Papua", south)):
+                cut = [c for c in (clip_halfplanes(r, planes) for r in rings_here) if len(c) >= 3]
+                if cut:
+                    provinces["newguinea_au"].append((label, cut))
+
+    # ---- enclaves and a princely state inside British India ---------------
+    ind_path = os.path.join(CACHE, "adm1_IND.json")
+    if os.path.exists(ind_path):
+        with open(ind_path) as fh:
+            for feat in json.load(fh)["features"]:
+                key = INDIA_ENCLAVES.get(feat["properties"].get("shapeName"))
+                if key:
+                    for ring in iter_rings(feat["geometry"]):
+                        groups[key].append(ring)
+
+    # ---- Korea, province by province ---------------------------------------
+    for iso in ("KOR", "PRK"):
+        kpath = os.path.join(CACHE, f"adm1_{iso}.json")
+        if not os.path.exists(kpath):
+            continue
+        with open(kpath) as fh:
+            for feat in json.load(fh)["features"]:
+                pname = KOREA_PROVINCES.get(feat["properties"].get("shapeName"))
+                if pname:
+                    provinces["korea"].append((pname, list(iter_rings(feat["geometry"]))))
+
+    # ---- Japan, prefecture by prefecture -----------------------------------
+    jpath = os.path.join(CACHE, "adm1_JPN.json")
+    if os.path.exists(jpath):
+        with open(jpath) as fh:
+            for feat in json.load(fh)["features"]:
+                pname = (feat["properties"].get("shapeName") or "").replace(" Prefecture", "")
+                if not pname:
+                    continue
+                bucket = "ryukyu" if pname == "Okinawa" else "japan"
+                provinces[bucket].append((pname.replace(" ", ""), list(iter_rings(feat["geometry"]))))
 
     # ---- layers from the Modern East Asia GIS project ----------------------
     for key, fname in GIS_LAYERS.items():

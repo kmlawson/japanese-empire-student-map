@@ -69,12 +69,17 @@ reading the boundaries, names and notes come from.
 * **Licence:** public domain.
 * **Cached at:** `tools/cache/rivers.geojson`
 
-### geoBoundaries — India, ADM1
+### geoBoundaries — India, Korea and Japan, ADM1
 
-* **Used for:** lifting Sikkim out of British India. Sikkim was a protectorate,
-  like Nepal and Bhutan, not a part of the Raj, and Natural Earth has no way to
-  say so.
-* **Licence:** CC BY 4.0. **Cached at:** `tools/cache/adm1_IND.json`
+* **Used for:** Portuguese Goa and French Pondicherry as enclaves inside
+  British India, and Hyderabad State approximated by Telangana; the thirteen
+  provinces of colonial Korea, assembled from the modern provinces of both
+  Koreas; and the forty-seven Japanese prefectures.
+* **Files:** `adm1_IND.json`, `adm1_KOR.json`, `adm1_PRK.json`, `adm1_JPN.json`
+* **Licence:** CC BY 4.0. **Cached at:** `tools/cache/`
+* **Note:** Hyderabad is the weakest of these. The Nizam's dominions also took
+  in Marathi and Kannada districts now in Maharashtra and Karnataka, and the
+  map says as much in the note.
 
 ### Modern East Asia GIS (Konrad Lawson)
 
@@ -164,6 +169,12 @@ reconstructions. Elsewhere they are built from modern outlines.
 | **Tibet, Sinkiang** | The Xizang and Xinjiang polygons, which the source itself treats as polities apart from China | Good |
 | **Territory ceded to Thailand, 1941** | Modern Battambang, Banteay Meanchey, Pailin, Siem Reap, Oddar Meanchey and Preah Vihear, plus Xaignabouli and Champasak west of the Mekong | Fair — the ceded blocks followed provincial lines close to these; Angkor was left to France and is not carved out here |
 | **Japanese-occupied China** | Traced from a 1940 map of the occupation, adjusted to December 1942 against the module timeline, and clipped to China's land: the north China plain, the Yangtze corridor to Hankow, the railway west to Paotow, the Canton delta, Hainan, Amoy and Swatow | Fair for where Japanese authority *reached*. It is not a claim about where it went unchallenged: Communist base areas operated inside the line throughout, which is why the army ran repeated "mopping up" campaigns against them, and the note on the map says so. See `occupation-maps/` |
+
+French Indochina is cut into Tonkin, Annam and Cochinchina along straight
+lines at roughly the historical boundaries, with Cambodia and Laos taken whole;
+Papua and the mandated Territory of New Guinea are separated by a straight line
+from the Dutch border to the coast near Lae. Both are approximations of
+boundaries that in reality followed watersheds.
 
 Kinmen (Quemoy) is **not** drawn as part of the colony of Taiwan. Natural Earth
 puts it in Taiwan because it is governed from Taipei today; it belonged to

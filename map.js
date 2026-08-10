@@ -54,6 +54,7 @@
   var markersGroup = null;
   var hatchGroup = null;
   var chinaBase = null;   // modern China outline, under the provinces
+  var highlightLayer = null;
   var proj = null;
   var mapW = 0, mapH = 0;
 
@@ -203,6 +204,8 @@
     proj.yTop = proj.R * Math.log(Math.tan(Math.PI / 4 + proj.latMax * Math.PI / 360));
 
     markersGroup = svg.querySelector('#markers');
+    highlightLayer = svgEl('g', { id: 'highlight' });
+    svg.insertBefore(highlightLayer, markersGroup);
     extentPath = svg.querySelector('#extent-1942');
     riversGroup = svg.querySelector('#rivers');
     buildYellow1938();
@@ -377,11 +380,9 @@
       if (atomHits[a]) atomHits[a].removeAttribute('data-id');
     });
     hatchGroup.innerHTML = '';
-    clearSelOutline();
-    lifted = [];
+    clearHighlight();
     hot = null;
     hotProv = null;
-    hotProvSlot = null;
     labels = labels.filter(function (L) {
       if (L.rec.kind === 'territory') { L.el.remove(); return false; }
       return true;
@@ -894,28 +895,18 @@
     if (hot) (atomsOf[hot] || []).forEach(function (el) { el.classList.remove('hot'); });
     hot = id;
     if (hot) (atomsOf[hot] || []).forEach(function (el) { el.classList.add('hot'); });
+    redrawHighlight();
   }
 
   var hotProv = null;
 
   /* The province under the pointer, picked out inside the lit-up country. */
-  var hotProvSlot = null;
-
   function setHotProv(el) {
     if (hotProv === el) return;
-    if (hotProv) {
-      hotProv.classList.remove('prov-hot');
-      if (hotProvSlot && hotProvSlot.parent.isConnected) {
-        hotProvSlot.parent.insertBefore(hotProv, hotProvSlot.before);
-      }
-    }
+    if (hotProv) hotProv.classList.remove('prov-hot');
     hotProv = el;
-    hotProvSlot = null;
-    if (hotProv && hotProv.parentNode) {
-      hotProvSlot = { parent: hotProv.parentNode, before: hotProv.nextSibling };
-      hotProv.parentNode.appendChild(hotProv);
-      hotProv.classList.add('prov-hot');
-    }
+    if (hotProv) hotProv.classList.add('prov-hot');
+    redrawHighlight();
   }
 
   function provinceOf(target) {
@@ -975,79 +966,68 @@
   /* Selecting also lifts the polygons to the front, because a territory drawn
    * under its neighbours only shows part of its outline otherwise. The place
    * each one came from is remembered so the drawing order can be put back. */
-  var lifted = [];
+  /* Outlines are drawn in a layer above the map rather than by shuffling the
+   * map itself, so a shape's whole boundary shows even where a neighbour is
+   * painted over it — and nothing gets buried in the process, which is what
+   * happened to Sikkim when British India was raised to the front.
+   *
+   * A mask keeps only the part of each stroke that falls outside the shape.
+   * That is what turns a heap of province outlines into one silhouette: the
+   * seams between them lie inside the union and are masked away. */
+  var maskSeq = 0;
 
-  /* Small units that sit inside or against larger ones. Lifting a selected
-   * territory to the front would otherwise bury them — selecting British India
-   * would paint over Sikkim. */
-  var ALWAYS_TOP = ['other', 'hongkong', 'macau', 'brunei', 'kwantung',
-                    'malaya_thai', 'siamgain', 'canton', 'hainan'];
-
-  function lower() {
-    for (var i = lifted.length - 1; i >= 0; i--) {
-      var slot = lifted[i];
-      if (slot.parent.isConnected) slot.parent.insertBefore(slot.el, slot.before);
-    }
-    lifted = [];
-  }
-
-  function lift(els) {
-    var move = els.slice();
-    ALWAYS_TOP.forEach(function (a) {
-      var el = atomEls[a];
-      if (el && move.indexOf(el) < 0) move.push(el);
-    });
-    move.forEach(function (el) {
-      var parent = el.parentNode;
-      if (!parent) return;
-      lifted.push({ el: el, parent: parent, before: el.nextSibling });
-      parent.appendChild(el);
-    });
-  }
-
-  var selOutline = null;
-
-  /* Outline the territory, not each of its pieces. Stroked copies are laid
-   * under the lifted atoms, so every stroke that falls inside the territory is
-   * painted over by a neighbouring atom's fill and only the outer edge of the
-   * union survives. Otherwise selecting China in 1930 draws a black line along
-   * every seam between the provinces it is built from. */
-  function drawSelOutline(els) {
-    clearSelOutline();
-    if (!els.length || !els[0].parentNode) return;
-    selOutline = svgEl('g', { id: 'sel-outline' });
+  function outlineOf(els, cls) {
+    if (!highlightLayer || !els.length) return;
+    var id = 'mask-' + (++maskSeq);
+    var mask = svgEl('mask', { id: id, maskUnits: 'userSpaceOnUse',
+                               x: 0, y: 0, width: mapW, height: mapH });
+    mask.appendChild(svgEl('rect', { x: 0, y: 0, width: mapW, height: mapH, fill: '#fff' }));
+    var group = svgEl('g', { 'class': cls, mask: 'url(#' + id + ')' });
     els.forEach(function (el) {
-      var clone = el.cloneNode(true);
-      clone.removeAttribute('id');
-      clone.removeAttribute('data-id');
-      clone.removeAttribute('style');
-      selOutline.appendChild(clone);
+      var paths = el.tagName === 'path' ? [el] : $$('path', el);
+      var circles = el.tagName === 'path' ? [] : $$('circle:not(.islet-hit)', el);
+      paths.concat(circles).forEach(function (shape) {
+        var solid = shape.cloneNode(false);
+        solid.setAttribute('fill', '#000');
+        solid.removeAttribute('class');
+        mask.appendChild(solid);
+        var line = shape.cloneNode(false);
+        line.removeAttribute('class');
+        line.removeAttribute('id');
+        line.removeAttribute('data-prov');
+        group.appendChild(line);
+      });
+      var clip = el.getAttribute('clip-path');
+      if (clip) { group.setAttribute('clip-path', clip); }
     });
-    els[0].parentNode.insertBefore(selOutline, els[0]);
+    highlightLayer.appendChild(mask);
+    highlightLayer.appendChild(group);
   }
 
-  function clearSelOutline() {
-    if (selOutline && selOutline.parentNode) selOutline.parentNode.removeChild(selOutline);
-    selOutline = null;
+  function clearHighlight() {
+    if (highlightLayer) highlightLayer.innerHTML = '';
+  }
+
+  function redrawHighlight() {
+    clearHighlight();
+    if (hot && atomsOf[hot]) outlineOf(atomsOf[hot], 'hi-territory');
+    if (hotProv) outlineOf([hotProv], 'hi-province');
+    if (selected && atomsOf[selected]) outlineOf(atomsOf[selected], 'hi-selected');
   }
 
   function markSelected(id, on) {
     if (!id) return;
     var els = atomsOf[id] || (elById[id] ? [elById[id]] : []);
-    if (!on) { els.forEach(function (el) { el.classList.remove('sel'); }); return; }
-    lift(els);
-    if (atomsOf[id] && atomsOf[id].length) drawSelOutline(els);
-    else els.forEach(function (el) { el.classList.add('sel'); });
+    if (!atomsOf[id]) els.forEach(function (el) { el.classList.toggle('sel', on); });
   }
 
   function select(id) {
     markSelected(selected, false);
-    clearSelOutline();
-    lower();
     selected = null;
     if (!id || !byId[id]) {
       infoBox.hidden = true;
       document.body.classList.toggle('panel-open', !quizBox.hidden);
+      redrawHighlight();
       placeLabels();
       return;
     }
@@ -1055,6 +1035,7 @@
     var rec = shown(byId[id]);
     selected = id;
     markSelected(id, true);
+    redrawHighlight();
 
     var primary = rec[state.lang] || rec.en;
     var others = LANGS
