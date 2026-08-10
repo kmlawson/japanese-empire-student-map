@@ -252,10 +252,7 @@ button.plain:hover { background: #f2ede2; }
    and without this those disagreements open as slivers of ocean at deep zoom. */
 .chinabase {
   fill: var(--c, var(--inactive));
-  stroke: var(--c, var(--inactive));
-  vector-effect: non-scaling-stroke;
-  stroke-width: 1.2;
-  stroke-linejoin: round;
+  stroke: none;
   pointer-events: none;
 }
 
@@ -487,14 +484,43 @@ button.plain:hover { background: #f2ede2; }
 #legend .sw.round { border-radius: 50%; width: 12px; }
 #legend .sw.diamond { border-radius: 2px; transform: rotate(45deg) scale(.82); }
 
+/* The head is the fold control. It is a real button so it takes the keyboard
+   and announces its state, but it has to read as the legend's title. */
 #legend .legend-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
   margin: 0 0 5px;
+  padding: 3px 0;
+  border: 0;
+  background: none;
+  font: inherit;
   font-size: 11.5px;
   font-weight: 700;
   letter-spacing: .08em;
   text-transform: uppercase;
   color: var(--muted);
+  text-align: left;
+  cursor: pointer;
 }
+
+#legend .legend-head:hover { color: var(--ink); }
+
+#legend .legend-head .caret {
+  flex: 0 0 auto;
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: translateY(-2px) rotate(45deg);
+  transition: transform .15s ease;
+}
+
+#legend.folded .legend-head { margin-bottom: 0; }
+#legend.folded .legend-head .caret { transform: translateY(1px) rotate(-135deg); }
+#legend.folded .legend-body { display: none; }
 
 #tooltip {
   position: fixed;
@@ -773,6 +799,13 @@ dialog input[type="checkbox"] {
     left: 10px;
     right: 10px;
     max-width: none;
+    max-height: 45%;
+    overflow-y: auto;
+  }
+
+  /* folded down to one line, the legend is a strip; opened, the swatches run
+     across in as many columns as fit rather than down a long list */
+  #legend .legend-body {
     display: flex;
     flex-wrap: wrap;
     gap: 2px 12px;

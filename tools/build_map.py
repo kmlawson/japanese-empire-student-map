@@ -119,18 +119,22 @@ OCCUPIED_ZONE = [
         (109.6, 40.4), (111.8, 40.1), (113.4, 39.9), (113.4, 41.0), (111.8, 41.2),
         (109.6, 41.1),
     ],
-    # the Canton delta and the Pearl River, held from October 1938
+    # the Canton delta and the West River, held from October 1938: the city,
+    # the delta, the railway to Kowloon and the river up to Samshui
     [
-        (112.2, 21.6), (114.6, 22.0), (114.8, 23.4), (113.2, 23.7), (112.0, 23.0),
+        (112.4, 22.1), (112.9, 21.9), (113.6, 21.8), (114.3, 22.0), (114.6, 22.4),
+        (114.5, 23.0), (113.9, 23.4), (113.3, 23.6), (112.8, 23.5), (112.3, 23.2),
+        (112.0, 22.7),
     ],
     # Hainan, taken February 1939
     [
-        (108.3, 18.0), (111.3, 18.4), (111.3, 20.3), (108.4, 20.2),
+        (108.6, 18.2), (109.6, 18.1), (110.6, 18.6), (111.1, 19.4), (110.8, 20.1),
+        (109.9, 20.2), (109.0, 19.8), (108.5, 19.0),
     ],
     # Amoy, taken May 1938
-    [(117.7, 24.2), (118.5, 24.2), (118.5, 24.8), (117.7, 24.8)],
+    [(117.9, 24.3), (118.4, 24.3), (118.5, 24.7), (118.0, 24.7)],
     # Swatow, taken June 1939
-    [(116.3, 23.0), (117.2, 23.0), (117.2, 23.7), (116.3, 23.7)],
+    [(116.5, 23.1), (117.1, 23.2), (117.1, 23.6), (116.5, 23.5)],
 ]
 
 # The Kwantung Leased Territory: the tip of the Liaodong peninsula, leased by
@@ -164,6 +168,10 @@ PROTECTORATES_IND = {"Sikkim"}
 INDIA_ENCLAVES = {"Goa": "goa", "Puducherry": "pondicherry", "Telangāna": "hyderabad"}
 
 # Colonial Korea's thirteen provinces, from the modern units that make them up.
+# The units that did not exist yet go back where they came from: Ryanggang was
+# split off South Hamgyong in 1954, Jagang off North Pyongan in 1949, and
+# Hwanghae was one province until 1954. Kaesong, now in North Hwanghae, was in
+# Keiki-do until 1945, which this cannot recover from provincial outlines.
 KOREA_PROVINCES = {
     "Seoul": "Keiki", "Incheon": "Keiki", "Gyeonggi": "Keiki",
     "Gangwon": "Kogen", "Kangwon": "Kogen",
@@ -176,8 +184,88 @@ KOREA_PROVINCES = {
     "North Hwanghae": "Kokai", "South Hwanghae": "Kokai",
     "North Pyongan": "Heianhoku", "Jagang": "Heianhoku",
     "South Pyongan": "Heiannan", "Pyongyang": "Heiannan", "Nampo": "Heiannan",
-    "North Hamgyong": "Kankyohoku", "Ryanggang": "Kankyohoku",
-    "South Hamgyong": "Kankyonan",
+    "North Hamgyong": "Kankyohoku",
+    "South Hamgyong": "Kankyonan", "Ryanggang": "Kankyonan",
+}
+
+# Burma's divisions and the frontier areas, under their period names.
+BURMA_DIVISIONS = {
+    "Yangon": "Pegu", "Bago": "Pegu", "Ayeyarwady": "Irrawaddy",
+    "Magway": "Magwe", "Mandalay": "MandalayDiv", "Saigang": "Sagaing",
+    "Tanitharyi": "Tenasserim", "Rakhine": "Arakan",
+    "Shan": "ShanStates", "Kachin": "KachinHills", "Chin": "ChinHills",
+    "Kayah": "Karenni", "Kayin": "Salween", "Mon": "Pegu",
+}
+
+# The provinces of British India and the larger princely states, from the
+# modern units of India, Pakistan and Bangladesh. Every one of these is an
+# approximation: the Raj's provinces were interleaved with several hundred
+# princely states whose territory the modern map has long since absorbed, and
+# the two 1947 partitions cut Punjab and Bengal in half. Kashmir, Rajputana,
+# Assam, Sind, Baluchistan and the North-West Frontier are close; Bombay,
+# Madras and the Central Provinces are rough, because the states inside them
+# are drawn here as though they were part of them.
+INDIA_STATES = {
+    # princely states large enough to be worth telling apart
+    "Jammu and Kashmīr": "Kashmir", "Ladākh": "Kashmir", "Azad Kashmir": "Kashmir",
+    "Gilgit-Baltistan": "Kashmir",
+    "Rājasthān": "Rajputana",
+    "Karnātaka": "Mysore", "Kerala": "TravancoreCochin",
+    # provinces of the Raj
+    "Assam": "Assam", "Meghālaya": "Assam", "Nāgāland": "Assam",
+    "Mizoram": "Assam", "Arunāchal Pradesh": "Assam", "Manipur": "Assam",
+    "Tripura": "Assam",
+    "West Bengal": "Bengal", "Barisal": "Bengal", "Chittagong": "Bengal",
+    "Dhaka": "Bengal", "Khulna": "Bengal", "Mymensingh": "Bengal",
+    "Rajshani": "Bengal", "Rangpur": "Bengal", "Sylhet": "Bengal",
+    "Bihār": "Bihar", "Jhārkhand": "Bihar",
+    "Odisha": "Orissa",
+    "Uttar Pradesh": "UnitedProvinces", "Uttarākhand": "UnitedProvinces",
+    "Punjab": "Punjab", "Haryāna": "Punjab", "Chandīgarh": "Punjab",
+    "Himāchal Pradesh": "Punjab", "Islamabad Capital Territory": "Punjab",
+    "Delhi": "Delhi",
+    "Sindh": "Sind", "Balochistan": "Baluchistan",
+    "Khyber Pakhtunkhwa": "NWFP",
+    "Madhya Pradesh": "CentralProvinces", "Chhattīsgarh": "CentralProvinces",
+    "Mahārāshtra": "Bombay", "Gujarāt": "Bombay",
+    "Dādra and Nagar Haveli and Damān and Diu": "Bombay",
+    "Tamil Nādu": "Madras", "Andhra Pradesh": "Madras", "Lakshadweep": "Madras",
+}
+
+# Siam's changwat. The modern country has seventy-seven; in 1942 it had seventy,
+# and every difference is a later split, so merging the children back into their
+# parents recovers the period set. Under the 1930 map these sat inside the
+# monthon, the "circles" abolished in 1933; the changwat themselves ran through
+# both dates.
+SIAM_SPLITS = {
+    "Amnat Charoen": "Ubon Ratchathani", "Yasothon": "Ubon Ratchathani",
+    "Mukdahan": "Nakhon Phanom", "Bueng Kan": "Nong Khai",
+    "Nong Bua Lam Phu": "Udon Thani", "Phayao": "Chiang Rai",
+    "Sa Kaeo": "Prachin Buri", "Bangkok": "Phra Nakhon",
+}
+
+# The Netherlands Indies below the level of the whole colony. Java had been
+# divided into three provinces since 1926, with Jogjakarta and Surakarta left
+# as princely lands under their own rulers; the Outer Possessions were run as
+# residencies, gathered from 1938 into three great governments. Surakarta
+# cannot be separated from Central Java on modern outlines. The Lesser Sundas,
+# the Moluccas and Dutch New Guinea are left as islands, which is more useful
+# on a map at this scale than the residencies that covered them.
+DEI_RESIDENCIES = {
+    "Aceh": "Atjeh",
+    "North Sumatra": "SumatraEastCoast", "West Sumatra": "SumatraWestCoast",
+    "Riau": "Riouw", "Riau Islands": "Riouw", "Jambi": "Djambi",
+    "South Sumatra": "Palembang", "Bangka-Belitung Islands": "BankaBilliton",
+    "Bengkulu": "Benkoelen", "Lampung": "Lampongs",
+    "Banten": "WestJava", "Jakarta Special Capital Region": "WestJava",
+    "West Java": "WestJava", "Central Java": "CentralJava",
+    "Special Region of Yogyakarta": "Jogjakarta", "East Java": "EastJava",
+    "West Kalimantan": "WestBorneo",
+    "Central Kalimantan": "SouthEastBorneo", "South Kalimantan": "SouthEastBorneo",
+    "East Kalimantan": "SouthEastBorneo", "North Kalimantan": "SouthEastBorneo",
+    "North Sulawesi": "Menado", "Gorontalo": "Menado",
+    "Central Sulawesi": "Celebes", "West Sulawesi": "Celebes",
+    "South Sulawesi": "Celebes", "Southeast Sulawesi": "Celebes",
 }
 
 # Vietnam under the French was three: the colony of Cochinchina in the south
@@ -220,13 +308,19 @@ EXTENT_CHINA_FRONT = [
     (106.8, 40.4), (107.2, 39.2), (108.6, 38.4), (110.2, 37.8), (110.7, 36.2),
     (110.9, 34.6), (111.8, 33.4), (112.6, 32.2), (111.8, 31.0), (110.8, 30.2),
     (112.0, 29.2), (113.4, 28.4), (114.8, 27.8), (116.2, 27.0), (117.4, 25.8),
-    (118.6, 24.6),
+    (118.9, 24.9),
 ]
-# The south China lobe: Canton, the Leizhou peninsula and Hainan.
+# The south China coast. Everything Japan held along it has to fall inside the
+# loop: Amoy from May 1938, Swatow from June 1939, Canton and the delta from
+# October 1938, Kwangchowwan, and Hainan, taken in February 1939 and held to
+# the end. The line runs inland of the coastal cities and then straight west
+# along the top of the Leizhou peninsula to the Tonkin frontier. It does not
+# need to detour round Hainan: everything seaward of this line is inside, so
+# tracing the island would have cut it out rather than taken it in.
 EXTENT_SOUTH_CHINA = [
-    (117.4, 23.0), (115.6, 22.4), (114.2, 22.0), (112.8, 21.4), (111.2, 20.8),
-    (110.8, 19.8), (111.2, 18.6), (110.2, 17.6), (108.4, 17.8), (107.8, 19.2),
-    (108.0, 20.6), (108.1, 21.5),
+    (118.2, 24.6), (117.3, 24.0), (116.4, 23.9), (115.2, 23.6), (114.2, 23.7),
+    (113.4, 24.0), (112.4, 23.5), (111.4, 22.5), (110.6, 21.9), (109.9, 21.9),
+    (109.0, 21.7), (108.1, 21.5),
 ]
 # Ocean perimeter, running clockwise from the Bay of Bengal.
 EXTENT_OCEAN = [
@@ -304,27 +398,31 @@ MALAYA_MYS = {
 # Islands worth naming when the pointer is over them. Matched by the centroid
 # of each ring, so an island is named only if it falls squarely in the box.
 RING_NAMES = {
+    # Sumatra, Java, Borneo and Celebes come from the residencies instead, so
+    # their outlines are dropped here ("-") and only the islands the residency
+    # map leaves whole are named.
     "dei": [
-        ("Sumatra", (95.0, -6.2, 106.5, 6.0)), ("Java", (105.0, -8.9, 114.7, -5.8)),
-        ("Madura", (112.6, -7.3, 114.2, -6.8)),
-        ("Borneo", (108.8, -4.3, 119.2, 4.4)), ("Sulawesi", (118.7, -6.1, 125.3, 1.9)),
+        ("-", (95.0, -6.2, 106.5, 6.0)), ("-", (105.0, -8.9, 114.7, -5.8)),
+        ("-", (112.6, -7.3, 114.2, -6.8)), ("-", (108.8, -4.3, 119.2, 4.4)),
+        ("-", (118.7, -6.1, 125.3, 1.9)), ("-", (105.0, -3.3, 106.9, -1.4)),
+        ("-", (107.4, -3.4, 108.4, -2.4)), ("-", (97.0, -1.3, 98.1, 1.5)),
         ("Bali", (114.4, -8.9, 115.8, -8.0)), ("Lombok", (115.8, -9.0, 116.8, -8.1)),
         ("Sumbawa", (116.8, -9.2, 119.2, -8.0)), ("Flores", (119.5, -9.0, 123.3, -8.0)),
         ("Sumba", (118.9, -10.4, 120.9, -9.1)), ("WestTimor", (123.5, -10.4, 125.2, -9.0)),
         ("Halmahera", (127.2, -0.9, 129.0, 2.7)), ("Seram", (127.7, -3.5, 131.2, -2.6)),
-        ("Buru", (125.9, -3.9, 127.3, -3.0)), ("Bangka", (105.0, -3.3, 106.9, -1.4)),
-        ("Belitung", (107.4, -3.4, 108.4, -2.4)), ("Nias", (97.0, -1.3, 98.1, 1.5)),
+        ("Buru", (125.9, -3.9, 127.3, -3.0)),
         ("WestNewGuinea", (130.5, -9.2, 141.1, 0.5)),
     ],
-    "philippines": [
-        ("Luzon", (119.6, 12.4, 124.4, 18.8)), ("Mindanao", (121.8, 5.0, 126.7, 9.9)),
-        ("Palawan", (117.0, 8.2, 119.7, 12.4)), ("Mindoro", (120.2, 12.1, 121.6, 13.6)),
-        ("Panay", (121.8, 10.0, 123.3, 11.9)), ("Negros", (122.3, 9.0, 123.6, 10.9)),
-        ("Cebu", (123.2, 9.3, 124.2, 11.4)), ("Bohol", (123.7, 9.4, 124.6, 10.3)),
-        ("Leyte", (124.2, 9.8, 125.4, 11.6)), ("Samar", (124.5, 11.0, 125.9, 12.7)),
-        ("Masbate", (122.9, 11.7, 124.2, 12.7)),
-    ],
     "nanyo": [
+        ("Saipan", (145.6, 15.0, 145.9, 15.4)), ("Tinian", (145.5, 14.9, 145.7, 15.1)),
+        ("Rota", (145.0, 14.0, 145.4, 14.3)), ("Pagan", (145.6, 18.0, 145.9, 18.2)),
+        ("Agrihan", (145.5, 18.6, 145.9, 18.9)), ("Anatahan", (145.5, 16.2, 145.8, 16.5)),
+        ("Babeldaob", (134.4, 7.2, 134.8, 7.8)), ("Peleliu", (134.1, 6.9, 134.4, 7.1)),
+        ("Angaur", (134.0, 6.8, 134.2, 7.0)),
+        ("Weno", (151.7, 7.3, 151.9, 7.5)), ("Kwajalein", (167.2, 8.6, 167.9, 9.5)),
+        ("Majuro", (171.0, 7.0, 171.5, 7.2)), ("Jaluit", (169.4, 5.8, 169.8, 6.2)),
+        ("Wotje", (169.9, 9.4, 170.3, 9.6)), ("Enewetak", (161.9, 11.3, 162.4, 11.6)),
+        ("Bikini", (165.2, 11.5, 165.7, 11.8)), ("Ebon", (168.6, 4.5, 168.9, 4.7)),
         ("Marianas", (144.5, 13.8, 146.5, 20.7)), ("Palau", (130.5, 2.5, 135.2, 8.5)),
         ("Yap", (137.5, 8.9, 138.5, 9.8)), ("Chuuk", (150.8, 6.8, 152.6, 7.9)),
         ("Pohnpei", (157.7, 6.6, 159.0, 7.3)), ("Kosrae", (162.7, 5.1, 163.3, 5.6)),
@@ -734,7 +832,6 @@ ARCHIPELAGOS = {
     "nanyo", "gilberts", "ogasawara", "guam", "chishima", "aleutians",
     "hawaii", "ryukyu", "newguinea_au", "solomons_br", "philippines",
     "timor_pt", "andaman", "nauru_au", "hongkong", "macau", "northborneo",
-    "weihaiwei", "guangzhouwan",
 }
 
 # Drawn last so they sit on top of whatever they were carved out of.
@@ -843,6 +940,70 @@ def main():
                 if key:
                     for ring in iter_rings(feat["geometry"]):
                         groups[key].append(ring)
+
+    # ---- Burma, division by division ---------------------------------------
+    bpath = os.path.join(CACHE, "adm1_MMR.json")
+    if os.path.exists(bpath):
+        with open(bpath) as fh:
+            blocks = collections.defaultdict(list)
+            for feat in json.load(fh)["features"]:
+                label = BURMA_DIVISIONS.get(feat["properties"].get("shapeName"))
+                if label:
+                    blocks[label].extend(iter_rings(feat["geometry"]))
+            for label, rs in blocks.items():
+                provinces["burma"].append((label, rs))
+
+    # ---- the provinces and states of British India -------------------------
+    # Drawn from India, Pakistan and Bangladesh together, since Punjab and
+    # Bengal were single provinces until 1947.
+    blocks = collections.defaultdict(list)
+    for iso in ("IND", "PAK", "BGD"):
+        path = os.path.join(CACHE, f"adm1_{iso}.json")
+        if not os.path.exists(path):
+            sys.stderr.write(f"note: adm1_{iso}.json missing, part of India not split\n")
+            continue
+        with open(path) as fh:
+            for feat in json.load(fh)["features"]:
+                label = INDIA_STATES.get(feat["properties"].get("shapeName"))
+                if label:
+                    blocks[label].extend(iter_rings(feat["geometry"]))
+    for label, rs in blocks.items():
+        provinces["india"].append((label, rs))
+
+    # ---- Siam, changwat by changwat ----------------------------------------
+    tpath = os.path.join(CACHE, "adm1_THA.json")
+    if os.path.exists(tpath):
+        with open(tpath) as fh:
+            blocks = collections.defaultdict(list)
+            for feat in json.load(fh)["features"]:
+                name = (feat["properties"].get("shapeName") or "")
+                name = name[:-9].strip() if name.endswith(" Province") else name
+                name = SIAM_SPLITS.get(name, name)
+                blocks[name.replace(" ", "")].extend(iter_rings(feat["geometry"]))
+            for label, rs in blocks.items():
+                provinces["siam"].append((label, rs))
+
+    # ---- the Netherlands Indies, residency by residency ---------------------
+    ipath = os.path.join(CACHE, "adm1_IDN.json")
+    if os.path.exists(ipath):
+        with open(ipath) as fh:
+            blocks = collections.defaultdict(list)
+            for feat in json.load(fh)["features"]:
+                label = DEI_RESIDENCIES.get(feat["properties"].get("shapeName"))
+                if label:
+                    blocks[label].extend(iter_rings(feat["geometry"]))
+            for label, rs in blocks.items():
+                provinces["dei"].append((label, rs))
+
+    # ---- the Philippines, province by province ------------------------------
+    ppath = os.path.join(CACHE, "adm2_PHL_1939.json")
+    if os.path.exists(ppath):
+        with open(ppath) as fh:
+            blocks = collections.defaultdict(list)
+            for feat in json.load(fh)["features"]:
+                blocks[feat["properties"]["shapeName"]].extend(iter_rings(feat["geometry"]))
+            for label, rs in blocks.items():
+                provinces["philippines"].append((label, rs))
 
     # ---- Korea, province by province ---------------------------------------
     for iso in ("KOR", "PRK"):
@@ -976,7 +1137,7 @@ def main():
     occ_frame = box_planes(LON_MIN, LAT_MIN, LON_MAX, LAT_MAX)
     occ_pieces, occ_moments = [], []
     for block in OCCUPIED_ZONE:
-        ring = clip_halfplanes(normalise_ring(chaikin(block, 1)), occ_frame)
+        ring = clip_halfplanes(normalise_ring(chaikin(block, 2)), occ_frame)
         if len(ring) < 3:
             continue
         pts = [project(x, y) for x, y in ring]
@@ -1012,8 +1173,12 @@ def main():
                     label = name
                     break
             named[label].append(ring)
+        named.pop("-", None)                    # covered by an admin file instead
         if len(named) > 1 or (len(named) == 1 and "" not in named):
-            provinces[key] = [(k, v) for k, v in named.items()]
+            # a group can already have sub-units from an admin file, as the
+            # Indies do; the named islands go in front of them, so that where
+            # the two overlap the finer admin outline is the one on top
+            provinces[key][:0] = [(k, v) for k, v in named.items()]
 
     # ---- rivers ------------------------------------------------------------
     rivers = {}
@@ -1057,7 +1222,8 @@ def main():
 
     # ---- dissolve, project, clip, simplify --------------------------------
     frame = box_planes(LON_MIN, LAT_MIN, LON_MAX, LAT_MAX)
-    paths, dots, anchors, stats = {}, {}, {}, []
+    paths, dots, anchors, stats, hits = {}, {}, {}, [], {}
+    SMALL_ATOM_AREA = 2600      # kept in step with the same name in map.js
 
     for key, rings in groups.items():
         merged = dissolve(rings) if len(rings) > 1 else None
@@ -1076,10 +1242,12 @@ def main():
             pts = [project(x, y) for x, y in ring]
             span = max(max(p[0] for p in pts) - min(p[0] for p in pts),
                        max(p[1] for p in pts) - min(p[1] for p in pts))
-            if span > 6:
+            if span > 60:
                 pts = simplify(pts, args.tolerance)
+            elif span > 12:
+                pts = simplify(pts, args.tolerance * 0.5)
             elif span > 2:
-                pts = simplify(pts, args.tolerance * 0.15)
+                pts = simplify(pts, args.tolerance * 0.12)
             if len(pts) < 3:
                 continue
             area = ring_area(pts)
@@ -1099,6 +1267,13 @@ def main():
         anchors[key] = (sum(m[0] * m[1] for m in moments) / total,
                         sum(m[0] * m[2] for m in moments) / total,
                         total)
+        # A territory too small to hit reliably gets a finger-sized target laid
+        # over it. One target at the middle of the whole thing lands in the gap
+        # when the pieces are far apart — the Thai gains of 1941 are in Cambodia
+        # and Laos, and their common centre is in Siam — so each piece gets its
+        # own, biggest first.
+        if total < SMALL_ATOM_AREA:
+            hits[key] = [(m[1], m[2]) for m in sorted(moments, reverse=True)[:6]]
         stats.append((key, len(pieces), len(paths[key]), "dissolved" if merged else "raw"))
 
     ordered = [k for k in ORDER if k in paths] + [k for k in paths if k not in ORDER]
@@ -1155,17 +1330,23 @@ def main():
     for key in ordered:
         ax, ay, area = anchors[key]
         meta = f'data-cx="{fmt(ax)}" data-cy="{fmt(ay)}" data-area="{int(area)}"'
+        if key in hits:
+            pts = " ".join(f"{fmt(x)},{fmt(y)}" for x, y in hits[key])
+            meta += f' data-hits="{pts}"'
         if key.startswith("chinabase"):
             out.append(f'    <path id="{key}" class="chinabase" d="{paths[key]}"/>')
             continue
         blocks = province_paths(key)
+        specks = dots.get(key) or []
         if blocks:
             out.append(f'    <g id="a-{key}" class="atom" {meta}>')
             for pname, pd in blocks:
                 out.append(f'      <path data-prov="{pname}" d="{pd}"/>')
+            for cx, cy, r in specks:
+                out.append(f'      <circle class="islet-hit" cx="{fmt(cx)}" cy="{fmt(cy)}" r="{fmt(r)}"/>')
+                out.append(f'      <circle class="islet" cx="{fmt(cx)}" cy="{fmt(cy)}" r="{fmt(r)}"/>')
             out.append("    </g>")
             continue
-        specks = dots.get(key) or []
         if specks:
             out.append(f'    <g id="a-{key}" class="atom" {meta}>')
             out.append(f'      <path d="{paths[key]}"/>')

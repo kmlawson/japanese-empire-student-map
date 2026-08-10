@@ -41,6 +41,9 @@
     extent: true,
     rivers: true,
     browse: false,
+    // the legend is worth its space on a big screen and costs too much of it
+    // on a phone, so it starts folded there and remembers what you chose
+    legend: window.innerWidth >= 700,
   };
 
   var container = $('#map-container');   // pointer target and size reference
@@ -85,6 +88,7 @@
       if (typeof saved.extent === 'boolean') state.extent = saved.extent;
       if (typeof saved.rivers === 'boolean') state.rivers = saved.rivers;
       if (typeof saved.browse === 'boolean') state.browse = saved.browse;
+      if (typeof saved.legend === 'boolean') state.legend = saved.legend;
     } catch (err) { /* first visit, or storage is off — defaults are fine */ }
   }
 
@@ -93,7 +97,7 @@
       localStorage.setItem(STORE_KEY, JSON.stringify({
         epoch: state.epoch, level: state.level, lang: state.lang,
         cats: state.cats, labels: state.labels, extent: state.extent,
-        rivers: state.rivers, browse: state.browse,
+        rivers: state.rivers, browse: state.browse, legend: state.legend,
       }));
     } catch (err) { /* private browsing; not worth complaining about */ }
   }
@@ -285,13 +289,23 @@
       var el = atomEls[a];
       var area = parseFloat(el.getAttribute('data-area'));
       if (!(area < SMALL_ATOM_AREA)) return;
-      var cx = parseFloat(el.getAttribute('data-cx'));
-      var cy = parseFloat(el.getAttribute('data-cy'));
-      if (isNaN(cx) || isNaN(cy)) return;
-      var hit = svgEl('circle', { 'class': 'atom atom-hit', r: HIT_R * 0.8 });
-      layer.appendChild(hit);
-      atomHits[a] = hit;
-      scalables.push({ el: hit, x: cx, y: cy });
+      // one target per piece, so a territory in two parts does not get a
+      // single target sitting in the country between them
+      var spots = (el.getAttribute('data-hits') || '').split(' ')
+        .map(function (p) { return p.split(',').map(parseFloat); })
+        .filter(function (p) { return p.length === 2 && !isNaN(p[0]) && !isNaN(p[1]); });
+      if (!spots.length) {
+        var cx = parseFloat(el.getAttribute('data-cx'));
+        var cy = parseFloat(el.getAttribute('data-cy'));
+        if (isNaN(cx) || isNaN(cy)) return;
+        spots = [[cx, cy]];
+      }
+      atomHits[a] = spots.map(function (p) {
+        var hit = svgEl('circle', { 'class': 'atom atom-hit', r: HIT_R * 0.8 });
+        layer.appendChild(hit);
+        scalables.push({ el: hit, x: p[0], y: p[1] });
+        return hit;
+      });
     });
   }
 
@@ -377,7 +391,7 @@
       el.classList.remove('sel');
       el.classList.remove('sub-unit');
       el.style.display = 'none';
-      if (atomHits[a]) atomHits[a].removeAttribute('data-id');
+      (atomHits[a] || []).forEach(function (h) { h.removeAttribute('data-id'); });
     });
     hatchGroup.innerHTML = '';
     clearHighlight();
@@ -414,7 +428,7 @@
         if (colour) el.style.setProperty('--c', colour.c);
         el.classList.toggle('sub-unit', !!t.outline);
         els.push(el);
-        if (atomHits[a]) atomHits[a].setAttribute('data-id', t.id);
+        (atomHits[a] || []).forEach(function (h) { h.setAttribute('data-id', t.id); });
 
         var area = parseFloat(el.getAttribute('data-area')) || 1;
         mx += area * parseFloat(el.getAttribute('data-cx'));
@@ -854,7 +868,7 @@
     container.classList.remove('dragging');
     dragStart = null;
 
-    if (had === 1 && !movedFar && e.type === 'pointerup') handleTap(downTarget);
+    if (had === 1 && !movedFar && e.type === 'pointerup') handleTap(downTarget, e.clientX, e.clientY);
     downTarget = null;
   }
 
@@ -865,6 +879,24 @@
   }
 
   /* ------------------------------------------------------- hit testing -- */
+
+  /* The finger-sized targets laid over tiny territories sit above the land, so
+   * near a small shape they take the pointer even when it is squarely inside a
+   * neighbour. Whatever real land is under the pointer wins; the target is only
+   * consulted when there is nothing better there. */
+  function pick(target, cx, cy) {
+    if (target && target.classList && target.classList.contains('atom-hit') &&
+        typeof cx === 'number' && document.elementsFromPoint) {
+      var stack = document.elementsFromPoint(cx, cy);
+      for (var i = 0; i < stack.length; i++) {
+        if (stack[i].classList && stack[i].classList.contains('atom-hit')) continue;
+        var found = recordFor(stack[i]);
+        if (found) return { hit: found, el: stack[i] };
+      }
+    }
+    var rec = recordFor(target);
+    return rec ? { hit: rec, el: target } : null;
+  }
 
   function recordFor(target) {
     if (!target || !target.closest) return null;
@@ -877,8 +909,9 @@
     return { rec: rec, el: el };
   }
 
-  function handleTap(target) {
-    var hit = recordFor(target);
+  function handleTap(target, cx, cy) {
+    var got = pick(target, cx, cy);
+    var hit = got && got.hit;
     if (state.mode === 'quiz') {
       if (hit) quizAnswer(hit);
       return;
@@ -918,10 +951,11 @@
 
   function onHover(e) {
     if (state.mode === 'quiz' || dragStart) { setHot(null); setHotProv(null); return; }
-    var hit = recordFor(e.target);
+    var got = pick(e.target, e.clientX, e.clientY);
+    var hit = got && got.hit;
     if (!hit) { setHot(null); setHotProv(null); hideTooltip(); return; }
     setHot(hit.rec.kind === 'territory' ? hit.rec.id : null);
-    var prov = hit.rec.kind === 'territory' ? provinceOf(e.target) : null;
+    var prov = hit.rec.kind === 'territory' ? provinceOf(got.el) : null;
     setHotProv(prov ? prov.el : null);
     showTooltip(hit.rec, e.clientX, e.clientY, prov);
   }
@@ -1122,10 +1156,32 @@
     territories().forEach(function (t) { used[t.cat] = true; });
 
     var epoch = JMAP.EPOCHS.filter(function (e) { return e.id === state.epoch; })[0];
-    var head = document.createElement('p');
+    var head = document.createElement('button');
+    head.type = 'button';
     head.className = 'legend-head';
-    head.textContent = nameOf(epoch);
+    head.setAttribute('aria-expanded', state.legend ? 'true' : 'false');
+    head.setAttribute('aria-controls', 'legend-body');
+    head.appendChild(document.createTextNode(nameOf(epoch)));
+    var caret = document.createElement('span');
+    caret.className = 'caret';
+    caret.setAttribute('aria-hidden', 'true');
+    head.appendChild(caret);
+    head.addEventListener('click', function () {
+      state.legend = !state.legend;
+      legend.classList.toggle('folded', !state.legend);
+      head.setAttribute('aria-expanded', state.legend ? 'true' : 'false');
+      saveState();
+      placeLabels();
+    });
     legend.appendChild(head);
+    legend.classList.toggle('folded', !state.legend);
+
+    var body = document.createElement('div');
+    body.id = 'legend-body';
+    body.className = 'legend-body';
+    legend.appendChild(body);
+    var appendTo = legend;
+    legend = body;                   // rows go inside the folding part
 
     catList().forEach(function (c) {
       if (!used[c.id]) return;
@@ -1198,7 +1254,7 @@
       legend.appendChild(brow);
     }
 
-    legend.hidden = false;
+    appendTo.hidden = false;
   }
 
   function buildEpochControl() {
