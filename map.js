@@ -206,6 +206,7 @@
     extentPath = svg.querySelector('#extent-1942');
     riversGroup = svg.querySelector('#rivers');
     buildYellow1938();
+    buildNanyoBounds();
     buildBrowse();
     hatchGroup = svg.querySelector('#hatching');
     chinaBase = svg.querySelector('#chinabase');
@@ -307,6 +308,19 @@
     riversGroup.appendChild(yellow1938);
   }
 
+  var nanyoPath = null;
+
+  /* The mandate was mostly sea; without its boundary it is invisible. */
+  function buildNanyoBounds() {
+    if (!JMAP.NANYO_BOUNDS) return;
+    var d = JMAP.NANYO_BOUNDS.ring.map(function (p, i) {
+      var q = project(p[0], p[1]);
+      return (i ? 'L' : 'M') + q.x.toFixed(1) + ' ' + q.y.toFixed(1);
+    }).join('') + 'Z';
+    nanyoPath = svgEl('path', { id: 'nanyo-bounds', fill: 'none', d: d });
+    svg.insertBefore(nanyoPath, markersGroup);
+  }
+
   /* Context cities: smaller, greyer, under the markers that are examinable. */
   function buildBrowse() {
     if (!JMAP.BROWSE) return;
@@ -358,10 +372,15 @@
       el.removeAttribute('data-id');
       el.style.removeProperty('--c');
       el.classList.remove('sel');
+      el.classList.remove('sub-unit');
       if (atomHits[a]) atomHits[a].removeAttribute('data-id');
     });
     hatchGroup.innerHTML = '';
+    clearSelOutline();
+    lifted = [];
     hot = null;
+    hotProv = null;
+    hotProvSlot = null;
     labels = labels.filter(function (L) {
       if (L.rec.kind === 'territory') { L.el.remove(); return false; }
       return true;
@@ -379,7 +398,8 @@
     territories().forEach(function (t) {
       t.kind = 'territory';
       byId[t.id] = t;
-      var colour = catInfo(t.cat);
+      var info = catInfo(t.cat);
+      var colour = t.c ? { c: t.c } : info;
       var els = [];
       var mx = 0, my = 0, total = 0;
 
@@ -389,6 +409,7 @@
         el.setAttribute('data-id', t.id);
         el.setAttribute('data-cat', t.cat);
         if (colour) el.style.setProperty('--c', colour.c);
+        el.classList.toggle('sub-unit', !!t.outline);
         els.push(el);
         if (atomHits[a]) atomHits[a].setAttribute('data-id', t.id);
 
@@ -398,12 +419,11 @@
         total += area;
 
         if (t.hatch) {
-          var path = el.tagName === 'path' ? el : el.querySelector('path');
-          if (path) {
-            var cls = t.hatch === 'occupied' ? 'hatch-fill hatch-occ' : 'hatch-fill';
-            var clone = svgEl('path', { 'class': cls, d: path.getAttribute('d') });
-            hatchGroup.appendChild(clone);
-          }
+          var cls = t.hatch === 'occupied' ? 'hatch-fill hatch-occ' : 'hatch-fill';
+          var paths = el.tagName === 'path' ? [el] : $$('path', el);
+          paths.forEach(function (path) {
+            hatchGroup.appendChild(svgEl('path', { 'class': cls, d: path.getAttribute('d') }));
+          });
         }
       });
 
@@ -554,6 +574,8 @@
     clampView(view);
     svg.setAttribute('viewBox',
       round(view.x) + ' ' + round(view.y) + ' ' + round(view.w) + ' ' + round(view.h));
+    // once the islands themselves are big enough to see, drop the rings
+    svg.classList.toggle('zoomed-in', view.w < mapW / 5);
     var zoomed = force || Math.abs(view.w - lastScaleW) > 0.01;
     if (zoomed) lastScaleW = view.w;
     if (!rafPending) {
@@ -724,7 +746,9 @@
     container.addEventListener('contextmenu', function (e) { if (coarse) e.preventDefault(); });
     if (hoverCapable) {
       container.addEventListener('mousemove', onHover);
-      container.addEventListener('mouseleave', function () { setHot(null); hideTooltip(); });
+      container.addEventListener('mouseleave', function () {
+        setHot(null); setHotProv(null); hideTooltip();
+      });
     }
   }
 
@@ -855,20 +879,57 @@
     if (hot) (atomsOf[hot] || []).forEach(function (el) { el.classList.add('hot'); });
   }
 
+  var hotProv = null;
+
+  /* The province under the pointer, picked out inside the lit-up country. */
+  var hotProvSlot = null;
+
+  function setHotProv(el) {
+    if (hotProv === el) return;
+    if (hotProv) {
+      hotProv.classList.remove('prov-hot');
+      if (hotProvSlot && hotProvSlot.parent.isConnected) {
+        hotProvSlot.parent.insertBefore(hotProv, hotProvSlot.before);
+      }
+    }
+    hotProv = el;
+    hotProvSlot = null;
+    if (hotProv && hotProv.parentNode) {
+      hotProvSlot = { parent: hotProv.parentNode, before: hotProv.nextSibling };
+      hotProv.parentNode.appendChild(hotProv);
+      hotProv.classList.add('prov-hot');
+    }
+  }
+
+  function provinceOf(target) {
+    if (!target || !target.getAttribute) return null;
+    var key = target.getAttribute('data-prov');
+    if (!key) return null;
+    return { key: key, rec: (JMAP.PROVINCES || {})[key], el: target };
+  }
+
   function onHover(e) {
-    if (state.mode === 'quiz' || dragStart) { setHot(null); return; }
+    if (state.mode === 'quiz' || dragStart) { setHot(null); setHotProv(null); return; }
     var hit = recordFor(e.target);
-    if (!hit) { setHot(null); hideTooltip(); return; }
+    if (!hit) { setHot(null); setHotProv(null); hideTooltip(); return; }
     setHot(hit.rec.kind === 'territory' ? hit.rec.id : null);
-    showTooltip(hit.rec, e.clientX, e.clientY);
+    var prov = hit.rec.kind === 'territory' ? provinceOf(e.target) : null;
+    setHotProv(prov ? prov.el : null);
+    showTooltip(hit.rec, e.clientX, e.clientY, prov);
   }
 
   /* ------------------------------------------------------------ labels -- */
 
-  function showTooltip(base, cx, cy) {
+  function showTooltip(base, cx, cy, prov) {
     var rec = shown(base);
     tooltip.innerHTML = '';
     tooltip.appendChild(document.createTextNode(nameOf(rec)));
+    if (prov && prov.rec) {
+      var pv = document.createElement('span');
+      pv.className = 'sub prov';
+      pv.textContent = nameOf(prov.rec) + ' province';
+      tooltip.appendChild(pv);
+    }
     var second = state.lang === 'en' ? rec.ja : rec.en;
     if (second && second !== nameOf(rec)) {
       var sub = document.createElement('span');
@@ -894,14 +955,78 @@
 
   function hideTooltip() { tooltip.hidden = true; }
 
+  /* Selecting also lifts the polygons to the front, because a territory drawn
+   * under its neighbours only shows part of its outline otherwise. The place
+   * each one came from is remembered so the drawing order can be put back. */
+  var lifted = [];
+
+  /* Small units that sit inside or against larger ones. Lifting a selected
+   * territory to the front would otherwise bury them — selecting British India
+   * would paint over Sikkim. */
+  var ALWAYS_TOP = ['other', 'hongkong', 'macau', 'brunei', 'kwantung',
+                    'malaya_thai', 'siamgain', 'canton', 'hainan'];
+
+  function lower() {
+    for (var i = lifted.length - 1; i >= 0; i--) {
+      var slot = lifted[i];
+      if (slot.parent.isConnected) slot.parent.insertBefore(slot.el, slot.before);
+    }
+    lifted = [];
+  }
+
+  function lift(els) {
+    var move = els.slice();
+    ALWAYS_TOP.forEach(function (a) {
+      var el = atomEls[a];
+      if (el && move.indexOf(el) < 0) move.push(el);
+    });
+    move.forEach(function (el) {
+      var parent = el.parentNode;
+      if (!parent) return;
+      lifted.push({ el: el, parent: parent, before: el.nextSibling });
+      parent.appendChild(el);
+    });
+  }
+
+  var selOutline = null;
+
+  /* Outline the territory, not each of its pieces. Stroked copies are laid
+   * under the lifted atoms, so every stroke that falls inside the territory is
+   * painted over by a neighbouring atom's fill and only the outer edge of the
+   * union survives. Otherwise selecting China in 1930 draws a black line along
+   * every seam between the provinces it is built from. */
+  function drawSelOutline(els) {
+    clearSelOutline();
+    if (!els.length || !els[0].parentNode) return;
+    selOutline = svgEl('g', { id: 'sel-outline' });
+    els.forEach(function (el) {
+      var clone = el.cloneNode(true);
+      clone.removeAttribute('id');
+      clone.removeAttribute('data-id');
+      clone.removeAttribute('style');
+      selOutline.appendChild(clone);
+    });
+    els[0].parentNode.insertBefore(selOutline, els[0]);
+  }
+
+  function clearSelOutline() {
+    if (selOutline && selOutline.parentNode) selOutline.parentNode.removeChild(selOutline);
+    selOutline = null;
+  }
+
   function markSelected(id, on) {
     if (!id) return;
     var els = atomsOf[id] || (elById[id] ? [elById[id]] : []);
-    els.forEach(function (el) { el.classList.toggle('sel', on); });
+    if (!on) { els.forEach(function (el) { el.classList.remove('sel'); }); return; }
+    lift(els);
+    if (atomsOf[id] && atomsOf[id].length) drawSelOutline(els);
+    else els.forEach(function (el) { el.classList.add('sel'); });
   }
 
   function select(id) {
     markSelected(selected, false);
+    clearSelOutline();
+    lower();
     selected = null;
     if (!id || !byId[id]) {
       infoBox.hidden = true;
@@ -965,6 +1090,9 @@
     if (extentPath) {
       extentPath.style.display = (state.epoch === 'e1942' && state.extent) ? '' : 'none';
     }
+    if (nanyoPath) {
+      nanyoPath.style.display = state.epoch === 'e1930' ? '' : 'none';
+    }
     if (riversGroup) {
       riversGroup.style.display = state.rivers ? '' : 'none';
       var flood = state.epoch === 'e1942';
@@ -1025,6 +1153,16 @@
       src.className = 'legend-src';
       src.textContent = JMAP.EXTENT_1942.source;
       legend.appendChild(src);
+    }
+
+    if (nanyoPath && nanyoPath.style.display !== 'none') {
+      var nrow = document.createElement('div');
+      nrow.className = 'item';
+      var nsw = document.createElement('span');
+      nsw.className = 'sw nanyo';
+      nrow.appendChild(nsw);
+      nrow.appendChild(document.createTextNode(nameOf(JMAP.NANYO_BOUNDS)));
+      legend.appendChild(nrow);
     }
 
     if (state.rivers) {

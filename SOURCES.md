@@ -43,13 +43,16 @@ reading the boundaries, names and notes come from.
 * **Provenance note:** these came from Konrad Lawson's own *Modern East Asia
   GIS* QGIS project, where they had already been gathered for teaching use.
 
-### geoBoundaries — Cambodia and Laos, ADM1
+### geoBoundaries — Cambodia, Laos and Malaysia, ADM1
 
 * **Used for:** the territory transferred to Thailand under the Tokyo treaty of
   9 May 1941 — the Cambodian provinces of Battambang and Siem Reap and the Lao
-  land west of the Mekong — which the Dec 1942 map shows as Thai.
+  land west of the Mekong — which the Dec 1942 map shows as Thai; and the four
+  northern Malay states of Kedah, Perlis, Kelantan and Terengganu, which Japan
+  handed to Thailand in October 1943 and which are picked out on both maps.
 * **Files:** `geoBoundaries-KHM-ADM1_simplified.geojson`,
-  `geoBoundaries-LAO-ADM1_simplified.geojson`
+  `geoBoundaries-LAO-ADM1_simplified.geojson`,
+  `geoBoundaries-MYS-ADM1_simplified.geojson`
 * **Obtained from:** <https://github.com/wmgeolab/geoBoundaries> (`gbOpen`)
 * **Licence:** CC BY 4.0. Attribution required, and given here.
 * **Citation:** Runfola, D. et al. (2020) "geoBoundaries: A global database of
@@ -140,7 +143,7 @@ reconstructions. Elsewhere they are built from modern outlines.
 | **Kwantung Leased Territory** | Liaoning cut on a straight line from Pulandian bay to Pikou | Good — the 1898 lease boundary was a surveyed line across the isthmus |
 | **Tibet, Sinkiang** | The Xizang and Xinjiang polygons, which the source itself treats as polities apart from China | Good |
 | **Territory ceded to Thailand, 1941** | Modern Battambang, Banteay Meanchey, Pailin, Siem Reap, Oddar Meanchey and Preah Vihear, plus Xaignabouli and Champasak west of the Mekong | Fair — the ceded blocks followed provincial lines close to these; Angkor was left to France and is not carved out here |
-| **Japanese-occupied China** | Eight whole provinces: Hebei, Shandong, Shanxi, Henan, Jiangsu, Anhui, Zhejiang, Hubei | **Poor, and labelled as such on the map.** Control ran along railways and around cities; much of the countryside inside the line was held by Communist and Nationalist guerrillas. The coastal enclaves outside it — Canton, Amoy, Hainan — are marked as cities instead |
+| **Japanese-occupied China** | Eight whole provinces — Hebei, Shandong, Shanxi, Henan, Jiangsu, Anhui, Zhejiang, Hubei — plus Hainan, held from February 1939, and the Pearl River delta around Canton, held from October 1938, both cut out of Guangdong | **Poor, and labelled as such on the map.** Control ran along railways and around cities; much of the countryside inside the line was held by Communist and Nationalist guerrillas. Smaller enclaves such as Amoy are marked as cities instead |
 
 Kinmen (Quemoy) is **not** drawn as part of the colony of Taiwan. Natural Earth
 puts it in Taiwan because it is governed from Taipei today; it belonged to

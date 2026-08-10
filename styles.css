@@ -187,6 +187,7 @@ button.plain:hover { background: #f2ede2; }
 .atom {
   fill: var(--c, var(--inactive));
   stroke: var(--c, var(--inactive));
+  vector-effect: non-scaling-stroke;
   stroke-width: .9;
   stroke-linejoin: round;
   pointer-events: auto;
@@ -199,10 +200,35 @@ button.plain:hover { background: #f2ede2; }
    would appear to be two countries. */
 .atom.hot { filter: brightness(1.12); }
 
-.atom.sel {
+/* the province under the pointer, picked out inside the lit country */
+.atom .prov-hot {
+  stroke: rgba(30, 24, 16, .6);
+  vector-effect: non-scaling-stroke;
+  stroke-width: .9;
+  filter: brightness(1.06);
+}
+
+/* A unit inside a larger territory that shares its colour — the land ceded to
+   Thailand in 1941, the four northern Malay states — outlined so it can be
+   seen and clicked without being coloured as if it were something else. */
+.atom.sub-unit {
+  stroke: rgba(60, 50, 40, .5);
+  stroke-width: .8;
+  stroke-dasharray: 3 2;
+}
+
+/* the selected territory's outline, drawn as a single silhouette */
+#sel-outline {
+  pointer-events: none;
+}
+
+#sel-outline path,
+#sel-outline circle {
+  fill: none;
   stroke: #14110c;
-  stroke-width: 2.2;
-  paint-order: stroke;
+  vector-effect: non-scaling-stroke;
+  stroke-width: 2.6;
+  stroke-linejoin: round;
 }
 
 .site.sel .dot {
@@ -217,6 +243,7 @@ button.plain:hover { background: #f2ede2; }
 #chinabase {
   fill: var(--c, var(--inactive));
   stroke: var(--c, var(--inactive));
+  vector-effect: non-scaling-stroke;
   stroke-width: 1.2;
   stroke-linejoin: round;
   pointer-events: none;
@@ -233,6 +260,26 @@ button.plain:hover { background: #f2ede2; }
   stroke-linecap: round;
   pointer-events: none;
   opacity: .55;
+}
+
+/* the administrative boundary of the South Seas Mandate */
+#nanyo-bounds {
+  fill: none;
+  stroke: #c25a2a;
+  vector-effect: non-scaling-stroke;
+  stroke-width: 1.4;
+  stroke-dasharray: 2 4;
+  stroke-linecap: round;
+  pointer-events: none;
+  opacity: .7;
+}
+
+#legend .sw.nanyo {
+  height: 0;
+  border: 0;
+  border-top: 2.5px dotted #c25a2a;
+  border-radius: 0;
+  align-self: center;
 }
 
 /* rivers */
@@ -289,6 +336,21 @@ button.plain:hover { background: #f2ede2; }
   font-style: italic;
   color: var(--muted);
 }
+
+/* An island too small to see gets a ring around it rather than a blob over it,
+   so the real coastline shows through, and the ring disappears as soon as you
+   zoom in far enough for the island itself to be visible. The hit circle stays
+   either way. */
+.islet {
+  fill: none;
+  stroke: var(--c, var(--inactive));
+  vector-effect: non-scaling-stroke;
+  stroke-width: 1.1;
+}
+
+.islet-hit { fill: transparent; stroke: none; }
+
+#jmap.zoomed-in .islet { display: none; }
 
 /* an invisible, finger-sized target over territories too small to hit */
 .atom-hit {
@@ -443,6 +505,8 @@ button.plain:hover { background: #f2ede2; }
   color: #cfc6b6;
   font-size: 12px;
 }
+
+#tooltip .sub.prov { color: #f0d9a8; }
 
 /* -------------------------------------------------------- info & quiz --- */
 

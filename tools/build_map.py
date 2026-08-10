@@ -99,6 +99,13 @@ OCCUPIED_PROVINCES = {
     "Hebei", "Shandong", "Shanxi", "Henan", "Jiangsu", "Anhui", "Zhejiang", "Hubei",
 }
 
+# Two pieces of Guangdong that Japan also held and that are large enough to be
+# worth drawing rather than merely marking with a city dot: Hainan, taken in
+# February 1939, and the Pearl River delta around Canton, taken in October
+# 1938. The rest of Guangdong stayed Chinese, so these are cut out of it.
+HAINAN_BOX = (108.2, 17.8, 111.5, 20.4)
+CANTON_QUAD = [(111.5, 21.3), (115.0, 22.2), (114.7, 23.9), (111.5, 22.9)]
+
 # The Kwantung Leased Territory: the tip of the Liaodong peninsula, leased by
 # Russia in 1898 and won by Japan in 1905. Its northern boundary ran across the
 # isthmus from Pulandian bay on the west to Pikou on the east. It stayed a
@@ -203,6 +210,19 @@ SIAM_1941_KHM = {
     "Preah Vihear",
 }
 SIAM_1941_LAO = {"Xaignabouli"}
+
+# The four northern Malay states, handed to Thailand in October 1943 under the
+# same alliance and returned in 1945. In December 1942 they are still under
+# Japanese military administration, so the map draws them with Malaya but picks
+# them out, with the coming transfer explained in the note.
+SIAM_1943_MYS = {"Kedah", "Perlis", "Kelantan", "Terengganu"}
+
+# British Borneo was four separate things before the war — Sarawak under the
+# Brooke rajahs, the protected sultanate of Brunei, chartered-company North
+# Borneo, and the Crown colony of Labuan — and one thing during the occupation,
+# administered together as Kita Boruneo. Drawn as three polygons so the 1930
+# map can show that, with Labuan folded into North Borneo.
+BORNEO_MYS = {"Sarawak": "sarawak", "Sabah": "northborneo", "Labuan": "northborneo"}
 # Champasak west of the Mekong went too; the river runs near this meridian.
 SIAM_1941_CHAMPASAK_WEST = 105.85
 
@@ -259,6 +279,16 @@ def clip_halfplanes(ring, planes):
                 out.append((p[0] + t * (q[0] - p[0]), p[1] + t * (q[1] - p[1])))
         poly = out
     return poly
+
+
+def quad_planes(poly):
+    """Half-planes for a convex polygon given anticlockwise."""
+    planes = []
+    n = len(poly)
+    for i in range(n):
+        a, b = poly[i], poly[(i + 1) % n]
+        planes.append(line_plane(a, b, keep_right=False))
+    return planes
 
 
 def box_planes(x0, y0, x1, y1):
@@ -539,8 +569,9 @@ def split_taiwan(ring):
 
 
 def split_malaysia(ring):
+    # the Borneo states come from the ADM1 file instead, so they can be split
     cx, _ = centroid_of(ring)
-    return "borneo_br" if cx > 109.0 else "malaya"
+    return None if cx > 109.0 else "malaya"
 
 
 def split_india(ring):
@@ -556,7 +587,7 @@ ADMIN0 = {
     "Vietnam": "indochina", "Laos": "indochina", "Cambodia": "indochina",
     "Thailand": "siam",
     "Myanmar": "burma",
-    "Brunei": "borneo_br",
+    "Brunei": "brunei",
     "Indonesia": "dei",
     "Philippines": "philippines",
     "Papua New Guinea": "newguinea_au",
@@ -591,16 +622,17 @@ SPLITTERS = {
 ARCHIPELAGOS = {
     "nanyo", "gilberts", "ogasawara", "guam", "chishima", "aleutians",
     "hawaii", "ryukyu", "newguinea_au", "solomons_br", "philippines",
-    "timor_pt", "andaman", "nauru_au", "hongkong", "macau",
+    "timor_pt", "andaman", "nauru_au", "hongkong", "macau", "northborneo",
 }
 
 # Drawn last so they sit on top of whatever they were carved out of.
 ON_TOP = ["kwantung"]
 
 ORDER = [
-    "chinabase", "other", "india", "andaman", "ceylon", "ussr", "mongolia", "tibet",
-    "china", "xinjiang", "occupiedchina", "chahar", "suiyuan", "jehol", "manchuria",
-    "siam", "burma", "indochina", "siamgain", "malaya", "borneo_br", "dei", "philippines",
+    "chinabase", "andaman", "ceylon", "ussr", "mongolia", "tibet",
+    "china", "xinjiang", "india", "other", "occupiedchina", "canton", "hainan", "chahar", "suiyuan", "jehol", "manchuria",
+    "siam", "burma", "indochina", "siamgain", "malaya", "malaya_thai", "sarawak", "northborneo", "brunei",
+    "dei", "philippines",
     "timor_pt", "newguinea_au", "solomons_br", "australia", "gilberts",
     "nauru_au", "guam", "hawaii", "aleutians", "hongkong", "macau",
     "korea", "taiwan", "karafuto", "chishima", "nanyo", "ryukyu",
@@ -619,6 +651,9 @@ def main():
     a1 = load("admin1", args.download)
 
     groups = collections.defaultdict(list)
+    # Chinese atoms keep their provinces as separate sub-paths, so hovering can
+    # name the province as well as the country.
+    provinces = collections.defaultdict(list)
 
     # ---- everything except China ------------------------------------------
     for feat in a0["features"]:
@@ -688,6 +723,27 @@ def main():
                     if len(piece) >= 3 and ring_area(piece) > 0.002:
                         groups["siamgain"].append(piece)
 
+    # ---- the Borneo states -------------------------------------------------
+    if os.path.exists(mys_path if 'mys_path' in dir() else ''):
+        pass
+    borneo_path = os.path.join(CACHE, "adm1_MYS.json")
+    if os.path.exists(borneo_path):
+        with open(borneo_path) as fh:
+            for feat in json.load(fh)["features"]:
+                key = BORNEO_MYS.get(feat["properties"].get("shapeName"))
+                if key:
+                    for ring in iter_rings(feat["geometry"]):
+                        groups[key].append(ring)
+
+    # ---- the northern Malay states -----------------------------------------
+    mys_path = os.path.join(CACHE, "adm1_MYS.json")
+    if os.path.exists(mys_path):
+        with open(mys_path) as fh:
+            for feat in json.load(fh)["features"]:
+                if feat["properties"].get("shapeName") in SIAM_1943_MYS:
+                    for ring in iter_rings(feat["geometry"]):
+                        groups["malaya_thai"].append(ring)
+
     # ---- China, by Republican province ------------------------------------
     kwantung_planes = ([line_plane(KWANTUNG_CUT[0], KWANTUNG_CUT[1], keep_right=True)]
                        + box_planes(*KWANTUNG_BOX))
@@ -702,6 +758,20 @@ def main():
             key = "occupiedchina" if name in OCCUPIED_PROVINCES else "china"
         tally[key] += 1
         groups[key].extend(rings)
+        provinces[key].append((name, rings))
+
+        if name == "Guangdong":
+            for ring in rings:
+                xs = [q[0] for q in ring]
+                ys = [q[1] for q in ring]
+                inside = (HAINAN_BOX[0] < min(xs) and max(xs) < HAINAN_BOX[2]
+                          and HAINAN_BOX[1] < min(ys) and max(ys) < HAINAN_BOX[3])
+                if inside:
+                    groups["hainan"].append(ring)
+                    continue
+                piece = clip_halfplanes(ring, quad_planes(CANTON_QUAD))
+                if len(piece) >= 3 and ring_area(piece) > 0.02:
+                    groups["canton"].append(piece)
 
         # the leasehold is carved out of Liaoning and drawn on top of it
         if name == "Liaoning":
@@ -856,6 +926,27 @@ def main():
     )
     out.append("  </defs>")
     out.append(f'  <rect id="ocean" x="0" y="0" width="{fmt(WIDTH)}" height="{fmt(HEIGHT)}"/>')
+    def province_paths(key):
+        """One path per Republican province, for the atoms built from them.
+
+        Hovering can then name the province as well as the country. The paths
+        share the atom's fill and stroke colour, so the seams between them are
+        invisible until something asks for them."""
+        blocks = []
+        for pname, prings in provinces.get(key, []):
+            merged = dissolve(prings) if len(prings) > 1 else None
+            pieces = []
+            for ring in (merged or prings):
+                ring = clip_halfplanes(normalise_ring(ring), frame)
+                if len(ring) < 3:
+                    continue
+                pts = simplify([project(x, y) for x, y in ring], args.tolerance)
+                if len(pts) >= 3 and ring_area(pts) >= args.min_area:
+                    pieces.append(ring_to_path(pts))
+            if pieces:
+                blocks.append((pname, "".join(pieces)))
+        return blocks
+
     out.append('  <g id="land">')
     for key in ordered:
         ax, ay, area = anchors[key]
@@ -863,11 +954,19 @@ def main():
         if key == "chinabase":
             out.append(f'    <path id="chinabase" d="{paths[key]}"/>')
             continue
+        blocks = province_paths(key)
+        if len(blocks) > 1:
+            out.append(f'    <g id="a-{key}" class="atom" {meta}>')
+            for pname, pd in blocks:
+                out.append(f'      <path data-prov="{pname}" d="{pd}"/>')
+            out.append("    </g>")
+            continue
         specks = dots.get(key) or []
         if specks:
             out.append(f'    <g id="a-{key}" class="atom" {meta}>')
             out.append(f'      <path d="{paths[key]}"/>')
             for cx, cy, r in specks:
+                out.append(f'      <circle class="islet-hit" cx="{fmt(cx)}" cy="{fmt(cy)}" r="{fmt(r)}"/>')
                 out.append(f'      <circle class="islet" cx="{fmt(cx)}" cy="{fmt(cy)}" r="{fmt(r)}"/>')
             out.append("    </g>")
         else:
