@@ -36,6 +36,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)          # so `shapefile` resolves next to this file
 
 import shapefile  # noqa: E402
+import gpkg  # noqa: E402
 
 ROOT = os.path.dirname(HERE)
 CACHE = os.path.join(HERE, "cache")
@@ -89,22 +90,48 @@ PROVINCE_ATOM = {
     "Xinjiang": "xinjiang",
 }
 
-# The area under Japanese control around 1940, as whole provinces. This is the
-# one deliberate approximation left inside China, and the map says so: real
-# control ran along the railways and around the cities, and Communist and
-# Nationalist guerrillas held much of the countryside behind the line. The
-# coastal enclaves outside it — Canton, Amoy, Hainan — are marked as cities
-# instead of being drawn as territory.
-OCCUPIED_PROVINCES = {
-    "Hebei", "Shandong", "Shanxi", "Henan", "Jiangsu", "Anhui", "Zhejiang", "Hubei",
-}
-
-# Two pieces of Guangdong that Japan also held and that are large enough to be
-# worth drawing rather than merely marking with a city dot: Hainan, taken in
-# February 1939, and the Pearl River delta around Canton, taken in October
-# 1938. The rest of Guangdong stayed Chinese, so these are cut out of it.
-HAINAN_BOX = (108.2, 17.8, 111.5, 20.4)
-CANTON_QUAD = [(111.5, 21.3), (115.0, 22.2), (114.7, 23.9), (111.5, 22.9)]
+# The area actually under Japanese control in China, traced from the map
+# "China 1900-1949: Japanese Occupation 1940" (US Army-style series, public
+# domain, in occupation-maps/) and adjusted to December 1942 against the module
+# timeline: Chengchow taken October 1941, Changsha held out until 1944, Foochow
+# only briefly held in 1941.
+#
+# It is not a set of provinces. Japan held the plains, the railways and the
+# cities; the western halves of Shansi and Honan, the Communist base areas
+# behind the lines, and most of Hunan, Kiangsi and Fukien were never taken. The
+# blocks below are clipped to China's land at draw time.
+OCCUPIED_ZONE = [
+    # the northern and central mass: Hopei, Shantung, eastern Shansi, eastern
+    # Honan, the Yangtze corridor to Hankow, and the Kiangnan provinces
+    [
+        (113.2, 40.5), (115.0, 40.7), (117.2, 40.7), (119.0, 40.3), (120.0, 40.1),
+        (119.3, 39.2), (118.2, 39.0), (117.6, 38.5), (118.9, 38.2), (119.8, 37.7),
+        (121.0, 37.9), (122.7, 37.5), (121.2, 36.5), (120.5, 35.9), (119.9, 34.9),
+        (119.6, 34.4), (120.5, 33.4), (121.2, 32.4), (121.9, 31.6), (122.0, 30.9),
+        (121.6, 30.2), (122.0, 29.9), (121.7, 29.2), (121.0, 28.3), (120.4, 28.0),
+        (119.4, 28.7), (118.4, 29.4), (117.4, 29.6), (116.7, 29.0), (116.0, 28.4),
+        (115.4, 28.9), (114.7, 29.3), (113.6, 29.6), (112.9, 30.0), (111.6, 30.5),
+        (111.2, 31.2), (111.7, 32.0), (112.5, 32.7), (113.4, 33.3), (113.7, 34.2),
+        (112.5, 34.8), (111.8, 35.3), (112.2, 36.5), (112.6, 37.6), (113.0, 38.8),
+    ],
+    # the corridor west along the railway through Suiyuan to Paotow
+    [
+        (109.6, 40.4), (111.8, 40.1), (113.4, 39.9), (113.4, 41.0), (111.8, 41.2),
+        (109.6, 41.1),
+    ],
+    # the Canton delta and the Pearl River, held from October 1938
+    [
+        (112.2, 21.6), (114.6, 22.0), (114.8, 23.4), (113.2, 23.7), (112.0, 23.0),
+    ],
+    # Hainan, taken February 1939
+    [
+        (108.3, 18.0), (111.3, 18.4), (111.3, 20.3), (108.4, 20.2),
+    ],
+    # Amoy, taken May 1938
+    [(117.7, 24.2), (118.5, 24.2), (118.5, 24.8), (117.7, 24.8)],
+    # Swatow, taken June 1939
+    [(116.3, 23.0), (117.2, 23.0), (117.2, 23.7), (116.3, 23.7)],
+]
 
 # The Kwantung Leased Territory: the tip of the Liaodong peninsula, leased by
 # Russia in 1898 and won by Japan in 1905. Its northern boundary ran across the
@@ -114,6 +141,18 @@ CANTON_QUAD = [(111.5, 21.3), (115.0, 22.2), (114.7, 23.9), (111.5, 22.9)]
 # elsewhere along the Liaoning coast.
 KWANTUNG_CUT = ((121.20, 39.66), (122.45, 39.28))
 KWANTUNG_BOX = (120.55, 38.60, 123.00, 39.80)
+
+# Layers taken from Konrad Lawson's own Modern East Asia GIS project, drawn in
+# an azimuthal-equidistant projection centred on Wuhan and converted back to
+# lon/lat here. See SOURCES.md.
+GIS_LAYERS = {
+    "tuva": "tunnu_tuva.gpkg",
+    "weihaiwei": "weihaiwei_british.gpkg",
+    "guangzhouwan": "guangzhouwan.gpkg",
+    "sikkim": "sikkim.gpkg",
+    "nepal": "nepal.gpkg",
+    "bhutan": "bhutan.gpkg",
+}
 
 # Sikkim was a British protectorate, not part of British India, and belongs
 # with Nepal and Bhutan rather than inside the Raj.
@@ -223,6 +262,47 @@ SIAM_1943_MYS = {"Kedah", "Perlis", "Kelantan", "Terengganu"}
 # administered together as Kita Boruneo. Drawn as three polygons so the 1930
 # map can show that, with Labuan folded into North Borneo.
 BORNEO_MYS = {"Sarawak": "sarawak", "Sabah": "northborneo", "Labuan": "northborneo"}
+
+# Peninsular Malaya, state by state, so hovering names the state.
+MALAYA_MYS = {
+    "Johor": "malaya", "Pahang": "malaya", "Perak": "malaya", "Selangor": "malaya",
+    "Negeri Sembilan": "malaya", "Malacca": "malaya", "Penang": "malaya",
+    "Kuala Lumpur": "malaya", "Putrajaya": "malaya",
+}
+
+# Islands worth naming when the pointer is over them. Matched by the centroid
+# of each ring, so an island is named only if it falls squarely in the box.
+RING_NAMES = {
+    "dei": [
+        ("Sumatra", (95.0, -6.2, 106.5, 6.0)), ("Java", (105.0, -8.9, 114.7, -5.8)),
+        ("Madura", (112.6, -7.3, 114.2, -6.8)),
+        ("Borneo", (108.8, -4.3, 119.2, 4.4)), ("Sulawesi", (118.7, -6.1, 125.3, 1.9)),
+        ("Bali", (114.4, -8.9, 115.8, -8.0)), ("Lombok", (115.8, -9.0, 116.8, -8.1)),
+        ("Sumbawa", (116.8, -9.2, 119.2, -8.0)), ("Flores", (119.5, -9.0, 123.3, -8.0)),
+        ("Sumba", (118.9, -10.4, 120.9, -9.1)), ("WestTimor", (123.5, -10.4, 125.2, -9.0)),
+        ("Halmahera", (127.2, -0.9, 129.0, 2.7)), ("Seram", (127.7, -3.5, 131.2, -2.6)),
+        ("Buru", (125.9, -3.9, 127.3, -3.0)), ("Bangka", (105.0, -3.3, 106.9, -1.4)),
+        ("Belitung", (107.4, -3.4, 108.4, -2.4)), ("Nias", (97.0, -1.3, 98.1, 1.5)),
+        ("WestNewGuinea", (130.5, -9.2, 141.1, 0.5)),
+    ],
+    "philippines": [
+        ("Luzon", (119.6, 12.4, 124.4, 18.8)), ("Mindanao", (121.8, 5.0, 126.7, 9.9)),
+        ("Palawan", (117.0, 8.2, 119.7, 12.4)), ("Mindoro", (120.2, 12.1, 121.6, 13.6)),
+        ("Panay", (121.8, 10.0, 123.3, 11.9)), ("Negros", (122.3, 9.0, 123.6, 10.9)),
+        ("Cebu", (123.2, 9.3, 124.2, 11.4)), ("Bohol", (123.7, 9.4, 124.6, 10.3)),
+        ("Leyte", (124.2, 9.8, 125.4, 11.6)), ("Samar", (124.5, 11.0, 125.9, 12.7)),
+        ("Masbate", (122.9, 11.7, 124.2, 12.7)),
+    ],
+    "nanyo": [
+        ("Marianas", (144.5, 13.8, 146.5, 20.7)), ("Palau", (130.5, 2.5, 135.2, 8.5)),
+        ("Yap", (137.5, 8.9, 138.5, 9.8)), ("Chuuk", (150.8, 6.8, 152.6, 7.9)),
+        ("Pohnpei", (157.7, 6.6, 159.0, 7.3)), ("Kosrae", (162.7, 5.1, 163.3, 5.6)),
+        ("Marshalls", (165.0, 4.5, 173.0, 15.0)),
+    ],
+    "sarawak": [("Sarawak", (108.0, -1.0, 116.5, 6.0))],
+    "northborneo": [("NorthBorneo", (114.0, 3.0, 120.0, 8.0))],
+    "brunei": [("Brunei", (113.5, 3.8, 116.0, 5.5))],
+}
 # Champasak west of the Mekong went too; the river runs near this meridian.
 SIAM_1941_CHAMPASAK_WEST = 105.85
 
@@ -569,9 +649,9 @@ def split_taiwan(ring):
 
 
 def split_malaysia(ring):
-    # the Borneo states come from the ADM1 file instead, so they can be split
-    cx, _ = centroid_of(ring)
-    return None if cx > 109.0 else "malaya"
+    # every Malaysian state comes from the ADM1 file instead, so they can be
+    # named and, in the north, told apart
+    return None
 
 
 def split_india(ring):
@@ -606,7 +686,7 @@ ADMIN0 = {
     "Macao S.A.R": "macau",
     "Kazakhstan": "ussr", "Kyrgyzstan": "ussr", "Tajikistan": "ussr",
     "Turkmenistan": "ussr", "Uzbekistan": "ussr",
-    "Afghanistan": "other", "Nepal": "other", "Bhutan": "other",
+    "Afghanistan": "other",
 }
 
 SPLITTERS = {
@@ -623,14 +703,16 @@ ARCHIPELAGOS = {
     "nanyo", "gilberts", "ogasawara", "guam", "chishima", "aleutians",
     "hawaii", "ryukyu", "newguinea_au", "solomons_br", "philippines",
     "timor_pt", "andaman", "nauru_au", "hongkong", "macau", "northborneo",
+    "weihaiwei", "guangzhouwan",
 }
 
 # Drawn last so they sit on top of whatever they were carved out of.
 ON_TOP = ["kwantung"]
 
 ORDER = [
-    "chinabase", "andaman", "ceylon", "ussr", "mongolia", "tibet",
-    "china", "xinjiang", "india", "other", "occupiedchina", "canton", "hainan", "chahar", "suiyuan", "jehol", "manchuria",
+    "chinabase_ne", "chinabase_sw", "andaman", "ceylon", "ussr", "mongolia", "tibet",
+    "china", "xinjiang", "india", "other", "nepal", "sikkim", "bhutan",
+    "tuva", "weihaiwei", "guangzhouwan", "chahar", "suiyuan", "jehol", "manchuria",
     "siam", "burma", "indochina", "siamgain", "malaya", "malaya_thai", "sarawak", "northborneo", "brunei",
     "dei", "philippines",
     "timor_pt", "newguinea_au", "solomons_br", "australia", "gilberts",
@@ -664,8 +746,13 @@ def main():
             # the land border in slightly different places, and without
             # something underneath those disagreements show as slivers of
             # ocean between China and its neighbours at deep zoom.
+            ne_side = [line_plane((115.5, 44.2), (120.2, 39.6), keep_right=True)]
+            sw_side = [line_plane((115.5, 44.2), (120.2, 39.6), keep_right=False)]
             for ring in iter_rings(feat["geometry"]):
-                groups["chinabase"].append(ring)
+                for key, planes in (("chinabase_ne", ne_side), ("chinabase_sw", sw_side)):
+                    piece = clip_halfplanes(ring, planes)
+                    if len(piece) >= 3:
+                        groups[key].append(piece)
             continue
         if admin == "Russia":
             for ring in iter_rings(feat["geometry"]):
@@ -694,14 +781,15 @@ def main():
             for ring in iter_rings(feat["geometry"]):
                 groups[key].append(ring)
 
-    # ---- Sikkim: a protectorate, not part of the Raj -----------------------
-    sikkim_path = os.path.join(CACHE, "adm1_IND.json")
-    if os.path.exists(sikkim_path):
-        with open(sikkim_path) as fh:
-            for feat in json.load(fh)["features"]:
-                if feat["properties"].get("shapeName") in PROTECTORATES_IND:
-                    for ring in iter_rings(feat["geometry"]):
-                        groups["other"].append(ring)
+    # ---- layers from the Modern East Asia GIS project ----------------------
+    for key, fname in GIS_LAYERS.items():
+        path = os.path.join(CACHE, "gis", fname)
+        if not os.path.exists(path):
+            sys.stderr.write(f"note: {fname} missing, {key} not drawn\n")
+            continue
+        for ring in gpkg.rings_lonlat(path):
+            if len(ring) >= 3:
+                groups[key].append(ring)
 
     # ---- territory ceded to Thailand in 1941 -------------------------------
     for iso, wanted in (("KHM", SIAM_1941_KHM), ("LAO", SIAM_1941_LAO)):
@@ -730,19 +818,25 @@ def main():
     if os.path.exists(borneo_path):
         with open(borneo_path) as fh:
             for feat in json.load(fh)["features"]:
-                key = BORNEO_MYS.get(feat["properties"].get("shapeName"))
+                pname = feat["properties"].get("shapeName")
+                key = BORNEO_MYS.get(pname) or MALAYA_MYS.get(pname)
                 if key:
-                    for ring in iter_rings(feat["geometry"]):
-                        groups[key].append(ring)
+                    prings = list(iter_rings(feat["geometry"]))
+                    groups[key].extend(prings)
+                    if key in ("malaya", "malaya_thai"):
+                        label = {"Kuala Lumpur": "Selangor", "Putrajaya": "Selangor"}.get(pname, pname)
+                        provinces[key].append((label.replace(" ", ""), prings))
 
     # ---- the northern Malay states -----------------------------------------
     mys_path = os.path.join(CACHE, "adm1_MYS.json")
     if os.path.exists(mys_path):
         with open(mys_path) as fh:
             for feat in json.load(fh)["features"]:
-                if feat["properties"].get("shapeName") in SIAM_1943_MYS:
-                    for ring in iter_rings(feat["geometry"]):
-                        groups["malaya_thai"].append(ring)
+                pn = feat["properties"].get("shapeName")
+                if pn in SIAM_1943_MYS:
+                    prings = list(iter_rings(feat["geometry"]))
+                    groups["malaya_thai"].extend(prings)
+                    provinces["malaya_thai"].append((pn, prings))
 
     # ---- China, by Republican province ------------------------------------
     kwantung_planes = ([line_plane(KWANTUNG_CUT[0], KWANTUNG_CUT[1], keep_right=True)]
@@ -753,25 +847,10 @@ def main():
         name = (att.get(ENP_NAME_FIELD) or "").strip()
         if not name or not rings:
             continue
-        key = PROVINCE_ATOM.get(name)
-        if key is None:
-            key = "occupiedchina" if name in OCCUPIED_PROVINCES else "china"
+        key = PROVINCE_ATOM.get(name) or "china"
         tally[key] += 1
         groups[key].extend(rings)
         provinces[key].append((name, rings))
-
-        if name == "Guangdong":
-            for ring in rings:
-                xs = [q[0] for q in ring]
-                ys = [q[1] for q in ring]
-                inside = (HAINAN_BOX[0] < min(xs) and max(xs) < HAINAN_BOX[2]
-                          and HAINAN_BOX[1] < min(ys) and max(ys) < HAINAN_BOX[3])
-                if inside:
-                    groups["hainan"].append(ring)
-                    continue
-                piece = clip_halfplanes(ring, quad_planes(CANTON_QUAD))
-                if len(piece) >= 3 and ring_area(piece) > 0.02:
-                    groups["canton"].append(piece)
 
         # the leasehold is carved out of Liaoning and drawn on top of it
         if name == "Liaoning":
@@ -807,11 +886,49 @@ def main():
     if ring:
         extent += simplify(boundary_arc(ring, a, b, via), 0.03)
 
+    # the occupied zone, clipped to China's land so it stops at the coast and
+    # at the frontier instead of being drawn as a blob over the sea
+    occ_frame = box_planes(LON_MIN, LAT_MIN, LON_MAX, LAT_MAX)
+    occ_pieces, occ_moments = [], []
+    for block in OCCUPIED_ZONE:
+        ring = clip_halfplanes(normalise_ring(chaikin(block, 1)), occ_frame)
+        if len(ring) < 3:
+            continue
+        pts = [project(x, y) for x, y in ring]
+        occ_pieces.append(ring_to_path(pts))
+        a = ring_area(pts)
+        cx, cy = ring_centroid(pts)
+        occ_moments.append((a, cx, cy))
+    occ_path = "".join(occ_pieces)
+    if occ_moments:
+        tot = sum(m[0] for m in occ_moments) or 1.0
+        occ_anchor = (sum(m[0] * m[1] for m in occ_moments) / tot,
+                      sum(m[0] * m[2] for m in occ_moments) / tot, tot)
+    else:
+        occ_anchor = (0, 0, 1)
+
     extent_path = ""
     if extent:
         pts = simplify([project(x, y) for x, y in extent], 0.35)
         extent_path = line_to_path(pts) + "Z"
         sys.stderr.write(f"extent line: {len(pts)} points\n")
+
+    # ---- name the islands worth naming --------------------------------------
+    for key, table in RING_NAMES.items():
+        rings = groups.get(key)
+        if not rings:
+            continue
+        named = collections.defaultdict(list)
+        for ring in rings:
+            cx, cy = ring_centroid(ring)
+            label = ""
+            for name, (x0, y0, x1, y1) in table:
+                if x0 <= cx <= x1 and y0 <= cy <= y1:
+                    label = name
+                    break
+            named[label].append(ring)
+        if len(named) > 1 or (len(named) == 1 and "" not in named):
+            provinces[key] = [(k, v) for k, v in named.items()]
 
     # ---- rivers ------------------------------------------------------------
     rivers = {}
@@ -924,6 +1041,8 @@ def main():
         '<line x1="0" y1="0" x2="0" y2="9" stroke="#e0781f" stroke-opacity="0.85" stroke-width="3.4"/>'
         "</pattern>"
     )
+    if "china" in paths:
+        out.append(f'    <clipPath id="clip-china"><path d="{paths["china"]}"/></clipPath>')
     out.append("  </defs>")
     out.append(f'  <rect id="ocean" x="0" y="0" width="{fmt(WIDTH)}" height="{fmt(HEIGHT)}"/>')
     def province_paths(key):
@@ -951,11 +1070,11 @@ def main():
     for key in ordered:
         ax, ay, area = anchors[key]
         meta = f'data-cx="{fmt(ax)}" data-cy="{fmt(ay)}" data-area="{int(area)}"'
-        if key == "chinabase":
-            out.append(f'    <path id="chinabase" d="{paths[key]}"/>')
+        if key.startswith("chinabase"):
+            out.append(f'    <path id="{key}" class="chinabase" d="{paths[key]}"/>')
             continue
         blocks = province_paths(key)
-        if len(blocks) > 1:
+        if blocks:
             out.append(f'    <g id="a-{key}" class="atom" {meta}>')
             for pname, pd in blocks:
                 out.append(f'      <path data-prov="{pname}" d="{pd}"/>')
@@ -971,6 +1090,12 @@ def main():
             out.append("    </g>")
         else:
             out.append(f'    <path id="a-{key}" class="atom" {meta} d="{paths[key]}"/>')
+    if occ_path:
+        ax, ay, area = occ_anchor
+        out.append(
+            f'    <path id="a-occupiedzone" class="atom" clip-path="url(#clip-china)" '
+            f'data-cx="{fmt(ax)}" data-cy="{fmt(ay)}" data-area="{int(area)}" d="{occ_path}"/>'
+        )
     out.append("  </g>")
     if extent_path:
         out.append(f'  <path id="extent-1942" fill="none" d="{extent_path}"/>')

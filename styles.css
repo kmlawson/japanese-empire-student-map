@@ -240,7 +240,7 @@ button.plain:hover { background: #f2ede2; }
 /* The modern outline of China, drawn beneath the Republican provinces. The two
    sources disagree about the land border by a few kilometres here and there,
    and without this those disagreements open as slivers of ocean at deep zoom. */
-#chinabase {
+.chinabase {
   fill: var(--c, var(--inactive));
   stroke: var(--c, var(--inactive));
   vector-effect: non-scaling-stroke;

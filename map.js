@@ -209,7 +209,7 @@
     buildNanyoBounds();
     buildBrowse();
     hatchGroup = svg.querySelector('#hatching');
-    chinaBase = svg.querySelector('#chinabase');
+    chinaBase = $$('.chinabase', svg);
 
     $$('.atom', svg).forEach(function (el) { atomEls[el.id.replace(/^a-/, '')] = el; });
     buildAtomHits();
@@ -373,6 +373,7 @@
       el.style.removeProperty('--c');
       el.classList.remove('sel');
       el.classList.remove('sub-unit');
+      el.style.display = 'none';
       if (atomHits[a]) atomHits[a].removeAttribute('data-id');
     });
     hatchGroup.innerHTML = '';
@@ -408,6 +409,7 @@
         if (!el) { return; }
         el.setAttribute('data-id', t.id);
         el.setAttribute('data-cat', t.cat);
+        el.style.display = '';
         if (colour) el.style.setProperty('--c', colour.c);
         el.classList.toggle('sub-unit', !!t.outline);
         els.push(el);
@@ -421,8 +423,12 @@
         if (t.hatch) {
           var cls = t.hatch === 'occupied' ? 'hatch-fill hatch-occ' : 'hatch-fill';
           var paths = el.tagName === 'path' ? [el] : $$('path', el);
+          var clip = el.getAttribute('clip-path');
           paths.forEach(function (path) {
-            hatchGroup.appendChild(svgEl('path', { 'class': cls, d: path.getAttribute('d') }));
+            var attrs = { 'class': cls, d: path.getAttribute('d') };
+            var own = path.getAttribute('clip-path') || clip;
+            if (own) attrs['clip-path'] = own;
+            hatchGroup.appendChild(svgEl('path', attrs));
           });
         }
       });
@@ -450,10 +456,21 @@
 
     // paint the backing outline in whatever colour China proper has this
     // epoch, so the seams between the two sources read as border, not sea
-    if (chinaBase) {
-      var host = territories().filter(function (t) { return t.atoms.indexOf('china') >= 0; })[0];
-      var c = host && catInfo(host.cat);
-      chinaBase.style.setProperty('--c', c ? c.c : 'var(--inactive)');
+    /* Each half of the backing outline takes the colour of the territory that
+     * sits on it, so where the two sources disagree the sliver reads as part of
+     * its own country rather than as a seam. */
+    if (chinaBase && chinaBase.length) {
+      var hostOf = function (atom) {
+        var t = territories().filter(function (x) { return x.atoms.indexOf(atom) >= 0; })[0];
+        var c = t && catInfo(t.cat);
+        return (t && t.c) || (c && c.c) || null;
+      };
+      var pair = { 'chinabase_ne': hostOf('manchuria'), 'chinabase_sw': hostOf('china') };
+      chinaBase.forEach(function (el) {
+        var col = pair[el.id];
+        if (col) el.style.setProperty('--c', col);
+        else el.style.removeProperty('--c');
+      });
     }
 
     // the labels just created have no transform yet, and rescale() only runs
@@ -927,7 +944,7 @@
     if (prov && prov.rec) {
       var pv = document.createElement('span');
       pv.className = 'sub prov';
-      pv.textContent = nameOf(prov.rec) + ' province';
+      pv.textContent = nameOf(prov.rec);
       tooltip.appendChild(pv);
     }
     var second = state.lang === 'en' ? rec.ja : rec.en;

@@ -76,6 +76,26 @@ reading the boundaries, names and notes come from.
   say so.
 * **Licence:** CC BY 4.0. **Cached at:** `tools/cache/adm1_IND.json`
 
+### Modern East Asia GIS (Konrad Lawson)
+
+* **Used for:** Tannu Tuva, British Weihaiwei, French Kwangchowan, and Nepal,
+  Sikkim and Bhutan as separate polygons.
+* **Source:** layers from the author's own QGIS project, drawn in an
+  azimuthal-equidistant projection centred on Wuhan. `tools/gpkg.py` reads the
+  GeoPackages and inverts that projection back to lon/lat, so no reprojection
+  library is needed.
+* **Cached at:** `tools/cache/gis/`
+
+### Reference maps of the occupation
+
+* **Used for:** the shape of the occupied zone in China, which is traced rather
+  than assembled from provinces.
+* **Held in:** `occupation-maps/`, with a README giving each file's Commons
+  page, licence and author. The principal one is the 1940 sheet of the *China
+  1900–1949* series, which is in the public domain.
+* **Also used:** the Sino-Japanese War card set from the module's own timeline
+  review tool, for the dates the cities fell.
+
 ### Andrew Gordon, "War in the Pacific"
 
 * **Used for:** the dashed greatest-extent line on the Dec 1942 map.
@@ -143,7 +163,7 @@ reconstructions. Elsewhere they are built from modern outlines.
 | **Kwantung Leased Territory** | Liaoning cut on a straight line from Pulandian bay to Pikou | Good — the 1898 lease boundary was a surveyed line across the isthmus |
 | **Tibet, Sinkiang** | The Xizang and Xinjiang polygons, which the source itself treats as polities apart from China | Good |
 | **Territory ceded to Thailand, 1941** | Modern Battambang, Banteay Meanchey, Pailin, Siem Reap, Oddar Meanchey and Preah Vihear, plus Xaignabouli and Champasak west of the Mekong | Fair — the ceded blocks followed provincial lines close to these; Angkor was left to France and is not carved out here |
-| **Japanese-occupied China** | Eight whole provinces — Hebei, Shandong, Shanxi, Henan, Jiangsu, Anhui, Zhejiang, Hubei — plus Hainan, held from February 1939, and the Pearl River delta around Canton, held from October 1938, both cut out of Guangdong | **Poor, and labelled as such on the map.** Control ran along railways and around cities; much of the countryside inside the line was held by Communist and Nationalist guerrillas. Smaller enclaves such as Amoy are marked as cities instead |
+| **Japanese-occupied China** | Traced from a 1940 map of the occupation, adjusted to December 1942 against the module timeline, and clipped to China's land: the north China plain, the Yangtze corridor to Hankow, the railway west to Paotow, the Canton delta, Hainan, Amoy and Swatow | Fair for where Japanese authority *reached*. It is not a claim about where it went unchallenged: Communist base areas operated inside the line throughout, which is why the army ran repeated "mopping up" campaigns against them, and the note on the map says so. See `occupation-maps/` |
 
 Kinmen (Quemoy) is **not** drawn as part of the colony of Taiwan. Natural Earth
 puts it in Taiwan because it is governed from Taipei today; it belonged to
