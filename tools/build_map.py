@@ -43,6 +43,7 @@ CACHE = os.path.join(HERE, "cache")
 SOURCES = {
     "admin0": "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_50m_admin_0_countries.geojson",
     "admin1": "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_50m_admin_1_states_provinces.geojson",
+    "rivers": "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_50m_rivers_lake_centerlines.geojson",
 }
 
 # ENP-China provinces, shipped in tools/cache/enp/ rather than downloaded; see
@@ -106,6 +107,85 @@ OCCUPIED_PROVINCES = {
 # elsewhere along the Liaoning coast.
 KWANTUNG_CUT = ((121.20, 39.66), (122.45, 39.28))
 KWANTUNG_BOX = (120.55, 38.60, 123.00, 39.80)
+
+# Sikkim was a British protectorate, not part of British India, and belongs
+# with Nepal and Bhutan rather than inside the Raj.
+PROTECTORATES_IND = {"Sikkim"}
+
+# The Yellow River's lower course was cut at Huayuankou in June 1938, when the
+# Chinese army breached the dikes to slow the Japanese advance. Until the
+# channel was closed again in 1947 the river ran south-east into the Huai
+# instead of north-east to the Bohai, so the two maps need different halves of
+# it. This is where the generated path is split.
+HUAYUANKOU = (113.43, 34.92)
+
+# Natural Earth's Yangtze centreline stops about 170 km short of the sea, which
+# makes the river look as though it ends in a field outside Nanking. This
+# carries it down the estuary past Shanghai.
+YANGZI_TAIL = [
+    (120.07, 31.96), (120.55, 31.98), (121.05, 31.80), (121.55, 31.60),
+    (121.95, 31.42),
+]
+
+# ---------------------------------------------------------------------------
+# The greatest extent of Japanese control in late 1942, after the "War in the
+# Pacific" map in Andrew Gordon, *A Modern History of Japan*.
+#
+# Where the limit was a land frontier the line is taken straight off the
+# territory outlines, so it sits exactly on the Manchukuo, Burma and Indochina
+# borders instead of floating near them. Where it ran over water, or across a
+# front rather than a border, it is drawn by hand: the China front, the cut
+# across New Guinea north of Port Moresby, and the ocean perimeter.
+# ---------------------------------------------------------------------------
+
+# The front in China: a broad, shifting and porous zone, not a border.
+EXTENT_CHINA_FRONT = [
+    (106.8, 40.4), (107.2, 39.2), (108.6, 38.4), (110.2, 37.8), (110.7, 36.2),
+    (110.9, 34.6), (111.8, 33.4), (112.6, 32.2), (111.8, 31.0), (110.8, 30.2),
+    (112.0, 29.2), (113.4, 28.4), (114.8, 27.8), (116.2, 27.0), (117.4, 25.8),
+    (118.6, 24.6),
+]
+# The south China lobe: Canton, the Leizhou peninsula and Hainan.
+EXTENT_SOUTH_CHINA = [
+    (117.4, 23.0), (115.6, 22.4), (114.2, 22.0), (112.8, 21.4), (111.2, 20.8),
+    (110.8, 19.8), (111.2, 18.6), (110.2, 17.6), (108.4, 17.8), (107.8, 19.2),
+    (108.0, 20.6), (108.1, 21.5),
+]
+# Ocean perimeter, running clockwise from the Bay of Bengal.
+EXTENT_OCEAN = [
+    (91.6, 20.0), (90.6, 16.0), (90.4, 12.0), (90.6, 8.0), (92.0, 3.5),
+    (94.4, 0.0), (97.0, -3.6), (100.6, -6.6), (105.0, -8.6), (110.0, -10.2),
+    (115.0, -11.0), (120.0, -11.4), (125.0, -11.6), (130.0, -11.4),
+    (134.0, -10.6), (137.0, -9.6),
+    # along the Papuan peninsula, which Japan held the length of, bulging
+    # north around Port Moresby on the south coast, which it never reached
+    (139.5, -8.3), (142.0, -8.5), (144.0, -8.4), (145.6, -8.7), (146.5, -9.0),
+    (147.4, -9.2), (148.4, -9.7), (149.7, -10.2), (150.9, -10.6),
+    (152.6, -10.9), (155.4, -11.2), (159.0, -11.4),
+    (163.0, -10.6), (167.0, -9.4), (171.0, -8.0), (175.0, -6.4), (179.0, -4.4),
+    (180.8, -1.0),
+    # north along the dateline, then west along the Aleutians
+    (181.2, 6.0), (181.4, 14.0), (181.4, 22.0), (181.2, 30.0), (180.8, 38.0),
+    (180.2, 45.0), (179.4, 50.0), (177.0, 52.8), (172.0, 53.4), (166.0, 53.0),
+    (160.0, 52.4), (156.4, 51.4),
+    # straight across the Sea of Okhotsk, leaving every Kurile inside
+    (150.0, 50.9), (144.6, 50.3), (141.8, 50.3), (141.0, 49.2),
+    # down the Soviet Pacific coast to the Korean corner
+    (140.4, 48.6), (138.6, 47.0), (137.0, 45.6), (135.0, 44.3), (133.0, 43.0),
+    (131.6, 42.8), (130.7, 42.4),
+]
+
+# Anchors where the hand-drawn pieces hand over to a real frontier.
+EXTENT_ARCS = [
+    # (atom, from, to, via) — the northern frontier of mainland Southeast Asia
+    ("indochina", (108.1, 21.5), (101.2, 21.4), (104.5, 23.2)),
+    ("burma", (101.0, 21.3), (92.3, 20.6), (97.5, 27.5)),
+]
+# The Manchukuo and Mengchiang frontier, taken off the provinces themselves.
+EXTENT_MANCHURIA = (
+    ("manchuria", "jehol", "chahar", "suiyuan"),
+    (130.7, 42.4), (106.8, 40.4), (120.0, 51.0),
+)
 
 # Kinmen (Quemoy) sits in Natural Earth's Taiwan polygon because it is governed
 # from Taipei today. It was not part of the Japanese colony: it belonged to
@@ -343,6 +423,61 @@ def ring_to_path(points):
 
 # --- Source loading ---------------------------------------------------------
 
+def iter_lines(geom):
+    t = geom["type"]
+    if t == "LineString":
+        yield [(float(c[0]), float(c[1])) for c in geom["coordinates"]]
+    elif t == "MultiLineString":
+        for line in geom["coordinates"]:
+            yield [(float(c[0]), float(c[1])) for c in line]
+
+
+def line_to_path(points):
+    d = [f"M{fmt(points[0][0])} {fmt(points[0][1])}"]
+    px, py = points[0]
+    for x, y in points[1:]:
+        if abs(x - px) < 0.05 and abs(y - py) < 0.05:
+            continue
+        d.append(f"L{fmt(x)} {fmt(y)}")
+        px, py = x, y
+    return "".join(d) if len(d) > 1 else ""
+
+
+def nearest_index(ring, p):
+    best, bd = 0, 1e18
+    for i, (x, y) in enumerate(ring):
+        d = (x - p[0]) ** 2 + (y - p[1]) ** 2
+        if d < bd:
+            best, bd = i, d
+    return best
+
+
+def boundary_arc(ring, p_from, p_to, via):
+    """The stretch of a closed ring between two points, on the side of `via`."""
+    i = nearest_index(ring, p_from)
+    j = nearest_index(ring, p_to)
+    fwd = ring[i:j + 1] if i <= j else ring[i:] + ring[:j + 1]
+    back = ring[j:i + 1] if j <= i else ring[j:] + ring[:i + 1]
+    back = list(reversed(back))
+
+    def dist(arc):
+        return min((x - via[0]) ** 2 + (y - via[1]) ** 2 for x, y in arc)
+
+    return fwd if dist(fwd) <= dist(back) else back
+
+
+def chaikin(points, passes=2):
+    """Round off a hand-drawn polyline without pulling it far off course."""
+    for _ in range(passes):
+        out = [points[0]]
+        for a, b in zip(points, points[1:]):
+            out.append((a[0] * 0.75 + b[0] * 0.25, a[1] * 0.75 + b[1] * 0.25))
+            out.append((a[0] * 0.25 + b[0] * 0.75, a[1] * 0.25 + b[1] * 0.75))
+        out.append(points[-1])
+        points = out
+    return points
+
+
 def load(name, download):
     path = os.path.join(CACHE, f"{name}.geojson")
     legacy = os.path.join(CACHE, f"ne_50m_{name}.geojson")
@@ -524,6 +659,15 @@ def main():
             for ring in iter_rings(feat["geometry"]):
                 groups[key].append(ring)
 
+    # ---- Sikkim: a protectorate, not part of the Raj -----------------------
+    sikkim_path = os.path.join(CACHE, "adm1_IND.json")
+    if os.path.exists(sikkim_path):
+        with open(sikkim_path) as fh:
+            for feat in json.load(fh)["features"]:
+                if feat["properties"].get("shapeName") in PROTECTORATES_IND:
+                    for ring in iter_rings(feat["geometry"]):
+                        groups["other"].append(ring)
+
     # ---- territory ceded to Thailand in 1941 -------------------------------
     for iso, wanted in (("KHM", SIAM_1941_KHM), ("LAO", SIAM_1941_LAO)):
         path = os.path.join(CACHE, f"adm1_{iso}.json")
@@ -568,6 +712,76 @@ def main():
 
     sys.stderr.write("provinces assigned: " + ", ".join(
         f"{k}={v}" for k, v in sorted(tally.items(), key=lambda kv: -kv[1])) + "\n")
+
+    # ---- the 1942 greatest-extent line -------------------------------------
+    def outline(keys):
+        rings = []
+        for k in keys:
+            rings.extend(groups.get(k, []))
+        if not rings:
+            return None
+        merged = dissolve(rings)
+        return max(merged or rings, key=ring_area)
+
+    extent = []
+    extent += chaikin(EXTENT_CHINA_FRONT)
+    extent += chaikin(EXTENT_SOUTH_CHINA)
+    for key, a, b, via in EXTENT_ARCS:
+        ring = outline([key])
+        if ring:
+            arc = boundary_arc(ring, a, b, via)
+            extent += simplify(arc, 0.03)
+    extent += chaikin(EXTENT_OCEAN)
+    keys, a, b, via = EXTENT_MANCHURIA
+    ring = outline(keys)
+    if ring:
+        extent += simplify(boundary_arc(ring, a, b, via), 0.03)
+
+    extent_path = ""
+    if extent:
+        pts = simplify([project(x, y) for x, y in extent], 0.35)
+        extent_path = line_to_path(pts) + "Z"
+        sys.stderr.write(f"extent line: {len(pts)} points\n")
+
+    # ---- rivers ------------------------------------------------------------
+    rivers = {}
+    try:
+        rv = load("rivers", args.download)
+    except Exception:
+        rv = None
+    if rv:
+        pieces = {"yangzi": [], "yellow_upper": [], "yellow_lower": []}
+        for feat in rv["features"]:
+            props = feat["properties"]
+            label = (props.get("name_en") or props.get("name") or "")
+            for line in iter_lines(feat["geometry"]):
+                if label == "Yangtze" or props.get("name") == "Chang Jiang":
+                    pieces["yangzi"].append(line)
+                elif label in ("Yellow", "Huang") or props.get("name") == "Huang":
+                    best, bd = 0, 1e9
+                    for i, (x, y) in enumerate(line):
+                        d2 = (x - HUAYUANKOU[0]) ** 2 + (y - HUAYUANKOU[1]) ** 2
+                        if d2 < bd:
+                            best, bd = i, d2
+                    if bd > 4.0:
+                        pieces["yellow_upper"].append(line)
+                    else:
+                        if best >= 2:
+                            pieces["yellow_upper"].append(line[:best + 1])
+                        if len(line) - best >= 3:
+                            pieces["yellow_lower"].append(line[best:])
+        if pieces["yangzi"]:
+            pieces["yangzi"].append(YANGZI_TAIL)
+        for key, lines in pieces.items():
+            out_paths = []
+            for line in lines:
+                pts = [project(x, y) for x, y in normalise_ring(line)]
+                pts = simplify(pts, 0.4)
+                path = line_to_path(pts)
+                if path:
+                    out_paths.append(path)
+            if out_paths:
+                rivers[key] = "".join(out_paths)
 
     # ---- dissolve, project, clip, simplify --------------------------------
     frame = box_planes(LON_MIN, LAT_MIN, LON_MAX, LAT_MAX)
@@ -634,6 +848,12 @@ def main():
         '<line x1="0" y1="0" x2="0" y2="10" stroke="#1d1a15" stroke-opacity="0.30" stroke-width="2.4"/>'
         "</pattern>"
     )
+    out.append(
+        '    <pattern id="hatch-occ" patternUnits="userSpaceOnUse" width="9" height="9" '
+        'patternTransform="rotate(45)">'
+        '<line x1="0" y1="0" x2="0" y2="9" stroke="#e0781f" stroke-opacity="0.85" stroke-width="3.4"/>'
+        "</pattern>"
+    )
     out.append("  </defs>")
     out.append(f'  <rect id="ocean" x="0" y="0" width="{fmt(WIDTH)}" height="{fmt(HEIGHT)}"/>')
     out.append('  <g id="land">')
@@ -653,6 +873,14 @@ def main():
         else:
             out.append(f'    <path id="a-{key}" class="atom" {meta} d="{paths[key]}"/>')
     out.append("  </g>")
+    if extent_path:
+        out.append(f'  <path id="extent-1942" fill="none" d="{extent_path}"/>')
+    if rivers:
+        out.append('  <g id="rivers">')
+        for key in ("yangzi", "yellow_upper", "yellow_lower"):
+            if key in rivers:
+                out.append(f'    <path id="river-{key}" class="river" fill="none" d="{rivers[key]}"/>')
+        out.append("  </g>")
     out.append('  <g id="hatching"></g>')
     out.append('  <g id="markers"></g>')
     out.append("</svg>")

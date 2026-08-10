@@ -225,13 +225,54 @@ button.plain:hover { background: #f2ede2; }
 /* Gordon's greatest-extent perimeter */
 #extent-1942 {
   fill: none;
-  stroke: #7a1020;
-  stroke-width: 2.6;
-  stroke-dasharray: 12 7;
+  stroke: #8c3a44;
+  vector-effect: non-scaling-stroke;
+  stroke-width: 1.8;
+  stroke-dasharray: 9 6;
   stroke-linejoin: round;
   stroke-linecap: round;
   pointer-events: none;
-  opacity: .85;
+  opacity: .55;
+}
+
+/* rivers */
+.river {
+  fill: none;
+  stroke: #4d7f9e;
+  vector-effect: non-scaling-stroke;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  pointer-events: none;
+  opacity: .8;
+}
+
+#legend .sw.river {
+  height: 0;
+  border: 0;
+  border-top: 2.5px solid #4d7f9e;
+  border-radius: 0;
+  align-self: center;
+}
+
+/* browse cities: context, drawn under everything examinable */
+.browse { pointer-events: auto; cursor: pointer; }
+.browse .hit { fill: transparent; stroke: none; }
+.browse .dot { fill: #6f6a60; stroke: #f2efe7; stroke-width: 1.1; }
+.browse:hover .dot { fill: #3c382f; stroke: #14110c; stroke-width: 1.6; }
+.browse.sel .dot { stroke: #14110c; stroke-width: 2.2; paint-order: stroke; }
+
+#legend .sw.browse-sw { background: #6f6a60; }
+
+.blabel {
+  pointer-events: none;
+  text-anchor: middle;
+  paint-order: stroke;
+  stroke: #fffdf8;
+  stroke-width: 3px;
+  stroke-linejoin: round;
+  fill: #5a544a;
+  font-weight: 500;
 }
 
 #legend .sw.line {
@@ -258,12 +299,16 @@ button.plain:hover { background: #f2ede2; }
 .atom-hit.hot { filter: none; }
 .atom-hit.sel { stroke: none; }
 
-/* the occupied-China shading, drawn over its own territory */
+/* shading drawn over a territory: the approximate occupied zone in China, and
+   the Japanese stripes over Portuguese Timor, which in December 1942 was still
+   being fought over */
 .hatch-fill {
   fill: url(#hatch);
   stroke: none;
   pointer-events: none;
 }
+
+.hatch-fill.hatch-occ { fill: url(#hatch-occ); }
 
 .site { pointer-events: auto; cursor: pointer; }
 .site .hit { fill: transparent; stroke: none; }

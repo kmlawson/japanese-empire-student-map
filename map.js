@@ -39,6 +39,8 @@
     cats: { city: true, battle: true, territory: true },
     labels: false,
     extent: true,
+    rivers: true,
+    browse: false,
   };
 
   var container = $('#map-container');   // pointer target and size reference
@@ -80,6 +82,8 @@
       }
       state.labels = !!saved.labels;
       if (typeof saved.extent === 'boolean') state.extent = saved.extent;
+      if (typeof saved.rivers === 'boolean') state.rivers = saved.rivers;
+      if (typeof saved.browse === 'boolean') state.browse = saved.browse;
     } catch (err) { /* first visit, or storage is off — defaults are fine */ }
   }
 
@@ -88,6 +92,7 @@
       localStorage.setItem(STORE_KEY, JSON.stringify({
         epoch: state.epoch, level: state.level, lang: state.lang,
         cats: state.cats, labels: state.labels, extent: state.extent,
+        rivers: state.rivers, browse: state.browse,
       }));
     } catch (err) { /* private browsing; not worth complaining about */ }
   }
@@ -134,7 +139,10 @@
     return rec.lvl <= state.level && state.cats.territory;
   }
 
-  function siteVisible(s) { return state.cats[s.cat] && s.lvl <= state.level && siteInEpoch(s); }
+  function siteVisible(s) {
+    if (s.kind === 'browse') return !!state.browse;
+    return state.cats[s.cat] && s.lvl <= state.level && siteInEpoch(s);
+  }
 
   function quizPool() {
     return territories().concat(JMAP.SITES).filter(inQuiz);
@@ -195,7 +203,10 @@
     proj.yTop = proj.R * Math.log(Math.tan(Math.PI / 4 + proj.latMax * Math.PI / 360));
 
     markersGroup = svg.querySelector('#markers');
-    buildExtentLine();
+    extentPath = svg.querySelector('#extent-1942');
+    riversGroup = svg.querySelector('#rivers');
+    buildYellow1938();
+    buildBrowse();
     hatchGroup = svg.querySelector('#hatching');
     chinaBase = svg.querySelector('#chinabase');
 
@@ -281,17 +292,38 @@
   }
 
   var extentPath = null;
+  var riversGroup = null;
+  var yellow1938 = null;
+  var browseGroup = null;
 
-  /* Gordon's "greatest extent" perimeter, drawn over everything as a dashed
-   * line. It is a limit, not a boundary, so it is never interactive. */
-  function buildExtentLine() {
-    if (!JMAP.EXTENT_1942) return;
-    var d = JMAP.EXTENT_1942.ring.map(function (p, i) {
+  /* The Yellow River as it ran from 1938 to 1947, after the dikes were cut. */
+  function buildYellow1938() {
+    if (!riversGroup || !JMAP.YELLOW_1938) return;
+    var d = JMAP.YELLOW_1938.map(function (p, i) {
       var q = project(p[0], p[1]);
       return (i ? 'L' : 'M') + q.x.toFixed(1) + ' ' + q.y.toFixed(1);
-    }).join('') + 'Z';
-    extentPath = svgEl('path', { id: 'extent-1942', d: d });
-    svg.insertBefore(extentPath, markersGroup);
+    }).join('');
+    yellow1938 = svgEl('path', { id: 'river-yellow_1938', 'class': 'river', fill: 'none', d: d });
+    riversGroup.appendChild(yellow1938);
+  }
+
+  /* Context cities: smaller, greyer, under the markers that are examinable. */
+  function buildBrowse() {
+    if (!JMAP.BROWSE) return;
+    browseGroup = svgEl('g', { id: 'browse' });
+    svg.insertBefore(browseGroup, markersGroup);
+    JMAP.BROWSE.forEach(function (b) {
+      b.kind = 'browse';
+      b.rid = 'b_' + b.id;
+      var p = project(b.lon, b.lat);
+      var g = svgEl('g', { 'class': 'browse', id: 'b-' + b.id, 'data-id': b.rid });
+      g.appendChild(svgEl('circle', { 'class': 'hit', r: HIT_R * 0.72 }));
+      g.appendChild(svgEl('circle', { 'class': 'dot', r: DOT_R * 0.62 }));
+      browseGroup.appendChild(g);
+      elById[b.rid] = g;
+      sitePos[b.rid] = p;
+      scalables.push({ el: g, x: p.x, y: p.y });
+    });
   }
 
   var labelLayer = null;
@@ -304,6 +336,15 @@
       var text = svgEl('text', { 'class': 'slabel', 'font-size': SITE_PX, y: SITE_PX + 7 });
       labelLayer.appendChild(text);
       labels.push({ rec: s, el: text, x: p.x, y: p.y, dy: SITE_PX + 7, size: SITE_PX, w: 0, h: SITE_PX * 1.2 });
+      scalables.push({ el: text, x: p.x, y: p.y });
+    });
+
+    (JMAP.BROWSE || []).forEach(function (b) {
+      var p = sitePos[b.rid];
+      var text = svgEl('text', { 'class': 'blabel', 'font-size': SITE_PX - 1.5, y: SITE_PX + 4 });
+      labelLayer.appendChild(text);
+      labels.push({ rec: b, el: text, x: p.x, y: p.y, dy: SITE_PX + 4, size: SITE_PX - 1.5,
+                    w: 0, h: SITE_PX * 1.1 });
       scalables.push({ el: text, x: p.x, y: p.y });
     });
   }
@@ -333,6 +374,7 @@
     });
 
     JMAP.SITES.forEach(function (s) { byId[s.id] = s; });
+    if (JMAP.BROWSE) JMAP.BROWSE.forEach(function (b) { byId[b.rid] = b; });
 
     territories().forEach(function (t) {
       t.kind = 'territory';
@@ -358,7 +400,8 @@
         if (t.hatch) {
           var path = el.tagName === 'path' ? el : el.querySelector('path');
           if (path) {
-            var clone = svgEl('path', { 'class': 'hatch-fill', d: path.getAttribute('d') });
+            var cls = t.hatch === 'occupied' ? 'hatch-fill hatch-occ' : 'hatch-fill';
+            var clone = svgEl('path', { 'class': cls, d: path.getAttribute('d') });
             hatchGroup.appendChild(clone);
           }
         }
@@ -378,10 +421,11 @@
       }
     });
 
+    var rank = { territory: 0, site: 1, browse: 2 };
     labels.sort(function (a, b) {
-      if (a.rec.lvl !== b.rec.lvl) return a.rec.lvl - b.rec.lvl;
-      if (a.rec.kind !== b.rec.kind) return a.rec.kind === 'territory' ? -1 : 1;
-      return 0;
+      var ra = rank[a.rec.kind] || 1, rb = rank[b.rec.kind] || 1;
+      if (ra !== rb) return ra - rb;
+      return (a.rec.lvl || 9) - (b.rec.lvl || 9);
     });
 
     // paint the backing outline in whatever colour China proper has this
@@ -629,8 +673,8 @@
    * projected position is the truth. */
   function focusOn(rec) {
     var cx, cy, want;
-    if (rec.kind === 'site') {
-      var p = sitePos[rec.id];
+    if (rec.kind === 'site' || rec.kind === 'browse') {
+      var p = sitePos[rec.rid || rec.id];
       cx = p.x; cy = p.y; want = 420;
     } else {
       var els = atomsOf[rec.id] || [];
@@ -782,12 +826,12 @@
 
   function recordFor(target) {
     if (!target || !target.closest) return null;
-    var el = target.closest('.site, .atom');
+    var el = target.closest('.site, .browse, .atom');
     if (!el) return null;
     var id = el.getAttribute('data-id');
     var rec = id && byId[id];
     if (!rec) return null;
-    if (rec.kind === 'site' && !siteVisible(rec)) return null;
+    if ((rec.kind === 'site' || rec.kind === 'browse') && !siteVisible(rec)) return null;
     return { rec: rec, el: el };
   }
 
@@ -901,6 +945,7 @@
       var el = elById[s.id];
       if (el) el.style.display = siteVisible(s) ? '' : 'none';
     });
+    if (browseGroup) browseGroup.style.display = state.browse ? '' : 'none';
 
     labels.forEach(function (L) {
       var show = showLabels && (L.rec.kind === 'territory'
@@ -919,6 +964,13 @@
 
     if (extentPath) {
       extentPath.style.display = (state.epoch === 'e1942' && state.extent) ? '' : 'none';
+    }
+    if (riversGroup) {
+      riversGroup.style.display = state.rivers ? '' : 'none';
+      var flood = state.epoch === 'e1942';
+      var lower = svg.querySelector('#river-yellow_lower');
+      if (lower) lower.style.display = flood ? 'none' : '';
+      if (yellow1938) yellow1938.style.display = flood ? '' : 'none';
     }
 
     container.classList.toggle('quizzing', quizzing);
@@ -975,6 +1027,19 @@
       legend.appendChild(src);
     }
 
+    if (state.rivers) {
+      var rrow = document.createElement('div');
+      rrow.className = 'item';
+      var rsw = document.createElement('span');
+      rsw.className = 'sw river';
+      rrow.appendChild(rsw);
+      rrow.appendChild(document.createTextNode(
+        state.epoch === 'e1942'
+          ? 'Yangzi and Yellow rivers (Yellow River in its 1938–47 course)'
+          : 'Yangzi and Yellow rivers'));
+      legend.appendChild(rrow);
+    }
+
     JMAP.SITE_CATEGORIES.forEach(function (c) {
       if (!state.cats[c.id]) return;
       var row = document.createElement('div');
@@ -986,6 +1051,16 @@
       row.appendChild(document.createTextNode(nameOf(c)));
       legend.appendChild(row);
     });
+
+    if (state.browse) {
+      var brow = document.createElement('div');
+      brow.className = 'item';
+      var bsw = document.createElement('span');
+      bsw.className = 'sw round browse-sw';
+      brow.appendChild(bsw);
+      brow.appendChild(document.createTextNode('Other major cities (not examined)'));
+      legend.appendChild(brow);
+    }
 
     legend.hidden = false;
   }
@@ -1187,9 +1262,10 @@
 
   function flash(rec) {
     clearReveal();
-    var els = rec.kind === 'site'
-      ? (elById[rec.id] ? [elById[rec.id]] : [])
-      : (atomsOf[rec.id] || []);
+    var key = rec.rid || rec.id;
+    var els = rec.kind === 'territory'
+      ? (atomsOf[key] || [])
+      : (elById[key] ? [elById[key]] : []);
     els.forEach(function (el) { el.classList.add('reveal'); });
     flashTimer = window.setTimeout(function () {
       els.forEach(function (el) { el.classList.remove('reveal'); });
@@ -1250,6 +1326,18 @@
     var optExtent = $('#opt-extent');
     optExtent.checked = state.extent;
     optExtent.addEventListener('change', function () { state.extent = optExtent.checked; applyState(); });
+
+    var optRivers = $('#opt-rivers');
+    optRivers.checked = state.rivers;
+    optRivers.addEventListener('change', function () { state.rivers = optRivers.checked; applyState(); });
+
+    var optBrowse = $('#opt-browse');
+    optBrowse.checked = state.browse;
+    optBrowse.addEventListener('change', function () {
+      state.browse = optBrowse.checked;
+      applyState();
+      if (state.browse) rescale();
+    });
 
     $('#btn-options').addEventListener('click', function () { $('#dlg-options').showModal(); });
     $('#btn-about').addEventListener('click', function () { $('#dlg-about').showModal(); });

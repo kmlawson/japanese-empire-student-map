@@ -47,7 +47,7 @@ reading the boundaries, names and notes come from.
 
 * **Used for:** the territory transferred to Thailand under the Tokyo treaty of
   9 May 1941 — the Cambodian provinces of Battambang and Siem Reap and the Lao
-  land west of the Mekong — which the Late 1942 map shows as Thai.
+  land west of the Mekong — which the Dec 1942 map shows as Thai.
 * **Files:** `geoBoundaries-KHM-ADM1_simplified.geojson`,
   `geoBoundaries-LAO-ADM1_simplified.geojson`
 * **Obtained from:** <https://github.com/wmgeolab/geoBoundaries> (`gbOpen`)
@@ -56,18 +56,38 @@ reading the boundaries, names and notes come from.
   political administrative boundaries." *PLoS ONE* 15(4): e0231866.
 * **Cached at:** `tools/cache/adm1_KHM.json`, `tools/cache/adm1_LAO.json`
 
+### Natural Earth — 1:50m rivers and lake centerlines
+
+* **Used for:** the Yangzi and the Yellow River. Natural Earth's Yangtze
+  centreline stops about 170 km short of the sea, so the estuary past Shanghai
+  is added by hand; the Yellow River is split at Huayuankou so the two maps can
+  show its two courses.
+* **File:** `ne_50m_rivers_lake_centerlines.geojson`
+* **Licence:** public domain.
+* **Cached at:** `tools/cache/rivers.geojson`
+
+### geoBoundaries — India, ADM1
+
+* **Used for:** lifting Sikkim out of British India. Sikkim was a protectorate,
+  like Nepal and Bhutan, not a part of the Raj, and Natural Earth has no way to
+  say so.
+* **Licence:** CC BY 4.0. **Cached at:** `tools/cache/adm1_IND.json`
+
 ### Andrew Gordon, "War in the Pacific"
 
-* **Used for:** the dashed greatest-extent line on the Late 1942 map, traced by
-  hand from the printed map.
+* **Used for:** the dashed greatest-extent line on the Dec 1942 map.
 * **Source:** the map captioned "War in the Pacific", with the legend "Greatest
   extent of Japanese control, late 1942", in Andrew Gordon, *A Modern History
   of Japan: From Tokugawa Times to the Present* (Oxford University Press).
-* **Held as:** a coordinate list, `JMAP.EXTENT_1942` in `data.js`, with the
-  attribution shown in the map legend whenever the line is displayed.
-* **Note:** the trace is approximate, and Gordon's own line is a
-  generalisation. It deliberately does not match the edge of the shaded
-  occupied-China zone: the line is a front, the shading is a set of provinces.
+* **How it is built:** only the parts that were *not* a land frontier are
+  traced by hand — the front in China, the ocean perimeter, and the cut across
+  the Papuan peninsula north of Port Moresby. Everywhere the limit followed a
+  real border, the line is lifted straight off the territory outlines, so it
+  sits exactly on the Manchukuo, Mengchiang, Burma and Indochina frontiers
+  rather than floating near them. See `EXTENT_*` in `tools/build_map.py`.
+* **Note:** Gordon's own line is a generalisation and this is a trace of it. It
+  deliberately does not match the edge of the shaded occupied-China zone: the
+  line is a front, the shading is a set of provinces.
 
 The Natural Earth cache can be refreshed with
 `python3 tools/build_map.py --download`; the ENP shapefiles are shipped in the
@@ -193,6 +213,16 @@ so the 1930 map does not call Singapore Syonan-to or describe Changchun as the
 capital of Manchukuo.
 
 ---
+
+### The browse layer
+
+`JMAP.BROWSE` in `data.js` holds about a hundred cities that are context rather
+than content: the provincial capitals of Republican China and Manchukuo, and
+the larger cities of Korea, Taiwan, Japan and Southeast Asia. They are drawn
+smaller and grey, beneath the markers the quiz uses, and are never examined.
+English names are the period ones with the modern name in brackets where they
+differ — Paoting (Baoding), Taikyu (Taegu), Kirun (Keelung), Jesselton (Kota
+Kinabalu).
 
 ## 4. Also examined, not used
 

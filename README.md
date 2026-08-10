@@ -12,10 +12,10 @@ framework. Serve the folder over HTTP, or hand out the single-file build.
 
 ## Using it
 
-* **1930 / Late 1942** — two maps, not one. In 1930, on the eve of the
+* **1930 / Dec 1942** — two maps, not one. In 1930, on the eve of the
   Manchurian Incident, the colours show whose empire each place belonged to:
   British, French, Dutch, American, Portuguese, Australian, Japanese, Chinese,
-  Soviet, independent. In late 1942, at the greatest extent of the empire, they
+  Soviet, independent. In December 1942, at the greatest extent of the empire, they
   show how Japan held what it had taken: metropole, colonies, client states,
   military occupation, the fighting front. Names, dates and notes change with
   the date too — Singapore is Singapore in 1930 and Syonan-to in 1942.
@@ -36,8 +36,14 @@ framework. Serve the folder over HTTP, or hand out the single-file build.
   is in hangul with McCune-Reischauer romanisation. Notes stay in English
   throughout.
 * **Layers** — turn cities, battles or territories out of the quiz, put names on
-  the map, and show or hide the greatest-extent line.
-* **The dashed perimeter** on the Late 1942 map is the greatest extent of
+  the map, switch on a browse layer of about a hundred further cities for
+  orientation, show the Yangzi and Yellow rivers, and show or hide the
+  greatest-extent line.
+* **The rivers** are drawn in the course they had at the date shown. On the Late
+  1942 map the Yellow River runs south-east into the Huai, where it went after
+  the Chinese army cut the dikes at Huayuankou in June 1938 and where it stayed
+  until 1947.
+* **The dashed perimeter** on the Dec 1942 map is the greatest extent of
   Japanese control, traced from the "War in the Pacific" map in Andrew Gordon,
   *A Modern History of Japan*. It is a front and a naval limit, not a boundary,
   and it deliberately does not follow the edge of the shaded occupied zone.
