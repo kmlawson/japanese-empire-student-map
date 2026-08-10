@@ -1278,6 +1278,28 @@ def main():
 
     ordered = [k for k in ORDER if k in paths] + [k for k in paths if k not in ORDER]
 
+    def province_paths(key):
+        """One path per Republican province, for the atoms built from them.
+
+        Hovering can then name the province as well as the country. The paths
+        share the atom's fill and stroke colour, so the seams between them are
+        invisible until something asks for them."""
+        blocks = []
+        for pname, prings in provinces.get(key, []):
+            merged = dissolve(prings) if len(prings) > 1 else None
+            pieces = []
+            for ring in (merged or prings):
+                ring = clip_halfplanes(normalise_ring(ring), frame)
+                if len(ring) < 3:
+                    continue
+                pts = simplify([project(x, y) for x, y in ring], args.tolerance)
+                if len(pts) >= 3 and ring_area(pts) >= args.min_area:
+                    pieces.append(ring_to_path(pts))
+            if pieces:
+                blocks.append((pname, "".join(pieces)))
+        return blocks
+
+
     out = ['<?xml version="1.0" encoding="utf-8"?>']
     out.append(
         f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {fmt(WIDTH)} {fmt(HEIGHT)}" '
@@ -1301,31 +1323,15 @@ def main():
         '<line x1="0" y1="0" x2="0" y2="9" stroke="#e0781f" stroke-opacity="0.85" stroke-width="3.4"/>'
         "</pattern>"
     )
-    if "china" in paths:
-        out.append(f'    <clipPath id="clip-china"><path d="{paths["china"]}"/></clipPath>')
+    # The occupied zone is clipped to China's land. Clip it to the shape that
+    # is actually drawn — the union of the provinces — and not to the dissolved
+    # outline of the same rings, which simplifies to a slightly different
+    # coastline and let the shading hang out over the water.
+    china_drawn = "".join(pd for _, pd in province_paths("china")) or paths.get("china", "")
+    if china_drawn:
+        out.append(f'    <clipPath id="clip-china"><path d="{china_drawn}"/></clipPath>')
     out.append("  </defs>")
     out.append(f'  <rect id="ocean" x="0" y="0" width="{fmt(WIDTH)}" height="{fmt(HEIGHT)}"/>')
-    def province_paths(key):
-        """One path per Republican province, for the atoms built from them.
-
-        Hovering can then name the province as well as the country. The paths
-        share the atom's fill and stroke colour, so the seams between them are
-        invisible until something asks for them."""
-        blocks = []
-        for pname, prings in provinces.get(key, []):
-            merged = dissolve(prings) if len(prings) > 1 else None
-            pieces = []
-            for ring in (merged or prings):
-                ring = clip_halfplanes(normalise_ring(ring), frame)
-                if len(ring) < 3:
-                    continue
-                pts = simplify([project(x, y) for x, y in ring], args.tolerance)
-                if len(pts) >= 3 and ring_area(pts) >= args.min_area:
-                    pieces.append(ring_to_path(pts))
-            if pieces:
-                blocks.append((pname, "".join(pieces)))
-        return blocks
-
     out.append('  <g id="land">')
     for key in ordered:
         ax, ay, area = anchors[key]
