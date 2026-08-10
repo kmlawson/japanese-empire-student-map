@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<meta name="description" content="Interactive map for revising the geography of the Japanese Empire: colonies, occupied territories, neighbouring states, cities and battles, 1853-1945.">
+<title>The Japanese Empire — Map Practice</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23f4f1ea'/%3E%3Ccircle cx='16' cy='16' r='8' fill='%23a8322b'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header id="bar">
+  <h1>The Japanese Empire</h1>
+
+  <div class="seg" role="group" aria-label="Mode">
+    <button type="button" data-mode="explore" class="on">Explore</button>
+    <button type="button" data-mode="quiz">Quiz</button>
+  </div>
+
+  <div class="seg" role="group" aria-label="Date shown" id="epoch-seg"></div>
+
+  <div class="seg" role="group" aria-label="Level" id="level-seg">
+    <button type="button" data-level="1" class="on">Basic</button>
+    <button type="button" data-level="2">Intermediate</button>
+    <button type="button" data-level="3">Advanced</button>
+  </div>
+
+  <div class="seg" role="group" aria-label="Language of place names" id="lang-seg">
+    <button type="button" data-lang="en" class="on">English</button>
+    <button type="button" data-lang="ja" lang="ja">日本語</button>
+    <button type="button" data-lang="zh" lang="zh-Hant">中文</button>
+    <button type="button" data-lang="ko" lang="ko">한국어</button>
+  </div>
+
+  <span class="spacer"></span>
+  <button type="button" id="btn-options" class="plain" aria-haspopup="dialog">Layers</button>
+  <button type="button" id="btn-about" class="plain" aria-haspopup="dialog">About</button>
+</header>
+
+<main id="stage">
+  <div id="map-container" aria-label="Map of East Asia and the Pacific" role="application">
+    <div id="map-svg"><p id="loading">Loading map…</p></div>
+
+    <div id="zoom-controls">
+      <button type="button" id="zoom-in" aria-label="Zoom in">+</button>
+      <button type="button" id="zoom-out" aria-label="Zoom out">−</button>
+      <button type="button" id="zoom-reset" aria-label="Reset the view">⤢</button>
+    </div>
+  </div>
+
+  <div id="tooltip" role="status" aria-live="off" hidden></div>
+
+  <aside id="side">
+  <div id="legend" hidden></div>
+
+  <section id="info" hidden aria-live="polite">
+    <button type="button" id="info-close" aria-label="Close">×</button>
+    <p class="chip"></p>
+    <h2 class="primary"></h2>
+    <p class="alt"></p>
+    <p class="when"></p>
+    <p class="note"></p>
+  </section>
+
+  <section id="quiz" hidden>
+    <div class="quiz-head">
+      <p class="score"><span id="q-correct">0</span> / <span id="q-asked">0</span><span id="q-total"></span></p>
+      <button type="button" id="q-end" class="plain">End quiz</button>
+    </div>
+    <p class="prompt"><span class="lead">Find:</span> <strong id="q-target"></strong></p>
+    <p class="feedback" id="q-feedback"></p>
+    <div class="quiz-actions">
+      <button type="button" id="q-reveal">Show me</button>
+      <button type="button" id="q-skip" class="plain">Skip</button>
+    </div>
+  </section>
+  </aside>
+</main>
+
+<dialog id="dlg-options">
+  <form method="dialog"><button class="x" aria-label="Close">×</button></form>
+  <h2>Layers</h2>
+  <p class="hint">Choose what the quiz asks about and what appears on the map. Territories are always
+     clickable whatever the level, so you can check anything you can see.</p>
+  <div id="cat-toggles"></div>
+  <hr>
+  <label class="row"><input type="checkbox" id="opt-labels"> Show names on the map</label>
+  <p class="hint">Names are placed so they do not overlap, so at a wide zoom only some of them fit.
+     Zoom in and more appear.</p>
+  <label class="row"><input type="checkbox" id="opt-extent"> Show the 1942 greatest-extent line</label>
+  <p class="hint">A dashed perimeter traced from the "War in the Pacific" map in Andrew Gordon,
+     <em>A Modern History of Japan: From Tokugawa Times to the Present</em>. It shows on the Late 1942
+     map only. Out at sea it marks how far the navy reached rather than territory held, and across China
+     it generalises a front that was broad, shifting and porous — which is why it does not follow the
+     edge of the shaded occupied zone, drawn here at province level. The two disagree because they are
+     measuring different things.</p>
+</dialog>
+
+<dialog id="dlg-about">
+  <form method="dialog"><button class="x" aria-label="Close">×</button></form>
+  <h2>About this map</h2>
+  <p>This interactive map is for practising the geography of the Japanese Empire: the home islands,
+     the formal colonies, the occupied territories and puppet states, the neighbouring countries, and
+     the cities, ports and battlefields that recur in the history of modern Japan from Perry's arrival
+     in 1853 to the surrender in 1945.</p>
+
+  <h3>How to use it</h3>
+  <ul>
+    <li><strong>1930 / Late 1942</strong> — which map you are looking at. In 1930 the colours show whose
+        empire each place belonged to, on the eve of the Manchurian Incident. In late 1942 they show how
+        Japan held what it had taken, at the greatest extent of the empire.</li>
+    <li><strong>Explore</strong> — hover over, or tap, any territory or marker to see what it is, what it
+        was called, when it changed hands, and why it matters.</li>
+    <li><strong>Quiz</strong> — you are asked to find a place and you click it on the map. Your score and
+        the places you missed are reported at the end.</li>
+    <li><strong>Basic / Intermediate / Advanced</strong> — how many places the quiz asks about, and how
+        many names appear on the map. Every territory stays clickable at every level.</li>
+    <li><strong>English / 日本語 / 中文 / 한국어</strong> — which name is shown. English gives the name
+        as it was used at the time, with the present-day name after it where they differ: Mukden
+        (Shenyang), Taihoku (Taipei), Peking (Beijing), Batavia (Jakarta). Japanese gives the
+        imperial-period form — Keijō for Seoul, Shinkyō for Changchun, Shōnantō for Singapore. Chinese
+        is in traditional characters, as the period used them; Korean is in hangul with McCune-Reischauer
+        romanisation. Explanatory notes stay in English throughout.</li>
+  </ul>
+
+  <h3>A caution about borders</h3>
+  <p>Inside China the boundaries are the real provinces of 1928–45, so Manchukuo is Liaoning, Jilin,
+     Heilongjiang and Jehol as they actually stood, and Mengchiang is Chahar and Suiyuan. Karafuto is
+     Sakhalin south of the 50th parallel, which is where the border ran, and the Kwantung Leased
+     Territory is cut across the Liaodong isthmus on the line of the 1898 lease. Elsewhere, modern
+     coastlines and outlines stand in for historical ones — fine for coasts, rough for land borders.</p>
+  <p>The one deliberately coarse thing is the area of occupied China, which is drawn as whole provinces
+     and labelled as approximate. Japanese control there ran along the railways and around the cities,
+     and much of the countryside inside the line was held by Communist and Nationalist guerrillas. The
+     coastal enclaves outside it — Canton, Amoy, Hainan — are marked as cities rather than territory.</p>
+  <p>Where several modern states made up one historical territory they are drawn as a single shape with
+     no boundary between them, because there was none: British India has no line at the Punjab, French
+     Indochina none at the Mekong, Korea none at the 38th parallel. Present-day borders that had not
+     been drawn yet do not appear.</p>
+  <p>The front line moved constantly between 1931 and 1945, and any single date is a snapshot. For close
+     work, use a proper historical atlas.</p>
+
+  <h3>Sources and credits</h3>
+  <p>Base geometry from <a href="https://www.naturalearthdata.com/">Natural Earth</a> 1:50m vector data,
+     which is in the public domain, and Chinese provincial boundaries for 1928–45 from the
+     <a href="https://enepchina.hypotheses.org/3554">ENP-China</a> project (CC BY 4.0) — the actual
+     provinces of the Republican period, so Manchukuo, Jehol and Mengchiang have their historical
+     outlines rather than an approximation of them.
+     The place list is drawn from the timelines of modern Japanese history used in this module, which in
+     turn rest on Andrew Gordon, <em>A Modern History of Japan</em>; Elise K. Tipton,
+     <em>Modern Japan</em>; Brett L. Walker, <em>A Concise History of Japan</em>; Mikiso Hane and
+     Louise G. Perez, <em>Modern Japan</em>; Kenneth Henshall, <em>Historical Dictionary of Japan to
+     1945</em>; and Jeremy A. Yellen, <em>Japan at War, 1914–1952</em>.</p>
+  <p>Built with Anthropic's Claude, with Konrad Lawson at the prompt, as a companion to the
+     interactive map of modern China used elsewhere in this module.</p>
+</dialog>
+
+<script src="data.js"></script>
+<script src="map.js"></script>
+</body>
+</html>

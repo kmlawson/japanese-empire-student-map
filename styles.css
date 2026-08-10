@@ -1,0 +1,698 @@
+/* The Japanese Empire — map practice
+   Layout is a fixed app shell: a control bar on top, the map filling the rest.
+   Nothing scrolls except the dialogs, so the map never runs away on a phone. */
+
+:root {
+  --bg: #f4f1ea;
+  --ink: #23201b;
+  --muted: #6b6459;
+  --line: #cec7b8;
+  --panel: #fffdf8;
+  --accent: #a8322b;
+  --accent-soft: #f6e2df;
+
+  --ocean: #cadfeb;
+  --inactive: #ded8cb;
+  --inactive-line: #b9b1a1;
+
+  --c-metropole: #a8322b;
+  --c-colony: #d97b3e;
+  --c-occupied: #edc04b;
+  --c-neighbor: #bfcedd;
+  --c-city: #1f3d5c;
+  --c-battle: #8e1f57;
+
+  --bar-h: auto;
+  --shadow: 0 2px 10px rgba(35, 32, 27, .16);
+  --safe-b: env(safe-area-inset-bottom, 0px);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  color: var(--ink);
+  font: 15px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* ---------------------------------------------------------------- bar --- */
+
+#bar {
+  flex: 0 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 10px;
+  padding: 8px 12px;
+  padding-top: max(8px, env(safe-area-inset-top, 0px));
+  background: var(--panel);
+  border-bottom: 1px solid var(--line);
+  box-shadow: var(--shadow);
+  z-index: 20;
+}
+
+#bar h1 {
+  margin: 0 6px 0 0;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: .01em;
+  white-space: nowrap;
+}
+
+#bar .spacer { flex: 1 1 auto; }
+
+.seg {
+  display: inline-flex;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.seg button {
+  appearance: none;
+  border: 0;
+  border-left: 1px solid var(--line);
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: 14px;
+  padding: 7px 12px;
+  min-height: 38px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.seg button:first-child { border-left: 0; }
+.seg button:hover { background: #f2ede2; color: var(--ink); }
+
+.seg button.on {
+  background: var(--accent);
+  color: #fff;
+  font-weight: 600;
+}
+
+button.plain {
+  appearance: none;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--ink);
+  font: inherit;
+  font-size: 14px;
+  padding: 7px 12px;
+  min-height: 38px;
+  cursor: pointer;
+}
+
+button.plain:hover { background: #f2ede2; }
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* -------------------------------------------------------------- stage --- */
+
+#stage {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  background: var(--ocean);
+}
+
+/* Below the sidebar breakpoint the panels float over the map; the wrapper
+   gets out of the way so their absolute positioning still resolves to
+   #stage. */
+#side { display: contents; }
+
+#map-container {
+  position: absolute;
+  inset: 0;
+  touch-action: none;          /* we drive pan and zoom ourselves */
+  cursor: grab;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+#map-container.dragging { cursor: grabbing; }
+#map-container.quizzing { cursor: crosshair; }
+
+#map-svg {
+  position: absolute;
+  inset: 0;
+}
+
+#map-container svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+#loading, .load-error {
+  margin: 0;
+  padding: 24px;
+  color: var(--muted);
+}
+
+.load-error code {
+  display: inline-block;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  padding: 2px 6px;
+  font-size: 13px;
+}
+
+/* --------------------------------------------------------------- map ---- */
+
+#ocean { fill: var(--ocean); }
+
+/* Atoms are painted fill *and* stroke in the same colour. Two atoms of one
+   territory then show no boundary at all — which is the point: there was no
+   line between North and South Korea in 1942, none between India and Pakistan
+   under the Raj, and none along the Mekong in French Indochina. The stroke
+   also closes the anti-aliasing hairline where two polygons abut. */
+.atom {
+  fill: var(--c, var(--inactive));
+  stroke: var(--c, var(--inactive));
+  stroke-width: .9;
+  stroke-linejoin: round;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+/* Highlighting is applied to every atom of a territory at once, from JS. A
+   plain :hover would light up only the polygon under the pointer and make the
+   seams between atoms of one territory look like real boundaries — China
+   would appear to be two countries. */
+.atom.hot { filter: brightness(1.12); }
+
+.atom.sel {
+  stroke: #14110c;
+  stroke-width: 2.2;
+  paint-order: stroke;
+}
+
+.site.sel .dot {
+  stroke: #14110c;
+  stroke-width: 2.5;
+  paint-order: stroke;
+}
+
+/* The modern outline of China, drawn beneath the Republican provinces. The two
+   sources disagree about the land border by a few kilometres here and there,
+   and without this those disagreements open as slivers of ocean at deep zoom. */
+#chinabase {
+  fill: var(--c, var(--inactive));
+  stroke: var(--c, var(--inactive));
+  stroke-width: 1.2;
+  stroke-linejoin: round;
+  pointer-events: none;
+}
+
+/* Gordon's greatest-extent perimeter */
+#extent-1942 {
+  fill: none;
+  stroke: #7a1020;
+  stroke-width: 2.6;
+  stroke-dasharray: 12 7;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  pointer-events: none;
+  opacity: .85;
+}
+
+#legend .sw.line {
+  height: 0;
+  border: 0;
+  border-top: 2.5px dashed #7a1020;
+  border-radius: 0;
+  align-self: center;
+}
+
+#legend .legend-src {
+  margin: 1px 0 0 21px;
+  font-size: 11px;
+  font-style: italic;
+  color: var(--muted);
+}
+
+/* an invisible, finger-sized target over territories too small to hit */
+.atom-hit {
+  fill: transparent;
+  stroke: none;
+}
+
+.atom-hit.hot { filter: none; }
+.atom-hit.sel { stroke: none; }
+
+/* the occupied-China shading, drawn over its own territory */
+.hatch-fill {
+  fill: url(#hatch);
+  stroke: none;
+  pointer-events: none;
+}
+
+.site { pointer-events: auto; cursor: pointer; }
+.site .hit { fill: transparent; stroke: none; }
+.site .dot { fill: var(--c, var(--c-city)); stroke: #fffdf8; stroke-width: 1.6; }
+.site:hover .dot { stroke: #14110c; stroke-width: 2.2; }
+
+.tlabel, .slabel {
+  pointer-events: none;
+  text-anchor: middle;
+  paint-order: stroke;
+  stroke: #fffdf8;
+  stroke-width: 3.5px;
+  stroke-linejoin: round;
+  font-weight: 600;
+}
+
+/* font-size stays on the presentation attribute — the labels carry a scale()
+   transform sized so that one local unit is one screen pixel, and map.js needs
+   the same number to estimate label widths for collision testing.
+   No text-transform: uppercasing a territory name is a fine cartographic
+   convention in English but shouts the romanisations in the other two
+   columns, so territories are set apart by size and colour instead. */
+.tlabel { fill: #4a3b2a; letter-spacing: .07em; font-weight: 700; }
+.slabel { fill: #14304a; font-weight: 600; }
+
+@keyframes flash {
+  0%, 100% { filter: none; }
+  25%, 75% { filter: brightness(1.5) saturate(1.6); }
+}
+
+.reveal { animation: flash .5s ease-in-out 3; }
+
+/* Never animate `transform` here: site markers carry a transform attribute
+   that a CSS transform would override, throwing the marker off its position. */
+@keyframes wrong-flash {
+  0%, 100% { filter: none; }
+  40% { filter: grayscale(1) brightness(.6); }
+}
+
+.wrong { animation: wrong-flash .45s ease-in-out 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal, .wrong { animation: none; }
+  .reveal { filter: brightness(1.45) saturate(1.5); }
+}
+
+/* ------------------------------------------------------------ overlays -- */
+
+#zoom-controls {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  z-index: 6;
+}
+
+#zoom-controls button {
+  appearance: none;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 253, 248, .94);
+  color: var(--ink);
+  font-size: 19px;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+}
+
+#zoom-controls button:hover { background: #fff; }
+
+#legend {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  max-width: min(46vw, 280px);
+  padding: 8px 10px;
+  background: rgba(255, 253, 248, .94);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  font-size: 12.5px;
+  z-index: 5;
+}
+
+#legend .item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 1px 0;
+}
+
+#legend .sw {
+  flex: 0 0 auto;
+  width: 14px;
+  height: 12px;
+  border-radius: 3px;
+  border: 1px solid rgba(0, 0, 0, .25);
+}
+
+#legend .sw.round { border-radius: 50%; width: 12px; }
+#legend .sw.diamond { border-radius: 2px; transform: rotate(45deg) scale(.82); }
+
+#legend .legend-head {
+  margin: 0 0 5px;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+#tooltip {
+  position: fixed;
+  z-index: 30;
+  pointer-events: none;
+  max-width: 260px;
+  padding: 5px 9px;
+  background: #23201b;
+  color: #fdfbf6;
+  border-radius: 6px;
+  font-size: 13.5px;
+  line-height: 1.35;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, .3);
+}
+
+#tooltip .sub {
+  display: block;
+  color: #cfc6b6;
+  font-size: 12px;
+}
+
+/* -------------------------------------------------------- info & quiz --- */
+
+/* Bottom-right on a wide screen: that corner of this particular map is open
+   Pacific, so the card hides almost nothing. Bottom-left would sit squarely on
+   Singapore and Java. */
+#info, #quiz {
+  position: absolute;
+  right: 10px;
+  bottom: calc(10px + var(--safe-b));
+  width: min(400px, calc(100% - 20px));
+  padding: 12px 14px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  z-index: 8;
+}
+
+#info-close {
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  appearance: none;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font-size: 22px;
+  line-height: 1;
+  padding: 4px 8px;
+  cursor: pointer;
+}
+
+#info .chip {
+  margin: 0 0 4px;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+#info .chip::before {
+  content: "";
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  margin-right: 6px;
+  vertical-align: -1px;
+  background: var(--chip, var(--muted));
+}
+
+#info h2 {
+  margin: 0;
+  font-size: 19px;
+  line-height: 1.25;
+  padding-right: 22px;
+}
+
+#info .alt {
+  margin: 3px 0 0;
+  color: var(--muted);
+  font-size: 13.5px;
+}
+
+#info .when {
+  margin: 6px 0 0;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+#info .when[hidden] { display: none; }
+
+#info .note {
+  margin: 8px 0 0;
+  font-size: 13.5px;
+  max-height: 30vh;
+  overflow-y: auto;
+}
+
+#quiz .quiz-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+#quiz .score {
+  margin: 0;
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+#quiz .prompt { margin: 0; font-size: 19px; line-height: 1.3; }
+#quiz .prompt .lead { color: var(--muted); font-size: 13px; text-transform: uppercase; letter-spacing: .07em; }
+#quiz .prompt strong { display: block; }
+
+#quiz .feedback { margin: 6px 0 0; font-size: 13.5px; min-height: 1.2em; }
+#quiz .feedback.good { color: #17693f; }
+#quiz .feedback.bad  { color: var(--accent); }
+
+#quiz .quiz-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+#quiz button {
+  appearance: none;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  font: inherit;
+  font-size: 14px;
+  padding: 8px 14px;
+  min-height: 40px;
+  cursor: pointer;
+}
+
+#quiz #q-reveal { background: var(--accent); border-color: var(--accent); color: #fff; }
+#quiz .summary { margin: 6px 0 0; font-size: 13.5px; }
+#quiz .summary ul { margin: 6px 0 0; padding-left: 18px; max-height: 26vh; overflow-y: auto; }
+
+/* ------------------------------------------------------------ dialogs --- */
+
+dialog {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 22px 24px;
+  max-width: 640px;
+  width: calc(100% - 32px);
+  max-height: 85vh;
+  overflow-y: auto;
+  background: var(--panel);
+  color: var(--ink);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, .3);
+}
+
+dialog::backdrop { background: rgba(35, 32, 27, .45); }
+dialog h2 { margin: 0 0 10px; font-size: 20px; }
+dialog h3 { margin: 18px 0 6px; font-size: 15px; }
+dialog p, dialog li { font-size: 14px; }
+dialog a { color: var(--accent); }
+
+dialog .x {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  appearance: none;
+  border: 0;
+  background: none;
+  font-size: 24px;
+  line-height: 1;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 4px 8px;
+}
+
+dialog .hint { color: var(--muted); font-size: 13px; }
+dialog hr { border: 0; border-top: 1px solid var(--line); margin: 16px 0; }
+
+dialog label.row,
+#cat-toggles label {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 0;
+  cursor: pointer;
+  font-size: 14.5px;
+}
+
+dialog input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--accent);
+  flex: 0 0 auto;
+}
+
+#cat-toggles .sw {
+  width: 15px;
+  height: 13px;
+  border-radius: 3px;
+  border: 1px solid rgba(0, 0, 0, .25);
+  flex: 0 0 auto;
+}
+
+#cat-toggles .sw.round { border-radius: 50%; width: 13px; }
+#cat-toggles .sw.diamond { border-radius: 2px; transform: rotate(45deg) scale(.82); }
+
+/* --------------------------------------------------------- responsive --- */
+
+/* On a wide screen the legend and the detail card move into a column of their
+   own. Floating them over the map meant part of the map could never be
+   clicked, which matters in the quiz, where the answer may be underneath. */
+@media (min-width: 1000px) {
+  #stage { display: flex; }
+
+  #map-container {
+    position: relative;
+    inset: auto;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  #side {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 0 0 340px;
+    padding: 12px;
+    overflow-y: auto;
+    background: var(--panel);
+    border-left: 1px solid var(--line);
+  }
+
+  /* relative, not static: the info card's close button is positioned against
+     it, and static would send it off to the stage corner */
+  #legend, #info, #quiz {
+    position: relative;
+    inset: auto;
+    width: auto;
+    max-width: none;
+    box-shadow: none;
+  }
+
+  #legend { background: transparent; border: 0; padding: 0; font-size: 13px; }
+  #legend .item { padding: 2px 0; }
+  #info .note { max-height: none; }
+  #quiz .prompt strong { font-size: 21px; }
+}
+
+@media (max-width: 900px) {
+  #bar { gap: 6px 8px; padding: 6px 8px; }
+  #bar h1 { font-size: 15px; width: 100%; margin: 0; }
+  .seg button { padding: 7px 10px; font-size: 13.5px; }
+  #legend { font-size: 11.5px; padding: 6px 8px; }
+}
+
+@media (max-width: 620px) {
+  #bar h1 { display: none; }
+  #bar .spacer { display: none; }
+  .seg button { padding: 8px 9px; font-size: 13px; }
+  button.plain { padding: 8px 10px; font-size: 13px; }
+
+  #legend {
+    top: auto;
+    bottom: calc(10px + var(--safe-b));
+    left: 10px;
+    right: 10px;
+    max-width: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px 12px;
+  }
+
+  /* the legend and the detail sheet both live at the bottom on a phone;
+     the sheet wins whenever one is open */
+  body.panel-open #legend { display: none; }
+
+  /* the info card and quiz card become bottom sheets */
+  #info, #quiz {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: auto;
+    border-radius: 14px 14px 0 0;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 0;
+    padding-bottom: calc(12px + var(--safe-b));
+    max-height: 62%;
+    overflow-y: auto;
+  }
+
+  #info .note { max-height: none; }
+
+  #zoom-controls { top: 8px; right: 8px; }
+  #zoom-controls button { width: 44px; height: 44px; }
+
+  dialog {
+    width: 100%;
+    max-width: none;
+    max-height: 88vh;
+    margin: auto auto 0;
+    border-radius: 14px 14px 0 0;
+    padding: 20px 18px calc(20px + var(--safe-b));
+  }
+}
+
+@media (hover: none) {
+  .site:hover .dot { stroke: #fffdf8; stroke-width: 1.6; }
+}

@@ -1,0 +1,8 @@
+.DS_Store
+*.pyc
+__pycache__/
+
+# Reference material used while building: the companion China map and the
+# course timelines the place list was drawn from. Not part of this project,
+# and not mine to republish.
+inspiration/
