@@ -254,7 +254,7 @@ SIAM_SPLITS = {
 DEI_RESIDENCIES = {
     "Aceh": "Atjeh",
     "North Sumatra": "SumatraEastCoast", "West Sumatra": "SumatraWestCoast",
-    "Riau": "Riouw", "Riau Islands": "Riouw", "Jambi": "Djambi",
+    "Riau": "SumatraEastCoast", "Riau Islands": "Riouw", "Jambi": "Djambi",
     "South Sumatra": "Palembang", "Bangka-Belitung Islands": "BankaBilliton",
     "Bengkulu": "Benkoelen", "Lampung": "Lampongs",
     "Banten": "WestJava", "Jakarta Special Capital Region": "WestJava",
@@ -832,13 +832,15 @@ ARCHIPELAGOS = {
     "nanyo", "gilberts", "ogasawara", "guam", "chishima", "aleutians",
     "hawaii", "ryukyu", "newguinea_au", "solomons_br", "philippines",
     "timor_pt", "andaman", "nauru_au", "hongkong", "macau", "northborneo",
+    "malaya",
 }
 
-# Drawn last so they sit on top of whatever they were carved out of.
-ON_TOP = ["kwantung"]
+# Drawn after the occupied shading, so the small enclaves it would otherwise
+# bury are still there to see and to click.
+ON_TOP = ["weihaiwei", "guangzhouwan", "macau", "hongkong", "kwantung"]
 
 ORDER = [
-    "chinabase_ne", "chinabase_sw", "andaman", "ceylon", "ussr", "mongolia", "tibet",
+    "chinabase", "andaman", "ceylon", "ussr", "mongolia", "tibet",
     "china", "xinjiang", "india", "hyderabad", "goa", "pondicherry",
     "other", "nepal", "sikkim", "bhutan",
     "tuva", "weihaiwei", "guangzhouwan", "chahar", "suiyuan", "jehol", "manchuria",
@@ -875,13 +877,16 @@ def main():
             # the land border in slightly different places, and without
             # something underneath those disagreements show as slivers of
             # ocean between China and its neighbours at deep zoom.
-            ne_side = [line_plane((115.5, 44.2), (120.2, 39.6), keep_right=True)]
-            sw_side = [line_plane((115.5, 44.2), (120.2, 39.6), keep_right=False)]
+            #
+            # It used to be cut in two so each half could take the colour of
+            # what sits on top of it. That put a straight line of land across
+            # the Bohai Gulf — the cut leaves the coast at Shanhaiguan and
+            # comes ashore again on the Liaodong peninsula — and it made every
+            # seam along a frontier read as one country leaking into another.
+            # One piece in a neutral land colour is both simpler and honester:
+            # a seam then looks like a seam.
             for ring in iter_rings(feat["geometry"]):
-                for key, planes in (("chinabase_ne", ne_side), ("chinabase_sw", sw_side)):
-                    piece = clip_halfplanes(ring, planes)
-                    if len(piece) >= 3:
-                        groups[key].append(piece)
+                groups["chinabase"].append(ring)
             continue
         if admin == "Russia":
             for ring in iter_rings(feat["geometry"]):
@@ -1277,6 +1282,9 @@ def main():
         stats.append((key, len(pieces), len(paths[key]), "dissolved" if merged else "raw"))
 
     ordered = [k for k in ORDER if k in paths] + [k for k in paths if k not in ORDER]
+    # the enclaves that have to survive the occupied shading are held back and
+    # drawn after it
+    ordered = [k for k in ordered if k not in ON_TOP]
 
     def province_paths(key):
         """One path per Republican province, for the atoms built from them.
@@ -1333,7 +1341,7 @@ def main():
     out.append("  </defs>")
     out.append(f'  <rect id="ocean" x="0" y="0" width="{fmt(WIDTH)}" height="{fmt(HEIGHT)}"/>')
     out.append('  <g id="land">')
-    for key in ordered:
+    def emit(key):
         ax, ay, area = anchors[key]
         meta = f'data-cx="{fmt(ax)}" data-cy="{fmt(ay)}" data-area="{int(area)}"'
         if key in hits:
@@ -1341,18 +1349,21 @@ def main():
             meta += f' data-hits="{pts}"'
         if key.startswith("chinabase"):
             out.append(f'    <path id="{key}" class="chinabase" d="{paths[key]}"/>')
-            continue
+            return
         blocks = province_paths(key)
         specks = dots.get(key) or []
         if blocks:
             out.append(f'    <g id="a-{key}" class="atom" {meta}>')
             for pname, pd in blocks:
-                out.append(f'      <path data-prov="{pname}" d="{pd}"/>')
+                # an unnamed leftover gets no attribute at all: an empty one
+                # reads as a sub-unit that can never be named or outlined
+                attr = f' data-prov="{pname}"' if pname else ""
+                out.append(f'      <path{attr} d="{pd}"/>')
             for cx, cy, r in specks:
                 out.append(f'      <circle class="islet-hit" cx="{fmt(cx)}" cy="{fmt(cy)}" r="{fmt(r)}"/>')
                 out.append(f'      <circle class="islet" cx="{fmt(cx)}" cy="{fmt(cy)}" r="{fmt(r)}"/>')
             out.append("    </g>")
-            continue
+            return
         if specks:
             out.append(f'    <g id="a-{key}" class="atom" {meta}>')
             out.append(f'      <path d="{paths[key]}"/>')
@@ -1362,12 +1373,17 @@ def main():
             out.append("    </g>")
         else:
             out.append(f'    <path id="a-{key}" class="atom" {meta} d="{paths[key]}"/>')
+    for key in ordered:
+        emit(key)
     if occ_path:
         ax, ay, area = occ_anchor
         out.append(
             f'    <path id="a-occupiedzone" class="atom" clip-path="url(#clip-china)" '
             f'data-cx="{fmt(ax)}" data-cy="{fmt(ay)}" data-area="{int(area)}" d="{occ_path}"/>'
         )
+    for key in ON_TOP:
+        if key in paths:
+            emit(key)
     out.append("  </g>")
     if extent_path:
         out.append(f'  <path id="extent-1942" fill="none" d="{extent_path}"/>')

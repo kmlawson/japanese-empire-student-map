@@ -25,6 +25,8 @@
   --bar-h: auto;
   --shadow: 0 2px 10px rgba(35, 32, 27, .16);
   --safe-b: env(safe-area-inset-bottom, 0px);
+  --safe-l: env(safe-area-inset-left, 0px);
+  --safe-r: env(safe-area-inset-right, 0px);
 }
 
 * { box-sizing: border-box; }
@@ -55,6 +57,8 @@ body {
   gap: 8px 10px;
   padding: 8px 12px;
   padding-top: max(8px, env(safe-area-inset-top, 0px));
+  padding-left: max(12px, var(--safe-l));
+  padding-right: max(12px, var(--safe-r));
   background: var(--panel);
   border-bottom: 1px solid var(--line);
   box-shadow: var(--shadow);
@@ -116,6 +120,19 @@ button.plain {
 }
 
 button.plain:hover { background: #f2ede2; }
+
+/* Two labels per button: the words on a screen with room for them, a single
+   character when the header would otherwise wrap into four rows and take a
+   quarter of a phone. */
+.seg button .narrow { display: none; }
+
+/* A finger is not a mouse pointer. Anything below about 44px is a miss
+   waiting to happen, so the controls grow on a touch screen. */
+@media (pointer: coarse) {
+  .seg button, button.plain { min-height: 44px; }
+  dialog label.row { min-height: 44px; align-items: center; }
+  #quiz button { min-height: 44px; }
+}
 
 :focus-visible {
   outline: 2px solid var(--accent);
@@ -188,11 +205,19 @@ button.plain:hover { background: #f2ede2; }
   fill: var(--c, var(--inactive));
   stroke: var(--c, var(--inactive));
   vector-effect: non-scaling-stroke;
-  stroke-width: .9;
+  /* wide enough to close the hairline cracks that open between provinces
+     drawn from adjacent source polygons that no longer share an edge once
+     they have been simplified */
+  stroke-width: 1.3;
   stroke-linejoin: round;
   pointer-events: auto;
   cursor: pointer;
 }
+
+/* vector-effect does not inherit, so an atom drawn as a group of provinces
+   needs it stated on the children too. Without it their stroke grows with the
+   zoom and the fill spreads a dozen pixels past the real coastline. */
+.atom > path, .atom > circle { vector-effect: non-scaling-stroke; }
 
 /* Highlighting is applied to every atom of a territory at once, from JS. A
    plain :hover would light up only the polygon under the pointer and make the
@@ -205,11 +230,20 @@ button.plain:hover { background: #f2ede2; }
 
 /* A unit inside a larger territory that shares its colour — the land ceded to
    Thailand in 1941, the four northern Malay states — outlined so it can be
-   seen and clicked without being coloured as if it were something else. */
-.atom.sub-unit {
-  stroke: rgba(60, 50, 40, .5);
-  stroke-width: .8;
-  stroke-dasharray: 3 2;
+   seen and clicked without being coloured as if it were something else. The
+   line is drawn in a layer of its own and masked to the silhouette, because a
+   dashed stroke on the group is inherited by every province inside it and
+   draws boundaries where the territory had none. */
+#sub-outlines { pointer-events: none; }
+
+#sub-outlines .sub-outline path,
+#sub-outlines .sub-outline circle {
+  fill: none;
+  vector-effect: non-scaling-stroke;
+  stroke: rgba(60, 50, 40, .55);
+  stroke-width: 1.8;
+  stroke-dasharray: 5 3.5;
+  stroke-linejoin: round;
 }
 
 /* Outlines live above the map. The mask keeps only the half of each stroke
@@ -225,20 +259,20 @@ button.plain:hover { background: #f2ede2; }
 
 #highlight .hi-territory path,
 #highlight .hi-territory circle {
-  stroke: rgba(40, 33, 24, .75);
-  stroke-width: 3;
+  stroke: rgba(40, 33, 24, .8);
+  stroke-width: 4;
 }
 
 #highlight .hi-province path,
 #highlight .hi-province circle {
-  stroke: rgba(30, 24, 16, .65);
-  stroke-width: 2;
+  stroke: rgba(30, 24, 16, .7);
+  stroke-width: 3;
 }
 
 #highlight .hi-selected path,
 #highlight .hi-selected circle {
   stroke: #14110c;
-  stroke-width: 5;
+  stroke-width: 6;
 }
 
 .site.sel .dot {
@@ -250,8 +284,11 @@ button.plain:hover { background: #f2ede2; }
 /* The modern outline of China, drawn beneath the Republican provinces. The two
    sources disagree about the land border by a few kilometres here and there,
    and without this those disagreements open as slivers of ocean at deep zoom. */
+/* A neutral land colour, not a country's: where the two sources disagree the
+   sliver then reads as a seam rather than as one country leaking into the
+   next. */
 .chinabase {
-  fill: var(--c, var(--inactive));
+  fill: var(--inactive);
   stroke: none;
   pointer-events: none;
 }
@@ -428,12 +465,12 @@ button.plain:hover { background: #f2ede2; }
 
 #zoom-controls {
   position: absolute;
-  right: 10px;
+  right: max(10px, var(--safe-r));
   top: 10px;
   display: flex;
   flex-direction: column;
   gap: 6px;
-  z-index: 6;
+  z-index: 9;          /* above the info and quiz cards, not under them */
 }
 
 #zoom-controls button {
@@ -454,9 +491,14 @@ button.plain:hover { background: #f2ede2; }
 
 #legend {
   position: absolute;
-  left: 10px;
+  left: max(10px, var(--safe-l));
   top: 10px;
   max-width: min(46vw, 280px);
+  max-height: calc(100% - 20px);
+  overflow-y: auto;
+  /* a panel floating over the map must not eat the gestures meant for it:
+     only the rows themselves take the pointer */
+  pointer-events: none;
   padding: 8px 10px;
   background: rgba(255, 253, 248, .94);
   border: 1px solid var(--line);
@@ -465,6 +507,8 @@ button.plain:hover { background: #f2ede2; }
   font-size: 12.5px;
   z-index: 5;
 }
+
+#legend .legend-head { pointer-events: auto; }   /* the rows do nothing, so they let the map through */
 
 #legend .item {
   display: flex;
@@ -492,6 +536,7 @@ button.plain:hover { background: #f2ede2; }
   justify-content: space-between;
   gap: 10px;
   width: 100%;
+  min-height: 40px;
   margin: 0 0 5px;
   padding: 3px 0;
   border: 0;
@@ -551,9 +596,11 @@ button.plain:hover { background: #f2ede2; }
    Singapore and Java. */
 #info, #quiz {
   position: absolute;
-  right: 10px;
+  right: max(10px, var(--safe-r));
   bottom: calc(10px + var(--safe-b));
   width: min(400px, calc(100% - 20px));
+  max-height: calc(100% - 20px);
+  overflow-y: auto;
   padding: 12px 14px;
   background: var(--panel);
   border: 1px solid var(--line);
@@ -564,8 +611,10 @@ button.plain:hover { background: #f2ede2; }
 
 #info-close {
   position: absolute;
-  top: 4px;
-  right: 6px;
+  top: 2px;
+  right: 2px;
+  width: 44px;
+  height: 44px;
   appearance: none;
   border: 0;
   background: none;
@@ -693,18 +742,25 @@ dialog h3 { margin: 18px 0 6px; font-size: 15px; }
 dialog p, dialog li { font-size: 14px; }
 dialog a { color: var(--accent); }
 
+/* The dialogs scroll, and an absolutely positioned × scrolls away with the
+   text — on a phone, with no Escape key, that leaves no way out but to scroll
+   all the way back up. Sticky keeps it in the corner. */
 dialog .x {
-  position: absolute;
-  top: 10px;
-  right: 12px;
+  position: sticky;
+  float: right;
+  top: 0;
+  z-index: 2;
   appearance: none;
   border: 0;
-  background: none;
+  background: var(--panel);
+  border-radius: 8px;
+  width: 44px;
+  height: 44px;
   font-size: 24px;
   line-height: 1;
   color: var(--muted);
   cursor: pointer;
-  padding: 4px 8px;
+  padding: 0;
 }
 
 dialog .hint { color: var(--muted); font-size: 13px; }
@@ -780,16 +836,25 @@ dialog input[type="checkbox"] {
   #quiz .prompt strong { font-size: 21px; }
 }
 
+/* The header is charged against the map, so it loses parts as the screen
+   narrows: the title first, then the words on the level and language buttons.
+   At 360px wide that is the difference between four rows and two. */
+@media (max-width: 950px) {
+  #bar h1 { display: none; }
+}
+
 @media (max-width: 900px) {
   #bar { gap: 6px 8px; padding: 6px 8px; }
-  #bar h1 { font-size: 15px; width: 100%; margin: 0; }
   .seg button { padding: 7px 10px; font-size: 13.5px; }
+  #zoom-controls button { width: 44px; height: 44px; }
   #legend { font-size: 11.5px; padding: 6px 8px; }
 }
 
 @media (max-width: 620px) {
-  #bar h1 { display: none; }
   #bar .spacer { display: none; }
+  #level-seg button .wide, #lang-seg button .wide { display: none; }
+  #level-seg button .narrow, #lang-seg button .narrow { display: inline; }
+  #level-seg button, #lang-seg button { padding: 7px 13px; }
   .seg button { padding: 8px 9px; font-size: 13px; }
   button.plain { padding: 8px 10px; font-size: 13px; }
 

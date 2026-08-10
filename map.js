@@ -43,7 +43,7 @@
     browse: false,
     // the legend is worth its space on a big screen and costs too much of it
     // on a phone, so it starts folded there and remembers what you chose
-    legend: window.innerWidth >= 700,
+    legend: window.innerWidth >= 700 && window.innerHeight >= 600,
   };
 
   var container = $('#map-container');   // pointer target and size reference
@@ -58,6 +58,9 @@
   var hatchGroup = null;
   var chinaBase = null;   // modern China outline, under the provinces
   var highlightLayer = null;
+  var subOutlineLayer = null;
+  var hiDefs = null;
+  var ownedDefs = { hi: [], sub: [] };
   var proj = null;
   var mapW = 0, mapH = 0;
 
@@ -145,7 +148,7 @@
   }
 
   function siteVisible(s) {
-    if (s.kind === 'browse') return !!state.browse;
+    if (s.kind === 'browse') return browseVisible();
     return state.cats[s.cat] && s.lvl <= state.level && siteInEpoch(s);
   }
 
@@ -208,8 +211,18 @@
     proj.yTop = proj.R * Math.log(Math.tan(Math.PI / 4 + proj.latMax * Math.PI / 360));
 
     markersGroup = svg.querySelector('#markers');
+    // above the markers, not below them: a selection outline that a row of
+    // city dots can rub out is not much of an outline. It takes no pointer
+    // events, so nothing underneath becomes harder to hit.
+    // Masks and clip paths belong in defs. Left as siblings of the shapes
+    // that use them, Chrome quietly stops painting the whole layer.
+    hiDefs = svgEl('defs', { id: 'hi-defs' });
+    svg.appendChild(hiDefs);
+    // the standing outlines round territories that share a neighbour's colour
+    subOutlineLayer = svgEl('g', { id: 'sub-outlines' });
+    svg.appendChild(subOutlineLayer);
     highlightLayer = svgEl('g', { id: 'highlight' });
-    svg.insertBefore(highlightLayer, markersGroup);
+    svg.appendChild(highlightLayer);
     extentPath = svg.querySelector('#extent-1942');
     riversGroup = svg.querySelector('#rivers');
     buildYellow1938();
@@ -394,6 +407,7 @@
       (atomHits[a] || []).forEach(function (h) { h.removeAttribute('data-id'); });
     });
     hatchGroup.innerHTML = '';
+    if (subOutlineLayer) { subOutlineLayer.innerHTML = ''; dropDefs('sub'); }
     clearHighlight();
     hot = null;
     hotProv = null;
@@ -408,6 +422,7 @@
       if (!byId[k] && elById[k] && elById[k].classList.contains('site')) return;
     });
 
+    var subUnits = [];
     JMAP.SITES.forEach(function (s) { byId[s.id] = s; });
     if (JMAP.BROWSE) JMAP.BROWSE.forEach(function (b) { byId[b.rid] = b; });
 
@@ -426,7 +441,7 @@
         el.setAttribute('data-cat', t.cat);
         el.style.display = '';
         if (colour) el.style.setProperty('--c', colour.c);
-        el.classList.toggle('sub-unit', !!t.outline);
+        if (t.outline) subUnits.push(el);
         els.push(el);
         (atomHits[a] || []).forEach(function (h) { h.setAttribute('data-id', t.id); });
 
@@ -451,6 +466,10 @@
       atomsOf[t.id] = els;
       elById[t.id] = els[0] || null;
 
+      if (t.outline && subUnits.length) {
+        outlineOf(subUnits.splice(0, subUnits.length), 'sub-outline', subOutlineLayer);
+      }
+
       if (total > 0) {
         var x = mx / total, y = my / total;
         var text = svgEl('text', { 'class': 'tlabel', 'font-size': TERR_PX });
@@ -471,22 +490,6 @@
 
     // paint the backing outline in whatever colour China proper has this
     // epoch, so the seams between the two sources read as border, not sea
-    /* Each half of the backing outline takes the colour of the territory that
-     * sits on it, so where the two sources disagree the sliver reads as part of
-     * its own country rather than as a seam. */
-    if (chinaBase && chinaBase.length) {
-      var hostOf = function (atom) {
-        var t = territories().filter(function (x) { return x.atoms.indexOf(atom) >= 0; })[0];
-        var c = t && catInfo(t.cat);
-        return (t && t.c) || (c && c.c) || null;
-      };
-      var pair = { 'chinabase_ne': hostOf('manchuria'), 'chinabase_sw': hostOf('china') };
-      chinaBase.forEach(function (el) {
-        var col = pair[el.id];
-        if (col) el.style.setProperty('--c', col);
-        else el.style.removeProperty('--c');
-      });
-    }
 
     // the labels just created have no transform yet, and rescale() only runs
     // on a zoom change, so place them now or they sit at the map origin
@@ -568,7 +571,10 @@
     var bw = (b.x1 - b.x0) * 1.06;
     var bh = (b.y1 - b.y0) * 1.06;
 
-    var cropToHome = aspect < (bw / bh) / 1.7;
+    // A stage far narrower than the content wastes its height on sea; a stage
+    // far wider wastes its width on the same. Either way, open on the empire
+    // rather than on the whole hemisphere.
+    var cropToHome = aspect < (bw / bh) / 1.7 || aspect > (bw / bh) * 1.2;
     if (cropToHome) {
       b = homeBounds();
       bw = b.x1 - b.x0;
@@ -590,7 +596,10 @@
     var aspect = c.w / c.h;
     v.h = v.w / aspect;
 
-    var maxW = fitView().w;
+    // fitView contains the whole map, which on a tall phone leaves the land a
+    // third of the screen. Stop at the point where the map still covers the
+    // short axis, so zooming out never goes past useful.
+    var maxW = Math.min(fitView().w, Math.max(mapW, mapH * aspect));
     var minW = mapW / 40;
     if (v.w > maxW) { v.w = maxW; v.h = v.w / aspect; }
     if (v.w < minW) { v.w = minW; v.h = v.w / aspect; }
@@ -615,12 +624,20 @@
       requestAnimationFrame(function () {
         rafPending = false;
         if (zoomed) rescale();
+        if (browseGroup) browseGroup.style.display = browseVisible() ? '' : 'none';
         placeLabels();
       });
     }
   }
 
   var hatchPattern = null;
+  var lastDouble = 0;
+
+  /* The browse layer is context, and at a wide zoom on a small screen it is
+   * 131 dots on top of each other. It comes in once there is room for it. */
+  function browseVisible() {
+    return state.browse && view.w < mapW / (coarse ? 2.2 : 1.6);
+  }
 
   function rescale() {
     var c = containerSize();
@@ -773,6 +790,7 @@
     container.addEventListener('wheel', onWheel, { passive: false });
     container.addEventListener('dblclick', function (e) {
       e.preventDefault();
+      lastDouble = Date.now();
       zoomAt(e.clientX, e.clientY, 1.9);
     });
     container.addEventListener('contextmenu', function (e) { if (coarse) e.preventDefault(); });
@@ -884,7 +902,35 @@
    * near a small shape they take the pointer even when it is squarely inside a
    * neighbour. Whatever real land is under the pointer wins; the target is only
    * consulted when there is nothing better there. */
+  /* Markers are 44px targets on a touch screen and the map is crowded, so on a
+   * phone a dozen of them overlap. Left to the DOM the winner is whichever was
+   * appended last, which is how tapping Tokyo answered Shimoda and the quiz
+   * marked a right answer wrong. Nearest centre wins instead, which turns the
+   * pile of discs into Voronoi cells. */
+  function nearestMarker(cx, cy) {
+    if (typeof cx !== 'number' || !svg) return null;
+    var m = svg.getScreenCTM();
+    if (!m) return null;
+    var best = null, bestD = HIT_R * HIT_R;
+    var ids = Object.keys(sitePos);
+    for (var i = 0; i < ids.length; i++) {
+      var rec = byId[ids[i]];
+      if (!rec || (rec.kind !== 'site' && rec.kind !== 'browse')) continue;
+      if (!siteVisible(rec)) continue;
+      var p = sitePos[ids[i]];
+      var dx = (m.a * p.x + m.c * p.y + m.e) - cx;
+      var dy = (m.b * p.x + m.d * p.y + m.f) - cy;
+      var d = dx * dx + dy * dy;
+      if (d < bestD) { bestD = d; best = rec; }
+    }
+    return best;
+  }
+
   function pick(target, cx, cy) {
+    if (target && target.closest && target.closest('.site, .browse')) {
+      var near = nearestMarker(cx, cy);
+      if (near) return { hit: { rec: near, el: elById[near.rid || near.id] || target }, el: target };
+    }
     if (target && target.classList && target.classList.contains('atom-hit') &&
         typeof cx === 'number' && document.elementsFromPoint) {
       var stack = document.elementsFromPoint(cx, cy);
@@ -910,13 +956,14 @@
   }
 
   function handleTap(target, cx, cy) {
+    if (Date.now() - lastDouble < 350) return;   // that tap was half a zoom
     var got = pick(target, cx, cy);
     var hit = got && got.hit;
     if (state.mode === 'quiz') {
       if (hit) quizAnswer(hit);
       return;
     }
-    select(hit ? hit.rec.id : null);
+    select(hit ? (hit.rec.rid || hit.rec.id) : null);
   }
 
   var hot = null;
@@ -1010,36 +1057,89 @@
    * seams between them lie inside the union and are masked away. */
   var maskSeq = 0;
 
-  function outlineOf(els, cls) {
-    if (!highlightLayer || !els.length) return;
+  function outlineOf(els, cls, layer) {
+    layer = layer || highlightLayer;
+    if (!layer || !els.length || !hiDefs) return;
+    var owned = ownedDefs[layer === subOutlineLayer ? 'sub' : 'hi'];
     var id = 'mask-' + (++maskSeq);
+    // The mask reaches past the frame, so a shape lying against the edge of the
+    // map — the Soviet Union, Australia, the Aleutians — is not shaved flat.
+    var pad = 60;
     var mask = svgEl('mask', { id: id, maskUnits: 'userSpaceOnUse',
-                               x: 0, y: 0, width: mapW, height: mapH });
-    mask.appendChild(svgEl('rect', { x: 0, y: 0, width: mapW, height: mapH, fill: '#fff' }));
-    var group = svgEl('g', { 'class': cls, mask: 'url(#' + id + ')' });
+                               x: -pad, y: -pad,
+                               width: mapW + pad * 2, height: mapH + pad * 2 });
+    mask.appendChild(svgEl('rect', { x: -pad, y: -pad,
+                                     width: mapW + pad * 2, height: mapH + pad * 2,
+                                     fill: '#fff' }));
+    var group = svgEl('g', { 'class': cls });
+
+    // built fresh rather than cloned: a clone drags its id, its data
+    // attributes and its inline custom property along with it, and a second
+    // element with the same id in the document is asking for trouble
+    function copyOf(shape, attrs) {
+      var el;
+      if (shape.tagName === 'circle') {
+        el = svgEl('circle', { cx: shape.getAttribute('cx'), cy: shape.getAttribute('cy'),
+                               r: shape.getAttribute('r') });
+      } else {
+        el = svgEl('path', { d: shape.getAttribute('d') });
+      }
+      Object.keys(attrs || {}).forEach(function (k) { el.setAttribute(k, attrs[k]); });
+      return el;
+    }
+
+    function stroked(shape, clip) {
+      var el = copyOf(shape, clip ? { 'clip-path': clip } : null);
+      el.setAttribute('mask', 'url(#' + id + ')');
+      group.appendChild(el);
+    }
+
     els.forEach(function (el) {
-      var paths = el.tagName === 'path' ? [el] : $$('path', el);
-      var circles = el.tagName === 'path' ? [] : $$('circle:not(.islet-hit)', el);
-      paths.concat(circles).forEach(function (shape) {
-        var solid = shape.cloneNode(false);
-        solid.setAttribute('fill', '#000');
-        solid.removeAttribute('class');
-        mask.appendChild(solid);
-        var line = shape.cloneNode(false);
-        line.removeAttribute('class');
-        line.removeAttribute('id');
-        line.removeAttribute('data-prov');
-        group.appendChild(line);
-      });
+      // an element that carries a clip is really the intersection of two
+      // shapes: the occupied zone is its traced blocks cut to China's land.
+      // The mask has to be that intersection, and the outline is made of both
+      // boundaries, each cut by the other — otherwise the whole coast, where
+      // the clip is the visible edge, comes out with no line on it at all.
       var clip = el.getAttribute('clip-path');
-      if (clip) { group.setAttribute('clip-path', clip); }
+      var paths = el.tagName === 'path' ? [el] : $$('path', el);
+      // .islet is a ring drawn round an island too small to see, not a shape.
+      // Filled black in the mask it wiped out the coastline underneath it, and
+      // stroked in the outline it drew a circle in open water.
+      var circles = el.tagName === 'path' ? [] : $$('circle:not(.islet-hit):not(.islet)', el);
+      paths.concat(circles).forEach(function (shape) {
+        var solid = copyOf(shape, { fill: '#000' });
+        if (clip) solid.setAttribute('clip-path', clip);
+        mask.appendChild(solid);
+        stroked(shape, clip);
+      });
+      if (clip) {
+        var m = /url\(#([^)]+)\)/.exec(clip);
+        var clipper = m && svg.querySelector('#' + m[1]);
+        if (clipper) {
+          // the other half of the intersection's boundary, cut to this shape
+          var own = svgEl('clipPath', { id: id + '-own', clipPathUnits: 'userSpaceOnUse' });
+          paths.forEach(function (shape) { own.appendChild(copyOf(shape)); });
+          hiDefs.appendChild(own);
+          owned.push(own);
+          $$('path', clipper).forEach(function (shape) {
+            stroked(shape, 'url(#' + id + '-own)');
+          });
+        }
+      }
     });
-    highlightLayer.appendChild(mask);
-    highlightLayer.appendChild(group);
+    hiDefs.appendChild(mask);
+    owned.push(mask);
+    layer.appendChild(group);
+  }
+
+  function dropDefs(which) {
+    ownedDefs[which].forEach(function (d) { if (d.parentNode) d.parentNode.removeChild(d); });
+    ownedDefs[which] = [];
   }
 
   function clearHighlight() {
     if (highlightLayer) highlightLayer.innerHTML = '';
+    dropDefs('hi');
   }
 
   function redrawHighlight() {
@@ -1090,6 +1190,33 @@
     document.body.classList.add('panel-open');
     hideTooltip();
     placeLabels();
+    keepClear(id);
+  }
+
+  /* On a phone the detail sheet comes up over the bottom of the map, which is
+   * often exactly where you just tapped. Slide the map up by however much the
+   * sheet covers it, so what you asked about stays in view. */
+  function keepClear(id) {
+    if (!svg || window.innerWidth >= 1000 || infoBox.hidden) return;
+    var m = svg.getScreenCTM();
+    if (!m) return;
+    var p = sitePos[id];
+    if (!p) {
+      var el = elById[id];
+      if (!el || !el.getBBox) return;
+      var box;
+      try { box = el.getBBox(); } catch (err) { return; }
+      p = { x: box.x + box.width / 2, y: box.y + box.height / 2 };
+    }
+    var sx = m.a * p.x + m.c * p.y + m.e;
+    var sy = m.b * p.x + m.d * p.y + m.f;
+    var sheet = infoBox.getBoundingClientRect();
+    if (sx < sheet.left - 8 || sx > sheet.right + 8) return;   // the sheet is not over it
+    var over = sy - (sheet.top - 12);
+    if (over <= 0) return;
+    var c = containerSize();
+    view.y += over * (view.h / c.h);
+    applyView();
   }
 
   /* ----------------------------------------------------- applying state -- */
@@ -1102,7 +1229,7 @@
       var el = elById[s.id];
       if (el) el.style.display = siteVisible(s) ? '' : 'none';
     });
-    if (browseGroup) browseGroup.style.display = state.browse ? '' : 'none';
+    if (browseGroup) browseGroup.style.display = browseVisible() ? '' : 'none';
 
     labels.forEach(function (L) {
       var show = showLabels && (L.rec.kind === 'territory'
