@@ -194,10 +194,32 @@ GIS_LAYERS = {
 # with Nepal and Bhutan rather than inside the Raj.
 PROTECTORATES_IND = {"Sikkim"}
 
-# Enclaves and a princely state inside British India that were not the Raj.
-# Hyderabad is approximated by Telangana, its Telugu core; the Nizam's dominion
-# also took in Marathi and Kannada districts now in Maharashtra and Karnataka.
-INDIA_ENCLAVES = {"Goa": "goa", "Puducherry": "pondicherry", "Telangāna": "hyderabad"}
+# Enclaves inside British India that were not the Raj. Puducherry carries all
+# four French settlements — Pondicherry, Karikal, Yanaon and Mahe; the modern
+# unit that holds Daman, Diu and Dadra was Portuguese in its entirety.
+INDIA_ENCLAVES = {
+    "Goa": "goa", "Dādra and Nagar Haveli and Damān and Diu": "goa",
+    "Puducherry": "pondicherry",
+}
+
+# Chandernagore on the Hooghly, French until 1950 and absorbed into West
+# Bengal in 1954, so no modern unit answers to it. Drawn by hand.
+CHANDERNAGORE = [
+    (88.330, 22.833), (88.395, 22.833), (88.400, 22.885), (88.343, 22.885),
+]
+
+# The princely states, drawn together in one colour and named one by one.
+# Every one of them is an approximation from modern units: Hyderabad is
+# Telangana, its Telugu core, and the Nizam's dominions also took in Marathi
+# and Kannada districts now in Maharashtra and Karnataka; Mysore is drawn from
+# the whole of Karnataka and the state itself was the southern third.
+INDIA_PRINCELY = {
+    "Telangāna": "Hyderabad",
+    "Jammu and Kashmīr": "Kashmir", "Ladākh": "Kashmir",
+    "Azad Kashmir": "Kashmir", "Gilgit-Baltistan": "Kashmir",
+    "Rājasthān": "Rajputana", "Karnātaka": "Mysore",
+    "Kerala": "TravancoreCochin",
+}
 
 # Colonial Korea comes from tools/fetch_korea_1930.py, which builds the
 # thirteen provinces and the coast that goes with them. It used to be
@@ -234,11 +256,6 @@ BURMA_DIVISIONS = {
 # Madras and the Central Provinces are rough, because the states inside them
 # are drawn here as though they were part of them.
 INDIA_STATES = {
-    # princely states large enough to be worth telling apart
-    "Jammu and Kashmīr": "Kashmir", "Ladākh": "Kashmir", "Azad Kashmir": "Kashmir",
-    "Gilgit-Baltistan": "Kashmir",
-    "Rājasthān": "Rajputana",
-    "Karnātaka": "Mysore", "Kerala": "TravancoreCochin",
     # provinces of the Raj
     "Assam": "Assam", "Meghālaya": "Assam", "Nāgāland": "Assam",
     "Mizoram": "Assam", "Arunāchal Pradesh": "Assam", "Manipur": "Assam",
@@ -257,7 +274,6 @@ INDIA_STATES = {
     "Khyber Pakhtunkhwa": "NWFP",
     "Madhya Pradesh": "CentralProvinces", "Chhattīsgarh": "CentralProvinces",
     "Mahārāshtra": "Bombay", "Gujarāt": "Bombay",
-    "Dādra and Nagar Haveli and Damān and Diu": "Bombay",
     "Tamil Nādu": "Madras", "Andhra Pradesh": "Madras", "Lakshadweep": "Madras",
 }
 
@@ -924,7 +940,7 @@ ON_TOP = ["weihaiwei", "guangzhouwan", "macau", "hongkong", "kwantung"]
 
 ORDER = [
     "chinabase", "andaman", "ceylon", "ussr", "mongolia", "tibet",
-    "china", "xinjiang", "india", "hyderabad", "goa", "pondicherry",
+    "china", "xinjiang", "india", "princely", "goa", "pondicherry",
     "other", "nepal", "sikkim", "bhutan",
     "tuva", "weihaiwei", "guangzhouwan", "chahar", "suiyuan", "jehol", "manchuria",
     "siam", "burma", "indochina", "siamgain", "malaya", "malaya_thai", "sarawak", "northborneo", "brunei",
@@ -1048,15 +1064,22 @@ def main():
                 if cut:
                     provinces["newguinea_au"].append((label, cut))
 
-    # ---- enclaves and a princely state inside British India ---------------
+    # ---- enclaves and princely states inside British India ----------------
     ind_path = os.path.join(CACHE, "adm1_IND.json")
     if os.path.exists(ind_path):
         with open(ind_path) as fh:
             for feat in json.load(fh)["features"]:
-                key = INDIA_ENCLAVES.get(feat["properties"].get("shapeName"))
+                name = feat["properties"].get("shapeName")
+                key = INDIA_ENCLAVES.get(name)
                 if key:
                     for ring in iter_rings(feat["geometry"]):
                         groups[key].append(ring)
+                label = INDIA_PRINCELY.get(name)
+                if label:
+                    rs = list(iter_rings(feat["geometry"]))
+                    groups["princely"].extend(rs)
+                    provinces["princely"].append((label, rs))
+    groups["pondicherry"].append(list(CHANDERNAGORE))
 
     # ---- Burma, division by division ---------------------------------------
     bpath = os.path.join(CACHE, "adm1_MMR.json")
@@ -1417,7 +1440,10 @@ def main():
         merged = dissolve(rings) if len(rings) > 1 else None
         source = merged if merged else rings
         archipelago = key in ARCHIPELAGOS
-        min_area = 0.12 if archipelago else args.min_area
+        # the French and Portuguese enclaves are a few square kilometres each
+        # and would otherwise fall through the minimum-area sieve
+        min_area = (0.04 if key in ("goa", "pondicherry")
+                    else 0.12 if archipelago else args.min_area)
 
         pieces, specks, moments = [], [], []
         for ring in source:
