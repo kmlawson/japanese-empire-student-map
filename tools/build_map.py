@@ -1675,13 +1675,12 @@ def main():
     )
     # The stripes say "Japanese forces are here" and are laid over somebody
     # else's colour -- Portuguese Timor, Allied Guadalcanal and Malaita, Thai
-    # Kengtung -- so they are drawn in the colour of the colonies rather than
-    # in the colour of the occupation, which is now nearly white and would
-    # vanish on the pale fills and read as a highlight on the dark ones.
+    # Kengtung -- so they are drawn in the darkest red on the ramp, the one
+    # the metropole wears, which reads on a pale fill and on a dark one.
     out.append(
         '    <pattern id="hatch-occ" patternUnits="userSpaceOnUse" width="9" height="9" '
         'patternTransform="rotate(45)">'
-        '<line x1="0" y1="0" x2="0" y2="9" stroke="#de2d26" stroke-opacity="0.85" stroke-width="3.4"/>'
+        '<line x1="0" y1="0" x2="0" y2="9" stroke="#bf213f" stroke-opacity="0.85" stroke-width="3.4"/>'
         "</pattern>"
     )
     # The occupied zone is clipped to China's land. Clip it to the shape that

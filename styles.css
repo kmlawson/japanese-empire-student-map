@@ -8,16 +8,16 @@
   --muted: #6b6459;
   --line: #cec7b8;
   --panel: #fffdf8;
-  --accent: #a50f15;
+  --accent: #bf213f;
   --accent-soft: #f6e2df;
 
   --ocean: #cadfeb;
   --inactive: #ded8cb;
   --inactive-line: #b9b1a1;
 
-  --c-metropole: #a50f15;
-  --c-colony: #de2d26;
-  --c-occupied: #fee5d9;
+  --c-metropole: #bf213f;
+  --c-colony: #d82547;
+  --c-occupied: #fe5676;
   --c-neighbor: #bfcedd;
   --c-city: #1f3d5c;
   --c-battle: #8e1f57;

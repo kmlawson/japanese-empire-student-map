@@ -48,8 +48,8 @@ JMAP.DEFAULT_EPOCH = 'e1942';
  * hold it?"
  *
  * Everything Japan held runs down one ramp of reds, darkest at the centre:
- * #a50f15 the metropole, #de2d26 the colonies and leased territory, #fcae91
- * the client states, #fee5d9 the territory under military occupation. The step
+ * #bf213f the metropole, #d82547 the colonies and leased territory, #fe2c54
+ * the client states, #fe5676 the territory under military occupation. The step
  * from one to the next is the step from annexation, to rule through somebody
  * else, to rule by the army, so the map can be read by shade alone. Everyone
  * else is off the ramp. Ground neither side held to itself — Guadalcanal,
@@ -58,8 +58,8 @@ JMAP.DEFAULT_EPOCH = 'e1942';
  * could: it names who the place belonged to as well as who was in it. */
 JMAP.CATEGORIES = {
   e1930: [
-    { id: 'metropole', c: '#a50f15', en: 'Japan proper', ja: '内地', orig: 'Japan proper', zh: '日本內地', ko: '일본 본토' },
-    { id: 'jpcolony', c: '#de2d26', en: 'Japanese colonies', ja: '日本の外地', orig: 'Japanese colonies', zh: '日本殖民地', ko: '일본 식민지' },
+    { id: 'metropole', c: '#bf213f', en: 'Japan proper', ja: '内地', orig: 'Japan proper', zh: '日本內地', ko: '일본 본토' },
+    { id: 'jpcolony', c: '#d82547', en: 'Japanese colonies', ja: '日本の外地', orig: 'Japanese colonies', zh: '日本殖民地', ko: '일본 식민지' },
     { id: 'chinese', c: '#e8d9a8', en: 'China', ja: '中国', orig: 'China', zh: '中國', ko: '중국' },
     { id: 'british', c: '#b07f8e', en: 'British', ja: 'イギリス領', orig: 'British', zh: '英國領', ko: '영국령' },
     { id: 'french', c: '#7d9cc0', en: 'French', ja: 'フランス領', orig: 'French', zh: '法國領', ko: '프랑스령' },
@@ -72,10 +72,10 @@ JMAP.CATEGORIES = {
     { id: 'other', c: '#ded8cb', en: 'Elsewhere', ja: 'その他', orig: 'Elsewhere', zh: '其他', ko: '기타' },
   ],
   e1942: [
-    { id: 'metropole', c: '#a50f15', en: 'Japan proper', ja: '内地', orig: 'Japan proper', zh: '日本內地', ko: '일본 본토' },
-    { id: 'colony', c: '#de2d26', en: 'Colonies & leased territory', ja: '外地・租借地', orig: 'Colonies', zh: '外地・租借地', ko: '외지·조차지' },
-    { id: 'puppet', c: '#fcae91', en: 'Client states', ja: '傀儡国家', orig: 'Client states', zh: '傀儡國家', ko: '괴뢰국' },
-    { id: 'occupied', c: '#fee5d9', en: 'Under military occupation', ja: '軍政地域', orig: 'Occupied', zh: '軍政地區', ko: '군정 지역' },
+    { id: 'metropole', c: '#bf213f', en: 'Japan proper', ja: '内地', orig: 'Japan proper', zh: '日本內地', ko: '일본 본토' },
+    { id: 'colony', c: '#d82547', en: 'Colonies & leased territory', ja: '外地・租借地', orig: 'Colonies', zh: '外地・租借地', ko: '외지·조차지' },
+    { id: 'puppet', c: '#fe2c54', en: 'Client states', ja: '傀儡国家', orig: 'Client states', zh: '傀儡國家', ko: '괴뢰국' },
+    { id: 'occupied', c: '#fe5676', en: 'Under military occupation', ja: '軍政地域', orig: 'Occupied', zh: '軍政地區', ko: '군정 지역' },
     { id: 'cobelligerent', c: '#df65b0', en: 'Co-belligerent', ja: '同盟国', orig: 'Co-belligerent', zh: '日本盟國', ko: '일본의 동맹국' },
     { id: 'freechina', c: '#93ac93', en: 'Free China', ja: '重慶政権', orig: 'Free China', zh: '國統區', ko: '자유중국' },
     { id: 'frontier', c: '#c3d6c3', en: 'Self-governing frontier', ja: '自治的辺境', orig: 'Self-governing frontier', zh: '自治邊疆', ko: '자치 변경' },
@@ -410,7 +410,7 @@ JMAP.TERRITORIES = {
     // Mengchiang and Manchukuo are both client states and so share a fill; the
     // hairline down Chahar's eastern edge is what keeps them two countries
     { id: 'mengjiang', atoms: ['chahar', 'suiyuan'], cat: 'puppet', lvl: 2,
-      edge: '#de2d26', edgeAtoms: ['chahar'], edgeClip: [116.2, 40.0, 119.8, 46.9],
+      edge: '#bf213f', edgeAtoms: ['chahar'], edgeClip: [116.2, 40.0, 119.8, 46.9],
       en: 'Mengchiang (Mengjiang)', ja: '蒙疆 (Mōkyō)', orig: '蒙疆聯合自治政府',
       zh: '蒙疆聯合自治政府', ko: '몽강 (Monggang)',
       when: 'Client regime from 1936–39',
