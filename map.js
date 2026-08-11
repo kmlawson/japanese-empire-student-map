@@ -1133,7 +1133,8 @@
   function handleTap(target, cx, cy) {
     var got = pick(target, cx, cy);
     var hit = got && got.hit;
-    lastProv = hit && hit.rec.kind === 'territory' ? provinceAt(got, cx, cy) : null;
+    var prov = hit && hit.rec.kind === 'territory' ? provinceAt(got, cx, cy) : null;
+    lastProv = prov;
     if (state.mode === 'quiz') {
       if (hit) { quizAnswer(hit); return; }
       if (quiz && quiz.current) {
@@ -1143,7 +1144,21 @@
       }
       return;
     }
-    select(hit ? (hit.rec.rid || hit.rec.id) : null);
+    var id = hit ? (hit.rec.rid || hit.rec.id) : null;
+    // On a touch screen there is no hover, so the two questions a tap might be
+    // asking — what country is this, and what province of it am I on — have to
+    // be separated in time instead of by the pointer. The first tap answers
+    // the first and the second tap answers the second, which also means a
+    // student who only wants the country is never told more than they asked.
+    if (coarse) {
+      if (id && id === selected && prov) {
+        setHotProv(prov.el);
+      } else {
+        lastProv = null;
+        setHotProv(null);
+      }
+    }
+    select(id);
   }
 
   var hot = null;
