@@ -342,12 +342,13 @@ PAPUA_CUT = ((141.0, -5.2), (147.4, -6.9))
 # it. This is where the generated path is split.
 HUAYUANKOU = (113.43, 34.92)
 
-# Natural Earth's Yangtze centreline stops about 170 km short of the sea, which
-# makes the river look as though it ends in a field outside Nanking. This
-# carries it down the estuary past Shanghai.
+# Natural Earth's Yangtze centreline stops at Chinkiang, about 200 km short of
+# the sea, which makes the river look as though it ends in a field outside
+# Nanking. This carries it down the estuary past Nantung to the mouth. It
+# begins exactly where the centreline ends, or the join shows as a gap.
 YANGZI_TAIL = [
-    (120.07, 31.96), (120.55, 31.98), (121.05, 31.80), (121.55, 31.60),
-    (121.95, 31.42),
+    (119.61, 32.20), (120.20, 32.10), (120.90, 32.00), (121.40, 31.80),
+    (121.90, 31.55),
 ]
 
 # ---------------------------------------------------------------------------
@@ -409,10 +410,9 @@ EXTENT_OCEAN = [
     (180.8, -1.0),
     # north along the dateline, then west along the Aleutians
     (181.2, 6.0), (181.4, 14.0), (181.4, 22.0), (181.2, 30.0), (180.8, 38.0),
-    # round Kiska rather than through it, and still clear of Amchitka, which
-    # stayed American
-    (180.2, 45.0), (179.4, 50.0), (178.55, 51.10), (177.95, 51.72),
-    (177.55, 52.30), (177.0, 52.8), (172.0, 53.4), (166.0, 53.0),
+    # south of the Aleutian chain, which stayed American but for Attu and
+    # Kiska; those two get loops of their own further down
+    (180.2, 45.0), (179.2, 48.6), (176.0, 50.2), (171.0, 50.8), (166.0, 51.4),
     # down the Pacific side of Kamchatka, which was Soviet throughout, and in
     # through the First Kuril Strait: Shumshu and Paramushir are inside the
     # line, Cape Lopatka and Petropavlovsk are outside it
@@ -859,12 +859,22 @@ def split_russia(ring):
     return "ussr"
 
 
+# Attu and Kiska, taken in June 1942 and held until 1943 — the only North
+# American soil Japan occupied. The rest of the chain stayed American, and the
+# map used to shade all of it as contested.
+ATTU_BOX = (172.2, 52.7, 173.4, 53.1)
+KISKA_BOX = (177.0, 51.7, 177.9, 52.2)
+
+
 def split_usa(ring):
     cx, cy = centroid_of(ring)
     cx = cx + 360 if cx < 0 else cx
     if 17.0 <= cy <= 23.5 and 198.0 <= cx <= 206.0:
         return "hawaii"
     if cy >= 50.0:
+        for x0, y0, x1, y1 in (ATTU_BOX, KISKA_BOX):
+            if x0 <= cx <= x1 and y0 <= cy <= y1:
+                return "aleutians_jp"
         return "aleutians"
     return None
 
@@ -947,10 +957,12 @@ SPLITTERS = {
 ISLET_RINGS = {
     "nanyo", "gilberts", "ogasawara", "guam", "chishima", "aleutians",
     "hawaii", "ryukyu", "newguinea_au", "solomons_br", "nauru_au",
+    "aleutians_jp",
 }
 
 ARCHIPELAGOS = {
     "nanyo", "gilberts", "ogasawara", "guam", "chishima", "aleutians",
+    "aleutians_jp",
     "hawaii", "ryukyu", "newguinea_au", "solomons_br", "philippines",
     "timor_pt", "andaman", "nauru_au", "hongkong", "macau", "northborneo",
     "malaya",
@@ -968,7 +980,7 @@ ORDER = [
     "siam", "burma", "saharat", "indochina", "siamgain", "malaya", "malaya_thai", "sarawak", "northborneo", "brunei",
     "dei", "philippines",
     "timor_pt", "newguinea_au", "solomons_br", "australia", "gilberts",
-    "nauru_au", "guam", "hawaii", "aleutians", "hongkong", "macau",
+    "nauru_au", "guam", "hawaii", "aleutians", "aleutians_jp", "hongkong", "macau",
     "korea", "taiwan", "karafuto", "chishima", "nanyo", "ryukyu",
     "ogasawara", "japan", "kwantung",
 ]
@@ -1414,6 +1426,14 @@ def main():
     if extent:
         pts = simplify([project(x, y) for x, y in extent], 0.35)
         extent_path = line_to_path(pts) + "Z"
+        # Attu and Kiska are a thousand kilometres from anything else Japan
+        # held, so they are rings of their own rather than a bulge in the
+        # perimeter that would take the whole Aleutian chain with it.
+        for x0, y0, x1, y1 in (ATTU_BOX, KISKA_BOX):
+            box = [(x0 - 0.25, y0 - 0.12), (x1 + 0.25, y0 - 0.12),
+                   (x1 + 0.25, y1 + 0.12), (x0 - 0.25, y1 + 0.12)]
+            loop = [project(x, y) for x, y in chaikin(box + [box[0]], 2)]
+            extent_path += line_to_path(loop) + "Z"
         sys.stderr.write(f"extent line: {len(pts)} points\n")
 
     # ---- name the islands worth naming --------------------------------------
@@ -1449,21 +1469,30 @@ def main():
             props = feat["properties"]
             label = (props.get("name_en") or props.get("name") or "")
             for line in iter_lines(feat["geometry"]):
+                if len(line) < 3:
+                    continue          # stray two-point fragments in the source
                 if label == "Yangtze" or props.get("name") == "Chang Jiang":
                     pieces["yangzi"].append(line)
                 elif label in ("Yellow", "Huang") or props.get("name") == "Huang":
-                    best, bd = 0, 1e9
-                    for i, (x, y) in enumerate(line):
-                        d2 = (x - HUAYUANKOU[0]) ** 2 + (y - HUAYUANKOU[1]) ** 2
-                        if d2 < bd:
-                            best, bd = i, d2
+                    bd = min((x - HUAYUANKOU[0]) ** 2 + (y - HUAYUANKOU[1]) ** 2
+                             for x, y in line)
                     if bd > 4.0:
                         pieces["yellow_upper"].append(line)
-                    else:
-                        if best >= 2:
-                            pieces["yellow_upper"].append(line[:best + 1])
-                        if len(line) - best >= 3:
-                            pieces["yellow_lower"].append(line[best:])
+                        continue
+                    # Split at the breach itself, not at the nearest vertex to
+                    # it: the nearest vertex can be past Huayuankou, and then
+                    # the 1938 course starts by doubling back on the old one.
+                    cut = None
+                    for i, (x, y) in enumerate(line):
+                        if x <= HUAYUANKOU[0]:
+                            cut = i
+                    if cut is None:
+                        pieces["yellow_lower"].append([HUAYUANKOU] + line)
+                        continue
+                    if cut >= 1:
+                        pieces["yellow_upper"].append(line[:cut + 1] + [HUAYUANKOU])
+                    if len(line) - cut >= 3:
+                        pieces["yellow_lower"].append([HUAYUANKOU] + line[cut + 1:])
         if pieces["yangzi"]:
             pieces["yangzi"].append(YANGZI_TAIL)
         for key, lines in pieces.items():
