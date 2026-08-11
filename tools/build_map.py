@@ -99,27 +99,48 @@ PROVINCE_ATOM = {
 
 # The area actually under Japanese control in China, traced from the map
 # "China 1900-1949: Japanese Occupation 1940" (US Army-style series, public
-# domain, in occupation-maps/) and adjusted to December 1942 against the module
-# timeline: Chengchow taken October 1941, Changsha held out until 1944, Foochow
-# only briefly held in 1941.
+# domain, in occupation-maps/) and adjusted to December 1942: Changsha held out
+# until 1944; Foochow was held for a fortnight in 1941 and again from late
+# 1944; Chengchow was taken in October 1941 and given up again at the end of
+# that month, and not held for good until Ichi-Go in April 1944, so it is
+# outside the line and so is Loyang, which held until May 1944; the Chekiang
+# gains of mid-1942 were mostly evacuated that autumn, leaving Kinhwa and
+# Lanchi; Kwangchowwan was not taken until February 1943.
 #
 # It is not a set of provinces. Japan held the plains, the railways and the
 # cities; the western halves of Shansi and Honan, the Communist base areas
 # behind the lines, and most of Hunan, Kiangsi and Fukien were never taken. The
 # blocks below are clipped to China's land at draw time.
 OCCUPIED_ZONE = [
-    # the northern and central mass: Hopei, Shantung, eastern Shansi, eastern
-    # Honan, the Yangtze corridor to Hankow, and the Kiangnan provinces
+    # The northern and central mass, December 1942. West edge down the
+    # Tatung-Puchow railway in Shansi, east of the Luliang mountains and the
+    # Chin-Sui base area, to the Yellow River bend at Fenglingtu; east along
+    # the river's north bank, so Loyang and Chengchow stay outside; then down
+    # the 1938 Huayuankou flood course, round the Chinese pocket in north-west
+    # Anhui and the Dabie Shan, up the Peking-Hankow railway to Sinyang, out
+    # along the 11th Army's front to Ichang, down the Yangtze past Yochow,
+    # across northern Kiangsi to the Nanchang lobe, and through Chekiang
+    # taking in Kinhwa and Lanchi but not Kuchow, Chuchow or Wenchow.
     [
-        (113.2, 40.5), (115.0, 40.7), (117.2, 40.7), (119.0, 40.3), (120.0, 40.1),
-        (119.3, 39.2), (118.2, 39.0), (117.6, 38.5), (118.9, 38.2), (119.8, 37.7),
-        (121.0, 37.9), (122.7, 37.5), (121.2, 36.5), (120.5, 35.9), (119.9, 34.9),
-        (119.6, 34.4), (120.5, 33.4), (121.2, 32.4), (121.9, 31.6), (122.0, 30.9),
-        (121.6, 30.2), (122.0, 29.9), (121.7, 29.2), (121.0, 28.3), (120.4, 28.0),
-        (119.4, 28.7), (118.4, 29.4), (117.4, 29.6), (116.7, 29.0), (116.0, 28.4),
-        (115.4, 28.9), (114.7, 29.3), (113.6, 29.6), (112.9, 30.0), (111.6, 30.5),
-        (111.2, 31.2), (111.7, 32.0), (112.5, 32.7), (113.4, 33.3), (113.7, 34.2),
-        (112.5, 34.8), (111.8, 35.3), (112.2, 36.5), (112.6, 37.6), (113.0, 38.8),
+        (113.3, 40.5), (112.5, 39.0), (111.9, 38.6), (111.6, 38.1), (111.6, 37.6),
+        (111.9, 37.1), (111.8, 36.7), (111.5, 36.3), (111.3, 35.9), (110.9, 35.5),
+        (110.55, 35.05), (110.32, 34.72), (110.32, 34.58), (110.9, 34.74),
+        (111.5, 34.82), (112.2, 34.88), (112.9, 34.92), (113.45, 34.92),
+        (114.05, 34.55), (114.5, 34.05), (115.0, 33.6), (115.6, 33.2),
+        (116.2, 32.9), (116.7, 32.6), (117.0, 32.1), (116.9, 31.7), (116.5, 31.4),
+        (115.9, 31.2), (115.1, 31.15), (114.6, 31.3),
+        (114.55, 31.9), (114.5, 32.3), (113.8, 32.25), (113.75, 31.8),
+        (113.4, 31.6), (112.6, 31.2), (111.9, 31.05), (111.1, 30.75),
+        (111.5, 30.3), (112.3, 30.2), (112.8, 29.9), (113.0, 29.5), (113.1, 29.1),
+        (113.35, 28.9), (113.9, 28.85), (114.4, 29.0), (115.0, 29.05),
+        (115.4, 28.6), (115.8, 28.15), (116.2, 28.2), (116.6, 28.6), (117.1, 29.1),
+        (117.6, 29.6), (118.2, 29.85), (118.8, 29.6), (119.2, 29.35), (119.6, 28.9),
+        (120.1, 29.0), (120.7, 29.2), (121.2, 29.2), (121.6, 29.5),
+        (122.0, 29.9), (121.6, 30.2), (122.0, 30.9), (121.9, 31.6), (121.2, 32.4),
+        (120.5, 33.4), (119.6, 34.4), (119.9, 34.9), (120.5, 35.9), (121.2, 36.5),
+        (122.7, 37.5), (121.0, 37.9), (119.8, 37.7), (118.9, 38.2), (117.6, 38.5),
+        (118.2, 39.0), (119.3, 39.2), (120.0, 40.1), (119.0, 40.3), (117.2, 40.7),
+        (115.0, 40.7),
     ],
     # the corridor west along the railway through Suiyuan to Paotow
     [
@@ -127,11 +148,11 @@ OCCUPIED_ZONE = [
         (109.6, 41.1),
     ],
     # the Canton delta and the West River, held from October 1938: the city,
-    # the delta, the railway to Kowloon and the river up to Samshui
+    # the delta, the railway to Kowloon, Waichow, and the river up to Samshui
     [
-        (112.4, 22.1), (112.9, 21.9), (113.6, 21.8), (114.3, 22.0), (114.6, 22.4),
-        (114.5, 23.0), (113.9, 23.4), (113.3, 23.6), (112.8, 23.5), (112.3, 23.2),
-        (112.0, 22.7),
+        (112.65, 22.35), (113.2, 21.85), (113.9, 21.8), (114.5, 22.15),
+        (114.6, 22.55), (114.55, 23.1), (113.9, 23.6), (113.15, 23.85),
+        (112.85, 23.5), (112.6, 23.0),
     ],
     # Hainan, taken February 1939
     [
@@ -139,9 +160,9 @@ OCCUPIED_ZONE = [
         (109.9, 20.2), (109.0, 19.8), (108.5, 19.0),
     ],
     # Amoy, taken May 1938
-    [(117.9, 24.3), (118.4, 24.3), (118.5, 24.7), (118.0, 24.7)],
-    # Swatow, taken June 1939
-    [(116.5, 23.1), (117.1, 23.2), (117.1, 23.6), (116.5, 23.5)],
+    [(117.9, 24.35), (118.4, 24.35), (118.4, 24.65), (117.9, 24.65)],
+    # Swatow and Chaochow, taken June 1939
+    [(116.3, 23.15), (116.95, 23.25), (116.85, 23.75), (116.3, 23.6)],
 ]
 
 # The Kwantung Leased Territory: the tip of the Liaodong peninsula, leased by
