@@ -36,7 +36,10 @@
     epoch: JMAP.DEFAULT_EPOCH,
     level: 1,
     lang: 'en',
-    cats: { city: true, battle: true, territory: true },
+    // Administrative starts off. The divisions are more than half the weight
+    // of the map and are fetched only when it is switched on, so the map opens
+    // as a map of countries and becomes a map of provinces when asked.
+    cats: { city: true, battle: true, territory: false },
     labels: false,
     extent: true,
     rivers: true,
@@ -89,6 +92,7 @@
       state.labels = !!saved.labels;
       if (typeof saved.extent === 'boolean') state.extent = saved.extent;
       if (typeof saved.rivers === 'boolean') state.rivers = saved.rivers;
+      if (state.cats.territory) setTimeout(loadAdmin, 0);
       if (typeof saved.browse === 'boolean') state.browse = saved.browse;
       if (typeof saved.legend === 'boolean') state.legend = saved.legend;
     } catch (err) { /* first visit, or storage is off — defaults are fine */ }
@@ -1671,6 +1675,37 @@
     document.body.classList.add('panel-open');
   }
 
+  /* The administrative divisions live in a second file. Fetch it once, graft
+     each atom's sub-units into the atom they belong to, and let the backing
+     stop taking the pointer now that there is something above it to name. */
+  var adminState = 'none';          // none | loading | ready
+  function loadAdmin() {
+    if (adminState !== 'none') return;
+    adminState = 'loading';
+    var graft = function (text) {
+      var doc = new DOMParser().parseFromString(text, 'image/svg+xml');
+      $$('g[data-for]', doc.documentElement).forEach(function (g) {
+        var el = atomEls[g.getAttribute('data-for')];
+        if (!el) return;
+        var before = el.querySelector('circle');   // islet rings stay on top
+        while (g.firstElementChild) {
+          var node = document.importNode(g.firstElementChild, true);
+          g.removeChild(g.firstElementChild);
+          el.insertBefore(node, before);
+        }
+        el.classList.remove('deferred');
+      });
+      adminState = 'ready';
+      applyState();
+      if (selected) select(selected);
+    };
+    if (window.JMAP_INLINE_ADMIN) { graft(window.JMAP_INLINE_ADMIN); return; }
+    fetch('japan-empire-map-admin.svg')
+      .then(function (r) { return r.text(); })
+      .then(graft)
+      .catch(function () { adminState = 'none'; });
+  }
+
   function syncLayerButtons() {
     $$('#layer-seg button').forEach(function (b) {
       var on = !!state.cats[b.getAttribute('data-cat')];
@@ -1919,6 +1954,7 @@
       b.addEventListener('click', function () {
         var cat = b.getAttribute('data-cat');
         state.cats[cat] = !state.cats[cat];
+        if (cat === 'territory' && state.cats[cat]) loadAdmin();
         syncLayerButtons();
         applyState();
         if (state.mode === 'quiz') startQuiz();

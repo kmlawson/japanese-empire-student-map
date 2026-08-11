@@ -28,6 +28,7 @@ def main():
     data = read("data.js")
     js = read("map.js")
     svg = read("japan-empire-map.svg")
+    admin = read("japan-empire-map-admin.svg")
 
     # strip the XML declaration; it is only legal at the very top of a document
     svg = re.sub(r"^\s*<\?xml[^>]*\?>\s*", "", svg)
@@ -39,11 +40,14 @@ def main():
     html = html.replace(
         '<script src="data.js"></script>\n<script src="map.js"></script>',
         "<script>\n" + data + "\n</script>\n<script>\nwindow.JMAP_INLINE_SVG = "
-        + json.dumps(svg) + ";\n</script>\n<script>\n" + js + "\n</script>",
+        + json.dumps(svg) + ";\nwindow.JMAP_INLINE_ADMIN = "
+        + json.dumps(admin) + ";\n</script>\n<script>\n" + js + "\n</script>",
     )
 
-    if "JMAP_INLINE_SVG" not in html:
+    if "JMAP_INLINE_SVG" not in html or "JMAP_INLINE_ADMIN" not in html:
         sys.exit("bundle: could not find the script tags to replace in index.html")
+    if "<style>" not in html:
+        sys.exit("bundle: the stylesheet link was not replaced")
 
     dest = os.path.join(ROOT, "japan-empire-map-standalone.html")
     with open(dest, "w", encoding="utf-8") as fh:

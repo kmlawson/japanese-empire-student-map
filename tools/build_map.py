@@ -311,6 +311,15 @@ KOREA_FILE = "korea_13_provinces.json"
 # takes the southern half of it off.
 FULL_DETAIL = {"korea", "saharat", "princely"}
 
+# Atoms whose backing is the union of their own sub-units rather than Natural
+# Earth's outline of the same country. The backing exists to fill the cracks
+# that open between sub-units drawn from *different* files; where they all come
+# from one file they already share their edges, and a foreign outline
+# underneath is a second, coarser drawing of the same coast — which showed as a
+# double line whenever the selection was outlined. Korea has been doing this
+# from the start, for the same reason.
+BACKING_FROM_SUBUNITS = {"philippines"}
+
 # Saharat Thai Doem: the Shan states east of the Salween — Kengtung and part
 # of Mongpan — occupied and administered by Thai forces from 1942 and formally
 # handed to Thailand by Japan in August 1943. Taken district by district rather
@@ -856,6 +865,17 @@ def simplify(points, tol):
     return [p for p, k in zip(points, keep) if k]
 
 
+def esc(text):
+    """Escape a string for an XML attribute.
+
+    The main SVG is inserted with innerHTML, which forgives a bare ampersand;
+    the administrative file is parsed as XML, which does not. Sub-unit names
+    like "Kashmir & Jammu" were stopping that parse at the first one.
+    """
+    return (str(text).replace("&", "&amp;").replace("<", "&lt;")
+            .replace(">", "&gt;").replace('"', "&quot;"))
+
+
 def fmt(v):
     s = f"{v:.1f}"
     return s[:-2] if s.endswith(".0") else s
@@ -1349,7 +1369,8 @@ def main():
             backing[key].extend(rings_here)
             continue
         groups[key].extend(rings_here)
-        backing[key].extend(rings_here)
+        if key not in BACKING_FROM_SUBUNITS:
+            backing[key].extend(rings_here)
         if admin == "Vietnam":
             lap = 0.02
             tonkin_n = grow_plane(line_plane(*TONKIN_CUT, keep_right=False), lap)
@@ -1902,6 +1923,43 @@ def main():
             return 0.04          # Mahe is two square kilometres on this scale
         return 0.12 if key in ARCHIPELAGOS else args.min_area
 
+    def tol_for(pts):
+        """The simplification tolerance a ring of this size earns."""
+        span = max(max(p[0] for p in pts) - min(p[0] for p in pts),
+                   max(p[1] for p in pts) - min(p[1] for p in pts))
+        if span > 60:
+            return args.tolerance
+        if span > 12:
+            return args.tolerance * 0.5
+        if span > 2:
+            return args.tolerance * 0.12
+        return args.tolerance * 0.03
+
+    def backing_tol(key):
+        """The finest tolerance any of this atom's sub-units was given.
+
+        The backing must never be coarser than what sits on top of it. Where it
+        was, it poked out past the sub-units on one side and cut inside them on
+        the other: a doubled outline when the territory is selected, and a
+        scatter of flecks along every boundary. Giving it the whole atom's own
+        band was the mistake — a country the size of Siam earns the coarsest
+        band while its changwat earn a much finer one."""
+        if key in FULL_DETAIL:
+            return None
+        best = args.tolerance
+        for _, prings in provinces.get(key, []):
+            for ring in prings:
+                pts = [project(x, y) for x, y in normalise_ring(ring)]
+                # only the sub-units big enough to share a boundary with the
+                # backing's own large rings. A one-unit islet is its own ring
+                # in the backing too, and matching its band would put the whole
+                # country's coastline in at the finest setting for nothing.
+                if len(pts) >= 4 and max(
+                        max(p[0] for p in pts) - min(p[0] for p in pts),
+                        max(p[1] for p in pts) - min(p[1] for p in pts)) > 2:
+                    best = min(best, tol_for(pts))
+        return best
+
     def thin(key, pts):
         """Simplify by how big the thing is, not by what it is part of.
 
@@ -1913,14 +1971,7 @@ def main():
         assembled out of sub-units as well."""
         if key in FULL_DETAIL or len(pts) < 4:
             return pts
-        span = max(max(p[0] for p in pts) - min(p[0] for p in pts),
-                   max(p[1] for p in pts) - min(p[1] for p in pts))
-        if span > 60:
-            return simplify(pts, args.tolerance)
-        if span > 12:
-            return simplify(pts, args.tolerance * 0.5)
-        if span > 2:
-            return simplify(pts, args.tolerance * 0.12)
+        return simplify(pts, tol_for(pts))
         # even the smallest islands are worth thinning: the boundary files
         # carry vertices a metre apart, and none of that survives the screen.
         # One SVG unit is one screen pixel at the opening view and the map
@@ -1946,12 +1997,15 @@ def main():
         rings = backing.get(key) or [r for _, rs in provinces.get(key, []) for r in rs]
         if not rings:
             return ""
+        btol = backing_tol(key)
         pieces = []
         for ring in (dissolve(rings) if len(rings) > 1 else rings):
             ring = clip_halfplanes(normalise_ring(ring), frame)
             if len(ring) < 3:
                 continue
-            pts = thin(key, [project(x, y) for x, y in ring])
+            pts = [project(x, y) for x, y in ring]
+            if btol is not None:
+                pts = simplify(pts, btol)
             if len(pts) >= 3 and ring_area(pts) >= sub_min_area(key):
                 pieces.append(ring_to_path(pts))
         return "".join(pieces)
@@ -2027,6 +2081,7 @@ def main():
     out.append("  </defs>")
     out.append(f'  <rect id="ocean" x="0" y="0" width="{fmt(WIDTH)}" height="{fmt(HEIGHT)}"/>')
     out.append('  <g id="land">')
+    admin_out = []
     def emit(key):
         ax, ay, area = anchors[key]
         meta = f'data-cx="{fmt(ax)}" data-cy="{fmt(ay)}" data-area="{int(area)}"'
@@ -2048,20 +2103,34 @@ def main():
         blocks = province_paths(key)
         specks = dots.get(key) or []
         if blocks:
-            out.append(f'    <g id="a-{key}" class="atom" {meta}>')
+            # Administrative divisions are more than half the weight of this
+            # file, and the map opens with that layer off, so they are written
+            # to a second file and fetched only when it is switched on. Islands
+            # and enclaves stay: their sub-units are places rather than
+            # divisions and they are named whatever the layer says.
+            defer = not (key in ARCHIPELAGOS or key in ("goa", "pondicherry"))
+            whole = whole_union(key)
+            cls = "atom deferred" if (defer and whole) else "atom"
+            out.append(f'    <g id="a-{key}" class="{cls}" {meta}>')
             # The sub-units come from a different source than each other and
             # are simplified one ring at a time, so two that shared an edge no
             # longer quite do and a hairline of ocean opens between them. The
             # whole shape goes underneath them first, in the same colour, so a
             # crack shows the country rather than the sea.
-            whole = whole_union(key)
             if whole:
                 out.append(f'      <path class="whole" d="{whole}"/>')
+            # with no whole underneath them the sub-units *are* the atom, so
+            # those cannot be deferred whatever kind of sub-unit they are
+            sink = admin_out if (defer and whole) else out
+            if sink is admin_out:
+                sink.append(f'  <g data-for="{key}">')
             for pname, pd in blocks:
                 # an unnamed leftover gets no attribute at all: an empty one
                 # reads as a sub-unit that can never be named or outlined
-                attr = f' data-prov="{pname}"' if pname else ""
-                out.append(f'      <path{attr} d="{pd}"/>')
+                attr = f' data-prov="{esc(pname)}"' if pname else ""
+                sink.append(f'      <path{attr} d="{pd}"/>')
+            if sink is admin_out:
+                sink.append("  </g>")
             for cx, cy, r in specks:
                 out.append(f'      <circle class="islet-hit" cx="{fmt(cx)}" cy="{fmt(cy)}" r="{fmt(r)}"/>')
                 out.append(f'      <circle class="islet" cx="{fmt(cx)}" cy="{fmt(cy)}" r="{fmt(r)}"/>')
@@ -2112,6 +2181,20 @@ def main():
     dest = os.path.join(ROOT, "japan-empire-map.svg")
     with open(dest, "w") as fh:
         fh.write("\n".join(out) + "\n")
+
+    # The administrative divisions, in their own file. They are more than half
+    # the weight of the map and the map opens without them.
+    admin = ['<?xml version="1.0" encoding="utf-8"?>',
+             f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {fmt(WIDTH)} {fmt(HEIGHT)}" '
+             'id="jmap-admin">',
+             "  <title>Administrative divisions</title>"]
+    admin.extend(admin_out)
+    admin.append("</svg>")
+    adest = os.path.join(ROOT, "japan-empire-map-admin.svg")
+    with open(adest, "w") as fh:
+        fh.write("\n".join(admin) + "\n")
+    ab = os.path.getsize(adest)
+    sys.stderr.write(f"wrote {adest} ({ab // 1024} KB)\n")
 
     sys.stderr.write(f"wrote {dest} ({os.path.getsize(dest)/1024:.0f} KB, {fmt(WIDTH)}x{fmt(HEIGHT)})\n")
     for key, n, size, how in sorted(stats, key=lambda s: -s[2]):
