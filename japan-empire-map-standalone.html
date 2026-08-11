@@ -1660,11 +1660,15 @@ JMAP.TERRITORIES = {
       when: 'Occupied from 1937; Nanking government from March 1940',
       note: 'Governed on paper by Wang Ching-wei’s collaborationist government at Nanking, with the far south under military administration instead. Traced from a 1940 map of the occupation and adjusted to December 1942: the plains, the railways and the cities of the north and the Yangtze valley, the corridor west to Paotow, the Canton delta from October 1938, Hainan from February 1939, and the ports of Amoy and Swatow. Western Shansi and Honan, most of Hunan, Kiangsi and Fukien were never taken, Changsha held out until 1944, and Communist and Nationalist guerrillas operated in force inside the line as well as beyond it — the shading marks where Japanese authority reached, not where it was unchallenged.' },
 
-    { id: 'indochina', atoms: ['indochina'], cat: 'occupied', lvl: 2,
+    // French ground with Japanese forces on it, which is what the stripes mean
+    // elsewhere on this map. Japan did not take the administration over until
+    // 9 March 1945, so drawing it as military occupation said that the thing
+    // that happened in 1945 had happened in 1942.
+    { id: 'indochina', atoms: ['indochina'], cat: 'french', lvl: 2, hatch: 'occupied',
       en: 'French Indochina', ja: '仏印 (Futsuin)', orig: 'Đông Dương thuộc Pháp',
       zh: '法屬印度支那', ko: '프랑스령 인도차이나 (P’ŭrangsŭryŏng Indoch’aina)',
-      when: 'Occupied September 1940 – July 1941',
-      note: 'Japanese troops entered the north in September 1940 and the south in July 1941 — the step that brought the American oil embargo. Vichy French officials stayed in place until March 1945.' },
+      when: 'Japanese troops from September 1940; French administration to March 1945',
+      note: 'Japanese troops entered the north in September 1940 and the south in July 1941 — the step that brought the American oil embargo. It is drawn in the French colour with Japanese stripes across it because that is what it was: Vichy French governors, courts, police and customs continued to run the colony, under a Japanese army that took what it wanted from it, until the coup of 9 March 1945 swept the French administration away in a night. Japanese rice requisition and the collapse of transport produced the Tonkin famine of 1944–45, in which perhaps a million people died.' },
     { id: 'burma', atoms: ['burma'], cat: 'occupied', lvl: 2,
       en: 'Burma', ja: '緬甸 (Biruma)', orig: 'မြန်မာ (Myanma)',
       zh: '緬甸', ko: '버마 (Pŏma)',
@@ -1852,11 +1856,11 @@ JMAP.TERRITORIES = {
       zh: '西藏', ko: '티베트 (T’ibet’ŭ)',
       when: 'De facto independent',
       note: 'Self-governing in practice and neutral in the war, it refused passage to an Allied supply route to China.' },
-    { id: 'macau', atoms: ['macau'], cat: 'occupied', lvl: 3,
+    { id: 'macau', atoms: ['macau'], cat: 'portuguese', lvl: 3,
       en: 'Macao', ja: 'マカオ (Makao)', orig: '澳門 (Ou-mun)',
       zh: '澳門', ko: '마카오 (Mak’ao)',
-      when: 'Portuguese, and inside the Japanese sphere',
-      note: 'Portuguese and formally neutral to the end of the war — Japan never raised its flag here, and the colony filled with refugees from Hong Kong and Canton. It is shown in the occupied colour because neutrality was the only thing left of its independence: it was surrounded, fed and policed on Japanese sufferance, and from 1943 Japanese “advisers” ran it in all but name.' },
+      when: 'Portuguese and neutral throughout',
+      note: 'Japan never occupied Macao and never raised its flag here: Portugal was neutral, the colony stayed Portuguese to the end of the war, and it filled with refugees from Hong Kong and Canton — its population several times what it had been. That neutrality was held on Japanese sufferance, though. The colony was surrounded, and it was fed and policed by agreement; from 1943 Japanese “advisers” were installed and had their way in most things. It is drawn Portuguese because that is what it was, and this note is where the qualification belongs.' },
     // Weihaiwei went back to China in October 1930 and is not a territory on
     // this map: by December 1942 it is occupied Shantung like the rest of the
     // province, and drawing its old lease boundary would say otherwise
@@ -1864,7 +1868,7 @@ JMAP.TERRITORIES = {
       en: 'Kwangchowan (Guangzhouwan)', ja: '広州湾 (Kōshūwan)', orig: 'Kouang-Tchéou-Wan',
       zh: '廣州灣', ko: '광주만 (Kwangjuman)',
       when: 'Leased to France 1898–1945',
-      note: 'A French leased territory on the Leizhou peninsula, run from Indochina. In December 1942 it is still under Vichy French administration inside a Japanese-occupied region; Japanese troops moved in in February 1943.' },
+      note: 'A French leased territory on the Leizhou peninsula, run from Indochina and drawn like it: the French colour with Japanese stripes across it. In December 1942 Vichy French administration continued inside a Japanese-occupied region, and it was the last neutral door into south China — a smuggling route and an escape route. Japanese troops moved in in February 1943.' },
     { id: 'tuva', atoms: ['tuva'], cat: 'neutral', c: '#d3d1e6', edge: '#bebada', lvl: 3,
       en: 'Tannu Tuva (Tuvan People’s Republic)', ja: 'トゥヴァ人民共和国', orig: 'Тыва Арат Республик',
       zh: '唐努圖瓦', ko: '투바 인민공화국',
