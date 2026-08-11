@@ -426,7 +426,20 @@ YANGZI_TAIL = [
 # west of the shading: it is taken straight off OCCUPIED_ZONE's first block,
 # smoothed the same way, and the two coincide.
 def china_front():
-    return [(109.6, 38.69)] + list(OCCUPIED_ZONE[0][:59])
+    """The front, taken off the shading, as far as the Chekiang coast.
+
+    Where to stop used to be a fixed index into the traced block, which is a
+    trap: adding points anywhere upstream of it — the Yangtze reach did — cuts
+    the front short and the perimeter closes the shortfall with a straight
+    chord across four hundred kilometres of unoccupied China. It now hands
+    over at whichever traced point is nearest the start of the coast line,
+    so the two always meet where they are meant to.
+    """
+    blk = OCCUPIED_ZONE[0]
+    head = EXTENT_SOUTH_CHINA[0]
+    j = min(range(len(blk)),
+            key=lambda i: (blk[i][0] - head[0]) ** 2 + (blk[i][1] - head[1]) ** 2)
+    return [(109.6, 38.69)] + list(blk[:j + 1])
 
 
 # The south China coast, from where the occupied zone meets the sea in Chekiang
