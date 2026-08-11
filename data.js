@@ -76,7 +76,7 @@ JMAP.CATEGORIES = {
     { id: 'colony', c: '#c90000', en: 'Colonies & leased territory', ja: '外地・租借地', orig: 'Colonies', zh: '外地・租借地', ko: '외지·조차지' },
     { id: 'puppet', c: '#ffaeae', en: 'Client states', ja: '傀儡国家', orig: 'Client states', zh: '傀儡國家', ko: '괴뢰국' },
     { id: 'occupied', c: '#ff7e7e', en: 'Under military occupation', ja: '軍政地域', orig: 'Occupied', zh: '軍政地區', ko: '군정 지역' },
-    { id: 'cobelligerent', c: '#df65b0', en: 'Co-belligerent', ja: '同盟国', orig: 'Co-belligerent', zh: '日本盟國', ko: '일본의 동맹국' },
+    { id: 'cobelligerent', c: '#00b1af', en: 'Co-belligerent', ja: '同盟国', orig: 'Co-belligerent', zh: '日本盟國', ko: '일본의 동맹국' },
     { id: 'freechina', c: '#93ac93', en: 'Free China', ja: '重慶政権', orig: 'Free China', zh: '國統區', ko: '자유중국' },
     { id: 'frontier', c: '#c3d6c3', en: 'Self-governing frontier', ja: '自治的辺境', orig: 'Self-governing frontier', zh: '自治邊疆', ko: '자치 변경' },
     { id: 'allied', c: '#b07f8e', en: 'Allied', ja: '連合国', orig: 'Allied', zh: '盟軍', ko: '연합국' },

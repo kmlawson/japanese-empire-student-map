@@ -86,7 +86,7 @@ were numbered. Open items are not listed here.
     Chahar's eastern edge; **Kwantung** joins them, since the lease was
     re-granted by Manchukuo in 1932, and is told from Manchuria by its own
     boundary across the Liaodong isthmus.
-26. **Siam and the territories it took from Indochina** in magenta, with
+26. **Siam and the territories it took from Indochina** in teal, with
     Kengtung striped over the same colour.
 27. **Tibet and Sinkiang** in a lighter green of their own, since neither was
     governed from Chungking in any ordinary sense.
