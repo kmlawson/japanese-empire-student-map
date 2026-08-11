@@ -142,7 +142,8 @@ OCCUPIED_ZONE = [
         (122.4, 30.0), (122.2, 30.4), (122.4, 30.9), (122.3, 31.7), (121.8, 32.5),
         (121.2, 33.5), (120.4, 34.5), (120.3, 35.0), (120.9, 36.0), (121.6, 36.6),
         (122.3, 36.85), (123.3, 37.35), (123.2, 37.9), (121.2, 38.1), (119.8, 37.9), (118.7, 38.4), (117.5, 38.7),
-        (118.1, 39.2), (119.3, 39.4), (120.3, 40.3), (119.0, 40.3), (117.2, 40.7),
+        (118.6, 39.0), (119.35, 39.55), (119.95, 40.0), (120.3, 40.3),
+        (119.0, 40.3), (117.2, 40.7),
         (115.0, 40.7),
     ],
     # the corridor west along the railway through Suiyuan to Paotow
@@ -159,11 +160,11 @@ OCCUPIED_ZONE = [
     ],
     # Hainan, taken February 1939
     [
-        (108.6, 18.2), (109.6, 18.1), (110.6, 18.6), (111.1, 19.4), (110.8, 20.1),
-        (109.9, 20.2), (109.0, 19.8), (108.5, 19.0),
+        (108.6, 18.2), (109.6, 18.1), (110.6, 18.6), (111.15, 19.5), (111.05, 20.0),
+        (110.8, 20.25), (109.9, 20.2), (109.0, 19.8), (108.5, 19.0),
     ],
-    # Amoy, taken May 1938
-    [(117.9, 24.35), (118.4, 24.35), (118.4, 24.65), (117.9, 24.65)],
+    # Amoy, taken May 1938, and Kinmen, taken October 1937
+    [(117.9, 24.35), (118.8, 24.4), (118.8, 24.85), (117.9, 24.65)],
     # Swatow and Chaochow, taken June 1939
     [(116.3, 23.15), (116.95, 23.25), (116.85, 23.75), (116.3, 23.6)],
 ]
@@ -329,10 +330,11 @@ YANGZI_TAIL = [
 
 # The front in China: a broad, shifting and porous zone, not a border.
 EXTENT_CHINA_FRONT = [
-    (106.8, 40.4), (107.2, 39.2), (108.6, 38.4), (110.2, 37.8), (110.7, 36.2),
-    (110.9, 34.6), (111.8, 33.4), (112.6, 32.2), (111.8, 31.0), (110.8, 30.2),
+    (109.6, 38.69), (110.9, 38.70), (110.6, 38.00), (110.7, 37.20),
+    (110.45, 36.40), (110.35, 35.60), (110.2, 35.10), (110.2, 34.45),
+    (111.8, 33.4), (112.6, 32.2), (111.9, 31.05), (110.9, 30.7), (110.8, 30.2),
     (112.0, 29.2), (113.4, 28.4), (114.8, 27.8), (116.2, 27.0), (117.4, 25.8),
-    (118.9, 24.9),
+    (118.4, 25.1),
 ]
 # The south China coast. Everything Japan held along it has to fall inside the
 # loop: Amoy from May 1938, Swatow from June 1939, Canton and the delta from
@@ -342,7 +344,7 @@ EXTENT_CHINA_FRONT = [
 # need to detour round Hainan: everything seaward of this line is inside, so
 # tracing the island would have cut it out rather than taken it in.
 EXTENT_SOUTH_CHINA = [
-    (118.2, 24.6), (117.3, 24.0), (116.4, 23.9), (115.2, 23.6), (114.2, 23.7),
+    (117.75, 24.75), (117.3, 24.0), (116.4, 23.9), (115.2, 23.6), (114.2, 23.7),
     (113.4, 24.0), (112.4, 23.5), (111.4, 22.5), (110.6, 21.9), (109.9, 21.9),
     (109.0, 21.7), (108.1, 21.5),
 ]
@@ -389,14 +391,17 @@ EXTENT_OCEAN = [
 
 # Anchors where the hand-drawn pieces hand over to a real frontier.
 EXTENT_ARCS = [
-    # (atom, from, to, via) — the northern frontier of mainland Southeast Asia
-    ("indochina", (108.1, 21.5), (101.2, 21.4), (104.5, 23.2)),
+    # (atom, from, to, via) — the northern frontier of mainland Southeast Asia.
+    # Indochina takes two arcs because it is drawn from two sources that do not
+    # weld: the China–Tonkin frontier, then the China–Laos one.
+    ("indochina", (108.1, 21.5), (102.12, 22.40), (105.5, 23.4)),
+    ("indochina", (102.13, 22.41), (101.2, 21.4), (101.5, 22.2)),
     ("burma", (101.0, 21.3), (92.3, 20.6), (97.5, 27.5)),
 ]
 # The Manchukuo and Mengchiang frontier, taken off the provinces themselves.
 EXTENT_MANCHURIA = (
     ("manchuria", "jehol", "chahar", "suiyuan"),
-    (130.7, 42.4), (106.8, 40.4), (120.0, 51.0),
+    (130.7, 42.4), (109.6, 38.69), (120.0, 51.0),
 )
 
 # Kinmen (Quemoy) sits in Natural Earth's Taiwan polygon because it is governed
@@ -1253,22 +1258,38 @@ def main():
         f"{k}={v}" for k, v in sorted(tally.items(), key=lambda kv: -kv[1])) + "\n")
 
     # ---- the 1942 greatest-extent line -------------------------------------
-    def outline(keys):
+    def outlines(keys):
         rings = []
         for k in keys:
             rings.extend(groups.get(k, []))
         if not rings:
-            return None
-        merged = dissolve(rings)
-        return max(merged or rings, key=ring_area)
+            return []
+        merged = dissolve(rings) or rings
+        return [r for r in merged if len(r) >= 3]
+
+    def outline(keys):
+        rings = outlines(keys)
+        return max(rings, key=ring_area) if rings else None
+
+    def ring_for(rings, a, b):
+        """The ring an arc's two anchors actually sit on.
+
+        French Indochina is Natural Earth's Vietnam next to geoBoundaries' Laos
+        and Cambodia, and no dissolve will weld two sources together: the
+        outline comes back as two rings of almost the same size. Taking the
+        larger one put the arc on the Lao frontier and left the whole of Tonkin
+        — Hanoi, Haiphong, Lang Son — outside the line."""
+        def near(ring, p):
+            return min((x - p[0]) ** 2 + (y - p[1]) ** 2 for x, y in ring)
+        return min(rings, key=lambda r: near(r, a) + near(r, b))
 
     extent = []
     extent += chaikin(EXTENT_CHINA_FRONT)
     extent += chaikin(EXTENT_SOUTH_CHINA)
     for key, a, b, via in EXTENT_ARCS:
-        ring = outline([key])
-        if ring:
-            arc = boundary_arc(ring, a, b, via)
+        rings = outlines([key])
+        if rings:
+            arc = boundary_arc(ring_for(rings, a, b), a, b, via)
             extent += simplify(arc, 0.03)
     extent += chaikin(EXTENT_OCEAN)
     keys, a, b, via = EXTENT_MANCHURIA
