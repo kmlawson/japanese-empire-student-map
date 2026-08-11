@@ -2054,6 +2054,13 @@ def main():
                 out.append(f'    <path id="river-{key}" class="river" fill="none" d="{rivers[key]}"/>')
         out.append("  </g>")
     out.append('  <g id="markers"></g>')
+    # A frame on the drawing's own edge. The map can now be pushed past that
+    # edge — a long way on a phone, where the cards take a third of the screen
+    # and you need somewhere to put the thing you are looking at — so the ocean
+    # has to end somewhere visible, or the sea just runs out into the page.
+    out.append(
+        f'  <rect id="frame" x="0" y="0" width="{fmt(WIDTH)}" height="{fmt(HEIGHT)}"/>'
+    )
     out.append("</svg>")
 
     dest = os.path.join(ROOT, "japan-empire-map.svg")

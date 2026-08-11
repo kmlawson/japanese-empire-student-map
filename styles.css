@@ -146,11 +146,15 @@ button.plain:hover { background: #f2ede2; }
 
 /* -------------------------------------------------------------- stage --- */
 
+/* The stage is what shows beyond the edge of the drawing now that the map can
+   be pushed past it. It used to be painted the ocean colour, which made the
+   sea look as though it simply ran out; it is the page instead, so the frame
+   round the drawing reads as the map's edge. */
 #stage {
   position: relative;
   flex: 1 1 auto;
   min-height: 0;
-  background: var(--ocean);
+  background: var(--bg);
 }
 
 /* Below the sidebar breakpoint the panels float over the map; the wrapper
@@ -342,6 +346,16 @@ button.plain:hover { background: #f2ede2; }
   border-top: 2.5px dotted #c25a2a;
   border-radius: 0;
   align-self: center;
+}
+
+/* The edge of the drawing. Drawn last so it sits over everything, and never
+   takes the pointer: it is a boundary, not a control. */
+#frame {
+  fill: none;
+  stroke: var(--line);
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
 }
 
 /* rivers */

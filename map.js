@@ -644,14 +644,26 @@
 
     // fitView contains the whole map, which on a tall phone leaves the land a
     // third of the screen. Stop at the point where the map still covers the
-    // short axis, so zooming out never goes past useful.
+    // short axis, so zooming out never goes past useful. On a container taller
+    // than the drawing this leaves bands of page above and below — which is
+    // what a framed map on a page looks like, and is better than not being
+    // able to see the whole of it at once.
     var maxW = Math.min(fitView().w, mapW);
     var minW = mapW / 40;
     if (v.w > maxW) { v.w = maxW; v.h = v.w / aspect; }
     if (v.w < minW) { v.w = minW; v.h = v.w / aspect; }
 
-    v.x = v.w >= mapW ? (mapW - v.w) / 2 : Math.min(Math.max(v.x, 0), mapW - v.w);
-    v.y = v.h >= mapH ? (mapH - v.h) / 2 : Math.min(Math.max(v.y, 0), mapH - v.h);
+    // How far past the edge of the drawing the map may be pushed. On a phone
+    // the detail sheet and the legend take a third of the screen and there is
+    // nowhere to put the thing you are looking at, so the map has to move well
+    // past its own edge; on a desktop a little give is enough that the pan
+    // does not feel walled in. The frame drawn round the SVG is what stops the
+    // overscroll reading as the sea simply running out.
+    var slackX = v.w * (coarse ? 0.45 : 0.06);
+    var slackY = v.h * (coarse ? 0.45 : 0.06);
+    var restX = mapW - v.w, restY = mapH - v.h;
+    v.x = Math.min(Math.max(v.x, Math.min(0, restX) - slackX), Math.max(0, restX) + slackX);
+    v.y = Math.min(Math.max(v.y, Math.min(0, restY) - slackY), Math.max(0, restY) + slackY);
     return v;
   }
 
