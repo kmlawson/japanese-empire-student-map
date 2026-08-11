@@ -140,8 +140,9 @@ button.plain:hover { background: #f2ede2; }
    waiting to happen, so the controls grow on a touch screen. */
 @media (pointer: coarse) {
   .seg button, button.plain { min-height: 44px; }
-  dialog label.row { min-height: 44px; align-items: center; }
+  dialog label.row, #cat-toggles label { min-height: 44px; align-items: center; }
   #quiz button { min-height: 44px; }
+  #legend .legend-head { min-height: 44px; }
 }
 
 :focus-visible {
@@ -518,7 +519,7 @@ button.plain:hover { background: #f2ede2; }
   z-index: 5;
 }
 
-#legend .legend-head { pointer-events: auto; }   /* the rows do nothing, so they let the map through */
+#legend .legend-head, #legend .legend-body { pointer-events: auto; }   /* the rows do nothing, so they let the map through */
 
 #legend .item {
   display: flex;
@@ -576,6 +577,27 @@ button.plain:hover { background: #f2ede2; }
 #legend.folded .legend-head { margin-bottom: 0; }
 #legend.folded .legend-head .caret { transform: translateY(1px) rotate(-135deg); }
 #legend.folded .legend-body { display: none; }
+
+/* One line for a first-time visitor, gone as soon as they touch anything. */
+#hint {
+  position: absolute;
+  left: 50%;
+  top: 12px;
+  transform: translateX(-50%);
+  z-index: 12;
+  margin: 0;
+  max-width: min(92%, 460px);
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(35, 32, 27, .88);
+  color: #fdfbf6;
+  font-size: 13.5px;
+  text-align: center;
+  box-shadow: var(--shadow);
+  /* it must not stand between a finger and the map: the first touch anywhere
+     dismisses it, so it never needs to be hit itself */
+  pointer-events: none;
+}
 
 #tooltip {
   position: fixed;
@@ -677,6 +699,12 @@ button.plain:hover { background: #f2ede2; }
 
 #info .when[hidden] { display: none; }
 
+#info .prov {
+  margin: 2px 0 0;
+  font-size: 13.5px;
+  color: #7a5c1f;
+}
+
 #info .note {
   margin: 8px 0 0;
   font-size: 13.5px;
@@ -703,6 +731,8 @@ button.plain:hover { background: #f2ede2; }
 
 #quiz .prompt { margin: 0; font-size: 19px; line-height: 1.3; }
 #quiz .prompt .lead { color: var(--muted); font-size: 13px; text-transform: uppercase; letter-spacing: .07em; }
+#quiz.done .prompt .lead { display: none; }
+#quiz.done .summary ul { max-height: none; overflow: visible; }
 #quiz .prompt strong { display: block; }
 
 #quiz .feedback { margin: 6px 0 0; font-size: 13.5px; min-height: 1.2em; }
@@ -729,7 +759,9 @@ button.plain:hover { background: #f2ede2; }
 
 #quiz #q-reveal { background: var(--accent); border-color: var(--accent); color: #fff; }
 #quiz .summary { margin: 6px 0 0; font-size: 13.5px; }
-#quiz .summary ul { margin: 6px 0 0; padding-left: 18px; max-height: 26vh; overflow-y: auto; }
+/* the card itself scrolls; a second scroller nested inside it cannot be
+   reached by a finger, because the outer one takes the gesture */
+#quiz .summary ul { margin: 6px 0 0; padding-left: 18px; }
 
 /* ------------------------------------------------------------ dialogs --- */
 
@@ -860,7 +892,18 @@ dialog input[type="checkbox"] {
   #legend { font-size: 11.5px; padding: 6px 8px; }
 }
 
-@media (max-width: 620px) {
+/* A short screen has no room for a column of zoom buttons on the same side
+   as the cards: in landscape the quiz card is full height and the buttons
+   land on top of "End quiz". They move to the free corner. */
+@media (max-height: 520px) {
+  #zoom-controls {
+    left: max(8px, var(--safe-l));
+    right: auto;
+    flex-direction: row;
+  }
+}
+
+@media (max-width: 620px), (max-height: 520px) {
   #bar .spacer { display: none; }
   #level-seg button .wide, #lang-seg button .wide { display: none; }
   #level-seg button .narrow, #lang-seg button .narrow { display: inline; }
@@ -871,8 +914,8 @@ dialog input[type="checkbox"] {
   #legend {
     top: auto;
     bottom: calc(10px + var(--safe-b));
-    left: 10px;
-    right: 10px;
+    left: max(10px, var(--safe-l));
+    right: max(10px, var(--safe-r));
     max-width: none;
     max-height: 45%;
     overflow-y: auto;
@@ -896,6 +939,19 @@ dialog input[type="checkbox"] {
   /* the legend and the detail sheet both live at the bottom on a phone;
      the sheet wins whenever one is open */
   body.panel-open #legend { display: none; }
+
+  /* The quiz card is a working surface, not a reading one: on a small screen
+     it has to leave the map most of the room, or the answer is under it. */
+  #quiz {
+    padding: 8px 12px calc(8px + var(--safe-b));
+    max-height: 42%;
+  }
+  #quiz .quiz-head { margin-bottom: 2px; }
+  #quiz .prompt { font-size: 17px; }
+  #quiz .prompt .lead { font-size: 11px; }
+  #quiz .quiz-actions { margin-top: 6px; }
+  #quiz .feedback { margin-top: 3px; }
+  #quiz.done { max-height: 62%; }
 
   /* the info card and quiz card become bottom sheets */
   #info, #quiz {
@@ -975,6 +1031,7 @@ dialog input[type="checkbox"] {
   </div>
 
   <div id="tooltip" role="status" aria-live="off" hidden></div>
+  <p id="hint" hidden>Tap any place to see what it was · <strong>Quiz</strong> to test yourself</p>
 
   <aside id="side">
   <div id="legend" hidden></div>
@@ -984,6 +1041,7 @@ dialog input[type="checkbox"] {
     <p class="chip"></p>
     <h2 class="primary"></h2>
     <p class="alt"></p>
+    <p class="prov" hidden></p>
     <p class="when"></p>
     <p class="note"></p>
   </section>
@@ -3102,6 +3160,8 @@ window.JMAP_INLINE_SVG = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 
 
   /* ------------------------------------------------------------- boot -- */
 
+  var firstVisit = false;
+  try { firstVisit = !window.localStorage.getItem(STORE_KEY); } catch (err) { firstVisit = true; }
   loadState();
 
   // The bundled single-file build inlines the map; otherwise fetch it. Either
@@ -3190,6 +3250,10 @@ window.JMAP_INLINE_SVG = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 
     applyState();
     view = defaultView();
     applyView(true);
+
+    // A student arriving cold sees a map, some rows of buttons and no words.
+    // One line, once, that goes away as soon as they touch anything.
+    if (firstVisit) showHint();
 
     window.addEventListener('resize', onResize);
     if (window.visualViewport) window.visualViewport.addEventListener('resize', onResize);
@@ -3539,7 +3603,7 @@ window.JMAP_INLINE_SVG = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 
     // fitView contains the whole map, which on a tall phone leaves the land a
     // third of the screen. Stop at the point where the map still covers the
     // short axis, so zooming out never goes past useful.
-    var maxW = Math.min(fitView().w, Math.max(mapW, mapH * aspect));
+    var maxW = Math.min(fitView().w, mapW);
     var minW = mapW / 40;
     if (v.w > maxW) { v.w = maxW; v.h = v.w / aspect; }
     if (v.w < minW) { v.w = minW; v.h = v.w / aspect; }
@@ -3572,6 +3636,8 @@ window.JMAP_INLINE_SVG = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 
 
   var hatchPattern = null;
   var lastDouble = 0;
+  var lastTap = null;
+  var pendingTap = 0;
 
   /* The browse layer is context, and at a wide zoom on a small screen it is
    * 131 dots on top of each other. It comes in once there is room for it. */
@@ -3623,6 +3689,8 @@ window.JMAP_INLINE_SVG = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 
     for (var i = 0; i < labels.length; i++) {
       var L = labels[i];
       if (!L.w) { L.el.style.display = 'none'; continue; }
+      // a browse name with no dot under it is just a word floating in the sea
+      if (L.rec.kind === 'browse' && !browseVisible()) { L.el.style.display = 'none'; continue; }
 
       var x = (L.x - view.x) * sx;
       var y = (L.y - view.y) * sy + L.dy;
@@ -3670,10 +3738,14 @@ window.JMAP_INLINE_SVG = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 
   }
 
   function onResize() {
-    var before = { cx: view.x + view.w / 2, cy: view.y + view.h / 2, w: view.w };
+    var before = { cx: view.x + view.w / 2, cy: view.y + view.h / 2,
+                   area: view.w * view.h };
     var c = containerSize();
-    view.w = Math.min(before.w, fitView().w);
-    view.h = view.w / (c.w / c.h);
+    // keep the area in view, not the width: preserving the width across a
+    // rotation doubles the magnification and lands you in a thin slice
+    var aspect = c.w / c.h;
+    view.w = Math.min(Math.sqrt(before.area * aspect), fitView().w);
+    view.h = view.w / aspect;
     view.x = before.cx - view.w / 2;
     view.y = before.cy - view.h / 2;
     applyView(true);
@@ -3682,11 +3754,11 @@ window.JMAP_INLINE_SVG = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 
   /* Centre the view on a record. Site markers carry a scale transform, so
    * their getBBox() is in their own local frame and useless here — the
    * projected position is the truth. */
-  function focusOn(rec) {
+  function focusOn(rec, spread) {
     var cx, cy, want;
     if (rec.kind === 'site' || rec.kind === 'browse') {
       var p = sitePos[rec.rid || rec.id];
-      cx = p.x; cy = p.y; want = 420;
+      cx = p.x; cy = p.y; want = 420 * (spread || 1);
     } else {
       var els = atomsOf[rec.id] || [];
       var b = null;
@@ -3704,14 +3776,30 @@ window.JMAP_INLINE_SVG = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 
       if (!b) return;
       cx = (b.x0 + b.x1) / 2;
       cy = (b.y0 + b.y1) / 2;
-      want = Math.max((b.x1 - b.x0) * 1.9, (b.y1 - b.y0) * 1.9, 300);
+      want = Math.max((b.x1 - b.x0) * 1.9, (b.y1 - b.y0) * 1.9, 300) * (spread || 1);
     }
-    var maxW = fitView().w;
-    view.w = Math.min(Math.max(want, mapW / 40), maxW);
-    view.h = view.w / (containerSize().w / containerSize().h);
+    var c = containerSize();
+    var aspect = c.w / c.h;
+    // On a tall screen, sizing the view by its width makes the height
+    // overflow the map, clamping pushes it back, and the thing you asked to
+    // see slides out of the frame. Fit whichever axis is the tighter one.
+    var w = aspect < 1 ? want * aspect : want;
+    view.w = Math.min(Math.max(w, mapW / 40), fitView().w);
+    view.h = view.w / aspect;
     view.x = cx - view.w / 2;
     view.y = cy - view.h / 2;
+    // and leave room for whichever card is open at the bottom
+    var card = quizBox.hidden ? (infoBox.hidden ? null : infoBox) : quizBox;
+    if (card && window.innerWidth < 1000) {
+      var covered = Math.max(0, c.h - (card.getBoundingClientRect().top - stageTop()));
+      view.y += (covered / 2) * (view.h / c.h);
+    }
     applyView();
+  }
+
+  function stageTop() {
+    var st = document.getElementById('stage');
+    return st ? st.getBoundingClientRect().top : 0;
   }
 
   /* -------------------------------------------------------- pointering -- */
@@ -3730,7 +3818,6 @@ window.JMAP_INLINE_SVG = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 
     container.addEventListener('wheel', onWheel, { passive: false });
     container.addEventListener('dblclick', function (e) {
       e.preventDefault();
-      lastDouble = Date.now();
       zoomAt(e.clientX, e.clientY, 1.9);
     });
     container.addEventListener('contextmenu', function (e) { if (coarse) e.preventDefault(); });
@@ -3826,7 +3913,28 @@ window.JMAP_INLINE_SVG = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 
     container.classList.remove('dragging');
     dragStart = null;
 
-    if (had === 1 && !movedFar && e.type === 'pointerup') handleTap(downTarget, e.clientX, e.clientY);
+    if (had === 1 && !movedFar && e.type === 'pointerup') {
+      // dblclick is synthesised after the second pointerup, too late to stop
+      // the tap that came with it — so the pair is spotted here instead
+      var now = Date.now();
+      var dbl = lastTap && now - lastTap.t < 320 &&
+                Math.abs(e.clientX - lastTap.x) < 32 && Math.abs(e.clientY - lastTap.y) < 32;
+      lastTap = { t: now, x: e.clientX, y: e.clientY };
+      if (pendingTap) { window.clearTimeout(pendingTap); pendingTap = 0; }
+      if (!dbl) {
+        if (state.mode === 'quiz') {
+          // hold the answer just long enough that a double tap to zoom does
+          // not also cost the student the question
+          var t = downTarget, tx = e.clientX, ty = e.clientY;
+          pendingTap = window.setTimeout(function () {
+            pendingTap = 0;
+            handleTap(t, tx, ty);
+          }, 300);
+        } else {
+          handleTap(downTarget, e.clientX, e.clientY);
+        }
+      }
+    }
     downTarget = null;
   }
 
@@ -3851,7 +3959,12 @@ window.JMAP_INLINE_SVG = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 
     if (typeof cx !== 'number' || !svg) return null;
     var m = svg.getScreenCTM();
     if (!m) return null;
-    var best = null, bestD = HIT_R * HIT_R;
+    // In explore mode a generous catchment is a kindness. In the quiz it is
+    // the opposite: 44px discs round every city tile right over Taiwan, Korea,
+    // Kwantung and Weihaiwei, so the answer cannot be tapped at all. There the
+    // marker has to be hit nearly on the dot, and the land wins otherwise.
+    var reach = state.mode === 'quiz' ? DOT_R + 7 : HIT_R;
+    var best = null, bestD = reach * reach;
     var ids = Object.keys(sitePos);
     for (var i = 0; i < ids.length; i++) {
       var rec = byId[ids[i]];
@@ -3896,11 +4009,16 @@ window.JMAP_INLINE_SVG = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 
   }
 
   function handleTap(target, cx, cy) {
-    if (Date.now() - lastDouble < 350) return;   // that tap was half a zoom
     var got = pick(target, cx, cy);
     var hit = got && got.hit;
+    lastProv = hit && hit.rec.kind === 'territory' ? provinceOf(got.el) : null;
     if (state.mode === 'quiz') {
-      if (hit) quizAnswer(hit);
+      if (hit) { quizAnswer(hit); return; }
+      if (quiz && quiz.current) {
+        var fb = $('#q-feedback');
+        fb.className = 'feedback bad';
+        fb.textContent = 'Nothing there — try again.';
+      }
       return;
     }
     select(hit ? (hit.rec.rid || hit.rec.id) : null);
@@ -3919,6 +4037,7 @@ window.JMAP_INLINE_SVG = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 
   }
 
   var hotProv = null;
+  var lastProv = null;
 
   /* The province under the pointer, picked out inside the lit-up country. */
   function setHotProv(el) {
@@ -3954,6 +4073,7 @@ window.JMAP_INLINE_SVG = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 
     if (!hit) { setHot(null); setHotProv(null); hideTooltip(); return; }
     setHot(hit.rec.kind === 'territory' ? hit.rec.id : null);
     var prov = hit.rec.kind === 'territory' ? provinceOf(got.el) : null;
+    lastProv = prov;
     setHotProv(prov ? prov.el : null);
     showTooltip(hit.rec, e.clientX, e.clientY, prov);
   }
@@ -4134,6 +4254,11 @@ window.JMAP_INLINE_SVG = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 
     chip.style.setProperty('--chip', info ? info.c : 'var(--muted)');
     $('.primary', infoBox).textContent = primary;
     $('.alt', infoBox).textContent = others.join('  ·  ');
+    // on a touch screen there is no hover, so the sub-unit under the finger
+    // has nowhere else to be said
+    var prov = lastProv && lastProv.rec ? nameOf(lastProv.rec) : '';
+    $('.prov', infoBox).textContent = prov;
+    $('.prov', infoBox).hidden = !prov;
     $('.when', infoBox).textContent = rec.date || rec.when || '';
     $('.when', infoBox).hidden = !(rec.date || rec.when);
     $('.note', infoBox).textContent = rec.note || '';
@@ -4361,6 +4486,15 @@ window.JMAP_INLINE_SVG = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 
     });
   }
 
+  function showHint() {
+    var hint = document.getElementById('hint');
+    if (!hint) return;
+    hint.hidden = false;
+    var go = function () { hint.hidden = true; };
+    container.addEventListener('pointerdown', go, { once: true });
+    window.setTimeout(go, 9000);
+  }
+
   function showEpochBlurb() {
     var epoch = JMAP.EPOCHS.filter(function (e) { return e.id === state.epoch; })[0];
     if (!epoch) return;
@@ -4431,6 +4565,8 @@ window.JMAP_INLINE_SVG = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 
   }
 
   function nextQuestion() {
+    quizBox.classList.remove('done');
+    $('#q-reveal').textContent = 'Show me';
     clearReveal();
     $('#q-feedback').textContent = '';
     $('#q-feedback').className = 'feedback';
@@ -4442,12 +4578,64 @@ window.JMAP_INLINE_SVG = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 
     $('#q-target').textContent = nameOf(quiz.current);
     $('#q-reveal').disabled = false;
     $('#q-skip').disabled = false;
+    ensureOnScreen(quiz.current);
+  }
+
+  /* A question you cannot reach is not a question. But centring on the answer
+   * would give it away, so the first move is simply to go back to the opening
+   * view; only if the answer is still not reachable there does the map frame
+   * it, and then loosely, among its neighbours. */
+  function ensureOnScreen(rec) {
+    if (!rec || !svg) return;
+    var state0 = reachable(rec);
+    if (state0 === true) return;
+    // a marker that is on screen but has a neighbour's marker sitting on it
+    // just needs the map opened out a little
+    if (state0 === 'crowded') { focusOn(rec); return; }
+    view = defaultView();
+    applyView(true);
+    if (reachable(rec) === true) return;
+    focusOn(rec, 3);
+  }
+
+  function reachable(rec) {
+    if (!rec || !svg) return true;
+    var st = document.getElementById('stage').getBoundingClientRect();
+    var floor = quizBox.hidden ? st.bottom
+                               : Math.min(st.bottom, quizBox.getBoundingClientRect().top);
+    // A territory is reachable if any of its shapes has real estate in the
+    // part of the map you can still see. Testing a single centre point is no
+    // good: the middle of the Indies bounding box is open sea.
+    if (rec.kind === 'territory') {
+      var area = 0;
+      (atomsOf[rec.id] || []).forEach(function (el) {
+        var r = el.getBoundingClientRect();
+        var w = Math.min(r.right, st.right) - Math.max(r.left, st.left);
+        var h = Math.min(r.bottom, floor) - Math.max(r.top, st.top);
+        if (w > 0 && h > 0) area += w * h;
+      });
+      return area > 900;
+    }
+    var m = svg.getScreenCTM();
+    if (!m) return true;
+    var pt = sitePos[rec.rid || rec.id];
+    if (!pt) return true;
+    var sx = m.a * pt.x + m.c * pt.y + m.e;
+    var sy = m.b * pt.x + m.d * pt.y + m.f;
+    var pad = 24;
+    if (!(sx > st.left + pad && sx < st.right - pad &&
+          sy > st.top + pad && sy < floor - pad)) return false;
+    // being on screen is not enough: at a wide zoom a neighbouring city's
+    // marker can sit on top of the answer's own, so check the tap would land
+    var el = document.elementFromPoint(sx, sy);
+    var own = el && el.closest && el.closest('.site');
+    return (own && own.getAttribute('data-id') === rec.id) ? true : 'crowded';
   }
 
   function renderQuizHead() {
     $('#q-correct').textContent = quiz.correct;
     $('#q-asked').textContent = quiz.asked;
-    $('#q-total').textContent = ' · ' + quiz.queue.length + ' to go';
+    $('#q-total').textContent = quiz.current ? ' · ' + quiz.queue.length + ' to go' : '';
   }
 
   function quizAnswer(hit) {
@@ -4501,9 +4689,12 @@ window.JMAP_INLINE_SVG = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 
   function finishQuiz() {
     quiz.current = null;
     var pct = quiz.asked ? Math.round(100 * quiz.correct / quiz.asked) : 0;
-    $('#q-target').textContent = 'Finished — ' + quiz.correct + ' of ' + quiz.asked + ' first time (' + pct + '%)';
+    quizBox.classList.add('done');
+    $('#q-target').textContent = 'Finished — ' + quiz.correct + ' of ' + quiz.asked
+      + ' first time (' + pct + '%)';
     $('#q-feedback').textContent = '';
-    $('#q-reveal').disabled = true;
+    $('#q-reveal').textContent = 'Try again';
+    $('#q-reveal').disabled = false;
     $('#q-skip').disabled = true;
 
     var old = $('.summary', quizBox);

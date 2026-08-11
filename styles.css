@@ -130,8 +130,9 @@ button.plain:hover { background: #f2ede2; }
    waiting to happen, so the controls grow on a touch screen. */
 @media (pointer: coarse) {
   .seg button, button.plain { min-height: 44px; }
-  dialog label.row { min-height: 44px; align-items: center; }
+  dialog label.row, #cat-toggles label { min-height: 44px; align-items: center; }
   #quiz button { min-height: 44px; }
+  #legend .legend-head { min-height: 44px; }
 }
 
 :focus-visible {
@@ -508,7 +509,7 @@ button.plain:hover { background: #f2ede2; }
   z-index: 5;
 }
 
-#legend .legend-head { pointer-events: auto; }   /* the rows do nothing, so they let the map through */
+#legend .legend-head, #legend .legend-body { pointer-events: auto; }   /* the rows do nothing, so they let the map through */
 
 #legend .item {
   display: flex;
@@ -566,6 +567,27 @@ button.plain:hover { background: #f2ede2; }
 #legend.folded .legend-head { margin-bottom: 0; }
 #legend.folded .legend-head .caret { transform: translateY(1px) rotate(-135deg); }
 #legend.folded .legend-body { display: none; }
+
+/* One line for a first-time visitor, gone as soon as they touch anything. */
+#hint {
+  position: absolute;
+  left: 50%;
+  top: 12px;
+  transform: translateX(-50%);
+  z-index: 12;
+  margin: 0;
+  max-width: min(92%, 460px);
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(35, 32, 27, .88);
+  color: #fdfbf6;
+  font-size: 13.5px;
+  text-align: center;
+  box-shadow: var(--shadow);
+  /* it must not stand between a finger and the map: the first touch anywhere
+     dismisses it, so it never needs to be hit itself */
+  pointer-events: none;
+}
 
 #tooltip {
   position: fixed;
@@ -667,6 +689,12 @@ button.plain:hover { background: #f2ede2; }
 
 #info .when[hidden] { display: none; }
 
+#info .prov {
+  margin: 2px 0 0;
+  font-size: 13.5px;
+  color: #7a5c1f;
+}
+
 #info .note {
   margin: 8px 0 0;
   font-size: 13.5px;
@@ -693,6 +721,8 @@ button.plain:hover { background: #f2ede2; }
 
 #quiz .prompt { margin: 0; font-size: 19px; line-height: 1.3; }
 #quiz .prompt .lead { color: var(--muted); font-size: 13px; text-transform: uppercase; letter-spacing: .07em; }
+#quiz.done .prompt .lead { display: none; }
+#quiz.done .summary ul { max-height: none; overflow: visible; }
 #quiz .prompt strong { display: block; }
 
 #quiz .feedback { margin: 6px 0 0; font-size: 13.5px; min-height: 1.2em; }
@@ -719,7 +749,9 @@ button.plain:hover { background: #f2ede2; }
 
 #quiz #q-reveal { background: var(--accent); border-color: var(--accent); color: #fff; }
 #quiz .summary { margin: 6px 0 0; font-size: 13.5px; }
-#quiz .summary ul { margin: 6px 0 0; padding-left: 18px; max-height: 26vh; overflow-y: auto; }
+/* the card itself scrolls; a second scroller nested inside it cannot be
+   reached by a finger, because the outer one takes the gesture */
+#quiz .summary ul { margin: 6px 0 0; padding-left: 18px; }
 
 /* ------------------------------------------------------------ dialogs --- */
 
@@ -850,7 +882,18 @@ dialog input[type="checkbox"] {
   #legend { font-size: 11.5px; padding: 6px 8px; }
 }
 
-@media (max-width: 620px) {
+/* A short screen has no room for a column of zoom buttons on the same side
+   as the cards: in landscape the quiz card is full height and the buttons
+   land on top of "End quiz". They move to the free corner. */
+@media (max-height: 520px) {
+  #zoom-controls {
+    left: max(8px, var(--safe-l));
+    right: auto;
+    flex-direction: row;
+  }
+}
+
+@media (max-width: 620px), (max-height: 520px) {
   #bar .spacer { display: none; }
   #level-seg button .wide, #lang-seg button .wide { display: none; }
   #level-seg button .narrow, #lang-seg button .narrow { display: inline; }
@@ -861,8 +904,8 @@ dialog input[type="checkbox"] {
   #legend {
     top: auto;
     bottom: calc(10px + var(--safe-b));
-    left: 10px;
-    right: 10px;
+    left: max(10px, var(--safe-l));
+    right: max(10px, var(--safe-r));
     max-width: none;
     max-height: 45%;
     overflow-y: auto;
@@ -886,6 +929,19 @@ dialog input[type="checkbox"] {
   /* the legend and the detail sheet both live at the bottom on a phone;
      the sheet wins whenever one is open */
   body.panel-open #legend { display: none; }
+
+  /* The quiz card is a working surface, not a reading one: on a small screen
+     it has to leave the map most of the room, or the answer is under it. */
+  #quiz {
+    padding: 8px 12px calc(8px + var(--safe-b));
+    max-height: 42%;
+  }
+  #quiz .quiz-head { margin-bottom: 2px; }
+  #quiz .prompt { font-size: 17px; }
+  #quiz .prompt .lead { font-size: 11px; }
+  #quiz .quiz-actions { margin-top: 6px; }
+  #quiz .feedback { margin-top: 3px; }
+  #quiz.done { max-height: 62%; }
 
   /* the info card and quiz card become bottom sheets */
   #info, #quiz {

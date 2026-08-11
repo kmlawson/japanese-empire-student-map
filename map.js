@@ -157,6 +157,8 @@
 
   /* ------------------------------------------------------------- boot -- */
 
+  var firstVisit = false;
+  try { firstVisit = !window.localStorage.getItem(STORE_KEY); } catch (err) { firstVisit = true; }
   loadState();
 
   // The bundled single-file build inlines the map; otherwise fetch it. Either
@@ -245,6 +247,10 @@
     applyState();
     view = defaultView();
     applyView(true);
+
+    // A student arriving cold sees a map, some rows of buttons and no words.
+    // One line, once, that goes away as soon as they touch anything.
+    if (firstVisit) showHint();
 
     window.addEventListener('resize', onResize);
     if (window.visualViewport) window.visualViewport.addEventListener('resize', onResize);
@@ -594,7 +600,7 @@
     // fitView contains the whole map, which on a tall phone leaves the land a
     // third of the screen. Stop at the point where the map still covers the
     // short axis, so zooming out never goes past useful.
-    var maxW = Math.min(fitView().w, Math.max(mapW, mapH * aspect));
+    var maxW = Math.min(fitView().w, mapW);
     var minW = mapW / 40;
     if (v.w > maxW) { v.w = maxW; v.h = v.w / aspect; }
     if (v.w < minW) { v.w = minW; v.h = v.w / aspect; }
@@ -627,6 +633,8 @@
 
   var hatchPattern = null;
   var lastDouble = 0;
+  var lastTap = null;
+  var pendingTap = 0;
 
   /* The browse layer is context, and at a wide zoom on a small screen it is
    * 131 dots on top of each other. It comes in once there is room for it. */
@@ -678,6 +686,8 @@
     for (var i = 0; i < labels.length; i++) {
       var L = labels[i];
       if (!L.w) { L.el.style.display = 'none'; continue; }
+      // a browse name with no dot under it is just a word floating in the sea
+      if (L.rec.kind === 'browse' && !browseVisible()) { L.el.style.display = 'none'; continue; }
 
       var x = (L.x - view.x) * sx;
       var y = (L.y - view.y) * sy + L.dy;
@@ -725,10 +735,14 @@
   }
 
   function onResize() {
-    var before = { cx: view.x + view.w / 2, cy: view.y + view.h / 2, w: view.w };
+    var before = { cx: view.x + view.w / 2, cy: view.y + view.h / 2,
+                   area: view.w * view.h };
     var c = containerSize();
-    view.w = Math.min(before.w, fitView().w);
-    view.h = view.w / (c.w / c.h);
+    // keep the area in view, not the width: preserving the width across a
+    // rotation doubles the magnification and lands you in a thin slice
+    var aspect = c.w / c.h;
+    view.w = Math.min(Math.sqrt(before.area * aspect), fitView().w);
+    view.h = view.w / aspect;
     view.x = before.cx - view.w / 2;
     view.y = before.cy - view.h / 2;
     applyView(true);
@@ -737,11 +751,11 @@
   /* Centre the view on a record. Site markers carry a scale transform, so
    * their getBBox() is in their own local frame and useless here — the
    * projected position is the truth. */
-  function focusOn(rec) {
+  function focusOn(rec, spread) {
     var cx, cy, want;
     if (rec.kind === 'site' || rec.kind === 'browse') {
       var p = sitePos[rec.rid || rec.id];
-      cx = p.x; cy = p.y; want = 420;
+      cx = p.x; cy = p.y; want = 420 * (spread || 1);
     } else {
       var els = atomsOf[rec.id] || [];
       var b = null;
@@ -759,14 +773,30 @@
       if (!b) return;
       cx = (b.x0 + b.x1) / 2;
       cy = (b.y0 + b.y1) / 2;
-      want = Math.max((b.x1 - b.x0) * 1.9, (b.y1 - b.y0) * 1.9, 300);
+      want = Math.max((b.x1 - b.x0) * 1.9, (b.y1 - b.y0) * 1.9, 300) * (spread || 1);
     }
-    var maxW = fitView().w;
-    view.w = Math.min(Math.max(want, mapW / 40), maxW);
-    view.h = view.w / (containerSize().w / containerSize().h);
+    var c = containerSize();
+    var aspect = c.w / c.h;
+    // On a tall screen, sizing the view by its width makes the height
+    // overflow the map, clamping pushes it back, and the thing you asked to
+    // see slides out of the frame. Fit whichever axis is the tighter one.
+    var w = aspect < 1 ? want * aspect : want;
+    view.w = Math.min(Math.max(w, mapW / 40), fitView().w);
+    view.h = view.w / aspect;
     view.x = cx - view.w / 2;
     view.y = cy - view.h / 2;
+    // and leave room for whichever card is open at the bottom
+    var card = quizBox.hidden ? (infoBox.hidden ? null : infoBox) : quizBox;
+    if (card && window.innerWidth < 1000) {
+      var covered = Math.max(0, c.h - (card.getBoundingClientRect().top - stageTop()));
+      view.y += (covered / 2) * (view.h / c.h);
+    }
     applyView();
+  }
+
+  function stageTop() {
+    var st = document.getElementById('stage');
+    return st ? st.getBoundingClientRect().top : 0;
   }
 
   /* -------------------------------------------------------- pointering -- */
@@ -785,7 +815,6 @@
     container.addEventListener('wheel', onWheel, { passive: false });
     container.addEventListener('dblclick', function (e) {
       e.preventDefault();
-      lastDouble = Date.now();
       zoomAt(e.clientX, e.clientY, 1.9);
     });
     container.addEventListener('contextmenu', function (e) { if (coarse) e.preventDefault(); });
@@ -881,7 +910,28 @@
     container.classList.remove('dragging');
     dragStart = null;
 
-    if (had === 1 && !movedFar && e.type === 'pointerup') handleTap(downTarget, e.clientX, e.clientY);
+    if (had === 1 && !movedFar && e.type === 'pointerup') {
+      // dblclick is synthesised after the second pointerup, too late to stop
+      // the tap that came with it — so the pair is spotted here instead
+      var now = Date.now();
+      var dbl = lastTap && now - lastTap.t < 320 &&
+                Math.abs(e.clientX - lastTap.x) < 32 && Math.abs(e.clientY - lastTap.y) < 32;
+      lastTap = { t: now, x: e.clientX, y: e.clientY };
+      if (pendingTap) { window.clearTimeout(pendingTap); pendingTap = 0; }
+      if (!dbl) {
+        if (state.mode === 'quiz') {
+          // hold the answer just long enough that a double tap to zoom does
+          // not also cost the student the question
+          var t = downTarget, tx = e.clientX, ty = e.clientY;
+          pendingTap = window.setTimeout(function () {
+            pendingTap = 0;
+            handleTap(t, tx, ty);
+          }, 300);
+        } else {
+          handleTap(downTarget, e.clientX, e.clientY);
+        }
+      }
+    }
     downTarget = null;
   }
 
@@ -906,7 +956,12 @@
     if (typeof cx !== 'number' || !svg) return null;
     var m = svg.getScreenCTM();
     if (!m) return null;
-    var best = null, bestD = HIT_R * HIT_R;
+    // In explore mode a generous catchment is a kindness. In the quiz it is
+    // the opposite: 44px discs round every city tile right over Taiwan, Korea,
+    // Kwantung and Weihaiwei, so the answer cannot be tapped at all. There the
+    // marker has to be hit nearly on the dot, and the land wins otherwise.
+    var reach = state.mode === 'quiz' ? DOT_R + 7 : HIT_R;
+    var best = null, bestD = reach * reach;
     var ids = Object.keys(sitePos);
     for (var i = 0; i < ids.length; i++) {
       var rec = byId[ids[i]];
@@ -951,11 +1006,16 @@
   }
 
   function handleTap(target, cx, cy) {
-    if (Date.now() - lastDouble < 350) return;   // that tap was half a zoom
     var got = pick(target, cx, cy);
     var hit = got && got.hit;
+    lastProv = hit && hit.rec.kind === 'territory' ? provinceOf(got.el) : null;
     if (state.mode === 'quiz') {
-      if (hit) quizAnswer(hit);
+      if (hit) { quizAnswer(hit); return; }
+      if (quiz && quiz.current) {
+        var fb = $('#q-feedback');
+        fb.className = 'feedback bad';
+        fb.textContent = 'Nothing there — try again.';
+      }
       return;
     }
     select(hit ? (hit.rec.rid || hit.rec.id) : null);
@@ -974,6 +1034,7 @@
   }
 
   var hotProv = null;
+  var lastProv = null;
 
   /* The province under the pointer, picked out inside the lit-up country. */
   function setHotProv(el) {
@@ -1009,6 +1070,7 @@
     if (!hit) { setHot(null); setHotProv(null); hideTooltip(); return; }
     setHot(hit.rec.kind === 'territory' ? hit.rec.id : null);
     var prov = hit.rec.kind === 'territory' ? provinceOf(got.el) : null;
+    lastProv = prov;
     setHotProv(prov ? prov.el : null);
     showTooltip(hit.rec, e.clientX, e.clientY, prov);
   }
@@ -1189,6 +1251,11 @@
     chip.style.setProperty('--chip', info ? info.c : 'var(--muted)');
     $('.primary', infoBox).textContent = primary;
     $('.alt', infoBox).textContent = others.join('  ·  ');
+    // on a touch screen there is no hover, so the sub-unit under the finger
+    // has nowhere else to be said
+    var prov = lastProv && lastProv.rec ? nameOf(lastProv.rec) : '';
+    $('.prov', infoBox).textContent = prov;
+    $('.prov', infoBox).hidden = !prov;
     $('.when', infoBox).textContent = rec.date || rec.when || '';
     $('.when', infoBox).hidden = !(rec.date || rec.when);
     $('.note', infoBox).textContent = rec.note || '';
@@ -1416,6 +1483,15 @@
     });
   }
 
+  function showHint() {
+    var hint = document.getElementById('hint');
+    if (!hint) return;
+    hint.hidden = false;
+    var go = function () { hint.hidden = true; };
+    container.addEventListener('pointerdown', go, { once: true });
+    window.setTimeout(go, 9000);
+  }
+
   function showEpochBlurb() {
     var epoch = JMAP.EPOCHS.filter(function (e) { return e.id === state.epoch; })[0];
     if (!epoch) return;
@@ -1486,6 +1562,8 @@
   }
 
   function nextQuestion() {
+    quizBox.classList.remove('done');
+    $('#q-reveal').textContent = 'Show me';
     clearReveal();
     $('#q-feedback').textContent = '';
     $('#q-feedback').className = 'feedback';
@@ -1497,12 +1575,64 @@
     $('#q-target').textContent = nameOf(quiz.current);
     $('#q-reveal').disabled = false;
     $('#q-skip').disabled = false;
+    ensureOnScreen(quiz.current);
+  }
+
+  /* A question you cannot reach is not a question. But centring on the answer
+   * would give it away, so the first move is simply to go back to the opening
+   * view; only if the answer is still not reachable there does the map frame
+   * it, and then loosely, among its neighbours. */
+  function ensureOnScreen(rec) {
+    if (!rec || !svg) return;
+    var state0 = reachable(rec);
+    if (state0 === true) return;
+    // a marker that is on screen but has a neighbour's marker sitting on it
+    // just needs the map opened out a little
+    if (state0 === 'crowded') { focusOn(rec); return; }
+    view = defaultView();
+    applyView(true);
+    if (reachable(rec) === true) return;
+    focusOn(rec, 3);
+  }
+
+  function reachable(rec) {
+    if (!rec || !svg) return true;
+    var st = document.getElementById('stage').getBoundingClientRect();
+    var floor = quizBox.hidden ? st.bottom
+                               : Math.min(st.bottom, quizBox.getBoundingClientRect().top);
+    // A territory is reachable if any of its shapes has real estate in the
+    // part of the map you can still see. Testing a single centre point is no
+    // good: the middle of the Indies bounding box is open sea.
+    if (rec.kind === 'territory') {
+      var area = 0;
+      (atomsOf[rec.id] || []).forEach(function (el) {
+        var r = el.getBoundingClientRect();
+        var w = Math.min(r.right, st.right) - Math.max(r.left, st.left);
+        var h = Math.min(r.bottom, floor) - Math.max(r.top, st.top);
+        if (w > 0 && h > 0) area += w * h;
+      });
+      return area > 900;
+    }
+    var m = svg.getScreenCTM();
+    if (!m) return true;
+    var pt = sitePos[rec.rid || rec.id];
+    if (!pt) return true;
+    var sx = m.a * pt.x + m.c * pt.y + m.e;
+    var sy = m.b * pt.x + m.d * pt.y + m.f;
+    var pad = 24;
+    if (!(sx > st.left + pad && sx < st.right - pad &&
+          sy > st.top + pad && sy < floor - pad)) return false;
+    // being on screen is not enough: at a wide zoom a neighbouring city's
+    // marker can sit on top of the answer's own, so check the tap would land
+    var el = document.elementFromPoint(sx, sy);
+    var own = el && el.closest && el.closest('.site');
+    return (own && own.getAttribute('data-id') === rec.id) ? true : 'crowded';
   }
 
   function renderQuizHead() {
     $('#q-correct').textContent = quiz.correct;
     $('#q-asked').textContent = quiz.asked;
-    $('#q-total').textContent = ' · ' + quiz.queue.length + ' to go';
+    $('#q-total').textContent = quiz.current ? ' · ' + quiz.queue.length + ' to go' : '';
   }
 
   function quizAnswer(hit) {
@@ -1556,9 +1686,12 @@
   function finishQuiz() {
     quiz.current = null;
     var pct = quiz.asked ? Math.round(100 * quiz.correct / quiz.asked) : 0;
-    $('#q-target').textContent = 'Finished — ' + quiz.correct + ' of ' + quiz.asked + ' first time (' + pct + '%)';
+    quizBox.classList.add('done');
+    $('#q-target').textContent = 'Finished — ' + quiz.correct + ' of ' + quiz.asked
+      + ' first time (' + pct + '%)';
     $('#q-feedback').textContent = '';
-    $('#q-reveal').disabled = true;
+    $('#q-reveal').textContent = 'Try again';
+    $('#q-reveal').disabled = false;
     $('#q-skip').disabled = true;
 
     var old = $('.summary', quizBox);
