@@ -2082,6 +2082,7 @@ def main():
     out.append(f'  <rect id="ocean" x="0" y="0" width="{fmt(WIDTH)}" height="{fmt(HEIGHT)}"/>')
     out.append('  <g id="land">')
     admin_out = []
+    backings = []
     def emit(key):
         ax, ay, area = anchors[key]
         meta = f'data-cx="{fmt(ax)}" data-cy="{fmt(ay)}" data-area="{int(area)}"'
@@ -2111,14 +2112,23 @@ def main():
             defer = not (key in ARCHIPELAGOS or key in ("goa", "pondicherry"))
             whole = whole_union(key)
             cls = "atom deferred" if (defer and whole) else "atom"
+            # The backing goes in a layer of its own, drawn before every atom.
+            # Kept inside the atom it was painted in that atom's turn, so a
+            # country whose turn came later covered its neighbour's provinces
+            # with its own filler: the grey between China and Indochina, the
+            # grey along the Fukien coast, the salmon on Thailand's frontier.
+            # Underneath everything it can only ever show through a real hole.
+            if whole:
+                backings.append(
+                    f'    <path class="whole" data-for="{key}"'
+                    + (' data-deferred="1"' if defer else "")
+                    + f' d="{whole}"/>')
             out.append(f'    <g id="a-{key}" class="{cls}" {meta}>')
             # The sub-units come from a different source than each other and
             # are simplified one ring at a time, so two that shared an edge no
             # longer quite do and a hairline of ocean opens between them. The
             # whole shape goes underneath them first, in the same colour, so a
             # crack shows the country rather than the sea.
-            if whole:
-                out.append(f'      <path class="whole" d="{whole}"/>')
             # with no whole underneath them the sub-units *are* the atom, so
             # those cannot be deferred whatever kind of sub-unit they are
             sink = admin_out if (defer and whole) else out
@@ -2177,6 +2187,15 @@ def main():
         f'  <rect id="frame" x="0" y="0" width="{fmt(WIDTH)}" height="{fmt(HEIGHT)}"/>'
     )
     out.append("</svg>")
+
+    # Under every atom, but over chinabase — which is itself a filler, laid
+    # under China because its provinces come from a different file from its
+    # neighbours', and which would otherwise cover the backings that follow it.
+    head = out.index('  <g id="land">') + 1
+    for i, line in enumerate(out):
+        if 'class="chinabase"' in line:
+            head = i + 1
+    out[head:head] = ['    <g id="backings">'] + backings + ['    </g>']
 
     dest = os.path.join(ROOT, "japan-empire-map.svg")
     with open(dest, "w") as fh:

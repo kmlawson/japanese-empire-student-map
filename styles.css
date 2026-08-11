@@ -239,8 +239,20 @@ button.plain:hover { background: #f2ede2; }
    pointer, or a tap in a crack would name no sub-unit at all — but while the
    divisions are still in their own file and unfetched, it is the only thing
    there, so it has to. */
-.atom > path.whole { pointer-events: none; }
-.atom.deferred > path.whole { pointer-events: auto; }
+/* The fillers, in a layer under every atom. They take the colour of the
+   territory they belong to and never the pointer — a tap in a crack would name
+   no sub-unit at all — except where their atom's sub-units are still in the
+   other file, when they are the only thing there. */
+#backings path {
+  fill: var(--c, var(--inactive));
+  stroke: var(--c, var(--inactive));
+  stroke-width: 1.3;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
+}
+#backings path[data-deferred] { pointer-events: auto; }
+#backings path.hot { filter: brightness(1.12); }
 
 /* vector-effect does not inherit, so an atom drawn as a group of provinces
    needs it stated on the children too. Without it their stroke grows with the

@@ -66,7 +66,9 @@
   var proj = null;
   var mapW = 0, mapH = 0;
 
-  var atomEls = {};       // atom id -> element
+  var atomEls = {};
+  // the whole-country fillers, in their own layer under every atom
+  var backingEls = {};       // atom id -> element
   var byId = {};          // item id -> record (current epoch territories + sites)
   var elById = {};        // item id -> a representative element (for flashing)
   var atomsOf = {};       // item id -> [elements]
@@ -282,6 +284,9 @@
     hatchGroup = svg.querySelector('#hatching');
 
     $$('.atom', svg).forEach(function (el) { atomEls[el.id.replace(/^a-/, '')] = el; });
+    $$('#backings [data-for]', svg).forEach(function (el) {
+      backingEls[el.getAttribute('data-for')] = el;
+    });
     buildAtomHits();
 
     JMAP.SITES.forEach(function (s) { s.kind = 'site'; });
@@ -456,8 +461,9 @@
    * frontier that needs it without the fill being clipped with it. */
   function drawEdge(t, el) {
     if (!subOutlineLayer) return;
+    var key = el.id.replace(/^a-/, '');
     var src = el.tagName === 'path' ? el
-                                    : el.querySelector('path.whole') || el.querySelector('path');
+                                    : backingEls[key] || el.querySelector('path');
     if (!src) return;
     var line = svgEl('path', { d: src.getAttribute('d'), 'class': 'edge-line' });
     line.style.setProperty('--edge', t.edge);
@@ -489,6 +495,14 @@
       el.classList.remove('sel');
       el.classList.remove('sub-unit');
       el.style.display = 'none';
+      var bk = backingEls[a];
+      if (bk) {
+        bk.removeAttribute('data-id');
+        bk.style.removeProperty('--c');
+        bk.style.display = 'none';
+        bk.classList.remove('hot');
+        bk.classList.remove('sel');
+      }
       (atomHits[a] || []).forEach(function (h) { h.removeAttribute('data-id'); });
     });
     hatchGroup.innerHTML = '';
@@ -526,6 +540,13 @@
         el.setAttribute('data-cat', t.cat);
         el.style.display = '';
         if (colour) el.style.setProperty('--c', colour.c);
+        var bk = backingEls[a];
+        if (bk) {
+          bk.style.display = '';
+          bk.setAttribute('data-id', t.id);
+          if (colour) bk.style.setProperty('--c', colour.c);
+          els.push(bk);
+        }
         // a territory that shares its neighbour's fill can still be told from
         // it by a hairline: Tuva inside Mongolia, Burma inside British India
         if (t.edge && (!t.edgeAtoms || t.edgeAtoms.indexOf(a) >= 0)) drawEdge(t, el);
@@ -1185,6 +1206,10 @@
   function recordFor(target) {
     if (!target || !target.closest) return null;
     var el = target.closest('.site, .browse, .atom');
+    // a backing is no longer inside its atom, so it answers for itself — which
+    // it only ever gets the chance to do while its sub-units are in the other
+    // file and it is the only thing there
+    if (!el && target.getAttribute && target.getAttribute('data-for')) el = target;
     if (!el) return null;
     var id = el.getAttribute('data-id');
     var rec = id && byId[id];

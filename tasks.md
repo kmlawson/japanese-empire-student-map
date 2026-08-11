@@ -7,6 +7,9 @@ describing what was actually changed, before it is marked done.
 
 ## Open
 
+- **Wake Island.** Check it is drawn at all, American in 1930 and occupied in
+  1942 — it fell on 23 December 1941 and was held to the surrender.
+
 - **Sources page.** Replace the sources section in About with a link to a full
   `sources.html` listing every dataset as bullet points with links. Record the
   princely states properly: georeferenced by the author from the Imperial
@@ -59,14 +62,6 @@ describing what was actually changed, before it is marked done.
   occupied zone is currently traced from, for the whole zone and not just this.
   The 1930 agent for this never reported — it failed on the monthly spend
   limit, twice.
-- **Grey between Indochina and China.** The neutral `chinabase` shows in the
-  gap between the two, so yellow does not meet blue. Same cause as the grey
-  slivers along the Chinese coast and the grey inside Kwangchowwan: `chinabase`
-  is a filler laid under China, and it is visible wherever China's atoms and
-  their neighbours disagree by a kilometre. The three should be fixed together.
-- **Kwangchowwan looks messy** — yellow China fill shows through inside the
-  blue leased territory. Remove the yellow there so only the blue remains,
-  without touching the rest of China and without simplifying anything.
 - **The Andamans keep the British colour sometimes.** Switching to 1942 leaves
   them Allied mauve now and then; a reload fixes it. Not reproduced: switching
   epochs six times, with the Administrative layer both off and on, gave the
@@ -76,15 +71,29 @@ describing what was actually changed, before it is marked done.
   rule above: India needs neither, and the Indies and the Philippines want
   Japanese only where it was actually used — Manila, Batavia, the places that
   were occupied and renamed — not on every province.
-- **Backings in their own layer.** Every atom's whole-country backing belongs
-  beneath every atom's sub-units, so no country's filler can paint over its
-  neighbour's provinces. This removes a whole class of artefact — the salmon
-  sliver on Thailand's frontier is currently covered by a stroke rather than
-  fixed.
 
 ---
 
 ## Done
+
+### The fillers moved under everything
+The one bug behind the grey between China and Indochina, the grey slivers along
+the Fukien coast, and the grey and yellow inside Kwangchowwan. Each atom's
+whole-country filler was drawn *inside* the atom, so it was painted in that
+atom's turn and a country whose turn came later covered its neighbour's
+provinces with it. `build_map.py` now emits them all into `<g id="backings">`
+at the head of `#land` — above `chinabase`, which is itself a filler and would
+otherwise cover them, and below every atom. `map.js` keeps `backingEls` beside
+`atomEls`, colours and shows them with their territory, adds them to
+`atomsOf[]` so they are outlined and lit with it, and lets one answer for its
+territory when its sub-units are still in the administrative file. The three
+leaks are gone and Kwangchowwan is blue.
+
+Thailand's frontier is *not* this bug and still needs its cover stroke: it is a
+genuine hole between geoBoundaries Thailand and geoBoundaries Cambodia that no
+atom fills, so Indochina's filler shows through it — which is a filler doing
+its job, in the wrong colour. Removing the stroke brings the flecks straight
+back; it was tried.
 
 ### Suiyuan is one province again on the 1930 map
 The cut at Paotow exists for 1942, where the corridor west along the railway
