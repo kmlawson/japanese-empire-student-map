@@ -97,6 +97,20 @@ reading the boundaries, names and notes come from.
   in Marathi and Kannada districts now in Maharashtra and Karnataka, and the
   map says as much in the note.
 
+### geoBoundaries — Myanmar ADM2, and the Xufanc map of Saharat Thai Doem
+
+* **Used for:** Kengtung and the trans-Salween Shan states, occupied and
+  administered by Thai forces from 1942 and formally transferred by Japan on
+  20 August 1943. Kengtung State is the three modern districts of Kengtung,
+  Monghsat and Tachileik exactly; the trans-Salween part of Mongpan is the
+  eastern end of Langkho district, cut at 98.15°E.
+* **Files:** `adm2_MMR_shan_east.json` (four districts, extracted from
+  geoBoundaries `gbOpen` MMR ADM2). **Licence:** CC BY 4.0.
+* **Extent checked against:** *Saharat Thai Doem map* by Wikimedia Commons user
+  Xufanc, <https://commons.wikimedia.org/wiki/File:Saharat_Thai_Doem_map.png>,
+  CC BY-SA 4.0 — which shows the territory Japan actually granted rather than
+  everything Thailand claimed in the Shan and Karenni states.
+
 ### Modern East Asia GIS (Konrad Lawson)
 
 * **Used for:** Tannu Tuva, British Weihaiwei, French Kwangchowan, and Nepal,

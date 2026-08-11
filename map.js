@@ -399,6 +399,35 @@
 
   /* --------------------------------------------------- epoch composition -- */
 
+  /* A line along a territory's own boundary, in a colour of its own, for
+   * neighbours that share a fill: Tuva inside Mongolia, Burma inside British
+   * India. It is a separate stroke-only path, so it can be clipped to the one
+   * frontier that needs it without the fill being clipped with it. */
+  function drawEdge(t, el) {
+    if (!subOutlineLayer) return;
+    var src = el.tagName === 'path' ? el
+                                    : el.querySelector('path.whole') || el.querySelector('path');
+    if (!src) return;
+    var line = svgEl('path', { d: src.getAttribute('d'), 'class': 'edge-line' });
+    line.style.setProperty('--edge', t.edge);
+    if (t.edgeClip) {
+      var id = 'edge-clip-' + t.id;
+      if (!hiDefs.querySelector('#' + id)) {
+        var b = t.edgeClip;
+        var a1 = project(b[0], b[1]), a2 = project(b[2], b[3]);
+        var cp = svgEl('clipPath', { id: id, clipPathUnits: 'userSpaceOnUse' });
+        cp.appendChild(svgEl('rect', {
+          x: Math.min(a1.x, a2.x), y: Math.min(a1.y, a2.y),
+          width: Math.abs(a2.x - a1.x), height: Math.abs(a2.y - a1.y),
+        }));
+        hiDefs.appendChild(cp);
+        ownedDefs.sub.push(cp);
+      }
+      line.setAttribute('clip-path', 'url(#' + id + ')');
+    }
+    subOutlineLayer.appendChild(line);
+  }
+
   function composeEpoch() {
     // clear anything the previous epoch left behind
     Object.keys(atomEls).forEach(function (a) {
@@ -447,9 +476,7 @@
         if (colour) el.style.setProperty('--c', colour.c);
         // a territory that shares its neighbour's fill can still be told from
         // it by a hairline: Tuva inside Mongolia, Burma inside British India
-        var wantsEdge = t.edge && (!t.edgeAtoms || t.edgeAtoms.indexOf(a) >= 0);
-        if (wantsEdge) { el.style.setProperty('--edge', t.edge); el.classList.add('edged'); }
-        else { el.classList.remove('edged'); el.style.removeProperty('--edge'); }
+        if (t.edge && (!t.edgeAtoms || t.edgeAtoms.indexOf(a) >= 0)) drawEdge(t, el);
         if (t.outline) subUnits.push(el);
         els.push(el);
         (atomHits[a] || []).forEach(function (h) { h.setAttribute('data-id', t.id); });

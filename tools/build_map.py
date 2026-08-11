@@ -238,9 +238,13 @@ FULL_DETAIL = {"korea", "saharat"}
 
 # Saharat Thai Doem: the Shan states east of the Salween — Kengtung and part
 # of Mongpan — occupied and administered by Thai forces from 1942 and formally
-# handed to Thailand by Japan in August 1943. The Salween's course through the
-# Shan plateau is approximated by this line; see SOURCES.md.
-SAHARAT_CUT = ((98.95, 24.10), (97.60, 18.40))
+# handed to Thailand by Japan in August 1943. Taken district by district rather
+# than cut off with a straight line: Kengtung State is the three districts of
+# Kengtung, Monghsat and Tachileik exactly, and the trans-Salween part of
+# Mongpan is the eastern end of Langkho. See SOURCES.md.
+SAHARAT_FILE = "adm2_MMR_shan_east.json"
+SAHARAT_WHOLE = {"Kengtung", "Monghsat", "Tachileik"}
+SAHARAT_PARTIAL = {"Langkho": 98.15}       # district -> the meridian to cut it on
 
 # Burma's divisions and the frontier areas, under their period names.
 BURMA_DIVISIONS = {
@@ -1109,22 +1113,7 @@ def main():
                 label = BURMA_DIVISIONS.get(pname)
                 if not label:
                     continue
-                rings_here = list(iter_rings(feat["geometry"]))
-                if pname == "Shan":
-                    east = [line_plane(SAHARAT_CUT[0], SAHARAT_CUT[1], keep_right=False)]
-                    west = [line_plane(SAHARAT_CUT[0], SAHARAT_CUT[1], keep_right=True)]
-                    for planes, dest in ((east, "saharat"), (west, None)):
-                        cut = [c for c in (clip_halfplanes(r, planes) for r in rings_here)
-                               if len(c) >= 3]
-                        if not cut:
-                            continue
-                        if dest:
-                            groups[dest].extend(cut)
-                            provinces[dest].append(("Kengtung", cut))
-                        else:
-                            blocks[label].extend(cut)
-                    continue
-                blocks[label].extend(rings_here)
+                blocks[label].extend(iter_rings(feat["geometry"]))
             for label, rs in blocks.items():
                 provinces["burma"].append((label, rs))
 
@@ -1179,6 +1168,28 @@ def main():
                 blocks[feat["properties"]["shapeName"]].extend(iter_rings(feat["geometry"]))
             for label, rs in blocks.items():
                 provinces["philippines"].append((label, rs))
+
+    # ---- the Shan states east of the Salween, Thai-held from 1942 ----------
+    spath = os.path.join(CACHE, SAHARAT_FILE)
+    if os.path.exists(spath):
+        with open(spath) as fh:
+            for feat in json.load(fh)["features"]:
+                pname = feat["properties"]["shapeName"]
+                rs = list(iter_rings(feat["geometry"]))
+                if pname in SAHARAT_WHOLE:
+                    keep = rs
+                elif pname in SAHARAT_PARTIAL:
+                    east = [line_plane((SAHARAT_PARTIAL[pname], 0.0),
+                                       (SAHARAT_PARTIAL[pname], 90.0), keep_right=True)]
+                    keep = [c for c in (clip_halfplanes(r, east) for r in rs) if len(c) >= 3]
+                else:
+                    continue
+                if keep:
+                    groups["saharat"].extend(keep)
+                    provinces["saharat"].append(
+                        ("Kengtung" if pname in SAHARAT_WHOLE else "MongpanEast", keep))
+    else:
+        sys.stderr.write(f"note: {SAHARAT_FILE} missing, Saharat Thai Doem not drawn\n")
 
     # ---- Korea, province by province ---------------------------------------
     kpath = os.path.join(CACHE, KOREA_FILE)

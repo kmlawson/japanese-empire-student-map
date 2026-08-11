@@ -169,7 +169,7 @@ JMAP.TERRITORIES = {
       note: 'Claimed by the Republic of China, but self-governing in practice from 1913, when the 13th Dalai Lama expelled the last Chinese officials, until 1951. Shown here in the independent colour on that basis; no foreign power recognised it.' },
 
     { id: 'britishindia', atoms: ['india', 'andaman', 'burma', 'saharat'], cat: 'british', lvl: 1,
-      edge: '#8f5f6e', edgeAtoms: ['burma', 'saharat'],
+      edge: '#8f5f6e', edgeAtoms: ['burma'], edgeClip: [91.4, 19.4, 97.45, 28.6],
       en: 'British India (including Burma)', ja: '英領インド (Eiryō Indo)', orig: 'भारत (Bhārat)',
       zh: '英屬印度', ko: '영국령 인도 (Yŏnggungnyŏng Indo)',
       when: 'Burma a province of India until 1937',
@@ -1669,7 +1669,8 @@ JMAP.PROVINCES = {
   'Sagaing': { en: 'Sagaing Division', ja: 'ザガイン管区', zh: '實皆省', ko: '사가잉' },
   'Tenasserim': { en: 'Tenasserim Division — Thaton, Amherst, Tavoy, Mergui', ja: 'テナセリム管区', zh: '丹那沙林省', ko: '테나세림' },
   'Arakan': { en: 'Arakan Division', ja: 'アラカン管区', zh: '阿拉干省', ko: '아라칸' },
-  'Kengtung': { en: 'Kengtung State and the country east of the Salween', ja: 'ケントゥン', zh: '景棟', ko: '켕퉁' },
+  'MongpanEast': { en: 'Mongpan east of the Salween', ja: 'モンパン東部', zh: '孟畔東部', ko: '몽판 동부' },
+  'Kengtung': { en: 'Kengtung State — Kengtung, Monghsat and Tachileik', ja: 'ケントゥン', zh: '景棟', ko: '켕퉁' },
   'ShanStates': { en: 'Shan States (federated)', ja: 'シャン州', zh: '撣邦', ko: '샨주' },
   'KachinHills': { en: 'Kachin Hills', ja: 'カチン地区', zh: '克欽山區', ko: '카친' },
   'ChinHills': { en: 'Chin Hills', ja: 'チン丘陵', zh: '欽丘陵', ko: '친' },
