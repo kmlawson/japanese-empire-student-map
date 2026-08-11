@@ -135,11 +135,11 @@ OCCUPIED_ZONE = [
         (113.35, 28.9), (113.9, 28.85), (114.4, 29.0), (115.0, 29.05),
         (115.4, 28.6), (115.8, 28.15), (116.2, 28.2), (116.6, 28.6), (117.1, 29.1),
         (117.6, 29.6), (118.2, 29.85), (118.8, 29.6), (119.2, 29.35), (119.6, 28.9),
-        (120.1, 29.0), (120.7, 29.2), (121.2, 29.2), (121.6, 29.5),
-        (122.0, 29.9), (121.6, 30.2), (122.0, 30.9), (121.9, 31.6), (121.2, 32.4),
-        (120.5, 33.4), (119.6, 34.4), (119.9, 34.9), (120.5, 35.9), (121.2, 36.5),
-        (122.7, 37.5), (121.0, 37.9), (119.8, 37.7), (118.9, 38.2), (117.6, 38.5),
-        (118.2, 39.0), (119.3, 39.2), (120.0, 40.1), (119.0, 40.3), (117.2, 40.7),
+        (120.1, 29.0), (121.9, 29.2), (122.0, 29.3), (122.2, 29.6),
+        (122.4, 30.0), (122.2, 30.4), (122.4, 30.9), (122.3, 31.7), (121.8, 32.5),
+        (121.2, 33.5), (120.4, 34.5), (120.3, 35.0), (120.9, 36.0), (121.6, 36.6),
+        (122.3, 36.85), (123.3, 37.35), (123.2, 37.9), (121.2, 38.1), (119.8, 37.9), (118.7, 38.4), (117.5, 38.7),
+        (118.1, 39.2), (119.3, 39.4), (120.3, 40.3), (119.0, 40.3), (117.2, 40.7),
         (115.0, 40.7),
     ],
     # the corridor west along the railway through Suiyuan to Paotow
@@ -912,6 +912,11 @@ def main():
     # ---- everything except China ------------------------------------------
     for feat in a0["features"]:
         admin = feat["properties"].get("ADMIN")
+        if admin in ("Hong Kong S.A.R.", "Macao S.A.R"):
+            # the backing needs them: ENP's Kwangtung stops at the colony's
+            # border, so the ground between the two belongs to neither layer
+            for ring in iter_rings(feat["geometry"]):
+                groups["chinabase"].append(ring)
         if admin == "China":
             # China itself is drawn from the Republican provinces, but its
             # modern outline is kept as a backing layer. The two sources put
@@ -1475,6 +1480,9 @@ def main():
             f'    <path id="a-occupiedzone" class="atom" clip-path="url(#clip-china)" '
             f'data-cx="{fmt(ax)}" data-cy="{fmt(ay)}" data-area="{int(area)}" d="{occ_path}"/>'
         )
+    # the shading stripes go on before the enclaves, so that Weihaiwei and
+    # Macao are not painted over by the occupation they sat outside
+    out.append('    <g id="hatching"></g>')
     for key in ON_TOP:
         if key in paths:
             emit(key)
@@ -1487,7 +1495,6 @@ def main():
             if key in rivers:
                 out.append(f'    <path id="river-{key}" class="river" fill="none" d="{rivers[key]}"/>')
         out.append("  </g>")
-    out.append('  <g id="hatching"></g>')
     out.append('  <g id="markers"></g>')
     out.append("</svg>")
 
