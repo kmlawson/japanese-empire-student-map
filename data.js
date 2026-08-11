@@ -186,7 +186,7 @@ JMAP.TERRITORIES = {
       note: 'Claimed by the Republic of China, but self-governing in practice from 1913, when the 13th Dalai Lama expelled the last Chinese officials, until 1951. Shown here in the independent colour on that basis; no foreign power recognised it.' },
 
     { id: 'britishindia', atoms: ['india', 'andaman', 'burma', 'saharat'], cat: 'british', lvl: 1,
-      edge: '#8f5f6e', edgeAtoms: ['burma'], edgeClip: [91.4, 19.4, 97.45, 28.6],
+      edge: '#8f5f6e', edgeAtoms: ['burma'], edgeClip: [92.0, 20.6, 97.3, 28.4],
       en: 'British India (including Burma)', ja: '英領インド (Eiryō Indo)', orig: 'भारत (Bhārat)',
       zh: '英屬印度', ko: '영국령 인도 (Yŏnggungnyŏng Indo)',
       when: 'Burma a province of India until 1937',
@@ -399,9 +399,10 @@ JMAP.TERRITORIES = {
       zh: '樺太（南薩哈林）', ko: '가라후토 (Karahuto)',
       when: 'Japanese 1905–1945',
       note: 'Coal, timber and fisheries, and the only land border Japan shared with the Soviet Union. Lost in August 1945.' },
-    // the lease was re-granted by Manchukuo in 1932, so it takes the client
-    // state's colour and is told from it by its own boundary instead
-    { id: 'kwantung', atoms: ['kwantung'], cat: 'puppet', lvl: 2, edge: '#9a1813',
+    // Manchukuo re-granted the lease in 1932, but the territory was Japanese
+    // and separately administered to the end, so it keeps the colony's colour;
+    // the hairline across the isthmus is what tells it from Manchuria.
+    { id: 'kwantung', atoms: ['kwantung'], cat: 'colony', lvl: 2, edge: '#9a1813',
       en: 'Kwantung Leased Territory', ja: '関東州 (Kantōshū)', orig: '關東州 (Guāndōngzhōu)',
       zh: '關東州', ko: '관동주 (Kwandongju)',
       when: 'Leased 1905–1945',
@@ -420,7 +421,7 @@ JMAP.TERRITORIES = {
     // Mengchiang and Manchukuo are both client states and so share a fill; the
     // hairline down Chahar's eastern edge is what keeps them two countries
     { id: 'mengjiang', atoms: ['chahar', 'suiyuan'], cat: 'puppet', lvl: 2,
-      edge: '#9a1813', edgeAtoms: ['chahar'], edgeClip: [116.2, 40.0, 119.8, 46.9],
+      edge: '#9a1813', edgeAtoms: ['chahar'], edgeClip: [116.3, 40.2, 119.7, 45.6],
       en: 'Mengchiang (Mengjiang)', ja: '蒙疆 (Mōkyō)', orig: '蒙疆聯合自治政府',
       zh: '蒙疆聯合自治政府', ko: '몽강 (Monggang)',
       when: 'Client regime from 1936–39',
@@ -1560,8 +1561,13 @@ JMAP.PROVINCE_EPOCH = {
     'NWFP': { en: 'North-West Frontier Province — a chief commissioner’s province until 1932' },
     'Liaoning': { en: 'Liaoning (Fengtien until 1929)', ja: '遼寧 (Ryōnei)', zh: '遼寧', ko: '요녕 (Yonyŏng)' },
     'Heilongjiang': { en: 'Heilungkiang (Heilongjiang)', zh: '黑龍江' },
-    'Suiyuan': { en: 'Suiyuan — the eastern half of the province' },
-    'SuiyuanWest': { en: 'Western Suiyuan — Wuyuan, Linhe and the Ordos' },
+    // The province is cut at Paotow for the 1942 map, where the corridor west
+    // along the railway was occupied and the country beyond it was not. In
+    // 1930 that division does not exist: Suiyuan became a full province in
+    // 1928 and was one thing, and both halves are the Republic's colour here,
+    // so only these labels betrayed the cut.
+    'Suiyuan': { en: 'Suiyuan', zh: '綏遠' },
+    'SuiyuanWest': { en: 'Suiyuan', zh: '綏遠' },
     'MahaSarakham': { en: 'Maha Sarakham (Kalasin was still separate until 1932)' },
     'SiSaKet': { en: 'Khukhan' },
     'Sukhothai': { en: 'Sawankhalok (Sukhothai was merged into it in 1931)' },

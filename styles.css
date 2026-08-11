@@ -225,10 +225,13 @@ button.plain:hover { background: #f2ede2; }
 
 /* Two neighbours that share a fill, told apart by a hairline rather than by a
    change of colour: Tannu Tuva inside Mongolia, Burma inside British India. */
+/* A hairline that separates two territories sharing a fill. It is a whisper,
+   not a border: 1.4 is enough to read at any zoom, and 2.2 was drawing
+   attention to the Burma frontier as though it were the subject. */
 #sub-outlines .edge-line {
   fill: none;
   stroke: var(--edge);
-  stroke-width: var(--edge-w, 2.2);
+  stroke-width: var(--edge-w, 1.4);
   vector-effect: non-scaling-stroke;
 }
 

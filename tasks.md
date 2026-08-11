@@ -36,22 +36,9 @@ describing what was actually changed, before it is marked done.
   same judgement elsewhere — Thai for Thai provinces, Vietnamese and French for
   Indochina. Means stripping fields that carry a name nobody used for that
   place.
-- **The Burma–India line in 1930 and the Suiyuan–Manchuria line in 1942** are
-  too thick and run further than they need to.
-- **Kwantung in 1942** should keep the colony colour, not the client-state
-  colour with an outline.
 - **The Administrative switch is unreliable** — sometimes it works, sometimes
   not. If that is the fetch, show a spinner beside the button; either way it
   must turn provinces on and off every time.
-- **Suiyuan, 1930: make it one province again.** It was split on a meridian at
-  Paotow for the *1942* map — the corridor west along the railway was occupied
-  and the country beyond it was not — and the 1930 map inherited a division
-  that has no 1930 meaning. Suiyuan became a full province in 1928 and was one
-  thing. The two halves are already the same colour on that map, so this is
-  the labels only: `JMAP.PROVINCE_EPOCH.e1930` calls them "Suiyuan — the
-  eastern half of the province" and "Western Suiyuan — Wuyuan, Linhe and the
-  Ordos", and both should simply say Suiyuan. Check the 1930 territory grouping
-  reads as one province too.
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible
   — Japan only created a western administrative region out of Paotow and the
   Urad banners in June 1943, six months after this map — but a straight line of
@@ -75,6 +62,15 @@ describing what was actually changed, before it is marked done.
 - **Kwangchowwan looks messy** — yellow China fill shows through inside the
   blue leased territory. Remove the yellow there so only the blue remains,
   without touching the rest of China and without simplifying anything.
+- **The Andamans keep the British colour sometimes.** Switching to 1942 leaves
+  them Allied mauve now and then; a reload fixes it. Not reproduced: switching
+  epochs six times, with the Administrative layer both off and on, gave the
+  right colour every time (`andaman / #fb8072`). Suspect a race with the
+  administrative fetch or with `composeEpoch`, and needs catching in the act.
+- **Japanese and Korean are offered everywhere.** Beyond the per-place script
+  rule above: India needs neither, and the Indies and the Philippines want
+  Japanese only where it was actually used — Manila, Batavia, the places that
+  were occupied and renamed — not on every province.
 - **Backings in their own layer.** Every atom's whole-country backing belongs
   beneath every atom's sub-units, so no country's filler can paint over its
   neighbour's provinces. This removes a whole class of artefact — the salmon
@@ -84,6 +80,27 @@ describing what was actually changed, before it is marked done.
 ---
 
 ## Done
+
+### Suiyuan is one province again on the 1930 map
+The cut at Paotow exists for 1942, where the corridor west along the railway
+was occupied and the country beyond it was not; 1930 had inherited it. Both
+halves are already the Republic's colour on that map, so only the labels
+betrayed it: `JMAP.PROVINCE_EPOCH.e1930` said "Suiyuan — the eastern half of
+the province" and "Western Suiyuan — Wuyuan, Linhe and the Ordos", and both now
+say Suiyuan. The 1942 labels are untouched, and the geometry with them.
+
+### Kwantung keeps the colony colour
+It had been moved to the client-state colour because Manchukuo re-granted the
+lease in 1932. The territory was Japanese and separately administered to the
+end, so it goes back to `cat: 'colony'`; the hairline across the Liaodong
+isthmus is what tells it from Manchuria.
+
+### The hairlines are whispers again
+`#sub-outlines .edge-line` went from 2.2 to 1.4, and the two that were running
+further than they needed to are clipped tighter: the Burma–India line to
+92.0–97.3 E and 20.6–28.4 N so it stops at the coast instead of running into
+the Bay of Bengal, and the Chahar–Manchukuo line to 116.3–119.7 E and
+40.2–45.6 N so it does not carry on along Chahar's northern edge with Mongolia.
 
 ### The backing was coarser than the sub-units it sits under
 The jaggedness along provincial boundaries and the doubled outline on
