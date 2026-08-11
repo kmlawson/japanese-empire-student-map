@@ -93,7 +93,7 @@ were numbered. Open items are not listed here.
 26. **Siam and the territories it took from Indochina** in teal on both dates,
     with Kengtung striped over the same colour.
 27. **Tibet** in a shade of its own, self-governing and neutral; Sinkiang
-    back with Free China, which is where December 1942 leaves it.
+    back with the Republic of China, which is where December 1942 leaves it.
 28. **The Portuguese enclaves** — Goa, Damão, Diu, Dadra — keep the Timor
     purple on both maps; **Macao** takes the occupation colour on the 1942 map,
     with a note saying plainly that Japan never raised a flag there.

@@ -1056,14 +1056,38 @@
      itself is too small for the browser to hit-test. */
   function nearestSubUnit(atomEl, cx, cy) {
     if (!atomEl || !atomEl.querySelectorAll) return null;
-    var best = null, bestD = Infinity;
+    var pad = 3;
+    var inside = null, insideArea = Infinity;
+    var near = null, nearD = 64;          // 8 px, squared
     $$('[data-prov]', atomEl).forEach(function (el) {
       var r = el.getBoundingClientRect();
+      if (cx >= r.left - pad && cx <= r.right + pad &&
+          cy >= r.top - pad && cy <= r.bottom + pad) {
+        // several sub-units can cover one pixel out here — the Aleutians are
+        // a chain of specks — so the smallest box wins, being the one the
+        // pointer is most specifically on
+        var area = r.width * r.height;
+        if (area < insideArea) { insideArea = area; inside = el; }
+        return;
+      }
       var dx = cx - (r.left + r.width / 2), dy = cy - (r.top + r.height / 2);
       var d = dx * dx + dy * dy;
-      if (d < bestD) { bestD = d; best = el; }
+      if (d < nearD) { nearD = d; near = el; }
     });
-    return best;
+    return inside || near;
+  }
+
+  /* The sub-unit under the pointer, whatever it actually landed on: an islet
+     ring, the whole-country backing and the small-atom target circles all sit
+     above the sub-unit paths and carry no name of their own. */
+  function provinceAt(got, cx, cy) {
+    if (!got) return null;
+    var prov = provinceOf(got.el);
+    if (prov) return prov;
+    if (typeof cx !== 'number') return null;
+    var atomEl = got.el && got.el.closest ? got.el.closest('.atom') : null;
+    var sub = nearestSubUnit(atomEl, cx, cy);
+    return sub ? provinceOf(sub) : null;
   }
 
   function recordFor(target) {
@@ -1080,7 +1104,7 @@
   function handleTap(target, cx, cy) {
     var got = pick(target, cx, cy);
     var hit = got && got.hit;
-    lastProv = hit && hit.rec.kind === 'territory' ? provinceOf(got.el) : null;
+    lastProv = hit && hit.rec.kind === 'territory' ? provinceAt(got, cx, cy) : null;
     if (state.mode === 'quiz') {
       if (hit) { quizAnswer(hit); return; }
       if (quiz && quiz.current) {
@@ -1141,7 +1165,7 @@
     var hit = got && got.hit;
     if (!hit) { setHot(null); setHotProv(null); hideTooltip(); return; }
     setHot(hit.rec.kind === 'territory' ? hit.rec.id : null);
-    var prov = hit.rec.kind === 'territory' ? provinceOf(got.el) : null;
+    var prov = hit.rec.kind === 'territory' ? provinceAt(got, e.clientX, e.clientY) : null;
     lastProv = prov;
     setHotProv(prov ? prov.el : null);
     showTooltip(hit.rec, e.clientX, e.clientY, prov);

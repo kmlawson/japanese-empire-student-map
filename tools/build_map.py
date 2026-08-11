@@ -928,6 +928,50 @@ KISKA_BOX = (177.0, 51.7, 177.9, 52.2)
 GUADALCANAL_BOX = (159.55, -9.95, 160.90, -9.30)
 
 
+# The Aleutians named island by island. Longitudes run past 180 here, so 183.5
+# is 176.5 W. Only the islands worth naming are listed: the chain has hundreds
+# of rocks, and an unnamed one simply answers with the territory.
+ALEUTIAN_BOXES = [
+    ("Attu", (172.3, 52.70, 173.50, 53.05)),
+    ("Agattu", (173.30, 52.30, 173.85, 52.55)),
+    ("Shemya & the Semichi Islands", (174.00, 52.65, 174.30, 52.80)),
+    ("Buldir", (175.80, 52.30, 176.05, 52.42)),
+    ("Kiska", (177.15, 51.80, 177.75, 52.18)),
+    ("Rat Island", (178.15, 51.72, 178.45, 51.87)),
+    ("Little Sitkin", (178.40, 51.86, 178.65, 52.02)),
+    ("Amchitka", (178.60, 51.30, 179.50, 51.70)),
+    ("Semisopochnoi", (179.45, 51.84, 179.85, 52.06)),
+    ("Amatignak", (180.80, 51.18, 181.00, 51.32)),
+    ("Ulak", (181.00, 51.28, 181.12, 51.42)),
+    ("Gareloi", (181.10, 51.72, 181.30, 51.86)),
+    ("Tanaga", (181.70, 51.56, 182.42, 51.95)),
+    ("Kanaga", (182.25, 51.62, 183.00, 51.96)),
+    ("Adak", (183.00, 51.55, 183.60, 52.00)),
+    ("Kagalaska", (183.55, 51.70, 183.76, 51.89)),
+    ("Great Sitkin", (183.78, 51.94, 184.06, 52.13)),
+    ("Atka", (184.60, 51.98, 186.02, 52.45)),
+    ("Amlia", (185.90, 52.00, 187.10, 52.18)),
+    ("Seguam", (187.30, 52.22, 187.75, 52.42)),
+    ("Amukta", (188.65, 52.42, 188.82, 52.56)),
+    ("Yunaska", (189.10, 52.50, 189.48, 52.73)),
+    ("Islands of Four Mountains", (189.95, 52.74, 190.36, 52.92)),
+    ("Umnak", (190.85, 52.78, 192.25, 53.60)),
+    ("Unalaska", (192.10, 53.20, 193.80, 54.03)),
+    ("Akutan", (193.85, 54.00, 194.36, 54.24)),
+    ("Akun", (194.30, 54.09, 194.62, 54.31)),
+    ("Unimak", (195.00, 54.35, 197.00, 55.05)),
+]
+
+
+def aleutian_name(ring):
+    cx, cy = centroid_of(ring)
+    cx = cx + 360 if cx < 0 else cx
+    for name, (x0, y0, x1, y1) in ALEUTIAN_BOXES:
+        if x0 <= cx <= x1 and y0 <= cy <= y1:
+            return name
+    return None
+
+
 def split_usa(ring):
     cx, cy = centroid_of(ring)
     cx = cx + 360 if cx < 0 else cx
@@ -1152,15 +1196,23 @@ def main():
             continue
         splitter = SPLITTERS.get(admin)
         if splitter:
+            named = collections.defaultdict(lambda: collections.defaultdict(list))
             for ring in iter_rings(feat["geometry"]):
                 key = splitter(ring)
                 if key:
                     groups[key].append(ring)
                     backing[key].append(ring)
+                    if key.startswith("aleutians"):
+                        label = aleutian_name(ring)
+                        if label:
+                            named[key][label].append(ring)
                     # the most important of the Straits Settlements, and the
                     # one the pointer could not name
                     if admin == "Singapore":
                         provinces["malaya"].append(("Singapore", [ring]))
+            for key, by_label in named.items():
+                for label in sorted(by_label):
+                    provinces[key].append((label, by_label[label]))
             continue
         key = ADMIN0.get(admin)
         if not key:
