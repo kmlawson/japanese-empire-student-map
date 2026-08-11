@@ -897,10 +897,16 @@ SOLOMON_BOXES = [
     ("solomons_gc", (159.5, -10.0, 160.9, -9.2)),      # Guadalcanal
     ("solomons_us", (159.9, -9.20, 160.5, -8.90)),     # Tulagi and the Floridas
     ("solomons_ml", (160.5, -9.75, 161.5, -8.20)),     # Malaita
-    ("solomons_al", (161.2, -11.0, 162.6, -10.1)),     # Makira / San Cristobal
-    ("solomons_al", (159.9, -11.9, 160.7, -11.4)),     # Rennell and Bellona
-    ("solomons_al", (161.3, -9.85, 161.7, -9.30)),     # Ulawa
+    # everything Japan actually held: the western chain, from the Shortlands
+    # and Choiseul down through the New Georgia group to Santa Isabel and the
+    # Russells. Naming this rather than defaulting to it matters, because the
+    # protectorate reached 800 km further east than the occupation did.
+    ("solomons_br", (155.0, -9.30, 160.4, -6.30)),
 ]
+
+# San Cristobal, Ulawa, Rennell and Bellona, and the Santa Cruz group away to
+# the east: British throughout, and never taken.
+SOLOMON_DEFAULT = "solomons_al"
 
 
 def split_solomons(ring):
@@ -908,7 +914,7 @@ def split_solomons(ring):
     for key, (x0, y0, x1, y1) in SOLOMON_BOXES:
         if x0 <= cx <= x1 and y0 <= cy <= y1:
             return key
-    return "solomons_br"
+    return SOLOMON_DEFAULT
 
 
 def split_taiwan(ring):
