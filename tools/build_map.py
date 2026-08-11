@@ -218,6 +218,31 @@ INDIA_ENCLAVES = {
     "Puducherry": "pondicherry",
 }
 
+# Each of these arrives as one modern unit holding several disjoint enclaves
+# hundreds of kilometres apart, and they are the places on the map most worth
+# naming one by one -- Mahe on the Malabar coast and Yanaon on the Godavari
+# were as French as Pondicherry, and nothing on the map says so unless the
+# pointer can tell them apart. Rings are sorted into settlements by where
+# their centroid falls.
+ENCLAVE_BOXES = [
+    ("Goa", (73.60, 14.80, 74.40, 15.85)),
+    ("Damão (Daman)", (72.78, 20.32, 72.95, 20.50)),
+    ("Diu", (70.80, 20.62, 71.10, 20.80)),
+    ("Dadra & Nagar Haveli", (72.90, 19.95, 73.35, 20.35)),
+    ("Pondicherry (Puducherry)", (79.70, 11.80, 79.95, 12.10)),
+    ("Karikal (Karaikal)", (79.72, 10.82, 79.95, 11.05)),
+    ("Yanaon (Yanam)", (82.10, 16.62, 82.35, 16.85)),
+    ("Mahé (Mahe)", (75.42, 11.62, 75.62, 11.82)),
+]
+
+
+def enclave_name(ring):
+    cx, cy = centroid_of(ring)
+    for name, (x0, y0, x1, y1) in ENCLAVE_BOXES:
+        if x0 <= cx <= x1 and y0 <= cy <= y1:
+            return name
+    return None
+
 # Chandernagore on the Hooghly, French until 1950 and absorbed into West
 # Bengal in 1954, so no modern unit answers to it. Drawn by hand.
 CHANDERNAGORE = [
@@ -433,8 +458,13 @@ EXTENT_OCEAN = [
     (148.6, -9.0), (149.4, -9.3), (150.2, -8.9), (151.1, -8.3), (152.6, -8.6),
     (154.6, -9.6), (156.0, -10.1), (157.2, -9.6),
     # north-west of Malaita, Tulagi and Guadalcanal, none of which Japan held
-    # in December; Santa Isabel, New Georgia and Choiseul stay inside
-    (158.3, -8.7), (159.4, -8.4), (160.4, -8.1), (161.6, -8.3),
+    # in December; Santa Isabel, New Georgia and Choiseul stay inside. The line
+    # has to clear the whole of Santa Isabel -- its south-eastern tail reaches
+    # to 8.6 S and the old line cut straight across it -- and then pass north
+    # of Ndai, the small island off the top of Malaita, never taken either
+    (158.3, -8.85), (159.0, -8.90), (159.6, -8.88), (160.05, -8.60),
+    (160.3, -8.15), (160.62, -7.78), (160.95, -7.80), (161.3, -8.05),
+    (161.6, -8.3),
     (163.0, -10.6), (167.0, -9.4), (171.0, -8.0), (175.0, -6.4), (179.0, -4.4),
     (180.8, -1.0),
     # north along the dateline, then west along the Aleutians
@@ -923,8 +953,11 @@ SOLOMON_BOXES = [
     # everything Japan actually held: the western chain, from the Shortlands
     # and Choiseul down through the New Georgia group to Santa Isabel and the
     # Russells. Naming this rather than defaulting to it matters, because the
-    # protectorate reached 800 km further east than the occupation did.
-    ("solomons_br", (155.0, -9.30, 160.4, -6.30)),
+    # protectorate reached 800 km further east than the occupation did. The
+    # southern edge stops short of the Russell Islands and Savo: Japan used
+    # both during the Guadalcanal fighting but garrisoned neither, and in
+    # December they were no man's land rather than occupied ground.
+    ("solomons_br", (155.0, -8.90, 160.4, -6.30)),
 ]
 
 # San Cristobal, Ulawa, Rennell and Bellona, and the Santa Cruz group away to
@@ -1169,14 +1202,21 @@ def main():
                 name = feat["properties"].get("shapeName")
                 key = INDIA_ENCLAVES.get(name)
                 if key:
+                    named = collections.defaultdict(list)
                     for ring in iter_rings(feat["geometry"]):
                         groups[key].append(ring)
+                        label = enclave_name(ring)
+                        if label:
+                            named[label].append(ring)
+                    for label in sorted(named):
+                        provinces[key].append((label, named[label]))
                 label = INDIA_PRINCELY.get(name)
                 if label:
                     rs = list(iter_rings(feat["geometry"]))
                     groups["princely"].extend(rs)
                     provinces["princely"].append((label, rs))
     groups["pondicherry"].append(list(CHANDERNAGORE))
+    provinces["pondicherry"].append(("Chandernagore", [list(CHANDERNAGORE)]))
 
     # ---- Burma, division by division ---------------------------------------
     bpath = os.path.join(CACHE, "adm1_MMR.json")
@@ -1638,6 +1678,8 @@ def main():
         # the same floor the archipelagos use when they are drawn whole: an
         # island chain assembled from its provinces should not lose the small
         # islands merely because it came in through a different door
+        if key in ("goa", "pondicherry"):
+            return 0.04          # Mahe is two square kilometres on this scale
         return 0.12 if key in ARCHIPELAGOS else args.min_area
 
     def thin(key, pts):
@@ -1663,8 +1705,11 @@ def main():
         # carry vertices a metre apart, and none of that survives the screen.
         # One SVG unit is one screen pixel at the opening view and the map
         # zooms to 40x, so nothing finer than a fortieth of a unit can ever
-        # be seen; these bands sit just inside that.
-        return simplify(pts, args.tolerance * 0.12)
+        # be seen; these bands sit just inside that. The smallest band has to be
+        # gentler still, because the French and Portuguese enclaves are one or
+        # two units across and a tolerance that reads as light on an island
+        # would take Mahe down to a triangle.
+        return simplify(pts, args.tolerance * 0.03)
 
     def whole_union(key):
         """The country outline that goes under a territory's sub-units.
@@ -1736,7 +1781,7 @@ def main():
     out.append(
         '    <pattern id="hatch-occ" patternUnits="userSpaceOnUse" width="9" height="9" '
         'patternTransform="rotate(45)">'
-        '<line x1="0" y1="0" x2="0" y2="9" stroke="#ff7e7e" stroke-opacity="0.95" stroke-width="3.4"/>'
+        '<line x1="0" y1="0" x2="0" y2="9" stroke="#fb8072" stroke-opacity="1" stroke-width="3.4"/>'
         "</pattern>"
     )
     # and the other way round: American forces on ground drawn in the Japanese
@@ -1744,7 +1789,7 @@ def main():
     out.append(
         '    <pattern id="hatch-us" patternUnits="userSpaceOnUse" width="9" height="9" '
         'patternTransform="rotate(45)">'
-        '<line x1="0" y1="0" x2="0" y2="9" stroke="#3e5780" stroke-opacity="0.9" stroke-width="3.4"/>'
+        '<line x1="0" y1="0" x2="0" y2="9" stroke="#325d7b" stroke-opacity="1" stroke-width="3.4"/>'
         "</pattern>"
     )
     # The occupied zone is clipped to China's land. Clip it to the shape that

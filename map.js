@@ -318,7 +318,8 @@
         spots = [[cx, cy]];
       }
       atomHits[a] = spots.map(function (p) {
-        var hit = svgEl('circle', { 'class': 'atom atom-hit', r: HIT_R * 0.8 });
+        var hit = svgEl('circle', { 'class': 'atom atom-hit', r: HIT_R * 0.8,
+                                     'data-atom': a });
         layer.appendChild(hit);
         scalables.push({ el: hit, x: p[0], y: p[1] });
         return hit;
@@ -510,7 +511,12 @@
       }
 
       if (t.outline && subUnits.length) {
-        outlineOf(subUnits.splice(0, subUnits.length), 'sub-outline', subOutlineLayer);
+        var ring = outlineOf(subUnits.splice(0, subUnits.length), 'sub-outline',
+                             subOutlineLayer);
+        // a dashed black line over a coloured country reads as a border
+        // somebody else drew; a darker shade of the country's own colour reads
+        // as a line about the country
+        if (ring && t.outlineColor) ring.style.setProperty('--sub', t.outlineColor);
       }
 
       if (total > 0) {
@@ -1022,15 +1028,42 @@
     }
     if (target && target.classList && target.classList.contains('atom-hit') &&
         typeof cx === 'number' && document.elementsFromPoint) {
+      var own = recordFor(target);
       var stack = document.elementsFromPoint(cx, cy);
+      var first = null;
       for (var i = 0; i < stack.length; i++) {
         if (stack[i].classList && stack[i].classList.contains('atom-hit')) continue;
         var found = recordFor(stack[i]);
-        if (found) return { hit: found, el: stack[i] };
+        if (!found) continue;
+        // the circle's own territory wins: the shape it stands for may be a
+        // fraction of a pixel across at this zoom, so the browser hit-tests
+        // the country underneath it instead — Karikal and Yanaon are two
+        // square kilometres, and without this they answer "British India"
+        if (own && found.rec === own.rec) return { hit: found, el: stack[i] };
+        if (!first) first = { hit: found, el: stack[i] };
       }
+      if (own) {
+        var atomEl = atomEls[target.getAttribute('data-atom')];
+        return { hit: own, el: nearestSubUnit(atomEl, cx, cy) || atomEl || target };
+      }
+      if (first) return first;
     }
     var rec = recordFor(target);
     return rec ? { hit: rec, el: target } : null;
+  }
+
+  /* The sub-unit of an atom nearest a point on the screen, for when the shape
+     itself is too small for the browser to hit-test. */
+  function nearestSubUnit(atomEl, cx, cy) {
+    if (!atomEl || !atomEl.querySelectorAll) return null;
+    var best = null, bestD = Infinity;
+    $$('[data-prov]', atomEl).forEach(function (el) {
+      var r = el.getBoundingClientRect();
+      var dx = cx - (r.left + r.width / 2), dy = cy - (r.top + r.height / 2);
+      var d = dx * dx + dy * dy;
+      if (d < bestD) { bestD = d; best = el; }
+    });
+    return best;
   }
 
   function recordFor(target) {
@@ -1237,6 +1270,7 @@
     hiDefs.appendChild(mask);
     owned.push(mask);
     layer.appendChild(group);
+    return group;
   }
 
   function dropDefs(which) {

@@ -76,32 +76,44 @@ were numbered. Open items are not listed here.
 
 ## Colour
 
-23. **One ramp of reds for the empire**, darkest at the centre: the metropole,
-    the colonies and leased territory, the client states, the territory under
-    military occupation. The 1930 map takes the first two, so Japan and its
-    colonies look the same on both dates.
+23. **ColorBrewer Set3, one colour per empire**, so that no two are confusable
+    and none of them shouts. Everything Japan held runs down a ramp built from
+    Set3's salmon, darkest at the centre: the metropole, the colonies and
+    leased territory, the client states, the territory under military
+    occupation. The 1930 map takes the first two, so Japan and its colonies
+    look the same on both dates. Tibet is a darker shade of China's yellow,
+    Mongolia and Tuva a lighter shade of the Soviet lilac, Australia a lighter
+    shade of the British mauve — each family readable as a family.
 24. **The diagonals dropped from occupied China**, which was the only thing
     carrying them.
 25. **Manchukuo and Mengchiang share a fill**, told apart by a hairline down
     Chahar's eastern edge; **Kwantung** joins them, since the lease was
     re-granted by Manchukuo in 1932, and is told from Manchuria by its own
     boundary across the Liaodong isthmus.
-26. **Siam and the territories it took from Indochina** in teal, with
-    Kengtung striped over the same colour.
+26. **Siam and the territories it took from Indochina** in teal on both dates,
+    with Kengtung striped over the same colour.
 27. **Tibet** in a shade of its own, self-governing and neutral; Sinkiang
     back with Free China, which is where December 1942 leaves it.
 28. **The Portuguese enclaves** — Goa, Damão, Diu, Dadra — keep the Timor
     purple on both maps; **Macao** takes the occupation colour on the 1942 map,
     with a note saying plainly that Japan never raised a flag there.
 29. **Mixed control reserved for Guadalcanal** — New Guinea occupied outright,
-    Malaita plain British.
-30. **Pondicherry** given more contrast.
+    Malaita plain British. Guadalcanal itself is the occupation colour with
+    American stripes across it, the only place on the map with two flags over
+    it; Portuguese Timor and Thai Kengtung keep their own fill and take
+    Japanese stripes instead.
+30. **Weihaiwei dropped from the 1942 map** — it went back to China in October
+    1930, and drawing its old lease boundary in 1942 said otherwise.
+31. **Pondicherry** given more contrast.
 
 ## Markers and interface
 
-31. **The Battle of the Coral Sea** added to the 1942 map at the advanced
+32. **The Battle of the Coral Sea** added to the 1942 map at the advanced
     level.
-32. **Mobile** — overlapping marker hit-discs resolved by nearest-marker search
+33. **Mobile** — overlapping marker hit-discs resolved by nearest-marker search
     rather than stacking order, the landscape opening view cropped to the
     empire, the legend made collapsible and moved out of the map's way, and
     double-tap detected on pointer-up so quiz answers register.
+34. **Cities / Events / Administrative switches** in the header in place of the
+    level buttons, which move into the Layers panel with their own explanation.
+    On a phone the three words shrink to the marks the map already uses.

@@ -8,16 +8,16 @@
   --muted: #6b6459;
   --line: #cec7b8;
   --panel: #fffdf8;
-  --accent: #9d0000;
+  --accent: #9a1813;
   --accent-soft: #f6e2df;
 
   --ocean: #cadfeb;
   --inactive: #ded8cb;
   --inactive-line: #b9b1a1;
 
-  --c-metropole: #9d0000;
-  --c-colony: #c90000;
-  --c-occupied: #ff7e7e;
+  --c-metropole: #9a1813;
+  --c-colony: #c2463d;
+  --c-occupied: #fb8072;
   --c-neighbor: #bfcedd;
   --c-city: #1f3d5c;
   --c-battle: #8e1f57;
@@ -254,7 +254,7 @@ button.plain:hover { background: #f2ede2; }
 #sub-outlines .sub-outline circle {
   fill: none;
   vector-effect: non-scaling-stroke;
-  stroke: rgba(60, 50, 40, .55);
+  stroke: var(--sub, rgba(60, 50, 40, .55));
   stroke-width: 1.8;
   stroke-dasharray: 5 3.5;
   stroke-linejoin: round;

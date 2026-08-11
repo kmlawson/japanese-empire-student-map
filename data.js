@@ -47,9 +47,11 @@ JMAP.DEFAULT_EPOCH = 'e1942';
  * different questions: in 1930 "whose empire is this?", in 1942 "how did Japan
  * hold it?"
  *
- * Everything Japan held runs down one ramp of reds, darkest at the centre:
- * #9d0000 the metropole, #c90000 the colonies and leased territory, #ffaeae
- * the client states, #ff7e7e the territory under military occupation. The step
+ * The colours are ColorBrewer's Set3, one per empire, so that no two of them
+ * are confusable and none of them shouts. Everything Japan held runs down a
+ * ramp built from Set3's salmon, darkest at the centre: #9a1813 the
+ * metropole, #c2463d the colonies and leased territory, #f15c4b the client
+ * states, #fb8072 the territory under military occupation. The step
  * from one to the next is the step from annexation, to rule through somebody
  * else, to rule by the army, so the map can be read by shade alone. Everyone
  * else is off the ramp. Ground neither side held to itself — Guadalcanal,
@@ -58,33 +60,33 @@ JMAP.DEFAULT_EPOCH = 'e1942';
  * could: it names who the place belonged to as well as who was in it. */
 JMAP.CATEGORIES = {
   e1930: [
-    { id: 'metropole', c: '#9d0000', en: 'Japan proper', ja: '内地', orig: 'Japan proper', zh: '日本內地', ko: '일본 본토' },
-    { id: 'jpcolony', c: '#c90000', en: 'Japanese colonies', ja: '日本の外地', orig: 'Japanese colonies', zh: '日本殖民地', ko: '일본 식민지' },
-    { id: 'chinese', c: '#ffe781', en: 'China', ja: '中国', orig: 'China', zh: '中國', ko: '중국' },
+    { id: 'metropole', c: '#9a1813', en: 'Japan proper', ja: '内地', orig: 'Japan proper', zh: '日本內地', ko: '일본 본토' },
+    { id: 'jpcolony', c: '#c2463d', en: 'Japanese colonies', ja: '日本の外地', orig: 'Japanese colonies', zh: '日本殖民地', ko: '일본 식민지' },
+    { id: 'chinese', c: '#ffffb3', en: 'China', ja: '中国', orig: 'China', zh: '中國', ko: '중국' },
     { id: 'british', c: '#b07f8e', en: 'British', ja: 'イギリス領', orig: 'British', zh: '英國領', ko: '영국령' },
-    { id: 'french', c: '#81b2ff', en: 'French', ja: 'フランス領', orig: 'French', zh: '法國領', ko: '프랑스령' },
-    { id: 'dutch', c: '#e79f4a', en: 'Dutch', ja: 'オランダ領', orig: 'Dutch', zh: '荷蘭領', ko: '네덜란드령' },
-    { id: 'american', c: '#3e5780', en: 'American', ja: 'アメリカ領', orig: 'American', zh: '美國領', ko: '미국령' },
-    { id: 'portuguese', c: '#7b6ba8', en: 'Portuguese', ja: 'ポルトガル領', orig: 'Portuguese', zh: '葡萄牙領', ko: '포르투갈령' },
-    { id: 'australian', c: '#c9a227', en: 'Australian', ja: 'オーストラリア領', orig: 'Australian', zh: '澳洲領', ko: '오스트레일리아령' },
-    { id: 'soviet', c: '#8f9bb3', en: 'Soviet', ja: 'ソ連', orig: 'Soviet', zh: '蘇聯', ko: '소련' },
-    { id: 'frontier', c: '#ffce81', en: 'De facto independent', ja: '事実上の独立', orig: 'De facto independent', zh: '事實上獨立', ko: '사실상 독립' },
-    { id: 'independent', c: '#00b1af', en: 'Independent', ja: '独立国', orig: 'Independent', zh: '獨立國', ko: '독립국' },
+    { id: 'french', c: '#80b1d3', en: 'French', ja: 'フランス領', orig: 'French', zh: '法國領', ko: '프랑스령' },
+    { id: 'dutch', c: '#fdb462', en: 'Dutch', ja: 'オランダ領', orig: 'Dutch', zh: '荷蘭領', ko: '네덜란드령' },
+    { id: 'american', c: '#325d7b', en: 'American', ja: 'アメリカ領', orig: 'American', zh: '美國領', ko: '미국령' },
+    { id: 'portuguese', c: '#fccde5', en: 'Portuguese', ja: 'ポルトガル領', orig: 'Portuguese', zh: '葡萄牙領', ko: '포르투갈령' },
+    { id: 'australian', c: '#c9a6b0', en: 'Australian', ja: 'オーストラリア領', orig: 'Australian', zh: '澳洲領', ko: '오스트레일리아령' },
+    { id: 'soviet', c: '#bebada', en: 'Soviet', ja: 'ソ連', orig: 'Soviet', zh: '蘇聯', ko: '소련' },
+    { id: 'frontier', c: '#e7de7e', en: 'De facto independent', ja: '事実上の独立', orig: 'De facto independent', zh: '事實上獨立', ko: '사실상 독립' },
+    { id: 'independent', c: '#8dd3c7', en: 'Independent', ja: '独立国', orig: 'Independent', zh: '獨立國', ko: '독립국' },
     { id: 'other', c: '#ded8cb', en: 'Elsewhere', ja: 'その他', orig: 'Elsewhere', zh: '其他', ko: '기타' },
   ],
   e1942: [
-    { id: 'metropole', c: '#9d0000', en: 'Japan proper', ja: '内地', orig: 'Japan proper', zh: '日本內地', ko: '일본 본토' },
-    { id: 'colony', c: '#c90000', en: 'Colonies & leased territory', ja: '外地・租借地', orig: 'Colonies', zh: '外地・租借地', ko: '외지·조차지' },
-    { id: 'puppet', c: '#ffaeae', en: 'Client states', ja: '傀儡国家', orig: 'Client states', zh: '傀儡國家', ko: '괴뢰국' },
-    { id: 'occupied', c: '#ff7e7e', en: 'Under military occupation', ja: '軍政地域', orig: 'Occupied', zh: '軍政地區', ko: '군정 지역' },
-    { id: 'cobelligerent', c: '#00b1af', en: 'Co-belligerent', ja: '同盟国', orig: 'Co-belligerent', zh: '日本盟國', ko: '일본의 동맹국' },
-    { id: 'freechina', c: '#ffe781', en: 'Free China', ja: '重慶政権', orig: 'Free China', zh: '國統區', ko: '자유중국' },
-    { id: 'frontier', c: '#ffce81', en: 'De facto independent', ja: '事実上の独立', orig: 'De facto independent', zh: '事實上獨立', ko: '사실상 독립' },
+    { id: 'metropole', c: '#9a1813', en: 'Japan proper', ja: '内地', orig: 'Japan proper', zh: '日本內地', ko: '일본 본토' },
+    { id: 'colony', c: '#c2463d', en: 'Colonies & leased territory', ja: '外地・租借地', orig: 'Colonies', zh: '外地・租借地', ko: '외지·조차지' },
+    { id: 'puppet', c: '#f15c4b', en: 'Client states', ja: '傀儡国家', orig: 'Client states', zh: '傀儡國家', ko: '괴뢰국' },
+    { id: 'occupied', c: '#fb8072', en: 'Under military occupation', ja: '軍政地域', orig: 'Occupied', zh: '軍政地區', ko: '군정 지역' },
+    { id: 'cobelligerent', c: '#8dd3c7', en: 'Co-belligerent', ja: '同盟国', orig: 'Co-belligerent', zh: '日本盟國', ko: '일본의 동맹국' },
+    { id: 'freechina', c: '#ffffb3', en: 'Free China', ja: '重慶政権', orig: 'Free China', zh: '國統區', ko: '자유중국' },
+    { id: 'frontier', c: '#e7de7e', en: 'De facto independent', ja: '事実上の独立', orig: 'De facto independent', zh: '事實上獨立', ko: '사실상 독립' },
     { id: 'allied', c: '#b07f8e', en: 'Allied', ja: '連合国', orig: 'Allied', zh: '盟軍', ko: '연합국' },
-    { id: 'american', c: '#3e5780', en: 'American', ja: 'アメリカ領', orig: 'American', zh: '美國領', ko: '미국령' },
-    { id: 'french', c: '#81b2ff', en: 'French', ja: 'フランス領', orig: 'French', zh: '法國領', ko: '프랑스령' },
-    { id: 'portuguese', c: '#7b6ba8', en: 'Portuguese', ja: 'ポルトガル領', orig: 'Portuguese', zh: '葡萄牙領', ko: '포르투갈령' },
-    { id: 'neutral', c: '#8f9bb3', en: 'Neutral', ja: '中立', orig: 'Neutral', zh: '中立', ko: '중립' },
+    { id: 'american', c: '#325d7b', en: 'American', ja: 'アメリカ領', orig: 'American', zh: '美國領', ko: '미국령' },
+    { id: 'french', c: '#80b1d3', en: 'French', ja: 'フランス領', orig: 'French', zh: '法國領', ko: '프랑스령' },
+    { id: 'portuguese', c: '#fccde5', en: 'Portuguese', ja: 'ポルトガル領', orig: 'Portuguese', zh: '葡萄牙領', ko: '포르투갈령' },
+    { id: 'neutral', c: '#bebada', en: 'Neutral', ja: '中立', orig: 'Neutral', zh: '中立', ko: '중립' },
     { id: 'other', c: '#ded8cb', en: 'Elsewhere', ja: 'その他', orig: 'Elsewhere', zh: '其他', ko: '기타' },
   ],
 };
@@ -188,7 +190,7 @@ JMAP.TERRITORIES = {
       when: 'Burma a province of India until 1937',
       note: 'Burma was governed as a province of British India until it was separated in 1937. The Andaman and Nicobar Islands were run from Calcutta as a penal settlement.' },
     { id: 'goa', atoms: ['goa'], cat: 'portuguese', lvl: 3,
-      en: 'Portuguese India — Goa, Damão, Diu', ja: 'ポルトガル領インド', orig: 'Estado da Índia',
+      en: 'Portuguese India — Goa, Damão, Diu, Dadra & Nagar Haveli', ja: 'ポルトガル領インド', orig: 'Estado da Índia',
       zh: '葡屬印度', ko: '포르투갈령 인도',
       when: 'Portuguese from 1510',
       note: 'Goa, with Damão and Diu on the Gujarat coast and Dadrá and Nagar Aveli inland behind them, was the seat of the Estado da Índia and the oldest European possession in Asia. Portugal was neutral, and it stayed Portuguese until India took it by force in 1961.' },
@@ -298,7 +300,7 @@ JMAP.TERRITORIES = {
       zh: '蘇聯', ko: '소련 (Soryŏn)',
       when: 'From 1922',
       note: 'Japan had intervened in the Russian Civil War in Siberia from 1918 to 1922 and held northern Sakhalin until 1925. Relations along the Manchurian border stayed tense.' },
-    { id: 'mongolia', atoms: ['mongolia'], cat: 'soviet', c: '#a9b3c6', lvl: 2,
+    { id: 'mongolia', atoms: ['mongolia'], cat: 'soviet', c: '#d3d1e6', lvl: 2,
       en: 'Mongolian People’s Republic (Outer Mongolia)', ja: '蒙古人民共和国', orig: 'Бүгд Найрамдах Монгол Ард Улс',
       zh: '蒙古人民共和國', ko: '몽골인민공화국 (Monggol Inmin Konghwaguk)',
       when: 'From 1924',
@@ -330,7 +332,7 @@ JMAP.TERRITORIES = {
       zh: '廣州灣', ko: '광주만 (Kwangjuman)',
       when: 'Leased to France 1898–1945',
       note: 'A French leased territory on the Leizhou peninsula, administered from Indochina. Japan occupied it in February 1943; it went back to China in 1945.' },
-    { id: 'tuva', atoms: ['tuva'], cat: 'soviet', c: '#a9b3c6', edge: '#8f9bb3', lvl: 3,
+    { id: 'tuva', atoms: ['tuva'], cat: 'soviet', c: '#d3d1e6', edge: '#bebada', lvl: 3,
       en: 'Tannu Tuva (Tuvan People’s Republic)', ja: 'トゥヴァ人民共和国', orig: 'Тыва Арат Республик',
       zh: '唐努圖瓦', ko: '투바 인민공화국',
       when: 'Independent in name from 1921',
@@ -396,7 +398,7 @@ JMAP.TERRITORIES = {
       note: 'Coal, timber and fisheries, and the only land border Japan shared with the Soviet Union. Lost in August 1945.' },
     // the lease was re-granted by Manchukuo in 1932, so it takes the client
     // state's colour and is told from it by its own boundary instead
-    { id: 'kwantung', atoms: ['kwantung'], cat: 'puppet', lvl: 2, edge: '#9d0000',
+    { id: 'kwantung', atoms: ['kwantung'], cat: 'puppet', lvl: 2, edge: '#9a1813',
       en: 'Kwantung Leased Territory', ja: '関東州 (Kantōshū)', orig: '關東州 (Guāndōngzhōu)',
       zh: '關東州', ko: '관동주 (Kwandongju)',
       when: 'Leased 1905–1945',
@@ -415,7 +417,7 @@ JMAP.TERRITORIES = {
     // Mengchiang and Manchukuo are both client states and so share a fill; the
     // hairline down Chahar's eastern edge is what keeps them two countries
     { id: 'mengjiang', atoms: ['chahar', 'suiyuan'], cat: 'puppet', lvl: 2,
-      edge: '#9d0000', edgeAtoms: ['chahar'], edgeClip: [116.2, 40.0, 119.8, 46.9],
+      edge: '#9a1813', edgeAtoms: ['chahar'], edgeClip: [116.2, 40.0, 119.8, 46.9],
       en: 'Mengchiang (Mengjiang)', ja: '蒙疆 (Mōkyō)', orig: '蒙疆聯合自治政府',
       zh: '蒙疆聯合自治政府', ko: '몽강 (Monggang)',
       when: 'Client regime from 1936–39',
@@ -437,7 +439,7 @@ JMAP.TERRITORIES = {
       when: 'Taken 1942; nominal independence August 1943',
       note: 'Separated from British India in 1937 and overrun in the first half of 1942, closing the Burma Road to Chungking. Ba Maw headed the nominally independent state declared in 1943.' },
     { id: 'saharat', atoms: ['saharat'], cat: 'cobelligerent', lvl: 3,
-      hatch: 'occupied', outline: true,
+      hatch: 'occupied', outline: true, outlineColor: '#3da492',
       en: 'Kengtung and the trans-Salween Shan states', ja: 'タイ占領下のシャン州東部',
       orig: 'สหรัฐไทยเดิม (Saharat Thai Doem)', zh: '撣邦東部（泰國佔領）',
       ko: '태국 점령 샨주 동부',
@@ -449,7 +451,7 @@ JMAP.TERRITORIES = {
       zh: '馬來亞・昭南島', ko: '말라야·쇼난토 (Mallaya / Syonant’o)',
       when: 'Invaded 8 December 1941; Singapore fell 15 February 1942',
       note: 'The seventy-day campaign down the peninsula ended in the largest capitulation in British military history. Singapore was renamed Syonan-to, "Light of the South"; the Sook Ching massacres of Chinese residents followed within weeks.' },
-    { id: 'malaya_thai', atoms: ['malaya_thai'], cat: 'occupied', outline: true, lvl: 3,
+    { id: 'malaya_thai', atoms: ['malaya_thai'], cat: 'occupied', outline: true, outlineColor: '#dd3e2c', lvl: 3,
       en: 'Kedah, Perlis, Kelantan & Terengganu', ja: 'マレー北部四州',
       zh: '馬來北部四邦', ko: '말라야 북부 4주',
       orig: 'Kedah, Perlis, Kelantan, Terengganu',
@@ -551,7 +553,7 @@ JMAP.TERRITORIES = {
       when: 'Alliance signed 21 December 1941',
       note: 'Invaded on 8 December 1941, it capitulated in hours, granted passage to the invasion of Malaya and Burma, allied with Japan and declared war on Britain and the United States. It was rewarded with territory in Malaya, Burma and Cambodia.' },
 
-    { id: 'cededthai', atoms: ['siamgain'], cat: 'cobelligerent', outline: true, lvl: 3,
+    { id: 'cededthai', atoms: ['siamgain'], cat: 'cobelligerent', outline: true, outlineColor: '#3da492', lvl: 3,
       en: 'Battambang & Siem Reap (ceded to Thailand, 1941)',
       ja: '泰国への割譲地 (1941)', zh: '割讓予泰國之地（1941）', ko: '태국 할양지 (1941)',
       orig: 'Phra Tabong / Phibunsongkhram / Lan Chang',
@@ -568,7 +570,7 @@ JMAP.TERRITORIES = {
       when: 'The western limit of the advance',
       note: 'The front stopped at the Burmese border in 1942. The Quit India movement was suppressed that August, while the Indian National Army formed on the other side.' },
     { id: 'goa', atoms: ['goa'], cat: 'portuguese', lvl: 3,
-      en: 'Portuguese India — Goa, Damão, Diu', ja: 'ポルトガル領インド', orig: 'Estado da Índia',
+      en: 'Portuguese India — Goa, Damão, Diu, Dadra & Nagar Haveli', ja: 'ポルトガル領インド', orig: 'Estado da Índia',
       zh: '葡屬印度', ko: '포르투갈령 인도',
       when: 'Portuguese from 1510',
       note: 'Goa, with Damão and Diu on the Gujarat coast and Dadrá and Nagar Aveli inland behind them, was the seat of the Estado da Índia and the oldest European possession in Asia. Portugal was neutral, and it stayed Portuguese until India took it by force in 1961.' },
@@ -603,7 +605,7 @@ JMAP.TERRITORIES = {
       zh: '蘇聯', ko: '소련 (Soryŏn)',
       when: 'Neutrality Pact, April 1941',
       note: 'At war with Germany but not with Japan: the Neutrality Pact of April 1941 held until the Soviet invasion of Manchuria in August 1945. Both sides kept large armies on the Manchurian border throughout.' },
-    { id: 'mongolia', atoms: ['mongolia'], cat: 'neutral', c: '#a9b3c6', lvl: 2,
+    { id: 'mongolia', atoms: ['mongolia'], cat: 'neutral', c: '#d3d1e6', lvl: 2,
       en: 'Mongolian People’s Republic', ja: '蒙古人民共和国', orig: 'Бүгд Найрамдах Монгол Ард Улс',
       zh: '蒙古人民共和國', ko: '몽골인민공화국 (Monggol Inmin Konghwaguk)',
       when: 'Soviet satellite',
@@ -631,7 +633,7 @@ JMAP.TERRITORIES = {
       zh: '廣州灣', ko: '광주만 (Kwangjuman)',
       when: 'Leased to France 1898–1945',
       note: 'A French leased territory on the Leizhou peninsula, run from Indochina. In December 1942 it is still under Vichy French administration inside a Japanese-occupied region; Japanese troops moved in in February 1943.' },
-    { id: 'tuva', atoms: ['tuva'], cat: 'neutral', c: '#a9b3c6', edge: '#8f9bb3', lvl: 3,
+    { id: 'tuva', atoms: ['tuva'], cat: 'neutral', c: '#d3d1e6', edge: '#bebada', lvl: 3,
       en: 'Tannu Tuva (Tuvan People’s Republic)', ja: 'トゥヴァ人民共和国', orig: 'Тыва Арат Республик',
       zh: '唐努圖瓦', ko: '투바 인민공화국',
       when: 'Independent in name from 1921',
@@ -1540,6 +1542,19 @@ JMAP.PROVINCE_EPOCH = {
 };
 
 JMAP.PROVINCES = {
+  /* the French and Portuguese enclaves in India, named one by one: each of the
+     two territories is a scatter of settlements a thousand kilometres apart,
+     and the map says nothing about that unless the pointer can tell them
+     apart */
+  'Goa': { en: 'Goa', ja: 'ゴア (Goa)', zh: '果阿', ko: '고아 (Koa)' },
+  'Damão (Daman)': { en: 'Damão (Daman)', ja: 'ダマン (Daman)', zh: '達曼', ko: '다만 (Taman)' },
+  'Diu': { en: 'Diu', ja: 'ディウ (Diu)', zh: '第烏', ko: '디우 (Tiu)' },
+  'Dadra & Nagar Haveli': { en: 'Dadra & Nagar Haveli', ja: 'ダードラー・ナガルハベリ', zh: '達德拉-納加爾哈維利', ko: '다드라나가르하벨리' },
+  'Pondicherry (Puducherry)': { en: 'Pondicherry (Puducherry)', ja: 'ポンディシェリ', zh: '本地治里', ko: '퐁디셰리 (P’ongdisyeri)' },
+  'Karikal (Karaikal)': { en: 'Karikal (Karaikal)', ja: 'カライカル', zh: '加里加爾', ko: '카라이칼 (K’araik’al)' },
+  'Yanaon (Yanam)': { en: 'Yanaon (Yanam)', ja: 'ヤナオン', zh: '雅南', ko: '야남 (Yanam)' },
+  'Mahé (Mahe)': { en: 'Mahé (Mahe)', ja: 'マヘ (Mahe)', zh: '馬埃', ko: '마에 (Mae)' },
+  'Chandernagore': { en: 'Chandernagore (Chandannagar)', ja: 'シャンデルナゴル', zh: '昌德納加爾', ko: '샹데르나고르' },
   'Anhui': { en: 'Anhwei (Anhui)', ja: '安徽 (Anki)', zh: '安徽', ko: '안휘 (Anhwi)' },
   'Chahaer': { en: 'Chahar', ja: '察哈爾 (Chaharu)', zh: '察哈爾', ko: '찰합이 (Ch’alhabi)' },
   'Fujian': { en: 'Fukien (Fujian)', ja: '福建 (Fukken)', zh: '福建', ko: '복건 (Pokkŏn)' },
