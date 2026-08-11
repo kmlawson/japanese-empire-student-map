@@ -993,7 +993,18 @@
     if (!target || !target.getAttribute) return null;
     var key = target.getAttribute('data-prov');
     if (!key) return null;
-    return { key: key, rec: (JMAP.PROVINCES || {})[key], el: target };
+    var rec = (JMAP.PROVINCES || {})[key];
+    // a handful of sub-units were called something else on one of the two
+    // dates, or had not been separated out yet
+    var per = JMAP.PROVINCE_EPOCH && JMAP.PROVINCE_EPOCH[state.epoch];
+    var over = per && per[key];
+    if (rec && over) {
+      var merged = {};
+      Object.keys(rec).forEach(function (k) { merged[k] = rec[k]; });
+      Object.keys(over).forEach(function (k) { merged[k] = over[k]; });
+      rec = merged;
+    }
+    return { key: key, rec: rec, el: target };
   }
 
   function onHover(e) {

@@ -19,6 +19,12 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 CACHE = os.path.join(HERE, "cache")
 URL = ("https://github.com/wmgeolab/geoBoundaries/raw/41af8f1/releaseData/"
        "gbOpen/PHL/ADM2/geoBoundaries-PHL-ADM2_simplified.geojson")
+
+# The modern province of Palawan reaches out to the Spratlys, which were no
+# part of it: unclaimed in 1930, and annexed by Japan in March 1939 as the
+# Shinnan Gunto and attached to Takao prefecture in Taiwan. Anything west of
+# this meridian is dropped.
+PALAWAN_WEST = 116.9
 UA = "japanese-empire-student-map/1.0 (teaching map build)"
 
 # modern province -> the province of 1939 it belonged to
@@ -28,9 +34,11 @@ TO_1939 = {
     "Ifugao": "MountainProvince", "Mountain Province": "MountainProvince",
     "Benguet": "MountainProvince",
     "Agusan del Norte": "Agusan", "Agusan del Sur": "Agusan",
-    "Albay": "Albay", "Sorsogon": "Sorsogon", "Masbate": "Masbate",
-    "Camarines Norte": "CamarinesNorte",
-    "Camarines Sur": "CamarinesSur", "Catanduanes": "CamarinesSur",
+    # Catanduanes was a sub-province of Albay until Commonwealth Act 687
+    # separated it in October 1945
+    "Albay": "Albay", "Catanduanes": "Albay",
+    "Sorsogon": "Sorsogon", "Masbate": "Masbate",
+    "Camarines Norte": "CamarinesNorte", "Camarines Sur": "CamarinesSur",
     "Antique": "Antique", "Capiz": "Capiz", "Aklan": "Capiz",
     "Iloilo": "Iloilo", "Guimaras": "Iloilo",
     "Bataan": "Bataan", "Batanes": "Batanes", "Batangas": "Batangas",
@@ -72,6 +80,20 @@ TO_1939 = {
 }
 
 
+def drop_west(geom, meridian):
+    """Throw away whole rings that lie west of a meridian."""
+    def keep(ring):
+        return max(p[0] for p in ring) >= meridian
+
+    if geom["type"] == "Polygon":
+        rings = [r for r in geom["coordinates"] if keep(r)]
+        return {"type": "Polygon", "coordinates": rings} if rings else None
+    if geom["type"] == "MultiPolygon":
+        polys = [p for p in geom["coordinates"] if p and keep(p[0])]
+        return {"type": "MultiPolygon", "coordinates": polys} if polys else None
+    return geom
+
+
 def main():
     req = urllib.request.Request(URL, headers={"User-Agent": UA})
     data = json.loads(urllib.request.urlopen(req).read())
@@ -82,8 +104,13 @@ def main():
         if not key:
             missing.append(name)
             continue
+        geom = feat["geometry"]
+        if key == "Palawan":
+            geom = drop_west(geom, PALAWAN_WEST)
+            if geom is None:
+                continue
         out.append({"type": "Feature", "properties": {"shapeName": key},
-                    "geometry": feat["geometry"]})
+                    "geometry": geom})
     if missing:
         raise SystemExit("unmapped modern provinces: %s" % sorted(set(missing)))
     dest = os.path.join(CACHE, "adm2_PHL_1939.json")

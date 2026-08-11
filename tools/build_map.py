@@ -81,6 +81,13 @@ def project(lon, lat):
 # Hinggan provinces.
 # ---------------------------------------------------------------------------
 
+# Mengchiang was proclaimed over the whole of Suiyuan, but Japanese control
+# never reached past Paotow: the west of the province — Wuyuan, Linhe, the
+# Ordos — stayed Fu Tso-yi's throughout, and the occupied corridor on this map
+# stops at 109.6E. The province is cut here so the client state does not
+# swallow several hundred kilometres of free China.
+SUIYUAN_CUT = 109.6
+
 PROVINCE_ATOM = {
     "Liaoning": "manchuria", "Jilin": "manchuria", "Heilongjiang": "manchuria",
     "Jehol": "jehol",
@@ -179,9 +186,13 @@ KOREA_FILE = "korea_13_provinces.json"
 BURMA_DIVISIONS = {
     "Yangon": "Pegu", "Bago": "Pegu", "Ayeyarwady": "Irrawaddy",
     "Magway": "Magwe", "Mandalay": "MandalayDiv", "Saigang": "Sagaing",
-    "Tanitharyi": "Tenasserim", "Rakhine": "Arakan",
+    "Rakhine": "Arakan",
     "Shan": "ShanStates", "Kachin": "KachinHills", "Chin": "ChinHills",
-    "Kayah": "Karenni", "Kayin": "Salween", "Mon": "Pegu",
+    "Kayah": "Karenni",
+    # Tenasserim ran from Toungoo down to Mergui. Thaton and Amherst — now Mon
+    # State and most of Kayin — were its heart and held Moulmein, its capital.
+    # Only Toungoo cannot be separated out, and stays with Pegu.
+    "Tanitharyi": "Tenasserim", "Mon": "Tenasserim", "Kayin": "Tenasserim",
 }
 
 # The provinces of British India and the larger princely states, from the
@@ -204,7 +215,8 @@ INDIA_STATES = {
     "Tripura": "Assam",
     "West Bengal": "Bengal", "Barisal": "Bengal", "Chittagong": "Bengal",
     "Dhaka": "Bengal", "Khulna": "Bengal", "Mymensingh": "Bengal",
-    "Rajshani": "Bengal", "Rangpur": "Bengal", "Sylhet": "Bengal",
+    "Rajshani": "Bengal", "Rangpur": "Bengal",
+    "Sylhet": "Assam",              # a district of Assam until the 1947 referendum
     "Bihār": "Bihar", "Jhārkhand": "Bihar",
     "Odisha": "Orissa",
     "Uttar Pradesh": "UnitedProvinces", "Uttarākhand": "UnitedProvinces",
@@ -226,6 +238,7 @@ INDIA_STATES = {
 # both dates.
 SIAM_SPLITS = {
     "Amnat Charoen": "Ubon Ratchathani", "Yasothon": "Ubon Ratchathani",
+    "Kalasin": "Maha Sarakham",     # abolished into it 1932, restored only 1947
     "Mukdahan": "Nakhon Phanom", "Bueng Kan": "Nong Khai",
     "Nong Bua Lam Phu": "Udon Thani", "Phayao": "Chiang Rai",
     "Sa Kaeo": "Prachin Buri", "Bangkok": "Phra Nakhon",
@@ -916,6 +929,10 @@ def main():
                 key = splitter(ring)
                 if key:
                     groups[key].append(ring)
+                    # the most important of the Straits Settlements, and the
+                    # one the pointer could not name
+                    if admin == "Singapore":
+                        provinces["malaya"].append(("Singapore", [ring]))
             continue
         key = ADMIN0.get(admin)
         if not key:
@@ -1103,8 +1120,6 @@ def main():
                         groups["siamgain"].append(piece)
 
     # ---- the Borneo states -------------------------------------------------
-    if os.path.exists(mys_path if 'mys_path' in dir() else ''):
-        pass
     borneo_path = os.path.join(CACHE, "adm1_MYS.json")
     if os.path.exists(borneo_path):
         with open(borneo_path) as fh:
@@ -1117,6 +1132,10 @@ def main():
                     if key in ("malaya", "malaya_thai"):
                         label = {"Kuala Lumpur": "Selangor", "Putrajaya": "Selangor"}.get(pname, pname)
                         provinces[key].append((label.replace(" ", ""), prings))
+                    elif key == "northborneo" and pname == "Labuan":
+                        # a Straits Settlement in 1930, not chartered-company
+                        # territory, and worth being able to name
+                        provinces[key].append(("Labuan", prings))
 
     # ---- the northern Malay states -----------------------------------------
     mys_path = os.path.join(CACHE, "adm1_MYS.json")
@@ -1139,6 +1158,20 @@ def main():
         if not name or not rings:
             continue
         key = PROVINCE_ATOM.get(name) or "china"
+
+        # Suiyuan is split at Paotow: only the east was Mengchiang's in fact
+        if name == "Suiyuan":
+            east = [line_plane((SUIYUAN_CUT, 0.0), (SUIYUAN_CUT, 90.0), keep_right=True)]
+            west = [line_plane((SUIYUAN_CUT, 0.0), (SUIYUAN_CUT, 90.0), keep_right=False)]
+            for side, dest, label in ((east, "suiyuan", "Suiyuan"),
+                                      (west, "china", "SuiyuanWest")):
+                cut = [c for c in (clip_halfplanes(r, side) for r in rings) if len(c) >= 3]
+                if cut:
+                    tally[dest] += 1
+                    groups[dest].extend(cut)
+                    provinces[dest].append((label, cut))
+            continue
+
         tally[key] += 1
         groups[key].extend(rings)
         provinces[key].append((name, rings))
