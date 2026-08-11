@@ -232,7 +232,15 @@ KOREA_FILE = "korea_13_provinces.json"
 # Drawn at the full detail of their source rather than simplified. Korea's
 # provinces are traced finely enough to be the coastline as well as the
 # boundaries, and simplifying them throws that away.
-FULL_DETAIL = {"korea"}
+# Kengtung is a long thin salient down to Tachileik, and simplification
+# takes the southern half of it off.
+FULL_DETAIL = {"korea", "saharat"}
+
+# Saharat Thai Doem: the Shan states east of the Salween — Kengtung and part
+# of Mongpan — occupied and administered by Thai forces from 1942 and formally
+# handed to Thailand by Japan in August 1943. The Salween's course through the
+# Shan plateau is approximated by this line; see SOURCES.md.
+SAHARAT_CUT = ((98.95, 24.10), (97.60, 18.40))
 
 # Burma's divisions and the frontier areas, under their period names.
 BURMA_DIVISIONS = {
@@ -943,7 +951,7 @@ ORDER = [
     "china", "xinjiang", "india", "princely", "goa", "pondicherry",
     "other", "nepal", "sikkim", "bhutan",
     "tuva", "weihaiwei", "guangzhouwan", "chahar", "suiyuan", "jehol", "manchuria",
-    "siam", "burma", "indochina", "siamgain", "malaya", "malaya_thai", "sarawak", "northborneo", "brunei",
+    "siam", "burma", "saharat", "indochina", "siamgain", "malaya", "malaya_thai", "sarawak", "northborneo", "brunei",
     "dei", "philippines",
     "timor_pt", "newguinea_au", "solomons_br", "australia", "gilberts",
     "nauru_au", "guam", "hawaii", "aleutians", "hongkong", "macau",
@@ -1087,9 +1095,26 @@ def main():
         with open(bpath) as fh:
             blocks = collections.defaultdict(list)
             for feat in json.load(fh)["features"]:
-                label = BURMA_DIVISIONS.get(feat["properties"].get("shapeName"))
-                if label:
-                    blocks[label].extend(iter_rings(feat["geometry"]))
+                pname = feat["properties"].get("shapeName")
+                label = BURMA_DIVISIONS.get(pname)
+                if not label:
+                    continue
+                rings_here = list(iter_rings(feat["geometry"]))
+                if pname == "Shan":
+                    east = [line_plane(SAHARAT_CUT[0], SAHARAT_CUT[1], keep_right=False)]
+                    west = [line_plane(SAHARAT_CUT[0], SAHARAT_CUT[1], keep_right=True)]
+                    for planes, dest in ((east, "saharat"), (west, None)):
+                        cut = [c for c in (clip_halfplanes(r, planes) for r in rings_here)
+                               if len(c) >= 3]
+                        if not cut:
+                            continue
+                        if dest:
+                            groups[dest].extend(cut)
+                            provinces[dest].append(("Kengtung", cut))
+                        else:
+                            blocks[label].extend(cut)
+                    continue
+                blocks[label].extend(rings_here)
             for label, rs in blocks.items():
                 provinces["burma"].append((label, rs))
 

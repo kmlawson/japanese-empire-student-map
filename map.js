@@ -446,8 +446,9 @@
         el.style.display = '';
         if (colour) el.style.setProperty('--c', colour.c);
         // a territory that shares its neighbour's fill can still be told from
-        // it by a hairline: Tuva inside Mongolia
-        if (t.edge) { el.style.setProperty('--edge', t.edge); el.classList.add('edged'); }
+        // it by a hairline: Tuva inside Mongolia, Burma inside British India
+        var wantsEdge = t.edge && (!t.edgeAtoms || t.edgeAtoms.indexOf(a) >= 0);
+        if (wantsEdge) { el.style.setProperty('--edge', t.edge); el.classList.add('edged'); }
         else { el.classList.remove('edged'); el.style.removeProperty('--edge'); }
         if (t.outline) subUnits.push(el);
         els.push(el);
