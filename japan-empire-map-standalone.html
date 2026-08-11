@@ -140,6 +140,10 @@ button.plain:hover { background: #f2ede2; }
    waiting to happen, so the controls grow on a touch screen. */
 @media (pointer: coarse) {
   .seg button, button.plain { min-height: 44px; }
+  /* the layer switches carry a mark rather than a word, so they need the
+     width stated: 13px of glyph and 10px of padding is 33, and a fingertip
+     is 44 */
+  #layer-seg button { min-width: 44px; }
   dialog label.row { min-height: 44px; align-items: center; }
   #quiz button { min-height: 44px; }
   #legend .legend-head { min-height: 44px; }
@@ -950,6 +954,17 @@ dialog h3 {
     max-width: none;
     max-height: 45%;
     overflow-y: auto;
+  }
+
+  /* Folded, the legend is one word and a caret, and there is no reason for it
+     to span the screen: full width it was a bar across the bottom of the map
+     that swallowed every tap along it — on a phone that is Surabaya and Port
+     Moresby, on a tablet in landscape a sixth of the map. It now shrinks to
+     its own label and lets the rest of the strip through to the map. */
+  #legend.folded {
+    right: auto;
+    max-width: none;
+    width: max-content;
   }
 
   /* The legend is anchored to the bottom of the screen, so it has to grow
