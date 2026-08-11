@@ -350,25 +350,35 @@ EXTENT_SOUTH_CHINA = [
 EXTENT_OCEAN = [
     (91.6, 20.0), (90.6, 16.0), (90.4, 12.0), (90.6, 8.0), (92.0, 3.5),
     (94.4, 0.0), (97.0, -3.6), (100.6, -6.6), (105.0, -8.6), (110.0, -10.2),
-    (115.0, -11.0), (120.0, -11.4), (125.0, -11.6), (130.0, -11.4),
-    (134.0, -10.6), (137.0, -9.6),
+    (115.0, -11.0), (120.0, -11.4), (125.0, -11.6),
+    # north of the Tiwi Islands and the Cobourg peninsula, which are Australian
+    (129.0, -11.25), (131.0, -10.85), (132.6, -10.75), (134.0, -10.6),
+    (137.0, -9.6),
     # along the Papuan peninsula, which Japan held the length of, bulging
     # north around Port Moresby on the south coast, which it never reached
-    (139.5, -8.3), (142.0, -8.5), (144.0, -8.4), (145.6, -8.7), (146.5, -9.0),
+    (139.2, -8.85), (140.4, -9.05), (141.1, -9.35), (142.0, -8.75),
+    (144.0, -8.4), (145.6, -8.7), (146.5, -9.0),
     (147.4, -9.2), (148.4, -9.7), (149.7, -10.2), (150.9, -10.6),
     (152.6, -10.9), (155.4, -11.2), (159.0, -11.4),
     (163.0, -10.6), (167.0, -9.4), (171.0, -8.0), (175.0, -6.4), (179.0, -4.4),
     (180.8, -1.0),
     # north along the dateline, then west along the Aleutians
     (181.2, 6.0), (181.4, 14.0), (181.4, 22.0), (181.2, 30.0), (180.8, 38.0),
-    (180.2, 45.0), (179.4, 50.0), (177.0, 52.8), (172.0, 53.4), (166.0, 53.0),
+    # round Kiska rather than through it, and still clear of Amchitka, which
+    # stayed American
+    (180.2, 45.0), (179.4, 50.0), (178.55, 51.10), (177.95, 51.72),
+    (177.55, 52.30), (177.0, 52.8), (172.0, 53.4), (166.0, 53.0),
     # down the Pacific side of Kamchatka, which was Soviet throughout, and in
     # through the First Kuril Strait: Shumshu and Paramushir are inside the
     # line, Cape Lopatka and Petropavlovsk are outside it
-    (160.5, 52.0), (158.2, 51.2), (157.2, 50.85), (156.6, 50.80),
-    # then west across the Sea of Okhotsk, north of the rest of the chain
-    (155.8, 50.75), (154.5, 50.55), (152.0, 50.4), (148.0, 50.32),
-    (144.6, 50.3), (141.8, 50.3), (141.2, 49.4),
+    (160.5, 52.0), (158.3, 51.5), (157.6, 51.15), (157.1, 50.90),
+    (156.80, 50.80), (156.62, 50.83), (156.50, 50.92),
+    # then west across the Sea of Okhotsk, north of Shumshu and Araito and
+    # south of Cape Lopatka, and along the 50th parallel, which is where
+    # Karafuto ended and Soviet Sakhalin began
+    (156.10, 50.99), (155.50, 51.02), (154.90, 50.95), (154.20, 50.70),
+    (152.0, 50.45), (148.0, 50.18), (145.5, 50.03), (144.6, 50.0),
+    (141.7, 50.0), (141.35, 49.3),
     # offshore down the Soviet Pacific coast to the Korean corner. Japan held
     # none of the Maritime Province, so the line stays out at sea rather than
     # cutting inland of Sovetskaya Gavan, Nakhodka and Vladivostok
@@ -823,8 +833,19 @@ def split_taiwan(ring):
 
 def split_malaysia(ring):
     # every Malaysian state comes from the ADM1 file instead, so they can be
-    # named and, in the north, told apart
+    # named and, in the north, told apart. The outline is still wanted as the
+    # filler that goes under them, which is what MALAYSIA_BACKING is for.
     return None
+
+
+def malaysia_backing(ring):
+    """Which atom a Malaysian outline ring belongs under."""
+    cx, cy = centroid_of(ring)
+    if cx < 105.0:
+        return "malaya"
+    if cy > 5.5 or cx > 117.0:
+        return "northborneo"
+    return "sarawak"
 
 
 def split_india(ring):
@@ -910,6 +931,9 @@ def main():
     # Chinese atoms keep their provinces as separate sub-paths, so hovering can
     # name the province as well as the country.
     provinces = collections.defaultdict(list)
+    # whole-country outlines kept aside to go under the sub-units; see
+    # whole_union below
+    backing = collections.defaultdict(list)
 
     # ---- everything except China ------------------------------------------
     for feat in a0["features"]:
@@ -951,12 +975,22 @@ def main():
                     continue
                 groups[split_russia(ring)].append(ring)
             continue
+        if admin in ("South Korea", "North Korea"):
+            # Korea itself is drawn from its period provinces; this is only the
+            # filler that goes under them
+            backing["korea"].extend(iter_rings(feat["geometry"]))
+            continue
+        if admin == "Malaysia":
+            for ring in iter_rings(feat["geometry"]):
+                backing[malaysia_backing(ring)].append(ring)
+            continue
         splitter = SPLITTERS.get(admin)
         if splitter:
             for ring in iter_rings(feat["geometry"]):
                 key = splitter(ring)
                 if key:
                     groups[key].append(ring)
+                    backing[key].append(ring)
                     # the most important of the Straits Settlements, and the
                     # one the pointer could not name
                     if admin == "Singapore":
@@ -967,8 +1001,12 @@ def main():
             continue
         rings_here = list(iter_rings(feat["geometry"]))
         if admin in ("Laos", "Cambodia"):
-            continue                  # both are rebuilt below, minus the 1941 cessions
+            # drawn from provinces below, minus the 1941 cessions, but the
+            # filler underneath is the whole country
+            backing[key].extend(rings_here)
+            continue
         groups[key].extend(rings_here)
+        backing[key].extend(rings_here)
         if admin == "Vietnam":
             lap = 0.02
             tonkin_n = grow_plane(line_plane(*TONKIN_CUT, keep_right=False), lap)
@@ -1387,6 +1425,29 @@ def main():
     # drawn after it
     ordered = [k for k in ordered if k not in ON_TOP]
 
+    def whole_union(key):
+        """The country outline that goes under a territory's sub-units.
+
+        Adjacent sub-units share an edge in the source and lose it to
+        simplification, so two that used to meet no longer quite do and a
+        hairline of ocean opens between them. Dissolving the sub-units does not
+        help — several of these sets come from files that never shared vertices
+        in the first place — so the filler is Natural Earth's own outline of the
+        countries concerned, which has no seams in it by construction. Drawn
+        underneath in the same colour, it turns every crack into solid ground."""
+        rings = backing.get(key) or []
+        if not rings:
+            return ""
+        pieces = []
+        for ring in (dissolve(rings) if len(rings) > 1 else rings):
+            ring = clip_halfplanes(normalise_ring(ring), frame)
+            if len(ring) < 3:
+                continue
+            pts = simplify([project(x, y) for x, y in ring], args.tolerance)
+            if len(pts) >= 3 and ring_area(pts) >= args.min_area:
+                pieces.append(ring_to_path(pts))
+        return "".join(pieces)
+
     def province_paths(key):
         """One path per Republican province, for the atoms built from them.
 
@@ -1455,6 +1516,14 @@ def main():
         specks = dots.get(key) or []
         if blocks:
             out.append(f'    <g id="a-{key}" class="atom" {meta}>')
+            # The sub-units come from a different source than each other and
+            # are simplified one ring at a time, so two that shared an edge no
+            # longer quite do and a hairline of ocean opens between them. The
+            # whole shape goes underneath them first, in the same colour, so a
+            # crack shows the country rather than the sea.
+            whole = whole_union(key)
+            if whole:
+                out.append(f'      <path class="whole" d="{whole}"/>')
             for pname, pd in blocks:
                 # an unnamed leftover gets no attribute at all: an empty one
                 # reads as a sub-unit that can never be named or outlined
