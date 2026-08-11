@@ -1711,10 +1711,17 @@ def main():
                     # Split at the breach itself, not at the nearest vertex to
                     # it: the nearest vertex can be past Huayuankou, and then
                     # the 1938 course starts by doubling back on the old one.
+                    # Take the *first* crossing of the breach's meridian and
+                    # not the last, or a meander that recrosses it downstream
+                    # is drawn as a chord straight back to the breach.
+                    if line[0][0] > line[-1][0]:
+                        line = line[::-1]          # run it downstream
                     cut = None
-                    for i, (x, y) in enumerate(line):
-                        if x <= HUAYUANKOU[0]:
+                    for i in range(len(line) - 1):
+                        a, b = line[i][0], line[i + 1][0]
+                        if min(a, b) <= HUAYUANKOU[0] <= max(a, b):
                             cut = i
+                            break
                     if cut is None:
                         pieces["yellow_lower"].append([HUAYUANKOU] + line)
                         continue
