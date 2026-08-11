@@ -48,8 +48,8 @@ JMAP.DEFAULT_EPOCH = 'e1942';
  * hold it?"
  *
  * Everything Japan held runs down one ramp of reds, darkest at the centre:
- * #bf213f the metropole, #d82547 the colonies and leased territory, #fe2c54
- * the client states, #fe5676 the territory under military occupation. The step
+ * #9d0000 the metropole, #c90000 the colonies and leased territory, #ffaeae
+ * the client states, #ff7e7e the territory under military occupation. The step
  * from one to the next is the step from annexation, to rule through somebody
  * else, to rule by the army, so the map can be read by shade alone. Everyone
  * else is off the ramp. Ground neither side held to itself — Guadalcanal,
@@ -58,8 +58,8 @@ JMAP.DEFAULT_EPOCH = 'e1942';
  * could: it names who the place belonged to as well as who was in it. */
 JMAP.CATEGORIES = {
   e1930: [
-    { id: 'metropole', c: '#bf213f', en: 'Japan proper', ja: '内地', orig: 'Japan proper', zh: '日本內地', ko: '일본 본토' },
-    { id: 'jpcolony', c: '#d82547', en: 'Japanese colonies', ja: '日本の外地', orig: 'Japanese colonies', zh: '日本殖民地', ko: '일본 식민지' },
+    { id: 'metropole', c: '#9d0000', en: 'Japan proper', ja: '内地', orig: 'Japan proper', zh: '日本內地', ko: '일본 본토' },
+    { id: 'jpcolony', c: '#c90000', en: 'Japanese colonies', ja: '日本の外地', orig: 'Japanese colonies', zh: '日本殖民地', ko: '일본 식민지' },
     { id: 'chinese', c: '#e8d9a8', en: 'China', ja: '中国', orig: 'China', zh: '中國', ko: '중국' },
     { id: 'british', c: '#b07f8e', en: 'British', ja: 'イギリス領', orig: 'British', zh: '英國領', ko: '영국령' },
     { id: 'french', c: '#7d9cc0', en: 'French', ja: 'フランス領', orig: 'French', zh: '法國領', ko: '프랑스령' },
@@ -72,10 +72,10 @@ JMAP.CATEGORIES = {
     { id: 'other', c: '#ded8cb', en: 'Elsewhere', ja: 'その他', orig: 'Elsewhere', zh: '其他', ko: '기타' },
   ],
   e1942: [
-    { id: 'metropole', c: '#bf213f', en: 'Japan proper', ja: '内地', orig: 'Japan proper', zh: '日本內地', ko: '일본 본토' },
-    { id: 'colony', c: '#d82547', en: 'Colonies & leased territory', ja: '外地・租借地', orig: 'Colonies', zh: '外地・租借地', ko: '외지·조차지' },
-    { id: 'puppet', c: '#fe2c54', en: 'Client states', ja: '傀儡国家', orig: 'Client states', zh: '傀儡國家', ko: '괴뢰국' },
-    { id: 'occupied', c: '#fe5676', en: 'Under military occupation', ja: '軍政地域', orig: 'Occupied', zh: '軍政地區', ko: '군정 지역' },
+    { id: 'metropole', c: '#9d0000', en: 'Japan proper', ja: '内地', orig: 'Japan proper', zh: '日本內地', ko: '일본 본토' },
+    { id: 'colony', c: '#c90000', en: 'Colonies & leased territory', ja: '外地・租借地', orig: 'Colonies', zh: '外地・租借地', ko: '외지·조차지' },
+    { id: 'puppet', c: '#ffaeae', en: 'Client states', ja: '傀儡国家', orig: 'Client states', zh: '傀儡國家', ko: '괴뢰국' },
+    { id: 'occupied', c: '#ff7e7e', en: 'Under military occupation', ja: '軍政地域', orig: 'Occupied', zh: '軍政地區', ko: '군정 지역' },
     { id: 'cobelligerent', c: '#df65b0', en: 'Co-belligerent', ja: '同盟国', orig: 'Co-belligerent', zh: '日本盟國', ko: '일본의 동맹국' },
     { id: 'freechina', c: '#93ac93', en: 'Free China', ja: '重慶政権', orig: 'Free China', zh: '國統區', ko: '자유중국' },
     { id: 'frontier', c: '#c3d6c3', en: 'Self-governing frontier', ja: '自治的辺境', orig: 'Self-governing frontier', zh: '自治邊疆', ko: '자치 변경' },
@@ -391,11 +391,13 @@ JMAP.TERRITORIES = {
       zh: '樺太（南薩哈林）', ko: '가라후토 (Karahuto)',
       when: 'Japanese 1905–1945',
       note: 'Coal, timber and fisheries, and the only land border Japan shared with the Soviet Union. Lost in August 1945.' },
-    { id: 'kwantung', atoms: ['kwantung'], cat: 'colony', lvl: 2,
+    // the lease was re-granted by Manchukuo in 1932, so it takes the client
+    // state's colour and is told from it by its own boundary instead
+    { id: 'kwantung', atoms: ['kwantung'], cat: 'puppet', lvl: 2, edge: '#9d0000',
       en: 'Kwantung Leased Territory', ja: '関東州 (Kantōshū)', orig: '關東州 (Guāndōngzhōu)',
       zh: '關東州', ko: '관동주 (Kwandongju)',
       when: 'Leased 1905–1945',
-      note: 'Still a separate Japanese leasehold, not part of Manchukuo: the lease was simply re-granted by the new state in 1932 and the territory kept its own administration to the end. Port Arthur and Dairen are inside it.' },
+      note: 'Nominally Manchukuo’s, in that the new state re-granted the lease in 1932; in practice a Japanese leasehold with its own administration to the end, and the seat of the Kwantung Army that had taken Manchuria. Port Arthur and Dairen are inside it.' },
     { id: 'nanyo', atoms: ['nanyo'], cat: 'colony', lvl: 2,
       en: 'South Seas Mandate (Micronesia)', ja: '南洋群島 (Nan’yō Guntō)', orig: 'Micronesia',
       zh: '南洋群島', ko: '남양군도 (Namyang Kundo)',
@@ -410,7 +412,7 @@ JMAP.TERRITORIES = {
     // Mengchiang and Manchukuo are both client states and so share a fill; the
     // hairline down Chahar's eastern edge is what keeps them two countries
     { id: 'mengjiang', atoms: ['chahar', 'suiyuan'], cat: 'puppet', lvl: 2,
-      edge: '#bf213f', edgeAtoms: ['chahar'], edgeClip: [116.2, 40.0, 119.8, 46.9],
+      edge: '#9d0000', edgeAtoms: ['chahar'], edgeClip: [116.2, 40.0, 119.8, 46.9],
       en: 'Mengchiang (Mengjiang)', ja: '蒙疆 (Mōkyō)', orig: '蒙疆聯合自治政府',
       zh: '蒙疆聯合自治政府', ko: '몽강 (Monggang)',
       when: 'Client regime from 1936–39',
@@ -496,12 +498,11 @@ JMAP.TERRITORIES = {
       when: 'Occupied March 1942; ceded to Azad Hind December 1943',
       note: 'The only Indian territory Japan held. In December 1943 they were handed nominally to Subhas Chandra Bose’s Provisional Government of Free India and renamed Shaheed and Swaraj — "Martyr" and "Self-rule". The transfer was a gesture: the Japanese navy kept real control, and the occupation was harsh.' },
 
-    { id: 'newguinea_au', atoms: ['newguinea_au'], cat: 'allied', lvl: 2,
-      hatch: 'occupied',
+    { id: 'newguinea_au', atoms: ['newguinea_au'], cat: 'occupied', lvl: 2,
       en: 'New Guinea (Papua & the Mandated Territory)', ja: 'ニューギニア', orig: 'Niugini',
       zh: '新幾內亞', ko: '뉴기니 (Nyugini)',
-      when: 'Front line through 1942–45',
-      note: 'Australian territory with Japanese forces in it, which is why it carries both colours. Japan held the north coast and the great base at Rabaul; Australian and American forces held Port Moresby. The overland push across the Kokoda Track was turned back in September 1942, and in December the fighting was at the Buna–Gona beachhead.' },
+      when: 'Taken from Australia in 1942',
+      note: 'Rabaul, on New Britain, fell in January 1942 and became the greatest Japanese base south of Truk, and the north coast of the mainland followed. Port Moresby was the objective and was never reached: the overland push across the Kokoda Track was turned back in September 1942, and in December the fighting was at the Buna–Gona beachhead. The island was the southern limit of the advance and the ground the counter-offensive started from.' },
     { id: 'solomons_br', atoms: ['solomons_br'], cat: 'occupied', lvl: 2,
       en: 'Western Solomons', ja: 'ソロモン諸島西部', orig: 'Solomon Islands',
       zh: '所羅門群島西部', ko: '서솔로몬 제도',
@@ -517,11 +518,11 @@ JMAP.TERRITORIES = {
       zh: '圖拉吉', ko: '툴라기',
       when: 'Taken by the Americans 8–9 August 1942',
       note: 'The old seat of the British protectorate, seized by Japan in May 1942 and retaken by the Marines on 8 August, with Gavutu and Tanambogo falling the next day. Its harbour served the Allied fleet for the rest of the campaign.' },
-    { id: 'malaita', atoms: ['solomons_ml'], cat: 'allied', lvl: 3, hatch: 'occupied',
+    { id: 'malaita', atoms: ['solomons_ml'], cat: 'allied', lvl: 3,
       en: 'Malaita (never fully occupied)', ja: 'マライタ島', orig: 'Malaita',
       zh: '馬萊塔島', ko: '말라이타',
       when: 'Raided but never held',
-      note: 'Japanese patrols and coastwatcher hunts reached the island, but it was never occupied: the protectorate administration and its coastwatchers stayed on it throughout. The stripes mark presence without possession.' },
+      note: 'Japanese patrols and coastwatcher hunts reached the island, but it was never occupied: the protectorate administration and its coastwatchers stayed on it throughout, which is why it keeps the British colour outright.' },
     { id: 'solomons_allied', atoms: ['solomons_al'], cat: 'allied', lvl: 3,
       en: 'San Cristobal, Rennell and Ulawa', ja: 'サンクリストバル島・レンネル島', orig: 'Makira',
       zh: '聖克里斯托巴爾島', ko: '산크리스토발',

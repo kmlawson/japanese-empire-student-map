@@ -1605,6 +1605,38 @@ def main():
     # drawn after it
     ordered = [k for k in ordered if k not in ON_TOP]
 
+    def sub_min_area(key):
+        # the same floor the archipelagos use when they are drawn whole: an
+        # island chain assembled from its provinces should not lose the small
+        # islands merely because it came in through a different door
+        return 0.12 if key in ARCHIPELAGOS else args.min_area
+
+    def thin(key, pts):
+        """Simplify by how big the thing is, not by what it is part of.
+
+        One tolerance for a whole country throws away small islands: the
+        Visayas and the Moluccas are drawn from the same files as Luzon and
+        Java, and what reads as a light touch on a landmass the size of Java
+        erases a fifty-kilometre island altogether. The bands below are the
+        ones the archipelagos already used, applied to everything that is
+        assembled out of sub-units as well."""
+        if key in FULL_DETAIL or len(pts) < 4:
+            return pts
+        span = max(max(p[0] for p in pts) - min(p[0] for p in pts),
+                   max(p[1] for p in pts) - min(p[1] for p in pts))
+        if span > 60:
+            return simplify(pts, args.tolerance)
+        if span > 12:
+            return simplify(pts, args.tolerance * 0.5)
+        if span > 2:
+            return simplify(pts, args.tolerance * 0.12)
+        # even the smallest islands are worth thinning: the boundary files
+        # carry vertices a metre apart, and none of that survives the screen.
+        # One SVG unit is one screen pixel at the opening view and the map
+        # zooms to 40x, so nothing finer than a fortieth of a unit can ever
+        # be seen; these bands sit just inside that.
+        return simplify(pts, args.tolerance * 0.12)
+
     def whole_union(key):
         """The country outline that goes under a territory's sub-units.
 
@@ -1625,10 +1657,8 @@ def main():
             ring = clip_halfplanes(normalise_ring(ring), frame)
             if len(ring) < 3:
                 continue
-            pts = [project(x, y) for x, y in ring]
-            if key not in FULL_DETAIL:
-                pts = simplify(pts, args.tolerance)
-            if len(pts) >= 3 and ring_area(pts) >= args.min_area:
+            pts = thin(key, [project(x, y) for x, y in ring])
+            if len(pts) >= 3 and ring_area(pts) >= sub_min_area(key):
                 pieces.append(ring_to_path(pts))
         return "".join(pieces)
 
@@ -1646,10 +1676,8 @@ def main():
                 ring = clip_halfplanes(normalise_ring(ring), frame)
                 if len(ring) < 3:
                     continue
-                pts = [project(x, y) for x, y in ring]
-                if key not in FULL_DETAIL:
-                    pts = simplify(pts, args.tolerance)
-                if len(pts) >= 3 and ring_area(pts) >= args.min_area:
+                pts = thin(key, [project(x, y) for x, y in ring])
+                if len(pts) >= 3 and ring_area(pts) >= sub_min_area(key):
                     pieces.append(ring_to_path(pts))
             if pieces:
                 blocks.append((pname, "".join(pieces)))
@@ -1680,7 +1708,7 @@ def main():
     out.append(
         '    <pattern id="hatch-occ" patternUnits="userSpaceOnUse" width="9" height="9" '
         'patternTransform="rotate(45)">'
-        '<line x1="0" y1="0" x2="0" y2="9" stroke="#bf213f" stroke-opacity="0.85" stroke-width="3.4"/>'
+        '<line x1="0" y1="0" x2="0" y2="9" stroke="#9d0000" stroke-opacity="0.85" stroke-width="3.4"/>'
         "</pattern>"
     )
     # The occupied zone is clipped to China's land. Clip it to the shape that
