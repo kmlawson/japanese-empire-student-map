@@ -309,7 +309,7 @@ KOREA_FILE = "korea_13_provinces.json"
 # boundaries, and simplifying them throws that away.
 # Kengtung is a long thin salient down to Tachileik, and simplification
 # takes the southern half of it off.
-FULL_DETAIL = {"korea", "saharat"}
+FULL_DETAIL = {"korea", "saharat", "princely"}
 
 # Saharat Thai Doem: the Shan states east of the Salween — Kengtung and part
 # of Mongpan — occupied and administered by Thai forces from 1942 and formally
@@ -1440,8 +1440,13 @@ def main():
         with open(path) as fh:
             for feat in json.load(fh)["features"]:
                 label = INDIA_STATES.get(feat["properties"].get("shapeName"))
-                if label:
-                    blocks[label].extend(iter_rings(feat["geometry"]))
+                # The modern states that were mostly princely — Rajasthan,
+                # Telangana, Karnataka, Kerala, Kashmir — answer to no British
+                # province, so they go in under the empty label: the ground is
+                # British India, the princely layer is drawn over it, and with
+                # that layer switched off the pointer still finds the country
+                # and offers no province, which is the truth about it.
+                blocks[label or ""].extend(iter_rings(feat["geometry"]))
     for label, rs in blocks.items():
         provinces["india"].append((label, rs))
 

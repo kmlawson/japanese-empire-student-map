@@ -1472,6 +1472,16 @@
       L.w = estimateWidth(text, L.size);
     });
 
+    // A territory marked adminOnly is administrative detail drawn inside
+    // another one — the princely states inside British India — so it comes and
+    // goes with the Administrative switch rather than standing on its own.
+    territories().forEach(function (t) {
+      if (!t.adminOnly) return;
+      (atomsOf[t.id] || []).forEach(function (el) {
+        el.style.display = state.cats.territory ? '' : 'none';
+      });
+    });
+
     if (extentPath) {
       extentPath.style.display = (state.epoch === 'e1942' && state.extent) ? '' : 'none';
     }

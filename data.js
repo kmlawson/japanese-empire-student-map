@@ -201,7 +201,8 @@ JMAP.TERRITORIES = {
       zh: '法屬印度', ko: '프랑스령 인도',
       when: 'French from 1674',
       note: 'Five scattered enclaves left to France when Britain took the rest of India: Pondicherry and Karikal on the Coromandel coast, Yanaon on the Godavari, Mahé on the Malabar coast, and Chandernagore on the Hooghly above Calcutta. They declared for the Free French in 1940 and were transferred to India in the 1950s.' },
-    { id: 'princelystates', atoms: ['princely'], cat: 'british', c: '#8f5f6e', lvl: 3,
+    // administrative detail inside British India: it belongs with that switch
+    { id: 'princelystates', atoms: ['princely'], cat: 'british', c: '#8f5f6e', lvl: 3, adminOnly: true,
       en: 'Princely states', ja: '藩王国', orig: 'Indian States',
       zh: '印度土邦', ko: '번왕국',
       when: 'Rulers in subsidiary alliance with the Crown',
@@ -583,7 +584,7 @@ JMAP.TERRITORIES = {
       zh: '法屬印度', ko: '프랑스령 인도',
       when: 'French from 1674',
       note: 'Five scattered enclaves left to France when Britain took the rest of India: Pondicherry and Karikal on the Coromandel coast, Yanaon on the Godavari, Mahé on the Malabar coast, and Chandernagore on the Hooghly above Calcutta. They declared for the Free French in 1940 and were transferred to India in the 1950s.' },
-    { id: 'princelystates', atoms: ['princely'], cat: 'allied', c: '#8f5f6e', lvl: 3,
+    { id: 'princelystates', atoms: ['princely'], cat: 'allied', c: '#8f5f6e', lvl: 3, adminOnly: true,
       en: 'Princely states', ja: '藩王国', orig: 'Indian States',
       zh: '印度土邦', ko: '번왕국',
       when: 'Rulers in subsidiary alliance with the Crown',
