@@ -338,12 +338,19 @@ EXTENT_OCEAN = [
     # north along the dateline, then west along the Aleutians
     (181.2, 6.0), (181.4, 14.0), (181.4, 22.0), (181.2, 30.0), (180.8, 38.0),
     (180.2, 45.0), (179.4, 50.0), (177.0, 52.8), (172.0, 53.4), (166.0, 53.0),
-    (160.0, 52.4), (156.4, 51.4),
-    # straight across the Sea of Okhotsk, leaving every Kurile inside
-    (150.0, 50.9), (144.6, 50.3), (141.8, 50.3), (141.0, 49.2),
-    # down the Soviet Pacific coast to the Korean corner
-    (140.4, 48.6), (138.6, 47.0), (137.0, 45.6), (135.0, 44.3), (133.0, 43.0),
-    (131.6, 42.8), (130.7, 42.4),
+    # down the Pacific side of Kamchatka, which was Soviet throughout, and in
+    # through the First Kuril Strait: Shumshu and Paramushir are inside the
+    # line, Cape Lopatka and Petropavlovsk are outside it
+    (160.5, 52.0), (158.2, 51.2), (157.2, 50.85), (156.6, 50.80),
+    # then west across the Sea of Okhotsk, north of the rest of the chain
+    (155.8, 50.75), (154.5, 50.55), (152.0, 50.4), (148.0, 50.32),
+    (144.6, 50.3), (141.8, 50.3), (141.2, 49.4),
+    # offshore down the Soviet Pacific coast to the Korean corner. Japan held
+    # none of the Maritime Province, so the line stays out at sea rather than
+    # cutting inland of Sovetskaya Gavan, Nakhodka and Vladivostok
+    (141.1, 48.6), (140.6, 47.6), (139.9, 46.6), (139.2, 45.6), (138.2, 44.6),
+    (137.0, 43.8), (135.4, 43.2), (133.6, 42.8), (132.2, 42.5), (131.0, 42.3),
+    (130.7, 42.4),
 ]
 
 # Anchors where the hand-drawn pieces hand over to a real frontier.
