@@ -1042,11 +1042,26 @@
         if (own && found.rec === own.rec) return { hit: found, el: stack[i] };
         if (!first) first = { hit: found, el: stack[i] };
       }
-      if (own) {
-        var atomEl = atomEls[target.getAttribute('data-atom')];
-        return { hit: own, el: nearestSubUnit(atomEl, cx, cy) || atomEl || target };
+      // Nothing in the stack is the circle's own territory. Either its shape
+      // is too small for the browser to hit — Karikal is two square
+      // kilometres — in which case the circle is the only way to reach it, or
+      // the shape is perfectly reachable and simply is not under the pointer,
+      // in which case the country that is under the pointer wins. Size tells
+      // the two apart: a target circle is 35 px across and the shapes it
+      // stands for are meant to be smaller than that.
+      var atomEl = atomEls[target.getAttribute('data-atom')];
+      var sub = nearestSubUnit(atomEl, cx, cy);
+      // measured on the sub-unit where there is one, because an atom can be a
+      // scatter: French India runs from Mahe to Chandernagore and its box is
+      // two thousand kilometres wide, while the settlement under the pointer
+      // is a speck
+      var shape = sub || atomEl;
+      var box = shape && shape.getBoundingClientRect ? shape.getBoundingClientRect() : null;
+      if (own && box && box.width < 12 && box.height < 12) {
+        return { hit: own, el: shape || target };
       }
       if (first) return first;
+      if (own) return { hit: own, el: shape || target };
     }
     var rec = recordFor(target);
     return rec ? { hit: rec, el: target } : null;
