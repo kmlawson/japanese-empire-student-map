@@ -963,10 +963,77 @@ ALEUTIAN_BOXES = [
 ]
 
 
-def aleutian_name(ring):
+# The Kuriles, north-east to south-west down the chain. Japanese held the
+# whole of it until 1945, and the northern islands are where the Aleutian
+# operation was mounted from.
+KURILE_BOXES = [
+    ("Shumshu (Shimushu)", (156.10, 50.60, 156.60, 50.90)),
+    ("Alaid (Araito)", (155.40, 50.78, 155.72, 50.95)),
+    ("Paramushir (Paramushiro)", (155.15, 49.95, 156.16, 50.80)),
+    ("Makanrushi (Makanruru)", (154.35, 49.70, 154.52, 49.84)),
+    ("Onekotan", (154.58, 49.24, 154.93, 49.67)),
+    ("Kharimkotan (Harimukotan)", (154.42, 49.06, 154.62, 49.19)),
+    ("Ekarma", (153.88, 48.90, 154.03, 49.00)),
+    ("Shiashkotan (Shasukotan)", (153.95, 48.70, 154.25, 48.94)),
+    ("Matua (Matsuwa)", (153.14, 48.01, 153.31, 48.15)),
+    ("Rasshua (Rasutsuwa)", (152.94, 47.66, 153.09, 47.83)),
+    ("Ketoy (Ketoi)", (152.39, 47.28, 152.56, 47.40)),
+    ("Simushir (Shimushiru)", (151.68, 46.75, 152.31, 47.19)),
+    ("Chirpoy (Chirihoi)", (150.75, 46.42, 150.87, 46.50)),
+    ("Urup (Uruppu)", (149.40, 45.56, 150.60, 46.25)),
+    ("Etorofu (Iturup)", (146.84, 44.40, 148.88, 45.55)),
+    ("Kunashiri (Kunashir)", (145.38, 43.62, 146.60, 44.53)),
+    ("Shikotan", (146.58, 43.68, 146.96, 43.90)),
+    ("the Habomai Islands", (146.05, 43.44, 146.26, 43.57)),
+]
+
+# The Ryukyus, north to south. The chain was Okinawa Prefecture, annexed in
+# 1879 and Japanese throughout both dates on this map.
+RYUKYU_BOXES = [
+    ("Yakushima", (130.36, 30.20, 130.70, 30.48)),
+    ("Kuchinoerabujima", (130.12, 30.40, 130.28, 30.50)),
+    ("Kuchinoshima", (129.88, 29.93, 129.97, 30.02)),
+    ("Nakanoshima", (129.82, 29.80, 129.94, 29.90)),
+    ("Tairajima", (129.51, 29.87, 129.57, 29.92)),
+    ("Suwanosejima", (129.69, 29.58, 129.77, 29.68)),
+    ("Akusekijima", (129.57, 29.43, 129.63, 29.49)),
+    ("Kikaijima", (129.90, 28.27, 130.05, 28.39)),
+    ("Amami Ōshima", (129.13, 28.06, 129.74, 28.52)),
+    ("Tokunoshima", (128.86, 27.66, 129.05, 27.93)),
+    ("Okinoerabujima", (128.51, 27.33, 128.72, 27.47)),
+    ("Yoronjima", (128.38, 27.00, 128.47, 27.08)),
+    ("Iheyajima", (127.92, 26.98, 128.04, 27.11)),
+    ("Izenajima", (127.90, 26.89, 127.97, 26.97)),
+    ("Iejima", (127.74, 26.62, 127.89, 26.75)),
+    ("Okinawa", (127.62, 26.06, 128.35, 26.90)),
+    ("the Kerama Islands", (127.20, 26.12, 127.39, 26.27)),
+    ("Kumejima", (126.69, 26.28, 126.84, 26.40)),
+    ("Miyakojima", (125.12, 24.70, 125.48, 24.93)),
+    ("Taramajima", (124.66, 24.62, 124.75, 24.69)),
+    ("Ishigakijima", (124.06, 24.30, 124.35, 24.62)),
+    ("Iriomotejima", (123.64, 24.24, 123.95, 24.45)),
+    ("Haterumajima", (123.74, 24.03, 123.83, 24.09)),
+    ("Yonagunijima", (122.92, 24.42, 123.06, 24.49)),
+    ("the Daitō Islands", (131.19, 25.79, 131.35, 25.98)),
+    ("the Senkaku / Diaoyu Islands", (123.48, 25.74, 123.57, 25.79)),
+]
+
+# atom key -> the list of islands it might be one of
+ISLAND_BOXES = {
+    "aleutians": ALEUTIAN_BOXES,
+    "aleutians_jp": ALEUTIAN_BOXES,
+    "chishima": KURILE_BOXES,
+    "ryukyu": RYUKYU_BOXES,
+}
+
+
+def island_name(key, ring):
+    boxes = ISLAND_BOXES.get(key)
+    if not boxes:
+        return None
     cx, cy = centroid_of(ring)
     cx = cx + 360 if cx < 0 else cx
-    for name, (x0, y0, x1, y1) in ALEUTIAN_BOXES:
+    for name, (x0, y0, x1, y1) in boxes:
         if x0 <= cx <= x1 and y0 <= cy <= y1:
             return name
     return None
@@ -1169,6 +1236,7 @@ def main():
                 groups["chinabase"].append(ring)
             continue
         if admin == "Russia":
+            kurils = collections.defaultdict(list)
             for ring in iter_rings(feat["geometry"]):
                 xs = [p[0] for p in ring]
                 ys = [p[1] for p in ring]
@@ -1181,7 +1249,13 @@ def main():
                     if len(north) >= 3:
                         groups["ussr"].append(north)
                     continue
-                groups[split_russia(ring)].append(ring)
+                rkey = split_russia(ring)
+                groups[rkey].append(ring)
+                label = island_name(rkey, ring)
+                if label:
+                    kurils[label].append(ring)
+            for label in sorted(kurils):
+                provinces["chishima"].append((label, kurils[label]))
             continue
         if admin in ("South Korea", "North Korea"):
             # Korea is drawn from its period provinces and nothing else. They
@@ -1202,10 +1276,9 @@ def main():
                 if key:
                     groups[key].append(ring)
                     backing[key].append(ring)
-                    if key.startswith("aleutians"):
-                        label = aleutian_name(ring)
-                        if label:
-                            named[key][label].append(ring)
+                    label = island_name(key, ring)
+                    if label:
+                        named[key][label].append(ring)
                     # the most important of the Straits Settlements, and the
                     # one the pointer could not name
                     if admin == "Singapore":
@@ -1844,11 +1917,16 @@ def main():
         '<line x1="0" y1="0" x2="0" y2="9" stroke="#325d7b" stroke-opacity="1" stroke-width="3.4"/>'
         "</pattern>"
     )
-    # The occupied zone is clipped to China's land. Clip it to the shape that
-    # is actually drawn — the union of the provinces — and not to the dissolved
-    # outline of the same rings, which simplifies to a slightly different
-    # coastline and let the shading hang out over the water.
-    china_drawn = "".join(pd for _, pd in province_paths("china")) or paths.get("china", "")
+    # The occupied zone is clipped to China's land. Clip it to the shape that is
+    # actually drawn and not to the dissolved outline of the same rings, which
+    # simplifies to a slightly different coastline and let the shading hang out
+    # over the water. What is drawn is the provinces *and* the country outline
+    # laid under them: wherever that backing reaches further out than the
+    # provinces do -- which along the coast is most places -- clipping to the
+    # provinces alone left a hairline of unoccupied yellow between the shading
+    # and the sea.
+    china_drawn = ("".join(pd for _, pd in province_paths("china")) + whole_union("china")
+                   or paths.get("china", ""))
     if china_drawn:
         out.append(f'    <clipPath id="clip-china"><path d="{china_drawn}"/></clipPath>')
     out.append("  </defs>")
@@ -1857,6 +1935,15 @@ def main():
     def emit(key):
         ax, ay, area = anchors[key]
         meta = f'data-cx="{fmt(ax)}" data-cy="{fmt(ay)}" data-area="{int(area)}"'
+        # Sub-units are of two kinds. Most are administrative divisions -- the
+        # provinces of China, the prefectures of Japan -- and belong with the
+        # Administrative layer, which can be switched off. The rest are simply
+        # separate pieces of ground with separate names: the islands of a
+        # chain, the scattered settlements of French and Portuguese India.
+        # Those keep their names whatever the layer says, because the name is
+        # the place and not a fact about how it was governed.
+        if key in ARCHIPELAGOS or key in ("goa", "pondicherry"):
+            meta += ' data-islands="1"'
         if key in hits:
             pts = " ".join(f"{fmt(x)},{fmt(y)}" for x, y in hits[key])
             meta += f' data-hits="{pts}"'

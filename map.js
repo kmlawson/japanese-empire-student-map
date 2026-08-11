@@ -1082,6 +1082,13 @@
      above the sub-unit paths and carry no name of their own. */
   function provinceAt(got, cx, cy) {
     if (!got) return null;
+    // with the Administrative layer off, a country is one thing: no province
+    // is named and none is outlined. Islands and enclaves are exempt -- their
+    // sub-units are places rather than administrative divisions
+    var atom = got.el && got.el.closest ? got.el.closest('.atom') : null;
+    if (!state.cats.territory && !(atom && atom.getAttribute('data-islands'))) {
+      return null;
+    }
     var prov = provinceOf(got.el);
     if (prov) return prov;
     if (typeof cx !== 'number') return null;

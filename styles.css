@@ -899,8 +899,9 @@ dialog h3 {
 }
 
 /* The header is charged against the map, so it loses parts as the screen
-   narrows: the title first, then the words on the layer and language buttons.
-   At 360px wide that is the difference between four rows and two. */
+   narrows: the title first, then the words on the layer switches, which
+   become the marks the map itself uses. At 360px wide that is the difference
+   between four rows and two. */
 @media (max-width: 950px) {
   #bar h1 { display: none; }
 }
@@ -925,11 +926,9 @@ dialog h3 {
 
 @media (max-width: 620px), (max-height: 520px) {
   #bar .spacer { display: none; }
-  #layer-seg button .wide, #lang-seg button .wide { display: none; }
-  #layer-seg button .narrow, #lang-seg button .narrow { display: inline; }
+  #layer-seg button .wide { display: none; }
   #layer-seg button .narrow { display: flex; }
   #layer-seg button { padding: 8px 10px; }
-  #lang-seg button { padding: 7px 13px; }
   .seg button { padding: 8px 9px; font-size: 13px; }
   button.plain { padding: 8px 10px; font-size: 13px; }
 

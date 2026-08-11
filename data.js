@@ -1559,6 +1559,56 @@ JMAP.PROVINCE_EPOCH = {
 };
 
 JMAP.PROVINCES = {
+  /* the Kuriles, north-east to south-west. Japanese throughout both dates:
+     the northern islands are where the Aleutian operation was mounted from,
+     and the four southernmost are the ones still disputed with Russia */
+  'Shumshu (Shimushu)': { en: 'Shumshu (Shimushu)', ja: '占守島 (Shumushu-tō)', zh: '占守島', ko: '슘슈섬' },
+  'Alaid (Araito)': { en: 'Alaid (Araito)', ja: '阿頼度島 (Araito-tō)', zh: '阿賴度島', ko: '알라이드섬' },
+  'Paramushir (Paramushiro)': { en: 'Paramushir (Paramushiro)', ja: '幌筵島 (Paramushiro-tō)', zh: '幌筵島', ko: '파라무시르섬' },
+  'Makanrushi (Makanruru)': { en: 'Makanrushi (Makanruru)', ja: '磨勘留島 (Makanru-tō)', zh: '磨勘留島', ko: '마칸루시섬' },
+  'Onekotan': { en: 'Onekotan', ja: '温禰古丹島 (Onnekotan-tō)', zh: '溫禰古丹島', ko: '오네코탄섬' },
+  'Kharimkotan (Harimukotan)': { en: 'Kharimkotan (Harimukotan)', ja: '春牟古丹島 (Harimukotan-tō)', zh: '春牟古丹島', ko: '하림코탄섬' },
+  'Ekarma': { en: 'Ekarma', ja: '越渇磨島 (Ekaruma-tō)', zh: '越渴磨島', ko: '에카르마섬' },
+  'Shiashkotan (Shasukotan)': { en: 'Shiashkotan (Shasukotan)', ja: '捨子古丹島 (Shasukotan-tō)', zh: '捨子古丹島', ko: '샤슈코탄섬' },
+  'Matua (Matsuwa)': { en: 'Matua (Matsuwa)', ja: '松輪島 (Matsuwa-tō)', zh: '松輪島', ko: '마투아섬' },
+  'Rasshua (Rasutsuwa)': { en: 'Rasshua (Rasutsuwa)', ja: '羅処和島 (Rasuwa-tō)', zh: '羅處和島', ko: '라슈아섬' },
+  'Ketoy (Ketoi)': { en: 'Ketoy (Ketoi)', ja: '計吐夷島 (Ketoi-tō)', zh: '計吐夷島', ko: '케토이섬' },
+  'Simushir (Shimushiru)': { en: 'Simushir (Shimushiru)', ja: '新知島 (Shimushiru-tō)', zh: '新知島', ko: '시무시르섬' },
+  'Chirpoy (Chirihoi)': { en: 'Chirpoy (Chirihoi)', ja: '知理保以島 (Chirihoi-tō)', zh: '知理保以島', ko: '치르포이섬' },
+  'Urup (Uruppu)': { en: 'Urup (Uruppu)', ja: '得撫島 (Uruppu-tō)', zh: '得撫島', ko: '우루프섬' },
+  'Etorofu (Iturup)': { en: 'Etorofu (Iturup) — the Pearl Harbor fleet sailed from Hitokappu Bay', ja: '択捉島 (Etorofu-tō)', zh: '擇捉島', ko: '이투루프섬' },
+  'Kunashiri (Kunashir)': { en: 'Kunashiri (Kunashir)', ja: '国後島 (Kunashiri-tō)', zh: '國後島', ko: '쿠나시르섬' },
+  'Shikotan': { en: 'Shikotan', ja: '色丹島 (Shikotan-tō)', zh: '色丹島', ko: '시코탄섬' },
+  'the Habomai Islands': { en: 'The Habomai Islands', ja: '歯舞群島 (Habomai Guntō)', zh: '齒舞群島', ko: '하보마이 군도' },
+
+  /* the Ryukyus, north to south: Okinawa Prefecture, annexed in 1879 */
+  'Yakushima': { en: 'Yakushima', ja: '屋久島 (Yakushima)', zh: '屋久島', ko: '야쿠섬' },
+  'Kuchinoerabujima': { en: 'Kuchinoerabujima', ja: '口永良部島 (Kuchinoerabujima)', zh: '口永良部島', ko: '구치노에라부섬' },
+  'Kuchinoshima': { en: 'Kuchinoshima', ja: '口之島 (Kuchinoshima)', zh: '口之島', ko: '구치노섬' },
+  'Nakanoshima': { en: 'Nakanoshima', ja: '中之島 (Nakanoshima)', zh: '中之島', ko: '나카노섬' },
+  'Tairajima': { en: 'Tairajima', ja: '平島 (Tairajima)', zh: '平島', ko: '다이라섬' },
+  'Suwanosejima': { en: 'Suwanosejima', ja: '諏訪之瀬島 (Suwanosejima)', zh: '諏訪之瀨島', ko: '스와노세섬' },
+  'Akusekijima': { en: 'Akusekijima', ja: '悪石島 (Akusekijima)', zh: '惡石島', ko: '아쿠세키섬' },
+  'Kikaijima': { en: 'Kikaijima', ja: '喜界島 (Kikaijima)', zh: '喜界島', ko: '기카이섬' },
+  'Amami Ōshima': { en: 'Amami Ōshima', ja: '奄美大島 (Amami Ōshima)', zh: '奄美大島', ko: '아마미오섬' },
+  'Tokunoshima': { en: 'Tokunoshima', ja: '徳之島 (Tokunoshima)', zh: '德之島', ko: '도쿠노섬' },
+  'Okinoerabujima': { en: 'Okinoerabujima', ja: '沖永良部島 (Okinoerabujima)', zh: '沖永良部島', ko: '오키노에라부섬' },
+  'Yoronjima': { en: 'Yoronjima', ja: '与論島 (Yoronjima)', zh: '與論島', ko: '요론섬' },
+  'Iheyajima': { en: 'Iheyajima', ja: '伊平屋島 (Iheyajima)', zh: '伊平屋島', ko: '이헤야섬' },
+  'Izenajima': { en: 'Izenajima', ja: '伊是名島 (Izenajima)', zh: '伊是名島', ko: '이제나섬' },
+  'Iejima': { en: 'Iejima', ja: '伊江島 (Iejima)', zh: '伊江島', ko: '이에섬' },
+  'Okinawa': { en: 'Okinawa — Naha, and the battle of April–June 1945', ja: '沖縄本島 (Okinawa Hontō)', zh: '沖繩本島', ko: '오키나와 본섬' },
+  'the Kerama Islands': { en: 'The Kerama Islands — taken first, 26 March 1945', ja: '慶良間諸島 (Kerama Shotō)', zh: '慶良間群島', ko: '게라마 제도' },
+  'Kumejima': { en: 'Kumejima', ja: '久米島 (Kumejima)', zh: '久米島', ko: '구메섬' },
+  'Miyakojima': { en: 'Miyakojima', ja: '宮古島 (Miyakojima)', zh: '宮古島', ko: '미야코섬' },
+  'Taramajima': { en: 'Taramajima', ja: '多良間島 (Taramajima)', zh: '多良間島', ko: '다라마섬' },
+  'Ishigakijima': { en: 'Ishigakijima', ja: '石垣島 (Ishigakijima)', zh: '石垣島', ko: '이시가키섬' },
+  'Iriomotejima': { en: 'Iriomotejima', ja: '西表島 (Iriomotejima)', zh: '西表島', ko: '이리오모테섬' },
+  'Haterumajima': { en: 'Haterumajima — the southernmost of the empire', ja: '波照間島 (Haterumajima)', zh: '波照間島', ko: '하테루마섬' },
+  'Yonagunijima': { en: 'Yonagunijima — 110 km from Formosa', ja: '与那国島 (Yonagunijima)', zh: '與那國島', ko: '요나구니섬' },
+  'the Daitō Islands': { en: 'The Daitō Islands', ja: '大東諸島 (Daitō Shotō)', zh: '大東群島', ko: '다이토 제도' },
+  'the Senkaku / Diaoyu Islands': { en: 'The Senkaku / Diaoyu Islands — administered from Okinawa', ja: '尖閣諸島 (Senkaku Shotō)', zh: '釣魚臺列嶼', ko: '센카쿠 / 댜오위 제도' },
+
   /* the Aleutians, island by island. Only Attu and Kiska were taken, but the
      chain is the reason the campaign happened at all, and the places the
      Americans built from — Adak in August 1942, Amchitka in January 1943,

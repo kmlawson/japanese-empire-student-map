@@ -27,13 +27,6 @@
     <button type="button" data-cat="territory" class="on" aria-pressed="true" aria-label="Administrative"><span class="wide">Administrative</span><span class="narrow"><i class="g block"></i></span></button>
   </div>
 
-  <div class="seg" role="group" aria-label="Language of place names" id="lang-seg">
-    <button type="button" data-lang="en" class="on"><span class="wide">English</span><span class="narrow">EN</span></button>
-    <button type="button" data-lang="ja" lang="ja"><span class="wide">日本語</span><span class="narrow">日</span></button>
-    <button type="button" data-lang="zh" lang="zh-Hant"><span class="wide">中文</span><span class="narrow">中</span></button>
-    <button type="button" data-lang="ko" lang="ko"><span class="wide">한국어</span><span class="narrow">한</span></button>
-  </div>
-
   <span class="spacer"></span>
   <button type="button" id="btn-options" class="plain" aria-haspopup="dialog">Layers</button>
   <button type="button" id="btn-about" class="plain" aria-haspopup="dialog">About</button>
@@ -87,6 +80,18 @@
   <p class="hint">Cities, Events and Administrative are in the header: they turn the three kinds of
      place on and off, both on the map and in the quiz. Territories stay clickable whatever is
      switched off, so you can always check anything you can see.</p>
+  <h3>Language of place names</h3>
+  <div class="seg" role="group" aria-label="Language of place names" id="lang-seg">
+    <button type="button" data-lang="en" class="on">English</button>
+    <button type="button" data-lang="ja" lang="ja">日本語</button>
+    <button type="button" data-lang="zh" lang="zh-Hant">中文</button>
+    <button type="button" data-lang="ko" lang="ko">한국어</button>
+  </div>
+  <p class="hint">English gives the name as it was used at the time, with the present-day name after
+     it where they differ. Japanese gives the imperial-period form, Chinese is in traditional
+     characters, and Korean is in hangul with McCune–Reischauer romanisation. Explanatory notes stay
+     in English throughout.</p>
+
   <h3>How much is asked about</h3>
   <div class="seg" role="group" aria-label="Level" id="level-seg">
     <button type="button" data-level="1" class="on">Basic</button>
