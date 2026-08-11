@@ -238,7 +238,7 @@
     buildMarkers();
     buildSiteLabels();
     buildEpochControl();
-    buildCatToggles();
+    syncLayerButtons();
 
     wireControls();
     wirePointer();
@@ -1539,29 +1539,11 @@
     document.body.classList.add('panel-open');
   }
 
-  function buildCatToggles() {
-    var wrap = $('#cat-toggles');
-    var rows = [{ id: 'territory', en: 'Territories', ja: '領域', orig: 'Territories', c: null }]
-      .concat(JMAP.SITE_CATEGORIES);
-    rows.forEach(function (c) {
-      var label = document.createElement('label');
-      var cb = document.createElement('input');
-      cb.type = 'checkbox';
-      cb.checked = state.cats[c.id];
-      cb.addEventListener('change', function () {
-        state.cats[c.id] = cb.checked;
-        applyState();
-      });
-      label.appendChild(cb);
-      if (c.c) {
-        var sw = document.createElement('span');
-        sw.className = 'sw ' + (c.id === 'city' ? 'round' : 'diamond');
-        sw.style.background = c.c;
-        label.appendChild(sw);
-      }
-      label.appendChild(document.createTextNode(
-        c.id === 'territory' ? 'Territories (in the quiz; always clickable)' : c.en));
-      wrap.appendChild(label);
+  function syncLayerButtons() {
+    $$('#layer-seg button').forEach(function (b) {
+      var on = !!state.cats[b.getAttribute('data-cat')];
+      b.classList.toggle('on', on);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
     });
   }
 
@@ -1791,6 +1773,18 @@
       });
     });
 
+    // the three kinds of place, on and off. They are switches rather than a
+    // one-of-three group, so they carry aria-pressed and not aria-checked
+    $$('#layer-seg button').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var cat = b.getAttribute('data-cat');
+        state.cats[cat] = !state.cats[cat];
+        syncLayerButtons();
+        applyState();
+        if (state.mode === 'quiz') startQuiz();
+      });
+    });
+
     $$('#level-seg button').forEach(function (b) {
       b.addEventListener('click', function () {
         var next = parseInt(b.getAttribute('data-level'), 10);
@@ -1860,6 +1854,7 @@
     $$('#level-seg button').forEach(function (b) {
       b.classList.toggle('on', parseInt(b.getAttribute('data-level'), 10) === state.level);
     });
+    syncLayerButtons();
     $$('#lang-seg button').forEach(function (b) {
       b.classList.toggle('on', b.getAttribute('data-lang') === state.lang);
     });

@@ -140,7 +140,7 @@ button.plain:hover { background: #f2ede2; }
    waiting to happen, so the controls grow on a touch screen. */
 @media (pointer: coarse) {
   .seg button, button.plain { min-height: 44px; }
-  dialog label.row, #cat-toggles label { min-height: 44px; align-items: center; }
+  dialog label.row { min-height: 44px; align-items: center; }
   #quiz button { min-height: 44px; }
   #legend .legend-head { min-height: 44px; }
 }
@@ -821,8 +821,7 @@ dialog .x {
 dialog .hint { color: var(--muted); font-size: 13px; }
 dialog hr { border: 0; border-top: 1px solid var(--line); margin: 16px 0; }
 
-dialog label.row,
-#cat-toggles label {
+dialog label.row {
   display: flex;
   align-items: center;
   gap: 9px;
@@ -838,16 +837,33 @@ dialog input[type="checkbox"] {
   flex: 0 0 auto;
 }
 
-#cat-toggles .sw {
-  width: 15px;
-  height: 13px;
-  border-radius: 3px;
-  border: 1px solid rgba(0, 0, 0, .25);
-  flex: 0 0 auto;
+dialog h3 {
+  font-size: 14px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 18px 0 8px;
 }
 
-#cat-toggles .sw.round { border-radius: 50%; width: 13px; }
-#cat-toggles .sw.diamond { border-radius: 2px; transform: rotate(45deg) scale(.82); }
+/* The layer switches are three independent toggles sharing one shell, so
+   several can be lit at once; the level control below is still one-of-three. */
+.seg.toggles button.on { background: var(--ink); }
+.seg.toggles button.on:hover { background: #3a352c; }
+
+/* On a phone the three words would take a whole row of the header to
+   themselves. They shrink to the marks the map already uses -- the city dot,
+   the battle diamond, a patch of territory -- with the words kept for screen
+   readers. */
+#layer-seg .g {
+  display: block;
+  width: 13px;
+  height: 13px;
+  background: currentColor;
+  border-radius: 3px;
+}
+#layer-seg .g.dot { border-radius: 50%; }
+#layer-seg .g.diamond { border-radius: 2px; transform: rotate(45deg) scale(.86); }
+#layer-seg .g.block { width: 15px; height: 11px; border-radius: 2px; }
 
 /* --------------------------------------------------------- responsive --- */
 
@@ -892,7 +908,7 @@ dialog input[type="checkbox"] {
 }
 
 /* The header is charged against the map, so it loses parts as the screen
-   narrows: the title first, then the words on the level and language buttons.
+   narrows: the title first, then the words on the layer and language buttons.
    At 360px wide that is the difference between four rows and two. */
 @media (max-width: 950px) {
   #bar h1 { display: none; }
@@ -918,9 +934,11 @@ dialog input[type="checkbox"] {
 
 @media (max-width: 620px), (max-height: 520px) {
   #bar .spacer { display: none; }
-  #level-seg button .wide, #lang-seg button .wide { display: none; }
-  #level-seg button .narrow, #lang-seg button .narrow { display: inline; }
-  #level-seg button, #lang-seg button { padding: 7px 13px; }
+  #layer-seg button .wide, #lang-seg button .wide { display: none; }
+  #layer-seg button .narrow, #lang-seg button .narrow { display: inline; }
+  #layer-seg button .narrow { display: flex; }
+  #layer-seg button { padding: 8px 10px; }
+  #lang-seg button { padding: 7px 13px; }
   .seg button { padding: 8px 9px; font-size: 13px; }
   button.plain { padding: 8px 10px; font-size: 13px; }
 
@@ -1014,10 +1032,10 @@ dialog input[type="checkbox"] {
 
   <div class="seg" role="group" aria-label="Date shown" id="epoch-seg"></div>
 
-  <div class="seg" role="group" aria-label="Level" id="level-seg">
-    <button type="button" data-level="1" class="on"><span class="wide">Basic</span><span class="narrow">1</span></button>
-    <button type="button" data-level="2"><span class="wide">Intermediate</span><span class="narrow">2</span></button>
-    <button type="button" data-level="3"><span class="wide">Advanced</span><span class="narrow">3</span></button>
+  <div class="seg toggles" role="group" aria-label="What is shown" id="layer-seg">
+    <button type="button" data-cat="city" class="on" aria-pressed="true" aria-label="Cities"><span class="wide">Cities</span><span class="narrow"><i class="g dot"></i></span></button>
+    <button type="button" data-cat="battle" class="on" aria-pressed="true" aria-label="Events"><span class="wide">Events</span><span class="narrow"><i class="g diamond"></i></span></button>
+    <button type="button" data-cat="territory" class="on" aria-pressed="true" aria-label="Administrative"><span class="wide">Administrative</span><span class="narrow"><i class="g block"></i></span></button>
   </div>
 
   <div class="seg" role="group" aria-label="Language of place names" id="lang-seg">
@@ -1077,9 +1095,17 @@ dialog input[type="checkbox"] {
 <dialog id="dlg-options">
   <form method="dialog"><button class="x" aria-label="Close">×</button></form>
   <h2>Layers</h2>
-  <p class="hint">Choose what the quiz asks about and what appears on the map. Territories are always
-     clickable whatever the level, so you can check anything you can see.</p>
-  <div id="cat-toggles"></div>
+  <p class="hint">Cities, Events and Administrative are in the header: they turn the three kinds of
+     place on and off, both on the map and in the quiz. Territories stay clickable whatever is
+     switched off, so you can always check anything you can see.</p>
+  <h3>How much is asked about</h3>
+  <div class="seg" role="group" aria-label="Level" id="level-seg">
+    <button type="button" data-level="1" class="on">Basic</button>
+    <button type="button" data-level="2">Intermediate</button>
+    <button type="button" data-level="3">Advanced</button>
+  </div>
+  <p class="hint">Three sets, from the places every student should know to the full list. This sets
+     how many places the quiz asks about and how many names the map will try to fit.</p>
   <hr>
   <label class="row"><input type="checkbox" id="opt-labels"> Show names on the map</label>
   <p class="hint">Names are placed so they do not overlap, so at a wide zoom only some of them fit.
@@ -1241,7 +1267,7 @@ JMAP.CATEGORIES = {
   e1930: [
     { id: 'metropole', c: '#9d0000', en: 'Japan proper', ja: '内地', orig: 'Japan proper', zh: '日本內地', ko: '일본 본토' },
     { id: 'jpcolony', c: '#c90000', en: 'Japanese colonies', ja: '日本の外地', orig: 'Japanese colonies', zh: '日本殖民地', ko: '일본 식민지' },
-    { id: 'chinese', c: '#e8d9a8', en: 'China', ja: '中国', orig: 'China', zh: '中國', ko: '중국' },
+    { id: 'chinese', c: '#ffe781', en: 'China', ja: '中国', orig: 'China', zh: '中國', ko: '중국' },
     { id: 'british', c: '#b07f8e', en: 'British', ja: 'イギリス領', orig: 'British', zh: '英國領', ko: '영국령' },
     { id: 'french', c: '#7d9cc0', en: 'French', ja: 'フランス領', orig: 'French', zh: '法國領', ko: '프랑스령' },
     { id: 'dutch', c: '#e79f4a', en: 'Dutch', ja: 'オランダ領', orig: 'Dutch', zh: '荷蘭領', ko: '네덜란드령' },
@@ -1249,6 +1275,7 @@ JMAP.CATEGORIES = {
     { id: 'portuguese', c: '#7b6ba8', en: 'Portuguese', ja: 'ポルトガル領', orig: 'Portuguese', zh: '葡萄牙領', ko: '포르투갈령' },
     { id: 'australian', c: '#c9a227', en: 'Australian', ja: 'オーストラリア領', orig: 'Australian', zh: '澳洲領', ko: '오스트레일리아령' },
     { id: 'soviet', c: '#8f9bb3', en: 'Soviet', ja: 'ソ連', orig: 'Soviet', zh: '蘇聯', ko: '소련' },
+    { id: 'frontier', c: '#ffce81', en: 'De facto independent', ja: '事実上の独立', orig: 'De facto independent', zh: '事實上獨立', ko: '사실상 독립' },
     { id: 'independent', c: '#9ec4b8', en: 'Independent', ja: '独立国', orig: 'Independent', zh: '獨立國', ko: '독립국' },
     { id: 'other', c: '#ded8cb', en: 'Elsewhere', ja: 'その他', orig: 'Elsewhere', zh: '其他', ko: '기타' },
   ],
@@ -1258,8 +1285,8 @@ JMAP.CATEGORIES = {
     { id: 'puppet', c: '#ffaeae', en: 'Client states', ja: '傀儡国家', orig: 'Client states', zh: '傀儡國家', ko: '괴뢰국' },
     { id: 'occupied', c: '#ff7e7e', en: 'Under military occupation', ja: '軍政地域', orig: 'Occupied', zh: '軍政地區', ko: '군정 지역' },
     { id: 'cobelligerent', c: '#00b1af', en: 'Co-belligerent', ja: '同盟国', orig: 'Co-belligerent', zh: '日本盟國', ko: '일본의 동맹국' },
-    { id: 'freechina', c: '#93ac93', en: 'Free China', ja: '重慶政権', orig: 'Free China', zh: '國統區', ko: '자유중국' },
-    { id: 'frontier', c: '#c3d6c3', en: 'Self-governing frontier', ja: '自治的辺境', orig: 'Self-governing frontier', zh: '自治邊疆', ko: '자치 변경' },
+    { id: 'freechina', c: '#ffe781', en: 'Free China', ja: '重慶政権', orig: 'Free China', zh: '國統區', ko: '자유중국' },
+    { id: 'frontier', c: '#ffce81', en: 'De facto independent', ja: '事実上の独立', orig: 'De facto independent', zh: '事實上獨立', ko: '사실상 독립' },
     { id: 'allied', c: '#b07f8e', en: 'Allied', ja: '連合国', orig: 'Allied', zh: '盟軍', ko: '연합국' },
     { id: 'portuguese', c: '#7b6ba8', en: 'Portuguese', ja: 'ポルトガル領', orig: 'Portuguese', zh: '葡萄牙領', ko: '포르투갈령' },
     { id: 'neutral', c: '#8f9bb3', en: 'Neutral', ja: '中立', orig: 'Neutral', zh: '中立', ko: '중립' },
@@ -1353,7 +1380,7 @@ JMAP.TERRITORIES = {
       zh: '新疆', ko: '신장 (Sinjang)',
       when: 'Ruled by Yang Zengxin, then Jin Shuren',
       note: 'Nominally a province of the Republic, in practice run as a private domain by a succession of governors who dealt directly with the Soviet Union. Nanking’s writ did not reach it.' },
-    { id: 'tibet', atoms: ['tibet'], cat: 'independent', lvl: 3,
+    { id: 'tibet', atoms: ['tibet'], cat: 'frontier', lvl: 3,
       en: 'Tibet', ja: 'チベット (Chibetto)', orig: 'བོད་ (Bod)',
       zh: '西藏', ko: '티베트 (T’ibet’ŭ)',
       when: 'De facto independent from 1913',
@@ -1784,7 +1811,7 @@ JMAP.TERRITORIES = {
       zh: '蒙古人民共和國', ko: '몽골인민공화국 (Monggol Inmin Konghwaguk)',
       when: 'Soviet satellite',
       note: 'Its border with Manchukuo was the scene of the undeclared war at Nomonhan in 1939, whose outcome helped turn Japanese strategy south rather than north.' },
-    { id: 'xinjiang', atoms: ['xinjiang'], cat: 'frontier', lvl: 3,
+    { id: 'xinjiang', atoms: ['xinjiang'], cat: 'freechina', lvl: 3,
       en: 'Sinkiang (Xinjiang)', ja: '新疆 (Shinkyō)', orig: 'شىنجاڭ (Shinjang)',
       zh: '新疆', ko: '신장 (Sinjang)',
       when: 'Returned to Nationalist control in 1942',
@@ -3311,7 +3338,7 @@ window.JMAP_INLINE_SVG = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 
     buildMarkers();
     buildSiteLabels();
     buildEpochControl();
-    buildCatToggles();
+    syncLayerButtons();
 
     wireControls();
     wirePointer();
@@ -4612,29 +4639,11 @@ window.JMAP_INLINE_SVG = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 
     document.body.classList.add('panel-open');
   }
 
-  function buildCatToggles() {
-    var wrap = $('#cat-toggles');
-    var rows = [{ id: 'territory', en: 'Territories', ja: '領域', orig: 'Territories', c: null }]
-      .concat(JMAP.SITE_CATEGORIES);
-    rows.forEach(function (c) {
-      var label = document.createElement('label');
-      var cb = document.createElement('input');
-      cb.type = 'checkbox';
-      cb.checked = state.cats[c.id];
-      cb.addEventListener('change', function () {
-        state.cats[c.id] = cb.checked;
-        applyState();
-      });
-      label.appendChild(cb);
-      if (c.c) {
-        var sw = document.createElement('span');
-        sw.className = 'sw ' + (c.id === 'city' ? 'round' : 'diamond');
-        sw.style.background = c.c;
-        label.appendChild(sw);
-      }
-      label.appendChild(document.createTextNode(
-        c.id === 'territory' ? 'Territories (in the quiz; always clickable)' : c.en));
-      wrap.appendChild(label);
+  function syncLayerButtons() {
+    $$('#layer-seg button').forEach(function (b) {
+      var on = !!state.cats[b.getAttribute('data-cat')];
+      b.classList.toggle('on', on);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
     });
   }
 
@@ -4864,6 +4873,18 @@ window.JMAP_INLINE_SVG = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 
       });
     });
 
+    // the three kinds of place, on and off. They are switches rather than a
+    // one-of-three group, so they carry aria-pressed and not aria-checked
+    $$('#layer-seg button').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var cat = b.getAttribute('data-cat');
+        state.cats[cat] = !state.cats[cat];
+        syncLayerButtons();
+        applyState();
+        if (state.mode === 'quiz') startQuiz();
+      });
+    });
+
     $$('#level-seg button').forEach(function (b) {
       b.addEventListener('click', function () {
         var next = parseInt(b.getAttribute('data-level'), 10);
@@ -4933,6 +4954,7 @@ window.JMAP_INLINE_SVG = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 
     $$('#level-seg button').forEach(function (b) {
       b.classList.toggle('on', parseInt(b.getAttribute('data-level'), 10) === state.level);
     });
+    syncLayerButtons();
     $$('#lang-seg button').forEach(function (b) {
       b.classList.toggle('on', b.getAttribute('data-lang') === state.lang);
     });

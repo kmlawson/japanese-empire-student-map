@@ -21,10 +21,10 @@
 
   <div class="seg" role="group" aria-label="Date shown" id="epoch-seg"></div>
 
-  <div class="seg" role="group" aria-label="Level" id="level-seg">
-    <button type="button" data-level="1" class="on"><span class="wide">Basic</span><span class="narrow">1</span></button>
-    <button type="button" data-level="2"><span class="wide">Intermediate</span><span class="narrow">2</span></button>
-    <button type="button" data-level="3"><span class="wide">Advanced</span><span class="narrow">3</span></button>
+  <div class="seg toggles" role="group" aria-label="What is shown" id="layer-seg">
+    <button type="button" data-cat="city" class="on" aria-pressed="true" aria-label="Cities"><span class="wide">Cities</span><span class="narrow"><i class="g dot"></i></span></button>
+    <button type="button" data-cat="battle" class="on" aria-pressed="true" aria-label="Events"><span class="wide">Events</span><span class="narrow"><i class="g diamond"></i></span></button>
+    <button type="button" data-cat="territory" class="on" aria-pressed="true" aria-label="Administrative"><span class="wide">Administrative</span><span class="narrow"><i class="g block"></i></span></button>
   </div>
 
   <div class="seg" role="group" aria-label="Language of place names" id="lang-seg">
@@ -84,9 +84,17 @@
 <dialog id="dlg-options">
   <form method="dialog"><button class="x" aria-label="Close">×</button></form>
   <h2>Layers</h2>
-  <p class="hint">Choose what the quiz asks about and what appears on the map. Territories are always
-     clickable whatever the level, so you can check anything you can see.</p>
-  <div id="cat-toggles"></div>
+  <p class="hint">Cities, Events and Administrative are in the header: they turn the three kinds of
+     place on and off, both on the map and in the quiz. Territories stay clickable whatever is
+     switched off, so you can always check anything you can see.</p>
+  <h3>How much is asked about</h3>
+  <div class="seg" role="group" aria-label="Level" id="level-seg">
+    <button type="button" data-level="1" class="on">Basic</button>
+    <button type="button" data-level="2">Intermediate</button>
+    <button type="button" data-level="3">Advanced</button>
+  </div>
+  <p class="hint">Three sets, from the places every student should know to the full list. This sets
+     how many places the quiz asks about and how many names the map will try to fit.</p>
   <hr>
   <label class="row"><input type="checkbox" id="opt-labels"> Show names on the map</label>
   <p class="hint">Names are placed so they do not overlap, so at a wide zoom only some of them fit.

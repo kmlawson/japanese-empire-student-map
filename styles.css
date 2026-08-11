@@ -130,7 +130,7 @@ button.plain:hover { background: #f2ede2; }
    waiting to happen, so the controls grow on a touch screen. */
 @media (pointer: coarse) {
   .seg button, button.plain { min-height: 44px; }
-  dialog label.row, #cat-toggles label { min-height: 44px; align-items: center; }
+  dialog label.row { min-height: 44px; align-items: center; }
   #quiz button { min-height: 44px; }
   #legend .legend-head { min-height: 44px; }
 }
@@ -811,8 +811,7 @@ dialog .x {
 dialog .hint { color: var(--muted); font-size: 13px; }
 dialog hr { border: 0; border-top: 1px solid var(--line); margin: 16px 0; }
 
-dialog label.row,
-#cat-toggles label {
+dialog label.row {
   display: flex;
   align-items: center;
   gap: 9px;
@@ -828,16 +827,33 @@ dialog input[type="checkbox"] {
   flex: 0 0 auto;
 }
 
-#cat-toggles .sw {
-  width: 15px;
-  height: 13px;
-  border-radius: 3px;
-  border: 1px solid rgba(0, 0, 0, .25);
-  flex: 0 0 auto;
+dialog h3 {
+  font-size: 14px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 18px 0 8px;
 }
 
-#cat-toggles .sw.round { border-radius: 50%; width: 13px; }
-#cat-toggles .sw.diamond { border-radius: 2px; transform: rotate(45deg) scale(.82); }
+/* The layer switches are three independent toggles sharing one shell, so
+   several can be lit at once; the level control below is still one-of-three. */
+.seg.toggles button.on { background: var(--ink); }
+.seg.toggles button.on:hover { background: #3a352c; }
+
+/* On a phone the three words would take a whole row of the header to
+   themselves. They shrink to the marks the map already uses -- the city dot,
+   the battle diamond, a patch of territory -- with the words kept for screen
+   readers. */
+#layer-seg .g {
+  display: block;
+  width: 13px;
+  height: 13px;
+  background: currentColor;
+  border-radius: 3px;
+}
+#layer-seg .g.dot { border-radius: 50%; }
+#layer-seg .g.diamond { border-radius: 2px; transform: rotate(45deg) scale(.86); }
+#layer-seg .g.block { width: 15px; height: 11px; border-radius: 2px; }
 
 /* --------------------------------------------------------- responsive --- */
 
@@ -882,7 +898,7 @@ dialog input[type="checkbox"] {
 }
 
 /* The header is charged against the map, so it loses parts as the screen
-   narrows: the title first, then the words on the level and language buttons.
+   narrows: the title first, then the words on the layer and language buttons.
    At 360px wide that is the difference between four rows and two. */
 @media (max-width: 950px) {
   #bar h1 { display: none; }
@@ -908,9 +924,11 @@ dialog input[type="checkbox"] {
 
 @media (max-width: 620px), (max-height: 520px) {
   #bar .spacer { display: none; }
-  #level-seg button .wide, #lang-seg button .wide { display: none; }
-  #level-seg button .narrow, #lang-seg button .narrow { display: inline; }
-  #level-seg button, #lang-seg button { padding: 7px 13px; }
+  #layer-seg button .wide, #lang-seg button .wide { display: none; }
+  #layer-seg button .narrow, #lang-seg button .narrow { display: inline; }
+  #layer-seg button .narrow { display: flex; }
+  #layer-seg button { padding: 8px 10px; }
+  #lang-seg button { padding: 7px 13px; }
   .seg button { padding: 8px 9px; font-size: 13px; }
   button.plain { padding: 8px 10px; font-size: 13px; }
 
