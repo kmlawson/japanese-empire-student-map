@@ -1674,15 +1674,11 @@ JMAP.TERRITORIES = {
       when: 'Occupied from 1937; Nanking government from March 1940',
       note: 'Governed on paper by Wang Ching-wei’s collaborationist government at Nanking, with the far south under military administration instead. Traced from a 1940 map of the occupation and adjusted to December 1942: the plains, the railways and the cities of the north and the Yangtze valley, the corridor west to Paotow, the Canton delta from October 1938, Hainan from February 1939, and the ports of Amoy and Swatow. Western Shansi and Honan, most of Hunan, Kiangsi and Fukien were never taken, Changsha held out until 1944, and Communist and Nationalist guerrillas operated in force inside the line as well as beyond it — the shading marks where Japanese authority reached, not where it was unchallenged.' },
 
-    // French ground with Japanese forces on it, which is what the stripes mean
-    // elsewhere on this map. Japan did not take the administration over until
-    // 9 March 1945, so drawing it as military occupation said that the thing
-    // that happened in 1945 had happened in 1942.
-    { id: 'indochina', atoms: ['indochina'], cat: 'french', lvl: 2, hatch: 'occupied',
+    { id: 'indochina', atoms: ['indochina'], cat: 'occupied', lvl: 2,
       en: 'French Indochina', ja: '仏印 (Futsuin)', orig: 'Đông Dương thuộc Pháp',
       zh: '法屬印度支那', ko: '프랑스령 인도차이나 (P’ŭrangsŭryŏng Indoch’aina)',
-      when: 'Japanese troops from September 1940; French administration to March 1945',
-      note: 'Japanese troops entered the north in September 1940 and the south in July 1941 — the step that brought the American oil embargo. It is drawn in the French colour with Japanese stripes across it because that is what it was: Vichy French governors, courts, police and customs continued to run the colony, under a Japanese army that took what it wanted from it, until the coup of 9 March 1945 swept the French administration away in a night. Japanese rice requisition and the collapse of transport produced the Tonkin famine of 1944–45, in which perhaps a million people died.' },
+      when: 'Occupied September 1940 – July 1941',
+      note: 'Japanese troops entered the north in September 1940 and the south in July 1941 — the step that brought the American oil embargo. Vichy French governors, courts and police stayed at their desks until the coup of 9 March 1945, but they governed on Japanese terms: the colony is drawn as occupied because that is what decided things in it. Japan set the rice quotas, took the airfields and the ports, and let Thailand carry off three provinces in 1941. Requisition and the collapse of transport then produced the Tonkin famine of 1944–45, in which perhaps a million people died.' },
     { id: 'burma', atoms: ['burma'], cat: 'occupied', lvl: 2,
       en: 'Burma', ja: '緬甸 (Biruma)', orig: 'မြန်မာ (Myanma)',
       zh: '緬甸', ko: '버마 (Pŏma)',
@@ -1803,7 +1799,9 @@ JMAP.TERRITORIES = {
       when: 'Alliance signed 21 December 1941',
       note: 'Invaded on 8 December 1941, it capitulated in hours, granted passage to the invasion of Malaya and Burma, allied with Japan and declared war on Britain and the United States. It was rewarded with territory in Malaya, Burma and Cambodia.' },
 
-    { id: 'cededthai', atoms: ['siamgain'], cat: 'cobelligerent', outline: true, outlineColor: '#3da492', lvl: 3,
+    // no dashed outline: they were Thailand's, and drawing a line round them
+    // made them look like something less than that
+    { id: 'cededthai', atoms: ['siamgain'], cat: 'cobelligerent', lvl: 3,
       en: 'Battambang & Siem Reap (ceded to Thailand, 1941)',
       ja: '泰国への割譲地 (1941)', zh: '割讓予泰國之地（1941）', ko: '태국 할양지 (1941)',
       orig: 'Phra Tabong / Phibunsongkhram / Lan Chang',
