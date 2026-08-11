@@ -38,12 +38,6 @@ describing what was actually changed, before it is marked done.
   centreline is short, as the Yangtze's was, and wants the same treatment: a
   hand-drawn tail from where the centreline ends out to the mouth. The 1938–47
   course was given one; the pre-1938 course was not.
-- **Scripts per place.** Hangul only on Korean names; Japanese kanji and reading
-  only on Japan proper and the Japanese colonies; Chinese provinces get pinyin
-  with the old postal spelling in brackets and traditional characters only. The
-  same judgement elsewhere — Thai for Thai provinces, Vietnamese and French for
-  Indochina. Means stripping fields that carry a name nobody used for that
-  place.
 - **The Administrative switch is unreliable** — sometimes it works, sometimes
   not. If that is the fetch, show a spinner beside the button; either way it
   must turn provinces on and off every time.
@@ -67,14 +61,30 @@ describing what was actually changed, before it is marked done.
   epochs six times, with the Administrative layer both off and on, gave the
   right colour every time (`andaman / #fb8072`). Suspect a race with the
   administrative fetch or with `composeEpoch`, and needs catching in the act.
-- **Japanese and Korean are offered everywhere.** Beyond the per-place script
-  rule above: India needs neither, and the Indies and the Philippines want
-  Japanese only where it was actually used — Manila, Batavia, the places that
-  were occupied and renamed — not on every province.
 
 ---
 
 ## Done
+
+### Only the scripts that belong to a place
+Hangul was on every province in Asia and a Japanese reading on most of them.
+Which script a place should carry is decided by which atom its sub-units belong
+to, read out of the built SVG rather than guessed: hangul survives only on
+Korea's thirteen provinces, and a Japanese reading only on Japan proper, the
+colonies — Korea, Taiwan, Karafuto, Kwantung, the Nan'yō, the Ryukyus, the
+Kuriles — and Manchuria, Chahar, Suiyuan and Jehol. 402 sub-units went to 126
+carrying Japanese and 13 carrying hangul. Szechwan is 四川 and nothing else;
+Bengal is 孟加拉省; Cebu is 宿霧.
+
+The countries were carrying it too. Korean is gone from all but Chōsen, 316
+entries; a Japanese reading is gone from the fifteen outside the Japanese
+sphere — British India, the princely states, Ceylon, Australia, the Soviet
+Union, Mongolia, Tuva, Nepal, Bhutan, Sikkim, Goa, Pondicherry, Hawaii, the
+Aleutians — 30 entries. It stays on everything Japan held, occupied or named,
+because 比島 and 泰国 and 重慶政権 are what this empire called those places.
+
+Still open: Japanese on individual occupied cities, which the rule above
+removes from provinces but which Manila and Batavia should keep.
 
 ### The fillers moved under everything
 The one bug behind the grey between China and Indochina, the grey slivers along
