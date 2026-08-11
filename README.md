@@ -15,8 +15,8 @@ framework. Serve the folder over HTTP, or hand out the single-file build.
 * **1930 / Dec 1942** — two maps, not one. In 1930, on the eve of the
   Manchurian Incident, the colours show whose empire each place belonged to:
   British, French, Dutch, American, Portuguese, Australian, Japanese, Chinese,
-  Soviet, independent. In December 1942, at the greatest extent of the empire, they
-  show how Japan held what it had taken: metropole, colonies, client states,
+  Soviet, independent. In December 1942 they show how Japan held what it had
+  taken: metropole, colonies, client states,
   military occupation, the fighting front. Names, dates and notes change with
   the date too — Singapore is Singapore in 1930 and Syonan-to in 1942.
 * **Explore** — hover over, or tap, anything to get its name in all four
@@ -41,19 +41,24 @@ framework. Serve the folder over HTTP, or hand out the single-file build.
   throughout.
 * **Layers** — turn cities, battles or territories out of the quiz, put names on
   the map, switch on a browse layer of about a hundred further cities for
-  orientation, show the Yangzi and Yellow rivers, and show or hide the
-  greatest-extent line.
+  orientation, show the Yangzi and Yellow rivers, and show or hide the 1942
+  line of control.
 * **The rivers** are drawn in the course they had at the date shown. On the Late
   1942 map the Yellow River runs south-east into the Huai, where it went after
   the Chinese army cut the dikes at Huayuankou in June 1938 and where it stayed
   until 1947.
-* **The dashed perimeter** on the Dec 1942 map is the greatest extent of
-  Japanese control, traced from the "War in the Pacific" map in Andrew Gordon,
-  *A Modern History of Japan*. It is a front and a naval limit, not a boundary.
-  Across China it is taken straight off the inland edge of the shaded occupied
-  zone, so the two coincide: the line marks where Japanese forces were, and it
-  has no business floating west of the shading that says the same thing. Out at
-  sea it marks how far the navy reached rather than territory held.
+* **The dashed perimeter** on the Dec 1942 map is the extent of Japanese
+  control and the fighting front *at that date*, traced from the "War in the
+  Pacific" map in Andrew Gordon, *A Modern History of Japan*, whose own legend
+  calls it a greatest extent. It is labelled here for its date instead, because
+  December 1942 is not a maximum: the naval perimeter was widest in July and
+  August, the area of China under Japanese control was largest in 1944, and
+  Kwangchowwan, the northern Malay states and direct rule in Indochina all came
+  later. It is a front and a naval limit, not a boundary. Across China it is
+  taken straight off the inland edge of the shaded occupied zone, so the two
+  coincide: the line marks where Japanese forces were, and it has no business
+  floating west of the shading that says the same thing. Out at sea it marks
+  how far the navy reached rather than territory held.
 
 Pan by dragging, zoom with the wheel, a pinch, the buttons, or `+` / `-`; `0`
 returns to the opening view and `Esc` closes the detail card.

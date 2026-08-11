@@ -34,10 +34,12 @@ JMAP.EPOCHS = [
   },
   {
     id: 'e1942', en: 'Dec 1942', ja: '1942年12月', orig: 'Dec 1942', zh: '1942年12月', ko: '1942년 12월',
-    blurb: 'The greatest extent of the empire: ten years of expansion in China and ' +
-           'a year of conquest in Southeast Asia and the Pacific. The tide has just ' +
-           'turned — the fighting on Guadalcanal is in its fifth month and the army ' +
-           'will be withdrawn in February.',
+    blurb: 'Ten years of expansion in China and a year of conquest in Southeast ' +
+           'Asia and the Pacific. The naval perimeter is at its widest a few months ' +
+           'behind this date and the tide has just turned: the fighting on ' +
+           'Guadalcanal is in its fifth month and the army will be withdrawn in ' +
+           'February. The largest area of China under Japanese control is still two ' +
+           'years away.',
   },
 ];
 
@@ -1173,21 +1175,31 @@ JMAP.EPOCH_OVERRIDES = {
 };
 
 /* ------------------------------------------------------------------ */
-/* Greatest extent of Japanese control, late 1942                      */
+/* The extent of Japanese control and the front, December 1942         */
 /* ------------------------------------------------------------------ */
 /* Traced from the "War in the Pacific" map in Andrew Gordon, *A Modern History
  * of Japan: From Tokugawa Times to the Present* (Oxford University Press),
- * whose legend reads "Greatest extent of Japanese control, late 1942". Drawn
- * as a dashed line rather than a filled area because that is what it is: a
- * perimeter, generalised in Gordon and generalised again here. It runs out to
- * sea wherever the limit was naval rather than territorial, and across China it
- * follows a front that in reality was a broad, shifting and porous zone. */
+ * whose own legend reads "Greatest extent of Japanese control, late 1942".
+ * The line here is labelled for the date it is drawn for rather than as a
+ * maximum, because December 1942 is not one: the naval perimeter was widest in
+ * July and August, before Guadalcanal and Milne Bay, and the area of China
+ * under Japanese control was largest in 1944 after Ichi-Go. Kwangchowwan came
+ * in February 1943, the four northern Malay states in October 1943, and direct
+ * rule in Indochina in March 1945. What the line shows is where control and
+ * the fighting front stood at this date.
+ *
+ * Drawn as a dashed line rather than a filled area because that is what it is:
+ * a perimeter, generalised in Gordon and generalised again here. It runs out
+ * to sea wherever the limit was naval rather than territorial, and across
+ * China it is the inland edge of the occupied shading itself, because a
+ * perimeter that claimed ground the shading did not would be saying Japanese
+ * forces were where the map elsewhere says they were not. */
 
 JMAP.EXTENT_1942 = {
-  en: 'Greatest extent of Japanese control, late 1942',
-  ja: '日本の支配の最大範囲（1942年後期）',
-  zh: '日本控制的最大範圍（1942年後期）',
-  ko: '일본 지배의 최대 범위 (1942년 후반)',
+  en: 'Extent of Japanese control and the front, December 1942',
+  ja: '日本の支配の範囲と戦線（1942年12月）',
+  zh: '日本控制範圍與戰線（1942年12月）',
+  ko: '일본 지배 범위와 전선 (1942년 12월)',
   source: 'after Andrew Gordon, A Modern History of Japan',
   /* The geometry lives in the generated SVG as #extent-1942: where the limit
    * was a real frontier it is taken straight off the territory outlines, so

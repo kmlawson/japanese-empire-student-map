@@ -133,7 +133,8 @@ reading the boundaries, names and notes come from.
 
 ### Andrew Gordon, "War in the Pacific"
 
-* **Used for:** the dashed greatest-extent line on the Dec 1942 map.
+* **Used for:** the dashed line of control on the Dec 1942 map, labelled here
+  for its date rather than as a maximum — see the note below.
 * **Source:** the map captioned "War in the Pacific", with the legend "Greatest
   extent of Japanese control, late 1942", in Andrew Gordon, *A Modern History
   of Japan: From Tokugawa Times to the Present* (Oxford University Press).
