@@ -519,6 +519,19 @@ def line_plane(p, q, keep_right=True):
     return (a, b, c) if keep_right else (-a, -b, -c)
 
 
+def grow_plane(plane, d):
+    """Push a half-plane's boundary out by d degrees.
+
+    Two pieces cut from one shape along the same line ought to meet exactly.
+    They do not: each is simplified on its own afterwards, and the shared edge
+    comes back a hair apart, which opens a line of sea down the middle of a
+    country. Growing both sides makes them overlap instead — invisible, since
+    they are the same colour, and there is nothing left to fall through.
+    """
+    a, b, c = plane
+    return (a, b, c + d * math.hypot(a, b))
+
+
 def point_in_poly(x, y, poly):
     inside = False
     n = len(poly)
@@ -925,17 +938,21 @@ def main():
             continue                  # both are rebuilt below, minus the 1941 cessions
         groups[key].extend(rings_here)
         if admin == "Vietnam":
-            north = [line_plane(TONKIN_CUT[0], TONKIN_CUT[1], keep_right=False)]
-            south = [line_plane(COCHIN_CUT[0], COCHIN_CUT[1], keep_right=True)]
-            mid = [line_plane(TONKIN_CUT[0], TONKIN_CUT[1], keep_right=True),
-                   line_plane(COCHIN_CUT[0], COCHIN_CUT[1], keep_right=False)]
+            lap = 0.02
+            tonkin_n = grow_plane(line_plane(*TONKIN_CUT, keep_right=False), lap)
+            tonkin_s = grow_plane(line_plane(*TONKIN_CUT, keep_right=True), lap)
+            cochin_n = grow_plane(line_plane(*COCHIN_CUT, keep_right=False), lap)
+            cochin_s = grow_plane(line_plane(*COCHIN_CUT, keep_right=True), lap)
+            north = [tonkin_n]
+            south = [cochin_s]
+            mid = [tonkin_s, cochin_n]
             for label, planes in (("Tonkin", north), ("Annam", mid), ("Cochinchina", south)):
                 cut = [c for c in (clip_halfplanes(r, planes) for r in rings_here) if len(c) >= 3]
                 if cut:
                     provinces["indochina"].append((label, cut))
         elif admin == "Papua New Guinea":
-            north = [line_plane(PAPUA_CUT[0], PAPUA_CUT[1], keep_right=False)]
-            south = [line_plane(PAPUA_CUT[0], PAPUA_CUT[1], keep_right=True)]
+            north = [grow_plane(line_plane(*PAPUA_CUT, keep_right=False), 0.02)]
+            south = [grow_plane(line_plane(*PAPUA_CUT, keep_right=True), 0.02)]
             for label, planes in (("NewGuineaMandate", north), ("Papua", south)):
                 cut = [c for c in (clip_halfplanes(r, planes) for r in rings_here) if len(c) >= 3]
                 if cut:
