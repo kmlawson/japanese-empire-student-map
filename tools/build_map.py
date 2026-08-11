@@ -1111,6 +1111,17 @@ def island_name(key, ring):
     return None
 
 
+# Wake, taken on 23 December 1941 after a fortnight's defence and held to the
+# surrender: a V of three islets round a lagoon, four kilometres across, and
+# Natural Earth's 1:10m countries do not carry it at all. Drawn by hand, as
+# Chandernagore is, and marked with an islet ring because at this scale it is
+# smaller than the ring.
+WAKE = [
+    (166.600, 19.288), (166.617, 19.317), (166.645, 19.325), (166.673, 19.318),
+    (166.688, 19.300), (166.673, 19.281), (166.640, 19.276), (166.612, 19.278),
+]
+
+
 def split_usa(ring):
     cx, cy = centroid_of(ring)
     cx = cx + 360 if cx < 0 else cx
@@ -1233,12 +1244,14 @@ SPLITTERS = {
 # only way to find them at all; over the Indies, the Philippines and the
 # Andamans, where the islands are perfectly legible, the rings are just clutter.
 ISLET_RINGS = {
+    "wake",
     "nanyo", "gilberts", "ogasawara", "guam", "chishima", "aleutians",
     "hawaii", "ryukyu", "newguinea_au", "solomons_br", "nauru_au",
     "aleutians_jp", "solomons_gc", "solomons_us", "solomons_ml", "solomons_al",
 }
 
 ARCHIPELAGOS = {
+    "wake",
     "nanyo", "gilberts", "ogasawara", "guam", "chishima", "aleutians",
     "aleutians_jp",
     "hawaii", "ryukyu", "newguinea_au", "solomons_br", "philippines",
@@ -1258,7 +1271,7 @@ ORDER = [
     "siam", "burma", "saharat", "indochina", "siamgain", "malaya", "malaya_thai", "sarawak", "northborneo", "brunei",
     "dei", "philippines",
     "timor_pt", "newguinea_au", "solomons_br", "australia", "gilberts",
-    "nauru_au", "guam", "hawaii", "aleutians", "aleutians_jp", "hongkong", "macau",
+    "nauru_au", "guam", "wake", "hawaii", "aleutians", "aleutians_jp", "hongkong", "macau",
     "solomons_gc", "solomons_us", "solomons_ml", "solomons_al",
     "korea", "taiwan", "karafuto", "chishima", "nanyo", "ryukyu",
     "ogasawara", "japan", "kwantung",
@@ -1432,6 +1445,7 @@ def main():
             if rest:
                 provinces["princely"].append(("", rest))
 
+    groups["wake"].append(list(WAKE))
     groups["pondicherry"].append(list(CHANDERNAGORE))
     provinces["pondicherry"].append(("Chandernagore", [list(CHANDERNAGORE)]))
 

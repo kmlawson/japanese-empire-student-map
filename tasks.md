@@ -7,8 +7,6 @@ describing what was actually changed, before it is marked done.
 
 ## Open
 
-- **Wake Island.** Check it is drawn at all, American in 1930 and occupied in
-  1942 — it fell on 23 December 1941 and was held to the surrender.
 
 - **Sources page.** Replace the sources section in About with a link to a full
   `sources.html` listing every dataset as bullet points with links. Record the
@@ -65,6 +63,17 @@ describing what was actually changed, before it is marked done.
 ---
 
 ## Done
+
+### Wake Island exists
+It was not on the map at all — not an atom, not a territory, only a marker.
+Natural Earth's 1:10m countries do not carry the atoll, and `split_usa` knew
+Hawaii and the Aleutians and dropped everything else the United States held in
+the Pacific. It is drawn by hand now, as Chandernagore is: a V of eight points
+round the lagoon, with an islet ring because at this scale it is smaller than
+the ring. American in 1930, occupied in 1942, and its note carries what
+happened there — the first landing thrown back at the water's edge on 11
+December, the surrender on the 23rd, and the ninety-eight civilian prisoners
+murdered on the island in October 1943.
 
 ### Only the scripts that belong to a place
 Hangul was on every province in Asia and a Japanese reading on most of them.
