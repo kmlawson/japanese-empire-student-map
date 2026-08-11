@@ -30,6 +30,11 @@ describing what was actually changed, before it is marked done.
 - **A chord across the Yellow River's meanders**, still, after the
   first-crossing fix. May be two source fragments overlapping rather than a bad
   split.
+- **The Yellow River stops inland.** On the 1930 map the old course ends some
+  way short of the Gulf of Chihli instead of reaching the sea. Natural Earth's
+  centreline is short, as the Yangtze's was, and wants the same treatment: a
+  hand-drawn tail from where the centreline ends out to the mouth. The 1938–47
+  course was given one; the pre-1938 course was not.
 - **Scripts per place.** Hangul only on Korean names; Japanese kanji and reading
   only on Japan proper and the Japanese colonies; Chinese provinces get pinyin
   with the old postal spelling in brackets and traditional characters only. The
