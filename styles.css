@@ -644,7 +644,10 @@ button.plain:hover { background: #f2ede2; }
   font-size: 12px;
 }
 
-#tooltip .sub.prov { color: #f0d9a8; }
+/* The sub-unit is the headline now, so the highlighted line is its other
+   scripts; the country underneath is plainer, being context. */
+#tooltip .sub.alt-script { color: #f0d9a8; }
+#tooltip .sub.prov { color: #d8cfbf; }
 
 /* -------------------------------------------------------- info & quiz --- */
 
@@ -724,10 +727,11 @@ button.plain:hover { background: #f2ede2; }
 
 #info .when[hidden] { display: none; }
 
+/* the country a sub-unit belongs to, under its name */
 #info .prov {
   margin: 2px 0 0;
   font-size: 13.5px;
-  color: #7a5c1f;
+  color: var(--muted);
 }
 
 #info .note {

@@ -122,6 +122,22 @@
     return out;
   }
 
+  /* Every other name a record carries, in a fixed order, with the one already
+     shown as the headline left out. */
+  function otherNames(rec) {
+    if (!rec) return '';
+    var r = shown(rec);
+    var primary = nameOf(r);
+    var seen = {};
+    seen[primary] = true;
+    var out = [];
+    ['orig', 'ja', 'zh', 'ko', 'en'].forEach(function (k) {
+      var v = r[k];
+      if (v && !seen[v]) { seen[v] = true; out.push(v); }
+    });
+    return out.join('  ');
+  }
+
   function nameOf(rec) {
     if (!rec) return '';
     var r = shown(rec);
@@ -1234,22 +1250,35 @@
 
   /* ------------------------------------------------------------ labels -- */
 
+  /* The nearest thing first. Under the pointer is a province, an island or a
+     settlement, and that is what the reader is asking about; the country it
+     belongs to is context and goes underneath. When there is no sub-unit the
+     country is itself the nearest thing and takes the top line. */
   function showTooltip(base, cx, cy, prov) {
     var rec = shown(base);
+    var head = prov && prov.rec ? shown(prov.rec) : rec;
     tooltip.innerHTML = '';
-    tooltip.appendChild(document.createTextNode(nameOf(rec)));
-    if (prov && prov.rec) {
+    tooltip.appendChild(document.createTextNode(nameOf(head)));
+    if (head !== rec) {
+      var alt = otherNames(head);
+      if (alt) {
+        var pa = document.createElement('span');
+        pa.className = 'sub alt-script';
+        pa.textContent = alt;
+        tooltip.appendChild(pa);
+      }
       var pv = document.createElement('span');
       pv.className = 'sub prov';
-      pv.textContent = nameOf(prov.rec);
+      pv.textContent = [nameOf(rec)].concat(otherNames(rec) || []).join('  ');
       tooltip.appendChild(pv);
-    }
-    var second = state.lang === 'en' ? rec.ja : rec.en;
-    if (second && second !== nameOf(rec)) {
-      var sub = document.createElement('span');
-      sub.className = 'sub';
-      sub.textContent = second;
-      tooltip.appendChild(sub);
+    } else {
+      var second = state.lang === 'en' ? rec.ja : rec.en;
+      if (second && second !== nameOf(rec)) {
+        var sub = document.createElement('span');
+        sub.className = 'sub';
+        sub.textContent = second;
+        tooltip.appendChild(sub);
+      }
     }
     var when = rec.date || rec.when;
     if (when) {
@@ -1397,10 +1426,15 @@
     markSelected(id, true);
     redrawHighlight();
 
-    var primary = rec[state.lang] || rec.en;
+    // The nearest thing first, as in the tooltip: the province, island or
+    // settlement under the pointer is what was asked about, and the country it
+    // belongs to is the line under it.
+    var sub = lastProv && lastProv.rec ? shown(lastProv.rec) : null;
+    var head = sub || rec;
+    var primary = nameOf(head);
     var others = LANGS
       .filter(function (l) { return l !== state.lang; })
-      .map(function (l) { return rec[l]; })
+      .map(function (l) { return head[l]; })
       .filter(function (n) { return n && n !== primary; });
 
     var info = catInfo(rec.cat);
@@ -1409,11 +1443,10 @@
     chip.style.setProperty('--chip', info ? info.c : 'var(--muted)');
     $('.primary', infoBox).textContent = primary;
     $('.alt', infoBox).textContent = others.join('  ·  ');
-    // on a touch screen there is no hover, so the sub-unit under the finger
-    // has nowhere else to be said
-    var prov = lastProv && lastProv.rec ? nameOf(lastProv.rec) : '';
-    $('.prov', infoBox).textContent = prov;
-    $('.prov', infoBox).hidden = !prov;
+    // and the country underneath, with every name it answers to
+    var owner = sub ? [nameOf(rec)].concat(otherNames(rec) || []).join('  ') : '';
+    $('.prov', infoBox).textContent = owner;
+    $('.prov', infoBox).hidden = !owner;
     $('.when', infoBox).textContent = rec.date || rec.when || '';
     $('.when', infoBox).hidden = !(rec.date || rec.when);
     $('.note', infoBox).textContent = rec.note || '';

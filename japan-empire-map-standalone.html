@@ -654,7 +654,10 @@ button.plain:hover { background: #f2ede2; }
   font-size: 12px;
 }
 
-#tooltip .sub.prov { color: #f0d9a8; }
+/* The sub-unit is the headline now, so the highlighted line is its other
+   scripts; the country underneath is plainer, being context. */
+#tooltip .sub.alt-script { color: #f0d9a8; }
+#tooltip .sub.prov { color: #d8cfbf; }
 
 /* -------------------------------------------------------- info & quiz --- */
 
@@ -734,10 +737,11 @@ button.plain:hover { background: #f2ede2; }
 
 #info .when[hidden] { display: none; }
 
+/* the country a sub-unit belongs to, under its name */
 #info .prov {
   margin: 2px 0 0;
   font-size: 13.5px;
-  color: #7a5c1f;
+  color: var(--muted);
 }
 
 #info .note {
@@ -1449,7 +1453,7 @@ JMAP.TERRITORIES = {
       when: 'French from 1674',
       note: 'Five scattered enclaves left to France when Britain took the rest of India: Pondicherry and Karikal on the Coromandel coast, Yanaon on the Godavari, Mahé on the Malabar coast, and Chandernagore on the Hooghly above Calcutta. They declared for the Free French in 1940 and were transferred to India in the 1950s.' },
     // administrative detail inside British India: it belongs with that switch
-    { id: 'princelystates', atoms: ['princely'], cat: 'british', c: '#bd94a0', lvl: 3, adminOnly: true,
+    { id: 'princelystates', atoms: ['princely'], cat: 'british', lvl: 3, adminOnly: true,
       en: 'Princely states', ja: '藩王国', orig: 'Indian States',
       zh: '印度土邦', ko: '번왕국',
       when: 'Rulers in subsidiary alliance with the Crown',
@@ -1592,7 +1596,7 @@ JMAP.TERRITORIES = {
       zh: '尼泊爾', ko: '네팔 (Nep’al)',
       when: 'Independent, in treaty with Britain',
       note: 'Never colonised, and recognised as fully independent by Britain in 1923, though bound to it by treaty and supplying the Gurkha regiments.' },
-    { id: 'sikkim', atoms: ['sikkim'], cat: 'british', c: '#bd94a0', lvl: 3,
+    { id: 'sikkim', atoms: ['sikkim'], cat: 'british', lvl: 3,
       en: 'Sikkim', ja: 'シッキム (Shikkimu)', orig: 'འབྲས་ལྗོངས (Drenjong)',
       zh: '錫金', ko: '시킴 (Sik’im)',
       when: 'British protectorate from 1890',
@@ -1839,7 +1843,7 @@ JMAP.TERRITORIES = {
       zh: '法屬印度', ko: '프랑스령 인도',
       when: 'French from 1674',
       note: 'Five scattered enclaves left to France when Britain took the rest of India: Pondicherry and Karikal on the Coromandel coast, Yanaon on the Godavari, Mahé on the Malabar coast, and Chandernagore on the Hooghly above Calcutta. They declared for the Free French in 1940 and were transferred to India in the 1950s.' },
-    { id: 'princelystates', atoms: ['princely'], cat: 'allied', c: '#bd94a0', lvl: 3, adminOnly: true,
+    { id: 'princelystates', atoms: ['princely'], cat: 'allied', lvl: 3, adminOnly: true,
       en: 'Princely states', ja: '藩王国', orig: 'Indian States',
       zh: '印度土邦', ko: '번왕국',
       when: 'Rulers in subsidiary alliance with the Crown',
@@ -1903,7 +1907,7 @@ JMAP.TERRITORIES = {
       zh: '尼泊爾', ko: '네팔 (Nep’al)',
       when: 'Independent, in treaty with Britain',
       note: 'Never colonised, and recognised as fully independent by Britain in 1923, though bound to it by treaty and supplying the Gurkha regiments.' },
-    { id: 'sikkim', atoms: ['sikkim'], cat: 'allied', c: '#bd94a0', lvl: 3,
+    { id: 'sikkim', atoms: ['sikkim'], cat: 'allied', lvl: 3,
       en: 'Sikkim', ja: 'シッキム (Shikkimu)', orig: 'འབྲས་ལྗོངས (Drenjong)',
       zh: '錫金', ko: '시킴 (Sik’im)',
       when: 'British protectorate from 1890',
@@ -3430,6 +3434,22 @@ window.JMAP_INLINE_ADMIN = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<svg xml
     return out;
   }
 
+  /* Every other name a record carries, in a fixed order, with the one already
+     shown as the headline left out. */
+  function otherNames(rec) {
+    if (!rec) return '';
+    var r = shown(rec);
+    var primary = nameOf(r);
+    var seen = {};
+    seen[primary] = true;
+    var out = [];
+    ['orig', 'ja', 'zh', 'ko', 'en'].forEach(function (k) {
+      var v = r[k];
+      if (v && !seen[v]) { seen[v] = true; out.push(v); }
+    });
+    return out.join('  ');
+  }
+
   function nameOf(rec) {
     if (!rec) return '';
     var r = shown(rec);
@@ -4542,22 +4562,35 @@ window.JMAP_INLINE_ADMIN = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<svg xml
 
   /* ------------------------------------------------------------ labels -- */
 
+  /* The nearest thing first. Under the pointer is a province, an island or a
+     settlement, and that is what the reader is asking about; the country it
+     belongs to is context and goes underneath. When there is no sub-unit the
+     country is itself the nearest thing and takes the top line. */
   function showTooltip(base, cx, cy, prov) {
     var rec = shown(base);
+    var head = prov && prov.rec ? shown(prov.rec) : rec;
     tooltip.innerHTML = '';
-    tooltip.appendChild(document.createTextNode(nameOf(rec)));
-    if (prov && prov.rec) {
+    tooltip.appendChild(document.createTextNode(nameOf(head)));
+    if (head !== rec) {
+      var alt = otherNames(head);
+      if (alt) {
+        var pa = document.createElement('span');
+        pa.className = 'sub alt-script';
+        pa.textContent = alt;
+        tooltip.appendChild(pa);
+      }
       var pv = document.createElement('span');
       pv.className = 'sub prov';
-      pv.textContent = nameOf(prov.rec);
+      pv.textContent = [nameOf(rec)].concat(otherNames(rec) || []).join('  ');
       tooltip.appendChild(pv);
-    }
-    var second = state.lang === 'en' ? rec.ja : rec.en;
-    if (second && second !== nameOf(rec)) {
-      var sub = document.createElement('span');
-      sub.className = 'sub';
-      sub.textContent = second;
-      tooltip.appendChild(sub);
+    } else {
+      var second = state.lang === 'en' ? rec.ja : rec.en;
+      if (second && second !== nameOf(rec)) {
+        var sub = document.createElement('span');
+        sub.className = 'sub';
+        sub.textContent = second;
+        tooltip.appendChild(sub);
+      }
     }
     var when = rec.date || rec.when;
     if (when) {
@@ -4705,10 +4738,15 @@ window.JMAP_INLINE_ADMIN = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<svg xml
     markSelected(id, true);
     redrawHighlight();
 
-    var primary = rec[state.lang] || rec.en;
+    // The nearest thing first, as in the tooltip: the province, island or
+    // settlement under the pointer is what was asked about, and the country it
+    // belongs to is the line under it.
+    var sub = lastProv && lastProv.rec ? shown(lastProv.rec) : null;
+    var head = sub || rec;
+    var primary = nameOf(head);
     var others = LANGS
       .filter(function (l) { return l !== state.lang; })
-      .map(function (l) { return rec[l]; })
+      .map(function (l) { return head[l]; })
       .filter(function (n) { return n && n !== primary; });
 
     var info = catInfo(rec.cat);
@@ -4717,11 +4755,10 @@ window.JMAP_INLINE_ADMIN = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<svg xml
     chip.style.setProperty('--chip', info ? info.c : 'var(--muted)');
     $('.primary', infoBox).textContent = primary;
     $('.alt', infoBox).textContent = others.join('  ·  ');
-    // on a touch screen there is no hover, so the sub-unit under the finger
-    // has nowhere else to be said
-    var prov = lastProv && lastProv.rec ? nameOf(lastProv.rec) : '';
-    $('.prov', infoBox).textContent = prov;
-    $('.prov', infoBox).hidden = !prov;
+    // and the country underneath, with every name it answers to
+    var owner = sub ? [nameOf(rec)].concat(otherNames(rec) || []).join('  ') : '';
+    $('.prov', infoBox).textContent = owner;
+    $('.prov', infoBox).hidden = !owner;
     $('.when', infoBox).textContent = rec.date || rec.when || '';
     $('.when', infoBox).hidden = !(rec.date || rec.when);
     $('.note', infoBox).textContent = rec.note || '';
