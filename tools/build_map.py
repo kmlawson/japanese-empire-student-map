@@ -163,10 +163,26 @@ OCCUPIED_ZONE = [
         (108.6, 18.2), (109.6, 18.1), (110.6, 18.6), (111.15, 19.5), (111.05, 20.0),
         (110.8, 20.25), (109.9, 20.2), (109.0, 19.8), (108.5, 19.0),
     ],
-    # Amoy, taken May 1938, and Kinmen, taken October 1937
-    [(117.9, 24.35), (118.8, 24.4), (118.8, 24.85), (117.9, 24.65)],
+    # Amoy, taken May 1938, and Kinmen, taken October 1937. Both of these
+    # southern ports were four-cornered boxes, and a box is exactly what a
+    # beachhead is not: the shading is approximate either way, but a rectangle
+    # claims a precision the tracing does not have. They are ellipses of
+    # fourteen points, which Chaikin then rounds off properly -- it holds the
+    # first and last vertex of an open line still, so a four-point ring came
+    # out of it with two corners intact.
+    [
+        (118.58, 24.48), (118.544, 24.567), (118.444, 24.636), (118.3, 24.675),
+        (118.14, 24.675), (117.996, 24.636), (117.896, 24.567), (117.86, 24.48),
+        (117.896, 24.393), (117.996, 24.324), (118.14, 24.285), (118.3, 24.285),
+        (118.444, 24.324), (118.544, 24.393),
+    ],
     # Swatow and Chaochow, taken June 1939
-    [(116.3, 23.15), (116.95, 23.25), (116.85, 23.75), (116.3, 23.6)],
+    [
+        (116.98, 23.45), (116.944, 23.593), (116.844, 23.708), (116.7, 23.772),
+        (116.54, 23.772), (116.396, 23.708), (116.296, 23.593), (116.26, 23.45),
+        (116.296, 23.307), (116.396, 23.192), (116.54, 23.128), (116.7, 23.128),
+        (116.844, 23.192), (116.944, 23.307),
+    ],
 ]
 
 # The Kwantung Leased Territory: the tip of the Liaodong peninsula, leased by
@@ -382,8 +398,15 @@ def china_front():
 EXTENT_SOUTH_CHINA = [
     (121.5, 28.8), (121.2, 28.3), (120.7, 27.8), (120.4, 27.2), (120.0, 26.6),
     (119.8, 26.0), (119.5, 25.5), (119.1, 25.0), (118.9, 24.75),
-    (118.4, 24.9), (117.9, 24.65), (117.9, 24.35), (118.1, 24.2),
-    (117.4, 23.9), (116.85, 23.75), (116.3, 23.6), (116.3, 23.15), (116.7, 23.0),
+    # round the landward side of the Amoy blob, on an ellipse a little wider
+    # than the shading so the line and the fill agree
+    (118.584, 24.605), (118.43, 24.697), (118.22, 24.73), (118.01, 24.697),
+    (117.856, 24.605), (117.8, 24.48), (117.856, 24.355), (118.01, 24.263),
+    (117.4, 23.9),
+    # and the same round Swatow and Chaochow
+    (116.984, 23.645), (116.83, 23.788), (116.62, 23.84), (116.41, 23.788),
+    (116.256, 23.645), (116.2, 23.45), (116.256, 23.255), (116.41, 23.112),
+    (116.7, 23.0),
     (115.5, 22.7), (114.8, 22.5),
     (114.6, 22.55), (114.55, 23.1), (113.9, 23.6), (113.15, 23.85),
     (112.85, 23.5), (112.6, 23.0), (112.65, 22.35),
@@ -1708,13 +1731,20 @@ def main():
         "</pattern>"
     )
     # The stripes say "Japanese forces are here" and are laid over somebody
-    # else's colour -- Portuguese Timor, Allied Guadalcanal and Malaita, Thai
-    # Kengtung -- so they are drawn in the darkest red on the ramp, the one
-    # the metropole wears, which reads on a pale fill and on a dark one.
+    # else's colour -- Portuguese Timor, Thai Kengtung -- so they are drawn in
+    # the occupation's own colour, which is what they mean.
     out.append(
         '    <pattern id="hatch-occ" patternUnits="userSpaceOnUse" width="9" height="9" '
         'patternTransform="rotate(45)">'
-        '<line x1="0" y1="0" x2="0" y2="9" stroke="#9d0000" stroke-opacity="0.85" stroke-width="3.4"/>'
+        '<line x1="0" y1="0" x2="0" y2="9" stroke="#ff7e7e" stroke-opacity="0.95" stroke-width="3.4"/>'
+        "</pattern>"
+    )
+    # and the other way round: American forces on ground drawn in the Japanese
+    # occupation colour, which is Guadalcanal in December 1942
+    out.append(
+        '    <pattern id="hatch-us" patternUnits="userSpaceOnUse" width="9" height="9" '
+        'patternTransform="rotate(45)">'
+        '<line x1="0" y1="0" x2="0" y2="9" stroke="#3e5780" stroke-opacity="0.9" stroke-width="3.4"/>'
         "</pattern>"
     )
     # The occupied zone is clipped to China's land. Clip it to the shape that

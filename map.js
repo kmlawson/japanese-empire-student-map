@@ -487,7 +487,10 @@
         total += area;
 
         if (t.hatch) {
-          var cls = t.hatch === 'occupied' ? 'hatch-fill hatch-occ' : 'hatch-fill';
+          // 'occupied' is the Japanese stripe, 'us' the American one; true on
+          // its own is the plain dark hatch
+          var cls = 'hatch-fill' + (typeof t.hatch === 'string'
+            ? ' hatch-' + (t.hatch === 'occupied' ? 'occ' : t.hatch) : '');
           var paths = el.tagName === 'path' ? [el] : $$('path', el);
           var clip = el.getAttribute('clip-path');
           paths.forEach(function (path) {
@@ -500,7 +503,11 @@
       });
 
       atomsOf[t.id] = els;
-      elById[t.id] = els[0] || null;
+      // a territory must never displace a marker of the same name in this map:
+      // applyState hides markers through it, and it would hide the land
+      if (!elById[t.id] || !elById[t.id].classList.contains('site')) {
+        elById[t.id] = els[0] || null;
+      }
 
       if (t.outline && subUnits.length) {
         outlineOf(subUnits.splice(0, subUnits.length), 'sub-outline', subOutlineLayer);
