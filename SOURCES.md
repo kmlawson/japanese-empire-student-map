@@ -8,12 +8,12 @@ reading the boundaries, names and notes come from.
 
 ## 1. Geographic data
 
-### Natural Earth — 1:50m Cultural Vectors
+### Natural Earth — 1:10m Cultural Vectors
 
 * **Used for:** all coastlines and national outlines outside China, and the
   modern outline of China itself as a backing layer beneath the Republican
   provinces.
-* **Files:** `ne_50m_admin_0_countries.geojson`, `ne_50m_admin_1_states_provinces.geojson`
+* **Files:** `ne_10m_admin_0_countries.geojson`, `ne_10m_admin_1_states_provinces.geojson`
 * **Obtained from:** <https://github.com/nvkelso/natural-earth-vector> (the
   `geojson/` directory of the master branch)
 * **Home page:** <https://www.naturalearthdata.com/>
@@ -59,13 +59,13 @@ reading the boundaries, names and notes come from.
   political administrative boundaries." *PLoS ONE* 15(4): e0231866.
 * **Cached at:** `tools/cache/adm1_KHM.json`, `tools/cache/adm1_LAO.json`
 
-### Natural Earth — 1:50m rivers and lake centerlines
+### Natural Earth — 1:10m rivers and lake centerlines
 
 * **Used for:** the Yangzi and the Yellow River. Natural Earth's Yangtze
   centreline stops about 170 km short of the sea, so the estuary past Shanghai
   is added by hand; the Yellow River is split at Huayuankou so the two maps can
   show its two courses.
-* **File:** `ne_50m_rivers_lake_centerlines.geojson`
+* **File:** `ne_10m_rivers_lake_centerlines.geojson`
 * **Licence:** public domain.
 * **Cached at:** `tools/cache/rivers.geojson`
 

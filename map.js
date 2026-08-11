@@ -56,7 +56,6 @@
   var svg = null;
   var markersGroup = null;
   var hatchGroup = null;
-  var chinaBase = null;   // modern China outline, under the provinces
   var highlightLayer = null;
   var subOutlineLayer = null;
   var hiDefs = null;
@@ -229,7 +228,6 @@
     buildNanyoBounds();
     buildBrowse();
     hatchGroup = svg.querySelector('#hatching');
-    chinaBase = $$('.chinabase', svg);
 
     $$('.atom', svg).forEach(function (el) { atomEls[el.id.replace(/^a-/, '')] = el; });
     buildAtomHits();
@@ -487,9 +485,6 @@
       if (ra !== rb) return ra - rb;
       return (a.rec.lvl || 9) - (b.rec.lvl || 9);
     });
-
-    // paint the backing outline in whatever colour China proper has this
-    // epoch, so the seams between the two sources read as border, not sea
 
     // the labels just created have no transform yet, and rescale() only runs
     // on a zoom change, so place them now or they sit at the map origin

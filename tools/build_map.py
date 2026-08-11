@@ -41,10 +41,13 @@ import gpkg  # noqa: E402
 ROOT = os.path.dirname(HERE)
 CACHE = os.path.join(HERE, "cache")
 
+# 1:10m, not 1:50m. The output size is governed by the simplification
+# tolerance rather than by the input, so the finer source buys fidelity at
+# roughly the same weight — and it narrows the seams where these outlines meet
+# the ENP provinces and the Korean ones, which are finer than 1:50m.
 SOURCES = {
-    "admin0": "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_50m_admin_0_countries.geojson",
-    "admin1": "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_50m_admin_1_states_provinces.geojson",
-    "rivers": "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_50m_rivers_lake_centerlines.geojson",
+    "admin0": "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_10m_admin_0_countries.geojson",
+    "rivers": "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_10m_rivers_lake_centerlines.geojson",
 }
 
 # ENP-China provinces, shipped in tools/cache/enp/ rather than downloaded; see
@@ -902,7 +905,6 @@ def main():
     args = ap.parse_args()
 
     a0 = load("admin0", args.download)
-    a1 = load("admin1", args.download)
 
     groups = collections.defaultdict(list)
     # Chinese atoms keep their provinces as separate sub-paths, so hovering can
