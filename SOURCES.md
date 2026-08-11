@@ -143,9 +143,12 @@ reading the boundaries, names and notes come from.
   real border, the line is lifted straight off the territory outlines, so it
   sits exactly on the Manchukuo, Mengchiang, Burma and Indochina frontiers
   rather than floating near them. See `EXTENT_*` in `tools/build_map.py`.
-* **Note:** Gordon's own line is a generalisation and this is a trace of it. It
-  deliberately does not match the edge of the shaded occupied-China zone: the
-  line is a front, the shading is a set of provinces.
+* **Note:** Gordon's own line is a generalisation and this is a trace of it,
+  except in China, where the line *is* the inland edge of the shaded occupied
+  zone — taken off `OCCUPIED_ZONE`'s own block and smoothed the same way, so
+  that the two cannot drift apart. A perimeter that claimed ground the shading
+  did not was the worse of the two errors. Out at sea the line is a naval
+  limit and stands on its own.
 
 The Natural Earth cache can be refreshed with
 `python3 tools/build_map.py --download`; the ENP shapefiles are shipped in the

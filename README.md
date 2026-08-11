@@ -49,8 +49,11 @@ framework. Serve the folder over HTTP, or hand out the single-file build.
   until 1947.
 * **The dashed perimeter** on the Dec 1942 map is the greatest extent of
   Japanese control, traced from the "War in the Pacific" map in Andrew Gordon,
-  *A Modern History of Japan*. It is a front and a naval limit, not a boundary,
-  and it deliberately does not follow the edge of the shaded occupied zone.
+  *A Modern History of Japan*. It is a front and a naval limit, not a boundary.
+  Across China it is taken straight off the inland edge of the shaded occupied
+  zone, so the two coincide: the line marks where Japanese forces were, and it
+  has no business floating west of the shading that says the same thing. Out at
+  sea it marks how far the navy reached rather than territory held.
 
 Pan by dragging, zoom with the wheel, a pinch, the buttons, or `+` / `-`; `0`
 returns to the opening view and `Esc` closes the detail card.
