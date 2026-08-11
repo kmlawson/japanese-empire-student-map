@@ -45,11 +45,21 @@ JMAP.DEFAULT_EPOCH = 'e1942';
 
 /* Category colours. Palettes are per epoch, because the two maps answer
  * different questions: in 1930 "whose empire is this?", in 1942 "how did Japan
- * hold it?" */
+ * hold it?"
+ *
+ * Everything Japan held runs down one ramp of reds, darkest at the centre:
+ * #a50f15 the metropole, #de2d26 the colonies and leased territory, #fcae91
+ * the client states, #fee5d9 the territory under military occupation. The step
+ * from one to the next is the step from annexation, to rule through somebody
+ * else, to rule by the army, so the map can be read by shade alone. Everyone
+ * else is off the ramp. Ground neither side held to itself — Guadalcanal,
+ * Malaita, Papua, Portuguese Timor — keeps its owner's colour and takes red
+ * stripes across it, which says more than a separate "front line" colour
+ * could: it names who the place belonged to as well as who was in it. */
 JMAP.CATEGORIES = {
   e1930: [
-    { id: 'metropole', c: '#a8322b', en: 'Japan proper', ja: '内地', orig: 'Japan proper', zh: '日本內地', ko: '일본 본토' },
-    { id: 'jpcolony', c: '#d9663d', en: 'Japanese colonies', ja: '日本の外地', orig: 'Japanese colonies', zh: '日本殖民地', ko: '일본 식민지' },
+    { id: 'metropole', c: '#a50f15', en: 'Japan proper', ja: '内地', orig: 'Japan proper', zh: '日本內地', ko: '일본 본토' },
+    { id: 'jpcolony', c: '#de2d26', en: 'Japanese colonies', ja: '日本の外地', orig: 'Japanese colonies', zh: '日本殖民地', ko: '일본 식민지' },
     { id: 'chinese', c: '#e8d9a8', en: 'China', ja: '中国', orig: 'China', zh: '中國', ko: '중국' },
     { id: 'british', c: '#b07f8e', en: 'British', ja: 'イギリス領', orig: 'British', zh: '英國領', ko: '영국령' },
     { id: 'french', c: '#7d9cc0', en: 'French', ja: 'フランス領', orig: 'French', zh: '法國領', ko: '프랑스령' },
@@ -62,13 +72,13 @@ JMAP.CATEGORIES = {
     { id: 'other', c: '#ded8cb', en: 'Elsewhere', ja: 'その他', orig: 'Elsewhere', zh: '其他', ko: '기타' },
   ],
   e1942: [
-    { id: 'metropole', c: '#a8322b', en: 'Japan proper', ja: '内地', orig: 'Japan proper', zh: '日本內地', ko: '일본 본토' },
-    { id: 'colony', c: '#d9663d', en: 'Colonies & leased territory', ja: '外地・租借地', orig: 'Colonies', zh: '外地・租借地', ko: '외지·조차지' },
-    { id: 'puppet', c: '#edc04b', en: 'Client states', ja: '傀儡国家', orig: 'Client states', zh: '傀儡國家', ko: '괴뢰국' },
-    { id: 'occupied', c: '#e79f4a', en: 'Under military occupation', ja: '軍政地域', orig: 'Occupied', zh: '軍政地區', ko: '군정 지역' },
-    { id: 'contested', c: '#c98f6a', en: 'Fighting front', ja: '戦線', orig: 'Fighting front', zh: '戰線', ko: '전선' },
-    { id: 'cobelligerent', c: '#f5c07a', en: 'Co-belligerent', ja: '同盟国', orig: 'Co-belligerent', zh: '日本盟國', ko: '일본의 동맹국' },
+    { id: 'metropole', c: '#a50f15', en: 'Japan proper', ja: '内地', orig: 'Japan proper', zh: '日本內地', ko: '일본 본토' },
+    { id: 'colony', c: '#de2d26', en: 'Colonies & leased territory', ja: '外地・租借地', orig: 'Colonies', zh: '外地・租借地', ko: '외지·조차지' },
+    { id: 'puppet', c: '#fcae91', en: 'Client states', ja: '傀儡国家', orig: 'Client states', zh: '傀儡國家', ko: '괴뢰국' },
+    { id: 'occupied', c: '#fee5d9', en: 'Under military occupation', ja: '軍政地域', orig: 'Occupied', zh: '軍政地區', ko: '군정 지역' },
+    { id: 'cobelligerent', c: '#df65b0', en: 'Co-belligerent', ja: '同盟国', orig: 'Co-belligerent', zh: '日本盟國', ko: '일본의 동맹국' },
     { id: 'freechina', c: '#93ac93', en: 'Free China', ja: '重慶政権', orig: 'Free China', zh: '國統區', ko: '자유중국' },
+    { id: 'frontier', c: '#c3d6c3', en: 'Self-governing frontier', ja: '自治的辺境', orig: 'Self-governing frontier', zh: '自治邊疆', ko: '자치 변경' },
     { id: 'allied', c: '#b07f8e', en: 'Allied', ja: '連合国', orig: 'Allied', zh: '盟軍', ko: '연합국' },
     { id: 'portuguese', c: '#7b6ba8', en: 'Portuguese', ja: 'ポルトガル領', orig: 'Portuguese', zh: '葡萄牙領', ko: '포르투갈령' },
     { id: 'neutral', c: '#8f9bb3', en: 'Neutral', ja: '中立', orig: 'Neutral', zh: '中立', ko: '중립' },
@@ -392,17 +402,20 @@ JMAP.TERRITORIES = {
       when: 'Held by Japan from 1919 (seized from Germany in 1914)',
       note: 'Fortified through the 1930s in defiance of the mandate’s terms, and the anchorage of the Combined Fleet at Truk. The dotted line shows the boundary of the mandate; the islands themselves are specks at this scale. The Americans took them atoll by atoll in 1943–44.' },
 
-    { id: 'manchukuo', atoms: ['manchuria', 'jehol'], cat: 'puppet', c: '#e6b636', lvl: 1,
+    { id: 'manchukuo', atoms: ['manchuria', 'jehol'], cat: 'puppet', lvl: 1,
       en: 'Manchukuo (Manchuria)', ja: '満洲国 (Manshūkoku)', orig: '滿洲國 (Mǎnzhōuguó)',
       zh: '滿洲國', ko: '만주국 (Manjuguk)',
       when: 'Puppet state from March 1932',
       note: 'Invaded from September 1931 and proclaimed independent under the last Qing emperor P’u-i. Jehol was added in 1933; the eastern Inner Mongolian leagues had been part of the three provinces all along and became its Hinggan provinces. Real power lay with the Kwantung Army and Japanese vice-ministers.' },
-    { id: 'mengjiang', atoms: ['chahar', 'suiyuan'], cat: 'puppet', c: '#f7da85', lvl: 2,
+    // Mengchiang and Manchukuo are both client states and so share a fill; the
+    // hairline down Chahar's eastern edge is what keeps them two countries
+    { id: 'mengjiang', atoms: ['chahar', 'suiyuan'], cat: 'puppet', lvl: 2,
+      edge: '#de2d26', edgeAtoms: ['chahar'], edgeClip: [116.2, 40.0, 119.8, 46.9],
       en: 'Mengchiang (Mengjiang)', ja: '蒙疆 (Mōkyō)', orig: '蒙疆聯合自治政府',
       zh: '蒙疆聯合自治政府', ko: '몽강 (Monggang)',
       when: 'Client regime from 1936–39',
       note: 'The Inner Mongolian autonomous government under Prince Demchugdongrub, with its capital at Kalgan. Built out of the Chinese provinces of Chahar and Suiyuan.' },
-    { id: 'nanjinggov', atoms: ['occupiedzone'], cat: 'puppet', lvl: 1, hatch: true,
+    { id: 'nanjinggov', atoms: ['occupiedzone'], cat: 'occupied', lvl: 1,
       en: 'Japanese-occupied China (approximate)', ja: '日本占領地区 (approximate)', orig: '日軍佔領區 (approximate)',
       zh: '日軍佔領區（大略）', ko: '일본 점령지 (대략)',
       when: 'Occupied from 1937; Nanking government from March 1940',
@@ -483,11 +496,12 @@ JMAP.TERRITORIES = {
       when: 'Occupied March 1942; ceded to Azad Hind December 1943',
       note: 'The only Indian territory Japan held. In December 1943 they were handed nominally to Subhas Chandra Bose’s Provisional Government of Free India and renamed Shaheed and Swaraj — "Martyr" and "Self-rule". The transfer was a gesture: the Japanese navy kept real control, and the occupation was harsh.' },
 
-    { id: 'newguinea_au', atoms: ['newguinea_au'], cat: 'contested', lvl: 2,
+    { id: 'newguinea_au', atoms: ['newguinea_au'], cat: 'allied', lvl: 2,
+      hatch: 'occupied',
       en: 'New Guinea (Papua & the Mandated Territory)', ja: 'ニューギニア', orig: 'Niugini',
       zh: '新幾內亞', ko: '뉴기니 (Nyugini)',
       when: 'Front line through 1942–45',
-      note: 'Japan held the north coast and the great base at Rabaul; Australian and American forces held Port Moresby. The overland push across the Kokoda Track was turned back in September 1942.' },
+      note: 'Australian territory with Japanese forces in it, which is why it carries both colours. Japan held the north coast and the great base at Rabaul; Australian and American forces held Port Moresby. The overland push across the Kokoda Track was turned back in September 1942, and in December the fighting was at the Buna–Gona beachhead.' },
     { id: 'solomons_br', atoms: ['solomons_br'], cat: 'occupied', lvl: 2,
       en: 'Western Solomons', ja: 'ソロモン諸島西部', orig: 'Solomon Islands',
       zh: '所羅門群島西部', ko: '서솔로몬 제도',
@@ -546,7 +560,7 @@ JMAP.TERRITORIES = {
       zh: '英屬印度', ko: '영국령 인도 (Yŏnggungnyŏng Indo)',
       when: 'The western limit of the advance',
       note: 'The front stopped at the Burmese border in 1942. The Quit India movement was suppressed that August, while the Indian National Army formed on the other side.' },
-    { id: 'goa', atoms: ['goa'], cat: 'neutral', lvl: 3,
+    { id: 'goa', atoms: ['goa'], cat: 'portuguese', lvl: 3,
       en: 'Portuguese India — Goa, Damão, Diu', ja: 'ポルトガル領インド', orig: 'Estado da Índia',
       zh: '葡屬印度', ko: '포르투갈령 인도',
       when: 'Portuguese from 1510',
@@ -587,21 +601,21 @@ JMAP.TERRITORIES = {
       zh: '蒙古人民共和國', ko: '몽골인민공화국 (Monggol Inmin Konghwaguk)',
       when: 'Soviet satellite',
       note: 'Its border with Manchukuo was the scene of the undeclared war at Nomonhan in 1939, whose outcome helped turn Japanese strategy south rather than north.' },
-    { id: 'xinjiang', atoms: ['xinjiang'], cat: 'freechina', lvl: 3,
+    { id: 'xinjiang', atoms: ['xinjiang'], cat: 'frontier', lvl: 3,
       en: 'Sinkiang (Xinjiang)', ja: '新疆 (Shinkyō)', orig: 'شىنجاڭ (Shinjang)',
       zh: '新疆', ko: '신장 (Sinjang)',
       when: 'Returned to Nationalist control in 1942',
       note: 'Governed since 1933 by Sheng Shicai in close alliance with the Soviet Union, which stationed troops there. Sheng changed sides in 1942 and brought the province back under Chungking’s authority; the road from the USSR through Xinjiang had been a supply line to China early in the war.' },
-    { id: 'tibet', atoms: ['tibet'], cat: 'neutral', lvl: 3,
+    { id: 'tibet', atoms: ['tibet'], cat: 'frontier', lvl: 3,
       en: 'Tibet', ja: 'チベット (Chibetto)', orig: 'བོད་ (Bod)',
       zh: '西藏', ko: '티베트 (T’ibet’ŭ)',
       when: 'De facto independent',
       note: 'Self-governing in practice and neutral in the war, it refused passage to an Allied supply route to China.' },
-    { id: 'macau', atoms: ['macau'], cat: 'neutral', lvl: 3,
+    { id: 'macau', atoms: ['macau'], cat: 'occupied', lvl: 3,
       en: 'Macao', ja: 'マカオ (Makao)', orig: '澳門 (Ou-mun)',
       zh: '澳門', ko: '마카오 (Mak’ao)',
-      when: 'Neutral throughout',
-      note: 'Portuguese and formally neutral, and so a refuge and a smuggling route — though under heavy Japanese pressure after Hong Kong fell.' },
+      when: 'Portuguese, and inside the Japanese sphere',
+      note: 'Portuguese and formally neutral to the end of the war — Japan never raised its flag here, and the colony filled with refugees from Hong Kong and Canton. It is shown in the occupied colour because neutrality was the only thing left of its independence: it was surrounded, fed and policed on Japanese sufferance, and from 1943 Japanese “advisers” ran it in all but name.' },
     { id: 'weihaiwei', atoms: ['weihaiwei'], cat: 'neutral', lvl: 3,
       en: 'Weihaiwei', ja: '威海衛 (Ikaiei)', orig: '威海衛 (Wēihǎiwèi)',
       zh: '威海衛', ko: '위해위 (Wihaewi)',
