@@ -358,25 +358,35 @@ YANGZI_TAIL = [
 # ---------------------------------------------------------------------------
 
 # The front in China: a broad, shifting and porous zone, not a border.
-EXTENT_CHINA_FRONT = [
-    (109.6, 38.69), (110.9, 38.70), (110.6, 38.00), (110.7, 37.20),
-    (110.45, 36.40), (110.35, 35.60), (110.2, 35.10), (110.2, 34.45),
-    (111.8, 33.4), (112.6, 32.2), (111.9, 31.05), (110.9, 30.7), (110.8, 30.2),
-    (112.0, 29.2), (113.4, 28.4), (114.8, 27.8), (116.2, 27.0), (117.4, 25.8),
-    (118.4, 25.1),
-]
-# The south China coast. Everything Japan held along it has to fall inside the
-# loop: Amoy from May 1938, Swatow from June 1939, Canton and the delta from
-# October 1938, Kwangchowwan, and Hainan, taken in February 1939 and held to
-# the end. The line runs inland of the coastal cities and then straight west
-# along the top of the Leizhou peninsula to the Tonkin frontier. It does not
-# need to detour round Hainan: everything seaward of this line is inside, so
-# tracing the island would have cut it out rather than taken it in.
+# The front in China is the inland edge of the occupied zone itself. The line
+# marks where Japanese forces actually were, so it has no business floating
+# west of the shading: it is taken straight off OCCUPIED_ZONE's first block,
+# smoothed the same way, and the two coincide.
+def china_front():
+    return [(109.6, 38.69)] + list(OCCUPIED_ZONE[0][:59])
+
+
+# The south China coast, from where the occupied zone meets the sea in Chekiang
+# down to the Tonkin frontier. Everything seaward of this line is inside it, so
+# the line runs just offshore — leaving the unoccupied coast of Fukien and
+# Kwangtung outside — and turns inland at each place that was held: Amoy and
+# Kinmen, Swatow and Chaochow, the Canton delta. It goes through the Qiongzhou
+# strait, which leaves the Leizhou peninsula and Kwangchowwan north of it and
+# outside — Japan did not take Kwangchowwan until February 1943 — while Hainan,
+# seaward of the line, falls inside without needing to be traced round.
 EXTENT_SOUTH_CHINA = [
-    (117.75, 24.75), (117.3, 24.0), (116.4, 23.9), (115.2, 23.6), (114.2, 23.7),
-    (113.4, 24.0), (112.4, 23.5), (111.4, 22.5), (110.6, 21.9), (109.9, 21.9),
-    (109.0, 21.7), (108.1, 21.5),
+    (121.5, 28.8), (121.2, 28.3), (120.7, 27.8), (120.4, 27.2), (120.0, 26.6),
+    (119.8, 26.0), (119.5, 25.5), (119.1, 25.0), (118.9, 24.75),
+    (118.4, 24.9), (117.9, 24.65), (117.9, 24.35), (118.1, 24.2),
+    (117.4, 23.9), (116.85, 23.75), (116.3, 23.6), (116.3, 23.15), (116.7, 23.0),
+    (115.5, 22.7), (114.8, 22.5),
+    (114.6, 22.55), (114.55, 23.1), (113.9, 23.6), (113.15, 23.85),
+    (112.85, 23.5), (112.6, 23.0), (112.65, 22.35),
+    (111.8, 21.8), (110.9, 21.4), (110.45, 20.95),
+    (110.2, 20.25), (109.6, 20.35),
+    (109.4, 21.2), (108.6, 21.5), (108.1, 21.5),
 ]
+
 # Ocean perimeter, running clockwise from the Bay of Bengal.
 EXTENT_OCEAN = [
     (91.6, 20.0), (90.6, 16.0), (90.4, 12.0), (90.6, 8.0), (92.0, 3.5),
@@ -1355,7 +1365,7 @@ def main():
         return min(rings, key=lambda r: near(r, a) + near(r, b))
 
     extent = []
-    extent += chaikin(EXTENT_CHINA_FRONT)
+    extent += chaikin(china_front())
     extent += chaikin(EXTENT_SOUTH_CHINA)
     for key, a, b, via in EXTENT_ARCS:
         rings = outlines([key])
