@@ -207,6 +207,11 @@ INDIA_ENCLAVES = {"Goa": "goa", "Puducherry": "pondicherry", "Telangāna": "hyde
 # Keiki-do rather than in Hwanghae.
 KOREA_FILE = "korea_13_provinces.json"
 
+# Drawn at the full detail of their source rather than simplified. Korea's
+# provinces are traced finely enough to be the coastline as well as the
+# boundaries, and simplifying them throws that away.
+FULL_DETAIL = {"korea"}
+
 # Burma's divisions and the frontier areas, under their period names.
 BURMA_DIVISIONS = {
     "Yangon": "Pegu", "Bago": "Pegu", "Ayeyarwady": "Irrawaddy",
@@ -898,6 +903,14 @@ SPLITTERS = {
     "Singapore": lambda r: "malaya",
 }
 
+# Islands too small to see are marked with a ring. In the Pacific that is the
+# only way to find them at all; over the Indies, the Philippines and the
+# Andamans, where the islands are perfectly legible, the rings are just clutter.
+ISLET_RINGS = {
+    "nanyo", "gilberts", "ogasawara", "guam", "chishima", "aleutians",
+    "hawaii", "ryukyu", "newguinea_au", "solomons_br", "nauru_au",
+}
+
 ARCHIPELAGOS = {
     "nanyo", "gilberts", "ogasawara", "guam", "chishima", "aleutians",
     "hawaii", "ryukyu", "newguinea_au", "solomons_br", "philippines",
@@ -981,9 +994,11 @@ def main():
                 groups[split_russia(ring)].append(ring)
             continue
         if admin in ("South Korea", "North Korea"):
-            # Korea itself is drawn from its period provinces; this is only the
-            # filler that goes under them
-            backing["korea"].extend(iter_rings(feat["geometry"]))
+            # Korea is drawn from its period provinces and nothing else. They
+            # are the finer source, they weld into a clean country outline,
+            # and a modern coastline underneath would only show through where
+            # the two disagree — which is what made a selected province stop
+            # short of the sea.
             continue
         if admin == "Malaysia":
             for ring in iter_rings(feat["geometry"]):
@@ -1181,14 +1196,22 @@ def main():
         for feat in adm1["features"]:
             pname = feat["properties"].get("shapeName")
             if pname in wanted:
-                for ring in iter_rings(feat["geometry"]):
-                    groups["siamgain"].append(ring)
+                rs = list(iter_rings(feat["geometry"]))
+                groups["siamgain"].extend(rs)
+                # on the 1930 map this ground is simply Cambodia and Laos, and
+                # the pointer should say so
+                provinces["siamgain"].append(
+                    ("Cambodia" if iso == "KHM" else "Laos", rs))
             elif iso == "LAO" and pname == "Champasak":
                 west = box_planes(0, -90, SIAM_1941_CHAMPASAK_WEST, 90)
+                cut = []
                 for ring in iter_rings(feat["geometry"]):
                     piece = clip_halfplanes(ring, west)
                     if len(piece) >= 3 and ring_area(piece) > 0.002:
-                        groups["siamgain"].append(piece)
+                        cut.append(piece)
+                if cut:
+                    groups["siamgain"].extend(cut)
+                    provinces["siamgain"].append(("Laos", cut))
 
     # ---- the Borneo states -------------------------------------------------
     borneo_path = os.path.join(CACHE, "adm1_MYS.json")
@@ -1421,7 +1444,7 @@ def main():
             pieces.append(ring_to_path(pts))
             rcx, rcy = ring_centroid(pts)
             moments.append((area, rcx, rcy))
-            if archipelago and area < 20:
+            if key in ISLET_RINGS and area < 20:
                 specks.append((rcx, rcy, max(2.6, math.sqrt(area / math.pi) * 1.5)))
 
         if not pieces:
@@ -1456,7 +1479,9 @@ def main():
         in the first place — so the filler is Natural Earth's own outline of the
         countries concerned, which has no seams in it by construction. Drawn
         underneath in the same colour, it turns every crack into solid ground."""
-        rings = backing.get(key) or []
+        # Korea has no separate coastline: its provinces are the finer source
+        # and they dissolve into the country, so the filler comes from them
+        rings = backing.get(key) or [r for _, rs in provinces.get(key, []) for r in rs]
         if not rings:
             return ""
         pieces = []
@@ -1464,7 +1489,9 @@ def main():
             ring = clip_halfplanes(normalise_ring(ring), frame)
             if len(ring) < 3:
                 continue
-            pts = simplify([project(x, y) for x, y in ring], args.tolerance)
+            pts = [project(x, y) for x, y in ring]
+            if key not in FULL_DETAIL:
+                pts = simplify(pts, args.tolerance)
             if len(pts) >= 3 and ring_area(pts) >= args.min_area:
                 pieces.append(ring_to_path(pts))
         return "".join(pieces)
@@ -1483,7 +1510,9 @@ def main():
                 ring = clip_halfplanes(normalise_ring(ring), frame)
                 if len(ring) < 3:
                     continue
-                pts = simplify([project(x, y) for x, y in ring], args.tolerance)
+                pts = [project(x, y) for x, y in ring]
+                if key not in FULL_DETAIL:
+                    pts = simplify(pts, args.tolerance)
                 if len(pts) >= 3 and ring_area(pts) >= args.min_area:
                     pieces.append(ring_to_path(pts))
             if pieces:

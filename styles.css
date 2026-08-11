@@ -215,6 +215,10 @@ button.plain:hover { background: #f2ede2; }
   cursor: pointer;
 }
 
+/* Two neighbours that share a fill, told apart by a hairline rather than by a
+   change of colour: Tannu Tuva inside Mongolia. */
+.atom.edged, .atom.edged > path { stroke: var(--edge); stroke-width: 1; }
+
 /* the whole-territory shape laid under its sub-units: it must never take the
    pointer, or a tap in a crack would name no sub-unit at all */
 .atom > path.whole { pointer-events: none; }

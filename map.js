@@ -445,6 +445,10 @@
         el.setAttribute('data-cat', t.cat);
         el.style.display = '';
         if (colour) el.style.setProperty('--c', colour.c);
+        // a territory that shares its neighbour's fill can still be told from
+        // it by a hairline: Tuva inside Mongolia
+        if (t.edge) { el.style.setProperty('--edge', t.edge); el.classList.add('edged'); }
+        else { el.classList.remove('edged'); el.style.removeProperty('--edge'); }
         if (t.outline) subUnits.push(el);
         els.push(el);
         (atomHits[a] || []).forEach(function (h) { h.setAttribute('data-id', t.id); });
