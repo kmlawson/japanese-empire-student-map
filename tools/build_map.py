@@ -403,9 +403,15 @@ EXTENT_OCEAN = [
     # along the Papuan peninsula, which Japan held the length of, bulging
     # north around Port Moresby on the south coast, which it never reached
     (139.2, -8.85), (140.4, -9.05), (141.1, -9.35), (142.0, -8.75),
-    (144.0, -8.4), (145.6, -8.7), (146.5, -9.0),
-    (147.4, -9.2), (148.4, -9.7), (149.7, -10.2), (150.9, -10.6),
-    (152.6, -10.9), (155.4, -11.2), (159.0, -11.4),
+    (144.0, -8.4), (145.6, -8.7), (146.6, -8.4), (147.6, -8.6),
+    # round the north side of the Papuan tail: Buna and Gona were held and
+    # being fought over, Milne Bay had been Australian since September, and the
+    # D'Entrecasteaux, Trobriands and Louisiades were never taken
+    (148.6, -9.0), (149.4, -9.3), (150.2, -8.9), (151.1, -8.3), (152.6, -8.6),
+    (154.6, -9.6), (156.0, -10.1), (157.2, -9.6),
+    # north-west of Malaita, Tulagi and Guadalcanal, none of which Japan held
+    # in December; Santa Isabel, New Georgia and Choiseul stay inside
+    (158.3, -8.7), (159.4, -8.4), (160.4, -8.1), (161.6, -8.3),
     (163.0, -10.6), (167.0, -9.4), (171.0, -8.0), (175.0, -6.4), (179.0, -4.4),
     (180.8, -1.0),
     # north along the dateline, then west along the Aleutians
@@ -865,6 +871,9 @@ def split_russia(ring):
 ATTU_BOX = (172.2, 52.7, 173.4, 53.1)
 KISKA_BOX = (177.0, 51.7, 177.9, 52.2)
 
+# Guadalcanal, where Japanese forces were still ashore in December 1942.
+GUADALCANAL_BOX = (159.55, -9.95, 160.90, -9.30)
+
 
 def split_usa(ring):
     cx, cy = centroid_of(ring)
@@ -877,6 +886,29 @@ def split_usa(ring):
                 return "aleutians_jp"
         return "aleutians"
     return None
+
+
+# The British Solomons in December 1942 were four different things at once.
+# Japan held the western islands; the Americans had landed on Guadalcanal in
+# August and were still fighting for it; Tulagi and the Florida group had
+# fallen to them on 8 August; and Malaita, San Cristobal and Rennell were never
+# occupied at all. Assigned by the centroid of each island.
+SOLOMON_BOXES = [
+    ("solomons_gc", (159.5, -10.0, 160.9, -9.2)),      # Guadalcanal
+    ("solomons_us", (159.9, -9.20, 160.5, -8.90)),     # Tulagi and the Floridas
+    ("solomons_ml", (160.5, -9.75, 161.5, -8.20)),     # Malaita
+    ("solomons_al", (161.2, -11.0, 162.6, -10.1)),     # Makira / San Cristobal
+    ("solomons_al", (159.9, -11.9, 160.7, -11.4)),     # Rennell and Bellona
+    ("solomons_al", (161.3, -9.85, 161.7, -9.30)),     # Ulawa
+]
+
+
+def split_solomons(ring):
+    cx, cy = centroid_of(ring)
+    for key, (x0, y0, x1, y1) in SOLOMON_BOXES:
+        if x0 <= cx <= x1 and y0 <= cy <= y1:
+            return key
+    return "solomons_br"
 
 
 def split_taiwan(ring):
@@ -923,7 +955,7 @@ ADMIN0 = {
     "Indonesia": "dei",
     "Philippines": "philippines",
     "Papua New Guinea": "newguinea_au",
-    "Solomon Islands": "solomons_br",
+
     "East Timor": "timor_pt",
     "Palau": "nanyo", "Federated States of Micronesia": "nanyo",
     "Marshall Islands": "nanyo", "Northern Mariana Islands": "nanyo",
@@ -947,6 +979,7 @@ SPLITTERS = {
     "Russia": split_russia,
     "United States of America": split_usa,
     "Malaysia": split_malaysia,
+    "Solomon Islands": split_solomons,
     "India": split_india,
     "Singapore": lambda r: "malaya",
 }
@@ -957,7 +990,7 @@ SPLITTERS = {
 ISLET_RINGS = {
     "nanyo", "gilberts", "ogasawara", "guam", "chishima", "aleutians",
     "hawaii", "ryukyu", "newguinea_au", "solomons_br", "nauru_au",
-    "aleutians_jp",
+    "aleutians_jp", "solomons_gc", "solomons_us", "solomons_ml", "solomons_al",
 }
 
 ARCHIPELAGOS = {
@@ -965,7 +998,7 @@ ARCHIPELAGOS = {
     "aleutians_jp",
     "hawaii", "ryukyu", "newguinea_au", "solomons_br", "philippines",
     "timor_pt", "andaman", "nauru_au", "hongkong", "macau", "northborneo",
-    "malaya",
+    "malaya", "solomons_gc", "solomons_us", "solomons_ml", "solomons_al",
 }
 
 # Drawn after the occupied shading, so the small enclaves it would otherwise
@@ -981,6 +1014,7 @@ ORDER = [
     "dei", "philippines",
     "timor_pt", "newguinea_au", "solomons_br", "australia", "gilberts",
     "nauru_au", "guam", "hawaii", "aleutians", "aleutians_jp", "hongkong", "macau",
+    "solomons_gc", "solomons_us", "solomons_ml", "solomons_al",
     "korea", "taiwan", "karafuto", "chishima", "nanyo", "ryukyu",
     "ogasawara", "japan", "kwantung",
 ]
@@ -1426,12 +1460,13 @@ def main():
     if extent:
         pts = simplify([project(x, y) for x, y in extent], 0.35)
         extent_path = line_to_path(pts) + "Z"
-        # Attu and Kiska are a thousand kilometres from anything else Japan
-        # held, so they are rings of their own rather than a bulge in the
-        # perimeter that would take the whole Aleutian chain with it.
-        for x0, y0, x1, y1 in (ATTU_BOX, KISKA_BOX):
-            box = [(x0 - 0.25, y0 - 0.12), (x1 + 0.25, y0 - 0.12),
-                   (x1 + 0.25, y1 + 0.12), (x0 - 0.25, y1 + 0.12)]
+        # Attu, Kiska and Guadalcanal are far from anything else Japan held,
+        # and a bulge in the perimeter to reach them would take the whole
+        # Aleutian chain, or Tulagi and Malaita, in with them. They get rings
+        # of their own instead.
+        for x0, y0, x1, y1 in (ATTU_BOX, KISKA_BOX, GUADALCANAL_BOX):
+            box = [(x0 - 0.12, y0 - 0.08), (x1 + 0.12, y0 - 0.08),
+                   (x1 + 0.12, y1 + 0.08), (x0 - 0.12, y1 + 0.08)]
             loop = [project(x, y) for x, y in chaikin(box + [box[0]], 2)]
             extent_path += line_to_path(loop) + "Z"
         sys.stderr.write(f"extent line: {len(pts)} points\n")
