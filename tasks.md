@@ -43,9 +43,30 @@ describing what was actually changed, before it is marked done.
 - **The Administrative switch is unreliable** — sometimes it works, sometimes
   not. If that is the fetch, show a spinner beside the button; either way it
   must turn provinces on and off every time.
-- **Suiyuan.** Why the province is split on a meridian at Paotow at all, and
-  how the Inner Mongolian frontier should be drawn on each date. Two agents to
-  look at it, one per map.
+- **Suiyuan, 1930: make it one province again.** It was split on a meridian at
+  Paotow for the *1942* map — the corridor west along the railway was occupied
+  and the country beyond it was not — and the 1930 map inherited a division
+  that has no 1930 meaning. Suiyuan became a full province in 1928 and was one
+  thing. The two halves are already the same colour on that map, so this is
+  the labels only: `JMAP.PROVINCE_EPOCH.e1930` calls them "Suiyuan — the
+  eastern half of the province" and "Western Suiyuan — Wuyuan, Linhe and the
+  Ordos", and both should simply say Suiyuan. Check the 1930 territory grouping
+  reads as one province too.
+- **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible
+  — Japan only created a western administrative region out of Paotow and the
+  Urad banners in June 1943, six months after this map — but a straight line of
+  longitude is the wrong instrument, and it hands the eastern Ordos banners
+  (Jungar, Junwang) to Mengchiang, which never securely held them. Options: cut
+  along the railway and the limit of cultivation instead; or draw the corridor
+  as a railway-and-garrison reach rather than an area. The Yekejao league sits
+  south of the Yellow River across the whole width of the province, which a
+  meridional cut ignores. Best source found: NIDS serves the North China Area
+  Army's own maps of what it held, dated to within three months —
+  『北支那方面軍占拠地域治安概況』(Sept 1942), appendix 050_332, and 『北支那方面
+  敵情要図』(end Sept 1942), 050_331. Better than the 1940 US Army sheet the
+  occupied zone is currently traced from, for the whole zone and not just this.
+  The 1930 agent for this never reported — it failed on the monthly spend
+  limit, twice.
 - **Grey between Indochina and China.** The neutral `chinabase` shows in the
   gap between the two, so yellow does not meet blue. Same cause as the grey
   slivers along the Chinese coast and the grey inside Kwangchowwan: `chinabase`
