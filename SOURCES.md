@@ -69,13 +69,29 @@ reading the boundaries, names and notes come from.
 * **Licence:** public domain.
 * **Cached at:** `tools/cache/rivers.geojson`
 
-### geoBoundaries — India, Korea and Japan, ADM1
+### spatialhistory.net — the thirteen provinces of colonial Korea
+
+* **Used for:** Korea, both the province boundaries and the coastline. This
+  replaces an assembly from the modern provinces of the two republics, which
+  cannot give the period map however it is grouped: Hwanghae was one province
+  until 1954, Ryanggang and Jagang did not exist, and Kaesong was in Keiki-dō
+  rather than in Hwanghae.
+* **Source:** <https://spatialhistory.net/yale/done/korea.html>, a QGIS map of
+  the thirteen provinces drawn over Natural Earth 1:10m land.
+* **How it is read:** the page is an SVG export in an equirectangular
+  projection whose parameters it states in its own comments, so
+  `tools/fetch_korea_1930.py` turns the drawing back into longitude and
+  latitude. The residual offset was measured against Natural Earth's coastline
+  over 253 matched points and corrected. Jeju, which the province layer omits,
+  is taken from the land layer and put back into South Chŏlla.
+* **Cached at:** `tools/cache/korea_13_provinces.json`
+
+### geoBoundaries — India and Japan, ADM1
 
 * **Used for:** Portuguese Goa and French Pondicherry as enclaves inside
-  British India, and Hyderabad State approximated by Telangana; the thirteen
-  provinces of colonial Korea, assembled from the modern provinces of both
-  Koreas; and the forty-seven Japanese prefectures.
-* **Files:** `adm1_IND.json`, `adm1_KOR.json`, `adm1_PRK.json`, `adm1_JPN.json`
+  British India, and Hyderabad State approximated by Telangana; and the
+  forty-seven Japanese prefectures.
+* **Files:** `adm1_IND.json`, `adm1_JPN.json`
 * **Licence:** CC BY 4.0. **Cached at:** `tools/cache/`
 * **Note:** Hyderabad is the weakest of these. The Nizam's dominions also took
   in Marathi and Kannada districts now in Maharashtra and Karnataka, and the

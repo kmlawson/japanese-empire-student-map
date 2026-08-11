@@ -167,26 +167,13 @@ PROTECTORATES_IND = {"Sikkim"}
 # also took in Marathi and Kannada districts now in Maharashtra and Karnataka.
 INDIA_ENCLAVES = {"Goa": "goa", "Puducherry": "pondicherry", "Telangāna": "hyderabad"}
 
-# Colonial Korea's thirteen provinces, from the modern units that make them up.
-# The units that did not exist yet go back where they came from: Ryanggang was
-# split off South Hamgyong in 1954, Jagang off North Pyongan in 1949, and
-# Hwanghae was one province until 1954. Kaesong, now in North Hwanghae, was in
-# Keiki-do until 1945, which this cannot recover from provincial outlines.
-KOREA_PROVINCES = {
-    "Seoul": "Keiki", "Incheon": "Keiki", "Gyeonggi": "Keiki",
-    "Gangwon": "Kogen", "Kangwon": "Kogen",
-    "North Chungcheong": "Chuseihoku", "South Chungcheong": "Chuseinan",
-    "Daejeon": "Chuseinan", "Sejong": "Chuseinan",
-    "North Jeolla": "Zenrahoku", "South Jeolla": "Zenranan",
-    "Gwangju": "Zenranan", "Jeju": "Zenranan",
-    "North Gyeongsang": "Keishohoku", "Daegu": "Keishohoku",
-    "South Gyeongsang": "Keishonan", "Busan": "Keishonan", "Ulsan": "Keishonan",
-    "North Hwanghae": "Kokai", "South Hwanghae": "Kokai",
-    "North Pyongan": "Heianhoku", "Jagang": "Heianhoku",
-    "South Pyongan": "Heiannan", "Pyongyang": "Heiannan", "Nampo": "Heiannan",
-    "North Hamgyong": "Kankyohoku",
-    "South Hamgyong": "Kankyonan", "Ryanggang": "Kankyonan",
-}
+# Colonial Korea comes from tools/fetch_korea_1930.py, which builds the
+# thirteen provinces and the coast that goes with them. It used to be
+# assembled from the modern provinces of the two republics, which cannot be
+# made to give the period map however they are grouped: Hwanghae was one
+# province until 1954, Ryanggang and Jagang did not exist, and Kaesong was in
+# Keiki-do rather than in Hwanghae.
+KOREA_FILE = "korea_13_provinces.json"
 
 # Burma's divisions and the frontier areas, under their period names.
 BURMA_DIVISIONS = {
@@ -811,7 +798,7 @@ def split_india(ring):
 
 
 ADMIN0 = {
-    "South Korea": "korea", "North Korea": "korea",
+    # Korea is drawn from its own period provinces, not from these two
     "Mongolia": "mongolia",
     "Vietnam": "indochina", "Laos": "indochina", "Cambodia": "indochina",
     "Thailand": "siam",
@@ -1033,15 +1020,16 @@ def main():
                 provinces["philippines"].append((label, rs))
 
     # ---- Korea, province by province ---------------------------------------
-    for iso in ("KOR", "PRK"):
-        kpath = os.path.join(CACHE, f"adm1_{iso}.json")
-        if not os.path.exists(kpath):
-            continue
+    kpath = os.path.join(CACHE, KOREA_FILE)
+    if os.path.exists(kpath):
         with open(kpath) as fh:
             for feat in json.load(fh)["features"]:
-                pname = KOREA_PROVINCES.get(feat["properties"].get("shapeName"))
-                if pname:
-                    provinces["korea"].append((pname, list(iter_rings(feat["geometry"]))))
+                pname = feat["properties"]["shapeName"]
+                rs = list(iter_rings(feat["geometry"]))
+                provinces["korea"].append((pname, rs))
+                groups["korea"].extend(rs)
+    else:
+        sys.stderr.write(f"note: {KOREA_FILE} missing, Korea not drawn\n")
 
     # ---- Japan, prefecture by prefecture -----------------------------------
     jpath = os.path.join(CACHE, "adm1_JPN.json")
