@@ -46,6 +46,14 @@ describing what was actually changed, before it is marked done.
 - **Suiyuan.** Why the province is split on a meridian at Paotow at all, and
   how the Inner Mongolian frontier should be drawn on each date. Two agents to
   look at it, one per map.
+- **Grey between Indochina and China.** The neutral `chinabase` shows in the
+  gap between the two, so yellow does not meet blue. Same cause as the grey
+  slivers along the Chinese coast and the grey inside Kwangchowwan: `chinabase`
+  is a filler laid under China, and it is visible wherever China's atoms and
+  their neighbours disagree by a kilometre. The three should be fixed together.
+- **Kwangchowwan looks messy** — yellow China fill shows through inside the
+  blue leased territory. Remove the yellow there so only the blue remains,
+  without touching the rest of China and without simplifying anything.
 - **Backings in their own layer.** Every atom's whole-country backing belongs
   beneath every atom's sub-units, so no country's filler can paint over its
   neighbour's provinces. This removes a whole class of artefact — the salmon
