@@ -435,6 +435,14 @@ HUAYUANKOU = (113.68, 34.92)
 # the sea, which makes the river look as though it ends in a field outside
 # Nanking. This carries it down the estuary past Nantung to the mouth. It
 # begins exactly where the centreline ends, or the join shows as a gap.
+# The Yellow River's old course stops at 119.03 E, a little short of the Gulf
+# of Chihli, for the same reason the Yangtze's did: Natural Earth's centreline
+# ends before the sea. This carries it out through the delta to the mouth it
+# used between 1855 and 1938.
+YELLOW_TAIL = [
+    (119.035, 37.803), (119.150, 37.790), (119.280, 37.752), (119.400, 37.718),
+]
+
 YANGZI_TAIL = [
     (119.61, 32.20), (120.20, 32.10), (120.90, 32.00), (121.40, 31.80),
     (121.90, 31.55),
@@ -1854,6 +1862,13 @@ def main():
                         pieces["yellow_lower"].append([HUAYUANKOU] + line[cut + 1:])
         if pieces["yangzi"]:
             pieces["yangzi"].append(YANGZI_TAIL)
+        if pieces["yellow_lower"]:
+            # The old course is one river. Natural Earth carries a second line
+            # over the same ground that also crosses the breach and is cut with
+            # it, and drawn together the two read as a fork and a chord across
+            # the meanders. Keep the longest and give it a tail to the sea.
+            pieces["yellow_lower"] = [max(pieces["yellow_lower"], key=len)]
+            pieces["yellow_lower"].append(YELLOW_TAIL)
         for key, lines in pieces.items():
             out_paths = []
             for line in lines:

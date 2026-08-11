@@ -28,14 +28,6 @@ describing what was actually changed, before it is marked done.
   want a period source and a label each.
 - **The Yangtze's tail** runs diagonally across the estuary and stops in open
   water instead of following a channel out to the sea.
-- **A chord across the Yellow River's meanders**, still, after the
-  first-crossing fix. May be two source fragments overlapping rather than a bad
-  split.
-- **The Yellow River stops inland.** On the 1930 map the old course ends some
-  way short of the Gulf of Chihli instead of reaching the sea. Natural Earth's
-  centreline is short, as the Yangtze's was, and wants the same treatment: a
-  hand-drawn tail from where the centreline ends out to the mouth. The 1938–47
-  course was given one; the pre-1938 course was not.
 - **The Administrative switch is unreliable** — sometimes it works, sometimes
   not. If that is the fetch, show a spinner beside the button; either way it
   must turn provinces on and off every time.
@@ -63,6 +55,18 @@ describing what was actually changed, before it is marked done.
 ---
 
 ## Done
+
+### The Yellow River reaches the sea, and stops forking
+Two faults in one place. The old course ended at 119.03 E, a little short of
+the Gulf of Chihli, because Natural Earth's centreline runs out before the sea
+— the same thing the Yangtze needed a hand-drawn tail for, and the flood course
+had been given one while the pre-1938 course had not. `YELLOW_TAIL` carries it
+through the delta to the mouth it used between 1855 and 1938.
+
+And the chord across the meanders was not a bad split after all: Natural Earth
+carries a second line over the same ground, which also crosses the breach and
+was cut with it, so two courses were drawn together and read as a fork. The
+old course is one river, so only the longest piece is kept.
 
 ### Wake Island exists
 It was not on the map at all — not an atom, not a territory, only a marker.
