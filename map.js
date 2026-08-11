@@ -411,6 +411,7 @@
     if (!src) return;
     var line = svgEl('path', { d: src.getAttribute('d'), 'class': 'edge-line' });
     line.style.setProperty('--edge', t.edge);
+    if (t.edgeWidth) line.style.setProperty('--edge-w', t.edgeWidth);
     if (t.edgeClip) {
       var id = 'edge-clip-' + t.id;
       if (!hiDefs.querySelector('#' + id)) {

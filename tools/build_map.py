@@ -2001,7 +2001,7 @@ def main():
     out.append(
         '    <pattern id="hatch-occ" patternUnits="userSpaceOnUse" width="9" height="9" '
         'patternTransform="rotate(45)">'
-        '<line x1="0" y1="0" x2="0" y2="9" stroke="#fb8072" stroke-opacity="1" stroke-width="3.4"/>'
+        '<line x1="0" y1="0" x2="0" y2="9" stroke="#fb8072" stroke-opacity="1" stroke-width="4.4"/>'
         "</pattern>"
     )
     # and the other way round: American forces on ground drawn in the Japanese
@@ -2009,7 +2009,7 @@ def main():
     out.append(
         '    <pattern id="hatch-us" patternUnits="userSpaceOnUse" width="9" height="9" '
         'patternTransform="rotate(45)">'
-        '<line x1="0" y1="0" x2="0" y2="9" stroke="#325d7b" stroke-opacity="1" stroke-width="3.4"/>'
+        '<line x1="0" y1="0" x2="0" y2="9" stroke="#325d7b" stroke-opacity="1" stroke-width="4.4"/>'
         "</pattern>"
     )
     # The occupied zone is clipped to China's land. Clip it to the shape that is

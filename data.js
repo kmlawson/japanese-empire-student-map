@@ -202,7 +202,7 @@ JMAP.TERRITORIES = {
       when: 'French from 1674',
       note: 'Five scattered enclaves left to France when Britain took the rest of India: Pondicherry and Karikal on the Coromandel coast, Yanaon on the Godavari, Mahé on the Malabar coast, and Chandernagore on the Hooghly above Calcutta. They declared for the Free French in 1940 and were transferred to India in the 1950s.' },
     // administrative detail inside British India: it belongs with that switch
-    { id: 'princelystates', atoms: ['princely'], cat: 'british', c: '#8f5f6e', lvl: 3, adminOnly: true,
+    { id: 'princelystates', atoms: ['princely'], cat: 'british', c: '#d9bfc6', lvl: 3, adminOnly: true,
       en: 'Princely states', ja: '藩王国', orig: 'Indian States',
       zh: '印度土邦', ko: '번왕국',
       when: 'Rulers in subsidiary alliance with the Crown',
@@ -345,7 +345,7 @@ JMAP.TERRITORIES = {
       zh: '尼泊爾', ko: '네팔 (Nep’al)',
       when: 'Independent, in treaty with Britain',
       note: 'Never colonised, and recognised as fully independent by Britain in 1923, though bound to it by treaty and supplying the Gurkha regiments.' },
-    { id: 'sikkim', atoms: ['sikkim'], cat: 'british', c: '#8f5f6e', lvl: 3,
+    { id: 'sikkim', atoms: ['sikkim'], cat: 'british', c: '#d9bfc6', lvl: 3,
       en: 'Sikkim', ja: 'シッキム (Shikkimu)', orig: 'འབྲས་ལྗོངས (Drenjong)',
       zh: '錫金', ko: '시킴 (Sik’im)',
       when: 'British protectorate from 1890',
@@ -550,7 +550,15 @@ JMAP.TERRITORIES = {
       when: 'American throughout, but for Attu and Kiska',
       note: 'The chain runs from Alaska almost to Kamchatka. Japan took only Attu and Kiska at its western end; the rest was American, and Adak and Amchitka became the bases from which they were retaken.' },
 
+    // A hairline in Thailand's own colour along its own outline. Natural
+    // Earth's Indochina, which is what fills the cracks between Indochina's
+    // provinces, reaches a kilometre or two further west than either
+    // geoBoundaries Thailand or geoBoundaries Cambodia does, and the sliver
+    // between the two datasets was being painted in the occupation colour.
+    // This covers it without drawing a border.
     { id: 'thailand', atoms: ['siam', 'siamgain'], cat: 'cobelligerent', lvl: 2,
+      edge: '#8dd3c7', edgeWidth: 6, edgeAtoms: ['siam', 'siamgain'],
+      edgeClip: [100.0, 11.5, 106.2, 20.6],
       en: 'Thailand', ja: '泰国 (Taikoku)', orig: 'ประเทศไทย (Prathet Thai)',
       zh: '泰國', ko: '태국 (T’aeguk)',
       when: 'Alliance signed 21 December 1941',
@@ -584,7 +592,7 @@ JMAP.TERRITORIES = {
       zh: '法屬印度', ko: '프랑스령 인도',
       when: 'French from 1674',
       note: 'Five scattered enclaves left to France when Britain took the rest of India: Pondicherry and Karikal on the Coromandel coast, Yanaon on the Godavari, Mahé on the Malabar coast, and Chandernagore on the Hooghly above Calcutta. They declared for the Free French in 1940 and were transferred to India in the 1950s.' },
-    { id: 'princelystates', atoms: ['princely'], cat: 'allied', c: '#8f5f6e', lvl: 3, adminOnly: true,
+    { id: 'princelystates', atoms: ['princely'], cat: 'allied', c: '#d9bfc6', lvl: 3, adminOnly: true,
       en: 'Princely states', ja: '藩王国', orig: 'Indian States',
       zh: '印度土邦', ko: '번왕국',
       when: 'Rulers in subsidiary alliance with the Crown',
@@ -648,7 +656,7 @@ JMAP.TERRITORIES = {
       zh: '尼泊爾', ko: '네팔 (Nep’al)',
       when: 'Independent, in treaty with Britain',
       note: 'Never colonised, and recognised as fully independent by Britain in 1923, though bound to it by treaty and supplying the Gurkha regiments.' },
-    { id: 'sikkim', atoms: ['sikkim'], cat: 'allied', c: '#8f5f6e', lvl: 3,
+    { id: 'sikkim', atoms: ['sikkim'], cat: 'allied', c: '#d9bfc6', lvl: 3,
       en: 'Sikkim', ja: 'シッキム (Shikkimu)', orig: 'འབྲས་ལྗོངས (Drenjong)',
       zh: '錫金', ko: '시킴 (Sik’im)',
       when: 'British protectorate from 1890',
