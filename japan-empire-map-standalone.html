@@ -4975,9 +4975,17 @@ window.JMAP_INLINE_SVG = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 
 
   function reachable(rec) {
     if (!rec || !svg) return true;
-    var st = document.getElementById('stage').getBoundingClientRect();
-    var floor = quizBox.hidden ? st.bottom
-                               : Math.min(st.bottom, quizBox.getBoundingClientRect().top);
+    // Measured against the map, not the stage. The stage also holds the card
+    // column, so clipping to it counted ground hidden behind the cards as
+    // visible; and the quiz card only sits *over* the map on a narrow screen —
+    // on a wide one it is beside it, near the top, so taking its top as the
+    // floor made every territory score nothing, and every question then
+    // zoomed and recentred on its own answer before the student could look.
+    var st = container.getBoundingClientRect();
+    var box = quizBox.hidden ? null : quizBox.getBoundingClientRect();
+    var over = box && box.left < st.right && box.right > st.left &&
+               box.top < st.bottom && box.bottom > st.top;
+    var floor = over ? Math.min(st.bottom, box.top) : st.bottom;
     // A territory is reachable if any of its shapes has real estate in the
     // part of the map you can still see. Testing a single centre point is no
     // good: the middle of the Indies bounding box is open sea.
@@ -5198,7 +5206,11 @@ window.JMAP_INLINE_SVG = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 
     });
 
     $('#info-close').addEventListener('click', function () { select(null); });
-    $('#q-reveal').addEventListener('click', revealAnswer);
+    // the same button is "Show me" during a quiz and "Try again" after it
+    $('#q-reveal').addEventListener('click', function () {
+      if (quiz && !quiz.current) { startQuiz(); return; }
+      revealAnswer();
+    });
     $('#q-skip').addEventListener('click', skipQuestion);
     $('#q-end').addEventListener('click', endQuiz);
 
