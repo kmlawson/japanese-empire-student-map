@@ -3436,18 +3436,48 @@ window.JMAP_INLINE_ADMIN = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<svg xml
 
   /* Every other name a record carries, in a fixed order, with the one already
      shown as the headline left out. */
+  /* Two spellings of one name should not both be printed. Strip the reading in
+     brackets, strip the separators, and fold the kyūjitai and traditional forms
+     onto the modern ones — 長野縣 and 長野県 are one name, and so are 日本內地
+     and 日本内地. */
+  var KANJI_VARIANTS = { '縣': '県', '國': '国', '內': '内', '灣': '湾', '臺': '台',
+                         '滿': '満', '鐵': '鉄', '澤': '沢', '廣': '広', '眞': '真',
+                         '對': '対', '單': '単', '會': '会', '學': '学', '龍': '竜' };
+  function nameKey(s) {
+    return String(s)
+      .replace(/\s*[（(][^)）]*[)）]\s*/g, '')
+      .replace(/[\s·・,，]/g, '')
+      .replace(/[縣國內灣臺滿鐵澤廣眞對單會學龍]/g, function (c) { return KANJI_VARIANTS[c]; })
+      .toLowerCase();
+  }
+
   function otherNames(rec) {
     if (!rec) return '';
     var r = shown(rec);
-    var primary = nameOf(r);
-    var seen = {};
-    seen[primary] = true;
-    var out = [];
+    // One entry per distinct name, keeping the fullest spelling of each: the
+    // same name is often stored two or three times over — Chinese holds the
+    // bare characters, Japanese the characters with a reading, and the two
+    // scripts differ only in which forms of the kanji they use.
+    var best = {};
+    var order = [];
     ['orig', 'ja', 'zh', 'ko', 'en'].forEach(function (k) {
       var v = r[k];
-      if (v && !seen[v]) { seen[v] = true; out.push(v); }
+      if (!v) return;
+      var id = nameKey(v);
+      if (!(id in best)) { best[id] = v; order.push(id); }
+      else if (v.length > best[id].length) best[id] = v;
     });
-    return out.join('  ');
+    var keys = order.slice();
+    var head = nameKey(nameOf(r));
+    return order
+      .filter(function (id) {
+        // and nothing that is already contained in the headline, or in another
+        // name on the same line: 内地 says nothing beside 日本内地
+        if (head.indexOf(id) >= 0) return false;
+        return !keys.some(function (w) { return w !== id && w.indexOf(id) >= 0; });
+      })
+      .map(function (id) { return best[id]; })
+      .join('  ');
   }
 
   function nameOf(rec) {
