@@ -914,12 +914,10 @@ def main():
         if not key:
             continue
         rings_here = list(iter_rings(feat["geometry"]))
+        if admin in ("Laos", "Cambodia"):
+            continue                  # both are rebuilt below, minus the 1941 cessions
         groups[key].extend(rings_here)
-        if admin == "Laos":
-            provinces["indochina"].append(("Laos", rings_here))
-        elif admin == "Cambodia":
-            provinces["indochina"].append(("Cambodia", rings_here))
-        elif admin == "Vietnam":
+        if admin == "Vietnam":
             north = [line_plane(TONKIN_CUT[0], TONKIN_CUT[1], keep_right=False)]
             south = [line_plane(COCHIN_CUT[0], COCHIN_CUT[1], keep_right=True)]
             mid = [line_plane(TONKIN_CUT[0], TONKIN_CUT[1], keep_right=True),
@@ -1041,6 +1039,36 @@ def main():
         for ring in gpkg.rings_lonlat(path):
             if len(ring) >= 3:
                 groups[key].append(ring)
+
+    # ---- Laos and Cambodia, minus the territory ceded in 1941 -------------
+    # Drawn province by province rather than as whole countries, so that the
+    # blocks handed to Thailand are cut out of Indochina rather than covered
+    # over by a shape laid on top of them. On the 1930 map the two are put back
+    # together, because the cession had not happened yet; in December 1942 the
+    # outline of Indochina stops where the cession begins.
+    for iso, label in (("KHM", "Cambodia"), ("LAO", "Laos")):
+        path = os.path.join(CACHE, f"adm1_{iso}.json")
+        if not os.path.exists(path):
+            sys.stderr.write(f"note: {path} missing, {label} drawn whole\n")
+            continue
+        keep = []
+        wanted = SIAM_1941_KHM if iso == "KHM" else SIAM_1941_LAO
+        with open(path) as fh:
+            for feat in json.load(fh)["features"]:
+                pname = feat["properties"].get("shapeName")
+                if pname in wanted:
+                    continue
+                if iso == "LAO" and pname == "Champasak":
+                    east = box_planes(SIAM_1941_CHAMPASAK_WEST, -90, 360, 90)
+                    for ring in iter_rings(feat["geometry"]):
+                        piece = clip_halfplanes(ring, east)
+                        if len(piece) >= 3:
+                            keep.append(piece)
+                    continue
+                keep.extend(iter_rings(feat["geometry"]))
+        if keep:
+            groups["indochina"].extend(keep)
+            provinces["indochina"].append((label, keep))
 
     # ---- territory ceded to Thailand in 1941 -------------------------------
     for iso, wanted in (("KHM", SIAM_1941_KHM), ("LAO", SIAM_1941_LAO)):

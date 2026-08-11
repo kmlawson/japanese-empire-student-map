@@ -868,6 +868,13 @@ dialog input[type="checkbox"] {
     overflow-y: auto;
   }
 
+  /* The legend is anchored to the bottom of the screen, so it has to grow
+     upwards — which means the fold control belongs at the bottom of it, where
+     it stays put under your finger instead of jumping up the screen. */
+  #legend { display: flex; flex-direction: column-reverse; }
+  #legend .legend-head { margin: 5px 0 0; }
+  #legend.folded .legend-head { margin: 0; }
+
   /* folded down to one line, the legend is a strip; opened, the swatches run
      across in as many columns as fit rather than down a long list */
   #legend .legend-body {

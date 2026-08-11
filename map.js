@@ -1293,9 +1293,13 @@
     caret.className = 'caret';
     caret.setAttribute('aria-hidden', 'true');
     head.appendChild(caret);
+    // the fold state lives on #legend itself, which is why the handler holds
+    // its own reference: the local below is repointed at the body in a moment,
+    // and a closure over it would fold the wrong element
+    var root = legend;
     head.addEventListener('click', function () {
       state.legend = !state.legend;
-      legend.classList.toggle('folded', !state.legend);
+      root.classList.toggle('folded', !state.legend);
       head.setAttribute('aria-expanded', state.legend ? 'true' : 'false');
       saveState();
       placeLabels();
