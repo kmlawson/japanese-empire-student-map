@@ -133,8 +133,20 @@ OCCUPIED_ZONE = [
         (116.2, 32.9), (116.7, 32.6), (117.0, 32.1), (116.9, 31.7), (116.5, 31.4),
         (115.9, 31.2), (115.1, 31.15), (114.6, 31.3),
         (114.55, 31.9), (114.5, 32.3), (113.8, 32.25), (113.75, 31.8),
-        (113.4, 31.6), (112.6, 31.2), (111.9, 31.05), (111.1, 30.75),
-        (111.5, 30.3), (112.3, 30.2), (112.8, 29.9), (113.0, 29.5), (113.1, 29.1),
+        (113.4, 31.6), (112.6, 31.2), (111.9, 31.05),
+        # West to Ichang, which fell in June 1940 and was the head of the
+        # occupied Yangtze, and then back east along the river's north bank.
+        # The south bank opposite was Chinese all the way to Yochow, and the
+        # old line cut straight across the river's loops, putting stretches of
+        # both banks on the wrong side of it. These points sit just north of
+        # the centreline as the map draws it -- except at Ichang itself, where
+        # the zone takes in both banks, the city being on the north bank in
+        # fact and a little south of Natural Earth's generalised centreline.
+        (111.05, 30.88), (111.22, 30.62), (111.45, 30.50), (111.72, 30.48),
+        (111.95, 30.42), (112.15, 30.34), (112.30, 30.28), (112.30, 30.12),
+        (112.48, 30.06), (112.50, 29.85), (112.68, 29.90), (112.90, 29.86),
+        (113.05, 29.82), (113.10, 29.55),
+        (113.1, 29.1),
         (113.35, 28.9), (113.9, 28.85), (114.4, 29.0), (115.0, 29.05),
         (115.4, 28.6), (115.8, 28.15), (116.2, 28.2), (116.6, 28.6), (117.1, 29.1),
         (117.6, 29.6), (118.2, 29.85), (118.8, 29.6), (119.2, 29.35), (119.6, 28.9),
