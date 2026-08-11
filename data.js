@@ -1544,6 +1544,7 @@ JMAP.PROVINCE_EPOCH = {
     'Sukhothai': { en: 'Sawankhalok (Sukhothai was merged into it in 1931)' },
     'Tenasserim': { en: 'Tenasserim Division — Thaton, Amherst, Tavoy, Mergui' },
     'Labuan': { en: 'Labuan — Straits Settlement' },
+    'Dindings': { en: 'The Dindings — Straits Settlement: Lumut, Sitiawan and Pangkor, British since 1826 and ruled from Singapore' },
   },
   e1942: {
     'Sind': { en: 'Sind Province' },
@@ -1555,6 +1556,7 @@ JMAP.PROVINCE_EPOCH = {
     'SiSaKet': { en: 'Sisaket (Khukhan until 1938)' },
     'Sukhothai': { en: 'Sukhothai (Sawankhalok until 1939)' },
     'Labuan': { en: 'Labuan — under the Japanese military administration of British Borneo' },
+    'Dindings': { en: 'The Dindings — part of Perak again since 16 February 1935' },
   },
 };
 
@@ -1731,9 +1733,10 @@ JMAP.PROVINCES = {
   'Perak': { en: 'Perak — Federated Malay State', ja: 'ペラ (Pera)', zh: '霹靂', ko: '페락' },
   'Selangor': { en: 'Selangor — Federated Malay State', ja: 'スランゴール (Surangōru)', zh: '雪蘭莪', ko: '슬랑오르' },
   'NegeriSembilan': { en: 'Negri Sembilan — Federated Malay State', ja: 'ヌグリスンビラン', zh: '森美蘭', ko: '느그리슴빌란' },
-  'Malacca': { en: 'Malacca — Straits Settlement', ja: 'マラッカ (Marakka)', zh: '馬六甲', ko: '말라카' },
-  'Singapore': { en: 'Singapore — Straits Settlement', ja: 'シンガポール (Shingapōru)', zh: '新加坡', ko: '싱가포르' },
-  'Penang': { en: 'Penang — Straits Settlement', ja: 'ペナン (Penan)', zh: '檳城', ko: '페낭' },
+  'Malacca': { en: 'Malacca — Straits Settlement, a Crown colony ruled from Singapore', ja: 'マラッカ (Marakka)', zh: '馬六甲', ko: '말라카' },
+  'Singapore': { en: 'Singapore — Straits Settlement, and the capital of the colony', ja: 'シンガポール (Shingapōru)', zh: '新加坡', ko: '싱가포르' },
+  'Penang': { en: 'Penang — Straits Settlement, with Province Wellesley on the mainland', ja: 'ペナン (Penan)', zh: '檳城', ko: '페낭' },
+  'Dindings': { en: 'The Dindings — Straits Settlement until 1935', ja: 'ディンディン (Dindin)', zh: '天定', ko: '딘딩' },
   'Kedah': { en: 'Kedah — Unfederated Malay State', ja: 'ケダ (Keda)', zh: '吉打', ko: '케다' },
   'Perlis': { en: 'Perlis — Unfederated Malay State', ja: 'ペルリス (Perurisu)', zh: '玻璃市', ko: '펄리스' },
   'Kelantan': { en: 'Kelantan — Unfederated Malay State', ja: 'クランタン (Kurantan)', zh: '吉蘭丹', ko: '클란탄' },

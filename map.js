@@ -1050,14 +1050,18 @@
       // the two apart: a target circle is 35 px across and the shapes it
       // stands for are meant to be smaller than that.
       var atomEl = atomEls[target.getAttribute('data-atom')];
-      var sub = nearestSubUnit(atomEl, cx, cy);
+      var sub = nearestSubUnit(atomEl, cx, cy, true);
       // measured on the sub-unit where there is one, because an atom can be a
       // scatter: French India runs from Mahe to Chandernagore and its box is
       // two thousand kilometres wide, while the settlement under the pointer
       // is a speck
       var shape = sub || atomEl;
       var box = shape && shape.getBoundingClientRect ? shape.getBoundingClientRect() : null;
-      if (own && box && box.width < 12 && box.height < 12) {
+      // 6 px: below that the browser cannot be relied on to hit the shape at
+      // all, which is the only reason to prefer the circle over the country
+      // the pointer is really on. Anything bigger is hittable, and if it is
+      // not in the stack then the pointer is not on it
+      if (own && box && box.width < 6 && box.height < 6) {
         return { hit: own, el: shape || target };
       }
       if (first) return first;
@@ -1069,7 +1073,7 @@
 
   /* The sub-unit of an atom nearest a point on the screen, for when the shape
      itself is too small for the browser to hit-test. */
-  function nearestSubUnit(atomEl, cx, cy) {
+  function nearestSubUnit(atomEl, cx, cy, strict) {
     if (!atomEl || !atomEl.querySelectorAll) return null;
     var pad = 3;
     var inside = null, insideArea = Infinity;
@@ -1089,7 +1093,10 @@
       var d = dx * dx + dy * dy;
       if (d < nearD) { nearD = d; near = el; }
     });
-    return inside || near;
+    // strict: only a sub-unit the pointer is actually on. Used when deciding
+    // whether a target circle beats the country under the pointer, where
+    // "the nearest one within 8 px" would hand Penang to Kedah
+    return strict ? inside : (inside || near);
   }
 
   /* The sub-unit under the pointer, whatever it actually landed on: an islet

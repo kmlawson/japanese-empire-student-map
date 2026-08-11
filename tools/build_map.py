@@ -295,6 +295,11 @@ FULL_DETAIL = {"korea", "saharat"}
 # than cut off with a straight line: Kengtung State is the three districts of
 # Kengtung, Monghsat and Tachileik exactly, and the trans-Salween part of
 # Mongpan is the eastern end of Langkho. See SOURCES.md.
+# The Dindings: the coastal strip of Perak around Lumut and Sitiawan with
+# Pangkor island, ceded to Britain in 1826 and administered as part of the
+# Straits Settlements until it was handed back to Perak on 16 February 1935.
+DINDINGS_BOX = (100.45, 3.95, 101.05, 4.50)
+
 SAHARAT_FILE = "adm2_MMR_shan_east.json"
 SAHARAT_WHOLE = {"Kengtung", "Monghsat", "Tachileik"}
 SAHARAT_PARTIAL = {"Langkho": 98.15}       # district -> the meridian to cut it on
@@ -1547,6 +1552,18 @@ def main():
                     if key in ("malaya", "malaya_thai"):
                         label = {"Kuala Lumpur": "Selangor", "Putrajaya": "Selangor"}.get(pname, pname)
                         provinces[key].append((label.replace(" ", ""), prings))
+                        if pname == "Perak":
+                            # The Dindings — Lumut, Sitiawan and Pangkor — were
+                            # a Straits Settlement from 1826 and went back to
+                            # Perak in 1935, so no modern unit answers to them.
+                            # Drawn as Perak clipped to the coastal strip and
+                            # laid over Perak in the same colour: it changes
+                            # nothing to look at and gives the pointer
+                            # something to name.
+                            cut = [c for c in (clip_halfplanes(r, box_planes(*DINDINGS_BOX))
+                                               for r in prings) if len(c) >= 3]
+                            if cut:
+                                provinces[key].append(("Dindings", cut))
                     elif key == "northborneo" and pname == "Labuan":
                         # a Straits Settlement in 1930, not chartered-company
                         # territory, and worth being able to name
