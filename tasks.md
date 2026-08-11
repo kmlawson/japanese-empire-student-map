@@ -1,0 +1,131 @@
+# Tasks
+
+What is outstanding, and what has been done and how. Every fix gets a line here
+describing what was actually changed, before it is marked done.
+
+---
+
+## Open
+
+- **Sources page.** Replace the sources section in About with a link to a full
+  `sources.html` listing every dataset as bullet points with links. Record the
+  princely states properly: georeferenced by the author from the Imperial
+  Gazetteer of India atlas, 1931,
+  <https://dsal.uchicago.edu/reference/gaz_atlas_1931/>.
+- **Korea–Manchuria gap.** Korea's period boundary is finer than Manchuria's, so
+  a strip of the neutral land colour shows between them along the Yalu and the
+  Tumen. Manchuria's side has to reach Korea's line.
+- **Bohai.** A wedge of Republic-of-China yellow along the Liaotung coast where
+  the occupied shading falls short, and an island in the gulf drawn in the
+  "elsewhere" grey instead of belonging to anything.
+- **Every yellow leak along the occupied edge**, swept systematically rather
+  than one screenshot at a time — and whether the mixed occupied/unoccupied
+  islands off the central China coast are history or an artefact of the tracing.
+- **The coastal enclaves.** Amoy, Swatow and Canton have no name of their own on
+  hover, and the shapes are visibly circles: they were boxes, I made them
+  fourteen-point ellipses, which replaced one guess with a rounder guess. They
+  want a period source and a label each.
+- **The Yangtze's tail** runs diagonally across the estuary and stops in open
+  water instead of following a channel out to the sea.
+- **A chord across the Yellow River's meanders**, still, after the
+  first-crossing fix. May be two source fragments overlapping rather than a bad
+  split.
+- **Scripts per place.** Hangul only on Korean names; Japanese kanji and reading
+  only on Japan proper and the Japanese colonies; Chinese provinces get pinyin
+  with the old postal spelling in brackets and traditional characters only. The
+  same judgement elsewhere — Thai for Thai provinces, Vietnamese and French for
+  Indochina. Means stripping fields that carry a name nobody used for that
+  place.
+- **The Burma–India line in 1930 and the Suiyuan–Manchuria line in 1942** are
+  too thick and run further than they need to.
+- **Kwantung in 1942** should keep the colony colour, not the client-state
+  colour with an outline.
+- **The Administrative switch is unreliable** — sometimes it works, sometimes
+  not. If that is the fetch, show a spinner beside the button; either way it
+  must turn provinces on and off every time.
+- **Suiyuan.** Why the province is split on a meridian at Paotow at all, and
+  how the Inner Mongolian frontier should be drawn on each date. Two agents to
+  look at it, one per map.
+- **Backings in their own layer.** Every atom's whole-country backing belongs
+  beneath every atom's sub-units, so no country's filler can paint over its
+  neighbour's provinces. This removes a whole class of artefact — the salmon
+  sliver on Thailand's frontier is currently covered by a stroke rather than
+  fixed.
+
+---
+
+## Done
+
+### The backing was coarser than the sub-units it sits under
+The jaggedness along provincial boundaries and the doubled outline on
+selection. Each atom's backing was simplified by the band its own size earns,
+and a country the size of Siam earns the coarsest band while its changwat earn
+a much finer one — so the backing poked out past the provinces on one side and
+cut inside them on the other. `backing_tol()` in `tools/build_map.py` now gives
+each backing the finest tolerance any of its own sub-units was given, counting
+only sub-units big enough to share a boundary with it. The Philippines had the
+same fault in a second form, its backing being Natural Earth while its
+provinces come from a 1939 file; it is now its own backing, as Korea has been
+from the start.
+
+### Administrative off by default, divisions fetched on demand
+The province and princely-state paths are more than half the weight of the map.
+`build_map.py` writes them to `japan-empire-map-admin.svg` and marks the atoms
+they left `class="atom deferred"`; `loadAdmin()` in `map.js` fetches that file
+the first time the switch is turned on and grafts each `<g data-for>` into its
+atom. Sub-unit names had to be XML-escaped for it — "Kashmir & Jammu" was
+stopping the parse at the ampersand — and `.atom.deferred > path.whole` takes
+the pointer so the base map still answers. 2003 KB became 1462 KB at load plus
+746 KB when asked for.
+
+### The princely states, from the 1931 layer
+Five modern Indian states standing in for six hundred princely ones, replaced
+by 40 polygons of the states as they stood in 1931. Twenty name themselves: the
+file names nine and `PRINCELY_NAMES` identifies eleven more by position. They
+are drawn at the detail of their source — eight per cent of the vertices were
+surviving the build until `princely` joined `FULL_DETAIL` — take British
+India's own colour, and appear only when Administrative is on.
+
+### The nearest thing first
+The tooltip and the detail card put the sub-unit on the top line, its other
+scripts under it, the country under that, then the note. Names are de-duplicated
+by `nameKey()`, which strips the reading in brackets and folds kyūjitai and
+traditional forms onto the modern ones, so 咸鏡南道 and 咸鏡南道 (Kankyōnan-dō)
+are one entry and 内地 is dropped beside 日本内地.
+
+### The quiz stopped showing its own answers
+`reachable()` took its floor as `min(stage.bottom, quizBox.top)`; on a wide
+screen the quiz card is beside the map, not below it, so that floor was 69 px
+against an 843 px map and every question zoomed and recentred on its answer. It
+measures against the map now, and uses the card as a floor only when the card
+actually overlaps it. "Try again" was relabelled but only ever wired to
+`revealAnswer`; it restarts the quiz.
+
+### Tap for the country, tap again for the province
+On a touch screen the first tap names the country alone and a second tap on the
+same place names the sub-unit under the finger and outlines it. With the
+Administrative layer off the second tap adds nothing.
+
+### The line of control, labelled for its date
+"Greatest extent" is Gordon's phrase and December 1942 is not a maximum — the
+naval perimeter was widest in July and August, the area of China under Japanese
+control largest in 1944. The legend, the Layers panel, the README, SOURCES.md
+and the epoch blurb all say what the line is instead.
+
+### Other fixes this session
+- The perimeter closed a gap with a straight chord across four hundred
+  kilometres of unoccupied China: `china_front()` handed over to the coast at a
+  fixed index, and adding points upstream shifted everything after them. It
+  hands over at the nearest traced point now.
+- The middle Yangtze drawn as the front it was, from Ichang to Yochow following
+  the river's north bank, with Ichang keeping both banks.
+- The Yellow River's flood course redrawn from the disasterhistory.org channel
+  map: down the Chia-lu into the Ying, down the Ying into the Huai, through
+  Hungtse Lake and the Grand Canal into the Yangtze above Chinkiang.
+- Indochina and Kwangchowwan drawn French with Japanese stripes, then reverted
+  to occupied on the judgement that the Vichy administration was window
+  dressing; Macao restored to Portuguese, which it was.
+- The folded legend shrank from the full width of the screen to its own label:
+  it was a 54 px strip that swallowed every tap along it.
+- A frame round the drawing, and room to push the map past it — 45% of a
+  viewport on a phone, 6% on a desktop.
