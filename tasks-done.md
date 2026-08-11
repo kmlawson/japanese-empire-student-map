@@ -117,3 +117,28 @@ were numbered. Open items are not listed here.
 34. **Cities / Events / Administrative switches** in the header in place of the
     level buttons, which move into the Layers panel with their own explanation.
     On a phone the three words shrink to the marks the map already uses.
+35. **Language buttons moved into the Layers panel** as well, so the header is
+    two rows on a 320px phone.
+36. **Administrative off means off** — with the layer switched off a country is
+    one thing: no province is named and none is outlined. Islands and enclaves
+    are exempt, their sub-units being places rather than administrative
+    divisions.
+37. **Sub-units that can name themselves** — the nine French and Portuguese
+    settlements in India, twenty-eight Aleutian islands, eighteen Kuriles,
+    twenty-three Ryukyus, and the Dindings, which were a Straits Settlement
+    until 1935 and part of Perak after it.
+38. **Hit-testing for shapes smaller than a pixel** — Karikal is two square
+    kilometres and the browser hit-tests British India through it, so the small
+    atoms' target circles now win, but only when the shape really is too small
+    to hit and the pointer is really on it.
+39. **The Yellow River's flood course redrawn** from the channel map at
+    disasterhistory.org: down the Chia-lu into the Ying, down the Ying into the
+    Huai, and through Hungtse Lake and the Grand Canal into the Yangtze above
+    Chinkiang. For nine years it reached the sea through the Yangtze's mouth.
+    A stray chord across its meanders on the 1930 map is gone too.
+40. **The middle Yangtze drawn as the front it was** — from Ichang down to
+    Yochow the shading follows the river's north bank instead of striding
+    across its loops, with Ichang itself keeping both banks.
+41. **"Free China" retired** in favour of Republic of China on both maps, and
+    the notes on Sinkiang and the Soviet Union rewritten — the latter now
+    placing Nomonhan, which is a large part of why 1941 went south.
