@@ -202,10 +202,10 @@ JMAP.TERRITORIES = {
       when: 'French from 1674',
       note: 'Five scattered enclaves left to France when Britain took the rest of India: Pondicherry and Karikal on the Coromandel coast, Yanaon on the Godavari, Mahé on the Malabar coast, and Chandernagore on the Hooghly above Calcutta. They declared for the Free French in 1940 and were transferred to India in the 1950s.' },
     { id: 'princelystates', atoms: ['princely'], cat: 'british', c: '#8f5f6e', lvl: 3,
-      en: 'Princely states (approximate)', ja: '藩王国', orig: 'Indian States',
+      en: 'Princely states', ja: '藩王国', orig: 'Indian States',
       zh: '印度土邦', ko: '번왕국',
       when: 'Rulers in subsidiary alliance with the Crown',
-      note: 'British India was a patchwork: eleven provinces ruled directly, and beside them some six hundred princely states whose rulers kept their thrones under treaties with the Crown. Hyderabad, the largest, had its own army and currency. Only the biggest are drawn here — Hyderabad, Kashmir, Mysore, Travancore and Cochin, the Rajputana agency and Sikkim — and each is approximated from modern units, so the shapes are indicative and the names are the thing to trust. The rest are drawn inside whichever province surrounded them.' },
+      note: 'British India was a patchwork: eleven provinces ruled directly, and beside them some six hundred princely states whose rulers kept their thrones under treaties with the Crown. Hyderabad, the largest, had its own army and currency, and the Nizam was reckoned the richest man alive. The states are drawn here from a layer of their 1931 boundaries rather than approximated from modern units, so the shapes are the shapes: the Rajputana and Central India agencies as one western mass, the Baluchistan states of Kalat and Las Bela, the Eastern States through Orissa and Chhattisgarh, the hill states along the frontier, and the small Deccan states scattered through Bombay. The very smallest of the six hundred are below the resolution of this map and are drawn inside whichever province surrounded them.' },
     { id: 'ceylon', atoms: ['ceylon'], cat: 'british', lvl: 3,
       en: 'Ceylon', ja: 'セイロン (Seiron)', orig: 'ලංකාව (Lanka)',
       zh: '錫蘭', ko: '실론 (Sillon)',
@@ -584,10 +584,10 @@ JMAP.TERRITORIES = {
       when: 'French from 1674',
       note: 'Five scattered enclaves left to France when Britain took the rest of India: Pondicherry and Karikal on the Coromandel coast, Yanaon on the Godavari, Mahé on the Malabar coast, and Chandernagore on the Hooghly above Calcutta. They declared for the Free French in 1940 and were transferred to India in the 1950s.' },
     { id: 'princelystates', atoms: ['princely'], cat: 'allied', c: '#8f5f6e', lvl: 3,
-      en: 'Princely states (approximate)', ja: '藩王国', orig: 'Indian States',
+      en: 'Princely states', ja: '藩王国', orig: 'Indian States',
       zh: '印度土邦', ko: '번왕국',
       when: 'Rulers in subsidiary alliance with the Crown',
-      note: 'British India was a patchwork: eleven provinces ruled directly, and beside them some six hundred princely states whose rulers kept their thrones under treaties with the Crown. Hyderabad, the largest, had its own army and currency. Only the biggest are drawn here — Hyderabad, Kashmir, Mysore, Travancore and Cochin, the Rajputana agency and Sikkim — and each is approximated from modern units, so the shapes are indicative and the names are the thing to trust. The rest are drawn inside whichever province surrounded them.' },
+      note: 'British India was a patchwork: eleven provinces ruled directly, and beside them some six hundred princely states whose rulers kept their thrones under treaties with the Crown. Hyderabad, the largest, had its own army and currency, and the Nizam was reckoned the richest man alive. The states are drawn here from a layer of their 1931 boundaries rather than approximated from modern units, so the shapes are the shapes: the Rajputana and Central India agencies as one western mass, the Baluchistan states of Kalat and Las Bela, the Eastern States through Orissa and Chhattisgarh, the hill states along the frontier, and the small Deccan states scattered through Bombay. The very smallest of the six hundred are below the resolution of this map and are drawn inside whichever province surrounded them.' },
     { id: 'ceylon', atoms: ['ceylon'], cat: 'allied', lvl: 3,
       en: 'Ceylon', ja: 'セイロン (Seiron)', orig: 'ලංකාව (Lanka)',
       zh: '錫蘭', ko: '실론 (Sillon)',
@@ -1575,6 +1575,30 @@ JMAP.PROVINCE_EPOCH = {
 };
 
 JMAP.PROVINCES = {
+  /* the princely states of India, from the 1931 layer. Nine are named by the
+     source; the rest are identified by where they are, and the very smallest
+     are left to answer with the territory */
+  'Kashmir & Jammu': { en: 'Kashmir & Jammu', ja: 'カシミール・ジャンムー', zh: '克什米爾・查謨', ko: '카슈미르·잠무' },
+  'Hyderabad': { en: 'Hyderabad — the Nizam’s dominions, the largest of the states', ja: 'ハイデラバード藩王国', zh: '海得拉巴土邦', ko: '하이데라바드' },
+  'Mysore': { en: 'Mysore', ja: 'マイソール藩王国', zh: '邁索爾土邦', ko: '마이소르' },
+  'Travancore & Cochin': { en: 'Travancore & Cochin', ja: 'トラヴァンコール・コーチン', zh: '特拉凡哥爾・柯欽', ko: '트라방코르·코친' },
+  'Rajputana, Central India & the Gujarat States': { en: 'Rajputana, Central India and the Gujarat states', ja: 'ラージプターナ・中央インド・グジャラート諸藩王国', zh: '拉杰普塔納・中央印度・古吉拉特土邦', ko: '라지푸타나·중앙인도·구자라트 번왕국' },
+  'The Baluchistan States — Kalat, Las Bela, Kharan, Makran': { en: 'The Baluchistan states — Kalat, Las Bela, Kharan and Makran', ja: 'バローチスターン諸藩王国', zh: '俾路支土邦', ko: '발루치스탄 번왕국' },
+  'The Eastern States — Orissa and Chhattisgarh': { en: 'The Eastern States — the Orissa and Chhattisgarh states', ja: '東部諸藩王国', zh: '東部土邦', ko: '동부 번왕국' },
+  'The Punjab States — Patiala, Jind, Nabha, Kapurthala': { en: 'The Punjab states — Patiala, Jind, Nabha and Kapurthala', ja: 'パンジャーブ諸藩王国', zh: '旁遮普土邦', ko: '펀자브 번왕국' },
+  'Chitral, Dir, Swat & Amb': { en: 'Chitral, Dir, Swat and Amb — the frontier states', ja: 'チトラル・ディル・スワート', zh: '奇特拉爾・迪爾・斯瓦特', ko: '치트랄·디르·스와트' },
+  'Kolhapur & the Deccan States': { en: 'Kolhapur and the Deccan states', ja: 'コールハープル・デカン諸藩王国', zh: '戈爾哈布爾・德干土邦', ko: '콜라푸르·데칸 번왕국' },
+  'The Khasi Hill States': { en: 'The Khasi Hill states', ja: 'カシ丘陵諸藩王国', zh: '卡西山土邦', ko: '카시 구릉 번왕국' },
+  'Bastar': { en: 'Bastar', ja: 'バスタル藩王国', zh: '巴斯塔爾土邦', ko: '바스타르' },
+  'Manipur': { en: 'Manipur', ja: 'マニプル藩王国', zh: '曼尼普爾土邦', ko: '마니푸르' },
+  'Tripura': { en: 'Tripura (Hill Tippera)', ja: 'トリプラ藩王国', zh: '特里普拉土邦', ko: '트리푸라' },
+  'Cooch Behar': { en: 'Cooch Behar', ja: 'クーチ・ビハール藩王国', zh: '庫奇比哈爾土邦', ko: '쿠치비하르' },
+  'Khairpur': { en: 'Khairpur', ja: 'カイルプル藩王国', zh: '海爾布爾土邦', ko: '하이르푸르' },
+  'Tehri Garhwal': { en: 'Tehri Garhwal', ja: 'テヘリ・ガルワール藩王国', zh: '特赫里加瓦爾土邦', ko: '테흐리가르왈' },
+  'Rampur': { en: 'Rampur', ja: 'ランプル藩王国', zh: '拉姆布爾土邦', ko: '람푸르' },
+  'Benares': { en: 'Benares (Banaras)', ja: 'ベナレス藩王国', zh: '貝拿勒斯土邦', ko: '베나레스' },
+  'Pudukkottai': { en: 'Pudukkottai', ja: 'プドゥコッタイ藩王国', zh: '普杜科泰土邦', ko: '푸두코타이' },
+
   /* the Kuriles, north-east to south-west. Japanese throughout both dates:
      the northern islands are where the Aleutian operation was mounted from,
      and the four southernmost are the ones still disputed with Russia */
@@ -1857,11 +1881,11 @@ JMAP.PROVINCES = {
   'ChinHills': { en: 'Chin Hills', ja: 'チン丘陵', zh: '欽丘陵', ko: '친' },
   'Karenni': { en: 'Karenni States', ja: 'カレンニー諸国', zh: '克倫尼', ko: '카렌니' },
   'Salween': { en: 'Salween District — the Papun hills, inside Tenasserim', ja: 'サルウィン地区', zh: '薩爾溫地區', ko: '살윈' },
-  'Hyderabad': { en: 'Hyderabad — the Nizam’s dominions, drawn from Telangana, their Telugu core', ja: 'ハイデラバード藩王国', zh: '海得拉巴土邦', ko: '하이데라바드 번왕국' },
-  'Kashmir': { en: 'Jammu & Kashmir (princely state)', ja: 'ジャンムー・カシミール藩王国', zh: '查謨-克什米爾土邦', ko: '잠무카슈미르 번왕국' },
-  'Rajputana': { en: 'Rajputana Agency — the princely states, with Ajmer-Merwara inside them', ja: 'ラージプーターナー諸藩王国', zh: '拉傑普塔納', ko: '라지푸타나' },
-  'Mysore': { en: 'Mysore State and the Kannada country — the state itself was the southern third', ja: 'マイソール藩王国', zh: '邁索爾土邦', ko: '마이소르 번왕국' },
-  'TravancoreCochin': { en: 'Travancore and Cochin — the north of this shape was Malabar, in Madras', ja: 'トラヴァンコール・コーチン藩王国', zh: '特拉凡科・科欽', ko: '트라방코르·코친' },
+  /* Hyderabad, Kashmir, Rajputana, Mysore and Travancore-Cochin used to be
+     described here as what modern state each was approximated from. They are
+     drawn from the 1931 layer now and named with the rest of the states above,
+     so those descriptions have gone: they were apologies for a shape the map
+     no longer uses. */
   /* the provinces of British India and the larger princely states. The Raj
      was a patchwork of provinces and several hundred states; these are the
      provinces, approximated from modern outlines, with the states inside them

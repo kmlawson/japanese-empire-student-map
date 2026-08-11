@@ -262,16 +262,38 @@ CHANDERNAGORE = [
 ]
 
 # The princely states, drawn together in one colour and named one by one.
-# Every one of them is an approximation from modern units: Hyderabad is
-# Telangana, its Telugu core, and the Nizam's dominions also took in Marathi
-# and Kannada districts now in Maharashtra and Karnataka; Mysore is drawn from
-# the whole of Karnataka and the state itself was the southern third.
-INDIA_PRINCELY = {
-    "Telangāna": "Hyderabad",
-    "Jammu and Kashmīr": "Kashmir", "Ladākh": "Kashmir",
-    "Azad Kashmir": "Kashmir", "Gilgit-Baltistan": "Kashmir",
-    "Rājasthān": "Rajputana", "Karnātaka": "Mysore",
-    "Kerala": "TravancoreCochin",
+# Forty polygons of the states as they stood in 1931, supplied for this map;
+# see SOURCES.md. They replace what was here before, which was five modern
+# Indian states standing in for the biggest of them — Telangana for
+# Hyderabad, Karnataka for Mysore — an approximation the About text had to
+# apologise for. These are the real outlines.
+PRINCELY_FILE = "princely-states-india-1931-v1.2026.8.11.geojson"
+
+# The file names nine of its forty polygons. The rest are identified here by
+# where they are, which for the large ones is unmistakable; anything not in
+# this table answers with the territory rather than with a guess. Keyed by the
+# file's own fid.
+PRINCELY_NAMES = {
+    1: "Kashmir & Jammu",
+    2: "Hyderabad",                     # the file spells it Hyderbad
+    3: "Bastar",
+    7: "Mysore",
+    8: "Travancore & Cochin",
+    9: "Pudukkottai",
+    10: "Kolhapur & the Deccan States",
+    17: "Cooch Behar",
+    18: "The Khasi Hill States",
+    19: "Manipur",
+    20: "Tripura",
+    21: "The Eastern States — Orissa and Chhattisgarh",
+    25: "Benares",
+    28: "Rampur",
+    29: "Tehri Garhwal",
+    35: "The Punjab States — Patiala, Jind, Nabha, Kapurthala",
+    36: "The Baluchistan States — Kalat, Las Bela, Kharan, Makran",
+    37: "Khairpur",
+    38: "Chitral, Dir, Swat & Amb",
+    40: "Rajputana, Central India & the Gujarat States",
 }
 
 # Colonial Korea comes from tools/fetch_korea_1930.py, which builds the
@@ -1365,11 +1387,30 @@ def main():
                             named[label].append(ring)
                     for label in sorted(named):
                         provinces[key].append((label, named[label]))
-                label = INDIA_PRINCELY.get(name)
+    # ---- the princely states, from the 1931 layer --------------------------
+    ppath = os.path.join(CACHE, PRINCELY_FILE)
+    if os.path.exists(ppath):
+        with open(ppath) as fh:
+            named = collections.defaultdict(list)
+            rest = []
+            for feat in json.load(fh)["features"]:
+                props = feat.get("properties") or {}
+                label = PRINCELY_NAMES.get(props.get("fid")) or props.get("name")
+                rs = list(iter_rings(feat["geometry"]))
+                groups["princely"].extend(rs)
                 if label:
-                    rs = list(iter_rings(feat["geometry"]))
-                    groups["princely"].extend(rs)
-                    provinces["princely"].append((label, rs))
+                    named[label].extend(rs)
+                else:
+                    rest.extend(rs)
+            for label in sorted(named):
+                provinces["princely"].append((label, named[label]))
+            # An atom drawn from provinces is drawn *only* from them, so the
+            # states the table does not name have to go in too or they vanish
+            # off the map. The empty label means the pointer names the
+            # territory and offers no guess at the state.
+            if rest:
+                provinces["princely"].append(("", rest))
+
     groups["pondicherry"].append(list(CHANDERNAGORE))
     provinces["pondicherry"].append(("Chandernagore", [list(CHANDERNAGORE)]))
 

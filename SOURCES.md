@@ -59,6 +59,23 @@ reading the boundaries, names and notes come from.
   political administrative boundaries." *PLoS ONE* 15(4): e0231866.
 * **Cached at:** `tools/cache/adm1_KHM.json`, `tools/cache/adm1_LAO.json`
 
+### The princely states of India, 1931
+
+* **Used for:** the princely states on both maps, drawn together in one colour
+  and named one by one. They replace what was here before, which was five
+  modern Indian states standing in for the largest of them — Telangana for
+  Hyderabad, Karnataka for Mysore — an approximation the About text had to
+  apologise for.
+* **File:** `princely-states-india-1931-v1.2026.8.11.geojson` — 40 polygons,
+  of which the file itself names nine. The rest are identified in
+  `PRINCELY_NAMES` in `tools/build_map.py` by where they are, which for the
+  large ones is unmistakable; anything not in that table answers with the
+  territory rather than with a guess.
+* **Obtained from:** supplied for this map by its author. **This entry still
+  needs the upstream source, licence and citation** — it is the only dataset
+  here without them.
+* **Cached at:** `tools/cache/princely-states-india-1931-v1.2026.8.11.geojson`
+
 ### Natural Earth — 1:10m rivers and lake centerlines
 
 * **Used for:** the Yangzi and the Yellow River. Natural Earth's Yangtze
