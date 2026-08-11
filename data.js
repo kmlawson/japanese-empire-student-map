@@ -1469,15 +1469,32 @@ JMAP.BROWSE = [
 ];
 
 /* The Yellow River after the dikes were cut at Huayuankou in June 1938 to slow
- * the Japanese advance. The river left its bed and ran south-east into the Huai
- * system, drowning several thousand villages and killing somewhere between
- * 400,000 and 800,000 people, and it stayed there until the breach was closed
- * in 1947. The Late 1942 map uses this course; the 1930 map uses the old one. */
+ * the Japanese advance. The river left its bed and ran south-east down the
+ * Chia-lu into the Ying, down the Ying into the Huai, and through Hungtse Lake
+ * and the Grand Canal into the Yangtze above Chinkiang — so for nine years the
+ * Yellow River reached the sea through the Yangtze's mouth. It drowned several
+ * thousand villages and killed somewhere between 400,000 and 800,000 people,
+ * and it stayed there until the breach was closed in 1947. The Late 1942 map
+ * uses this course; the 1930 map uses the old one. Traced from the channel
+ * map at disasterhistory.org (Chris Courtney, after Saito et al. 2000). */
 
 JMAP.YELLOW_1938 = [
-  [113.43, 34.92], [113.9, 34.5], [114.4, 34.1], [114.9, 33.8], [115.4, 33.5],
-  [115.9, 33.2], [116.4, 32.95], [117.0, 32.8], [117.6, 32.75], [118.2, 32.9],
-  [118.8, 33.2], [119.3, 33.5], [119.9, 33.6], [120.4, 33.8],
+  /* The breach itself, on the south bank just below Chengchow */
+  [113.68, 34.92],
+  /* down the Chia-lu (Jialu) past Chungmou, Weishih, Fukou and Hsihua */
+  [114.02, 34.72], [114.19, 34.41], [114.39, 34.06], [114.53, 33.79],
+  /* into the Ying at Choukou, then down it past Shenchiu, Chiehshou and
+     Fuyang to Yingshang, where the Ying meets the Huai */
+  [114.65, 33.63], [115.10, 33.40], [115.36, 33.26], [115.82, 32.90],
+  [116.26, 32.63],
+  /* east down the Huai past Chengyangkuan, Shouhsien and Pengpu */
+  [116.53, 32.53], [116.79, 32.55], [117.36, 32.94], [117.89, 33.14],
+  [118.22, 33.46],
+  /* into Hungtse Lake, and out of it down the San-ho and the Grand Canal
+     past Kaoyu and Shaopo */
+  [118.55, 33.30], [119.02, 33.02], [119.44, 32.79], [119.42, 32.55],
+  /* to the Yangtze at Sanchiangying, above Chinkiang */
+  [119.50, 32.24],
 ];
 
 /* ------------------------------------------------------------------ */

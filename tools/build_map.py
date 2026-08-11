@@ -381,7 +381,7 @@ PAPUA_CUT = ((141.0, -5.2), (147.4, -6.9))
 # channel was closed again in 1947 the river ran south-east into the Huai
 # instead of north-east to the Bohai, so the two maps need different halves of
 # it. This is where the generated path is split.
-HUAYUANKOU = (113.43, 34.92)
+HUAYUANKOU = (113.68, 34.92)
 
 # Natural Earth's Yangtze centreline stops at Chinkiang, about 200 km short of
 # the sea, which makes the river look as though it ends in a field outside
