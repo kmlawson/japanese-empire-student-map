@@ -46,6 +46,79 @@ Chengchow inside the line; it records the capture but not the withdrawal.
   * Licence: Public domain
   * Author: U.S. Army
 
+## Chahar and Suiyuan
+
+A second pass over the north-west corner of the zone, written up in
+`report.md` with its references in `sources.md`. The finding that matters for
+the line: Japanese control in Suiyuan ended at Baotou from 17 October 1937 to
+August 1945, apart from six weeks in February and March 1940, and the Ordos
+south of the Yellow River was never occupied at all. The maps below were
+downloaded for that work.
+
+* `Mengjiang_saishin_zenzu_1938_front.jpg`, `Mengjiang_saishin_zenzu_1938_back.jpg`
+  * `蒙疆最新全圖`, 1:2,000,000, 54×79 cm, supplement to the *Mengjiang
+    Shimbun* of 22 November 1938. The Mengjiang regime's own general map; the
+    reverse carries the paper's first-anniversary pages and the government
+    organisation chart.
+  * Source: [Nichibunken map database, id 004808051](https://lapis.nichibun.ac.jp/chizu/map_detail.php?id=004808051)
+  * Licence: public domain in Japan (published 1938)
+  * Author: 蒙疆新聞社ヵ
+
+* `Mokyo_Moko_rengo_map_1938_Yomiuri.jpg`, `Hokushi_map_1938_Yomiuri.jpg`
+  * `蒙疆：蒙古聯盟` and `北支那：中華民國臨時政府ノ部`, the two sides of one
+    sheet, 1:2,400,000, 40×55 cm, November 1938.
+  * Source: [Nichibunken map database, id 003509502-0003](https://lapis.nichibun.ac.jp/chizu/map_detail.php?id=003509502-0003)
+  * Licence: public domain in Japan (published 1938)
+  * Author: 讀賣新聞社編輯局 / アトラス社
+
+* `Zhangjiakou_city_plan_Mengjiang.jpg`
+  * `張家口市街圖`, 1938, passed by the Hasunuma force censor. City plan of
+    the Mengjiang capital.
+  * Source: [Nichibunken map database, id 004975512](https://lapis.nichibun.ac.jp/chizu/map_detail.php?id=004975512)
+  * Licence: public domain in Japan (published 1938)
+  * Author: 蒙疆新聞社
+
+* `Hokushi_Mokyo_railway_map_1939_Kahoku_Kotsu.jpg`
+  * `北支蒙疆 鉄道略図`, July 1939. The railway network the occupied zone was
+    drawn around.
+  * Wikimedia Commons: [File:北支蒙疆 铁道略图-华北交通株式会社.jpg](https://commons.wikimedia.org/wiki/File:%E5%8C%97%E6%94%AF%E8%92%99%E7%96%86_%E9%93%81%E9%81%93%E7%95%A5%E5%9B%BE-%E5%8D%8E%E5%8C%97%E4%BA%A4%E9%80%9A%E6%A0%AA%E5%BC%8F%E4%BC%9A%E7%A4%BE.jpg)
+  * Licence: Public domain
+  * Author: 華北交通株式会社
+
+* `AMS_L500_NK49-7_Wu-yuan.jpg`, `AMS_L500_NK49-11_Kuei-sui.jpg`
+  * AMS Series L500, China 1:250,000, sheets NK 49-7 Wu-yuan and NK 49-11
+    Kuei-sui. Terrain of the Hetao front and of the Daqingshan.
+  * Source: [Perry-Castañeda Library, University of Texas at Austin](https://maps.lib.utexas.edu/maps/ams/china/)
+  * Licence: Public domain
+  * Author: U.S. Army Map Service
+
+* `Mengjiang_North_Shanxi_South_Chahar_Map_c1937-1939.png`
+  * Wikimedia Commons: [File:Mengjiang, North Shanxi, South Chahar Map - Circa 1937-1939.png](https://commons.wikimedia.org/wiki/File:Mengjiang,_North_Shanxi,_South_Chahar_Map_-_Circa_1937-1939.png)
+  * Licence: Public domain
+  * Author: Unknown
+
+* `Administrative_map_of_the_United_Mongol_Autonomous_Government.png`
+  * Wikimedia Commons: [File:Administrative map of the United Mongol Autonomous Government.png](https://commons.wikimedia.org/wiki/File:Administrative_map_of_the_United_Mongol_Autonomous_Government.png)
+  * Licence: CC BY-SA 4.0
+  * Author: Khu'hamgaba Kitap
+
+* `South_Chahar_Autonomous_Government_Map_c._1937.png`
+  * Wikimedia Commons: [File:South Chahar Autonomous Government Map c. 1937.png](https://commons.wikimedia.org/wiki/File:South_Chahar_Autonomous_Government_Map_c._1937.png)
+  * Licence: CC BY-SA 4.0
+  * Author: Khu'hamgaba Kitap
+
+* `North_Shanxi_Autonomous_Government_Map_1937.png`
+  * Wikimedia Commons: [File:North Shanxi Autonomous Government Map, 1937.png](https://commons.wikimedia.org/wiki/File:North_Shanxi_Autonomous_Government_Map,_1937.png)
+  * Licence: CC BY-SA 4.0
+  * Author: Khu'hamgaba Kitap
+
+* `Japanese_zones_of_control.png`
+  * From *Why We Fight VI: The Battle of China*, 1944 — an American wartime
+    reading of actual as against claimed control.
+  * Wikimedia Commons: [File:Japanese zones of control.png](https://commons.wikimedia.org/wiki/File:Japanese_zones_of_control.png)
+  * Licence: Public domain
+  * Author: Walt Disney Studios with the U.S. Office of War Information
+
 ## Timeline used alongside them
 
 The Sino-Japanese War card set from the module's own timeline review tool,

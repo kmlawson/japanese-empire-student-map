@@ -33,5 +33,114 @@
   "licence": "Public domain",
   "author": "U.S. Army",
   "page": "https://commons.wikimedia.org/wiki/File:Second_Sino-Japanese_War_WW2.png"
+ },
+ {
+  "file": "Mengjiang_saishin_zenzu_1938_front.jpg",
+  "title": "蒙疆最新全圖",
+  "date": "1938-11-22",
+  "scale": "1:2,000,000",
+  "holding": "International Research Center for Japanese Studies (Nichibunken), id 004808051",
+  "licence": "Public domain in Japan (published 1938)",
+  "author": "蒙疆新聞社ヵ",
+  "page": "https://lapis.nichibun.ac.jp/chizu/map_detail.php?id=004808051"
+ },
+ {
+  "file": "Mengjiang_saishin_zenzu_1938_back.jpg",
+  "title": "蒙疆最新全圖 (verso: 蒙疆新聞 anniversary pages and government organisation chart)",
+  "date": "1938-11-22",
+  "holding": "International Research Center for Japanese Studies (Nichibunken), id 004808051",
+  "licence": "Public domain in Japan (published 1938)",
+  "author": "蒙疆新聞社ヵ",
+  "page": "https://lapis.nichibun.ac.jp/chizu/map_detail.php?id=004808051"
+ },
+ {
+  "file": "Mokyo_Moko_rengo_map_1938_Yomiuri.jpg",
+  "title": "蒙疆：蒙古聯盟",
+  "date": "1938-11",
+  "scale": "1:2,400,000",
+  "holding": "International Research Center for Japanese Studies (Nichibunken), id 003509502-0003",
+  "licence": "Public domain in Japan (published 1938)",
+  "author": "讀賣新聞社編輯局 / アトラス社",
+  "page": "https://lapis.nichibun.ac.jp/chizu/map_detail.php?id=003509502-0003"
+ },
+ {
+  "file": "Hokushi_map_1938_Yomiuri.jpg",
+  "title": "北支那：中華民國臨時政府ノ部",
+  "date": "1938-11",
+  "scale": "1:2,400,000",
+  "holding": "International Research Center for Japanese Studies (Nichibunken), id 003509502-0003",
+  "licence": "Public domain in Japan (published 1938)",
+  "author": "讀賣新聞社編輯局 / アトラス社",
+  "page": "https://lapis.nichibun.ac.jp/chizu/map_detail.php?id=003509502-0003"
+ },
+ {
+  "file": "Zhangjiakou_city_plan_Mengjiang.jpg",
+  "title": "張家口市街圖",
+  "date": "1938",
+  "holding": "International Research Center for Japanese Studies (Nichibunken), id 004975512",
+  "licence": "Public domain in Japan (published 1938)",
+  "author": "蒙疆新聞社",
+  "page": "https://lapis.nichibun.ac.jp/chizu/map_detail.php?id=004975512"
+ },
+ {
+  "file": "Hokushi_Mokyo_railway_map_1939_Kahoku_Kotsu.jpg",
+  "title": "北支蒙疆 鉄道略図",
+  "date": "1939-07",
+  "commons": "File:北支蒙疆 铁道略图-华北交通株式会社.jpg",
+  "licence": "Public domain",
+  "author": "華北交通株式会社",
+  "page": "https://commons.wikimedia.org/wiki/File:%E5%8C%97%E6%94%AF%E8%92%99%E7%96%86_%E9%93%81%E9%81%93%E7%95%A5%E5%9B%BE-%E5%8D%8E%E5%8C%97%E4%BA%A4%E9%80%9A%E6%A0%AA%E5%BC%8F%E4%BC%9A%E7%A4%BE.jpg"
+ },
+ {
+  "file": "AMS_L500_NK49-7_Wu-yuan.jpg",
+  "title": "China 1:250,000, AMS Series L500, sheet NK 49-7 Wu-yuan",
+  "scale": "1:250,000",
+  "licence": "Public domain",
+  "author": "U.S. Army Map Service",
+  "page": "https://maps.lib.utexas.edu/maps/ams/china/"
+ },
+ {
+  "file": "AMS_L500_NK49-11_Kuei-sui.jpg",
+  "title": "China 1:250,000, AMS Series L500, sheet NK 49-11 Kuei-sui",
+  "scale": "1:250,000",
+  "licence": "Public domain",
+  "author": "U.S. Army Map Service",
+  "page": "https://maps.lib.utexas.edu/maps/ams/china/"
+ },
+ {
+  "file": "Mengjiang_North_Shanxi_South_Chahar_Map_c1937-1939.png",
+  "commons": "File:Mengjiang, North Shanxi, South Chahar Map - Circa 1937-1939.png",
+  "licence": "Public domain",
+  "author": "Unknown",
+  "page": "https://commons.wikimedia.org/wiki/File:Mengjiang,_North_Shanxi,_South_Chahar_Map_-_Circa_1937-1939.png"
+ },
+ {
+  "file": "Administrative_map_of_the_United_Mongol_Autonomous_Government.png",
+  "commons": "File:Administrative map of the United Mongol Autonomous Government.png",
+  "licence": "CC BY-SA 4.0",
+  "author": "Khu'hamgaba Kitap",
+  "page": "https://commons.wikimedia.org/wiki/File:Administrative_map_of_the_United_Mongol_Autonomous_Government.png"
+ },
+ {
+  "file": "South_Chahar_Autonomous_Government_Map_c._1937.png",
+  "commons": "File:South Chahar Autonomous Government Map c. 1937.png",
+  "licence": "CC BY-SA 4.0",
+  "author": "Khu'hamgaba Kitap",
+  "page": "https://commons.wikimedia.org/wiki/File:South_Chahar_Autonomous_Government_Map_c._1937.png"
+ },
+ {
+  "file": "North_Shanxi_Autonomous_Government_Map_1937.png",
+  "commons": "File:North Shanxi Autonomous Government Map, 1937.png",
+  "licence": "CC BY-SA 4.0",
+  "author": "Khu'hamgaba Kitap",
+  "page": "https://commons.wikimedia.org/wiki/File:North_Shanxi_Autonomous_Government_Map,_1937.png"
+ },
+ {
+  "file": "Japanese_zones_of_control.png",
+  "date": "1944",
+  "commons": "File:Japanese zones of control.png",
+  "licence": "Public domain",
+  "author": "Walt Disney Studios with the U.S. Office of War Information",
+  "page": "https://commons.wikimedia.org/wiki/File:Japanese_zones_of_control.png"
  }
 ]

@@ -10,12 +10,16 @@ describing what was actually changed, before it is marked done.
 - **The sources page in the standalone build.** `sources.html` is a separate
   file, so the link from About does not resolve in the single-file build. Either
   inline it or drop the link there.
-- **Bohai.** A wedge of Republic-of-China yellow along the Liaotung coast where
-  the occupied shading falls short, and an island in the gulf drawn in the
-  "elsewhere" grey instead of belonging to anything.
 - **Every yellow leak along the occupied edge**, swept systematically rather
   than one screenshot at a time — and whether the mixed occupied/unoccupied
   islands off the central China coast are history or an artefact of the tracing.
+  A ribbon sweep of eight views along the coast (see the Bohai entry below for
+  the method) now finds only two things left: **Kwangchowwan**, where bands of
+  Republic yellow and French blue interleave over 110.09–110.62 E, 20.97–21.39 N
+  with a 112-pixel pocket in the middle of them — the leasehold is still messy
+  and wants redrawing rather than patching — and the **Suiyuan meridian**, a
+  four-pixel band of Mengchiang colour against China's along 109.60–109.64 E,
+  which is the straight cut recorded as its own task below.
 - **The coastal enclaves.** Amoy, Swatow and Canton have no name of their own on
   hover, and the shapes are visibly circles: they were boxes, I made them
   fourteen-point ellipses, which replaced one guess with a rounder guess. They
@@ -49,6 +53,39 @@ describing what was actually changed, before it is marked done.
 ---
 
 ## Done
+
+### The Bohai: an island that belonged to nobody, and a coast that was not occupied
+Two separate faults in the same place, both found by sweeping the coast for
+thin ribbons of one colour sandwiched in another rather than by looking at
+screenshots.
+
+The island was Shijiutuo, in the Gulf of Chihli. Natural Earth carries it and
+the Republican provinces do not, and China's filler is built from the provinces
+— so nothing covered it and the only thing under it was `chinabase`, the neutral
+filler that exists to make disagreements between sources visible. It read as
+land belonging to no country. Every ring of Natural Earth's China except the
+mainland now goes into China's filler as well, which puts the coastal islands in
+the country. The mainland ring is deliberately left out: that is the ring whose
+land frontiers disagree with the Republican provinces, and painting those
+disagreements China's yellow instead of the neutral grey is the thing the
+neutral grey exists to prevent.
+
+Rings added this way go in after the dissolve and are not thinned — an island
+is smaller than the tolerance its country earns and would be simplified out of
+existence — which is the same treatment the Korea seam gets, so the two share
+one mechanism now.
+
+The coast was the occupied zone's own trace. It went round the Gulf of Chihli
+by hand and cut inside every bulge, leaving unoccupied yellow along the Luanhe
+delta and the Leting shore. It cuts straight across the gulf now: the blocks are
+clipped to China's land, so the water inside the cut is removed and the coastline
+itself becomes the edge. Nothing is claimed for Japan by cutting wide, because
+Manchuria, Jehol and the Kwantung leasehold on the far side are atoms of their
+own and are not in China's clip. All of that coast was held — Tientsin, the
+Kailan mines, Tangshan, Chinwangtao and the Peiping–Mukden railway along it.
+
+The first attempt at this moved the same vertices what was meant to be seaward
+and was in fact inland, and made the strip wider.
 
 ### Wake is the atoll it was, not a dot
 It had been drawn as an eight-point rounded blob. `WAKE` in

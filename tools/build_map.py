@@ -153,8 +153,18 @@ OCCUPIED_ZONE = [
         (120.1, 29.0), (121.9, 29.2), (122.0, 29.3), (122.2, 29.6),
         (122.4, 30.0), (122.2, 30.4), (122.4, 30.9), (122.3, 31.7), (121.8, 32.5),
         (121.2, 33.5), (120.4, 34.5), (120.3, 35.0), (120.9, 36.0), (121.6, 36.6),
-        (122.3, 36.85), (123.3, 37.35), (123.2, 37.9), (121.2, 38.1), (119.8, 37.9), (118.7, 38.4), (117.5, 38.7),
-        (118.6, 39.0), (119.35, 39.55), (119.95, 40.0), (120.3, 40.3),
+        (122.3, 36.85), (123.3, 37.35), (123.2, 37.9), (121.2, 38.1),
+        # Straight across the Gulf of Chihli rather than round its shore. The
+        # blocks are clipped to China's land, so the water inside this cut is
+        # removed and the coast itself becomes the edge; the old line traced
+        # the gulf by hand and cut inside every bulge in it, leaving a strip of
+        # unoccupied yellow along the Luanhe delta and the Leting shore. All of
+        # this coast was held: Tientsin, the Kailan mines, Tangshan,
+        # Chinwangtao and the Peiping–Mukden railway along it. Nothing is
+        # claimed for Japan by cutting wide, because Manchuria, Jehol and the
+        # Kwantung leasehold on the far side are atoms of their own and are not
+        # in China's clip.
+        (121.55, 39.20), (121.20, 40.10), (120.30, 40.35),
         (119.0, 40.3), (117.2, 40.7),
         (115.0, 40.7),
     ],
@@ -1584,6 +1594,12 @@ def main():
     # whole-country outlines kept aside to go under the sub-units; see
     # whole_union below
     backing = collections.defaultdict(list)
+    # rings added to a filler on top of whatever it builds itself from, rather
+    # than replacing it: China's coastal islands, and the seams that make one
+    # country reach a neighbour drawn from a different source. They cannot go
+    # into `backing`, because a filler with no entry there falls back to the
+    # union of its own sub-units and a key would silently replace that.
+    extra = collections.defaultdict(list)
 
     # ---- everything except China ------------------------------------------
     for feat in a0["features"]:
@@ -1607,8 +1623,23 @@ def main():
             # seam along a frontier read as one country leaking into another.
             # One piece in a neutral land colour is both simpler and honester:
             # a seam then looks like a seam.
-            for ring in iter_rings(feat["geometry"]):
+            #
+            # Its islands are another matter. The Republican provinces do not
+            # carry the small ones, so an island Natural Earth knows about had
+            # nothing over it and was drawn in the neutral colour, as if it
+            # belonged to nobody — Shijiutuo, in the Gulf of Chihli, is the one
+            # that gave this away. Every ring but the mainland is given to
+            # China's own filler, which puts the coastal islands in the
+            # country. The mainland ring is deliberately left out of it: that is
+            # the ring whose land frontiers disagree with the Republican
+            # provinces, and colouring those disagreements China's yellow rather
+            # than the neutral grey is what the neutral grey exists to avoid.
+            crings = list(iter_rings(feat["geometry"]))
+            mainland = max(crings, key=lambda r: abs(signed_ring_area(r)))
+            for ring in crings:
                 groups["chinabase"].append(ring)
+                if ring is not mainland:
+                    extra["china"].append(ring)
             continue
         if admin == "Russia":
             kurils = collections.defaultdict(list)
@@ -2162,7 +2193,8 @@ def main():
             if out_paths:
                 rivers[key] = "".join(out_paths)
 
-    seam_rings = add_frontier_seam(groups)
+    for key, rings in add_frontier_seam(groups).items():
+        extra[key].extend(rings)
 
     # ---- dissolve, project, clip, simplify --------------------------------
     frame = box_planes(LON_MIN, LAT_MIN, LON_MAX, LAT_MAX)
@@ -2234,6 +2266,13 @@ def main():
         # islands merely because it came in through a different door
         if key in ("goa", "pondicherry"):
             return 0.04          # Mahe is two square kilometres on this scale
+        # China's coastal islands: dropping them from the country left them
+        # showing as the neutral "elsewhere" grey, because `chinabase` — the
+        # filler that makes disagreements between sources visible — keeps land
+        # the country itself had thrown away. Shijiutuo in the Gulf of Chihli
+        # was the one that gave it away.
+        if key == "china":
+            return 0.12
         return 0.12 if key in ARCHIPELAGOS else args.min_area
 
     def tol_for(pts):
@@ -2321,12 +2360,14 @@ def main():
                 pts = simplify(pts, btol)
             if len(pts) >= 3 and ring_area(pts) >= sub_min_area(key):
                 pieces.append(ring_to_path(pts))
-        # A frontier seam is drawn exactly as computed. One edge of it is the
-        # neighbour's own boundary, so thinning it would move that edge off the
-        # line it was built to meet and reopen the crack it exists to close;
-        # and it is added after the dissolve because it overlaps rather than
-        # abuts, which the dissolve cannot make sense of.
-        for ring in seam_rings.get(key, []):
+        # Added rings are drawn exactly as given, after the dissolve. A seam's
+        # inner edge is the neighbour's own boundary, so thinning it would move
+        # that edge off the line it was built to meet and reopen the crack it
+        # exists to close; an island is smaller than the tolerance its country
+        # earns and would be thinned out of existence; and both overlap the
+        # country rather than abutting it, which the dissolve cannot make sense
+        # of.
+        for ring in extra.get(key, []):
             ring = clip_halfplanes(normalise_ring(ring), frame)
             if len(ring) >= 3:
                 pieces.append(ring_to_path([project(x, y) for x, y in ring]))
