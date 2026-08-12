@@ -1506,13 +1506,13 @@ JMAP.BROWSE = [
      lead, with the present-day form after them where they differ; no Chinese
      or Japanese, because neither belongs to these places. */
   { id: 'bombay', lat: 18.94, lon: 72.83, en: 'Bombay (Mumbai)' },
-  { id: 'delhi', lat: 28.61, lon: 77.21, en: 'Delhi & New Delhi — capital of the Raj from 1911' },
+  { id: 'delhi', lat: 28.61, lon: 77.21, en: 'Delhi & New Delhi', note: 'Capital of the Raj from 1911.' },
   { id: 'karachi', lat: 24.86, lon: 67.01, en: 'Karachi' },
   { id: 'lahore', lat: 31.55, lon: 74.34, en: 'Lahore' },
   { id: 'amritsar', lat: 31.63, lon: 74.87, en: 'Amritsar' },
   { id: 'peshawar', lat: 34.01, lon: 71.58, en: 'Peshawar' },
   { id: 'quetta', lat: 30.18, lon: 66.99, en: 'Quetta' },
-  { id: 'simla', lat: 31.10, lon: 77.17, en: 'Simla (Shimla) — the summer capital' },
+  { id: 'simla', lat: 31.10, lon: 77.17, en: 'Simla (Shimla)', note: 'The summer capital.' },
   { id: 'lucknow', lat: 26.85, lon: 80.95, en: 'Lucknow' },
   { id: 'cawnpore', lat: 26.45, lon: 80.33, en: 'Cawnpore (Kanpur)' },
   { id: 'agra', lat: 27.18, lon: 78.01, en: 'Agra' },
@@ -1521,18 +1521,18 @@ JMAP.BROWSE = [
   { id: 'ahmedabad', lat: 23.03, lon: 72.58, en: 'Ahmedabad' },
   { id: 'nagpur', lat: 21.15, lon: 79.09, en: 'Nagpur' },
   { id: 'poona', lat: 18.52, lon: 73.86, en: 'Poona (Pune)' },
-  { id: 'hyderabaddn', lat: 17.38, lon: 78.49, en: 'Hyderabad — capital of the Nizam’s dominions' },
+  { id: 'hyderabaddn', lat: 17.38, lon: 78.49, en: 'Hyderabad', note: 'Capital of the Nizam’s dominions.' },
   { id: 'bangalore', lat: 12.97, lon: 77.59, en: 'Bangalore (Bengaluru)' },
   { id: 'mysorecity', lat: 12.30, lon: 76.64, en: 'Mysore' },
   { id: 'cochin', lat: 9.93, lon: 76.27, en: 'Cochin (Kochi)' },
   { id: 'trivandrum', lat: 8.52, lon: 76.94, en: 'Trivandrum (Thiruvananthapuram)' },
   { id: 'vizag', lat: 17.69, lon: 83.22, en: 'Vizagapatam (Visakhapatnam)' },
-  { id: 'chittagong', lat: 22.36, lon: 91.78, en: 'Chittagong — the base for the Arakan front' },
-  { id: 'trincomalee', lat: 8.59, lon: 81.21, en: 'Trincomalee — the Eastern Fleet’s base, raided April 1942' },
+  { id: 'chittagong', lat: 22.36, lon: 91.78, en: 'Chittagong', note: 'The base for the Arakan front.' },
+  { id: 'trincomalee', lat: 8.59, lon: 81.21, en: 'Trincomalee', note: 'The Eastern Fleet’s base, raided April 1942.' },
 
   /* Burma beyond Rangoon and Mandalay: the road to China and the Arakan. */
   { id: 'akyab', lat: 20.15, lon: 92.90, en: 'Akyab (Sittwe)' },
-  { id: 'lashio', lat: 22.94, lon: 97.75, en: 'Lashio — railhead of the Burma Road' },
+  { id: 'lashio', lat: 22.94, lon: 97.75, en: 'Lashio', note: 'Railhead of the Burma Road.' },
   { id: 'myitkyina', lat: 25.38, lon: 97.40, en: 'Myitkyina' },
 
   /* The Netherlands Indies, which the map reduced to eight places for the
@@ -1544,13 +1544,13 @@ JMAP.BROWSE = [
   { id: 'cheribon', lat: -6.71, lon: 108.55, en: 'Cheribon (Cirebon)', ja: 'チレボン' },
   { id: 'malang', lat: -7.98, lon: 112.63, en: 'Malang', ja: 'マラン' },
   { id: 'padang', lat: -0.95, lon: 100.35, en: 'Padang', ja: 'パダン' },
-  { id: 'sabang', lat: 5.89, lon: 95.32, en: 'Sabang — the naval station at the head of Sumatra', ja: 'サバン' },
+  { id: 'sabang', lat: 5.89, lon: 95.32, en: 'Sabang', note: 'The naval station at the head of Sumatra.', ja: 'サバン' },
   { id: 'pontianak', lat: -0.02, lon: 109.34, en: 'Pontianak', ja: 'ポンティアナック' },
   { id: 'bandjermasin', lat: -3.32, lon: 114.59, en: 'Bandjermasin (Banjarmasin)', ja: 'バンジェルマシン' },
-  { id: 'tarakan', lat: 3.30, lon: 117.59, en: 'Tarakan — oil, taken 11 January 1942', ja: 'タラカン' },
+  { id: 'tarakan', lat: 3.30, lon: 117.59, en: 'Tarakan', note: 'Oil, taken 11 January 1942.', ja: 'タラカン' },
   { id: 'manado', lat: 1.49, lon: 124.84, en: 'Menado (Manado)', ja: 'メナド' },
   { id: 'ambon', lat: -3.70, lon: 128.18, en: 'Ambon (Amboina)', ja: 'アンボン' },
-  { id: 'kupang', lat: -10.17, lon: 123.61, en: 'Koepang (Kupang) — Dutch Timor', ja: 'クーパン' },
+  { id: 'kupang', lat: -10.17, lon: 123.61, en: 'Koepang (Kupang)', note: 'Dutch Timor.', ja: 'クーパン' },
 ];
 
 /* The Yellow River after the dikes were cut at Huayuankou in June 1938 to slow

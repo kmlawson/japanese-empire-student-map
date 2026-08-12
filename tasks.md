@@ -7,6 +7,23 @@ describing what was actually changed, before it is marked done.
 
 ## Open
 
+- **Selecting Laos should light the provinces ceded to Thailand, on the 1930
+  map.** They are in the `siamgain` atom and Laos's own sub-units are in
+  `indochina`, and `clusterOf` only gathers siblings inside one atom, so
+  hovering Laos outlines the part that stayed French and nothing else. Wants a
+  cluster that can reach across atoms.
+
+- **North-west Indochina, about 102.5 E 22.4 N**: which side of the frontier a
+  wedge there belongs to, and the black outline agreeing with whatever the
+  answer is. Not yet traced against a period source.
+
+- **Three frontiers still want checking against a source rather than against
+  each other**: the Burma–India line does not quite reach the Chinese border;
+  the northern India–China boundary is drawn differently in 1930 and in 1942
+  and should be the 1942 line on both; and the eastern end of Afghanistan.
+  These are source disagreements, not build faults — the seams close the gaps
+  but cannot decide which line is right.
+
 - **"Get rid of the ocean boundary for the Japanese occupied china."** Asked
   for and not done, because it is not clear what it refers to and the wrong
   guess would remove something the map needs. Nothing is drawn over water round
@@ -91,6 +108,66 @@ describing what was actually changed, before it is marked done.
 ---
 
 ## Done
+
+### The hand-traced layers are drawn as they arrive
+Three things were being done to the Modern East Asia GIS layers and all three
+were wrong. Weihaiwei was nudged 0.014° north to close a fringe, which moves a
+traced boundary off the ground it was traced from. Every layer was simplified
+by span, which gave Bhutan — long and thin, 3.4° across — the coarsest band in
+the build, about three kilometres, and folded its outline over itself into a
+hole. And every layer went through `dissolve`, which cancels the edges two
+rings share and is meant for provinces that abut: Kwangchowwan is six separate
+pieces round a bay and Weihaiwei is a headland and three islands, and the
+dissolve re-chained them into nonsense. `GIS_NUDGE` is empty, the layers are in
+`FULL_DETAIL` and in a new `NO_DISSOLVE`, and their minimum area is zero, so
+Weihaiwei keeps all four of its pieces instead of two. The files in
+`tools/cache/gis/` were checked byte for byte against the originals in Dropbox
+and are identical; nothing needed reimporting.
+
+### Seams are a layer of their own, not part of anyone's shape
+They were being added to each atom's own path, which meant they were traced
+whenever that country was selected. That is where the black line cutting across
+Tibet into India came from, and the doubled border round Thailand, and the
+scribbles along every frontier of China and the Soviet Union. `<g id="seams">`
+sits under the backings and under every atom, takes its atom's fill, and has no
+stroke and no pointer.
+
+With that fixed the seam machinery could be widened. `push_seam` now closes any
+pair of frontiers, and `ELSEWHERE_SEAMS` lists twelve more: India to Nepal,
+Sikkim and Bhutan, India to Burma, Siam to its four neighbours, Indochina to
+Siam, the Soviet Union to Mongolia and Korea, and the Borneo three to each
+other. 785 strips in all. The blue slivers round Bhutan and along the Nepal
+frontier are gone.
+
+### The Kwantung leasehold keeps Liaoning's islands
+The yellow flecks all round it were the country underneath showing through
+where the leasehold had thrown its islands away: the clip kept only pieces
+above 0.0015 square degrees, so the Changshan group and the rocks off Dairen
+were in Liaoning and not in the leasehold drawn over it. It takes every piece
+now — 105 rings instead of 5. (Drawing it from the traced
+`kwantung_leased_territory.gpkg` was tried first and is worse: that coastline
+is not the ENP sheet's, and it left a yellow rim along the whole shore.)
+
+### The dotted line round the South Seas Mandate is not drawn
+`NANYO_BOUNDS_SHOWN = false` in map.js. The ring is still in data.js and the
+code that builds it is still there; a traced one will replace it.
+
+### Divisions follow the Administrative switch again
+`data-islands` was being put on every archipelago, and the test it stands for
+is not "is this an archipelago" but "are these sub-units places or divisions".
+The Philippines is drawn from its 1939 provinces, Malaya and North Borneo from
+their states. Those three are in `ADMIN_SUBUNITS` and no longer name themselves
+with the layer off — except the Straits Settlements, which are four scattered
+specks in a peninsula of protectorates and are the point of that corner of the
+map either way.
+
+### City names come in with the zoom, and their notes are notes
+Two hundred context-city names at the opening view is a grey mat across the
+map, so they wait for `labelLevel() >= 2` — the dots are there as soon as
+Cities is on, the names when the reader has closed in on somewhere. And nine
+cities were carrying an explanation inside the name — "Trincomalee — the
+Eastern Fleet's base, raided April 1942" — which is a caption, not a name. The
+part after the dash is a `note` now and appears when the city is clicked.
 
 ### Natural Earth's China is gone, and the neighbours reach the provinces instead
 China's shore was drawn twice. Natural Earth's outline of the modern mainland

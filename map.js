@@ -238,7 +238,11 @@
     if (rec.kind === 'territory') {
       return rec.lvl <= labelLevel() && (!rec.adminOnly || state.cats.territory);
     }
-    if (rec.kind === 'browse') return browseVisible();
+    // The context cities are two hundred names, and at the opening view they
+    // are a grey mat across the whole map. Their dots are there from the
+    // moment Cities is switched on; their names wait until the reader has
+    // closed in on somewhere, which is when a name is any use to them.
+    if (rec.kind === 'browse') return browseVisible() && labelLevel() >= 2;
     return state.cats[rec.cat] && rec.lvl <= labelLevel() && siteInEpoch(rec);
   }
 

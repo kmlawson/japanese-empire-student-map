@@ -1142,6 +1142,25 @@ SEAM_STEP = 0.015          # degrees; how finely the gap is searched
 SEAM_MAX = 0.35            # degrees; wider than this is not a seam but a hole
 SEAM_MIN_RUN = 3           # vertices; shorter runs draw a fleck, not a strip
 
+# Frontiers away from China where two sources disagree, as (who moves, who
+# stays). The one that stays is always the better-drawn of the two: the traced
+# protectorates over Natural Earth's India, Korea's own provinces over
+# Manchuria's, the Shan states over Burma's divisions.
+ELSEWHERE_SEAMS = (
+    ("india", ("nepal", "sikkim", "bhutan")),
+    ("india", ("burma",)),
+    ("burma", ("saharat", "india")),
+    ("siam", ("burma", "indochina", "saharat", "malaya", "malaya_thai")),
+    ("indochina", ("siam", "siamgain", "burma")),
+    ("siamgain", ("indochina", "siam")),
+    ("ussr", ("mongolia", "tuva", "korea")),
+    ("mongolia", ("tuva", "ussr")),
+    ("malaya", ("malaya_thai", "siam")),
+    ("dei", ("timor_pt", "northborneo", "sarawak", "brunei")),
+    ("northborneo", ("sarawak", "brunei", "dei")),
+    ("sarawak", ("brunei", "northborneo")),
+)
+
 
 def _ring_test(rings):
     """A closure answering "is this point inside any of these rings"."""
@@ -1232,52 +1251,74 @@ def add_neighbour_seams(groups):
     if not enp:
         sys.stderr.write("note: no ENP-China rings, neighbour seams skipped\n")
         return seams
-    cell = 0.5
-    grid = _grid_of(enp, cell)
-    in_china = _ring_test(enp)
-
     for key in CHINA_NEIGHBOURS:
-        rings = groups.get(key)
-        if not rings:
-            continue
-        ref_wind = signed_ring_area(max(rings, key=len))
-        in_own = _ring_test(rings)
+        seams[key].extend(push_seam(groups.get(key) or [], enp))
 
-        for ring in rings:
-            n = len(ring)
-            if n < 8:
+    # The same problem away from China. Nepal, Sikkim and Bhutan are traced by
+    # hand and British India is Natural Earth, and the two disagree along every
+    # mile of those frontiers; the traced line is the better one, so it is India
+    # that reaches. Burma and Siam are drawn from different files again.
+    for mover, targets in ELSEWHERE_SEAMS:
+        want = [r for k in targets for r in groups.get(k, ())]
+        if want:
+            seams[mover].extend(push_seam(groups.get(mover) or [], want))
+    return {k: v for k, v in seams.items() if v}
+
+
+def push_seam(rings, target, reach=SEAM_MAX):
+    """Strips carrying `rings` outward until they overlap `target`.
+
+    Each vertex is pushed along its own normal, a step at a time, and stops at
+    the first distance that lands inside the target and outside the shape it
+    came from — the smallest push that closes the gap. A vertex already inside
+    the target, or one that cannot reach it within `reach`, gets nothing, and
+    that is what tells a frontier from a coastline without anyone having to say
+    in advance which stretch of a country is which.
+    """
+    out = []
+    if not rings or not target:
+        return out
+    cell = 0.5
+    grid = _grid_of(target, cell)
+    in_target = _ring_test(target)
+    in_own = _ring_test(rings)
+    ref_wind = signed_ring_area(max(rings, key=len))
+
+    for ring in rings:
+        n = len(ring)
+        if n < 8:
+            continue
+        piece = []
+        for k in range(n + 1):
+            p = ring[k % n] if k < n else None
+            far = None
+            if p is not None and _near_grid(grid, cell, p, reach) \
+                    and not in_target(p):
+                nx, ny = _ring_normal(ring, k % n)
+                w = SEAM_STEP
+                while w <= reach and far is None:
+                    for sign in (1.0, -1.0):
+                        q = (p[0] + sign * nx * w, p[1] + sign * ny * w)
+                        # inside the target and out of its own country: a strip
+                        # that doubles back into itself fills nothing and can
+                        # cross a bay to do it
+                        if in_target(q) and not in_own(q):
+                            far = q
+                            break
+                    w += SEAM_STEP
+            if far is not None:
+                piece.append((p, far))
                 continue
+            if len(piece) >= SEAM_MIN_RUN:
+                strip = [a for a, _ in piece] + [b for _, b in reversed(piece)]
+                # the strip overlaps its own country rather than abutting it,
+                # and paths fill by the nonzero rule: wound the other way it
+                # would cancel the overlap and punch a hole
+                if signed_ring_area(strip) * ref_wind < 0:
+                    strip.reverse()
+                out.append(strip)
             piece = []
-            for k in range(n + 1):
-                p = ring[k % n] if k < n else None
-                far = None
-                if p is not None and _near_grid(grid, cell, p, SEAM_MAX) \
-                        and not in_china(p):
-                    nx, ny = _ring_normal(ring, k % n)
-                    w = SEAM_STEP
-                    while w <= SEAM_MAX and far is None:
-                        for sign in (1.0, -1.0):
-                            q = (p[0] + sign * nx * w, p[1] + sign * ny * w)
-                            # inside China and out of the neighbour: a strip
-                            # that doubles back into its own country fills
-                            # nothing and can cross a bay to do it
-                            if in_china(q) and not in_own(q):
-                                far = q
-                                break
-                        w += SEAM_STEP
-                if far is not None:
-                    piece.append((p, far))
-                    continue
-                if len(piece) >= SEAM_MIN_RUN:
-                    strip = [a for a, _ in piece] + [b for _, b in reversed(piece)]
-                    # the strip overlaps its own country rather than abutting
-                    # it, and paths fill by the nonzero rule: wound the other
-                    # way it would cancel the overlap and punch a hole
-                    if signed_ring_area(strip) * ref_wind < 0:
-                        strip.reverse()
-                    seams[key].append(strip)
-                piece = []
-    return seams
+    return out
 
 
 def add_frontier_seam(groups):
@@ -2726,9 +2767,10 @@ def main():
     # added to an atom's own path is traced when that country is selected, and
     # came out as a black line cutting across Tibet into India, a doubled
     # border round Thailand and a scribble along every frontier of China.
-    seamed = add_neighbour_seams(groups)
-    for key, rings in add_frontier_seam(groups).items():
-        seamed[key].extend(rings)
+    seamed = collections.defaultdict(list)
+    for src in (add_neighbour_seams(groups), add_frontier_seam(groups)):
+        for key, rings in src.items():
+            seamed[key].extend(rings)
     if seamed:
         sys.stderr.write(
             "frontier seams: "
