@@ -420,7 +420,7 @@ ENP_ATOMS = {"china", "manchuria", "chahar", "suiyuan", "suiyuan_w", "jehol",
 # a small atom's tolerance while Manchuria kept the full detail of the sheet,
 # and the finer coast underneath showed all round the coarser one as a yellow
 # fringe: the leasehold looked like a blocky stamp laid on a real peninsula.
-FULL_DETAIL = ({"korea", "saharat", "princely", "kwantung"} | ENP_ATOMS
+FULL_DETAIL = ({"korea", "saharat", "princely", "kwantung", "ccp"} | ENP_ATOMS
                | set(GIS_LAYERS))
 
 # Atoms whose rings are separate pieces of ground rather than neighbours that
@@ -428,7 +428,7 @@ FULL_DETAIL = ({"korea", "saharat", "princely", "kwantung"} | ENP_ATOMS
 # what makes a country out of its provinces and what makes nonsense out of an
 # archipelago: it re-chains the survivors and hands back one ring threading
 # through all of them.
-NO_DISSOLVE = {"kwantung"} | set(GIS_LAYERS)
+NO_DISSOLVE = {"kwantung", "ccp"} | set(GIS_LAYERS)
 
 # Atoms whose backing is the union of their own sub-units rather than Natural
 # Earth's outline of the same country. The backing exists to fill the cracks
@@ -1870,6 +1870,16 @@ def island_name(key, ring):
 # and not the rounded blob it was first given. Traced clockwise from the west
 # tip of Wilkes: the ocean shore east and north to Peale's tip, then back along
 # the lagoon.
+# The Communist base areas and guerrilla zones, 1941–42, traced from sheet 199
+# of 武月星主編《中國抗日戰爭史地圖集：1931–1945》. Seventy-five separate areas
+# from the Shaan-Gan-Ning border region round Yenan to the coastal pockets of
+# Shantung and the Yangtze delta. They are drawn over the occupied shading and
+# not instead of it, because that is what they were: country inside the line
+# the Japanese army had drawn round itself and did not hold. The occupied zone
+# on this map is described as generous for exactly this reason, and this is the
+# other half of that sentence.
+CCP_FILE = "ccp-resistance-areas-1941-1942-p199.geojson"
+
 # Christmas Island, annexed to the Straits Settlements in 1900 and run from
 # Singapore, and taken by Japan on 31 March 1942 for its phosphate. Natural
 # Earth files it under "Indian Ocean Territories" with the Cocos (Keeling)
@@ -2068,7 +2078,7 @@ ADMIN_SUBUNITS = {"philippines", "malaya", "northborneo"}
 
 # Drawn after the occupied shading, so the small enclaves it would otherwise
 # bury are still there to see and to click.
-ON_TOP = ["weihaiwei", "guangzhouwan", "macau", "hongkong", "kwantung"]
+ON_TOP = ["weihaiwei", "guangzhouwan", "macau", "hongkong", "kwantung", "ccp"]
 
 ORDER = [
     # first, so that anything real drawn over it wins the pointer
@@ -2084,7 +2094,7 @@ ORDER = [
     "nauru_au", "guam", "wake", "hawaii", "aleutians", "aleutians_jp", "hongkong", "macau",
     "solomons_gc", "solomons_us", "solomons_ml", "solomons_al",
     "korea", "taiwan", "karafuto", "chishima", "nanyo", "ryukyu",
-    "ogasawara", "japan", "kwantung",
+    "ogasawara", "japan", "kwantung", "ccp",
 ]
 
 
@@ -2294,6 +2304,17 @@ def main():
             # territory and offers no guess at the state.
             if rest:
                 provinces["princely"].append(("", rest))
+
+    # ---- the Communist base areas, 1941-42 ---------------------------------
+    cpath = os.path.join(CACHE, CCP_FILE)
+    if os.path.exists(cpath):
+        with open(cpath) as fh:
+            for feat in json.load(fh)["features"]:
+                for ring in iter_rings(feat["geometry"]):
+                    if len(ring) >= 3:
+                        groups["ccp"].append(ring)
+    else:
+        sys.stderr.write(f"note: {CCP_FILE} missing, base areas not drawn\n")
 
     groups["wake"].append(list(WAKE))
     groups["christmas"].append(list(CHRISTMAS_ISLAND))
@@ -2796,7 +2817,7 @@ def main():
         # The hand-traced layers keep every piece their author drew: two of
         # Weihaiwei's four are islands of a few square kilometres, and a sieve
         # set for Natural Earth's specks was quietly throwing them away.
-        min_area = (0.0 if key in GIS_LAYERS or key == "kwantung"
+        min_area = (0.0 if key in GIS_LAYERS or key in ("kwantung", "ccp")
                     else 0.04 if key in ("goa", "pondicherry")
                     else 0.12 if (archipelago or key in FULL_DETAIL)
                     else args.min_area)
@@ -3032,6 +3053,16 @@ def main():
         '    <pattern id="hatch-us" patternUnits="userSpaceOnUse" width="9" height="9" '
         'patternTransform="rotate(45)">'
         '<line x1="0" y1="0" x2="0" y2="9" stroke="#325d7b" stroke-opacity="1" stroke-width="4.4"/>'
+        "</pattern>"
+    )
+    # The Communist base areas, laid over the occupied shading rather than
+    # instead of it. Rotated the other way from the occupation's own stripes,
+    # so that where the two cross — which is most of where these are — the
+    # reader can see both: Japanese authority claimed here, and not held.
+    out.append(
+        '    <pattern id="hatch-ccp" patternUnits="userSpaceOnUse" width="7" height="7" '
+        'patternTransform="rotate(-45)">'
+        '<line x1="0" y1="0" x2="0" y2="7" stroke="#7a1730" stroke-opacity="0.85" stroke-width="2.2"/>'
         "</pattern>"
     )
     # The occupied zone is clipped to China's land. Clip it to the shape that is

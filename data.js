@@ -86,6 +86,10 @@ JMAP.CATEGORIES = {
     { id: 'occupied', c: '#fb8072', en: 'Under military occupation', ja: '軍政地域', orig: 'Occupied', zh: '軍政地區', ko: '군정 지역' },
     { id: 'cobelligerent', c: '#8dd3c7', en: 'Co-belligerent', ja: '同盟国', orig: 'Co-belligerent', zh: '日本盟國', ko: '일본의 동맹국' },
     { id: 'freechina', c: '#ffffb3', en: 'Republic of China', ja: '中華民国', orig: 'Republic of China', zh: '中華民國', ko: '중화민국' },
+    // Drawn as cross-hatching over whatever is underneath, because that is
+    // what these were: base areas and guerrilla zones inside the shading, not
+    // territory taken off it.
+    { id: 'ccp', c: '#7a1730', en: 'Communist base areas & guerrilla zones', ja: '中国共産党根拠地', orig: '抗日根據地', zh: '中共抗日根據地', ko: '중국공산당 항일근거지' },
     { id: 'frontier', c: '#e7de7e', en: 'De facto independent', ja: '事実上の独立', orig: 'De facto independent', zh: '事實上獨立', ko: '사실상 독립' },
     { id: 'allied', c: '#b07f8e', en: 'Allied', ja: '連合国', orig: 'Allied', zh: '盟軍', ko: '연합국' },
     { id: 'american', c: '#325d7b', en: 'American', ja: 'アメリカ領', orig: 'American', zh: '美國領', ko: '미국령' },
@@ -600,7 +604,12 @@ JMAP.TERRITORIES = {
       en: 'Republic of China (Nationalist government)', ja: '中華民国・重慶政権 (Chūka Minkoku)', orig: '中華民國 (Zhōnghuá Mínguó)',
       zh: '中華民國（重慶國民政府）',
       when: 'Capital at Chungking from 1938',
-      note: 'The unoccupied interior, governed by Chiang Kai-shek from Chungking and supplied over the Burma Road until 1942 and then by air over "the Hump". The Communist base area lay around Yenan.' },
+      note: 'The unoccupied interior, governed by Chiang Kai-shek from Chungking and supplied over the Burma Road until 1942 and then by air over "the Hump". The Communist base areas are drawn separately, in cross-hatching.' },
+    { id: 'ccp', atoms: ['ccp'], cat: 'ccp', lvl: 2,
+      en: 'Communist base areas and guerrilla zones', orig: '抗日根據地 (Kàngrì gēnjùdì)',
+      zh: '中共抗日根據地', ja: '中国共産党抗日根拠地',
+      when: 'As they stood in 1941–42',
+      note: 'The base areas and guerrilla zones of the Eighth Route Army and the New Fourth Army, and the reason the occupied shading on this map is described as generous. Almost all of this ground lies inside the line the Japanese army had drawn round itself: Japan held the cities, the railways and the plains between them, and the countryside behind that line was fought over. The largest is Shaan-Gan-Ning, the border region round Yenan, which was never occupied at all; the rest — Chin-Ch’a-Chi in the Wutai mountains, Chin-Chi-Lu-Yü on the Hopei-Shantung plain, the Shantung and coastal pockets, and the New Fourth Army areas along the lower Yangtze — were inside it. Their extent moved from month to month, and the "mopping-up" campaigns of 1941–42 cut some of them badly; these are the areas as one atlas draws them for those two years, not a line anyone held.' },
     { id: 'britishindia', atoms: ['india'], cat: 'allied', lvl: 1,
       en: 'British India',             when: 'The western limit of the advance',
       note: 'The front stopped at the Burmese border in 1942. The Quit India movement was suppressed that August, while the Indian National Army formed on the other side.' },

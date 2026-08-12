@@ -109,6 +109,21 @@ describing what was actually changed, before it is marked done.
 
 ## Done
 
+### The Communist base areas, over the occupied shading
+Seventy-five areas traced from sheet 199 of 武月星主編《中國抗日戰爭史地圖集：
+1931–1945》, in `tools/cache/ccp-resistance-areas-1941-1942-p199.geojson`.
+Drawn on the 1942 map only, as the atom `ccp`, over everything else — the
+`hatch-ccp` pattern is rotated the other way from the occupation's own stripes
+so that where the two cross, which is most of where these are, both can be
+read: Japanese authority claimed here, and not held. Full detail, no dissolve,
+no minimum area, so all 75 arrive as traced. They are hoverable and have a
+legend row of their own.
+
+This is the other half of a sentence the map has been making since the
+occupied zone was drawn: that the shading is an approximation and a generous
+one. Free China's note used to end "The Communist base area lay around Yenan",
+which was doing that work in words; the map does it now.
+
 ### The hand-traced layers are drawn as they arrive
 Three things were being done to the Modern East Asia GIS layers and all three
 were wrong. Weihaiwei was nudged 0.014° north to close a fringe, which moves a
