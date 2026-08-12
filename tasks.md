@@ -7,12 +7,20 @@ describing what was actually changed, before it is marked done.
 
 ## Open
 
-- **Kwangchowwan.** The last thing the ribbon sweep still finds: bands of
-  Republic yellow and French blue interleaving over 110.09–110.62 E,
-  20.97–21.39 N with a 112-pixel pocket in the middle of them. The leasehold
-  wants redrawing from its own source rather than patching. (The sweep's other
-  finding, a four-pixel band along 109.60–109.64 E, is the Suiyuan meridian
-  below.)
+- **Kwangchowwan** — needs a period source after all. Diagnosed properly this
+  time. The leasehold's own file holds six separate pieces round Guangchow Bay,
+  and the yellow between them is not a leak: it is ENP's Kwangtung, whose
+  coastline is coarse enough to cover the bay and its tidal creeks, showing
+  through where the lease's finer outline says water. So the mess is the base
+  map poking through a finer overlay, the same shape of problem as the Korea
+  frontier — but this one cannot be closed by reaching outward, because what is
+  wanted is to cut the bay *out* of China, and `clip_halfplanes` is convex-only
+  with no polygon difference anywhere in the build.
+  Filling the concavities instead was measured and rejected: the convex hull of
+  all six pieces overshoots their area by 78 per cent, and per-piece hulls by
+  11 to 73 per cent, which would swallow Chinese land the lease never held. The
+  honest fix is the lease boundary as a period map draws it — one line round the
+  bay and its shores — and that is a source I do not have.
 - **The shapes of the coastal enclaves.** Amoy, Swatow and the Canton delta are
   named now, but Amoy and Swatow are still fourteen-point ellipses — a guess
   with the corners rounded off. They want a period source. (Naming them is
