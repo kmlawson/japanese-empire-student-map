@@ -422,7 +422,19 @@ SUB_CLUSTERS = {
 # The Dindings: the coastal strip of Perak around Lumut and Sitiawan with
 # Pangkor island, ceded to Britain in 1826 and administered as part of the
 # Straits Settlements until it was handed back to Perak on 16 February 1935.
-DINDINGS_BOX = (100.45, 3.95, 101.05, 4.50)
+# Drawn as a box until a reader said it looked too wide, and it was: the box is
+# 0.33 square degrees and the territory about 0.13. These twelve points are the
+# convex hull of the Manjung district of Perak, which is the Dindings district
+# renamed in 1982 and has the same footprint; taken from OpenStreetMap's
+# admin_level 6 relation, 3,919 points reduced to a hull that loses a
+# thousandth of its area. Perak is still clipped to it, so the coastline is
+# Perak's own and cannot disagree with itself.
+DINDINGS_HULL = [
+    (100.5283, 4.2301), (100.5398, 4.1872), (100.7543, 4.0002),
+    (100.7767, 3.9961), (100.7979, 4.0073), (100.8120, 4.0225),
+    (100.8294, 4.0518), (100.8595, 4.5130), (100.8600, 4.5374),
+    (100.8564, 4.5524), (100.6240, 4.5292), (100.5740, 4.4221),
+]
 
 SAHARAT_FILE = "adm2_MMR_shan_east.json"
 SAHARAT_WHOLE = {"Kengtung", "Monghsat", "Tachileik"}
@@ -833,6 +845,22 @@ def quad_planes(poly):
 
 def box_planes(x0, y0, x1, y1):
     return [(1, 0, -x0), (-1, 0, x1), (0, 1, -y0), (0, -1, y1)]
+
+
+def hull_planes(hull):
+    """One half-plane per edge of a convex ring, all keeping the inside.
+
+    Which side `line_plane` keeps depends on the ring's winding, so rather than
+    assume one, the centroid is tested against the first edge and every plane
+    flipped together if it fell outside."""
+    cx = sum(p[0] for p in hull) / len(hull)
+    cy = sum(p[1] for p in hull) / len(hull)
+    planes = [line_plane(hull[i], hull[(i + 1) % len(hull)])
+              for i in range(len(hull))]
+    a, b, c = planes[0]
+    if a * cx + b * cy + c < 0:
+        planes = [(-a, -b, -c) for a, b, c in planes]
+    return planes
 
 
 def line_plane(p, q, keep_right=True):
@@ -2110,7 +2138,7 @@ def main():
                             # laid over Perak in the same colour: it changes
                             # nothing to look at and gives the pointer
                             # something to name.
-                            cut = [c for c in (clip_halfplanes(r, box_planes(*DINDINGS_BOX))
+                            cut = [c for c in (clip_halfplanes(r, hull_planes(DINDINGS_HULL))
                                                for r in prings) if len(c) >= 3]
                             if cut:
                                 provinces[key].append(("Dindings", cut))

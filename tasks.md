@@ -7,15 +7,11 @@ describing what was actually changed, before it is marked done.
 
 ## Open
 
-- **The Dindings are drawn as a box**, 100.45–101.05 E, 3.95–4.50 N, which is
-  why they look too wide. They were the Dindings district of Perak — Lumut,
-  Sitiawan and Pangkor — and want their real outline. Overpass was rate-limited
-  when this was tried; the query is for the Manjung district relation, which is
-  the successor.
-  Worse than the shape: **the Dindings stopped being a Straits Settlement in
-  1935**, retroceded to Perak. On the December 1942 map they should be part of
-  Perak, not one of the Settlements, and the cluster that lights with Singapore
-  should not include them on that date.
+- **The Dindings were a Straits Settlement until 1935 only**, retroceded to
+  Perak on 16 February that year. The map still calls them one in December
+  1942, and they light with Singapore on that date. The shape is fixed (below);
+  this is the remaining half of it, and it wants an epoch override on the
+  sub-unit's name and its membership of the cluster.
 
 - **A starburst of thin lines in the Johor Strait**, about 103.60 E, 1.47 N,
   visible without hovering anything. It is an unnamed leftover path inside
