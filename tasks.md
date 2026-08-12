@@ -85,6 +85,15 @@ is smaller than the tolerance its country earns and would be simplified out of
 existence — which is the same treatment the Korea seam gets, so the two share
 one mechanism now.
 
+`china_island()` decides what to take. Not the mainland, for the reason above;
+not Hainan, which the Republican provinces do carry, so taking Natural Earth's
+copy would only have drawn it twice; and not the **Paracels**, which Natural
+Earth gives to modern China and which were not China's on either of these
+dates — France claimed them for Annam and occupied them in 1938, and Japan took
+them in 1939 and administered them from Taiwan. They were below the minimum area
+and had never actually been drawn, but they would have been the moment the
+filler stopped thinning what it was given.
+
 The coast was the occupied zone's own trace. It went round the Gulf of Chihli
 by hand and cut inside every bulge, leaving unoccupied yellow along the Luanhe
 delta and the Leting shore. It cuts straight across the gulf now: the blocks are
@@ -114,6 +123,12 @@ small island on the map, not just this one.
 
 At the map's own scale Wake is still smaller than the islet ring drawn round
 it; the shape is what you get when you zoom to it.
+
+The four geometry changes of this batch together take the main SVG from 1,512
+KB to 1,651 KB and the administrative one from 746 KB to 774 KB — nine per cent,
+for finer small islands everywhere, Wake's real outline, China's coastal islands
+and the Korea frontier seam. The administrative file is still fetched only when
+the Administrative layer is turned on.
 
 ### Manchuria reaches Korea along the Yalu and the Tumen
 Korea is drawn from a period map of its thirteen provinces and Manchuria from

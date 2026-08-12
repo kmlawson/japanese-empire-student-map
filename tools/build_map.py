@@ -1067,6 +1067,30 @@ def add_frontier_seam(groups):
     return seams
 
 
+# Modern China as Natural Earth draws it, minus the things a 1930 or 1942 map
+# must not take from it. The Paracels were not Chinese on either date: France
+# claimed them for Annam and occupied them in 1938, and Japan took them in 1939
+# and ran them from Taiwan.
+PARACELS_BOX = (110.5, 15.5, 113.5, 17.5)
+
+
+def china_island(ring):
+    """Is this ring one of China's coastal islands?
+
+    The Republican provinces do not carry the small islands, so they are taken
+    from Natural Earth instead. Not the mainland, whose land frontiers disagree
+    with the provinces and must stay under the neutral filler; not Hainan, which
+    the provinces do carry; and not the Paracels, which were not China's.
+    """
+    a = abs(signed_ring_area(ring)) / 2.0
+    if a < 0.00005 or a > 1.0:
+        return False
+    cx = sum(p[0] for p in ring) / len(ring)
+    cy = sum(p[1] for p in ring) / len(ring)
+    x0, y0, x1, y1 = PARACELS_BOX
+    return not (x0 <= cx <= x1 and y0 <= cy <= y1)
+
+
 def signed_ring_area(ring):
     """Twice the signed area: the sign is the ring's winding direction."""
     s = 0.0
@@ -1634,11 +1658,9 @@ def main():
             # the ring whose land frontiers disagree with the Republican
             # provinces, and colouring those disagreements China's yellow rather
             # than the neutral grey is what the neutral grey exists to avoid.
-            crings = list(iter_rings(feat["geometry"]))
-            mainland = max(crings, key=lambda r: abs(signed_ring_area(r)))
-            for ring in crings:
+            for ring in iter_rings(feat["geometry"]):
                 groups["chinabase"].append(ring)
-                if ring is not mainland:
+                if china_island(ring):
                     extra["china"].append(ring)
             continue
         if admin == "Russia":
