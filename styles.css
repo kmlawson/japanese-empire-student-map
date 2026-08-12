@@ -1078,3 +1078,37 @@ dialog h3 {
   padding: 1px 4px;
   border-radius: 3px;
 }
+
+/* The Administrative switch while its 750 KB of divisions are on the way. The
+   button worked all along; without this it simply sat there saying nothing for
+   the length of the fetch, which read as a switch that does not work. */
+#layer-seg button.busy .g,
+#layer-seg button.failed .g { opacity: .35; }
+#layer-seg button.busy::after {
+  content: "";
+  display: inline-block;
+  vertical-align: -1px;
+  width: 11px;
+  height: 11px;
+  margin-left: 7px;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  opacity: .8;
+  animation: jmap-spin .7s linear infinite;
+}
+#layer-seg button.failed::after {
+  content: "!";
+  margin-left: 7px;
+  font-weight: 700;
+  opacity: .85;
+}
+@keyframes jmap-spin { to { transform: rotate(360deg); } }
+
+@media (prefers-reduced-motion: reduce) {
+  #layer-seg button.busy::after {
+    animation: none;
+    border-top-color: currentColor;
+    opacity: .45;
+  }
+}

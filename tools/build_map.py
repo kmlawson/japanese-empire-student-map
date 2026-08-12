@@ -408,6 +408,16 @@ BURMA_DIVISIONS = {
 # Assam, Sind, Baluchistan and the North-West Frontier are close; Bombay,
 # Madras and the Central Provinces are rough, because the states inside them
 # are drawn here as though they were part of them.
+# Modern first-level units of India that British India's atom must not draw.
+# The Andamans are an atom of their own — British in 1930, Japanese-occupied
+# from March 1942 — and India's unnamed remainder block was drawing them too,
+# in the Raj's colour, on top of the atom that had them right. That is why they
+# kept "going back to British": not a race with the epoch at all, but a second
+# copy of them arriving with the administrative divisions. Lakshadweep is here
+# because this map does not draw it and the remainder block should not smuggle
+# it in either.
+INDIA_NOT_DRAWN = {"Andaman and Nicobar Islands", "Lakshadweep"}
+
 INDIA_STATES = {
     # provinces of the Raj
     "Assam": "Assam", "Meghālaya": "Assam", "Nāgāland": "Assam",
@@ -1827,7 +1837,10 @@ def main():
             continue
         with open(path) as fh:
             for feat in json.load(fh)["features"]:
-                label = INDIA_STATES.get(feat["properties"].get("shapeName"))
+                shape = feat["properties"].get("shapeName")
+                if shape in INDIA_NOT_DRAWN:
+                    continue
+                label = INDIA_STATES.get(shape)
                 # The modern states that were mostly princely — Rajasthan,
                 # Telangana, Karnataka, Kerala, Kashmir — answer to no British
                 # province, so they go in under the empty label: the ground is

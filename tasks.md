@@ -23,9 +23,6 @@ describing what was actually changed, before it is marked done.
   want a period source and a label each.
 - **The Yangtze's tail** runs diagonally across the estuary and stops in open
   water instead of following a channel out to the sea.
-- **The Administrative switch is unreliable** — sometimes it works, sometimes
-  not. If that is the fetch, show a spinner beside the button; either way it
-  must turn provinces on and off every time.
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible
   — Japan only created a western administrative region out of Paotow and the
   Urad banners in June 1943, six months after this map — but a straight line of
@@ -41,15 +38,39 @@ describing what was actually changed, before it is marked done.
   occupied zone is currently traced from, for the whole zone and not just this.
   The 1930 agent for this never reported — it failed on the monthly spend
   limit, twice.
-- **The Andamans keep the British colour sometimes.** Switching to 1942 leaves
-  them Allied mauve now and then; a reload fixes it. Not reproduced: switching
-  epochs six times, with the Administrative layer both off and on, gave the
-  right colour every time (`andaman / #fb8072`). Suspect a race with the
-  administrative fetch or with `composeEpoch`, and needs catching in the act.
 
 ---
 
 ## Done
+
+### The Andamans stopped going back to British
+Caught at last, and it was never a race with the epoch. British India's atom
+draws its unnamed remainder — every modern first-level unit the table does not
+map to a British province — as one path, and modern India includes the Andaman
+and Nicobar Islands. So a second copy of the Andamans was being drawn in the
+Raj's mauve directly on top of the atom that had them right. `a-india` is
+emitted after `a-andaman`, so the copy always won.
+
+What made it intermittent is that India's sub-units are deferred: with the
+Administrative layer off, `#a-india` is empty and the Andamans are correct, and
+the wrong colour arrives with the administrative fetch. Hence "a reload fixes
+it" — the reload starts with the layer off again.
+
+`INDIA_NOT_DRAWN` keeps the Andamans and Lakshadweep out of the remainder
+block. Twelve loads in a row now give the occupied colour where nine of twelve
+gave mauve, and 1930 still shows them British, which is the atom taking British
+India's colour as it should.
+
+### The Administrative switch says what it is doing
+The switch was never broken: 120 rapid presses, slow presses, and presses
+across epoch changes all turned the provinces on and off correctly. What it
+could not do is make three quarters of a megabyte arrive instantly, and it said
+nothing while that happened, which on a slow line is indistinguishable from a
+dead button. The button now carries a spinner while `adminState` is `loading`,
+and if the fetch fails it says so with a mark and a tooltip instead of sitting
+there switched on and empty — the next press retries, which the old code
+allowed but never showed. Verified under a 220 KB/s throttle and with the
+request aborted outright.
 
 ### The ENP provinces are drawn as supplied
 Asked why Natural Earth is used for China at all, the answer is that it is not:

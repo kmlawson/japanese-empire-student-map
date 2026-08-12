@@ -1766,10 +1766,28 @@
   /* The administrative divisions live in a second file. Fetch it once, graft
      each atom's sub-units into the atom they belong to, and let the backing
      stop taking the pointer now that there is something above it to name. */
-  var adminState = 'none';          // none | loading | ready
+  var adminState = 'none';          // none | loading | ready | failed
+
+  /* The switch turns provinces on and off every time; what it cannot do is
+     make three quarters of a megabyte arrive instantly. Pressed cold on a slow
+     line it looked broken, because nothing happened for as long as the fetch
+     took and nothing said why. The button says so now. */
+  function setAdminBusy() {
+    var b = $('#layer-seg button[data-cat="territory"]');
+    if (!b) return;
+    b.classList.toggle('busy', adminState === 'loading');
+    b.classList.toggle('failed', adminState === 'failed');
+    b.setAttribute('aria-busy', adminState === 'loading' ? 'true' : 'false');
+    b.title = adminState === 'loading' ? 'Loading the administrative divisions…'
+      : adminState === 'failed' ? 'The administrative divisions did not load — press again to retry'
+      : '';
+  }
+
   function loadAdmin() {
-    if (adminState !== 'none') return;
+    // 'failed' is retried, 'loading' and 'ready' are left alone
+    if (adminState === 'loading' || adminState === 'ready') return;
     adminState = 'loading';
+    setAdminBusy();
     var graft = function (text) {
       var doc = new DOMParser().parseFromString(text, 'image/svg+xml');
       $$('g[data-for]', doc.documentElement).forEach(function (g) {
@@ -1784,14 +1802,23 @@
         el.classList.remove('deferred');
       });
       adminState = 'ready';
+      setAdminBusy();
       applyState();
       if (selected) select(selected);
     };
     if (window.JMAP_INLINE_ADMIN) { graft(window.JMAP_INLINE_ADMIN); return; }
     fetch('japan-empire-map-admin.svg')
-      .then(function (r) { return r.text(); })
+      .then(function (r) {
+        if (!r.ok) throw new Error(r.status);
+        return r.text();
+      })
       .then(graft)
-      .catch(function () { adminState = 'none'; });
+      .catch(function () {
+        // say so rather than sitting there looking switched on and empty; the
+        // next press retries
+        adminState = 'failed';
+        setAdminBusy();
+      });
   }
 
   function syncLayerButtons() {
