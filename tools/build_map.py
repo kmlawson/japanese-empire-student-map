@@ -719,10 +719,16 @@ def china_front():
 # down to the Tonkin frontier. Everything seaward of this line is inside it, so
 # the line runs just offshore — leaving the unoccupied coast of Fukien and
 # Kwangtung outside — and turns inland at each place that was held: Amoy and
-# Kinmen, Swatow and Chaochow, the Canton delta. It goes through the Qiongzhou
-# strait, which leaves the Leizhou peninsula and Kwangchowwan north of it and
-# outside — Japan did not take Kwangchowwan until February 1943 — while Hainan,
-# seaward of the line, falls inside without needing to be traced round.
+# Kinmen, Swatow and Chaochow, the Canton delta, and Kwangchowwan. It then goes
+# through the Qiongzhou strait, which leaves the rest of the Leizhou peninsula
+# north of it and outside, while Hainan, seaward of the line, falls inside
+# without needing to be traced round.
+#
+# Kwangchowwan is the one place on this coast where the line and the colour
+# disagree, and deliberately: the leasehold is drawn in the French colour,
+# because that is whose it was, and it is inside the line, because Japanese
+# forces were in it. The formal occupation is February 1943, two months after
+# this map's date; the arrangement with Vichy that put them there is not.
 EXTENT_SOUTH_CHINA = [
     (121.5, 28.8), (121.2, 28.3), (120.7, 27.8), (120.4, 27.2), (120.0, 26.6),
     (119.8, 26.0), (119.5, 25.5), (119.1, 25.0), (118.9, 24.75),
@@ -738,8 +744,14 @@ EXTENT_SOUTH_CHINA = [
     (115.5, 22.7), (114.8, 22.5),
     (114.6, 22.55), (114.55, 23.1), (113.9, 23.6), (113.15, 23.85),
     (112.85, 23.5), (112.6, 23.0), (112.65, 22.35),
-    (111.8, 21.8), (110.9, 21.4), (110.45, 20.95),
-    (110.2, 20.25), (109.6, 20.35),
+    (111.8, 21.8), (111.20, 21.60),
+    # round the landward side of Kwangchowwan — north, west and south of the
+    # leasehold — and back to the coast east of it
+    (110.78, 21.52), (110.55, 21.47), (110.20, 21.45), (110.02, 21.41),
+    (109.98, 21.15), (110.03, 20.94), (110.32, 20.89), (110.62, 20.87),
+    # and on through the Qiongzhou strait, south of the peninsula's tip, so
+    # that the rest of Leizhou stays outside and Hainan inside
+    (110.40, 20.28), (109.6, 20.35),
     (109.4, 21.2), (108.6, 21.5), (108.1, 21.5),
 ]
 
@@ -3060,9 +3072,9 @@ def main():
     # so that where the two cross — which is most of where these are — the
     # reader can see both: Japanese authority claimed here, and not held.
     out.append(
-        '    <pattern id="hatch-ccp" patternUnits="userSpaceOnUse" width="7" height="7" '
+        '    <pattern id="hatch-ccp" patternUnits="userSpaceOnUse" width="3.6" height="3.6" '
         'patternTransform="rotate(-45)">'
-        '<line x1="0" y1="0" x2="0" y2="7" stroke="#7a1730" stroke-opacity="0.85" stroke-width="2.2"/>'
+        '<line x1="0" y1="0" x2="0" y2="3.6" stroke="#7a1730" stroke-opacity="0.6" stroke-width="0.9"/>'
         "</pattern>"
     )
     # The occupied zone is clipped to China's land. Clip it to the shape that is

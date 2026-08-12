@@ -308,22 +308,29 @@ button.plain:hover { background: #f2ede2; }
   stroke-linejoin: round;
 }
 
+/* The outline is a stroke on the shape with everything inside the shape masked
+   away, so what shows is the outer half of it. That makes the width a limit on
+   how fine a line it can trace: an inlet narrower than the visible half is
+   bridged by the stroke on either side of it and comes out as a straight line
+   across the bay. At six pixels the outline of Manchukuo cut every small bay
+   off its Soviet frontier and read as a visibly coarser line than the fill it
+   was tracing. Three, and it follows the coast. */
 #highlight .hi-territory path,
 #highlight .hi-territory circle {
   stroke: rgba(40, 33, 24, .8);
-  stroke-width: 4;
+  stroke-width: 2;
 }
 
 #highlight .hi-province path,
 #highlight .hi-province circle {
   stroke: rgba(30, 24, 16, .7);
-  stroke-width: 3;
+  stroke-width: 2;
 }
 
 #highlight .hi-selected path,
 #highlight .hi-selected circle {
   stroke: #14110c;
-  stroke-width: 6;
+  stroke-width: 2.4;
 }
 
 .site.sel .dot {

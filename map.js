@@ -1095,6 +1095,15 @@
 
   function onPointerDown(e) {
     if (e.button !== undefined && e.button > 0) return;
+    // The zoom buttons sit inside the map's own box, so a press on one of them
+    // reaches this handler first — and capturing the pointer to the container
+    // means the click that follows is delivered to the container and never to
+    // the button. All three of them were dead to the mouse because of it; the
+    // reset button was the one anybody noticed, because the wheel does the
+    // other two. Anything that is a control answers for itself.
+    if (e.target && e.target.closest && e.target.closest('button, a, input, label')) {
+      return;
+    }
     // Track first: if capture is refused (it can be, mid-gesture) we still
     // want the pointer in the map or the next move is read as a fresh drag.
     pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
@@ -1629,14 +1638,37 @@
     if (!layer || !els.length || !hiDefs) return;
     var owned = ownedDefs[layer === subOutlineLayer ? 'sub' : 'hi'];
     var id = 'mask-' + (++maskSeq);
-    // The mask reaches past the frame, so a shape lying against the edge of the
-    // map — the Soviet Union, Australia, the Aleutians — is not shaved flat.
+    // The mask covers the shapes it is masking and a margin, and nothing more.
+    // It used to be the whole map: a mask is rendered into an offscreen buffer
+    // at the resolution of its own region, and the browser caps how big that
+    // buffer may be, so at deep zoom a mask three thousand units wide came back
+    // coarse — the bays along Manchuria's Soviet frontier were smaller than one
+    // buffer pixel and the outline cut straight across them, a visibly simpler
+    // line than the fill it was supposed to be tracing. Sized to the shape, the
+    // buffer is spent where the shape is.
     var pad = 60;
+    var mx0 = -pad, my0 = -pad;
+    var mx1 = mapW + pad, my1 = mapH + pad;
+    var bb = null;
+    els.forEach(function (e) {
+      try {
+        var r = e.getBBox();
+        if (!r.width && !r.height) return;
+        if (!bb) bb = { x0: r.x, y0: r.y, x1: r.x + r.width, y1: r.y + r.height };
+        else {
+          bb.x0 = Math.min(bb.x0, r.x); bb.y0 = Math.min(bb.y0, r.y);
+          bb.x1 = Math.max(bb.x1, r.x + r.width); bb.y1 = Math.max(bb.y1, r.y + r.height);
+        }
+      } catch (err) { /* not laid out yet */ }
+    });
+    if (bb) {
+      mx0 = Math.max(mx0, bb.x0 - pad); my0 = Math.max(my0, bb.y0 - pad);
+      mx1 = Math.min(mx1, bb.x1 + pad); my1 = Math.min(my1, bb.y1 + pad);
+    }
+    var mw = mx1 - mx0, mh = my1 - my0;
     var mask = svgEl('mask', { id: id, maskUnits: 'userSpaceOnUse',
-                               x: -pad, y: -pad,
-                               width: mapW + pad * 2, height: mapH + pad * 2 });
-    mask.appendChild(svgEl('rect', { x: -pad, y: -pad,
-                                     width: mapW + pad * 2, height: mapH + pad * 2,
+                               x: mx0, y: my0, width: mw, height: mh });
+    mask.appendChild(svgEl('rect', { x: mx0, y: my0, width: mw, height: mh,
                                      fill: '#fff' }));
     var group = svgEl('g', { 'class': cls });
 

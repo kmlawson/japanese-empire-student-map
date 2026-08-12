@@ -109,6 +109,34 @@ describing what was actually changed, before it is marked done.
 
 ## Done
 
+### The zoom buttons were dead to the mouse
+All three of them, since whenever the pointer capture was added. They sit
+inside the map's own box, so a press on one reached `onPointerDown` first,
+which captures the pointer to the container — and the click that follows is
+then delivered to the container and never to the button. The reset button is
+the one anybody noticed, because the wheel does the other two. `onPointerDown`
+now leaves buttons, links and inputs alone.
+
+### The selection outline traces the shape it is on
+The outline is a stroke with everything inside the shape masked away, so what
+shows is the outer half of it — which makes the stroke width a limit on how
+fine a line it can trace: an inlet narrower than the visible half is bridged by
+the stroke on either side and comes out as a straight line across the bay. At
+six pixels, Manchukuo's outline cut every small bay off its Soviet frontier and
+read as a visibly coarser line than the fill underneath it. 2.4 for the
+selection, 2 for the hover. The mask is also sized to the shape now rather than
+to the whole map, so its offscreen buffer is spent where the shape is.
+
+### The line of control takes in Kwangchowwan and leaves Leizhou out
+It ran round the whole peninsula. It turns inland round the leasehold now —
+north, west and south of it — and returns to the coast before going on through
+the Qiongzhou strait, so the rest of Leizhou stays outside and Hainan inside.
+This is the one place on that coast where the line and the colour disagree, and
+deliberately: the leasehold is drawn French because that is whose it was, and
+sits inside the line because Japanese forces were in it. The formal occupation
+is February 1943, two months after this map's date; the arrangement with Vichy
+that put them there is not.
+
 ### The Communist base areas, over the occupied shading
 Seventy-five areas traced from sheet 199 of 武月星主編《中國抗日戰爭史地圖集：
 1931–1945》, in `tools/cache/ccp-resistance-areas-1941-1942-p199.geojson`.
