@@ -251,6 +251,17 @@ button.plain:hover { background: #f2ede2; }
   vector-effect: non-scaling-stroke;
   pointer-events: none;
 }
+/* The seams: strips that fill the crack between two countries drawn from
+   different files, under the backings and under every atom. Fill only — a
+   stroke on one of these is a line along a frontier that no source drew, and
+   they take no pointer, because the country on either side is the answer to
+   any question asked here. */
+#seams path {
+  fill: var(--c, var(--inactive));
+  stroke: none;
+  pointer-events: none;
+}
+
 #backings path[data-deferred] { pointer-events: auto; }
 #backings path.hot { filter: brightness(1.12); }
 

@@ -70,6 +70,7 @@
   var atomEls = {};
   // the whole-country fillers, in their own layer under every atom
   var backingEls = {};       // atom id -> element
+  var seamEls = {};          // atom id -> [elements] in the seam layer
   var byId = {};          // item id -> record (current epoch territories + sites)
   var elById = {};        // item id -> a representative element (for flashing)
   var atomsOf = {};       // item id -> [elements]
@@ -325,6 +326,11 @@
     $$('#backings [data-for]', svg).forEach(function (el) {
       backingEls[el.getAttribute('data-for')] = el;
     });
+    // The seams take their atom's colour and nothing else about it: they are
+    // not in atomsOf, so they are never lit, never outlined and never named.
+    $$('#seams [data-for]', svg).forEach(function (el) {
+      (seamEls[el.getAttribute('data-for')] = seamEls[el.getAttribute('data-for')] || []).push(el);
+    });
     buildAtomHits();
 
     JMAP.SITES.forEach(function (s) { s.kind = 'site'; });
@@ -448,8 +454,15 @@
   var nanyoPath = null;
 
   /* The mandate was mostly sea; without its boundary it is invisible. */
+  /* The dotted rectangle round the South Seas Mandate is not drawn. It was a
+     hand-drawn approximation of the mandate's limits and not accurate enough
+     to stand beside the rest of the map; a traced one will replace it. The
+     ring is still in data.js and the code below still builds it — set this to
+     true and it comes back. */
+  var NANYO_BOUNDS_SHOWN = false;
+
   function buildNanyoBounds() {
-    if (!JMAP.NANYO_BOUNDS) return;
+    if (!JMAP.NANYO_BOUNDS || !NANYO_BOUNDS_SHOWN) return;
     var d = JMAP.NANYO_BOUNDS.ring.map(function (p, i) {
       var q = project(p[0], p[1]);
       return (i ? 'L' : 'M') + q.x.toFixed(1) + ' ' + q.y.toFixed(1);
@@ -550,6 +563,10 @@
         bk.classList.remove('hot');
         bk.classList.remove('sel');
       }
+      (seamEls[a] || []).forEach(function (sm) {
+        sm.style.removeProperty('--c');
+        sm.style.display = 'none';
+      });
       (atomHits[a] || []).forEach(function (h) { h.removeAttribute('data-id'); });
     });
     hatchGroup.innerHTML = '';
@@ -588,6 +605,10 @@
         el.setAttribute('data-cat', t.cat);
         el.style.display = '';
         if (colour) el.style.setProperty('--c', colour.c);
+        (seamEls[a] || []).forEach(function (sm) {
+          sm.style.display = '';
+          if (colour) sm.style.setProperty('--c', colour.c);
+        });
         var bk = backingEls[a];
         if (bk) {
           bk.style.display = '';
@@ -1310,7 +1331,13 @@
     // is named and none is outlined. Islands and enclaves are exempt -- their
     // sub-units are places rather than administrative divisions
     var atom = got.el && got.el.closest ? got.el.closest('.atom') : null;
-    if (!state.cats.territory && !(atom && atom.getAttribute('data-islands'))) {
+    // the Straits Settlements are a Crown colony of four scattered pieces
+    // inside a peninsula of protectorates, and telling them apart is the point
+    // of that corner of the map whether or not divisions are switched on
+    var own = got.el && got.el.getAttribute
+      && got.el.getAttribute('data-cluster') === 'Straits Settlements';
+    if (!state.cats.territory && !own &&
+        !(atom && atom.getAttribute('data-islands'))) {
       return null;
     }
     var prov = provinceOf(got.el);

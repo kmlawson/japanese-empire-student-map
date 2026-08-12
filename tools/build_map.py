@@ -245,20 +245,33 @@ OCCUPIED_ZONE = [
 # Russia in 1898 and won by Japan in 1905. Its northern boundary ran across the
 # isthmus from Pulandian bay on the west to Pikou on the east. It stayed a
 # separately administered Japanese leasehold until 1945 — it was never absorbed
-# into Manchukuo. The bounding box keeps the cut from also slicing off islands
-# elsewhere along the Liaoning coast.
+# into Manchukuo.
+#
+# It used to be cut out of Liaoning with a line and a bounding box. Half-plane
+# clipping is convex-only and Sutherland-Hodgman links the pieces of a concave
+# ring along the clip edge, so the leasehold's coast was Liaoning's coast with
+# corners taken off it here and there — and Manchuria's own filler showed
+# through every one of them as a yellow fleck. It is drawn from the traced
+# layer now, like the other leaseholds.
 KWANTUNG_CUT = ((121.20, 39.66), (122.45, 39.28))
 KWANTUNG_BOX = (120.55, 38.60, 123.00, 39.80)
 
 # Layers taken from Konrad Lawson's own Modern East Asia GIS project, drawn in
 # an azimuthal-equidistant projection centred on Wuhan and converted back to
 # lon/lat here. See SOURCES.md.
-# A layer traced in QGIS against one coastline, laid on a map drawn from
-# another. Weihaiwei's northern edge fell short of the shore, so a fringe of
-# China showed between the leasehold and the sea along the whole of it. Nudged
-# north until the two agree; the leasehold is a rounded shape either way and
-# the tenth of a degree is well inside what it is drawn to.
-GIS_NUDGE = {"weihaiwei": (0.0, 0.014)}
+#
+# These are hand-traced shapes and the build does not touch them: no nudging,
+# no simplification, no dissolve. Each of those was tried and each of them
+# damaged the drawing. Weihaiwei was nudged a hundredth of a degree north to
+# close a fringe, which moved a traced boundary off the ground it was traced
+# from. Every one of them was being simplified by span, which gave Bhutan — a
+# long thin country, 3.4 degrees across — the coarsest band in the build, three
+# kilometres, and folded its outline over itself into a hole. And all of them
+# were being run through `dissolve`, which cancels shared edges and is meant
+# for rings that abut; Kwangchowwan is six separate pieces round a bay and
+# Weihaiwei is a headland and three islands, and the dissolve tore both to
+# pieces. They are drawn exactly as they arrive.
+GIS_NUDGE = {}
 
 GIS_LAYERS = {
     "tuva": "tunnu_tuva.gpkg",
@@ -407,7 +420,15 @@ ENP_ATOMS = {"china", "manchuria", "chahar", "suiyuan", "suiyuan_w", "jehol",
 # a small atom's tolerance while Manchuria kept the full detail of the sheet,
 # and the finer coast underneath showed all round the coarser one as a yellow
 # fringe: the leasehold looked like a blocky stamp laid on a real peninsula.
-FULL_DETAIL = {"korea", "saharat", "princely", "kwantung"} | ENP_ATOMS
+FULL_DETAIL = ({"korea", "saharat", "princely", "kwantung"} | ENP_ATOMS
+               | set(GIS_LAYERS))
+
+# Atoms whose rings are separate pieces of ground rather than neighbours that
+# share edges. `dissolve` cancels the edges two rings have in common, which is
+# what makes a country out of its provinces and what makes nonsense out of an
+# archipelago: it re-chains the survivors and hands back one ring threading
+# through all of them.
+NO_DISSOLVE = {"kwantung"} | set(GIS_LAYERS)
 
 # Atoms whose backing is the union of their own sub-units rather than Natural
 # Earth's outline of the same country. The backing exists to fill the cracks
@@ -1259,76 +1280,6 @@ def add_neighbour_seams(groups):
     return seams
 
 
-# The leaseholds traced in QGIS against a different coastline from the one the
-# map draws. Where their shore falls inside China's, China shows above them:
-# a fringe of the country's own colour between the leasehold and the sea, along
-# the whole of it.
-# Kwantung is here for a different reason: it is cut out of Liaoning and so its
-# coast is Liaoning's, but the cut, the dissolve and the rounding each move a
-# vertex a little and Manchuria's ring shows through in slivers all round it.
-# The strip covers them. Along the isthmus, where the cut is a real boundary,
-# nothing happens: those vertices have the whole of Manchuria in front of them
-# and never get clear of it.
-ENCLAVE_SEAM = ("weihaiwei", "guangzhouwan", "kwantung")
-ENCLAVE_REACH = 0.10       # degrees; about eleven kilometres, and no more
-
-
-def add_enclave_seams(groups):
-    """Carry a leasehold's shore out to the sea the map actually draws.
-
-    Weihaiwei and Kwangchowwan are traced from a QGIS project whose coastline
-    is not the one the ENP sheet gives, so along their seaward edges China ends
-    a kilometre or two further out than they do and shows as a yellow rim above
-    them. Their landward edges are a different matter and must not move: there
-    China is supposed to be on the other side of the line.
-
-    Telling one from the other needs no list of which stretch is which. A
-    vertex is pushed outward only until it is clear of China altogether, and a
-    landward vertex never gets clear — it has the rest of Shantung in front of
-    it — so it is left alone and only the shore moves.
-    """
-    seams = collections.defaultdict(list)
-    enp = [r for k in ENP_SIDE for r in groups.get(k, ())]
-    if not enp:
-        return seams
-    in_china = _ring_test(enp)
-
-    for key in ENCLAVE_SEAM:
-        rings = groups.get(key)
-        if not rings:
-            continue
-        ref_wind = signed_ring_area(max(rings, key=len))
-        in_own = _ring_test(rings)
-        for ring in rings:
-            n = len(ring)
-            if n < 8:
-                continue
-            piece = []
-            for k in range(n + 1):
-                p = ring[k % n] if k < n else None
-                far = None
-                if p is not None and in_china(p):
-                    nx, ny = _ring_normal(ring, k % n)
-                    w = SEAM_STEP
-                    while w <= ENCLAVE_REACH and far is None:
-                        for sign in (1.0, -1.0):
-                            q = (p[0] + sign * nx * w, p[1] + sign * ny * w)
-                            if not in_china(q) and not in_own(q):
-                                far = q
-                                break
-                        w += SEAM_STEP
-                if far is not None:
-                    piece.append((p, far))
-                    continue
-                if len(piece) >= SEAM_MIN_RUN:
-                    strip = [a for a, _ in piece] + [b for _, b in reversed(piece)]
-                    if signed_ring_area(strip) * ref_wind < 0:
-                        strip.reverse()
-                    seams[key].append(strip)
-                piece = []
-    return seams
-
-
 def add_frontier_seam(groups):
     """Close the gap between Korea's boundary and Manchuria's.
 
@@ -1614,8 +1565,19 @@ def path_precision(points):
     return 1, 0.05
 
 
-def ring_to_path(points):
-    nd, eps = path_precision(points)
+# The precision two shapes cut from the same coastline are written at. The
+# dedupe in `ring_to_path` drops any vertex within `eps` of the one before it,
+# and where two rings hold the same coast but start at different vertices — the
+# Kwantung leasehold is Liaoning clipped, and Liaoning is drawn underneath it —
+# the walk drops a different subset of each, so the two lines part company by
+# up to `eps`. At a twentieth of a unit that is nothing at the opening view and
+# five pixels at the deepest zoom, which is exactly the size of the flecks of
+# Manchuria that were showing all round the leasehold.
+FINE_PRECISION = (2, 0.002)
+
+
+def ring_to_path(points, precision=None):
+    nd, eps = precision or path_precision(points)
     d = [f"M{fmt(points[0][0], nd)} {fmt(points[0][1], nd)}"]
     px, py = points[0]
     for x, y in points[1:]:
@@ -2054,6 +2016,14 @@ ARCHIPELAGOS = {
     "timor_pt", "andaman", "nauru_au", "hongkong", "macau", "northborneo",
     "malaya", "solomons_gc", "solomons_us", "solomons_ml", "solomons_al",
 }
+
+# Which of those name their sub-units with the Administrative layer off. Being
+# an archipelago is not the test: what matters is whether the sub-units are
+# places or divisions. The Philippines is drawn from its 1939 provinces, Malaya
+# and North Borneo from their states, and those are administrative units and
+# belong to the switch — the Philippines was naming Cebu Province, and Malaya
+# Selangor, whether the reader had asked for divisions or not.
+ADMIN_SUBUNITS = {"philippines", "malaya", "northborneo"}
 
 # Drawn after the occupied shading, so the small enclaves it would otherwise
 # bury are still there to see and to click.
@@ -2556,12 +2526,18 @@ def main():
         groups[key].extend(rings)
         provinces[key].append((name, rings))
 
-        # the leasehold is carved out of Liaoning and drawn on top of it
+        # The leasehold is carved out of Liaoning and drawn on top of it, and
+        # it takes every piece of Liaoning inside the cut, however small.
+        # Dropping the small ones left Liaoning showing through the leasehold
+        # as a scatter of yellow flecks round its coast: the islands of the
+        # Changshan group and the rocks off Dairen were the country underneath
+        # showing where the leasehold above it had thrown them away.
         if name == "Liaoning":
             for ring in rings:
                 piece = clip_halfplanes(ring, kwantung_planes)
-                if len(piece) >= 3 and ring_area(piece) > 0.0015:
+                if len(piece) >= 3:
                     groups["kwantung"].append(piece)
+
 
     sys.stderr.write("provinces assigned: " + ", ".join(
         f"{k}={v}" for k, v in sorted(tally.items(), key=lambda kv: -kv[1])) + "\n")
@@ -2745,14 +2721,14 @@ def main():
     for ring in china_islands:
         extra[nearest_enp_atom(ring, provinces)].append(ring)
 
-    for key, rings in add_frontier_seam(groups).items():
-        extra[key].extend(rings)
-
+    # Seams are not part of any country's shape. They go in a layer of their
+    # own, under every atom, and are never stroked and never outlined: a strip
+    # added to an atom's own path is traced when that country is selected, and
+    # came out as a black line cutting across Tibet into India, a doubled
+    # border round Thailand and a scribble along every frontier of China.
     seamed = add_neighbour_seams(groups)
-    for key, rings in add_enclave_seams(groups).items():
-        seamed[key] = rings
-    for key, rings in seamed.items():
-        extra[key].extend(rings)
+    for key, rings in add_frontier_seam(groups).items():
+        seamed[key].extend(rings)
     if seamed:
         sys.stderr.write(
             "frontier seams: "
@@ -2765,7 +2741,8 @@ def main():
     SMALL_ATOM_AREA = 2600      # kept in step with the same name in map.js
 
     for key, rings in groups.items():
-        merged = dissolve(rings) if len(rings) > 1 else None
+        merged = (dissolve(rings)
+                  if len(rings) > 1 and key not in NO_DISSOLVE else None)
         source = merged if merged else rings
         archipelago = key in ARCHIPELAGOS
         # the French and Portuguese enclaves are a few square kilometres each
@@ -2774,7 +2751,11 @@ def main():
         # the full detail: they are in the coast it was cut out of, and a
         # sieve that drops them here and not there leaves them showing in the
         # country's colour inside the leasehold
-        min_area = (0.04 if key in ("goa", "pondicherry")
+        # The hand-traced layers keep every piece their author drew: two of
+        # Weihaiwei's four are islands of a few square kilometres, and a sieve
+        # set for Natural Earth's specks was quietly throwing them away.
+        min_area = (0.0 if key in GIS_LAYERS or key == "kwantung"
+                    else 0.04 if key in ("goa", "pondicherry")
                     else 0.12 if (archipelago or key in FULL_DETAIL)
                     else args.min_area)
 
@@ -2804,22 +2785,12 @@ def main():
             area = ring_area(pts)
             if area < min_area:
                 continue
-            pieces.append(ring_to_path(pts))
+            pieces.append(ring_to_path(
+                pts, FINE_PRECISION if key in FULL_DETAIL else None))
             rcx, rcy = ring_centroid(pts)
             moments.append((area, rcx, rcy))
             if key in ISLET_RINGS and area < 20:
                 specks.append((rcx, rcy, max(2.6, math.sqrt(area / math.pi) * 1.5)))
-
-        # Added rings, drawn exactly as given and after the dissolve, for the
-        # same reasons as in whole_union: they overlap the atom rather than
-        # abutting it, and thinning a seam moves the edge it was built to meet.
-        # An atom assembled from sub-units picks these up in its filler; one
-        # drawn as a single shape — a leasehold — has no filler and would
-        # otherwise never see them at all.
-        for ring in extra.get(key, []):
-            ring = clip_halfplanes(normalise_ring(ring), frame)
-            if len(ring) >= 3:
-                pieces.append(ring_to_path([project(x, y) for x, y in ring]))
 
         if not pieces:
             continue
@@ -2942,7 +2913,8 @@ def main():
             if btol is not None:
                 pts = simplify(pts, btol)
             if len(pts) >= 3 and ring_area(pts) >= sub_min_area(key):
-                pieces.append(ring_to_path(pts))
+                pieces.append(ring_to_path(
+                    pts, FINE_PRECISION if key in FULL_DETAIL else None))
         # Added rings are drawn exactly as given, after the dissolve. A seam's
         # inner edge is the neighbour's own boundary, so thinning it would move
         # that edge off the line it was built to meet and reopen the crack it
@@ -2972,7 +2944,8 @@ def main():
                     continue
                 pts = thin(key, [project(x, y) for x, y in ring])
                 if len(pts) >= 3 and ring_area(pts) >= sub_min_area(key):
-                    pieces.append(ring_to_path(pts))
+                    pieces.append(ring_to_path(
+                        pts, FINE_PRECISION if key in FULL_DETAIL else None))
             if pieces:
                 blocks.append((pname, "".join(pieces)))
         return blocks
@@ -3046,7 +3019,8 @@ def main():
         # chain, the scattered settlements of French and Portuguese India.
         # Those keep their names whatever the layer says, because the name is
         # the place and not a fact about how it was governed.
-        if key in ARCHIPELAGOS or key in ALWAYS_NAMED:
+        if (key in ARCHIPELAGOS or key in ALWAYS_NAMED) \
+                and key not in ADMIN_SUBUNITS:
             meta += ' data-islands="1"'
         if key in hits:
             pts = " ".join(f"{fmt(x)},{fmt(y)}" for x, y in hits[key])
@@ -3166,7 +3140,25 @@ def main():
     for i, line in enumerate(out):
         if 'class="chinabase"' in line:
             head = i + 1
+    # The seams go beneath the backings, which are themselves beneath every
+    # atom. They fill the crack between two countries drawn from different
+    # files and they are nothing else: no stroke, no pointer, no part of any
+    # country's outline.
+    seam_out = []
+    for key in sorted(seamed):
+        d = "".join(
+            ring_to_path([project(x, y) for x, y in clip_halfplanes(
+                normalise_ring(r), frame)])
+            for r in seamed[key]
+            if len(clip_halfplanes(normalise_ring(r), frame)) >= 3)
+        if d:
+            seam_out.append(f'      <path data-for="{key}" d="{d}"/>')
+    # backings inserted first and seams second, so that the seams end up
+    # *under* them: a seam reaches into its neighbour by design, and drawn on
+    # top it would paint one country's colour a kilometre inside the other
     out[head:head] = ['    <g id="backings">'] + backings + ['    </g>']
+    if seam_out:
+        out[head:head] = ['    <g id="seams">'] + seam_out + ['    </g>']
 
     dest = os.path.join(ROOT, "japan-empire-map.svg")
     with open(dest, "w") as fh:
