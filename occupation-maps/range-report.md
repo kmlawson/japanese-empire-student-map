@@ -40,6 +40,12 @@ provincial boundaries**, so the zone can be read against the real administrative
 geography: where the zone stops short of the province, where it crosses one,
 and where the two coincide.
 
+The **Yellow River** is drawn as well, and stays on. It is geography rather
+than a claim, and it is the reason the zone has the southern edge it has: the
+river's east–west stretch below Baotou is what separates Bayantala from the
+Ordos, and the plateau inside the loop was never occupied. Seeing the loop makes
+the shape self-explanatory in a way no amount of shading does.
+
 Unless a date is given, each list is the position at 31 December of that year.
 Modern names follow in brackets where the name changed.
 

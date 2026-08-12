@@ -350,6 +350,16 @@ weight than everything else here and is the basis for section 4 of the report.
   base geometry for every control zone in `suiyuan-history.html`; see
   `range-report.md` for the cuts applied to them.
 
+### Rivers
+
+* **Natural Earth — 1:10m rivers and lake centerlines.** Public domain. Taken
+  from the parent project's cache at `tools/cache/rivers.geojson`, which
+  `SOURCES.md` in the directory above already documents. Only the `Huang`
+  feature is used, and only the Ordos loop of it: from the Ningxia plain up
+  round the Hetao, past Baotou to the Hekou bend at Togtoh, then south down the
+  Shanxi–Shaanxi boundary. The lower course east of Henan, and the Huayuankou
+  split that the parent map needs, are irrelevant at this scale and omitted.
+
 ### Maps identified but not obtained
 
 Recorded here so the trail is not lost. All five Mengjiang administrative maps

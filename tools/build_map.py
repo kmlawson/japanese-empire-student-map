@@ -2628,7 +2628,12 @@ def main():
                 out.append(f'      <circle class="islet" cx="{fmt(cx)}" cy="{fmt(cy)}" r="{fmt(r)}"/>')
             out.append("    </g>")
             return
-        if specks:
+        # An atom that the fine coastlines will graft into has to be a group,
+        # even with nothing else inside it: a <path> cannot hold children, and
+        # grafting into one put Guadalcanal's finer outline somewhere it could
+        # never be drawn while its coarse shape was pruned away for having been
+        # replaced. The island vanished.
+        if specks or key in fine_boxes:
             out.append(f'    <g id="a-{key}" class="atom" {meta}>')
             out.append(f'      <path d="{paths[key]}"/>')
             for cx, cy, r in specks:
@@ -2737,6 +2742,7 @@ FINE_FILES = [
         "osm-islands-newguinea.json",
         "osm-islands-solomons.json",
         "osm-islands-gilberts.json",
+        "osm-islands-wake.json",
     ]),
 ]
 
@@ -2783,6 +2789,10 @@ FINE_GROUPS = [
     ("Solomon Islands", "", 155.00, -12.60, 163.50, -4.80),
     ("Gilbert Islands", "", 171.50, -3.50, 178.50, 4.50),
     ("Nauru", "", 166.60, -0.90, 167.20, -0.30),
+    # Wake, which Japan renamed Ōtorishima after taking it in December 1941.
+    # The base map draws it from eight points traced by hand because Natural
+    # Earth does not carry the atoll at all; the survey has it in 876.
+    ("Wake Island", "大鳥島", 166.45, 19.15, 166.80, 19.45),
     ("Ocean Island", "", 169.30, -1.00, 169.80, -0.60),
 ]
 
@@ -2819,6 +2829,7 @@ FINE_GROUP_ATOM = {
     "Gilbert Islands": "gilberts",
     "Nauru": "nauru_au",
     "Ocean Island": "gilberts",
+    "Wake Island": "wake",
     # The Solomons are the one group whose islands do not share an atom. In
     # December 1942 the archipelago was cut in half by the fighting, and this
     # map already draws that: Guadalcanal contested, Tulagi taken, Malaita and

@@ -1929,4 +1929,8 @@
     <path data-prov="Kokomu Island" data-group="Solomon Islands" d="M1885.02 1507.18L1885.07 1507.1L1885.12 1507.21L1885.02 1507.18Z"/>
     <path data-prov="Tete Island" data-group="Solomon Islands" d="M1882.02 1504.21L1882.07 1504.18L1882.12 1504.25L1882.02 1504.21Z"/>
   </g>
+  <g data-for="wake" data-box="2012,928.8,2013.2,929.8">
+    <path data-prov="Wake Island" data-group="Wake Island" data-group-ja="大鳥島" d="M2012.16 929.21L2012.11 929.24L2012.21 929.22L2012.43 929.39L2012.55 929.37L2012.58 929.44L2012.92 929.52L2012.97 929.43L2012.92 929.45L2012.83 929.17L2012.87 929.05L2012.71 929.1L2012.65 928.96L2012.94 928.94L2013.15 929.77L2012.38 929.46L2012.28 929.38L2012.37 929.33L2012.27 929.36L2012.03 929.2L2012 929.07L2012.16 929.21Z"/>
+    <path data-prov="Peale Island" data-group="Wake Island" data-group-ja="大鳥島" d="M2012.66 929.06L2012.42 929.02L2012.51 929.01L2012.29 928.75L2012.6 928.92L2012.66 929.06Z"/>
+  </g>
 </svg>

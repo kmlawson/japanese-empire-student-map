@@ -54,8 +54,9 @@ same material down year by year — which large settlements were held, and
 whether that is confirmed by a dated capture, likely from county and league
 membership, or merely claimed on paper. Both are plotted in
 `suiyuan-history.html`, a standalone Leaflet page: events filterable by year and
-steppable one at a time, with the control zones for the year in view drawn
-underneath them. The finding that matters for
+steppable one at a time, with the extent of control for the year in view drawn
+underneath them, the Yellow River for context, and the Suiyuan and Chahar
+provincial boundaries on a toggle. The finding that matters for
 the line: Japanese control in Suiyuan ended at Baotou from 17 October 1937 to
 August 1945, apart from six weeks in February and March 1940, and the Ordos
 south of the Yellow River was never occupied at all. The maps below were

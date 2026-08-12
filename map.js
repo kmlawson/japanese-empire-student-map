@@ -1182,7 +1182,12 @@
       if (own) return { hit: own, el: shape || target };
     }
     var rec = recordFor(target);
-    return rec ? { hit: rec, el: target } : null;
+    if (rec) return { hit: rec, el: target };
+    // nothing under the pointer: a fine island just off it will do, so a reef
+    // three pixels across can still be pointed at
+    var near = typeof cx === 'number' ? nearestFine(cx, cy) : null;
+    var nrec = near && recordFor(near);
+    return nrec ? { hit: nrec, el: near } : null;
   }
 
   /* The sub-unit of an atom nearest a point on the screen, for when the shape
@@ -1867,6 +1872,35 @@
 
   var fineState = 'none';           // none | loading | ready | failed
   var fineBoxes = null;             // atom -> [x0, y0, x1, y1], from the map
+  var fineHits = [];                // every island's box, for the reach below
+
+  /* How far past an island the pointer still counts as being on it, in screen
+     pixels. Most of these are specks — a third of the Pacific ones are under a
+     tenth of a square kilometre — and asking a reader to land exactly on a reef
+     is asking too much. Nearest wins, so the reach never takes an island from
+     its neighbour: between two islands the halo stops halfway. */
+  var FINE_REACH = 9;
+
+  function nearestFine(cx, cy) {
+    if (fineState !== 'ready' || !fineHits.length || !svg) return null;
+    var m = svg.getScreenCTM();
+    if (!m) return null;
+    var pt = svg.createSVGPoint();
+    pt.x = cx; pt.y = cy;
+    var q = pt.matrixTransform(m.inverse());
+    var reach = FINE_REACH / (m.a || 1);      // screen px into map units
+    var best = null, bd = reach * reach;
+    for (var i = 0; i < fineHits.length; i++) {
+      var b = fineHits[i].b;
+      if (q.x < b[0] - reach || q.x > b[2] + reach ||
+          q.y < b[1] - reach || q.y > b[3] + reach) continue;
+      var dx = q.x < b[0] ? b[0] - q.x : (q.x > b[2] ? q.x - b[2] : 0);
+      var dy = q.y < b[1] ? b[1] - q.y : (q.y > b[3] ? q.y - b[3] : 0);
+      var d = dx * dx + dy * dy;
+      if (d < bd) { bd = d; best = fineHits[i].el; }
+    }
+    return best;
+  }
 
   function fineRegions() {
     if (fineBoxes) return fineBoxes;
@@ -1965,11 +1999,25 @@
       var prune = function (node) {
         var d = node.getAttribute && node.getAttribute('d');
         if (!d) {
+          // A circle rather than a shape: the ring the base map draws round an
+          // island too small to see, and the invisible one beside it that
+          // takes the pointer for it. Both stand down once the island itself
+          // is drawn properly — the hit circle is five map units across, which
+          // deep in a zoom is a hundred and fifty pixels of ocean answering
+          // for an island a reader can now see and point at directly.
           var bb;
           try { bb = node.getBBox(); } catch (e) { return; }
-          if (bb && (bb.width || bb.height) &&
-              covers([bb.x, bb.y, bb.x + bb.width, bb.y + bb.height]))
-            node.classList.add('superseded');
+          if (!bb || (!bb.width && !bb.height)) return;
+          var box = [bb.x, bb.y, bb.x + bb.width, bb.y + bb.height];
+          if (covers(box)) { node.classList.add('superseded'); return; }
+          for (var i = 0; i < fine.length; i++) {
+            var f = fine[i];
+            var fx = (f[0] + f[2]) / 2, fy = (f[1] + f[3]) / 2;
+            if (fx >= box[0] && fx <= box[2] && fy >= box[1] && fy <= box[3]) {
+              node.classList.add('superseded');
+              return;
+            }
+          }
           return;
         }
         var parts = d.split('M').slice(1);
@@ -1995,6 +2043,11 @@
           g.removeChild(g.firstElementChild);
           node.setAttribute('class', 'fine');
           el.insertBefore(node, before);
+          // kept for the reach below, in map units, so hovering costs no
+          // geometry calls at all
+          boxesOf(node.getAttribute('d')).forEach(function (b) {
+            if (b) fineHits.push({ b: b, el: node });
+          });
         }
       });
       fineState = 'ready';
