@@ -1599,8 +1599,9 @@ JMAP.PROVINCE_EPOCH = {
 
 JMAP.PROVINCES = {
   /* the princely states of India, from the 1931 layer. Nine are named by the
-     source; the rest are identified by where they are, and the very smallest
-     are left to answer with the territory */
+     source and the rest are identified by where they are; every polygon in the
+     layer belongs to one of these entries, so any point in the states answers
+     with a state or with the agency it sat under */
   'Kashmir & Jammu': { en: 'Kashmir & Jammu', zh: '克什米爾・查謨' },
   'Hyderabad': { en: 'Hyderabad — the Nizam’s dominions, the largest of the states', zh: '海得拉巴土邦' },
   'Mysore': { en: 'Mysore', zh: '邁索爾土邦' },
@@ -1619,8 +1620,11 @@ JMAP.PROVINCES = {
   'Khairpur': { en: 'Khairpur', zh: '海爾布爾土邦' },
   'Tehri Garhwal': { en: 'Tehri Garhwal', zh: '特赫里加瓦爾土邦' },
   'Rampur': { en: 'Rampur', zh: '拉姆布爾土邦' },
-  'Benares': { en: 'Benares (Banaras)', zh: '貝拿勒斯土邦' },
+  'Benares': { en: 'Benares (Banaras) — Ramnagar, Bhadohi and Chakia', zh: '貝拿勒斯土邦' },
   'Pudukkottai': { en: 'Pudukkottai', zh: '普杜科泰土邦' },
+  'The Punjab Hill States — Bashahr, Mandi, Suket, Sirmur': { en: 'The Punjab Hill states — Bashahr, Mandi, Suket and Sirmur', zh: '旁遮普山地土邦' },
+  'Savanur, Sandur & Banganapalle': { en: 'Savanur, Sandur and Banganapalle', zh: '薩瓦努爾・桑杜爾・班加納帕萊土邦' },
+  'Waziristan & the frontier tribal agencies': { en: 'Waziristan and the frontier tribal agencies — political agents, not the Punjab', zh: '瓦濟里斯坦與邊境部落地區' },
 
   /* the Kuriles, north-east to south-west. Japanese throughout both dates:
      the northern islands are where the Aleutian operation was mounted from,

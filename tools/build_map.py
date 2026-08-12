@@ -269,30 +269,62 @@ CHANDERNAGORE = [
 # apologise for. These are the real outlines.
 PRINCELY_FILE = "princely-states-india-1931-v1.2026.8.11.geojson"
 
-# The file names nine of its forty polygons. The rest are identified here by
-# where they are, which for the large ones is unmistakable; anything not in
-# this table answers with the territory rather than with a guess. Keyed by the
-# file's own fid.
+# The file names nine of its forty polygons. The other thirty-one are
+# identified here by where they are, keyed by the file's own fid. Every polygon
+# is in the table, so every point of the layer answers with a state or an
+# agency and none falls through to "princely states" alone; where a single
+# state cannot be told from the outline the label is the agency it belonged to,
+# which the position settles beyond doubt.
 PRINCELY_NAMES = {
     1: "Kashmir & Jammu",
     2: "Hyderabad",                     # the file spells it Hyderbad
     3: "Bastar",
+    # Savanur (14.97N 75.34E), Sandur (15.09N 76.55E) and Banganapalle
+    # (15.31N 78.23E): three small states out on their own between the
+    # Bombay Deccan and the Madras districts
+    4: "Savanur, Sandur & Banganapalle",
+    5: "Savanur, Sandur & Banganapalle",
+    6: "Savanur, Sandur & Banganapalle",
     7: "Mysore",
     8: "Travancore & Cochin",
     9: "Pudukkottai",
     10: "Kolhapur & the Deccan States",
+    # the rest of the Deccan States Agency and the Southern Maratha jagirs,
+    # including Phaltan (12), Bhor (14) and Jawhar (16)
+    11: "Kolhapur & the Deccan States",
+    12: "Kolhapur & the Deccan States",
+    13: "Kolhapur & the Deccan States",
+    14: "Kolhapur & the Deccan States",
+    15: "Kolhapur & the Deccan States",
+    16: "Kolhapur & the Deccan States",
     17: "Cooch Behar",
     18: "The Khasi Hill States",
     19: "Manipur",
     20: "Tripura",
     21: "The Eastern States — Orissa and Chhattisgarh",
+    22: "The Eastern States — Orissa and Chhattisgarh",   # Chhattisgarh
+    23: "The Eastern States — Orissa and Chhattisgarh",   # feudatory states
+    24: "Benares",                      # Chakia, the state's southern pargana
     25: "Benares",
+    26: "Rajputana, Central India & the Gujarat States",  # Bundelkhand, in the
+    27: "Rajputana, Central India & the Gujarat States",  # Central India Agency
     28: "Rampur",
     29: "Tehri Garhwal",
+    # the Punjab Hill States: Bashahr and the eastern Simla states (30),
+    # Mandi and Suket (31), Sirmur and the southern Simla states (32)
+    30: "The Punjab Hill States — Bashahr, Mandi, Suket, Sirmur",
+    31: "The Punjab Hill States — Bashahr, Mandi, Suket, Sirmur",
+    32: "The Punjab Hill States — Bashahr, Mandi, Suket, Sirmur",
+    33: "The Punjab States — Patiala, Jind, Nabha, Kapurthala",  # Kapurthala
+    34: "The Punjab States — Patiala, Jind, Nabha, Kapurthala",  # and Phagwara
     35: "The Punjab States — Patiala, Jind, Nabha, Kapurthala",
     36: "The Baluchistan States — Kalat, Las Bela, Kharan, Makran",
     37: "Khairpur",
     38: "Chitral, Dir, Swat & Amb",
+    # not a princely state but the tribal belt the 1931 atlas shades with them:
+    # North and South Waziristan and the Gomal, west of Bannu and Dera Ismail
+    # Khan, run by political agents rather than by the Punjab
+    39: "Waziristan & the frontier tribal agencies",
     40: "Rajputana, Central India & the Gujarat States",
 }
 

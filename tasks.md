@@ -7,7 +7,6 @@ describing what was actually changed, before it is marked done.
 
 ## Open
 
-
 - **The sources page in the standalone build.** `sources.html` is a separate
   file, so the link from About does not resolve in the single-file build. Either
   inline it or drop the link there.
@@ -53,6 +52,26 @@ describing what was actually changed, before it is marked done.
 ---
 
 ## Done
+
+### Every princely state names itself
+Half the layer was answering with nothing. `PRINCELY_NAMES` identified twenty of
+the source's forty polygons, and `build_map.py` dissolves everything it cannot
+name into a single unlabelled path — one shape with a bounding box the width of
+the subcontinent, so a pointer anywhere in the other twenty got "Princely
+states" and no more. The remaining twenty are placed in the table now, by
+position, and folded into the agency each belonged to where the outline alone
+will not tell one state from another: Savanur, Sandur and Banganapalle as a
+group of three; Phaltan, Bhor, Jawhar and the Southern Maratha jagirs into
+Kolhapur and the Deccan States; the Chhattisgarh feudatories into the Eastern
+States; Bundelkhand into the Central India Agency; Chakia into Benares, whose
+southern pargana it was; Bashahr, Mandi, Suket and Sirmur as the Punjab Hill
+States; Kapurthala and Phagwara into the Punjab States; and Waziristan and the
+Gomal as the frontier tribal agencies, which are not princely states but are
+shaded with them in the 1931 atlas and are labelled for what they were. Twenty
+named paths became twenty-three, none unlabelled. A 126-point sweep across the
+layer named the right state at 124; the two misses are Cooch Behar and a Deccan
+jagir, three and five pixels across at the default zoom, and they resolve when
+zoomed.
 
 ### A sources page
 `sources.html`, linked from About, listing every dataset with what it was used
