@@ -7,6 +7,24 @@ describing what was actually changed, before it is marked done.
 
 ## Open
 
+- **"Get rid of the ocean boundary for the Japanese occupied china."** Asked
+  for and not done, because it is not clear what it refers to and the wrong
+  guess would remove something the map needs. Nothing is drawn over water round
+  the occupied zone: the traced blocks do run out to sea — deliberately, so
+  that the clip to China's land finds the coast rather than a hand-drawn line
+  cutting among the offshore islands — but they are clipped, so no fill and no
+  outline of them reaches the water. Three candidates: the ocean stretches of
+  the traced blocks as they appear in the exported GeoJSON, which is the one
+  place they are visible; the dashed line of control where it leaves the
+  Chekiang coast; or something on screen that has not been reproduced here.
+  Waiting on which.
+
+- **A few slivers of Manchuria still show through the Kwantung leasehold.**
+  Down from a continuous fringe to about half a dozen specks. They are the
+  residue of the cut, the dissolve and the path rounding each moving a vertex a
+  little; closing them properly means giving the leasehold the parent ring's
+  own vertices rather than a clipped copy of them.
+
 - **The Pacific labels want a sovereignty line of their own.** They currently
   end with the territory record, which carries the sovereignty inside a longer
   name — "South Seas Mandate", "New Guinea (Papua & the Mandated Territory)".
@@ -73,6 +91,145 @@ describing what was actually changed, before it is marked done.
 ---
 
 ## Done
+
+### Natural Earth's China is gone, and the neighbours reach the provinces instead
+China's shore was drawn twice. Natural Earth's outline of the modern mainland
+was laid under the Republican provinces in two colours — neutral grey, to plug
+the places where the two sources put a land frontier a kilometre or two apart,
+and China's own yellow, to stop that grey showing as a fringe along the coast —
+and it is far the coarser of the two outlines, so at deep zoom the coast came
+out as a rough dark line where Natural Earth ran and a fine one, a kilometre
+inside or outside it, where the provinces did. `NE_CHINA_MAINLAND = False` in
+`tools/build_map.py` turns it off; set it back to `True` to have it again.
+
+What that gave up was the plug, and `add_neighbour_seams` replaces it. Each of
+China's neighbours — the Soviet Union, Mongolia, Indochina, Burma, Siam, India,
+Nepal, Bhutan, Sikkim — has its frontier vertices pushed towards China until
+they are inside it, and the strip between where they were and where they end up
+is added to that neighbour's filler. The neighbour's own outline still runs
+where its source puts it; the strip is under it. A vertex that cannot reach
+China within 0.35° gets no strip, which is what tells a coastline from a
+frontier with no need to say in advance which stretch is which. 236 strips:
+ussr 70, indochina 34, nepal 32, mongolia 25, burma 22, india 16, saharat 12,
+bhutan 8, sikkim 2. The measured effect at the Tonkin border: a continuous band
+of bare ocean between China and Indochina, closed.
+
+### Nothing shows above Weihaiwei or the Kwantung leasehold
+Two different causes. Weihaiwei and Kwangchowwan are traced in QGIS against a
+different coastline from the one the map draws, so China ended a kilometre or
+two further out than they did and showed as a rim above them;
+`add_enclave_seams` pushes their seaward vertices out until they are clear of
+China, and leaves the landward ones alone because those never get clear.
+Kwantung is cut out of Liaoning and so its coast *is* Manchuria's — but it was
+being simplified on its own with a small atom's tolerance while Manchuria kept
+the full detail of the ENP sheet, and it was losing its small islands to a
+minimum-area sieve Manchuria was exempt from. It is in `FULL_DETAIL` now and
+takes the archipelago floor for area. A few slivers survive where the cut, the
+dissolve and the rounding each move a vertex; they were a continuous fringe.
+
+### The Yangtze stops where the water starts
+`trim_to_land` runs each river from whichever end is on land and cuts it at the
+first crossing, found by bisection and pulled back twenty metres so it ends on
+the shore rather than balanced on it. The Yangtze's hand-drawn estuary tail now
+ends at 121.08 E instead of 121.90: from about Kiangyin the estuary is open
+water on this map, and a centreline down the middle of it is a line ruled
+across the sea, out past Chungming, over its tip and out again. Both rivers go
+through the same trim; nothing upstream moved.
+
+### Suiyuan is one province again in 1930
+The cut at Paotow is a fact about 1942, when Mengchiang held the east and Fu
+Tso-yi the west. The western half is its own atom now, `suiyuan_w`, which the
+1930 map hands to the same territory as the east — two atoms of one territory
+share a fill and a stroke and show no boundary between them — and the 1942 map
+hands to Free China. The corridor west along the railway to Paotow has gone
+from the occupied shading altogether.
+
+### Administrative draws only the country under the pointer
+Every division of every country at once is some fifteen hundred lines. Only the
+atom the pointer is on carries `.subs` and draws them. The exceptions stay
+drawn wherever the pointer is, and are the things that are not divisions of
+what surrounds them: the princely states, Portuguese India, French India and
+the Straits Settlements.
+
+### The map opens on 1930 with nothing switched on
+1930, no cities, no events, no divisions. The year and the three layer buttons
+are deliberately not restored from `localStorage` any more: this is a teaching
+map and every visit should start from the same place rather than wherever the
+last reader left it, which on a shared machine is nowhere the next reader
+chose. Labels, rivers, the line of control and the legend fold still carry over.
+
+### Country names no longer wait for the Administrative button
+`labelVisible` gated territory labels on `state.cats.territory`, so "Show names
+on the map" showed no country names at all until a second, unrelated button was
+pressed. A country's name has nothing to do with its divisions. The one
+exception is a territory only drawn when that layer is on — the princely states
+— which cannot be named while it is not there.
+
+### One Cities button, and it shows the cities
+The context cities had a switch of their own in Layers, which asked the reader
+to know that this map has two kinds of city. They come in with Cities now and
+that switch is gone. Two things had been hiding them: the zoom guard was never
+satisfied at the opening view, because the map opens fitted to its full width,
+so pressing the switch appeared to do nothing (it survives on touch screens
+only); and `siteVisible` was filtering the dots by the detail level, which the
+Layers panel says is for the quiz and the labels — Batavia, Kobe and Pusan were
+on the map and invisible for that reason, not hidden under anything.
+
+Thirty-nine cities added: twenty-four in India and Ceylon, from Bombay, Delhi
+and Karachi to Trincomalee and Chittagong; three in Burma — Akyab, Lashio and
+Myitkyina; twelve in the Netherlands Indies, from Jogjakarta and Padang to
+Tarakan, Ambon and Koepang. Weihsien is gone; Jinan and Yan'an were already
+there. 170 context cities in all.
+
+### Chinese cities: Pinyin first
+Sixty-four renamed — Shenyang (Mukden), Chongqing (Chungking), Beijing (Peking
+/ Peiping), Guangzhou (Canton). A student meets the period spelling in what
+they read about the war and the present-day one on every map they can look it
+up in, and the second is the one that will find it. Countries and provinces
+keep the period name first; this is cities only. Korea, Japan, Taiwan,
+Indochina, Mongolia and India were left alone.
+
+### Scripts trimmed on India, Thailand, the Indies and Portuguese Timor
+British India, the princely states and every Indian city and province: English
+only. Thailand: English and Thai. Portuguese Timor and Portuguese India:
+English and Portuguese. The Netherlands Indies: no Chinese anywhere, Japanese
+kept on the cities and given to the eighteen island names that had only
+Chinese. 231 records.
+
+### The Malay states follow the Administrative switch again
+`ALWAYS_NAMED` was doing two jobs — keep this atom in the main file, and name
+its sub-units whatever the layer says — and the northern Malay states needed
+only the first. `NEVER_DEFERRED` is the first job; `ALWAYS_NAMED` is now the
+second alone.
+
+### Christmas Island
+A Straits Settlement, annexed 1900 and run from Singapore; taken by Japan on 31
+March 1942 for its phosphate. The ring comes from Natural Earth's
+`ne_10m_admin_0_countries`, where it is filed with Cocos as "Indian Ocean
+Territories" — an Australian arrangement of 1958. Drawn in the Straits
+Settlements cluster in 1930 and in the occupied colour in 1942.
+
+### A box east of the Gilberts for the islands the map does not reach
+The frame stops short of Polynesia and the blue past the last atoll reads as
+sea rather than as an edge. An `unseen` territory — no fill, no stroke, no
+label, no legend swatch, no outline when hovered — answers "Fiji and the
+Polynesian islands (not shown)". The Gilberts' own line now says "British
+colony from 1916; a protectorate from 1892".
+
+### The mandate's islands in Japanese, and the Carolines named
+Fifty-four islands of the South Seas Mandate carry the names Japan gave them,
+including Truk's inner islands, which the navy renamed after the seasons and
+the days of the week — Moen is 春島, Dublon 夏島, Tol 水曜島 — and which appear
+under those names in every account of the base. Only the mandate: Guam, the
+Gilberts and the Bismarcks are left alone.
+
+The Carolines were the worst-named part of the map because OSM files an atoll
+as one `place=archipelago` with nothing named inside it, and the build was
+skipping that tag. An islet nobody has named now takes the name of the atoll it
+lies in, capped at one degree across so that "Ratak Chain" and "Caroline
+Islands" — which are chains, not atolls — are not handed to forty-four separate
+islets. The mandate went from 420 named shapes of 559 to 454, and the Gilberts
+from 56 of 103 to 102.
 
 ### The occupied zone says which piece of itself you are on
 It was one path, so the pointer could say nothing about it beyond

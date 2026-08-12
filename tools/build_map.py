@@ -92,6 +92,22 @@ def project(lon, lat):
 # swallow several hundred kilometres of free China.
 SUIYUAN_CUT = 109.6
 
+# Natural Earth's outline of the modern Chinese mainland, which used to be laid
+# under the Republican provinces twice over: once in the neutral "elsewhere"
+# grey, to plug the places where the two sources put a land frontier a kilometre
+# or two apart, and once in China's own yellow, to stop that grey showing as a
+# fringe along the coast.
+#
+# Both are off. The two outlines do not agree along the coast either, and
+# Natural Earth's is much the coarser of them, so the map drew China's shore
+# twice: a rough dark line where the modern outline ran and a fine one, a
+# kilometre inside or outside it, where the provinces did. China's edge is the
+# provinces and nothing else now — one line, at the full detail of the ENP
+# sheet, with the seams between provinces dissolved away.
+#
+# What this gives up is the plug. Set it back to True to have it again.
+NE_CHINA_MAINLAND = False
+
 PROVINCE_ATOM = {
     "Liaoning": "manchuria", "Jilin": "manchuria", "Heilongjiang": "manchuria",
     "Jehol": "jehol",
@@ -124,7 +140,6 @@ PROVINCE_ATOM = {
 # or not the Administrative layer is on.
 OCCUPIED_BLOCKS = (
     "North China and the Yangtze valley",
-    "The Paotow corridor",
     "The Canton delta",
     "Hainan",
     "Amoy and Kinmen",
@@ -191,11 +206,6 @@ OCCUPIED_ZONE = [
         (121.55, 39.20), (121.20, 40.10), (120.30, 40.35),
         (119.0, 40.3), (117.2, 40.7),
         (115.0, 40.7),
-    ],
-    # the corridor west along the railway through Suiyuan to Paotow
-    [
-        (109.6, 40.4), (111.8, 40.1), (113.4, 39.9), (113.4, 41.0), (111.8, 41.2),
-        (109.6, 41.1),
     ],
     # the Canton delta and the West River, held from October 1938: the city,
     # the delta, the railway to Kowloon, Waichow, and the river up to Samshui
@@ -383,7 +393,7 @@ KOREA_FILE = "korea_13_provinces.json"
 # China is 11,896 for the mainland ring alone. A source that spare cannot
 # afford to be simplified again, and it was: two thirds of its substantive
 # rings survived and the rest of the loss was its islands.
-ENP_ATOMS = {"china", "manchuria", "chahar", "suiyuan", "jehol",
+ENP_ATOMS = {"china", "manchuria", "chahar", "suiyuan", "suiyuan_w", "jehol",
              "tibet", "xinjiang"}
 
 # Drawn at the full detail of their source rather than simplified. Korea's
@@ -392,7 +402,12 @@ ENP_ATOMS = {"china", "manchuria", "chahar", "suiyuan", "jehol",
 # Kengtung is a long thin salient down to Tachileik, and simplification
 # takes the southern half of it off.
 # The ENP provinces are here for the reason above: there is nothing to spare.
-FULL_DETAIL = {"korea", "saharat", "princely"} | ENP_ATOMS
+# The Kwantung leasehold is cut out of Liaoning, so its coast *is* Manchuria's
+# coast — but only if the two are drawn alike. Simplified on its own it earned
+# a small atom's tolerance while Manchuria kept the full detail of the sheet,
+# and the finer coast underneath showed all round the coarser one as a yellow
+# fringe: the leasehold looked like a blocky stamp laid on a real peninsula.
+FULL_DETAIL = {"korea", "saharat", "princely", "kwantung"} | ENP_ATOMS
 
 # Atoms whose backing is the union of their own sub-units rather than Natural
 # Earth's outline of the same country. The backing exists to fill the cracks
@@ -418,6 +433,7 @@ SUB_CLUSTERS = {
     ("malaya", "Malacca"): "Straits Settlements",
     ("malaya", "Dindings"): "Straits Settlements",
     ("northborneo", "Labuan"): "Straits Settlements",
+    ("christmas", "Christmas Island"): "Straits Settlements",
 }
 
 # Saharat Thai Doem: the Shan states east of the Salween — Kengtung and part
@@ -579,9 +595,71 @@ YANGZI_TAIL = [
     (120.75, 31.95), (121.00, 31.85), (121.20, 31.68), (121.30, 31.57),
     (121.40, 31.54), (121.50, 31.46), (121.60, 31.43), (121.70, 31.40),
     (121.80, 31.36), (121.90, 31.33),
-    # and stops at the mouth. It used to carry on to 122.25 E, which is open
-    # sea: a river drawn out into the ocean past the last land.
+    # Where it actually stops is decided by `trim_to_land` below, not here: the
+    # estuary is drawn as water from somewhere around Kiangyin, and a river
+    # drawn down the middle of it is a line over the sea however carefully the
+    # channel is traced. These points give it the right course as far as it
+    # goes; the trim decides how far that is.
 ]
+
+
+def land_test(rings):
+    """A closure answering "is this point on land", bbox-checked first."""
+    boxed = []
+    for r in rings:
+        if len(r) < 3:
+            continue
+        xs = [p[0] for p in r]
+        ys = [p[1] for p in r]
+        boxed.append((min(xs), min(ys), max(xs), max(ys), r))
+
+    def inside(p):
+        px, py = p
+        for x0, y0, x1, y1, r in boxed:
+            if x0 <= px <= x1 and y0 <= py <= y1 and point_in_ring(p, r):
+                return True
+        return False
+    return inside
+
+
+def trim_to_land(line, inside, back=0.02):
+    """Cut a river where it first leaves the land, and no further.
+
+    A river centreline is a line down the middle of the water. That is right
+    all the way inland, where the channel is far too narrow for the map to
+    draw, and wrong the moment the map starts drawing the channel itself: from
+    about Kiangyin the Yangtze's estuary is open water on this map, so the last
+    hundred and fifty kilometres of the centreline is a line ruled across the
+    sea, out past Chungming and back over its tip and out again.
+
+    The line is run from whichever end is on land and stopped at the first
+    crossing, found by bisection and then pulled back a couple of kilometres so
+    that it ends on the shore rather than balanced on it.
+    """
+    if len(line) < 2:
+        return line
+    if not inside(line[0]) and inside(line[-1]):
+        line = line[::-1]
+    if not inside(line[0]):
+        return []                      # never touches land: not a river here
+    out = [line[0]]
+    for a, b in zip(line, line[1:]):
+        if inside(b):
+            out.append(b)
+            continue
+        lo, hi = 0.0, 1.0
+        for _ in range(30):
+            m = (lo + hi) / 2.0
+            q = (a[0] + (b[0] - a[0]) * m, a[1] + (b[1] - a[1]) * m)
+            if inside(q):
+                lo = m
+            else:
+                hi = m
+        span = math.hypot(b[0] - a[0], b[1] - a[1]) or 1.0
+        m = max(0.0, lo - back / span)
+        out.append((a[0] + (b[0] - a[0]) * m, a[1] + (b[1] - a[1]) * m))
+        break
+    return out if len(out) >= 2 else []
 
 # ---------------------------------------------------------------------------
 # The greatest extent of Japanese control in late 1942, after the "War in the
@@ -1025,6 +1103,230 @@ def _seg_dist(p, a, b):
     t = ((px - ax) * dx + (py - ay) * dy) / (dx * dx + dy * dy)
     t = max(0.0, min(1.0, t))
     return math.hypot(px - (ax + t * dx), py - (ay + t * dy))
+
+
+# The atoms drawn from the ENP-China sheet. Their edge is the one the map keeps
+# along every frontier of China, and everything else has to reach it.
+ENP_SIDE = ("china", "manchuria", "jehol", "chahar", "suiyuan", "suiyuan_w",
+            "xinjiang", "tibet")
+
+# The neighbours drawn from some other source, which therefore put the frontier
+# somewhere slightly different. Korea is not here: it has a seam of its own,
+# built the other way round, because along the Yalu and the Tumen it is Korea's
+# line that is the better one and Manchuria that has to reach it.
+CHINA_NEIGHBOURS = ("ussr", "mongolia", "indochina", "burma", "siam", "india",
+                    "nepal", "bhutan", "sikkim", "tuva", "saharat", "siamgain")
+
+SEAM_STEP = 0.015          # degrees; how finely the gap is searched
+SEAM_MAX = 0.35            # degrees; wider than this is not a seam but a hole
+SEAM_MIN_RUN = 3           # vertices; shorter runs draw a fleck, not a strip
+
+
+def _ring_test(rings):
+    """A closure answering "is this point inside any of these rings"."""
+    boxed = []
+    for r in rings:
+        if len(r) < 3:
+            continue
+        xs = [p[0] for p in r]
+        ys = [p[1] for p in r]
+        boxed.append((min(xs), min(ys), max(xs), max(ys), r))
+
+    def inside(p):
+        px, py = p
+        for x0, y0, x1, y1, r in boxed:
+            if x0 <= px <= x1 and y0 <= py <= y1 and point_in_ring(p, r):
+                return True
+        return False
+    return inside
+
+
+def _ring_normal(ring, k, window=0.08):
+    """The normal at vertex k, taken over a couple of kilometres.
+
+    Vertex to vertex the direction swings through half a turn along a ragged
+    shore, and a strip built on it fans out sideways in a starburst.
+    """
+    n = len(ring)
+
+    def reach(step):
+        j, p0 = k, ring[k]
+        for _ in range(40):
+            j = (j + step) % n
+            if math.hypot(ring[j][0] - p0[0], ring[j][1] - p0[1]) >= window:
+                break
+        return ring[j]
+    a, b = reach(-1), reach(1)
+    dx, dy = b[0] - a[0], b[1] - a[1]
+    h = math.hypot(dx, dy) or 1.0
+    return (dy / h, -dx / h)
+
+
+def _grid_of(rings, cell):
+    """Vertices bucketed by cell, for "is anything near this point" questions."""
+    grid = collections.defaultdict(list)
+    for ring in rings:
+        for x, y in ring:
+            grid[(int(math.floor(x / cell)), int(math.floor(y / cell)))].append((x, y))
+    return grid
+
+
+def _near_grid(grid, cell, p, radius):
+    px, py = p
+    gx, gy = int(math.floor(px / cell)), int(math.floor(py / cell))
+    span = int(math.ceil(radius / cell))
+    for i in range(gx - span, gx + span + 1):
+        for j in range(gy - span, gy + span + 1):
+            for q in grid.get((i, j), ()):
+                if math.hypot(px - q[0], py - q[1]) <= radius:
+                    return True
+    return False
+
+
+def add_neighbour_seams(groups):
+    """Make every neighbour of China reach China's own boundary.
+
+    China, Manchuria and the rest of the ENP-China atoms are drawn from the
+    Republican province sheet; the Soviet Union, Mongolia, Indochina, Burma and
+    the others are drawn from Natural Earth. The two put the frontier a
+    kilometre or two apart, and a band belonging to neither shows all along it
+    at deep zoom — bare ocean where nothing else is under it, or whatever filler
+    is. Natural Earth's own outline of China used to be laid underneath to plug
+    it, but that outline is much coarser than the provinces and drew China's
+    coast a second time, a kilometre out to sea from where the provinces put it.
+
+    So the plug is built where the problem is instead. Each neighbour's frontier
+    vertices are pushed towards China until they are inside it, and the strip
+    between where they were and where they end up is added to that neighbour's
+    filler. The neighbour's own outline still runs where its source puts it —
+    the strip is under it, not part of it — and because the far edge is inside
+    China, the two now overlap instead of leaving a gap.
+
+    A vertex that is already inside China, or that cannot reach China within
+    `SEAM_MAX`, gets no strip: that is what tells a coastline from a frontier,
+    with no need to say in advance which stretch of a country is which.
+    """
+    seams = collections.defaultdict(list)
+    enp = [r for k in ENP_SIDE for r in groups.get(k, ())]
+    if not enp:
+        sys.stderr.write("note: no ENP-China rings, neighbour seams skipped\n")
+        return seams
+    cell = 0.5
+    grid = _grid_of(enp, cell)
+    in_china = _ring_test(enp)
+
+    for key in CHINA_NEIGHBOURS:
+        rings = groups.get(key)
+        if not rings:
+            continue
+        ref_wind = signed_ring_area(max(rings, key=len))
+        in_own = _ring_test(rings)
+
+        for ring in rings:
+            n = len(ring)
+            if n < 8:
+                continue
+            piece = []
+            for k in range(n + 1):
+                p = ring[k % n] if k < n else None
+                far = None
+                if p is not None and _near_grid(grid, cell, p, SEAM_MAX) \
+                        and not in_china(p):
+                    nx, ny = _ring_normal(ring, k % n)
+                    w = SEAM_STEP
+                    while w <= SEAM_MAX and far is None:
+                        for sign in (1.0, -1.0):
+                            q = (p[0] + sign * nx * w, p[1] + sign * ny * w)
+                            # inside China and out of the neighbour: a strip
+                            # that doubles back into its own country fills
+                            # nothing and can cross a bay to do it
+                            if in_china(q) and not in_own(q):
+                                far = q
+                                break
+                        w += SEAM_STEP
+                if far is not None:
+                    piece.append((p, far))
+                    continue
+                if len(piece) >= SEAM_MIN_RUN:
+                    strip = [a for a, _ in piece] + [b for _, b in reversed(piece)]
+                    # the strip overlaps its own country rather than abutting
+                    # it, and paths fill by the nonzero rule: wound the other
+                    # way it would cancel the overlap and punch a hole
+                    if signed_ring_area(strip) * ref_wind < 0:
+                        strip.reverse()
+                    seams[key].append(strip)
+                piece = []
+    return seams
+
+
+# The leaseholds traced in QGIS against a different coastline from the one the
+# map draws. Where their shore falls inside China's, China shows above them:
+# a fringe of the country's own colour between the leasehold and the sea, along
+# the whole of it.
+# Kwantung is here for a different reason: it is cut out of Liaoning and so its
+# coast is Liaoning's, but the cut, the dissolve and the rounding each move a
+# vertex a little and Manchuria's ring shows through in slivers all round it.
+# The strip covers them. Along the isthmus, where the cut is a real boundary,
+# nothing happens: those vertices have the whole of Manchuria in front of them
+# and never get clear of it.
+ENCLAVE_SEAM = ("weihaiwei", "guangzhouwan", "kwantung")
+ENCLAVE_REACH = 0.10       # degrees; about eleven kilometres, and no more
+
+
+def add_enclave_seams(groups):
+    """Carry a leasehold's shore out to the sea the map actually draws.
+
+    Weihaiwei and Kwangchowwan are traced from a QGIS project whose coastline
+    is not the one the ENP sheet gives, so along their seaward edges China ends
+    a kilometre or two further out than they do and shows as a yellow rim above
+    them. Their landward edges are a different matter and must not move: there
+    China is supposed to be on the other side of the line.
+
+    Telling one from the other needs no list of which stretch is which. A
+    vertex is pushed outward only until it is clear of China altogether, and a
+    landward vertex never gets clear — it has the rest of Shantung in front of
+    it — so it is left alone and only the shore moves.
+    """
+    seams = collections.defaultdict(list)
+    enp = [r for k in ENP_SIDE for r in groups.get(k, ())]
+    if not enp:
+        return seams
+    in_china = _ring_test(enp)
+
+    for key in ENCLAVE_SEAM:
+        rings = groups.get(key)
+        if not rings:
+            continue
+        ref_wind = signed_ring_area(max(rings, key=len))
+        in_own = _ring_test(rings)
+        for ring in rings:
+            n = len(ring)
+            if n < 8:
+                continue
+            piece = []
+            for k in range(n + 1):
+                p = ring[k % n] if k < n else None
+                far = None
+                if p is not None and in_china(p):
+                    nx, ny = _ring_normal(ring, k % n)
+                    w = SEAM_STEP
+                    while w <= ENCLAVE_REACH and far is None:
+                        for sign in (1.0, -1.0):
+                            q = (p[0] + sign * nx * w, p[1] + sign * ny * w)
+                            if not in_china(q) and not in_own(q):
+                                far = q
+                                break
+                        w += SEAM_STEP
+                if far is not None:
+                    piece.append((p, far))
+                    continue
+                if len(piece) >= SEAM_MIN_RUN:
+                    strip = [a for a, _ in piece] + [b for _, b in reversed(piece)]
+                    if signed_ring_area(strip) * ref_wind < 0:
+                        strip.reverse()
+                    seams[key].append(strip)
+                piece = []
+    return seams
 
 
 def add_frontier_seam(groups):
@@ -1524,13 +1826,17 @@ RYUKYU_BOXES = [
 
 # atom key -> the list of islands it might be one of
 # Sub-units that are places rather than administrative divisions, and so are
-# named whether or not the Administrative layer is on — and kept in the main
-# file rather than deferred to the second one. The four northern Malay states
-# are here because they are the point of that corner of the map: they were
-# British in 1930 and handed to Thailand in 1943, and deferring them meant they
-# had no names at all in 1930 and, in 1942, that the outline drawn to mark them
-# out had nothing to draw — the atom holding it was empty.
-ALWAYS_NAMED = frozenset({"goa", "pondicherry", "malaya_thai"})
+# named whether or not the Administrative layer is on.
+ALWAYS_NAMED = frozenset({"goa", "pondicherry", "christmas"})
+
+# Kept in the main file rather than deferred to the Administrative one, without
+# thereby being named when that layer is off. The four northern Malay states
+# are here because they are the point of that corner of the map — British in
+# 1930, handed to Thailand in 1943 — and deferring them meant they had no names
+# at all in 1930 and, in 1942, that the outline drawn to mark them out had
+# nothing to draw, the atom holding it being empty. They are still states of
+# Malaya, though, so with Administrative off they are Malaya and nothing more.
+NEVER_DEFERRED = ALWAYS_NAMED | frozenset({"malaya_thai"})
 
 ISLAND_BOXES = {
     "aleutians": ALEUTIAN_BOXES,
@@ -1561,6 +1867,34 @@ def island_name(key, ring):
 # and not the rounded blob it was first given. Traced clockwise from the west
 # tip of Wilkes: the ocean shore east and north to Peale's tip, then back along
 # the lagoon.
+# Christmas Island, annexed to the Straits Settlements in 1900 and run from
+# Singapore, and taken by Japan on 31 March 1942 for its phosphate. Natural
+# Earth files it under "Indian Ocean Territories" with the Cocos (Keeling)
+# group, which is a fact about Australia after 1958 and not about either of the
+# dates this map draws; the ring is taken from there and given a name of its
+# own. Cocos is left out: it stayed British and Allied throughout, and putting
+# it on the map would say something about the Japanese advance that is not so.
+CHRISTMAS_ISLAND = [
+    (105.7041, -10.4308), (105.7147, -10.4372), (105.7127, -10.4509),
+    (105.7114, -10.4699), (105.7063, -10.4942), (105.7063, -10.5143),
+    (105.6979, -10.5290), (105.6999, -10.5534), (105.6946, -10.5649),
+    (105.6787, -10.5660), (105.6735, -10.5491), (105.6672, -10.5333),
+    (105.6641, -10.5185), (105.6493, -10.5131), (105.6282, -10.5090),
+    (105.6050, -10.5100), (105.5850, -10.5164), (105.5818, -10.5048),
+    (105.5923, -10.4985), (105.5996, -10.4806), (105.5942, -10.4667),
+    (105.5942, -10.4540), (105.6072, -10.4584), (105.6271, -10.4689),
+    (105.6546, -10.4699), (105.6693, -10.4562), (105.6852, -10.4404),
+]
+
+# The map stops a little east of the Gilberts, and everything past that edge —
+# Fiji, Samoa, Tonga, the whole of Polynesia — is simply not on it. A reader who
+# gets that far has no way of knowing whether the blue is empty ocean or a place
+# the map has left out, so this box of open water answers when it is hovered and
+# says which. It is drawn in nothing at all: no fill, no stroke, no label.
+POLYNESIA_BOX = [
+    (178.6, -12.9), (205.9, -12.9), (205.9, 9.0), (178.6, 9.0),
+]
+
 WAKE = [
     # the southern ocean shore, west to east: Wilkes, then Wake
     (166.5960, 19.2790), (166.6060, 19.2800), (166.6160, 19.2795),
@@ -1706,7 +2040,7 @@ SPLITTERS = {
 # only way to find them at all; over the Indies, the Philippines and the
 # Andamans, where the islands are perfectly legible, the rings are just clutter.
 ISLET_RINGS = {
-    "wake",
+    "wake", "christmas",
     "nanyo", "gilberts", "ogasawara", "guam", "chishima", "aleutians",
     "hawaii", "ryukyu", "newguinea_au", "solomons_br", "nauru_au",
     "aleutians_jp", "solomons_gc", "solomons_us", "solomons_ml", "solomons_al",
@@ -1726,12 +2060,15 @@ ARCHIPELAGOS = {
 ON_TOP = ["weihaiwei", "guangzhouwan", "macau", "hongkong", "kwantung"]
 
 ORDER = [
+    # first, so that anything real drawn over it wins the pointer
+    "polynesia",
     "chinabase", "andaman", "ceylon", "ussr", "mongolia", "tibet",
     "china", "xinjiang", "india", "princely", "goa", "pondicherry",
     "other", "nepal", "sikkim", "bhutan",
-    "tuva", "weihaiwei", "guangzhouwan", "chahar", "suiyuan", "jehol", "manchuria",
+    "tuva", "weihaiwei", "guangzhouwan", "chahar", "suiyuan", "suiyuan_w",
+    "jehol", "manchuria",
     "siam", "burma", "saharat", "indochina", "siamgain", "malaya", "malaya_thai", "sarawak", "northborneo", "brunei",
-    "dei", "philippines",
+    "dei", "philippines", "christmas",
     "timor_pt", "newguinea_au", "solomons_br", "australia", "gilberts",
     "nauru_au", "guam", "wake", "hawaii", "aleutians", "aleutians_jp", "hongkong", "macau",
     "solomons_gc", "solomons_us", "solomons_ml", "solomons_al",
@@ -1801,22 +2138,21 @@ def main():
             # provinces, and colouring those disagreements China's yellow rather
             # than the neutral grey is what the neutral grey exists to avoid.
             for ring in iter_rings(feat["geometry"]):
-                groups["chinabase"].append(ring)
                 if china_island(ring):
                     # which atom it belongs to is settled later, once the
                     # Republican provinces are loaded: the islands off the
                     # Liaotung peninsula are Manchuria's, not China's
+                    groups["chinabase"].append(ring)
                     china_islands.append(ring)
                 elif abs(signed_ring_area(ring)) / 2.0 > 1.0:
-                    # The mainland. It used to be left out, so that where the
-                    # modern outline and the Republican provinces disagree the
-                    # neutral filler showed and a seam read as a seam. Along
-                    # the coast that is not a seam, it is a grey fringe on
-                    # every shore of China, and it was on every one of them.
-                    # China's own filler reaches the modern coastline now, and
-                    # the frontiers it also straightens are frontiers the map
-                    # draws its neighbours over anyway.
-                    extra["china"].append(ring)
+                    # The mainland, and it is not drawn at all — see
+                    # NE_CHINA_MAINLAND above for why, and set that to True to
+                    # put it back.
+                    if NE_CHINA_MAINLAND:
+                        groups["chinabase"].append(ring)
+                        extra["china"].append(ring)
+                else:
+                    groups["chinabase"].append(ring)
             continue
         if admin == "Russia":
             kurils = collections.defaultdict(list)
@@ -1949,6 +2285,9 @@ def main():
                 provinces["princely"].append(("", rest))
 
     groups["wake"].append(list(WAKE))
+    groups["christmas"].append(list(CHRISTMAS_ISLAND))
+    provinces["christmas"].append(("Christmas Island", [list(CHRISTMAS_ISLAND)]))
+    groups["polynesia"].append(list(POLYNESIA_BOX))
     groups["pondicherry"].append(list(CHANDERNAGORE))
     provinces["pondicherry"].append(("Chandernagore", [list(CHANDERNAGORE)]))
 
@@ -2194,12 +2533,18 @@ def main():
             continue
         key = PROVINCE_ATOM.get(name) or "china"
 
-        # Suiyuan is split at Paotow: only the east was Mengchiang's in fact
+        # Suiyuan is split at Paotow: only the east was Mengchiang's in fact.
+        # The west goes to an atom of its own rather than into China, so that
+        # the 1930 map can put the two halves back together — the cut is a fact
+        # about 1942 and there was no such line in 1930, when Suiyuan had been
+        # one province since 1928. Two atoms of one territory share a fill and
+        # a stroke and show no boundary between them, so on that date it is one
+        # province again and says so once.
         if name == "Suiyuan":
             east = [line_plane((SUIYUAN_CUT, 0.0), (SUIYUAN_CUT, 90.0), keep_right=True)]
             west = [line_plane((SUIYUAN_CUT, 0.0), (SUIYUAN_CUT, 90.0), keep_right=False)]
             for side, dest, label in ((east, "suiyuan", "Suiyuan"),
-                                      (west, "china", "SuiyuanWest")):
+                                      (west, "suiyuan_w", "SuiyuanWest")):
                 cut = [c for c in (clip_halfplanes(r, side) for r in rings) if len(c) >= 3]
                 if cut:
                     tally[dest] += 1
@@ -2371,6 +2716,14 @@ def main():
             # the meanders. Keep the longest and give it a tail to the sea.
             pieces["yellow_lower"] = [max(pieces["yellow_lower"], key=len)]
             pieces["yellow_lower"].append(YELLOW_TAIL)
+        # Both rivers are cut where they first reach water the map draws. The
+        # land is China as the Republican provinces have it, which is the
+        # coastline the map itself puts down.
+        on_land = land_test([r for k in ENP_SIDE for r in groups.get(k, ())])
+        for key in pieces:
+            pieces[key] = [t for t in (trim_to_land(line, on_land)
+                                       for line in pieces[key]) if t]
+
         if args.export:
             export_geojson(args.export, groups, provinces, pieces)
 
@@ -2395,6 +2748,17 @@ def main():
     for key, rings in add_frontier_seam(groups).items():
         extra[key].extend(rings)
 
+    seamed = add_neighbour_seams(groups)
+    for key, rings in add_enclave_seams(groups).items():
+        seamed[key] = rings
+    for key, rings in seamed.items():
+        extra[key].extend(rings)
+    if seamed:
+        sys.stderr.write(
+            "frontier seams: "
+            + ", ".join(f"{k}={len(v)}" for k, v in sorted(seamed.items()))
+            + "\n")
+
     # ---- dissolve, project, clip, simplify --------------------------------
     frame = box_planes(LON_MIN, LAT_MIN, LON_MAX, LAT_MAX)
     paths, dots, anchors, stats, hits = {}, {}, {}, [], {}
@@ -2406,8 +2770,13 @@ def main():
         archipelago = key in ARCHIPELAGOS
         # the French and Portuguese enclaves are a few square kilometres each
         # and would otherwise fall through the minimum-area sieve
+        # the leasehold keeps the small islands for the same reason it keeps
+        # the full detail: they are in the coast it was cut out of, and a
+        # sieve that drops them here and not there leaves them showing in the
+        # country's colour inside the leasehold
         min_area = (0.04 if key in ("goa", "pondicherry")
-                    else 0.12 if archipelago else args.min_area)
+                    else 0.12 if (archipelago or key in FULL_DETAIL)
+                    else args.min_area)
 
         pieces, specks, moments = [], [], []
         for ring in source:
@@ -2420,7 +2789,11 @@ def main():
             pts = [project(x, y) for x, y in ring]
             span = max(max(p[0] for p in pts) - min(p[0] for p in pts),
                        max(p[1] for p in pts) - min(p[1] for p in pts))
-            if span > 60:
+            if key in FULL_DETAIL:
+                pass          # the leasehold is a piece of a coast drawn here
+                              # at full detail; thinned on its own it no longer
+                              # matches the coast it was cut out of
+            elif span > 60:
                 pts = simplify(pts, args.tolerance)
             elif span > 12:
                 pts = simplify(pts, args.tolerance * 0.5)
@@ -2436,6 +2809,17 @@ def main():
             moments.append((area, rcx, rcy))
             if key in ISLET_RINGS and area < 20:
                 specks.append((rcx, rcy, max(2.6, math.sqrt(area / math.pi) * 1.5)))
+
+        # Added rings, drawn exactly as given and after the dissolve, for the
+        # same reasons as in whole_union: they overlap the atom rather than
+        # abutting it, and thinning a seam moves the edge it was built to meet.
+        # An atom assembled from sub-units picks these up in its filler; one
+        # drawn as a single shape — a leasehold — has no filler and would
+        # otherwise never see them at all.
+        for ring in extra.get(key, []):
+            ring = clip_halfplanes(normalise_ring(ring), frame)
+            if len(ring) >= 3:
+                pieces.append(ring_to_path([project(x, y) for x, y in ring]))
 
         if not pieces:
             continue
@@ -2676,9 +3060,10 @@ def main():
             # Administrative divisions are more than half the weight of this
             # file, and the map opens with that layer off, so they are written
             # to a second file and fetched only when it is switched on. Islands
-            # and enclaves stay: their sub-units are places rather than
-            # divisions and they are named whatever the layer says.
-            defer = not (key in ARCHIPELAGOS or key in ALWAYS_NAMED)
+            # and enclaves stay, being places rather than divisions; so do the
+            # northern Malay states, which are divisions but are needed in 1930
+            # with the layer off.
+            defer = not (key in ARCHIPELAGOS or key in NEVER_DEFERRED)
             whole = whole_union(key)
             cls = "atom deferred" if (defer and whole) else "atom"
             # The backing goes in a layer of its own, drawn before every atom.
@@ -3009,6 +3394,102 @@ FINE_PARENT = {
     "Kusaie": "Caroline Islands",
 }
 
+# The Japanese names of the mandate's islands. Japan governed these for
+# twenty-six years and named them; a map of the Japanese empire that gives only
+# the present-day forms leaves the reader unable to match the map to anything
+# written about the place at the time — Truk's inner islands in particular,
+# which the navy renamed after the seasons and the days of the week and which
+# appear under those names in every account of the base.
+#
+# Only the mandate. Guam was American, the Gilberts were British and the
+# Solomons and the Bismarcks were Australian or British, and putting Japanese
+# names on those would say something about them that was not true on either of
+# this map's dates.
+NANYO_JA = {
+    # the Marianas, north of Guam
+    "Saipan": "サイパン島 (Saipan-tō)",
+    "Tinian": "テニアン島 (Tenian-tō)",
+    "Rota": "ロタ島 (Rota-tō)",
+    "Aguijan": "アギガン島 (Agigan-tō)",
+    "Pagan": "パガン島 (Pagan-tō)",
+    "Agrihan": "アグリハン島 (Agurihan-tō)",
+    "Alamagan": "アラマガン島 (Aramagan-tō)",
+    "Anatahan": "アナタハン島 (Anatahan-tō)",
+    "Asuncion": "アスンシオン島 (Asunshion-tō)",
+    "Sarigan": "サリガン島 (Sarigan-tō)",
+    "Guguan": "グガン島 (Gugan-tō)",
+    "Maug": "マウグ島 (Maugu-tō)",
+    "Farallon de Medinilla": "メジニラ島 (Mejinira-tō)",
+    "Farallon de Pajaros": "ウラカス島 (Urakasu-tō)",
+    "Uracas": "ウラカス島 (Urakasu-tō)",
+    # Palau
+    "Babeldaob": "バベルダオブ島 (Baberudaobu-tō)",
+    "Babelthuap": "バベルダオブ島 (Baberudaobu-tō)",
+    "Koror": "コロール島 (Korōru-tō)",
+    "Malakal": "マラカル島 (Marakaru-tō)",
+    "Arakabesan": "アラカベサン島 (Arakabesan-tō)",
+    "Peleliu": "ペリリュー島 (Peririyū-tō)",
+    "Angaur": "アンガウル島 (Angauru-tō)",
+    "Ngeruktabel": "ウルクターブル島 (Urukutāburu-tō)",
+    "Sonsorol": "ソンソロール島 (Sonsorōru-tō)",
+    "Tobi": "トビ島 (Tobi-tō)",
+    # Yap and the western Carolines
+    "Yap": "ヤップ島 (Yappu-tō)",
+    "Ulithi": "ウリシー環礁 (Urishī Kanshō)",
+    "Fais": "ファイス島 (Faisu-tō)",
+    "Woleai": "ウォレアイ環礁 (Woreai Kanshō)",
+    "Ifalik": "イファリク環礁 (Ifariku Kanshō)",
+    "Lamotrek": "ラモトレック環礁 (Ramotorekku Kanshō)",
+    "Satawal": "サタワル島 (Satawaru-tō)",
+    "Puluwat": "プルワット環礁 (Puruwatto Kanshō)",
+    # Truk, renamed island by island by the navy that based itself there
+    "Moen (Weno)": "春島 (Haru-shima)",
+    "Weno": "春島 (Haru-shima)",
+    "Dublon (Tonowas)": "夏島 (Natsu-shima)",
+    "Tonowas": "夏島 (Natsu-shima)",
+    "Fefan": "秋島 (Aki-shima)",
+    "Uman": "冬島 (Fuyu-shima)",
+    "Tol": "水曜島 (Suiyō-tō)",
+    "Udot": "月曜島 (Getsuyō-tō)",
+    "Fanapanges": "火曜島 (Kayō-tō)",
+    "Romanum": "金曜島 (Kinyō-tō)",
+    "Eot": "木曜島 (Mokuyō-tō)",
+    "Param": "楓島 (Kaede-shima)",
+    "Eten": "竹島 (Take-shima)",
+    "Etten": "竹島 (Take-shima)",
+    # the eastern Carolines
+    "Ponape (Pohnpei)": "ポナペ島 (Ponape-tō)",
+    "Pohnpei": "ポナペ島 (Ponape-tō)",
+    "Kusaie (Kosrae)": "クサイエ島 (Kusaie-tō)",
+    "Kosrae": "クサイエ島 (Kusaie-tō)",
+    "Pingelap": "ピンゲラップ環礁 (Pingerappu Kanshō)",
+    "Mokil": "モキール環礁 (Mokīru Kanshō)",
+    "Nukuoro": "ヌクオロ環礁 (Nukuoro Kanshō)",
+    "Kapingamarangi": "カピンガマランギ環礁 (Kapingamarangi Kanshō)",
+    # the Marshalls
+    "Jaluit (Jabor)": "ヤルート環礁 (Yarūto Kanshō)",
+    "Jabor": "ヤルート環礁 (Yarūto Kanshō)",
+    "Kwajalein (Kuwajleen)": "クェゼリン環礁 (Kuwajerin Kanshō)",
+    "Kuwajleen": "クェゼリン環礁 (Kuwajerin Kanshō)",
+    "Wotje": "ウォッゼ環礁 (Wottsuje Kanshō)",
+    "Maloelap": "マロエラップ環礁 (Maroerappu Kanshō)",
+    "Mili": "ミレ環礁 (Mire Kanshō)",
+    "Majuro": "マジュロ環礁 (Majuro Kanshō)",
+    "Arno": "アルノ環礁 (Aruno Kanshō)",
+    "Ebon": "エボン環礁 (Ebon Kanshō)",
+    "Likiep": "リキエップ環礁 (Rikieppu Kanshō)",
+    "Ailinglaplap": "アイリングラップラップ環礁 (Airingurappurappu Kanshō)",
+    "Namu": "ナム環礁 (Namu Kanshō)",
+    "Rongelap": "ロンゲラップ環礁 (Rongerappu Kanshō)",
+    "Bikini": "ビキニ環礁 (Bikini Kanshō)",
+    "Eniwetok (Enewetak)": "エニウェトク環礁 (Eniuetoku Kanshō)",
+    "Enewetak": "エニウェトク環礁 (Eniuetoku Kanshō)",
+    "Utirik": "ウチリック環礁 (Uchirikku Kanshō)",
+    "Taroa": "タロア島 (Taroa-tō)",
+}
+
+ATOLL_MAX_DEG = 1.0        # a hundred kilometres; wider is a chain, not an atoll
+
 FINE_MIN_KM2 = 0.05        # five hectares; below this it is a dot on the map
 FINE_TOL_DEG = 0.002       # about half a pixel at the deepest zoom the map has
 
@@ -3118,6 +3599,58 @@ def _osm_islands(path):
         out.append({"lon": c["lon"], "lat": c["lat"], "box": box, "t": t,
                     "isl": t.get("place") == "island"})
     return out
+
+
+def _osm_atolls(path):
+    """The atolls and island groups of a cached extract.
+
+    An atoll is one place with thirty islets in it, and OSM names the atoll
+    rather than the islets: Ulithi, Woleai, Namonuito and most of the rest of
+    the Carolines come through as a `place=archipelago` with nothing named
+    inside it. Reading only the islands left a hundred and thirty rings in the
+    mandate with no name at all, which is to say with the pointer telling a
+    reader looking at Ulithi that they were somewhere in the Caroline Islands.
+    An islet that no one has named is named for the atoll it belongs to.
+    """
+    if not os.path.exists(path):
+        return []
+    out = []
+    for e in json.load(open(path))["elements"]:
+        t = e.get("tags") or {}
+        if t.get("place") != "archipelago":
+            continue
+        b = e.get("bounds")
+        box = (b["minlon"], b["minlat"], b["maxlon"], b["maxlat"]) if b else None
+        c = e.get("center")
+        if (not c or c.get("lon") is None) and box:
+            c = {"lon": (box[0] + box[2]) / 2, "lat": (box[1] + box[3]) / 2}
+        if not box:
+            continue
+        # An atoll is a few tens of kilometres across. OSM also files the
+        # Carolines themselves, the Palau group and the Ratak and Ralik chains
+        # of the Marshalls under the same tag, and those cover hundreds of
+        # kilometres: an islet inside one of them is not "on" it in any sense
+        # a reader wants, and taking the name gave forty-four separate islets
+        # called "Ratak Chain" and two in Kusaie called "Ralik Chain", which is
+        # eight hundred miles away.
+        if max(box[2] - box[0], box[3] - box[1]) > ATOLL_MAX_DEG:
+            continue
+        span = (box[2] - box[0]) * (box[3] - box[1])
+        out.append({"box": box, "t": t, "span": span})
+    # smallest first, so an islet inside Ulithi is called Ulithi and not
+    # "Caroline Islands", which is the archipelago Ulithi is inside
+    out.sort(key=lambda a: a["span"])
+    return out
+
+
+def _atoll_of(ring, atolls):
+    cx = sum(p[0] for p in ring) / len(ring)
+    cy = sum(p[1] for p in ring) / len(ring)
+    for a in atolls:
+        x0, y0, x1, y1 = a["box"]
+        if x0 <= cx <= x1 and y0 <= cy <= y1:
+            return a["t"]
+    return None
 
 
 def _name_rings(rings, osm):
@@ -3275,12 +3808,17 @@ def build_fine_coast(groups):
                 continue
             keep.append((_ring_km2(r), r))
         keep.sort(key=lambda t: -t[0])
-        osm = []
+        osm, atolls = [], []
         for f in osmfiles:
             osm.extend(_osm_islands(os.path.join(CACHE, f)))
+            atolls.extend(_osm_atolls(os.path.join(CACHE, f)))
+        atolls.sort(key=lambda a: a["span"])
         names = _name_rings(keep, osm)
         for ri, (area, ring) in enumerate(keep):
             t = osm[names[ri]]["t"] if ri in names else {}
+            if not t:
+                # nothing named this islet; the atoll it lies in did
+                t = _atoll_of(ring, atolls) or {}
             rows.append((area, ring, t))
 
     if not rows:
@@ -3299,6 +3837,14 @@ def build_fine_coast(groups):
         if not key:
             continue
         en, ja, zh = _fine_name(t, gname)
+        # The mandate's islands carry the names Japan gave them. Only the
+        # mandate: `key == "nanyo"` is exactly the atom the South Seas Mandate
+        # is drawn as, so Guam next door, the Gilberts and the Bismarcks are
+        # left alone.
+        if key == "nanyo" and not ja:
+            # OSM spells some of these "Tinian Island" and some "Tinian"
+            bare = re.sub(r"\s+(Island|Islands|Atoll)$", "", en or "")
+            ja = NANYO_JA.get(en) or NANYO_JA.get(bare) or ""
         if not en and not ja:
             unnamed += 1
         by_atom[key].append((en or ja, ja, zh, gname, gja, ring_to_path(pts)))

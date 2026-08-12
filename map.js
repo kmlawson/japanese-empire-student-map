@@ -36,14 +36,15 @@
     epoch: JMAP.DEFAULT_EPOCH,
     level: 1,
     lang: 'en',
-    // Administrative starts off. The divisions are more than half the weight
-    // of the map and are fetched only when it is switched on, so the map opens
-    // as a map of countries and becomes a map of provinces when asked.
-    cats: { city: true, battle: true, territory: false },
+    // The map opens bare: 1930, no cities, no events, no divisions. Everything
+    // here is something the reader can switch on, and a map that arrives with
+    // three layers already on gives them nothing to switch. Administrative is
+    // also more than half the weight of the map and is fetched only when it is
+    // asked for, so an opening view without it is a faster one.
+    cats: { city: false, battle: false, territory: false },
     labels: false,
     extent: true,
     rivers: true,
-    browse: false,
     // the legend is worth its space on a big screen and costs too much of it
     // on a phone, so it starts folded there and remembers what you chose
     legend: window.innerWidth >= 700 && window.innerHeight >= 600,
@@ -84,16 +85,14 @@
     try {
       var saved = JSON.parse(localStorage.getItem(STORE_KEY) || '{}');
       if (saved.level >= 1 && saved.level <= 3) state.level = saved.level;
-      if (JMAP.EPOCHS.some(function (e) { return e.id === saved.epoch; })) state.epoch = saved.epoch;
-      if (saved.cats) {
-        Object.keys(state.cats).forEach(function (k) {
-          if (typeof saved.cats[k] === 'boolean') state.cats[k] = saved.cats[k];
-        });
-      }
+      // The year and the three layer buttons are deliberately not restored.
+      // The map is a teaching one and every visit should start from the same
+      // place — 1930, nothing switched on — rather than from wherever the last
+      // reader happened to leave it, which on a shared machine is nowhere the
+      // next reader chose. The rest below is preference and does carry over.
       state.labels = !!saved.labels;
       if (typeof saved.extent === 'boolean') state.extent = saved.extent;
       if (typeof saved.rivers === 'boolean') state.rivers = saved.rivers;
-      if (typeof saved.browse === 'boolean') state.browse = saved.browse;
       if (typeof saved.legend === 'boolean') state.legend = saved.legend;
     } catch (err) { /* first visit, or storage is off — defaults are fine */ }
   }
@@ -103,7 +102,7 @@
       localStorage.setItem(STORE_KEY, JSON.stringify({
         epoch: state.epoch, level: state.level,
         cats: state.cats, labels: state.labels, extent: state.extent,
-        rivers: state.rivers, browse: state.browse, legend: state.legend,
+        rivers: state.rivers, legend: state.legend,
       }));
     } catch (err) { /* private browsing; not worth complaining about */ }
   }
@@ -208,9 +207,14 @@
     return rec.lvl <= state.level && state.cats.territory;
   }
 
+  /* The dots. Not filtered by the detail level: the Layers panel says that
+     setting is for "how many places the quiz asks about and how many names the
+     map will try to fit", and it was quietly deciding which places existed at
+     all — Batavia, Kobe and Pusan were on the map and invisible, because they
+     are level 2 and 3 and the map opens at level 1. Cities on means cities. */
   function siteVisible(s) {
     if (s.kind === 'browse') return browseVisible();
-    return state.cats[s.cat] && s.lvl <= state.level && siteInEpoch(s);
+    return state.cats[s.cat] && siteInEpoch(s);
   }
 
   /* Zooming in is a request for more detail, so it raises the level the map
@@ -224,8 +228,15 @@
   }
 
   function labelVisible(rec) {
-    if (rec.kind === 'territory')
-      return rec.lvl <= labelLevel() && state.cats.territory;
+    // A country's name has nothing to do with the Administrative layer, which
+    // is about its divisions. Gating it on that switch meant "Show names on
+    // the map" showed no country names at all until a second, unrelated button
+    // was pressed.
+    // — except one that is only drawn when that layer is on, which cannot be
+    // named while it is not there.
+    if (rec.kind === 'territory') {
+      return rec.lvl <= labelLevel() && (!rec.adminOnly || state.cats.territory);
+    }
     if (rec.kind === 'browse') return browseVisible();
     return state.cats[rec.cat] && rec.lvl <= labelLevel() && siteInEpoch(rec);
   }
@@ -546,6 +557,7 @@
     clearHighlight();
     hot = null;
     hotProv = null;
+    if (subsAtom) { subsAtom.classList.remove('subs'); subsAtom = null; }
     labels = labels.filter(function (L) {
       if (L.rec.kind === 'territory') { L.el.remove(); return false; }
       return true;
@@ -632,7 +644,10 @@
         if (ring && t.outlineColor) ring.style.setProperty('--sub', t.outlineColor);
       }
 
-      if (total > 0) {
+      // `unseen` is a shape with nothing drawn in it: the box of open water
+      // east of the Gilberts, which exists to answer the pointer and nothing
+      // else. A label over it would be a name floating in empty sea.
+      if (total > 0 && !t.unseen) {
         var x = mx / total, y = my / total;
         var text = svgEl('text', { 'class': 'tlabel', 'font-size': TERR_PX });
         labelLayer.appendChild(text);
@@ -833,10 +848,19 @@
   var lastTap = null;
   var pendingTap = 0;
 
-  /* The browse layer is context, and at a wide zoom on a small screen it is
-   * 131 dots on top of each other. It comes in once there is room for it. */
+  /* The context cities come in with the Cities button, which is the button a
+     reader would press to see cities. They had a switch of their own in the
+     Layers panel, which asked the reader to know that this map has two kinds
+     of city and to decide about each — a distinction that is about how the map
+     was built and not about anything they came here to find out.
+
+     The zoom guard that used to hold them back is gone with it, and it was the
+     other half of the same problem: the map opens fitted to its full width, so
+     the guard was never satisfied at the opening view and pressing the switch
+     appeared to do nothing at all. It survives on a touch screen, where two
+     hundred dots at arm's length cannot be picked out from one another. */
   function browseVisible() {
-    return state.browse && view.w < mapW / (coarse ? 2.2 : 1.6);
+    return state.cats.city && (!coarse || view.w < mapW / 2.2);
   }
 
   function rescale() {
@@ -1039,7 +1063,7 @@
     if (hoverCapable) {
       container.addEventListener('mousemove', onHover);
       container.addEventListener('mouseleave', function () {
-        setHot(null); setHotProv(null); hideTooltip();
+        setHot(null); setHotProv(null); setSubsAtom(null); hideTooltip();
       });
     }
   }
@@ -1315,6 +1339,10 @@
   function handleTap(target, cx, cy) {
     var got = pick(target, cx, cy);
     var hit = got && got.hit;
+    // on a touch screen the tap is the pointer, so it is what decides whose
+    // divisions are drawn
+    setSubsAtom(hit && hit.rec.kind === 'territory' && got.el && got.el.closest
+                ? got.el.closest('.atom') : null);
     var prov = hit && hit.rec.kind === 'territory' ? provinceAt(got, cx, cy) : null;
     lastProv = prov;
     if (state.mode === 'quiz') {
@@ -1397,6 +1425,22 @@
   var hotProv = null;
   var lastProv = null;
 
+  /* Which country draws its internal boundaries. With the Administrative layer
+     on, every division of every country used to be drawn at once — about
+     fifteen hundred lines, a grey mesh over the whole map, and no help to a
+     reader who is looking at one place. Only the country under the pointer
+     draws them now; the exceptions that stay drawn wherever the pointer is are
+     named in the stylesheet, and are the enclaves and scattered colonies whose
+     whole point is that they are not part of what surrounds them. */
+  var subsAtom = null;
+
+  function setSubsAtom(el) {
+    if (subsAtom === el) return;
+    if (subsAtom) subsAtom.classList.remove('subs');
+    subsAtom = el;
+    if (subsAtom) subsAtom.classList.add('subs');
+  }
+
   /* The province under the pointer, picked out inside the lit-up country. */
   function setHotProv(el) {
     if (hotProv === el) return;
@@ -1446,10 +1490,16 @@
   }
 
   function onHover(e) {
-    if (state.mode === 'quiz' || dragStart) { setHot(null); setHotProv(null); return; }
+    if (state.mode === 'quiz' || dragStart) {
+      setHot(null); setHotProv(null); setSubsAtom(null); return;
+    }
     var got = pick(e.target, e.clientX, e.clientY);
     var hit = got && got.hit;
-    if (!hit) { setHot(null); setHotProv(null); hideTooltip(); return; }
+    if (!hit) {
+      setHot(null); setHotProv(null); setSubsAtom(null); hideTooltip(); return;
+    }
+    setSubsAtom(hit.rec.kind === 'territory' && got.el && got.el.closest
+                ? got.el.closest('.atom') : null);
     var prov = hit.rec.kind === 'territory' ? provinceAt(got, e.clientX, e.clientY) : null;
     setHot(hit.rec.kind === 'territory' ? hit.rec.id : null,
            prov && clusterOf(prov.el));
@@ -1633,12 +1683,18 @@
     dropDefs('hi');
   }
 
+  // nothing is drawn in an `unseen` shape, and tracing one would draw the
+  // rectangle it happens to be: a box ruled across empty ocean
+  function seen(id) { return id && byId[id] && !byId[id].unseen; }
+
   function redrawHighlight() {
     clearHighlight();
     if (hotCluster) outlineOf(hotCluster, 'hi-territory');
-    else if (hot && atomsOf[hot]) outlineOf(litFor(hot), 'hi-territory');
+    else if (hot && atomsOf[hot] && seen(hot)) outlineOf(litFor(hot), 'hi-territory');
     if (hotProv) outlineOf([hotProv], 'hi-province');
-    if (selected && atomsOf[selected]) outlineOf(atomsOf[selected], 'hi-selected');
+    if (selected && atomsOf[selected] && seen(selected)) {
+      outlineOf(atomsOf[selected], 'hi-selected');
+    }
   }
 
   function markSelected(id, on) {
@@ -1784,7 +1840,9 @@
     if (state.mode === 'quiz') { legend.hidden = true; return; }
 
     var used = {};
-    territories().forEach(function (t) { used[t.cat] = true; });
+    // a territory with nothing drawn in it puts no colour on the map and so
+    // earns no swatch in the legend
+    territories().forEach(function (t) { if (!t.unseen) used[t.cat] = true; });
 
     var epoch = JMAP.EPOCHS.filter(function (e) { return e.id === state.epoch; })[0];
     var head = document.createElement('button');
@@ -1879,7 +1937,7 @@
       legend.appendChild(row);
     });
 
-    if (state.browse) {
+    if (browseVisible()) {
       var brow = document.createElement('div');
       brow.className = 'item';
       var bsw = document.createElement('span');
@@ -2523,13 +2581,6 @@
     optRivers.checked = state.rivers;
     optRivers.addEventListener('change', function () { state.rivers = optRivers.checked; applyState(); });
 
-    var optBrowse = $('#opt-browse');
-    optBrowse.checked = state.browse;
-    optBrowse.addEventListener('change', function () {
-      state.browse = optBrowse.checked;
-      applyState();
-      if (state.browse) rescale();
-    });
 
     $('#btn-options').addEventListener('click', function () { $('#dlg-options').showModal(); });
     $('#btn-about').addEventListener('click', function () { $('#dlg-about').showModal(); });

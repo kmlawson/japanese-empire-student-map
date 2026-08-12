@@ -1131,16 +1131,46 @@ dialog h3 {
    nothing visible — sub-units inherit their atom's fill and stroke, so every
    seam between two provinces was the same colour as the provinces. The line is
    a whisper, and it falls on the coast as well as inland, which reads as a
-   soft edge to the land rather than as a boundary of its own. */
-#jmap.admin-on .atom > path[data-prov]:not(.fine) {
+   soft edge to the land rather than as a boundary of its own.
+
+   Only the country under the pointer draws them. Every division of every
+   country at once is some fifteen hundred lines, and a map covered edge to
+   edge in whispering grey answers no question the reader is asking: they are
+   asking about one place, and that is the place whose divisions they get. */
+#jmap.admin-on .atom.subs > path[data-prov]:not(.fine) {
   stroke: rgba(35, 32, 27, .34);
   stroke-width: .7;
+}
+/* The exceptions, which stay drawn wherever the pointer is. The princely
+   states and the French and Portuguese settlements are not divisions of the
+   country they sit in — they are other countries inside it, six hundred of
+   them in India's case — and the Straits Settlements are four scattered
+   specks that vanish into the peninsula if they are not outlined. Take the
+   lines away and the map says British India was whole, which is the single
+   thing about it that most needs not saying. */
+#jmap.admin-on #a-princely > path[data-prov],
+#jmap.admin-on #a-goa > path[data-prov],
+#jmap.admin-on #a-pondicherry > path[data-prov],
+#jmap.admin-on .atom > path[data-cluster="Straits Settlements"] {
+  stroke: rgba(35, 32, 27, .38);
+  stroke-width: .8;
 }
 #jmap.admin-on #a-occupiedzone > path[data-prov] { stroke: none; }
 
 /* The reset button at the opening view: there is nothing for it to reset, and
    pressing it did nothing, which reads as broken. It says so now. */
 #zoom-controls button.idle { opacity: .38; cursor: default; }
+
+/* The box of open water east of the Gilberts. It is on the map only to be
+   hovered — the frame stops short of Polynesia and the reader has no way of
+   telling an empty sea from an edge — so it is painted in nothing at all.
+   `transparent` rather than `none`, because a shape with no paint at all takes
+   no pointer either, and taking the pointer is the whole of its job. */
+#a-polynesia {
+  fill: transparent !important;
+  stroke: none !important;
+}
+#a-polynesia.hot { filter: none; }
 
 /* the third label is for phones only; everywhere else the full word fits */
 #layer-seg button .mid { display: none; }
