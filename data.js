@@ -149,12 +149,18 @@ JMAP.TERRITORIES = {
       when: 'Leased from China 1905–1945',
       note: 'The tip of the Liaodong peninsula, leased by Russia in 1898 and transferred to Japan in 1905. Port Arthur and Dairen sat inside it, and so did the garrison that became the Kwantung Army.' },
     { id: 'nanyo', atoms: ['nanyo'], cat: 'jpcolony', lvl: 2,
-      en: 'South Seas Mandate (Micronesia)', ja: '南洋群島 (Nan’yō Guntō)', orig: 'Micronesia',
+      en: 'South Seas Mandate', ja: '南洋群島 (Nan’yō Guntō)',
       zh: '南洋群島',
       when: 'Held by Japan from 1919 (seized from Germany in 1914)',
       note: 'The Marianas, Carolines and Marshalls: seized from Germany in 1914 and held by Japan from 1919 as a League of Nations Class C mandate, which meant governing them as an integral part of its own territory. The dotted line shows the boundary of the mandate, since the islands themselves are specks at this scale. Guam, in the middle of the Marianas, stayed American.' },
 
     { id: 'china', atoms: ['china'], cat: 'chinese', lvl: 1,
+      // Manchuria, Jehol, Chahar, Suiyuan and Sinkiang are drawn as their own
+      // territories so each can be named, but in 1930 they are all the
+      // Republic: hovering China lights the whole of it rather than the
+      // provinces of the interior alone. Tibet is deliberately not here — it
+      // was independent in all but name and is drawn as such.
+      lights: ['manchuria', 'jehol', 'chaharsuiyuan', 'xinjiang'],
       en: 'China (Republic of China)', ja: '中華民国 (Chūka Minkoku)', orig: '中華民國 (Zhōnghuá Mínguó)',
       zh: '中華民國',
       when: 'Republic from 1912; warlord rule, nominal unity from 1928',
@@ -412,7 +418,7 @@ JMAP.TERRITORIES = {
       when: 'Leased 1905–1945',
       note: 'Nominally Manchukuo’s, in that the new state re-granted the lease in 1932; in practice a Japanese leasehold with its own administration to the end, and the seat of the Kwantung Army that had taken Manchuria. Port Arthur and Dairen are inside it.' },
     { id: 'nanyo', atoms: ['nanyo'], cat: 'colony', lvl: 2,
-      en: 'South Seas Mandate (Micronesia)', ja: '南洋群島 (Nan’yō Guntō)', orig: 'Micronesia',
+      en: 'South Seas Mandate', ja: '南洋群島 (Nan’yō Guntō)',
       zh: '南洋群島',
       when: 'Held by Japan from 1919 (seized from Germany in 1914)',
       note: 'Fortified through the 1930s in defiance of the mandate’s terms, and the anchorage of the Combined Fleet at Truk. The dotted line shows the boundary of the mandate; the islands themselves are specks at this scale. The Americans took them atoll by atoll in 1943–44.' },

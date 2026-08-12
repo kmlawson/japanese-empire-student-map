@@ -14,3 +14,8 @@ inspiration/
 tools/cache/japanese-home-islands.geojson
 tools/cache/pacific-islands-se.geojson
 tools/cache/*.qmd
+
+# GeoJSON written by `python3 tools/build_map.py --export exports` — the map's
+# own geometry in lon/lat, for opening in QGIS. Regenerated on demand, and far
+# too heavy to keep in the history.
+exports/

@@ -243,6 +243,13 @@ KWANTUNG_BOX = (120.55, 38.60, 123.00, 39.80)
 # Layers taken from Konrad Lawson's own Modern East Asia GIS project, drawn in
 # an azimuthal-equidistant projection centred on Wuhan and converted back to
 # lon/lat here. See SOURCES.md.
+# A layer traced in QGIS against one coastline, laid on a map drawn from
+# another. Weihaiwei's northern edge fell short of the shore, so a fringe of
+# China showed between the leasehold and the sea along the whole of it. Nudged
+# north until the two agree; the leasehold is a rounded shape either way and
+# the tenth of a degree is well inside what it is drawn to.
+GIS_NUDGE = {"weihaiwei": (0.0, 0.014)}
+
 GIS_LAYERS = {
     "tuva": "tunnu_tuva.gpkg",
     "weihaiwei": "weihaiwei_british.gpkg",
@@ -571,7 +578,9 @@ YANGZI_TAIL = [
     (119.61, 32.20), (119.90, 32.16), (120.15, 32.00), (120.45, 31.94),
     (120.75, 31.95), (121.00, 31.85), (121.20, 31.68), (121.30, 31.57),
     (121.40, 31.54), (121.50, 31.46), (121.60, 31.43), (121.70, 31.40),
-    (121.80, 31.36), (121.90, 31.33), (122.05, 31.28), (122.25, 31.23),
+    (121.80, 31.36), (121.90, 31.33),
+    # and stops at the mouth. It used to carry on to 122.25 E, which is open
+    # sea: a river drawn out into the ocean past the last land.
 ]
 
 # ---------------------------------------------------------------------------
@@ -1736,6 +1745,9 @@ def main():
     ap.add_argument("--download", action="store_true")
     ap.add_argument("--tolerance", type=float, default=0.55)
     ap.add_argument("--min-area", type=float, default=1.2)
+    ap.add_argument("--export", metavar="DIR", default=None,
+                    help="also write the map's geometry as GeoJSON, in lon/lat, "
+                         "for use in QGIS")
     args = ap.parse_args()
 
     a0 = load("admin0", args.download)
@@ -1795,6 +1807,16 @@ def main():
                     # Republican provinces are loaded: the islands off the
                     # Liaotung peninsula are Manchuria's, not China's
                     china_islands.append(ring)
+                elif abs(signed_ring_area(ring)) / 2.0 > 1.0:
+                    # The mainland. It used to be left out, so that where the
+                    # modern outline and the Republican provinces disagree the
+                    # neutral filler showed and a seam read as a seam. Along
+                    # the coast that is not a seam, it is a grey fringe on
+                    # every shore of China, and it was on every one of them.
+                    # China's own filler reaches the modern coastline now, and
+                    # the frontiers it also straightens are frontiers the map
+                    # draws its neighbours over anyway.
+                    extra["china"].append(ring)
             continue
         if admin == "Russia":
             kurils = collections.defaultdict(list)
@@ -2055,8 +2077,11 @@ def main():
         if not os.path.exists(path):
             sys.stderr.write(f"note: {fname} missing, {key} not drawn\n")
             continue
+        dx, dy = GIS_NUDGE.get(key, (0.0, 0.0))
         for ring in gpkg.rings_lonlat(path):
             if len(ring) >= 3:
+                if dx or dy:
+                    ring = [(x + dx, y + dy) for x, y in ring]
                 groups[key].append(ring)
 
     # ---- Laos and Cambodia, minus the territory ceded in 1941 -------------
@@ -2346,6 +2371,9 @@ def main():
             # the meanders. Keep the longest and give it a tail to the sea.
             pieces["yellow_lower"] = [max(pieces["yellow_lower"], key=len)]
             pieces["yellow_lower"].append(YELLOW_TAIL)
+        if args.export:
+            export_geojson(args.export, groups, provinces, pieces)
+
         for key, lines in pieces.items():
             out_paths = []
             for line in lines:
@@ -2954,6 +2982,33 @@ FINE_ALIAS = {
     ("Caroline Islands", "Enewetak"): ("Eniwetok (Enewetak)",),
 }
 
+# Micronesia, Melanesia, Polynesia: the region a group sits in, which is what a
+# reader needs between the group and who held it.
+FINE_REGION = {
+    "Mariana Islands": "Micronesia", "Palau Islands": "Micronesia",
+    "Yap Islands": "Micronesia", "Truk Islands": "Micronesia",
+    "Ponape": "Micronesia", "Kusaie": "Micronesia",
+    "Caroline Islands": "Micronesia", "Marshall Islands": "Micronesia",
+    "Gilbert Islands": "Micronesia", "Nauru": "Micronesia",
+    "Ocean Island": "Micronesia", "Wake Island": "Micronesia",
+    "Admiralty Islands": "Melanesia", "Bismarck Archipelago": "Melanesia",
+    "Bougainville and Buka": "Melanesia", "Trobriand Islands": "Melanesia",
+    "D’Entrecasteaux Islands": "Melanesia", "Louisiade Archipelago": "Melanesia",
+    "Solomon Islands": "Melanesia",
+}
+
+# Groups that sit inside a larger one. The Carolines run from Palau in the west
+# to Kusaie in the east, so Palau, Yap, Truk, Ponape and Kusaie are all
+# Caroline groups; naming only the small group loses that, and naming only the
+# Carolines loses which part of them you are on, so both are given.
+FINE_PARENT = {
+    "Palau Islands": "Caroline Islands",
+    "Yap Islands": "Caroline Islands",
+    "Truk Islands": "Caroline Islands",
+    "Ponape": "Caroline Islands",
+    "Kusaie": "Caroline Islands",
+}
+
 FINE_MIN_KM2 = 0.05        # five hectares; below this it is a dot on the map
 FINE_TOL_DEG = 0.002       # about half a pixel at the deepest zoom the map has
 
@@ -3274,6 +3329,12 @@ def build_fine_coast(groups):
                 attr += f' data-group="{esc(gname)}"'
             if gja:
                 attr += f' data-group-ja="{esc(gja)}"'
+            parent = FINE_PARENT.get(gname)
+            if parent:
+                attr += f' data-parent="{esc(parent)}"'
+            region = FINE_REGION.get(gname)
+            if region:
+                attr += f' data-region="{esc(region)}"'
             out.append(f'    <path{attr} d="{d}"/>')
         out.append("  </g>")
     out.append("</svg>")
@@ -3282,6 +3343,114 @@ def build_fine_coast(groups):
         f"fine coastlines: {total} islands, {unnamed} unnamed, across "
         f"{', '.join(f'{k} {len(v)}' for k, v in sorted(by_atom.items()))}\n")
     return "\n".join(out) + "\n", boxes
+
+
+def _fc(features):
+    return {"type": "FeatureCollection",
+            "crs": {"type": "name",
+                    "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}},
+            "features": features}
+
+
+def _feat(geom_type, coords, props):
+    return {"type": "Feature", "properties": props,
+            "geometry": {"type": geom_type, "coordinates": coords}}
+
+
+def _round(ring, nd=6):
+    return [[round(x, nd), round(y, nd)] for x, y in ring]
+
+
+def export_geojson(dest, groups, provinces, pieces):
+    """The map's own geometry, in lon/lat, for opening somewhere else.
+
+    Written from the same data the SVG is drawn from and at the point the SVG
+    is drawn from it — before projection and before any thinning — so what
+    comes out is what the map means rather than what it happens to look like at
+    one scale.
+    """
+    os.makedirs(dest, exist_ok=True)
+    wrote = []
+
+    def put(name, fc):
+        path = os.path.join(dest, name)
+        with open(path, "w") as fh:
+            json.dump(fc, fh, ensure_ascii=False, separators=(",", ":"))
+        wrote.append((name, len(fc["features"]), os.path.getsize(path)))
+
+    # --- the two courses of the Yellow River, and the Yangtze ---------------
+    RIVERS = [
+        ("yellow-river-before-1938.geojson", ["yellow_upper", "yellow_lower"],
+         "The Yellow River in the bed it held from 1855 to 1938, reaching the "
+         "sea through the Gulf of Chihli"),
+        ("yellow-river-1938-1947.geojson", ["yellow_upper", "yellow_1938"],
+         "The Yellow River after the dikes were cut at Huayuankou in June 1938: "
+         "down the Chia-lu into the Ying, the Ying into the Huai, and through "
+         "Hungtse Lake and the Grand Canal into the Yangtze"),
+        ("yangzi.geojson", ["yangzi"], "The Yangtze"),
+    ]
+    for name, keys, note in RIVERS:
+        feats = []
+        for key in keys:
+            for line in pieces.get(key, []):
+                if len(line) >= 2:
+                    feats.append(_feat("LineString", _round(line),
+                                       {"river": key, "note": note}))
+        if feats:
+            put(name, _fc(feats))
+
+    # --- the occupied zone, block by block, with the names it carries -------
+    feats = []
+    for n, block in enumerate(OCCUPIED_ZONE):
+        ring = normalise_ring(chaikin(block, 2))
+        if len(ring) < 3:
+            continue
+        if ring[0] != ring[-1]:
+            ring = list(ring) + [ring[0]]
+        feats.append(_feat("Polygon", [_round(ring)], {
+            "name": OCCUPIED_BLOCKS[n] if n < len(OCCUPIED_BLOCKS) else "",
+            "date": "December 1942",
+            "note": "Traced from a period map of the occupation and adjusted to "
+                    "December 1942. Approximate, and generous: Japanese control "
+                    "ran along the railways and around the cities. Clip to the "
+                    "land to get what the map draws.",
+        }))
+    put("occupied-zone-1942.geojson", _fc(feats))
+
+    # --- the sub-units, named, and the atom outlines ------------------------
+    feats = []
+    for key in sorted(provinces):
+        for pname, rings in provinces[key]:
+            polys = []
+            for r in rings:
+                r = normalise_ring(r)
+                if len(r) < 3:
+                    continue
+                if r[0] != r[-1]:
+                    r = list(r) + [r[0]]
+                polys.append([_round(r)])
+            if polys:
+                feats.append(_feat("MultiPolygon", polys,
+                                   {"atom": key, "name": pname or None}))
+    put("sub-units.geojson", _fc(feats))
+
+    feats = []
+    for key in sorted(groups):
+        polys = []
+        for r in groups[key]:
+            r = normalise_ring(r)
+            if len(r) < 3:
+                continue
+            if r[0] != r[-1]:
+                r = list(r) + [r[0]]
+            polys.append([_round(r)])
+        if polys:
+            feats.append(_feat("MultiPolygon", polys, {"atom": key}))
+    put("land.geojson", _fc(feats))
+
+    sys.stderr.write("exported to %s:\n" % dest)
+    for name, n, size in wrote:
+        sys.stderr.write("  %-34s %5d features  %6d KB\n" % (name, n, size // 1024))
 
 
 if __name__ == "__main__":

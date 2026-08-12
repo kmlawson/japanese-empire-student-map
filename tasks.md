@@ -7,6 +7,13 @@ describing what was actually changed, before it is marked done.
 
 ## Open
 
+- **The Pacific labels want a sovereignty line of their own.** They currently
+  end with the territory record, which carries the sovereignty inside a longer
+  name — "South Seas Mandate", "New Guinea (Papua & the Mandated Territory)".
+  A separate line saying plainly what it was — Japanese mandate, British
+  colony, Australian territory, American territory — would read better than
+  parsing it out of the name.
+
 - **The Dindings were a Straits Settlement until 1935 only**, retroceded to
   Perak on 16 February that year. The map still calls them one in December
   1942, and they light with Singapore on that date. The shape is fixed (below);

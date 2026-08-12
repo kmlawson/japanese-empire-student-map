@@ -84,7 +84,6 @@
     try {
       var saved = JSON.parse(localStorage.getItem(STORE_KEY) || '{}');
       if (saved.level >= 1 && saved.level <= 3) state.level = saved.level;
-      if (LANGS.indexOf(saved.lang) >= 0) state.lang = saved.lang;
       if (JMAP.EPOCHS.some(function (e) { return e.id === saved.epoch; })) state.epoch = saved.epoch;
       if (saved.cats) {
         Object.keys(state.cats).forEach(function (k) {
@@ -94,7 +93,6 @@
       state.labels = !!saved.labels;
       if (typeof saved.extent === 'boolean') state.extent = saved.extent;
       if (typeof saved.rivers === 'boolean') state.rivers = saved.rivers;
-      if (state.cats.territory) setTimeout(loadAdmin, 0);
       if (typeof saved.browse === 'boolean') state.browse = saved.browse;
       if (typeof saved.legend === 'boolean') state.legend = saved.legend;
     } catch (err) { /* first visit, or storage is off — defaults are fine */ }
@@ -103,7 +101,7 @@
   function saveState() {
     try {
       localStorage.setItem(STORE_KEY, JSON.stringify({
-        epoch: state.epoch, level: state.level, lang: state.lang,
+        epoch: state.epoch, level: state.level,
         cats: state.cats, labels: state.labels, extent: state.extent,
         rivers: state.rivers, browse: state.browse, legend: state.legend,
       }));
@@ -336,6 +334,14 @@
     // One line, once, that goes away as soon as they touch anything.
     applyPhoneLayout();
     if (firstVisit) showHint();
+
+    // Only now, with the atoms built. Started from loadState() it raced the
+    // map's own fetch: whenever the administrative file arrived first the
+    // graft found no atoms to graft into, put nothing on the map, and marked
+    // itself ready — so the layer was on, the button said so, and no province
+    // would ever name itself until the page was reloaded and the race fell the
+    // other way.
+    if (state.cats.territory) loadAdmin();
 
     window.addEventListener('resize', onResize);
     if (window.visualViewport) window.visualViewport.addEventListener('resize', onResize);
@@ -1360,7 +1366,23 @@
     return out.length ? out : null;
   }
 
-  function litFor(id) { return hotCluster || atomsOf[id] || []; }
+  /* What lights up when a territory is hovered: itself, and anything it says
+     it lights with. In 1930 that is China and the four territories drawn
+     separately so they can be named — Manchuria, Jehol, Chahar and Suiyuan,
+     and Sinkiang — which were all the Republic on that date. */
+  function litFor(id) {
+    if (hotCluster) return hotCluster;
+    var els = (atomsOf[id] || []).slice();
+    var rec = id && byId[id];
+    if (rec && rec.lights) {
+      rec.lights.forEach(function (other) {
+        (atomsOf[other] || []).forEach(function (el) {
+          if (els.indexOf(el) < 0) els.push(el);
+        });
+      });
+    }
+    return els;
+  }
 
   function setHot(id, cluster) {
     cluster = cluster || null;
@@ -1402,7 +1424,9 @@
                   ja: target.getAttribute('data-ja') || '',
                   zh: target.getAttribute('data-zh') || '',
                   group: head === grp ? '' : grp,
-                  groupJa: head === grp ? '' : (target.getAttribute('data-group-ja') || '') };
+                  groupJa: head === grp ? '' : (target.getAttribute('data-group-ja') || ''),
+                  parent: target.getAttribute('data-parent') || '',
+                  region: target.getAttribute('data-region') || '' };
       if (head === grp) own.ja = target.getAttribute('data-group-ja') || '';
       return { key: key || own.ja || grp, rec: own, el: target };
     }
@@ -1455,10 +1479,15 @@
       }
       // the island group sits between the island and the country: Ishigaki,
       // then the Yaeyamas, then the colony they were part of
-      if (head.group) {
+      if (head.group || head.region) {
+        // the group, and the part of the Pacific it is in: Ishigaki, then the
+        // Yaeyamas, then who held them
         var gp = document.createElement('span');
         gp.className = 'sub group';
-        gp.textContent = [head.group, head.groupJa].filter(Boolean).join('  ');
+        var line = [head.group, head.groupJa].filter(Boolean).join('  ');
+        if (head.parent) line = (line ? line + ' · ' : '') + head.parent;
+        if (head.region) line = (line ? line + '  ' : '') + '(' + head.region + ')';
+        gp.textContent = line;
         tooltip.appendChild(gp);
       }
       var pv = document.createElement('span');
@@ -1607,7 +1636,7 @@
   function redrawHighlight() {
     clearHighlight();
     if (hotCluster) outlineOf(hotCluster, 'hi-territory');
-    else if (hot && atomsOf[hot]) outlineOf(atomsOf[hot], 'hi-territory');
+    else if (hot && atomsOf[hot]) outlineOf(litFor(hot), 'hi-territory');
     if (hotProv) outlineOf([hotProv], 'hi-province');
     if (selected && atomsOf[selected]) outlineOf(atomsOf[selected], 'hi-selected');
   }
@@ -2144,9 +2173,11 @@
     setAdminBusy();
     var graft = function (text) {
       var doc = new DOMParser().parseFromString(text, 'image/svg+xml');
+      var grafted = 0;
       $$('g[data-for]', doc.documentElement).forEach(function (g) {
         var el = atomEls[g.getAttribute('data-for')];
         if (!el) return;
+        grafted++;
         var before = el.querySelector('circle');   // islet rings stay on top
         while (g.firstElementChild) {
           var node = document.importNode(g.firstElementChild, true);
@@ -2155,6 +2186,14 @@
         }
         el.classList.remove('deferred');
       });
+      if (!grafted) {
+        // nothing matched: the map cannot have been built yet, so leave the
+        // state alone and let it be asked for again rather than declaring
+        // success over an empty document
+        adminState = 'none';
+        setAdminBusy();
+        return;
+      }
       adminState = 'ready';
       setAdminBusy();
       applyState();
