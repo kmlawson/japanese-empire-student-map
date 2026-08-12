@@ -346,12 +346,22 @@ PRINCELY_NAMES = {
 # Keiki-do rather than in Hwanghae.
 KOREA_FILE = "korea_13_provinces.json"
 
+# The atoms drawn from the ENP-China 1928-45 sheet. It is the authority for
+# where China's boundaries were, and it is also a coarse drawing of them:
+# Shansi is 96 vertices, Suiyuan 84, Honan 130, where Natural Earth's modern
+# China is 11,896 for the mainland ring alone. A source that spare cannot
+# afford to be simplified again, and it was: two thirds of its substantive
+# rings survived and the rest of the loss was its islands.
+ENP_ATOMS = {"china", "manchuria", "chahar", "suiyuan", "jehol",
+             "tibet", "xinjiang"}
+
 # Drawn at the full detail of their source rather than simplified. Korea's
 # provinces are traced finely enough to be the coastline as well as the
 # boundaries, and simplifying them throws that away.
 # Kengtung is a long thin salient down to Tachileik, and simplification
 # takes the southern half of it off.
-FULL_DETAIL = {"korea", "saharat", "princely"}
+# The ENP provinces are here for the reason above: there is nothing to spare.
+FULL_DETAIL = {"korea", "saharat", "princely"} | ENP_ATOMS
 
 # Atoms whose backing is the union of their own sub-units rather than Natural
 # Earth's outline of the same country. The backing exists to fill the cracks
@@ -2293,7 +2303,7 @@ def main():
         # filler that makes disagreements between sources visible — keeps land
         # the country itself had thrown away. Shijiutuo in the Gulf of Chihli
         # was the one that gave it away.
-        if key == "china":
+        if key in ENP_ATOMS:
             return 0.12
         return 0.12 if key in ARCHIPELAGOS else args.min_area
 

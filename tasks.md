@@ -51,6 +51,33 @@ describing what was actually changed, before it is marked done.
 
 ## Done
 
+### The ENP provinces are drawn as supplied
+Asked why Natural Earth is used for China at all, the answer is that it is not:
+China's land is the ENP-China 1928–45 sheet and always has been. Natural Earth
+touches China in two places only — `chinabase`, the neutral filler underneath
+everything, which exists so that disagreements between ENP and the sources
+around it read as a seam rather than as one country leaking into another; and,
+since the Bohai fix, the coastal islands in the north, where ENP has none.
+
+But measuring it to answer turned up something worse. ENP is not the finer
+source; it is much the coarser. Its inland provinces are 84 to 265 vertices
+each — Shansi 96, Suiyuan 84, Honan 130 — where Natural Earth's modern China
+is 11,896 for the mainland ring alone. And the build was simplifying that
+again: of the 17,561 vertices ENP gives the China atom, 5,030 were surviving,
+29 per cent. Two thirds of its substantive rings; the rest of the loss was its
+islands, 1,851 rings of them, which is why the Chusan archipelago and the
+Fukien islands were mostly absent and the ones that did appear looked arbitrary.
+
+`ENP_ATOMS` — china, manchuria, chahar, suiyuan, jehol, tibet, xinjiang — now
+joins `FULL_DETAIL`, so nothing thins them, and takes the archipelago floor on
+area, so islands down to about three and a half square kilometres are drawn.
+5,030 vertices became 8,901: every vertex of the substantive rings, and 182
+island rings instead of a handful. The SVGs grow 55 KB and 46 KB.
+
+This does not close the question of which coastal islands were occupied — there
+are simply more of them to answer for now, and the answer still comes from the
+occupied zone's trace.
+
 ### The sources page reaches the standalone build
 There is no second file in the single-file build, so About's link to
 `sources.html` went nowhere. A `data:` URL is no help — browsers refuse to
