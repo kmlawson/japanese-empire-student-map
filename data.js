@@ -431,7 +431,7 @@ JMAP.TERRITORIES = {
       when: 'Client regime from 1936–39',
       note: 'The Inner Mongolian autonomous government under Prince Demchugdongrub, with its capital at Kalgan. Built out of the Chinese provinces of Chahar and Suiyuan.' },
     { id: 'nanjinggov', atoms: ['occupiedzone'], cat: 'occupied', lvl: 1,
-      en: 'Japanese-occupied China (approximate)', ja: '日本占領地区 (approximate)', orig: '日軍佔領區 (approximate)',
+      en: 'Japanese-occupied China (approximate)', ja: '日本占領地区', orig: '日軍佔領區',
       zh: '日軍佔領區（大略）',
       when: 'Occupied from 1937; Nanking government from March 1940',
       note: 'Governed on paper by Wang Ching-wei’s collaborationist government at Nanking, with the far south under military administration instead. Traced from a 1940 map of the occupation and adjusted to December 1942: the plains, the railways and the cities of the north and the Yangtze valley, the corridor west to Paotow, the Canton delta from October 1938, Hainan from February 1939, and the ports of Amoy and Swatow. Western Shansi and Honan, most of Hunan, Kiangsi and Fukien were never taken, Changsha held out until 1944, and Communist and Nationalist guerrillas operated in force inside the line as well as beyond it — the shading marks where Japanese authority reached, not where it was unchallenged.' },
@@ -1598,6 +1598,24 @@ JMAP.PROVINCE_EPOCH = {
 };
 
 JMAP.PROVINCES = {
+  /* the six blocks the occupied zone is drawn from. They are places rather
+     than administrative divisions, so the pointer names them with the
+     Administrative layer off as well as on: before this, hovering the ring
+     round Amoy said only "Japanese-occupied China" and left the reader to
+     guess what the ring was for. */
+  'North China and the Yangtze valley': {
+    en: 'North China and the Yangtze valley — the main occupied mass', zh: '華北與長江流域' },
+  'The Paotow corridor': {
+    en: 'The corridor west along the railway to Paotow', zh: '包頭走廊' },
+  'The Canton delta': {
+    en: 'The Canton delta and the West River, held from October 1938', zh: '廣州三角洲' },
+  'Hainan': { en: 'Hainan, taken February 1939', ja: '海南島 (Kainan-tō)', zh: '海南島' },
+  'Amoy and Kinmen': {
+    en: 'Amoy, taken May 1938, and Kinmen, taken October 1937',
+    ja: '厦門 (Amoi)', zh: '廈門・金門' },
+  'Swatow and Chaochow': {
+    en: 'Swatow and Chaochow, taken June 1939', ja: '汕頭 (Suatō)', zh: '汕頭・潮州' },
+
   /* the princely states of India, from the 1931 layer. Nine are named by the
      source and the rest are identified by where they are; every polygon in the
      layer belongs to one of these entries, so any point in the states answers

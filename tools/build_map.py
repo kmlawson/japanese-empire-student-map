@@ -114,6 +114,22 @@ PROVINCE_ATOM = {
 # cities; the western halves of Shansi and Honan, the Communist base areas
 # behind the lines, and most of Hunan, Kiangsi and Fukien were never taken. The
 # blocks below are clipped to China's land at draw time.
+#
+# One name per block, in the same order. The zone used to be a single path, so
+# the pointer could say nothing about it beyond "Japanese-occupied China" — a
+# reader hovering over the ring round Amoy got no hint of what the ring was.
+# Each block is drawn as its own sub-path with its name on it now, and because
+# these are places rather than administrative divisions the names show whether
+# or not the Administrative layer is on.
+OCCUPIED_BLOCKS = (
+    "North China and the Yangtze valley",
+    "The Paotow corridor",
+    "The Canton delta",
+    "Hainan",
+    "Amoy and Kinmen",
+    "Swatow and Chaochow",
+)
+
 OCCUPIED_ZONE = [
     # The northern and central mass, December 1942. West edge down the
     # Tatung-Puchow railway in Shansi, east of the Luliang mountains and the
@@ -2164,16 +2180,17 @@ def main():
     # at the frontier instead of being drawn as a blob over the sea
     occ_frame = box_planes(LON_MIN, LAT_MIN, LON_MAX, LAT_MAX)
     occ_pieces, occ_moments = [], []
-    for block in OCCUPIED_ZONE:
+    for n, block in enumerate(OCCUPIED_ZONE):
         ring = clip_halfplanes(normalise_ring(chaikin(block, 2)), occ_frame)
         if len(ring) < 3:
             continue
         pts = [project(x, y) for x, y in ring]
-        occ_pieces.append(ring_to_path(pts))
+        label = OCCUPIED_BLOCKS[n] if n < len(OCCUPIED_BLOCKS) else ""
+        occ_pieces.append((label, ring_to_path(pts)))
         a = ring_area(pts)
         cx, cy = ring_centroid(pts)
         occ_moments.append((a, cx, cy))
-    occ_path = "".join(occ_pieces)
+    occ_path = "".join(d for _, d in occ_pieces)
     if occ_moments:
         tot = sum(m[0] for m in occ_moments) or 1.0
         occ_anchor = (sum(m[0] * m[1] for m in occ_moments) / tot,
@@ -2616,10 +2633,19 @@ def main():
         emit(key)
     if occ_path:
         ax, ay, area = occ_anchor
+        # a group of named blocks rather than one path, so the pointer can say
+        # which piece of the occupation it is on. data-islands because these are
+        # places and not administrative divisions: they name themselves whether
+        # or not the Administrative layer is on.
         out.append(
-            f'    <path id="a-occupiedzone" class="atom" clip-path="url(#clip-china)" '
-            f'data-cx="{fmt(ax)}" data-cy="{fmt(ay)}" data-area="{int(area)}" d="{occ_path}"/>'
+            f'    <g id="a-occupiedzone" class="atom" clip-path="url(#clip-china)" '
+            f'data-islands="1" data-cx="{fmt(ax)}" data-cy="{fmt(ay)}" '
+            f'data-area="{int(area)}">'
         )
+        for label, d in occ_pieces:
+            attr = f' data-prov="{esc(label)}"' if label else ""
+            out.append(f'      <path{attr} d="{d}"/>')
+        out.append("    </g>")
     # the shading stripes go on before the enclaves, so that Weihaiwei and
     # Macao are not painted over by the occupation they sat outside
     out.append('    <g id="hatching"></g>')

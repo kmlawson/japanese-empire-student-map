@@ -406,6 +406,112 @@ const EVENTS = [
     text: "Nie Rongzhen and He Long with about 53,000 men against Fu Zuoyi with about 60,000. The Communists take six eastern Suiyuan counties but fail to take Guisui or Baotou and withdraw. The occupation ends; the civil war for the same railway begins immediately." }
 ];
 
+// ---------------------------------------------------------------------------
+// Control zones. Drawn from range-report.md, which sets out year by year which
+// settlements were held and on what evidence. These are illustrative outlines,
+// generalised from county and league membership and from the line of the
+// Pingsui railway — not surveyed boundaries.
+//
+// Four different things get called "control" and are deliberately not shaded
+// alike: core administration, thin steppe administration, territory claimed on
+// paper and never held, and the contested mountain belt.
+// ---------------------------------------------------------------------------
+const ZONE_SHAPES = {
+  // Chahar East Special Autonomous District, from 22 Sep 1933.
+  chaharEast: [
+    [42.55,115.90],[42.60,116.80],[42.10,117.10],[41.55,116.75],
+    [41.35,116.10],[41.60,115.55],[42.10,115.50]
+  ],
+
+  // Northern Chahar: evacuated by Chinese regulars under the 1935 agreements,
+  // then administered by the Mongol Military Government from May 1936.
+  northChahar: [
+    [41.05,113.35],[41.60,113.30],[42.35,113.85],[42.60,115.10],[42.55,116.55],
+    [42.10,116.85],[41.55,116.40],[41.10,115.75],[40.98,115.10],[40.96,114.55],
+    [41.10,113.95]
+  ],
+
+  // The core: Pingsui corridor, Bayantala plain, South Chahar, North Shanxi.
+  // Western limit is Baotou; southern limit the Yellow River and the North
+  // Shanxi counties; eastern limit Yanqing.
+  core: [
+    [41.15,109.55],[41.32,110.50],[41.32,111.55],[41.38,112.60],[41.28,113.35],
+    [41.10,113.95],[40.96,114.55],[41.00,115.10],[40.80,115.80],[40.50,116.22],
+    [40.05,115.85],[39.72,114.88],[39.35,114.30],[39.22,113.55],[39.10,112.85],
+    [39.38,112.12],[40.08,112.22],[40.32,111.92],[39.85,111.55],[40.18,111.05],
+    [40.38,110.50],[40.45,109.85],[40.50,109.25]
+  ],
+
+  // Chahar, Ulanchab and Shilingol Leagues. Its southern edge follows the
+  // core's northern edge so the two abut.
+  steppe: [
+    [41.20,109.60],[42.20,109.85],[42.90,110.70],[43.20,111.60],[43.70,112.05],
+    [44.25,113.30],[44.95,114.70],[45.60,116.25],[45.95,117.30],[45.20,118.15],
+    [44.20,117.90],[43.20,117.30],[42.55,116.90],[42.05,116.70],[41.50,116.20],
+    [41.05,115.35],[41.00,115.10],[40.96,114.55],[41.10,113.95],[41.28,113.35],
+    [41.38,112.60],[41.32,111.55],[41.32,110.50]
+  ],
+
+  // The Daqingshan/Yinshan belt, contested from July 1938. It straddles the
+  // core's northern edge, which is the point.
+  daqingshan: [
+    [41.38,109.95],[41.52,110.80],[41.48,111.65],[41.42,112.45],[41.12,112.35],
+    [40.98,111.60],[40.92,110.80],[40.88,110.00]
+  ],
+
+  // The Hetao salient, held 3 February to 20 March 1940 and at no other time.
+  salient1940: [
+    [41.15,107.20],[41.25,108.20],[41.28,109.25],[40.50,109.25],
+    [40.45,108.40],[40.58,107.35]
+  ],
+
+  // Claimed on Mengjiang's own administrative maps, never held: the Hetao...
+  claimedHetao: [
+    [41.38,106.85],[41.42,108.00],[41.30,109.25],[40.50,109.25],
+    [40.45,108.40],[40.60,107.35],[40.78,106.95]
+  ],
+
+  // ...and the Ordos, inside the Yellow River loop.
+  claimedOrdos: [
+    [40.45,109.35],[40.30,110.40],[40.15,111.05],[39.85,111.50],[39.30,111.15],
+    [38.60,110.60],[38.05,110.10],[37.70,109.20],[37.75,108.20],[38.00,107.30],
+    [38.70,106.85],[39.50,106.75],[40.20,106.85],[40.42,107.60],[40.50,108.60]
+  ]
+};
+
+const ZONE_STYLES = {
+  core:      { color:"#9a1813", weight:1.6, opacity:.85, fillColor:"#9a1813", fillOpacity:.22 },
+  steppe:    { color:"#9a1813", weight:1.2, opacity:.60, dashArray:"6 4", fillColor:"#9a1813", fillOpacity:.10 },
+  salient:   { color:"#c2452f", weight:1.6, opacity:.9,  dashArray:"3 3", fillColor:"#c2452f", fillOpacity:.30 },
+  claimed:   { color:"#9a1813", weight:1.2, opacity:.45, dashArray:"2 6", fillColor:"#9a1813", fillOpacity:.05 },
+  contested: { color:"#2e7d5b", weight:1.5, opacity:.8,  dashArray:"5 5", fillColor:"#2e7d5b", fillOpacity:.16 }
+};
+
+const CORE_LABEL = "<b>Under effective administration</b><br>The Pingsui railway corridor, the Bayantala plain, and the South Chahar and North Shanxi puppet provinces. Garrisons, tax collection, a civil administration.";
+const STEPPE_LABEL = "<b>Steppe administration</b><br>The Chahar, Ulanchab and Shilingol Leagues, run through Mongol banner offices with Japanese advisers. Real authority, thin on the ground.";
+const CLAIMED_LABEL = "<b>Claimed, never held</b><br>In Mengjiang's administrative tables and on its published maps; under the Nationalist Eighth War Zone throughout. The regime's own cartographers drew what it actually controlled into Bayantala League and left Ikh Juu League as a label for what it did not.";
+const CONTESTED_LABEL = "<b>Contested — the Daqingshan</b><br>Eighth Route Army guerrilla country from July 1938. The county towns stayed Japanese; the ground between them did not.";
+
+const ZONE_YEARS = {
+  1933: [["chaharEast", "steppe", "<b>Chahar East Special Autonomous District</b><br>Kwantung Army-run from 22 September 1933 under Li Shouxin, funded through the Manchukuo Army from July 1935."]],
+  1935: [["northChahar", "steppe", "<b>Conceded, not occupied</b><br>Chinese regulars withdrew from Zhangbei and everything north of it under the Ching–Doihara agreement of 27 June 1935. No Japanese army of occupation — 70&ndash;80% of the province removed from Chinese military control by agreement."]],
+  1936: [["northChahar", "steppe", "<b>Mongol Military Government</b><br>Proclaimed at Dehua (Huade) on 12 May 1936 with Kwantung Army advisers holding the real authority. Its westward push into Suiyuan in November&ndash;December failed; nothing in Suiyuan is held at the end of the year."]],
+  1937: [["core", "core", CORE_LABEL], ["steppe", "steppe", STEPPE_LABEL]],
+  1938: [["core", "core", CORE_LABEL], ["steppe", "steppe", STEPPE_LABEL],
+         ["daqingshan", "contested", CONTESTED_LABEL]],
+  1939: [["core", "core", CORE_LABEL], ["steppe", "steppe", STEPPE_LABEL],
+         ["daqingshan", "contested", CONTESTED_LABEL],
+         ["claimedHetao", "claimed", CLAIMED_LABEL], ["claimedOrdos", "claimed", CLAIMED_LABEL]],
+  1940: [["core", "core", CORE_LABEL], ["steppe", "steppe", STEPPE_LABEL],
+         ["daqingshan", "contested", CONTESTED_LABEL],
+         ["salient1940", "salient", "<b>Held 3 February &ndash; 20 March 1940</b><br>The only time Japanese control in Suiyuan reached past Baotou. The main force withdrew east around 1 March, before the counter-attack; Wuyuan was retaken on the 20th."],
+         ["claimedHetao", "claimed", CLAIMED_LABEL], ["claimedOrdos", "claimed", CLAIMED_LABEL]],
+  1941: null, 1942: null, 1943: null, 1944: null, 1945: null
+};
+// 1941–45 hold exactly the 1939 position; 1945 is shown as it stood on the eve
+// of the Soviet–Mongolian offensive of 11 August.
+[1941, 1942, 1943, 1944, 1945].forEach(y => { ZONE_YEARS[y] = ZONE_YEARS[1939]; });
+
 const COLOURS = {
   japan:  getComputedStyle(document.documentElement).getPropertyValue("--japan").trim(),
   china:  getComputedStyle(document.documentElement).getPropertyValue("--china").trim(),
@@ -424,6 +530,32 @@ L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
   subdomains: "abcd",
   maxZoom: 18
 }).addTo(map);
+
+// Zones live in their own pane so they sit under the event markers.
+map.createPane("zones").style.zIndex = 380;
+
+const zoneLayers = {};   // "shape|kind" -> L.Polygon
+function zoneLayer(shape, kind, label) {
+  const key = shape + "|" + kind;
+  if (!zoneLayers[key]) {
+    zoneLayers[key] = L.polygon(ZONE_SHAPES[shape], {
+      ...ZONE_STYLES[kind], pane: "zones"
+    }).bindTooltip(label, { sticky: true, direction: "top", className: "zone-tip" });
+  }
+  return zoneLayers[key];
+}
+
+function syncZones(year) {
+  const wanted = new Set();
+  (ZONE_YEARS[year] || []).forEach(([shape, kind, label]) => {
+    const layer = zoneLayer(shape, kind, label);
+    wanted.add(shape + "|" + kind);
+    if (!map.hasLayer(layer)) layer.addTo(map);
+  });
+  Object.entries(zoneLayers).forEach(([key, layer]) => {
+    if (!wanted.has(key) && map.hasLayer(layer)) map.removeLayer(layer);
+  });
+}
 
 // Several events share a location — Zhangjiakou carries eight. Fan repeats out
 // on a small spiral so every marker stays clickable.
@@ -477,6 +609,7 @@ const elPrev   = document.getElementById("prev");
 const elNext   = document.getElementById("next");
 const elAll    = document.getElementById("showall");
 const elCount  = document.getElementById("count");
+const elZoneNote = document.getElementById("zonenote");
 
 function visible() {
   return EVENTS.filter(e => yearFilter === null || e.year === yearFilter);
@@ -537,6 +670,14 @@ function step(dir) {
 function render() {
   const list = visible();
   const at = cursor === null ? -1 : list.findIndex(e => e.index === cursor);
+
+  // Control zones: the year of the event in focus, else the year filtered to,
+  // else none. With no year in play there is no single position to draw.
+  const zoneYear = cursor !== null ? EVENTS[cursor].year : yearFilter;
+  syncZones(zoneYear);
+  elZoneNote.textContent = zoneYear === null
+    ? "Pick a year, or step through the events, to see the extent of control."
+    : "Extent of control at the end of " + zoneYear + (zoneYear === 1945 ? ", before the Soviet offensive of 11 August." : ".");
 
   // Year buttons
   [...elYears.children].forEach(b => {

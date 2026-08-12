@@ -13,10 +13,10 @@ describing what was actually changed, before it is marked done.
   wants redrawing from its own source rather than patching. (The sweep's other
   finding, a four-pixel band along 109.60–109.64 E, is the Suiyuan meridian
   below.)
-- **The coastal enclaves.** Amoy, Swatow and Canton have no name of their own on
-  hover, and the shapes are visibly circles: they were boxes, I made them
-  fourteen-point ellipses, which replaced one guess with a rounder guess. They
-  want a period source and a label each.
+- **The shapes of the coastal enclaves.** Amoy, Swatow and the Canton delta are
+  named now, but Amoy and Swatow are still fourteen-point ellipses — a guess
+  with the corners rounded off. They want a period source. (Naming them is
+  done; see below.)
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible
   — Japan only created a western administrative region out of Paotow and the
   Urad banners in June 1943, six months after this map — but a straight line of
@@ -36,6 +36,27 @@ describing what was actually changed, before it is marked done.
 ---
 
 ## Done
+
+### The occupied zone says which piece of itself you are on
+It was one path, so the pointer could say nothing about it beyond
+"Japanese-occupied China" — a reader hovering the ring round Amoy got no hint of
+what the ring was. It is a group of six named sub-paths now, one per block of
+`OCCUPIED_ZONE`, with `OCCUPIED_BLOCKS` holding the names in the same order:
+North China and the Yangtze valley, the Paotow corridor, the Canton delta,
+Hainan, Amoy and Kinmen, Swatow and Chaochow. The group carries
+`data-islands`, because these are places and not administrative divisions, so
+they name themselves whether or not the Administrative layer is on. Each has an
+entry in `JMAP.PROVINCES` with the date it was taken.
+
+Two things surfaced while checking it. The occupied territory's record said
+"(approximate)" three times over — once in each of English, Chinese and
+Japanese — and now says it once, in the English. And `otherNames()` was
+dropping any name contained in a longer one, which is right for 内地 beside
+日本内地 but wrong for 汕頭 (Suatō) beside 汕頭・潮州: the shorter form was the
+only place the reading appeared, so the Japanese vanished. A name is treated as
+a bare duplicate only if the longer one carries a reading too. Checked by
+capturing tooltips at 26 places in both layer states before and after: five
+lines change, all of them gaining a name, none losing one.
 
 ### The islands off the coast go with the coast
 The complaint was that some islands off the central China coast were occupied

@@ -149,11 +149,16 @@
     // bare characters, Japanese the characters with a reading, and the two
     // scripts differ only in which forms of the kanji they use.
     var best = {};
+    var reads = {};
     var order = [];
     ['orig', 'ja', 'zh', 'ko', 'en'].forEach(function (k) {
       var v = r[k];
       if (!v) return;
       var id = nameKey(v);
+      // a name that carries a reading in brackets is not a bare duplicate of a
+      // longer one: 汕頭 (Suatō) is the pronunciation, which is the only reason
+      // the Japanese is there at all
+      if (/[（(]/.test(v)) reads[id] = true;
       if (!(id in best)) { best[id] = v; order.push(id); }
       else if (v.length > best[id].length) best[id] = v;
     });
@@ -164,7 +169,14 @@
         // and nothing that is already contained in the headline, or in another
         // name on the same line: 内地 says nothing beside 日本内地
         if (head.indexOf(id) >= 0) return false;
-        return !keys.some(function (w) { return w !== id && w.indexOf(id) >= 0; });
+        // A name is a bare duplicate only if the longer one says everything it
+        // says. 中華民國 (Zhōnghuá Mínguó) is contained in 中華民国・重慶政権
+        // (Chūka Minkoku), reading and all, so it goes; 汕頭 (Suatō) is
+        // contained in 汕頭・潮州, which has no reading, so the reading would
+        // be lost with it and it stays.
+        return !keys.some(function (w) {
+          return w !== id && w.indexOf(id) >= 0 && (!reads[id] || reads[w]);
+        });
       })
       .map(function (id) { return best[id]; })
       .join('  ');
