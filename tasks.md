@@ -8,11 +8,9 @@ describing what was actually changed, before it is marked done.
 ## Open
 
 
-- **Sources page.** Replace the sources section in About with a link to a full
-  `sources.html` listing every dataset as bullet points with links. Record the
-  princely states properly: georeferenced by the author from the Imperial
-  Gazetteer of India atlas, 1931,
-  <https://dsal.uchicago.edu/reference/gaz_atlas_1931/>.
+- **The sources page in the standalone build.** `sources.html` is a separate
+  file, so the link from About does not resolve in the single-file build. Either
+  inline it or drop the link there.
 - **Korea–Manchuria gap.** Korea's period boundary is finer than Manchuria's, so
   a strip of the neutral land colour shows between them along the Yalu and the
   Tumen. Manchuria's side has to reach Korea's line.
@@ -55,6 +53,16 @@ describing what was actually changed, before it is marked done.
 ---
 
 ## Done
+
+### A sources page
+`sources.html`, linked from About, listing every dataset with what it was used
+for, where it came from and under what licence — Natural Earth, ENP-China,
+geoBoundaries, the Yale Korea layer, the princely states, the Modern East Asia
+GIS, the two river sources and the two traced maps — plus a section on what was
+done to the data and one on names. The princely states are credited properly at
+last: georeferenced by the author from the atlas volume of the *Imperial
+Gazetteer of India*, 1931. The paragraph in About shrinks to a link and a
+one-sentence summary.
 
 ### The Yellow River reaches the sea, and stops forking
 Two faults in one place. The old course ended at 119.03 E, a little short of

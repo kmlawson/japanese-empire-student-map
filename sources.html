@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<title>Sources — The Japanese Empire</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23f4f1ea'/%3E%3Ccircle cx='16' cy='16' r='8' fill='%239a1813'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="styles.css">
+<style>
+  body { background: var(--bg); color: var(--ink); }
+  .page { max-width: 46rem; margin: 0 auto; padding: 32px 20px 64px; line-height: 1.55; }
+  .page h1 { font-size: 26px; margin: 0 0 6px; }
+  .page h2 { font-size: 18px; margin: 30px 0 8px; }
+  .page .lede { color: var(--muted); }
+  .page ul { padding-left: 1.1rem; }
+  .page li { margin: 0 0 14px; }
+  .page a { color: var(--accent); }
+  .page code { font-size: .92em; background: #ece7db; padding: 1px 4px; border-radius: 3px; }
+</style>
+</head>
+<body>
+<div class="page">
+<h1>Sources</h1>
+
+<p class="lede">Every dataset this map is drawn from, what it was used for, and
+where it came from. The short version: coastlines and national outlines are
+Natural Earth; China's provinces are the real ones of 1928–45; Korea comes from
+a map of the period rather than from modern units; the princely states of India
+were georeferenced by hand from a 1931 atlas; and the occupied zone and the
+line of control are traced from period maps and are approximations, as they
+say on the map itself.</p>
+
+<p><a href="index.html">← back to the map</a></p>
+
+<h2>Boundaries and coastlines</h2>
+
+<ul>
+  <li>
+    <strong>Natural Earth, 1:10m cultural vectors.</strong> All coastlines and
+    national outlines outside China, and the base for the frame. Public domain
+    — Natural Earth's terms state the data may be used in any manner, including
+    modifying the content and design, and that no permission is needed.<br>
+    <a href="https://github.com/nvkelso/natural-earth-vector">github.com/nvkelso/natural-earth-vector</a>
+  </li>
+  <li>
+    <strong>ENP-China — Chinese provincial boundaries, 1928–1945.</strong>
+    Every Chinese land region. These are the <em>actual</em> provinces of the
+    Nanking decade and the war, not modern ones: Jehol is a province, Suiyuan
+    and Chahar are provinces, and Manchukuo is Fengtien, Kirin and
+    Heilungkiang. CC BY 4.0 — "Provinces 1922–1928 © 2021 by ENP-China
+    Project".<br>
+    Elites, Networks and Power in Modern China, Aix-Marseille University.
+  </li>
+  <li>
+    <strong>geoBoundaries ADM1 and ADM2.</strong> The provinces ceded to
+    Thailand in 1941, the northern Malay states, Burma by division, Kengtung
+    by district, the Indian and Japanese first-level units, and the Indonesian
+    residencies. CC BY 4.0.<br>
+    <a href="https://github.com/wmgeolab/geoBoundaries">github.com/wmgeolab/geoBoundaries</a>
+    · Runfola, D. et al. (2020), "geoBoundaries: A global database of political
+    administrative boundaries", <em>PLoS ONE</em> 15(4): e0231866.
+  </li>
+  <li>
+    <strong>The thirteen provinces of colonial Korea.</strong> Korea's province
+    boundaries <em>and</em> its coastline, drawn without simplification because
+    the provinces are the finer source. This is why Hwanghae is one province
+    and Kaesong is in Keiki-dō, where it belonged.<br>
+    <a href="https://spatialhistory.net/yale/done/korea.html">spatialhistory.net/yale/done/korea.html</a>
+  </li>
+  <li>
+    <strong>The princely states of India, 1931.</strong> Forty polygons of the
+    states as they stood in 1931, georeferenced by the author of this map from
+    the atlas volume of the <em>Imperial Gazetteer of India</em>, 1931. They
+    replaced five modern Indian states standing in for six hundred princely
+    ones.<br>
+    <a href="https://dsal.uchicago.edu/reference/gaz_atlas_1931/">dsal.uchicago.edu/reference/gaz_atlas_1931/</a>
+  </li>
+  <li>
+    <strong>Modern East Asia GIS.</strong> Tannu Tuva, British Weihaiwei,
+    French Kwangchowan and Nepal, from the author's own QGIS project.
+  </li>
+</ul>
+
+<h2>Rivers</h2>
+
+<ul>
+  <li>
+    <strong>Natural Earth, 1:10m rivers and lake centrelines.</strong> The
+    Yangtze and the Yellow River. Public domain. Two hand-drawn tails were
+    needed: Natural Earth's Yangtze centreline stops about 200 km short of the
+    sea, and its Yellow River stops short of the Gulf of Chihli.
+  </li>
+  <li>
+    <strong>The 1938–47 course of the Yellow River</strong> is redrawn from the
+    channel map at disasterhistory.org (Chris Courtney, after Saito et al.
+    2000): out of the breach below Chengchow, down the Chia-lu into the Ying,
+    down the Ying into the Huai, and through Hungtse Lake and the Grand Canal
+    into the Yangtze above Chinkiang. For nine years the Yellow River reached
+    the sea through the Yangtze's mouth.<br>
+    <a href="https://disasterhistory.org/">disasterhistory.org</a>
+  </li>
+</ul>
+
+<h2>The occupation and the line of control</h2>
+
+<ul>
+  <li>
+    <strong>The occupied zone in China</strong> is traced from a period map of
+    the occupation rather than drawn as whole provinces, and adjusted to
+    December 1942. It is an approximation and a generous one: Japanese control
+    ran along the railways and around the cities, and much of the countryside
+    inside the line was held by Communist and Nationalist guerrillas.
+  </li>
+  <li>
+    <strong>The dashed line</strong> on the Dec 1942 map is the extent of
+    Japanese control and the fighting front <em>at that date</em>, traced from
+    the map captioned "War in the Pacific" in Andrew Gordon, <em>A Modern
+    History of Japan: From Tokugawa Times to the Present</em> (Oxford
+    University Press). Gordon's own legend calls it a greatest extent; it is
+    labelled here for its date instead, because December 1942 is not a maximum
+    — the naval perimeter was widest in July and August, the area of China
+    under Japanese control was largest in 1944, and Kwangchowwan, the northern
+    Malay states and direct rule in Indochina all came later.
+  </li>
+  <li>
+    <strong>Saharat Thai Doem</strong> — Kengtung and the trans-Salween Shan
+    states — follows the map by Xufanc on Wikimedia Commons, CC BY-SA 4.0,
+    taken district by district rather than cut off with a straight line.
+  </li>
+</ul>
+
+<h2>What was done to the data</h2>
+
+<p>Simplification goes by the size of each ring rather than by one tolerance
+for a whole country, so a fifty-kilometre island is not flattened by a setting
+chosen for Luzon. Korea, Kengtung and the princely states are drawn at the full
+detail of their sources. Where a territory is assembled from sub-units, a
+whole-country shape is laid beneath them all so that a crack between two
+neighbours drawn from different files shows the country rather than the sea.</p>
+
+<p>Some boundaries are hand-traced constants rather than data: the occupied
+zone, the ocean stretches of the line of control, the Kwantung lease across the
+Liaodong isthmus, the cut at Paotow, Chandernagore, Wake Island, and the
+estuary tails on both rivers. These are marked as such in
+<code>tools/build_map.py</code>, where each carries a note saying what it is and
+why it is drawn by hand.</p>
+
+<h2>Names</h2>
+
+<p>English gives the name as it was used at the time, with the present-day name
+after it where they differ: Mukden (Shenyang), Taihoku (Taipei), Peking
+(Beijing), Batavia (Jakarta). Japanese gives the imperial-period form. Chinese
+is in traditional characters, as the period used them; Korean is in hangul with
+McCune–Reischauer romanisation. Each place carries only the scripts that belong
+to it — hangul on Korea, a Japanese reading on Japan proper, the colonies and
+the Manchurian group, and neither on places that answered to neither.</p>
+
+<p><a href="index.html">← back to the map</a></p>
+
+</div>
+</body>
+</html>
