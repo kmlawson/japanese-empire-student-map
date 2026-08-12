@@ -1486,6 +1486,15 @@ RYUKYU_BOXES = [
 ]
 
 # atom key -> the list of islands it might be one of
+# Sub-units that are places rather than administrative divisions, and so are
+# named whether or not the Administrative layer is on — and kept in the main
+# file rather than deferred to the second one. The four northern Malay states
+# are here because they are the point of that corner of the map: they were
+# British in 1930 and handed to Thailand in 1943, and deferring them meant they
+# had no names at all in 1930 and, in 1942, that the outline drawn to mark them
+# out had nothing to draw — the atom holding it was empty.
+ALWAYS_NAMED = frozenset({"goa", "pondicherry", "malaya_thai"})
+
 ISLAND_BOXES = {
     "aleutians": ALEUTIAN_BOXES,
     "aleutians_jp": ALEUTIAN_BOXES,
@@ -2597,7 +2606,7 @@ def main():
         # chain, the scattered settlements of French and Portuguese India.
         # Those keep their names whatever the layer says, because the name is
         # the place and not a fact about how it was governed.
-        if key in ARCHIPELAGOS or key in ("goa", "pondicherry"):
+        if key in ARCHIPELAGOS or key in ALWAYS_NAMED:
             meta += ' data-islands="1"'
         if key in hits:
             pts = " ".join(f"{fmt(x)},{fmt(y)}" for x, y in hits[key])
@@ -2613,7 +2622,7 @@ def main():
             # to a second file and fetched only when it is switched on. Islands
             # and enclaves stay: their sub-units are places rather than
             # divisions and they are named whatever the layer says.
-            defer = not (key in ARCHIPELAGOS or key in ("goa", "pondicherry"))
+            defer = not (key in ARCHIPELAGOS or key in ALWAYS_NAMED)
             whole = whole_union(key)
             cls = "atom deferred" if (defer and whole) else "atom"
             # The backing goes in a layer of its own, drawn before every atom.

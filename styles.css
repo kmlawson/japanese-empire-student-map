@@ -1126,3 +1126,53 @@ dialog h3 {
    of them. The rule above matches the atom itself, which is what lights a whole
    country; these are paths inside an atom and need saying separately. */
 .atom > path.hot { filter: brightness(1.12); }
+
+/* Administrative on: draw the divisions. Without this the switch changed
+   nothing visible — sub-units inherit their atom's fill and stroke, so every
+   seam between two provinces was the same colour as the provinces. The line is
+   a whisper, and it falls on the coast as well as inland, which reads as a
+   soft edge to the land rather than as a boundary of its own. */
+#jmap.admin-on .atom > path[data-prov]:not(.fine) {
+  stroke: rgba(35, 32, 27, .34);
+  stroke-width: .7;
+}
+#jmap.admin-on #a-occupiedzone > path[data-prov] { stroke: none; }
+
+/* The reset button at the opening view: there is nothing for it to reset, and
+   pressing it did nothing, which reads as broken. It says so now. */
+#zoom-controls button.idle { opacity: .38; cursor: default; }
+
+/* the third label is for phones only; everywhere else the full word fits */
+#layer-seg button .mid { display: none; }
+
+/* ------------------------------------------------- the phone layout ------ */
+/* One row of buttons and nothing else: 1930, Dec 1942, Cities, Events, Admin,
+   Layers. The quiz goes entirely — its card, its two mode buttons and its
+   feedback line filled a phone screen and left the map a strip — and About
+   folds into the bottom of Layers rather than spending a button on itself. */
+@media (max-width: 620px), (max-height: 520px) {
+  #bar h1,
+  #bar .seg[aria-label="Mode"],
+  #bar #btn-about { display: none; }
+
+  /* words, not glyphs: "Cities" says what a dot does not */
+  #layer-seg button .narrow { display: none; }
+  #layer-seg button .mid { display: inline; }
+  #layer-seg button { padding: 7px 6px; min-width: 0; }
+  #bar {
+    gap: 5px;
+    padding: 5px 6px;
+    flex-wrap: nowrap;          /* one row, and it must stay one row */
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  #bar::-webkit-scrollbar { display: none; }
+  #bar > * { flex: 0 0 auto; }
+  .seg button { padding: 7px 6px; font-size: 12.5px; }
+  button.plain { padding: 7px 8px; font-size: 12.5px; }
+
+  #about-slot[hidden] { display: none; }
+  #about-slot { display: block; margin-top: 6px; }
+  #about-slot h3 { font-size: 15px; margin: 18px 0 6px; }
+}
+

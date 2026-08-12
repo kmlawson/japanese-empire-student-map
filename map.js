@@ -215,6 +215,23 @@
     return state.cats[s.cat] && s.lvl <= state.level && siteInEpoch(s);
   }
 
+  /* Zooming in is a request for more detail, so it raises the level the map
+     labels at — never what the quiz asks about, which stays where it was set.
+     At the opening view you get the places every student should know; closing
+     in on a corner of the map brings out the rest of them, and the collision
+     test still decides which of those actually fit. */
+  function labelLevel() {
+    var bonus = view.w < mapW / 10 ? 2 : (view.w < mapW / 3 ? 1 : 0);
+    return Math.min(3, state.level + bonus);
+  }
+
+  function labelVisible(rec) {
+    if (rec.kind === 'territory')
+      return rec.lvl <= labelLevel() && state.cats.territory;
+    if (rec.kind === 'browse') return browseVisible();
+    return state.cats[rec.cat] && rec.lvl <= labelLevel() && siteInEpoch(rec);
+  }
+
   function quizPool() {
     return territories().concat(JMAP.SITES).filter(inQuiz);
   }
@@ -317,6 +334,7 @@
 
     // A student arriving cold sees a map, some rows of buttons and no words.
     // One line, once, that goes away as soon as they touch anything.
+    applyPhoneLayout();
     if (firstVisit) showHint();
 
     window.addEventListener('resize', onResize);
@@ -562,7 +580,12 @@
         // a territory that shares its neighbour's fill can still be told from
         // it by a hairline: Tuva inside Mongolia, Burma inside British India
         if (t.edge && (!t.edgeAtoms || t.edgeAtoms.indexOf(a) >= 0)) drawEdge(t, el);
-        if (t.outline) subUnits.push(el);
+        if (t.outline) {
+          // an atom whose sub-units went to the other file has no paths of its
+          // own, and outlining it drew nothing at all; its filler is the shape
+          var own = el.tagName === 'path' ? 1 : $$('path', el).length;
+          subUnits.push(own ? el : (backingEls[a] || el));
+        }
         els.push(el);
         (atomHits[a] || []).forEach(function (h) { h.setAttribute('data-id', t.id); });
 
@@ -767,6 +790,14 @@
       round(view.x) + ' ' + round(view.y) + ' ' + round(view.w) + ' ' + round(view.h));
     // once the islands themselves are big enough to see, drop the rings
     svg.classList.toggle('zoomed-in', view.w < mapW / 5);
+    // it resets the view, so at the opening view there is nothing for it to do
+    // and it looked like a dead button; say so instead
+    var rst = $('#zoom-reset');
+    if (rst) {
+      var atHome = Math.abs(view.w - defaultView().w) < 0.5;
+      rst.classList.toggle('idle', atHome);
+      rst.setAttribute('aria-disabled', atHome ? 'true' : 'false');
+    }
     var zoomed = force || Math.abs(view.w - lastScaleW) > 0.01;
     if (zoomed) lastScaleW = view.w;
     if (!rafPending) {
@@ -775,6 +806,7 @@
         rafPending = false;
         if (zoomed) rescale();
         if (browseGroup) browseGroup.style.display = browseVisible() ? '' : 'none';
+        if (zoomed) gateLabels();
         placeLabels();
       });
     }
@@ -835,6 +867,26 @@
   /* Greedy label placement in screen space: walk the candidates in teaching
    * order and drop any whose box would collide with one already placed, or
    * would run off the edge. */
+  /* Which names are candidates at all, before the collision test decides which
+     of them fit. Re-run on zoom as well as on a state change, because the
+     level it asks at moves with the zoom. */
+  function gateLabels() {
+    var showLabels = state.labels && state.mode !== 'quiz';
+    labels.forEach(function (L) {
+      if (!(showLabels && labelVisible(L.rec))) {
+        L.el.textContent = '';
+        L.el.style.display = 'none';
+        L.w = 0;
+        return;
+      }
+      var text = nameOf(L.rec);
+      if (L.el.textContent !== text) {
+        L.el.textContent = text;
+        L.w = estimateWidth(text, L.size);
+      }
+    });
+  }
+
   function placeLabels() {
     if (!state.labels || state.mode === 'quiz') return;
     var c = containerSize();
@@ -894,6 +946,7 @@
   }
 
   function onResize() {
+    applyPhoneLayout();
     var before = { cx: view.x + view.w / 2, cy: view.y + view.h / 2,
                    area: view.w * view.h };
     var c = containerSize();
@@ -1643,6 +1696,12 @@
   function applyState() {
     var quizzing = state.mode === 'quiz';
     var showLabels = state.labels && !quizzing;
+    // The switch drew nothing. Sub-units take their atom's fill *and* stroke,
+    // so the seams between them were invisible and turning the layer on
+    // changed nothing you could see — its only effect was that hovering named
+    // a province, which is feedback you have to go looking for. It reads as a
+    // switch that works sometimes. Now it draws the divisions.
+    if (svg) svg.classList.toggle('admin-on', !!state.cats.territory);
 
     JMAP.SITES.forEach(function (s) {
       var el = elById[s.id];
@@ -1650,20 +1709,7 @@
     });
     if (browseGroup) browseGroup.style.display = browseVisible() ? '' : 'none';
 
-    labels.forEach(function (L) {
-      var show = showLabels && (L.rec.kind === 'territory'
-        ? (L.rec.lvl <= state.level && state.cats.territory)
-        : siteVisible(L.rec));
-      if (!show) {
-        L.el.textContent = '';
-        L.el.style.display = 'none';
-        L.w = 0;
-        return;
-      }
-      var text = nameOf(L.rec);
-      L.el.textContent = text;
-      L.w = estimateWidth(text, L.size);
-    });
+    gateLabels();
 
     // A territory marked adminOnly is administrative detail drawn inside
     // another one — the princely states inside British India — so it comes and
@@ -1842,6 +1888,8 @@
   function showHint() {
     var hint = document.getElementById('hint');
     if (!hint) return;
+    // there is no quiz on a phone, so do not offer it one
+    if (isPhone()) hint.textContent = 'Tap any place to see what it was';
     hint.hidden = false;
     var go = function () { hint.hidden = true; };
     container.addEventListener('pointerdown', go, { once: true });
@@ -2127,6 +2175,35 @@
       });
   }
 
+  /* A phone gets one row of buttons and no quiz: the quiz card, its two mode
+     buttons and its feedback line took most of a phone screen and left the map
+     a strip. About has no button either, so its text moves into the bottom of
+     Layers, where there is room for it. */
+  function isPhone() {
+    return window.matchMedia('(max-width: 620px), (max-height: 520px)').matches;
+  }
+
+  function applyPhoneLayout() {
+    var phone = isPhone();
+    var about = $('#dlg-about');
+    var slot = $('#about-slot');
+    if (about && slot) {
+      var body = $$('#dlg-about > *:not(form):not(h2)');
+      if (phone && slot.children.length === 0) {
+        body.forEach(function (n) { slot.appendChild(n); });
+        slot.hidden = false;
+      } else if (!phone && slot.children.length) {
+        while (slot.firstChild) about.appendChild(slot.firstChild);
+        slot.hidden = true;
+      }
+    }
+    if (phone && state.mode === 'quiz') {
+      state.mode = 'explore';
+      setModeButtons();
+      applyState();
+    }
+  }
+
   function syncLayerButtons() {
     $$('#layer-seg button').forEach(function (b) {
       var on = !!state.cats[b.getAttribute('data-cat')];
@@ -2394,15 +2471,6 @@
       });
     });
 
-    $$('#lang-seg button').forEach(function (b) {
-      b.addEventListener('click', function () {
-        state.lang = b.getAttribute('data-lang');
-        $$('#lang-seg button').forEach(function (x) { x.classList.toggle('on', x === b); });
-        applyState();
-        if (selected) select(selected);
-        if (quiz && quiz.current) $('#q-target').textContent = nameOf(quiz.current);
-      });
-    });
 
     var optLabels = $('#opt-labels');
     optLabels.checked = state.labels;
@@ -2456,9 +2524,6 @@
       b.classList.toggle('on', parseInt(b.getAttribute('data-level'), 10) === state.level);
     });
     syncLayerButtons();
-    $$('#lang-seg button').forEach(function (b) {
-      b.classList.toggle('on', b.getAttribute('data-lang') === state.lang);
-    });
     setModeButtons();
   }
 

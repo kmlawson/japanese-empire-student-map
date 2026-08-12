@@ -22,9 +22,9 @@
   <div class="seg" role="group" aria-label="Date shown" id="epoch-seg"></div>
 
   <div class="seg toggles" role="group" aria-label="What is shown" id="layer-seg">
-    <button type="button" data-cat="city" class="on" aria-pressed="true" aria-label="Cities"><span class="wide">Cities</span><span class="narrow"><i class="g dot"></i></span></button>
-    <button type="button" data-cat="battle" class="on" aria-pressed="true" aria-label="Events"><span class="wide">Events</span><span class="narrow"><i class="g diamond"></i></span></button>
-    <button type="button" data-cat="territory" class="on" aria-pressed="true" aria-label="Administrative"><span class="wide">Administrative</span><span class="narrow"><i class="g block"></i></span></button>
+    <button type="button" data-cat="city" class="on" aria-pressed="true" aria-label="Cities"><span class="wide">Cities</span><span class="mid">Cities</span><span class="narrow"><i class="g dot"></i></span></button>
+    <button type="button" data-cat="battle" class="on" aria-pressed="true" aria-label="Events"><span class="wide">Events</span><span class="mid">Events</span><span class="narrow"><i class="g diamond"></i></span></button>
+    <button type="button" data-cat="territory" class="on" aria-pressed="true" aria-label="Administrative"><span class="wide">Administrative</span><span class="mid">Admin</span><span class="narrow"><i class="g block"></i></span></button>
   </div>
 
   <span class="spacer"></span>
@@ -39,7 +39,7 @@
     <div id="zoom-controls">
       <button type="button" id="zoom-in" aria-label="Zoom in">+</button>
       <button type="button" id="zoom-out" aria-label="Zoom out">−</button>
-      <button type="button" id="zoom-reset" aria-label="Reset the view">⤢</button>
+      <button type="button" id="zoom-reset" aria-label="Reset the view" title="Reset the view">⤢</button>
     </div>
   </div>
 
@@ -80,18 +80,6 @@
   <p class="hint">Cities, Events and Administrative are in the header: they turn the three kinds of
      place on and off, both on the map and in the quiz. Territories stay clickable whatever is
      switched off, so you can always check anything you can see.</p>
-  <h3>Language of place names</h3>
-  <div class="seg" role="group" aria-label="Language of place names" id="lang-seg">
-    <button type="button" data-lang="en" class="on">English</button>
-    <button type="button" data-lang="ja" lang="ja">日本語</button>
-    <button type="button" data-lang="zh" lang="zh-Hant">中文</button>
-    <button type="button" data-lang="ko" lang="ko">한국어</button>
-  </div>
-  <p class="hint">English gives the name as it was used at the time, with the present-day name after
-     it where they differ. Japanese gives the imperial-period form, Chinese is in traditional
-     characters, and Korean is in hangul with McCune–Reischauer romanisation. Explanatory notes stay
-     in English throughout.</p>
-
   <h3>How much is asked about</h3>
   <div class="seg" role="group" aria-label="Level" id="level-seg">
     <button type="button" data-level="1" class="on">Basic</button>
@@ -121,6 +109,7 @@
      agree — a perimeter that claimed ground the shading did not would be saying Japanese forces were
      where the map elsewhere says they were not. The front it generalises was broad, shifting and porous,
      and the note on the occupied zone says what that means.</p>
+  <div id="about-slot" hidden></div>
 </dialog>
 
 <dialog id="dlg-about">
