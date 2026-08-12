@@ -4985,6 +4985,15 @@ window.JMAP_INLINE_FINE = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<svg xmln
 
   function outlineOf(els, cls, layer) {
     layer = layer || highlightLayer;
+    // A shape a finer one has taken over is not part of the silhouette. It has
+    // to be dropped here as well as in the drawing, and dropped at this level
+    // rather than only among an atom's children: a country's filler is a path
+    // in its own right, so the filter applied to children never reached it,
+    // and selecting Okinawa traced Natural Earth's coastline in mid-air beside
+    // the real one.
+    els = els.filter(function (e) {
+      return !(e.classList && e.classList.contains('superseded'));
+    });
     if (!layer || !els.length || !hiDefs) return;
     var owned = ownedDefs[layer === subOutlineLayer ? 'sub' : 'hi'];
     var id = 'mask-' + (++maskSeq);
@@ -5457,29 +5466,83 @@ window.JMAP_INLINE_FINE = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<svg xmln
         var key = g.getAttribute('data-for');
         var el = atomEls[key];
         if (!el) return;
-        var box = (g.getAttribute('data-box') || '').split(',').map(Number);
-        // The finer islands replace the coarse ones rather than covering them,
-        // or the old outline shows as a fringe round the new. Anything of this
-        // atom that lies inside the region the fine file covers steps aside.
-        if (box.length === 4) {
-          $$('path, circle', el).forEach(function (old) {
-            var b;
-            try { b = old.getBBox(); } catch (e) { return; }
-            var cx = b.x + b.width / 2, cy = b.y + b.height / 2;
-            if (cx >= box[0] && cx <= box[2] && cy >= box[1] && cy <= box[3])
-              old.classList.add('superseded');
-          });
-          var bk = backingEls[key];
-          if (bk) {
-            var bb;
-            try { bb = bk.getBBox(); } catch (e2) { bb = null; }
-            // only if the filler is wholly inside the region: elsewhere it is
-            // still holding up islands the fine file does not carry
-            if (bb && bb.x >= box[0] && bb.y >= box[1] &&
-                bb.x + bb.width <= box[2] && bb.y + bb.height <= box[3])
-              bk.classList.add('superseded');
+        // Where the fine shapes are, in map units, so a coarse shape can be
+        // asked whether one of them has actually taken its place.
+        var fine = [];
+        $$('path', g).forEach(function (n) {
+          var d = n.getAttribute('d') || '';
+          var nums = d.match(/-?\d+(?:\.\d+)?/g);
+          if (!nums || nums.length < 4) return;
+          var x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+          for (var i = 0; i + 1 < nums.length; i += 2) {
+            var x = +nums[i], y = +nums[i + 1];
+            if (x < x0) x0 = x;
+            if (x > x1) x1 = x;
+            if (y < y0) y0 = y;
+            if (y > y1) y1 = y;
           }
-        }
+          fine.push([x0, y0, x1, y1]);
+        });
+
+        /* A coarse shape steps aside only where a finer one has really taken
+           its place — not merely because it falls inside the region the fine
+           file covers. The two are the same thing today, and would stop being
+           the same the moment the fine layer dropped an island the base map
+           had; then the island would quietly vanish instead of staying coarse.
+
+           Asked island by island, not by bounding box: an atom's leftover
+           block and its whole-country filler are single paths holding dozens
+           of separate islands strung down a thousand kilometres of ocean, and
+           their bounding boxes are mostly sea. Each sub-path is one island, so
+           the shape is replaced when every sub-path of it is. */
+        var covers = function (b) {
+          var pad = 0.4;
+          for (var i = 0; i < fine.length; i++) {
+            var f = fine[i];
+            if (b[0] >= f[0] - pad && b[1] >= f[1] - pad &&
+                b[2] <= f[2] + pad && b[3] <= f[3] + pad) return true;
+          }
+          return false;
+        };
+        /* Island by island: the replaced sub-paths are cut out of the shape and
+           the rest is left drawing. A shape with nothing left steps aside
+           whole. Doing it per shape instead would mean the filler — one path
+           holding the entire Ryukyu arc — either kept drawing Okinawa's coarse
+           coastline beside the fine one, or vanished and took with it the
+           handful of islands too small for the fine file to carry. */
+        var prune = function (node) {
+          var d = node.getAttribute && node.getAttribute('d');
+          if (!d) {
+            var bb;
+            try { bb = node.getBBox(); } catch (e) { return; }
+            if (bb && (bb.width || bb.height) &&
+                covers([bb.x, bb.y, bb.x + bb.width, bb.y + bb.height]))
+              node.classList.add('superseded');
+            return;
+          }
+          var parts = d.split('M').slice(1);
+          var kept = [];
+          for (var p = 0; p < parts.length; p++) {
+            var nums = parts[p].match(/-?\d+(?:\.\d+)?/g);
+            if (!nums || nums.length < 4) { kept.push(parts[p]); continue; }
+            var x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+            for (var j = 0; j + 1 < nums.length; j += 2) {
+              var x = +nums[j], y = +nums[j + 1];
+              if (x < x0) x0 = x;
+              if (x > x1) x1 = x;
+              if (y < y0) y0 = y;
+              if (y > y1) y1 = y;
+            }
+            if (!covers([x0, y0, x1, y1])) kept.push(parts[p]);
+          }
+          if (!kept.length) node.classList.add('superseded');
+          else if (kept.length < parts.length)
+            node.setAttribute('d', 'M' + kept.join('M'));
+        };
+
+        $$('path, circle', el).forEach(prune);
+        if (backingEls[key]) prune(backingEls[key]);
+
         var before = el.querySelector('circle');
         while (g.firstElementChild) {
           var node = document.importNode(g.firstElementChild, true);
