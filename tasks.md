@@ -25,6 +25,16 @@ describing what was actually changed, before it is marked done.
   named now, but Amoy and Swatow are still fourteen-point ellipses — a guess
   with the corners rounded off. They want a period source. (Naming them is
   done; see below.)
+- **A grey wedge on the Liaotung coast**, 121.5–122.1 E, 39.0–39.5 N, about six
+  pixels across. Not source-blocked, but not obviously worth what it would cost.
+  It is `chinabase` — Natural Earth's China, drawn in the neutral colour beneath
+  everything — sticking out past ENP's Fengtien, which is the seam-showing it
+  exists to do, except that on a coast rather than a frontier it reads as a
+  mystery strip instead of as a disagreement. Closing it means either extending
+  Manchuria out to Natural Earth's coastline, which is the source this map
+  deliberately does not use for China, or trimming `chinabase` back to whatever
+  sits on it, which is the opposite of its purpose. Left alone on the judgement
+  that a visible seam is better than a silently wrong coastline.
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible
   — Japan only created a western administrative region out of Paotow and the
   Urad banners in June 1943, six months after this map — but a straight line of
