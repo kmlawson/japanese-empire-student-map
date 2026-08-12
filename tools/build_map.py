@@ -2788,6 +2788,21 @@ SENKAKU = {
     "南小島": ("Minami-kojima", "南小島"),
 }
 
+# Islands a reader will look for under a name that is not the romanisation of
+# the Japanese. Keyed by group and by the Japanese name, because there is more
+# than one 硫黄島 in these waters and only one of them is Iwo Jima: the other is
+# off Satsuma, five hundred miles away, and was never fought over.
+FINE_ALIAS = {
+    ("Volcano Islands", "硫黄島"): ("Iwo Jima (Iō-tō)",),
+    ("Volcano Islands", "北硫黄島"): ("Kita-Iō-tō",),
+    ("Volcano Islands", "南硫黄島"): ("Minami-Iō-tō",),
+    ("Ōsumi Islands", "硫黄島"): ("Iōjima, off Satsuma",),
+    ("Bonin Islands", "平島"): ("Hira-shima",),
+    ("Okinawa Islands", "古宇利島"): ("Kouri-jima",),
+    ("Okinawa Islands", "奥武島"): ("Ō-jima",),
+    ("Okinawa Islands", "オーハ島"): ("Ōha-jima",),
+}
+
 FINE_MIN_KM2 = 0.05        # five hectares; below this it is a dot on the map
 FINE_TOL_DEG = 0.002       # about half a pixel at the deepest zoom the map has
 
@@ -2967,6 +2982,12 @@ def _fine_name(tags, group):
         return v.strip()
 
     ja = first(tags.get("name:ja"))
+    # a good many of these carry the Japanese in `name` and have no `name:ja`
+    # at all — Minami-Iō-tō is one — so take `name` when it is in characters
+    if not ja:
+        bare = first(tags.get("name"))
+        if bare and any("぀" <= c <= "ヿ" or "㐀" <= c <= "鿿" for c in bare):
+            ja = bare
     # Chinese only where the island is contested and the Chinese name is part
     # of what a reader is looking for; everywhere else these are Japanese
     # islands and the map's rule is Japanese alone. OSM's own name:zh is in
@@ -2983,10 +3004,16 @@ def _fine_name(tags, group):
     # OSM has no English or romanisation for some of the smaller islands, and
     # the bare `name` on a disputed one is a list of scripts. A headline in
     # characters would sit oddly above the Japanese line, so let the Japanese
-    # be the headline instead.
-    if en and not en.isascii():
+    # be the headline instead. Tested for CJK rather than for being ASCII,
+    # which was the first thing tried and which quietly threw away every
+    # romanisation with a macron in it — "Iō Island" is not ASCII, and Iwo
+    # Jima ended up captioned in characters alone because of it.
+    if en and any("぀" <= c <= "ヿ" or "㐀" <= c <= "鿿"
+                  for c in en):
         en = (sen[0] if sen else "") or ""
-    return en, ja, zh
+    # and where the name a reader knows is not the romanisation of the
+    # Japanese, both are given
+    return FINE_ALIAS.get((group, ja), (en, ja, zh))[0], ja, zh
 
 
 def build_fine_coast(groups):

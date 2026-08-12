@@ -1890,92 +1890,98 @@
     return false;
   }
 
+  /* The bounding box of each sub-path of a shape. A sub-path of a coastline
+     is one island, which is the unit the fine layer works in. */
+  function boxesOf(d) {
+    var out = [];
+    var parts = String(d || '').split('M').slice(1);
+    for (var p = 0; p < parts.length; p++) {
+      var nums = parts[p].match(/-?\d+(?:\.\d+)?/g);
+      if (!nums || nums.length < 4) { out.push(null); continue; }
+      var x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+      for (var i = 0; i + 1 < nums.length; i += 2) {
+        var x = +nums[i], y = +nums[i + 1];
+        if (x < x0) x0 = x;
+        if (x > x1) x1 = x;
+        if (y < y0) y0 = y;
+        if (y > y1) y1 = y;
+      }
+      out.push([x0, y0, x1, y1]);
+    }
+    return out;
+  }
+
   function loadFine() {
     if (fineState === 'loading' || fineState === 'ready') return;
     fineState = 'loading';
     var graft = function (text) {
       var doc = new DOMParser().parseFromString(text, 'image/svg+xml');
+
+      /* Every fine island, taken from the whole file at once rather than group
+         by group. An island's coarse copy is not always in the atom its fine
+         copy belongs to: Tanegashima is drawn with the Ryukyus, as this map
+         has always drawn it, but Natural Earth also carries it inside Japan's
+         filler. Pruning only the atom the fine group named left those drawn
+         twice, one coastline beside the other. */
+      var fine = [];
+      $$('g[data-for] path', doc.documentElement).forEach(function (n) {
+        boxesOf(n.getAttribute('d')).forEach(function (b) { if (b) fine.push(b); });
+      });
+
+      /* Has a finer island taken this one's place? By overlap, not by
+         containment. Two drawings of one coastline each reach past the other
+         somewhere, so their boxes agree only roughly — Iwo Jima's agree to
+         within a half — and asking for containment called that a different
+         island and left both drawn. */
+      var covers = function (b) {
+        var pad = 0.4;
+        for (var i = 0; i < fine.length; i++) {
+          var f = fine[i];
+          if (b[0] >= f[0] - pad && b[1] >= f[1] - pad &&
+              b[2] <= f[2] + pad && b[3] <= f[3] + pad) return true;
+          var ix0 = Math.max(b[0], f[0]), iy0 = Math.max(b[1], f[1]);
+          var ix1 = Math.min(b[2], f[2]), iy1 = Math.min(b[3], f[3]);
+          if (ix1 <= ix0 || iy1 <= iy0) continue;
+          var inter = (ix1 - ix0) * (iy1 - iy0);
+          var u = (b[2] - b[0]) * (b[3] - b[1]) + (f[2] - f[0]) * (f[3] - f[1]) - inter;
+          if (u > 0 && inter / u > 0.15) return true;
+        }
+        return false;
+      };
+
+      /* Island by island: the replaced sub-paths are cut out of the shape and
+         the rest is left drawing. A shape with nothing left steps aside whole.
+         Doing it per shape instead would mean the filler — one path holding
+         the entire Ryukyu arc — either kept drawing Okinawa's coarse coastline
+         beside the fine one, or vanished and took with it the handful of
+         islands too small for the fine file to carry. */
+      var prune = function (node) {
+        var d = node.getAttribute && node.getAttribute('d');
+        if (!d) {
+          var bb;
+          try { bb = node.getBBox(); } catch (e) { return; }
+          if (bb && (bb.width || bb.height) &&
+              covers([bb.x, bb.y, bb.x + bb.width, bb.y + bb.height]))
+            node.classList.add('superseded');
+          return;
+        }
+        var parts = d.split('M').slice(1);
+        var boxes = boxesOf(d);
+        var kept = [];
+        for (var p = 0; p < parts.length; p++) {
+          if (!boxes[p] || !covers(boxes[p])) kept.push(parts[p]);
+        }
+        if (!kept.length) node.classList.add('superseded');
+        else if (kept.length < parts.length)
+          node.setAttribute('d', 'M' + kept.join('M'));
+      };
+
+      // every coarse shape on the map, not only the ones in the named atoms
+      $$('#land path, #land circle', svg).forEach(prune);
+
       $$('g[data-for]', doc.documentElement).forEach(function (g) {
-        var key = g.getAttribute('data-for');
-        var el = atomEls[key];
+        var el = atomEls[g.getAttribute('data-for')];
         if (!el) return;
-        // Where the fine shapes are, in map units, so a coarse shape can be
-        // asked whether one of them has actually taken its place.
-        var fine = [];
-        $$('path', g).forEach(function (n) {
-          var d = n.getAttribute('d') || '';
-          var nums = d.match(/-?\d+(?:\.\d+)?/g);
-          if (!nums || nums.length < 4) return;
-          var x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
-          for (var i = 0; i + 1 < nums.length; i += 2) {
-            var x = +nums[i], y = +nums[i + 1];
-            if (x < x0) x0 = x;
-            if (x > x1) x1 = x;
-            if (y < y0) y0 = y;
-            if (y > y1) y1 = y;
-          }
-          fine.push([x0, y0, x1, y1]);
-        });
-
-        /* A coarse shape steps aside only where a finer one has really taken
-           its place — not merely because it falls inside the region the fine
-           file covers. The two are the same thing today, and would stop being
-           the same the moment the fine layer dropped an island the base map
-           had; then the island would quietly vanish instead of staying coarse.
-
-           Asked island by island, not by bounding box: an atom's leftover
-           block and its whole-country filler are single paths holding dozens
-           of separate islands strung down a thousand kilometres of ocean, and
-           their bounding boxes are mostly sea. Each sub-path is one island, so
-           the shape is replaced when every sub-path of it is. */
-        var covers = function (b) {
-          var pad = 0.4;
-          for (var i = 0; i < fine.length; i++) {
-            var f = fine[i];
-            if (b[0] >= f[0] - pad && b[1] >= f[1] - pad &&
-                b[2] <= f[2] + pad && b[3] <= f[3] + pad) return true;
-          }
-          return false;
-        };
-        /* Island by island: the replaced sub-paths are cut out of the shape and
-           the rest is left drawing. A shape with nothing left steps aside
-           whole. Doing it per shape instead would mean the filler — one path
-           holding the entire Ryukyu arc — either kept drawing Okinawa's coarse
-           coastline beside the fine one, or vanished and took with it the
-           handful of islands too small for the fine file to carry. */
-        var prune = function (node) {
-          var d = node.getAttribute && node.getAttribute('d');
-          if (!d) {
-            var bb;
-            try { bb = node.getBBox(); } catch (e) { return; }
-            if (bb && (bb.width || bb.height) &&
-                covers([bb.x, bb.y, bb.x + bb.width, bb.y + bb.height]))
-              node.classList.add('superseded');
-            return;
-          }
-          var parts = d.split('M').slice(1);
-          var kept = [];
-          for (var p = 0; p < parts.length; p++) {
-            var nums = parts[p].match(/-?\d+(?:\.\d+)?/g);
-            if (!nums || nums.length < 4) { kept.push(parts[p]); continue; }
-            var x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
-            for (var j = 0; j + 1 < nums.length; j += 2) {
-              var x = +nums[j], y = +nums[j + 1];
-              if (x < x0) x0 = x;
-              if (x > x1) x1 = x;
-              if (y < y0) y0 = y;
-              if (y > y1) y1 = y;
-            }
-            if (!covers([x0, y0, x1, y1])) kept.push(parts[p]);
-          }
-          if (!kept.length) node.classList.add('superseded');
-          else if (kept.length < parts.length)
-            node.setAttribute('d', 'M' + kept.join('M'));
-        };
-
-        $$('path, circle', el).forEach(prune);
-        if (backingEls[key]) prune(backingEls[key]);
-
         var before = el.querySelector('circle');
         while (g.firstElementChild) {
           var node = document.importNode(g.firstElementChild, true);
