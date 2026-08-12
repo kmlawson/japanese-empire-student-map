@@ -49,7 +49,9 @@ Chengchow inside the line; it records the capture but not the withdrawal.
 ## Chahar and Suiyuan
 
 A second pass over the north-west corner of the zone, written up in
-`report.md` with its references in `sources.md`. The finding that matters for
+`report.md` with its references in `sources.md`, and plotted event by event in
+`suiyuan-history.html` — a standalone Leaflet page, filterable by year and
+steppable one event at a time. The finding that matters for
 the line: Japanese control in Suiyuan ended at Baotou from 17 October 1937 to
 August 1945, apart from six weeks in February and March 1940, and the Ordos
 south of the Yellow River was never occupied at all. The maps below were

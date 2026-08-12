@@ -150,10 +150,17 @@ OCCUPIED_ZONE = [
         (113.35, 28.9), (113.9, 28.85), (114.4, 29.0), (115.0, 29.05),
         (115.4, 28.6), (115.8, 28.15), (116.2, 28.2), (116.6, 28.6), (117.1, 29.1),
         (117.6, 29.6), (118.2, 29.85), (118.8, 29.6), (119.2, 29.35), (119.6, 28.9),
-        (120.1, 29.0), (121.9, 29.2), (122.0, 29.3), (122.2, 29.6),
-        (122.4, 30.0), (122.2, 30.4), (122.4, 30.9), (122.3, 31.7), (121.8, 32.5),
-        (121.2, 33.5), (120.4, 34.5), (120.3, 35.0), (120.9, 36.0), (121.6, 36.6),
-        (122.3, 36.85), (123.3, 37.35), (123.2, 37.9), (121.2, 38.1),
+        (120.1, 29.0), (121.9, 29.2),
+        # Out to sea from here up to the Gulf of Chihli, for the reason the
+        # Bohai stretch is: the clip finds the coast, and a line drawn close in
+        # cuts among the offshore islands and holds some and not others with
+        # nothing behind the choice. The islands went with the coast they were
+        # blockaded from — the Chusan archipelago was taken in 1939–40 and held
+        # to the end as the base for the blockade of the Yangtze.
+        (122.3, 29.35), (122.6, 29.65), (122.9, 30.05), (123.0, 30.45),
+        (123.0, 30.95), (122.9, 31.7), (122.4, 32.5),
+        (121.8, 33.5), (121.2, 34.5), (121.0, 35.0), (121.3, 36.1), (122.0, 36.7),
+        (122.6, 37.0), (123.3, 37.35), (123.2, 37.9), (121.2, 38.1),
         # Straight across the Gulf of Chihli rather than round its shore. The
         # blocks are clipped to China's land, so the water inside this cut is
         # removed and the coast itself becomes the edge; the old line traced
@@ -505,9 +512,20 @@ YELLOW_TAIL = [
     (119.035, 37.803), (119.100, 37.788), (119.160, 37.775), (119.225, 37.760),
 ]
 
+# The estuary is not one channel. Chungming Island splits it, and the river's
+# navigable course — the one the gunboats and the Yangtze steamers used, and
+# the one the map should draw — is the South Channel, between Chungming and the
+# Shanghai shore, out past Woosung. The first version of this tail ran straight
+# from Chinkiang to a point in the middle of the estuary, which crossed
+# Chungming diagonally and then stopped in open water. These points are the
+# measured mid-channel: at 121.5 E, Chungming's south shore is 31.554 and the
+# mainland's north shore 31.366, so the river is at 31.46. It carries on past
+# Chungming's eastern tip at 121.99 E and out to sea.
 YANGZI_TAIL = [
-    (119.61, 32.20), (120.20, 32.10), (120.90, 32.00), (121.40, 31.80),
-    (121.90, 31.55),
+    (119.61, 32.20), (119.90, 32.16), (120.15, 32.00), (120.45, 31.94),
+    (120.75, 31.95), (121.00, 31.85), (121.20, 31.68), (121.30, 31.57),
+    (121.40, 31.54), (121.50, 31.46), (121.60, 31.43), (121.70, 31.40),
+    (121.80, 31.36), (121.90, 31.33), (122.05, 31.28), (122.25, 31.23),
 ]
 
 # ---------------------------------------------------------------------------
@@ -1111,6 +1129,26 @@ def china_island(ring):
     return not (x0 <= cx <= x1 and y0 <= cy <= y1)
 
 
+def nearest_enp_atom(ring, provinces, default="china"):
+    """Which ENP atom an offshore island belongs to.
+
+    By the nearest point of any of their sub-units — an island is a few
+    kilometres off its own province and a long way from anyone else's, so
+    nearness settles it without a table to keep up to date.
+    """
+    cx = sum(p[0] for p in ring) / len(ring)
+    cy = sum(p[1] for p in ring) / len(ring)
+    best, bd = default, float("inf")
+    for key in ENP_ATOMS:
+        for _, rings in provinces.get(key, []):
+            for r in rings:
+                for x, y in r:
+                    d = (x - cx) ** 2 + (y - cy) ** 2
+                    if d < bd:
+                        bd, best = d, key
+    return best
+
+
 def signed_ring_area(ring):
     """Twice the signed area: the sign is the ring's winding direction."""
     s = 0.0
@@ -1644,6 +1682,7 @@ def main():
     # into `backing`, because a filler with no entry there falls back to the
     # union of its own sub-units and a key would silently replace that.
     extra = collections.defaultdict(list)
+    china_islands = []
 
     # ---- everything except China ------------------------------------------
     for feat in a0["features"]:
@@ -1681,7 +1720,10 @@ def main():
             for ring in iter_rings(feat["geometry"]):
                 groups["chinabase"].append(ring)
                 if china_island(ring):
-                    extra["china"].append(ring)
+                    # which atom it belongs to is settled later, once the
+                    # Republican provinces are loaded: the islands off the
+                    # Liaotung peninsula are Manchuria's, not China's
+                    china_islands.append(ring)
             continue
         if admin == "Russia":
             kurils = collections.defaultdict(list)
@@ -2237,6 +2279,13 @@ def main():
                     out_paths.append(path)
             if out_paths:
                 rivers[key] = "".join(out_paths)
+
+    # Natural Earth's coastal islands go to whichever Republican province is
+    # nearest, not to China by default: the Changshan group off Dairen belongs
+    # to Fengtien, and giving it to China drew Republic-of-China yellow inside
+    # Manchukuo.
+    for ring in china_islands:
+        extra[nearest_enp_atom(ring, provinces)].append(ring)
 
     for key, rings in add_frontier_seam(groups).items():
         extra[key].extend(rings)

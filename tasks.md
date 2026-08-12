@@ -7,22 +7,16 @@ describing what was actually changed, before it is marked done.
 
 ## Open
 
-- **Every yellow leak along the occupied edge**, swept systematically rather
-  than one screenshot at a time — and whether the mixed occupied/unoccupied
-  islands off the central China coast are history or an artefact of the tracing.
-  A ribbon sweep of eight views along the coast (see the Bohai entry below for
-  the method) now finds only two things left: **Kwangchowwan**, where bands of
-  Republic yellow and French blue interleave over 110.09–110.62 E, 20.97–21.39 N
-  with a 112-pixel pocket in the middle of them — the leasehold is still messy
-  and wants redrawing rather than patching — and the **Suiyuan meridian**, a
-  four-pixel band of Mengchiang colour against China's along 109.60–109.64 E,
-  which is the straight cut recorded as its own task below.
+- **Kwangchowwan.** The last thing the ribbon sweep still finds: bands of
+  Republic yellow and French blue interleaving over 110.09–110.62 E,
+  20.97–21.39 N with a 112-pixel pocket in the middle of them. The leasehold
+  wants redrawing from its own source rather than patching. (The sweep's other
+  finding, a four-pixel band along 109.60–109.64 E, is the Suiyuan meridian
+  below.)
 - **The coastal enclaves.** Amoy, Swatow and Canton have no name of their own on
   hover, and the shapes are visibly circles: they were boxes, I made them
   fourteen-point ellipses, which replaced one guess with a rounder guess. They
   want a period source and a label each.
-- **The Yangtze's tail** runs diagonally across the estuary and stops in open
-  water instead of following a channel out to the sea.
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible
   — Japan only created a western administrative region out of Paotow and the
   Urad banners in June 1943, six months after this map — but a straight line of
@@ -42,6 +36,42 @@ describing what was actually changed, before it is marked done.
 ---
 
 ## Done
+
+### The islands off the coast go with the coast
+The complaint was that some islands off the central China coast were occupied
+and some were not, with nothing apparently behind the choice. There was
+nothing behind it: the occupied zone's east edge was traced close in and
+wandered among the islands, holding whichever happened to fall inside. Counting
+them: of 113 islands off the occupied coast, 53 were shaded and 66 were not.
+
+The east coast now runs out to sea from the Chekiang front at 29.2 N up to the
+Gulf of Chihli, the same way the Bohai stretch does, and the clip finds the
+coastline. The islands go with the coast they were blockaded from — the Chusan
+archipelago was taken in 1939–40 and held to the end as the base for the
+blockade of the Yangtze. 69 of the 113 are shaded now, and the ones that are
+not are south of the line at 29.2 N, off Taichow and Wenchow, which the
+Japanese raided but did not hold. The boundary is a clean line out to sea
+instead of a scatter.
+
+Two things had to be fixed underneath it. The offshore islands taken from
+Natural Earth were all being given to China, which drew the Changshan group off
+Dairen in Republic-of-China yellow inside Manchukuo; `nearest_enp_atom()` now
+gives each island to whichever Republican province is nearest, so those go to
+Fengtien and the ones by the leasehold to Kwantung. And measuring occupancy
+with `isPointInFill` on the clip path is unreliable — it is provinces and
+filler concatenated, so the nonzero rule reads overlaps oddly — which sent me
+after four islands that were rendering correctly all along. The rendered colour
+is the honest test.
+
+### The Yangtze reaches the sea down a real channel
+It ran from Chinkiang straight to a point in the middle of the estuary, which
+crossed Chungming Island diagonally and then stopped in open water. The estuary
+is not one channel: Chungming splits it, and the navigable course — the one the
+river steamers and the gunboats used — is the South Channel, between the island
+and the Shanghai shore, out past Woosung. `YANGZI_TAIL` follows the measured
+mid-channel: at 121.5 E, Chungming's south shore is 31.554 and the mainland's
+north shore 31.366, so the river goes at 31.46. Five points became sixteen, and
+it carries on past Chungming's eastern tip at 121.99 E and out to sea.
 
 ### The Andamans stopped going back to British
 Caught at last, and it was never a race with the epoch. British India's atom
