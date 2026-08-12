@@ -440,7 +440,7 @@ HUAYUANKOU = (113.68, 34.92)
 # ends before the sea. This carries it out through the delta to the mouth it
 # used between 1855 and 1938.
 YELLOW_TAIL = [
-    (119.035, 37.803), (119.150, 37.790), (119.280, 37.752), (119.400, 37.718),
+    (119.035, 37.803), (119.100, 37.788), (119.160, 37.775), (119.225, 37.760),
 ]
 
 YANGZI_TAIL = [
