@@ -109,6 +109,20 @@ describing what was actually changed, before it is marked done.
 
 ## Done
 
+### The line of control stays off the coast
+It was traced by hand against a coarser coastline than the map now draws, so
+along Fukien it wandered a few kilometres inland and across the Leizhou
+peninsula it cut over unoccupied land — and a line of control drawn over
+unoccupied ground says something about that ground which is not true.
+`hug_coast` walks the smoothed line and moves every vertex that has ended up on
+land out along the line's own normal until it is clear of the shore and then
+about six kilometres further. Which way is seaward is not asked in advance:
+both are tried and whichever gets off the land in fewer steps wins, which is
+the right answer on a peninsula as well as on a straight shore. Four stretches
+are exempt, being inland on purpose because the ground inside them was held:
+Amoy and Kinmen, Swatow and Chaochow, the Canton delta, and the detour round
+Kwangchowwan.
+
 ### The zoom buttons were dead to the mouse
 All three of them, since whenever the pointer capture was added. They sit
 inside the map's own box, so a press on one reached `onPointerDown` first,

@@ -729,6 +729,70 @@ def china_front():
 # because that is whose it was, and it is inside the line, because Japanese
 # forces were in it. The formal occupation is February 1943, two months after
 # this map's date; the arrangement with Vichy that put them there is not.
+# The stretches of that line that are meant to be inland, because the place
+# they enclose was held: the two ports, the Canton delta, and the detour round
+# Kwangchowwan. Everywhere else the line is a coastal line and belongs in the
+# water — it was drawn by hand against a coarser coastline than the map now
+# draws, so it wandered a few kilometres inland along Fukien and cut across the
+# Leizhou peninsula, and a line of control drawn over unoccupied land says
+# something about that land which is not true.
+EXTENT_KEEP_INLAND = [
+    (117.75, 24.20, 118.65, 24.80),     # Amoy and Kinmen
+    (116.15, 23.05, 117.05, 23.90),     # Swatow and Chaochow
+    (112.45, 22.25, 114.75, 23.95),     # the Canton delta and the West River
+    (109.90, 20.80, 110.95, 21.65),     # Kwangchowwan
+]
+
+EXTENT_OFFSHORE = 0.055    # degrees; about six kilometres clear of the shore
+EXTENT_REACH = 0.9         # degrees; how far inland a vertex may be and still
+                           # be pulled out to sea rather than left alone
+
+
+def hug_coast(line, on_land, keep=EXTENT_KEEP_INLAND,
+              margin=EXTENT_OFFSHORE, reach=EXTENT_REACH):
+    """Push a coastal line off the land it strays onto.
+
+    Each vertex that is on land, and not inside one of the stretches that are
+    meant to be inland, is moved along the line's own normal until it is clear
+    of the coast and then a little further. Which way is seaward is not asked in
+    advance: both are tried and the one that gets off the land in fewer steps
+    wins, which is the right answer on a peninsula as well as on a straight
+    shore.
+    """
+    n = len(line)
+    if n < 3:
+        return line
+
+    def normal(k):
+        a = line[max(0, k - 2)]
+        b = line[min(n - 1, k + 2)]
+        dx, dy = b[0] - a[0], b[1] - a[1]
+        h = math.hypot(dx, dy) or 1.0
+        return (dy / h, -dx / h)
+
+    out = []
+    for k, p in enumerate(line):
+        if any(x0 <= p[0] <= x1 and y0 <= p[1] <= y1 for x0, y0, x1, y1 in keep) \
+                or not on_land(p):
+            out.append(p)
+            continue
+        nx, ny = normal(k)
+        best, bw = p, None
+        for sign in (1.0, -1.0):
+            w = 0.02
+            while w <= reach:
+                q = (p[0] + sign * nx * w, p[1] + sign * ny * w)
+                if not on_land(q):
+                    q = (p[0] + sign * nx * (w + margin),
+                         p[1] + sign * ny * (w + margin))
+                    if not on_land(q) and (bw is None or w < bw):
+                        best, bw = q, w
+                    break
+                w += 0.02
+        out.append(best)
+    return out
+
+
 EXTENT_SOUTH_CHINA = [
     (121.5, 28.8), (121.2, 28.3), (120.7, 27.8), (120.4, 27.2), (120.0, 26.6),
     (119.8, 26.0), (119.5, 25.5), (119.1, 25.0), (118.9, 24.75),
@@ -2644,7 +2708,8 @@ def main():
 
     extent = []
     extent += chaikin(china_front())
-    extent += chaikin(EXTENT_SOUTH_CHINA)
+    extent += hug_coast(chaikin(EXTENT_SOUTH_CHINA),
+                        _ring_test([r for k in ENP_SIDE for r in groups.get(k, ())]))
     for key, a, b, via in EXTENT_ARCS:
         rings = outlines([key])
         if rings:
