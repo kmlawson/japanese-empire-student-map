@@ -1311,12 +1311,19 @@
     // it is asked for, and putting them in data.js would mean shipping them to
     // every reader who never zooms in.
     if (target.getAttribute('data-ja') || target.getAttribute('data-group')) {
-      var own = { en: key || target.getAttribute('data-ja'),
+      // OSM names most of these but not all: a third of the Pacific islets are
+      // reefs nobody has named. Those take their group as the headline rather
+      // than showing an empty line, so the reader is still told where they
+      // are, and the group is not then repeated underneath.
+      var grp = target.getAttribute('data-group') || '';
+      var head = key || target.getAttribute('data-ja') || grp;
+      var own = { en: head,
                   ja: target.getAttribute('data-ja') || '',
                   zh: target.getAttribute('data-zh') || '',
-                  group: target.getAttribute('data-group') || '',
-                  groupJa: target.getAttribute('data-group-ja') || '' };
-      return { key: key || own.ja, rec: own, el: target };
+                  group: head === grp ? '' : grp,
+                  groupJa: head === grp ? '' : (target.getAttribute('data-group-ja') || '') };
+      if (head === grp) own.ja = target.getAttribute('data-group-ja') || '';
+      return { key: key || own.ja || grp, rec: own, el: target };
     }
     if (!key) return null;
     var rec = (JMAP.PROVINCES || {})[key];

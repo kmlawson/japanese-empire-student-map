@@ -2729,8 +2729,15 @@ def main():
 # survey coastline they come from: see that script for what is dropped and why
 # nothing that could be drawn is lost.
 FINE_FILES = [
-    ("japanese-home-islands-islands.geojson", "osm-islands-japan.json"),
-    ("pacific-islands-se-islands.geojson", "osm-islands-marianas.json"),
+    ("japanese-home-islands-islands.geojson", ["osm-islands-japan.json"]),
+    ("pacific-islands-se-islands.geojson", [
+        "osm-islands-marianas.json",
+        "osm-islands-palau.json",
+        "osm-islands-carolines.json",
+        "osm-islands-newguinea.json",
+        "osm-islands-solomons.json",
+        "osm-islands-gilberts.json",
+    ]),
 ]
 
 # Only these windows are taken from the sources above; the Pacific file covers
@@ -2749,6 +2756,34 @@ FINE_GROUPS = [
     ("Bonin Islands", "小笠原群島", 141.85, 26.30, 142.60, 27.90),
     ("Volcano Islands", "火山列島", 140.90, 23.90, 141.70, 25.70),
     ("Mariana Islands", "マリアナ諸島", 144.40, 13.10, 146.30, 20.70),
+
+    # The South Seas Mandate, which Japan held from 1919 and administered from
+    # Koror and then Saipan. Japanese names throughout, because these were a
+    # Japanese colony on both of this map's dates and the Japanese forms are
+    # what the period sources use.
+    ("Palau Islands", "パラオ諸島", 131.00, 2.00, 135.50, 8.50),
+    ("Yap Islands", "ヤップ諸島", 137.00, 8.00, 140.50, 10.50),
+    ("Truk Islands", "トラック諸島", 151.00, 6.50, 152.70, 8.10),
+    ("Ponape", "ポナペ島", 157.70, 6.50, 159.00, 7.40),
+    ("Kusaie", "クサイ島", 162.60, 5.10, 163.40, 5.60),
+    ("Marshall Islands", "マーシャル諸島", 160.50, 4.00, 173.50, 15.00),
+    # after the named groups above, so they take their own islands first
+    ("Caroline Islands", "カロリン諸島", 135.50, 0.00, 165.00, 12.00),
+
+    # Melanesia: Australian-mandated New Guinea, Australian Papua and the
+    # British Solomons. English only — the map's rule is that Japanese belongs
+    # to Japan proper, its colonies and the places it named, and these were
+    # neither in 1930 nor renamed in 1942.
+    ("Admiralty Islands", "", 145.50, -3.20, 148.50, -1.00),
+    ("Bismarck Archipelago", "", 148.50, -7.00, 154.00, -1.00),
+    ("Bougainville and Buka", "", 154.00, -7.20, 156.50, -4.80),
+    ("Trobriand Islands", "", 150.60, -9.00, 151.60, -8.20),
+    ("D’Entrecasteaux Islands", "", 149.50, -10.40, 151.50, -8.90),
+    ("Louisiade Archipelago", "", 150.50, -12.20, 154.70, -10.00),
+    ("Solomon Islands", "", 155.00, -12.60, 163.50, -4.80),
+    ("Gilbert Islands", "", 171.50, -3.50, 178.50, 4.50),
+    ("Nauru", "", 166.60, -0.90, 167.20, -0.30),
+    ("Ocean Island", "", 169.30, -1.00, 169.80, -0.60),
 ]
 
 # Which atom each group's islands belong to. By table rather than by whichever
@@ -2768,7 +2803,36 @@ FINE_GROUP_ATOM = {
     "Bonin Islands": "ogasawara",
     "Volcano Islands": "ogasawara",
     "Mariana Islands": "nanyo",     # except Guam, which is its own atom
+    "Palau Islands": "nanyo",
+    "Yap Islands": "nanyo",
+    "Truk Islands": "nanyo",
+    "Ponape": "nanyo",
+    "Kusaie": "nanyo",
+    "Marshall Islands": "nanyo",
+    "Caroline Islands": "nanyo",
+    "Admiralty Islands": "newguinea_au",
+    "Bismarck Archipelago": "newguinea_au",
+    "Bougainville and Buka": "newguinea_au",
+    "Trobriand Islands": "newguinea_au",
+    "D’Entrecasteaux Islands": "newguinea_au",
+    "Louisiade Archipelago": "newguinea_au",
+    "Gilbert Islands": "gilberts",
+    "Nauru": "nauru_au",
+    "Ocean Island": "gilberts",
+    # The Solomons are the one group whose islands do not share an atom. In
+    # December 1942 the archipelago was cut in half by the fighting, and this
+    # map already draws that: Guadalcanal contested, Tulagi taken, Malaita and
+    # the south-east Allied, the north-west Japanese. So each island goes to
+    # whichever of those atoms it is nearest, which is the same thing as asking
+    # which one already draws it.
+    "Solomon Islands": "*nearest",
 }
+
+# Atoms that stand for one named island each, and may only ever be given that
+# island; and the two that hold the rest of the archipelago, north-west and
+# south-east of the fighting.
+SOLOMON_SINGLE = ["solomons_gc", "solomons_us", "solomons_ml"]
+SOLOMON_BULK = ["solomons_br", "solomons_al"]
 
 # Guam was American until December 1941 and is drawn as its own territory, so
 # it cannot go in with the mandate. Everything in the Marianas south of this
@@ -2792,6 +2856,7 @@ SENKAKU = {
 # the Japanese. Keyed by group and by the Japanese name, because there is more
 # than one 硫黄島 in these waters and only one of them is Iwo Jima: the other is
 # off Satsuma, five hundred miles away, and was never fought over.
+# Keyed by group and by either the Japanese name or the English OSM gives.
 FINE_ALIAS = {
     ("Volcano Islands", "硫黄島"): ("Iwo Jima (Iō-tō)",),
     ("Volcano Islands", "北硫黄島"): ("Kita-Iō-tō",),
@@ -2801,6 +2866,19 @@ FINE_ALIAS = {
     ("Okinawa Islands", "古宇利島"): ("Kouri-jima",),
     ("Okinawa Islands", "奥武島"): ("Ō-jima",),
     ("Okinawa Islands", "オーハ島"): ("Ōha-jima",),
+
+    # The Pacific islands OSM gives their present-day local names, which are
+    # not the names on a map of this period or in anything written about the
+    # war there. Both are given, the period name first.
+    ("Marshall Islands", "Kuwajleen"): ("Kwajalein (Kuwajleen)",),
+    ("Marshall Islands", "Wotja Island"): ("Wotje",),
+    ("Marshall Islands", "Enewetak"): ("Eniwetok (Enewetak)",),
+    ("Marshall Islands", "Jabor"): ("Jaluit (Jabor)",),
+    ("Ponape", "Pohnpei"): ("Ponape (Pohnpei)",),
+    ("Kusaie", "Kosrae"): ("Kusaie (Kosrae)",),
+    ("Truk Islands", "Tonowas"): ("Dublon (Tonowas)",),
+    ("Truk Islands", "Weno"): ("Moen (Weno)",),
+    ("Caroline Islands", "Enewetak"): ("Eniwetok (Enewetak)",),
 }
 
 FINE_MIN_KM2 = 0.05        # five hectares; below this it is a dot on the map
@@ -2956,11 +3034,31 @@ def _fine_group(ring):
     return None, None
 
 
-def _fine_atom(ring, group):
+def _fine_atom(ring, group, groups):
+    cx = sum(p[0] for p in ring) / len(ring)
     cy = sum(p[1] for p in ring) / len(ring)
     key = FINE_GROUP_ATOM.get(group)
-    if key == "nanyo" and cy < GUAM_LAT:
+    if key == "nanyo" and group == "Mariana Islands" and cy < GUAM_LAT:
         return "guam"
+    if key == "*nearest":
+        # First: is this island one of the ones an atom was made to stand for?
+        # Guadalcanal, Tulagi and Malaita are single islands drawn on their own
+        # because control of them differed in December 1942, so only the island
+        # itself may have them. Nearest-atom alone handed Guadalcanal's colour
+        # to seventeen of its neighbours and Tulagi's to twenty-five.
+        for k in SOLOMON_SINGLE:
+            for r in groups.get(k, []):
+                if point_in_ring((cx, cy), r):
+                    return k
+        # otherwise it belongs to whichever side of the archipelago it is on
+        best, bd = SOLOMON_BULK[0], float("inf")
+        for k in SOLOMON_BULK:
+            for r in groups.get(k, []):
+                for x, y in r:
+                    d = (x - cx) ** 2 + (y - cy) ** 2
+                    if d < bd:
+                        bd, best = d, k
+        return best
     return key
 
 
@@ -3013,13 +3111,14 @@ def _fine_name(tags, group):
         en = (sen[0] if sen else "") or ""
     # and where the name a reader knows is not the romanisation of the
     # Japanese, both are given
-    return FINE_ALIAS.get((group, ja), (en, ja, zh))[0], ja, zh
+    alias = FINE_ALIAS.get((group, ja)) or FINE_ALIAS.get((group, en))
+    return (alias[0] if alias else en), ja, zh
 
 
 def build_fine_coast(groups):
     """Returns the fine-coastline SVG and each atom's box within it."""
     rows = []
-    for gj, osmfile in FINE_FILES:
+    for gj, osmfiles in FINE_FILES:
         path = os.path.join(CACHE, gj)
         if not os.path.exists(path):
             sys.stderr.write(f"note: {gj} missing, its fine coastlines not drawn\n")
@@ -3048,7 +3147,9 @@ def build_fine_coast(groups):
                 continue
             keep.append((_ring_km2(r), r))
         keep.sort(key=lambda t: -t[0])
-        osm = _osm_islands(os.path.join(CACHE, osmfile))
+        osm = []
+        for f in osmfiles:
+            osm.extend(_osm_islands(os.path.join(CACHE, f)))
         names = _name_rings(keep, osm)
         for ri, (area, ring) in enumerate(keep):
             t = osm[names[ri]]["t"] if ri in names else {}
@@ -3066,7 +3167,7 @@ def build_fine_coast(groups):
         if len(pts) < 4:
             continue
         gname, gja = _fine_group(ring)
-        key = _fine_atom(ring, gname)
+        key = _fine_atom(ring, gname, groups)
         if not key:
             continue
         en, ja, zh = _fine_name(t, gname)
