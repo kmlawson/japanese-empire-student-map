@@ -50,6 +50,24 @@ describing what was actually changed, before it is marked done.
 
 ## Done
 
+### Wake is the atoll it was, not a dot
+It had been drawn as an eight-point rounded blob. `WAKE` in
+`tools/build_map.py` is now a twenty-nine-point trace of the real wishbone:
+Wilkes along the south-west, Wake turning north up the eastern side, Peale as
+the northern arm, and the lagoon between them open to the west.
+
+Tracing it was not enough, because the path emitter rounds to a tenth of a
+map unit — five hundred metres, which is nothing on a coastline and everything
+on an atoll a mile and a half across. Wake's twenty-nine points collapsed onto
+fourteen distinct columns, the three islets flattened into one bar and the
+lagoon folded shut. `path_precision()` now writes any ring under two units
+across to a hundredth of a unit instead, and drops the near-duplicate test to
+match. The two SVGs grow by 66 KB and 7 KB, which buys real outlines for every
+small island on the map, not just this one.
+
+At the map's own scale Wake is still smaller than the islet ring drawn round
+it; the shape is what you get when you zoom to it.
+
 ### Manchuria reaches Korea along the Yalu and the Tumen
 Korea is drawn from a period map of its thirteen provinces and Manchuria from
 the ENP-China provinces, and the two files put the rivers in slightly different

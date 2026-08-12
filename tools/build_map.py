@@ -1127,18 +1127,36 @@ def esc(text):
             .replace(">", "&gt;").replace('"', "&quot;"))
 
 
-def fmt(v):
-    s = f"{v:.1f}"
-    return s[:-2] if s.endswith(".0") else s
+def fmt(v, nd=1):
+    s = f"{v:.{nd}f}"
+    if "." in s:
+        s = s.rstrip("0").rstrip(".")
+    return s or "0"
+
+
+def path_precision(points):
+    """How finely to write a ring, and how close two points may be.
+
+    A tenth of a unit is five hundred metres, which is nothing on a coastline
+    and everything on an atoll: Wake is a mile and a half across, so rounding
+    it to the usual grid flattened its three islets into a blob and folded the
+    lagoon shut. Small shapes are written finely; nothing else changes.
+    """
+    span = max(max(p[0] for p in points) - min(p[0] for p in points),
+               max(p[1] for p in points) - min(p[1] for p in points))
+    if span < 2:
+        return 2, 0.005
+    return 1, 0.05
 
 
 def ring_to_path(points):
-    d = [f"M{fmt(points[0][0])} {fmt(points[0][1])}"]
+    nd, eps = path_precision(points)
+    d = [f"M{fmt(points[0][0], nd)} {fmt(points[0][1], nd)}"]
     px, py = points[0]
     for x, y in points[1:]:
-        if abs(x - px) < 0.05 and abs(y - py) < 0.05:
+        if abs(x - px) < eps and abs(y - py) < eps:
             continue
-        d.append(f"L{fmt(x)} {fmt(y)}")
+        d.append(f"L{fmt(x, nd)} {fmt(y, nd)}")
         px, py = x, y
     d.append("Z")
     return "".join(d)
@@ -1363,13 +1381,34 @@ def island_name(key, ring):
 
 
 # Wake, taken on 23 December 1941 after a fortnight's defence and held to the
-# surrender: a V of three islets round a lagoon, four kilometres across, and
-# Natural Earth's 1:10m countries do not carry it at all. Drawn by hand, as
-# Chandernagore is, and marked with an islet ring because at this scale it is
-# smaller than the ring.
+# surrender. Natural Earth's 1:10m countries do not carry it at all, so it is
+# drawn by hand as Chandernagore is, and marked with an islet ring because at
+# this scale it is smaller than the ring. The shape is the atoll's own: a
+# wishbone of three islets round a lagoon that opens to the west — Wilkes and
+# Wake making the long south-western and eastern arms, Peale the northern one —
+# and not the rounded blob it was first given. Traced clockwise from the west
+# tip of Wilkes: the ocean shore east and north to Peale's tip, then back along
+# the lagoon.
 WAKE = [
-    (166.600, 19.288), (166.617, 19.317), (166.645, 19.325), (166.673, 19.318),
-    (166.688, 19.300), (166.673, 19.281), (166.640, 19.276), (166.612, 19.278),
+    # the southern ocean shore, west to east: Wilkes, then Wake
+    (166.5960, 19.2790), (166.6060, 19.2800), (166.6160, 19.2795),
+    (166.6270, 19.2785), (166.6390, 19.2780), (166.6500, 19.2800),
+    (166.6580, 19.2840),
+    # round the south-eastern point and up the ocean side of Wake
+    (166.6625, 19.2900), (166.6635, 19.2980), (166.6600, 19.3060),
+    (166.6555, 19.3140), (166.6500, 19.3200),
+    # Peale, north-westward to its tip
+    (166.6440, 19.3240), (166.6350, 19.3245), (166.6260, 19.3225),
+    (166.6180, 19.3180), (166.6130, 19.3130),
+    # back along Peale's lagoon shore
+    (166.6200, 19.3140), (166.6290, 19.3170), (166.6370, 19.3180),
+    (166.6430, 19.3150),
+    # down the lagoon shore of Wake's eastern arm
+    (166.6480, 19.3080), (166.6510, 19.3000), (166.6520, 19.2930),
+    (166.6470, 19.2880),
+    # and west along the lagoon shore of the southern arm
+    (166.6370, 19.2855), (166.6250, 19.2850), (166.6130, 19.2855),
+    (166.6030, 19.2840),
 ]
 
 
