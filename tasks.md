@@ -7,9 +7,6 @@ describing what was actually changed, before it is marked done.
 
 ## Open
 
-- **The sources page in the standalone build.** `sources.html` is a separate
-  file, so the link from About does not resolve in the single-file build. Either
-  inline it or drop the link there.
 - **Every yellow leak along the occupied edge**, swept systematically rather
   than one screenshot at a time — and whether the mixed occupied/unoccupied
   islands off the central China coast are history or an artefact of the tracing.
@@ -53,6 +50,19 @@ describing what was actually changed, before it is marked done.
 ---
 
 ## Done
+
+### The sources page reaches the standalone build
+There is no second file in the single-file build, so About's link to
+`sources.html` went nowhere. A `data:` URL is no help — browsers refuse to
+navigate the top level to one — so `inline_sources()` in `tools/bundle.py` folds
+the page's own body into the About panel behind a disclosure triangle, dropping
+its heading, its summary paragraph and its two "back to the map" links, since
+About already says what it is and there is nothing to go back from. The link
+text becomes "listed below". `.sources-inline` in `styles.css` styles it;
+on the web the link resolves and those rules match nothing. Checked by opening
+the built file over `file://`: sixty-one atoms, the sources readable in About,
+the Administrative layer still grafting its twenty-three princely paths out of
+the inlined admin SVG, and no console errors.
 
 ### The Bohai: an island that belonged to nobody, and a coast that was not occupied
 Two separate faults in the same place, both found by sweeping the coast for

@@ -1058,3 +1058,23 @@ dialog h3 {
 @media (hover: none) {
   .site:hover .dot { stroke: #fffdf8; stroke-width: 1.6; }
 }
+
+/* The sources page folded into the About panel. There is no second file in the
+   standalone build, so `tools/bundle.py` drops sources.html in behind a
+   disclosure triangle rather than leaving a link that goes nowhere. On the web
+   the link resolves and these rules match nothing. */
+.sources-inline > summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--accent);
+  margin: 10px 0 4px;
+}
+.sources-inline h2 { font-size: 15px; margin: 18px 0 6px; }
+.sources-inline ul { padding-left: 1.1rem; }
+.sources-inline li { margin: 0 0 10px; }
+.sources-inline code {
+  font-size: .92em;
+  background: #ece7db;
+  padding: 1px 4px;
+  border-radius: 3px;
+}

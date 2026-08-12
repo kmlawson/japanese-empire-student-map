@@ -22,6 +22,40 @@ def read(name):
         return fh.read()
 
 
+SOURCES_LINK = ('<a href="sources.html">Every dataset this map is drawn from is '
+                'listed here</a>')
+
+
+def inline_sources(html, sources):
+    """Fold the sources page into About.
+
+    There is no second file in the standalone build, so a link to sources.html
+    goes nowhere. A data: URL is no help either — browsers refuse to navigate
+    the top level to one — so the page's own body is folded into the About
+    panel behind a disclosure triangle instead. Its heading, its summary
+    paragraph and its two "back to the map" links are dropped: About already
+    says what the page is, and there is nothing to go back from.
+    """
+    body = re.search(r'<div class="page">(.*?)</div>\s*</body>', sources, re.S)
+    if not body:
+        sys.exit("bundle: could not find the body of sources.html")
+    body = body.group(1)
+    for pattern in (r"<h1>.*?</h1>", r'<p class="lede">.*?</p>',
+                    r'<p><a href="index\.html">.*?</a></p>'):
+        body = re.sub(pattern, "", body, flags=re.S)
+
+    if SOURCES_LINK not in html:
+        sys.exit("bundle: could not find the sources link in index.html")
+    html = html.replace(
+        SOURCES_LINK, "Every dataset this map is drawn from is listed below")
+    end = html.index("</p>", html.index(
+        "Every dataset this map is drawn from is listed below")) + 4
+    return (html[:end]
+            + '\n  <details class="sources-inline"><summary>Sources in full</summary>'
+            + body.strip() + "</details>\n"
+            + html[end:])
+
+
 def main():
     html = read("index.html")
     css = read("styles.css")
@@ -48,6 +82,8 @@ def main():
         sys.exit("bundle: could not find the script tags to replace in index.html")
     if "<style>" not in html:
         sys.exit("bundle: the stylesheet link was not replaced")
+
+    html = inline_sources(html, read("sources.html"))
 
     dest = os.path.join(ROOT, "japan-empire-map-standalone.html")
     with open(dest, "w", encoding="utf-8") as fh:
