@@ -1112,3 +1112,12 @@ dialog h3 {
     opacity: .45;
   }
 }
+
+/* A coarse shape that a finer one has taken over. Not removed: it is put back
+   the moment the fine layer is not the thing being looked at, and removing it
+   would take its place in the drawing order with it. */
+#land .superseded { display: none; }
+
+/* The fine coastlines carry no colour of their own — they are their atom's
+   shapes, drawn better. */
+.atom > path.fine { vector-effect: non-scaling-stroke; }

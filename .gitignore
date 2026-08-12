@@ -6,3 +6,11 @@ __pycache__/
 # course timelines the place list was drawn from. Not part of this project,
 # and not mine to republish.
 inspiration/
+
+# The two OSM coastline extracts the fine-detail layer is built from: 11 MB and
+# 44 MB of survey-grade coastline, of which the map can draw about one part in
+# twenty. tools/trim_fine_sources.py cuts them down to the *-islands.geojson
+# files beside them, and those are what is committed and what the build reads.
+tools/cache/japanese-home-islands.geojson
+tools/cache/pacific-islands-se.geojson
+tools/cache/*.qmd

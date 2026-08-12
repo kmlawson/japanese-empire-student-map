@@ -63,6 +63,8 @@ def main():
     js = read("map.js")
     svg = read("japan-empire-map.svg")
     admin = read("japan-empire-map-admin.svg")
+    fine = read("japan-empire-map-fine.svg") if os.path.exists(
+        os.path.join(ROOT, "japan-empire-map-fine.svg")) else ""
 
     # strip the XML declaration; it is only legal at the very top of a document
     svg = re.sub(r"^\s*<\?xml[^>]*\?>\s*", "", svg)
@@ -75,7 +77,8 @@ def main():
         '<script src="data.js"></script>\n<script src="map.js"></script>',
         "<script>\n" + data + "\n</script>\n<script>\nwindow.JMAP_INLINE_SVG = "
         + json.dumps(svg) + ";\nwindow.JMAP_INLINE_ADMIN = "
-        + json.dumps(admin) + ";\n</script>\n<script>\n" + js + "\n</script>",
+        + json.dumps(admin) + ";\nwindow.JMAP_INLINE_FINE = "
+        + json.dumps(fine) + ";\n</script>\n<script>\n" + js + "\n</script>",
     )
 
     if "JMAP_INLINE_SVG" not in html or "JMAP_INLINE_ADMIN" not in html:

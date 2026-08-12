@@ -29,6 +29,7 @@ import collections
 import json
 import math
 import os
+import re
 import sys
 import urllib.request
 
@@ -2506,15 +2507,22 @@ def main():
         return blocks
 
 
+    # The fine coastlines are built here rather than at the end because the
+    # main file has to carry their bounding boxes: the browser needs to know
+    # where they are before deciding whether to fetch them.
+    fine_svg, fine_boxes = build_fine_coast(groups)
+
     out = ['<?xml version="1.0" encoding="utf-8"?>']
     out.append(
         f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {fmt(WIDTH)} {fmt(HEIGHT)}" '
         f'width="{fmt(WIDTH)}" height="{fmt(HEIGHT)}" id="jmap">'
     )
     out.append("  <title>The Japanese Empire in Asia and the Pacific</title>")
+    boxes = " ".join(f"{k}:{v}" for k, v in sorted(fine_boxes.items()))
     out.append(
         f'  <metadata id="proj" data-lon-min="{LON_MIN}" data-lat-max="{LAT_MAX}" '
-        f'data-px-per-deg="{PX_PER_DEG}" data-r="{R:.6f}"/>'
+        f'data-px-per-deg="{PX_PER_DEG}" data-r="{R:.6f}" '
+        f'data-fine="{esc(boxes)}"/>'
     )
     out.append("  <defs>")
     out.append(
@@ -2698,9 +2706,381 @@ def main():
     ab = os.path.getsize(adest)
     sys.stderr.write(f"wrote {adest} ({ab // 1024} KB)\n")
 
+    if fine_svg:
+        fdest = os.path.join(ROOT, "japan-empire-map-fine.svg")
+        with open(fdest, "w") as fh:
+            fh.write(fine_svg)
+        sys.stderr.write(f"wrote {fdest} ({os.path.getsize(fdest) // 1024} KB)\n")
+
     sys.stderr.write(f"wrote {dest} ({os.path.getsize(dest)/1024:.0f} KB, {fmt(WIDTH)}x{fmt(HEIGHT)})\n")
     for key, n, size, how in sorted(stats, key=lambda s: -s[2]):
         sys.stderr.write(f"  {key:16s} {n:4d} rings {size/1024:7.1f} KB  {how}\n")
+
+
+# ---------------------------------------------------------------------------
+# The fine coastlines, in a third file fetched only on a deep zoom into one of
+# the regions it covers. These come from OSM-derived surveys at roughly
+# centimetre precision; the map can never show finer than about half a
+# kilometre, so more than ninety per cent of every source vertex is thrown away
+# here and nothing is lost that could have been seen. What they buy is the
+# island *names*, which the base map has never had below the level of a few
+# dozen well-known ones, and outlines several times finer than Natural Earth's.
+# The trimmed extracts written by tools/trim_fine_sources.py, not the 55 MB of
+# survey coastline they come from: see that script for what is dropped and why
+# nothing that could be drawn is lost.
+FINE_FILES = [
+    ("japanese-home-islands-islands.geojson", "osm-islands-japan.json"),
+    ("pacific-islands-se-islands.geojson", "osm-islands-marianas.json"),
+]
+
+# Only these windows are taken from the sources above; the Pacific file covers
+# the whole south-west Pacific and only the Marianas are wanted from it so far.
+# Each is (name, ja, lon0, lat0, lon1, lat1) and they are tested in order.
+FINE_GROUPS = [
+    ("Ōsumi Islands", "大隅諸島", 129.60, 30.15, 131.30, 31.40),
+    ("Tokara Islands", "吐噶喇列島", 128.90, 28.90, 130.10, 30.15),
+    ("Amami Islands", "奄美群島", 128.30, 27.00, 130.10, 28.90),
+    ("Okinawa Islands", "沖縄諸島", 126.00, 25.80, 128.50, 27.20),
+    ("Daitō Islands", "大東諸島", 130.90, 24.30, 131.60, 26.10),
+    ("Senkaku Islands", "尖閣諸島", 123.20, 25.50, 124.80, 26.10),
+    ("Miyako Islands", "宮古列島", 124.62, 24.40, 125.70, 25.20),
+    ("Yaeyama Islands", "八重山列島", 122.80, 23.90, 124.62, 24.80),
+    ("Izu Islands", "伊豆諸島", 138.90, 30.30, 140.60, 34.95),
+    ("Bonin Islands", "小笠原群島", 141.85, 26.30, 142.60, 27.90),
+    ("Volcano Islands", "火山列島", 140.90, 23.90, 141.70, 25.70),
+    ("Mariana Islands", "マリアナ諸島", 144.40, 13.10, 146.30, 20.70),
+]
+
+# Which atom each group's islands belong to. By table rather than by whichever
+# atom's geometry is nearest: nearness split the Ōsumi islands between Japan
+# proper and the Ryukyus, because Yakushima is closer to Kyushu than to Okinawa
+# while the map has always drawn it as part of the Ryukyu arc.
+FINE_GROUP_ATOM = {
+    "Ōsumi Islands": "ryukyu",
+    "Tokara Islands": "ryukyu",
+    "Amami Islands": "ryukyu",
+    "Okinawa Islands": "ryukyu",
+    "Daitō Islands": "ryukyu",
+    "Senkaku Islands": "ryukyu",
+    "Miyako Islands": "ryukyu",
+    "Yaeyama Islands": "ryukyu",
+    "Izu Islands": "japan",
+    "Bonin Islands": "ogasawara",
+    "Volcano Islands": "ogasawara",
+    "Mariana Islands": "nanyo",     # except Guam, which is its own atom
+}
+
+# Guam was American until December 1941 and is drawn as its own territory, so
+# it cannot go in with the mandate. Everything in the Marianas south of this
+# parallel is Guam; Rota, the next island north, is at 14.14 N.
+GUAM_LAT = 13.9
+
+# The Senkakus were administered from Okinawa on both of this map's dates and
+# are drawn as Japanese, which is what the map is about; the Chinese names are
+# given beside the Japanese because the islands are disputed and a reader who
+# knows them by those names should find them. Traditional characters, as the
+# rest of the map uses.
+SENKAKU = {
+    "魚釣島": ("Uotsuri-shima", "釣魚臺"),
+    "久場島": ("Kuba-shima", "黃尾嶼"),
+    "大正島": ("Taishō-tō", "赤尾嶼"),
+    "北小島": ("Kita-kojima", "北小島"),
+    "南小島": ("Minami-kojima", "南小島"),
+}
+
+FINE_MIN_KM2 = 0.05        # five hectares; below this it is a dot on the map
+FINE_TOL_DEG = 0.002       # about half a pixel at the deepest zoom the map has
+
+
+def _fine_stitch(chunks):
+    """Put a coastline back together.
+
+    The sources cap every line at a thousand vertices, so a coastline of any
+    size arrives as a run of open pieces and has to be rejoined end to end
+    before it can be filled. They rejoin exactly: 256 pieces make 48 rings with
+    nothing left over, and 1,037 make 150 with one.
+    """
+    ends = collections.defaultdict(list)
+    for i, c in enumerate(chunks):
+        ends[c[0]].append(i)
+        ends[c[-1]].append(i)
+    used = [False] * len(chunks)
+    out = []
+    for i in range(len(chunks)):
+        if used[i]:
+            continue
+        used[i] = True
+        cur = list(chunks[i])
+        grew = True
+        while grew:
+            grew = False
+            for j in ends.get(cur[-1], []):
+                if used[j]:
+                    continue
+                c = chunks[j]
+                if c[0] == cur[-1]:
+                    cur += c[1:]
+                elif c[-1] == cur[-1]:
+                    cur += c[::-1][1:]
+                else:
+                    continue
+                used[j] = True
+                grew = True
+                break
+            if grew:
+                continue
+            for j in ends.get(cur[0], []):
+                if used[j]:
+                    continue
+                c = chunks[j]
+                if c[-1] == cur[0]:
+                    cur = c[:-1] + cur
+                elif c[0] == cur[0]:
+                    cur = c[::-1][:-1] + cur
+                else:
+                    continue
+                used[j] = True
+                grew = True
+                break
+        out.append(cur)
+    return out
+
+
+def _ring_km2(ring):
+    a = 0.0
+    for i in range(len(ring)):
+        x0, y0 = ring[i]
+        x1, y1 = ring[(i + 1) % len(ring)]
+        a += x0 * y1 - x1 * y0
+    lat = sum(p[1] for p in ring) / len(ring)
+    return abs(a / 2) * (111.32 ** 2) * math.cos(math.radians(lat))
+
+
+def _bbox(ring):
+    return (min(p[0] for p in ring), min(p[1] for p in ring),
+            max(p[0] for p in ring), max(p[1] for p in ring))
+
+
+def _iou(a, b):
+    ix0 = max(a[0], b[0]); iy0 = max(a[1], b[1])
+    ix1 = min(a[2], b[2]); iy1 = min(a[3], b[3])
+    if ix1 <= ix0 or iy1 <= iy0:
+        return 0.0
+    inter = (ix1 - ix0) * (iy1 - iy0)
+    ua = (a[2] - a[0]) * (a[3] - a[1])
+    ub = (b[2] - b[0]) * (b[3] - b[1])
+    return inter / (ua + ub - inter) if (ua + ub - inter) else 0.0
+
+
+def _osm_islands(path):
+    """The named islands of a cached Overpass extract.
+
+    Overpass answers `out center bb` with a bounding box for ways and relations
+    and a centre for nodes — not both. Every island of any size is a relation,
+    so reading only the centre threw all of them away and left the map naming
+    Okinawa after a rock in its bay.
+    """
+    if not os.path.exists(path):
+        return []
+    out = []
+    for e in json.load(open(path))["elements"]:
+        t = e.get("tags") or {}
+        if t.get("place") == "archipelago":
+            continue
+        b = e.get("bounds")
+        box = (b["minlon"], b["minlat"], b["maxlon"], b["maxlat"]) if b else None
+        c = e.get("center")
+        if (not c or c.get("lon") is None) and box:
+            c = {"lon": (box[0] + box[2]) / 2, "lat": (box[1] + box[3]) / 2}
+        if not c or c.get("lon") is None:
+            continue
+        out.append({"lon": c["lon"], "lat": c["lat"], "box": box, "t": t,
+                    "isl": t.get("place") == "island"})
+    return out
+
+
+def _name_rings(rings, osm):
+    """Give each ring the OSM name that best fits it.
+
+    Largest first, so Okinawa claims 沖縄本島 before an islet inside its bay
+    can, and no name is used twice. A bounding box that really overlaps wins
+    outright; failing that, a name whose point falls inside the ring.
+    """
+    out = {}
+    used = set()
+    for ri, (_, ring) in enumerate(rings):
+        rb = _bbox(ring)
+        span = max(rb[2] - rb[0], rb[3] - rb[1], 0.004)
+        pad = 0.3 * span
+        best, bestkey = None, None
+        for pi, p in enumerate(osm):
+            if pi in used:
+                continue
+            ov = _iou(rb, p["box"]) if p["box"] else 0.0
+            near = (rb[0] - pad <= p["lon"] <= rb[2] + pad and
+                    rb[1] - pad <= p["lat"] <= rb[3] + pad)
+            if ov < 0.25 and not (near and point_in_ring((p["lon"], p["lat"]), ring)):
+                continue
+            cx, cy = (rb[0] + rb[2]) / 2, (rb[1] + rb[3]) / 2
+            key = (1 if ov >= 0.25 else 0, ov, 1 if p["isl"] else 0,
+                   -math.hypot(p["lon"] - cx, p["lat"] - cy))
+            if bestkey is None or key > bestkey:
+                bestkey, best = key, pi
+        if best is not None:
+            out[ri] = best
+            used.add(best)
+    return out
+
+
+def _fine_group(ring):
+    cx = sum(p[0] for p in ring) / len(ring)
+    cy = sum(p[1] for p in ring) / len(ring)
+    for name, ja, x0, y0, x1, y1 in FINE_GROUPS:
+        if x0 <= cx <= x1 and y0 <= cy <= y1:
+            return name, ja
+    return None, None
+
+
+def _fine_atom(ring, group):
+    cy = sum(p[1] for p in ring) / len(ring)
+    key = FINE_GROUP_ATOM.get(group)
+    if key == "nanyo" and cy < GUAM_LAT:
+        return "guam"
+    return key
+
+
+def _fine_name(tags, group):
+    """One name per script out of an OSM record.
+
+    A contested island carries every claimant's name in one string — the
+    Senkakus come through as "魚釣島/釣魚臺/钓鱼岛" and "Diaoyu Island;Uotsurijima
+    Island". This map is of the Japanese empire and the islands were run from
+    Okinawa on both its dates, so the Japanese name leads and the Chinese is
+    kept beside it rather than dropped.
+    """
+    def first(v):
+        if not v:
+            return ""
+        for sep in (";", " / ", "/"):
+            if sep in v:
+                return v.split(sep)[0].strip()
+        return v.strip()
+
+    ja = first(tags.get("name:ja"))
+    # Chinese only where the island is contested and the Chinese name is part
+    # of what a reader is looking for; everywhere else these are Japanese
+    # islands and the map's rule is Japanese alone. OSM's own name:zh is in
+    # simplified characters, which this map does not use.
+    # keyed by group as well as by name: there is a 久場島 in the Senkakus and
+    # another beside Kume-jima, and only one of them is disputed
+    sen = SENKAKU.get(ja) if group == "Senkaku Islands" else None
+    zh = sen[1] if sen else ""
+    en = tags.get("name:en") or ""
+    if ";" in en or "/" in en:
+        # the English is a list of claims; the romanised Japanese is not
+        en = first(tags.get("name:ja-Latn")) or first(en)
+    en = first(en) or first(tags.get("name:ja-Latn")) or first(tags.get("name"))
+    # OSM has no English or romanisation for some of the smaller islands, and
+    # the bare `name` on a disputed one is a list of scripts. A headline in
+    # characters would sit oddly above the Japanese line, so let the Japanese
+    # be the headline instead.
+    if en and not en.isascii():
+        en = (sen[0] if sen else "") or ""
+    return en, ja, zh
+
+
+def build_fine_coast(groups):
+    """Returns the fine-coastline SVG and each atom's box within it."""
+    rows = []
+    for gj, osmfile in FINE_FILES:
+        path = os.path.join(CACHE, gj)
+        if not os.path.exists(path):
+            sys.stderr.write(f"note: {gj} missing, its fine coastlines not drawn\n")
+            continue
+        closed, chunks = [], []
+        with open(path) as fh:
+            for feat in json.load(fh)["features"]:
+                g = feat.get("geometry") or {}
+                segs = g.get("coordinates") or []
+                if g.get("type") == "LineString":
+                    segs = [segs]
+                elif g.get("type") != "MultiLineString":
+                    continue
+                for s in segs:
+                    if len(s) < 3:
+                        continue
+                    pts = [(round(c[0], 7), round(c[1], 7)) for c in s]
+                    (closed if pts[0] == pts[-1] else chunks).append(pts)
+        rings = closed + [r for r in _fine_stitch(chunks)
+                          if r[0] == r[-1] and len(r) >= 4]
+        keep = []
+        for r in rings:
+            if _ring_km2(r) < FINE_MIN_KM2:
+                continue
+            if _fine_group(r)[0] is None:
+                continue
+            keep.append((_ring_km2(r), r))
+        keep.sort(key=lambda t: -t[0])
+        osm = _osm_islands(os.path.join(CACHE, osmfile))
+        names = _name_rings(keep, osm)
+        for ri, (area, ring) in enumerate(keep):
+            t = osm[names[ri]]["t"] if ri in names else {}
+            rows.append((area, ring, t))
+
+    if not rows:
+        return "", {}
+    by_atom = collections.defaultdict(list)
+    unnamed = 0
+    for area, ring, t in rows:
+        simp = simplify([(x, y) for x, y in ring], FINE_TOL_DEG)
+        if len(simp) < 4:
+            continue
+        pts = [project(x, y) for x, y in normalise_ring(simp)]
+        if len(pts) < 4:
+            continue
+        gname, gja = _fine_group(ring)
+        key = _fine_atom(ring, gname)
+        if not key:
+            continue
+        en, ja, zh = _fine_name(t, gname)
+        if not en and not ja:
+            unnamed += 1
+        by_atom[key].append((en or ja, ja, zh, gname, gja, ring_to_path(pts)))
+
+    out = ['<?xml version="1.0" encoding="utf-8"?>',
+           f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {fmt(WIDTH)} {fmt(HEIGHT)}" '
+           'id="jmap-fine">',
+           "  <title>Fine coastlines and island names</title>"]
+    boxes = {}
+    for key in sorted(by_atom):
+        shapes = by_atom[key]
+        xs = [v for _, _, _, _, _, d in shapes
+              for v in [float(n) for n in re.findall(r"-?\d+(?:\.\d+)?", d)][0::2]]
+        ys = [v for _, _, _, _, _, d in shapes
+              for v in [float(n) for n in re.findall(r"-?\d+(?:\.\d+)?", d)][1::2]]
+        box = f"{fmt(min(xs))},{fmt(min(ys))},{fmt(max(xs))},{fmt(max(ys))}"
+        boxes[key] = box
+        out.append(f'  <g data-for="{key}" data-box="{box}">')
+        for en, ja, zh, gname, gja, d in shapes:
+            attr = ""
+            if en:
+                attr += f' data-prov="{esc(en)}"'
+            if ja:
+                attr += f' data-ja="{esc(ja)}"'
+            if zh:
+                attr += f' data-zh="{esc(zh)}"'
+            if gname:
+                attr += f' data-group="{esc(gname)}"'
+            if gja:
+                attr += f' data-group-ja="{esc(gja)}"'
+            out.append(f'    <path{attr} d="{d}"/>')
+        out.append("  </g>")
+    out.append("</svg>")
+    total = sum(len(v) for v in by_atom.values())
+    sys.stderr.write(
+        f"fine coastlines: {total} islands, {unnamed} unnamed, across "
+        f"{', '.join(f'{k} {len(v)}' for k, v in sorted(by_atom.items()))}\n")
+    return "\n".join(out) + "\n", boxes
 
 
 if __name__ == "__main__":

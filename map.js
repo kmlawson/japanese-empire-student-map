@@ -721,6 +721,14 @@
     });
   }
 
+  /* How far in the map will go. It was 40x, which is as far as Natural Earth's
+     coastline is worth following — but the fine coastlines go much further,
+     and at 40x the Senkakus are eight pixels across and Uotsuri-shima cannot
+     be pointed at. At 100x it is twenty-two. Away from the fine layer the base
+     map does go visibly polygonal down here, which it did not before; that is
+     the price of being able to look at the small islands at all. */
+  var MAX_ZOOM = 100;
+
   function clampView(v) {
     var c = containerSize();
     var aspect = c.w / c.h;
@@ -733,7 +741,7 @@
     // what a framed map on a page looks like, and is better than not being
     // able to see the whole of it at once.
     var maxW = Math.min(fitView().w, mapW);
-    var minW = mapW / 40;
+    var minW = mapW / MAX_ZOOM;
     if (v.w > maxW) { v.w = maxW; v.h = v.w / aspect; }
     if (v.w < minW) { v.w = minW; v.h = v.w / aspect; }
 
@@ -770,7 +778,17 @@
         placeLabels();
       });
     }
+    // On settle, not per frame: this fires on every wheel tick and every step
+    // of a pan, and a pinch would otherwise queue a dozen fetches.
+    if (fineTimer) clearTimeout(fineTimer);
+    if (fineState === 'none' && view.w < FINE_W) {
+      fineTimer = setTimeout(function () {
+        fineTimer = 0;
+        if (wantsFine()) loadFine();
+      }, 220);
+    }
   }
+  var fineTimer = 0;
 
   var hatchPattern = null;
   var lastDouble = 0;
@@ -866,7 +884,7 @@
   function zoomAt(cx, cy, factor) {
     var p = clientToSvg(cx, cy);
     var oldW = view.w;
-    var newW = Math.min(Math.max(view.w / factor, mapW / 40), fitView().w);
+    var newW = Math.min(Math.max(view.w / factor, mapW / MAX_ZOOM), fitView().w);
     if (Math.abs(newW - oldW) < 1e-6) return;
     var ratio = newW / oldW;
     view.x = p.x - (p.x - view.x) * ratio;
@@ -922,7 +940,7 @@
     // overflow the map, clamping pushes it back, and the thing you asked to
     // see slides out of the frame. Fit whichever axis is the tighter one.
     var w = aspect < 1 ? want * aspect : want;
-    view.w = Math.min(Math.max(w, mapW / 40), fitView().w);
+    view.w = Math.min(Math.max(w, mapW / MAX_ZOOM), fitView().w);
     view.h = view.w / aspect;
     view.x = cx - view.w / 2;
     view.y = cy - view.h / 2;
@@ -1007,7 +1025,7 @@
     if (pointers.size >= 2 && pinchStart) {
       var now = pinchState();
       var maxW = fitView().w;
-      var newW = Math.min(Math.max(pinchStart.w * (pinchStart.dist / now.dist), mapW / 40), maxW);
+      var newW = Math.min(Math.max(pinchStart.w * (pinchStart.dist / now.dist), mapW / MAX_ZOOM), maxW);
       var c = containerSize();
       var k = newW / c.w;
       var r = container.getBoundingClientRect();
@@ -1288,6 +1306,18 @@
   function provinceOf(target) {
     if (!target || !target.getAttribute) return null;
     var key = target.getAttribute('data-prov');
+    // The fine coastlines carry their names on the shape itself. There are a
+    // couple of hundred of them, they arrive with the geometry and only when
+    // it is asked for, and putting them in data.js would mean shipping them to
+    // every reader who never zooms in.
+    if (target.getAttribute('data-ja') || target.getAttribute('data-group')) {
+      var own = { en: key || target.getAttribute('data-ja'),
+                  ja: target.getAttribute('data-ja') || '',
+                  zh: target.getAttribute('data-zh') || '',
+                  group: target.getAttribute('data-group') || '',
+                  groupJa: target.getAttribute('data-group-ja') || '' };
+      return { key: key || own.ja, rec: own, el: target };
+    }
     if (!key) return null;
     var rec = (JMAP.PROVINCES || {})[key];
     // a handful of sub-units were called something else on one of the two
@@ -1333,6 +1363,14 @@
         pa.className = 'sub alt-script';
         pa.textContent = alt;
         tooltip.appendChild(pa);
+      }
+      // the island group sits between the island and the country: Ishigaki,
+      // then the Yaeyamas, then the colony they were part of
+      if (head.group) {
+        var gp = document.createElement('span');
+        gp.className = 'sub group';
+        gp.textContent = [head.group, head.groupJa].filter(Boolean).join('  ');
+        tooltip.appendChild(gp);
       }
       var pv = document.createElement('span');
       pv.className = 'sub prov';
@@ -1422,11 +1460,15 @@
       // boundaries, each cut by the other — otherwise the whole coast, where
       // the clip is the visible edge, comes out with no line on it at all.
       var clip = el.getAttribute('clip-path');
-      var paths = el.tagName === 'path' ? [el] : $$('path', el);
+      // .superseded is a coarse shape a finer one has taken over: hidden in the
+      // drawing, and it must be hidden here too, or selecting Okinawa traces
+      // both coastlines at once
+      var paths = el.tagName === 'path' ? [el] : $$('path:not(.superseded)', el);
       // .islet is a ring drawn round an island too small to see, not a shape.
       // Filled black in the mask it wiped out the coastline underneath it, and
       // stroked in the outline it drew a circle in open water.
-      var circles = el.tagName === 'path' ? [] : $$('circle:not(.islet-hit):not(.islet)', el);
+      var circles = el.tagName === 'path' ? []
+        : $$('circle:not(.islet-hit):not(.islet):not(.superseded)', el);
       paths.concat(circles).forEach(function (shape) {
         var solid = copyOf(shape, { fill: '#000' });
         if (clip) solid.setAttribute('clip-path', clip);
@@ -1793,6 +1835,104 @@
     b.title = adminState === 'loading' ? 'Loading the administrative divisions…'
       : adminState === 'failed' ? 'The administrative divisions did not load — press again to retry'
       : '';
+  }
+
+  /* ------------------------------------------- the fine coastlines ------ */
+
+  /* A third file, of island outlines several times finer than the base map's
+     and — the point of it — of island names, which the map has never had below
+     a few dozen well-known ones. It is fetched only on a deep zoom into one of
+     the places it covers, so a reader who never leaves China never pays for it.
+
+     Below this viewBox width, Natural Earth's coastline starts to read as a
+     polygon rather than a coast. The map's own floor is mapW/40, so this is
+     the deepest fifth of the zoom range. */
+  var FINE_W = 150;
+
+  var fineState = 'none';           // none | loading | ready | failed
+  var fineBoxes = null;             // atom -> [x0, y0, x1, y1], from the map
+
+  function fineRegions() {
+    if (fineBoxes) return fineBoxes;
+    fineBoxes = {};
+    var md = $('#proj', svg);
+    var spec = md && md.getAttribute('data-fine');
+    if (spec) {
+      spec.split(/\s+/).forEach(function (part) {
+        var bits = part.split(':');
+        if (bits.length !== 2) return;
+        var n = bits[1].split(',').map(Number);
+        if (n.length === 4 && n.every(function (v) { return !isNaN(v); }))
+          fineBoxes[bits[0]] = n;
+      });
+    }
+    return fineBoxes;
+  }
+
+  /* Is the reader looking closely at somewhere the fine file covers? */
+  function wantsFine() {
+    if (view.w >= FINE_W) return false;
+    var boxes = fineRegions();
+    for (var k in boxes) {
+      var b = boxes[k];
+      if (view.x < b[2] && view.x + view.w > b[0] &&
+          view.y < b[3] && view.y + view.h > b[1]) return true;
+    }
+    return false;
+  }
+
+  function loadFine() {
+    if (fineState === 'loading' || fineState === 'ready') return;
+    fineState = 'loading';
+    var graft = function (text) {
+      var doc = new DOMParser().parseFromString(text, 'image/svg+xml');
+      $$('g[data-for]', doc.documentElement).forEach(function (g) {
+        var key = g.getAttribute('data-for');
+        var el = atomEls[key];
+        if (!el) return;
+        var box = (g.getAttribute('data-box') || '').split(',').map(Number);
+        // The finer islands replace the coarse ones rather than covering them,
+        // or the old outline shows as a fringe round the new. Anything of this
+        // atom that lies inside the region the fine file covers steps aside.
+        if (box.length === 4) {
+          $$('path, circle', el).forEach(function (old) {
+            var b;
+            try { b = old.getBBox(); } catch (e) { return; }
+            var cx = b.x + b.width / 2, cy = b.y + b.height / 2;
+            if (cx >= box[0] && cx <= box[2] && cy >= box[1] && cy <= box[3])
+              old.classList.add('superseded');
+          });
+          var bk = backingEls[key];
+          if (bk) {
+            var bb;
+            try { bb = bk.getBBox(); } catch (e2) { bb = null; }
+            // only if the filler is wholly inside the region: elsewhere it is
+            // still holding up islands the fine file does not carry
+            if (bb && bb.x >= box[0] && bb.y >= box[1] &&
+                bb.x + bb.width <= box[2] && bb.y + bb.height <= box[3])
+              bk.classList.add('superseded');
+          }
+        }
+        var before = el.querySelector('circle');
+        while (g.firstElementChild) {
+          var node = document.importNode(g.firstElementChild, true);
+          g.removeChild(g.firstElementChild);
+          node.setAttribute('class', 'fine');
+          el.insertBefore(node, before);
+        }
+      });
+      fineState = 'ready';
+      applyState();
+      redrawHighlight();
+    };
+    if (window.JMAP_INLINE_FINE) { graft(window.JMAP_INLINE_FINE); return; }
+    fetch('japan-empire-map-fine.svg')
+      .then(function (r) {
+        if (!r.ok) throw new Error(r.status);
+        return r.text();
+      })
+      .then(graft)
+      .catch(function () { fineState = 'none'; });
   }
 
   function loadAdmin() {

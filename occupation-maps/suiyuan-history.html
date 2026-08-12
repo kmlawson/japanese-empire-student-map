@@ -129,10 +129,12 @@
   .legend span { display: inline-flex; align-items: center; gap: .3rem; white-space: nowrap; }
   .legend i { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
   .legend i.sw { width: 15px; height: 10px; border-radius: 2px; }
-  .legend i.sw.core      { background: rgba(154,24,19,.22); border: 1.5px solid rgba(154,24,19,.85); }
-  .legend i.sw.steppe    { background: rgba(154,24,19,.10); border: 1.5px dashed rgba(154,24,19,.6); }
-  .legend i.sw.claimed   { background: rgba(154,24,19,.05); border: 1.5px dotted rgba(154,24,19,.5); }
-  .legend i.sw.contested { background: rgba(46,125,91,.16); border: 1.5px dashed rgba(46,125,91,.8); }
+  .legend i.sw.core    { background: rgba(154,24,19,.22); border: 1.5px solid rgba(154,24,19,.85); }
+  .legend i.sw.salient { background: rgba(194,69,47,.30); border: 1.5px dashed rgba(194,69,47,.9); }
+  .legend i.sw.prov    { background: none; border: 1.5px dashed rgba(60,74,90,.75); }
+
+  .prov { display: block; margin-top: .5rem; font-size: .78rem; color: var(--muted); cursor: pointer; }
+  .prov input { vertical-align: -1px; margin-right: .3rem; }
 
   .zone-tip { max-width: 270px; white-space: normal; font-size: .8rem; line-height: 1.35; }
 
@@ -168,6 +170,7 @@
         <span class="count" id="count"></span>
       </div>
       <p class="zonenote" id="zonenote"></p>
+      <label class="prov"><input type="checkbox" id="provtoggle"> Show Suiyuan and Chahar province boundaries</label>
     </div>
     <div id="list"><ol id="events"></ol></div>
     <div class="legend">
@@ -179,10 +182,9 @@
         <span><i style="background:var(--other)"></i>Mongol / other</span>
       </div>
       <div class="row zones">
-        <span><i class="sw core"></i>Administered</span>
-        <span><i class="sw steppe"></i>Steppe</span>
-        <span><i class="sw claimed"></i>Claimed only</span>
-        <span><i class="sw contested"></i>Contested</span>
+        <span><i class="sw core"></i>Japanese / Mengjiang control</span>
+        <span><i class="sw salient"></i>Held Feb–Mar 1940</span>
+        <span><i class="sw prov"></i>Province boundary</span>
       </div>
     </div>
   </div>
@@ -427,106 +429,59 @@ const EVENTS = [
 ];
 
 // ---------------------------------------------------------------------------
-// Control zones. Drawn from range-report.md, which sets out year by year which
-// settlements were held and on what evidence. These are illustrative outlines,
-// generalised from county and league membership and from the line of the
-// Pingsui railway — not surveyed boundaries.
+// Control zone.
 //
-// Four different things get called "control" and are deliberately not shaded
-// alike: core administration, thin steppe administration, territory claimed on
-// paper and never held, and the contested mountain belt.
+// One polygon: everything inside was under Japanese or Mengjiang authority,
+// whether that meant a garrison on the railway or a banner office on the
+// steppe. Geometry is Suiyuan and Chahar provinces entire, plus the North
+// Shanxi counties, unioned and then cut. The provincial rings come from the
+// 1928-45 layer of the Modern East Asia GIS China Provincial Boundaries set,
+// WGS84, and where an edge is a real boundary it is the real boundary vertex
+// for vertex — the whole northern side is the exact border with Outer Mongolia.
+//
+// Four cuts are drawn rather than surveyed:
+//   WALL     the inner Great Wall — Ningwu, Yanmen, Pingxing — as the southern
+//            limit of the North Shanxi counties, which is the line the Mengjiang
+//            map itself follows. Kept angular: it is a real line on the ground.
+//   RIVER    the Yellow River from Baotou east to the Hekou bend at Togtoh,
+//            where it turns south and the provincial boundary takes over.
+//   WESTCAP  a rounded cap west of Baotou. Control ended a short way past the
+//            railhead; nothing here is a boundary, so it is a curve, not a rule.
+//   EAST     the eastern limit, following the Mengjiang map rather than the
+//            boundary file, which carries Chahar east over Fengning and
+//            Luanping — Rehe counties, and so Manchukuo.
+//
+// provSuiyuan and provChahar are the untouched provincial rings, drawn as a
+// toggleable overlay so the zone can be read against the real boundaries.
+//
+// Every settlement in range-report.md was tested against this polygon.
 // ---------------------------------------------------------------------------
 const ZONE_SHAPES = {
-  // Chahar East Special Autonomous District, from 22 Sep 1933.
-  chaharEast: [
-    [42.55,115.90],[42.60,116.80],[42.10,117.10],[41.55,116.75],
-    [41.35,116.10],[41.60,115.55],[42.10,115.50]
-  ],
-
-  // Northern Chahar: evacuated by Chinese regulars under the 1935 agreements,
-  // then administered by the Mongol Military Government from May 1936.
-  northChahar: [
-    [41.05,113.35],[41.60,113.30],[42.35,113.85],[42.60,115.10],[42.55,116.55],
-    [42.10,116.85],[41.55,116.40],[41.10,115.75],[40.98,115.10],[40.96,114.55],
-    [41.10,113.95]
-  ],
-
-  // The core: Pingsui corridor, Bayantala plain, South Chahar, North Shanxi.
-  // Western limit is Baotou; southern limit the Yellow River and the North
-  // Shanxi counties; eastern limit Yanqing.
-  core: [
-    [41.15,109.55],[41.32,110.50],[41.32,111.55],[41.38,112.60],[41.28,113.35],
-    [41.10,113.95],[40.96,114.55],[41.00,115.10],[40.80,115.80],[40.48,116.05],
-    [40.05,115.85],[39.72,114.88],[39.35,114.30],[39.22,113.55],[39.10,112.85],
-    [39.20,112.25],[39.60,112.02],[40.12,112.12],[40.35,111.80],[40.05,111.55],
-    [40.22,111.08],[40.38,110.50],[40.45,109.85],[40.50,109.25]
-  ],
-
-  // Chahar, Ulanchab and Shilingol Leagues. Its southern edge follows the
-  // core's northern edge so the two abut.
-  steppe: [
-    [41.20,109.60],[42.20,109.85],[42.90,110.70],[43.20,111.60],[43.70,112.05],
-    [44.25,113.30],[44.95,114.70],[45.60,116.25],[45.95,117.30],[45.20,118.15],
-    [44.20,117.90],[43.20,117.30],[42.55,116.90],[42.05,116.70],[41.50,116.20],
-    [41.05,115.35],[41.00,115.10],[40.96,114.55],[41.10,113.95],[41.28,113.35],
-    [41.38,112.60],[41.32,111.55],[41.32,110.50]
-  ],
-
-  // The Daqingshan/Yinshan belt, contested from July 1938. It straddles the
-  // core's northern edge, which is the point.
-  daqingshan: [
-    [41.38,109.95],[41.52,110.80],[41.48,111.65],[41.42,112.45],[41.12,112.35],
-    [40.98,111.60],[40.92,110.80],[40.88,110.00]
-  ],
-
-  // The Hetao salient, held 3 February to 20 March 1940 and at no other time.
-  salient1940: [
-    [41.15,107.20],[41.25,108.20],[41.28,109.25],[40.50,109.25],
-    [40.45,108.40],[40.58,107.35]
-  ],
-
-  // Claimed on Mengjiang's own administrative maps, never held: the Hetao...
-  claimedHetao: [
-    [41.38,106.85],[41.42,108.00],[41.30,109.25],[40.50,109.25],
-    [40.45,108.40],[40.60,107.35],[40.78,106.95]
-  ],
-
-  // ...and the Ordos, inside the Yellow River loop.
-  claimedOrdos: [
-    [40.45,109.35],[40.30,110.40],[40.15,111.05],[39.85,111.50],[39.30,111.15],
-    [38.60,110.60],[38.05,110.10],[37.70,109.20],[37.75,108.20],[38.00,107.30],
-    [38.70,106.85],[39.50,106.75],[40.20,106.85],[40.42,107.60],[40.50,108.60]
-  ]
+  zone: [[39.7859,112.0086],[39.5196,111.7937],[39.4295,111.4592],[39.6116,111.4286],[39.6054,111.2270],[40.2986,111.1391],[40.4200,110.7500],[40.5800,110.0000],[40.5477,109.4759],[40.6562,109.3750],[40.7219,109.3375],[40.7906,109.3125],[40.8625,109.3000],[41.0094,109.3094],[41.0781,109.3281],[41.2844,109.4263],[41.4875,109.4763],[41.8812,109.5269],[42.5549,109.5955],[42.7311,110.3472],[43.4332,111.1138],[43.5127,111.6540],[43.8255,111.9887],[44.1238,111.6353],[44.5675,111.5481],[44.8342,111.5951],[45.1370,112.0053],[45.1170,112.5475],[44.8774,112.7925],[44.8788,113.5627],[44.9400,114.0221],[45.2399,114.5141],[45.4953,114.7465],[45.4272,115.1286],[45.4460,115.5396],[45.8199,116.4358],[46.0198,116.4232],[46.4228,116.7260],[46.4449,117.4264],[46.6083,117.5547],[46.5904,117.7845],[46.6166,118.0516],[46.7167,118.3956],[46.7184,118.8110],[46.7857,119.0970],[46.6229,119.3576],[46.6031,119.5949],[46.4841,119.4661],[46.3814,119.5655],[46.1239,119.5542],[45.9114,119.4582],[45.7617,119.5494],[45.5724,119.5881],[45.4475,119.5550],[45.4835,119.1872],[45.4708,119.0933],[45.2793,119.0660],[45.0503,119.0549],[44.8122,119.0578],[44.5808,118.9801],[44.3921,118.7672],[44.2933,118.4294],[44.0601,118.0907],[43.9867,117.7273],[43.9881,117.5556],[44.0322,117.2875],[44.0329,117.1157],[43.9422,117.0192],[43.8664,117.0269],[43.7472,117.1176],[43.5861,117.1334],[43.4450,116.8071],[43.3023,116.6391],[43.1682,116.4578],[43.0328,116.5892],[42.8940,116.8368],[42.7093,116.9457],[42.5231,117.0281],[42.4459,117.1133],[42.3346,117.0901],[42.2731,117.0061],[42.0625,116.8908],[41.9477,116.8576],[41.8564,116.9106],[41.7046,116.8773],[41.6076,116.8008],[41.5704,116.8606],[41.4375,116.7687],[41.3125,116.6625],[41.1875,116.5375],[41.0688,116.4500],[40.9562,116.4000],[40.8500,116.3875],[40.7500,116.4125],[40.6500,116.4125],[40.5500,116.3875],[40.4500,116.3375],[40.3169,116.2376],[40.2139,115.9238],[40.1113,115.7671],[40.0641,115.5862],[39.9288,115.5916],[39.7769,115.5617],[39.6953,115.5151],[39.6223,115.3160],[39.6305,115.0842],[39.6585,114.9732],[39.9418,114.9400],[39.6717,114.9717],[39.2000,114.4500],[39.2800,114.1000],[39.3800,113.8700],[39.3000,113.5500],[39.2400,113.2500],[39.1600,112.9500],[39.1300,112.7000],[39.1500,112.4000],[39.2606,112.1909],[39.5750,112.0563],[39.7375,112.0050],[39.7741,111.9980]],
+  salient1940: [[41.0500,107.2500],[41.2200,108.1000],[41.3000,109.0500],[41.2800,109.3000],[40.6000,109.3000],[40.4200,108.6000],[40.3600,107.9000],[40.5200,107.3500]],
+  northChahar: [[43.0000,116.6477],[42.8940,116.8368],[42.7093,116.9457],[42.5231,117.0281],[42.4459,117.1133],[42.3346,117.0901],[42.2731,117.0061],[42.0625,116.8908],[41.9477,116.8576],[41.8564,116.9106],[41.7046,116.8773],[41.6076,116.8008],[41.5704,116.8606],[41.4375,116.7687],[41.3125,116.6625],[41.1875,116.5375],[41.0688,116.4500],[41.0000,116.4194],[40.9737,115.3875],[40.9825,114.8875],[41.0213,114.3875],[41.1750,113.0125],[41.2238,112.1786],[41.4782,112.2176],[41.6486,112.3601],[41.7274,112.5946],[41.8316,112.9593],[42.1396,113.2172],[42.3451,112.9541],[42.5480,112.6703],[42.6728,112.4753],[42.7479,112.2106],[42.9035,112.0472],[43.0000,111.9670]],
+  chaharEast: [[43.0000,116.6477],[42.8940,116.8368],[42.7093,116.9457],[42.5231,117.0281],[42.4459,117.1133],[42.3346,117.0901],[42.2731,117.0061],[42.0625,116.8908],[41.9477,116.8576],[41.8564,116.9106],[41.7046,116.8773],[41.6076,116.8008],[41.5704,116.8606],[41.5625,116.8562],[41.4375,116.7687],[41.3125,116.6625],[41.1875,116.5375],[41.0688,116.4500],[41.0000,116.4194],[40.9733,115.3000],[43.0000,115.3000]],
+  provSuiyuan: [[40.2794,112.2895],[40.2391,112.2759],[40.0087,112.1518],[39.7859,112.0086],[39.6741,111.9160],[39.5196,111.7937],[39.4785,111.6407],[39.4295,111.4592],[39.6116,111.4286],[39.6054,111.2270],[39.4346,111.0908],[39.4322,110.7973],[39.5647,110.4425],[39.3932,110.4371],[39.2836,110.3471],[39.1560,110.0961],[39.0140,109.8487],[38.8876,109.6176],[38.6866,109.6014],[38.5607,109.4984],[38.3528,109.3031],[38.2082,109.4029],[38.0170,109.3491],[38.1661,109.0508],[37.9909,109.0128],[37.7838,108.9454],[37.6895,108.3024],[37.7077,107.8496],[37.7868,107.7549],[37.9534,107.6076],[38.0179,107.5378],[38.0899,107.4362],[38.1216,107.2572],[38.1363,107.1165],[38.1569,106.9163],[38.2690,106.7897],[38.3934,106.7871],[38.5944,106.9034],[38.8501,107.0273],[39.1526,107.1383],[39.3427,106.8748],[39.5982,106.6306],[39.6420,106.6384],[39.7215,106.8950],[39.8690,106.9334],[40.0966,106.9341],[40.2813,106.9056],[40.5925,106.6262],[40.7744,106.4120],[40.8573,106.0160],[40.8864,105.5586],[41.0110,105.3558],[41.5071,105.2551],[41.6609,105.1976],[42.1505,106.4619],[42.2870,106.8848],[42.5149,107.6599],[42.4493,108.4145],[42.4939,109.3355],[42.7311,110.3472],[43.4332,111.1138],[43.4906,111.5020],[43.4213,111.5493],[43.2807,111.6900],[43.0964,111.8869],[42.9035,112.0472],[42.7479,112.2106],[42.6728,112.4753],[42.5480,112.6703],[42.3451,112.9541],[42.1396,113.2172],[41.8316,112.9593],[41.7274,112.5946],[41.6486,112.3601],[41.4782,112.2176],[41.1819,112.1722],[41.1167,112.0885],[41.0367,111.9861],[40.9421,112.1679],[40.8081,112.1587],[40.6576,112.0773],[40.5547,112.0942],[40.3765,112.3223],[40.2794,112.2895]],
+  provChahar: [[46.6031,119.5949],[46.4841,119.4661],[46.3814,119.5655],[46.1239,119.5542],[45.9114,119.4582],[45.7617,119.5494],[45.5724,119.5881],[45.4475,119.5550],[45.4835,119.1872],[45.4708,119.0933],[45.2793,119.0660],[45.0503,119.0549],[44.8122,119.0578],[44.5808,118.9801],[44.3921,118.7672],[44.2933,118.4294],[44.0601,118.0907],[43.9867,117.7273],[43.9881,117.5556],[44.0322,117.2875],[44.0329,117.1157],[43.9422,117.0192],[43.8664,117.0269],[43.7472,117.1176],[43.5861,117.1334],[43.4450,116.8071],[43.3023,116.6391],[43.1682,116.4578],[43.0328,116.5892],[42.8940,116.8368],[42.7093,116.9457],[42.5231,117.0281],[42.4459,117.1133],[42.3346,117.0901],[42.2731,117.0061],[42.0625,116.8908],[41.9477,116.8576],[41.8564,116.9106],[41.7046,116.8773],[41.6076,116.8008],[41.5218,116.9326],[41.5302,117.0935],[41.4952,117.2487],[41.3163,117.3877],[41.1843,117.4653],[41.1122,117.4525],[41.0176,117.2717],[40.9323,117.1378],[40.9676,116.9933],[40.9866,116.8124],[40.9135,116.7816],[40.8276,116.9119],[40.7082,116.9510],[40.6057,116.9041],[40.5327,116.7422],[40.4656,116.5613],[40.3535,116.3480],[40.2666,116.0861],[40.2139,115.9238],[40.1113,115.7671],[40.0641,115.5862],[39.9288,115.5916],[39.7769,115.5617],[39.6953,115.5151],[39.6223,115.3160],[39.6305,115.0842],[39.6585,114.9732],[39.9418,114.9400],[39.9660,114.6124],[40.0444,114.3860],[40.2287,114.6264],[40.3056,114.5338],[40.3645,114.4611],[40.4679,114.3170],[40.6234,114.2968],[40.7174,114.2188],[40.7180,114.1343],[40.5611,114.1364],[40.5191,113.9643],[40.4271,113.8834],[40.4044,113.6904],[40.3313,113.4954],[40.3566,113.3706],[40.4342,113.2754],[40.4333,113.1821],[40.4081,113.0551],[40.3099,112.9113],[40.1818,112.7538],[40.1852,112.6324],[40.2764,112.4600],[40.2794,112.2895],[40.3765,112.3223],[40.5547,112.0942],[40.6576,112.0773],[40.8081,112.1587],[40.9421,112.1679],[41.0367,111.9861],[41.1167,112.0885],[41.1819,112.1722],[41.4782,112.2176],[41.6486,112.3601],[41.7274,112.5946],[41.8316,112.9593],[42.1396,113.2172],[42.3451,112.9541],[42.5480,112.6703],[42.6728,112.4753],[42.7479,112.2106],[42.9035,112.0472],[43.0964,111.8869],[43.2807,111.6900],[43.4213,111.5493],[43.4906,111.5020],[43.5127,111.6540],[43.8255,111.9887],[44.1238,111.6353],[44.5675,111.5481],[44.8342,111.5951],[45.1370,112.0053],[45.1170,112.5475],[44.8774,112.7925],[44.8788,113.5627],[44.9400,114.0221],[45.2399,114.5141],[45.4953,114.7465],[45.4272,115.1286],[45.4460,115.5396],[45.8199,116.4358],[46.0198,116.4232],[46.4228,116.7260],[46.4449,117.4264],[46.6083,117.5547],[46.5904,117.7845],[46.6166,118.0516],[46.7167,118.3956],[46.7184,118.8110],[46.7857,119.0970],[46.6229,119.3576],[46.6031,119.5949]]
 };
 
 const ZONE_STYLES = {
-  core:      { color:"#9a1813", weight:1.6, opacity:.85, fillColor:"#9a1813", fillOpacity:.22 },
-  steppe:    { color:"#9a1813", weight:1.2, opacity:.60, dashArray:"6 4", fillColor:"#9a1813", fillOpacity:.10 },
-  salient:   { color:"#c2452f", weight:1.6, opacity:.9,  dashArray:"3 3", fillColor:"#c2452f", fillOpacity:.30 },
-  claimed:   { color:"#9a1813", weight:1.2, opacity:.45, dashArray:"2 6", fillColor:"#9a1813", fillOpacity:.05 },
-  contested: { color:"#2e7d5b", weight:1.5, opacity:.8,  dashArray:"5 5", fillColor:"#2e7d5b", fillOpacity:.16 }
+  zone:    { color:"#9a1813", weight:1.4, opacity:.85, fillColor:"#9a1813", fillOpacity:.22 },
+  salient: { color:"#c2452f", weight:1.6, opacity:.9, dashArray:"3 3", fillColor:"#c2452f", fillOpacity:.30 }
 };
+const PROV_STYLE = { color:"#3c4a5a", weight:1.3, opacity:.75, dashArray:"7 5", fill:false };
 
-const CORE_LABEL = "<b>Under effective administration</b><br>The Pingsui railway corridor, the Bayantala plain, and the South Chahar and North Shanxi puppet provinces. Garrisons, tax collection, a civil administration.";
-const STEPPE_LABEL = "<b>Steppe administration</b><br>The Chahar, Ulanchab and Shilingol Leagues, run through Mongol banner offices with Japanese advisers. Real authority, thin on the ground.";
-const CLAIMED_LABEL = "<b>Claimed, never held</b><br>In Mengjiang's administrative tables and on its published maps; under the Nationalist Eighth War Zone throughout. The regime's own cartographers drew what it actually controlled into Bayantala League and left Ikh Juu League as a label for what it did not.";
-const CONTESTED_LABEL = "<b>Contested — the Daqingshan</b><br>Eighth Route Army guerrilla country from July 1938. The county towns stayed Japanese; the ground between them did not.";
+const L_ZONE = "<b>Under Japanese or Mengjiang authority</b><br>The Pingsui railway corridor and the country either side of it — Bayantala League, the South Chahar and North Shanxi governments — together with the Chahar, Shilingol and Ulanchab Leagues to the north, run through Mongol banner offices with Japanese advisers. Garrisons and a civil administration along the railway; posts on the routes out on the steppe. Its northern edge is the border with Outer Mongolia; its southern edge, west of Zhangjiakou, is the inner Great Wall.";
 
 const ZONE_YEARS = {
-  1933: [["chaharEast", "steppe", "<b>Chahar East Special Autonomous District</b><br>Kwantung Army-run from 22 September 1933 under Li Shouxin, funded through the Manchukuo Army from July 1935."]],
-  1935: [["northChahar", "steppe", "<b>Conceded, not occupied</b><br>Chinese regulars withdrew from Zhangbei and everything north of it under the Ching–Doihara agreement of 27 June 1935. No Japanese army of occupation — 70&ndash;80% of the province removed from Chinese military control by agreement."]],
-  1936: [["northChahar", "steppe", "<b>Mongol Military Government</b><br>Proclaimed at Dehua (Huade) on 12 May 1936 with Kwantung Army advisers holding the real authority. Its westward push into Suiyuan in November&ndash;December failed; nothing in Suiyuan is held at the end of the year."]],
-  1937: [["core", "core", CORE_LABEL], ["steppe", "steppe", STEPPE_LABEL]],
-  1938: [["core", "core", CORE_LABEL], ["steppe", "steppe", STEPPE_LABEL],
-         ["daqingshan", "contested", CONTESTED_LABEL]],
-  1939: [["core", "core", CORE_LABEL], ["steppe", "steppe", STEPPE_LABEL],
-         ["daqingshan", "contested", CONTESTED_LABEL],
-         ["claimedHetao", "claimed", CLAIMED_LABEL], ["claimedOrdos", "claimed", CLAIMED_LABEL]],
-  1940: [["core", "core", CORE_LABEL], ["steppe", "steppe", STEPPE_LABEL],
-         ["daqingshan", "contested", CONTESTED_LABEL],
-         ["salient1940", "salient", "<b>Held 3 February &ndash; 20 March 1940</b><br>The only time Japanese control in Suiyuan reached past Baotou. The main force withdrew east around 1 March, before the counter-attack; Wuyuan was retaken on the 20th."],
-         ["claimedHetao", "claimed", CLAIMED_LABEL], ["claimedOrdos", "claimed", CLAIMED_LABEL]],
-  1941: null, 1942: null, 1943: null, 1944: null, 1945: null
+  1933: [["chaharEast", "zone", "<b>Chahar East Special Autonomous District</b><br>Kwantung Army-run from 22 September 1933 under Li Shouxin, funded through the Manchukuo Army from July 1935."]],
+  1935: [["northChahar", "zone", "<b>Conceded, not occupied</b><br>Chinese regulars withdrew from Zhangbei and everything north of it under the Ching&ndash;Doihara agreement of 27 June 1935. No Japanese army of occupation &mdash; 70&ndash;80% of the province removed from Chinese military control by agreement."]],
+  1936: [["northChahar", "zone", "<b>Mongol Military Government</b><br>Proclaimed at Dehua (Huade) on 12 May 1936 with Kwantung Army advisers holding the real authority. Its push into Suiyuan in November&ndash;December failed; nothing in Suiyuan is held at the end of the year."]],
+  1937: [["zone", "zone", L_ZONE]],
+  1938: [["zone", "zone", L_ZONE]],
+  1939: [["zone", "zone", L_ZONE]],
+  1940: [["zone", "zone", L_ZONE],
+         ["salient1940", "salient", "<b>Held 3 February &ndash; 20 March 1940</b><br>The only time Japanese control in Suiyuan reached past Baotou. The main force withdrew east around 1 March, before the counter-attack; Wuyuan was retaken on the 20th. Accounts differ on whether Shanba, at the western end, changed hands at all."]]
 };
 // 1941–45 hold exactly the 1939 position; 1945 is shown as it stood on the eve
 // of the Soviet–Mongolian offensive of 11 August.
@@ -576,6 +531,21 @@ function syncZones(year) {
     if (!wanted.has(key) && map.hasLayer(layer)) map.removeLayer(layer);
   });
 }
+
+// The provincial rings, untouched, on their own pane above the zone fill so the
+// zone can be read against the real boundaries of the period.
+map.createPane("prov").style.zIndex = 390;
+const provLayers = [
+  ["provSuiyuan", "Suiyuan province, 1928–45"],
+  ["provChahar",  "Chahar province, 1928–45"]
+].map(([shape, label]) => L.polygon(ZONE_SHAPES[shape], { ...PROV_STYLE, pane: "prov" })
+  .bindTooltip(label + "<br><i>Modern East Asia GIS, China Provincial Boundaries</i>",
+               { sticky: true, className: "zone-tip" }));
+
+const elProv = document.getElementById("provtoggle");
+elProv.addEventListener("change", () => {
+  provLayers.forEach(l => elProv.checked ? l.addTo(map) : map.removeLayer(l));
+});
 
 // Several events share a location — Zhangjiakou carries eight. Fan repeats out
 // on a small spiral so every marker stays clickable.

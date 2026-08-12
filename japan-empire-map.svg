@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2800 1584.9" width="2800" height="1584.9" id="jmap">
   <title>The Japanese Empire in Asia and the Pacific</title>
-  <metadata id="proj" data-lon-min="66.0" data-lat-max="55.0" data-px-per-deg="20.0" data-r="1145.915590"/>
+  <metadata id="proj" data-lon-min="66.0" data-lat-max="55.0" data-px-per-deg="20.0" data-r="1145.915590" data-fine="guam:1572.4,1046.9,1579.1,1055.6 japan:1473.5,619,1486.3,682.2 nanyo:1577.7,902.5,1601.3,1037.5 ogasawara:1505.5,746,1525,823 ryukyu:1138.7,673.4,1306.6,827"/>
   <defs>
     <pattern id="hatch" patternUnits="userSpaceOnUse" width="10" height="10" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="10" stroke="#1d1a15" stroke-opacity="0.30" stroke-width="2.4"/></pattern>
     <pattern id="hatch-occ" patternUnits="userSpaceOnUse" width="9" height="9" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="9" stroke="#fb8072" stroke-opacity="1" stroke-width="4.4"/></pattern>

@@ -13,29 +13,32 @@ took. The polygons in `suiyuan-history.html` are drawn from this file.
   South Chahar county, a league office), on or beside a railway or road the
   occupying force held. These are the towns a garrison army in this position
   would necessarily hold, and no source places them outside the regime.
-* **Nominal** — inside the claimed territory and listed in the regime's own
-  administrative tables, but not under its authority on the ground.
 
-**Reading the zones.** Three different things get called "control" here and
-they should not be shaded alike:
+**Reading the map.** One zone, one shade. Everything inside was under Japanese
+or Mengjiang authority; what that authority consisted of varied enormously
+across it, and the tables below are where that variation is recorded rather
+than in the shading. Along the railway it meant garrisons, tax collection and a
+civil administration; out on the Chahar, Shilingol and Ulanchab steppe it meant
+a banner office with a Japanese adviser and a post on the route.
 
-* **Core** — effective administration. The Pingsui railway corridor, the
-  Bayantala plain, and the two Han-majority puppet provinces of South Chahar
-  and North Shanxi. Garrisons, tax collection, a civil administration.
-* **Steppe** — the Chahar, Shilingol and Ulanchab leagues. Administered through
-  Mongol banner offices with Japanese advisers, with a garrison presence that
-  amounted to posts on the routes rather than occupation. Real authority, thin
-  on the ground, and rarely contested because there was nobody there to contest
-  it.
-* **Claimed** — the Hetao and the Ordos. In the regime's administrative tables
-  and on its published maps, never under its authority. See `report.md` §4: the
-  regime's own cartographers drew the territory it actually held into Bayantala
-  League and left "Ikh Juu League" as, in effect, a label for what it did not
-  control.
+The one addition is the Hetao salient of February–March 1940, drawn separately
+because it was held for six weeks and at no other time.
 
-A fourth category cuts across the first: the **Daqingshan**, from 1938, where
-Japanese authority existed when a column was physically present and not
-otherwise.
+Two things are deliberately not drawn.
+
+* **The Daqingshan.** The base area is carried by the events themselves — the
+  march in, the sweeps, the sub-district, the worst year — which locate it
+  better than a shaded band could, and a band drawn across the middle of the
+  zone invites the reading that everything outside it was quiet, which is
+  false.
+* **Territory the regime listed but never held** — the Hetao and the Ordos.
+  Discussed in `report.md` §4, where it matters. Drawing it only muddles the
+  question this file is trying to answer, which is what was actually held.
+
+Instead, the map carries a **toggleable overlay of the Suiyuan and Chahar
+provincial boundaries**, so the zone can be read against the real administrative
+geography: where the zone stops short of the province, where it crosses one,
+and where the two coincide.
 
 Unless a date is given, each list is the position at 31 December of that year.
 Modern names follow in brackets where the name changed.
@@ -106,7 +109,7 @@ The Chahar Operation, 9 August to 17 October, produces the shape that holds for
 the next eight years. From this year on the list is long, because the occupation
 now consists of county towns.
 
-### Core — South Chahar (察南, from 1943 Xuanhua province)
+### South Chahar (察南, from 1943 Xuanhua province)
 
 | Settlement | Status | Basis |
 |---|---|---|
@@ -117,7 +120,7 @@ now consists of county towns.
 | Zhuolu 涿鹿, Yanqing 延慶, Chicheng 赤城, Longguan 龍關, Yangyuan 陽原, Huai'an 懷安 | Likely | South Chahar counties, in the Zhangjiakou basin behind the front |
 | Yu county 蔚縣 | **Contested** | Taken by Yang Chengwu's independent regiment 26 Oct 1937; inside the puppet province's nominal territory but a Communist foothold |
 
-### Core — North Shanxi (晋北, from 1943 Datong province)
+### North Shanxi (晋北, from 1943 Datong province)
 
 | Settlement | Status | Basis |
 |---|---|---|
@@ -125,7 +128,7 @@ now consists of county towns.
 | Yanggao 陽高, Tianzhen 天鎮 | Likely | On the Pingsui line between Zhangjiakou and Datong; taken in the same advance |
 | Huairen 懷仁, Shanyin 山陰, Yingxian 應縣, Hunyuan 渾源, Guangling 廣靈, Lingqiu 靈丘, Zuoyun 左雲, Youyu 右玉, Shuoxian 朔縣, Pinglu 平魯 | Likely | The thirteen North Shanxi counties |
 
-### Core — Bayantala League (Suiyuan plain)
+### Bayantala League (Suiyuan plain)
 
 | Settlement | Status | Basis |
 |---|---|---|
@@ -136,7 +139,7 @@ now consists of county towns.
 | Jining 集寧 | Confirmed | Taken September 1937; no exact day attested |
 | Xinghe 興和, Taolin 陶林, Liangcheng 涼城, Togtoh 托克托, Horinger 和林格爾, Qingshuihe 清水河, Wuchuan 武川, Guyang 固陽 | Likely | The twelve Bayantala counties; Wuchuan and Guyang sit at the foot of the Daqingshan and will be the contested edge |
 
-### Steppe — Chahar, Ulanchab and Shilingol Leagues
+### Chahar, Ulanchab and Shilingol Leagues
 
 | Settlement | Status | Basis |
 |---|---|---|
@@ -145,8 +148,9 @@ now consists of county towns.
 | Bailingmiao 百霊廟 | Likely | Ulanchab League office under Mengjiang; recovered in the general advance of autumn 1937 |
 | Sunid Left Banner 蘇尼特左旗 | Likely | Shilingol League office until June 1940 |
 
-Zones: **core** along the corridor and the two puppet provinces; **steppe**
-across the three leagues; the Hetao and the Ordos are outside everything.
+This is the zone as drawn: the corridor, the two puppet provinces and the three
+leagues, from the Great Wall below Datong to the Outer Mongolian border. The
+Hetao and the Ordos are outside it, and stay outside it.
 
 ---
 
@@ -172,13 +176,11 @@ Territorially identical again. On 1 September the three governments merge into
 the Mengjiang United Autonomous Government, capital **Zhangjiakou**, with five
 leagues, two administrative offices and two special cities.
 
-This is the year the claim and the control diverge on paper, so from here the
-third zone is worth drawing:
-
-| Nominal territory | Status | Basis |
-|---|---|---|
-| Wuyuan 五原, Linhe 臨河, Anbei 安北, Micang 米倉, Langshan 狼山, Yanjiang 晏江 | Nominal | The Hetao. Under the Nationalist Eighth War Zone; the Suiyuan provincial government sits at **Shanba** 陝壩 from this year |
-| Dongsheng 東勝 and the Ikh Juu banners | Nominal | The Ordos. Never occupied |
+Outside the zone, and staying outside it: the Hetao — Wuyuan 五原, Linhe 臨河,
+Anbei 安北, Micang 米倉, Langshan 狼山, Yanjiang 晏江 — under the Nationalist
+Eighth War Zone, with the Suiyuan provincial government at **Shanba** 陝壩 from
+this year; and the Ordos, Dongsheng 東勝 and the Ikh Juu banners, never
+occupied. Both appear in Mengjiang's administrative tables. Neither is drawn.
 
 Fu Zuoyi's raid on Baotou, 17–24 December, is driven off. Baotou remains
 Japanese.
@@ -193,7 +195,7 @@ The only year in which the core zone changes shape, and it changes back.
 |---|---|---|
 | Wuyuan 五原 | **Held 3 Feb – 20 Mar 1940** | Taken in the Hetao offensive of 28 Jan; retaken by Fu Zuoyi on 20 March, the Japanese special-service agency of about 34 men destroyed |
 | Linhe 臨河 | **Held Feb – Mar 1940** | Taken with Wuyuan; recovered in the same operation |
-| Shanba 陝壩 | Not taken | The Nationalist provincial capital holds throughout |
+| Shanba 陝壩 | Disputed | Treated here as not taken — the Eighth War Zone's deputy headquarters and the provincial government functioned there throughout. But Chinese accounts of the March counter-attack list Shanba among the places Fu Zuoyi "recovered", alongside Linhe and the two Wuyuan towns, which would mean it changed hands too. It sits just outside the drawn salient; at this scale the distinction is about ten kilometres |
 | Beise Temple 貝子廟 [Xilinhot] | Likely | Shilingol League office moves here from Sunid Left Banner in June 1940 |
 
 The Japanese main force withdrew east to its start line around 1 March, before
@@ -285,6 +287,64 @@ Pingsui railway campaign of 18 October – 14 December.
 
 The map for 1945 shows the position on the eve of 11 August, which is the
 position the occupation held for its last five years.
+
+---
+
+## How the polygons were drawn
+
+The zone in `suiyuan-history.html` is not freehand. It is Suiyuan and Chahar
+provinces entire, plus the North Shanxi counties, unioned into a single polygon
+and then cut. The provincial rings come from the `1928-45` layer of the Modern
+East Asia GIS *China Provincial Boundaries* set, already in WGS84. Wherever an
+edge is a real boundary it *is* the real boundary, vertex for vertex: the whole
+northern side is the exact border with Outer Mongolia, and the eastern edge
+against Manchukuo, the Chahar–Hebei line, and the Suiyuan–Shanxi line down the
+Yellow River are all as surveyed. The same rings, untouched, are what the
+province overlay draws.
+
+Four cuts are made against that union. Only these are drawn rather than
+surveyed.
+
+1. **The inner Great Wall** — Ningwu, Yanmen, Pingxing — as the southern limit
+   of the North Shanxi counties. This is what the *Mengjiang Regional Map*
+   itself follows along the south, and it is why the zone dips below Datong and
+   notches back up around Shuozhou. Kept angular: it is a real line on the
+   ground, and rounding it would be a falsification. Its eastern end stops at
+   the limit of Lingqiu county rather than running on to Zijingguan, because
+   the boundary file's Shanxi polygon reaches over Laiyuan, which was Hebei.
+2. **The Yellow River**, traced from Baotou east to the Hekou bend at Togtoh,
+   where the river turns south and the Suiyuan–Shanxi provincial boundary takes
+   over. The trace runs slightly north of the true bank, which correctly leaves
+   the thin north-bank strip of Dalad and Jungar banners inside the zone — the
+   part of the Ordos Mengjiang did administer.
+3. **A rounded cap west of Baotou.** Control ended a short way past the
+   railhead. Nothing here is a boundary of any kind, so it is drawn as a curve
+   rather than a ruled meridian.
+4. **The eastern limit** (below), rounded for the same reason.
+
+The **eastern edge follows the Mengjiang map rather than the boundary file.**
+The file carries Chahar province well east of anything the regime administered
+and throws out a lobe toward Chengde — Fengning and Luanping, which were Rehe
+and so Manchukuo. That lobe does not appear on the Mengjiang map and is not
+drawn here.
+
+The rule applied throughout: what the Mengjiang map shows as inside is kept,
+and no more; what it claims but the regime never held — the Hetao west of
+Baotou, and the Ordos — is left out; elsewhere the shape is preserved, and
+corners are rounded unless they follow an actual provincial boundary or the
+Wall.
+
+All forty-four settlements listed above as held were tested by point-in-polygon
+against the zone, and all fall inside it. So were seventeen negative controls —
+Shanba, Dongsheng, Uxin, Ejin Horo, Wutai, Fuping, Daixian, Ningwu, Hequ,
+Baode, Fanshi, Laiyuan, Chengde, Fengning, Luanping, and Wuyuan and Linhe
+outside their six weeks — and all fall outside it.
+
+The extent follows `Mengjiang_North_Shanxi_South_Chahar_Map_c1937-1939.png`,
+the regime's own *Mengjiang Regional Map*, with the internal geography checked
+against `Administrative_map_of_the_United_Mongol_Autonomous_Government.png`.
+Both are in this directory. What that map shows as inside is kept and no more;
+what it claims but the regime never held is left out.
 
 ---
 

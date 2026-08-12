@@ -340,6 +340,16 @@ weight than everything else here and is the basis for section 4 of the report.
   * NK 49-7 WU-YUAN — the Hetao front.
   * NK 49-11 KUEI-SUI — the Daqingshan and the railway corridor.
 
+### Boundary data
+
+* **Modern East Asia GIS, *China Provincial Boundaries*, `1928-45` layer.**
+  ESRI shapefile, WGS84, 29 provincial polygons with name fields for five
+  periods (`p_12_21`, `p_22_28`, `p_28_45`, `p_45_46`, `p_47_49`). Local copy
+  at `~/Library/CloudStorage/Dropbox/GIS/Modern East Asia GIS/China Provincial
+  Boundaries/1928-45.zip`. The Chahaer, Suiyuan and Shanxi polygons are the
+  base geometry for every control zone in `suiyuan-history.html`; see
+  `range-report.md` for the cuts applied to them.
+
 ### Maps identified but not obtained
 
 Recorded here so the trail is not lost. All five Mengjiang administrative maps
