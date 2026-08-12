@@ -394,7 +394,11 @@ FULL_DETAIL = {"korea", "saharat", "princely"} | ENP_ATOMS
 # underneath is a second, coarser drawing of the same coast — which showed as a
 # double line whenever the selection was outlined. Korea has been doing this
 # from the start, for the same reason.
-BACKING_FROM_SUBUNITS = {"philippines"}
+# Malaya and North Borneo joined it when a reader found Penang drawn twice:
+# Natural Earth's coast and geoBoundaries' states disagree, and a third of what
+# the filler covered no state did, so the state's own outline fell inside the
+# island rather than on its edge and read as a second coastline.
+BACKING_FROM_SUBUNITS = {"philippines", "malaya", "northborneo"}
 
 # Saharat Thai Doem: the Shan states east of the Salween — Kengtung and part
 # of Mongpan — occupied and administered by Thai forces from 1942 and formally
@@ -1773,7 +1777,12 @@ def main():
             continue
         if admin == "Malaysia":
             for ring in iter_rings(feat["geometry"]):
-                backing[malaysia_backing(ring)].append(ring)
+                # Malaysia has its own branch, so it never met the test below
+                # that keeps a foreign outline from being laid under states
+                # that are already the finer source of the same coast
+                key = malaysia_backing(ring)
+                if key not in BACKING_FROM_SUBUNITS:
+                    backing[key].append(ring)
             continue
         splitter = SPLITTERS.get(admin)
         if splitter:

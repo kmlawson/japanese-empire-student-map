@@ -87,6 +87,33 @@ def thin(pts, tol):
     return [p for p, k in zip(pts, keep) if k]
 
 
+def keep_whole_islands(segs, wanted):
+    """Extend a selection to every piece of the same coastline.
+
+    The sources cap a line at a thousand vertices, so an island's coast is a
+    run of open pieces that only mean anything joined end to end. Keeping the
+    pieces that fall in a window and dropping the rest breaks the run: New
+    Britain, the largest island in the Pacific file at 35,592 km², reaches
+    148.31 E and the window began at 148.50, so one piece of it was dropped,
+    the ring would not close, and the whole island silently disappeared from
+    the map. Anything sharing an endpoint with something wanted is wanted too.
+    """
+    ends = {}
+    for i, s in enumerate(segs):
+        for p in (tuple(s[0]), tuple(s[-1])):
+            ends.setdefault(p, []).append(i)
+    keep = set(wanted)
+    stack = list(wanted)
+    while stack:
+        i = stack.pop()
+        for p in (tuple(segs[i][0]), tuple(segs[i][-1])):
+            for j in ends.get(p, ()):
+                if j not in keep:
+                    keep.add(j)
+                    stack.append(j)
+    return keep
+
+
 def main():
     for trimmed, _ in FINE_FILES:
         src = os.path.join(CACHE, trimmed.replace("-islands.geojson", ".geojson"))
@@ -95,34 +122,55 @@ def main():
             continue
         with open(src) as fh:
             data = json.load(fh)
-        feats, lines, verts = [], 0, 0
+        # Every line in the file, flat, so the open pieces of one coastline can
+        # be followed from one to the next whichever feature they arrived in
+        segs, closed_of = [], []
         for f in data["features"]:
             g = f.get("geometry") or {}
-            segs = g.get("coordinates") or []
+            got = g.get("coordinates") or []
             if g.get("type") == "LineString":
-                segs = [segs]
+                got = [got]
             elif g.get("type") != "MultiLineString":
                 continue
-            keep = []
-            for s in segs:
-                if len(s) < 3 or not in_windows(s):
+            for s in got:
+                if len(s) < 3:
                     continue
                 pts = [(c[0], c[1]) for c in s]
-                closed = pts[0] == pts[-1]
-                # a ring the build would drop as a speck need not be carried;
-                # open pieces are all kept, because they have to stitch
-                if closed and km2(pts) < FINE_MIN_KM2:
-                    continue
-                simp = thin(pts, PRE_TOL)
-                if closed and simp[0] != simp[-1]:
-                    simp.append(simp[0])
-                keep.append([[round(x, 6), round(y, 6)] for x, y in simp])
-                lines += 1
-                verts += len(simp)
-            if keep:
-                feats.append({"type": "Feature", "properties": {},
-                              "geometry": {"type": "MultiLineString",
-                                           "coordinates": keep}})
+                segs.append(pts)
+                closed_of.append(pts[0] == pts[-1])
+
+        wanted = set()
+        for i, pts in enumerate(segs):
+            if not in_windows(pts):
+                continue
+            # a ring the build would drop as a speck need not be carried at all
+            if closed_of[i] and km2(pts) < FINE_MIN_KM2:
+                continue
+            wanted.add(i)
+        # and with them, the rest of any coastline they are part of
+        opens = [i for i, c in enumerate(closed_of) if not c]
+        if opens:
+            sub = [segs[i] for i in opens]
+            back = {n: i for n, i in enumerate(opens)}
+            picked = keep_whole_islands(
+                sub, {n for n, i in back.items() if i in wanted})
+            for n in picked:
+                wanted.add(back[n])
+
+        feats, lines, verts = [], 0, 0
+        keep = []
+        for i in sorted(wanted):
+            pts = segs[i]
+            simp = thin(pts, PRE_TOL)
+            if closed_of[i] and simp[0] != simp[-1]:
+                simp.append(simp[0])
+            keep.append([[round(x, 6), round(y, 6)] for x, y in simp])
+            lines += 1
+            verts += len(simp)
+        if keep:
+            feats.append({"type": "Feature", "properties": {},
+                          "geometry": {"type": "MultiLineString",
+                                       "coordinates": keep}})
         dst = os.path.join(CACHE, trimmed)
         with open(dst, "w") as fh:
             json.dump({"type": "FeatureCollection", "features": feats}, fh,
