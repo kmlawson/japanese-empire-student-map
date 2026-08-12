@@ -10,9 +10,6 @@ describing what was actually changed, before it is marked done.
 - **The sources page in the standalone build.** `sources.html` is a separate
   file, so the link from About does not resolve in the single-file build. Either
   inline it or drop the link there.
-- **Korea–Manchuria gap.** Korea's period boundary is finer than Manchuria's, so
-  a strip of the neutral land colour shows between them along the Yalu and the
-  Tumen. Manchuria's side has to reach Korea's line.
 - **Bohai.** A wedge of Republic-of-China yellow along the Liaotung coast where
   the occupied shading falls short, and an island in the gulf drawn in the
   "elsewhere" grey instead of belonging to anything.
@@ -52,6 +49,48 @@ describing what was actually changed, before it is marked done.
 ---
 
 ## Done
+
+### Manchuria reaches Korea along the Yalu and the Tumen
+Korea is drawn from a period map of its thirteen provinces and Manchuria from
+the ENP-China provinces, and the two files put the rivers in slightly different
+places, so bare land colour showed between them down the whole frontier — a
+scan of the boundary in one-kilometre steps found eighty-seven columns of it,
+the widest forty-one kilometres. Korea's line is the better one and was to be
+kept, so `add_frontier_seam()` in `tools/build_map.py` makes Manchuria reach it:
+Korea's own frontier vertices are the seam's inner edge and the same vertices
+pushed outward are its outer edge, far enough at each point to bury Manchuria's
+line. The same scan now finds none.
+
+Four things had to be got right and each was wrong first:
+
+- The seam goes to the **filler**, not into `backing`. Manchuria has no Natural
+  Earth outline there, so the filler falls back to the union of its provinces —
+  and putting a key in `backing` replaced all of Manchuria with the seam alone,
+  which turned Manchukuo into "Elsewhere" grey.
+- It is **wound the way Manchuria winds**. It overlaps rather than abuts, and
+  paths fill by the nonzero rule, so a ring wound the other way cancelled the
+  overlap and punched a hole down the whole frontier.
+- It is **not simplified**, and it is not in the atom's own geometry. Its inner
+  edge is Korea's boundary exactly; thinning it moves that edge off the line it
+  was built to meet, and a copy in the atom is stroked on selection as a second
+  outline a few kilometres inside Korea.
+- The **tangent is measured over about nine kilometres**, not from the next
+  vertex along. Korea is drawn at the full detail of its source, so consecutive
+  vertices are a few hundred metres apart and the vertex-to-vertex direction
+  swings wildly along a ragged estuary: the first version fanned out into Korea
+  Bay in a starburst of red triangles.
+
+The seam is only allowed to reach from Korea into Manchuria — the far end must
+be out of Korea, inside Manchuria and still beside the river — and where none of
+that holds it shrinks to nothing and the strip is broken there rather than
+carried on as a hairline. That covers the islands of the Yalu estuary, where
+outward is open water, and the stretch near Paektu where the corridor contains a
+boundary between two Korean provinces.
+
+`YALU_TUMEN` is the trace that says which part of Korea's outline is frontier
+and not coast. Its first version cut the corner above Manpojin and missed the
+loop north to Chunggangjin and Linjiang, leaving that stretch of the frontier
+outside the corridor and unfixed; it follows the river now.
 
 ### Every princely state names itself
 Half the layer was answering with nothing. `PRINCELY_NAMES` identified twenty of

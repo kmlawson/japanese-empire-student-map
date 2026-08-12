@@ -871,6 +871,217 @@ def dissolve(rings, quant=1e6):
     return out or None
 
 
+# The Yalu and the Tumen, west to east — the land frontier between Korea and
+# Manchuria, from the mouth at Antung to the last bend above the Soviet corner.
+# It is used only to say which stretch of Korea's outline is the frontier and
+# not the coast; the seam itself is computed from Korea's own vertices, so the
+# trace need only be right to within the corridor radius below. It stops at
+# 130.45 E because the last twenty kilometres of the Tumen are Korea's border
+# with the Soviet Union, not with Manchuria.
+YALU_TUMEN = [
+    # the Yalu: Sinuiju, Sakchu, Chosan, Manpojin, then the loop north to
+    # Chunggangjin and Linjiang before it turns back south-east for Hyesan
+    (124.36, 39.82), (124.55, 39.95), (124.80, 40.10), (125.05, 40.25),
+    (125.35, 40.40), (125.60, 40.60), (125.85, 40.85), (126.10, 41.00),
+    (126.30, 41.10), (126.50, 41.45), (126.65, 41.65), (126.85, 41.80),
+    (127.10, 41.70), (127.40, 41.60), (127.75, 41.50), (128.05, 41.42),
+    # over the Paektu watershed and down the Tumen: Musan, Hoeryong, Onsong
+    (128.10, 41.75), (128.10, 42.02), (128.50, 42.02), (128.95, 42.05),
+    (129.35, 42.25), (129.75, 42.44), (130.00, 42.70), (130.05, 42.95),
+    (130.25, 42.90), (130.45, 42.70),
+]
+FRONTIER_RADIUS = 0.40     # degrees; how far off the trace a vertex may lie
+FRONTIER_MIN = 0.14        # degrees; the thinnest the seam is ever drawn,
+                           # wide enough to survive the filler's own thinning
+FRONTIER_MAX = 0.60        # degrees; wider than this and it is not a seam
+FRONTIER_NIL = 0.02        # degrees; below this the seam is not drawn at all
+
+
+def _seg_dist(p, a, b):
+    """Distance from p to the segment ab, in degrees."""
+    (px, py), (ax, ay), (bx, by) = p, a, b
+    dx, dy = bx - ax, by - ay
+    if dx == 0 and dy == 0:
+        return math.hypot(px - ax, py - ay)
+    t = ((px - ax) * dx + (py - ay) * dy) / (dx * dx + dy * dy)
+    t = max(0.0, min(1.0, t))
+    return math.hypot(px - (ax + t * dx), py - (ay + t * dy))
+
+
+def add_frontier_seam(groups):
+    """Close the gap between Korea's boundary and Manchuria's.
+
+    Korea is drawn from a period map of its thirteen provinces and Manchuria
+    from the ENP-China provinces; the two files put the Yalu and the Tumen in
+    slightly different places, so a strip of bare land colour shows between
+    them for the whole length of the frontier — up to forty kilometres of it.
+    Korea's line is the better one and stays, so Manchuria has to reach it: a
+    strip is built with Korea's own frontier vertices as its inner edge and
+    those vertices pushed outward far enough to bury Manchuria's line as its
+    outer one. Because the inner edge is Korea's line exactly, the seam cannot
+    spill onto the Korean side, and Manchuria's outline still runs where the
+    frontier runs.
+
+    Returns the seam rings by atom, for the filler to add to whatever it is
+    already building itself from. They must not go into `backing` directly:
+    Manchuria has no Natural Earth outline there and the filler falls back to
+    the union of its provinces, which putting a key in `backing` would silently
+    replace with the seam alone.
+    """
+    seams = collections.defaultdict(list)
+    korea, manch = groups.get("korea"), groups.get("manchuria")
+    if not korea or not manch:
+        return seams
+    # Korea is thirteen provinces, not one outline, so the frontier is shared
+    # out between the four northern ones and has to be picked up ring by ring
+    mvert = [p for r in manch for p in r]
+    ref_wind = signed_ring_area(max(manch, key=len))
+
+    def on_frontier(p):
+        return min(_seg_dist(p, YALU_TUMEN[j], YALU_TUMEN[j + 1])
+                   for j in range(len(YALU_TUMEN) - 1)) <= FRONTIER_RADIUS
+
+    def outside_korea(p):
+        return not any(point_in_ring(p, r) for r in korea)
+
+    def inside_manchuria(p):
+        return any(point_in_ring(p, r) for r in manch)
+
+    for ring in korea:
+        n = len(ring)
+        if n < 8:
+            continue
+        mark = [i for i in range(n) if on_frontier(ring[i])]
+        if len(mark) < 4:
+            continue
+        marked = set(mark)
+        # unbroken stretches of the ring, read cyclically
+        runs, seen = [], set()
+        for i in mark:
+            if i in seen or (i - 1) % n in marked:
+                continue
+            run, j = [], i
+            while j in marked and len(run) < n:
+                run.append(j)
+                seen.add(j)
+                j = (j + 1) % n
+            runs.append(run)
+        if not runs and mark:                        # the whole ring qualifies
+            runs = [mark]
+
+        for run in runs:
+            if len(run) < 4:
+                continue
+            arc = [ring[i] for i in run]
+
+            # The tangent is taken over a couple of kilometres rather than from
+            # the neighbouring vertex. Korea is drawn at the full detail of its
+            # source, so consecutive vertices are a few hundred metres apart
+            # and the vertex-to-vertex direction swings through half a turn
+            # along a ragged estuary; a normal built from it fans the seam out
+            # into the sea in a starburst.
+            def normal(k, arc=arc):
+                def reach(step):
+                    j, p0 = k, arc[k]
+                    for _ in range(40):
+                        n2 = j + step
+                        if n2 < 0 or n2 >= len(arc):
+                            break
+                        j = n2
+                        if math.hypot(arc[j][0] - p0[0], arc[j][1] - p0[1]) >= 0.08:
+                            break
+                    return arc[j]
+                a, b = reach(-1), reach(1)
+                dx, dy = b[0] - a[0], b[1] - a[1]
+                h = math.hypot(dx, dy) or 1.0
+                return (dy / h, -dx / h)
+
+            def near_corridor(p, slack):
+                return min(_seg_dist(p, YALU_TUMEN[j], YALU_TUMEN[j + 1])
+                           for j in range(len(YALU_TUMEN) - 1)) <= slack
+
+            widths = []
+            for k, p in enumerate(arc):
+                near = min(math.hypot(p[0] - q[0], p[1] - q[1]) for q in mvert)
+                w0 = min(FRONTIER_MAX, max(FRONTIER_MIN, near * 1.25))
+                nx, ny = normal(k)
+                # The seam is only ever allowed to reach from Korea into
+                # Manchuria: the far end of it has to be out of Korea, in
+                # Manchuria, and still beside the river. Where neither side
+                # qualifies — the outward side is the next Korean province,
+                # which happens along the stretch of provincial boundary inside
+                # the corridor near Paektu, or it is open water, which is what
+                # lies outward from the islands in the Yalu estuary — the strip
+                # shrinks away to nothing instead of striking out across the
+                # bay. Which side is outward is asked at every vertex rather
+                # than once for the run: a run can turn a corner, and one
+                # answer for the whole of it collapses the half it is wrong for.
+                best = (0.0, p)
+                for sign in (1.0, -1.0):
+                    w = w0
+                    while w > FRONTIER_NIL:
+                        q = (p[0] + sign * nx * w, p[1] + sign * ny * w)
+                        if outside_korea(q) and inside_manchuria(q) and \
+                                near_corridor(q, FRONTIER_RADIUS + w):
+                            break
+                        w *= 0.5
+                    if w > best[0]:
+                        best = (w, (p[0] + sign * nx * w, p[1] + sign * ny * w))
+                widths.append((p, best[1], best[0]))
+
+            # A run can be part frontier and part coastline. Break it where the
+            # strip has shrunk to nothing rather than carrying a hairline
+            # through: a hairline fills no crack and is drawn as a little loop
+            # of its own the moment Manchuria is selected.
+            piece = []
+            for p, q, w in widths + [(None, None, 0.0)]:
+                if w > FRONTIER_NIL:
+                    piece.append((p, q))
+                    continue
+                if len(piece) >= 4:
+                    seam = [a for a, _ in piece] + [b for _, b in reversed(piece)]
+                    # The seam overlaps Manchuria's own polygons rather than
+                    # abutting them, and paths are filled by the nonzero rule:
+                    # a ring wound the other way would cancel the overlap and
+                    # punch a hole in the country along the whole frontier.
+                    # Wind it the way Manchuria winds.
+                    if signed_ring_area(seam) * ref_wind < 0:
+                        seam.reverse()
+                    # the filler only: the atom's own outline is Manchuria's own
+                    # data, and a seam in it would be stroked on selection as a
+                    # second line a few kilometres inside Korea
+                    seams["manchuria"].append(seam)
+                piece = []
+    if not seams:
+        sys.stderr.write("note: no Korea/Manchuria frontier found, seam skipped\n")
+    return seams
+
+
+def signed_ring_area(ring):
+    """Twice the signed area: the sign is the ring's winding direction."""
+    s = 0.0
+    n = len(ring)
+    for i in range(n):
+        x0, y0 = ring[i]
+        x1, y1 = ring[(i + 1) % n]
+        s += x0 * y1 - x1 * y0
+    return s
+
+
+def point_in_ring(p, ring):
+    x, y = p
+    inside = False
+    n = len(ring)
+    for i in range(n):
+        x0, y0 = ring[i]
+        x1, y1 = ring[(i + 1) % n]
+        if (y0 > y) != (y1 > y):
+            xi = x0 + (y - y0) * (x1 - x0) / (y1 - y0)
+            if x < xi:
+                inside = not inside
+    return inside
+
+
 def simplify(points, tol):
     if len(points) < 3:
         return points
@@ -1912,6 +2123,8 @@ def main():
             if out_paths:
                 rivers[key] = "".join(out_paths)
 
+    seam_rings = add_frontier_seam(groups)
+
     # ---- dissolve, project, clip, simplify --------------------------------
     frame = box_planes(LON_MIN, LAT_MIN, LON_MAX, LAT_MAX)
     paths, dots, anchors, stats, hits = {}, {}, {}, [], {}
@@ -2069,6 +2282,15 @@ def main():
                 pts = simplify(pts, btol)
             if len(pts) >= 3 and ring_area(pts) >= sub_min_area(key):
                 pieces.append(ring_to_path(pts))
+        # A frontier seam is drawn exactly as computed. One edge of it is the
+        # neighbour's own boundary, so thinning it would move that edge off the
+        # line it was built to meet and reopen the crack it exists to close;
+        # and it is added after the dissolve because it overlaps rather than
+        # abuts, which the dissolve cannot make sense of.
+        for ring in seam_rings.get(key, []):
+            ring = clip_halfplanes(normalise_ring(ring), frame)
+            if len(ring) >= 3:
+                pieces.append(ring_to_path([project(x, y) for x, y in ring]))
         return "".join(pieces)
 
     def province_paths(key):
