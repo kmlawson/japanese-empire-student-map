@@ -400,6 +400,19 @@ FULL_DETAIL = {"korea", "saharat", "princely"} | ENP_ATOMS
 # island rather than on its edge and read as a second coastline.
 BACKING_FROM_SUBUNITS = {"philippines", "malaya", "northborneo"}
 
+# Sub-units that belong together and should light up together. Hovering
+# Singapore lit the whole Malay peninsula, which says the wrong thing: the
+# Straits Settlements were a Crown colony of four scattered pieces, and the
+# states around them were protectorates that were never British soil. Lighting
+# the colony rather than the peninsula is the distinction the map is for.
+SUB_CLUSTERS = {
+    ("malaya", "Singapore"): "Straits Settlements",
+    ("malaya", "Penang"): "Straits Settlements",
+    ("malaya", "Malacca"): "Straits Settlements",
+    ("malaya", "Dindings"): "Straits Settlements",
+    ("northborneo", "Labuan"): "Straits Settlements",
+}
+
 # Saharat Thai Doem: the Shan states east of the Salween — Kengtung and part
 # of Mongpan — occupied and administered by Thai forces from 1942 and formally
 # handed to Thailand by Japan in August 1943. Taken district by district rather
@@ -2629,6 +2642,9 @@ def main():
                 # an unnamed leftover gets no attribute at all: an empty one
                 # reads as a sub-unit that can never be named or outlined
                 attr = f' data-prov="{esc(pname)}"' if pname else ""
+                cluster = SUB_CLUSTERS.get((key, pname))
+                if cluster:
+                    attr += f' data-cluster="{esc(cluster)}"'
                 sink.append(f'      <path{attr} d="{pd}"/>')
             if sink is admin_out:
                 sink.append("  </g>")

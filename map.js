@@ -1288,11 +1288,34 @@
 
   /* Light up every atom of the territory under the pointer, not just the one
    * polygon it happens to be over. */
-  function setHot(id) {
-    if (hot === id) return;
-    if (hot) (atomsOf[hot] || []).forEach(function (el) { el.classList.remove('hot'); });
+  /* Sub-units that belong together and light up together. Hovering Singapore
+     lit the whole Malay peninsula, which says the wrong thing: the Straits
+     Settlements were a Crown colony of four scattered pieces, and the states
+     around them were protectorates that were never British soil. */
+  var hotCluster = null;
+
+  function clusterOf(el) {
+    if (!el || !el.getAttribute) return null;
+    var name = el.getAttribute('data-cluster');
+    if (!name) return null;
+    var atom = el.closest && el.closest('.atom');
+    if (!atom) return null;
+    var out = [];
+    $$('[data-cluster]', atom).forEach(function (n) {
+      if (n.getAttribute('data-cluster') === name) out.push(n);
+    });
+    return out.length ? out : null;
+  }
+
+  function litFor(id) { return hotCluster || atomsOf[id] || []; }
+
+  function setHot(id, cluster) {
+    cluster = cluster || null;
+    if (hot === id && hotCluster === cluster) return;
+    litFor(hot).forEach(function (el) { el.classList.remove('hot'); });
     hot = id;
-    if (hot) (atomsOf[hot] || []).forEach(function (el) { el.classList.add('hot'); });
+    hotCluster = cluster;
+    litFor(hot).forEach(function (el) { el.classList.add('hot'); });
     redrawHighlight();
   }
 
@@ -1350,8 +1373,9 @@
     var got = pick(e.target, e.clientX, e.clientY);
     var hit = got && got.hit;
     if (!hit) { setHot(null); setHotProv(null); hideTooltip(); return; }
-    setHot(hit.rec.kind === 'territory' ? hit.rec.id : null);
     var prov = hit.rec.kind === 'territory' ? provinceAt(got, e.clientX, e.clientY) : null;
+    setHot(hit.rec.kind === 'territory' ? hit.rec.id : null,
+           prov && clusterOf(prov.el));
     lastProv = prov;
     setHotProv(prov ? prov.el : null);
     showTooltip(hit.rec, e.clientX, e.clientY, prov);
@@ -1529,7 +1553,8 @@
 
   function redrawHighlight() {
     clearHighlight();
-    if (hot && atomsOf[hot]) outlineOf(atomsOf[hot], 'hi-territory');
+    if (hotCluster) outlineOf(hotCluster, 'hi-territory');
+    else if (hot && atomsOf[hot]) outlineOf(atomsOf[hot], 'hi-territory');
     if (hotProv) outlineOf([hotProv], 'hi-province');
     if (selected && atomsOf[selected]) outlineOf(atomsOf[selected], 'hi-selected');
   }

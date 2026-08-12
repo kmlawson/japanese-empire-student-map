@@ -1121,3 +1121,8 @@ dialog h3 {
 /* The fine coastlines carry no colour of their own — they are their atom's
    shapes, drawn better. */
 .atom > path.fine { vector-effect: non-scaling-stroke; }
+
+/* Sub-units lit as a group: the Straits Settlements when the pointer is on one
+   of them. The rule above matches the atom itself, which is what lights a whole
+   country; these are paths inside an atom and need saying separately. */
+.atom > path.hot { filter: brightness(1.12); }

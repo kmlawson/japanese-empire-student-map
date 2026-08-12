@@ -7,6 +7,12 @@ describing what was actually changed, before it is marked done.
 
 ## Open
 
+- **A starburst of thin lines in the Johor Strait**, about 103.60 E, 1.47 N,
+  visible without hovering anything. It is an unnamed leftover path inside
+  `a-malaya` — the block of Malaysia that matched no state — and its geometry is
+  spiky there. It predates the Straits Settlements work and was found while
+  checking it.
+
 - **Kwangchowwan** — needs a period source after all. Diagnosed properly this
   time. The leasehold's own file holds six separate pieces round Guangchow Bay,
   and the yellow between them is not a leak: it is ENP's Kwangtung, whose
