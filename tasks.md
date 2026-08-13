@@ -146,6 +146,73 @@ rather than a tweak, and none of it is started.
 
 ## Done
 
+### A second source for China's provinces, and a switch between them
+The answer to "is there a better GIS source for Republican provinces that is
+also fine along the coast" turned out to be yes, and not from any of the
+institutional projects — CHGIS stops at 1911, Academia Sinica's vectors stop at
+the Qing and forbid web use, and the China Data Center's 1:100,000 sheets are
+campus-only. It is a Wikimedia Commons SVG by user Lilauid, traced from the AMS
+1:250,000 China series, CC BY-SA 4.0.
+
+It is a drawing and not a dataset: no coordinate system, boundaries as open
+arcs, areas nowhere at all. `tools/roc_provinces.py` does three things to it.
+
+**Georeferenced** from the frame its base map states — equidistant conic,
+central meridian 104 E, central parallel 36 N, standard parallels 30 and 42 N,
+the central meridian running 57.0 N at the top of the frame to 17.96 N at the
+bottom. That fixes the scale at 4,618.1 m to the SVG unit and checks itself: it
+puts 37°28.8′ at the vertical centre against the 37°29′ the page states. Two
+things the page does not give were fitted against Natural Earth's coastline —
+the central meridian sits 12.0 units right of the viewBox centre and the frame
+top is 2,500 m north of 57.0 N. The scale needed no adjustment at all, which is
+the sign of a model rather than a curve fit. Result: **the drawn coastline lands
+a median of 0.59 km from Natural Earth's, p90 1.10.**
+
+**Polygonised** by noding 省界, 國界 and 海岸線 into a planar arrangement —
+65,734 segments — and traversing its faces. Seven coastal provinces do carry
+closed fills, but the interior ones are lines only, so the general answer was
+needed rather than a special case.
+
+**Named** by asking ENP which province each face's interior point falls in.
+ENP's positions are the thing being replaced; its identities are right, and
+identity is all that is borrowed. All 28 provinces came out named with no hand
+work, and 76 faces went unnamed — Mongolia, the USSR, Korea, Japan, India,
+Burma, 4.18M km² that ENP does not cover, correctly left out.
+
+Measured: 28 provinces, 49,630 vertices against ENP's 20,400 for its whole
+sheet. Interior provinces improve six to thirteen times — Shanxi 21.4 km per
+vertex to 1.69, Henan 20.0 to 1.66, Hebei 11.0 to 1.40, Xinjiang 27.6 to 5.18 —
+and the two-populations problem is gone: the spread across all 28 is 1.2 to 7.6
+km per vertex instead of 1.2 to 28. Areas agree with ENP's within ±8% for 20 of
+the 28. Zhejiang and Fujian come out slightly coarser than ENP, which is the
+honest trade: ENP's coast was always its good half.
+
+**The switch** is a radio in Layers, ENP by default, and it swaps only the
+divisions inside the eight ENP atoms — coastlines, country outlines and
+everything outside China are untouched, because the fault reported was a
+sub-unit boundary and nothing else needed to move. The alternative goes in
+`japan-empire-map-roc.svg` (683 KB) and is fetched only if asked for. The two
+sets are held apart rather than hidden: a hidden path still answers
+`querySelectorAll`, and every sweep over sub-units would otherwise see both
+sources and draw each boundary twice.
+
+Measured on the rendered geometry in the live page, the Shaanxi–Shanxi boundary
+against the drawn Yellow River: **ENP 30.51 km median and 2% within 3 km; the
+alternative 0.96 km and 64%**; switching back gives 30.51 again, so the swap is
+reversible and lossless. The three existing SVGs are byte-identical to what they
+were before any of this.
+
+Kept in mind and stated in Sources: it is 1936, so it predates Sikang's
+promotion in 1939 and draws Manchuria as one disputed block — ENP's Manchurian
+provinces are kept underneath for that reason, Kirin being the one province the
+new source has no answer for. And it is one contributor's careful tracing rather
+than a scholarly release; the two measurements above are the only check on it
+there is. Hence ENP stays the default.
+
+Also fixed on the way past: the Layers panel still credited Gordon by name for
+the line of control, which had been taken out of the legend and reworded in
+Sources but not there.
+
 ### The ENP sheet's interior boundaries, and a note in Sources
 Asked why the Yellow River does not follow the eastern border of Shaanxi, which
 historically it is. The river is right and the border is wrong, and the fault is

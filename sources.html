@@ -75,6 +75,43 @@ say on the map itself.</p>
     what it is good at — which provinces existed, and roughly where.
   </li>
   <li>
+    <strong>Republican provinces from the AMS 1:250,000 sheets — the
+    alternative offered in Layers.</strong> A second set of provincial
+    boundaries for China, which the reader can switch to in place of ENP's.
+    Traced by Wikimedia Commons user Lilauid from the US Army Map Service
+    1:250,000 China series (L500, L531, L581), the AMS 1:50,000 Fukien sheets
+    (L783), the Republic of China 1301 series at 1:1,000,000 and the Kiangsi
+    Provincial Land Survey Bureau's 1:50,000, with Academia Sinica's CCTS tiles
+    as a backdrop.<br>
+    <a href="https://commons.wikimedia.org/wiki/File:Republic_of_China_edcp_location_map_1936.svg">File:Republic
+    of China edcp location map 1936.svg</a> — <strong>CC BY-SA 4.0</strong>,
+    which the boundaries derived from it inherit. Built on Uwe Dedering's
+    <em>China edcp location map</em> (CC BY-SA 3.0 / GFDL), from which its
+    projection comes.<br>
+    <br>
+    It is a drawing rather than a dataset — no coordinate system, boundaries as
+    open lines and areas nowhere at all — so three things were done to it, by
+    <code>tools/roc_provinces.py</code>. It was georeferenced from the frame its
+    base map states (equidistant conic, central meridian 104° E, central
+    parallel 36° N, standard parallels 30° and 42° N, the central meridian
+    running 57.0° N to 17.96° N), which checks itself against the centre
+    latitude that page gives to within a fifth of an arcminute; the drawn
+    coastline then lands a median of 0.59 km from Natural Earth's. Its boundary,
+    border and coastline layers were noded together and the faces of the
+    resulting arrangement traversed, to make areas out of lines. And each face
+    was named by asking the ENP sheet which province it falls in — ENP's
+    positions are the thing being replaced, but its identities are right.<br>
+    <br>
+    What it buys: the interior boundaries are six to thirteen times finer, and
+    the Shaanxi–Shanxi border follows the Yellow River — a median of 0.96 km
+    from it, against ENP's 30.5 km. What it costs: it is dated 1936, so it
+    predates Sikang's promotion to a province in 1939 and draws Manchuria as one
+    disputed block rather than as provinces, for which ENP's are kept; and it is
+    one contributor's careful tracing rather than a scholarly release, with no
+    independent check on its accuracy beyond the two measurements above. ENP
+    remains the default for those reasons.
+  </li>
+  <li>
     <strong>geoBoundaries ADM1 and ADM2.</strong> The provinces ceded to
     Thailand in 1941, the northern Malay states, Burma by division, Kengtung
     by district, the Indian and Japanese first-level units, and the Indonesian

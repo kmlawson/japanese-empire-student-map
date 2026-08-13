@@ -97,6 +97,15 @@ SOURCES = {
 ENP_PROVINCES = os.path.join(CACHE, "enp", "1928-45", "1928_1945")
 ENP_NAME_FIELD = "p_28_45_na"
 
+# The same provinces from a much finer source, built by tools/roc_provinces.py
+# out of a Commons SVG traced from the AMS 1:250,000 sheets. Offered as an
+# alternative rather than a replacement: it is six to thirteen times finer on
+# the interior boundaries — where ENP's are a median of 9 km from the line they
+# stand for, and 27 km on the Shaanxi-Shanxi reach — but it is one contributor's
+# tracing rather than a scholarly release, and 1936 rather than 1928-45. The
+# reader chooses in the Layers panel; ENP remains the default.
+ROC_PROVINCES = os.path.join(CACHE, "roc-provinces-1936.geojson")
+
 # --- Projection -------------------------------------------------------------
 LON_MIN, LON_MAX = 66.0, 206.0
 LAT_MIN, LAT_MAX = -13.0, 55.0
@@ -2087,6 +2096,57 @@ def china_island(ring):
     return not (x0 <= cx <= x1 and y0 <= cy <= y1)
 
 
+def load_roc_provinces(enp_provinces):
+    """The finer Republican provinces, keyed by atom, or {} if absent.
+
+    Sorted into atoms by the same table as ENP's, because the faces were named
+    by asking ENP which province they fall in — so the names are ENP's names and
+    need no second mapping. Suiyuan takes the same cut at Paotow.
+
+    Where this source has no province that ENP has, ENP's own sub-unit is kept,
+    so every atom is covered whichever source the reader picks. In practice that
+    is Kirin: on the 1936 sheet Manchuria is one disputed block and its
+    provinces are not drawn.
+    """
+    if not os.path.exists(ROC_PROVINCES):
+        return {}
+    try:
+        with open(ROC_PROVINCES) as fh:
+            fc = json.load(fh)
+    except (OSError, ValueError):
+        sys.stderr.write("note: %s unreadable, alternative provinces skipped\n"
+                         % ROC_PROVINCES)
+        return {}
+    out = collections.defaultdict(list)
+    seen = set()
+    for feat in fc.get("features", []):
+        name = (feat.get("properties") or {}).get("name") or ""
+        rings = [[(x, y) for x, y in ring]
+                 for poly in feat["geometry"]["coordinates"] for ring in poly]
+        rings = [r for r in rings if len(r) >= 3]
+        if not name or not rings:
+            continue
+        seen.add(name)
+        if name == "Suiyuan":
+            east = [line_plane((SUIYUAN_CUT, 0.0), (SUIYUAN_CUT, 90.0), keep_right=True)]
+            west = [line_plane((SUIYUAN_CUT, 0.0), (SUIYUAN_CUT, 90.0), keep_right=False)]
+            for side, dest, label in ((east, "suiyuan", "Suiyuan"),
+                                      (west, "suiyuan_w", "SuiyuanWest")):
+                cut = [c for c in (clip_halfplanes(r, side) for r in rings) if len(c) >= 3]
+                if cut:
+                    out[dest].append((label, cut))
+            continue
+        out[PROVINCE_ATOM.get(name) or "china"].append((name, rings))
+
+    for key, blocks in enp_provinces.items():
+        if key not in ENP_ATOMS:
+            continue
+        for pname, prings in blocks:
+            if pname not in seen and pname not in ("Suiyuan", "SuiyuanWest"):
+                out[key].append((pname, prings))
+    return dict(out)
+
+
 def nearest_enp_atom(ring, provinces, default="china"):
     """Which ENP atom an offshore island belongs to.
 
@@ -3735,14 +3795,18 @@ def main():
                 pieces.append(ring_to_path([project(x, y) for x, y in ring]))
         return "".join(pieces)
 
-    def province_paths(key):
+    def province_paths(key, src=None):
         """One path per Republican province, for the atoms built from them.
 
         Hovering can then name the province as well as the country. The paths
         share the atom's fill and stroke colour, so the seams between them are
-        invisible until something asks for them."""
+        invisible until something asks for them.
+
+        `src` is which set of sub-units to draw — the default, or the finer
+        Republican provinces, which go through exactly the same thinning and
+        clipping so that the two are comparable."""
         blocks = []
-        for pname, prings in provinces.get(key, []):
+        for pname, prings in (src if src is not None else provinces).get(key, []):
             merged = dissolve(prings) if len(prings) > 1 else None
             pieces = []
             for ring in (merged or prings):
@@ -3834,6 +3898,8 @@ def main():
     out.append(f'  <rect id="ocean" x="0" y="0" width="{fmt(WIDTH)}" height="{fmt(HEIGHT)}"/>')
     out.append('  <g id="land">')
     admin_out = []
+    roc_out = []
+    roc_provinces = load_roc_provinces(provinces)
     backings = []
     def emit(key):
         ax, ay, area = anchors[key]
@@ -3898,6 +3964,21 @@ def main():
                 sink.append(f'      <path{attr} d="{pd}"/>')
             if sink is admin_out:
                 sink.append("  </g>")
+            # The same atom's sub-units from the finer source, in a file of
+            # their own. Only the ENP atoms have an alternative, and only the
+            # divisions are swapped: the country's own outline is not this
+            # source's business and stays where it was.
+            if key in ENP_ATOMS and roc_provinces.get(key):
+                rblocks = province_paths(key, roc_provinces)
+                if rblocks:
+                    roc_out.append(f'  <g data-for="{key}">')
+                    for pname, pd in rblocks:
+                        attr = f' data-prov="{esc(pname)}"' if pname else ""
+                        cluster = SUB_CLUSTERS.get((key, pname))
+                        if cluster:
+                            attr += f' data-cluster="{esc(cluster)}"'
+                        roc_out.append(f'      <path{attr} d="{pd}"/>')
+                    roc_out.append("  </g>")
             for cx, cy, r in specks:
                 out.append(f'      <circle class="islet-hit" cx="{fmt(cx)}" cy="{fmt(cy)}" r="{fmt(r)}"/>')
                 out.append(f'      <circle class="islet" cx="{fmt(cx)}" cy="{fmt(cy)}" r="{fmt(r)}"/>')
@@ -4010,6 +4091,20 @@ def main():
         fh.write("\n".join(admin) + "\n")
     ab = os.path.getsize(adest)
     sys.stderr.write(f"wrote {adest} ({ab // 1024} KB)\n")
+
+    # The alternative Republican provinces, fetched only if the reader asks for
+    # them in the Layers panel.
+    if roc_out:
+        roc = ['<?xml version="1.0" encoding="utf-8"?>',
+               f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {fmt(WIDTH)} {fmt(HEIGHT)}" '
+               'id="jmap-roc">',
+               "  <title>Republican provinces, AMS 1:250,000</title>"]
+        roc.extend(roc_out)
+        roc.append("</svg>")
+        rdest = os.path.join(ROOT, "japan-empire-map-roc.svg")
+        with open(rdest, "w") as fh:
+            fh.write("\n".join(roc) + "\n")
+        sys.stderr.write(f"wrote {rdest} ({os.path.getsize(rdest) // 1024} KB)\n")
 
     if fine_svg:
         fdest = os.path.join(ROOT, "japan-empire-map-fine.svg")

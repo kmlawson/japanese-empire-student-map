@@ -2339,6 +2339,73 @@
       .catch(function () { fineState = 'none'; });
   }
 
+  /* China's provinces come from two sources and the reader picks one in
+     Layers. The sets are kept apart rather than hidden: a hidden path still
+     answers `querySelectorAll`, and every sweep over sub-units — the hover
+     outline, the cluster, the name — would then see both sources at once and
+     draw each boundary twice. Whichever set is not in use is held here, out of
+     the document altogether. */
+  var provSets = { enp: {}, roc: {} };
+  var provSource = 'enp';
+  var rocState = 'none';            // none | loading | ready | failed
+
+  function rememberProvinces(which, key, nodes) {
+    (provSets[which][key] = provSets[which][key] || []).push.apply(
+      provSets[which][key], nodes);
+  }
+
+  function setProvinceSource(which) {
+    if (which !== 'enp' && which !== 'roc') return;
+    provSource = which;
+    if (which === 'roc' && rocState === 'none') loadRoc();
+    Object.keys(atomEls).forEach(function (key) {
+      var el = atomEls[key];
+      var wanted = provSets[which][key];
+      var other = provSets[which === 'enp' ? 'roc' : 'enp'][key];
+      // nothing to swap to: the atom keeps what it has
+      if (!wanted || !wanted.length) return;
+      if (other) other.forEach(function (n) { if (n.parentNode) n.parentNode.removeChild(n); });
+      var before = el.querySelector('circle');
+      wanted.forEach(function (n) { el.insertBefore(n, before); });
+    });
+    applyState();
+    if (selected) select(selected);
+    redrawHighlight();
+  }
+
+  function loadRoc() {
+    if (rocState === 'loading' || rocState === 'ready') return;
+    rocState = 'loading';
+    fetch('japan-empire-map-roc.svg')
+      .then(function (r) {
+        if (!r.ok) throw new Error(r.status);
+        return r.text();
+      })
+      .then(function (text) {
+        var doc = new DOMParser().parseFromString(text, 'image/svg+xml');
+        var got = 0;
+        $$('g[data-for]', doc.documentElement).forEach(function (g) {
+          var key = g.getAttribute('data-for');
+          if (!atomEls[key]) return;
+          var nodes = [];
+          while (g.firstElementChild) {
+            var node = document.importNode(g.firstElementChild, true);
+            g.removeChild(g.firstElementChild);
+            nodes.push(node);
+          }
+          if (nodes.length) { rememberProvinces('roc', key, nodes); got++; }
+        });
+        rocState = got ? 'ready' : 'none';
+        if (got && provSource === 'roc') setProvinceSource('roc');
+      })
+      .catch(function () {
+        rocState = 'failed';
+        // fall back rather than leaving China with no provinces at all
+        var back = $('#prov-enp');
+        if (back) { back.checked = true; setProvinceSource('enp'); }
+      });
+  }
+
   function loadAdmin() {
     // 'failed' is retried, 'loading' and 'ready' are left alone
     if (adminState === 'loading' || adminState === 'ready') return;
@@ -2352,11 +2419,14 @@
         if (!el) return;
         grafted++;
         var before = el.querySelector('circle');   // islet rings stay on top
+        var mine = [];
         while (g.firstElementChild) {
           var node = document.importNode(g.firstElementChild, true);
           g.removeChild(g.firstElementChild);
           el.insertBefore(node, before);
+          mine.push(node);
         }
+        rememberProvinces('enp', g.getAttribute('data-for'), mine);
         el.classList.remove('deferred');
       });
       if (!grafted) {
@@ -2695,6 +2765,16 @@
     var optRivers = $('#opt-rivers');
     optRivers.checked = state.rivers;
     optRivers.addEventListener('change', function () { state.rivers = optRivers.checked; applyState(); });
+
+    // Which source draws China's provinces. Deliberately not remembered
+    // between visits, for the same reason the year and the three layer buttons
+    // are not: this is a teaching map and every reader should start from the
+    // same place, which is the period-correct source.
+    $$('input[name="prov-src"]').forEach(function (r) {
+      r.addEventListener('change', function () {
+        if (r.checked) setProvinceSource(r.value);
+      });
+    });
 
 
     $('#btn-options').addEventListener('click', function () { $('#dlg-options').showModal(); });
