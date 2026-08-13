@@ -109,6 +109,56 @@ describing what was actually changed, before it is marked done.
 
 ## Done
 
+### The rivers are rounded off
+They were thinned at 0.4 units and drawn as they came, which at any depth of
+zoom is a line of hard little corners. `RIVER_TOLERANCE` is 0.2 now and
+`RIVER_SMOOTH` rounds them twice by corner-cutting. Chaikin puts each new
+vertex a quarter of the way along an existing segment, so nothing strays
+further from the original course than a quarter of a segment — about a tenth of
+a unit here, a twentieth of a pixel at the opening view. The line is softened,
+not moved.
+
+**Performance:** none worth measuring. The two rivers go from about 1,600
+points to about 13,000 — halving the tolerance roughly doubles them and each
+rounding pass doubles them again. That is still one SVG path element per river,
+rasterised once per zoom change and untouched while panning, and 13,000 points
+is a fifth of what a single Chinese province carries. The map grew 40 KB.
+Set `RIVER_SMOOTH = 0` and `RIVER_TOLERANCE = 0.4` for exactly what was there
+before; the previous file is in git at `d638f82`.
+
+### Thailand's spikes across the Andaman Sea
+Two faults in `push_seam`, both mine and both from the same afternoon. A strip
+is a quadrilateral per pair of vertices, and Natural Earth's rings can put two
+consecutive vertices two degrees apart along a coast — so a run of two made a
+strip two degrees long and half a degree wide. `SEAM_MIN_RUN` is back to 3 and
+`SEAM_STRIDE` breaks a run wherever its own vertices are further apart than a
+strip is wide. And the "aim straight at the nearest bit of the target"
+direction, added to close the Altai corner, was given the whole reach: from the
+Siamese coast the nearest scrap of British Malaya is on an island across a
+strait, and the strip laid between them was a spike of Siam over open water.
+`SEAM_AIM` caps that direction at a fifth of a degree; the normals keep the
+full reach.
+
+### The line of control steps down the coast instead of stepping
+`hug_coast` moved each vertex on its own — one a hair inland, the next well
+inland, the next inside a keep-box and not moved at all — and applied raw that
+came out as a flight of right angles, worst around Amoy. It computes the
+displacement for every vertex first, averages it over a window of seven, and
+applies that; a final pass pushes out anything the averaging left on land. The
+stretch moves together and the line keeps the shape of the coast.
+
+### Nothing is outlined except the country under the pointer
+The Straits Settlements were the last exception, and Malacca's landward border
+stood there as a line with nothing to say until the pointer arrived. The
+princely states went the same way an hour earlier. A boundary on this map is an
+answer to a question now, and the question is where the pointer is.
+
+### The base areas in Pinyin
+Jiāodōng, Qīnghé, Lǔzhōng, Lǔnán and Bīnhǎi, Sūběi, Huáiběi, Huáinán,
+Sūzhōng, Sūnán, Wǎnjiāng, Zhèdōng, Jìnsuí, Jìnchájì, Jìnán, Tàiháng and
+Tàiyuè, Jìlǔyù, Èyùwǎn, Shǎngānníng — with tone marks and without the hyphens,
+in place of the Wade-Giles they were written in.
+
 ### Guangzhou Bay is cut out of China with a fill rule
 The ENP sheet's Kwangtung is coarse enough to cover the bay and every one of
 its tidal creeks, so the country showed through each channel of the leasehold

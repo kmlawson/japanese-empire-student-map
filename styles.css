@@ -1194,21 +1194,12 @@ dialog h3 {
   stroke: rgba(35, 32, 27, .34);
   stroke-width: .7;
 }
-/* The exceptions, which stay drawn wherever the pointer is: the French and
-   Portuguese settlements, which are other countries inside British India, and
-   the Straits Settlements, four scattered specks that vanish into the
-   peninsula if they are not outlined.
-
-   The princely states used to be here too, and six hundred outlines at once
-   is a mesh rather than a map. They are told apart by their colour, which is
-   not British India's, and the one under the pointer gets a line of its own
-   and a shade of its own. */
-#jmap.admin-on #a-goa > path[data-prov],
-#jmap.admin-on #a-pondicherry > path[data-prov],
-#jmap.admin-on .atom > path[data-cluster="Straits Settlements"] {
-  stroke: rgba(35, 32, 27, .38);
-  stroke-width: .8;
-}
+/* Nothing is outlined except the country under the pointer. The princely
+   states were exempt once, and six hundred outlines at once is a mesh rather
+   than a map; the Straits Settlements were exempt after them, and Malacca's
+   landward border stood there as a line with nothing to say until the pointer
+   arrived. A boundary on this map is an answer to a question, and the question
+   is where the pointer is. */
 #jmap.admin-on #a-occupiedzone > path[data-prov] { stroke: none; }
 
 /* The reset button at the opening view: there is nothing for it to reset, and

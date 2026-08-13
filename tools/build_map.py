@@ -601,6 +601,24 @@ PAPUA_CUT = ((141.0, -5.2), (147.4, -6.9))
 # it. This is where the generated path is split.
 HUAYUANKOU = (113.68, 34.92)
 
+# The rivers used to be thinned at 0.4 units and drawn as they came, which at
+# any depth of zoom is a line of hard little corners. They are thinned at half
+# that now and then rounded twice by corner-cutting, which softens the joints
+# without moving the line: Chaikin puts each new vertex a quarter of the way
+# along an existing segment, so nothing strays further from the original course
+# than a quarter of a segment — about a tenth of a unit here, a twentieth of a
+# pixel at the opening view.
+#
+# The cost is vertices: halving the tolerance roughly doubles them and each
+# rounding pass doubles them again, so the two rivers go from about 1,600
+# points to about 13,000. That is one SVG path element either way — the browser
+# rasterises it once per zoom change and never touches it while panning — and
+# 13,000 points is a fifth of what a single Chinese province carries. There is
+# no measurable cost. Set RIVER_SMOOTH to 0 and RIVER_TOLERANCE back to 0.4 for
+# exactly what was there before.
+RIVER_TOLERANCE = 0.2
+RIVER_SMOOTH = 2
+
 # Natural Earth's Yangtze centreline stops at Chinkiang, about 200 km short of
 # the sea, which makes the river look as though it ends in a field outside
 # Nanking. This carries it down the estuary past Nantung to the mouth. It
@@ -781,26 +799,66 @@ def hug_coast(line, on_land, keep=EXTENT_KEEP_INLAND,
         h = math.hypot(dx, dy) or 1.0
         return (dy / h, -dx / h)
 
-    out = []
+    # First pass: how far, and which way, each vertex has to move.
+    shift = []
     for k, p in enumerate(line):
         if any(x0 <= p[0] <= x1 and y0 <= p[1] <= y1 for x0, y0, x1, y1 in keep) \
                 or not on_land(p):
-            out.append(p)
+            shift.append((0.0, 0.0))
             continue
         nx, ny = normal(k)
-        best, bw = p, None
+        best, bw = (0.0, 0.0), None
         for sign in (1.0, -1.0):
             w = 0.02
             while w <= reach:
                 q = (p[0] + sign * nx * w, p[1] + sign * ny * w)
                 if not on_land(q):
-                    q = (p[0] + sign * nx * (w + margin),
-                         p[1] + sign * ny * (w + margin))
-                    if not on_land(q) and (bw is None or w < bw):
-                        best, bw = q, w
+                    d = (sign * nx * (w + margin), sign * ny * (w + margin))
+                    if not on_land((p[0] + d[0], p[1] + d[1])) \
+                            and (bw is None or w < bw):
+                        best, bw = d, w
                     break
                 w += 0.02
-        out.append(best)
+        shift.append(best)
+
+    # Smooth the displacement, not the line. Vertex by vertex the push varies —
+    # one vertex a hair inland, the next well inland, the next inside a keep
+    # box and not pushed at all — and applied raw that comes out as a flight of
+    # right-angled steps along the coast, which is what the line was doing at
+    # Amoy. Averaging the push over a few vertices moves the whole stretch
+    # together and the line keeps its shape.
+    n2 = len(shift)
+    span = 3
+    smooth = []
+    for k in range(n2):
+        lo = max(0, k - span)
+        hi = min(n2, k + span + 1)
+        sx = sum(shift[i][0] for i in range(lo, hi)) / (hi - lo)
+        sy = sum(shift[i][1] for i in range(lo, hi)) / (hi - lo)
+        smooth.append((sx, sy))
+
+    # and a last pass for anything the averaging left on land, pushed on its own
+    out = []
+    for k, p in enumerate(line):
+        q = (p[0] + smooth[k][0], p[1] + smooth[k][1])
+        if on_land(q) and not any(x0 <= p[0] <= x1 and y0 <= p[1] <= y1
+                                  for x0, y0, x1, y1 in keep):
+            nx, ny = normal(k)
+            for sign in (1.0, -1.0):
+                w = 0.02
+                found = False
+                while w <= reach:
+                    r = (q[0] + sign * nx * w, q[1] + sign * ny * w)
+                    if not on_land(r):
+                        r = (q[0] + sign * nx * (w + margin),
+                             q[1] + sign * ny * (w + margin))
+                        if not on_land(r):
+                            q, found = r, True
+                        break
+                    w += 0.02
+                if found:
+                    break
+        out.append(q)
     return out
 
 
@@ -1280,7 +1338,16 @@ CHINA_NEIGHBOURS = ("ussr", "mongolia", "indochina", "burma", "siam", "india",
 
 SEAM_STEP = 0.015          # degrees; how finely the gap is searched
 SEAM_MAX = 0.50            # degrees; wider than this is not a seam but a hole
-SEAM_MIN_RUN = 2           # vertices; shorter runs draw a fleck, not a strip
+SEAM_MIN_RUN = 3           # vertices; shorter runs draw a fleck, not a strip
+SEAM_AIM = 0.18            # degrees; how near a target must be to be aimed at
+SEAM_STRIDE = 0.25         # degrees; the furthest apart two vertices of a run
+                           # may be. A strip is a quadrilateral per pair, and
+                           # Natural Earth's rings can put two vertices two
+                           # degrees apart along a coast — which made a strip
+                           # two degrees long and half a degree wide, a spike
+                           # of Siam reaching across the Andaman Sea. A run
+                           # breaks where its own vertices are further apart
+                           # than a strip is wide.
 SEAM_OVER = 0.035          # degrees; how far past the first point inside the
                            # target a strip reaches. Stopping at the first one
                            # leaves the two edges touching rather than
@@ -1464,7 +1531,12 @@ def push_seam(rings, target, reach=SEAM_MAX):
                 # the normal to Mongolia's line points along the gap instead of
                 # across it, and a twenty-kilometre wedge stayed open.
                 dirs = [(nx, ny), (-nx, -ny)]
-                near = _nearest_in(grid, cell, p, reach)
+                # Aiming straight at the target only when the target is close.
+                # Given the whole reach it will happily aim across a strait —
+                # a vertex on the Siamese coast at the nearest scrap of British
+                # Malaya on an island, and the strip laid between them is a
+                # spike of Siam over open water.
+                near = _nearest_in(grid, cell, p, SEAM_AIM)
                 if near:
                     dx, dy = near[0] - p[0], near[1] - p[1]
                     h = math.hypot(dx, dy) or 1.0
@@ -1484,7 +1556,9 @@ def push_seam(rings, target, reach=SEAM_MAX):
                             far = deep if not in_own(deep) else q
                             break
                     w += SEAM_STEP
-            if far is not None:
+            if far is not None and (not piece or
+                    math.hypot(p[0] - piece[-1][0][0],
+                               p[1] - piece[-1][0][1]) <= SEAM_STRIDE):
                 piece.append((p, far))
                 continue
             if len(piece) >= SEAM_MIN_RUN:
@@ -1495,7 +1569,8 @@ def push_seam(rings, target, reach=SEAM_MAX):
                 if signed_ring_area(strip) * ref_wind < 0:
                     strip.reverse()
                 out.append(strip)
-            piece = []
+            # a run broken by the stride starts the next one at this vertex
+            piece = [(p, far)] if far is not None else []
     return out
 
 
@@ -3015,7 +3090,9 @@ def main():
             out_paths = []
             for line in lines:
                 pts = [project(x, y) for x, y in normalise_ring(line)]
-                pts = simplify(pts, 0.4)
+                pts = simplify(pts, RIVER_TOLERANCE)
+                if RIVER_SMOOTH and len(pts) > 2:
+                    pts = chaikin(pts, RIVER_SMOOTH)
                 path = line_to_path(pts)
                 if path:
                     out_paths.append(path)
