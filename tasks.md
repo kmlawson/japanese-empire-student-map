@@ -146,6 +146,49 @@ rather than a tweak, and none of it is started.
 
 ## Done
 
+### The cities are a gazetteer now, drawn as a map draws cities
+444 places in 1930 and 446 in 1942, from `data/cities-1930.csv` and
+`data/cities-1942.csv`. `tools/build_cities.py` takes the four columns the map
+needs out of the forty the CSVs carry — where, how big, whether a capital, of
+what — and writes `cities-gaz.js`.
+
+Two things are said at once and the symbols keep them apart. **Size** is the
+dot: four radii for the four tiers, 1.7 to 5.4 px. **Kind** is the mark around
+it: nothing for a town, a ring for a provincial capital, a square for the
+capital of a country or a territory. Cartographic convention rather than
+invention, and it means a large provincial capital and a small one read as the
+same kind of place at different sizes, which is the point. Black, because every
+colour on this map already means sovereignty and a city is not a claim about
+who held it — the territory underneath is already saying that.
+
+1930 gives 9 largest, 41 large, 141 medium, 253 small, with 183 provincial and
+46 territorial capitals; 1942 gives 15 / 52 / 150 / 229, with 198 and 52. The
+two dates differ in more than size: Hsinking is a capital in 1942 and little in
+1930, and the polity column moves a third of China from "Republic of China" to
+"Occupied China" and "Free China".
+
+The tiers come in with the zoom, as the labels do — the largest nine at the
+opening view, everything by the time a reader has closed in on a province. Four
+hundred dots at full extent is a rash rather than a map.
+
+**Nothing was deleted.** The old browse layer is the same 170 places in one
+undifferentiated grey; it and its data.js records are untouched and simply
+stand down while the gazetteer is there — `!JMAP.GAZ && browseVisible()` — so
+removing `cities-gaz.js` restores exactly what was there before. The quiz
+markers stay on top: where a gazetteer city is also a quiz site the coloured
+marker sits over the black dot, which reads as "this one is asked about".
+
+The dots are named and hoverable on the same machinery as everything else,
+which took three small things: their ids are prefixed `g_<epoch>_` because 222
+of these places are already in data.js under the same name and two records
+under one key is one record; `recordFor` had to be taught to see `.gaz` as well
+as `.site` and `.browse`; and the name lives in `en`, which is what `nameOf`
+reads. A capital's line — "Provincial capital — Hunan", "Capital of Manchukuo"
+— goes in `when`, which is the field the tooltip puts under a name.
+
+The legend now explains the four marks instead of advertising the browse layer.
+`tools/bundle.py` inlines the new file, which it had to be told about.
+
 ### A second source for China's provinces, and a switch between them
 The answer to "is there a better GIS source for Republican provinces that is
 also fine along the coast" turned out to be yes, and not from any of the

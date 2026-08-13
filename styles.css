@@ -1268,3 +1268,34 @@ dialog h3 {
   #about-slot h3 { font-size: 15px; margin: 18px 0 6px; }
 }
 
+
+/* The gazetteer: cities from data/cities-*.csv, drawn plainly. A filled dot for
+   a town, sized by how big it was; a dot in a ring for a provincial capital; a
+   dot in a square for the capital of a country or a territory. Black, because
+   the colours on this map already mean sovereignty and a city is not a claim
+   about who held it — the territory underneath is already saying that. */
+#gaz .dot { fill: #14110c; stroke: #fffdf8; stroke-width: 0.9; }
+#gaz .ring, #gaz .box { fill: none; stroke: #14110c; stroke-width: 1.15; }
+#gaz .hit { fill: transparent; stroke: none; }
+#gaz .gaz:hover .dot { fill: #7a1730; }
+#gaz .gaz:hover .ring, #gaz .gaz:hover .box { stroke: #7a1730; stroke-width: 1.6; }
+#gaz .gaz.sel .dot { fill: #7a1730; stroke: #14110c; stroke-width: 1.8; paint-order: stroke; }
+#gaz .gaz.sel .ring, #gaz .gaz.sel .box { stroke: #7a1730; stroke-width: 2; }
+/* the largest places carry a heavier ring, so a capital still reads as one
+   when its dot has grown enough to crowd the mark around it */
+#gaz .t3 .ring, #gaz .t3 .box { stroke-width: 1.5; }
+
+/* the four legend marks, drawn with borders rather than glyphs so they match
+   what is on the map exactly */
+#legend .sw.gaz-sm, #legend .sw.gaz-lg {
+  background: #14110c; border-radius: 50%;
+}
+#legend .sw.gaz-sm { width: 5px; height: 5px; margin: 0 3px; }
+#legend .sw.gaz-lg { width: 10px; height: 10px; }
+#legend .sw.gaz-cap1, #legend .sw.gaz-cap2 {
+  width: 12px; height: 12px;
+  background: radial-gradient(circle at 50% 50%, #14110c 0 2.6px, transparent 2.6px);
+  border: 1.2px solid #14110c;
+}
+#legend .sw.gaz-cap1 { border-radius: 50%; }
+#legend .sw.gaz-cap2 { border-radius: 1px; }

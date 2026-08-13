@@ -214,8 +214,15 @@
      all — Batavia, Kobe and Pusan were on the map and invisible, because they
      are level 2 and 3 and the map opens at level 1. Cities on means cities. */
   function siteVisible(s) {
-    if (s.kind === 'browse') return browseVisible();
+    if (s.kind === 'gaz') return gazVisible(s);
+    // the old browse dots are the same places the gazetteer draws better, so
+    // they stand down while it is there rather than being hit-tested underneath
+    if (s.kind === 'browse') return !JMAP.GAZ && browseVisible();
     return state.cats[s.cat] && siteInEpoch(s);
+  }
+
+  function gazVisible(s) {
+    return state.cats.city && s.epoch === state.epoch && s.t >= gazMinTier();
   }
 
   /* Zooming in is a request for more detail, so it raises the level the map
@@ -324,6 +331,7 @@
     buildYellow1938();
     buildNanyoBounds();
     buildBrowse();
+    buildGazetteer();
     hatchGroup = svg.querySelector('#hatching');
 
     $$('.atom', svg).forEach(function (el) { atomEls[el.id.replace(/^a-/, '')] = el; });
@@ -494,6 +502,95 @@
     });
   }
 
+  /* The gazetteer: four hundred and forty places from data/cities-*.csv, drawn
+     as plain black dots at four sizes with two kinds of capital marked.
+     Cartographic convention rather than invention — a filled dot for a town, a
+     dot inside a ring for a provincial capital, a dot inside a square for the
+     capital of a country or a territory — so the symbol says what kind of place
+     it is and the size says how big, and the two can be read separately.
+
+     It replaces the browse dots, which are the same hundred and seventy places
+     in one undifferentiated grey. Those are left in the code and in data.js,
+     drawn only when the gazetteer is switched off, so nothing has been thrown
+     away. The quiz markers stay on top of it: where a gazetteer city is also a
+     quiz site, the coloured marker sits over the black dot, which reads as
+     "this one is asked about" and is true. */
+  var gazGroup = null;
+  var gazEls = [];
+  var gazRecs = [];
+  var GAZ_R = [1.7, 2.6, 3.8, 5.4];      // small, medium, large, largest
+
+  function buildGazetteer() {
+    if (!JMAP.GAZ) return;
+    gazGroup = svgEl('g', { id: 'gaz' });
+    svg.insertBefore(gazGroup, markersGroup);
+    Object.keys(JMAP.GAZ).forEach(function (epoch) {
+      JMAP.GAZ[epoch].forEach(function (c) {
+        var p = project(c.lon, c.lat);
+        var r = GAZ_R[c.t] || GAZ_R[0];
+        var g = svgEl('g', {
+          'class': 'gaz t' + c.t + (c.c ? ' cap' + c.c : ''),
+          'data-epoch': epoch, 'data-id': c.id,
+        });
+        g.appendChild(svgEl('circle', { 'class': 'hit', r: Math.max(HIT_R * 0.6, r + 3) }));
+        // the capital's ring or box goes first, so the dot sits inside it
+        if (c.c === 1) {
+          g.appendChild(svgEl('circle', { 'class': 'ring', r: r + 2.6 }));
+        } else if (c.c === 2) {
+          var s = r + 2.4;
+          g.appendChild(svgEl('rect', {
+            'class': 'box', x: -s, y: -s, width: s * 2, height: s * 2,
+          }));
+        }
+        g.appendChild(svgEl('circle', { 'class': 'dot', r: r }));
+        gazGroup.appendChild(g);
+        gazEls.push({ el: g, epoch: epoch, tier: c.t, rec: c });
+        scalables.push({ el: g, x: p.x, y: p.y });
+        // named and hoverable on the same machinery as everything else. The id
+        // is prefixed because 222 of these places are already in data.js under
+        // the same name, and two records under one key is one record.
+        c.kind = 'gaz';
+        c.epoch = epoch;
+        c.rid = 'g_' + epoch + '_' + c.id;
+        c.en = c.n;
+        // `when` is the line the tooltip shows under a name; `note` is the
+        // longer one the detail card shows. What is worth saying about these
+        // places is what kind of place they were.
+        c.when = c.c === 2 ? 'Capital of ' + (c.of || 'the territory')
+          : c.c === 1 ? 'Provincial capital' + (c.of ? ' — ' + c.of : '')
+          : '';
+        c.note = [c.when, c.p].filter(Boolean).join(' · ');
+        gazRecs.push(c);
+        elById[c.rid] = g;
+        sitePos[c.rid] = p;
+        g.setAttribute('data-id', c.rid);
+      });
+    });
+  }
+
+  /* Which gazetteer dots are drawn. The epoch decides which set, and the zoom
+     decides how far down the tiers to go: four hundred dots at the opening view
+     is a rash across the map, and the small places are the ones a reader only
+     wants once they have closed in on somewhere. */
+  function gazMinTier() {
+    var w = view.w || mapW;
+    if (w > mapW / 1.6) return 3;
+    if (w > mapW / 3) return 2;
+    if (w > mapW / 7) return 1;
+    return 0;
+  }
+
+  function applyGazetteer() {
+    if (!gazGroup) return;
+    var on = state.cats.city && !!JMAP.GAZ;
+    gazGroup.style.display = on ? '' : 'none';
+    if (!on) return;
+    var floor = gazMinTier();
+    gazEls.forEach(function (g) {
+      g.el.style.display = (g.epoch === state.epoch && g.tier >= floor) ? '' : 'none';
+    });
+  }
+
   var labelLayer = null;
 
   function buildSiteLabels() {
@@ -593,6 +690,7 @@
     var subUnits = [];
     JMAP.SITES.forEach(function (s) { byId[s.id] = s; });
     if (JMAP.BROWSE) JMAP.BROWSE.forEach(function (b) { byId[b.rid] = b; });
+    gazRecs.forEach(function (c) { byId[c.rid] = c; });
 
     territories().forEach(function (t) {
       t.kind = 'territory';
@@ -875,7 +973,9 @@
       requestAnimationFrame(function () {
         rafPending = false;
         if (zoomed) rescale();
-        if (browseGroup) browseGroup.style.display = browseVisible() ? '' : 'none';
+        if (browseGroup) browseGroup.style.display =
+          (!JMAP.GAZ && browseVisible()) ? '' : 'none';
+        applyGazetteer();
         if (zoomed) gateLabels();
         placeLabels();
       });
@@ -1265,7 +1365,8 @@
     var ids = Object.keys(sitePos);
     for (var i = 0; i < ids.length; i++) {
       var rec = byId[ids[i]];
-      if (!rec || (rec.kind !== 'site' && rec.kind !== 'browse')) continue;
+      if (!rec || (rec.kind !== 'site' && rec.kind !== 'browse'
+                   && rec.kind !== 'gaz')) continue;
       if (!siteVisible(rec)) continue;
       var p = sitePos[ids[i]];
       var dx = (m.a * p.x + m.c * p.y + m.e) - cx;
@@ -1387,7 +1488,7 @@
 
   function recordFor(target) {
     if (!target || !target.closest) return null;
-    var el = target.closest('.site, .browse, .atom');
+    var el = target.closest('.site, .browse, .gaz, .atom');
     // a backing is no longer inside its atom, so it answers for itself — which
     // it only ever gets the chance to do while its sub-units are in the other
     // file and it is the only thing there
@@ -1396,7 +1497,8 @@
     var id = el.getAttribute('data-id');
     var rec = id && byId[id];
     if (!rec) return null;
-    if ((rec.kind === 'site' || rec.kind === 'browse') && !siteVisible(rec)) return null;
+    if ((rec.kind === 'site' || rec.kind === 'browse' || rec.kind === 'gaz')
+        && !siteVisible(rec)) return null;
     return { rec: rec, el: el };
   }
 
@@ -1905,7 +2007,9 @@
       var el = elById[s.id];
       if (el) el.style.display = siteVisible(s) ? '' : 'none';
     });
-    if (browseGroup) browseGroup.style.display = browseVisible() ? '' : 'none';
+    if (browseGroup) browseGroup.style.display =
+      (!JMAP.GAZ && browseVisible()) ? '' : 'none';
+    applyGazetteer();
 
     gateLabels();
 
@@ -2050,7 +2154,22 @@
       legend.appendChild(row);
     });
 
-    if (browseVisible()) {
+    if (JMAP.GAZ && state.cats.city) {
+      // The gazetteer says two things at once and the legend has to unpick
+      // them: the size of a dot is how big the place was, the mark around it
+      // is what kind of place it was.
+      [['gaz-sm', 'Town'], ['gaz-lg', 'Larger city'],
+       ['gaz-cap1', 'Provincial capital'],
+       ['gaz-cap2', 'Capital of a country or territory']].forEach(function (r) {
+        var row = document.createElement('div');
+        row.className = 'item';
+        var sw = document.createElement('span');
+        sw.className = 'sw ' + r[0];
+        row.appendChild(sw);
+        row.appendChild(document.createTextNode(r[1]));
+        legend.appendChild(row);
+      });
+    } else if (browseVisible()) {
       var brow = document.createElement('div');
       brow.className = 'item';
       var bsw = document.createElement('span');

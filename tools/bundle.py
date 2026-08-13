@@ -60,6 +60,8 @@ def main():
     html = read("index.html")
     css = read("styles.css")
     data = read("data.js")
+    gaz = read("cities-gaz.js") if os.path.exists(
+        os.path.join(ROOT, "cities-gaz.js")) else ""
     js = read("map.js")
     svg = read("japan-empire-map.svg")
     admin = read("japan-empire-map-admin.svg")
@@ -74,8 +76,10 @@ def main():
         "<style>\n" + css + "\n</style>",
     )
     html = html.replace(
-        '<script src="data.js"></script>\n<script src="map.js"></script>',
-        "<script>\n" + data + "\n</script>\n<script>\nwindow.JMAP_INLINE_SVG = "
+        '<script src="data.js"></script>\n<script src="cities-gaz.js"></script>\n'
+        '<script src="map.js"></script>',
+        "<script>\n" + data + "\n</script>\n<script>\n" + gaz + "\n</script>\n"
+        "<script>\nwindow.JMAP_INLINE_SVG = "
         + json.dumps(svg) + ";\nwindow.JMAP_INLINE_ADMIN = "
         + json.dumps(admin) + ";\nwindow.JMAP_INLINE_FINE = "
         + json.dumps(fine) + ";\n</script>\n<script>\n" + js + "\n</script>",
