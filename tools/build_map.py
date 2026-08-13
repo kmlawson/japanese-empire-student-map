@@ -196,6 +196,16 @@ OCCUPIED_BLOCKS = (
     "Swatow and Chaochow",
 )
 
+# The occupied zone as traced, in tools/cache. It replaces the hand-drawn
+# blocks below, which were six generalised polygons standing in for the whole
+# occupation: this is 727 rings and 6,438 vertices, with Hainan, the Canton
+# delta, Swatow, Chungming, the Chusan archipelago and seven hundred islets
+# drawn separately instead of being swept up in a block or clipped out of one.
+# The blocks are kept because two things still read from them: the line of
+# control's inland edge across China, and the names of the six regions, which
+# the traced rings take by asking which block they fall in.
+OCCUPIED_FILE = "japanese-occupied-territory-1941-2.geojson"
+
 OCCUPIED_ZONE = [
     # The northern and central mass, December 1942. West edge down the
     # Tatung-Puchow railway in Shansi, east of the Luliang mountains and the
@@ -2096,6 +2106,57 @@ def china_island(ring):
     return not (x0 <= cx <= x1 and y0 <= cy <= y1)
 
 
+def load_occupied_rings():
+    """The traced occupation, as (block name, ring) pairs.
+
+    Each ring takes the name of whichever hand-drawn block it falls in, so the
+    pointer can still say which piece of the occupation it is on — North China
+    and the Yangtze valley, Hainan, the Canton delta and the rest. A ring that
+    falls in none of them, which is every offshore islet, goes to the nearest.
+    """
+    path = os.path.join(CACHE, OCCUPIED_FILE)
+    if not os.path.exists(path):
+        return []
+    try:
+        with open(path) as fh:
+            fc = json.load(fh)
+    except (OSError, ValueError):
+        sys.stderr.write("note: %s unreadable, occupied zone falls back\n" % path)
+        return []
+    blocks = [(OCCUPIED_BLOCKS[n] if n < len(OCCUPIED_BLOCKS) else "",
+               normalise_ring(chaikin(b, 2)))
+              for n, b in enumerate(OCCUPIED_ZONE)]
+    out = []
+    for feat in fc.get("features", []):
+        g = feat.get("geometry") or {}
+        polys = ([g["coordinates"]] if g.get("type") == "Polygon"
+                 else g.get("coordinates") or [])
+        for poly in polys:
+            if not poly:
+                continue
+            ring = [(x, y) for x, y in poly[0]]
+            if len(ring) < 3:
+                continue
+            cx = sum(p[0] for p in ring) / len(ring)
+            cy = sum(p[1] for p in ring) / len(ring)
+            label = ""
+            for name, blk in blocks:
+                if point_in_ring((cx, cy), blk):
+                    label = name
+                    break
+            if not label and blocks:
+                best, bd = "", float("inf")
+                for name, blk in blocks:
+                    for x, y in blk:
+                        d = (x - cx) ** 2 + (y - cy) ** 2
+                        if d < bd:
+                            bd, best = d, name
+                label = best
+            out.append((label, ring))
+    out.sort(key=lambda r: -abs(signed_ring_area(r[1])))
+    return out
+
+
 def load_roc_provinces(enp_provinces):
     """The finer Republican provinces, keyed by atom, or {} if absent.
 
@@ -2780,7 +2841,12 @@ ORDER = [
     "chinabase", "andaman", "ceylon", "ussr", "mongolia", "tibet",
     "china", "xinjiang", "india", "princely", "goa", "pondicherry",
     "other", "nepal", "sikkim", "bhutan",
-    "tuva", "weihaiwei", "guangzhouwan", "chahar", "suiyuan", "suiyuan_w",
+    "tuva", "weihaiwei", "guangzhouwan",
+    # the occupation goes in here: over China, whose ground it is, and under
+    # Mengjiang and Manchukuo, which were client states with their own colour
+    # and not part of the shading. The resistance areas stay above it, being in
+    # ON_TOP, because they are what the shading is an overstatement of.
+    "occupiedzone", "chahar", "suiyuan", "suiyuan_w",
     "jehol", "manchuria",
     "siam", "burma", "saharat", "indochina", "siamgain", "malaya", "malaya_thai", "sarawak", "northborneo", "brunei",
     "dei", "philippines", "christmas",
@@ -3406,13 +3472,20 @@ def main():
     # the occupied zone, clipped to China's land so it stops at the coast and
     # at the frontier instead of being drawn as a blob over the sea
     occ_frame = box_planes(LON_MIN, LAT_MIN, LON_MAX, LAT_MAX)
+    occ_out = []
     occ_pieces, occ_moments = [], []
-    for n, block in enumerate(OCCUPIED_ZONE):
-        ring = clip_halfplanes(normalise_ring(chaikin(block, 2)), occ_frame)
+    occ_src = load_occupied_rings()
+    if occ_src:
+        sys.stderr.write(f"occupied zone: {len(occ_src)} traced rings\n")
+    else:
+        occ_src = [(OCCUPIED_BLOCKS[n] if n < len(OCCUPIED_BLOCKS) else "",
+                    normalise_ring(chaikin(b, 2)))
+                   for n, b in enumerate(OCCUPIED_ZONE)]
+    for label, src in occ_src:
+        ring = clip_halfplanes(src, occ_frame)
         if len(ring) < 3:
             continue
         pts = [project(x, y) for x, y in ring]
-        label = OCCUPIED_BLOCKS[n] if n < len(OCCUPIED_BLOCKS) else ""
         occ_pieces.append((label, ring_to_path(pts)))
         a = ring_area(pts)
         cx, cy = ring_centroid(pts)
@@ -3676,7 +3749,11 @@ def main():
                                         normalise_ring(ring)], FINE_PRECISION))
         bay_path += "".join(pieces) if len(pieces) > 1 else ""
 
-    ordered = [k for k in ORDER if k in paths] + [k for k in paths if k not in ORDER]
+    # "occupiedzone" is a slot rather than an atom of its own — it has no
+    # entry in `paths` — so it has to survive this filter to keep its place
+    # in the order.
+    ordered = ([k for k in ORDER if k in paths or k == "occupiedzone"]
+               + [k for k in paths if k not in ORDER])
     # the enclaves that have to survive the occupied shading are held back and
     # drawn after it
     ordered = [k for k in ordered if k not in ON_TOP]
@@ -3998,23 +4075,35 @@ def main():
             out.append("    </g>")
         else:
             out.append(f'    <path id="a-{key}" class="atom" {meta} d="{paths[key]}"/>')
-    for key in ordered:
-        emit(key)
     if occ_path:
         ax, ay, area = occ_anchor
         # a group of named blocks rather than one path, so the pointer can say
         # which piece of the occupation it is on. data-islands because these are
         # places and not administrative divisions: they name themselves whether
         # or not the Administrative layer is on.
-        out.append(
-            f'    <g id="a-occupiedzone" class="atom" clip-path="url(#clip-china)" '
+        # No clip any more. The blocks needed one because they ran out to sea
+        # on purpose and the clip to China's land found the coast for them;
+        # this is traced with its own coastline, and clipping it to ENP's would
+        # cut away the seven hundred islets it draws and ENP does not have.
+        occ_out.append(
+            f'    <g id="a-occupiedzone" class="atom" '
             f'data-islands="1" data-cx="{fmt(ax)}" data-cy="{fmt(ay)}" '
             f'data-area="{int(area)}">'
         )
         for label, d in occ_pieces:
             attr = f' data-prov="{esc(label)}"' if label else ""
-            out.append(f'      <path{attr} d="{d}"/>')
-        out.append("    </g>")
+            occ_out.append(f'      <path{attr} d="{d}"/>')
+        occ_out.append("    </g>")
+
+    for key in ordered:
+        if key == "occupiedzone":
+            out.extend(occ_out)
+            occ_out = []
+            continue
+        emit(key)
+    # if the slot went missing from ORDER it still has to be drawn
+    if occ_out:
+        out.extend(occ_out)
     # Guangzhou Bay, cut back out of China: one path holding the bay's box and
     # the leasehold's own rings, filled by the even-odd rule so that what is
     # painted is the box minus the leasehold — a polygon difference done with a

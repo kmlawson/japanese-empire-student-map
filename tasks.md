@@ -146,6 +146,39 @@ rather than a tweak, and none of it is started.
 
 ## Done
 
+### The occupied zone is traced, not assembled from six blocks
+`tools/cache/japanese-occupied-territory-1941-2.geojson` replaces the six
+hand-drawn polygons of `OCCUPIED_ZONE`: **727 rings and 6,438 vertices** against
+six generalised blocks, with Hainan, the Canton delta, Swatow, Chungming, the
+Chusan archipelago and seven hundred islets drawn separately instead of being
+swept into a block or clipped out of one. A million square kilometres in all.
+
+The clip to China's land is gone with them. The blocks needed it because they
+ran out to sea on purpose so the clip would find the coast for them; this is
+traced with its own coastline, and clipping it to ENP's would have cut away the
+seven hundred islets it draws and ENP does not have.
+
+**The order it is drawn in** is the point of the change as much as the geometry.
+`occupiedzone` now has a slot in `ORDER` between Guangzhouwan and Chahar: over
+China, whose ground it is, and under Mengjiang and Manchukuo, which were client
+states with a colour of their own and not part of the shading. The resistance
+areas stay above it, being in `ON_TOP`, because they are what the shading is an
+overstatement of. It needed a second small change — `ordered` filtered itself
+down to keys that appear in `paths`, and this is a slot rather than an atom, so
+it had to be let through.
+
+The six region names survive. `OCCUPIED_ZONE` is kept, not deleted, and each
+traced ring takes the name of whichever block its centroid falls in, with
+islets going to the nearest — so the pointer still says North China and the
+Yangtze valley, Hainan, the Canton delta, Amoy and Kinmen, Swatow and Chaochow.
+Five of six; the Paotow corridor is gone because it was removed from the map
+earlier.
+
+**Still to settle:** the dashed line of control across China is still taken from
+`OCCUPIED_ZONE[0]`, the old block, so it no longer follows the edge of the
+shading it is supposed to agree with. The Layers panel says the two agree. They
+now diverge, most visibly in Hunan and Kiangsi.
+
 ### The cities are a gazetteer now, drawn as a map draws cities
 444 places in 1930 and 446 in 1942, from `data/cities-1930.csv` and
 `data/cities-1942.csv`. `tools/build_cities.py` takes the four columns the map
