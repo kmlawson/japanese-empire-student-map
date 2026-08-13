@@ -109,6 +109,89 @@ describing what was actually changed, before it is marked done.
 
 ## Done
 
+### The line of control across New Guinea was wrong, and is redrawn
+It ran offshore across the mouth of the Gulf of Papua and along the south
+coast, which put the whole island inside Japanese control — Merauke, Daru, the
+Fly delta, Kerema, Yule Island and the rear of the Kokoda campaign with them.
+None of that was Japanese at the end of 1942. Merauke flew the Dutch flag for
+the whole war and Merauke Force was raised there on 31 December 1942, this
+map's own date; the Gulf coast was Australian throughout; Kokoda had been
+retaken on 2 November; Wanigela had been an Allied airhead since October and
+Milne Bay Australian since September. What Japan held in New Guinea was the
+north coast and the far west — Sorong, Fak-Fak, Manokwari, Hollandia, Aitape,
+Wewak and Madang, both taken in mid-December, Lae, Salamaua, Finschhafen and
+the forward post at Mubo — and in Papua nothing but the Buna–Sanananda
+beachhead, which was being reduced as the year ended.
+
+The line now crosses the Arafura Sea east of the Aru Islands, comes ashore on
+the Asmat coast, runs along the southern flank of the central range leaving
+Merauke and the Digul outside, follows the divide of the Territory of New
+Guinea, passes between Salamaua and Wau, comes down the northern slope of the
+Owen Stanleys and out to sea past the beachhead. Checked against forty-five
+named places, before and after the smoothing: Aru, Nabire, Sarmi, Hollandia,
+Aitape, Wewak, Madang, Lae, Salamaua, Mubo, Finschhafen, Sanananda, Buna
+Mission and Cape Endaiadere inside; Merauke, Kimaam, Tanah Merah, Telefomin,
+Mount Hagen, Kundiawa, Goroka, Bulolo, Wau, Port Moresby, Kokoda, Dobodura, Oro
+Bay, Pongani, Tufi, Wanigela, Goodenough, Kiriwina, Milne Bay and Woodlark
+outside.
+
+Three generalisations a single perimeter cannot avoid, and which the line
+therefore makes: the Asmat and Mimika south coast falls inside, though neither
+side was on it; the interior of Dutch New Guinea and the Sepik, Ramu and
+Markham valleys fall inside, though Japan held only coastal enclaves there; and
+Gona, taken on 9 December, falls inside the beachhead nub, being ten kilometres
+from Sanananda. Sources: Dudley McCarthy, *South-West Pacific Area — First
+Year: Kokoda to Wau* (AWM 1959); Samuel Milner, *Victory in Papua*; the DVA
+Anzac Portal on the beachheads and the Kokoda campaign; and the Wikipedia
+articles on Merauke Force, Wewak Harbour, Buna–Gona, Oivi–Gorari and Goodenough
+Island.
+
+**Still to settle:** the *colour* has not been changed to match. All of New
+Guinea is still drawn in the occupation salmon, so the line now says one thing
+and the fill another.
+
+### Guadalcanal kept its stripes at depth
+The American stripes vanished as soon as a reader zoomed in far enough for the
+island's real coastline to load. They are copies of the atom's own shapes, and
+the sweep that stands a coarse shape down once a finer one has taken over walks
+every path in `#land` — which included them. The hatching is built by a
+function of its own now and rebuilt after the fine coastlines graft in, so it
+follows the finer shape instead of being hidden with the coarser one.
+
+### Nothing of Manchuria shows inside the Kwantung leasehold
+The yellow chips round Pulandian bay and among the islands off Dairen were
+Natural Earth's coastal islands. They are given to whichever Republican
+province is nearest, and the leasehold is cut out of Liaoning and knows only
+what Liaoning knows — so Manchuria's filler carried them and the leasehold
+drawn over it did not. An island inside the cut now goes to the leasehold too.
+
+### The Altai corner, and a seam that can turn a corner
+`push_seam` tried two directions, both along the normal to the line it was
+moving. Where two countries meet at an angle rather than run alongside each
+other that is the wrong pair: at the Altai corner, where Xinjiang, Mongolia and
+the Soviet Union come together, the normal to Mongolia's line points along the
+gap instead of across it, and a twenty-kilometre wedge stayed open. It now also
+tries straight at the nearest piece of the target, reaches half a degree
+instead of a third, and overshoots the first point inside by a few kilometres
+so that three strips meeting at a corner overlap rather than merely touch. Two
+slivers survive at the exact triple point.
+
+### Weihaiwei's northernmost point, and nothing else
+Moved 0.021° north — about two kilometres, which is what the ENP sheet puts
+between it and the Shantung coast there — tapering to nothing over the four
+vertices either side so the shore does not come to a needle. Stated in
+`GIS_VERTEX_NUDGE` as a point and a distance rather than as a redrawn polygon.
+It does not close the fringe along the rest of that shore: the two sources
+disagree by two to five kilometres for the whole northern arc, vertices 68 to
+102 of the main ring, and only shifting that whole run would clear it. That is
+a change to the traced shape and has not been made.
+
+### Smaller things
+Sikkim has a colour of its own, lighter than the Raj it was not part of and
+pinker than Bhutan next door. The Okinawa label reads Ryūkyū rather than
+Loochoo. The base-area hatching is denser again — 2.5 units between lines
+rather than 3.6, at a finer stroke.
+
 ### The line of control stays off the coast
 It was traced by hand against a coarser coastline than the map now draws, so
 along Fukien it wandered a few kilometres inland and across the Leizhou

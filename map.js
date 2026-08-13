@@ -637,20 +637,6 @@
         my += area * parseFloat(el.getAttribute('data-cy'));
         total += area;
 
-        if (t.hatch) {
-          // 'occupied' is the Japanese stripe, 'us' the American one; true on
-          // its own is the plain dark hatch
-          var cls = 'hatch-fill' + (typeof t.hatch === 'string'
-            ? ' hatch-' + (t.hatch === 'occupied' ? 'occ' : t.hatch) : '');
-          var paths = el.tagName === 'path' ? [el] : $$('path', el);
-          var clip = el.getAttribute('clip-path');
-          paths.forEach(function (path) {
-            var attrs = { 'class': cls, d: path.getAttribute('d') };
-            var own = path.getAttribute('clip-path') || clip;
-            if (own) attrs['clip-path'] = own;
-            hatchGroup.appendChild(svgEl('path', attrs));
-          });
-        }
       });
 
       atomsOf[t.id] = els;
@@ -690,11 +676,49 @@
       return (a.rec.lvl || 9) - (b.rec.lvl || 9);
     });
 
+    buildHatch();
+
     // the labels just created have no transform yet, and rescale() only runs
     // on a zoom change, so place them now or they sit at the map origin
     if (lastScaleW > 0) rescale();
     hideTooltip();
     buildLegend();
+  }
+
+  /* The stripes laid over a territory that two powers were on at once:
+     Japanese over Portuguese Timor, American over Guadalcanal.
+
+     Built here rather than inline in the epoch, because it has to be built
+     again when the fine coastlines arrive. They are copies of the atom's own
+     shapes, and the sweep that stands the coarse shapes down once a finer one
+     has taken over walks every path in #land — which includes these. So the
+     moment a reader zoomed far enough into Guadalcanal for its real coastline
+     to load, the American stripes were marked superseded and hidden, and the
+     one island on the map with two flags over it quietly lost one of them. */
+  function buildHatch() {
+    if (!hatchGroup) return;
+    hatchGroup.innerHTML = '';
+    territories().forEach(function (t) {
+      if (!t.hatch) return;
+      // 'occupied' is the Japanese stripe, 'us' the American one; true on its
+      // own is the plain dark hatch
+      var cls = 'hatch-fill' + (typeof t.hatch === 'string'
+        ? ' hatch-' + (t.hatch === 'occupied' ? 'occ' : t.hatch) : '');
+      t.atoms.forEach(function (a) {
+        var el = atomEls[a];
+        if (!el) return;
+        var clip = el.getAttribute('clip-path');
+        var paths = el.tagName === 'path' ? [el] : $$('path:not(.superseded)', el);
+        paths.forEach(function (path) {
+          var d = path.getAttribute('d');
+          if (!d) return;
+          var attrs = { 'class': cls, d: d };
+          var own = path.getAttribute('clip-path') || clip;
+          if (own) attrs['clip-path'] = own;
+          hatchGroup.appendChild(svgEl('path', attrs));
+        });
+      });
+    });
   }
 
   /* Rough width of a rendered label, in screen pixels. Measuring for real
@@ -2274,6 +2298,8 @@
         }
       });
       fineState = 'ready';
+      // the coarse shapes the stripes were copied from have just stood down
+      buildHatch();
       applyState();
       redrawHighlight();
     };

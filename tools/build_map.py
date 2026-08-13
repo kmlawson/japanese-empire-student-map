@@ -273,6 +273,21 @@ KWANTUNG_BOX = (120.55, 38.60, 123.00, 39.80)
 # pieces. They are drawn exactly as they arrive.
 GIS_NUDGE = {}
 
+# One named vertex moved, and nothing else. Weihaiwei's northernmost point sat
+# about two kilometres inside the Shantung coast as the ENP sheet draws it, so
+# a wedge of China showed above the top of the leasehold. The move is stated as
+# a point and a distance rather than as a redrawn polygon, and it tapers to
+# nothing over the four vertices either side so that the shore does not come to
+# a needle. Everything else in the file is untouched.
+#
+# What this does not do is close the fringe along the rest of that shore. The
+# two sources disagree by two to five kilometres for the whole of the northern
+# arc — vertices 68 to 102 of the main ring — and only shifting that whole run
+# would clear it. That is a change to the traced shape and is not made here.
+GIS_VERTEX_NUDGE = {
+    "weihaiwei": [(122.12438, 37.53886, 0.0, 0.021, 4)],
+}
+
 GIS_LAYERS = {
     "tuva": "tunnu_tuva.gpkg",
     "weihaiwei": "weihaiwei_british.gpkg",
@@ -827,14 +842,39 @@ EXTENT_OCEAN = [
     # north of the Tiwi Islands and the Cobourg peninsula, which are Australian
     (129.0, -11.25), (131.0, -10.85), (132.6, -10.75), (134.0, -10.6),
     (137.0, -9.6),
-    # along the Papuan peninsula, which Japan held the length of, bulging
-    # north around Port Moresby on the south coast, which it never reached
-    (139.2, -8.85), (140.4, -9.05), (141.1, -9.35), (142.0, -8.75),
-    (144.0, -8.4), (145.6, -8.7), (146.6, -8.4), (147.6, -8.6),
-    # round the north side of the Papuan tail: Buna and Gona were held and
-    # being fought over, Milne Bay had been Australian since September, and the
-    # D'Entrecasteaux, Trobriands and Louisiades were never taken
-    (148.6, -9.0), (149.4, -9.3), (150.2, -8.9), (151.1, -8.3), (152.6, -8.6),
+    # New Guinea, redrawn. The line used to run offshore across the mouth of
+    # the Gulf of Papua and along the south coast, which put the whole island
+    # inside — Merauke, Daru, the Fly delta, Kerema, Yule Island and the rear
+    # of the Kokoda campaign with it. None of that was Japanese. Merauke flew
+    # the Dutch flag for the whole war and Merauke Force was raised there on
+    # 31 December 1942, this map's own date; the Gulf coast was Australian
+    # throughout. What Japan held in New Guinea at the end of 1942 was the
+    # north coast and the far west, and in Papua nothing but the beachhead at
+    # Buna and Sanananda, which was being reduced as the year ended.
+    #
+    # Across the Arafura Sea east of the Aru Islands to a landfall on the
+    # Asmat coast. Where exactly it comes ashore is arbitrary — neither side
+    # was on that coast — but Merauke, the Digul and Frederik Hendrik Island
+    # have to end up outside, and they do.
+    (135.8, -9.2), (136.8, -7.4), (137.4, -5.8), (137.8, -5.0),
+    (138.6, -4.6), (139.6, -4.3), (140.6, -4.4), (141.2, -4.7),
+    # along the main divide of the Territory of New Guinea: the north coast was
+    # Japanese — Wewak taken on 18 December and Madang in the same week — while
+    # the highlands stayed under Australian administration
+    (142.2, -5.1), (143.4, -5.4), (144.4, -5.6), (145.4, -5.8),
+    # between Salamaua and Mubo, which were held, and Wau and Bulolo, which
+    # were not: the Japanese attack on Wau came a month later, in January
+    (146.0, -6.3), (146.5, -7.0), (146.9, -7.3),
+    # down the northern slope of the Owen Stanleys — Kokoda was retaken on
+    # 2 November and Port Moresby never reached — to the Buna-Sanananda
+    # beachhead, the only ground left to Japan in Papua at this date. Gona had
+    # fallen on 9 December and Buna village on the 14th, but they are ten
+    # kilometres from Sanananda and this map cannot draw the difference.
+    (147.4, -7.75), (147.9, -8.15), (148.2, -8.40),
+    (148.35, -8.70), (148.60, -8.72),
+    # and out to sea, leaving Cape Nelson, Wanigela, Oro Bay and Milne Bay
+    # outside, and the D'Entrecasteaux, Trobriands and Louisiades with them
+    (149.6, -8.2), (150.4, -8.2), (151.1, -8.3), (152.6, -8.6),
     (154.6, -9.6), (156.0, -10.1), (157.2, -9.6),
     # north-west of Malaita, Tulagi and Guadalcanal, none of which Japan held
     # in December; Santa Isabel, New Georgia and Choiseul stay inside. The line
@@ -1215,8 +1255,15 @@ CHINA_NEIGHBOURS = ("ussr", "mongolia", "indochina", "burma", "siam", "india",
                     "nepal", "bhutan", "sikkim", "tuva", "saharat", "siamgain")
 
 SEAM_STEP = 0.015          # degrees; how finely the gap is searched
-SEAM_MAX = 0.35            # degrees; wider than this is not a seam but a hole
-SEAM_MIN_RUN = 3           # vertices; shorter runs draw a fleck, not a strip
+SEAM_MAX = 0.50            # degrees; wider than this is not a seam but a hole
+SEAM_MIN_RUN = 2           # vertices; shorter runs draw a fleck, not a strip
+SEAM_OVER = 0.035          # degrees; how far past the first point inside the
+                           # target a strip reaches. Stopping at the first one
+                           # leaves the two edges touching rather than
+                           # overlapping, and at a place where three countries
+                           # meet — the Altai corner of Xinjiang, Mongolia and
+                           # the Soviet Union — three strips that each only
+                           # touch leave a wedge in the middle of them.
 
 # Frontiers away from China where two sources disagree, as (who moves, who
 # stays). The one that stays is always the better-drawn of the two: the traced
@@ -1285,6 +1332,21 @@ def _grid_of(rings, cell):
         for x, y in ring:
             grid[(int(math.floor(x / cell)), int(math.floor(y / cell)))].append((x, y))
     return grid
+
+
+def _nearest_in(grid, cell, p, radius):
+    """The nearest bucketed vertex to p within radius, or None."""
+    px, py = p
+    gx, gy = int(math.floor(px / cell)), int(math.floor(py / cell))
+    span = int(math.ceil(radius / cell))
+    best, bd = None, radius
+    for i in range(gx - span, gx + span + 1):
+        for j in range(gy - span, gy + span + 1):
+            for q in grid.get((i, j), ()):
+                d = math.hypot(px - q[0], py - q[1])
+                if d < bd:
+                    bd, best = d, q
+    return best
 
 
 def _near_grid(grid, cell, p, radius):
@@ -1371,15 +1433,31 @@ def push_seam(rings, target, reach=SEAM_MAX):
             if p is not None and _near_grid(grid, cell, p, reach) \
                     and not in_target(p):
                 nx, ny = _ring_normal(ring, k % n)
+                # Both ways along the normal, and straight at the nearest bit of
+                # the target. The normal alone fails where two countries meet at
+                # an angle rather than run alongside each other: in the Altai,
+                # where Xinjiang, Mongolia and the Soviet Union come together,
+                # the normal to Mongolia's line points along the gap instead of
+                # across it, and a twenty-kilometre wedge stayed open.
+                dirs = [(nx, ny), (-nx, -ny)]
+                near = _nearest_in(grid, cell, p, reach)
+                if near:
+                    dx, dy = near[0] - p[0], near[1] - p[1]
+                    h = math.hypot(dx, dy) or 1.0
+                    dirs.append((dx / h, dy / h))
                 w = SEAM_STEP
                 while w <= reach and far is None:
-                    for sign in (1.0, -1.0):
+                    for sign in dirs:
+                        nx, ny = sign
+                        sign = 1.0
                         q = (p[0] + sign * nx * w, p[1] + sign * ny * w)
                         # inside the target and out of its own country: a strip
                         # that doubles back into itself fills nothing and can
                         # cross a bay to do it
                         if in_target(q) and not in_own(q):
-                            far = q
+                            deep = (p[0] + sign * nx * (w + SEAM_OVER),
+                                    p[1] + sign * ny * (w + SEAM_OVER))
+                            far = deep if not in_own(deep) else q
                             break
                     w += SEAM_STEP
             if far is not None:
@@ -2529,6 +2607,17 @@ def main():
             if len(ring) >= 3:
                 if dx or dy:
                     ring = [(x + dx, y + dy) for x, y in ring]
+                for tx, ty, mx, my, span in GIS_VERTEX_NUDGE.get(key, ()):
+                    k = min(range(len(ring)),
+                            key=lambda i: (ring[i][0] - tx) ** 2 + (ring[i][1] - ty) ** 2)
+                    if math.hypot(ring[k][0] - tx, ring[k][1] - ty) > 1e-4:
+                        continue          # not this ring
+                    moved = list(ring)
+                    for j in range(-span, span + 1):
+                        i = (k + j) % len(ring)
+                        f = 0.5 * (1 + math.cos(math.pi * j / (span + 1)))
+                        moved[i] = (moved[i][0] + mx * f, moved[i][1] + my * f)
+                    ring = moved
                 groups[key].append(ring)
 
     # ---- Laos and Cambodia, minus the territory ceded in 1941 -------------
@@ -2671,7 +2760,11 @@ def main():
         # Changshan group and the rocks off Dairen were the country underneath
         # showing where the leasehold above it had thrown them away.
         if name == "Liaoning":
-            for ring in rings:
+            # cut from the *dissolved* province, which is the geometry the map
+            # draws Manchuria from. Clipping the raw rings gave the leasehold a
+            # coast a few hundred metres off Manchuria's, and the province
+            # showed through the difference as yellow chips round Pulandian bay
+            for ring in (dissolve(rings) if len(rings) > 1 else rings):
                 piece = clip_halfplanes(ring, kwantung_planes)
                 if len(piece) >= 3:
                     groups["kwantung"].append(piece)
@@ -2859,6 +2952,18 @@ def main():
     # Manchukuo.
     for ring in china_islands:
         extra[nearest_enp_atom(ring, provinces)].append(ring)
+        # An island inside the leasehold is the leasehold's. These come from
+        # Natural Earth and the Republican provinces do not carry them, so the
+        # leasehold — which is cut out of Liaoning and knows only what Liaoning
+        # knows — had nothing over them, and Manchuria's own filler showed
+        # through the middle of Kwantung as a scatter of yellow chips round
+        # Pulandian bay and among the islands off Dairen.
+        cx, cy = centroid_of(ring)
+        if KWANTUNG_BOX[0] <= cx <= KWANTUNG_BOX[2] \
+                and KWANTUNG_BOX[1] <= cy <= KWANTUNG_BOX[3]:
+            (ax, ay), (bx, by) = KWANTUNG_CUT
+            if (bx - ax) * (cy - ay) - (by - ay) * (cx - ax) < 0:
+                groups["kwantung"].append(ring)
 
     # Seams are not part of any country's shape. They go in a layer of their
     # own, under every atom, and are never stroked and never outlined: a strip
@@ -3137,9 +3242,9 @@ def main():
     # so that where the two cross — which is most of where these are — the
     # reader can see both: Japanese authority claimed here, and not held.
     out.append(
-        '    <pattern id="hatch-ccp" patternUnits="userSpaceOnUse" width="3.6" height="3.6" '
+        '    <pattern id="hatch-ccp" patternUnits="userSpaceOnUse" width="2.5" height="2.5" '
         'patternTransform="rotate(-45)">'
-        '<line x1="0" y1="0" x2="0" y2="3.6" stroke="#7a1730" stroke-opacity="0.6" stroke-width="0.9"/>'
+        '<line x1="0" y1="0" x2="0" y2="2.5" stroke="#7a1730" stroke-opacity="0.6" stroke-width="0.75"/>'
         "</pattern>"
     )
     # The occupied zone is clipped to China's land. Clip it to the shape that is
