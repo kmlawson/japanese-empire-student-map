@@ -1784,6 +1784,16 @@ JMAP.PROVINCES = {
   'the Daitō Islands': { en: 'The Daitō Islands', ja: '大東諸島 (Daitō Shotō)', zh: '大東群島' },
   'the Senkaku / Diaoyu Islands': { en: 'The Senkaku / Diaoyu Islands — administered from Okinawa', ja: '尖閣諸島 (Senkaku Shotō)', zh: '釣魚臺列嶼',
     note: 'Claimed today by Japan, by the People’s Republic of China and by Taiwan; uninhabited, and administered by Japan.' },
+  /* At deep zoom the fine coastlines split the group into its islands, which
+     OSM names separately — and an islet that answers with a bare name while the
+     group beside it explains the dispute is the map contradicting itself. Each
+     carries the same note. */
+  'Uotsuri Shima': { en: 'Uotsurijima — the largest of the Senkaku / Diaoyu Islands', ja: '魚釣島 (Uotsurijima)', zh: '釣魚島',
+    note: 'Claimed today by Japan, by the People’s Republic of China and by Taiwan; uninhabited, and administered by Japan.' },
+  'Kuba-shima': { en: 'Kubajima — in the Senkaku / Diaoyu Islands', ja: '久場島 (Kubajima)', zh: '黃尾嶼',
+    note: 'Claimed today by Japan, by the People’s Republic of China and by Taiwan; uninhabited, and administered by Japan.' },
+  'Kuba Island': { en: 'Kubajima — in the Senkaku / Diaoyu Islands', ja: '久場島 (Kubajima)', zh: '黃尾嶼',
+    note: 'Claimed today by Japan, by the People’s Republic of China and by Taiwan; uninhabited, and administered by Japan.' },
 
   /* the Aleutians, island by island. Only Attu and Kiska were taken, but the
      chain is the reason the campaign happened at all, and the places the

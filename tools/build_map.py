@@ -2137,6 +2137,38 @@ def china_island(ring):
     return not (x0 <= cx <= x1 and y0 <= cy <= y1)
 
 
+
+# A backing is a country's outline with its islands beside it. Anything small
+# that ends up *inside* the outline is neither: it is the residue of dissolving
+# provinces that do not quite share their edges, and China collected twenty-one
+# of them, several bare triangles. They are invisible in the fill, which covers
+# them, and they are not invisible when the country is hovered — the selection
+# outline traces every ring it is given, so each one came out as a short stroke
+# floating deep inland with nothing to explain it.
+INTERIOR_SLIVER = 3.0        # square SVG units, about 95 sq km
+
+
+def drop_interior_slivers(pieces, limit=INTERIOR_SLIVER):
+    """Remove small rings that lie inside the largest ring of the same shape."""
+    rings = []
+    for pd in pieces:
+        nums = [float(v) for v in re.findall(r"-?\d+(?:\.\d+)?", pd)]
+        rings.append([(nums[i], nums[i + 1]) for i in range(0, len(nums) - 1, 2)])
+    if len(rings) < 2:
+        return pieces
+    big = max(range(len(rings)), key=lambda i: len(rings[i]))
+    out = []
+    for i, pd in enumerate(pieces):
+        r = rings[i]
+        if i != big and len(r) >= 3 and abs(ring_area(r)) < limit:
+            cx = sum(p[0] for p in r) / len(r)
+            cy = sum(p[1] for p in r) / len(r)
+            if point_in_ring((cx, cy), rings[big]):
+                continue
+        out.append(pd)
+    return out
+
+
 _OCCUPIED_CACHE = []
 
 
@@ -3908,7 +3940,7 @@ def main():
             ring = clip_halfplanes(normalise_ring(ring), frame)
             if len(ring) >= 3:
                 pieces.append(ring_to_path([project(x, y) for x, y in ring]))
-        return "".join(pieces)
+        return "".join(drop_interior_slivers(pieces))
 
     def province_paths(key, src=None):
         """One path per Republican province, for the atoms built from them.

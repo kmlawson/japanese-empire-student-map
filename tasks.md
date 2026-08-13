@@ -146,6 +146,31 @@ rather than a tweak, and none of it is started.
 
 ## Done
 
+### Breaks deep inland when a country is hovered
+Hovering China with the Administrative layer off drew short strokes floating in
+the interior with nothing to explain them, and the same in Manchuria. They were
+real rings: China's backing carried **twenty-one closed rings inside its own
+mainland outline**, several of them bare three-point triangles — the residue of
+dissolving provinces whose edges do not quite meet. Invisible in the fill, which
+covers them, and not invisible when the country is hovered, because the
+selection outline traces every ring it is given.
+
+`drop_interior_slivers` removes any ring under three square units — about
+95 km² — that lies inside the largest ring of the same shape. China goes from 21
+to 7 and the Philippines from 1 to 0. The seven that stay are real: 18 to 60
+points each and compactness 0.24 to 0.55, which is a shape rather than a
+splinter — delta and river islands that happen to sit inside the outline. The
+threshold separates the two cleanly; nothing between 2.1 and 4.3 square units
+exists to argue about.
+
+### Every Senkaku island explains the dispute, not just the group
+The note was on the group, `the Senkaku / Diaoyu Islands`, and the group is what
+the coarse map draws. At deep zoom the fine coastlines take over and OSM names
+the islands separately — Uotsuri Shima, Kuba-shima, Kuba Island — so those
+answered with a bare name while the group beside them explained the dispute.
+All three carry the note now, with their Japanese and Chinese names. It shows on
+both dates: the record is in `JMAP.PROVINCES`, which is not epoch-keyed.
+
 ### The occupied zone is traced, not assembled from six blocks
 `tools/cache/japanese-occupied-territory-1941-2.geojson` replaces the six
 hand-drawn polygons of `OCCUPIED_ZONE`: **727 rings and 6,438 vertices** against
