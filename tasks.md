@@ -172,8 +172,8 @@ All three carry the note now, with their Japanese and Chinese names. It shows on
 both dates: the record is in `JMAP.PROVINCES`, which is not epoch-keyed.
 
 ### The occupied zone is traced, not assembled from six blocks
-`tools/cache/japanese-occupied-territory-1941-2.geojson` replaces the six
-hand-drawn polygons of `OCCUPIED_ZONE`: **727 rings and 6,438 vertices** against
+`tools/cache/japanese-occupied-territory-1941-2-v2.geojson` replaces the six
+hand-drawn polygons of `OCCUPIED_ZONE`: **722 rings and 6,461 vertices** against
 six generalised blocks, with Hainan, the Canton delta, Swatow, Chungming, the
 Chusan archipelago and seven hundred islets drawn separately instead of being
 swept into a block or clipped out of one. A million square kilometres in all.

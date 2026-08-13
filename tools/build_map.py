@@ -204,7 +204,7 @@ OCCUPIED_BLOCKS = (
 # The blocks are kept because two things still read from them: the line of
 # control's inland edge across China, and the names of the six regions, which
 # the traced rings take by asking which block they fall in.
-OCCUPIED_FILE = "japanese-occupied-territory-1941-2.geojson"
+OCCUPIED_FILE = "japanese-occupied-territory-1941-2-v2.geojson"
 
 OCCUPIED_ZONE = [
     # The northern and central mass, December 1942. West edge down the
