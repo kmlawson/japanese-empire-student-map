@@ -7,6 +7,20 @@ describing what was actually changed, before it is marked done.
 
 ## Open — asked for and not yet done
 
+- **The slivers at Brunei Bay.** Reproduced and diagnosed, not fixed. Where
+  geoBoundaries' Sabah, Sarawak and Brunei meet, the three polygons do not
+  close on each other: at 115.36 E 5.23 N and 115.48 E 5.12 N nothing covers
+  the ground at all, and two more wedges nearby are covered only by a North
+  Borneo seam showing through the hole. The seams cannot close it — a strip
+  reaches from one country's boundary to another's, and here three boundaries
+  are involved and none of them is where the others expect. It wants either a
+  patch or a rule that fills a sliver from whichever neighbour is nearest.
+  It is also the answer to "selecting Sarawak highlights North Borneo": it does
+  not — hovering Sarawak lights only Sarawak, checked — but Sarawak's seam
+  strips show through North Borneo's holes in Sarawak's colour, so part of
+  North Borneo is painted Sarawak whatever the pointer does.
+
+
 These are the outstanding half of the batch of 13 August. Each is real work
 rather than a tweak, and none of it is started.
 

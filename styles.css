@@ -484,6 +484,7 @@ button.plain:hover { background: #f2ede2; }
 
 .hatch-fill.hatch-occ { fill: url(#hatch-occ); }
 .hatch-fill.hatch-us { fill: url(#hatch-us); }
+.hatch-fill.hatch-thai { fill: url(#hatch-thai); }
 
 /* Guangzhou Bay, painted back out of China. See build_map.py: the box minus
    Natural Earth's coastline, by the even-odd rule. */
@@ -709,6 +710,8 @@ button.plain:hover { background: #f2ede2; }
    scripts; the country underneath is plainer, being context. */
 #tooltip .sub.alt-script { color: #f0d9a8; }
 #tooltip .sub.prov { color: #d8cfbf; }
+/* a note that belongs to the sub-unit rather than to the country */
+#tooltip .sub.prov-note { color: #cfc6b6; font-style: italic; max-width: 24rem; }
 
 /* -------------------------------------------------------- info & quiz --- */
 
@@ -1192,7 +1195,8 @@ dialog h3 {
    to a flat near-white and takes the only outline on the map. */
 #a-princely.hot { filter: brightness(1.18) saturate(.62); }
 #a-princely .prov-hot {
-  fill: #F5F0F1;
+  /* a very light British, not white: the state is still part of that layer */
+  fill: #E7D3D9;
   filter: none;
 }
 
@@ -1204,8 +1208,8 @@ dialog h3 {
 #a-india .prov-hot { filter: brightness(.86) saturate(1.25); }
 
 #jmap.admin-on .atom.subs > path[data-prov]:not(.fine) {
-  stroke: rgba(35, 32, 27, .34);
-  stroke-width: .7;
+  stroke: rgba(18, 15, 10, .62);
+  stroke-width: .8;
 }
 /* Nothing is outlined except the country under the pointer. The princely
    states were exempt once, and six hundred outlines at once is a mesh rather

@@ -1624,6 +1624,15 @@
       w.textContent = when;
       tooltip.appendChild(w);
     }
+    // A sub-unit may carry a note of its own — the Senkakus are disputed
+    // today, Labuan joined the Straits Settlements on a date. It belongs under
+    // the name it is about, not in it.
+    if (head !== rec && head.note) {
+      var pn = document.createElement('span');
+      pn.className = 'sub prov-note';
+      pn.textContent = head.note;
+      tooltip.appendChild(pn);
+    }
     tooltip.hidden = false;
     var r = tooltip.getBoundingClientRect();
     var x = Math.min(Math.max(8, cx + 16), window.innerWidth - r.width - 8);

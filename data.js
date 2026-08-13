@@ -466,8 +466,11 @@ JMAP.TERRITORIES = {
       zh: '緬甸',
       when: 'Taken 1942; nominal independence August 1943',
       note: 'Separated from British India in 1937 and overrun in the first half of 1942, closing the Burma Road to Chungking. Ba Maw headed the nominally independent state declared in 1943.' },
-    { id: 'saharat', atoms: ['saharat'], cat: 'cobelligerent', lvl: 3,
-      hatch: 'occupied', outline: true, outlineColor: '#3da492',
+    // Japanese-occupied ground with Thai stripes across it: Thai troops
+    // administered it from December 1942, but the transfer was not made until
+    // 20 August 1943 and until then it was Japanese-held Burma.
+    { id: 'saharat', atoms: ['saharat'], cat: 'occupied', lvl: 3,
+      hatch: 'thai', outline: true, outlineColor: '#3da492',
       en: 'Kengtung and the trans-Salween Shan states',       orig: 'สหรัฐไทยเดิม (Saharat Thai Doem)',             when: 'Thai-occupied 1942; transferred August 1943',
       note: 'Thai troops crossed into the Shan states behind the Japanese advance in May 1942 and took Kengtung, and by December they were administering the country east of the Salween. It was still legally Burmese: Japan did not hand it over until 20 August 1943, when it became Saharat Thai Doem, the "original Thai territories". Not everything Thailand claimed in the Shan and Karenni states was granted. It went back to Burma in 1945. Boundary after the map by Xufanc on Wikimedia Commons (CC BY-SA 4.0).' },
     { id: 'malaya', atoms: ['malaya', 'christmas'], cat: 'occupied', lvl: 1,
@@ -1234,7 +1237,7 @@ JMAP.EXTENT_1942 = {
   ja: '日本の支配の範囲と戦線（1942年12月）',
   zh: '日本控制範圍與戰線（1942年12月）',
   ko: '일본 지배 범위와 전선 (1942년 12월)',
-  source: 'after Andrew Gordon, A Modern History of Japan',
+  source: 'one of several maps used; see Sources',
   /* The geometry lives in the generated SVG as #extent-1942: where the limit
    * was a real frontier it is taken straight off the territory outlines, so
    * only the fronts and the ocean stretches are drawn by hand. */
@@ -1676,7 +1679,8 @@ JMAP.PROVINCES = {
   'Qinghe': { en: 'Qīnghé — the Yellow River delta', zh: '清河' },
   'Jiaodong': { en: 'Jiāodōng — the Shantung peninsula', zh: '膠東' },
   'Luzhong': { en: 'Lǔzhōng — central Shantung', zh: '魯中' },
-  'Lunan and Binhai': { en: 'Lǔnán and Bīnhǎi — southern and coastal Shantung', zh: '魯南・濱海' },
+  'Lunan': { en: 'Lǔnán — southern Shantung', zh: '魯南' },
+  'Binhai': { en: 'Bīnhǎi — the Shantung coast south of Chiao-chou', zh: '濱海' },
   'Subei': { en: 'Sūběi — northern Kiangsu', zh: '蘇北' },
   'Huaibei': { en: 'Huáiběi — north of the Huai', zh: '淮北' },
   'Huainan': { en: 'Huáinán — south of the Huai', zh: '淮南' },
@@ -1778,7 +1782,8 @@ JMAP.PROVINCES = {
   'Haterumajima': { en: 'Haterumajima — the southernmost of the empire', zh: '波照間島' },
   'Yonagunijima': { en: 'Yonagunijima — 110 km from Formosa', ja: '与那国島 (Yonagunijima)', zh: '與那國島' },
   'the Daitō Islands': { en: 'The Daitō Islands', ja: '大東諸島 (Daitō Shotō)', zh: '大東群島' },
-  'the Senkaku / Diaoyu Islands': { en: 'The Senkaku / Diaoyu Islands — administered from Okinawa; claimed today by Japan, China and Taiwan', ja: '尖閣諸島 (Senkaku Shotō)', zh: '釣魚臺列嶼' },
+  'the Senkaku / Diaoyu Islands': { en: 'The Senkaku / Diaoyu Islands — administered from Okinawa', ja: '尖閣諸島 (Senkaku Shotō)', zh: '釣魚臺列嶼',
+    note: 'Claimed today by Japan, by the People’s Republic of China and by Taiwan; uninhabited, and administered by Japan.' },
 
   /* the Aleutians, island by island. Only Attu and Kiska were taken, but the
      chain is the reason the campaign happened at all, and the places the

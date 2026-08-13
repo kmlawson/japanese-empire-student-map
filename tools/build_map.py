@@ -257,7 +257,7 @@ OCCUPIED_ZONE = [
 # not cover is sea: the ENP sheet's Shantung coast runs a few hundred metres
 # outside the traced leasehold along the whole of its northern shore, and
 # showed as a rim of China above it and as an island in its bay.
-WEIHAIWEI_SEA_BOX = (121.940, 37.500, 122.300, 37.600)
+WEIHAIWEI_SEA_BOX = (121.930, 37.470, 122.330, 37.620)
 
 KWANTUNG_CUT = ((121.20, 39.66), (122.45, 39.28))
 KWANTUNG_BOX = (120.55, 38.60, 123.00, 39.80)
@@ -778,7 +778,7 @@ EXTENT_KEEP_INLAND = [
     (109.90, 20.80, 110.95, 21.65),     # Kwangchowwan
 ]
 
-EXTENT_OFFSHORE = 0.055    # degrees; about six kilometres clear of the shore
+EXTENT_OFFSHORE = 0.085    # degrees; about nine kilometres clear of the shore
 EXTENT_OFFSHORE_MAX = 1.2  # degrees; how far out to sea to look for the shore
                            # when pulling a vertex back in
 EXTENT_REACH = 0.9         # degrees; how far inland a vertex may be and still
@@ -1364,7 +1364,7 @@ CHINA_NEIGHBOURS = ("ussr", "mongolia", "indochina", "burma", "siam", "india",
 SEAM_STEP = 0.015          # degrees; how finely the gap is searched
 SEAM_MAX = 0.50            # degrees; wider than this is not a seam but a hole
 SEAM_MIN_RUN = 3           # vertices; shorter runs draw a fleck, not a strip
-SEAM_ASPECT = 9.0          # a strip longer than this many times its own
+SEAM_ASPECT = 26.0         # a strip longer than this many times its own
                            # width is a splinter, not a seam
 SEAM_AIM = 0.18            # degrees; how near a target must be to be aimed at
 SEAM_STRIDE = 0.25         # degrees; the furthest apart two vertices of a run
@@ -1400,6 +1400,7 @@ ELSEWHERE_SEAMS = (
     ("dei", ("timor_pt", "northborneo", "sarawak", "brunei")),
     ("northborneo", ("sarawak", "brunei", "dei")),
     ("sarawak", ("brunei", "northborneo")),
+    ("brunei", ("northborneo", "sarawak")),
 )
 
 
@@ -2193,7 +2194,8 @@ CCP_ZONES = [
     ("Qinghe", 116.9, 36.98, 119.3, 38.6),
     ("Jiaodong", 119.3, 36.4, 123.2, 38.4),
     ("Luzhong", 116.4, 35.4, 118.6, 36.98),
-    ("Lunan and Binhai", 117.1, 34.4, 119.6, 35.75),
+    ("Binhai", 118.4, 34.4, 119.8, 35.75),
+    ("Lunan", 117.1, 34.4, 118.4, 35.75),
     ("Subei", 118.3, 33.15, 120.7, 35.0),
     ("Huainan", 116.8, 31.0, 119.2, 32.95),
     ("Huaibei", 116.4, 32.6, 118.4, 34.4),
@@ -2991,7 +2993,11 @@ def main():
 
     extent = []
     extent += chaikin(china_front())
-    _china_land = [r for k in ENP_SIDE for r in groups.get(k, ())]
+    # the coastal islands count as land here: a line of control drawn across
+    # one is drawn over ground, and Natural Earth's islands are the only record
+    # of most of them
+    _china_land = ([r for k in ENP_SIDE for r in groups.get(k, ())]
+                   + list(groups.get("chinabase", [])))
     extent += hug_coast(chaikin(EXTENT_SOUTH_CHINA),
                         _ring_test(_china_land),
                         coast=(_grid_of(_china_land, 0.5), 0.5))
@@ -3460,6 +3466,15 @@ def main():
         '    <pattern id="hatch-us" patternUnits="userSpaceOnUse" width="9" height="9" '
         'patternTransform="rotate(45)">'
         '<line x1="0" y1="0" x2="0" y2="9" stroke="#325d7b" stroke-opacity="1" stroke-width="4.4"/>'
+        "</pattern>"
+    )
+    # Thai forces on Japanese-held Burmese ground: Kengtung and the
+    # trans-Salween Shan states, administered from Bangkok from late 1942 but
+    # not transferred until August 1943.
+    out.append(
+        '    <pattern id="hatch-thai" patternUnits="userSpaceOnUse" width="9" height="9" '
+        'patternTransform="rotate(45)">'
+        '<line x1="0" y1="0" x2="0" y2="9" stroke="#8dd3c7" stroke-opacity="1" stroke-width="4.4"/>'
         "</pattern>"
     )
     # The Communist base areas, laid over the occupied shading rather than
