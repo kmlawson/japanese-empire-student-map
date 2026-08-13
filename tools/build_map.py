@@ -833,7 +833,13 @@ EXTENT_SOUTH_CHINA = [
 # Ocean perimeter, running clockwise from the Bay of Bengal.
 EXTENT_OCEAN = [
     (91.6, 20.0), (90.6, 16.0), (90.4, 12.0), (90.6, 8.0), (92.0, 3.5),
-    (94.4, 0.0), (97.0, -3.6), (100.6, -6.6), (105.0, -8.6), (110.0, -10.2),
+    (94.4, 0.0), (97.0, -3.6), (100.6, -6.6), (105.0, -8.6),
+    # south round Christmas Island, taken on 31 March 1942 and three hundred
+    # and fifty kilometres out from Java. The apex overshoots the island by a
+    # little because the smoothing pulls an extreme point back in.
+    (105.20, -9.55), (105.40, -10.45), (105.65, -11.10), (105.95, -10.50),
+    (106.40, -9.70), (107.6, -9.75),
+    (110.0, -10.2),
     (115.0, -11.0), (120.0, -11.4), (125.0, -11.6),
     # north of the Tiwi Islands and the Cobourg peninsula, which are Australian
     (129.0, -11.25), (131.0, -10.85), (132.6, -10.75), (134.0, -10.6),
@@ -1065,6 +1071,28 @@ def quad_planes(poly):
 
 def box_planes(x0, y0, x1, y1):
     return [(1, 0, -x0), (-1, 0, x1), (0, 1, -y0), (0, -1, y1)]
+
+
+def convex_hull(points):
+    """The convex hull of a set of points, anticlockwise. Monotone chain."""
+    pts = sorted(set(points))
+    if len(pts) < 3:
+        return list(pts)
+
+    def half(seq):
+        out = []
+        for p in seq:
+            while len(out) >= 2:
+                (ax, ay), (bx, by) = out[-2], out[-1]
+                if (bx - ax) * (p[1] - ay) - (by - ay) * (p[0] - ax) > 0:
+                    break
+                out.pop()
+            out.append(p)
+        return out
+
+    lower = half(pts)
+    upper = half(reversed(pts))
+    return lower[:-1] + upper[:-1]
 
 
 def hull_planes(hull):
@@ -1980,7 +2008,7 @@ RYUKYU_BOXES = [
 # atom key -> the list of islands it might be one of
 # Sub-units that are places rather than administrative divisions, and so are
 # named whether or not the Administrative layer is on.
-ALWAYS_NAMED = frozenset({"goa", "pondicherry", "christmas"})
+ALWAYS_NAMED = frozenset({"goa", "pondicherry", "christmas", "ccp"})
 
 # Kept in the main file rather than deferred to the Administrative one, without
 # thereby being named when that layer is off. The four northern Malay states
@@ -2029,6 +2057,46 @@ def island_name(key, ring):
 # on this map is described as generous for exactly this reason, and this is the
 # other half of that sentence.
 CCP_FILE = "ccp-resistance-areas-1941-1942-p199.geojson"
+
+# The atlas sheet the base areas are traced from labels its regions and not its
+# polygons, and the polygons are many and small. These boxes group them, so
+# that hovering any patch of shading answers with the base area it belongs to
+# rather than with nothing. First match wins, so the boxes may overlap; the
+# polygons themselves are not touched, and nothing is drawn for the boxes —
+# they only decide which name a shape carries.
+#
+# This is a grouping and not a boundary. The areas moved from month to month
+# and their edges are not these rectangles; a patch near a border may well be
+# filed under its neighbour. What the reader gets is the name of the region
+# they are looking at, which is what the sheet's own labels give.
+CCP_ZONES = [
+    ("Shaan-Gan-Ning", 105.0, 34.5, 110.6, 39.8),
+    ("Jin-Sui", 110.6, 36.9, 113.4, 40.6),
+    ("Jin-Cha-Ji", 113.4, 37.9, 116.9, 40.6),
+    ("Jinan", 114.6, 36.0, 116.4, 37.9),
+    ("Taihang and Taiyue", 110.6, 34.8, 114.6, 37.9),
+    ("Ji-Lu-Yu", 113.9, 33.6, 117.1, 36.2),
+    ("Qinghe", 116.9, 36.98, 119.3, 38.6),
+    ("Jiaodong", 119.3, 36.4, 123.2, 38.4),
+    ("Luzhong", 116.4, 35.4, 118.6, 36.98),
+    ("Lunan and Binhai", 117.1, 34.4, 119.6, 35.75),
+    ("Subei", 118.3, 33.15, 120.7, 35.0),
+    ("Huainan", 116.8, 31.0, 119.2, 32.95),
+    ("Huaibei", 116.4, 32.6, 118.4, 34.4),
+    ("Suzhong", 119.2, 32.2, 121.9, 33.2),
+    ("Sunan", 118.9, 30.9, 122.0, 32.2),
+    ("Wanjiang", 117.2, 30.2, 118.9, 31.9),
+    ("Zhedong", 120.5, 29.4, 122.2, 30.6),
+    ("E-Yu-Wan", 111.9, 29.5, 116.2, 31.7),
+]
+
+
+def ccp_zone(ring):
+    cx, cy = centroid_of(ring)
+    for name, x0, y0, x1, y1 in CCP_ZONES:
+        if x0 <= cx <= x1 and y0 <= cy <= y1:
+            return name
+    return ""
 
 # Christmas Island, annexed to the Straits Settlements in 1900 and run from
 # Singapore, and taken by Japan on 31 March 1942 for its phosphate. Natural
@@ -2274,6 +2342,9 @@ def main():
     # union of its own sub-units and a key would silently replace that.
     extra = collections.defaultdict(list)
     china_islands = []
+    # Natural Earth's own coastline of China, kept whether or not it is drawn:
+    # Guangzhou Bay is cut out of the Republican provinces with it.
+    ne_china_rings = []
 
     # ---- everything except China ------------------------------------------
     for feat in a0["features"]:
@@ -2284,6 +2355,7 @@ def main():
             for ring in iter_rings(feat["geometry"]):
                 groups["chinabase"].append(ring)
         if admin == "China":
+            ne_china_rings.extend(iter_rings(feat["geometry"]))
             # China itself is drawn from the Republican provinces, but its
             # modern outline is kept as a backing layer. The two sources put
             # the land border in slightly different places, and without
@@ -2458,11 +2530,19 @@ def main():
     # ---- the Communist base areas, 1941-42 ---------------------------------
     cpath = os.path.join(CACHE, CCP_FILE)
     if os.path.exists(cpath):
+        zones = collections.defaultdict(list)
         with open(cpath) as fh:
             for feat in json.load(fh)["features"]:
                 for ring in iter_rings(feat["geometry"]):
                     if len(ring) >= 3:
                         groups["ccp"].append(ring)
+                        zones[ccp_zone(ring)].append(ring)
+        for label in sorted(zones):
+            provinces["ccp"].append((label, zones[label]))
+        unplaced = len(zones.get("", []))
+        sys.stderr.write(
+            f"base areas: {len(groups['ccp'])} shapes in {len(zones)} zones"
+            + (f", {unplaced} unplaced" if unplaced else "") + "\n")
     else:
         sys.stderr.write(f"note: {CCP_FILE} missing, base areas not drawn\n")
 
@@ -3050,6 +3130,22 @@ def main():
             hits[key] = [(m[1], m[2]) for m in sorted(moments, reverse=True)[:6]]
         stats.append((key, len(pieces), len(paths[key]), "dissolved" if merged else "raw"))
 
+    # Guangzhou Bay as water: the bay's box, then Natural Earth's coastline
+    # inside it, in one path filled by the even-odd rule so that the land
+    # subtracts from the box. See where it is emitted, below.
+    bay_path = ""
+    if groups.get("guangzhouwan"):
+        # The outer ring is the leasehold's own convex hull rather than a box:
+        # a box leaves its corners standing out over the mainland as rectangles
+        # of ocean, and the hull touches the leasehold at every extreme and
+        # cuts nothing that the leasehold does not already reach around.
+        hull = convex_hull([p for r in groups["guangzhouwan"] for p in r])
+        pieces = [ring_to_path([project(x, y) for x, y in hull], FINE_PRECISION)]
+        for ring in groups["guangzhouwan"]:
+            pieces.append(ring_to_path([project(x, y) for x, y in
+                                        normalise_ring(ring)], FINE_PRECISION))
+        bay_path = "".join(pieces) if len(pieces) > 1 else ""
+
     ordered = [k for k in ORDER if k in paths] + [k for k in paths if k not in ORDER]
     # the enclaves that have to survive the occupied shading are held back and
     # drawn after it
@@ -3359,6 +3455,13 @@ def main():
             attr = f' data-prov="{esc(label)}"' if label else ""
             out.append(f'      <path{attr} d="{d}"/>')
         out.append("    </g>")
+    # Guangzhou Bay, cut back out of China: one path holding the bay's box and
+    # the leasehold's own rings, filled by the even-odd rule so that what is
+    # painted is the box minus the leasehold — a polygon difference done with a
+    # fill rule, there being no polygon difference anywhere in this build.
+    # Drawn under the leasehold and over everything else.
+    if bay_path:
+        out.append(f'    <path id="gzw-bay" fill-rule="evenodd" d="{bay_path}"/>')
     # the shading stripes go on before the enclaves, so that Weihaiwei and
     # Macao are not painted over by the occupation they sat outside
     out.append('    <g id="hatching"></g>')

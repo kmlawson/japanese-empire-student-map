@@ -109,6 +109,63 @@ describing what was actually changed, before it is marked done.
 
 ## Done
 
+### Guangzhou Bay is cut out of China with a fill rule
+The ENP sheet's Kwangtung is coarse enough to cover the bay and every one of
+its tidal creeks, so the country showed through each channel of the leasehold
+traced over it. The patch is one path holding the leasehold's own convex hull
+and then the leasehold's rings, filled by the even-odd rule so that what is
+painted is the hull minus the leasehold — a polygon difference done with a fill
+rule, there being no polygon difference anywhere in this build. Drawn in the
+ocean colour, under the leasehold and over everything else.
+
+The hull rather than a bounding box: a box leaves its corners standing out over
+the mainland as rectangles of ocean, which is what the first attempt did. The
+hull touches the leasehold at every extreme and cuts nothing the leasehold does
+not already reach around. Natural Earth's coastline was tried as the cutter
+first and is not fine enough — it resolves the bay but not the creeks, and left
+half the fringe behind.
+
+### The base areas answer with the region they belong to
+Seventy-five shapes traced from a sheet that labels its regions and not its
+polygons. `CCP_ZONES` is eighteen boxes — Shaan-Gan-Ning, Jin-Sui, Jin-Cha-Ji,
+Chi-nan, Taihang and Taiyue, Chi-Lu-Yü, Ch'ing-ho, Chiao-tung, Lu-chung, Lu-nan
+and Pin-hai, Su-pei, Huai-pei, Huai-nan, Su-chung, Su-nan, Wan-chiang, Che-tung
+and O-Yü-Wan — and every shape takes the name of the first box its centroid
+falls in. Nothing is drawn for the boxes and no polygon is touched; they only
+decide which name a shape carries. All 75 are placed.
+
+This is a grouping and not a boundary: the areas moved from month to month,
+their edges are not these rectangles, and a patch near a border may well be
+filed under its neighbour. What the reader gets is the name of the region they
+are looking at, which is what the sheet's own labels give. No historical
+context is attached, per the request.
+
+### Pinyin first, with tones, everywhere in China
+124 names. Every Chinese city and event carries the present-day Pinyin with its
+tone marks as the headline and the period spelling in brackets — Běijīng
+(Peking / Peiping), Chóngqìng (Chungking), Wūlǔmùqí (Urumchi) — and so now do
+the provinces (Shāndōng, Guǎngdōng, Jiāngsū, Hēilóngjiāng) and the territories
+that were named in Chinese: Guǎngzhōuwān (Kwangchowan), Wēihǎiwèi, Měngjiāng,
+Xiàmén (Amoy), Shàntóu (Swatow), Hǎinán. Places whose English name is an
+English phrase rather than a romanisation keep it: the Kwantung Leased
+Territory, the Republic of China, Manchukuo, Hong Kong, Macao.
+
+### Christmas Island is inside the line of control
+The perimeter ran along the south of Java and left it out. It dips south round
+the island now. Checked by point-in-fill against the drawn perimeter: Christmas
+Island and Java inside, Cocos, Merauke and Port Moresby outside, Wewak inside.
+
+### The princely states, and sources.html
+Only the state under the pointer is outlined now; the whole layer lightens and
+desaturates when any of them is hovered, so the set is still visible as a set,
+and the one being pointed at darkens and saturates against it. Six hundred
+outlines at once is a mesh rather than a map.
+
+sources.html could not be scrolled. It loads styles.css, which belongs to an
+app shell that must never scroll — `html, body { height: 100%; overflow:
+hidden }` and a flex column — so the page showed its first screenful and
+nothing else. It undoes all three.
+
 ### The QGIS layers were in the wrong place, and it was the projection
 This is the cause of a long run of things that have been treated as separate
 problems for days: the fringe of China above Weihaiwei, the mess round

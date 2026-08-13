@@ -485,6 +485,14 @@ button.plain:hover { background: #f2ede2; }
 .hatch-fill.hatch-occ { fill: url(#hatch-occ); }
 .hatch-fill.hatch-us { fill: url(#hatch-us); }
 
+/* Guangzhou Bay, painted back out of China. See build_map.py: the box minus
+   Natural Earth's coastline, by the even-odd rule. */
+#gzw-bay {
+  fill: var(--ocean);
+  stroke: none;
+  pointer-events: none;
+}
+
 /* The Communist base areas: an overlay, not a colour. They are drawn over the
    occupation shading and the two hatchings cross, which is the point — the
    country inside the line the Japanese army had drawn round itself and did not
@@ -497,6 +505,12 @@ button.plain:hover { background: #f2ede2; }
   stroke-opacity: .65;
   stroke-width: .6;
 }
+/* The base areas are grouped into named regions so the pointer can answer with
+   one, which makes them sub-units — and a sub-unit gets a whole-shape filler
+   laid under it to close the cracks between neighbours. These have no
+   neighbours and no cracks; the filler would be a solid dark-red blot under
+   the hatching. */
+#backings path[data-for="ccp"] { display: none; }
 #a-ccp.hot, #a-ccp.hot > path { fill: url(#hatch-ccp); filter: brightness(1.15); }
 
 .site { pointer-events: auto; cursor: pointer; }
@@ -1169,18 +1183,26 @@ dialog h3 {
    country at once is some fifteen hundred lines, and a map covered edge to
    edge in whispering grey answers no question the reader is asking: they are
    asking about one place, and that is the place whose divisions they get. */
+/* The princely state under the pointer, told from its six hundred neighbours.
+   The whole layer lightens when any of them is hovered — that is the atom's
+   own highlight, and it says "these are the states" — so the one being pointed
+   at has to go the other way to be seen against them. */
+#a-princely.hot { filter: brightness(1.24) saturate(.6); }
+#a-princely .prov-hot { filter: brightness(.8) saturate(1.55); }
+
 #jmap.admin-on .atom.subs > path[data-prov]:not(.fine) {
   stroke: rgba(35, 32, 27, .34);
   stroke-width: .7;
 }
-/* The exceptions, which stay drawn wherever the pointer is. The princely
-   states and the French and Portuguese settlements are not divisions of the
-   country they sit in — they are other countries inside it, six hundred of
-   them in India's case — and the Straits Settlements are four scattered
-   specks that vanish into the peninsula if they are not outlined. Take the
-   lines away and the map says British India was whole, which is the single
-   thing about it that most needs not saying. */
-#jmap.admin-on #a-princely > path[data-prov],
+/* The exceptions, which stay drawn wherever the pointer is: the French and
+   Portuguese settlements, which are other countries inside British India, and
+   the Straits Settlements, four scattered specks that vanish into the
+   peninsula if they are not outlined.
+
+   The princely states used to be here too, and six hundred outlines at once
+   is a mesh rather than a map. They are told apart by their colour, which is
+   not British India's, and the one under the pointer gets a line of its own
+   and a shade of its own. */
 #jmap.admin-on #a-goa > path[data-prov],
 #jmap.admin-on #a-pondicherry > path[data-prov],
 #jmap.admin-on .atom > path[data-cluster="Straits Settlements"] {
