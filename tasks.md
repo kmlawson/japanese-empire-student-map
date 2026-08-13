@@ -146,6 +146,37 @@ rather than a tweak, and none of it is started.
 
 ## Done
 
+### The ENP sheet's interior boundaries, and a note in Sources
+Asked why the Yellow River does not follow the eastern border of Shaanxi, which
+historically it is. The river is right and the border is wrong, and the fault is
+not confined to Shaanxi.
+
+Fresh geometry was fetched from OSM for comparison — 黄河 and 长江/金沙江,
+227 and 182 ways. Our Yellow River, Natural Earth's, sits a median of 0.5 km
+from it through the gorge and within a kilometre of Hukou waterfall, Yumenkou
+and Fugu; our Yangtze is within 0.6–1.4 km of OSM along its whole length. The
+ENP Shaanxi–Shanxi boundary is 20–36 km east of the river at every parallel
+measured, always east, which hands Shaanxi some 15,500 km² of Shanxi's west
+bank. Shaanxi's east edge and Shanxi's west edge are identical to four decimals,
+so the sheet is internally consistent and externally wrong.
+
+Then the general case, 47 adjacent province pairs against Natural Earth's 10m
+admin-1: median of medians 9.0 km, worst 37.2 (Hebei–Shanxi), best 2.4
+(Fujian–Zhejiang). Shaanxi–Shanxi at 28.2 km is second, not unique — it is
+simply the only place where something independent and well drawn crosses the
+same ground and gives the error away.
+
+The sheet is two datasets in one. Its coastline is within 1.49 km of Natural
+Earth's at Shandong and runs 1–4 km per vertex; its interior boundaries run
+17–28 km per vertex and 9–12 km out of place. And over 1,478 shared boundary
+vertices the mean offset is 3.7 km against a mean magnitude of 12.1 km, so the
+error scatters rather than shifts — the opposite signature from the Wuhan
+azimuthal-equidistant bug, and not something a transform can undo.
+
+Nothing was changed in the geometry. `sources.html` now carries a short note
+under the ENP entry saying what the sheet is good at and where it is not, in
+the same terms.
+
 ### The build takes 12 seconds instead of 133
 Measured first, and the profile was blunt: `point_in_ring` and the bounding-box
 scan above it were **107 seconds of the 133**, called 873,000 times by the
