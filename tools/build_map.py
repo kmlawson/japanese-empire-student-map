@@ -793,21 +793,52 @@ def trim_to_land(line, inside, back=0.02):
 # marks where Japanese forces actually were, so it has no business floating
 # west of the shading: it is taken straight off OCCUPIED_ZONE's first block,
 # smoothed the same way, and the two coincide.
-def china_front():
-    """The front, taken off the shading, as far as the Chekiang coast.
+FRONT_START = (109.6, 38.69)     # where the front leaves the Mengjiang border
 
-    Where to stop used to be a fixed index into the traced block, which is a
-    trap: adding points anywhere upstream of it — the Yangtze reach did — cuts
-    the front short and the perimeter closes the shortfall with a straight
-    chord across four hundred kilometres of unoccupied China. It now hands
-    over at whichever traced point is nearest the start of the coast line,
-    so the two always meet where they are meant to.
+
+def china_front():
+    """The front, taken off the edge of the shading, to the Chekiang coast.
+
+    It is the inland edge of the occupied zone itself, because the line marks
+    where Japanese forces actually were and has no business floating west of
+    the ground the map shades as theirs.
+
+    The occupation's mainland ring is one closed outline, part coast and part
+    front. Both ends of the stretch wanted are known — where it leaves the
+    Mengjiang border in the north-west, and where it hands over to the south
+    China coast — and between two points on a closed ring there are exactly two
+    arcs. The wanted one is the westerly: the front runs down through Shansi,
+    Honan, Hupeh and Kiangsi at about 111 to 114 East, while the other way round
+    is the Yellow River mouth, the Gulf of Chihli and the Shantung and Kiangsu
+    coast at 118 to 122. Mean longitude tells them apart with a wide margin and
+    needs no coastline test.
+
+    Where to stop is found rather than fixed. A fixed index into the traced
+    outline is a trap: adding points anywhere upstream of it cuts the front
+    short, and the perimeter then closes the shortfall with a straight chord
+    across four hundred kilometres of unoccupied China, which is how that bug
+    appeared the first time.
     """
-    blk = OCCUPIED_ZONE[0]
+    rings = [r for _, r in load_occupied_rings()]
+    if not rings:
+        blk = OCCUPIED_ZONE[0]          # the hand-drawn blocks, if the file is gone
+        head = EXTENT_SOUTH_CHINA[0]
+        j = min(range(len(blk)),
+                key=lambda i: (blk[i][0] - head[0]) ** 2 + (blk[i][1] - head[1]) ** 2)
+        return [FRONT_START] + list(blk[:j + 1])
+
+    ring = max(rings, key=lambda r: abs(signed_ring_area(r)))
     head = EXTENT_SOUTH_CHINA[0]
-    j = min(range(len(blk)),
-            key=lambda i: (blk[i][0] - head[0]) ** 2 + (blk[i][1] - head[1]) ** 2)
-    return [(109.6, 38.69)] + list(blk[:j + 1])
+
+    def nearest(p):
+        return min(range(len(ring)),
+                   key=lambda i: (ring[i][0] - p[0]) ** 2 + (ring[i][1] - p[1]) ** 2)
+
+    a, b = nearest(FRONT_START), nearest(head)
+    fwd = ring[a:b + 1] if a <= b else ring[a:] + ring[:b + 1]
+    back = list(reversed(ring[b:a + 1] if b <= a else ring[b:] + ring[:a + 1]))
+    arc = min((fwd, back), key=lambda s: sum(p[0] for p in s) / max(1, len(s)))
+    return [FRONT_START] + list(arc)
 
 
 # The south China coast, from where the occupied zone meets the sea in Chekiang
@@ -2106,6 +2137,9 @@ def china_island(ring):
     return not (x0 <= cx <= x1 and y0 <= cy <= y1)
 
 
+_OCCUPIED_CACHE = []
+
+
 def load_occupied_rings():
     """The traced occupation, as (block name, ring) pairs.
 
@@ -2114,8 +2148,11 @@ def load_occupied_rings():
     and the Yangtze valley, Hainan, the Canton delta and the rest. A ring that
     falls in none of them, which is every offshore islet, goes to the nearest.
     """
+    if _OCCUPIED_CACHE:
+        return _OCCUPIED_CACHE[0]
     path = os.path.join(CACHE, OCCUPIED_FILE)
     if not os.path.exists(path):
+        _OCCUPIED_CACHE.append([])
         return []
     try:
         with open(path) as fh:
@@ -2154,6 +2191,7 @@ def load_occupied_rings():
                 label = best
             out.append((label, ring))
     out.sort(key=lambda r: -abs(signed_ring_area(r[1])))
+    _OCCUPIED_CACHE.append(out)
     return out
 
 

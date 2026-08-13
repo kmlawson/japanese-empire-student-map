@@ -174,10 +174,16 @@ Yangtze valley, Hainan, the Canton delta, Amoy and Kinmen, Swatow and Chaochow.
 Five of six; the Paotow corridor is gone because it was removed from the map
 earlier.
 
-**Still to settle:** the dashed line of control across China is still taken from
-`OCCUPIED_ZONE[0]`, the old block, so it no longer follows the edge of the
-shading it is supposed to agree with. The Layers panel says the two agree. They
-now diverge, most visibly in Hunan and Kiangsi.
+**The line of control follows it.** `china_front()` takes the inland edge off
+the traced outline now. The mainland ring is one closed line, part coast and
+part front, and between two known points on a closed ring there are exactly two
+arcs: the wanted one is the westerly, the front running down through Shansi,
+Honan, Hupeh and Kiangsi at about 111–114 E, against the Yellow River mouth,
+the Gulf of Chihli and the Shantung coast at 118–122 going the other way. Mean
+longitude separates them with a wide margin and needs no coastline test.
+Measured on the rendered geometry: the dashed line sits a median of **1.08 km**
+from the edge of the shading, p90 2.57. The hand-drawn blocks remain as the
+fallback if the file is ever missing.
 
 ### The cities are a gazetteer now, drawn as a map draws cities
 444 places in 1930 and 446 in 1942, from `data/cities-1930.csv` and
