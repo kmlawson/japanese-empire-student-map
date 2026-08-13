@@ -75,18 +75,6 @@ rather than a tweak, and none of it is started.
   These are source disagreements, not build faults — the seams close the gaps
   but cannot decide which line is right.
 
-- **"Get rid of the ocean boundary for the Japanese occupied china."** Asked
-  for and not done, because it is not clear what it refers to and the wrong
-  guess would remove something the map needs. Nothing is drawn over water round
-  the occupied zone: the traced blocks do run out to sea — deliberately, so
-  that the clip to China's land finds the coast rather than a hand-drawn line
-  cutting among the offshore islands — but they are clipped, so no fill and no
-  outline of them reaches the water. Three candidates: the ocean stretches of
-  the traced blocks as they appear in the exported GeoJSON, which is the one
-  place they are visible; the dashed line of control where it leaves the
-  Chekiang coast; or something on screen that has not been reproduced here.
-  Waiting on which.
-
 - **A few slivers of Manchuria still show through the Kwantung leasehold.**
   Down from a continuous fringe to about half a dozen specks. They are the
   residue of the cut, the dissolve and the path rounding each moving a vertex a
@@ -153,22 +141,43 @@ rather than a tweak, and none of it is started.
   『北支那方面軍占拠地域治安概況』(Sept 1942), appendix 050_332, and 『北支那方面
   敵情要図』(end Sept 1942), 050_331. Better than the 1940 US Army sheet the
   occupied zone is currently traced from, for the whole zone and not just this.
-  The 1930 agent for this never reported — it failed on the monthly spend
-  limit, twice.
 
 ---
 
 ## Done
 
+### The ocean boundary round occupied China — the real one
+Reported four times, and I twice said it was something else. It is the
+**outline of a block of the occupied zone when the pointer is on that block**.
+
+The traced blocks run a long way out to sea deliberately: the layer is clipped
+to China's land, so the clip finds the coast instead of a hand-drawn line
+threading the offshore islands. `outlineOf` in `map.js` reads that clip with
+`el.getAttribute('clip-path')` — and the clip sits on the atom's group,
+`#a-occupiedzone`, while a sub-unit outline is handed the child path, which
+carries none. So the territory outline and the selection outline were clipped
+and correct, and the sub-unit outline alone was drawn raw: the block's ocean
+edge, stroked at 2px as a smooth curve across the East China Sea from the
+Chekiang front up to the Gulf of Chihli.
+
+`clipOf(node)` walks up to the first ancestor with a clip and is used instead.
+Measured before and after by sampling every drawn path for geometry in the
+open-sea box 122.4–124.5 E, 29.5–34 N: one unclipped stroke of 151 points
+there before, none after, and the hovered block gains the coastal half of its
+outline, which it had been missing. `#a-occupiedzone` is the only clipped
+element in any of the three SVGs, so nothing else can be affected.
+
+The two earlier answers were both wrong about *this* symptom, though each was a
+real fault and each is fixed:
+
 ### The line of control comes in off the water
 `hug_coast` only ever pushed vertices that were on land out to sea; it never
 pulled a vertex that was out at sea back in. The hand-traced course stands a
 long way off Chekiang, and drawn there it is a curve across the East China Sea
-with nothing on either side of it — which is the "ocean boundary for the
-Japanese occupied china" reported three times and not found until now, because
-it is not part of the occupied layer at all but of the dashed line round it. A
-vertex further from the shore than the offshore margin is now brought back to
-it, and the same averaging smooths the result.
+with nothing on either side of it. A vertex further from the shore than the
+offshore margin is now brought back to it, and the same averaging smooths the
+result. Not the reported ocean boundary: that line is dashed and red, and the
+one being reported is a solid dark hairline.
 
 ### The splinter across Brunei Bay
 A seam is a ribbon along a frontier. `SEAM_ASPECT` throws away any strip more

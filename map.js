@@ -1720,6 +1720,16 @@
       return el;
     }
 
+    // the clip that governs this shape, whether it is on the shape or on a
+    // group above it
+    function clipOf(node) {
+      for (var n = node; n && n !== svg; n = n.parentNode) {
+        var c = n.getAttribute && n.getAttribute('clip-path');
+        if (c) return c;
+      }
+      return null;
+    }
+
     function stroked(shape, clip) {
       var el = copyOf(shape, clip ? { 'clip-path': clip } : null);
       el.setAttribute('mask', 'url(#' + id + ')');
@@ -1732,7 +1742,14 @@
       // The mask has to be that intersection, and the outline is made of both
       // boundaries, each cut by the other — otherwise the whole coast, where
       // the clip is the visible edge, comes out with no line on it at all.
-      var clip = el.getAttribute('clip-path');
+      // The clip is looked for up the tree and not on this element alone: it
+      // sits on the atom's group, and a sub-unit outline is handed the child
+      // path, which carries none. Read off the child it came out unclipped —
+      // and the occupied zone's blocks run a long way out to sea on purpose, so
+      // that the clip to China's land finds the coast instead of a hand-drawn
+      // line threading the offshore islands. Hovering a block therefore drew
+      // that ocean edge as a curve across the East China Sea.
+      var clip = clipOf(el);
       // .superseded is a coarse shape a finer one has taken over: hidden in the
       // drawing, and it must be hidden here too, or selecting Okinawa traces
       // both coastlines at once
