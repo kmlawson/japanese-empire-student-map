@@ -5,7 +5,44 @@ describing what was actually changed, before it is marked done.
 
 ---
 
-## Open
+## Open — asked for and not yet done
+
+These are the outstanding half of the batch of 13 August. Each is real work
+rather than a tweak, and none of it is started.
+
+- **Turtle Islands and Mangsee Islands**, off North Borneo, extracted from
+  `/Users/kml/Downloads/coastlines-split-4326` (OSM coastlines, 876,182
+  linestrings, 1.2 GB). Two groups, labelled separately, "Under British North
+  Borneo Company administration; claimed/allocated to the U.S. Philippine
+  Islands", American colour with British diagonals in 1930 and the Japanese
+  colour in 1942.
+
+- **Miangas**, from the same file, Dutch East Indies in 1930 and Japanese in
+  1942, with a note from the Island of Palmas arbitration of 1928.
+
+- **Labuan** to the Straits Settlements, with the date of its incorporation on
+  the label, and the same for Christmas Island. A better shape for Labuan from
+  the same file if the present one will not do.
+
+- **Cocos (Keeling)**, if it is inside the frame — 96.85 E, 12.15 S, and the
+  frame's south-west corner is 66 E, 13 S, so it is, barely. Straits
+  Settlements, with the date; raided by a U-boat in December 1942 but never
+  occupied, and Allied throughout.
+
+- **A fine coastline set for Singapore and its islands**, on the same terms as
+  the Ryukyus and the Pacific: fetched only on a deep zoom into that window,
+  carrying the metadata and colours over.
+
+- **A fine set for Ulleung and the Liancourt Rocks**, with their Korean and
+  Japanese names, Japanese-held on both dates, with a note on the dispute
+  today.
+
+- **One fine set at a time.** Loading a second window should stand the first
+  one down and put its coarse shapes back. At present they accumulate.
+
+- **Guangzhouwan, the last of it**: the hull carve cuts into the mainland on
+  the north-west, one yellow island inside the leasehold survives, and there is
+  a small leak on the far south-eastern island.
 
 - **Selecting Laos should light the provinces ceded to Thailand, on the 1930
   map.** They are in the `siamgain` atom and Laos's own sub-units are in
@@ -108,6 +145,38 @@ describing what was actually changed, before it is marked done.
 ---
 
 ## Done
+
+### The line of control comes in off the water
+`hug_coast` only ever pushed vertices that were on land out to sea; it never
+pulled a vertex that was out at sea back in. The hand-traced course stands a
+long way off Chekiang, and drawn there it is a curve across the East China Sea
+with nothing on either side of it — which is the "ocean boundary for the
+Japanese occupied china" reported three times and not found until now, because
+it is not part of the occupied layer at all but of the dashed line round it. A
+vertex further from the shore than the offshore margin is now brought back to
+it, and the same averaging smooths the result.
+
+### The splinter across Brunei Bay
+A seam is a ribbon along a frontier. `SEAM_ASPECT` throws away any strip more
+than nine times longer than it is wide, which is not a ribbon but a splinter
+thrown across a bay. That was the line between the headlands either side of
+Brunei Bay, and it is the third and last of the seam faults from yesterday.
+
+### Weihaiwei's seaward fringe
+Carved like Guangzhou Bay, but with a box rather than a hull: the leasehold is
+an arc of coast, so its hull's chord runs across Chinese land inland and
+carving that would take away ground the province is right about. The box holds
+only the water side — 121.94 to 122.30 E, 37.50 to 37.60 N — and everything in
+it that the leasehold does not cover is drawn as sea.
+
+### The princely states and the provinces answer differently
+Hovering a princely state: the whole layer lightens, which says "these are the
+states, there are six hundred of them", and the one under the pointer goes to a
+flat #F5F0F1 and takes the only outline on the map. Hovering a province of
+British India proper: that province darkens and is outlined, its neighbours get
+the thin line the Administrative layer draws for the country under the pointer,
+and the princely states are left entirely alone — they are not divisions of the
+Raj and have nothing to do with the question being asked.
 
 ### The rivers are rounded off
 They were thinned at 0.4 units and drawn as they came, which at any depth of

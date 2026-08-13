@@ -253,6 +253,12 @@ OCCUPIED_ZONE = [
 # corners taken off it here and there — and Manchuria's own filler showed
 # through every one of them as a yellow fleck. It is drawn from the traced
 # layer now, like the other leaseholds.
+# The water side of Weihaiwei. Everything in this box that the leasehold does
+# not cover is sea: the ENP sheet's Shantung coast runs a few hundred metres
+# outside the traced leasehold along the whole of its northern shore, and
+# showed as a rim of China above it and as an island in its bay.
+WEIHAIWEI_SEA_BOX = (121.940, 37.500, 122.300, 37.600)
+
 KWANTUNG_CUT = ((121.20, 39.66), (122.45, 39.28))
 KWANTUNG_BOX = (120.55, 38.60, 123.00, 39.80)
 
@@ -773,12 +779,15 @@ EXTENT_KEEP_INLAND = [
 ]
 
 EXTENT_OFFSHORE = 0.055    # degrees; about six kilometres clear of the shore
+EXTENT_OFFSHORE_MAX = 1.2  # degrees; how far out to sea to look for the shore
+                           # when pulling a vertex back in
 EXTENT_REACH = 0.9         # degrees; how far inland a vertex may be and still
                            # be pulled out to sea rather than left alone
 
 
-def hug_coast(line, on_land, keep=EXTENT_KEEP_INLAND,
-              margin=EXTENT_OFFSHORE, reach=EXTENT_REACH):
+def hug_coast(line, on_land, coast=None, keep=EXTENT_KEEP_INLAND,
+              margin=EXTENT_OFFSHORE, reach=EXTENT_REACH,
+              offshore_max=EXTENT_OFFSHORE_MAX):
     """Push a coastal line off the land it strays onto.
 
     Each vertex that is on land, and not inside one of the stretches that are
@@ -802,8 +811,24 @@ def hug_coast(line, on_land, keep=EXTENT_KEEP_INLAND,
     # First pass: how far, and which way, each vertex has to move.
     shift = []
     for k, p in enumerate(line):
-        if any(x0 <= p[0] <= x1 and y0 <= p[1] <= y1 for x0, y0, x1, y1 in keep) \
-                or not on_land(p):
+        if any(x0 <= p[0] <= x1 and y0 <= p[1] <= y1 for x0, y0, x1, y1 in keep):
+            shift.append((0.0, 0.0))
+            continue
+        if not on_land(p):
+            # Out at sea. A coastal line belongs just off the shore and not out
+            # in the water: the hand-traced course stands a long way off
+            # Chekiang, and drawn there it is a curve across the East China Sea
+            # with nothing on either side of it. Pull it back in to the same
+            # margin the pushed vertices get.
+            near = coast and _nearest_in(coast[0], coast[1], p, offshore_max)
+            if near:
+                dx, dy = p[0] - near[0], p[1] - near[1]
+                h = math.hypot(dx, dy)
+                if h > margin * 1.5:
+                    want = max(margin, h - (h - margin))
+                    shift.append(((near[0] + dx / h * want) - p[0],
+                                  (near[1] + dy / h * want) - p[1]))
+                    continue
             shift.append((0.0, 0.0))
             continue
         nx, ny = normal(k)
@@ -1339,6 +1364,8 @@ CHINA_NEIGHBOURS = ("ussr", "mongolia", "indochina", "burma", "siam", "india",
 SEAM_STEP = 0.015          # degrees; how finely the gap is searched
 SEAM_MAX = 0.50            # degrees; wider than this is not a seam but a hole
 SEAM_MIN_RUN = 3           # vertices; shorter runs draw a fleck, not a strip
+SEAM_ASPECT = 9.0          # a strip longer than this many times its own
+                           # width is a splinter, not a seam
 SEAM_AIM = 0.18            # degrees; how near a target must be to be aimed at
 SEAM_STRIDE = 0.25         # degrees; the furthest apart two vertices of a run
                            # may be. A strip is a quadrilateral per pair, and
@@ -1563,6 +1590,18 @@ def push_seam(rings, target, reach=SEAM_MAX):
                 continue
             if len(piece) >= SEAM_MIN_RUN:
                 strip = [a for a, _ in piece] + [b for _, b in reversed(piece)]
+                # A seam is a ribbon along a frontier. One many times longer
+                # than it is wide is not a ribbon, it is a splinter thrown
+                # across a bay — which is what appeared between the headlands
+                # either side of Brunei Bay.
+                run = sum(math.hypot(piece[i + 1][0][0] - piece[i][0][0],
+                                     piece[i + 1][0][1] - piece[i][0][1])
+                          for i in range(len(piece) - 1))
+                wide = max(math.hypot(b[0] - a[0], b[1] - a[1])
+                           for a, b in piece)
+                if wide <= 0 or run / wide > SEAM_ASPECT:
+                    piece = [(p, far)] if far is not None else []
+                    continue
                 # the strip overlaps its own country rather than abutting it,
                 # and paths fill by the nonzero rule: wound the other way it
                 # would cancel the overlap and punch a hole
@@ -2952,8 +2991,10 @@ def main():
 
     extent = []
     extent += chaikin(china_front())
+    _china_land = [r for k in ENP_SIDE for r in groups.get(k, ())]
     extent += hug_coast(chaikin(EXTENT_SOUTH_CHINA),
-                        _ring_test([r for k in ENP_SIDE for r in groups.get(k, ())]))
+                        _ring_test(_china_land),
+                        coast=(_grid_of(_china_land, 0.5), 0.5))
     for key, a, b, via in EXTENT_ARCS:
         rings = outlines([key])
         if rings:
@@ -3210,7 +3251,22 @@ def main():
     # Guangzhou Bay as water: the bay's box, then Natural Earth's coastline
     # inside it, in one path filled by the even-odd rule so that the land
     # subtracts from the box. See where it is emitted, below.
+    # Weihaiwei's seaward fringe, carved the same way as the bay below but with
+    # a box rather than a hull: the leasehold is an arc of coast, so its hull's
+    # chord runs across Chinese land inland and carving that would take away
+    # ground the province is right about. The box holds only the water side.
     bay_path = ""
+    wei = groups.get("weihaiwei")
+    if wei:
+        wx0, wy0, wx1, wy1 = WEIHAIWEI_SEA_BOX
+        pieces = [ring_to_path([project(x, y) for x, y in
+                                ((wx0, wy0), (wx1, wy0), (wx1, wy1), (wx0, wy1))],
+                               FINE_PRECISION)]
+        for ring in wei:
+            pieces.append(ring_to_path([project(x, y) for x, y in
+                                        normalise_ring(ring)], FINE_PRECISION))
+        bay_path += "".join(pieces)
+
     if groups.get("guangzhouwan"):
         # The outer ring is the leasehold's own convex hull rather than a box:
         # a box leaves its corners standing out over the mainland as rectangles
@@ -3221,7 +3277,7 @@ def main():
         for ring in groups["guangzhouwan"]:
             pieces.append(ring_to_path([project(x, y) for x, y in
                                         normalise_ring(ring)], FINE_PRECISION))
-        bay_path = "".join(pieces) if len(pieces) > 1 else ""
+        bay_path += "".join(pieces) if len(pieces) > 1 else ""
 
     ordered = [k for k in ORDER if k in paths] + [k for k in paths if k not in ORDER]
     # the enclaves that have to survive the occupied shading are held back and

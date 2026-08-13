@@ -1778,7 +1778,7 @@ JMAP.PROVINCES = {
   'Haterumajima': { en: 'Haterumajima — the southernmost of the empire', zh: '波照間島' },
   'Yonagunijima': { en: 'Yonagunijima — 110 km from Formosa', ja: '与那国島 (Yonagunijima)', zh: '與那國島' },
   'the Daitō Islands': { en: 'The Daitō Islands', ja: '大東諸島 (Daitō Shotō)', zh: '大東群島' },
-  'the Senkaku / Diaoyu Islands': { en: 'The Senkaku / Diaoyu Islands — administered from Okinawa', ja: '尖閣諸島 (Senkaku Shotō)', zh: '釣魚臺列嶼' },
+  'the Senkaku / Diaoyu Islands': { en: 'The Senkaku / Diaoyu Islands — administered from Okinawa; claimed today by Japan, China and Taiwan', ja: '尖閣諸島 (Senkaku Shotō)', zh: '釣魚臺列嶼' },
 
   /* the Aleutians, island by island. Only Attu and Kiska were taken, but the
      chain is the reason the campaign happened at all, and the places the

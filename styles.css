@@ -1187,8 +1187,21 @@ dialog h3 {
    The whole layer lightens when any of them is hovered — that is the atom's
    own highlight, and it says "these are the states" — so the one being pointed
    at has to go the other way to be seen against them. */
-#a-princely.hot { filter: brightness(1.24) saturate(.6); }
-#a-princely .prov-hot { filter: brightness(.8) saturate(1.55); }
+/* Hovering a princely state: the whole layer lightens, which says "these are
+   the states, there are six hundred of them"; the one under the pointer goes
+   to a flat near-white and takes the only outline on the map. */
+#a-princely.hot { filter: brightness(1.18) saturate(.62); }
+#a-princely .prov-hot {
+  fill: #F5F0F1;
+  filter: none;
+}
+
+/* Hovering a province of British India proper: that province darkens and is
+   outlined, its neighbours get the thin line the Administrative layer draws
+   for whichever country is under the pointer, and the princely states are left
+   entirely alone — they are not divisions of the Raj and have nothing to do
+   with the question being asked. */
+#a-india .prov-hot { filter: brightness(.86) saturate(1.25); }
 
 #jmap.admin-on .atom.subs > path[data-prov]:not(.fine) {
   stroke: rgba(35, 32, 27, .34);
