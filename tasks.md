@@ -178,10 +178,17 @@ six generalised blocks, with Hainan, the Canton delta, Swatow, Chungming, the
 Chusan archipelago and seven hundred islets drawn separately instead of being
 swept into a block or clipped out of one. A million square kilometres in all.
 
-The clip to China's land is gone with them. The blocks needed it because they
-ran out to sea on purpose so the clip would find the coast for them; this is
-traced with its own coastline, and clipping it to ENP's would have cut away the
-seven hundred islets it draws and ENP does not have.
+The clip to China's land stays, and I took it off for a while having seen only
+half of what it does. The obvious half is the coast. The other half is that the
+clip is China's provinces and China's outline, and Mengjiang and Manchukuo are
+atoms of their own — so it is also what keeps the shading off them. Without it
+the occupation painted straight over both, and reordering could not fix that:
+with the Administrative layer off those two are drawn by their *backing*, and
+the backings live at the head of the layer stack, so nothing drawn later can
+ever be underneath one. Checked by sampling the rendered pixels rather than the
+geometry, which is the only test that sees a clip at all: Chahar, Suiyuan, Jehol
+and Manchuria all read 241,92,75, the client-state colour, and Peking reads
+251,128,114, the occupation's.
 
 **The order it is drawn in** is the point of the change as much as the geometry.
 `occupiedzone` now has a slot in `ORDER` between Guangzhouwan and Chahar: over

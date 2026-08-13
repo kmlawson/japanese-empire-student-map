@@ -4151,12 +4151,16 @@ def main():
         # which piece of the occupation it is on. data-islands because these are
         # places and not administrative divisions: they name themselves whether
         # or not the Administrative layer is on.
-        # No clip any more. The blocks needed one because they ran out to sea
-        # on purpose and the clip to China's land found the coast for them;
-        # this is traced with its own coastline, and clipping it to ENP's would
-        # cut away the seven hundred islets it draws and ENP does not have.
+        # Clipped to China's own land, which does two things and I removed it
+        # for a while having noticed only one of them. The obvious one is the
+        # coast. The other is that the clip is China's provinces and China's
+        # outline, and Mengjiang and Manchukuo are atoms of their own, so it is
+        # also what keeps the shading off them — and with the Administrative
+        # layer off those two are painted by their backing, which lives at the
+        # head of the layer stack, so nothing drawn later can be under it and
+        # no amount of reordering would have helped.
         occ_out.append(
-            f'    <g id="a-occupiedzone" class="atom" '
+            f'    <g id="a-occupiedzone" class="atom" clip-path="url(#clip-china)" '
             f'data-islands="1" data-cx="{fmt(ax)}" data-cy="{fmt(ay)}" '
             f'data-area="{int(area)}">'
         )
