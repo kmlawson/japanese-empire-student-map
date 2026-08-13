@@ -109,6 +109,44 @@ describing what was actually changed, before it is marked done.
 
 ## Done
 
+### The QGIS layers were in the wrong place, and it was the projection
+This is the cause of a long run of things that have been treated as separate
+problems for days: the fringe of China above Weihaiwei, the mess round
+Kwangchowwan, the flecks along Kwantung's coast, and part of the gaps at the
+Nepal, Sikkim and Bhutan frontiers.
+
+The layers are stored in a projected CRS, not in longitude and latitude. Their
+GeoPackages declare an azimuthal-equidistant grid centred on Wuhan
+(114.29925 E, 30.591623 N), false easting and northing 50,000, on the **Clarke
+1866 ellipsoid**. `gpkg.aeqd_to_lonlat` inverted it with the *spherical*
+formula, using Clarke 1866's semi-major axis as though it were a radius. The
+comment claimed the error would be a few hundred metres. Measured against the
+ellipsoidal inversion, it is:
+
+| layer | error |
+| --- | --- |
+| Sikkim, Bhutan, Nepal | 2.3 – 2.6 km |
+| Weihaiwei | 2.8 km |
+| Kwantung leasehold | 3.3 km |
+| Kwangchowwan | 5.1 km |
+| Tannu Tuva | 5.8 km |
+
+The error grows with distance from Wuhan and points radially outward from it,
+which is exactly the signature of treating an ellipsoid as a sphere. Every one
+of those layers was drawn that far from where its author put it.
+
+An azimuthal-equidistant grid stores, for each point, its true bearing and its
+true distance from the centre, so inverting it *is* the geodesic direct
+problem: go `hypot(x, y)` metres from Wuhan on bearing `atan2(x, y)`, on the
+ellipsoid the CRS names. That is what PROJ does for an ellipsoidal `aeqd` and
+so what QGIS did when the layers were drawn. `tools/gpkg.py` now solves it with
+Vincenty's direct formula — no dependencies, converges to a millimetre.
+
+Measured afterwards: the gap between Weihaiwei's northern shore and the
+Shantung coast went from a median of 3.0 km to a median of 170 m, with a
+maximum of 830 m. The vertex nudge added an hour earlier to paper over that gap
+is removed, and `GIS_VERTEX_NUDGE` is empty again.
+
 ### The line of control across New Guinea was wrong, and is redrawn
 It ran offshore across the mouth of the Gulf of Papua and along the south
 coast, which put the whole island inside Japanese control — Merauke, Daru, the

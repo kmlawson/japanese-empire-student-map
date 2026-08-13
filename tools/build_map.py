@@ -273,20 +273,16 @@ KWANTUNG_BOX = (120.55, 38.60, 123.00, 39.80)
 # pieces. They are drawn exactly as they arrive.
 GIS_NUDGE = {}
 
-# One named vertex moved, and nothing else. Weihaiwei's northernmost point sat
-# about two kilometres inside the Shantung coast as the ENP sheet draws it, so
-# a wedge of China showed above the top of the leasehold. The move is stated as
-# a point and a distance rather than as a redrawn polygon, and it tapers to
-# nothing over the four vertices either side so that the shore does not come to
-# a needle. Everything else in the file is untouched.
-#
-# What this does not do is close the fringe along the rest of that shore. The
-# two sources disagree by two to five kilometres for the whole of the northern
-# arc — vertices 68 to 102 of the main ring — and only shifting that whole run
-# would clear it. That is a change to the traced shape and is not made here.
-GIS_VERTEX_NUDGE = {
-    "weihaiwei": [(122.12438, 37.53886, 0.0, 0.021, 4)],
-}
+# One named vertex moved, and nothing else. Empty, and it should stay that way.
+# It held a two-kilometre shift of Weihaiwei's northernmost point, put there to
+# close a wedge of China that showed above the top of the leasehold. That wedge
+# was not a fault in the traced polygon: it was the projection. See
+# `aeqd_to_lonlat` in tools/gpkg.py — the layers are stored in an azimuthal
+# grid on the Clarke 1866 ellipsoid and were being inverted as though it were a
+# sphere, which put every one of them two to six kilometres out, radially away
+# from Wuhan. Fixing the conversion closed the wedge and this shift became an
+# error of its own.
+GIS_VERTEX_NUDGE = {}
 
 GIS_LAYERS = {
     "tuva": "tunnu_tuva.gpkg",
