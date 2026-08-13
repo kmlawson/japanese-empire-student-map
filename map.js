@@ -518,7 +518,7 @@
   var gazGroup = null;
   var gazEls = [];
   var gazRecs = [];
-  var GAZ_R = [1.7, 2.6, 3.8, 5.4];      // small, medium, large, largest
+  var GAZ_R = [2.5, 3.4, 4.4, 5.8];      // small, medium, large, largest
 
   function buildGazetteer() {
     if (!JMAP.GAZ) return;

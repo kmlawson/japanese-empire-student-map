@@ -1196,7 +1196,7 @@ dialog h3 {
 #a-princely.hot { filter: brightness(1.18) saturate(.62); }
 #a-princely .prov-hot {
   /* a very light British, not white: the state is still part of that layer */
-  fill: #E7D3D9;
+  fill: #C79AAB;
   filter: none;
 }
 

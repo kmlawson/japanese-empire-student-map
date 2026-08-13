@@ -32,6 +32,33 @@ TIERS = {"small": 0, "medium": 1, "large": 2, "largest": 3}
 CAPS = {"": 0, "capital-province": 1, "capital-territory": 2}
 
 
+# The CSV names Chinese provinces in Wade-Giles, which is the period spelling
+# and right for a source file. The map has said Pinyin first with tone marks
+# everywhere in China since the naming pass, so a capital's line has to match
+# the province label it sits next to rather than contradict it.
+PINYIN = {
+    "Anhwei": "Ānhuī", "Chahar": "Cháhā'ěr", "Chekiang": "Zhèjiāng",
+    "Fengtien": "Fèngtiān", "Fukien": "Fújiàn", "Heilungkiang": "Hēilóngjiāng",
+    "Honan": "Hénán", "Hopei": "Héběi", "Hunan": "Húnán", "Hupeh": "Húběi",
+    "Jehol": "Rèhé", "Kansu": "Gānsù", "Kiangsi": "Jiāngxī",
+    "Kiangsu": "Jiāngsū", "Kirin": "Jílín", "Kwangsi": "Guǎngxī",
+    "Kwangtung": "Guǎngdōng", "Kweichow": "Guìzhōu", "Liaoning": "Liáoníng",
+    "Ningsia": "Níngxià", "Ninghsia": "Níngxià", "Shansi": "Shānxī",
+    "Shantung": "Shāndōng", "Shensi": "Shǎnxī", "Sikang": "Xīkāng",
+    "Sinkiang": "Xīnjiāng", "Suiyuan": "Suíyuǎn", "Szechwan": "Sìchuān",
+    "Tsinghai": "Qīnghǎi", "Yunnan": "Yúnnán", "Tibet": "Xīzàng",
+}
+
+
+def pinyin(name):
+    """The province's Pinyin, keeping any parenthetical the CSV adds."""
+    base, sep, tail = name.partition(" (")
+    hit = PINYIN.get(base.strip())
+    if not hit:
+        return name
+    return hit + (sep + tail if sep else "")
+
+
 def read(path):
     out = []
     with open(path, newline="") as fh:
@@ -47,7 +74,7 @@ def read(path):
             rec = {"id": r["id"], "n": (r.get("name_en") or "").strip(),
                    "lat": round(lat, 4), "lon": round(lon, 4),
                    "t": tier, "c": cap}
-            of = (r.get("capital_of") or "").strip()
+            of = pinyin((r.get("capital_of") or "").strip())
             if cap and of:
                 rec["of"] = of
             pol = (r.get("polity") or "").strip()
