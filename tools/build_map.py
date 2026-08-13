@@ -25,12 +25,17 @@ as approximate: control there ran along the railways and around the cities.
 """
 
 import argparse
+import array
 import collections
+import hashlib
+import inspect
 import json
 import math
+import multiprocessing
 import os
 import re
 import sys
+import time
 import urllib.request
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -41,6 +46,42 @@ import gpkg  # noqa: E402
 
 ROOT = os.path.dirname(HERE)
 CACHE = os.path.join(HERE, "cache")
+
+
+# ---------------------------------------------------------------------------
+# How fast to go about it
+#
+# Five optimisations, each switchable, and `--legacy` turns off all five to get
+# the build that ran before they existed. None of them is allowed to change the
+# output: every one is either an exact reformulation of the same predicate or a
+# skip of work that provably cannot affect the answer, and the check is that
+# the three SVGs come out byte for byte identical either way.
+#
+# They are worth having because this build spent 107 seconds of its 133 in one
+# place: `point_in_ring`, called 873,000 times from the frontier seams, each
+# call a linear scan of a ring averaging about 1,900 vertices.
+# ---------------------------------------------------------------------------
+
+class _Opt:
+    """Which of the optimisations are on. Set from the command line in main."""
+    index = True        # A: bucket ring edges by latitude band
+    cache = True        # B: keep the computed seams on disk
+    probe_bound = False # C: skip probes too short to reach the target.
+                        #    Off by default, and measured rather than assumed:
+                        #    with the index in place a probe costs about two
+                        #    microseconds instead of a hundred and seventy, so
+                        #    the extra nearest-vertex lookup it needs costs more
+                        #    than the probes it saves — 0.6s worse over three
+                        #    paired runs. It earns its keep only with --no-index.
+    jobs = 1            # D: worker processes for the seam search, 1 = in-process
+    fast_name = True    # E: index the OSM names instead of testing all pairs
+
+    def flags(self):
+        return (self.index, self.cache, self.probe_bound, self.jobs,
+                self.fast_name)
+
+
+OPT = _Opt()
 
 # 1:10m, not 1:50m. The output size is governed by the simplification
 # tolerance rather than by the input, so the finer source buys fidelity at
@@ -1404,20 +1445,111 @@ ELSEWHERE_SEAMS = (
 )
 
 
+class _RingBands:
+    """One ring's edges bucketed by latitude band.
+
+    The crossing test asks, of every edge, whether the query's y falls between
+    its two ends — so an edge whose y-span does not straddle y can never be
+    counted, and there is no reason to look at it. Bucketing the edges into
+    bands of latitude and looking only in the band the query falls in turns a
+    scan of a couple of thousand vertices into a scan of a couple of dozen.
+
+    This is the same predicate as `point_in_ring`, not an approximation of it.
+    An edge is filed in every band its y-span touches, so the band containing y
+    holds every edge that could have been counted; the arithmetic that decides
+    the crossing is copied across unchanged. Horizontal edges are dropped
+    because `(y0 > y) != (y1 > y)` is false for them whatever y is.
+    """
+    __slots__ = ("x0", "y0", "x1", "y1", "h", "nb", "bands")
+
+    def __init__(self, ring):
+        n = len(ring)
+        xs = [p[0] for p in ring]
+        ys = [p[1] for p in ring]
+        self.x0, self.y0, self.x1, self.y1 = min(xs), min(ys), max(xs), max(ys)
+        # About eight edges to a band, and never so many bands that the index
+        # costs more to build than the scans it saves.
+        self.nb = nb = max(1, min(1024, n // 8))
+        span = self.y1 - self.y0
+        self.h = (span / nb) if span > 0 else 1.0
+        bands = [[] for _ in range(nb)]
+        y0r, h = self.y0, self.h
+        for i in range(n):
+            ax, ay = ring[i]
+            bx, by = ring[(i + 1) % n]
+            if ay == by:
+                continue
+            lo, hi = (ay, by) if ay < by else (by, ay)
+            b0 = int((lo - y0r) / h)
+            b1 = int((hi - y0r) / h)
+            if b0 < 0:
+                b0 = 0
+            if b1 >= nb:
+                b1 = nb - 1
+            e = (ax, ay, bx, by)
+            for b in range(b0, b1 + 1):
+                bands[b].append(e)
+        self.bands = bands
+
+    def contains(self, px, py):
+        if px < self.x0 or px > self.x1 or py < self.y0 or py > self.y1:
+            return False
+        b = int((py - self.y0) / self.h)
+        if b < 0:
+            b = 0
+        elif b >= self.nb:
+            b = self.nb - 1
+        inside = False
+        for ax, ay, bx, by in self.bands[b]:
+            if (ay > py) != (by > py):
+                if px < ax + (py - ay) * (bx - ax) / (by - ay):
+                    inside = not inside
+        return inside
+
+
 def _ring_test(rings):
     """A closure answering "is this point inside any of these rings"."""
-    boxed = []
+    if not OPT.index:
+        boxed = []
+        for r in rings:
+            if len(r) < 3:
+                continue
+            xs = [p[0] for p in r]
+            ys = [p[1] for p in r]
+            boxed.append((min(xs), min(ys), max(xs), max(ys), r))
+
+        def inside(p):
+            px, py = p
+            for x0, y0, x1, y1, r in boxed:
+                if x0 <= px <= x1 and y0 <= py <= y1 and point_in_ring(p, r):
+                    return True
+            return False
+        return inside
+
+    # The bounding boxes were scanned in a flat list too — a hundred and sixty
+    # of them for every query, which was seven per cent of the build on its own.
+    # The rings go in a coarse grid by the cells their box covers, so a query
+    # looks at the few whose box is anywhere near it. A ring whose box holds the
+    # point is registered in that point's cell by construction, so this rejects
+    # nothing the flat scan would have kept.
+    cell = 2.0
+    grid = collections.defaultdict(list)
     for r in rings:
         if len(r) < 3:
             continue
-        xs = [p[0] for p in r]
-        ys = [p[1] for p in r]
-        boxed.append((min(xs), min(ys), max(xs), max(ys), r))
+        b = _RingBands(r)
+        for gx in range(int(math.floor(b.x0 / cell)),
+                        int(math.floor(b.x1 / cell)) + 1):
+            for gy in range(int(math.floor(b.y0 / cell)),
+                            int(math.floor(b.y1 / cell)) + 1):
+                grid[(gx, gy)].append(b)
+    grid = dict(grid)
 
     def inside(p):
         px, py = p
-        for x0, y0, x1, y1, r in boxed:
-            if x0 <= px <= x1 and y0 <= py <= y1 and point_in_ring(p, r):
+        for b in grid.get((int(math.floor(px / cell)),
+                           int(math.floor(py / cell))), ()):
+            if b.contains(px, py):
                 return True
         return False
     return inside
@@ -1480,6 +1612,94 @@ def _near_grid(grid, cell, p, radius):
     return False
 
 
+def _seam_cache_id(groups):
+    """What the seams depend on, in one hash.
+
+    Two kinds of input. The geometry — every ring of every country that takes
+    part, mover or target — and the code and constants that decide what to do
+    with it.
+
+    The code is hashed by reading its own source rather than by a version
+    number somebody has to remember to raise. A number is the usual way and it
+    is the wrong way here: the failure it invites is silent, a changed search
+    answered from a cache written before the change, and the symptom would be
+    geometry that quietly does not match the code that claims to have made it.
+    Reading the source costs a millisecond and cannot be forgotten.
+    """
+    h = hashlib.sha256()
+    for fn in (push_seam, _ring_test, _RingBands, _ring_normal, _grid_of,
+               _nearest_in, _near_grid, signed_ring_area, add_neighbour_seams,
+               _seam_worker):
+        try:
+            h.update(inspect.getsource(fn).encode())
+        except (OSError, TypeError):
+            return None          # cannot prove freshness, so do not cache
+    h.update(repr((SEAM_STEP, SEAM_MAX, SEAM_MIN_RUN, SEAM_ASPECT, SEAM_AIM,
+                   SEAM_STRIDE, SEAM_OVER, ENP_SIDE, CHINA_NEIGHBOURS,
+                   ELSEWHERE_SEAMS)).encode())
+    keys = set(ENP_SIDE) | set(CHINA_NEIGHBOURS)
+    for mover, targets in ELSEWHERE_SEAMS:
+        keys.add(mover)
+        keys.update(targets)
+    for key in sorted(keys):
+        h.update(key.encode())
+        for ring in groups.get(key, ()):
+            h.update(b"%d;" % len(ring))
+            flat = array.array("d", [c for p in ring for c in p])
+            h.update(flat.tobytes())
+    return h.hexdigest()[:32]
+
+
+def _seam_cache_path(cid):
+    return os.path.join(CACHE, "seams-%s.json" % cid)
+
+
+def _seam_cache_read(groups):
+    if not OPT.cache:
+        return None
+    cid = _seam_cache_id(groups)
+    if not cid:
+        return None
+    path = _seam_cache_path(cid)
+    if not os.path.exists(path):
+        return None
+    try:
+        with open(path) as fh:
+            raw = json.load(fh)
+    except (OSError, ValueError):
+        return None
+    sys.stderr.write("seam search: from cache %s\n" % os.path.basename(path))
+    return {k: [[tuple(p) for p in ring] for ring in rings]
+            for k, rings in raw.items()}
+
+
+def _seam_cache_write(groups, seams):
+    if not OPT.cache:
+        return
+    cid = _seam_cache_id(groups)
+    if not cid:
+        return
+    os.makedirs(CACHE, exist_ok=True)
+    path = _seam_cache_path(cid)
+    tmp = path + ".tmp"
+    try:
+        with open(tmp, "w") as fh:
+            json.dump({k: [[list(p) for p in ring] for ring in rings]
+                       for k, rings in seams.items()}, fh)
+        os.replace(tmp, path)
+    except OSError:
+        return
+    # Old entries are the seams as they were before the last change to the
+    # geometry or the search. Nothing reads them again; they are dropped so the
+    # cache directory does not grow a copy per edit.
+    for old in os.listdir(CACHE):
+        if old.startswith("seams-") and old != os.path.basename(path):
+            try:
+                os.remove(os.path.join(CACHE, old))
+            except OSError:
+                pass
+
+
 def add_neighbour_seams(groups):
     """Make every neighbour of China reach China's own boundary.
 
@@ -1508,18 +1728,64 @@ def add_neighbour_seams(groups):
     if not enp:
         sys.stderr.write("note: no ENP-China rings, neighbour seams skipped\n")
         return seams
-    for key in CHINA_NEIGHBOURS:
-        seams[key].extend(push_seam(groups.get(key) or [], enp))
 
-    # The same problem away from China. Nepal, Sikkim and Bhutan are traced by
+    cached = _seam_cache_read(groups)
+    if cached is not None:
+        return cached
+
+    # The jobs, in the order their results have to be concatenated. A mover can
+    # appear in both lists — India, Burma and Siam all do — and the strips it
+    # gets from China come before the ones it gets from its other neighbours,
+    # so the order here is part of the answer and not an implementation detail.
+    #
+    # The same problem away from China: Nepal, Sikkim and Bhutan are traced by
     # hand and British India is Natural Earth, and the two disagree along every
     # mile of those frontiers; the traced line is the better one, so it is India
     # that reaches. Burma and Siam are drawn from different files again.
+    jobs = [(key, groups.get(key) or [], enp) for key in CHINA_NEIGHBOURS]
     for mover, targets in ELSEWHERE_SEAMS:
         want = [r for k in targets for r in groups.get(k, ())]
         if want:
-            seams[mover].extend(push_seam(groups.get(mover) or [], want))
-    return {k: v for k, v in seams.items() if v}
+            jobs.append((mover, groups.get(mover) or [], want))
+
+    t0 = time.perf_counter()
+    if OPT.jobs > 1 and len(jobs) > 1:
+        # The twenty-five searches do not talk to each other, and the machine
+        # has more than one core. Results are put back in job order, so which
+        # worker finished first cannot change the answer.
+        ctx = multiprocessing.get_context()
+        with ctx.Pool(min(OPT.jobs, len(jobs)),
+                      initializer=_seam_worker_init,
+                      initargs=(OPT.flags(),)) as pool:
+            results = pool.map(_seam_worker, jobs, chunksize=1)
+    else:
+        results = [push_seam(rings, target) for _, rings, target in jobs]
+
+    for (key, _, _), strips in zip(jobs, results):
+        seams[key].extend(strips)
+    out = {k: v for k, v in seams.items() if v}
+    sys.stderr.write("seam search: %.1fs%s\n"
+                     % (time.perf_counter() - t0,
+                        f" on {min(OPT.jobs, len(jobs))} workers"
+                        if OPT.jobs > 1 and len(jobs) > 1 else ""))
+    _seam_cache_write(groups, out)
+    return out
+
+
+def _seam_worker_init(flags):
+    """A worker process starts with the module's defaults; give it ours.
+
+    `spawn` re-imports this module rather than inheriting its state, so the
+    switches have to be handed over explicitly or a `--legacy` run would come
+    back with optimised workers.
+    """
+    (OPT.index, OPT.cache, OPT.probe_bound, OPT.jobs, OPT.fast_name) = flags
+    OPT.jobs = 1          # a worker does not start workers of its own
+
+
+def _seam_worker(job):
+    _key, rings, target = job
+    return push_seam(rings, target)
 
 
 def push_seam(rings, target, reach=SEAM_MAX):
@@ -1540,6 +1806,26 @@ def push_seam(rings, target, reach=SEAM_MAX):
     in_target = _ring_test(target)
     in_own = _ring_test(rings)
     ref_wind = signed_ring_area(max(rings, key=len))
+
+    # The longest edge in the target. A probe lands inside the target only if
+    # the segment from the vertex to it crosses the target's boundary, so the
+    # boundary has a point within the probe's own length — and the nearest
+    # point of an edge is never further than the nearest of its two ends minus
+    # that edge's own length. So a probe shorter than (distance to the nearest
+    # target vertex) minus (longest edge) cannot possibly succeed, and the
+    # thirty-three steps outward can start where success first becomes
+    # geometrically possible instead of at the first step. This is a bound, not
+    # a guess: nothing that could have been found is skipped.
+    longest_edge = 0.0
+    if OPT.probe_bound:
+        for ring in target:
+            n = len(ring)
+            for i in range(n):
+                ax, ay = ring[i]
+                bx, by = ring[(i + 1) % n]
+                d = math.hypot(bx - ax, by - ay)
+                if d > longest_edge:
+                    longest_edge = d
 
     for ring in rings:
         n = len(ring)
@@ -1569,8 +1855,22 @@ def push_seam(rings, target, reach=SEAM_MAX):
                     dx, dy = near[0] - p[0], near[1] - p[1]
                     h = math.hypot(dx, dy) or 1.0
                     dirs.append((dx / h, dy / h))
+                # the shortest probe that could reach the target at all
+                floor_w = 0.0
+                if OPT.probe_bound:
+                    nq = _nearest_in(grid, cell, p, reach)
+                    if nq is not None:
+                        floor_w = (math.hypot(nq[0] - p[0], nq[1] - p[1])
+                                   - longest_edge)
                 w = SEAM_STEP
+                # `w` is still accumulated a step at a time, and the body is
+                # skipped rather than the loop restarted, so the sequence of
+                # widths tried is exactly the sequence tried before — floating
+                # point included.
                 while w <= reach and far is None:
+                    if w < floor_w:
+                        w += SEAM_STEP
+                        continue
                     for sign in dirs:
                         nx, ny = sign
                         sign = 1.0
@@ -2437,10 +2737,41 @@ def main():
     ap.add_argument("--download", action="store_true")
     ap.add_argument("--tolerance", type=float, default=0.55)
     ap.add_argument("--min-area", type=float, default=1.2)
+    ap.add_argument("--legacy", action="store_true",
+                    help="build the slow way: none of the optimisations, and "
+                         "neither reading nor writing the seam cache. What the "
+                         "output is checked against.")
+    ap.add_argument("--no-index", action="store_true",
+                    help="scan every ring edge instead of the latitude index")
+    ap.add_argument("--no-cache", action="store_true",
+                    help="recompute the frontier seams rather than reading them")
+    ap.add_argument("--probe-bound", action="store_true",
+                    help="skip seam probes too short to reach the target. Off "
+                         "by default: it costs 0.6s more than it saves unless "
+                         "--no-index is also given")
+    ap.add_argument("--no-fast-name", action="store_true",
+                    help="compare every fine ring with every OSM name")
+    ap.add_argument("--jobs", type=int, default=1, metavar="N",
+                    help="worker processes for the frontier seams (default 1; "
+                         "0 for one per core)")
     ap.add_argument("--export", metavar="DIR", default=None,
                     help="also write the map's geometry as GeoJSON, in lon/lat, "
                          "for use in QGIS")
     args = ap.parse_args()
+
+    OPT.index = not (args.legacy or args.no_index)
+    OPT.cache = not (args.legacy or args.no_cache)
+    OPT.probe_bound = args.probe_bound and not args.legacy
+    OPT.fast_name = not (args.legacy or args.no_fast_name)
+    if args.legacy:
+        OPT.jobs = 1
+    elif args.jobs == 0:
+        OPT.jobs = max(1, (os.cpu_count() or 1))
+    else:
+        OPT.jobs = max(1, args.jobs)
+    if args.legacy:
+        sys.stderr.write("legacy build: no index, no cache, no probe bound, "
+                         "no name index, one process\n")
 
     a0 = load("admin0", args.download)
 
@@ -4156,12 +4487,41 @@ def _name_rings(rings, osm):
     """
     out = {}
     used = set()
+
+    # Every ring was compared with every name — four million bounding-box
+    # overlaps to place a few thousand islands. A name can only win by
+    # overlapping the ring's box or by having its point inside the ring, and
+    # both of those are local, so the names go in a grid and a ring asks only
+    # the cells its own box covers. Nothing that could have won is left out.
+    cell = 1.0
+    nidx = None
+    if OPT.fast_name:
+        nidx = collections.defaultdict(list)
+        for pi, p in enumerate(osm):
+            b = p["box"] or (p["lon"], p["lat"], p["lon"], p["lat"])
+            for gx in range(int(math.floor(b[0] / cell)),
+                            int(math.floor(b[2] / cell)) + 1):
+                for gy in range(int(math.floor(b[1] / cell)),
+                                int(math.floor(b[3] / cell)) + 1):
+                    nidx[(gx, gy)].append(pi)
+
     for ri, (_, ring) in enumerate(rings):
         rb = _bbox(ring)
         span = max(rb[2] - rb[0], rb[3] - rb[1], 0.004)
         pad = 0.3 * span
         best, bestkey = None, None
-        for pi, p in enumerate(osm):
+        if nidx is None:
+            candidates = range(len(osm))
+        else:
+            seen = set()
+            for gx in range(int(math.floor((rb[0] - pad) / cell)),
+                            int(math.floor((rb[2] + pad) / cell)) + 1):
+                for gy in range(int(math.floor((rb[1] - pad) / cell)),
+                                int(math.floor((rb[3] + pad) / cell)) + 1):
+                    seen.update(nidx.get((gx, gy), ()))
+            candidates = sorted(seen)
+        for pi in candidates:
+            p = osm[pi]
             if pi in used:
                 continue
             ov = _iou(rb, p["box"]) if p["box"] else 0.0

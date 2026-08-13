@@ -146,6 +146,81 @@ rather than a tweak, and none of it is started.
 
 ## Done
 
+### The build takes 12 seconds instead of 133
+Measured first, and the profile was blunt: `point_in_ring` and the bounding-box
+scan above it were **107 seconds of the 133**, called 873,000 times by the
+frontier seams, each call a linear walk of a ring averaging about 1,900
+vertices. Everything else in the build put together was 26 seconds.
+
+Five changes, each switchable, and `--legacy` turns off all five to get the old
+build back. None of them may change the output, and the check is that the three
+SVGs come out byte for byte identical either way. Verified across seven
+configurations — `--legacy`, the default, `--jobs 0`, `--probe-bound`,
+`--no-fast-name`, `--no-index`, and the default again off a warm cache — all
+seven giving `f206013869cf / fc1faffe3e0b / f4bc0551f972`, which is what the
+build produced before any of this was written.
+
+| | | serial | with `--jobs 0` |
+| --- | --- | ---: | ---: |
+| `--legacy` | the old build | 135.3 s | — |
+| default, cold cache | | 14.8 s | 13.1 s |
+| default, warm cache | | 12.1 s | 12.0 s |
+
+**A — `_RingBands`, the one that mattered.** A ring's edges are bucketed by
+latitude band, and a crossing test looks only in the band the query falls in: an
+edge whose y-span does not straddle the query can never be counted, so there is
+no reason to look at it. Two thousand vertices become a couple of dozen. The
+ring bounding boxes went into a coarse grid at the same time — those were a flat
+scan of about a hundred and sixty boxes per query, seven per cent of the build
+on their own. This is the whole win: **133.6 s → 15.1 s**, and with it switched
+off (`--no-index`) the build is back to 133.6 s whatever else is on.
+
+**B — the seams are cached on disk.** They depend only on the source rings and
+the seam constants, so they are computed once and read back. Worth 2.7 s on top,
+which is small against A but is the whole seam phase, so it will stay flat if the
+geometry grows.
+
+The cache is keyed on a hash of the *source* of the functions that compute it —
+`push_seam`, `_ring_test`, `_ring_normal`, `_grid_of`, `_nearest_in`,
+`_near_grid`, `signed_ring_area`, `add_neighbour_seams` — together with every
+`SEAM_*` constant, the three tables of who reaches whom, and the coordinates of
+every ring involved. A version number would have been the usual way and is the
+wrong way here: the failure it invites is silent, a changed search answered out
+of a cache written before the change, and the symptom is geometry that quietly
+does not match the code claiming to have made it. Reading the source costs a
+millisecond and cannot be forgotten. Checked: moving one vertex by 1e-6°
+invalidates it, changing `SEAM_STEP` invalidates it, and a function whose source
+cannot be read at all disables the cache rather than trusting it.
+
+**C — the probe lower bound: implemented, measured, and off by default.** A
+probe lands inside the target only if the segment to it crosses the target's
+boundary, so no probe shorter than (distance to the nearest target vertex) minus
+(longest edge in the target) can succeed, and the thirty-three steps outward can
+start where success first becomes possible. The bound is sound and it does skip
+the probes. It is also a net **loss of 0.6 s** over three paired runs, because
+with A in place a probe costs about two microseconds instead of a hundred and
+seventy and the extra nearest-vertex lookup the bound needs costs more than the
+probes it saves. It is `--probe-bound`, opt-in, and worth having only with
+`--no-index`. Left in because it is correct and cheap to keep, not because it
+pays.
+
+**D — `--jobs N` for the seam search.** The twenty-five searches do not talk to
+each other. Results are collected in job order, so which worker finishes first
+cannot change the answer. Worth 1.7 s on a cold cache and nothing on a warm one —
+again small only because A already took the phase down to 3.3 s. Default is 1;
+`--jobs 0` is one per core.
+
+**E — the OSM names are indexed.** `_name_rings` compared every fine ring with
+every name, 4.2 million bounding-box overlaps. A name can only win by
+overlapping the ring's box or by having its point inside the ring, and both are
+local, so the names go in a grid and a ring asks only the cells its own box
+covers. Worth 2.5 s.
+
+The lesson worth keeping: four of the five are worth between nothing and two and
+a half seconds, and one is worth two minutes. The profile said so before any of
+it was written, and the two that were guessed at rather than measured — C and D —
+are the two that did not pay.
+
 ### The ocean boundary round occupied China — the real one
 Reported four times, and I twice said it was something else. It is the
 **outline of a block of the occupied zone when the pointer is on that block**.

@@ -15,6 +15,12 @@ tools/cache/japanese-home-islands.geojson
 tools/cache/pacific-islands-se.geojson
 tools/cache/*.qmd
 
+# The computed frontier seams, kept so a build that changes nothing about the
+# geometry does not spend three seconds working them out again. Derived, keyed
+# on a hash of the geometry and of the code that made them, and rewritten
+# whenever either changes — so there is nothing here worth a place in history.
+tools/cache/seams-*.json
+
 # GeoJSON written by `python3 tools/build_map.py --export exports` — the map's
 # own geometry in lon/lat, for opening in QGIS. Regenerated on demand, and far
 # too heavy to keep in the history.
