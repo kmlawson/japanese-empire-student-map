@@ -347,6 +347,11 @@ LAND_BASE = [
     # the west, the Yunnan plateau in the east, and no water bigger than a
     # river anywhere between.
     (95.0, 26.0, 99.0, 29.5),
+    # The northern Indochina frontier, where Tonkin, Laos, the Shan states and
+    # Yunnan meet and four sources have to agree along one line. Eight points
+    # in five thousand were open. Land corner to corner: the box stops at
+    # 104.5 E, well inland of the Red River delta and its coast.
+    (101.0, 21.0, 104.5, 23.5),
 ]
 
 

@@ -39,10 +39,6 @@ tried, what it measured, and what would actually settle it.
   Limbang; what the map is showing is three drawings of one shore that disagree,
   and no filler can decide between them. It wants a period source for the bay.
 
-- **North-west Indochina, about 102.5 E 22.4 N**: which side of the frontier a
-  wedge there belongs to, and the black outline agreeing with whatever the
-  answer is. Not yet traced against a period source.
-
 - **The Kwantung leasehold: measured, and left.** Sampled by rendered colour
   over the whole leasehold at a hundred-kilometre view, Manchuria's colour shows
   through at **three pixels, in two clusters**, at 121.43 E 39.44 N and
