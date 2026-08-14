@@ -32,6 +32,45 @@ answer, the source that would settle it is named at the foot of this file.
 
 ## Done
 
+### Mengchiang is drawn from its own boundary
+It used to be the ENP sheet's Chahar plus the eastern half of Suiyuan — two
+provinces standing in for a state whose boundary was neither of them. The traced
+one, `mengjiang-1942.12.geojson`, is **one ring of 358 vertices** against a
+province edge and a line of longitude, and every point of it falls inside the
+ENP provinces, checked by sampling, so nothing of Mongolia or Manchukuo is
+painted by it.
+
+It is drawn *over* Chahar and Suiyuan rather than instead of them: those are
+still the 1930 map's provinces, and on the 1942 map what is left of them outside
+the traced line is Free China's — Fu Tso-yi's ground in the west and the
+unoccupied steppe. The meridian cut through Suiyuan is no longer doing any work
+on the 1942 map, though it stays for the atom.
+
+**The occupation is carved back to it.** Mengchiang's boundary crosses China
+proper — northern Shansi was part of the regime — so the shading ran underneath
+it, and where the two traced lines nearly but not quite coincide it showed as a
+fringe outside it. A clip cannot subtract, but it can be the frame with a hole
+in it: `clip-off-mengjiang` is the whole rectangle and Mengchiang's rings in one
+path under the even-odd rule, and the occupied group now carries both clips.
+They intersect, which is what is wanted — the shading stops at the coast, at the
+frontier, and at the client state's line.
+
+**The line of control follows it too**, in as much as `EXTENT_MANCHURIA` now
+takes its arc off Manchuria, Jehol and Mengchiang rather than off Manchuria,
+Jehol, Chahar and Suiyuan, and hands over to the front at Mengchiang's southern
+edge rather than at the old meridian. Mengchiang is traced and its neighbours
+are the ENP sheet's, so the two do not weld and the dissolve left the seam
+between them standing; Mengchiang is grown by a few kilometres for that one
+purpose, which is enough for the join to be swallowed. Nothing drawn uses the
+grown shape.
+
+**Not finished:** one dashed segment still cuts diagonally across the client
+state, from about 116.2 E 45.1 N to 118.8 E 41.3 N. It is part of the perimeter
+— checked, it is the only dashed path in that frame — but it does not respond to
+the arc's anchors or to its `via` point, and I have not found what selects it.
+The path does regenerate with each build, so it is the course being chosen and
+not a stale file. Left as it stands rather than guessed at again.
+
 ### The islands of the South China Sea
 The Spratlys, the Paracels and Pratas, cut out of the OSM coastlines and drawn
 where the map had nothing but open water. **78 features** survive the half-hectare

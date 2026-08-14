@@ -560,7 +560,7 @@ ENP_ATOMS = {"china", "manchuria", "chahar", "suiyuan", "suiyuan_w", "jehol",
 # tolerance any band would give them; thinned at all they stop being shapes.
 FULL_DETAIL = ({"korea", "saharat", "princely", "kwantung", "ccp", "malaya",
                 "turtle", "mangsee", "miangas", "cocos",
-                "spratly", "paracel", "pratas"} | ENP_ATOMS
+                "spratly", "paracel", "pratas", "mengjiang"} | ENP_ATOMS
                | set(GIS_LAYERS))
 
 # Atoms whose rings are separate pieces of ground rather than neighbours that
@@ -868,7 +868,7 @@ def trim_to_land(line, inside, back=0.02):
 # marks where Japanese forces actually were, so it has no business floating
 # west of the shading: it is taken straight off OCCUPIED_ZONE's first block,
 # smoothed the same way, and the two coincide.
-FRONT_START = (109.6, 38.69)     # where the front leaves the Mengjiang border
+FRONT_START = (112.40, 39.15)     # where the front leaves the Mengjiang border
 
 
 def china_front():
@@ -1216,9 +1216,14 @@ EXTENT_ARCS = [
     ("burma", (101.0, 21.3), (92.3, 20.6), (97.5, 27.5)),
 ]
 # The Manchukuo and Mengchiang frontier, taken off the provinces themselves.
+# The Manchukuo and Mengchiang frontier, taken off the atoms themselves — and
+# Mengchiang is now one of them rather than two Chinese provinces standing in
+# for it, so the perimeter follows the traced line instead of a province edge
+# and a meridian. It ends at Mengchiang's south-western corner, where the front
+# through occupied China picks it up.
 EXTENT_MANCHURIA = (
-    ("manchuria", "jehol", "chahar", "suiyuan"),
-    (130.7, 42.4), (109.6, 38.69), (120.0, 51.0),
+    ("manchuria", "jehol", "mengjiang"),
+    (130.7, 42.4), (112.40, 39.15), (113.5, 45.5),
 )
 
 # Kinmen (Quemoy) sits in Natural Earth's Taiwan polygon because it is governed
@@ -2981,6 +2986,42 @@ def ccp_zone(ring):
 # fetched only on a deep zoom into that water; what the base map carries is the
 # largest island of each group, so the group exists, can be pointed at and can
 # be named before any of that is loaded.
+# Mengchiang, traced. The client regime used to be drawn as the ENP sheet's
+# Chahar and the eastern half of Suiyuan, which is two provinces standing in for
+# a state whose boundary was neither of them: it ran round the leagues and
+# banners it actually administered, and cut across both. This is that boundary,
+# traced in QGIS from the period maps in occupation-maps/ — 358 vertices against
+# a province edge and a line of longitude.
+#
+# It is drawn *over* the provinces rather than instead of them, because they are
+# still the 1930 map's Chahar and Suiyuan and are still what the ground outside
+# Mengchiang is made of. Every point of it falls inside the ENP provinces —
+# checked — so nothing of Mongolia or Manchukuo is painted by it.
+MENGJIANG_FILE = "mengjiang-1942.12.geojson"
+_MENGJIANG_CACHE = []
+
+
+def load_mengjiang():
+    """The traced rings of Mengchiang, or [] if the file is not there."""
+    if _MENGJIANG_CACHE:
+        return _MENGJIANG_CACHE[0]
+    path = os.path.join(CACHE, MENGJIANG_FILE)
+    out = []
+    if os.path.exists(path):
+        try:
+            with open(path) as fh:
+                for feat in json.load(fh).get("features", []):
+                    for ring in iter_rings(feat.get("geometry") or {}):
+                        if len(ring) >= 3:
+                            out.append(ring)
+        except (OSError, ValueError):
+            sys.stderr.write(f"note: {MENGJIANG_FILE} unreadable\n")
+    else:
+        sys.stderr.write(f"note: {MENGJIANG_FILE} missing, Mengchiang not traced\n")
+    _MENGJIANG_CACHE.append(out)
+    return out
+
+
 SCS_ISLANDS = "scs-islands.geojson"
 SCS_ATOMS = {
     "Spratly Islands": "spratly",
@@ -3322,7 +3363,7 @@ ORDER = [
     # Mengjiang and Manchukuo, which were client states with their own colour
     # and not part of the shading. The resistance areas stay above it, being in
     # ON_TOP, because they are what the shading is an overstatement of.
-    "occupiedzone", "chahar", "suiyuan", "suiyuan_w",
+    "occupiedzone", "chahar", "suiyuan", "suiyuan_w", "mengjiang",
     "jehol", "manchuria",
     "siam", "burma", "saharat", "indochina", "siamgain", "malaya", "malaya_thai", "sarawak", "northborneo", "brunei",
     "dei", "philippines", "christmas", "spratly", "paracel", "pratas", "turtle", "mangsee", "miangas", "cocos",
@@ -3622,6 +3663,14 @@ def main():
             "outer islands: "
             + ", ".join(f"{g} {len(outer.get(g, []))}" for g in OUTER_ATOMS)
             + "\n")
+
+    meng = load_mengjiang()
+    if meng:
+        groups["mengjiang"].extend(meng)
+        provinces["mengjiang"].append(("Mengjiang", meng))
+        sys.stderr.write(
+            "Mengchiang: %d traced rings, %d vertices\n"
+            % (len(meng), sum(len(r) for r in meng)))
 
     scs = load_scs_islands(SCS_COARSE_KM2)
     for gname, key in SCS_ATOMS.items():
@@ -4015,7 +4064,21 @@ def main():
             extent += simplify(arc, 0.03)
     extent += chaikin(EXTENT_OCEAN)
     keys, a, b, via = EXTENT_MANCHURIA
-    ring = outline(keys)
+    # Mengchiang is traced and its neighbours are the ENP sheet's, so the two
+    # do not weld: dissolved as they come, the seam between them survives and
+    # the perimeter traced it as though it were a frontier, drawing a dashed
+    # line down the middle of the client state. Mengchiang is grown by a few
+    # kilometres for this one purpose, which is enough for the dissolve to
+    # swallow the join. Nothing drawn uses the grown shape.
+    _arc_rings = []
+    for k in keys:
+        rs = groups.get(k) or []
+        if k == "mengjiang":
+            rs = [grow_ring(normalise_ring(r), 0.28) for r in rs]
+        _arc_rings.extend(rs)
+    _merged = dissolve(_arc_rings) or _arc_rings
+    _merged = [r for r in _merged if len(r) >= 3]
+    ring = max(_merged, key=ring_area) if _merged else None
     if ring:
         extent += simplify(boundary_arc(ring, a, b, via), 0.03)
 
@@ -4641,6 +4704,21 @@ def main():
                    or paths.get("china", ""))
     if china_drawn:
         out.append(f'    <clipPath id="clip-china"><path d="{china_drawn}"/></clipPath>')
+    # Everything except Mengchiang. The occupation is clipped to China's land,
+    # and Mengchiang's traced boundary crosses China proper — northern Shansi
+    # was part of the regime — so the shading ran under it and, where the two
+    # traced lines nearly but not quite coincide, showed as a fringe outside it.
+    # A clip cannot subtract, but it can be the frame with a hole in it: the
+    # rectangle and Mengchiang's rings in one path under the even-odd rule.
+    meng_rings = load_mengjiang()
+    if meng_rings:
+        hole = ring_to_path([(0.0, 0.0), (WIDTH, 0.0), (WIDTH, HEIGHT), (0.0, HEIGHT)])
+        for ring in meng_rings:
+            cut = clip_halfplanes(normalise_ring(ring), frame)
+            if len(cut) >= 3:
+                hole += ring_to_path([project(x, y) for x, y in cut], FINE_PRECISION)
+        out.append('    <clipPath id="clip-off-mengjiang" clipPathUnits="userSpaceOnUse">'
+                   f'<path clip-rule="evenodd" d="{hole}"/></clipPath>')
     out.append("  </defs>")
     out.append(f'  <rect id="ocean" x="0" y="0" width="{fmt(WIDTH)}" height="{fmt(HEIGHT)}"/>')
     out.append('  <g id="land">')
@@ -4759,6 +4837,11 @@ def main():
         # layer off those two are painted by their backing, which lives at the
         # head of the layer stack, so nothing drawn later can be under it and
         # no amount of reordering would have helped.
+        # Two clips: China's own land, and then everything that is not
+        # Mengchiang. They intersect, which is what is wanted — the shading
+        # stops at the coast, at the frontier, and at the client state's line.
+        occ_out.append('    <g clip-path="url(#clip-off-mengjiang)">'
+                       if meng_rings else '    <g>')
         occ_out.append(
             f'    <g id="a-occupiedzone" class="atom" clip-path="url(#clip-china)" '
             f'data-islands="1" data-cx="{fmt(ax)}" data-cy="{fmt(ay)}" '
@@ -4767,6 +4850,7 @@ def main():
         for label, d in occ_pieces:
             attr = f' data-prov="{esc(label)}"' if label else ""
             occ_out.append(f'      <path{attr} d="{d}"/>')
+        occ_out.append("    </g>")
         occ_out.append("    </g>")
 
     for key in ordered:

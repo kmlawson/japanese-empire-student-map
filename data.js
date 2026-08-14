@@ -501,8 +501,10 @@ JMAP.TERRITORIES = {
       note: 'Invaded from September 1931 and proclaimed independent under the last Qing emperor P’u-i. Jehol was added in 1933; the eastern Inner Mongolian leagues had been part of the three provinces all along and became its Hinggan provinces. Real power lay with the Kwantung Army and Japanese vice-ministers.' },
     // Mengchiang and Manchukuo are both client states and so share a fill; the
     // hairline down Chahar's eastern edge is what keeps them two countries
-    { id: 'mengjiang', atoms: ['chahar', 'suiyuan'], cat: 'puppet', lvl: 2,
-      edge: '#9a1813', edgeAtoms: ['chahar'], edgeClip: [116.3, 40.2, 119.7, 45.6],
+    // Drawn from its own traced boundary now, not from two provinces standing
+    // in for it. What is left of Chahar and Suiyuan outside that line is Free
+    // China's — Fu Tso-yi's ground in the west and the unoccupied steppe.
+    { id: 'mengjiang', atoms: ['mengjiang'], cat: 'puppet', lvl: 2,
       en: 'Měngjiāng (Mengchiang)', ja: '蒙疆 (Mōkyō)', orig: '蒙疆聯合自治政府',
       zh: '蒙疆聯合自治政府',
       when: 'Client regime from 1936–39',
@@ -700,7 +702,7 @@ JMAP.TERRITORIES = {
     // Western Suiyuan is Free China: Mengchiang was proclaimed over the whole
     // province but Japanese control never reached past Paotow, and Fu Tso-yi
     // held Wuyuan, Linhe and the Ordos throughout.
-    { id: 'freechina', atoms: ['china', 'suiyuan_w'], cat: 'freechina', lvl: 1,
+    { id: 'freechina', atoms: ['china', 'suiyuan_w', 'chahar', 'suiyuan'], cat: 'freechina', lvl: 1,
       en: 'Republic of China (Nationalist government)', ja: '中華民国・重慶政権 (Chūka Minkoku)', orig: '中華民國 (Zhōnghuá Mínguó)',
       zh: '中華民國（重慶國民政府）',
       when: 'Capital at Chungking from 1938',
