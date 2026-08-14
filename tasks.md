@@ -51,9 +51,6 @@ rather than a tweak, and none of it is started.
   Japanese names, Japanese-held on both dates, with a note on the dispute
   today.
 
-- **One fine set at a time.** Loading a second window should stand the first
-  one down and put its coarse shapes back. At present they accumulate.
-
 - **Guangzhouwan, the last of it**: the hull carve cuts into the mainland on
   the north-west, one yellow island inside the leasehold survives, and there is
   a small leak on the far south-eastern island.
@@ -145,6 +142,34 @@ rather than a tweak, and none of it is started.
 ---
 
 ## Done
+
+### One fine window at a time
+The file covers fourteen windows holding 1,905 shapes, and a deep zoom anywhere
+grafted **all of them**: a reader looking at Okinawa was carrying the Bonins, the
+mandate, the Gilberts, New Guinea, five Solomons groups and Wake, and kept them
+for the rest of the visit. Each window is grafted on its own now, when the view
+reaches it, and taken out again when the view leaves.
+
+Measured: deep on Okinawa, **126 shapes** are grafted and nothing else —
+`{ryukyu: 126}` where it used to be all 1,905. Deep on Guadalcanal, five
+Solomons windows whose boxes genuinely overlap the view — 557 shapes — and no
+Ryukyus. Their boxes do overlap in the Pacific (Wake sits inside the mandate's
+and the Gilberts reach into it), so this is a set and not a single answer; what
+it will not do is give a reader in the Ryukyus the Solomons.
+
+Taking a window out has to put the map back, and the coarse shapes had been
+pruned in place — sub-paths cut out of a `d`, whole shapes marked superseded.
+`coarseOrig` records what each shape was the first time anything touched it, and
+`reprune()` restores every one of them and prunes again against whatever is
+grafted now. That makes it idempotent: nothing depends on the order windows were
+added in, and two overlapping windows can be added and removed in any order.
+Checked by hashing the `d` and the superseded flag of all **1,434** coarse shapes
+— identical at the opening view, after a return from the Ryukyus, and after a
+return from the Solomons.
+
+The file itself is still fetched once, in full, and kept parsed; it is 554 KB and
+splitting it into fourteen would trade one request for many. What this saves is
+the drawing, which is where the cost was.
 
 ### Nothing the browse layer knew about a city was lost
 Checked rather than assumed, and something had been lost. The gazetteer CSVs

@@ -1033,12 +1033,10 @@
     // On settle, not per frame: this fires on every wheel tick and every step
     // of a pan, and a pinch would otherwise queue a dozen fetches.
     if (fineTimer) clearTimeout(fineTimer);
-    if (fineState === 'none' && view.w < FINE_W) {
-      fineTimer = setTimeout(function () {
-        fineTimer = 0;
-        if (wantsFine()) loadFine();
-      }, 220);
-    }
+    fineTimer = setTimeout(function () {
+      fineTimer = 0;
+      syncFine();
+    }, 220);
   }
   var fineTimer = 0;
 
@@ -2376,9 +2374,22 @@
      the deepest fifth of the zoom range. */
   var FINE_W = 150;
 
+  /* The file covers fourteen windows and they used to arrive together: one
+     deep zoom anywhere grafted the Ryukyus, the Bonins, the mandate, the
+     Gilberts, New Guinea, the Solomons and Wake at once and kept them all
+     drawn for the rest of the visit. A reader looking at Okinawa was carrying
+     the Pacific with them. Each window is grafted on its own now, when the
+     view reaches it, and taken out again when the view leaves — its coarse
+     shapes going back exactly as they were. */
   var fineState = 'none';           // none | loading | ready | failed
   var fineBoxes = null;             // atom -> [x0, y0, x1, y1], from the map
-  var fineHits = [];                // every island's box, for the reach below
+  var fineDoc = null;               // the parsed file, kept for regrafting
+  var fineLive = {};                // region key -> the nodes it has grafted
+  var fineHits = [];                // every live island's box, for the reach
+  /* What each coarse shape looked like before any window pruned it, so that
+     taking a window out restores the map rather than an approximation of it.
+     Recorded once, the first time a shape is touched. */
+  var coarseOrig = [];
 
   /* How far past an island the pointer still counts as being on it, in screen
      pixels. Most of these are specks — a third of the Pacific ones are under a
@@ -2388,7 +2399,7 @@
   var FINE_REACH = 9;
 
   function nearestFine(cx, cy) {
-    if (fineState !== 'ready' || !fineHits.length || !svg) return null;
+    if (!fineHits.length || !svg) return null;
     var m = svg.getScreenCTM();
     if (!m) return null;
     var pt = svg.createSVGPoint();
@@ -2425,16 +2436,21 @@
     return fineBoxes;
   }
 
-  /* Is the reader looking closely at somewhere the fine file covers? */
+  /* Which windows the view is looking at. Their boxes overlap in the Pacific —
+     Wake sits inside the mandate's box and the Gilberts reach into it — so this
+     is a set and not a single answer, and a view that takes in two of them
+     legitimately gets both. What it will not do is give a reader in the
+     Ryukyus the Solomons. */
   function wantsFine() {
-    if (view.w >= FINE_W) return false;
+    if (view.w >= FINE_W) return [];
     var boxes = fineRegions();
+    var out = [];
     for (var k in boxes) {
       var b = boxes[k];
       if (view.x < b[2] && view.x + view.w > b[0] &&
-          view.y < b[3] && view.y + view.h > b[1]) return true;
+          view.y < b[3] && view.y + view.h > b[1]) out.push(k);
     }
-    return false;
+    return out;
   }
 
   /* The bounding box of each sub-path of a shape. A sub-path of a coastline
@@ -2458,118 +2474,191 @@
     return out;
   }
 
-  function loadFine() {
-    if (fineState === 'loading' || fineState === 'ready') return;
+  /* The file is fetched once and kept parsed. Grafting is per window: a window
+     is asked for when the view reaches it and taken back when the view leaves,
+     and the coarse shapes are restored from what they were before any window
+     touched them, which is the only way two overlapping windows can be added
+     and removed in any order without leaving the map half-pruned. */
+  function fetchFine(then) {
+    if (fineState === 'ready') { then(); return; }
+    if (fineState === 'loading') return;
     fineState = 'loading';
-    var graft = function (text) {
-      var doc = new DOMParser().parseFromString(text, 'image/svg+xml');
-
-      /* Every fine island, taken from the whole file at once rather than group
-         by group. An island's coarse copy is not always in the atom its fine
-         copy belongs to: Tanegashima is drawn with the Ryukyus, as this map
-         has always drawn it, but Natural Earth also carries it inside Japan's
-         filler. Pruning only the atom the fine group named left those drawn
-         twice, one coastline beside the other. */
-      var fine = [];
-      $$('g[data-for] path', doc.documentElement).forEach(function (n) {
-        boxesOf(n.getAttribute('d')).forEach(function (b) { if (b) fine.push(b); });
-      });
-
-      /* Has a finer island taken this one's place? By overlap, not by
-         containment. Two drawings of one coastline each reach past the other
-         somewhere, so their boxes agree only roughly — Iwo Jima's agree to
-         within a half — and asking for containment called that a different
-         island and left both drawn. */
-      var covers = function (b) {
-        var pad = 0.4;
-        for (var i = 0; i < fine.length; i++) {
-          var f = fine[i];
-          if (b[0] >= f[0] - pad && b[1] >= f[1] - pad &&
-              b[2] <= f[2] + pad && b[3] <= f[3] + pad) return true;
-          var ix0 = Math.max(b[0], f[0]), iy0 = Math.max(b[1], f[1]);
-          var ix1 = Math.min(b[2], f[2]), iy1 = Math.min(b[3], f[3]);
-          if (ix1 <= ix0 || iy1 <= iy0) continue;
-          var inter = (ix1 - ix0) * (iy1 - iy0);
-          var u = (b[2] - b[0]) * (b[3] - b[1]) + (f[2] - f[0]) * (f[3] - f[1]) - inter;
-          if (u > 0 && inter / u > 0.15) return true;
-        }
-        return false;
-      };
-
-      /* Island by island: the replaced sub-paths are cut out of the shape and
-         the rest is left drawing. A shape with nothing left steps aside whole.
-         Doing it per shape instead would mean the filler — one path holding
-         the entire Ryukyu arc — either kept drawing Okinawa's coarse coastline
-         beside the fine one, or vanished and took with it the handful of
-         islands too small for the fine file to carry. */
-      var prune = function (node) {
-        var d = node.getAttribute && node.getAttribute('d');
-        if (!d) {
-          // A circle rather than a shape: the ring the base map draws round an
-          // island too small to see, and the invisible one beside it that
-          // takes the pointer for it. Both stand down once the island itself
-          // is drawn properly — the hit circle is five map units across, which
-          // deep in a zoom is a hundred and fifty pixels of ocean answering
-          // for an island a reader can now see and point at directly.
-          var bb;
-          try { bb = node.getBBox(); } catch (e) { return; }
-          if (!bb || (!bb.width && !bb.height)) return;
-          var box = [bb.x, bb.y, bb.x + bb.width, bb.y + bb.height];
-          if (covers(box)) { node.classList.add('superseded'); return; }
-          for (var i = 0; i < fine.length; i++) {
-            var f = fine[i];
-            var fx = (f[0] + f[2]) / 2, fy = (f[1] + f[3]) / 2;
-            if (fx >= box[0] && fx <= box[2] && fy >= box[1] && fy <= box[3]) {
-              node.classList.add('superseded');
-              return;
-            }
-          }
-          return;
-        }
-        var parts = d.split('M').slice(1);
-        var boxes = boxesOf(d);
-        var kept = [];
-        for (var p = 0; p < parts.length; p++) {
-          if (!boxes[p] || !covers(boxes[p])) kept.push(parts[p]);
-        }
-        if (!kept.length) node.classList.add('superseded');
-        else if (kept.length < parts.length)
-          node.setAttribute('d', 'M' + kept.join('M'));
-      };
-
-      // every coarse shape on the map, not only the ones in the named atoms
-      $$('#land path, #land circle', svg).forEach(prune);
-
-      $$('g[data-for]', doc.documentElement).forEach(function (g) {
-        var el = atomEls[g.getAttribute('data-for')];
-        if (!el) return;
-        var before = el.querySelector('circle');
-        while (g.firstElementChild) {
-          var node = document.importNode(g.firstElementChild, true);
-          g.removeChild(g.firstElementChild);
-          node.setAttribute('class', 'fine');
-          el.insertBefore(node, before);
-          // kept for the reach below, in map units, so hovering costs no
-          // geometry calls at all
-          boxesOf(node.getAttribute('d')).forEach(function (b) {
-            if (b) fineHits.push({ b: b, el: node });
-          });
-        }
-      });
+    var parse = function (text) {
+      fineDoc = new DOMParser().parseFromString(text, 'image/svg+xml');
       fineState = 'ready';
-      // the coarse shapes the stripes were copied from have just stood down
-      buildHatch();
-      applyState();
-      redrawHighlight();
+      then();
     };
-    if (window.JMAP_INLINE_FINE) { graft(window.JMAP_INLINE_FINE); return; }
+    if (window.JMAP_INLINE_FINE) { parse(window.JMAP_INLINE_FINE); return; }
     fetch('japan-empire-map-fine.svg')
       .then(function (r) {
         if (!r.ok) throw new Error(r.status);
         return r.text();
       })
-      .then(graft)
+      .then(parse)
       .catch(function () { fineState = 'none'; });
+  }
+
+  /* Every island in the windows currently grafted. An island's coarse copy is
+     not always in the atom its fine copy belongs to — Tanegashima is drawn
+     with the Ryukyus, as this map has always drawn it, but Natural Earth also
+     carries it inside Japan's filler — so the sweep below goes over the whole
+     of #land and not over the named atom alone. */
+  function liveFineBoxes() {
+    var out = [];
+    Object.keys(fineLive).forEach(function (k) {
+      fineLive[k].forEach(function (node) {
+        boxesOf(node.getAttribute('d')).forEach(function (b) { if (b) out.push(b); });
+      });
+    });
+    return out;
+  }
+
+  /* Every coarse shape put back as it was, then pruned again against whatever
+     is grafted now. Idempotent by construction: nothing depends on the order
+     windows were added in, and with no window grafted it leaves the map
+     exactly as it was built. */
+  function reprune() {
+    coarseOrig.forEach(function (r) {
+      if (r.d !== null) r.el.setAttribute('d', r.d);
+      r.el.classList.remove('superseded');
+    });
+
+    var fine = liveFineBoxes();
+    if (!fine.length) return;
+
+    /* Has a finer island taken this one's place? By overlap, not by
+       containment. Two drawings of one coastline each reach past the other
+       somewhere, so their boxes agree only roughly — Iwo Jima's agree to
+       within a half — and asking for containment called that a different
+       island and left both drawn. */
+    var covers = function (b) {
+      var pad = 0.4;
+      for (var i = 0; i < fine.length; i++) {
+        var f = fine[i];
+        if (b[0] >= f[0] - pad && b[1] >= f[1] - pad &&
+            b[2] <= f[2] + pad && b[3] <= f[3] + pad) return true;
+        var ix0 = Math.max(b[0], f[0]), iy0 = Math.max(b[1], f[1]);
+        var ix1 = Math.min(b[2], f[2]), iy1 = Math.min(b[3], f[3]);
+        if (ix1 <= ix0 || iy1 <= iy0) continue;
+        var inter = (ix1 - ix0) * (iy1 - iy0);
+        var u = (b[2] - b[0]) * (b[3] - b[1]) + (f[2] - f[0]) * (f[3] - f[1]) - inter;
+        if (u > 0 && inter / u > 0.15) return true;
+      }
+      return false;
+    };
+
+    var remember = function (node, d) {
+      if (node.__coarse) return;
+      node.__coarse = true;
+      coarseOrig.push({ el: node, d: d });
+    };
+
+    /* Island by island: the replaced sub-paths are cut out of the shape and
+       the rest is left drawing. A shape with nothing left steps aside whole.
+       Doing it per shape instead would mean the filler — one path holding the
+       entire Ryukyu arc — either kept drawing Okinawa's coarse coastline
+       beside the fine one, or vanished and took with it the handful of islands
+       too small for the fine file to carry. */
+    var prune = function (node) {
+      if (node.classList.contains('fine')) return;
+      var d = node.getAttribute && node.getAttribute('d');
+      if (!d) {
+        // A circle rather than a shape: the ring the base map draws round an
+        // island too small to see, and the invisible one beside it that takes
+        // the pointer for it. Both stand down once the island itself is drawn
+        // properly — the hit circle is five map units across, which deep in a
+        // zoom is a hundred and fifty pixels of ocean answering for an island
+        // a reader can now see and point at directly.
+        var bb;
+        try { bb = node.getBBox(); } catch (e) { return; }
+        if (!bb || (!bb.width && !bb.height)) return;
+        var box = [bb.x, bb.y, bb.x + bb.width, bb.y + bb.height];
+        if (covers(box)) { remember(node, null); node.classList.add('superseded'); return; }
+        for (var i = 0; i < fine.length; i++) {
+          var f = fine[i];
+          var fx = (f[0] + f[2]) / 2, fy = (f[1] + f[3]) / 2;
+          if (fx >= box[0] && fx <= box[2] && fy >= box[1] && fy <= box[3]) {
+            remember(node, null);
+            node.classList.add('superseded');
+            return;
+          }
+        }
+        return;
+      }
+      var parts = d.split('M').slice(1);
+      var boxes = boxesOf(d);
+      var kept = [];
+      for (var p = 0; p < parts.length; p++) {
+        if (!boxes[p] || !covers(boxes[p])) kept.push(parts[p]);
+      }
+      if (kept.length === parts.length) return;
+      remember(node, d);
+      if (!kept.length) node.classList.add('superseded');
+      else node.setAttribute('d', 'M' + kept.join('M'));
+    };
+
+    $$('#land path, #land circle', svg).forEach(prune);
+  }
+
+  function graftFine(key) {
+    if (fineLive[key] || !fineDoc) return false;
+    var g = $('g[data-for="' + key + '"]', fineDoc.documentElement);
+    var el = atomEls[key];
+    if (!g || !el) return false;
+    var nodes = [];
+    var before = el.querySelector('circle');
+    $$(':scope > *', g).forEach(function (child) {
+      var node = document.importNode(child, true);
+      node.setAttribute('class', 'fine');
+      el.insertBefore(node, before);
+      nodes.push(node);
+    });
+    fineLive[key] = nodes;
+    return true;
+  }
+
+  function dropFine(key) {
+    var nodes = fineLive[key];
+    if (!nodes) return false;
+    nodes.forEach(function (n) { if (n.parentNode) n.parentNode.removeChild(n); });
+    delete fineLive[key];
+    return true;
+  }
+
+  /* The hover reach, in map units, so pointing at an islet costs no geometry
+     calls at all. Rebuilt whenever the live set changes. */
+  function rebuildFineHits() {
+    fineHits = [];
+    Object.keys(fineLive).forEach(function (k) {
+      fineLive[k].forEach(function (node) {
+        boxesOf(node.getAttribute('d')).forEach(function (b) {
+          if (b) fineHits.push({ b: b, el: node });
+        });
+      });
+    });
+  }
+
+  function syncFine() {
+    var want = wantsFine();
+    if (!want.length && !Object.keys(fineLive).length) return;
+    if (want.length && fineState !== 'ready') {
+      fetchFine(syncFine);
+      return;
+    }
+    var wanted = {};
+    want.forEach(function (k) { wanted[k] = true; });
+    var changed = false;
+    Object.keys(fineLive).forEach(function (k) {
+      if (!wanted[k]) changed = dropFine(k) || changed;
+    });
+    want.forEach(function (k) { changed = graftFine(k) || changed; });
+    if (!changed) return;
+    rebuildFineHits();
+    reprune();
+    // the coarse shapes the stripes were copied from have just changed
+    buildHatch();
+    applyState();
+    redrawHighlight();
   }
 
   /* China's provinces come from two sources and the reader picks one in
