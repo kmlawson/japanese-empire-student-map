@@ -48,15 +48,17 @@ that should have carried Sinkiang out to the Soviet line produced eight strips.
 every new point lying on the line it came from — and `SEAM_REACH` gives that
 pair the hundred kilometres the disagreement actually spans. Sinkiang reaches
 Afghanistan as well as the Soviet Union, the third party at the Pamir knot.
-**Uncovered sample points fall from 500 to 288, and the neutral colour in the
-rendered frame from 3,045 pixels to 2,251** — the frontier reads as a line
-instead of a row of blobs, and most of what is left is the Afghan wedge, which
-is Elsewhere and ought to be.
+**Uncovered sample points fall from 500 to 67.**
 
-One patch survives, at about 74.1 E 39.8 N, where the gap is wider than any
-strip the aspect and run guards will pass. Halving the densify step changes
-nothing there, so it is the guards and not the vertex count. What would settle
-it is a better frontier for Sinkiang than the ENP sheet's.
+The first figures written here — 288 points, 2,251 pixels — were wrong, and the
+reason is worth keeping. `SEAM_DENSIFY` and `densify()` never landed in the
+file: the edit that was supposed to add them asserted on an anchor that had
+already moved, and only the line that *calls* them landed. The build then died
+with a NameError, `python3 tools/build_map.py` left the previous SVGs in place,
+and every measurement after that was of a build that did not contain the change.
+It was committed in that state. The lesson is the same one as the tasks.md
+entries that silently failed to write: check that the edit landed, and check
+that the build ran, before believing a number.
 
 Two things were built for this and thrown away. A grid fill that gave every
 uncovered inland cell to the nearest country **added 1,424 rings and 81 KB to

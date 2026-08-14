@@ -1278,6 +1278,43 @@ def normalise_ring(ring):
     return out
 
 
+def grow_ring(ring, d):
+    """The ring pushed outward by `d`, along the normal at each vertex.
+
+    Enough for closing a gap between two drawings of one shore; it is not a
+    proper offset and will fold on a spike, which is why it is only ever used
+    to fill under something else rather than to draw a boundary.
+    """
+    n = len(ring)
+    if n < 3:
+        return list(ring)
+    out = []
+    ccw = signed_ring_area(ring) > 0
+    for i in range(n):
+        ax, ay = ring[i - 1]
+        bx, by = ring[i]
+        cx, cy = ring[(i + 1) % n]
+        nx, ny = 0.0, 0.0
+        for (px, py), (qx, qy) in (((ax, ay), (bx, by)), ((bx, by), (cx, cy))):
+            ex, ey = qx - px, qy - py
+            L = math.hypot(ex, ey)
+            if L == 0:
+                continue
+            # outward normal, for the winding this ring actually has
+            if ccw:
+                nx += ey / L
+                ny -= ex / L
+            else:
+                nx -= ey / L
+                ny += ex / L
+        L = math.hypot(nx, ny)
+        if L == 0:
+            out.append((bx, by))
+        else:
+            out.append((bx + d * nx / L, by + d * ny / L))
+    return out
+
+
 def clip_halfplanes(ring, planes):
     """Sutherland-Hodgman against a set of half-planes (a convex region).
 
@@ -1808,7 +1845,8 @@ def _seam_cache_id(groups):
             return None          # cannot prove freshness, so do not cache
     h.update(repr((SEAM_STEP, SEAM_MAX, SEAM_MIN_RUN, SEAM_ASPECT, SEAM_AIM,
                    SEAM_STRIDE, SEAM_OVER, ENP_SIDE, CHINA_NEIGHBOURS,
-                   ELSEWHERE_SEAMS, sorted(SEAM_REACH.items()))).encode())
+                   ELSEWHERE_SEAMS, sorted(SEAM_REACH.items()),
+                   sorted(SEAM_DENSIFY.items()))).encode())
     keys = set(ENP_SIDE) | set(CHINA_NEIGHBOURS)
     for mover, targets in ELSEWHERE_SEAMS:
         keys.add(mover)
@@ -1965,6 +2003,33 @@ def _seam_worker_init(flags):
 def _seam_worker(job):
     _key, rings, target, reach = job
     return push_seam(rings, target, reach)
+
+
+# How far apart two vertices of a frontier may be before a seam search cannot
+# see the ground between them. A seam is pushed out from the mover's own
+# vertices, so a boundary drawn with very few of them has almost nothing to
+# push: the ENP sheet gives the whole of Sinkiang 84 vertices, and a search
+# that should have carried the frontier out to the Soviet line produced eight
+# strips. Splitting the long edges first gives it something to work with, and
+# adds no shape — every point inserted lies on the line it came from.
+SEAM_DENSIFY = {"xinjiang": 0.04}
+
+
+def densify(ring, step):
+    """The same ring with no edge longer than `step`."""
+    out = []
+    n = len(ring)
+    for i in range(n):
+        ax, ay = ring[i]
+        bx, by = ring[(i + 1) % n]
+        out.append((ax, ay))
+        d = math.hypot(bx - ax, by - ay)
+        if d <= step:
+            continue
+        for k in range(1, int(d / step)):
+            t = k * step / d
+            out.append((ax + (bx - ax) * t, ay + (by - ay) * t))
+    return out
 
 
 def push_seam(rings, target, reach=SEAM_MAX):
@@ -2876,6 +2941,15 @@ OUTER_ISLANDS = "outer-islands.geojson"
 # brought a yellow rim along every shore of the leasehold with it. This
 # coastline resolves the creeks: 26 rings and 5,730 vertices against Natural
 # Earth's dozen-point bay.
+# The coastline is pulled back from its own edge before it is used to protect
+# ground from the carve. The traced coast and the traced lease are two drawings
+# of one shore and part company by a few hundred metres, so protecting the coast
+# exactly left a thread of ENP's Kwangtung standing between the lease's edge and
+# the coast's — the yellow along every creek, which is the thing the carve is
+# for. Shrunk by a kilometre, the protection keeps the mainland and lets go of
+# the fringe. It is only ever used to decide what to carve, never drawn.
+GZW_COAST_SHRINK = -0.009
+
 GZW_COAST = "guangzhouwan-coast.geojson"
 _GZW_CACHE = {}
 
@@ -4193,7 +4267,8 @@ def main():
             planes = hull_planes(hull)
             kept = 0
             for ring in coast:
-                cut = clip_halfplanes(normalise_ring(ring), planes)
+                pulled = grow_ring(normalise_ring(ring), GZW_COAST_SHRINK)
+                cut = clip_halfplanes(pulled, planes)
                 if len(cut) < 3:
                     continue
                 pieces.append(ring_to_path([project(x, y) for x, y in cut],
