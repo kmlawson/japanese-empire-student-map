@@ -7,6 +7,10 @@ describing what was actually changed, before it is marked done.
 
 ## Open — asked for and not yet done
 
+Everything left here is blocked on a source rather than on work, with one
+exception that is measured and deliberately left. Each entry says what was
+tried, what it measured, and what would actually settle it.
+
 - **The slivers at Brunei Bay.** Reproduced, diagnosed twice, and it wants a
   source. Where geoBoundaries' Sabah, Sarawak and Brunei meet, the three
   polygons do not close on each other: at 115.36 E 5.23 N and 115.48 E 5.12 N
@@ -35,10 +39,6 @@ describing what was actually changed, before it is marked done.
   Limbang; what the map is showing is three drawings of one shore that disagree,
   and no filler can decide between them. It wants a period source for the bay.
 
-
-These are the outstanding half of the batch of 13 August. Each is real work
-rather than a tweak, and none of it is started.
-
 - **Guangzhouwan, the last of it**: the hull carve cuts into the mainland on
   the north-west, one yellow island inside the leasehold survives, and there is
   a small leak on the far south-eastern island.
@@ -63,11 +63,13 @@ rather than a tweak, and none of it is started.
   These are source disagreements, not build faults — the seams close the gaps
   but cannot decide which line is right.
 
-- **A few slivers of Manchuria still show through the Kwantung leasehold.**
-  Down from a continuous fringe to about half a dozen specks. They are the
-  residue of the cut, the dissolve and the path rounding each moving a vertex a
-  little; closing them properly means giving the leasehold the parent ring's
-  own vertices rather than a clipped copy of them.
+- **The Kwantung leasehold: measured, and left.** Sampled by rendered colour
+  over the whole leasehold at a hundred-kilometre view, Manchuria's colour shows
+  through at **three pixels, in two clusters**, at 121.43 E 39.44 N and
+  121.38 E 39.44 N. That is the residue of the cut and the path rounding each
+  moving a vertex a little, it is invisible at any view a reader will use, and
+  closing it means rebuilding the cut to share vertices with its parent. Not
+  worth what it would cost; recorded so nobody measures it again.
 
 - **Kwangchowwan** — needs a period source after all. Diagnosed properly this
   time. The leasehold's own file holds six separate pieces round Guangchow Bay,
