@@ -32,6 +32,32 @@ answer, the source that would settle it is named at the foot of this file.
 
 ## Done
 
+### The line of control follows the traced blocks, and one outline per shape
+**The dashed line still ran on the old hand-drawn course** where it bulges
+inland to take in the coastal enclaves: the shading beneath it had had the real
+traced shapes since the occupation was retraced, and the perimeter was still
+detouring round ellipses. `EXTENT_ENCLAVES` names the three blocks it has to
+enclose — Amoy and Kinmen, Swatow and Chaochow, the Canton delta — and
+`enclave_detour` replaces the part of the line inside each box with the convex
+hull of that block grown by the same margin the rest of the line keeps off the
+shore. The hull rather than the outline: the perimeter is one generalised line
+meant to enclose what was held, not to trace it. Which of the two arcs round the
+hull to take is decided by asking whether the middle of the arc is on land, so
+the line goes round the seaward side without anyone saying which side that is.
+
+**Thailand's divisions stop at the ceded provinces.** A country's divisions are
+drawn for the country under the pointer, and `.subs` went on the atom under the
+pointer alone — but Thailand in December 1942 is two atoms, its own ground and
+the provinces ceded to it in 1941, so the changwat were drawn and the ceded
+provinces left blank. That says they have no divisions rather than that they are
+the same country's. The class follows the territory now.
+
+**And one outline per shape.** The hover outline and the selection outline are
+different widths, 3.3 against 3.7, so a country that was both selected and under
+the pointer got drawn round twice and the two strokes read as one line changing
+thickness along its length. The selection is the stronger statement and the one
+that survives the pointer moving away, so it wins.
+
 ### The ragged grey on the Sinkiang frontier
 Not contested territory — a source disagreement, and the map was showing it as
 ragged neutral ground on the Soviet side of the line. Measured at three

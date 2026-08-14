@@ -950,6 +950,51 @@ EXTENT_REACH = 0.9         # degrees; how far inland a vertex may be and still
                            # be pulled out to sea rather than left alone
 
 
+# The blocks of the traced occupation that the perimeter has to bulge inland to
+# take in, and the box each of them lives in. The course was hand-drawn round
+# these four before the occupation was traced, so the line still ran on ellipses
+# while the shading beneath it had the real shapes.
+EXTENT_ENCLAVES = [
+    ("Amoy and Kinmen", (117.75, 24.20, 118.65, 24.80)),
+    ("Swatow and Chaochow", (116.15, 23.05, 117.05, 23.90)),
+    ("The Canton delta", (112.45, 22.25, 114.75, 23.95)),
+]
+
+
+def enclave_detour(line, rings, box, on_land, margin=EXTENT_OFFSHORE):
+    """Replace the part of `line` inside `box` with an arc round `rings`.
+
+    The perimeter is one generalised line and is meant to enclose what was
+    held rather than to trace it, so the detour is the convex hull of the
+    block grown by the same margin the rest of the line keeps off the shore —
+    a bulge round the enclave, not a copy of its coastline.
+    """
+    x0, y0, x1, y1 = box
+    inside = [k for k, p in enumerate(line) if x0 <= p[0] <= x1 and y0 <= p[1] <= y1]
+    if len(inside) < 2 or not rings:
+        return line
+    a, b = inside[0], inside[-1]
+    hull = grow_ring(convex_hull([p for r in rings for p in r]), margin)
+    if len(hull) < 3:
+        return line
+
+    def nearest(pt):
+        return min(range(len(hull)),
+                   key=lambda i: (hull[i][0] - pt[0]) ** 2 + (hull[i][1] - pt[1]) ** 2)
+
+    i, j = nearest(line[a]), nearest(line[b])
+    fwd = hull[i:j + 1] if i <= j else hull[i:] + hull[:j + 1]
+    back = list(reversed(hull[j:i + 1] if j <= i else hull[j:] + hull[:i + 1]))
+    # the seaward arc is the one whose middle is not on land
+    def seaward(arc):
+        if not arc:
+            return False
+        return not on_land(arc[len(arc) // 2])
+    arc = fwd if seaward(fwd) else (back if seaward(back) else
+                                    max((fwd, back), key=len))
+    return line[:a] + list(arc) + line[b + 1:]
+
+
 def hug_coast(line, on_land, coast=None, keep=EXTENT_KEEP_INLAND,
               margin=EXTENT_OFFSHORE, reach=EXTENT_REACH,
               offshore_max=EXTENT_OFFSHORE_MAX):
@@ -3884,9 +3929,20 @@ def main():
     # of most of them
     _china_land = ([r for k in ENP_SIDE for r in groups.get(k, ())]
                    + list(groups.get("chinabase", [])))
-    extent += hug_coast(chaikin(EXTENT_SOUTH_CHINA),
-                        _ring_test(_china_land),
-                        coast=(_grid_of(_china_land, 0.5), 0.5))
+    _on_land = _ring_test(_china_land)
+    _south = hug_coast(chaikin(EXTENT_SOUTH_CHINA), _on_land,
+                       coast=(_grid_of(_china_land, 0.5), 0.5))
+    # and the four detours redrawn round the traced blocks — see
+    # EXTENT_ENCLAVES. The hand-drawn course still bulged on ellipses while the
+    # shading under it had the real shapes.
+    _occ_by_block = collections.defaultdict(list)
+    for _label, _ring in load_occupied_rings():
+        _occ_by_block[_label].append(_ring)
+    for _name, _box in EXTENT_ENCLAVES:
+        _rings = _occ_by_block.get(_name) or []
+        if _rings:
+            _south = enclave_detour(_south, _rings, _box, _on_land)
+    extent += _south
     for key, a, b, via in EXTENT_ARCS:
         rings = outlines([key])
         if rings:

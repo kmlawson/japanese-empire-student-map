@@ -723,7 +723,9 @@
     clearHighlight();
     hot = null;
     hotProv = null;
-    if (subsAtom) { subsAtom.classList.remove('subs'); subsAtom = null; }
+    subsAtoms.forEach(function (a) { a.classList.remove('subs'); });
+    subsAtoms = [];
+    subsAtom = null;
     if (subsLiftLayer) subsLiftLayer.innerHTML = '';
     labels = labels.filter(function (L) {
       if (L.rec.kind === 'territory') { L.el.remove(); return false; }
@@ -1771,6 +1773,7 @@
      named in the stylesheet, and are the enclaves and scattered colonies whose
      whole point is that they are not part of what surrounds them. */
   var subsAtom = null;
+  var subsAtoms = [];
 
   /* Atoms whose own divisions are drawn over by a later atom, and the sub-unit
      hairlines therefore buried. British India is the case: its provinces come
@@ -1809,11 +1812,24 @@
     if (n) el.classList.add('lifted');
   }
 
+  /* A country's divisions are drawn for the country under the pointer, and a
+     country can be more than one atom. Thailand in December 1942 is two — its
+     own ground and the provinces ceded to it in 1941 — and setting the class on
+     the atom under the pointer alone drew the changwat and left the ceded
+     provinces blank, which says they have no divisions rather than that they
+     are the same country's. */
   function setSubsAtom(el) {
     if (subsAtom === el) return;
-    if (subsAtom) subsAtom.classList.remove('subs');
+    subsAtoms.forEach(function (a) { a.classList.remove('subs'); });
     subsAtom = el;
-    if (subsAtom) subsAtom.classList.add('subs');
+    subsAtoms = [];
+    if (el) {
+      var id = el.getAttribute('data-id');
+      subsAtoms = (id && atomsOf[id] ? atomsOf[id] : [el])
+        .filter(function (a) { return a.classList && a.classList.contains('atom'); });
+      if (subsAtoms.indexOf(el) < 0) subsAtoms.push(el);
+      subsAtoms.forEach(function (a) { a.classList.add('subs'); });
+    }
     liftSubs(subsAtom);
   }
 
@@ -2170,8 +2186,17 @@
 
   function redrawHighlight() {
     clearHighlight();
+    // One line per shape. The hover outline and the selection outline are
+    // different widths — 3.3 against 3.7 — so a country that is both selected
+    // and under the pointer was drawn round twice, and the two strokes read as
+    // one line that changes thickness along its length wherever they did not
+    // land on exactly the same pixels. The selection is the stronger statement
+    // and the one that survives the pointer moving away, so it wins.
+    var bothSame = selected && hot === selected && !hotCluster;
     if (hotCluster) outlineOf(hotCluster, 'hi-territory');
-    else if (hot && atomsOf[hot] && seen(hot)) outlineOf(litFor(hot), 'hi-territory');
+    else if (!bothSame && hot && atomsOf[hot] && seen(hot)) {
+      outlineOf(litFor(hot), 'hi-territory');
+    }
     if (hotProv) outlineOf([hotProv], 'hi-province');
     if (selected && atomsOf[selected] && seen(selected)) {
       outlineOf(atomsOf[selected], 'hi-selected');
