@@ -62,6 +62,7 @@
   var hatchGroup = null;
   var highlightLayer = null;
   var subOutlineLayer = null;
+  var subsLiftLayer = null;
   var hiDefs = null;
   var ownedDefs = { hi: [], sub: [] };
   var proj = null;
@@ -321,6 +322,11 @@
     // that use them, Chrome quietly stops painting the whole layer.
     hiDefs = svgEl('defs', { id: 'hi-defs' });
     svg.appendChild(hiDefs);
+    // Province boundaries lifted clear of an atom drawn over them. Above all of
+    // #land and below the standing outlines and the labels, so a hairline that
+    // was buried is visible without anything else changing places.
+    subsLiftLayer = svgEl('g', { id: 'subs-lift' });
+    svg.appendChild(subsLiftLayer);
     // the standing outlines round territories that share a neighbour's colour
     subOutlineLayer = svgEl('g', { id: 'sub-outlines' });
     svg.appendChild(subOutlineLayer);
@@ -676,6 +682,7 @@
     hot = null;
     hotProv = null;
     if (subsAtom) { subsAtom.classList.remove('subs'); subsAtom = null; }
+    if (subsLiftLayer) subsLiftLayer.innerHTML = '';
     labels = labels.filter(function (L) {
       if (L.rec.kind === 'territory') { L.el.remove(); return false; }
       return true;
@@ -1600,11 +1607,49 @@
      whole point is that they are not part of what surrounds them. */
   var subsAtom = null;
 
+  /* Atoms whose own divisions are drawn over by a later atom, and the sub-unit
+     hairlines therefore buried. British India is the case: its provinces come
+     from modern first-level units, so they cover the whole subcontinent, and
+     the princely states are painted on top of them — every province boundary
+     that threads between the Deccan states, the Punjab hill states or the
+     Eastern States disappears under the layer that is not part of the Raj at
+     all. The hovered province itself was never affected: its outline goes into
+     the highlight layer, which is above everything. It is the neighbours the
+     reader is being shown, and they were the half that vanished. */
+  var SUBS_LIFT = { india: true };
+
+  /* Stroke-only copies of the subs atom's province paths, in a layer above all
+     of #land. Nothing is moved and nothing is recoloured: the fills stay where
+     they are, so the princely states still read as a layer over the Raj, and
+     only the lines come up. Rebuilt on an atom change, which is rare — not on
+     pointer movement within one country. */
+  function liftSubs(el) {
+    if (!svg || !subsLiftLayer) return;
+    subsLiftLayer.innerHTML = '';
+    $$('.atom.lifted', svg).forEach(function (a) { a.classList.remove('lifted'); });
+    if (!el || !SUBS_LIFT[el.id.replace(/^a-/, '')]) return;
+    if (!svg.classList.contains('admin-on')) return;
+    var n = 0;
+    $$(':scope > path[data-prov]', el).forEach(function (p) {
+      if (p.classList.contains('fine')) return;
+      var d = p.getAttribute('d');
+      if (!d) return;
+      subsLiftLayer.appendChild(svgEl('path', { d: d, 'class': 'lift-line' }));
+      n++;
+    });
+    // The line is moved, not copied: `lifted` takes the stroke off the paths in
+    // place, so each boundary is drawn exactly once and the only difference is
+    // which layer it is drawn in. A second identical stroke underneath would
+    // darken every boundary that was never buried in the first place.
+    if (n) el.classList.add('lifted');
+  }
+
   function setSubsAtom(el) {
     if (subsAtom === el) return;
     if (subsAtom) subsAtom.classList.remove('subs');
     subsAtom = el;
     if (subsAtom) subsAtom.classList.add('subs');
+    liftSubs(subsAtom);
   }
 
   /* The province under the pointer, picked out inside the lit-up country. */
@@ -2002,6 +2047,9 @@
     // a province, which is feedback you have to go looking for. It reads as a
     // switch that works sometimes. Now it draws the divisions.
     if (svg) svg.classList.toggle('admin-on', !!state.cats.territory);
+    // the lifted hairlines exist only while that layer is on, and the geometry
+    // they copy arrives with it, so they are rebuilt whenever it changes
+    liftSubs(subsAtom);
 
     JMAP.SITES.forEach(function (s) {
       var el = elById[s.id];

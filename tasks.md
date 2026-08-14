@@ -146,6 +146,33 @@ rather than a tweak, and none of it is started.
 
 ## Done
 
+### A hovered Indian province shows its neighbours over the princely states
+British India's provinces are built from modern first-level units, so they cover
+the whole subcontinent, and the princely layer is painted on top of them. Every
+province boundary that threads between the Deccan states, the Punjab hill states
+or the Eastern States was therefore buried: measured by sampling 4,118 points
+along the thirteen drawn boundaries, **1,168 of them — 28.4 per cent — had a
+princely state over them.** The province under the pointer was never affected,
+because its outline goes into the highlight layer above everything; it was the
+neighbours, which are the thing the reader is being shown.
+
+`#subs-lift` is a group above all of `#land` and below the standing outlines and
+the labels. While the subs atom is one named in `SUBS_LIFT` — India alone — its
+province paths are copied there stroke-only, and `.lifted` takes the stroke off
+the paths in place, so each boundary is drawn exactly once and the only change is
+which layer it is in. It comes and goes with the pointer and with the
+Administrative switch, checked: a British province gives thirteen lifted lines, a
+princely state none, China none, and switching the layer off clears them.
+
+Two effects worth stating. A shared boundary now reads at its full 0.8 width: in
+place, the province drawn later covered half of the stroke centred on their
+common edge, so India's internal lines were at half strength and asymmetric.
+And the lifted lines pass over Goa and Pondicherry, which are drawn after India
+and are three pixels across. Copying the lines instead of moving them, and
+clipping them to the princely layer, would have left both alone — but that is a
+321 KB clip path re-rasterised on every zoom frame while the pointer sits on
+India, which is not worth a hairline's width.
+
 ### Breaks deep inland when a country is hovered
 Hovering China with the Administrative layer off drew short strokes floating in
 the interior with nothing to explain them, and the same in Manchuria. They were

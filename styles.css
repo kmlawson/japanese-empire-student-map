@@ -235,6 +235,20 @@ button.plain:hover { background: #f2ede2; }
   vector-effect: non-scaling-stroke;
 }
 
+/* Province boundaries lifted clear of a layer drawn over them — the princely
+   states over British India. Copies of the same paths, stroked with the same
+   whisper and filled with nothing, in a group above all of #land: what the
+   reader gets is the division they were shown before the states covered it,
+   with the states themselves still on top of the fill where they belong. */
+#subs-lift { pointer-events: none; }
+#jmap.admin-on .atom.subs.lifted > path[data-prov]:not(.fine) { stroke: none; }
+#subs-lift .lift-line {
+  fill: none;
+  stroke: rgba(18, 15, 10, .62);
+  stroke-width: .8;
+  vector-effect: non-scaling-stroke;
+}
+
 /* The whole-territory shape laid under its sub-units must not take the
    pointer, or a tap in a crack would name no sub-unit at all — but while the
    divisions are still in their own file and unfetched, it is the only thing
