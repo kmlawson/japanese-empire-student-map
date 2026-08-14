@@ -32,6 +32,40 @@ answer, the source that would settle it is named at the foot of this file.
 
 ## Done
 
+### The islands of the South China Sea
+The Spratlys, the Paracels and Pratas, cut out of the OSM coastlines and drawn
+where the map had nothing but open water. **78 features** survive the half-hectare
+floor — 52 in the Spratlys, 24 in the Paracels, Pratas and its neighbour — and
+the named ones land where they should: Itu Aba within 300 m, Spratly Island 200,
+Thitu 200, Woody Island 700, Pratas 400.
+
+They are a **fine set**, fetched only on a deep zoom into that water, which is
+where a reader has to be before any of them is more than a speck. The largest
+island of each group is carried on the base map as well, so the group exists,
+can be pointed at and can be named before any of that is loaded — 16 coarse
+islands in the Spratlys, 9 in the Paracels, 1 at Pratas.
+
+**What they were.** In 1930 the Spratlys had just been annexed by France, in
+April of that year, over an earlier British claim that had come to nothing;
+France occupied Spratly Island and Itu Aba in 1933 and attached them to
+Cochinchina, and Japan disputed it throughout while working the guano and the
+phosphate. The Paracels were claimed by the Republic of China as part of
+Kwangtung and by France for Annam, and administered continuously by neither.
+Pratas was Chinese, bought back in 1909 from the Japanese merchant who had
+occupied it. By December 1942 Japan held all of them: the Spratlys and Paracels
+were taken in 1939 over French protest and annexed to Takao prefecture in Taiwan
+as the **Shinnan Guntō**, the "new southern islands", an anchorage on the flank
+of the route to Singapore and the Indies.
+
+**And a warning, on every one of these records.** The outlines are traced from a
+present-day coastline, and in these islands that is a serious caveat rather than
+a small one: most of what is drawn has been built up since the 1970s and
+especially since 2013, and several features are now many times the sandbank or
+reef that was there in the 1930s. Itu Aba was about 0.4 km²; Woody Island has
+roughly doubled. Where a shape looks like an island with a runway on it, that is
+the reclamation and not the period. The positions are right; the outlines are
+not.
+
 ### The line of control follows the traced blocks, and one outline per shape
 **The dashed line still ran on the old hand-drawn course** where it bulges
 inland to take in the coastal enclaves: the shading beneath it had had the real

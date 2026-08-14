@@ -24,6 +24,10 @@ const JMAP = {};
 /* The region the map opens on when the whole frame will not fit usefully. */
 JMAP.HOME = { lon0: 100, lat0: -4, lon1: 160, lat1: 52 };
 
+/* Said on every South China Sea record, because it is the first thing a
+   reader needs to know about these particular outlines. */
+var RECLAIM_NOTE = 'The shapes here are traced from a present-day coastline, and in these islands that is a serious caveat rather than a small one: most of the features shown have been built up since the 1970s and especially since 2013, and several are now many times the size of the sandbank or reef that was here in the 1930s. Itu Aba, the largest natural island in the Spratlys, was about 0.4 km²; Woody Island in the Paracels has roughly doubled. Where a shape looks like an island with a runway on it, that is the reclamation and not the period. Read the positions, not the outlines.';
+
 JMAP.EPOCHS = [
   {
     id: 'e1930', en: '1930', ja: '1930年', orig: '1930', zh: '1930年', ko: '1930년',
@@ -335,6 +339,25 @@ JMAP.TERRITORIES = {
       en: 'Cocos (Keeling) Islands', orig: 'Pulu Kokos',
       when: 'A Straits Settlement from 1903',
       note: 'Two atolls in the Indian Ocean, held by the Clunies-Ross family under a grant of 1886 and attached to the Straits Settlements in 1903. The cable station on Direction Island linked Australia, Africa and Ceylon, which is why the Emden came for it in 1914 and was destroyed there.' },
+    // The South China Sea. Drawn from a modern coastline, which in these
+    // islands is a caveat rather than a footnote — see the notes.
+    { id: 'spratly', atoms: ['spratly'], cat: 'french', lvl: 3,
+      rule: 'Claimed by France; Britain had claimed them earlier',
+      en: 'Spratly Islands', ja: '新南群島 (Shinnan Guntō)', orig: 'Trường Sa / Kapuluan ng Kalayaan',
+      zh: '南沙群島',
+      when: 'Annexed by France, April 1930',
+      note: 'A scatter of sandbanks, cays and reefs with no permanent population. Britain claimed them from 1877 and did nothing with them; France annexed them in April 1930 and occupied Spratly Island and Itu Aba in 1933, attaching them to Cochinchina. Japan disputed the claim throughout, worked the guano and phosphate, and took them in 1939. ' + RECLAIM_NOTE },
+    { id: 'paracel', atoms: ['paracel'], cat: 'chinese', lvl: 3,
+      rule: 'Claimed by both China and France',
+      en: 'Paracel Islands', ja: '西沙群島 (Seisa Guntō)', orig: 'Hoàng Sa',
+      zh: '西沙群島',
+      when: 'Claimed by China and by France',
+      note: 'Claimed by the Republic of China as part of Kwangtung and by France on behalf of Annam, and administered by neither in any continuous way in 1930. France occupied them in 1938 and Japan took them in 1939. ' + RECLAIM_NOTE },
+    { id: 'pratas', atoms: ['pratas'], cat: 'chinese', lvl: 3,
+      en: 'Pratas Island', ja: '東沙島 (Tōsa-tō)', orig: '東沙島 (Dōngshā)',
+      zh: '東沙島',
+      when: 'Chinese, in Kwangtung province',
+      note: 'One island and its reef, 340 km south-east of Hong Kong. A Japanese merchant occupied it and worked the guano from 1907; China bought him out in 1909 and it has been administered from the mainland, and later from Taiwan, ever since. ' + RECLAIM_NOTE },
     { id: 'timor_pt', atoms: ['timor_pt'], cat: 'portuguese', lvl: 3,
       en: 'Portuguese Timor', orig: 'Timor Português',
             when: 'Portuguese',
@@ -558,6 +581,17 @@ JMAP.TERRITORIES = {
       en: 'Cocos (Keeling) Islands', orig: 'Pulu Kokos',
       when: 'Never occupied; shelled 25 December 1942',
       note: 'One of the few places inside this frame that Japan neither took nor bypassed but simply could not reach. The garrison held the cable and wireless station through the war; a submarine shelled the islands on Christmas Day 1942, and in May 1942 the Ceylon Garrison Artillery detachment mutinied there and three men were hanged — the only British Commonwealth soldiers executed for mutiny in the war. Airfields were built in 1944 for the bombing of Java and Singapore.' },
+    { id: 'spratly', atoms: ['spratly', 'paracel'], cat: 'colony', lvl: 3,
+      rule: 'Japanese, administered from Takao in Taiwan',
+      en: 'Shinnan Guntō (Spratly & Paracel Islands)', ja: '新南群島・西沙群島',
+      orig: 'Trường Sa / Hoàng Sa', zh: '南沙群島・西沙群島',
+      when: 'Taken 1939; annexed to Taiwan 30 March 1939',
+      note: 'Japan took both groups in 1939, over French protest, and attached them to Takao prefecture in Taiwan as the Shinnan Guntō — the "new southern islands". They were a submarine and seaplane anchorage on the flank of the route to Singapore and the Indies, and Itu Aba had a garrison and a small base. Both went back to being disputed in 1945. ' + RECLAIM_NOTE },
+    { id: 'pratas', atoms: ['pratas'], cat: 'occupied', lvl: 3,
+      en: 'Pratas Island (Tōsa-tō)', ja: '東沙島 (Tōsa-tō)', orig: '東沙島 (Dōngshā)',
+      zh: '東沙島',
+      when: 'Occupied by Japan',
+      note: 'Held by Japan through the war as a weather and radio station on the approach to Hong Kong and the Canton delta. ' + RECLAIM_NOTE },
     { id: 'timor_pt', atoms: ['timor_pt'], cat: 'portuguese', lvl: 3, hatch: 'occupied',
       en: 'Portuguese Timor (contested)', orig: 'Timor Português',
             when: 'Invaded February 1942; Allied withdrawal December 1942 – February 1943',

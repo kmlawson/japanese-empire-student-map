@@ -1,0 +1,22 @@
+{"elements": [
+ {"type":"way","tags":{"place":"island","name":"太平島","name:ja":"太平島","name:en":"Itu Aba (Taiping); Japanese Nagashima 長島"},
+  "bounds":{"minlat":10.370,"minlon":114.355,"maxlat":10.382,"maxlon":114.372}},
+ {"type":"way","tags":{"place":"island","name":"Spratly Island","name:en":"Spratly Island (Storm Island)","name:ja":"南威島"},
+  "bounds":{"minlat":8.638,"minlon":111.912,"maxlat":8.652,"maxlon":111.928}},
+ {"type":"way","tags":{"place":"island","name":"Thitu","name:en":"Thitu (Pagasa)","name:ja":"中業島"},
+  "bounds":{"minlat":11.047,"minlon":114.275,"maxlat":11.060,"maxlon":114.292}},
+ {"type":"way","tags":{"place":"island","name":"West York","name:en":"West York Island (Likas)"},
+  "bounds":{"minlat":11.083,"minlon":115.020,"maxlat":11.093,"maxlon":115.035}},
+ {"type":"way","tags":{"place":"island","name":"Namyit","name:en":"Namyit Island (Hongxiu)"},
+  "bounds":{"minlat":10.174,"minlon":114.361,"maxlat":10.182,"maxlon":114.372}},
+ {"type":"way","tags":{"place":"island","name":"Woody Island","name:en":"Woody Island (Yongxing)","name:ja":"永興島"},
+  "bounds":{"minlat":16.826,"minlon":112.325,"maxlat":16.850,"maxlon":112.350}},
+ {"type":"way","tags":{"place":"island","name":"Pattle Island","name:en":"Pattle Island (Shanhu)"},
+  "bounds":{"minlat":16.200,"minlon":111.700,"maxlat":16.210,"maxlon":111.712}},
+ {"type":"way","tags":{"place":"island","name":"Robert Island","name:en":"Robert Island (Ganquan)"},
+  "bounds":{"minlat":16.520,"minlon":111.605,"maxlat":16.535,"maxlon":111.620}},
+ {"type":"way","tags":{"place":"island","name":"Lincoln Island","name:en":"Lincoln Island (Dong)"},
+  "bounds":{"minlat":16.660,"minlon":112.720,"maxlat":16.675,"maxlon":112.745}},
+ {"type":"way","tags":{"place":"island","name":"Pratas Island","name:en":"Pratas Island (Dongsha)","name:ja":"東沙島"},
+  "bounds":{"minlat":20.695,"minlon":116.710,"maxlat":20.712,"maxlon":116.735}}
+]}

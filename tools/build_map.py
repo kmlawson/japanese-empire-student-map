@@ -559,7 +559,8 @@ ENP_ATOMS = {"china", "manchuria", "chahar", "suiyuan", "suiyuan_w", "jehol",
 # The outer islands are a couple of square kilometres each, which is under the
 # tolerance any band would give them; thinned at all they stop being shapes.
 FULL_DETAIL = ({"korea", "saharat", "princely", "kwantung", "ccp", "malaya",
-                "turtle", "mangsee", "miangas", "cocos"} | ENP_ATOMS
+                "turtle", "mangsee", "miangas", "cocos",
+                "spratly", "paracel", "pratas"} | ENP_ATOMS
                | set(GIS_LAYERS))
 
 # Atoms whose rings are separate pieces of ground rather than neighbours that
@@ -2865,7 +2866,8 @@ RYUKYU_BOXES = [
 # Sub-units that are places rather than administrative divisions, and so are
 # named whether or not the Administrative layer is on.
 ALWAYS_NAMED = frozenset({"goa", "pondicherry", "christmas", "ccp",
-                          "turtle", "mangsee", "miangas", "cocos"})
+                          "turtle", "mangsee", "miangas", "cocos",
+                          "spratly", "paracel", "pratas"})
 
 # Kept in the main file rather than deferred to the Administrative one, without
 # thereby being named when that layer is off. The four northern Malay states
@@ -2975,6 +2977,50 @@ def ccp_zone(ring):
 # and awarded to the Netherlands. And Cocos was a Straits Settlement in the
 # Indian Ocean that Japan shelled but never took, and which stayed Allied
 # throughout, with the wireless station that made it worth shelling.
+# The islands of the South China Sea. The full set is in the fine layer and is
+# fetched only on a deep zoom into that water; what the base map carries is the
+# largest island of each group, so the group exists, can be pointed at and can
+# be named before any of that is loaded.
+SCS_ISLANDS = "scs-islands.geojson"
+SCS_ATOMS = {
+    "Spratly Islands": "spratly",
+    "Paracel Islands": "paracel",
+    "Pratas": "pratas",
+}
+SCS_COARSE_KM2 = 0.30       # the handful big enough to stand for their group
+_SCS_CACHE = {}
+
+
+def load_scs_islands(min_km2=0.0):
+    """group -> rings, from the fine file, as closed lists of lon/lat."""
+    key = round(min_km2, 4)
+    if key in _SCS_CACHE:
+        return _SCS_CACHE[key]
+    path = os.path.join(CACHE, SCS_ISLANDS)
+    out = collections.defaultdict(list)
+    if os.path.exists(path):
+        try:
+            with open(path) as fh:
+                for feat in json.load(fh).get("features", []):
+                    props = feat.get("properties") or {}
+                    if (props.get("km2") or 0) < min_km2:
+                        continue
+                    g = feat.get("geometry") or {}
+                    if g.get("type") != "LineString":
+                        continue
+                    ring = [(x, y) for x, y in g["coordinates"]]
+                    if len(ring) > 3 and ring[0] == ring[-1]:
+                        ring = ring[:-1]
+                    if len(ring) >= 3 and props.get("group") in SCS_ATOMS:
+                        out[props["group"]].append(ring)
+        except (OSError, ValueError):
+            sys.stderr.write(f"note: {SCS_ISLANDS} unreadable\n")
+    else:
+        sys.stderr.write(f"note: {SCS_ISLANDS} missing, its islands not drawn\n")
+    _SCS_CACHE[key] = dict(out)
+    return _SCS_CACHE[key]
+
+
 OUTER_ISLANDS = "outer-islands.geojson"
 
 # The coast round Guangzhou Bay, traced from the same OSM coastlines, and used
@@ -3198,6 +3244,9 @@ ADMIN0 = {
     "Marshall Islands": "nanyo", "Northern Mariana Islands": "nanyo",
     "Nauru": "nauru_au",
     "Singapore and its islands": "malaya",
+    "Spratly Islands": "spratly",
+    "Paracel Islands": "paracel",
+    "Pratas": "pratas",
     "Ulleung and the Liancourt Rocks": "korea",
     "Guam": "guam",
     "Kiribati": "gilberts",
@@ -3228,6 +3277,7 @@ SPLITTERS = {
 # Andamans, where the islands are perfectly legible, the rings are just clutter.
 ISLET_RINGS = {
     "wake", "christmas", "turtle", "mangsee", "miangas", "cocos",
+    "spratly", "paracel", "pratas",
     "nanyo", "gilberts", "ogasawara", "guam", "chishima", "aleutians",
     "hawaii", "ryukyu", "newguinea_au", "solomons_br", "nauru_au",
     "aleutians_jp", "solomons_gc", "solomons_us", "solomons_ml", "solomons_al",
@@ -3235,10 +3285,11 @@ ISLET_RINGS = {
 
 # Groups whose islets are close enough together that one ring stands for all
 # of them — see where specks are built, below.
-ONE_ISLET = {"turtle", "mangsee", "cocos"}
+ONE_ISLET = {"turtle", "mangsee", "cocos", "spratly", "paracel", "pratas"}
 
 ARCHIPELAGOS = {
     "wake", "turtle", "mangsee", "miangas", "cocos",
+    "spratly", "paracel", "pratas",
     "nanyo", "gilberts", "ogasawara", "guam", "chishima", "aleutians",
     "aleutians_jp",
     "hawaii", "ryukyu", "newguinea_au", "solomons_br", "philippines",
@@ -3274,7 +3325,8 @@ ORDER = [
     "occupiedzone", "chahar", "suiyuan", "suiyuan_w",
     "jehol", "manchuria",
     "siam", "burma", "saharat", "indochina", "siamgain", "malaya", "malaya_thai", "sarawak", "northborneo", "brunei",
-    "dei", "philippines", "christmas", "turtle", "mangsee", "miangas", "cocos",
+    "dei", "philippines", "christmas", "spratly", "paracel", "pratas", "turtle", "mangsee", "miangas", "cocos",
+    "spratly", "paracel", "pratas",
     "timor_pt", "newguinea_au", "solomons_br", "australia", "gilberts",
     "nauru_au", "guam", "wake", "hawaii", "aleutians", "aleutians_jp", "hongkong", "macau",
     "solomons_gc", "solomons_us", "solomons_ml", "solomons_al",
@@ -3570,6 +3622,19 @@ def main():
             "outer islands: "
             + ", ".join(f"{g} {len(outer.get(g, []))}" for g in OUTER_ATOMS)
             + "\n")
+
+    scs = load_scs_islands(SCS_COARSE_KM2)
+    for gname, key in SCS_ATOMS.items():
+        rs = scs.get(gname) or []
+        if not rs:
+            continue
+        groups[key].extend(rs)
+        provinces[key].append((gname, rs))
+    if scs:
+        sys.stderr.write(
+            "South China Sea: "
+            + ", ".join(f"{g} {len(scs.get(g, []))}" for g in SCS_ATOMS)
+            + " coarse islands\n")
 
     groups["wake"].append(list(WAKE))
     groups["christmas"].append(list(CHRISTMAS_ISLAND))
@@ -4200,6 +4265,7 @@ def main():
         # set for Natural Earth's specks was quietly throwing them away.
         min_area = (0.0 if key in GIS_LAYERS or key in ("kwantung", "ccp")
                     or key in OUTER_ATOMS.values()
+                    or key in SCS_ATOMS.values()
                     else 0.04 if key in ("goa", "pondicherry")
                     else 0.12 if (archipelago or key in FULL_DETAIL)
                     else args.min_area)
@@ -4830,6 +4896,7 @@ FINE_FILES = [
     # Two windows the map had no fine coastline for, traced with
     # tools/extract_coast.py rather than fetched as a bulk extract.
     ("outer-fine-islands.geojson", ["osm-islands-outer.json"]),
+    ("scs-islands.geojson", ["osm-islands-scs.json"]),
     ("pacific-islands-se-islands.geojson", [
         "osm-islands-marianas.json",
         "osm-islands-palau.json",
@@ -4889,6 +4956,11 @@ FINE_GROUPS = [
     # 1942, Ulleung as part of Chōsen and the Liancourt Rocks as part of Shimane
     # prefecture since 1905 — and both are places a reader zooms into.
     ("Singapore and its islands", "昭南島", 103.55, 1.13, 104.15, 1.50),
+    # The South China Sea. Fetched only on a deep zoom into that water, which is
+    # where a reader has to be before any of these is more than a speck.
+    ("Spratly Islands", "新南群島", 111.6, 7.2, 116.9, 11.9),
+    ("Paracel Islands", "西沙群島", 110.8, 15.6, 113.2, 17.3),
+    ("Pratas", "東沙島", 116.6, 20.5, 116.9, 20.9),
     ("Ulleung and the Liancourt Rocks", "鬱陵島・竹島", 130.70, 37.20, 131.95, 37.70),
     # Wake, which Japan renamed Ōtorishima after taking it in December 1941.
     # The base map draws it from eight points traced by hand because Natural
@@ -4930,6 +5002,9 @@ FINE_GROUP_ATOM = {
     "Gilbert Islands": "gilberts",
     "Nauru": "nauru_au",
     "Singapore and its islands": "malaya",
+    "Spratly Islands": "spratly",
+    "Paracel Islands": "paracel",
+    "Pratas": "pratas",
     "Ulleung and the Liancourt Rocks": "korea",
     "Ocean Island": "gilberts",
     "Wake Island": "wake",
