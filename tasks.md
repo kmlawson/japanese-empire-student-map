@@ -43,13 +43,6 @@ tried, what it measured, and what would actually settle it.
   wedge there belongs to, and the black outline agreeing with whatever the
   answer is. Not yet traced against a period source.
 
-- **Three frontiers still want checking against a source rather than against
-  each other**: the Burma–India line does not quite reach the Chinese border;
-  the northern India–China boundary is drawn differently in 1930 and in 1942
-  and should be the 1942 line on both; and the eastern end of Afghanistan.
-  These are source disagreements, not build faults — the seams close the gaps
-  but cannot decide which line is right.
-
 - **The Kwantung leasehold: measured, and left.** Sampled by rendered colour
   over the whole leasehold at a hundred-kilometre view, Manchuria's colour shows
   through at **three pixels, in two clusters**, at 121.43 E 39.44 N and

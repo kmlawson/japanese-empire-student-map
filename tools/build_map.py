@@ -340,6 +340,13 @@ WEIHAIWEI_SEA_BOX = (121.930, 37.470, 122.330, 37.620)
 # water is being painted over.
 LAND_BASE = [
     (70.0, 29.0, 83.0, 45.0),      # Karakoram, Aksai Chin, the Pamir, Dzungaria
+    # Where Burma, Assam and China meet, in the eastern Himalaya. The
+    # Burma–India line does not quite reach the Chinese border in the sources,
+    # and the seams close all but a speck or two of it; this is the ground
+    # under the speck. Land from corner to corner: Nagaland and the Patkai in
+    # the west, the Yunnan plateau in the east, and no water bigger than a
+    # river anywhere between.
+    (95.0, 26.0, 99.0, 29.5),
 ]
 
 
