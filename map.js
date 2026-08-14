@@ -1054,6 +1054,7 @@
     { id: 'hatch-us', rot: 45 },
     { id: 'hatch-thai', rot: 45 },
     { id: 'hatch-brit', rot: 45 },
+    { id: 'hatch-raid', rot: 45 },
     { id: 'hatch-ccp', rot: -45 },
   ];
   var hatchPatterns = null;
@@ -1702,13 +1703,60 @@
     return els;
   }
 
+  /* The seam strips of every atom that is lit. They take their atom's colour
+     and they are deliberately not in `atomsOf`, so that they are never
+     outlined, never named and never part of anyone's shape — but that also
+     left them out of the *lighting*, and a strip four pixels wide along a
+     frontier then stayed dark while the country it belongs to brightened. On
+     the ceded provinces of Cambodia, where the strips are widest, that read as
+     a thick band of another colour inside the outline. They light with their
+     atom now and are outlined with nothing. */
+  function seamsFor(id) {
+    var els = [];
+    if (!id) return els;
+    // By colour, not by atom. The strip that shows is not always the hovered
+    // country's own: Thailand and the provinces ceded to it in 1941 are two
+    // territories on the 1942 map and share one colour, so hovering the ceded
+    // provinces brightened them and left Thailand's strips along the same
+    // frontier dark — a band of the same teal, unlit, inside the outline.
+    // Anything painted the colour that is lighting up lights with it.
+    var want = {};
+    litFor(id).forEach(function (el) {
+      var c = el.style && el.style.getPropertyValue('--c');
+      if (c) want[c.trim()] = true;
+    });
+    Object.keys(seamEls).forEach(function (key) {
+      var src = backingEls[key] || atomEls[key];
+      var c = src && src.style && src.style.getPropertyValue('--c');
+      if (!c || !want[c.trim()]) return;
+      seamEls[key].forEach(function (sm) {
+        if (els.indexOf(sm) < 0) els.push(sm);
+      });
+    });
+    // And the standing edge lines painted in that colour. Thailand's is a
+    // cover stroke six units wide, laid along its own frontier to hide a crack
+    // between two datasets — invisible while nothing is hovered, because it is
+    // the colour of the ground on both sides of it, and a thick band of the
+    // unlit colour the moment one side brightens. It was the "thick inner
+    // colour" inside the outline of the ceded provinces.
+    if (subOutlineLayer) {
+      $$('.edge-line', subOutlineLayer).forEach(function (ln) {
+        var c = ln.style && ln.style.getPropertyValue('--edge');
+        if (c && want[c.trim()] && els.indexOf(ln) < 0) els.push(ln);
+      });
+    }
+    return els;
+  }
+
   function setHot(id, cluster) {
     cluster = cluster || null;
     if (hot === id && hotCluster === cluster) return;
     litFor(hot).forEach(function (el) { el.classList.remove('hot'); });
+    seamsFor(hot).forEach(function (el) { el.classList.remove('hot'); });
     hot = id;
     hotCluster = cluster;
     litFor(hot).forEach(function (el) { el.classList.add('hot'); });
+    seamsFor(hot).forEach(function (el) { el.classList.add('hot'); });
     redrawHighlight();
   }
 

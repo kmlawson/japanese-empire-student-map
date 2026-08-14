@@ -580,7 +580,10 @@ NO_DISSOLVE = {"kwantung", "ccp"} | set(GIS_LAYERS)
 # Natural Earth's coast and geoBoundaries' states disagree, and a third of what
 # the filler covered no state did, so the state's own outline fell inside the
 # island rather than on its edge and read as a second coastline.
-BACKING_FROM_SUBUNITS = {"philippines", "malaya", "northborneo"}
+# Indochina joined them when the 1941 cessions turned out to be inside its
+# filler: Laos and Cambodia were being laid underneath whole, so the outline of
+# French Indochina still enclosed the ground Thailand had been given.
+BACKING_FROM_SUBUNITS = {"philippines", "malaya", "northborneo", "indochina"}
 
 # Sub-units that belong together and should light up together. Hovering
 # Singapore lit the whole Malay peninsula, which says the wrong thing: the
@@ -3319,9 +3322,14 @@ def main():
             continue
         rings_here = list(iter_rings(feat["geometry"]))
         if admin in ("Laos", "Cambodia"):
-            # drawn from provinces below, minus the 1941 cessions, but the
-            # filler underneath is the whole country
-            backing[key].extend(rings_here)
+            # Drawn from provinces below, minus the 1941 cessions — and the
+            # filler underneath used to be the whole country, cessions and all.
+            # That is the ground Thailand was given, so on the 1942 map it put
+            # Indochina's own colour under Thailand's and, worse, gave
+            # Indochina's outline the shape it had before the cession: hovering
+            # French Indochina drew a black line round Battambang, Siem Reap
+            # and the trans-Mekong strip, which by then were Thailand's. The
+            # filler comes from the provinces now, so it stops where they stop.
             continue
         groups[key].extend(rings_here)
         if key not in BACKING_FROM_SUBUNITS:
@@ -4372,6 +4380,16 @@ def main():
         '    <pattern id="hatch-brit" patternUnits="userSpaceOnUse" width="9" height="9" '
         'patternTransform="rotate(45)">'
         '<line x1="0" y1="0" x2="0" y2="9" stroke="#bc8ba0" stroke-opacity="1" stroke-width="4.4"/>'
+        "</pattern>"
+    )
+    # Allied ground inside the reach of the Japanese perimeter, shelled from it
+    # and never taken: the Cocos (Keeling) Islands, where a submarine came on
+    # Christmas Day 1942. Grey, because what it marks is not another power's
+    # colour but a condition.
+    out.append(
+        '    <pattern id="hatch-raid" patternUnits="userSpaceOnUse" width="9" height="9" '
+        'patternTransform="rotate(45)">'
+        '<line x1="0" y1="0" x2="0" y2="9" stroke="#6b6459" stroke-opacity="0.75" stroke-width="3.2"/>'
         "</pattern>"
     )
     # Thai forces on Japanese-held Burmese ground: Kengtung and the

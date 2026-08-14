@@ -32,6 +32,43 @@ answer, the source that would settle it is named at the foot of this file.
 
 ## Done
 
+### Cocos is Allied, and the ceded provinces stop wearing a band
+Three reports in the same batch, and the first two turned out to be one thing.
+
+**Cocos was grey on the 1942 map** because its record said `cat: 'british'` and
+there is no British category on that date — the 1942 palette has one Allied
+colour, which the Raj, Australia and the colonies all take. An unknown category
+gets no colour, so it fell through to the Elsewhere grey. It is `allied` now, and
+carries grey diagonals: Allied ground that lay inside the reach of the Japanese
+perimeter, was shelled from it on Christmas Day 1942, and was never taken.
+
+**French Indochina's outline still enclosed the ceded provinces** on the 1942
+map. The provinces themselves were cut out of Indochina properly — that was done
+when they were first drawn — but the *filler* underneath was Natural Earth's
+Laos and Cambodia laid down whole, cessions and all, and the outline traces the
+filler. So hovering French Indochina drew a black line round Battambang, Siem
+Reap and the trans-Mekong strip, which by then were Thailand's. `indochina`
+joins `BACKING_FROM_SUBUNITS`: its filler is built from its own provinces and
+stops where they stop.
+
+**And the ceded provinces had a thick band of their own colour inside the
+outline** when hovered. It is Thailand's `edge` — a cover stroke six units wide
+laid along its frontier to hide a crack between two datasets, in Thailand's own
+colour so that it cannot be seen while nothing is hovered. The moment the ceded
+provinces brighten, the stroke does not, and a four-pixel band of the unlit
+colour appears inside the outline. Removing it is not an option: measured, it is
+covering **1,222 pixels** of real crack, and letting Thailand's seams reach the
+ceded provinces closes only 22 of them. So it brightens with the colour it is
+painted in — as do the seam strips, which had the same problem for the same
+reason and are also drawn in a colour they do not light with. Neither is
+outlined or named by any of this; only the brightness follows.
+
+Finding it took four wrong guesses, and the reason is worth writing down: seams
+and cover strokes both carry `pointer-events: none`, so `elementsFromPoint`
+never reports them and every probe said the only thing there was the backing.
+Hiding groups one at a time is what found it — with `#land` hidden the band was
+still there, which left only the layers outside it.
+
 ### Labuan is an island again, and the seams stop crossing Brunei Bay
 Reported as two things — Labuan joined to the mainland, and a mess along the
 North Borneo frontier — and they are one fault. Measured against the traced

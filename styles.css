@@ -289,6 +289,13 @@ button.plain:hover { background: #f2ede2; }
    seams between atoms of one territory look like real boundaries — China
    would appear to be two countries. */
 .atom.hot { filter: brightness(1.12); }
+/* and the seam strips of a lit atom with it: they carry its colour, so leaving
+   them out of the lighting left a band of the unlit colour along its frontier
+   — widest on the ceded provinces of Cambodia, where it read as a thick inner
+   band inside the outline. They are still outlined by nothing and named by
+   nothing; only the brightness follows the atom. */
+#seams path.hot { filter: brightness(1.12); }
+#sub-outlines .edge-line.hot { filter: brightness(1.12); }
 
 /* the province under the pointer, picked out inside the lit country */
 .atom .prov-hot { filter: brightness(1.06); }
@@ -508,6 +515,7 @@ button.plain:hover { background: #f2ede2; }
 .hatch-fill.hatch-us { fill: url(#hatch-us); }
 .hatch-fill.hatch-thai { fill: url(#hatch-thai); }
 .hatch-fill.hatch-brit { fill: url(#hatch-brit); }
+.hatch-fill.hatch-raid { fill: url(#hatch-raid); }
 
 /* Guangzhou Bay, painted back out of China. See build_map.py: the box minus
    Natural Earth's coastline, by the even-odd rule. */

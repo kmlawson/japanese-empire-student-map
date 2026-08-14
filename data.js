@@ -547,7 +547,13 @@ JMAP.TERRITORIES = {
       en: 'Miangas (Palmas)', orig: 'Miangas', ja: 'ミアンガス島',
       when: 'Taken with the Netherlands Indies, 1942',
       note: 'Dutch since the arbitration of 1928, which the United States had brought claiming it as part of the Philippines. Japan took both in the same three months.' },
-    { id: 'cocos', atoms: ['cocos'], cat: 'british', lvl: 3,
+    // Allied, not British: there is no British category on this date — the
+    // 1942 palette has one Allied colour and the Raj, Australia and the
+    // colonies all take it. It was falling through to the Elsewhere grey.
+    // The grey diagonals say what the colour cannot: Allied ground that lay
+    // inside the reach of the Japanese perimeter and was shelled from it,
+    // and was never taken.
+    { id: 'cocos', atoms: ['cocos'], cat: 'allied', lvl: 3, hatch: 'raid',
       rule: 'British colony, run from Singapore — Allied throughout',
       en: 'Cocos (Keeling) Islands', orig: 'Pulu Kokos',
       when: 'Never occupied; shelled 25 December 1942',
