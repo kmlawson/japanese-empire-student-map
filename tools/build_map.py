@@ -521,7 +521,10 @@ ENP_ATOMS = {"china", "manchuria", "chahar", "suiyuan", "suiyuan_w", "jehol",
 # a small atom's tolerance while Manchuria kept the full detail of the sheet,
 # and the finer coast underneath showed all round the coarser one as a yellow
 # fringe: the leasehold looked like a blocky stamp laid on a real peninsula.
-FULL_DETAIL = ({"korea", "saharat", "princely", "kwantung", "ccp", "malaya"} | ENP_ATOMS
+# The outer islands are a couple of square kilometres each, which is under the
+# tolerance any band would give them; thinned at all they stop being shapes.
+FULL_DETAIL = ({"korea", "saharat", "princely", "kwantung", "ccp", "malaya",
+                "turtle", "mangsee", "miangas", "cocos"} | ENP_ATOMS
                | set(GIS_LAYERS))
 
 # Atoms whose rings are separate pieces of ground rather than neighbours that
@@ -2647,7 +2650,8 @@ RYUKYU_BOXES = [
 # atom key -> the list of islands it might be one of
 # Sub-units that are places rather than administrative divisions, and so are
 # named whether or not the Administrative layer is on.
-ALWAYS_NAMED = frozenset({"goa", "pondicherry", "christmas", "ccp"})
+ALWAYS_NAMED = frozenset({"goa", "pondicherry", "christmas", "ccp",
+                          "turtle", "mangsee", "miangas", "cocos"})
 
 # Kept in the main file rather than deferred to the Administrative one, without
 # thereby being named when that layer is off. The four northern Malay states
@@ -2745,6 +2749,54 @@ def ccp_zone(ring):
 # dates this map draws; the ring is taken from there and given a name of its
 # own. Cocos is left out: it stayed British and Allied throughout, and putting
 # it on the map would say something about the Japanese advance that is not so.
+# Four groups of islands the map had no shape for, traced out of the OSM
+# split-coastlines file by tools/extract_coast.py — 876,182 linestrings, 1.2 GB,
+# gitignored; the 37 KB that can be drawn is in the cache and committed.
+#
+# Each is on the map because who held it is a question rather than an answer.
+# The Turtle and Mangsee Islands were administered by the British North Borneo
+# Company and allocated to the American Philippines by the treaty of 1930 — the
+# transfer did not happen until 1947. Miangas is the Island of Palmas of the
+# arbitration of 1928, claimed by the United States as part of the Philippines
+# and awarded to the Netherlands. And Cocos was a Straits Settlement in the
+# Indian Ocean that Japan shelled but never took, and which stayed Allied
+# throughout, with the wireless station that made it worth shelling.
+OUTER_ISLANDS = "outer-islands.geojson"
+OUTER_ATOMS = {
+    "Turtle Islands": "turtle",
+    "Mangsee Islands": "mangsee",
+    "Miangas": "miangas",
+    "Cocos (Keeling) Islands": "cocos",
+}
+_OUTER_CACHE = {}
+
+
+def load_outer_islands():
+    """group name -> its rings, or {} if the file is not there."""
+    if _OUTER_CACHE:
+        return _OUTER_CACHE.get("d", {})
+    path = os.path.join(CACHE, OUTER_ISLANDS)
+    out = collections.defaultdict(list)
+    if os.path.exists(path):
+        try:
+            with open(path) as fh:
+                fc = json.load(fh)
+            for feat in fc.get("features", []):
+                g = feat.get("geometry") or {}
+                name = (feat.get("properties") or {}).get("group")
+                if g.get("type") != "Polygon" or name not in OUTER_ATOMS:
+                    continue
+                ring = [(x, y) for x, y in g["coordinates"][0]]
+                if len(ring) >= 3:
+                    out[name].append(ring)
+        except (OSError, ValueError):
+            sys.stderr.write(f"note: {OUTER_ISLANDS} unreadable\n")
+    else:
+        sys.stderr.write(f"note: {OUTER_ISLANDS} missing, outer islands not drawn\n")
+    _OUTER_CACHE["d"] = dict(out)
+    return _OUTER_CACHE["d"]
+
+
 CHRISTMAS_ISLAND = [
     (105.7041, -10.4308), (105.7147, -10.4372), (105.7127, -10.4509),
     (105.7114, -10.4699), (105.7063, -10.4942), (105.7063, -10.5143),
@@ -2911,14 +2963,18 @@ SPLITTERS = {
 # only way to find them at all; over the Indies, the Philippines and the
 # Andamans, where the islands are perfectly legible, the rings are just clutter.
 ISLET_RINGS = {
-    "wake", "christmas",
+    "wake", "christmas", "turtle", "mangsee", "miangas", "cocos",
     "nanyo", "gilberts", "ogasawara", "guam", "chishima", "aleutians",
     "hawaii", "ryukyu", "newguinea_au", "solomons_br", "nauru_au",
     "aleutians_jp", "solomons_gc", "solomons_us", "solomons_ml", "solomons_al",
 }
 
+# Groups whose islets are close enough together that one ring stands for all
+# of them — see where specks are built, below.
+ONE_ISLET = {"turtle", "mangsee", "cocos"}
+
 ARCHIPELAGOS = {
-    "wake",
+    "wake", "turtle", "mangsee", "miangas", "cocos",
     "nanyo", "gilberts", "ogasawara", "guam", "chishima", "aleutians",
     "aleutians_jp",
     "hawaii", "ryukyu", "newguinea_au", "solomons_br", "philippines",
@@ -2954,7 +3010,7 @@ ORDER = [
     "occupiedzone", "chahar", "suiyuan", "suiyuan_w",
     "jehol", "manchuria",
     "siam", "burma", "saharat", "indochina", "siamgain", "malaya", "malaya_thai", "sarawak", "northborneo", "brunei",
-    "dei", "philippines", "christmas",
+    "dei", "philippines", "christmas", "turtle", "mangsee", "miangas", "cocos",
     "timor_pt", "newguinea_au", "solomons_br", "australia", "gilberts",
     "nauru_au", "guam", "wake", "hawaii", "aleutians", "aleutians_jp", "hongkong", "macau",
     "solomons_gc", "solomons_us", "solomons_ml", "solomons_al",
@@ -3228,6 +3284,23 @@ def main():
             + (f", {unplaced} unplaced" if unplaced else "") + "\n")
     else:
         sys.stderr.write(f"note: {CCP_FILE} missing, base areas not drawn\n")
+
+    # ---- the outer islands, traced from the OSM coastlines -----------------
+    # Four groups the map had no shape for, each of them a place where the
+    # question of who held it is the point. See OUTER_ISLANDS.
+    outer = load_outer_islands()
+    for gname, key in OUTER_ATOMS.items():
+        rings = outer.get(gname, [])
+        if not rings:
+            sys.stderr.write(f"note: no rings for {gname}\n")
+            continue
+        groups[key].extend(rings)
+        provinces[key].append((gname, rings))
+    if outer:
+        sys.stderr.write(
+            "outer islands: "
+            + ", ".join(f"{g} {len(outer.get(g, []))}" for g in OUTER_ATOMS)
+            + "\n")
 
     groups["wake"].append(list(WAKE))
     groups["christmas"].append(list(CHRISTMAS_ISLAND))
@@ -3824,6 +3897,7 @@ def main():
         # Weihaiwei's four are islands of a few square kilometres, and a sieve
         # set for Natural Earth's specks was quietly throwing them away.
         min_area = (0.0 if key in GIS_LAYERS or key in ("kwantung", "ccp")
+                    or key in OUTER_ATOMS.values()
                     else 0.04 if key in ("goa", "pondicherry")
                     else 0.12 if (archipelago or key in FULL_DETAIL)
                     else args.min_area)
@@ -3860,6 +3934,19 @@ def main():
             moments.append((area, rcx, rcy))
             if key in ISLET_RINGS and area < 20:
                 specks.append((rcx, rcy, max(2.6, math.sqrt(area / math.pi) * 1.5)))
+
+        # A group of specks a couple of kilometres apart gets one ring, not one
+        # per islet: the Turtle Islands are nine of them inside a fifth of a
+        # degree, and nine overlapping circles read as a scribble rather than as
+        # a place. The ring is centred on the group and drawn wide enough to
+        # hold it.
+        if key in ONE_ISLET and len(specks) > 1:
+            xs = [c[0] for c in specks]
+            ys = [c[1] for c in specks]
+            cx = (min(xs) + max(xs)) / 2.0
+            cy = (min(ys) + max(ys)) / 2.0
+            span = max(max(xs) - min(xs), max(ys) - min(ys)) / 2.0
+            specks = [(cx, cy, max(2.6, span + 1.4))]
 
         if not pieces:
             continue
@@ -4111,6 +4198,15 @@ def main():
         '    <pattern id="hatch-us" patternUnits="userSpaceOnUse" width="9" height="9" '
         'patternTransform="rotate(45)">'
         '<line x1="0" y1="0" x2="0" y2="9" stroke="#325d7b" stroke-opacity="1" stroke-width="4.4"/>'
+        "</pattern>"
+    )
+    # British administration on ground allocated to somebody else: the Turtle
+    # and Mangsee Islands, run by the British North Borneo Company and drawn
+    # inside the American Philippines by the convention of 1930.
+    out.append(
+        '    <pattern id="hatch-brit" patternUnits="userSpaceOnUse" width="9" height="9" '
+        'patternTransform="rotate(45)">'
+        '<line x1="0" y1="0" x2="0" y2="9" stroke="#bc8ba0" stroke-opacity="1" stroke-width="4.4"/>'
         "</pattern>"
     )
     # Thai forces on Japanese-held Burmese ground: Kengtung and the

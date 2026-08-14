@@ -39,23 +39,8 @@ describing what was actually changed, before it is marked done.
 These are the outstanding half of the batch of 13 August. Each is real work
 rather than a tweak, and none of it is started.
 
-- **Turtle Islands and Mangsee Islands**, off North Borneo, extracted from
-  `/Users/kml/Downloads/coastlines-split-4326` (OSM coastlines, 876,182
-  linestrings, 1.2 GB). Two groups, labelled separately, "Under British North
-  Borneo Company administration; claimed/allocated to the U.S. Philippine
-  Islands", American colour with British diagonals in 1930 and the Japanese
-  colour in 1942.
-
-- **Miangas**, from the same file, Dutch East Indies in 1930 and Japanese in
-  1942, with a note from the Island of Palmas arbitration of 1928.
-
 - **A better shape for Labuan**, from the OSM coastlines file, if the present
   one will not do. Its label now carries the dates (below); the shape does not.
-
-- **Cocos (Keeling)**, if it is inside the frame — 96.85 E, 12.15 S, and the
-  frame's south-west corner is 66 E, 13 S, so it is, barely. Straits
-  Settlements, with the date; raided by a U-boat in December 1942 but never
-  occupied, and Allied throughout.
 
 - **A fine coastline set for Singapore and its islands**, on the same terms as
   the Ryukyus and the Pacific: fetched only on a deep zoom into that window,
@@ -140,6 +125,40 @@ rather than a tweak, and none of it is started.
 ---
 
 ## Done
+
+### Four island groups the map had no shape for
+The Turtle and Mangsee Islands, Miangas and the Cocos (Keeling) Islands, traced
+out of the OSM split-coastlines file. Each is on the map because who held it is
+a question rather than an answer.
+
+**The Turtle and Mangsee Islands** in the Sulu Sea: administered by the British
+North Borneo Company since the 1880s and placed inside the boundary of the
+American Philippines by the Anglo-American convention of 2 January 1930, with
+the Company left running them — the transfer was not actually made until 16
+October 1947, to the independent Philippines. Drawn in the American colour with
+British diagonals, which is what the arrangement was, and Japanese in 1942.
+**Miangas** is the Island of Palmas: the United States claimed it as part of what
+it had bought from Spain in 1898, and Max Huber awarded it to the Netherlands on
+4 April 1928 — the case that made continuous and peaceful display of authority
+the test of title. Dutch in 1930, Japanese in 1942. **Cocos (Keeling)** is a
+Straits Settlement in the Indian Ocean, barely inside the frame at 96.85 E, and
+one of the few places here that Japan neither took nor bypassed: a submarine
+shelled it on Christmas Day 1942 and it stayed Allied throughout.
+
+`tools/extract_coast.py` is how they were got. The source is 876,182 linestrings
+and 1.2 GB, and reading it through the shapefile reader in this directory takes
+longer than the whole build — so this reads each record's own bounding box out
+of the `.shp` header and seeks past the geometry when it misses, which is
+876,000 times out of 876,182. **1.7 seconds.** The coastline comes as open lines,
+so pieces that share an end are chained back together and a chain whose ends
+meet is an island. 30 rings survive at 0.02 km²: Turtle 9, Mangsee 3, Miangas 1,
+Cocos 17, in a 37 KB cache file that is committed while the 1.2 GB source is not.
+
+They keep every vertex — `FULL_DETAIL`, and no minimum area, because at two
+square kilometres each any band would thin them out of existence. And they get
+**one islet ring per group** rather than one per islet: the Turtle Islands are
+nine specks inside a fifth of a degree, and nine overlapping circles read as a
+scribble rather than as a place.
 
 ### The starburst in the Johor Strait was the estuary, simplified
 A star of thin blue lines in the middle of Johor, visible without hovering

@@ -171,6 +171,13 @@ say on the map itself.</p>
     come from an Overpass query for <code>place=island</code> and
     <code>place=islet</code>, cached in <code>tools/cache/</code> so the build
     does not depend on the network.<br>
+    The same coastlines also give the four outer island groups the map had no
+    shape for at all: the Turtle and Mangsee Islands in the Sulu Sea, Miangas
+    (the Island of Palmas of the 1928 arbitration) and the Cocos (Keeling)
+    Islands. Those are traced out of the split-coastlines shapefile — 876,182
+    linestrings — by <code>tools/extract_coast.py</code>, which chains the
+    pieces that share an end back into closed islands; the 37 KB that can be
+    drawn is cached and committed, the 1.2 GB source is not.<br>
     © OpenStreetMap contributors, available under the Open Database Licence.
     Map data and any derived database are ODbL; the coastline geometry drawn
     here is a Produced Work under that licence.<br>

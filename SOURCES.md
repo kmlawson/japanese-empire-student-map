@@ -128,6 +128,25 @@ reading the boundaries, names and notes come from.
   CC BY-SA 4.0 — which shows the territory Japan actually granted rather than
   everything Thailand claimed in the Shan and Karenni states.
 
+### OpenStreetMap — coastlines and island names
+
+* **Used for:** the fine coastlines fetched on a deep zoom into the Ryukyus,
+  the Bonins, the Volcano and Izu Islands, Micronesia and Melanesia, together
+  with the names of some nineteen hundred islands in them; and the shapes of
+  four outer groups the map had no geometry for at all — the Turtle and Mangsee
+  Islands in the Sulu Sea, Miangas, and the Cocos (Keeling) Islands.
+* **Licence:** ODbL. © OpenStreetMap contributors; the geometry drawn here is a
+  Produced Work under that licence. <https://www.openstreetmap.org/copyright>
+* **How:** the coastline comes from the split-coastlines shapefile, 876,182
+  linestrings and 1.2 GB. `tools/extract_coast.py` reads each record's own
+  bounding box out of the `.shp` header and seeks past the geometry when it
+  misses, which is 876,000 times out of 876,182, and chains the pieces that
+  share an end back into closed islands. The island names come from an Overpass
+  query for `place=island` and `place=islet`, matched to the geometry by
+  bounding box. Both the extracts and the name index are cached in
+  `tools/cache/` so the build never touches the network; the sources themselves
+  are gitignored.
+
 ### Modern East Asia GIS (Konrad Lawson)
 
 * **Used for:** Tannu Tuva, British Weihaiwei, French Kwangchowan, and Nepal,

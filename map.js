@@ -1048,6 +1048,7 @@
     { id: 'hatch-occ', rot: 45 },
     { id: 'hatch-us', rot: 45 },
     { id: 'hatch-thai', rot: 45 },
+    { id: 'hatch-brit', rot: 45 },
     { id: 'hatch-ccp', rot: -45 },
   ];
   var hatchPatterns = null;
