@@ -2044,6 +2044,30 @@
       // stroked in the outline it drew a circle in open water.
       var circles = el.tagName === 'path' ? []
         : $$('circle:not(.islet-hit):not(.islet):not(.superseded)', el);
+
+      /* Every path of one element outlined as a single path. The occupied zone
+         is 722 traced rings in as many children, and one stroked copy per
+         child — each carrying a mask reference and a clip reference — is 755
+         masked, clipped layers for one hover. At the opening view, where the
+         whole zone is on screen and all of them have to rasterise, that does
+         not merely stall: it hangs the renderer outright, which is what
+         hovering occupied China on the 1942 map did.
+
+         A stroke over the concatenation of the subpaths is the same stroke as
+         the union of the strokes, and the mask solid concatenates the same way,
+         so this is the same picture drawn in two elements instead of 1,444. */
+      if (paths.length > 1) {
+        var merged = [];
+        paths.forEach(function (p) {
+          var d = p.getAttribute('d');
+          if (d) merged.push(d);
+        });
+        if (merged.length) {
+          var one = svgEl('path', { d: merged.join('') });
+          paths = [one];
+        }
+      }
+
       paths.concat(circles).forEach(function (shape) {
         // Stroked as well as filled, and at the width the atoms themselves are
         // stroked. Two atoms of one territory abut without quite meeting — the
