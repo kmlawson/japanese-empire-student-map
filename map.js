@@ -814,6 +814,12 @@
         if (!el) return;
         var clip = el.getAttribute('clip-path');
         var paths = el.tagName === 'path' ? [el] : $$('path:not(.superseded)', el);
+        // An atom whose divisions are still in the administrative file is an
+        // empty group, and what the reader sees is its backing. Kengtung is
+        // one, so its Thai stripes were drawn only when the Administrative
+        // layer happened to be on — which is a question about districts and
+        // has nothing to do with whose troops were in the country.
+        if (!paths.length && backingEls[a]) paths = [backingEls[a]];
         paths.forEach(function (path) {
           var d = path.getAttribute('d');
           if (!d) return;
@@ -999,7 +1005,17 @@
   }
   var fineTimer = 0;
 
-  var hatchPattern = null;
+  /* The shading patterns and the way each is turned. The base areas are ruled
+     the other way from the occupation's own stripes so that where the two cross
+     both can still be read. */
+  var HATCH_IDS = [
+    { id: 'hatch', rot: 45 },
+    { id: 'hatch-occ', rot: 45 },
+    { id: 'hatch-us', rot: 45 },
+    { id: 'hatch-thai', rot: 45 },
+    { id: 'hatch-ccp', rot: -45 },
+  ];
+  var hatchPatterns = null;
   var lastDouble = 0;
   var lastTap = null;
   var pendingTap = 0;
@@ -1026,10 +1042,23 @@
       var s = scalables[i];
       s.el.setAttribute('transform', 'translate(' + s.x + ' ' + s.y + ') scale(' + k + ')');
     }
-    // keep the shading stripes a constant width on screen rather than letting
-    // them grow into stripes the width of a province as you zoom in
-    if (!hatchPattern) hatchPattern = svg.querySelector('#hatch');
-    if (hatchPattern) hatchPattern.setAttribute('patternTransform', 'rotate(45) scale(' + k + ')');
+    // Keep the shading stripes a constant width on screen rather than letting
+    // them grow into stripes the width of a province as you zoom in. Only the
+    // plain dark hatch was being rescaled; the four coloured ones were not, so
+    // the American stripes over Guadalcanal, the Thai stripes over Kengtung,
+    // the Japanese ones over Portuguese Timor and the ruling over the Communist
+    // base areas all grew with the zoom until a single band was wider than the
+    // island it was drawn on — and shrank below a pixel at the opening view.
+    if (!hatchPatterns) {
+      hatchPatterns = HATCH_IDS.map(function (h) {
+        var el = svg.querySelector('#' + h.id);
+        return el ? { el: el, rot: h.rot } : null;
+      }).filter(Boolean);
+    }
+    for (var h = 0; h < hatchPatterns.length; h++) {
+      hatchPatterns[h].el.setAttribute(
+        'patternTransform', 'rotate(' + hatchPatterns[h].rot + ') scale(' + k + ')');
+    }
   }
 
   /* The floating panels are treated as obstacles, so no name ends up hiding

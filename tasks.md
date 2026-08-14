@@ -146,6 +146,34 @@ rather than a tweak, and none of it is started.
 
 ## Done
 
+### Kengtung has its Thai stripes, and no shading grows with the zoom
+Two faults, and the second is the one behind "a diagonal line running out into
+the ocean".
+
+**Kengtung had no stripes at all** unless the Administrative layer happened to be
+on. `#a-saharat` is a deferred atom — its districts live in the administrative
+file — so with that layer off it is an empty group and what the reader sees is
+its backing. `buildHatch` copied the atom's own paths and found none. It falls
+back to the backing when the atom is empty, which is the same shape. Whose troops
+were in the Shan states is not a question about districts, and it should not have
+depended on a switch about them.
+
+**Only one of the five shadings was being rescaled.** `rescale()` kept the plain
+dark hatch a constant width on screen and left the four coloured ones — the
+American stripes over Guadalcanal, the Thai over Kengtung, the Japanese over
+Portuguese Timor and the ruling over the Communist base areas — pinned to the map
+instead. So they shrank towards nothing at the opening view and grew with every
+step of the zoom until a single American band was wider than the headland it
+crossed and ran from one coast to the other: a broad diagonal ending at the
+water, which is what it looked like. Measured before and after by sweeping the
+whole island: **no hatch geometry lies outside the shape at any zoom, before or
+after** — the hatch path is a copy of the drawn path, so it cannot — and the
+stripe pitch now holds constant from a viewBox 280 units wide down to 28.
+
+`HATCH_IDS` names the five patterns and the way each is turned; the base areas
+are ruled the other way from the occupation's own stripes so that where the two
+cross both can be read, and that survives the rescaling.
+
 ### A hovered Indian province shows its neighbours over the princely states
 British India's provinces are built from modern first-level units, so they cover
 the whole subcontinent, and the princely layer is painted on top of them. Every
