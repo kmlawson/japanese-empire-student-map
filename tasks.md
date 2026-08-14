@@ -7,9 +7,9 @@ describing what was actually changed, before it is marked done.
 
 ## Open — asked for and not yet done
 
-Everything left here is blocked on a source rather than on work, with one
-exception that is measured and deliberately left. Each entry says what was
-tried, what it measured, and what would actually settle it.
+Two entries, and both of them are measured rather than assumed. Everything else
+that stood here has been closed; where a fix was a generalisation rather than an
+answer, the source that would settle it is named at the foot of this file.
 
 - **The Kwantung leasehold: measured, and left.** Sampled by rendered colour
   over the whole leasehold at a hundred-kilometre view, Manchuria's colour shows
@@ -19,30 +19,15 @@ tried, what it measured, and what would actually settle it.
   closing it means rebuilding the cut to share vertices with its parent. Not
   worth what it would cost; recorded so nobody measures it again.
 
-- **Kwangchowwan** — needs a period source after all. Diagnosed properly this
-  time. The leasehold's own file holds six separate pieces round Guangchow Bay,
-  and the yellow between them is not a leak: it is ENP's Kwangtung, whose
-  coastline is coarse enough to cover the bay and its tidal creeks, showing
-  through where the lease's finer outline says water. So the mess is the base
-  map poking through a finer overlay, the same shape of problem as the Korea
-  frontier — but this one cannot be closed by reaching outward, because what is
-  wanted is to cut the bay *out* of China, and `clip_halfplanes` is convex-only
-  with no polygon difference anywhere in the build.
-  Filling the concavities instead was measured and rejected: the convex hull of
-  all six pieces overshoots their area by 78 per cent, and per-piece hulls by
-  11 to 73 per cent, which would swallow Chinese land the lease never held. The
-  honest fix is the lease boundary as a period map draws it — one line round the
-  bay and its shores — and that is a source I do not have.
-- **A grey wedge on the Liaotung coast**, 121.5–122.1 E, 39.0–39.5 N, about six
-  pixels across. Not source-blocked, but not obviously worth what it would cost.
-  It is `chinabase` — Natural Earth's China, drawn in the neutral colour beneath
-  everything — sticking out past ENP's Fengtien, which is the seam-showing it
-  exists to do, except that on a coast rather than a frontier it reads as a
-  mystery strip instead of as a disagreement. Closing it means either extending
-  Manchuria out to Natural Earth's coastline, which is the source this map
-  deliberately does not use for China, or trimming `chinabase` back to whatever
-  sits on it, which is the opposite of its purpose. Left alone on the judgement
-  that a visible seam is better than a silently wrong coastline.
+- **Kwangchowwan wants a period source for the lease boundary itself.** The
+  carve is right now — see below, where the traced coastline replaced Natural
+  Earth as the limit on it, and land drawn as sea fell from 2,761 sample points
+  to 442. What is still a guess is the boundary of the lease on land. The
+  leasehold's own file holds six separate pieces round the bay, and where those
+  pieces end is where the map says the lease ended; a period map draws one line
+  round the bay and its shores instead, and that is the thing to trace. This is
+  no longer a fault in the drawing, only a limit on what is being drawn.
+
 ---
 
 ## Done
