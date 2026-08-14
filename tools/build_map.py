@@ -342,6 +342,7 @@ LAND_BASE = [
     (70.0, 29.0, 83.0, 45.0),      # Karakoram, Aksai Chin, the Pamir, Dzungaria
 ]
 
+
 KWANTUNG_CUT = ((121.20, 39.66), (122.45, 39.28))
 KWANTUNG_BOX = (120.55, 38.60, 123.00, 39.80)
 
@@ -520,7 +521,7 @@ ENP_ATOMS = {"china", "manchuria", "chahar", "suiyuan", "suiyuan_w", "jehol",
 # a small atom's tolerance while Manchuria kept the full detail of the sheet,
 # and the finer coast underneath showed all round the coarser one as a yellow
 # fringe: the leasehold looked like a blocky stamp laid on a real peninsula.
-FULL_DETAIL = ({"korea", "saharat", "princely", "kwantung", "ccp"} | ENP_ATOMS
+FULL_DETAIL = ({"korea", "saharat", "princely", "kwantung", "ccp", "malaya"} | ENP_ATOMS
                | set(GIS_LAYERS))
 
 # Atoms whose rings are separate pieces of ground rather than neighbours that

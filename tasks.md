@@ -95,12 +95,6 @@ rather than a tweak, and none of it is started.
   little; closing them properly means giving the leasehold the parent ring's
   own vertices rather than a clipped copy of them.
 
-- **A starburst of thin lines in the Johor Strait**, about 103.60 E, 1.47 N,
-  visible without hovering anything. It is an unnamed leftover path inside
-  `a-malaya` — the block of Malaysia that matched no state — and its geometry is
-  spiky there. It predates the Straits Settlements work and was found while
-  checking it.
-
 - **Kwangchowwan** — needs a period source after all. Diagnosed properly this
   time. The leasehold's own file holds six separate pieces round Guangchow Bay,
   and the yellow between them is not a leak: it is ENP's Kwangtung, whose
@@ -146,6 +140,34 @@ rather than a tweak, and none of it is started.
 ---
 
 ## Done
+
+### The starburst in the Johor Strait was the estuary, simplified
+A star of thin blue lines in the middle of Johor, visible without hovering
+anything. The earlier guess — an unnamed leftover path with spiky geometry — was
+wrong, and so were two fixes built on the way to the right one.
+
+It is **the Skudai and Tebrau estuaries**. geoBoundaries draws that shore as it
+really is, a dendritic tangle of tidal creeks, and the ring wanders in and out of
+a tenth of a degree ten separate times. Simplified at the tolerance an atom of
+Malaya's span earns, the convoluted stretch folds over itself: the sub-loops come
+out wound the other way and the nonzero rule punches them into holes. So the
+starburst was not a shape in the data at all — it was what was left of a shape
+after thinning it.
+
+`malaya` joins `FULL_DETAIL`. **1,223 vertices become 6,200** and the main SVG
+grows 75.7 KB, 2.9 per cent, and what is drawn there now is two narrow winding
+inlets, which is what is there.
+
+Tried first and reverted, both measured:
+**A patch rectangle** giving the ground back to Johor — Natural Earth calls every
+point of it land, checked over 483 — which closed the middle of the star and none
+of the spikes, because they radiate well beyond any box that fits inside the
+state.
+**Removing needles**, vertices where a ring doubles back on itself along its own
+edge, which geoBoundaries has plenty of where a boundary was traced up a river
+and back. It dropped 625 vertices of 250,643 across the whole build, 0.25 per
+cent, and changed the star not at all. Correct and useless, so it is out: this
+map does not change geometry that nothing asked it to change.
 
 ### A cluster can cross an atom now
 `clusterOf` gathered siblings inside one atom, and two clusters do not fit in
