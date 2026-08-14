@@ -3551,6 +3551,56 @@ def main():
         occ_src = [(OCCUPIED_BLOCKS[n] if n < len(OCCUPIED_BLOCKS) else "",
                     normalise_ring(chaikin(b, 2)))
                    for n, b in enumerate(OCCUPIED_ZONE)]
+
+    # An island the trace cuts in half. The zone's seaward edge is a line drawn
+    # across open water, and where it happens to pass over one of China's
+    # coastal islands the island comes out part shaded and part not: Shijiutuo,
+    # ten kilometres off the Kailan coast in the Gulf of Chihli, was a yellow
+    # spike of unoccupied China in a gulf that was held all the way round —
+    # Tientsin, Tangshan, Chinwangtao and the railway along it.
+    #
+    # An island is one place. Where the trace already covers part of one, the
+    # whole of it is drawn held; where the trace does not reach an island at
+    # all, nothing is claimed for it. So this completes the source's own answer
+    # and never extends it, which is the same rule the east coast was given
+    # when the islands were made to go with the coast they were blockaded from.
+    occ_src = list(occ_src)
+    if china_islands:
+        boxed = []
+        for label, ring in occ_src:
+            xs = [p[0] for p in ring]
+            ys = [p[1] for p in ring]
+            boxed.append((min(xs), min(ys), max(xs), max(ys), label, ring))
+        whole = 0
+        for isl in china_islands:
+            xs = [p[0] for p in isl]
+            ys = [p[1] for p in isl]
+            ix0, iy0, ix1, iy1 = min(xs), min(ys), max(xs), max(ys)
+            step = max(1, len(isl) // 24)
+            probe = isl[::step]
+            found = None
+            for x0, y0, x1, y1, label, ring in boxed:
+                if x1 < ix0 or x0 > ix1 or y1 < iy0 or y0 > iy1:
+                    continue
+                if any(point_in_ring(p, ring) for p in probe):
+                    found = label
+                    break
+                # The other way round, and it is the commoner case: the trace
+                # carries islets of its own, so what sits on the island is a
+                # small occupied ring rather than the edge of a large one.
+                # Shijiutuo is this — a six-point ring inside a coastal island
+                # Natural Earth draws with fifty.
+                if x0 >= ix0 and x1 <= ix1 and y0 >= iy0 and y1 <= iy1:
+                    step2 = max(1, len(ring) // 24)
+                    if any(point_in_ring(p, isl) for p in ring[::step2]):
+                        found = label
+                        break
+            if found is not None:
+                occ_src.append((found, isl))
+                whole += 1
+        if whole:
+            sys.stderr.write(f"occupied zone: {whole} islands completed\n")
+
     for label, src in occ_src:
         ring = clip_halfplanes(src, occ_frame)
         if len(ring) < 3:
@@ -3802,9 +3852,22 @@ def main():
         pieces = [ring_to_path([project(x, y) for x, y in
                                 ((wx0, wy0), (wx1, wy0), (wx1, wy1), (wx0, wy1))],
                                FINE_PRECISION)]
+        # The rings are cut to the box first. The lease is a semicircle of a
+        # ten-mile radius round the bay and the box holds only its northern,
+        # seaward strip, so most of that semicircle lies outside — and under
+        # the even-odd rule a ring outside the box is not subtracting from
+        # anything, it is a shape of its own, painted in the ocean colour. On
+        # the 1930 map the leasehold is drawn over it and nothing shows; on the
+        # 1942 map it was returned to China two months before the map's own
+        # 1930 date, so nothing is drawn there and the whole semicircle came
+        # out as a bite of sea taken out of the Shantung peninsula.
+        planes = box_planes(wx0, wy0, wx1, wy1)
         for ring in wei:
-            pieces.append(ring_to_path([project(x, y) for x, y in
-                                        normalise_ring(ring)], FINE_PRECISION))
+            cut = clip_halfplanes(normalise_ring(ring), planes)
+            if len(cut) < 3:
+                continue
+            pieces.append(ring_to_path([project(x, y) for x, y in cut],
+                                       FINE_PRECISION))
         bay_path += "".join(pieces)
 
     if groups.get("guangzhouwan"):

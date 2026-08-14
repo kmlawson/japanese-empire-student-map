@@ -143,6 +143,34 @@ rather than a tweak, and none of it is started.
 
 ## Done
 
+### The Bohai: an island cut in half, and a bite taken out of Shantung
+Two faults in that corner, and the second is much the larger.
+
+**The spike** is Shijiutuo, ten kilometres off the Kailan coast. The traced zone
+carries islets of its own, and one of them — a six-point ring — sits inside a
+coastal island Natural Earth draws with fifty, so the island came out part
+shaded and part not: a yellow arrow of unoccupied China in a gulf that was held
+all the way round, Tientsin, Tangshan, Chinwangtao and the railway along it. An
+island is one place. Where the trace already covers part of one, the whole of it
+is drawn held; where the trace does not reach an island at all, nothing is
+claimed for it — so this completes the source's own answer and never extends it,
+which is the rule the east coast was given when the islands were made to go with
+the coast they were blockaded from. **30 islands completed**, tested both ways
+round because the commoner case is a small occupied ring sitting on a larger
+island rather than the edge of a large ring crossing it.
+
+**The bite** was a semicircle of sea cut out of the Shantung peninsula on the
+1942 map, about thirty kilometres across. Weihaiwei's seaward fringe is carved
+with a box and the leasehold's own rings under the even-odd rule — but the lease
+is a semicircle of ten miles' radius round the bay and the box holds only its
+northern, seaward strip. Everything of that semicircle lying outside the box was
+not subtracting from anything: it was a shape of its own, painted in the ocean
+colour. On the 1930 map the leasehold is drawn over it and nothing showed. On the
+1942 map it had been returned to China twelve years earlier, so nothing is drawn
+there, and the carve stood exposed with the Jiaodong base area's ruling over it.
+The rings are cut to the box before they go into the path. 1930 is unchanged —
+the leasehold still sits on its semicircle with no yellow fringe above it.
+
 ### One fine window at a time
 The file covers fourteen windows holding 1,905 shapes, and a deep zoom anywhere
 grafted **all of them**: a reader looking at Okinawa was carrying the Bonins, the
