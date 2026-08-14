@@ -72,10 +72,6 @@ tried, what it measured, and what would actually settle it.
   11 to 73 per cent, which would swallow Chinese land the lease never held. The
   honest fix is the lease boundary as a period map draws it — one line round the
   bay and its shores — and that is a source I do not have.
-- **The shapes of the coastal enclaves.** Amoy, Swatow and the Canton delta are
-  named now, but Amoy and Swatow are still fourteen-point ellipses — a guess
-  with the corners rounded off. They want a period source. (Naming them is
-  done; see below.)
 - **A grey wedge on the Liaotung coast**, 121.5–122.1 E, 39.0–39.5 N, about six
   pixels across. Not source-blocked, but not obviously worth what it would cost.
   It is `chinabase` — Natural Earth's China, drawn in the neutral colour beneath
