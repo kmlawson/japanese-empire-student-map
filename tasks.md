@@ -39,9 +39,6 @@ describing what was actually changed, before it is marked done.
 These are the outstanding half of the batch of 13 August. Each is real work
 rather than a tweak, and none of it is started.
 
-- **A better shape for Labuan**, from the OSM coastlines file, if the present
-  one will not do. Its label now carries the dates (below); the shape does not.
-
 - **Guangzhouwan, the last of it**: the hull carve cuts into the mainland on
   the north-west, one yellow island inside the leasehold survives, and there is
   a small leak on the far south-eastern island.
@@ -117,6 +114,20 @@ rather than a tweak, and none of it is started.
 ---
 
 ## Done
+
+### Labuan is drawn from its coastline
+The adm1 polygon for Labuan is a fan of thin spikes and wedges at any depth of
+zoom rather than an island — the Johor fault again, in a place small enough that
+there is nothing else to look at. It is traced out of the OSM coastlines now, as
+the four outer groups are: **91.0 km² against the 92 the gazetteers give**, in
+five rings, so Pulau Daat, Pulau Kuraman and the two Rusukan islets come with it.
+Measured by sampling for ocean enclosed by land in a fifteen-kilometre window:
+**486 samples before, 163 after**.
+
+The rings replace the adm1 ones at the point where the atom's geometry is
+collected, not after — the first attempt added them beside the old ones and the
+union kept every spike, and the render was pixel-for-pixel identical, which is
+what said so.
 
 ### Fine coastlines for Singapore and for Ulleung and the Liancourt Rocks
 Two more windows in the fine layer, fetched on a deep zoom like the rest.

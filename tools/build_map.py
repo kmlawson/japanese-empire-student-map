@@ -2763,6 +2763,9 @@ def ccp_zone(ring):
 # throughout, with the wireless station that made it worth shelling.
 OUTER_ISLANDS = "outer-islands.geojson"
 OUTER_ATOMS = {
+    # Labuan is not an atom of its own: it is a sub-unit of North Borneo, and
+    # the traced rings replace the adm1 polygon there. It is in the same file
+    # because it comes from the same source in the same way.
     "Turtle Islands": "turtle",
     "Mangsee Islands": "mangsee",
     "Miangas": "miangas",
@@ -2784,7 +2787,9 @@ def load_outer_islands():
             for feat in fc.get("features", []):
                 g = feat.get("geometry") or {}
                 name = (feat.get("properties") or {}).get("group")
-                if g.get("type") != "Polygon" or name not in OUTER_ATOMS:
+                # Every group in the file, not only the ones that are atoms:
+                # Labuan is a sub-unit of North Borneo and comes from here too.
+                if g.get("type") != "Polygon" or not name:
                     continue
                 ring = [(x, y) for x, y in g["coordinates"][0]]
                 if len(ring) >= 3:
@@ -3521,6 +3526,11 @@ def main():
                 key = BORNEO_MYS.get(pname) or MALAYA_MYS.get(pname)
                 if key:
                     prings = list(iter_rings(feat["geometry"]))
+                    # Labuan comes from the traced coastline instead: see below
+                    if key == "northborneo" and pname == "Labuan":
+                        traced = load_outer_islands().get("Labuan") or []
+                        if traced:
+                            prings = traced
                     groups[key].extend(prings)
                     if key in ("malaya", "malaya_thai"):
                         label = {"Kuala Lumpur": "Selangor", "Putrajaya": "Selangor"}.get(pname, pname)
@@ -3539,7 +3549,15 @@ def main():
                                 provinces[key].append(("Dindings", cut))
                     elif key == "northborneo" and pname == "Labuan":
                         # a Straits Settlement in 1930, not chartered-company
-                        # territory, and worth being able to name
+                        # territory, and worth being able to name.
+                        #
+                        # Drawn from the traced coastline rather than from the
+                        # adm1 polygon, which at any depth of zoom is a fan of
+                        # thin spikes and wedges rather than an island — the
+                        # same fault as the Johor starburst, and the same cause.
+                        # The traced island is 91.0 km2 against the 92 the
+                        # gazetteers give, and brings Pulau Daat, Kuraman and
+                        # the two Rusukan islets with it.
                         provinces[key].append(("Labuan", prings))
 
     # ---- the northern Malay states -----------------------------------------
