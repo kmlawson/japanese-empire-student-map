@@ -43,20 +43,6 @@ tried, what it measured, and what would actually settle it.
   deliberately does not use for China, or trimming `chinabase` back to whatever
   sits on it, which is the opposite of its purpose. Left alone on the judgement
   that a visible seam is better than a silently wrong coastline.
-- **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible
-  — Japan only created a western administrative region out of Paotow and the
-  Urad banners in June 1943, six months after this map — but a straight line of
-  longitude is the wrong instrument, and it hands the eastern Ordos banners
-  (Jungar, Junwang) to Mengchiang, which never securely held them. Options: cut
-  along the railway and the limit of cultivation instead; or draw the corridor
-  as a railway-and-garrison reach rather than an area. The Yekejao league sits
-  south of the Yellow River across the whole width of the province, which a
-  meridional cut ignores. Best source found: NIDS serves the North China Area
-  Army's own maps of what it held, dated to within three months —
-  『北支那方面軍占拠地域治安概況』(Sept 1942), appendix 050_332, and 『北支那方面
-  敵情要図』(end Sept 1942), 050_331. Better than the 1940 US Army sheet the
-  occupied zone is currently traced from, for the whole zone and not just this.
-
 ---
 
 ## Done
@@ -1619,3 +1605,21 @@ and the epoch blurb all say what the line is instead.
   it was a 54 px strip that swallowed every tap along it.
 - A frame round the drawing, and room to push the map past it — 45% of a
   viewport on a phone, 6% on a desktop.
+
+---
+
+## Sources worth fetching
+
+- **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible
+  — Japan only created a western administrative region out of Paotow and the
+  Urad banners in June 1943, six months after this map — but a straight line of
+  longitude is the wrong instrument, and it hands the eastern Ordos banners
+  (Jungar, Junwang) to Mengchiang, which never securely held them. Options: cut
+  along the railway and the limit of cultivation instead; or draw the corridor
+  as a railway-and-garrison reach rather than an area. The Yekejao league sits
+  south of the Yellow River across the whole width of the province, which a
+  meridional cut ignores. Best source found: NIDS serves the North China Area
+  Army's own maps of what it held, dated to within three months —
+  『北支那方面軍占拠地域治安概況』(Sept 1942), appendix 050_332, and 『北支那方面
+  敵情要図』(end Sept 1942), 050_331. Better than the 1940 US Army sheet the
+  occupied zone is currently traced from, for the whole zone and not just this.

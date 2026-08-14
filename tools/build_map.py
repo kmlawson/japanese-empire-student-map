@@ -142,6 +142,29 @@ def project(lon, lat):
 # swallow several hundred kilometres of free China.
 SUIYUAN_CUT = 109.6
 
+# The line of control across Suiyuan, and it is not a meridian any more.
+#
+# What Mengchiang held in that province was the eastern end of the Hetao and
+# the country north of the Yellow River — Kweisui and Paotow, taken in
+# February 1938 — while Fu Tso-yi held the irrigated plain west of Paotow, as
+# the Wuyuan campaign of 1940 settled. A line of longitude at 109.6 gets that
+# much right and then keeps going south, and in doing so hands the eastern
+# Ordos banners to Mengchiang: Jungar and Junwang, in the Yekejao league,
+# which sits *inside* the river's loop across the whole width of the province
+# and which Mengchiang never securely held.
+#
+# So the cut is two conditions rather than one. Mengchiang's half is east of
+# the line **and** north of the Yellow River's east-west reach through the
+# Hetao, which runs at about 40.45 N from the Ningsia border to Paotow before
+# the river turns south. Everything else — the plain to the west, and the whole
+# Ordos south of the river — is Free China's.
+#
+# Still a generalisation, and still not the NIDS sheets, which would settle it
+# properly: see the entry in tasks.md. But it is the river doing the work
+# rather than a line of longitude, and it no longer awards ground to a regime
+# on the strength of its being east of something.
+SUIYUAN_ORDOS_LAT = 40.45
+
 # Natural Earth's outline of the modern Chinese mainland, which used to be laid
 # under the Republican provinces twice over: once in the neutral "elsewhere"
 # grey, to plug the places where the two sources put a land frontier a kilometre
@@ -2326,11 +2349,22 @@ def load_roc_provinces(enp_provinces):
             continue
         seen.add(name)
         if name == "Suiyuan":
-            east = [line_plane((SUIYUAN_CUT, 0.0), (SUIYUAN_CUT, 90.0), keep_right=True)]
+            # Mengchiang's half: east of the line and north of the river.
+            # Free China's: the plain west of the line, and the Ordos south of
+            # the river whichever side of the line it falls. See SUIYUAN_CUT.
+            east = [line_plane((SUIYUAN_CUT, 0.0), (SUIYUAN_CUT, 90.0), keep_right=True),
+                    line_plane((0.0, SUIYUAN_ORDOS_LAT), (180.0, SUIYUAN_ORDOS_LAT),
+                               keep_right=False)]
             west = [line_plane((SUIYUAN_CUT, 0.0), (SUIYUAN_CUT, 90.0), keep_right=False)]
-            for side, dest, label in ((east, "suiyuan", "Suiyuan"),
-                                      (west, "suiyuan_w", "SuiyuanWest")):
-                cut = [c for c in (clip_halfplanes(r, side) for r in rings) if len(c) >= 3]
+            ordos = [line_plane((SUIYUAN_CUT, 0.0), (SUIYUAN_CUT, 90.0), keep_right=True),
+                     line_plane((0.0, SUIYUAN_ORDOS_LAT), (180.0, SUIYUAN_ORDOS_LAT),
+                                keep_right=True)]
+            for sides, dest, label in (([east], "suiyuan", "Suiyuan"),
+                                       ([west, ordos], "suiyuan_w", "SuiyuanWest")):
+                cut = []
+                for side in sides:
+                    cut.extend(c for c in (clip_halfplanes(r, side) for r in rings)
+                               if len(c) >= 3)
                 if cut:
                     out[dest].append((label, cut))
             continue
@@ -3655,11 +3689,20 @@ def main():
         # a stroke and show no boundary between them, so on that date it is one
         # province again and says so once.
         if name == "Suiyuan":
-            east = [line_plane((SUIYUAN_CUT, 0.0), (SUIYUAN_CUT, 90.0), keep_right=True)]
+            # the same two conditions as in province_paths, above
+            east = [line_plane((SUIYUAN_CUT, 0.0), (SUIYUAN_CUT, 90.0), keep_right=True),
+                    line_plane((0.0, SUIYUAN_ORDOS_LAT), (180.0, SUIYUAN_ORDOS_LAT),
+                               keep_right=False)]
             west = [line_plane((SUIYUAN_CUT, 0.0), (SUIYUAN_CUT, 90.0), keep_right=False)]
-            for side, dest, label in ((east, "suiyuan", "Suiyuan"),
-                                      (west, "suiyuan_w", "SuiyuanWest")):
-                cut = [c for c in (clip_halfplanes(r, side) for r in rings) if len(c) >= 3]
+            ordos = [line_plane((SUIYUAN_CUT, 0.0), (SUIYUAN_CUT, 90.0), keep_right=True),
+                     line_plane((0.0, SUIYUAN_ORDOS_LAT), (180.0, SUIYUAN_ORDOS_LAT),
+                                keep_right=True)]
+            for sides, dest, label in (([east], "suiyuan", "Suiyuan"),
+                                       ([west, ordos], "suiyuan_w", "SuiyuanWest")):
+                cut = []
+                for side in sides:
+                    cut.extend(c for c in (clip_halfplanes(r, side) for r in rings)
+                               if len(c) >= 3)
                 if cut:
                     tally[dest] += 1
                     groups[dest].extend(cut)
