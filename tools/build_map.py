@@ -319,6 +319,29 @@ OCCUPIED_ZONE = [
 # showed as a rim of China above it and as an island in its bay.
 WEIHAIWEI_SEA_BOX = (121.930, 37.470, 122.330, 37.620)
 
+# Ground that is certainly land and which no source on this map covers. The
+# Karakoram is the case that matters: geoBoundaries' India is the modern one
+# and stops short of Aksai Chin, the ENP sheet's Sinkiang and Tibet stop at
+# their own lines, and between the three of them about a degree and a half of
+# the highest country on earth had nothing drawn on it at all — a bay of ocean
+# in the middle of the continent, three hundred kilometres across. The seams
+# cannot close it: their reach is half a degree, and this is not a crack.
+#
+# The same box takes in the Pamir and the Sinkiang–Soviet frontier, which is
+# the other place the sources leave open ground.
+#
+# This is the same instrument as `chinabase` and it is used for the same
+# reason: painted in the neutral colour under everything, so where the sources
+# disagree the gap reads as a seam and not as one country leaking into the
+# next — and here, in country nobody administered and two states claimed, the
+# neutral answer is also the honest one. Every box must be land from corner to
+# corner: this one is checked against Issyk-Kul and Lake Balkhash, which
+# Natural Earth's Soviet Union already covers, so nothing that ought to be
+# water is being painted over.
+LAND_BASE = [
+    (70.0, 29.0, 83.0, 45.0),      # Karakoram, Aksai Chin, the Pamir, Dzungaria
+]
+
 KWANTUNG_CUT = ((121.20, 39.66), (122.45, 39.28))
 KWANTUNG_BOX = (120.55, 38.60, 123.00, 39.80)
 
@@ -2908,6 +2931,8 @@ ON_TOP = ["weihaiwei", "guangzhouwan", "macau", "hongkong", "kwantung", "ccp"]
 ORDER = [
     # first, so that anything real drawn over it wins the pointer
     "polynesia",
+    # under chinabase, which is itself a filler
+    "chinabase_land",
     "chinabase", "andaman", "ceylon", "ussr", "mongolia", "tibet",
     "china", "xinjiang", "india", "princely", "goa", "pondicherry",
     "other", "nepal", "sikkim", "bhutan",
@@ -2972,6 +2997,11 @@ def main():
     a0 = load("admin0", args.download)
 
     groups = collections.defaultdict(list)
+    # The neutral ground under the interior gaps — see LAND_BASE above. It goes
+    # in first so it is under everything, including chinabase.
+    for bx0, by0, bx1, by1 in LAND_BASE:
+        groups["chinabase_land"].append(
+            [(bx0, by0), (bx1, by0), (bx1, by1), (bx0, by1)])
     # Chinese atoms keep their provinces as separate sub-paths, so hovering can
     # name the province as well as the country.
     provinces = collections.defaultdict(list)

@@ -143,6 +143,30 @@ rather than a tweak, and none of it is started.
 
 ## Done
 
+### Aksai Chin and the Pamir were drawn as ocean
+The northern top of India and the western end of Sinkiang are the same fault in
+two places, and it is not a crack: geoBoundaries' India is the modern one and
+stops short of Aksai Chin, the ENP sheet's Sinkiang and Tibet stop at their own
+lines, and between the three of them **about a degree and a half of the highest
+country on earth had nothing drawn on it at all** — a bay of ocean three hundred
+kilometres across in the middle of the continent, with slivers of the same thing
+along the Sinkiang–Soviet frontier. The seams could never close it: their reach
+is half a degree.
+
+`LAND_BASE` is a list of boxes that are land from corner to corner, painted in
+the neutral colour under everything — the same instrument as `chinabase` and
+used for the same reason, so that where the sources disagree the gap reads as a
+seam rather than as one country leaking into the next. One box does both places:
+70–83 E, 29–45 N. Measured by sweeping the region in tenth-degree steps: **453
+uncovered points before in the Kashmir box and 153 along the frontier, and none
+after**.
+
+For Aksai Chin the neutral answer is also the honest one. Nobody administered it
+on either of these dates; the maharaja's claim and China's both covered it, and
+it reads now as it reads for Afghanistan and Nepal on this map — Elsewhere. The
+box was checked against Issyk-Kul and Lake Balkhash, which Natural Earth's Soviet
+Union already covers, so nothing that ought to be water is painted over.
+
 ### The Bohai: an island cut in half, and a bite taken out of Shantung
 Two faults in that corner, and the second is much the larger.
 
