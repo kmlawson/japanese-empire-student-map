@@ -11,34 +11,6 @@ Everything left here is blocked on a source rather than on work, with one
 exception that is measured and deliberately left. Each entry says what was
 tried, what it measured, and what would actually settle it.
 
-- **The slivers at Brunei Bay.** Reproduced, diagnosed twice, and it wants a
-  source. Where geoBoundaries' Sabah, Sarawak and Brunei meet, the three
-  polygons do not close on each other: at 115.36 E 5.23 N and 115.48 E 5.12 N
-  nothing covers the ground at all, and two more wedges nearby are covered only
-  by a North Borneo seam showing through the hole. The seams cannot close it — a
-  strip reaches from one country's boundary to another's, and here three
-  boundaries are involved and none of them is where the others expect.
-  It is also the answer to "selecting Sarawak highlights North Borneo": it does
-  not — hovering Sarawak lights only Sarawak, checked — but Sarawak's seam
-  strips show through North Borneo's holes in Sarawak's colour, so part of
-  North Borneo is painted Sarawak whatever the pointer does.
-
-  Two fixes were built and measured and neither is worth keeping, which is the
-  useful part of this entry.
-  **Full detail** for the three, on the theory that one line in the source was
-  being thinned into two by tolerances each atom's own span earns: at full
-  detail the wedges are the same and the two SVGs are 120 KB larger. It is not
-  simplification; the polygons genuinely do not close.
-  **A neutral base under the island**, Natural Earth's own Borneo laid
-  underneath in the neutral colour with a stroke to bridge the gaps, clipped to
-  the coastline so it could never reach the sea. It closes nothing here, because
-  **Natural Earth calls those wedges water too** — checked point by point — and
-  across the whole island it is the only cover at 34 of 18,900 sample points,
-  all of them coastline detail in southern Kalimantan. Brunei Bay is a real bay,
-  the head of it is genuinely dendritic, and Brunei is genuinely cut in two by
-  Limbang; what the map is showing is three drawings of one shore that disagree,
-  and no filler can decide between them. It wants a period source for the bay.
-
 - **The Kwantung leasehold: measured, and left.** Sampled by rendered colour
   over the whole leasehold at a hundred-kilometre view, Manchuria's colour shows
   through at **three pixels, in two clusters**, at 121.43 E 39.44 N and

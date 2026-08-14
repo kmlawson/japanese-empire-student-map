@@ -338,6 +338,25 @@ WEIHAIWEI_SEA_BOX = (121.930, 37.470, 122.330, 37.620)
 # corner: this one is checked against Issyk-Kul and Lake Balkhash, which
 # Natural Earth's Soviet Union already covers, so nothing that ought to be
 # water is being painted over.
+# Ground that no polygon covers, given to whichever of them is nearest. This is
+# for the case a seam cannot reach: a seam is a ribbon pushed from one country's
+# frontier towards another, and where three frontiers meet and none of them is
+# where the other two expect, the gap between them is not on the line from any
+# one to any other. Northern Borneo is the case — Sarawak, Brunei and North
+# Borneo come from one provider and still do not close on each other, and the
+# sea shows through in flat-topped wedges that are plainly polygon edges rather
+# than any shore.
+#
+# The rule is deliberately narrow. Only ground *enclosed* by the atoms is
+# filled: the grid is flooded inward from the edge of the window, whatever the
+# flood reaches is open water and is left alone, and only what it cannot reach
+# is a sliver. So Brunei Bay, which is real water and opens onto the sea, keeps
+# its whole shape, and a wedge shut in on every side by land does not.
+SLIVER_FILL = [
+    # window, the atoms that share it, and the grid step in degrees
+    ((114.60, 4.30, 115.90, 5.60), ("sarawak", "brunei", "northborneo"), 0.004),
+]
+
 LAND_BASE = [
     (70.0, 29.0, 83.0, 45.0),      # Karakoram, Aksai Chin, the Pamir, Dzungaria
     # Where Burma, Assam and China meet, in the eastern Himalaya. The
@@ -3947,6 +3966,93 @@ def main():
     frame = box_planes(LON_MIN, LAT_MIN, LON_MAX, LAT_MAX)
     paths, dots, anchors, stats, hits = {}, {}, {}, [], {}
     SMALL_ATOM_AREA = 2600      # kept in step with the same name in map.js
+
+    # Slivers between polygons that ought to close on each other — see
+    # SLIVER_FILL above. Done here, after every atom has its geometry and
+    # before any of it is turned into a path.
+    for (bx0, by0, bx1, by1), keys, step in SLIVER_FILL:
+        boxed = []
+        for k in keys:
+            for ring in groups.get(k, ()):
+                xs = [p[0] for p in ring]
+                ys = [p[1] for p in ring]
+                if max(xs) < bx0 or min(xs) > bx1 or max(ys) < by0 or min(ys) > by1:
+                    continue
+                boxed.append((k, min(xs), min(ys), max(xs), max(ys), ring))
+        if not boxed:
+            continue
+        nx = int((bx1 - bx0) / step) + 1
+        ny = int((by1 - by0) / step) + 1
+        # which atom covers each cell, or None. Through the same latitude-band
+        # index the seams use, or a hundred thousand cells against a hundred
+        # thousand vertices is twenty seconds of the build.
+        tests = [(k, _ring_test([r for kk, _, _, _, _, r in boxed if kk == k]))
+                 for k in keys if any(kk == k for kk, *_ in boxed)]
+        who = [[None] * nx for _ in range(ny)]
+        for j in range(ny):
+            y = by0 + j * step
+            for i in range(nx):
+                x = bx0 + i * step
+                for k, inside in tests:
+                    if inside((x, y)):
+                        who[j][i] = k
+                        break
+        # flood inward from the window's edge: whatever this reaches is open
+        # water, and open water is not a sliver
+        open_sea = [[False] * nx for _ in range(ny)]
+        stack = []
+        for i in range(nx):
+            for j in (0, ny - 1):
+                if who[j][i] is None and not open_sea[j][i]:
+                    open_sea[j][i] = True
+                    stack.append((i, j))
+        for j in range(ny):
+            for i in (0, nx - 1):
+                if who[j][i] is None and not open_sea[j][i]:
+                    open_sea[j][i] = True
+                    stack.append((i, j))
+        while stack:
+            i, j = stack.pop()
+            for di, dj in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+                a, b = i + di, j + dj
+                if 0 <= a < nx and 0 <= b < ny and who[b][a] is None \
+                        and not open_sea[b][a]:
+                    open_sea[b][a] = True
+                    stack.append((a, b))
+        # every enclosed cell goes to whichever atom is nearest to it
+        filled = collections.Counter()
+        for j in range(ny):
+            for i in range(nx):
+                if who[j][i] is not None or open_sea[j][i]:
+                    continue
+                x = bx0 + i * step
+                y = by0 + j * step
+                best, bd = None, float("inf")
+                for k, x0, y0, x1, y1, ring in boxed:
+                    if (x < x0 - 0.06 or x > x1 + 0.06
+                            or y < y0 - 0.06 or y > y1 + 0.06):
+                        continue
+                    for px, py in ring:
+                        d = (px - x) ** 2 + (py - y) ** 2
+                        if d < bd:
+                            bd, best = d, k
+                if best is None:
+                    for k, x0, y0, x1, y1, ring in boxed:
+                        for px, py in ring:
+                            d = (px - x) ** 2 + (py - y) ** 2
+                            if d < bd:
+                                bd, best = d, k
+                if not best:
+                    continue
+                h = step * 0.62      # cells overlap a little, so they merge
+                groups[best].append([(x - h, y - h), (x + h, y - h),
+                                     (x + h, y + h), (x - h, y + h)])
+                filled[best] += 1
+        if filled:
+            sys.stderr.write(
+                "slivers filled: "
+                + ", ".join(f"{k}={n}" for k, n in sorted(filled.items()))
+                + f" ({sum(filled.values())} cells of {nx * ny})\n")
 
     for key, rings in groups.items():
         merged = (dissolve(rings)
