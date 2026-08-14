@@ -26,7 +26,7 @@ JMAP.HOME = { lon0: 100, lat0: -4, lon1: 160, lat1: 52 };
 
 /* Said on every South China Sea record, because it is the first thing a
    reader needs to know about these particular outlines. */
-var RECLAIM_NOTE = 'The shapes here are traced from a present-day coastline, and in these islands that is a serious caveat rather than a small one: most of the features shown have been built up since the 1970s and especially since 2013, and several are now many times the size of the sandbank or reef that was here in the 1930s. Itu Aba, the largest natural island in the Spratlys, was about 0.4 km²; Woody Island in the Paracels has roughly doubled. Where a shape looks like an island with a runway on it, that is the reclamation and not the period. Read the positions, not the outlines.';
+var RECLAIM_NOTE = 'Islands are traced from present-day shapes, which does not reflect more recent land reclamation.';
 
 JMAP.EPOCHS = [
   {

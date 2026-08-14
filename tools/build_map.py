@@ -1221,10 +1221,18 @@ EXTENT_ARCS = [
 # for it, so the perimeter follows the traced line instead of a province edge
 # and a meridian. It ends at Mengchiang's south-western corner, where the front
 # through occupied China picks it up.
-EXTENT_MANCHURIA = (
-    ("manchuria", "jehol", "mengjiang"),
-    (130.7, 42.4), (112.40, 39.15), (113.5, 45.5),
-)
+# Two arcs, not one, and the reason is worth stating: `dissolve` cancels the
+# edges two rings *share*, so rings that merely overlap never merge. Mengchiang
+# is traced and its neighbours are the ENP sheet's, so no amount of growing one
+# into the other will weld them — the dissolved outline stayed Manchuria's
+# alone, its nearest vertex to the hand-over point was 524 km away, and the
+# perimeter ran there in a straight line, cutting clean across the client state
+# and leaving it outside. They do share one vertex exactly, at 119.595 E
+# 46.603 N, which is where the first arc hands over to the second.
+EXTENT_MANCHURIA = [
+    (("manchuria", "jehol"), (130.7, 42.4), (119.595, 46.603), (120.0, 51.0)),
+    (("mengjiang",), (119.595, 46.603), (112.40, 39.15), (111.60, 44.83)),
+]
 
 # Kinmen (Quemoy) sits in Natural Earth's Taiwan polygon because it is governed
 # from Taipei today. It was not part of the Japanese colony: it belonged to
@@ -2998,6 +3006,9 @@ def ccp_zone(ring):
 # Mengchiang is made of. Every point of it falls inside the ENP provinces —
 # checked — so nothing of Mongolia or Manchukuo is painted by it.
 MENGJIANG_FILE = "mengjiang-1942.12.geojson"
+# How far the occupation is carried under Mengchiang, to close the ribbon of
+# unoccupied ground the two traced boundaries leave between them.
+MENGJIANG_UNDERLAP = 0.25
 _MENGJIANG_CACHE = []
 
 
@@ -3318,7 +3329,6 @@ SPLITTERS = {
 # Andamans, where the islands are perfectly legible, the rings are just clutter.
 ISLET_RINGS = {
     "wake", "christmas", "turtle", "mangsee", "miangas", "cocos",
-    "spratly", "paracel", "pratas",
     "nanyo", "gilberts", "ogasawara", "guam", "chishima", "aleutians",
     "hawaii", "ryukyu", "newguinea_au", "solomons_br", "nauru_au",
     "aleutians_jp", "solomons_gc", "solomons_us", "solomons_ml", "solomons_al",
@@ -3326,7 +3336,7 @@ ISLET_RINGS = {
 
 # Groups whose islets are close enough together that one ring stands for all
 # of them — see where specks are built, below.
-ONE_ISLET = {"turtle", "mangsee", "cocos", "spratly", "paracel", "pratas"}
+ONE_ISLET = {"turtle", "mangsee", "cocos"}
 
 ARCHIPELAGOS = {
     "wake", "turtle", "mangsee", "miangas", "cocos",
@@ -4063,24 +4073,15 @@ def main():
             arc = boundary_arc(ring_for(rings, a, b), a, b, via)
             extent += simplify(arc, 0.03)
     extent += chaikin(EXTENT_OCEAN)
-    keys, a, b, via = EXTENT_MANCHURIA
-    # Mengchiang is traced and its neighbours are the ENP sheet's, so the two
-    # do not weld: dissolved as they come, the seam between them survives and
-    # the perimeter traced it as though it were a frontier, drawing a dashed
-    # line down the middle of the client state. Mengchiang is grown by a few
-    # kilometres for this one purpose, which is enough for the dissolve to
-    # swallow the join. Nothing drawn uses the grown shape.
-    _arc_rings = []
-    for k in keys:
-        rs = groups.get(k) or []
-        if k == "mengjiang":
-            rs = [grow_ring(normalise_ring(r), 0.28) for r in rs]
-        _arc_rings.extend(rs)
-    _merged = dissolve(_arc_rings) or _arc_rings
-    _merged = [r for r in _merged if len(r) >= 3]
-    ring = max(_merged, key=ring_area) if _merged else None
-    if ring:
-        extent += simplify(boundary_arc(ring, a, b, via), 0.03)
+    for keys, a, b, via in EXTENT_MANCHURIA:
+        _arc_rings = []
+        for k in keys:
+            _arc_rings.extend(groups.get(k) or [])
+        _merged = dissolve(_arc_rings) or _arc_rings
+        _merged = [r for r in _merged if len(r) >= 3]
+        ring = max(_merged, key=ring_area) if _merged else None
+        if ring:
+            extent += simplify(boundary_arc(ring, a, b, via), 0.03)
 
     # the occupied zone, clipped to China's land so it stops at the coast and
     # at the frontier instead of being drawn as a blob over the sea
@@ -4108,6 +4109,20 @@ def main():
     # and never extends it, which is the same rule the east coast was given
     # when the islands were made to go with the coast they were blockaded from.
     occ_src = list(occ_src)
+    # The occupation is carried up under Mengchiang. The two are traced from
+    # different sheets and their common boundary is two lines rather than one,
+    # so between them ran a ribbon of unoccupied yellow — ground that was
+    # neither the client state's nor the army's, which is not a thing that
+    # existed. Mengchiang's own ring, grown, is added to the occupied geometry:
+    # the clip then takes Mengchiang itself back out, and what is left is
+    # exactly the ribbon. It cannot spread anywhere else, being a copy of the
+    # client state's own boundary and nothing more.
+    _meng = load_mengjiang()
+    if _meng:
+        for _r in _meng:
+            occ_src.append(("North China and the Yangtze valley",
+                            grow_ring(normalise_ring(_r), MENGJIANG_UNDERLAP)))
+        sys.stderr.write("occupied zone: carried under Mengchiang\n")
     if china_islands:
         boxed = []
         for label, ring in occ_src:
@@ -4700,8 +4715,18 @@ def main():
     # provinces do -- which along the coast is most places -- clipping to the
     # provinces alone left a hairline of unoccupied yellow between the shading
     # and the sea.
-    china_drawn = ("".join(pd for _, pd in province_paths("china")) + whole_union("china")
-                   or paths.get("china", ""))
+    # China's own land, and the two Inner Mongolian provinces with it. They used
+    # to be left out, which is what kept the shading off Mengchiang while the
+    # client state was *made* of them — but Mengchiang is traced now and is cut
+    # out of the occupation by a clip of its own, so leaving Chahar and Suiyuan
+    # outside this one only meant the army could not be drawn on ground it
+    # plainly held: between the client state's southern edge and the front there
+    # were bays of unoccupied yellow a hundred kilometres across that no amount
+    # of adding geometry could fill, because the clip threw it away.
+    china_drawn = "".join(pd for _, pd in province_paths("china")) + whole_union("china")
+    for _k in ("chahar", "suiyuan", "suiyuan_w"):
+        china_drawn += "".join(pd for _, pd in province_paths(_k)) + whole_union(_k)
+    china_drawn = china_drawn or paths.get("china", "")
     if china_drawn:
         out.append(f'    <clipPath id="clip-china"><path d="{china_drawn}"/></clipPath>')
     # Everything except Mengchiang. The occupation is clipped to China's land,

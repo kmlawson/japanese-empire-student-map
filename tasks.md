@@ -55,21 +55,45 @@ path under the even-odd rule, and the occupied group now carries both clips.
 They intersect, which is what is wanted — the shading stops at the coast, at the
 frontier, and at the client state's line.
 
-**The line of control follows it too**, in as much as `EXTENT_MANCHURIA` now
-takes its arc off Manchuria, Jehol and Mengchiang rather than off Manchuria,
-Jehol, Chahar and Suiyuan, and hands over to the front at Mengchiang's southern
-edge rather than at the old meridian. Mengchiang is traced and its neighbours
-are the ENP sheet's, so the two do not weld and the dissolve left the seam
-between them standing; Mengchiang is grown by a few kilometres for that one
-purpose, which is enough for the join to be swallowed. Nothing drawn uses the
-grown shape.
+**The line of control follows it too**, and getting it to took understanding why
+it would not. `EXTENT_MANCHURIA` used to be one arc taken off Manchuria, Jehol
+and Mengchiang dissolved together — but `dissolve` cancels the edges two rings
+*share*, so rings that merely overlap never merge. Mengchiang is traced and its
+neighbours are the ENP sheet's; they overlap and share nothing, and no amount of
+growing one into the other welds them (0.05, 0.12 and 0.28 degrees were each
+tried, each a no-op). The dissolved outline stayed Manchuria's alone, its
+nearest vertex to the hand-over point was 524 km away, and the perimeter ran
+there in a straight line — a 1,158-unit chord from 116.78 E 40.91 N, cutting
+clean across the client state and leaving it outside the line.
 
-**Not finished:** one dashed segment still cuts diagonally across the client
-state, from about 116.2 E 45.1 N to 118.8 E 41.3 N. It is part of the perimeter
-— checked, it is the only dashed path in that frame — but it does not respond to
-the arc's anchors or to its `via` point, and I have not found what selects it.
-The path does regenerate with each build, so it is the course being chosen and
-not a stale file. Left as it stands rather than guessed at again.
+The two rings do share one vertex exactly, at **119.595 E 46.603 N**, so the
+perimeter is built as two arcs meeting there: Manchuria-and-Jehol from 130.7 E
+42.4 N round to that vertex, then Mengchiang's own ring from it down to
+112.40 E 39.15 N, where the front through occupied China picks up. Nothing is
+grown for it, and the chord is gone.
+
+**The occupation is carried up under Mengchiang.** The two boundaries are traced
+from different sheets, so their common edge is two lines rather than one and a
+ribbon of unoccupied yellow lay between them — ground that was neither the
+client state's nor the army's, which is not a thing that existed. Mengchiang's
+own ring, grown by `MENGJIANG_UNDERLAP` (0.25°), is added to the occupied
+geometry; `clip-off-mengjiang` then takes Mengchiang itself back out, so what
+survives is exactly the ribbon and it cannot spread anywhere else. For it to
+survive at all, `clip-china` had to be widened: it was built from China proper's
+provinces alone, and the ribbon lies in Chahar and Suiyuan, so every earlier
+attempt was clipped away before it could be seen. The clip now takes `chahar`,
+`suiyuan` and `suiyuan_w` in as well. Two pockets of about 100 km across, at
+roughly 116.5 E 41 N and 114.5 E 40 N, are closed; the sampled yellow in that
+frame drops from spanning 37.3–41.5 N to 37.3–40.3 N, all of it Free China to
+the south-west, none of it between the two.
+
+**A build that never ran.** For several attempts at that ribbon the measurements
+were of a stale SVG: an edit had dropped three lines (`if china_islands:` and
+the two after it) and the build was dying with an IndentationError, which the
+probes had no way of noticing. Two approaches were judged "no effect" and one of
+them was reverted on that evidence. The rule from the earlier instance of this
+holds and is worth restating: check the build's own output before believing a
+measurement of its product.
 
 ### The islands of the South China Sea
 The Spratlys, the Paracels and Pratas, cut out of the OSM coastlines and drawn
@@ -103,7 +127,18 @@ especially since 2013, and several features are now many times the sandbank or
 reef that was there in the 1930s. Itu Aba was about 0.4 km²; Woody Island has
 roughly doubled. Where a shape looks like an island with a runway on it, that is
 the reclamation and not the period. The positions are right; the outlines are
-not.
+not. On the records themselves this is one sentence rather than the paragraph it
+started as — *"Islands are traced from present-day shapes, which does not reflect
+more recent land reclamation."* — with the long version kept on the Sources page,
+which is where a reader who wants it will look.
+
+**No ring drawn round them.** The islet ring that marks a group too small to see
+is what the reader is meant to find these by *not* having: two circles the size
+of Hainan sat over the Spratlys and the Paracels and announced them from across
+the map. `spratly`, `paracel` and `pratas` are out of `ISLET_RINGS` and
+`ONE_ISLET`, so at low zoom they are specks in open water and finding them is
+the reader's own doing. The atoms still carry their geometry and still answer to
+a pointer.
 
 ### The line of control follows the traced blocks, and one outline per shape
 **The dashed line still ran on the old hand-drawn course** where it bulges
