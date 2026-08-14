@@ -361,25 +361,6 @@ WEIHAIWEI_SEA_BOX = (121.930, 37.470, 122.330, 37.620)
 # corner: this one is checked against Issyk-Kul and Lake Balkhash, which
 # Natural Earth's Soviet Union already covers, so nothing that ought to be
 # water is being painted over.
-# Ground that no polygon covers, given to whichever of them is nearest. This is
-# for the case a seam cannot reach: a seam is a ribbon pushed from one country's
-# frontier towards another, and where three frontiers meet and none of them is
-# where the other two expect, the gap between them is not on the line from any
-# one to any other. Northern Borneo is the case — Sarawak, Brunei and North
-# Borneo come from one provider and still do not close on each other, and the
-# sea shows through in flat-topped wedges that are plainly polygon edges rather
-# than any shore.
-#
-# The rule is deliberately narrow. Only ground *enclosed* by the atoms is
-# filled: the grid is flooded inward from the edge of the window, whatever the
-# flood reaches is open water and is left alone, and only what it cannot reach
-# is a sliver. So Brunei Bay, which is real water and opens onto the sea, keeps
-# its whole shape, and a wedge shut in on every side by land does not.
-SLIVER_FILL = [
-    # window, the atoms that share it, and the grid step in degrees
-    ((114.60, 4.30, 115.90, 5.60), ("sarawak", "brunei", "northborneo"), 0.004),
-]
-
 LAND_BASE = [
     (70.0, 29.0, 83.0, 45.0),      # Karakoram, Aksai Chin, the Pamir, Dzungaria
     # Where Burma, Assam and China meet, in the eastern Himalaya. The
@@ -1544,6 +1525,38 @@ CHINA_NEIGHBOURS = ("ussr", "mongolia", "indochina", "burma", "siam", "india",
 
 SEAM_STEP = 0.015          # degrees; how finely the gap is searched
 SEAM_MAX = 0.50            # degrees; wider than this is not a seam but a hole
+
+# Except where half a degree is not a crack but a bay. A seam reaches from one
+# country's frontier until it is inside its neighbour, and where the two are
+# separated by water rather than by a disagreement it should reach nothing at
+# all — the reach is what tells a coastline from a frontier. Fifty-five
+# kilometres is a fair allowance along the Himalaya, where two hand-traced
+# lines can differ by tens of kilometres; in northern Borneo it is wider than
+# Brunei Bay, and the strips went straight across it. Measured against the
+# traced coastline, the map was drawing **10,324 sample points of sea as land**
+# in that window. Six kilometres closes the source disagreements there, which
+# are a few hundred metres, and cannot cross anything.
+SEAM_REACH = {
+    ("northborneo", "sarawak"): 0.055,
+    ("northborneo", "brunei"): 0.055,
+    ("northborneo", "dei"): 0.055,
+    ("sarawak", "brunei"): 0.055,
+    ("sarawak", "northborneo"): 0.055,
+    ("brunei", "northborneo"): 0.055,
+    ("brunei", "sarawak"): 0.055,
+    ("dei", "timor_pt"): 0.055,
+    ("dei", "northborneo"): 0.055,
+    ("dei", "sarawak"): 0.055,
+    ("dei", "brunei"): 0.055,
+    ("malaya", "siam"): 0.12,
+    ("malaya", "malaya_thai"): 0.12,
+}
+
+
+def seam_reach(mover, targets):
+    """The reach for one job: the smallest any of its pairs asks for."""
+    want = [SEAM_REACH[(mover, t)] for t in targets if (mover, t) in SEAM_REACH]
+    return min(want) if len(want) == len(targets) and want else SEAM_MAX
 SEAM_MIN_RUN = 3           # vertices; shorter runs draw a fleck, not a strip
 SEAM_ASPECT = 26.0         # a strip longer than this many times its own
                            # width is a splinter, not a seam
@@ -1776,7 +1789,7 @@ def _seam_cache_id(groups):
             return None          # cannot prove freshness, so do not cache
     h.update(repr((SEAM_STEP, SEAM_MAX, SEAM_MIN_RUN, SEAM_ASPECT, SEAM_AIM,
                    SEAM_STRIDE, SEAM_OVER, ENP_SIDE, CHINA_NEIGHBOURS,
-                   ELSEWHERE_SEAMS)).encode())
+                   ELSEWHERE_SEAMS, sorted(SEAM_REACH.items()))).encode())
     keys = set(ENP_SIDE) | set(CHINA_NEIGHBOURS)
     for mover, targets in ELSEWHERE_SEAMS:
         keys.add(mover)
@@ -1882,11 +1895,12 @@ def add_neighbour_seams(groups):
     # hand and British India is Natural Earth, and the two disagree along every
     # mile of those frontiers; the traced line is the better one, so it is India
     # that reaches. Burma and Siam are drawn from different files again.
-    jobs = [(key, groups.get(key) or [], enp) for key in CHINA_NEIGHBOURS]
+    jobs = [(key, groups.get(key) or [], enp, SEAM_MAX) for key in CHINA_NEIGHBOURS]
     for mover, targets in ELSEWHERE_SEAMS:
         want = [r for k in targets for r in groups.get(k, ())]
         if want:
-            jobs.append((mover, groups.get(mover) or [], want))
+            jobs.append((mover, groups.get(mover) or [], want,
+                         seam_reach(mover, targets)))
 
     t0 = time.perf_counter()
     if OPT.jobs > 1 and len(jobs) > 1:
@@ -1899,9 +1913,10 @@ def add_neighbour_seams(groups):
                       initargs=(OPT.flags(),)) as pool:
             results = pool.map(_seam_worker, jobs, chunksize=1)
     else:
-        results = [push_seam(rings, target) for _, rings, target in jobs]
+        results = [push_seam(rings, target, reach)
+                   for _, rings, target, reach in jobs]
 
-    for (key, _, _), strips in zip(jobs, results):
+    for (key, _, _, _), strips in zip(jobs, results):
         seams[key].extend(strips)
     out = {k: v for k, v in seams.items() if v}
     sys.stderr.write("seam search: %.1fs%s\n"
@@ -1924,8 +1939,8 @@ def _seam_worker_init(flags):
 
 
 def _seam_worker(job):
-    _key, rings, target = job
-    return push_seam(rings, target)
+    _key, rings, target, reach = job
+    return push_seam(rings, target, reach)
 
 
 def push_seam(rings, target, reach=SEAM_MAX):
@@ -4009,93 +4024,6 @@ def main():
     frame = box_planes(LON_MIN, LAT_MIN, LON_MAX, LAT_MAX)
     paths, dots, anchors, stats, hits = {}, {}, {}, [], {}
     SMALL_ATOM_AREA = 2600      # kept in step with the same name in map.js
-
-    # Slivers between polygons that ought to close on each other — see
-    # SLIVER_FILL above. Done here, after every atom has its geometry and
-    # before any of it is turned into a path.
-    for (bx0, by0, bx1, by1), keys, step in SLIVER_FILL:
-        boxed = []
-        for k in keys:
-            for ring in groups.get(k, ()):
-                xs = [p[0] for p in ring]
-                ys = [p[1] for p in ring]
-                if max(xs) < bx0 or min(xs) > bx1 or max(ys) < by0 or min(ys) > by1:
-                    continue
-                boxed.append((k, min(xs), min(ys), max(xs), max(ys), ring))
-        if not boxed:
-            continue
-        nx = int((bx1 - bx0) / step) + 1
-        ny = int((by1 - by0) / step) + 1
-        # which atom covers each cell, or None. Through the same latitude-band
-        # index the seams use, or a hundred thousand cells against a hundred
-        # thousand vertices is twenty seconds of the build.
-        tests = [(k, _ring_test([r for kk, _, _, _, _, r in boxed if kk == k]))
-                 for k in keys if any(kk == k for kk, *_ in boxed)]
-        who = [[None] * nx for _ in range(ny)]
-        for j in range(ny):
-            y = by0 + j * step
-            for i in range(nx):
-                x = bx0 + i * step
-                for k, inside in tests:
-                    if inside((x, y)):
-                        who[j][i] = k
-                        break
-        # flood inward from the window's edge: whatever this reaches is open
-        # water, and open water is not a sliver
-        open_sea = [[False] * nx for _ in range(ny)]
-        stack = []
-        for i in range(nx):
-            for j in (0, ny - 1):
-                if who[j][i] is None and not open_sea[j][i]:
-                    open_sea[j][i] = True
-                    stack.append((i, j))
-        for j in range(ny):
-            for i in (0, nx - 1):
-                if who[j][i] is None and not open_sea[j][i]:
-                    open_sea[j][i] = True
-                    stack.append((i, j))
-        while stack:
-            i, j = stack.pop()
-            for di, dj in ((1, 0), (-1, 0), (0, 1), (0, -1)):
-                a, b = i + di, j + dj
-                if 0 <= a < nx and 0 <= b < ny and who[b][a] is None \
-                        and not open_sea[b][a]:
-                    open_sea[b][a] = True
-                    stack.append((a, b))
-        # every enclosed cell goes to whichever atom is nearest to it
-        filled = collections.Counter()
-        for j in range(ny):
-            for i in range(nx):
-                if who[j][i] is not None or open_sea[j][i]:
-                    continue
-                x = bx0 + i * step
-                y = by0 + j * step
-                best, bd = None, float("inf")
-                for k, x0, y0, x1, y1, ring in boxed:
-                    if (x < x0 - 0.06 or x > x1 + 0.06
-                            or y < y0 - 0.06 or y > y1 + 0.06):
-                        continue
-                    for px, py in ring:
-                        d = (px - x) ** 2 + (py - y) ** 2
-                        if d < bd:
-                            bd, best = d, k
-                if best is None:
-                    for k, x0, y0, x1, y1, ring in boxed:
-                        for px, py in ring:
-                            d = (px - x) ** 2 + (py - y) ** 2
-                            if d < bd:
-                                bd, best = d, k
-                if not best:
-                    continue
-                h = step * 0.62      # cells overlap a little, so they merge
-                groups[best].append([(x - h, y - h), (x + h, y - h),
-                                     (x + h, y + h), (x - h, y + h)])
-                filled[best] += 1
-        if filled:
-            sys.stderr.write(
-                "slivers filled: "
-                + ", ".join(f"{k}={n}" for k, n in sorted(filled.items()))
-                + f" ({sum(filled.values())} cells of {nx * ny})\n")
 
     for key, rings in groups.items():
         merged = (dissolve(rings)
