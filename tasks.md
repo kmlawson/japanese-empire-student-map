@@ -78,12 +78,6 @@ rather than a tweak, and none of it is started.
   than what it replaced, and reverted. The honest fix remains a period source
   for the lease boundary, as the Kwangchowwan entry below says.
 
-- **Selecting Laos should light the provinces ceded to Thailand, on the 1930
-  map.** They are in the `siamgain` atom and Laos's own sub-units are in
-  `indochina`, and `clusterOf` only gathers siblings inside one atom, so
-  hovering Laos outlines the part that stayed French and nothing else. Wants a
-  cluster that can reach across atoms.
-
 - **North-west Indochina, about 102.5 E 22.4 N**: which side of the frontier a
   wedge there belongs to, and the black outline agreeing with whatever the
   answer is. Not yet traced against a period source.
@@ -152,6 +146,28 @@ rather than a tweak, and none of it is started.
 ---
 
 ## Done
+
+### A cluster can cross an atom now
+`clusterOf` gathered siblings inside one atom, and two clusters do not fit in
+one. **Laos and Cambodia** are each drawn in two — the part that stayed French,
+in `indochina`, and the part ceded to Thailand in 1941, in `siamgain` — so
+hovering Laos on the 1930 map outlined the French half and left the rest of the
+country dark, though on that date it was all one country. And the **Straits
+Settlements** are five scattered pieces in three atoms: Singapore, Penang,
+Malacca and the Dindings in Malaya, Labuan in North Borneo, Christmas Island on
+its own. The scoping had been quietly holding two of them out of their own
+colony.
+
+It searches `#land` now rather than one atom. Measured on the rendered outline:
+hovering Laos in 1930 outlines four paths where it outlined two, hovering the
+ceded strip outlines the same four, and hovering Singapore in 1930 outlines
+seven where it outlined five.
+
+The 1942 map is the other way round, and `JMAP.CLUSTER_EPOCH` says so:
+Battambang, Siem Reap, Sisophon and the trans-Mekong strips were Thailand's by
+then, and lighting them with Laos would say the opposite of what had happened.
+Hovering Laos in 1942 outlines two paths, and hovering the ceded provinces
+names them and outlines Thailand's gains instead.
 
 ### The Pacific says whose rule it was, and the Dindings leave the colony
 Three small things that had been waiting, all of them about what a label says.

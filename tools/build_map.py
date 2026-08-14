@@ -555,6 +555,15 @@ SUB_CLUSTERS = {
     ("malaya", "Dindings"): "Straits Settlements",
     ("northborneo", "Labuan"): "Straits Settlements",
     ("christmas", "Christmas Island"): "Straits Settlements",
+    # Laos and Cambodia are each drawn in two atoms: the part that stayed
+    # French, in `indochina`, and the part ceded to Thailand in 1941, in
+    # `siamgain`. On the 1930 map they were one country and hovering one half
+    # showed only that half. The 1942 map is the other way round and the
+    # ceded provinces leave the cluster there — see JMAP.CLUSTER_EPOCH.
+    ("indochina", "Laos"): "Laos",
+    ("siamgain", "Laos"): "Laos",
+    ("indochina", "Cambodia"): "Cambodia",
+    ("siamgain", "Cambodia"): "Cambodia",
 }
 
 # Saharat Thai Doem: the Shan states east of the Salween — Kengtung and part

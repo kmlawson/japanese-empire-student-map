@@ -1635,13 +1635,19 @@
     return name;
   }
 
+  /* Every sub-unit of the same cluster, wherever it is drawn. This used to
+     gather siblings inside one atom only, which meant a cluster could not
+     cross one — and two of them do. The Straits Settlements are five scattered
+     pieces in three atoms: Singapore, Penang, Malacca and the Dindings in
+     Malaya, Labuan in North Borneo, Christmas Island on its own. And Laos and
+     Cambodia are each drawn in two, the part that stayed French and the part
+     ceded to Thailand in 1941, so hovering Laos on the 1930 map lit the French
+     half and left the rest of the country dark. */
   function clusterOf(el) {
     var name = clusterName(el);
     if (!name) return null;
-    var atom = el.closest && el.closest('.atom');
-    if (!atom) return null;
     var out = [];
-    $$('[data-cluster]', atom).forEach(function (n) {
+    $$('#land [data-cluster]', svg).forEach(function (n) {
       if (clusterName(n) === name) out.push(n);
     });
     return out.length ? out : null;
