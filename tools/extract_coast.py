@@ -107,6 +107,57 @@ def chain(lines, tol=1e-9):
     return rings, open_lines
 
 
+def close_on_box(line, box):
+    """Close an open coastline against the window it was cut out of.
+
+    A mainland coast does not close on itself: it enters the window and leaves
+    it, and what makes it a polygon is the window's own edge. There are two
+    ways round and only one of them is the land, so both are built and the
+    caller says which by giving a point it knows to be ashore.
+    """
+    w, s, e, n = box
+    corners = [(w, s), (e, s), (e, n), (w, n)]
+
+    def edge_of(p):
+        x, y = p
+        if abs(y - s) <= abs(y - n) and abs(y - s) <= min(abs(x - w), abs(x - e)):
+            return 0
+        if abs(x - e) <= min(abs(y - s), abs(y - n), abs(x - w)):
+            return 1
+        if abs(y - n) <= min(abs(x - w), abs(x - e)):
+            return 2
+        return 3
+
+    a, b = line[-1], line[0]
+    ea, eb = edge_of(a), edge_of(b)
+    fwd = []
+    i = ea
+    while i != eb:
+        i = (i + 1) % 4
+        fwd.append(corners[i])
+    back = []
+    i = ea
+    while i != eb:
+        fwd_i = i
+        i = (i - 1) % 4
+        back.append(corners[fwd_i])
+    return [line + fwd, line + back]
+
+
+def point_in(ring, p):
+    x, y = p
+    inside = False
+    n = len(ring)
+    for i in range(n):
+        x0, y0 = ring[i]
+        x1, y1 = ring[(i + 1) % n]
+        if (y0 > y) != (y1 > y):
+            xx = x0 + (y - y0) * (x1 - x0) / ((y1 - y0) or 1e-12)
+            if xx > x:
+                inside = not inside
+    return inside
+
+
 def km2(ring):
     import math
     a = 0.0
@@ -118,17 +169,33 @@ def km2(ring):
 
 
 def main():
-    args = [a for a in sys.argv[1:] if a != "--as-lines"]
+    args = [a for a in sys.argv[1:]
+            if a != "--as-lines" and not a.startswith("--ashore=")]
     as_lines = "--as-lines" in sys.argv     # what the fine-coastline loader reads
     if len(args) < 3:
         sys.stderr.write(__doc__)
         return 2
     stem, out_path = args[0], args[1]
     windows = windows_from(args[2:])
+    # --ashore lon,lat marks a point known to be land, so an open mainland
+    # coast can be closed against the window on the correct side of itself
+    ashore = None
+    for a in sys.argv[1:]:
+        if a.startswith("--ashore="):
+            ashore = tuple(float(v) for v in a.split("=", 1)[1].split(","))
     hits = scan(stem, windows)
     feats = []
-    for name, _, _, _, _ in windows:
+    for name, wx0, wy0, wx1, wy1 in windows:
         rings, opens = chain(hits[name])
+        if ashore and opens:
+            for line in opens:
+                for cand in close_on_box(line, (wx0, wy0, wx1, wy1)):
+                    if len(cand) > 3 and point_in(cand, ashore):
+                        rings.append(cand)
+                        sys.stderr.write(
+                            f"{name}: one open coast closed on the window, "
+                            f"{km2(cand):.0f} km2\n")
+                        break
         rings.sort(key=km2, reverse=True)
         sys.stderr.write(
             f"{name}: {len(rings)} closed, {len(opens)} open; "

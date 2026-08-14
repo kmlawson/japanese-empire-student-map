@@ -39,19 +39,6 @@ tried, what it measured, and what would actually settle it.
   Limbang; what the map is showing is three drawings of one shore that disagree,
   and no filler can decide between them. It wants a period source for the bay.
 
-- **Guangzhouwan, the last of it**: the hull carve cuts into the mainland on
-  the north-west, one yellow island inside the leasehold survives, and there is
-  a small leak on the far south-eastern island.
-
-  Tried and reverted: **Natural Earth's coastline as a limit on the carve**,
-  put into the same even-odd path so that ground inside the hull but on
-  Natural Earth's land would be left alone. It does take the north-western
-  strip back, and it brings the whole fringe with it — a yellow rim along every
-  shore of the leasehold, because Natural Earth resolves the bay and not the
-  tidal creeks, which is the same reason it will not serve as the cutter. Worse
-  than what it replaced, and reverted. The honest fix remains a period source
-  for the lease boundary, as the Kwangchowwan entry below says.
-
 - **North-west Indochina, about 102.5 E 22.4 N**: which side of the frontier a
   wedge there belongs to, and the black outline agreeing with whatever the
   answer is. Not yet traced against a period source.

@@ -2762,6 +2762,40 @@ def ccp_zone(ring):
 # Indian Ocean that Japan shelled but never took, and which stayed Allied
 # throughout, with the wireless station that made it worth shelling.
 OUTER_ISLANDS = "outer-islands.geojson"
+
+# The coast round Guangzhou Bay, traced from the same OSM coastlines, and used
+# as a limit on the carve rather than as a shape to draw. See where the bay is
+# cut out of China, below: the leasehold's convex hull takes in a good deal of
+# the Leizhou mainland as well as the water, and this says which is which.
+# Natural Earth was tried in this role first and is the wrong instrument — it
+# resolves the bay and not the tidal creeks, so it took the mainland back and
+# brought a yellow rim along every shore of the leasehold with it. This
+# coastline resolves the creeks: 26 rings and 5,730 vertices against Natural
+# Earth's dozen-point bay.
+GZW_COAST = "guangzhouwan-coast.geojson"
+_GZW_CACHE = {}
+
+
+def load_gzw_coast():
+    """The rings of land round Guangzhou Bay, or [] if the file is absent."""
+    if _GZW_CACHE:
+        return _GZW_CACHE.get("d", [])
+    path = os.path.join(CACHE, GZW_COAST)
+    out = []
+    if os.path.exists(path):
+        try:
+            with open(path) as fh:
+                for feat in json.load(fh).get("features", []):
+                    g = feat.get("geometry") or {}
+                    if g.get("type") != "Polygon":
+                        continue
+                    ring = [(x, y) for x, y in g["coordinates"][0]]
+                    if len(ring) >= 3:
+                        out.append(ring)
+        except (OSError, ValueError):
+            sys.stderr.write(f"note: {GZW_COAST} unreadable\n")
+    _GZW_CACHE["d"] = out
+    return out
 OUTER_ATOMS = {
     # Labuan is not an atom of its own: it is a sub-unit of North Borneo, and
     # the traced rings replace the adm1 polygon there. It is in the same file
@@ -4027,6 +4061,28 @@ def main():
         for ring in groups["guangzhouwan"]:
             pieces.append(ring_to_path([project(x, y) for x, y in
                                         normalise_ring(ring)], FINE_PRECISION))
+        # The hull is convex and the leasehold is not, so it takes in a good
+        # deal of the Leizhou mainland on its north-west as well as the bay —
+        # 78 per cent more area than the leasehold's own — and all of that was
+        # being painted as sea. The traced coastline goes into the same path to
+        # say where the sea is not: a point inside the hull, outside the
+        # leasehold and on land now has an even number of rings round it under
+        # the even-odd rule, and is left alone. Clipped to the hull first,
+        # because a ring reaching outside it would be a shape of its own rather
+        # than something subtracting from it.
+        coast = load_gzw_coast()
+        if coast:
+            planes = hull_planes(hull)
+            kept = 0
+            for ring in coast:
+                cut = clip_halfplanes(normalise_ring(ring), planes)
+                if len(cut) < 3:
+                    continue
+                pieces.append(ring_to_path([project(x, y) for x, y in cut],
+                                           FINE_PRECISION))
+                kept += 1
+            sys.stderr.write(
+                f"Guangzhou Bay: {kept} coastline rings limit the carve\n")
         bay_path += "".join(pieces) if len(pieces) > 1 else ""
 
     # "occupiedzone" is a slot rather than an atom of its own — it has no
