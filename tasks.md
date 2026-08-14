@@ -7,18 +7,33 @@ describing what was actually changed, before it is marked done.
 
 ## Open — asked for and not yet done
 
-- **The slivers at Brunei Bay.** Reproduced and diagnosed, not fixed. Where
-  geoBoundaries' Sabah, Sarawak and Brunei meet, the three polygons do not
-  close on each other: at 115.36 E 5.23 N and 115.48 E 5.12 N nothing covers
-  the ground at all, and two more wedges nearby are covered only by a North
-  Borneo seam showing through the hole. The seams cannot close it — a strip
-  reaches from one country's boundary to another's, and here three boundaries
-  are involved and none of them is where the others expect. It wants either a
-  patch or a rule that fills a sliver from whichever neighbour is nearest.
+- **The slivers at Brunei Bay.** Reproduced, diagnosed twice, and it wants a
+  source. Where geoBoundaries' Sabah, Sarawak and Brunei meet, the three
+  polygons do not close on each other: at 115.36 E 5.23 N and 115.48 E 5.12 N
+  nothing covers the ground at all, and two more wedges nearby are covered only
+  by a North Borneo seam showing through the hole. The seams cannot close it — a
+  strip reaches from one country's boundary to another's, and here three
+  boundaries are involved and none of them is where the others expect.
   It is also the answer to "selecting Sarawak highlights North Borneo": it does
   not — hovering Sarawak lights only Sarawak, checked — but Sarawak's seam
   strips show through North Borneo's holes in Sarawak's colour, so part of
   North Borneo is painted Sarawak whatever the pointer does.
+
+  Two fixes were built and measured and neither is worth keeping, which is the
+  useful part of this entry.
+  **Full detail** for the three, on the theory that one line in the source was
+  being thinned into two by tolerances each atom's own span earns: at full
+  detail the wedges are the same and the two SVGs are 120 KB larger. It is not
+  simplification; the polygons genuinely do not close.
+  **A neutral base under the island**, Natural Earth's own Borneo laid
+  underneath in the neutral colour with a stroke to bridge the gaps, clipped to
+  the coastline so it could never reach the sea. It closes nothing here, because
+  **Natural Earth calls those wedges water too** — checked point by point — and
+  across the whole island it is the only cover at 34 of 18,900 sample points,
+  all of them coastline detail in southern Kalimantan. Brunei Bay is a real bay,
+  the head of it is genuinely dendritic, and Brunei is genuinely cut in two by
+  Limbang; what the map is showing is three drawings of one shore that disagree,
+  and no filler can decide between them. It wants a period source for the bay.
 
 
 These are the outstanding half of the batch of 13 August. Each is real work
@@ -54,6 +69,15 @@ rather than a tweak, and none of it is started.
 - **Guangzhouwan, the last of it**: the hull carve cuts into the mainland on
   the north-west, one yellow island inside the leasehold survives, and there is
   a small leak on the far south-eastern island.
+
+  Tried and reverted: **Natural Earth's coastline as a limit on the carve**,
+  put into the same even-odd path so that ground inside the hull but on
+  Natural Earth's land would be left alone. It does take the north-western
+  strip back, and it brings the whole fringe with it — a yellow rim along every
+  shore of the leasehold, because Natural Earth resolves the bay and not the
+  tidal creeks, which is the same reason it will not serve as the cutter. Worse
+  than what it replaced, and reverted. The honest fix remains a period source
+  for the lease boundary, as the Kwangchowwan entry below says.
 
 - **Selecting Laos should light the provinces ceded to Thailand, on the 1930
   map.** They are in the `siamgain` atom and Laos's own sub-units are in
