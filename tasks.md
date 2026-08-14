@@ -49,9 +49,8 @@ rather than a tweak, and none of it is started.
 - **Miangas**, from the same file, Dutch East Indies in 1930 and Japanese in
   1942, with a note from the Island of Palmas arbitration of 1928.
 
-- **Labuan** to the Straits Settlements, with the date of its incorporation on
-  the label, and the same for Christmas Island. A better shape for Labuan from
-  the same file if the present one will not do.
+- **A better shape for Labuan**, from the OSM coastlines file, if the present
+  one will not do. Its label now carries the dates (below); the shape does not.
 
 - **Cocos (Keeling)**, if it is inside the frame — 96.85 E, 12.15 S, and the
   frame's south-west corner is 66 E, 13 S, so it is, barely. Straits
@@ -101,19 +100,6 @@ rather than a tweak, and none of it is started.
   residue of the cut, the dissolve and the path rounding each moving a vertex a
   little; closing them properly means giving the leasehold the parent ring's
   own vertices rather than a clipped copy of them.
-
-- **The Pacific labels want a sovereignty line of their own.** They currently
-  end with the territory record, which carries the sovereignty inside a longer
-  name — "South Seas Mandate", "New Guinea (Papua & the Mandated Territory)".
-  A separate line saying plainly what it was — Japanese mandate, British
-  colony, Australian territory, American territory — would read better than
-  parsing it out of the name.
-
-- **The Dindings were a Straits Settlement until 1935 only**, retroceded to
-  Perak on 16 February that year. The map still calls them one in December
-  1942, and they light with Singapore on that date. The shape is fixed (below);
-  this is the remaining half of it, and it wants an epoch override on the
-  sub-unit's name and its membership of the cluster.
 
 - **A starburst of thin lines in the Johor Strait**, about 103.60 E, 1.47 N,
   visible without hovering anything. It is an unnamed leftover path inside
@@ -166,6 +152,35 @@ rather than a tweak, and none of it is started.
 ---
 
 ## Done
+
+### The Pacific says whose rule it was, and the Dindings leave the colony
+Three small things that had been waiting, all of them about what a label says.
+
+**A sovereignty line in the Pacific.** An atoll in the Carolines answered with
+its name, its group, and then "South Seas Mandate" — which carries the
+sovereignty inside a longer phrase and leaves the reader to parse out whose it
+was. `rule` is a line of its own under the country: *Japanese mandate*, *British
+colony*, *American territory*, *British protectorate*, *Mandate — Australia,
+Britain and New Zealand*. Twenty records carry it, ten for each date, and the
+1942 ones say what had happened to them: *American territory under Japanese
+occupation* for Guam and Wake, *British colony under Japanese occupation* for
+the Gilberts. It shows in the tooltip and in the detail card, and only where
+there is a sub-unit to be the headline — a country hovered on its own is
+already answering for itself.
+
+**The Dindings leave the Straits Settlements in 1942.** They were a Settlement
+from 1826 and were retroceded to Perak on 16 February 1935, and the name already
+said so on the 1942 map; what still happened was that hovering them lit
+Singapore, Penang and Malacca, because the cluster is written into the SVG and
+the SVG serves both dates. `JMAP.CLUSTER_EPOCH` says which cluster a sub-unit
+belongs to on a given date, and `clusterOf` reads it. Measured on the rendered
+outline: hovering the Dindings outlines five paths in 1930 and the country's own
+fifteen in 1942, and hovering Singapore outlines five in 1930 and four in 1942 —
+the Dindings being the one that left.
+
+**Labuan and Christmas Island carry their dates.** Labuan reads "a Crown colony
+from 1848, attached to the Straits Settlements in 1907", and Christmas Island
+"annexed 1900, a Straits Settlement from 1900 and run from Singapore".
 
 ### Aksai Chin and the Pamir were drawn as ocean
 The northern top of India and the western end of Sinkiang are the same fault in

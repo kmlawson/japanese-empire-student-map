@@ -724,6 +724,10 @@ button.plain:hover { background: #f2ede2; }
    scripts; the country underneath is plainer, being context. */
 #tooltip .sub.alt-script { color: #f0d9a8; }
 #tooltip .sub.prov { color: #d8cfbf; }
+/* What kind of rule that country's name stands for, where the name alone does
+   not say it plainly: an atoll in the Carolines answered "South Seas Mandate"
+   and left the reader to work out whose. Quieter than the name above it. */
+#tooltip .sub.rule { color: #b9b0a1; }
 /* a note that belongs to the sub-unit rather than to the country */
 #tooltip .sub.prov-note { color: #cfc6b6; font-style: italic; max-width: 24rem; }
 

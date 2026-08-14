@@ -1618,15 +1618,31 @@
      around them were protectorates that were never British soil. */
   var hotCluster = null;
 
-  function clusterOf(el) {
+  /* A cluster is written into the SVG and the SVG serves both dates, so a
+     sub-unit that left its cluster between them needs saying here. The
+     Dindings are the case: a Straits Settlement from 1826 and retroceded to
+     Perak on 16 February 1935, so on the 1942 map they are Perak and lighting
+     them with Singapore is simply wrong. */
+  function clusterName(el) {
     if (!el || !el.getAttribute) return null;
     var name = el.getAttribute('data-cluster');
+    if (!name) return null;
+    var atom = el.closest && el.closest('.atom');
+    var key = (atom ? atom.id.replace(/^a-/, '') : '') + '/' +
+              (el.getAttribute('data-prov') || '');
+    var over = (JMAP.CLUSTER_EPOCH || {})[state.epoch];
+    if (over && Object.prototype.hasOwnProperty.call(over, key)) return over[key];
+    return name;
+  }
+
+  function clusterOf(el) {
+    var name = clusterName(el);
     if (!name) return null;
     var atom = el.closest && el.closest('.atom');
     if (!atom) return null;
     var out = [];
     $$('[data-cluster]', atom).forEach(function (n) {
-      if (n.getAttribute('data-cluster') === name) out.push(n);
+      if (clusterName(n) === name) out.push(n);
     });
     return out.length ? out : null;
   }
@@ -1819,6 +1835,17 @@
       pv.className = 'sub prov';
       pv.textContent = [nameOf(rec)].concat(otherNames(rec) || []).join('  ');
       tooltip.appendChild(pv);
+      // What the country line does not say plainly. In the Pacific the name
+      // carries the sovereignty inside it — "South Seas Mandate", "Papua & the
+      // Territory of New Guinea" — and a reader looking at one atoll in the
+      // Carolines has to parse it out of a phrase. `rule` says it in three
+      // words: Japanese mandate, British colony, Australian territory.
+      if (rec.rule) {
+        var rl = document.createElement('span');
+        rl.className = 'sub rule';
+        rl.textContent = rec.rule;
+        tooltip.appendChild(rl);
+      }
     } else {
       var second = state.lang === 'en' ? rec.ja : rec.en;
       if (second && second !== nameOf(rec)) {
@@ -2062,6 +2089,8 @@
     $('.alt', infoBox).textContent = others.join('  ·  ');
     // and the country underneath, with every name it answers to
     var owner = sub ? [nameOf(rec)].concat(otherNames(rec) || []).join('  ') : '';
+    // and, where the name alone does not say it, what kind of rule that was
+    if (owner && rec.rule) owner += '  ·  ' + rec.rule;
     $('.prov', infoBox).textContent = owner;
     $('.prov', infoBox).hidden = !owner;
     $('.when', infoBox).textContent = rec.date || rec.when || '';
