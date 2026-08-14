@@ -328,23 +328,31 @@ button.plain:hover { background: #f2ede2; }
    bridged by the stroke on either side of it and comes out as a straight line
    across the bay. At six pixels the outline of Manchukuo cut every small bay
    off its Soviet frontier and read as a visibly coarser line than the fill it
-   was tracing. Three, and it follows the coast. */
+   was tracing. Three, and it follows the coast.
+
+   The widths carry 1.3 more than the line they draw, because the mask is now
+   stroked at 1.3 as well as filled — that is what closes the cracks between
+   two atoms of one country, so that hovering China does not rule Manchuria and
+   Jehol off inside it — and a wider mask eats half its own width off the
+   visible outer half. 3.3 and 3.7 leave 2 and 2.4 showing, which is what these
+   were before. Measured: the change moves 4,213 pixels inside China and 3,133
+   on its outer edge, and the compensation is for the second of those. */
 #highlight .hi-territory path,
 #highlight .hi-territory circle {
   stroke: rgba(40, 33, 24, .8);
-  stroke-width: 2;
+  stroke-width: 3.3;
 }
 
 #highlight .hi-province path,
 #highlight .hi-province circle {
   stroke: rgba(30, 24, 16, .7);
-  stroke-width: 2;
+  stroke-width: 3.3;
 }
 
 #highlight .hi-selected path,
 #highlight .hi-selected circle {
   stroke: #14110c;
-  stroke-width: 2.4;
+  stroke-width: 3.7;
 }
 
 .site.sel .dot {

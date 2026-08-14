@@ -244,6 +244,11 @@
     // — except one that is only drawn when that layer is on, which cannot be
     // named while it is not there.
     if (rec.kind === 'territory') {
+      // A province drawn as a territory of its own so that it can be named —
+      // Manchuria, Jehol, Chahar and Suiyuan, Sinkiang — is not a country and
+      // must not be labelled as one while the Administrative layer is off. On
+      // that switch it is part of China and nothing else.
+      if (rec.within && !state.cats.territory) return false;
       return rec.lvl <= labelLevel() && (!rec.adminOnly || state.cats.territory);
     }
     // The context cities are two hundred names, and at the opening view they
@@ -1578,6 +1583,14 @@
     if (!rec) return null;
     if ((rec.kind === 'site' || rec.kind === 'browse' || rec.kind === 'gaz')
         && !siteVisible(rec)) return null;
+    // Unless the Administrative layer is on, the whole of China is one unit.
+    // Manchuria, Jehol, Chahar and Suiyuan and Sinkiang are drawn as
+    // territories of their own only so that each can be named when divisions
+    // are being shown; with that switch off they are provinces of the Republic
+    // and answer as it — one name, one outline, no line between them.
+    if (rec.within && !state.cats.territory && byId[rec.within]) {
+      rec = byId[rec.within];
+    }
     return { rec: rec, el: el };
   }
 
@@ -1672,6 +1685,16 @@
     if (rec && rec.lights) {
       rec.lights.forEach(function (other) {
         (atomsOf[other] || []).forEach(function (el) {
+          if (els.indexOf(el) < 0) els.push(el);
+        });
+      });
+    }
+    // and anything that says it is part of this one, so the relation only has
+    // to be written once and on the part rather than on the whole
+    if (id) {
+      territories().forEach(function (t) {
+        if (t.within !== id) return;
+        (atomsOf[t.id] || []).forEach(function (el) {
           if (els.indexOf(el) < 0) els.push(el);
         });
       });
@@ -2022,7 +2045,18 @@
       var circles = el.tagName === 'path' ? []
         : $$('circle:not(.islet-hit):not(.islet):not(.superseded)', el);
       paths.concat(circles).forEach(function (shape) {
-        var solid = copyOf(shape, { fill: '#000' });
+        // Stroked as well as filled, and at the width the atoms themselves are
+        // stroked. Two atoms of one territory abut without quite meeting — the
+        // 1.3 stroke on the atom is what closes that crack in the fill — and a
+        // mask built from the fills alone leaves the crack open, so hovering a
+        // country whose atoms are several drew a hairline down every join
+        // inside it. China is the case a reader sees: with the Administrative
+        // layer off it is one unit, and it was coming up with Manchuria, Jehol
+        // and Chahar ruled off inside it.
+        var solid = copyOf(shape, {
+          fill: '#000', stroke: '#000', 'stroke-width': 1.3,
+          'stroke-linejoin': 'round', 'vector-effect': 'non-scaling-stroke',
+        });
         if (clip) solid.setAttribute('clip-path', clip);
         mask.appendChild(solid);
         stroked(shape, clip);
