@@ -42,14 +42,6 @@ rather than a tweak, and none of it is started.
 - **A better shape for Labuan**, from the OSM coastlines file, if the present
   one will not do. Its label now carries the dates (below); the shape does not.
 
-- **A fine coastline set for Singapore and its islands**, on the same terms as
-  the Ryukyus and the Pacific: fetched only on a deep zoom into that window,
-  carrying the metadata and colours over.
-
-- **A fine set for Ulleung and the Liancourt Rocks**, with their Korean and
-  Japanese names, Japanese-held on both dates, with a note on the dispute
-  today.
-
 - **Guangzhouwan, the last of it**: the hull carve cuts into the mainland on
   the north-west, one yellow island inside the leasehold survives, and there is
   a small leak on the far south-eastern island.
@@ -125,6 +117,37 @@ rather than a tweak, and none of it is started.
 ---
 
 ## Done
+
+### Fine coastlines for Singapore and for Ulleung and the Liancourt Rocks
+Two more windows in the fine layer, fetched on a deep zoom like the rest.
+**Singapore** brings 33 islands — the island itself at 658 km², Pulau Tekong,
+Pulau Ubin, Sentosa, the southern islands and the strait between them and Johor.
+**Ulleung** brings five: Ulleungdo at 73.7 km², Jukdo, Gwaneumdo, and the two
+islets of the Liancourt Rocks at 0.09 and 0.07 km². Both were inside the
+Japanese empire on both dates — Ulleungdo as part of Chōsen, the Rocks
+incorporated into Shimane prefecture in 1905, five years before the annexation
+of Korea — so the map draws them one colour and the argument is about now.
+
+The geometry comes from the same 876,182-line coastline file, through
+`tools/extract_coast.py --as-lines`, and the names from a hand-written index in
+the Overpass shape the build already reads. The fine file grows 551 KB to 561.
+
+Two things in `map.js` had to give way, and both were wrong before this:
+
+**A fine island names itself whether or not the Administrative layer is on.**
+`provinceAt` let a sub-unit through only when its atom carried `data-islands` —
+which the Ryukyu and Pacific atoms do and Korea and Malaya do not — so hovering
+Ulleungdo with the layer off answered "Chōsen" and nothing else. An island is a
+place, not an administrative division, and naming one has nothing to do with a
+switch about provinces.
+
+**And what data.js says about a fine island now reaches the reader.**
+`provinceOf` built its record out of the shape's own attributes and returned it
+without ever looking in `JMAP.PROVINCES` — so the entries written for the
+Senkaku islands were never being read, and the note about the dispute was not
+appearing on them either, though the task list has said it was since it was
+written. The record is merged now, checked on Uotsurijima as well as on the
+Liancourt Rocks.
 
 ### Four island groups the map had no shape for
 The Turtle and Mangsee Islands, Miangas and the Cocos (Keeling) Islands, traced

@@ -1546,7 +1546,14 @@
     // of that corner of the map whether or not divisions are switched on
     var own = got.el && got.el.getAttribute
       && got.el.getAttribute('data-cluster') === 'Straits Settlements';
-    if (!state.cats.territory && !own &&
+    // A fine coastline is a place, not an administrative division. The Ryukyu
+    // and Pacific atoms carry `data-islands` and so have always named their
+    // islands with the layer off; Ulleungdo and Singapore's islands are in
+    // atoms that do not, and there is no sense in which naming an island
+    // should wait on a switch about provinces.
+    var fine = got.el && got.el.classList
+      && got.el.classList.contains('fine');
+    if (!state.cats.territory && !own && !fine &&
         !(atom && atom.getAttribute('data-islands'))) {
       return null;
     }
@@ -1770,6 +1777,16 @@
                   parent: target.getAttribute('data-parent') || '',
                   region: target.getAttribute('data-region') || '' };
       if (head === grp) own.ja = target.getAttribute('data-group-ja') || '';
+      // An island the map has something of its own to say about. The shape
+      // carries the name OSM gives it; data.js carries the Korean form, the
+      // period name, and the note — that the Liancourt Rocks are disputed
+      // today, that Jurong Island was made by joining seven smaller ones in
+      // 1995 and is not a shape of this period at all. Keyed on the name the
+      // shape carries, so nothing has to be said twice.
+      var said = key && (JMAP.PROVINCES || {})[key];
+      if (said) {
+        Object.keys(said).forEach(function (k) { own[k] = said[k]; });
+      }
       return { key: key || own.ja || grp, rec: own, el: target };
     }
     if (!key) return null;

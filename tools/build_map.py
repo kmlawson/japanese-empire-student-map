@@ -2935,6 +2935,8 @@ ADMIN0 = {
     "Palau": "nanyo", "Federated States of Micronesia": "nanyo",
     "Marshall Islands": "nanyo", "Northern Mariana Islands": "nanyo",
     "Nauru": "nauru_au",
+    "Singapore and its islands": "malaya",
+    "Ulleung and the Liancourt Rocks": "korea",
     "Guam": "guam",
     "Kiribati": "gilberts",
     "Pakistan": "india", "Bangladesh": "india",
@@ -4492,6 +4494,9 @@ def main():
 # nothing that could be drawn is lost.
 FINE_FILES = [
     ("japanese-home-islands-islands.geojson", ["osm-islands-japan.json"]),
+    # Two windows the map had no fine coastline for, traced with
+    # tools/extract_coast.py rather than fetched as a bulk extract.
+    ("outer-fine-islands.geojson", ["osm-islands-outer.json"]),
     ("pacific-islands-se-islands.geojson", [
         "osm-islands-marianas.json",
         "osm-islands-palau.json",
@@ -4546,6 +4551,12 @@ FINE_GROUPS = [
     ("Solomon Islands", "", 155.00, -12.60, 163.50, -4.80),
     ("Gilbert Islands", "", 171.50, -3.50, 178.50, 4.50),
     ("Nauru", "", 166.60, -0.90, 167.20, -0.30),
+    # Singapore and its islands, and Ulleung with the Liancourt Rocks. Both
+    # were Japanese-held on both of this map's dates — Singapore from February
+    # 1942, Ulleung as part of Chōsen and the Liancourt Rocks as part of Shimane
+    # prefecture since 1905 — and both are places a reader zooms into.
+    ("Singapore and its islands", "昭南島", 103.55, 1.13, 104.15, 1.50),
+    ("Ulleung and the Liancourt Rocks", "鬱陵島・竹島", 130.70, 37.20, 131.95, 37.70),
     # Wake, which Japan renamed Ōtorishima after taking it in December 1941.
     # The base map draws it from eight points traced by hand because Natural
     # Earth does not carry the atoll at all; the survey has it in 876.
@@ -4585,6 +4596,8 @@ FINE_GROUP_ATOM = {
     "Louisiade Archipelago": "newguinea_au",
     "Gilbert Islands": "gilberts",
     "Nauru": "nauru_au",
+    "Singapore and its islands": "malaya",
+    "Ulleung and the Liancourt Rocks": "korea",
     "Ocean Island": "gilberts",
     "Wake Island": "wake",
     # The Solomons are the one group whose islands do not share an atom. In

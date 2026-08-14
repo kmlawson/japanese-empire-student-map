@@ -118,11 +118,13 @@ def km2(ring):
 
 
 def main():
-    if len(sys.argv) < 4:
+    args = [a for a in sys.argv[1:] if a != "--as-lines"]
+    as_lines = "--as-lines" in sys.argv     # what the fine-coastline loader reads
+    if len(args) < 3:
         sys.stderr.write(__doc__)
         return 2
-    stem, out_path = sys.argv[1], sys.argv[2]
-    windows = windows_from(sys.argv[3:])
+    stem, out_path = args[0], args[1]
+    windows = windows_from(args[2:])
     hits = scan(stem, windows)
     feats = []
     for name, _, _, _, _ in windows:
@@ -133,11 +135,15 @@ def main():
             f"largest {km2(rings[0]):.3f} km2\n" if rings else
             f"{name}: nothing\n")
         for r in rings:
+            coords = [list(p) for p in r] + [list(r[0])]
             feats.append({
                 "type": "Feature",
                 "properties": {"group": name, "km2": round(km2(r), 4)},
-                "geometry": {"type": "Polygon",
-                             "coordinates": [[list(p) for p in r] + [list(r[0])]]},
+                # The fine-coastline loader in build_map.py reads lines and
+                # closes them itself; the atom loader reads polygons.
+                "geometry": ({"type": "LineString", "coordinates": coords}
+                             if as_lines else
+                             {"type": "Polygon", "coordinates": [coords]}),
             })
     with open(out_path, "w") as fh:
         json.dump({"type": "FeatureCollection", "features": feats}, fh)

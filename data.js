@@ -1861,6 +1861,31 @@ JMAP.PROVINCES = {
      OSM names separately — and an islet that answers with a bare name while the
      group beside it explains the dispute is the map contradicting itself. Each
      carries the same note. */
+  /* Ulleung and the Liancourt Rocks. Both were inside the Japanese empire on
+     both of this map's dates — Ulleungdo as part of Chōsen, the Liancourt
+     Rocks incorporated into Shimane prefecture in 1905 — so the map draws them
+     one colour and the argument is about now, not then. Korean first here,
+     because these are Korean-administered today and the Korean names are what
+     a reader will meet. */
+  'Ulleungdo': { en: 'Ulleungdo (Utsuryō-tō) — part of Chōsen', ja: '鬱陵島 (Utsuryō-tō)', ko: '울릉도 (Ulleungdo)',
+    note: 'The largest island off the east coast of Korea, and the base from which Korean and Japanese fishermen worked the Liancourt Rocks 87 km to the south-east.' },
+  'Jukdo': { en: 'Jukdo (Chikuyo) — off Ulleungdo', ja: '竹嶼 (Chikuyo)', ko: '죽도 (Jukdo)' },
+  'Gwaneumdo': { en: 'Gwaneumdo (Kannondō) — off Ulleungdo', ja: '觀音島 (Kannondō)', ko: '관음도 (Gwaneumdo)' },
+  'Seodo, the west islet of the Liancourt Rocks': {
+    en: 'Seodo (Nishijima) — the west islet of the Liancourt Rocks',
+    ja: '西島 (Nishijima)', ko: '서도 (Seodo)',
+    note: 'Dokdo to Korea, Takeshima to Japan, the Liancourt Rocks to everyone else. Japan incorporated them into Shimane prefecture in 1905, five years before it annexed Korea, so on both of this map’s dates they were inside the same empire as Ulleungdo and nothing turned on the difference. South Korea has held them with a police detachment since 1954; Japan claims them still.' },
+  'Dongdo, the east islet of the Liancourt Rocks': {
+    en: 'Dongdo (Higashijima) — the east islet of the Liancourt Rocks',
+    ja: '東島 (Higashijima)', ko: '동도 (Dongdo)',
+    note: 'Dokdo to Korea, Takeshima to Japan, the Liancourt Rocks to everyone else. Japan incorporated them into Shimane prefecture in 1905, five years before it annexed Korea, so on both of this map’s dates they were inside the same empire as Ulleungdo and nothing turned on the difference. South Korea has held them with a police detachment since 1954; Japan claims them still.' },
+  'Singapore (Pulau Ujong)': { en: 'Singapore (Pulau Ujong) — Shōnantō from February 1942', ja: '昭南島 (Shōnantō)', orig: 'Pulau Ujong',
+    note: 'The island itself, as distinct from the Settlement. Japan renamed it Shōnantō, "light of the south", on 16 February 1942, the day after the surrender.' },
+  'Sentosa (Pulau Blakang Mati)': { en: 'Sentosa (Pulau Blakang Mati)', orig: 'Pulau Blakang Mati',
+    note: 'A garrison island guarding the western approach, with the coastal batteries at Fort Siloso — the guns that faced the wrong way in the accounts, though they were turned and fired north in February 1942.' },
+  'Jurong Island — reclaimed from seven islands after 1995': {
+    en: 'Jurong Island — reclaimed from seven islands after 1995',
+    note: 'Not a shape of this period at all: the coastline drawn here is the modern one, and this island was made by joining seven smaller ones from 1995. It is on the map because the coastline source is a modern one; see Sources.' },
   'Uotsuri Shima': { en: 'Uotsurijima — the largest of the Senkaku / Diaoyu Islands', ja: '魚釣島 (Uotsurijima)', zh: '釣魚島',
     note: 'Claimed today by Japan, by the People’s Republic of China and by Taiwan; uninhabited, and administered by Japan.' },
   'Kuba-shima': { en: 'Kubajima — in the Senkaku / Diaoyu Islands', ja: '久場島 (Kubajima)', zh: '黃尾嶼',

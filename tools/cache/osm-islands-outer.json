@@ -1,0 +1,25 @@
+{"elements": [
+ {"type":"relation","tags":{"place":"island","name":"울릉도","name:ko":"울릉도","name:ja":"鬱陵島","name:en":"Ulleungdo"},
+  "bounds":{"minlat":37.4520,"minlon":130.7930,"maxlat":37.5530,"maxlon":130.9400}},
+ {"type":"way","tags":{"place":"island","name":"죽도","name:ko":"죽도","name:ja":"竹嶼","name:en":"Jukdo"},
+  "bounds":{"minlat":37.5250,"minlon":130.9330,"maxlat":37.5330,"maxlon":130.9430}},
+ {"type":"way","tags":{"place":"island","name":"관음도","name:ko":"관음도","name:ja":"觀音島","name:en":"Gwaneumdo"},
+  "bounds":{"minlat":37.5400,"minlon":130.9180,"maxlat":37.5470,"maxlon":130.9260}},
+ {"type":"way","tags":{"place":"island","name":"서도","name:ko":"서도","name:ja":"西島","name:en":"Seodo, the west islet of the Liancourt Rocks"},
+  "bounds":{"minlat":37.2390,"minlon":131.8620,"maxlat":37.2450,"maxlon":131.8680}},
+ {"type":"way","tags":{"place":"island","name":"동도","name:ko":"동도","name:ja":"東島","name:en":"Dongdo, the east islet of the Liancourt Rocks"},
+  "bounds":{"minlat":37.2370,"minlon":131.8670,"maxlat":37.2420,"maxlon":131.8730}},
+
+ {"type":"relation","tags":{"place":"island","name":"Singapore","name:en":"Singapore (Pulau Ujong)","name:ms":"Pulau Ujong"},
+  "bounds":{"minlat":1.2350,"minlon":103.6050,"maxlat":1.4720,"maxlon":104.0000}},
+ {"type":"way","tags":{"place":"island","name":"Pulau Tekong","name:en":"Pulau Tekong"},
+  "bounds":{"minlat":1.3780,"minlon":103.9900,"maxlat":1.4400,"maxlon":104.0900}},
+ {"type":"way","tags":{"place":"island","name":"Pulau Ubin","name:en":"Pulau Ubin"},
+  "bounds":{"minlat":1.3950,"minlon":103.9370,"maxlat":1.4260,"maxlon":103.9860}},
+ {"type":"way","tags":{"place":"island","name":"Sentosa","name:en":"Sentosa (Pulau Blakang Mati)"},
+  "bounds":{"minlat":1.2440,"minlon":103.8090,"maxlat":1.2620,"maxlon":103.8400}},
+ {"type":"way","tags":{"place":"island","name":"Pulau Bukom","name:en":"Pulau Bukom"},
+  "bounds":{"minlat":1.2320,"minlon":103.7630,"maxlat":1.2470,"maxlon":103.7790}},
+ {"type":"way","tags":{"place":"island","name":"Jurong Island","name:en":"Jurong Island — reclaimed from seven islands after 1995"},
+  "bounds":{"minlat":1.2400,"minlon":103.6500,"maxlat":1.2900,"maxlon":103.7400}}
+]}
