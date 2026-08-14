@@ -1540,6 +1540,14 @@ SEAM_MAX = 0.50            # degrees; wider than this is not a seam but a hole
 # in that window. Six kilometres closes the source disagreements there, which
 # are a few hundred metres, and cannot cross anything.
 SEAM_REACH = {
+    # The other way: the Pamir and the Tien Shan. The ENP sheet's Sinkiang is
+    # the coarse half of a coarse source — its interior and frontier lines run
+    # 9 to 12 km out of place, which is measured in Sources — and Natural
+    # Earth's Soviet Union is much the better line there. The ground between
+    # them is China's up to the Soviet border, so it is Sinkiang that reaches,
+    # and it needs a hundred kilometres to do it.
+    ("xinjiang", "ussr"): 0.9,
+    ("xinjiang", "other"): 0.9,
     ("northborneo", "sarawak"): 0.055,
     ("northborneo", "brunei"): 0.055,
     ("northborneo", "dei"): 0.055,
@@ -1592,6 +1600,14 @@ ELSEWHERE_SEAMS = (
     ("indochina", ("siam", "siamgain", "burma")),
     ("siamgain", ("indochina", "siam")),
     ("ussr", ("mongolia", "tuva", "korea")),
+    # And back the other way along the Sinkiang frontier. The Soviet Union
+    # already reaches China, but the reach only closes a gap from the side it
+    # starts on, and along the Pamir and the Tien Shan the two sources part
+    # company by more than one strip can carry: five hundred sample points in
+    # eighty thousand had neither country on them, and showed as ragged neutral
+    # ground on the Soviet side of the line. With both sides reaching, they
+    # meet.
+    ("xinjiang", ("ussr", "other")),
     ("mongolia", ("tuva", "ussr")),
     ("malaya", ("malaya_thai", "siam")),
     ("dei", ("timor_pt", "northborneo", "sarawak", "brunei")),
@@ -1898,11 +1914,16 @@ def add_neighbour_seams(groups):
     # hand and British India is Natural Earth, and the two disagree along every
     # mile of those frontiers; the traced line is the better one, so it is India
     # that reaches. Burma and Siam are drawn from different files again.
-    jobs = [(key, groups.get(key) or [], enp, SEAM_MAX) for key in CHINA_NEIGHBOURS]
+    def mover_rings(key):
+        rs = groups.get(key) or []
+        step = SEAM_DENSIFY.get(key)
+        return [densify(r, step) for r in rs] if step else rs
+
+    jobs = [(key, mover_rings(key), enp, SEAM_MAX) for key in CHINA_NEIGHBOURS]
     for mover, targets in ELSEWHERE_SEAMS:
         want = [r for k in targets for r in groups.get(k, ())]
         if want:
-            jobs.append((mover, groups.get(mover) or [], want,
+            jobs.append((mover, mover_rings(mover), want,
                          seam_reach(mover, targets)))
 
     t0 = time.perf_counter()

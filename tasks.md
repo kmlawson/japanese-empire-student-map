@@ -32,6 +32,40 @@ answer, the source that would settle it is named at the foot of this file.
 
 ## Done
 
+### The ragged grey on the Sinkiang frontier
+Not contested territory — a source disagreement, and the map was showing it as
+ragged neutral ground on the Soviet side of the line. Measured at three
+hundredths of a degree over 80,100 sample points in that window, **500 of them
+had no country on them at all**.
+
+The cause is the ENP sheet, whose interior and frontier lines run 9 to 12 km out
+of place — that is measured under the Sources entry — and which gives the whole
+of Sinkiang **84 vertices**. A seam is pushed outward from the mover's own
+vertices, so a boundary drawn with that few has almost nothing to push: a search
+that should have carried Sinkiang out to the Soviet line produced eight strips.
+
+`SEAM_DENSIFY` splits the long edges before the search — no shape is added,
+every new point lying on the line it came from — and `SEAM_REACH` gives that
+pair the hundred kilometres the disagreement actually spans. Sinkiang reaches
+Afghanistan as well as the Soviet Union, the third party at the Pamir knot.
+**Uncovered sample points fall from 500 to 288, and the neutral colour in the
+rendered frame from 3,045 pixels to 2,251** — the frontier reads as a line
+instead of a row of blobs, and most of what is left is the Afghan wedge, which
+is Elsewhere and ought to be.
+
+One patch survives, at about 74.1 E 39.8 N, where the gap is wider than any
+strip the aspect and run guards will pass. Halving the densify step changes
+nothing there, so it is the guards and not the vertex count. What would settle
+it is a better frontier for Sinkiang than the ENP sheet's.
+
+Two things were built for this and thrown away. A grid fill that gave every
+uncovered inland cell to the nearest country **added 1,424 rings and 81 KB to
+Sinkiang and changed the drawing not at all** — the cells went into `groups`,
+and the shape actually drawn for an atom of that kind comes from its province
+list or its filler. Adding them to all three did make them appear, and by then
+it was 3,750 squares standing in for a frontier, which is not a boundary but a
+staircase. The seam does the same work as a ribbon.
+
 ### Cocos is Allied, and the ceded provinces stop wearing a band
 Three reports in the same batch, and the first two turned out to be one thing.
 
