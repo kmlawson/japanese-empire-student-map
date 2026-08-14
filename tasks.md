@@ -32,6 +32,88 @@ answer, the source that would settle it is named at the foot of this file.
 
 ## Done
 
+### Labuan is an island again, and the seams stop crossing Brunei Bay
+Reported as two things — Labuan joined to the mainland, and a mess along the
+North Borneo frontier — and they are one fault. Measured against the traced
+coastline over 89,700 sample points in that window, the map was drawing
+**10,324 points of sea as land.**
+
+It is the seams. A seam reaches from one country's frontier until it is inside
+its neighbour, and the reach is what tells a coastline from a frontier: a vertex
+that cannot reach anything within `SEAM_MAX` gets no strip. Half a degree is a
+fair allowance along the Himalaya, where two hand-traced lines differ by tens of
+kilometres. In northern Borneo it is **wider than Brunei Bay**, so the strips
+went straight across the water and filled it in — and Labuan, three kilometres
+off the Klias peninsula, was welded to it.
+
+`SEAM_REACH` gives a pair its own reach. The Borneo three and the Indies get
+0.055° — six kilometres, which closes the source disagreements there, measured
+in hundreds of metres, and cannot cross anything. Sea drawn as land falls from
+**10,324 sample points to 1,195**; land drawn as sea rises from 135 to 365,
+which is the strips no longer covering the genuine cracks, and is the trade.
+
+**The sliver fill is reverted.** It was written earlier the same day to close
+those cracks by giving uncovered cells to the nearest atom, with a flood inward
+from the window edge to spare open water. The flood is not reliable at grid
+resolution — a channel two kilometres wide can be closed off by cells that
+straddle it, and the water behind it is then "enclosed" and gets filled. It was
+not the cause of this report, but it is the same class of mistake and it bought
+little: enclosed ocean fell from 2,452 pixels to 1,298, against a rule that can
+drown a strait. Brunei Bay goes back to wanting a period source, as it did.
+
+### Hovering occupied China froze the map
+Reported as a crash on the 1942 map, and it was not far off one: at the opening
+view, where the whole occupied zone is on screen, moving the pointer onto it
+hung the renderer outright — driven from outside the page, the call never
+returned inside three minutes.
+
+`outlineOf` made one stroked copy per shape, and the occupied zone is **722
+traced rings in as many children**. Each copy carries a mask reference and a
+clip reference, so one hover asked the compositor for **755 masked, clipped
+layers**, every one of which has to rasterise when the whole zone is in view.
+The other atoms it is used on are a handful of shapes each, which is why nothing
+else showed it and why it arrived with the traced occupation.
+
+Every path of one element is now outlined as a single path: a stroke over the
+concatenation of the subpaths is the same stroke as the union of the strokes,
+and the mask solid concatenates the same way, so it is the same picture drawn in
+two elements instead of 1,444. **755 outline paths become 4, and the hover
+completes in 131 ms.**
+
+### With the Administrative layer off, China is one unit
+Hovering Jehol on the 1930 map named Jehol and outlined Jehol, when with
+divisions switched off the whole of China — Manchuria, Jehol, Chahar and
+Suiyuan, Sinkiang — should answer as one country. Two faults, and both had to go.
+
+**The record.** Those five are drawn as territories of their own so that each
+can be *named*; China's record already listed them in `lights`, so hovering
+China lit all of them, but the relation ran one way and hovering a part lit and
+named the part. `within: 'china'` says it on the part instead, and three things
+read it: `recordFor` substitutes the whole while the layer is off, so the name,
+the note and the outline are China's; `litFor` lights anything that says it is
+within the hovered thing; and `labelVisible` refuses to label a part as a
+country, which is what put "Rèhé (Jehol)" on the map beside "China".
+
+On the 1942 map the same word does the same work for Sinkiang, which was Free
+China's on that date and shares its colour — and Manchukuo and Mengchiang stay
+separate, as they must, being different polities. Checked on both dates: **seven
+atoms lit and China's name from all five places with the layer off, each naming
+itself again with it on**, Tibet outside it throughout.
+
+**The hairline down every join.** With that fixed the country lit as one and
+still came up ruled off inside, a one-pixel line along each boundary between its
+atoms — visible only while it was hovered, which is what gave it away. The
+outline is a stroke with the shape's own mask cut out of it, and the mask was
+built from the fills alone; two atoms of one territory abut without quite
+meeting, and the 1.3 stroke on the atom is what closes that crack in the fill.
+The mask is stroked at the same 1.3 now.
+
+That widens the mask by half its stroke and takes the same off the visible
+outline, so the highlight widths carry 1.3 more to compensate — 3.3 and 3.7
+where they were 2 and 2.4. Measured on the rendered frame: **33,052 outline
+pixels against 33,254 before**, 0.6 per cent apart, with 4,213 pixels of
+internal join gone.
+
 ### Labuan is drawn from its coastline
 The adm1 polygon for Labuan is a fan of thin spikes and wedges at any depth of
 zoom rather than an island — the Johor fault again, in a place small enough that
