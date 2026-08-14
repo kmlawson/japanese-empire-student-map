@@ -526,8 +526,40 @@
   var gazRecs = [];
   var GAZ_R = [2.5, 3.4, 4.4, 5.8];      // small, medium, large, largest
 
+  /* What the browse layer knew and the gazetteer does not. The CSVs carry a
+     name, a position, a size and a capital mark; the 170 context cities in
+     data.js carry a Japanese reading for 131 of them, a Chinese form for 102,
+     and nine notes — Trincomalee's fleet base, the Burma Road railhead at
+     Lashio, the oil at Tarakan. Every one of those 170 ids is in the gazetteer
+     under the same id, so the two are merged rather than one replacing the
+     other: the dot is the gazetteer's and everything said about the place is
+     both. Without this, standing the browse layer down lost all of it. */
+  function gazEnrich(c) {
+    var b = browseById[c.id];
+    if (b) {
+      ['ja', 'zh', 'ko', 'orig'].forEach(function (k) {
+        if (!c[k] && b[k]) c[k] = b[k];
+      });
+      if (b.note) c.extra = b.note;
+    }
+    // and the quiz sites, 51 of which are the same place under the same id.
+    // Their names only: what a site's note and date say is about the event it
+    // is a marker for, and the marker itself is drawn over the dot to say it.
+    var s = siteById[c.id];
+    if (s) {
+      ['ja', 'zh', 'ko', 'orig'].forEach(function (k) {
+        if (!c[k] && s[k]) c[k] = s[k];
+      });
+    }
+  }
+
+  var browseById = {};
+  var siteById = {};
+
   function buildGazetteer() {
     if (!JMAP.GAZ) return;
+    (JMAP.BROWSE || []).forEach(function (b) { browseById[b.id] = b; });
+    (JMAP.SITES || []).forEach(function (s) { if (s.cat === 'city') siteById[s.id] = s; });
     gazGroup = svgEl('g', { id: 'gaz' });
     svg.insertBefore(gazGroup, markersGroup);
     Object.keys(JMAP.GAZ).forEach(function (epoch) {
@@ -565,7 +597,12 @@
         c.when = c.c === 2 ? 'Capital of ' + (c.of || 'the territory')
           : c.c === 1 ? 'Provincial capital' + (c.of ? ' — ' + c.of : '')
           : '';
-        c.note = [c.when, c.p].filter(Boolean).join(' · ');
+        gazEnrich(c);
+        // "Capital of British India · British India" says it twice; the polity
+        // is dropped when the capital line has already named it.
+        c.note = [c.when,
+                  (c.p && (!c.when || c.when.indexOf(c.p) < 0)) ? c.p : '',
+                  c.extra].filter(Boolean).join(' · ');
         gazRecs.push(c);
         elById[c.rid] = g;
         sitePos[c.rid] = p;

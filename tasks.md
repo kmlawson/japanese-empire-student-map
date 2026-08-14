@@ -146,6 +146,25 @@ rather than a tweak, and none of it is started.
 
 ## Done
 
+### Nothing the browse layer knew about a city was lost
+Checked rather than assumed, and something had been lost. The gazetteer CSVs
+carry a name, a position, a size and a capital mark, and standing the browse
+layer down took with it everything else data.js knew about those 170 places:
+**131 Japanese readings, 102 Chinese forms and nine notes** — Trincomalee's
+fleet base, the railhead of the Burma Road at Lashio, the oil at Tarakan, the
+summer capital at Simla, Sabang at the head of Sumatra.
+
+Every one of the 170 browse ids is in the gazetteer under the same id, so the two
+are merged rather than one replacing the other: the dot is the gazetteer's and
+what is said about the place is both. The 51 quiz sites that are the same place
+under the same id give their names too — their notes and dates are not taken,
+being about the event the marker stands for, and the marker is drawn over the dot
+to say so. The 1930 set now carries 180 Japanese readings and 148 Chinese forms
+where it carried none, and all nine notes are back.
+
+The capital line no longer repeats the polity after itself: Delhi read "Capital
+of British India · British India · Capital of the Raj from 1911".
+
 ### Kengtung has its Thai stripes, and no shading grows with the zoom
 Two faults, and the second is the one behind "a diagonal line running out into
 the ocean".
