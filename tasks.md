@@ -33,8 +33,14 @@ answer, the source that would settle it is named at the foot of this file.
 ## Done
 
 ### A link carries the view and the layers
-`?bbox=120.9034,24.4977,122.3034,25.6816&layers=3j` — the ground that was on
-screen and what was switched on. The address bar rewrites itself as you pan,
+`?bbox=120.9,24.5,122.3,25.68&layers=3j` — the ground that was on screen and
+what was switched on. Two decimal places, and the reasoning for it is worth
+keeping because I first got it wrong in the other direction: the map is 140°
+wide and `MAX_ZOOM` is 100, so the closest a reader can get is a view 1.4°
+across, and a hundredth of a degree is 0.7% of that — six pixels on a phone,
+three as a placement error once it is rounded rather than truncated. I had
+written four places on the belief that a hundredth was "most of the screen at
+the far end of the zoom", which is off by two orders of magnitude. The address bar rewrites itself as you pan,
 zoom and toggle, on a 400 ms timer and through `replaceState`, because
 `applyView` runs on every frame of a pan and a history entry per frame would
 make the back button useless. Copying the address bar is the share.

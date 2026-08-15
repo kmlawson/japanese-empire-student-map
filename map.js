@@ -978,7 +978,7 @@
   /* A link carries what is on the screen and what is switched on: no more, and
    * in as few characters as will hold it.
    *
-   *   ?bbox=120.9034,24.4977,122.3034,25.6816&layers=3j
+   *   ?bbox=120.9,24.5,122.3,25.68&layers=3j
    *
    * The box is the ground the sharer could see, in degrees. It is not the
    * viewport — those differ by phone and by window, and asking for the same
@@ -1053,13 +1053,17 @@
     };
   }
 
-  /* West, south, east, north. Four decimal places is about eleven metres,
-     which is finer than the deepest zoom can show; two was not — at the far
-     end of the zoom a hundredth of a degree is most of the screen. */
+  /* West, south, east, north, to two decimal places. The link says roughly
+     where to look, and two places is finer than "roughly" needs: the map is
+     140 degrees wide and MAX_ZOOM is 100, so the closest the reader can get is
+     a view 1.4 degrees across, and a hundredth of a degree is 0.7% of that —
+     about six pixels on a phone, and half that as a placement error once it is
+     rounded rather than truncated. Anything finer is decimal places nobody can
+     see, in a URL somebody has to paste. */
   function viewBox() {
     var a = unproject(view.x, view.y);                       // north-west
     var b = unproject(view.x + view.w, view.y + view.h);     // south-east
-    var r = function (v) { return Math.round(v * 10000) / 10000; };
+    var r = function (v) { return Math.round(v * 100) / 100; };
     return [r(a.lon), r(b.lat), r(b.lon), r(a.lat)];
   }
 
