@@ -32,6 +32,69 @@ answer, the source that would settle it is named at the foot of this file.
 
 ## Done
 
+### A link carries the view and the layers
+`?bbox=120.9034,24.4977,122.3034,25.6816&layers=3j` — the ground that was on
+screen and what was switched on. The address bar rewrites itself as you pan,
+zoom and toggle, on a 400 ms timer and through `replaceState`, because
+`applyView` runs on every frame of a pan and a history entry per frame would
+make the back button useless. Copying the address bar is the share.
+
+**The box, not the viewport.** Screens differ; asking for the same viewport on a
+different one gives a different piece of the world. The box is *contained* —
+whoever opens the link sees at least everything the sharer saw, and on a
+differently-shaped screen a margin of sea besides. Checked by sharing from
+1200×860 and reopening at 1200×860, 430×900 and 1600×700: the reopened box
+covers the shared one every time, the phone paying for it in latitude
+(−72.7…84.0 against −33.0…68.7) and the wide desktop in longitude.
+
+**Longitudes are not wrapped**, and getting that wrong cost a round trip.
+`project` wraps: a longitude west of `lonMin` is taken to mean the same meridian
+a turn later, which is right for placing a country and wrong for a box. The
+opening view overhangs the drawing's western edge by four degrees, so its west
+edge normalised to −158.2 and reprojected to *east* of its own east edge; the
+link reopened 12.6° adrift. The box is written in the map's own frame instead,
+running east from `lonMin` and never wrapped, so an east coordinate can read
+201.8 rather than −158.2 — the same meridian, and one that survives the trip.
+
+**The layers are one base-36 number**, two characters now and never more than
+three: ten bits is 1,023 and three base-36 digits hold 46,655. Bit 0 is the
+year, 1–3 the three buttons, 4 place names, 5 the line of control, 6 the rivers,
+7 the Republic's provinces, 8–9 the detail level. The code is always written,
+never dropped as a default: the opening state is not zero, because the line of
+control and the rivers start on, and inverting two bits to make a tidier address
+bar would not be worth the next person's confusion. Read before the controls are
+built, so a shared year and its layers are what the map is *drawn* with rather
+than something switched on afterwards in front of the reader.
+
+### The backings are not a filler when Administrative is off — a correction
+I reported that the backings are "completely covered by the atoms on top" and
+that cutting them would take three quarters off the raster cost of a pan. That
+is true with the Administrative layer **on** and false with it **off**, which is
+the default and how most readers see the map.
+
+An atom whose divisions live in the deferred administrative file is an empty
+group until that file is fetched. With Administrative off, **19 drawn
+territories have no geometry of their own** — China, India, Japan, Korea, Tibet,
+Sinkiang, Manchuria, Jehol, Chahar, Suiyuan and its western strip, Siam, Burma,
+Saharat, Indochina, the ceded provinces, Sarawak, Brunei and the Dutch East
+Indies. For all of those the backing *is* the country. Detaching the layer
+empties the map, which is what it did.
+
+With Administrative on the list is empty: every atom has its provinces and the
+backing is genuinely underneath. Measured on a 390×844 viewport at 4× CPU:
+
+| | backings on | backings off |
+|---|---|---|
+| Administrative off | 2,490 ms | 620 ms — *and most of the map goes* |
+| Administrative on | 3,164 ms | 1,366 ms — *and nothing visibly goes* |
+
+So the 75% is the cost of drawing the world once, not of drawing it twice. The
+redundancy is real only in the Administrative-on case, and it is 57% there. The
+lever is not "cut the backings"; it is that with Administrative off the whole
+map is drawn from one set of full-resolution country outlines, and those
+outlines are what a pan is paying for. The panel says all of this now, and
+counts the 19 for whatever epoch and layer state you are in.
+
 ### An admin panel, fetched only by whoever asks for it
 Option-click (alt-click) **Layers** and `admin.js` is fetched and a panel opens
 down the right-hand side. Nothing in `index.html` refers to it, and a reader who

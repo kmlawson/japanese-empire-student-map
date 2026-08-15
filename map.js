@@ -357,6 +357,11 @@
     buildAtomHits();
 
     JMAP.SITES.forEach(function (s) { s.kind = 'site'; });
+    // Before the controls are built, so a shared link's year and layers are
+    // what the map is drawn with rather than something switched on afterwards
+    // in front of the reader.
+    var shared = readUrl();
+
     buildMarkers();
     buildSiteLabels();
     buildEpochControl();
@@ -367,7 +372,8 @@
 
     composeEpoch();
     applyState();
-    view = defaultView();
+    view = (shared && viewForBox(shared[0], shared[1], shared[2], shared[3]))
+      || defaultView();
     applyView(true);
 
     // A student arriving cold sees a map, some rows of buttons and no words.
@@ -382,6 +388,14 @@
     // would ever name itself until the page was reloaded and the race fell the
     // other way.
     if (state.cats.territory) loadAdmin();
+    // The Republic's provinces, if the link asked for them. setProvinceSource
+    // fetches the file and re-applies itself when it arrives, so it can be
+    // called before anything has been grafted.
+    if (urlProvSource === 'roc') {
+      var rocRadio = $('#prov-roc');
+      if (rocRadio) rocRadio.checked = true;
+      setProvinceSource('roc');
+    }
 
     // The admin panel, if it was open when the page was last left. Without
     // this its settings would not survive a reload, and comparing a pan with
@@ -959,6 +973,150 @@
     return { x0: a.x, y0: a.y, x1: z.x, y1: z.y };
   }
 
+  /* --------------------------------------------------- shareable links -- */
+
+  /* A link carries what is on the screen and what is switched on: no more, and
+   * in as few characters as will hold it.
+   *
+   *   ?bbox=105.23,17.81,142.66,45.02&layers=1f
+   *
+   * The box is the ground the sharer could see, in degrees. It is not the
+   * viewport — those differ by phone and by window, and asking for the same
+   * viewport on a different screen gives a different piece of the world. The
+   * box is *contained*: whoever opens the link sees at least everything the
+   * sharer saw, and on a differently-shaped screen a margin of sea besides.
+   *
+   * The layers are one base-36 number, so two characters today and never more
+   * than three — ten bits is 1,023, and three base-36 digits hold 46,655. The
+   * bits, lowest first:
+   *
+   *   0  the year is Dec 1942 (clear: 1930)
+   *   1  cities            4  place names        7  provinces from the
+   *   2  events            5  line of control       Republic's 1947 set
+   *   3  administrative    6  rivers                (clear: period sources)
+   *   8,9  detail level, 1 to 3, stored one less
+   *
+   * The opening state is not zero — the line of control and the rivers start
+   * on — so the code is always written rather than dropped when it looks like
+   * a default. Bits that read backwards to save two characters in the address
+   * bar would not be worth the next person's confusion.
+   */
+  var LAYER_FLAGS = [
+    function () { return state.epoch !== JMAP.DEFAULT_EPOCH; },
+    function () { return !!state.cats.city; },
+    function () { return !!state.cats.battle; },
+    function () { return !!state.cats.territory; },
+    function () { return !!state.labels; },
+    function () { return !!state.extent; },
+    function () { return !!state.rivers; },
+    function () { return provSource === 'roc'; },
+  ];
+
+  function layerCode() {
+    var bits = 0;
+    LAYER_FLAGS.forEach(function (on, i) { if (on()) bits |= (1 << i); });
+    bits |= ((Math.min(3, Math.max(1, state.level)) - 1) & 3) << 8;
+    return bits.toString(36);
+  }
+
+  function applyLayerCode(code) {
+    var bits = parseInt(code, 36);
+    if (!isFinite(bits) || bits < 0) return;
+    var epochs = JMAP.EPOCHS ? JMAP.EPOCHS.map(function (e) { return e.id; }) : [];
+    var other = epochs.filter(function (id) { return id !== JMAP.DEFAULT_EPOCH; })[0];
+    if ((bits & 1) && other) state.epoch = other;
+    state.cats.city = !!(bits & 2);
+    state.cats.battle = !!(bits & 4);
+    state.cats.territory = !!(bits & 8);
+    state.labels = !!(bits & 16);
+    state.extent = !!(bits & 32);
+    state.rivers = !!(bits & 64);
+    state.level = ((bits >> 8) & 3) + 1;
+    urlProvSource = (bits & 128) ? 'roc' : 'enp';
+  }
+
+  var urlProvSource = null;      // applied once the administrative file is in
+
+  /* Longitude in the map's own frame, running east from `lonMin` and never
+     wrapped. `project` wraps — anything west of `lonMin` is taken to mean the
+     same meridian a turn later, which is right for placing a country and wrong
+     here: the opening view overhangs the drawing's western edge by a few
+     degrees, and wrapping those put the box's west edge out past its east.
+     Unwrapped, an east coordinate can read 201.8 rather than -158.2. It is the
+     same meridian and it round-trips, which -158.2 did not. */
+  function xForLon(lon) { return (lon - proj.lonMin) * proj.pxPerDeg; }
+
+  function unproject(x, y) {
+    return {
+      lon: proj.lonMin + x / proj.pxPerDeg,
+      lat: (Math.atan(Math.exp((proj.yTop - y) / proj.R)) - Math.PI / 4) * 360 / Math.PI,
+    };
+  }
+
+  /* West, south, east, north. Four decimal places is about eleven metres,
+     which is finer than the deepest zoom can show; two was not — at the far
+     end of the zoom a hundredth of a degree is most of the screen. */
+  function viewBox() {
+    var a = unproject(view.x, view.y);                       // north-west
+    var b = unproject(view.x + view.w, view.y + view.h);     // south-east
+    var r = function (v) { return Math.round(v * 10000) / 10000; };
+    return [r(a.lon), r(b.lat), r(b.lon), r(a.lat)];
+  }
+
+  /* The view that contains a box, whatever shape the window is. */
+  function viewForBox(w, s, e, n) {
+    var ax = xForLon(w), zx = xForLon(e);
+    // a box written the other way round, as one crossing the date line would
+    // be if it were ever normalised, is still meant to be read west to east
+    if (zx < ax) zx += 360 * proj.pxPerDeg;
+    var a = project(0, n), z = project(0, s);
+    var x0 = Math.min(ax, zx), x1 = Math.max(ax, zx);
+    var y0 = Math.min(a.y, z.y), y1 = Math.max(a.y, z.y);
+    if (!(x1 > x0) || !(y1 > y0)) return null;
+    var c = containerSize();
+    var aspect = c.w / c.h;
+    var vw = Math.min(Math.max(x1 - x0, (y1 - y0) * aspect), fitView().w);
+    var vh = vw / aspect;
+    return clampView({ x: (x0 + x1) / 2 - vw / 2, y: (y0 + y1) / 2 - vh / 2,
+                       w: vw, h: vh });
+  }
+
+  /* Written with replaceState and on a timer: applyView runs on every frame of
+     a pan, and a history entry per frame would make the back button useless
+     and the address bar flicker. */
+  var urlTimer = 0;
+  function scheduleUrl() {
+    if (!proj || !view) return;
+    if (urlTimer) window.clearTimeout(urlTimer);
+    urlTimer = window.setTimeout(writeUrl, 400);
+  }
+
+  function writeUrl() {
+    urlTimer = 0;
+    if (!proj || !view || !window.history || !history.replaceState) return;
+    try {
+      var q = new URLSearchParams(window.location.search);
+      q.set('bbox', viewBox().join(','));
+      q.set('layers', layerCode());
+      history.replaceState(null, '',
+        window.location.pathname + '?' + q.toString() + window.location.hash);
+    } catch (err) { /* older browser; the map does not depend on this */ }
+  }
+
+  /* Read once, before anything is composed, so the layers are right the first
+     time the map is drawn rather than switched on in front of the reader. */
+  function readUrl() {
+    var q;
+    try { q = new URLSearchParams(window.location.search); } catch (err) { return null; }
+    var code = q.get('layers');
+    if (code) applyLayerCode(code);
+    var raw = q.get('bbox');
+    if (!raw) return null;
+    var n = raw.split(',').map(Number);
+    if (n.length !== 4 || n.some(function (v) { return !isFinite(v); })) return null;
+    return n;
+  }
+
   /* The opening view. A landscape screen is close enough in shape to the map
    * to frame everything in play. A phone held upright is not: fitting the
    * whole Pacific into a tall, narrow window leaves a postage stamp adrift in
@@ -1035,6 +1193,7 @@
     clampView(view);
     svg.setAttribute('viewBox',
       round(view.x) + ' ' + round(view.y) + ' ' + round(view.w) + ' ' + round(view.h));
+    scheduleUrl();
     var home = defaultView();
     // Once the islands are worth looking at rather than merely locating, drop
     // the rings. Measured against the opening view and not against the map's
@@ -2344,6 +2503,7 @@
   /* ----------------------------------------------------- applying state -- */
 
   function applyState() {
+    scheduleUrl();
     var quizzing = state.mode === 'quiz';
     var showLabels = state.labels && !quizzing;
     // The switch drew nothing. Sub-units take their atom's fill *and* stroke,

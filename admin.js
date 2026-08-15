@@ -212,10 +212,14 @@
 
   TOOLS.push({
     title: 'Backings',
-    hint: 'The filler under each atom that keeps a crack between two provinces ' +
-          'from showing as sea. Half the path data in the file and about three ' +
-          'quarters of the raster cost of a pan. Off, they are detached from the ' +
-          'document, so a pan is measuring the map without them.',
+    hint: 'Natural Earth’s outline of each country, in a layer under the atoms. ' +
+          'Half the path data in the file. With Administrative <b>on</b> it is a ' +
+          'filler — the provinces are drawn over it and it only shows through the ' +
+          'cracks between them. With Administrative <b>off</b> the provinces have ' +
+          'not been fetched, so for China, India, Japan, Korea, Siam, Burma, ' +
+          'Indochina, the Indies and a dozen more the backing <b>is</b> the ' +
+          'country, and switching it off empties the map. Off, they are detached ' +
+          'from the document, so a pan measures the map without them.',
     build: function (sec) {
       var group = svg.querySelector('#backings');
       var anchor = document.createComment('backings');
@@ -251,8 +255,30 @@
                Math.round(chars / 1024) + ' KB of path data';
       }
 
+      /* How many countries on screen would go with them — an atom whose
+         divisions are still in the administrative file has no shape of its
+         own, and its backing is all there is. */
+      function leaning() {
+        var n = 0;
+        var atoms = svg.querySelectorAll('.atom');
+        for (var i = 0; i < atoms.length; i++) {
+          var a = atoms[i];
+          if (a.style.display === 'none') continue;
+          var own = a.tagName === 'path' ? 1
+            : a.querySelectorAll('path:not(.superseded)').length;
+          if (!own && backingFor(a)) n++;
+        }
+        return n;
+      }
+
+      function backingFor(atom) {
+        var g = detached || svg.querySelector('#backings');
+        return g && g.querySelector('[data-for="' + atom.id.replace(/^a-/, '') + '"]');
+      }
+
       function apply(on) {
         var live = svg.querySelector('#backings');
+        var lean = leaning();
         if (!on && live) {
           live.parentNode.insertBefore(anchor, live);
           detached = live.parentNode.removeChild(live);
@@ -261,8 +287,10 @@
           anchor.parentNode.removeChild(anchor);
           detached = null;
         }
-        out.textContent = measure() + (on ? '' : '\ndetached — cracks between ' +
-          'provinces will show as sea, which is what they are there to stop');
+        out.textContent = measure() + (on ? '\n' + lean +
+          ' drawn territories have no shape but this one' :
+          '\ndetached — ' + lean + ' territories went with them; turn ' +
+          'Administrative on and they are drawn from their provinces instead');
         setting('backings', on);
       }
 
