@@ -189,6 +189,22 @@ distinction — the rings are for the Pacific, and over the Indies and the
 Philippines they are clutter — and these two were on the wrong side of it. The
 islands still draw, and the record still names itself under a pointer.
 
+**And the rings that remain go much sooner.** They were dropped at
+`view.w < mapW / 5` — measured by wheeling in from the opening view, they
+survived to **5.6× the opening width**, which is well past the point where the
+Gilberts and the Carolines are large enough to point at and the rings have
+become marks on the sea. They go at **1.6×** now: at the opening view and for
+about three notches of the wheel past it, and no further.
+
+Measured against the opening view rather than the map's full width, which is the
+part that took thinking about. `mapW` is the whole drawing; the opening view is
+not — a phone opens cropped to the empire and a wide desktop opens on the
+hemisphere, so the same fraction of `mapW` is a different amount of zooming on
+each. The question the threshold is asking is how far in the reader has come, so
+it asks it of `defaultView()`, which `applyView` was already calling for the
+reset button. Checked at 1200 and 430 px wide: rings at the opening view on
+both, gone by 1.78× on both.
+
 ### The line of control follows the traced blocks, and one outline per shape
 **The dashed line still ran on the old hand-drawn course** where it bulges
 inland to take in the coastal enclaves: the shading beneath it had had the real

@@ -1013,13 +1013,23 @@
     clampView(view);
     svg.setAttribute('viewBox',
       round(view.x) + ' ' + round(view.y) + ' ' + round(view.w) + ' ' + round(view.h));
-    // once the islands themselves are big enough to see, drop the rings
-    svg.classList.toggle('zoomed-in', view.w < mapW / 5);
+    var home = defaultView();
+    // Once the islands are worth looking at rather than merely locating, drop
+    // the rings. Measured against the opening view and not against the map's
+    // full width: a phone opens cropped to the empire and a wide desktop opens
+    // on the whole hemisphere, and "how far in has the reader come" is the
+    // question, not "how much of the world fits".
+    //
+    // The rings are for the reader who has not gone looking yet — zoomed out,
+    // or barely in. Half a turn of the wheel past the opening view and the
+    // Gilberts and the Carolines are large enough to point at, while the rings
+    // are still the size they always are and now read as marks on the sea.
+    svg.classList.toggle('zoomed-in', view.w < home.w / 1.6);
     // it resets the view, so at the opening view there is nothing for it to do
     // and it looked like a dead button; say so instead
     var rst = $('#zoom-reset');
     if (rst) {
-      var atHome = Math.abs(view.w - defaultView().w) < 0.5;
+      var atHome = Math.abs(view.w - home.w) < 0.5;
       rst.classList.toggle('idle', atHome);
       rst.setAttribute('aria-disabled', atHome ? 'true' : 'false');
     }
