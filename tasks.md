@@ -59,10 +59,33 @@ with the dashed line of control drawn round the outside of that.
 It turns out to have been doing no work at all. What closed the ribbon was the
 other half of that fix, widening `clip-china` to admit Chahar and Suiyuan;
 without it, nothing added there could be drawn at all, which is why the grow
-looked necessary. With the clip widened, the underlap is removed and the
-boundary sampled at four places — west, south-west, south and east: no Free
-China yellow between the client state and the army anywhere, and the spill
-gone. The constant and its code are deleted rather than zeroed.
+looked necessary. The constant and its code are deleted rather than zeroed.
+
+**But the widened clip was itself too wide, and that was the rest of the band.**
+Letting Chahar and Suiyuan into `clip-china` whole let the occupation be drawn
+anywhere in them, and the army's sheet and the client state's disagree about
+Mengchiang's edges in *both* directions:
+
+- **East and south-east**, the army's sheet reaches further and the ground
+  between the two lines is enclosed — Mengchiang on one side, Jehol and
+  Manchukuo on the other, the occupation below. Drawn as Free China that was a
+  bay of unoccupied yellow inside a region held all the way round. Letting the
+  provinces in was for this.
+- **West and south-west**, the army's sheet also reaches further, but there the
+  ground beyond is open Free China — Fu Tso-yi's, and the Ordos. The same
+  licence drew a band of army shading along the outside of the client state's
+  own frontier, with the line of control round the outside of that.
+
+So the provinces come in through **two windows** rather than whole:
+`MENG_POCKETS`, the enclosed ground east of Mengchiang towards Jehol and
+south-east of it above Peking, each province ring cut to the box with
+`clip_halfplanes`. Measured by sampling the rendered colour over three views:
+the western frontier loses **6,357 cells of army salmon** and gains 6,512 of
+Free China yellow, while the eastern and southern pockets change by 102 and 202
+cells out of 176,000 and 219,000 — that is, not at all — and still hold **no
+Free China yellow whatever**. The client state's own line is the better
+authority where it faces open country; the army's sheet is the better authority
+where the ground between them is enclosed.
 
 ### A link carries the view and the layers
 `?bbox=120.9,24.5,122.3,25.68&layers=3j` — the ground that was on screen and

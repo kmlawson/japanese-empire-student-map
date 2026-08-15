@@ -4710,17 +4710,48 @@ def main():
     # provinces do -- which along the coast is most places -- clipping to the
     # provinces alone left a hairline of unoccupied yellow between the shading
     # and the sea.
-    # China's own land, and the two Inner Mongolian provinces with it. They used
-    # to be left out, which is what kept the shading off Mengchiang while the
-    # client state was *made* of them — but Mengchiang is traced now and is cut
-    # out of the occupation by a clip of its own, so leaving Chahar and Suiyuan
-    # outside this one only meant the army could not be drawn on ground it
-    # plainly held: between the client state's southern edge and the front there
-    # were bays of unoccupied yellow a hundred kilometres across that no amount
-    # of adding geometry could fill, because the clip threw it away.
+    # China's own land, and two windows of Inner Mongolia besides.
+    #
+    # Chahar and Suiyuan used to be left out of this clip altogether, which is
+    # what kept the shading off Mengchiang while the client state was *made* of
+    # them. Mengchiang is traced now and is cut out of the occupation by a clip
+    # of its own, so they were let in whole — and that was too much. The
+    # occupation is traced from a 1940 US Army sheet and Mengchiang from a
+    # different one, and the two disagree about the client state's edges in
+    # both directions:
+    #
+    #  * East and south-east of Mengchiang the army's sheet reaches further, and
+    #    the ground between the two lines is enclosed — Mengchiang on one side,
+    #    Jehol and Manchukuo on the other, the occupation below. Drawn as Free
+    #    China it was a bay of unoccupied yellow a hundred kilometres across
+    #    inside a region held all the way round, which is not a thing that
+    #    existed. That is what letting the provinces in was for.
+    #
+    #  * West and south-west of it the army's sheet also reaches further, but
+    #    there the ground beyond is open Free China — Fu Tso-yi's, and the Ordos
+    #    — and the same licence drew a band of army shading along the outside of
+    #    the client state's own frontier, with the line of control round the
+    #    outside of that.
+    #
+    # So the provinces come in through two windows and not as a whole. The boxes
+    # are the enclosed ground, measured off the render by testing the occupied
+    # geometry point by point against Mengchiang's and the provinces' — 268
+    # cells in the eastern pocket and 126 in the southern one, against 73 in the
+    # two western bands, which no box admits.
+    MENG_POCKETS = [
+        (116.15, 40.20, 117.60, 41.70),   # east of Mengchiang, towards Jehol
+        (114.80, 39.50, 115.85, 40.45),   # south-east of it, above Peking
+    ]
     china_drawn = "".join(pd for _, pd in province_paths("china")) + whole_union("china")
     for _k in ("chahar", "suiyuan", "suiyuan_w"):
-        china_drawn += "".join(pd for _, pd in province_paths(_k)) + whole_union(_k)
+        _rings = (backing.get(_k)
+                  or [r for _, rs in provinces.get(_k, []) for r in rs])
+        for _w, _s, _e, _n in MENG_POCKETS:
+            _planes = box_planes(_w, _s, _e, _n)
+            for _r in _rings:
+                _cut = clip_halfplanes(normalise_ring(_r), _planes)
+                if len(_cut) >= 3:
+                    china_drawn += ring_to_path([project(x, y) for x, y in _cut])
     china_drawn = china_drawn or paths.get("china", "")
     if china_drawn:
         out.append(f'    <clipPath id="clip-china"><path d="{china_drawn}"/></clipPath>')
