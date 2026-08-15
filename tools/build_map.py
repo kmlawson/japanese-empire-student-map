@@ -3377,7 +3377,6 @@ ORDER = [
     "jehol", "manchuria",
     "siam", "burma", "saharat", "indochina", "siamgain", "malaya", "malaya_thai", "sarawak", "northborneo", "brunei",
     "dei", "philippines", "christmas", "spratly", "paracel", "pratas", "turtle", "mangsee", "miangas", "cocos",
-    "spratly", "paracel", "pratas",
     "timor_pt", "newguinea_au", "solomons_br", "australia", "gilberts",
     "nauru_au", "guam", "wake", "hawaii", "aleutians", "aleutians_jp", "hongkong", "macau",
     "solomons_gc", "solomons_us", "solomons_ml", "solomons_al",

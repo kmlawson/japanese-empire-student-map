@@ -2017,6 +2017,25 @@
     els = els.filter(function (e) {
       return !(e.classList && e.classList.contains('superseded'));
     });
+    // A backing is not the shape either. It is Natural Earth's outline of the
+    // same country, drawn underneath an atom's sub-units so that a crack
+    // between two of them shows the country and not the sea — a different
+    // source from the sub-units, whose coast lies a few pixels off theirs. In
+    // `atomsOf` so that it lights with its territory, it was also being
+    // stroked, and the two coastlines read as one line drawn twice: British
+    // Borneo hovered came up with a second outline just outside Brunei's own,
+    // parallel to it and the width of the disagreement between the two sources
+    // away. It fills; it does not describe.
+    //
+    // The exception is an atom whose divisions are still in the administrative
+    // file. That is an empty group, and its backing is the only shape it has —
+    // the same case the hatching has to make an exception for.
+    els = els.filter(function (e) {
+      if (!e.parentNode || e.parentNode.id !== 'backings') return true;
+      var atom = atomEls[e.getAttribute('data-for')];
+      if (!atom) return true;
+      return !(atom.tagName === 'path' ? 1 : $$('path:not(.superseded)', atom).length);
+    });
     if (!layer || !els.length || !hiDefs) return;
     var owned = ownedDefs[layer === subOutlineLayer ? 'sub' : 'hi'];
     var id = 'mask-' + (++maskSeq);

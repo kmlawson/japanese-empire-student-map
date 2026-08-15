@@ -32,6 +32,47 @@ answer, the source that would settle it is named at the foot of this file.
 
 ## Done
 
+### The outline stopped being drawn twice
+Hovering British Borneo came up with a second line just outside Brunei's own,
+running parallel to it a few pixels away — the same shape drawn twice from two
+sources that do not agree.
+
+The second line was the **backing**. Under every atom whose sub-units come from
+a provincial source there is a filler, `whole_union(key)`, because adjacent
+sub-units share an edge in the source, lose it to being simplified one ring at a
+time, and open a hairline of ocean between them; the filler is drawn underneath
+in the same colour so that a crack shows the country instead of the sea. It is
+**Natural Earth's outline of the country**, deliberately a different source from
+the sub-units, and its coast lies a couple of pixels off theirs.
+
+`composeEpoch` puts it in `atomsOf` so that it lights when its territory does,
+and `atomsOf` is also what the silhouette is built from — so it was being
+stroked alongside the atoms. British Borneo hovered handed `outlineOf` six
+shapes for four atoms: Sarawak, North Borneo and Brunei each arrived as their
+own paths *and* as their filler. Three of the six were the duplicates, and
+Brunei's pair — 838 characters of path against the filler's 1,233 — is what a
+reader sees as a double line.
+
+`outlineOf` drops them now, the same way and in the same place it drops
+`.superseded`: a backing fills, it does not describe. The exception is an atom
+whose divisions are still in the administrative file — an empty group whose
+backing is the only shape it has, which is the exception the hatching already
+had to make. British Borneo is down to three outlined shapes from six, the
+second coastline is gone across the whole of northern Borneo, and the seven
+territories checked for it — China, British India, Siam, Korea, Thailand,
+British Borneo, Japan — have no two outlined shapes starting at the same point.
+
+The line that survives is the sub-units', so where the two sources disagree it
+can run a pixel or so inside the filler showing beyond them. That is a
+disagreement in the fill, not something the outline invented, and one line in
+roughly the right place beats two.
+
+**And the same three atoms were being emitted twice.** `spratly`, `paracel` and
+`pratas` had been added to `ORDER` in two places, so each came out as two `<g>`
+elements carrying the same `id` — 238 atoms where there were 235. Duplicate ids
+are their own bug: `atomEls` keeps the last, `querySelector` finds the first,
+and the two never have to be the same element. One copy each now.
+
 ### Mengchiang is drawn from its own boundary
 It used to be the ENP sheet's Chahar plus the eastern half of Suiyuan — two
 provinces standing in for a state whose boundary was neither of them. The traced
