@@ -120,17 +120,16 @@ were taken in 1939 over French protest and annexed to Takao prefecture in Taiwan
 as the **Shinnan Guntō**, the "new southern islands", an anchorage on the flank
 of the route to Singapore and the Indies.
 
-**And a warning, on every one of these records.** The outlines are traced from a
-present-day coastline, and in these islands that is a serious caveat rather than
-a small one: most of what is drawn has been built up since the 1970s and
-especially since 2013, and several features are now many times the sandbank or
-reef that was there in the 1930s. Itu Aba was about 0.4 km²; Woody Island has
-roughly doubled. Where a shape looks like an island with a runway on it, that is
-the reclamation and not the period. The positions are right; the outlines are
-not. On the records themselves this is one sentence rather than the paragraph it
-started as — *"Islands are traced from present-day shapes, which does not reflect
-more recent land reclamation."* — with the long version kept on the Sources page,
-which is where a reader who wants it will look.
+**And a warning, on every one of these records** — one sentence, and nowhere any
+longer than one sentence: *"Islands are traced from present-day shapes, which
+does not reflect more recent land reclamation."* It started as a paragraph on
+the records and a shorter paragraph on the Sources page, explaining that most of
+what is drawn has been built up since the 1970s and especially since 2013, that
+Itu Aba was about 0.4 km² and Woody Island has roughly doubled, and that where a
+shape looks like an island with a runway on it that is the reclamation and not
+the period. All of that is true and none of it needed saying at that length: a
+reader who wants the detail is not going to get it from a tooltip. Both copies
+are the single sentence now.
 
 **No ring drawn round them.** The islet ring that marks a group too small to see
 is what the reader is meant to find these by *not* having: two circles the size
