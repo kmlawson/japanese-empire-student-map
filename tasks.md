@@ -180,6 +180,15 @@ the map. `spratly`, `paracel` and `pratas` are out of `ISLET_RINGS` and
 the reader's own doing. The atoms still carry their geometry and still answer to
 a pointer.
 
+`turtle` and `mangsee` have gone the same way, and for a plainer reason: they
+sit a few kilometres off North Borneo, where the coast and the islands round
+them are perfectly legible at any zoom that shows them at all, so the ring was
+not finding anything the reader could not already see. It was ruling two circles
+across the Sulu Sea instead. The comment on `ISLET_RINGS` already made this
+distinction — the rings are for the Pacific, and over the Indies and the
+Philippines they are clutter — and these two were on the wrong side of it. The
+islands still draw, and the record still names itself under a pointer.
+
 ### The line of control follows the traced blocks, and one outline per shape
 **The dashed line still ran on the old hand-drawn course** where it bulges
 inland to take in the coastal enclaves: the shading beneath it had had the real

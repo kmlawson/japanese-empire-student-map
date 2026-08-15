@@ -3328,7 +3328,7 @@ SPLITTERS = {
 # only way to find them at all; over the Indies, the Philippines and the
 # Andamans, where the islands are perfectly legible, the rings are just clutter.
 ISLET_RINGS = {
-    "wake", "christmas", "turtle", "mangsee", "miangas", "cocos",
+    "wake", "christmas", "miangas", "cocos",
     "nanyo", "gilberts", "ogasawara", "guam", "chishima", "aleutians",
     "hawaii", "ryukyu", "newguinea_au", "solomons_br", "nauru_au",
     "aleutians_jp", "solomons_gc", "solomons_us", "solomons_ml", "solomons_al",
@@ -3336,7 +3336,7 @@ ISLET_RINGS = {
 
 # Groups whose islets are close enough together that one ring stands for all
 # of them — see where specks are built, below.
-ONE_ISLET = {"turtle", "mangsee", "cocos"}
+ONE_ISLET = {"cocos"}
 
 ARCHIPELAGOS = {
     "wake", "turtle", "mangsee", "miangas", "cocos",
