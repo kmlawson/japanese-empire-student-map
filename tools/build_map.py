@@ -560,7 +560,7 @@ ENP_ATOMS = {"china", "manchuria", "chahar", "suiyuan", "suiyuan_w", "jehol",
 # tolerance any band would give them; thinned at all they stop being shapes.
 FULL_DETAIL = ({"korea", "saharat", "princely", "kwantung", "ccp", "malaya",
                 "turtle", "mangsee", "miangas", "cocos",
-                "spratly", "paracel", "pratas", "mengjiang"} | ENP_ATOMS
+                "spratly", "paracel", "pratas", "mengjiang", "manchukuo"} | ENP_ATOMS
                | set(GIS_LAYERS))
 
 # Atoms whose rings are separate pieces of ground rather than neighbours that
@@ -1229,8 +1229,15 @@ EXTENT_ARCS = [
 # perimeter ran there in a straight line, cutting clean across the client state
 # and leaving it outside. They do share one vertex exactly, at 119.595 E
 # 46.603 N, which is where the first arc hands over to the second.
+# Manchukuo is traced now too, so the first arc comes off its own sheet rather
+# than off Manchuria and Jehol dissolved. The two traces do not share a vertex —
+# they are different sheets — and the closest their boundaries come near the
+# hand-over is 4.8 km, at 119.635 E 46.619 N on Manchukuo's side against
+# 119.595 E 46.603 N on Mengchiang's. Each arc ends on its own ring, so the
+# perimeter steps that 4.8 km at the tripoint with Mongolia, which is a third of
+# a pixel at the opening view and invisible at any zoom short of the deepest.
 EXTENT_MANCHURIA = [
-    (("manchuria", "jehol"), (130.7, 42.4), (119.595, 46.603), (120.0, 51.0)),
+    (("manchukuo",), (130.7, 42.4), (119.635, 46.619), (120.0, 51.0)),
     (("mengjiang",), (119.595, 46.603), (112.40, 39.15), (111.60, 44.83)),
 ]
 
@@ -1612,8 +1619,12 @@ def _seg_dist(p, a, b):
 
 # The atoms drawn from the ENP-China sheet. Their edge is the one the map keeps
 # along every frontier of China, and everything else has to reach it.
+# Manchukuo is not from that sheet but stands on the same side of the argument:
+# it is traced from the railway company's own 1935 map, its neighbours are
+# Natural Earth's, and the traced line is the one the map keeps. So the Soviet
+# Union and Mongolia reach it, exactly as they reach China.
 ENP_SIDE = ("china", "manchuria", "jehol", "chahar", "suiyuan", "suiyuan_w",
-            "xinjiang", "tibet")
+            "xinjiang", "tibet", "manchukuo")
 
 # The neighbours drawn from some other source, which therefore put the frontier
 # somewhere slightly different. Korea is not here: it has a seam of its own,
@@ -2238,8 +2249,27 @@ def add_frontier_seam(groups):
     replace with the seam alone.
     """
     seams = collections.defaultdict(list)
-    korea, manch = groups.get("korea"), groups.get("manchuria")
-    if not korea or not manch:
+    korea = groups.get("korea")
+    if not korea:
+        return seams
+    # Both of them: `manchuria` is the ENP sheet's and carries the 1930 map,
+    # `manchukuo` is the traced 1935 sheet and carries 1942. They are different
+    # lines along the same rivers and each needs its own strip, or whichever is
+    # drawn on the epoch you are looking at has a bare gap beside Korea.
+    for _mkey in ("manchuria", "manchukuo"):
+        _seams = _korea_seam(groups, korea, _mkey)
+        for k, v in _seams.items():
+            seams[k].extend(v)
+    if not seams:
+        sys.stderr.write("note: no Korea frontier found, seam skipped\n")
+    return seams
+
+
+def _korea_seam(groups, korea, mkey):
+    """The strip along the Yalu and the Tumen for one Manchurian atom."""
+    seams = collections.defaultdict(list)
+    manch = groups.get(mkey)
+    if not manch:
         return seams
     # Korea is thirteen provinces, not one outline, so the frontier is shared
     # out between the four northern ones and has to be picked up ring by ring
@@ -2359,10 +2389,8 @@ def add_frontier_seam(groups):
                     # the filler only: the atom's own outline is Manchuria's own
                     # data, and a seam in it would be stroked on selection as a
                     # second line a few kilometres inside Korea
-                    seams["manchuria"].append(seam)
+                    seams[mkey].append(seam)
                 piece = []
-    if not seams:
-        sys.stderr.write("note: no Korea/Manchuria frontier found, seam skipped\n")
     return seams
 
 
@@ -3030,6 +3058,77 @@ def load_mengjiang():
     return out
 
 
+# Manchukuo, traced from 滿洲國地圖 1935, 南滿洲鐡道株式會社資料課 — the South
+# Manchuria Railway's own sheet of the state it was the instrument of. Two
+# files: the state as one polygon, which is what is drawn when the
+# Administrative layer is off, and its fourteen provinces for when it is on.
+#
+# It is an atom of its own and does not replace `manchuria` and `jehol`, which
+# are the ENP sheet's Chinese provinces and are what the 1930 map is made of.
+# It could not replace them even if that were wanted: Jehol is a province of
+# Manchukuo in this source, annexed in 1933, and on the 1930 map it is a
+# province of the Republic standing outside Manchuria altogether. So 1930 keeps
+# the Three Eastern Provinces and Jehol beside them, and 1942 gets this. The
+# same division of labour Mengchiang has.
+#
+# The province scheme is Manchukuo's own and dates from 1934, which is the
+# other reason it is not shown on the 1930 map: those are not the provinces
+# China had there.
+MANCHUKUO_FILE = "manchukuo-1935.geojson"
+MANCHUKUO_PROVINCES_FILE = "manchukuo-provinces-v2.geojson"
+_MANCHUKUO_CACHE = []
+_MANCHUKUO_PROV_CACHE = []
+
+
+def load_manchukuo():
+    """Manchukuo as one polygon, or [] if the file is not there."""
+    if _MANCHUKUO_CACHE:
+        return _MANCHUKUO_CACHE[0]
+    path = os.path.join(CACHE, MANCHUKUO_FILE)
+    out = []
+    if os.path.exists(path):
+        try:
+            with open(path) as fh:
+                for feat in json.load(fh).get("features", []):
+                    for ring in iter_rings(feat.get("geometry") or {}):
+                        if len(ring) >= 3:
+                            out.append(ring)
+        except (OSError, ValueError):
+            sys.stderr.write(f"note: {MANCHUKUO_FILE} unreadable\n")
+    else:
+        sys.stderr.write(f"note: {MANCHUKUO_FILE} missing\n")
+    _MANCHUKUO_CACHE.append(out)
+    return out
+
+
+def load_manchukuo_provinces():
+    """[(name, rings)] for Manchukuo's fourteen provinces, or []."""
+    if _MANCHUKUO_PROV_CACHE:
+        return _MANCHUKUO_PROV_CACHE[0]
+    path = os.path.join(CACHE, MANCHUKUO_PROVINCES_FILE)
+    out = []
+    if os.path.exists(path):
+        try:
+            with open(path) as fh:
+                for feat in json.load(fh).get("features", []):
+                    props = feat.get("properties") or {}
+                    # The sheet's own romanisation is the period one — Hsing An
+                    # Peh, Chinchow, Je Hol — and that is the name a reader of
+                    # 1935 would have met. Pinyin is carried beside it in
+                    # data.js, where every other place keeps both.
+                    name = (props.get("Name_old") or props.get("Name") or "").strip()
+                    rings = [r for r in iter_rings(feat.get("geometry") or {})
+                             if len(r) >= 3]
+                    if name and rings:
+                        out.append((name, rings))
+        except (OSError, ValueError):
+            sys.stderr.write(f"note: {MANCHUKUO_PROVINCES_FILE} unreadable\n")
+    else:
+        sys.stderr.write(f"note: {MANCHUKUO_PROVINCES_FILE} missing\n")
+    _MANCHUKUO_PROV_CACHE.append(out)
+    return out
+
+
 SCS_ISLANDS = "scs-islands.geojson"
 SCS_ATOMS = {
     "Spratly Islands": "spratly",
@@ -3371,7 +3470,7 @@ ORDER = [
     # and not part of the shading. The resistance areas stay above it, being in
     # ON_TOP, because they are what the shading is an overstatement of.
     "occupiedzone", "chahar", "suiyuan", "suiyuan_w", "mengjiang",
-    "jehol", "manchuria",
+    "jehol", "manchuria", "manchukuo",
     "siam", "burma", "saharat", "indochina", "siamgain", "malaya", "malaya_thai", "sarawak", "northborneo", "brunei",
     "dei", "philippines", "christmas", "spratly", "paracel", "pratas", "turtle", "mangsee", "miangas", "cocos",
     "timor_pt", "newguinea_au", "solomons_br", "australia", "gilberts",
@@ -3677,6 +3776,28 @@ def main():
         sys.stderr.write(
             "Mengchiang: %d traced rings, %d vertices\n"
             % (len(meng), sum(len(r) for r in meng)))
+
+    # Manchukuo: the whole is traced in its own right rather than dissolved out
+    # of the provinces, so `backing` is set from it directly. The two files
+    # agree — same source, same sheet — and a dissolve of fourteen provinces
+    # would only put the sheet's own outline back with rounding on top of it.
+    manchukuo = load_manchukuo()
+    mk_provs = load_manchukuo_provinces()
+    if manchukuo:
+        # `groups` is the country's own shape — what the seams are cut against
+        # and what the perimeter takes its arc off — so it gets the traced whole
+        # and not the provinces as well. Putting both in left seventeen
+        # overlapping rings for `dissolve` to fail to merge, since the two files
+        # share no vertices even though they agree.
+        groups["manchukuo"].extend(manchukuo)
+        backing["manchukuo"].extend(manchukuo)
+    for pname, prings in mk_provs:
+        provinces["manchukuo"].append((pname, prings))
+    if manchukuo or mk_provs:
+        sys.stderr.write(
+            "Manchukuo: %d rings whole (%d vertices), %d provinces (%d vertices)\n"
+            % (len(manchukuo), sum(len(r) for r in manchukuo), len(mk_provs),
+               sum(len(r) for _, rs in mk_provs for r in rs)))
 
     scs = load_scs_islands(SCS_COARSE_KM2)
     for gname, key in SCS_ATOMS.items():

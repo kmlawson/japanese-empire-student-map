@@ -232,9 +232,10 @@ reconstructions. Elsewhere they are built from modern outlines.
 | Territory | How it is built | Confidence |
 |---|---|---|
 | **Karafuto** | Sakhalin south of 50°N | Exact — the border was the parallel |
-| **Manchukuo** | The Republican provinces of Liaoning, Jilin and Heilongjiang, plus Jehol | Good — historical province outlines, and the three eastern provinces already took in the Inner Mongolian leagues that became the Hinggan provinces |
+| **Manchukuo** | Traced from 滿洲國地圖 1935, 南滿洲鐡道株式會社資料課 — the state as one polygon and as its fourteen provinces | Very good — the South Manchuria Railway's own sheet of the state it was the instrument of, and the only period source here for Manchukuo's own provincial scheme |
+| **Manchuria and Jehol, 1930** | The Republican provinces of Liaoning, Jilin and Heilongjiang, and Jehol beside them | Good — historical province outlines. These carry the 1930 map, where Manchuria is Chinese and Jehol is a province of the Republic |
 | **Jehol** | The Republican province | Good |
-| **Mengchiang** | The Republican provinces of Chahar and Suiyuan | Good |
+| **Mengchiang** | Traced from a period map of the client state | Good — replaced Chahar and Suiyuan standing in for it; what is left of those outside the traced line is Free China |
 | **Kwantung Leased Territory** | Liaoning cut on a straight line from Pulandian bay to Pikou | Good — the 1898 lease boundary was a surveyed line across the isthmus |
 | **Tibet, Sinkiang** | The Xizang and Xinjiang polygons, which the source itself treats as polities apart from China | Good |
 | **Territory ceded to Thailand, 1941** | Modern Battambang, Banteay Meanchey, Pailin, Siem Reap, Oddar Meanchey and Preah Vihear, plus Xaignabouli and Champasak west of the Mekong | Fair — the ceded blocks followed provincial lines close to these; Angkor was left to France and is not carved out here |

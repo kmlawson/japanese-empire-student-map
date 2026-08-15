@@ -32,6 +32,60 @@ answer, the source that would settle it is named at the foot of this file.
 
 ## Done
 
+### Manchukuo is drawn from the railway company's own map
+滿洲國地圖 1935, 南滿洲鐡道株式會社資料課 — the South Manchuria Railway's sheet of
+the state it was the instrument of. Two files: **the state as one polygon,
+5,875 vertices**, drawn when the Administrative layer is off, and **its fourteen
+provinces, 7,994 vertices**, for when it is on. It replaces the Republican
+provinces the 1942 map used to assemble Manchukuo from. Of the source's
+vertices, **88% of the outline and 97% of the provinces survive the build** —
+the outline's loss is coincident points merging at the output precision, not
+simplification: `manchukuo` is in `FULL_DETAIL`.
+
+**It is a new atom and does not replace `manchuria` and `jehol`.** It could not:
+Jehol is a province *of Manchukuo* in this source, annexed in 1933, and on the
+1930 map it is a province of the Republic standing outside Manchuria altogether.
+So 1930 keeps the ENP sheet's Three Eastern Provinces with Jehol beside them,
+and 1942 gets this — the same division of labour Mengchiang has. The province
+scheme is Manchukuo's own and dates from 1934, which is the other reason it is
+not shown on the 1930 map: those are not the provinces China had there.
+Checked in both epochs: 1942 draws `manchukuo` and hides `manchuria` and
+`jehol`; 1930 does the reverse. Hovering Mukden, Harbin, Chengteh, Hailar,
+Yenki and Chinchow gives Manchukuo in 1942 and its right province with the layer
+on — Fengtien, Pinkiang, Jehol, Hsingan North, Chientao, Chinchow — while 1930
+still gives Liaoning, Kirin and Heilungkiang under Manchuria, and Jehol on its
+own.
+
+**The two files agree with each other.** Sampling a 0.05° grid over the whole
+polygon, exactly **one cell of some 78,000** falls inside the state and in none
+of its provinces, so the fourteen tile the outline. (A first pass said the
+provinces covered 6% less by area; that was my ring arithmetic mishandling the
+multipolygons, not the data. The grid is the honest test.)
+
+**Two things had to be told about it.** The frontier seams, which make each
+neighbour reach China's line, worked off a list of the ENP sheet's atoms;
+Manchukuo is not from that sheet but stands on the same side of the argument —
+its traced line is the one the map keeps — so the Soviet Union and Mongolia now
+reach it, as they reach China. And the Korea seam along the Yalu and the Tumen
+was written for `manchuria` alone; it is now built for both atoms, since each
+carries a different epoch and whichever is drawn needs its own strip. The
+perimeter's Manchurian arc comes off the traced ring too: the two sheets share
+no vertex, and the closest their boundaries come at the hand-over to Mengchiang
+is 4.8 km, so the dashed line steps that far at the tripoint with Mongolia —
+a third of a pixel at the opening view.
+
+Against the old geometry, 0.12% of sampled pixels change between land and sea
+along the edges, which is two sources disagreeing about a coastline and not a
+hole. The map's border with Mongolia does move: the 1935 sheet puts the Barga
+frontier further east than Natural Earth does, which is the ground the Nomonhan
+fighting was about, and the sheet is the better authority for what Manchukuo
+claimed.
+
+`SOURCES.md` and the Sources page name the new sheet, and the Mengchiang entry
+is corrected there at the same time — it still said the client state was the
+Republican provinces of Chahar and Suiyuan, which stopped being true when it was
+traced earlier this session.
+
 ### The India–Burma line reaches China, and the occupation stops at Mengchiang
 
 **The hairline was clipped four hundredths of a degree short.** Burma was a
