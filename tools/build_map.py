@@ -3006,9 +3006,6 @@ def ccp_zone(ring):
 # Mengchiang is made of. Every point of it falls inside the ENP provinces —
 # checked — so nothing of Mongolia or Manchukuo is painted by it.
 MENGJIANG_FILE = "mengjiang-1942.12.geojson"
-# How far the occupation is carried under Mengchiang, to close the ribbon of
-# unoccupied ground the two traced boundaries leave between them.
-MENGJIANG_UNDERLAP = 0.25
 _MENGJIANG_CACHE = []
 
 
@@ -4108,20 +4105,19 @@ def main():
     # and never extends it, which is the same rule the east coast was given
     # when the islands were made to go with the coast they were blockaded from.
     occ_src = list(occ_src)
-    # The occupation is carried up under Mengchiang. The two are traced from
-    # different sheets and their common boundary is two lines rather than one,
-    # so between them ran a ribbon of unoccupied yellow — ground that was
-    # neither the client state's nor the army's, which is not a thing that
-    # existed. Mengchiang's own ring, grown, is added to the occupied geometry:
-    # the clip then takes Mengchiang itself back out, and what is left is
-    # exactly the ribbon. It cannot spread anywhere else, being a copy of the
-    # client state's own boundary and nothing more.
-    _meng = load_mengjiang()
-    if _meng:
-        for _r in _meng:
-            occ_src.append(("North China and the Yangtze valley",
-                            grow_ring(normalise_ring(_r), MENGJIANG_UNDERLAP)))
-        sys.stderr.write("occupied zone: carried under Mengchiang\n")
+    # Mengchiang's own ring, grown a quarter degree, used to be added here so
+    # that the occupation would reach under it: the two are traced from
+    # different sheets, and where their common boundary is two lines rather
+    # than one a ribbon of unoccupied yellow lay between them. It was the wrong
+    # instrument. A ring grown is grown on every side, and Mengchiang's other
+    # sides face Mongolia and Free China, where there is no occupation for the
+    # ribbon to join up with — so a quarter degree of army shading stood along
+    # the north-western frontier, outside the client state, with the line of
+    # control drawn round the outside of that. What actually closed the ribbon
+    # was widening `clip-china` to admit Chahar and Suiyuan (see below); with
+    # that done this adds nothing. Sampled along the boundary at four places,
+    # west, south-west, south and east: no Free China yellow between the two
+    # anywhere, and the spill gone.
     if china_islands:
         boxed = []
         for label, ring in occ_src:

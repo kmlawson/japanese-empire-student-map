@@ -213,7 +213,14 @@ JMAP.TERRITORIES = {
       note: 'Claimed by the Republic of China, but self-governing in practice from 1913, when the 13th Dalai Lama expelled the last Chinese officials, until 1951. Shown here in the independent colour on that basis; no foreign power recognised it.' },
 
     { id: 'britishindia', atoms: ['india', 'andaman', 'burma', 'saharat'], cat: 'british', lvl: 1,
-      edge: '#8f5f6e', edgeAtoms: ['burma'], edgeClip: [92.0, 20.6, 97.3, 28.4],
+      // The box holds the frontier Burma shares with India and nothing else of
+      // Burma's outline. It ran to 97.3 E and the frontier runs to 97.36, so
+      // the last leg up to the trijunction with China — 97.31 to 97.36 E,
+      // 27.90 to 28.24 N, ten of its 296 points — was cut off and the line
+      // stopped short of the Chinese border. At 97.4 all 296 are kept and only
+      // three points of the China frontier come in with them, at the junction
+      // itself where the two meet anyway.
+      edge: '#8f5f6e', edgeAtoms: ['burma'], edgeClip: [92.0, 20.6, 97.4, 28.4],
       en: 'British India (including Burma)',             when: 'Burma a province of India until 1937',
       note: 'Burma was governed as a province of British India until it was separated in 1937. The Andaman and Nicobar Islands were run from Calcutta as a penal settlement.' },
     { id: 'goa', atoms: ['goa'], cat: 'portuguese', lvl: 3,

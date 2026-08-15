@@ -32,6 +32,38 @@ answer, the source that would settle it is named at the foot of this file.
 
 ## Done
 
+### The India–Burma line reaches China, and the occupation stops at Mengchiang
+
+**The hairline was clipped four hundredths of a degree short.** Burma was a
+province of British India until 1937, so on the 1930 map the two share a colour
+and the frontier between them is drawn as a coloured hairline — Burma's own
+outline, stroked, and cut to a box so that only the part it shares with India is
+drawn and not its frontiers with China, Siam and the sea. Measured against
+India's ring, the shared stretch runs **92.17 to 97.36 E, 20.96 to 28.24 N**,
+296 points of it; the box stopped at 97.3 E and threw away the last ten, which
+are the leg from 97.31 to 97.36 E climbing to the trijunction. So the line
+stopped in the hills and never met the Chinese border.
+
+The box now ends at 97.4 E. All 296 points are kept, and only three points of
+Burma's China frontier come in with them, at the junction itself where the two
+meet anyway. Checked on the render: the drawn line now reaches 28.26 N, 97.37 E.
+
+**And Mengchiang's shading no longer runs outside it.** `MENGJIANG_UNDERLAP`
+grew the client state's ring by a quarter degree and added it to the occupied
+geometry, so that the occupation would reach under Mengchiang where the two
+traced sheets fail to meet. A ring grown is grown on every side, and
+Mengchiang's other sides face Mongolia and Free China — so a quarter degree of
+army shading stood along the north-western frontier *outside* the client state,
+with the dashed line of control drawn round the outside of that.
+
+It turns out to have been doing no work at all. What closed the ribbon was the
+other half of that fix, widening `clip-china` to admit Chahar and Suiyuan;
+without it, nothing added there could be drawn at all, which is why the grow
+looked necessary. With the clip widened, the underlap is removed and the
+boundary sampled at four places — west, south-west, south and east: no Free
+China yellow between the client state and the army anywhere, and the spill
+gone. The constant and its code are deleted rather than zeroed.
+
 ### A link carries the view and the layers
 `?bbox=120.9,24.5,122.3,25.68&layers=3j` — the ground that was on screen and
 what was switched on. Two decimal places, and the reasoning for it is worth
