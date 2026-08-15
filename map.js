@@ -383,8 +383,30 @@
     // other way.
     if (state.cats.territory) loadAdmin();
 
+    // The admin panel, if it was open when the page was last left. Without
+    // this its settings would not survive a reload, and comparing a pan with
+    // the backings against a pan without them is exactly a thing you want to
+    // do across reloads. A reader has never set the key and never fetches it.
+    try {
+      if (window.localStorage.getItem('jmap-admin')) loadAdminPanel();
+    } catch (err) { /* private mode; the panel is not important enough to care */ }
+
     window.addEventListener('resize', onResize);
     if (window.visualViewport) window.visualViewport.addEventListener('resize', onResize);
+  }
+
+  /* admin.js, once, on demand. It is a tool for working on the map and not
+     part of it: it is never referenced from index.html, and nothing but an
+     option-click on Layers or the key it leaves behind will fetch it. */
+  var adminPending = false;
+  function loadAdminPanel() {
+    if (window.JMAP_ADMIN) { window.JMAP_ADMIN.toggle(); return; }
+    if (adminPending) return;
+    adminPending = true;
+    var s = document.createElement('script');
+    s.src = 'admin.js';
+    s.onerror = function () { adminPending = false; };
+    document.head.appendChild(s);
   }
 
   function project(lon, lat) {
@@ -1401,6 +1423,12 @@
     dragStart = null;
 
     if (had === 1 && !movedFar && e.type === 'pointerup') {
+      // An admin tool may want the tap instead — drawing a polygon is one.
+      // Offered here and not to `click`, so that a tool gets taps without
+      // having to tell a tap from a drag itself, and so that panning and
+      // pinching are untouched while one is armed. Absent unless admin.js has
+      // been loaded, which a reader never does.
+      if (window.JMAP_TAP && window.JMAP_TAP(e) === false) return;
       // dblclick is synthesised after the second pointerup, too late to stop
       // the tap that came with it — so the pair is spotted here instead
       var now = Date.now();
@@ -3312,7 +3340,12 @@
     });
 
 
-    $('#btn-options').addEventListener('click', function () { $('#dlg-options').showModal(); });
+    // Option-click opens the admin panel instead of the Layers dialogue. It is
+    // a separate file and a reader never fetches it; see admin.js.
+    $('#btn-options').addEventListener('click', function (e) {
+      if (e.altKey) { loadAdminPanel(); return; }
+      $('#dlg-options').showModal();
+    });
     $('#btn-about').addEventListener('click', function () { $('#dlg-about').showModal(); });
     $$('dialog').forEach(function (d) {
       d.addEventListener('click', function (e) { if (e.target === d) d.close(); });

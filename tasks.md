@@ -32,6 +32,49 @@ answer, the source that would settle it is named at the foot of this file.
 
 ## Done
 
+### An admin panel, fetched only by whoever asks for it
+Option-click (alt-click) **Layers** and `admin.js` is fetched and a panel opens
+down the right-hand side. Nothing in `index.html` refers to it, and a reader who
+never option-clicks never asks the server for it — checked: zero requests for
+`admin.js` on load and on a plain click, one on an option-click, none on a
+second.
+
+It is deliberately almost detached from the map. It reads the projection off the
+`#proj` element in the SVG and screen coordinates off the SVG's own CTM, so it
+needs nothing exported. `map.js` gained three small things and no more: the
+option-click, a loader, and one optional hook in `onPointerUp`
+(`window.JMAP_TAP`) that lets a tool take a tap. The hook is offered at the tap
+rather than at `click` for two reasons — a tool gets taps without having to tell
+a tap from a drag itself, and panning and pinching go on working while a tool is
+armed, which is the difference between a usable drawing tool and a toy.
+
+The panel is `#stage`'s padding, not an overlay, so the map keeps its own box
+and refits itself off a `resize` — checked at 1300 px wide, container 960→640
+and the view's aspect following it to 0.759 exactly.
+
+**Backings on and off.** The switch detaches `#backings` from the document
+rather than hiding it, and it says what it is detaching: 37 paths, how many are
+drawn in this epoch, 1,253 KB of path data. Driven through the panel exactly as
+a person would, a pan on a 390×844 viewport at 4× CPU throttle goes from
+**2,488 ms of raster to 628 ms — 75% less work**, which is the figure the
+performance report arrived at by hiding the layer by hand. The setting is kept
+in `localStorage` and the panel reopens itself on a reload, so the comparison can
+be made across page loads and not only within one.
+
+**Draw a polygon.** Tap to drop a point, drag to pan as usual; the ring closes
+itself, reports its point count and a rough area, and offers the coordinates as
+a lon/lat list or as a GeoJSON feature — in a textarea as well as on a Copy
+button, because `navigator.clipboard` is not there over plain http or from a
+`file://` page. The ring is drawn in the map's own coordinates so it stays where
+it was put through a zoom; the vertex dots would grow with it, so they are
+resized from a `MutationObserver` on the viewBox, rAF-throttled and connected
+only while the tool is armed — it must cost nothing when the panel is being used
+to measure a pan. Switching the tool off removes the layer and the points.
+
+**Adding a tool** is pushing another object onto `TOOLS` in `admin.js`. Each one
+is handed a titled section and the same small api: `toLonLat`, `clientToUser`,
+`unitsPerPixel`, `onTap`, `copy`, and a persisted `setting`.
+
 ### The outline stopped being drawn twice
 Hovering British Borneo came up with a second line just outside Brunei's own,
 running parallel to it a few pixels away — the same shape drawn twice from two
