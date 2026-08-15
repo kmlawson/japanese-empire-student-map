@@ -978,7 +978,7 @@
   /* A link carries what is on the screen and what is switched on: no more, and
    * in as few characters as will hold it.
    *
-   *   ?bbox=105.23,17.81,142.66,45.02&layers=1f
+   *   ?bbox=120.9034,24.4977,122.3034,25.6816&layers=3j
    *
    * The box is the ground the sharer could see, in degrees. It is not the
    * viewport — those differ by phone and by window, and asking for the same
@@ -1091,15 +1091,26 @@
     urlTimer = window.setTimeout(writeUrl, 400);
   }
 
+  /* Built by hand rather than with URLSearchParams, for the separator's sake.
+     The form-urlencoded serialiser that `URLSearchParams.toString` uses keeps
+     only letters, digits and `* - . _`; a comma comes back as %2C and the
+     address bar fills up with it. A comma is perfectly legal in a query string
+     — every map URL uses one — and a hand-built query keeps it. Anything else
+     already in the query is put back through URLSearchParams as before, since
+     none of it is ours to reformat. */
   function writeUrl() {
     urlTimer = 0;
     if (!proj || !view || !window.history || !history.replaceState) return;
     try {
-      var q = new URLSearchParams(window.location.search);
-      q.set('bbox', viewBox().join(','));
-      q.set('layers', layerCode());
+      var rest = [];
+      new URLSearchParams(window.location.search).forEach(function (v, k) {
+        if (k !== 'bbox' && k !== 'layers') {
+          rest.push(encodeURIComponent(k) + '=' + encodeURIComponent(v));
+        }
+      });
+      var q = ['bbox=' + viewBox().join(','), 'layers=' + layerCode()].concat(rest);
       history.replaceState(null, '',
-        window.location.pathname + '?' + q.toString() + window.location.hash);
+        window.location.pathname + '?' + q.join('&') + window.location.hash);
     } catch (err) { /* older browser; the map does not depend on this */ }
   }
 
@@ -1112,7 +1123,13 @@
     if (code) applyLayerCode(code);
     var raw = q.get('bbox');
     if (!raw) return null;
-    var n = raw.split(',').map(Number);
+    // A comma is never a minus sign, so the box comes apart on commas and a
+    // negative latitude needs no thinking about. Hyphens are read too, for the
+    // few links written while that was the separator: a separator hyphen is
+    // the one with a digit in front of it, a minus sign never has one, so
+    // `61.803--32.9547-201.803-68.7139` still comes apart correctly. Written
+    // as a replace and not a lookbehind, which Safari only learned in 16.4.
+    var n = raw.replace(/(\d)-/g, '$1,').split(',').map(Number);
     if (n.length !== 4 || n.some(function (v) { return !isFinite(v); })) return null;
     return n;
   }

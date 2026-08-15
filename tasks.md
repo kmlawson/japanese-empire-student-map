@@ -39,6 +39,20 @@ zoom and toggle, on a 400 ms timer and through `replaceState`, because
 `applyView` runs on every frame of a pan and a history entry per frame would
 make the back button useless. Copying the address bar is the share.
 
+**The query is built by hand, for the comma's sake.** The form-urlencoded
+serialiser behind `URLSearchParams.toString` keeps only letters, digits and
+`* - . _`; everything else is percent-encoded, so a comma came back as `%2C`
+and the address bar filled up with them. Checked across fifteen candidates: by
+that route only `-`, `_`, `*` and `.` survive, while a hand-built query keeps
+`,` `~` `:` `;` `|` `/` `@` `(` — all legal in a query string — and loses only
+`+`, which decodes back to a space. A comma is what every map URL uses and it
+is never a minus sign, so a negative latitude needs no thinking about. Any
+other parameter already in the query is put back through `URLSearchParams`,
+none of it being ours to reformat; checked that a `utm_source=a b` survives.
+A hyphen is still read, for the handful of links written while it was the
+separator: a separator hyphen is the one with a digit before it and a minus
+sign never has one, so `61.803--32.9547-201.803-68.7139` still comes apart.
+
 **The box, not the viewport.** Screens differ; asking for the same viewport on a
 different one gives a different piece of the world. The box is *contained* —
 whoever opens the link sees at least everything the sharer saw, and on a
