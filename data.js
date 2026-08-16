@@ -507,9 +507,13 @@ JMAP.TERRITORIES = {
     // serving 1930, where Manchuria is the Three Eastern Provinces under Chang
     // Hsüeh-liang and Jehol is a province of the Republic beside it.
     { id: 'manchukuo', atoms: ['manchukuo'], cat: 'puppet', lvl: 1,
-      en: 'Manchukuo (Manchuria)', ja: '満洲国 (Manshūkoku)', orig: '滿洲國 (Mǎnzhōuguó)',
+      en: 'Manchukuo (Manchuria)', ja: '満洲国 (Manshūkoku)', orig: '滿洲國',
       zh: '滿洲國',
-      when: 'Puppet state from March 1932',
+      // What this line says when it is standing under one of the fourteen
+      // provinces, which have already given their own name twice by then. The
+      // characters alone: a third romanisation there was one too many.
+      under: '滿洲國',
+      when: 'Japanese occupied. Nominally independent from March, 1932.',
       note: 'Invaded from September 1931 and proclaimed independent under the last Qing emperor P’u-i. Jehol was added in 1933; the eastern Inner Mongolian leagues had been part of the three provinces all along and became its Hinggan provinces. Real power lay with the Kwantung Army and Japanese vice-ministers.' },
     // Mengchiang and Manchukuo are both client states and so share a fill; the
     // hairline down Chahar's eastern edge is what keeps them two countries
@@ -1799,28 +1803,34 @@ JMAP.CLUSTER_EPOCH = {
 
 JMAP.PROVINCES = {
   /* Manchukuo's own fourteen provinces, from 滿洲國地圖 1935. The key is the
-     sheet's romanisation, which is the name a reader of 1935 would have met;
-     the modern pinyin and the characters follow. The four Hsing An provinces
-     are the eastern Inner Mongolian leagues, which had been part of the Three
-     Eastern Provinces before 1932 and were reorganised as Hinggan north,
-     south, east and west. Je Hol is Jehol, taken from the Republic in 1933 —
-     which is why this set belongs to the 1942 map alone: on the 1930 map Jehol
-     is a Chinese province standing outside Manchuria, and these provincial
-     boundaries did not exist. */
-  'Hsing An Peh': { en: 'Hsingan North (Xīng’ānběi)', zh: '興安北省', ja: '興安北省 (Kōan-hoku)' },
-  'Hsing An Tung': { en: 'Hsingan East (Xīng’āndōng)', zh: '興安東省', ja: '興安東省 (Kōan-tō)' },
-  'Hsing An Si': { en: 'Hsingan West (Xīng’ānxī)', zh: '興安西省', ja: '興安西省 (Kōan-sei)' },
-  'Hsing An Nan': { en: 'Hsingan South (Xīng’ānnán)', zh: '興安南省', ja: '興安南省 (Kōan-nan)' },
-  'Heiho': { en: 'Heiho (Hēihé)', zh: '黑河省', ja: '黒河省 (Kokka)' },
-  'Lungkiang': { en: 'Lungkiang (Lóngjiāng)', zh: '龍江省', ja: '龍江省 (Ryūkō)' },
-  'Sankiang': { en: 'Sankiang (Sānjiāng)', zh: '三江省', ja: '三江省 (Sankō)' },
-  'Pin Kiang': { en: 'Pinkiang (Bīnjiāng) — Harbin', zh: '濱江省', ja: '濱江省 (Hinkō)' },
-  'Chien Tao': { en: 'Chientao (Jiāndǎo) — the Korean borderland', zh: '間島省', ja: '間島省 (Kantō)' },
-  'Feng Tien': { en: 'Fengtien (Fèngtiān) — Mukden', zh: '奉天省', ja: '奉天省 (Hōten)' },
-  'An Tung': { en: 'Antung (Āndōng)', zh: '安東省', ja: '安東省 (Antō)' },
-  'Kirin': { en: 'Kirin (Jílín)', zh: '吉林省', ja: '吉林省 (Kirin)' },
-  'Chinchow': { en: 'Chinchow (Jǐnzhōu)', zh: '錦州省', ja: '錦州省 (Kinshū)' },
-  'Je Hol': { en: 'Jehol (Rèhé)', zh: '熱河省', ja: '熱河省 (Nekka)',
+     sheet's own romanisation, which is how a reader of 1935 met the name.
+     Every one reads the same way: pinyin with its tones first, the sheet's
+     romanisation after it in brackets, and the characters with their Japanese
+     reading on the line below. No city and no gloss — Harbin and Mukden are on
+     the Cities layer, where a reader who wants them will look, and a province
+     tooltip that names a city as well reads as though the province were the
+     city's suburb.
+
+     The four Hsing An provinces are the eastern Mongol leagues, which had been
+     part of the Three Eastern Provinces before 1932 and were reorganised as
+     Hinggan north, south, east and west. Je Hol is Jehol, taken from the
+     Republic in 1933 — which is why this set belongs to the 1942 map alone: on
+     the 1930 map Jehol is a Chinese province standing outside Manchuria, and
+     these provincial boundaries did not exist. */
+  'Hsing An Peh': { en: 'Xīng’ānběi (Hsingan North)', zh: '興安北省', ja: '興安北省 (Kōan-hoku)' },
+  'Hsing An Tung': { en: 'Xīng’āndōng (Hsingan East)', zh: '興安東省', ja: '興安東省 (Kōan-tō)' },
+  'Hsing An Si': { en: 'Xīng’ānxī (Hsingan West)', zh: '興安西省', ja: '興安西省 (Kōan-sei)' },
+  'Hsing An Nan': { en: 'Xīng’ānnán (Hsingan South)', zh: '興安南省', ja: '興安南省 (Kōan-nan)' },
+  'Heiho': { en: 'Hēihé (Heiho)', zh: '黑河省', ja: '黒河省 (Kokka)' },
+  'Lungkiang': { en: 'Lóngjiāng (Lungkiang)', zh: '龍江省', ja: '龍江省 (Ryūkō)' },
+  'Sankiang': { en: 'Sānjiāng (Sankiang)', zh: '三江省', ja: '三江省 (Sankō)' },
+  'Pin Kiang': { en: 'Bīnjiāng (Pinkiang)', zh: '濱江省', ja: '濱江省 (Hinkō)' },
+  'Chien Tao': { en: 'Jiāndǎo (Chientao)', zh: '間島省', ja: '間島省 (Kantō)' },
+  'Feng Tien': { en: 'Fèngtiān (Fengtien)', zh: '奉天省', ja: '奉天省 (Hōten)' },
+  'An Tung': { en: 'Āndōng (Antung)', zh: '安東省', ja: '安東省 (Antō)' },
+  'Kirin': { en: 'Jílín (Kirin)', zh: '吉林省', ja: '吉林省 (Kirin)' },
+  'Chinchow': { en: 'Jǐnzhōu (Chinchow)', zh: '錦州省', ja: '錦州省 (Kinshū)' },
+  'Je Hol': { en: 'Rèhé (Jehol)', zh: '熱河省', ja: '熱河省 (Nekka)',
     note: 'A province of the Republic until February 1933, when the Kwantung Army took it and attached it to Manchukuo.' },
 
   /* The base areas of 1941-42, grouped into the regions the atlas sheet

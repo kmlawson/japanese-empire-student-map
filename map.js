@@ -2162,7 +2162,16 @@
       }
       var pv = document.createElement('span');
       pv.className = 'sub prov';
-      pv.textContent = [nameOf(rec)].concat(otherNames(rec) || []).join('  ');
+      // `under` is what a country calls itself when it is standing underneath
+      // one of its own provinces, for the few records where the usual set of
+      // alternates is too much there. Manchukuo is the case: two lines above
+      // it the province has already given its name in pinyin and again in
+      // characters with a Japanese reading, and the country's full set added a
+      // third romanisation to that. It is opt-in, and no other record sets it —
+      // taking `orig` for every record instead cost Japan its 内地 and the
+      // Philippines their 比島, which are not duplicates of anything.
+      var owner = rec.under || otherNames(rec) || [];
+      pv.textContent = [nameOf(rec)].concat(owner).join('  ');
       tooltip.appendChild(pv);
       // What the country line does not say plainly. In the Pacific the name
       // carries the sovereignty inside it — "South Seas Mandate", "Papua & the

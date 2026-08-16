@@ -81,6 +81,33 @@ frontier further east than Natural Earth does, which is the ground the Nomonhan
 fighting was about, and the sheet is the better authority for what Manchukuo
 claimed.
 
+**What the fourteen say under the pointer.** One shape for all of them:
+
+> Lóngjiāng (Lungkiang)
+> 龍江省 (Ryūkō)
+> Manchukuo (Manchuria)  滿洲國
+> Japanese occupied. Nominally independent from March, 1932.
+
+Pinyin with its tones first and the 1935 sheet's own romanisation after it, then
+the characters with their Japanese reading, then the country, then what it was.
+No city and no gloss: "— Mukden" and "— Harbin" are gone, because those are on
+the Cities layer where a reader who wants them will look, and a province tooltip
+that names a city as well reads as though the province were the city's suburb.
+"— the Korean borderland" went with them, being the same kind of thing.
+
+The country's line took a small piece of machinery. `nameKey` folds 滿洲國 and
+満洲国 into one name — the variant table has 滿→満 and 國→国 in it, quite rightly —
+and `otherNames` then keeps the *longer* of two spellings, which is whichever
+carries a reading rather than whichever belongs to the place. So the line came
+out 満洲国 (Manshūkoku), a third romanisation under a province that had already
+given its name twice. Dropping `ja` from the record fixed that line and broke
+another: the territory's own tooltip takes its second line from `rec.ja`
+directly. Taking `orig` for every parent instead cost Japan its 内地 and the
+Philippines their 比島, which are not duplicates of anything. So it is opt-in:
+`under` is what a record says when it is standing beneath one of its own
+provinces, Manchukuo is the only record that sets it, and everything else is
+untouched — checked on the eleven probe points of the sweep.
+
 `SOURCES.md` and the Sources page name the new sheet, and the Mengchiang entry
 is corrected there at the same time — it still said the client state was the
 Republican provinces of Chahar and Suiyuan, which stopped being true when it was
