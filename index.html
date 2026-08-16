@@ -56,7 +56,15 @@
     <p class="alt"></p>
     <p class="prov" hidden></p>
     <p class="when"></p>
-    <p class="note"></p>
+    <!-- What this place is, and under it what the group it belongs to is:
+         Singapore, then the Straits Settlements. The second is set apart
+         because a reader who already knows the group should be able to see at
+         a glance which half is new. -->
+    <p class="note note-own" hidden></p>
+    <p class="note note-group" hidden></p>
+    <!-- On a phone the sheet is over the map, so it opens as the name alone
+         and this opens the rest. It is hidden on anything wider. -->
+    <button type="button" class="more" aria-expanded="false">More</button>
   </section>
 
   <section id="quiz" hidden>

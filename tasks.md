@@ -32,6 +32,33 @@ answer, the source that would settle it is named at the foot of this file.
 
 ## Done
 
+### The detail sheet: what is new first, and a phone that can still see the map
+
+**The resistance areas stopped saying it twice.** Selecting Taihang and Taiyueh
+gave the chip "Communist base areas & guerrilla zones", the name, and then, two
+lines below, *Communist base areas and guerrilla zones 抗日根據地 (Kàngrì gēnjùdì)
+中国共産党抗日根拠地 中共抗日根據地* — the same words the reader had just read, in four
+scripts. The country line is dropped for `cat: 'ccp'` and nowhere else: for
+every other place it is the useful half of the sheet, saying which empire the
+province belonged to.
+
+**The specific before the general, and set apart.** The sheet took its note from
+the *parent* record only, so a reader who asked about Singapore was told about
+the Straits Settlements and never about Singapore. Both are shown now, the
+place's own first in the body size, then the group's below a hairline, smaller
+and muted, so which half is new can be seen without reading either. Where a
+sub-unit has no note of its own the group's moves up and takes the first
+position rather than leaving a gap above itself.
+
+**On a phone the sheet opens as the name.** A full description is several
+paragraphs, and it was taking most of the screen the moment you touched
+anything — you tapped a place to see where it was and the map went behind the
+answer. Below 620 px the sheet is the chip, the name and its other scripts, and
+a `More` button; opened, it takes at most 76% of the height and scrolls. Every
+new selection starts closed, and the button is not drawn at all when there is
+nothing behind it. Wider than that, nothing has changed: the sheet has always
+shown everything and still does.
+
 ### Manchukuo is drawn from the railway company's own map
 滿洲國地圖 1935, 南滿洲鐡道株式會社資料課 — the South Manchuria Railway's sheet of
 the state it was the instrument of. Two files: **the state as one polygon,

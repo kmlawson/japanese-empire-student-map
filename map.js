@@ -2488,20 +2488,70 @@
     chip.style.setProperty('--chip', info ? info.c : 'var(--muted)');
     $('.primary', infoBox).textContent = primary;
     $('.alt', infoBox).textContent = others.join('  ·  ');
-    // and the country underneath, with every name it answers to
-    var owner = sub ? [nameOf(rec)].concat(otherNames(rec) || []).join('  ') : '';
+    // and the country underneath, with every name it answers to — except for
+    // the resistance areas, where it is the same words over again. The chip at
+    // the top already says "Communist base areas & guerrilla zones"; repeating
+    // it under Taihang and Taiyueh, in four scripts, said nothing the reader
+    // had not read two lines earlier.
+    var owner = (sub && rec.cat !== 'ccp')
+      ? [nameOf(rec)].concat(otherNames(rec) || []).join('  ') : '';
     // and, where the name alone does not say it, what kind of rule that was
     if (owner && rec.rule) owner += '  ·  ' + rec.rule;
     $('.prov', infoBox).textContent = owner;
     $('.prov', infoBox).hidden = !owner;
     $('.when', infoBox).textContent = rec.date || rec.when || '';
     $('.when', infoBox).hidden = !(rec.date || rec.when);
-    $('.note', infoBox).textContent = rec.note || '';
+    // This place first, then the group it belongs to. The sub-unit's own note
+    // was only ever in the tooltip, so the sheet showed the Straits
+    // Settlements where the reader had asked about Singapore.
+    var ownNote = sub ? (head.note || '') : (rec.note || '');
+    var groupNote = sub ? (rec.note || '') : '';
+    if (!ownNote && groupNote) { ownNote = groupNote; groupNote = ''; }
+    var own = $('.note-own', infoBox);
+    var grp = $('.note-group', infoBox);
+    own.textContent = ownNote;
+    own.hidden = !ownNote;
+    grp.textContent = groupNote;
+    grp.hidden = !groupNote;
+    collapseInfo();
     infoBox.hidden = false;
     document.body.classList.add('panel-open');
     hideTooltip();
     placeLabels();
     keepClear(id);
+  }
+
+  /* On a phone the sheet opens as the name and nothing else, and this opens
+   * the rest of it. A full description is several paragraphs and it was taking
+   * most of the screen the moment you touched anything — you tapped a place to
+   * see where it was and the map went behind the answer. The button is only
+   * drawn at phone widths; on anything wider the sheet has always shown
+   * everything and still does. Every new selection starts closed again. */
+  function collapseInfo() {
+    if (!infoBox) return;
+    infoBox.classList.remove('open');
+    var b = $('.more', infoBox);
+    if (b) {
+      b.textContent = 'More';
+      b.setAttribute('aria-expanded', 'false');
+      // nothing to open is nothing to offer
+      var some = ['.prov', '.when', '.note-own', '.note-group'].some(function (s) {
+        var el = $(s, infoBox);
+        return el && !el.hidden && el.textContent;
+      });
+      b.hidden = !some;
+    }
+  }
+
+  function toggleInfo() {
+    var on = !infoBox.classList.contains('open');
+    infoBox.classList.toggle('open', on);
+    var b = $('.more', infoBox);
+    if (b) {
+      b.textContent = on ? 'Less' : 'More';
+      b.setAttribute('aria-expanded', on ? 'true' : 'false');
+    }
+    if (on) infoBox.scrollTop = 0;
   }
 
   /* On a phone the detail sheet comes up over the bottom of the map, which is
@@ -2766,9 +2816,15 @@
     chip.style.setProperty('--chip', 'var(--accent)');
     $('.primary', infoBox).textContent = epoch.en;
     $('.alt', infoBox).textContent = '';
+    $('.prov', infoBox).textContent = '';
+    $('.prov', infoBox).hidden = true;
     $('.when', infoBox).textContent = '';
     $('.when', infoBox).hidden = true;
-    $('.note', infoBox).textContent = epoch.blurb;
+    $('.note-own', infoBox).textContent = epoch.blurb;
+    $('.note-own', infoBox).hidden = false;
+    $('.note-group', infoBox).textContent = '';
+    $('.note-group', infoBox).hidden = true;
+    collapseInfo();
     infoBox.hidden = false;
     document.body.classList.add('panel-open');
   }
@@ -3542,6 +3598,8 @@
     });
 
     $('#info-close').addEventListener('click', function () { select(null); });
+    var moreBtn = $('.more', infoBox);
+    if (moreBtn) moreBtn.addEventListener('click', toggleInfo);
     // the same button is "Show me" during a quiz and "Try again" after it
     $('#q-reveal').addEventListener('click', function () {
       if (quiz && !quiz.current) { startQuiz(); return; }

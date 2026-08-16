@@ -840,6 +840,39 @@ button.plain:hover { background: #f2ede2; }
   overflow-y: auto;
 }
 
+#info .note[hidden] { display: none; }
+
+/* What this place is, and under it what the group it belongs to is. The reader
+   asked about Singapore and the Straits Settlements is the context; the second
+   is set smaller, lighter and behind a rule so that which half is new can be
+   seen without reading either. */
+#info .note-group {
+  margin-top: 9px;
+  padding-top: 8px;
+  border-top: 1px solid var(--line, rgba(0, 0, 0, .12));
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+/* Only ever drawn on a phone; see the media query at the foot of this file. */
+#info .more {
+  display: none;
+  margin: 10px 0 0;
+  padding: 9px 12px;
+  width: 100%;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  background: none;
+  border: 1px solid var(--line, rgba(0, 0, 0, .16));
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+#info .more:hover { color: var(--ink); }
+
 #quiz .quiz-head {
   display: flex;
   align-items: center;
@@ -1125,6 +1158,20 @@ dialog h3 {
   }
 
   #info .note { max-height: none; }
+
+  /* The sheet opens as the name and nothing else. A full description is
+     several paragraphs, and on a phone it took most of the screen the moment
+     you touched anything: you tapped a place to see where it was, and the map
+     went behind the answer. `More` brings the rest back, and the sheet is
+     scrollable when it is open. Every new selection starts closed. */
+  #info .more { display: block; }
+
+  #info:not(.open) .prov,
+  #info:not(.open) .when,
+  #info:not(.open) .note { display: none; }
+
+  #info:not(.open) { max-height: none; overflow: visible; }
+  #info.open { max-height: 76%; overflow-y: auto; }
 
   #zoom-controls { top: 8px; right: 8px; }
   #zoom-controls button { width: 44px; height: 44px; }
