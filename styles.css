@@ -579,7 +579,12 @@ button.plain:hover { background: #f2ede2; }
 
 /* Guangzhou Bay, painted back out of China. See build_map.py: the box minus
    Natural Earth's coastline, by the even-odd rule. */
-#gzw-bay {
+#gzw-bay,
+/* The traced water round the Kwantung and Kwangchowwan leaseholds. Both are
+   drawn from their own tracings over a country outline that is a different,
+   coarser coastline, so China showed in the channels of Guangzhou Bay and as a
+   rim along the Liaodong shore. */
+#lease-sea {
   fill: var(--ocean);
   stroke: none;
   pointer-events: none;

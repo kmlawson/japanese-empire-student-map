@@ -46,6 +46,36 @@ answer, the source that would settle it is named at the foot of this file.
 
 ## Done
 
+### Water traced round Kwantung and Kwangchowwan
+
+**A traced leasehold over an untraced country shows the country's coastline, not
+its own.** Both leaseholds come from hand tracings; what lies under them is
+Natural Earth's outline of China, which at this scale is a different coastline
+altogether. Round Kwangchowwan that outline treats the arms of Guangzhou Bay as
+land, so yellow China showed in the channels *between* the leasehold's six
+pieces — the map read as a blue shape with yellow cracks through it. Round the
+Liaodong tip it runs a little outside the traced leasehold along the whole shore
+and showed as a rim. Counted on the 1930 map by sampling at a hundredth of a
+degree: **175 points of Manchuria's filler inside the Kwantung outline, 233 of
+China's inside the Kwangchowwan one**, and every one of them from a `backings`
+path rather than from an atom.
+
+Two rings, traced by hand, say where the water is. Everything inside them that
+the leasehold does not cover is painted as water — the same instrument as the
+Weihaiwei fringe and the Guangzhou Bay hull already in the build, and for the
+same reason — with the leasehold's own rings in the path as even-odd holes so
+that nothing can paint over them whatever the drawing order. A path of its own
+rather than an addition to `#gzw-bay`: the two carves overlap, and two of them
+sharing one even-odd path cancel each other where they cross.
+
+**Checked by rendered colour, not by hit-testing.** The overlay takes no pointer
+events, so `elementFromPoint` reports what is underneath and answered 175 and
+233 both before and after — the same trap the occupied coast set earlier in the
+day. Screenshot, project the traced ring into screen pixels, count inside it:
+**655 yellow pixels → 0 at Kwantung, 1,177 → 0 at Kwangchowwan.** The leaseholds
+themselves are untouched, both keep all their rings, and the Chinese mainland
+outside the rings is unbroken.
+
 ## Fine coastlines in the central Pacific, and four things measured on the coast
 
 **The Ellice, the Phoenix group, Tokelau and the rest have coastlines now.** The

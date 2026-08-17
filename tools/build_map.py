@@ -378,6 +378,40 @@ LAND_BASE = [
 ]
 
 
+# Water round the two leaseholds, traced by hand.
+#
+# Both leaseholds are drawn from their own tracings and the country under them
+# is Natural Earth's coarse outline, which at this scale is simply a different
+# coastline. Round Kwangchowwan it painted the arms of Guangzhou Bay as land, so
+# yellow China showed in the channels *between* the leasehold's six pieces;
+# round the Liaodong tip it ran a little outside the traced leasehold along the
+# whole coast and showed as a rim. Measured on the 1930 map at a tenth of a
+# degree: 175 sample points of Manchuria's filler inside the Kwantung outline,
+# 233 of China's inside the Kwangchowwan one.
+#
+# Everything inside these rings that the leasehold itself does not cover is
+# water, and is painted as water — the same instrument as the Weihaiwei fringe
+# and the Guangzhou Bay hull below, and for the same reason. The leasehold's own
+# rings go into the path as even-odd holes so that nothing paints over them
+# whatever the drawing order.
+LEASEHOLD_SEA = [
+    ("kwantung", [
+        (121.17391, 39.46310), (121.28288, 39.46904), (121.35339, 39.49971),
+        (121.43799, 39.47696), (121.46114, 39.45393), (121.46272, 39.34758),
+        (121.66758, 39.34085), (121.76566, 39.37510), (121.84397, 39.37265),
+        (121.88905, 39.39650), (122.40555, 39.38182), (122.96778, 39.31418),
+        (123.21454, 39.20222), (123.23939, 38.90792), (121.21703, 38.60267),
+        (120.71067, 38.78452), (121.02443, 39.27441),
+    ]),
+    ("guangzhouwan", [
+        (110.65710, 21.21093), (110.51172, 21.33647), (110.37700, 21.32654),
+        (110.26167, 21.27326), (110.10369, 21.05544), (110.16378, 20.99392),
+        (110.19673, 20.92241), (110.53789, 20.83820), (110.67358, 20.83457),
+        (110.70847, 21.05182),
+    ]),
+]
+
+
 KWANTUNG_CUT = ((121.20, 39.66), (122.45, 39.28))
 KWANTUNG_BOX = (120.55, 38.60, 123.00, 39.80)
 
@@ -5070,6 +5104,21 @@ def main():
                 f"Guangzhou Bay: {kept} coastline rings limit the carve\n")
         bay_path += "".join(pieces) if len(pieces) > 1 else ""
 
+    lease_sea_path = ""
+    for _key, _ring in LEASEHOLD_SEA:
+        _own = groups.get(_key) or []
+        if not _own:
+            continue
+        _pieces = [ring_to_path([project(x, y) for x, y in _ring], FINE_PRECISION)]
+        _kept = 0
+        for _r in _own:
+            _pieces.append(ring_to_path(
+                [project(x, y) for x, y in normalise_ring(_r)], FINE_PRECISION))
+            _kept += 1
+        lease_sea_path += "".join(_pieces)
+        sys.stderr.write("%s: water traced round it, %d of its own rings held back\n"
+                         % (_key, _kept))
+
     # "occupiedzone" is a slot rather than an atom of its own — it has no
     # entry in `paths` — so it has to survive this filter to keep its place
     # in the order.
@@ -5589,6 +5638,12 @@ def main():
     # Drawn under the leasehold and over everything else.
     if bay_path:
         out.append(f'    <path id="gzw-bay" fill-rule="evenodd" d="{bay_path}"/>')
+    # The traced water round the two leaseholds. A path of its own rather than
+    # part of the one above: they overlap, and two carves sharing an even-odd
+    # path would cancel each other where they cross.
+    if lease_sea_path:
+        out.append('    <path id="lease-sea" fill-rule="evenodd" '
+                   f'd="{lease_sea_path}"/>')
     # the shading stripes go on before the enclaves, so that Weihaiwei and
     # Macao are not painted over by the occupation they sat outside
     out.append('    <g id="hatching"></g>')
