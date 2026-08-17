@@ -510,14 +510,36 @@ button.plain:hover { background: #f2ede2; }
   stroke-width: 1.5;
 }
 
+/* The wash is set per mandate, not once, because the three colours are nowhere
+   near each other in strength. Measured as CIE76 ΔE against the ocean the map
+   draws (#cadfeb): Japan's #c2463d at 8% is ΔE 5.19, and the same 8% of
+   Australia's #c9a6b0 is only 2.19 — 42% of it — because that colour is close to
+   the sea in lightness and barely tinted. Britain's #b07f8e manages 3.19, 62%.
+   Equal percentages therefore look nothing like equal.
+
+   The figures below are set from the rendered result rather than the model —
+   sampled off a screenshot of the sea inside each mandate, cold and hovered.
+   Japan comes out at ΔE 5.54, Australia 4.80 and Britain 4.65, so the two are
+   at 87% and 84% of the Japanese wash: clearly visible, still the softer pair,
+   which is the order asked for. At 8% each they were 42% and 62% of it and read
+   as nothing at all. */
 .mandate.hot {
-  fill: color-mix(in srgb, var(--c, var(--muted)) 8%, transparent);
+  fill: color-mix(in srgb, var(--c, var(--muted)) var(--wash, 8%), transparent);
   opacity: 1;
 }
+
+#a-mandate_au { --wash: 21%; }
+#a-mandate_br { --wash: 14%; }
+
+/* The box round Guam is not a mandate — it is American territory cut out of
+   one — so it does not wash when pointed at. Washing it said the opposite of
+   what it is there to say. It keeps its line, and the tooltip still answers. */
+.mandate.mandate-cutout.hot { fill: transparent; }
 
 /* No fill support for color-mix is no reason to lose the line. */
 @supports not (color: color-mix(in srgb, red 8%, transparent)) {
   .mandate.hot { fill: rgba(120, 90, 80, .07); }
+  .mandate.mandate-cutout.hot { fill: transparent; }
 }
 
 #jmap.zoomed-in .islet { display: none; }

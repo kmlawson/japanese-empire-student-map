@@ -5362,9 +5362,14 @@ def main():
             # A mandate is a line, not a country: it carries an extra class so
             # the stylesheet can leave it unfilled until it is pointed at, and
             # so that the islands inside it are not painted over.
-            _cls = ("atom mandate"
-                    if key in MANDATE_ATOMS.values() or key == "mandate_ex_guam"
-                    else "atom")
+            # `mandate` gets the dashed line and the lifted copy of it;
+            # `mandate-cutout` is the exception to a mandate rather than a
+            # mandate, and takes the line without the wash on hover.
+            _cls = "atom"
+            if key in MANDATE_ATOMS.values():
+                _cls = "atom mandate"
+            elif key == "mandate_ex_guam":
+                _cls = "atom mandate mandate-cutout"
             out.append(f'    <path id="a-{key}" class="{_cls}" {meta} d="{paths[key]}"/>')
     if occ_path:
         ax, ay, area = occ_anchor

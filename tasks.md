@@ -46,8 +46,15 @@ pointer lands on. They sit early in `ORDER`, under every island, so **an island
 inside a mandate answers for itself and only open water answers for the
 mandate** — checked at Truk, Saipan, Guam, Rabaul and Nauru, which all give
 their own record, and at open sea in each of the three, which gives the mandate.
-Pointed at, the region takes an 8% wash of its colour: enough to read as one
-area, not enough to change what is drawn over it. `unseen` keeps them out of the
+Pointed at, the region takes a wash of its colour — and the strength is set per
+mandate, because the three colours are nowhere near each other. Measured as CIE76
+ΔE against the ocean the map draws: 8% of Japan's #c2463d is ΔE 5.19, while the
+same 8% of Australia's #c9a6b0 is 2.19 — 42% of it, because that colour sits
+close to the sea in lightness — and Britain's #b07f8e manages 3.19, 62%. Equal
+percentages look nothing like equal. Set from the *rendered* result rather than
+the model, by sampling the sea inside each mandate cold and hovered: 8%, 21% and
+14% give ΔE 5.54, 4.80 and 4.65, so the two are at 87% and 84% of the Japanese
+wash — visible, and still the softer pair. `unseen` keeps them out of the
 legend, out of the labels and out of the black silhouette the hover otherwise
 draws.
 
@@ -58,6 +65,11 @@ and is built from Guam's own extent plus a margin rather than typed out, so it
 cannot come loose from the island. It sits under Guam and over the mandate, so
 the island answers for itself and the water round it says why it is an
 exception.
+
+It does **not** wash when pointed at, and that is the point: it is not a mandate
+but American territory cut out of one, and washing it in the mandate grammar said
+the opposite of what it is there to say. It keeps its line and the tooltip still
+answers. `mandate-cutout` is the class that says so.
 
 **And the line pruner had to be told.** A mandate outline is an annotation, not
 a coastline, and a finer coastline does not supersede it — but `prune` marks any
