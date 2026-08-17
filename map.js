@@ -340,7 +340,6 @@
     extentPath = svg.querySelector('#extent-1942');
     riversGroup = svg.querySelector('#rivers');
     buildYellow1938();
-    buildNanyoBounds();
     buildBrowse();
     buildGazetteer();
     hatchGroup = svg.querySelector('#hatching');
@@ -510,25 +509,6 @@
     riversGroup.appendChild(yellow1938);
   }
 
-  var nanyoPath = null;
-
-  /* The mandate was mostly sea; without its boundary it is invisible. */
-  /* The dotted rectangle round the South Seas Mandate is not drawn. It was a
-     hand-drawn approximation of the mandate's limits and not accurate enough
-     to stand beside the rest of the map; a traced one will replace it. The
-     ring is still in data.js and the code below still builds it — set this to
-     true and it comes back. */
-  var NANYO_BOUNDS_SHOWN = false;
-
-  function buildNanyoBounds() {
-    if (!JMAP.NANYO_BOUNDS || !NANYO_BOUNDS_SHOWN) return;
-    var d = JMAP.NANYO_BOUNDS.ring.map(function (p, i) {
-      var q = project(p[0], p[1]);
-      return (i ? 'L' : 'M') + q.x.toFixed(1) + ' ' + q.y.toFixed(1);
-    }).join('') + 'Z';
-    nanyoPath = svgEl('path', { id: 'nanyo-bounds', fill: 'none', d: d });
-    svg.insertBefore(nanyoPath, markersGroup);
-  }
 
   /* Context cities: smaller, greyer, under the markers that are examinable. */
   function buildBrowse() {
@@ -2619,9 +2599,6 @@
     if (extentPath) {
       extentPath.style.display = (state.epoch === 'e1942' && state.extent) ? '' : 'none';
     }
-    if (nanyoPath) {
-      nanyoPath.style.display = state.epoch === 'e1930' ? '' : 'none';
-    }
     if (riversGroup) {
       riversGroup.style.display = state.rivers ? '' : 'none';
       var flood = state.epoch === 'e1942';
@@ -2710,16 +2687,6 @@
       src.className = 'legend-src';
       src.textContent = JMAP.EXTENT_1942.source;
       legend.appendChild(src);
-    }
-
-    if (nanyoPath && nanyoPath.style.display !== 'none') {
-      var nrow = document.createElement('div');
-      nrow.className = 'item';
-      var nsw = document.createElement('span');
-      nsw.className = 'sw nanyo';
-      nrow.appendChild(nsw);
-      nrow.appendChild(document.createTextNode(nameOf(JMAP.NANYO_BOUNDS)));
-      legend.appendChild(nrow);
     }
 
     if (state.rivers) {
@@ -3048,6 +3015,14 @@
        too small for the fine file to carry. */
     var prune = function (node) {
       if (node.classList.contains('fine')) return;
+      // A mandate outline is an annotation, not a coastline, and a finer
+      // coastline does not supersede it. Without this the box round Guam
+      // vanished the moment the Marianas' fine window opened — its one subpath
+      // sits inside that window, so every part of it was "covered" and the
+      // whole path was struck out. The three mandate lines are exposed to the
+      // same thing wherever a fine window overlaps them, and the mandate over
+      // the Carolines overlaps a window carrying 559 islands.
+      if (node.classList.contains('mandate')) return;
       var d = node.getAttribute && node.getAttribute('d');
       if (!d) {
         // A circle rather than a shape: the ring the base map draws round an

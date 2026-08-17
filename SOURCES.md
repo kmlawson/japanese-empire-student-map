@@ -236,6 +236,7 @@ reconstructions. Elsewhere they are built from modern outlines.
 | **Manchukuo** | Traced from 滿洲國地圖 1935, 南滿洲鐡道株式會社資料課 — the state as one polygon and as its fourteen provinces | Very good — the South Manchuria Railway's own sheet of the state it was the instrument of, and the only period source here for Manchukuo's own provincial scheme |
 | **Manchuria and Jehol, 1930** | The Republican provinces of Liaoning, Jilin and Heilongjiang, and Jehol beside them | Good — historical province outlines. These carry the 1930 map, where Manchuria is Chinese and Jehol is a province of the Republic |
 | **Jehol** | The Republican province | Good |
+| **The Pacific mandates** | Traced from a 1927 chart of the three Class C League of Nations mandates; outlines only, on the 1930 map | Good — and the same chart now draws the Papua / New Guinea mandate boundary, which was a hand-drawn straight line before |
 | **Mengchiang** | Traced from a period map of the client state | Good — replaced Chahar and Suiyuan standing in for it; what is left of those outside the traced line is Free China |
 | **Kwantung Leased Territory** | Liaoning cut on a straight line from Pulandian bay to Pikou | Good — the 1898 lease boundary was a surveyed line across the isthmus |
 | **Tibet, Sinkiang** | The Xizang and Xinjiang polygons, which the source itself treats as polities apart from China | Good |

@@ -561,7 +561,9 @@ ENP_ATOMS = {"china", "manchuria", "chahar", "suiyuan", "suiyuan_w", "jehol",
 FULL_DETAIL = ({"korea", "saharat", "princely", "kwantung", "ccp", "malaya",
                 "turtle", "mangsee", "miangas", "cocos",
                 "spratly", "paracel", "pratas", "mengjiang", "manchukuo",
-                "linephoenix", "uspacific", "nzpacific"} | ENP_ATOMS
+                "linephoenix", "uspacific", "nzpacific",
+                "mandate_jp", "mandate_au", "mandate_br",
+                "mandate_ex_guam"} | ENP_ATOMS
                | set(GIS_LAYERS))
 
 # Atoms whose rings are separate pieces of ground rather than neighbours that
@@ -571,7 +573,9 @@ FULL_DETAIL = ({"korea", "saharat", "princely", "kwantung", "ccp", "malaya",
 # through all of them.
 # and the eastern Pacific, which is two dozen atolls a thousand kilometres
 # apart: dissolved, they come back as one ring threading through all of them
-NO_DISSOLVE = ({"kwantung", "ccp", "linephoenix", "uspacific", "nzpacific"}
+NO_DISSOLVE = ({"kwantung", "ccp", "linephoenix", "uspacific", "nzpacific",
+                "mandate_jp", "mandate_au", "mandate_br",
+                "mandate_ex_guam"}
                | set(GIS_LAYERS))
 
 # Atoms whose backing is the union of their own sub-units rather than Natural
@@ -736,8 +740,25 @@ TONKIN_CUT = ((103.9, 20.2), (106.6, 19.6))
 COCHIN_CUT = ((105.0, 12.4), (109.4, 11.2))
 
 # Papua, an Australian territory, and New Guinea, a League mandate: the
-# boundary ran from the Dutch border to the coast near Lae.
-PAPUA_CUT = ((141.0, -5.2), (147.4, -6.9))
+# boundary ran from the Dutch border to the coast near Lae. Taken off the same
+# traced 1927 mandate chart the mandate outlines come from, which is where this
+# boundary is *drawn* — the two now agree instead of running a degree apart.
+#
+# It bends, and the bend is the point of it. A straight line between the two
+# ends passes 1.0° — a hundred and ten kilometres — south of the traced line at
+# the middle vertex, so the chord cannot stand in for it.
+#
+# The bend also decides how it has to be cut. The line turns *right* going east,
+# which makes the ground north of it concave, so it is not the intersection of
+# two half-planes and clipping it as one loses a wedge of the mandate east of
+# the bend. Each segment is applied inside its own vertical strip instead and
+# the pieces are concatenated, which is a union rather than an intersection and
+# is the right shape.
+PAPUA_CUT_LINE = [
+    (140.915448729295292, -5.465505317455851),
+    (144.216819619930561, -5.863222230150257),
+    (147.141092367045701, -8.110735502353528),
+]
 
 # The Yellow River's lower course was cut at Huayuankou in June 1938, when the
 # Chinese army breached the dikes to slow the Japanese advance. Until the
@@ -3217,6 +3238,69 @@ def load_gzw_coast():
             sys.stderr.write(f"note: {GZW_COAST} unreadable\n")
     _GZW_CACHE["d"] = out
     return out
+# ---- the Pacific mandates --------------------------------------------------
+#
+# The three Class C League of Nations mandates over the former German Pacific,
+# as they stood in 1927: Japan's north of the equator, Australia's over New
+# Guinea and the Bismarcks, and the British one over Nauru. They are drawn as
+# outlines and nothing else, because that is what they are — a mandate over an
+# ocean is a line on a chart, and almost all the ground inside these lines is
+# water. Filling them would bury the islands they are about.
+#
+# This replaces the hand-drawn rectangle that used to stand for the Japanese
+# mandate alone, and which was switched off in map.js for being an
+# approximation not good enough to sit beside the rest of the map.
+MANDATES_FILE = "pacific-mandates-1927.geojson"
+MANDATE_ATOMS = {
+    "Japan": "mandate_jp",
+    "Australia": "mandate_au",
+    "Britain": "mandate_br",
+}
+
+# Guam is inside the Japanese mandate's line and was never in the mandate: the
+# United States had held it since 1898, and it is the reason the Marianas are
+# "the Marianas except Guam" in every description of the South Seas Mandate. A
+# box round it says so, drawn in the American colour and in the same dashed
+# grammar as the mandate lines it is an exception to. Built from Guam's own
+# extent plus this margin rather than typed out, so it cannot come loose from
+# the island if the coastline is ever redrawn.
+GUAM_BOX_MARGIN = 0.28          # degrees
+_MANDATE_CACHE = {}
+
+
+def load_mandates():
+    """{atom: [rings]} for the three Pacific mandates, or {}."""
+    if _MANDATE_CACHE:
+        return _MANDATE_CACHE.get("d", {})
+    path = os.path.join(CACHE, MANDATES_FILE)
+    out = collections.defaultdict(list)
+    if not os.path.exists(path):
+        sys.stderr.write("note: %s missing, no mandate outlines\n" % MANDATES_FILE)
+        _MANDATE_CACHE["d"] = {}
+        return {}
+    try:
+        with open(path) as fh:
+            for feat in json.load(fh).get("features", []):
+                power = (feat.get("properties") or {}).get("admin_power")
+                key = MANDATE_ATOMS.get(power)
+                if not key:
+                    sys.stderr.write("note: mandate power %r not in the table\n" % power)
+                    continue
+                for ring in iter_rings(feat.get("geometry") or {}):
+                    if len(ring) >= 3:
+                        out[key].append(ring)
+    except (OSError, ValueError):
+        sys.stderr.write("note: %s unreadable\n" % MANDATES_FILE)
+    if out:
+        sys.stderr.write(
+            "Pacific mandates: "
+            + ", ".join("%s %d rings, %d vertices"
+                        % (k, len(v), sum(len(r) for r in v))
+                        for k, v in sorted(out.items())) + "\n")
+    _MANDATE_CACHE["d"] = dict(out)
+    return _MANDATE_CACHE["d"]
+
+
 # ---- the islands east of the date line ------------------------------------
 #
 # Everything the map had east of the Gilberts was one invisible box saying
@@ -3591,6 +3675,7 @@ ORDER = [
     # Mengjiang and Manchukuo, which were client states with their own colour
     # and not part of the shading. The resistance areas stay above it, being in
     # ON_TOP, because they are what the shading is an overstatement of.
+    "mandate_jp", "mandate_au", "mandate_br", "mandate_ex_guam",
     "occupiedzone", "chahar", "suiyuan", "suiyuan_w", "mengjiang",
     "jehol", "manchuria", "manchukuo",
     "siam", "burma", "saharat", "indochina", "siamgain", "malaya", "malaya_thai", "sarawak", "northborneo", "brunei",
@@ -3809,10 +3894,23 @@ def main():
                 if cut:
                     provinces["indochina"].append((label, cut))
         elif admin == "Papua New Guinea":
-            north = [grow_plane(line_plane(*PAPUA_CUT, keep_right=False), 0.02)]
-            south = [grow_plane(line_plane(*PAPUA_CUT, keep_right=True), 0.02)]
-            for label, planes in (("NewGuineaMandate", north), ("Papua", south)):
-                cut = [c for c in (clip_halfplanes(r, planes) for r in rings_here) if len(c) >= 3]
+            lap = 0.02
+            segs = list(zip(PAPUA_CUT_LINE, PAPUA_CUT_LINE[1:]))
+            got = {"NewGuineaMandate": [], "Papua": []}
+            for n, (a, b) in enumerate(segs):
+                # the strip this segment governs, open at the two ends so the
+                # island is covered from the Dutch border to the far coast, and
+                # overlapping its neighbour by `lap` so no sliver falls between
+                x0 = LON_MIN - 1 if n == 0 else a[0] - lap
+                x1 = LON_MAX + 1 if n == len(segs) - 1 else b[0] + lap
+                strip = box_planes(x0, LAT_MIN - 1, x1, LAT_MAX + 1)
+                for label, right in (("NewGuineaMandate", False), ("Papua", True)):
+                    planes = [grow_plane(line_plane(a, b, keep_right=right), lap)] + strip
+                    for r in rings_here:
+                        cut = clip_halfplanes(r, planes)
+                        if len(cut) >= 3:
+                            got[label].append(cut)
+            for label, cut in got.items():
                 if cut:
                     provinces["newguinea_au"].append((label, cut))
 
@@ -3921,6 +4019,21 @@ def main():
             "Manchukuo: %d rings whole (%d vertices), %d provinces (%d vertices)\n"
             % (len(manchukuo), sum(len(r) for r in manchukuo), len(mk_provs),
                sum(len(r) for _, rs in mk_provs for r in rs)))
+
+    for _key, _rings in load_mandates().items():
+        groups[_key].extend(_rings)
+    # and the hole in the Japanese one, taken off Guam's own coastline
+    if groups.get("mandate_jp") and groups.get("guam"):
+        _gx = [p[0] for r in groups["guam"] for p in r]
+        _gy = [p[1] for r in groups["guam"] for p in r]
+        _m = GUAM_BOX_MARGIN
+        groups["mandate_ex_guam"].append([
+            (min(_gx) - _m, min(_gy) - _m), (max(_gx) + _m, min(_gy) - _m),
+            (max(_gx) + _m, max(_gy) + _m), (min(_gx) - _m, max(_gy) + _m),
+        ])
+        sys.stderr.write(
+            "Guam: excluded from the mandate by a box %.2f..%.2f E, %.2f..%.2f N\n"
+            % (min(_gx) - _m, max(_gx) + _m, min(_gy) - _m, max(_gy) + _m))
 
     for _key, _islands in load_pacific_east().items():
         for _name, _rings in _islands:
@@ -5132,7 +5245,13 @@ def main():
                 out.append(f'      <circle class="islet" cx="{fmt(cx)}" cy="{fmt(cy)}" r="{fmt(r)}"/>')
             out.append("    </g>")
         else:
-            out.append(f'    <path id="a-{key}" class="atom" {meta} d="{paths[key]}"/>')
+            # A mandate is a line, not a country: it carries an extra class so
+            # the stylesheet can leave it unfilled until it is pointed at, and
+            # so that the islands inside it are not painted over.
+            _cls = ("atom mandate"
+                    if key in MANDATE_ATOMS.values() or key == "mandate_ex_guam"
+                    else "atom")
+            out.append(f'    <path id="a-{key}" class="{_cls}" {meta} d="{paths[key]}"/>')
     if occ_path:
         ax, ay, area = occ_anchor
         # a group of named blocks rather than one path, so the pointer can say

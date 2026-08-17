@@ -274,6 +274,37 @@ JMAP.TERRITORIES = {
       zh: '所羅門群島',
       when: 'Protectorate from 1893',
       note: 'A British protectorate; Guadalcanal would become the turning point of the Pacific War in 1942–43.' },
+    /* The three Class C League of Nations mandates over the former German
+       Pacific, drawn as outlines from a 1927 chart. `unseen` because nothing is
+       filled in them: they earn no legend swatch, no label and no black
+       silhouette when hovered — the stylesheet gives them a coloured line and,
+       under the pointer, the faintest wash of their power's colour. The islands
+       inside are drawn over them and answer for themselves, so only open water
+       answers for the mandate. `when` is the phrase the tooltip shows and the
+       note is what the detail panel says. 1930 only: by December 1942 the
+       Australian mandate was a battlefield and the Japanese one a fortress, and
+       the 1942 map has other things to say about both. */
+    { id: 'mandate_jp', atoms: ['mandate_jp'], cat: 'jpcolony', lvl: 2, unseen: true,
+      c: '#c2463d',
+      en: 'South Seas Mandate — the mandate boundary',
+      ja: '南洋群島委任統治領の境界', zh: '南洋群島委任統治地界',
+      when: 'Japanese Class C mandate from 1920; taken from Germany in 1914',
+      note: 'Some two thousand islands — the Marianas except Guam, the Carolines and the Marshalls — with about 2,100 km² of land scattered across three million square miles of ocean, which is why the mandate is drawn here as a line and not as a shape. Japan took them from Germany in October 1914, held them under naval administration, and was granted them as a Class C mandate by the League in December 1920; Class C meant a territory could be governed as an integral part of the mandatory’s own. A civil South Seas Bureau ran them from Koror in Palau from 1922. Japanese settlers came with the sugar industry on Saipan and Tinian and outnumbered the islanders by the mid-1930s. Fortifying the islands was forbidden both by the mandate and by the Washington naval treaty; Japan gave notice of leaving the League in 1933, kept the islands, and fortified them anyway. They became the American Trust Territory of the Pacific Islands in 1947.' },
+    { id: 'mandate_ex_guam', atoms: ['mandate_ex_guam'], cat: 'american', lvl: 3, unseen: true,
+      c: '#325d7b',
+      en: 'Guam — inside the line, outside the mandate',
+      when: 'American since 1898; never part of the mandate',
+      note: 'The mandate covered the Marianas <em>except Guam</em>, which is why every description of it says so. Spain ceded Guam to the United States in 1898, so when Japan took the German Marianas in 1914 it took the chain round an American island: Saipan, ninety miles north, was Japanese, and Guam was a US naval station with a small Marine garrison. The Japanese landed there on 10 December 1941, two days after Pearl Harbor, renamed it Ōmiyajima, and held it until the Americans retook it in July and August 1944.' },
+    { id: 'mandate_au', atoms: ['mandate_au'], cat: 'australian', lvl: 3, unseen: true,
+      c: '#c9a6b0',
+      en: 'Territory of New Guinea — the mandate boundary',
+      when: 'Australian Class C mandate from 1920, run from Rabaul',
+      note: 'German New Guinea south of the equator — the Kaiser-Wilhelmsland mainland, the Bismarck Archipelago, Bougainville and Buka — held by Australia as a Class C mandate from 1920 and administered from Rabaul, separately from Papua next door, which was Australian territory outright. Japan landed at Rabaul in January 1942 and made it the base for the whole southern campaign.' },
+    { id: 'mandate_br', atoms: ['mandate_br'], cat: 'british', lvl: 3, unseen: true,
+      c: '#b07f8e',
+      en: 'Nauru — the mandate boundary',
+      when: 'British Class C mandate from 1920, administered by Australia',
+      note: 'One island, held as a Class C mandate jointly by Britain, Australia and New Zealand under the Nauru Island Agreement of 1919 and administered in practice by Australia. What it was held for was phosphate, worked by the British Phosphate Commissioners. Japan took it in August 1942 and deported most of the population to Truk.' },
     // A box of open water east of the Gilberts, drawn in nothing and there
     // only to be hovered. The map's frame stops short of Polynesia, and the
     // blue past the last atoll reads as sea rather than as an edge.
@@ -1750,22 +1781,6 @@ JMAP.YELLOW_1938 = [
 /* ------------------------------------------------------------------ */
 /* The South Seas Mandate                                              */
 /* ------------------------------------------------------------------ */
-/* Nan'yō was mostly ocean: its islands are specks, and on a map at this scale
- * the territory all but disappears. This is the administrative boundary of the
- * mandate as it is conventionally drawn — the equator in the south, roughly
- * 130°E and 175°E on the sides, and the old German-Spanish line in the north.
- * Guam sits inside it and stayed American throughout. */
-
-JMAP.NANYO_BOUNDS = {
-  en: 'Boundary of the South Seas Mandate',
-  ja: '南洋群島委任統治領の境界',
-  zh: '南洋群島委任統治地界',
-  ko: '남양군도 위임통치 경계',
-  ring: [
-    [130.5, 0.0], [175.5, 0.0], [175.5, 12.0], [172.0, 22.5], [136.0, 22.5],
-    [130.5, 12.0],
-  ],
-};
 
 /* ------------------------------------------------------------------ */
 /* Provinces of the Republic                                           */

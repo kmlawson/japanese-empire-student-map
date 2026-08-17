@@ -32,6 +32,61 @@ answer, the source that would settle it is named at the foot of this file.
 
 ## Done
 
+### The Pacific mandates, drawn as lines
+Three Class C League of Nations mandates over the former German Pacific, traced
+from a 1927 chart and added to the **1930 map only**: Japan's South Seas
+Mandate, Australia's Territory of New Guinea, and the British one over Nauru.
+They are outlines and nothing else, which is what a mandate over an ocean is —
+almost everything inside these lines is water, and filling them would bury the
+islands they are about.
+
+Each is dashed in its mandatory power's own colour (#c2463d, #c9a6b0, #b07f8e)
+and filled with `transparent` rather than `none`, because the fill is what the
+pointer lands on. They sit early in `ORDER`, under every island, so **an island
+inside a mandate answers for itself and only open water answers for the
+mandate** — checked at Truk, Saipan, Guam, Rabaul and Nauru, which all give
+their own record, and at open sea in each of the three, which gives the mandate.
+Pointed at, the region takes an 8% wash of its colour: enough to read as one
+area, not enough to change what is drawn over it. `unseen` keeps them out of the
+legend, out of the labels and out of the black silhouette the hover otherwise
+draws.
+
+**Guam is boxed out of it.** It is inside the Japanese line and was never in the
+mandate — American since 1898, which is why every description says "the Marianas
+except Guam". The box is drawn in the American blue in the same dashed grammar,
+and is built from Guam's own extent plus a margin rather than typed out, so it
+cannot come loose from the island. It sits under Guam and over the mandate, so
+the island answers for itself and the water round it says why it is an
+exception.
+
+**And the line pruner had to be told.** A mandate outline is an annotation, not
+a coastline, and a finer coastline does not supersede it — but `prune` marks any
+`#land` path whose subpaths all fall inside a live fine-coastline window, and
+the Guam box is one subpath sitting inside the Marianas window. It vanished the
+moment that window opened. All four are exempt now; the same would have happened
+to the Japanese mandate wherever it crosses the Caroline window, which carries
+559 islands.
+
+**The Papua boundary comes off the same chart.** It used to be `PAPUA_CUT`, one
+straight line from the Dutch border to the coast near Lae. The traced mandate's
+southern edge bends at 144.22 E, and the bend matters: a chord between its two
+ends passes **1.0°, a hundred and ten kilometres, south of the traced line** at
+that vertex.
+
+The bend also decides how it can be cut. The line turns *right* going east,
+which makes the ground north of it concave — so it is not the intersection of
+two half-planes, and clipping it as one loses a wedge of the mandate east of the
+bend. Checked before writing it: a point at 146.5 E 6.5 S is north of the traced
+line and would have been thrown into Papua. Each segment is applied inside its
+own vertical strip instead and the pieces concatenated, which is a union and is
+the right shape. Six points either side of the line, at the bend, east of it and
+at the Dutch end, all land on the correct side.
+
+The hand-drawn rectangle that used to stand for the Japanese mandate is deleted
+rather than left switched off — `JMAP.NANYO_BOUNDS`, `buildNanyoBounds`,
+`NANYO_BOUNDS_SHOWN`, its legend row and its two stylesheet rules. Its own
+comment said it was waiting for a traced one to replace it, and this is that.
+
 ### The islands east of the date line
 Everything the map had out there was one invisible box saying "Polynesia is off
 this map". A good deal of it is not. Cut out of Natural Earth's countries by the
