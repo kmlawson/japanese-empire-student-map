@@ -748,17 +748,45 @@ COCHIN_CUT = ((105.0, 12.4), (109.4, 11.2))
 # ends passes 1.0° — a hundred and ten kilometres — south of the traced line at
 # the middle vertex, so the chord cannot stand in for it.
 #
-# The bend also decides how it has to be cut. The line turns *right* going east,
-# which makes the ground north of it concave, so it is not the intersection of
-# two half-planes and clipping it as one loses a wedge of the mandate east of
-# the bend. Each segment is applied inside its own vertical strip instead and
-# the pieces are concatenated, which is a union rather than an intersection and
-# is the right shape.
+# The bend also decides how it has to be cut, and `clip_halfplanes` cannot do
+# it: the line turns *right* going east, so the ground north of it is concave —
+# neither a half-plane nor the intersection of two. Clipping it strip by strip
+# and concatenating gets the right area and leaves a real edge down each strip
+# boundary, which drew a line straight across New Guinea at the longitude of the
+# bend. `clip_to_curve` treats the boundary as the curve it is, and the ring it
+# hands back has the traced line for its edge.
 PAPUA_CUT_LINE = [
     (140.915448729295292, -5.465505317455851),
     (144.216819619930561, -5.863222230150257),
     (147.141092367045701, -8.110735502353528),
 ]
+
+
+def papua_cut_lat(lon):
+    """The latitude of the Papua boundary at a longitude.
+
+    Beyond the traced line's two ends it runs flat, at the latitude of the end
+    it has reached, rather than carrying the last segment's slope on. Two
+    reasons, and the second is the one that matters. It is right: the line met
+    the east coast near Morobe and everything beyond that — the tail of the
+    Papuan peninsula, the D'Entrecasteaux and the Louisiades — was Papua, while
+    the Bismarcks and Bougainville north of it were the mandate, and a flat
+    boundary at 8.11 S divides them exactly so. And it keeps the clip honest:
+    carried on at its own slope the line dives south-east across the peninsula
+    and cuts it a second time, which gives Sutherland-Hodgman two more crossings
+    than the shape has sides and it bridges between them — measured, that put
+    the boundary as much as 156 km south of where it belongs.
+    """
+    pts = PAPUA_CUT_LINE
+    if lon <= pts[0][0]:
+        return pts[0][1]
+    if lon >= pts[-1][0]:
+        return pts[-1][1]
+    for i in range(len(pts) - 1):
+        a, b = pts[i], pts[i + 1]
+        if a[0] <= lon <= b[0]:
+            return a[1] + (lon - a[0]) / (b[0] - a[0]) * (b[1] - a[1])
+    return pts[-1][1]
 
 # The Yellow River's lower course was cut at Huayuankou in June 1938, when the
 # Chinese army breached the dikes to slow the Japanese advance. Until the
@@ -1493,6 +1521,106 @@ def line_plane(p, q, keep_right=True):
     a, b = dy, -dx           # normal pointing to the right of p->q
     c = -(a * p[0] + b * p[1])
     return (a, b, c) if keep_right else (-a, -b, -c)
+
+
+def clip_to_polyline(ring, pts, keep_above, lap=0.0):
+    """Clip a ring to one side of a polyline that is monotone in longitude.
+
+    `clip_halfplanes` cannot do this, and neither can Sutherland-Hodgman on its
+    own. A half-plane is bounded by a straight line and this boundary bends: the
+    Papua line turns right going east, so the ground north of it is concave —
+    neither a half-plane nor the intersection of two. Clipping strip by strip and
+    concatenating the pieces got the right area and left a real edge down each
+    strip boundary, which drew a line straight across New Guinea at the
+    longitude of the bend.
+
+    Plain Sutherland-Hodgman gets it wrong a second way, and more quietly. It
+    inserts a vertex where an *edge of the ring* crosses the boundary and then
+    closes the polygon by joining one crossing to the next — a chord. The
+    boundary's own bend is never emitted, so the cut came out as the straight
+    line between the two coasts that the traced line exists to replace, bowing
+    up to 92 km away from it at the bend. Measured, before and after.
+
+    So the boundary's vertices are spliced in between an exit and the next
+    entry, in the direction travelled, and the edge of the ring handed back *is*
+    the traced line.
+
+    `lap` pushes the boundary into the other side by that many degrees so the two
+    halves overlap rather than abut: cut on the line exactly, each is simplified
+    on its own afterwards, the shared edge comes back a hair apart and a line of
+    sea opens down the middle of the island.
+    """
+    if len(ring) < 3 or len(pts) < 2:
+        return []
+    off = -lap if keep_above else lap
+    line = [(p[0], p[1] + off) for p in pts]
+
+    def lat_at(lon):
+        if lon <= line[0][0]:
+            return line[0][1]
+        if lon >= line[-1][0]:
+            return line[-1][1]
+        for i in range(len(line) - 1):
+            a, b = line[i], line[i + 1]
+            if a[0] <= lon <= b[0]:
+                return a[1] + (lon - a[0]) / (b[0] - a[0]) * (b[1] - a[1])
+        return line[-1][1]
+
+    inside = (lambda p: p[1] > lat_at(p[0])) if keep_above \
+        else (lambda p: p[1] < lat_at(p[0]))
+
+    def crossing(a, b):
+        """Where a->b meets the boundary. The edge is straight and the boundary
+        piecewise linear; forty rounds of bisection put it within a millionth of
+        a degree, which is a tenth of a metre."""
+        lo, hi, ina = 0.0, 1.0, inside(a)
+        for _ in range(40):
+            mid = (lo + hi) / 2
+            p = (a[0] + (b[0] - a[0]) * mid, a[1] + (b[1] - a[1]) * mid)
+            if inside(p) == ina:
+                lo = mid
+            else:
+                hi = mid
+        t = (lo + hi) / 2
+        return (a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t)
+
+    # first pass: vertices kept, and the crossings, tagged exit or entry
+    out = []
+    n = len(ring)
+    for i in range(n):
+        a, b = ring[i], ring[(i + 1) % n]
+        ia, ib = inside(a), inside(b)
+        if ia:
+            out.append((a, None))
+        if ia != ib:
+            out.append((crossing(a, b), "exit" if ia else "entry"))
+    if len(out) < 3:
+        return []
+
+    # second pass: between an exit and the next entry, walk the boundary
+    res = []
+    m = len(out)
+    for i in range(m):
+        p, tag = out[i]
+        res.append(p)
+        if tag != "exit":
+            continue
+        nxt = None
+        for j in range(1, m + 1):
+            q, qt = out[(i + j) % m]
+            if qt == "entry":
+                nxt = q
+                break
+            if qt == "exit":
+                break
+        if nxt is None:
+            continue
+        lo, hi = p[0], nxt[0]
+        mids = [v for v in line if min(lo, hi) < v[0] < max(lo, hi)]
+        if hi < lo:
+            mids.reverse()
+        res.extend(mids)
+    return res if len(res) >= 3 else []
 
 
 def grow_plane(plane, d):
@@ -3894,23 +4022,9 @@ def main():
                 if cut:
                     provinces["indochina"].append((label, cut))
         elif admin == "Papua New Guinea":
-            lap = 0.02
-            segs = list(zip(PAPUA_CUT_LINE, PAPUA_CUT_LINE[1:]))
-            got = {"NewGuineaMandate": [], "Papua": []}
-            for n, (a, b) in enumerate(segs):
-                # the strip this segment governs, open at the two ends so the
-                # island is covered from the Dutch border to the far coast, and
-                # overlapping its neighbour by `lap` so no sliver falls between
-                x0 = LON_MIN - 1 if n == 0 else a[0] - lap
-                x1 = LON_MAX + 1 if n == len(segs) - 1 else b[0] + lap
-                strip = box_planes(x0, LAT_MIN - 1, x1, LAT_MAX + 1)
-                for label, right in (("NewGuineaMandate", False), ("Papua", True)):
-                    planes = [grow_plane(line_plane(a, b, keep_right=right), lap)] + strip
-                    for r in rings_here:
-                        cut = clip_halfplanes(r, planes)
-                        if len(cut) >= 3:
-                            got[label].append(cut)
-            for label, cut in got.items():
+            for label, above in (("NewGuineaMandate", True), ("Papua", False)):
+                cut = [c for c in (clip_to_polyline(r, PAPUA_CUT_LINE, above, 0.02)
+                                   for r in rings_here) if len(c) >= 3]
                 if cut:
                     provinces["newguinea_au"].append((label, cut))
 

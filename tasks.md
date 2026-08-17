@@ -82,11 +82,35 @@ blue. So each line is two paths, a pale casing and the colour over it, and now
 reads against whatever it crosses. Both faults would have hit the Japanese line
 over Japanese-coloured ground too.
 
-**The split itself needed no change.** Measured against the traced line at seven
-longitudes it agrees to **3–4 km**, which is the deliberate 0.02° overlap plus
-the sampling step, and an overlay of the traced line drawn on the live map lies
-exactly on the drawn division, through the bend and down to the coast. What
-looked like a disagreement was the line being invisible, not misplaced.
+**And the cut is clipped against the polyline, not around it.** This took three
+tries and each failure is worth keeping.
+
+The strip method — one half-plane per segment inside its own vertical strip,
+pieces concatenated — gets the right *area* and leaves a real edge down each
+strip boundary. That drew a line straight across New Guinea at the longitude of
+the bend: a boundary that never existed.
+
+Plain Sutherland-Hodgman against the curve gets it wrong more quietly. It
+inserts a vertex where an *edge of the ring* crosses the boundary and then joins
+one crossing to the next — a chord. The boundary's own bend is never emitted, so
+the cut came back as the straight line between the two coasts that the traced
+line exists to replace: measured, **bowing up to 92 km** away from it at the
+bend, which is most of the 110 km the chord was worth in the first place.
+
+Extending the line beyond its ends at its own slope is wrong too: it dives
+south-east across the Papuan peninsula and cuts it a second time, giving the
+clip two more crossings than the shape has sides, and it bridges between them —
+**156 km** out at worst. Beyond its ends the boundary runs flat instead, which is
+also what the history says: the line met the east coast near Morobe, and a flat
+boundary at 8.11 S puts the Bismarcks and Bougainville in the mandate and the
+tail of the peninsula, the D'Entrecasteaux and the Louisiades in Papua.
+
+`clip_to_polyline` splices the boundary's own vertices in between an exit and
+the next entry, so the ring's edge *is* the traced line. Tested standalone
+against a box straddling the whole line: **0.0 km at every longitude, including
+the bend, on both sides**. On the real coastline the two halves sit 2–3 km apart,
+which is the deliberate 0.02° overlap that stops a hairline of sea opening
+between them.
 
 **The Papua boundary comes off the same chart.** It used to be `PAPUA_CUT`, one
 straight line from the Dutch border to the coast near Lae. The traced mandate's
