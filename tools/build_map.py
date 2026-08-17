@@ -707,7 +707,11 @@ BURMA_DIVISIONS = {
 # copy of them arriving with the administrative divisions. Lakshadweep is here
 # because this map does not draw it and the remainder block should not smuggle
 # it in either.
-INDIA_NOT_DRAWN = {"Andaman and Nicobar Islands", "Lakshadweep"}
+# Sikkim is a modern Indian state and was a protectorate under its own
+# Chogyal, never a part of British India. It has an atom and a record of
+# its own; drawn as an Indian province as well, it put India's own fill and
+# India's own outline over it.
+INDIA_NOT_DRAWN = {"Andaman and Nicobar Islands", "Lakshadweep", "Sikkim"}
 
 INDIA_STATES = {
     # provinces of the Raj
@@ -1737,6 +1741,81 @@ def ring_centroid(points):
         return (sum(p[0] for p in points) / n, sum(p[1] for p in points) / n)
     a *= 0.5
     return (cx / (6 * a), cy / (6 * a))
+
+
+# Sikkim's salient, and the box that holds it and nothing else of India's
+# outline. Natural Earth's India is the modern one, so it takes in Sikkim, which
+# the Chogyal ruled under British protection and which this map draws as its own
+# territory. Painted over, that was invisible; hovered, it was not — the black
+# outline of British India ran up the Nepal-Sikkim border, along the crest with
+# Tibet and back down to Bhutan, enclosing a state that was never in it.
+#
+# Above 27.05 N and between 87.95 and 89.0 E, everything Natural Earth calls
+# India is Sikkim: Nepal is west, Tibet north, Bhutan east, and Darjeeling, which
+# is India's, lies below the box. Measured on the source ring: of its 6,761
+# points exactly 106 fall in that box, in one unbroken run, entering at
+# 87.99 E 27.08 N and leaving at 88.84 E 27.08 N — the two trijunctions. So the
+# salient can be taken out by replacing that run, with no boolean geometry.
+SIKKIM_BOX = (87.95, 27.05, 89.00, 28.20)
+
+
+def cut_out_sikkim(rings, sikkim, box=SIKKIM_BOX):
+    """India's rings with the Sikkim salient replaced by Sikkim's own south border.
+
+    The run of India's ring that lies inside `box` is the detour round Sikkim.
+    It is replaced by the arc of Sikkim's own ring between the same two ends —
+    its southern side — so that the two shapes share that boundary exactly and no
+    crack can open along it. The alternative, a straight chord, would have left
+    India's line a few kilometres off the border it stands for.
+    """
+    if not sikkim:
+        return rings, 0
+    x0, y0, x1, y1 = box
+    sik = max(sikkim, key=len)
+
+    def inbox(p):
+        return x0 <= p[0] <= x1 and y0 <= p[1] <= y1
+
+    out, cut = [], 0
+    for ring in rings:
+        idx = [k for k, p in enumerate(ring) if inbox(p)]
+        if not idx or len(idx) == len(ring):
+            out.append(ring)
+            continue
+        # the run, allowing for one that straddles the ring's first vertex
+        runs, cur = [], [idx[0]]
+        for a, b in zip(idx, idx[1:]):
+            if b == a + 1:
+                cur.append(b)
+            else:
+                runs.append(cur)
+                cur = [b]
+        runs.append(cur)
+        if len(runs) > 1 and runs[0][0] == 0 and runs[-1][-1] == len(ring) - 1:
+            runs = [runs[-1] + runs[0]] + runs[1:-1]
+        if len(runs) != 1:
+            sys.stderr.write("note: Sikkim's box holds %d runs of India's ring, "
+                             "left alone\n" % len(runs))
+            out.append(ring)
+            continue
+        run = runs[0]
+        a, b = ring[run[0]], ring[run[-1]]
+
+        def nearest(pt):
+            return min(range(len(sik)),
+                       key=lambda i: (sik[i][0] - pt[0]) ** 2 + (sik[i][1] - pt[1]) ** 2)
+
+        i, j = nearest(a), nearest(b)
+        fwd = sik[i:j + 1] if i <= j else sik[i:] + sik[:j + 1]
+        back = list(reversed(sik[j:i + 1] if j <= i else sik[j:] + sik[:i + 1]))
+        # the southern arc is the one that stays low
+        south = min((fwd, back),
+                    key=lambda arc: sum(p[1] for p in arc) / max(1, len(arc)))
+        head = ring[:run[0]]
+        tail = ring[run[-1] + 1:]
+        out.append(head + list(south) + tail)
+        cut = len(run)
+    return out, cut
 
 
 def ring_edge_distance(pt, ring):
@@ -4457,6 +4536,17 @@ def main():
                         moved[i] = (moved[i][0] + mx * f, moved[i][1] + my * f)
                     ring = moved
                 groups[key].append(ring)
+
+    # Sikkim out of India, now that both are loaded. See cut_out_sikkim().
+    if groups.get("sikkim"):
+        for _store, _name in ((groups, "groups"), (backing, "backing")):
+            if _store.get("india"):
+                _cut, _n = cut_out_sikkim(_store["india"], groups["sikkim"])
+                _store["india"] = _cut
+                if _n:
+                    sys.stderr.write("Sikkim: %d points of India's %s ring "
+                                     "replaced by its southern border\n"
+                                     % (_n, _name))
 
     # ---- Laos and Cambodia, minus the territory ceded in 1941 -------------
     # Drawn province by province rather than as whole countries, so that the

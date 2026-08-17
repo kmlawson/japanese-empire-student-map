@@ -46,6 +46,34 @@ answer, the source that would settle it is named at the foot of this file.
 
 ## Done
 
+### Sikkim out of British India's outline
+
+Hovering British India drew a black line that ran up the Nepal–Sikkim border,
+along the crest with Tibet and back down to Bhutan: it enclosed Sikkim, a state
+the Chogyal ruled under British protection and which this map draws as its own
+territory. Two sources put it there. Natural Earth's India is the modern one, so
+its country ring takes Sikkim in — and that ring is India's **backing**, which is
+what draws India when Administrative is off. And geoBoundaries' Sikkim is one of
+India's ADM1 states, so with Administrative on it came in a second time, as an
+Indian province with no name.
+
+The province is simply not drawn now — Sikkim was never part of British India —
+and the salient is cut out of the country ring. No boolean geometry was needed,
+because the salient is separable: **above 27.05 N and between 87.95 and 89.0 E,
+everything Natural Earth calls India is Sikkim** — Nepal west, Tibet north,
+Bhutan east, and Darjeeling, which is India's, below the box. Measured on the
+source ring: of its **6,761 points exactly 106 fall in that box, in one unbroken
+run**, entering at 87.99 E 27.08 N and leaving at 88.84 E 27.08 N, which are the
+two trijunctions. That run is replaced by the arc of Sikkim's own ring between the
+same two ends — its southern side — so the two shapes share that border exactly
+and no crack can open along it. A straight chord would have been easier and would
+have left India's line a few kilometres off the border it stands for.
+
+Checked: Gangtok and three other points in Sikkim are inside Sikkim and outside
+India, in the fill and in the provinces both; Darjeeling, Kalimpong and Siliguri
+are still India's; and of nineteen samples taken a kilometre south of Sikkim's
+border along its whole length, none falls on ground that nothing covers.
+
 ### The central Solomons, researched island by island
 
 A sub-agent was sent to establish the December 1942 status of the 55 named
