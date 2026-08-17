@@ -62,6 +62,7 @@
   var hatchGroup = null;
   var highlightLayer = null;
   var subOutlineLayer = null;
+  var mandateLiftLayer = null;
   var subsLiftLayer = null;
   var hiDefs = null;
   var ownedDefs = { hi: [], sub: [] };
@@ -332,6 +333,16 @@
     // was buried is visible without anything else changing places.
     subsLiftLayer = svgEl('g', { id: 'subs-lift' });
     svg.appendChild(subsLiftLayer);
+    // The mandate lines, lifted clear of the land they cross. The shape itself
+    // has to stay *under* every island, because it is the hover target and an
+    // island inside a mandate must answer for itself — but that buried its line
+    // wherever it crossed ground, so the Australian mandate's boundary across
+    // New Guinea was invisible and only the stretches over water showed. The
+    // period charts draw the line straight across the island, and so does this:
+    // a stroked copy above all of #land, taking no pointer events, while the
+    // original keeps the fill that answers and washes.
+    mandateLiftLayer = svgEl('g', { id: 'mandate-lift' });
+    svg.appendChild(mandateLiftLayer);
     // the standing outlines round territories that share a neighbour's colour
     subOutlineLayer = svgEl('g', { id: 'sub-outlines' });
     svg.appendChild(subOutlineLayer);
@@ -345,6 +356,22 @@
     hatchGroup = svg.querySelector('#hatching');
 
     $$('.atom', svg).forEach(function (el) { atomEls[el.id.replace(/^a-/, '')] = el; });
+    // one stroked copy per mandate, above the land; `syncMandateLines` keeps
+    // each one's colour and visibility with the shape it was copied from
+    // Two paths, not one: a pale casing and the coloured dash over it. A
+    // mandate line in its power's own colour is invisible over that power's own
+    // land — Australia's #c9a6b0 line ran across New Guinea, which is drawn in
+    // #c9a6b0 — so the boundary showed over water and disappeared the moment it
+    // met the ground it divides. The casing gives it something to read against
+    // whatever it crosses.
+    $$('#land path.mandate', svg).forEach(function (el) {
+      var key = el.id.replace(/^a-/, '');
+      ['mandate-casing', 'mandate-line'].forEach(function (cls) {
+        var line = svgEl('path', { d: el.getAttribute('d'), 'class': cls });
+        line.setAttribute('data-for', key);
+        mandateLiftLayer.appendChild(line);
+      });
+    });
     $$('#backings [data-for]', svg).forEach(function (el) {
       backingEls[el.getAttribute('data-for')] = el;
     });
@@ -509,6 +536,19 @@
     riversGroup.appendChild(yellow1938);
   }
 
+
+  /* The lifted mandate lines follow the shapes they were copied from: the same
+     colour, and shown only when the mandate itself is on the map. */
+  function syncMandateLines() {
+    if (!mandateLiftLayer) return;
+    $$('path', mandateLiftLayer).forEach(function (line) {
+      var src = atomEls[line.getAttribute('data-for')];
+      if (!src) { line.style.display = 'none'; return; }
+      line.style.display = getComputedStyle(src).display === 'none' ? 'none' : '';
+      var c = src.style.getPropertyValue('--c');
+      if (c) line.style.setProperty('--c', c);
+    });
+  }
 
   /* Context cities: smaller, greyer, under the markers that are examinable. */
   function buildBrowse() {
@@ -2595,6 +2635,8 @@
         el.style.display = state.cats.territory ? '' : 'none';
       });
     });
+
+    syncMandateLines();
 
     if (extentPath) {
       extentPath.style.display = (state.epoch === 'e1942' && state.extent) ? '' : 'none';

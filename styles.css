@@ -482,14 +482,32 @@ button.plain:hover { background: #f2ede2; }
    Pointed at, the whole region takes the faintest wash of its power's colour —
    8%, which is enough to read as one area at a glance and not enough to change
    the colour of anything drawn over it. */
+/* The shape carries the fill that answers the pointer and washes on hover; the
+   line itself is drawn by the copy in #mandate-lift, above the land, so that a
+   boundary crossing an island is not buried under it. */
 .mandate {
   fill: transparent;
-  stroke: var(--c, var(--muted));
-  stroke-width: 1.4;
+  stroke: none;
+}
+
+#mandate-lift { pointer-events: none; }
+
+#mandate-lift path {
+  fill: none;
   stroke-dasharray: 7 5;
   stroke-linejoin: round;
   vector-effect: non-scaling-stroke;
-  opacity: .75;
+}
+
+/* Something for the dash to read against, whatever it crosses. */
+#mandate-lift .mandate-casing {
+  stroke: rgba(255, 253, 248, .85);
+  stroke-width: 3.4;
+}
+
+#mandate-lift .mandate-line {
+  stroke: var(--c, var(--muted));
+  stroke-width: 1.5;
 }
 
 .mandate.hot {

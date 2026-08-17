@@ -67,6 +67,27 @@ moment that window opened. All four are exempt now; the same would have happened
 to the Japanese mandate wherever it crosses the Caroline window, which carries
 559 islands.
 
+**The mandate lines are lifted over the land they cross, and cased.** The shape
+itself has to stay under every island, because it is the hover target and an
+island inside a mandate must answer for itself — but that buried the line
+wherever it crossed ground, so the Australian mandate's boundary across New
+Guinea showed over water and vanished at the coast. A stroked copy now sits
+above all of `#land`, taking no pointer events, while the original keeps the fill
+that answers and washes.
+
+That was not the whole of it. Lifted, the line was *still* invisible over New
+Guinea: it is drawn in its power's colour and Australian land is drawn in the
+same colour — `#c9a6b0` on `#c9a6b0`. It reads over water because the sea is
+blue. So each line is two paths, a pale casing and the colour over it, and now
+reads against whatever it crosses. Both faults would have hit the Japanese line
+over Japanese-coloured ground too.
+
+**The split itself needed no change.** Measured against the traced line at seven
+longitudes it agrees to **3–4 km**, which is the deliberate 0.02° overlap plus
+the sampling step, and an overlay of the traced line drawn on the live map lies
+exactly on the drawn division, through the bend and down to the coast. What
+looked like a disagreement was the line being invisible, not misplaced.
+
 **The Papua boundary comes off the same chart.** It used to be `PAPUA_CUT`, one
 straight line from the Dutch border to the coast near Lae. The traced mandate's
 southern edge bends at 144.22 E, and the bend matters: a chord between its two
