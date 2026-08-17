@@ -1365,17 +1365,6 @@ dialog h3 {
    pressing it did nothing, which reads as broken. It says so now. */
 #zoom-controls button.idle { opacity: .38; cursor: default; }
 
-/* The box of open water east of the Gilberts. It is on the map only to be
-   hovered — the frame stops short of Polynesia and the reader has no way of
-   telling an empty sea from an edge — so it is painted in nothing at all.
-   `transparent` rather than `none`, because a shape with no paint at all takes
-   no pointer either, and taking the pointer is the whole of its job. */
-#a-polynesia {
-  fill: transparent !important;
-  stroke: none !important;
-}
-#a-polynesia.hot { filter: none; }
-
 /* the third label is for phones only; everywhere else the full word fits */
 #layer-seg button .mid { display: none; }
 

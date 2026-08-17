@@ -305,13 +305,6 @@ JMAP.TERRITORIES = {
       en: 'Nauru — the mandate boundary',
       when: 'British Class C mandate from 1920, administered by Australia',
       note: 'One island, held as a Class C mandate jointly by Britain, Australia and New Zealand under the Nauru Island Agreement of 1919 and administered in practice by Australia. What it was held for was phosphate, worked by the British Phosphate Commissioners. Japan took it in August 1942 and deported most of the population to Truk.' },
-    // A box of open water east of the Gilberts, drawn in nothing and there
-    // only to be hovered. The map's frame stops short of Polynesia, and the
-    // blue past the last atoll reads as sea rather than as an edge.
-    { id: 'polynesia', atoms: ['polynesia'], cat: 'other', lvl: 3, unseen: true,
-      en: 'Fiji, Samoa and the rest of Polynesia (not shown)',
-      when: 'Beyond the edge of this map',
-      note: 'The atolls drawn out here are the ones that fall inside the frame — the Line and Phoenix Islands, Tokelau, the northern Cooks and the American specks among them. Fiji, Samoa, Tonga, the southern Cooks, the Societies and the rest of Polynesia lie beyond it. Japan reached none of them: the furthest the advance came was the Gilberts, with the landings on Guadalcanal and in Papua the southern limit. The Allied build-up that turned the war ran through these islands — Fiji, Samoa and New Caledonia were garrisoned by American troops from 1942 and were the base for the Solomons campaign.' },
     { id: 'gilberts', atoms: ['gilberts'], cat: 'british', lvl: 3,
       rule: 'British colony',
       en: 'Gilbert & Ellice Islands', ja: 'ギルバート諸島', orig: 'Tungaru',
@@ -674,10 +667,6 @@ JMAP.TERRITORIES = {
       zh: '關島',
       when: 'Taken 10 December 1941',
       note: 'The one American possession inside the Japanese-held Marianas, renamed Ōmiyajima and retaken in 1944.' },
-    { id: 'polynesia', atoms: ['polynesia'], cat: 'other', lvl: 3, unseen: true,
-      en: 'Fiji, Samoa and the rest of Polynesia (not shown)',
-      when: 'Beyond the edge of this map',
-      note: 'The atolls drawn out here are the ones that fall inside the frame — the Line and Phoenix Islands, Tokelau, the northern Cooks and the American specks among them. Fiji, Samoa, Tonga, the southern Cooks, the Societies and the rest of Polynesia lie beyond it. Japan reached none of them: the furthest the advance came was the Gilberts, with the landings on Guadalcanal and in Papua the southern limit. The Allied build-up that turned the war ran through these islands — Fiji, Samoa and New Caledonia were garrisoned by American troops from 1942 and were the base for the Solomons campaign.' },
     { id: 'gilberts', atoms: ['gilberts'], cat: 'occupied', lvl: 3,
       rule: 'British colony under Japanese occupation',
       en: 'Gilbert Islands', ja: 'ギルバート諸島', orig: 'Tungaru',

@@ -188,8 +188,15 @@ lagoon, and pointing at the middle of Canton then falls through the hole and
 answers "Polynesia, beyond the edge of this map". The forgiving target and a
 true group answer beat a precise one that misses.
 
-The Polynesia box is reworded in both epochs — it said these were not shown, and
-now some of them are.
+**And the Polynesia box is gone.** It was an invisible rectangle of open water
+from 178.6 to 205.9 E, there only to be hovered, answering "Fiji, Samoa and the
+rest of Polynesia — beyond the edge of this map". It existed because a reader who
+reached that blue had no way of telling empty sea from a missing place. Now that
+everything inside the frame out there *is* drawn, the box was answering for water
+that has nothing to say, and what lies past the frame needs no apology from
+inside it. Removed in both epochs, along with `POLYNESIA_BOX`, its place in
+`ORDER` and its two stylesheet rules; the sea east of the Line Islands is bare
+sea again, and every island out there still answers for itself.
 
 ### The detail sheet: what is new first, and a phone that can still see the map
 

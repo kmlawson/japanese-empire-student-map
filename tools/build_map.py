@@ -3597,15 +3597,6 @@ CHRISTMAS_ISLAND = [
     (105.6546, -10.4699), (105.6693, -10.4562), (105.6852, -10.4404),
 ]
 
-# The map stops a little east of the Gilberts, and everything past that edge —
-# Fiji, Samoa, Tonga, the whole of Polynesia — is simply not on it. A reader who
-# gets that far has no way of knowing whether the blue is empty ocean or a place
-# the map has left out, so this box of open water answers when it is hovered and
-# says which. It is drawn in nothing at all: no fill, no stroke, no label.
-POLYNESIA_BOX = [
-    (178.6, -12.9), (205.9, -12.9), (205.9, 9.0), (178.6, 9.0),
-]
-
 WAKE = [
     # the southern ocean shore, west to east: Wilkes, then Wake
     (166.5960, 19.2790), (166.6060, 19.2800), (166.6160, 19.2795),
@@ -3792,7 +3783,6 @@ ON_TOP = ["weihaiwei", "guangzhouwan", "macau", "hongkong", "kwantung", "ccp"]
 
 ORDER = [
     # first, so that anything real drawn over it wins the pointer
-    "polynesia",
     # under chinabase, which is itself a filler
     "chinabase_land",
     "chinabase", "andaman", "ceylon", "ussr", "mongolia", "tibet",
@@ -4170,7 +4160,6 @@ def main():
     groups["wake"].append(list(WAKE))
     groups["christmas"].append(list(CHRISTMAS_ISLAND))
     provinces["christmas"].append(("Christmas Island", [list(CHRISTMAS_ISLAND)]))
-    groups["polynesia"].append(list(POLYNESIA_BOX))
     groups["pondicherry"].append(list(CHANDERNAGORE))
     provinces["pondicherry"].append(("Chandernagore", [list(CHANDERNAGORE)]))
 
