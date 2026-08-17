@@ -46,6 +46,47 @@ answer, the source that would settle it is named at the foot of this file.
 
 ## Done
 
+### The central Solomons, researched island by island
+
+A sub-agent was sent to establish the December 1942 status of the 55 named
+islands inside a traced polygon over the Russells, Savo, Tulagi and the Florida
+group, against the US Army and Marine Corps official histories, Morison, the
+Solomon Islands Encyclopaedia, Bishop Baddeley's contemporary 1942 mission
+report and the coastwatcher literature. Three findings mattered.
+
+**Alite confirmed, and the reason it was wrong confirmed with it.** Malaita was
+never occupied: the Resident Commissioner moved the protectorate headquarters to
+Auki on Malaita on 11 February 1942 and the administration ran there
+continuously. A Japanese party landed in July 1942, looted the mission hospital
+at Fauabu and kept a post on the north coast until November, and that was all.
+Alite, a few kilometres from Auki, was never held. Already corrected above.
+
+**Tulagi and Florida were one atom under Tulagi's name, and they answer
+differently.** The build has always called that atom "Tulagi and the Floridas";
+the record was called "Tulagi, Gavutu and Tanambogo" and dated "Taken by the
+Americans 8–9 August 1942". True of Tulagi, false of Florida. Tulagi was the
+Japanese garrison here — seized 3 May 1942, assaulted on 7 August, secured the
+following afternoon, with Gavutu and Tanambogo across the harbour taken in the
+same two days and almost the whole garrison of some three hundred and fifty
+killed; about forty swam to Florida. Florida itself was never Japanese-held: the
+landings at Haleta and Halavo on 7 August were unopposed covering parties for the
+assault on Tulagi and were withdrawn the same day. The record is "Tulagi and the
+Florida Islands" now and the note says which is which.
+
+**The Russells and Savo had no garrison of either side.** The colour is right —
+British protectorate, not taken — but the one colour cannot say that nobody was
+there. The Russells were a Japanese barge staging point during the Guadalcanal
+campaign and had no garrison until **28 January 1943**, when six destroyers put
+**328 men** ashore to cover the evacuation of Guadalcanal; they were gone by
+11 February and the American landing on 21 February was unopposed. Savo, off
+which the cruiser action of 9 August 1942 was fought, was visited by Japanese
+boats and patrolled by American raiders on 4 September, and held by neither. Both
+are now said in the note, and the record, which had held only the eastern chain
+and the Santa Cruz group, is renamed for the central islands it also carries.
+
+No change on Savo's, Mborokua's or the Sandfly Passage islets' colours: the
+evidence supports leaving them as they are.
+
 ### Sikkim's protectorate, and Alite Island out of the Japanese half of the Solomons
 
 **Sikkim: 1890 was the recognition, not the start.** The card said "British

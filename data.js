@@ -799,10 +799,10 @@ JMAP.TERRITORIES = {
       note: 'In December 1942 the island was divided: the Americans held the airfield and the perimeter around it, the Japanese the ground to the west, and neither could dislodge the other. It is drawn in the occupation colour with American stripes across it for that reason — the only place on the map with two flags over it. Japan evacuated in the first week of February 1943, and the campaign is usually taken as the point at which the initiative changed hands.'
     },
     {
-      id: 'tulagi', en: 'Tulagi, Gavutu and Tanambogo', ja: 'ツラギ・ガブツ・タナンボゴ', orig: 'Tulagi',
-      zh: '圖拉吉', when: 'Taken by the Americans 8–9 August 1942', cat: 'allied', lvl: 3,
-      atoms: ['solomons_us'],
-      note: 'The old seat of the British protectorate, seized by Japan in May 1942 and retaken by the Marines on 8 August, with Gavutu and Tanambogo falling the next day. Its harbour served the Allied fleet for the rest of the campaign.'
+      id: 'tulagi', en: 'Tulagi and the Florida Islands', ja: 'ツラギ・フロリダ諸島', orig: 'Tulagi',
+      zh: '圖拉吉・佛羅里達群島', when: 'Tulagi taken by the Americans 8 August 1942', cat: 'allied',
+      lvl: 3, atoms: ['solomons_us'],
+      note: 'Two different places under one shape, and they answer differently. Tulagi was the old seat of the British protectorate and the Japanese garrison in this corner of the Solomons: seized on 3 May 1942 and held until the Marines landed on 7 August, with Tulagi secured the following afternoon and Gavutu and Tanambogo, the two islets across the harbour, taken in the same two days. Almost the whole garrison of about three hundred and fifty died; some forty swam across to Florida. Florida itself — Nggela Sule and Nggela Pile, the large island north of Tulagi, with the islets round it — was never Japanese- held. The landings there on 7 August, at Haleta and Halavo, were unopposed covering parties for the assault on Tulagi and were withdrawn the same day. By this map\'s date Tulagi\'s harbour was an Allied base with a motor torpedo boat flotilla at Sesapi, and the seaplane base at Halavo on Florida was being built.'
     },
     {
       id: 'malaita', en: 'Malaita (never fully occupied)', ja: 'マライタ島', orig: 'Malaita',
@@ -810,10 +810,10 @@ JMAP.TERRITORIES = {
       note: 'Japanese patrols and coastwatcher hunts reached the island, but it was never occupied: the protectorate administration and its coastwatchers stayed on it throughout, which is why it keeps the British colour outright.'
     },
     {
-      id: 'solomons_allied', en: 'The eastern Solomons & the Santa Cruz Islands',
-      ja: 'ソロモン諸島東部・サンタクルーズ諸島', orig: 'Makira / Nendö', zh: '所羅門群島東部・聖克魯斯群島',
+      id: 'solomons_allied', en: 'The central & eastern Solomons and the Santa Cruz Islands',
+      ja: 'ソロモン諸島中部・東部・サンタクルーズ諸島', orig: 'Makira / Nendö', zh: '所羅門群島中部・東部・聖克魯斯群島',
       when: 'British throughout', cat: 'allied', lvl: 3, atoms: ['solomons_al'],
-      note: 'San Cristobal, Ulawa, Rennell and Bellona, and the Santa Cruz group 500 km further east — Nendö, Utupua, Vanikoro and Tinakula. All of it was the British protectorate and none of it was taken: the occupation stopped in the western chain, and the perimeter runs west of these islands. The carrier battle of the Santa Cruz Islands was fought north of them in October 1942 and the naval battle of Rennell Island off Rennell in January 1943.'
+      note: 'San Cristobal, Ulawa, Rennell and Bellona, and the Santa Cruz group 500 km further east — Nendö, Utupua, Vanikoro and Tinakula. Nearer in, the Russell Islands, Savo and the Nggela islets. All of it was the British protectorate and none of it was taken: the occupation stopped in the western chain, and the perimeter runs west of these islands. The carrier battle of the Santa Cruz Islands was fought north of them in October 1942 and the naval battle of Rennell Island off Rennell in January 1943. Two of these had no garrison of either side at this date, which the one colour cannot show. Savo, off which the cruiser action of 9 August 1942 was fought, was visited by Japanese boats and patrolled by American raiders in September, and held by neither. The Russell Islands were a Japanese barge staging point during the Guadalcanal campaign but had no garrison until 28 January 1943, when six destroyers put 328 men ashore to cover the evacuation of Guadalcanal; they were gone by 11 February, and the American landing on 21 February was unopposed.'
     },
     {
       id: 'attukiska', en: 'Attu and Kiska', ja: 'アッツ島・キスカ島', orig: 'Atan / Qisxa',
