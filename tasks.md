@@ -51,6 +51,20 @@ territory — one colony, correctly — and 1942 splits them: `gilberts` occupie
 both answer "Gilbert & Ellice Islands"; in 1942 the Gilberts are occupation
 salmon and the Ellice mauve, and each island names itself.
 
+**And the line of control had one of them inside it.** Tested by asking the
+extent path itself, place by place: of the eight Ellice islands **Nanumea was
+inside** — the perimeter ran (175, −6.4) → (179, −4.4), which is 5.83 S under
+Nanumea's 5.69 S. Tarawa and Ocean Island are inside and belong there. The
+stretch is raised to (171, −7.0) → (175, −5.0), passing 4.83 S under Nanumea, and
+all eight are outside now while both occupied places stay in. Nothing held lay
+between the two groups: the southernmost Gilbert, Arorae, is at 2.65 S.
+
+**The bases are drawn as diagonals, not as a change of flag.** `cat: 'allied'`
+with `hatch: 'us'` — the same grammar Guadalcanal uses in reverse, where the fill
+is the occupation and the diagonals are the Americans ashore. The Ellice were
+British throughout and never occupied; American marines landing on Funafuti did
+not make them American, and colouring them so would have said they did.
+
 **Ocean Island is in the Gilberts' note now**, as asked: Banaba, taken in August
 1942, most of its people deported to Nauru, Kosrae and Tarawa, and the roughly
 150 labourers who remained murdered by the garrison on 20 August 1945 — five days

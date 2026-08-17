@@ -679,8 +679,12 @@ JMAP.TERRITORIES = {
     // it has to stand on its own: Japan held the Gilberts and never came within
     // six hundred miles of these, so one colour for the colony would have said
     // the opposite of what happened.
-    { id: 'ellice', atoms: ['ellice'], cat: 'allied', lvl: 3,
-      rule: 'British colony',
+    // Allied ground with American forces on it — the same grammar Guadalcanal
+    // uses in reverse, where the fill is the occupation and the diagonals are
+    // the Americans ashore. The Ellice were British throughout and were never
+    // occupied; the diagonals are the bases, not a change of flag.
+    { id: 'ellice', atoms: ['ellice'], cat: 'allied', lvl: 3, hatch: 'us',
+      rule: 'British colony; American bases from October 1942',
       en: 'Ellice Islands',
       when: 'Never occupied; American base from October 1942',
       note: 'Nine atolls and reef islands, the southern half of the Gilbert & Ellice Islands Colony, and the nearest unoccupied ground to the Gilberts. American marines landed on Funafuti on 2 October 1942 and built an airfield there, with two more on Nanumea and Nukufetau the following year; Funafuti was the base the assault on Tarawa and Makin was mounted from in November 1943. Japanese aircraft bombed it from the Gilberts in the meantime. The islanders were moved off the airfield sites and the atolls were left with the runways, the scrap and the borrow pits when the war moved north.' },

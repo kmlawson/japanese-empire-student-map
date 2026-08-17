@@ -1233,7 +1233,16 @@ EXTENT_OCEAN = [
     (158.3, -8.85), (159.0, -8.90), (159.6, -8.88), (160.05, -8.60),
     (160.3, -8.15), (160.62, -7.78), (160.95, -7.80), (161.3, -8.05),
     (161.6, -8.3),
-    (163.0, -10.6), (167.0, -9.4), (171.0, -8.0), (175.0, -6.4), (179.0, -4.4),
+    # East of the Santa Cruz group the line crosses open ocean to the date
+    # line, and it has to pass *north* of the Ellice Islands, which Japan never
+    # reached: the advance stopped at the Gilberts, six hundred miles short, and
+    # the Ellice were where the Americans built the airfields they came back
+    # through. At (175, -6.4) the line ran at 5.83 S under Nanumea's 5.69 S and
+    # took the island inside — measured, and the only one of the eight it
+    # caught. Raised to 5.0 S it passes at 4.83 S there, north of the whole
+    # group. Nothing held lay between: the southernmost Gilbert, Arorae, is at
+    # 2.65 S and stays well inside.
+    (163.0, -10.6), (167.0, -9.4), (171.0, -7.0), (175.0, -5.0), (179.0, -4.4),
     (180.8, -1.0),
     # north along the dateline, then west along the Aleutians
     (181.2, 6.0), (181.4, 14.0), (181.4, 22.0), (181.2, 30.0), (180.8, 38.0),
