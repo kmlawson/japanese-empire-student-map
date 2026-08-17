@@ -22,316 +22,164 @@
   .page li { margin: 0 0 14px; }
   .page a { color: var(--accent); }
   .page code { font-size: .92em; background: #ece7db; padding: 1px 4px; border-radius: 3px; }
+  .page h3 { font-size: 15px; margin: 22px 0 6px; }
+  /* The confidence and cache tables. Wide content scrolls inside its own box
+     rather than pushing the page sideways. */
+  .page .scroll { overflow-x: auto; margin: 12px 0 18px; }
+  .page table { border-collapse: collapse; font-size: 14px; min-width: 34rem; }
+  .page th, .page td { border: 1px solid #d8d1c2; padding: 6px 9px; text-align: left;
+                       vertical-align: top; }
+  .page th { background: #ece7db; font-weight: 600; }
 </style>
 </head>
 <body>
 <div class="page">
 <h1>Sources</h1>
 
-<p class="lede">Every dataset this map is drawn from, what it was used for, and
-where it came from. The short version: coastlines and national outlines are
-Natural Earth, except China's, which is the Republican province sheet and
-nothing else; China's provinces are the real ones of 1928–45; Korea comes from
-a map of the period rather than from modern units; the princely states of India
-were georeferenced by hand from a 1931 atlas; and the occupied zone and the
-line of control are traced from period maps and are approximations, as they
-say on the map itself.</p>
-
 <p><a href="index.html">← back to the map</a></p>
+
+<!-- BEGIN sources -->
+<p class="lede">Every dataset this map is drawn from, what it was used for, and where it came from. The short version: coastlines and national outlines are Natural Earth, except China's, which is the Republican province sheet and nothing else; China's provinces are the real ones of 1928–45; Korea comes from a map of the period rather than from modern units; the princely states of India were georeferenced by hand from a 1931 atlas; and the occupied zone and the line of control are traced from period maps and are approximations, as they say on the map itself.</p>
 
 <h2>Boundaries and coastlines</h2>
 
 <ul>
-  <li>
-    <strong>Natural Earth, 1:10m cultural vectors.</strong> All coastlines and
-    national outlines outside China, and the base for the frame. Public domain
-    — Natural Earth's terms state the data may be used in any manner, including
-    modifying the content and design, and that no permission is needed.<br>
-    <a href="https://github.com/nvkelso/natural-earth-vector">github.com/nvkelso/natural-earth-vector</a>
-  </li>
-  <li>
-    <strong>ENP-China — Chinese provincial boundaries, 1928–1945.</strong>
-    Every Chinese land region. These are the <em>actual</em> provinces of the
-    Nanking decade and the war, not modern ones: Jehol is a province, and
-    Suiyuan and Chahar are provinces. On the 1930 map these draw Manchuria
-    as Fengtien, Kirin and Heilungkiang, and Jehol beside them; the 1942
-    map draws Manchukuo from its own sheet instead, below. CC BY 4.0 —
-    "Provinces 1922–1928 © 2021 by ENP-China Project".<br>
-    Elites, Networks and Power in Modern China, Aix-Marseille University.<br>
-    <br>
-    On accuracy: the sheet's coastline is finely drawn — within about a
-    kilometre and a half of Natural Earth's — but its interior provincial
-    boundaries are generalised, with vertices seventeen to twenty-eight
-    kilometres apart against one to four along the coast. Measured against
-    modern first-level boundaries, those interior lines sit a median of about
-    nine kilometres from the boundary they stand for, and the largest
-    disagreements are twenty-five to thirty-seven. The displacement scatters in
-    every direction rather than leaning one way, which points to the scale at
-    which the boundaries were drawn rather than to a coordinate error. On this
-    map it is apparent only where an independently drawn feature crosses the
-    same ground: the Yellow River, which formed the Shaanxi–Shanxi border,
-    runs about thirty kilometres west of where this source puts that border.
-    The river is in the right place. The sheet remains the best available
-    depiction of the Republic's provinces as they stood, and is used here for
-    what it is good at — which provinces existed, and roughly where.
-  </li>
-  <li>
-    <strong>Republican provinces from the AMS 1:250,000 sheets — the
-    alternative offered in Layers.</strong> A second set of provincial
-    boundaries for China, which the reader can switch to in place of ENP's.
-    Traced by Wikimedia Commons user Lilauid from the US Army Map Service
-    1:250,000 China series (L500, L531, L581), the AMS 1:50,000 Fukien sheets
-    (L783), the Republic of China 1301 series at 1:1,000,000 and the Kiangsi
-    Provincial Land Survey Bureau's 1:50,000, with Academia Sinica's CCTS tiles
-    as a backdrop.<br>
-    <a href="https://commons.wikimedia.org/wiki/File:Republic_of_China_edcp_location_map_1936.svg">File:Republic
-    of China edcp location map 1936.svg</a> — <strong>CC BY-SA 4.0</strong>,
-    which the boundaries derived from it inherit. Built on Uwe Dedering's
-    <em>China edcp location map</em> (CC BY-SA 3.0 / GFDL), from which its
-    projection comes.<br>
-    <br>
-    It is a drawing rather than a dataset — no coordinate system, boundaries as
-    open lines and areas nowhere at all — so three things were done to it, by
-    <code>tools/roc_provinces.py</code>. It was georeferenced from the frame its
-    base map states (equidistant conic, central meridian 104° E, central
-    parallel 36° N, standard parallels 30° and 42° N, the central meridian
-    running 57.0° N to 17.96° N), which checks itself against the centre
-    latitude that page gives to within a fifth of an arcminute; the drawn
-    coastline then lands a median of 0.59 km from Natural Earth's. Its boundary,
-    border and coastline layers were noded together and the faces of the
-    resulting arrangement traversed, to make areas out of lines. And each face
-    was named by asking the ENP sheet which province it falls in — ENP's
-    positions are the thing being replaced, but its identities are right.<br>
-    <br>
-    What it buys: the interior boundaries are six to thirteen times finer, and
-    the Shaanxi–Shanxi border follows the Yellow River — a median of 0.96 km
-    from it, against ENP's 30.5 km. What it costs: it is dated 1936, so it
-    predates Sikang's promotion to a province in 1939 and draws Manchuria as one
-    disputed block rather than as provinces, for which ENP's are kept; and it is
-    one contributor's careful tracing rather than a scholarly release, with no
-    independent check on its accuracy beyond the two measurements above. ENP
-    remains the default for those reasons.
-  </li>
-  <li>
-    <strong>geoBoundaries ADM1 and ADM2.</strong> The provinces ceded to
-    Thailand in 1941, the northern Malay states, Burma by division, Kengtung
-    by district, the Indian and Japanese first-level units, and the Indonesian
-    residencies. CC BY 4.0.<br>
-    <a href="https://github.com/wmgeolab/geoBoundaries">github.com/wmgeolab/geoBoundaries</a>
-    · Runfola, D. et al. (2020), "geoBoundaries: A global database of political
-    administrative boundaries", <em>PLoS ONE</em> 15(4): e0231866.
-  </li>
-  <li>
-    <strong>The thirteen provinces of colonial Korea.</strong> Korea's province
-    boundaries <em>and</em> its coastline, drawn without simplification because
-    the provinces are the finer source. This is why Hwanghae is one province
-    and Kaesong is in Keiki-dō, where it belonged.<br>
-    <a href="https://spatialhistory.net/yale/done/korea.html">spatialhistory.net/yale/done/korea.html</a>
-  </li>
-  <li>
-    <strong>The princely states of India, 1931.</strong> Forty polygons of the
-    states as they stood in 1931, georeferenced by the author of this map from
-    the atlas volume of the <em>Imperial Gazetteer of India</em>, 1931. They
-    replaced five modern Indian states standing in for six hundred princely
-    ones.<br>
-    <a href="https://dsal.uchicago.edu/reference/gaz_atlas_1931/">dsal.uchicago.edu/reference/gaz_atlas_1931/</a>
-  </li>
-  <li>
-    <strong>Modern East Asia GIS.</strong> Tannu Tuva, British Weihaiwei,
-    French Kwangchowan, Sikkim, Nepal and Bhutan, from the author's own QGIS
-    project. These layers are stored in an azimuthal-equidistant grid centred
-    on Wuhan, on the Clarke 1866 ellipsoid, and are converted back to
-    longitude and latitude here by solving the geodesic direct problem — which
-    is what an azimuthal-equidistant grid is: a true bearing and a true
-    distance from the centre. They were previously inverted with the spherical
-    formula, which put every one of them between two and six kilometres out of
-    place, radially away from Wuhan.
-  </li>
-  <li>
-    <strong>Christmas Island</strong> is taken from Natural Earth's
-    <code>ne_10m_admin_0_countries</code>, where it is filed with the Cocos
-    (Keeling) group as "Indian Ocean Territories" — an Australian arrangement
-    of 1958 and not one of either of this map's dates. It is drawn here as
-    what it was: a Straits Settlement, annexed in 1900 and run from Singapore,
-    and Japanese-occupied from 31 March 1942.
-  </li>
-  <li>
-    <strong>OpenStreetMap.</strong> The fine coastlines of the Ryukyus, the
-    Bonins, the Volcano and Izu Islands, and of Micronesia and Melanesia — the
-    Marianas, Palau, the Carolines with Truk, Ponape and Kusaie, the Marshalls,
-    the Bismarcks, Bougainville, the Solomons, the Louisiades and the Gilberts —
-    and the names of nineteen hundred islands in them, with the group each
-    belongs to. Every island of the Okinawa, Miyako, Yaeyama and Senkaku groups
-    large enough to draw names itself; so do Iwo Jima, Saipan, Truk's islands,
-    Peleliu, Kwajalein, Tarawa, Guadalcanal and Bougainville. Where the name in
-    use today is not the name of the period, both are given — Kwajalein
-    (Kuwajleen), Ponape (Pohnpei), Dublon (Tonowas). About a third are reefs
-    OSM does not name, and those give their group instead. These
-    are fetched only when the map is zoomed deep into one of those places, so a
-    reader who never leaves the mainland never downloads them. The island names
-    come from an Overpass query for <code>place=island</code> and
-    <code>place=islet</code>, cached in <code>tools/cache/</code> so the build
-    does not depend on the network.<br>
-    The islands of the South China Sea come from the same file and are fetched
-    the same way: the Spratlys, the Paracels and Pratas, 78 features in all,
-    with the largest island of each group also carried on the base map so that
-    the group can be pointed at before the rest arrives. These are traced from
-    present-day shapes, which does not reflect more recent land reclamation.<br>
-    Two more windows were added the same way: Singapore and its islands, and
-    Ulleung with the Liancourt Rocks — the second with its Korean and Japanese
-    names and a note on the dispute today, the first with the caution that its
-    coastline is the modern one and Jurong Island was made by joining seven
-    smaller ones after 1995.<br>
-    The same coastlines also give the four outer island groups the map had no
-    shape for at all: the Turtle and Mangsee Islands in the Sulu Sea, Miangas
-    (the Island of Palmas of the 1928 arbitration) and the Cocos (Keeling)
-    Islands. Those are traced out of the split-coastlines shapefile — 876,182
-    linestrings — by <code>tools/extract_coast.py</code>, which chains the
-    pieces that share an end back into closed islands; the 37 KB that can be
-    drawn is cached and committed, the 1.2 GB source is not.<br>
-    © OpenStreetMap contributors, available under the Open Database Licence.
-    Map data and any derived database are ODbL; the coastline geometry drawn
-    here is a Produced Work under that licence.<br>
-    <a href="https://www.openstreetmap.org/copyright">openstreetmap.org/copyright</a>
-  </li>
+  <li><strong>Natural Earth, 1:10m cultural vectors.</strong> All coastlines and national outlines outside China, and the base for the frame. Public domain — Natural Earth's terms state the data may be used in any manner, including modifying the content and design, and that no permission is needed.<br><a href="https://github.com/nvkelso/natural-earth-vector">github.com/nvkelso/natural-earth-vector</a></li>
+  <li><strong>ENP-China — Chinese provincial boundaries, 1928–1945.</strong> Every Chinese land region. These are the <em>actual</em> provinces of the Nanking decade and the war, not modern ones: Jehol is a province, and Suiyuan and Chahar are provinces. On the 1930 map these draw Manchuria as Fengtien, Kirin and Heilungkiang, and Jehol beside them; the 1942 map draws Manchukuo from its own sheet instead, below. CC BY 4.0 — "Provinces 1922–1928 © 2021 by ENP-China Project".<br>Elites, Networks and Power in Modern China, Aix-Marseille University. The 1912–21 and 1922–28 sheets are cached alongside the one in use, for any earlier snapshot. These came by way of the author's own <em>Modern East Asia GIS</em> project, where they had already been gathered for teaching.<br><br>On accuracy: the sheet's coastline is finely drawn — within about a kilometre and a half of Natural Earth's — but its interior provincial boundaries are generalised, with vertices seventeen to twenty-eight kilometres apart against one to four along the coast. Measured against modern first-level boundaries, those interior lines sit a median of about nine kilometres from the boundary they stand for, and the largest disagreements are twenty-five to thirty-seven. The displacement scatters in every direction rather than leaning one way, which points to the scale at which the boundaries were drawn rather than to a coordinate error. On this map it is apparent only where an independently drawn feature crosses the same ground: the Yellow River, which formed the Shaanxi–Shanxi border, runs about thirty kilometres west of where this source puts that border. The river is in the right place. The sheet remains the best available depiction of the Republic's provinces as they stood, and is used here for what it is good at — which provinces existed, and roughly where.</li>
+  <li><strong>Republican provinces from the AMS 1:250,000 sheets — the alternative offered in Layers.</strong> A second set of provincial boundaries for China, which the reader can switch to in place of ENP's. Traced by Wikimedia Commons user Lilauid from the US Army Map Service 1:250,000 China series (L500, L531, L581), the AMS 1:50,000 Fukien sheets (L783), the Republic of China 1301 series at 1:1,000,000 and the Kiangsi Provincial Land Survey Bureau's 1:50,000, with Academia Sinica's CCTS tiles as a backdrop.<br><a href="https://commons.wikimedia.org/wiki/File:Republic_of_China_edcp_location_map_1936.svg">File:Republic of China edcp location map 1936.svg</a> — <strong>CC BY-SA 4.0</strong>, which the boundaries derived from it inherit. Built on Uwe Dedering's <em>China edcp location map</em> (CC BY-SA 3.0 / GFDL), from which its projection comes.<br><br>It is a drawing rather than a dataset — no coordinate system, boundaries as open lines and areas nowhere at all — so three things were done to it, by <code>tools/roc_provinces.py</code>. It was georeferenced from the frame its base map states (equidistant conic, central meridian 104° E, central parallel 36° N, standard parallels 30° and 42° N, the central meridian running 57.0° N to 17.96° N), which checks itself against the centre latitude that page gives to within a fifth of an arcminute; the drawn coastline then lands a median of 0.59 km from Natural Earth's. Its boundary, border and coastline layers were noded together and the faces of the resulting arrangement traversed, to make areas out of lines. And each face was named by asking the ENP sheet which province it falls in — ENP's positions are the thing being replaced, but its identities are right.<br><br>What it buys: the interior boundaries are six to thirteen times finer, and the Shaanxi–Shanxi border follows the Yellow River — a median of 0.96 km from it, against ENP's 30.5 km. What it costs: it is dated 1936, so it predates Sikang's promotion to a province in 1939 and draws Manchuria as one disputed block rather than as provinces, for which ENP's are kept; and it is one contributor's careful tracing rather than a scholarly release, with no independent check on its accuracy beyond the two measurements above. ENP remains the default for those reasons.</li>
+  <li><strong>geoBoundaries ADM1 and ADM2.</strong> The provinces ceded to Thailand in 1941, the northern Malay states, Burma by division, Kengtung by district, the Indian and Japanese first-level units, and the Indonesian residencies. CC BY 4.0.<br><a href="https://github.com/wmgeolab/geoBoundaries">github.com/wmgeolab/geoBoundaries</a> · Runfola, D. et al. (2020), "geoBoundaries: A global database of political administrative boundaries", <em>PLoS ONE</em> 15(4): e0231866.<br><br>Kengtung State is the three modern districts of Kengtung, Monghsat and Tachileik exactly; the trans-Salween part of Mongpan is the eastern end of Langkho district, cut at 98.15° E. Hyderabad is the weakest of these: the Nizam's dominions also took in Marathi and Kannada districts now in Maharashtra and Karnataka, and the map says as much in the note.</li>
+  <li><strong>The thirteen provinces of colonial Korea.</strong> Korea's province boundaries <em>and</em> its coastline, drawn without simplification because the provinces are the finer source. This is why Hwanghae is one province and Kaesong is in Keiki-dō, where it belonged. It replaces an assembly from the modern provinces of the two republics, which cannot give the period map however it is grouped: Hwanghae was one province until 1954, Ryanggang and Jagang did not exist, and Kaesong was in Keiki-dō rather than in Hwanghae.<br><a href="https://spatialhistory.net/yale/done/korea.html">spatialhistory.net/yale/done/korea.html</a><br><br>How it is read: the page is an SVG export in an equirectangular projection whose parameters it states in its own comments, so <code>tools/fetch_korea_1930.py</code> turns the drawing back into longitude and latitude. The residual offset was measured against Natural Earth's coastline over 253 matched points and corrected. Jeju, which the province layer omits, is taken from the land layer and put back into South Chŏlla.</li>
+  <li><strong>The princely states of India, 1931.</strong> Forty polygons of the states as they stood in 1931, georeferenced by the author of this map from the atlas volume of the <em>Imperial Gazetteer of India</em>, 1931. They replaced five modern Indian states standing in for six hundred princely ones — Telangana for Hyderabad, Karnataka for Mysore — an approximation the About text had to apologise for.<br><a href="https://dsal.uchicago.edu/reference/gaz_atlas_1931/">dsal.uchicago.edu/reference/gaz_atlas_1931/</a><br><br>The file itself names nine of the forty. The rest are identified in <code>PRINCELY_NAMES</code> in <code>tools/build_map.py</code> by where they are, which for the large ones is unmistakable; anything not in that table answers with the territory rather than with a guess.</li>
+  <li><strong>Modern East Asia GIS.</strong> Tannu Tuva, British Weihaiwei, French Kwangchowan, Sikkim, Nepal and Bhutan, from the author's own QGIS project. These layers are stored in an azimuthal-equidistant grid centred on Wuhan, on the Clarke 1866 ellipsoid, and are converted back to longitude and latitude here by solving the geodesic direct problem — which is what an azimuthal-equidistant grid is: a true bearing and a true distance from the centre. They were previously inverted with the spherical formula, which put every one of them between two and six kilometres out of place, radially away from Wuhan.</li>
+  <li><strong>Christmas Island</strong> is taken from Natural Earth's <code>ne_10m_admin_0_countries</code>, where it is filed with the Cocos (Keeling) group as "Indian Ocean Territories" — an Australian arrangement of 1958 and not one of either of this map's dates. It is drawn here as what it was: a Straits Settlement, annexed in 1900 and run from Singapore, and Japanese-occupied from 31 March 1942.</li>
+  <li><strong>OpenStreetMap.</strong> The fine coastlines of the Ryukyus, the Bonins, the Volcano and Izu Islands, and of Micronesia and Melanesia — the Marianas, Palau, the Carolines with Truk, Ponape and Kusaie, the Marshalls, the Bismarcks, Bougainville, the Solomons, the Louisiades and the Gilberts — and the names of nineteen hundred islands in them, with the group each belongs to. Every island of the Okinawa, Miyako, Yaeyama and Senkaku groups large enough to draw names itself; so do Iwo Jima, Saipan, Truk's islands, Peleliu, Kwajalein, Tarawa, Guadalcanal and Bougainville. Where the name in use today is not the name of the period, both are given — Kwajalein (Kuwajleen), Ponape (Pohnpei), Dublon (Tonowas). About a third are reefs OSM does not name, and those give their group instead. These are fetched only when the map is zoomed deep into one of those places, so a reader who never leaves the mainland never downloads them. The island names come from an Overpass query for <code>place=island</code> and <code>place=islet</code>, cached in <code>tools/cache/</code> so the build does not depend on the network.<br>The islands of the South China Sea come from the same file and are fetched the same way: the Spratlys, the Paracels and Pratas, 78 features in all, with the largest island of each group also carried on the base map so that the group can be pointed at before the rest arrives. These are traced from present-day shapes, which does not reflect more recent land reclamation.<br>Two more windows were added the same way: Singapore and its islands, and Ulleung with the Liancourt Rocks — the second with its Korean and Japanese names and a note on the dispute today, the first with the caution that its coastline is the modern one and Jurong Island was made by joining seven smaller ones after 1995.<br>The same coastlines also give the four outer island groups the map had no shape for at all: the Turtle and Mangsee Islands in the Sulu Sea, Miangas (the Island of Palmas of the 1928 arbitration) and the Cocos (Keeling) Islands. Those are traced out of the split-coastlines shapefile — 876,182 linestrings and 1.2 GB — by <code>tools/extract_coast.py</code>, which reads each record's own bounding box out of the <code>.shp</code> header and seeks past the geometry when it misses, which is 876,000 times out of 876,182, and chains the pieces that share an end back into closed islands; the 37 KB that can be drawn is cached and committed, the source is not.<br>© OpenStreetMap contributors, available under the Open Database Licence. Map data and any derived database are ODbL; the coastline geometry drawn here is a Produced Work under that licence.<br><a href="https://www.openstreetmap.org/copyright">openstreetmap.org/copyright</a></li>
 </ul>
 
 <h2>Rivers</h2>
 
 <ul>
-  <li>
-    <strong>Natural Earth, 1:10m rivers and lake centrelines.</strong> The
-    Yangtze and the Yellow River. Public domain. Two hand-drawn tails were
-    needed: Natural Earth's Yangtze centreline stops about 200 km short of the
-    sea, and its Yellow River stops short of the Gulf of Chihli.
-  </li>
-  <li>
-    <strong>The 1938–47 course of the Yellow River</strong> is redrawn from the
-    channel map at disasterhistory.org (Chris Courtney, after Saito et al.
-    2000): out of the breach below Chengchow, down the Chia-lu into the Ying,
-    down the Ying into the Huai, and through Hungtse Lake and the Grand Canal
-    into the Yangtze above Chinkiang. For nine years the Yellow River reached
-    the sea through the Yangtze's mouth.<br>
-    <a href="https://disasterhistory.org/">disasterhistory.org</a>
-  </li>
+  <li><strong>Natural Earth, 1:10m rivers and lake centrelines.</strong> The Yangtze and the Yellow River. Public domain. Two hand-drawn tails were needed: Natural Earth's Yangtze centreline stops about 200 km short of the sea, and its Yellow River stops short of the Gulf of Chihli.</li>
+  <li><strong>The 1938–47 course of the Yellow River</strong> is redrawn from the channel map at disasterhistory.org (Chris Courtney, after Saito et al. 2000): out of the breach below Chengchow, down the Chia-lu into the Ying, down the Ying into the Huai, and through Hungtse Lake and the Grand Canal into the Yangtze above Chinkiang. For nine years the Yellow River reached the sea through the Yangtze's mouth.<br><a href="https://disasterhistory.org/">disasterhistory.org</a></li>
 </ul>
 
 <h2>The occupation and the line of control</h2>
 
 <ul>
-  <li>
-    <strong>The Pacific mandates</strong> — Japan's South Seas Mandate,
-    Australia's Territory of New Guinea and the British mandate over Nauru — are
-    traced from a 1927 chart of the three Class C League of Nations mandates
-    over the former German Pacific. They are drawn as outlines and not as
-    filled areas, because a mandate over an ocean is a line on a chart: almost
-    everything inside them is water, and the islands they are about are specks.
-    They appear on the 1930 map only. The same chart supplies the boundary
-    between the Australian mandate and Papua across New Guinea, which used to be
-    a straight line drawn by hand and is now the traced one.
-  </li>
-  <li>
-    <strong>Manchukuo</strong> is traced from 滿洲國地圖 1935, published by the
-    research section of the South Manchuria Railway Company
-    (南滿洲鐡道株式會社資料課) — the company that was the instrument of the state
-    it is mapping. Two layers came out of it: the state as a single outline,
-    which is what the map draws with the Administrative layer off, and its
-    fourteen provinces for when that layer is on. It replaces the Republican
-    provinces the 1942 map used to assemble Manchukuo from, and is the only
-    period source here for Manchukuo's own provincial scheme — the four Hsingan
-    provinces of the eastern Mongol leagues, Chientao on the Korean border, and
-    Jehol, taken from the Republic in 1933. Those provinces are shown on the
-    1942 map alone: on the 1930 map Manchuria is Chinese, Jehol is a province
-    of the Republic standing outside it, and this scheme did not yet exist.
-  </li>
-  <li>
-    <strong>Mengchiang</strong> is traced from a period map of the client state
-    rather than assembled out of Chahar and Suiyuan, which is what stood in for
-    it before. What is left of those two provinces outside the traced line is
-    Free China's, and that is how the map now draws them.
-  </li>
-  <li>
-    <strong>The occupied zone in China</strong> is traced from a period map of
-    the occupation rather than drawn as whole provinces, and adjusted to
-    December 1942. It is an approximation and a generous one: Japanese control
-    ran along the railways and around the cities, and much of the countryside
-    inside the line was held by Communist and Nationalist guerrillas.
-  </li>
-  <li>
-    <strong>The dashed line</strong> on the Dec 1942 map is the extent of
-    Japanese control and the fighting front <em>at that date</em>. It is not
-    taken from any single map: several were used in settling where it should
-    run, among them the map captioned "War in the Pacific" in Andrew Gordon,
-    <em>A Modern History of Japan: From Tokugawa Times to the Present</em>
-    (Oxford University Press), whose own legend calls it a greatest extent. It
-    is
-    corrected in New Guinea against Dudley McCarthy, <em>South-West Pacific
-    Area — First Year: Kokoda to Wau</em> (Australia in the War of 1939–1945,
-    AWM 1959) and Samuel Milner, <em>Victory in Papua</em>: Japan held the north
-    coast and the far west, and in Papua only the Buna–Sanananda beachhead.
-    Merauke was Dutch for the whole war. It is
-    labelled here for its date instead, because December 1942 is not a maximum
-    — the naval perimeter was widest in July and August, the area of China
-    under Japanese control was largest in 1944, and Kwangchowwan, the northern
-    Malay states and direct rule in Indochina all came later.
-  </li>
-  <li>
-    <strong>The Communist base areas and guerrilla zones, 1941–42</strong>,
-    are traced from sheet 199 of 武月星主編，《中國抗日戰爭史地圖集：1931–1945》
-    (Wu Yuexing, ed., <em>Historical Atlas of China's War of Resistance against
-    Japan, 1931–1945</em>). Seventy-five areas, from the Shaan-Gan-Ning border
-    region round Yenan to the coastal pockets of Shantung and the New Fourth
-    Army country along the lower Yangtze. They are drawn over the occupied
-    shading and not instead of it, which is the point of them: almost all of
-    this ground lies inside the line the Japanese army had drawn round itself.
-    Their extent moved from month to month and the "mopping-up" campaigns of
-    1941–42 cut some of them badly, so this is one atlas's reading of two
-    years, not a line anyone held.
-  </li>
-  <li>
-    <strong>Saharat Thai Doem</strong> — Kengtung and the trans-Salween Shan
-    states — follows the map by Xufanc on Wikimedia Commons, CC BY-SA 4.0,
-    taken district by district rather than cut off with a straight line.
-  </li>
+  <li><strong>The Pacific mandates</strong> — Japan's South Seas Mandate, Australia's Territory of New Guinea and the British mandate over Nauru — are traced from a 1927 chart of the three Class C League of Nations mandates over the former German Pacific. They are drawn as outlines and not as filled areas, because a mandate over an ocean is a line on a chart: almost everything inside them is water, and the islands they are about are specks. They appear on the 1930 map only. The same chart supplies the boundary between the Australian mandate and Papua across New Guinea, which used to be a straight line drawn by hand and is now the traced one.</li>
+  <li><strong>Manchukuo</strong> is traced from 滿洲國地圖 1935, published by the research section of the South Manchuria Railway Company (南滿洲鐡道株式會社資料課) — the company that was the instrument of the state it is mapping. Two layers came out of it: the state as a single outline, which is what the map draws with the Administrative layer off, and its fourteen provinces for when that layer is on. It replaces the Republican provinces the 1942 map used to assemble Manchukuo from, and is the only period source here for Manchukuo's own provincial scheme — the four Hsingan provinces of the eastern Mongol leagues, Chientao on the Korean border, and Jehol, taken from the Republic in 1933. Those provinces are shown on the 1942 map alone: on the 1930 map Manchuria is Chinese, Jehol is a province of the Republic standing outside it, and this scheme did not yet exist.</li>
+  <li><strong>Mengchiang</strong> is traced from a period map of the client state rather than assembled out of Chahar and Suiyuan, which is what stood in for it before. What is left of those two provinces outside the traced line is Free China's, and that is how the map now draws them.</li>
+  <li><strong>The occupied zone in China</strong> is traced from a period map of the occupation rather than drawn as whole provinces, and adjusted to December 1942. The maps used are held in <code>occupation-maps/</code>, with a README giving each file's Commons page, licence and author; the principal one is the 1940 sheet of the <em>China 1900–1949</em> series, which is in the public domain. The dates the cities fell come from the Sino-Japanese War card set in the module's own timeline review tool. It is an approximation and a generous one: Japanese control ran along the railways and around the cities, and much of the countryside inside the line was held by Communist and Nationalist guerrillas.</li>
+  <li><strong>The dashed line</strong> on the Dec 1942 map is the extent of Japanese control and the fighting front <em>at that date</em>. It is not taken from any single map: several were used in settling where it should run, among them the map captioned "War in the Pacific" in Andrew Gordon, <em>A Modern History of Japan: From Tokugawa Times to the Present</em> (Oxford University Press), whose own legend calls it a greatest extent. It is corrected in New Guinea against Dudley McCarthy, <em>South-West Pacific Area — First Year: Kokoda to Wau</em> (Australia in the War of 1939–1945, AWM 1959) and Samuel Milner, <em>Victory in Papua</em>: Japan held the north coast and the far west, and in Papua only the Buna–Sanananda beachhead. Merauke was Dutch for the whole war. It is labelled here for its date instead, because December 1942 is not a maximum — the naval perimeter was widest in July and August, the area of China under Japanese control was largest in 1944, and Kwangchowwan, the northern Malay states and direct rule in Indochina all came later.<br><br>Only the parts that were <em>not</em> a land frontier are drawn by hand — the front in China, the ocean perimeter, and the cut across the Papuan peninsula north of Port Moresby. Everywhere the limit followed a real border, the line is lifted straight off the territory outlines, so it sits exactly on the Manchukuo, Mengchiang, Burma and Indochina frontiers rather than floating near them. In China the line <em>is</em> the inland edge of the shaded occupied zone, taken off that zone's own block and smoothed the same way, so that the two cannot drift apart: a perimeter claiming ground the shading did not was the worse of the two errors. See <code>EXTENT_*</code> in <code>tools/build_map.py</code>.</li>
+  <li><strong>The Communist base areas and guerrilla zones, 1941–42</strong>, are traced from sheet 199 of 武月星主編，《中國抗日戰爭史地圖集：1931–1945》 (Wu Yuexing, ed., <em>Historical Atlas of China's War of Resistance against Japan, 1931–1945</em>). Seventy-five areas, from the Shaan-Gan-Ning border region round Yenan to the coastal pockets of Shantung and the New Fourth Army country along the lower Yangtze. They are drawn over the occupied shading and not instead of it, which is the point of them: almost all of this ground lies inside the line the Japanese army had drawn round itself. Their extent moved from month to month and the "mopping-up" campaigns of 1941–42 cut some of them badly, so this is one atlas's reading of two years, not a line anyone held.</li>
+  <li><strong>Saharat Thai Doem</strong> — Kengtung and the trans-Salween Shan states — follows the map by Xufanc on Wikimedia Commons, CC BY-SA 4.0, taken district by district rather than cut off with a straight line. <a href="https://commons.wikimedia.org/wiki/File:Saharat_Thai_Doem_map.png">File:Saharat_Thai_Doem_map.png</a> shows the territory Japan actually granted rather than everything Thailand claimed in the Shan and Karenni states.</li>
 </ul>
+
+<h2>Historical boundaries</h2>
+
+<p>Inside China these are the real provincial boundaries of 1928–45, not reconstructions. Elsewhere they are built from modern outlines.</p>
+
+<div class="scroll"><table>
+  <tr><th>Territory</th><th>How it is built</th><th>Confidence</th></tr>
+  <tr><td><strong>Karafuto</strong></td><td>Sakhalin south of 50°N</td><td>Exact — the border was the parallel</td></tr>
+  <tr><td><strong>Manchukuo</strong></td><td>Traced from 滿洲國地圖 1935, 南滿洲鐡道株式會社資料課 — the state as one polygon and as its fourteen provinces</td><td>Very good — the South Manchuria Railway's own sheet of the state it was the instrument of, and the only period source here for Manchukuo's own provincial scheme</td></tr>
+  <tr><td><strong>Manchuria and Jehol, 1930</strong></td><td>The Republican provinces of Liaoning, Jilin and Heilongjiang, and Jehol beside them</td><td>Good — historical province outlines. These carry the 1930 map, where Manchuria is Chinese and Jehol is a province of the Republic</td></tr>
+  <tr><td><strong>Jehol</strong></td><td>The Republican province</td><td>Good</td></tr>
+  <tr><td><strong>The Pacific mandates</strong></td><td>Traced from a 1927 chart of the three Class C League of Nations mandates; outlines only, on the 1930 map</td><td>Good — and the same chart now draws the Papua / New Guinea mandate boundary, which was a hand-drawn straight line before</td></tr>
+  <tr><td><strong>Mengchiang</strong></td><td>Traced from a period map of the client state</td><td>Good — replaced Chahar and Suiyuan standing in for it; what is left of those outside the traced line is Free China</td></tr>
+  <tr><td><strong>Kwantung Leased Territory</strong></td><td>Liaoning cut on a straight line from Pulandian bay to Pikou</td><td>Good — the 1898 lease boundary was a surveyed line across the isthmus</td></tr>
+  <tr><td><strong>Tibet, Sinkiang</strong></td><td>The Xizang and Xinjiang polygons, which the source itself treats as polities apart from China</td><td>Good</td></tr>
+  <tr><td><strong>Territory ceded to Thailand, 1941</strong></td><td>Modern Battambang, Banteay Meanchey, Pailin, Siem Reap, Oddar Meanchey and Preah Vihear, plus Xaignabouli and Champasak west of the Mekong</td><td>Fair — the ceded blocks followed provincial lines close to these; Angkor was left to France and is not carved out here</td></tr>
+  <tr><td><strong>Japanese-occupied China</strong></td><td>Traced from a 1940 map of the occupation, adjusted to December 1942 against the module timeline, and clipped to China's land: the north China plain, the Yangtze corridor to Hankow, the railway west to Paotow, the Canton delta, Hainan, Amoy and Swatow</td><td>Fair for where Japanese authority <em>reached</em>. It is not a claim about where it went unchallenged: Communist base areas operated inside the line throughout, which is why the army ran repeated "mopping up" campaigns against them, and the note on the map says so. See <code>occupation-maps/</code></td></tr>
+</table></div>
+
+<p>French Indochina is cut into Tonkin, Annam and Cochinchina along straight lines at roughly the historical boundaries, with Cambodia and Laos taken whole. Both those cuts, and the Papua–New Guinea line before the 1927 chart replaced it, are approximations of boundaries that in reality followed watersheds.</p>
+
+<p>Kinmen (Quemoy) is <strong>not</strong> drawn as part of the colony of Taiwan. Natural Earth puts it in Taiwan because it is governed from Taipei today; it belonged to Fujian throughout the colonial period, and it is drawn with China here. The Pescadores, which <em>were</em> ceded with Taiwan in 1895, stay with the colony.</p>
+
+<p>Territories that were one polity are drawn as one shape with no internal boundary, because there was none at the time: British India has no line at the Punjab, French Indochina none at the Mekong, Korea none at the 38th parallel, and in 1930 Burma is inside British India, where it was until 1937.</p>
+
+<p>Everything outside China uses modern coastlines and national outlines as a stand-in for the historical ones. That is fine for coastlines and rough for land borders.</p>
 
 <h2>What was done to the data</h2>
 
-<p>Simplification goes by the size of each ring rather than by one tolerance
-for a whole country, so a fifty-kilometre island is not flattened by a setting
-chosen for Luzon. Korea, Kengtung and the princely states are drawn at the full
-detail of their sources. Where a territory is assembled from sub-units, a
-whole-country shape is laid beneath them all so that a crack between two
-neighbours drawn from different files shows the country rather than the sea.</p>
+<p>Simplification goes by the size of each ring rather than by one tolerance for a whole country, so a fifty-kilometre island is not flattened by a setting chosen for Luzon. Korea, Kengtung and the princely states are drawn at the full detail of their sources. Where a territory is assembled from sub-units, a whole-country shape is laid beneath them all so that a crack between two neighbours drawn from different files shows the country rather than the sea.</p>
 
-<p>Some boundaries are hand-traced constants rather than data: the occupied
-zone, the ocean stretches of the line of control, the Kwantung lease across the
-Liaodong isthmus, the cut at Paotow, Chandernagore, Wake Island, and the
-estuary tails on both rivers. These are marked as such in
-<code>tools/build_map.py</code>, where each carries a note saying what it is and
-why it is drawn by hand.</p>
+<p>Some boundaries are hand-traced constants rather than data: the occupied zone, the ocean stretches of the line of control, the Kwantung lease across the Liaodong isthmus, the cut at Paotow, Chandernagore, Wake Island, and the estuary tails on both rivers. These are marked as such in <code>tools/build_map.py</code>, where each carries a note saying what it is and why it is drawn by hand.</p>
+
+<p>The pipeline, in order, all of it in <code>tools/build_map.py</code>:</p>
+
+<ol>
+  <li><strong>Projection.</strong> Web Mercator, on a Pacific-centred frame running 66°E–206°E and 13°S–55°N — British India to Pearl Harbor, Sakhalin to northern Australia. Longitudes are normalised to 0–360 so the map is continuous across the antimeridian.</li>
+  <li><strong>Grouping.</strong> Units are grouped into <em>atoms</em>, the smallest regions any snapshot needs. Chinese provinces map straight onto atoms by name; everything else is grouped by country, with a few groups split by ring (Sakhalin at the 50th parallel, the Ryukyus and Bonins out of Japan, the Andamans out of India, Hawaii and the Aleutians out of the United States). The modern outline of China is also kept, drawn beneath the provinces: the two sources put the land border in slightly different places, and without something underneath those disagreements open as slivers of sea at deep zoom.</li>
+  <li><strong>Dissolving.</strong> Shared boundaries inside an atom are removed by cancelling directed edges that appear in both directions, and the survivors stitched back into rings. Where the source data is not topologically clean the stitch fails and the original rings are kept; the same-colour stroke used in rendering hides the seam either way.</li>
+  <li><strong>Clipping and simplification.</strong> Rings are clipped to the frame with Sutherland–Hodgman and thinned with Douglas–Peucker at a tolerance of about half a pixel, less on small islands.</li>
+  <li><strong>Minimum sizes.</strong> Islands smaller than a fingertip keep a minimum-size disc so they stay visible and tappable.</li>
+</ol>
+
+<p>Output: <code>japan-empire-map.svg</code> and its companions, geometry only — no names, no colours, no history. All of that comes from <code>texts/</code>.</p>
+
+<h2>Where the files are cached</h2>
+
+<p>The build never touches the network. Everything it reads is in <code>tools/cache/</code>, and the Natural Earth part of it can be refreshed with <code>python3 tools/build_map.py --download</code>; the ENP shapefiles are committed because they are small and the download is not a plain file URL.</p>
+
+<div class="scroll"><table>
+  <tr><th>Source</th><th>Files</th><th>Cached at</th></tr>
+  <tr><td>Natural Earth countries and states</td><td><code>ne_10m_admin_0_countries.geojson</code>, <code>ne_10m_admin_1_states_provinces.geojson</code></td><td><code>tools/cache/admin0.geojson</code>, <code>tools/cache/admin1.geojson</code></td></tr>
+  <tr><td>Natural Earth rivers</td><td><code>ne_10m_rivers_lake_centerlines.geojson</code></td><td><code>tools/cache/rivers.geojson</code></td></tr>
+  <tr><td>ENP-China provinces</td><td><code>1928-45/1928_1945.shp</code> and friends</td><td><code>tools/cache/enp/1928-45/</code>, <code>.../1912-21/</code>, <code>.../1922-28/</code></td></tr>
+  <tr><td>geoBoundaries</td><td><code>geoBoundaries-KHM-ADM1_simplified.geojson</code>, <code>-LAO-</code>, <code>-MYS-</code>, <code>adm1_IND.json</code>, <code>adm1_JPN.json</code>, <code>adm2_MMR_shan_east.json</code></td><td><code>tools/cache/</code></td></tr>
+  <tr><td>Colonial Korea</td><td>the spatialhistory.net SVG export</td><td><code>tools/cache/korea_13_provinces.json</code></td></tr>
+  <tr><td>Princely states</td><td><code>princely-states-india-1931-v1.2026.8.11.geojson</code></td><td><code>tools/cache/</code></td></tr>
+  <tr><td>Modern East Asia GIS</td><td>GeoPackages read by <code>tools/gpkg.py</code></td><td><code>tools/cache/gis/</code></td></tr>
+  <tr><td>Manchukuo</td><td><code>manchukuo-1935.geojson</code>, <code>manchukuo-provinces-v2.geojson</code></td><td><code>tools/cache/</code></td></tr>
+  <tr><td>Pacific mandates</td><td><code>pacific-mandates-1927.geojson</code></td><td><code>tools/cache/</code></td></tr>
+  <tr><td>OpenStreetMap coastlines and island names</td><td>extracts and the name index</td><td><code>tools/cache/</code> — the 1.2 GB source shapefile is gitignored</td></tr>
+  <tr><td>Occupation reference maps</td><td>period sheets with their own README</td><td><code>occupation-maps/</code></td></tr>
+</table></div>
 
 <h2>Names</h2>
 
-<p>English gives the name as it was used at the time, with the present-day name
-after it where they differ: Taihoku (Taipei), Batavia (Jakarta). Everywhere in
-China it is the other way round, and in Pinyin with its tone marks — Shěnyáng
-(Mukden), Chóngqìng (Chungking), Běijīng (Peking / Peiping), Shāndōng
-(Shantung), Guǎngzhōuwān (Kwangchowan) — because a student meets the period
-spelling in what they read about the war and the present-day one on every map
-they can look it up in, and the second is the one that will find it. Places
-whose English name is an English phrase rather than a romanisation keep it: the
-Kwantung Leased Territory, the Republic of China, Manchukuo.
-Japanese gives the imperial-period form. Chinese is in traditional characters,
-as the period used them; Korean is in hangul with McCune–Reischauer
-romanisation.</p>
+<p>English gives the name as it was used at the time, with the present-day name after it where they differ: Taihoku (Taipei), Batavia (Jakarta). Everywhere in China it is the other way round, and in Pinyin with its tone marks — Shěnyáng (Mukden), Chóngqìng (Chungking), Běijīng (Peking / Peiping), Shāndōng (Shantung), Guǎngzhōuwān (Kwangchowan) — because a student meets the period spelling in what they read about the war and the present-day one on every map they can look it up in, and the second is the one that will find it. Places whose English name is an English phrase rather than a romanisation keep it: the Kwantung Leased Territory, the Republic of China, Manchukuo. Japanese gives the imperial-period form — 京城 Keijō for Seoul, 奉天 Hōten for Mukden, 新京 Shinkyō for Changchun, 昭南島 Shōnantō for Singapore, 樺太 Karafuto for southern Sakhalin, 大宮島 Ōmiyajima for Guam. Chinese is in traditional characters, as the period used them; Korean is in hangul with McCune–Reischauer romanisation, and Sino-Korean readings are used for places in the Chinese and Japanese spheres, which is how they were and are read in Korean — 奉天 as 봉천 Pongch'ŏn, 上海 as 상해 Sanghae.</p>
 
-<p>Each place carries only the scripts that belong to it. Hangul on Korea; a
-Japanese reading on Japan proper, the colonies, the Manchurian group and the
-South Seas Mandate; neither on places that answered to neither. British India
-is in English alone, Thailand in English and Thai, Portuguese Timor in English
-and Portuguese, and the Netherlands Indies in English and Dutch with Japanese
-on the cities and islands Japan occupied and named.</p>
+<p>Each place carries only the scripts that belong to it. Hangul on Korea; a Japanese reading on Japan proper, the colonies, the Manchurian group and the South Seas Mandate; neither on places that answered to neither. British India is in English alone, Thailand in English and Thai, Portuguese Timor in English and Portuguese, and the Netherlands Indies in English and Dutch with Japanese on the cities and islands Japan occupied and named.</p>
+
+<p>A fifth field, <code>orig</code>, holds the local endonym where it is neither Chinese nor Korean — Thai for Bangkok, Vietnamese for Hanoi, Malay for Singapore. It is kept for reference and is not shown in the interface.</p>
+
+<p>Names that changed between the two dates are held in <code>texts/sites/overrides-1930.csv</code> and <code>texts/territories/sub-units/overrides-*.csv</code>, so the 1930 map does not call Singapore Syonan-to or describe Changchun as the capital of Manchukuo.</p>
+
+<h2>Historical content</h2>
+
+<h3>The place list</h3>
+
+<p>Drawn from the three module timelines used in the course — Modern Japan 1850–1989; late Edo to Meiji, 1850–1912; and Taishō to the end of the Occupation, 1912–1952. Those handouts are not included in this repository. Every city, battle and incident on the map corresponds to an event in those timelines, plus the territories needed to make sense of them.</p>
+
+<h3>Reading behind the timelines and the notes</h3>
+
+<ul>
+  <li>Andrew Gordon, <em>A Modern History of Japan: From Tokugawa Times to the Present</em> (3rd ed., 2014)</li>
+  <li>Elise K. Tipton, <em>Modern Japan: A Social and Political History</em> (2nd ed., 2008)</li>
+  <li>Brett L. Walker, <em>A Concise History of Japan</em> (2015)</li>
+  <li>Mikiso Hane and Louise G. Perez, <em>Modern Japan: A Historical Survey</em> (5th ed., 2013)</li>
+  <li>Kenneth Henshall, <em>Historical Dictionary of Japan to 1945</em> (2014)</li>
+  <li>William D. Hoover, <em>Historical Dictionary of Postwar Japan</em> (2019)</li>
+  <li>Meryll Dean, <em>Japanese Legal System</em> (2nd ed., 2002)</li>
+  <li>Jeremy A. Yellen, <em>Japan at War, 1914–1952</em> (2024)</li>
+</ul>
+
+<h3>The browse layer</h3>
+
+<p><code>texts/browse.csv</code> holds about a hundred and seventy cities that are context rather than content: the provincial capitals of Republican China and Manchukuo, and the larger cities of Korea, Taiwan, Japan and Southeast Asia. They are drawn smaller and grey, beneath the markers the quiz uses, and are never examined. English names are the period ones with the modern name in brackets where they differ — Paoting (Baoding), Taikyu (Taegu), Kirun (Keelung), Jesselton (Kota Kinabalu).</p>
+
+<h2>Also examined, not used</h2>
+
+<p>From the same <em>Modern East Asia GIS</em> project: <code>Korea Pre-1945.gpkg</code> and <code>modern-east-asia-gis.gpkg</code> (layers for Korea, Karafuto, the Andamans and Kiribati). These turned out to be Natural Earth extracts cut the same way this build already cuts them — merged Korea, Sakhalin south of the parallel, the Andaman rings out of India — so they were checked and set aside rather than imported. The georeferenced historical map scans in the same folder are raster and not usable as vector boundaries.</p>
+
+<h2>Software</h2>
+
+<p>Written with Anthropic's Claude, with Konrad Lawson at the prompt. No third-party JavaScript libraries: the page is plain HTML, CSS and JavaScript, and the build scripts use only the Python standard library.</p>
+
+<p>The companion interactive map of modern China, from which this one takes its approach, is in <code>inspiration/china-map/</code>.</p>
+<!-- END sources -->
 
 <p><a href="index.html">← back to the map</a></p>
 

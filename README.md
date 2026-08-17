@@ -95,32 +95,51 @@ python3 tools/bundle.py     # writes japan-empire-map-standalone.html
 That file opens by double-clicking and can be emailed or copied to a memory
 stick. Rebuild it after any change to the site.
 
+### Changing the words
+
+Every word the map shows — names, dates, notes, legend labels, the About and
+Sources pages — lives in `texts/` as CSV and Markdown. Edit there and run:
+
+```sh
+python3 tools/build_texts.py   # writes data.js, index.html's About, sources.html, SOURCES.md
+```
+
+`texts/README.md` says how that folder is arranged and what each column holds.
+The generated half of `data.js` is overwritten by that script, so nothing should
+be edited in it directly. Changing the *shapes* is a separate job and a separate
+script — `tools/build_map.py` — and neither needs the other to run.
+
 ## Files
 
 | | |
 |---|---|
 | `index.html`, `styles.css`, `map.js` | the application |
-| `data.js` | all the teaching content: territories per epoch, sites, names, dates, notes, levels |
+| `texts/` | **every word the map shows**, as CSV and Markdown: territories per epoch, sub-units, sites, names, dates, notes, levels, and the About and Sources pages |
+| `data.js` | the map's settings, and the teaching content folded in from `texts/` — the part below the banner is generated |
 | `cities-gaz.js` | the gazetteer behind the browse layer |
 | `japan-empire-map.svg` | generated base map — atoms only, no names or colours |
 | `japan-empire-map-admin.svg` | the administrative divisions, fetched only when that layer is switched on |
 | `japan-empire-map-fine.svg` | fine coastlines, fetched only on a deep zoom into the window that needs them |
 | `japan-empire-map-roc.svg` | the alternative Chinese provinces, fetched only if chosen in Layers |
 | `admin.js` | a panel of tools for working on the map, fetched only when Layers is option-clicked; no reader ever loads it |
-| `sources.html` | the Sources page, linked from About |
-| `SOURCES.md` | every data source, licence, and what was done to it |
+| `sources.html` | the Sources page, linked from About — generated from `texts/pages/sources.md` |
+| `SOURCES.md` | the same page as a plain file: every data source, licence, and what was done to it — also generated |
 | `tasks.md` | what has been fixed and how, and what is still open |
 | `tools/build_map.py` | regenerates the base map from the source data |
+| `tools/build_texts.py` | folds `texts/` into `data.js`, `index.html`, `sources.html` and `SOURCES.md` |
+| `tools/texts_lib.py`, `tools/md.py` | the CSV/Markdown readers, and just enough Markdown for the two prose pages |
 | `tools/shapefile.py` | a small stdlib-only shapefile reader used by the build |
 | `tools/bundle.py` | builds the single-file version |
 
-Adding a city or a battlefield needs nothing but a new entry in `data.js` with
-its longitude and latitude; markers are projected at run time, so the SVG never
-has to be touched. Changing the *shape* of the map, or adding a region a new
-epoch needs, means editing and re-running `tools/build_map.py`.
+Adding a city or a battlefield needs nothing but a row in `texts/sites/sites.csv`
+with its longitude and latitude, a `## id` section in `sites.md` for the note,
+and a run of `tools/build_texts.py`; markers are projected at run time, so the
+SVG never has to be touched. Changing the *shape* of the map, or adding a region
+a new epoch needs, means editing and re-running `tools/build_map.py`.
 
-The SVG holds **atoms** — the smallest regions any epoch needs — and `data.js`
-composes them into territories separately for each date. Manchuria is three
+The SVG holds **atoms** — the smallest regions any epoch needs — and the
+territory files in `texts/` compose them into territories separately for each
+date. Manchuria is three
 Chinese provinces in 1930 and part of Manchukuo in 1942 without the file
 carrying the geometry twice. Atoms that share a territory are painted fill and
 stroke in the same colour, so no boundary shows between them: British India has

@@ -7,7 +7,7 @@ describing what was actually changed, before it is marked done.
 
 ## Open — asked for and not yet done
 
-Two entries, and both of them are measured rather than assumed. Everything else
+Three entries, and each of them is measured rather than assumed. Everything else
 that stood here has been closed; where a fix was a generalisation rather than an
 answer, the source that would settle it is named at the foot of this file.
 
@@ -18,6 +18,20 @@ answer, the source that would settle it is named at the foot of this file.
   moving a vertex a little, it is invisible at any view a reader will use, and
   closing it means rebuilding the cut to share vertices with its parent. Not
   worth what it would cost; recorded so nobody measures it again.
+
+- **Okinawa needs a key of its own for the island, apart from the prefecture.**
+  Found by the move to `texts/`, which refuses to let two rows share a key. Two
+  different shapes carry `data-prov="Okinawa"` — the prefecture, drawn when
+  Administrative is on, and the island of Okinawa Hontō in the fine coastline
+  layer — and the sub-unit table is keyed by that one name. `data.js` held an
+  entry for each: the island's read *Okinawa — Naha, and the battle of
+  April–June 1945*, the prefecture's *Okinawa-ken*. The prefecture's came second
+  in the file and silently replaced the island's, so the battle line was never
+  once shown to anybody. Only the prefecture's row is kept for now, so nothing
+  on the map has changed; the fix is a distinct `data-prov` for the fine island
+  in `tools/build_map.py`, after which the battle can be named where a reader
+  zooming in on Okinawa would look for it. What was lost is recorded in
+  `texts/territories/sub-units/ryukyus.md`.
 
 - **Kwangchowwan wants a period source for the lease boundary itself.** The
   carve is right now — see below, where the traced coastline replaced Natural
@@ -31,6 +45,73 @@ answer, the source that would settle it is named at the foot of this file.
 ---
 
 ## Done
+
+## Every word in texts/, and the site built from it
+
+**Three copies of the same facts, kept by hand.** The teaching content — 62 and
+66 territories, 78 sites, 170 browse cities, 485 sub-units, 29 per-epoch
+overrides, 27 legend rows, two epoch blurbs — lived in `data.js` as 2,466 lines
+of JavaScript object literals, with about 180 lines of comment threaded through
+it explaining why each record read the way it did. The sources list was written
+out twice more, once as `sources.html` and once as `SOURCES.md`, and the two had
+drifted apart: the page had the AMS 1:250,000 alternative, the princely-states
+gazetteer, the Communist base areas and the New Guinea corrections; the Markdown
+file had the confidence table, the cache paths, the reading list and the software
+note. Neither was a subset of the other.
+
+**All of it is now in `texts/`**, as 39 CSV files and 35 Markdown files, and
+`tools/build_texts.py` folds them into the four places the browser reads:
+the generated half of `data.js`, the About dialog inside `index.html`,
+`sources.html`, and `SOURCES.md`. `data.js` keeps a hand-written head — the home
+view, the date the map opens on, and the Yellow River's 1938 flood course, none
+of which are words — and everything below the banner is replaced wholesale.
+
+**CSV for the short fields, Markdown for the prose.** One row per record, one
+column per field, and a column a file does not use is left out rather than left
+blank. The notes are keyed to the rows by id in a `## id` section and ship
+verbatim, not rendered, so `<em>` still reaches the page as `<em>`. `> lines`
+in those files are commentary — where the 180 lines of `data.js` comment went —
+and `# headings` are dividers; neither is ever shown to a reader. `{{reclaim}}`
+pulls in a shared sentence from `snippets.md`, which is how the reclamation
+caution on the South China Sea islands is written once instead of five times.
+
+**The 485 sub-units are split into 27 group files** — `korea.csv`, `siam.csv`,
+`manchukuo.csv`, `philippines.csv`, `aleutians.csv`, `ryukyus.csv` and the rest —
+because 485 rows in one sheet is not a thing anyone can edit. The split is for
+editing only; at build time they become the single name-keyed table `map.js`
+wants.
+
+**Checked by round trip, not by eye.** The old `data.js` was loaded in Node and
+dumped to JSON before the move; the generated one was dumped again after it and
+the two compared field by field. **Two differences in 187 KB**, both of them the
+same thing: a `when: ''` on the two "drawn for context" records, which `map.js`
+reads as absent anyway (`rec.date || rec.when`), so the empty cell is simply not
+there now. Everything else — every name in four scripts, every note, every
+colour, every `edgeClip` and `hatch` and `lvl` — is identical. The generator is
+idempotent: a second run leaves `data.js` byte for byte the same.
+
+**The generator refuses rather than guesses.** A territory with no note, two
+rows under one id, a sub-unit name in two group files, an override for a city
+that does not exist, a `{{snippet}}` that is not defined, a number column with
+something else in it — each stops the build and names the file and the row.
+Every one of those has been a real bug here, and each hid for months in a file
+too long to read. The first thing the check caught is now the third entry under
+Open: `JMAP.PROVINCES` had **two `Okinawa` entries**, and the prefecture's had
+been silently eating the island's since the fine coastline layer was built.
+
+**The Sources page is one document again**, merged additively — nothing from
+either copy was dropped, so it is longer than either was, and it now carries the
+confidence table and the cache inventory as tables. `tools/md.py` is the small
+stdlib-only renderer that makes the HTML: headings, paragraphs, lists, tables,
+links, emphasis, code, and raw HTML passed through untouched. `SOURCES.md` is
+written from the same file, so the two cannot drift again.
+
+Swept afterwards: both epochs load, 0 console errors, tooltips and the info
+panel read correctly off real mouse events, the legend rebuilds on the epoch
+switch, `sources.html` renders 10 sections and 2 tables without scrolling
+sideways, and `tools/bundle.py` still produces the 4.9 MB standalone file with
+the About text and the sources page folded in.
+
 
 ### The Ellice Islands, and Ocean Island
 **Half a colony was missing.** The 1930 record was called "Gilbert & Ellice

@@ -1,5 +1,3 @@
-<!-- Generated from texts/pages/sources.md by tools/build_texts.py. Edit that file, not this one. -->
-
 <!-- texts/pages/sources.md — the Sources page.
 
      One file, two destinations: it is spliced into sources.html between the

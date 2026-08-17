@@ -15,9 +15,9 @@ Manchukuo and Mengchiang outlines are the historical ones.
 What this produces
 ------------------
 The SVG holds *atoms*: the smallest regions any historical snapshot needs, each
-one path with a stable id "a-<atom>". data.js then composes atoms into
-territories separately for each epoch, so Manchuria can be part of China in 1930
-and Manchukuo in 1942 without duplicating geometry.
+one path with a stable id "a-<atom>". The territory files in texts/ then
+compose atoms into territories separately for each epoch, so Manchuria can be
+part of China in 1930 and Manchukuo in 1942 without duplicating geometry.
 
 The one remaining approximation inside China is the area under Japanese control
 around 1940, which is drawn as a set of whole provinces and labelled on the map
@@ -3277,7 +3277,7 @@ def load_manchukuo_provinces():
                     # The sheet's own romanisation is the period one — Hsing An
                     # Peh, Chinchow, Je Hol — and that is the name a reader of
                     # 1935 would have met. Pinyin is carried beside it in
-                    # data.js, where every other place keeps both.
+                    # texts/, where every other place keeps both.
                     name = (props.get("Name_old") or props.get("Name") or "").strip()
                     rings = [r for r in iter_rings(feat.get("geometry") or {})
                              if len(r) >= 3]
