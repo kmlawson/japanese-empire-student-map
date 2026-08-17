@@ -6,7 +6,7 @@
 
 Sources
 -------
-Natural Earth 1:50m admin-0 and admin-1 (public domain) for the world.
+Natural Earth 1:10m admin-0 and admin-1 (public domain) for the world.
 ENP-China provincial boundaries for 1928-45 (CC BY 4.0) for everything inside
 China. These are real Republican-era provinces — Jehol, Chahar, Suiyuan,
 Liaoning, Jilin, Heilongjiang, Xikang — not modern ones reassembled, so the

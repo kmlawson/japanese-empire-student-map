@@ -27,9 +27,10 @@ reading the boundaries, names and notes come from.
 
 * **Used for:** every Chinese land region on the map. These are the **actual
   provinces of the Republican period** — Jehol, Chahar, Suiyuan, Liaoning,
-  Jilin, Heilongjiang, Xikang, Ningxia — so the Manchukuo and Mengchiang
-  outlines are historical rather than reconstructed from modern units. 29
-  province polygons.
+  Jilin, Heilongjiang, Xikang, Ningxia — rather than modern units reassembled.
+  29 province polygons. These carry the 1930 map; on the 1942 map Manchukuo and
+  Mengchiang are drawn from their own period sheets instead, for which see their
+  rows in the table below.
 * **Files:** `1928-45/1928_1945.shp` and friends. The 1912–21 and 1922–28
   sheets are cached alongside them, unused for now, for any earlier snapshot.
 * **Obtained from:** the ENP-China (Elites, Networks and Power in modern China)
