@@ -560,7 +560,8 @@ ENP_ATOMS = {"china", "manchuria", "chahar", "suiyuan", "suiyuan_w", "jehol",
 # tolerance any band would give them; thinned at all they stop being shapes.
 FULL_DETAIL = ({"korea", "saharat", "princely", "kwantung", "ccp", "malaya",
                 "turtle", "mangsee", "miangas", "cocos",
-                "spratly", "paracel", "pratas", "mengjiang", "manchukuo"} | ENP_ATOMS
+                "spratly", "paracel", "pratas", "mengjiang", "manchukuo",
+                "linephoenix", "uspacific", "nzpacific"} | ENP_ATOMS
                | set(GIS_LAYERS))
 
 # Atoms whose rings are separate pieces of ground rather than neighbours that
@@ -568,7 +569,10 @@ FULL_DETAIL = ({"korea", "saharat", "princely", "kwantung", "ccp", "malaya",
 # what makes a country out of its provinces and what makes nonsense out of an
 # archipelago: it re-chains the survivors and hands back one ring threading
 # through all of them.
-NO_DISSOLVE = {"kwantung", "ccp"} | set(GIS_LAYERS)
+# and the eastern Pacific, which is two dozen atolls a thousand kilometres
+# apart: dissolved, they come back as one ring threading through all of them
+NO_DISSOLVE = ({"kwantung", "ccp", "linephoenix", "uspacific", "nzpacific"}
+               | set(GIS_LAYERS))
 
 # Atoms whose backing is the union of their own sub-units rather than Natural
 # Earth's outline of the same country. The backing exists to fill the cracks
@@ -3213,6 +3217,122 @@ def load_gzw_coast():
             sys.stderr.write(f"note: {GZW_COAST} unreadable\n")
     _GZW_CACHE["d"] = out
     return out
+# ---- the islands east of the date line ------------------------------------
+#
+# Everything the map had east of the Gilberts was one invisible box saying
+# "Polynesia is off this map". A good deal of it is not: the Line Islands, the
+# Phoenix Islands, Tokelau, the northern Cooks and a scatter of American
+# guano-act possessions all fall inside the frame, and they are the ground the
+# Allied supply line to Australia ran across. They are cut out of Natural
+# Earth's countries by this box, and drawn only where they also fall inside the
+# map's own bounds — which, out here, the eastern edge decides.
+PACIFIC_EAST_BOX = [
+    (206.19354, 13.91489), (180.71812, 13.84194),
+    (180.64297, -13.18254), (205.96809, -12.88969),
+]
+
+# Natural Earth is a modern source and these are named for what they were.
+# Every polygon the box selects is matched to the nearest entry here and takes
+# its name and its atom from it; anything selected that matches nothing is
+# still drawn, under its Natural Earth name, and reported — the box is the
+# authority on what is included and this table only says what to call it.
+#
+# The three atoms are the three flags. It happens that Natural Earth's modern
+# sovereign would have done as well, because none of this changed hands between
+# then and now — Kiribati is the Gilbert and Ellice Islands Colony under
+# another name, and the American and New Zealand possessions are still theirs —
+# but the islands are named one by one here anyway, so the map can say Canton
+# and Fanning rather than "Kiribati".
+PACIFIC_EAST = [
+    # The Line Islands, British, run from the Gilbert and Ellice Islands Colony
+    (199.600, 4.714, "Washington Island (Teraina)", "linephoenix"),
+    (200.678, 3.858, "Fanning Island (Tabuaeran)", "linephoenix"),
+    (202.598, 1.880, "Christmas Island (Kiritimati)", "linephoenix"),
+    (205.023, -4.063, "Malden Island", "linephoenix"),
+    (204.102, -5.618, "Starbuck Island", "linephoenix"),
+    # The Phoenix Islands, the same colony. Canton and Enderbury were claimed
+    # by both Britain and the United States and put under a joint
+    # administration in 1939, which is in the record's note rather than in a
+    # colour of its own.
+    (188.332, -2.824, "Canton Island (Kanton)", "linephoenix"),
+    (188.911, -3.131, "Enderbury Island", "linephoenix"),
+    (188.751, -4.455, "Hull Island (Orona)", "linephoenix"),
+    (187.793, -4.509, "Sydney Island (Manra)", "linephoenix"),
+    (185.480, -4.680, "Gardner Island (Nikumaroro)", "linephoenix"),
+    # American, most of them claimed under the Guano Islands Act
+    (197.606, 6.439, "Kingman Reef", "uspacific"),
+    (197.918, 5.882, "Palmyra Atoll", "uspacific"),
+    (183.362, 0.800, "Howland Island", "uspacific"),
+    (183.530, 0.209, "Baker Island", "uspacific"),
+    (199.979, -0.379, "Jarvis Island", "uspacific"),
+    (188.921, -11.057, "Swains Island (Olohega)", "uspacific"),
+    # New Zealand: the northern Cook Islands, and Tokelau, which New Zealand
+    # took over from the Gilbert and Ellice Islands Colony in 1925
+    (202.029, -8.970, "Penrhyn (Tongareva)", "nzpacific"),
+    (198.918, -10.036, "Rakahanga", "nzpacific"),
+    (199.020, -10.386, "Manihiki", "nzpacific"),
+    (194.183, -10.884, "Pukapuka", "nzpacific"),
+    (187.512, -8.565, "Atafu", "nzpacific"),
+    (188.807, -9.350, "Fakaofo", "nzpacific"),
+]
+PACIFIC_EAST_TOL = 0.3          # degrees; a match further off than this is not one
+_PACIFIC_EAST_CACHE = {}
+
+
+def load_pacific_east():
+    """{atom: [(island name, rings)]} for the islands east of the date line."""
+    if _PACIFIC_EAST_CACHE:
+        return _PACIFIC_EAST_CACHE.get("d", {})
+    path = os.path.join(CACHE, "admin0.geojson")
+    out = collections.defaultdict(lambda: collections.defaultdict(list))
+    if not os.path.exists(path):
+        sys.stderr.write("note: admin0.geojson missing, no eastern Pacific\n")
+        _PACIFIC_EAST_CACHE["d"] = {}
+        return {}
+    kept = skipped = unnamed = 0
+    with open(path) as fh:
+        data = json.load(fh)
+    for feat in data.get("features", []):
+        props = feat.get("properties") or {}
+        ne_name = props.get("NAME_EN") or props.get("NAME") or "?"
+        for ring in iter_rings(feat.get("geometry") or {}):
+            if len(ring) < 3:
+                continue
+            # Natural Earth is in -180..180 and this map's frame runs east from
+            # `LON_MIN`, so the far Pacific arrives as a negative number and has
+            # to be turned into the map's own reading of the same meridian
+            r = [(x + 360 if x < LON_MIN else x, y) for x, y in ring]
+            cx = sum(p[0] for p in r) / len(r)
+            cy = sum(p[1] for p in r) / len(r)
+            if not point_in_ring((cx, cy), PACIFIC_EAST_BOX):
+                continue
+            # and only if it is on the map at all: the box overhangs the frame
+            # at both the eastern edge and the southern one
+            if not (LON_MIN <= cx <= LON_MAX and LAT_MIN <= cy <= LAT_MAX):
+                skipped += 1
+                continue
+            best, bd = None, PACIFIC_EAST_TOL
+            for lon, lat, name, atom in PACIFIC_EAST:
+                d = math.hypot(cx - lon, cy - lat)
+                if d < bd:
+                    bd, best = d, (name, atom)
+            if best is None:
+                unnamed += 1
+                sys.stderr.write(
+                    "note: eastern Pacific ring at %.3f, %.3f is in the box and "
+                    "in no table entry — drawn as %s\n" % (cx, cy, ne_name))
+                best = (ne_name, "linephoenix")
+            out[best[1]][best[0]].append(r)
+            kept += 1
+    sys.stderr.write(
+        "eastern Pacific: %d rings kept, %d outside the frame, %d unnamed; %s\n"
+        % (kept, skipped, unnamed,
+           ", ".join("%s %d islands" % (k, len(v)) for k, v in sorted(out.items()))))
+    res = {k: sorted(v.items()) for k, v in out.items()}
+    _PACIFIC_EAST_CACHE["d"] = res
+    return res
+
+
 OUTER_ATOMS = {
     # Labuan is not an atom of its own: it is a sub-unit of North Borneo, and
     # the traced rings replace the adm1 polygon there. It is in the same file
@@ -3425,6 +3545,7 @@ SPLITTERS = {
 # Andamans, where the islands are perfectly legible, the rings are just clutter.
 ISLET_RINGS = {
     "wake", "christmas", "miangas", "cocos",
+    "linephoenix", "uspacific", "nzpacific",
     "nanyo", "gilberts", "ogasawara", "guam", "chishima", "aleutians",
     "hawaii", "ryukyu", "newguinea_au", "solomons_br", "nauru_au",
     "aleutians_jp", "solomons_gc", "solomons_us", "solomons_ml", "solomons_al",
@@ -3436,6 +3557,7 @@ ONE_ISLET = {"cocos"}
 
 ARCHIPELAGOS = {
     "wake", "turtle", "mangsee", "miangas", "cocos",
+    "linephoenix", "uspacific", "nzpacific",
     "spratly", "paracel", "pratas",
     "nanyo", "gilberts", "ogasawara", "guam", "chishima", "aleutians",
     "aleutians_jp",
@@ -3476,6 +3598,7 @@ ORDER = [
     "timor_pt", "newguinea_au", "solomons_br", "australia", "gilberts",
     "nauru_au", "guam", "wake", "hawaii", "aleutians", "aleutians_jp", "hongkong", "macau",
     "solomons_gc", "solomons_us", "solomons_ml", "solomons_al",
+    "linephoenix", "uspacific", "nzpacific",
     "korea", "taiwan", "karafuto", "chishima", "nanyo", "ryukyu",
     "ogasawara", "japan", "kwantung", "ccp",
 ]
@@ -3798,6 +3921,11 @@ def main():
             "Manchukuo: %d rings whole (%d vertices), %d provinces (%d vertices)\n"
             % (len(manchukuo), sum(len(r) for r in manchukuo), len(mk_provs),
                sum(len(r) for _, rs in mk_provs for r in rs)))
+
+    for _key, _islands in load_pacific_east().items():
+        for _name, _rings in _islands:
+            groups[_key].extend(_rings)
+            provinces[_key].append((_name, _rings))
 
     scs = load_scs_islands(SCS_COARSE_KM2)
     for gname, key in SCS_ATOMS.items():
@@ -4460,6 +4588,9 @@ def main():
         min_area = (0.0 if key in GIS_LAYERS or key in ("kwantung", "ccp")
                     or key in OUTER_ATOMS.values()
                     or key in SCS_ATOMS.values()
+                    # Kingman Reef is a square kilometre of coral; every one of
+                    # these is far under the floor an archipelago is given
+                    or key in ("linephoenix", "uspacific", "nzpacific")
                     else 0.04 if key in ("goa", "pondicherry")
                     else 0.12 if (archipelago or key in FULL_DETAIL)
                     else args.min_area)
@@ -4616,6 +4747,13 @@ def main():
         # was the one that gave it away.
         if key in ENP_ATOMS:
             return 0.12
+        # The eastern Pacific by the same argument as its `min_area` above:
+        # Kingman Reef is a square kilometre and Howland two, and the floor an
+        # archipelago is given threw away twelve of the twenty-two islands —
+        # which meant they were drawn, because the atom's own shape has no
+        # floor, but had no name to give when they were pointed at.
+        if key in ("linephoenix", "uspacific", "nzpacific"):
+            return 0.0
         return 0.12 if key in ARCHIPELAGOS else args.min_area
 
     def tol_for(pts):

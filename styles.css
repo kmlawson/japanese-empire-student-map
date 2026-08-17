@@ -493,6 +493,15 @@ button.plain:hover { background: #f2ede2; }
 
 #jmap.zoomed-in .islet { display: none; }
 
+/* The ring's target deliberately stays after the ring itself has gone. Taking
+   it away with the ring was tried, so that an island big enough to draw would
+   answer for itself rather than for its group: it made atolls worse. An atoll
+   is a rim round a lagoon, and the lagoon is not land — with the target gone,
+   pointing at the middle of Canton or Kiritimati fell through the hole in the
+   ring and answered "Polynesia, beyond the edge of this map". The finger-sized
+   circle over the whole speck is the more forgiving thing, and the group it
+   names is a true answer. Point at the rim and the island still names itself. */
+
 /* an invisible, finger-sized target over territories too small to hit */
 .atom-hit {
   fill: transparent;

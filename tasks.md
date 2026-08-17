@@ -32,6 +32,53 @@ answer, the source that would settle it is named at the foot of this file.
 
 ## Done
 
+### The islands east of the date line
+Everything the map had out there was one invisible box saying "Polynesia is off
+this map". A good deal of it is not. Cut out of Natural Earth's countries by the
+box asked for — 180.64 to 206.19 E, −13.18 to 13.91 N — and drawn only where
+they also fall inside the map's own bounds: **25 polygons, 22 islands, none
+rejected by the frame**, in three atoms.
+
+- **The Line and Phoenix Islands**, British, run from the Gilbert & Ellice
+  Islands Colony: Washington, Fanning, Christmas (Kiritimati), Malden,
+  Starbuck; Canton, Enderbury, Hull, Sydney, Gardner.
+- **Palmyra, Kingman Reef, Howland, Baker, Jarvis and Swains**, American, most
+  of them claimed under the Guano Islands Act.
+- **Tokelau and the northern Cook Islands**, New Zealand: Atafu, Fakaofo;
+  Penrhyn, Manihiki, Rakahanga, Pukapuka.
+
+None was ever occupied, which is the point of drawing them: the advance stopped
+at Tarawa and everything east of the date line stayed Allied and became the road
+the counter-attack came up. The 1942 records say so.
+
+**The box selects and a table names.** Natural Earth is a modern source; every
+polygon it hands over is matched to the nearest of twenty-two entries carrying
+the period name and the atom, within 0.3°, and anything selected that matches
+nothing is still drawn under its Natural Earth name and reported — the box is
+the authority on what is included and the table only says what to call it. As
+it happens the modern sovereign would have done as well, none of this having
+changed hands since, but then the map would say "Kiribati" where it now says
+Canton and Fanning.
+
+**Three floors had to be lifted for them**, and each was a different mechanism
+saying the same thing — that a square kilometre of coral is not a country:
+`NO_DISSOLVE`, or the two dozen atolls a thousand kilometres apart came back as
+one ring threading through all of them; `min_area`, or they were dropped before
+being drawn; and `sub_min_area`, which is the one that matters for reading — the
+archipelago floor of 0.12 threw away twelve of the twenty-two, so they were
+drawn but had no name to give.
+
+**A limitation, stated rather than papered over.** All 22 carry their names in
+the built SVG, but under the pointer it is the *group* that answers, because the
+finger-sized target over each speck sits above the island's own path. Removing
+that target at deep zoom was tried and is worse: an atoll is a rim round a
+lagoon, and pointing at the middle of Canton then falls through the hole and
+answers "Polynesia, beyond the edge of this map". The forgiving target and a
+true group answer beat a precise one that misses.
+
+The Polynesia box is reworded in both epochs — it said these were not shown, and
+now some of them are.
+
 ### The detail sheet: what is new first, and a phone that can still see the map
 
 **The resistance areas stopped saying it twice.** Selecting Taihang and Taiyueh
