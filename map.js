@@ -3001,6 +3001,11 @@
      of #land and not over the named atom alone. */
   function liveFineBoxes() {
     var out = [];
+    // Zoomed out past the fine layer's own threshold, what is grafted stays
+    // grafted but stops superseding anything: at that width a fine island is a
+    // sub-pixel speck, and the coarse shape and the ring the base map draws
+    // round an islet are what a reader needs back.
+    if (!fineSupersedes) return out;
     Object.keys(fineLive).forEach(function (k) {
       fineLive[k].forEach(function (node) {
         boxesOf(node.getAttribute('d')).forEach(function (b) { if (b) out.push(b); });
@@ -3142,20 +3147,43 @@
     });
   }
 
+  /* Whether the live windows are close enough to stand in for the coarse
+     shapes. Not the same question as whether they are loaded. */
+  var fineSupersedes = false;
+
+  /* A window is given up only when another one asks for the room.
+     Zooming out or panning away leaves what has been drawn where it is: the
+     detail is already fetched and already grafted, and throwing it away means
+     the reader who zooms back in waits again for the same shapes. So the drop
+     pass runs only when something new is wanted — zoom into the Spratlys and
+     they stay drawn however far out you go afterwards, until a zoom into the
+     mandate takes their place. */
   function syncFine() {
     var want = wantsFine();
-    if (!want.length && !Object.keys(fineLive).length) return;
+    var deep = view.w < FINE_W;
+    if (!want.length && !Object.keys(fineLive).length) {
+      fineSupersedes = false;
+      return;
+    }
     if (want.length && fineState !== 'ready') {
       fetchFine(syncFine);
       return;
     }
-    var wanted = {};
-    want.forEach(function (k) { wanted[k] = true; });
     var changed = false;
-    Object.keys(fineLive).forEach(function (k) {
-      if (!wanted[k]) changed = dropFine(k) || changed;
-    });
-    want.forEach(function (k) { changed = graftFine(k) || changed; });
+    if (want.length) {
+      var wanted = {};
+      want.forEach(function (k) { wanted[k] = true; });
+      Object.keys(fineLive).forEach(function (k) {
+        if (!wanted[k]) changed = dropFine(k) || changed;
+      });
+      want.forEach(function (k) { changed = graftFine(k) || changed; });
+    }
+    // crossing the threshold changes what supersedes what, without changing
+    // what is loaded
+    if (deep !== fineSupersedes) {
+      fineSupersedes = deep;
+      changed = true;
+    }
     if (!changed) return;
     rebuildFineHits();
     reprune();

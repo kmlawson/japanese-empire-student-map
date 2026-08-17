@@ -1008,27 +1008,54 @@ EXTENT_REACH = 0.9         # degrees; how far inland a vertex may be and still
 # take in, and the box each of them lives in. The course was hand-drawn round
 # these four before the occupation was traced, so the line still ran on ellipses
 # while the shading beneath it had the real shapes.
+# (block, box, atoms drawn as occupied that the trace does not include). Hong
+# Kong is its own atom and its own record — Japan took it in December 1941 —
+# so the delta's detour has to reach round it as well as round the traced block.
 EXTENT_ENCLAVES = [
-    ("Amoy and Kinmen", (117.75, 24.20, 118.65, 24.80)),
-    ("Swatow and Chaochow", (116.15, 23.05, 117.05, 23.90)),
-    ("The Canton delta", (112.45, 22.25, 114.75, 23.95)),
+    ("Amoy and Kinmen", (117.75, 24.20, 118.65, 24.80), ()),
+    ("Swatow and Chaochow", (116.15, 23.05, 117.05, 23.90), ()),
+    ("The Canton delta", (112.45, 22.25, 114.75, 23.95), ("hongkong",)),
 ]
 
 
-def enclave_detour(line, rings, box, on_land, margin=EXTENT_OFFSHORE):
+def enclave_detour(line, rings, box, on_land, margin=EXTENT_OFFSHORE,
+                   extra=()):
     """Replace the part of `line` inside `box` with an arc round `rings`.
 
-    The perimeter is one generalised line and is meant to enclose what was
-    held rather than to trace it, so the detour is the convex hull of the
-    block grown by the same margin the rest of the line keeps off the shore —
-    a bulge round the enclave, not a copy of its coastline.
+    The perimeter is one generalised line meant to enclose what was held rather
+    than to trace it, so the detour is the convex hull of the block grown by the
+    same margin the rest of the line keeps off the shore — a bulge round the
+    enclave, not a copy of its coastline. `extra` adds rings that are drawn as
+    occupied but are not part of the traced block: Hong Kong, in the delta.
+
+    **The arc has to be the landward one.** All the way along this coast the
+    perimeter has Free China on its landward side and the sea, which the navy
+    had, on the other, so an enclave is enclosed by passing *inland* of it. The
+    detour used to take the seaward arc, and the measurement of what that cost
+    is worth keeping: Canton, Fatshan, Kongmoon, Amoy, Kinmen, Swatow, Chaochow
+    and Chaoyang were every one of them outside the line of control on a map
+    that shaded them as occupied. Only Hong Kong, Hainan and Kwangchowwan, which
+    are not detours but real frontiers taken off their own outlines, were inside.
     """
     x0, y0, x1, y1 = box
     inside = [k for k, p in enumerate(line) if x0 <= p[0] <= x1 and y0 <= p[1] <= y1]
     if len(inside) < 2 or not rings:
         return line
     a, b = inside[0], inside[-1]
-    hull = grow_ring(convex_hull([p for r in rings for p in r]), margin)
+    # Where one ring is the block — the Canton delta is 99.5% of its own — the
+    # detour follows that ring's own boundary, grown by the margin, so the line
+    # keeps the shape of what was held. A hull round the delta took in a wide
+    # crescent of Free China to the west and north that nobody held. Where the
+    # block is two or three separate blobs — Amoy and Kinmen, Swatow and
+    # Chaochow — no single outline will do and the grown hull is right.
+    areas = sorted((ring_area(r), r) for r in rings)
+    total = sum(a for a, _ in areas) or 1.0
+    biggest, spine_ring = areas[-1]
+    if biggest / total >= 0.9 and len(spine_ring) >= 8:
+        hull = grow_ring(spine_ring, margin)
+    else:
+        pts = [p for r in rings for p in r] + [p for r in extra for p in r]
+        hull = grow_ring(convex_hull(pts), margin)
     if len(hull) < 3:
         return line
 
@@ -1039,13 +1066,16 @@ def enclave_detour(line, rings, box, on_land, margin=EXTENT_OFFSHORE):
     i, j = nearest(line[a]), nearest(line[b])
     fwd = hull[i:j + 1] if i <= j else hull[i:] + hull[:j + 1]
     back = list(reversed(hull[j:i + 1] if j <= i else hull[j:] + hull[:i + 1]))
-    # the seaward arc is the one whose middle is not on land
-    def seaward(arc):
+
+    def ashore(arc):
+        """How much of an arc is over land — sampled, not just its middle,
+        because a hull corner can fall in a bay and answer for the whole."""
         if not arc:
-            return False
-        return not on_land(arc[len(arc) // 2])
-    arc = fwd if seaward(fwd) else (back if seaward(back) else
-                                    max((fwd, back), key=len))
+            return -1.0
+        picks = [arc[k * (len(arc) - 1) // 6] for k in range(7)]
+        return sum(1 for p in picks if on_land(p)) / float(len(picks))
+
+    arc = max((fwd, back), key=ashore)
     return line[:a] + list(arc) + line[b + 1:]
 
 
@@ -1675,14 +1705,19 @@ def ring_centroid(points):
     return (cx / (6 * a), cy / (6 * a))
 
 
-def ring_area(points):
+def ring_area_signed(points):
+    """Twice the ring's area, sign kept — which is its winding direction."""
     a = 0.0
     n = len(points)
     for i in range(n):
         x0, y0 = points[i]
         x1, y1 = points[(i + 1) % n]
         a += x0 * y1 - x1 * y0
-    return abs(a) / 2
+    return a / 2
+
+
+def ring_area(points):
+    return abs(ring_area_signed(points))
 
 
 def dissolve(rings, quant=1e6):
@@ -3236,6 +3271,37 @@ def load_mengjiang():
 # The province scheme is Manchukuo's own and dates from 1934, which is the
 # other reason it is not shown on the 1930 map: those are not the provinces
 # China had there.
+# The Kwantung Leased Territory, traced by hand from a 1935 sheet: the mainland
+# in one ring of 227 points and nineteen islands with it, where the leasehold
+# used to be Liaoning clipped by a half-plane and a bounding box. Half-plane
+# clipping is convex-only, so the old cut gave the leasehold a coast with
+# corners taken off it and Manchuria's filler showed through each one.
+KWANTUNG_FILE = "kwantung-1935.geojson"
+_KWANTUNG_CACHE = []
+
+
+def load_kwantung():
+    """The traced leasehold, or [] if the file is not there."""
+    if _KWANTUNG_CACHE:
+        return _KWANTUNG_CACHE[0]
+    path = os.path.join(CACHE, KWANTUNG_FILE)
+    out = []
+    if os.path.exists(path):
+        try:
+            with open(path) as fh:
+                for feat in json.load(fh).get("features", []):
+                    for ring in iter_rings(feat.get("geometry") or {}):
+                        if len(ring) >= 3:
+                            out.append(ring)
+        except (OSError, ValueError):
+            sys.stderr.write(f"note: {KWANTUNG_FILE} unreadable\n")
+    else:
+        sys.stderr.write(f"note: {KWANTUNG_FILE} missing, "
+                         "the leasehold falls back to the old cut\n")
+    _KWANTUNG_CACHE.append(out)
+    return out
+
+
 MANCHUKUO_FILE = "manchukuo-1935.geojson"
 MANCHUKUO_PROVINCES_FILE = "manchukuo-provinces-v2.geojson"
 _MANCHUKUO_CACHE = []
@@ -4448,6 +4514,12 @@ def main():
     # ---- China, by Republican province ------------------------------------
     kwantung_planes = ([line_plane(KWANTUNG_CUT[0], KWANTUNG_CUT[1], keep_right=True)]
                        + box_planes(*KWANTUNG_BOX))
+    kwantung_traced = load_kwantung()
+    if kwantung_traced:
+        groups["kwantung"].extend(kwantung_traced)
+        sys.stderr.write("Kwantung: %d traced rings (%d vertices)\n"
+                         % (len(kwantung_traced),
+                            sum(len(r) for r in kwantung_traced)))
     tally = collections.Counter()
 
     for att, rings in shapefile.read(ENP_PROVINCES):
@@ -4494,11 +4566,12 @@ def main():
         # as a scatter of yellow flecks round its coast: the islands of the
         # Changshan group and the rocks off Dairen were the country underneath
         # showing where the leasehold above it had thrown them away.
-        if name == "Liaoning":
-            # cut from the *dissolved* province, which is the geometry the map
-            # draws Manchuria from. Clipping the raw rings gave the leasehold a
-            # coast a few hundred metres off Manchuria's, and the province
-            # showed through the difference as yellow chips round Pulandian bay
+        if name == "Liaoning" and not kwantung_traced:
+            # The fallback, kept for a build without the traced file. Cut from
+            # the *dissolved* province, which is the geometry the map draws
+            # Manchuria from: clipping the raw rings gave the leasehold a coast
+            # a few hundred metres off Manchuria's, and the province showed
+            # through the difference as yellow chips round Pulandian bay.
             for ring in (dissolve(rings) if len(rings) > 1 else rings):
                 piece = clip_halfplanes(ring, kwantung_planes)
                 if len(piece) >= 3:
@@ -4550,10 +4623,12 @@ def main():
     _occ_by_block = collections.defaultdict(list)
     for _label, _ring in load_occupied_rings():
         _occ_by_block[_label].append(_ring)
-    for _name, _box in EXTENT_ENCLAVES:
+    for _name, _box, _extra_keys in EXTENT_ENCLAVES:
         _rings = _occ_by_block.get(_name) or []
+        _extra = [r for k in _extra_keys for r in (groups.get(k) or [])]
         if _rings:
-            _south = enclave_detour(_south, _rings, _box, _on_land)
+            _south = enclave_detour(_south, _rings, _box, _on_land,
+                                    extra=_extra)
     extent += _south
     for key, a, b, via in EXTENT_ARCS:
         rings = outlines([key])
@@ -4646,11 +4721,13 @@ def main():
         if whole:
             sys.stderr.write(f"occupied zone: {whole} islands completed\n")
 
+    occ_proj = []
     for label, src in occ_src:
         ring = clip_halfplanes(src, occ_frame)
         if len(ring) < 3:
             continue
         pts = [project(x, y) for x, y in ring]
+        occ_proj.append(pts)
         occ_pieces.append((label, ring_to_path(pts)))
         a = ring_area(pts)
         cx, cy = ring_centroid(pts)
@@ -4667,6 +4744,29 @@ def main():
     if extent:
         pts = simplify([project(x, y) for x, y in extent], 0.35)
         extent_path = line_to_path(pts) + "Z"
+        # Macao, cut out of the perimeter rather than swallowed by it.
+        #
+        # Portugal was neutral and Macao stayed Portuguese for the whole war;
+        # it is the one place inside the delta detour that Japan did not hold.
+        # The detour is a hull grown nine kilometres off the shore and Macao is
+        # two kilometres across, so no offset line can miss it. It is taken out
+        # instead: its own ring, wound against the perimeter, is a hole under
+        # the non-zero rule, so the dashed line draws a small loop round the
+        # enclave and the enclave itself is outside the line. Which is what a
+        # reader should see — a neutral pocket the front went round.
+        _macao = [r for r in (groups.get("macau") or []) if len(r) >= 3]
+        if _macao:
+            sys.stderr.write("extent: Macao cut out of the perimeter (%d rings)\n"
+                             % len(_macao))
+            _outer = ring_area_signed(pts)
+            for _r in _macao:
+                _loop = [project(x, y) for x, y in
+                         grow_ring(normalise_ring(_r), 0.012)]
+                if len(_loop) < 3:
+                    continue
+                if (ring_area_signed(_loop) > 0) == (_outer > 0):
+                    _loop = list(reversed(_loop))
+                extent_path += line_to_path(_loop + [_loop[0]]) + "Z"
         # Attu, Kiska and Guadalcanal are far from anything else Japan held,
         # and a bulge in the perimeter to reach them would take the whole
         # Aleutian chain, or Tulagi and Malaita, in with them. They get rings
@@ -4787,8 +4887,10 @@ def main():
         # knows — had nothing over them, and Manchuria's own filler showed
         # through the middle of Kwantung as a scatter of yellow chips round
         # Pulandian bay and among the islands off Dairen.
+        # The traced layer carries its own nineteen islands, so this is only
+        # for a build without it.
         cx, cy = centroid_of(ring)
-        if KWANTUNG_BOX[0] <= cx <= KWANTUNG_BOX[2] \
+        if not kwantung_traced and KWANTUNG_BOX[0] <= cx <= KWANTUNG_BOX[2] \
                 and KWANTUNG_BOX[1] <= cy <= KWANTUNG_BOX[3]:
             (ax, ay), (bx, by) = KWANTUNG_CUT
             if (bx - ax) * (cy - ay) - (by - ay) * (cx - ax) < 0:
@@ -5058,6 +5160,8 @@ def main():
         # would take Mahe down to a triangle.
         return simplify(pts, args.tolerance * 0.03)
 
+    whole_pts = {}
+
     def whole_union(key):
         """The country outline that goes under a territory's sub-units.
 
@@ -5067,7 +5171,11 @@ def main():
         help — several of these sets come from files that never shared vertices
         in the first place — so the filler is Natural Earth's own outline of the
         countries concerned, which has no seams in it by construction. Drawn
-        underneath in the same colour, it turns every crack into solid ground."""
+        underneath in the same colour, it turns every crack into solid ground.
+
+        The projected rings are kept in `whole_pts` on the way past. The
+        occupied zone needs China's outline as coordinates and not only as a
+        path string, to work out which stretches of coast it reaches."""
         # Korea has no separate coastline: its provinces are the finer source
         # and they dissolve into the country, so the filler comes from them
         rings = backing.get(key) or [r for _, rs in provinces.get(key, []) for r in rs]
@@ -5075,6 +5183,7 @@ def main():
             return ""
         btol = backing_tol(key)
         pieces = []
+        kept = whole_pts.setdefault(key, [])
         for ring in (dissolve(rings) if len(rings) > 1 else rings):
             ring = clip_halfplanes(normalise_ring(ring), frame)
             if len(ring) < 3:
@@ -5083,6 +5192,7 @@ def main():
             if btol is not None:
                 pts = simplify(pts, btol)
             if len(pts) >= 3 and ring_area(pts) >= sub_min_area(key):
+                kept.append(pts)
                 pieces.append(ring_to_path(
                     pts, FINE_PRECISION if key in FULL_DETAIL else None))
         # Added rings are drawn exactly as given, after the dissolve. A seam's
@@ -5257,20 +5367,53 @@ def main():
     china_drawn = china_drawn or paths.get("china", "")
     if china_drawn:
         out.append(f'    <clipPath id="clip-china"><path d="{china_drawn}"/></clipPath>')
-    # Everything except Mengchiang. The occupation is clipped to China's land,
-    # and Mengchiang's traced boundary crosses China proper — northern Shansi
-    # was part of the regime — so the shading ran under it and, where the two
-    # traced lines nearly but not quite coincide, showed as a fringe outside it.
+    # Which stretches of China's coast the occupation reaches. Computed here
+    # because `whole_union("china")` has just run and left its rings behind;
+    # drawn with the occupation, where the reason for it is written out.
+    coast_runs = occupied_coast(whole_pts.get("china") or [], occ_proj) \
+        if (china_drawn and occ_proj) else []
+    if coast_runs:
+        sys.stderr.write(
+            "occupied coast: %d stretches, %d points, of China's %d-point outline\n"
+            % (len(coast_runs), sum(len(r) for r in coast_runs),
+               sum(len(r) for r in whole_pts.get("china") or [])))
+    # Everything except the two client states. The occupation is clipped to
+    # China's land, and both Mengchiang's and Manchukuo's traced boundaries
+    # cross ground the occupation's own tracing claims — northern Shansi was
+    # Mengchiang's, and the occupied file reaches over the Wall into Jehol,
+    # which Manchukuo took in 1933. Measured: 101 cells of a quarter-degree
+    # grid lie inside both the occupation and Manchukuo, over 115.75-119.75 E
+    # and 40.25-41.75 N. With the Administrative layer on, Manchukuo's
+    # provinces are drawn late enough to cover the shading and it never showed;
+    # with the layer off there are no provinces, and the occupation's lighter
+    # salmon was painted over the client state's own colour inside its outline.
     # A clip cannot subtract, but it can be the frame with a hole in it: the
-    # rectangle and Mengchiang's rings in one path under the even-odd rule.
-    meng_rings = load_mengjiang()
-    if meng_rings:
+    # rectangle and the client states' rings in one path under the even-odd
+    # rule.
+    client_rings = load_mengjiang() + load_manchukuo()
+    if client_rings:
         hole = ring_to_path([(0.0, 0.0), (WIDTH, 0.0), (WIDTH, HEIGHT), (0.0, HEIGHT)])
-        for ring in meng_rings:
+        for ring in client_rings:
             cut = clip_halfplanes(normalise_ring(ring), frame)
             if len(cut) >= 3:
                 hole += ring_to_path([project(x, y) for x, y in cut], FINE_PRECISION)
-        out.append('    <clipPath id="clip-off-mengjiang" clipPathUnits="userSpaceOnUse">'
+        out.append('    <clipPath id="clip-off-clients" clipPathUnits="userSpaceOnUse">'
+                   f'<path clip-rule="evenodd" d="{hole}"/></clipPath>')
+    # The Japanese mandate is drawn as a line, and under the pointer the
+    # stylesheet gives it the faintest wash of Japan's colour. The wash covered
+    # Guam, which is the one thing inside that boundary the mandate did not
+    # include — the box round it says so in as many words. So the wash is
+    # clipped: the frame with the box punched out of it under the even-odd rule.
+    # Only the fill is affected; the dashed boundary is a separate copy in
+    # #mandate-lift and is left alone.
+    _guam_box = [r for r in (groups.get("mandate_ex_guam") or []) if len(r) >= 3]
+    if _guam_box:
+        hole = ring_to_path([(0.0, 0.0), (WIDTH, 0.0), (WIDTH, HEIGHT), (0.0, HEIGHT)])
+        for ring in _guam_box:
+            cut = clip_halfplanes(normalise_ring(ring), frame)
+            if len(cut) >= 3:
+                hole += ring_to_path([project(x, y) for x, y in cut])
+        out.append('    <clipPath id="clip-off-guam" clipPathUnits="userSpaceOnUse">'
                    f'<path clip-rule="evenodd" d="{hole}"/></clipPath>')
     out.append("  </defs>")
     out.append(f'  <rect id="ocean" x="0" y="0" width="{fmt(WIDTH)}" height="{fmt(HEIGHT)}"/>')
@@ -5386,7 +5529,10 @@ def main():
                 _cls = "atom mandate"
             elif key == "mandate_ex_guam":
                 _cls = "atom mandate mandate-cutout"
-            out.append(f'    <path id="a-{key}" class="{_cls}" {meta} d="{paths[key]}"/>')
+            _clip = (' clip-path="url(#clip-off-guam)"'
+                     if (key == "mandate_jp" and _guam_box) else "")
+            out.append(f'    <path id="a-{key}" class="{_cls}"{_clip} '
+                       f'{meta} d="{paths[key]}"/>')
     if occ_path:
         ax, ay, area = occ_anchor
         # a group of named blocks rather than one path, so the pointer can say
@@ -5401,19 +5547,29 @@ def main():
         # layer off those two are painted by their backing, which lives at the
         # head of the layer stack, so nothing drawn later can be under it and
         # no amount of reordering would have helped.
-        # Two clips: China's own land, and then everything that is not
-        # Mengchiang. They intersect, which is what is wanted — the shading
-        # stops at the coast, at the frontier, and at the client state's line.
-        occ_out.append('    <g clip-path="url(#clip-off-mengjiang)">'
-                       if meng_rings else '    <g>')
+        # Two clips: China's own land, and then everything that is not one of
+        # the client states. They intersect, which is what is wanted — the
+        # shading stops at the coast, at the frontier, and at Mengchiang's and
+        # Manchukuo's own lines.
+        occ_out.append('    <g clip-path="url(#clip-off-clients)">'
+                       if client_rings else '    <g>')
         occ_out.append(
-            f'    <g id="a-occupiedzone" class="atom" clip-path="url(#clip-china)" '
+            f'    <g id="a-occupiedzone" class="atom" '
             f'data-islands="1" data-cx="{fmt(ax)}" data-cy="{fmt(ay)}" '
             f'data-area="{int(area)}">'
         )
+        occ_out.append('    <g clip-path="url(#clip-china)">')
         for label, d in occ_pieces:
             attr = f' data-prov="{esc(label)}"' if label else ""
             occ_out.append(f'      <path{attr} d="{d}"/>')
+        occ_out.append("    </g>")
+        # The occupied coast, drawn again in the occupation's own colour so
+        # that China's yellow stroke does not fatten the shore. See
+        # occupied_coast() for why this is a line and not a clip.
+        if coast_runs:
+            d = "".join(line_to_path(r) for r in coast_runs)
+            occ_out.append(f'      <path class="coast" d="{d}" fill="none" '
+                           'pointer-events="none"/>')
         occ_out.append("    </g>")
         occ_out.append("    </g>")
 
@@ -5554,6 +5710,15 @@ FINE_FILES = [
         "osm-islands-gilberts.json",
         "osm-islands-wake.json",
     ]),
+    # The central Pacific. The bulk extract above stops at 176.85 E, the
+    # eastern edge of the Gilberts, so it covers none of this: the Ellice
+    # Islands, the Phoenix group, Tokelau, Swains, the two northern Cooks and
+    # the American specks on the equator were drawn from Natural Earth alone,
+    # one ring apiece. Traced out of the split-coastlines shapefile with
+    # tools/extract_coast.py, seven windows, 424 closed rings out of 876,182
+    # linestrings; Rotuma came with them and is left out, being Fijian and Fiji
+    # not being on this map.
+    ("central-pacific-islands.geojson", ["osm-islands-central-pacific.json"]),
 ]
 
 # Only these windows are taken from the sources above; the Pacific file covers
@@ -5615,6 +5780,19 @@ FINE_GROUPS = [
     # Earth does not carry the atoll at all; the survey has it in 876.
     ("Wake Island", "大鳥島", 166.45, 19.15, 166.80, 19.45),
     ("Ocean Island", "", 169.30, -1.00, 169.80, -0.60),
+
+    # The central Pacific, west of the date line and then east of it, which is
+    # why these boxes are the only ones here written in negative longitudes:
+    # the group is decided on the ring as the source gives it, before it is
+    # lifted into the map's 0-360 frame. English only, on the same rule as
+    # Melanesia — none of these was Japanese on either date, and Japan never
+    # came within six hundred miles of the Ellice.
+    ("Ellice Islands", "", 175.00, -11.00, 180.00, -5.30),
+    ("Phoenix Islands", "", -175.30, -5.30, -170.40, -2.40),
+    ("Tokelau", "", -172.90, -9.70, -170.90, -8.20),
+    ("Swains Island", "", -171.30, -11.25, -170.90, -10.85),
+    ("Northern Cook Islands", "", -166.20, -11.90, -165.10, -10.60),
+    ("Howland and Baker Islands", "", -176.90, -0.10, -176.20, 1.10),
 ]
 
 # Which atom each group's islands belong to. By table rather than by whichever
@@ -5656,6 +5834,12 @@ FINE_GROUP_ATOM = {
     "Ulleung and the Liancourt Rocks": "korea",
     "Ocean Island": "gilberts",
     "Wake Island": "wake",
+    "Ellice Islands": "ellice",
+    "Phoenix Islands": "linephoenix",
+    "Tokelau": "nzpacific",
+    "Swains Island": "uspacific",
+    "Northern Cook Islands": "nzpacific",
+    "Howland and Baker Islands": "uspacific",
     # The Solomons are the one group whose islands do not share an atom. In
     # December 1942 the archipelago was cut in half by the fighting, and this
     # map already draws that: Guadalcanal contested, Tulagi taken, Malaita and
@@ -5840,6 +6024,86 @@ NANYO_JA = {
 }
 
 ATOLL_MAX_DEG = 1.0        # a hundred kilometres; wider is a chain, not an atoll
+
+# How far from the traced occupation a stretch of coast may lie and still count
+# as occupied, in projected units — about eleven kilometres. The trace was made
+# over a period map and its seaward edge wanders a little either side of the
+# shore, so a strict inside-the-polygon test loses whole bays where the line
+# happens to fall just inland.
+COAST_REACH = 2.0
+
+
+def occupied_coast(outline, occupied):
+    """The stretches of a coastline that the occupation reaches, as open lines.
+
+    Everything on this map is painted fill *and* stroke in its own colour, and
+    the stroke does not scale: half of its 1.3 pixels falls outside the shape,
+    which is what closes the hairline between two neighbours drawn from
+    different files. At a coast it fattens the shore into the sea instead, and
+    that is where the occupation had a problem no clip can solve. The shading is
+    drawn through a clip cut to China's land, so its own stroke stops at the
+    waterline while China's — Free China's yellow — does not, and a yellow
+    thread one pixel wide ran the whole length of the occupied coast.
+
+    A clip cannot help because it is the clip that cuts the stroke off; growing
+    it cannot either, because the overhang is a screen pixel and so four times
+    wider in map units at the widest view than at the deepest. What works is to
+    draw the same line again in the occupation's own colour, unclipped: two
+    strokes of the same width on the same line, the salmon one second. This
+    finds the line — the stretches of China's own outline that the occupation
+    reaches — and the caller strokes them.
+
+    Returns a list of open point lists, each a run of consecutive vertices.
+    """
+    # a grid of the occupation's vertices, so "how far to the nearest" is a
+    # look at nine cells and not a walk over six thousand points
+    cell = COAST_REACH
+    grid = {}
+    boxes = []
+    for ring in occupied:
+        xs = [p[0] for p in ring]
+        ys = [p[1] for p in ring]
+        boxes.append((min(xs), min(ys), max(xs), max(ys), ring))
+        for x, y in ring:
+            grid.setdefault((int(x // cell), int(y // cell)), []).append((x, y))
+
+    def reached(p):
+        x, y = p
+        for bx0, by0, bx1, by1, ring in boxes:
+            if bx0 <= x <= bx1 and by0 <= y <= by1 and point_in_ring(p, ring):
+                return True
+        gx, gy = int(x // cell), int(y // cell)
+        r2 = COAST_REACH * COAST_REACH
+        for dx in (-1, 0, 1):
+            for dy in (-1, 0, 1):
+                for qx, qy in grid.get((gx + dx, gy + dy), ()):
+                    if (qx - x) ** 2 + (qy - y) ** 2 <= r2:
+                        return True
+        return False
+
+    runs = []
+    for ring in outline:
+        flags = [reached(p) for p in ring]
+        if not any(flags):
+            continue
+        n = len(ring)
+        if all(flags):
+            runs.append(list(ring) + [ring[0]])
+            continue
+        # start where a run begins, so a run that straddles the ring's own
+        # first vertex comes out as one line rather than two
+        start = next(i for i in range(n) if flags[i] and not flags[i - 1])
+        cur = []
+        for k in range(n + 1):
+            i = (start + k) % n
+            if flags[i] and k < n:
+                cur.append(ring[i])
+            elif cur:
+                if len(cur) > 1:
+                    runs.append(cur)
+                cur = []
+    return runs
+
 
 FINE_MIN_KM2 = 0.05        # five hectares; below this it is a dot on the map
 FINE_TOL_DEG = 0.002       # about half a pixel at the deepest zoom the map has

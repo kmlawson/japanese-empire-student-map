@@ -46,6 +46,101 @@ answer, the source that would settle it is named at the foot of this file.
 
 ## Done
 
+## Fine coastlines in the central Pacific, and four things measured on the coast
+
+**The Ellice, the Phoenix group, Tokelau and the rest have coastlines now.** The
+bulk Pacific extract stops at 176.85 E, the eastern edge of the Gilberts, so
+everything east and south of that had one Natural Earth ring apiece and nothing
+finer. Seven windows out of the 876,182-linestring split-coastlines shapefile
+give **411 closed rings**, 130 of them above the five-hectare floor, and an
+Overpass query gives the islet names: Fongafale and Funafala on Funafuti,
+Nikumaroro, Rawaki, Enderbury and McKean in the Phoenix group, Atafu's motu,
+Pukapuka and Nassau. Drawn: 92 rings across `ellice` 30, `linephoenix` 19,
+`nzpacific` 40, `uspacific` 3. **Vertex retention: 583 of the 16,233 that clear
+the floor, 3.6%** — against 14.9% for the South China Sea extract through the
+same pipeline, because `FINE_TOL_DEG` is 0.002° and these atolls are surveyed at
+about ten metres; what is dropped is a fifth of a pixel at the deepest zoom the
+map allows. Rotuma came out of the same windows and is left out: it is Fijian and
+Fiji is not on this map. The extractor writes polygons and the fine-coastline
+loader reads lines, which is what `--as-lines` is for; the first build drew
+nothing at all and said so only by the atoms missing from its own tally.
+
+**The yellow thread along the occupied coast was the backing's stroke.** Every
+shape here is painted fill *and* stroke in its own colour, 1.3 pixels that do not
+scale, which is what closes the hairline between neighbours drawn from different
+files; at a coast it fattens the shore seaward by half of that. The occupation is
+the one shape drawn through a clip, so its own stroke stops at the waterline
+while China's does not — Free China's yellow, from the backing with
+Administrative off and from the province paths with it on. Measured by rendered
+colour, not by hit-testing, which cannot see it: **235 near-pure yellow pixels on
+the waterline of one Shantung view, 173 on another**. Two attempts failed and are
+worth recording. A clip cannot help because it is the clip that cuts the stroke;
+growing it cannot either, because the overhang is a screen pixel and so four
+times wider in map units at the widest view than at the deepest. A mask of the
+same path filled and stroked white was right at the widest view and leaked again
+at the deepest. What works is `occupied_coast()`: the stretches of China's own
+outline that the occupation reaches, found by point-in-ring with a grid index and
+an eleven-kilometre reach, drawn again unclipped in the occupation's colour — two
+strokes of the same width on the same line, the salmon one second. **96
+stretches, 2,992 points of China's 6,248-point outline. Near-pure yellow on the
+waterline: 235 → 0 in Shantung, 173 → 5 deep, 37 → 22 at Canton.**
+
+**The occupation was painted over Manchukuo, and only with Administrative off.**
+The traced occupied file reaches over the Wall into Jehol, which Manchukuo took
+in 1933: **101 cells of a quarter-degree grid lie inside both**, over
+115.75–119.75 E and 40.25–41.75 N. With the layer on, Manchukuo's fourteen
+provinces are drawn late enough to cover the shading; with it off there are no
+provinces and the occupation's lighter salmon showed inside the client state's own
+outline, which is exactly what "the right outline with the wrong red inside it"
+was. Manchukuo's rings join Mengchiang's in the even-odd hole that the shading is
+clipped against — `clip-off-mengjiang` is `clip-off-clients` now.
+
+**Every southern enclave was outside the line of control.** Asked of the extent
+path itself: **Canton, Fatshan, Kongmoon, Amoy, Kinmen, Swatow, Chaochow and
+Chaoyang were all outside** a line drawn to enclose them, because
+`enclave_detour` took the *seaward* arc round each block. All along that coast the
+perimeter has Free China landward and the sea, which the navy had, seaward, so an
+enclave is enclosed by passing inland of it. The arc is chosen by how much of it
+is over land now, sampled at seven points rather than at its middle. And where one
+traced ring is the whole block — the Canton delta is 99.5% of its own — the detour
+follows that ring's boundary offset nine kilometres instead of a hull, which had
+taken in a wide crescent of Free China to the west and north. Hong Kong is folded
+in as well, being occupied and not part of the trace. **Macao is cut out**: its own
+ring, wound against the perimeter, is a hole, so the dashed line draws a small loop
+round the neutral enclave. All fourteen occupied places inside, Macao outside,
+Foochow and Wenchow outside, Tungan outside because the trace does not claim it.
+
+**The Kwantung Leased Territory is traced.** 20 rings, 425 vertices, **every one
+of them drawn** — it is in `FULL_DETAIL`, so nothing is thinned. It replaces
+Liaoning clipped by a half-plane and a bounding box: convex-only clipping gave
+the leasehold Liaoning's coast with corners taken off it, and Manchuria's filler
+showed through each one. The Natural Earth island scoop that used to patch that
+is kept only for a build without the traced file, which carries its own nineteen
+islands.
+
+**Two more, from the same batch.** The Japanese mandate's hover wash covered the
+box round Guam, which is the one thing inside that boundary the mandate did not
+include; the wash is clipped to the frame with the box punched out of it, and the
+dashed boundary, being a separate copy in `#mandate-lift`, is untouched. And six
+records were saying the same thing twice on two lines — the Ellice reading
+"British colony; American bases from October 1942" above "Never occupied;
+American base from October 1942", and the same fault on the 1930 Gilberts,
+Tokelau, the Turtle Islands, the Paracels and Papua–New Guinea. Found by
+comparing the two fields word by word rather than by reading them.
+
+**Fine coastlines stay loaded until another window wants the room.** They used to
+be dropped the moment the view went wider than `FINE_W`, so zooming out and back
+in fetched and grafted the same shapes again. Now the drop pass runs only when
+something new is wanted: zoom into the Spratlys and their 29 islands stay drawn
+however far out you go, until a zoom into Truk replaces them with the mandate's
+559. What does still depend on the zoom is whether a fine window *supersedes* the
+coarse shape under it — at the wide view a fine island is a sub-pixel speck and
+the ring the base map draws round an islet is what a reader needs, so
+`liveFineBoxes()` answers with nothing above the threshold and `reprune()` puts
+the coarse shapes back. Measured through the wheel, which moves the app's own
+view state and not just the viewBox: Spratlys 29 live / 1 superseded deep, 29
+live / 0 superseded zoomed out, then 559 nanyo / 51 superseded at Truk.
+
 ## Every word in texts/, and the site built from it
 
 **Three copies of the same facts, kept by hand.** The teaching content — 62 and

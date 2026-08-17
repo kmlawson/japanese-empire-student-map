@@ -375,8 +375,8 @@ JMAP.TERRITORIES = {
     },
     {
       id: 'gilberts', en: 'Gilbert & Ellice Islands', ja: 'ギルバート諸島', orig: 'Tungaru',
-      zh: '吉爾伯特群島', when: 'British colony from 1916; a protectorate from 1892',
-      rule: 'British colony', cat: 'british', lvl: 3, atoms: ['gilberts', 'ellice'],
+      zh: '吉爾伯特群島', when: 'British colony from 1916; a protectorate from 1892', cat: 'british',
+      lvl: 3, atoms: ['gilberts', 'ellice'],
       note: 'Two scatters of atolls governed as one colony from Tarawa: the Gilberts on the equator, the Ellice Islands six hundred miles south, and Ocean Island — Banaba — off to the west, which was worked for phosphate by the British Phosphate Commissioners and is where the administration actually sat. Japan took the Gilberts in December 1941 and never reached the Ellice.'
     },
     {
@@ -393,8 +393,7 @@ JMAP.TERRITORIES = {
     },
     {
       id: 'nzpacific', en: 'Tokelau & the northern Cook Islands',
-      when: 'Administered by New Zealand', rule: 'New Zealand administration', cat: 'british',
-      lvl: 3, atoms: ['nzpacific'],
+      when: 'Administered by New Zealand', cat: 'british', lvl: 3, atoms: ['nzpacific'],
       note: 'Penrhyn, Manihiki, Rakahanga and Pukapuka are the northern Cooks, annexed by New Zealand in 1901. Tokelau — Atafu, Nukunonu and Fakaofo — was run from the Gilbert & Ellice Islands Colony until 1925 and handed to New Zealand then. They are drawn in the British colour because the map has no New Zealand one; the line above says who actually administered them.'
     },
     {
@@ -438,8 +437,8 @@ JMAP.TERRITORIES = {
     {
       id: 'turtle', en: 'Turtle & Mangsee Islands', orig: 'Kepulauan Penyu / Mangsee',
       when: 'Allocated to the Philippines by treaty, 2 January 1930',
-      rule: 'Administered by British North Borneo, allocated to the Philippines',
-      cat: 'american', lvl: 3, atoms: ['turtle', 'mangsee'], hatch: 'brit',
+      rule: 'Administered by British North Borneo', cat: 'american', lvl: 3,
+      atoms: ['turtle', 'mangsee'], hatch: 'brit',
       note: 'Two small groups in the Sulu Sea that the British North Borneo Company had administered since the 1880s. The Anglo-American convention of 2 January 1930 placed them inside the boundary of the American Philippine Islands, but left the Company running them: the transfer was not actually made until 16 October 1947, to the independent Philippines. Drawn in the American colour with British diagonals, which is what the arrangement was.'
     },
     {
@@ -464,8 +463,8 @@ JMAP.TERRITORIES = {
     },
     {
       id: 'paracel', en: 'Paracel Islands', ja: '西沙群島 (Seisa Guntō)', orig: 'Hoàng Sa',
-      zh: '西沙群島', when: 'Claimed by China and by France',
-      rule: 'Claimed by both China and France', cat: 'chinese', lvl: 3, atoms: ['paracel'],
+      zh: '西沙群島', when: 'Claimed by China and by France', cat: 'chinese', lvl: 3,
+      atoms: ['paracel'],
       note: 'Claimed by the Republic of China as part of Kwangtung and by France on behalf of Annam, and administered by neither in any continuous way in 1930. France occupied them in 1938 and Japan took them in 1939. Islands are traced from present-day shapes, which does not reflect more recent land reclamation.'
     },
     {
@@ -506,9 +505,8 @@ JMAP.TERRITORIES = {
     },
     {
       id: 'newguinea_au', en: 'Papua & the Territory of New Guinea', ja: 'ニューギニア',
-      orig: 'Niugini', zh: '新幾內亞', when: 'Australian territory & mandate',
-      rule: 'Australian territory and mandate', cat: 'australian', lvl: 3,
-      atoms: ['newguinea_au'],
+      orig: 'Niugini', zh: '新幾內亞', when: 'Australian territory & mandate', cat: 'australian',
+      lvl: 3, atoms: ['newguinea_au'],
       note: 'Papua was an Australian territory; German New Guinea, taken in 1914, was held from 1920 under a League mandate — the southern counterpart of Japan’s.'
     },
     {
@@ -746,9 +744,8 @@ JMAP.TERRITORIES = {
     },
     {
       id: 'ellice', en: 'Ellice Islands',
-      when: 'Never occupied; American base from October 1942',
-      rule: 'British colony; American bases from October 1942', cat: 'allied', lvl: 3,
-      atoms: ['ellice'], hatch: 'us',
+      when: 'Never occupied; American bases from October 1942', rule: 'British colony',
+      cat: 'allied', lvl: 3, atoms: ['ellice'], hatch: 'us',
       note: 'Nine atolls and reef islands, the southern half of the Gilbert & Ellice Islands Colony, and the nearest unoccupied ground to the Gilberts. American marines landed on Funafuti on 2 October 1942 and built an airfield there, with two more on Nanumea and Nukufetau the following year; Funafuti was the base the assault on Tarawa and Makin was mounted from in November 1943. Japanese aircraft bombed it from the Gilberts in the meantime. The islanders were moved off the airfield sites and the atolls were left with the runways, the scrap and the borrow pits when the war moved north.'
     },
     {
