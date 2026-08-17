@@ -541,9 +541,9 @@ JMAP.TERRITORIES = {
     },
     {
       id: 'sikkim', en: 'Sikkim', orig: 'འབྲས་ལྗོངས (Drenjong)', zh: '錫金',
-      when: 'British protectorate from 1890', cat: 'british', lvl: 3, c: '#dcc2ce',
-      atoms: ['sikkim'],
-      note: 'A Himalayan kingdom under British protection, not a part of British India — which is why it is drawn apart from it here.'
+      when: 'British protectorate from 1861, recognised by China 1890', cat: 'british', lvl: 3,
+      c: '#dcc2ce', atoms: ['sikkim'],
+      note: 'A Himalayan kingdom under British protection, not a part of British India — which is why it is drawn apart from it here. The protectorate began with the Treaty of Tumlong in 1861, which followed a British punitive expedition and put Sikkim\'s external relations in British hands. What happened in 1890 was the Anglo-Chinese Convention of Calcutta of 17 March, in which China recognised the protectorate and the Sikkim–Tibet boundary was defined: the date of international recognition rather than the start of British control.'
     },
     {
       id: 'bhutan', en: 'Bhutan', orig: 'འབྲུག་ཡུལ (Druk Yul)', zh: '不丹',
@@ -939,9 +939,9 @@ JMAP.TERRITORIES = {
     },
     {
       id: 'sikkim', en: 'Sikkim', orig: 'འབྲས་ལྗོངས (Drenjong)', zh: '錫金',
-      when: 'British protectorate from 1890', cat: 'allied', lvl: 3, c: '#dcc2ce',
-      atoms: ['sikkim'],
-      note: 'A Himalayan kingdom under British protection, not a part of British India — which is why it is drawn apart from it here.'
+      when: 'British protectorate from 1861, recognised by China 1890', cat: 'allied', lvl: 3,
+      c: '#dcc2ce', atoms: ['sikkim'],
+      note: 'A Himalayan kingdom under British protection, not a part of British India — which is why it is drawn apart from it here. The protectorate began with the Treaty of Tumlong in 1861, which followed a British punitive expedition and put Sikkim\'s external relations in British hands. What happened in 1890 was the Anglo-Chinese Convention of Calcutta of 17 March, in which China recognised the protectorate and the Sikkim–Tibet boundary was defined: the date of international recognition rather than the start of British control.'
     },
     {
       id: 'bhutan', en: 'Bhutan', orig: 'འབྲུག་ཡུལ (Druk Yul)', zh: '不丹',

@@ -46,6 +46,37 @@ answer, the source that would settle it is named at the foot of this file.
 
 ## Done
 
+### Sikkim's protectorate, and Alite Island out of the Japanese half of the Solomons
+
+**Sikkim: 1890 was the recognition, not the start.** The card said "British
+protectorate from 1890", which is the Anglo-Chinese Convention of Calcutta of
+17 March 1890 — the date China recognised the protectorate and the Sikkim–Tibet
+boundary was defined. British protection began with the Treaty of Tumlong in
+1861, after a punitive expedition, which put Sikkim's external relations in
+British hands. Both maps now read "British protectorate from 1861, recognised by
+China 1890", and the note says which instrument did what.
+
+**Alite Island was drawn as Japanese-occupied, in the Western Solomons.** It is
+in Langalanga Lagoon, a couple of kilometres off the west coast of Malaita, which
+was raided but never held and keeps the British colour outright. The fault was in
+how a satellite islet is given to an island: the fine layer asked which atom's
+nearest *vertex* was closest, and these rings are simplified, so **Alite measured
+17.6 km to Malaita's nearest vertex and 100.8 km to the Western Solomons' — and
+the test looked only at the two bulk atoms, so it went to the Japanese half of
+the archipelago.**
+
+Measured by distance to the nearest *edge* instead, which is what "which island
+is this off" actually means: **Alite 2.7 km to Malaita against 43.6 to anything
+else; Tulagi 1.0 km and Tanambogo 2.4 to Tulagi's own atom; Nggela Sule 0.8;
+Pavuvu 2.5 to the Allied group against 62.2; and Savo 0.5 km to the Allied group
+against 15.8 to Guadalcanal**, which is the case the old rule was written to
+avoid and which the edge test gets right anyway. So all five Solomon atoms can be
+in the running now instead of two. The re-assignment moves 65 islands: Malaita
+gains its own lagoon and barrier islands (Alite, Manaoba, Maramasike, Fanalei,
+Auslaga, Hokawai and the rest — 4 to 40), Tulagi gains the Florida/Nggela group
+and the Sandfly Passage islets (5 to 25), Guadalcanal gains the fringing islands
+of Marau Sound (3 to 17), and Savo stays Allied where it belongs.
+
 ### Water traced round Kwantung and Kwangchowwan
 
 **A traced leasehold over an untraced country shows the country's coastline, not

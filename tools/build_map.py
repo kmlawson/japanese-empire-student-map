@@ -1739,6 +1739,31 @@ def ring_centroid(points):
     return (cx / (6 * a), cy / (6 * a))
 
 
+def ring_edge_distance(pt, ring):
+    """How far a point is from a ring's outline, not from its nearest vertex.
+
+    On a simplified ring the two are very different: a vertex may be tens of
+    kilometres from the nearest point of the edge it sits on. Used to decide
+    which island a satellite islet belongs to.
+    """
+    px, py = pt
+    best = float("inf")
+    n = len(ring)
+    for i in range(n):
+        ax, ay = ring[i]
+        bx, by = ring[(i + 1) % n]
+        dx, dy = bx - ax, by - ay
+        if dx == 0.0 and dy == 0.0:
+            d = (px - ax) ** 2 + (py - ay) ** 2
+        else:
+            t = ((px - ax) * dx + (py - ay) * dy) / (dx * dx + dy * dy)
+            t = 0.0 if t < 0.0 else (1.0 if t > 1.0 else t)
+            d = (px - (ax + t * dx)) ** 2 + (py - (ay + t * dy)) ** 2
+        if d < best:
+            best = d
+    return best ** 0.5
+
+
 def ring_area_signed(points):
     """Twice the ring's area, sign kept — which is its winding direction."""
     a = 0.0
@@ -6403,21 +6428,32 @@ def _fine_atom(ring, group, groups):
     if key == "*nearest":
         # First: is this island one of the ones an atom was made to stand for?
         # Guadalcanal, Tulagi and Malaita are single islands drawn on their own
-        # because control of them differed in December 1942, so only the island
-        # itself may have them. Nearest-atom alone handed Guadalcanal's colour
-        # to seventeen of its neighbours and Tulagi's to twenty-five.
+        # because control of them differed in December 1942.
         for k in SOLOMON_SINGLE:
             for r in groups.get(k, []):
                 if point_in_ring((cx, cy), r):
                     return k
-        # otherwise it belongs to whichever side of the archipelago it is on
+        # Otherwise it goes to whichever atom's coast it lies nearest — the
+        # coast, not the nearest *vertex*. That distinction is the whole of it.
+        # These rings are simplified, so a lagoon island a kilometre off a shore
+        # can be twenty from the nearest surviving vertex of it: Alite, in
+        # Langalanga Lagoon off Malaita, measured 17.6 km to Malaita's nearest
+        # vertex and 100.8 to the Western Solomons', and a vertex test that
+        # looked only at the two bulk atoms sent it to the Japanese half of the
+        # archipelago. By edge it is 2.7 km from Malaita and 43.6 from anything
+        # else. Measured over the cases that matter: Alite 2.7 km to Malaita,
+        # Tulagi 1.0 and Tanambogo 2.4 to Tulagi's own atom, Nggela Sule 0.8,
+        # Savo 0.5 km to the Allied group and 15.8 to Guadalcanal, Pavuvu 2.5 and
+        # 62.2. Every one is within three kilometres of the right answer and the
+        # runner-up is fifteen to a hundred away, so all five atoms can be in the
+        # running now — which is what puts a satellite islet with its own island
+        # instead of with whichever big coastline happens to be over the horizon.
         best, bd = SOLOMON_BULK[0], float("inf")
-        for k in SOLOMON_BULK:
+        for k in SOLOMON_SINGLE + SOLOMON_BULK:
             for r in groups.get(k, []):
-                for x, y in r:
-                    d = (x - cx) ** 2 + (y - cy) ** 2
-                    if d < bd:
-                        bd, best = d, k
+                d = ring_edge_distance((cx, cy), r)
+                if d < bd:
+                    bd, best = d, k
         return best
     return key
 
