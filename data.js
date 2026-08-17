@@ -305,12 +305,14 @@ JMAP.TERRITORIES = {
       en: 'Nauru — the mandate boundary',
       when: 'British Class C mandate from 1920, administered by Australia',
       note: 'One island, held as a Class C mandate jointly by Britain, Australia and New Zealand under the Nauru Island Agreement of 1919 and administered in practice by Australia. What it was held for was phosphate, worked by the British Phosphate Commissioners. Japan took it in August 1942 and deported most of the population to Truk.' },
-    { id: 'gilberts', atoms: ['gilberts'], cat: 'british', lvl: 3,
+    // One colony, and now both halves of it are drawn. The record was called
+    // "Gilbert & Ellice Islands" while the map drew the Gilberts alone.
+    { id: 'gilberts', atoms: ['gilberts', 'ellice'], cat: 'british', lvl: 3,
       rule: 'British colony',
       en: 'Gilbert & Ellice Islands', ja: 'ギルバート諸島', orig: 'Tungaru',
       zh: '吉爾伯特群島',
       when: 'British colony from 1916; a protectorate from 1892',
-      note: 'A scatter of atolls including Tarawa, taken by Japan in December 1941.' },
+      note: 'Two scatters of atolls governed as one colony from Tarawa: the Gilberts on the equator, the Ellice Islands six hundred miles south, and Ocean Island — Banaba — off to the west, which was worked for phosphate by the British Phosphate Commissioners and is where the administration actually sat. Japan took the Gilberts in December 1941 and never reached the Ellice.' },
     // The islands east of the date line. They belong to the same colony as the
     // Gilberts but are a thousand kilometres and more away, and none of them
     // was ever occupied: the advance stopped at Tarawa.
@@ -672,7 +674,16 @@ JMAP.TERRITORIES = {
       en: 'Gilbert Islands', ja: 'ギルバート諸島', orig: 'Tungaru',
       zh: '吉爾伯特群島',
       when: 'Occupied December 1941',
-      note: 'The outermost ring of the perimeter. The assault on Tarawa in November 1943 opened the American drive across the central Pacific.' },
+      note: 'The outermost ring of the perimeter. The assault on Tarawa in November 1943 opened the American drive across the central Pacific — 76 hours of fighting for an atoll of three square miles, and the casualty lists that followed changed how the rest of the campaign was planned. Ocean Island (Banaba), off to the west, was taken in August 1942 and most of its people deported to Nauru, Kosrae and Tarawa; the garrison there murdered the roughly 150 labourers who remained on 20 August 1945, five days after the surrender, and one man survived by hiding in a cave. The Ellice Islands, the southern half of the same colony, were never occupied and are drawn separately here for that reason.' },
+    // The other half of the Gilbert & Ellice Islands Colony, and on the 1942 map
+    // it has to stand on its own: Japan held the Gilberts and never came within
+    // six hundred miles of these, so one colour for the colony would have said
+    // the opposite of what happened.
+    { id: 'ellice', atoms: ['ellice'], cat: 'allied', lvl: 3,
+      rule: 'British colony',
+      en: 'Ellice Islands',
+      when: 'Never occupied; American base from October 1942',
+      note: 'Nine atolls and reef islands, the southern half of the Gilbert & Ellice Islands Colony, and the nearest unoccupied ground to the Gilberts. American marines landed on Funafuti on 2 October 1942 and built an airfield there, with two more on Nanumea and Nukufetau the following year; Funafuti was the base the assault on Tarawa and Makin was mounted from in November 1943. Japanese aircraft bombed it from the Gilberts in the meantime. The islanders were moved off the airfield sites and the atolls were left with the runways, the scrap and the borrow pits when the war moved north.' },
     // Never occupied, and that is the point of drawing them: the advance
     // stopped at the Gilberts, and everything east of the date line stayed
     // Allied and became the road the counter-attack came up.
@@ -1783,7 +1794,14 @@ JMAP.YELLOW_1938 = [
  * one set of paths — but the names can, and a name is the thing a student
  * reads. Merged over the base entry at display time. */
 JMAP.PROVINCE_EPOCH = {
+  /* One block per epoch, and it has to stay that way: this object had two
+     `e1942` keys for a long time and the later of them silently discarded the
+     earlier, so eleven overrides — Sind, Orissa, Bihar, the United Provinces,
+     Liaoning, Heilongjiang, Si Sa Ket, Sukhothai and the rest — never took
+     effect on the 1942 map at all. Adding a third made it worse and is how it
+     came to light. They are merged here. */
   e1930: {
+
     'Sind': { en: 'Sind — a division of the Bombay Presidency until 1936' },
     'Orissa': { en: 'Bihar and Orissa Province — one province until 1936' },
     'Bihar': { en: 'Bihar and Orissa Province — one province until 1936' },
@@ -1806,6 +1824,15 @@ JMAP.PROVINCE_EPOCH = {
     'Dindings': { en: 'The Dindings — Straits Settlement: Lumut, Sitiawan and Pangkor, British since 1826 and ruled from Singapore' },
   },
   e1942: {
+
+    // The airfields are a fact about 1942-43 and would be an anachronism on the
+    // 1930 sheet, where these are nine atolls in a British colony and nothing
+    // else. The shared entries above stay plain and these add the war.
+    'Funafuti': { en: 'Funafuti — the American base from October 1942',
+      note: 'The lagoon and the airstrip the assault on Tarawa and Makin was mounted from in November 1943. Marines landed on 2 October 1942 and the islanders of the main islet were moved to make room for the runway.' },
+    'Nukufetau': { en: 'Nukufetau — an American airfield from 1943' },
+    'Nanumea': { en: 'Nanumea — an American airfield from 1943' },
+
     'Sind': { en: 'Sind Province' },
     'Orissa': { en: 'Orissa Province — the Orissa States are drawn inside it' },
     'Bihar': { en: 'Bihar Province' },
@@ -1842,6 +1869,17 @@ JMAP.CLUSTER_EPOCH = {
 };
 
 JMAP.PROVINCES = {
+  /* The Ellice Islands, one entry per atoll. The names are the ones in use then
+     and now; the colony's own spelling of Nanumanga was Nanumaga. */
+  'Nanumea': { en: 'Nanumea' },
+  'Nanumanga': { en: 'Nanumanga (Nanumaga)' },
+  'Niutao': { en: 'Niutao' },
+  'Nui': { en: 'Nui' },
+  'Vaitupu': { en: 'Vaitupu' },
+  'Nukufetau': { en: 'Nukufetau' },
+  'Funafuti': { en: 'Funafuti — the seat of the Ellice Islands' },
+  'Nukulaelae': { en: 'Nukulaelae' },
+
   /* Manchukuo's own fourteen provinces, from 滿洲國地圖 1935. The key is the
      sheet's own romanisation, which is how a reader of 1935 met the name.
      Every one reads the same way: pinyin with its tones first, the sheet's

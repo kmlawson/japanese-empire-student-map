@@ -32,6 +32,43 @@ answer, the source that would settle it is named at the foot of this file.
 
 ## Done
 
+### The Ellice Islands, and Ocean Island
+**Half a colony was missing.** The 1930 record was called "Gilbert & Ellice
+Islands" and drew the Gilberts alone: the Ellice group, six hundred miles south,
+was on no version of this map. Nine rings for eight islands out of Natural Earth
+— Nanumea, Nanumanga, Niutao, Nui, Vaitupu, Nukufetau, Funafuti, Nukulaelae —
+each named, through the same box-selects-and-a-table-names machinery the eastern
+Pacific uses, with a second box added west of the date line. Niulakita, the
+ninth and smallest, Natural Earth does not carry.
+
+**It matters most on the 1942 map**, which is why it was worth doing rather than
+tidy. Japan took the Gilberts in December 1941 and never came within six hundred
+miles of the Ellice; American marines landed on Funafuti on 2 October 1942 and
+built the airfield the assault on Tarawa and Makin was mounted from. Drawn as one
+colour the colony would have said the opposite of that. So 1930 has them as one
+territory — one colony, correctly — and 1942 splits them: `gilberts` occupied,
+`ellice` allied and never occupied. Checked: in 1930 both are British mauve and
+both answer "Gilbert & Ellice Islands"; in 1942 the Gilberts are occupation
+salmon and the Ellice mauve, and each island names itself.
+
+**Ocean Island is in the Gilberts' note now**, as asked: Banaba, taken in August
+1942, most of its people deported to Nauru, Kosrae and Tarawa, and the roughly
+150 labourers who remained murdered by the garrison on 20 August 1945 — five days
+after the surrender — with one man surviving by hiding in a cave.
+
+**And a duplicate key that had been swallowing eleven overrides.**
+`JMAP.PROVINCE_EPOCH` had **two `e1942` blocks**. In an object literal the later
+key wins, so the first block — Sind, Orissa, Bihar, the United Provinces,
+Liaoning, Heilongjiang, Si Sa Ket, Sukhothai, Labuan, the Dindings and Christmas
+Island, eleven per-epoch names in all — had never taken effect on the 1942 map.
+Nothing failed loudly; the names were simply the 1930 ones. Adding a third block
+for Funafuti is how it surfaced. All merged into one, 14 entries, and the comment
+above it says why it must stay that way.
+
+The airfields sit in that `e1942` block rather than in the shared name table,
+because "the American base from October 1942" on the 1930 sheet is an
+anachronism — there these are nine atolls in a British colony and nothing else.
+
 ### The Pacific mandates, drawn as lines
 Three Class C League of Nations mandates over the former German Pacific, traced
 from a 1927 chart and added to the **1930 map only**: Japan's South Seas

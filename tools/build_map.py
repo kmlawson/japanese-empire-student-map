@@ -561,7 +561,7 @@ ENP_ATOMS = {"china", "manchuria", "chahar", "suiyuan", "suiyuan_w", "jehol",
 FULL_DETAIL = ({"korea", "saharat", "princely", "kwantung", "ccp", "malaya",
                 "turtle", "mangsee", "miangas", "cocos",
                 "spratly", "paracel", "pratas", "mengjiang", "manchukuo",
-                "linephoenix", "uspacific", "nzpacific",
+                "linephoenix", "uspacific", "nzpacific", "ellice",
                 "mandate_jp", "mandate_au", "mandate_br",
                 "mandate_ex_guam"} | ENP_ATOMS
                | set(GIS_LAYERS))
@@ -573,7 +573,7 @@ FULL_DETAIL = ({"korea", "saharat", "princely", "kwantung", "ccp", "malaya",
 # through all of them.
 # and the eastern Pacific, which is two dozen atolls a thousand kilometres
 # apart: dissolved, they come back as one ring threading through all of them
-NO_DISSOLVE = ({"kwantung", "ccp", "linephoenix", "uspacific", "nzpacific",
+NO_DISSOLVE = ({"kwantung", "ccp", "linephoenix", "uspacific", "nzpacific", "ellice",
                 "mandate_jp", "mandate_au", "mandate_br",
                 "mandate_ex_guam"}
                | set(GIS_LAYERS))
@@ -3438,9 +3438,16 @@ def load_mandates():
 # Allied supply line to Australia ran across. They are cut out of Natural
 # Earth's countries by this box, and drawn only where they also fall inside the
 # map's own bounds — which, out here, the eastern edge decides.
-PACIFIC_EAST_BOX = [
-    (206.19354, 13.91489), (180.71812, 13.84194),
-    (180.64297, -13.18254), (205.96809, -12.88969),
+PACIFIC_EAST_BOXES = [
+    # east of the date line: the Line and Phoenix groups and the rest
+    [(206.19354, 13.91489), (180.71812, 13.84194),
+     (180.64297, -13.18254), (205.96809, -12.88969)],
+    # and the Ellice Islands, west of it. They are the other half of the colony
+    # the Gilberts belonged to and were on no version of this map: the 1930
+    # record was called "Gilbert & Ellice Islands" and drew the Gilberts alone.
+    # It matters most on the 1942 map, where Japan held the Gilberts and never
+    # reached the Ellice, so drawing them one colour would have been false.
+    [(175.0, -5.0), (180.6, -5.0), (180.6, -11.6), (175.0, -11.6)],
 ]
 
 # Natural Earth is a modern source and these are named for what they were.
@@ -3486,6 +3493,17 @@ PACIFIC_EAST = [
     (194.183, -10.884, "Pukapuka", "nzpacific"),
     (187.512, -8.565, "Atafu", "nzpacific"),
     (188.807, -9.350, "Fakaofo", "nzpacific"),
+    # The Ellice Islands, British, the southern half of the Gilbert and Ellice
+    # Islands Colony. Nine rings for eight islands — Nukulaelae comes as two.
+    (176.136, -5.689, "Nanumea", "ellice"),
+    (176.319, -6.296, "Nanumanga", "ellice"),
+    (177.346, -6.115, "Niutao", "ellice"),
+    (177.152, -7.195, "Nui", "ellice"),
+    (178.684, -7.481, "Vaitupu", "ellice"),
+    (178.381, -8.055, "Nukufetau", "ellice"),
+    (179.203, -8.509, "Funafuti", "ellice"),
+    (179.872, -9.350, "Nukulaelae", "ellice"),
+    (179.904, -9.402, "Nukulaelae", "ellice"),
 ]
 PACIFIC_EAST_TOL = 0.3          # degrees; a match further off than this is not one
 _PACIFIC_EAST_CACHE = {}
@@ -3516,7 +3534,7 @@ def load_pacific_east():
             r = [(x + 360 if x < LON_MIN else x, y) for x, y in ring]
             cx = sum(p[0] for p in r) / len(r)
             cy = sum(p[1] for p in r) / len(r)
-            if not point_in_ring((cx, cy), PACIFIC_EAST_BOX):
+            if not any(point_in_ring((cx, cy), box) for box in PACIFIC_EAST_BOXES):
                 continue
             # and only if it is on the map at all: the box overhangs the frame
             # at both the eastern edge and the southern one
@@ -3748,7 +3766,7 @@ SPLITTERS = {
 # Andamans, where the islands are perfectly legible, the rings are just clutter.
 ISLET_RINGS = {
     "wake", "christmas", "miangas", "cocos",
-    "linephoenix", "uspacific", "nzpacific",
+    "linephoenix", "uspacific", "nzpacific", "ellice",
     "nanyo", "gilberts", "ogasawara", "guam", "chishima", "aleutians",
     "hawaii", "ryukyu", "newguinea_au", "solomons_br", "nauru_au",
     "aleutians_jp", "solomons_gc", "solomons_us", "solomons_ml", "solomons_al",
@@ -3760,7 +3778,7 @@ ONE_ISLET = {"cocos"}
 
 ARCHIPELAGOS = {
     "wake", "turtle", "mangsee", "miangas", "cocos",
-    "linephoenix", "uspacific", "nzpacific",
+    "linephoenix", "uspacific", "nzpacific", "ellice",
     "spratly", "paracel", "pratas",
     "nanyo", "gilberts", "ogasawara", "guam", "chishima", "aleutians",
     "aleutians_jp",
@@ -3801,7 +3819,7 @@ ORDER = [
     "timor_pt", "newguinea_au", "solomons_br", "australia", "gilberts",
     "nauru_au", "guam", "wake", "hawaii", "aleutians", "aleutians_jp", "hongkong", "macau",
     "solomons_gc", "solomons_us", "solomons_ml", "solomons_al",
-    "linephoenix", "uspacific", "nzpacific",
+    "linephoenix", "uspacific", "nzpacific", "ellice",
     "korea", "taiwan", "karafuto", "chishima", "nanyo", "ryukyu",
     "ogasawara", "japan", "kwantung", "ccp",
 ]
@@ -4806,7 +4824,7 @@ def main():
                     or key in SCS_ATOMS.values()
                     # Kingman Reef is a square kilometre of coral; every one of
                     # these is far under the floor an archipelago is given
-                    or key in ("linephoenix", "uspacific", "nzpacific")
+                    or key in ("linephoenix", "uspacific", "nzpacific", "ellice")
                     else 0.04 if key in ("goa", "pondicherry")
                     else 0.12 if (archipelago or key in FULL_DETAIL)
                     else args.min_area)
@@ -4968,7 +4986,7 @@ def main():
         # archipelago is given threw away twelve of the twenty-two islands —
         # which meant they were drawn, because the atom's own shape has no
         # floor, but had no name to give when they were pointed at.
-        if key in ("linephoenix", "uspacific", "nzpacific"):
+        if key in ("linephoenix", "uspacific", "nzpacific", "ellice"):
             return 0.0
         return 0.12 if key in ARCHIPELAGOS else args.min_area
 
