@@ -46,6 +46,32 @@ answer, the source that would settle it is named at the foot of this file.
 
 ## Done
 
+### The occupied zone's outline traced China's coastline, not its own edge
+
+Hovering the occupied zone came up with far more islands than the shading has,
+and a line of much finer detail than the shape it was supposed to be tracing —
+down coasts whose land is Free China's yellow. Not a second dataset: the salmon
+line along the occupied coast is China's *own* outline, the same rings already in
+the file as the country's filler, at the same detail. The fault was where I had
+put it. It was a child of `#a-occupiedzone`, and three sweeps walk an atom's own
+paths: the hover outline, which stroked it and so traced China's coastline island
+by island; the diagonal shading, which would have copied it; and the test for
+whether an atom has geometry of its own. **897 subpaths in the outline where the
+occupied zone has 752.**
+
+It is a sibling of the atom now, taking its colour through `data-edge-for` the
+way China's own coastal edge does — a promise about paint and nothing else — and
+`clip-china` is back on the atom itself, where the outline machinery looks for
+it. That second part matters as much as the first: with the clip moved to an
+inner group the outline had stopped finding it, so it was no longer being cut to
+China's land at all.
+
+The outline is now the edge of the shape a reader can see: the occupied zone's
+own rings, and China's coastline only where the occupation covers it. Checked at
+twice the device pixels, the yellow on the waterline is unchanged by the move —
+Shantung 0 with Administrative off and 1 with it on, the Canton delta 0, Fukien
+237 — so the paint is exactly as it was and only the silhouette changed.
+
 ### The coast line cost nine per cent of a pan, and is now cheaper than before it existed
 
 Panning the 1942 map had got slower, and the cause was the fix for the yellow

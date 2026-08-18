@@ -72,11 +72,13 @@
   var atomEls = {};
   // the whole-country fillers, in their own layer under every atom
   var backingEls = {};       // atom id -> element
-  /* China's filler is not stroked; the line round it is a second path,
-     which takes the same colour and the same epoch-by-epoch showing and
-     hiding but is kept out of `backingEls` — everything that reaches for a
-     backing wants the shape, and this is only its edge. */
-  var backingEdges = {};     // atom id -> the stroke-only path round it
+  /* Lines that take an atom's colour without being part of its shape: the
+     yellow half of China's coastal stroke, and the salmon half drawn along the
+     occupied coast. They are kept out of `backingEls` and out of the atoms
+     themselves, because everything that reaches for either wants a shape, and
+     these only describe an edge. They show and hide with their atom and take
+     its colour, and that is all. */
+  var backingEdges = {};     // atom id -> the stroke-only path along its edge
   var seamEls = {};          // atom id -> [elements] in the seam layer
   var byId = {};          // item id -> record (current epoch territories + sites)
   var elById = {};        // item id -> a representative element (for flashing)
@@ -380,7 +382,9 @@
     $$('#backings [data-for]', svg).forEach(function (el) {
       backingEls[el.getAttribute('data-for')] = el;
     });
-    $$('#backings [data-edge-for]', svg).forEach(function (el) {
+    // Anywhere in the drawing, not only among the backings: the occupied
+    // coast is a sibling of its atom rather than a child of one.
+    $$('[data-edge-for]', svg).forEach(function (el) {
       backingEdges[el.getAttribute('data-edge-for')] = el;
     });
     // The seams take their atom's colour and nothing else about it: they are

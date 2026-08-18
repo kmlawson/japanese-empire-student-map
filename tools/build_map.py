@@ -5734,10 +5734,10 @@ def main():
                        if client_rings else '    <g>')
         occ_out.append(
             f'    <g id="a-occupiedzone" class="atom" '
+            f'clip-path="url(#clip-china)" '
             f'data-islands="1" data-cx="{fmt(ax)}" data-cy="{fmt(ay)}" '
             f'data-area="{int(area)}">'
         )
-        occ_out.append('    <g clip-path="url(#clip-china)">')
         for label, d in occ_pieces:
             attr = f' data-prov="{esc(label)}"' if label else ""
             occ_out.append(f'      <path{attr} d="{d}"/>')
@@ -5745,11 +5745,18 @@ def main():
         # The occupied coast, drawn again in the occupation's own colour so
         # that China's yellow stroke does not fatten the shore. See
         # occupied_coast() for why this is a line and not a clip.
+        #
+        # A sibling of the atom rather than a child of it, and unclipped. Inside
+        # it, three sweeps that walk an atom's own paths picked it up and had no
+        # business doing so: the hover outline traced China's coastline island
+        # by island instead of the occupied zone's own edge, the diagonals were
+        # copied along it, and it counted towards whether the atom has geometry
+        # of its own. It takes its colour the same way China's coastal edge does,
+        # through data-edge-for, which is a promise about paint and nothing else.
         if coast_runs:
             d = "".join(line_to_path(r) for r in coast_runs)
-            occ_out.append(f'      <path class="coast" d="{d}" fill="none" '
-                           'pointer-events="none"/>')
-        occ_out.append("    </g>")
+            occ_out.append(f'    <path class="coast" data-edge-for="occupiedzone" '
+                           f'd="{d}"/>')
         occ_out.append("    </g>")
 
     for key in ordered:
