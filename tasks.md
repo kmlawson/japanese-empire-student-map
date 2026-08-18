@@ -46,6 +46,26 @@ answer, the source that would settle it is named at the foot of this file.
 
 ## Done
 
+### Option-click to isolate one shape, in the admin panel
+
+A third tool beside the backings switch and the polygon drawer. Option-click any
+shape on the map and everything else goes away, so that one polygon can be looked
+at on its own — its coastline, its holes, the islands it does or does not carry.
+Option-click another to move to it, option-click the sea to bring the map back, or
+press Escape. The readout names what is being shown and counts it: option-clicking
+Korea gives "path, for korea, .whole.hot, 38 rings, 3839 points, 55.1 KB — 127
+elements hidden", which is also how you find out that with Administrative off it is
+the filler you are looking at and not an atom.
+
+Nothing is deleted and nothing is redrawn. The siblings of the shape, and of each
+of its parents, are hidden and put back with the display they had; a sibling that
+was already hidden is left alone and left out of the undo, so an atom this epoch
+was not drawing stays undrawn when you finish. Checked by comparing the display of
+every shape in `#land` and `#backings` before and after: identical.
+
+It lives in `admin.js`, which `map.js` fetches only when someone option-clicks
+Layers, so a reader never loads a line of it.
+
 ### The occupied zone's outline traced China's coastline, not its own edge
 
 Hovering the occupied zone came up with far more islands than the shading has,

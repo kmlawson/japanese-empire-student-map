@@ -460,6 +460,135 @@
     },
   });
 
+  /* ---- isolate one shape ---- */
+
+  TOOLS.push({
+    title: 'Isolate a shape',
+    hint: 'Option-click any shape on the map and everything else goes away, so ' +
+          'that one polygon can be looked at on its own — its coastline, its ' +
+          'holes, the islands it does or does not carry. Option-click another ' +
+          'shape to move to it, option-click the sea to bring the map back, or ' +
+          'press <b>Escape</b>. Nothing is deleted and nothing is redrawn: the ' +
+          'siblings of the shape, and of each of its parents, are hidden and put ' +
+          'back exactly as they were, so an atom that this epoch was already ' +
+          'hiding stays hidden when you finish.',
+    build: function (sec) {
+      // What is never hidden: the sea, so the shape has something to sit on,
+      // and the parts of the drawing that are not shapes at all.
+      var KEEP_ID = { ocean: 1, proj: 1 };
+      var KEEP_TAG = { defs: 1, metadata: 1, title: 1, style: 1 };
+      // Where a shape worth isolating lives. A tap can land on the highlight
+      // above the map or on the shading laid over it; neither is the shape.
+      var LAYERS = ['#land', '#backings', '#seams'];
+
+      var stack = [];               // [element, the display it had]
+      var solo = null;
+
+      var out = document.createElement('div');
+      out.className = 'readout';
+      sec.appendChild(out);
+
+      var back = document.createElement('button');
+      back.type = 'button';
+      back.className = 'wide';
+      back.textContent = 'Show everything again';
+      back.addEventListener('click', function () { restore(); });
+      sec.appendChild(back);
+
+      function restore() {
+        for (var i = stack.length - 1; i >= 0; i--) {
+          stack[i][0].style.display = stack[i][1];
+        }
+        stack = [];
+        solo = null;
+        report();
+      }
+
+      function hide(el) {
+        stack.push([el, el.style.display]);
+        el.style.display = 'none';
+      }
+
+      function isolate(el) {
+        restore();
+        solo = el;
+        for (var n = el; n && n !== svg && n.parentNode; n = n.parentNode) {
+          var sibs = n.parentNode.children;
+          for (var i = 0; i < sibs.length; i++) {
+            var s = sibs[i];
+            if (s === n) continue;
+            if (s.id && KEEP_ID[s.id]) continue;
+            if (KEEP_TAG[String(s.tagName).toLowerCase()]) continue;
+            // already out of the drawing — leave it alone, and leave it out of
+            // the undo, or finishing would turn it on
+            if (s.style.display === 'none') continue;
+            hide(s);
+          }
+        }
+        report();
+      }
+
+      function describe(el) {
+        if (!el) return '';
+        var bits = [el.tagName.toLowerCase()];
+        var atom = el.closest ? el.closest('[id^="a-"]') : null;
+        if (el.id) bits.push('#' + el.id);
+        var prov = el.getAttribute('data-prov');
+        var forWhat = el.getAttribute('data-for') || el.getAttribute('data-edge-for');
+        if (prov) bits.push('“' + prov + '”');
+        if (forWhat) bits.push('for ' + forWhat);
+        if (atom && atom !== el) bits.push('in ' + atom.id);
+        var cls = el.getAttribute('class');
+        if (cls) bits.push('.' + cls.split(/\s+/).join('.'));
+        var d = el.getAttribute('d') || '';
+        if (d) {
+          var subs = d.split('M').length - 1;
+          var pts = (d.match(/-?\d+(?:\.\d+)?\s+-?\d+(?:\.\d+)?/g) || []).length;
+          bits.push(subs + (subs === 1 ? ' ring' : ' rings'));
+          bits.push(pts + ' points');
+          bits.push(Math.round(d.length / 1024 * 10) / 10 + ' KB');
+        }
+        return bits.join(', ');
+      }
+
+      function report() {
+        out.textContent = solo
+          ? 'Showing ' + describe(solo) + ' — ' + stack.length + ' elements hidden'
+          : 'Option-click a shape to isolate it.';
+        back.disabled = !solo;
+      }
+
+      /* The shape under the pointer, and not whatever overlay happens to be
+         above it. elementsFromPoint gives the whole stack, topmost first. */
+      function shapeAt(x, y) {
+        var els = document.elementsFromPoint ? document.elementsFromPoint(x, y) : [];
+        for (var i = 0; i < els.length; i++) {
+          var el = els[i];
+          if (!svg.contains(el) || el === svg) continue;
+          if (el.id === 'ocean') return null;
+          for (var k = 0; k < LAYERS.length; k++) {
+            if (el.closest && el.closest(LAYERS[k])) return el;
+          }
+        }
+        return null;
+      }
+
+      api.onTap(function (e) {
+        if (!e.altKey) return true;
+        var el = shapeAt(e.clientX, e.clientY);
+        if (el) isolate(el);
+        else restore();
+        return false;                     // the map does not also select here
+      });
+
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && solo) { restore(); e.stopPropagation(); }
+      });
+
+      report();
+    },
+  });
+
   /* ================= go ================= */
 
   window.JMAP_ADMIN = { open: open, close: close, toggle: toggle, tools: TOOLS };
