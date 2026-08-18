@@ -46,6 +46,33 @@ answer, the source that would settle it is named at the foot of this file.
 
 ## Done
 
+### A yellow rim round the Miaodao islands, and where the extra islands come from
+
+The islands off Penglai are filled as taken and were being outlined in Free
+China's yellow. The inland test asks whether the land three kilometres inside a
+stretch of coast is occupied, which is the right question for a mainland shore
+and the wrong one for an island a kilometre across: the point lands in the sea on
+the far side, fails the test that it is inside the ring at all, and the island is
+called unoccupied. The reach is a quarter of the ring's own size where that is
+less now. In that view the yellow stretches fall from 7 to 3, the rims are gone,
+and the coast counts elsewhere are unchanged — Shantung 0 and 1, Canton 0, Fukien
+237 to 227.
+
+**And the islands that appear on hover are two tracings of the same rocks.** Over
+one view of the Miaodao group there are **41 island rings in the occupied zone's
+own traced file and 15 in China's coastline**. The fill shows the first clipped to
+the second, so most of the 41 are cut to nothing and never appear. The hover
+outline draws *both* boundaries on purpose — the occupied rings cut to China's
+land, and China's outline cut to the occupied zone — because at a coast the
+visible edge belongs to China's geometry and without the second half the whole
+shore would have no line on it. Where the two tracings disagree, and off Penglai
+they disagree by a few hundred metres, both are drawn and the result reads as
+islands appearing out of nowhere.
+
+That is the third symptom out of one root: two shapes standing in for one, with a
+clip holding them together. The build-time intersection would end all three at
+once — see the note above on what it would cost.
+
 ### Option-click to isolate one shape, in the admin panel
 
 A third tool beside the backings switch and the polygon drawer. Option-click any

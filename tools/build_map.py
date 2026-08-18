@@ -6271,7 +6271,7 @@ def occupied_coast(outline, occupied):
                 return True
         return False
 
-    def reaches(ring, i):
+    def reaches(ring, i, depth):
         p = ring[i]
         if held(p):
             return True
@@ -6280,11 +6280,26 @@ def occupied_coast(outline, occupied):
         bx, by = ring[(i + 1) % n]
         dx, dy = bx - ax, by - ay
         L = math.hypot(dx, dy) or 1.0
-        nx, ny = -dy / L * COAST_INLAND, dx / L * COAST_INLAND
+        nx, ny = -dy / L * depth, dx / L * depth
         for cand in ((p[0] + nx, p[1] + ny), (p[0] - nx, p[1] - ny)):
             if point_in_ring(cand, ring) and held(cand):
                 return True
         return False
+
+    def depth_for(ring):
+        """How far inside this particular ring to look.
+
+        Three kilometres is the right question to ask of a mainland shore and
+        the wrong one to ask of an island a kilometre across: the point lands
+        in the sea on the other side, fails the test that it is inside the
+        ring at all, and the island is called unoccupied. Off Penglai that put
+        a yellow rim round the Miaodao islands, which the map fills as taken.
+        So the reach is a quarter of the ring's own size where that is less.
+        """
+        xs = [q[0] for q in ring]
+        ys = [q[1] for q in ring]
+        span = min(max(xs) - min(xs), max(ys) - min(ys))
+        return min(COAST_INLAND, span / 4.0) if span else COAST_INLAND
 
     def split(ring, flags, want):
         n = len(ring)
@@ -6308,7 +6323,8 @@ def occupied_coast(outline, occupied):
     for ring in outline:
         if len(ring) < 3:
             continue
-        flags = [reaches(ring, i) for i in range(len(ring))]
+        depth = depth_for(ring)
+        flags = [reaches(ring, i, depth) for i in range(len(ring))]
         held_runs.extend(split(ring, flags, True))
         free_runs.extend(split(ring, flags, False))
     return held_runs, free_runs
