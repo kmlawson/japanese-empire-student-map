@@ -459,6 +459,77 @@ PROTECTORATES_IND = {"Sikkim"}
 # Enclaves inside British India that were not the Raj. Puducherry carries all
 # four French settlements — Pondicherry, Karikal, Yanaon and Mahe; the modern
 # unit that holds Daman, Diu and Dadra was Portuguese in its entirety.
+# ---------------------------------------------------------------------------
+# Traced from a historical map for this project: British India as it stood in
+# 1931, the French and Portuguese establishments one by one, and the two
+# protectorates on the Himalayan frontier. They replace what was here before,
+# which was modern first-level units standing in for all of it — geoBoundaries'
+# India, Pakistan and Bangladesh for the Raj, its Goa and Puducherry units cut
+# into settlements by bounding box, and a four-point rectangle for Chandernagore,
+# which no modern unit answers to at all.
+#
+# The India outline carries the establishments as holes where they are inland —
+# Damão, Dadrá, Nagar Aveli, Mahé, Chandernagore and the pieces around
+# Pondicherry — and leaves out the coastal ones by its own boundary. The holes
+# are wound against the outer ring, so they stay holes when the rings are put
+# into one path.
+INDIA_1931_FILE = "india-1931.geojson"
+FRENCH_INDIA_FILE = "french-india.geojson"
+PORTUGUESE_INDIA_FILE = "portuguese-india.geojson"
+INDIA_PROTECTORATES_FILE = "india-protectorates.geojson"
+
+# The names the map shows, against the names the tracing carries. English as the
+# period used it, with the present-day form after it where they differ, which is
+# the rule everywhere else on this map.
+TRACED_ENCLAVE_NAMES = {
+    "Pondichéry": "Pondicherry (Puducherry)",
+    "Karikal": "Karikal (Karaikal)",
+    "Yanaon": "Yanaon (Yanam)",
+    "Chandernagor": "Chandernagore (Chandannagar)",
+    "Mahé": "Mahé (Mahe)",
+    "Goa": "Goa",
+    "Damão": "Damão (Daman)",
+    "Dadrá": "Dadrá (Dadra)",
+    "Nagar Aveli": "Nagar Aveli (Nagar Haveli)",
+    "Diu": "Diu",
+}
+
+_TRACED_CACHE = {}
+
+
+def load_traced(fname):
+    """[(properties, [rings])] out of one of the traced files.
+
+    A part's rings come back together and in order, outer first, so that the
+    holes stay holes when they are written into one path.
+    """
+    if fname in _TRACED_CACHE:
+        return _TRACED_CACHE[fname]
+    path = os.path.join(CACHE, fname)
+    out = []
+    if os.path.exists(path):
+        try:
+            with open(path) as fh:
+                for feat in json.load(fh).get("features", []):
+                    g = feat.get("geometry") or {}
+                    polys = (g.get("coordinates") or []) if g.get("type") == "MultiPolygon" \
+                        else [g.get("coordinates") or []]
+                    rings = []
+                    for poly in polys:
+                        for ring in poly:
+                            if len(ring) >= 3:
+                                rings.append([(float(c[0]), float(c[1])) for c in ring])
+                    if rings:
+                        out.append((feat.get("properties") or {}, rings))
+        except (OSError, ValueError):
+            sys.stderr.write("note: %s unreadable\n" % fname)
+    else:
+        sys.stderr.write("note: %s missing; the modern units stand in for it\n"
+                         % fname)
+    _TRACED_CACHE[fname] = out
+    return out
+
+
 INDIA_ENCLAVES = {
     "Goa": "goa", "Dādra and Nagar Haveli and Damān and Diu": "goa",
     "Puducherry": "pondicherry",
@@ -592,12 +663,29 @@ ENP_ATOMS = {"china", "manchuria", "chahar", "suiyuan", "suiyuan_w", "jehol",
 # fringe: the leasehold looked like a blocky stamp laid on a real peninsula.
 # The outer islands are a couple of square kilometres each, which is under the
 # tolerance any band would give them; thinned at all they stop being shapes.
+# A tolerance stated outright, for shapes traced by hand. The size bands below
+# are for survey files with a vertex every few metres, where thinning a large
+# country hard costs nothing that can be seen. A tracing is not that: it has the
+# vertices somebody chose to put in it, and India's band was moving the drawn
+# line a median of 2.3 pixels off the tracing at the deepest zoom and 7 at the
+# ninetieth. Half a pixel at that zoom is what the rest of the map is thinned
+# to, and 0.021 units is half a pixel. Exact would cost 231 KB against 63 and
+# would not be visible at any zoom this map allows.
+TRACED_TOL = {"india": 0.021}
+
 FULL_DETAIL = ({"korea", "saharat", "princely", "kwantung", "ccp", "malaya",
                 "turtle", "mangsee", "miangas", "cocos",
                 "spratly", "paracel", "pratas", "mengjiang", "manchukuo",
                 "linephoenix", "uspacific", "nzpacific", "ellice",
                 "mandate_jp", "mandate_au", "mandate_br",
-                "mandate_ex_guam"} | ENP_ATOMS
+                "mandate_ex_guam",
+                # traced by hand for this map, and thinned by the size band it
+                # earns as a large country the drawn line sat a median of 2.3
+                # pixels from the tracing at the deepest zoom and 7 at the
+                # ninetieth — against the half a pixel the band is meant to
+                # cost. A tracing is not a survey file with a vertex every
+                # metre; it has the vertices somebody chose to put in it.
+                "goa", "pondicherry"} | ENP_ATOMS
                | set(GIS_LAYERS))
 
 # Atoms whose rings are separate pieces of ground rather than neighbours that
@@ -609,7 +697,10 @@ FULL_DETAIL = ({"korea", "saharat", "princely", "kwantung", "ccp", "malaya",
 # apart: dissolved, they come back as one ring threading through all of them
 NO_DISSOLVE = ({"kwantung", "ccp", "linephoenix", "uspacific", "nzpacific", "ellice",
                 "mandate_jp", "mandate_au", "mandate_br",
-                "mandate_ex_guam"}
+                "mandate_ex_guam",
+                # traced: an outer ring with holes inside it, which is not a
+                # set of rings that share edges and has nothing to dissolve
+                "india", "goa", "pondicherry"}
                | set(GIS_LAYERS))
 
 # Atoms whose backing is the union of their own sub-units rather than Natural
@@ -4093,6 +4184,18 @@ def main():
     # whole-country outlines kept aside to go under the sub-units; see
     # whole_union below
     backing = collections.defaultdict(list)
+
+    # British India as it stood in 1931, traced. It goes in before anything
+    # else so that the modern countries and their first-level units, which used
+    # to stand in for it, can see that it is here and stand down.
+    india_traced = [r for _p, rs in load_traced(INDIA_1931_FILE) for r in rs]
+    if india_traced:
+        groups["india"].extend(india_traced)
+        backing["india"].extend(india_traced)
+        sys.stderr.write("British India: %d traced rings (%d vertices), "
+                         "one outline and %d holes\n"
+                         % (len(india_traced), sum(len(r) for r in india_traced),
+                            len(india_traced) - 1))
     # rings added to a filler on top of whatever it builds itself from, rather
     # than replacing it: China's coastal islands, and the seams that make one
     # country reach a neighbour drawn from a different source. They cannot go
@@ -4198,6 +4301,14 @@ def main():
             named = collections.defaultdict(lambda: collections.defaultdict(list))
             for ring in iter_rings(feat["geometry"]):
                 key = splitter(ring)
+                # India's splitter sends the Andamans one way and the mainland
+                # the other, and the mainland has to stand down for the 1931
+                # tracing here as well as in the plain branch below. It did not,
+                # so the modern outline was drawn under the traced one and the
+                # atom was the union of the two: Arunachal Pradesh, the whole
+                # of Kashmir and the Chittagong tracts back inside the Raj.
+                if key == "india" and india_traced:
+                    continue
                 if key:
                     groups[key].append(ring)
                     backing[key].append(ring)
@@ -4214,6 +4325,10 @@ def main():
             continue
         key = ADMIN0.get(admin)
         if not key:
+            continue
+        # India, Pakistan and Bangladesh together stood in for British India.
+        # With the 1931 tracing in hand they have nothing to say.
+        if key == "india" and india_traced:
             continue
         rings_here = list(iter_rings(feat["geometry"]))
         if admin in ("Laos", "Cambodia"):
@@ -4249,9 +4364,35 @@ def main():
                 if cut:
                     provinces["newguinea_au"].append((label, cut))
 
-    # ---- enclaves and princely states inside British India ----------------
+    # ---- the French and Portuguese establishments -------------------------
+    # Traced, and named in the tracing itself, so the settlements no longer have
+    # to be told apart by which bounding box their centroid falls in. Each is
+    # one sub-unit: Mahé on the Malabar coast and Yanaon on the Godavari were as
+    # French as Pondicherry, and Dadrá and Nagar Aveli, which the modern unit
+    # runs together, were two.
+    traced_enclaves = False
+    for _fname, _key in ((FRENCH_INDIA_FILE, "pondicherry"),
+                         (PORTUGUESE_INDIA_FILE, "goa")):
+        _feats = load_traced(_fname)
+        if not _feats:
+            continue
+        traced_enclaves = True
+        _named = []
+        for _props, _rings in _feats:
+            _raw = (_props.get("name") or "").strip()
+            _label = TRACED_ENCLAVE_NAMES.get(_raw)
+            if not _label:
+                sys.stderr.write("note: %s has an unexpected name %r, kept as it "
+                                 "stands\n" % (_fname, _raw))
+                _label = _raw
+            groups[_key].extend(_rings)
+            provinces[_key].append((_label, _rings))
+            _named.append(_label)
+        sys.stderr.write("%s: %d traced settlements (%s)\n"
+                         % (_key, len(_feats), ", ".join(_named)))
+
     ind_path = os.path.join(CACHE, "adm1_IND.json")
-    if os.path.exists(ind_path):
+    if os.path.exists(ind_path) and not traced_enclaves:
         with open(ind_path) as fh:
             for feat in json.load(fh)["features"]:
                 name = feat["properties"].get("shapeName")
@@ -4391,8 +4532,11 @@ def main():
     groups["wake"].append(list(WAKE))
     groups["christmas"].append(list(CHRISTMAS_ISLAND))
     provinces["christmas"].append(("Christmas Island", [list(CHRISTMAS_ISLAND)]))
-    groups["pondicherry"].append(list(CHANDERNAGORE))
-    provinces["pondicherry"].append(("Chandernagore", [list(CHANDERNAGORE)]))
+    if not traced_enclaves:
+        # no modern unit answers to Chandernagore; without the tracing it is a
+        # rectangle drawn by hand
+        groups["pondicherry"].append(list(CHANDERNAGORE))
+        provinces["pondicherry"].append(("Chandernagore", [list(CHANDERNAGORE)]))
 
     # ---- Burma, division by division ---------------------------------------
     bpath = os.path.join(CACHE, "adm1_MMR.json")
@@ -4416,6 +4560,16 @@ def main():
         path = os.path.join(CACHE, f"adm1_{iso}.json")
         if not os.path.exists(path):
             sys.stderr.write(f"note: adm1_{iso}.json missing, part of India not split\n")
+            continue
+        # Asked for: no provinces of British India for now, only the princely
+        # states over it. The modern first-level units were the only source for
+        # them and they do not fit the traced outline — measured against it,
+        # a tenth of their vertices fall outside, and not by a little: Arunachal
+        # Pradesh by up to 107 km, Mizoram by 51, Ladakh by 45, which are the
+        # frontier tracts the tracing deliberately leaves out. Drawing them
+        # would have put the Raj 100 km past its own line wherever the
+        # Administrative layer was switched on.
+        if india_traced:
             continue
         with open(path) as fh:
             for feat in json.load(fh)["features"]:
@@ -4514,7 +4668,33 @@ def main():
                 provinces[bucket].append((pname.replace(" ", ""), list(iter_rings(feat["geometry"]))))
 
     # ---- layers from the Modern East Asia GIS project ----------------------
+    # Sikkim and Bhutan, traced. The file names neither, so each is claimed by
+    # the capital that falls inside it — Gangtok and Thimphu. Nepal is not in
+    # it, and rightly: it was an independent kingdom in treaty with Britain,
+    # not a protectorate, and it keeps the layer it had.
+    protectorates = {}
+    for _props, _rings in load_traced(INDIA_PROTECTORATES_FILE):
+        for _key, (_lon, _lat) in (("sikkim", (88.61, 27.33)),
+                                   ("bhutan", (89.64, 27.47))):
+            if any(point_in_ring((_lon, _lat), r) for r in _rings):
+                if _key in protectorates:
+                    sys.stderr.write("note: two traced shapes claim %s; the "
+                                     "second is ignored\n" % _key)
+                    break
+                protectorates[_key] = _rings
+                break
+        else:
+            sys.stderr.write("note: a shape in %s holds neither Gangtok nor "
+                             "Thimphu and is not drawn\n"
+                             % INDIA_PROTECTORATES_FILE)
+    for _key, _rings in protectorates.items():
+        groups[_key].extend(_rings)
+        sys.stderr.write("%s: traced, %d rings (%d vertices)\n"
+                         % (_key, len(_rings), sum(len(r) for r in _rings)))
+
     for key, fname in GIS_LAYERS.items():
+        if key in protectorates:
+            continue
         path = os.path.join(CACHE, "gis", fname)
         if not os.path.exists(path):
             sys.stderr.write(f"note: {fname} missing, {key} not drawn\n")
@@ -4537,8 +4717,10 @@ def main():
                     ring = moved
                 groups[key].append(ring)
 
-    # Sikkim out of India, now that both are loaded. See cut_out_sikkim().
-    if groups.get("sikkim"):
+    # Sikkim out of India, now that both are loaded. See cut_out_sikkim(). The
+    # traced outline of 1931 already leaves Sikkim out, so there is nothing to
+    # cut and the run-replacement would only find its own boundary.
+    if groups.get("sikkim") and not india_traced:
         for _store, _name in ((groups, "groups"), (backing, "backing")):
             if _store.get("india"):
                 _cut, _n = cut_out_sikkim(_store["india"], groups["sikkim"])
@@ -5080,6 +5262,8 @@ def main():
         # Weihaiwei's four are islands of a few square kilometres, and a sieve
         # set for Natural Earth's specks was quietly throwing them away.
         min_area = (0.0 if key in GIS_LAYERS or key in ("kwantung", "ccp")
+                    # every hole the tracing has is one its author drew
+                    or key in TRACED_TOL
                     or key in OUTER_ATOMS.values()
                     or key in SCS_ATOMS.values()
                     # Kingman Reef is a square kilometre of coral; every one of
@@ -5100,7 +5284,17 @@ def main():
             pts = [project(x, y) for x, y in ring]
             span = max(max(p[0] for p in pts) - min(p[0] for p in pts),
                        max(p[1] for p in pts) - min(p[1] for p in pts))
-            if key in FULL_DETAIL:
+            if key in TRACED_TOL:
+                # a hand-traced outline is thinned to what the deepest zoom
+                # can actually show and no coarser: the span bands below would
+                # move India's line a couple of pixels off the line its author
+                # drew. Only the big rings: the holes are the enclaves and the
+                # protectorates, a dozen points each, and thinning them at a
+                # band meant for a coastline shrank them until the sieve below
+                # threw them away.
+                if span > 2 and len(pts) >= 4:
+                    pts = simplify(pts, TRACED_TOL[key])
+            elif key in FULL_DETAIL:
                 pass          # the leasehold is a piece of a coast drawn here
                               # at full detail; thinned on its own it no longer
                               # matches the coast it was cut out of
@@ -5116,7 +5310,8 @@ def main():
             if area < min_area:
                 continue
             pieces.append(ring_to_path(
-                pts, FINE_PRECISION if key in FULL_DETAIL else None))
+                pts, FINE_PRECISION if key in FULL_DETAIL or key in TRACED_TOL
+                    else None))
             rcx, rcy = ring_centroid(pts)
             moments.append((area, rcx, rcy))
             if key in ISLET_RINGS and area < 20:
@@ -5286,6 +5481,8 @@ def main():
         scatter of flecks along every boundary. Giving it the whole atom's own
         band was the mistake — a country the size of Siam earns the coarsest
         band while its changwat earn a much finer one."""
+        if key in TRACED_TOL:
+            return TRACED_TOL[key]
         if key in FULL_DETAIL:
             return None
         best = args.tolerance
@@ -5311,6 +5508,8 @@ def main():
         erases a fifty-kilometre island altogether. The bands below are the
         ones the archipelagos already used, applied to everything that is
         assembled out of sub-units as well."""
+        if key in TRACED_TOL:
+            return simplify(pts, TRACED_TOL[key]) if len(pts) >= 4 else pts
         if key in FULL_DETAIL or len(pts) < 4:
             return pts
         return simplify(pts, tol_for(pts))
@@ -5358,7 +5557,8 @@ def main():
             if len(pts) >= 3 and ring_area(pts) >= sub_min_area(key):
                 kept.append(pts)
                 pieces.append(ring_to_path(
-                    pts, FINE_PRECISION if key in FULL_DETAIL else None))
+                    pts, FINE_PRECISION if key in FULL_DETAIL or key in TRACED_TOL
+                    else None))
         # Added rings are drawn exactly as given, after the dissolve. A seam's
         # inner edge is the neighbour's own boundary, so thinning it would move
         # that edge off the line it was built to meet and reopen the crack it
@@ -5393,7 +5593,8 @@ def main():
                 pts = thin(key, [project(x, y) for x, y in ring])
                 if len(pts) >= 3 and ring_area(pts) >= sub_min_area(key):
                     pieces.append(ring_to_path(
-                        pts, FINE_PRECISION if key in FULL_DETAIL else None))
+                        pts, FINE_PRECISION if key in FULL_DETAIL or key in TRACED_TOL
+                    else None))
             if pieces:
                 blocks.append((pname, "".join(pieces)))
         return blocks

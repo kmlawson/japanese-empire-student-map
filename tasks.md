@@ -2873,6 +2873,57 @@ and the epoch blurb all say what the line is instead.
 - A frame round the drawing, and room to push the map past it — 45% of a
   viewport on a phone, 6% on a desktop.
 
+### British India as traced, and not as three modern countries
+Four hand-traced files replace what stood in for the Raj: `india-1931.geojson`
+(one outline of 13,195 points with eleven holes), `french-india.geojson`,
+`portuguese-india.geojson` and `india-protectorates.geojson`. India, Pakistan
+and Bangladesh stand down for it, and so do the modern first-level units the
+enclaves used to be cut from.
+
+The stand-in was wrong in the way that matters: it drew the whole of Kashmir,
+Arunachal Pradesh and the Chittagong tracts inside the 1931 frontier, and put
+the line of Partition nowhere. Two things nearly kept it there.
+
+The first is that `split_india` sends the Andamans one way and the mainland the
+other, and the mainland goes through the splitter branch, which never saw the
+line that makes India stand down for the tracing — that test sits in the plain
+branch below it. So the modern outline was still being drawn, in the same path
+as the traced one and with the same winding, and the atom was the union of the
+two: 5,009 traced points and 6,119 modern ones, and every tract the tracing
+leaves out back inside the Raj. The test is in both branches now.
+
+The second is quality. A tracing is not a survey file — it has the vertices
+somebody chose to put in it — and thinning it by the band a country of India's
+size earns moved the drawn line a median of 2.3 pixels from the tracing at the
+deepest zoom the map allows, and 7 at the ninetieth percentile, against the half
+a pixel the bands are meant to cost. `TRACED_TOL` holds a traced layer to that
+half pixel instead (0.021 units for India), in the atom's own path as well as in
+`thin()` and `backing_tol()`, and writes it at the fine precision the small
+shapes get, because the ordinary 0.1-unit write grid is itself 2.4 pixels at
+that zoom and was the larger of the two errors. Measured back against the
+tracing over the 10,623 source vertices inside the frame: median 0.07 pixels,
+0.26 at the ninetieth, 0.47 at the ninety-ninth, 0.61 at the worst. 5,358 points
+drawn, 72 KB against 24 KB for the union of two wrong outlines.
+
+The holes are exempt from the thinning and from the small-shape sieve: they are
+the enclaves and the protectorates, a dozen points each, and thinned at a band
+meant for a coastline they shrank until the sieve threw nine of the eleven away.
+
+The ten settlements are named from the tracing itself, so the pointer tells
+Dadrá from Nagar Aveli and Karikal from Yanaon; `india-enclaves.csv` had one row
+called *Dadra & Nagar Haveli* and it is two rows now, and Chandernagore's key
+was short of the present-day name the SVG carries. All ten answer, and so do
+Sikkim, Bhutan, Nepal, Delhi, Hyderabad and Ceylon.
+
+**The provinces of British India are not drawn**, as asked. The only source for
+them was the modern first-level units, and a tenth of their vertices fall
+outside the traced outline — Arunachal Pradesh by up to 107 km, Mizoram by 51,
+Ladakh by 45, which are exactly the tracts the tracing leaves out. Drawing them
+would have put the Raj a hundred kilometres past its own line whenever the
+Administrative layer was on. The princely states are still drawn over it.
+`sub-units/british-india.csv`, the thirteen province names, is left in place
+against a source that fits.
+
 ---
 
 ## Sources worth fetching
