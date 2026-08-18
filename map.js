@@ -72,6 +72,11 @@
   var atomEls = {};
   // the whole-country fillers, in their own layer under every atom
   var backingEls = {};       // atom id -> element
+  /* China's filler is not stroked; the line round it is a second path,
+     which takes the same colour and the same epoch-by-epoch showing and
+     hiding but is kept out of `backingEls` — everything that reaches for a
+     backing wants the shape, and this is only its edge. */
+  var backingEdges = {};     // atom id -> the stroke-only path round it
   var seamEls = {};          // atom id -> [elements] in the seam layer
   var byId = {};          // item id -> record (current epoch territories + sites)
   var elById = {};        // item id -> a representative element (for flashing)
@@ -374,6 +379,9 @@
     });
     $$('#backings [data-for]', svg).forEach(function (el) {
       backingEls[el.getAttribute('data-for')] = el;
+    });
+    $$('#backings [data-edge-for]', svg).forEach(function (el) {
+      backingEdges[el.getAttribute('data-edge-for')] = el;
     });
     // The seams take their atom's colour and nothing else about it: they are
     // not in atomsOf, so they are never lit, never outlined and never named.
@@ -768,6 +776,11 @@
         bk.classList.remove('hot');
         bk.classList.remove('sel');
       }
+      var bkEdge = backingEdges[a];
+      if (bkEdge) {
+        bkEdge.style.removeProperty('--c');
+        bkEdge.style.display = 'none';
+      }
       (seamEls[a] || []).forEach(function (sm) {
         sm.style.removeProperty('--c');
         sm.style.display = 'none';
@@ -824,6 +837,11 @@
           bk.setAttribute('data-id', t.id);
           if (colour) bk.style.setProperty('--c', colour.c);
           els.push(bk);
+        }
+        var bkEdge = backingEdges[a];
+        if (bkEdge) {
+          bkEdge.style.display = '';
+          if (colour) bkEdge.style.setProperty('--c', colour.c);
         }
         // a territory that shares its neighbour's fill can still be told from
         // it by a hairline: Tuva inside Mongolia, Burma inside British India

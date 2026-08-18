@@ -5534,12 +5534,15 @@ def main():
     # Which stretches of China's coast the occupation reaches. Computed here
     # because `whole_union("china")` has just run and left its rings behind;
     # drawn with the occupation, where the reason for it is written out.
-    coast_runs = occupied_coast(whole_pts.get("china") or [], occ_proj) \
-        if (china_drawn and occ_proj) else []
+    coast_runs, free_runs = (
+        occupied_coast(whole_pts.get("china") or [], occ_proj)
+        if (china_drawn and occ_proj) else ([], []))
     if coast_runs:
         sys.stderr.write(
-            "occupied coast: %d stretches, %d points, of China's %d-point outline\n"
+            "occupied coast: %d stretches / %d points reached, "
+            "%d / %d not, of China's %d-point outline\n"
             % (len(coast_runs), sum(len(r) for r in coast_runs),
+               len(free_runs), sum(len(r) for r in free_runs),
                sum(len(r) for r in whole_pts.get("china") or [])))
     # Everything except the two client states. The occupation is clipped to
     # China's land, and both Mengchiang's and Manchukuo's traced boundaries
@@ -5624,10 +5627,22 @@ def main():
             # grey along the Fukien coast, the salmon on Thailand's frontier.
             # Underneath everything it can only ever show through a real hole.
             if whole:
+                # China's filler does not stroke itself. Its outline is stroked
+                # by two paths instead — yellow where the occupation does not
+                # reach the coast and salmon where it does — which keeps the
+                # yellow thread off the occupied shore without adding a single
+                # stroked point to the map. See occupied_coast().
+                _split = bool(key == "china" and free_runs)
                 backings.append(
-                    f'    <path class="whole" data-for="{key}"'
+                    f'    <path class="whole{" nostroke" if _split else ""}"'
+                    f' data-for="{key}"'
                     + (' data-deferred="1"' if defer else "")
                     + f' d="{whole}"/>')
+                if _split:
+                    _d = "".join(line_to_path(r) for r in free_runs)
+                    backings.append(
+                        '    <path class="whole-edge" '
+                        f'data-edge-for="{key}" d="{_d}"/>')
             out.append(f'    <g id="a-{key}" class="{cls}" {meta}>')
             # The sub-units come from a different source than each other and
             # are simplified one ring at a time, so two that shared an edge no
@@ -6195,16 +6210,14 @@ NANYO_JA = {
 
 ATOLL_MAX_DEG = 1.0        # a hundred kilometres; wider is a chain, not an atoll
 
-# How far from the traced occupation a stretch of coast may lie and still count
-# as occupied, in projected units — about eleven kilometres. The trace was made
-# over a period map and its seaward edge wanders a little either side of the
-# shore, so a strict inside-the-polygon test loses whole bays where the line
-# happens to fall just inland.
-COAST_REACH = 2.0
+# How far inland to look when asking whether the occupation reaches a stretch of
+# coast, in projected units — about three kilometres.
+COAST_INLAND = 0.6
 
 
 def occupied_coast(outline, occupied):
-    """The stretches of a coastline that the occupation reaches, as open lines.
+    """China's coastline split in two: what the occupation reaches, and what it
+    does not. Both come back as lists of open lines.
 
     Everything on this map is painted fill *and* stroke in its own colour, and
     the stroke does not scale: half of its 1.3 pixels falls outside the shape,
@@ -6215,68 +6228,88 @@ def occupied_coast(outline, occupied):
     waterline while China's — Free China's yellow — does not, and a yellow
     thread one pixel wide ran the whole length of the occupied coast.
 
-    A clip cannot help because it is the clip that cuts the stroke off; growing
-    it cannot either, because the overhang is a screen pixel and so four times
-    wider in map units at the widest view than at the deepest. What works is to
-    draw the same line again in the occupation's own colour, unclipped: two
-    strokes of the same width on the same line, the salmon one second. This
-    finds the line — the stretches of China's own outline that the occupation
-    reaches — and the caller strokes them.
+    A clip cannot help, because it is the clip that cuts the stroke off. Growing
+    it cannot either: the overhang is a screen pixel, so in map units it is four
+    times wider at the widest view than at the deepest. A mask of the same path
+    filled and stroked white was right at the widest view and leaked again at
+    the deepest.
 
-    Returns a list of open point lists, each a run of consecutive vertices.
+    So the line is drawn twice in two colours instead — China's coast stroked
+    yellow where the occupation does not reach it and salmon where it does —
+    and the number of stroked points on the map is what it always was. Drawing
+    the salmon half as an *extra* path, over a filler that went on stroking
+    itself yellow underneath, added 2,975 points of stroked geometry that
+    measured at nine per cent of the work of panning the 1942 map.
+
+    Whether the occupation reaches a stretch of coast is asked of the land just
+    inside it, along the ring's own normal, and not of the distance to the
+    traced edge. The first attempt allowed eleven kilometres of slack, because
+    the traced edge often stops short of the shore, and that painted the
+    occupation's colour on coast it never held — 61 points of it on the unheld
+    Fukien shore, more on Leizhou. Asking whether the land three kilometres
+    inland is occupied is both cheaper and right: where the answer is no, the
+    strip between the traced edge and the sea is Free China's, and its coast
+    ought to be yellow.
     """
-    # a grid of the occupation's vertices, so "how far to the nearest" is a
-    # look at nine cells and not a walk over six thousand points
-    cell = COAST_REACH
-    grid = {}
     boxes = []
     for ring in occupied:
         xs = [p[0] for p in ring]
         ys = [p[1] for p in ring]
         boxes.append((min(xs), min(ys), max(xs), max(ys), ring))
-        for x, y in ring:
-            grid.setdefault((int(x // cell), int(y // cell)), []).append((x, y))
 
-    def reached(p):
+    def held(p):
         x, y = p
         for bx0, by0, bx1, by1, ring in boxes:
             if bx0 <= x <= bx1 and by0 <= y <= by1 and point_in_ring(p, ring):
                 return True
-        gx, gy = int(x // cell), int(y // cell)
-        r2 = COAST_REACH * COAST_REACH
-        for dx in (-1, 0, 1):
-            for dy in (-1, 0, 1):
-                for qx, qy in grid.get((gx + dx, gy + dy), ()):
-                    if (qx - x) ** 2 + (qy - y) ** 2 <= r2:
-                        return True
         return False
 
-    runs = []
-    for ring in outline:
-        flags = [reached(p) for p in ring]
-        if not any(flags):
-            continue
+    def reaches(ring, i):
+        p = ring[i]
+        if held(p):
+            return True
         n = len(ring)
-        if all(flags):
-            runs.append(list(ring) + [ring[0]])
-            continue
-        # start where a run begins, so a run that straddles the ring's own
-        # first vertex comes out as one line rather than two
-        start = next(i for i in range(n) if flags[i] and not flags[i - 1])
-        cur = []
+        ax, ay = ring[i - 1]
+        bx, by = ring[(i + 1) % n]
+        dx, dy = bx - ax, by - ay
+        L = math.hypot(dx, dy) or 1.0
+        nx, ny = -dy / L * COAST_INLAND, dx / L * COAST_INLAND
+        for cand in ((p[0] + nx, p[1] + ny), (p[0] - nx, p[1] - ny)):
+            if point_in_ring(cand, ring) and held(cand):
+                return True
+        return False
+
+    def split(ring, flags, want):
+        n = len(ring)
+        if not any(f == want for f in flags):
+            return []
+        if all(f == want for f in flags):
+            return [list(ring) + [ring[0]]]
+        start = next(i for i in range(n) if flags[i] == want and flags[i - 1] != want)
+        out, cur = [], []
         for k in range(n + 1):
             i = (start + k) % n
-            if flags[i] and k < n:
+            if k < n and flags[i] == want:
                 cur.append(ring[i])
             elif cur:
                 if len(cur) > 1:
-                    runs.append(cur)
+                    out.append(cur)
                 cur = []
-    return runs
+        return out
+
+    held_runs, free_runs = [], []
+    for ring in outline:
+        if len(ring) < 3:
+            continue
+        flags = [reaches(ring, i) for i in range(len(ring))]
+        held_runs.extend(split(ring, flags, True))
+        free_runs.extend(split(ring, flags, False))
+    return held_runs, free_runs
 
 
 FINE_MIN_KM2 = 0.05        # five hectares; below this it is a dot on the map
 FINE_TOL_DEG = 0.002       # about half a pixel at the deepest zoom the map has
+
 
 
 def _fine_stitch(chunks):

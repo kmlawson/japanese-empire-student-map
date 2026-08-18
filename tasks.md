@@ -46,6 +46,49 @@ answer, the source that would settle it is named at the foot of this file.
 
 ## Done
 
+### The coast line cost nine per cent of a pan, and is now cheaper than before it existed
+
+Panning the 1942 map had got slower, and the cause was the fix for the yellow
+thread along the occupied coast. Benchmarked by CPU time over a fixed 90-step
+drag at twice the device pixels, against the build of 17 Aug 10:19: **2,296 and
+2,331 ms before, 2,496 and 2,570 ms after — ten to twelve per cent.** Taking the
+new path out and leaving everything else brought it back to 2,276. Every other
+suspect was measured and cleared: the enlarged clip round the client states cost
+about 49 ms, `#lease-sea` about 10, and the mandate's Guam clip nothing readable.
+
+**It was the geometry, not the stroke.** Letting the line's stroke scale with the
+zoom — the thing that usually costs — changed nothing at all (2,519 against
+2,524). What cost was 2,975 points of stroked path re-rasterised on every frame,
+laid on top of a coastline that was already being stroked underneath it. Nor
+could it be thinned: the salmon has to sit within about half a pixel of the
+yellow to cover it, and at that tolerance 99.1% of the points survive, because
+China's outline is already at its own.
+
+**So the line is divided rather than duplicated.** China's filler no longer
+strokes itself; its outline is stroked by two paths instead — yellow where the
+occupation does not reach the coast, salmon where it does. The number of stroked
+points on the map is what it always was. Measured: **2,336 ms before the whole
+business began, 2,118 and 2,162 now**, so the 1942 map pans about eight per cent
+*faster* than it did before any of this.
+
+**And the test for "reaches" was wrong as well.** It allowed eleven kilometres of
+slack, because the traced edge often stops short of the shore — and that painted
+the occupation's colour on coast it never held, 61 points of it on the unheld
+Fukien shore and more on Leizhou. It asks the land three kilometres inland now,
+along the ring's own normal: where that is not occupied, the strip between the
+traced edge and the sea is Free China's and its coast ought to be yellow.
+
+Near-pure yellow on the occupied waterline, counted in the rendered image against
+the build from before any of this work: **Shantung 73 → 0 with Administrative off
+and 124 → 1 with it on; the Canton delta 0 → 0; the Fukien coast 782 → 261**,
+the remainder there being places where yellow coast legitimately abuts the
+occupied enclaves at Amoy and Swatow.
+
+**A correction.** Yesterday I reported the Canton delta as 37 → 22 yellow pixels.
+Re-run twice, that figure does not reproduce: the coast path was byte-identical
+in every commit since, so the map had not changed and the measurement had. The
+pre-work build measures 0 there, and so does the map now.
+
 ### Sikkim out of British India's outline
 
 Hovering British India drew a black line that ran up the Nepal–Sikkim border,
