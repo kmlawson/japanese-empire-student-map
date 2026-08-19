@@ -313,8 +313,10 @@
           'also about six sevenths of what the browser rasters: profiling put ' +
           'the land’s fills at two percentage points of a frame and its strokes ' +
           'at 85. Off, the cracks open and the coast thins by half a pixel. ' +
-          'This switch is for seeing that trade for yourself; it changes ' +
-          'nothing for a reader.',
+          'This switch is the blunt version: it takes the stroke off everything, ' +
+          'including the two paths that <b>are</b> China\u2019s coastline rather than ' +
+          'a repair to it. Layers has the reader\u2019s version, which leaves those ' +
+          'two alone \u2014 use this one for measuring and that one for looking.',
     build: function (sec) {
       var style = null;
 

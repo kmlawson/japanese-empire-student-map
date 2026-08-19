@@ -45,6 +45,12 @@
     labels: false,
     extent: true,
     rivers: true,
+    // The 1.3px stroke round every filled shape. It is a repair — it closes the
+    // hairline between two polygons that no longer share an edge once they have
+    // been simplified — and it is also about three quarters of everything the
+    // browser rasters, so the map is three to six times cheaper to pan without
+    // it. Off unless it is asked for; `styles.css` says what asking buys.
+    hairline: false,
     // the legend is worth its space on a big screen and costs too much of it
     // on a phone, so it starts folded there and remembers what you chose
     legend: window.innerWidth >= 700 && window.innerHeight >= 600,
@@ -103,6 +109,7 @@
       state.labels = !!saved.labels;
       if (typeof saved.extent === 'boolean') state.extent = saved.extent;
       if (typeof saved.rivers === 'boolean') state.rivers = saved.rivers;
+      if (typeof saved.hairline === 'boolean') state.hairline = saved.hairline;
       if (typeof saved.legend === 'boolean') state.legend = saved.legend;
     } catch (err) { /* first visit, or storage is off — defaults are fine */ }
   }
@@ -112,7 +119,7 @@
       localStorage.setItem(STORE_KEY, JSON.stringify({
         epoch: state.epoch, level: state.level,
         cats: state.cats, labels: state.labels, extent: state.extent,
-        rivers: state.rivers, legend: state.legend,
+        rivers: state.rivers, legend: state.legend, hairline: state.hairline,
       }));
     } catch (err) { /* private browsing; not worth complaining about */ }
   }
@@ -1058,6 +1065,8 @@
     var bits = 0;
     LAYER_FLAGS.forEach(function (on, i) { if (on()) bits |= (1 << i); });
     bits |= ((Math.min(3, Math.max(1, state.level)) - 1) & 3) << 8;
+    // bit 10, not 8: the level has 8 and 9, and LAYER_FLAGS is indexed by bit
+    if (state.hairline) bits |= 1024;
     return bits.toString(36);
   }
 
@@ -1074,6 +1083,7 @@
     state.extent = !!(bits & 32);
     state.rivers = !!(bits & 64);
     state.level = ((bits >> 8) & 3) + 1;
+    state.hairline = !!(bits & 1024);
     urlProvSource = (bits & 128) ? 'roc' : 'enp';
   }
 
@@ -2668,6 +2678,7 @@
     // a province, which is feedback you have to go looking for. It reads as a
     // switch that works sometimes. Now it draws the divisions.
     if (svg) svg.classList.toggle('admin-on', !!state.cats.territory);
+    if (svg) svg.classList.toggle('hairline', !!state.hairline);
     // the lifted hairlines exist only while that layer is on, and the geometry
     // they copy arrives with it, so they are rebuilt whenever it changes
     liftSubs(subsAtom);
@@ -3675,6 +3686,15 @@
     var optRivers = $('#opt-rivers');
     optRivers.checked = state.rivers;
     optRivers.addEventListener('change', function () { state.rivers = optRivers.checked; applyState(); });
+
+    var optHair = $('#opt-hairline');
+    if (optHair) {
+      optHair.checked = state.hairline;
+      optHair.addEventListener('change', function () {
+        state.hairline = optHair.checked;
+        applyState();
+      });
+    }
 
     // Which source draws China's provinces. Deliberately not remembered
     // between visits, for the same reason the year and the three layer buttons

@@ -222,7 +222,9 @@ button.plain:hover { background: #f2ede2; }
    also closes the anti-aliasing hairline where two polygons abut. */
 .atom {
   fill: var(--c, var(--inactive));
-  stroke: var(--c, var(--inactive));
+  /* The stroke is switched on by `#jmap.hairline`, from the Layers panel; see
+     the block below the backings for why it is off to begin with. */
+  stroke: none;
   vector-effect: non-scaling-stroke;
   /* wide enough to close the hairline cracks that open between provinces
      drawn from adjacent source polygons that no longer share an edge once
@@ -278,7 +280,7 @@ button.plain:hover { background: #f2ede2; }
    other file, when they are the only thing there. */
 #backings path {
   fill: var(--c, var(--inactive));
-  stroke: var(--c, var(--inactive));
+  stroke: none;
   stroke-width: 1.3;
   /* see .atom above */
   stroke-linejoin: miter;
@@ -297,12 +299,42 @@ button.plain:hover { background: #f2ede2; }
   pointer-events: none;
 }
 
+/* ---- the hairline stroke, on and off -------------------------------------
+   Every filled shape used to be painted stroke as well as fill, in its own
+   colour, at 1.3px. It is not there to be seen: it closes the anti-aliasing
+   hairline that opens between two polygons that abutted in the source and
+   stopped sharing an edge when they were simplified — between provinces of one
+   country, and along every frontier where the two sides come from different
+   files.
+
+   It is also about three quarters of everything the browser rasters. Measured
+   with it off: a pan of the 1930 China view costs 24% of what it costs with it
+   on, India 17%, the whole empire 27%; on a phone 18%, 14% and 22%. That is the
+   difference between a map that slides and a map that stutters, and it is why
+   the stroke is off unless the reader asks for it.
+
+   What they get for asking: no hairline gaps, and coasts a touch heavier —
+   the stroke straddles the edge, so it also fattened every shape outward by
+   about two thirds of a pixel.
+
+   Two paths must never follow this switch, because their stroke *is* the
+   drawing and not a repair: `.whole-edge` and `.coast`, the yellow and salmon
+   halves of China's own coastline, which are `fill: none` and would vanish. */
+#jmap.hairline .atom,
+#jmap.hairline .atom > path,
+#jmap.hairline #backings path:not(.nostroke) {
+  stroke: var(--c, var(--inactive));
+}
+
 /* China's filler is not stroked: its outline is stroked by two paths of its
    own, one yellow and one salmon, so that the occupied shore does not carry a
    thread of Free China's colour into the sea. The total number of stroked
    points is unchanged — the line is divided, not duplicated. */
 #backings path.nostroke { stroke: none; }
-#backings path.whole-edge { fill: none; }
+#backings path.whole-edge {
+  fill: none;
+  stroke: var(--c, var(--inactive));
+}
 
 /* The salmon half of the same line, along the occupied coast. It sits beside
    the occupied zone rather than inside it, so it needs the stroke stating. */
@@ -1574,6 +1606,15 @@ dialog h3 {
   <p class="hint">On the Dec 1942 map the Yellow River is drawn in the course it took after the Chinese
      army cut the dikes at Huayuankou in June 1938 to slow the Japanese advance, when it left its bed and
      ran south-east into the Huai and on through Hungtse Lake into the Yangtze above Chinkiang. It stayed there until the breach was closed in 1947.</p>
+  <label class="row"><input type="checkbox" id="opt-hairline"> Close the hairline gaps between shapes</label>
+  <p class="hint">Where two shapes on this map abut — two provinces of one country, or the two sides of
+     a frontier drawn from different sources — the boundary files no longer agree to the last metre once
+     they have been simplified for the screen, and a pale thread of the sea below can show along the
+     join. This draws a fine line round every shape in its own colour, which covers the thread and also
+     gives every coast a slightly heavier edge. It is off by default because that line is roughly three
+     quarters of the drawing work: with it on, sliding the map costs about four times as much on a
+     computer and five on a phone. Switch it on when you are reading a boundary closely, off when you
+     are moving around.</p>
   <label class="row"><input type="checkbox" id="opt-extent"> Show the 1942 line of control</label>
   <p class="hint">A dashed perimeter, drawn from several maps of the war in the Pacific; the Sources
      page lists them. It shows on the Late 1942
@@ -5208,6 +5249,12 @@ window.JMAP_INLINE_FINE = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<svg xmln
     labels: false,
     extent: true,
     rivers: true,
+    // The 1.3px stroke round every filled shape. It is a repair — it closes the
+    // hairline between two polygons that no longer share an edge once they have
+    // been simplified — and it is also about three quarters of everything the
+    // browser rasters, so the map is three to six times cheaper to pan without
+    // it. Off unless it is asked for; `styles.css` says what asking buys.
+    hairline: false,
     // the legend is worth its space on a big screen and costs too much of it
     // on a phone, so it starts folded there and remembers what you chose
     legend: window.innerWidth >= 700 && window.innerHeight >= 600,
@@ -5266,6 +5313,7 @@ window.JMAP_INLINE_FINE = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<svg xmln
       state.labels = !!saved.labels;
       if (typeof saved.extent === 'boolean') state.extent = saved.extent;
       if (typeof saved.rivers === 'boolean') state.rivers = saved.rivers;
+      if (typeof saved.hairline === 'boolean') state.hairline = saved.hairline;
       if (typeof saved.legend === 'boolean') state.legend = saved.legend;
     } catch (err) { /* first visit, or storage is off — defaults are fine */ }
   }
@@ -5275,7 +5323,7 @@ window.JMAP_INLINE_FINE = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<svg xmln
       localStorage.setItem(STORE_KEY, JSON.stringify({
         epoch: state.epoch, level: state.level,
         cats: state.cats, labels: state.labels, extent: state.extent,
-        rivers: state.rivers, legend: state.legend,
+        rivers: state.rivers, legend: state.legend, hairline: state.hairline,
       }));
     } catch (err) { /* private browsing; not worth complaining about */ }
   }
@@ -6221,6 +6269,8 @@ window.JMAP_INLINE_FINE = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<svg xmln
     var bits = 0;
     LAYER_FLAGS.forEach(function (on, i) { if (on()) bits |= (1 << i); });
     bits |= ((Math.min(3, Math.max(1, state.level)) - 1) & 3) << 8;
+    // bit 10, not 8: the level has 8 and 9, and LAYER_FLAGS is indexed by bit
+    if (state.hairline) bits |= 1024;
     return bits.toString(36);
   }
 
@@ -6237,6 +6287,7 @@ window.JMAP_INLINE_FINE = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<svg xmln
     state.extent = !!(bits & 32);
     state.rivers = !!(bits & 64);
     state.level = ((bits >> 8) & 3) + 1;
+    state.hairline = !!(bits & 1024);
     urlProvSource = (bits & 128) ? 'roc' : 'enp';
   }
 
@@ -7831,6 +7882,7 @@ window.JMAP_INLINE_FINE = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<svg xmln
     // a province, which is feedback you have to go looking for. It reads as a
     // switch that works sometimes. Now it draws the divisions.
     if (svg) svg.classList.toggle('admin-on', !!state.cats.territory);
+    if (svg) svg.classList.toggle('hairline', !!state.hairline);
     // the lifted hairlines exist only while that layer is on, and the geometry
     // they copy arrives with it, so they are rebuilt whenever it changes
     liftSubs(subsAtom);
@@ -8838,6 +8890,15 @@ window.JMAP_INLINE_FINE = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<svg xmln
     var optRivers = $('#opt-rivers');
     optRivers.checked = state.rivers;
     optRivers.addEventListener('change', function () { state.rivers = optRivers.checked; applyState(); });
+
+    var optHair = $('#opt-hairline');
+    if (optHair) {
+      optHair.checked = state.hairline;
+      optHair.addEventListener('change', function () {
+        state.hairline = optHair.checked;
+        applyState();
+      });
+    }
 
     // Which source draws China's provinces. Deliberately not remembered
     // between visits, for the same reason the year and the three layer buttons

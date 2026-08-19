@@ -3025,6 +3025,57 @@ about two percentage points of a frame and its strokes at 85, which is why it is
 the most interesting switch in the panel. Like the backings switch beside it, the
 setting is remembered in localStorage, so a reload comes back the way it was left.
 
+### The hairline stroke is off by default, and switchable in Layers
+Asked for, on the strength of the measurement: the 1.3px line round every filled
+shape is off unless the reader turns it on. *Close the hairline gaps between
+shapes*, in the Layers panel, brings it back. It is `#jmap.hairline` in
+`styles.css`, `state.hairline` in `map.js`, remembered in localStorage like the
+rivers and the line of control, and carried in the share link at bit 10 — bits 8
+and 9 are the level, and `LAYER_FLAGS` is indexed by bit, so it could not simply
+join the list.
+
+Measured, raster milliseconds per frame during a scripted pan, off against on:
+
+| view | desktop | mobile at 4× |
+|---|---|---|
+| 1930 China + admin | 44.6 → 10.6 (24%) | 45.1 → 8.1 (18%) |
+| 1942 China + admin + extent | 69.7 → 29.1 (42%) | 59.0 → 16.3 (28%) |
+| whole empire 1942 | 86.8 → 23.1 (27%) | 51.4 → 11.5 (22%) |
+| India 1930 + admin | 97.3 → 16.3 (17%) | 46.3 → 6.7 (14%) |
+
+**Two paths do not follow the switch**, and this is the part worth remembering:
+`.whole-edge` and `.coast`, the yellow and salmon halves of China's own
+coastline, are `fill: none` — their stroke is the drawing and not a repair to it,
+and switching them off deletes China's coast rather than thinning it. The crude
+version of this switch in the admin panel does take them with it, which is why
+the first screenshots of stroke-off looked worse than this does; its hint now
+says so.
+
+What is actually lost, measured as pixels that are land with the line on and
+background without, over six views with the divisions drawn:
+
+| view | pixels differing | land → background |
+|---|---:|---:|
+| 1930 China, admin, hovering China | 0.70% | 0.002% |
+| 1942 China, admin, hovering China | 0.69% | 0.000% |
+| India, admin, hovering the Raj | 1.06% | 0.000% |
+| Indochina and Siam | 0.76% | 0.045% |
+| Korea and Manchuria, the Yalu | 0.44% | 0.009% |
+| **Malaya and the Indies** | 0.98% | **0.557%** |
+
+So the cracks the stroke was written for barely open: the seams and the backings
+are doing that work, and along the Yalu — the frontier that needed a fix of its
+own — the loss is nine ten-thousandths of the view. What the stroke was *also*
+doing, unadvertised, is making small things visible. It straddles the edge, so
+it fattened every shape outward by about two thirds of a pixel; take it away and
+Brunei's two enclaves visibly shrink and the smallest islets of the Indies fall
+under a pixel and disappear into the sea. That is the whole of the 0.557%.
+
+The obvious refinement, not done: keep the stroke on small shapes and drop it on
+the big ones. The cost is all in the long coastlines — an islet is a dozen
+vertices — so this would be nearly free. It needs a class from the build,
+because CSS cannot ask how big a path is.
+
 ---
 
 ## Sources worth fetching
