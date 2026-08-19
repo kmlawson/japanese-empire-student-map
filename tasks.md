@@ -2924,6 +2924,46 @@ Administrative layer was on. The princely states are still drawn over it.
 `sub-units/british-india.csv`, the thirteen province names, is left in place
 against a source that fits.
 
+### Mitred joins on the land, and a third of the frame back
+`stroke-linejoin: round` → `miter` with `stroke-miterlimit: 2` on the three rules
+that carry the coastline: `.atom` (`styles.css:221`), `#backings path` (`:264`)
+and `#land path.coast` (`:292`). Between them they stroke 161,408 vertices, and
+a round join builds an arc — four to eight segments — at every one of them. This
+is the first item acted on out of `reports/2026.08.18-recommendations.md`, where
+three independent reviews of pan and zoom found that 85% of raster is the 1.3px
+stroke and that the join alone is a quarter to a third of it.
+
+Measured on a quiet machine (CPU canary flat at 14 ms desktop, 56 ms on the
+throttled mobile profile), raster milliseconds per frame during a scripted pan,
+round and miter sandwiched round/miter/round three times per view:
+
+| view | desktop | mobile |
+|---|---|---|
+| 1930 China + admin | 71–74 → 44 (60–62%) | 72–73 → 45–46 (62–63%) |
+| 1942 China + admin + extent | 100–103 → 69–71 (68–69%) | 89–90 → 59–60 (65–67%) |
+| whole empire 1942 | 124–125 → 86–89 (69–71%) | 74–75 → 51 (68–69%) |
+| India 1930 + admin | 155–158 → 96 (61–62%) | 72–73 → 46–47 (62–66%) |
+
+Pixel-diffed at 1600×1000 dsf 2 over eight views — both fit views, the China
+coast, the Ryukyus, the Aleutians, the Philippines, Okinawa at the deepest zoom
+and the Kuriles, the last five chosen for having the spikiest corners on the
+map. 0.113–1.082% of pixels differ at all and 0.017–0.162% by more than 8 per
+channel, with a mean difference over the differing pixels of about 3 per
+channel: sub-pixel antialiasing on islet corners. The two crops taken round the
+worst-scoring 32-pixel cell in each of three views are indistinguishable.
+
+The join changes corners, not the width along a segment, so the 1.3px line still
+closes the hairline cracks it is there for; the miterlimit of 2 sends anything
+sharp enough to throw a spike back to a bevel, which at 1.3px is also sub-pixel.
+Nothing was found reopened in the diffs, though a diff over eight views is not a
+proof over the whole map.
+
+The dashed sub-unit outlines, the selection outlines in `#highlight`, the line of
+control, the rivers, the mandate dashes and the text halos keep their round
+joins: they are 1.8 to 3.5 pixels wide, or they are glyphs, and there the
+difference would show. `map.js:2434`, which sets the join on the outline mask
+copies, is left alone for the same reason.
+
 ---
 
 ## Sources worth fetching
