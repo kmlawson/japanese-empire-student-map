@@ -2964,6 +2964,67 @@ joins: they are 1.8 to 3.5 pixels wide, or they are glyphs, and there the
 difference would show. `map.js:2434`, which sets the join on the outline mask
 copies, is left alone for the same reason.
 
+### A gesture lets go of the selection
+Asked for: when the reader starts panning or zooming, drop whatever is selected,
+so the map does not carry the selection outline and the province divisions
+through the gesture. They can select again when it stops. `dropForGesture()` in
+`map.js` does it, called from three places: the drag, at the moment the pointer
+travels far enough to stop being a tap; the pinch, when the second finger lands;
+and the wheel.
+
+It was worth more than expected. A selected territory is drawn as a stroke
+through a `<mask>` in `#highlight`, and a mask renders into its own offscreen
+buffer, which the compositor re-renders on every viewBox change — which is every
+frame of a pan. Raster milliseconds per frame, scripted pan, three sandwiched
+rounds each, canary flat:
+
+| view | selected | dropped | ratio |
+|---|---:|---:|---:|
+| China 1942 + admin, desktop | 254 | 70 | **28%** |
+| India 1930 + admin, desktop | 222 | 97 | 44% |
+| whole empire 1942 + admin, desktop | 196 | 131 | 67% |
+| China 1942 + admin, mobile at 4× | 133 | 54 | **41%** |
+| India 1930 + admin, mobile | 96 | 41 | 43% |
+| nothing selected — the control | 67 | 67 | 100% |
+
+So a pan with something selected cost between 2.4 and 3.6 times a pan without,
+and that is now the only kind of pan there is. The August 18 review had listed
+this as a suspect it could not demonstrate: its test click landed on the USSR,
+1,344 vertices, and measured nothing.
+
+What is dropped: the selection, the hover outline, the hot province, the
+divisions inside the pointed-at country and the tooltip. What is not: the quiz,
+where the map is answering a question rather than being read — `dropForGesture`
+returns at once in quiz mode. Nor the zoom buttons or the reset, which are
+single steps with a settled frame after each, and a reader who presses + is
+usually looking at the thing they just selected.
+
+Two things about the ground this stands on. On a mouse, `onHover` (`map.js:2189`)
+already threw away the hover outline and the divisions as soon as a drag began —
+what it never dropped was the *selection*, which is where nearly all the cost
+was. On a touch screen there is no mousemove, so none of it was being dropped;
+that is the case this helps most, and it is the one where the frames were worst.
+
+Checked on a touch profile, where no mousemove fires and so nothing but this
+code can be doing the clearing: in explore mode a touch drag leaves the info
+panel closed and `#highlight` empty; in quiz mode the same drag leaves the
+divisions standing and the question untouched. A tap that does not travel still
+selects.
+
+### A switch for the 1.3px land stroke, in the admin panel
+Asked for, to compare the two by eye and by feel. Option-click Layers, and
+*Land stroke* turns off the stroke on `.atom`, `#backings path` and
+`#land path.coast` — the three rules that carry it — leaving the fills. It
+reports what it is turning off: 1,309 paths and 236,959 vertices in the 1942
+China view with Administrative on.
+
+The stroke is what closes the hairline cracks between neighbours simplified out
+of different files, so with it off the cracks open and the coast thins by half a
+pixel; that is the trade the switch is for. Profiling puts the land's fills at
+about two percentage points of a frame and its strokes at 85, which is why it is
+the most interesting switch in the panel. Like the backings switch beside it, the
+setting is remembered in localStorage, so a reload comes back the way it was left.
+
 ---
 
 ## Sources worth fetching

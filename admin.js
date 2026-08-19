@@ -302,6 +302,83 @@
     },
   });
 
+  /* ---- the 1.3px stroke on the land, on and off ---- */
+
+  TOOLS.push({
+    title: 'Land stroke',
+    hint: 'Every shape on the map is painted fill <b>and</b> stroke in its own ' +
+          'colour — a 1.3px line that does not scale with the zoom — because ' +
+          'two neighbours simplified out of different files no longer share an ' +
+          'edge, and the sea shows through the hairline between them. It is ' +
+          'also about six sevenths of what the browser rasters: profiling put ' +
+          'the land’s fills at two percentage points of a frame and its strokes ' +
+          'at 85. Off, the cracks open and the coast thins by half a pixel. ' +
+          'This switch is for seeing that trade for yourself; it changes ' +
+          'nothing for a reader.',
+    build: function (sec) {
+      var style = null;
+
+      var wrap = document.createElement('label');
+      wrap.className = 'sw';
+      wrap.innerHTML = '<input type="checkbox" checked> Draw the 1.3px stroke';
+      var box = $('input', wrap);
+      sec.appendChild(wrap);
+
+      var out = document.createElement('div');
+      out.className = 'readout';
+      sec.appendChild(out);
+
+      /* What the switch is actually turning off. Vertices are counted off the
+         path data rather than guessed: one per drawing command. */
+      function census() {
+        var sel = '#land .atom, #land .atom path, #backings path, #land path.coast';
+        var els = svg.querySelectorAll(sel);
+        var paths = 0, verts = 0;
+        for (var i = 0; i < els.length; i++) {
+          var el = els[i];
+          if (el.tagName !== 'path') continue;
+          var d = el.getAttribute('d');
+          if (!d) continue;
+          // an atom that holds its own sub-paths is stroked through them, and
+          // counting both would count the same coast twice
+          if (el.parentNode && el.parentNode.classList &&
+              el.parentNode.classList.contains('atom') &&
+              el.parentNode.getAttribute('d')) continue;
+          paths++;
+          verts += (d.match(/[MLlm]/g) || []).length;
+        }
+        return paths + ' paths, ' + verts.toLocaleString() + ' vertices stroked';
+      }
+
+      function apply(on) {
+        if (!on) {
+          if (!style) {
+            style = document.createElement('style');
+            style.id = 'jmap-admin-nostroke';
+            document.head.appendChild(style);
+          }
+          style.textContent =
+            '#land .atom, #land .atom path, #backings path, #land path.coast' +
+            '{stroke:none !important}';
+        } else if (style) {
+          style.parentNode.removeChild(style);
+          style = null;
+        }
+        out.textContent = census() + (on ? '\n' +
+          'drawn — the cracks between neighbours are closed by it' :
+          '\nnot drawn — fills only. Pan and zoom and compare; look at the ' +
+          'Yalu, the Malay states and any province boundary for the cracks ' +
+          'this was closing');
+        setting('landstroke', on);
+      }
+
+      box.addEventListener('change', function () { apply(box.checked); });
+      var want = setting('landstroke');
+      box.checked = want !== false;
+      apply(box.checked);
+    },
+  });
+
   /* ---- draw a polygon and take its coordinates away ---- */
 
   var drawingOn = false;

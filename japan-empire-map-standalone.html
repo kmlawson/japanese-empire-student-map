@@ -6740,6 +6740,7 @@ window.JMAP_INLINE_FINE = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<svg xmln
       dragStart = null;
       movedFar = true;                       // a second finger is never a tap
       pinchStart = pinchState();
+      dropForGesture();
     }
   }
 
@@ -6778,7 +6779,10 @@ window.JMAP_INLINE_FINE = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<svg xmln
     if (!dragStart) return;
     var dx = e.clientX - dragStart.cx;
     var dy = e.clientY - dragStart.cy;
-    if (!movedFar && Math.hypot(dx, dy) > TAP_SLOP) movedFar = true;
+    if (!movedFar && Math.hypot(dx, dy) > TAP_SLOP) {
+      movedFar = true;
+      dropForGesture();
+    }
     if (!movedFar) return;
 
     var cs = containerSize();
@@ -6786,6 +6790,35 @@ window.JMAP_INLINE_FINE = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<svg xmln
     view.x = dragStart.vx - dx * scale;
     view.y = dragStart.vy - dy * scale;
     applyView();
+  }
+
+  /* A gesture lets go of whatever was selected.
+   *
+   * A selected territory is drawn in `#highlight` as a stroke through a mask,
+   * and a mask renders into its own offscreen buffer which the compositor
+   * re-renders on every viewBox change — which is every frame of a pan. It is
+   * the most expensive thing on the map by a distance: measured over three
+   * sandwiched rounds, a scripted pan costs 254 ms a frame with China selected
+   * against 70 without, 222 against 97 over India, and on the throttled phone
+   * profile 133 against 54. Between 2.4 and 3.6 times, for a line the reader
+   * cannot see properly anyway while the map is sliding under it.
+   *
+   * So the drag, the pinch and the wheel drop it, along with the hover
+   * outline, the province under the pointer and the divisions drawn inside the
+   * country — all of which are the same masked machinery. The reader selects
+   * again when the map has stopped moving.
+   *
+   * Not in the quiz, where the selection is the answer to the question on
+   * screen, and not for the zoom buttons or the reset: those are single steps
+   * with a settled frame after each, and a reader who presses + is usually
+   * looking at the thing they just selected. */
+  function dropForGesture() {
+    if (state.mode === 'quiz') return;
+    if (selected) select(null);
+    setHot(null);
+    setHotProv(null);
+    setSubsAtom(null);
+    hideTooltip();
   }
 
   function onPointerUp(e) {
@@ -6840,6 +6873,7 @@ window.JMAP_INLINE_FINE = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<svg xmln
 
   function onWheel(e) {
     e.preventDefault();
+    dropForGesture();
     var delta = e.deltaMode === 1 ? e.deltaY * 16 : e.deltaY;
     zoomAt(e.clientX, e.clientY, Math.exp(-delta * 0.0016));
   }
