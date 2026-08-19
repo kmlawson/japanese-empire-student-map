@@ -3036,20 +3036,22 @@ join the list.
 
 Measured, raster milliseconds per frame during a scripted pan, off against on:
 
-| view | desktop | mobile at 4× |
-|---|---|---|
-| 1930 China + admin | 44.6 → 10.6 (24%) | 45.1 → 8.1 (18%) |
-| 1942 China + admin + extent | 69.7 → 29.1 (42%) | 59.0 → 16.3 (28%) |
-| whole empire 1942 | 86.8 → 23.1 (27%) | 51.4 → 11.5 (22%) |
-| India 1930 + admin | 97.3 → 16.3 (17%) | 46.3 → 6.7 (14%) |
+| view | desktop pan | desktop zoom | mobile pan | mobile zoom |
+|---|---|---|---|---|
+| 1930 China + admin | 45.3 → 11.4 (25%) | 27.2 → 6.9 (26%) | 45.4 → 8.0 (18%) | 26.4 → 5.1 (19%) |
+| 1942 China + admin + extent | 70.5 → 30.7 (44%) | 55.2 → 30.1 (55%) | 59.6 → 16.2 (27%) | 40.8 → 14.4 (35%) |
+| whole empire 1942 | 88.9 → 24.4 (27%) | 90.8 → 27.8 (31%) | 52.4 → 11.5 (22%) | 41.9 → 10.4 (25%) |
+| India 1930 + admin | 98.4 → 17.2 (17%) | 85.4 → 13.8 (16%) | 46.8 → 6.7 (14%) | 38.7 → 5.2 (13%) |
 
-**Two paths do not follow the switch**, and this is the part worth remembering:
-`.whole-edge` and `.coast`, the yellow and salmon halves of China's own
-coastline, are `fill: none` — their stroke is the drawing and not a repair to it,
-and switching them off deletes China's coast rather than thinning it. The crude
-version of this switch in the admin panel does take them with it, which is why
-the first screenshots of stroke-off looked worse than this does; its hint now
-says so.
+**Every land stroke follows the switch, China's two outline paths included.**
+They were held back for a day on the grounds that `.whole-edge` and `.coast` are
+`fill: none`, so their stroke is the drawing rather than a repair to it — which
+was the wrong way to see it, as the user said: China's *fill* already ends at the
+coastline, and all those two add is the same fattened edge every other country
+has just given up. Measured, keeping them cost 15 to 86 per cent more than
+dropping them, and a view of India paid 15–17% of it, because `.whole-edge` is
+the yellow half of China's whole outline and carries the western land frontier as
+well as the coast.
 
 What is actually lost, measured as pixels that are land with the line on and
 background without, over six views with the divisions drawn:
@@ -3075,6 +3077,21 @@ The obvious refinement, not done: keep the stroke on small shapes and drop it on
 the big ones. The cost is all in the long coastlines — an islet is a dozen
 vertices — so this would be nearly free. It needs a class from the build,
 because CSS cannot ask how big a path is.
+
+### What the blunt switch was really doing
+The admin panel's *Land stroke* switch is written with `!important`, which is
+right for an instrument and wrong as a description of what the map would look
+like without the stroke. It beats every other rule, so it was also taking off
+strokes the map draws on purpose and not as a repair: **the province divisions
+under the pointer** (`rgba(18, 15, 10, .62)` → none) and **the outlines round the
+Communist base areas** (`rgb(122, 23, 48)` → none). Both survive the Layers
+switch, which only removes the fill-colour strokes it names.
+
+That is the second way the instrument misled: the first screenshots of
+"stroke off" were showing a map with its administrative boundaries and its
+base-area outlines stripped as well, and I read the damage as general. Its hint
+now says what it is — the floor, not an option — and points at Layers for the
+reader's version.
 
 ---
 
