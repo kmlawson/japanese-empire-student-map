@@ -3240,6 +3240,24 @@ Thimphu Bhutan, Delhi British India, and Sian, Chengtu and Chengchow answer with
 their provinces. The build reports no unknown provinces from the refreshed
 shapefile.
 
+### Tannu Tuva from the 1940 sheet
+`tannu-tuva.gpkg` from the same folder as Mengchiang and Outer Mongolia, wired
+the same way: converted to GeoJSON, drawn as a traced layer, and the Wuhan
+project's `tunnu_tuva.gpkg` stands down in `GIS_LAYERS`.
+
+**The exported layer holds the shape twice.** Two features, 96 points each,
+geometrically identical down to the last coordinate — a duplicate from the QGIS
+session it was written out of rather than two pieces of country. The loader drops
+a ring identical to one it already has, so the map draws one; worth fixing in the
+source file, since nothing here can tell a deliberate duplicate from an accident.
+The `.gpkg-wal` and `.gpkg-shm` files beside it say the layer was open in QGIS
+when it was read, which is probably where the second copy came from.
+
+The country it draws is smaller and further east than the layer it replaces:
+162,454 km² against 171,418, bbox 88.96–99.77° E against 87.87–98.90, and 96
+vertices against 762. Hover checked: Kyzyl answers Tannu Tuva, the ground below
+it answers the Mongolian People's Republic and above it the Soviet Union.
+
 ---
 
 ## Sources worth fetching

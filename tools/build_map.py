@@ -3483,6 +3483,11 @@ def ccp_zone(ring):
 # of the same ground, which is what the map used before. The features carry no
 # names, so each is identified by a point that can only be inside one of them.
 OUTER_MONGOLIA_FILE = "outer-mongolia-1940.geojson"
+# Tannu Tuva off the same sheet. The layer as exported holds the shape twice,
+# geometrically identical down to the last coordinate — a duplicate from the
+# QGIS session it was written out of, not two pieces of country — so identical
+# rings are dropped rather than drawn on top of each other.
+TANNU_TUVA_FILE = "tannu-tuva-1940.geojson"
 NEPAL_AFGHAN_FILE = "nepal-afghanistan-1931.geojson"
 NEPAL_AFGHAN_POINTS = (("nepal", (85.32, 27.71)),        # Kathmandu
                        ("afghanistan", (69.18, 34.53)))  # Kabul
@@ -4232,6 +4237,15 @@ def main():
     # Natural Earth's modern outline of the same country. Loaded before the
     # Natural Earth sweep so that it can see they are here and stand down.
     outer_mongolia = [r for _p, rs in load_traced(OUTER_MONGOLIA_FILE) for r in rs]
+    tannu_tuva = []
+    for _p, _rs in load_traced(TANNU_TUVA_FILE):
+        for _r in _rs:
+            if not any(_r == _seen for _seen in tannu_tuva):
+                tannu_tuva.append(_r)
+    if tannu_tuva:
+        groups["tuva"].extend(tannu_tuva)
+        sys.stderr.write("Tannu Tuva: traced, %d rings (%d vertices)\n"
+                         % (len(tannu_tuva), sum(len(r) for r in tannu_tuva)))
     if outer_mongolia:
         groups["mongolia"].extend(outer_mongolia)
         sys.stderr.write("Outer Mongolia: traced, %d rings (%d vertices)\n"
@@ -4782,6 +4796,8 @@ def main():
             continue
         # Nepal is drawn from the 1931 Gazetteer now, not from the Wuhan project
         if key == "nepal" and "nepal" in neighbours_1931:
+            continue
+        if key == "tuva" and tannu_tuva:
             continue
         path = os.path.join(CACHE, "gis", fname)
         if not os.path.exists(path):
