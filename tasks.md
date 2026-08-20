@@ -3144,6 +3144,26 @@ layers. The quiz exclusion is the same predicate on its first line, checked by
 reading rather than by driving the quiz — two attempts to drive it from
 Puppeteer killed the browser, and that is a harness problem, not a map one.
 
+### The backings toggle reloads, as it was asked to
+The admin panel's Backings switch detached the layer from the document and left
+the reload to a separate button beside it. The brief said the toggle itself
+should reload, so that what is measured afterwards is a page that has never had
+the backings in it — no detached subtree still held by the closure, no heap or
+layout state left from having parsed them once. It does now; the separate button
+is gone, being what the switch does.
+
+The view survives it. `map.js` keeps `bbox` and `layers` in the address bar, and
+the panel reopens itself from its own localStorage key, so the reload comes back
+to the same ground at the same zoom with the panel still open and the switch
+still off. Checked both ways: off reloads and leaves 0 of 42 backing paths, on
+reloads and brings all 42 back.
+
+Worth knowing when reading the numbers it produces: with the hairline stroke now
+off by default, detaching the backings is worth about 7% of a pan (20.5 → 19.0
+raster ms/frame in the 1942 China view) rather than the 37% it was worth when
+every one of those 42 paths was also stroked. The layer is still half the path
+data in the file; it is the stroke that made it expensive to draw.
+
 ---
 
 ## Sources worth fetching

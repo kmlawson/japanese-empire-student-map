@@ -219,7 +219,9 @@
           'not been fetched, so for China, India, Japan, Korea, Siam, Burma, ' +
           'Indochina, the Indies and a dozen more the backing <b>is</b> the ' +
           'country, and switching it off empties the map. Off, they are detached ' +
-          'from the document, so a pan measures the map without them.',
+          'from the document, so a pan measures the map without them — and the page ' +
+          'reloads, so what you measure afterwards has never had them in it. The ' +
+          'view comes back as you left it.',
     build: function (sec) {
       var group = svg.querySelector('#backings');
       var anchor = document.createComment('backings');
@@ -235,12 +237,16 @@
       out.className = 'readout';
       sec.appendChild(out);
 
-      var reload = document.createElement('button');
-      reload.type = 'button';
-      reload.className = 'wide';
-      reload.textContent = 'Reload the page with this setting';
-      reload.addEventListener('click', function () { window.location.reload(); });
-      sec.appendChild(reload);
+      /* Asked for: turning the toggle off reloads, so that what is measured
+         afterwards is a page that has never had the backings in it — no
+         detached subtree still held by this closure, no heap or GC state left
+         over from having parsed and laid them out once. The detach below is
+         still done first, so the panel is right either way and the reload is
+         about starting clean rather than about hiding anything.
+
+         The view survives it: `map.js` keeps `bbox` and `layers` in the address
+         bar, so the reload comes back to the same ground at the same zoom with
+         the same layers on, and this panel reopens itself from its own key. */
 
       function measure() {
         var g = detached || svg.querySelector('#backings');
@@ -294,10 +300,17 @@
         setting('backings', on);
       }
 
-      box.addEventListener('change', function () { apply(box.checked); });
+      // the first call is this panel catching up with a setting the page was
+      // already built from; only a click on the switch should reload
+      var booted = false;
+      box.addEventListener('change', function () {
+        apply(box.checked);
+        if (booted) window.location.reload();
+      });
       var want = setting('backings');
       box.checked = want !== false;
       apply(box.checked);
+      booted = true;
       if (!group) { box.disabled = true; out.textContent = 'no #backings in this map'; }
     },
   });
