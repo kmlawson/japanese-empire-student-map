@@ -3318,6 +3318,44 @@ corrected its residual offset against Natural Earth's coastline. Nothing is
 reprojected or simplified — this is the data the build starts from, not the
 thinned version it draws.
 
+### China as a whole, under everything
+`1928-45 Provinces Republican China v2/1928_1945.shp` is the same sheet dissolved
+to one polygon — one record, 2,013 rings, 18,008 points, the Republic entire:
+Sinkiang, Tibet, Manchuria, Jehol, Chahar and Suiyuan all fall inside it. Asked
+for as the basic shape of China, under the polygons for Tibet on both dates and
+Manchukuo, Mengchiang and the occupation on the second. The v1 provinces are
+untouched and still drive the Administrative layer.
+
+It goes in as `chinabase`, the filler laid under the atoms: neutral colour, no
+pointer, so a sliver between two disagreeing sources reads as a seam rather than
+as one country leaking into the next. The drawn filler is 82 rings and 45.3 KB
+after the dissolve and the frame clip.
+
+**This is the thing `NE_CHINA_MAINLAND = False` gave up.** That flag turned off
+Natural Earth's outline in the same role because it was much coarser than the
+provinces and so drew China's shore twice — a rough dark line where the modern
+outline ran and a fine one a kilometre away where the provinces did. This
+polygon comes off the same sheet as the provinces, so it does not; the flag
+stays off and the comment above it now says which layer took the job over.
+
+Measured, filler-visible pixels with it on against it off: China's coast 0.058%
+of the view on the 1930 map and 0.020% on the 1942, Tibet and Sinkiang 0.161%,
+Manchuria 0.011%. The two long runs — 114 px and 102 px — are along frontiers
+where the traced neighbours and the ENP sheet disagree, which is the gap it
+exists to plug. Nothing shows as a fringe along the coast.
+
+### The Soviet edits are not in the file yet
+Re-exported `soviet-union.gpkg` and the `sovietunion` layer came back
+byte-identical to what is committed: 201 polygons, 34,257 vertices, main ring
+21,591 points, same bbox. The `.gpkg-wal` is 4 MB and the file's mtime matches
+the QGIS session, so the edits look unsaved on that layer.
+
+What *has* moved is the second layer, `difference`: 205 polygons, 19.7 million
+km², reaching south to 32.4° N against 39.6°, and by point test it excludes
+Vladivostok, Tuva and Ulan Bator while including Tashkent. That reads as a
+working layer mid-operation rather than a finished USSR, so nothing was taken
+from it and the Soviet Union is left as it was.
+
 ---
 
 ## Sources worth fetching

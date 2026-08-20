@@ -95,6 +95,18 @@ SOURCES = {
 # ENP-China provinces, shipped in tools/cache/enp/ rather than downloaded; see
 # SOURCES.md. The 1928-45 sheet covers both epochs this map draws.
 ENP_PROVINCES = os.path.join(CACHE, "enp", "1928-45", "1928_1945")
+# The same sheet dissolved to one polygon: the Republic as a whole, coast and
+# land frontier, at the provinces' own detail. It is the filler under China —
+# under Tibet and Sinkiang on both dates, and under Manchukuo, Mengchiang and
+# the occupation on the second — so that where two of those disagree by a
+# kilometre the crack between them shows ground rather than sea.
+#
+# This is what `NE_CHINA_MAINLAND` was turned off for. Natural Earth's outline
+# was much coarser than the provinces, so it drew China's shore twice: a rough
+# dark line where the modern outline ran and a fine one a kilometre away where
+# the provinces did. This one comes off the same sheet as the provinces, so it
+# does not.
+CHINA_WHOLE = os.path.join(CACHE, "enp", "1928-45-v2", "1928_1945")
 ENP_NAME_FIELD = "p_28_45_na"
 
 # The same provinces from a much finer source, built by tools/roc_provinces.py
@@ -4234,6 +4246,12 @@ def main():
     for bx0, by0, bx1, by1 in LAND_BASE:
         groups["chinabase_land"].append(
             [(bx0, by0), (bx1, by0), (bx1, by1), (bx0, by1)])
+    # and the Republic itself, under all of it
+    if os.path.exists(CHINA_WHOLE + ".shp"):
+        _cw = [r for _att, rs in shapefile.read(CHINA_WHOLE) for r in rs]
+        groups["chinabase"].extend(_cw)
+        sys.stderr.write("China as a whole: %d rings (%d vertices)\n"
+                         % (len(_cw), sum(len(r) for r in _cw)))
     # Chinese atoms keep their provinces as separate sub-paths, so hovering can
     # name the province as well as the country.
     provinces = collections.defaultdict(list)
