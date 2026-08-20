@@ -3093,6 +3093,57 @@ base-area outlines stripped as well, and I read the damage as general. Its hint
 now says what it is — the floor, not an option — and points at Layers for the
 reader's version.
 
+### The North China Area Army's own map, as an alternative reading
+Asked for: a switch that swaps the occupation and the base areas for the two
+polygon layers from `kmlawson.github.io/1942-occupation-map` — the tracing of
+付図第五「北支那方面軍占拠地域内治安概況（昭和十七年九月中）」, the sheet `tasks.md`
+had listed under *Sources worth fetching* for exactly this purpose.
+
+*The occupation of China, Dec 1942* in the Layers panel, two radio buttons, next
+to the province-source pair it is modelled on. `state.occSource`, remembered in
+localStorage, carried in the share link at bit 11.
+
+**The sheet covers north China and nothing else** — 108–122.6° E, 33–42° N, that
+army's area of responsibility — so a straight swap was not available. Asked
+which way to take it, the answer was one source at a time: with the sheet on,
+the traced zone and Wu Yuexing's base areas are hidden everywhere, not only
+where it has data, and the Yangtze valley, Canton, Amoy and Hainan go unshaded.
+The line of control goes with them, because across China it *is* the inland edge
+of the traced zone, and a dashed perimeter round shading that is not drawn
+asserts the very thing the other source was chosen instead of.
+
+One predicate does all of it. Records carry `srcOnly` — `traced` on the occupied
+zone and the base areas, `nca` on the two new ones — and `srcOK()` gates
+display, the label, the legend swatch and the quiz question. That last one
+matters: `nanjinggov` is a level 1 record, so without it the quiz would have
+asked a student to find Japanese-occupied China on a map that was not drawing
+it.
+
+Geometry: 84 rings and 3,099 vertices pacified, 53 and 1,819 un-pacified, 65 KB
+of path data between them, held to `TRACED_TOL` like the India tracing and put
+in `NO_DISSOLVE`, since 137 separate areas dissolved would come back as one ring
+threading through all of them. Not clipped to China's land: the areas are traced
+from a land map, and clipping them to the `china` atom would cut whatever falls
+over Jehol or along the Manchukuo border, which is ground the sheet does map.
+The un-pacified areas are in `ON_TOP`, above the pacified, for the same reason
+the base areas sit above the occupation.
+
+Colour: pacified took the occupation's own salmon at first, which put two
+near-identical swatches in the legend — *Under military occupation*, which is
+still what Burma and the Philippines are, and *Pacified areas*. It is a lighter
+salmon from the same family now. The un-pacified areas keep the base areas'
+dark red, which is free of a clash because the two are never on together. A
+diagonal hatch was tried on them and came to nothing visible, so it is not in
+the file: the areas are large enough to read as solid colour.
+
+Checked: hidden on the 1930 map and under the traced reading; shown under the
+sheet; the legend swaps two rows and drops the line-of-control row; the label
+for the occupied zone disappears when the sheet is on and comes back when it is
+off, which is `srcOK` working through a second path; hover names both new
+layers. The quiz exclusion is the same predicate on its first line, checked by
+reading rather than by driving the quiz — two attempts to drive it from
+Puppeteer killed the browser, and that is a harness problem, not a map one.
+
 ---
 
 ## Sources worth fetching

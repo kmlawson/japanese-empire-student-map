@@ -156,6 +156,14 @@ JMAP.CATEGORIES = {
       zh: '中共抗日根據地', ko: '중국공산당 항일근거지', c: '#7a1730'
     },
     {
+      id: 'pacified', en: 'Pacified areas (治安地区)', ja: '治安地区', orig: 'Pacified areas',
+      zh: '治安地區', ko: '치안지구', c: '#f4a582'
+    },
+    {
+      id: 'unpacified', en: 'Un-pacified areas (未治安地区)', ja: '未治安地区', orig: 'Un-pacified areas',
+      zh: '未治安地區', ko: '미치안지구', c: '#7a1730'
+    },
+    {
       id: 'frontier', en: 'De facto independent', ja: '事実上の独立', orig: 'De facto independent',
       zh: '事實上獨立', ko: '사실상 독립', c: '#e7de7e'
     },
@@ -626,7 +634,7 @@ JMAP.TERRITORIES = {
       id: 'nanjinggov', en: 'Japanese-occupied China (approximate)', ja: '日本占領地区',
       orig: '日軍佔領區', zh: '日軍佔領區（大略）',
       when: 'Occupied from 1937; Nanking government from March 1940', cat: 'occupied', lvl: 1,
-      atoms: ['occupiedzone'],
+      atoms: ['occupiedzone'], srcOnly: 'traced',
       note: 'Governed on paper by Wang Ching-wei’s collaborationist government at Nanking, with the far south under military administration instead. Traced from a 1940 map of the occupation and adjusted to December 1942: the plains, the railways and the cities of the north and the Yangtze valley, the Canton delta from October 1938, Hainan from February 1939, and the ports of Amoy and Swatow. Western Shansi and Honan, most of Hunan, Kiangsi and Fukien were never taken, Changsha held out until 1944, and Communist and Nationalist guerrillas operated in force inside the line as well as beyond it — the shading marks where Japanese authority reached, not where it was unchallenged.'
     },
     {
@@ -851,7 +859,7 @@ JMAP.TERRITORIES = {
     {
       id: 'ccp', en: 'Communist base areas and guerrilla zones', ja: '中国共産党抗日根拠地',
       orig: '抗日根據地 (Kàngrì gēnjùdì)', zh: '中共抗日根據地', when: 'As they stood in 1941–42',
-      cat: 'ccp', lvl: 2, atoms: ['ccp'],
+      cat: 'ccp', lvl: 2, atoms: ['ccp'], srcOnly: 'traced',
       note: 'The base areas and guerrilla zones of the Eighth Route Army and the New Fourth Army, and the reason the occupied shading on this map is described as generous. Almost all of this ground lies inside the line the Japanese army had drawn round itself: Japan held the cities, the railways and the plains between them, and the countryside behind that line was fought over. The largest is Shaan-Gan-Ning, the border region round Yenan, which was never occupied at all; the rest — Chin-Ch’a-Chi in the Wutai mountains, Chin-Chi-Lu-Yü on the Hopei-Shantung plain, the Shantung and coastal pockets, and the New Fourth Army areas along the lower Yangtze — were inside it. Their extent moved from month to month, and the "mopping-up" campaigns of 1941–42 cut some of them badly; these are the areas as one atlas draws them for those two years, not a line anyone held.'
     },
     {
@@ -953,6 +961,18 @@ JMAP.TERRITORIES = {
       id: 'other', en: 'Afghanistan', orig: 'Afghanistan, Nepal, Bhutan', zh: '阿富汗・尼泊爾・不丹',
       cat: 'other', lvl: 3, atoms: ['other'],
       note: 'Outside the story of the Japanese Empire, drawn for context. Nepal, Bhutan and Sikkim were British protectorates rather than parts of British India, which is why they are not drawn inside it.'
+    },
+    {
+      id: 'nca_pacified', en: 'Pacified areas (治安地区)', ja: '治安地区', zh: '治安地區',
+      when: 'September 1942', rule: 'The North China Area Army\'s own classification',
+      cat: 'pacified', lvl: 3, atoms: ['nca_pacified'], srcOnly: 'nca',
+      note: 'Ground the North China Area Army classed as pacified — 治安地区 — in its own survey of September 1942. Not the same claim as the shading it replaces: that is where Japanese authority reached at all, this is where the army itself thought it had the country in hand. It comes to about 275,000 square kilometres, roughly a quarter of the area the occupation is otherwise drawn over, and it sits along the railways and around the cities much as the note on the occupation says. The sheet\'s third category, semi-pacified — 準治安地区 — is what it leaves blank, and it is left blank here too, so unshaded ground inside north China is not a claim that nobody was there.'
+    },
+    {
+      id: 'nca_unpacified', en: 'Un-pacified areas (未治安地区)', ja: '未治安地区', zh: '未治安地區',
+      when: 'September 1942', rule: 'The North China Area Army\'s own classification',
+      cat: 'unpacified', lvl: 3, atoms: ['nca_unpacified'], srcOnly: 'nca',
+      note: 'Ground the same survey classed as un-pacified — 未治安地区: about 182,000 square kilometres, in fifty-three separate areas, most of them in the mountains of Shanxi and Hebei and along the Shandong hills. This is the army\'s own account of where it was being fought, drawn by the people doing the fighting, and it is worth setting beside the Communist base areas from Wu Yuexing\'s atlas, which is the other reading this map offers. They are not the same map and were not drawn to answer the same question.'
     },
   ],
 };

@@ -62,7 +62,7 @@ FIELD_ORDER = [
     "when", "date", "rule", "source", "blurb",
     "cat", "lvl", "c", "atoms", "lights", "within", "under",
     "hatch", "edge", "edgeAtoms", "edgeClip", "edgeWidth",
-    "outline", "outlineColor", "adminOnly", "unseen",
+    "outline", "outlineColor", "adminOnly", "unseen", "srcOnly",
     "lat", "lon", "lon0", "lat0", "lon1", "lat1", "note",
 ]
 

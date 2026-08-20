@@ -474,6 +474,19 @@ PROTECTORATES_IND = {"Sikkim"}
 # are wound against the outer ring, so they stay holes when the rings are put
 # into one path.
 INDIA_1931_FILE = "india-1931.geojson"
+
+# The North China Area Army's own security map of the ground it held,
+# September 1942: 『北支那方面軍占拠地域内治安概況』, held by NIDS and traced by
+# the author of this map. Two of its three categories are polygons — pacified
+# (治安地区) and un-pacified (未治安地区); the third, semi-pacified (準治安地区),
+# is what the sheet leaves blank, and is left blank here too. It covers north
+# China alone, 108-122.6 E and 33-42 N, which is the area that army was
+# responsible for, so it is offered as an alternative reading rather than as a
+# replacement: with it on, the map shows this and nothing else.
+NCA_PACIFIED_FILE = "nca-pacified-1942.geojson"
+NCA_UNPACIFIED_FILE = "nca-unpacified-1942.geojson"
+NCA_ATOMS = {"nca_pacified": NCA_PACIFIED_FILE,
+             "nca_unpacified": NCA_UNPACIFIED_FILE}
 FRENCH_INDIA_FILE = "french-india.geojson"
 PORTUGUESE_INDIA_FILE = "portuguese-india.geojson"
 INDIA_PROTECTORATES_FILE = "india-protectorates.geojson"
@@ -671,7 +684,7 @@ ENP_ATOMS = {"china", "manchuria", "chahar", "suiyuan", "suiyuan_w", "jehol",
 # ninetieth. Half a pixel at that zoom is what the rest of the map is thinned
 # to, and 0.021 units is half a pixel. Exact would cost 231 KB against 63 and
 # would not be visible at any zoom this map allows.
-TRACED_TOL = {"india": 0.021}
+TRACED_TOL = {"india": 0.021, "nca_pacified": 0.021, "nca_unpacified": 0.021}
 
 FULL_DETAIL = ({"korea", "saharat", "princely", "kwantung", "ccp", "malaya",
                 "turtle", "mangsee", "miangas", "cocos",
@@ -700,7 +713,10 @@ NO_DISSOLVE = ({"kwantung", "ccp", "linephoenix", "uspacific", "nzpacific", "ell
                 "mandate_ex_guam",
                 # traced: an outer ring with holes inside it, which is not a
                 # set of rings that share edges and has nothing to dissolve
-                "india", "goa", "pondicherry"}
+                "india", "goa", "pondicherry",
+                # 64 and 53 separate areas off one sheet; dissolving them would
+                # chain the lot into a single ring threading through all of them
+                "nca_pacified", "nca_unpacified"}
                | set(GIS_LAYERS))
 
 # Atoms whose backing is the union of their own sub-units rather than Natural
@@ -4101,7 +4117,11 @@ ADMIN_SUBUNITS = {"philippines", "malaya", "northborneo"}
 
 # Drawn after the occupied shading, so the small enclaves it would otherwise
 # bury are still there to see and to click.
-ON_TOP = ["weihaiwei", "guangzhouwan", "macau", "hongkong", "kwantung", "ccp"]
+ON_TOP = ["weihaiwei", "guangzhouwan", "macau", "hongkong", "kwantung", "ccp",
+          # the un-pacified areas sit over the pacified ones for the same
+          # reason the base areas sit over the occupation: they are what
+          # the shading beneath them is an overstatement of
+          "nca_unpacified"]
 
 ORDER = [
     # first, so that anything real drawn over it wins the pointer
@@ -4116,7 +4136,7 @@ ORDER = [
     # and not part of the shading. The resistance areas stay above it, being in
     # ON_TOP, because they are what the shading is an overstatement of.
     "mandate_jp", "mandate_au", "mandate_br", "mandate_ex_guam",
-    "occupiedzone", "chahar", "suiyuan", "suiyuan_w", "mengjiang",
+    "occupiedzone", "nca_pacified", "chahar", "suiyuan", "suiyuan_w", "mengjiang",
     "jehol", "manchuria", "manchukuo",
     "siam", "burma", "saharat", "indochina", "siamgain", "malaya", "malaya_thai", "sarawak", "northborneo", "brunei",
     "dei", "philippines", "christmas", "spratly", "paracel", "pratas", "turtle", "mangsee", "miangas", "cocos",
@@ -4196,6 +4216,18 @@ def main():
                          "one outline and %d holes\n"
                          % (len(india_traced), sum(len(r) for r in india_traced),
                             len(india_traced) - 1))
+    # The North China Area Army's own reading of the same ground, off the same
+    # sheet. Not clipped to China's land: the areas are traced from a land map
+    # and clipping them to the `china` atom would cut whatever falls over Jehol
+    # or the Manchukuo border, which is ground the sheet does map.
+    for _nca_key, _nca_file in NCA_ATOMS.items():
+        _nca_rings = [r for _p, rs in load_traced(_nca_file) for r in rs]
+        if _nca_rings:
+            groups[_nca_key].extend(_nca_rings)
+            sys.stderr.write("%s: %d traced rings (%d vertices)\n"
+                             % (_nca_key, len(_nca_rings),
+                                sum(len(r) for r in _nca_rings)))
+
     # rings added to a filler on top of whatever it builds itself from, rather
     # than replacing it: China's coastal islands, and the seams that make one
     # country reach a neighbour drawn from a different source. They cannot go

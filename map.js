@@ -51,6 +51,13 @@
     // browser rasters, so the map is three to six times cheaper to pan without
     // it. Off unless it is asked for; `styles.css` says what asking buys.
     hairline: false,
+    // Which reading of the occupation in China is drawn. 'traced' is the map's
+    // own: the 1940 sheet adjusted to December 1942, with Wu Yuexing's
+    // Communist base areas over it. 'nca' is the North China Area Army's own
+    // security survey of September 1942, which covers north China and nothing
+    // else — so it replaces both rather than joining them, and the map then
+    // shows what that one source shows.
+    occSource: 'traced',
     // the legend is worth its space on a big screen and costs too much of it
     // on a phone, so it starts folded there and remembers what you chose
     legend: window.innerWidth >= 700 && window.innerHeight >= 600,
@@ -110,6 +117,9 @@
       if (typeof saved.extent === 'boolean') state.extent = saved.extent;
       if (typeof saved.rivers === 'boolean') state.rivers = saved.rivers;
       if (typeof saved.hairline === 'boolean') state.hairline = saved.hairline;
+      if (saved.occSource === 'nca' || saved.occSource === 'traced') {
+        state.occSource = saved.occSource;
+      }
       if (typeof saved.legend === 'boolean') state.legend = saved.legend;
     } catch (err) { /* first visit, or storage is off — defaults are fine */ }
   }
@@ -120,6 +130,7 @@
         epoch: state.epoch, level: state.level,
         cats: state.cats, labels: state.labels, extent: state.extent,
         rivers: state.rivers, legend: state.legend, hairline: state.hairline,
+        occSource: state.occSource,
       }));
     } catch (err) { /* private browsing; not worth complaining about */ }
   }
@@ -219,7 +230,14 @@
 
   /* Territories are always shown and always clickable — the level decides
    * what the quiz asks for and what gets a label, not what you can look at. */
+  /* A record tied to one reading of the occupation is absent under the other:
+     not drawn, not labelled, not in the legend, not asked about. */
+  function srcOK(rec) {
+    return !rec || !rec.srcOnly || rec.srcOnly === state.occSource;
+  }
+
   function inQuiz(rec) {
+    if (!srcOK(rec)) return false;
     if (rec.kind === 'site') return rec.lvl <= state.level && state.cats[rec.cat] && siteInEpoch(rec);
     return rec.lvl <= state.level && state.cats.territory;
   }
@@ -259,6 +277,7 @@
     // — except one that is only drawn when that layer is on, which cannot be
     // named while it is not there.
     if (rec.kind === 'territory') {
+      if (!srcOK(rec)) return false;
       // A province drawn as a territory of its own so that it can be named —
       // Manchuria, Jehol, Chahar and Suiyuan, Sinkiang — is not a country and
       // must not be labelled as one while the Administrative layer is off. On
@@ -1067,6 +1086,7 @@
     bits |= ((Math.min(3, Math.max(1, state.level)) - 1) & 3) << 8;
     // bit 10, not 8: the level has 8 and 9, and LAYER_FLAGS is indexed by bit
     if (state.hairline) bits |= 1024;
+    if (state.occSource === 'nca') bits |= 2048;
     return bits.toString(36);
   }
 
@@ -1084,6 +1104,7 @@
     state.rivers = !!(bits & 64);
     state.level = ((bits >> 8) & 3) + 1;
     state.hairline = !!(bits & 1024);
+    state.occSource = (bits & 2048) ? 'nca' : 'traced';
     urlProvSource = (bits & 128) ? 'roc' : 'enp';
   }
 
@@ -2703,10 +2724,32 @@
       });
     });
 
+    // One reading of the occupation at a time. The map's own traced zone and
+    // the Communist base areas over it, or the North China Area Army's own
+    // pacified and un-pacified areas — never both, because they are two
+    // authors answering two different questions about the same ground, and a
+    // map that showed them together would be asserting neither.
+    territories().forEach(function (t) {
+      if (!t.srcOnly) return;
+      var on = srcOK(t);
+      (atomsOf[t.id] || []).forEach(function (el) {
+        el.style.display = on ? '' : 'none';
+      });
+      // the occupied coast is a sibling of its atom, not a child of it
+      $$('[data-edge-for="' + t.atoms[0] + '"]', svg).forEach(function (el) {
+        el.style.display = on ? '' : 'none';
+      });
+    });
+
     syncMandateLines();
 
     if (extentPath) {
-      extentPath.style.display = (state.epoch === 'e1942' && state.extent) ? '' : 'none';
+      // Across China the dashed perimeter *is* the inland edge of the traced
+      // zone, so it cannot be drawn when that zone is not: it would be a line
+      // round shading that is not there, asserting the very thing the other
+      // source was chosen instead of.
+      var extentOK = state.extent && state.occSource === 'traced';
+      extentPath.style.display = (state.epoch === 'e1942' && extentOK) ? '' : 'none';
     }
     if (riversGroup) {
       riversGroup.style.display = state.rivers ? '' : 'none';
@@ -2738,7 +2781,9 @@
     var used = {};
     // a territory with nothing drawn in it puts no colour on the map and so
     // earns no swatch in the legend
-    territories().forEach(function (t) { if (!t.unseen) used[t.cat] = true; });
+    territories().forEach(function (t) {
+      if (!t.unseen && srcOK(t)) used[t.cat] = true;
+    });
 
     var epoch = JMAP.EPOCHS.filter(function (e) { return e.id === state.epoch; })[0];
     var head = document.createElement('button');
@@ -2784,7 +2829,8 @@
       legend.appendChild(row);
     });
 
-    if (state.epoch === 'e1942' && state.extent && JMAP.EXTENT_1942) {
+    if (state.epoch === 'e1942' && state.extent && state.occSource === 'traced'
+        && JMAP.EXTENT_1942) {
       var row = document.createElement('div');
       row.className = 'item';
       var sw = document.createElement('span');
@@ -3686,6 +3732,18 @@
     var optRivers = $('#opt-rivers');
     optRivers.checked = state.rivers;
     optRivers.addEventListener('change', function () { state.rivers = optRivers.checked; applyState(); });
+
+    $$('#dlg-options [name="occ-src"]').forEach(function (r) {
+      r.checked = (r.value === state.occSource);
+      r.addEventListener('change', function () {
+        if (!r.checked) return;
+        state.occSource = r.value;
+        // whatever was selected may be one of the shapes that has just gone
+        if (selected && !srcOK(byId[selected])) select(null);
+        applyState();
+        redrawHighlight();
+      });
+    });
 
     var optHair = $('#opt-hairline');
     if (optHair) {
