@@ -3258,6 +3258,66 @@ The country it draws is smaller and further east than the layer it replaces:
 vertices against 762. Hover checked: Kyzyl answers Tannu Tuva, the ground below
 it answers the Mongolian People's Republic and above it the Soviet Union.
 
+### The Soviet Union from the author's own layer
+`China/soviet-union.gpkg`, the `sovietunion` layer: one feature, 201 polygons,
+34,257 vertices, from 27° E to the dateline. The frame clip throws away nearly
+all of it — the drawn atom is 11 rings and 18.7 KB.
+
+It is period-correct where this map can see it, which is what made a wholesale
+replacement safe: **Sakhalin stops at the 50th parallel** and **there is not a
+single Kurile ring in the file**, both of those being Japanese in 1930 and 1942.
+So Natural Earth's Russia goes on supplying Karafuto and Chishima and stands
+down only for the `ussr` key. Checked: Vladivostok and Khabarovsk answer the
+Soviet Union, south Sakhalin answers Karafuto, north Sakhalin the Soviet Union,
+Iturup answers Etorofu, and the Manchuria–Soviet frontier that #100 closed is
+still shut.
+
+The file also carries a second layer called `difference` — 205 polygons, the
+same extent, ~107,000 km² smaller and with the hole in the main ring gone. It
+looks like the working half of a QGIS difference operation and it is not used.
+The main ring has a hole of 0 km² at 99.66–99.77° E, which is a sliver rather
+than a country.
+
+### Mengchiang as its three governments
+Asked: the 1940 sheet draws three features, and can they drive the
+Administrative layer. They can, and they do now. The state was federated in
+September 1939 out of three bodies and the sheet keeps them apart:
+
+| polygon | area | named | claimed by |
+|---|---:|---|---|
+| 0 | 559,063 km² | The Mongol leagues 蒙古聯盟 | Kweisui |
+| 1 | 27,151 km² | North Shansi (Jinbei) Administration 晉北政廳 | Tatung |
+| 2 | 17,674 km² | South Chahar (Chanan) Administration 察南政廳 | Hsuanhua |
+
+Identified by a town that can only be in one of them, the same way Sikkim and
+Bhutan are. **Kalgan is deliberately not one of those towns**: it was Chanan's
+seat, but this sheet draws it inside the Mongol block — which is also where the
+federation as a whole was governed from — so using it would have put Chanan's
+name on the Mongol leagues. Anything the three points do not claim would go in
+unlabelled rather than off the map; nothing does.
+
+Hover-checked with Administrative on: Kweisui and Kalgan answer the Mongol
+leagues, Tatung answers Jinbei, Hsuanhua answers Chanan, and each shows
+Mengchiang underneath as its parent.
+
+### Korea exported for the GIS project
+`tools/export_korea.py` writes two files into a folder given on the command
+line, and they went to `Dropbox/GIS/Korea/`:
+
+* `korea-provinces-1930.geojson` — the thirteen colonial provinces, 6,530
+  vertices, each carrying the names the map shows for it in English, Japanese,
+  Chinese and Korean, read out of `texts/`.
+* `korea-1930.geojson` — the country as one outline, 4,081 vertices, **dissolved
+  from those same provinces** rather than traced separately, so the two files
+  agree to the vertex and the outline is exactly the provinces with their shared
+  edges cancelled.
+
+Coordinates are EPSG:4326 as they are in the cache: `fetch_korea_1930.py` has
+already turned the source SVG's equirectangular grid back into degrees and
+corrected its residual offset against Natural Earth's coastline. Nothing is
+reprojected or simplified — this is the data the build starts from, not the
+thinned version it draws.
+
 ---
 
 ## Sources worth fetching

@@ -3488,11 +3488,30 @@ OUTER_MONGOLIA_FILE = "outer-mongolia-1940.geojson"
 # QGIS session it was written out of, not two pieces of country — so identical
 # rings are dropped rather than drawn on top of each other.
 TANNU_TUVA_FILE = "tannu-tuva-1940.geojson"
+# The Soviet Union as it stood, from the author's own GIS. It is a world-scale
+# polygon — 201 pieces and 34,257 vertices, from 27 E to the dateline — and the
+# frame clip below throws away everything outside 66-206 E and -13-55 N, which
+# is nearly all of it. Period-correct where this map can see it: Sakhalin stops
+# at the 50th parallel, and there are no Kurile rings in it at all, both of
+# which were Japanese. So Karafuto and Chishima go on coming from Natural
+# Earth's Russia, and only the `ussr` key stands down for this.
+SOVIET_UNION_FILE = "soviet-union.geojson"
 NEPAL_AFGHAN_FILE = "nepal-afghanistan-1931.geojson"
 NEPAL_AFGHAN_POINTS = (("nepal", (85.32, 27.71)),        # Kathmandu
                        ("afghanistan", (69.18, 34.53)))  # Kabul
 
 MENGJIANG_FILE = "mengjiang-1940.geojson"
+# The sheet draws Mengchiang as its three constituent governments, so the
+# Administrative layer can name them. Each is claimed by a town that can only be
+# in one of them: Kweisui for the Mongol leagues, Datong for the North Shansi
+# administration, Hsuanhua for the South Chahar one. Kalgan is not used, though
+# it was Chanan's seat — the sheet puts it inside the Mongol block, which is
+# where the federation itself was governed from.
+MENGJIANG_PARTS = (
+    ("The Mongol leagues", (111.75, 40.84)),                # Kweisui / Hohhot
+    ("North Shansi (Jinbei) Administration", (113.30, 40.09)),   # Datong
+    ("South Chahar (Chanan) Administration", (115.05, 40.61)),   # Hsuanhua
+)
 _MENGJIANG_CACHE = []
 
 
@@ -4237,6 +4256,12 @@ def main():
     # Natural Earth's modern outline of the same country. Loaded before the
     # Natural Earth sweep so that it can see they are here and stand down.
     outer_mongolia = [r for _p, rs in load_traced(OUTER_MONGOLIA_FILE) for r in rs]
+    soviet_union = [r for _p, rs in load_traced(SOVIET_UNION_FILE) for r in rs]
+    if soviet_union:
+        groups["ussr"].extend(soviet_union)
+        sys.stderr.write("Soviet Union: traced, %d rings (%d vertices)\n"
+                         % (len(soviet_union), sum(len(r) for r in soviet_union)))
+
     tannu_tuva = []
     for _p, _rs in load_traced(TANNU_TUVA_FILE):
         for _r in _rs:
@@ -4365,6 +4390,10 @@ def main():
                         groups["ussr"].append(north)
                     continue
                 rkey = split_russia(ring)
+                # the mainland and the Soviet islands are drawn from the
+                # period layer now; the Kuriles and Karafuto are not in it
+                if rkey == "ussr" and soviet_union:
+                    continue
                 groups[rkey].append(ring)
                 label = island_name(rkey, ring)
                 if label:
@@ -4568,10 +4597,25 @@ def main():
     meng = load_mengjiang()
     if meng:
         groups["mengjiang"].extend(meng)
-        provinces["mengjiang"].append(("Mengjiang", meng))
+        # one sub-unit per constituent government, and anything the three
+        # points do not claim goes in unlabelled rather than off the map
+        claimed, spare = {}, []
+        for ring in meng:
+            for label, pt in MENGJIANG_PARTS:
+                if point_in_ring(pt, ring):
+                    claimed.setdefault(label, []).append(ring)
+                    break
+            else:
+                spare.append(ring)
+        for label, _pt in MENGJIANG_PARTS:
+            if claimed.get(label):
+                provinces["mengjiang"].append((label, claimed[label]))
+        if spare:
+            provinces["mengjiang"].append(("", spare))
         sys.stderr.write(
-            "Mengchiang: %d traced rings, %d vertices\n"
-            % (len(meng), sum(len(r) for r in meng)))
+            "Mengchiang: %d traced rings, %d vertices, %d named parts%s\n"
+            % (len(meng), sum(len(r) for r in meng), len(claimed),
+               "" if not spare else " (%d unclaimed)" % len(spare)))
 
     # Manchukuo: the whole is traced in its own right rather than dissolved out
     # of the provinces, so `backing` is set from it directly. The two files
