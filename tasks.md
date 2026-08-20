@@ -3131,10 +3131,14 @@ the base areas sit above the occupation.
 Colour: pacified took the occupation's own salmon at first, which put two
 near-identical swatches in the legend — *Under military occupation*, which is
 still what Burma and the Philippines are, and *Pacified areas*. It is a lighter
-salmon from the same family now. The un-pacified areas keep the base areas'
-dark red, which is free of a clash because the two are never on together. A
-diagonal hatch was tried on them and came to nothing visible, so it is not in
-the file: the areas are large enough to read as solid colour.
+salmon from the same family now. The un-pacified areas took the base areas' dark
+red to begin with and are navy (#1f3b73) since, asked for: the two readings are
+never on together so there was no clash to fix, but a warm colour for the ground
+being fought over read as another shade of the occupation, and the cold one
+separates the army's two categories at a glance. Navy rather than the American
+steel blue (#325d7b) or the French (#80b1d3), neither of which is ever on the
+same ground. A diagonal hatch was tried on them and came to nothing visible, so
+it is not in the file: the areas are large enough to read as solid colour.
 
 Checked: hidden on the 1930 map and under the traced reading; shown under the
 sheet; the legend swaps two rows and drops the line-of-control row; the label
