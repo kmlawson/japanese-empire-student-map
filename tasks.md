@@ -3168,6 +3168,34 @@ raster ms/frame in the 1942 China view) rather than the 37% it was worth when
 every one of those 42 paths was also stroked. The layer is still half the path
 data in the file; it is the stroke that made it expensive to draw.
 
+### The princely states layer, updated
+Replaced with the copy from `Dropbox/GIS/India/1931 Imperial Gazetteer/`, which
+carries the same version string as the one in the cache and different contents.
+Diffed feature by feature, matching on centroid:
+
+* **One new polygon**: the North-East Frontier Tract, 91.45–97.75° E, 27.02–29.18° N,
+  53,156 km², 63 points, unnamed in the source and with no `fid`, so it joins the
+  unlabelled group and answers with the territory rather than with a guess.
+* **Madras States refined**: 1,901 points to 1,811, area unchanged to the square
+  kilometre.
+* Everything else byte-for-byte identical. 40 features and 54,509 vertices become
+  41 and 54,482; the drawn atom goes 47 rings / 300.2 KB to 48 / 300.7 KB.
+
+**The thing to know about the new tract**: measured against the traced outline of
+British India, **0% of its area and 9 of its 63 vertices fall inside**. The 1931
+tracing deliberately leaves the frontier tracts out — it is why the Indian
+provinces are not drawn at all, Arunachal Pradesh being up to 107 km outside it —
+so the tract is now shaded on ground the map otherwise gives to Tibet, and it
+juts north-east out of the Raj's own line. That is faithful to the 1931 atlas the
+princely layer comes from and unfaithful to the 1931 sheet the outline comes
+from; the two sources disagree, and the map is now showing the disagreement.
+
+Left as it is rather than quietly dropped, because it is the author's own data
+and the mismatch is a real one between two period sources. Two ways to close it
+if it should be closed: give the tract a name in `PRINCELY_NAMES` so it answers
+for itself the way Waziristan and the Gomal do — which needs matching on position,
+since it has no `fid` — or leave it out of the drawn layer and keep it in the file.
+
 ---
 
 ## Sources worth fetching
