@@ -3377,6 +3377,38 @@ occupied zone's main block (1,800 points), a second click took away Anhui
 underneath it, and Escape restored both — hidden elements 418 → 419 → 420 → 418.
 The readout names each shape as it goes.
 
+### Why the Soviet coast did not look like the file
+Reported: the USSR on the map looks very different from `soviet-union.gpkg` in
+QGIS. Two causes, both mine, both now fixed. The file itself is unchanged — a
+third re-export came back byte-identical, 201 polygons and 34,257 vertices.
+
+**Sakhalin was drawn twice.** The Natural Earth branch has a special case for
+Sakhalin that splits the island at the 50th parallel and appends the northern
+half to `groups["ussr"]` *before* `split_russia` is consulted — so the guard
+that makes Natural Earth stand down never saw it. The drawn atom carried two
+116-point Sakhalins, one at lat 49.99 from the tracing and one at 50.00 from
+Natural Earth, with two different coastlines a kilometre apart. The guard is on
+that branch now: 11 subpaths to 10.
+
+**And the coast was drawn at the coarsest band.** `ussr` spans more than three
+degrees, so `tol_for` gave it 0.55 units — about three kilometres — and every
+bay on the Okhotsk and Primorye shore was flattened. Measured against the file:
+median **0.108 units (0.4 km)**, 90th 0.359 (1.3 km), max 0.580 (2.1 km). At the
+zoom in the screenshots that is 5 to 26 device pixels, which is exactly the
+difference reported.
+
+It is a tracing, so it now goes in `TRACED_TOL` at 0.021 with British India and
+the two NCA layers — half a pixel at the deepest zoom. Re-measured: median
+**0.0024 units (10 metres)**, 90th 0.0052, max 0.0250. The drawn atom goes from
+1,021 points and 17.4 KB to 6,483 and 88.2 KB; by the headroom figures in
+`reports/2026.08.18-recommendations.md` that is about **0.37 ms a frame**, which
+is inside the noise of a 29 ms frame.
+
+The lesson for the next traced layer: a hand-drawn coast is worth nothing if it
+is then thinned by the band its bounding box earns. Three of the six layers
+swapped in this week needed `TRACED_TOL`, and it was found each time by
+measuring the drawn line against the file rather than by looking at the map.
+
 ---
 
 ## Sources worth fetching

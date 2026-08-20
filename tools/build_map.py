@@ -696,7 +696,12 @@ ENP_ATOMS = {"china", "manchuria", "chahar", "suiyuan", "suiyuan_w", "jehol",
 # ninetieth. Half a pixel at that zoom is what the rest of the map is thinned
 # to, and 0.021 units is half a pixel. Exact would cost 231 KB against 63 and
 # would not be visible at any zoom this map allows.
-TRACED_TOL = {"india": 0.021, "nca_pacified": 0.021, "nca_unpacified": 0.021}
+TRACED_TOL = {"india": 0.021, "nca_pacified": 0.021, "nca_unpacified": 0.021,
+              # the Soviet coast is a tracing too, and the band a shape of
+              # its size earns — 0.55 units, three kilometres — flattened
+              # every bay on the Okhotsk and Primorye shore. Held to half a
+              # pixel at the deepest zoom instead, like British India.
+              "ussr": 0.021}
 
 FULL_DETAIL = ({"korea", "saharat", "princely", "kwantung", "ccp", "malaya",
                 "turtle", "mangsee", "miangas", "cocos",
@@ -4404,7 +4409,10 @@ def main():
                     north = clip_halfplanes(ring, box_planes(LON_MIN, 50.0, LON_MAX, LAT_MAX))
                     if len(south) >= 3:
                         groups["karafuto"].append(south)
-                    if len(north) >= 3:
+                    # the traced layer has north Sakhalin already, and cut at
+                    # the same parallel; drawing this one too put the island in
+                    # twice, one copy Natural Earth's coast and one the tracing's
+                    if len(north) >= 3 and not soviet_union:
                         groups["ussr"].append(north)
                     continue
                 rkey = split_russia(ring)
