@@ -3196,6 +3196,50 @@ if it should be closed: give the tract a name in `PRINCELY_NAMES` so it answers
 for itself the way Waziristan and the Gomal do — which needs matching on position,
 since it has no `fid` — or leave it out of the drawn layer and keep it in the file.
 
+### Six layers replaced from the author's own GIS
+All from `Dropbox/GIS`, all EPSG:4326, none of them carrying a name attribute, so
+each feature is identified by a point that can only be inside one of them —
+Kathmandu and Kabul for the two 1931 neighbours, Gangtok and Thimphu for the
+protectorates, as before.
+
+`tools/gpkg_to_geojson.py` is new and does the conversion. `gpkg.rings()` hands
+back every ring in a layer as one flat list, which is all the build needed while
+a GeoPackage held a single shape; these do not — Mengchiang is three pieces — and
+a feature's holes have to stay with the feature they belong to. It reads the rows
+itself, splits polygons from holes by the sign of the signed area, and does no
+reprojection, these layers being in longitude and latitude already rather than in
+the Wuhan azimuthal-equidistant grid `gpkg.rings_lonlat` exists for.
+
+| layer | from | was | now |
+|---|---|---|---|
+| **Outer Mongolia** | `outermongolia-1940.gpkg` | Natural Earth's modern outline | 1 ring, 550 vertices |
+| **Mengchiang** | `mengjiang-1940.gpkg` | 1 piece, 358 vertices, west to 108.7° E | **3 pieces, 887 vertices, west to 103.9° E** |
+| **Sikkim, Bhutan** | `india-protectorates.gpkg` | 59 vertices | 61 |
+| **Nepal** | `nepal-afghanistan.gpkg` | the Wuhan project's `nepal.gpkg` | 96 vertices, 1931 |
+| **Afghanistan** | the same | Natural Earth, inside *Elsewhere* | 420 vertices, 1931, still *Elsewhere* |
+| **British India** | `india-1931.gpkg` | 13,482 vertices | 13,345 |
+| **China's provinces** | `1928_1945.shp` | 29 shapes, 20,400 points | 29 shapes, **20,505** |
+
+Natural Earth stands down for Mongolia, Nepal and Afghanistan the same way it
+already did for India: a test in the ADMIN0 sweep, so the modern outline is not
+drawn under the period one. Nepal's GeoPackage in `GIS_LAYERS` stands down too.
+This matters — the Indian tracing was drawn into the same path as the modern
+outline for a day before anyone noticed, and the atom was the union of the two.
+
+**Two things worth knowing about the new Mengchiang.** It is dated **1940**, two
+years before this map's second date, and it reaches 480 km further west than the
+tracing it replaces, taking in ground around Ningsia that the old line left to
+Free China. The frontier moved during those two years and the note on the
+territory already says the shading is an approximation; but the map now says 1940
+where it says December 1942 elsewhere, and that is worth a sentence in the note
+if it is not going to be re-cut.
+
+Checked by hover: Ulan Bator answers Mongolian People's Republic, Kweisui and
+Tatung answer Mengchiang, Kathmandu Nepal, Kabul Afghanistan, Gangtok Sikkim,
+Thimphu Bhutan, Delhi British India, and Sian, Chengtu and Chengchow answer with
+their provinces. The build reports no unknown provinces from the refreshed
+shapefile.
+
 ---
 
 ## Sources worth fetching

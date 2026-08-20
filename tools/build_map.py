@@ -3475,7 +3475,19 @@ def ccp_zone(ring):
 # still the 1930 map's Chahar and Suiyuan and are still what the ground outside
 # Mengchiang is made of. Every point of it falls inside the ENP provinces —
 # checked — so nothing of Mongolia or Manchukuo is painted by it.
-MENGJIANG_FILE = "mengjiang-1942.12.geojson"
+# Traced from 支那全土並附近大地圖・欧洲現勢大地圖 rather than from the 1942.12
+# sheet that stood here before. It is dated 1940, two years before this map's
+# second date, and the note on the territory says what that means.
+# Outer Mongolia off the same 1940 sheet, and Nepal and Afghanistan as the 1931
+# Imperial Gazetteer drew them. All three replace Natural Earth's modern outline
+# of the same ground, which is what the map used before. The features carry no
+# names, so each is identified by a point that can only be inside one of them.
+OUTER_MONGOLIA_FILE = "outer-mongolia-1940.geojson"
+NEPAL_AFGHAN_FILE = "nepal-afghanistan-1931.geojson"
+NEPAL_AFGHAN_POINTS = (("nepal", (85.32, 27.71)),        # Kathmandu
+                       ("afghanistan", (69.18, 34.53)))  # Kabul
+
+MENGJIANG_FILE = "mengjiang-1940.geojson"
 _MENGJIANG_CACHE = []
 
 
@@ -4216,6 +4228,40 @@ def main():
                          "one outline and %d holes\n"
                          % (len(india_traced), sum(len(r) for r in india_traced),
                             len(india_traced) - 1))
+    # Outer Mongolia, Nepal and Afghanistan from period sources, each replacing
+    # Natural Earth's modern outline of the same country. Loaded before the
+    # Natural Earth sweep so that it can see they are here and stand down.
+    outer_mongolia = [r for _p, rs in load_traced(OUTER_MONGOLIA_FILE) for r in rs]
+    if outer_mongolia:
+        groups["mongolia"].extend(outer_mongolia)
+        sys.stderr.write("Outer Mongolia: traced, %d rings (%d vertices)\n"
+                         % (len(outer_mongolia),
+                            sum(len(r) for r in outer_mongolia)))
+
+    neighbours_1931 = {}
+    for _props, _rings in load_traced(NEPAL_AFGHAN_FILE):
+        for _key, _pt in NEPAL_AFGHAN_POINTS:
+            if any(point_in_ring(_pt, r) for r in _rings):
+                if _key in neighbours_1931:
+                    sys.stderr.write("note: two shapes in %s claim %s; the "
+                                     "second is ignored\n"
+                                     % (NEPAL_AFGHAN_FILE, _key))
+                    break
+                neighbours_1931[_key] = _rings
+                break
+        else:
+            sys.stderr.write("note: a shape in %s holds neither Kathmandu nor "
+                             "Kabul and is not drawn\n" % NEPAL_AFGHAN_FILE)
+    if "nepal" in neighbours_1931:
+        groups["nepal"].extend(neighbours_1931["nepal"])
+    # Afghanistan is not a country this map names: it is drawn as Elsewhere,
+    # with the rest of the ground beyond the frame of the story.
+    if "afghanistan" in neighbours_1931:
+        groups["other"].extend(neighbours_1931["afghanistan"])
+    for _k, _rs in sorted(neighbours_1931.items()):
+        sys.stderr.write("%s: traced 1931, %d rings (%d vertices)\n"
+                         % (_k, len(_rs), sum(len(r) for r in _rs)))
+
     # The North China Area Army's own reading of the same ground, off the same
     # sheet. Not clipped to China's land: the areas are traced from a land map
     # and clipping them to the `china` atom would cut whatever falls over Jehol
@@ -4361,6 +4407,13 @@ def main():
         # India, Pakistan and Bangladesh together stood in for British India.
         # With the 1931 tracing in hand they have nothing to say.
         if key == "india" and india_traced:
+            continue
+        # and the same for the three neighbours now drawn from period sources
+        if key == "mongolia" and outer_mongolia:
+            continue
+        if key == "nepal" and "nepal" in neighbours_1931:
+            continue
+        if admin == "Afghanistan" and "afghanistan" in neighbours_1931:
             continue
         rings_here = list(iter_rings(feat["geometry"]))
         if admin in ("Laos", "Cambodia"):
@@ -4726,6 +4779,9 @@ def main():
 
     for key, fname in GIS_LAYERS.items():
         if key in protectorates:
+            continue
+        # Nepal is drawn from the 1931 Gazetteer now, not from the Wuhan project
+        if key == "nepal" and "nepal" in neighbours_1931:
             continue
         path = os.path.join(CACHE, "gis", fname)
         if not os.path.exists(path):
