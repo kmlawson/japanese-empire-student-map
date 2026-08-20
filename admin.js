@@ -557,15 +557,17 @@
   /* ---- isolate one shape ---- */
 
   TOOLS.push({
-    title: 'Isolate a shape',
+    title: 'Isolate or remove a shape',
     hint: 'Option-click any shape on the map and everything else goes away, so ' +
           'that one polygon can be looked at on its own — its coastline, its ' +
           'holes, the islands it does or does not carry. Option-click another ' +
           'shape to move to it, option-click the sea to bring the map back, or ' +
-          'press <b>Escape</b>. Nothing is deleted and nothing is redrawn: the ' +
-          'siblings of the shape, and of each of its parents, are hidden and put ' +
-          'back exactly as they were, so an atom that this epoch was already ' +
-          'hiding stays hidden when you finish.',
+          'press <b>Escape</b>. <b>Control-click</b> does the opposite: it takes ' +
+          'the shape under the pointer away and leaves the rest, which is how to ' +
+          'find out what is underneath something — control-click again to take ' +
+          'the next layer off. Nothing is deleted and nothing is redrawn: shapes ' +
+          'are hidden and put back exactly as they were, so an atom that this ' +
+          'epoch was already hiding stays hidden when you finish.',
     build: function (sec) {
       // What is never hidden: the sea, so the shape has something to sit on,
       // and the parts of the drawing that are not shapes at all.
@@ -577,6 +579,9 @@
 
       var stack = [];               // [element, the display it had]
       var solo = null;
+      var removed = 0;              // how many of the stack were taken away
+                                    // one by one rather than hidden by an
+                                    // isolate, which is all the readout needs
 
       var out = document.createElement('div');
       out.className = 'readout';
@@ -595,6 +600,7 @@
         }
         stack = [];
         solo = null;
+        removed = 0;
         report();
       }
 
@@ -622,6 +628,16 @@
         report();
       }
 
+      /* The opposite of isolate: this shape goes, everything else stays. Done
+         again it takes the next thing down, which is the point — it is how to
+         see what a shape is sitting on. */
+      function remove(el) {
+        if (!el || el.style.display === 'none') return;
+        hide(el);
+        removed++;
+        report(el);
+      }
+
       function describe(el) {
         if (!el) return '';
         var bits = [el.tagName.toLowerCase()];
@@ -645,11 +661,18 @@
         return bits.join(', ');
       }
 
-      function report() {
-        out.textContent = solo
-          ? 'Showing ' + describe(solo) + ' — ' + stack.length + ' elements hidden'
-          : 'Option-click a shape to isolate it.';
-        back.disabled = !solo;
+      function report(justRemoved) {
+        if (justRemoved) {
+          out.textContent = 'Removed ' + describe(justRemoved) +
+            ' — ' + removed + (removed === 1 ? ' shape' : ' shapes') + ' taken away';
+        } else if (solo) {
+          out.textContent = 'Showing ' + describe(solo) +
+            ' — ' + stack.length + ' elements hidden';
+        } else {
+          out.textContent = 'Option-click a shape to isolate it, ' +
+                            'control-click to take it away.';
+        }
+        back.disabled = !stack.length;
       }
 
       /* The shape under the pointer, and not whatever overlay happens to be
@@ -667,7 +690,20 @@
         return null;
       }
 
+      /* macOS turns control-click into a context menu, and depending on the
+         browser the pointer event that comes with it may never reach the tap
+         hook. So the same click is caught in both places and the second one to
+         arrive is ignored. */
+      var lastCtrl = 0;
+      function ctrlClick(x, y) {
+        var now = new Date().getTime();
+        if (now - lastCtrl < 400) return;
+        lastCtrl = now;
+        remove(shapeAt(x, y));
+      }
+
       api.onTap(function (e) {
+        if (e.ctrlKey) { ctrlClick(e.clientX, e.clientY); return false; }
         if (!e.altKey) return true;
         var el = shapeAt(e.clientX, e.clientY);
         if (el) isolate(el);
@@ -675,8 +711,14 @@
         return false;                     // the map does not also select here
       });
 
+      container.addEventListener('contextmenu', function (e) {
+        if (!e.ctrlKey) return;
+        e.preventDefault();
+        ctrlClick(e.clientX, e.clientY);
+      });
+
       document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape' && solo) { restore(); e.stopPropagation(); }
+        if (e.key === 'Escape' && stack.length) { restore(); e.stopPropagation(); }
       });
 
       report();

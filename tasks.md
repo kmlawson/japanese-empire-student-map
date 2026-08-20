@@ -3356,6 +3356,27 @@ Vladivostok, Tuva and Ulan Bator while including Tashkent. That reads as a
 working layer mid-operation rather than a finished USSR, so nothing was taken
 from it and the Soviet Union is left as it was.
 
+### Control-click takes a shape away
+Asked for: the opposite of isolate. Option-click still hides everything except
+the shape under the pointer; control-click now hides the shape itself and leaves
+the rest, and doing it again takes the next layer off — which is how to see what
+something is sitting on. The tool is *Isolate or remove a shape*.
+
+Both share one undo stack, so *Show everything again* and **Escape** put back
+whatever either of them hid, in reverse order and to the exact `display` each
+element had. A shape the epoch was already hiding is skipped and stays hidden,
+as before.
+
+macOS turns control-click into a context menu, and depending on the browser the
+pointer event that comes with it may or may not reach the tap hook. So the same
+click is caught in both places — the hook and a `contextmenu` listener that
+suppresses the menu — and whichever arrives second inside 400 ms is ignored.
+
+Checked in the browser: control-clicking the 1942 China view took away the
+occupied zone's main block (1,800 points), a second click took away Anhui
+underneath it, and Escape restored both — hidden elements 418 → 419 → 420 → 418.
+The readout names each shape as it goes.
+
 ---
 
 ## Sources worth fetching
