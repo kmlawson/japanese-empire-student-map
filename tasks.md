@@ -3471,6 +3471,21 @@ colonial prefectures with it and let the map name them as it names Korea's
 provinces. The `Taiwan/` folder already held a railway-stations dataset, which
 is why a folder per layer is the right shape there.
 
+### Mengchiang dated to the map's own year
+The date line read *Client regime from 1936–39*, which is the story of how it
+came about and not what it was in December 1942. On a map of that date it also
+read as though the thing had ended in 1939.
+
+It says **Federated September 1939; Japanese client from 1936** now — the
+federation is the state on the map, and 1936 is kept because that is when the
+Japanese-sponsored Mongol governments start.
+
+The note carries the clarification, in two sentences: Japanese-sponsored Mongol
+governments date from 1936; the state drawn here is the September 1939
+federation, which joined the Mongol leagues to Chanan out of southern Chahar and
+Jinbei out of northern Shansi, and which is what stood in December 1942 — with a
+pointer to the Administrative layer, where the three are named.
+
 ---
 
 ## Sources worth fetching
