@@ -7,23 +7,22 @@ e1930,french,French,フランス領,French,法國領,프랑스령,#80b1d3
 e1930,dutch,Dutch,オランダ領,Dutch,荷蘭領,네덜란드령,#fdb462
 e1930,american,American,アメリカ領,American,美國領,미국령,#325d7b
 e1930,portuguese,Portuguese,ポルトガル領,Portuguese,葡萄牙領,포르투갈령,#fccde5
-e1930,australian,Australian,オーストラリア領,Australian,澳洲領,오스트레일리아령,#c9a6b0
 e1930,soviet,Soviet,ソ連,Soviet,蘇聯,소련,#bebada
 e1930,frontier,De facto independent,事実上の独立,De facto independent,事實上獨立,사실상 독립,#e7de7e
-e1930,independent,Independent,独立国,Independent,獨立國,독립국,#8dd3c7
+e1930,independent,Siam,シャム,Siam,暹羅,시암,#8dd3c7
 e1930,contested,Frontier not settled,未確定国境,Frontier not settled,未定國界,미확정 국경,#5c554a
 e1930,other,Elsewhere,その他,Elsewhere,其他,기타,#ded8cb
 e1942,metropole,Japan proper,内地,Japan proper,日本內地,일본 본토,#9a1813
 e1942,colony,Colonies & leased territory,外地・租借地,Colonies,外地・租借地,외지·조차지,#c2463d
 e1942,puppet,Client states,傀儡国家,Client states,傀儡國家,괴뢰국,#f15c4b
 e1942,occupied,Under military occupation,軍政地域,Occupied,軍政地區,군정 지역,#fb8072
-e1942,cobelligerent,Co-belligerent,同盟国,Co-belligerent,日本盟國,일본의 동맹국,#8dd3c7
+e1942,cobelligerent,Thai (Japanese ally),タイ（日本の同盟国）,Thai,泰國（日本盟國）,태국(일본의 동맹국),#8dd3c7
 e1942,freechina,Republic of China,中華民国,Republic of China,中華民國,중화민국,#ffffb3
 e1942,ccp,Communist base areas & guerrilla zones,中国共産党根拠地,抗日根據地,中共抗日根據地,중국공산당 항일근거지,#7a1730
 e1942,pacified,Pacified areas (治安地区),治安地区,Pacified areas,治安地區,치안지구,#f4a582
 e1942,unpacified,Un-pacified areas (未治安地区),未治安地区,Un-pacified areas,未治安地區,미치안지구,#1f3b73
 e1942,frontier,De facto independent,事実上の独立,De facto independent,事實上獨立,사실상 독립,#e7de7e
-e1942,allied,Allied,連合国,Allied,盟軍,연합국,#b07f8e
+e1942,allied,British,イギリス領,British,英國領,영국령,#b07f8e
 e1942,american,American,アメリカ領,American,美國領,미국령,#325d7b
 e1942,french,French,フランス領,French,法國領,프랑스령,#80b1d3
 e1942,portuguese,Portuguese,ポルトガル領,Portuguese,葡萄牙領,포르투갈령,#fccde5

@@ -52,7 +52,7 @@ goa,"Portuguese India — Goa, Damão, Diu, Dadra & Nagar Haveli",,Estado da Ín
 pondicherry,"French India — Pondicherry, Karikal, Yanaon, Mahé, Chandernagore",,Établissements français dans l’Inde,,,French from 1674,,french,3,,pondicherry,,,,,,,,,,,
 princelystates,Princely states,,,,,Rulers in subsidiary alliance with the Crown,,allied,3,,princely,,,,,,,,,,yes,
 ceylon,Ceylon,,ලංකාව (Lanka),錫蘭,,Raided April 1942,,allied,3,,ceylon,,,,,,,,,,,
-australia,Australia,,Australia,澳大利亞,,Bombed from February 1942,,allied,2,,australia,,,,,,,,,,,
+australia,Australia,,Australia,澳大利亞,,Bombed from February 1942,,allied,2,#c9a6b0,australia,,,,,,,,,,,
 hawaii,Hawaii,,Hawaiʻi,夏威夷,,Attacked 7 December 1941,American territory,american,1,,hawaii,,,,,,,,,,,
 ussr,Soviet Union (USSR),,СССР (SSSR),蘇聯,,"Neutrality Pact, April 1941",,neutral,1,,ussr,,,,,,,,,,,
 mongolia,Mongolian People’s Republic,,Бүгд Найрамдах Монгол Ард Улс,蒙古人民共和國,,Soviet satellite,,neutral,2,#d3d1e6,mongolia,,,,,,,,,,,

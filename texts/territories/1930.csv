@@ -27,7 +27,7 @@ hongkong,Hong Kong,香港 (Honkon),香港 (Hēunggóng),香港,,British from 184
 solomons_br,British Solomon Islands,ソロモン諸島,Solomon Islands,所羅門群島,,Protectorate from 1893,British protectorate,british,3,,solomons_br solomons_gc solomons_us solomons_ml solomons_al,,,,,,,,
 mandate_jp,South Seas Mandate — the mandate boundary,南洋群島委任統治領の境界,,南洋群島委任統治地界,,Japanese Class C mandate from 1920; taken from Germany in 1914,,jpcolony,2,#c2463d,mandate_jp,,,,,,,,yes
 mandate_ex_guam,"Guam — inside the line, outside the mandate",,,,,American since 1898; never part of the mandate,,american,3,#325d7b,mandate_ex_guam,,,,,,,,yes
-mandate_au,Territory of New Guinea — the mandate boundary,,,,,"Australian Class C mandate from 1920, run from Rabaul",,australian,3,#c9a6b0,mandate_au,,,,,,,,yes
+mandate_au,Territory of New Guinea — the mandate boundary,,,,,"Australian Class C mandate from 1920, run from Rabaul",,british,3,#c9a6b0,mandate_au,,,,,,,,yes
 mandate_br,Nauru — the mandate boundary,,,,,"British Class C mandate from 1920, administered by Australia",,british,3,#b07f8e,mandate_br,,,,,,,,yes
 gilberts,Gilbert & Ellice Islands,ギルバート諸島,Tungaru,吉爾伯特群島,,British colony from 1916; a protectorate from 1892,,british,3,,gilberts ellice,,,,,,,,
 linephoenix,The Line & Phoenix Islands,,,,,Gilbert & Ellice Islands Colony,British colony,british,3,,linephoenix,,,,,,,,
@@ -51,9 +51,9 @@ macau,Macao,マカオ (Makao),澳門 (Ou-mun),澳門,,Portuguese from the 1550s,
 siam,Siam,,สยาม (Sayam),,,Never colonised,,independent,2,,siam,,,,,,,,
 ussr,Soviet Union (USSR),,СССР (SSSR),蘇聯,,From 1922,,soviet,1,,ussr,,,,,,,,
 mongolia,Mongolian People’s Republic (Outer Mongolia),,Бүгд Найрамдах Монгол Ард Улс,蒙古人民共和國,,From 1924,,soviet,2,#d3d1e6,mongolia,,,,,,,,
-australia,Australia,,Australia,澳大利亞,,Dominion,,australian,2,,australia,,,,,,,,
-newguinea_au,Papua & the Territory of New Guinea,ニューギニア,Niugini,新幾內亞,,Australian territory & mandate,,australian,3,,newguinea_au,,,,,,,,
-nauru_au,Nauru,ナウル,Naoero,諾魯,,Mandate from 1920,"Mandate — Australia, Britain and New Zealand",australian,3,,nauru_au,,,,,,,,
+australia,Australia,,Australia,澳大利亞,,Dominion,,british,2,#c9a6b0,australia,,,,,,,,
+newguinea_au,Papua & the Territory of New Guinea,ニューギニア,Niugini,新幾內亞,,Australian territory & mandate,,british,3,#c9a6b0,newguinea_au,,,,,,,,
+nauru_au,Nauru,ナウル,Naoero,諾魯,,Mandate from 1920,"Mandate — Australia, Britain and New Zealand",british,3,#c9a6b0,nauru_au,,,,,,,,
 weihaiwei,Wēihǎiwèi (Weihaiwei),威海衛 (Ikaiei),威海衛 (Wēihǎiwèi),威海衛,,"Leased 1898, returned 1 October 1930",,british,3,#c08a99,weihaiwei,,,,,,,,
 guangzhouwan,Guǎngzhōuwān (Kwangchowan),広州湾 (Kōshūwan),Kouang-Tchéou-Wan,廣州灣,,Leased to France 1898–1945,,french,3,,guangzhouwan,,,,,,,,
 tuva,Tannu Tuva (Tuvan People’s Republic),,Тыва Арат Республик,唐努圖瓦,,Independent in name from 1921,,soviet,3,#d3d1e6,tuva,,,,#bebada,,,,

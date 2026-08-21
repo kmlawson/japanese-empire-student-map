@@ -3526,6 +3526,27 @@ the other three. Checked: on the 1930 map all four answer *Frontier not settled*
 on the 1942 map the Kachin country answers *Burma — Taken 1942* and the other
 three still answer *Frontier not settled*.
 
+### Legend wording, and Australia without a row of its own
+* **1942: *Allied* is now *British***. The row covers British India, Ceylon, the
+  princely states, the British Pacific colonies and the eastern Solomons; the
+  Japanese, Chinese and Korean forms are the ones the 1930 *British* row already
+  used, so the two dates say the same word for the same thing.
+* **1942: *Co-belligerent* is now *Thai (Japanese ally)***, and it is the only
+  record in that category. A colour named for a relationship told a reader
+  nothing about which country was being pointed at.
+* **1930: *Independent* is now *Siam***, for the same reason — Siam is the only
+  country in it.
+* **Australia keeps a tint and loses its row.** The `australian` category is
+  gone; Australia, Papua and the Territory of New Guinea, Nauru and the mandate
+  boundary are all in `british` now and carry `c: #c9a6b0`, the shade that row
+  used to have. Asked for on the grounds that a Dominion's independent standing
+  is not worth a legend entry of its own on a map about somebody else's empire —
+  but the ground still reads as not-quite-Britain, which is the useful part.
+
+Nothing moved on the map: the four records keep the exact colour they had. The
+1930 legend goes from thirteen rows to twelve and the 1942 legend keeps its
+count. Checked in both epochs.
+
 ---
 
 ## Sources worth fetching

@@ -108,19 +108,12 @@ JMAP.CATEGORIES = {
       id: 'portuguese', en: 'Portuguese', ja: 'ポルトガル領', orig: 'Portuguese', zh: '葡萄牙領',
       ko: '포르투갈령', c: '#fccde5'
     },
-    {
-      id: 'australian', en: 'Australian', ja: 'オーストラリア領', orig: 'Australian', zh: '澳洲領',
-      ko: '오스트레일리아령', c: '#c9a6b0'
-    },
     { id: 'soviet', en: 'Soviet', ja: 'ソ連', orig: 'Soviet', zh: '蘇聯', ko: '소련', c: '#bebada' },
     {
       id: 'frontier', en: 'De facto independent', ja: '事実上の独立', orig: 'De facto independent',
       zh: '事實上獨立', ko: '사실상 독립', c: '#e7de7e'
     },
-    {
-      id: 'independent', en: 'Independent', ja: '独立国', orig: 'Independent', zh: '獨立國',
-      ko: '독립국', c: '#8dd3c7'
-    },
+    { id: 'independent', en: 'Siam', ja: 'シャム', orig: 'Siam', zh: '暹羅', ko: '시암', c: '#8dd3c7' },
     {
       id: 'contested', en: 'Frontier not settled', ja: '未確定国境', orig: 'Frontier not settled',
       zh: '未定國界', ko: '미확정 국경', c: '#5c554a'
@@ -148,8 +141,8 @@ JMAP.CATEGORIES = {
       ko: '군정 지역', c: '#fb8072'
     },
     {
-      id: 'cobelligerent', en: 'Co-belligerent', ja: '同盟国', orig: 'Co-belligerent', zh: '日本盟國',
-      ko: '일본의 동맹국', c: '#8dd3c7'
+      id: 'cobelligerent', en: 'Thai (Japanese ally)', ja: 'タイ（日本の同盟国）', orig: 'Thai',
+      zh: '泰國（日本盟國）', ko: '태국(일본의 동맹국)', c: '#8dd3c7'
     },
     {
       id: 'freechina', en: 'Republic of China', ja: '中華民国', orig: 'Republic of China',
@@ -171,7 +164,10 @@ JMAP.CATEGORIES = {
       id: 'frontier', en: 'De facto independent', ja: '事実上の独立', orig: 'De facto independent',
       zh: '事實上獨立', ko: '사실상 독립', c: '#e7de7e'
     },
-    { id: 'allied', en: 'Allied', ja: '連合国', orig: 'Allied', zh: '盟軍', ko: '연합국', c: '#b07f8e' },
+    {
+      id: 'allied', en: 'British', ja: 'イギリス領', orig: 'British', zh: '英國領', ko: '영국령',
+      c: '#b07f8e'
+    },
     {
       id: 'american', en: 'American', ja: 'アメリカ領', orig: 'American', zh: '美國領', ko: '미국령',
       c: '#325d7b'
@@ -379,7 +375,7 @@ JMAP.TERRITORIES = {
     },
     {
       id: 'mandate_au', en: 'Territory of New Guinea — the mandate boundary',
-      when: 'Australian Class C mandate from 1920, run from Rabaul', cat: 'australian', lvl: 3,
+      when: 'Australian Class C mandate from 1920, run from Rabaul', cat: 'british', lvl: 3,
       c: '#c9a6b0', atoms: ['mandate_au'], unseen: true,
       note: 'German New Guinea south of the equator — the Kaiser-Wilhelmsland mainland, the Bismarck Archipelago, Bougainville and Buka — held by Australia as a Class C mandate from 1920 and administered from Rabaul, separately from Papua next door, which was Australian territory outright. Japan landed at Rabaul in January 1942 and made it the base for the whole southern campaign.'
     },
@@ -516,19 +512,19 @@ JMAP.TERRITORIES = {
     },
     {
       id: 'australia', en: 'Australia', orig: 'Australia', zh: '澳大利亞', when: 'Dominion',
-      cat: 'australian', lvl: 2, atoms: ['australia'],
+      cat: 'british', lvl: 2, c: '#c9a6b0', atoms: ['australia'],
       note: 'A self-governing dominion whose defence rested on the British naval base at Singapore.'
     },
     {
       id: 'newguinea_au', en: 'Papua & the Territory of New Guinea', ja: 'ニューギニア',
-      orig: 'Niugini', zh: '新幾內亞', when: 'Australian territory & mandate', cat: 'australian',
-      lvl: 3, atoms: ['newguinea_au'],
+      orig: 'Niugini', zh: '新幾內亞', when: 'Australian territory & mandate', cat: 'british',
+      lvl: 3, c: '#c9a6b0', atoms: ['newguinea_au'],
       note: 'Papua was an Australian territory; German New Guinea, taken in 1914, was held from 1920 under a League mandate — the southern counterpart of Japan’s.'
     },
     {
       id: 'nauru_au', en: 'Nauru', ja: 'ナウル', orig: 'Naoero', zh: '諾魯',
       when: 'Mandate from 1920', rule: 'Mandate — Australia, Britain and New Zealand',
-      cat: 'australian', lvl: 3, atoms: ['nauru_au'],
+      cat: 'british', lvl: 3, c: '#c9a6b0', atoms: ['nauru_au'],
       note: 'A phosphate island held under a mandate shared by Australia, Britain and New Zealand.'
     },
     {
@@ -905,7 +901,8 @@ JMAP.TERRITORIES = {
     },
     {
       id: 'australia', en: 'Australia', orig: 'Australia', zh: '澳大利亞',
-      when: 'Bombed from February 1942', cat: 'allied', lvl: 2, atoms: ['australia'],
+      when: 'Bombed from February 1942', cat: 'allied', lvl: 2, c: '#c9a6b0',
+      atoms: ['australia'],
       note: 'Never invaded, but Darwin was bombed from February 1942 and Australia became the base from which the counter-offensive in New Guinea was mounted.'
     },
     {
