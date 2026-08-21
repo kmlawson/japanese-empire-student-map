@@ -754,6 +754,34 @@ NO_DISSOLVE = ({"kwantung", "ccp", "linephoenix", "uspacific", "nzpacific", "ell
 # French Indochina still enclosed the ground Thailand had been given.
 BACKING_FROM_SUBUNITS = {"philippines", "malaya", "northborneo", "indochina"}
 
+# Atoms that get no filler at all, and are drawn from their sub-units alone.
+# China is here because its filler was doing harm rather than good. The v5
+# provinces are cut round the leaseholds and meet their neighbours cleanly, so
+# there was nothing left to fill; and `dissolve()`, run over 1,796 province
+# rings to make the filler, manufactured three small rings inside the
+# Kwangchowwan indentation out of nothing in the source — the source has no
+# ring anywhere in that bounding box — which painted a quarter of the French
+# leasehold China's colour whenever Administrative was off. Measured: 25.5% of
+# the leasehold covered by the filler, against 0.004% by the provinces
+# themselves. The filler's own rings are still computed, because
+# occupied_coast() reads what whole_union leaves in `whole_pts`; only the path
+# is not drawn, and the sub-units then stand as the atom.
+NO_BACKING = {"china"}
+
+# Atoms drawn whole, with no divisions inside them, because the divisions on
+# hand are not trustworthy for the dates this map draws. Burma's are the
+# present-day states and regions; Thailand's are the present-day changwat,
+# of which there were fewer in 1942 and not on these lines; and Indochina's
+# three Vietnamese pieces — Tonkin, Annam, Cochinchina — are cut here by two
+# straight lines standing in for watershed boundaries, which is a guess put in
+# the shape of a fact. Until each is drawn from a period source the country is
+# better shown as one piece.
+#
+# The provinces ceded to Thailand in 1941 are not affected: they are atoms of
+# their own, `siamgain` on the 1930 map and `saharat` on the 1942 one, and keep
+# their own sub-units.
+NO_ADMIN_SUBUNITS = {"burma", "siam", "indochina"}
+
 # Sub-units that belong together and should light up together. Hovering
 # Singapore lit the whole Malay peninsula, which says the wrong thing: the
 # Straits Settlements were a Crown colony of four scattered pieces, and the
@@ -6072,7 +6100,7 @@ def main():
         if key.startswith("chinabase"):
             out.append(f'    <path id="{key}" class="chinabase" d="{paths[key]}"/>')
             return
-        blocks = province_paths(key)
+        blocks = [] if key in NO_ADMIN_SUBUNITS else province_paths(key)
         specks = dots.get(key) or []
         if blocks:
             # Administrative divisions are more than half the weight of this
@@ -6083,6 +6111,10 @@ def main():
             # with the layer off.
             defer = not (key in ARCHIPELAGOS or key in NEVER_DEFERRED)
             whole = whole_union(key)
+            if key in NO_BACKING:
+                # computed and then dropped: see NO_BACKING. With no filler the
+                # sub-units are the atom, so they cannot be deferred either.
+                whole = ""
             cls = "atom deferred" if (defer and whole) else "atom"
             # The backing goes in a layer of its own, drawn before every atom.
             # Kept inside the atom it was painted in that atom's turn, so a

@@ -3796,6 +3796,59 @@ two are painted by their backing and the backing sits at the head of the stack
 under everything — but the overlap is zero, so there is nothing for it to show.
 Worth knowing if a later zone file ever reaches over the Wall again.
 
+### China answers as one country, and stops leaving a filler behind
+Three separate things, and two of them turned out to be the same fault seen
+from different sides.
+
+**Selecting China on the 1930 map takes in all of it but Tibet.** The records
+were right all along — `china` lists `lights: manchuria jehol chaharsuiyuan
+xinjiang`, and each of those carries `within: china` — and hovering already
+lit the lot. Clicking did not. `redrawHighlight` drew the hover outline round
+`litFor(hot)` and the selection outline round `atomsOf[selected]`, so the two
+disagreed by four territories: hover lit the Republic and the click then drew
+round China proper alone. The selection uses `litFor` now, and the two say the
+same thing. Tibet is untouched — it is neither in the `lights` list nor
+`within` anything, which is the correct account of 1930.
+
+**The filler under China is gone.** The leasehold at Kwangchowwan showed
+China's colour through it with Administrative off, and the v5 provinces were
+not at fault: measured over 23,944 sample points inside the leasehold, the
+provinces cover **0.004%** of it and the filler covered **25.5%**. The filler
+is `dissolve()` run over the province rings, and it manufactured three small
+rings inside the Kwangchowwan indentation — 1.69, 9.35 and 4.17 square units,
+against leasehold pieces of 1.88, 9.68 and 4.49 — out of nothing in the source.
+Checked directly: `republican-china-provinces-v5.geojson` has **no ring at all**
+whose bounding box lies inside the leasehold. Not a hole-winding problem
+either; even-odd fill gives the same 25.5%, because these are standalone rings
+and not holes.
+
+So `NO_BACKING = {"china"}`, and the provinces stand as the atom. Coverage of
+the leasehold falls to **0.00%**. `whole_union` still runs — `occupied_coast`
+reads the rings it leaves in `whole_pts` — and only the path is dropped. China
+can no longer be deferred, since with no filler the sub-units are the country,
+so its divisions move from the Administrative file into the main one: the main
+file goes 2.75 MB to 2.82 MB and the Administrative file 1.10 MB to 1.03 MB,
+which is a wash.
+
+**Burma, Thailand and French Indochina are drawn whole.** `NO_ADMIN_SUBUNITS`
+suppresses their divisions, because none of the three sets is trustworthy for
+the dates this map draws: Burma's are the present-day states and regions,
+Thailand's the present-day changwat, and Indochina's Vietnamese three —
+Tonkin, Annam, Cochinchina — are cut by two straight lines standing in for
+watershed boundaries, which is a guess in the shape of a fact. The provinces
+ceded to Thailand in 1941 keep theirs, being atoms of their own: `siamgain`
+holds 8 and `saharat` 4. Point-tested after the change — Rangoon, Mandalay,
+Bangkok, Chiang Mai, Hanoi, Saigon, Phnom Penh, Vientiane all still draw, and
+Battambang and Siem Reap still answer as ceded ground. Every other atom's
+filler is byte-identical to the last commit.
+
+The Administrative file falls to 889 KB and the main file to 2.6 MB.
+
+**Noticed in passing, not chased**: `saharat`'s filler does not seem to cover
+Battambang, so with Administrative off the 1942 Thai annexation may be drawn
+only where its sub-units are — which are deferred. It is unchanged by this
+work and byte-identical to the last commit, so it is old, not new.
+
 ---
 
 ## Sources worth fetching
