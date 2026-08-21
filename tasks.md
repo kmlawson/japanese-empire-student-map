@@ -3616,6 +3616,21 @@ the stamp will be early by that gap and nothing else.
 
 To cut a new version, edit the one line in `texts/version.csv`.
 
+### Mengchiang: what it held, and what it claimed
+`mengjiang-actual-occupied.geojson` becomes the fill — 1 ring, 761 vertices,
+441,459 km² — and the 1940 sheet's 603,888 km² becomes a thick dotted line over
+it, `#mengjiang-claim`, shown on the 1942 map only. So the map says both things
+at once: the ground held, and the frontier every map of the state draws. The
+west, beyond Paotow, is inside the line and outside the fill.
+
+The three constituent governments are still named from the claim, since they can
+only be told apart there.
+
+**Not yet verified**: whether the drawn fill really stops at the held polygon's
+western edge (108.19° E) rather than following the claim. The rendered check was
+ambiguous — Manchukuo and Mengchiang share the client-state colour, so the two
+fills merge visually — and it needs a targeted point test before this is trusted.
+
 ---
 
 ## Sources worth fetching

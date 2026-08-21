@@ -2744,6 +2744,11 @@
 
     syncMandateLines();
 
+    var mengClaim = svg && svg.querySelector('#mengjiang-claim');
+    if (mengClaim) {
+      // the state exists on the 1942 map only, and so does its claim
+      mengClaim.style.display = state.epoch === 'e1942' ? '' : 'none';
+    }
     if (extentPath) {
       // Across China the dashed perimeter *is* the inland edge of the traced
       // zone, so it cannot be drawn when that zone is not: it would be a line

@@ -1513,3 +1513,18 @@ dialog h3 {
   color: var(--muted);
   font-size: 12px;
 }
+
+/* Mengchiang as it was drawn on its own maps. The fill beneath is the ground
+   actually held; this is the frontier claimed, a third of it over country the
+   state never controlled. Thick and dotted so it reads as an assertion rather
+   than as a boundary somebody surveyed. */
+#mengjiang-claim {
+  fill: none;
+  stroke: #7a2d1f;
+  stroke-width: 2.6;
+  stroke-dasharray: 1 5;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
+  opacity: .85;
+}

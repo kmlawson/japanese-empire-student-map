@@ -3533,6 +3533,12 @@ NEPAL_AFGHAN_POINTS = (("nepal", (85.32, 27.71)),        # Kathmandu
                        ("afghanistan", (69.18, 34.53)))  # Kabul
 
 MENGJIANG_FILE = "mengjiang-1940.geojson"
+# What the state actually held, against what every map of it shows. The 1940
+# sheet is the claim — 603,888 km² — and this is the 441,459 km² of it that was
+# under Japanese control; the west, beyond Paotow, never was. The claim is drawn
+# as a thick dotted line and the held ground is filled, so the map says both
+# things at once instead of choosing.
+MENGJIANG_HELD_FILE = "mengjiang-actual-occupied.geojson"
 # The sheet draws Mengchiang as its three constituent governments, so the
 # Administrative layer can name them. Each is claimed by a town that can only be
 # in one of them: Kweisui for the Mongol leagues, Datong for the North Shansi
@@ -4651,13 +4657,16 @@ def main():
             + ", ".join(f"{g} {len(outer.get(g, []))}" for g in OUTER_ATOMS)
             + "\n")
 
-    meng = load_mengjiang()
+    meng_claim = load_mengjiang()
+    meng_held = [r for _p, rs in load_traced(MENGJIANG_HELD_FILE) for r in rs]
+    # the fill is what was held; the claim becomes the dotted line below
+    meng = meng_held or meng_claim
     if meng:
         groups["mengjiang"].extend(meng)
         # one sub-unit per constituent government, and anything the three
         # points do not claim goes in unlabelled rather than off the map
         claimed, spare = {}, []
-        for ring in meng:
+        for ring in (meng_claim if len(meng) < len(meng_claim) else meng):
             for label, pt in MENGJIANG_PARTS:
                 if point_in_ring(pt, ring):
                     claimed.setdefault(label, []).append(ring)
@@ -6152,6 +6161,16 @@ def main():
     # Drawn under the leasehold and over everything else.
     if bay_path:
         out.append(f'    <path id="gzw-bay" fill-rule="evenodd" d="{bay_path}"/>')
+    # Mengchiang's claimed frontier: every map of the state draws this line, and
+    # a third of what it encloses was never under Japanese control. Drawn as a
+    # line and not a fill, over the ground rather than instead of it, so the two
+    # statements — what was claimed, what was held — can be read together.
+    if meng_claim:
+        d = "".join(ring_to_path([project(x, y) for x, y in normalise_ring(r)],
+                                 FINE_PRECISION)
+                    for r in meng_claim if len(r) >= 3)
+        if d:
+            out.append(f'    <path id="mengjiang-claim" d="{d}"/>')
     # The traced water round the two leaseholds. A path of its own rather than
     # part of the one above: they overlap, and two carves sharing an even-odd
     # path would cancel each other where they cross.
