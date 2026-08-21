@@ -3439,6 +3439,28 @@ Nothing is simplified in either file — this is what the build starts from, not
 what it draws. The names travel with the geometry, in the four scripts the map
 shows them in.
 
+### Taiwan exported, with a warning attached
+`tools/export_taiwan.py` writes `GIS/Taiwan/taiwan-1930.geojson` — 7 rings, 531
+vertices: the island (36,021 km², 406 points), the Pescadores in four pieces,
+Green Island and Orchid Island.
+
+**It is not a period source, and the file says so in its own properties.** Unlike
+the Korea export beside it, or the two leaseholds, Taiwan is one of the places
+this map draws Natural Earth's present-day coastline, because no period layer of
+it has been made. Anyone taking this file for a 1930s outline would be taking a
+2020s one.
+
+Two editorial decisions travel with it, one applied and one deliberately not:
+
+* **Kinmen is left out**, as it is on the map. Natural Earth files it under
+  Taiwan because it is governed from Taipei today; it belonged to Fujian
+  throughout the colonial period. Checked: Kinmen absent, Taipei and Makung
+  present.
+* **The Pescadores are kept**, having been ceded with Taiwan in 1895 and been
+  part of the colony.
+
+Unsimplified, like the others: what the build starts from, not what it draws.
+
 ---
 
 ## Sources worth fetching
