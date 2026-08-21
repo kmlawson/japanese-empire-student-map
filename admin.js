@@ -326,8 +326,9 @@
           'also about six sevenths of what the browser rasters: profiling put ' +
           'the land’s fills at two percentage points of a frame and its strokes ' +
           'at 85. Off, the cracks open and the coast thins by half a pixel. ' +
-          'Layers now has the reader\u2019s version of this \u2014 <i>Close the hairline ' +
-          'gaps between shapes<\/i>, off by default \u2014 so use that one for looking. ' +
+          'The reader\u2019s version of this \u2014 a per-shape hairline, off by ' +
+          'default \u2014 is no longer in Layers, though <code>state.hairline<\/code> and ' +
+          'bit 10 of the layer code still work. ' +
           'This one is blunter and is for measuring: it carries <code>!important<\/code>, ' +
           'so it also takes off the strokes the map draws deliberately, the province ' +
           'divisions under the pointer and the outlines round the Communist base ' +

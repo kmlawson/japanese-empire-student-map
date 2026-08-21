@@ -83,6 +83,11 @@ body {
   background: #fff;
 }
 
+/* `display` here beats the browser's own rule for the attribute, so a hidden
+   segmented control would otherwise stay on screen. The level control in the
+   Layers panel is hidden that way. */
+.seg[hidden] { display: none; }
+
 .seg button {
   appearance: none;
   border: 0;

@@ -58,6 +58,12 @@
     // else — so it replaces both rather than joining them, and the map then
     // shows what that one source shows.
     occSource: 'traced',
+    // The Communist base areas, drawn over the traced zone. They are a second
+    // author's answer laid on top of the first, so they get a switch of their
+    // own inside that reading: turning them off leaves the occupation as the
+    // 1940 sheet drew it, and turning them back on is the point being made.
+    // Nothing to switch under 'nca', which has no base areas in it.
+    ccp: true,
     // the legend is worth its space on a big screen and costs too much of it
     // on a phone, so it starts folded there and remembers what you chose
     legend: window.innerWidth >= 700 && window.innerHeight >= 600,
@@ -117,6 +123,7 @@
       if (typeof saved.extent === 'boolean') state.extent = saved.extent;
       if (typeof saved.rivers === 'boolean') state.rivers = saved.rivers;
       if (typeof saved.hairline === 'boolean') state.hairline = saved.hairline;
+      if (typeof saved.ccp === 'boolean') state.ccp = saved.ccp;
       if (saved.occSource === 'nca' || saved.occSource === 'traced') {
         state.occSource = saved.occSource;
       }
@@ -130,7 +137,7 @@
         epoch: state.epoch, level: state.level,
         cats: state.cats, labels: state.labels, extent: state.extent,
         rivers: state.rivers, legend: state.legend, hairline: state.hairline,
-        occSource: state.occSource,
+        occSource: state.occSource, ccp: state.ccp,
       }));
     } catch (err) { /* private browsing; not worth complaining about */ }
   }
@@ -233,7 +240,13 @@
   /* A record tied to one reading of the occupation is absent under the other:
      not drawn, not labelled, not in the legend, not asked about. */
   function srcOK(rec) {
-    return !rec || !rec.srcOnly || rec.srcOnly === state.occSource;
+    if (!rec) return true;
+    // The base areas answer to their own switch as well as to the source they
+    // belong to. Doing it here rather than in applyState is what makes the
+    // switch reach the legend swatch, the label, the quiz and the selection
+    // too, all of which already ask this question.
+    if (rec.id === 'ccp' && !state.ccp) return false;
+    return !rec.srcOnly || rec.srcOnly === state.occSource;
   }
 
   function inQuiz(rec) {
@@ -1063,6 +1076,12 @@
    *   2  events            5  line of control       Republic's 1947 set
    *   3  administrative    6  rivers                (clear: period sources)
    *   8,9  detail level, 1 to 3, stored one less
+   *   10  hairline    11  the NCA reading    12  resistance base areas
+   *
+   * Bits 7 and 10 no longer have a switch in the Layers panel — the province
+   * source came out once the period sheet was redrawn, and the hairline came
+   * out with the rest of the panel's explanatory weight. Both still work from
+   * an address, so an old link still means what it meant.
    *
    * The opening state is not zero — the line of control and the rivers start
    * on — so the code is always written rather than dropped when it looks like
@@ -1087,6 +1106,7 @@
     // bit 10, not 8: the level has 8 and 9, and LAYER_FLAGS is indexed by bit
     if (state.hairline) bits |= 1024;
     if (state.occSource === 'nca') bits |= 2048;
+    if (state.ccp) bits |= 4096;
     return bits.toString(36);
   }
 
@@ -1105,6 +1125,7 @@
     state.level = ((bits >> 8) & 3) + 1;
     state.hairline = !!(bits & 1024);
     state.occSource = (bits & 2048) ? 'nca' : 'traced';
+    state.ccp = !!(bits & 4096);
     urlProvSource = (bits & 128) ? 'roc' : 'enp';
   }
 
@@ -3751,6 +3772,21 @@
       });
     });
 
+    var optCcp = $('#opt-ccp');
+    if (optCcp) {
+      optCcp.checked = state.ccp;
+      optCcp.addEventListener('change', function () {
+        state.ccp = optCcp.checked;
+        // the base area under the pointer may be the thing that has just gone
+        if (selected && !srcOK(byId[selected])) select(null);
+        applyState();
+        redrawHighlight();
+      });
+    }
+
+    // Removed from the Layers panel. The state and bit 10 of the layer code
+    // still work, so an old address still means what it meant; this is null
+    // now and the block below is skipped.
     var optHair = $('#opt-hairline');
     if (optHair) {
       optHair.checked = state.hairline;
