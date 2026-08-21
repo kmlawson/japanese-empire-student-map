@@ -3547,6 +3547,28 @@ Nothing moved on the map: the four records keep the exact colour they had. The
 1930 legend goes from thirteen rows to twelve and the 1942 legend keeps its
 count. Checked in both epochs.
 
+### Karafuto and the Kuriles exported
+`tools/export_karafuto.py` writes two folders under `GIS/Japan/`, each with the
+layer and a note beside it, as the Taiwan export does:
+
+* `karafuto-1930/` — one polygon, 445 vertices: Natural Earth's Sakhalin cut at
+  50° N.
+* `kuriles-1930/` — 18 islands, 870 vertices, **all 18 named**: Etorofu,
+  Kunashiri, Paramushir, Urup, Onekotan, Shikotan, Simushir, Shumshu,
+  Shiashkotan, the Habomais, Rasshua, Kharimkotan, Ekarma, Matua, Makanrushi,
+  Alaid, Chirpoy and Ketoy, one feature each.
+
+**Karafuto's straight northern edge is not an approximation** and the note says
+so: the 50th parallel *was* the border, from Portsmouth in 1905 to the Soviet
+landings of August 1945. What is approximate is the coast, which is a
+present-day one — no period layer of Sakhalin or the chain has been traced.
+
+The Kuriles are picked out of Natural Earth's *Russia* by position, because
+Natural Earth files them under the country that holds them today: a centroid
+between 145 and 157.5° E and 43 and 51.5° N on a ring under four degrees across,
+which is `split_russia` in the build. That is a rule about where the islands are
+rather than about who held them, so it does not need revisiting per date.
+
 ---
 
 ## Sources worth fetching
