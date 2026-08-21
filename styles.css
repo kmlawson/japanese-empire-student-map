@@ -1503,3 +1503,13 @@ dialog h3 {
 }
 #legend .sw.gaz-cap1 { border-radius: 50%; }
 #legend .sw.gaz-cap2 { border-radius: 1px; }
+
+/* The version and build time, at the foot of the About dialog. Quiet: it is
+   there to be found when somebody asks how old this is, not to be read. */
+#dlg-about .version {
+  margin-top: 18px;
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 12px;
+}

@@ -3602,6 +3602,20 @@ Checked by eye at both leaseholds and across China: Kwangchowwan sits in its own
 hole in Kwangtung with no water ring and no bay carve; Weihaiwei's semicircle
 sits on Shantung with no fringe; the grey slivers along the coast are gone.
 
+### A version and a build time at the foot of About
+`texts/version.csv` holds the number and nothing else — **0.8** — and
+`tools/build_texts.py` stamps the date and time when it runs, appending
+*Version 0.8 · last updated 21 August 2026, 16:18* as the last line of the About
+dialog.
+
+The date is stamped rather than written by hand because it has one job — telling
+a reader how old the thing in front of them is — and a hand-written one goes
+stale the first time somebody forgets. It matches the push because the build is
+what happens immediately before pushing; if a build is ever made and not pushed,
+the stamp will be early by that gap and nothing else.
+
+To cut a new version, edit the one line in `texts/version.csv`.
+
 ---
 
 ## Sources worth fetching

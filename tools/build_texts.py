@@ -27,12 +27,14 @@ generator is the place they can be caught for good.
 """
 
 import os
+import time
 import re
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 
+from html import escape as html_escape
 import md as markdown
 import texts_lib as T
 
@@ -277,10 +279,25 @@ def splice_between(path, marker, html):
 def build_pages():
     written = []
 
+    # The version, and when this build was made. The date is stamped here
+    # rather than written by hand because it has one job — to tell a reader how
+    # old the thing in front of them is — and a hand-written one goes stale the
+    # first time somebody forgets. The build runs immediately before the push,
+    # so the stamp is the push time.
+    version = "?"
+    vpath = os.path.join(TEXTS, "version.csv")
+    if os.path.exists(vpath):
+        rows = T.read_csv(vpath)
+        if rows:
+            version = rows[0].get("version", version)
+    stamp = time.strftime("%d %B %Y, %H:%M")
+    footer = ('  <p class="version">Version %s · last updated %s</p>\n'
+              % (html_escape(version), html_escape(stamp)))
+
     about = open(os.path.join(TEXTS, "pages", "about.md"),
                  encoding="utf-8").read()
     splice_between(os.path.join(ROOT, "index.html"), "about",
-                   markdown.render(about, indent=2, drop_h1=True))
+                   markdown.render(about, indent=2, drop_h1=True) + footer)
     written.append("index.html")
 
     src = open(os.path.join(TEXTS, "pages", "sources.md"),
