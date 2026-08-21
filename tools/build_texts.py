@@ -290,6 +290,18 @@ def build_pages():
         rows = T.read_csv(vpath)
         if rows:
             version = rows[0].get("version", version)
+    # Every build moves the number on by a hundredth, and writes it back, so
+    # what stands in texts/version.csv is always what the last build stamped.
+    # Counted in hundredths and not added as a float: 0.82 + 0.01 is
+    # 0.8300000000000001, and that would be the version somebody read.
+    if os.path.exists(vpath):
+        try:
+            version = "%.2f" % ((int(round(float(version) * 100)) + 1) / 100.0)
+        except ValueError:
+            pass
+        else:
+            with open(vpath, "w", encoding="utf-8", newline="") as fh:
+                fh.write("version\n%s\n" % version)
     stamp = time.strftime("%d %B %Y, %H:%M")
     footer = ('  <p class="version">Version %s · last updated %s</p>\n'
               % (html_escape(version), html_escape(stamp)))

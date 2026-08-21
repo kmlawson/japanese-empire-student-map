@@ -247,7 +247,7 @@ OCCUPIED_BLOCKS = (
 # The blocks are kept because two things still read from them: the line of
 # control's inland edge across China, and the names of the six regions, which
 # the traced rings take by asking which block they fall in.
-OCCUPIED_FILE = "japanese-occupied-territory-1941-2-v2.geojson"
+OCCUPIED_FILE = "japanese-occupied-territory-1941-2-vs.geojson"
 
 OCCUPIED_ZONE = [
     # The northern and central mass, December 1942. West edge down the
@@ -1157,7 +1157,10 @@ def china_front():
 EXTENT_KEEP_INLAND = [
     (117.75, 24.20, 118.65, 24.80),     # Amoy and Kinmen
     (116.15, 23.05, 117.05, 23.90),     # Swatow and Chaochow
-    (112.45, 22.25, 114.75, 23.95),     # the Canton delta and the West River
+    # reaching south to the coast at Yeungkong, so that the course traced down
+    # the western limit of the occupation is left where it was drawn rather
+    # than pushed out to sea a vertex at a time
+    (112.40, 21.50, 114.75, 23.95),     # the Canton delta and the West River
     (109.90, 20.80, 110.95, 21.65),     # Kwangchowwan
 ]
 
@@ -1178,7 +1181,12 @@ EXTENT_REACH = 0.9         # degrees; how far inland a vertex may be and still
 EXTENT_ENCLAVES = [
     ("Amoy and Kinmen", (117.75, 24.20, 118.65, 24.80), ()),
     ("Swatow and Chaochow", (116.15, 23.05, 117.05, 23.90), ()),
-    ("The Canton delta", (112.45, 22.25, 114.75, 23.95), ("hongkong",)),
+    # The floor sits at 22.52 and not at the delta's own southern limit: below
+    # that line the course is traced off the western edge of the occupation by
+    # hand, vertex for vertex, and an arc grown off the block would only put a
+    # generalisation back over a tracing. Above it the block is one wide blob
+    # and the arc is the right instrument.
+    ("The Canton delta", (112.45, 22.52, 114.75, 23.95), ("hongkong",)),
 ]
 
 
@@ -1359,15 +1367,53 @@ EXTENT_SOUTH_CHINA = [
     (116.7, 23.0),
     (115.5, 22.7), (114.8, 22.5),
     (114.6, 22.55), (114.55, 23.1), (113.9, 23.6), (113.15, 23.85),
-    (112.85, 23.5), (112.6, 23.0), (112.65, 22.35),
+    (112.85, 23.5), (112.6, 23.0),
+    # Down the eastern side of the delta and then along the shore, instead of
+    # cutting the corner from here to Kwangchowwan. The old course left the
+    # whole west bank inside the line of control — Taishan, Sunwui, Yanping,
+    # Hoshan and the coast down to Yeungkong, none of it held. Traced off the
+    # western limit of the occupation itself, so that the line and the shading
+    # agree, and kept on the land the whole way: the water off this coast was
+    # the navy's and belongs inside the line, so the detour is round the
+    # country and not round the bay.
+    #
+    # Everything above 22.25 falls in the delta's detour box and is replaced by
+    # the arc round the traced block. Those points still earn their place: the
+    # last one above that line is what decides how far down the block the arc
+    # follows before the hand-drawn course takes over again.
+    (112.95434, 22.46467), (113.09536, 22.48182), (113.19557, 22.48525),
+    (113.28464, 22.47153), (113.32917, 22.43037), (113.39598, 22.42351),
+    (113.38484, 22.37547), (113.40340, 22.30339), (113.43680, 22.25874),
+    (113.44051, 22.20721), (113.43680, 22.11441), (113.19557, 21.96993),
+    (112.98774, 21.87353), (112.89124, 21.79429), (112.87640, 21.69087),
+    (112.82444, 21.59429), (112.74279, 21.55632), (112.53496, 21.57703),
+    (112.46816, 21.60809),
     (111.8, 21.8), (111.20, 21.60),
     # round the landward side of Kwangchowwan — north, west and south of the
     # leasehold — and back to the coast east of it
     (110.78, 21.52), (110.55, 21.47), (110.20, 21.45), (110.02, 21.41),
     (109.98, 21.15), (110.03, 20.94), (110.32, 20.89), (110.62, 20.87),
+    # three waypoints in the water down the east coast of the peninsula.
+    # Without them the smoothing puts a vertex in the middle of Leizhou and
+    # hug_coast, asked which way the sea is, answers along the peninsula's own
+    # axis and throws it nine tenths of a degree west into the Gulf of Tonkin.
+    # The line then crosses itself and the whole peninsula reads as held.
+    (110.55, 20.80), (110.62, 20.60), (110.58, 20.40),
     # and on through the Qiongzhou strait, south of the peninsula's tip, so
-    # that the rest of Leizhou stays outside and Hainan inside
-    (110.40, 20.28), (109.6, 20.35),
+    # that the rest of Leizhou stays outside and Hainan inside. The course
+    # runs south of the tip and not through it: the old pair of points let the
+    # line swing north into the bay at Techow and took the end of the
+    # peninsula in with it, which was Free China. Given east to west, the
+    # direction this list runs.
+    (110.40, 20.28),
+    (110.19196, 20.23417), (110.14878, 20.21575), (109.88971, 20.20838),
+    # The fifth point of the set this came from, 109.99962 20.44764, is left
+    # out on purpose. It sits in the bay north of the others, and with it in
+    # the line swings back north and takes a strip of western Leizhou —
+    # Suikai and the coast above Techow — inside with it. Measured: about
+    # forty cells of Free China on a five-kilometre grid, all of them the
+    # thing this change is meant to remove.
+    (109.78373, 20.35198),
     (109.4, 21.2), (108.6, 21.5), (108.1, 21.5),
 ]
 
@@ -3417,7 +3463,7 @@ def island_name(key, ring):
 # the Japanese army had drawn round itself and did not hold. The occupied zone
 # on this map is described as generous for exactly this reason, and this is the
 # other half of that sentence.
-CCP_FILE = "ccp-resistance-areas-1941-1942-p199.geojson"
+CCP_FILE = "ccp-resistance-areas-1941-1942-p199-v2.geojson"
 
 # The atlas sheet the base areas are traced from labels its regions and not its
 # polygons, and the polygons are many and small. These boxes group them, so
@@ -3539,6 +3585,22 @@ MENGJIANG_FILE = "mengjiang-1940.geojson"
 # as a thick dotted line and the held ground is filled, so the map says both
 # things at once instead of choosing.
 MENGJIANG_HELD_FILE = "mengjiang-actual-occupied.geojson"
+# The claim minus the held ground, cut in QGIS rather than here: this build has
+# no polygon difference, and stroking the whole claim would run the dotted line
+# through occupied country as well, where there was nothing unsettled about it.
+# Eight pieces, and every one of them is ground the state put on its maps and
+# never governed. Left unfilled, so whatever is beneath — Free China, the
+# provinces — shows through.
+MENGJIANG_UNHELD_FILE = "mengjiang-unoccupied.geojson"
+# Atoms whose sub-units are drawn through a clip, because the divisions cover
+# more ground than the atom itself does. Mengchiang is the only one: its three
+# governments are drawn as they were claimed, and the western half of what they
+# claimed was never held. An even-odd hole in one of them will not do — the
+# unheld ground straddles the boundary between the Mongol leagues and North
+# Shansi, and a hole punched in one would leave the other painting over it —
+# so all three are clipped to the same shape instead, the way the mandate's
+# wash is clipped off Guam.
+SUB_CLIP = {"mengjiang": "clip-meng-held"}
 # The sheet draws Mengchiang as its three constituent governments, so the
 # Administrative layer can name them. Each is claimed by a town that can only be
 # in one of them: Kweisui for the Mongol leagues, Datong for the North Shansi
@@ -4659,10 +4721,20 @@ def main():
 
     meng_claim = load_mengjiang()
     meng_held = [r for _p, rs in load_traced(MENGJIANG_HELD_FILE) for r in rs]
-    # the fill is what was held; the claim becomes the dotted line below
+    # the fill is what was held; the unheld remainder becomes the dotted line
+    # below, and falls back to the whole claim if that file is not there
+    meng_unheld = [r for _p, rs in load_traced(MENGJIANG_UNHELD_FILE) for r in rs]
+    meng_line = meng_unheld or meng_claim
     meng = meng_held or meng_claim
     if meng:
         groups["mengjiang"].extend(meng)
+        # The filler under the sub-units is normally a dissolve of the
+        # sub-units themselves, which here are the three claimed governments —
+        # so without this the western half would be filled after all, whatever
+        # the atom's own rings say. Set from the held ground directly, the way
+        # Manchukuo's is.
+        if meng_held:
+            backing["mengjiang"].extend(meng_held)
         # one sub-unit per constituent government, and anything the three
         # points do not claim goes in unlabelled rather than off the map
         claimed, spare = {}, []
@@ -5900,29 +5972,21 @@ def main():
     # geometry point by point against Mengchiang's and the provinces' — 268
     # cells in the eastern pocket and 126 in the southern one, against 73 in the
     # two western bands, which no box admits.
-    MENG_POCKETS = [
-        (116.15, 40.20, 117.60, 41.70),   # east of Mengchiang, towards Jehol
-        (114.80, 39.50, 115.85, 40.45),   # south-east of it, above Peking
-    ]
-    china_drawn = "".join(pd for _, pd in province_paths("china")) + whole_union("china")
-    for _k in ("chahar", "suiyuan", "suiyuan_w"):
-        _rings = (backing.get(_k)
-                  or [r for _, rs in provinces.get(_k, []) for r in rs])
-        for _w, _s, _e, _n in MENG_POCKETS:
-            _planes = box_planes(_w, _s, _e, _n)
-            for _r in _rings:
-                _cut = clip_halfplanes(normalise_ring(_r), _planes)
-                if len(_cut) >= 3:
-                    china_drawn += ring_to_path([project(x, y) for x, y in _cut])
-    china_drawn = china_drawn or paths.get("china", "")
-    if china_drawn:
-        out.append(f'    <clipPath id="clip-china"><path d="{china_drawn}"/></clipPath>')
+    # `clip-china` used to be built here — every province path, the country's
+    # own outline and three pieces of Chahar and Suiyuan, 373 subpaths and
+    # 21,254 vertices — and the occupied zone was drawn through it so that the
+    # shading stopped at the coast and at the frontier. It is gone: the zone is
+    # traced to those limits in its own right, and a quarter of a megabyte of
+    # clip to make a shape stop where it already stops is a clip for nothing.
+    # `whole_union("china")` is still called, because the occupied coast below
+    # reads the rings it leaves behind.
+    whole_union("china")
     # Which stretches of China's coast the occupation reaches. Computed here
     # because `whole_union("china")` has just run and left its rings behind;
     # drawn with the occupation, where the reason for it is written out.
     coast_runs, free_runs = (
         occupied_coast(whole_pts.get("china") or [], occ_proj)
-        if (china_drawn and occ_proj) else ([], []))
+        if occ_proj else ([], []))
     if coast_runs:
         sys.stderr.write(
             "occupied coast: %d stretches / %d points reached, "
@@ -5933,25 +5997,18 @@ def main():
     # Everything except the two client states. The occupation is clipped to
     # China's land, and both Mengchiang's and Manchukuo's traced boundaries
     # cross ground the occupation's own tracing claims — northern Shansi was
-    # Mengchiang's, and the occupied file reaches over the Wall into Jehol,
-    # which Manchukuo took in 1933. Measured: 101 cells of a quarter-degree
-    # grid lie inside both the occupation and Manchukuo, over 115.75-119.75 E
-    # and 40.25-41.75 N. With the Administrative layer on, Manchukuo's
+    # The occupation was also clipped off the client states here, by a second
+    # clipPath — the frame with Mengchiang's and Manchukuo's rings punched out
+    # of it under the even-odd rule. It has been taken out: one clip on the
+    # occupied zone is enough, and the traced zone is meant to stop at those
+    # frontiers on its own rather than be cut back to them after the fact.
+    # What it was for is worth keeping in the record. The occupied file reaches
+    # over the Wall into Jehol, which Manchukuo took in 1933, and 101 cells of
+    # a quarter-degree grid lay inside both the occupation and Manchukuo, over
+    # 115.75-119.75 E and 40.25-41.75 N. With Administrative on, Manchukuo's
     # provinces are drawn late enough to cover the shading and it never showed;
-    # with the layer off there are no provinces, and the occupation's lighter
-    # salmon was painted over the client state's own colour inside its outline.
-    # A clip cannot subtract, but it can be the frame with a hole in it: the
-    # rectangle and the client states' rings in one path under the even-odd
-    # rule.
-    client_rings = load_mengjiang() + load_manchukuo()
-    if client_rings:
-        hole = ring_to_path([(0.0, 0.0), (WIDTH, 0.0), (WIDTH, HEIGHT), (0.0, HEIGHT)])
-        for ring in client_rings:
-            cut = clip_halfplanes(normalise_ring(ring), frame)
-            if len(cut) >= 3:
-                hole += ring_to_path([project(x, y) for x, y in cut], FINE_PRECISION)
-        out.append('    <clipPath id="clip-off-clients" clipPathUnits="userSpaceOnUse">'
-                   f'<path clip-rule="evenodd" d="{hole}"/></clipPath>')
+    # with the layer off there are no provinces, and the lighter salmon was
+    # painted over the client state's own colour inside its outline.
     # The Japanese mandate is drawn as a line, and under the pointer the
     # stylesheet gives it the faintest wash of Japan's colour. The wash covered
     # Guam, which is the one thing inside that boundary the mandate did not
@@ -5968,6 +6025,27 @@ def main():
                 hole += ring_to_path([project(x, y) for x, y in cut])
         out.append('    <clipPath id="clip-off-guam" clipPathUnits="userSpaceOnUse">'
                    f'<path clip-rule="evenodd" d="{hole}"/></clipPath>')
+    # Mengchiang's three governments are drawn as the state claimed them, and a
+    # third of that was never under its control. The claim is worth keeping —
+    # it is how the sub-units can be told apart at all — so the divisions are
+    # drawn through this instead: the ground actually held, and nothing else.
+    # Where the state only claimed, none of it is painted and the country
+    # beneath shows through; the dotted line is what marks it there.
+    #
+    # The held polygon rather than the complement of the unheld one, though the
+    # two ought to be the same shape. They are not quite: about 700 km² south
+    # of Kweisui, round 112.0 E 39.4 N, is inside the claim and inside neither
+    # of the other two files. Clipping to what was held cannot show a gap
+    # between them whatever the sources do.
+    if meng_held:
+        keep = ""
+        for ring in meng_held:
+            cut = clip_halfplanes(normalise_ring(ring), frame)
+            if len(cut) >= 3:
+                keep += ring_to_path([project(x, y) for x, y in cut], FINE_PRECISION)
+        if keep:
+            out.append('    <clipPath id="clip-meng-held" clipPathUnits="userSpaceOnUse">'
+                       f'<path d="{keep}"/></clipPath>')
     out.append("  </defs>")
     out.append(f'  <rect id="ocean" x="0" y="0" width="{fmt(WIDTH)}" height="{fmt(HEIGHT)}"/>')
     out.append('  <g id="land">')
@@ -6044,6 +6122,8 @@ def main():
                 # an unnamed leftover gets no attribute at all: an empty one
                 # reads as a sub-unit that can never be named or outlined
                 attr = f' data-prov="{esc(pname)}"' if pname else ""
+                if key in SUB_CLIP:
+                    attr += f' clip-path="url(#{SUB_CLIP[key]})"'
                 cluster = SUB_CLUSTERS.get((key, pname))
                 if cluster:
                     attr += f' data-cluster="{esc(cluster)}"'
@@ -6112,15 +6192,10 @@ def main():
         # layer off those two are painted by their backing, which lives at the
         # head of the layer stack, so nothing drawn later can be under it and
         # no amount of reordering would have helped.
-        # Two clips: China's own land, and then everything that is not one of
-        # the client states. They intersect, which is what is wanted — the
-        # shading stops at the coast, at the frontier, and at Mengchiang's and
-        # Manchukuo's own lines.
-        occ_out.append('    <g clip-path="url(#clip-off-clients)">'
-                       if client_rings else '    <g>')
+        # No clip at all now. The zone is drawn as it was traced.
+        occ_out.append('    <g>')
         occ_out.append(
             f'    <g id="a-occupiedzone" class="atom" '
-            f'clip-path="url(#clip-china)" '
             f'data-islands="1" data-cx="{fmt(ax)}" data-cy="{fmt(ay)}" '
             f'data-area="{int(area)}">'
         )
@@ -6161,14 +6236,18 @@ def main():
     # Drawn under the leasehold and over everything else.
     if bay_path:
         out.append(f'    <path id="gzw-bay" fill-rule="evenodd" d="{bay_path}"/>')
-    # Mengchiang's claimed frontier: every map of the state draws this line, and
-    # a third of what it encloses was never under Japanese control. Drawn as a
-    # line and not a fill, over the ground rather than instead of it, so the two
-    # statements — what was claimed, what was held — can be read together.
-    if meng_claim:
+    # Mengchiang's claimed frontier where it ran beyond the ground held: every
+    # map of the state draws this line, and a third of what it encloses was
+    # never under Japanese control. Only that third is drawn, as a line round
+    # nothing rather than a second fill, so the two statements — what was
+    # claimed, what was held — can be read together instead of merging into one
+    # solid state. The eastern stretch, where claim and control agree, is left
+    # to the fill; a line there would say the frontier was in doubt when it was
+    # the one part of it that was not.
+    if meng_line:
         d = "".join(ring_to_path([project(x, y) for x, y in normalise_ring(r)],
                                  FINE_PRECISION)
-                    for r in meng_claim if len(r) >= 3)
+                    for r in meng_line if len(r) >= 3)
         if d:
             out.append(f'    <path id="mengjiang-claim" d="{d}"/>')
     # The traced water round the two leaseholds. A path of its own rather than

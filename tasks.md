@@ -7,46 +7,10 @@ describing what was actually changed, before it is marked done.
 
 ## Open — asked for and not yet done
 
-Nine entries. The first six are work asked for and not yet done; the last
+Six entries. The first three are work asked for and not yet done; the last
 three are measured rather than assumed, and everything else that once stood
 here has been closed. Where a fix was a generalisation rather than an answer,
 the source that would settle it is named at the foot of this file.
-
-- **Mengchiang's claim should be a line round empty ground, not a second fill.**
-  As drawn, the 1940 claim and the held polygon carry the same client-state
-  colour, so the two read as one solid state and the distinction the layer
-  exists to make is invisible. What is wanted: the part of `mengjiang-1940`
-  that lies **outside** `mengjiang-actual-occupied` is left transparent — Free
-  China, or whatever is beneath, shows through it — and a dotted line runs
-  round **only that non-overlapping part**, not round the whole claim. So the
-  line becomes a frontier drawn across empty ground, and the filled area is
-  exactly what Japan held.
-
-  Two obstacles, and they are the same obstacle twice. The build has **no
-  polygon boolean operations** — `dissolve()` only cancels edges two rings
-  already share, and `clip_halfplanes` is convex-only — so neither the
-  difference (claim minus held) nor the boundary of that difference can be
-  computed by anything now in `tools/build_map.py`. The even-odd `fill-rule`
-  trick gives the transparent area for free: emit the claim ring and the held
-  ring into one path with `fill-rule="evenodd"` and the overlap punches itself
-  out, no boolean needed. The dotted **line** is the harder half, because
-  even-odd says nothing about strokes — stroking that path draws both rings
-  whole, including the shared eastern stretch that should not be dotted. Either
-  compute the difference properly (a real clipper, new code) or accept the full
-  claim ring as the line and rely on the held fill covering the part of it that
-  runs through occupied ground. Decide which before building.
-
-- **Verify Mengchiang's fill stops at the held polygon, not the claim.** The
-  entry above assumes the fill already follows `mengjiang-actual-occupied`;
-  that has never been confirmed. The rendered check was ambiguous — Manchukuo
-  and Mengchiang share the client-state colour, so the two fills merge
-  visually. Point-test the 1942 map at roughly **105 E / 40 N** and **106 E /
-  39 N**: both lie inside the 1940 claim and outside the held polygon (whose
-  western edge is 108.19 E), so both should answer *Republic of China*. If
-  either answers Mengchiang, `meng = meng_held or meng_claim` at
-  `tools/build_map.py:4663` is not taking effect and the atom is still filled
-  from the claim. Confirm as well that `#mengjiang-claim` is visible over Free
-  China in the western wedge.
 
 - **Wire the occupied-zone v3 layer, then re-test what it makes redundant.**
   `japanese-occupied-territory-1941-2-v3` was to replace the occupied zone
@@ -67,13 +31,6 @@ the source that would settle it is named at the foot of this file.
   boundaries rather than a traced administrative line, that Angkor is not
   carved out, and that the coastlines are present-day Natural Earth and not a
   period source.
-
-- **Bump the version by 0.01 on every build.** 0.8 to 0.81 to 0.82, in
-  `tools/build_texts.py`, writing back to `texts/version.csv`. Two traps.
-  Floating-point: `0.82 + 0.01` gives `0.8300000000000001`, so hold the number
-  as an integer of hundredths or format it to two decimals rather than adding
-  floats. And `bundle.py` runs after `build_texts.py` — one build must be one
-  bump, not two, so whatever counts a build has to be the outer run.
 
 - **Reword the contested frontier north of India.** It reads *Frontier not
   settled*; it should read **Border contested or not clearly defined.** The
@@ -3707,10 +3664,137 @@ west, beyond Paotow, is inside the line and outside the fill.
 The three constituent governments are still named from the claim, since they can
 only be told apart there.
 
-**Not yet verified**: whether the drawn fill really stops at the held polygon's
-western edge (108.19° E) rather than following the claim. The rendered check was
-ambiguous — Manchukuo and Mengchiang share the client-state colour, so the two
-fills merge visually — and it needs a targeted point test before this is trusted.
+**It did not.** The fill was still following the claim, and the reason was not
+the atom's own rings but the filler under them. Settled below, under
+*Mengchiang: a line round empty ground*.
+
+### The base areas retraced
+`ccp-resistance-areas-1941-1942-p199-v2.geojson` replaces the first tracing.
+Seventy-five shapes in both, 2,063 vertices in both, and only two rings differ:
+one pocket on the Shantung coast moves bodily 48 km west and 17 km south —
+same area to five decimal places, so it is a repositioning and not a redraw —
+and another loses about 3% of its area to two vertices. Both stay in the
+Qinghe zone, so no patch changes the name it answers with.
+
+Drawn at full fidelity, as before: `ccp` is in `FULL_DETAIL` and gets no
+Douglas–Peucker at all. 1,986 vertices reach the SVG out of 1,988 distinct
+ones — 2,063 less the 75 closing points — the last two lost where neighbouring
+vertices round onto the same hundredth of a unit.
+
+### Mengchiang: a line round empty ground
+`mengjiang-unoccupied.geojson` is now the dotted line. Eight pieces, 162
+vertices, every one of them drawn, in place of the whole 1940 claim. So the
+line marks only the third of the claim that was never held, and the stretch
+where claim and control agreed is left to the fill — a dashed frontier there
+would have said the boundary was in doubt where it was the one part of it that
+was not.
+
+The fill was still following the claim, which is what task #101 suspected. The
+cause was not the atom's own rings but the filler under them: `whole_union`
+builds it by dissolving the sub-units, and the sub-units are the three claimed
+governments. Two changes fix it — `backing["mengjiang"]` is set from the held
+polygon directly, the way Manchukuo's is, and the three governments are drawn
+through `clip-meng-held`, a clip of the held ground, so the Administrative
+layer cannot paint past it either.
+
+The clip is the held polygon rather than the complement of the unheld one,
+though the two ought to be the same shape. They are not quite: about 700 km²
+south of Kweisui, round 112.0 E 39.4 N, is inside the claim and inside neither
+of the other two files. Clipping to what was held cannot show a gap between
+them whatever the sources do — that ground now reads as Free China with no
+dotted line over it, which is a fair account of a place no file claims.
+
+An even-odd hole was tried first and abandoned: the unheld ground straddles the
+boundary between the Mongol leagues and North Shansi, so a hole punched in one
+would have left the other painting over it.
+
+Measured over 300,000 points in the state's bounding box: no sub-unit paints
+outside the held ground, against 131 before. Point tests — 105.5 E 41.5 N,
+107.5 E 41.5 N and 106.5 E 42.0 N are unfilled and inside the dotted line;
+Kweisui, Datong, Hsuanhua and Silingol are filled and outside it.
+
+### The line of control leaves Free China outside it
+Two stretches of `EXTENT_SOUTH_CHINA`, both the same fault: the dashed
+perimeter enclosed country nobody held.
+
+**The Canton delta.** `enclave_detour` followed the traced block down to about
+22.46 N and the hand-drawn course then cut the corner straight to
+Kwangchowwan, leaving the whole west bank inside — Taishan, Sunwui, Yanping,
+Hoshan and the coast to Yeungkong. The new course is traced off the western
+limit of the occupation itself, nineteen points from 112.95 E 22.46 N down to
+the shore at Yeungkong, and it stays on the land the whole way: the water off
+that coast was the navy's and belongs inside the line, so the detour goes round
+the country and not round the bay. Two supporting changes: the delta's
+keep-inland box reaches south to 21.50 so `hug_coast` leaves a traced course
+where it was drawn, and the delta's detour box floor rises from 22.25 to 22.52,
+because below that line an arc grown off the block would only put a
+generalisation back on top of a tracing.
+
+**The Leizhou peninsula.** The line swung north into the bay west of Haikang
+and took the end of the peninsula with it. Four points now carry it south of
+the tip through the Qiongzhou strait instead.
+
+The fifth point of that set, 109.99962 20.44764, is deliberately left out. It
+sits in the bay north of the others, and with it in, the line turns back north
+and takes a strip of western Leizhou — Suikai and the coast above Techow —
+inside instead. Measured rather than argued: it put about forty cells of Free
+China on a five-kilometre grid back inside the line, which is the thing the
+change exists to remove.
+
+Measured over the whole country, 150,000 random points of which 92,146 fell on
+China's land: Free China inside the line falls from **415 to 298**, 0.45% of the
+land to 0.32%. Occupied ground left *outside* the line is unchanged at 73, which
+is the test that matters as much — the line was moved to let country out, not to
+push it in, and nothing was lost from the other side.
+
+Three waypoints were added in the water down the peninsula's east coast, and
+they are not cosmetic. Without them the smoothing dropped a vertex in the
+middle of Leizhou, and `hug_coast`, asked which way the sea lay, answered along
+the peninsula's own axis and threw it nine tenths of a degree west into the
+Gulf of Tonkin. The perimeter crossed itself there and the whole peninsula read
+as held.
+
+### The occupied zone redrawn, and both clips taken out
+`japanese-occupied-territory-1941-2-vs.geojson` replaces the v2 tracing —
+`-vs` and not `-v3`, which is not in the cache; same file, going by the date it
+was written and by what it does. The bounds are the same on three sides and the
+northern limit falls from 41.87 N to 40.71 N: it no longer reaches over the
+Wall into Jehol. 723 rings against 724, 7,717 vertices against 6,470, so it is
+finer as well as shorter.
+
+With it in, both clips on the occupied zone are gone.
+
+* **`clip-china`** — every province path, China's own outline and three pieces
+  of Chahar and Suiyuan clipped to two boxes, **373 subpaths and 21,254
+  vertices, 295 KB**. It made the shading stop at the coast and at the
+  frontier.
+* **`clip-off-clients`** — the frame with Mengchiang's and Manchukuo's rings
+  punched out under the even-odd rule, 6,038 vertices and 86 KB. It kept the
+  shading off the two client states.
+
+Both were insurance against a zone that overran its ground, and the new tracing
+does not. Measured on the raw geometry, which is what gets painted once the
+clips are off:
+
+| | v2 unclipped | v3 unclipped |
+|---|---|---|
+| outside China's land | 17.25% | **0.36%** |
+| over Manchukuo or Mengchiang | 19.51% | **0.00%** |
+
+The remaining 0.36% is eleven samples in twenty-five thousand, every one of
+them on a coast: the Yellow River delta round 118.6 E 37.9 N, which prograded
+between the survey and Natural Earth's coastline, the Chekiang shore by Chusan,
+and the south coast of Hainan. Sub-pixel disagreements between two sources
+about where the water starts.
+
+The main file falls from 3.1 MB to 2.7 MB.
+
+Asked for as *put it underneath Manchukuo and Mengchiang*, and it is: the atoms
+are emitted `occupiedzone`, `mengjiang`, `manchuria`, `manchukuo`, so all three
+draw over it. The case that would still show is Administrative off, where those
+two are painted by their backing and the backing sits at the head of the stack
+under everything — but the overlap is zero, so there is nothing for it to show.
+Worth knowing if a later zone file ever reaches over the Wall again.
 
 ---
 
