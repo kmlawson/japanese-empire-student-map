@@ -122,6 +122,10 @@ JMAP.CATEGORIES = {
       ko: '독립국', c: '#8dd3c7'
     },
     {
+      id: 'contested', en: 'Frontier not settled', ja: '未確定国境', orig: 'Frontier not settled',
+      zh: '未定國界', ko: '미확정 국경', c: '#5c554a'
+    },
+    {
       id: 'other', en: 'Elsewhere', ja: 'その他', orig: 'Elsewhere', zh: '其他', ko: '기타',
       c: '#ded8cb'
     },
@@ -182,6 +186,10 @@ JMAP.CATEGORIES = {
     },
     {
       id: 'neutral', en: 'Neutral', ja: '中立', orig: 'Neutral', zh: '中立', ko: '중립', c: '#bebada'
+    },
+    {
+      id: 'contested', en: 'Frontier not settled', ja: '未確定国境', orig: 'Frontier not settled',
+      zh: '未定國界', ko: '미확정 국경', c: '#5c554a'
     },
     {
       id: 'other', en: 'Elsewhere', ja: 'その他', orig: 'Elsewhere', zh: '其他', ko: '기타',
@@ -563,6 +571,11 @@ JMAP.TERRITORIES = {
       id: 'other', en: 'Afghanistan', orig: 'Afghanistan, Nepal, Bhutan', zh: '阿富汗・尼泊爾・不丹',
       cat: 'other', lvl: 3, atoms: ['other'],
       note: 'Outside the story of the Japanese Empire, drawn for context. Nepal, Bhutan and Sikkim were British protectorates rather than parts of British India, which is why they are not drawn inside it.'
+    },
+    {
+      id: 'contested', en: 'Frontier not settled', ja: '未確定国境', zh: '未定國界', cat: 'contested',
+      lvl: 3, c: 'transparent', atoms: ['contested', 'contested_burma'], hatch: 'unclear',
+      note: 'Four stretches of frontier that the sources on this map do not agree about, and that no treaty had settled: the Kachin country between Burma and Yunnan, the Pamirs where Sinkiang, Afghanistan and Kashmir meet, Aksai Chin, and the McMahon line east of Bhutan. The colours underneath are what the map draws elsewhere; the crossing lines say the line itself was in dispute.'
     },
   ],
   e1942: [
@@ -973,6 +986,11 @@ JMAP.TERRITORIES = {
       when: 'September 1942', rule: 'The North China Area Army\'s own classification',
       cat: 'unpacified', lvl: 3, atoms: ['nca_unpacified'], srcOnly: 'nca',
       note: 'Ground the same survey classed as un-pacified — 未治安地区: about 182,000 square kilometres, in fifty-three separate areas, most of them in the mountains of Shanxi and Hebei and along the Shandong hills. This is the army\'s own account of where it was being fought, drawn by the people doing the fighting, and it is worth setting beside the Communist base areas from Wu Yuexing\'s atlas, which is the other reading this map offers. They are not the same map and were not drawn to answer the same question.'
+    },
+    {
+      id: 'contested', en: 'Frontier not settled', ja: '未確定国境', zh: '未定國界', cat: 'contested',
+      lvl: 3, c: 'transparent', atoms: ['contested'], hatch: 'unclear',
+      note: 'Three stretches of frontier that no treaty had settled and that the sources on this map do not agree about: the Pamirs, Aksai Chin, and the McMahon line east of Bhutan. The fourth, the Kachin country on the Burma frontier, is not marked on this date: by December 1942 that ground was under Japanese occupation, which is the more useful thing to say about it.'
     },
   ],
 };

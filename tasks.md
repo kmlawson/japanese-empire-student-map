@@ -3486,6 +3486,43 @@ federation, which joined the Mongol leagues to Chanan out of southern Chahar and
 Jinbei out of northern Shansi, and which is what stood in December 1942 — with a
 pointer to the Administrative layer, where the three are named.
 
+### Three layers replaced, and the frontiers nobody had settled
+`soviet-union-v2`, `tannu-tuva-v3`, `outer-mongolia-v2` and a new
+`border-unclear-contested`, all from the cache.
+
+**The Soviet chords are gone.** The straight cuts across the Sinkiang frontier
+that made the wedge — 6.19° and 5.82° long in v1 — are not in v2: the longest
+segment in that window is now 0.918°, and the window holds 204 points against
+150. Sakhalin still stops at 49.99° and there is still not a Kurile ring in the
+file, so Karafuto and Chishima go on coming from Natural Earth.
+
+**Tannu Tuva v3** is 104 points against 96, and the duplicate is gone — the
+second feature is now an empty geometry rather than a second copy of the shape,
+which the loader skips. **Outer Mongolia v2 is byte-identical to v1**; the
+filename is updated so the cache matches what was handed over, and nothing on
+the map moved.
+
+**The four contested frontiers** are drawn over whatever they cross, in a
+crossed hatch rather than the raked stripes every other overlay uses. That is
+deliberate: the stripes on this map mean *somebody else holds this ground too*,
+and these mean *the line itself was not settled*, which should not read as a
+third claimant. The atoms are `transparent`, so the countries underneath keep
+their colours and only the crossing lines are added.
+
+| stretch | area | claimed by |
+|---|---:|---|
+| Kachin country, Burma–Yunnan | 67,734 km² | 97.5, 26.3 |
+| the Pamirs | 71,705 km² | 73.5, 37.5 |
+| Aksai Chin | 42,200 km² | 78.5, 35.3 |
+| the McMahon line | 79,371 km² | 94.0, 28.2 |
+
+**The Burma stretch is a 1930 record only.** In December 1942 that ground was
+under Japanese occupation, and saying so is more use than saying whose frontier
+it had been — so `contested_burma` is its own atom and the 1942 record lists only
+the other three. Checked: on the 1930 map all four answer *Frontier not settled*;
+on the 1942 map the Kachin country answers *Burma — Taken 1942* and the other
+three still answer *Frontier not settled*.
+
 ---
 
 ## Sources worth fetching

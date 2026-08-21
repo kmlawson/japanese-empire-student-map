@@ -1341,6 +1341,7 @@
     { id: 'hatch-us', rot: 45 },
     { id: 'hatch-thai', rot: 45 },
     { id: 'hatch-brit', rot: 45 },
+    { id: 'hatch-unclear', rot: 0 },
     { id: 'hatch-raid', rot: 45 },
     { id: 'hatch-ccp', rot: -45 },
   ];

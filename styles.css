@@ -643,6 +643,7 @@ button.plain:hover { background: #f2ede2; }
 .hatch-fill.hatch-thai { fill: url(#hatch-thai); }
 .hatch-fill.hatch-brit { fill: url(#hatch-brit); }
 .hatch-fill.hatch-raid { fill: url(#hatch-raid); }
+.hatch-fill.hatch-unclear { fill: url(#hatch-unclear); }
 
 /* Guangzhou Bay, painted back out of China. See build_map.py: the box minus
    Natural Earth's coastline, by the even-odd rule. */

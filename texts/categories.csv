@@ -11,6 +11,7 @@ e1930,australian,Australian,オーストラリア領,Australian,澳洲領,오스
 e1930,soviet,Soviet,ソ連,Soviet,蘇聯,소련,#bebada
 e1930,frontier,De facto independent,事実上の独立,De facto independent,事實上獨立,사실상 독립,#e7de7e
 e1930,independent,Independent,独立国,Independent,獨立國,독립국,#8dd3c7
+e1930,contested,Frontier not settled,未確定国境,Frontier not settled,未定國界,미확정 국경,#5c554a
 e1930,other,Elsewhere,その他,Elsewhere,其他,기타,#ded8cb
 e1942,metropole,Japan proper,内地,Japan proper,日本內地,일본 본토,#9a1813
 e1942,colony,Colonies & leased territory,外地・租借地,Colonies,外地・租借地,외지·조차지,#c2463d
@@ -27,4 +28,5 @@ e1942,american,American,アメリカ領,American,美國領,미국령,#325d7b
 e1942,french,French,フランス領,French,法國領,프랑스령,#80b1d3
 e1942,portuguese,Portuguese,ポルトガル領,Portuguese,葡萄牙領,포르투갈령,#fccde5
 e1942,neutral,Neutral,中立,Neutral,中立,중립,#bebada
+e1942,contested,Frontier not settled,未確定国境,Frontier not settled,未定國界,미확정 국경,#5c554a
 e1942,other,Elsewhere,その他,Elsewhere,其他,기타,#ded8cb

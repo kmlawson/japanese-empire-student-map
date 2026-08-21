@@ -3499,12 +3499,12 @@ def ccp_zone(ring):
 # Imperial Gazetteer drew them. All three replace Natural Earth's modern outline
 # of the same ground, which is what the map used before. The features carry no
 # names, so each is identified by a point that can only be inside one of them.
-OUTER_MONGOLIA_FILE = "outer-mongolia-1940.geojson"
+OUTER_MONGOLIA_FILE = "outer-mongolia-v2.geojson"
 # Tannu Tuva off the same sheet. The layer as exported holds the shape twice,
 # geometrically identical down to the last coordinate — a duplicate from the
 # QGIS session it was written out of, not two pieces of country — so identical
 # rings are dropped rather than drawn on top of each other.
-TANNU_TUVA_FILE = "tannu-tuva-1940.geojson"
+TANNU_TUVA_FILE = "tannu-tuva-v3.geojson"
 # The Soviet Union as it stood, from the author's own GIS. It is a world-scale
 # polygon — 201 pieces and 34,257 vertices, from 27 E to the dateline — and the
 # frame clip below throws away everything outside 66-206 E and -13-55 N, which
@@ -3512,7 +3512,20 @@ TANNU_TUVA_FILE = "tannu-tuva-1940.geojson"
 # at the 50th parallel, and there are no Kurile rings in it at all, both of
 # which were Japanese. So Karafuto and Chishima go on coming from Natural
 # Earth's Russia, and only the `ussr` key stands down for this.
-SOVIET_UNION_FILE = "soviet-union.geojson"
+SOVIET_UNION_FILE = "soviet-union-v2.geojson"
+
+# Four stretches of frontier that no two of the sources here agree about, drawn
+# over whatever they cross so that a reader is told the line is not settled
+# rather than being shown a confident one: the Kachin country on the Burma
+# frontier, the Pamirs, Aksai Chin, and the McMahon line. Each is claimed by a
+# point that can only be in one of them.
+#
+# The Burma stretch is separated from the other three because it is a question
+# about 1930 alone. In December 1942 that ground was under Japanese occupation
+# and the map says so; whose frontier it had been is not what the 1942 map is
+# about.
+CONTESTED_FILE = "border-unclear-contested.geojson"
+CONTESTED_BURMA_POINT = (97.5, 26.3)          # the Kachin frontier
 NEPAL_AFGHAN_FILE = "nepal-afghanistan-1931.geojson"
 NEPAL_AFGHAN_POINTS = (("nepal", (85.32, 27.71)),        # Kathmandu
                        ("afghanistan", (69.18, 34.53)))  # Kabul
@@ -4174,7 +4187,9 @@ ON_TOP = ["weihaiwei", "guangzhouwan", "macau", "hongkong", "kwantung", "ccp",
           # the un-pacified areas sit over the pacified ones for the same
           # reason the base areas sit over the occupation: they are what
           # the shading beneath them is an overstatement of
-          "nca_unpacified"]
+          "nca_unpacified",
+          # the frontiers nobody agreed on go over every country they cross
+          "contested", "contested_burma"]
 
 ORDER = [
     # first, so that anything real drawn over it wins the pointer
@@ -4279,6 +4294,19 @@ def main():
     # Natural Earth's modern outline of the same country. Loaded before the
     # Natural Earth sweep so that it can see they are here and stand down.
     outer_mongolia = [r for _p, rs in load_traced(OUTER_MONGOLIA_FILE) for r in rs]
+    for _props, _rings in load_traced(CONTESTED_FILE):
+        for _r in _rings:
+            if len(_r) < 3:
+                continue
+            key = ("contested_burma" if point_in_ring(CONTESTED_BURMA_POINT, _r)
+                   else "contested")
+            groups[key].append(_r)
+    if groups.get("contested") or groups.get("contested_burma"):
+        sys.stderr.write("contested frontiers: %d stretches, %d on the Burma "
+                         "frontier\n" % (len(groups.get("contested", []))
+                                         + len(groups.get("contested_burma", [])),
+                                         len(groups.get("contested_burma", []))))
+
     soviet_union = [r for _p, rs in load_traced(SOVIET_UNION_FILE) for r in rs]
     if soviet_union:
         groups["ussr"].extend(soviet_union)
@@ -5841,6 +5869,18 @@ def main():
         '    <pattern id="hatch-thai" patternUnits="userSpaceOnUse" width="9" height="9" '
         'patternTransform="rotate(45)">'
         '<line x1="0" y1="0" x2="0" y2="9" stroke="#8dd3c7" stroke-opacity="1" stroke-width="4.4"/>'
+        "</pattern>"
+    )
+    # A frontier nobody agreed on. Crossed rather than raked, because every
+    # other hatch on this map rakes one way and means "this ground is held by
+    # somebody as well"; this one means "the line here is not settled", which is
+    # a different kind of statement and should not read as a third claimant.
+    # Thin and open, so the countries underneath still show their colours.
+    out.append(
+        '    <pattern id="hatch-unclear" patternUnits="userSpaceOnUse" '
+        'width="7" height="7">'
+        '<path d="M0 0L7 7M7 0L0 7" stroke="#5c554a" stroke-opacity="0.55" '
+        'stroke-width="1.1" fill="none"/>'
         "</pattern>"
     )
     # The Communist base areas, laid over the occupied shading rather than
