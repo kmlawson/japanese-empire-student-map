@@ -3503,7 +3503,10 @@ filename is updated so the cache matches what was handed over, and nothing on
 the map moved.
 
 **The four contested frontiers** are drawn over whatever they cross, in a
-crossed hatch rather than the raked stripes every other overlay uses. That is
+crossed hatch rather than the raked stripes every other overlay uses. The hatch
+went in at 0.55 stroke-opacity and 1.1 width and stuck out — it read as a layer
+of its own rather than as a caution laid over somebody else's ground. It is 0.3
+and 0.95 now, on the same 7-unit grid. That is
 deliberate: the stripes on this map mean *somebody else holds this ground too*,
 and these mean *the line itself was not settled*, which should not read as a
 third claimant. The atoms are `transparent`, so the countries underneath keep

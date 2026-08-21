@@ -5875,12 +5875,14 @@ def main():
     # other hatch on this map rakes one way and means "this ground is held by
     # somebody as well"; this one means "the line here is not settled", which is
     # a different kind of statement and should not read as a third claimant.
-    # Thin and open, so the countries underneath still show their colours.
+    # Thin and open, so the countries underneath still show their colours: at
+    # 0.55 opacity it read as a layer of its own rather than as a caution over
+    # somebody else's ground, so it is 0.3.
     out.append(
         '    <pattern id="hatch-unclear" patternUnits="userSpaceOnUse" '
         'width="7" height="7">'
-        '<path d="M0 0L7 7M7 0L0 7" stroke="#5c554a" stroke-opacity="0.55" '
-        'stroke-width="1.1" fill="none"/>'
+        '<path d="M0 0L7 7M7 0L0 7" stroke="#5c554a" stroke-opacity="0.3" '
+        'stroke-width="0.95" fill="none"/>'
         "</pattern>"
     )
     # The Communist base areas, laid over the occupied shading rather than
