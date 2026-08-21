@@ -3461,6 +3461,16 @@ Two editorial decisions travel with it, one applied and one deliberately not:
 
 Unsimplified, like the others: what the build starts from, not what it draws.
 
+Asked for afterwards, and right: the layer and its warning now sit together in
+`GIS/Taiwan/taiwan-1930/`, as `taiwan-1930.geojson` and `taiwan-1930.md`, so the
+note cannot be separated from the thing it warns about. The note says what the
+file is, what it is not, where Kinmen went and how to get it back, that the
+Pescadores are four of the seven rings, how to remake the file, and what tracing
+a period Taiwan would involve — a Japanese colonial sheet, which would bring the
+colonial prefectures with it and let the map name them as it names Korea's
+provinces. The `Taiwan/` folder already held a railway-stations dataset, which
+is why a folder per layer is the right shape there.
+
 ---
 
 ## Sources worth fetching
