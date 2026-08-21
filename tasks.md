@@ -3409,6 +3409,36 @@ is then thinned by the band its bounding box earns. Three of the six layers
 swapped in this week needed `TRACED_TOL`, and it was found each time by
 measuring the drawn line against the file rather than by looking at the map.
 
+### Weihaiwei and Kwangchowwan exported for the GIS project
+`tools/export_leaseholds.py`, on the pattern of `export_korea.py`, writing into
+a folder each under `Dropbox/GIS/China/`:
+
+| file | features | vertices | |
+|---|---:|---:|---|
+| `Weihaiwei/weihaiwei-1930.geojson` | 1 | 209 | 4 polygons, 346 km², 121.94–122.28° E |
+| `Kwangchowwan/kwangchowwan-1930.geojson` | 1 | 497 | 6 polygons, 1,210 km², 110.09–110.63° E |
+| `Kwangchowwan/kwangchowwan-1930-water.geojson` | 1 | 10 | the traced bay, see below |
+
+Both are held in the *Modern East Asia GIS* project as GeoPackages in an
+azimuthal-equidistant grid centred on Wuhan, on the Clarke 1866 ellipsoid, so
+the export converts them to longitude and latitude the way the build does — by
+solving the geodesic direct problem, which is what that grid is: a true bearing
+and a true distance from the centre. Worth naming, because an earlier version of
+this project inverted the same grid with the spherical formula and put every
+layer two to six kilometres out of place, radially away from Wuhan.
+
+Kwangchowwan gets a second file that is **not** a boundary: the hand-traced ring
+of Guangzhou Bay's water, ten points, which exists only because Natural Earth
+paints the arms of the bay as land and China's yellow was showing in the
+channels between the leasehold's six pieces. Everything inside that ring which
+the leasehold does not cover is painted as water. It is exported because it is
+data this map holds and the GIS project does not; it should not be mistaken for
+a claim about anything.
+
+Nothing is simplified in either file — this is what the build starts from, not
+what it draws. The names travel with the geometry, in the four scripts the map
+shows them in.
+
 ---
 
 ## Sources worth fetching
