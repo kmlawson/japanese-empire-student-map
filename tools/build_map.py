@@ -109,6 +109,14 @@ ENP_PROVINCES = os.path.join(CACHE, "enp", "1928-45", "1928_1945")
 CHINA_WHOLE = os.path.join(CACHE, "enp", "1928-45-v2", "1928_1945")
 ENP_NAME_FIELD = "p_28_45_na"
 
+# The provinces redrawn, and the leaseholds and colonies cut out of them, so
+# that Hong Kong, Macao, Kwantung and Kwangchowwan sit in holes of their own
+# rather than over ground the province also claims. One feature per province,
+# names carried in the file. The names it uses are not all the ones the rest of
+# this build knows the provinces by, so three are translated back.
+CHINA_PROVINCES_FILE = "republican-china-provinces-v5.geojson"
+CHINA_PROVINCE_ALIAS = {"Rehe": "Jehol", "Chahar": "Chahaer", "Tibet": "Xizang"}
+
 # The same provinces from a much finer source, built by tools/roc_provinces.py
 # out of a Commons SVG traced from the AMS 1:250,000 sheets. Offered as an
 # alternative rather than a replacement: it is six to thirteen times finer on
@@ -414,12 +422,6 @@ LEASEHOLD_SEA = [
         (121.88905, 39.39650), (122.40555, 39.38182), (122.96778, 39.31418),
         (123.21454, 39.20222), (123.23939, 38.90792), (121.21703, 38.60267),
         (120.71067, 38.78452), (121.02443, 39.27441),
-    ]),
-    ("guangzhouwan", [
-        (110.65710, 21.21093), (110.51172, 21.33647), (110.37700, 21.32654),
-        (110.26167, 21.27326), (110.10369, 21.05544), (110.16378, 20.99392),
-        (110.19673, 20.92241), (110.53789, 20.83820), (110.67358, 20.83457),
-        (110.70847, 21.05182),
     ]),
 ]
 
@@ -4266,12 +4268,13 @@ def main():
     for bx0, by0, bx1, by1 in LAND_BASE:
         groups["chinabase_land"].append(
             [(bx0, by0), (bx1, by0), (bx1, by1), (bx0, by1)])
-    # and the Republic itself, under all of it
-    if os.path.exists(CHINA_WHOLE + ".shp"):
-        _cw = [r for _att, rs in shapefile.read(CHINA_WHOLE) for r in rs]
-        groups["chinabase"].extend(_cw)
-        sys.stderr.write("China as a whole: %d rings (%d vertices)\n"
-                         % (len(_cw), sum(len(r) for r in _cw)))
+    # The Republic as one polygon used to go in here, as the ground under
+    # China. It is gone: the provinces are cut round the leaseholds and the
+    # colonies now and meet their neighbours cleanly, so a filler underneath
+    # has nothing to fill — and where it disagreed with them along the coast it
+    # showed as a grey fringe, which is worse than the crack it was insuring
+    # against. `CHINA_WHOLE` is left defined; drop the rings back in here if a
+    # future source needs the insurance again.
     # Chinese atoms keep their provinces as separate sub-paths, so hovering can
     # name the province as well as the country.
     provinces = collections.defaultdict(list)
@@ -5055,7 +5058,25 @@ def main():
                             sum(len(r) for r in kwantung_traced)))
     tally = collections.Counter()
 
-    for att, rings in shapefile.read(ENP_PROVINCES):
+    def china_provinces():
+        """(name, rings) per province, from the traced sheet or the old one."""
+        path = os.path.join(CACHE, CHINA_PROVINCES_FILE)
+        if os.path.exists(path):
+            with open(path) as fh:
+                for feat in json.load(fh).get("features", []):
+                    nm = ((feat.get("properties") or {}).get("name") or "").strip()
+                    nm = CHINA_PROVINCE_ALIAS.get(nm, nm)
+                    rs = [r for r in iter_rings(feat.get("geometry") or {})
+                          if len(r) >= 3]
+                    if nm and rs:
+                        yield {ENP_NAME_FIELD: nm}, rs
+            return
+        sys.stderr.write("note: %s missing, falling back to the ENP sheet\n"
+                         % CHINA_PROVINCES_FILE)
+        for att, rings in shapefile.read(ENP_PROVINCES):
+            yield att, rings
+
+    for att, rings in china_provinces():
         name = (att.get(ENP_NAME_FIELD) or "").strip()
         if not name or not rings:
             continue
@@ -5549,73 +5570,12 @@ def main():
             hits[key] = [(m[1], m[2]) for m in sorted(moments, reverse=True)[:6]]
         stats.append((key, len(pieces), len(paths[key]), "dissolved" if merged else "raw"))
 
-    # Guangzhou Bay as water: the bay's box, then Natural Earth's coastline
-    # inside it, in one path filled by the even-odd rule so that the land
-    # subtracts from the box. See where it is emitted, below.
-    # Weihaiwei's seaward fringe, carved the same way as the bay below but with
-    # a box rather than a hull: the leasehold is an arc of coast, so its hull's
-    # chord runs across Chinese land inland and carving that would take away
-    # ground the province is right about. The box holds only the water side.
+    # The provinces are cut round the leaseholds now, so there is nothing to
+    # carve back out of them: Weihaiwei's seaward fringe and the Guangzhou Bay
+    # hull are both gone, and so is the traced water that went with the bay.
+    # What is left is the Kwantung ring, where the country underneath is still
+    # Natural Earth's coarse outline rather than the traced sheet.
     bay_path = ""
-    wei = groups.get("weihaiwei")
-    if wei:
-        wx0, wy0, wx1, wy1 = WEIHAIWEI_SEA_BOX
-        pieces = [ring_to_path([project(x, y) for x, y in
-                                ((wx0, wy0), (wx1, wy0), (wx1, wy1), (wx0, wy1))],
-                               FINE_PRECISION)]
-        # The rings are cut to the box first. The lease is a semicircle of a
-        # ten-mile radius round the bay and the box holds only its northern,
-        # seaward strip, so most of that semicircle lies outside — and under
-        # the even-odd rule a ring outside the box is not subtracting from
-        # anything, it is a shape of its own, painted in the ocean colour. On
-        # the 1930 map the leasehold is drawn over it and nothing shows; on the
-        # 1942 map it was returned to China two months before the map's own
-        # 1930 date, so nothing is drawn there and the whole semicircle came
-        # out as a bite of sea taken out of the Shantung peninsula.
-        planes = box_planes(wx0, wy0, wx1, wy1)
-        for ring in wei:
-            cut = clip_halfplanes(normalise_ring(ring), planes)
-            if len(cut) < 3:
-                continue
-            pieces.append(ring_to_path([project(x, y) for x, y in cut],
-                                       FINE_PRECISION))
-        bay_path += "".join(pieces)
-
-    if groups.get("guangzhouwan"):
-        # The outer ring is the leasehold's own convex hull rather than a box:
-        # a box leaves its corners standing out over the mainland as rectangles
-        # of ocean, and the hull touches the leasehold at every extreme and
-        # cuts nothing that the leasehold does not already reach around.
-        hull = convex_hull([p for r in groups["guangzhouwan"] for p in r])
-        pieces = [ring_to_path([project(x, y) for x, y in hull], FINE_PRECISION)]
-        for ring in groups["guangzhouwan"]:
-            pieces.append(ring_to_path([project(x, y) for x, y in
-                                        normalise_ring(ring)], FINE_PRECISION))
-        # The hull is convex and the leasehold is not, so it takes in a good
-        # deal of the Leizhou mainland on its north-west as well as the bay —
-        # 78 per cent more area than the leasehold's own — and all of that was
-        # being painted as sea. The traced coastline goes into the same path to
-        # say where the sea is not: a point inside the hull, outside the
-        # leasehold and on land now has an even number of rings round it under
-        # the even-odd rule, and is left alone. Clipped to the hull first,
-        # because a ring reaching outside it would be a shape of its own rather
-        # than something subtracting from it.
-        coast = load_gzw_coast()
-        if coast:
-            planes = hull_planes(hull)
-            kept = 0
-            for ring in coast:
-                pulled = grow_ring(normalise_ring(ring), GZW_COAST_SHRINK)
-                cut = clip_halfplanes(pulled, planes)
-                if len(cut) < 3:
-                    continue
-                pieces.append(ring_to_path([project(x, y) for x, y in cut],
-                                           FINE_PRECISION))
-                kept += 1
-            sys.stderr.write(
-                f"Guangzhou Bay: {kept} coastline rings limit the carve\n")
-        bay_path += "".join(pieces) if len(pieces) > 1 else ""
-
     lease_sea_path = ""
     for _key, _ring in LEASEHOLD_SEA:
         _own = groups.get(_key) or []

@@ -3569,6 +3569,39 @@ between 145 and 157.5° E and 43 and 51.5° N on a ring under four degrees acros
 which is `split_russia` in the build. That is a rule about where the islands are
 rather than about who held them, so it does not need revisiting per date.
 
+### China's provinces redrawn, and three kinds of scaffolding removed
+`republican-china-provinces-v5.geojson` replaces the ENP shapefile: 29 features,
+one per province, names in the file, 25,773 vertices. The build reads it
+directly and falls back to the old sheet if it is ever missing.
+
+Three of its names are not the ones the rest of the build knows the provinces
+by, so `CHINA_PROVINCE_ALIAS` translates them: **Rehe → Jehol, Chahar →
+Chahaer, Tibet → Xizang**. With that, every province lands where it should:
+china 21, manchuria 3, and one each for xinjiang, tibet, jehol, chahar, suiyuan
+and suiyuan_w — the Paotow cut still works.
+
+**No simplification**, as asked. Nothing had to be done for it: China's atoms
+are in `ENP_ATOMS`, which is folded into `FULL_DETAIL`, so they were always
+drawn at their source's own detail.
+
+**What came out**, all of it scaffolding for disagreements that no longer exist:
+
+* **The Guangzhou Bay carve-out** (`#gzw-bay`) and **Weihaiwei's seaward
+  fringe** — both were even-odd subtractions standing in for a polygon
+  difference this build does not have. The provinces are cut round the
+  leaseholds now, so the leaseholds simply draw over China.
+* **The traced Guangzhou Bay water** out of `LEASEHOLD_SEA`. Kwantung's ring
+  stays: the country under *it* is still Natural Earth's coarse outline.
+* **The whole-Republic filler** put into `chinabase` yesterday. With the
+  provinces meeting their neighbours cleanly it had nothing to fill, and where
+  it disagreed with them along the coast it showed as a grey fringe — worse
+  than the crack it insured against. `CHINA_WHOLE` is left defined with a note
+  saying where to put the rings back if a future source needs it.
+
+Checked by eye at both leaseholds and across China: Kwangchowwan sits in its own
+hole in Kwangtung with no water ring and no bay carve; Weihaiwei's semicircle
+sits on Shantung with no fringe; the grey slivers along the coast are gone.
+
 ---
 
 ## Sources worth fetching
