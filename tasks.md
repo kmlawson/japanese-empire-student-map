@@ -7,9 +7,90 @@ describing what was actually changed, before it is marked done.
 
 ## Open — asked for and not yet done
 
-Three entries, and each of them is measured rather than assumed. Everything else
-that stood here has been closed; where a fix was a generalisation rather than an
-answer, the source that would settle it is named at the foot of this file.
+Nine entries. The first six are work asked for and not yet done; the last
+three are measured rather than assumed, and everything else that once stood
+here has been closed. Where a fix was a generalisation rather than an answer,
+the source that would settle it is named at the foot of this file.
+
+- **Mengchiang's claim should be a line round empty ground, not a second fill.**
+  As drawn, the 1940 claim and the held polygon carry the same client-state
+  colour, so the two read as one solid state and the distinction the layer
+  exists to make is invisible. What is wanted: the part of `mengjiang-1940`
+  that lies **outside** `mengjiang-actual-occupied` is left transparent — Free
+  China, or whatever is beneath, shows through it — and a dotted line runs
+  round **only that non-overlapping part**, not round the whole claim. So the
+  line becomes a frontier drawn across empty ground, and the filled area is
+  exactly what Japan held.
+
+  Two obstacles, and they are the same obstacle twice. The build has **no
+  polygon boolean operations** — `dissolve()` only cancels edges two rings
+  already share, and `clip_halfplanes` is convex-only — so neither the
+  difference (claim minus held) nor the boundary of that difference can be
+  computed by anything now in `tools/build_map.py`. The even-odd `fill-rule`
+  trick gives the transparent area for free: emit the claim ring and the held
+  ring into one path with `fill-rule="evenodd"` and the overlap punches itself
+  out, no boolean needed. The dotted **line** is the harder half, because
+  even-odd says nothing about strokes — stroking that path draws both rings
+  whole, including the shared eastern stretch that should not be dotted. Either
+  compute the difference properly (a real clipper, new code) or accept the full
+  claim ring as the line and rely on the held fill covering the part of it that
+  runs through occupied ground. Decide which before building.
+
+- **Verify Mengchiang's fill stops at the held polygon, not the claim.** The
+  entry above assumes the fill already follows `mengjiang-actual-occupied`;
+  that has never been confirmed. The rendered check was ambiguous — Manchukuo
+  and Mengchiang share the client-state colour, so the two fills merge
+  visually. Point-test the 1942 map at roughly **105 E / 40 N** and **106 E /
+  39 N**: both lie inside the 1940 claim and outside the held polygon (whose
+  western edge is 108.19 E), so both should answer *Republic of China*. If
+  either answers Mengchiang, `meng = meng_held or meng_claim` at
+  `tools/build_map.py:4663` is not taking effect and the atom is still filled
+  from the claim. Confirm as well that `#mengjiang-claim` is visible over Free
+  China in the western wedge.
+
+- **Wire the occupied-zone v3 layer, then re-test what it makes redundant.**
+  `japanese-occupied-territory-1941-2-v3` was to replace the occupied zone
+  because it is clipped properly. Confirm the filename first: what is in
+  `tools/cache/` is `japanese-occupied-territory-1941-2.geojson` and
+  `-vs.geojson`, with no `-v3`. Once it is in, test whether **`clip-china`**
+  (16,406 vertices, 233 KB) and **`clip-off-clients`** are still doing
+  anything, and re-examine the split stroke (`.whole-edge`, `.coast`, 76 KB).
+  Do not assume the clips can go — measure with them removed. They are a
+  frame-rate item as well as a size one: with the land stroke off by default
+  the clips now account for 12-14% of a frame.
+
+- **Export French Indochina to `GIS/French Indochina/`**, beside `China/` and
+  `Japan/`, following the Taiwan pattern — the layer and a `.md` note in a
+  sub-folder of its own. The pieces: Tonkin, Annam and Cochinchina; Cambodia
+  and Laos whole; and the provinces ceded to Thailand in 1941. The note must
+  say that the three-way cut of Vietnam is an approximation of watershed
+  boundaries rather than a traced administrative line, that Angkor is not
+  carved out, and that the coastlines are present-day Natural Earth and not a
+  period source.
+
+- **Bump the version by 0.01 on every build.** 0.8 to 0.81 to 0.82, in
+  `tools/build_texts.py`, writing back to `texts/version.csv`. Two traps.
+  Floating-point: `0.82 + 0.01` gives `0.8300000000000001`, so hold the number
+  as an integer of hundredths or format it to two decimals rather than adding
+  floats. And `bundle.py` runs after `build_texts.py` — one build must be one
+  bump, not two, so whatever counts a build has to be the outer run.
+
+- **Reword the contested frontier north of India.** It reads *Frontier not
+  settled*; it should read **Border contested or not clearly defined.** The
+  English string is in four places and all four have to move together, or the
+  legend and the shape will disagree: `texts/categories.csv` lines 13 and 30
+  (the `e1930` and `e1942` legend rows, which carry the string twice each — as
+  the name and as the `orig`), and `texts/territories/1930.csv:64` and
+  `texts/territories/1942.csv:70` (the `contested` row's name). `data.js` is
+  generated from these by `tools/build_texts.py` and must not be edited by
+  hand. The Japanese and Chinese renderings stay as they are unless asked —
+  未確定国境 and 未定國界 already say the same thing more briefly, and the Korean
+  미확정 국경 with them.
+
+  Worth doing at the same time, since it is the same legend row: the swatch
+  beside it is a solid square of #5c554a rather than a sample of the
+  `hatch-unclear` diagonals actually drawn on the map, so the key does not look
+  like the thing it is keying.
 
 - **The Kwantung leasehold: measured, and left.** Sampled by rendered colour
   over the whole leasehold at a hundred-kilometre view, Manchuria's colour shows
