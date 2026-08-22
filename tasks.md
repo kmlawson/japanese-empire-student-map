@@ -3982,9 +3982,11 @@ rather than stopping at 1939. The English headline stays *Měngjiāng
 (Mengchiang)*, which is what the territory is called in anything a student will
 read; the formal name is the line underneath.
 
-The prose now also says what the two shapes mean: 603,888 km² claimed against
-441,459 km² held, and the country between the two lines Free China in
-everything but name.
+The prose says what the two shapes mean in one sentence: the line is the
+claim, the fill the approximate area of control. It said it in a paragraph
+first, with both areas in square kilometres and a line about Free China in
+everything but name — too much text for a card somebody reads while pointing
+at a map.
 
 ### The contested frontier reworded
 *Frontier not settled* becomes **Border is contested or not fixed** — six
