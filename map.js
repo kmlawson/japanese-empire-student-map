@@ -475,6 +475,7 @@
 
     buildMarkers();
     buildSiteLabels();
+    nudgeOverlaps();
     buildEpochControl();
     syncLayerButtons();
 
@@ -564,7 +565,7 @@
       markersGroup.appendChild(g);
       elById[s.id] = g;
       sitePos[s.id] = p;
-      scalables.push({ el: g, x: p.x, y: p.y });
+      scalables.push({ el: g, x: p.x, y: p.y, sid: s.id, cat: s.cat });
     });
   }
 
@@ -790,7 +791,7 @@
       var text = svgEl('text', { 'class': 'slabel', 'font-size': SITE_PX, y: SITE_PX + 7 });
       labelLayer.appendChild(text);
       labels.push({ rec: s, el: text, x: p.x, y: p.y, dy: SITE_PX + 7, size: SITE_PX, w: 0, h: SITE_PX * 1.2 });
-      scalables.push({ el: text, x: p.x, y: p.y });
+      scalables.push({ el: text, x: p.x, y: p.y, sid: s.id, cat: s.cat });
     });
 
     (JMAP.BROWSE || []).forEach(function (b) {
@@ -1420,12 +1421,50 @@
     return state.cats.city && (!coarse || view.w < mapW / 2.2);
   }
 
+  /* An event that happened in a city sits on exactly the same point as the
+     city: the atomic bombs on Hiroshima and Nagasaki, the battle of Shanghai
+     on Shanghai, the siege on Qingdao. The diamond then covers the dot and
+     neither can be read or hit, and the two carry different things to say.
+     The event is nudged a few pixels clear of the city, which keeps the city
+     on its true coordinate. The nudge is written after the scale in the
+     marker's own transform, so it is a fixed distance on screen at every zoom
+     rather than a distance on the ground that opens up as you go in. Its label
+     carries the same nudge, so the name stays under its own marker. */
+  var MARK_NUDGE = 7.5;
+
+  function nudgeOverlaps() {
+    var at = {};
+    scalables.forEach(function (s) {
+      if (!s.sid) return;
+      var k = Math.round(s.x * 4) + ',' + Math.round(s.y * 4);
+      (at[k] = at[k] || []).push(s);
+    });
+    Object.keys(at).forEach(function (k) {
+      var group = at[k];
+      var cat = {};
+      group.forEach(function (s) { cat[s.sid] = s.cat; });
+      var ids = Object.keys(cat);
+      var events = ids.filter(function (i) { return cat[i] === 'battle'; });
+      // nothing to separate unless an event shares the spot with something else
+      if (!events.length || events.length === ids.length) return;
+      events.forEach(function (id, i) {
+        var a = -Math.PI / 4 - i * (Math.PI / 2.5);
+        var dx = Math.cos(a) * MARK_NUDGE, dy = Math.sin(a) * MARK_NUDGE;
+        group.forEach(function (s) {
+          if (s.sid === id) { s.ox = dx; s.oy = dy; }
+        });
+      });
+    });
+  }
+
   function rescale() {
     var c = containerSize();
     var k = view.w / c.w;                       // SVG units per screen pixel
     for (var i = 0; i < scalables.length; i++) {
       var s = scalables[i];
-      s.el.setAttribute('transform', 'translate(' + s.x + ' ' + s.y + ') scale(' + k + ')');
+      var t = 'translate(' + s.x + ' ' + s.y + ') scale(' + k + ')';
+      if (s.ox || s.oy) t += ' translate(' + s.ox + ' ' + s.oy + ')';
+      s.el.setAttribute('transform', t);
     }
     // Keep the shading stripes a constant width on screen rather than letting
     // them grow into stripes the width of a province as you zoom in. Only the
