@@ -549,8 +549,9 @@ communists.
 
 ## huayuankou
 
-The Chinese army cut the Yellow River dikes here on 9 June 1938 to stop the
-advance on Wuhan. The river left its bed for nine years, drowned several
+Nationalist troops, on Chiang Kai-shek's orders, blew the Yellow River dikes
+here on 9 June 1938 to stop the Japanese advance on Wuhan. The villages
+downstream were given no warning. The river left its bed for nine years, drowned several
 thousand villages, killed somewhere between 400,000 and 800,000 people, and
 left the country behind it open to the famine of 1942–43.
 
@@ -634,4 +635,143 @@ Furukawa's copper mine, and the pollution that poisoned the Watarase valley
 below it. Tanaka Shōzō's campaign on behalf of the ruined villages was the
 first environmental protest in Japan, and the state answered it by drowning
 one of them under a reservoir.
+
+# The spine, and the events the colonies had none of
+
+## taiwanexped
+
+Japan's first overseas expedition, sent in 1874 against the Paiwan of southern
+Taiwan after shipwrecked Ryūkyūan sailors were killed. More soldiers died of
+disease than of fighting, but China paid an indemnity, and in doing so conceded
+that the Ryūkyūs were Japan's.
+
+## pyongyangbattle
+
+The Japanese army took the city on 15 September 1894 and the Qing forces broke
+northward — the land battle that decided the first Sino-Japanese War before the
+fleets met at the Yalu two days later.
+
+## portarthursiege
+
+Five months, eleven-inch howitzers firing on the harbour, and something like
+sixty thousand Japanese casualties for a fortress that surrendered on 2 January
+1905. The scale of the losses set the pattern the next war would follow.
+
+## itoharbin
+
+An Chunggŭn shot Itō Hirobumi on the platform at Harbin on 26 October 1909. Itō
+had been Korea's resident-general and, latterly, a brake on outright annexation;
+Korea was annexed within the year.
+
+## tsingtaosiege
+
+Japan and a small British contingent took the German leasehold between August
+and November 1914 — Japan's whole war in Europe's war, and the beginning of the
+Shandong question that produced May Fourth.
+
+## siberia
+
+Japan landed at Vladivostok in August 1918 with the other Allies and stayed
+after they left, holding the Maritime Province with some 70,000 troops until
+1922 and northern Sakhalin until 1925. It came home with nothing.
+
+## marchfirst
+
+Thirty-three signatories read a declaration of independence in Seoul on 1 March
+1919 and the demonstrations spread to every province: perhaps two million people
+took part over the following months. The suppression killed some seven thousand,
+and the colonial government swapped military rule for what it called cultural
+rule.
+
+## mayfourth
+
+Students marched in Beijing on 4 May 1919 when Versailles handed Germany's
+Shandong holdings to Japan rather than back to China. The strikes and boycotts
+that followed are where modern Chinese nationalism is usually dated from.
+
+## pongodong
+
+Korean independence units under Hong Beom-do beat a Japanese pursuit column in
+the Manchurian border hills in June 1920 — the first victory of the armed
+resistance.
+
+## chongsanri
+
+Kim Chwa-chin's and Hong Beom-do's units fought a Japanese division over six
+days in October 1920 and got away. The reprisal fell on the Korean villages of
+Jiandao instead, and thousands were killed.
+
+## kantoquake
+
+The earthquake of 1 September 1923 and the fires after it killed about 105,000
+people in Tokyo and Yokohama. In the days that followed, rumour and vigilante
+bands — with police and soldiers among them — killed several thousand Koreans.
+
+## erlin
+
+Cane farmers at Erlin refused the price the Lin Pen-yuan sugar company set in
+October 1925 and were arrested in their hundreds. It is where the Taiwanese
+peasant union movement began.
+
+## wonsanstrike
+
+Four months of strike through the winter of 1929, some 2,200 workers out and
+the port at a standstill — the largest labour action of the colonial period in
+Korea, and it lost.
+
+## liutiaohu
+
+Kwantung Army officers set a small charge on the South Manchuria Railway just
+north of Mukden on the night of 18 September 1931, blamed Chinese troops, and
+used it to occupy the city by morning. The damage was slight enough that a train
+passed over the line minutes later.
+
+## shanghaibattle
+
+Three months of street and river fighting from 13 August 1937, and the first
+time Chiang Kai-shek committed his German-trained divisions. They were destroyed
+in it, and the road to Nanjing was open.
+
+## nanjingmassacre
+
+Japanese troops entered the capital on 13 December 1937 and the killing and rape
+went on for weeks. Estimates of the dead run from the tens of thousands to
+300,000, depending on the period and the boundary taken.
+
+## changshafire
+
+The garrison burned the city on 13 November 1938 on a false report that the
+Japanese were at the gates. They were still a hundred miles away. Some twenty
+thousand people died and most of Changsha was lost, in what remains one of the
+worst self-inflicted disasters of the war.
+
+## chongqingraids
+
+The raids of 3 and 4 May 1939 killed several thousand people in the crowded
+riverside districts. The bombing of the wartime capital went on for five years —
+one of the first sustained air campaigns against a civilian population anywhere.
+
+## newfourtharmy
+
+Nationalist troops surrounded the New Fourth Army's headquarters column in
+southern Anhui in January 1941 and destroyed it. The united front survived on
+paper and not in fact, and both sides spent the rest of the war watching each
+other.
+
+## henanfamine
+
+Drought, requisition and the ground left broken by the 1938 flood killed
+somewhere between two and three million people in Henan across 1942 and 1943,
+while grain was still being taken for the army.
+
+## hiroshimabomb
+
+The first atomic bomb, dropped at 8.15 on the morning of 6 August 1945. Around
+70,000 died at once and some 140,000 by the end of the year.
+
+## nagasakibomb
+
+The second, on 9 August 1945, aimed at the Mitsubishi yards and dropped through
+cloud over the Urakami valley. Around 40,000 died at once and some 70,000 by the
+end of the year.
 

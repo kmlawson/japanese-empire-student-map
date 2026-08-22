@@ -1520,7 +1520,7 @@ JMAP.SITES = [
   {
     id: 'huayuankou', en: 'Huāyuánkǒu (Huayuankow)', ja: '花園口 (Kaenkō)', zh: '花園口',
     date: '9 June 1938', cat: 'battle', lvl: 2, both: true, lat: 34.92, lon: 113.69, year: 1938,
-    note: 'The Chinese army cut the Yellow River dikes here on 9 June 1938 to stop the advance on Wuhan. The river left its bed for nine years, drowned several thousand villages, killed somewhere between 400,000 and 800,000 people, and left the country behind it open to the famine of 1942–43.'
+    note: 'Nationalist troops, on Chiang Kai-shek\'s orders, blew the Yellow River dikes here on 9 June 1938 to stop the Japanese advance on Wuhan. The villages downstream were given no warning. The river left its bed for nine years, drowned several thousand villages, killed somewhere between 400,000 and 800,000 people, and left the country behind it open to the famine of 1942–43.'
   },
   {
     id: 'changkufeng', en: 'Zhānggǔfēng (Changkufeng) / Lake Khasan',
@@ -1594,6 +1594,134 @@ JMAP.SITES = [
     date: 'Copper, and the pollution case', cat: 'city', lvl: 3, lat: 36.65, lon: 139.45,
     year: 1890,
     note: 'Furukawa\'s copper mine, and the pollution that poisoned the Watarase valley below it. Tanaka Shōzō\'s campaign on behalf of the ruined villages was the first environmental protest in Japan, and the state answered it by drowning one of them under a reservoir.'
+  },
+  {
+    id: 'taiwanexped', en: 'The Taiwan Expedition', ja: '台湾出兵 (Taiwan shuppei)', zh: '牡丹社事件',
+    date: 'May – December 1874', cat: 'battle', lvl: 3, both: true, lat: 22.05, lon: 120.75,
+    year: 1874,
+    note: 'Japan\'s first overseas expedition, sent in 1874 against the Paiwan of southern Taiwan after shipwrecked Ryūkyūan sailors were killed. More soldiers died of disease than of fighting, but China paid an indemnity, and in doing so conceded that the Ryūkyūs were Japan\'s.'
+  },
+  {
+    id: 'pyongyangbattle', en: 'Battle of Pyongyang', ja: '平壌の戦い (Heijō no tatakai)',
+    zh: '平壤戰役', ko: '평양 전투 (P’yŏngyang chŏnt’u)', date: '15 September 1894', cat: 'battle',
+    lvl: 2, both: true, lat: 39.02, lon: 125.75, year: 1894,
+    note: 'The Japanese army took the city on 15 September 1894 and the Qing forces broke northward — the land battle that decided the first Sino-Japanese War before the fleets met at the Yalu two days later.'
+  },
+  {
+    id: 'portarthursiege', en: 'Siege of Lǚshùn (Port Arthur)', ja: '旅順攻囲戦 (Ryojun kōisen)',
+    zh: '旅順圍城戰', date: 'August 1904 – 2 January 1905', cat: 'battle', lvl: 2, both: true,
+    lat: 38.82, lon: 121.22, year: 1904,
+    note: 'Five months, eleven-inch howitzers firing on the harbour, and something like sixty thousand Japanese casualties for a fortress that surrendered on 2 January 1905. The scale of the losses set the pattern the next war would follow.'
+  },
+  {
+    id: 'itoharbin', en: 'Assassination of Itō Hirobumi', ja: '伊藤博文暗殺 (Itō Hirobumi ansatsu)',
+    zh: '伊藤博文遇刺', ko: '이토 히로부미 저격 (Itʻo Hirobumi chŏgyŏk)', date: '26 October 1909',
+    cat: 'battle', lvl: 2, both: true, lat: 45.77, lon: 126.63, year: 1909,
+    note: 'An Chunggŭn shot Itō Hirobumi on the platform at Harbin on 26 October 1909. Itō had been Korea\'s resident-general and, latterly, a brake on outright annexation; Korea was annexed within the year.'
+  },
+  {
+    id: 'tsingtaosiege', en: 'Siege of Qīngdǎo (Tsingtao)', ja: '青島の戦い (Chintao no tatakai)',
+    zh: '青島戰役', date: '27 August – 7 November 1914', cat: 'battle', lvl: 3, lat: 36.07,
+    lon: 120.38, year: 1914,
+    note: 'Japan and a small British contingent took the German leasehold between August and November 1914 — Japan\'s whole war in Europe\'s war, and the beginning of the Shandong question that produced May Fourth.'
+  },
+  {
+    id: 'siberia', en: 'The Siberian Intervention', ja: 'シベリア出兵 (Shiberia shuppei)',
+    orig: 'Сибирская интервенция', zh: '西伯利亞干涉', date: 'From August 1918', cat: 'battle',
+    lvl: 3, lat: 43.12, lon: 131.89, year: 1918,
+    note: 'Japan landed at Vladivostok in August 1918 with the other Allies and stayed after they left, holding the Maritime Province with some 70,000 troops until 1922 and northern Sakhalin until 1925. It came home with nothing.'
+  },
+  {
+    id: 'marchfirst', en: 'The March First Movement', ja: '三・一運動 (San-ichi undō)', zh: '三一運動',
+    ko: '삼일운동 (Samil undong)', date: 'From 1 March 1919', cat: 'battle', lvl: 1, both: true,
+    lat: 37.571, lon: 126.988, year: 1919,
+    note: 'Thirty-three signatories read a declaration of independence in Seoul on 1 March 1919 and the demonstrations spread to every province: perhaps two million people took part over the following months. The suppression killed some seven thousand, and the colonial government swapped military rule for what it called cultural rule.'
+  },
+  {
+    id: 'mayfourth', en: 'The May Fourth Movement', ja: '五・四運動 (Go-shi undō)', zh: '五四運動',
+    date: '4 May 1919', cat: 'battle', lvl: 1, both: true, lat: 39.9, lon: 116.39, year: 1919,
+    note: 'Students marched in Beijing on 4 May 1919 when Versailles handed Germany\'s Shandong holdings to Japan rather than back to China. The strikes and boycotts that followed are where modern Chinese nationalism is usually dated from.'
+  },
+  {
+    id: 'pongodong', en: 'Fengwudong (Pongodong)', ja: '鳳梧洞の戦い (Hōgodō no tatakai)', zh: '鳳梧洞',
+    ko: '봉오동 (Pongodong)', date: 'June 1920', cat: 'battle', lvl: 3, lat: 42.47, lon: 129.76,
+    year: 1920,
+    note: 'Korean independence units under Hong Beom-do beat a Japanese pursuit column in the Manchurian border hills in June 1920 — the first victory of the armed resistance.'
+  },
+  {
+    id: 'chongsanri', en: 'Qingshanli (Chŏngsan-ri)', ja: '青山里の戦い (Seizanri no tatakai)',
+    zh: '青山里', ko: '청산리 (Chŏngsan-ri)', date: 'October 1920', cat: 'battle', lvl: 3, lat: 42.6,
+    lon: 128.8, year: 1920,
+    note: 'Kim Chwa-chin\'s and Hong Beom-do\'s units fought a Japanese division over six days in October 1920 and got away. The reprisal fell on the Korean villages of Jiandao instead, and thousands were killed.'
+  },
+  {
+    id: 'kantoquake', en: 'The Great Kantō Earthquake', ja: '関東大震災 (Kantō daishinsai)',
+    zh: '關東大地震', date: '1 September 1923', cat: 'battle', lvl: 1, both: true, lat: 35.4,
+    lon: 139.5, year: 1923,
+    note: 'The earthquake of 1 September 1923 and the fires after it killed about 105,000 people in Tokyo and Yokohama. In the days that followed, rumour and vigilante bands — with police and soldiers among them — killed several thousand Koreans.'
+  },
+  {
+    id: 'erlin', en: 'Èrlín (Erhlin)', ja: '二林事件 (Nirin jiken)', zh: '二林', date: 'October 1925',
+    cat: 'battle', lvl: 3, lat: 23.9, lon: 120.38, year: 1925,
+    note: 'Cane farmers at Erlin refused the price the Lin Pen-yuan sugar company set in October 1925 and were arrested in their hundreds. It is where the Taiwanese peasant union movement began.'
+  },
+  {
+    id: 'wonsanstrike', en: 'The Wonsan general strike', ja: '元山ゼネスト (Genzan zenesuto)',
+    zh: '元山總罷工', ko: '원산 총파업 (Wŏnsan ch’ongp’aŏp)', date: 'January – April 1929', cat: 'battle',
+    lvl: 3, lat: 39.15, lon: 127.44, year: 1929,
+    note: 'Four months of strike through the winter of 1929, some 2,200 workers out and the port at a standstill — the largest labour action of the colonial period in Korea, and it lost.'
+  },
+  {
+    id: 'liutiaohu', en: 'The Mukden Incident', ja: '柳条湖事件 (Ryūjōko jiken)', zh: '柳條湖事件',
+    date: '18 September 1931', cat: 'battle', lvl: 1, both: true, lat: 41.85, lon: 123.47,
+    year: 1931,
+    note: 'Kwantung Army officers set a small charge on the South Manchuria Railway just north of Mukden on the night of 18 September 1931, blamed Chinese troops, and used it to occupy the city by morning. The damage was slight enough that a train passed over the line minutes later.'
+  },
+  {
+    id: 'shanghaibattle', en: 'Battle of Shànghǎi', ja: '第二次上海事変 (Dainiji Shanhai jihen)',
+    zh: '淞滬會戰', date: '13 August – 26 November 1937', cat: 'battle', lvl: 1, both: true,
+    lat: 31.23, lon: 121.47, year: 1937,
+    note: 'Three months of street and river fighting from 13 August 1937, and the first time Chiang Kai-shek committed his German-trained divisions. They were destroyed in it, and the road to Nanjing was open.'
+  },
+  {
+    id: 'nanjingmassacre', en: 'The Nanjing Massacre', ja: '南京事件 (Nankin jiken)', zh: '南京大屠殺',
+    date: 'December 1937 – February 1938', cat: 'battle', lvl: 1, both: true, lat: 32.06,
+    lon: 118.8, year: 1937,
+    note: 'Japanese troops entered the capital on 13 December 1937 and the killing and rape went on for weeks. Estimates of the dead run from the tens of thousands to 300,000, depending on the period and the boundary taken.'
+  },
+  {
+    id: 'changshafire', en: 'The Changsha fire', ja: '長沙大火 (Chōsa taika)', zh: '文夕大火',
+    date: '13 November 1938', cat: 'battle', lvl: 3, lat: 28.23, lon: 112.94, year: 1938,
+    note: 'The garrison burned the city on 13 November 1938 on a false report that the Japanese were at the gates. They were still a hundred miles away. Some twenty thousand people died and most of Changsha was lost, in what remains one of the worst self-inflicted disasters of the war.'
+  },
+  {
+    id: 'chongqingraids', en: 'The bombing of Chóngqìng', ja: '重慶爆撃 (Jūkei bakugeki)',
+    zh: '重慶大轟炸', date: '3–4 May 1939, and for five years after', cat: 'battle', lvl: 2,
+    lat: 29.56, lon: 106.55, year: 1939,
+    note: 'The raids of 3 and 4 May 1939 killed several thousand people in the crowded riverside districts. The bombing of the wartime capital went on for five years — one of the first sustained air campaigns against a civilian population anywhere.'
+  },
+  {
+    id: 'newfourtharmy', en: 'The New Fourth Army Incident', ja: '皖南事変 (Kannan jihen)',
+    zh: '皖南事變', date: 'January 1941', cat: 'battle', lvl: 3, lat: 30.63, lon: 118.42,
+    year: 1941,
+    note: 'Nationalist troops surrounded the New Fourth Army\'s headquarters column in southern Anhui in January 1941 and destroyed it. The united front survived on paper and not in fact, and both sides spent the rest of the war watching each other.'
+  },
+  {
+    id: 'henanfamine', en: 'The Hénán famine', ja: '河南大飢饉 (Kanan daikikin)', zh: '河南大饑荒',
+    date: '1942–43', cat: 'battle', lvl: 2, lat: 33.9, lon: 113.8, year: 1942,
+    note: 'Drought, requisition and the ground left broken by the 1938 flood killed somewhere between two and three million people in Henan across 1942 and 1943, while grain was still being taken for the army.'
+  },
+  {
+    id: 'hiroshimabomb', en: 'The Hiroshima bomb', ja: '広島原爆 (Hiroshima genbaku)', zh: '廣島原子彈',
+    date: '6 August 1945', cat: 'battle', lvl: 1, both: true, lat: 34.39, lon: 132.46,
+    year: 1945,
+    note: 'The first atomic bomb, dropped at 8.15 on the morning of 6 August 1945. Around 70,000 died at once and some 140,000 by the end of the year.'
+  },
+  {
+    id: 'nagasakibomb', en: 'The Nagasaki bomb', ja: '長崎原爆 (Nagasaki genbaku)', zh: '長崎原子彈',
+    date: '9 August 1945', cat: 'battle', lvl: 1, both: true, lat: 32.74, lon: 129.87,
+    year: 1945,
+    note: 'The second, on 9 August 1945, aimed at the Mitsubishi yards and dropped through cloud over the Urakami valley. Around 40,000 died at once and some 70,000 by the end of the year.'
   },
 ];
 

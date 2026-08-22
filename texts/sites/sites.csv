@@ -105,3 +105,25 @@ ruijin,Ruìjīn (Juichin),瑞金 (Zuikin),,瑞金,,Soviet capital 1931–34,city
 consan,Côn Sơn (Poulo Condore),コンソン島 (Konson-tō),Côn Sơn,崑崙島,,Penal island from 1862,city,3,,8.69,106.61,1862
 bovendigoel,Boven Digoel,ボーフェン・ディグル (Bōfen Diguru),Boven Digoel,,,Internment camp from 1927,city,3,,-6.1,140.3,1927
 ashio,Ashio,足尾 (Ashio),,足尾,,"Copper, and the pollution case",city,3,,36.65,139.45,1890
+taiwanexped,The Taiwan Expedition,台湾出兵 (Taiwan shuppei),,牡丹社事件,,May – December 1874,battle,3,yes,22.05,120.75,1874
+pyongyangbattle,Battle of Pyongyang,平壌の戦い (Heijō no tatakai),,平壤戰役,평양 전투 (P’yŏngyang chŏnt’u),15 September 1894,battle,2,yes,39.02,125.75,1894
+portarthursiege,Siege of Lǚshùn (Port Arthur),旅順攻囲戦 (Ryojun kōisen),,旅順圍城戰,,August 1904 – 2 January 1905,battle,2,yes,38.82,121.22,1904
+itoharbin,Assassination of Itō Hirobumi,伊藤博文暗殺 (Itō Hirobumi ansatsu),,伊藤博文遇刺,이토 히로부미 저격 (Itʻo Hirobumi chŏgyŏk),26 October 1909,battle,2,yes,45.77,126.63,1909
+tsingtaosiege,Siege of Qīngdǎo (Tsingtao),青島の戦い (Chintao no tatakai),,青島戰役,,27 August – 7 November 1914,battle,3,,36.07,120.38,1914
+siberia,The Siberian Intervention,シベリア出兵 (Shiberia shuppei),Сибирская интервенция,西伯利亞干涉,,From August 1918,battle,3,,43.12,131.89,1918
+marchfirst,The March First Movement,三・一運動 (San-ichi undō),,三一運動,삼일운동 (Samil undong),From 1 March 1919,battle,1,yes,37.571,126.988,1919
+mayfourth,The May Fourth Movement,五・四運動 (Go-shi undō),,五四運動,,4 May 1919,battle,1,yes,39.9,116.39,1919
+pongodong,Fengwudong (Pongodong),鳳梧洞の戦い (Hōgodō no tatakai),,鳳梧洞,봉오동 (Pongodong),June 1920,battle,3,,42.47,129.76,1920
+chongsanri,Qingshanli (Chŏngsan-ri),青山里の戦い (Seizanri no tatakai),,青山里,청산리 (Chŏngsan-ri),October 1920,battle,3,,42.6,128.8,1920
+kantoquake,The Great Kantō Earthquake,関東大震災 (Kantō daishinsai),,關東大地震,,1 September 1923,battle,1,yes,35.4,139.5,1923
+erlin,Èrlín (Erhlin),二林事件 (Nirin jiken),,二林,,October 1925,battle,3,,23.9,120.38,1925
+wonsanstrike,The Wonsan general strike,元山ゼネスト (Genzan zenesuto),,元山總罷工,원산 총파업 (Wŏnsan ch’ongp’aŏp),January – April 1929,battle,3,,39.15,127.44,1929
+liutiaohu,The Mukden Incident,柳条湖事件 (Ryūjōko jiken),,柳條湖事件,,18 September 1931,battle,1,yes,41.85,123.47,1931
+shanghaibattle,Battle of Shànghǎi,第二次上海事変 (Dainiji Shanhai jihen),,淞滬會戰,,13 August – 26 November 1937,battle,1,yes,31.23,121.47,1937
+nanjingmassacre,The Nanjing Massacre,南京事件 (Nankin jiken),,南京大屠殺,,December 1937 – February 1938,battle,1,yes,32.06,118.8,1937
+changshafire,The Changsha fire,長沙大火 (Chōsa taika),,文夕大火,,13 November 1938,battle,3,,28.23,112.94,1938
+chongqingraids,The bombing of Chóngqìng,重慶爆撃 (Jūkei bakugeki),,重慶大轟炸,,"3–4 May 1939, and for five years after",battle,2,,29.56,106.55,1939
+newfourtharmy,The New Fourth Army Incident,皖南事変 (Kannan jihen),,皖南事變,,January 1941,battle,3,,30.63,118.42,1941
+henanfamine,The Hénán famine,河南大飢饉 (Kanan daikikin),,河南大饑荒,,1942–43,battle,2,,33.9,113.8,1942
+hiroshimabomb,The Hiroshima bomb,広島原爆 (Hiroshima genbaku),,廣島原子彈,,6 August 1945,battle,1,yes,34.39,132.46,1945
+nagasakibomb,The Nagasaki bomb,長崎原爆 (Nagasaki genbaku),,長崎原子彈,,9 August 1945,battle,1,yes,32.74,129.87,1945
