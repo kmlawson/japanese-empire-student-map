@@ -1146,6 +1146,11 @@ dialog .x {
 dialog .hint { color: var(--muted); font-size: 13px; }
 dialog hr { border: 0; border-top: 1px solid var(--line); margin: 16px 0; }
 
+/* The jump to the other date, under the occupation settings that only apply to
+   one of them. Set apart from the switches above it so it reads as an action
+   rather than another thing to turn on. */
+dialog .epoch-jump { margin-top: 10px; font-size: 13.5px; }
+
 dialog label.row {
   display: flex;
   align-items: center;

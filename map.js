@@ -3194,6 +3194,40 @@
     appendTo.hidden = false;
   }
 
+  /* One way in and out of a date, so the header control and the shortcut in
+     the Layers panel cannot drift apart. */
+  function setEpoch(id) {
+    if (!id || state.epoch === id) return;
+    state.epoch = id;
+    $$('#epoch-seg button').forEach(function (x) {
+      x.classList.toggle('on', x.getAttribute('data-epoch') === id);
+    });
+    select(null);
+    composeEpoch();
+    applyState();
+    showEpochBlurb();
+    syncEpochShortcut();
+  }
+
+  function otherEpoch() {
+    var ids = (JMAP.EPOCHS || []).map(function (e) { return e.id; });
+    return ids.filter(function (i) { return i !== state.epoch; })[0] || null;
+  }
+
+  /* The occupation of China is drawn on the Dec 1942 sheet and nowhere else,
+     so a reader who opens Layers on the 1930 map can change those settings and
+     watch nothing happen. The button says which sheet they are one click from
+     and takes them there. */
+  function syncEpochShortcut() {
+    var b = $('#occ-goto');
+    if (!b) return;
+    var other = otherEpoch();
+    var rec = (JMAP.EPOCHS || []).filter(function (e) { return e.id === other; })[0];
+    if (!rec) { b.hidden = true; return; }
+    b.hidden = false;
+    b.textContent = 'Show the ' + rec.en + ' map';
+  }
+
   function buildEpochControl() {
     var seg = $('#epoch-seg');
     JMAP.EPOCHS.forEach(function (e) {
@@ -3202,18 +3236,12 @@
       b.setAttribute('data-epoch', e.id);
       b.textContent = e.en;
       b.classList.toggle('on', e.id === state.epoch);
-      b.addEventListener('click', function () {
-        if (state.epoch === e.id) return;
-        state.epoch = e.id;
-        $$('#epoch-seg button').forEach(function (x) { x.classList.toggle('on', x === b); });
-        select(null);
-        composeEpoch();
-        applyState();
-        if (state.mode === 'quiz') startQuiz();
-        else showEpochBlurb();
-      });
+      b.addEventListener('click', function () { setEpoch(e.id); });
       seg.appendChild(b);
     });
+    var go = $('#occ-goto');
+    if (go) go.addEventListener('click', function () { setEpoch(otherEpoch()); });
+    syncEpochShortcut();
   }
 
   function showHint() {
