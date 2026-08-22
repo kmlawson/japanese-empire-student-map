@@ -220,6 +220,17 @@
     return r[state.lang] || r.en;
   }
 
+  /* `Name — what it was` splits into a headline and the first line of the
+     card. Only the em dash with spaces round it counts: an en dash inside a
+     date range, and a hyphen inside Kankyōhoku-dō, are not separators. */
+  function splitGloss(name) {
+    var cut = name ? name.indexOf(' — ') : -1;
+    if (cut < 0) return { name: name || '', gloss: '' };
+    var gloss = name.slice(cut + 3).trim();
+    if (gloss) gloss = gloss.charAt(0).toUpperCase() + gloss.slice(1) + '.';
+    return { name: name.slice(0, cut), gloss: gloss };
+  }
+
   function territories() { return JMAP.TERRITORIES[state.epoch]; }
   function catList() { return JMAP.CATEGORIES[state.epoch]; }
 
@@ -1436,10 +1447,107 @@
   /* Which names are candidates at all, before the collision test decides which
      of them fit. Re-run on zoom as well as on a state change, because the
      level it asks at moves with the zoom. */
+  /* Provinces and islands are named only when the reader has come close
+     enough for the name to mean something. At the opening view there are two
+     thousand of them and they would be a grey mat; twelve times in, the map is
+     showing one country and the divisions inside it are what the reader is
+     looking at.
+
+     The Administrative layer is not consulted. That switch is about drawing
+     the *boundaries*, and a reader who has zoomed into Kwangtung wants to know
+     it is Kwangtung whether or not there is a line round it. The geometry is
+     fetched if it is not already here, which is all the switch was ever
+     guarding; nothing is stroked, because nothing asks for `.subs`. */
+  var SUB_LABEL_ZOOM = 12;
+  var subLabels = [];
+  var subLabelled = null;
+
+  function subLabelsWanted() {
+    return state.labels && state.mode !== 'quiz'
+      && view.w < mapW / SUB_LABEL_ZOOM;
+  }
+
+  /* A sub-unit's name, from data.js where there is a record and off the shape
+     where there is not — the fine coastlines carry theirs, there being a
+     couple of hundred and no reason to ship them to a reader who never zooms.
+     The gloss after an em dash is for the card, not for the map. */
+  function subRec(el, key) {
+    var rec = JMAP.PROVINCES && JMAP.PROVINCES[key];
+    var en = (rec && rec.en) || key;
+    var cut = en.indexOf(' — ');
+    return {
+      kind: 'sub',
+      en: cut > 0 ? en.slice(0, cut) : en,
+      ja: (rec && rec.ja) || el.getAttribute('data-ja') || '',
+      zh: (rec && rec.zh) || el.getAttribute('data-zh') || '',
+      ko: (rec && rec.ko) || '',
+    };
+  }
+
+  function ensureSubLabels() {
+    if (!subLabelsWanted()) return;
+    // the divisions live in a second file until something asks for them, and
+    // wanting to read their names is asking
+    if (adminState !== 'ready' && adminState !== 'loading') loadAdmin();
+    if (!subLabelled) subLabelled = new WeakSet();
+    var made = 0;
+    $$('#land [data-prov]', svg).forEach(function (el) {
+      if (subLabelled.has(el)) return;
+      subLabelled.add(el);
+      var key = el.getAttribute('data-prov');
+      if (!key) return;
+      var x = parseFloat(el.getAttribute('data-cx'));
+      var y = parseFloat(el.getAttribute('data-cy'));
+      if (!isFinite(x) || !isFinite(y)) {
+        // Not everything wearing data-prov is a division. The occupied zone
+        // names its own blocks that way — "North China and the Yangtze
+        // valley", "The Canton delta" — and they are one shading in several
+        // pieces, so labelling each piece would write the same phrase across
+        // half of China. The fine coastlines are the other kind: real islands,
+        // named on the shape itself, drawn from a source that carries no
+        // centroid. Those are wanted, and there are few enough of them, and
+        // they are only ever in the document at deep zoom, so the browser can
+        // be asked for a box.
+        if (!el.getAttribute('data-ja') && !el.getAttribute('data-group')) return;
+        var bb;
+        try { bb = el.getBBox(); } catch (err) { return; }
+        if (!bb || !bb.width) return;
+        x = bb.x + bb.width / 2;
+        y = bb.y + bb.height / 2;
+      }
+      var text = svgEl('text', { 'class': 'tlabel sublabel', 'font-size': SUB_PX });
+      labelLayer.appendChild(text);
+      var entry = { rec: subRec(el, key), el: text, x: x, y: y, dy: 0,
+                    size: SUB_PX, w: 0, h: SUB_PX * 1.2,
+                    owner: el, atom: el.closest ? el.closest('.atom') : null };
+      labels.push(entry);
+      subLabels.push(entry);
+      scalables.push({ el: text, x: x, y: y });
+      made++;
+    });
+    // country names first, then divisions, then the rest: a province must
+    // never crowd out the country it is in
+    if (made) {
+      var rank = { territory: 0, sub: 1, site: 2, browse: 3 };
+      labels.sort(function (a, b) {
+        return (rank[a.rec.kind] || 2) - (rank[b.rec.kind] || 2);
+      });
+      rescale();
+    }
+  }
+
   function gateLabels() {
+    ensureSubLabels();
     var showLabels = state.labels && state.mode !== 'quiz';
     labels.forEach(function (L) {
-      if (!(showLabels && labelVisible(L.rec))) {
+      // A division's name belongs to a shape, and the shape can go: the atom
+      // is not drawn in this epoch, or the alternative province source has
+      // replaced it. Read off the inline style rather than the computed one —
+      // this runs over every label on every zoom.
+      var gone = L.owner
+        && (!L.owner.isConnected
+            || (L.atom && L.atom.style.display === 'none'));
+      if (gone || !(showLabels && labelVisible(L.rec))) {
         L.el.textContent = '';
         L.el.style.display = 'none';
         L.w = 0;
@@ -2605,7 +2713,13 @@
     // belongs to is the line under it.
     var sub = lastProv && lastProv.rec ? shown(lastProv.rec) : null;
     var head = sub || rec;
-    var primary = nameOf(head);
+    // A sub-unit's `en` is written `Name — what it was`: Christmas Island —
+    // annexed 1888, attached to the Straits Settlements in 1900. The card was
+    // printing the whole string as the headline, so the name of the place ran
+    // into a clause about it in bold. The name is the headline and the clause
+    // is the first thing the card says about it.
+    var split = splitGloss(nameOf(head));
+    var primary = split.name;
     var others = LANGS
       .filter(function (l) { return l !== state.lang; })
       .map(function (l) { return head[l]; })
@@ -2630,18 +2744,31 @@
     $('.prov', infoBox).hidden = !owner;
     $('.when', infoBox).textContent = rec.date || rec.when || '';
     $('.when', infoBox).hidden = !(rec.date || rec.when);
-    // This place first, then the group it belongs to. The sub-unit's own note
-    // was only ever in the tooltip, so the sheet showed the Straits
-    // Settlements where the reader had asked about Singapore.
-    var ownNote = sub ? (head.note || '') : (rec.note || '');
+    // This place first, then the group it belongs to. Only eleven of the 489
+    // sub-units carry a note of their own, and the group's note used to be
+    // moved up into the first slot whenever one did not — so a reader who
+    // clicked Kanchanaburi was shown a description of Siam in the style that
+    // says *this is the thing you clicked*. It stays where it belongs now, and
+    // the gloss on the name is what the first slot gets instead: for most
+    // sub-units that is the only sentence written about them, and it was
+    // being spent on the headline.
+    var ownNote = sub ? (head.note || split.gloss || '') : (rec.note || '');
     var groupNote = sub ? (rec.note || '') : '';
-    if (!ownNote && groupNote) { ownNote = groupNote; groupNote = ''; }
     var own = $('.note-own', infoBox);
     var grp = $('.note-group', infoBox);
     own.textContent = ownNote;
     own.hidden = !ownNote;
     grp.textContent = groupNote;
     grp.hidden = !groupNote;
+    // Whose note the second block is. Without this the reader has two
+    // paragraphs and no way of telling which one answers what they asked;
+    // styles.css draws it from the attribute, so no extra element is needed.
+    // Not when it would repeat the headline: Tibet is drawn as one province of
+    // itself, and captioning its own note TIBET on a card headed Tibet is
+    // noise rather than an answer.
+    var groupName = nameOf(rec);
+    grp.setAttribute('data-group',
+      (groupNote && groupName !== primary) ? groupName : '');
     collapseInfo();
     infoBox.hidden = false;
     document.body.classList.add('panel-open');

@@ -19,16 +19,8 @@ and Japanese fishermen worked the Liancourt Rocks 87 km to the south-east.
 
 ## Seodo, the west islet of the Liancourt Rocks
 
-Dokdo to Korea, Takeshima to Japan, the Liancourt Rocks to everyone else.
-Japan incorporated them into Shimane prefecture in 1905, five years before it
-annexed Korea, so on both of this map’s dates they were inside the same empire
-as Ulleungdo and nothing turned on the difference. South Korea has held them
-with a police detachment since 1954; Japan claims them still.
+{{liancourt}}
 
 ## Dongdo, the east islet of the Liancourt Rocks
 
-Dokdo to Korea, Takeshima to Japan, the Liancourt Rocks to everyone else.
-Japan incorporated them into Shimane prefecture in 1905, five years before it
-annexed Korea, so on both of this map’s dates they were inside the same empire
-as Ulleungdo and nothing turned on the difference. South Korea has held them
-with a police detachment since 1954; Japan claims them still.
+{{liancourt}}

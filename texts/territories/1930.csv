@@ -1,13 +1,13 @@
 id,en,ja,orig,zh,ko,when,rule,cat,lvl,c,atoms,lights,within,hatch,edge,edgeAtoms,edgeClip,adminOnly,unseen
 japan,Japan,内地 (Naichi),日本 (Nihon),日本內地,,The metropole,,metropole,1,,japan,,,,,,,,
-ryukyu,Ryūkyū Islands / Okinawa Prefecture,沖縄県 (Okinawa-ken),琉球 (Ruuchuu),琉球・沖繩縣,,Annexed 1879,,metropole,1,,ryukyu,,,,,,,,
+ryukyu,Ryūkyū and Ōsumi Islands,"沖縄県・鹿児島県 (Okinawa-ken・Kagoshima-ken)",琉球 (Ruuchuu),琉球・沖繩縣,,Annexed 1879,"Okinawa Prefecture, and Kagoshima from the Amami group north",metropole,1,,ryukyu,,,,,,,,
 ogasawara,Bonin Islands (Ogasawara),小笠原諸島 (Ogasawara Shotō),小笠原諸島,小笠原群島,,Claimed 1876,"Japanese, part of Tokyo prefecture",metropole,3,,ogasawara,,,,,,,,
 chishima,Kurile Islands (Chishima),千島列島 (Chishima Rettō),Курильские острова,千島群島,,Japanese from 1875,,metropole,2,,chishima,,,,,,,,
 chosen,Chōsen (Korea),朝鮮 (Chōsen),조선 (Chosŏn),朝鮮,조선 (Chosŏn),"Protectorate 1905, annexed 1910",,jpcolony,1,,korea,,,,,,,,
 formosa,Formosa (Taiwan),臺灣 (Taiwan),臺灣 (Tâi-oân),臺灣,,Japanese colony from 1895,,jpcolony,1,,taiwan,,,,,,,,
 karafuto,Karafuto (southern Sakhalin),樺太 (Karafuto),Южный Сахалин,樺太（南薩哈林）,,Japanese from 1905,,jpcolony,1,,karafuto,,,,,,,,
 kwantung,Kwantung Leased Territory,関東州 (Kantōshū),關東州 (Guāndōngzhōu),關東州,,Leased from China 1905–1945,,jpcolony,2,,kwantung,,,,,,,,
-nanyo,South Seas Mandate,南洋群島 (Nan’yō Guntō),,南洋群島,,Held by Japan from 1919 (seized from Germany in 1914),Japanese mandate,jpcolony,2,,nanyo,,,,,,,,
+nanyo,South Seas Mandate,南洋群島 (Nan’yō Guntō),,南洋群島,,Japanese from 1914; League mandate from 1920,Japanese mandate,jpcolony,2,,nanyo,,,,,,,,
 china,China (Republic of China),中華民国 (Chūka Minkoku),中華民國 (Zhōnghuá Mínguó),中華民國,,"Republic from 1912; warlord rule, nominal unity from 1928",,chinese,1,,china,manchuria jehol chaharsuiyuan xinjiang,,,,,,,
 manchuria,Manchuria (the Three Eastern Provinces),満洲 (Manshū),東三省 (Dōngsānshěng),滿洲（東三省）,,"Chinese, under Chang Hsüeh-liang",,chinese,1,,manchuria,,china,,,,,,
 jehol,Rèhé (Jehol),熱河 (Nekka),熱河省 (Rèhé shěng),熱河省,,Chinese province from 1928,,chinese,3,,jehol,,china,,,,,,
@@ -20,12 +20,12 @@ pondicherry,"French India — Pondicherry, Karikal, Yanaon, Mahé, Chandernagore
 princelystates,Princely states,,,,,Rulers in subsidiary alliance with the Crown,,british,3,,princely,,,,,,,yes,
 ceylon,Ceylon,,ලංකාව (Lanka),錫蘭,,Crown colony,,british,3,,ceylon,,,,,,,,
 malaya,British Malaya & Singapore,英領馬来 (Eiryō Marai),Tanah Melayu / Singapura,馬來亞・新加坡,,Straits Settlements & protected states,,british,2,,malaya malaya_thai christmas,,,,,,,,
-sarawak,Sarawak,サラワク (Sarawaku),Sarawak,砂拉越,,"Ruled by the Brooke family, 1841-1946",,british,3,,sarawak,,,,,,,,
-northborneo,North Borneo (and Labuan),北ボルネオ (Kita Boruneo),North Borneo / Labuan,北婆羅洲,,Chartered company from 1881,,british,3,,northborneo,,,,,,,,
+sarawak,Sarawak,サラワク (Sarawaku),Sarawak,砂拉越,,"Ruled by the Brooke family, 1841–1946",,british,3,,sarawak,,,,,,,,
+northborneo,North Borneo,北ボルネオ (Kita Boruneo),North Borneo / Labuan,北婆羅洲,,Chartered company from 1881,,british,3,,northborneo,,,,,,,,
 brunei,Brunei,ブルネイ (Burunei),Brunei,汶萊,,Protectorate from 1888,,british,3,#c79aa8,brunei,,,,,,,,
 hongkong,Hong Kong,香港 (Honkon),香港 (Hēunggóng),香港,,British from 1842,,british,2,,hongkong,,,,,,,,
 solomons_br,British Solomon Islands,ソロモン諸島,Solomon Islands,所羅門群島,,Protectorate from 1893,British protectorate,british,3,,solomons_br solomons_gc solomons_us solomons_ml solomons_al,,,,,,,,
-mandate_jp,South Seas Mandate — the mandate boundary,南洋群島委任統治領の境界,,南洋群島委任統治地界,,Japanese Class C mandate from 1920; taken from Germany in 1914,,jpcolony,2,#c2463d,mandate_jp,,,,,,,,yes
+mandate_jp,South Seas Mandate — the mandate boundary,南洋群島委任統治領の境界,,南洋群島委任統治地界,,Japanese from 1914; League Class C mandate from 1920,,jpcolony,2,#c2463d,mandate_jp,,,,,,,,yes
 mandate_ex_guam,"Guam — inside the line, outside the mandate",,,,,American since 1898; never part of the mandate,,american,3,#325d7b,mandate_ex_guam,,,,,,,,yes
 mandate_au,Territory of New Guinea — the mandate boundary,,,,,"Australian Class C mandate from 1920, run from Rabaul",,british,3,#c9a6b0,mandate_au,,,,,,,,yes
 mandate_br,Nauru — the mandate boundary,,,,,"British Class C mandate from 1920, administered by Australia",,british,3,#b07f8e,mandate_br,,,,,,,,yes
@@ -54,7 +54,7 @@ mongolia,Mongolian People’s Republic (Outer Mongolia),,Бүгд Найрамд
 australia,Australia,,Australia,澳大利亞,,Dominion,,british,2,#c9a6b0,australia,,,,,,,,
 newguinea_au,Papua & the Territory of New Guinea,ニューギニア,Niugini,新幾內亞,,Australian territory & mandate,,british,3,#c9a6b0,newguinea_au,,,,,,,,
 nauru_au,Nauru,ナウル,Naoero,諾魯,,Mandate from 1920,"Mandate — Australia, Britain and New Zealand",british,3,#c9a6b0,nauru_au,,,,,,,,
-weihaiwei,Wēihǎiwèi (Weihaiwei),威海衛 (Ikaiei),威海衛 (Wēihǎiwèi),威海衛,,"Leased 1898, returned 1 October 1930",,british,3,#c08a99,weihaiwei,,,,,,,,
+weihaiwei,Wēihǎi (Weihaiwei),威海衛 (Ikaiei),威海衛 (Wēihǎiwèi),威海衛,,"Leased 1898, returned 1 October 1930",,british,3,#c08a99,weihaiwei,,,,,,,,
 guangzhouwan,Guǎngzhōuwān (Kwangchowan),広州湾 (Kōshūwan),Kouang-Tchéou-Wan,廣州灣,,Leased to France 1898–1945,,french,3,,guangzhouwan,,,,,,,,
 tuva,Tannu Tuva (Tuvan People’s Republic),,Тыва Арат Республик,唐努圖瓦,,Independent in name from 1921,,soviet,3,#d3d1e6,tuva,,,,#bebada,,,,
 nepal,Nepal,,नेपाल (Nepāl),尼泊爾,,"Independent, in treaty with Britain",,other,3,#e2d9c6,nepal,,,,,,,,

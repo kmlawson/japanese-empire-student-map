@@ -1,8 +1,11 @@
 <!-- texts/territories/sub-units/ryukyus.md -->
 
-> The Ryukyus, north to south: Okinawa Prefecture, annexed in 1879. The islands
-> here are the ones the fine coastline layer draws when you zoom in on them,
-> which is why there are so many and why the smallest of them are named at all.
+> The chain north to south. Only the southern half is Okinawa Prefecture,
+> annexed in 1879: the Ōsumi and Tokara groups and the Amami islands down to
+> Yoronjima were Kagoshima, Amami as Ōshima-gun, and Yakushima and Tanegashima
+> are not usually counted as Ryūkyū at all. The islands here are the ones the
+> fine coastline layer draws when you zoom in on them, which is why there are
+> so many and why the smallest of them are named at all.
 
 > **Okinawa itself is missing from this list, and that is a defect, not a
 > choice.** Two different shapes carry `data-prov="Okinawa"` — the prefecture,

@@ -33,12 +33,6 @@ after the Restoration.
 A Tokugawa castle town that became a centre of the textile trade and, later,
 of the aircraft industry.
 
-## seoul
-
-Capital of Chosŏn Korea as Hansŏng, and of the colony as Keijō. The Kapsin
-Coup of 1884 and the March First Movement of 1919 both began here; Queen Min
-was murdered in the palace in 1895.
-
 ## mukden
 
 The Manchu dynastic capital, and the prize of the largest land battle of the
@@ -54,8 +48,8 @@ as Hsinking, capital of Manchukuo, after 1932.
 
 ## harbin
 
-A Russian-built railway city with a large émigré population, the biggest in
-the Russian Far East. Itō Hirobumi was shot at its station by the Korean
+A Russian-built railway city with the largest Russian community anywhere
+outside Soviet territory. Itō Hirobumi was shot at its station by the Korean
 independence activist An Chunggŭn.
 
 ## beijing

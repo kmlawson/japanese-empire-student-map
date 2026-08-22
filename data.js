@@ -130,7 +130,7 @@ JMAP.CATEGORIES = {
     },
     {
       id: 'colony', en: 'Colonies & leased territory', ja: '外地・租借地', orig: 'Colonies',
-      zh: '外地・租借地', ko: '외지·조차지', c: '#c2463d'
+      zh: '殖民地與租借地', ko: '외지·조차지', c: '#c2463d'
     },
     {
       id: 'puppet', en: 'Client states', ja: '傀儡国家', orig: 'Client states', zh: '傀儡國家',
@@ -149,8 +149,8 @@ JMAP.CATEGORIES = {
       zh: '中華民國', ko: '중화민국', c: '#ffffb3'
     },
     {
-      id: 'ccp', en: 'Communist base areas & guerrilla zones', ja: '中国共産党根拠地', orig: '抗日根據地',
-      zh: '中共抗日根據地', ko: '중국공산당 항일근거지', c: '#7a1730'
+      id: 'ccp', en: 'Communist base areas & guerrilla zones', ja: '中国共産党根拠地',
+      orig: 'Communist base areas', zh: '中共抗日根據地', ko: '중국공산당 항일근거지', c: '#7a1730'
     },
     {
       id: 'pacified', en: 'Pacified areas (治安地区)', ja: '治安地区', orig: 'Pacified areas',
@@ -165,7 +165,7 @@ JMAP.CATEGORIES = {
       zh: '事實上獨立', ko: '사실상 독립', c: '#e7de7e'
     },
     {
-      id: 'allied', en: 'British', ja: 'イギリス領', orig: 'British', zh: '英國領', ko: '영국령',
+      id: 'allied', en: 'Allied', ja: '連合国側', orig: 'Allied', zh: '同盟國', ko: '연합국측',
       c: '#b07f8e'
     },
     {
@@ -213,10 +213,11 @@ JMAP.TERRITORIES = {
       note: 'Honshū, Kyūshū, Shikoku and Hokkaidō. Hokkaidō was itself a settler frontier, colonised from 1869 at the expense of the Ainu.'
     },
     {
-      id: 'ryukyu', en: 'Ryūkyū Islands / Okinawa Prefecture', ja: '沖縄県 (Okinawa-ken)',
-      orig: '琉球 (Ruuchuu)', zh: '琉球・沖繩縣', when: 'Annexed 1879', cat: 'metropole', lvl: 1,
-      atoms: ['ryukyu'],
-      note: 'The Ryūkyū Kingdom paid tribute to both China and Satsuma until Japan abolished it and created Okinawa Prefecture in 1879.'
+      id: 'ryukyu', en: 'Ryūkyū and Ōsumi Islands', ja: '沖縄県・鹿児島県 (Okinawa-ken・Kagoshima-ken)',
+      orig: '琉球 (Ruuchuu)', zh: '琉球・沖繩縣', when: 'Annexed 1879',
+      rule: 'Okinawa Prefecture, and Kagoshima from the Amami group north', cat: 'metropole',
+      lvl: 1, atoms: ['ryukyu'],
+      note: 'The Ryūkyū Kingdom paid tribute to both China and Satsuma until Japan abolished it and created Okinawa Prefecture in 1879. Only the southern half of this chain is that prefecture. Satsuma had taken the Amami islands from the kingdom in 1609, and they stayed with Kagoshima after 1879 as Ōshima-gun, along with the Tokara and Ōsumi groups north of them.'
     },
     {
       id: 'ogasawara', en: 'Bonin Islands (Ogasawara)', ja: '小笠原諸島 (Ogasawara Shotō)',
@@ -256,9 +257,9 @@ JMAP.TERRITORIES = {
     },
     {
       id: 'nanyo', en: 'South Seas Mandate', ja: '南洋群島 (Nan’yō Guntō)', zh: '南洋群島',
-      when: 'Held by Japan from 1919 (seized from Germany in 1914)', rule: 'Japanese mandate',
+      when: 'Japanese from 1914; League mandate from 1920', rule: 'Japanese mandate',
       cat: 'jpcolony', lvl: 2, atoms: ['nanyo'],
-      note: 'The Marianas, Carolines and Marshalls: seized from Germany in 1914 and held by Japan from 1919 as a League of Nations Class C mandate, which meant governing them as an integral part of its own territory. The dotted line shows the boundary of the mandate, since the islands themselves are specks at this scale. Guam, in the middle of the Marianas, stayed American.'
+      note: 'The Marianas, Carolines and Marshalls: seized from Germany in 1914 and held by Japan from 1920 under a League of Nations Class C mandate, which meant governing them as an integral part of its own territory. The dotted line shows the boundary of the mandate, since the islands themselves are specks at this scale. Guam, in the middle of the Marianas, stayed American.'
     },
     {
       id: 'china', en: 'China (Republic of China)', ja: '中華民国 (Chūka Minkoku)',
@@ -277,19 +278,19 @@ JMAP.TERRITORIES = {
       id: 'jehol', en: 'Rèhé (Jehol)', ja: '熱河 (Nekka)', orig: '熱河省 (Rèhé shěng)', zh: '熱河省',
       when: 'Chinese province from 1928', cat: 'chinese', lvl: 3, atoms: ['jehol'],
       within: 'china',
-      note: 'The province between the Great Wall and Manchuria, made a full province in 1928. Japan took it in February 1933 and attached it to Manchukuo.'
+      note: 'The province between the Great Wall and Manchuria, made a full province in 1928. Japan took it in February and March 1933 and attached it to Manchukuo.'
     },
     {
       id: 'chaharsuiyuan', en: 'Cháhā’ěr & Suíyuǎn (Chahar & Suiyuan)',
       ja: '察哈爾・綏遠 (Chaharu, Suien)', orig: '察哈爾・綏遠', zh: '察哈爾・綏遠', when: 'Chinese provinces',
       cat: 'chinese', lvl: 3, atoms: ['chahar', 'suiyuan', 'suiyuan_w'], within: 'china',
-      note: 'The Inner Mongolian frontier provinces. From 1936 they became the Japanese client regime of Mengchiang under Prince Demchugdongrub, with its capital at Kalgan.'
+      note: 'The Inner Mongolian frontier provinces. From 1936 the Mongol prince Demchugdongrub headed a Japanese-sponsored government in northern Chahar; after Japan took Kalgan in 1937 it grew, with the Chinese autonomous governments of southern Chahar and northern Shansi, into the client regime of Mengchiang, which was federated in 1939 and governed from Kalgan.'
     },
     {
       id: 'xinjiang', en: 'Xīnjiāng (Sinkiang)', ja: '新疆 (Shinkyō)', orig: 'شىنجاڭ (Shinjang)',
       zh: '新疆', when: 'Under largely autonomous provincial rule', cat: 'chinese', lvl: 3,
       atoms: ['xinjiang'], within: 'china',
-      note: 'Xinjiang was formally a province of the Republic of China and Jin Shuren was recognised by Nanking as its provincial chairman. In practice, however, Jin’s government controlled its own administration, armed forces, finances and external trade, while the central government exercised little day-to-day authority. Xinjiang was not an independent state, but it lay largely outside effective Nationalist control.'
+      note: 'A province of the Republic in name, and Nanking recognised Chin Shu-jen as its chairman. In practice his government ran its own army, finances and foreign trade, and Nanking\'s writ reached almost nothing of it.'
     },
     {
       id: 'tibet', en: 'Tibet', ja: 'チベット (Chibetto)', orig: 'བོད་ (Bod)', zh: '西藏',
@@ -301,25 +302,25 @@ JMAP.TERRITORIES = {
       when: 'Burma a province of India until 1937', cat: 'british', lvl: 1,
       atoms: ['india', 'andaman', 'burma', 'saharat'], edge: '#8f5f6e', edgeAtoms: ['burma'],
       edgeClip: [92, 20.6, 97.4, 28.4],
-      note: 'Burma was governed as a province of British India until it was separated in 1937. The Andaman and Nicobar Islands were run from Calcutta as a penal settlement.'
+      note: 'Burma was governed as a province of British India until it was separated in 1937. The Andaman and Nicobar Islands were run from India as a penal settlement.'
     },
     {
       id: 'goa', en: 'Portuguese India — Goa, Damão, Diu, Dadra & Nagar Haveli',
       orig: 'Estado da Índia', when: 'Portuguese from 1510', cat: 'portuguese', lvl: 3,
       atoms: ['goa'],
-      note: 'Goa, with Damão and Diu on the Gujarat coast and Dadrá and Nagar Aveli inland behind them, was the seat of the Estado da Índia and the oldest European possession in Asia. Portugal was neutral, and it stayed Portuguese until India took it by force in 1961.'
+      note: 'Goa, with Damão and Diu on the Gujarat coast and Dadrá and Nagar Aveli inland behind them, is the seat of the Estado da Índia and the oldest European possession in Asia, held since 1510. It would stay Portuguese until India took it by force in 1961.'
     },
     {
       id: 'pondicherry', en: 'French India — Pondicherry, Karikal, Yanaon, Mahé, Chandernagore',
       orig: 'Établissements français dans l’Inde', when: 'French from 1674', cat: 'french',
       lvl: 3, atoms: ['pondicherry'],
-      note: 'Five scattered enclaves left to France when Britain took the rest of India: Pondicherry and Karikal on the Coromandel coast, Yanaon on the Godavari, Mahé on the Malabar coast, and Chandernagore on the Hooghly above Calcutta. They declared for the Free French in 1940 and were transferred to India in the 1950s.'
+      note: 'Five scattered enclaves left to France when Britain took the rest of India: Pondicherry and Karikal on the Coromandel coast, Yanaon on the Godavari, Mahé on the Malabar coast, and Chandernagore on the Hooghly above Calcutta. They would declare for the Free French in 1940 and pass to India in the 1950s.'
     },
     {
       id: 'princelystates', en: 'Princely states',
       when: 'Rulers in subsidiary alliance with the Crown', cat: 'british', lvl: 3,
       atoms: ['princely'], adminOnly: true,
-      note: 'British India was a patchwork: eleven provinces ruled directly, and beside them some six hundred princely states whose rulers kept their thrones under treaties with the Crown. Hyderabad, the largest, had its own army and currency, and the Nizam was reckoned the richest man alive. The states are drawn here from a layer of their 1931 boundaries rather than approximated from modern units, so the shapes are the shapes: the Rajputana and Central India agencies as one western mass, the Baluchistan states of Kalat and Las Bela, the Eastern States through Orissa and Chhattisgarh, the hill states along the frontier, and the small Deccan states scattered through Bombay. The very smallest of the six hundred are below the resolution of this map and are drawn inside whichever province surrounded them.'
+      note: 'British India was a patchwork: nine governors\' provinces and a handful of smaller chief commissioners\' ones, ruled directly, and beside them some six hundred princely states whose rulers kept their thrones under treaties with the Crown. Hyderabad, the largest, had its own army and currency, and the Nizam was reckoned the richest man alive. The states are drawn here from a layer of their 1931 boundaries rather than approximated from modern units, so the shapes are the shapes: the Rajputana and Central India agencies as one western mass, the Baluchistan states of Kalat and Las Bela, the Eastern States through Orissa and Chhattisgarh, the hill states along the frontier, and the small Deccan states scattered through Bombay. The very smallest of the six hundred are below the resolution of this map and are drawn inside whichever province surrounded them.'
     },
     {
       id: 'ceylon', en: 'Ceylon', orig: 'ලංකාව (Lanka)', zh: '錫蘭', when: 'Crown colony',
@@ -331,15 +332,15 @@ JMAP.TERRITORIES = {
       orig: 'Tanah Melayu / Singapura', zh: '馬來亞・新加坡',
       when: 'Straits Settlements & protected states', cat: 'british', lvl: 2,
       atoms: ['malaya', 'malaya_thai', 'christmas'],
-      note: 'The Straits Settlements and the protected Malay states, with the Singapore naval base begun in 1923 as the anchor of British power east of Suez. The four northern states — Kedah, Perlis, Kelantan and Terengganu — had been Siamese until the Anglo-Siamese Treaty of 1909.'
+      note: 'The Straits Settlements and the protected Malay states, with the Singapore naval base begun in 1923 as the anchor of British power east of Suez. The four northern states — Kedah, Perlis, Kelantan and Trengganu — had been Siamese until the Anglo-Siamese Treaty of 1909.'
     },
     {
       id: 'sarawak', en: 'Sarawak', ja: 'サラワク (Sarawaku)', orig: 'Sarawak', zh: '砂拉越',
-      when: 'Ruled by the Brooke family, 1841-1946', cat: 'british', lvl: 3, atoms: ['sarawak'],
+      when: 'Ruled by the Brooke family, 1841–1946', cat: 'british', lvl: 3, atoms: ['sarawak'],
       note: 'The private kingdom of the "White Rajahs": James Brooke took it from the sultan of Brunei in 1841 and his family ruled it for a century. A British protectorate from 1888, ceded to the Crown in 1946.'
     },
     {
-      id: 'northborneo', en: 'North Borneo (and Labuan)', ja: '北ボルネオ (Kita Boruneo)',
+      id: 'northborneo', en: 'North Borneo', ja: '北ボルネオ (Kita Boruneo)',
       orig: 'North Borneo / Labuan', zh: '北婆羅洲', when: 'Chartered company from 1881',
       cat: 'british', lvl: 3, atoms: ['northborneo'],
       note: 'Governed not by the Crown but by the British North Borneo Chartered Company, one of the last trading companies to rule territory in its own right. Labuan, a Crown colony since 1848, was attached to the Straits Settlements in 1907.'
@@ -352,7 +353,7 @@ JMAP.TERRITORIES = {
     {
       id: 'hongkong', en: 'Hong Kong', ja: '香港 (Honkon)', orig: '香港 (Hēunggóng)', zh: '香港',
       when: 'British from 1842', cat: 'british', lvl: 2, atoms: ['hongkong'],
-      note: 'Ceded in 1842 and enlarged by the New Territories lease of 1898.'
+      note: 'Hong Kong Island was ceded in 1842, Kowloon in 1860, and the New Territories leased for ninety-nine years in 1898.'
     },
     {
       id: 'solomons_br', en: 'British Solomon Islands', ja: 'ソロモン諸島', orig: 'Solomon Islands',
@@ -363,7 +364,7 @@ JMAP.TERRITORIES = {
     },
     {
       id: 'mandate_jp', en: 'South Seas Mandate — the mandate boundary', ja: '南洋群島委任統治領の境界',
-      zh: '南洋群島委任統治地界', when: 'Japanese Class C mandate from 1920; taken from Germany in 1914',
+      zh: '南洋群島委任統治地界', when: 'Japanese from 1914; League Class C mandate from 1920',
       cat: 'jpcolony', lvl: 2, c: '#c2463d', atoms: ['mandate_jp'], unseen: true,
       note: 'Some two thousand islands — the Marianas except Guam, the Carolines and the Marshalls — with about 2,100 km² of land scattered across three million square miles of ocean, which is why the mandate is drawn here as a line and not as a shape. Japan took them from Germany in October 1914, held them under naval administration, and was granted them as a Class C mandate by the League in December 1920; Class C meant a territory could be governed as an integral part of the mandatory’s own. A civil South Seas Bureau ran them from Koror in Palau from 1922. Japanese settlers came with the sugar industry on Saipan and Tinian and outnumbered the islanders by the mid-1930s. Fortifying the islands was forbidden both by the mandate and by the Washington naval treaty; Japan gave notice of leaving the League in 1933, kept the islands, and fortified them anyway. They became the American Trust Territory of the Pacific Islands in 1947.'
     },
@@ -471,7 +472,7 @@ JMAP.TERRITORIES = {
       when: 'Annexed by France, April 1930',
       rule: 'Claimed by France; Britain had claimed them earlier', cat: 'french', lvl: 3,
       atoms: ['spratly'],
-      note: 'A scatter of sandbanks, cays and reefs with no permanent population. Britain claimed them from 1877 and did nothing with them; France annexed them in April 1930 and occupied Spratly Island and Itu Aba in 1933, attaching them to Cochinchina. Japan disputed the claim throughout, worked the guano and phosphate, and took them in 1939. Islands are traced from present-day shapes, which does not reflect more recent land reclamation.'
+      note: 'A scatter of sandbanks, cays and reefs with no permanent population. Britain claimed them from 1877 and did nothing with them; France occupied Spratly Island in April 1930 and annexed the group — nine islands, Itu Aba among them — in 1933, attaching it to Cochinchina. Japan disputed the claim throughout, worked the guano and phosphate, and took them in 1939. Islands are traced from present-day shapes, which does not reflect more recent land reclamation.'
     },
     {
       id: 'paracel', en: 'Paracel Islands', ja: '西沙群島 (Seisa Guntō)', orig: 'Hoàng Sa',
@@ -528,7 +529,7 @@ JMAP.TERRITORIES = {
       note: 'A phosphate island held under a mandate shared by Australia, Britain and New Zealand.'
     },
     {
-      id: 'weihaiwei', en: 'Wēihǎiwèi (Weihaiwei)', ja: '威海衛 (Ikaiei)', orig: '威海衛 (Wēihǎiwèi)',
+      id: 'weihaiwei', en: 'Wēihǎi (Weihaiwei)', ja: '威海衛 (Ikaiei)', orig: '威海衛 (Wēihǎiwèi)',
       zh: '威海衛', when: 'Leased 1898, returned 1 October 1930', cat: 'british', lvl: 3,
       c: '#c08a99', atoms: ['weihaiwei'],
       note: 'Britain took the lease in 1898 to balance the Russian one at Port Arthur, and used the harbour as the Royal Navy’s summer station. It was handed back to China in October 1930 — so on this map it is in its last months.'
@@ -555,7 +556,7 @@ JMAP.TERRITORIES = {
       id: 'sikkim', en: 'Sikkim', orig: 'འབྲས་ལྗོངས (Drenjong)', zh: '錫金',
       when: 'British protectorate from 1861, recognised by China 1890', cat: 'british', lvl: 3,
       c: '#dcc2ce', atoms: ['sikkim'],
-      note: 'A Himalayan kingdom under British protection, not a part of British India — which is why it is drawn apart from it here. The protectorate began with the Treaty of Tumlong in 1861, which followed a British punitive expedition and put Sikkim\'s external relations in British hands. What happened in 1890 was the Anglo-Chinese Convention of Calcutta of 17 March, in which China recognised the protectorate and the Sikkim–Tibet boundary was defined: the date of international recognition rather than the start of British control.'
+      note: 'A Himalayan kingdom under British protection, not a part of British India — which is why it is drawn apart from it here. The protectorate began with the Treaty of Tumlong in 1861, which followed a British punitive expedition and put Sikkim’s external relations in British hands; China recognised it, and the Sikkim–Tibet boundary was drawn, by the Convention of Calcutta of 17 March 1890.'
     },
     {
       id: 'bhutan', en: 'Bhutan', orig: 'འབྲུག་ཡུལ (Druk Yul)', zh: '不丹',
@@ -581,9 +582,10 @@ JMAP.TERRITORIES = {
       note: 'Untouched by the war so far, apart from the Doolittle raid of April 1942. Systematic bombing would begin once the Marianas fell in 1944.'
     },
     {
-      id: 'ryukyu', en: 'Ryūkyū Islands / Okinawa Prefecture', ja: '沖縄県 (Okinawa-ken)',
-      orig: '琉球 (Ruuchuu)', zh: '琉球・沖繩縣', when: 'Annexed 1879', cat: 'metropole', lvl: 1,
-      atoms: ['ryukyu'],
+      id: 'ryukyu', en: 'Ryūkyū and Ōsumi Islands', ja: '沖縄県・鹿児島県 (Okinawa-ken・Kagoshima-ken)',
+      orig: '琉球 (Ruuchuu)', zh: '琉球・沖繩縣', when: 'Annexed 1879',
+      rule: 'Okinawa Prefecture, and Kagoshima from the Amami group north', cat: 'metropole',
+      lvl: 1, atoms: ['ryukyu'],
       note: 'A prefecture, not a colony, though it was governed and garrisoned as a frontier. The Battle of Okinawa in 1945 killed roughly a quarter of the civilian population.'
     },
     {
@@ -623,13 +625,13 @@ JMAP.TERRITORIES = {
     },
     {
       id: 'nanyo', en: 'South Seas Mandate', ja: '南洋群島 (Nan’yō Guntō)', zh: '南洋群島',
-      when: 'Held by Japan from 1919 (seized from Germany in 1914)', rule: 'Japanese mandate',
+      when: 'Japanese from 1914; League mandate from 1920', rule: 'Japanese mandate',
       cat: 'colony', lvl: 2, atoms: ['nanyo'],
       note: 'Fortified through the 1930s in defiance of the mandate’s terms, and the anchorage of the Combined Fleet at Truk. The dotted line shows the boundary of the mandate; the islands themselves are specks at this scale. The Americans took them atoll by atoll in 1943–44.'
     },
     {
       id: 'manchukuo', en: 'Manchukuo (Manchuria)', ja: '満洲国 (Manshūkoku)', orig: '滿洲國',
-      zh: '滿洲國', when: 'Japanese occupied. Nominally independent from March, 1932.',
+      zh: '滿洲國', when: 'Japanese-occupied; nominally independent from March 1932',
       cat: 'puppet', lvl: 1, atoms: ['manchukuo'], under: '滿洲國',
       note: 'Invaded from September 1931 and proclaimed independent under the last Qing emperor P’u-i. Jehol was added in 1933; the eastern Inner Mongolian leagues had been part of the three provinces all along and became its Hinggan provinces. Real power lay with the Kwantung Army and Japanese vice-ministers.'
     },
@@ -650,7 +652,7 @@ JMAP.TERRITORIES = {
       id: 'indochina', en: 'French Indochina', ja: '仏印 (Futsuin)',
       orig: 'Đông Dương thuộc Pháp', zh: '法屬印度支那', when: 'Occupied September 1940 – July 1941',
       cat: 'occupied', lvl: 2, atoms: ['indochina'],
-      note: 'Japanese troops entered the north in September 1940 and the south in July 1941 — the step that brought the American oil embargo. Vichy French governors, courts and police stayed at their desks until the coup of 9 March 1945, but they governed on Japanese terms: the colony is drawn as occupied because that is what decided things in it. Japan set the rice quotas, took the airfields and the ports, and let Thailand carry off three provinces in 1941. Requisition and the collapse of transport then produced the Tonkin famine of 1944–45, in which perhaps a million people died.'
+      note: 'Japanese troops entered the north in September 1940 and the south in July 1941 — the step that brought the American oil embargo. Vichy French governors, courts and police stayed at their desks until the coup of 9 March 1945, but they governed on Japanese terms: the colony is drawn as occupied because that is what decided things in it. Japan set the rice quotas, took the airfields and the ports, and let Thailand carry off four provinces in 1941. Requisition and the collapse of transport then produced the Tonkin famine of 1944–45, in which perhaps a million people died.'
     },
     {
       id: 'burma', en: 'Burma', ja: '緬甸 (Biruma)', orig: 'မြန်မာ (Myanma)', zh: '緬甸',
@@ -663,17 +665,17 @@ JMAP.TERRITORIES = {
       orig: 'สหรัฐไทยเดิม (Saharat Thai Doem)',
       when: 'Thai-occupied 1942; transferred August 1943', cat: 'occupied', lvl: 3,
       atoms: ['saharat'], hatch: 'thai', outline: true, outlineColor: '#3da492',
-      note: 'Thai troops crossed into the Shan states behind the Japanese advance in May 1942 and took Kengtung, and by December they were administering the country east of the Salween. It was still legally Burmese: Japan did not hand it over until 20 August 1943, when it became Saharat Thai Doem, the "original Thai territories". Not everything Thailand claimed in the Shan and Karenni states was granted. It went back to Burma in 1945. Boundary after the map by Xufanc on Wikimedia Commons (CC BY-SA 4.0).'
+      note: 'Thai troops crossed into the Shan states behind the Japanese advance in May 1942 and took Kengtung, and by December they were administering the country east of the Salween. It was still legally Burmese: Japan did not hand it over until 20 August 1943, when it became Saharat Thai Doem, the "original Thai territories". Not everything Thailand claimed in the Shan and Karenni states was granted. It went back to Burma in 1945.'
     },
     {
       id: 'malaya', en: 'Malaya & Shōnantō (Singapore)', ja: '馬来 (Marai)・昭南島 (Shōnantō)',
       orig: 'Tanah Melayu / Syonan', zh: '馬來亞・昭南島',
       when: 'Invaded 8 December 1941; Singapore fell 15 February 1942', cat: 'occupied', lvl: 1,
       atoms: ['malaya', 'christmas'],
-      note: 'The seventy-day campaign down the peninsula ended in the largest capitulation in British military history. Singapore was renamed Syonan-to, "Light of the South"; the Sook Ching massacres of Chinese residents followed within weeks.'
+      note: 'The seventy-day campaign down the peninsula ended in the largest capitulation in British military history. Singapore was renamed Shōnantō, "light of the south"; the Sook Ching massacres of Chinese residents followed within weeks.'
     },
     {
-      id: 'malaya_thai', en: 'Kedah, Perlis, Kelantan & Terengganu', ja: 'マレー北部四州',
+      id: 'malaya_thai', en: 'Kedah, Perlis, Kelantan & Trengganu', ja: 'マレー北部四州',
       orig: 'Kedah, Perlis, Kelantan, Terengganu', zh: '馬來北部四邦',
       when: 'Transferred to Thailand, October 1943', cat: 'occupied', lvl: 3,
       atoms: ['malaya_thai'], outline: true, outlineColor: '#dd3e2c',
@@ -699,9 +701,9 @@ JMAP.TERRITORIES = {
     },
     {
       id: 'hongkong', en: 'Hong Kong', ja: '香港 (Honkon)', orig: '香港 (Hēunggóng)', zh: '香港',
-      when: 'Attacked 8 December 1941, surrendered 25 December', cat: 'occupied', lvl: 2,
+      when: 'Attacked 8 December 1941; surrendered 25 December 1941', cat: 'occupied', lvl: 2,
       atoms: ['hongkong'],
-      note: 'Held for seventeen days and then occupied until 1945, its population halved by deportation and hunger.'
+      note: 'Held for eighteen days and then occupied until 1945, its population halved by deportation and hunger.'
     },
     {
       id: 'turtle', en: 'Turtle & Mangsee Islands', orig: 'Kepulauan Penyu / Mangsee',
@@ -724,8 +726,7 @@ JMAP.TERRITORIES = {
     },
     {
       id: 'spratly', en: 'Shinnan Guntō (Spratly & Paracel Islands)', ja: '新南群島・西沙群島',
-      orig: 'Trường Sa / Hoàng Sa', zh: '南沙群島・西沙群島',
-      when: 'Taken 1939; annexed to Taiwan 30 March 1939',
+      orig: 'Trường Sa / Hoàng Sa', zh: '南沙群島・西沙群島', when: 'Annexed to Taiwan, 30 March 1939',
       rule: 'Japanese, administered from Takao in Taiwan', cat: 'colony', lvl: 3,
       atoms: ['spratly', 'paracel'],
       note: 'Japan took both groups in 1939, over French protest, and attached them to Takao prefecture in Taiwan as the Shinnan Guntō — the "new southern islands". They were a submarine and seaplane anchorage on the flank of the route to Singapore and the Indies, and Itu Aba had a garrison and a small base. Both went back to being disputed in 1945. Islands are traced from present-day shapes, which does not reflect more recent land reclamation.'
@@ -745,7 +746,7 @@ JMAP.TERRITORIES = {
       id: 'wake', en: 'Wake Island', ja: 'ウェーク島・大鳥島 (Ōtorishima)', orig: 'Wake',
       when: 'Taken 23 December 1941', rule: 'American territory under Japanese occupation',
       cat: 'occupied', lvl: 3, atoms: ['wake'],
-      note: 'The garrison beat off the first landing on 11 December, the only time in the war an amphibious assault was thrown back at the water’s edge, and surrendered to the second on the 23rd. Renamed Ōtorishima. Japan held it to the surrender in 1945, bypassed and starving; ninety-eight American civilian prisoners kept on the island were murdered there in October 1943.'
+      note: 'The garrison beat off the first landing on 11 December — one of the very few times in the war an amphibious assault was stopped at the water’s edge — and surrendered to the second on the 23rd. Renamed Ōtorishima. Japan held it to the surrender in 1945, bypassed and starving; ninety-eight American civilian prisoners kept on the island were murdered there in October 1943.'
     },
     {
       id: 'guam', en: 'Guam (Ōmiyajima)', ja: '大宮島 (Ōmiyajima)', orig: 'Guåhan', zh: '關島',
@@ -757,7 +758,7 @@ JMAP.TERRITORIES = {
       id: 'gilberts', en: 'Gilbert Islands', ja: 'ギルバート諸島', orig: 'Tungaru', zh: '吉爾伯特群島',
       when: 'Occupied December 1941', rule: 'British colony under Japanese occupation',
       cat: 'occupied', lvl: 3, atoms: ['gilberts'],
-      note: 'The outermost ring of the perimeter. The assault on Tarawa in November 1943 opened the American drive across the central Pacific — 76 hours of fighting for an atoll of three square miles, and the casualty lists that followed changed how the rest of the campaign was planned. Ocean Island (Banaba), off to the west, was taken in August 1942 and most of its people deported to Nauru, Kosrae and Tarawa; the garrison there murdered the roughly 150 labourers who remained on 20 August 1945, five days after the surrender, and one man survived by hiding in a cave. The Ellice Islands, the southern half of the same colony, were never occupied and are drawn separately here for that reason.'
+      note: 'The outermost ring of the perimeter. The assault on Tarawa in November 1943 opened the American drive across the central Pacific — seventy-six hours of fighting for an islet of barely more than a square kilometre, and the casualty lists that followed changed how the rest of the campaign was planned. Ocean Island (Banaba), off to the west, was taken in August 1942 and most of its people deported to Nauru, Kosrae and Tarawa; the garrison there murdered the roughly 150 labourers who remained on 20 August 1945, five days after the surrender, and one man survived by hiding in a cave. The Ellice Islands, the southern half of the same colony, were never occupied and are drawn separately here for that reason.'
     },
     {
       id: 'ellice', en: 'Ellice Islands',
@@ -774,7 +775,7 @@ JMAP.TERRITORIES = {
       id: 'uspacific', en: 'Palmyra, Kingman Reef, Howland, Baker, Jarvis & Swains',
       when: 'Shelled December 1941; held throughout', rule: 'American', cat: 'american', lvl: 3,
       atoms: ['uspacific'],
-      note: 'A Japanese warship shelled Howland and Baker on 8 December 1941, the day of the Pearl Harbor attack in this hemisphere, and the young Hawaiian colonists were taken off in February. Palmyra was a naval air station and was shelled once; Kingman Reef was a seaplane anchorage. None of them was taken, and the chain of runways across these atolls is what made the supply line to Australia and the Solomons possible.'
+      note: 'Japanese bombers from Kwajalein struck Howland and Baker on 8 December 1941, the day after Pearl Harbor, killing two of the young Hawaiian colonists; the survivors were taken off at the end of January. Palmyra was a naval air station and was shelled once; Kingman Reef was a seaplane anchorage. None of them was taken, and the chain of runways across these atolls is what made the supply line to Australia and the Solomons possible.'
     },
     {
       id: 'nzpacific', en: 'Tokelau & the northern Cook Islands', when: 'Never occupied',
@@ -792,7 +793,7 @@ JMAP.TERRITORIES = {
       orig: 'Andaman & Nicobar', zh: '安達曼・尼科巴群島',
       when: 'Occupied March 1942; ceded to Azad Hind December 1943', cat: 'occupied', lvl: 2,
       atoms: ['andaman'],
-      note: 'The only Indian territory Japan held. In December 1943 they were handed nominally to Subhas Chandra Bose’s Provisional Government of Free India and renamed Shaheed and Swaraj — "Martyr" and "Self-rule". The transfer was a gesture: the Japanese navy kept real control, and the occupation was harsh.'
+      note: 'The only Indian territory Japan held. In December 1943 they were handed nominally to Subhas Chandra Bose’s Provisional Government of Free India and renamed Shaheed and Swaraj — "martyr" and "self-rule". The transfer was a gesture: the Japanese navy kept real control, and the occupation was harsh.'
     },
     {
       id: 'newguinea_au', en: 'New Guinea (Papua & the Mandated Territory)', ja: 'ニューギニア',
@@ -817,9 +818,9 @@ JMAP.TERRITORIES = {
     },
     {
       id: 'tulagi', en: 'Tulagi and the Florida Islands', ja: 'ツラギ・フロリダ諸島', orig: 'Tulagi',
-      zh: '圖拉吉・佛羅里達群島', when: 'Tulagi taken by the Americans 8 August 1942', cat: 'allied',
-      lvl: 3, atoms: ['solomons_us'],
-      note: 'Two different places under one shape, and they answer differently. Tulagi was the old seat of the British protectorate and the Japanese garrison in this corner of the Solomons: seized on 3 May 1942 and held until the Marines landed on 7 August, with Tulagi secured the following afternoon and Gavutu and Tanambogo, the two islets across the harbour, taken in the same two days. Almost the whole garrison of about three hundred and fifty died; some forty swam across to Florida. Florida itself — Nggela Sule and Nggela Pile, the large island north of Tulagi, with the islets round it — was never Japanese- held. The landings there on 7 August, at Haleta and Halavo, were unopposed covering parties for the assault on Tulagi and were withdrawn the same day. By this map\'s date Tulagi\'s harbour was an Allied base with a motor torpedo boat flotilla at Sesapi, and the seaplane base at Halavo on Florida was being built.'
+      zh: '圖拉吉・佛羅里達群島', when: 'Taken by the Americans 7–8 August 1942', cat: 'allied', lvl: 3,
+      atoms: ['solomons_us'],
+      note: 'Two different places under one shape, and they answer differently. Tulagi was the old seat of the British protectorate and the Japanese garrison in this corner of the Solomons: seized on 3 May 1942 and held until the Marines landed on 7 August, with Tulagi secured the following afternoon and Gavutu and Tanambogo, the two islets across the harbour, taken in the same two days. Almost the whole garrison of about three hundred and fifty died; some forty swam across to Florida. Florida itself — Nggela Sule and Nggela Pile, the large island north of Tulagi, with the islets round it — was never Japanese- held. The landings there on 7 August, at Haleta and Halavo, were unopposed covering parties for the assault on Tulagi and were withdrawn the same day. By this map’s date Tulagi’s harbour was an Allied base with a motor torpedo boat flotilla at Sesapi, and the seaplane base at Halavo on Florida was being built.'
     },
     {
       id: 'malaita', en: 'Malaita (never fully occupied)', ja: 'マライタ島', orig: 'Malaita',
@@ -834,8 +835,9 @@ JMAP.TERRITORIES = {
     },
     {
       id: 'attukiska', en: 'Attu and Kiska', ja: 'アッツ島・キスカ島', orig: 'Atan / Qisxa',
-      zh: '阿圖島・基斯卡島', when: 'Occupied June 1942, retaken 1943', cat: 'occupied', lvl: 3,
-      atoms: ['aleutians_jp'],
+      zh: '阿圖島・基斯卡島',
+      when: 'Occupied June 1942; Attu retaken May 1943, Kiska evacuated July 1943',
+      cat: 'occupied', lvl: 3, atoms: ['aleutians_jp'],
       note: 'The only North American soil Japan occupied, taken during the Midway operation and held for a year. Attu fell to the Americans in May 1943 after the garrison charged and was destroyed; Kiska was evacuated under cover of fog in July and the landing three weeks later met nobody. The rest of the Aleutian chain stayed American throughout, which is why the line round these two is drawn on its own.'
     },
     {
@@ -849,14 +851,14 @@ JMAP.TERRITORIES = {
       when: 'Alliance signed 21 December 1941', cat: 'cobelligerent', lvl: 2,
       atoms: ['siam', 'siamgain'], edge: '#8dd3c7', edgeAtoms: ['siam', 'siamgain'],
       edgeClip: [100, 11.5, 106.2, 20.6], edgeWidth: 6,
-      note: 'Invaded on 8 December 1941, it capitulated in hours, granted passage to the invasion of Malaya and Burma, allied with Japan and declared war on Britain and the United States. It was rewarded with territory in Malaya, Burma and Cambodia.'
+      note: 'Invaded on 8 December 1941, it capitulated in hours, granted passage to the invasion of Malaya and Burma, allied with Japan and declared war on Britain and the United States. It was rewarded with territory in Malaya, Burma, Cambodia and Laos.'
     },
     {
       id: 'cededthai', en: 'Battambang & Siem Reap (ceded to Thailand, 1941)',
       ja: '泰国への割譲地 (1941)', orig: 'Phra Tabong / Phibunsongkhram / Lan Chang',
       zh: '割讓予泰國之地（1941）', when: 'Ceded 9 May 1941, returned 1946', cat: 'cobelligerent',
       lvl: 3, atoms: ['siamgain'],
-      note: 'Taken from French Indochina after the Franco-Thai war and handed to Thailand under Japanese mediation: Battambang and Siem Reap in Cambodia, and the Lao country west of the Mekong. Renamed Phra Tabong, Phibunsongkhram and Lan Chang. Angkor itself was left to France. All of it went back in 1946.'
+      note: 'Taken from French Indochina after the Franco-Thai war and handed to Thailand under Japanese mediation: Battambang and Siem Reap in Cambodia, and the Lao country west of the Mekong. Renamed Phra Tabong, Phibunsongkhram, Nakhon Champasak and Lan Chang. Angkor itself was left to France. All of it went back in 1946.'
     },
     {
       id: 'freechina', en: 'Republic of China (Nationalist government)',
@@ -867,9 +869,9 @@ JMAP.TERRITORIES = {
     },
     {
       id: 'ccp', en: 'Communist base areas and guerrilla zones', ja: '中国共産党抗日根拠地',
-      orig: '抗日根據地 (Kàngrì gēnjùdì)', zh: '中共抗日根據地', when: 'As they stood in 1941–42',
+      orig: '抗日根據地 (Kàngrì gēnjùdì)', zh: '中共抗日根據地', when: 'As they stood in 1941–1942',
       cat: 'ccp', lvl: 2, atoms: ['ccp'], srcOnly: 'traced',
-      note: 'The base areas and guerrilla zones of the Eighth Route Army and the New Fourth Army, and the reason the occupied shading on this map is described as generous. Almost all of this ground lies inside the line the Japanese army had drawn round itself: Japan held the cities, the railways and the plains between them, and the countryside behind that line was fought over. The largest is Shaan-Gan-Ning, the border region round Yenan, which was never occupied at all; the rest — Chin-Ch’a-Chi in the Wutai mountains, Chin-Chi-Lu-Yü on the Hopei-Shantung plain, the Shantung and coastal pockets, and the New Fourth Army areas along the lower Yangtze — were inside it. Their extent moved from month to month, and the "mopping-up" campaigns of 1941–42 cut some of them badly; these are the areas as one atlas draws them for those two years, not a line anyone held.'
+      note: 'The base areas and guerrilla zones of the Eighth Route Army and the New Fourth Army, and the reason the occupied shading on this map is described as generous. Almost all of this ground lies inside the line the Japanese army had drawn round itself: Japan held the cities, the railways and the plains between them, and the countryside behind that line was fought over. The largest is Shǎngānníng, the border region round Yenan, which was never occupied at all; the rest — Jìnchájì in the Wutai mountains, Jìlǔyù on the Hopei–Shantung plain, the Shantung and coastal pockets, and the New Fourth Army areas along the lower Yangtze — were inside it. Their extent moved from month to month, and the "mopping-up" campaigns of 1941–42 cut some of them badly; these are the areas as one atlas draws them for those two years, not a line anyone held.'
     },
     {
       id: 'britishindia', en: 'British India', when: 'The western limit of the advance',
@@ -913,7 +915,7 @@ JMAP.TERRITORIES = {
     {
       id: 'ussr', en: 'Soviet Union (USSR)', orig: 'СССР (SSSR)', zh: '蘇聯',
       when: 'Neutrality Pact, April 1941', cat: 'neutral', lvl: 1, atoms: ['ussr'],
-      note: 'At war with Germany but not with Japan: the Neutrality Pact of April 1941 held until the Soviet invasion of Manchuria in August 1945. Both sides kept large armies on the Manchurian border throughout. The frontier had already been fought over: an undeclared border war ran through the late 1930s and was settled at Nomonhan on the Manchukuo–Mongolian border in the summer of 1939, where Zhukov destroyed a Japanese army. That defeat is a large part of why the Japanese advance in 1941 went south rather than north.'
+      note: 'At war with Germany but not with Japan: the Neutrality Pact of April 1941 held until the Soviet invasion of Manchuria in August 1945. Both sides kept large armies on the Manchurian border throughout. The frontier had already been fought over: an undeclared border war ran through the late 1930s and was settled at Nomonhan on the Manchukuo–Mongolian border in the summer of 1939, where Zhukov destroyed a Japanese division. That defeat is a large part of why the Japanese advance in 1941 went south rather than north.'
     },
     {
       id: 'mongolia', en: 'Mongolian People’s Republic', orig: 'Бүгд Найрамдах Монгол Ард Улс',
@@ -925,7 +927,7 @@ JMAP.TERRITORIES = {
       id: 'xinjiang', en: 'Xīnjiāng (Sinkiang)', ja: '新疆 (Shinkyō)', orig: 'شىنجاڭ (Shinjang)',
       zh: '新疆', when: 'Realigned with Chungking in 1942', cat: 'freechina', lvl: 3,
       atoms: ['xinjiang'], within: 'freechina',
-      note: 'Formally a province of the Republic of China, Xinjiang was ruled largely autonomously by Sheng Shicai from 1933 with extensive Soviet support. In 1942 he broke with Moscow and aligned with Chungking. By December, Nationalist influence was beginning to grow, but Soviet troops remained and Sheng still governed; direct central rule began only after his removal in 1944. The overland route through Xinjiang carried Soviet aid to China in 1937–41.'
+      note: 'A province of the Republic in name, run since 1933 by Sheng Shih-ts’ai on Soviet money and with Soviet troops in the province. He broke with Moscow in 1942 and turned to Chungking, but he was still governing in December, and central rule only followed his removal in 1944. The overland road through Sinkiang had carried Soviet aid to China from 1937 to 1941.'
     },
     {
       id: 'tibet', en: 'Tibet', ja: 'チベット (Chibetto)', orig: 'བོད་ (Bod)', zh: '西藏',
@@ -935,7 +937,7 @@ JMAP.TERRITORIES = {
     {
       id: 'macau', en: 'Macao', ja: 'マカオ (Makao)', orig: '澳門 (Ou-mun)', zh: '澳門',
       when: 'Portuguese and neutral throughout', cat: 'portuguese', lvl: 3, atoms: ['macau'],
-      note: 'Japan never occupied Macao and never raised its flag here: Portugal was neutral, the colony stayed Portuguese to the end of the war, and it filled with refugees from Hong Kong and Canton — its population several times what it had been. That neutrality was held on Japanese sufferance, though. The colony was surrounded, and it was fed and policed by agreement; from 1943 Japanese “advisers” were installed and had their way in most things. It is drawn Portuguese because that is what it was, and this note is where the qualification belongs.'
+      note: 'Japan never occupied Macao and never raised its flag here: Portugal was neutral, the colony stayed Portuguese to the end of the war, and it filled with refugees from Hong Kong and Canton — its population several times what it had been. That neutrality was held on Japanese sufferance, though. The colony was surrounded, and it was fed and policed by agreement; from 1943 Japanese "advisers" were installed and had their way in most things. It is drawn Portuguese because that is what it was, and this note is where the qualification belongs.'
     },
     {
       id: 'guangzhouwan', en: 'Guǎngzhōuwān (Kwangchowan)', ja: '広州湾 (Kōshūwan)',
@@ -959,7 +961,7 @@ JMAP.TERRITORIES = {
       id: 'sikkim', en: 'Sikkim', orig: 'འབྲས་ལྗོངས (Drenjong)', zh: '錫金',
       when: 'British protectorate from 1861, recognised by China 1890', cat: 'allied', lvl: 3,
       c: '#dcc2ce', atoms: ['sikkim'],
-      note: 'A Himalayan kingdom under British protection, not a part of British India — which is why it is drawn apart from it here. The protectorate began with the Treaty of Tumlong in 1861, which followed a British punitive expedition and put Sikkim\'s external relations in British hands. What happened in 1890 was the Anglo-Chinese Convention of Calcutta of 17 March, in which China recognised the protectorate and the Sikkim–Tibet boundary was defined: the date of international recognition rather than the start of British control.'
+      note: 'A Himalayan kingdom under British protection, not a part of British India — which is why it is drawn apart from it here. The protectorate began with the Treaty of Tumlong in 1861, which followed a British punitive expedition and put Sikkim’s external relations in British hands; China recognised it, and the Sikkim–Tibet boundary was drawn, by the Convention of Calcutta of 17 March 1890.'
     },
     {
       id: 'bhutan', en: 'Bhutan', orig: 'འབྲུག་ཡུལ (Druk Yul)', zh: '不丹',
@@ -976,13 +978,13 @@ JMAP.TERRITORIES = {
       id: 'nca_pacified', en: 'Pacified areas (治安地区)', ja: '治安地区', zh: '治安地區',
       when: 'September 1942', rule: 'The North China Area Army\'s own classification',
       cat: 'pacified', lvl: 3, atoms: ['nca_pacified'], srcOnly: 'nca',
-      note: 'Ground the North China Area Army classed as pacified — 治安地区 — in its own survey of September 1942. Not the same claim as the shading it replaces: that is where Japanese authority reached at all, this is where the army itself thought it had the country in hand. It comes to about 275,000 square kilometres, roughly a quarter of the area the occupation is otherwise drawn over, and it sits along the railways and around the cities much as the note on the occupation says. The sheet\'s third category, semi-pacified — 準治安地区 — is what it leaves blank, and it is left blank here too, so unshaded ground inside north China is not a claim that nobody was there.'
+      note: 'Ground the North China Area Army classed as pacified — 治安地区 — in its own survey of September 1942. Not the same claim as the shading it replaces: that is where Japanese authority reached at all, this is where the army itself thought it had the country in hand. It comes to about 275,000 square kilometres, roughly a quarter of the area the occupation is otherwise drawn over, and it sits along the railways and around the cities much as the note on the occupation says. The sheet’s third category, semi-pacified — 準治安地区 — is what it leaves blank, and it is left blank here too, so unshaded ground inside north China is not a claim that nobody was there.'
     },
     {
       id: 'nca_unpacified', en: 'Un-pacified areas (未治安地区)', ja: '未治安地区', zh: '未治安地區',
       when: 'September 1942', rule: 'The North China Area Army\'s own classification',
       cat: 'unpacified', lvl: 3, atoms: ['nca_unpacified'], srcOnly: 'nca',
-      note: 'Ground the same survey classed as un-pacified — 未治安地区: about 182,000 square kilometres, in fifty-three separate areas, most of them in the mountains of Shanxi and Hebei and along the Shandong hills. This is the army\'s own account of where it was being fought, drawn by the people doing the fighting, and it is worth setting beside the Communist base areas from Wu Yuexing\'s atlas, which is the other reading this map offers. They are not the same map and were not drawn to answer the same question.'
+      note: 'Ground the same survey classed as un-pacified — 未治安地区: about 182,000 square kilometres, in fifty-three separate areas, most of them in the mountains of Shansi and Hopei and along the Shantung hills. This is the army’s own account of where it was being fought, drawn by the people doing the fighting, and it is worth setting beside the Communist base areas from Wu Yuexing’s atlas, which is the other reading this map offers. They are not the same map and were not drawn to answer the same question.'
     },
     {
       id: 'contested', en: 'Frontier not settled', ja: '未確定国境', zh: '未定國界', cat: 'contested',
@@ -1030,7 +1032,7 @@ JMAP.SITES = [
   },
   {
     id: 'nagoya', en: 'Nagoya', ja: '名古屋 (Nagoya)', orig: '名古屋 (Nagoya)', zh: '名古屋',
-    date: 'Bombed 1944–45', cat: 'city', lvl: 3, lat: 35.18, lon: 136.91, year: 1889,
+    date: 'Bombed 1944–1945', cat: 'city', lvl: 3, lat: 35.18, lon: 136.91, year: 1889,
     note: 'The centre of the aircraft industry, and for that reason among the most heavily bombed cities of the war.'
   },
   {
@@ -1043,7 +1045,7 @@ JMAP.SITES = [
     id: 'nagasaki', en: 'Nagasaki', ja: '長崎 (Nagasaki)', orig: '長崎 (Nagasaki)', zh: '長崎',
     date: 'Atomic bomb, 9 August 1945', cat: 'city', lvl: 1, lat: 32.74, lon: 129.87,
     year: 1641,
-    note: 'The Dutch post at Dejima made this Japan’s only window on Europe under the Tokugawa. Destroyed by the second atomic bomb.'
+    note: 'The Dutch post at Dejima made this Japan’s only window on Europe under the Tokugawa. Destroyed by the second atomic bomb; around 70,000 were dead by the end of the year.'
   },
   {
     id: 'shimonoseki', en: 'Shimonoseki', ja: '下関 (Shimonoseki)', orig: '下関 (Shimonoseki)',
@@ -1069,16 +1071,16 @@ JMAP.SITES = [
     note: 'Laid out on a grid as the headquarters of the Hokkaidō Colonisation Commission, the agency that settled the island and dispossessed the Ainu.'
   },
   {
-    id: 'tsushima', en: 'Tsushima Strait', ja: '対馬海峡 (Tsushima Kaikyō)',
-    orig: '대한해협 (Taehan Haehyŏp)', zh: '對馬海峽', date: '27–28 May 1905', cat: 'battle', lvl: 3,
-    lat: 34.4, lon: 129.33, year: 1905,
+    id: 'tsushima', en: 'Tsushima Strait', ja: '対馬海峡 (Tsushima Kaikyō)', zh: '對馬海峽',
+    ko: '대한해협 (Taehan Haehyŏp)', date: '27–28 May 1905', cat: 'battle', lvl: 3, lat: 34.4,
+    lon: 129.33, year: 1905,
     note: 'Tōgō destroyed the Russian Baltic Fleet here after its eighteen-thousand-mile voyage — the decisive battle of the Russo-Japanese War and the first modern defeat of a European power by an Asian one.'
   },
   {
-    id: 'naha', en: 'Naha (Okinawa)', ja: '那覇 (Naha)', orig: '那覇 (Naafa)', zh: '那霸',
+    id: 'naha', en: 'Naha', ja: '那覇 (Naha)', orig: '那覇 (Naafa)', zh: '那霸',
     date: 'Battle of Okinawa, April–June 1945', cat: 'city', lvl: 1, lat: 26.21, lon: 127.68,
     year: 1879,
-    note: 'Port of the Ryūkyū Kingdom, and the site of the only land battle fought on Japanese home soil, in which around a quarter of Okinawan civilians died.'
+    note: 'Port of the Ryūkyū Kingdom, and the site of the only land battle of the war fought on Japanese soil among a civilian population, in which around a quarter of Okinawans died.'
   },
   {
     id: 'iwojima', en: 'Iwo Jima (Iō-tō)', ja: '硫黄島 (Iō-tō)', orig: '硫黄島 (Iō-tō)', zh: '硫磺島',
@@ -1087,32 +1089,31 @@ JMAP.SITES = [
     note: 'Taken at a cost of nearly 7,000 American and over 18,000 Japanese dead, to give fighter cover to the bombers over Japan.'
   },
   {
-    id: 'seoul', en: 'Keijō (Seoul)', ja: '京城 (Keijō)', orig: '서울 / 한성 (Sŏul / Hansŏng)',
-    zh: '京城（漢城）', date: 'Renamed Keijō in 1910', cat: 'city', lvl: 1, lat: 37.57, lon: 126.98,
-    year: 1876,
+    id: 'seoul', en: 'Keijō (Seoul)', ja: '京城 (Keijō)', zh: '京城（漢城）',
+    ko: '서울 / 한성 (Sŏul / Hansŏng)', date: 'Renamed Keijō in 1910', cat: 'city', lvl: 1,
+    lat: 37.57, lon: 126.98, year: 1876,
     note: 'Capital of Chosŏn Korea as Hansŏng, and of the colony as Keijō. The Kapsin Coup of 1884 and the March First Movement of 1919 both began here; Queen Min was murdered in the palace in 1895.'
   },
   {
-    id: 'pusan', en: 'Fusan (Pusan)', ja: '釜山 (Fusan)', orig: '부산 (Pusan)', zh: '釜山',
+    id: 'pusan', en: 'Fusan (Pusan)', ja: '釜山 (Fusan)', zh: '釜山', ko: '부산 (Pusan)',
     date: 'Opened by treaty 1876', cat: 'city', lvl: 2, lat: 35.18, lon: 129.08, year: 1876,
     note: 'The port closest to Japan, long the site of a Japanese trading enclave, and the southern end of the ferry and rail link that tied Korea into the Japanese economy.'
   },
   {
-    id: 'incheon', en: 'Jinsen (Chemulpo, Incheon)', ja: '仁川 (Jinsen)',
-    orig: '인천 / 제물포 (Inch’ŏn / Chemulp’o)', zh: '仁川', date: 'Naval action 9 February 1904',
-    cat: 'city', lvl: 3, lat: 37.46, lon: 126.71, year: 1883,
+    id: 'incheon', en: 'Jinsen (Chemulpo, Inchon)', ja: '仁川 (Jinsen)', zh: '仁川',
+    ko: '인천 / 제물포 (Inch’ŏn / Chemulp’o)', date: 'Naval action 9 February 1904', cat: 'city',
+    lvl: 3, lat: 37.46, lon: 126.71, year: 1883,
     note: 'Seoul’s port, known to foreigners as Chemulpo. The Japanese attack on Russian ships here opened the Russo-Japanese War.'
   },
   {
-    id: 'kanghwa', en: 'Kanghwa Island', ja: '江華島 (Kōkatō)', orig: '강화도 (Kanghwado)', zh: '江華島',
-    date: 'Treaty signed 27 February 1876', cat: 'battle', lvl: 3, lat: 37.75, lon: 126.48,
+    id: 'kanghwa', en: 'Kanghwa Island', ja: '江華島 (Kōkatō)', zh: '江華島', ko: '강화도 (Kanghwado)',
+    date: 'Treaty signed 26 February 1876', cat: 'battle', lvl: 3, lat: 37.75, lon: 126.48,
     year: 1876,
     note: 'Japanese gunboat diplomacy — an engineered incident in 1875, then a fleet — produced the Kanghwa Treaty, Korea’s own unequal treaty, on the model of the ones imposed on Japan twenty years before.'
   },
   {
-    id: 'pyongyang', en: 'Heijō (Pyongyang)', ja: '平壌 (Heijō)', orig: '평양 (P’yŏngyang)',
-    zh: '平壤', date: 'Battle, 15 September 1894', cat: 'city', lvl: 3, lat: 39.02, lon: 125.75,
-    year: 1894,
+    id: 'pyongyang', en: 'Heijō (Pyongyang)', ja: '平壌 (Heijō)', zh: '平壤', ko: '평양 (P’yŏngyang)',
+    date: 'Battle, 15 September 1894', cat: 'city', lvl: 3, lat: 39.02, lon: 125.75, year: 1894,
     note: 'Site of a decisive Japanese victory over Qing forces in the First Sino-Japanese War, and later a centre of colonial industry and of Korean Christianity.'
   },
   {
@@ -1131,7 +1132,7 @@ JMAP.SITES = [
     id: 'harbin', en: 'Hā’ěrbīn (Harbin)', ja: 'ハルビン (Harubin)', orig: '哈爾濱 (Hā’ěrbīn)',
     zh: '哈爾濱', date: 'Itō assassinated 26 October 1909', cat: 'city', lvl: 2, lat: 45.8,
     lon: 126.53, year: 1909,
-    note: 'A Russian-built railway city with a large émigré population. Itō Hirobumi was shot at its station by the Korean independence activist An Chunggŭn. Unit 731 ran biological warfare experiments at Pingfang on the outskirts from 1936.'
+    note: 'A Russian-built railway city with a large émigré population. Itō Hirobumi was shot at its station by the Korean independence activist An Chunggŭn. Unit 731 ran human vivisection at Pingfang on the outskirts from 1936, and field-tested plague and cholera on Chinese towns.'
   },
   {
     id: 'portarthur', en: 'Lǚshùn (Port Arthur, Ryojun)', ja: '旅順 (Ryojun)',
@@ -1147,7 +1148,7 @@ JMAP.SITES = [
   },
   {
     id: 'chengde', en: 'Chéngdé (Chengteh)', ja: '承徳 (Shōtoku)', orig: '承德 (Chéngdé)', zh: '承德',
-    date: 'Occupied February 1933', cat: 'city', lvl: 3, lat: 40.98, lon: 117.94, year: 1933,
+    date: 'Occupied 4 March 1933', cat: 'city', lvl: 3, lat: 40.98, lon: 117.94, year: 1933,
     note: 'The Qing emperors’ summer capital, and capital of Jehol province — English sources often call the city itself Jehol. Taken in a ten-day campaign and attached to Manchukuo; the Tanggu Truce followed in May.'
   },
   {
@@ -1165,9 +1166,9 @@ JMAP.SITES = [
   {
     id: 'beijing', en: 'Běijīng (Peking / Peiping)', ja: '北京 (Pekin)',
     orig: '北京 / 北平 (Běijīng / Běipíng)', zh: '北京（北平）',
-    date: 'Renamed Peiping 1928; occupied July 1937', cat: 'city', lvl: 1, lat: 39.9,
+    date: 'Renamed Peiping in 1928; occupied July–August 1937', cat: 'city', lvl: 1, lat: 39.9,
     lon: 116.4, year: 1900,
-    note: 'The Qing capital, demoted to "Peiping" when the Nationalists moved the capital to Nanking in 1928. Japanese troops joined the eight-nation force that relieved the legations in 1900, and took the city outright in 1937.'
+    note: 'The Qing capital, demoted to "Peiping" when the Nationalists moved the capital to Nanking in 1928. Japanese troops joined the eight-nation force that relieved the legations in 1900, and took the city outright in August 1937.'
   },
   {
     id: 'marcopolo', en: 'Lúgōuqiáo (the Marco Polo Bridge)', ja: '盧溝橋事件 (Rokōkyō jiken)',
@@ -1183,12 +1184,12 @@ JMAP.SITES = [
   },
   {
     id: 'kalgan', en: 'Zhāngjiākǒu (Kalgan, Changchiakou)', ja: '張家口 (Chōkakō)',
-    orig: '張家口 (Zhāngjiākǒu)', zh: '張家口', date: 'Capital of Mengchiang from 1937', cat: 'city',
+    orig: '張家口 (Zhāngjiākǒu)', zh: '張家口', date: 'Capital of Mengchiang from 1939', cat: 'city',
     lvl: 3, lat: 40.81, lon: 114.88, year: 1937,
     note: 'The old caravan gate through the Great Wall to Mongolia, and the seat of the Japanese-sponsored Inner Mongolian regime.'
   },
   {
-    id: 'jinan', en: 'Jǐnán (Tsinan)', ja: '済南事件 (Sainan jiken)', orig: '濟南 (Jǐnán)', zh: '濟南',
+    id: 'jinan', en: 'Jǐnán (Tsinan)', ja: '済南 (Sainan)', orig: '濟南 (Jǐnán)', zh: '濟南',
     date: 'May 1928', cat: 'city', lvl: 3, lat: 36.67, lon: 116.99, year: 1928,
     note: 'Japanese troops sent to "protect residents" clashed with the Nationalist Northern Expedition; thousands of Chinese were killed, and a Chinese diplomat mutilated and executed.'
   },
@@ -1207,7 +1208,7 @@ JMAP.SITES = [
   {
     id: 'nanjing', en: 'Nánjīng (Nanking)', ja: '南京 (Nankin)', orig: '南京 (Nánjīng)', zh: '南京',
     date: 'Fell 13 December 1937', cat: 'city', lvl: 1, lat: 32.06, lon: 118.8, year: 1927,
-    note: 'Nationalist capital from 1927. Its capture was followed by weeks of mass killing and rape — the Nanking Massacre — and from 1940 it housed Wang Ching-wei’s collaborationist government.'
+    note: 'Nationalist capital from 1927. Its capture was followed by weeks of mass killing and rape — the Nanking Massacre — in which the dead are counted from the tens of thousands to 300,000, depending on the period and the boundary taken. From 1940 it housed Wang Ching-wei’s collaborationist government.'
   },
   {
     id: 'shanghai', en: 'Shànghǎi (Shanghai)', ja: '上海 (Shanhai)', orig: '上海 (Shànghǎi)',
@@ -1230,15 +1231,15 @@ JMAP.SITES = [
   {
     id: 'yanan', en: 'Yán’ān (Yenan)', ja: '延安 (En’an)', orig: '延安 (Yán’ān)', zh: '延安',
     date: 'Communist base 1936–1947', cat: 'city', lvl: 3, lat: 36.6, lon: 109.49, year: 1936,
-    note: 'The end of the Long March and the centre of Communist resistance, where Mao consolidated his leadership and the party grew from tens of thousands to over a million.'
+    note: 'The Long March ended in northern Shensi in 1935 and the party moved here at the end of 1936. From it Mao consolidated his leadership and the party grew from tens of thousands to over a million.'
   },
   {
-    id: 'xian', en: 'Xī’ān (Sian)', ja: '西安事件 (Seian jiken)', orig: '西安 (Xī’ān)', zh: '西安',
+    id: 'xian', en: 'Xī’ān (Sian)', ja: '西安 (Seian)', orig: '西安 (Xī’ān)', zh: '西安',
     date: 'December 1936', cat: 'city', lvl: 3, lat: 34.34, lon: 108.94, year: 1936,
     note: 'Chiang Kai-shek was kidnapped here by his own generals and released only after agreeing to a united front with the Communists against Japan.'
   },
   {
-    id: 'guangzhou', en: 'Guǎngzhōu (Canton)', ja: '広東 (Kanton)', orig: '廣州 (Guǎngzhōu)',
+    id: 'guangzhou', en: 'Guǎngzhōu (Canton)', ja: '広州 (Kōshū)', orig: '廣州 (Guǎngzhōu)',
     zh: '廣州', date: 'Fell 21 October 1938', cat: 'city', lvl: 2, lat: 23.13, lon: 113.26,
     year: 1842,
     note: 'The original treaty port and the cradle of the Nationalist revolution, taken in 1938 to cut the supply line from Hong Kong.'
@@ -1249,8 +1250,9 @@ JMAP.SITES = [
     note: 'A treaty port opposite Formosa, and a main point of departure for Chinese emigration to Southeast Asia.'
   },
   {
-    id: 'hainan', en: 'Hainan Island', ja: '海南島 (Kainantō)', orig: '海南島 (Hǎinándǎo)', zh: '海南島',
-    date: 'Occupied February 1939', cat: 'battle', lvl: 3, lat: 19.55, lon: 109.6, year: 1939,
+    id: 'hainan', en: 'Hǎinándǎo (Hainan Island)', ja: '海南島 (Kainantō)',
+    orig: '海南島 (Hǎinándǎo)', zh: '海南島', date: 'Occupied February 1939', cat: 'battle', lvl: 3,
+    lat: 19.55, lon: 109.6, year: 1939,
     note: 'Seized to blockade south China and as a stepping stone towards Indochina; worked with forced labour for its iron ore.'
   },
   {
@@ -1294,9 +1296,9 @@ JMAP.SITES = [
     note: 'Capital of the one uncolonised state in the region. Phibun’s government granted passage within hours of the invasion and allied with Japan a fortnight later.'
   },
   {
-    id: 'singapore', en: 'Singapore (Shōnantō)', ja: '昭南島 (Shōnantō)', orig: 'Singapura',
-    date: 'Surrendered 15 February 1942', cat: 'city', lvl: 1, lat: 1.29, lon: 103.85,
-    year: 1819,
+    id: 'singapore', en: 'Shōnantō (Singapore)', ja: '昭南島 (Shōnantō)', orig: 'Singapura',
+    zh: '新加坡', date: 'Surrendered 15 February 1942', cat: 'city', lvl: 1, lat: 1.29,
+    lon: 103.85, year: 1819,
     note: 'Britain’s great naval base, whose guns are often wrongly said to have pointed only out to sea; the real failures were air cover and the loss of the Prince of Wales and Repulse. 80,000 troops went into captivity.'
   },
   {
@@ -1310,9 +1312,9 @@ JMAP.SITES = [
     note: 'Declared an open city and occupied without a fight; devastated three years later during its recapture, when perhaps 100,000 civilians died.'
   },
   {
-    id: 'corregidor', en: 'Bataan & Corregidor', ja: 'バターン・コレヒドール', orig: 'Bataan / Corregidor',
-    zh: '巴丹・科雷希多', date: 'April – 6 May 1942', cat: 'battle', lvl: 3, lat: 14.38, lon: 120.57,
-    year: 1942,
+    id: 'corregidor', en: 'Bataan & Corregidor', ja: 'バターン・コレヒドール (Batān Korehidōru)',
+    orig: 'Bataan / Corregidor', zh: '巴丹・科雷希多', date: 'April – 6 May 1942', cat: 'battle',
+    lvl: 3, lat: 14.38, lon: 120.57, year: 1942,
     note: 'The last American and Filipino stand. The surrender was followed by the Bataan Death March, in which thousands died.'
   },
   {
@@ -1334,8 +1336,8 @@ JMAP.SITES = [
   },
   {
     id: 'batavia', en: 'Batavia (Jakarta)', ja: 'ジャカルタ (Jakaruta)', orig: 'Batavia / Jakarta',
-    date: 'Dutch surrender, 8 March 1942', cat: 'city', lvl: 2, lat: -6.21, lon: 106.85,
-    year: 1619,
+    zh: '巴達維亞', date: 'Dutch surrender, 8 March 1942', cat: 'city', lvl: 2, lat: -6.21,
+    lon: 106.85, year: 1619,
     note: 'Capital of the Netherlands East Indies for three centuries. Sukarno and Hatta chose to work with the occupation, and declared independence two days after the surrender in 1945.'
   },
   {
@@ -1352,14 +1354,13 @@ JMAP.SITES = [
   },
   {
     id: 'coralsea', en: 'Coral Sea', ja: '珊瑚海海戦 (Sangokai kaisen)', zh: '珊瑚海海戰',
-    ko: '산호해 해전 (Sanhohae Haejŏn)', date: '4–8 May 1942', cat: 'battle', lvl: 3, lat: -13.5,
-    lon: 154, year: 1942,
-    note: 'The first battle fought entirely by carrier aircraft, with the fleets never in sight of each other. It cost the Americans the Lexington and the Japanese the light carrier Shoho, and damage to Shokaku and Zuikaku kept both out of Midway a month later. Tactically a draw; strategically the first check on the Japanese advance, because the seaborne attempt on Port Moresby turned back and was never resumed.'
+    date: '4–8 May 1942', cat: 'battle', lvl: 3, lat: -13.5, lon: 154, year: 1942,
+    note: 'The first battle fought entirely by carrier aircraft, with the fleets never in sight of each other. It cost the Americans the <em>Lexington</em> and the Japanese the light carrier <em>Shōhō</em>; <em>Shōkaku</em> was bombed and <em>Zuikaku</em>’s air group destroyed, and both missed Midway a month later. Tactically a draw; strategically the first check on the Japanese advance, because the seaborne attempt on Port Moresby turned back and was never resumed.'
   },
   {
     id: 'midway', en: 'Midway', ja: 'ミッドウェー海戦 (Middowē kaisen)', orig: 'Pihemanu', zh: '中途島',
     date: '4–7 June 1942', cat: 'battle', lvl: 1, lat: 28.21, lon: -177.37, year: 1942,
-    note: 'Four Japanese fleet carriers sunk in a single day, against one American. The offensive initiative in the Pacific never came back.'
+    note: 'All four Japanese fleet carriers fatally hit within a day, against one American. The offensive initiative in the Pacific never came back.'
   },
   {
     id: 'saipan', en: 'Saipan', ja: 'サイパン (Saipan)', orig: 'Saipan', zh: '塞班島',
@@ -1378,8 +1379,9 @@ JMAP.SITES = [
     note: 'The Combined Fleet’s central Pacific anchorage — "the Gibraltar of the Pacific" — wrecked by carrier raids and then bypassed and left to rot.'
   },
   {
-    id: 'peleliu', en: 'Peleliu (Palau)', ja: 'ペリリュー (Peririyū)', orig: 'Beliliou',
-    date: 'September – November 1944', cat: 'battle', lvl: 3, lat: 7, lon: 134.25, year: 1944,
+    id: 'peleliu', en: 'Peleliu (Beliliou)', ja: 'ペリリュー (Peririyū)', orig: 'Beliliou',
+    zh: '貝里琉', date: 'September – November 1944', cat: 'battle', lvl: 3, lat: 7, lon: 134.25,
+    year: 1944,
     note: 'Expected to take four days and took over two months. It introduced the deep cave defence that would be used again on Iwo Jima and Okinawa.'
   },
   {
@@ -1395,7 +1397,7 @@ JMAP.SITES = [
   {
     id: 'tarawa', en: 'Tarawa', ja: 'タラワ (Tarawa)', orig: 'Tarawa', zh: '塔拉瓦',
     date: '20–23 November 1943', cat: 'battle', lvl: 3, lat: 1.33, lon: 172.98, year: 1943,
-    note: 'Seventy-six hours, over a thousand American dead on a coral islet of two square kilometres, and almost the whole garrison killed. The cost changed how the rest of the island campaign was planned.'
+    note: 'Seventy-six hours, over a thousand American dead on a coral islet of barely more than a square kilometre, and almost the whole garrison killed. The cost changed how the rest of the island campaign was planned.'
   },
   {
     id: 'rabaul', en: 'Rabaul', ja: 'ラバウル (Rabauru)', orig: 'Rabaul', zh: '拉包爾',
@@ -1409,9 +1411,9 @@ JMAP.SITES = [
     note: 'A half-built airfield became the first sustained Allied offensive of the Pacific War. Six months of attrition on land, sea and air that Japan could not afford; the withdrawal marked the turn of the tide.'
   },
   {
-    id: 'portmoresby', en: 'Port Moresby', ja: 'ポートモレスビー', orig: 'Port Moresby', zh: '莫爾茲比港',
-    date: 'Coral Sea May 1942; Kokoda July–November 1942', cat: 'battle', lvl: 3, lat: -9.44,
-    lon: 147.18, year: 1942,
+    id: 'portmoresby', en: 'Port Moresby', ja: 'ポートモレスビー (Pōto Moresubī)', orig: 'Port Moresby',
+    zh: '莫爾茲比港', date: 'Coral Sea May 1942; Kokoda July–November 1942', cat: 'battle', lvl: 3,
+    lat: -9.44, lon: 147.18, year: 1942,
     note: 'The objective Japan never reached. The seaborne attempt was turned back at the Coral Sea and the overland push failed on the Kokoda Track, within sight of its goal.'
   },
   {
@@ -1434,10 +1436,6 @@ JMAP.SITES = [
 ];
 
 JMAP.EPOCH_OVERRIDES = {
-  tokyo: { e1930: {
-      date: 'Capital from 1868',
-      note: 'Edo until the Restoration, and still being rebuilt: the Great Kantō earthquake of 1923 destroyed much of the city and was followed by the massacre of several thousand Koreans by vigilantes and police.'
-    } },
   hiroshima: { e1930: {
       date: 'Army headquarters from 1894',
       note: 'Base of the Fifth Division and the embarkation port for the continent. Imperial General Headquarters moved here during the war with China in 1894–95, and the emperor with it.'
@@ -1450,30 +1448,17 @@ JMAP.EPOCH_OVERRIDES = {
       date: 'Okinawa Prefecture from 1879',
       note: 'Port of the Ryūkyū Kingdom. Japan abolished the kingdom in 1879, deposed its king and pensioned him off in Tokyo, and turned the islands into a prefecture.'
     } },
-  kyoto: { e1930: {
-      date: 'Imperial seat until 1868',
-      note: 'The emperor’s city for over a thousand years, until the court moved to Tokyo after the Restoration.'
-    } },
   nagoya: { e1930: {
       date: 'Castle town and industrial city',
       note: 'A Tokugawa castle town that became a centre of the textile trade and, later, of the aircraft industry.'
-    } },
-  seoul: { e1930: {
-      date: 'Renamed Keijō in 1910',
-      note: 'Capital of Chosŏn Korea as Hansŏng, and of the colony as Keijō. The Kapsin Coup of 1884 and the March First Movement of 1919 both began here; Queen Min was murdered in the palace in 1895.'
     } },
   mukden: { e1930: {
       date: 'Battle of Mukden, February–March 1905',
       note: 'The Manchu dynastic capital, and the prize of the largest land battle of the Russo-Japanese War. In 1930 it is the seat of Chang Hsüeh-liang’s government, with the Japanese South Manchuria Railway running through it and the Kwantung Army guarding the line.'
     } },
   changchun: { e1930: {
-      en: 'Changchun', ja: '長春 (Chōshun)', orig: '長春 (Chángchūn)', zh: '長春',
-      date: 'Railway junction',
+      en: 'Chángchūn', ja: '長春 (Chōshun)', zh: '長春', date: 'Railway junction',
       note: 'Where the Russian Chinese Eastern Railway met the Japanese South Manchuria Railway — the seam between the two spheres in Manchuria. It would be rebuilt as Hsinking, capital of Manchukuo, after 1932.'
-    } },
-  harbin: { e1930: {
-      date: 'Itō assassinated 26 October 1909',
-      note: 'A Russian-built railway city with a large émigré population, the biggest in the Russian Far East. Itō Hirobumi was shot at its station by the Korean independence activist An Chunggŭn.'
     } },
   beijing: { e1930: {
       date: 'Renamed Peiping in 1928',
@@ -1512,8 +1497,7 @@ JMAP.EPOCH_OVERRIDES = {
       note: 'Capital of the one state in the region never colonised; the Chakri kings had kept their independence by ceding territory to Britain and France in turn.'
     } },
   singapore: { e1930: {
-      en: 'Singapore', ja: 'シンガポール (Shingapōru)', orig: 'Singapura', zh: '新加坡',
-      date: 'Naval base begun 1923',
+      en: 'Singapore', ja: 'シンガポール (Shingapōru)', date: 'Naval base begun 1923',
       note: 'Capital of the Straits Settlements and the site of the great naval base begun in 1923, on which the whole of British strategy east of Suez depended.'
     } },
   hanoi: { e1930: {
@@ -1525,8 +1509,7 @@ JMAP.EPOCH_OVERRIDES = {
       note: 'Capital of Cochinchina, the oldest French possession in Indochina, and the rice-exporting port of the Mekong delta.'
     } },
   rangoon: { e1930: {
-      en: 'Rangoon', ja: 'ラングーン (Rangūn)', orig: 'ရန်ကုန် (Yangon)', zh: '仰光',
-      date: 'British from 1852',
+      en: 'Rangoon', date: 'British from 1852',
       note: 'Capital of British Burma — still a province of British India in 1930 — and a great rice port with an Indian majority in its population.'
     } },
   manila: { e1930: {
@@ -1534,7 +1517,7 @@ JMAP.EPOCH_OVERRIDES = {
       note: 'Capital of the American-ruled Philippines, taken from Spain in 1898 and promised eventual independence.'
     } },
   batavia: { e1930: {
-      en: 'Batavia', ja: 'バタビア (Batabia)', orig: 'Batavia', zh: '巴達維亞', date: 'Dutch from 1619',
+      en: 'Batavia', ja: 'バタビア (Batabia)', orig: 'Batavia', date: 'Dutch from 1619',
       note: 'Capital of the Netherlands East Indies and seat of the Governor-General, built by the Dutch East India Company on the ruins of Jayakarta.'
     } },
 };
@@ -1600,7 +1583,7 @@ JMAP.BROWSE = [
   },
   { id: 'jilincity', en: 'Jílín (Kirin)', ja: '吉林 (Kirin)', zh: '吉林', lat: 43.84, lon: 126.55 },
   {
-    id: 'mudanjiang', en: 'Mutankiang (Mudanjiang)', ja: '牡丹江 (Botankō)', zh: '牡丹江', lat: 44.58,
+    id: 'mudanjiang', en: 'Mǔdānjiāng (Mutankiang)', ja: '牡丹江 (Botankō)', zh: '牡丹江', lat: 44.58,
     lon: 129.6
   },
   { id: 'fushun', en: 'Fǔshùn (Fushun)', ja: '撫順 (Bujun)', zh: '撫順', lat: 41.88, lon: 123.94 },
@@ -1609,9 +1592,9 @@ JMAP.BROWSE = [
     id: 'jinzhou', en: 'Jǐnzhōu (Chinchow)', ja: '錦州 (Kinshū)', zh: '錦州', lat: 41.1, lon: 121.13
   },
   {
-    id: 'yingkou', en: 'Yíngkǒu (Newchwang)', ja: '營口 (Eikō)', zh: '營口', lat: 40.67, lon: 122.24
+    id: 'yingkou', en: 'Yíngkǒu (Newchwang)', ja: '営口 (Eikō)', zh: '營口', lat: 40.67, lon: 122.24
   },
-  { id: 'dandong', en: 'Antung (Dandong)', ja: '安東 (Antō)', zh: '安東', lat: 40.13, lon: 124.39 },
+  { id: 'dandong', en: 'Dāndōng (Antung)', ja: '安東 (Antō)', zh: '安東', lat: 40.13, lon: 124.39 },
   {
     id: 'urumqi', en: 'Wūlǔmùqí (Urumchi)', ja: '迪化 (Tekika)', zh: '迪化（烏魯木齊）', lat: 43.83,
     lon: 87.62
@@ -1630,10 +1613,10 @@ JMAP.BROWSE = [
     lon: 119.43
   },
   { id: 'shantou', en: 'Shàntóu (Swatow)', ja: '汕頭 (Santō)', zh: '汕頭', lat: 23.35, lon: 116.68 },
-  { id: 'ningbo', en: 'Níngbō (Ningpo)', ja: '寧波 (Nēhā)', zh: '寧波', lat: 29.87, lon: 121.55 },
+  { id: 'ningbo', en: 'Níngbō (Ningpo)', ja: '寧波 (Neiha)', zh: '寧波', lat: 29.87, lon: 121.55 },
   { id: 'wenzhou', en: 'Wēnzhōu (Wenchow)', ja: '温州 (Onshū)', zh: '溫州', lat: 28, lon: 120.7 },
   {
-    id: 'yantai', en: 'Yāntái (Chefoo)', ja: '芝罘 (Shifu)', zh: '芝罘（煙台）', lat: 37.46, lon: 121.45
+    id: 'yantai', en: 'Yāntái (Chefoo)', ja: '芝罘 (Shifu)', zh: '芝罘（煙臺）', lat: 37.46, lon: 121.45
   },
   { id: 'taegu', en: 'Taikyū (Taegu)', ja: '大邱 (Taikyū)', zh: '大邱', lat: 35.87, lon: 128.6 },
   { id: 'kwangju', en: 'Kōshū (Kwangju)', ja: '光州 (Kōshū)', zh: '光州', lat: 35.16, lon: 126.85 },
@@ -1695,7 +1678,7 @@ JMAP.BROWSE = [
   { id: 'phnompenh', en: 'Phnom Penh', lat: 11.56, lon: 104.92 },
   { id: 'vientiane', en: 'Vientiane', lat: 17.97, lon: 102.6 },
   { id: 'luangprabang', en: 'Luang Prabang', lat: 19.89, lon: 102.14 },
-  { id: 'chiangmai', en: 'Chiang Mai', lat: 18.79, lon: 98.98 },
+  { id: 'chiangmai', en: 'Chiengmai (Chiang Mai)', lat: 18.79, lon: 98.98 },
   { id: 'mandalay', en: 'Mandalay', ja: 'マンダレー (Mandarē)', zh: '曼德勒', lat: 21.98, lon: 96.08 },
   { id: 'moulmein', en: 'Moulmein', lat: 16.49, lon: 97.63 },
   { id: 'kualalumpur', en: 'Kuala Lumpur', ja: 'クアラルンプール', lat: 3.14, lon: 101.69 },
@@ -1719,7 +1702,7 @@ JMAP.BROWSE = [
   { id: 'dili', en: 'Dili', ja: 'ディリ (Diri)', lat: -8.56, lon: 125.56 },
   { id: 'khabarovsk', en: 'Khabarovsk', ja: 'ハバロフスク', zh: '伯力', lat: 48.48, lon: 135.08 },
   {
-    id: 'ulanbator', en: 'Ulan Bator (Urga)', ja: '庫倫 (Kuron)', zh: '庫倫（烏蘭巴托）', lat: 47.89,
+    id: 'ulanbator', en: 'Urga (Ulan Bator)', ja: '庫倫 (Kuron)', zh: '庫倫（烏蘭巴托）', lat: 47.89,
     lon: 106.91
   },
   { id: 'calcutta', en: 'Calcutta', lat: 22.57, lon: 88.36 },
@@ -1781,7 +1764,7 @@ JMAP.BROWSE = [
     id: 'chaoyang', en: 'Cháoyáng (Chaoyang)', ja: '朝陽 (Chōyō)', zh: '朝陽', lat: 41.57,
     lon: 120.45
   },
-  { id: 'yanji', en: 'Yenki (Yanji)', ja: '延吉 (Enkichi)', zh: '延吉', lat: 42.91, lon: 129.51 },
+  { id: 'yanji', en: 'Yánjí (Yenki)', ja: '延吉 (Enkichi)', zh: '延吉', lat: 42.91, lon: 129.51 },
   {
     id: 'jiamusi', en: 'Jiāmùsī (Kiamusze)', ja: '佳木斯 (Kamusu)', zh: '佳木斯', lat: 46.81,
     lon: 130.32
@@ -1919,14 +1902,14 @@ JMAP.PROVINCES = {
   'Shaan-Gan-Ning': { en: 'Shǎngānníng border region — Yenan', zh: '陝甘寧邊區' },
   'Jin-Sui': { en: 'Jìnsuí — Shansi and Suiyuan', zh: '晉綏' },
   'Jin-Cha-Ji': { en: 'Jìnchájì — Shansi, Chahar and Hopei', zh: '晉察冀' },
-  Jinan: { en: 'Jìnán — southern Hopei', zh: '冀南' },
+  Jinan: { en: 'Jìnán (Chi-nan) — southern Hopei', zh: '冀南' },
   'Taihang and Taiyue': { en: 'Tàiháng and Tàiyuè', zh: '太行・太岳' },
   'Ji-Lu-Yu': { en: 'Jìlǔyù — Hopei, Shantung and Honan', zh: '冀魯豫' },
   Qinghe: { en: 'Qīnghé — the Yellow River delta', zh: '清河' },
   Jiaodong: { en: 'Jiāodōng — the Shantung peninsula', zh: '膠東' },
   Luzhong: { en: 'Lǔzhōng — central Shantung', zh: '魯中' },
   Lunan: { en: 'Lǔnán — southern Shantung', zh: '魯南' },
-  Binhai: { en: 'Bīnhǎi — the Shantung coast south of Chiao-chou', zh: '濱海' },
+  Binhai: { en: 'Bīnhǎi — the Shantung coast south of Kiaochow', zh: '濱海' },
   Subei: { en: 'Sūběi — northern Kiangsu', zh: '蘇北' },
   Huaibei: { en: 'Huáiběi — north of the Huai', zh: '淮北' },
   Huainan: { en: 'Huáinán — south of the Huai', zh: '淮南' },
@@ -1943,15 +1926,15 @@ JMAP.PROVINCES = {
   Guangxi: { en: 'Guǎngxī (Kwangsi)' },
   Guizhou: { en: 'Guìzhōu (Kweichow)' },
   Hebei: { en: 'Héběi (Hopei)' },
-  Heilongjiang: { en: 'Hēilóngjiāng (Heilungkiang), called Lungkiang under Manchukuo' },
+  Heilongjiang: { en: 'Hēilóngjiāng (Heilungkiang) — called Lungkiang under Manchukuo' },
   Henan: { en: 'Hénán (Honan)' },
   Hubei: { en: 'Húběi (Hupeh)' },
-  Hunan: { en: 'Húnán (Hunan)' },
+  Hunan: { en: 'Húnán' },
   Jehol: { en: 'Rèhé (Jehol)' },
   Jiangsu: { en: 'Jiāngsū (Kiangsu)' },
   Jiangxi: { en: 'Jiāngxī (Kiangsi)' },
   Jilin: { en: 'Jílín (Kirin)' },
-  Liaoning: { en: 'Liáoníng, called Fengtien again under Manchukuo' },
+  Liaoning: { en: 'Liáoníng — called Fengtien again under Manchukuo' },
   Ningxia: { en: 'Níngxià (Ninghsia)' },
   Qinghai: { en: 'Qīnghǎi (Tsinghai)' },
   Shaanxi: { en: 'Shǎnxī (Shensi)' },
@@ -1962,8 +1945,8 @@ JMAP.PROVINCES = {
   SuiyuanWest: { en: 'Western Suíyuǎn — Wuyuan, Linhe and the Ordos, held by Fu Tso-yi throughout' },
   Xikang: { en: 'Xīkāng (Sikang) — a special administrative region until 1939, then a province' },
   Xinjiang: { en: 'Xīnjiāng (Sinkiang)' },
-  Xizang: { en: 'Tibet (Xīzàng)' },
-  Yunnan: { en: 'Yúnnán (Yunnan)' },
+  Xizang: { en: 'Tibet' },
+  Yunnan: { en: 'Yúnnán' },
   Zhejiang: { en: 'Zhèjiāng (Chekiang)' },
   Nanumea: { en: 'Nanumea' },
   Nanumanga: { en: 'Nanumanga (Nanumaga)' },
@@ -1988,7 +1971,7 @@ JMAP.PROVINCES = {
   Cochinchina: { en: 'Cochinchina (colony)', zh: '交趾支那' },
   Cambodia: { en: 'Cambodia (protectorate)', zh: '柬埔寨' },
   Laos: { en: 'Laos (protectorate)', zh: '寮國' },
-  Hokkaido: { en: 'Hokkaidō', ja: '北海道庁 (Hokkaidō)', zh: '北海道廳' },
+  Hokkaido: { en: 'Hokkaidō-chō', ja: '北海道庁 (Hokkaidō-chō)', zh: '北海道廳' },
   Aomori: { en: 'Aomori-ken', ja: '青森県 (Aomori)', zh: '青森縣' },
   Iwate: { en: 'Iwate-ken', ja: '岩手県 (Iwate)', zh: '岩手縣' },
   Miyagi: { en: 'Miyagi-ken', ja: '宮城県 (Miyagi)', zh: '宮城縣' },
@@ -2036,21 +2019,20 @@ JMAP.PROVINCES = {
   Kagoshima: { en: 'Kagoshima-ken', ja: '鹿児島県 (Kagoshima)', zh: '鹿兒島縣' },
   Okinawa: { en: 'Okinawa-ken', ja: '沖縄県 (Okinawa)', zh: '沖繩縣' },
   Ulleungdo: {
-    en: 'Ulleungdo (Utsuryō-tō) — part of Chōsen', ja: '鬱陵島 (Utsuryō-tō)',
-    ko: '울릉도 (Ulleungdo)',
+    en: 'Ullŭngdo (Utsuryō-tō) — part of Chōsen', ja: '鬱陵島 (Utsuryō-tō)', ko: '울릉도 (Ullŭngdo)',
     note: 'The largest island off the east coast of Korea, and the base from which Korean and Japanese fishermen worked the Liancourt Rocks 87 km to the south-east.'
   },
-  Jukdo: { en: 'Jukdo (Chikuyo) — off Ulleungdo', ja: '竹嶼 (Chikuyo)', ko: '죽도 (Jukdo)' },
-  Gwaneumdo: { en: 'Gwaneumdo (Kannondō) — off Ulleungdo', ja: '觀音島 (Kannondō)', ko: '관음도 (Gwaneumdo)' },
+  Jukdo: { en: 'Chukto (Chikuyo) — off Ullŭngdo', ja: '竹嶼 (Chikuyo)', ko: '죽도 (Chukto)' },
+  Gwaneumdo: { en: 'Kwanŭmdo (Kannondō) — off Ullŭngdo', ja: '觀音島 (Kannondō)', ko: '관음도 (Kwanŭmdo)' },
   'Seodo, the west islet of the Liancourt Rocks': {
-    en: 'Seodo (Nishijima) — the west islet of the Liancourt Rocks', ja: '西島 (Nishijima)',
-    ko: '서도 (Seodo)',
-    note: 'Dokdo to Korea, Takeshima to Japan, the Liancourt Rocks to everyone else. Japan incorporated them into Shimane prefecture in 1905, five years before it annexed Korea, so on both of this map’s dates they were inside the same empire as Ulleungdo and nothing turned on the difference. South Korea has held them with a police detachment since 1954; Japan claims them still.'
+    en: 'Sŏdo (Nishijima) — the west islet of the Liancourt Rocks', ja: '西島 (Nishijima)',
+    ko: '서도 (Sŏdo)',
+    note: 'Dokdo to Korea, Takeshima to Japan, the Liancourt Rocks to everyone else. Japan incorporated them into Shimane prefecture in 1905, five years before it annexed Korea, so on both of this map’s dates they were inside the same empire as Ullŭngdo and nothing turned on the difference. South Korea has held them with a police detachment since 1954; Japan claims them still.'
   },
   'Dongdo, the east islet of the Liancourt Rocks': {
-    en: 'Dongdo (Higashijima) — the east islet of the Liancourt Rocks', ja: '東島 (Higashijima)',
-    ko: '동도 (Dongdo)',
-    note: 'Dokdo to Korea, Takeshima to Japan, the Liancourt Rocks to everyone else. Japan incorporated them into Shimane prefecture in 1905, five years before it annexed Korea, so on both of this map’s dates they were inside the same empire as Ulleungdo and nothing turned on the difference. South Korea has held them with a police detachment since 1954; Japan claims them still.'
+    en: 'Tongdo (Higashijima) — the east islet of the Liancourt Rocks', ja: '東島 (Higashijima)',
+    ko: '동도 (Tongdo)',
+    note: 'Dokdo to Korea, Takeshima to Japan, the Liancourt Rocks to everyone else. Japan incorporated them into Shimane prefecture in 1905, five years before it annexed Korea, so on both of this map’s dates they were inside the same empire as Ullŭngdo and nothing turned on the difference. South Korea has held them with a police detachment since 1954; Japan claims them still.'
   },
   Keiki: { en: 'Keiki-dō (Kyŏnggi-do)', ja: '京畿道 (Keiki-dō)', zh: '京畿道', ko: '경기도 (Kyŏnggi-do)' },
   Kogen: { en: 'Kōgen-dō (Kangwŏn-do)', ja: '江原道 (Kōgen-dō)', zh: '江原道', ko: '강원도 (Kangwŏn-do)' },
@@ -2098,13 +2080,13 @@ JMAP.PROVINCES = {
   'Shumshu (Shimushu)': { en: 'Shumshu (Shimushu)', ja: '占守島 (Shumushu-tō)', zh: '占守島' },
   'Alaid (Araito)': { en: 'Alaid (Araito)', ja: '阿頼度島 (Araito-tō)', zh: '阿賴度島' },
   'Paramushir (Paramushiro)': { en: 'Paramushir (Paramushiro)', ja: '幌筵島 (Paramushiro-tō)', zh: '幌筵島' },
-  'Makanrushi (Makanruru)': { en: 'Makanrushi (Makanruru)', ja: '磨勘留島 (Makanru-tō)', zh: '磨勘留島' },
+  'Makanrushi (Makanru)': { en: 'Makanrushi (Makanru)', ja: '磨勘留島 (Makanru-tō)', zh: '磨勘留島' },
   Onekotan: { en: 'Onekotan', ja: '温禰古丹島 (Onnekotan-tō)', zh: '溫禰古丹島' },
   'Kharimkotan (Harimukotan)': { en: 'Kharimkotan (Harimukotan)', ja: '春牟古丹島 (Harimukotan-tō)', zh: '春牟古丹島' },
   Ekarma: { en: 'Ekarma', ja: '越渇磨島 (Ekaruma-tō)', zh: '越渴磨島' },
   'Shiashkotan (Shasukotan)': { en: 'Shiashkotan (Shasukotan)', ja: '捨子古丹島 (Shasukotan-tō)', zh: '捨子古丹島' },
   'Matua (Matsuwa)': { en: 'Matua (Matsuwa)', ja: '松輪島 (Matsuwa-tō)', zh: '松輪島' },
-  'Rasshua (Rasutsuwa)': { en: 'Rasshua (Rasutsuwa)', ja: '羅処和島 (Rasuwa-tō)', zh: '羅處和島' },
+  'Rasshua (Rasuwa)': { en: 'Rasshua (Rasuwa)', ja: '羅処和島 (Rasuwa-tō)', zh: '羅處和島' },
   'Ketoy (Ketoi)': { en: 'Ketoy (Ketoi)', ja: '計吐夷島 (Ketoi-tō)', zh: '計吐夷島' },
   'Simushir (Shimushiru)': { en: 'Simushir (Shimushiru)', ja: '新知島 (Shimushiru-tō)', zh: '新知島' },
   'Chirpoy (Chirihoi)': { en: 'Chirpoy (Chirihoi)', ja: '知理保以島 (Chirihoi-tō)', zh: '知理保以島' },
@@ -2130,7 +2112,7 @@ JMAP.PROVINCES = {
   Penang: { en: 'Penang — Straits Settlement, with Province Wellesley on the mainland' },
   Dindings: { en: 'The Dindings — Straits Settlement until 1935' },
   'Christmas Island': {
-    en: 'Christmas Island — annexed 1900, a Straits Settlement from 1900 and run from Singapore, worked for phosphate',
+    en: 'Christmas Island — annexed 1888, attached to the Straits Settlements in 1900 and run from Singapore, worked for phosphate',
     ja: 'クリスマス島 (Kurisumasu-tō)'
   },
   Kedah: { en: 'Kedah — Unfederated Malay State' },
@@ -2179,8 +2161,8 @@ JMAP.PROVINCES = {
   Bikini: { en: 'Bikini', zh: '比基尼' },
   Ebon: { en: 'Ebon', ja: 'エボン (Ebon)', zh: '埃邦' },
   'The Mongol leagues': { en: 'The Mongol leagues', ja: '蒙古聯盟 (Mōko renmei)', zh: '蒙古各盟' },
-  'North Shansi (Jinbei) Administration': { en: 'North Shansi (Jinbei) Administration', ja: '晉北政廳 (Shinpoku seichō)', zh: '晉北政廳' },
-  'South Chahar (Chanan) Administration': { en: 'South Chahar (Chanan) Administration', ja: '察南政廳 (Satsunan seichō)', zh: '察南政廳' },
+  'North Shansi (Jinbei) Administration': { en: 'Jìnběi — the North Shansi Administration', ja: '晉北政廳 (Shinpoku seichō)', zh: '晉北政廳' },
+  'South Chahar (Chanan) Administration': { en: 'Chánán — the South Chahar Administration', ja: '察南政廳 (Satsunan seichō)', zh: '察南政廳' },
   Sumatra: { en: 'Sumatra', ja: 'スマトラ (Sumatora)' },
   Java: { en: 'Java', ja: 'ジャワ (Jawa)' },
   Madura: { en: 'Madura', ja: 'マドゥラ (Madura)' },
@@ -2319,7 +2301,7 @@ JMAP.PROVINCES = {
   Okinoerabujima: { en: 'Okinoerabujima', ja: '沖永良部島 (Okinoerabujima)', zh: '沖永良部島' },
   Yoronjima: { en: 'Yoronjima', ja: '与論島 (Yoronjima)', zh: '與論島' },
   Iheyajima: { en: 'Iheyajima', ja: '伊平屋島 (Iheyajima)', zh: '伊平屋島' },
-  Izenajima: { en: 'Izenajima', zh: '伊是名島' },
+  Izenajima: { en: 'Izenajima', ja: '伊是名島 (Izenajima)', zh: '伊是名島' },
   Iejima: { en: 'Iejima', ja: '伊江島 (Iejima)', zh: '伊江島' },
   'the Kerama Islands': {
     en: 'The Kerama Islands — taken first, 26 March 1945', ja: '慶良間諸島 (Kerama Shotō)',
@@ -2327,29 +2309,32 @@ JMAP.PROVINCES = {
   },
   Kumejima: { en: 'Kumejima', ja: '久米島 (Kumejima)', zh: '久米島' },
   Miyakojima: { en: 'Miyakojima', ja: '宮古島 (Miyakojima)', zh: '宮古島' },
-  Taramajima: { en: 'Taramajima', zh: '多良間島' },
+  Taramajima: { en: 'Taramajima', ja: '多良間島 (Taramajima)', zh: '多良間島' },
   Ishigakijima: { en: 'Ishigakijima', ja: '石垣島 (Ishigakijima)', zh: '石垣島' },
   Iriomotejima: { en: 'Iriomotejima', ja: '西表島 (Iriomotejima)', zh: '西表島' },
-  Haterumajima: { en: 'Haterumajima — the southernmost of the empire', zh: '波照間島' },
+  Haterumajima: {
+    en: 'Haterumajima — the southernmost inhabited island of Japan proper',
+    ja: '波照間島 (Haterumajima)', zh: '波照間島'
+  },
   Yonagunijima: { en: 'Yonagunijima — 110 km from Formosa', ja: '与那国島 (Yonagunijima)', zh: '與那國島' },
   'the Daitō Islands': { en: 'The Daitō Islands', ja: '大東諸島 (Daitō Shotō)', zh: '大東群島' },
   'the Senkaku / Diaoyu Islands': {
     en: 'The Senkaku / Diaoyu Islands — administered from Okinawa', ja: '尖閣諸島 (Senkaku Shotō)',
     zh: '釣魚臺列嶼',
-    note: 'Claimed today by Japan, by the People’s Republic of China and by Taiwan; uninhabited, and administered by Japan.'
+    note: 'Five islets and three rocks off the north-east of Taiwan, incorporated into Okinawa Prefecture in 1895. A settlement on Uotsurijima worked albatross feathers and dried bonito until the 1940s. Claimed today by Japan, by the People’s Republic of China and by Taiwan; uninhabited, and administered by Japan.'
   },
   'Uotsuri Shima': {
     en: 'Uotsurijima — the largest of the Senkaku / Diaoyu Islands', ja: '魚釣島 (Uotsurijima)',
     zh: '釣魚島',
-    note: 'Claimed today by Japan, by the People’s Republic of China and by Taiwan; uninhabited, and administered by Japan.'
+    note: 'The largest of the group, and the only one anybody has lived on: Koga Tatsushirō\'s plant employed a couple of hundred people here before the First World War. Claimed today by Japan, by the People’s Republic of China and by Taiwan; uninhabited, and administered by Japan.'
   },
   'Kuba-shima': {
     en: 'Kubajima — in the Senkaku / Diaoyu Islands', ja: '久場島 (Kubajima)', zh: '黃尾嶼',
-    note: 'Claimed today by Japan, by the People’s Republic of China and by Taiwan; uninhabited, and administered by Japan.'
+    note: 'A bare volcanic islet north-east of Uotsurijima, used as a bombing range by the United States after the war and never resettled. Claimed today by Japan, by the People’s Republic of China and by Taiwan; uninhabited, and administered by Japan.'
   },
   'Kuba Island': {
     en: 'Kubajima — in the Senkaku / Diaoyu Islands', ja: '久場島 (Kubajima)', zh: '黃尾嶼',
-    note: 'Claimed today by Japan, by the People’s Republic of China and by Taiwan; uninhabited, and administered by Japan.'
+    note: 'A bare volcanic islet north-east of Uotsurijima, used as a bombing range by the United States after the war and never resettled. Claimed today by Japan, by the People’s Republic of China and by Taiwan; uninhabited, and administered by Japan.'
   },
   AngThong: { en: 'Ang Thong' },
   BuriRam: { en: 'Buriram' },
@@ -2371,7 +2356,7 @@ JMAP.PROVINCES = {
   Loei: { en: 'Loei' },
   Lopburi: { en: 'Lopburi' },
   MaeHongSon: { en: 'Mae Hong Son' },
-  MahaSarakham: { en: 'Maha Sarakham (with Kalasin, abolished into it in 1932)' },
+  MahaSarakham: { en: 'Maha Sarakham — Kalasin was abolished into it in 1932' },
   NakhonNayok: { en: 'Nakhon Nayok' },
   NakhonPathom: { en: 'Nakhon Pathom' },
   NakhonPhanom: { en: 'Nakhon Phanom' },
@@ -2480,6 +2465,9 @@ JMAP.PROVINCE_EPOCH = {
       en: 'Christmas Island — taken by Japan on 31 March 1942 for its phosphate',
       ja: 'クリスマス島 (Kurisumasu-tō)'
     },
+    Singapore: { en: 'Singapore — Shōnantō under Japanese military administration' },
+    Penang: { en: 'Penang — under the Japanese military administration of Malaya' },
+    Malacca: { en: 'Malacca — under the Japanese military administration of Malaya' },
   },
 };
 

@@ -984,14 +984,38 @@ button.plain:hover { background: #f2ede2; }
    asked about Singapore and the Straits Settlements is the context; the second
    is set smaller, lighter and behind a rule so that which half is new can be
    seen without reading either. */
+#info .note-own {
+  color: var(--ink);
+}
+
 #info .note-group {
-  margin-top: 9px;
-  padding-top: 8px;
+  margin-top: 10px;
+  padding: 8px 0 0 10px;
   border-top: 1px solid var(--line, rgba(0, 0, 0, .12));
+  border-left: 2px solid var(--line, rgba(0, 0, 0, .12));
   font-size: 12.5px;
   line-height: 1.5;
   color: var(--muted);
 }
+
+/* Which group the second block is about. Two paragraphs of prose with nothing
+   between them but a rule left the reader to work out that the first answers
+   what they clicked and the second answers what it sits inside; this says so.
+   Drawn from the attribute rather than from an element of its own, so nothing
+   in index.html has to know about it. */
+#info .note-group::before {
+  content: attr(data-group);
+  display: block;
+  margin-bottom: 3px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  opacity: .85;
+}
+
+#info .note-group[data-group=""]::before { display: none; }
 
 /* Only ever drawn on a phone; see the media query at the foot of this file. */
 #info .more {

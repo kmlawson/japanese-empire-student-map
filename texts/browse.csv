@@ -20,21 +20,21 @@ hohhot,Hūhéhàotè (Kweisui),厚和 (Kōwa),歸綏（呼和浩特）,40.84,111
 baotou,Bāotóu (Paotow),包頭 (Hōtō),包頭,40.66,109.84
 qiqihar,Qíqíhā’ěr (Tsitsihar),チチハル (Chichiharu),齊齊哈爾,47.35,123.92
 jilincity,Jílín (Kirin),吉林 (Kirin),吉林,43.84,126.55
-mudanjiang,Mutankiang (Mudanjiang),牡丹江 (Botankō),牡丹江,44.58,129.6
+mudanjiang,Mǔdānjiāng (Mutankiang),牡丹江 (Botankō),牡丹江,44.58,129.6
 fushun,Fǔshùn (Fushun),撫順 (Bujun),撫順,41.88,123.94
 anshan,Ānshān (Anshan),鞍山 (Anzan),鞍山,41.11,122.99
 jinzhou,Jǐnzhōu (Chinchow),錦州 (Kinshū),錦州,41.1,121.13
-yingkou,Yíngkǒu (Newchwang),營口 (Eikō),營口,40.67,122.24
-dandong,Antung (Dandong),安東 (Antō),安東,40.13,124.39
+yingkou,Yíngkǒu (Newchwang),営口 (Eikō),營口,40.67,122.24
+dandong,Dāndōng (Antung),安東 (Antō),安東,40.13,124.39
 urumqi,Wūlǔmùqí (Urumchi),迪化 (Tekika),迪化（烏魯木齊）,43.83,87.62
 kashgar,Kāshí (Kashgar),カシュガル (Kashugaru),喀什噶爾,39.47,75.99
 lhasa,Lhasa,,,29.65,91.14
 kangding,Kāngdìng (Kangting),康定 (Kōtei),康定,30.05,101.96
 zhenjiang,Zhènjiāng (Chinkiang),鎮江 (Chinkō),鎮江,32.19,119.43
 shantou,Shàntóu (Swatow),汕頭 (Santō),汕頭,23.35,116.68
-ningbo,Níngbō (Ningpo),寧波 (Nēhā),寧波,29.87,121.55
+ningbo,Níngbō (Ningpo),寧波 (Neiha),寧波,29.87,121.55
 wenzhou,Wēnzhōu (Wenchow),温州 (Onshū),溫州,28,120.7
-yantai,Yāntái (Chefoo),芝罘 (Shifu),芝罘（煙台）,37.46,121.45
+yantai,Yāntái (Chefoo),芝罘 (Shifu),芝罘（煙臺）,37.46,121.45
 taegu,Taikyū (Taegu),大邱 (Taikyū),大邱,35.87,128.6
 kwangju,Kōshū (Kwangju),光州 (Kōshū),光州,35.16,126.85
 taejon,Taiden (Taejon),大田 (Taiden),大田,36.35,127.38
@@ -71,7 +71,7 @@ hue,Hue,フエ (Fue),順化,16.46,107.6
 phnompenh,Phnom Penh,,,11.56,104.92
 vientiane,Vientiane,,,17.97,102.6
 luangprabang,Luang Prabang,,,19.89,102.14
-chiangmai,Chiang Mai,,,18.79,98.98
+chiangmai,Chiengmai (Chiang Mai),,,18.79,98.98
 mandalay,Mandalay,マンダレー (Mandarē),曼德勒,21.98,96.08
 moulmein,Moulmein,,,16.49,97.63
 kualalumpur,Kuala Lumpur,クアラルンプール,,3.14,101.69
@@ -94,7 +94,7 @@ iloilo,Iloilo,イロイロ (Iroiro),伊洛伊洛,10.72,122.56
 baguio,Baguio,バギオ (Bagio),碧瑤,16.41,120.6
 dili,Dili,ディリ (Diri),,-8.56,125.56
 khabarovsk,Khabarovsk,ハバロフスク,伯力,48.48,135.08
-ulanbator,Ulan Bator (Urga),庫倫 (Kuron),庫倫（烏蘭巴托）,47.89,106.91
+ulanbator,Urga (Ulan Bator),庫倫 (Kuron),庫倫（烏蘭巴托）,47.89,106.91
 calcutta,Calcutta,,,22.57,88.36
 madras,Madras,,,13.08,80.27
 dacca,Dacca (Dhaka),,,23.81,90.41
@@ -124,7 +124,7 @@ wanxian,Wànzhōu (Wanhsien),万県 (Manken),萬縣,30.81,108.41
 baoji,Bǎojī (Paoki),宝鶏 (Hōkei),寶雞,34.36,107.14
 tianshui,Tiānshuǐ (Tienshui),天水 (Tensui),天水,34.58,105.72
 chaoyang,Cháoyáng (Chaoyang),朝陽 (Chōyō),朝陽,41.57,120.45
-yanji,Yenki (Yanji),延吉 (Enkichi),延吉,42.91,129.51
+yanji,Yánjí (Yenki),延吉 (Enkichi),延吉,42.91,129.51
 jiamusi,Jiāmùsī (Kiamusze),佳木斯 (Kamusu),佳木斯,46.81,130.32
 yining,Yīníng (Ining),伊寧 (Inei),伊寧,43.91,81.32
 shigatse,Shigatse,,,29.27,88.88

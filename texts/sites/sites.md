@@ -53,7 +53,8 @@ year.
 ## nagasaki
 
 The Dutch post at Dejima made this Japan’s only window on Europe under the
-Tokugawa. Destroyed by the second atomic bomb.
+Tokugawa. Destroyed by the second atomic bomb; around 70,000 were dead by the
+end of the year.
 
 ## shimonoseki
 
@@ -83,8 +84,9 @@ defeat of a European power by an Asian one.
 
 ## naha
 
-Port of the Ryūkyū Kingdom, and the site of the only land battle fought on
-Japanese home soil, in which around a quarter of Okinawan civilians died.
+Port of the Ryūkyū Kingdom, and the site of the only land battle of the war
+fought on Japanese soil among a civilian population, in which around a quarter
+of Okinawans died.
 
 ## iwojima
 
@@ -140,7 +142,8 @@ and ministries as the showpiece of the puppet state.
 
 A Russian-built railway city with a large émigré population. Itō Hirobumi was
 shot at its station by the Korean independence activist An Chunggŭn. Unit 731
-ran biological warfare experiments at Pingfang on the outskirts from 1936.
+ran human vivisection at Pingfang on the outskirts from 1936, and field-tested
+plague and cholera on Chinese towns.
 
 ## portarthur
 
@@ -178,7 +181,7 @@ months before the invasion of Manchuria.
 
 The Qing capital, demoted to "Peiping" when the Nationalists moved the capital
 to Nanking in 1928. Japanese troops joined the eight-nation force that
-relieved the legations in 1900, and took the city outright in 1937.
+relieved the legations in 1900, and took the city outright in August 1937.
 
 ## marcopolo
 
@@ -216,8 +219,9 @@ Sino-Japanese War; afterwards a British leased territory until 1930.
 ## nanjing
 
 Nationalist capital from 1927. Its capture was followed by weeks of mass
-killing and rape — the Nanking Massacre — and from 1940 it housed Wang
-Ching-wei’s collaborationist government.
+killing and rape — the Nanking Massacre — in which the dead are counted from
+the tens of thousands to 300,000, depending on the period and the boundary
+taken. From 1940 it housed Wang Ching-wei’s collaborationist government.
 
 ## shanghai
 
@@ -239,9 +243,9 @@ one of the first sustained campaigns against a civilian population.
 
 ## yanan
 
-The end of the Long March and the centre of Communist resistance, where Mao
-consolidated his leadership and the party grew from tens of thousands to over
-a million.
+The Long March ended in northern Shensi in 1935 and the party moved here at
+the end of 1936. From it Mao consolidated his leadership and the party grew
+from tens of thousands to over a million.
 
 ## xian
 
@@ -370,16 +374,16 @@ dockyards were left intact.
 ## coralsea
 
 The first battle fought entirely by carrier aircraft, with the fleets never in
-sight of each other. It cost the Americans the Lexington and the Japanese the
-light carrier Shoho, and damage to Shokaku and Zuikaku kept both out of Midway
-a month later. Tactically a draw; strategically the first check on the
+sight of each other. It cost the Americans the <em>Lexington</em> and the
+Japanese the light carrier <em>Shōhō</em>; <em>Shōkaku</em> was bombed and
+<em>Zuikaku</em>’s air group destroyed, and both missed Midway a month later. Tactically a draw; strategically the first check on the
 Japanese advance, because the seaborne attempt on Port Moresby turned back and
 was never resumed.
 
 ## midway
 
-Four Japanese fleet carriers sunk in a single day, against one American. The
-offensive initiative in the Pacific never came back.
+All four Japanese fleet carriers fatally hit within a day, against one
+American. The offensive initiative in the Pacific never came back.
 
 ## saipan
 
@@ -414,8 +418,8 @@ ring of the defensive perimeter.
 
 ## tarawa
 
-Seventy-six hours, over a thousand American dead on a coral islet of two
-square kilometres, and almost the whole garrison killed. The cost changed how
+Seventy-six hours, over a thousand American dead on a coral islet of barely
+more than a square kilometre, and almost the whole garrison killed. The cost changed how
 the rest of the island campaign was planned.
 
 ## rabaul
