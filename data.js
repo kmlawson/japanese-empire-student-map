@@ -1060,7 +1060,7 @@ JMAP.SITES = [
     id: 'shimonoseki', en: 'Shimonoseki', ja: '下関 (Shimonoseki)', orig: '下関 (Shimonoseki)',
     zh: '下關', date: 'Bombarded 1864; treaty signed April 1895', cat: 'city', lvl: 2, lat: 33.96,
     lon: 130.94, year: 1864,
-    note: 'Chōshū’s straits, shelled by a four-power squadron in 1864. The Treaty of Shimonoseki ended the First Sino-Japanese War and handed Formosa to Japan.'
+    note: 'Chōshū’s straits, shelled by a four-power squadron in 1864. The Treaty of Shimonoseki ended the First Sino-Japanese War and handed Taiwan to Japan.'
   },
   {
     id: 'kagoshima', en: 'Kagoshima', ja: '鹿児島 (Kagoshima)', orig: '鹿児島 (Kagoshima)', zh: '鹿兒島',
@@ -1256,7 +1256,7 @@ JMAP.SITES = [
   {
     id: 'xiamen', en: 'Xiàmén (Amoy)', ja: '厦門 (Amoi)', orig: '廈門 (Xiàmén)', zh: '廈門',
     date: 'Occupied May 1938', cat: 'city', lvl: 3, lat: 24.48, lon: 118.09, year: 1842,
-    note: 'A treaty port opposite Formosa, and a main point of departure for Chinese emigration to Southeast Asia.'
+    note: 'A treaty port opposite Taiwan, and a main point of departure for Chinese emigration to Southeast Asia.'
   },
   {
     id: 'hainan', en: 'Hǎinándǎo (Hainan Island)', ja: '海南島 (Kainantō)',
@@ -3085,7 +3085,7 @@ JMAP.PROVINCES = {
     note: 'The southernmost inhabited island of Japan proper. Its people were driven to Iriomote in 1945 by an army order and a third of them died of malaria there.'
   },
   Yonagunijima: {
-    en: 'Yonagunijima — 110 km from Formosa', ja: '与那国島 (Yonagunijima)', zh: '與那國島',
+    en: 'Yonagunijima — 110 km from Taiwan', ja: '与那国島 (Yonagunijima)', zh: '與那國島',
     note: 'The westernmost point of Japan, in sight of Taiwan on a clear day, and a smuggling route to it after the war.'
   },
   'the Daitō Islands': {

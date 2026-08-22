@@ -7,10 +7,49 @@ describing what was actually changed, before it is marked done.
 
 ## Open — asked for and not yet done
 
-Six entries. The first three are work asked for and not yet done; the last
+Seven entries. The first four are work asked for and not yet done; the last
 three are measured rather than assumed, and everything else that once stood
 here has been closed. Where a fix was a generalisation rather than an answer,
 the source that would settle it is named at the foot of this file.
+
+- **The India–Burma frontier: two tracings, and the build widens the quarrel.**
+  Diagnosed, not fixed. Along the Chin Hills and the Chittagong tracts the map
+  shows a lens of sea between the two countries with pink wedges across it, and
+  the hover outline runs in one place while a second, thinner line runs in
+  another. Three findings, each measured.
+
+  *The sources disagree a little.* Rasterised at 0.01° and asked for ground in
+  neither country but within 8 km of both, `india-1931` and
+  `burma-modern-modified` leave **469 km²** between them. That is two hands
+  tracing one frontier, and it is small.
+
+  *The build turns it into 4,085 km².* The same measurement on what is actually
+  drawn: **8.7 times the disagreement in the sources**. The cause is on India's
+  side. Burma keeps 4,082 of 4,523 vertices, 90%; India keeps **5,232 of
+  13,380, 39%** — and 54 of those drawn vertices sit more than 2 km from
+  anything in the source, up to **73 km**, clustered at 92.5–92.8 E / 22.4–22.7
+  N and 93–96.5 E / 27.3–28.7 N. They are at indices 11, 126–129 and 4935–4947
+  — the two ends of the ring — which points at the ring being cut and rejoined
+  rather than at Douglas–Peucker, whose deviation is bounded by its tolerance
+  and cannot invent a vertex 73 km out. `TRACED_TOL` gives India 0.021 units,
+  about 117 m, so the tolerance is not what is doing this.
+
+  *Why QGIS looks clean.* There the two layers overlap and whichever draws on
+  top hides the disagreement. Here each is its own atom with no filler beneath
+  — China's went for the same reason — so any ground neither covers shows the
+  ocean through it. The wedges are where the two boundaries cross each other
+  repeatedly: covered and uncovered slivers alternating.
+
+  *The second line is deliberate.* `britishindia` carries `edge: #8f5f6e`,
+  `edgeAtoms: burma`, `edgeClip: 92 20.6 97.4 28.4` — a hairline round Burma
+  inside the Raj, because in 1930 they share a colour and Burma was a province
+  of India until 1937. It is drawn from **Burma's** outline while the hover
+  outline traces the silhouette of the union, which follows **India's** where
+  the two differ. One frontier, two sources, two lines a few kilometres apart.
+  Nothing is broken here; it is the same disagreement seen twice.
+
+  What to do about it is a separate decision: cut one source to the other, as
+  Burma was cut to India and China, or let one of them own the frontier.
 
 - **Wire the occupied-zone v3 layer, then re-test what it makes redundant.**
   `japanese-occupied-territory-1941-2-v3` was to replace the occupied zone
