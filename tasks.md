@@ -4012,6 +4012,49 @@ generated from `texts/` and another session may be halfway through editing it.
 Set back to **0.84**: 0.82 was the last honest value, and there have been two
 pushes since.
 
+### Chahar and Suiyuan part company, and the provinces say something
+**They were one record.** `chaharsuiyuan` carried three atoms — `chahar`,
+`suiyuan`, `suiyuan_w` — so hovering either province lit both, and the headline
+said *Chahar* while the line under it said *Chahar & Suiyuan*. They are two
+records now, `chahar` with one atom and `suiyuan` with the two halves of its
+own, and China's `lights` list names both. The prose splits with them.
+
+That should also account for the line inside Suiyuan. `SUIYUAN_CUT` at 109.6 E
+and `SUIYUAN_ORDOS_LAT` at 40.45 N divide the province for the 1942 map, where
+the east was Mengchiang's and the west Free China's, and the two halves meet
+exactly — checked vertex by vertex: 872.000/376.930 to 872.000/436.640 to
+959.170/436.640 on one side, the same three points reversed on the other. No
+element is stroked along either line; nothing is drawn there. What the reader
+saw was the hover outline, which was covering all three atoms because they were
+one record, and a mask built from two abutting fills leaves a seam between
+them. Hovering Chahar no longer reaches Suiyuan at all. **Worth re-checking on
+the Suiyuan hover**, where the two halves are still outlined together; if a
+line survives there, the fix is to merge the shapes across elements in
+`outlineOf` rather than only within one.
+
+**Ejina was wrong, and by 240 km.** The note called it "the western end of the
+country Mengchiang claimed and never held". Measured against the state's own
+1940 sheet, whose westernmost point is 103.927 E: Ejina is at 101.05 E, **2.88
+degrees — about 240 km — west of anything Mengchiang put on a map**, and inside
+neither the claim nor the held area. It was the Ejine Torghut banner,
+administered from Ningxia. The note now says so, and mentions Khara-Khoto
+instead.
+
+**Pinyin for people.** Zhang Xueliang, Zhang Zuolin, Wang Jingwei, Sheng
+Shicai, Fu Zuoyi — six files. Chiang Kai-shek and Sun Yat-sen keep their
+conventional forms, as asked. Place names in the `Pinyin (Postal)` pattern are
+untouched: Fengtian is a province there, not a person.
+
+**Twenty-nine provinces given a description.** What each was known for, who
+held it in 1930 where that was the politics — Yan Xishan in Shanxi, ruling it
+from 1911 to 1949 with its own railway gauge and its own currency; Long Yun in
+Yunnan from 1927; Li Zongren and Bai Chongxi in Guangxi; Chen Jitang in
+Guangdong; Han Fuju in Shandong; Ma Hongkui in Ningxia and Ma Bufang in
+Qinghai; Sichuan divided among garrison-area warlords until 1935 — and, for
+the provinces that did not last, when they went: Zhili renamed Hebei in 1928,
+Jehol taken in 1933 and abolished in 1955, Xikang a region until 1939 and a
+province until 1955, Chahar abolished in 1952, Suiyuan in 1954.
+
 ---
 
 ## Sources worth fetching

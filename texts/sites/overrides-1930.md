@@ -36,7 +36,7 @@ of the aircraft industry.
 ## mukden
 
 The Manchu dynastic capital, and the prize of the largest land battle of the
-Russo-Japanese War. In 1930 it is the seat of Chang Hsüeh-liang’s government,
+Russo-Japanese War. In 1930 it is the seat of Zhang Xueliang’s government,
 with the Japanese South Manchuria Railway running through it and the Kwantung
 Army guarding the line.
 
