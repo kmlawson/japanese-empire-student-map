@@ -4186,6 +4186,33 @@ The build refuses a row whose `kind` is neither `sea` nor `land`, since that is
 what decides how it is lettered and a typo would otherwise produce an unstyled
 name in the middle of an ocean.
 
+### Sakhalin: one parallel, two layers, one instrument
+The island was divided on the 50th parallel from Portsmouth in 1905 to 1945,
+and the map drew the line twice. Karafuto is Natural Earth's Sakhalin cut south
+of 50.0 by the build; the Soviet share is the traced layer, which carries its
+own southern edge. The two hands did not meet. Measured against Karafuto's top,
+142.160 to 144.005 E at 50.0:
+
+* the eastern corner sat at **144.00204 E 50.01384 N** — 1.5 km of open sea
+  between two countries that shared a land border, which is what showed as a
+  pale wedge under the dashed control line;
+* the western corner sat at **142.15884 E 49.99101 N** — 990 m the other way,
+  overlapping into Karafuto, invisible only because Karafuto is drawn later.
+
+Clipping the traced ring to the parallel was tried first and is half a fix: it
+takes away what hangs below the line and can do nothing about what hangs above
+it, so the western overlap went and the eastern gap stayed. Both corners are
+**snapped** to the parallel now — any vertex within 0.02 degrees, 2.2 km — and
+then clipped as a backstop. The two corners are 1.0 and 1.5 km out and the
+coast either side is nowhere near that band, so this moves two points and no
+others: 33,922 vertices in, 33,921 out.
+
+Both edges now sit on the same line, and **0 of 7,500 samples** across the
+border band are covered by neither country, against a strip 1.5 km wide before.
+
+`SAKHALIN_BORDER` and `SAKHALIN_SNAP` are named, and the Karafuto cut reads
+from the same constant, so the parallel is stated once.
+
 ---
 
 ## Sources worth fetching

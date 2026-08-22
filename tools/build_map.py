@@ -3610,6 +3610,14 @@ TANNU_TUVA_FILE = "tannu-tuva-v3.geojson"
 # which were Japanese. So Karafuto and Chishima go on coming from Natural
 # Earth's Russia, and only the `ussr` key stands down for this.
 SOVIET_UNION_FILE = "soviet-union-v2.geojson"
+# The Portsmouth line across Sakhalin, 1905 to 1945. Karafuto is Natural
+# Earth's island south of it and the Soviet Union's share is the traced layer
+# north of it, and both are cut here so the two meet instead of arguing.
+SAKHALIN_BORDER = 50.0
+# How far from that line a traced vertex is taken to be trying to sit on it.
+# 0.02 degrees is 2.2 km; the two corners are 1.0 and 1.5 km out and the coast
+# either side of them is nowhere near, so this moves two points and no others.
+SAKHALIN_SNAP = 0.02
 
 # Four stretches of frontier that no two of the sources here agree about, drawn
 # over whatever they cross so that a reader is told the line is not settled
@@ -4454,6 +4462,37 @@ def main():
                                          len(groups.get("contested_burma", []))))
 
     soviet_union = [r for _p, rs in load_traced(SOVIET_UNION_FILE) for r in rs]
+    # Sakhalin was divided on the 50th parallel, and the build already cuts
+    # Karafuto there — south of 50.0 out of Natural Earth's island. The traced
+    # Soviet layer draws its own southern edge, and the two hands do not meet:
+    # its eastern corner sat at 144.00204 E 50.01384 N against Karafuto's
+    # 144.00500 E 50.0, a kilometre and a half of open sea between two
+    # countries that shared a land border, and its western corner sat 990 m the
+    # other side, overlapping. So the same parallel is cut in both, which is
+    # what the frontier was: one line, two layers, one instrument.
+    if soviet_union:
+        # Snapped and not clipped. A clip can take away what hangs below the
+        # parallel — it did, at the western corner — but the eastern corner
+        # hung 1.5 km *above* it, and nothing that only subtracts will bring a
+        # point down. So any vertex within SAKHALIN_SNAP of the line is put on
+        # it, which is the two corners and nothing else: the coast either side
+        # is already well clear of that band and keeps every vertex it has.
+        _cut = []
+        for _r in soviet_union:
+            _xs = [p[0] for p in _r]; _ys = [p[1] for p in _r]
+            if (140.0 < min(_xs) and max(_xs) < 146.0
+                    and 45.0 < min(_ys) and max(_ys) < 57.0
+                    and min(_ys) < SAKHALIN_BORDER + SAKHALIN_SNAP):
+                _r = [(x, SAKHALIN_BORDER)
+                      if abs(y - SAKHALIN_BORDER) <= SAKHALIN_SNAP else (x, y)
+                      for x, y in _r]
+                _c = clip_halfplanes(_r, box_planes(LON_MIN, SAKHALIN_BORDER,
+                                                    LON_MAX, LAT_MAX))
+                if len(_c) >= 3:
+                    _cut.append(_c)
+                    continue
+            _cut.append(_r)
+        soviet_union = _cut
     if soviet_union:
         groups["ussr"].extend(soviet_union)
         sys.stderr.write("Soviet Union: traced, %d rings (%d vertices)\n"
@@ -4579,8 +4618,10 @@ def main():
                 ys = [p[1] for p in ring]
                 # Sakhalin: south of the 50th parallel is Karafuto
                 if 140.0 < min(xs) and max(xs) < 146.0 and 45.0 < min(ys) and max(ys) < 55.0:
-                    south = clip_halfplanes(ring, box_planes(LON_MIN, LAT_MIN, LON_MAX, 50.0))
-                    north = clip_halfplanes(ring, box_planes(LON_MIN, 50.0, LON_MAX, LAT_MAX))
+                    south = clip_halfplanes(
+                        ring, box_planes(LON_MIN, LAT_MIN, LON_MAX, SAKHALIN_BORDER))
+                    north = clip_halfplanes(
+                        ring, box_planes(LON_MIN, SAKHALIN_BORDER, LON_MAX, LAT_MAX))
                     if len(south) >= 3:
                         groups["karafuto"].append(south)
                     # the traced layer has north Sakhalin already, and cut at
