@@ -3849,6 +3849,41 @@ Battambang, so with Administrative off the 1942 Thai annexation may be drawn
 only where its sub-units are — which are deferred. It is unchanged by this
 work and byte-identical to the last commit, so it is old, not new.
 
+### Provinces and islands are named once the reader is close in
+With *Show names* on and the view inside a twelfth of the map's width, the
+divisions inside a country are labelled — and the Administrative switch is not
+consulted. That switch is about drawing the **boundaries**; a reader who has
+zoomed into Kwangtung wants to know it is Kwangtung whether or not there is a
+line round it. Nothing is stroked, because nothing asks for `.subs`. The
+geometry is fetched if it is not already in the document, which is all the
+switch was ever guarding.
+
+Two halves.
+
+**The build now says where a name goes.** `province_paths` computes the
+centroid and area of each sub-unit's largest ring and writes them as
+`data-cx`, `data-cy` and `data-area` on the path. The largest ring and not the
+whole block, so a province is named in its own main piece rather than in the
+middle of an archipelago it happens to own — and computed here, where the
+projected rings are already to hand, rather than by asking the browser for a
+bounding box on two thousand paths at deep zoom. 242 sub-units in the main
+file carry one and 149 in the Administrative file, all of them.
+
+**Not everything wearing `data-prov` is a division.** The occupied zone names
+its own blocks that way — *North China and the Yangtze valley*, *The Canton
+delta*, *Hainan*, *Swatow and Chaochow* — and each is one shading in many
+pieces, so labelling every piece would have written the same phrase 753 times
+across China. Those are skipped: no centroid and no name on the shape. The
+fine coastlines are the other kind — real islands, named on the shape itself,
+from a source with no centroid — and those are wanted, so they fall through to
+`getBBox`, which is affordable because there are a few hundred of them and they
+are only in the document at deep zoom anyway.
+
+Sub-unit labels are dropped when their shape goes: the atom is not drawn in
+this epoch, or the alternative province source has replaced it. Read off the
+inline style rather than the computed one, since that test runs over every
+label on every zoom.
+
 ---
 
 ## Sources worth fetching

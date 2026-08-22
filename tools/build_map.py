@@ -5857,17 +5857,34 @@ def main():
         for pname, prings in (src if src is not None else provinces).get(key, []):
             merged = dissolve(prings) if len(prings) > 1 else None
             pieces = []
+            kept_pts = []
             for ring in (merged or prings):
                 ring = clip_halfplanes(normalise_ring(ring), frame)
                 if len(ring) < 3:
                     continue
                 pts = thin(key, [project(x, y) for x, y in ring])
                 if len(pts) >= 3 and ring_area(pts) >= sub_min_area(key):
+                    kept_pts.append(pts)
                     pieces.append(ring_to_path(
                         pts, FINE_PRECISION if key in FULL_DETAIL or key in TRACED_TOL
                     else None))
             if pieces:
-                blocks.append((pname, "".join(pieces)))
+                # Where to hang a name. The biggest ring's centroid, and its
+                # area so the caller can sort by it: a province is labelled in
+                # its own largest piece and not in the middle of an archipelago
+                # it happens to own. Computed here, where the projected rings
+                # are already to hand, rather than by asking the browser for a
+                # bounding box on two thousand paths at deep zoom.
+                big, ax, ay, area = None, 0.0, 0.0, 0.0
+                for pts in kept_pts:
+                    a = ring_area(pts)
+                    if a > area:
+                        area, big = a, pts
+                if big:
+                    ax, ay = centroid_of(big)
+                blocks.append((pname, "".join(pieces),
+                               f' data-cx="{fmt(ax)}" data-cy="{fmt(ay)}"'
+                               f' data-area="{int(area)}"' if big else ""))
         return blocks
 
 
@@ -6150,10 +6167,10 @@ def main():
             sink = admin_out if (defer and whole) else out
             if sink is admin_out:
                 sink.append(f'  <g data-for="{key}">')
-            for pname, pd in blocks:
+            for pname, pd, where in blocks:
                 # an unnamed leftover gets no attribute at all: an empty one
                 # reads as a sub-unit that can never be named or outlined
-                attr = f' data-prov="{esc(pname)}"' if pname else ""
+                attr = (f' data-prov="{esc(pname)}"' + where) if pname else ""
                 if key in SUB_CLIP:
                     attr += f' clip-path="url(#{SUB_CLIP[key]})"'
                 cluster = SUB_CLUSTERS.get((key, pname))
@@ -6170,8 +6187,8 @@ def main():
                 rblocks = province_paths(key, roc_provinces)
                 if rblocks:
                     roc_out.append(f'  <g data-for="{key}">')
-                    for pname, pd in rblocks:
-                        attr = f' data-prov="{esc(pname)}"' if pname else ""
+                    for pname, pd, where in rblocks:
+                        attr = (f' data-prov="{esc(pname)}"' + where) if pname else ""
                         cluster = SUB_CLUSTERS.get((key, pname))
                         if cluster:
                             attr += f' data-cluster="{esc(cluster)}"'
