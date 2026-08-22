@@ -2879,16 +2879,18 @@
     // else, and for those the article is the only thing the card has to offer;
     // withholding the link because there was no sentence to put it under was
     // hiding it exactly where it was most use.
-    /* Some records are the same ground on both dates — occupied China against
-       the Republic that was there in 1930 — and the useful next move from one
-       is the other. `flip` says which records offer it. */
+    /* A record that belongs to one reading of the occupation offers the other,
+       so the two can be compared from the thing itself rather than only from
+       the Layers panel. `srcOnly` already says which reading a record is part
+       of, so nothing new has to be written down to know when to show this. */
     var flip = $('#info-flip', infoBox);
     if (flip) {
-      var other = otherEpoch();
-      var orec = (JMAP.EPOCHS || []).filter(function (e) { return e.id === other; })[0];
-      var wanted = !!(rec && rec.flip) && !!orec;
-      flip.hidden = !wanted;
-      if (wanted) flip.textContent = 'Show this ground on the ' + orec.en + ' map';
+      var src = rec && rec.srcOnly;
+      flip.hidden = !src;
+      if (src) {
+        flip.setAttribute('data-to', src === 'traced' ? 'nca' : 'traced');
+        flip.textContent = 'Show ' + OCC_LABEL[src === 'traced' ? 'nca' : 'traced'];
+      }
     }
     var ownLink = appendSource(own, sub ? head : rec);
     if (groupNote) appendSource(grp, sub ? rec : null);
@@ -3217,26 +3219,30 @@
     composeEpoch();
     applyState();
     showEpochBlurb();
-    syncEpochShortcut();
+  }
+
+  /* Two readings of the occupation of China, and only one is drawn at a time.
+     Changed from the Layers panel or from the card of a record that belongs to
+     one of them; both come through here so the radios and the card cannot
+     disagree about which is showing. */
+  var OCC_LABEL = { traced: '1942 general occupation extent',
+                    nca: 'the North China Area Army reading' };
+
+  function setOccSource(v) {
+    if (v !== 'traced' && v !== 'nca') return;
+    state.occSource = v;
+    $$('#dlg-options [name="occ-src"]').forEach(function (r) {
+      r.checked = (r.value === v);
+    });
+    // whatever was selected may be one of the shapes that has just gone
+    if (selected && !srcOK(byId[selected])) select(null);
+    applyState();
+    redrawHighlight();
   }
 
   function otherEpoch() {
     var ids = (JMAP.EPOCHS || []).map(function (e) { return e.id; });
     return ids.filter(function (i) { return i !== state.epoch; })[0] || null;
-  }
-
-  /* The occupation of China is drawn on the Dec 1942 sheet and nowhere else,
-     so a reader who opens Layers on the 1930 map can change those settings and
-     watch nothing happen. The button says which sheet they are one click from
-     and takes them there. */
-  function syncEpochShortcut() {
-    var b = $('#occ-goto');
-    if (!b) return;
-    var other = otherEpoch();
-    var rec = (JMAP.EPOCHS || []).filter(function (e) { return e.id === other; })[0];
-    if (!rec) { b.hidden = true; return; }
-    b.hidden = false;
-    b.textContent = 'Show the ' + rec.en + ' map';
   }
 
   function buildEpochControl() {
@@ -3250,9 +3256,6 @@
       b.addEventListener('click', function () { setEpoch(e.id); });
       seg.appendChild(b);
     });
-    var go = $('#occ-goto');
-    if (go) go.addEventListener('click', function () { setEpoch(otherEpoch()); });
-    syncEpochShortcut();
   }
 
   function showHint() {
@@ -4083,12 +4086,7 @@
     $$('#dlg-options [name="occ-src"]').forEach(function (r) {
       r.checked = (r.value === state.occSource);
       r.addEventListener('change', function () {
-        if (!r.checked) return;
-        state.occSource = r.value;
-        // whatever was selected may be one of the shapes that has just gone
-        if (selected && !srcOK(byId[selected])) select(null);
-        applyState();
-        redrawHighlight();
+        if (r.checked) setOccSource(r.value);
       });
     });
 
@@ -4140,7 +4138,9 @@
 
     $('#info-close').addEventListener('click', function () { select(null); });
     var infoFlip = $('#info-flip');
-    if (infoFlip) infoFlip.addEventListener('click', function () { setEpoch(otherEpoch()); });
+    if (infoFlip) infoFlip.addEventListener('click', function () {
+      setOccSource(infoFlip.getAttribute('data-to'));
+    });
     var moreBtn = $('.more', infoBox);
     if (moreBtn) moreBtn.addEventListener('click', toggleInfo);
     // the same button is "Show me" during a quiz and "Try again" after it
