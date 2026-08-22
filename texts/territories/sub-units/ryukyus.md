@@ -32,15 +32,15 @@ Kagoshima. An active volcano with a few hundred people on it.
 
 ## Kuchinoshima
 
-The northernmost of the Tokara islands, and Kagoshima's.
+The northernmost of the Tokara islands and Kagoshima's, at the top of the chain where the Kuroshio runs hardest.
 
 ## Nakanoshima
 
-Tokara, and Kagoshima's; the highest of the group.
+The highest of the Tokara islands, Kagoshima's, with a volcano that has smoked through most of recorded history.
 
 ## Tairajima
 
-Tokara, and Kagoshima's.
+One of the smaller Tokara islands, Kagoshima's, with a few dozen people on it.
 
 ## Suwanosejima
 
@@ -48,7 +48,7 @@ Tokara, and Kagoshima's. Its volcano drove the islanders off for seventy years i
 
 ## Akusekijima
 
-Tokara, and Kagoshima's.
+A Tokara island of Kagoshima, remote enough that it kept its own dialect and its own festivals.
 
 ## Kikaijima
 
@@ -64,7 +64,7 @@ Amami, and Kagoshima's. Its three airfields were bombed hard in the spring of 19
 
 ## Okinoerabujima
 
-Amami, and Kagoshima's; sugar and lilies.
+Sugar and Easter lilies — the bulbs were exported to America until the war closed the trade. Kagoshima's, not Okinawa's.
 
 ## Yoronjima
 
@@ -92,7 +92,7 @@ Garrisoned by some thirty thousand men, bombed and blockaded, and never assaulte
 
 ## Taramajima
 
-Between Miyako and Ishigaki, bypassed with them.
+A flat coral island between Miyako and Ishigaki, bypassed with them and blockaded to the surrender.
 
 ## Ishigakijima
 

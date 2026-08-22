@@ -2304,7 +2304,7 @@ JMAP.BROWSE = [
   {
     id: 'semarang', en: 'Semarang', ja: 'スマラン (Sumaran)', lat: -6.97, lon: 110.42,
     wiki: 'https://en.wikipedia.org/wiki/Semarang',
-    note: 'The port of central Java, taken in March 1942.'
+    note: 'The port of central Java and the outlet for its sugar, taken in March 1942.'
   },
   {
     id: 'medan', en: 'Medan', ja: 'メダン (Medan)', lat: 3.59, lon: 98.67,
@@ -2339,7 +2339,7 @@ JMAP.BROWSE = [
   {
     id: 'iloilo', en: 'Iloilo', ja: 'イロイロ (Iroiro)', zh: '伊洛伊洛', lat: 10.72, lon: 122.56,
     wiki: 'https://en.wikipedia.org/wiki/Iloilo_City',
-    note: 'The sugar port of Panay, taken in April 1942.'
+    note: 'The sugar port of Panay and the second city of the Visayas, taken in April 1942.'
   },
   {
     id: 'baguio', en: 'Baguio', ja: 'バギオ (Bagio)', zh: '碧瑤', lat: 16.41, lon: 120.6,
@@ -2537,7 +2537,7 @@ JMAP.BROWSE = [
   },
   {
     id: 'delhi', en: 'Delhi & New Delhi', lat: 28.61, lon: 77.21,
-    note: 'Capital of the Raj from 1911.'
+    note: 'The capital of the Raj from 1911, with New Delhi still being built beside the old city into the 1930s.'
   },
   {
     id: 'karachi', en: 'Karachi', lat: 24.86, lon: 67.01,
@@ -2565,7 +2565,8 @@ JMAP.BROWSE = [
   },
   {
     id: 'simla', en: 'Simla (Shimla)', lat: 31.1, lon: 77.17,
-    wiki: 'https://en.wikipedia.org/wiki/Shimla', note: 'The summer capital.'
+    wiki: 'https://en.wikipedia.org/wiki/Shimla',
+    note: 'The hill station the Government of India moved to every summer, so that the empire was run for half the year from a ridge in the Himalayan foothills.'
   },
   {
     id: 'lucknow', en: 'Lucknow', lat: 26.85, lon: 80.95,
@@ -2608,7 +2609,8 @@ JMAP.BROWSE = [
   },
   {
     id: 'hyderabaddn', en: 'Hyderabad', lat: 17.38, lon: 78.49,
-    wiki: 'https://en.wikipedia.org/wiki/Hyderabad', note: 'Capital of the Nizam’s dominions.'
+    wiki: 'https://en.wikipedia.org/wiki/Hyderabad',
+    note: 'The Nizam\'s capital, seat of the largest princely state by population and revenue, with its own army, currency and railway.'
   },
   {
     id: 'bangalore', en: 'Bangalore (Bengaluru)', lat: 12.97, lon: 77.59,
@@ -2637,12 +2639,13 @@ JMAP.BROWSE = [
   },
   {
     id: 'chittagong', en: 'Chittagong', lat: 22.36, lon: 91.78,
-    wiki: 'https://en.wikipedia.org/wiki/Chittagong', note: 'The base for the Arakan front.'
+    wiki: 'https://en.wikipedia.org/wiki/Chittagong',
+    note: 'The port of eastern Bengal and the base of the Arakan front, through which the supplies for the Burma campaign came.'
   },
   {
     id: 'trincomalee', en: 'Trincomalee', lat: 8.59, lon: 81.21,
     wiki: 'https://en.wikipedia.org/wiki/Trincomalee',
-    note: 'The Eastern Fleet’s base, raided April 1942.'
+    note: 'One of the finest natural harbours in Asia and the Eastern Fleet\'s base, raided by Japanese carriers in April 1942.'
   },
   {
     id: 'akyab', en: 'Akyab (Sittwe)', lat: 20.15, lon: 92.9,
@@ -2651,7 +2654,8 @@ JMAP.BROWSE = [
   },
   {
     id: 'lashio', en: 'Lashio', lat: 22.94, lon: 97.75,
-    wiki: 'https://en.wikipedia.org/wiki/Lashio', note: 'Railhead of the Burma Road.'
+    wiki: 'https://en.wikipedia.org/wiki/Lashio',
+    note: 'The railhead where the Burma Road began its climb to Yunnan, and the reason the road could be cut by taking one town.'
   },
   {
     id: 'myitkyina', en: 'Myitkyina', lat: 25.38, lon: 97.4,
@@ -2676,7 +2680,7 @@ JMAP.BROWSE = [
   {
     id: 'cheribon', en: 'Cheribon (Cirebon)', ja: 'チレボン', lat: -6.71, lon: 108.55,
     wiki: 'https://en.wikipedia.org/wiki/Cirebon',
-    note: 'A north-coast sugar port on the Java trunk railway.'
+    note: 'A north-coast sugar port on the Java trunk railway, and the seat of one of the island\'s residencies.'
   },
   {
     id: 'malang', en: 'Malang', ja: 'マラン', lat: -7.98, lon: 112.63,
@@ -2690,7 +2694,7 @@ JMAP.BROWSE = [
   },
   {
     id: 'sabang', en: 'Sabang', ja: 'サバン', lat: 5.89, lon: 95.32,
-    note: 'The naval station at the head of Sumatra.'
+    note: 'A coaling and naval station on an island off the northern tip of Sumatra, commanding the western approach to the Malacca Strait.'
   },
   {
     id: 'pontianak', en: 'Pontianak', ja: 'ポンティアナック', lat: -0.02, lon: 109.34,
@@ -2700,11 +2704,12 @@ JMAP.BROWSE = [
   {
     id: 'bandjermasin', en: 'Bandjermasin (Banjarmasin)', ja: 'バンジェルマシン', lat: -3.32,
     lon: 114.59, wiki: 'https://en.wikipedia.org/wiki/Banjarmasin',
-    note: 'The south Borneo port, taken on 10 February 1942.'
+    note: 'The south Borneo river port, taken on 10 February 1942 as the advance closed on Java.'
   },
   {
     id: 'tarakan', en: 'Tarakan', ja: 'タラカン', lat: 3.3, lon: 117.59,
-    wiki: 'https://en.wikipedia.org/wiki/Tarakan', note: 'Oil, taken 11 January 1942.'
+    wiki: 'https://en.wikipedia.org/wiki/Tarakan',
+    note: 'A small island of oil derricks off north-east Borneo, taken on 11 January 1942 within weeks of the war beginning.'
   },
   {
     id: 'manado', en: 'Menado (Manado)', ja: 'メナド', lat: 1.49, lon: 124.84,
@@ -2734,12 +2739,12 @@ JMAP.BROWSE = [
   {
     id: 'sydney', en: 'Sydney', lat: -33.87, lon: 151.21,
     wiki: 'https://en.wikipedia.org/wiki/Sydney',
-    note: 'The midget submarine attack of 31 May 1942.'
+    note: 'Japanese midget submarines entered the harbour on 31 May 1942 and sank a depot ship — the war\'s closest approach to an Australian city.'
   },
   {
     id: 'brisbane', en: 'Brisbane', lat: -27.47, lon: 153.03,
     wiki: 'https://en.wikipedia.org/wiki/Brisbane',
-    note: 'MacArthur’s General Headquarters, South West Pacific Area, 1942–44.'
+    note: 'MacArthur\'s General Headquarters for the South West Pacific from 1942, and the base the New Guinea campaign was directed from.'
   },
   {
     id: 'kowloon', en: 'Kowloon', lat: 22.32, lon: 114.17,
@@ -2753,7 +2758,8 @@ JMAP.BROWSE = [
   },
   {
     id: 'baroda', en: 'Baroda (Vadodara)', lat: 22.31, lon: 73.18,
-    wiki: 'https://en.wikipedia.org/wiki/Vadodara', note: 'Princely state capital.'
+    wiki: 'https://en.wikipedia.org/wiki/Vadodara',
+    note: 'The Gaekwad\'s capital, and one of the best-administered of the princely states: free primary schooling from 1906 and a state bank of its own.'
   },
   {
     id: 'chiba', en: 'Chiba', lat: 35.61, lon: 140.12,
@@ -2781,7 +2787,8 @@ JMAP.BROWSE = [
   },
   {
     id: 'gwalior', en: 'Gwalior', lat: 26.22, lon: 78.18,
-    wiki: 'https://en.wikipedia.org/wiki/Gwalior', note: 'Princely state capital.'
+    wiki: 'https://en.wikipedia.org/wiki/Gwalior',
+    note: 'The Scindia capital under its fortress rock, and a state that kept its own coinage and railway.'
   },
   {
     id: 'hamamatsu', en: 'Hamamatsu', lat: 34.71, lon: 137.73,
@@ -2795,13 +2802,17 @@ JMAP.BROWSE = [
   },
   {
     id: 'indore', en: 'Indore', lat: 22.72, lon: 75.86,
-    wiki: 'https://en.wikipedia.org/wiki/Indore', note: 'Princely state capital.'
+    wiki: 'https://en.wikipedia.org/wiki/Indore',
+    note: 'The Holkar capital, and the cotton and opium market of central India.'
   },
   {
     id: 'jamshedpur', en: 'Jamshedpur', lat: 22.8, lon: 86.18,
     note: 'Tata Iron and Steel: the industrial base of the Indian war effort and the largest steelworks in the British Empire.'
   },
-  { id: 'jodhpur', en: 'Jodhpur', lat: 26.24, lon: 73.02, note: 'Princely state capital.' },
+  {
+    id: 'jodhpur', en: 'Jodhpur', lat: 26.24, lon: 73.02,
+    note: 'The Rathore capital in the Marwar desert, and the state that gave the Indian Army its Jodhpur Lancers.'
+  },
   {
     id: 'kabul', en: 'Kabul', lat: 34.53, lon: 69.17,
     note: 'Capital of the one independent state on the map’s western edge, and a centre of Axis and Allied intrigue over the frontier.'
@@ -2814,7 +2825,7 @@ JMAP.BROWSE = [
   {
     id: 'kawasaki', en: 'Kawasaki', lat: 35.53, lon: 139.7,
     wiki: 'https://en.wikipedia.org/wiki/Kawasaki-ku,_Kawasaki',
-    note: 'Keihin industrial belt, c.300,000 by 1940, heavily firebombed.'
+    note: 'Steel and shipbuilding between Tokyo and Yokohama, some 300,000 people by 1940, and among the most heavily firebombed places in Japan.'
   },
   {
     id: 'kokura', en: 'Kokura', lat: 33.88, lon: 130.88,
@@ -2883,12 +2894,13 @@ JMAP.BROWSE = [
   },
   {
     id: 'patna', en: 'Patna', lat: 25.61, lon: 85.14,
-    wiki: 'https://en.wikipedia.org/wiki/Patna', note: 'Provincial capital.'
+    wiki: 'https://en.wikipedia.org/wiki/Patna',
+    note: 'The seat of Bihar on the Ganges, and the old Mauryan capital of Pataliputra beneath it.'
   },
   {
     id: 'sakai', en: 'Sakai', lat: 34.57, lon: 135.48,
     wiki: 'https://en.wikipedia.org/wiki/Sakai',
-    note: 'Historic port and Osaka industrial suburb.'
+    note: 'The free port that armed the sixteenth-century wars and, by the 1930s, an industrial suburb of Osaka.'
   },
   {
     id: 'shizuoka', en: 'Shizuoka', lat: 34.98, lon: 138.38,
@@ -2903,7 +2915,7 @@ JMAP.BROWSE = [
   {
     id: 'srinagar', en: 'Srinagar', lat: 34.08, lon: 74.8,
     wiki: 'https://en.wikipedia.org/wiki/Srinagar',
-    note: 'The largest princely state by area; its summer capital.'
+    note: 'The summer capital of Kashmir, the largest princely state by area — a Hindu dynasty ruling a Muslim majority, which is the whole of the later quarrel in one sentence.'
   },
   {
     id: 'takamatsu', en: 'Takamatsu', lat: 34.34, lon: 134.05,
@@ -2987,7 +2999,8 @@ JMAP.BROWSE = [
   },
   {
     id: 'amagasaki', en: 'Amagasaki', lat: 34.73, lon: 135.41,
-    wiki: 'https://en.wikipedia.org/wiki/Amagasaki', note: 'Hanshin industrial belt.'
+    wiki: 'https://en.wikipedia.org/wiki/Amagasaki',
+    note: 'Steel, chemicals and shipyards on the Osaka bay shore — the western end of the Hanshin industrial belt, and heavily bombed for it.'
   },
   {
     id: 'angeles', en: 'Angeles (Clark Field)', lat: 15.15, lon: 120.59,
@@ -3007,12 +3020,12 @@ JMAP.BROWSE = [
   {
     id: 'asahikawa', en: 'Asahikawa', lat: 43.77, lon: 142.36,
     wiki: 'https://en.wikipedia.org/wiki/Asahikawa',
-    note: 'Northern Hokkaidō garrison town, home of the 7th Division.'
+    note: 'The garrison town of northern Hokkaidō and home of the 7th Division, which was destroyed on Attu in 1943.'
   },
   {
     id: 'ayutthaya', en: 'Ayutthaya', lat: 14.35, lon: 100.58,
     wiki: 'https://en.wikipedia.org/wiki/Phra_Nakhon_Si_Ayutthaya_province',
-    note: 'The old Siamese capital.'
+    note: 'The Siamese capital for four centuries until the Burmese sacked it in 1767, after which the court moved downriver to Bangkok.'
   },
   {
     id: 'bacolod', en: 'Bacolod', lat: 10.67, lon: 122.95,
@@ -3031,7 +3044,8 @@ JMAP.BROWSE = [
   },
   {
     id: 'bengkulu', en: 'Benkoelen (Bengkulu)', lat: -3.79, lon: 102.26,
-    wiki: 'https://en.wikipedia.org/wiki/Bengkulu', note: 'Sukarno’s place of exile, 1938–42.'
+    wiki: 'https://en.wikipedia.org/wiki/Bengkulu',
+    note: 'The old British pepper post on the west coast of Sumatra, and where the Dutch held Sukarno in exile from 1938 until the Japanese came.'
   },
   {
     id: 'betio', en: 'Betio (Tarawa)', lat: 1.36, lon: 172.92,
@@ -3045,11 +3059,13 @@ JMAP.BROWSE = [
   },
   {
     id: 'bhopal', en: 'Bhopal', lat: 23.26, lon: 77.41,
-    wiki: 'https://en.wikipedia.org/wiki/Bhopal', note: 'Princely state capital.'
+    wiki: 'https://en.wikipedia.org/wiki/Bhopal',
+    note: 'The largest of the Muslim-ruled states after Hyderabad, and governed by four successive women rulers between 1819 and 1926.'
   },
   {
     id: 'blagoveshchensk', en: 'Blagoveshchensk', lat: 50.28, lon: 127.54,
-    wiki: 'https://en.wikipedia.org/wiki/Blagoveshchensk', note: 'Faces Heihe across the Amur.'
+    wiki: 'https://en.wikipedia.org/wiki/Blagoveshchensk',
+    note: 'The Soviet city on the Amur, facing Heihe across the river — the two sat in sight of each other with the frontier between them.'
   },
   {
     id: 'broome', en: 'Broome', lat: -17.96, lon: 122.24,
@@ -3084,7 +3100,7 @@ JMAP.BROWSE = [
   {
     id: 'canberra', en: 'Canberra', lat: -35.28, lon: 149.13,
     wiki: 'https://en.wikipedia.org/wiki/Canberra',
-    note: 'The capital of a belligerent the map already draws.'
+    note: 'The federal capital, laid out on open ground in 1913 and still half-built in 1942; the war was run from Melbourne and Brisbane rather than here.'
   },
   {
     id: 'capas', en: 'Capas (Camp O’Donnell)', lat: 15.33, lon: 120.59,
@@ -3103,7 +3119,8 @@ JMAP.BROWSE = [
   },
   {
     id: 'chinju', en: 'Chinju (Shinshū)', lat: 35.19, lon: 128.08,
-    wiki: 'https://en.wikipedia.org/wiki/Jinju', note: 'Capital of South Kyŏngsang until 1925.'
+    wiki: 'https://en.wikipedia.org/wiki/Jinju',
+    note: 'The seat of South Kyŏngsang until 1925, and the site of one of the great sieges of the Japanese invasions of the 1590s.'
   },
   {
     id: 'chita', en: 'Chita', lat: 52.03, lon: 113.5,
@@ -3113,7 +3130,7 @@ JMAP.BROWSE = [
   {
     id: 'choibalsan', en: 'Choibalsan', lat: 48.07, lon: 114.54,
     wiki: 'https://en.wikipedia.org/wiki/Choibalsan_Thermal_Power_Plant',
-    note: 'The Soviet–Mongolian supply base for Khalkhin Gol.'
+    note: 'The Soviet and Mongolian supply base for Khalkhin Gol, and the railhead the campaign of 1939 was run from.'
   },
   {
     id: 'quanzhou', en: 'Chüanchow (Quanzhou)', lat: 24.87, lon: 118.68,
@@ -3123,17 +3140,17 @@ JMAP.BROWSE = [
   {
     id: 'chonju', en: 'Chŏnju (Zenshū)', lat: 35.82, lon: 127.15,
     wiki: 'https://en.wikipedia.org/wiki/Jeonju',
-    note: 'Provincial capital missing from the layer.'
+    note: 'The seat of North Chŏlla and the old Chosŏn dynasty\'s ancestral home, in the rice country of the south-west.'
   },
   {
     id: 'chunchon', en: 'Ch’unch’ŏn (Shunsen)', lat: 37.88, lon: 127.73,
     wiki: 'https://en.wikipedia.org/wiki/Camp_Page',
-    note: 'Provincial capital missing from the layer.'
+    note: 'The seat of Kangwŏn, in the lake and mountain country east of Seoul.'
   },
   {
     id: 'chongju', en: 'Ch’ŏngju (Seishū)', lat: 36.64, lon: 127.49,
     wiki: 'https://en.wikipedia.org/wiki/Cheongju',
-    note: 'Provincial capital missing from the layer.'
+    note: 'The seat of North Ch\'ungch\'ŏng, on the road and rail line south from Seoul.'
   },
   {
     id: 'yapcolonia', en: 'Colonia (Yap)', lat: 9.51, lon: 138.13,
@@ -3142,12 +3159,13 @@ JMAP.BROWSE = [
   },
   {
     id: 'cuttack', en: 'Cuttack', lat: 20.46, lon: 85.88,
-    wiki: 'https://en.wikipedia.org/wiki/Cuttack', note: 'Provincial capital.'
+    wiki: 'https://en.wikipedia.org/wiki/Cuttack',
+    note: 'The seat of Orissa on the Mahanadi delta, and the province\'s old capital before Bhubaneswar was built.'
   },
   {
     id: 'dalat', en: 'Dalat', lat: 11.94, lon: 108.44,
     wiki: 'https://en.wikipedia.org/wiki/Dalat_Palace_Hotel',
-    note: 'The hill station and administrative retreat of French Indochina.'
+    note: 'The hill station the French built as a retreat from the delta heat, and where the administration went in summer.'
   },
   {
     id: 'denpasar', en: 'Denpasar (Bali)', lat: -8.65, lon: 115.22,
@@ -3176,7 +3194,8 @@ JMAP.BROWSE = [
   },
   {
     id: 'etajima', en: 'Etajima', lat: 34.23, lon: 132.46,
-    wiki: 'https://en.wikipedia.org/wiki/Etajima', note: 'The Imperial Naval Academy.'
+    wiki: 'https://en.wikipedia.org/wiki/Etajima',
+    note: 'The Imperial Naval Academy, on an island in the Inland Sea, through which almost every Japanese admiral of the war had passed.'
   },
   {
     id: 'zhanjiang', en: 'Fort Bayard (Zhanjiang)', lat: 21.27, lon: 110.36,
@@ -3196,12 +3215,12 @@ JMAP.BROWSE = [
   {
     id: 'fuxin', en: 'Fùxīn (Fuhsin)', lat: 42.02, lon: 121.67,
     wiki: 'https://en.wikipedia.org/wiki/Fuxin',
-    note: 'Open-cast coal worked largely by conscripted Chinese labour.'
+    note: 'Open-cast coal in western Manchuria, worked largely by conscripted Chinese labour under the South Manchuria Railway.'
   },
   {
     id: 'gangtok', en: 'Gangtok', lat: 27.33, lon: 88.61,
     wiki: 'https://en.wikipedia.org/wiki/Gangtok',
-    note: 'Capital of a protectorate the map already draws.'
+    note: 'The Sikkimese capital on the trade road to Tibet, through which the wool and the mule caravans came over the Nathu La.'
   },
   {
     id: 'garapan', en: 'Garapan (Saipan)', lat: 15.21, lon: 145.72,
@@ -3216,12 +3235,12 @@ JMAP.BROWSE = [
   {
     id: 'ganzhou', en: 'Gànzhōu (Kanchow)', lat: 25.83, lon: 114.93,
     wiki: 'https://en.wikipedia.org/wiki/Ganzhou',
-    note: 'Chiang Ching-kuo’s administration, 1939–45.'
+    note: 'Where Chiang Ching-kuo ran southern Jiangxi from 1939 to 1945, and made the reputation that carried him later.'
   },
   {
     id: 'haeju', en: 'Haeju (Kaishū)', lat: 38.04, lon: 125.71,
     wiki: 'https://en.wikipedia.org/wiki/Haeju',
-    note: 'Provincial capital missing from the layer.'
+    note: 'The seat of Hwanghae, and the port for the wheat and iron of the west coast.'
   },
   {
     id: 'haikou', en: 'Haikou (Kiungchow)', lat: 20.04, lon: 110.34,
@@ -3241,7 +3260,7 @@ JMAP.BROWSE = [
   {
     id: 'heihe', en: 'Heihe (Sakhalyan/Aigun)', lat: 50.25, lon: 127.53,
     wiki: 'https://en.wikipedia.org/wiki/Heihe',
-    note: 'The Amur crossing facing Blagoveshchensk.'
+    note: 'The Amur crossing facing Blagoveshchensk, and the northern end of the Manchurian frontier the Kwantung Army fortified.'
   },
   {
     id: 'hitachi', en: 'Hitachi', lat: 36.6, lon: 140.65,
@@ -3270,11 +3289,11 @@ JMAP.BROWSE = [
   },
   {
     id: 'jaluit', en: 'Jaluit', lat: 5.92, lon: 169.64,
-    note: 'The administrative seat of the Marshalls.'
+    note: 'The administrative seat of the Marshalls under the Germans and then the Japanese, bypassed in 1944 and left to starve.'
   },
   {
     id: 'jambi', en: 'Jambi', lat: -1.61, lon: 103.61,
-    note: 'The Sumatran river port and oilfield south of Palembang.'
+    note: 'A river port and oilfield south of Palembang, on the same Sumatran field.'
   },
   {
     id: 'jolo', en: 'Jolo', lat: 6.05, lon: 121.0,
@@ -3293,12 +3312,12 @@ JMAP.BROWSE = [
   {
     id: 'kangar', en: 'Kangar', lat: 6.44, lon: 100.2,
     wiki: 'https://en.wikipedia.org/wiki/Kangar',
-    note: 'State capital, transferred to Thailand in 1943.'
+    note: 'The seat of Perlis, the smallest of the Malay states, transferred to Thailand in 1943 and returned in 1945.'
   },
   {
     id: 'kavieng', en: 'Kavieng', lat: -2.58, lon: 150.8,
     wiki: 'https://en.wikipedia.org/wiki/Kavieng',
-    note: 'With Rabaul, the northern anchor of the Bismarcks position.'
+    note: 'The New Ireland anchorage that with Rabaul made the northern hinge of the Bismarcks position, bypassed and bombed from 1943.'
   },
   {
     id: 'kendari', en: 'Kendari', lat: -3.97, lon: 122.51,
@@ -3333,12 +3352,12 @@ JMAP.BROWSE = [
   {
     id: 'kualalipis', en: 'Kuala Lipis', lat: 4.18, lon: 102.05,
     wiki: 'https://en.wikipedia.org/wiki/Kuala_Lipis',
-    note: 'State capital of Pahang until 1955.'
+    note: 'The seat of Pahang, chosen because it sat on the railway rather than because anyone lived there.'
   },
   {
     id: 'kualaterengganu', en: 'Kuala Terengganu', lat: 5.33, lon: 103.14,
     wiki: 'https://en.wikipedia.org/wiki/Kuala_Terengganu',
-    note: 'State capital, transferred to Thailand in 1943.'
+    note: 'The seat of Trengganu, one of the four northern states handed to Thailand in 1943 and returned in 1945.'
   },
   {
     id: 'kuantan', en: 'Kuantan', lat: 3.81, lon: 103.33,
@@ -3352,12 +3371,13 @@ JMAP.BROWSE = [
   },
   {
     id: 'kushiro', en: 'Kushiro', lat: 42.98, lon: 144.38,
-    wiki: 'https://en.wikipedia.org/wiki/Kushiro', note: 'Eastern Hokkaidō coal port.'
+    wiki: 'https://en.wikipedia.org/wiki/Kushiro',
+    note: 'The coal port of eastern Hokkaidō, and a fishing base for the northern grounds. Shelled from the sea in July 1945.'
   },
   {
     id: 'bandaaceh', en: 'Kutaraja (Banda Aceh)', lat: 5.55, lon: 95.32,
     wiki: 'https://en.wikipedia.org/wiki/Banda_Aceh',
-    note: 'Residency capital at the northern tip of Sumatra.'
+    note: 'The residency seat at the northern tip of Sumatra, and the capital of a sultanate that fought the Dutch for thirty years.'
   },
   {
     id: 'kyzyl', en: 'Kyzyl', lat: 51.72, lon: 94.44,
@@ -3386,7 +3406,7 @@ JMAP.BROWSE = [
   {
     id: 'legazpi', en: 'Legazpi', lat: 13.14, lon: 123.73,
     wiki: 'https://en.wikipedia.org/wiki/Legazpi_Cathedral',
-    note: 'A December 1941 landing point.'
+    note: 'Under the Mayon volcano, and one of the December 1941 landing points from which the drive on Manila began.'
   },
   {
     id: 'lingayen', en: 'Lingayen', lat: 16.02, lon: 120.23,
@@ -3475,12 +3495,12 @@ JMAP.BROWSE = [
   {
     id: 'korat', en: 'Nakhon Ratchasima (Korat)', lat: 14.97, lon: 102.1,
     wiki: 'https://en.wikipedia.org/wiki/Nakhon_Ratchasima',
-    note: 'The gateway to the Khorat plateau and the north-east.'
+    note: 'The gateway to the Khorat plateau, and the railhead from which the Thai army moved on the Lao and Cambodian territories in 1941.'
   },
   {
     id: 'namdinh', en: 'Nam Dinh', lat: 20.42, lon: 106.17,
     wiki: 'https://en.wikipedia.org/wiki/Nam_%C4%90%E1%BB%8Bnh',
-    note: 'Textile mills, the largest industrial workforce in Tonkin.'
+    note: 'The textile mills of Tonkin and the largest industrial workforce in Indochina, which is why the strikes of the 1930s began here.'
   },
   {
     id: 'nara', en: 'Nara', lat: 34.69, lon: 135.81,
@@ -3500,12 +3520,12 @@ JMAP.BROWSE = [
   {
     id: 'olongapo', en: 'Olongapo (Subic Bay)', lat: 14.83, lon: 120.28,
     wiki: 'https://en.wikipedia.org/wiki/Olongapo',
-    note: 'The American naval station on Subic Bay.'
+    note: 'The American naval station on Subic Bay, and the repair yard for the Asiatic Fleet.'
   },
   {
     id: 'pattani', en: 'Pattani', lat: 6.87, lon: 101.25,
     wiki: 'https://en.wikipedia.org/wiki/Pattani_province',
-    note: 'A landing beach of 8 December 1941.'
+    note: 'An old Malay sultanate absorbed by Siam, and one of the beaches Japanese troops came ashore on before dawn on 8 December 1941.'
   },
   {
     id: 'pegu', en: 'Pegu (Bago)', lat: 17.34, lon: 96.48,
@@ -3535,7 +3555,7 @@ JMAP.BROWSE = [
   {
     id: 'pingtung', en: 'Pingtung (Heitō)', lat: 22.68, lon: 120.49,
     wiki: 'https://en.wikipedia.org/wiki/Pingtung_County_Council',
-    note: 'Army airfield and sugar town.'
+    note: 'An army airfield in the southern sugar plain, from which aircraft flew against the Philippines in December 1941.'
   },
   {
     id: 'pondicherrycity', en: 'Pondicherry', lat: 11.93, lon: 79.83,
@@ -3578,7 +3598,8 @@ JMAP.BROWSE = [
   },
   {
     id: 'samarinda', en: 'Samarinda', lat: -0.5, lon: 117.15,
-    wiki: 'https://en.wikipedia.org/wiki/Samarinda', note: 'The Kutai oilfields.'
+    wiki: 'https://en.wikipedia.org/wiki/Samarinda',
+    note: 'The Kutai oilfields on the Mahakam, and the river port that shipped them.'
   },
   {
     id: 'sandakan', en: 'Sandakan', lat: 5.84, lon: 118.12,
@@ -3592,11 +3613,13 @@ JMAP.BROWSE = [
   },
   {
     id: 'seremban', en: 'Seremban', lat: 2.73, lon: 101.94,
-    wiki: 'https://en.wikipedia.org/wiki/Seremban', note: 'State capital.'
+    wiki: 'https://en.wikipedia.org/wiki/Seremban',
+    note: 'The seat of Negri Sembilan, in the tin country south of Kuala Lumpur.'
   },
   {
     id: 'seria', en: 'Seria', lat: 4.61, lon: 114.33,
-    wiki: 'https://en.wikipedia.org/wiki/Seria', note: 'Brunei’s oilfield.'
+    wiki: 'https://en.wikipedia.org/wiki/Seria',
+    note: 'The Brunei oilfield, struck in 1929, and the reason Japanese troops came ashore here in December 1941.'
   },
   {
     id: 'shikuka', en: 'Shikuka (Poronaysk)', lat: 49.22, lon: 143.1,
@@ -3621,17 +3644,17 @@ JMAP.BROWSE = [
   {
     id: 'suwon', en: 'Suwŏn (Suigen)', lat: 37.26, lon: 127.01,
     wiki: 'https://en.wikipedia.org/wiki/Suwon',
-    note: 'The colonial agricultural experiment station.'
+    note: 'The colonial agricultural experiment station, where the rice varieties that fed the empire\'s grain shipments were bred.'
   },
   {
     id: 'siping', en: 'Sìpíng (Ssupingkai)', lat: 43.17, lon: 124.35,
     wiki: 'https://en.wikipedia.org/wiki/Siping,_Jilin',
-    note: 'Rail junction on the Hsinking–Mukden line.'
+    note: 'The junction where the line from Changchun meets the branch west into the Mongol country.'
   },
   {
     id: 'songjin', en: 'Sŏngjin (Jōshin)', lat: 40.67, lon: 129.2,
     wiki: 'https://en.wikipedia.org/wiki/Kimchaek',
-    note: 'Magnesite and steel; one of the northern industrial ports.'
+    note: 'Magnesite and steel, and one of the northern ports built to move Manchurian ore to Japan.'
   },
   {
     id: 'tacloban', en: 'Tacloban', lat: 11.24, lon: 125.0,
@@ -3651,12 +3674,12 @@ JMAP.BROWSE = [
   {
     id: 'taunggyi', en: 'Taunggyi', lat: 20.79, lon: 97.04,
     wiki: 'https://en.wikipedia.org/wiki/Taunggyi',
-    note: 'The hill station the Shan States were administered from.'
+    note: 'The hill station the Shan States were governed from, cool enough for the British and central enough for the sawbwas to be summoned to.'
   },
   {
     id: 'tavoy', en: 'Tavoy (Dawei)', lat: 14.08, lon: 98.19,
     wiki: 'https://en.wikipedia.org/wiki/Dawei,_Myanmar',
-    note: 'Airfields used against Rangoon in 1942.'
+    note: 'A Tenasserim port whose airfields put Japanese aircraft within range of Rangoon in 1942.'
   },
   {
     id: 'tawau', en: 'Tawau', lat: 4.25, lon: 117.89,
@@ -3666,7 +3689,7 @@ JMAP.BROWSE = [
   {
     id: 'ternate', en: 'Ternate', lat: 0.79, lon: 127.38,
     wiki: 'https://en.wikipedia.org/wiki/Ternate',
-    note: 'The old spice sultanate and residency seat.'
+    note: 'A clove sultanate that Portugal, Spain and the Dutch fought over for a century, reduced by 1930 to a residency seat under a volcano.'
   },
   {
     id: 'thanbyuzayat', en: 'Thanbyuzayat', lat: 15.97, lon: 97.73,
@@ -3686,7 +3709,7 @@ JMAP.BROWSE = [
   {
     id: 'toungoo', en: 'Toungoo', lat: 18.94, lon: 96.43,
     wiki: 'https://en.wikipedia.org/wiki/Taungoo',
-    note: 'Chennault’s AVG trained here; taken in the 1942 advance.'
+    note: 'Where Chennault trained the American Volunteer Group before the war reached Burma; taken in the advance of 1942.'
   },
   {
     id: 'danang', en: 'Tourane (Da Nang)', lat: 16.07, lon: 108.22,
@@ -3735,11 +3758,12 @@ JMAP.BROWSE = [
   },
   {
     id: 'vigan', en: 'Vigan', lat: 17.57, lon: 120.39,
-    wiki: 'https://en.wikipedia.org/wiki/Vigan', note: 'A December 1941 landing point.'
+    wiki: 'https://en.wikipedia.org/wiki/Vigan',
+    note: 'The Spanish colonial town of the Ilocos coast, and a December 1941 landing point.'
   },
   {
     id: 'vinh', en: 'Vinh', lat: 18.68, lon: 105.68, wiki: 'https://en.wikipedia.org/wiki/Vinh',
-    note: 'The Nghe-Tinh soviets of 1930–31.'
+    note: 'The industrial town of northern Annam and the centre of the Nghe-Tinh soviets of 1930–31, which the French put down with aircraft.'
   },
   {
     id: 'ussuriysk', en: 'Voroshilov (Ussuriysk/Nikolsk)', lat: 43.8, lon: 131.95,
@@ -3788,17 +3812,17 @@ JMAP.BROWSE = [
   {
     id: 'enshi', en: 'Ēnshī (Enshih)', lat: 30.3, lon: 109.49,
     wiki: 'https://en.wikipedia.org/wiki/Enshi_City',
-    note: 'Hubei’s wartime provincial capital after the loss of Wuchang.'
+    note: 'Hubei\'s wartime capital in the western gorges after Wuhan fell, and out of reach of the Japanese army for the rest of the war.'
   },
   {
     id: 'ominato', en: 'Ōminato', lat: 41.29, lon: 141.12,
     wiki: 'https://en.wikipedia.org/wiki/Mutsu,_Aomori',
-    note: 'The northern naval district guarding the Tsugaru Strait.'
+    note: 'The naval district guarding the Tsugaru Strait between Honshū and Hokkaidō.'
   },
   {
     id: 'otomari', en: 'Ōtomari (Korsakov)', lat: 46.63, lon: 142.78,
     wiki: 'https://en.wikipedia.org/wiki/Korsakovsky_District,_Sakhalin_Oblast',
-    note: 'Karafuto’s ferry port to Hokkaidō.'
+    note: 'Karafuto\'s ferry port to Hokkaidō, and the way almost everyone entered and left the colony.'
   },
   {
     id: 'otsu', en: 'Ōtsu', lat: 35.02, lon: 135.85,
@@ -3812,7 +3836,7 @@ JMAP.BROWSE = [
   },
   {
     id: 'quezoncity', en: 'Quezon City', lat: 14.68, lon: 121.04,
-    note: 'Designated the new national capital in 1939.'
+    note: 'Laid out from 1939 as a new capital to replace Manila, and still mostly plans and open ground when the war reached it.'
   },
   {
     id: 'beihai', en: 'Pakhoi (Beihai)', lat: 21.48, lon: 109.12,
@@ -4310,7 +4334,10 @@ JMAP.PROVINCES = {
     en: 'Niutao', wiki: 'https://en.wikipedia.org/wiki/Niutao',
     note: 'Never occupied. The Ellice were the nearest unoccupied ground to the Japanese perimeter.'
   },
-  Nui: { en: 'Nui', wiki: 'https://en.wikipedia.org/wiki/Nui_(atoll)', note: 'Never occupied.' },
+  Nui: {
+    en: 'Nui', wiki: 'https://en.wikipedia.org/wiki/Nui_(atoll)',
+    note: 'Never occupied, and one of the Ellice atolls whose people speak a Gilbertese dialect rather than Tuvaluan — the boundary between the two groups runs through it.'
+  },
   Vaitupu: {
     en: 'Vaitupu', wiki: 'https://en.wikipedia.org/wiki/Vaitupu',
     note: 'The most populous of the Ellice, and the site of the colony\'s secondary school.'
@@ -4612,7 +4639,7 @@ JMAP.PROVINCES = {
   Onekotan: {
     en: 'Onekotan', ja: '温禰古丹島 (Onnekotan-tō)', zh: '溫禰古丹島',
     wiki: 'https://en.wikipedia.org/wiki/Onekotan',
-    note: 'Uninhabited but for a garrison in the war.'
+    note: 'Uninhabited but for its wartime garrison, and two great calderas, one holding a lake with an island in it.'
   },
   'Kharimkotan (Harimukotan)': {
     en: 'Kharimkotan (Harimukotan)', ja: '春牟古丹島 (Harimukotan-tō)', zh: '春牟古丹島',
@@ -4641,7 +4668,7 @@ JMAP.PROVINCES = {
   'Simushir (Shimushiru)': {
     en: 'Simushir (Shimushiru)', ja: '新知島 (Shimushiru-tō)', zh: '新知島',
     wiki: 'https://en.wikipedia.org/wiki/Simushir',
-    note: 'A garrison and a sheltered anchorage in a flooded crater.'
+    note: 'A garrison, and a flooded crater at Broughton Bay that makes one of the few sheltered anchorages in the chain.'
   },
   'Chirpoy (Chirihoi)': {
     en: 'Chirpoy (Chirihoi)', ja: '知理保以島 (Chirihoi-tō)', zh: '知理保以島',
@@ -4772,7 +4799,7 @@ JMAP.PROVINCES = {
   },
   Kosrae: {
     en: 'Kusaie (Kosrae)', ja: 'クサイエ (Kusaie)', wiki: 'https://en.wikipedia.org/wiki/Kosrae',
-    note: 'Kusaie, the easternmost of the Carolines. Bypassed entirely.'
+    note: 'The easternmost of the Carolines, with the basalt ruins of Lelu on its shore. Bypassed entirely and never assaulted.'
   },
   Marshalls: {
     en: 'Marshall Islands', ja: 'マーシャル諸島 (Māsharu Shotō)',
@@ -4867,7 +4894,7 @@ JMAP.PROVINCES = {
   },
   Madura: {
     en: 'Madura', ja: 'マドゥラ (Madura)', wiki: 'https://en.wikipedia.org/wiki/Madura',
-    note: 'Salt, and cattle, and the island\'s own princely houses.'
+    note: 'Salt from the pans along its south coast, cattle, and two courts of its own under the Dutch — poor, dry and densely peopled.'
   },
   Borneo: {
     en: 'Borneo (Kalimantan)', ja: 'ボルネオ (Boruneo)',
@@ -4897,7 +4924,7 @@ JMAP.PROVINCES = {
   },
   Sumba: {
     en: 'Sumba', ja: 'スンバ (Sunba)', wiki: 'https://en.wikipedia.org/wiki/Sumba',
-    note: 'Horses and ikat weaving, and little else the occupation wanted.'
+    note: 'Horses, sandalwood and ikat weaving, and a society of clans and megalithic tombs that the Dutch reached late and governed lightly.'
   },
   WestTimor: {
     en: 'Dutch Timor', ja: 'チモール (Chimōru)', wiki: 'https://en.wikipedia.org/wiki/West_Timor',
@@ -4909,7 +4936,7 @@ JMAP.PROVINCES = {
   },
   Seram: {
     en: 'Ceram (Seram)', ja: 'セラム (Seramu)', wiki: 'https://en.wikipedia.org/wiki/Seram_Island',
-    note: 'Ceram, and the oil at Bula on its eastern end.'
+    note: 'Sago and the oil at Bula on its eastern end. The mountainous interior was never properly administered.'
   },
   Buru: {
     en: 'Buru', ja: 'ブル (Buru)', wiki: 'https://en.wikipedia.org/wiki/Buru',
@@ -4923,7 +4950,7 @@ JMAP.PROVINCES = {
   Belitung: {
     en: 'Billiton (Belitung)', ja: 'ビリトン (Biriton)',
     wiki: 'https://en.wikipedia.org/wiki/Belitung',
-    note: 'Tin, like Banka beside it, and worked the same way.'
+    note: 'Tin, worked by Chinese labour since the nineteenth century under the Billiton company — which later gave half its name to BHP Billiton.'
   },
   Nias: {
     en: 'Nias', ja: 'ニアス (Niasu)', wiki: 'https://en.wikipedia.org/wiki/Nias',
@@ -5019,7 +5046,7 @@ JMAP.PROVINCES = {
   },
   Masbate: {
     en: 'Masbate', wiki: 'https://en.wikipedia.org/wiki/Masbate',
-    note: 'Cattle and gold, in the middle of the archipelago.'
+    note: 'Cattle ranches and the gold mines at Aroroy, which were among the largest producers in the Philippines before the war.'
   },
   Abra: { en: 'Abra (Luzon)', wiki: 'https://en.wikipedia.org/wiki/Abra_(province)' },
   Agusan: { en: 'Agusan (Mindanao)', wiki: 'https://en.wikipedia.org/wiki/Agusan_(province)' },
@@ -5120,16 +5147,17 @@ JMAP.PROVINCES = {
   Kuchinoshima: {
     en: 'Kuchinoshima', ja: '口之島 (Kuchinoshima)', zh: '口之島',
     wiki: 'https://en.wikipedia.org/wiki/Kuchinoshima',
-    note: 'The northernmost of the Tokara islands, and Kagoshima\'s.'
+    note: 'The northernmost of the Tokara islands and Kagoshima\'s, at the top of the chain where the Kuroshio runs hardest.'
   },
   Nakanoshima: {
     en: 'Nakanoshima', ja: '中之島 (Nakanoshima)', zh: '中之島',
     wiki: 'https://en.wikipedia.org/wiki/Tokara_Islands',
-    note: 'Tokara, and Kagoshima\'s; the highest of the group.'
+    note: 'The highest of the Tokara islands, Kagoshima\'s, with a volcano that has smoked through most of recorded history.'
   },
   Tairajima: {
     en: 'Tairajima', ja: '平島 (Tairajima)', zh: '平島',
-    wiki: 'https://en.wikipedia.org/wiki/Tairajima', note: 'Tokara, and Kagoshima\'s.'
+    wiki: 'https://en.wikipedia.org/wiki/Tairajima',
+    note: 'One of the smaller Tokara islands, Kagoshima\'s, with a few dozen people on it.'
   },
   Suwanosejima: {
     en: 'Suwanosejima', ja: '諏訪之瀬島 (Suwanosejima)', zh: '諏訪之瀨島',
@@ -5138,7 +5166,8 @@ JMAP.PROVINCES = {
   },
   Akusekijima: {
     en: 'Akusekijima', ja: '悪石島 (Akusekijima)', zh: '惡石島',
-    wiki: 'https://en.wikipedia.org/wiki/Akusekijima', note: 'Tokara, and Kagoshima\'s.'
+    wiki: 'https://en.wikipedia.org/wiki/Akusekijima',
+    note: 'A Tokara island of Kagoshima, remote enough that it kept its own dialect and its own festivals.'
   },
   Kikaijima: {
     en: 'Kikaijima', ja: '喜界島 (Kikaijima)', zh: '喜界島',
@@ -5158,7 +5187,7 @@ JMAP.PROVINCES = {
   Okinoerabujima: {
     en: 'Okinoerabujima', ja: '沖永良部島 (Okinoerabujima)', zh: '沖永良部島',
     wiki: 'https://en.wikipedia.org/wiki/Okinoerabujima',
-    note: 'Amami, and Kagoshima\'s; sugar and lilies.'
+    note: 'Sugar and Easter lilies — the bulbs were exported to America until the war closed the trade. Kagoshima\'s, not Okinawa\'s.'
   },
   Yoronjima: {
     en: 'Yoronjima', ja: '与論島 (Yoronjima)', zh: '與論島',
@@ -5195,7 +5224,7 @@ JMAP.PROVINCES = {
   },
   Taramajima: {
     en: 'Taramajima', ja: '多良間島 (Taramajima)', zh: '多良間島',
-    note: 'Between Miyako and Ishigaki, bypassed with them.'
+    note: 'A flat coral island between Miyako and Ishigaki, bypassed with them and blockaded to the surrender.'
   },
   Ishigakijima: {
     en: 'Ishigakijima', ja: '石垣島 (Ishigakijima)', zh: '石垣島',

@@ -24,7 +24,7 @@ Ponape, the wettest and most fertile of the Carolines, with a Japanese agricultu
 
 ## Kosrae
 
-Kusaie, the easternmost of the Carolines. Bypassed entirely.
+The easternmost of the Carolines, with the basalt ruins of Lelu on its shore. Bypassed entirely and never assaulted.
 
 ## Marshalls
 

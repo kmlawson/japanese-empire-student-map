@@ -44,4 +44,4 @@ Off its coast on 25 October 1944 a handful of American escort carriers and destr
 
 ## Masbate
 
-Cattle and gold, in the middle of the archipelago.
+Cattle ranches and the gold mines at Aroroy, which were among the largest producers in the Philippines before the war.

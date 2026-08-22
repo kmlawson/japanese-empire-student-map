@@ -12,23 +12,23 @@ The Congress passed the Quit India resolution here on 8 August 1942; the arrests
 
 ## delhi
 
-Capital of the Raj from 1911.
+The capital of the Raj from 1911, with New Delhi still being built beside the old city into the 1930s.
 
 ## simla
 
-The summer capital.
+The hill station the Government of India moved to every summer, so that the empire was run for half the year from a ridge in the Himalayan foothills.
 
 ## hyderabaddn
 
-Capital of the Nizam’s dominions.
+The Nizam's capital, seat of the largest princely state by population and revenue, with its own army, currency and railway.
 
 ## chittagong
 
-The base for the Arakan front.
+The port of eastern Bengal and the base of the Arakan front, through which the supplies for the Burma campaign came.
 
 ## trincomalee
 
-The Eastern Fleet’s base, raided April 1942.
+One of the finest natural harbours in Asia and the Eastern Fleet's base, raided by Japanese carriers in April 1942.
 
 > Burma beyond Rangoon and Mandalay: the road to China and the Arakan.
 
@@ -38,7 +38,7 @@ The port of Arakan, taken in 1942 and the objective of three Allied offensives b
 
 ## lashio
 
-Railhead of the Burma Road.
+The railhead where the Burma Road began its climb to Yunnan, and the reason the road could be cut by taking one town.
 
 > The Netherlands Indies, which the map reduced to eight places for the
 > largest colony in the region. Japanese names because Japan held all of these
@@ -50,11 +50,11 @@ The sultanate left under its own ruler by the Dutch, and a centre of the nationa
 
 ## sabang
 
-The naval station at the head of Sumatra.
+A coaling and naval station on an island off the northern tip of Sumatra, commanding the western approach to the Malacca Strait.
 
 ## tarakan
 
-Oil, taken 11 January 1942.
+A small island of oil derricks off north-east Borneo, taken on 11 January 1942 within weeks of the war beginning.
 
 ## kupang
 
@@ -534,7 +534,7 @@ The Dutch army's headquarters in the hills above Batavia. The surrender of the I
 
 ## semarang
 
-The port of central Java, taken in March 1942.
+The port of central Java and the outlet for its sugar, taken in March 1942.
 
 ## soerakarta
 
@@ -546,7 +546,7 @@ The governor-general's seat in the hills, and its botanical garden, which was th
 
 ## cheribon
 
-A north-coast sugar port on the Java trunk railway.
+A north-coast sugar port on the Java trunk railway, and the seat of one of the island's residencies.
 
 ## malang
 
@@ -574,7 +574,7 @@ The west Borneo port, where the Japanese navy executed several thousand people i
 
 ## bandjermasin
 
-The south Borneo port, taken on 10 February 1942.
+The south Borneo river port, taken on 10 February 1942 as the advance closed on Java.
 
 ## makassar
 
@@ -598,7 +598,7 @@ Taken on 20 December 1941, and before the war the largest Japanese settlement ov
 
 ## iloilo
 
-The sugar port of Panay, taken in April 1942.
+The sugar port of Panay and the second city of the Visayas, taken in April 1942.
 
 ## baguio
 
@@ -738,11 +738,11 @@ spent the next four years pushing into.
 
 ## sydney
 
-The midget submarine attack of 31 May 1942.
+Japanese midget submarines entered the harbour on 31 May 1942 and sank a depot ship — the war's closest approach to an Australian city.
 
 ## brisbane
 
-MacArthur’s General Headquarters, South West Pacific Area, 1942–44.
+MacArthur's General Headquarters for the South West Pacific from 1942, and the base the New Guinea campaign was directed from.
 
 ## kowloon
 
@@ -754,7 +754,7 @@ The largest British city in East Asia and the busiest port on the China coast, a
 
 ## baroda
 
-Princely state capital.
+The Gaekwad's capital, and one of the best-administered of the princely states: free primary schooling from 1906 and a state bank of its own.
 
 ## chiba
 
@@ -778,7 +778,7 @@ Paper lanterns, umbrellas and cormorant fishing on the Nagara, and an aircraft p
 
 ## gwalior
 
-Princely state capital.
+The Scindia capital under its fortress rock, and a state that kept its own coinage and railway.
 
 ## hamamatsu
 
@@ -790,7 +790,7 @@ Already a battle marker; also the capital of Manipur state and the town the 1944
 
 ## indore
 
-Princely state capital.
+The Holkar capital, and the cotton and opium market of central India.
 
 ## jamshedpur
 
@@ -798,7 +798,7 @@ Tata Iron and Steel: the industrial base of the Indian war effort and the larges
 
 ## jodhpur
 
-Princely state capital.
+The Rathore capital in the Marwar desert, and the state that gave the Indian Army its Jodhpur Lancers.
 
 ## kabul
 
@@ -810,7 +810,7 @@ The capital of an independent state the map already draws, and the source of the
 
 ## kawasaki
 
-Keihin industrial belt, c.300,000 by 1940, heavily firebombed.
+Steel and shipbuilding between Tokyo and Yokohama, some 300,000 people by 1940, and among the most heavily firebombed places in Japan.
 
 ## kokura
 
@@ -866,11 +866,11 @@ Hokkaidō’s main port and the terminal for the Karafuto and Japan Sea trade.
 
 ## patna
 
-Provincial capital.
+The seat of Bihar on the Ganges, and the old Mauryan capital of Pataliputra beneath it.
 
 ## sakai
 
-Historic port and Osaka industrial suburb.
+The free port that armed the sixteenth-century wars and, by the 1930s, an industrial suburb of Osaka.
 
 ## shizuoka
 
@@ -882,7 +882,7 @@ Rice wine, and the town Lu Xun came from; taken in 1941.
 
 ## srinagar
 
-The largest princely state by area; its summer capital.
+The summer capital of Kashmir, the largest princely state by area — a Hindu dynasty ruling a Muslim majority, which is the whole of the later quarrel in one sentence.
 
 ## takamatsu
 
@@ -950,7 +950,7 @@ State capital, and one of the four states transferred to Thailand in 1943.
 
 ## amagasaki
 
-Hanshin industrial belt.
+Steel, chemicals and shipyards on the Osaka bay shore — the western end of the Hanshin industrial belt, and heavily bombed for it.
 
 ## angeles
 
@@ -966,11 +966,11 @@ Optional, and off the present frame: a New Zealand mandate and an American garri
 
 ## asahikawa
 
-Northern Hokkaidō garrison town, home of the 7th Division.
+The garrison town of northern Hokkaidō and home of the 7th Division, which was destroyed on Attu in 1943.
 
 ## ayutthaya
 
-The old Siamese capital.
+The Siamese capital for four centuries until the Burmese sacked it in 1767, after which the court moved downriver to Bangkok.
 
 ## bacolod
 
@@ -986,7 +986,7 @@ Capital of the province Thailand took in 1941 and the map already draws as ceded
 
 ## bengkulu
 
-Sukarno’s place of exile, 1938–42.
+The old British pepper post on the west coast of Sumatra, and where the Dutch held Sukarno in exile from 1938 until the Japanese came.
 
 ## betio
 
@@ -998,11 +998,11 @@ On the Burma Road and the Ledo Road’s junction with it.
 
 ## bhopal
 
-Princely state capital.
+The largest of the Muslim-ruled states after Hyderabad, and governed by four successive women rulers between 1819 and 1926.
 
 ## blagoveshchensk
 
-Faces Heihe across the Amur.
+The Soviet city on the Amur, facing Heihe across the river — the two sat in sight of each other with the frontier between them.
 
 ## broome
 
@@ -1030,7 +1030,7 @@ The anchorage where the invasion convoys for Malaya and the Indies assembled in 
 
 ## canberra
 
-The capital of a belligerent the map already draws.
+The federal capital, laid out on open ground in 1913 and still half-built in 1942; the war was run from Melbourne and Brisbane rather than here.
 
 ## capas
 
@@ -1046,7 +1046,7 @@ The Mongol trade town in western Rehe, on the road from the Wall to the steppe.
 
 ## chinju
 
-Capital of South Kyŏngsang until 1925.
+The seat of South Kyŏngsang until 1925, and the site of one of the great sieges of the Japanese invasions of the 1590s.
 
 ## chita
 
@@ -1054,7 +1054,7 @@ Headquarters of the Trans-Baikal Front, and the capital of the Far Eastern Repub
 
 ## choibalsan
 
-The Soviet–Mongolian supply base for Khalkhin Gol.
+The Soviet and Mongolian supply base for Khalkhin Gol, and the railhead the campaign of 1939 was run from.
 
 ## quanzhou
 
@@ -1062,15 +1062,15 @@ The medieval port foreign traders knew as Zaiton, and the home district of much 
 
 ## chonju
 
-Provincial capital missing from the layer.
+The seat of North Chŏlla and the old Chosŏn dynasty's ancestral home, in the rice country of the south-west.
 
 ## chunchon
 
-Provincial capital missing from the layer.
+The seat of Kangwŏn, in the lake and mountain country east of Seoul.
 
 ## chongju
 
-Provincial capital missing from the layer.
+The seat of North Ch'ungch'ŏng, on the road and rail line south from Seoul.
 
 ## yapcolonia
 
@@ -1078,11 +1078,11 @@ The administrative town of Yap, and the cable station that was argued over betwe
 
 ## cuttack
 
-Provincial capital.
+The seat of Orissa on the Mahanadi delta, and the province's old capital before Bhubaneswar was built.
 
 ## dalat
 
-The hill station and administrative retreat of French Indochina.
+The hill station the French built as a retreat from the delta heat, and where the administration went in summer.
 
 ## denpasar
 
@@ -1106,7 +1106,7 @@ Pulp and coal town, the largest settlement of northern Karafuto.
 
 ## etajima
 
-The Imperial Naval Academy.
+The Imperial Naval Academy, on an island in the Inland Sea, through which almost every Japanese admiral of the war had passed.
 
 ## zhanjiang
 
@@ -1122,11 +1122,11 @@ The administrative centre of the Bonins and a fortified base; the Chichijima inc
 
 ## fuxin
 
-Open-cast coal worked largely by conscripted Chinese labour.
+Open-cast coal in western Manchuria, worked largely by conscripted Chinese labour under the South Manchuria Railway.
 
 ## gangtok
 
-Capital of a protectorate the map already draws.
+The Sikkimese capital on the trade road to Tibet, through which the wool and the mule caravans came over the Nathu La.
 
 ## garapan
 
@@ -1138,11 +1138,11 @@ The British trade agency and garrison, the furthest permanent British presence i
 
 ## ganzhou
 
-Chiang Ching-kuo’s administration, 1939–45.
+Where Chiang Ching-kuo ran southern Jiangxi from 1939 to 1945, and made the reputation that carried him later.
 
 ## haeju
 
-Provincial capital missing from the layer.
+The seat of Hwanghae, and the port for the wheat and iron of the west coast.
 
 ## haikou
 
@@ -1158,7 +1158,7 @@ The gate between Sinkiang and Kansu, and the terminus of the Soviet supply road 
 
 ## heihe
 
-The Amur crossing facing Blagoveshchensk.
+The Amur crossing facing Blagoveshchensk, and the northern end of the Manchurian frontier the Kwantung Army fortified.
 
 ## hitachi
 
@@ -1182,11 +1182,11 @@ The Ise Grand Shrine, the ritual centre of the state cult.
 
 ## jaluit
 
-The administrative seat of the Marshalls.
+The administrative seat of the Marshalls under the Germans and then the Japanese, bypassed in 1944 and left to starve.
 
 ## jambi
 
-The Sumatran river port and oilfield south of Palembang.
+A river port and oilfield south of Palembang, on the same Sumatran field.
 
 ## jolo
 
@@ -1202,11 +1202,11 @@ South East Asia Command’s headquarters from April 1944 — Mountbatten’s sea
 
 ## kangar
 
-State capital, transferred to Thailand in 1943.
+The seat of Perlis, the smallest of the Malay states, transferred to Thailand in 1943 and returned in 1945.
 
 ## kavieng
 
-With Rabaul, the northern anchor of the Bismarcks position.
+The New Ireland anchorage that with Rabaul made the northern hinge of the Bismarcks position, bypassed and bombed from 1943.
 
 ## kendari
 
@@ -1234,11 +1234,11 @@ Already a battle marker for the first landing of the Pacific War; also a state c
 
 ## kualalipis
 
-State capital of Pahang until 1955.
+The seat of Pahang, chosen because it sat on the railway rather than because anyone lived there.
 
 ## kualaterengganu
 
-State capital, transferred to Thailand in 1943.
+The seat of Trengganu, one of the four northern states handed to Thailand in 1943 and returned in 1945.
 
 ## kuantan
 
@@ -1250,11 +1250,11 @@ The rice port: the outlet through which the Chŏlla harvest left for Japan, and 
 
 ## kushiro
 
-Eastern Hokkaidō coal port.
+The coal port of eastern Hokkaidō, and a fishing base for the northern grounds. Shelled from the sea in July 1945.
 
 ## bandaaceh
 
-Residency capital at the northern tip of Sumatra.
+The residency seat at the northern tip of Sumatra, and the capital of a sultanate that fought the Dutch for thirty years.
 
 ## kyzyl
 
@@ -1278,7 +1278,7 @@ The railhead where the Ledo Road began, the overland supply line built to replac
 
 ## legazpi
 
-A December 1941 landing point.
+Under the Mayon volcano, and one of the December 1941 landing points from which the drive on Manila began.
 
 ## lingayen
 
@@ -1350,11 +1350,11 @@ Steel and coal port; shelled by US battleships in July 1945.
 
 ## korat
 
-The gateway to the Khorat plateau and the north-east.
+The gateway to the Khorat plateau, and the railhead from which the Thai army moved on the Lao and Cambodian territories in 1941.
 
 ## namdinh
 
-Textile mills, the largest industrial workforce in Tonkin.
+The textile mills of Tonkin and the largest industrial workforce in Indochina, which is why the strikes of the 1930s began here.
 
 ## nara
 
@@ -1370,11 +1370,11 @@ Capital of Portuguese India, drawn on the map and neutral throughout — and the
 
 ## olongapo
 
-The American naval station on Subic Bay.
+The American naval station on Subic Bay, and the repair yard for the Asiatic Fleet.
 
 ## pattani
 
-A landing beach of 8 December 1941.
+An old Malay sultanate absorbed by Siam, and one of the beaches Japanese troops came ashore on before dawn on 8 December 1941.
 
 ## pegu
 
@@ -1398,7 +1398,7 @@ Unit 731. A village rather than a city, but the site of the biological-warfare p
 
 ## pingtung
 
-Army airfield and sugar town.
+An army airfield in the southern sugar plain, from which aircraft flew against the Philippines in December 1941.
 
 ## pondicherrycity
 
@@ -1434,7 +1434,7 @@ The naval base and iron-ore port at the southern tip of Hainan, worked by prison
 
 ## samarinda
 
-The Kutai oilfields.
+The Kutai oilfields on the Mahakam, and the river port that shipped them.
 
 ## sandakan
 
@@ -1446,11 +1446,11 @@ A Mekong town on the road across Laos to Vietnam, and the crossing to Thailand.
 
 ## seremban
 
-State capital.
+The seat of Negri Sembilan, in the tin country south of Kuala Lumpur.
 
 ## seria
 
-Brunei’s oilfield.
+The Brunei oilfield, struck in 1929, and the reason Japanese troops came ashore here in December 1941.
 
 ## shikuka
 
@@ -1470,15 +1470,15 @@ The eastern rail crossing to Vladivostok, and a fortified belt.
 
 ## suwon
 
-The colonial agricultural experiment station.
+The colonial agricultural experiment station, where the rice varieties that fed the empire's grain shipments were bred.
 
 ## siping
 
-Rail junction on the Hsinking–Mukden line.
+The junction where the line from Changchun meets the branch west into the Mongol country.
 
 ## songjin
 
-Magnesite and steel; one of the northern industrial ports.
+Magnesite and steel, and one of the northern ports built to move Manchurian ore to Japan.
 
 ## tacloban
 
@@ -1494,11 +1494,11 @@ The last of the eight Taiwanese prefectural seats missing from the layer.
 
 ## taunggyi
 
-The hill station the Shan States were administered from.
+The hill station the Shan States were governed from, cool enough for the British and central enough for the sawbwas to be summoned to.
 
 ## tavoy
 
-Airfields used against Rangoon in 1942.
+A Tenasserim port whose airfields put Japanese aircraft within range of Rangoon in 1942.
 
 ## tawau
 
@@ -1506,7 +1506,7 @@ The company plantation town in the south-east of North Borneo, growing tobacco a
 
 ## ternate
 
-The old spice sultanate and residency seat.
+A clove sultanate that Portugal, Spain and the Dutch fought over for a century, reduced by 1930 to a residency seat under a volcano.
 
 ## thanbyuzayat
 
@@ -1522,7 +1522,7 @@ Sand dunes, pears and a small castle town on the Japan Sea.
 
 ## toungoo
 
-Chennault’s AVG trained here; taken in the 1942 advance.
+Where Chennault trained the American Volunteer Group before the war reached Burma; taken in the advance of 1942.
 
 ## danang
 
@@ -1562,11 +1562,11 @@ The southernmost point of Burma, taken on 15 December 1941 to cut the air-reinfo
 
 ## vigan
 
-A December 1941 landing point.
+The Spanish colonial town of the Ilocos coast, and a December 1941 landing point.
 
 ## vinh
 
-The Nghe-Tinh soviets of 1930–31.
+The industrial town of northern Annam and the centre of the Nghe-Tinh soviets of 1930–31, which the French put down with aircraft.
 
 ## ussuriysk
 
@@ -1606,15 +1606,15 @@ The last Shang capital, excavated from 1928 — the dig that founded modern Chin
 
 ## enshi
 
-Hubei’s wartime provincial capital after the loss of Wuchang.
+Hubei's wartime capital in the western gorges after Wuhan fell, and out of reach of the Japanese army for the rest of the war.
 
 ## ominato
 
-The northern naval district guarding the Tsugaru Strait.
+The naval district guarding the Tsugaru Strait between Honshū and Hokkaidō.
 
 ## otomari
 
-Karafuto’s ferry port to Hokkaidō.
+Karafuto's ferry port to Hokkaidō, and the way almost everyone entered and left the colony.
 
 ## otsu
 
@@ -1626,7 +1626,7 @@ Built from 1932 as the Soviet Far East’s arms and aircraft city, out of range 
 
 ## quezoncity
 
-Designated the new national capital in 1939.
+Laid out from 1939 as a new capital to replace Manila, and still mostly plans and open ground when the war reached it.
 
 ## beihai
 

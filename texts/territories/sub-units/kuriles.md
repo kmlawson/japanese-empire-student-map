@@ -24,7 +24,7 @@ Uninhabited, and used only by fishing crews in season.
 
 ## Onekotan
 
-Uninhabited but for a garrison in the war.
+Uninhabited but for its wartime garrison, and two great calderas, one holding a lake with an island in it.
 
 ## Kharimkotan (Harimukotan)
 
@@ -52,7 +52,8 @@ Uninhabited.
 
 ## Simushir (Shimushiru)
 
-A garrison and a sheltered anchorage in a flooded crater.
+A garrison, and a flooded crater at Broughton Bay that makes one of the few
+sheltered anchorages in the chain.
 
 ## Chirpoy (Chirihoi)
 

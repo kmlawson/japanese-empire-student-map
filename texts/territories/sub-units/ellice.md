@@ -19,7 +19,7 @@ Never occupied. The Ellice were the nearest unoccupied ground to the Japanese pe
 
 ## Nui
 
-Never occupied.
+Never occupied, and one of the Ellice atolls whose people speak a Gilbertese dialect rather than Tuvaluan — the boundary between the two groups runs through it.
 
 ## Vaitupu
 

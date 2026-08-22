@@ -14,7 +14,7 @@ The centre of the colony and of its population: two thirds of the Indies lived h
 
 ## Madura
 
-Salt, and cattle, and the island's own princely houses.
+Salt from the pans along its south coast, cattle, and two courts of its own under the Dutch — poor, dry and densely peopled.
 
 ## Borneo
 
@@ -42,7 +42,7 @@ Taken in 1942 and used for an airstrip; otherwise left to itself.
 
 ## Sumba
 
-Horses and ikat weaving, and little else the occupation wanted.
+Horses, sandalwood and ikat weaving, and a society of clans and megalithic tombs that the Dutch reached late and governed lightly.
 
 ## WestTimor
 
@@ -54,7 +54,7 @@ Bypassed in 1944 when the Americans took Morotai beside it instead, and its garr
 
 ## Seram
 
-Ceram, and the oil at Bula on its eastern end.
+Sago and the oil at Bula on its eastern end. The mountainous interior was never properly administered.
 
 ## Buru
 
@@ -66,7 +66,7 @@ Tin, worked by Chinese labour since the eighteenth century. Off its coast in Feb
 
 ## Belitung
 
-Tin, like Banka beside it, and worked the same way.
+Tin, worked by Chinese labour since the nineteenth century under the Billiton company — which later gave half its name to BHP Billiton.
 
 ## Nias
 
