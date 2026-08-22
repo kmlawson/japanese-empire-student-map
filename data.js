@@ -635,7 +635,7 @@ JMAP.TERRITORIES = {
       id: 'nanyo', en: 'South Seas Mandate', ja: '南洋群島 (Nan’yō Guntō)', zh: '南洋群島',
       when: 'Japanese from 1914; League mandate from 1920', rule: 'Japanese mandate',
       cat: 'colony', lvl: 2, atoms: ['nanyo'],
-      note: 'Fortified through the 1930s in defiance of the mandate’s terms, and the anchorage of the Combined Fleet at Truk. The dotted line shows the boundary of the mandate; the islands themselves are specks at this scale. The Americans took them atoll by atoll in 1943–44.'
+      note: 'Fortified through the 1930s in defiance of the mandate’s terms, and the anchorage of the Combined Fleet at Truk. The dotted line shows the boundary of the mandate; the islands themselves are specks at this scale. The Americans came through it from November 1943 and did not take most of it: they landed on the atolls that carried an airfield or an anchorage — Kwajalein, Enewetak, Saipan, Tinian, Peleliu — and flew past the rest, which left those garrisons behind the front without supply until the surrender in August 1945. Truk, the strongest place in the mandate, was one of the ones they went round.'
     },
     {
       id: 'manchukuo', en: 'Manchukuo (Manchuria)', ja: '満洲国 (Manshūkoku)', orig: '滿洲國',
@@ -4946,107 +4946,110 @@ JMAP.PROVINCES = {
   Marianas: {
     en: 'Mariana Islands', ja: 'マリアナ諸島 (Mariana Shotō)',
     wiki: 'https://en.wikipedia.org/wiki/Mariana_Islands',
-    note: 'The chain Japan took from Germany in 1914, less Guam. Its fall in the summer of 1944 put Japan within B-29 range and brought down the Tōjō cabinet.'
+    note: 'The chain Japan took from Germany in 1914, less Guam, and the most heavily settled part of the mandate. The Americans took Saipan, Tinian and Guam between June and August 1944 and left the northern islands alone; the fall of Saipan put Japan within B-29 range and brought down the Tōjō cabinet. The Commonwealth of the Northern Mariana Islands since 1978.'
   },
   Palau: {
     en: 'Palau', ja: 'パラオ (Parao)', wiki: 'https://en.wikipedia.org/wiki/Palau',
-    note: 'The seat of the South Seas Bureau at Koror from 1922, and the westernmost of the mandate. Peleliu and Angaur were taken in 1944; the rest was bypassed.'
+    note: 'The seat of the South Seas Bureau at Koror from 1922, and the westernmost of the mandate. The Americans took Peleliu and Angaur in September 1944 and went round the rest, leaving some 25,000 troops on Babeldaob to grow their own food until the surrender. The Republic of Palau since 1994.'
   },
   Yap: {
     en: 'Yap', ja: 'ヤップ (Yappu)', wiki: 'https://en.wikipedia.org/wiki/Yap',
-    note: 'A cable and radio station, and the subject of a long dispute between Japan and the United States in the 1920s. Bypassed and bombed.'
+    note: 'A cable and radio station, and the subject of a long dispute between Japan and the United States in the 1920s. The Americans never landed: they bombed the airfields from 1944 and went past. Its stone money and its navigators are what it is known for now. Federated States of Micronesia.'
   },
   Chuuk: {
     en: 'Truk (Chuuk)', ja: 'トラック (Torakku)',
-    note: 'Truk lagoon, the Combined Fleet\'s central Pacific anchorage — the "Gibraltar of the Pacific" until the carrier raids of February 1944 showed it was nothing of the kind.'
+    note: 'Truk lagoon, the Combined Fleet\'s central Pacific anchorage — the "Gibraltar of the Pacific" until the American carrier raids of February 1944 showed it was nothing of the kind. No landing was ever made on it: it was left behind the front and starved. Chuuk State, Federated States of Micronesia.'
   },
   Pohnpei: {
     en: 'Ponape (Pohnpei)', ja: 'ポナペ (Ponape)', wiki: 'https://en.wikipedia.org/wiki/Pohnpei',
-    note: 'Ponape, the wettest and most fertile of the Carolines, with a Japanese agricultural station. Bypassed and bombed.'
+    note: 'Ponape, the wettest and most fertile of the Carolines, with a Japanese agricultural station and the basalt city of Nan Madol on its reef. The Americans shelled and bombed it from 1944 and never landed; its garrison of about 8,000 was still there in August 1945. Federated States of Micronesia.'
   },
   Kosrae: {
     en: 'Kusaie (Kosrae)', ja: 'クサイエ (Kusaie)', wiki: 'https://en.wikipedia.org/wiki/Kosrae',
-    note: 'The easternmost of the Carolines, with the basalt ruins of Lelu on its shore. Bypassed entirely and never assaulted.'
+    note: 'The easternmost of the Carolines, with the basalt ruins of Lelu on its shore. The Americans passed it by altogether — no landing and little bombing — and its garrison of some 4,000 surrendered in September 1945. A state of the Federated States of Micronesia.'
   },
   Marshalls: {
     en: 'Marshall Islands', ja: 'マーシャル諸島 (Māsharu Shotō)',
     wiki: 'https://en.wikipedia.org/wiki/Marshall_Islands',
-    note: 'The outermost ring of the mandate, and the first of it to go: Kwajalein and Majuro fell in January 1944 and Enewetak in February.'
+    note: 'The outermost ring of the mandate, and the first of it to go: the Americans took Kwajalein and Majuro in January 1944 and Enewetak in February, and left the other atolls — Jaluit, Wotje, Mili, Maloelap — bombed and unsupplied behind the front. The Republic of the Marshall Islands since 1986.'
   },
   Saipan: {
     en: 'Saipan', ja: 'サイパン (Saipan)', zh: '塞班',
-    note: 'Sugar, and the largest Japanese civilian population in the mandate. The Americans landed on 15 June 1944 and took it by 9 July; hundreds of civilians killed themselves at Marpi Point rather than surrender.'
+    wiki: 'https://en.wikipedia.org/wiki/Saipan,_Northern_Mariana_Islands',
+    note: 'The largest of the Marianas and the sugar island: Nan\'yō Kōhatsu\'s cane and mills, a narrow-gauge railway round the coast, and about 29,000 Japanese and Okinawan settlers by the late 1930s against some 4,000 Chamorro and Carolinian islanders. Garapan was the largest town in the mandate. The Americans landed on 15 June 1944 and took it by 9 July; nearly the whole garrison of 30,000 died, and hundreds of Japanese civilians threw themselves off the cliffs at Marpi Point rather than surrender. The B-29 fields built here began the bombing of Japan. It is the seat of the Commonwealth of the Northern Mariana Islands.'
   },
   Tinian: {
     en: 'Tinian', ja: 'テニアン (Tenian)', zh: '天寧',
     wiki: 'https://en.wikipedia.org/wiki/Tinian,_Northern_Mariana_Islands',
-    note: 'Taken between 24 July and 1 August 1944. Its airfields became the busiest in the world, and the atomic missions to Hiroshima and Nagasaki flew from them.'
+    note: 'Flat limestone three miles from Saipan and almost all of it under cane: some 15,000 settlers, a sugar mill and a company town. The Marines landed on 24 July 1944 and had the island by 1 August, in what their own official history calls the best-executed amphibious operation of the war. North Field\'s six runways then made it the busiest airfield in the world, and the aircraft that bombed Hiroshima and Nagasaki flew from them. Northern Marianas, with much of the island still leased to the American military.'
   },
   Rota: {
     en: 'Rota', ja: 'ロタ (Rota)', zh: '羅塔',
-    note: 'Between Saipan and Guam, and never assaulted: its garrison was bypassed and held out until the surrender in 1945.'
+    wiki: 'https://en.wikipedia.org/wiki/Rota,_Northern_Mariana_Islands',
+    note: 'Between Saipan and Guam, with sugar and a few thousand people, Chamorro and Japanese. It was never assaulted — the Americans took the islands they wanted and flew past this one — so its garrison of about 3,000 sat out the war under bombing and surrendered on 2 September 1945. The quietest of the Northern Marianas now.'
   },
   Pagan: {
     en: 'Pagan', ja: 'パガン (Pagan)', zh: '帕甘',
     wiki: 'https://en.wikipedia.org/wiki/Pagan_(island)',
-    note: 'An airstrip in the northern Marianas, bombed and then left behind; the garrison was still there in 1945.'
+    note: 'Two volcanoes joined by an isthmus in the northern Marianas, with a copra settlement and an airstrip built in the 1930s. Bombed from 1944 and then left behind the front; the garrison of about 2,000 was still there, and hungry, at the surrender. Mount Pagan erupted in 1981 and the island has been evacuated ever since. Northern Marianas.'
   },
   Agrihan: {
     en: 'Agrihan', ja: 'アグリハン (Agurihan)', zh: '阿格里漢',
     wiki: 'https://en.wikipedia.org/wiki/Agrihan',
-    note: 'A volcano in the northern Marianas with a few dozen people on it, bypassed entirely.'
+    note: 'The highest island in the Marianas — a volcano of 965 m — with a few dozen people on it growing copra. The Americans never came near it; the handful of troops on it gave themselves up in 1945. All but uninhabited now. Northern Marianas.'
   },
   Anatahan: {
     en: 'Anatahan', ja: 'アナタハン (Anatahan)', zh: '阿納塔漢',
     wiki: 'https://en.wikipedia.org/wiki/Anatahan',
-    note: 'Bypassed and forgotten. Some of its garrison refused to believe the war was over and did not give themselves up until June 1951.'
+    note: 'A volcanic ridge with no harbour and a small copra settlement. No landing was ever made on it. Thirty-odd Japanese survivors of ships sunk in 1944 lived on it after the surrender and would not believe the war was over; the last of them came off in June 1951, with a woman, Higa Kazuko, among them, whose presence the newspapers made the whole of the story. Evacuated after the 2003 eruption. Northern Marianas.'
   },
   Babeldaob: {
     en: 'Babeldaob (Palau)', ja: 'バベルダオブ (Baberudaobu)', zh: '巴貝爾道布',
     wiki: 'https://en.wikipedia.org/wiki/Babeldaob',
-    note: 'The main island of Palau. After Peleliu the Americans left it alone, and its garrison of some twenty-five thousand was starving by 1945.'
+    note: 'The largest island of the mandate, volcanic and forested, with bauxite mined from the late 1930s. The South Seas Bureau governed the whole mandate from Koror on its doorstep from 1922, and there were some 25,000 Japanese in Palau by 1940 — more than there were Palauans. After Peleliu the Americans left it alone, and its garrison of about 25,000 spent the last year of the war growing its own food and going hungry. The capital of the Republic of Palau moved onto it, to Ngerulmud, in 2006.'
   },
   Peleliu: {
     en: 'Peleliu', ja: 'ペリリュー (Peririyū)', zh: '貝里琉',
     wiki: 'https://en.wikipedia.org/wiki/Peleliu',
-    note: 'Landed on 15 September 1944 in an operation expected to take four days; it took over two months and introduced the deep cave defence used again on Iwo Jima and Okinawa.'
+    note: 'A low coral island with the airfield the Americans came for. They landed on 15 September 1944 expecting four days; it took over two months and cost some 1,800 American and 10,000 Japanese lives. Nakagawa Kunio gave up the beaches and fought from the caves of the Umurbrogol ridge — the defence used again at Iwo Jima and Okinawa. Whether the island needed taking at all has been argued ever since. Palau.'
   },
   Angaur: {
     en: 'Angaur', zh: '安加爾', wiki: 'https://en.wikipedia.org/wiki/Angaur',
-    note: 'Phosphate, worked since the German period. Taken between 17 September and 22 October 1944, alongside Peleliu.'
+    note: 'Eight square kilometres of phosphate, mined by the Germans from 1909 and by Japan after them, worked by labour brought in from the Carolines and the Marianas. Taken between 17 September and 22 October 1944 alongside Peleliu and turned into a bomber field. Palau.'
   },
   Weno: {
     en: 'Moen (Weno), Truk', ja: '春島 (Harushima)', zh: '春島',
     wiki: 'https://en.wikipedia.org/wiki/Weno',
-    note: 'Moen, the main island of Truk and the seat of the anchorage. Operation Hailstone wrecked the fleet base here on 17–18 February 1944, after which Truk was bypassed and left to rot.'
+    note: 'Moen, the main island of Truk lagoon — the Combined Fleet\'s forward anchorage and, in the phrase of the time, the Gibraltar of the Pacific: airfields, a seaplane base, a Japanese town and some 27,000 troops. Operation Hailstone on 17–18 February 1944 sank about forty ships and destroyed some 250 aircraft in two days, after which the Americans left Truk behind the front and it starved. The wrecks in the lagoon are dived on now. Weno is the capital of Chuuk State, Federated States of Micronesia.'
   },
   Kwajalein: {
     en: 'Kwajalein', zh: '瓜加林', wiki: 'https://en.wikipedia.org/wiki/Kwajalein_Atoll',
-    note: 'Taken between 31 January and 3 February 1944, with Majuro — the first assault on territory Japan had held since before the war, and the breach of the outer perimeter.'
+    note: 'The largest coral atoll in the world by the area of its lagoon, ninety-odd islets round it, and the Japanese headquarters in the Marshalls. Taken between 31 January and 4 February 1944 — the first assault on ground Japan had held before the war began, and the breach of the outer perimeter. It is an American missile range now, leased from the Marshall Islands and the largest employer in the country.'
   },
   Majuro: {
     en: 'Majuro', ja: 'マジュロ (Majuro)', zh: '馬久羅', wiki: 'https://en.wikipedia.org/wiki/Majuro',
-    note: 'Taken without a fight on 31 January 1944 and turned into the fleet anchorage from which the drive across the central Pacific was mounted.'
+    note: 'A thin ring of islets round a deep lagoon. The small Japanese garrison had already gone when the Americans arrived on 31 January 1944, so it was taken without a shot and became the fleet anchorage the drive across the central Pacific was mounted from. The capital of the Republic of the Marshall Islands.'
   },
   Jaluit: {
     en: 'Jaluit', ja: 'ヤルート (Yarūto)', zh: '賈盧伊特',
-    note: 'The administrative centre of the Marshalls under both the German and the Japanese administrations. Bypassed in 1944, bombed, and starved to the surrender.'
+    wiki: 'https://en.wikipedia.org/wiki/Jaluit_Atoll',
+    note: 'The seat of the Marshalls under the Germans from 1885 and under Japan after 1914, with a trading town at Jabor and the copra trade run from it. The Americans went round it in 1944, bombed it and left it to starve; the garrison surrendered in August 1945 and a typhoon finished the town off in 1958. Marshall Islands.'
   },
   Wotje: {
     en: 'Wotje', zh: '沃杰', wiki: 'https://en.wikipedia.org/wiki/Wotje_Atoll',
-    note: 'An air base bypassed in 1944 and bombed for the rest of the war; its garrison was never assaulted.'
+    note: 'One of the four Marshalls atolls Japan built an airfield on, with some 3,000 troops on it. The Americans left it behind the front in 1944 and bombed it for the rest of the war without ever landing on it; the garrison, reduced to fishing and gardening, surrendered in 1945. Marshall Islands.'
   },
   Enewetak: {
     en: 'Enewetak', zh: '埃內韋塔克', wiki: 'https://en.wikipedia.org/wiki/Enewetak_Atoll',
-    note: 'Taken between 17 and 23 February 1944, which carried the Americans to the western edge of the Marshalls.'
+    note: 'A large atoll at the western edge of the Marshalls, with an airstrip on Engebi. Taken between 17 and 23 February 1944, which carried the Americans past the last of the Marshalls. Its people were moved off in 1947 and forty-three nuclear tests were fired here, among them Ivy Mike in 1952, the first hydrogen bomb, which left a crater where the islet of Elugelab had been. The contaminated debris is under a concrete dome on Runit. Marshall Islands.'
   },
   Bikini: {
     en: 'Bikini', zh: '比基尼', wiki: 'https://en.wikipedia.org/wiki/Bikini_Atoll',
-    note: 'Never fought over. Its people were moved off in 1946 for the American nuclear tests and have never been able to return.'
+    note: 'A northern atoll with no airfield and no battle: the Japanese watch post on it was killed in February 1944 and that was the war. Its 167 people were moved off in 1946 for Operation Crossroads and twenty-three tests followed, Castle Bravo in 1954 the largest the United States ever fired. They have never been able to go back. Marshall Islands.'
   },
   Ebon: {
     en: 'Ebon', ja: 'エボン (Ebon)', zh: '埃邦', wiki: 'https://en.wikipedia.org/wiki/Ebon_Atoll',
-    note: 'The southernmost of the Marshalls, and the first of them to be reached by missionaries. Bypassed in the war.'
+    note: 'The southernmost atoll of the Marshalls, and where American missionaries first landed in 1857 — the church has been at the centre of Marshallese life ever since. Copra, no airfield, and nothing the war wanted: it was passed over entirely. Marshall Islands.'
   },
   'The Mongol leagues': { en: 'The Mongol leagues', ja: '蒙古聯盟 (Mōko renmei)', zh: '蒙古各盟' },
   'North Shansi (Jinbei) Administration': { en: 'Jìnběi — the North Shansi Administration', ja: '晉北政廳 (Shinpoku seichō)', zh: '晉北政廳' },
