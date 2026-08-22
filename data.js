@@ -1396,7 +1396,7 @@ JMAP.SITES = [
   },
   {
     id: 'coralsea', en: 'Coral Sea', ja: '珊瑚海海戦 (Sangokai kaisen)', zh: '珊瑚海海戰',
-    date: '4–8 May 1942', cat: 'battle', lvl: 3, both: true, lat: -13.5, lon: 154,
+    date: '4–8 May 1942', cat: 'battle', lvl: 3, both: true, lat: -12.5, lon: 155.0,
     wiki: 'https://en.wikipedia.org/wiki/Battle_of_the_Coral_Sea', year: 1942,
     note: 'The first battle fought entirely by carrier aircraft, with the fleets never in sight of each other. It cost the Americans the Lexington and the Japanese the light carrier Shōhō; Shōkaku was bombed and Zuikaku’s air group destroyed, and both missed Midway a month later. Tactically a draw; strategically the first check on the Japanese advance, because the seaborne attempt on Port Moresby turned back and was never resumed.'
   },
@@ -3903,11 +3903,11 @@ JMAP.FEATURES = [
     lon: 135.0, kind: 'sea'
   },
   {
-    id: 'coralsea', en: 'Coral Sea', ja: '珊瑚海 (Sango-kai)', zh: '珊瑚海', lvl: 1, lat: -15.5,
-    lon: 153.0, kind: 'sea'
+    id: 'coralsea', en: 'Coral Sea', ja: '珊瑚海 (Sango-kai)', zh: '珊瑚海', lvl: 1, lat: -12.2,
+    lon: 155.0, kind: 'sea'
   },
   {
-    id: 'beringsea', en: 'Bering Sea', ja: 'ベーリング海 (Bēringu-kai)', zh: '白令海', lvl: 1, lat: 57.0,
+    id: 'beringsea', en: 'Bering Sea', ja: 'ベーリング海 (Bēringu-kai)', zh: '白令海', lvl: 1, lat: 54.0,
     lon: 178.0, kind: 'sea'
   },
   {

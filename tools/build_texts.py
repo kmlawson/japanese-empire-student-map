@@ -97,6 +97,28 @@ def keyed(rows, ns, snippets, key="key", indent=2):
     return "\n".join(out)
 
 
+# The drawn frame, from tools/build_map.py. A record outside it is placed off
+# the edge of the map and simply never seen — which is how the Bering Sea label
+# sat two degrees above the top of the sheet without anyone noticing.
+FRAME = (66.0, 206.0, -13.0, 55.0)
+
+
+def check_frame(rows, where):
+    for r in rows:
+        try:
+            lat = float(r.get("lat", "") or "nan")
+            lon = float(r.get("lon", "") or "nan")
+        except ValueError:
+            continue
+        if lat != lat or lon != lon:
+            continue
+        if lon < FRAME[0]:
+            lon += 360.0
+        if not (FRAME[0] <= lon <= FRAME[1]) or not (FRAME[2] <= lat <= FRAME[3]):
+            sys.stderr.write("  note: %s: %s is outside the drawn frame at %s, %s\n"
+                             % (where, r.get("id") or r.get("key") or "?", lat, lon))
+
+
 def build_data_js():
     snippets = T.read_snippets()
     parts = []
@@ -145,6 +167,7 @@ def build_data_js():
     # -------------------------------------------------------------- sites
     rows = load("sites", "sites.csv")
     check_unique(rows, "id", "texts/sites/sites.csv")
+    check_frame(rows, "texts/sites/sites.csv")
     ns = notes("sites", "sites.md")
     parts.append("JMAP.SITES = [\n%s\n];" % array(rows, ns, snippets, indent=2))
     known = set(r["id"] for r in rows)
