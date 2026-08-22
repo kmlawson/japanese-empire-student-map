@@ -372,13 +372,13 @@ JMAP.TERRITORIES = {
       id: 'mandate_jp', en: 'South Seas Mandate — the mandate boundary', ja: '南洋群島委任統治領の境界',
       zh: '南洋群島委任統治地界', when: 'Japanese from 1914; League Class C mandate from 1920',
       cat: 'jpcolony', lvl: 2, c: '#c2463d', atoms: ['mandate_jp'], unseen: true,
-      note: 'Some two thousand islands — the Marianas except Guam, the Carolines and the Marshalls — with about 2,100 km² of land scattered across three million square miles of ocean, which is why the mandate is drawn here as a line and not as a shape. Japan took them from Germany in October 1914, held them under naval administration, and was granted them as a Class C mandate by the League in December 1920; Class C meant a territory could be governed as an integral part of the mandatory’s own. A civil South Seas Bureau ran them from Koror in Palau from 1922. Japanese settlers came with the sugar industry on Saipan and Tinian and outnumbered the islanders by the mid-1930s. Fortifying the islands was forbidden both by the mandate and by the Washington naval treaty; Japan gave notice of leaving the League in 1933, kept the islands, and fortified them anyway. They became the American Trust Territory of the Pacific Islands in 1947.'
+      note: 'Some two thousand islands — the Marianas except Guam, the Carolines and the Marshalls — with about 2,100 km² of land scattered across three million square miles of ocean, which is why the mandate is drawn here as a line and not as a shape. Japan took them from Germany in October 1914, held them under naval administration, and was granted them as a Class C mandate by the League in December 1920; Class C meant a territory could be governed as an integral part of the mandatory’s own. A civil South Seas Bureau ran them from Koror in Palau from 1922. Japanese settlers came with the sugar industry on Saipan and Tinian and outnumbered the islanders by the mid-1930s. Fortifying the islands was forbidden both by the mandate and by the Washington naval treaty; Japan gave notice of leaving the League in 1933, kept the islands, and fortified them anyway. They would become the American Trust Territory of the Pacific Islands in 1947.'
     },
     {
       id: 'mandate_ex_guam', en: 'Guam — inside the line, outside the mandate',
       when: 'American since 1898; never part of the mandate', cat: 'american', lvl: 3,
       c: '#325d7b', atoms: ['mandate_ex_guam'], unseen: true,
-      note: 'The mandate covered the Marianas <em>except Guam</em>, which is why every description of it says so. Spain ceded Guam to the United States in 1898, so when Japan took the German Marianas in 1914 it took the chain round an American island: Saipan, a hundred and thirty miles north, was Japanese, and Guam was a US naval station with a small Marine garrison. The Japanese landed there on 10 December 1941, two days after Pearl Harbor, renamed it Ōmiyajima, and held it until the Americans retook it in July and August 1944.'
+      note: 'The mandate covered the Marianas <em>except Guam</em>, which is why every description of it says so. Spain ceded Guam to the United States in 1898, so when Japan took the German Marianas in 1914 it took the chain round an American island: Saipan, a hundred and thirty miles north, was Japanese, and Guam was a US naval station with a small Marine garrison. Japan would land there on 10 December 1941, two days after Pearl Harbor, rename it Ōmiyajima, and hold it until the Americans retook it in the summer of 1944.'
     },
     {
       id: 'mandate_au', en: 'Territory of New Guinea — the mandate boundary',
@@ -429,7 +429,7 @@ JMAP.TERRITORIES = {
     {
       id: 'philippines', en: 'Philippine Islands', ja: '比島 (Hitō)', orig: 'Pilipinas',
       zh: '菲律賓', when: 'American from 1898', cat: 'american', lvl: 1, atoms: ['philippines'],
-      note: 'Taken from Spain in 1898 and held after a brutal war against Filipino republicans. A commonwealth with promised independence from 1935.'
+      note: 'Taken from Spain in 1898 and held after a brutal war against Filipino republicans. A commonwealth with a promise of independence would follow in 1935.'
     },
     {
       id: 'wake', en: 'Wake Island', orig: 'Wake', when: 'American from 1899',
@@ -475,7 +475,7 @@ JMAP.TERRITORIES = {
     {
       id: 'spratly', en: 'Spratly Islands', ja: '新南群島 (Shinnan Guntō)',
       orig: 'Trường Sa / Kapuluan ng Kalayaan', zh: '南沙群島',
-      when: 'Annexed by France, April 1930',
+      when: 'Occupied by France, April 1930; annexed 1933',
       rule: 'Claimed by France; Britain had claimed them earlier', cat: 'french', lvl: 3,
       atoms: ['spratly'],
       note: 'A scatter of sandbanks, cays and reefs with no permanent population. Britain claimed them from 1877 and did nothing with them; France occupied Spratly Island in April 1930 and annexed the group — nine islands, Itu Aba among them — in 1933, attaching it to Cochinchina. Japan disputed the claim throughout, worked the guano and phosphate, and took them in 1939. Islands are traced from present-day shapes, which does not reflect more recent land reclamation.'
@@ -648,7 +648,7 @@ JMAP.TERRITORIES = {
       zh: '蒙古自治邦',
       when: 'Renamed the Mongol Autonomous Federation, August 1941; federated September 1939; Japanese client from 1936',
       cat: 'puppet', lvl: 2, atoms: ['mengjiang'],
-      note: 'The Inner Mongolian autonomous government under Prince Demchugdongrub, with its capital at Zhangjiakou and built out of the Chinese provinces of Chahar and Suiyuan. Japanese-sponsored Mongol governments date from 1936, and the regime changed its name more than once: the federation of September 1939 joined the Mongol leagues to two Chinese-populated administrations — Chanan out of southern Chahar and Jinbei out of northern Shanxi — as the Mengchiang United Autonomous Government, and in August 1941 that was renamed the Mongol Autonomous Federation, 蒙古自治邦, which is what it was called in December 1942. Switch Administrative on and the three parts are named. The line indicates claimed Mengjiang territory and the fill indicates approximate simplified area of control.'
+      note: 'The Inner Mongolian autonomous government under Prince Demchugdongrub, with its capital at Zhangjiakou, assembled out of eastern Chahar, the Mongol leagues and a strip of northern Shanxi. Japanese-sponsored Mongol governments date from 1936, and the regime changed its name more than once: the federation of September 1939 joined the Mongol leagues to two Chinese-populated administrations — Chanan out of southern Chahar and Jinbei out of northern Shanxi — as the Mengchiang United Autonomous Government, and in August 1941 that was renamed the Mongol Autonomous Federation, 蒙古自治邦, which is what it was called in December 1942. Switch Administrative on and the three parts are named. The line indicates claimed Mengjiang territory and the fill indicates approximate simplified area of control.'
     },
     {
       id: 'nanjinggov', en: 'Japanese-occupied China (approximate)', ja: '日本占領地区',
@@ -773,7 +773,7 @@ JMAP.TERRITORIES = {
       id: 'ellice', en: 'Ellice Islands',
       when: 'Never occupied; American bases from October 1942', rule: 'British colony',
       cat: 'allied', lvl: 3, atoms: ['ellice'], hatch: 'us',
-      note: 'Nine atolls and reef islands, the southern half of the Gilbert & Ellice Islands Colony, and the nearest unoccupied ground to the Gilberts. American marines landed on Funafuti on 2 October 1942 and built an airfield there, with two more on Nanumea and Nukufetau the following year; Funafuti was the base the assault on Tarawa and Makin was mounted from in November 1943. Japanese aircraft bombed it from the Gilberts in the meantime. The islanders were moved off the airfield sites and the atolls were left with the runways, the scrap and the borrow pits when the war moved north.'
+      note: 'Eight atolls and reef islands are drawn here — Niulakita, the ninth and empty then, is not — the southern half of the Gilbert & Ellice Islands Colony, and the nearest unoccupied ground to the Gilberts. American marines landed on Funafuti on 2 October 1942 and built an airfield there, with two more on Nanumea and Nukufetau the following year; Funafuti was the base the assault on Tarawa and Makin was mounted from in November 1943. Japanese aircraft bombed it from the Gilberts in the meantime. The islanders were moved off the airfield sites and the atolls were left with the runways, the scrap and the borrow pits when the war moved north.'
     },
     {
       id: 'linephoenix', en: 'The Line & Phoenix Islands', when: 'Never occupied',
@@ -860,7 +860,7 @@ JMAP.TERRITORIES = {
       when: 'Alliance signed 21 December 1941', cat: 'cobelligerent', lvl: 2,
       atoms: ['siam', 'siamgain'], edge: '#8dd3c7', edgeAtoms: ['siam', 'siamgain'],
       edgeClip: [100, 11.5, 106.2, 20.6], edgeWidth: 6,
-      note: 'Invaded on 8 December 1941, it capitulated in hours, granted passage to the invasion of Malaya and Burma, allied with Japan and declared war on Britain and the United States. It was rewarded with territory in Malaya, Burma, Cambodia and Laos.'
+      note: 'Invaded on 8 December 1941, it capitulated in hours, granted passage to the invasion of Malaya and Burma, allied with Japan and declared war on Britain and the United States. Cambodia and Laos had already given up territory to it under the Franco-Thai settlement of May 1941; Malaya and Burma were the reward for the alliance.'
     },
     {
       id: 'cededthai', en: 'Battambang & Siem Reap (ceded to Thailand, 1941)',
@@ -1046,14 +1046,14 @@ JMAP.SITES = [
   },
   {
     id: 'hiroshima', en: 'Hiroshima', ja: '広島 (Hiroshima)', orig: '広島 (Hiroshima)', zh: '廣島',
-    date: 'Atomic bomb, 6 August 1945', cat: 'city', lvl: 1, lat: 34.39, lon: 132.46,
-    year: 1894,
+    date: 'Atomic bomb, 6 August 1945', cat: 'city', lvl: 1, both: true, lat: 34.39,
+    lon: 132.46, year: 1894,
     note: 'Army headquarters and the embarkation port for the continent since 1894. Destroyed by the first atomic bomb; around 140,000 were dead by the end of the year.'
   },
   {
     id: 'nagasaki', en: 'Nagasaki', ja: '長崎 (Nagasaki)', orig: '長崎 (Nagasaki)', zh: '長崎',
-    date: 'Atomic bomb, 9 August 1945', cat: 'city', lvl: 1, lat: 32.74, lon: 129.87,
-    year: 1641,
+    date: 'Atomic bomb, 9 August 1945', cat: 'city', lvl: 1, both: true, lat: 32.74,
+    lon: 129.87, year: 1641,
     note: 'The Dutch post at Dejima made this Japan’s only window on Europe under the Tokugawa. Destroyed by the second atomic bomb; around 70,000 were dead by the end of the year.'
   },
   {
@@ -1087,14 +1087,14 @@ JMAP.SITES = [
   },
   {
     id: 'naha', en: 'Naha', ja: '那覇 (Naha)', orig: '那覇 (Naafa)', zh: '那霸',
-    date: 'Battle of Okinawa, April–June 1945', cat: 'city', lvl: 1, lat: 26.21, lon: 127.68,
-    year: 1879,
+    date: 'Battle of Okinawa, April–June 1945', cat: 'city', lvl: 1, both: true, lat: 26.21,
+    lon: 127.68, year: 1879,
     note: 'Port of the Ryūkyū Kingdom, and the site of the largest land battle of the war fought on Japanese soil among a civilian population, in which around a quarter of Okinawans died.'
   },
   {
     id: 'iwojima', en: 'Iwo Jima (Iō-tō)', ja: '硫黄島 (Iō-tō)', orig: '硫黄島 (Iō-tō)', zh: '硫磺島',
-    date: '19 February – 26 March 1945', cat: 'battle', lvl: 2, lat: 24.78, lon: 141.32,
-    year: 1945,
+    date: '19 February – 26 March 1945', cat: 'battle', lvl: 2, both: true, lat: 24.78,
+    lon: 141.32, year: 1945,
     note: 'Taken at a cost of nearly 7,000 American and over 18,000 Japanese dead, to give fighter cover to the bombers over Japan.'
   },
   {
@@ -1163,7 +1163,7 @@ JMAP.SITES = [
   {
     id: 'nomonhan', en: 'Nuòménhǎn (Nomonhan, Khalkhin Gol)', ja: 'ノモンハン事件 (Nomonhan jiken)',
     orig: 'Халхын гол', zh: '諾門罕', date: 'May – September 1939', cat: 'battle', lvl: 3,
-    lat: 47.73, lon: 118.55, year: 1939,
+    both: true, lat: 47.73, lon: 118.55, year: 1939,
     note: 'An undeclared war on the Manchukuo–Mongolian border. Zhukov’s encirclement destroyed a Japanese division and helped settle the strategic argument in favour of striking south rather than north.'
   },
   {
@@ -1189,7 +1189,7 @@ JMAP.SITES = [
     id: 'tianjin', en: 'Tiānjīn (Tientsin)', ja: '天津 (Tenshin)', orig: '天津 (Tiānjīn)', zh: '天津',
     date: 'Convention 1885; occupied 1937', cat: 'city', lvl: 2, lat: 39.13, lon: 117.2,
     year: 1885,
-    note: 'The treaty port for Beijing, carved into eight foreign concessions including a Japanese one. The Tianjin Convention of 1885 regulated Chinese and Japanese troops in Korea, and broke down in 1894; the Tanggu Truce of May 1933, signed at its port, gave north China a demilitarised zone that Japan spent the next four years pushing into.'
+    note: 'The treaty port for Beijing, carved into nine foreign concessions at their greatest extent, a Japanese one among them. The Tianjin Convention of 1885 regulated Chinese and Japanese troops in Korea, and broke down in 1894; the Tanggu Truce of May 1933, signed at its port, gave north China a demilitarised zone that Japan spent the next four years pushing into.'
   },
   {
     id: 'kalgan', en: 'Zhāngjiākǒu (Kalgan, Changchiakou)', ja: '張家口 (Chōkakō)',
@@ -1216,7 +1216,8 @@ JMAP.SITES = [
   },
   {
     id: 'nanjing', en: 'Nánjīng (Nanking)', ja: '南京 (Nankin)', orig: '南京 (Nánjīng)', zh: '南京',
-    date: 'Fell 13 December 1937', cat: 'city', lvl: 1, lat: 32.06, lon: 118.8, year: 1927,
+    date: 'Fell 13 December 1937', cat: 'city', lvl: 1, both: true, lat: 32.06, lon: 118.8,
+    year: 1927,
     note: 'Nationalist capital from 1927. Its capture on 13 December 1937 was followed by weeks of mass killing and rape — the Nanjing Massacre — in which the dead are counted from the tens of thousands to 300,000, depending on the period and the boundary taken. From 1940 it housed Wang Jingwei\'s collaborationist government.'
   },
   {
@@ -1306,7 +1307,7 @@ JMAP.SITES = [
   },
   {
     id: 'singapore', en: 'Shōnantō (Singapore)', ja: '昭南島 (Shōnantō)', orig: 'Singapura',
-    zh: '新加坡', date: 'Surrendered 15 February 1942', cat: 'city', lvl: 1, lat: 1.29,
+    zh: '新加坡', date: 'Surrendered 15 February 1942', cat: 'city', lvl: 1, both: true, lat: 1.29,
     lon: 103.85, year: 1819,
     note: 'Britain’s great naval base, whose guns are often wrongly said to have pointed only out to sea; the real failures were air cover and the loss of the Prince of Wales and Repulse. 80,000 troops went into captivity.'
   },
@@ -1323,13 +1324,13 @@ JMAP.SITES = [
   {
     id: 'corregidor', en: 'Bataan & Corregidor', ja: 'バターン・コレヒドール (Batān Korehidōru)',
     orig: 'Bataan / Corregidor', zh: '巴丹・科雷希多', date: 'April – 6 May 1942', cat: 'battle',
-    lvl: 3, lat: 14.38, lon: 120.57, year: 1942,
+    lvl: 3, both: true, lat: 14.38, lon: 120.57, year: 1942,
     note: 'Bataan surrendered on 9 April 1942 and the death march followed, in which thousands died; Corregidor held out in its tunnels until 6 May.'
   },
   {
     id: 'leyte', en: 'Leyte Gulf', ja: 'レイテ沖海戦 (Reite-oki kaisen)', orig: 'Golpo ng Leyte',
-    zh: '雷伊泰灣', date: '23–26 October 1944', cat: 'battle', lvl: 2, lat: 10.8, lon: 125.4,
-    year: 1944,
+    zh: '雷伊泰灣', date: '23–26 October 1944', cat: 'battle', lvl: 2, both: true, lat: 10.8,
+    lon: 125.4, year: 1944,
     note: 'The largest naval battle ever fought. It destroyed the Imperial Navy as a fighting force and saw the first organised kamikaze attacks.'
   },
   {
@@ -1363,17 +1364,19 @@ JMAP.SITES = [
   },
   {
     id: 'coralsea', en: 'Coral Sea', ja: '珊瑚海海戦 (Sangokai kaisen)', zh: '珊瑚海海戰',
-    date: '4–8 May 1942', cat: 'battle', lvl: 3, lat: -13.5, lon: 154, year: 1942,
+    date: '4–8 May 1942', cat: 'battle', lvl: 3, both: true, lat: -13.5, lon: 154, year: 1942,
     note: 'The first battle fought entirely by carrier aircraft, with the fleets never in sight of each other. It cost the Americans the <em>Lexington</em> and the Japanese the light carrier <em>Shōhō</em>; <em>Shōkaku</em> was bombed and <em>Zuikaku</em>’s air group destroyed, and both missed Midway a month later. Tactically a draw; strategically the first check on the Japanese advance, because the seaborne attempt on Port Moresby turned back and was never resumed.'
   },
   {
     id: 'midway', en: 'Midway', ja: 'ミッドウェー海戦 (Middowē kaisen)', orig: 'Pihemanu', zh: '中途島',
-    date: '4–7 June 1942', cat: 'battle', lvl: 1, lat: 28.21, lon: -177.37, year: 1942,
+    date: '4–7 June 1942', cat: 'battle', lvl: 1, both: true, lat: 28.21, lon: -177.37,
+    year: 1942,
     note: 'All four Japanese fleet carriers fatally hit within a day, against one American. The offensive initiative in the Pacific never came back.'
   },
   {
     id: 'saipan', en: 'Saipan', ja: 'サイパン (Saipan)', orig: 'Saipan', zh: '塞班島',
-    date: '15 June – 9 July 1944', cat: 'battle', lvl: 1, lat: 15.19, lon: 145.75, year: 1944,
+    date: '15 June – 9 July 1944', cat: 'battle', lvl: 1, both: true, lat: 15.19, lon: 145.75,
+    year: 1944,
     note: 'Its loss put Japan within B-29 range and brought down the Tōjō cabinet. Hundreds of Japanese civilians killed themselves at Marpi Point rather than surrender.'
   },
   {
@@ -1415,8 +1418,8 @@ JMAP.SITES = [
   },
   {
     id: 'guadalcanal', en: 'Guadalcanal', ja: 'ガダルカナル (Gadarukanaru)', orig: 'Guadalcanal',
-    zh: '瓜達爾卡納爾', date: 'August 1942 – February 1943', cat: 'battle', lvl: 2, lat: -9.58,
-    lon: 160.15, year: 1942,
+    zh: '瓜達爾卡納爾', date: 'August 1942 – February 1943', cat: 'battle', lvl: 2, both: true,
+    lat: -9.58, lon: 160.15, year: 1942,
     note: 'A half-built airfield became the first sustained Allied offensive of the Pacific War. Six months of attrition on land, sea and air that Japan could not afford; the withdrawal marked the turn of the tide.'
   },
   {
@@ -1516,7 +1519,7 @@ JMAP.SITES = [
   },
   {
     id: 'huayuankou', en: 'Huāyuánkǒu (Huayuankow)', ja: '花園口 (Kaenkō)', zh: '花園口',
-    date: '9 June 1938', cat: 'battle', lvl: 2, lat: 34.92, lon: 113.69, year: 1938,
+    date: '9 June 1938', cat: 'battle', lvl: 2, both: true, lat: 34.92, lon: 113.69, year: 1938,
     note: 'The Chinese army cut the Yellow River dikes here on 9 June 1938 to stop the advance on Wuhan. The river left its bed for nine years, drowned several thousand villages, killed somewhere between 400,000 and 800,000 people, and left the country behind it open to the famine of 1942–43.'
   },
   {
@@ -1633,7 +1636,7 @@ JMAP.EPOCH_OVERRIDES = {
     } },
   tianjin: { e1930: {
       date: 'Convention of 1885',
-      note: 'The treaty port for Beijing, carved into eight foreign concessions including a Japanese one. The Tianjin Convention of 1885 regulated Chinese and Japanese troops in Korea, and broke down in 1894.'
+      note: 'The treaty port for Beijing, carved into nine foreign concessions at their greatest extent, a Japanese one among them. The Tianjin Convention of 1885 regulated Chinese and Japanese troops in Korea, and broke down in 1894.'
     } },
   guangzhou: { e1930: {
       date: 'Treaty port from 1842',
@@ -2406,6 +2409,861 @@ JMAP.BROWSE = [
   {
     id: 'tanggu', en: 'Tánggū (Tangku)', ja: '塘沽 (Tōko)', zh: '塘沽', lat: 39.00, lon: 117.65,
     note: 'Tianjin\'s port at the mouth of the Hai. The truce signed here in May 1933 ended the fighting after Rehe and gave north China a demilitarised zone, which Japan spent the next four years pushing into.'
+  },
+  {
+    id: 'sydney', en: 'Sydney', lat: -33.87, lon: 151.21,
+    note: 'The midget submarine attack of 31 May 1942.'
+  },
+  {
+    id: 'brisbane', en: 'Brisbane', lat: -27.47, lon: 153.03,
+    note: 'MacArthur’s General Headquarters, South West Pacific Area, 1942–44.'
+  },
+  {
+    id: 'kowloon', en: 'Kowloon', lat: 22.32, lon: 114.17,
+    note: 'The mainland half of the city, and where the December 1941 fighting was decided.'
+  },
+  {
+    id: 'hongkong', en: 'Victoria, Hong Kong', lat: 22.28, lon: 114.16,
+    note: 'The largest British city in East Asia and the busiest port on the China coast, attacked on 8 December 1941 and surrendered on Christmas Day. The territory is already drawn; the city is not on the layer at all.'
+  },
+  {
+    id: 'baroda', en: 'Baroda (Vadodara)', lat: 22.31, lon: 73.18,
+    note: 'Princely state capital.'
+  },
+  {
+    id: 'chiba', en: 'Chiba', lat: 35.61, lon: 140.12,
+    note: 'The bay city east of Tokyo, with the army\'s railway and engineer schools and, by the war, steelworks on the reclaimed shore.'
+  },
+  {
+    id: 'cholon', en: 'Cholon', lat: 10.75, lon: 106.65,
+    note: 'Saigon’s Chinese twin city, counted separately in the colonial censuses and together with Saigon the largest urban area in Indochina.'
+  },
+  {
+    id: 'changde', en: 'Chángdé (Changteh)', lat: 29.03, lon: 111.7,
+    note: 'The battle of November–December 1943, and one of the confirmed targets of Unit 731’s plague attacks in 1941.'
+  },
+  {
+    id: 'fukui', en: 'Fukui', lat: 36.06, lon: 136.22,
+    note: 'A textile town on the Japan Sea side, known for habutae silk.'
+  },
+  {
+    id: 'gifu', en: 'Gifu', lat: 35.42, lon: 136.76,
+    note: 'Paper lanterns, umbrellas and cormorant fishing on the Nagara, and an aircraft plant by the war.'
+  },
+  { id: 'gwalior', en: 'Gwalior', lat: 26.22, lon: 78.18, note: 'Princely state capital.' },
+  {
+    id: 'hamamatsu', en: 'Hamamatsu', lat: 34.71, lon: 137.73,
+    note: 'Aircraft and instrument industry; bombed and shelled from the sea in 1945.'
+  },
+  {
+    id: 'imphalcity', en: 'Imphal', lat: 24.82, lon: 93.94,
+    note: 'Already a battle marker; also the capital of Manipur state and the town the 1944 fighting was about.'
+  },
+  { id: 'indore', en: 'Indore', lat: 22.72, lon: 75.86, note: 'Princely state capital.' },
+  {
+    id: 'jamshedpur', en: 'Jamshedpur', lat: 22.8, lon: 86.18,
+    note: 'Tata Iron and Steel: the industrial base of the Indian war effort and the largest steelworks in the British Empire.'
+  },
+  { id: 'jodhpur', en: 'Jodhpur', lat: 26.24, lon: 73.02, note: 'Princely state capital.' },
+  {
+    id: 'kabul', en: 'Kabul', lat: 34.53, lon: 69.17,
+    note: 'Capital of the one independent state on the map’s western edge, and a centre of Axis and Allied intrigue over the frontier.'
+  },
+  {
+    id: 'kathmandu', en: 'Kathmandu', lat: 27.71, lon: 85.32,
+    note: 'The capital of an independent state the map already draws, and the source of the Gurkha regiments.'
+  },
+  {
+    id: 'kawasaki', en: 'Kawasaki', lat: 35.53, lon: 139.7,
+    note: 'Keihin industrial belt, c.300,000 by 1940, heavily firebombed.'
+  },
+  {
+    id: 'kokura', en: 'Kokura', lat: 33.88, lon: 130.88,
+    note: 'Primary target for the second atomic bomb, 9 Aug 1945; cloud cover diverted the mission to Nagasaki. Arsenal city.'
+  },
+  {
+    id: 'kochi', en: 'Kōchi', lat: 33.56, lon: 133.53,
+    note: 'The old Tosa domain on the Pacific coast of Shikoku, and the home of much of the Meiji Restoration\'s leadership.'
+  },
+  {
+    id: 'kofu', en: 'Kōfu', lat: 35.66, lon: 138.57,
+    note: 'The Kōfu basin: vines, orchards and the silk that went out over the pass to Yokohama.'
+  },
+  {
+    id: 'liuzhou', en: 'Liǔzhōu (Liuchow)', lat: 24.31, lon: 109.42,
+    note: 'A principal Fourteenth Air Force base, and with Kweilin the objective of the Ichi-gō offensive of 1944.'
+  },
+  {
+    id: 'luzhou', en: 'Lúzhōu (Luchow)', lat: 28.87, lon: 105.44,
+    note: 'The Yangtze port below Chongqing where the Tuo river comes in, and a salt and sugar market.'
+  },
+  {
+    id: 'macaucity', en: 'Macao (Cidade do Santo Nome de Deus)', lat: 22.19, lon: 113.54,
+    note: 'Neutral Portuguese territory throughout the war; its population several times over as refugees came in from Hong Kong and Canton.'
+  },
+  {
+    id: 'maebashi', en: 'Maebashi', lat: 36.39, lon: 139.06,
+    note: 'The silk-reeling town of Gunma, at the centre of the trade that paid for Japan\'s industrialisation.'
+  },
+  {
+    id: 'moji', en: 'Moji', lat: 33.94, lon: 130.96,
+    note: 'The Kanmon Strait coaling and transhipment port; the embarkation point for the continent.'
+  },
+  {
+    id: 'morioka', en: 'Morioka', lat: 39.7, lon: 141.15,
+    note: 'The seat of northern Iwate, and iron-casting since the Nanbu domain.'
+  },
+  {
+    id: 'nagano', en: 'Nagano', lat: 36.65, lon: 138.18,
+    note: 'The temple town of Zenkōji, and the silk country of the Shinano valleys.'
+  },
+  {
+    id: 'nanchong', en: 'Nánchōng (Nanchung)', lat: 30.8, lon: 106.08,
+    note: 'A silk town on the Jialing north of Chongqing, in the Free China interior.'
+  },
+  {
+    id: 'nantong', en: 'Nántōng (Nantung)', lat: 32.01, lon: 120.86,
+    note: 'Zhang Jian\'s cotton mills on the north bank of the Yangtze, the first modern industrial town founded by a Chinese reformer.'
+  },
+  {
+    id: 'otaru', en: 'Otaru', lat: 43.19, lon: 140.99,
+    note: 'Hokkaidō’s main port and the terminal for the Karafuto and Japan Sea trade.'
+  },
+  { id: 'patna', en: 'Patna', lat: 25.61, lon: 85.14, note: 'Provincial capital.' },
+  {
+    id: 'sakai', en: 'Sakai', lat: 34.57, lon: 135.48,
+    note: 'Historic port and Osaka industrial suburb.'
+  },
+  {
+    id: 'shizuoka', en: 'Shizuoka', lat: 34.98, lon: 138.38,
+    note: 'Tea and mandarins, and the port of Shimizu that shipped both.'
+  },
+  {
+    id: 'shaoxing', en: 'Shàoxīng (Shaohing)', lat: 30.0, lon: 120.58,
+    note: 'Rice wine, and the town Lu Xun came from; taken in 1941.'
+  },
+  {
+    id: 'srinagar', en: 'Srinagar', lat: 34.08, lon: 74.8,
+    note: 'The largest princely state by area; its summer capital.'
+  },
+  {
+    id: 'takamatsu', en: 'Takamatsu', lat: 34.34, lon: 134.05,
+    note: 'The castle port of Shikoku facing the Inland Sea, and the ferry crossing to Honshū.'
+  },
+  {
+    id: 'thonburi', en: 'Thonburi', lat: 13.72, lon: 100.49,
+    note: 'Bangkok’s twin across the river, a separate province and separately enumerated until 1971.'
+  },
+  {
+    id: 'tokushima', en: 'Tokushima', lat: 34.07, lon: 134.55,
+    note: 'Indigo, the crop that made the old Awa domain rich, on the Shikoku side of the Naruto strait.'
+  },
+  {
+    id: 'toyama', en: 'Toyama', lat: 36.7, lon: 137.21,
+    note: 'The 1–2 August 1945 firebombing destroyed about 99% of the built-up area, the highest destruction rate of any Japanese city.'
+  },
+  {
+    id: 'toyohashi', en: 'Toyohashi', lat: 34.77, lon: 137.39,
+    note: 'A garrison and silk town on the Tōkaidō between Nagoya and Shizuoka.'
+  },
+  {
+    id: 'utsunomiya', en: 'Utsunomiya', lat: 36.56, lon: 139.88,
+    note: 'The garrison town north of Tokyo on the road to Nikkō.'
+  },
+  {
+    id: 'wakayama', en: 'Wakayama', lat: 34.23, lon: 135.17,
+    note: 'The old Kii domain south of Osaka, with cotton mills and the mikan orchards behind it.'
+  },
+  {
+    id: 'yawata', en: 'Yawata (Yahata)', lat: 33.86, lon: 130.81,
+    note: 'Imperial Steel Works, the centre of Japanese heavy industry, and the target of the first B-29 raid on the home islands, 15 June 1944.'
+  },
+  {
+    id: 'yangzhou', en: 'Yángzhōu (Yangchow)', lat: 32.39, lon: 119.42,
+    note: 'The salt-merchant city where the Grand Canal meets the Yangtze, long past its eighteenth-century wealth.'
+  },
+  {
+    id: 'zamboanga', en: 'Zamboanga', lat: 6.91, lon: 122.08,
+    note: 'The old Spanish fort at the tip of the Mindanao peninsula, and the seat of the Moro Province.'
+  },
+  {
+    id: 'zigong', en: 'Zìgòng (Tzukung)', lat: 29.34, lon: 104.78,
+    note: 'The salt wells that supplied wartime free China after the coastal salt was lost.'
+  },
+  {
+    id: 'oita', en: 'Ōita', lat: 33.24, lon: 131.61,
+    note: 'The hot-spring country of eastern Kyūshū, and a port facing the Inland Sea.'
+  },
+  {
+    id: 'omuta', en: 'Ōmuta', lat: 33.03, lon: 130.45,
+    note: 'The Miike coal mines: Mitsui’s largest pit, worked by Korean, Chinese and Allied prisoner labour.'
+  },
+  {
+    id: 'akita', en: 'Akita', lat: 39.72, lon: 140.1,
+    note: 'Rice, sake and the Kosaka copper mines behind it, on the Japan Sea coast.'
+  },
+  {
+    id: 'aleksandrovsk', en: 'Aleksandrovsk-Sakhalinsky', lat: 50.9, lon: 142.16,
+    note: 'The capital of Soviet northern Sakhalin, occupied by Japan 1920–25 in reprisal for Nikolaevsk.'
+  },
+  {
+    id: 'alorsetar', en: 'Alor Setar', lat: 6.12, lon: 100.37,
+    note: 'State capital, and one of the four states transferred to Thailand in 1943.'
+  },
+  {
+    id: 'amagasaki', en: 'Amagasaki', lat: 34.73, lon: 135.41, note: 'Hanshin industrial belt.'
+  },
+  {
+    id: 'angeles', en: 'Angeles (Clark Field)', lat: 15.15, lon: 120.59,
+    note: 'Clark Field, destroyed on the ground on 8 December 1941.'
+  },
+  {
+    id: 'aparri', en: 'Aparri', lat: 18.36, lon: 121.64,
+    note: 'The first Japanese landing in the Philippines, 10 December 1941.'
+  },
+  {
+    id: 'apia', en: 'Apia', lat: -13.83, lon: -171.77,
+    note: 'Optional, and off the present frame: a New Zealand mandate and an American garrison base.'
+  },
+  {
+    id: 'asahikawa', en: 'Asahikawa', lat: 43.77, lon: 142.36,
+    note: 'Northern Hokkaidō garrison town, home of the 7th Division.'
+  },
+  {
+    id: 'ayutthaya', en: 'Ayutthaya', lat: 14.35, lon: 100.58, note: 'The old Siamese capital.'
+  },
+  {
+    id: 'bacolod', en: 'Bacolod', lat: 10.67, lon: 122.95,
+    note: 'The sugar capital of Negros, and the centre of the plantation economy of the Visayas.'
+  },
+  {
+    id: 'bassein', en: 'Bassein (Pathein)', lat: 16.78, lon: 94.73,
+    note: 'The delta rice port west of Rangoon, and one of the outlets of the Irrawaddy crop.'
+  },
+  {
+    id: 'battambang', en: 'Battambang', lat: 13.1, lon: 103.2,
+    note: 'Capital of the province Thailand took in 1941 and the map already draws as ceded.'
+  },
+  {
+    id: 'bengkulu', en: 'Benkoelen (Bengkulu)', lat: -3.79, lon: 102.26,
+    note: 'Sukarno’s place of exile, 1938–42.'
+  },
+  {
+    id: 'betio', en: 'Betio (Tarawa)', lat: 1.36, lon: 172.92,
+    note: 'Already a battle marker; the settlement and the colony’s administrative centre.'
+  },
+  {
+    id: 'bhamo', en: 'Bhamo', lat: 24.26, lon: 97.23,
+    note: 'On the Burma Road and the Ledo Road’s junction with it.'
+  },
+  { id: 'bhopal', en: 'Bhopal', lat: 23.26, lon: 77.41, note: 'Princely state capital.' },
+  {
+    id: 'blagoveshchensk', en: 'Blagoveshchensk', lat: 50.28, lon: 127.54,
+    note: 'Faces Heihe across the Amur.'
+  },
+  {
+    id: 'broome', en: 'Broome', lat: -17.96, lon: 122.24,
+    note: 'The refugee air route out of Java, and the raid of 3 March 1942 that killed evacuees in the flying boats.'
+  },
+  {
+    id: 'buin', en: 'Buin (Bougainville)', lat: -6.74, lon: 155.72,
+    note: 'The airfield off which Yamamoto was shot down on 18 April 1943.'
+  },
+  {
+    id: 'benxi', en: 'Běnxī (Penhsihu)', lat: 41.29, lon: 123.77,
+    note: 'Iron and coal; the Penhsihu colliery explosion of 1942 killed over 1,500 miners, the worst in history.'
+  },
+  {
+    id: 'cabanatuan', en: 'Cabanatuan', lat: 15.49, lon: 120.97,
+    note: 'The largest American prisoner-of-war camp in the Pacific, and the raid that emptied it in January 1945.'
+  },
+  {
+    id: 'cagayandeoro', en: 'Cagayan de Misamis', lat: 8.48, lon: 124.65,
+    note: 'Where MacArthur was flown out of the Philippines in March 1942.'
+  },
+  {
+    id: 'camranh', en: 'Cam Ranh', lat: 11.92, lon: 109.16,
+    note: 'The anchorage where the invasion convoys for Malaya and the Indies assembled in December 1941.'
+  },
+  {
+    id: 'canberra', en: 'Canberra', lat: -35.28, lon: 149.13,
+    note: 'The capital of a belligerent the map already draws.'
+  },
+  {
+    id: 'capas', en: 'Capas (Camp O’Donnell)', lat: 15.33, lon: 120.59,
+    note: 'The end of the Bataan Death March, where thousands more died in the weeks that followed.'
+  },
+  {
+    id: 'changhua', en: 'Changhua (Shōka)', lat: 24.08, lon: 120.54,
+    note: 'On the Taiwan trunk railway at the foot of Baguashan, in the centre of the rice and sugar plain.'
+  },
+  {
+    id: 'chifeng', en: 'Chifeng (Ulanhad)', lat: 42.26, lon: 118.89,
+    note: 'The Mongol trade town in western Rehe, on the road from the Wall to the steppe.'
+  },
+  {
+    id: 'chinju', en: 'Chinju (Shinshū)', lat: 35.19, lon: 128.08,
+    note: 'Capital of South Kyŏngsang until 1925.'
+  },
+  {
+    id: 'chita', en: 'Chita', lat: 52.03, lon: 113.5,
+    note: 'Headquarters of the Trans-Baikal Front, and the capital of the Far Eastern Republic 1920–22.'
+  },
+  {
+    id: 'choibalsan', en: 'Choibalsan', lat: 48.07, lon: 114.54,
+    note: 'The Soviet–Mongolian supply base for Khalkhin Gol.'
+  },
+  {
+    id: 'quanzhou', en: 'Chüanchow (Quanzhou)', lat: 24.87, lon: 118.68,
+    note: 'The medieval port foreign traders knew as Zaiton, and the home district of much of the Chinese population of Southeast Asia.'
+  },
+  {
+    id: 'chonju', en: 'Chŏnju (Zenshū)', lat: 35.82, lon: 127.15,
+    note: 'Provincial capital missing from the layer.'
+  },
+  {
+    id: 'chunchon', en: 'Ch’unch’ŏn (Shunsen)', lat: 37.88, lon: 127.73,
+    note: 'Provincial capital missing from the layer.'
+  },
+  {
+    id: 'chongju', en: 'Ch’ŏngju (Seishū)', lat: 36.64, lon: 127.49,
+    note: 'Provincial capital missing from the layer.'
+  },
+  {
+    id: 'yapcolonia', en: 'Colonia (Yap)', lat: 9.51, lon: 138.13,
+    note: 'The administrative town of Yap, and the cable station that was argued over between Japan and the United States in the 1920s.'
+  },
+  { id: 'cuttack', en: 'Cuttack', lat: 20.46, lon: 85.88, note: 'Provincial capital.' },
+  {
+    id: 'dalat', en: 'Dalat', lat: 11.94, lon: 108.44,
+    note: 'The hill station and administrative retreat of French Indochina.'
+  },
+  {
+    id: 'denpasar', en: 'Denpasar (Bali)', lat: -8.65, lon: 115.22,
+    note: 'The southern Balinese court town, and where the Dutch conquest ended in the mass suicide of the royal house in 1906.'
+  },
+  {
+    id: 'digboi', en: 'Digboi', lat: 27.39, lon: 95.62,
+    note: 'India’s oilfield and refinery, and the fuel behind the Assam front.'
+  },
+  {
+    id: 'duolun', en: 'Dolonnor (Duolun)', lat: 42.19, lon: 116.47,
+    note: 'Taken in 1933 and a staging point for the push into Inner Mongolia.'
+  },
+  {
+    id: 'dublon', en: 'Dublon (Tonoas), Truk', lat: 7.36, lon: 151.87,
+    note: 'The naval town and headquarters of the Combined Fleet’s great anchorage.'
+  },
+  {
+    id: 'esutoru', en: 'Esutoru (Uglegorsk)', lat: 49.08, lon: 142.07,
+    note: 'Pulp and coal town, the largest settlement of northern Karafuto.'
+  },
+  { id: 'etajima', en: 'Etajima', lat: 34.23, lon: 132.46, note: 'The Imperial Naval Academy.' },
+  {
+    id: 'zhanjiang', en: 'Fort Bayard (Zhanjiang)', lat: 21.27, lon: 110.36,
+    note: 'The capital of the French leased territory the map already draws, and the smuggling channel into free China until the Japanese took it in February 1943.'
+  },
+  {
+    id: 'fukushima', en: 'Fukushima', lat: 37.76, lon: 140.47,
+    note: 'Silk-reeling and the orchards of the Fukushima basin, on the northern trunk railway.'
+  },
+  {
+    id: 'chichijima', en: 'Futami (Chichijima)', lat: 27.09, lon: 142.19,
+    note: 'The administrative centre of the Bonins and a fortified base; the Chichijima incident of 1944–45.'
+  },
+  {
+    id: 'fuxin', en: 'Fùxīn (Fuhsin)', lat: 42.02, lon: 121.67,
+    note: 'Open-cast coal worked largely by conscripted Chinese labour.'
+  },
+  {
+    id: 'gangtok', en: 'Gangtok', lat: 27.33, lon: 88.61,
+    note: 'Capital of a protectorate the map already draws.'
+  },
+  {
+    id: 'garapan', en: 'Garapan (Saipan)', lat: 15.21, lon: 145.72,
+    note: 'The largest Japanese town in Micronesia, about 15,000 people and the administrative and sugar capital of the Marianas, destroyed in the battle of June 1944. Saipan is a battle marker; the town is not on the layer.'
+  },
+  {
+    id: 'gyantse', en: 'Gyantse', lat: 28.95, lon: 89.6,
+    note: 'The British trade agency and garrison, the furthest permanent British presence in Tibet.'
+  },
+  {
+    id: 'ganzhou', en: 'Gànzhōu (Kanchow)', lat: 25.83, lon: 114.93,
+    note: 'Chiang Ching-kuo’s administration, 1939–45.'
+  },
+  {
+    id: 'haeju', en: 'Haeju (Kaishū)', lat: 38.04, lon: 125.71,
+    note: 'Provincial capital missing from the layer.'
+  },
+  {
+    id: 'haikou', en: 'Haikou (Kiungchow)', lat: 20.04, lon: 110.34,
+    note: 'Hainan was occupied in February 1939 and the map marks the landing; the island’s only real town is not on the layer.'
+  },
+  {
+    id: 'hailar', en: 'Hailar', lat: 49.2, lon: 119.7,
+    note: 'The Hulunbuir garrison and fortified zone facing Mongolia; the base for the Nomonhan fighting.'
+  },
+  {
+    id: 'hami', en: 'Hami (Kumul)', lat: 42.83, lon: 93.51,
+    note: 'The gate between Sinkiang and Kansu, and the terminus of the Soviet supply road into China.'
+  },
+  {
+    id: 'heihe', en: 'Heihe (Sakhalyan/Aigun)', lat: 50.25, lon: 127.53,
+    note: 'The Amur crossing facing Blagoveshchensk.'
+  },
+  {
+    id: 'hitachi', en: 'Hitachi', lat: 36.6, lon: 140.65,
+    note: 'Heavy electrical works; shelled from the sea in July 1945.'
+  },
+  {
+    id: 'hollandia', en: 'Hollandia (Jayapura)', lat: -2.53, lon: 140.72,
+    note: 'MacArthur’s landing of 22 April 1944, which leapfrogged the Japanese Eighteenth Army, and afterwards his headquarters.'
+  },
+  {
+    id: 'handan', en: 'Hándān', lat: 36.63, lon: 114.54,
+    note: 'A junction on the Beijing–Hankou railway in southern Hebei, in the country the base areas worked.'
+  },
+  {
+    id: 'hungnam', en: 'Hŭngnam (Konan)', lat: 39.83, lon: 127.62,
+    note: 'Noguchi Jun’s chemical combine, the largest industrial complex in the empire outside Japan, built on Korean and later forced labour.'
+  },
+  {
+    id: 'ise', en: 'Ise (Uji-Yamada)', lat: 34.49, lon: 136.71,
+    note: 'The Ise Grand Shrine, the ritual centre of the state cult.'
+  },
+  {
+    id: 'jaluit', en: 'Jaluit', lat: 5.92, lon: 169.64,
+    note: 'The administrative seat of the Marshalls.'
+  },
+  {
+    id: 'jambi', en: 'Jambi', lat: -1.61, lon: 103.61,
+    note: 'The Sumatran river port and oilfield south of Palembang.'
+  },
+  {
+    id: 'jolo', en: 'Jolo', lat: 6.05, lon: 121.0,
+    note: 'The Sulu sultanate\'s seat, and the ground of the longest resistance to American rule in the Philippines.'
+  },
+  {
+    id: 'kanchanaburi', en: 'Kanchanaburi', lat: 14.02, lon: 99.53,
+    note: 'The eastern end of the Burma–Siam railway, the bridge over the Khwae Yai, and the largest of the prisoner-of-war camps.'
+  },
+  {
+    id: 'kandy', en: 'Kandy', lat: 7.29, lon: 80.64,
+    note: 'South East Asia Command’s headquarters from April 1944 — Mountbatten’s seat and the place the Southeast Asian war was directed from.'
+  },
+  {
+    id: 'kangar', en: 'Kangar', lat: 6.44, lon: 100.2,
+    note: 'State capital, transferred to Thailand in 1943.'
+  },
+  {
+    id: 'kavieng', en: 'Kavieng', lat: -2.58, lon: 150.8,
+    note: 'With Rabaul, the northern anchor of the Bismarcks position.'
+  },
+  {
+    id: 'kendari', en: 'Kendari', lat: -3.97, lon: 122.51,
+    note: 'The airfield taken in January 1942 — the best in the Indies, and the base from which Java and Darwin were bombed.'
+  },
+  {
+    id: 'kengtung', en: 'Kengtung', lat: 21.3, lon: 99.6,
+    note: 'The capital of the trans-Salween Shan states the map already draws as Thai-administered.'
+  },
+  {
+    id: 'khotan', en: 'Khotan (Hotan)', lat: 37.11, lon: 79.93,
+    note: 'The jade and silk oasis on the southern rim of the Tarim, and a centre of the 1933 Turkic republic.'
+  },
+  {
+    id: 'kolonia', en: 'Kolonia (Ponape)', lat: 6.96, lon: 158.21,
+    note: 'The administrative town of Ponape, with a Japanese agricultural station and the ruins of Nan Madol beyond it.'
+  },
+  {
+    id: 'kongju', en: 'Kongju (Kōshū)', lat: 36.45, lon: 127.12,
+    note: 'Capital of South Ch’ungch’ŏng until 1932, when the seat moved to Taejŏn.'
+  },
+  {
+    id: 'kotabharu_c', en: 'Kota Bharu', lat: 6.13, lon: 102.24,
+    note: 'Already a battle marker for the first landing of the Pacific War; also a state capital, and one of the four states transferred to Thailand in 1943.'
+  },
+  {
+    id: 'kualalipis', en: 'Kuala Lipis', lat: 4.18, lon: 102.05,
+    note: 'State capital of Pahang until 1955.'
+  },
+  {
+    id: 'kualaterengganu', en: 'Kuala Terengganu', lat: 5.33, lon: 103.14,
+    note: 'State capital, transferred to Thailand in 1943.'
+  },
+  {
+    id: 'kuantan', en: 'Kuantan', lat: 3.81, lon: 103.33,
+    note: 'The landing of 8 December 1941, and the sea off it where Prince of Wales and Repulse were sunk on the 10th.'
+  },
+  {
+    id: 'kunsan', en: 'Kunsan (Gunzan)', lat: 35.98, lon: 126.72,
+    note: 'The rice port: the outlet through which the Chŏlla harvest left for Japan, and a heavily Japanese town.'
+  },
+  { id: 'kushiro', en: 'Kushiro', lat: 42.98, lon: 144.38, note: 'Eastern Hokkaidō coal port.' },
+  {
+    id: 'bandaaceh', en: 'Kutaraja (Banda Aceh)', lat: 5.55, lon: 95.32,
+    note: 'Residency capital at the northern tip of Sumatra.'
+  },
+  {
+    id: 'kyzyl', en: 'Kyzyl', lat: 51.72, lon: 94.44,
+    note: 'Capital of the Tuvan People’s Republic, which the map draws and which declared war on Germany in June 1941.'
+  },
+  {
+    id: 'labuan', en: 'Labuan', lat: 5.28, lon: 115.25,
+    note: 'A Straits Settlement off Borneo; the Australian landing of June 1945 and the war-crimes trials afterwards.'
+  },
+  {
+    id: 'lae', en: 'Lae', lat: -6.73, lon: 146.99,
+    note: 'Taken in March 1942, the Japanese base on the mainland, and retaken in September 1943.'
+  },
+  {
+    id: 'langson', en: 'Lang Son', lat: 21.85, lon: 106.76,
+    note: 'The frontier post attacked by the Japanese army on 22–25 September 1940, the opening of the Japanese presence in Indochina.'
+  },
+  {
+    id: 'ledo', en: 'Ledo', lat: 27.3, lon: 95.74,
+    note: 'The railhead where the Ledo Road began, the overland supply line built to replace the Burma Road.'
+  },
+  {
+    id: 'legazpi', en: 'Legazpi', lat: 13.14, lon: 123.73,
+    note: 'A December 1941 landing point.'
+  },
+  {
+    id: 'lingayen', en: 'Lingayen', lat: 16.02, lon: 120.23,
+    note: 'The gulf used for the Japanese landing of December 1941 and the American landing of January 1945.'
+  },
+  {
+    id: 'liaoyang', en: 'Liáoyáng', lat: 41.27, lon: 123.17,
+    note: 'The old capital of the Liao country and the field of the largest battle of 1904 before Mukden.'
+  },
+  {
+    id: 'lorengau', en: 'Lorengau (Manus)', lat: -2.02, lon: 147.27,
+    note: 'The Admiralties, taken in early 1944 and turned into the largest Allied base in the south-west Pacific.'
+  },
+  {
+    id: 'linfen', en: 'Línfén', lat: 36.09, lon: 111.52,
+    note: 'On the Fen river in southern Shanxi, taken in 1938 and held as a garrison town on the road south.'
+  },
+  {
+    id: 'laohekou', en: 'Lǎohékǒu (Laohokow)', lat: 32.39, lon: 111.67,
+    note: 'Fourteenth Air Force base and the object of the last Japanese offensive in China, 1945.'
+  },
+  {
+    id: 'manzhouli', en: 'Manchouli (Manzhouli)', lat: 49.6, lon: 117.45,
+    note: 'The rail frontier with the Soviet Union on the Chinese Eastern Railway.'
+  },
+  {
+    id: 'maoka', en: 'Maoka (Kholmsk)', lat: 47.06, lon: 142.05,
+    note: 'West-coast port; the Soviet landing of 20 August 1945 and the telephone operators’ suicides.'
+  },
+  {
+    id: 'masan', en: 'Masan', lat: 35.2, lon: 128.57,
+    note: 'A south-coast port opened to Japanese trade in 1899, and a naval anchorage in the Russo-Japanese War.'
+  },
+  {
+    id: 'matsue', en: 'Matsue', lat: 35.47, lon: 133.05,
+    note: 'The castle town on the Shinji lagoon, where Lafcadio Hearn taught in the 1890s.'
+  },
+  {
+    id: 'meiktila', en: 'Meiktila', lat: 20.88, lon: 95.86,
+    note: 'The battle of February–March 1945 that broke the Japanese army in Burma; the road and airfield hub behind Mandalay.'
+  },
+  {
+    id: 'mergui', en: 'Mergui (Myeik)', lat: 12.44, lon: 98.6,
+    note: 'The southernmost Burmese port, in the Tenasserim tin country and the archipelago of the Moken.'
+  },
+  {
+    id: 'miri', en: 'Miri', lat: 4.4, lon: 113.99,
+    note: 'The Sarawak oilfields and refinery, seized on 16 December 1941 — the first objective in Borneo.'
+  },
+  {
+    id: 'mito', en: 'Mito', lat: 36.37, lon: 140.47,
+    note: 'The seat of a senior Tokugawa house, and of the school of thought that supplied the slogans of the Restoration.'
+  },
+  {
+    id: 'miyazaki', en: 'Miyazaki', lat: 31.91, lon: 131.42,
+    note: 'The Hyūga coast of south-eastern Kyūshū, and the shrine the wartime state made much of as the site of the first emperor\'s accession.'
+  },
+  {
+    id: 'morotai', en: 'Morotai (Daruba)', lat: 2.05, lon: 128.32,
+    note: 'The September 1944 landing that gave the airfields for the return to the Philippines.'
+  },
+  {
+    id: 'bangka', en: 'Muntok (Bangka)', lat: -2.07, lon: 105.16,
+    note: 'The Bangka Island massacre of Australian nurses, 16 February 1942, and the tin islands.'
+  },
+  {
+    id: 'muroran', en: 'Muroran', lat: 42.32, lon: 140.97,
+    note: 'Steel and coal port; shelled by US battleships in July 1945.'
+  },
+  {
+    id: 'korat', en: 'Nakhon Ratchasima (Korat)', lat: 14.97, lon: 102.1,
+    note: 'The gateway to the Khorat plateau and the north-east.'
+  },
+  {
+    id: 'namdinh', en: 'Nam Dinh', lat: 20.42, lon: 106.17,
+    note: 'Textile mills, the largest industrial workforce in Tonkin.'
+  },
+  {
+    id: 'nara', en: 'Nara', lat: 34.69, lon: 135.81,
+    note: 'The 8th-century capital; spared the bombing and central to the state’s account of its own antiquity.'
+  },
+  {
+    id: 'noumea', en: 'Nouméa', lat: -22.28, lon: 166.46,
+    note: 'Optional, and off the present frame: Free French from September 1940 and the headquarters of the South Pacific Area.'
+  },
+  {
+    id: 'panjim', en: 'Nova Goa (Panjim)', lat: 15.5, lon: 73.83,
+    note: 'Capital of Portuguese India, drawn on the map and neutral throughout — and the scene of the March 1943 Operation Creek raid on German ships in Mormugao harbour.'
+  },
+  {
+    id: 'olongapo', en: 'Olongapo (Subic Bay)', lat: 14.83, lon: 120.28,
+    note: 'The American naval station on Subic Bay.'
+  },
+  {
+    id: 'pattani', en: 'Pattani', lat: 6.87, lon: 101.25,
+    note: 'A landing beach of 8 December 1941.'
+  },
+  {
+    id: 'pegu', en: 'Pegu (Bago)', lat: 17.34, lon: 96.48,
+    note: 'The old Mon capital north-east of Rangoon, and the junction on the railway to Mandalay.'
+  },
+  {
+    id: 'pekanbaru', en: 'Pekanbaru', lat: 0.51, lon: 101.45,
+    note: 'The Sumatra railway, built 1943–45 by prisoner and rōmusha labour and finished on the day of the surrender.'
+  },
+  {
+    id: 'petropavlovsk', en: 'Petropavlovsk-Kamchatsky', lat: 53.02, lon: 158.65,
+    note: 'The staging point for the Soviet seizure of the Kuriles in August 1945.'
+  },
+  {
+    id: 'phuket', en: 'Phuket', lat: 7.88, lon: 98.39,
+    note: 'Tin, and the Andaman coast the map already gives Thailand.'
+  },
+  {
+    id: 'pingfang', en: 'Pingfang', lat: 45.61, lon: 126.63,
+    note: 'Unit 731. A village rather than a city, but the site of the biological-warfare programme and its human experiments.'
+  },
+  {
+    id: 'pingtung', en: 'Pingtung (Heitō)', lat: 22.68, lon: 120.49,
+    note: 'Army airfield and sugar town.'
+  },
+  {
+    id: 'pondicherrycity', en: 'Pondicherry', lat: 11.93, lon: 79.83,
+    note: 'Capital of French India, which declared for the Free French in September 1940.'
+  },
+  {
+    id: 'portblair', en: 'Port Blair', lat: 11.62, lon: 92.73,
+    note: 'The only Indian territory Japan occupied, from March 1942; nominally handed to the Provisional Government of Free India in 1943, and the site of the penal settlement.'
+  },
+  {
+    id: 'prachuap', en: 'Prachuap Khiri Khan', lat: 11.81, lon: 99.8,
+    note: 'A landing point of 8 December 1941 and the sharpest Thai resistance.'
+  },
+  {
+    id: 'prome', en: 'Prome (Pyay)', lat: 18.82, lon: 95.22,
+    note: 'The Irrawaddy river port on the road north, taken in the retreat of 1942.'
+  },
+  {
+    id: 'punakha', en: 'Punakha', lat: 27.59, lon: 89.88,
+    note: 'The winter capital and seat of government of a state the map already draws.'
+  },
+  {
+    id: 'quzhou', en: 'Qúzhōu (Chuchow)', lat: 28.94, lon: 118.87,
+    note: 'A Doolittle raid recovery airfield, and the reason for the Chekiang–Kiangsi campaign of 1942 and the biological attacks that accompanied it.'
+  },
+  {
+    id: 'saga', en: 'Saga', lat: 33.26, lon: 130.3,
+    note: 'The old Hizen domain, an early adopter of Western guns and shipbuilding, and the porcelain kilns at Arita behind it.'
+  },
+  {
+    id: 'sanya', en: 'Samah (Sanya)', lat: 18.25, lon: 109.51,
+    note: 'The naval base and iron-ore port at the southern tip of Hainan, worked by prisoner and conscript labour.'
+  },
+  { id: 'samarinda', en: 'Samarinda', lat: -0.5, lon: 117.15, note: 'The Kutai oilfields.' },
+  {
+    id: 'sandakan', en: 'Sandakan', lat: 5.84, lon: 118.12,
+    note: 'The capital of North Borneo until 1946, the prisoner-of-war camp, and the starting point of the death marches to Ranau in 1945, which six men survived.'
+  },
+  {
+    id: 'savannakhet', en: 'Savannakhet', lat: 16.56, lon: 104.75,
+    note: 'A Mekong town on the road across Laos to Vietnam, and the crossing to Thailand.'
+  },
+  { id: 'seremban', en: 'Seremban', lat: 2.73, lon: 101.94, note: 'State capital.' },
+  { id: 'seria', en: 'Seria', lat: 4.61, lon: 114.33, note: 'Brunei’s oilfield.' },
+  {
+    id: 'shikuka', en: 'Shikuka (Poronaysk)', lat: 49.22, lon: 143.1,
+    note: 'The northernmost Japanese town on Sakhalin, on the frontier with the Soviet half.'
+  },
+  {
+    id: 'shillong', en: 'Shillong', lat: 25.58, lon: 91.89,
+    note: 'Provincial capital, and the rear base of the Assam front.'
+  },
+  {
+    id: 'songkhla', en: 'Songkhla', lat: 7.2, lon: 100.6,
+    note: 'One of the main Japanese landing beaches on the morning of 8 December 1941, and the road to Malaya.'
+  },
+  {
+    id: 'suifenhe', en: 'Suifenho (Pogranichnaya)', lat: 44.4, lon: 131.15,
+    note: 'The eastern rail crossing to Vladivostok, and a fortified belt.'
+  },
+  {
+    id: 'suwon', en: 'Suwŏn (Suigen)', lat: 37.26, lon: 127.01,
+    note: 'The colonial agricultural experiment station.'
+  },
+  {
+    id: 'siping', en: 'Sìpíng (Ssupingkai)', lat: 43.17, lon: 124.35,
+    note: 'Rail junction on the Hsinking–Mukden line.'
+  },
+  {
+    id: 'songjin', en: 'Sŏngjin (Jōshin)', lat: 40.67, lon: 129.2,
+    note: 'Magnesite and steel; one of the northern industrial ports.'
+  },
+  {
+    id: 'tacloban', en: 'Tacloban', lat: 11.24, lon: 125.0,
+    note: 'MacArthur came ashore here on 20 October 1944; the seat of the restored Commonwealth government until Manila was retaken.'
+  },
+  {
+    id: 'taiping', en: 'Taiping', lat: 4.85, lon: 100.74,
+    note: 'The Perak tin town where the Larut wars brought in British rule in 1874, and the wettest place in Malaya.'
+  },
+  {
+    id: 'taitung', en: 'Taitung (Taitō)', lat: 22.76, lon: 121.14,
+    note: 'The last of the eight Taiwanese prefectural seats missing from the layer.'
+  },
+  {
+    id: 'taunggyi', en: 'Taunggyi', lat: 20.79, lon: 97.04,
+    note: 'The hill station the Shan States were administered from.'
+  },
+  {
+    id: 'tavoy', en: 'Tavoy (Dawei)', lat: 14.08, lon: 98.19,
+    note: 'Airfields used against Rangoon in 1942.'
+  },
+  {
+    id: 'tawau', en: 'Tawau', lat: 4.25, lon: 117.89,
+    note: 'The company plantation town in the south-east of North Borneo, growing tobacco and hemp.'
+  },
+  {
+    id: 'ternate', en: 'Ternate', lat: 0.79, lon: 127.38,
+    note: 'The old spice sultanate and residency seat.'
+  },
+  {
+    id: 'thanbyuzayat', en: 'Thanbyuzayat', lat: 15.97, lon: 97.73,
+    note: 'The western terminus of the Burma–Siam railway and its cemetery.'
+  },
+  {
+    id: 'cilacap', en: 'Tjilatjap (Cilacap)', lat: -7.73, lon: 109.01,
+    note: 'Java’s only south-coast port and the evacuation channel in March 1942; the ships leaving it were hunted down.'
+  },
+  {
+    id: 'tottori', en: 'Tottori', lat: 35.5, lon: 134.24,
+    note: 'Sand dunes, pears and a small castle town on the Japan Sea.'
+  },
+  {
+    id: 'toungoo', en: 'Toungoo', lat: 18.94, lon: 96.43,
+    note: 'Chennault’s AVG trained here; taken in the 1942 advance.'
+  },
+  {
+    id: 'danang', en: 'Tourane (Da Nang)', lat: 16.07, lon: 108.22,
+    note: 'The port the French took in 1858 to begin the conquest of Vietnam, and the deep-water anchorage of Annam.'
+  },
+  {
+    id: 'townsville', en: 'Townsville', lat: -19.26, lon: 146.82,
+    note: 'The forward base for the New Guinea campaign, and bombed in July 1942.'
+  },
+  {
+    id: 'tsu', en: 'Tsu', lat: 34.72, lon: 136.51,
+    note: 'The seat of Mie, on the bay road to the Ise shrines.'
+  },
+  {
+    id: 'tulagitown', en: 'Tulagi', lat: -9.1, lon: 160.15,
+    note: 'The capital of the protectorate, taken in May 1942 and the first objective of the Guadalcanal landings.'
+  },
+  {
+    id: 'tongzhou', en: 'Tungchow (Tongzhou)', lat: 39.91, lon: 116.66,
+    note: 'The Tungchow Mutiny of 29 July 1937, in which the East Hopei puppet garrison turned on the Japanese and killed most of the Japanese and Korean residents; used afterwards to justify escalation.'
+  },
+  {
+    id: 'tonghua', en: 'Tōnghuà', lat: 41.73, lon: 125.94,
+    note: 'Manchukuo’s final capital in August 1945, and the redoubt planned for the Kwantung Army’s last stand.'
+  },
+  {
+    id: 'ube', en: 'Ube', lat: 33.95, lon: 131.25,
+    note: 'Coal and chemicals; undersea pits worked by conscripted Korean labour.'
+  },
+  {
+    id: 'urawa', en: 'Urawa', lat: 35.86, lon: 139.65,
+    note: 'A commuter town on the Nakasendō north of Tokyo, and the seat of Saitama.'
+  },
+  {
+    id: 'victoriapoint', en: 'Victoria Point (Kawthaung)', lat: 9.98, lon: 98.55,
+    note: 'The southernmost point of Burma, taken on 15 December 1941 to cut the air-reinforcement route to Singapore.'
+  },
+  { id: 'vigan', en: 'Vigan', lat: 17.57, lon: 120.39, note: 'A December 1941 landing point.' },
+  { id: 'vinh', en: 'Vinh', lat: 18.68, lon: 105.68, note: 'The Nghe-Tinh soviets of 1930–31.' },
+  {
+    id: 'ussuriysk', en: 'Voroshilov (Ussuriysk/Nikolsk)', lat: 43.8, lon: 131.95,
+    note: 'The rail junction behind Vladivostok and the Soviet Far Eastern army’s main base.'
+  },
+  {
+    id: 'wewak', en: 'Wewak', lat: -3.55, lon: 143.63,
+    note: 'The Japanese Eighteenth Army’s main base, wrecked from the air in August 1943 and then bypassed.'
+  },
+  {
+    id: 'xiangyang', en: 'Xiāngyáng (Siangyang)', lat: 32.01, lon: 112.12,
+    note: 'The double city on the Han river, the classic gate between the north China plain and the middle Yangtze.'
+  },
+  {
+    id: 'yamagata', en: 'Yamagata', lat: 38.24, lon: 140.36,
+    note: 'Safflower and silk in the Mogami basin, behind the Ōu mountains.'
+  },
+  {
+    id: 'yamaguchi', en: 'Yamaguchi', lat: 34.19, lon: 131.47,
+    note: 'The seat of the old Chōshū domain, which supplied more of the Meiji leadership than anywhere else.'
+  },
+  {
+    id: 'nauru', en: 'Yaren (Nauru)', lat: -0.55, lon: 166.92,
+    note: 'Phosphate; occupied in August 1942, bypassed and starved, and most of the islanders deported to Truk.'
+  },
+  {
+    id: 'yenangyaung', en: 'Yenangyaung', lat: 20.46, lon: 94.87,
+    note: 'The Irrawaddy oilfields — a principal reason for the invasion of Burma, and destroyed by the retreating British in April 1942.'
+  },
+  {
+    id: 'yilan', en: 'Yilan (Giran)', lat: 24.76, lon: 121.75,
+    note: 'The rice plain behind the north-east coast of Taiwan, cut off from Taipei by the mountains until the railway.'
+  },
+  {
+    id: 'anyang', en: 'Ānyáng (Changteh)', lat: 36.1, lon: 114.39,
+    note: 'The last Shang capital, excavated from 1928 — the dig that founded modern Chinese archaeology.'
+  },
+  {
+    id: 'enshi', en: 'Ēnshī (Enshih)', lat: 30.3, lon: 109.49,
+    note: 'Hubei’s wartime provincial capital after the loss of Wuchang.'
+  },
+  {
+    id: 'ominato', en: 'Ōminato', lat: 41.29, lon: 141.12,
+    note: 'The northern naval district guarding the Tsugaru Strait.'
+  },
+  {
+    id: 'otomari', en: 'Ōtomari (Korsakov)', lat: 46.63, lon: 142.78,
+    note: 'Karafuto’s ferry port to Hokkaidō.'
+  },
+  {
+    id: 'otsu', en: 'Ōtsu', lat: 35.02, lon: 135.85,
+    note: 'On Lake Biwa at the head of the Tōkaidō, where a policeman wounded the Russian crown prince in 1891.'
+  },
+  {
+    id: 'komsomolsk', en: 'Komsomolsk-on-Amur', lat: 50.55, lon: 137.01,
+    note: 'Built from 1932 as the Soviet Far East’s arms and aircraft city, out of range of Japanese attack.'
+  },
+  {
+    id: 'quezoncity', en: 'Quezon City', lat: 14.68, lon: 121.04,
+    note: 'Designated the new national capital in 1939.'
+  },
+  {
+    id: 'beihai', en: 'Pakhoi (Beihai)', lat: 21.48, lon: 109.12,
+    note: 'The Gulf of Tonkin treaty port opened in 1876, the outlet for Guangxi before the French built the railway from Haiphong, and occupied in 1940.'
   },
 ];
 

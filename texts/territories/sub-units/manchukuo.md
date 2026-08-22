@@ -12,7 +12,9 @@
 > Hinggan north, south, east and west. Je Hol is Rehe, taken from the
 > Republic in 1933 — which is why this set belongs to the 1942 map alone: on
 > the 1930 map Rehe is a Chinese province standing outside Manchuria, and
-> these provincial boundaries did not exist.
+> these provincial boundaries did not exist. Manchukuo went on subdividing
+> after this sheet — sixteen provinces by 1937 and nineteen by 1941 — so what
+> is drawn is the scheme of 1935, not of the map's own date.
 
 ## Hsing An Peh
 

@@ -72,8 +72,8 @@ them. Japan had the largest foreign community in the city.
 
 ## tianjin
 
-The treaty port for Beijing, carved into eight foreign concessions including a
-Japanese one. The Tianjin Convention of 1885 regulated Chinese and Japanese
+The treaty port for Beijing, carved into nine foreign concessions at their
+greatest extent, a Japanese one among them. The Tianjin Convention of 1885 regulated Chinese and Japanese
 troops in Korea, and broke down in 1894.
 
 ## guangzhou

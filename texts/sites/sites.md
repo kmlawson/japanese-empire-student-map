@@ -187,7 +187,7 @@ that opened eight years of full-scale war in China.
 
 ## tianjin
 
-The treaty port for Beijing, carved into eight foreign concessions including a Japanese one. The Tianjin Convention of 1885 regulated Chinese and Japanese troops in Korea, and broke down in 1894; the Tanggu Truce of May 1933, signed at its port, gave north China a demilitarised zone that Japan spent the next four years pushing into.
+The treaty port for Beijing, carved into nine foreign concessions at their greatest extent, a Japanese one among them. The Tianjin Convention of 1885 regulated Chinese and Japanese troops in Korea, and broke down in 1894; the Tanggu Truce of May 1933, signed at its port, gave north China a demilitarised zone that Japan spent the next four years pushing into.
 
 ## kalgan
 

@@ -731,3 +731,904 @@ Tianjin's port at the mouth of the Hai. The truce signed here in May 1933 ended
 the fighting after Rehe and gave north China a demilitarised zone, which Japan
 spent the next four years pushing into.
 
+# The rest of the gazetteer
+
+> Every remaining city the map draws a dot for. One sentence each: what the
+> place was for, or what happened there.
+
+## sydney
+
+The midget submarine attack of 31 May 1942.
+
+## brisbane
+
+MacArthur’s General Headquarters, South West Pacific Area, 1942–44.
+
+## kowloon
+
+The mainland half of the city, and where the December 1941 fighting was decided.
+
+## hongkong
+
+The largest British city in East Asia and the busiest port on the China coast, attacked on 8 December 1941 and surrendered on Christmas Day. The territory is already drawn; the city is not on the layer at all.
+
+## baroda
+
+Princely state capital.
+
+## chiba
+
+The bay city east of Tokyo, with the army's railway and engineer schools and, by the war, steelworks on the reclaimed shore.
+
+## cholon
+
+Saigon’s Chinese twin city, counted separately in the colonial censuses and together with Saigon the largest urban area in Indochina.
+
+## changde
+
+The battle of November–December 1943, and one of the confirmed targets of Unit 731’s plague attacks in 1941.
+
+## fukui
+
+A textile town on the Japan Sea side, known for habutae silk.
+
+## gifu
+
+Paper lanterns, umbrellas and cormorant fishing on the Nagara, and an aircraft plant by the war.
+
+## gwalior
+
+Princely state capital.
+
+## hamamatsu
+
+Aircraft and instrument industry; bombed and shelled from the sea in 1945.
+
+## imphalcity
+
+Already a battle marker; also the capital of Manipur state and the town the 1944 fighting was about.
+
+## indore
+
+Princely state capital.
+
+## jamshedpur
+
+Tata Iron and Steel: the industrial base of the Indian war effort and the largest steelworks in the British Empire.
+
+## jodhpur
+
+Princely state capital.
+
+## kabul
+
+Capital of the one independent state on the map’s western edge, and a centre of Axis and Allied intrigue over the frontier.
+
+## kathmandu
+
+The capital of an independent state the map already draws, and the source of the Gurkha regiments.
+
+## kawasaki
+
+Keihin industrial belt, c.300,000 by 1940, heavily firebombed.
+
+## kokura
+
+Primary target for the second atomic bomb, 9 Aug 1945; cloud cover diverted the mission to Nagasaki. Arsenal city.
+
+## kochi
+
+The old Tosa domain on the Pacific coast of Shikoku, and the home of much of the Meiji Restoration's leadership.
+
+## kofu
+
+The Kōfu basin: vines, orchards and the silk that went out over the pass to Yokohama.
+
+## liuzhou
+
+A principal Fourteenth Air Force base, and with Kweilin the objective of the Ichi-gō offensive of 1944.
+
+## luzhou
+
+The Yangtze port below Chongqing where the Tuo river comes in, and a salt and sugar market.
+
+## macaucity
+
+Neutral Portuguese territory throughout the war; its population several times over as refugees came in from Hong Kong and Canton.
+
+## maebashi
+
+The silk-reeling town of Gunma, at the centre of the trade that paid for Japan's industrialisation.
+
+## moji
+
+The Kanmon Strait coaling and transhipment port; the embarkation point for the continent.
+
+## morioka
+
+The seat of northern Iwate, and iron-casting since the Nanbu domain.
+
+## nagano
+
+The temple town of Zenkōji, and the silk country of the Shinano valleys.
+
+## nanchong
+
+A silk town on the Jialing north of Chongqing, in the Free China interior.
+
+## nantong
+
+Zhang Jian's cotton mills on the north bank of the Yangtze, the first modern industrial town founded by a Chinese reformer.
+
+## otaru
+
+Hokkaidō’s main port and the terminal for the Karafuto and Japan Sea trade.
+
+## patna
+
+Provincial capital.
+
+## sakai
+
+Historic port and Osaka industrial suburb.
+
+## shizuoka
+
+Tea and mandarins, and the port of Shimizu that shipped both.
+
+## shaoxing
+
+Rice wine, and the town Lu Xun came from; taken in 1941.
+
+## srinagar
+
+The largest princely state by area; its summer capital.
+
+## takamatsu
+
+The castle port of Shikoku facing the Inland Sea, and the ferry crossing to Honshū.
+
+## thonburi
+
+Bangkok’s twin across the river, a separate province and separately enumerated until 1971.
+
+## tokushima
+
+Indigo, the crop that made the old Awa domain rich, on the Shikoku side of the Naruto strait.
+
+## toyama
+
+The 1–2 August 1945 firebombing destroyed about 99% of the built-up area, the highest destruction rate of any Japanese city.
+
+## toyohashi
+
+A garrison and silk town on the Tōkaidō between Nagoya and Shizuoka.
+
+## utsunomiya
+
+The garrison town north of Tokyo on the road to Nikkō.
+
+## wakayama
+
+The old Kii domain south of Osaka, with cotton mills and the mikan orchards behind it.
+
+## yawata
+
+Imperial Steel Works, the centre of Japanese heavy industry, and the target of the first B-29 raid on the home islands, 15 June 1944.
+
+## yangzhou
+
+The salt-merchant city where the Grand Canal meets the Yangtze, long past its eighteenth-century wealth.
+
+## zamboanga
+
+The old Spanish fort at the tip of the Mindanao peninsula, and the seat of the Moro Province.
+
+## zigong
+
+The salt wells that supplied wartime free China after the coastal salt was lost.
+
+## oita
+
+The hot-spring country of eastern Kyūshū, and a port facing the Inland Sea.
+
+## omuta
+
+The Miike coal mines: Mitsui’s largest pit, worked by Korean, Chinese and Allied prisoner labour.
+
+## akita
+
+Rice, sake and the Kosaka copper mines behind it, on the Japan Sea coast.
+
+## aleksandrovsk
+
+The capital of Soviet northern Sakhalin, occupied by Japan 1920–25 in reprisal for Nikolaevsk.
+
+## alorsetar
+
+State capital, and one of the four states transferred to Thailand in 1943.
+
+## amagasaki
+
+Hanshin industrial belt.
+
+## angeles
+
+Clark Field, destroyed on the ground on 8 December 1941.
+
+## aparri
+
+The first Japanese landing in the Philippines, 10 December 1941.
+
+## apia
+
+Optional, and off the present frame: a New Zealand mandate and an American garrison base.
+
+## asahikawa
+
+Northern Hokkaidō garrison town, home of the 7th Division.
+
+## ayutthaya
+
+The old Siamese capital.
+
+## bacolod
+
+The sugar capital of Negros, and the centre of the plantation economy of the Visayas.
+
+## bassein
+
+The delta rice port west of Rangoon, and one of the outlets of the Irrawaddy crop.
+
+## battambang
+
+Capital of the province Thailand took in 1941 and the map already draws as ceded.
+
+## bengkulu
+
+Sukarno’s place of exile, 1938–42.
+
+## betio
+
+Already a battle marker; the settlement and the colony’s administrative centre.
+
+## bhamo
+
+On the Burma Road and the Ledo Road’s junction with it.
+
+## bhopal
+
+Princely state capital.
+
+## blagoveshchensk
+
+Faces Heihe across the Amur.
+
+## broome
+
+The refugee air route out of Java, and the raid of 3 March 1942 that killed evacuees in the flying boats.
+
+## buin
+
+The airfield off which Yamamoto was shot down on 18 April 1943.
+
+## benxi
+
+Iron and coal; the Penhsihu colliery explosion of 1942 killed over 1,500 miners, the worst in history.
+
+## cabanatuan
+
+The largest American prisoner-of-war camp in the Pacific, and the raid that emptied it in January 1945.
+
+## cagayandeoro
+
+Where MacArthur was flown out of the Philippines in March 1942.
+
+## camranh
+
+The anchorage where the invasion convoys for Malaya and the Indies assembled in December 1941.
+
+## canberra
+
+The capital of a belligerent the map already draws.
+
+## capas
+
+The end of the Bataan Death March, where thousands more died in the weeks that followed.
+
+## changhua
+
+On the Taiwan trunk railway at the foot of Baguashan, in the centre of the rice and sugar plain.
+
+## chifeng
+
+The Mongol trade town in western Rehe, on the road from the Wall to the steppe.
+
+## chinju
+
+Capital of South Kyŏngsang until 1925.
+
+## chita
+
+Headquarters of the Trans-Baikal Front, and the capital of the Far Eastern Republic 1920–22.
+
+## choibalsan
+
+The Soviet–Mongolian supply base for Khalkhin Gol.
+
+## quanzhou
+
+The medieval port foreign traders knew as Zaiton, and the home district of much of the Chinese population of Southeast Asia.
+
+## chonju
+
+Provincial capital missing from the layer.
+
+## chunchon
+
+Provincial capital missing from the layer.
+
+## chongju
+
+Provincial capital missing from the layer.
+
+## yapcolonia
+
+The administrative town of Yap, and the cable station that was argued over between Japan and the United States in the 1920s.
+
+## cuttack
+
+Provincial capital.
+
+## dalat
+
+The hill station and administrative retreat of French Indochina.
+
+## denpasar
+
+The southern Balinese court town, and where the Dutch conquest ended in the mass suicide of the royal house in 1906.
+
+## digboi
+
+India’s oilfield and refinery, and the fuel behind the Assam front.
+
+## duolun
+
+Taken in 1933 and a staging point for the push into Inner Mongolia.
+
+## dublon
+
+The naval town and headquarters of the Combined Fleet’s great anchorage.
+
+## esutoru
+
+Pulp and coal town, the largest settlement of northern Karafuto.
+
+## etajima
+
+The Imperial Naval Academy.
+
+## zhanjiang
+
+The capital of the French leased territory the map already draws, and the smuggling channel into free China until the Japanese took it in February 1943.
+
+## fukushima
+
+Silk-reeling and the orchards of the Fukushima basin, on the northern trunk railway.
+
+## chichijima
+
+The administrative centre of the Bonins and a fortified base; the Chichijima incident of 1944–45.
+
+## fuxin
+
+Open-cast coal worked largely by conscripted Chinese labour.
+
+## gangtok
+
+Capital of a protectorate the map already draws.
+
+## garapan
+
+The largest Japanese town in Micronesia, about 15,000 people and the administrative and sugar capital of the Marianas, destroyed in the battle of June 1944. Saipan is a battle marker; the town is not on the layer.
+
+## gyantse
+
+The British trade agency and garrison, the furthest permanent British presence in Tibet.
+
+## ganzhou
+
+Chiang Ching-kuo’s administration, 1939–45.
+
+## haeju
+
+Provincial capital missing from the layer.
+
+## haikou
+
+Hainan was occupied in February 1939 and the map marks the landing; the island’s only real town is not on the layer.
+
+## hailar
+
+The Hulunbuir garrison and fortified zone facing Mongolia; the base for the Nomonhan fighting.
+
+## hami
+
+The gate between Sinkiang and Kansu, and the terminus of the Soviet supply road into China.
+
+## heihe
+
+The Amur crossing facing Blagoveshchensk.
+
+## hitachi
+
+Heavy electrical works; shelled from the sea in July 1945.
+
+## hollandia
+
+MacArthur’s landing of 22 April 1944, which leapfrogged the Japanese Eighteenth Army, and afterwards his headquarters.
+
+## handan
+
+A junction on the Beijing–Hankou railway in southern Hebei, in the country the base areas worked.
+
+## hungnam
+
+Noguchi Jun’s chemical combine, the largest industrial complex in the empire outside Japan, built on Korean and later forced labour.
+
+## ise
+
+The Ise Grand Shrine, the ritual centre of the state cult.
+
+## jaluit
+
+The administrative seat of the Marshalls.
+
+## jambi
+
+The Sumatran river port and oilfield south of Palembang.
+
+## jolo
+
+The Sulu sultanate's seat, and the ground of the longest resistance to American rule in the Philippines.
+
+## kanchanaburi
+
+The eastern end of the Burma–Siam railway, the bridge over the Khwae Yai, and the largest of the prisoner-of-war camps.
+
+## kandy
+
+South East Asia Command’s headquarters from April 1944 — Mountbatten’s seat and the place the Southeast Asian war was directed from.
+
+## kangar
+
+State capital, transferred to Thailand in 1943.
+
+## kavieng
+
+With Rabaul, the northern anchor of the Bismarcks position.
+
+## kendari
+
+The airfield taken in January 1942 — the best in the Indies, and the base from which Java and Darwin were bombed.
+
+## kengtung
+
+The capital of the trans-Salween Shan states the map already draws as Thai-administered.
+
+## khotan
+
+The jade and silk oasis on the southern rim of the Tarim, and a centre of the 1933 Turkic republic.
+
+## kolonia
+
+The administrative town of Ponape, with a Japanese agricultural station and the ruins of Nan Madol beyond it.
+
+## kongju
+
+Capital of South Ch’ungch’ŏng until 1932, when the seat moved to Taejŏn.
+
+## kotabharu_c
+
+Already a battle marker for the first landing of the Pacific War; also a state capital, and one of the four states transferred to Thailand in 1943.
+
+## kualalipis
+
+State capital of Pahang until 1955.
+
+## kualaterengganu
+
+State capital, transferred to Thailand in 1943.
+
+## kuantan
+
+The landing of 8 December 1941, and the sea off it where Prince of Wales and Repulse were sunk on the 10th.
+
+## kunsan
+
+The rice port: the outlet through which the Chŏlla harvest left for Japan, and a heavily Japanese town.
+
+## kushiro
+
+Eastern Hokkaidō coal port.
+
+## bandaaceh
+
+Residency capital at the northern tip of Sumatra.
+
+## kyzyl
+
+Capital of the Tuvan People’s Republic, which the map draws and which declared war on Germany in June 1941.
+
+## labuan
+
+A Straits Settlement off Borneo; the Australian landing of June 1945 and the war-crimes trials afterwards.
+
+## lae
+
+Taken in March 1942, the Japanese base on the mainland, and retaken in September 1943.
+
+## langson
+
+The frontier post attacked by the Japanese army on 22–25 September 1940, the opening of the Japanese presence in Indochina.
+
+## ledo
+
+The railhead where the Ledo Road began, the overland supply line built to replace the Burma Road.
+
+## legazpi
+
+A December 1941 landing point.
+
+## lingayen
+
+The gulf used for the Japanese landing of December 1941 and the American landing of January 1945.
+
+## liaoyang
+
+The old capital of the Liao country and the field of the largest battle of 1904 before Mukden.
+
+## lorengau
+
+The Admiralties, taken in early 1944 and turned into the largest Allied base in the south-west Pacific.
+
+## linfen
+
+On the Fen river in southern Shanxi, taken in 1938 and held as a garrison town on the road south.
+
+## laohekou
+
+Fourteenth Air Force base and the object of the last Japanese offensive in China, 1945.
+
+## manzhouli
+
+The rail frontier with the Soviet Union on the Chinese Eastern Railway.
+
+## maoka
+
+West-coast port; the Soviet landing of 20 August 1945 and the telephone operators’ suicides.
+
+## masan
+
+A south-coast port opened to Japanese trade in 1899, and a naval anchorage in the Russo-Japanese War.
+
+## matsue
+
+The castle town on the Shinji lagoon, where Lafcadio Hearn taught in the 1890s.
+
+## meiktila
+
+The battle of February–March 1945 that broke the Japanese army in Burma; the road and airfield hub behind Mandalay.
+
+## mergui
+
+The southernmost Burmese port, in the Tenasserim tin country and the archipelago of the Moken.
+
+## miri
+
+The Sarawak oilfields and refinery, seized on 16 December 1941 — the first objective in Borneo.
+
+## mito
+
+The seat of a senior Tokugawa house, and of the school of thought that supplied the slogans of the Restoration.
+
+## miyazaki
+
+The Hyūga coast of south-eastern Kyūshū, and the shrine the wartime state made much of as the site of the first emperor's accession.
+
+## morotai
+
+The September 1944 landing that gave the airfields for the return to the Philippines.
+
+## bangka
+
+The Bangka Island massacre of Australian nurses, 16 February 1942, and the tin islands.
+
+## muroran
+
+Steel and coal port; shelled by US battleships in July 1945.
+
+## korat
+
+The gateway to the Khorat plateau and the north-east.
+
+## namdinh
+
+Textile mills, the largest industrial workforce in Tonkin.
+
+## nara
+
+The 8th-century capital; spared the bombing and central to the state’s account of its own antiquity.
+
+## noumea
+
+Optional, and off the present frame: Free French from September 1940 and the headquarters of the South Pacific Area.
+
+## panjim
+
+Capital of Portuguese India, drawn on the map and neutral throughout — and the scene of the March 1943 Operation Creek raid on German ships in Mormugao harbour.
+
+## olongapo
+
+The American naval station on Subic Bay.
+
+## pattani
+
+A landing beach of 8 December 1941.
+
+## pegu
+
+The old Mon capital north-east of Rangoon, and the junction on the railway to Mandalay.
+
+## pekanbaru
+
+The Sumatra railway, built 1943–45 by prisoner and rōmusha labour and finished on the day of the surrender.
+
+## petropavlovsk
+
+The staging point for the Soviet seizure of the Kuriles in August 1945.
+
+## phuket
+
+Tin, and the Andaman coast the map already gives Thailand.
+
+## pingfang
+
+Unit 731. A village rather than a city, but the site of the biological-warfare programme and its human experiments.
+
+## pingtung
+
+Army airfield and sugar town.
+
+## pondicherrycity
+
+Capital of French India, which declared for the Free French in September 1940.
+
+## portblair
+
+The only Indian territory Japan occupied, from March 1942; nominally handed to the Provisional Government of Free India in 1943, and the site of the penal settlement.
+
+## prachuap
+
+A landing point of 8 December 1941 and the sharpest Thai resistance.
+
+## prome
+
+The Irrawaddy river port on the road north, taken in the retreat of 1942.
+
+## punakha
+
+The winter capital and seat of government of a state the map already draws.
+
+## quzhou
+
+A Doolittle raid recovery airfield, and the reason for the Chekiang–Kiangsi campaign of 1942 and the biological attacks that accompanied it.
+
+## saga
+
+The old Hizen domain, an early adopter of Western guns and shipbuilding, and the porcelain kilns at Arita behind it.
+
+## sanya
+
+The naval base and iron-ore port at the southern tip of Hainan, worked by prisoner and conscript labour.
+
+## samarinda
+
+The Kutai oilfields.
+
+## sandakan
+
+The capital of North Borneo until 1946, the prisoner-of-war camp, and the starting point of the death marches to Ranau in 1945, which six men survived.
+
+## savannakhet
+
+A Mekong town on the road across Laos to Vietnam, and the crossing to Thailand.
+
+## seremban
+
+State capital.
+
+## seria
+
+Brunei’s oilfield.
+
+## shikuka
+
+The northernmost Japanese town on Sakhalin, on the frontier with the Soviet half.
+
+## shillong
+
+Provincial capital, and the rear base of the Assam front.
+
+## songkhla
+
+One of the main Japanese landing beaches on the morning of 8 December 1941, and the road to Malaya.
+
+## suifenhe
+
+The eastern rail crossing to Vladivostok, and a fortified belt.
+
+## suwon
+
+The colonial agricultural experiment station.
+
+## siping
+
+Rail junction on the Hsinking–Mukden line.
+
+## songjin
+
+Magnesite and steel; one of the northern industrial ports.
+
+## tacloban
+
+MacArthur came ashore here on 20 October 1944; the seat of the restored Commonwealth government until Manila was retaken.
+
+## taiping
+
+The Perak tin town where the Larut wars brought in British rule in 1874, and the wettest place in Malaya.
+
+## taitung
+
+The last of the eight Taiwanese prefectural seats missing from the layer.
+
+## taunggyi
+
+The hill station the Shan States were administered from.
+
+## tavoy
+
+Airfields used against Rangoon in 1942.
+
+## tawau
+
+The company plantation town in the south-east of North Borneo, growing tobacco and hemp.
+
+## ternate
+
+The old spice sultanate and residency seat.
+
+## thanbyuzayat
+
+The western terminus of the Burma–Siam railway and its cemetery.
+
+## cilacap
+
+Java’s only south-coast port and the evacuation channel in March 1942; the ships leaving it were hunted down.
+
+## tottori
+
+Sand dunes, pears and a small castle town on the Japan Sea.
+
+## toungoo
+
+Chennault’s AVG trained here; taken in the 1942 advance.
+
+## danang
+
+The port the French took in 1858 to begin the conquest of Vietnam, and the deep-water anchorage of Annam.
+
+## townsville
+
+The forward base for the New Guinea campaign, and bombed in July 1942.
+
+## tsu
+
+The seat of Mie, on the bay road to the Ise shrines.
+
+## tulagitown
+
+The capital of the protectorate, taken in May 1942 and the first objective of the Guadalcanal landings.
+
+## tongzhou
+
+The Tungchow Mutiny of 29 July 1937, in which the East Hopei puppet garrison turned on the Japanese and killed most of the Japanese and Korean residents; used afterwards to justify escalation.
+
+## tonghua
+
+Manchukuo’s final capital in August 1945, and the redoubt planned for the Kwantung Army’s last stand.
+
+## ube
+
+Coal and chemicals; undersea pits worked by conscripted Korean labour.
+
+## urawa
+
+A commuter town on the Nakasendō north of Tokyo, and the seat of Saitama.
+
+## victoriapoint
+
+The southernmost point of Burma, taken on 15 December 1941 to cut the air-reinforcement route to Singapore.
+
+## vigan
+
+A December 1941 landing point.
+
+## vinh
+
+The Nghe-Tinh soviets of 1930–31.
+
+## ussuriysk
+
+The rail junction behind Vladivostok and the Soviet Far Eastern army’s main base.
+
+## wewak
+
+The Japanese Eighteenth Army’s main base, wrecked from the air in August 1943 and then bypassed.
+
+## xiangyang
+
+The double city on the Han river, the classic gate between the north China plain and the middle Yangtze.
+
+## yamagata
+
+Safflower and silk in the Mogami basin, behind the Ōu mountains.
+
+## yamaguchi
+
+The seat of the old Chōshū domain, which supplied more of the Meiji leadership than anywhere else.
+
+## nauru
+
+Phosphate; occupied in August 1942, bypassed and starved, and most of the islanders deported to Truk.
+
+## yenangyaung
+
+The Irrawaddy oilfields — a principal reason for the invasion of Burma, and destroyed by the retreating British in April 1942.
+
+## yilan
+
+The rice plain behind the north-east coast of Taiwan, cut off from Taipei by the mountains until the railway.
+
+## anyang
+
+The last Shang capital, excavated from 1928 — the dig that founded modern Chinese archaeology.
+
+## enshi
+
+Hubei’s wartime provincial capital after the loss of Wuchang.
+
+## ominato
+
+The northern naval district guarding the Tsugaru Strait.
+
+## otomari
+
+Karafuto’s ferry port to Hokkaidō.
+
+## otsu
+
+On Lake Biwa at the head of the Tōkaidō, where a policeman wounded the Russian crown prince in 1891.
+
+## komsomolsk
+
+Built from 1932 as the Soviet Far East’s arms and aircraft city, out of range of Japanese attack.
+
+## quezoncity
+
+Designated the new national capital in 1939.
+
+## beihai
+
+The Gulf of Tonkin treaty port opened in 1876, the outlet for Guangxi before the
+French built the railway from Haiphong, and occupied in 1940.
