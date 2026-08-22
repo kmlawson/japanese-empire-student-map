@@ -4154,6 +4154,38 @@ line saying what it dropped. Worth having when the next differenced layer
 arrives, since this class of artefact comes with the operation rather than with
 the file.
 
+### The physical map gets its own lettering
+Thirty-seven names for the ground the rest of the map sits on: twenty seas,
+gulfs and straits, seventeen deserts, plateaus, basins and ranges. They live in
+`texts/features.csv`, which is a table of their own rather than territories
+with no colour — the Gobi did not change hands in 1937, and a record with an
+epoch and a ruler would be the wrong shape for it.
+
+Lettered the way an atlas letters them: italic, letter-spaced at .14em, with a
+halo so a name crossing a coast stays readable, and quieter than anything a
+country or a city is given, because a sea is context and not a claim. Two
+colours, water and land, so a reader can tell which kind of thing a name is
+without a legend saying so. They carry no dot, answer no pointer, and are never
+asked about in the quiz.
+
+**Only when Show names is on**, and then by the zoom each earns. `lvl` 1 is the
+thirteen that frame the whole picture — the Bay of Bengal, the Sea of Japan,
+the Gobi, the Tibetan Plateau; `lvl` 3 is the eight worth naming only once
+somebody is looking at them — the Hexi Corridor, the Dabie Shan, the Changbai
+range, Tsushima Strait. They sort second in the label order, after countries
+and before divisions and cities: a sea should not crowd out a country, and it
+should not be crowded out by a town.
+
+Chosen for what this map teaches rather than for completeness. Several are
+places the prose already names and could not point to: the Hexi Corridor in
+Gansu's description, the Dabie Shan in the account of the occupied zone, the
+Ordos where the line of control turns, the Owen Stanley Range behind the Kokoda
+beachhead.
+
+The build refuses a row whose `kind` is neither `sea` nor `land`, since that is
+what decides how it is lettered and a typo would otherwise produce an unstyled
+name in the middle of an ocean.
+
 ---
 
 ## Sources worth fetching

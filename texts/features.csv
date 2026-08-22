@@ -1,0 +1,38 @@
+id,en,ja,zh,kind,lat,lon,lvl
+seajapan,Sea of Japan,日本海 (Nihonkai),日本海,sea,40.2,135.0,1
+yellowsea,Yellow Sea,黄海 (Kōkai),黃海,sea,35.4,123.4,1
+eastchinasea,East China Sea,東シナ海 (Higashi Shina-kai),東海,sea,28.6,125.4,1
+southchinasea,South China Sea,南シナ海 (Minami Shina-kai),南海,sea,14.5,115.0,1
+bohai,Bohai Bay,渤海 (Bokkai),渤海,sea,38.6,119.4,2
+okhotsk,Sea of Okhotsk,オホーツク海 (Ohōtsuku-kai),鄂霍次克海,sea,52.5,148.5,1
+philippinesea,Philippine Sea,フィリピン海 (Firipin-kai),菲律賓海,sea,18.0,132.0,1
+bengal,Bay of Bengal,ベンガル湾 (Bengaru-wan),孟加拉灣,sea,16.0,88.5,1
+andamansea,Andaman Sea,アンダマン海 (Andaman-kai),安達曼海,sea,11.5,96.0,2
+siamgulf,Gulf of Siam,シャム湾 (Shamu-wan),暹羅灣,sea,9.5,101.5,2
+javasea,Java Sea,ジャワ海 (Jawa-kai),爪哇海,sea,-5.2,111.0,2
+celebessea,Celebes Sea,セレベス海 (Serebesu-kai),西里伯斯海,sea,3.6,122.5,2
+bandasea,Banda Sea,バンダ海 (Banda-kai),班達海,sea,-5.8,127.5,2
+arafura,Arafura Sea,アラフラ海 (Arafura-kai),阿拉弗拉海,sea,-9.5,135.0,2
+coralsea,Coral Sea,珊瑚海 (Sango-kai),珊瑚海,sea,-15.5,153.0,1
+beringsea,Bering Sea,ベーリング海 (Bēringu-kai),白令海,sea,57.0,178.0,1
+taiwanstrait,Taiwan Strait,台湾海峡 (Taiwan-kaikyō),臺灣海峽,sea,24.4,119.4,3
+tsushima,Tsushima Strait,対馬海峡 (Tsushima-kaikyō),對馬海峽,sea,34.4,129.4,3
+malacca,Strait of Malacca,マラッカ海峡 (Marakka-kaikyō),馬六甲海峽,sea,3.6,99.8,2
+luzonstrait,Luzon Strait,ルソン海峡 (Ruson-kaikyō),呂宋海峽,sea,20.4,121.2,3
+gobi,Gobi Desert,ゴビ砂漠 (Gobi-sabaku),戈壁沙漠,land,43.4,104.5,1
+ordos,Ordos Plateau,オルドス高原 (Orudosu-kōgen),鄂爾多斯高原,land,38.9,108.6,2
+taklamakan,Taklamakan Desert,タクラマカン砂漠 (Takuramakan-sabaku),塔克拉瑪干沙漠,land,38.6,82.5,1
+loess,Loess Plateau,黄土高原 (Ōdo-kōgen),黃土高原,land,36.6,108.5,2
+tibetplateau,Tibetan Plateau,チベット高原 (Chibetto-kōgen),青藏高原,land,33.2,88.0,1
+northchinaplain,North China Plain,華北平原 (Kahoku-heigen),華北平原,land,35.4,115.6,2
+redbasin,Red Basin,四川盆地 (Shisen-bonchi),四川盆地,land,30.4,105.2,2
+khingan,Greater Khingan Range,大興安嶺 (Dai-Kōanrei),大興安嶺,land,48.5,122.0,2
+changbai,Changbai Mountains,長白山脈 (Chōhaku-sanmyaku),長白山脈,land,42.2,128.2,3
+hexi,Hexi Corridor,河西回廊 (Kasei-kairō),河西走廊,land,39.4,99.0,3
+qinling,Qinling Mountains,秦嶺 (Shinrei),秦嶺,land,33.7,107.8,3
+dabie,Dabie Shan,大別山 (Daibetsu-san),大別山,land,31.2,115.6,3
+himalaya,Himalaya,ヒマラヤ山脈 (Himaraya-sanmyaku),喜馬拉雅山脈,land,28.6,84.0,1
+thar,Thar Desert,タール砂漠 (Tāru-sabaku),塔爾沙漠,land,27.0,71.5,2
+deccan,Deccan Plateau,デカン高原 (Dekan-kōgen),德干高原,land,17.5,77.0,2
+malaypeninsula,Malay Peninsula,マレー半島 (Marē-hantō),馬來半島,land,5.5,102.2,2
+owenstanley,Owen Stanley Range,オーエンスタンレー山脈 (Ōen Sutanrē-sanmyaku),歐文斯坦利山脈,land,-9.2,147.8,3

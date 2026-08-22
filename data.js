@@ -2279,6 +2279,157 @@ JMAP.BROWSE = [
   },
 ];
 
+JMAP.FEATURES = [
+  {
+    id: 'seajapan', en: 'Sea of Japan', ja: '日本海 (Nihonkai)', zh: '日本海', lvl: 1, lat: 40.2,
+    lon: 135.0, kind: 'sea'
+  },
+  {
+    id: 'yellowsea', en: 'Yellow Sea', ja: '黄海 (Kōkai)', zh: '黃海', lvl: 1, lat: 35.4,
+    lon: 123.4, kind: 'sea'
+  },
+  {
+    id: 'eastchinasea', en: 'East China Sea', ja: '東シナ海 (Higashi Shina-kai)', zh: '東海', lvl: 1,
+    lat: 28.6, lon: 125.4, kind: 'sea'
+  },
+  {
+    id: 'southchinasea', en: 'South China Sea', ja: '南シナ海 (Minami Shina-kai)', zh: '南海', lvl: 1,
+    lat: 14.5, lon: 115.0, kind: 'sea'
+  },
+  {
+    id: 'bohai', en: 'Bohai Bay', ja: '渤海 (Bokkai)', zh: '渤海', lvl: 2, lat: 38.6, lon: 119.4,
+    kind: 'sea'
+  },
+  {
+    id: 'okhotsk', en: 'Sea of Okhotsk', ja: 'オホーツク海 (Ohōtsuku-kai)', zh: '鄂霍次克海', lvl: 1,
+    lat: 52.5, lon: 148.5, kind: 'sea'
+  },
+  {
+    id: 'philippinesea', en: 'Philippine Sea', ja: 'フィリピン海 (Firipin-kai)', zh: '菲律賓海', lvl: 1,
+    lat: 18.0, lon: 132.0, kind: 'sea'
+  },
+  {
+    id: 'bengal', en: 'Bay of Bengal', ja: 'ベンガル湾 (Bengaru-wan)', zh: '孟加拉灣', lvl: 1, lat: 16.0,
+    lon: 88.5, kind: 'sea'
+  },
+  {
+    id: 'andamansea', en: 'Andaman Sea', ja: 'アンダマン海 (Andaman-kai)', zh: '安達曼海', lvl: 2,
+    lat: 11.5, lon: 96.0, kind: 'sea'
+  },
+  {
+    id: 'siamgulf', en: 'Gulf of Siam', ja: 'シャム湾 (Shamu-wan)', zh: '暹羅灣', lvl: 2, lat: 9.5,
+    lon: 101.5, kind: 'sea'
+  },
+  {
+    id: 'javasea', en: 'Java Sea', ja: 'ジャワ海 (Jawa-kai)', zh: '爪哇海', lvl: 2, lat: -5.2,
+    lon: 111.0, kind: 'sea'
+  },
+  {
+    id: 'celebessea', en: 'Celebes Sea', ja: 'セレベス海 (Serebesu-kai)', zh: '西里伯斯海', lvl: 2,
+    lat: 3.6, lon: 122.5, kind: 'sea'
+  },
+  {
+    id: 'bandasea', en: 'Banda Sea', ja: 'バンダ海 (Banda-kai)', zh: '班達海', lvl: 2, lat: -5.8,
+    lon: 127.5, kind: 'sea'
+  },
+  {
+    id: 'arafura', en: 'Arafura Sea', ja: 'アラフラ海 (Arafura-kai)', zh: '阿拉弗拉海', lvl: 2, lat: -9.5,
+    lon: 135.0, kind: 'sea'
+  },
+  {
+    id: 'coralsea', en: 'Coral Sea', ja: '珊瑚海 (Sango-kai)', zh: '珊瑚海', lvl: 1, lat: -15.5,
+    lon: 153.0, kind: 'sea'
+  },
+  {
+    id: 'beringsea', en: 'Bering Sea', ja: 'ベーリング海 (Bēringu-kai)', zh: '白令海', lvl: 1, lat: 57.0,
+    lon: 178.0, kind: 'sea'
+  },
+  {
+    id: 'taiwanstrait', en: 'Taiwan Strait', ja: '台湾海峡 (Taiwan-kaikyō)', zh: '臺灣海峽', lvl: 3,
+    lat: 24.4, lon: 119.4, kind: 'sea'
+  },
+  {
+    id: 'tsushima', en: 'Tsushima Strait', ja: '対馬海峡 (Tsushima-kaikyō)', zh: '對馬海峽', lvl: 3,
+    lat: 34.4, lon: 129.4, kind: 'sea'
+  },
+  {
+    id: 'malacca', en: 'Strait of Malacca', ja: 'マラッカ海峡 (Marakka-kaikyō)', zh: '馬六甲海峽', lvl: 2,
+    lat: 3.6, lon: 99.8, kind: 'sea'
+  },
+  {
+    id: 'luzonstrait', en: 'Luzon Strait', ja: 'ルソン海峡 (Ruson-kaikyō)', zh: '呂宋海峽', lvl: 3,
+    lat: 20.4, lon: 121.2, kind: 'sea'
+  },
+  {
+    id: 'gobi', en: 'Gobi Desert', ja: 'ゴビ砂漠 (Gobi-sabaku)', zh: '戈壁沙漠', lvl: 1, lat: 43.4,
+    lon: 104.5, kind: 'land'
+  },
+  {
+    id: 'ordos', en: 'Ordos Plateau', ja: 'オルドス高原 (Orudosu-kōgen)', zh: '鄂爾多斯高原', lvl: 2,
+    lat: 38.9, lon: 108.6, kind: 'land'
+  },
+  {
+    id: 'taklamakan', en: 'Taklamakan Desert', ja: 'タクラマカン砂漠 (Takuramakan-sabaku)',
+    zh: '塔克拉瑪干沙漠', lvl: 1, lat: 38.6, lon: 82.5, kind: 'land'
+  },
+  {
+    id: 'loess', en: 'Loess Plateau', ja: '黄土高原 (Ōdo-kōgen)', zh: '黃土高原', lvl: 2, lat: 36.6,
+    lon: 108.5, kind: 'land'
+  },
+  {
+    id: 'tibetplateau', en: 'Tibetan Plateau', ja: 'チベット高原 (Chibetto-kōgen)', zh: '青藏高原',
+    lvl: 1, lat: 33.2, lon: 88.0, kind: 'land'
+  },
+  {
+    id: 'northchinaplain', en: 'North China Plain', ja: '華北平原 (Kahoku-heigen)', zh: '華北平原',
+    lvl: 2, lat: 35.4, lon: 115.6, kind: 'land'
+  },
+  {
+    id: 'redbasin', en: 'Red Basin', ja: '四川盆地 (Shisen-bonchi)', zh: '四川盆地', lvl: 2, lat: 30.4,
+    lon: 105.2, kind: 'land'
+  },
+  {
+    id: 'khingan', en: 'Greater Khingan Range', ja: '大興安嶺 (Dai-Kōanrei)', zh: '大興安嶺', lvl: 2,
+    lat: 48.5, lon: 122.0, kind: 'land'
+  },
+  {
+    id: 'changbai', en: 'Changbai Mountains', ja: '長白山脈 (Chōhaku-sanmyaku)', zh: '長白山脈', lvl: 3,
+    lat: 42.2, lon: 128.2, kind: 'land'
+  },
+  {
+    id: 'hexi', en: 'Hexi Corridor', ja: '河西回廊 (Kasei-kairō)', zh: '河西走廊', lvl: 3, lat: 39.4,
+    lon: 99.0, kind: 'land'
+  },
+  {
+    id: 'qinling', en: 'Qinling Mountains', ja: '秦嶺 (Shinrei)', zh: '秦嶺', lvl: 3, lat: 33.7,
+    lon: 107.8, kind: 'land'
+  },
+  {
+    id: 'dabie', en: 'Dabie Shan', ja: '大別山 (Daibetsu-san)', zh: '大別山', lvl: 3, lat: 31.2,
+    lon: 115.6, kind: 'land'
+  },
+  {
+    id: 'himalaya', en: 'Himalaya', ja: 'ヒマラヤ山脈 (Himaraya-sanmyaku)', zh: '喜馬拉雅山脈', lvl: 1,
+    lat: 28.6, lon: 84.0, kind: 'land'
+  },
+  {
+    id: 'thar', en: 'Thar Desert', ja: 'タール砂漠 (Tāru-sabaku)', zh: '塔爾沙漠', lvl: 2, lat: 27.0,
+    lon: 71.5, kind: 'land'
+  },
+  {
+    id: 'deccan', en: 'Deccan Plateau', ja: 'デカン高原 (Dekan-kōgen)', zh: '德干高原', lvl: 2,
+    lat: 17.5, lon: 77.0, kind: 'land'
+  },
+  {
+    id: 'malaypeninsula', en: 'Malay Peninsula', ja: 'マレー半島 (Marē-hantō)', zh: '馬來半島', lvl: 2,
+    lat: 5.5, lon: 102.2, kind: 'land'
+  },
+  {
+    id: 'owenstanley', en: 'Owen Stanley Range', ja: 'オーエンスタンレー山脈 (Ōen Sutanrē-sanmyaku)',
+    zh: '歐文斯坦利山脈', lvl: 3, lat: -9.2, lon: 147.8, kind: 'land'
+  },
+];
+
 JMAP.PROVINCES = {
   Attu: { en: 'Attu', zh: '阿圖島' },
   Kiska: { en: 'Kiska', zh: '基斯卡島' },
