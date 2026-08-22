@@ -45,3 +45,8 @@ data/gazetteer/places-*.geojson
 rr.html
 whg.tmp
 tools/cache/deletion-tests/
+
+# The texts editor: a local tool for browsing and editing everything under
+# texts/, and the zip snapshots it takes before every save. It edits the files
+# that are committed; it is not one of them.
+texts/admin/
