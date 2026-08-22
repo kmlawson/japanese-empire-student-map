@@ -3640,7 +3640,18 @@ MENGJIANG_HELD_FILE = "mengjiang-actual-occupied.geojson"
 # Eight pieces, and every one of them is ground the state put on its maps and
 # never governed. Left unfilled, so whatever is beneath — Free China, the
 # provinces — shows through.
-MENGJIANG_UNHELD_FILE = "mengjiang-unoccupied.geojson"
+# The eight features of `mengjiang-unoccupied.geojson`, less the seven that
+# were never ground. That file is a difference of the claim and the held
+# polygon, and where the two trace the same frontier from different
+# digitisations the subtraction leaves a hairline instead of nothing: seven
+# four- and five-point rings, 23.9 km² between them, four metres to 334 metres
+# wide, along the Mongolian frontier in the north and the Manchukuo frontier
+# in the east. Invisible in QGIS at any sane view, and impossible to miss here,
+# because every ring gets a 2.6 px non-scaling stroke — a four-metre sliver
+# drawn a thousand times its own width, and dashed, is a row of dots along a
+# border that has no business carrying one. The one feature kept is the
+# unoccupied west, 132 vertices and 164,809 km². The original is left beside it.
+MENGJIANG_UNHELD_FILE = "mengjiang-unoccupied-fixed.geojson"
 # Atoms whose sub-units are drawn through a clip, because the divisions cover
 # more ground than the atom itself does. Mengchiang is the only one: its three
 # governments are drawn as they were claimed, and the western half of what they

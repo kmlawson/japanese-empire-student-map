@@ -4116,6 +4116,44 @@ bit absent decodes to on.
 Nothing else in the field needs it: every other layer there starts off, so zero
 already means what it should.
 
+### Seven rings that were never ground
+The dotted line round Mengchiang's unheld west was also appearing as rows of
+dots along the Mongolian frontier in the north and the Manchukuo frontier in
+the east, where no such line belongs. Nothing had leaked: the line is drawn
+from `mengjiang-unoccupied.geojson` and from nothing else, and that file holds
+**eight features, not one**.
+
+| fid | vertices | what it is |
+|---|---|---|
+| 5 | 132 | the unoccupied west, 164,809 km² — the one intended |
+| 1, 2, 3, 4 | 4–5 | hairlines on the Mongolian frontier |
+| 6, 7, 8 | 4–5 | hairlines on the Manchukuo frontier |
+
+The seven come to **23.9 km² between them** and are 7 to 58 km long by **4 m to
+334 m wide** — quadrilaterals with a length and no breadth. They are the
+residue of the difference that made the file: where the claim and the held
+polygon trace one border from two digitisations, subtracting leaves a hairline
+where it should leave nothing. Measured, six of the seven sit **0 m** from the
+claim outline and all within 645 m of the held one.
+
+They are invisible in QGIS — a four-metre feature is far below a pixel at any
+view of the whole state — and unmissable here, because every ring gets a 2.6 px
+non-scaling stroke. A four-metre sliver drawn a thousand times its own width,
+and dashed 1-on-5-off, is a row of dots.
+
+`mengjiang-unoccupied-fixed.geojson` keeps fid 5 and nothing else, and is what
+the build reads. The original is left beside it. `#mengjiang-claim` goes from
+**8 subpaths and 162 vertices to 1 and 132**; the nearest dot to any of the six
+places they used to appear is now **413 km away**, and the western wedge is
+still enclosed at every point tested. `#mengjiang-whole`, the hover outline, is
+untouched at 3 rings and 874 vertices — it comes from the 1940 claim, which
+never had this problem.
+
+A sieve in the build was discussed and not taken: small **and** slender, with a
+line saying what it dropped. Worth having when the next differenced layer
+arrives, since this class of artefact comes with the operation rather than with
+the file.
+
 ---
 
 ## Sources worth fetching
