@@ -895,7 +895,8 @@
     if (subOutlineLayer) { subOutlineLayer.innerHTML = ''; dropDefs('sub'); }
     clearHighlight();
     hot = null;
-    hotProv = null;
+    hotProv = [];
+    hotProvEl = null;
     subsAtoms.forEach(function (a) { a.classList.remove('subs'); });
     subsAtoms = [];
     subsAtom = null;
@@ -2481,7 +2482,8 @@
     redrawHighlight();
   }
 
-  var hotProv = null;
+  var hotProv = [];
+  var hotProvEl = null;
   var lastProv = null;
 
   /* The cluster the *selection* belongs to, which is not always the atom the
@@ -2555,7 +2557,14 @@
     subsAtoms = [];
     if (el) {
       var id = el.getAttribute('data-id');
-      subsAtoms = (id && atomsOf[id] ? atomsOf[id] : [el])
+      // Everything the territory lights, not only the atoms it is made of.
+      // On the 1930 sheet the Republic is drawn as China plus Manchuria,
+      // Jehol, Chahar, Suiyuan and Sinkiang — separate atoms so that each can
+      // be named — and asking China for its divisions drew the provinces of
+      // China proper and left the whole north-east blank, which reads as a
+      // country that has no provinces up there rather than as a country whose
+      // provinces were not asked for.
+      subsAtoms = (id ? litFor(id, null) : [el])
         .filter(function (a) { return a.classList && a.classList.contains('atom'); });
       if (subsAtoms.indexOf(el) < 0) subsAtoms.push(el);
       subsAtoms.forEach(function (a) { a.classList.add('subs'); });
@@ -2563,12 +2572,48 @@
     liftSubs(subsAtom);
   }
 
+  /* A sub-unit's name on this date, the gloss taken off, which is what decides
+     whether two blocks are one province. */
+  function provLabel(key) {
+    var rec = (JMAP.PROVINCES || {})[key];
+    var per = JMAP.PROVINCE_EPOCH && JMAP.PROVINCE_EPOCH[state.epoch];
+    var over = per && per[key];
+    var en = (over && over.en) || (rec && rec.en) || key;
+    var cut = en.indexOf(' — ');
+    return cut > 0 ? en.slice(0, cut) : en;
+  }
+
+  /* Every block that is this province on this date. A province in more than
+     one block is rare and deliberate: Suiyuan is cut at Paotow and again along
+     the Yellow River so that the 1942 map can colour the corridor Mengchiang
+     held apart from the country Fu Zuoyi kept. On the 1930 sheet it is one
+     province again — both halves answer to one name, and overrides-1930 says
+     so — and marking only the half under the pointer drew the cut as a
+     sideways T straight across the middle of it. */
+  function provPeers(el) {
+    if (!el || !el.getAttribute) return [];
+    var key = el.getAttribute('data-prov');
+    var atom = el.closest && el.closest('.atom');
+    var id = atom && atom.getAttribute('data-id');
+    if (!key || !id) return [el];
+    var want = provLabel(key);
+    var out = [];
+    (atomsOf[id] || [atom]).forEach(function (a) {
+      $$('[data-prov]', a).forEach(function (n) {
+        var k = n.getAttribute('data-prov');
+        if (k && provLabel(k) === want) out.push(n);
+      });
+    });
+    return out.length ? out : [el];
+  }
+
   /* The province under the pointer, picked out inside the lit-up country. */
   function setHotProv(el) {
-    if (hotProv === el) return;
-    if (hotProv) hotProv.classList.remove('prov-hot');
-    hotProv = el;
-    if (hotProv) hotProv.classList.add('prov-hot');
+    if (hotProvEl === el) return;
+    hotProv.forEach(function (n) { n.classList.remove('prov-hot'); });
+    hotProvEl = el;
+    hotProv = provPeers(el);
+    hotProv.forEach(function (n) { n.classList.add('prov-hot'); });
     redrawHighlight();
   }
 
@@ -2955,7 +3000,7 @@
     else if (!bothSame && hot && atomsOf[hot] && seen(hot)) {
       outlineOf(litFor(hot, hotCluster), 'hi-territory');
     }
-    if (hotProv) outlineOf([hotProv], 'hi-province');
+    if (hotProv.length) outlineOf(hotProv, 'hi-province');
     if (selected && atomsOf[selected] && seen(selected)) {
       // `litFor` and not `atomsOf`, so that selecting draws round the same
       // ground hovering lights. They disagreed: hovering China on the 1930

@@ -1511,6 +1511,13 @@ dialog h3 {
   stroke: rgba(18, 15, 10, .62);
   stroke-width: .8;
 }
+/* Except where the block is the whole atom and there is no division in it to
+   draw — see data-sole in build_map.py. The line it drew was the atom's own
+   edge over again, which shows only where the atom's neighbour is another
+   piece of the same country: the cut across Suiyuan, drawn so that 1942 can
+   colour the occupied corridor apart from the free country, appeared on the
+   1930 sheet as a sideways T through the middle of one province. */
+#jmap.admin-on .atom.subs > path[data-prov][data-sole] { stroke: none; }
 /* Nothing is outlined except the country under the pointer. The princely
    states were exempt once, and six hundred outlines at once is a mesh rather
    than a map; the Straits Settlements were exempt after them, and Malacca's
