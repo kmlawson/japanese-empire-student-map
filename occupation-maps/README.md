@@ -56,7 +56,15 @@ membership, or merely claimed on paper. Both are plotted in
 `suiyuan-history.html`, a standalone Leaflet page: events filterable by year and
 steppable one at a time, with the extent of control for the year in view drawn
 underneath them, the Yellow River for context, and the Suiyuan and Chahar
-provincial boundaries on a toggle. The finding that matters for
+provincial boundaries on a toggle.
+
+`mengjiang-control-1942.geojson` is that zone exported: one WGS84 polygon of the
+area under Japanese or Mengjiang authority at the end of 1942, which is also the
+position from March 1940 to August 1945. Its geometry derives from the Modern
+East Asia GIS *China Provincial Boundaries* set, so check that dataset's terms
+before passing the file on.
+
+The finding that matters for
 the line: Japanese control in Suiyuan ended at Baotou from 17 October 1937 to
 August 1945, apart from six weeks in February and March 1940, and the Ordos
 south of the Yellow River was never occupied at all. The maps below were

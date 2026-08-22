@@ -1,12 +1,17 @@
 # The cities layer: what is missing, and how big everything was
 
-Three files come out of this exercise:
+Five files come out of this exercise:
 
 * **`sources.csv`** — 48 sources for city populations in this region between 1920 and 1950,
   with links and notes on what each one actually covers and where it lies to you.
 * **`cities.csv`** — 446 places: the 220 already on the map (50 quiz sites in the `city`
   category and 170 in `JMAP.BROWSE`) and 226 proposed additions. Each carries population
   figures at four moments, a size tier, and where it applies a capital marking.
+* **`cities-1930.csv`** and **`cities-1942.csv`** — the same list re-categorised for the
+  map's two epochs, `e1930` and `e1942`. Sizes are taken from the nearest figure to each
+  date and the capital markings follow the politics of that year, so Hsinking is not a
+  capital in 1930 and Mukden is a provincial seat of the Republic of China rather than the
+  largest city of Manchukuo. See §11.
 * **this report** — what is not on the layer and should be, and why.
 
 ---
@@ -374,3 +379,78 @@ row, query the Wikidata API for items near `lat`/`lon` and keep the nearest sett
 the most sitelinks — running single-threaded with a half-second delay and honouring `429`
 with a long back-off. Budget an hour for the full set, and expect a handful of period names
 (Hsinking, Karenkō, Fort Bayard, Toyohara) to need matching by hand.
+
+---
+
+## 11. The two epoch files
+
+`cities.csv` is period-neutral: it takes the best figure available for each place and
+categorises on that. The map, though, has two epochs, and a good many of these places were
+different sizes and different things in each. So the same 446 rows are also written twice:
+
+* **`cities-1930.csv`** — 444 rows. Quezon City (founded 1939) and Komsomolsk-on-Amur
+  (founded 1932) are dropped, since neither existed.
+* **`cities-1942.csv`** — 446 rows.
+
+They carry the same columns, with `polity` in place of `polity_1940` and one addition,
+`pop_basis`, which says whether the size came from a figure taken near that epoch or was
+inferred from a more distant one.
+
+### What changes in the sizes
+
+| tier | 1930 | 1942 |
+|---|---|---|
+| largest | 9 | 15 |
+| large | 41 | 52 |
+| medium | 141 | 150 |
+| small | 253 | 229 |
+
+Forty-nine places change tier between the two, and the pattern is the history: Nagoya,
+Kyoto, Hankow, Nanking, Hong Kong and Mukden all cross the million mark; Hsinking, Taihoku,
+Pusan, Pyongyang, Kawasaki, Yawata and Kure move up as the empire industrialises; Anshan
+goes from a village to a steel town. Nothing moves down, because the destruction of 1944–45
+falls outside both epochs — a 1945 file would look very different, and Hong Kong, Manila,
+Naha and most of urban Japan would fall a tier or two.
+
+### What changes in the capitals
+
+1930 has 46 territory capitals and 183 provincial ones; 1942 has 52 and 198. The
+substantive differences are:
+
+* **No Manchukuo.** Mukden is the seat of Liaoning province, Kirin of Kirin, Tsitsihar of
+  Heilungkiang, Chengteh of Jehol — all within the Republic of China. Changchun is not a
+  capital of anything and Harbin is a special district, not a provincial seat.
+* **No Mengjiang and no occupation.** Kalgan is the capital of Chahar, Kweisui of Suiyuan,
+  and every Chinese city carries `Republic of China` rather than `Occupied China` or
+  `Free China`. Nanking is the national capital; Chungking is an ordinary city and Yenan is
+  nothing at all — the Communists did not arrive until 1935–36.
+* **Provinces that had not been created.** Sind (1936) and Orissa (1936) mean Karachi and
+  Cuttack are not provincial capitals in 1930; Sikang (1939) means Kangting is not; the
+  Soviet krais (1937–38) mean Vladivostok and Chita are not, and Khabarovsk is the seat of
+  the whole Far Eastern Krai instead.
+* **Seats that moved.** Kwangsi's was Nanning until 1936 and Kweilin after; Anhwei's was
+  Anking; South Ch'ungch'ŏng's was Kongju until 1932, not Taejŏn.
+* **Burma was a province of British India** until 1937, so Rangoon is `capital-province`
+  in 1930 and `capital-territory` in 1942. Kengtung is a Shan state in 1930 and the capital
+  of Saharat Thai Doem in 1942.
+* **Names.** Siam rather than Thailand; the Philippine Islands under the Insular Government
+  rather than the Commonwealth, which dates from 1935.
+
+In 1942 the four northern Malay states — Kelantan, Kedah, Terengganu, Perlis — are marked as
+under Japanese military administration, not Thai: the transfer to Thailand came in October
+1943, after the epoch.
+
+### How far to trust the 1930 sizes
+
+The 1942 file rests on contemporary figures for 401 of its 446 rows. **The 1930 file is
+weaker: 314 contemporary and 130 inferred**, because the interwar censuses are thinner than
+the wartime ones and many colonial places were first counted properly in 1940.
+
+Where inference from a 1940 figure would badly mislead, I put a 1930 estimate in instead
+rather than let it stand. That mattered most for the places Japanese investment
+transformed after 1931 — Mukden, Harbin, Dairen, Hsinking, Fushun, Anshan, Penhsihu and the
+rest of industrial Manchuria; Ch'ŏngjin, Hŭngnam, Rashin and Sŏngjin in northern Korea,
+which were essentially built in the 1930s; and Shihkiachwang, which grew with the railway.
+Those estimates are marked `estimate` in `pop_quality` like any other. The remaining 130
+inferred rows are mostly small places whose tier would not change either way, but a row
+reading `inferred from 1940` in a 1930 file should be read as an upper bound.

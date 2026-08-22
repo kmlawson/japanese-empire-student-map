@@ -3884,6 +3884,78 @@ this epoch, or the alternative province source has replaced it. Read off the
 inline style rather than the computed one, since that test runs over every
 label on every zoom.
 
+### Burma, cut to meet its neighbours
+Two candidates in the GIS folder, measured against the two layers Burma has to
+sit between — `india-1931` and the v5 Republican provinces. Rasterised at
+0.01°, about 1.2 km a cell, over a window from 90.5 to 102.5 E and 8.5 to
+29.5 N. Overlap is ground claimed twice; gap is ground in none of the three
+within 3 km of both Burma and its neighbour.
+
+| source | area km² | over India | over China | gap vs India | gap vs China |
+|---|---|---|---|---|---|
+| Natural Earth (what was drawn) | 665,613 | 379 | 4,409 | 644 | 539 |
+| **burma-modern-modified** | 662,532 | **0** | **0** | **105** | **24** |
+| burma-1931 | 636,970 | 13,825 | 16,954 | 228 | 251 |
+
+`burma-modern-modified` is the one that was clipped: it overlaps neither
+neighbour by a single square kilometre. `burma-1931` is a period tracing and
+the worst fit of the three, over five per cent of its own area double-claimed;
+left where it is until somebody reconciles it with the layers either side.
+
+**The band undid the clipping as fast as it was done.** Wired in and thinned by
+the band a country that size earns — 0.55 units, three kilometres — the drawn
+shape lay over 390 km² of India and 585 of China, from a source that overlapped
+by nothing. A clipped edge has to be drawn where it was clipped, so `burma` is
+in `TRACED_TOL` at 0.021 with India and the Soviet Union. **4,082 of 4,523
+source vertices survive the build, 90%**, and 39 rings out of 39: the old
+drawing had 23, so sixteen islands off the Tenasserim coast that were being
+sieved away are now on the map.
+
+Drawn, against drawn: overlap with India falls from 379 km² to **3**, with
+China from 4,409 to **8**; the gaps fall from 644 and 539 to **108** and **32**.
+
+**It stops at 27.98 N and not 28.53**, which drops about 3,800 km² of the
+Kachin salient. That ground is not lost — the contested-frontier layer already
+covers it, tested at 97.60/28.10 and 97.40/28.40 — and hatching a frontier
+nobody had surveyed is a better account of it than drawing it as Burma.
+
+**The water body was not found.** Sampled across the whole of western Burma at
+a quarter-degree and then the Arakan at a twentieth, every cell is accounted
+for: India, Burma, Siam, or the Bay of Bengal. The one indentation that looks
+like a lake on a coarse grid — about 94.0 E, 18.9 N — is the Kaladan and Lemro
+estuaries at Combermere Bay, and both candidate polygons have it, so it is real
+coastline. Whatever the corruption is, it is not a hole in the Burma polygon
+and not a difference between these two files. Worth a screenshot.
+
+### Two sessions, one tree
+Recorded because it cost time twice. Another session was working the same
+checkout — the Layers panel, the info card, the gazetteer prose, the pinyin
+sweep through `texts/` — and its edits arrived in files this session was also
+editing. `map.js`, `styles.css` and `index.html` each held both sets at once.
+Nothing collided in the end, but only because the two were in different
+functions and different paragraphs.
+
+Two things worth knowing next time. `index.html` and `data.js` are **built**
+from `texts/`, so running `build_texts.py` while somebody is halfway through
+editing the prose splices a half-finished argument into the page — which
+happened, and is why nothing was committed until that session had landed.
+And the gazetteer's `rationale` column, 166 rows of it, is internal: the built
+`cities-gaz.js` carries only `id`, `n`, `lat`, `lon`, `t`, `c`, `of` and `p`,
+so it does not compete with the reader-facing notes. Checked rather than
+assumed. If it ever does become reader-facing, its prose is still in postal
+romanisation — "Peking–Hankow" — while `texts/` is now pinyin throughout.
+
+**The version ran away.** `build_texts.py` moves the number on a hundredth every
+time it runs, and a session that rebuilds while measuring runs it twenty times:
+0.82 at the last commit, 1.01 at this one, with no release in between. The rule
+does what it was asked to do; what it counts is a build and not a push.
+
+**34 MB left out.** `data/gazetteer` holds four GeoJSON files built from the
+GeoNames dumps — places-merged 12 MB, places-populated 11 MB, places-seats
+7.1 MB, places-china 3.7 MB. Nothing on the site fetches one: `cities-gaz.js`
+is built from `data/cities-*.csv`. They are ignored, and `README.md` and
+`build_geojson.py` are committed instead, so anyone can rebuild them.
+
 ---
 
 ## Sources worth fetching

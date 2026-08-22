@@ -24,6 +24,7 @@
   var TAP_SLOP = 9;       // px of movement still counted as a tap
   var TERR_PX = 13.5;     // label sizes, in screen pixels
   var SITE_PX = 11.5;
+  var SUB_PX = 10.5;      // provinces and islands, a step under a country
   var EPOCH_1930_CUTOFF = 1931;   // sites later than this are hidden in 1930
   var LANGS = ['en', 'ja', 'zh', 'ko'];
 
@@ -294,6 +295,9 @@
   }
 
   function labelVisible(rec) {
+    // a province or an island: shown only once the reader is close in, and
+    // never mind the Administrative switch — see ensureSubLabels
+    if (rec && rec.kind === 'sub') return subLabelsWanted();
     // A country's name has nothing to do with the Administrative layer, which
     // is about its divisions. Gating it on that switch meant "Show names on
     // the map" showed no country names at all until a second, unrelated button
@@ -2682,7 +2686,12 @@
     }
     if (hotProv) outlineOf([hotProv], 'hi-province');
     if (selected && atomsOf[selected] && seen(selected)) {
-      outlineOf(atomsOf[selected], 'hi-selected');
+      // `litFor` and not `atomsOf`, so that selecting draws round the same
+      // ground hovering lights. They disagreed: hovering China on the 1930
+      // map lit Manchuria, Jehol, Chahar and Suiyuan and Sinkiang with it —
+      // all of them the Republic on that date — and then clicking outlined
+      // China proper alone and left the rest of the country outside the line.
+      outlineOf(litFor(selected), 'hi-selected');
     }
   }
 

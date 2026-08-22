@@ -1543,10 +1543,11 @@ dialog h3 {
   font-size: 12px;
 }
 
-/* Mengchiang as it was drawn on its own maps. The fill beneath is the ground
-   actually held; this is the frontier claimed, a third of it over country the
-   state never controlled. Thick and dotted so it reads as an assertion rather
-   than as a boundary somebody surveyed. */
+/* Mengchiang as it was drawn on its own maps, minus what it actually held.
+   The fill beside it is the ground under Japanese control; this is the line
+   round the third of the claim that never was, and it encloses nothing —
+   Free China shows through it. Thick and dotted so it reads as an assertion
+   rather than as a boundary somebody surveyed. */
 #mengjiang-claim {
   fill: none;
   stroke: #7a2d1f;
@@ -1556,4 +1557,13 @@ dialog h3 {
   vector-effect: non-scaling-stroke;
   pointer-events: none;
   opacity: .85;
+}
+
+/* Provinces and islands, named once the reader is close in. A step smaller
+   than a country's name and a shade lighter, so that zooming into Kwangtung
+   does not make the province shout down the Republic it is part of. */
+.tlabel.sublabel {
+  font-size: 10.5px;
+  opacity: .78;
+  font-style: italic;
 }

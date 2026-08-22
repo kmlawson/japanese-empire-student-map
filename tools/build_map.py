@@ -488,6 +488,20 @@ PROTECTORATES_IND = {"Sikkim"}
 # are wound against the outer ring, so they stay holes when the rings are put
 # into one path.
 INDIA_1931_FILE = "india-1931.geojson"
+# Burma, cut to meet its neighbours instead of overlapping them. Natural Earth's
+# Myanmar was the shape until now, and measured against the sources either side
+# it lay over 379 km² of the 1931 Raj and 4,409 km² of the Republic's provinces,
+# with 644 km² of gap along the Indian frontier and 539 along the Chinese. This
+# one overlaps neither by a single square kilometre and leaves 105 km² and 24.
+# The alternative in the same folder, `burma-1931`, is a period tracing and a
+# far worse fit — 13,825 km² over India and 16,954 over China — so it is left
+# where it is until somebody reconciles it with the layers around it.
+#
+# It stops at 27.98 N rather than 28.53, which drops about 3,800 km² of the
+# Kachin salient. That ground is not lost: the contested-frontier layer already
+# covers it, and hatching a frontier nobody had surveyed is a better account of
+# it than drawing it as Burma.
+BURMA_FILE = "burma-modern-modified.geojson"
 
 # The North China Area Army's own security map of the ground it held,
 # September 1942: 『北支那方面軍占拠地域内治安概況』, held by NIDS and traced by
@@ -703,7 +717,14 @@ TRACED_TOL = {"india": 0.021, "nca_pacified": 0.021, "nca_unpacified": 0.021,
               # its size earns — 0.55 units, three kilometres — flattened
               # every bay on the Okhotsk and Primorye shore. Held to half a
               # pixel at the deepest zoom instead, like British India.
-              "ussr": 0.021}
+              "ussr": 0.021,
+              # Burma is hand-clipped to the sources either side of it, and the
+              # band a country that size earns — 0.55 units, three kilometres —
+              # threw the fit away as fast as it was made: the source overlaps
+              # India and China by nothing at all, and thinned at 0.55 the drawn
+              # shape lay over 390 km² of one and 585 of the other. A clipped
+              # edge has to be drawn where it was clipped.
+              "burma": 0.021}
 
 FULL_DETAIL = ({"korea", "saharat", "princely", "kwantung", "ccp", "malaya",
                 "turtle", "mangsee", "miangas", "cocos",
@@ -4382,6 +4403,12 @@ def main():
     # else so that the modern countries and their first-level units, which used
     # to stand in for it, can see that it is here and stand down.
     india_traced = [r for _p, rs in load_traced(INDIA_1931_FILE) for r in rs]
+    burma_traced = [r for _p, rs in load_traced(BURMA_FILE) for r in rs]
+    if burma_traced:
+        groups["burma"].extend(burma_traced)
+        backing["burma"].extend(burma_traced)
+        sys.stderr.write("Burma: %d rings, %d vertices\n"
+                         % (len(burma_traced), sum(len(r) for r in burma_traced)))
     if india_traced:
         groups["india"].extend(india_traced)
         backing["india"].extend(india_traced)
@@ -4606,6 +4633,8 @@ def main():
             continue
         # and the same for the three neighbours now drawn from period sources
         if key == "mongolia" and outer_mongolia:
+            continue
+        if key == "burma" and burma_traced:
             continue
         if key == "nepal" and "nepal" in neighbours_1931:
             continue
