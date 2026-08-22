@@ -13,8 +13,9 @@ in 1872.
 
 ## uraga
 
-Where Commodore Perry’s squadron anchored and demanded that Japan open. He
-returned in February 1854 with a larger fleet.
+Four American warships anchored here on 8 July 1853 and Perry refused to leave
+until his letter was taken. He returned in February 1854 with twice as many
+ships, and the Treaty of Kanagawa followed in March.
 
 ## shimoda
 
@@ -254,8 +255,9 @@ emigration to Southeast Asia.
 
 ## hainan
 
-Seized to blockade south China and as a stepping stone towards Indochina;
-worked with forced labour for its iron ore.
+Landings on 10 February 1939 took the island to blockade the south China coast
+and as a step towards Indochina. Its iron ore was then worked with forced
+labour, much of it Chinese prisoners and conscripted Hainanese.
 
 # Formosa
 
@@ -327,8 +329,9 @@ thousands died; Corregidor held out in its tunnels until 6 May.
 
 ## leyte
 
-The largest naval battle ever fought. It destroyed the Imperial Navy as a
-fighting force and saw the first organised kamikaze attacks.
+Four separate actions over three days in October 1944, and by most measures the
+largest naval battle ever fought. It destroyed the Imperial Navy as a fighting
+force and saw the first organised kamikaze attacks.
 
 ## rangoon
 
@@ -364,9 +367,9 @@ dockyards were left intact.
 ## coralsea
 
 The first battle fought entirely by carrier aircraft, with the fleets never in
-sight of each other. It cost the Americans the <em>Lexington</em> and the
-Japanese the light carrier <em>Shōhō</em>; <em>Shōkaku</em> was bombed and
-<em>Zuikaku</em>’s air group destroyed, and both missed Midway a month later. Tactically a draw; strategically the first check on the
+sight of each other. It cost the Americans the Lexington and the
+Japanese the light carrier Shōhō; Shōkaku was bombed and
+Zuikaku’s air group destroyed, and both missed Midway a month later. Tactically a draw; strategically the first check on the
 Japanese advance, because the seaborne attempt on Port Moresby turned back and
 was never resumed.
 
@@ -383,8 +386,9 @@ surrender.
 
 ## tinian
 
-Its airfields, the busiest in the world by 1945, launched the atomic bomb
-missions to Hiroshima and Nagasaki.
+Taken between 24 July and 1 August 1944 in a landing often called the
+best-executed of the Pacific war. Its airfields were the busiest in the world
+by 1945, and both atomic missions flew from them.
 
 ## truk
 
@@ -398,8 +402,9 @@ cave defence that would be used again on Iwo Jima and Okinawa.
 
 ## wake
 
-A small Marine garrison beat off the first landing before being overwhelmed.
-Ninety-eight captured civilian workers were murdered there in 1943.
+A small Marine garrison beat off the first landing on 11 December 1941 and
+surrendered to the second on the 23rd. Ninety-eight captured civilian workers
+were murdered on the island in October 1943.
 
 ## kwajalein
 

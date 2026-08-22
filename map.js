@@ -2835,6 +2835,8 @@
     own.hidden = !ownNote;
     grp.textContent = groupNote;
     grp.hidden = !groupNote;
+    appendSource(own, sub ? head : rec, ownNote);
+    appendSource(grp, sub ? rec : null, groupNote);
     // Whose note the second block is. Without this the reader has two
     // paragraphs and no way of telling which one answers what they asked;
     // styles.css draws it from the attribute, so no extra element is needed.
@@ -2850,6 +2852,23 @@
     hideTooltip();
     placeLabels();
     keepClear(id);
+  }
+
+  /* Somewhere to read further, at the foot of what a record says. The note
+     itself is set with textContent and stays that way: the prose is hand-written
+     and nothing in it should be able to put markup on the page. So the link is
+     built as its own element and appended after the text, rather than written
+     into the sentence. Records with nothing worth linking to — the two events
+     with no article — simply have no `wiki` and get no line. */
+  function appendSource(el, rec, note) {
+    if (!el || !note || !rec || !rec.wiki) return;
+    var a = document.createElement('a');
+    a.className = 'note-src';
+    a.href = rec.wiki;
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+    a.textContent = 'Read more on Wikipedia';
+    el.appendChild(a);
   }
 
   /* On a phone the sheet opens as the name and nothing else, and this opens

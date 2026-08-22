@@ -378,7 +378,7 @@ JMAP.TERRITORIES = {
       id: 'mandate_ex_guam', en: 'Guam — inside the line, outside the mandate',
       when: 'American since 1898; never part of the mandate', cat: 'american', lvl: 3,
       c: '#325d7b', atoms: ['mandate_ex_guam'], unseen: true,
-      note: 'The mandate covered the Marianas <em>except Guam</em>, which is why every description of it says so. Spain ceded Guam to the United States in 1898, so when Japan took the German Marianas in 1914 it took the chain round an American island: Saipan, a hundred and thirty miles north, was Japanese, and Guam was a US naval station with a small Marine garrison. Japan would land there on 10 December 1941, two days after Pearl Harbor, rename it Ōmiyajima, and hold it until the Americans retook it in the summer of 1944.'
+      note: 'The mandate covered the Marianas except Guam, which is why every description of it says so. Spain ceded Guam to the United States in 1898, so when Japan took the German Marianas in 1914 it took the chain round an American island: Saipan, a hundred and thirty miles north, was Japanese, and Guam was a US naval station with a small Marine garrison. Japan would land there on 10 December 1941, two days after Pearl Harbor, rename it Ōmiyajima, and hold it until the Americans retook it in the summer of 1944.'
     },
     {
       id: 'mandate_au', en: 'Territory of New Guinea — the mandate boundary',
@@ -1016,8 +1016,9 @@ JMAP.SITES = [
   },
   {
     id: 'uraga', en: 'Uraga', ja: '浦賀 (Uraga)', orig: '浦賀 (Uraga)', zh: '浦賀', date: 'July 1853',
-    cat: 'battle', lvl: 3, both: true, lat: 35.25, lon: 139.72, year: 1853,
-    note: 'Where Commodore Perry’s squadron anchored and demanded that Japan open. He returned in February 1854 with a larger fleet.'
+    cat: 'battle', lvl: 3, both: true, lat: 35.25, lon: 139.72,
+    wiki: 'https://en.wikipedia.org/wiki/Perry_Expedition', year: 1853,
+    note: 'Four American warships anchored here on 8 July 1853 and Perry refused to leave until his letter was taken. He returned in February 1854 with twice as many ships, and the Treaty of Kanagawa followed in March.'
   },
   {
     id: 'shimoda', en: 'Shimoda', ja: '下田 (Shimoda)', orig: '下田 (Shimoda)', zh: '下田',
@@ -1082,7 +1083,8 @@ JMAP.SITES = [
   {
     id: 'tsushima', en: 'Tsushima Strait', ja: '対馬海峡 (Tsushima Kaikyō)', zh: '對馬海峽',
     ko: '대한해협 (Taehan Haehyŏp)', date: '27–28 May 1905', cat: 'battle', lvl: 3, both: true,
-    lat: 34.4, lon: 129.33, year: 1905,
+    lat: 34.4, lon: 129.33, wiki: 'https://en.wikipedia.org/wiki/Battle_of_Tsushima',
+    year: 1905,
     note: 'Tōgō destroyed the Russian Baltic Fleet here after its eighteen-thousand-mile voyage — the decisive battle of the Russo-Japanese War and the first modern defeat of a European power by an Asian one.'
   },
   {
@@ -1094,7 +1096,7 @@ JMAP.SITES = [
   {
     id: 'iwojima', en: 'Iwo Jima (Iō-tō)', ja: '硫黄島 (Iō-tō)', orig: '硫黄島 (Iō-tō)', zh: '硫磺島',
     date: '19 February – 26 March 1945', cat: 'battle', lvl: 2, both: true, lat: 24.78,
-    lon: 141.32, year: 1945,
+    lon: 141.32, wiki: 'https://en.wikipedia.org/wiki/Battle_of_Iwo_Jima', year: 1945,
     note: 'Taken at a cost of nearly 7,000 American and over 18,000 Japanese dead, to give fighter cover to the bombers over Japan.'
   },
   {
@@ -1117,7 +1119,8 @@ JMAP.SITES = [
   {
     id: 'kanghwa', en: 'Kanghwa Island', ja: '江華島 (Kōkatō)', zh: '江華島', ko: '강화도 (Kanghwado)',
     date: 'Treaty signed 26 February 1876', cat: 'battle', lvl: 3, both: true, lat: 37.75,
-    lon: 126.48, year: 1876,
+    lon: 126.48, wiki: 'https://en.wikipedia.org/wiki/Japan%E2%80%93Korea_Treaty_of_1876',
+    year: 1876,
     note: 'Japanese gunboat diplomacy — an engineered incident in 1875, then a fleet — produced the Kanghwa Treaty, Korea’s own unequal treaty, on the model of the ones imposed on Japan twenty years before.'
   },
   {
@@ -1163,13 +1166,14 @@ JMAP.SITES = [
   {
     id: 'nomonhan', en: 'Nuòménhǎn (Nomonhan, Khalkhin Gol)', ja: 'ノモンハン事件 (Nomonhan jiken)',
     orig: 'Халхын гол', zh: '諾門罕', date: 'May – September 1939', cat: 'battle', lvl: 3,
-    both: true, lat: 47.73, lon: 118.55, year: 1939,
+    both: true, lat: 47.73, lon: 118.55,
+    wiki: 'https://en.wikipedia.org/wiki/Battles_of_Khalkhin_Gol', year: 1939,
     note: 'An undeclared war on the Manchukuo–Mongolian border. Zhukov’s encirclement destroyed a Japanese division and helped settle the strategic argument in favour of striking south rather than north.'
   },
   {
     id: 'wanpaoshan', en: 'Wànbǎoshān (Wanpaoshan)', ja: '万宝山事件 (Manpōzan jiken)',
     orig: '萬寶山 (Wànbǎoshān)', zh: '萬寶山', date: 'July 1931', cat: 'battle', lvl: 3, lat: 44.95,
-    lon: 125.4, year: 1931,
+    lon: 125.4, wiki: 'https://en.wikipedia.org/wiki/Wanpaoshan_Incident', year: 1931,
     note: 'A quarrel over an irrigation ditch between Korean and Chinese farmers, inflamed by Japanese press reports into anti-Chinese riots in Korea, two months before the invasion of Manchuria.'
   },
   {
@@ -1182,7 +1186,8 @@ JMAP.SITES = [
   {
     id: 'marcopolo', en: 'Lúgōuqiáo (the Marco Polo Bridge)', ja: '盧溝橋事件 (Rokōkyō jiken)',
     orig: '盧溝橋 (Lúgōuqiáo)', zh: '盧溝橋', date: '7 July 1937', cat: 'battle', lvl: 2, both: true,
-    lat: 39.85, lon: 116.21, year: 1937,
+    lat: 39.85, lon: 116.21, wiki: 'https://en.wikipedia.org/wiki/Marco_Polo_Bridge_incident',
+    year: 1937,
     note: 'A night exercise, a missing soldier and an exchange of fire — the skirmish that opened eight years of full-scale war in China.'
   },
   {
@@ -1262,8 +1267,9 @@ JMAP.SITES = [
   {
     id: 'hainan', en: 'Hǎinándǎo (Hainan Island)', ja: '海南島 (Kainantō)',
     orig: '海南島 (Hǎinándǎo)', zh: '海南島', date: 'Occupied February 1939', cat: 'battle', lvl: 3,
-    lat: 19.55, lon: 109.6, year: 1939,
-    note: 'Seized to blockade south China and as a stepping stone towards Indochina; worked with forced labour for its iron ore.'
+    lat: 19.55, lon: 109.6, wiki: 'https://en.wikipedia.org/wiki/Hainan_Island_Operation',
+    year: 1939,
+    note: 'Landings on 10 February 1939 took the island to blockade the south China coast and as a step towards Indochina. Its iron ore was then worked with forced labour, much of it Chinese prisoners and conscripted Hainanese.'
   },
   {
     id: 'taipei', en: 'Taihoku (Taipei)', ja: '臺北 (Taihoku)', orig: '臺北 (Tâi-pak)', zh: '臺北',
@@ -1285,7 +1291,8 @@ JMAP.SITES = [
   {
     id: 'nikolaevsk', en: 'Nikolaevsk-on-Amur', ja: '尼港事件 (Nikō jiken)',
     orig: 'Николаевск-на-Амуре', zh: '廟街（尼港）', date: 'March – May 1920', cat: 'battle', lvl: 3,
-    lat: 53.14, lon: 140.73, year: 1920,
+    lat: 53.14, lon: 140.73, wiki: 'https://en.wikipedia.org/wiki/Nikolayevsk_incident',
+    year: 1920,
     note: 'Partisans killed the Japanese garrison and much of the Japanese and Russian civilian population. Japan used the massacre to justify occupying northern Sakhalin until 1925.'
   },
   {
@@ -1313,7 +1320,8 @@ JMAP.SITES = [
   },
   {
     id: 'kotabharu', en: 'Kota Bharu', orig: 'Kota Bharu', date: '8 December 1941',
-    cat: 'battle', lvl: 3, lat: 6.13, lon: 102.24, year: 1941,
+    cat: 'battle', lvl: 3, lat: 6.13, lon: 102.24,
+    wiki: 'https://en.wikipedia.org/wiki/Battle_of_Kota_Bharu', year: 1941,
     note: 'The landing in northern Malaya began roughly an hour before the first bombs fell on Pearl Harbor — on the other side of the date line, so the calendars disagree.'
   },
   {
@@ -1324,14 +1332,15 @@ JMAP.SITES = [
   {
     id: 'corregidor', en: 'Bataan & Corregidor', ja: 'バターン・コレヒドール (Batān Korehidōru)',
     orig: 'Bataan / Corregidor', zh: '巴丹・科雷希多', date: 'April – 6 May 1942', cat: 'battle',
-    lvl: 3, both: true, lat: 14.38, lon: 120.57, year: 1942,
+    lvl: 3, both: true, lat: 14.38, lon: 120.57,
+    wiki: 'https://en.wikipedia.org/wiki/Battle_of_Corregidor', year: 1942,
     note: 'Bataan surrendered on 9 April 1942 and the death march followed, in which thousands died; Corregidor held out in its tunnels until 6 May.'
   },
   {
     id: 'leyte', en: 'Leyte Gulf', ja: 'レイテ沖海戦 (Reite-oki kaisen)', orig: 'Golpo ng Leyte',
     zh: '雷伊泰灣', date: '23–26 October 1944', cat: 'battle', lvl: 2, both: true, lat: 10.8,
-    lon: 125.4, year: 1944,
-    note: 'The largest naval battle ever fought. It destroyed the Imperial Navy as a fighting force and saw the first organised kamikaze attacks.'
+    lon: 125.4, wiki: 'https://en.wikipedia.org/wiki/Battle_of_Leyte_Gulf', year: 1944,
+    note: 'Four separate actions over three days in October 1944, and by most measures the largest naval battle ever fought. It destroyed the Imperial Navy as a fighting force and saw the first organised kamikaze attacks.'
   },
   {
     id: 'rangoon', en: 'Rangoon (Yangon)', ja: 'ラングーン (Rangūn)', orig: 'ရန်ကုန် (Yangon)',
@@ -1341,7 +1350,7 @@ JMAP.SITES = [
   {
     id: 'imphal', en: 'Imphal & Kohima', ja: 'インパール作戦 (Inpāru sakusen)',
     orig: 'Imphal / Kohima', zh: '英帕爾', date: 'March – July 1944', cat: 'battle', lvl: 2,
-    lat: 24.82, lon: 93.94, year: 1944,
+    lat: 24.82, lon: 93.94, wiki: 'https://en.wikipedia.org/wiki/Battle_of_Imphal', year: 1944,
     note: 'The attempt to invade India, fought alongside Bose’s Indian National Army and launched without adequate supply. Some 55,000 Japanese casualties, most from starvation and disease — the worst defeat in Japanese military history to that point.'
   },
   {
@@ -1359,56 +1368,62 @@ JMAP.SITES = [
   {
     id: 'pearlharbor', en: 'Pearl Harbor', ja: '真珠湾攻撃 (Shinjuwan kōgeki)', orig: 'Puʻuloa',
     zh: '珍珠港', date: '7 December 1941 (8 December in Japan)', cat: 'battle', lvl: 1, both: true,
-    lat: 21.35, lon: -157.95, year: 1941,
+    lat: 21.35, lon: -157.95, wiki: 'https://en.wikipedia.org/wiki/Attack_on_Pearl_Harbor',
+    year: 1941,
     note: 'Six carriers, two waves, two hours. Eight battleships hit and over 2,400 killed — but the American carriers were at sea and the fuel tanks and dockyards were left intact.'
   },
   {
     id: 'coralsea', en: 'Coral Sea', ja: '珊瑚海海戦 (Sangokai kaisen)', zh: '珊瑚海海戰',
-    date: '4–8 May 1942', cat: 'battle', lvl: 3, both: true, lat: -13.5, lon: 154, year: 1942,
-    note: 'The first battle fought entirely by carrier aircraft, with the fleets never in sight of each other. It cost the Americans the <em>Lexington</em> and the Japanese the light carrier <em>Shōhō</em>; <em>Shōkaku</em> was bombed and <em>Zuikaku</em>’s air group destroyed, and both missed Midway a month later. Tactically a draw; strategically the first check on the Japanese advance, because the seaborne attempt on Port Moresby turned back and was never resumed.'
+    date: '4–8 May 1942', cat: 'battle', lvl: 3, both: true, lat: -13.5, lon: 154,
+    wiki: 'https://en.wikipedia.org/wiki/Battle_of_the_Coral_Sea', year: 1942,
+    note: 'The first battle fought entirely by carrier aircraft, with the fleets never in sight of each other. It cost the Americans the Lexington and the Japanese the light carrier Shōhō; Shōkaku was bombed and Zuikaku’s air group destroyed, and both missed Midway a month later. Tactically a draw; strategically the first check on the Japanese advance, because the seaborne attempt on Port Moresby turned back and was never resumed.'
   },
   {
     id: 'midway', en: 'Midway', ja: 'ミッドウェー海戦 (Middowē kaisen)', orig: 'Pihemanu', zh: '中途島',
     date: '4–7 June 1942', cat: 'battle', lvl: 1, both: true, lat: 28.21, lon: -177.37,
-    year: 1942,
+    wiki: 'https://en.wikipedia.org/wiki/Battle_of_Midway', year: 1942,
     note: 'All four Japanese fleet carriers fatally hit within a day, against one American. The offensive initiative in the Pacific never came back.'
   },
   {
     id: 'saipan', en: 'Saipan', ja: 'サイパン (Saipan)', orig: 'Saipan', zh: '塞班島',
     date: '15 June – 9 July 1944', cat: 'battle', lvl: 1, both: true, lat: 15.19, lon: 145.75,
-    year: 1944,
+    wiki: 'https://en.wikipedia.org/wiki/Battle_of_Saipan', year: 1944,
     note: 'Its loss put Japan within B-29 range and brought down the Tōjō cabinet. Hundreds of Japanese civilians killed themselves at Marpi Point rather than surrender.'
   },
   {
     id: 'tinian', en: 'Tinian', ja: 'テニアン (Tenian)', orig: 'Tinian', zh: '天寧島',
-    date: 'Taken July–August 1944', cat: 'battle', lvl: 3, lat: 15, lon: 145.62, year: 1944,
-    note: 'Its airfields, the busiest in the world by 1945, launched the atomic bomb missions to Hiroshima and Nagasaki.'
+    date: 'Taken July–August 1944', cat: 'battle', lvl: 3, lat: 15, lon: 145.62,
+    wiki: 'https://en.wikipedia.org/wiki/Battle_of_Tinian', year: 1944,
+    note: 'Taken between 24 July and 1 August 1944 in a landing often called the best-executed of the Pacific war. Its airfields were the busiest in the world by 1945, and both atomic missions flew from them.'
   },
   {
     id: 'truk', en: 'Truk (Chuuk)', ja: 'トラック島 (Torakku-tō)', orig: 'Chuuk', zh: '特魯克',
     date: 'Operation Hailstone, 17–18 February 1944', cat: 'battle', lvl: 3, lat: 7.42,
-    lon: 151.78, year: 1944,
+    lon: 151.78, wiki: 'https://en.wikipedia.org/wiki/Operation_Hailstone', year: 1944,
     note: 'The Combined Fleet’s central Pacific anchorage — "the Gibraltar of the Pacific" — wrecked by carrier raids and then bypassed and left to rot.'
   },
   {
     id: 'peleliu', en: 'Peleliu (Beliliou)', ja: 'ペリリュー (Peririyū)', orig: 'Beliliou',
     zh: '貝里琉', date: 'September – November 1944', cat: 'battle', lvl: 3, lat: 7, lon: 134.25,
-    year: 1944,
+    wiki: 'https://en.wikipedia.org/wiki/Battle_of_Peleliu', year: 1944,
     note: 'Expected to take four days and took over two months. It introduced the deep cave defence that would be used again on Iwo Jima and Okinawa.'
   },
   {
     id: 'wake', en: 'Wake Island', ja: '大鳥島 (Ōtorishima)', orig: 'Wake Island', zh: '威克島',
-    date: 'Fell 23 December 1941', cat: 'battle', lvl: 2, lat: 19.28, lon: 166.65, year: 1941,
-    note: 'A small Marine garrison beat off the first landing before being overwhelmed. Ninety-eight captured civilian workers were murdered there in 1943.'
+    date: 'Fell 23 December 1941', cat: 'battle', lvl: 2, lat: 19.28, lon: 166.65,
+    wiki: 'https://en.wikipedia.org/wiki/Battle_of_Wake_Island', year: 1941,
+    note: 'A small Marine garrison beat off the first landing on 11 December 1941 and surrendered to the second on the 23rd. Ninety-eight captured civilian workers were murdered on the island in October 1943.'
   },
   {
     id: 'kwajalein', en: 'Kwajalein', ja: 'クェゼリン (Kuezerin)', orig: 'Kuwajleen', zh: '瓜加林',
-    date: 'January – February 1944', cat: 'battle', lvl: 3, lat: 9.19, lon: 167.47, year: 1944,
+    date: 'January – February 1944', cat: 'battle', lvl: 3, lat: 9.19, lon: 167.47,
+    wiki: 'https://en.wikipedia.org/wiki/Battle_of_Kwajalein', year: 1944,
     note: 'Taken between 31 January and 3 February 1944, with Majuro, in the first assault on territory Japan had held since before the war.'
   },
   {
     id: 'tarawa', en: 'Tarawa', ja: 'タラワ (Tarawa)', orig: 'Tarawa', zh: '塔拉瓦',
-    date: '20–23 November 1943', cat: 'battle', lvl: 3, lat: 1.33, lon: 172.98, year: 1943,
+    date: '20–23 November 1943', cat: 'battle', lvl: 3, lat: 1.33, lon: 172.98,
+    wiki: 'https://en.wikipedia.org/wiki/Battle_of_Tarawa', year: 1943,
     note: 'Seventy-six hours, over a thousand American dead on a coral islet of barely more than a square kilometre, and almost the whole garrison killed. The cost changed how the rest of the island campaign was planned.'
   },
   {
@@ -1419,146 +1434,167 @@ JMAP.SITES = [
   {
     id: 'guadalcanal', en: 'Guadalcanal', ja: 'ガダルカナル (Gadarukanaru)', orig: 'Guadalcanal',
     zh: '瓜達爾卡納爾', date: 'August 1942 – February 1943', cat: 'battle', lvl: 2, both: true,
-    lat: -9.58, lon: 160.15, year: 1942,
+    lat: -9.58, lon: 160.15, wiki: 'https://en.wikipedia.org/wiki/Guadalcanal_campaign',
+    year: 1942,
     note: 'A half-built airfield became the first sustained Allied offensive of the Pacific War. Six months of attrition on land, sea and air that Japan could not afford; the withdrawal marked the turn of the tide.'
   },
   {
     id: 'portmoresby', en: 'Port Moresby', ja: 'ポートモレスビー (Pōto Moresubī)', orig: 'Port Moresby',
     zh: '莫爾茲比港', date: 'Coral Sea May 1942; Kokoda July–November 1942', cat: 'battle', lvl: 3,
-    lat: -9.44, lon: 147.18, year: 1942,
+    lat: -9.44, lon: 147.18, wiki: 'https://en.wikipedia.org/wiki/Kokoda_Track_campaign',
+    year: 1942,
     note: 'The objective Japan never reached. The seaborne attempt was turned back at the Coral Sea and the overland push failed on the Kokoda Track, within sight of its goal.'
   },
   {
     id: 'darwin', en: 'Darwin', ja: 'ダーウィン (Dāwin)', orig: 'Darwin', zh: '達爾文',
-    date: '19 February 1942', cat: 'battle', lvl: 3, lat: -12.46, lon: 130.84, year: 1942,
+    date: '19 February 1942', cat: 'battle', lvl: 3, lat: -12.46, lon: 130.84,
+    wiki: 'https://en.wikipedia.org/wiki/Bombing_of_Darwin', year: 1942,
     note: 'More bombs fell on Darwin than on Pearl Harbor, delivered by many of the same aircrew. Raids on northern Australia continued into 1943.'
   },
   {
     id: 'attu', en: 'Attu', ja: 'アッツ島 (Attsu-tō)', orig: 'Atan', zh: '阿圖島',
     date: 'Occupied June 1942, retaken May 1943', cat: 'battle', lvl: 3, lat: 52.88,
-    lon: 173.18, year: 1942,
+    lon: 173.18, wiki: 'https://en.wikipedia.org/wiki/Battle_of_Attu', year: 1942,
     note: 'Of some 2,600 defenders, fewer than 30 were taken alive. Tokyo called the annihilation gyokusai — "shattering the jewel" — and made it a model.'
   },
   {
     id: 'kiska', en: 'Kiska', ja: 'キスカ島 (Kisuka-tō)', orig: 'Qisxa', zh: '基斯卡島',
     date: 'Occupied June 1942, evacuated July 1943', cat: 'battle', lvl: 3, lat: 51.97,
-    lon: 177.53, year: 1942,
+    lon: 177.53, wiki: 'https://en.wikipedia.org/wiki/Operation_Cottage', year: 1942,
     note: 'The garrison was lifted off under cover of fog before the Allied landing, which went ashore against an empty island and still took casualties from friendly fire.'
   },
   {
     id: 'pingxingguan', en: 'Píngxíngguān (Pinghsingkuan)', ja: '平型関 (Heikeikan)', zh: '平型關',
-    date: '25 September 1937', cat: 'battle', lvl: 3, lat: 39.36, lon: 113.93, year: 1937,
+    date: '25 September 1937', cat: 'battle', lvl: 3, lat: 39.36, lon: 113.93,
+    wiki: 'https://en.wikipedia.org/wiki/Battle_of_Pingxingguan', year: 1937,
     note: 'A pass in the Wutai mountains where Lin Biao\'s division ambushed a Japanese supply column on 25 September 1937 — a small action, and the Eighth Route Army\'s first, which the party made a great deal of afterwards.'
   },
   {
     id: 'taierzhuang', en: 'Tái’érzhuāng (Taierhchuang)', ja: '台児荘 (Taijisō)', zh: '台兒莊',
-    date: 'March – April 1938', cat: 'battle', lvl: 3, lat: 34.56, lon: 117.73, year: 1938,
+    date: 'March – April 1938', cat: 'battle', lvl: 3, lat: 34.56, lon: 117.73,
+    wiki: 'https://en.wikipedia.org/wiki/Battle_of_Taierzhuang', year: 1938,
     note: 'The first clear Chinese victory of the war. Li Zongren let two Japanese divisions push into the town and closed on them from both flanks, and they broke and ran in early April 1938. It did not save Xuzhou, which fell six weeks later, but it ended the belief that the army could not win.'
   },
   {
     id: 'huangqiao', en: 'Huángqiáo (Hwangchiao)', ja: '黄橋 (Kōkyō)', zh: '黃橋',
-    date: 'October 1940', cat: 'battle', lvl: 3, lat: 32.27, lon: 120.24, year: 1940,
+    date: 'October 1940', cat: 'battle', lvl: 3, lat: 32.27, lon: 120.24,
+    wiki: 'https://en.wikipedia.org/wiki/Battle_of_Rugao%E2%80%93Huangqiao', year: 1940,
     note: 'Nationalist and Communist forces fought each other here in October 1940, north of the Yangtze, while the war with Japan went on around them. The New Fourth Army won, and Chiang Kai-shek\'s answer three months later was the New Fourth Army Incident.'
   },
   {
     id: 'dushan', en: 'Dúshān (Tushan)', ja: '独山 (Dokusan)', zh: '獨山', date: 'December 1944',
-    cat: 'battle', lvl: 3, lat: 25.83, lon: 107.55, year: 1944,
+    cat: 'battle', lvl: 3, lat: 25.83, lon: 107.55,
+    wiki: 'https://en.wikipedia.org/wiki/Operation_Ichi-Go', year: 1944,
     note: 'The furthest inland the war ever came. The Ichigo offensive reached this small town in Guizhou in December 1944, a hundred miles short of Guiyang, and turned back for want of supply.'
   },
   {
     id: 'musha', en: 'Musha (Wushe)', ja: '霧社事件 (Musha jiken)', zh: '霧社',
-    date: '27 October 1930', cat: 'battle', lvl: 2, lat: 24.02, lon: 121.14, year: 1930,
+    date: '27 October 1930', cat: 'battle', lvl: 2, lat: 24.02, lon: 121.14,
+    wiki: 'https://en.wikipedia.org/wiki/Musha_Incident', year: 1930,
     note: 'Seediq villagers attacked the Japanese at a school sports day on 27 October 1930 and killed 134. The suppression took two months, mountain artillery and aircraft dropping gas; about half the Seediq of the district were dead by the end, and the survivors were moved off their land.'
   },
   {
     id: 'huanggutun', en: 'Huánggūtún (Huangkutun)',
     ja: '張作霖爆殺事件 (Chō Sakurin bakusatsu jiken)', zh: '皇姑屯', date: '4 June 1928', cat: 'battle',
-    lvl: 2, lat: 41.83, lon: 123.35, year: 1928,
+    lvl: 2, lat: 41.83, lon: 123.35, wiki: 'https://en.wikipedia.org/wiki/Huanggutun_incident',
+    year: 1928,
     note: 'Kwantung Army officers blew up Zhang Zuolin\'s train where the South Manchuria Railway crosses the Peking line, on 4 June 1928. Tokyo disowned it and the plotters went unpunished, which is most of why 1931 happened the way it did.'
   },
   {
     id: 'dandi', en: 'Dandi', ja: 'ダンディ (Dandi)', orig: 'દાંડી', date: '6 April 1930',
-    cat: 'battle', lvl: 2, lat: 20.92, lon: 72.71, year: 1930,
+    cat: 'battle', lvl: 2, lat: 20.92, lon: 72.71,
+    wiki: 'https://en.wikipedia.org/wiki/Salt_March', year: 1930,
     note: 'Gandhi reached the sea here on 6 April 1930 after walking 240 miles from Ahmedabad, and made salt in defiance of the government monopoly. Some sixty thousand people were imprisoned in the civil disobedience that followed.'
   },
   {
     id: 'yenbai', en: 'Yen Bai (Yên Bái)', ja: 'イエンバイ (Ienbai)', orig: 'Yên Bái', zh: '安沛',
-    date: '10 February 1930', cat: 'battle', lvl: 3, lat: 21.7, lon: 104.87, year: 1930,
+    date: '10 February 1930', cat: 'battle', lvl: 3, lat: 21.7, lon: 104.87,
+    wiki: 'https://en.wikipedia.org/wiki/Y%C3%AAn_B%C3%A1i_mutiny', year: 1930,
     note: 'Vietnamese soldiers of the garrison mutinied on 10 February 1930 and killed their French officers. The rising was put down in a day, the VNQDD leadership was guillotined, and the initiative in Vietnamese nationalism passed to the communists.'
   },
   {
     id: 'chittagongraid', en: 'Chittagong', ja: 'チッタゴン (Chittagon)', orig: 'চট্টগ্রাম',
-    date: '18 April 1930', cat: 'battle', lvl: 3, lat: 22.36, lon: 91.78, year: 1930,
+    date: '18 April 1930', cat: 'battle', lvl: 3, lat: 22.36, lon: 91.78,
+    wiki: 'https://en.wikipedia.org/wiki/Chittagong_armoury_raid', year: 1930,
     note: 'Revolutionaries under Surya Sen took the two armouries here on 18 April 1930 and held the hills outside the town for four days — armed nationalism beside the civil disobedience of the same spring.'
   },
   {
     id: 'cheamri', en: 'Cheam-ri', ja: '堤岩里 (Teiganri)', zh: '堤岩里', ko: '제암리 (Cheam-ri)',
-    date: '15 April 1919', cat: 'battle', lvl: 2, lat: 37.13, lon: 126.86, year: 1919,
+    date: '15 April 1919', cat: 'battle', lvl: 2, lat: 37.13, lon: 126.86,
+    wiki: 'https://en.wikipedia.org/wiki/Jeamni_massacre', year: 1919,
     note: 'On 15 April 1919, after the March First Movement, troops locked some thirty villagers into the church here and burned it. It is the single episode that fixed the movement\'s suppression in Korean memory.'
   },
   {
     id: 'uozu', en: 'Uozu', ja: '魚津 (Uozu)', zh: '魚津', date: '23 July 1918', cat: 'battle',
-    lvl: 3, lat: 36.83, lon: 137.4, year: 1918,
+    lvl: 3, lat: 36.83, lon: 137.4, wiki: 'https://en.wikipedia.org/wiki/Rice_riots_of_1918',
+    year: 1918,
     note: 'Fishermen\'s wives blocked the loading of rice here on 23 July 1918 in protest at the price. The riots spread to most of the country within six weeks and brought down the Terauchi cabinet.'
   },
   {
     id: 'amritsar', en: 'Amritsar', ja: 'アムリットサル (Amurittosaru)', orig: 'ਅੰਮ੍ਰਿਤਸਰ',
-    date: '13 April 1919', cat: 'battle', lvl: 2, lat: 31.62, lon: 74.88, year: 1919,
+    date: '13 April 1919', cat: 'battle', lvl: 2, lat: 31.62, lon: 74.88,
+    wiki: 'https://en.wikipedia.org/wiki/Jallianwala_Bagh_massacre', year: 1919,
     note: 'Troops fired on a penned crowd at Jallianwala Bagh on 13 April 1919, killing several hundred. More than anything else it turned a generation of Indians against British rule.'
   },
   {
     id: 'kwangjustudent', en: 'Kōshū (Kwangju)', ja: '光州学生事件 (Kōshū gakusei jiken)', zh: '光州',
     ko: '광주 (Kwangju)', date: 'November 1929', cat: 'battle', lvl: 3, lat: 35.15, lon: 126.92,
-    year: 1929,
+    wiki: 'https://en.wikipedia.org/wiki/Gwangju_Student_Independence_Movement', year: 1929,
     note: 'A quarrel on the Naju train in November 1929 between Japanese and Korean students spread into the largest colonial-era protest after 1919, reaching some two hundred schools and lasting into the spring.'
   },
   {
     id: 'tapani', en: 'Tapani (Yujing)', ja: '噍吧哖事件 (Shahanē jiken)', zh: '噍吧哖', date: '1915',
-    cat: 'battle', lvl: 3, lat: 23.13, lon: 120.46, year: 1915,
+    cat: 'battle', lvl: 3, lat: 23.13, lon: 120.46,
+    wiki: 'https://en.wikipedia.org/wiki/Tapani_incident', year: 1915,
     note: 'The Xilai\'an rising of 1915, the last and largest armed revolt by Han Taiwanese against Japanese rule. Over eight hundred death sentences followed, most later commuted after the scale of it became known in Tokyo.'
   },
   {
     id: 'huayuankou', en: 'Huāyuánkǒu (Huayuankow)', ja: '花園口 (Kaenkō)', zh: '花園口',
-    date: '9 June 1938', cat: 'battle', lvl: 2, both: true, lat: 34.92, lon: 113.69, year: 1938,
+    date: '9 June 1938', cat: 'battle', lvl: 2, both: true, lat: 34.92, lon: 113.69,
+    wiki: 'https://en.wikipedia.org/wiki/1938_Yellow_River_flood', year: 1938,
     note: 'Nationalist troops, on Chiang Kai-shek\'s orders, blew the Yellow River dikes here on 9 June 1938 to stop the Japanese advance on Wuhan. The villages downstream were given no warning. The river left its bed for nine years, drowned several thousand villages, killed somewhere between 400,000 and 800,000 people, and left the country behind it open to the famine of 1942–43.'
   },
   {
     id: 'changkufeng', en: 'Zhānggǔfēng (Changkufeng) / Lake Khasan',
     ja: '張鼓峰事件 (Chōkohō jiken)', orig: 'озеро Хасан', zh: '張鼓峰', date: 'July – August 1938',
-    cat: 'battle', lvl: 3, lat: 42.44, lon: 130.66, year: 1938,
+    cat: 'battle', lvl: 3, lat: 42.44, lon: 130.66,
+    wiki: 'https://en.wikipedia.org/wiki/Battle_of_Lake_Khasan', year: 1938,
     note: 'Soviet and Japanese forces fought for a fortnight in July and August 1938 over a hill where Manchukuo, Korea and the Soviet Maritime Province meet. Japan came off worse, and did it again at Nomonhan the following summer.'
   },
   {
     id: 'bunagona', en: 'Buna–Gona', ja: 'ブナ・ゴナ (Buna-Gona)', orig: 'Buna / Gona', zh: '布納・戈納',
     date: 'November 1942 – January 1943', cat: 'battle', lvl: 2, lat: -8.65, lon: 148.38,
-    year: 1942,
+    wiki: 'https://en.wikipedia.org/wiki/Battle_of_Buna%E2%80%93Gona', year: 1942,
     note: 'The fighting in progress at this map\'s date. The Japanese beachhead on the north Papuan coast was reduced between November 1942 and January 1943, at a cost proportionally heavier than Guadalcanal\'s.'
   },
   {
     id: 'milnebay', en: 'Milne Bay', ja: 'ミルン湾 (Mirun-wan)', orig: 'Milne Bay', zh: '米爾恩灣',
     date: '25 August – 7 September 1942', cat: 'battle', lvl: 3, lat: -10.31, lon: 150.47,
-    year: 1942,
+    wiki: 'https://en.wikipedia.org/wiki/Battle_of_Milne_Bay', year: 1942,
     note: 'Australian and American troops threw back a Japanese landing between 25 August and 7 September 1942 — the first amphibious assault of the war to be defeated outright, and the eastern limit of the advance.'
   },
   {
     id: 'midnapore', en: 'Midnapore (Medinipur)', ja: 'ミドナポール (Midonapōru)', orig: 'মেদিনীপুর',
-    date: '1942–43', cat: 'battle', lvl: 2, lat: 22.43, lon: 87.32, year: 1942,
+    date: '1942–43', cat: 'battle', lvl: 2, lat: 22.43, lon: 87.32,
+    wiki: 'https://en.wikipedia.org/wiki/Bengal_famine_of_1943', year: 1942,
     note: 'The district hit hardest by the requisition of boats and rice in 1942, and the centre of the Bengal famine that followed: some three million people died in the province while the war economy in Calcutta was fed.'
   },
   {
     id: 'pingdingshan', en: 'Píngdǐngshān (Pingtingshan)', ja: '平頂山事件 (Heichōzan jiken)',
     zh: '平頂山', date: '16 September 1932', cat: 'battle', lvl: 3, lat: 41.88, lon: 123.88,
-    year: 1932,
+    wiki: 'https://en.wikipedia.org/wiki/Pingdingshan_massacre', year: 1932,
     note: 'Japanese troops killed the inhabitants of this mining village near Fushun on 16 September 1932, a year to the day after the Mukden Incident, in reprisal for a guerrilla raid. Some three thousand died.'
   },
   {
     id: 'pochonbo', en: 'Poch’ŏnbo', ja: '普天堡 (Futenpo)', zh: '普天堡', ko: '보천보 (Poch’ŏnbo)',
-    date: '4 June 1937', cat: 'battle', lvl: 3, lat: 41.4, lon: 128.29, year: 1937,
+    date: '4 June 1937', cat: 'battle', lvl: 3, lat: 41.4, lon: 128.29,
+    wiki: 'https://en.wikipedia.org/wiki/Battle_of_Pochonbo', year: 1937,
     note: 'Korean and Chinese partisans crossed the Yalu and raided the police post and county offices here on 4 June 1937 — the largest action of the border guerrilla war, and the founding episode of the North Korean state\'s account of itself.'
   },
   {
     id: 'savo', en: 'Savo Island', ja: 'サボ島沖海戦 (Sabo-tō oki kaisen)', orig: 'Savo', zh: '薩沃島',
-    date: '9 August 1942', cat: 'battle', lvl: 3, lat: -9.13, lon: 159.85, year: 1942,
+    date: '9 August 1942', cat: 'battle', lvl: 3, lat: -9.13, lon: 159.85,
+    wiki: 'https://en.wikipedia.org/wiki/Battle_of_Savo_Island', year: 1942,
     note: 'Japanese cruisers surprised the Allied screen off Guadalcanal on the night of 9 August 1942 and sank four heavy cruisers in half an hour, the worst surface defeat in United States naval history.'
   },
   {
@@ -1598,66 +1634,72 @@ JMAP.SITES = [
   {
     id: 'taiwanexped', en: 'The Taiwan Expedition', ja: '台湾出兵 (Taiwan shuppei)', zh: '牡丹社事件',
     date: 'May – December 1874', cat: 'battle', lvl: 3, both: true, lat: 22.05, lon: 120.75,
-    year: 1874,
+    wiki: 'https://en.wikipedia.org/wiki/1874_Japanese_expedition_to_Taiwan', year: 1874,
     note: 'Japan\'s first overseas expedition, sent in 1874 against the Paiwan of southern Taiwan after shipwrecked Ryūkyūan sailors were killed. More soldiers died of disease than of fighting, but China paid an indemnity, and in doing so conceded that the Ryūkyūs were Japan\'s.'
   },
   {
     id: 'pyongyangbattle', en: 'Battle of Pyongyang', ja: '平壌の戦い (Heijō no tatakai)',
     zh: '平壤戰役', ko: '평양 전투 (P’yŏngyang chŏnt’u)', date: '15 September 1894', cat: 'battle',
-    lvl: 2, both: true, lat: 39.02, lon: 125.75, year: 1894,
+    lvl: 2, both: true, lat: 39.02, lon: 125.75,
+    wiki: 'https://en.wikipedia.org/wiki/Battle_of_Pyongyang_(1894)', year: 1894,
     note: 'The Japanese army took the city on 15 September 1894 and the Qing forces broke northward — the land battle that decided the first Sino-Japanese War before the fleets met at the Yalu two days later.'
   },
   {
     id: 'portarthursiege', en: 'Siege of Lǚshùn (Port Arthur)', ja: '旅順攻囲戦 (Ryojun kōisen)',
     zh: '旅順圍城戰', date: 'August 1904 – 2 January 1905', cat: 'battle', lvl: 2, both: true,
-    lat: 38.82, lon: 121.22, year: 1904,
+    lat: 38.82, lon: 121.22, wiki: 'https://en.wikipedia.org/wiki/Siege_of_Port_Arthur',
+    year: 1904,
     note: 'Five months, eleven-inch howitzers firing on the harbour, and something like sixty thousand Japanese casualties for a fortress that surrendered on 2 January 1905. The scale of the losses set the pattern the next war would follow.'
   },
   {
     id: 'itoharbin', en: 'Assassination of Itō Hirobumi', ja: '伊藤博文暗殺 (Itō Hirobumi ansatsu)',
     zh: '伊藤博文遇刺', ko: '이토 히로부미 저격 (Itʻo Hirobumi chŏgyŏk)', date: '26 October 1909',
-    cat: 'battle', lvl: 2, both: true, lat: 45.77, lon: 126.63, year: 1909,
+    cat: 'battle', lvl: 2, both: true, lat: 45.77, lon: 126.63,
+    wiki: 'https://en.wikipedia.org/wiki/An_Jung-geun', year: 1909,
     note: 'An Chunggŭn shot Itō Hirobumi on the platform at Harbin on 26 October 1909. Itō had been Korea\'s resident-general and, latterly, a brake on outright annexation; Korea was annexed within the year.'
   },
   {
     id: 'tsingtaosiege', en: 'Siege of Qīngdǎo (Tsingtao)', ja: '青島の戦い (Chintao no tatakai)',
     zh: '青島戰役', date: '27 August – 7 November 1914', cat: 'battle', lvl: 3, lat: 36.07,
-    lon: 120.38, year: 1914,
+    lon: 120.38, wiki: 'https://en.wikipedia.org/wiki/Siege_of_Tsingtao', year: 1914,
     note: 'Japan and a small British contingent took the German leasehold between August and November 1914 — Japan\'s whole war in Europe\'s war, and the beginning of the Shandong question that produced May Fourth.'
   },
   {
     id: 'siberia', en: 'The Siberian Intervention', ja: 'シベリア出兵 (Shiberia shuppei)',
     orig: 'Сибирская интервенция', zh: '西伯利亞干涉', date: 'From August 1918', cat: 'battle',
-    lvl: 3, lat: 43.12, lon: 131.89, year: 1918,
+    lvl: 3, lat: 43.12, lon: 131.89,
+    wiki: 'https://en.wikipedia.org/wiki/Siberian_intervention', year: 1918,
     note: 'Japan landed at Vladivostok in August 1918 with the other Allies and stayed after they left, holding the Maritime Province with some 70,000 troops until 1922 and northern Sakhalin until 1925. It came home with nothing.'
   },
   {
     id: 'marchfirst', en: 'The March First Movement', ja: '三・一運動 (San-ichi undō)', zh: '三一運動',
     ko: '삼일운동 (Samil undong)', date: 'From 1 March 1919', cat: 'battle', lvl: 1, both: true,
-    lat: 37.571, lon: 126.988, year: 1919,
+    lat: 37.571, lon: 126.988, wiki: 'https://en.wikipedia.org/wiki/March_First_Movement',
+    year: 1919,
     note: 'Thirty-three signatories read a declaration of independence in Seoul on 1 March 1919 and the demonstrations spread to every province: perhaps two million people took part over the following months. The suppression killed some seven thousand, and the colonial government swapped military rule for what it called cultural rule.'
   },
   {
     id: 'mayfourth', en: 'The May Fourth Movement', ja: '五・四運動 (Go-shi undō)', zh: '五四運動',
-    date: '4 May 1919', cat: 'battle', lvl: 1, both: true, lat: 39.9, lon: 116.39, year: 1919,
+    date: '4 May 1919', cat: 'battle', lvl: 1, both: true, lat: 39.9, lon: 116.39,
+    wiki: 'https://en.wikipedia.org/wiki/May_Fourth_Movement', year: 1919,
     note: 'Students marched in Beijing on 4 May 1919 when Versailles handed Germany\'s Shandong holdings to Japan rather than back to China. The strikes and boycotts that followed are where modern Chinese nationalism is usually dated from.'
   },
   {
     id: 'pongodong', en: 'Fengwudong (Pongodong)', ja: '鳳梧洞の戦い (Hōgodō no tatakai)', zh: '鳳梧洞',
     ko: '봉오동 (Pongodong)', date: 'June 1920', cat: 'battle', lvl: 3, lat: 42.47, lon: 129.76,
-    year: 1920,
+    wiki: 'https://en.wikipedia.org/wiki/Battle_of_Fengwudong', year: 1920,
     note: 'Korean independence units under Hong Beom-do beat a Japanese pursuit column in the Manchurian border hills in June 1920 — the first victory of the armed resistance.'
   },
   {
     id: 'chongsanri', en: 'Qingshanli (Chŏngsan-ri)', ja: '青山里の戦い (Seizanri no tatakai)',
     zh: '青山里', ko: '청산리 (Chŏngsan-ri)', date: 'October 1920', cat: 'battle', lvl: 3, lat: 42.6,
-    lon: 128.8, year: 1920,
+    lon: 128.8, wiki: 'https://en.wikipedia.org/wiki/Battle_of_Qingshanli', year: 1920,
     note: 'Kim Chwa-chin\'s and Hong Beom-do\'s units fought a Japanese division over six days in October 1920 and got away. The reprisal fell on the Korean villages of Jiandao instead, and thousands were killed.'
   },
   {
     id: 'kantoquake', en: 'The Great Kantō Earthquake', ja: '関東大震災 (Kantō daishinsai)',
     zh: '關東大地震', date: '1 September 1923', cat: 'battle', lvl: 1, both: true, lat: 35.4,
-    lon: 139.5, year: 1923,
+    lon: 139.5, wiki: 'https://en.wikipedia.org/wiki/Great_Kant%C5%8D_Earthquake', year: 1923,
     note: 'The earthquake of 1 September 1923 and the fires after it killed about 105,000 people in Tokyo and Yokohama. In the days that followed, rumour and vigilante bands — with police and soldiers among them — killed several thousand Koreans.'
   },
   {
@@ -1674,53 +1716,57 @@ JMAP.SITES = [
   {
     id: 'liutiaohu', en: 'The Mukden Incident', ja: '柳条湖事件 (Ryūjōko jiken)', zh: '柳條湖事件',
     date: '18 September 1931', cat: 'battle', lvl: 1, both: true, lat: 41.85, lon: 123.47,
-    year: 1931,
+    wiki: 'https://en.wikipedia.org/wiki/Mukden_incident', year: 1931,
     note: 'Kwantung Army officers set a small charge on the South Manchuria Railway just north of Mukden on the night of 18 September 1931, blamed Chinese troops, and used it to occupy the city by morning. The damage was slight enough that a train passed over the line minutes later.'
   },
   {
     id: 'shanghaibattle', en: 'Battle of Shànghǎi', ja: '第二次上海事変 (Dainiji Shanhai jihen)',
     zh: '淞滬會戰', date: '13 August – 26 November 1937', cat: 'battle', lvl: 1, both: true,
-    lat: 31.23, lon: 121.47, year: 1937,
+    lat: 31.23, lon: 121.47, wiki: 'https://en.wikipedia.org/wiki/Battle_of_Shanghai',
+    year: 1937,
     note: 'Three months of street and river fighting from 13 August 1937, and the first time Chiang Kai-shek committed his German-trained divisions. They were destroyed in it, and the road to Nanjing was open.'
   },
   {
     id: 'nanjingmassacre', en: 'The Nanjing Massacre', ja: '南京事件 (Nankin jiken)', zh: '南京大屠殺',
     date: 'December 1937 – February 1938', cat: 'battle', lvl: 1, both: true, lat: 32.06,
-    lon: 118.8, year: 1937,
+    lon: 118.8, wiki: 'https://en.wikipedia.org/wiki/Nanjing_Massacre', year: 1937,
     note: 'Japanese troops entered the capital on 13 December 1937 and the killing and rape went on for weeks. Estimates of the dead run from the tens of thousands to 300,000, depending on the period and the boundary taken.'
   },
   {
     id: 'changshafire', en: 'The Changsha fire', ja: '長沙大火 (Chōsa taika)', zh: '文夕大火',
-    date: '13 November 1938', cat: 'battle', lvl: 3, lat: 28.23, lon: 112.94, year: 1938,
+    date: '13 November 1938', cat: 'battle', lvl: 3, lat: 28.23, lon: 112.94,
+    wiki: 'https://en.wikipedia.org/wiki/1938_Changsha_fire', year: 1938,
     note: 'The garrison burned the city on 13 November 1938 on a false report that the Japanese were at the gates. They were still a hundred miles away. Some twenty thousand people died and most of Changsha was lost, in what remains one of the worst self-inflicted disasters of the war.'
   },
   {
     id: 'chongqingraids', en: 'The bombing of Chóngqìng', ja: '重慶爆撃 (Jūkei bakugeki)',
     zh: '重慶大轟炸', date: '3–4 May 1939, and for five years after', cat: 'battle', lvl: 2,
-    lat: 29.56, lon: 106.55, year: 1939,
+    lat: 29.56, lon: 106.55, wiki: 'https://en.wikipedia.org/wiki/Bombing_of_Chongqing',
+    year: 1939,
     note: 'The raids of 3 and 4 May 1939 killed several thousand people in the crowded riverside districts. The bombing of the wartime capital went on for five years — one of the first sustained air campaigns against a civilian population anywhere.'
   },
   {
     id: 'newfourtharmy', en: 'The New Fourth Army Incident', ja: '皖南事変 (Kannan jihen)',
     zh: '皖南事變', date: 'January 1941', cat: 'battle', lvl: 3, lat: 30.63, lon: 118.42,
-    year: 1941,
+    wiki: 'https://en.wikipedia.org/wiki/New_Fourth_Army_Incident', year: 1941,
     note: 'Nationalist troops surrounded the New Fourth Army\'s headquarters column in southern Anhui in January 1941 and destroyed it. The united front survived on paper and not in fact, and both sides spent the rest of the war watching each other.'
   },
   {
     id: 'henanfamine', en: 'The Hénán famine', ja: '河南大飢饉 (Kanan daikikin)', zh: '河南大饑荒',
-    date: '1942–43', cat: 'battle', lvl: 2, lat: 33.9, lon: 113.8, year: 1942,
+    date: '1942–43', cat: 'battle', lvl: 2, lat: 33.9, lon: 113.8,
+    wiki: 'https://en.wikipedia.org/wiki/Chinese_famine_of_1942%E2%80%931943', year: 1942,
     note: 'Drought, requisition and the ground left broken by the 1938 flood killed somewhere between two and three million people in Henan across 1942 and 1943, while grain was still being taken for the army.'
   },
   {
     id: 'hiroshimabomb', en: 'The Hiroshima bomb', ja: '広島原爆 (Hiroshima genbaku)', zh: '廣島原子彈',
     date: '6 August 1945', cat: 'battle', lvl: 1, both: true, lat: 34.39, lon: 132.46,
-    year: 1945,
+    wiki: 'https://en.wikipedia.org/wiki/Atomic_bombings_of_Hiroshima_and_Nagasaki', year: 1945,
     note: 'The first atomic bomb, dropped at 8.15 on the morning of 6 August 1945. Around 70,000 died at once and some 140,000 by the end of the year.'
   },
   {
     id: 'nagasakibomb', en: 'The Nagasaki bomb', ja: '長崎原爆 (Nagasaki genbaku)', zh: '長崎原子彈',
     date: '9 August 1945', cat: 'battle', lvl: 1, both: true, lat: 32.74, lon: 129.87,
-    year: 1945,
+    wiki: 'https://en.wikipedia.org/wiki/Atomic_bombings_of_Hiroshima_and_Nagasaki', year: 1945,
     note: 'The second, on 9 August 1945, aimed at the Mitsubishi yards and dropped through cloud over the Urakami valley. Around 40,000 died at once and some 70,000 by the end of the year.'
   },
 ];
@@ -2089,7 +2135,7 @@ JMAP.BROWSE = [
   },
   {
     id: 'kure', en: 'Kure', ja: '呉 (Kure)', zh: '吳', lat: 34.25, lon: 132.57,
-    note: 'The navy yard that built the <em>Yamato</em>. Carrier raids in July 1945 sank what was left of the fleet at its moorings.'
+    note: 'The navy yard that built the Yamato. Carrier raids in July 1945 sank what was left of the fleet at its moorings.'
   },
   {
     id: 'yokosuka', en: 'Yokosuka', ja: '横須賀 (Yokosuka)', zh: '橫須賀', lat: 35.28, lon: 139.67,
@@ -2235,7 +2281,7 @@ JMAP.BROWSE = [
   },
   {
     id: 'madras', en: 'Madras', lat: 13.08, lon: 80.27,
-    note: 'Shelled by the <em>Emden</em> in 1914, and partly evacuated in April 1942 when a Japanese landing was thought to be coming.'
+    note: 'Shelled by the Emden in 1914, and partly evacuated in April 1942 when a Japanese landing was thought to be coming.'
   },
   {
     id: 'dacca', en: 'Dacca (Dhaka)', lat: 23.81, lon: 90.41,
@@ -3908,7 +3954,7 @@ JMAP.PROVINCES = {
   },
   Java: {
     en: 'Java', ja: 'ジャワ (Jawa)',
-    note: 'The centre of the colony and of its population: two thirds of the Indies lived here. The Dutch surrendered on 8 March 1942, and the Japanese levied the <em>rōmusha</em> labour drafts from it.'
+    note: 'The centre of the colony and of its population: two thirds of the Indies lived here. The Dutch surrendered on 8 March 1942, and the Japanese levied the rōmusha labour drafts from it.'
   },
   Madura: {
     en: 'Madura', ja: 'マドゥラ (Madura)',

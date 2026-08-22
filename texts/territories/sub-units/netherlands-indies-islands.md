@@ -10,7 +10,7 @@ Rubber, tobacco and above all the oil of Palembang, which was taken by parachute
 
 ## Java
 
-The centre of the colony and of its population: two thirds of the Indies lived here. The Dutch surrendered on 8 March 1942, and the Japanese levied the <em>rōmusha</em> labour drafts from it.
+The centre of the colony and of its population: two thirds of the Indies lived here. The Dutch surrendered on 8 March 1942, and the Japanese levied the rōmusha labour drafts from it.
 
 ## Madura
 

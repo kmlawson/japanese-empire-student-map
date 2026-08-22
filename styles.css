@@ -980,6 +980,21 @@ button.plain:hover { background: #f2ede2; }
 
 #info .note[hidden] { display: none; }
 
+/* The source line under a note. Set apart from the prose and quiet enough that
+   it does not compete with it, but a real link and a real target. */
+#info .note-src {
+  display: block;
+  margin-top: 7px;
+  font-size: 12px;
+  color: var(--muted);
+  text-decoration: none;
+  border-bottom: 1px solid var(--line, rgba(0, 0, 0, .18));
+  padding-bottom: 1px;
+  width: fit-content;
+}
+
+#info .note-src:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
 /* What this place is, and under it what the group it belongs to is. The reader
    asked about Singapore and the Straits Settlements is the context; the second
    is set smaller, lighter and behind a rule so that which half is new can be

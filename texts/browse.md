@@ -434,7 +434,7 @@ A castle town and the largest city of northern Shikoku. Firebombed on 26 July 19
 
 ## kure
 
-The navy yard that built the <em>Yamato</em>. Carrier raids in July 1945 sank what was left of the fleet at its moorings.
+The navy yard that built the Yamato. Carrier raids in July 1945 sank what was left of the fleet at its moorings.
 
 ## yokosuka
 
@@ -630,7 +630,7 @@ The seat of the South Seas Bureau, which governed the whole mandate from Palau f
 
 ## madras
 
-Shelled by the <em>Emden</em> in 1914, and partly evacuated in April 1942 when a Japanese landing was thought to be coming.
+Shelled by the Emden in 1914, and partly evacuated in April 1942 when a Japanese landing was thought to be coming.
 
 ## karachi
 
