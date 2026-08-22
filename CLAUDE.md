@@ -56,3 +56,36 @@ intended. Where something is unverified, say so in the entry.
 `texts/`. Running `build_texts.py` while somebody is midway through editing the
 prose splices a half-finished argument into the page. Check `git status` before
 building, and before committing files you did not edit.
+
+## A fix is not done until it works with a finger
+
+There is no hover on a touch screen, and the map has a second set of
+behaviours for that: `coarse` in `map.js` decides them, `hoverCapable` gates
+the hover handlers, and a tap has to answer on its own what a mouse answers in
+two moves — where the pointer is, and then what was clicked.
+
+So anything that reads the pointer's state has to be checked twice, once with
+a mouse and once with a finger. **Check both before saying it is fixed.**
+
+Labuan is the worked example, and it cost two goes. Hovering it lit the
+Straits Settlements correctly, so the bug looked closed; tapping it still
+outlined North Borneo, because the selection was borrowing the *hover's*
+cluster to know what to draw round. With a mouse the hover has set that before
+the click lands. On a touch screen nothing ever sets it. The same fix had to
+be made twice because the first one was only tested one way.
+
+The two-tap rule is the other thing to hold in mind: on a coarse pointer the
+first tap names the country and the second names the province under it. That
+is right when the sub-unit is part of the country it sits in and wrong when it
+is not — Labuan is a Straits Settlement drawn inside the North Borneo atom, so
+its first tap has to name Labuan.
+
+Both can be driven headlessly. Two cautions:
+
+* Headless Chrome does not match `(hover: hover) and (pointer: fine)`, so the
+  hover handlers are never wired and a mouse test silently measures nothing.
+  Shim `matchMedia` in `evaluateOnNewDocument` to make those queries true.
+* For the finger, open the page with `isMobile: true, hasTouch: true` in the
+  viewport and leave the shim off. Drive it with `mouse.down()`/`mouse.up()`
+  rather than `click()`, with a pause between: the map reads pointer events
+  and a synthesised click can arrive without them.
