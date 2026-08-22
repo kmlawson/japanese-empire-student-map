@@ -4016,7 +4016,6 @@ JMAP.PROVINCES = {
   },
   'E-Yu-Wan': {
     en: 'Èyùwǎn — Hupeh, Honan and Anhwei', zh: '鄂豫皖',
-    wiki: 'https://en.wikipedia.org/wiki/Eyuwan_Soviet',
     note: 'Where Hubei, Henan and Anhui meet in the Dabie mountains. It had been one of the largest soviets of the early 1930s, was lost in the encirclement campaigns, and was taken up again by the New Fourth Army in the war.'
   },
   Anhui: {
