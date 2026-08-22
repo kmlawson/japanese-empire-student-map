@@ -1,16 +1,16 @@
-key,en,ja,zh,ko
-Sind,Sind — a division of the Bombay Presidency until 1936,,,
-Orissa,Bihar and Orissa Province — one province until 1936,,,
-Bihar,Bihar and Orissa Province — one province until 1936,,,
-UnitedProvinces,United Provinces of Agra and Oudh,,,
-NWFP,North-West Frontier Province — a chief commissioner’s province until 1932,,,
-Liaoning,Liáoníng (Fengtien until 1929),遼寧 (Ryōnei),遼寧,요녕 (Yonyŏng)
-Heilongjiang,Hēilóngjiāng (Heilungkiang),,黑龍江,
-Suiyuan,Suíyuǎn (Suiyuan),,綏遠,
-SuiyuanWest,Suíyuǎn (Suiyuan),,綏遠,
-MahaSarakham,Maha Sarakham (Kalasin was still separate until 1932),,,
-SiSaKet,Khukhan,,,
-Sukhothai,Sawankhalok (Sukhothai was merged into it in 1931),,,
-Tenasserim,"Tenasserim Division — Thaton, Amherst, Tavoy, Mergui",,,
-Labuan,"Labuan — a Crown colony from 1848, attached to the Straits Settlements in 1907",,,
-Dindings,"The Dindings — Straits Settlement: Lumut, Sitiawan and Pangkor, ceded by Perak in 1874 and ruled from Singapore",,,
+key,en,ja,zh,ko,wiki
+Sind,Sind — a division of the Bombay Presidency until 1936,,,,https://en.wikipedia.org/wiki/Sindh
+Orissa,Bihar and Orissa Province — one province until 1936,,,,https://en.wikipedia.org/wiki/Bihar_and_Orissa_Province
+Bihar,Bihar and Orissa Province — one province until 1936,,,,https://en.wikipedia.org/wiki/Bihar_and_Orissa_Province
+UnitedProvinces,United Provinces of Agra and Oudh,,,,https://en.wikipedia.org/wiki/United_Provinces_of_Agra_and_Oudh
+NWFP,North-West Frontier Province — a chief commissioner’s province until 1932,,,,https://en.wikipedia.org/wiki/North-West_Frontier_Province
+Liaoning,Liáoníng (Fengtien until 1929),遼寧 (Ryōnei),遼寧,요녕 (Yonyŏng),https://en.wikipedia.org/wiki/Liaoning
+Heilongjiang,Hēilóngjiāng (Heilungkiang),,黑龍江,,https://en.wikipedia.org/wiki/Heilongjiang
+Suiyuan,Suíyuǎn (Suiyuan),,綏遠,,https://en.wikipedia.org/wiki/Suiyuan
+SuiyuanWest,Suíyuǎn (Suiyuan),,綏遠,,https://en.wikipedia.org/wiki/Suiyuan
+MahaSarakham,Maha Sarakham (Kalasin was still separate until 1932),,,,https://en.wikipedia.org/wiki/Maha_Sarakham
+SiSaKet,Khukhan,,,,
+Sukhothai,Sawankhalok (Sukhothai was merged into it in 1931),,,,https://en.wikipedia.org/wiki/Sawankhalok_district
+Tenasserim,"Tenasserim Division — Thaton, Amherst, Tavoy, Mergui",,,,https://en.wikipedia.org/wiki/Tanintharyi_Region
+Labuan,"Labuan — a Crown colony from 1848, attached to the Straits Settlements in 1907",,,,https://en.wikipedia.org/wiki/Labuan
+Dindings,"The Dindings — Straits Settlement: Lumut, Sitiawan and Pangkor, ceded by Perak in 1874 and ruled from Singapore",,,,

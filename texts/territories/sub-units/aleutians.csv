@@ -1,29 +1,28 @@
-key,en,zh
-Attu,Attu,阿圖島
-Kiska,Kiska,基斯卡島
-Agattu,Agattu — uninhabited,阿加圖島
-Shemya & the Semichi Islands,Shemya & the Semichi Islands — American airfield from May 1943,謝米亞島
-Buldir,Buldir — uninhabited,布爾迪爾島
-Rat Island,Rat Island — uninhabited,鼠島
-Little Sitkin,Little Sitkin — uninhabited,小錫特金島
-Amchitka,Amchitka — American landing January 1943,阿姆奇特卡島
-Semisopochnoi,Semisopochnoi — uninhabited,謝米索波奇諾伊島
-Amatignak,Amatignak — uninhabited,阿馬蒂格納克島
-Ulak,Ulak — uninhabited,烏拉克島
-Gareloi,Gareloi — uninhabited,加雷洛伊島
-Tanaga,Tanaga — uninhabited,塔納加島
-Kanaga,Kanaga — uninhabited,卡納加島
-Adak,Adak — American base from August 1942,阿達克島
-Kagalaska,Kagalaska — uninhabited,卡加拉斯卡島
-Great Sitkin,Great Sitkin — uninhabited,大錫特金島
-Atka,Atka — the village burned in June 1942 and its people moved south,阿特卡島
-Amlia,Amlia — uninhabited,阿姆利亞島
-Seguam,Seguam — uninhabited,塞瓜姆島
-Amukta,Amukta — uninhabited,阿穆克塔島
-Yunaska,Yunaska — uninhabited,尤納斯卡島
-Islands of Four Mountains,The Islands of Four Mountains — uninhabited,四山群島
-Umnak,"Umnak — Fort Glenn, the secret airfield of 1942",烏姆納克島
-Unalaska,"Unalaska — Dutch Harbor, bombed 3–4 June 1942",烏納拉斯卡島
-Akutan,Akutan — where the intact Zero was recovered in July 1942,阿庫坦島
-Akun,Akun,阿昆島
-Unimak,Unimak — Scotch Cap and Cape Sarichef, the gate to the Bering Sea,烏尼馬克島
+key,en,zh,wiki
+Attu,Attu,阿圖島,https://en.wikipedia.org/wiki/Attu
+Kiska,Kiska,基斯卡島,https://en.wikipedia.org/wiki/Kiska
+Agattu,Agattu — uninhabited,阿加圖島,https://en.wikipedia.org/wiki/Agattu
+Shemya & the Semichi Islands,Shemya & the Semichi Islands — American airfield from May 1943,謝米亞島,
+Buldir,Buldir — uninhabited,布爾迪爾島,https://en.wikipedia.org/wiki/Buldir_Island
+Rat Island,Rat Island — uninhabited,鼠島,
+Little Sitkin,Little Sitkin — uninhabited,小錫特金島,https://en.wikipedia.org/wiki/Little_Sitkin_Island
+Amchitka,Amchitka — American landing January 1943,阿姆奇特卡島,https://en.wikipedia.org/wiki/Amchitka_Island
+Semisopochnoi,Semisopochnoi — uninhabited,謝米索波奇諾伊島,https://en.wikipedia.org/wiki/Semisopochnoi_Island
+Amatignak,Amatignak — uninhabited,阿馬蒂格納克島,https://en.wikipedia.org/wiki/Amatignak_Island
+Ulak,Ulak — uninhabited,烏拉克島,https://en.wikipedia.org/wiki/Ulak_Island
+Gareloi,Gareloi — uninhabited,加雷洛伊島,
+Tanaga,Tanaga — uninhabited,塔納加島,https://en.wikipedia.org/wiki/Tanaga
+Kanaga,Kanaga — uninhabited,卡納加島,https://en.wikipedia.org/wiki/Kanaga
+Adak,Adak — American base from August 1942,阿達克島,https://en.wikipedia.org/wiki/Adak
+Kagalaska,Kagalaska — uninhabited,卡加拉斯卡島,
+Great Sitkin,Great Sitkin — uninhabited,大錫特金島,https://en.wikipedia.org/wiki/Great_Sitkin_Island
+Atka,Atka — the village burned in June 1942 and its people moved south,阿特卡島,https://en.wikipedia.org/wiki/Atka
+Amlia,Amlia — uninhabited,阿姆利亞島,https://en.wikipedia.org/wiki/Amlia
+Seguam,Seguam — uninhabited,塞瓜姆島,https://en.wikipedia.org/wiki/Seguam
+Amukta,Amukta — uninhabited,阿穆克塔島,https://en.wikipedia.org/wiki/Mount_Amukta
+Yunaska,Yunaska — uninhabited,尤納斯卡島,https://en.wikipedia.org/wiki/Yunaska_Island
+Islands of Four Mountains,The Islands of Four Mountains — uninhabited,四山群島,
+Umnak,"Umnak — Fort Glenn, the secret airfield of 1942",烏姆納克島,https://en.wikipedia.org/wiki/Umnak
+Unalaska,"Unalaska — Dutch Harbor, bombed 3–4 June 1942",烏納拉斯卡島,"https://en.wikipedia.org/wiki/Unalaska,_Alaska"
+Akutan,Akutan — where the intact Zero was recovered in July 1942,阿庫坦島,https://en.wikipedia.org/wiki/Akutan
+Akun,Akun,阿昆島,

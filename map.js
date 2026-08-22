@@ -684,7 +684,7 @@
   function gazEnrich(c) {
     var b = browseById[c.id];
     if (b) {
-      ['ja', 'zh', 'ko', 'orig'].forEach(function (k) {
+      ['ja', 'zh', 'ko', 'orig', 'wiki'].forEach(function (k) {
         if (!c[k] && b[k]) c[k] = b[k];
       });
       if (b.note) c.extra = b.note;
@@ -694,7 +694,7 @@
     // is a marker for, and the marker itself is drawn over the dot to say it.
     var s = siteById[c.id];
     if (s) {
-      ['ja', 'zh', 'ko', 'orig'].forEach(function (k) {
+      ['ja', 'zh', 'ko', 'orig', 'wiki'].forEach(function (k) {
         if (!c[k] && s[k]) c[k] = s[k];
       });
     }
@@ -2832,11 +2832,16 @@
     var own = $('.note-own', infoBox);
     var grp = $('.note-group', infoBox);
     own.textContent = ownNote;
-    own.hidden = !ownNote;
     grp.textContent = groupNote;
+    // The source shows even where a record has no prose of its own. More than
+    // half the provinces and islands are a name and a coordinate and nothing
+    // else, and for those the article is the only thing the card has to offer;
+    // withholding the link because there was no sentence to put it under was
+    // hiding it exactly where it was most use.
+    var ownLink = appendSource(own, sub ? head : rec);
+    if (groupNote) appendSource(grp, sub ? rec : null);
+    own.hidden = !ownNote && !ownLink;
     grp.hidden = !groupNote;
-    appendSource(own, sub ? head : rec, ownNote);
-    appendSource(grp, sub ? rec : null, groupNote);
     // Whose note the second block is. Without this the reader has two
     // paragraphs and no way of telling which one answers what they asked;
     // styles.css draws it from the attribute, so no extra element is needed.
@@ -2860,8 +2865,8 @@
      built as its own element and appended after the text, rather than written
      into the sentence. Records with nothing worth linking to — the two events
      with no article — simply have no `wiki` and get no line. */
-  function appendSource(el, rec, note) {
-    if (!el || !note || !rec || !rec.wiki) return;
+  function appendSource(el, rec) {
+    if (!el || !rec || !rec.wiki) return false;
     var a = document.createElement('a');
     a.className = 'note-src';
     a.href = rec.wiki;
@@ -2869,6 +2874,7 @@
     a.rel = 'noopener noreferrer';
     a.textContent = 'Read more on Wikipedia';
     el.appendChild(a);
+    return true;
   }
 
   /* On a phone the sheet opens as the name and nothing else, and this opens

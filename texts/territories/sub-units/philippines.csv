@@ -1,44 +1,44 @@
-key,en
-Abra,Abra (Luzon)
-Agusan,Agusan (Mindanao)
-Albay,"Albay (Luzon, with the sub-province of Catanduanes)"
-Antique,Antique (Panay)
-Bataan,Bataan (Luzon)
-Batanes,Batanes
-Batangas,Batangas (Luzon)
-Bukidnon,Bukidnon (Mindanao)
-Bulacan,Bulacan (Luzon)
-Cagayan,Cagayan (Luzon)
-CamarinesNorte,Camarines Norte (Luzon)
-CamarinesSur,Camarines Sur (Luzon)
-Capiz,Capiz (Panay)
-Cavite,Cavite (Luzon)
-Cotabato,Cotabato (Mindanao)
-Davao,Davao (Mindanao)
-IlocosNorte,Ilocos Norte (Luzon)
-IlocosSur,Ilocos Sur (Luzon)
-Iloilo,Iloilo (Panay)
-Isabela,Isabela (Luzon)
-Laguna,Laguna (Luzon)
-LaUnion,La Union (Luzon)
-Lanao,Lanao (Mindanao)
-Manila,City of Manila
-Marinduque,Marinduque
-MisamisOccidental,Misamis Occidental (Mindanao)
-MisamisOriental,Misamis Oriental (Mindanao)
-MountainProvince,Mountain Province (Luzon)
-NegrosOccidental,Negros Occidental
-NegrosOriental,Negros Oriental
-NuevaEcija,Nueva Ecija (Luzon)
-NuevaVizcaya,Nueva Vizcaya (Luzon)
-Pampanga,Pampanga (Luzon)
-Pangasinan,Pangasinan (Luzon)
-Rizal,Rizal (Luzon)
-Romblon,Romblon
-Sorsogon,Sorsogon (Luzon)
-Sulu,Sulu
-Surigao,Surigao (Mindanao)
-Tarlac,Tarlac (Luzon)
-Tayabas,Tayabas (Luzon; renamed Quezon in 1946)
-Zambales,Zambales (Luzon)
-Zamboanga,"Zamboanga (Mindanao, with Basilan)"
+key,en,wiki
+Abra,Abra (Luzon),https://en.wikipedia.org/wiki/Abra
+Agusan,Agusan (Mindanao),https://en.wikipedia.org/wiki/Agusan
+Albay,"Albay (Luzon, with the sub-province of Catanduanes)",https://en.wikipedia.org/wiki/Albay
+Antique,Antique (Panay),https://en.wikipedia.org/wiki/Antique
+Bataan,Bataan (Luzon),https://en.wikipedia.org/wiki/Bataan
+Batanes,Batanes,https://en.wikipedia.org/wiki/Batanes
+Batangas,Batangas (Luzon),https://en.wikipedia.org/wiki/Batangas
+Bukidnon,Bukidnon (Mindanao),https://en.wikipedia.org/wiki/Bukidnon
+Bulacan,Bulacan (Luzon),https://en.wikipedia.org/wiki/Bulacan
+Cagayan,Cagayan (Luzon),https://en.wikipedia.org/wiki/Cagayan
+CamarinesNorte,Camarines Norte (Luzon),https://en.wikipedia.org/wiki/Camarines_Norte
+CamarinesSur,Camarines Sur (Luzon),https://en.wikipedia.org/wiki/Camarines_Sur
+Capiz,Capiz (Panay),https://en.wikipedia.org/wiki/Capiz
+Cavite,Cavite (Luzon),https://en.wikipedia.org/wiki/Cavite
+Cotabato,Cotabato (Mindanao),https://en.wikipedia.org/wiki/Cotabato
+Davao,Davao (Mindanao),https://en.wikipedia.org/wiki/Davao
+IlocosNorte,Ilocos Norte (Luzon),https://en.wikipedia.org/wiki/Ilocos_Norte
+IlocosSur,Ilocos Sur (Luzon),https://en.wikipedia.org/wiki/Ilocos_Sur
+Iloilo,Iloilo (Panay),https://en.wikipedia.org/wiki/Iloilo
+Isabela,Isabela (Luzon),https://en.wikipedia.org/wiki/Isabela
+Laguna,Laguna (Luzon),https://en.wikipedia.org/wiki/Laguna
+LaUnion,La Union (Luzon),https://en.wikipedia.org/wiki/La_Union
+Lanao,Lanao (Mindanao),https://en.wikipedia.org/wiki/Lanao
+Manila,City of Manila,https://en.wikipedia.org/wiki/Manila
+Marinduque,Marinduque,https://en.wikipedia.org/wiki/Marinduque
+MisamisOccidental,Misamis Occidental (Mindanao),https://en.wikipedia.org/wiki/Misamis_Occidental
+MisamisOriental,Misamis Oriental (Mindanao),https://en.wikipedia.org/wiki/Misamis_Oriental
+MountainProvince,Mountain Province (Luzon),https://en.wikipedia.org/wiki/Mountain_Province
+NegrosOccidental,Negros Occidental,https://en.wikipedia.org/wiki/Negros_Occidental
+NegrosOriental,Negros Oriental,https://en.wikipedia.org/wiki/Negros_Oriental
+NuevaEcija,Nueva Ecija (Luzon),https://en.wikipedia.org/wiki/Nueva_Ecija
+NuevaVizcaya,Nueva Vizcaya (Luzon),https://en.wikipedia.org/wiki/Nueva_Vizcaya
+Pampanga,Pampanga (Luzon),https://en.wikipedia.org/wiki/Pampanga
+Pangasinan,Pangasinan (Luzon),https://en.wikipedia.org/wiki/Pangasinan
+Rizal,Rizal (Luzon),https://en.wikipedia.org/wiki/Luzon
+Romblon,Romblon,
+Sorsogon,Sorsogon (Luzon),https://en.wikipedia.org/wiki/Sorsogon
+Sulu,Sulu,https://en.wikipedia.org/wiki/Sulu
+Surigao,Surigao (Mindanao),https://en.wikipedia.org/wiki/Surigao
+Tarlac,Tarlac (Luzon),https://en.wikipedia.org/wiki/Tarlac
+Tayabas,Tayabas (Luzon; renamed Quezon in 1946),https://en.wikipedia.org/wiki/Tayabas
+Zambales,Zambales (Luzon),https://en.wikipedia.org/wiki/Zambales
+Zamboanga,"Zamboanga (Mindanao, with Basilan)",https://en.wikipedia.org/wiki/Zamboanga

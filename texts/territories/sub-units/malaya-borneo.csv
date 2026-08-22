@@ -1,19 +1,19 @@
-key,en,ja
-Sarawak,Sarawak,
-NorthBorneo,North Borneo,
-Labuan,"Labuan — a Straits Settlement from 1907 until 1946, not company territory",
-Brunei,Brunei,
-Johor,Johore — Unfederated Malay State,
-Pahang,Pahang — Federated Malay State,
-Perak,Perak — Federated Malay State,
-Selangor,Selangor — Federated Malay State,
-NegeriSembilan,Negri Sembilan — Federated Malay State,
-Malacca,"Malacca — Straits Settlement, a Crown colony ruled from Singapore",
-Singapore,"Singapore — Straits Settlement, and the capital of the colony",
-Penang,"Penang — Straits Settlement, with Province Wellesley on the mainland",
-Dindings,The Dindings — Straits Settlement until 1935,
-Christmas Island,"Christmas Island — annexed 1888, attached to the Straits Settlements in 1900 and run from Singapore, worked for phosphate",クリスマス島 (Kurisumasu-tō)
-Kedah,Kedah — Unfederated Malay State,
-Perlis,Perlis — Unfederated Malay State,
-Kelantan,Kelantan — Unfederated Malay State,
-Terengganu,Trengganu — Unfederated Malay State,
+key,en,ja,wiki
+Sarawak,Sarawak,,https://en.wikipedia.org/wiki/Sarawak
+NorthBorneo,North Borneo,,https://en.wikipedia.org/wiki/North_Borneo
+Labuan,"Labuan — a Straits Settlement from 1907 until 1946, not company territory",,https://en.wikipedia.org/wiki/Labuan
+Brunei,Brunei,,https://en.wikipedia.org/wiki/Brunei
+Johor,Johore — Unfederated Malay State,,
+Pahang,Pahang — Federated Malay State,,https://en.wikipedia.org/wiki/Pahang
+Perak,Perak — Federated Malay State,,https://en.wikipedia.org/wiki/Perak
+Selangor,Selangor — Federated Malay State,,https://en.wikipedia.org/wiki/Selangor
+NegeriSembilan,Negri Sembilan — Federated Malay State,,https://en.wikipedia.org/wiki/Negeri_Sembilan
+Malacca,"Malacca — Straits Settlement, a Crown colony ruled from Singapore",,https://en.wikipedia.org/wiki/Malacca
+Singapore,"Singapore — Straits Settlement, and the capital of the colony",,https://en.wikipedia.org/wiki/Singapore
+Penang,"Penang — Straits Settlement, with Province Wellesley on the mainland",,https://en.wikipedia.org/wiki/Penang
+Dindings,The Dindings — Straits Settlement until 1935,,
+Christmas Island,"Christmas Island — annexed 1888, attached to the Straits Settlements in 1900 and run from Singapore, worked for phosphate",クリスマス島 (Kurisumasu-tō),https://en.wikipedia.org/wiki/Christmas_Island
+Kedah,Kedah — Unfederated Malay State,,https://en.wikipedia.org/wiki/Kedah
+Perlis,Perlis — Unfederated Malay State,,https://en.wikipedia.org/wiki/Perlis
+Kelantan,Kelantan — Unfederated Malay State,,https://en.wikipedia.org/wiki/Kelantan
+Terengganu,Trengganu — Unfederated Malay State,,https://en.wikipedia.org/wiki/Terengganu

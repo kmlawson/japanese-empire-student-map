@@ -1,18 +1,18 @@
-key,en
-Atjeh,Atjeh and Dependencies (Sumatra)
-SumatraEastCoast,Sumatra’s East Coast and Tapanoeli
-SumatraWestCoast,Sumatra’s West Coast
-Riouw,Riouw and Dependencies
-Djambi,Djambi (Sumatra)
-Palembang,Palembang (Sumatra)
-BankaBilliton,Banka and Billiton
-Benkoelen,Benkoelen (Sumatra)
-Lampongs,The Lampongs (Sumatra)
-WestJava,"West Java — Bantam, Batavia, Preanger"
-CentralJava,Central Java — with the princely land of Soerakarta
-Jogjakarta,Jogjakarta (princely land)
-EastJava,East Java — with Madura
-WestBorneo,West Borneo
-SouthEastBorneo,South and East Borneo
-Menado,Menado — northern and central Celebes
-Celebes,Celebes and Dependencies
+key,en,wiki
+Atjeh,Atjeh and Dependencies (Sumatra),https://en.wikipedia.org/wiki/Sumatra
+SumatraEastCoast,Sumatra’s East Coast and Tapanoeli,
+SumatraWestCoast,Sumatra’s West Coast,
+Riouw,Riouw and Dependencies,
+Djambi,Djambi (Sumatra),https://en.wikipedia.org/wiki/Djambi
+Palembang,Palembang (Sumatra),https://en.wikipedia.org/wiki/Palembang
+BankaBilliton,Banka and Billiton,
+Benkoelen,Benkoelen (Sumatra),https://en.wikipedia.org/wiki/Bengkulu
+Lampongs,The Lampongs (Sumatra),https://en.wikipedia.org/wiki/Sumatra
+WestJava,"West Java — Bantam, Batavia, Preanger",https://en.wikipedia.org/wiki/West_Java
+CentralJava,Central Java — with the princely land of Soerakarta,https://en.wikipedia.org/wiki/Central_Java
+Jogjakarta,Jogjakarta (princely land),
+EastJava,East Java — with Madura,https://en.wikipedia.org/wiki/East_Java
+WestBorneo,West Borneo,https://en.wikipedia.org/wiki/West_Kalimantan
+SouthEastBorneo,South and East Borneo,
+Menado,Menado — northern and central Celebes,https://en.wikipedia.org/wiki/Manado
+Celebes,Celebes and Dependencies,

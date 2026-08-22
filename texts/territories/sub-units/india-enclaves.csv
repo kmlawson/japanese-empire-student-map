@@ -1,11 +1,11 @@
-key,en
-Goa,Goa
-Damão (Daman),Damão (Daman)
-Diu,Diu
-Dadrá (Dadra),Dadrá (Dadra)
-Nagar Aveli (Nagar Haveli),Nagar Aveli (Nagar Haveli)
-Pondicherry (Puducherry),Pondicherry (Puducherry)
-Karikal (Karaikal),Karikal (Karaikal)
-Yanaon (Yanam),Yanaon (Yanam)
-Mahé (Mahe),Mahé (Mahe)
-Chandernagore (Chandannagar),Chandernagore (Chandannagar)
+key,en,wiki
+Goa,Goa,https://en.wikipedia.org/wiki/Goa
+Damão (Daman),Damão (Daman),"https://en.wikipedia.org/wiki/Daman,_India"
+Diu,Diu,https://en.wikipedia.org/wiki/Diu
+Dadrá (Dadra),Dadrá (Dadra),https://en.wikipedia.org/wiki/Dadra
+Nagar Aveli (Nagar Haveli),Nagar Aveli (Nagar Haveli),https://en.wikipedia.org/wiki/Nagar_Haveli
+Pondicherry (Puducherry),Pondicherry (Puducherry),https://en.wikipedia.org/wiki/Pondicherry
+Karikal (Karaikal),Karikal (Karaikal),https://en.wikipedia.org/wiki/Karaikal
+Yanaon (Yanam),Yanaon (Yanam),https://en.wikipedia.org/wiki/Yanaon
+Mahé (Mahe),Mahé (Mahe),https://en.wikipedia.org/wiki/Mah%C3%A9
+Chandernagore (Chandannagar),Chandernagore (Chandannagar),https://en.wikipedia.org/wiki/Chandannagar

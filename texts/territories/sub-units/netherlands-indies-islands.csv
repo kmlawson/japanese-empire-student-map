@@ -1,19 +1,19 @@
-key,en,ja
-Sumatra,Sumatra,スマトラ (Sumatora)
-Java,Java,ジャワ (Jawa)
-Madura,Madura,マドゥラ (Madura)
-Borneo,Borneo (Kalimantan),ボルネオ (Boruneo)
-Sulawesi,Celebes (Sulawesi),セレベス (Serebesu)
-Bali,Bali,バリ (Bari)
-Lombok,Lombok,ロンボク (Ronboku)
-Sumbawa,Sumbawa,スンバワ (Sunbawa)
-Flores,Flores,フローレス (Furōresu)
-Sumba,Sumba,スンバ (Sunba)
-WestTimor,Dutch Timor,チモール (Chimōru)
-Halmahera,Halmahera,ハルマヘラ (Harumahera)
-Seram,Ceram (Seram),セラム (Seramu)
-Buru,Buru,ブル (Buru)
-Bangka,Banka (Bangka),バンカ (Banka)
-Belitung,Billiton (Belitung),ビリトン (Biriton)
-Nias,Nias,ニアス (Niasu)
-WestNewGuinea,Dutch New Guinea,西部ニューギニア (Seibu Nyūginia)
+key,en,ja,wiki
+Sumatra,Sumatra,スマトラ (Sumatora),https://en.wikipedia.org/wiki/Sumatra
+Java,Java,ジャワ (Jawa),
+Madura,Madura,マドゥラ (Madura),https://en.wikipedia.org/wiki/Madura
+Borneo,Borneo (Kalimantan),ボルネオ (Boruneo),https://en.wikipedia.org/wiki/Borneo
+Sulawesi,Celebes (Sulawesi),セレベス (Serebesu),https://en.wikipedia.org/wiki/Sulawesi
+Bali,Bali,バリ (Bari),https://en.wikipedia.org/wiki/Bali
+Lombok,Lombok,ロンボク (Ronboku),https://en.wikipedia.org/wiki/Lombok
+Sumbawa,Sumbawa,スンバワ (Sunbawa),https://en.wikipedia.org/wiki/Sumbawa
+Flores,Flores,フローレス (Furōresu),https://en.wikipedia.org/wiki/Flores
+Sumba,Sumba,スンバ (Sunba),https://en.wikipedia.org/wiki/Sumba
+WestTimor,Dutch Timor,チモール (Chimōru),https://en.wikipedia.org/wiki/West_Timor
+Halmahera,Halmahera,ハルマヘラ (Harumahera),https://en.wikipedia.org/wiki/Halmahera
+Seram,Ceram (Seram),セラム (Seramu),https://en.wikipedia.org/wiki/Ceram
+Buru,Buru,ブル (Buru),https://en.wikipedia.org/wiki/Buru
+Bangka,Banka (Bangka),バンカ (Banka),https://en.wikipedia.org/wiki/Banka
+Belitung,Billiton (Belitung),ビリトン (Biriton),https://en.wikipedia.org/wiki/Belitung
+Nias,Nias,ニアス (Niasu),https://en.wikipedia.org/wiki/Nias
+WestNewGuinea,Dutch New Guinea,西部ニューギニア (Seibu Nyūginia),https://en.wikipedia.org/wiki/Dutch_New_Guinea

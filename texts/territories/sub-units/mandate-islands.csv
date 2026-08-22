@@ -1,18 +1,18 @@
-key,en,ja,zh
-Saipan,Saipan,サイパン (Saipan),塞班
-Tinian,Tinian,テニアン (Tenian),天寧
-Rota,Rota,ロタ (Rota),羅塔
-Pagan,Pagan,パガン (Pagan),帕甘
-Agrihan,Agrihan,アグリハン (Agurihan),阿格里漢
-Anatahan,Anatahan,アナタハン (Anatahan),阿納塔漢
-Babeldaob,Babeldaob (Palau),バベルダオブ (Baberudaobu),巴貝爾道布
-Peleliu,Peleliu,ペリリュー (Peririyū),貝里琉
-Angaur,Angaur,,安加爾
-Weno,"Moen (Weno), Truk",春島 (Harushima),春島
-Kwajalein,Kwajalein,,瓜加林
-Majuro,Majuro,マジュロ (Majuro),馬久羅
-Jaluit,Jaluit,ヤルート (Yarūto),賈盧伊特
-Wotje,Wotje,,沃杰
-Enewetak,Enewetak,,埃內韋塔克
-Bikini,Bikini,,比基尼
-Ebon,Ebon,エボン (Ebon),埃邦
+key,en,ja,zh,wiki
+Saipan,Saipan,サイパン (Saipan),塞班,
+Tinian,Tinian,テニアン (Tenian),天寧,"https://en.wikipedia.org/wiki/Tinian,_Northern_Mariana_Islands"
+Rota,Rota,ロタ (Rota),羅塔,
+Pagan,Pagan,パガン (Pagan),帕甘,https://en.wikipedia.org/wiki/Pagan_(island)
+Agrihan,Agrihan,アグリハン (Agurihan),阿格里漢,https://en.wikipedia.org/wiki/Agrihan
+Anatahan,Anatahan,アナタハン (Anatahan),阿納塔漢,https://en.wikipedia.org/wiki/Anatahan
+Babeldaob,Babeldaob (Palau),バベルダオブ (Baberudaobu),巴貝爾道布,https://en.wikipedia.org/wiki/Babeldaob
+Peleliu,Peleliu,ペリリュー (Peririyū),貝里琉,https://en.wikipedia.org/wiki/Peleliu
+Angaur,Angaur,,安加爾,https://en.wikipedia.org/wiki/Angaur
+Weno,"Moen (Weno), Truk",春島 (Harushima),春島,https://en.wikipedia.org/wiki/Moen
+Kwajalein,Kwajalein,,瓜加林,https://en.wikipedia.org/wiki/Kwajalein_Atoll
+Majuro,Majuro,マジュロ (Majuro),馬久羅,https://en.wikipedia.org/wiki/Majuro
+Jaluit,Jaluit,ヤルート (Yarūto),賈盧伊特,
+Wotje,Wotje,,沃杰,https://en.wikipedia.org/wiki/Wotje_Atoll
+Enewetak,Enewetak,,埃內韋塔克,https://en.wikipedia.org/wiki/Enewetak_Atoll
+Bikini,Bikini,,比基尼,https://en.wikipedia.org/wiki/Bikini
+Ebon,Ebon,エボン (Ebon),埃邦,https://en.wikipedia.org/wiki/Ebon
