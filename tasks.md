@@ -4095,6 +4095,27 @@ the provinces that did not last, when they went: Zhili renamed Hebei in 1928,
 Jehol taken in 1933 and abolished in 1955, Xikang a region until 1939 and a
 province until 1955, Chahar abolished in 1952, Suiyuan in 1954.
 
+### The base areas stay on when somebody follows an old link
+*Show resistance base areas* already started switched on — `ccp: true` in the
+state and `checked` on the box — so the report that it was off pointed
+somewhere else. Two things can turn it off after the default: a choice
+remembered in `localStorage`, which is the switch doing its job; and the
+`layers=` code in a shared address, which was not.
+
+The bitfield could not tell *the sender had it off* from *the sender's build
+had no such bit*. Bit 4096 was added today, and every link made before that
+carries a zero there — read the obvious way round, an older address turned the
+base areas off for whoever opened it. The base areas are the one layer in that
+field that starts on, so it is the only one where a missing bit reads as a
+decision.
+
+The bit is inverted now: **set means off**. An absent bit is the default, which
+is what an old link ought to mean. Round-tripped both ways, and a code with the
+bit absent decodes to on.
+
+Nothing else in the field needs it: every other layer there starts off, so zero
+already means what it should.
+
 ---
 
 ## Sources worth fetching

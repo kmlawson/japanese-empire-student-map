@@ -7179,7 +7179,14 @@ window.JMAP_INLINE_FINE = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<svg xmln
     // bit 10, not 8: the level has 8 and 9, and LAYER_FLAGS is indexed by bit
     if (state.hairline) bits |= 1024;
     if (state.occSource === 'nca') bits |= 2048;
-    if (state.ccp) bits |= 4096;
+    // Bit 4096 means the base areas are OFF, not on. It is the one layer here
+    // that starts switched on, and a bitfield cannot tell "the sender had it
+    // off" from "the sender's build had no such bit": every link made before
+    // this bit existed carries a zero there, and read the obvious way round
+    // that turned the base areas off for anybody following an older link.
+    // Inverted, an absent bit means the default, which is what an old link
+    // should mean.
+    if (!state.ccp) bits |= 4096;
     return bits.toString(36);
   }
 
@@ -7198,7 +7205,7 @@ window.JMAP_INLINE_FINE = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<svg xmln
     state.level = ((bits >> 8) & 3) + 1;
     state.hairline = !!(bits & 1024);
     state.occSource = (bits & 2048) ? 'nca' : 'traced';
-    state.ccp = !!(bits & 4096);
+    state.ccp = !(bits & 4096);          // inverted; see layerCode
     urlProvSource = (bits & 128) ? 'roc' : 'enp';
   }
 
