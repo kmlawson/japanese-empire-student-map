@@ -1,6 +1,6 @@
 id,en,ja,orig,zh,ko,when,rule,cat,lvl,c,atoms,within,under,hatch,edge,edgeAtoms,edgeClip,edgeWidth,outline,outlineColor,adminOnly,srcOnly
 japan,Japan,内地 (Naichi),日本 (Nihon),日本內地,,The metropole,,metropole,1,,japan,,,,,,,,,,,
-ryukyu,Ryūkyū and Ōsumi Islands,"沖縄県・鹿児島県 (Okinawa-ken・Kagoshima-ken)",琉球 (Ruuchuu),琉球・沖繩縣,,Annexed 1879,"Okinawa Prefecture, and Kagoshima from the Amami group north",metropole,1,,ryukyu,,,,,,,,,,,
+ryukyu,Ryūkyū and Ōsumi Islands,沖縄県・鹿児島県 (Okinawa-ken・Kagoshima-ken),琉球 (Ruuchuu),琉球・沖繩縣,,Annexed 1879,"Okinawa Prefecture, and Kagoshima from the Amami group north",metropole,1,,ryukyu,,,,,,,,,,,
 ogasawara,Bonin Islands (Ogasawara),小笠原諸島 (Ogasawara Shotō),小笠原諸島,小笠原群島,,Claimed 1876,"Japanese, part of Tokyo prefecture",metropole,3,,ogasawara,,,,,,,,,,,
 chishima,Kurile Islands (Chishima),千島列島 (Chishima Rettō),Курильские острова,千島群島,,Japanese from 1875,,metropole,2,,chishima,,,,,,,,,,,
 chosen,Chōsen (Korea),朝鮮 (Chōsen),조선 (Chosŏn),朝鮮,조선 (Chosŏn),Annexed 1910–1945,,colony,1,,korea,,,,,,,,,,,
@@ -8,8 +8,8 @@ formosa,Formosa (Taiwan),臺灣 (Taiwan),臺灣 (Tâi-oân),臺灣,,Japanese col
 karafuto,Karafuto (southern Sakhalin),樺太 (Karafuto),Южный Сахалин,樺太（南薩哈林）,,Japanese 1905–1945,,colony,1,,karafuto,,,,,,,,,,,
 kwantung,Kwantung Leased Territory,関東州 (Kantōshū),關東州 (Guāndōngzhōu),關東州,,Leased 1905–1945,,colony,2,,kwantung,,,,#9a1813,,,,,,,
 nanyo,South Seas Mandate,南洋群島 (Nan’yō Guntō),,南洋群島,,Japanese from 1914; League mandate from 1920,Japanese mandate,colony,2,,nanyo,,,,,,,,,,,
-manchukuo,Manchukuo (Manchuria),満洲国 (Manshūkoku),滿洲國,滿洲國,,"Japanese-occupied; nominally independent from March 1932",,puppet,1,,manchukuo,,滿洲國,,,,,,,,,
-mengjiang,Měngjiāng (Mengchiang),蒙疆 (Mōkyō),蒙疆聯合自治政府,蒙疆聯合自治政府,,Federated September 1939; Japanese client from 1936,,puppet,2,,mengjiang,,,,,,,,,,,
+manchukuo,Manchukuo (Manchuria),満洲国 (Manshūkoku),滿洲國,滿洲國,,Japanese-occupied; nominally independent from March 1932,,puppet,1,,manchukuo,,滿洲國,,,,,,,,,
+mengjiang,Měngjiāng (Mengchiang),蒙古自治邦 (Mōko Jichihō),蒙古自治邦,蒙古自治邦,,"Renamed the Mongol Autonomous Federation, August 1941; federated September 1939; Japanese client from 1936",,puppet,2,,mengjiang,,,,,,,,,,,
 nanjinggov,Japanese-occupied China (approximate),日本占領地区,日軍佔領區,日軍佔領區（大略）,,Occupied from 1937; Nanking government from March 1940,,occupied,1,,occupiedzone,,,,,,,,,,,traced
 indochina,French Indochina,仏印 (Futsuin),Đông Dương thuộc Pháp,法屬印度支那,,Occupied September 1940 – July 1941,,occupied,2,,indochina,,,,,,,,,,,
 burma,Burma,緬甸 (Biruma),မြန်မာ (Myanma),緬甸,,Taken 1942; nominal independence August 1943,,occupied,2,,burma,,,,,,,,,,,
@@ -67,4 +67,4 @@ bhutan,Bhutan,,འབྲུག་ཡུལ (Druk Yul),不丹,,British protectora
 other,Afghanistan,,"Afghanistan, Nepal, Bhutan",阿富汗・尼泊爾・不丹,,,,other,3,,other,,,,,,,,,,,
 nca_pacified,Pacified areas (治安地区),治安地区,,治安地區,,September 1942,The North China Area Army's own classification,pacified,3,,nca_pacified,,,,,,,,,,,nca
 nca_unpacified,Un-pacified areas (未治安地区),未治安地区,,未治安地區,,September 1942,The North China Area Army's own classification,unpacified,3,,nca_unpacified,,,,,,,,,,,nca
-contested,Frontier not settled,未確定国境,,未定國界,,,,contested,3,transparent,contested,,,unclear,,,,,,,,
+contested,Border is contested or not fixed,未確定国境,,未定國界,,,,contested,3,transparent,contested,,,unclear,,,,,,,,

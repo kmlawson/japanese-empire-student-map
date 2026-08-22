@@ -1567,3 +1567,13 @@ dialog h3 {
   opacity: .78;
   font-style: italic;
 }
+
+/* The whole of Mengchiang's claim, drawn as nothing: no fill, no stroke, no
+   pointer. It exists so that hovering the state can trace a line round all of
+   it — held ground and claimed ground together — instead of round the fill,
+   which stops where Japanese control stopped. */
+#mengjiang-whole {
+  fill: none;
+  stroke: none;
+  pointer-events: none;
+}

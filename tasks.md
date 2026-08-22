@@ -3956,6 +3956,45 @@ GeoNames dumps — places-merged 12 MB, places-populated 11 MB, places-seats
 is built from `data/cities-*.csv`. They are ignored, and `README.md` and
 `build_geojson.py` are committed instead, so anyone can rebuild them.
 
+### Mengchiang hovers as the state it claimed to be, under the name it had
+Two corrections, and the second is the one that matters.
+
+**The outline traces the whole claim.** The fill is the ground held and the
+dotted line is the frontier claimed, so hovering drew a line round the held
+ground alone — which asserts that the frontier was where the fill stopped, the
+very thing the dotted line exists to deny. `#mengjiang-whole` is the claim
+entire, emitted with no fill, no stroke and no pointer: it is there so the
+outline has the whole state to trace. It reaches Mengchiang's hover through a
+new `data-lit-for` attribute, which `litFor` now collects, so the relation is
+written on the shape rather than special-cased in the code. Three rings, 874
+vertices, and the mask that makes the silhouette covers all three, so the lines
+between the three governments do not show. Point-tested: the whole is exactly
+the fill plus the dotted area, at six sample points inside, outside and in the
+western wedge.
+
+**The name was fifteen months out of date.** The record gave 蒙疆聯合自治政府,
+the Mengchiang United Autonomous Government, which is the name from the
+federation of September 1939. On 4 August 1941 the regime was renamed 蒙古自治邦,
+the Mongol Autonomous Federation, and that is what it was called in December
+1942 — the date this map draws. `orig`, `zh` and `ja` now carry 蒙古自治邦, the
+Japanese reading is Mōko Jichihō, and `when` says when the change happened
+rather than stopping at 1939. The English headline stays *Měngjiāng
+(Mengchiang)*, which is what the territory is called in anything a student will
+read; the formal name is the line underneath.
+
+The prose now also says what the two shapes mean: 603,888 km² claimed against
+441,459 km² held, and the country between the two lines Free China in
+everything but name.
+
+### The contested frontier reworded
+*Frontier not settled* becomes **Border is contested or not fixed** — six
+fields across three files, the legend rows for both epochs in
+`texts/categories.csv` (name and `orig` each) and the `contested` row in both
+territory tables. `data.js` is regenerated from those and now carries the new
+wording at all four sites. The trailing full stop was dropped: it is a label on
+a legend, not a sentence. The Japanese, Chinese and Korean renderings are
+unchanged — 未確定国境, 未定國界, 미확정 국경 already say it.
+
 ---
 
 ## Sources worth fetching

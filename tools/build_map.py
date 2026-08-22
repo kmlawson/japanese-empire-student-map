@@ -6328,6 +6328,21 @@ def main():
                     for r in meng_line if len(r) >= 3)
         if d:
             out.append(f'    <path id="mengjiang-claim" d="{d}"/>')
+    # And the claim entire, drawn as nothing at all. The state is filled where
+    # it was held and left open where it was only claimed, so hovering it drew
+    # a line round the held ground alone — which says the frontier was where
+    # the fill stopped, the very thing the dotted line exists to deny. This
+    # shape carries no fill and no stroke; it is here so that the outline has
+    # the whole state to trace, and `data-lit-for` hands it to Mengchiang's
+    # own hover. The three governments go in one path: the mask that makes the
+    # silhouette covers all three, so the lines between them do not show.
+    if meng_claim:
+        d = "".join(ring_to_path([project(x, y) for x, y in normalise_ring(r)],
+                                 FINE_PRECISION)
+                    for r in meng_claim if len(r) >= 3)
+        if d:
+            out.append('    <path id="mengjiang-whole" '
+                       f'data-lit-for="mengjiang" d="{d}"/>')
     # The traced water round the two leaseholds. A path of its own rather than
     # part of the one above: they overlap, and two carves sharing an even-odd
     # path would cancel each other where they cross.

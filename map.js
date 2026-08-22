@@ -2160,6 +2160,14 @@
           if (els.indexOf(el) < 0) els.push(el);
         });
       });
+      // and any shape the build has handed to this territory for the sake of
+      // the outline alone. Mengchiang is the one: its fill is the ground it
+      // held and #mengjiang-whole is the whole of what it claimed, drawn with
+      // neither fill nor stroke, so that hovering the state draws a line round
+      // all of it rather than round the limit of Japanese control.
+      $$('[data-lit-for="' + id + '"]', svg).forEach(function (el) {
+        if (el.style.display !== 'none' && els.indexOf(el) < 0) els.push(el);
+      });
     }
     return els;
   }
@@ -2901,11 +2909,12 @@
 
     syncMandateLines();
 
-    var mengClaim = svg && svg.querySelector('#mengjiang-claim');
-    if (mengClaim) {
-      // the state exists on the 1942 map only, and so does its claim
-      mengClaim.style.display = state.epoch === 'e1942' ? '' : 'none';
-    }
+    // the state exists on the 1942 map only, and so do its claim and the
+    // whole-claim shape the hover outline traces
+    ['#mengjiang-claim', '#mengjiang-whole'].forEach(function (sel) {
+      var el = svg && svg.querySelector(sel);
+      if (el) el.style.display = state.epoch === 'e1942' ? '' : 'none';
+    });
     if (extentPath) {
       // Across China the dashed perimeter *is* the inland edge of the traced
       // zone, so it cannot be drawn when that zone is not: it would be a line

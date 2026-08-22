@@ -1,6 +1,6 @@
 id,en,ja,orig,zh,ko,when,rule,cat,lvl,c,atoms,lights,within,hatch,edge,edgeAtoms,edgeClip,adminOnly,unseen
 japan,Japan,内地 (Naichi),日本 (Nihon),日本內地,,The metropole,,metropole,1,,japan,,,,,,,,
-ryukyu,Ryūkyū and Ōsumi Islands,"沖縄県・鹿児島県 (Okinawa-ken・Kagoshima-ken)",琉球 (Ruuchuu),琉球・沖繩縣,,Annexed 1879,"Okinawa Prefecture, and Kagoshima from the Amami group north",metropole,1,,ryukyu,,,,,,,,
+ryukyu,Ryūkyū and Ōsumi Islands,沖縄県・鹿児島県 (Okinawa-ken・Kagoshima-ken),琉球 (Ruuchuu),琉球・沖繩縣,,Annexed 1879,"Okinawa Prefecture, and Kagoshima from the Amami group north",metropole,1,,ryukyu,,,,,,,,
 ogasawara,Bonin Islands (Ogasawara),小笠原諸島 (Ogasawara Shotō),小笠原諸島,小笠原群島,,Claimed 1876,"Japanese, part of Tokyo prefecture",metropole,3,,ogasawara,,,,,,,,
 chishima,Kurile Islands (Chishima),千島列島 (Chishima Rettō),Курильские острова,千島群島,,Japanese from 1875,,metropole,2,,chishima,,,,,,,,
 chosen,Chōsen (Korea),朝鮮 (Chōsen),조선 (Chosŏn),朝鮮,조선 (Chosŏn),"Protectorate 1905, annexed 1910",,jpcolony,1,,korea,,,,,,,,
@@ -61,4 +61,4 @@ nepal,Nepal,,नेपाल (Nepāl),尼泊爾,,"Independent, in treaty with Br
 sikkim,Sikkim,,འབྲས་ལྗོངས (Drenjong),錫金,,"British protectorate from 1861, recognised by China 1890",,british,3,#dcc2ce,sikkim,,,,,,,,
 bhutan,Bhutan,,འབྲུག་ཡུལ (Druk Yul),不丹,,British protectorate from 1910,,other,3,#c9a6b0,bhutan,,,,,,,,
 other,Afghanistan,,"Afghanistan, Nepal, Bhutan",阿富汗・尼泊爾・不丹,,,,other,3,,other,,,,,,,,
-contested,Frontier not settled,未確定国境,,未定國界,,,,contested,3,transparent,contested contested_burma,,,unclear,,,,,
+contested,Border is contested or not fixed,未確定国境,,未定國界,,,,contested,3,transparent,contested contested_burma,,,unclear,,,,,
