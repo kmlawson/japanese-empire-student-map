@@ -803,11 +803,19 @@ NO_BACKING = {"china"}
 # broken line down the Annamite chain from the Chinese border to the Mekong,
 # which is exactly where the two sources meet.
 #
-# Giving every ring the same winding makes the path's fill their union, which
-# is what the country is. The overlap is interior to Indochina, so its outline
-# does not move; only the hole inside it closes. Not applied anywhere else: an
-# atom that means to carry a hole — India's enclaves, the NCA sheet's pacified
-# and unpacified blocks — states it with a winding, and this would fill it in.
+# These atoms are welded instead: union_rings() cuts every edge at its
+# crossings with the others, throws away the pieces that fall inside a
+# neighbour and chains what is left, which gives the one outline the eye
+# already sees round the outside and nothing at all inside it. Indochina comes
+# out as a single ring of 551 points where it was two overlapping ones, and
+# the atom is 11.2 KB where it was 15.2.
+#
+# The uniform winding below is the fallback. If the weld cannot close — the
+# chain is quantised to about a metre and a break in it is not something to
+# guess at — the rings are kept and given one winding, which at least makes
+# the fill their union rather than a hole. Not applied anywhere else: an atom
+# that means to carry a hole — India's enclaves, the NCA sheet's pacified and
+# unpacified blocks — states it with a winding, and this would fill it in.
 WELD_RINGS = {"indochina"}
 
 # Atoms drawn whole, with no divisions inside them, because the divisions on
@@ -2154,6 +2162,227 @@ def dissolve(rings, quant=1e6):
             if not ok or len(ring) < 3:
                 return None
             out.append([(x / quant, y / quant) for x, y in ring])
+    return out or None
+
+
+class _RingIndex(object):
+    """Point-in-ring for many points against one ring.
+
+    A plain scan is O(vertices) a point, and the union below asks the question
+    tens of thousands of times against rings of several thousand vertices. The
+    edges are bucketed by the rows of y they span, so a query looks at the
+    handful that could possibly cross its own row.
+    """
+
+    ROWS = 512
+
+    def __init__(self, ring):
+        self.ring = ring
+        ys = [p[1] for p in ring]
+        xs = [p[0] for p in ring]
+        self.y0, self.y1 = min(ys), max(ys)
+        self.x0, self.x1 = min(xs), max(xs)
+        span = (self.y1 - self.y0) or 1e-9
+        self.h = span / self.ROWS
+        self.rows = [[] for _ in range(self.ROWS + 1)]
+        n = len(ring)
+        for i in range(n):
+            a = ring[i]
+            b = ring[(i + 1) % n]
+            if a[1] == b[1]:
+                continue                      # horizontal: never crossed
+            lo = int((min(a[1], b[1]) - self.y0) / self.h)
+            hi = int((max(a[1], b[1]) - self.y0) / self.h)
+            lo = max(0, min(self.ROWS, lo))
+            hi = max(0, min(self.ROWS, hi))
+            for r in range(lo, hi + 1):
+                self.rows[r].append((a, b))
+
+    def contains(self, p):
+        x, y = p
+        if not (self.x0 <= x <= self.x1 and self.y0 <= y <= self.y1):
+            return False
+        r = int((y - self.y0) / self.h)
+        if r < 0 or r > self.ROWS:
+            return False
+        inside = False
+        for (x0, y0), (x1, y1) in self.rows[r]:
+            if (y0 > y) != (y1 > y):
+                xi = x0 + (y - y0) * (x1 - x0) / (y1 - y0)
+                if x < xi:
+                    inside = not inside
+        return inside
+
+
+def _cross_t(a0, a1, b0, b1):
+    """Where along a0->a1 it crosses b0->b1, or None. Endpoints included."""
+    x1, y1 = a0
+    x2, y2 = a1
+    x3, y3 = b0
+    x4, y4 = b1
+    d = (x2 - x1) * (y4 - y3) - (y2 - y1) * (x4 - x3)
+    if d == 0.0:
+        return None                            # parallel, collinear included
+    t = ((x3 - x1) * (y4 - y3) - (y3 - y1) * (x4 - x3)) / d
+    u = ((x3 - x1) * (y2 - y1) - (y3 - y1) * (x2 - x1)) / d
+    if -1e-12 <= t <= 1 + 1e-12 and -1e-12 <= u <= 1 + 1e-12:
+        return min(1.0, max(0.0, t))
+    return None
+
+
+def union_rings(rings, quant=1e5, fill_holes=True):
+    """The outline of the union of rings that overlap, as rings.
+
+    `dissolve` above cancels the edges two rings share exactly, which is what
+    a country's provinces do to each other. This is the other case: two
+    drawings of one border by two sources, which share no edge at all and
+    cross each other instead. Every edge is cut at its crossings with the
+    edges of other rings, the pieces that fall inside another ring are
+    dropped as interior, and the survivors are chained back into rings. What
+    comes out is the line the eye already sees round the outside — the same
+    line the map draws when the country is selected — and nothing inside it.
+
+    The chain is quantised to 1e-5 degrees, about a metre, which is finer
+    than any source here and coarse enough that the two halves of a cut meet.
+
+    `fill_holes` drops the rings that come back wound the other way. Between
+    two tracings of one border those are not enclaves: they are the slivers
+    where neither source claimed the ground, a few square kilometres in
+    total, and drawing them as holes is the fault this is here to remove.
+
+    Returns None if anything fails to close, so the caller can keep what it
+    had.
+    """
+    rings = [r for r in rings if len(r) >= 3]
+    rings = [r if signed_ring_area(r) > 0 else r[::-1] for r in rings]
+    if len(rings) < 2:
+        return rings or None
+    idx = [_RingIndex(r) for r in rings]
+
+    # which rings could possibly meet which, by bounding box; most meet
+    # nothing and are carried through whole
+    meets = [set() for _ in rings]
+    for a in range(len(rings)):
+        for b in range(a + 1, len(rings)):
+            if (idx[a].x1 < idx[b].x0 or idx[b].x1 < idx[a].x0
+                    or idx[a].y1 < idx[b].y0 or idx[b].y1 < idx[a].y0):
+                continue
+            meets[a].add(b)
+            meets[b].add(a)
+    if not any(meets):
+        return rings
+
+    segs = []                                  # (ring, p, q)
+    for ri, r in enumerate(rings):
+        n = len(r)
+        for i in range(n):
+            p, q = r[i], r[(i + 1) % n]
+            if p != q:
+                segs.append((ri, p, q))
+
+    # a grid over the segments, so a segment is only tested against the ones
+    # that could reach it
+    xs = [v for _, p, q in segs for v in (p[0], q[0])]
+    ys = [v for _, p, q in segs for v in (p[1], q[1])]
+    cell = max((max(xs) - min(xs)), (max(ys) - min(ys))) / 400.0 or 1e-6
+    grid = collections.defaultdict(list)
+
+    def cells(p, q):
+        for gx in range(int(math.floor(min(p[0], q[0]) / cell)),
+                        int(math.floor(max(p[0], q[0]) / cell)) + 1):
+            for gy in range(int(math.floor(min(p[1], q[1]) / cell)),
+                            int(math.floor(max(p[1], q[1]) / cell)) + 1):
+                yield (gx, gy)
+
+    for k, (ri, p, q) in enumerate(segs):
+        for c in cells(p, q):
+            grid[c].append(k)
+
+    kept = []
+    for ri, p, q in segs:
+        if not meets[ri]:
+            kept.append((p, q))
+            continue
+        cuts = set()
+        for c in cells(p, q):
+            for j in grid.get(c, ()):
+                rj, u, v = segs[j]
+                if rj == ri or rj not in meets[ri]:
+                    continue
+                t = _cross_t(p, q, u, v)
+                if t is not None and 1e-12 < t < 1 - 1e-12:
+                    cuts.add(t)
+        ts = [0.0] + sorted(cuts) + [1.0]
+        for i in range(len(ts) - 1):
+            t0, t1 = ts[i], ts[i + 1]
+            if t1 - t0 < 1e-15:
+                continue
+            a = (p[0] + (q[0] - p[0]) * t0, p[1] + (q[1] - p[1]) * t0)
+            b = (p[0] + (q[0] - p[0]) * t1, p[1] + (q[1] - p[1]) * t1)
+            mid = ((a[0] + b[0]) / 2, (a[1] + b[1]) / 2)
+            if any(idx[j].contains(mid) for j in meets[ri]):
+                continue
+            kept.append((a, b))
+    if not kept:
+        return None
+
+    def node(p):
+        return (round(p[0] * quant), round(p[1] * quant))
+
+    pos, edges = {}, collections.defaultdict(list)
+    for a, b in kept:
+        ka, kb = node(a), node(b)
+        pos.setdefault(ka, a)
+        pos.setdefault(kb, b)
+        if ka != kb:
+            edges[ka].append(kb)
+    indeg = collections.Counter()
+    for ka, lst in edges.items():
+        for kb in lst:
+            indeg[kb] += 1
+    if any(len(edges.get(k, ())) != indeg[k] for k in pos):
+        return None                            # a break; do not guess at it
+
+    def bearing(k1, k2):
+        p, q = pos[k1], pos[k2]
+        return math.atan2(q[1] - p[1], q[0] - p[0])
+
+    out = []
+    for start in list(edges.keys()):
+        while edges.get(start):
+            nxt = edges[start].pop()
+            if not edges[start]:
+                edges.pop(start, None)
+            ring = [pos[start]]
+            prev, cur = start, nxt
+            closed = False
+            for _ in range(len(kept) + 4):
+                if cur == start:
+                    closed = True
+                    break
+                ring.append(pos[cur])
+                cand = edges.get(cur)
+                if not cand:
+                    break
+                if len(cand) == 1:
+                    step = cand.pop()
+                else:
+                    # a junction: keep to the outside by taking the first
+                    # edge clockwise from the way back
+                    back = bearing(cur, prev)
+                    step = min(cand, key=lambda k:
+                               (back - bearing(cur, k)) % (2 * math.pi))
+                    cand.remove(step)
+                if not edges.get(cur):
+                    edges.pop(cur, None)
+                prev, cur = cur, step
+            if not closed:
+                return None
+            if len(ring) < 3:
+                continue                       # an out-and-back with no area
+            if fill_holes and signed_ring_area(ring) < 0:
+                continue
+            out.append(ring)
     return out or None
 
 
@@ -5712,6 +5941,19 @@ def main():
         merged = (dissolve(rings)
                   if len(rings) > 1 and key not in NO_DISSOLVE else None)
         source = merged if merged else rings
+        # see WELD_RINGS: rings that overlap instead of sharing edges, welded
+        # into the one outline the eye already sees round the outside
+        if key in WELD_RINGS and len(source) > 1:
+            before = len(source)
+            welded = union_rings(source)
+            if welded:
+                sys.stderr.write(
+                    "%s: welded %d rings into %d, %d vertices to %d\n"
+                    % (key, before, len(welded),
+                       sum(len(r) for r in source), sum(len(r) for r in welded)))
+                source = welded
+            else:
+                sys.stderr.write("%s: the weld failed to chain; rings kept\n" % key)
         archipelago = key in ARCHIPELAGOS
         # the French and Portuguese enclaves are a few square kilometres each
         # and would otherwise fall through the minimum-area sieve
