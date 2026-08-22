@@ -39,7 +39,7 @@ rather than a blank one.
 
 ## manchuria
 
-Chinese territory in 1930, run by the Fengtien clique — Chang Tso-lin until
+Chinese territory in 1930, run by the Fengtian clique — Zhang Zuolin until
 his assassination by Japanese officers in 1928 …
 ```
 

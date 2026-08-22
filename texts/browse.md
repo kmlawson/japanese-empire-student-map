@@ -258,7 +258,7 @@ The railhead of the Beijing–Suiyuan line and the wool market of the steppe. Ta
 
 ## hohhot2
 
-An oasis on the Edsin Gol at the edge of the Gobi, and the western end of the country Mengchiang claimed and never held.
+The oasis where the Edsin Gol dies in the Gobi, and the seat of the Ejine Torghut banner, administered from Ningxia. Khara-Khoto, the Tangut city Kozlov dug out of the sand in 1908, lies a short way downstream. Nothing to do with Mengchiang: the nearest ground that state put on its own maps is 240 km to the east, and this was never within its reach or Japan's.
 
 ## qiqihar
 
@@ -306,7 +306,7 @@ The seat of Jiandao, the one Manchurian province with a Korean majority, and the
 
 ## urumqi
 
-The seat of Sheng Shih-ts'ai, who ran Xinjiang on Soviet money until he turned to Chongqing in 1942, and the end of the road that carried Soviet aid. Never Japanese.
+The seat of Sheng Shicai, who ran Xinjiang on Soviet money until he turned to Chongqing in 1942, and the end of the road that carried Soviet aid. Never Japanese.
 
 ## kashgar
 

@@ -1883,7 +1883,7 @@ dialog h3 {
 
   <p>The place list is drawn from the timelines of modern Japanese history used in this module, which in turn rest on Andrew Gordon, <em>A Modern History of Japan</em>; Elise K. Tipton, <em>Modern Japan</em>; Brett L. Walker, <em>A Concise History of Japan</em>; Mikiso Hane and Louise G. Perez, <em>Modern Japan</em>; Kenneth Henshall, <em>Historical Dictionary of Japan to 1945</em>; and Jeremy A. Yellen, <em>Japan at War, 1914–1952</em>.</p>
 
-  <p>Built with Anthropic's Claude, with Konrad Lawson at the prompt, as a companion to the interactive map of modern China used elsewhere in this module.</p>  <p class="version">Version 1.02 · last updated 22 August 2026, 09:46</p>
+  <p>Built with Anthropic's Claude, with Konrad Lawson at the prompt, as a companion to the interactive map of modern China used elsewhere in this module.</p>  <p class="version">Version 0.84 · last updated 22 August 2026, 10:09</p>
 
 <!-- END about -->
 </dialog>
@@ -2130,7 +2130,7 @@ JMAP.TERRITORIES = {
       note: 'Opened by the Kanghwa Treaty of 1876, made a protectorate after the Russo-Japanese War and annexed outright in August 1910. The March First Movement of 1919 was met with mass repression.'
     },
     {
-      id: 'formosa', en: 'Formosa (Taiwan)', ja: '臺灣 (Taiwan)', orig: '臺灣 (Tâi-oân)', zh: '臺灣',
+      id: 'formosa', en: 'Taiwan (Formosa)', ja: '臺灣 (Taiwan)', orig: '臺灣 (Tâi-oân)', zh: '臺灣',
       when: 'Japanese colony from 1895', cat: 'jpcolony', lvl: 1, atoms: ['taiwan'],
       note: 'Japan’s first modern colony, ceded by the Qing in the 1895 Treaty of Shimonoseki after the First Sino-Japanese War.'
     },
@@ -2156,14 +2156,14 @@ JMAP.TERRITORIES = {
       id: 'china', en: 'China (Republic of China)', ja: '中華民国 (Chūka Minkoku)',
       orig: '中華民國 (Zhōnghuá Mínguó)', zh: '中華民國',
       when: 'Republic from 1912; warlord rule, nominal unity from 1928', cat: 'chinese', lvl: 1,
-      atoms: ['china'], lights: ['manchuria', 'jehol', 'chaharsuiyuan', 'xinjiang'],
-      note: 'A republic in name from 1912, but from 1916 to 1928 the country was fought over by regional militarists — the warlord era — with rival governments claiming to be the real one. The Northern Expedition of 1926–28 brought most of it under the Nationalists at Nanjing, but the unity was nominal: warlords kept their armies and their provinces, Manchuria answered to Chang Hsüeh-liang, the Communists held rural base areas, and Xinjiang and Tibet went their own way. Japan meanwhile held a concession at Tianjin, a garrison in north China and the South Manchuria Railway zone.'
+      atoms: ['china'], lights: ['manchuria', 'jehol', 'chahar', 'suiyuan', 'xinjiang'],
+      note: 'A republic in name from 1912, but from 1916 to 1928 the country was fought over by regional militarists — the warlord era — with rival governments claiming to be the real one. The Northern Expedition of 1926–28 brought most of it under the Nationalists at Nanjing, but the unity was nominal: warlords kept their armies and their provinces, Manchuria answered to Zhang Xueliang, the Communists held rural base areas, and Xinjiang and Tibet went their own way. Japan meanwhile held a concession at Tianjin, a garrison in north China and the South Manchuria Railway zone.'
     },
     {
       id: 'manchuria', en: 'Manchuria (the Three Eastern Provinces)', ja: '満洲 (Manshū)',
-      orig: '東三省 (Dōngsānshěng)', zh: '滿洲（東三省）', when: 'Chinese, under Chang Hsüeh-liang',
+      orig: '東三省 (Dōngsānshěng)', zh: '滿洲（東三省）', when: 'Chinese, under Zhang Xueliang',
       cat: 'chinese', lvl: 1, atoms: ['manchuria'], within: 'china',
-      note: 'Chinese territory in 1930, run by the Fengtian clique — Zhang Zuolin until his assassination by Japanese officers in 1928, then his son Chang Hsüeh-liang, who declared for Nanjing. Japan already held the railway zone and the Kwantung leasehold inside it. The Kwantung Army invaded in September 1931.'
+      note: 'Chinese territory in 1930, run by the Fengtian clique — Zhang Zuolin until his assassination by Japanese officers in 1928, then his son Zhang Xueliang, who declared for Nanjing. Japan already held the railway zone and the Kwantung leasehold inside it. The Kwantung Army invaded in September 1931.'
     },
     {
       id: 'jehol', en: 'Rèhé (Jehol)', ja: '熱河 (Nekka)', orig: '熱河省 (Rèhé shěng)', zh: '熱河省',
@@ -2172,10 +2172,16 @@ JMAP.TERRITORIES = {
       note: 'The province between the Great Wall and Manchuria, made a full province in 1928. Japan took it in February and March 1933 and attached it to Manchukuo.'
     },
     {
-      id: 'chaharsuiyuan', en: 'Cháhā’ěr & Suíyuǎn (Chahar & Suiyuan)',
-      ja: '察哈爾・綏遠 (Chaharu, Suien)', orig: '察哈爾・綏遠', zh: '察哈爾・綏遠', when: 'Chinese provinces',
-      cat: 'chinese', lvl: 3, atoms: ['chahar', 'suiyuan', 'suiyuan_w'], within: 'china',
-      note: 'The Inner Mongolian frontier provinces. From 1936 the Mongol prince Demchugdongrub headed a Japanese-sponsored government in northern Chahar; after Japan took Zhangjiakou in 1937 it grew, with the Chinese autonomous governments of southern Chahar and northern Shanxi, into the client regime of Mengchiang, which was federated in 1939 and governed from Zhangjiakou.'
+      id: 'chahar', en: 'Cháhā’ěr (Chahar)', ja: '察哈爾 (Chaharu)', orig: '察哈爾', zh: '察哈爾',
+      when: 'Chinese province from 1928', cat: 'chinese', lvl: 3, atoms: ['chahar'],
+      within: 'china',
+      note: 'The steppe province north-west of the Wall, made a province in 1928 out of one of the old frontier special districts, with Zhangjiakou at its gate — the Kalgan of the caravan trade, where the brick tea and wool of Outer Mongolia came south. From 1936 the Mongol prince Demchugdongrub headed a Japanese-sponsored government in the north of it; after Japan took Zhangjiakou in 1937 that grew, with the Chinese autonomous governments of southern Chahar and northern Shanxi, into the client regime of Mengchiang, federated in 1939 and governed from Zhangjiakou. The province was abolished in 1952 and divided between Hebei, Shanxi and Inner Mongolia.'
+    },
+    {
+      id: 'suiyuan', en: 'Suíyuǎn (Suiyuan)', ja: '綏遠 (Suien)', orig: '綏遠', zh: '綏遠',
+      when: 'Chinese province from 1928', cat: 'chinese', lvl: 3,
+      atoms: ['suiyuan', 'suiyuan_w'], within: 'china',
+      note: 'The northern bend of the Yellow River, irrigated at Hetao and dry beyond it, with Baotou the wool railhead of the steppe and the western end of the Beijing–Suiyuan railway. Also a province from 1928, and in 1930 within Yan Xishan\'s reach from Shanxi; Fu Zuoyi took the chairmanship in 1931 and held the western half of it through the whole war. The eastern half is what Mengchiang held after 1937. Abolished in 1954 into Inner Mongolia.'
     },
     {
       id: 'xinjiang', en: 'Xīnjiāng (Sinkiang)', ja: '新疆 (Shinkyō)', orig: 'شىنجاڭ (Shinjang)',
@@ -2500,7 +2506,7 @@ JMAP.TERRITORIES = {
       note: 'By 1942 under the assimilation drive: Korean-language teaching suppressed, Japanese names imposed from 1940, and mobilisation of labour and, from 1944, conscription.'
     },
     {
-      id: 'formosa', en: 'Formosa (Taiwan)', ja: '臺灣 (Taiwan)', orig: '臺灣 (Tâi-oân)', zh: '臺灣',
+      id: 'formosa', en: 'Taiwan (Formosa)', ja: '臺灣 (Taiwan)', orig: '臺灣 (Tâi-oân)', zh: '臺灣',
       when: 'Japanese colony 1895–1945', cat: 'colony', lvl: 1, atoms: ['taiwan'],
       note: 'The oldest colony and the staging ground for the invasion of the Philippines in December 1941.'
     },
@@ -2533,14 +2539,14 @@ JMAP.TERRITORIES = {
       zh: '蒙古自治邦',
       when: 'Renamed the Mongol Autonomous Federation, August 1941; federated September 1939; Japanese client from 1936',
       cat: 'puppet', lvl: 2, atoms: ['mengjiang'],
-      note: 'The Inner Mongolian autonomous government under Prince Demchugdongrub, with its capital at Zhangjiakou and built out of the Chinese provinces of Chahar and Suiyuan. Japanese-sponsored Mongol governments date from 1936, and the regime changed its name more than once: the federation of September 1939 joined the Mongol leagues to two Chinese-populated administrations — Chanan out of southern Chahar and Jinbei out of northern Shanxi — as the Mengchiang United Autonomous Government, and in August 1941 that was renamed the Mongol Autonomous Federation, 蒙古自治邦, which is what it was called in December 1942. Switch Administrative on and the three parts are named. **The line and the fill say two different things.** The colour is the ground Japan actually controlled. The thick dotted line is the frontier the state drew on its own maps, and a third of what it encloses — the west, beyond Paotow — was never under its control: 603,888 km² claimed against 441,459 km² held. The country inside the line and outside the colour was Free China in everything but name. Hovering draws a line round the whole claim, because the claim is what the state said it was; the fill is what it had.'
+      note: 'The Inner Mongolian autonomous government under Prince Demchugdongrub, with its capital at Zhangjiakou and built out of the Chinese provinces of Chahar and Suiyuan. Japanese-sponsored Mongol governments date from 1936, and the regime changed its name more than once: the federation of September 1939 joined the Mongol leagues to two Chinese-populated administrations — Chanan out of southern Chahar and Jinbei out of northern Shanxi — as the Mengchiang United Autonomous Government, and in August 1941 that was renamed the Mongol Autonomous Federation, 蒙古自治邦, which is what it was called in December 1942. Switch Administrative on and the three parts are named. The line indicates claimed Mengjiang territory and the fill indicates approximate simplified area of control.'
     },
     {
       id: 'nanjinggov', en: 'Japanese-occupied China (approximate)', ja: '日本占領地区',
       orig: '日軍佔領區', zh: '日軍佔領區（大略）',
       when: 'Occupied from 1937; Nanking government from March 1940', cat: 'occupied', lvl: 1,
       atoms: ['occupiedzone'], srcOnly: 'traced',
-      note: 'Governed on paper by Wang Ching-wei’s collaborationist government at Nanjing, with the far south under military administration instead. Traced from a 1940 map of the occupation and adjusted to December 1942: the plains, the railways and the cities of the north and the Yangtze valley, the Guangzhou delta from October 1938, Hainan from February 1939, and the ports of Xiamen and Shantou. Western Shanxi and Henan, most of Hunan, Jiangxi and Fujian were never taken, Changsha held out until 1944, and Communist and Nationalist guerrillas operated in force inside the line as well as beyond it — the shading marks where Japanese authority reached, not where it was unchallenged.'
+      note: 'Governed on paper by Wang Jingwei’s collaborationist government at Nanjing, with the far south under military administration instead. Traced from a 1940 map of the occupation and adjusted to December 1942: the plains, the railways and the cities of the north and the Yangtze valley, the Guangzhou delta from October 1938, Hainan from February 1939, and the ports of Xiamen and Shantou. Western Shanxi and Henan, most of Hunan, Jiangxi and Fujian were never taken, Changsha held out until 1944, and Communist and Nationalist guerrillas operated in force inside the line as well as beyond it — the shading marks where Japanese authority reached, not where it was unchallenged.'
     },
     {
       id: 'indochina', en: 'French Indochina', ja: '仏印 (Futsuin)',
@@ -3368,7 +3374,7 @@ JMAP.EPOCH_OVERRIDES = {
     } },
   mukden: { e1930: {
       date: 'Battle of Mukden, February–March 1905',
-      note: 'The Manchu dynastic capital, and the prize of the largest land battle of the Russo-Japanese War. In 1930 it is the seat of Chang Hsüeh-liang’s government, with the Japanese South Manchuria Railway running through it and the Kwantung Army guarding the line.'
+      note: 'The Manchu dynastic capital, and the prize of the largest land battle of the Russo-Japanese War. In 1930 it is the seat of Zhang Xueliang’s government, with the Japanese South Manchuria Railway running through it and the Kwantung Army guarding the line.'
     } },
   changchun: { e1930: {
       en: 'Chángchūn', ja: '長春 (Chōshun)', zh: '長春', date: 'Railway junction',
@@ -3567,7 +3573,7 @@ JMAP.BROWSE = [
   {
     id: 'urumqi', en: 'Wūlǔmùqí (Urumchi)', ja: '迪化 (Tekika)', zh: '迪化（烏魯木齊）', lat: 43.83,
     lon: 87.62,
-    note: 'The seat of Sheng Shih-ts\'ai, who ran Xinjiang on Soviet money until he turned to Chongqing in 1942, and the end of the road that carried Soviet aid. Never Japanese.'
+    note: 'The seat of Sheng Shicai, who ran Xinjiang on Soviet money until he turned to Chongqing in 1942, and the end of the road that carried Soviet aid. Never Japanese.'
   },
   {
     id: 'kashgar', en: 'Kāshí (Kashgar)', ja: 'カシュガル (Kashugaru)', zh: '喀什噶爾', lat: 39.47,
@@ -3997,7 +4003,7 @@ JMAP.BROWSE = [
   {
     id: 'hohhot2', en: 'Éjìnà (Etsina)', ja: '額済納 (Gakusaina)', zh: '額濟納', lat: 41.03,
     lon: 101.05,
-    note: 'An oasis on the Edsin Gol at the edge of the Gobi, and the western end of the country Mengchiang claimed and never held.'
+    note: 'The oasis where the Edsin Gol dies in the Gobi, and the seat of the Ejine Torghut banner, administered from Ningxia. Khara-Khoto, the Tangut city Kozlov dug out of the sand in 1908, lies a short way downstream. Nothing to do with Mengchiang: the nearest ground that state put on its own maps is 240 km to the east, and this was never within its reach or Japan\'s.'
   },
   {
     id: 'bombay', en: 'Bombay (Mumbai)', lat: 18.94, lon: 72.83,
@@ -4241,36 +4247,92 @@ JMAP.PROVINCES = {
   Wanjiang: { en: 'Wǎnjiāng — the Anhwei Yangtze', zh: '皖江' },
   Zhedong: { en: 'Zhèdōng — eastern Chekiang', zh: '浙東' },
   'E-Yu-Wan': { en: 'Èyùwǎn — Hupeh, Honan and Anhwei', zh: '鄂豫皖' },
-  Anhui: { en: 'Ānhuī (Anhwei)' },
-  Chahaer: { en: 'Cháhā’ěr (Chahar)' },
-  Fujian: { en: 'Fújiàn (Fukien)' },
-  Gansu: { en: 'Gānsù (Kansu)' },
-  Guangdong: { en: 'Guǎngdōng (Kwangtung)' },
-  Guangxi: { en: 'Guǎngxī (Kwangsi)' },
-  Guizhou: { en: 'Guìzhōu (Kweichow)' },
-  Hebei: { en: 'Héběi (Hopei)' },
-  Heilongjiang: { en: 'Hēilóngjiāng (Heilungkiang) — called Lungkiang under Manchukuo' },
-  Henan: { en: 'Hénán (Honan)' },
-  Hubei: { en: 'Húběi (Hupeh)' },
-  Hunan: { en: 'Húnán' },
-  Jehol: { en: 'Rèhé (Jehol)' },
-  Jiangsu: { en: 'Jiāngsū (Kiangsu)' },
-  Jiangxi: { en: 'Jiāngxī (Kiangsi)' },
-  Jilin: { en: 'Jílín (Kirin)' },
-  Liaoning: { en: 'Liáoníng — called Fengtien again under Manchukuo' },
-  Ningxia: { en: 'Níngxià (Ninghsia)' },
-  Qinghai: { en: 'Qīnghǎi (Tsinghai)' },
-  Shaanxi: { en: 'Shǎnxī (Shensi)' },
-  Shandong: { en: 'Shāndōng (Shantung)' },
-  Shanxi: { en: 'Shānxī (Shansi)' },
-  Sichuan: { en: 'Sìchuān (Szechwan)' },
-  Suiyuan: { en: 'Suíyuǎn (Suiyuan) — the eastern half, which Mengchiang held' },
-  SuiyuanWest: { en: 'Western Suíyuǎn — Wuyuan, Linhe and the Ordos, held by Fu Tso-yi throughout' },
-  Xikang: { en: 'Xīkāng (Sikang) — a special administrative region until 1939, then a province' },
-  Xinjiang: { en: 'Xīnjiāng (Sinkiang)' },
+  Anhui: {
+    en: 'Ānhuī (Anhwei) — the Huai plain and the lower Yangtze, rice and wheat, and the floods the Huai brought almost yearly'
+  },
+  Chahaer: {
+    en: 'Cháhā’ěr (Chahar) — steppe and the caravan road north from Zhangjiakou, which handled the brick tea and wool of Outer Mongolia. Japanese-sponsored Mongol government in the north from 1936; abolished in 1952'
+  },
+  Fujian: {
+    en: 'Fújiàn (Fukien) — mountains to the sea, tea from the Wuyi hills, and the province most of Southeast Asia\'s Chinese emigrants came from'
+  },
+  Gansu: {
+    en: 'Gānsù (Kansu) — the Hexi corridor, the old road to Central Asia between the Qilian mountains and the desert; wool, and Muslim generals of the Ma family in the west'
+  },
+  Guangdong: {
+    en: 'Guǎngdōng (Kwangtung) — the Pearl River delta, silk and rice, Canton\'s trade, and the emigration that built the Chinese communities of the Americas. Chen Jitang ran it in near-independence from 1929'
+  },
+  Guangxi: {
+    en: 'Guǎngxī (Kwangsi) — karst hills and poor soil, and the base of the Guangxi clique under Li Zongren and Bai Chongxi, who fought Chiang Kai-shek in 1929 and again in 1930'
+  },
+  Guizhou: {
+    en: 'Guìzhōu (Kweichow) — the poorest province of the interior, mountains and mist, opium the one crop that paid to carry out'
+  },
+  Hebei: {
+    en: 'Héběi (Hopei) — called Zhili, the \'directly ruled\' province, until 1928, when the capital moved to Nanjing and Beijing became Beiping; wheat, cotton and the coal at Kailuan'
+  },
+  Heilongjiang: {
+    en: 'Hēilóngjiāng (Heilungkiang) — the black-earth north, soybeans and timber; called Lungkiang under Manchukuo'
+  },
+  Henan: {
+    en: 'Hénán (Honan) — the north China plain either side of the Yellow River, wheat and cotton, and the Longhai and Pinghan railways crossing at Zhengzhou'
+  },
+  Hubei: {
+    en: 'Húběi (Hupeh) — the Yangtze and the Han meeting at Wuhan, cotton and the iron at Daye that fed the Hanyang works'
+  },
+  Hunan: {
+    en: 'Húnán — rice from the Dongting basin, and the antimony at Xikuangshan, the largest deposit in the world'
+  },
+  Jehol: {
+    en: 'Rèhé (Jehol) — forest and grassland beyond the Wall, made a province in 1928 and taken by Japan in February 1933, when it was attached to Manchukuo; abolished in 1955 and divided between Hebei, Liaoning and Inner Mongolia'
+  },
+  Jiangsu: {
+    en: 'Jiāngsū (Kiangsu) — the Yangtze delta, silk, cotton and the richest farmland in China; Nanjing was the capital from 1928 and Shanghai sat inside it'
+  },
+  Jiangxi: {
+    en: 'Jiāngxī (Kiangsi) — rice, the tungsten of the southern hills and the porcelain kilns at Jingdezhen; the Communist base areas that became the Jiangxi Soviet were forming here in 1930'
+  },
+  Jilin: {
+    en: 'Jílín (Kirin) — soybeans and forest, and the South Manchuria Railway\'s northern reach'
+  },
+  Liaoning: {
+    en: 'Liáoníng — renamed from Fengtien in 1929 and called Fengtien again under Manchukuo; the industrial heart of the north-east, with the coal at Fushun and the steel at Anshan'
+  },
+  Ningxia: {
+    en: 'Níngxià (Ninghsia) — the Yellow River\'s irrigated bend and desert either side of it, made a province in 1928 and run by Ma Hongkui'
+  },
+  Qinghai: {
+    en: 'Qīnghǎi (Tsinghai) — high pasture round the salt lake of Kokonor, Tibetan and Mongol herders, made a province in 1928 and run by Ma Bufang'
+  },
+  Shaanxi: {
+    en: 'Shǎnxī (Shensi) — the loess plateau and the Wei valley below it, wheat and cotton; the Communists reached northern Shaanxi at the end of the Long March in 1935'
+  },
+  Shandong: {
+    en: 'Shāndōng (Shantung) — wheat and groundnuts on a peninsula between two seas, Confucius\'s Qufu, and the German legacy at Qingdao. Han Fuju governed it from 1930'
+  },
+  Shanxi: {
+    en: 'Shānxī (Shansi) — the richest coalfield in China under a loess plateau, and Yan Xishan\'s province: he ruled it from 1911 to 1949, ran it with its own railway gauge and its own currency, and led the coalition that fought Chiang Kai-shek in the Central Plains War of 1930'
+  },
+  Sichuan: {
+    en: 'Sìchuān (Szechwan) — the Red Basin behind its gorges, rice, salt from the wells at Zigong and a great deal of opium; divided in 1930 among garrison-area warlords, Liu Xiang and Liu Wenhui the largest, and not brought under Nanjing until 1935'
+  },
+  Suiyuan: {
+    en: 'Suíyuǎn (Suiyuan) — the Yellow River\'s northern bend, irrigated at Hetao, with Baotou the wool railhead of the steppe. Made a province in 1928; the eastern half is what Mengchiang held'
+  },
+  SuiyuanWest: { en: 'Western Suíyuǎn — Wuyuan, Linhe and the Ordos, held by Fu Zuoyi throughout' },
+  Xikang: {
+    en: 'Xīkāng (Sikang) — eastern Kham, Tibetan in speech and religion, claimed by both Nanjing and Lhasa; a special administrative region until 1939, then a province, and abolished in 1955 between Sichuan and Tibet'
+  },
+  Xinjiang: {
+    en: 'Xīnjiāng (Sinkiang) — oases round the Taklamakan, cotton and livestock, and a trade that ran to the Soviet Union rather than to China; Jin Shuren governed in 1930, Sheng Shicai from 1933'
+  },
   Xizang: { en: 'Tibet' },
-  Yunnan: { en: 'Yúnnán' },
-  Zhejiang: { en: 'Zhèjiāng (Chekiang)' },
+  Yunnan: {
+    en: 'Yúnnán — high plateau on the Burmese and Indochinese frontier, tin from Gejiu, copper and opium, and a French railway to Haiphong. Long Yun ruled it from 1927 to 1945 with little reference to Nanjing'
+  },
+  Zhejiang: {
+    en: 'Zhèjiāng (Chekiang) — silk from the Hangzhou basin, tea, and a coast of fishing ports and islands'
+  },
   Nanumea: {
     en: 'Nanumea',
     note: 'An American airfield was built here in 1943, one of three in the Ellice from which the Gilberts were attacked.'
