@@ -180,6 +180,19 @@ button.plain:hover { background: #f2ede2; }
 #map-container.dragging { cursor: grabbing; }
 #map-container.quizzing { cursor: crosshair; }
 
+/* Shift and drag to draw the ground you want on the screen. The cursor says so
+   while the key is down, which is the only announcement the gesture gets. */
+#map-container.marking { cursor: crosshair; }
+
+#marquee {
+  position: absolute;
+  pointer-events: none;
+  border: 1.5px dashed #7a1020;
+  background: rgba(122, 16, 32, .08);
+  border-radius: 2px;
+  z-index: 3;
+}
+
 #map-svg {
   position: absolute;
   inset: 0;
@@ -543,6 +556,22 @@ button.plain:hover { background: #f2ede2; }
 
 .islet-hit { fill: transparent; stroke: none; }
 
+/* The Spratlys, the Paracels and Pratas: reefs and sandbanks of a few hundred
+   metres, drawn to scale and therefore invisible. At the deepest zoom the map
+   allows, the largest of them is still under a pixel — so the reader who
+   zoomed in to find the named island finds nothing at all, and the ring that
+   pointed the way has gone by then. Their shapes carry a stroke of their own
+   colour, one pixel wide at every zoom, which is the smallest thing that can
+   be both seen and pointed at. Only these three atoms: the same stroke on the
+   Philippines or the Indies would thicken coastlines that read perfectly well
+   already. */
+.tiny-isles path {
+  stroke: var(--c, var(--inactive));
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+  stroke-linejoin: round;
+}
+
 /* A mandate over an ocean is a line on a chart, not a shape: almost everything
    inside these outlines is water, and the islands they are about are specks. So
    they are drawn as a dashed line in the mandatory power's own colour and
@@ -614,6 +643,10 @@ button.plain:hover { background: #f2ede2; }
   .mandate.mandate-cutout.hot { fill: transparent; }
 }
 
+/* Far enough in that the islands are worth looking at rather than merely
+   finding. It was 1.6x the opening view, which on a Pacific group is barely
+   past the point where they are specks; the ring went while the island was
+   still too small to aim at. 3.2x leaves it a few turns of the wheel longer. */
 #jmap.zoomed-in .islet { display: none; }
 
 /* The ring's target deliberately stays after the ring itself has gone. Taking

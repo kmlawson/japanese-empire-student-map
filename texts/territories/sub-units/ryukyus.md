@@ -7,18 +7,21 @@
 > fine coastline layer draws when you zoom in on them, which is why there are
 > so many and why the smallest of them are named at all.
 
-> **Okinawa itself is missing from this list, and that is a defect, not a
-> choice.** Two different shapes carry `data-prov="Okinawa"` — the prefecture,
-> drawn when Administrative is on, and the island of Okinawa Hontō in the fine
-> coastline layer. A sub-unit table is keyed by that one name, so the two
-> cannot be told apart, and data.js used to hold an entry for each: the island's
-> read `Okinawa — Naha, and the battle of April–June 1945`, and the
-> prefecture's `Okinawa-ken`. The prefecture's came second in the file and
-> silently replaced the island's, so the battle line was never once shown. Only
-> the prefecture's row is kept here, in japan.csv, so that nothing on the map
-> changes; the fix is to give the fine island a key of its own in
-> tools/build_map.py, and then the battle can be named where a reader zooming
-> in on Okinawa would look for it.
+> **Okinawa is here now, and was not for a long time.** Two shapes used to
+> carry `data-prov="Okinawa"` — the prefecture, drawn when Administrative is
+> on, and the island of Okinawa Hontō in the fine coastline layer. A sub-unit
+> table is keyed by that one name, so the two could not be told apart:
+> data.js held an entry for each, the prefecture's came second and silently
+> replaced the island's, and the line about the battle was never once shown.
+> The fine layer names the island `Okinawa Island`, which is a key of its own,
+> so the island's entry is below and the prefecture's stays in japan.csv.
+
+## Okinawa Island
+
+Naha and the castle at Shuri, and a third of the prefecture's people. The
+American landing on 1 April 1945 opened a battle of eighty-two days that killed
+roughly a quarter of the civilian population, destroyed Shuri, and left the
+island an American base for the next twenty-seven years.
 
 ## Yakushima
 

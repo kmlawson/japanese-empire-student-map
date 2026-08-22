@@ -1385,10 +1385,11 @@
     // question, not "how much of the world fits".
     //
     // The rings are for the reader who has not gone looking yet — zoomed out,
-    // or barely in. Half a turn of the wheel past the opening view and the
-    // Gilberts and the Carolines are large enough to point at, while the rings
-    // are still the size they always are and now read as marks on the sea.
-    svg.classList.toggle('zoomed-in', view.w < home.w / 1.6);
+    // or barely in. It was 1.6x the opening view, half a turn of the wheel,
+    // and that was too soon: the ring went while the island under it was still
+    // a speck, so the reader lost the mark and gained nothing to aim at. At
+    // 3.2x the Gilberts and the Carolines are shapes before their rings go.
+    svg.classList.toggle('zoomed-in', view.w < home.w / 3.2);
     // it resets the view, so at the opening view there is nothing for it to do
     // and it looked like a dead button; say so instead
     var rst = $('#zoom-reset');
@@ -1490,13 +1491,34 @@
     });
   }
 
+  /* An island's name is drawn from the middle of the island, and the text sits
+     above that point — so on anything small the name lies across the island,
+     with a white halo three and a half pixels wide under it. The island is
+     then a few pixels of coastline showing round the edge of its own label,
+     and a reader trying to tap it taps the sea. Below about four dozen pixels
+     of island the name is moved clear, under the shape rather than over it;
+     above that there is room for it and it stays where a map puts a name. The
+     offset is in screen pixels and has to be recomputed as the zoom changes,
+     which is exactly when rescale runs. */
+  var SMALL_ISLE_PX = 46;
+
+  function isleOffset(L, k) {
+    if (!L || !L.half) return 0;
+    var hpx = (L.half * 2) / k;
+    return hpx < SMALL_ISLE_PX ? hpx / 2 + L.h * 0.9 : 0;
+  }
+
   function rescale() {
     var c = containerSize();
     var k = view.w / c.w;                       // SVG units per screen pixel
     for (var i = 0; i < scalables.length; i++) {
       var s = scalables[i];
+      if (s.label) {
+        s.oy = isleOffset(s.label, k);
+        s.label.dy = s.oy;
+      }
       var t = 'translate(' + s.x + ' ' + s.y + ') scale(' + k + ')';
-      if (s.ox || s.oy) t += ' translate(' + s.ox + ' ' + s.oy + ')';
+      if (s.ox || s.oy) t += ' translate(' + (s.ox || 0) + ' ' + (s.oy || 0) + ')';
       s.el.setAttribute('transform', t);
     }
     // Keep the shading stripes a constant width on screen rather than letting
@@ -1593,6 +1615,7 @@
       if (!key) return;
       var x = parseFloat(el.getAttribute('data-cx'));
       var y = parseFloat(el.getAttribute('data-cy'));
+      var half = 0;
       if (!isFinite(x) || !isFinite(y)) {
         // Not everything wearing data-prov is a division. The occupied zone
         // names its own blocks that way — "North China and the Yangtze
@@ -1609,15 +1632,20 @@
         if (!bb || !bb.width) return;
         x = bb.x + bb.width / 2;
         y = bb.y + bb.height / 2;
+        // half the island's own height, kept so the name can be moved off it
+        // when the island is small — see isleOffset
+        half = bb.height / 2;
       }
       var text = svgEl('text', { 'class': 'tlabel sublabel', 'font-size': SUB_PX });
       labelLayer.appendChild(text);
       var entry = { rec: subRec(el, key), el: text, x: x, y: y, dy: 0,
-                    size: SUB_PX, w: 0, h: SUB_PX * 1.2,
+                    size: SUB_PX, w: 0, h: SUB_PX * 1.2, half: half,
                     owner: el, atom: el.closest ? el.closest('.atom') : null };
       labels.push(entry);
       subLabels.push(entry);
-      scalables.push({ el: text, x: x, y: y });
+      var sc = { el: text, x: x, y: y };
+      if (half) { sc.label = entry; entry.sc = sc; }
+      scalables.push(sc);
       made++;
     });
     // country names first, then divisions, then the rest: a province must
@@ -1787,6 +1815,15 @@
   var pinchStart = null;
   var downTarget = null;
   var movedFar = false;
+  /* Shift and drag draws a box, and the map goes to it. The wheel and the
+     buttons zoom about a point, which is the wrong instrument when what you
+     know is the ground you want on the screen rather than how many times to
+     double: the Inland Sea, the Yangtze delta, the ground between two cities.
+     Mouse only — a shift key is not a thing a finger has, and a touch drag is
+     already the pan. */
+  var marquee = null;
+  var marqueeBox = null;
+  var MARQUEE_MIN = 12;                       // px, below which it was a click
 
   function wirePointer() {
     container.addEventListener('pointerdown', onPointerDown);
@@ -1803,6 +1840,15 @@
       container.addEventListener('mousemove', onHover);
       container.addEventListener('mouseleave', function () {
         setHot(null); setHotProv(null); setSubsAtom(null); hideTooltip();
+      });
+      // the cursor is the whole announcement that the gesture exists
+      var mark = function (e) {
+        container.classList.toggle('marking', !!e.shiftKey && !marquee);
+      };
+      window.addEventListener('keydown', mark);
+      window.addEventListener('keyup', mark);
+      window.addEventListener('blur', function () {
+        container.classList.remove('marking');
       });
     }
   }
@@ -1826,6 +1872,14 @@
     if (pointers.size === 1) {
       downTarget = e.target;
       movedFar = false;
+      if (e.shiftKey && e.pointerType !== 'touch') {
+        marquee = { x0: e.clientX, y0: e.clientY, x1: e.clientX, y1: e.clientY };
+        dragStart = null;
+        movedFar = true;                     // never a tap, whatever it does
+        dropForGesture();
+        drawMarquee();
+        return;
+      }
       dragStart = { cx: e.clientX, cy: e.clientY, vx: view.x, vy: view.y };
       container.classList.add('dragging');
       hideTooltip();
@@ -1835,6 +1889,57 @@
       pinchStart = pinchState();
       dropForGesture();
     }
+  }
+
+  /* The box while it is being drawn. A plain element over the map rather than
+     a rect inside the SVG: the SVG is under a viewBox that the drag does not
+     change, and a screen-space rectangle drawn in map units would have to be
+     converted back on every move for no gain. */
+  function drawMarquee() {
+    if (!marquee) {
+      if (marqueeBox) marqueeBox.style.display = 'none';
+      return;
+    }
+    if (!marqueeBox) {
+      marqueeBox = document.createElement('div');
+      marqueeBox.id = 'marquee';
+      container.appendChild(marqueeBox);
+    }
+    var r = container.getBoundingClientRect();
+    var l = Math.min(marquee.x0, marquee.x1) - r.left;
+    var t = Math.min(marquee.y0, marquee.y1) - r.top;
+    var w = Math.abs(marquee.x1 - marquee.x0);
+    var h = Math.abs(marquee.y1 - marquee.y0);
+    marqueeBox.style.display = '';
+    marqueeBox.style.left = l + 'px';
+    marqueeBox.style.top = t + 'px';
+    marqueeBox.style.width = w + 'px';
+    marqueeBox.style.height = h + 'px';
+  }
+
+  /* The drawn box, in screen pixels, becomes the view. The map keeps the
+     container's aspect ratio, so the box is grown — never cropped — to it:
+     a reader who draws a wide, flat box round the Inland Sea gets all of it
+     and some sea above and below, rather than the middle of what they asked
+     for. A box smaller than a keystroke is a shift-click, and does nothing. */
+  function zoomToBox(m) {
+    var w = Math.abs(m.x1 - m.x0);
+    var h = Math.abs(m.y1 - m.y0);
+    if (w < MARQUEE_MIN || h < MARQUEE_MIN) return;
+    var a = clientToSvg(Math.min(m.x0, m.x1), Math.min(m.y0, m.y1));
+    var b = clientToSvg(Math.max(m.x0, m.x1), Math.max(m.y0, m.y1));
+    var c = containerSize();
+    var aspect = c.w / c.h;
+    var bw = Math.abs(b.x - a.x);
+    var bh = Math.abs(b.y - a.y);
+    var want = Math.max(bw, bh * aspect);
+    var cx = (a.x + b.x) / 2;
+    var cy = (a.y + b.y) / 2;
+    view.w = Math.min(Math.max(want, mapW / MAX_ZOOM), fitView().w);
+    view.h = view.w / aspect;
+    view.x = cx - view.w / 2;
+    view.y = cy - view.h / 2;
+    applyView();
   }
 
   function pinchState() {
@@ -1853,6 +1958,13 @@
   function onPointerMove(e) {
     if (!pointers.has(e.pointerId)) return;
     pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+
+    if (marquee) {
+      marquee.x1 = e.clientX;
+      marquee.y1 = e.clientY;
+      drawMarquee();
+      return;
+    }
 
     if (pointers.size >= 2 && pinchStart) {
       var now = pinchState();
@@ -1918,6 +2030,16 @@
     var had = pointers.size;
     if (!pointers.has(e.pointerId)) return;
     pointers.delete(e.pointerId);
+    if (marquee) {
+      var m = marquee;
+      marquee = null;
+      drawMarquee();
+      try {
+        if (container.hasPointerCapture(e.pointerId)) container.releasePointerCapture(e.pointerId);
+      } catch (err2) { /* already gone */ }
+      if (e.type === 'pointerup') zoomToBox(m);
+      return;
+    }
     try {
       if (container.hasPointerCapture(e.pointerId)) container.releasePointerCapture(e.pointerId);
     } catch (err) { /* already gone */ }
@@ -2458,7 +2580,7 @@
   }
 
   function onHover(e) {
-    if (state.mode === 'quiz' || dragStart) {
+    if (state.mode === 'quiz' || dragStart || marquee) {
       setHot(null); setHotProv(null); setSubsAtom(null); return;
     }
     var got = pick(e.target, e.clientX, e.clientY);
@@ -3322,6 +3444,18 @@
      the deepest fifth of the zoom range. */
   var FINE_W = 150;
 
+  /* Except for the islands off the home coast, which arrive earlier. Sado is
+     a degree across and sits inside Niigata prefecture; below the threshold
+     there is no Sado on the map at all — the base map draws it as part of the
+     Japan landmass and Niigata's outline covers it, so a reader who clicked
+     the island was told about the prefecture, and the same click a few turns
+     of the wheel later told them about the island. This window is 62 rings,
+     which is nothing beside the Ryukyus' nineteen hundred, so it can be
+     afforded much sooner. It does not supersede the coarse coastline at that
+     width — that stays on FINE_W — it is only drawn over it, in the same
+     colour, and answers for itself. */
+  var FINE_W_FOR = { japan: 420 };
+
   /* The file covers fourteen windows and they used to arrive together: one
      deep zoom anywhere grafted the Ryukyus, the Bonins, the mandate, the
      Gilberts, New Guinea, the Solomons and Wake at once and kept them all
@@ -3390,10 +3524,10 @@
      legitimately gets both. What it will not do is give a reader in the
      Ryukyus the Solomons. */
   function wantsFine() {
-    if (view.w >= FINE_W) return [];
     var boxes = fineRegions();
     var out = [];
     for (var k in boxes) {
+      if (view.w >= (FINE_W_FOR[k] || FINE_W)) continue;
       var b = boxes[k];
       if (view.x < b[2] && view.x + view.w > b[0] &&
           view.y < b[3] && view.y + view.h > b[1]) out.push(k);

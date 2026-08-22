@@ -3668,7 +3668,11 @@ MENGJIANG_UNHELD_FILE = "mengjiang-unoccupied-fixed.geojson"
 # Shansi, and a hole punched in one would leave the other painting over it —
 # so all three are clipped to the same shape instead, the way the mandate's
 # wash is clipped off Guam.
-SUB_CLIP = {"mengjiang": "clip-meng-held"}
+SUB_CLIP = {"mengjiang": "clip-meng-held", "princely": "clip-off-frontier"}
+# A point inside the contested block east of Bhutan, which is the one of the
+# four in CONTESTED_FILE that the princely states have to be cut back to. The
+# two in Kashmir are left alone: nothing is drawn over those.
+CONTESTED_ASSAM_POINT = (94.5, 28.6)
 # The sheet draws Mengchiang as its three constituent governments, so the
 # Administrative layer can name them. Each is claimed by a town that can only be
 # in one of them: Kweisui for the Mongol leagues, Datong for the North Shansi
@@ -4301,6 +4305,18 @@ ISLET_RINGS = {
 # Groups whose islets are close enough together that one ring stands for all
 # of them — see where specks are built, below.
 ONE_ISLET = {"cocos"}
+
+# The rings say where to look; they go once the reader is in far enough to look
+# at the place itself. For most groups that is the moment the islands become
+# shapes. For these three it never happens: the Spratlys, the Paracels and
+# Pratas are reefs and sandbanks a few hundred metres across, and at 100x —
+# as far in as this map goes — the largest of them is still under a pixel. The
+# named island the reader zoomed in to find is drawn and is invisible. So their
+# shapes carry a stroke of their own colour, one pixel wide whatever the zoom,
+# which is enough to see and to point at without pretending the island is
+# bigger than it is. Only these: everywhere else it would thicken coastlines
+# that are perfectly legible.
+TINY_ISLES = {"spratly", "paracel", "pratas"}
 
 ARCHIPELAGOS = {
     "wake", "turtle", "mangsee", "miangas", "cocos",
@@ -6174,6 +6190,48 @@ def main():
     # of Kweisui, round 112.0 E 39.4 N, is inside the claim and inside neither
     # of the other two files. Clipping to what was held cannot show a gap
     # between them whatever the sources do.
+    # British India is drawn from a traced outline that stops at the frontier
+    # of the period; the princely states come from a modern source that does
+    # not. Four of them reach north-east past it, into the block the map marks
+    # as contested east of Bhutan — so turning Administrative on made India
+    # grow, which is the one thing a layer of names must never do. They are
+    # drawn through the frame with that block punched out of it. Only that
+    # block: the two contested areas in Kashmir are west of Tibet and nothing
+    # is drawn over them, and cutting there would take real ground away.
+    _assam = []
+    for _props, _rings in load_traced(CONTESTED_FILE):
+        for _r in _rings:
+            if len(_r) >= 3 and point_in_ring(CONTESTED_ASSAM_POINT, _r):
+                _assam.append(_r)
+    if _assam:
+        hole = ring_to_path([(0.0, 0.0), (WIDTH, 0.0), (WIDTH, HEIGHT), (0.0, HEIGHT)])
+        for ring in _assam:
+            cut = clip_halfplanes(normalise_ring(ring), frame)
+            if len(cut) >= 3:
+                hole += ring_to_path([project(x, y) for x, y in cut], FINE_PRECISION)
+        out.append('    <clipPath id="clip-off-frontier" clipPathUnits="userSpaceOnUse">'
+                   f'<path clip-rule="evenodd" d="{hole}"/></clipPath>')
+    # Guangzhou Bay. `chinabase` is the modern outline of China laid under the
+    # Republican provinces so that where the two sources disagree the gap reads
+    # as a seam rather than as sea. Under the leasehold it does the opposite:
+    # the lease is traced from a third source, finer than either, and the
+    # modern coastline fills its creeks and its bay — so the grey filler showed
+    # as a rim along every shore inside the lease, which a reader reads as
+    # ground of some unnamed kind between the blue and the water. Nothing else
+    # is drawn inside the lease's own hull but the lease, so the filler is cut
+    # out of it and the sea shows where the sea is. The hull and not the rings:
+    # the rim is between the two coastlines, which is inside the hull and
+    # outside the lease.
+    _gzw = [r for r in (groups.get("guangzhouwan") or []) if len(r) >= 3]
+    if _gzw:
+        hull = convex_hull([p for r in _gzw for p in r])
+        cut = clip_halfplanes(normalise_ring(hull), frame)
+        if len(cut) >= 3:
+            hole = ring_to_path([(0.0, 0.0), (WIDTH, 0.0),
+                                 (WIDTH, HEIGHT), (0.0, HEIGHT)])
+            hole += ring_to_path([project(x, y) for x, y in cut], FINE_PRECISION)
+            out.append('    <clipPath id="clip-off-gzw" clipPathUnits="userSpaceOnUse">'
+                       f'<path clip-rule="evenodd" d="{hole}"/></clipPath>')
     if meng_held:
         keep = ""
         for ring in meng_held:
@@ -6207,7 +6265,9 @@ def main():
             pts = " ".join(f"{fmt(x)},{fmt(y)}" for x, y in hits[key])
             meta += f' data-hits="{pts}"'
         if key.startswith("chinabase"):
-            out.append(f'    <path id="{key}" class="chinabase" d="{paths[key]}"/>')
+            out.append(f'    <path id="{key}" class="chinabase"'
+                       ' clip-path="url(#clip-off-gzw)"'
+                       f' d="{paths[key]}"/>')
             return
         blocks = [] if key in NO_ADMIN_SUBUNITS else province_paths(key)
         specks = dots.get(key) or []
@@ -6225,6 +6285,8 @@ def main():
                 # sub-units are the atom, so they cannot be deferred either.
                 whole = ""
             cls = "atom deferred" if (defer and whole) else "atom"
+            if key in TINY_ISLES:
+                cls += " tiny-isles"
             # The backing goes in a layer of its own, drawn before every atom.
             # Kept inside the atom it was painted in that atom's turn, so a
             # country whose turn came later covered its neighbour's provinces
@@ -6297,7 +6359,8 @@ def main():
         # never be drawn while its coarse shape was pruned away for having been
         # replaced. The island vanished.
         if specks or key in fine_boxes:
-            out.append(f'    <g id="a-{key}" class="atom" {meta}>')
+            _cls = "atom tiny-isles" if key in TINY_ISLES else "atom"
+            out.append(f'    <g id="a-{key}" class="{_cls}" {meta}>')
             out.append(f'      <path d="{paths[key]}"/>')
             for cx, cy, r in specks:
                 out.append(f'      <circle class="islet-hit" cx="{fmt(cx)}" cy="{fmt(cy)}" r="{fmt(r)}"/>')
@@ -6747,6 +6810,42 @@ FINE_ALIAS = {
     ("Truk Islands", "Tonowas"): ("Dublon (Tonowas)",),
     ("Truk Islands", "Weno"): ("Moen (Weno)",),
     ("Caroline Islands", "Enewetak"): ("Eniwetok (Enewetak)",),
+
+    # OSM and the traced base map call the same island two different things,
+    # and a sub-unit is keyed by the name the shape carries. Zoomed out, the
+    # base shape answered with the entry written for it; zoomed in past
+    # FINE_W the fine ring took over under its OSM name, found no entry, and
+    # the card went blank — Iriomote showed its note at one zoom and nothing
+    # at the next. The fine ring takes the base map's name.
+    ("Yaeyama Islands", "Iriomote Island"): ("Iriomotejima",),
+    ("Yaeyama Islands", "Ishigaki Island"): ("Ishigakijima",),
+    ("Yaeyama Islands", "Yonaguni Island"): ("Yonagunijima",),
+    ("Miyako Islands", "Miyako-jima"): ("Miyakojima",),
+    ("Okinawa Islands", "Kume Island"): ("Kumejima",),
+    ("Amami Islands", "Amamioshima"): ("Amami Ōshima",),
+    ("Amami Islands", "Yoron Island"): ("Yoronjima",),
+    ("Ōsumi Islands", "Kuchinoerabu Island"): ("Kuchinoerabujima",),
+    ("Tokara Islands", "Kuchino Island"): ("Kuchinoshima",),
+    ("Tokara Islands", "Nakano Island"): ("Nakanoshima",),
+    ("Mariana Islands", "Tinian Island"): ("Tinian",),
+    ("Mariana Islands", "Pagan Island"): ("Pagan",),
+    ("Mariana Islands", "Anatahan Island"): ("Anatahan",),
+    ("Marshall Islands", "Jaluit islands"): ("Jaluit",),
+    # and the one collision the other way: Oki has a Nakanoshima too, and if
+    # both were called that the Tokara entry would answer for both of them.
+    ("Oki Islands", "Nakanoshima"): ("Nakanoshima (Oki)",),
+
+    # Islands OSM names in characters only. The headline falls back to the
+    # Japanese, which is right for a name nobody romanises — but these have a
+    # romanisation a reader can say, and a label in characters over a speck in
+    # the sea reads as an unexplained mark rather than as a place.
+    ("Tsushima", "海栗島"): ("Unishima",),
+    ("Amakusa Islands", "長島"): ("Nagashima",),
+    ("Amakusa Islands", "大矢野島"): ("Ōyanojima",),
+    ("Amakusa Islands", "御所浦島"): ("Goshourajima",),
+    ("Amakusa Islands", "横島"): ("Yokoshima",),
+    ("Awaji Island", "家島"): ("Ieshima",),
+    ("Shōdoshima", "柏島"): ("Kashiwajima",),
 }
 
 # Micronesia, Melanesia, Polynesia: the region a group sits in, which is what a

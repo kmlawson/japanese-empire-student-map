@@ -1091,7 +1091,7 @@ JMAP.SITES = [
   {
     id: 'tsushima', en: 'Tsushima Strait', ja: '対馬海峡 (Tsushima Kaikyō)', zh: '對馬海峽',
     ko: '대한해협 (Taehan Haehyŏp)', date: '27–28 May 1905', cat: 'battle', lvl: 3, both: true,
-    lat: 34.4, lon: 129.33, wiki: 'https://en.wikipedia.org/wiki/Battle_of_Tsushima',
+    lat: 34.35, lon: 129.78, wiki: 'https://en.wikipedia.org/wiki/Battle_of_Tsushima',
     year: 1905,
     note: 'Tōgō destroyed the Russian Baltic Fleet here after its eighteen-thousand-mile voyage — the decisive battle of the Russo-Japanese War and the first modern defeat of a European power by an Asian one.'
   },
@@ -3916,7 +3916,7 @@ JMAP.FEATURES = [
   },
   {
     id: 'tsushima', en: 'Tsushima Strait', ja: '対馬海峡 (Tsushima-kaikyō)', zh: '對馬海峽', lvl: 3,
-    lat: 34.4, lon: 129.4, kind: 'sea'
+    lat: 33.95, lon: 129.98, kind: 'sea'
   },
   {
     id: 'malacca', en: 'Strait of Malacca', ja: 'マラッカ海峡 (Marakka-kaikyō)', zh: '馬六甲海峽', lvl: 2,
@@ -4462,12 +4462,12 @@ JMAP.PROVINCES = {
     wiki: 'https://en.wikipedia.org/wiki/Kamishima_Island,_Amakusa',
     note: 'The eastern of the two Amakusa islands. Amakusa was Christian ground in the sixteenth century and rose with Shimabara in 1637; after the rising it was held directly by the shogunate, and lived on fish, salt and a little coal.'
   },
-  '長島': {
+  Nagashima: {
     en: 'Nagashima', ja: '長島 (Nagashima)', zh: '長島',
     wiki: 'https://en.wikipedia.org/wiki/Nagashima_Island,_Kagoshima',
     note: 'Off the northern tip of Kagoshima across the narrow Kuronoseto strait, and Satsuma\'s outpost on that side. Terraced fields and yellowtail fishing; no bridge until 1974.'
   },
-  '大矢野島': {
+  'Ōyanojima': {
     en: 'Ōyanojima', ja: '大矢野島 (Ōyanojima)', zh: '大矢野島',
     wiki: 'https://en.wikipedia.org/wiki/%C5%8Cyano-jima',
     note: 'The Amakusa island nearest the Kyūshū shore, and where Amakusa Shirō, the boy who led the Shimabara rising of 1637, is said to have been born.'
@@ -5301,6 +5301,11 @@ JMAP.PROVINCES = {
   'The Punjab Hill States — Bashahr, Mandi, Suket, Sirmur': { en: 'The Punjab Hill states — Bashahr, Mandi, Suket and Sirmur' },
   'Savanur, Sandur & Banganapalle': { en: 'Savanur, Sandur and Banganapalle' },
   'Waziristan & the frontier tribal agencies': { en: 'Waziristan and the frontier tribal agencies — political agents, not the Punjab' },
+  'Okinawa Island': {
+    en: 'Okinawa Hontō', ja: '沖縄本島 (Okinawa Hontō)', zh: '沖繩本島',
+    wiki: 'https://en.wikipedia.org/wiki/Okinawa_Island',
+    note: 'Naha and the castle at Shuri, and a third of the prefecture\'s people. The American landing on 1 April 1945 opened a battle of eighty-two days that killed roughly a quarter of the civilian population, destroyed Shuri, and left the island an American base for the next twenty-seven years.'
+  },
   Yakushima: {
     en: 'Yakushima', ja: '屋久島 (Yakushima)', zh: '屋久島',
     wiki: 'https://en.wikipedia.org/wiki/Yakushima',

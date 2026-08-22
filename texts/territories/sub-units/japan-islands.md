@@ -71,12 +71,12 @@ The eastern of the two Amakusa islands. Amakusa was Christian ground in the
 sixteenth century and rose with Shimabara in 1637; after the rising it was held
 directly by the shogunate, and lived on fish, salt and a little coal.
 
-## 大矢野島
+## Ōyanojima
 
 The Amakusa island nearest the Kyūshū shore, and where Amakusa Shirō, the boy
 who led the Shimabara rising of 1637, is said to have been born.
 
-## 長島
+## Nagashima
 
 Off the northern tip of Kagoshima across the narrow Kuronoseto strait, and
 Satsuma's outpost on that side. Terraced fields and yellowtail fishing; no
