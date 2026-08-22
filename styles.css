@@ -1592,3 +1592,38 @@ dialog h3 {
   stroke: none;
   pointer-events: none;
 }
+
+/* The physical map, lettered the way an atlas letters it: spaced out, in
+   italic, and quieter than anything a country or a city is given, because a
+   sea is context and not a claim. Two colours only — water and land — so the
+   reader can tell at a glance which kind of thing a name belongs to without
+   any legend saying so. No pointer: these answer nothing, being the ground the
+   rest of the map sits on. */
+.flabel {
+  font-style: italic;
+  letter-spacing: .14em;
+  text-transform: none;
+  paint-order: stroke fill;
+  stroke-linejoin: round;
+  pointer-events: none;
+  text-anchor: middle;
+}
+
+.flabel.f-sea {
+  fill: #4a6b83;
+  stroke: rgba(255, 255, 255, .55);
+  stroke-width: 2.4;
+  opacity: .82;
+}
+
+.flabel.f-land {
+  fill: #6b5a45;
+  stroke: rgba(255, 255, 255, .5);
+  stroke-width: 2.4;
+  opacity: .72;
+}
+
+@media (prefers-color-scheme: dark) {
+  .flabel.f-sea { fill: #93b4cc; stroke: rgba(0, 0, 0, .45); }
+  .flabel.f-land { fill: #c2ac8e; stroke: rgba(0, 0, 0, .45); }
+}

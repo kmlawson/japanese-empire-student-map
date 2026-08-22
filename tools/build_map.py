@@ -3610,6 +3610,14 @@ TANNU_TUVA_FILE = "tannu-tuva-v3.geojson"
 # which were Japanese. So Karafuto and Chishima go on coming from Natural
 # Earth's Russia, and only the `ussr` key stands down for this.
 SOVIET_UNION_FILE = "soviet-union-v2.geojson"
+# The Portsmouth line across Sakhalin, 1905 to 1945. Karafuto is Natural
+# Earth's island south of it and the Soviet Union's share is the traced layer
+# north of it, and both are cut here so the two meet instead of arguing.
+SAKHALIN_BORDER = 50.0
+# How far from that line a traced vertex is taken to be trying to sit on it.
+# 0.02 degrees is 2.2 km; the two corners are 1.0 and 1.5 km out and the coast
+# either side of them is nowhere near, so this moves two points and no others.
+SAKHALIN_SNAP = 0.02
 
 # Four stretches of frontier that no two of the sources here agree about, drawn
 # over whatever they cross so that a reader is told the line is not settled
@@ -3640,7 +3648,18 @@ MENGJIANG_HELD_FILE = "mengjiang-actual-occupied.geojson"
 # Eight pieces, and every one of them is ground the state put on its maps and
 # never governed. Left unfilled, so whatever is beneath — Free China, the
 # provinces — shows through.
-MENGJIANG_UNHELD_FILE = "mengjiang-unoccupied.geojson"
+# The eight features of `mengjiang-unoccupied.geojson`, less the seven that
+# were never ground. That file is a difference of the claim and the held
+# polygon, and where the two trace the same frontier from different
+# digitisations the subtraction leaves a hairline instead of nothing: seven
+# four- and five-point rings, 23.9 km² between them, four metres to 334 metres
+# wide, along the Mongolian frontier in the north and the Manchukuo frontier
+# in the east. Invisible in QGIS at any sane view, and impossible to miss here,
+# because every ring gets a 2.6 px non-scaling stroke — a four-metre sliver
+# drawn a thousand times its own width, and dashed, is a row of dots along a
+# border that has no business carrying one. The one feature kept is the
+# unoccupied west, 132 vertices and 164,809 km². The original is left beside it.
+MENGJIANG_UNHELD_FILE = "mengjiang-unoccupied-fixed.geojson"
 # Atoms whose sub-units are drawn through a clip, because the divisions cover
 # more ground than the atom itself does. Mengchiang is the only one: its three
 # governments are drawn as they were claimed, and the western half of what they
@@ -4323,8 +4342,17 @@ ORDER = [
     # and not part of the shading. The resistance areas stay above it, being in
     # ON_TOP, because they are what the shading is an overstatement of.
     "mandate_jp", "mandate_au", "mandate_br", "mandate_ex_guam",
-    "occupiedzone", "nca_pacified", "chahar", "suiyuan", "suiyuan_w", "mengjiang",
+    "occupiedzone", "chahar", "suiyuan", "suiyuan_w", "mengjiang",
     "jehol", "manchuria", "manchukuo",
+    # The North China Area Army's survey is the exception, and goes over the
+    # client states rather than under them. The traced zone is this map's own
+    # reading of who held what, so it stops at Mengchiang's and Manchukuo's
+    # lines, which are territories in their own right. The survey is one army
+    # reporting on the ground it was responsible for, and that responsibility
+    # ran across those lines: filed under it, Mengchiang is country the North
+    # China Area Army was reporting the security of. Drawing it underneath hid
+    # the answer behind the client state's own colour.
+    "nca_pacified",
     "siam", "burma", "saharat", "indochina", "siamgain", "malaya", "malaya_thai", "sarawak", "northborneo", "brunei",
     "dei", "philippines", "christmas", "spratly", "paracel", "pratas", "turtle", "mangsee", "miangas", "cocos",
     "timor_pt", "newguinea_au", "solomons_br", "australia", "gilberts",
@@ -4434,6 +4462,37 @@ def main():
                                          len(groups.get("contested_burma", []))))
 
     soviet_union = [r for _p, rs in load_traced(SOVIET_UNION_FILE) for r in rs]
+    # Sakhalin was divided on the 50th parallel, and the build already cuts
+    # Karafuto there — south of 50.0 out of Natural Earth's island. The traced
+    # Soviet layer draws its own southern edge, and the two hands do not meet:
+    # its eastern corner sat at 144.00204 E 50.01384 N against Karafuto's
+    # 144.00500 E 50.0, a kilometre and a half of open sea between two
+    # countries that shared a land border, and its western corner sat 990 m the
+    # other side, overlapping. So the same parallel is cut in both, which is
+    # what the frontier was: one line, two layers, one instrument.
+    if soviet_union:
+        # Snapped and not clipped. A clip can take away what hangs below the
+        # parallel — it did, at the western corner — but the eastern corner
+        # hung 1.5 km *above* it, and nothing that only subtracts will bring a
+        # point down. So any vertex within SAKHALIN_SNAP of the line is put on
+        # it, which is the two corners and nothing else: the coast either side
+        # is already well clear of that band and keeps every vertex it has.
+        _cut = []
+        for _r in soviet_union:
+            _xs = [p[0] for p in _r]; _ys = [p[1] for p in _r]
+            if (140.0 < min(_xs) and max(_xs) < 146.0
+                    and 45.0 < min(_ys) and max(_ys) < 57.0
+                    and min(_ys) < SAKHALIN_BORDER + SAKHALIN_SNAP):
+                _r = [(x, SAKHALIN_BORDER)
+                      if abs(y - SAKHALIN_BORDER) <= SAKHALIN_SNAP else (x, y)
+                      for x, y in _r]
+                _c = clip_halfplanes(_r, box_planes(LON_MIN, SAKHALIN_BORDER,
+                                                    LON_MAX, LAT_MAX))
+                if len(_c) >= 3:
+                    _cut.append(_c)
+                    continue
+            _cut.append(_r)
+        soviet_union = _cut
     if soviet_union:
         groups["ussr"].extend(soviet_union)
         sys.stderr.write("Soviet Union: traced, %d rings (%d vertices)\n"
@@ -4559,8 +4618,10 @@ def main():
                 ys = [p[1] for p in ring]
                 # Sakhalin: south of the 50th parallel is Karafuto
                 if 140.0 < min(xs) and max(xs) < 146.0 and 45.0 < min(ys) and max(ys) < 55.0:
-                    south = clip_halfplanes(ring, box_planes(LON_MIN, LAT_MIN, LON_MAX, 50.0))
-                    north = clip_halfplanes(ring, box_planes(LON_MIN, 50.0, LON_MAX, LAT_MAX))
+                    south = clip_halfplanes(
+                        ring, box_planes(LON_MIN, LAT_MIN, LON_MAX, SAKHALIN_BORDER))
+                    north = clip_halfplanes(
+                        ring, box_planes(LON_MIN, SAKHALIN_BORDER, LON_MAX, LAT_MAX))
                     if len(south) >= 3:
                         groups["karafuto"].append(south)
                     # the traced layer has north Sakhalin already, and cut at

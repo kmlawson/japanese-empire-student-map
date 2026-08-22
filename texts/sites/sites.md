@@ -57,7 +57,7 @@ end of the year.
 ## shimonoseki
 
 Chōshū’s straits, shelled by a four-power squadron in 1864. The Treaty of
-Shimonoseki ended the First Sino-Japanese War and handed Formosa to Japan.
+Shimonoseki ended the First Sino-Japanese War and handed Taiwan to Japan.
 
 ## kagoshima
 
@@ -250,7 +250,7 @@ in 1938 to cut the supply line from Hong Kong.
 
 ## xiamen
 
-A treaty port opposite Formosa, and a main point of departure for Chinese
+A treaty port opposite Taiwan, and a main point of departure for Chinese
 emigration to Southeast Asia.
 
 ## hainan
@@ -259,7 +259,7 @@ Landings on 10 February 1939 took the island to blockade the south China coast
 and as a step towards Indochina. Its iron ore was then worked with forced
 labour, much of it Chinese prisoners and conscripted Hainanese.
 
-# Formosa
+# Taiwan
 
 ## taipei
 

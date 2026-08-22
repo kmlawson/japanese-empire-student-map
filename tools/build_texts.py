@@ -183,6 +183,23 @@ def build_data_js():
     ns = notes("browse.md")
     parts.append("JMAP.BROWSE = [\n%s\n];" % array(rows, ns, snippets, indent=2))
 
+    # ----------------------------------------------------------- features
+    # The physical map: seas, gulfs and straits, deserts, plateaus and ranges.
+    # They belong to neither epoch and to no polity, so they are a table of
+    # their own rather than territories with no colour — the Gobi did not
+    # change hands in 1937. `lvl` is the zoom they earn: 1 for the things that
+    # frame the whole map, 3 for the ones only worth naming once the reader is
+    # close in on them.
+    rows = load("features.csv")
+    check_unique(rows, "id", "texts/features.csv")
+    for r in rows:
+        if r.get("kind") not in ("sea", "land"):
+            raise Problem("texts/features.csv: %r has kind %r; it must be "
+                          "'sea' or 'land', which is what decides how it is "
+                          "lettered" % (r.get("id"), r.get("kind")))
+    parts.append("JMAP.FEATURES = [\n%s\n];"
+                 % array(rows, {}, snippets, indent=2))
+
     # ---------------------------------------------------------- sub-units
     sub = os.path.join(TEXTS, "territories", "sub-units")
     groups = sorted(n for n in os.listdir(sub)

@@ -7,10 +7,48 @@ describing what was actually changed, before it is marked done.
 
 ## Open — asked for and not yet done
 
-Six entries. The first three are work asked for and not yet done; the last
+Seven entries. The first four are work asked for and not yet done; the last
 three are measured rather than assumed, and everything else that once stood
 here has been closed. Where a fix was a generalisation rather than an answer,
 the source that would settle it is named at the foot of this file.
+
+- **The India–Burma frontier: 469 km² of genuine disagreement left.**
+  Mostly fixed, and the first diagnosis was wrong. Along the Chin Hills and the Chittagong tracts the map
+  shows a lens of sea between the two countries with pink wedges across it, and
+  the hover outline runs in one place while a second, thinner line runs in
+  another. Three findings, each measured.
+
+  *The sources disagree a little.* Rasterised at 0.01° and asked for ground in
+  neither country but within 8 km of both, `india-1931` and
+  `burma-modern-modified` leave **469 km²** between them. That is two hands
+  tracing one frontier, and it is small.
+
+  *The cache was stale, and that was the whole of the 4,085 km².*
+  `tools/cache/india-1931.geojson` held 13,058 outer vertices reaching to
+  96.671 E, exported at 17:05 on 20 August; the gpkg holds 13,380 reaching to
+  **97.135 E**, saved at 20:33 the same evening — India was extended eastward,
+  along this very frontier, three and a half hours after the export the map was
+  still reading. Re-exported, the drawn gap falls from **4,085 km² to 469**,
+  which is the source disagreement exactly. The build was faithful all along;
+  it was drawing an older India. The "54 vertices up to 73 km from the source"
+  reported here first were the old tracing measured against the new one.
+
+  *Why QGIS looks clean.* There the two layers overlap and whichever draws on
+  top hides the disagreement. Here each is its own atom with no filler beneath
+  — China's went for the same reason — so any ground neither covers shows the
+  ocean through it. The wedges are where the two boundaries cross each other
+  repeatedly: covered and uncovered slivers alternating.
+
+  *The second line is deliberate.* `britishindia` carries `edge: #8f5f6e`,
+  `edgeAtoms: burma`, `edgeClip: 92 20.6 97.4 28.4` — a hairline round Burma
+  inside the Raj, because in 1930 they share a colour and Burma was a province
+  of India until 1937. It is drawn from **Burma's** outline while the hover
+  outline traces the silhouette of the union, which follows **India's** where
+  the two differ. One frontier, two sources, two lines a few kilometres apart.
+  Nothing is broken here; it is the same disagreement seen twice.
+
+  What to do about it is a separate decision: cut one source to the other, as
+  Burma was cut to India and China, or let one of them own the frontier.
 
 - **Wire the occupied-zone v3 layer, then re-test what it makes redundant.**
   `japanese-occupied-territory-1941-2-v3` was to replace the occupied zone
@@ -4056,6 +4094,124 @@ Qinghai; Sichuan divided among garrison-area warlords until 1935 — and, for
 the provinces that did not last, when they went: Zhili renamed Hebei in 1928,
 Jehol taken in 1933 and abolished in 1955, Xikang a region until 1939 and a
 province until 1955, Chahar abolished in 1952, Suiyuan in 1954.
+
+### The base areas stay on when somebody follows an old link
+*Show resistance base areas* already started switched on — `ccp: true` in the
+state and `checked` on the box — so the report that it was off pointed
+somewhere else. Two things can turn it off after the default: a choice
+remembered in `localStorage`, which is the switch doing its job; and the
+`layers=` code in a shared address, which was not.
+
+The bitfield could not tell *the sender had it off* from *the sender's build
+had no such bit*. Bit 4096 was added today, and every link made before that
+carries a zero there — read the obvious way round, an older address turned the
+base areas off for whoever opened it. The base areas are the one layer in that
+field that starts on, so it is the only one where a missing bit reads as a
+decision.
+
+The bit is inverted now: **set means off**. An absent bit is the default, which
+is what an old link ought to mean. Round-tripped both ways, and a code with the
+bit absent decodes to on.
+
+Nothing else in the field needs it: every other layer there starts off, so zero
+already means what it should.
+
+### Seven rings that were never ground
+The dotted line round Mengchiang's unheld west was also appearing as rows of
+dots along the Mongolian frontier in the north and the Manchukuo frontier in
+the east, where no such line belongs. Nothing had leaked: the line is drawn
+from `mengjiang-unoccupied.geojson` and from nothing else, and that file holds
+**eight features, not one**.
+
+| fid | vertices | what it is |
+|---|---|---|
+| 5 | 132 | the unoccupied west, 164,809 km² — the one intended |
+| 1, 2, 3, 4 | 4–5 | hairlines on the Mongolian frontier |
+| 6, 7, 8 | 4–5 | hairlines on the Manchukuo frontier |
+
+The seven come to **23.9 km² between them** and are 7 to 58 km long by **4 m to
+334 m wide** — quadrilaterals with a length and no breadth. They are the
+residue of the difference that made the file: where the claim and the held
+polygon trace one border from two digitisations, subtracting leaves a hairline
+where it should leave nothing. Measured, six of the seven sit **0 m** from the
+claim outline and all within 645 m of the held one.
+
+They are invisible in QGIS — a four-metre feature is far below a pixel at any
+view of the whole state — and unmissable here, because every ring gets a 2.6 px
+non-scaling stroke. A four-metre sliver drawn a thousand times its own width,
+and dashed 1-on-5-off, is a row of dots.
+
+`mengjiang-unoccupied-fixed.geojson` keeps fid 5 and nothing else, and is what
+the build reads. The original is left beside it. `#mengjiang-claim` goes from
+**8 subpaths and 162 vertices to 1 and 132**; the nearest dot to any of the six
+places they used to appear is now **413 km away**, and the western wedge is
+still enclosed at every point tested. `#mengjiang-whole`, the hover outline, is
+untouched at 3 rings and 874 vertices — it comes from the 1940 claim, which
+never had this problem.
+
+A sieve in the build was discussed and not taken: small **and** slender, with a
+line saying what it dropped. Worth having when the next differenced layer
+arrives, since this class of artefact comes with the operation rather than with
+the file.
+
+### The physical map gets its own lettering
+Thirty-seven names for the ground the rest of the map sits on: twenty seas,
+gulfs and straits, seventeen deserts, plateaus, basins and ranges. They live in
+`texts/features.csv`, which is a table of their own rather than territories
+with no colour — the Gobi did not change hands in 1937, and a record with an
+epoch and a ruler would be the wrong shape for it.
+
+Lettered the way an atlas letters them: italic, letter-spaced at .14em, with a
+halo so a name crossing a coast stays readable, and quieter than anything a
+country or a city is given, because a sea is context and not a claim. Two
+colours, water and land, so a reader can tell which kind of thing a name is
+without a legend saying so. They carry no dot, answer no pointer, and are never
+asked about in the quiz.
+
+**Only when Show names is on**, and then by the zoom each earns. `lvl` 1 is the
+thirteen that frame the whole picture — the Bay of Bengal, the Sea of Japan,
+the Gobi, the Tibetan Plateau; `lvl` 3 is the eight worth naming only once
+somebody is looking at them — the Hexi Corridor, the Dabie Shan, the Changbai
+range, Tsushima Strait. They sort second in the label order, after countries
+and before divisions and cities: a sea should not crowd out a country, and it
+should not be crowded out by a town.
+
+Chosen for what this map teaches rather than for completeness. Several are
+places the prose already names and could not point to: the Hexi Corridor in
+Gansu's description, the Dabie Shan in the account of the occupied zone, the
+Ordos where the line of control turns, the Owen Stanley Range behind the Kokoda
+beachhead.
+
+The build refuses a row whose `kind` is neither `sea` nor `land`, since that is
+what decides how it is lettered and a typo would otherwise produce an unstyled
+name in the middle of an ocean.
+
+### Sakhalin: one parallel, two layers, one instrument
+The island was divided on the 50th parallel from Portsmouth in 1905 to 1945,
+and the map drew the line twice. Karafuto is Natural Earth's Sakhalin cut south
+of 50.0 by the build; the Soviet share is the traced layer, which carries its
+own southern edge. The two hands did not meet. Measured against Karafuto's top,
+142.160 to 144.005 E at 50.0:
+
+* the eastern corner sat at **144.00204 E 50.01384 N** — 1.5 km of open sea
+  between two countries that shared a land border, which is what showed as a
+  pale wedge under the dashed control line;
+* the western corner sat at **142.15884 E 49.99101 N** — 990 m the other way,
+  overlapping into Karafuto, invisible only because Karafuto is drawn later.
+
+Clipping the traced ring to the parallel was tried first and is half a fix: it
+takes away what hangs below the line and can do nothing about what hangs above
+it, so the western overlap went and the eastern gap stayed. Both corners are
+**snapped** to the parallel now — any vertex within 0.02 degrees, 2.2 km — and
+then clipped as a backstop. The two corners are 1.0 and 1.5 km out and the
+coast either side is nowhere near that band, so this moves two points and no
+others: 33,922 vertices in, 33,921 out.
+
+Both edges now sit on the same line, and **0 of 7,500 samples** across the
+border band are covered by neither country, against a strip 1.5 km wide before.
+
+`SAKHALIN_BORDER` and `SAKHALIN_SNAP` are named, and the Karafuto cut reads
+from the same constant, so the parallel is stated once.
 
 ---
 

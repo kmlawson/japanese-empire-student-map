@@ -25,6 +25,7 @@
   var TERR_PX = 13.5;     // label sizes, in screen pixels
   var SITE_PX = 11.5;
   var SUB_PX = 10.5;      // provinces and islands, a step under a country
+  var FEAT_PX = 11;       // seas, deserts, plateaus: the physical map
   var EPOCH_1930_CUTOFF = 1930;   // the 1930 sheet's own year
   var EVENT_1930_FROM   = 1910;   // and how far back its detail reaches
   var LANGS = ['en', 'ja', 'zh', 'ko'];
@@ -317,6 +318,11 @@
     // a province or an island: shown only once the reader is close in, and
     // never mind the Administrative switch — see ensureSubLabels
     if (rec && rec.kind === 'sub') return subLabelsWanted();
+    // The physical map. `lvl` is the zoom a feature earns: the Bay of Bengal
+    // frames the whole picture, the Hexi Corridor is worth naming only once
+    // somebody is looking at Gansu. Nothing else gates them — they are not a
+    // layer, they are the ground the layers sit on.
+    if (rec && rec.kind === 'feature') return rec.lvl <= labelLevel();
     // A country's name has nothing to do with the Administrative layer, which
     // is about its divisions. Gating it on that switch meant "Show names on
     // the map" showed no country names at all until a second, unrelated button
@@ -794,6 +800,23 @@
       scalables.push({ el: text, x: p.x, y: p.y, sid: s.id, cat: s.cat });
     });
 
+    /* The physical map: seas, deserts, plateaus, ranges. They belong to no
+       polity and to neither epoch — the Gobi did not change hands in 1937 —
+       so they carry no dot, answer no pointer and are never asked about in the
+       quiz. They are lettered the way an atlas letters them, spaced out and in
+       italic, and they show only when Show names is on. */
+    (JMAP.FEATURES || []).forEach(function (f) {
+      var physical = f.kind;              // 'sea' or 'land', from the table
+      f.kind = 'feature';                 // what the label machinery sorts on
+      var p = project(f.lon, f.lat);
+      var text = svgEl('text', { 'class': 'flabel f-' + physical,
+                                 'font-size': FEAT_PX });
+      labelLayer.appendChild(text);
+      labels.push({ rec: f, el: text, x: p.x, y: p.y, dy: 0, size: FEAT_PX,
+                    w: 0, h: FEAT_PX * 1.2 });
+      scalables.push({ el: text, x: p.x, y: p.y });
+    });
+
     (JMAP.BROWSE || []).forEach(function (b) {
       var p = sitePos[b.rid];
       var text = svgEl('text', { 'class': 'blabel', 'font-size': SITE_PX - 1.5, y: SITE_PX + 4 });
@@ -970,7 +993,7 @@
       }
     });
 
-    var rank = { territory: 0, site: 1, browse: 2 };
+    var rank = { territory: 0, feature: 1, site: 2, browse: 3 };
     labels.sort(function (a, b) {
       var ra = rank[a.rec.kind] || 1, rb = rank[b.rec.kind] || 1;
       if (ra !== rb) return ra - rb;
@@ -1141,7 +1164,14 @@
     // bit 10, not 8: the level has 8 and 9, and LAYER_FLAGS is indexed by bit
     if (state.hairline) bits |= 1024;
     if (state.occSource === 'nca') bits |= 2048;
-    if (state.ccp) bits |= 4096;
+    // Bit 4096 means the base areas are OFF, not on. It is the one layer here
+    // that starts switched on, and a bitfield cannot tell "the sender had it
+    // off" from "the sender's build had no such bit": every link made before
+    // this bit existed carries a zero there, and read the obvious way round
+    // that turned the base areas off for anybody following an older link.
+    // Inverted, an absent bit means the default, which is what an old link
+    // should mean.
+    if (!state.ccp) bits |= 4096;
     return bits.toString(36);
   }
 
@@ -1160,7 +1190,7 @@
     state.level = ((bits >> 8) & 3) + 1;
     state.hairline = !!(bits & 1024);
     state.occSource = (bits & 2048) ? 'nca' : 'traced';
-    state.ccp = !!(bits & 4096);
+    state.ccp = !(bits & 4096);          // inverted; see layerCode
     urlProvSource = (bits & 128) ? 'roc' : 'enp';
   }
 
@@ -1590,7 +1620,7 @@
     // country names first, then divisions, then the rest: a province must
     // never crowd out the country it is in
     if (made) {
-      var rank = { territory: 0, sub: 1, site: 2, browse: 3 };
+      var rank = { territory: 0, feature: 1, sub: 2, site: 3, browse: 4 };
       labels.sort(function (a, b) {
         return (rank[a.rec.kind] || 2) - (rank[b.rec.kind] || 2);
       });
