@@ -2879,6 +2879,17 @@
     // else, and for those the article is the only thing the card has to offer;
     // withholding the link because there was no sentence to put it under was
     // hiding it exactly where it was most use.
+    /* Some records are the same ground on both dates — occupied China against
+       the Republic that was there in 1930 — and the useful next move from one
+       is the other. `flip` says which records offer it. */
+    var flip = $('#info-flip', infoBox);
+    if (flip) {
+      var other = otherEpoch();
+      var orec = (JMAP.EPOCHS || []).filter(function (e) { return e.id === other; })[0];
+      var wanted = !!(rec && rec.flip) && !!orec;
+      flip.hidden = !wanted;
+      if (wanted) flip.textContent = 'Show this ground on the ' + orec.en + ' map';
+    }
     var ownLink = appendSource(own, sub ? head : rec);
     if (groupNote) appendSource(grp, sub ? rec : null);
     own.hidden = !ownNote && !ownLink;
@@ -4128,6 +4139,8 @@
     });
 
     $('#info-close').addEventListener('click', function () { select(null); });
+    var infoFlip = $('#info-flip');
+    if (infoFlip) infoFlip.addEventListener('click', function () { setEpoch(otherEpoch()); });
     var moreBtn = $('.more', infoBox);
     if (moreBtn) moreBtn.addEventListener('click', toggleInfo);
     // the same button is "Show me" during a quiz and "Try again" after it

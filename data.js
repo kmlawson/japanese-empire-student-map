@@ -265,7 +265,8 @@ JMAP.TERRITORIES = {
       id: 'china', en: 'China (Republic of China)', ja: '中華民国 (Chūka Minkoku)',
       orig: '中華民國 (Zhōnghuá Mínguó)', zh: '中華民國',
       when: 'Republic from 1912; warlord rule, nominal unity from 1928', cat: 'chinese', lvl: 1,
-      atoms: ['china'], lights: ['manchuria', 'jehol', 'chahar', 'suiyuan', 'xinjiang'],
+      flip: true, atoms: ['china'],
+      lights: ['manchuria', 'jehol', 'chahar', 'suiyuan', 'xinjiang'],
       note: 'A republic in name from 1912, but from 1916 to 1928 the country was fought over by regional militarists — the warlord era — with rival governments claiming to be the real one. The Northern Expedition of 1926–28 brought most of it under the Nationalists at Nanjing, but the unity was nominal: warlords kept their armies and their provinces, Manchuria answered to Zhang Xueliang, the Communists held rural base areas, and Xinjiang and Tibet went their own way. Japan meanwhile held a concession at Tianjin, a garrison in north China and the South Manchuria Railway zone.'
     },
     {
@@ -654,7 +655,7 @@ JMAP.TERRITORIES = {
       id: 'nanjinggov', en: 'Japanese-occupied China (approximate)', ja: '日本占領地区',
       orig: '日軍佔領區', zh: '日軍佔領區（大略）',
       when: 'Occupied from 1937; Nanking government from March 1940', cat: 'occupied', lvl: 1,
-      atoms: ['occupiedzone'], srcOnly: 'traced',
+      flip: true, atoms: ['occupiedzone'], srcOnly: 'traced',
       note: 'Governed on paper by Wang Jingwei’s collaborationist government at Nanjing, with the far south under military administration instead. Traced from a 1940 map of the occupation and adjusted to December 1942: the plains, the railways and the cities of the north and the Yangtze valley, the Guangzhou delta from October 1938, Hainan from February 1939, and the ports of Xiamen and Shantou. Western Shanxi and Henan, most of Hunan, Jiangxi and Fujian were never taken, Changsha held out until 1944, and Communist and Nationalist guerrillas operated in force inside the line as well as beyond it — the shading marks where Japanese authority reached, not where it was unchallenged.'
     },
     {
@@ -986,13 +987,13 @@ JMAP.TERRITORIES = {
     {
       id: 'nca_pacified', en: 'Pacified areas (治安地区)', ja: '治安地区', zh: '治安地區',
       when: 'September 1942', rule: 'The North China Area Army\'s own classification',
-      cat: 'pacified', lvl: 3, atoms: ['nca_pacified'], srcOnly: 'nca',
+      cat: 'pacified', lvl: 3, flip: true, atoms: ['nca_pacified'], srcOnly: 'nca',
       note: 'Ground the North China Area Army classed as pacified — 治安地区 — in its own survey of September 1942. Not the same claim as the shading it replaces: that is where Japanese authority reached at all, this is where the army itself thought it had the country in hand. It comes to about 275,000 square kilometres, roughly a quarter of the area the occupation is otherwise drawn over, and it sits along the railways and around the cities much as the note on the occupation says. The sheet’s third category, semi-pacified — 準治安地区 — is what it leaves blank, and it is left blank here too, so unshaded ground inside north China is not a claim that nobody was there.'
     },
     {
       id: 'nca_unpacified', en: 'Un-pacified areas (未治安地区)', ja: '未治安地区', zh: '未治安地區',
       when: 'September 1942', rule: 'The North China Area Army\'s own classification',
-      cat: 'unpacified', lvl: 3, atoms: ['nca_unpacified'], srcOnly: 'nca',
+      cat: 'unpacified', lvl: 3, flip: true, atoms: ['nca_unpacified'], srcOnly: 'nca',
       note: 'Ground the same survey classed as un-pacified — 未治安地区: about 182,000 square kilometres, in fifty-three separate areas, most of them in the mountains of Shanxi and Hebei and along the Shandong hills. This is the army’s own account of where it was being fought, drawn by the people doing the fighting, and it is worth setting beside the Communist base areas from Wu Yuexing’s atlas, which is the other reading this map offers. They are not the same map and were not drawn to answer the same question.'
     },
     {
