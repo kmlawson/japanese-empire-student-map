@@ -1189,6 +1189,8 @@ dialog h3 {
 #layer-seg .g.dot { border-radius: 50%; }
 #layer-seg .g.diamond { border-radius: 2px; transform: rotate(45deg) scale(.86); }
 #layer-seg .g.block { width: 15px; height: 11px; border-radius: 2px; }
+/* a name plate, for the switch that puts country and region names on the map */
+#layer-seg .g.name { width: 15px; height: 5px; border-radius: 1px; }
 
 /* --------------------------------------------------------- responsive --- */
 

@@ -3052,7 +3052,8 @@
     quizBox.hidden = !quizzing;
     document.body.classList.toggle('panel-open', !infoBox.hidden || !quizBox.hidden);
 
-    $('#opt-labels').disabled = quizzing;
+    var ol = $('#opt-labels');
+    if (ol) ol.disabled = quizzing;   // the switch lives in the header now
     buildLegend();
     if (showLabels) placeLabels();
     saveState();
@@ -3741,9 +3742,14 @@
     }
   }
 
+  /* Three of these switch a kind of place on and off; the fourth switches the
+     names of countries and regions, which is a property of the map rather than
+     a kind of place. It carries `data-opt` instead of `data-cat` and is read
+     from `state` directly. */
   function syncLayerButtons() {
     $$('#layer-seg button').forEach(function (b) {
-      var on = !!state.cats[b.getAttribute('data-cat')];
+      var opt = b.getAttribute('data-opt');
+      var on = opt ? !!state[opt] : !!state.cats[b.getAttribute('data-cat')];
       b.classList.toggle('on', on);
       b.setAttribute('aria-pressed', on ? 'true' : 'false');
     });
@@ -3987,12 +3993,16 @@
     // one-of-three group, so they carry aria-pressed and not aria-checked
     $$('#layer-seg button').forEach(function (b) {
       b.addEventListener('click', function () {
-        var cat = b.getAttribute('data-cat');
-        state.cats[cat] = !state.cats[cat];
-        if (cat === 'territory' && state.cats[cat]) loadAdmin();
+        var opt = b.getAttribute('data-opt');
+        if (opt) {
+          state[opt] = !state[opt];
+        } else {
+          var cat = b.getAttribute('data-cat');
+          state.cats[cat] = !state.cats[cat];
+          if (cat === 'territory' && state.cats[cat]) loadAdmin();
+        }
         syncLayerButtons();
         applyState();
-        if (state.mode === 'quiz') startQuiz();
       });
     });
 
@@ -4010,8 +4020,10 @@
 
 
     var optLabels = $('#opt-labels');
-    optLabels.checked = state.labels;
-    optLabels.addEventListener('change', function () { state.labels = optLabels.checked; applyState(); });
+    if (optLabels) {
+      optLabels.checked = state.labels;
+      optLabels.addEventListener('change', function () { state.labels = optLabels.checked; applyState(); });
+    }
 
     var optExtent = $('#opt-extent');
     optExtent.checked = state.extent;
