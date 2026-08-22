@@ -1434,6 +1434,26 @@ JMAP.SITES = [
     lon: 177.53, year: 1942,
     note: 'The garrison was lifted off under cover of fog before the Allied landing, which went ashore against an empty island and still took casualties from friendly fire.'
   },
+  {
+    id: 'pingxingguan', en: 'Píngxíngguān (Pinghsingkuan)', ja: '平型関 (Heikeikan)', zh: '平型關',
+    date: '25 September 1937', cat: 'battle', lvl: 3, lat: 39.36, lon: 113.93, year: 1937,
+    note: 'A pass in the Wutai mountains where Lin Biao\'s division ambushed a Japanese supply column on 25 September 1937 — a small action, and the Eighth Route Army\'s first, which the party made a great deal of afterwards.'
+  },
+  {
+    id: 'taierzhuang', en: 'Tái’érzhuāng (Taierhchuang)', ja: '台児荘 (Taijisō)', zh: '台兒莊',
+    date: 'March – April 1938', cat: 'battle', lvl: 3, lat: 34.56, lon: 117.73, year: 1938,
+    note: 'The first clear Chinese victory of the war. Li Zongren let two Japanese divisions push into the town and closed on them from both flanks, and they broke and ran in early April 1938. It did not save Xuzhou, which fell six weeks later, but it ended the belief that the army could not win.'
+  },
+  {
+    id: 'huangqiao', en: 'Huángqiáo (Hwangchiao)', ja: '黄橋 (Kōkyō)', zh: '黃橋',
+    date: 'October 1940', cat: 'battle', lvl: 3, lat: 32.27, lon: 120.24, year: 1940,
+    note: 'Nationalist and Communist forces fought each other here in October 1940, north of the Yangtze, while the war with Japan went on around them. The New Fourth Army won, and Chiang Kai-shek\'s answer three months later was the New Fourth Army Incident.'
+  },
+  {
+    id: 'dushan', en: 'Dúshān (Tushan)', ja: '独山 (Dokusan)', zh: '獨山', date: 'December 1944',
+    cat: 'battle', lvl: 3, lat: 25.83, lon: 107.55, year: 1944,
+    note: 'The furthest inland the war ever came. The Ichigo offensive reached this small town in Guizhou in December 1944, a hundred miles short of Guiyang, and turned back for want of supply.'
+  },
 ];
 
 JMAP.EPOCH_OVERRIDES = {
@@ -2239,6 +2259,15 @@ JMAP.BROWSE = [
   {
     id: 'kupang', en: 'Koepang (Kupang)', ja: 'クーパン', lat: -10.17, lon: 123.61,
     note: 'Dutch Timor\'s capital, taken on 20 February 1942 with a parachute landing behind the Australian force, which withdrew into the hills of Portuguese Timor.'
+  },
+  {
+    id: 'shijiazhuang', en: 'Shíjiāzhuāng (Shihkiachwang)', ja: '石家荘 (Sekkasō)', zh: '石家莊',
+    lat: 38.04, lon: 114.51,
+    note: 'The junction where the Beijing–Hankou trunk line meets the railway west into Shanxi, which is the whole reason for the place: it was a village until the lines came. Fell in October 1937, a fortnight after Baoding.'
+  },
+  {
+    id: 'tanggu', en: 'Tánggū (Tangku)', ja: '塘沽 (Tōko)', zh: '塘沽', lat: 39.00, lon: 117.65,
+    note: 'Tianjin\'s port at the mouth of the Hai. The truce signed here in May 1933 ended the fighting after Rehe and gave north China a demilitarised zone, which Japan spent the next four years pushing into.'
   },
 ];
 

@@ -718,3 +718,16 @@ The second city of the empire and the base of the Burma front. Japanese
 aircraft bombed the docks in December 1942, and the Bengal famine of 1943
 killed some three million people in the country behind it while the city
 itself was fed.
+
+## shijiazhuang
+
+The junction where the Beijing–Hankou trunk line meets the railway west into
+Shanxi, which is the whole reason for the place: it was a village until the
+lines came. Fell in October 1937, a fortnight after Baoding.
+
+## tanggu
+
+Tianjin's port at the mouth of the Hai. The truce signed here in May 1933 ended
+the fighting after Rehe and gave north China a demilitarised zone, which Japan
+spent the next four years pushing into.
+

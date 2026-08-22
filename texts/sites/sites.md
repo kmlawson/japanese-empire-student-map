@@ -452,3 +452,32 @@ friendly fire.
 > happened yet, and some of them were not even called the same thing. These
 > override the name, date and note for one epoch; anything not listed here is
 > the same on both maps.
+
+# Four more, from the module timeline
+
+## pingxingguan
+
+A pass in the Wutai mountains where Lin Biao's division ambushed a Japanese
+supply column on 25 September 1937 — a small action, and the Eighth Route
+Army's first, which the party made a great deal of afterwards.
+
+## taierzhuang
+
+The first clear Chinese victory of the war. Li Zongren let two Japanese
+divisions push into the town and closed on them from both flanks, and they
+broke and ran in early April 1938. It did not save Xuzhou, which fell six weeks
+later, but it ended the belief that the army could not win.
+
+## huangqiao
+
+Nationalist and Communist forces fought each other here in October 1940, north
+of the Yangtze, while the war with Japan went on around them. The New Fourth
+Army won, and Chiang Kai-shek's answer three months later was the New Fourth
+Army Incident.
+
+## dushan
+
+The furthest inland the war ever came. The Ichigo offensive reached this small
+town in Guizhou in December 1944, a hundred miles short of Guiyang, and turned
+back for want of supply.
+
