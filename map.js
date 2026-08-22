@@ -2550,6 +2550,59 @@
      the atom under the pointer alone drew the changwat and left the ceded
      provinces blank, which says they have no divisions rather than that they
      are the same country's. */
+  /* A province drawn in more than one block on this date — see provPeers.
+     The blocks share an edge that is no boundary, and the Administrative
+     layer's thin line drew it. They are marked so the stylesheet leaves them
+     unstroked, and one line is drawn round the group with the same machinery
+     the selection outline uses, which masks away everything inside it. */
+  var mergedSubNodes = [];
+  var mergedSubDefs = [];
+
+  function clearSplitProvinces() {
+    $$('.merged-sub', svg).forEach(function (n) { n.classList.remove('merged-sub'); });
+    mergedSubNodes.forEach(function (n) {
+      if (n.parentNode) n.parentNode.removeChild(n);
+    });
+    mergedSubNodes = [];
+    if (mergedSubDefs.length) {
+      mergedSubDefs.forEach(function (d) {
+        if (d.parentNode) d.parentNode.removeChild(d);
+      });
+      ownedDefs.sub = ownedDefs.sub.filter(function (d) {
+        return mergedSubDefs.indexOf(d) < 0;
+      });
+      mergedSubDefs = [];
+    }
+  }
+
+  function markSplitProvinces() {
+    clearSplitProvinces();
+    if (!subOutlineLayer || !subsAtoms.length) return;
+    var groups = {};
+    subsAtoms.forEach(function (a) {
+      var id = a.getAttribute('data-id') || a.id;
+      $$('[data-prov]', a).forEach(function (n) {
+        if (n.classList && n.classList.contains('fine')) return;
+        var key = id + '/' + provLabel(n.getAttribute('data-prov'));
+        (groups[key] = groups[key] || []).push(n);
+      });
+    });
+    Object.keys(groups).forEach(function (k) {
+      var g = groups[k];
+      if (g.length < 2) return;
+      g.forEach(function (n) { n.classList.add('merged-sub'); });
+      var before = ownedDefs.sub.length;
+      var kids = subOutlineLayer.childNodes.length;
+      outlineOf(g, 'sub-merged', subOutlineLayer);
+      for (var i = kids; i < subOutlineLayer.childNodes.length; i++) {
+        mergedSubNodes.push(subOutlineLayer.childNodes[i]);
+      }
+      for (var j = before; j < ownedDefs.sub.length; j++) {
+        mergedSubDefs.push(ownedDefs.sub[j]);
+      }
+    });
+  }
+
   function setSubsAtom(el) {
     if (subsAtom === el) return;
     subsAtoms.forEach(function (a) { a.classList.remove('subs'); });
@@ -2569,6 +2622,7 @@
       if (subsAtoms.indexOf(el) < 0) subsAtoms.push(el);
       subsAtoms.forEach(function (a) { a.classList.add('subs'); });
     }
+    markSplitProvinces();
     liftSubs(subsAtom);
   }
 

@@ -6613,23 +6613,10 @@ def main():
             sink = admin_out if (defer and whole) else out
             if sink is admin_out:
                 sink.append(f'  <g data-for="{key}">')
-            # An atom with one named block and nothing else is not divided:
-            # the block *is* the atom, and the thin line the Administrative
-            # layer draws round a division has no division to draw. It draws
-            # the atom's own edge a second time instead — which is invisible
-            # against a neighbour of another colour and is not invisible
-            # between two atoms of one territory. Suiyuan is the case: it is
-            # cut at Paotow and again along the Yellow River so that the 1942
-            # map can colour the occupied corridor and the free country apart,
-            # and on the 1930 map, where it is one province, the cut showed as
-            # a sideways T of two dead straight lines across the middle of it.
-            _sole = len(blocks) == 1 and bool(blocks[0][0])
             for pname, pd, where in blocks:
                 # an unnamed leftover gets no attribute at all: an empty one
                 # reads as a sub-unit that can never be named or outlined
                 attr = (f' data-prov="{esc(pname)}"' + where) if pname else ""
-                if _sole:
-                    attr += ' data-sole="1"'
                 if key in SUB_CLIP:
                     attr += f' clip-path="url(#{SUB_CLIP[key]})"'
                 cluster = SUB_CLUSTERS.get((key, pname))
