@@ -34,6 +34,9 @@
   var coarse = window.matchMedia('(pointer: coarse)').matches;
   var HIT_R = coarse ? HIT_R_TOUCH : HIT_R_MOUSE;
 
+  // The quiz is off. `mode` stays 'explore': the control that would change
+  // it is hidden in index.html, and every quiz path in this file is guarded
+  // on `state.mode === 'quiz'`, so none of them can run. Nothing is deleted.
   var state = {
     mode: 'explore',
     epoch: JMAP.DEFAULT_EPOCH,

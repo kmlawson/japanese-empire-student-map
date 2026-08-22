@@ -480,12 +480,6 @@ of the Yangtze, while the war with Japan went on around them. The New Fourth
 Army won, and Chiang Kai-shek's answer three months later was the New Fourth
 Army Incident.
 
-## dushan
-
-The furthest inland the war ever came. The Ichigo offensive reached this small
-town in Guizhou in December 1944, a hundred miles short of Guiyang, and turned
-back for want of supply.
-
 # The interwar years, and what the 1930 sheet was missing
 
 ## musha

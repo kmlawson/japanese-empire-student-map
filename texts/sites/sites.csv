@@ -2,7 +2,7 @@ id,en,ja,orig,zh,ko,date,cat,lvl,both,lat,lon,year,wiki
 tokyo,Tokyo,東京 (Tōkyō),東京 (Tōkyō),東京,,Capital from 1868,city,1,,35.68,139.76,1868,https://en.wikipedia.org/wiki/Tokyo
 yokohama,Yokohama,横浜 (Yokohama),横浜 (Yokohama),橫濱,,Treaty port opened 1859,city,2,,35.44,139.64,1859,https://en.wikipedia.org/wiki/Yokohama
 uraga,Uraga,浦賀 (Uraga),浦賀 (Uraga),浦賀,,July 1853,battle,3,yes,35.25,139.72,1853,https://en.wikipedia.org/wiki/Perry_Expedition
-shimoda,Shimoda,下田 (Shimoda),下田 (Shimoda),下田,,Opened 1854,city,3,,34.67,138.95,1854,https://en.wikipedia.org/wiki/Shimoda
+shimoda,Shimoda,下田 (Shimoda),下田 (Shimoda),下田,,Opened 1854,city,3,,34.67,138.95,1854,https://en.wikipedia.org/wiki/Shimoda_Ropeway
 kyoto,Kyoto,京都 (Kyōto),京都 (Kyōto),京都,,Imperial seat until 1868,city,2,,35.01,135.77,1868,https://en.wikipedia.org/wiki/Kyoto
 osaka,Osaka,大阪 (Ōsaka),大阪 (Ōsaka),大阪,,Opened 1868,city,2,,34.69,135.5,1868,https://en.wikipedia.org/wiki/Osaka
 kobe,Kobe,神戸 (Kōbe),神戸 (Kōbe),神戶,,Treaty port opened 1868,city,3,,34.69,135.2,1868,https://en.wikipedia.org/wiki/Kobe
@@ -20,7 +20,7 @@ seoul,Keijō (Seoul),京城 (Keijō),,京城（漢城）,서울 / 한성 (Sŏul 
 pusan,Fusan (Pusan),釜山 (Fusan),,釜山,부산 (Pusan),Opened by treaty 1876,city,2,,35.18,129.08,1876,https://en.wikipedia.org/wiki/Busan
 incheon,"Jinsen (Chemulpo, Inchon)",仁川 (Jinsen),,仁川,인천 / 제물포 (Inch’ŏn / Chemulp’o),Naval action 9 February 1904,city,3,,37.46,126.71,1883,https://en.wikipedia.org/wiki/Incheon
 kanghwa,Kanghwa Island,江華島 (Kōkatō),,江華島,강화도 (Kanghwado),Treaty signed 26 February 1876,battle,3,yes,37.75,126.48,1876,https://en.wikipedia.org/wiki/Japan%E2%80%93Korea_Treaty_of_1876
-pyongyang,Heijō (Pyongyang),平壌 (Heijō),,平壤,평양 (P’yŏngyang),"Battle, 15 September 1894",city,3,,39.02,125.75,1894,https://en.wikipedia.org/wiki/Heij%C5%8D
+pyongyang,Heijō (Pyongyang),平壌 (Heijō),,平壤,평양 (P’yŏngyang),"Battle, 15 September 1894",city,3,,39.02,125.75,1894,https://en.wikipedia.org/wiki/Korean_Art_Gallery
 mukden,Shěnyáng (Mukden),奉天 (Hōten),瀋陽 (Shěnyáng),瀋陽（奉天）,,Battle 1905; Manchurian Incident 18 September 1931,city,1,yes,41.8,123.43,1905,https://en.wikipedia.org/wiki/Shenyang
 changchun,Chángchūn (Hsinking),新京 (Shinkyō),長春 (Chángchūn),長春（新京）,,Capital of Manchukuo from 1932,city,2,,43.88,125.32,1907,https://en.wikipedia.org/wiki/Changchun
 harbin,Hā’ěrbīn (Harbin),ハルビン (Harubin),哈爾濱 (Hā’ěrbīn),哈爾濱,,Itō assassinated 26 October 1909,city,2,,45.8,126.53,1909,https://en.wikipedia.org/wiki/Harbin
@@ -46,20 +46,20 @@ guangzhou,Guǎngzhōu (Canton),広州 (Kōshū),廣州 (Guǎngzhōu),廣州,,Fel
 xiamen,Xiàmén (Amoy),厦門 (Amoi),廈門 (Xiàmén),廈門,,Occupied May 1938,city,3,,24.48,118.09,1842,https://en.wikipedia.org/wiki/Xiamen
 hainan,Hǎinándǎo (Hainan Island),海南島 (Kainantō),海南島 (Hǎinándǎo),海南島,,Occupied February 1939,battle,3,,19.55,109.6,1939,https://en.wikipedia.org/wiki/Hainan_Island_Operation
 taipei,Taihoku (Taipei),臺北 (Taihoku),臺北 (Tâi-pak),臺北,,Colonial capital from 1895,city,2,,25.03,121.57,1895,https://en.wikipedia.org/wiki/Taihoku_Prefecture
-kaohsiung,Takao (Kaohsiung),高雄 (Takao),高雄 (Ko-hiông),高雄,,Developed from 1908,city,3,,22.63,120.3,1908,https://en.wikipedia.org/wiki/Takao
+kaohsiung,Takao (Kaohsiung),高雄 (Takao),高雄 (Ko-hiông),高雄,,Developed from 1908,city,3,,22.63,120.3,1908,https://en.wikipedia.org/wiki/Xin-Fu-Hwa
 vladivostok,Vladivostok,浦潮 (Urajio),Владивосток,海參崴,,"Japanese landing, August 1918",city,2,,43.12,131.89,1918,https://en.wikipedia.org/wiki/Vladivostok
 nikolaevsk,Nikolaevsk-on-Amur,尼港事件 (Nikō jiken),Николаевск-на-Амуре,廟街（尼港）,,March – May 1920,battle,3,,53.14,140.73,1920,https://en.wikipedia.org/wiki/Nikolayevsk_incident
 hanoi,Hanoi,ハノイ (Hanoi),Hà Nội,河內,,Japanese troops enter September 1940,city,2,,21.03,105.85,1902,https://en.wikipedia.org/wiki/Hanoi
 saigon,Saigon,サイゴン (Saigon),Sài Gòn,西貢,,Occupied July 1941,city,2,,10.82,106.63,1859,
 bangkok,Bangkok,,กรุงเทพฯ (Krung Thep),,,Alliance signed 21 December 1941,city,2,,13.75,100.5,1782,https://en.wikipedia.org/wiki/Bangkok
-singapore,Shōnantō (Singapore),昭南島 (Shōnantō),Singapura,新加坡,,Surrendered 15 February 1942,city,1,yes,1.29,103.85,1819,https://en.wikipedia.org/wiki/Names_of_Singapore
+singapore,Shōnantō (Singapore),昭南島 (Shōnantō),Singapura,新加坡,,Surrendered 15 February 1942,city,1,yes,1.29,103.85,1819,https://en.wikipedia.org/wiki/Japanese_occupation_of_Singapore
 kotabharu,Kota Bharu,,Kota Bharu,,,8 December 1941,battle,3,,6.13,102.24,1941,https://en.wikipedia.org/wiki/Battle_of_Kota_Bharu
 manila,Manila,マニラ (Manira),Maynila,馬尼拉,,Occupied 2 January 1942,city,2,,14.6,120.98,1898,https://en.wikipedia.org/wiki/Manila
 corregidor,Bataan & Corregidor,バターン・コレヒドール (Batān Korehidōru),Bataan / Corregidor,巴丹・科雷希多,,April – 6 May 1942,battle,3,yes,14.38,120.57,1942,https://en.wikipedia.org/wiki/Battle_of_Corregidor
 leyte,Leyte Gulf,レイテ沖海戦 (Reite-oki kaisen),Golpo ng Leyte,雷伊泰灣,,23–26 October 1944,battle,2,yes,10.8,125.4,1944,https://en.wikipedia.org/wiki/Battle_of_Leyte_Gulf
 rangoon,Rangoon (Yangon),ラングーン (Rangūn),ရန်ကုန် (Yangon),仰光,,Fell 8 March 1942,city,2,,16.87,96.2,1852,https://en.wikipedia.org/wiki/Yangon
 imphal,Imphal & Kohima,インパール作戦 (Inpāru sakusen),Imphal / Kohima,英帕爾,,March – July 1944,battle,2,,24.82,93.94,1944,https://en.wikipedia.org/wiki/Battle_of_Imphal
-batavia,Batavia (Jakarta),ジャカルタ (Jakaruta),Batavia / Jakarta,巴達維亞,,"Dutch surrender, 8 March 1942",city,2,,-6.21,106.85,1619,https://en.wikipedia.org/wiki/Batavia
+batavia,Batavia (Jakarta),ジャカルタ (Jakaruta),Batavia / Jakarta,巴達維亞,,"Dutch surrender, 8 March 1942",city,2,,-6.21,106.85,1619,https://en.wikipedia.org/wiki/Manggarai_railway_station
 surabaya,Surabaya,スラバヤ (Surabaya),Surabaya,,,"Battle of the Java Sea, 27 February 1942",city,3,,-7.25,112.75,1942,https://en.wikipedia.org/wiki/Surabaya
 pearlharbor,Pearl Harbor,真珠湾攻撃 (Shinjuwan kōgeki),Puʻuloa,珍珠港,,7 December 1941 (8 December in Japan),battle,1,yes,21.35,-157.95,1941,https://en.wikipedia.org/wiki/Attack_on_Pearl_Harbor
 coralsea,Coral Sea,珊瑚海海戦 (Sangokai kaisen),,珊瑚海海戰,,4–8 May 1942,battle,3,yes,-13.5,154,1942,https://en.wikipedia.org/wiki/Battle_of_the_Coral_Sea
@@ -80,7 +80,6 @@ kiska,Kiska,キスカ島 (Kisuka-tō),Qisxa,基斯卡島,,"Occupied June 1942, e
 pingxingguan,Píngxíngguān (Pinghsingkuan),平型関 (Heikeikan),,平型關,,25 September 1937,battle,3,,39.36,113.93,1937,https://en.wikipedia.org/wiki/Battle_of_Pingxingguan
 taierzhuang,Tái’érzhuāng (Taierhchuang),台児荘 (Taijisō),,台兒莊,,March – April 1938,battle,3,,34.56,117.73,1938,https://en.wikipedia.org/wiki/Battle_of_Taierzhuang
 huangqiao,Huángqiáo (Hwangchiao),黄橋 (Kōkyō),,黃橋,,October 1940,battle,3,,32.27,120.24,1940,https://en.wikipedia.org/wiki/Battle_of_Rugao%E2%80%93Huangqiao
-dushan,Dúshān (Tushan),独山 (Dokusan),,獨山,,December 1944,battle,3,,25.83,107.55,1944,https://en.wikipedia.org/wiki/Operation_Ichi-Go
 musha,Musha (Wushe),霧社事件 (Musha jiken),,霧社,,27 October 1930,battle,2,,24.02,121.14,1930,https://en.wikipedia.org/wiki/Musha_Incident
 huanggutun,Huánggūtún (Huangkutun),張作霖爆殺事件 (Chō Sakurin bakusatsu jiken),,皇姑屯,,4 June 1928,battle,2,,41.83,123.35,1928,https://en.wikipedia.org/wiki/Huanggutun_incident
 dandi,Dandi,ダンディ (Dandi),દાંડી,,,6 April 1930,battle,2,,20.92,72.71,1930,https://en.wikipedia.org/wiki/Salt_March
