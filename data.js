@@ -224,7 +224,7 @@ JMAP.TERRITORIES = {
       orig: '小笠原諸島', zh: '小笠原群島', when: 'Claimed 1876',
       rule: 'Japanese, part of Tokyo prefecture', cat: 'metropole', lvl: 3,
       atoms: ['ogasawara'],
-      note: 'A scattering of volcanic islands 1,000 km south of Tokyo, including Iwo Jima.'
+      note: 'A scattering of volcanic islands 1,000 km south of Tokyo. The Bonins proper were claimed in 1876 and settled from Chichijima; the Volcano Islands 250 km further south, Iwo Jima among them, were annexed in 1891. Both are governed from Tokyo.'
     },
     {
       id: 'chishima', en: 'Kurile Islands (Chishima)', ja: '千島列島 (Chishima Rettō)',
@@ -434,7 +434,7 @@ JMAP.TERRITORIES = {
     {
       id: 'wake', en: 'Wake Island', orig: 'Wake', when: 'American from 1899',
       rule: 'American territory', cat: 'american', lvl: 3, atoms: ['wake'],
-      note: 'An atoll on the trans-Pacific air route, annexed in 1899 and a Pan American flying-boat stop from 1935. A naval air station was begun in 1941.'
+      note: 'Three islets round a lagoon, with no fresh water and nobody living on them: the Marshallese came for birds and shells and called it Enen-kio. The United States annexed it in 1899 and left it empty until Pan American built a hotel and a flying-boat station on Peale in 1935, for the Honolulu–Guam–Manila run. The Navy began an air station there in January 1941.'
     },
     {
       id: 'guam', en: 'Guam', ja: 'グアム (Guamu)', orig: 'Guåhan', zh: '關島',
@@ -4067,6 +4067,36 @@ JMAP.PROVINCES = {
     wiki: 'https://en.wikipedia.org/wiki/Akutan_Island'
   },
   Akun: { en: 'Akun', zh: '阿昆島' },
+  Chichijima: {
+    en: 'Chichijima', ja: '父島 (Chichijima)', zh: '父島',
+    wiki: 'https://en.wikipedia.org/wiki/Chichijima',
+    note: 'The administrative centre of the group and its only good harbour, Futami. The first settlement was made in 1830 by a party of Americans, Europeans and Hawaiians; Perry called in 1853 and wanted a coaling station on it. Japan annexed the islands in 1876 and naturalised the settlers, whose descendants live on the island still.'
+  },
+  Hahajima: {
+    en: 'Hahajima', ja: '母島 (Hahajima)', zh: '母島',
+    wiki: 'https://en.wikipedia.org/wiki/Hahajima',
+    note: 'The second settlement of the Bonins, forty kilometres south of Chichijima, growing sugar cane and vegetables for the Tokyo market.'
+  },
+  Mukojima: {
+    en: 'Mukojima', ja: '聟島 (Mukojima)', zh: '聟島',
+    wiki: 'https://en.wikipedia.org/wiki/Muko-jima',
+    note: 'The northernmost cluster of the Bonins, uninhabited, and grazed bare by the goats landed on it in the nineteenth century.'
+  },
+  'Iwo Jima (Iō-tō)': {
+    en: 'Iwo Jima (Iō-tō)', ja: '硫黄島 (Iō-tō)', zh: '硫磺島',
+    wiki: 'https://en.wikipedia.org/wiki/Iwo_Jima',
+    note: 'The name means sulphur island and the sulphur was worked from the 1890s, alongside sugar and coca, by about a thousand settlers in two villages. It is the only one of the Volcano Islands flat enough to build an airfield on, which is what decided its history.'
+  },
+  'Kita-Iō-tō': {
+    en: 'Kita-Iō-tō (North Iwo Jima)', ja: '北硫黄島 (Kita-Iōtō)', zh: '北硫磺島',
+    wiki: 'https://en.wikipedia.org/wiki/North_Iwo_Jima',
+    note: 'A cone with no harbour and no flat ground, farmed in terraces by a few hundred people until they were taken off in 1944. Uninhabited since.'
+  },
+  'Minami-Iō-tō': {
+    en: 'Minami-Iō-tō (South Iwo Jima)', ja: '南硫黄島 (Minami-Iōtō)', zh: '南硫磺島',
+    wiki: 'https://en.wikipedia.org/wiki/South_Iwo_Jima',
+    note: 'Cliffs on every side, never settled and never garrisoned. It is a nature reserve now and almost nobody is allowed to land.'
+  },
   Assam: {
     en: 'Assam Province — with Sylhet, and with Manipur and Tripura inside it',
     wiki: 'https://en.wikipedia.org/wiki/Assam_Province'
@@ -4426,6 +4456,88 @@ JMAP.PROVINCES = {
     en: 'Izu Ōshima', ja: '伊豆大島 (Izu Ōshima)', zh: '伊豆大島',
     wiki: 'https://en.wikipedia.org/wiki/Izu_%C5%8Cshima',
     note: 'The nearest of the Izu islands to Tokyo, and its volcano Mihara was close enough to the capital to be a day\'s outing — and, in the 1930s, notorious as a place people went to jump into it.'
+  },
+  Kamishima: {
+    en: 'Kamishima', ja: '天草上島 (Amakusa Kamishima)', zh: '天草上島',
+    wiki: 'https://en.wikipedia.org/wiki/Kamishima_Island,_Amakusa',
+    note: 'The eastern of the two Amakusa islands. Amakusa was Christian ground in the sixteenth century and rose with Shimabara in 1637; after the rising it was held directly by the shogunate, and lived on fish, salt and a little coal.'
+  },
+  '長島': {
+    en: 'Nagashima', ja: '長島 (Nagashima)', zh: '長島',
+    wiki: 'https://en.wikipedia.org/wiki/Nagashima_Island,_Kagoshima',
+    note: 'Off the northern tip of Kagoshima across the narrow Kuronoseto strait, and Satsuma\'s outpost on that side. Terraced fields and yellowtail fishing; no bridge until 1974.'
+  },
+  '大矢野島': {
+    en: 'Ōyanojima', ja: '大矢野島 (Ōyanojima)', zh: '大矢野島',
+    wiki: 'https://en.wikipedia.org/wiki/%C5%8Cyano-jima',
+    note: 'The Amakusa island nearest the Kyūshū shore, and where Amakusa Shirō, the boy who led the Shimabara rising of 1637, is said to have been born.'
+  },
+  Nishinoshima: {
+    en: 'Nishinoshima', ja: '西ノ島 (Nishinoshima)', zh: '西之島',
+    wiki: 'https://en.wikipedia.org/wiki/Nishinoshima,_Shimane',
+    note: 'One of the three Dōzen islands of Oki, the rim of a drowned crater. The retired emperor Go-Toba was exiled here after the Jōkyū war of 1221 and died on the island in 1239.'
+  },
+  'Chiburi-jima': {
+    en: 'Chiburijima', ja: '知夫里島 (Chiburijima)', zh: '知夫里島',
+    wiki: 'https://en.wikipedia.org/wiki/Chiburijima',
+    note: 'The smallest and southernmost of the Oki Dōzen, cliffs down its western side and common grazing on top. Go-Daigo was held somewhere in these islands from 1332 and escaped in 1333; by one account it was from here.'
+  },
+  Hachijojima: {
+    en: 'Hachijōjima', ja: '八丈島 (Hachijōjima)', zh: '八丈島',
+    wiki: 'https://en.wikipedia.org/wiki/Hachij%C5%8D-jima',
+    note: 'Two volcanoes joined at the waist, 290 km south of Tokyo, and an exile island under the Tokugawa: Ukita Hideie, on the losing side at Sekigahara, was sent here and lived on it fifty years. Its export was kihachijō, a yellow silk pongee woven by the island\'s women.'
+  },
+  Miyakejima: {
+    en: 'Miyakejima', ja: '三宅島 (Miyakejima)', zh: '三宅島',
+    wiki: 'https://en.wikipedia.org/wiki/Miyake-jima',
+    note: 'A volcano that erupts about every twenty years — 1874, 1940, 1962 — and an exile island before that. The eruption of 1940 killed eleven people.'
+  },
+  Niijima: {
+    en: 'Niijima', ja: '新島 (Niijima)', zh: '新島', wiki: 'https://en.wikipedia.org/wiki/Nii-jima',
+    note: 'Quarried for kōga stone, a pale volcanic rock carried to Tokyo for building, and one of the Izu exile islands.'
+  },
+  Kozushima: {
+    en: 'Kōzushima', ja: '神津島 (Kōzushima)', zh: '神津島',
+    wiki: 'https://en.wikipedia.org/wiki/K%C5%8Dzu-shima',
+    note: 'Obsidian was carried from here to the mainland in the Jōmon period, across forty kilometres of open sea — the earliest evidence of sea crossing in Japan. Christians were exiled to the island after 1614.'
+  },
+  Mikurajima: {
+    en: 'Mikurajima', ja: '御蔵島 (Mikurajima)', zh: '御藏島',
+    wiki: 'https://en.wikipedia.org/wiki/Mikura-jima',
+    note: 'Steep on every side, one village of a few hundred people, and a ferry that lands only when the sea allows. Old-growth forest on the slopes above it.'
+  },
+  Toshima: {
+    en: 'Toshima', ja: '利島 (Toshima)', zh: '利島',
+    wiki: 'https://en.wikipedia.org/wiki/To-shima,_Tokyo',
+    note: 'A single cone with no harbour and about three hundred people, living by the camellias — the oil pressed from their seed is what the island sells.'
+  },
+  'Shikine-jima': {
+    en: 'Shikinejima', ja: '式根島 (Shikinejima)', zh: '式根島',
+    wiki: 'https://en.wikipedia.org/wiki/Shikine-jima',
+    note: 'Split from Niijima by an earthquake, the islanders say, and left with hot springs among the rocks at the water\'s edge.'
+  },
+  Aogashima: {
+    en: 'Aogashima', ja: '青ヶ島 (Aogashima)', zh: '青島',
+    wiki: 'https://en.wikipedia.org/wiki/Aogashima',
+    note: 'A crater within a crater, 360 km south of Tokyo and the remotest inhabited island of the Izu chain. The eruption of 1785 killed about half the islanders; the rest fled to Hachijōjima and did not return for fifty years.'
+  },
+  Torishima: {
+    en: 'Torishima', ja: '鳥島 (Torishima)', zh: '鳥島',
+    wiki: 'https://en.wikipedia.org/wiki/Tori-shima_(Izu_Islands)',
+    note: 'Albatross were killed here for their feathers from 1887, millions of them, until the eruption of 1902 killed all 125 people on the island. It is uninhabited now, and the last breeding ground of the short-tailed albatross.'
+  },
+  Naoshima: {
+    en: 'Naoshima', ja: '直島 (Naoshima)', zh: '直島',
+    wiki: 'https://en.wikipedia.org/wiki/Naoshima',
+    note: 'A Mitsubishi copper smelter opened here in 1917 and the island lived by it; the fumes stripped the hills. The art museums came in the 1990s.'
+  },
+  Teshima: {
+    en: 'Teshima', ja: '豊島 (Teshima)', zh: '豐島', wiki: 'https://en.wikipedia.org/wiki/Teshima',
+    note: 'Spring water and terraced rice, which most Inland Sea islands lack, and granite quarries. Half a million tonnes of industrial waste were dumped on it from 1975 and took until 2017 to clear away.'
+  },
+  Inujima: {
+    en: 'Inujima', ja: '犬島 (Inujima)', zh: '犬島', wiki: 'https://en.wikipedia.org/wiki/Inujima',
+    note: 'Quarried for the granite of Osaka Castle, and a copper refinery worked here from 1909 to 1919; its brick chimneys are still standing.'
   },
   Hokkaido: { en: 'Hokkaidō-chō', ja: '北海道庁 (Hokkaidō-chō)', zh: '北海道廳' },
   Aomori: {
@@ -5416,6 +5528,11 @@ JMAP.PROVINCES = {
     en: 'Jurong Island — reclaimed from seven islands after 1995',
     note: 'Not a shape of this period at all: the coastline drawn here is the modern one, and this island was made by joining seven smaller ones from 1995. It is on the map because the coastline source is a modern one; see Sources.'
   },
+  'Peale Island': {
+    en: 'Peale Island', ja: 'ピール島 (Pīru-tō)', zh: '皮爾島',
+    wiki: 'https://en.wikipedia.org/wiki/Peale_Island',
+    note: 'Pan American\'s stop on the Clipper route: a forty-eight-room hotel, a pier and a radio mast, put up in 1935 on an islet that had never had a building on it. The seaplane base was destroyed in the first Japanese air raid on 8 December 1941.'
+  },
 };
 
 /* One block per epoch, and the generator holds it to that: this object
@@ -5530,6 +5647,15 @@ JMAP.PROVINCE_EPOCH = {
     Malacca: {
       en: 'Malacca — under the Japanese military administration of Malaya',
       wiki: 'https://en.wikipedia.org/wiki/Malacca'
+    },
+    'Iwo Jima (Iō-tō)': {
+      note: 'The thousand civilians were taken off in July 1944 and the island was turned into a fortress of tunnels. Kuribayashi Tadamichi gave up any thought of holding the beaches and fought from underground with some 21,000 men, almost all of whom died. The landing on 19 February 1945 took five weeks and cost nearly 7,000 American lives; the airfields then served the B-29s over Tokyo.'
+    },
+    Chichijima: {
+      note: 'A fortified naval base, bombed from 1944 but never invaded, and the garrison held out to the surrender. George H. W. Bush was shot down off it in September 1944. Officers on the island killed several captured American airmen and ate part of them, and were tried and hanged for it in 1946.'
+    },
+    Hahajima: {
+      note: 'Shelled and bombed and then left alone. Its people were evacuated to the mainland with those of Chichijima in 1944.'
     },
   },
 };
