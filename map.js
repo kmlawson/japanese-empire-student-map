@@ -2099,28 +2099,36 @@
     // is named and none is outlined. Islands and enclaves are exempt -- their
     // sub-units are places rather than administrative divisions
     var atom = got.el && got.el.closest ? got.el.closest('.atom') : null;
+    /* Which sub-unit the pointer is really on has to be settled before the
+       Administrative switch is asked whether to hide it. Labuan is a pixel
+       across at the opening zoom, so the pointer lands on the invisible disc
+       that stands in for a small atom — and that disc belongs to the atom, not
+       to Labuan. Asking it whether it was a Straits Settlement always answered
+       no, the sub-unit was dropped, and hovering Labuan lit the whole of
+       British Borneo instead of the four Settlements it belonged to. */
+    var cand = provinceOf(got.el);
+    if (!cand && typeof cx === 'number') {
+      var early = nearestSubUnit(atom, cx, cy);
+      if (early) cand = provinceOf(early);
+    }
+    var candEl = (cand && cand.el) || got.el;
     // the Straits Settlements are a Crown colony of four scattered pieces
     // inside a peninsula of protectorates, and telling them apart is the point
     // of that corner of the map whether or not divisions are switched on
-    var own = got.el && got.el.getAttribute
-      && got.el.getAttribute('data-cluster') === 'Straits Settlements';
+    var own = candEl && candEl.getAttribute
+      && candEl.getAttribute('data-cluster') === 'Straits Settlements';
     // A fine coastline is a place, not an administrative division. The Ryukyu
     // and Pacific atoms carry `data-islands` and so have always named their
     // islands with the layer off; Ulleungdo and Singapore's islands are in
     // atoms that do not, and there is no sense in which naming an island
     // should wait on a switch about provinces.
-    var fine = got.el && got.el.classList
-      && got.el.classList.contains('fine');
+    var fine = candEl && candEl.classList
+      && candEl.classList.contains('fine');
     if (!state.cats.territory && !own && !fine &&
         !(atom && atom.getAttribute('data-islands'))) {
       return null;
     }
-    var prov = provinceOf(got.el);
-    if (prov) return prov;
-    if (typeof cx !== 'number') return null;
-    var atomEl = got.el && got.el.closest ? got.el.closest('.atom') : null;
-    var sub = nearestSubUnit(atomEl, cx, cy);
-    return sub ? provinceOf(sub) : null;
+    return cand || null;
   }
 
   function recordFor(target) {
