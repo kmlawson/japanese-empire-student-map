@@ -25,7 +25,8 @@
   var TERR_PX = 13.5;     // label sizes, in screen pixels
   var SITE_PX = 11.5;
   var SUB_PX = 10.5;      // provinces and islands, a step under a country
-  var EPOCH_1930_CUTOFF = 1931;   // sites later than this are hidden in 1930
+  var EPOCH_1930_CUTOFF = 1930;   // the 1930 sheet's own year
+  var EVENT_1930_FROM   = 1910;   // and how far back its detail reaches
   var LANGS = ['en', 'ja', 'zh', 'ko'];
 
   var hoverCapable = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
@@ -242,9 +243,27 @@
   }
 
   /* A site belongs to the 1930 map only if it had happened by then. */
+  /* Which sheet an event belongs on.
+   *
+   * Cities are unchanged: a place that existed by 1930 is on the 1930 map and
+   * everything is on the 1942 one.
+   *
+   * Events answer to their decade instead. The pivotal ones — Perry at Uraga,
+   * Kanghwa, Tsushima, the Mukden Incident, Pearl Harbor — carry `both` and
+   * stand on either sheet, because they are the arc the two dates are points
+   * on. The rest are the detail of their own period: 1910 to 1930 belongs to
+   * the 1930 map and 1931 onwards to the 1942 map, so the earlier sheet is no
+   * longer a map of territory with four events on it, and the later one is not
+   * carrying incidents from twenty years before its date. */
   function siteInEpoch(s) {
-    if (state.epoch !== 'e1930') return true;
-    return (s.year || 0) <= EPOCH_1930_CUTOFF;
+    var y = s.year || 0;
+    if (s.cat !== 'battle') {
+      return state.epoch !== 'e1930' || y <= EPOCH_1930_CUTOFF;
+    }
+    if (s.both) return true;
+    return state.epoch === 'e1930'
+      ? (y >= EVENT_1930_FROM && y <= EPOCH_1930_CUTOFF)
+      : (y > EPOCH_1930_CUTOFF);
   }
 
   /* Territories are always shown and always clickable — the level decides

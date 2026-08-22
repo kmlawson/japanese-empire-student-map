@@ -8,7 +8,7 @@ The main island, with Manila and the rice plain behind it. Invaded in December 1
 
 ## Mindanao
 
-The southern island, with the Japanese abaca colony at Davao that was the largest Japanese settlement overseas before the war. Taken in 1942 and retaken in 1945.
+The southern island, with the Japanese abaca colony at Davao, the largest Japanese settlement in Southeast Asia before the war. Taken in 1942 and retaken in 1945.
 
 ## Palawan
 

@@ -320,7 +320,7 @@ JMAP.TERRITORIES = {
       id: 'princelystates', en: 'Princely states',
       when: 'Rulers in subsidiary alliance with the Crown', cat: 'british', lvl: 3,
       atoms: ['princely'], adminOnly: true,
-      note: 'British India was a patchwork: nine governors\' provinces and a handful of smaller chief commissioners\' ones, ruled directly, and beside them some six hundred princely states whose rulers kept their thrones under treaties with the Crown. Hyderabad, the largest, had its own army and currency, and the Nizam was reckoned the richest man alive. The states are drawn here from a layer of their 1931 boundaries rather than approximated from modern units, so the shapes are the shapes: the Rajputana and Central India agencies as one western mass, the Baluchistan states of Kalat and Las Bela, the Eastern States through Orissa and Chhattisgarh, the hill states along the frontier, and the small Deccan states scattered through Bombay. The very smallest of the six hundred are below the resolution of this map and are drawn inside whichever province surrounded them.'
+      note: 'British India was a patchwork: nine governors\' provinces and a handful of smaller chief commissioners\' ones, ruled directly, and beside them some six hundred princely states whose rulers kept their thrones under treaties with the Crown. Hyderabad, the largest by population and revenue, had its own army and currency, and the Nizam was reckoned the richest man alive. The states are drawn here from a layer of their 1931 boundaries rather than approximated from modern units, so the shapes are the shapes: the Rajputana and Central India agencies as one western mass, the Baluchistan states of Kalat and Las Bela, the Eastern States through Orissa and Chhattisgarh, the hill states along the frontier, and the small Deccan states scattered through Bombay. The very smallest of the six hundred are below the resolution of this map and are drawn inside whichever province surrounded them.'
     },
     {
       id: 'ceylon', en: 'Ceylon', orig: 'ලංකාව (Lanka)', zh: '錫蘭', when: 'Crown colony',
@@ -372,7 +372,7 @@ JMAP.TERRITORIES = {
       id: 'mandate_ex_guam', en: 'Guam — inside the line, outside the mandate',
       when: 'American since 1898; never part of the mandate', cat: 'american', lvl: 3,
       c: '#325d7b', atoms: ['mandate_ex_guam'], unseen: true,
-      note: 'The mandate covered the Marianas <em>except Guam</em>, which is why every description of it says so. Spain ceded Guam to the United States in 1898, so when Japan took the German Marianas in 1914 it took the chain round an American island: Saipan, ninety miles north, was Japanese, and Guam was a US naval station with a small Marine garrison. The Japanese landed there on 10 December 1941, two days after Pearl Harbor, renamed it Ōmiyajima, and held it until the Americans retook it in July and August 1944.'
+      note: 'The mandate covered the Marianas <em>except Guam</em>, which is why every description of it says so. Spain ceded Guam to the United States in 1898, so when Japan took the German Marianas in 1914 it took the chain round an American island: Saipan, a hundred and thirty miles north, was Japanese, and Guam was a US naval station with a small Marine garrison. The Japanese landed there on 10 December 1941, two days after Pearl Harbor, renamed it Ōmiyajima, and held it until the Americans retook it in July and August 1944.'
     },
     {
       id: 'mandate_au', en: 'Territory of New Guinea — the mandate boundary',
@@ -390,13 +390,13 @@ JMAP.TERRITORIES = {
       id: 'gilberts', en: 'Gilbert & Ellice Islands', ja: 'ギルバート諸島', orig: 'Tungaru',
       zh: '吉爾伯特群島', when: 'British colony from 1916; a protectorate from 1892', cat: 'british',
       lvl: 3, atoms: ['gilberts', 'ellice'],
-      note: 'Two scatters of atolls governed as one colony from Tarawa: the Gilberts on the equator, the Ellice Islands six hundred miles south, and Ocean Island — Banaba — off to the west, which was worked for phosphate by the British Phosphate Commissioners and is where the administration actually sat. Japan took the Gilberts in December 1941 and never reached the Ellice.'
+      note: 'Two scatters of atolls governed as one colony from Ocean Island: the Gilberts on the equator, the Ellice Islands six hundred miles south, and Ocean Island — Banaba — off to the west, which was worked for phosphate by the British Phosphate Commissioners and is where the administration actually sat. Japan took the Gilberts in December 1941 and never reached the Ellice.'
     },
     {
       id: 'linephoenix', en: 'The Line & Phoenix Islands',
       when: 'Gilbert & Ellice Islands Colony', rule: 'British colony', cat: 'british', lvl: 3,
       atoms: ['linephoenix'],
-      note: 'Two scatters of atolls east of the date line, run from Tarawa. Fanning carried the trans-Pacific telegraph cable from Vancouver to Australia, landed in 1902 and the reason these specks were worth holding. The Phoenix group was almost empty until the settlement scheme of 1938–40 moved Gilbertese families there against overcrowding at home. Canton Island and Enderbury were claimed by Britain and by the United States at once, and in 1939 the two agreed to administer them jointly for fifty years; Pan American Airways put a flying-boat base on Canton Island that year, on the route to New Zealand.'
+      note: 'Two scatters of atolls east of the date line, run from Ocean Island. Fanning carried the trans-Pacific telegraph cable from Vancouver to Australia, landed in 1902 and the reason these specks were worth holding. The Phoenix group was almost empty until the settlement scheme of 1938–40 moved Gilbertese families there against overcrowding at home. Canton Island and Enderbury were claimed by Britain and by the United States at once, and in 1939 the two agreed to administer them jointly for fifty years; Pan American Airways put a flying-boat base on Canton Island that year, on the route to New Zealand.'
     },
     {
       id: 'uspacific', en: 'Palmyra, Kingman Reef, Howland, Baker, Jarvis & Swains',
@@ -439,7 +439,7 @@ JMAP.TERRITORIES = {
     {
       id: 'hawaii', en: 'Hawaii', orig: 'Hawaiʻi', zh: '夏威夷', when: 'Annexed 1898',
       rule: 'American territory', cat: 'american', lvl: 2, atoms: ['hawaii'],
-      note: 'A US territory with a large Japanese immigrant population, and from 1919 the base of the US Pacific Fleet at Pearl Harbor.'
+      note: 'A US territory with a large Japanese immigrant population. Pearl Harbor had a navy yard and a drydock from 1919, but the Pacific Fleet was based on the California coast until it was ordered to stay at Hawaii in May 1940.'
     },
     {
       id: 'aleutians', en: 'Aleutian Islands', orig: 'Unangam Tanangin', zh: '阿留申群島',
@@ -617,7 +617,7 @@ JMAP.TERRITORIES = {
       id: 'karafuto', en: 'Karafuto (southern Sakhalin)', ja: '樺太 (Karafuto)',
       orig: 'Южный Сахалин', zh: '樺太（南薩哈林）', when: 'Japanese 1905–1945', cat: 'colony', lvl: 1,
       atoms: ['karafuto'],
-      note: 'Coal, timber and fisheries, and the only land border Japan shared with the Soviet Union. Lost in August 1945.'
+      note: 'Coal, timber and fisheries, and — apart from Korea\'s short frontier on the lower Tumen — the empire\'s land border with the Soviet Union. Lost in August 1945.'
     },
     {
       id: 'kwantung', en: 'Kwantung Leased Territory', ja: '関東州 (Kantōshū)',
@@ -817,7 +817,7 @@ JMAP.TERRITORIES = {
       orig: 'Guadalcanal', zh: '瓜達爾卡納爾島（爭奪中）',
       when: 'American landing 7 August 1942; fought over into February 1943', cat: 'occupied',
       lvl: 2, atoms: ['solomons_gc'], hatch: 'us',
-      note: 'In December 1942 the island was divided: the Americans held the airfield and the perimeter around it, the Japanese the ground to the west, and neither could dislodge the other. It is drawn in the occupation colour with American stripes across it for that reason — the only place on the map with two flags over it. Japan evacuated in the first week of February 1943, and the campaign is usually taken as the point at which the initiative changed hands.'
+      note: 'In December 1942 the island was divided: the Americans held the airfield and the perimeter around it, the Japanese the ground to the west, and neither could dislodge the other. It is drawn in the occupation colour with American stripes across it for that reason — the only ground on the map the two were contesting at this date. Japan evacuated in the first week of February 1943, and the campaign is usually taken as the point at which the initiative changed hands.'
     },
     {
       id: 'tulagi', en: 'Tulagi and the Florida Islands', ja: 'ツラギ・フロリダ諸島', orig: 'Tulagi',
@@ -897,7 +897,7 @@ JMAP.TERRITORIES = {
       id: 'princelystates', en: 'Princely states',
       when: 'Rulers in subsidiary alliance with the Crown', cat: 'allied', lvl: 3,
       atoms: ['princely'], adminOnly: true,
-      note: 'British India was a patchwork: eleven provinces ruled directly, and beside them some six hundred princely states whose rulers kept their thrones under treaties with the Crown. Hyderabad, the largest, had its own army and currency, and the Nizam was reckoned the richest man alive. The states are drawn here from a layer of their 1931 boundaries rather than approximated from modern units, so the shapes are the shapes: the Rajputana and Central India agencies as one western mass, the Baluchistan states of Kalat and Las Bela, the Eastern States through Orissa and Chhattisgarh, the hill states along the frontier, and the small Deccan states scattered through Bombay. The very smallest of the six hundred are below the resolution of this map and are drawn inside whichever province surrounded them.'
+      note: 'British India was a patchwork: eleven provinces ruled directly, and beside them some six hundred princely states whose rulers kept their thrones under treaties with the Crown. Hyderabad, the largest by population and revenue, had its own army and currency, and the Nizam was reckoned the richest man alive. The states are drawn here from a layer of their 1931 boundaries rather than approximated from modern units, so the shapes are the shapes: the Rajputana and Central India agencies as one western mass, the Baluchistan states of Kalat and Las Bela, the Eastern States through Orissa and Chhattisgarh, the hill states along the frontier, and the small Deccan states scattered through Bombay. The very smallest of the six hundred are below the resolution of this map and are drawn inside whichever province surrounded them.'
     },
     {
       id: 'ceylon', en: 'Ceylon', orig: 'ලංකාව (Lanka)', zh: '錫蘭', when: 'Raided April 1942',
@@ -946,7 +946,7 @@ JMAP.TERRITORIES = {
       id: 'guangzhouwan', en: 'Guǎngzhōuwān (Kwangchowan)', ja: '広州湾 (Kōshūwan)',
       orig: 'Kouang-Tchéou-Wan', zh: '廣州灣', when: 'Leased to France 1898–1945', cat: 'french',
       lvl: 3, atoms: ['guangzhouwan'],
-      note: 'A French leased territory on the Leizhou peninsula, run from Indochina and drawn like it: the French colour with Japanese stripes across it. In December 1942 Vichy French administration continued inside a Japanese-occupied region, and it was the last neutral door into south China — a smuggling route and an escape route. Japanese troops moved in in February 1943.'
+      note: 'A French leased territory on the Leizhou peninsula, run from Indochina and drawn like it. In December 1942 Vichy French administration continued inside a Japanese-occupied region, and it was the last neutral door into south China — a smuggling route and an escape route. Japanese troops moved in in February 1943.'
     },
     {
       id: 'tuva', en: 'Tannu Tuva (Tuvan People’s Republic)', orig: 'Тыва Арат Республик',
@@ -1001,7 +1001,7 @@ JMAP.SITES = [
   {
     id: 'tokyo', en: 'Tokyo', ja: '東京 (Tōkyō)', orig: '東京 (Tōkyō)', zh: '東京',
     date: 'Capital from 1868', cat: 'city', lvl: 1, lat: 35.68, lon: 139.76, year: 1868,
-    note: 'Edo until the Restoration. The Great Kantō earthquake struck in 1923 and was followed by the massacre of Koreans; young officers of the Imperial Way faction seized the government quarter in the 2.26 Incident of February 1936 and killed three ministers; the firebombing of 9–10 March 1945 killed some 100,000 people in a night.'
+    note: 'Edo until the Restoration. The Great Kantō earthquake struck in 1923 and was followed by the massacre of Koreans; young officers of the Imperial Way faction seized the government quarter in the 2.26 Incident of February 1936 and killed three senior figures, the finance minister among them; the firebombing of 9–10 March 1945 killed some 100,000 people in a night.'
   },
   {
     id: 'yokohama', en: 'Yokohama', ja: '横浜 (Yokohama)', orig: '横浜 (Yokohama)', zh: '橫濱',
@@ -1010,7 +1010,7 @@ JMAP.SITES = [
   },
   {
     id: 'uraga', en: 'Uraga', ja: '浦賀 (Uraga)', orig: '浦賀 (Uraga)', zh: '浦賀', date: 'July 1853',
-    cat: 'battle', lvl: 3, lat: 35.25, lon: 139.72, year: 1853,
+    cat: 'battle', lvl: 3, both: true, lat: 35.25, lon: 139.72, year: 1853,
     note: 'Where Commodore Perry’s squadron anchored and demanded that Japan open. He returned in February 1854 with a larger fleet.'
   },
   {
@@ -1075,15 +1075,15 @@ JMAP.SITES = [
   },
   {
     id: 'tsushima', en: 'Tsushima Strait', ja: '対馬海峡 (Tsushima Kaikyō)', zh: '對馬海峽',
-    ko: '대한해협 (Taehan Haehyŏp)', date: '27–28 May 1905', cat: 'battle', lvl: 3, lat: 34.4,
-    lon: 129.33, year: 1905,
+    ko: '대한해협 (Taehan Haehyŏp)', date: '27–28 May 1905', cat: 'battle', lvl: 3, both: true,
+    lat: 34.4, lon: 129.33, year: 1905,
     note: 'Tōgō destroyed the Russian Baltic Fleet here after its eighteen-thousand-mile voyage — the decisive battle of the Russo-Japanese War and the first modern defeat of a European power by an Asian one.'
   },
   {
     id: 'naha', en: 'Naha', ja: '那覇 (Naha)', orig: '那覇 (Naafa)', zh: '那霸',
     date: 'Battle of Okinawa, April–June 1945', cat: 'city', lvl: 1, lat: 26.21, lon: 127.68,
     year: 1879,
-    note: 'Port of the Ryūkyū Kingdom, and the site of the only land battle of the war fought on Japanese soil among a civilian population, in which around a quarter of Okinawans died.'
+    note: 'Port of the Ryūkyū Kingdom, and the site of the largest land battle of the war fought on Japanese soil among a civilian population, in which around a quarter of Okinawans died.'
   },
   {
     id: 'iwojima', en: 'Iwo Jima (Iō-tō)', ja: '硫黄島 (Iō-tō)', orig: '硫黄島 (Iō-tō)', zh: '硫磺島',
@@ -1110,8 +1110,8 @@ JMAP.SITES = [
   },
   {
     id: 'kanghwa', en: 'Kanghwa Island', ja: '江華島 (Kōkatō)', zh: '江華島', ko: '강화도 (Kanghwado)',
-    date: 'Treaty signed 26 February 1876', cat: 'battle', lvl: 3, lat: 37.75, lon: 126.48,
-    year: 1876,
+    date: 'Treaty signed 26 February 1876', cat: 'battle', lvl: 3, both: true, lat: 37.75,
+    lon: 126.48, year: 1876,
     note: 'Japanese gunboat diplomacy — an engineered incident in 1875, then a fleet — produced the Kanghwa Treaty, Korea’s own unequal treaty, on the model of the ones imposed on Japan twenty years before.'
   },
   {
@@ -1122,7 +1122,7 @@ JMAP.SITES = [
   {
     id: 'mukden', en: 'Shěnyáng (Mukden)', ja: '奉天 (Hōten)', orig: '瀋陽 (Shěnyáng)',
     zh: '瀋陽（奉天）', date: 'Battle 1905; Manchurian Incident 18 September 1931', cat: 'city',
-    lvl: 1, lat: 41.8, lon: 123.43, year: 1905,
+    lvl: 1, both: true, lat: 41.8, lon: 123.43, year: 1905,
     note: 'The Manchu dynastic capital, and the prize of the largest land battle of the Russo-Japanese War. The explosion staged on the South Manchuria Railway just outside the city on 18 September 1931 was the pretext for the invasion of Manchuria.'
   },
   {
@@ -1175,8 +1175,8 @@ JMAP.SITES = [
   },
   {
     id: 'marcopolo', en: 'Lúgōuqiáo (the Marco Polo Bridge)', ja: '盧溝橋事件 (Rokōkyō jiken)',
-    orig: '盧溝橋 (Lúgōuqiáo)', zh: '盧溝橋', date: '7 July 1937', cat: 'battle', lvl: 2, lat: 39.85,
-    lon: 116.21, year: 1937,
+    orig: '盧溝橋 (Lúgōuqiáo)', zh: '盧溝橋', date: '7 July 1937', cat: 'battle', lvl: 2, both: true,
+    lat: 39.85, lon: 116.21, year: 1937,
     note: 'A night exercise, a missing soldier and an exchange of fire — the skirmish that opened eight years of full-scale war in China.'
   },
   {
@@ -1318,7 +1318,7 @@ JMAP.SITES = [
     id: 'corregidor', en: 'Bataan & Corregidor', ja: 'バターン・コレヒドール (Batān Korehidōru)',
     orig: 'Bataan / Corregidor', zh: '巴丹・科雷希多', date: 'April – 6 May 1942', cat: 'battle',
     lvl: 3, lat: 14.38, lon: 120.57, year: 1942,
-    note: 'The last American and Filipino stand. The surrender was followed by the Bataan Death March, in which thousands died.'
+    note: 'Bataan surrendered on 9 April 1942 and the death march followed, in which thousands died; Corregidor held out in its tunnels until 6 May.'
   },
   {
     id: 'leyte', en: 'Leyte Gulf', ja: 'レイテ沖海戦 (Reite-oki kaisen)', orig: 'Golpo ng Leyte',
@@ -1351,8 +1351,8 @@ JMAP.SITES = [
   },
   {
     id: 'pearlharbor', en: 'Pearl Harbor', ja: '真珠湾攻撃 (Shinjuwan kōgeki)', orig: 'Puʻuloa',
-    zh: '珍珠港', date: '7 December 1941 (8 December in Japan)', cat: 'battle', lvl: 1, lat: 21.35,
-    lon: -157.95, year: 1941,
+    zh: '珍珠港', date: '7 December 1941 (8 December in Japan)', cat: 'battle', lvl: 1, both: true,
+    lat: 21.35, lon: -157.95, year: 1941,
     note: 'Six carriers, two waves, two hours. Eight battleships hit and over 2,400 killed — but the American carriers were at sea and the fuel tanks and dockyards were left intact.'
   },
   {
@@ -1395,7 +1395,7 @@ JMAP.SITES = [
   {
     id: 'kwajalein', en: 'Kwajalein', ja: 'クェゼリン (Kuezerin)', orig: 'Kuwajleen', zh: '瓜加林',
     date: 'January – February 1944', cat: 'battle', lvl: 3, lat: 9.19, lon: 167.47, year: 1944,
-    note: 'The first pre-war Japanese mandate territory to be taken, breaching the outer ring of the defensive perimeter.'
+    note: 'Taken between 31 January and 3 February 1944, with Majuro, in the first assault on territory Japan had held since before the war.'
   },
   {
     id: 'tarawa', en: 'Tarawa', ja: 'タラワ (Tarawa)', orig: 'Tarawa', zh: '塔拉瓦',
@@ -1455,6 +1455,136 @@ JMAP.SITES = [
     id: 'dushan', en: 'Dúshān (Tushan)', ja: '独山 (Dokusan)', zh: '獨山', date: 'December 1944',
     cat: 'battle', lvl: 3, lat: 25.83, lon: 107.55, year: 1944,
     note: 'The furthest inland the war ever came. The Ichigo offensive reached this small town in Guizhou in December 1944, a hundred miles short of Guiyang, and turned back for want of supply.'
+  },
+  {
+    id: 'musha', en: 'Musha (Wushe)', ja: '霧社事件 (Musha jiken)', zh: '霧社',
+    date: '27 October 1930', cat: 'battle', lvl: 2, lat: 24.02, lon: 121.14, year: 1930,
+    note: 'Seediq villagers attacked the Japanese at a school sports day on 27 October 1930 and killed 134. The suppression took two months, mountain artillery and aircraft dropping gas; about half the Seediq of the district were dead by the end, and the survivors were moved off their land.'
+  },
+  {
+    id: 'huanggutun', en: 'Huánggūtún (Huangkutun)',
+    ja: '張作霖爆殺事件 (Chō Sakurin bakusatsu jiken)', zh: '皇姑屯', date: '4 June 1928', cat: 'battle',
+    lvl: 2, lat: 41.83, lon: 123.35, year: 1928,
+    note: 'Kwantung Army officers blew up Zhang Zuolin\'s train where the South Manchuria Railway crosses the Peking line, on 4 June 1928. Tokyo disowned it and the plotters went unpunished, which is most of why 1931 happened the way it did.'
+  },
+  {
+    id: 'dandi', en: 'Dandi', ja: 'ダンディ (Dandi)', orig: 'દાંડી', date: '6 April 1930',
+    cat: 'battle', lvl: 2, lat: 20.92, lon: 72.71, year: 1930,
+    note: 'Gandhi reached the sea here on 6 April 1930 after walking 240 miles from Ahmedabad, and made salt in defiance of the government monopoly. Some sixty thousand people were imprisoned in the civil disobedience that followed.'
+  },
+  {
+    id: 'yenbai', en: 'Yen Bai (Yên Bái)', ja: 'イエンバイ (Ienbai)', orig: 'Yên Bái', zh: '安沛',
+    date: '10 February 1930', cat: 'battle', lvl: 3, lat: 21.7, lon: 104.87, year: 1930,
+    note: 'Vietnamese soldiers of the garrison mutinied on 10 February 1930 and killed their French officers. The rising was put down in a day, the VNQDD leadership was guillotined, and the initiative in Vietnamese nationalism passed to the communists.'
+  },
+  {
+    id: 'chittagongraid', en: 'Chittagong', ja: 'チッタゴン (Chittagon)', orig: 'চট্টগ্রাম',
+    date: '18 April 1930', cat: 'battle', lvl: 3, lat: 22.36, lon: 91.78, year: 1930,
+    note: 'Revolutionaries under Surya Sen took the two armouries here on 18 April 1930 and held the hills outside the town for four days — armed nationalism beside the civil disobedience of the same spring.'
+  },
+  {
+    id: 'cheamri', en: 'Cheam-ri', ja: '堤岩里 (Teiganri)', zh: '堤岩里', ko: '제암리 (Cheam-ri)',
+    date: '15 April 1919', cat: 'battle', lvl: 2, lat: 37.13, lon: 126.86, year: 1919,
+    note: 'On 15 April 1919, after the March First Movement, troops locked some thirty villagers into the church here and burned it. It is the single episode that fixed the movement\'s suppression in Korean memory.'
+  },
+  {
+    id: 'uozu', en: 'Uozu', ja: '魚津 (Uozu)', zh: '魚津', date: '23 July 1918', cat: 'battle',
+    lvl: 3, lat: 36.83, lon: 137.4, year: 1918,
+    note: 'Fishermen\'s wives blocked the loading of rice here on 23 July 1918 in protest at the price. The riots spread to most of the country within six weeks and brought down the Terauchi cabinet.'
+  },
+  {
+    id: 'amritsar', en: 'Amritsar', ja: 'アムリットサル (Amurittosaru)', orig: 'ਅੰਮ੍ਰਿਤਸਰ',
+    date: '13 April 1919', cat: 'battle', lvl: 2, lat: 31.62, lon: 74.88, year: 1919,
+    note: 'Troops fired on a penned crowd at Jallianwala Bagh on 13 April 1919, killing several hundred. More than anything else it turned a generation of Indians against British rule.'
+  },
+  {
+    id: 'kwangjustudent', en: 'Kōshū (Kwangju)', ja: '光州学生事件 (Kōshū gakusei jiken)', zh: '光州',
+    ko: '광주 (Kwangju)', date: 'November 1929', cat: 'battle', lvl: 3, lat: 35.15, lon: 126.92,
+    year: 1929,
+    note: 'A quarrel on the Naju train in November 1929 between Japanese and Korean students spread into the largest colonial-era protest after 1919, reaching some two hundred schools and lasting into the spring.'
+  },
+  {
+    id: 'tapani', en: 'Tapani (Yujing)', ja: '噍吧哖事件 (Shahanē jiken)', zh: '噍吧哖', date: '1915',
+    cat: 'battle', lvl: 3, lat: 23.13, lon: 120.46, year: 1915,
+    note: 'The Xilai\'an rising of 1915, the last and largest armed revolt by Han Taiwanese against Japanese rule. Over eight hundred death sentences followed, most later commuted after the scale of it became known in Tokyo.'
+  },
+  {
+    id: 'huayuankou', en: 'Huāyuánkǒu (Huayuankow)', ja: '花園口 (Kaenkō)', zh: '花園口',
+    date: '9 June 1938', cat: 'battle', lvl: 2, lat: 34.92, lon: 113.69, year: 1938,
+    note: 'The Chinese army cut the Yellow River dikes here on 9 June 1938 to stop the advance on Wuhan. The river left its bed for nine years, drowned several thousand villages, killed somewhere between 400,000 and 800,000 people, and left the country behind it open to the famine of 1942–43.'
+  },
+  {
+    id: 'changkufeng', en: 'Zhānggǔfēng (Changkufeng) / Lake Khasan',
+    ja: '張鼓峰事件 (Chōkohō jiken)', orig: 'озеро Хасан', zh: '張鼓峰', date: 'July – August 1938',
+    cat: 'battle', lvl: 3, lat: 42.44, lon: 130.66, year: 1938,
+    note: 'Soviet and Japanese forces fought for a fortnight in July and August 1938 over a hill where Manchukuo, Korea and the Soviet Maritime Province meet. Japan came off worse, and did it again at Nomonhan the following summer.'
+  },
+  {
+    id: 'bunagona', en: 'Buna–Gona', ja: 'ブナ・ゴナ (Buna-Gona)', orig: 'Buna / Gona', zh: '布納・戈納',
+    date: 'November 1942 – January 1943', cat: 'battle', lvl: 2, lat: -8.65, lon: 148.38,
+    year: 1942,
+    note: 'The fighting in progress at this map\'s date. The Japanese beachhead on the north Papuan coast was reduced between November 1942 and January 1943, at a cost proportionally heavier than Guadalcanal\'s.'
+  },
+  {
+    id: 'milnebay', en: 'Milne Bay', ja: 'ミルン湾 (Mirun-wan)', orig: 'Milne Bay', zh: '米爾恩灣',
+    date: '25 August – 7 September 1942', cat: 'battle', lvl: 3, lat: -10.31, lon: 150.47,
+    year: 1942,
+    note: 'Australian and American troops threw back a Japanese landing between 25 August and 7 September 1942 — the first amphibious assault of the war to be defeated outright, and the eastern limit of the advance.'
+  },
+  {
+    id: 'midnapore', en: 'Midnapore (Medinipur)', ja: 'ミドナポール (Midonapōru)', orig: 'মেদিনীপুর',
+    date: '1942–43', cat: 'battle', lvl: 2, lat: 22.43, lon: 87.32, year: 1942,
+    note: 'The district hit hardest by the requisition of boats and rice in 1942, and the centre of the Bengal famine that followed: some three million people died in the province while the war economy in Calcutta was fed.'
+  },
+  {
+    id: 'pingdingshan', en: 'Píngdǐngshān (Pingtingshan)', ja: '平頂山事件 (Heichōzan jiken)',
+    zh: '平頂山', date: '16 September 1932', cat: 'battle', lvl: 3, lat: 41.88, lon: 123.88,
+    year: 1932,
+    note: 'Japanese troops killed the inhabitants of this mining village near Fushun on 16 September 1932, a year to the day after the Mukden Incident, in reprisal for a guerrilla raid. Some three thousand died.'
+  },
+  {
+    id: 'pochonbo', en: 'Poch’ŏnbo', ja: '普天堡 (Futenpo)', zh: '普天堡', ko: '보천보 (Poch’ŏnbo)',
+    date: '4 June 1937', cat: 'battle', lvl: 3, lat: 41.4, lon: 128.29, year: 1937,
+    note: 'Korean and Chinese partisans crossed the Yalu and raided the police post and county offices here on 4 June 1937 — the largest action of the border guerrilla war, and the founding episode of the North Korean state\'s account of itself.'
+  },
+  {
+    id: 'savo', en: 'Savo Island', ja: 'サボ島沖海戦 (Sabo-tō oki kaisen)', orig: 'Savo', zh: '薩沃島',
+    date: '9 August 1942', cat: 'battle', lvl: 3, lat: -9.13, lon: 159.85, year: 1942,
+    note: 'Japanese cruisers surprised the Allied screen off Guadalcanal on the night of 9 August 1942 and sank four heavy cruisers in half an hour, the worst surface defeat in United States naval history.'
+  },
+  {
+    id: 'okunoshima', en: 'Ōkunoshima', ja: '大久野島 (Ōkunoshima)', zh: '大久野島',
+    date: 'Army gas plant from 1929', cat: 'city', lvl: 3, lat: 34.31, lon: 133.0, year: 1929,
+    note: 'The army\'s poison gas plant from 1929, making mustard and lewisite for use in China. The island was taken off published maps while it worked, and the labourers were not told what they were handling.'
+  },
+  {
+    id: 'supung', en: 'Suihō (Sup’ung) Dam', ja: '水豊ダム (Suihō damu)', zh: '水豐',
+    ko: '수풍 (Sup’ung)', date: 'Generating from 1941', cat: 'city', lvl: 3, lat: 40.46,
+    lon: 124.96, year: 1941,
+    note: 'Finished on the Yalu in 1941 and the largest dam in Asia, built with conscript labour and the clearance of whole villages. Its power ran the chemical works at Hŭngnam and much of Manchurian industry.'
+  },
+  {
+    id: 'ruijin', en: 'Ruìjīn (Juichin)', ja: '瑞金 (Zuikin)', zh: '瑞金',
+    date: 'Soviet capital 1931–34', cat: 'city', lvl: 3, lat: 25.89, lon: 116.03, year: 1931,
+    note: 'Capital of the Chinese Soviet Republic from November 1931 until the fifth encirclement campaign forced the party out in October 1934 and the Long March began.'
+  },
+  {
+    id: 'consan', en: 'Côn Sơn (Poulo Condore)', ja: 'コンソン島 (Konson-tō)', orig: 'Côn Sơn',
+    zh: '崑崙島', date: 'Penal island from 1862', cat: 'city', lvl: 3, lat: 8.69, lon: 106.61,
+    year: 1862,
+    note: 'The French penal islands, in use from 1862. Most of the leadership of the Vietnamese communist party passed through them, which is how a prison became a political school.'
+  },
+  {
+    id: 'bovendigoel', en: 'Boven Digoel', ja: 'ボーフェン・ディグル (Bōfen Diguru)',
+    orig: 'Boven Digoel', date: 'Internment camp from 1927', cat: 'city', lvl: 3, lat: -6.1,
+    lon: 140.3, year: 1927,
+    note: 'The camp the Dutch built in 1927 in the New Guinea swamps for the leaders of the nationalist and communist movements, Hatta and Sjahrir among them. Malaria did the work that a sentence did not have to.'
+  },
+  {
+    id: 'ashio', en: 'Ashio', ja: '足尾 (Ashio)', zh: '足尾',
+    date: 'Copper, and the pollution case', cat: 'city', lvl: 3, lat: 36.65, lon: 139.45,
+    year: 1890,
+    note: 'Furukawa\'s copper mine, and the pollution that poisoned the Watarase valley below it. Tanaka Shōzō\'s campaign on behalf of the ruined villages was the first environmental protest in Japan, and the state answered it by drowning one of them under a reservoir.'
   },
 ];
 
@@ -1662,7 +1792,7 @@ JMAP.BROWSE = [
   {
     id: 'jinzhou', en: 'Jǐnzhōu (Chinchow)', ja: '錦州 (Kinshū)', zh: '錦州', lat: 41.1,
     lon: 121.13,
-    note: 'The gate between Manchuria and the Wall, on the railway from Shenyang to Beijing. Taken on 3 January 1932, which ended organised Chinese resistance in Manchuria.'
+    note: 'The gate between Manchuria and the Wall, on the railway from Shenyang to Beijing. Taken on 3 January 1932, which put Japanese troops on the Wall; Harbin held out until February.'
   },
   {
     id: 'yingkou', en: 'Yíngkǒu (Newchwang)', ja: '営口 (Eikō)', zh: '營口', lat: 40.67,
@@ -1771,7 +1901,7 @@ JMAP.BROWSE = [
   },
   {
     id: 'keelung', en: 'Kirun (Keelung)', ja: '基隆 (Kīrun)', zh: '基隆', lat: 25.13, lon: 121.74,
-    note: 'The northern coaling port and the ferry terminus for Japan. The first American raids on Taiwan struck its harbour in 1944.'
+    note: 'The northern coaling port and the ferry terminus for Japan. American carrier raids struck its harbour in October 1944.'
   },
   {
     id: 'hualien', en: 'Karenkō (Hualien)', ja: '花蓮港 (Karenkō)', zh: '花蓮港', lat: 23.98,
@@ -1818,7 +1948,7 @@ JMAP.BROWSE = [
   },
   {
     id: 'matsuyama', en: 'Matsuyama', ja: '松山 (Matsuyama)', zh: '松山', lat: 33.84, lon: 132.77,
-    note: 'The largest city of Shikoku. Firebombed on 26 July 1945.'
+    note: 'A castle town and the largest city of northern Shikoku. Firebombed on 26 July 1945.'
   },
   {
     id: 'kure', en: 'Kure', ja: '呉 (Kure)', zh: '吳', lat: 34.25, lon: 132.57,
@@ -1834,7 +1964,7 @@ JMAP.BROWSE = [
   },
   {
     id: 'maizuru', en: 'Maizuru', ja: '舞鶴 (Maizuru)', zh: '舞鶴', lat: 35.45, lon: 135.33,
-    note: 'The Japan Sea naval base, and after the surrender the port through which millions of repatriates came home from the continent.'
+    note: 'The Japan Sea naval base, and after the surrender the longest-serving of the repatriation ports: some 660,000 people came home through it over thirteen years.'
   },
   {
     id: 'aomori', en: 'Aomori', ja: '青森 (Aomori)', zh: '青森', lat: 40.82, lon: 140.75,
@@ -2006,7 +2136,7 @@ JMAP.BROWSE = [
   },
   {
     id: 'luoyang', en: 'Luòyáng (Loyang)', ja: '洛陽 (Rakuyō)', zh: '洛陽', lat: 34.62, lon: 112.45,
-    note: 'The Longhai railway city and one of the old capitals of China. Held out until 25 May 1944 — one of the two cities the December 1942 line of control leaves outside the occupation. The Henan famine of 1942–43 killed some two million people in the country round it.'
+    note: 'The Longhai railway city and one of the old capitals of China. Held out until 25 May 1944, and the December 1942 line of control leaves it outside the occupation. The Henan famine of 1942–43 killed some two million people in the country round it.'
   },
   {
     id: 'zhengzhou', en: 'Zhèngzhōu (Chengchow)', ja: '鄭州 (Teishū)', zh: '鄭州', lat: 34.75,
@@ -2301,7 +2431,7 @@ JMAP.PROVINCES = {
   Unalaska: { en: 'Unalaska — Dutch Harbor, bombed 3–4 June 1942', zh: '烏納拉斯卡島' },
   Akutan: { en: 'Akutan — where the intact Zero was recovered in July 1942', zh: '阿庫坦島' },
   Akun: { en: 'Akun', zh: '阿昆島' },
-  Unimak: { en: 'Unimak — Fort Randall at Cold Bay', zh: '烏尼馬克島' },
+  Unimak: { en: 'Unimak — Scotch Cap and Cape Sarichef', zh: 'the gate to the Bering Sea' },
   Assam: { en: 'Assam Province — with Sylhet, and with Manipur and Tripura inside it' },
   Bengal: { en: 'Bengal Presidency' },
   Bihar: { en: 'Bihar Province' },
@@ -2404,7 +2534,7 @@ JMAP.PROVINCES = {
   Funafuti: { en: 'Funafuti — the seat of the Ellice Islands' },
   Nukulaelae: {
     en: 'Nukulaelae',
-    note: 'Never occupied. Half its people had been carried off by Peruvian slavers in 1863 and it never recovered the numbers.'
+    note: 'Never occupied. Two thirds of its people had been carried off by Peruvian slavers in 1863 and it never recovered the numbers.'
   },
   Goa: { en: 'Goa' },
   'Damão (Daman)': { en: 'Damão (Daman)' },
@@ -2695,7 +2825,7 @@ JMAP.PROVINCES = {
   },
   Kwajalein: {
     en: 'Kwajalein', zh: '瓜加林',
-    note: 'Taken between 31 January and 3 February 1944 — the first territory Japan had held since before the war to be taken from her, and the breach of the outer perimeter.'
+    note: 'Taken between 31 January and 3 February 1944, with Majuro — the first assault on territory Japan had held since before the war, and the breach of the outer perimeter.'
   },
   Majuro: {
     en: 'Majuro', ja: 'マジュロ (Majuro)', zh: '馬久羅',
@@ -2746,7 +2876,7 @@ JMAP.PROVINCES = {
   },
   Bali: {
     en: 'Bali', ja: 'バリ (Bari)',
-    note: 'Taken on 19 February 1942; the naval action in the strait off it a few nights earlier was one of the few Allied successes of the campaign.'
+    note: 'Taken on 19 February 1942. The action in Badung Strait the following night went the other way: four Japanese destroyers beat off a much larger Allied force and sank a Dutch destroyer.'
   },
   Lombok: {
     en: 'Lombok', ja: 'ロンボク (Ronboku)',
@@ -2838,7 +2968,7 @@ JMAP.PROVINCES = {
   },
   Mindanao: {
     en: 'Mindanao',
-    note: 'The southern island, with the Japanese abaca colony at Davao that was the largest Japanese settlement overseas before the war. Taken in 1942 and retaken in 1945.'
+    note: 'The southern island, with the Japanese abaca colony at Davao, the largest Japanese settlement in Southeast Asia before the war. Taken in 1942 and retaken in 1945.'
   },
   Palawan: {
     en: 'Palawan',
@@ -3153,7 +3283,7 @@ JMAP.PROVINCE_EPOCH = {
     Tenasserim: { en: 'Tenasserim Division — Thaton, Amherst, Tavoy, Mergui' },
     Labuan: { en: 'Labuan — a Crown colony from 1848, attached to the Straits Settlements in 1907' },
     Dindings: {
-      en: 'The Dindings — Straits Settlement: Lumut, Sitiawan and Pangkor, British since 1826 and ruled from Singapore'
+      en: 'The Dindings — Straits Settlement: Lumut, Sitiawan and Pangkor, ceded by Perak in 1874 and ruled from Singapore'
     },
   },
   e1942: {

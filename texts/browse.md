@@ -102,7 +102,7 @@ The Northern Song capital, and a station on the Lunghai railway. Fell on 6 June 
 
 ## luoyang
 
-The Longhai railway city and one of the old capitals of China. Held out until 25 May 1944 — one of the two cities the December 1942 line of control leaves outside the occupation. The Henan famine of 1942–43 killed some two million people in the country round it.
+The Longhai railway city and one of the old capitals of China. Held out until 25 May 1944, and the December 1942 line of control leaves it outside the occupation. The Henan famine of 1942–43 killed some two million people in the country round it.
 
 ## zhengzhou
 
@@ -286,7 +286,7 @@ The Shōwa Steel Works, the largest ironworks in the empire outside Japan, and t
 
 ## jinzhou
 
-The gate between Manchuria and the Wall, on the railway from Shenyang to Beijing. Taken on 3 January 1932, which ended organised Chinese resistance in Manchuria.
+The gate between Manchuria and the Wall, on the railway from Shenyang to Beijing. Taken on 3 January 1932, which put Japanese troops on the Wall; Harbin held out until February.
 
 ## yingkou
 
@@ -386,7 +386,7 @@ The centre of the rice plain, and the prefecture in which the Musha rising broke
 
 ## keelung
 
-The northern coaling port and the ferry terminus for Japan. The first American raids on Taiwan struck its harbour in 1944.
+The northern coaling port and the ferry terminus for Japan. American carrier raids struck its harbour in October 1944.
 
 ## hualien
 
@@ -430,7 +430,7 @@ On the line to Shikoku and Kyūshū. Firebombed on 29 June 1945.
 
 ## matsuyama
 
-The largest city of Shikoku. Firebombed on 26 July 1945.
+A castle town and the largest city of northern Shikoku. Firebombed on 26 July 1945.
 
 ## kure
 
@@ -446,7 +446,7 @@ The naval base facing Korea and China, from which the fleet sailed in 1894 and a
 
 ## maizuru
 
-The Japan Sea naval base, and after the surrender the port through which millions of repatriates came home from the continent.
+The Japan Sea naval base, and after the surrender the longest-serving of the repatriation ports: some 660,000 people came home through it over thirteen years.
 
 ## aomori
 

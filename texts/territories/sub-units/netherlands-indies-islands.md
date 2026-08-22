@@ -26,7 +26,7 @@ Celebes, taken between January and February 1942, and put under naval rather tha
 
 ## Bali
 
-Taken on 19 February 1942; the naval action in the strait off it a few nights earlier was one of the few Allied successes of the campaign.
+Taken on 19 February 1942. The action in Badung Strait the following night went the other way: four Japanese destroyers beat off a much larger Allied force and sank a Dutch destroyer.
 
 ## Lombok
 

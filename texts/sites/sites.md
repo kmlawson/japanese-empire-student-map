@@ -4,7 +4,7 @@
 
 ## tokyo
 
-Edo until the Restoration. The Great Kantō earthquake struck in 1923 and was followed by the massacre of Koreans; young officers of the Imperial Way faction seized the government quarter in the 2.26 Incident of February 1936 and killed three ministers; the firebombing of 9–10 March 1945 killed some 100,000 people in a night.
+Edo until the Restoration. The Great Kantō earthquake struck in 1923 and was followed by the massacre of Koreans; young officers of the Imperial Way faction seized the government quarter in the 2.26 Incident of February 1936 and killed three senior figures, the finance minister among them; the firebombing of 9–10 March 1945 killed some 100,000 people in a night.
 
 ## yokohama
 
@@ -81,7 +81,7 @@ defeat of a European power by an Asian one.
 
 ## naha
 
-Port of the Ryūkyū Kingdom, and the site of the only land battle of the war
+Port of the Ryūkyū Kingdom, and the site of the largest land battle of the war
 fought on Japanese soil among a civilian population, in which around a quarter
 of Okinawans died.
 
@@ -322,8 +322,8 @@ later during its recapture, when perhaps 100,000 civilians died.
 
 ## corregidor
 
-The last American and Filipino stand. The surrender was followed by the Bataan
-Death March, in which thousands died.
+Bataan surrendered on 9 April 1942 and the death march followed, in which
+thousands died; Corregidor held out in its tunnels until 6 May.
 
 ## leyte
 
@@ -403,8 +403,8 @@ Ninety-eight captured civilian workers were murdered there in 1943.
 
 ## kwajalein
 
-The first pre-war Japanese mandate territory to be taken, breaching the outer
-ring of the defensive perimeter.
+Taken between 31 January and 3 February 1944, with Majuro, in the first
+assault on territory Japan had held since before the war.
 
 ## tarawa
 
@@ -480,4 +480,158 @@ Army Incident.
 The furthest inland the war ever came. The Ichigo offensive reached this small
 town in Guizhou in December 1944, a hundred miles short of Guiyang, and turned
 back for want of supply.
+
+# The interwar years, and what the 1930 sheet was missing
+
+## musha
+
+Seediq villagers attacked the Japanese at a school sports day on 27 October
+1930 and killed 134. The suppression took two months, mountain artillery and
+aircraft dropping gas; about half the Seediq of the district were dead by the
+end, and the survivors were moved off their land.
+
+## huanggutun
+
+Kwantung Army officers blew up Zhang Zuolin's train where the South Manchuria
+Railway crosses the Peking line, on 4 June 1928. Tokyo disowned it and the
+plotters went unpunished, which is most of why 1931 happened the way it did.
+
+## cheamri
+
+On 15 April 1919, after the March First Movement, troops locked some thirty
+villagers into the church here and burned it. It is the single episode that
+fixed the movement's suppression in Korean memory.
+
+## kwangjustudent
+
+A quarrel on the Naju train in November 1929 between Japanese and Korean
+students spread into the largest colonial-era protest after 1919, reaching
+some two hundred schools and lasting into the spring.
+
+## tapani
+
+The Xilai'an rising of 1915, the last and largest armed revolt by Han
+Taiwanese against Japanese rule. Over eight hundred death sentences followed,
+most later commuted after the scale of it became known in Tokyo.
+
+## uozu
+
+Fishermen's wives blocked the loading of rice here on 23 July 1918 in protest
+at the price. The riots spread to most of the country within six weeks and
+brought down the Terauchi cabinet.
+
+## dandi
+
+Gandhi reached the sea here on 6 April 1930 after walking 240 miles from
+Ahmedabad, and made salt in defiance of the government monopoly. Some sixty
+thousand people were imprisoned in the civil disobedience that followed.
+
+## amritsar
+
+Troops fired on a penned crowd at Jallianwala Bagh on 13 April 1919, killing
+several hundred. More than anything else it turned a generation of Indians
+against British rule.
+
+## chittagongraid
+
+Revolutionaries under Surya Sen took the two armouries here on 18 April 1930
+and held the hills outside the town for four days — armed nationalism beside
+the civil disobedience of the same spring.
+
+## yenbai
+
+Vietnamese soldiers of the garrison mutinied on 10 February 1930 and killed
+their French officers. The rising was put down in a day, the VNQDD leadership
+was guillotined, and the initiative in Vietnamese nationalism passed to the
+communists.
+
+# The war years
+
+## huayuankou
+
+The Chinese army cut the Yellow River dikes here on 9 June 1938 to stop the
+advance on Wuhan. The river left its bed for nine years, drowned several
+thousand villages, killed somewhere between 400,000 and 800,000 people, and
+left the country behind it open to the famine of 1942–43.
+
+## pingdingshan
+
+Japanese troops killed the inhabitants of this mining village near Fushun on
+16 September 1932, a year to the day after the Mukden Incident, in reprisal
+for a guerrilla raid. Some three thousand died.
+
+## pochonbo
+
+Korean and Chinese partisans crossed the Yalu and raided the police post and
+county offices here on 4 June 1937 — the largest action of the border guerrilla
+war, and the founding episode of the North Korean state's account of itself.
+
+## changkufeng
+
+Soviet and Japanese forces fought for a fortnight in July and August 1938 over
+a hill where Manchukuo, Korea and the Soviet Maritime Province meet. Japan came
+off worse, and did it again at Nomonhan the following summer.
+
+## bunagona
+
+The fighting in progress at this map's date. The Japanese beachhead on the
+north Papuan coast was reduced between November 1942 and January 1943, at a
+cost proportionally heavier than Guadalcanal's.
+
+## milnebay
+
+Australian and American troops threw back a Japanese landing between 25 August
+and 7 September 1942 — the first amphibious assault of the war to be defeated
+outright, and the eastern limit of the advance.
+
+## savo
+
+Japanese cruisers surprised the Allied screen off Guadalcanal on the night of
+9 August 1942 and sank four heavy cruisers in half an hour, the worst surface
+defeat in United States naval history.
+
+## midnapore
+
+The district hit hardest by the requisition of boats and rice in 1942, and the
+centre of the Bengal famine that followed: some three million people died in
+the province while the war economy in Calcutta was fed.
+
+# Places that carry a subject
+
+## okunoshima
+
+The army's poison gas plant from 1929, making mustard and lewisite for use in
+China. The island was taken off published maps while it worked, and the
+labourers were not told what they were handling.
+
+## supung
+
+Finished on the Yalu in 1941 and the largest dam in Asia, built with conscript
+labour and the clearance of whole villages. Its power ran the chemical works
+at Hŭngnam and much of Manchurian industry.
+
+## ruijin
+
+Capital of the Chinese Soviet Republic from November 1931 until the fifth
+encirclement campaign forced the party out in October 1934 and the Long March
+began.
+
+## consan
+
+The French penal islands, in use from 1862. Most of the leadership of the
+Vietnamese communist party passed through them, which is how a prison became a
+political school.
+
+## bovendigoel
+
+The camp the Dutch built in 1927 in the New Guinea swamps for the leaders of
+the nationalist and communist movements, Hatta and Sjahrir among them. Malaria
+did the work that a sentence did not have to.
+
+## ashio
+
+Furukawa's copper mine, and the pollution that poisoned the Watarase valley
+below it. Tanaka Shōzō's campaign on behalf of the ruined villages was the
+first environmental protest in Japan, and the state answered it by drowning
+one of them under a reservoir.
 

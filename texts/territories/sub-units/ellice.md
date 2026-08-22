@@ -31,4 +31,4 @@ An American airfield from 1943, the second of the three built in the group.
 
 ## Nukulaelae
 
-Never occupied. Half its people had been carried off by Peruvian slavers in 1863 and it never recovered the numbers.
+Never occupied. Two thirds of its people had been carried off by Peruvian slavers in 1863 and it never recovered the numbers.

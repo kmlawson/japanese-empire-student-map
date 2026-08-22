@@ -46,7 +46,7 @@ Moen, the main island of Truk and the seat of the anchorage. Operation Hailstone
 
 ## Kwajalein
 
-Taken between 31 January and 3 February 1944 — the first territory Japan had held since before the war to be taken from her, and the breach of the outer perimeter.
+Taken between 31 January and 3 February 1944, with Majuro — the first assault on territory Japan had held since before the war, and the breach of the outer perimeter.
 
 ## Majuro
 
