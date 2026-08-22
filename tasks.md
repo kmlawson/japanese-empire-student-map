@@ -12,8 +12,8 @@ three are measured rather than assumed, and everything else that once stood
 here has been closed. Where a fix was a generalisation rather than an answer,
 the source that would settle it is named at the foot of this file.
 
-- **The India–Burma frontier: two tracings, and the build widens the quarrel.**
-  Diagnosed, not fixed. Along the Chin Hills and the Chittagong tracts the map
+- **The India–Burma frontier: 469 km² of genuine disagreement left.**
+  Mostly fixed, and the first diagnosis was wrong. Along the Chin Hills and the Chittagong tracts the map
   shows a lens of sea between the two countries with pink wedges across it, and
   the hover outline runs in one place while a second, thinner line runs in
   another. Three findings, each measured.
@@ -23,16 +23,15 @@ the source that would settle it is named at the foot of this file.
   `burma-modern-modified` leave **469 km²** between them. That is two hands
   tracing one frontier, and it is small.
 
-  *The build turns it into 4,085 km².* The same measurement on what is actually
-  drawn: **8.7 times the disagreement in the sources**. The cause is on India's
-  side. Burma keeps 4,082 of 4,523 vertices, 90%; India keeps **5,232 of
-  13,380, 39%** — and 54 of those drawn vertices sit more than 2 km from
-  anything in the source, up to **73 km**, clustered at 92.5–92.8 E / 22.4–22.7
-  N and 93–96.5 E / 27.3–28.7 N. They are at indices 11, 126–129 and 4935–4947
-  — the two ends of the ring — which points at the ring being cut and rejoined
-  rather than at Douglas–Peucker, whose deviation is bounded by its tolerance
-  and cannot invent a vertex 73 km out. `TRACED_TOL` gives India 0.021 units,
-  about 117 m, so the tolerance is not what is doing this.
+  *The cache was stale, and that was the whole of the 4,085 km².*
+  `tools/cache/india-1931.geojson` held 13,058 outer vertices reaching to
+  96.671 E, exported at 17:05 on 20 August; the gpkg holds 13,380 reaching to
+  **97.135 E**, saved at 20:33 the same evening — India was extended eastward,
+  along this very frontier, three and a half hours after the export the map was
+  still reading. Re-exported, the drawn gap falls from **4,085 km² to 469**,
+  which is the source disagreement exactly. The build was faithful all along;
+  it was drawing an older India. The "54 vertices up to 73 km from the source"
+  reported here first were the old tracing measured against the new one.
 
   *Why QGIS looks clean.* There the two layers overlap and whichever draws on
   top hides the disagreement. Here each is its own atom with no filler beneath

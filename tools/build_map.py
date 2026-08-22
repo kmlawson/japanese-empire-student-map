@@ -4323,8 +4323,17 @@ ORDER = [
     # and not part of the shading. The resistance areas stay above it, being in
     # ON_TOP, because they are what the shading is an overstatement of.
     "mandate_jp", "mandate_au", "mandate_br", "mandate_ex_guam",
-    "occupiedzone", "nca_pacified", "chahar", "suiyuan", "suiyuan_w", "mengjiang",
+    "occupiedzone", "chahar", "suiyuan", "suiyuan_w", "mengjiang",
     "jehol", "manchuria", "manchukuo",
+    # The North China Area Army's survey is the exception, and goes over the
+    # client states rather than under them. The traced zone is this map's own
+    # reading of who held what, so it stops at Mengchiang's and Manchukuo's
+    # lines, which are territories in their own right. The survey is one army
+    # reporting on the ground it was responsible for, and that responsibility
+    # ran across those lines: filed under it, Mengchiang is country the North
+    # China Area Army was reporting the security of. Drawing it underneath hid
+    # the answer behind the client state's own colour.
+    "nca_pacified",
     "siam", "burma", "saharat", "indochina", "siamgain", "malaya", "malaya_thai", "sarawak", "northborneo", "brunei",
     "dei", "philippines", "christmas", "spratly", "paracel", "pratas", "turtle", "mangsee", "miangas", "cocos",
     "timor_pt", "newguinea_au", "solomons_br", "australia", "gilberts",
