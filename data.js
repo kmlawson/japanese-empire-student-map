@@ -253,7 +253,7 @@ JMAP.TERRITORIES = {
       id: 'kwantung', en: 'Kwantung Leased Territory', ja: '関東州 (Kantōshū)',
       orig: '關東州 (Guāndōngzhōu)', zh: '關東州', when: 'Leased from China 1905–1945',
       cat: 'jpcolony', lvl: 2, atoms: ['kwantung'],
-      note: 'The tip of the Liaodong peninsula, leased by Russia in 1898 and transferred to Japan in 1905. Port Arthur and Dairen sat inside it, and so did the garrison that became the Kwantung Army.'
+      note: 'The tip of the Liaodong peninsula, leased by Russia in 1898 and transferred to Japan in 1905. Lüshun and Dalian sat inside it, and so did the garrison that became the Kwantung Army.'
     },
     {
       id: 'nanyo', en: 'South Seas Mandate', ja: '南洋群島 (Nan’yō Guntō)', zh: '南洋群島',
@@ -266,13 +266,13 @@ JMAP.TERRITORIES = {
       orig: '中華民國 (Zhōnghuá Mínguó)', zh: '中華民國',
       when: 'Republic from 1912; warlord rule, nominal unity from 1928', cat: 'chinese', lvl: 1,
       atoms: ['china'], lights: ['manchuria', 'jehol', 'chaharsuiyuan', 'xinjiang'],
-      note: 'A republic in name from 1912, but from 1916 to 1928 the country was fought over by regional militarists — the warlord era — with rival governments claiming to be the real one. The Northern Expedition of 1926–28 brought most of it under the Nationalists at Nanking, but the unity was nominal: warlords kept their armies and their provinces, Manchuria answered to Chang Hsüeh-liang, the Communists held rural base areas, and Sinkiang and Tibet went their own way. Japan meanwhile held a concession at Tientsin, a garrison in north China and the South Manchuria Railway zone.'
+      note: 'A republic in name from 1912, but from 1916 to 1928 the country was fought over by regional militarists — the warlord era — with rival governments claiming to be the real one. The Northern Expedition of 1926–28 brought most of it under the Nationalists at Nanjing, but the unity was nominal: warlords kept their armies and their provinces, Manchuria answered to Chang Hsüeh-liang, the Communists held rural base areas, and Xinjiang and Tibet went their own way. Japan meanwhile held a concession at Tianjin, a garrison in north China and the South Manchuria Railway zone.'
     },
     {
       id: 'manchuria', en: 'Manchuria (the Three Eastern Provinces)', ja: '満洲 (Manshū)',
       orig: '東三省 (Dōngsānshěng)', zh: '滿洲（東三省）', when: 'Chinese, under Chang Hsüeh-liang',
       cat: 'chinese', lvl: 1, atoms: ['manchuria'], within: 'china',
-      note: 'Chinese territory in 1930, run by the Fengtien clique — Chang Tso-lin until his assassination by Japanese officers in 1928, then his son Chang Hsüeh-liang, who declared for Nanking. Japan already held the railway zone and the Kwantung leasehold inside it. The Kwantung Army invaded in September 1931.'
+      note: 'Chinese territory in 1930, run by the Fengtian clique — Zhang Zuolin until his assassination by Japanese officers in 1928, then his son Chang Hsüeh-liang, who declared for Nanjing. Japan already held the railway zone and the Kwantung leasehold inside it. The Kwantung Army invaded in September 1931.'
     },
     {
       id: 'jehol', en: 'Rèhé (Jehol)', ja: '熱河 (Nekka)', orig: '熱河省 (Rèhé shěng)', zh: '熱河省',
@@ -284,13 +284,13 @@ JMAP.TERRITORIES = {
       id: 'chaharsuiyuan', en: 'Cháhā’ěr & Suíyuǎn (Chahar & Suiyuan)',
       ja: '察哈爾・綏遠 (Chaharu, Suien)', orig: '察哈爾・綏遠', zh: '察哈爾・綏遠', when: 'Chinese provinces',
       cat: 'chinese', lvl: 3, atoms: ['chahar', 'suiyuan', 'suiyuan_w'], within: 'china',
-      note: 'The Inner Mongolian frontier provinces. From 1936 the Mongol prince Demchugdongrub headed a Japanese-sponsored government in northern Chahar; after Japan took Kalgan in 1937 it grew, with the Chinese autonomous governments of southern Chahar and northern Shansi, into the client regime of Mengchiang, which was federated in 1939 and governed from Kalgan.'
+      note: 'The Inner Mongolian frontier provinces. From 1936 the Mongol prince Demchugdongrub headed a Japanese-sponsored government in northern Chahar; after Japan took Zhangjiakou in 1937 it grew, with the Chinese autonomous governments of southern Chahar and northern Shanxi, into the client regime of Mengchiang, which was federated in 1939 and governed from Zhangjiakou.'
     },
     {
       id: 'xinjiang', en: 'Xīnjiāng (Sinkiang)', ja: '新疆 (Shinkyō)', orig: 'شىنجاڭ (Shinjang)',
       zh: '新疆', when: 'Under largely autonomous provincial rule', cat: 'chinese', lvl: 3,
       atoms: ['xinjiang'], within: 'china',
-      note: 'A province of the Republic in name, and Nanking recognised Chin Shu-jen as its chairman. In practice his government ran its own army, finances and foreign trade, and Nanking\'s writ reached almost nothing of it.'
+      note: 'A province of the Republic in name, and Nanjing recognised Jin Shuren as its chairman. In practice his government ran its own army, finances and foreign trade, and Nanjing\'s writ reached almost nothing of it.'
     },
     {
       id: 'tibet', en: 'Tibet', ja: 'チベット (Chibetto)', orig: 'བོད་ (Bod)', zh: '西藏',
@@ -396,7 +396,7 @@ JMAP.TERRITORIES = {
       id: 'linephoenix', en: 'The Line & Phoenix Islands',
       when: 'Gilbert & Ellice Islands Colony', rule: 'British colony', cat: 'british', lvl: 3,
       atoms: ['linephoenix'],
-      note: 'Two scatters of atolls east of the date line, run from Tarawa. Fanning carried the trans-Pacific telegraph cable from Vancouver to Australia, landed in 1902 and the reason these specks were worth holding. The Phoenix group was almost empty until the settlement scheme of 1938–40 moved Gilbertese families there against overcrowding at home. Canton and Enderbury were claimed by Britain and by the United States at once, and in 1939 the two agreed to administer them jointly for fifty years; Pan American Airways put a flying-boat base on Canton that year, on the route to New Zealand.'
+      note: 'Two scatters of atolls east of the date line, run from Tarawa. Fanning carried the trans-Pacific telegraph cable from Vancouver to Australia, landed in 1902 and the reason these specks were worth holding. The Phoenix group was almost empty until the settlement scheme of 1938–40 moved Gilbertese families there against overcrowding at home. Canton Island and Enderbury were claimed by Britain and by the United States at once, and in 1939 the two agreed to administer them jointly for fifty years; Pan American Airways put a flying-boat base on Canton Island that year, on the route to New Zealand.'
     },
     {
       id: 'uspacific', en: 'Palmyra, Kingman Reef, Howland, Baker, Jarvis & Swains',
@@ -478,11 +478,12 @@ JMAP.TERRITORIES = {
       id: 'paracel', en: 'Paracel Islands', ja: '西沙群島 (Seisa Guntō)', orig: 'Hoàng Sa',
       zh: '西沙群島', when: 'Claimed by China and by France', cat: 'chinese', lvl: 3,
       atoms: ['paracel'],
-      note: 'Claimed by the Republic of China as part of Kwangtung and by France on behalf of Annam, and administered by neither in any continuous way in 1930. France occupied them in 1938 and Japan took them in 1939. Islands are traced from present-day shapes, which does not reflect more recent land reclamation.'
+      note: 'Claimed by the Republic of China as part of Guangdong and by France on behalf of Annam, and administered by neither in any continuous way in 1930. France occupied them in 1938 and Japan took them in 1939. Islands are traced from present-day shapes, which does not reflect more recent land reclamation.'
     },
     {
-      id: 'pratas', en: 'Pratas Island', ja: '東沙島 (Tōsa-tō)', orig: '東沙島 (Dōngshā)', zh: '東沙島',
-      when: 'Chinese, in Kwangtung province', cat: 'chinese', lvl: 3, atoms: ['pratas'],
+      id: 'pratas', en: 'Dōngshā (Pratas Island)', ja: '東沙島 (Tōsa-tō)', orig: '東沙島 (Dōngshā)',
+      zh: '東沙島', when: 'Chinese, in Kwangtung province', cat: 'chinese', lvl: 3,
+      atoms: ['pratas'],
       note: 'One island and its reef, 340 km south-east of Hong Kong. A Japanese merchant occupied it and worked the guano from 1907; China bought him out in 1909 and it has been administered from the mainland, and later from Taiwan, ever since. Islands are traced from present-day shapes, which does not reflect more recent land reclamation.'
     },
     {
@@ -532,7 +533,7 @@ JMAP.TERRITORIES = {
       id: 'weihaiwei', en: 'Wēihǎi (Weihaiwei)', ja: '威海衛 (Ikaiei)', orig: '威海衛 (Wēihǎiwèi)',
       zh: '威海衛', when: 'Leased 1898, returned 1 October 1930', cat: 'british', lvl: 3,
       c: '#c08a99', atoms: ['weihaiwei'],
-      note: 'Britain took the lease in 1898 to balance the Russian one at Port Arthur, and used the harbour as the Royal Navy’s summer station. It was handed back to China in October 1930 — so on this map it is in its last months.'
+      note: 'Britain took the lease in 1898 to balance the Russian one at Lüshun, and used the harbour as the Royal Navy’s summer station. It was handed back to China in October 1930 — so on this map it is in its last months.'
     },
     {
       id: 'guangzhouwan', en: 'Guǎngzhōuwān (Kwangchowan)', ja: '広州湾 (Kōshūwan)',
@@ -572,7 +573,7 @@ JMAP.TERRITORIES = {
     {
       id: 'contested', en: 'Frontier not settled', ja: '未確定国境', zh: '未定國界', cat: 'contested',
       lvl: 3, c: 'transparent', atoms: ['contested', 'contested_burma'], hatch: 'unclear',
-      note: 'Four stretches of frontier that the sources on this map do not agree about, and that no treaty had settled: the Kachin country between Burma and Yunnan, the Pamirs where Sinkiang, Afghanistan and Kashmir meet, Aksai Chin, and the McMahon line east of Bhutan. The colours underneath are what the map draws elsewhere; the crossing lines say the line itself was in dispute.'
+      note: 'Four stretches of frontier that the sources on this map do not agree about, and that no treaty had settled: the Kachin country between Burma and Yunnan, the Pamirs where Xinjiang, Afghanistan and Kashmir meet, Aksai Chin, and the McMahon line east of Bhutan. The colours underneath are what the map draws elsewhere; the crossing lines say the line itself was in dispute.'
     },
   ],
   e1942: [
@@ -621,7 +622,7 @@ JMAP.TERRITORIES = {
       id: 'kwantung', en: 'Kwantung Leased Territory', ja: '関東州 (Kantōshū)',
       orig: '關東州 (Guāndōngzhōu)', zh: '關東州', when: 'Leased 1905–1945', cat: 'colony', lvl: 2,
       atoms: ['kwantung'], edge: '#9a1813',
-      note: 'Nominally Manchukuo’s, in that the new state re-granted the lease in 1932; in practice a Japanese leasehold with its own administration to the end, and the seat of the Kwantung Army that had taken Manchuria. Port Arthur and Dairen are inside it.'
+      note: 'Nominally Manchukuo’s, in that the new state re-granted the lease in 1932; in practice a Japanese leasehold with its own administration to the end, and the seat of the Kwantung Army that had taken Manchuria. Lüshun and Dalian are inside it.'
     },
     {
       id: 'nanyo', en: 'South Seas Mandate', ja: '南洋群島 (Nan’yō Guntō)', zh: '南洋群島',
@@ -633,20 +634,20 @@ JMAP.TERRITORIES = {
       id: 'manchukuo', en: 'Manchukuo (Manchuria)', ja: '満洲国 (Manshūkoku)', orig: '滿洲國',
       zh: '滿洲國', when: 'Japanese-occupied; nominally independent from March 1932',
       cat: 'puppet', lvl: 1, atoms: ['manchukuo'], under: '滿洲國',
-      note: 'Invaded from September 1931 and proclaimed independent under the last Qing emperor P’u-i. Jehol was added in 1933; the eastern Inner Mongolian leagues had been part of the three provinces all along and became its Hinggan provinces. Real power lay with the Kwantung Army and Japanese vice-ministers.'
+      note: 'Invaded from September 1931 and proclaimed independent under the last Qing emperor Puyi. Rehe was added in 1933; the eastern Inner Mongolian leagues had been part of the three provinces all along and became its Hinggan provinces. Real power lay with the Kwantung Army and Japanese vice-ministers.'
     },
     {
       id: 'mengjiang', en: 'Měngjiāng (Mengchiang)', ja: '蒙疆 (Mōkyō)', orig: '蒙疆聯合自治政府',
       zh: '蒙疆聯合自治政府', when: 'Federated September 1939; Japanese client from 1936',
       cat: 'puppet', lvl: 2, atoms: ['mengjiang'],
-      note: 'The Inner Mongolian autonomous government under Prince Demchugdongrub, with its capital at Kalgan and built out of the Chinese provinces of Chahar and Suiyuan. Japanese-sponsored Mongol governments date from 1936; the state drawn here is the federation of September 1939, which joined the Mongol leagues to two Chinese-populated administrations — Chanan out of southern Chahar and Jinbei out of northern Shansi — and which is what stood in December 1942. Switch Administrative on and the three are named.'
+      note: 'The Inner Mongolian autonomous government under Prince Demchugdongrub, with its capital at Zhangjiakou and built out of the Chinese provinces of Chahar and Suiyuan. Japanese-sponsored Mongol governments date from 1936; the state drawn here is the federation of September 1939, which joined the Mongol leagues to two Chinese-populated administrations — Chanan out of southern Chahar and Jinbei out of northern Shanxi — and which is what stood in December 1942. Switch Administrative on and the three are named.'
     },
     {
       id: 'nanjinggov', en: 'Japanese-occupied China (approximate)', ja: '日本占領地区',
       orig: '日軍佔領區', zh: '日軍佔領區（大略）',
       when: 'Occupied from 1937; Nanking government from March 1940', cat: 'occupied', lvl: 1,
       atoms: ['occupiedzone'], srcOnly: 'traced',
-      note: 'Governed on paper by Wang Ching-wei’s collaborationist government at Nanking, with the far south under military administration instead. Traced from a 1940 map of the occupation and adjusted to December 1942: the plains, the railways and the cities of the north and the Yangtze valley, the Canton delta from October 1938, Hainan from February 1939, and the ports of Amoy and Swatow. Western Shansi and Honan, most of Hunan, Kiangsi and Fukien were never taken, Changsha held out until 1944, and Communist and Nationalist guerrillas operated in force inside the line as well as beyond it — the shading marks where Japanese authority reached, not where it was unchallenged.'
+      note: 'Governed on paper by Wang Ching-wei’s collaborationist government at Nanjing, with the far south under military administration instead. Traced from a 1940 map of the occupation and adjusted to December 1942: the plains, the railways and the cities of the north and the Yangtze valley, the Guangzhou delta from October 1938, Hainan from February 1939, and the ports of Xiamen and Shantou. Western Shanxi and Henan, most of Hunan, Jiangxi and Fujian were never taken, Changsha held out until 1944, and Communist and Nationalist guerrillas operated in force inside the line as well as beyond it — the shading marks where Japanese authority reached, not where it was unchallenged.'
     },
     {
       id: 'indochina', en: 'French Indochina', ja: '仏印 (Futsuin)',
@@ -658,7 +659,7 @@ JMAP.TERRITORIES = {
       id: 'burma', en: 'Burma', ja: '緬甸 (Biruma)', orig: 'မြန်မာ (Myanma)', zh: '緬甸',
       when: 'Taken 1942; nominal independence August 1943', cat: 'occupied', lvl: 2,
       atoms: ['burma'],
-      note: 'Separated from British India in 1937 and overrun in the first half of 1942, closing the Burma Road to Chungking. Ba Maw headed the nominally independent state declared in 1943.'
+      note: 'Separated from British India in 1937 and overrun in the first half of 1942, closing the Burma Road to Chongqing. Ba Maw headed the nominally independent state declared in 1943.'
     },
     {
       id: 'saharat', en: 'Kengtung and the trans-Salween Shan states',
@@ -732,9 +733,9 @@ JMAP.TERRITORIES = {
       note: 'Japan took both groups in 1939, over French protest, and attached them to Takao prefecture in Taiwan as the Shinnan Guntō — the "new southern islands". They were a submarine and seaplane anchorage on the flank of the route to Singapore and the Indies, and Itu Aba had a garrison and a small base. Both went back to being disputed in 1945. Islands are traced from present-day shapes, which does not reflect more recent land reclamation.'
     },
     {
-      id: 'pratas', en: 'Pratas Island (Tōsa-tō)', ja: '東沙島 (Tōsa-tō)', orig: '東沙島 (Dōngshā)',
+      id: 'pratas', en: 'Dōngshā (Pratas Island)', ja: '東沙島 (Tōsa-tō)', orig: '東沙島 (Dōngshā)',
       zh: '東沙島', when: 'Occupied by Japan', cat: 'occupied', lvl: 3, atoms: ['pratas'],
-      note: 'Held by Japan through the war as a weather and radio station on the approach to Hong Kong and the Canton delta. Islands are traced from present-day shapes, which does not reflect more recent land reclamation.'
+      note: 'Held by Japan through the war as a weather and radio station on the approach to Hong Kong and the Guangzhou delta. Islands are traced from present-day shapes, which does not reflect more recent land reclamation.'
     },
     {
       id: 'timor_pt', en: 'Portuguese Timor (contested)', orig: 'Timor Português',
@@ -769,7 +770,7 @@ JMAP.TERRITORIES = {
     {
       id: 'linephoenix', en: 'The Line & Phoenix Islands', when: 'Never occupied',
       rule: 'British colony', cat: 'allied', lvl: 3, atoms: ['linephoenix'],
-      note: 'Part of the same colony as the Gilberts and never reached by it. American troops landed on Christmas Island and Fanning in February 1942 and built airfields there, under British sovereignty, to cover the ferry route to Australia; Canton, already an airline base under the joint Anglo-American administration agreed in 1939, became a staging field and a submarine refuelling point. Japan came no further east than Tarawa, six hundred miles away.'
+      note: 'Part of the same colony as the Gilberts and never reached by it. American troops landed on Christmas Island and Fanning in February 1942 and built airfields there, under British sovereignty, to cover the ferry route to Australia; Canton Island, already an airline base under the joint Anglo-American administration agreed in 1939, became a staging field and a submarine refuelling point. Japan came no further east than Tarawa, six hundred miles away.'
     },
     {
       id: 'uspacific', en: 'Palmyra, Kingman Reef, Howland, Baker, Jarvis & Swains',
@@ -865,13 +866,13 @@ JMAP.TERRITORIES = {
       ja: '中華民国・重慶政権 (Chūka Minkoku)', orig: '中華民國 (Zhōnghuá Mínguó)', zh: '中華民國（重慶國民政府）',
       when: 'Capital at Chungking from 1938', cat: 'freechina', lvl: 1,
       atoms: ['china', 'suiyuan_w', 'chahar', 'suiyuan'],
-      note: 'The unoccupied interior, governed by Chiang Kai-shek from Chungking and supplied over the Burma Road until 1942 and then by air over "the Hump". The Communist base areas are drawn separately, in cross-hatching.'
+      note: 'The unoccupied interior, governed by Chiang Kai-shek from Chongqing and supplied over the Burma Road until 1942 and then by air over "the Hump". The Communist base areas are drawn separately, in cross-hatching.'
     },
     {
       id: 'ccp', en: 'Communist base areas and guerrilla zones', ja: '中国共産党抗日根拠地',
       orig: '抗日根據地 (Kàngrì gēnjùdì)', zh: '中共抗日根據地', when: 'As they stood in 1941–1942',
       cat: 'ccp', lvl: 2, atoms: ['ccp'], srcOnly: 'traced',
-      note: 'The base areas and guerrilla zones of the Eighth Route Army and the New Fourth Army, and the reason the occupied shading on this map is described as generous. Almost all of this ground lies inside the line the Japanese army had drawn round itself: Japan held the cities, the railways and the plains between them, and the countryside behind that line was fought over. The largest is Shǎngānníng, the border region round Yenan, which was never occupied at all; the rest — Jìnchájì in the Wutai mountains, Jìlǔyù on the Hopei–Shantung plain, the Shantung and coastal pockets, and the New Fourth Army areas along the lower Yangtze — were inside it. Their extent moved from month to month, and the "mopping-up" campaigns of 1941–42 cut some of them badly; these are the areas as one atlas draws them for those two years, not a line anyone held.'
+      note: 'The base areas and guerrilla zones of the Eighth Route Army and the New Fourth Army, and the reason the occupied shading on this map is described as generous. Almost all of this ground lies inside the line the Japanese army had drawn round itself: Japan held the cities, the railways and the plains between them, and the countryside behind that line was fought over. The largest is Shǎngānníng, the border region round Yan’an, which was never occupied at all; the rest — Jìnchájì in the Wutai mountains, Jìlǔyù on the Hebei–Shandong plain, the Shandong and coastal pockets, and the New Fourth Army areas along the lower Yangtze — were inside it. Their extent moved from month to month, and the "mopping-up" campaigns of 1941–42 cut some of them badly; these are the areas as one atlas draws them for those two years, not a line anyone held.'
     },
     {
       id: 'britishindia', en: 'British India', when: 'The western limit of the advance',
@@ -927,7 +928,7 @@ JMAP.TERRITORIES = {
       id: 'xinjiang', en: 'Xīnjiāng (Sinkiang)', ja: '新疆 (Shinkyō)', orig: 'شىنجاڭ (Shinjang)',
       zh: '新疆', when: 'Realigned with Chungking in 1942', cat: 'freechina', lvl: 3,
       atoms: ['xinjiang'], within: 'freechina',
-      note: 'A province of the Republic in name, run since 1933 by Sheng Shih-ts’ai on Soviet money and with Soviet troops in the province. He broke with Moscow in 1942 and turned to Chungking, but he was still governing in December, and central rule only followed his removal in 1944. The overland road through Sinkiang had carried Soviet aid to China from 1937 to 1941.'
+      note: 'A province of the Republic in name, run since 1933 by Sheng Shicai on Soviet money and with Soviet troops in the province. He broke with Moscow in 1942 and turned to Chongqing, but he was still governing in December, and central rule only followed his removal in 1944. The overland road through Xinjiang had carried Soviet aid to China from 1937 to 1941.'
     },
     {
       id: 'tibet', en: 'Tibet', ja: 'チベット (Chibetto)', orig: 'བོད་ (Bod)', zh: '西藏',
@@ -937,7 +938,7 @@ JMAP.TERRITORIES = {
     {
       id: 'macau', en: 'Macao', ja: 'マカオ (Makao)', orig: '澳門 (Ou-mun)', zh: '澳門',
       when: 'Portuguese and neutral throughout', cat: 'portuguese', lvl: 3, atoms: ['macau'],
-      note: 'Japan never occupied Macao and never raised its flag here: Portugal was neutral, the colony stayed Portuguese to the end of the war, and it filled with refugees from Hong Kong and Canton — its population several times what it had been. That neutrality was held on Japanese sufferance, though. The colony was surrounded, and it was fed and policed by agreement; from 1943 Japanese "advisers" were installed and had their way in most things. It is drawn Portuguese because that is what it was, and this note is where the qualification belongs.'
+      note: 'Japan never occupied Macao and never raised its flag here: Portugal was neutral, the colony stayed Portuguese to the end of the war, and it filled with refugees from Hong Kong and Guangzhou — its population several times what it had been. That neutrality was held on Japanese sufferance, though. The colony was surrounded, and it was fed and policed by agreement; from 1943 Japanese "advisers" were installed and had their way in most things. It is drawn Portuguese because that is what it was, and this note is where the qualification belongs.'
     },
     {
       id: 'guangzhouwan', en: 'Guǎngzhōuwān (Kwangchowan)', ja: '広州湾 (Kōshūwan)',
@@ -984,7 +985,7 @@ JMAP.TERRITORIES = {
       id: 'nca_unpacified', en: 'Un-pacified areas (未治安地区)', ja: '未治安地区', zh: '未治安地區',
       when: 'September 1942', rule: 'The North China Area Army\'s own classification',
       cat: 'unpacified', lvl: 3, atoms: ['nca_unpacified'], srcOnly: 'nca',
-      note: 'Ground the same survey classed as un-pacified — 未治安地区: about 182,000 square kilometres, in fifty-three separate areas, most of them in the mountains of Shansi and Hopei and along the Shantung hills. This is the army’s own account of where it was being fought, drawn by the people doing the fighting, and it is worth setting beside the Communist base areas from Wu Yuexing’s atlas, which is the other reading this map offers. They are not the same map and were not drawn to answer the same question.'
+      note: 'Ground the same survey classed as un-pacified — 未治安地区: about 182,000 square kilometres, in fifty-three separate areas, most of them in the mountains of Shanxi and Hebei and along the Shandong hills. This is the army’s own account of where it was being fought, drawn by the people doing the fighting, and it is worth setting beside the Communist base areas from Wu Yuexing’s atlas, which is the other reading this map offers. They are not the same map and were not drawn to answer the same question.'
     },
     {
       id: 'contested', en: 'Frontier not settled', ja: '未確定国境', zh: '未定國界', cat: 'contested',
@@ -998,7 +999,7 @@ JMAP.SITES = [
   {
     id: 'tokyo', en: 'Tokyo', ja: '東京 (Tōkyō)', orig: '東京 (Tōkyō)', zh: '東京',
     date: 'Capital from 1868', cat: 'city', lvl: 1, lat: 35.68, lon: 139.76, year: 1868,
-    note: 'Edo until the Restoration. The Great Kantō earthquake struck in 1923 and was followed by the massacre of Koreans; the firebombing of 9–10 March 1945 killed some 100,000 people in a night.'
+    note: 'Edo until the Restoration. The Great Kantō earthquake struck in 1923 and was followed by the massacre of Koreans; young officers of the Imperial Way faction seized the government quarter in the 2.26 Incident of February 1936 and killed three ministers; the firebombing of 9–10 March 1945 killed some 100,000 people in a night.'
   },
   {
     id: 'yokohama', en: 'Yokohama', ja: '横浜 (Yokohama)', orig: '横浜 (Yokohama)', zh: '橫濱',
@@ -1023,7 +1024,7 @@ JMAP.SITES = [
   {
     id: 'osaka', en: 'Osaka', ja: '大阪 (Ōsaka)', orig: '大阪 (Ōsaka)', zh: '大阪',
     date: 'Opened 1868', cat: 'city', lvl: 2, lat: 34.69, lon: 135.5, year: 1868,
-    note: 'The commercial capital of Tokugawa Japan and later a centre of heavy industry and of labour organising.'
+    note: 'The commercial capital of Tokugawa Japan and later a centre of heavy industry and of labour organising. The rice riots of 1918, which began among fishermen\'s wives in Toyama, were at their worst here.'
   },
   {
     id: 'kobe', en: 'Kobe', ja: '神戸 (Kōbe)', orig: '神戸 (Kōbe)', zh: '神戶',
@@ -1149,7 +1150,7 @@ JMAP.SITES = [
   {
     id: 'chengde', en: 'Chéngdé (Chengteh)', ja: '承徳 (Shōtoku)', orig: '承德 (Chéngdé)', zh: '承德',
     date: 'Occupied 4 March 1933', cat: 'city', lvl: 3, lat: 40.98, lon: 117.94, year: 1933,
-    note: 'The Qing emperors’ summer capital, and capital of Jehol province — English sources often call the city itself Jehol. Taken in a ten-day campaign and attached to Manchukuo; the Tanggu Truce followed in May.'
+    note: 'The Qing emperors’ summer capital, and capital of Rehe province — English sources often call the city itself Rehe. Taken in a ten-day campaign and attached to Manchukuo; the Tanggu Truce followed in May.'
   },
   {
     id: 'nomonhan', en: 'Nuòménhǎn (Nomonhan, Khalkhin Gol)', ja: 'ノモンハン事件 (Nomonhan jiken)',
@@ -1168,7 +1169,7 @@ JMAP.SITES = [
     orig: '北京 / 北平 (Běijīng / Běipíng)', zh: '北京（北平）',
     date: 'Renamed Peiping in 1928; occupied July–August 1937', cat: 'city', lvl: 1, lat: 39.9,
     lon: 116.4, year: 1900,
-    note: 'The Qing capital, demoted to "Peiping" when the Nationalists moved the capital to Nanking in 1928. Japanese troops joined the eight-nation force that relieved the legations in 1900, and took the city outright in August 1937.'
+    note: 'The Qing capital, demoted to "Peiping" when the Nationalists moved the capital to Nanjing in 1928. Japanese troops joined the eight-nation force that relieved the legations in 1900, and took the city outright in August 1937.'
   },
   {
     id: 'marcopolo', en: 'Lúgōuqiáo (the Marco Polo Bridge)', ja: '盧溝橋事件 (Rokōkyō jiken)',
@@ -1180,7 +1181,7 @@ JMAP.SITES = [
     id: 'tianjin', en: 'Tiānjīn (Tientsin)', ja: '天津 (Tenshin)', orig: '天津 (Tiānjīn)', zh: '天津',
     date: 'Convention 1885; occupied 1937', cat: 'city', lvl: 2, lat: 39.13, lon: 117.2,
     year: 1885,
-    note: 'The treaty port for Peking, carved into eight foreign concessions including a Japanese one. The Tientsin Convention of 1885 regulated Chinese and Japanese troops in Korea and set the terms that broke down in 1894.'
+    note: 'The treaty port for Beijing, carved into eight foreign concessions including a Japanese one. The Tianjin Convention of 1885 regulated Chinese and Japanese troops in Korea, and broke down in 1894; the Tanggu Truce of May 1933, signed at its port, gave north China a demilitarised zone that Japan spent the next four years pushing into.'
   },
   {
     id: 'kalgan', en: 'Zhāngjiākǒu (Kalgan, Changchiakou)', ja: '張家口 (Chōkakō)',
@@ -1197,7 +1198,7 @@ JMAP.SITES = [
     id: 'qingdao', en: 'Qīngdǎo (Tsingtao)', ja: '青島 (Seitō)', orig: '青島 (Qīngdǎo)', zh: '青島',
     date: 'Seized from Germany, November 1914', cat: 'city', lvl: 2, lat: 36.07, lon: 120.38,
     year: 1914,
-    note: 'The German leasehold in Shantung, taken by Japan in 1914. Keeping it was the first of the Twenty-One Demands and was confirmed at Versailles, which set off the May Fourth Movement. Returned in 1922.'
+    note: 'The German leasehold in Shandong, taken by Japan in 1914. Keeping it was the first of the Twenty-One Demands and was confirmed at Versailles, which set off the May Fourth Movement. Returned in 1922.'
   },
   {
     id: 'weihai', en: 'Wēihǎi (Weihaiwei)', ja: '威海衛 (Ikaiei)', orig: '威海衛 (Wēihǎiwèi)',
@@ -1208,7 +1209,7 @@ JMAP.SITES = [
   {
     id: 'nanjing', en: 'Nánjīng (Nanking)', ja: '南京 (Nankin)', orig: '南京 (Nánjīng)', zh: '南京',
     date: 'Fell 13 December 1937', cat: 'city', lvl: 1, lat: 32.06, lon: 118.8, year: 1927,
-    note: 'Nationalist capital from 1927. Its capture was followed by weeks of mass killing and rape — the Nanking Massacre — in which the dead are counted from the tens of thousands to 300,000, depending on the period and the boundary taken. From 1940 it housed Wang Ching-wei’s collaborationist government.'
+    note: 'Nationalist capital from 1927. Its capture on 13 December 1937 was followed by weeks of mass killing and rape — the Nanjing Massacre — in which the dead are counted from the tens of thousands to 300,000, depending on the period and the boundary taken. From 1940 it housed Wang Jingwei\'s collaborationist government.'
   },
   {
     id: 'shanghai', en: 'Shànghǎi (Shanghai)', ja: '上海 (Shanhai)', orig: '上海 (Shànghǎi)',
@@ -1220,7 +1221,7 @@ JMAP.SITES = [
     id: 'wuhan', en: 'Wǔhàn (Hankow)', ja: '漢口 (Hankō)', orig: '武漢 / 漢口 (Wǔhàn / Hànkǒu)',
     zh: '武漢（漢口）', date: 'Fell 25 October 1938', cat: 'city', lvl: 2, lat: 30.58, lon: 114.28,
     year: 1861,
-    note: 'The Nationalist government’s refuge after Nanking. Its fall ended the first mobile phase of the war; from then on the fighting in China settled into stalemate.'
+    note: 'The Nationalist government’s refuge after Nanjing. Its fall ended the first mobile phase of the war; from then on the fighting in China settled into stalemate.'
   },
   {
     id: 'chongqing', en: 'Chóngqìng (Chungking)', ja: '重慶 (Jūkei)', orig: '重慶 (Chóngqìng)',
@@ -1231,7 +1232,7 @@ JMAP.SITES = [
   {
     id: 'yanan', en: 'Yán’ān (Yenan)', ja: '延安 (En’an)', orig: '延安 (Yán’ān)', zh: '延安',
     date: 'Communist base 1936–1947', cat: 'city', lvl: 3, lat: 36.6, lon: 109.49, year: 1936,
-    note: 'The Long March ended in northern Shensi in 1935 and the party moved here at the end of 1936. From it Mao consolidated his leadership and the party grew from tens of thousands to over a million.'
+    note: 'The Long March ended in northern Shaanxi in 1935 and the party moved here at the end of 1936. From it Mao consolidated his leadership and the party grew from tens of thousands to over a million. The American observers of the Dixie Mission arrived in July 1944, the first official contact between Washington and the Communists.'
   },
   {
     id: 'xian', en: 'Xī’ān (Sian)', ja: '西安 (Seian)', orig: '西安 (Xī’ān)', zh: '西安',
@@ -1282,7 +1283,7 @@ JMAP.SITES = [
     id: 'hanoi', en: 'Hanoi', ja: 'ハノイ (Hanoi)', orig: 'Hà Nội', zh: '河內',
     date: 'Japanese troops enter September 1940', cat: 'city', lvl: 2, lat: 21.03, lon: 105.85,
     year: 1902,
-    note: 'Capital of French Indochina. Japan occupied the north to cut the rail supply route to Chungking, while leaving the French administration nominally in charge.'
+    note: 'Capital of French Indochina. Japan occupied the north to cut the rail supply route to Chongqing, while leaving the French administration nominally in charge.'
   },
   {
     id: 'saigon', en: 'Saigon', ja: 'サイゴン (Saigon)', orig: 'Sài Gòn', zh: '西貢',
@@ -1462,7 +1463,7 @@ JMAP.EPOCH_OVERRIDES = {
     } },
   beijing: { e1930: {
       date: 'Renamed Peiping in 1928',
-      note: 'The Qing capital until 1912 and the seat of the warlord governments after it; demoted to Peiping — "northern peace" — when the Nationalists moved the capital to Nanking in 1928. Japanese troops had joined the eight-nation force that relieved the legations here in 1900.'
+      note: 'The Qing capital until 1912 and the seat of the warlord governments after it; demoted to Peiping — "northern peace" — when the Nationalists moved the capital to Nanjing in 1928. Japanese troops had joined the eight-nation force that relieved the legations here in 1900.'
     } },
   nanjing: { e1930: {
       date: 'Nationalist capital from 1927',
@@ -1474,7 +1475,7 @@ JMAP.EPOCH_OVERRIDES = {
     } },
   tianjin: { e1930: {
       date: 'Convention of 1885',
-      note: 'The treaty port for Peking, carved into eight foreign concessions including a Japanese one. The Tientsin Convention of 1885 regulated Chinese and Japanese troops in Korea, and broke down in 1894.'
+      note: 'The treaty port for Beijing, carved into eight foreign concessions including a Japanese one. The Tianjin Convention of 1885 regulated Chinese and Japanese troops in Korea, and broke down in 1894.'
     } },
   guangzhou: { e1930: {
       date: 'Treaty port from 1842',
@@ -1531,12 +1532,12 @@ JMAP.EXTENT_1942 = {
 JMAP.BROWSE = [
   {
     id: 'paoting', en: 'Bǎodìng (Paoting)', ja: '保定 (Hotei)', zh: '保定', lat: 38.87, lon: 115.47,
-    note: 'On the Peking–Hankow railway, and the seat of the military academy that trained a generation of Republican officers. Fell on 24 September 1937 and became the seat of the collaborationist provisional government of Hopei.'
+    note: 'On the Beijing–Hankou railway, and the seat of the military academy that trained a generation of Republican officers. Fell on 24 September 1937; Shijiazhuang, the junction south of it, went in October.'
   },
   {
     id: 'taiyuan', en: 'Tàiyuán (Taiyuan)', ja: '太原 (Taigen)', zh: '太原', lat: 37.87,
     lon: 112.55,
-    note: 'Yen Hsi-shan\'s capital for thirty years, with the arsenal and steelworks he built to keep Shansi independent of everyone. Fell on 9 November 1937 after the fighting at Hsinkou.'
+    note: 'Yan Xishan\'s capital for thirty years, with the arsenal and steelworks he built to keep Shanxi independent of everyone. Lin Biao\'s ambush at Pingxingguan in September 1937 and the battle of Xinkou in October delayed its fall until 9 November.'
   },
   {
     id: 'kaifeng', en: 'Kāifēng (Kaifeng)', ja: '開封 (Kaihō)', zh: '開封', lat: 34.8, lon: 114.31,
@@ -1544,11 +1545,11 @@ JMAP.BROWSE = [
   },
   {
     id: 'hefei', en: 'Héféi (Hofei)', ja: '合肥 (Gōhi)', zh: '合肥', lat: 31.86, lon: 117.28,
-    note: 'The seat of Anhwei, on the road between the Yangtze and the Huai. Occupied in 1938, though the front bent round the Chinese pocket in the north-west of the province beyond it.'
+    note: 'The seat of Anhui, on the road between the Yangtze and the Huai. Occupied in 1938, though the front bent round the Chinese pocket in the north-west of the province beyond it.'
   },
   {
     id: 'anqing', en: 'Ānqìng (Anking)', ja: '安慶 (Ankei)', zh: '安慶', lat: 30.51, lon: 117.05,
-    note: 'The old provincial capital of Anhwei, and a river port on the Yangtze. Fell on 12 June 1938, opening the campaign up the river to Hankow.'
+    note: 'The old provincial capital of Anhui, and a river port on the Yangtze. Fell on 12 June 1938, opening the campaign up the river to Hankou. The New Fourth Army Incident of January 1941 was fought in the mountains south of it.'
   },
   {
     id: 'hangzhou', en: 'Hángzhōu (Hangchow)', ja: '杭州 (Kōshū)', zh: '杭州', lat: 30.27,
@@ -1567,7 +1568,7 @@ JMAP.BROWSE = [
   {
     id: 'changsha', en: 'Chángshā (Changsha)', ja: '長沙 (Chōsa)', zh: '長沙', lat: 28.23,
     lon: 112.94,
-    note: 'The rice bowl of Hunan and a junction on the Canton–Hankow line. Its own garrison burned it down by mistake in November 1938; it then beat off three Japanese offensives and fell at last on 18 June 1944.'
+    note: 'The rice bowl of Hunan and a junction on the Guangzhou–Hankou line. Its own garrison burned it down by mistake in November 1938; it then beat off three Japanese offensives and fell at last on 18 June 1944.'
   },
   {
     id: 'guilin', en: 'Guìlín (Kweilin)', ja: '桂林 (Keirin)', zh: '桂林', lat: 25.27, lon: 110.29,
@@ -1580,48 +1581,48 @@ JMAP.BROWSE = [
   },
   {
     id: 'guiyang', en: 'Guìyáng (Kweiyang)', ja: '貴陽 (Kiyō)', zh: '貴陽', lat: 26.65, lon: 106.63,
-    note: 'The hinge of the road system of the south-west, where the routes from Chungking, Kunming and Kwangsi met. Never occupied: the advance of December 1944 turned back a hundred miles short of it.'
+    note: 'The hinge of the road system of the south-west, where the routes from Chongqing, Kunming and Guangxi met. Never occupied: the Japanese advance of December 1944 reached Dushan, a hundred miles short of it, and turned back — the furthest inland the war ever came.'
   },
   {
     id: 'kunming', en: 'Kūnmíng (Kunming)', ja: '昆明 (Konmei)', zh: '昆明', lat: 25.04,
     lon: 102.72,
-    note: 'The terminus of the Burma Road, of the railway from Haiphong, and after both were cut of the air route over the Hump. The universities of Peking and Tsinghua sat out the war here as Lienta. Never occupied.'
+    note: 'The terminus of the Burma Road, of the railway from Haiphong, and after both were cut of the air route over the Hump. Peking University, Tsinghua and Nankai spent the war here as Lianda, the National Southwest Associated University. Never occupied.'
   },
   {
     id: 'chengdu', en: 'Chéngdū (Chengtu)', ja: '成都 (Seito)', zh: '成都', lat: 30.66, lon: 104.07,
-    note: 'The rice and silk capital of the Szechwan basin. Never occupied — and the four airfields built round it by hand in 1944 were the first from which B-29s bombed Japan.'
+    note: 'The rice and silk capital of the Sichuan basin. Never occupied — and the four airfields built round it by hand in 1944 were the first from which B-29s bombed Japan.'
   },
   {
     id: 'lanzhou', en: 'Lánzhōu (Lanchow)', ja: '蘭州 (Ranshū)', zh: '蘭州', lat: 36.06,
     lon: 103.83,
-    note: 'Where the road to Sinkiang crosses the Yellow River, and the point through which Soviet aid and Soviet aircraft entered China. Bombed for it from 1937; never occupied.'
+    note: 'Where the road to Xinjiang crosses the Yellow River, and the point through which Soviet aid and Soviet aircraft entered China. Bombed for it from 1937; never occupied.'
   },
   {
     id: 'xining', en: 'Xīníng (Sining)', ja: '西寧 (Seinei)', zh: '西寧', lat: 36.62, lon: 101.78,
-    note: 'The seat of the Ma family who governed Tsinghai for the Republic, and the wool and hide market of the Tibetan borderland. Never occupied.'
+    note: 'The seat of the Ma family who governed Qinghai for the Republic, and the wool and hide market of the Tibetan borderland. Never occupied.'
   },
   {
     id: 'yinchuan', en: 'Yínchuān (Ningsia)', ja: '寧夏 (Neika)', zh: '寧夏（銀川）', lat: 38.49,
     lon: 106.23,
-    note: 'The oasis capital of Ningsia on the upper Yellow River, held for the Republic by Ma Hung-kuei throughout. Never occupied.'
+    note: 'The oasis capital of Ningxia on the upper Yellow River, held for the Republic by Ma Hongkui throughout. Never occupied.'
   },
   {
     id: 'hohhot', en: 'Hūhéhàotè (Kweisui)', ja: '厚和 (Kōwa)', zh: '歸綏（呼和浩特）', lat: 40.84,
     lon: 111.75,
-    note: 'The Inner Mongolian trade and lamasery city on the Peking–Suiyuan railway. Taken on 14 October 1937 and renamed Kōwa; Demchugdongrub\'s Mongol government sat here before the seat moved to Kalgan.'
+    note: 'The Inner Mongolian trade and lamasery city on the Beijing–Suiyuan railway. Taken on 14 October 1937 and renamed Kōwa; Demchugdongrub\'s Mongol government sat here before the seat moved to Zhangjiakou.'
   },
   {
     id: 'baotou', en: 'Bāotóu (Paotow)', ja: '包頭 (Hōtō)', zh: '包頭', lat: 40.66, lon: 109.84,
-    note: 'The railhead of the Peking–Suiyuan line and the wool market of the steppe. Taken in October 1937, and the western limit of Japanese control; the country beyond stayed with Fu Tso-yi.'
+    note: 'The railhead of the Beijing–Suiyuan line and the wool market of the steppe. Taken in October 1937, and the western limit of Japanese control; the country beyond stayed with Fu Zuoyi.'
   },
   {
     id: 'qiqihar', en: 'Qíqíhā’ěr (Tsitsihar)', ja: 'チチハル (Chichiharu)', zh: '齊齊哈爾', lat: 47.35,
     lon: 123.92,
-    note: 'The seat of Heilungkiang and the junction of the Chinese Eastern Railway with the line north. Taken on 19 November 1931 after the fighting at the Nonni bridges.'
+    note: 'The seat of Heilongjiang and the junction of the Chinese Eastern Railway with the line north. Taken on 19 November 1931 after the fighting at the Nen bridges.'
   },
   {
     id: 'jilincity', en: 'Jílín (Kirin)', ja: '吉林 (Kirin)', zh: '吉林', lat: 43.84, lon: 126.55,
-    note: 'A timber and river city on the Sungari, taken in September 1931 when its provincial governor went over to the Japanese.'
+    note: 'A timber and river city on the Songhua, taken in September 1931 when its provincial governor went over to the Japanese.'
   },
   {
     id: 'mudanjiang', en: 'Mǔdānjiāng (Mutankiang)', ja: '牡丹江 (Botankō)', zh: '牡丹江', lat: 44.58,
@@ -1639,12 +1640,12 @@ JMAP.BROWSE = [
   {
     id: 'jinzhou', en: 'Jǐnzhōu (Chinchow)', ja: '錦州 (Kinshū)', zh: '錦州', lat: 41.1,
     lon: 121.13,
-    note: 'The gate between Manchuria and the Wall, on the railway from Mukden to Peking. Taken on 3 January 1932, which ended organised Chinese resistance in Manchuria.'
+    note: 'The gate between Manchuria and the Wall, on the railway from Shenyang to Beijing. Taken on 3 January 1932, which ended organised Chinese resistance in Manchuria.'
   },
   {
     id: 'yingkou', en: 'Yíngkǒu (Newchwang)', ja: '営口 (Eikō)', zh: '營口', lat: 40.67,
     lon: 122.24,
-    note: 'The old treaty port of Newchwang at the mouth of the Liao, once the outlet for Manchurian soya beans and long overtaken by Dairen.'
+    note: 'The old treaty port of Yingkou at the mouth of the Liao, once the outlet for Manchurian soya beans and long overtaken by Dalian.'
   },
   {
     id: 'dandong', en: 'Dāndōng (Antung)', ja: '安東 (Antō)', zh: '安東', lat: 40.13, lon: 124.39,
@@ -1653,7 +1654,7 @@ JMAP.BROWSE = [
   {
     id: 'urumqi', en: 'Wūlǔmùqí (Urumchi)', ja: '迪化 (Tekika)', zh: '迪化（烏魯木齊）', lat: 43.83,
     lon: 87.62,
-    note: 'The seat of Sheng Shih-ts\'ai, who ran Sinkiang on Soviet money until he turned to Chungking in 1942, and the end of the road that carried Soviet aid. Never Japanese.'
+    note: 'The seat of Sheng Shih-ts\'ai, who ran Xinjiang on Soviet money until he turned to Chongqing in 1942, and the end of the road that carried Soviet aid. Never Japanese.'
   },
   {
     id: 'kashgar', en: 'Kāshí (Kashgar)', ja: 'カシュガル (Kashugaru)', zh: '喀什噶爾', lat: 39.47,
@@ -1667,16 +1668,16 @@ JMAP.BROWSE = [
   {
     id: 'kangding', en: 'Kāngdìng (Kangting)', ja: '康定 (Kōtei)', zh: '康定', lat: 30.05,
     lon: 101.96,
-    note: 'The old tea-and-horse gate between Szechwan and Tibet, and the seat of Sikang.'
+    note: 'The old tea-and-horse gate between Sichuan and Tibet, and the seat of Xikang.'
   },
   {
     id: 'zhenjiang', en: 'Zhènjiāng (Chinkiang)', ja: '鎮江 (Chinkō)', zh: '鎮江', lat: 32.19,
     lon: 119.43,
-    note: 'Where the Grand Canal meets the Yangtze, and the provincial capital of Kiangsu until 1937. Fell in December 1937.'
+    note: 'Where the Grand Canal meets the Yangtze, and the provincial capital of Jiangsu until 1937. Fell in December 1937.'
   },
   {
     id: 'shantou', en: 'Shàntóu (Swatow)', ja: '汕頭 (Santō)', zh: '汕頭', lat: 23.35, lon: 116.68,
-    note: 'A treaty port from 1860, the departure point for much of the Chinese emigration to Southeast Asia, and the outlet for Kwangtung\'s sugar. Occupied on 21 June 1939.'
+    note: 'A treaty port from 1860, the departure point for much of the Chinese emigration to Southeast Asia, and the outlet for Guangdong\'s sugar. Occupied on 21 June 1939.'
   },
   {
     id: 'ningbo', en: 'Níngbō (Ningpo)', ja: '寧波 (Neiha)', zh: '寧波', lat: 29.87, lon: 121.55,
@@ -1689,7 +1690,7 @@ JMAP.BROWSE = [
   {
     id: 'yantai', en: 'Yāntái (Chefoo)', ja: '芝罘 (Shifu)', zh: '芝罘（煙臺）', lat: 37.46,
     lon: 121.45,
-    note: 'The treaty port of Chefoo, known for lace, silk and the missionary school. Occupied in February 1938.'
+    note: 'The treaty port of Yantai, known for lace, silk and the missionary school. Occupied in February 1938.'
   },
   {
     id: 'taegu', en: 'Taikyū (Taegu)', ja: '大邱 (Taikyū)', zh: '大邱', lat: 35.87, lon: 128.6,
@@ -1719,7 +1720,7 @@ JMAP.BROWSE = [
   {
     id: 'sinuiju', en: 'Shingishū (Sinuiju)', ja: '新義州 (Shingishū)', zh: '新義州', lat: 40.1,
     lon: 124.39,
-    note: 'The Korean end of the Yalu bridge to Antung, and downstream of the Suiho dam, which was the largest in Asia when it was finished in 1941.'
+    note: 'The Korean end of the Yalu bridge to Dandong, and downstream of the Suiho dam, which was the largest in Asia when it was finished in 1941.'
   },
   {
     id: 'kaesong', en: 'Kaijō (Kaesong)', ja: '開城 (Kaijō)', zh: '開城', lat: 37.97, lon: 126.55,
@@ -1824,7 +1825,7 @@ JMAP.BROWSE = [
   },
   {
     id: 'haiphong', en: 'Haiphong', ja: 'ハイフォン (Haifon)', zh: '海防', lat: 20.86, lon: 106.68,
-    note: 'Tonkin\'s port, and where Japanese troops came ashore in September 1940 to close the rail route carrying supplies to Chungking.'
+    note: 'Tonkin\'s port, and where Japanese troops came ashore in September 1940 to close the rail route carrying supplies to Chongqing.'
   },
   {
     id: 'hue', en: 'Hue', ja: 'フエ (Fue)', zh: '順化', lat: 16.46, lon: 107.6,
@@ -1970,29 +1971,29 @@ JMAP.BROWSE = [
   {
     id: 'tangshan', en: 'Tángshān (Tangshan)', ja: '唐山 (Tōzan)', zh: '唐山', lat: 39.63,
     lon: 118.18,
-    note: 'The Kailan mines, the largest coal workings in north China and British-managed until Japan took them over in 1941.'
+    note: 'The Kailuan mines, the largest coal workings in north China and British-managed until Japan took them over in 1941.'
   },
   {
     id: 'shanhaiguan', en: 'Shānhǎiguān (Shanhaikuan)', ja: '山海関 (Sankaikan)', zh: '山海關',
     lat: 40.01, lon: 119.75,
-    note: 'Where the Great Wall meets the sea and the Manchurian railway crosses into China proper. Taken on 1 January 1933, opening the Jehol campaign.'
+    note: 'Where the Great Wall meets the sea and the Manchurian railway crosses into China proper. Taken on 1 January 1933, opening the Rehe campaign.'
   },
   {
     id: 'datong', en: 'Dàtóng (Tatung)', ja: '大同 (Daidō)', zh: '大同', lat: 40.09, lon: 113.3,
-    note: 'Coal, and the junction of the two railways the occupation ran on. Taken on 13 September 1937 and attached to the Japanese-sponsored government of northern Shansi.'
+    note: 'Coal, and the junction of the two railways the occupation ran on. Taken on 13 September 1937 and attached to the Japanese-sponsored government of northern Shanxi.'
   },
   {
     id: 'luoyang', en: 'Luòyáng (Loyang)', ja: '洛陽 (Rakuyō)', zh: '洛陽', lat: 34.62, lon: 112.45,
-    note: 'The Lunghai railway city and one of the old capitals of China. Held out until 25 May 1944 — one of the two cities the December 1942 line of control leaves outside the occupation.'
+    note: 'The Longhai railway city and one of the old capitals of China. Held out until 25 May 1944 — one of the two cities the December 1942 line of control leaves outside the occupation. The Henan famine of 1942–43 killed some two million people in the country round it.'
   },
   {
     id: 'zhengzhou', en: 'Zhèngzhōu (Chengchow)', ja: '鄭州 (Teishū)', zh: '鄭州', lat: 34.75,
     lon: 113.63,
-    note: 'The junction of the north–south and east–west trunk railways, and the reason for the Huayuankou breach. Held until April 1944.'
+    note: 'The junction of the north–south and east–west trunk railways, and the reason the Huayuankou dikes were cut. Taken briefly in October 1941, given up again, and held from April 1944.'
   },
   {
     id: 'suzhou', en: 'Sūzhōu (Soochow)', ja: '蘇州 (Soshū)', zh: '蘇州', lat: 31.3, lon: 120.62,
-    note: 'Silk, gardens, and the Shanghai–Nanking railway. Fell on 19 November 1937 in the pursuit from Shanghai.'
+    note: 'Silk, gardens, and the Shanghai–Nanjing railway. Fell on 19 November 1937 in the pursuit from Shanghai.'
   },
   {
     id: 'wuxi', en: 'Wúxī (Wusih)', ja: '無錫 (Mushaku)', zh: '無錫', lat: 31.57, lon: 120.3,
@@ -2000,41 +2001,41 @@ JMAP.BROWSE = [
   },
   {
     id: 'xuzhou', en: 'Xúzhōu (Hsuchow)', ja: '徐州 (Joshū)', zh: '徐州', lat: 34.26, lon: 117.19,
-    note: 'The crossing of the north–south and east–west trunk railways, and for that reason the object of the largest campaign of 1938. The Chinese victory at Taierhchuang in April held it until 19 May, and the army got away rather than be encircled.'
+    note: 'The crossing of the north–south and east–west trunk railways, and for that reason the object of the largest campaign of 1938. The Chinese victory at Taierzhuang in April held it until 19 May, and the army got away rather than be encircled.'
   },
   {
     id: 'wuhu', en: 'Wúhú (Wuhu)', ja: '蕪湖 (Buko)', zh: '蕪湖', lat: 31.35, lon: 118.38,
-    note: 'The great rice market of the lower Yangtze. Fell on 10 December 1937, three days before Nanking, cutting the river escape route from the capital.'
+    note: 'The great rice market of the lower Yangtze. Fell on 10 December 1937, three days before Nanjing, cutting the river escape route from the capital.'
   },
   {
     id: 'bengbu', en: 'Bèngbù (Pengpu)', ja: '蚌埠 (Bōfu)', zh: '蚌埠', lat: 32.92, lon: 117.39,
-    note: 'On the Tientsin–Pukow railway where it crosses the Huai. Taken in February 1938 in the drive north towards Hsuchow.'
+    note: 'On the Tianjin–Pukow railway where it crosses the Huai. Taken in February 1938 in the drive north towards Xuzhou.'
   },
   {
     id: 'jiujiang', en: 'Jiǔjiāng (Kiukiang)', ja: '九江 (Kyūkō)', zh: '九江', lat: 29.71, lon: 116,
-    note: 'The tea port of Kiangsi and the outlet of the Poyang lake. Fell on 26 July 1938, halfway up the river to Hankow.'
+    note: 'The tea port of Jiangxi and the outlet of the Poyang lake. Fell on 26 July 1938, halfway up the river to Hankou.'
   },
   {
     id: 'yichang', en: 'Yíchāng (Ichang)', ja: '宜昌 (Gishō)', zh: '宜昌', lat: 30.69, lon: 111.29,
-    note: 'Where cargo transferred from steamer to junk for the passage of the gorges. Taken on 12 June 1940 and held as the furthest Japanese post up the Yangtze, below the water that shielded Chungking.'
+    note: 'Where cargo transferred from steamer to junk for the passage of the gorges. Taken on 12 June 1940 and held as the furthest Japanese post up the Yangtze, below the water that shielded Chongqing.'
   },
   {
     id: 'hengyang', en: 'Héngyáng (Hengyang)', ja: '衡陽 (Kōyō)', zh: '衡陽', lat: 26.89,
     lon: 112.57,
-    note: 'The junction of the Canton–Hankow and Hunan–Kwangsi railways, and the airfield the Ichigo offensive was launched to take. Its garrison held for forty-seven days and surrendered on 8 August 1944.'
+    note: 'The junction of the Guangzhou–Hankou and Hunan–Guangxi railways, and the airfield the Ichigo offensive was launched to take. Its garrison held for forty-seven days and surrendered on 8 August 1944.'
   },
   {
     id: 'yueyang', en: 'Yuèyáng (Yochow)', ja: '岳陽 (Gakuyō)', zh: '岳陽', lat: 29.36, lon: 113.13,
-    note: 'The Tungting lake port on the Canton–Hankow line, taken in November 1938 and the base from which every attack on Changsha was mounted.'
+    note: 'The Tungting lake port on the Guangzhou–Hankou line, taken in November 1938 and the base from which every attack on Changsha was mounted.'
   },
   {
     id: 'shaoguan', en: 'Sháoguān (Shiuchow)', ja: '韶関 (Shōkan)', zh: '韶關', lat: 24.81,
     lon: 113.6,
-    note: 'The wartime capital of Kwangtung after Canton fell, on the railway north to Hunan, and not taken until January 1945.'
+    note: 'The wartime capital of Guangdong after Guangzhou fell, on the railway north to Hunan, and not taken until January 1945.'
   },
   {
     id: 'wuzhou', en: 'Wúzhōu (Wuchow)', ja: '梧州 (Goshū)', zh: '梧州', lat: 23.48, lon: 111.28,
-    note: 'Where the West River leaves Kwangsi for Canton, and the trade route between them. Taken in the 1944 offensive.'
+    note: 'Where the West River leaves Guangxi for Guangzhou, and the trade route between them. Taken in the 1944 offensive.'
   },
   {
     id: 'zunyi', en: 'Zūnyì (Tsunyi)', ja: '遵義 (Jungi)', zh: '遵義', lat: 27.73, lon: 106.93,
@@ -2042,7 +2043,7 @@ JMAP.BROWSE = [
   },
   {
     id: 'dali', en: 'Dàlǐ (Tali)', ja: '大理 (Dairi)', zh: '大理', lat: 25.61, lon: 100.27,
-    note: 'The old Nanchao capital, on the Burma Road through western Yunnan along which the fighting came in 1944.'
+    note: 'The old Nanzhao capital, on the Burma Road through western Yunnan along which the fighting came in 1944.'
   },
   {
     id: 'wanxian', en: 'Wànzhōu (Wanhsien)', ja: '万県 (Manken)', zh: '萬縣', lat: 30.81,
@@ -2051,26 +2052,26 @@ JMAP.BROWSE = [
   },
   {
     id: 'baoji', en: 'Bǎojī (Paoki)', ja: '宝鶏 (Hōkei)', zh: '寶雞', lat: 34.36, lon: 107.14,
-    note: 'The railhead of the line west from Sian, and the road to Kansu and the Soviet supply route.'
+    note: 'The railhead of the line west from Sian, and the road to Gansu and the Soviet supply route.'
   },
   {
     id: 'tianshui', en: 'Tiānshuǐ (Tienshui)', ja: '天水 (Tensui)', zh: '天水', lat: 34.58,
     lon: 105.72,
-    note: 'On the Kansu corridor where the Lunghai railway ran out, a stage on the overland road that carried Soviet aid until 1941.'
+    note: 'On the Gansu corridor where the Lunghai railway ran out, a stage on the overland road that carried Soviet aid until 1941.'
   },
   {
     id: 'chaoyang', en: 'Cháoyáng (Chaoyang)', ja: '朝陽 (Chōyō)', zh: '朝陽', lat: 41.57,
     lon: 120.45,
-    note: 'On the road from the Wall into Jehol, taken in the campaign of February and March 1933.'
+    note: 'On the road from the Wall into Rehe, taken in the campaign of February and March 1933.'
   },
   {
     id: 'yanji', en: 'Yánjí (Yenki)', ja: '延吉 (Enkichi)', zh: '延吉', lat: 42.91, lon: 129.51,
-    note: 'The seat of Chientao, the one Manchurian province with a Korean majority, and the ground of both Korean resistance and the counter-insurgency against it.'
+    note: 'The seat of Jiandao, the one Manchurian province with a Korean majority, and the ground of both Korean resistance and the counter-insurgency against it.'
   },
   {
     id: 'jiamusi', en: 'Jiāmùsī (Kiamusze)', ja: '佳木斯 (Kamusu)', zh: '佳木斯', lat: 46.81,
     lon: 130.32,
-    note: 'The seat of Sankiang on the Sungari, and the country the Manchukuo settler schemes were pushed into hardest.'
+    note: 'The seat of Sankiang on the Songhua, and the country the Manchukuo settler schemes were pushed into hardest.'
   },
   {
     id: 'yining', en: 'Yīníng (Ining)', ja: '伊寧 (Inei)', zh: '伊寧', lat: 43.91, lon: 81.32,

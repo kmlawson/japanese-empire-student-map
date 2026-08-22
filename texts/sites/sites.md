@@ -4,9 +4,7 @@
 
 ## tokyo
 
-Edo until the Restoration. The Great Kantō earthquake struck in 1923 and was
-followed by the massacre of Koreans; the firebombing of 9–10 March 1945 killed
-some 100,000 people in a night.
+Edo until the Restoration. The Great Kantō earthquake struck in 1923 and was followed by the massacre of Koreans; young officers of the Imperial Way faction seized the government quarter in the 2.26 Incident of February 1936 and killed three ministers; the firebombing of 9–10 March 1945 killed some 100,000 people in a night.
 
 ## yokohama
 
@@ -31,8 +29,7 @@ academic freedom.
 
 ## osaka
 
-The commercial capital of Tokugawa Japan and later a centre of heavy industry
-and of labour organising.
+The commercial capital of Tokugawa Japan and later a centre of heavy industry and of labour organising. The rice riots of 1918, which began among fishermen's wives in Toyama, were at their worst here.
 
 ## kobe
 
@@ -159,8 +156,8 @@ the region.
 
 ## chengde
 
-The Qing emperors’ summer capital, and capital of Jehol province — English
-sources often call the city itself Jehol. Taken in a ten-day campaign and
+The Qing emperors’ summer capital, and capital of Rehe province — English
+sources often call the city itself Rehe. Taken in a ten-day campaign and
 attached to Manchukuo; the Tanggu Truce followed in May.
 
 ## nomonhan
@@ -180,7 +177,7 @@ months before the invasion of Manchuria.
 ## beijing
 
 The Qing capital, demoted to "Peiping" when the Nationalists moved the capital
-to Nanking in 1928. Japanese troops joined the eight-nation force that
+to Nanjing in 1928. Japanese troops joined the eight-nation force that
 relieved the legations in 1900, and took the city outright in August 1937.
 
 ## marcopolo
@@ -190,9 +187,7 @@ that opened eight years of full-scale war in China.
 
 ## tianjin
 
-The treaty port for Peking, carved into eight foreign concessions including a
-Japanese one. The Tientsin Convention of 1885 regulated Chinese and Japanese
-troops in Korea and set the terms that broke down in 1894.
+The treaty port for Beijing, carved into eight foreign concessions including a Japanese one. The Tianjin Convention of 1885 regulated Chinese and Japanese troops in Korea, and broke down in 1894; the Tanggu Truce of May 1933, signed at its port, gave north China a demilitarised zone that Japan spent the next four years pushing into.
 
 ## kalgan
 
@@ -207,7 +202,7 @@ mutilated and executed.
 
 ## qingdao
 
-The German leasehold in Shantung, taken by Japan in 1914. Keeping it was the
+The German leasehold in Shandong, taken by Japan in 1914. Keeping it was the
 first of the Twenty-One Demands and was confirmed at Versailles, which set off
 the May Fourth Movement. Returned in 1922.
 
@@ -218,10 +213,7 @@ Sino-Japanese War; afterwards a British leased territory until 1930.
 
 ## nanjing
 
-Nationalist capital from 1927. Its capture was followed by weeks of mass
-killing and rape — the Nanking Massacre — in which the dead are counted from
-the tens of thousands to 300,000, depending on the period and the boundary
-taken. From 1940 it housed Wang Ching-wei’s collaborationist government.
+Nationalist capital from 1927. Its capture on 13 December 1937 was followed by weeks of mass killing and rape — the Nanjing Massacre — in which the dead are counted from the tens of thousands to 300,000, depending on the period and the boundary taken. From 1940 it housed Wang Jingwei's collaborationist government.
 
 ## shanghai
 
@@ -232,7 +224,7 @@ China’s best divisions.
 
 ## wuhan
 
-The Nationalist government’s refuge after Nanking. Its fall ended the first
+The Nationalist government’s refuge after Nanjing. Its fall ended the first
 mobile phase of the war; from then on the fighting in China settled into
 stalemate.
 
@@ -243,9 +235,7 @@ one of the first sustained campaigns against a civilian population.
 
 ## yanan
 
-The Long March ended in northern Shensi in 1935 and the party moved here at
-the end of 1936. From it Mao consolidated his leadership and the party grew
-from tens of thousands to over a million.
+The Long March ended in northern Shaanxi in 1935 and the party moved here at the end of 1936. From it Mao consolidated his leadership and the party grew from tens of thousands to over a million. The American observers of the Dixie Mission arrived in July 1944, the first official contact between Washington and the Communists.
 
 ## xian
 
@@ -298,7 +288,7 @@ Sakhalin until 1925.
 ## hanoi
 
 Capital of French Indochina. Japan occupied the north to cut the rail supply
-route to Chungking, while leaving the French administration nominally in
+route to Chongqing, while leaving the French administration nominally in
 charge.
 
 ## saigon

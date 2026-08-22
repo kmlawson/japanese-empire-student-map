@@ -62,8 +62,8 @@ Dutch Timor's capital, taken on 20 February 1942 with a parachute landing behind
 
 > The Yellow River after the dikes were cut at Huayuankou in June 1938 to slow
 > the Japanese advance. The river left its bed and ran south-east down the
-> Chia-lu into the Ying, down the Ying into the Huai, and through Hungtse Lake
-> and the Grand Canal into the Yangtze above Chinkiang — so for nine years the
+> Chia-lu into the Ying, down the Ying into the Huai, and through Hongze Lake
+> and the Grand Canal into the Yangtze above Zhenjiang — so for nine years the
 > Yellow River reached the sea through the Yangtze's mouth. It drowned several
 > thousand villages and killed somewhere between 400,000 and 800,000 people,
 > and it stayed there until the breach was closed in 1947. The Late 1942 map
@@ -78,23 +78,23 @@ Dutch Timor's capital, taken on 20 February 1942 with a parachute landing behind
 
 ## paoting
 
-On the Peking–Hankow railway, and the seat of the military academy that trained a generation of Republican officers. Fell on 24 September 1937 and became the seat of the collaborationist provisional government of Hopei.
+On the Beijing–Hankou railway, and the seat of the military academy that trained a generation of Republican officers. Fell on 24 September 1937; Shijiazhuang, the junction south of it, went in October.
 
 ## tangshan
 
-The Kailan mines, the largest coal workings in north China and British-managed until Japan took them over in 1941.
+The Kailuan mines, the largest coal workings in north China and British-managed until Japan took them over in 1941.
 
 ## shanhaiguan
 
-Where the Great Wall meets the sea and the Manchurian railway crosses into China proper. Taken on 1 January 1933, opening the Jehol campaign.
+Where the Great Wall meets the sea and the Manchurian railway crosses into China proper. Taken on 1 January 1933, opening the Rehe campaign.
 
 ## datong
 
-Coal, and the junction of the two railways the occupation ran on. Taken on 13 September 1937 and attached to the Japanese-sponsored government of northern Shansi.
+Coal, and the junction of the two railways the occupation ran on. Taken on 13 September 1937 and attached to the Japanese-sponsored government of northern Shanxi.
 
 ## taiyuan
 
-Yen Hsi-shan's capital for thirty years, with the arsenal and steelworks he built to keep Shansi independent of everyone. Fell on 9 November 1937 after the fighting at Hsinkou.
+Yan Xishan's capital for thirty years, with the arsenal and steelworks he built to keep Shanxi independent of everyone. Lin Biao's ambush at Pingxingguan in September 1937 and the battle of Xinkou in October delayed its fall until 9 November.
 
 ## kaifeng
 
@@ -102,23 +102,23 @@ The Northern Song capital, and a station on the Lunghai railway. Fell on 6 June 
 
 ## luoyang
 
-The Lunghai railway city and one of the old capitals of China. Held out until 25 May 1944 — one of the two cities the December 1942 line of control leaves outside the occupation.
+The Longhai railway city and one of the old capitals of China. Held out until 25 May 1944 — one of the two cities the December 1942 line of control leaves outside the occupation. The Henan famine of 1942–43 killed some two million people in the country round it.
 
 ## zhengzhou
 
-The junction of the north–south and east–west trunk railways, and the reason for the Huayuankou breach. Held until April 1944.
+The junction of the north–south and east–west trunk railways, and the reason the Huayuankou dikes were cut. Taken briefly in October 1941, given up again, and held from April 1944.
 
 ## yantai
 
-The treaty port of Chefoo, known for lace, silk and the missionary school. Occupied in February 1938.
+The treaty port of Yantai, known for lace, silk and the missionary school. Occupied in February 1938.
 
 ## zhenjiang
 
-Where the Grand Canal meets the Yangtze, and the provincial capital of Kiangsu until 1937. Fell in December 1937.
+Where the Grand Canal meets the Yangtze, and the provincial capital of Jiangsu until 1937. Fell in December 1937.
 
 ## suzhou
 
-Silk, gardens, and the Shanghai–Nanking railway. Fell on 19 November 1937 in the pursuit from Shanghai.
+Silk, gardens, and the Shanghai–Nanjing railway. Fell on 19 November 1937 in the pursuit from Shanghai.
 
 ## wuxi
 
@@ -126,31 +126,31 @@ The cotton and silk mill town of the lower Yangtze, second only to Shanghai in t
 
 ## wuhu
 
-The great rice market of the lower Yangtze. Fell on 10 December 1937, three days before Nanking, cutting the river escape route from the capital.
+The great rice market of the lower Yangtze. Fell on 10 December 1937, three days before Nanjing, cutting the river escape route from the capital.
 
 ## xuzhou
 
-The crossing of the north–south and east–west trunk railways, and for that reason the object of the largest campaign of 1938. The Chinese victory at Taierhchuang in April held it until 19 May, and the army got away rather than be encircled.
+The crossing of the north–south and east–west trunk railways, and for that reason the object of the largest campaign of 1938. The Chinese victory at Taierzhuang in April held it until 19 May, and the army got away rather than be encircled.
 
 ## bengbu
 
-On the Tientsin–Pukow railway where it crosses the Huai. Taken in February 1938 in the drive north towards Hsuchow.
+On the Tianjin–Pukow railway where it crosses the Huai. Taken in February 1938 in the drive north towards Xuzhou.
 
 ## hefei
 
-The seat of Anhwei, on the road between the Yangtze and the Huai. Occupied in 1938, though the front bent round the Chinese pocket in the north-west of the province beyond it.
+The seat of Anhui, on the road between the Yangtze and the Huai. Occupied in 1938, though the front bent round the Chinese pocket in the north-west of the province beyond it.
 
 ## anqing
 
-The old provincial capital of Anhwei, and a river port on the Yangtze. Fell on 12 June 1938, opening the campaign up the river to Hankow.
+The old provincial capital of Anhui, and a river port on the Yangtze. Fell on 12 June 1938, opening the campaign up the river to Hankou. The New Fourth Army Incident of January 1941 was fought in the mountains south of it.
 
 ## jiujiang
 
-The tea port of Kiangsi and the outlet of the Poyang lake. Fell on 26 July 1938, halfway up the river to Hankow.
+The tea port of Jiangxi and the outlet of the Poyang lake. Fell on 26 July 1938, halfway up the river to Hankou.
 
 ## yichang
 
-Where cargo transferred from steamer to junk for the passage of the gorges. Taken on 12 June 1940 and held as the furthest Japanese post up the Yangtze, below the water that shielded Chungking.
+Where cargo transferred from steamer to junk for the passage of the gorges. Taken on 12 June 1940 and held as the furthest Japanese post up the Yangtze, below the water that shielded Chongqing.
 
 ## hangzhou
 
@@ -170,19 +170,19 @@ Where the Communist rising of 1 August 1927 gave the Red Army its founding date,
 
 ## changsha
 
-The rice bowl of Hunan and a junction on the Canton–Hankow line. Its own garrison burned it down by mistake in November 1938; it then beat off three Japanese offensives and fell at last on 18 June 1944.
+The rice bowl of Hunan and a junction on the Guangzhou–Hankou line. Its own garrison burned it down by mistake in November 1938; it then beat off three Japanese offensives and fell at last on 18 June 1944.
 
 ## hengyang
 
-The junction of the Canton–Hankow and Hunan–Kwangsi railways, and the airfield the Ichigo offensive was launched to take. Its garrison held for forty-seven days and surrendered on 8 August 1944.
+The junction of the Guangzhou–Hankou and Hunan–Guangxi railways, and the airfield the Ichigo offensive was launched to take. Its garrison held for forty-seven days and surrendered on 8 August 1944.
 
 ## yueyang
 
-The Tungting lake port on the Canton–Hankow line, taken in November 1938 and the base from which every attack on Changsha was mounted.
+The Tungting lake port on the Guangzhou–Hankou line, taken in November 1938 and the base from which every attack on Changsha was mounted.
 
 ## shaoguan
 
-The wartime capital of Kwangtung after Canton fell, on the railway north to Hunan, and not taken until January 1945.
+The wartime capital of Guangdong after Guangzhou fell, on the railway north to Hunan, and not taken until January 1945.
 
 ## guilin
 
@@ -190,7 +190,7 @@ A Nationalist air base among the limestone hills, and the refuge of the universi
 
 ## wuzhou
 
-Where the West River leaves Kwangsi for Canton, and the trade route between them. Taken in the 1944 offensive.
+Where the West River leaves Guangxi for Guangzhou, and the trade route between them. Taken in the 1944 offensive.
 
 ## nanning
 
@@ -198,7 +198,7 @@ The road and rail gate to Indochina, which is why it was taken in November 1939,
 
 ## shantou
 
-A treaty port from 1860, the departure point for much of the Chinese emigration to Southeast Asia, and the outlet for Kwangtung's sugar. Occupied on 21 June 1939.
+A treaty port from 1860, the departure point for much of the Chinese emigration to Southeast Asia, and the outlet for Guangdong's sugar. Occupied on 21 June 1939.
 
 ## fuzhou
 
@@ -206,15 +206,15 @@ A treaty port from 1842 and the great tea shipping port of the nineteenth centur
 
 ## guiyang
 
-The hinge of the road system of the south-west, where the routes from Chungking, Kunming and Kwangsi met. Never occupied: the advance of December 1944 turned back a hundred miles short of it.
+The hinge of the road system of the south-west, where the routes from Chongqing, Kunming and Guangxi met. Never occupied: the Japanese advance of December 1944 reached Dushan, a hundred miles short of it, and turned back — the furthest inland the war ever came.
 
 ## kunming
 
-The terminus of the Burma Road, of the railway from Haiphong, and after both were cut of the air route over the Hump. The universities of Peking and Tsinghua sat out the war here as Lienta. Never occupied.
+The terminus of the Burma Road, of the railway from Haiphong, and after both were cut of the air route over the Hump. Peking University, Tsinghua and Nankai spent the war here as Lianda, the National Southwest Associated University. Never occupied.
 
 ## chengdu
 
-The rice and silk capital of the Szechwan basin. Never occupied — and the four airfields built round it by hand in 1944 were the first from which B-29s bombed Japan.
+The rice and silk capital of the Sichuan basin. Never occupied — and the four airfields built round it by hand in 1944 were the first from which B-29s bombed Japan.
 
 ## zunyi
 
@@ -226,35 +226,35 @@ The upper Yangtze port above the gorges, and the scene of a British naval bombar
 
 ## dali
 
-The old Nanchao capital, on the Burma Road through western Yunnan along which the fighting came in 1944.
+The old Nanzhao capital, on the Burma Road through western Yunnan along which the fighting came in 1944.
 
 ## baoji
 
-The railhead of the line west from Sian, and the road to Kansu and the Soviet supply route.
+The railhead of the line west from Sian, and the road to Gansu and the Soviet supply route.
 
 ## tianshui
 
-On the Kansu corridor where the Lunghai railway ran out, a stage on the overland road that carried Soviet aid until 1941.
+On the Gansu corridor where the Lunghai railway ran out, a stage on the overland road that carried Soviet aid until 1941.
 
 ## lanzhou
 
-Where the road to Sinkiang crosses the Yellow River, and the point through which Soviet aid and Soviet aircraft entered China. Bombed for it from 1937; never occupied.
+Where the road to Xinjiang crosses the Yellow River, and the point through which Soviet aid and Soviet aircraft entered China. Bombed for it from 1937; never occupied.
 
 ## xining
 
-The seat of the Ma family who governed Tsinghai for the Republic, and the wool and hide market of the Tibetan borderland. Never occupied.
+The seat of the Ma family who governed Qinghai for the Republic, and the wool and hide market of the Tibetan borderland. Never occupied.
 
 ## yinchuan
 
-The oasis capital of Ningsia on the upper Yellow River, held for the Republic by Ma Hung-kuei throughout. Never occupied.
+The oasis capital of Ningxia on the upper Yellow River, held for the Republic by Ma Hongkui throughout. Never occupied.
 
 ## hohhot
 
-The Inner Mongolian trade and lamasery city on the Peking–Suiyuan railway. Taken on 14 October 1937 and renamed Kōwa; Demchugdongrub's Mongol government sat here before the seat moved to Kalgan.
+The Inner Mongolian trade and lamasery city on the Beijing–Suiyuan railway. Taken on 14 October 1937 and renamed Kōwa; Demchugdongrub's Mongol government sat here before the seat moved to Zhangjiakou.
 
 ## baotou
 
-The railhead of the Peking–Suiyuan line and the wool market of the steppe. Taken in October 1937, and the western limit of Japanese control; the country beyond stayed with Fu Tso-yi.
+The railhead of the Beijing–Suiyuan line and the wool market of the steppe. Taken in October 1937, and the western limit of Japanese control; the country beyond stayed with Fu Zuoyi.
 
 ## hohhot2
 
@@ -262,11 +262,11 @@ An oasis on the Edsin Gol at the edge of the Gobi, and the western end of the co
 
 ## qiqihar
 
-The seat of Heilungkiang and the junction of the Chinese Eastern Railway with the line north. Taken on 19 November 1931 after the fighting at the Nonni bridges.
+The seat of Heilongjiang and the junction of the Chinese Eastern Railway with the line north. Taken on 19 November 1931 after the fighting at the Nen bridges.
 
 ## jilincity
 
-A timber and river city on the Sungari, taken in September 1931 when its provincial governor went over to the Japanese.
+A timber and river city on the Songhua, taken in September 1931 when its provincial governor went over to the Japanese.
 
 ## mudanjiang
 
@@ -274,7 +274,7 @@ A garrison town and railway junction on the eastern line to Vladivostok, and the
 
 ## jiamusi
 
-The seat of Sankiang on the Sungari, and the country the Manchukuo settler schemes were pushed into hardest.
+The seat of Sankiang on the Songhua, and the country the Manchukuo settler schemes were pushed into hardest.
 
 ## fushun
 
@@ -286,11 +286,11 @@ The Shōwa Steel Works, the largest ironworks in the empire outside Japan, and t
 
 ## jinzhou
 
-The gate between Manchuria and the Wall, on the railway from Mukden to Peking. Taken on 3 January 1932, which ended organised Chinese resistance in Manchuria.
+The gate between Manchuria and the Wall, on the railway from Shenyang to Beijing. Taken on 3 January 1932, which ended organised Chinese resistance in Manchuria.
 
 ## yingkou
 
-The old treaty port of Newchwang at the mouth of the Liao, once the outlet for Manchurian soya beans and long overtaken by Dairen.
+The old treaty port of Yingkou at the mouth of the Liao, once the outlet for Manchurian soya beans and long overtaken by Dalian.
 
 ## dandong
 
@@ -298,15 +298,15 @@ Where the railway crosses the Yalu into Korea — the bridge that carried the ar
 
 ## chaoyang
 
-On the road from the Wall into Jehol, taken in the campaign of February and March 1933.
+On the road from the Wall into Rehe, taken in the campaign of February and March 1933.
 
 ## yanji
 
-The seat of Chientao, the one Manchurian province with a Korean majority, and the ground of both Korean resistance and the counter-insurgency against it.
+The seat of Jiandao, the one Manchurian province with a Korean majority, and the ground of both Korean resistance and the counter-insurgency against it.
 
 ## urumqi
 
-The seat of Sheng Shih-ts'ai, who ran Sinkiang on Soviet money until he turned to Chungking in 1942, and the end of the road that carried Soviet aid. Never Japanese.
+The seat of Sheng Shih-ts'ai, who ran Xinjiang on Soviet money until he turned to Chongqing in 1942, and the end of the road that carried Soviet aid. Never Japanese.
 
 ## kashgar
 
@@ -318,7 +318,7 @@ The Ili valley at the Soviet frontier, where a Turkic rising against Chinese rul
 
 ## kangding
 
-The old tea-and-horse gate between Szechwan and Tibet, and the seat of Sikang.
+The old tea-and-horse gate between Sichuan and Tibet, and the seat of Xikang.
 
 ## lhasa
 
@@ -358,7 +358,7 @@ Beside it at Hŭngnam stood Noguchi's Chōsen Chisso works, the largest chemical
 
 ## sinuiju
 
-The Korean end of the Yalu bridge to Antung, and downstream of the Suiho dam, which was the largest in Asia when it was finished in 1941.
+The Korean end of the Yalu bridge to Dandong, and downstream of the Suiho dam, which was the largest in Asia when it was finished in 1941.
 
 ## kaesong
 
@@ -462,7 +462,7 @@ The capital of Karafuto, laid out on a grid by the colonial government. Soviet t
 
 ## haiphong
 
-Tonkin's port, and where Japanese troops came ashore in September 1940 to close the rail route carrying supplies to Chungking.
+Tonkin's port, and where Japanese troops came ashore in September 1940 to close the rail route carrying supplies to Chongqing.
 
 ## hue
 

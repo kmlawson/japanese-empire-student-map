@@ -56,7 +56,7 @@ independence activist An Chunggŭn.
 
 The Qing capital until 1912 and the seat of the warlord governments after it;
 demoted to Peiping — "northern peace" — when the Nationalists moved the
-capital to Nanking in 1928. Japanese troops had joined the eight-nation force
+capital to Nanjing in 1928. Japanese troops had joined the eight-nation force
 that relieved the legations here in 1900.
 
 ## nanjing
@@ -72,8 +72,8 @@ them. Japan had the largest foreign community in the city.
 
 ## tianjin
 
-The treaty port for Peking, carved into eight foreign concessions including a
-Japanese one. The Tientsin Convention of 1885 regulated Chinese and Japanese
+The treaty port for Beijing, carved into eight foreign concessions including a
+Japanese one. The Tianjin Convention of 1885 regulated Chinese and Japanese
 troops in Korea, and broke down in 1894.
 
 ## guangzhou
@@ -139,7 +139,7 @@ by the Dutch East India Company on the ruins of Jayakarta.
 > line here is labelled for the date it is drawn for rather than as a maximum,
 > because December 1942 is not one: the naval perimeter was widest in July and
 > August, before Guadalcanal and Milne Bay, and the area of China under
-> Japanese control was largest in 1944 after Ichi-Go. Kwangchowwan came in
+> Japanese control was largest in 1944 after Ichi-Go. Kwangchowan came in
 > February 1943, the four northern Malay states in October 1943, and direct
 > rule in Indochina in March 1945. What the line shows is where control and
 > the fighting front stood at this date. Drawn as a dashed line rather than a
