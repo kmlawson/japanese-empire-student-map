@@ -290,11 +290,15 @@ def build_pages():
         rows = T.read_csv(vpath)
         if rows:
             version = rows[0].get("version", version)
-    # Every build moves the number on by a hundredth, and writes it back, so
-    # what stands in texts/version.csv is always what the last build stamped.
-    # Counted in hundredths and not added as a float: 0.82 + 0.01 is
-    # 0.8300000000000001, and that would be the version somebody read.
-    if os.path.exists(vpath):
+    # The number moves on a hundredth only when asked — `--bump`, which the
+    # release step passes and an ordinary build does not. It used to move on
+    # every run, and a session that rebuilds while measuring runs this twenty
+    # times: the version went 0.82 to 1.02 in a day with nothing released in
+    # between, which is a number that lies to the reader about how far the work
+    # has come. A build is not a release. Counted in hundredths and not added
+    # as a float, because 0.82 + 0.01 is 0.8300000000000001 and that would be
+    # the version somebody read.
+    if "--bump" in sys.argv and os.path.exists(vpath):
         try:
             version = "%.2f" % ((int(round(float(version) * 100)) + 1) / 100.0)
         except ValueError:

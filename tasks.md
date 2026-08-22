@@ -3995,6 +3995,23 @@ wording at all four sites. The trailing full stop was dropped: it is a label on
 a legend, not a sentence. The Japanese, Chinese and Korean renderings are
 unchanged — 未確定国境, 未定國界, 미확정 국경 already say it.
 
+### One push, one hundredth
+The version bumped on every run of `build_texts.py`, and a session that
+rebuilds while measuring runs it twenty times: 0.82 to 1.02 in a day, with
+nothing released in between. A number that says a teaching map has passed 1.0
+when it has not is a number that lies to the reader.
+
+The bump is now opt-in — `python3 tools/build_texts.py --bump` — and an
+ordinary build stamps the date and leaves the number alone. The rule is
+written into a new project `CLAUDE.md` at the root, along with four others
+this session learned the hard way: read CSVs with a parser and never with awk,
+do not simplify geometry unasked, record what changed before marking it done,
+and check `git status` before building, because `index.html` and `data.js` are
+generated from `texts/` and another session may be halfway through editing it.
+
+Set back to **0.84**: 0.82 was the last honest value, and there have been two
+pushes since.
+
 ---
 
 ## Sources worth fetching
