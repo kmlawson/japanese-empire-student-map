@@ -6520,6 +6520,12 @@ def main():
 # nothing that could be drawn is lost.
 FINE_FILES = [
     ("japanese-home-islands-islands.geojson", ["osm-islands-japan.json"]),
+    # The islands off the main coast. The extract above stops at 33.17 N, so it
+    # has the Ryukyus and the Izu outliers and none of these: Sado, Oki,
+    # Tsushima, Iki, Awaji, Shodoshima, Amakusa, Rishiri, Rebun and Okushiri
+    # were drawn as part of the Japan landmass and so could not be named or
+    # described. Fetched island by island with tools/fetch_japan_islands.py.
+    ("northern-japan-islands.geojson", ["osm-islands-northern-japan.json"]),
     # Two windows the map had no fine coastline for, traced with
     # tools/extract_coast.py rather than fetched as a bulk extract.
     ("outer-fine-islands.geojson", ["osm-islands-outer.json"]),
@@ -6557,6 +6563,15 @@ FINE_GROUPS = [
     ("Miyako Islands", "宮古列島", 124.62, 24.40, 125.70, 25.20),
     ("Yaeyama Islands", "八重山列島", 122.80, 23.90, 124.62, 24.80),
     ("Izu Islands", "伊豆諸島", 138.90, 30.30, 140.60, 34.95),
+    ("Sado", "佐渡島", 137.90, 37.70, 138.75, 38.45),
+    ("Oki Islands", "隠岐諸島", 132.50, 35.90, 133.60, 36.50),
+    ("Tsushima", "対馬", 129.10, 34.00, 129.60, 34.80),
+    ("Iki", "壱岐島", 129.50, 33.60, 129.95, 33.95),
+    ("Awaji Island", "淡路島", 134.50, 34.10, 135.10, 34.70),
+    ("Shōdoshima", "小豆島", 133.95, 34.40, 134.50, 34.60),
+    ("Amakusa Islands", "天草諸島", 129.90, 32.10, 130.60, 32.85),
+    ("Rishiri and Rebun", "利尻・礼文", 140.70, 45.00, 141.50, 45.60),
+    ("Okushiri", "奥尻島", 139.30, 42.00, 139.65, 42.30),
     ("Bonin Islands", "小笠原群島", 141.85, 26.30, 142.60, 27.90),
     ("Volcano Islands", "火山列島", 140.90, 23.90, 141.70, 25.70),
     ("Mariana Islands", "マリアナ諸島", 144.40, 13.10, 146.30, 20.70),
@@ -6632,6 +6647,15 @@ FINE_GROUP_ATOM = {
     "Miyako Islands": "ryukyu",
     "Yaeyama Islands": "ryukyu",
     "Izu Islands": "japan",
+    "Sado": "japan",
+    "Oki Islands": "japan",
+    "Tsushima": "japan",
+    "Iki": "japan",
+    "Awaji Island": "japan",
+    "Shōdoshima": "japan",
+    "Amakusa Islands": "japan",
+    "Rishiri and Rebun": "japan",
+    "Okushiri": "japan",
     "Bonin Islands": "ogasawara",
     "Volcano Islands": "ogasawara",
     "Mariana Islands": "nanyo",     # except Guam, which is its own atom

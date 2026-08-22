@@ -4372,6 +4372,61 @@ JMAP.PROVINCES = {
   Cochinchina: { en: 'Cochinchina (colony)', zh: '交趾支那', wiki: 'https://en.wikipedia.org/wiki/Cochinchina' },
   Cambodia: { en: 'Cambodia (protectorate)', zh: '柬埔寨', wiki: 'https://en.wikipedia.org/wiki/Cambodia' },
   Laos: { en: 'Laos (protectorate)', zh: '寮國', wiki: 'https://en.wikipedia.org/wiki/Laos' },
+  'Sado Island': {
+    en: 'Sado (Sadogashima)', ja: '佐渡島 (Sadogashima)', zh: '佐渡島',
+    wiki: 'https://en.wikipedia.org/wiki/Sado_Island',
+    note: 'The gold and silver of Sado were worked from 1601 and paid for a good deal of the Tokugawa state; before that it was where the court sent people it wanted out of the way, Emperor Juntoku and the priest Nichiren among them. Korean and Chinese conscripts were worked in the mines during the war.'
+  },
+  'Tsushima Island': {
+    en: 'Tsushima', ja: '対馬 (Tsushima)', zh: '對馬',
+    wiki: 'https://en.wikipedia.org/wiki/Tsushima_Island',
+    note: 'Halfway between Kyūshū and Korea, and for three centuries the Sō family held the Korea trade from it under the shogunate\'s licence. Fortified from the 1880s as the gate to the strait, and the Russian fleet was destroyed off it in May 1905.'
+  },
+  'Iki Island': {
+    en: 'Iki', ja: '壱岐島 (Ikinoshima)', zh: '壹岐島',
+    wiki: 'https://en.wikipedia.org/wiki/Iki_Island',
+    note: 'On the same road to Korea, and where the Mongol fleets landed in 1274 and again in 1281, killing most of the population both times.'
+  },
+  'Awaji Island': {
+    en: 'Awajishima', ja: '淡路島 (Awajishima)', zh: '淡路島',
+    wiki: 'https://en.wikipedia.org/wiki/Awaji_Island',
+    note: 'In the Inland Sea between Kōbe and Shikoku, and known for its onions, its roof tiles and a puppet theatre older than Bunraku.'
+  },
+  Shodoshima: {
+    en: 'Shōdoshima', ja: '小豆島 (Shōdoshima)', zh: '小豆島',
+    wiki: 'https://en.wikipedia.org/wiki/Sh%C5%8Ddoshima',
+    note: 'Where olives were first grown in Japan, from 1908, on land the government thought might suit them. Soy sauce and stone for Osaka Castle came from it too.'
+  },
+  Dōgo: {
+    en: 'Dōgo — the main island of the Oki group', ja: '隠岐島後 (Oki Dōgo)', zh: '隱岐島後',
+    wiki: 'https://en.wikipedia.org/wiki/Oki_Islands',
+    note: 'The largest of the Oki islands, and the court\'s furthest place of exile: the emperors Go-Toba and Go-Daigo were both sent here, and Go-Daigo got away again.'
+  },
+  Shimoshima: {
+    en: 'Shimoshima — the larger of the Amakusa islands', ja: '天草下島 (Amakusa Shimoshima)',
+    zh: '天草下島', wiki: 'https://en.wikipedia.org/wiki/Amakusa',
+    note: 'The larger of the Amakusa islands, and Christian country until the rebellion of 1637 was put down and the survivors went underground for two centuries.'
+  },
+  'Rishiri Island': {
+    en: 'Rishiri', ja: '利尻島 (Rishiritō)', zh: '利尻島',
+    wiki: 'https://en.wikipedia.org/wiki/Rishiri_Island',
+    note: 'A single volcanic cone off the north-west of Hokkaidō, and a herring station in the years when the herring still came.'
+  },
+  'Rebun Island': {
+    en: 'Rebun', ja: '礼文島 (Rebuntō)', zh: '禮文島',
+    wiki: 'https://en.wikipedia.org/wiki/Rebun_Island',
+    note: 'The northernmost island of Hokkaidō\'s coast, treeless and flowered, and a herring and kelp fishery.'
+  },
+  'Okushiri-to': {
+    en: 'Okushiri', ja: '奥尻島 (Okushiritō)', zh: '奧尻島',
+    wiki: 'https://en.wikipedia.org/wiki/Okushiri_Island',
+    note: 'Off the south-west of Hokkaidō, a herring island whose catch collapsed with the rest of the fishery between the wars.'
+  },
+  Izuoshima: {
+    en: 'Izu Ōshima', ja: '伊豆大島 (Izu Ōshima)', zh: '伊豆大島',
+    wiki: 'https://en.wikipedia.org/wiki/Izu_%C5%8Cshima',
+    note: 'The nearest of the Izu islands to Tokyo, and its volcano Mihara was close enough to the capital to be a day\'s outing — and, in the 1930s, notorious as a place people went to jump into it.'
+  },
   Hokkaido: { en: 'Hokkaidō-chō', ja: '北海道庁 (Hokkaidō-chō)', zh: '北海道廳' },
   Aomori: {
     en: 'Aomori-ken', ja: '青森県 (Aomori)', zh: '青森縣',
