@@ -3943,7 +3943,6 @@ JMAP.PROVINCES = {
   Salween: { en: 'Salween District — the Papun hills, inside Tenasserim', zh: '薩爾溫地區' },
   'Shaan-Gan-Ning': {
     en: 'Shǎngānníng border region — Yenan', zh: '陝甘寧邊區',
-    wiki: 'https://en.wikipedia.org/wiki/Yan\'an_Soviet',
     note: 'The party\'s own ground, and the only base area Japan never entered: the Nationalist blockade to the south mattered more here than the Japanese line to the east. Yan\'an was its seat from 1937, and it was governed as a border region with its own currency, taxes and land policy.'
   },
   'Jin-Sui': {
@@ -4016,7 +4015,6 @@ JMAP.PROVINCES = {
   },
   'E-Yu-Wan': {
     en: 'Èyùwǎn — Hupeh, Honan and Anhwei', zh: '鄂豫皖',
-    wiki: 'https://en.wikipedia.org/wiki/Eyuwan_Soviet',
     note: 'Where Hubei, Henan and Anhui meet in the Dabie mountains. It had been one of the largest soviets of the early 1930s, was lost in the encirclement campaigns, and was taken up again by the New Fourth Army in the war.'
   },
   Anhui: {
