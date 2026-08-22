@@ -4290,6 +4290,8 @@ SPLITTERS = {
 # Andamans, where the islands are perfectly legible, the rings are just clutter.
 ISLET_RINGS = {
     "wake", "christmas", "miangas", "cocos",
+    # reefs and sandbanks, invisible at this scale without a ring
+    "spratly", "paracel", "pratas",
     "linephoenix", "uspacific", "nzpacific", "ellice",
     "nanyo", "gilberts", "ogasawara", "guam", "chishima", "aleutians",
     "hawaii", "ryukyu", "newguinea_au", "solomons_br", "nauru_au",

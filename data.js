@@ -3847,11 +3847,11 @@ JMAP.BROWSE = [
 
 JMAP.FEATURES = [
   {
-    id: 'seajapan', en: 'Sea of Japan', ja: '日本海 (Nihonkai)', zh: '日本海', lvl: 1, lat: 40.2,
-    lon: 135.0, kind: 'sea'
+    id: 'seajapan', en: 'Sea of Japan (East Sea)', ja: '日本海 (Nihonkai)', zh: '日本海', lvl: 1,
+    lat: 40.2, lon: 135.0, kind: 'sea'
   },
   {
-    id: 'yellowsea', en: 'Yellow Sea', ja: '黄海 (Kōkai)', zh: '黃海', lvl: 1, lat: 35.4,
+    id: 'yellowsea', en: 'Yellow Sea (West Sea)', ja: '黄海 (Kōkai)', zh: '黃海', lvl: 1, lat: 35.4,
     lon: 123.4, kind: 'sea'
   },
   {

@@ -1,6 +1,6 @@
 id,en,ja,zh,kind,lat,lon,lvl
-seajapan,Sea of Japan,日本海 (Nihonkai),日本海,sea,40.2,135.0,1
-yellowsea,Yellow Sea,黄海 (Kōkai),黃海,sea,35.4,123.4,1
+seajapan,Sea of Japan (East Sea),日本海 (Nihonkai),日本海,sea,40.2,135.0,1
+yellowsea,Yellow Sea (West Sea),黄海 (Kōkai),黃海,sea,35.4,123.4,1
 eastchinasea,East China Sea,東シナ海 (Higashi Shina-kai),東海,sea,28.6,125.4,1
 southchinasea,South China Sea,南シナ海 (Minami Shina-kai),南海,sea,14.5,115.0,1
 bohai,Bohai Bay,渤海 (Bokkai),渤海,sea,38.6,119.4,2
