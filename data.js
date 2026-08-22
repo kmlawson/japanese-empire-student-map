@@ -346,9 +346,8 @@ JMAP.TERRITORIES = {
       note: 'The private kingdom of the "White Rajahs": James Brooke took it from the sultan of Brunei in 1841 and his family ruled it for a century. A British protectorate from 1888, ceded to the Crown in 1946.'
     },
     {
-      id: 'northborneo', en: 'North Borneo', ja: '北ボルネオ (Kita Boruneo)',
-      orig: 'North Borneo / Labuan', zh: '北婆羅洲', when: 'Chartered company from 1881',
-      cat: 'british', lvl: 3, atoms: ['northborneo'],
+      id: 'northborneo', en: 'North Borneo', ja: '北ボルネオ (Kita Boruneo)', zh: '北婆羅洲',
+      when: 'Chartered company from 1881', cat: 'british', lvl: 3, atoms: ['northborneo'],
       note: 'Governed not by the Crown but by the British North Borneo Chartered Company, one of the last trading companies to rule territory in its own right. Labuan, a Crown colony since 1848, was attached to the Straits Settlements in 1907.'
     },
     {

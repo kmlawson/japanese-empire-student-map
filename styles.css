@@ -565,6 +565,7 @@ button.plain:hover { background: #f2ede2; }
    be both seen and pointed at. Only these three atoms: the same stroke on the
    Philippines or the Indies would thicken coastlines that read perfectly well
    already. */
+.tiny-isles,
 .tiny-isles path {
   stroke: var(--c, var(--inactive));
   stroke-width: 1;

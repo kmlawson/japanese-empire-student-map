@@ -4566,7 +4566,19 @@ ONE_ISLET = {"cocos"}
 # which is enough to see and to point at without pretending the island is
 # bigger than it is. Only these: everywhere else it would thicken coastlines
 # that are perfectly legible.
-TINY_ISLES = {"spratly", "paracel", "pratas"}
+#
+# The Turtle and Mangsee Islands are here for the same reason and a second one.
+# They are nine and three specks of about two square kilometres each in the
+# Sulu Sea, and they carry the one arrangement on this map that has to be read
+# off the drawing to be understood at all: the American colour with British
+# diagonals, which is what the convention of 2 January 1930 left in place. The
+# islet rings that used to point them out were taken away on the grounds that
+# the North Borneo coast beside them is perfectly legible — true of the coast
+# and not of the islands, which at the deepest zoom the map allows are three or
+# four pixels across. The stroke at least makes them land. The diagonals are
+# still too fine to see on a shape that size; that is a separate problem and
+# the card says in words what the drawing cannot.
+TINY_ISLES = {"spratly", "paracel", "pratas", "turtle", "mangsee"}
 
 ARCHIPELAGOS = {
     "wake", "turtle", "mangsee", "miangas", "cocos",
@@ -5291,6 +5303,7 @@ def main():
 
     # ---- the Shan states east of the Salween, Thai-held from 1942 ----------
     spath = os.path.join(CACHE, SAHARAT_FILE)
+    _shan = collections.defaultdict(list)
     if os.path.exists(spath):
         with open(spath) as fh:
             for feat in json.load(fh)["features"]:
@@ -5306,10 +5319,13 @@ def main():
                     continue
                 if keep:
                     groups["saharat"].extend(keep)
-                    provinces["saharat"].append(
-                        ("Kengtung" if pname in SAHARAT_WHOLE else "MongpanEast", keep))
+                    _shan["Kengtung" if pname in SAHARAT_WHOLE
+                          else "MongpanEast"].extend(keep)
     else:
         sys.stderr.write(f"note: {SAHARAT_FILE} missing, Saharat Thai Doem not drawn\n")
+    # one block per name, as with the 1941 cession below
+    for _label, _rs in _shan.items():
+        provinces["saharat"].append((_label, _rs))
 
     # ---- Korea, province by province ---------------------------------------
     kpath = os.path.join(CACHE, KOREA_FILE)
@@ -5433,6 +5449,13 @@ def main():
             provinces["indochina"].append((label, keep))
 
     # ---- territory ceded to Thailand in 1941 -------------------------------
+    # The blocks are gathered under the two names before they are handed over
+    # rather than one block per province: a sub-unit block is what carries a
+    # name on the map, so eight of them meant the map wrote "Cambodia" across
+    # the cession six times and "Laos" twice with the Other layer on, and
+    # meant the selection outline traced every province boundary inside the
+    # cession instead of the two shapes the reader is being shown.
+    _ceded = collections.defaultdict(list)
     for iso, wanted in (("KHM", SIAM_1941_KHM), ("LAO", SIAM_1941_LAO)):
         path = os.path.join(CACHE, f"adm1_{iso}.json")
         if not os.path.exists(path):
@@ -5447,8 +5470,7 @@ def main():
                 groups["siamgain"].extend(rs)
                 # on the 1930 map this ground is simply Cambodia and Laos, and
                 # the pointer should say so
-                provinces["siamgain"].append(
-                    ("Cambodia" if iso == "KHM" else "Laos", rs))
+                _ceded["Cambodia" if iso == "KHM" else "Laos"].extend(rs)
             elif iso == "LAO" and pname == "Champasak":
                 west = box_planes(0, -90, SIAM_1941_CHAMPASAK_WEST, 90)
                 cut = []
@@ -5458,7 +5480,10 @@ def main():
                         cut.append(piece)
                 if cut:
                     groups["siamgain"].extend(cut)
-                    provinces["siamgain"].append(("Laos", cut))
+                    _ceded["Laos"].extend(cut)
+    for _label in ("Cambodia", "Laos"):
+        if _ceded.get(_label):
+            provinces["siamgain"].append((_label, _ceded[_label]))
 
     # ---- the Borneo states -------------------------------------------------
     borneo_path = os.path.join(CACHE, "adm1_MYS.json")
@@ -6645,6 +6670,8 @@ def main():
                 _cls = "atom mandate"
             elif key == "mandate_ex_guam":
                 _cls = "atom mandate mandate-cutout"
+            elif key in TINY_ISLES:
+                _cls = "atom tiny-isles"
             _clip = (' clip-path="url(#clip-off-guam)"'
                      if (key == "mandate_jp" and _guam_box) else "")
             out.append(f'    <path id="a-{key}" class="{_cls}"{_clip} '

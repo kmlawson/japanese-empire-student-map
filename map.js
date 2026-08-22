@@ -2317,20 +2317,30 @@
       return;
     }
     var id = hit ? (hit.rec.rid || hit.rec.id) : null;
+    // worked out before the two-tap rule below, which throws the province
+    // away on the first tap: which cluster was tapped is a fact about the
+    // territory and not about how much detail has been asked for
+    var clust = prov && prov.el ? clusterOf(prov.el) : null;
     // On a touch screen there is no hover, so the two questions a tap might be
     // asking — what country is this, and what province of it am I on — have to
     // be separated in time instead of by the pointer. The first tap answers
     // the first and the second tap answers the second, which also means a
     // student who only wants the country is never told more than they asked.
     if (coarse) {
-      if (id && id === selected && prov) {
+      // A sub-unit that belongs to a cluster is not part of the atom it is
+      // drawn inside, so the two-tap rule does not apply to it: Labuan's
+      // country is the Straits Settlements and answering "North Borneo" to
+      // the first tap is not a coarser answer, it is a wrong one.
+      if (clust) {
+        setHotProv(prov.el);
+      } else if (id && id === selected && prov) {
         setHotProv(prov.el);
       } else {
         lastProv = null;
         setHotProv(null);
       }
     }
-    select(id);
+    select(id, clust);
   }
 
   var hot = null;
@@ -2382,8 +2392,8 @@
      it lights with. In 1930 that is China and the four territories drawn
      separately so they can be named — Manchuria, Jehol, Chahar and Suiyuan,
      and Sinkiang — which were all the Republic on that date. */
-  function litFor(id) {
-    if (hotCluster) return hotCluster;
+  function litFor(id, cluster) {
+    if (cluster) return cluster;
     var els = (atomsOf[id] || []).slice();
     var rec = id && byId[id];
     if (rec && rec.lights) {
@@ -2473,6 +2483,17 @@
 
   var hotProv = null;
   var lastProv = null;
+
+  /* The cluster the *selection* belongs to, which is not always the atom the
+     selection is drawn inside. Labuan is a sub-unit of the North Borneo atom
+     and a Straits Settlement, so choosing it has to draw the line round
+     Singapore, Penang and Malacca and not round the country it sits off.
+     Hovering has done that since clusters were introduced, and the selection
+     borrowed `hotCluster` to do it — which works with a mouse, where the
+     hover sets it before the click lands, and does nothing at all on a touch
+     screen, where there is no hover and the tap outlined North Borneo. The
+     selection keeps its own. */
+  var selCluster = null;
 
   /* Which country draws its internal boundaries. With the Administrative layer
      on, every division of every country used to be drawn at once — about
@@ -2929,10 +2950,10 @@
     // one line that changes thickness along its length wherever they did not
     // land on exactly the same pixels. The selection is the stronger statement
     // and the one that survives the pointer moving away, so it wins.
-    var bothSame = selected && hot === selected && !hotCluster;
+    var bothSame = selected && hot === selected && !hotCluster && !selCluster;
     if (hotCluster) outlineOf(hotCluster, 'hi-territory');
     else if (!bothSame && hot && atomsOf[hot] && seen(hot)) {
-      outlineOf(litFor(hot), 'hi-territory');
+      outlineOf(litFor(hot, hotCluster), 'hi-territory');
     }
     if (hotProv) outlineOf([hotProv], 'hi-province');
     if (selected && atomsOf[selected] && seen(selected)) {
@@ -2941,7 +2962,7 @@
       // map lit Manchuria, Jehol, Chahar and Suiyuan and Sinkiang with it —
       // all of them the Republic on that date — and then clicking outlined
       // China proper alone and left the rest of the country outside the line.
-      outlineOf(litFor(selected), 'hi-selected');
+      outlineOf(litFor(selected, selCluster), 'hi-selected');
     }
   }
 
@@ -2951,10 +2972,16 @@
     if (!atomsOf[id]) els.forEach(function (el) { el.classList.toggle('sel', on); });
   }
 
-  function select(id) {
+  function select(id, cluster) {
     markSelected(selected, false);
     selected = null;
+    // A tap says which cluster it landed on, because on a touch screen there
+    // is no hover to have worked it out already. Every other caller means the
+    // last thing the pointer was over.
+    selCluster = (cluster !== undefined ? cluster
+                  : (lastProv && lastProv.el ? clusterOf(lastProv.el) : null)) || null;
     if (!id || !byId[id]) {
+      selCluster = null;
       infoBox.hidden = true;
       document.body.classList.toggle('panel-open', !quizBox.hidden);
       redrawHighlight();
