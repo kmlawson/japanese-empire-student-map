@@ -397,6 +397,72 @@
     },
   });
 
+  /* ---- the neutral filler under China, on and off ---- */
+
+  TOOLS.push({
+    title: 'China filler',
+    hint: 'Two paths in the neutral “elsewhere” grey, laid under everything. ' +
+          '<b>chinabase</b> was Natural Earth\u2019s outline of China, put there so ' +
+          'that where it and the Republican provinces put a land frontier a ' +
+          'kilometre apart the gap read as a seam and not as sea. That job is ' +
+          'over: <code>NE_CHINA_MAINLAND<\/code> is off and the mainland ring is not in ' +
+          'the layer at all. What is left is coastal — a few dozen island ' +
+          'rings, of which most are covered by the provinces and a handful are ' +
+          'not. <b>chinabase_land</b> is a different thing and is not in question: ' +
+          'three boxes of ground no source on this map covers, the Karakoram ' +
+          'and Aksai Chin among them. ' +
+          'Switch each off and pan the coast: what disappears is what the layer ' +
+          'is still doing. Shijiutuo, in the Gulf of Chihli at 118.6 E 39.0 N, ' +
+          'is the one to look at — it is on this map only because of the ' +
+          'filler, and the filler draws it in nobody\u2019s colour and will not ' +
+          'answer when it is pointed at.',
+    build: function (sec) {
+      var rows = [
+        { id: 'chinabase', label: 'Draw chinabase (the coastal filler)', key: 'chinabase' },
+        { id: 'chinabase_land', label: 'Draw chinabase_land (the interior boxes)', key: 'chinabaseland' },
+      ];
+      var out = document.createElement('div');
+      out.className = 'readout';
+
+      function census() {
+        var lines = [];
+        rows.forEach(function (r) {
+          var el = svg.querySelector('#' + r.id);
+          if (!el) { lines.push(r.id + ': not in this map'); return; }
+          var d = el.getAttribute('d') || '';
+          var rings = (d.match(/M/g) || []).length;
+          lines.push(r.id + ': ' + rings + ' rings, ' +
+                     (d.match(/[MLlm]/g) || []).length.toLocaleString() + ' points, ' +
+                     (el.style.display === 'none' ? 'hidden' : 'drawn'));
+        });
+        return lines.join('\n');
+      }
+
+      rows.forEach(function (r) {
+        var wrap = document.createElement('label');
+        wrap.className = 'sw';
+        wrap.innerHTML = '<input type="checkbox" checked> ' + r.label;
+        var box = $('input', wrap);
+        sec.appendChild(wrap);
+
+        function apply(on) {
+          var el = svg.querySelector('#' + r.id);
+          if (el) el.style.display = on ? '' : 'none';
+          if (!el) box.disabled = true;
+          out.textContent = census();
+          setting(r.key, on);
+        }
+        box.addEventListener('change', function () { apply(box.checked); });
+        var want = setting(r.key);
+        box.checked = want !== false;
+        apply(box.checked);
+      });
+
+      sec.appendChild(out);
+      out.textContent = census();
+    },
+  });
+
   /* ---- draw a polygon and take its coordinates away ---- */
 
   var drawingOn = false;

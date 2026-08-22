@@ -789,6 +789,27 @@ BACKING_FROM_SUBUNITS = {"philippines", "malaya", "northborneo", "indochina"}
 # is not drawn, and the sub-units then stand as the atom.
 NO_BACKING = {"china"}
 
+# Atoms assembled from two sources whose shapes overlap, and which are drawn as
+# one path. A path is filled by the non-zero rule, so two rings that overlap
+# cancel where they cross if their windings disagree — and the cancellation is
+# a hole in the country, not a seam between two of them.
+#
+# French Indochina is the case. Vietnam comes from Natural Earth; Laos and
+# Cambodia come from geoBoundaries' provinces, because the ground ceded to
+# Thailand in 1941 has to be cut out of them province by province. The two
+# sources draw one border and they do not draw it in the same place: measured
+# on the built file, 0.70% of Indochina's land — 165 square units, about 4,300
+# km² — had a total winding of zero and was painted as sea. It read as a long
+# broken line down the Annamite chain from the Chinese border to the Mekong,
+# which is exactly where the two sources meet.
+#
+# Giving every ring the same winding makes the path's fill their union, which
+# is what the country is. The overlap is interior to Indochina, so its outline
+# does not move; only the hole inside it closes. Not applied anywhere else: an
+# atom that means to carry a hole — India's enclaves, the NCA sheet's pacified
+# and unpacified blocks — states it with a winding, and this would fill it in.
+WELD_RINGS = {"indochina"}
+
 # Atoms drawn whole, with no divisions inside them, because the divisions on
 # hand are not trustworthy for the dates this map draws. Burma's are the
 # present-day states and regions; Thailand's are the present-day changwat,
@@ -5714,8 +5735,12 @@ def main():
                     else args.min_area)
 
         pieces, specks, moments = [], [], []
+        # see WELD_RINGS: one winding for the lot, so the fill is their union
+        weld = key in WELD_RINGS
         for ring in source:
             ring = normalise_ring(ring)
+            if weld and signed_ring_area(ring) < 0:
+                ring = ring[::-1]
             if key == "gilberts" and min(p[0] for p in ring) > 180:
                 continue
             ring = clip_halfplanes(ring, frame)

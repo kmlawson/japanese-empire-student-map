@@ -1639,7 +1639,7 @@
       var text = svgEl('text', { 'class': 'tlabel sublabel', 'font-size': SUB_PX });
       labelLayer.appendChild(text);
       var entry = { rec: subRec(el, key), el: text, x: x, y: y, dy: 0,
-                    size: SUB_PX, w: 0, h: SUB_PX * 1.2, half: half,
+                    size: SUB_PX, w: 0, h: SUB_PX * 1.2, half: half, key: key,
                     owner: el, atom: el.closest ? el.closest('.atom') : null };
       labels.push(entry);
       subLabels.push(entry);
@@ -1662,7 +1662,28 @@
   function gateLabels() {
     ensureSubLabels();
     var showLabels = state.labels && state.mode !== 'quiz';
+    /* An island can be named twice: once by the base map, from the centroid
+       written into its shape, and again by the fine coastline layer, off the
+       ring it grafts in. The two used to land on top of each other and the
+       collision test dropped one of them — so it was never seen, and it was
+       never fixed either. Moving the fine layer's name clear of the island it
+       belongs to separated them, and Pagan and Agrihan were each written out
+       twice. Where a fine ring is in the document, its name is the one to
+       keep: it is drawn from the accurate shape and it is the one that has
+       been placed to be read. */
+    var doubled = null;
+    for (var i = 0; i < subLabels.length; i++) {
+      var F = subLabels[i];
+      if (!F.half || !F.key || !F.owner || !F.owner.isConnected) continue;
+      (doubled = doubled || {})[F.key] = true;
+    }
     labels.forEach(function (L) {
+      if (doubled && L.key && !L.half && doubled[L.key]) {
+        L.el.textContent = '';
+        L.el.style.display = 'none';
+        L.w = 0;
+        return;
+      }
       // A division's name belongs to a shape, and the shape can go: the atom
       // is not drawn in this epoch, or the alternative province source has
       // replaced it. Read off the inline style rather than the computed one —
