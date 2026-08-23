@@ -57,6 +57,19 @@
     // browser rasters, so the map is three to six times cheaper to pan without
     // it. Off unless it is asked for; `styles.css` says what asking buys.
     hairline: false,
+    // The country's own outline, drawn under its divisions so that a crack
+    // between two of them shows the country rather than the sea. Where the
+    // divisions are drawn it is a second copy of the same ground, and it is
+    // off by default now: the map shows one polygon per country with the
+    // Administrative layer off and the divisions with it on, and not both at
+    // once. Switching it on puts the filler back, which is the way to see
+    // what it was doing.
+    //
+    // "Off" means off where it is redundant. Siam, Burma and Indochina keep
+    // theirs whatever this says, because their divisions live in the
+    // administrative file and the backing is the only shape they have until
+    // it loads -- hiding it would take three countries off the map.
+    backs: false,
     // Which reading of the occupation in China is drawn. 'traced' is the map's
     // own: the 1940 sheet adjusted to December 1942, with Wu Yuexing's
     // Communist base areas over it. 'nca' is the North China Area Army's own
@@ -129,6 +142,7 @@
       if (typeof saved.extent === 'boolean') state.extent = saved.extent;
       if (typeof saved.rivers === 'boolean') state.rivers = saved.rivers;
       if (typeof saved.hairline === 'boolean') state.hairline = saved.hairline;
+      if (typeof saved.backs === 'boolean') state.backs = saved.backs;
       if (typeof saved.ccp === 'boolean') state.ccp = saved.ccp;
       if (saved.occSource === 'nca' || saved.occSource === 'traced') {
         state.occSource = saved.occSource;
@@ -143,6 +157,7 @@
         epoch: state.epoch, level: state.level,
         cats: state.cats, labels: state.labels, extent: state.extent,
         rivers: state.rivers, legend: state.legend, hairline: state.hairline,
+        backs: state.backs,
         occSource: state.occSource, ccp: state.ccp,
       }));
     } catch (err) { /* private browsing; not worth complaining about */ }
@@ -1154,6 +1169,7 @@
    *   3  administrative    6  rivers                (clear: period sources)
    *   8,9  detail level, 1 to 3, stored one less
    *   10  hairline    11  the NCA reading    12  resistance base areas
+   *   13  the filler under each country
    *
    * Bits 7 and 10 no longer have a switch in the Layers panel — the province
    * source came out once the period sheet was redrawn, and the hairline came
@@ -1191,6 +1207,7 @@
     // Inverted, an absent bit means the default, which is what an old link
     // should mean.
     if (!state.ccp) bits |= 4096;
+    if (state.backs) bits |= 8192;
     return bits.toString(36);
   }
 
@@ -1210,6 +1227,7 @@
     state.hairline = !!(bits & 1024);
     state.occSource = (bits & 2048) ? 'nca' : 'traced';
     state.ccp = !(bits & 4096);          // inverted; see layerCode
+    state.backs = !!(bits & 8192);
     urlProvSource = (bits & 128) ? 'roc' : 'enp';
   }
 
@@ -3389,6 +3407,21 @@
     // switch that works sometimes. Now it draws the divisions.
     if (svg) svg.classList.toggle('admin-on', !!state.cats.territory);
     if (svg) svg.classList.toggle('hairline', !!state.hairline);
+    // Which backings are a second copy of ground that is already drawn. Asked
+    // here rather than at build time because the answer changes when the
+    // administrative file arrives: until it does, Siam's atom is an empty
+    // group and its backing is the whole country; after it, the atom carries
+    // seventy changwat and the backing is underneath all of them. `loadAdmin`
+    // calls this again when the graft is done.
+    if (svg) {
+      svg.classList.toggle('backs-off', !state.backs);
+      Object.keys(backingEls).forEach(function (k) {
+        var atom = atomEls[k];
+        var own = atom && atom.tagName !== 'path'
+          && $$('path:not(.superseded)', atom).length;
+        backingEls[k].classList.toggle('redundant', !!own);
+      });
+    }
     // the lifted hairlines exist only while that layer is on, and the geometry
     // they copy arrives with it, so they are rebuilt whenever it changes
     liftSubs(subsAtom);
@@ -4503,6 +4536,16 @@
     // Removed from the Layers panel. The state and bit 10 of the layer code
     // still work, so an old address still means what it meant; this is null
     // now and the block below is skipped.
+    var optBacks = $('#opt-backings');
+    if (optBacks) {
+      optBacks.checked = state.backs;
+      optBacks.addEventListener('change', function () {
+        state.backs = optBacks.checked;
+        applyState();
+        saveState();
+      });
+    }
+
     var optHair = $('#opt-hairline');
     if (optHair) {
       optHair.checked = state.hairline;

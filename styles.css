@@ -376,6 +376,16 @@ button.plain:hover { background: #f2ede2; }
   pointer-events: none;
 }
 
+/* The filler under a country, switched off. It is the country's own outline
+   laid beneath its divisions so that a crack between two of them shows the
+   country and not the sea; where the divisions are drawn it is a second copy
+   of the same ground, and the map now draws one polygon per country with the
+   Administrative layer off and the divisions with it on. `redundant` is set
+   from JS, per atom and per state of the administrative file, because whether
+   a backing is a second copy is not a fact about the backing: Siam's is the
+   whole country until its changwat load and underneath all of them after. */
+#jmap.backs-off #backings path.redundant { display: none; }
+
 #backings path[data-deferred] { pointer-events: auto; }
 #backings path.hot { filter: brightness(1.12); }
 

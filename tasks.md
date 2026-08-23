@@ -4399,6 +4399,69 @@ way — `SUBS_LIFT`, which redraws the atom's own boundaries in a layer above al
 of `#land` while taking the stroke off the originals, so each line is drawn
 once and only its depth changes. Thailand joins India in it.
 
+### Labuan, for the last time: it was inside North Borneo's own polygon
+The card for Labuan was headed *Labuan* and then said *North Borneo — chartered
+company from 1881*, followed by North Borneo's paragraph; hovering North Borneo
+lit Labuan and drew a ring round it. This had been fixed twice in `map.js` and
+came back both times, because the page was never the whole of it.
+
+`RING_NAMES` names an atom's rings by which box their centroid falls in, and
+`northborneo` claims everything between 114–120 E and 3–8 N. Labuan is at
+115.2 E, 5.3 N. So the island was swept into the `NorthBorneo` sub-unit *and*
+appended again as its own `Labuan` sub-unit: one piece of ground in two
+sub-units at once, and inside North Borneo's own path. Nothing the page did
+could take it out of a shape it was part of.
+
+Three changes, and it needed all three:
+
+* **The build.** A ring an explicit sub-unit already owns is no longer the
+  box's to claim. `NorthBorneo`'s path goes from 13,878 characters to 13,592 —
+  exactly Labuan's 286 removed — and its backing from 26 subpaths to 25, which
+  is the same duplicate a second time. Nothing else in any of the five SVGs
+  changes: Bali, Sarawak, Brunei, Saipan and the rest are where they were.
+* **Whose it was.** `CLUSTER_HOME` says which territory a cluster answers to
+  where the cluster is a polity rather than a country drawn in two pieces —
+  `Straits Settlements: malaya`, and nothing else, because Laos and Cambodia
+  are the other kind. The card and the tooltip name that instead of the atom.
+  Christmas Island is deliberately not affected: its atom is Malaya's already.
+* **The lighting.** `.atom.hot` is a filter on the whole group and no child can
+  opt out of a filter above it — but a filter of its own composes with it, so
+  `brightness(.8929)` undoes `brightness(1.12)` exactly.
+
+Measured with a mouse and with a finger, as the two-tap rule requires. Tapping
+Labuan on a touch screen names Labuan, the card reads *British Malaya &
+Singapore · Straits Settlements & protected states*, and the selection outline
+holds Labuan and the four other Settlements and not North Borneo. Hovering
+North Borneo brightens its own path from 176,127,142 to 197,142,159 and leaves
+Labuan at 176,127,142.
+
+Not fixed: a shimmer of at most 10/255 on Labuan's own coastline pixels, where
+the backing beneath it still carries the island and brightens with the atom.
+Half the strength of the real thing, on the antialiased edge only.
+
+This was committed inside `3f01023`, whose message is about deployment — the
+other session committed a tree that had these changes uncommitted in it.
+
+### The filler under each country is off, with a switch
+Asked for: one polygon per country with the Administrative layer off, the
+divisions with it on, and not both at once. The backings are deactivated rather
+than deleted, and there is a checkbox in the Layers panel to put them back —
+bit 13 of the layer code, so a link carries it.
+
+Off means off where it is redundant, which is decided per atom and again when
+the administrative file arrives: Siam's atom is an empty group until its
+changwat load and its backing is the whole country, so hiding it then would
+take Siam, Burma and Indochina off the map. With the layer off and the divisions
+off, 23 of 37 backings are hidden; with the divisions on, all 37.
+
+The cost, measured as ocean-coloured pixels enclosed by land, scanning a grid
+of deep-zoom windows over each country:
+
+* **Malaya** 801 → 1,262 (+58%)
+* **The Philippines** 40 → 341 (8.5×)
+
+That is what the second copy was buying. The switch is there to see it.
+
 ---
 
 ## Sources worth fetching
