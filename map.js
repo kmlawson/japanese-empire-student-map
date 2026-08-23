@@ -2575,6 +2575,11 @@
     }
   }
 
+  /* No group of blocks is ever gathered beyond this. See provPeers: the
+     occupied zone names 733 of its pieces the same thing, and one masked
+     outline per piece is what hangs a renderer. */
+  var PEER_CAP = 8;
+
   function markSplitProvinces() {
     clearSplitProvinces();
     if (!subOutlineLayer || !subsAtoms.length) return;
@@ -2584,12 +2589,15 @@
       $$('[data-prov]', a).forEach(function (n) {
         if (n.classList && n.classList.contains('fine')) return;
         var key = id + '/' + provLabel(n.getAttribute('data-prov'));
-        (groups[key] = groups[key] || []).push(n);
+        var g = groups[key] = groups[key] || [];
+        g.push(n);
+        if (g.atoms !== a) { g.spread = (g.spread || 0) + 1; g.atoms = a; }
       });
     });
     Object.keys(groups).forEach(function (k) {
       var g = groups[k];
-      if (g.length < 2) return;
+      // more than one block, in more than one atom, and not many of them
+      if (g.length < 2 || g.spread < 2 || g.length > PEER_CAP) return;
       g.forEach(function (n) { n.classList.add('merged-sub'); });
       var before = ownedDefs.sub.length;
       var kids = subOutlineLayer.childNodes.length;
@@ -2650,15 +2658,24 @@
     var atom = el.closest && el.closest('.atom');
     var id = atom && atom.getAttribute('data-id');
     if (!key || !id) return [el];
+    // Across atoms only. Several blocks of one name inside a single atom are
+    // not a province in pieces — they are one shading drawn in pieces, and the
+    // occupied zone is 733 of them all called "North China and the Yangtze
+    // valley". Gathering those cost 733 masked outlines for one hover and
+    // stalled the renderer for two and a half seconds. What this is for is the
+    // opposite case: one province drawn in two atoms, which is Suiyuan.
+    var kin = atomsOf[id] || [];
+    if (kin.length < 2) return [el];
     var want = provLabel(key);
-    var out = [];
-    (atomsOf[id] || [atom]).forEach(function (a) {
+    var out = [el];
+    kin.forEach(function (a) {
+      if (a === atom) return;
       $$('[data-prov]', a).forEach(function (n) {
-        var k = n.getAttribute('data-prov');
-        if (k && provLabel(k) === want) out.push(n);
+        if (provLabel(n.getAttribute('data-prov')) === want) out.push(n);
       });
     });
-    return out.length ? out : [el];
+    // and never more than a handful, whatever the data comes to say
+    return out.length > PEER_CAP ? [el] : out;
   }
 
   /* The province under the pointer, picked out inside the lit-up country. */
