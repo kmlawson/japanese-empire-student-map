@@ -150,11 +150,12 @@ the world.
 The largest of the Shan states by a distance — some twelve thousand square
 miles across the Salween, reaching to the Mekong and the borders of China, Laos
 and Siam — and the one with the fewest ties to Burma: its saohpa's country was
-Tai Khün, its trade ran east and north, and Britain kept the road to it open
-after the siege of Chitral generation because it was the far end of the empire.
-Thai troops crossed into it behind the Japanese advance in May 1942 and
-administered it from December; Japan transferred it formally on 20 August 1943.
-It went back to Burma in 1945.
+Tai Khün, and its trade ran east and north into Yunnan and Siam rather than
+down to Rangoon. Its ruler was one of only four Shan chiefs granted a permanent
+nine-gun salute in 1903, with Hsipaw, Yawnghwe and Möng Nai. That Tai
+connection is why Thailand had a claim to press here and not to the rest of the
+Shan States, and why this state and the trans-Salween strip beside it were the
+part that went.
 
 ## MongpanEast
 
