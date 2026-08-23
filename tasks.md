@@ -4462,6 +4462,48 @@ of deep-zoom windows over each country:
 
 That is what the second copy was buying. The switch is there to see it.
 
+### Double tap to zoom, and hold the second tap to zoom with one thumb
+A phone had no double tap at all. The map sets `touch-action: none` because it
+drives pan and zoom itself, and that also stops the browser synthesising a
+`dblclick` from a pair of taps — so the `dblclick` handler that zoomed a step
+was a mouse-only feature, and on a touch screen the second tap of a fast pair
+was recognised only in order to be thrown away.
+
+Both gestures are read in the pointer path now, for the mouse as well as the
+finger, and the `dblclick` listener is left with nothing to do but stop the
+text selection. Two handlers would have zoomed twice on a mouse.
+
+The second press of a pair does not pan. What it becomes is settled when it
+ends: lifted where it landed, one step of `DBL_ZOOM` at that point; drawn up or
+down the screen first, the continuous one-thumb zoom, at one doubling per 190
+px. Down pulls the map away and up pushes into it, which is the way a pinch
+already reads — the fingers going apart is the view getting narrower.
+
+The drag is measured against where the gesture started rather than frame by
+frame. A factor applied per frame accumulates its own rounding, and drawn down
+and back up again the map would not return to the scale it left.
+
+Measured, with a mouse and with a finger, as the two-tap rule requires:
+
+* double tap, 1.900x both ways, which is what the wheel's double click was
+* one tap, no zoom
+* held and drawn 190 px down, exactly 2.000x wider; drawn back to where it
+  started, back to the width it started at, to the last decimal
+* held and drawn 190 px up, exactly 2.000x narrower
+* the point under the thumb stays under the thumb: 0.01 screen pixels of drift
+  across a 2x zoom anchored 130 px from the left edge
+* a plain drag still pans and does not change the width
+* pinch still pinches: 839 to 249
+* and the two-tap rule survives, which was the thing to be careful of. Tapping
+  Shanxi twice at a reader's pace still names China and then Shanxi and does
+  not zoom; the same two taps 90 ms apart zoom 1.900x. 320 ms is what tells
+  them apart, and a deliberate second tap is slower than that.
+
+The first tap of a pair still selects what is under it, and the zoom then drops
+the selection, so the card appears and goes again. Deferring every tap by 300
+ms would stop that -- the quiz already does it, for the same reason -- at the
+cost of making every single tap on the map feel late. Left as it is.
+
 ---
 
 ## Sources worth fetching

@@ -22,6 +22,15 @@
   var HIT_R_TOUCH = 22;   // finger-sized tap target
   var HIT_R_MOUSE = 13;
   var TAP_SLOP = 9;       // px of movement still counted as a tap
+  var DBL_MS = 320;       // ms between two taps for them to be one gesture
+  var DBL_SLOP = 32;      // px apart the two may land and still be one
+  var DBL_ZOOM = 1.9;     // what one double tap is worth, as the wheel has it
+  // px of drag for one doubling of the scale, in the gesture where the second
+  // tap is held and drawn down the screen. A phone has no wheel and a pinch
+  // needs two thumbs, one of which is usually holding the phone; this is the
+  // one-handed way in. 190 is about a thumb's reach on a small screen for a
+  // doubling, which makes four times the width the length of the screen.
+  var ZOOM_DRAG_PX = 190;
   var TERR_PX = 13.5;     // label sizes, in screen pixels
   var SITE_PX = 11.5;
   var SUB_PX = 10.5;      // provinces and islands, a step under a country
@@ -1818,6 +1827,24 @@
     applyView();
   }
 
+  /* The same as `zoomAt`, but told the width to arrive at rather than a factor
+     to apply, and told which point of the map to hold still. A drag has to be
+     read against where it started — width times two to the power of how far
+     the thumb has come — because a factor applied per frame accumulates its
+     own rounding, and a gesture that is drawn down and back up again would not
+     return to the scale it left. */
+  function zoomToWidth(newW, anchor, cx, cy) {
+    newW = Math.min(Math.max(newW, minViewW()), fitView().w);
+    if (Math.abs(newW - view.w) < 1e-6) return;
+    var c = containerSize();
+    var r = container.getBoundingClientRect();
+    var k = newW / c.w;
+    view.w = newW;
+    view.x = anchor.x - (cx - r.left) * k;
+    view.y = anchor.y - (cy - r.top) * k;
+    applyView();
+  }
+
   function onResize() {
     applyPhoneLayout();
     var before = { cx: view.x + view.w / 2, cy: view.y + view.h / 2,
@@ -1889,6 +1916,10 @@
   var pointers = new Map();
   var dragStart = null;
   var pinchStart = null;
+  /* The second half of a double tap, while the finger is still down. It has
+     not yet decided which of two gestures it is: lifted where it landed it is
+     a step of zoom, drawn up or down the screen it is a continuous one. */
+  var zoomHold = null;
   var downTarget = null;
   var movedFar = false;
   /* Shift and drag draws a box, and the map goes to it. The wheel and the
@@ -1907,10 +1938,13 @@
     container.addEventListener('pointerup', onPointerUp);
     container.addEventListener('pointercancel', onPointerUp);
     container.addEventListener('wheel', onWheel, { passive: false });
-    container.addEventListener('dblclick', function (e) {
-      e.preventDefault();
-      zoomAt(e.clientX, e.clientY, 1.9);
-    });
+    // The step of zoom is taken in the pointer path now, for the mouse as well
+    // as the finger, because that is the only place a touch screen offers it:
+    // `touch-action: none` means the browser synthesises no dblclick from a
+    // pair of taps, so a phone had no double tap at all. Two handlers would
+    // have zoomed twice on a mouse; this one is left to stop the text
+    // selection a double click would otherwise make.
+    container.addEventListener('dblclick', function (e) { e.preventDefault(); });
     container.addEventListener('contextmenu', function (e) { if (coarse) e.preventDefault(); });
     if (hoverCapable) {
       container.addEventListener('mousemove', onHover);
@@ -1956,10 +1990,27 @@
         drawMarquee();
         return;
       }
+      // A second press in the same place as the last tap, soon enough after
+      // it: this is the second half of a double tap and it does not pan. What
+      // it does is settled when it ends -- lifted where it landed, one step of
+      // zoom; drawn up or down first, the one-finger zoom.
+      var back = Date.now() - (lastTap ? lastTap.t : -1e9);
+      if (lastTap && back < DBL_MS &&
+          Math.abs(e.clientX - lastTap.x) < DBL_SLOP &&
+          Math.abs(e.clientY - lastTap.y) < DBL_SLOP) {
+        zoomHold = { x: e.clientX, y: e.clientY, w: view.w,
+                     anchor: clientToSvg(e.clientX, e.clientY), drawn: false };
+        dragStart = null;
+        hideTooltip();
+        return;
+      }
       dragStart = { cx: e.clientX, cy: e.clientY, vx: view.x, vy: view.y };
       container.classList.add('dragging');
       hideTooltip();
     } else if (pointers.size === 2) {
+      // a second finger cancels it: what follows is a pinch, which says the
+      // same thing better
+      zoomHold = null;
       dragStart = null;
       movedFar = true;                       // a second finger is never a tap
       pinchStart = pinchState();
@@ -2057,6 +2108,23 @@
       return;
     }
 
+    if (zoomHold) {
+      var zdy = e.clientY - zoomHold.y;
+      if (!zoomHold.drawn) {
+        // still a double tap until it has moved further than a tap may
+        if (Math.hypot(e.clientX - zoomHold.x, zdy) <= TAP_SLOP) return;
+        zoomHold.drawn = true;
+        container.classList.add('dragging');
+        dropForGesture();
+      }
+      // down the screen pulls the map away, up pushes into it, which is the
+      // way round every phone map does it and the way round a pinch already
+      // reads: the fingers going apart is the view getting narrower
+      zoomToWidth(zoomHold.w * Math.pow(2, zdy / ZOOM_DRAG_PX),
+                  zoomHold.anchor, zoomHold.x, zoomHold.y);
+      return;
+    }
+
     if (!dragStart) return;
     var dx = e.clientX - dragStart.cx;
     var dy = e.clientY - dragStart.cy;
@@ -2120,6 +2188,25 @@
       if (container.hasPointerCapture(e.pointerId)) container.releasePointerCapture(e.pointerId);
     } catch (err) { /* already gone */ }
 
+    if (zoomHold) {
+      var drawn = zoomHold.drawn;
+      var zx = zoomHold.x, zy = zoomHold.y;
+      zoomHold = null;
+      container.classList.remove('dragging');
+      dragStart = null;
+      // A gesture that ended where it began never became the continuous one,
+      // so it is the plain double tap and worth one step.
+      if (!drawn && e.type === 'pointerup') {
+        dropForGesture();
+        zoomAt(zx, zy, DBL_ZOOM);
+      }
+      // and the pair is spent: a third tap starts a new one rather than
+      // zooming again off the back of the second
+      lastTap = null;
+      downTarget = null;
+      return;
+    }
+
     if (pointers.size < 2) pinchStart = null;
     if (pointers.size === 1) {
       var rest = Array.from(pointers.entries())[0];
@@ -2138,11 +2225,13 @@
       // pinching are untouched while one is armed. Absent unless admin.js has
       // been loaded, which a reader never does.
       if (window.JMAP_TAP && window.JMAP_TAP(e) === false) return;
-      // dblclick is synthesised after the second pointerup, too late to stop
-      // the tap that came with it — so the pair is spotted here instead
+      // The second press of a pair is taken in `onPointerDown` and returns
+      // above, so nothing that reaches here is one — but a press that was
+      // armed and then panned away does, and it must not also count as a tap.
       var now = Date.now();
-      var dbl = lastTap && now - lastTap.t < 320 &&
-                Math.abs(e.clientX - lastTap.x) < 32 && Math.abs(e.clientY - lastTap.y) < 32;
+      var dbl = lastTap && now - lastTap.t < DBL_MS &&
+                Math.abs(e.clientX - lastTap.x) < DBL_SLOP &&
+                Math.abs(e.clientY - lastTap.y) < DBL_SLOP;
       lastTap = { t: now, x: e.clientX, y: e.clientY };
       if (pendingTap) { window.clearTimeout(pendingTap); pendingTap = 0; }
       if (!dbl) {
