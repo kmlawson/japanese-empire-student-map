@@ -573,13 +573,13 @@ JMAP.TERRITORIES = {
     {
       id: 'other', en: 'Afghanistan', orig: 'Afghanistan, Nepal, Bhutan', zh: '阿富汗・尼泊爾・不丹',
       cat: 'other', lvl: 3, atoms: ['other'],
-      note: 'Drawn for context rather than as part of the story. Nepal was an independent kingdom, recognised as such by treaty in 1923; Bhutan and Sikkim were British protectorates, outside the directly administered provinces of British India.'
+      note: 'Drawn for context rather than as part of the story. Afghanistan and Nepal were independent states; Bhutan and Sikkim were British protectorates, outside the directly administered provinces of British India.'
     },
     {
       id: 'contested', en: 'Border is contested or not fixed', ja: '未確定国境', zh: '未定國界',
       cat: 'contested', lvl: 3, c: 'transparent', atoms: ['contested', 'contested_burma'],
       hatch: 'unclear',
-      note: 'Four stretches of frontier that the sources on this map do not agree about, and that no treaty had settled: the Kachin country between Burma and Yunnan, the Pamirs where Xinjiang, Afghanistan and Kashmir meet, Aksai Chin, and the McMahon line east of Bhutan. The colours underneath are what the map draws elsewhere; the crossing lines say the line itself was in dispute.'
+      note: 'These stretches of frontier were contested or the sources for this map disagree about them. They include the Pamirs where Afghanistan, the Soviet Union and China meet; the Aksai Chin plateau in northeastern Kashmir; the frontier east of Bhutan; and the frontier between Burma and Yunnan.'
     },
   ],
   e1942: [
@@ -980,7 +980,7 @@ JMAP.TERRITORIES = {
     {
       id: 'other', en: 'Afghanistan', orig: 'Afghanistan, Nepal, Bhutan', zh: '阿富汗・尼泊爾・不丹',
       cat: 'other', lvl: 3, atoms: ['other'],
-      note: 'Outside the story of the Japanese Empire, drawn for context. Nepal, Bhutan and Sikkim were British protectorates rather than parts of British India, which is why they are not drawn inside it.'
+      note: 'Drawn for context rather than as part of the story. Afghanistan and Nepal were independent states; Bhutan and Sikkim were British protectorates, outside the directly administered provinces of British India.'
     },
     {
       id: 'nca_pacified', en: 'Pacified areas (治安地区)', ja: '治安地区', zh: '治安地區',
@@ -4808,12 +4808,12 @@ JMAP.PROVINCES = {
   'Seodo, the west islet of the Liancourt Rocks': {
     en: 'Sŏdo (Nishijima) — the west islet of the Liancourt Rocks', ja: '西島 (Nishijima)',
     ko: '서도 (Sŏdo)', wiki: 'https://en.wikipedia.org/wiki/Liancourt_Rocks',
-    note: 'Dokdo to Korea, Takeshima to Japan, the Liancourt Rocks to everyone else. Japan incorporated them into Shimane prefecture in 1905, five years before it annexed Korea, so on both of this map’s dates they were inside the same empire as Ullŭngdo and nothing turned on the difference. South Korea has held them with a police detachment since 1954; Japan claims them still.'
+    note: 'Dokdo to Korea, Takeshima to Japan, and also known the Liancourt Rocks on some maps. Japan incorporated them into Shimane prefecture in 1905, five years before it annexed Korea, so on both of this map’s dates they were inside the same empire as Ullŭngdo and nothing turned on the difference. South Korea has held them with a police detachment since 1954; Japan claims them still.'
   },
   'Dongdo, the east islet of the Liancourt Rocks': {
     en: 'Tongdo (Higashijima) — the east islet of the Liancourt Rocks', ja: '東島 (Higashijima)',
     ko: '동도 (Tongdo)',
-    note: 'Dokdo to Korea, Takeshima to Japan, the Liancourt Rocks to everyone else. Japan incorporated them into Shimane prefecture in 1905, five years before it annexed Korea, so on both of this map’s dates they were inside the same empire as Ullŭngdo and nothing turned on the difference. South Korea has held them with a police detachment since 1954; Japan claims them still.'
+    note: 'Dokdo to Korea, Takeshima to Japan, and also known the Liancourt Rocks on some maps. Japan incorporated them into Shimane prefecture in 1905, five years before it annexed Korea, so on both of this map’s dates they were inside the same empire as Ullŭngdo and nothing turned on the difference. South Korea has held them with a police detachment since 1954; Japan claims them still.'
   },
   Keiki: {
     en: 'Keiki-dō (Kyŏnggi-do)', ja: '京畿道 (Keiki-dō)', zh: '京畿道', ko: '경기도 (Kyŏnggi-do)',

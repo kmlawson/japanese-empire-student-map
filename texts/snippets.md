@@ -10,7 +10,7 @@ land reclamation.
 
 ## liancourt
 
-Dokdo to Korea, Takeshima to Japan, the Liancourt Rocks to everyone else.
+Dokdo to Korea, Takeshima to Japan, and also known the Liancourt Rocks on some maps.
 Japan incorporated them into Shimane prefecture in 1905, five years before it
 annexed Korea, so on both of this map’s dates they were inside the same empire
 as Ullŭngdo and nothing turned on the difference. South Korea has held them
