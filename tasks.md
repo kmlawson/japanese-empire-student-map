@@ -4364,6 +4364,41 @@ The headline still splits off cleanly at the em dash in all thirty, so the card
 shows *Shānxī (Shansi)* in bold with the paragraph beneath it, and Tibet — which
 has no postal form to give — still reads simply *Tibet*.
 
+### Two fillers, measured rather than believed
+The China filler was reported as making no visible difference either way, which
+is a claim that can be checked. Ring by ring, at a point certainly inside each
+and against every other shape the map draws, `#land` and the Administrative
+file together:
+
+* **`chinabase_land` — 0 of 3 rings draw ground nothing else draws.** Three
+  rectangles covering 3.1 million km², laid under the interior gaps when no
+  source reached them. The Karakoram and Aksai Chin are under Xinjiang now and
+  the Kachin corner under the 1931 India tracing, both replaced since the boxes
+  went in. Removed; `LAND_BASE` keeps the coordinates should a future source
+  retreat.
+* **`chinabase` — 3 of 42.** Three small islands off Liaoning at 121.30,
+  122.36 and 122.59 E, 231 km² between them. The other thirty-nine sit under a
+  province or an atom that draws the same shore better. Sieved to the box those
+  three are in: 42 rings and 12 KB become 6 and 3.4 KB, and nothing that was
+  drawn stops being drawn.
+
+The first sweep, sampling random points inside each ring, said 18 of 42 were
+doing something. That was the sampling: a point near a ring's edge falls
+outside the neighbouring shape by a hair and reads as bare ground. Testing at a
+guaranteed interior point instead gave 3. Worth remembering — a coverage
+question wants a point that is certainly inside, not a scatter that mostly is.
+
+### Thailand's changwat reappear along the ceded frontier
+Battambang and Siem Reap are an atom of their own, drawn after Siam and in the
+same colour, so every changwat boundary running along that frontier disappeared
+under them: the two ceded provinces read as though nothing bordered them.
+
+The machinery for this already existed and was written for India, where the
+princely states are a layer over the Raj and bury its provincial lines the same
+way — `SUBS_LIFT`, which redraws the atom's own boundaries in a layer above all
+of `#land` while taking the stroke off the originals, so each line is drawn
+once and only its depth changes. Thailand joins India in it.
+
 ---
 
 ## Sources worth fetching

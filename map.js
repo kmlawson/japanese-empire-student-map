@@ -2543,7 +2543,16 @@
      all. The hovered province itself was never affected: its outline goes into
      the highlight layer, which is above everything. It is the neighbours the
      reader is being shown, and they were the half that vanished. */
-  var SUBS_LIFT = { india: true };
+  /* Atoms whose own province lines are buried by something drawn over them,
+     and so have to be lifted when their divisions are asked for.
+
+     India was the first: the princely states are a layer over the Raj, and
+     every provincial boundary that ran under one disappeared. Thailand is the
+     same shape of problem — Battambang and Siem Reap, ceded in 1941, are an
+     atom of their own drawn after Siam and in the same colour, so the changwat
+     boundaries along that frontier vanished under them and the two provinces
+     read as though nothing bordered them at all. */
+  var SUBS_LIFT = { india: true, siam: true };
 
   /* Stroke-only copies of the subs atom's province paths, in a layer above all
      of #land. Nothing is moved and nothing is recoloured: the fills stay where

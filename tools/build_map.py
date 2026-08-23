@@ -4725,11 +4725,34 @@ def main():
     a0 = load("admin0", args.download)
 
     groups = collections.defaultdict(list)
-    # The neutral ground under the interior gaps — see LAND_BASE above. It goes
-    # in first so it is under everything, including chinabase.
-    for bx0, by0, bx1, by1 in LAND_BASE:
-        groups["chinabase_land"].append(
-            [(bx0, by0), (bx1, by0), (bx1, by1), (bx0, by1)])
+
+    # `chinabase` is Natural Earth's coastal islands, laid in the neutral grey
+    # under everything so that where two sources disagree about a shoreline the
+    # gap reads as a seam and not as sea. Forty-two rings went in; measured one
+    # by one, **three of them draw ground nothing else draws** — small islands
+    # off Liaoning at 121.30, 122.36 and 122.59 E, 231 square kilometres
+    # between them — and the other thirty-nine sit under a province or an atom
+    # that draws the same shore better. Twelve kilobytes to say what is already
+    # said. Only the three are kept; the box is where they are.
+    CHINABASE_KEEP = (120.9, 39.0, 123.0, 39.7)
+
+    def keep_chinabase(ring):
+        xs = [p[0] for p in ring]
+        ys = [p[1] for p in ring]
+        x0, y0, x1, y1 = CHINABASE_KEEP
+        if x0 <= min(xs) and max(xs) <= x1 and y0 <= min(ys) and max(ys) <= y1:
+            groups["chinabase"].append(ring)
+    # `chinabase_land` used to go in here: three rectangles of neutral ground
+    # under the interior gaps — the Karakoram, Aksai Chin, the Kachin frontier
+    # — put there when no source on this map covered them. Measured ring by
+    # ring at a point certainly inside each: **none of the three draws any
+    # ground that something else does not now draw**. The Karakoram is under
+    # Xinjiang and the Kachin corner under the 1931 India tracing, both of
+    # which have been replaced since the boxes were laid. Three rectangles
+    # covering 3.1 million square kilometres, contributing nothing.
+    #
+    # See LAND_BASE, which is left defined with the coordinates in it, should a
+    # future source retreat and open one of those gaps again.
     # The Republic as one polygon used to go in here, as the ground under
     # China. It is gone: the provinces are cut round the leaseholds and the
     # colonies now and meet their neighbours cleanly, so a filler underneath
@@ -4916,17 +4939,17 @@ def main():
                     # which atom it belongs to is settled later, once the
                     # Republican provinces are loaded: the islands off the
                     # Liaotung peninsula are Manchuria's, not China's
-                    groups["chinabase"].append(ring)
+                    keep_chinabase(ring)
                     china_islands.append(ring)
                 elif abs(signed_ring_area(ring)) / 2.0 > 1.0:
                     # The mainland, and it is not drawn at all — see
                     # NE_CHINA_MAINLAND above for why, and set that to True to
                     # put it back.
                     if NE_CHINA_MAINLAND:
-                        groups["chinabase"].append(ring)
+                        keep_chinabase(ring)
                         extra["china"].append(ring)
                 else:
-                    groups["chinabase"].append(ring)
+                    keep_chinabase(ring)
             continue
         if admin == "Russia":
             kurils = collections.defaultdict(list)
