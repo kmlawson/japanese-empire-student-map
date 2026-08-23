@@ -997,7 +997,7 @@ JMAP.TERRITORIES = {
     {
       id: 'contested', en: 'Border is contested or not fixed', ja: '未確定国境', zh: '未定國界',
       cat: 'contested', lvl: 3, c: 'transparent', atoms: ['contested'], hatch: 'unclear',
-      note: 'Three stretches of frontier that no treaty had settled and that the sources on this map do not agree about: the Pamirs, Aksai Chin, and the McMahon line east of Bhutan. The fourth, the Kachin country on the Burma frontier, is not marked on this date: by December 1942 that ground was under Japanese occupation, which is the more useful thing to say about it.'
+      note: 'These stretches of frontier were contested or the sources for this map disagree about them. They include the Pamirs where Afghanistan, the Soviet Union and China meet; the Aksai Chin plateau in northeastern Kashmir; the frontier east of Bhutan; and the frontier between Burma and Yunnan.'
     },
   ],
 };
