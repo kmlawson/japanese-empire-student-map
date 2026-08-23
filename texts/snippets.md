@@ -25,3 +25,12 @@ uninhabited, and administered by Japan.
 
 Provinces are a 1930 approximation, not the revised 1942 occupation period
 provinces.
+
+## siamprov
+
+These are the changwat as they stood from 1933 to 1947. On the 1930 map they
+are an approximation twice over: the changwat then sat inside the monthon, the
+circles abolished in 1933 and not drawn here, and nine provinces that existed
+in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai
+Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the
+provinces around them, whose boundaries are the ones drawn.

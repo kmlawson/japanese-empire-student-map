@@ -5869,84 +5869,289 @@ JMAP.PROVINCES = {
     wiki: 'https://en.wikipedia.org/wiki/Senkaku_Islands',
     note: 'A bare volcanic islet north-east of Uotsurijima, used as a bombing range by the United States after the war and never resettled. Claimed today by Japan, by the People’s Republic of China and by Taiwan; uninhabited, and administered by Japan.'
   },
-  AngThong: { en: 'Ang Thong', wiki: 'https://en.wikipedia.org/wiki/Ang_Thong' },
-  BuriRam: { en: 'Buriram', wiki: 'https://en.wikipedia.org/wiki/Buriram' },
-  Chachoengsao: { en: 'Chachoengsao (Paet Riu)', wiki: 'https://en.wikipedia.org/wiki/Chachoengsao' },
-  ChaiNat: { en: 'Chainat', wiki: 'https://en.wikipedia.org/wiki/Chai_Nat' },
-  Chaiyaphum: { en: 'Chaiyaphum', wiki: 'https://en.wikipedia.org/wiki/Chaiyaphum' },
-  Chanthaburi: { en: 'Chanthaburi (Chantaboon)', wiki: 'https://en.wikipedia.org/wiki/Chanthaburi' },
-  ChiangMai: { en: 'Chiengmai (Chiang Mai)', wiki: 'https://en.wikipedia.org/wiki/Chiang_Mai' },
-  ChiangRai: { en: 'Chiengrai (Chiang Rai)', wiki: 'https://en.wikipedia.org/wiki/Chiang_Rai' },
-  ChonBuri: { en: 'Chonburi', wiki: 'https://en.wikipedia.org/wiki/Chonburi' },
-  Chumphon: { en: 'Chumphon', wiki: 'https://en.wikipedia.org/wiki/Chumphon' },
-  Kalasin: { en: 'Kalasin', wiki: 'https://en.wikipedia.org/wiki/Kalasin' },
-  KamphaengPhet: { en: 'Kamphaeng Phet', wiki: 'https://en.wikipedia.org/wiki/Kamphaeng_Phet' },
-  Kanchanaburi: { en: 'Kanchanaburi (Kanburi)', wiki: 'https://en.wikipedia.org/wiki/Kanchanaburi' },
-  KhonKaen: { en: 'Khon Kaen', wiki: 'https://en.wikipedia.org/wiki/Khon_Kaen' },
-  Krabi: { en: 'Krabi', wiki: 'https://en.wikipedia.org/wiki/Krabi' },
-  Lampang: { en: 'Nakhon Lampang', wiki: 'https://en.wikipedia.org/wiki/Lampang' },
-  Lamphun: { en: 'Lamphun', wiki: 'https://en.wikipedia.org/wiki/Lamphun' },
-  Loei: { en: 'Loei', wiki: 'https://en.wikipedia.org/wiki/Loei' },
-  Lopburi: { en: 'Lopburi', wiki: 'https://en.wikipedia.org/wiki/Lopburi' },
-  MaeHongSon: { en: 'Mae Hong Son', wiki: 'https://en.wikipedia.org/wiki/Mae_Hong_Son' },
+  AngThong: {
+    en: 'Ang Thong', wiki: 'https://en.wikipedia.org/wiki/Ang_Thong',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
+  },
+  BuriRam: {
+    en: 'Buriram', wiki: 'https://en.wikipedia.org/wiki/Buriram',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
+  },
+  Chachoengsao: {
+    en: 'Chachoengsao (Paet Riu)', wiki: 'https://en.wikipedia.org/wiki/Chachoengsao',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
+  },
+  ChaiNat: {
+    en: 'Chainat', wiki: 'https://en.wikipedia.org/wiki/Chai_Nat',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
+  },
+  Chaiyaphum: {
+    en: 'Chaiyaphum', wiki: 'https://en.wikipedia.org/wiki/Chaiyaphum',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
+  },
+  Chanthaburi: {
+    en: 'Chanthaburi (Chantaboon)', wiki: 'https://en.wikipedia.org/wiki/Chanthaburi',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
+  },
+  ChiangMai: {
+    en: 'Chiengmai (Chiang Mai)', wiki: 'https://en.wikipedia.org/wiki/Chiang_Mai',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
+  },
+  ChiangRai: {
+    en: 'Chiengrai (Chiang Rai)', wiki: 'https://en.wikipedia.org/wiki/Chiang_Rai',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
+  },
+  ChonBuri: {
+    en: 'Chonburi', wiki: 'https://en.wikipedia.org/wiki/Chonburi',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
+  },
+  Chumphon: {
+    en: 'Chumphon', wiki: 'https://en.wikipedia.org/wiki/Chumphon',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
+  },
+  KamphaengPhet: {
+    en: 'Kamphaeng Phet', wiki: 'https://en.wikipedia.org/wiki/Kamphaeng_Phet',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
+  },
+  Kanchanaburi: {
+    en: 'Kanchanaburi (Kanburi)', wiki: 'https://en.wikipedia.org/wiki/Kanchanaburi',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
+  },
+  KhonKaen: {
+    en: 'Khon Kaen', wiki: 'https://en.wikipedia.org/wiki/Khon_Kaen',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
+  },
+  Krabi: {
+    en: 'Krabi', wiki: 'https://en.wikipedia.org/wiki/Krabi',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
+  },
+  Lampang: {
+    en: 'Nakhon Lampang', wiki: 'https://en.wikipedia.org/wiki/Lampang',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
+  },
+  Lamphun: {
+    en: 'Lamphun', wiki: 'https://en.wikipedia.org/wiki/Lamphun',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
+  },
+  Loei: {
+    en: 'Loei', wiki: 'https://en.wikipedia.org/wiki/Loei',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
+  },
+  Lopburi: {
+    en: 'Lopburi', wiki: 'https://en.wikipedia.org/wiki/Lopburi',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
+  },
+  MaeHongSon: {
+    en: 'Mae Hong Son', wiki: 'https://en.wikipedia.org/wiki/Mae_Hong_Son',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
+  },
   MahaSarakham: {
     en: 'Maha Sarakham — Kalasin was abolished into it in 1932',
-    wiki: 'https://en.wikipedia.org/wiki/Maha_Sarakham'
+    wiki: 'https://en.wikipedia.org/wiki/Maha_Sarakham',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
   },
-  NakhonNayok: { en: 'Nakhon Nayok', wiki: 'https://en.wikipedia.org/wiki/Nakhon_Nayok' },
-  NakhonPathom: { en: 'Nakhon Pathom', wiki: 'https://en.wikipedia.org/wiki/Nakhon_Pathom' },
-  NakhonPhanom: { en: 'Nakhon Phanom', wiki: 'https://en.wikipedia.org/wiki/Nakhon_Phanom' },
-  NakhonRatchasima: { en: 'Nakhon Ratchasima (Korat)', wiki: 'https://en.wikipedia.org/wiki/Nakhon_Ratchasima' },
-  NakhonSawan: { en: 'Nakhon Sawan (Paknampho)', wiki: 'https://en.wikipedia.org/wiki/Nakhon_Sawan' },
+  NakhonNayok: {
+    en: 'Nakhon Nayok', wiki: 'https://en.wikipedia.org/wiki/Nakhon_Nayok',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
+  },
+  NakhonPathom: {
+    en: 'Nakhon Pathom', wiki: 'https://en.wikipedia.org/wiki/Nakhon_Pathom',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
+  },
+  NakhonPhanom: {
+    en: 'Nakhon Phanom', wiki: 'https://en.wikipedia.org/wiki/Nakhon_Phanom',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
+  },
+  NakhonRatchasima: {
+    en: 'Nakhon Ratchasima (Korat)', wiki: 'https://en.wikipedia.org/wiki/Nakhon_Ratchasima',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
+  },
+  NakhonSawan: {
+    en: 'Nakhon Sawan (Paknampho)', wiki: 'https://en.wikipedia.org/wiki/Nakhon_Sawan',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
+  },
   NakhonSiThammarat: {
-    en: 'Nakhon Si Thammarat (Ligor)', wiki: 'https://en.wikipedia.org/wiki/Nakhon_Si_Thammarat'
+    en: 'Nakhon Si Thammarat (Ligor)',
+    wiki: 'https://en.wikipedia.org/wiki/Nakhon_Si_Thammarat',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
   },
-  Nan: { en: 'Nan', wiki: 'https://en.wikipedia.org/wiki/Nan_province' },
-  Narathiwat: { en: 'Bang Nara (Narathiwat)', wiki: 'https://en.wikipedia.org/wiki/Narathiwat' },
-  NongKhai: { en: 'Nong Khai', wiki: 'https://en.wikipedia.org/wiki/Nong_Khai' },
-  Nonthaburi: { en: 'Nonthaburi', wiki: 'https://en.wikipedia.org/wiki/Nonthaburi' },
-  PathumThani: { en: 'Pathum Thani', wiki: 'https://en.wikipedia.org/wiki/Pathum_Thani' },
-  Pattani: { en: 'Patani' },
-  Phangnga: { en: 'Phangnga', wiki: 'https://en.wikipedia.org/wiki/Phang_Nga' },
-  Phatthalung: { en: 'Phatthalung', wiki: 'https://en.wikipedia.org/wiki/Phatthalung' },
-  Phetchabun: { en: 'Phetchabun', wiki: 'https://en.wikipedia.org/wiki/Phetchabun' },
-  Phetchaburi: { en: 'Petchaburi' },
-  Phichit: { en: 'Phichit', wiki: 'https://en.wikipedia.org/wiki/Phichit' },
-  Phitsanulok: { en: 'Phitsanulok', wiki: 'https://en.wikipedia.org/wiki/Phitsanulok' },
-  PhraNakhon: { en: 'Phra Nakhon and Thonburi (Bangkok)', wiki: 'https://en.wikipedia.org/wiki/Bangkok' },
+  Nan: {
+    en: 'Nan', wiki: 'https://en.wikipedia.org/wiki/Nan_province',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
+  },
+  Narathiwat: {
+    en: 'Narathiwat', wiki: 'https://en.wikipedia.org/wiki/Narathiwat',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
+  },
+  NongKhai: {
+    en: 'Nong Khai', wiki: 'https://en.wikipedia.org/wiki/Nong_Khai',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
+  },
+  Nonthaburi: {
+    en: 'Nonthaburi', wiki: 'https://en.wikipedia.org/wiki/Nonthaburi',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
+  },
+  PathumThani: {
+    en: 'Pathum Thani', wiki: 'https://en.wikipedia.org/wiki/Pathum_Thani',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
+  },
+  Pattani: {
+    en: 'Patani',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
+  },
+  Phangnga: {
+    en: 'Phangnga', wiki: 'https://en.wikipedia.org/wiki/Phang_Nga',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
+  },
+  Phatthalung: {
+    en: 'Phatthalung', wiki: 'https://en.wikipedia.org/wiki/Phatthalung',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
+  },
+  Phetchabun: {
+    en: 'Phetchabun', wiki: 'https://en.wikipedia.org/wiki/Phetchabun',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
+  },
+  Phetchaburi: {
+    en: 'Petchaburi',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
+  },
+  Phichit: {
+    en: 'Phichit', wiki: 'https://en.wikipedia.org/wiki/Phichit',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
+  },
+  Phitsanulok: {
+    en: 'Phitsanulok', wiki: 'https://en.wikipedia.org/wiki/Phitsanulok',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
+  },
+  PhraNakhon: {
+    en: 'Phra Nakhon (Bangkok, left bank)', wiki: 'https://en.wikipedia.org/wiki/Phra_Nakhon',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
+  },
   PhraNakhonSiAyutthaya: {
     en: 'Ayudhya (Ayutthaya)',
-    wiki: 'https://en.wikipedia.org/wiki/Phra_Nakhon_Si_Ayutthaya_province'
+    wiki: 'https://en.wikipedia.org/wiki/Phra_Nakhon_Si_Ayutthaya_province',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
   },
-  Phrae: { en: 'Phrae', wiki: 'https://en.wikipedia.org/wiki/Phrae' },
-  Phuket: { en: 'Puket (Phuket)', wiki: 'https://en.wikipedia.org/wiki/Phuket_province' },
-  PrachinBuri: { en: 'Prachinburi', wiki: 'https://en.wikipedia.org/wiki/Prachinburi' },
-  PrachuapKhiriKhan: { en: 'Prachuap Khiri Khan', wiki: 'https://en.wikipedia.org/wiki/Prachuap_Khiri_Khan' },
-  Ranong: { en: 'Ranong' },
-  Ratchaburi: { en: 'Rajburi (Ratchaburi)' },
-  Rayong: { en: 'Rayong' },
-  RoiEt: { en: 'Roi Et' },
-  SakonNakhon: { en: 'Sakon Nakhon', wiki: 'https://en.wikipedia.org/wiki/Sakon_Nakhon' },
-  SamutPrakan: { en: 'Samut Prakan (Paknam)', wiki: 'https://en.wikipedia.org/wiki/Samut_Prakan' },
-  SamutSakhon: { en: 'Samut Sakhon (Tachin)', wiki: 'https://en.wikipedia.org/wiki/Samut_Sakhon' },
-  SamutSongkhram: { en: 'Samut Songkhram (Meklong)', wiki: 'https://en.wikipedia.org/wiki/Samut_Songkhram' },
-  Saraburi: { en: 'Saraburi', wiki: 'https://en.wikipedia.org/wiki/Saraburi' },
-  Satun: { en: 'Satun (Setul)', wiki: 'https://en.wikipedia.org/wiki/Satun' },
-  SiSaKet: { en: 'Khukhan (renamed Sisaket in 1938)' },
-  SingBuri: { en: 'Singburi', wiki: 'https://en.wikipedia.org/wiki/Sing_Buri_province' },
-  Songkhla: { en: 'Songkhla (Singora)', wiki: 'https://en.wikipedia.org/wiki/Songkhla' },
-  Sukhothai: { en: 'Sawankhalok (Sukhothai)', wiki: 'https://en.wikipedia.org/wiki/Sukhothai_province' },
-  SuphanBuri: { en: 'Suphanburi', wiki: 'https://en.wikipedia.org/wiki/Suphan_Buri' },
-  SuratThani: { en: 'Surat Thani (Bandon)', wiki: 'https://en.wikipedia.org/wiki/Surat_Thani' },
-  Surin: { en: 'Surin', wiki: 'https://en.wikipedia.org/wiki/Surin_province' },
-  Tak: { en: 'Tak (Raheng)', wiki: 'https://en.wikipedia.org/wiki/Tak_province' },
-  Trang: { en: 'Trang', wiki: 'https://en.wikipedia.org/wiki/Trang_province' },
-  Trat: { en: 'Trat', wiki: 'https://en.wikipedia.org/wiki/Trat' },
-  UbonRatchathani: { en: 'Ubon Ratchathani', wiki: 'https://en.wikipedia.org/wiki/Ubon_Ratchathani' },
-  UdonThani: { en: 'Udon Thani (Udorn)', wiki: 'https://en.wikipedia.org/wiki/Udon_Thani' },
-  UthaiThani: { en: 'Uthai Thani', wiki: 'https://en.wikipedia.org/wiki/Uthai_Thani' },
-  Uttaradit: { en: 'Uttaradit', wiki: 'https://en.wikipedia.org/wiki/Uttaradit' },
-  Yala: { en: 'Yala (Jala)', wiki: 'https://en.wikipedia.org/wiki/Yala_province' },
+  Phrae: {
+    en: 'Phrae', wiki: 'https://en.wikipedia.org/wiki/Phrae',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
+  },
+  Phuket: {
+    en: 'Puket (Phuket)', wiki: 'https://en.wikipedia.org/wiki/Phuket_province',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
+  },
+  PrachinBuri: {
+    en: 'Prachinburi', wiki: 'https://en.wikipedia.org/wiki/Prachinburi',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
+  },
+  PrachuapKhiriKhan: {
+    en: 'Prachuap Khiri Khan', wiki: 'https://en.wikipedia.org/wiki/Prachuap_Khiri_Khan',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
+  },
+  Ranong: {
+    en: 'Ranong',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
+  },
+  Ratchaburi: {
+    en: 'Rajburi (Ratchaburi)',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
+  },
+  Rayong: {
+    en: 'Rayong',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
+  },
+  RoiEt: {
+    en: 'Roi Et',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
+  },
+  SakonNakhon: {
+    en: 'Sakon Nakhon', wiki: 'https://en.wikipedia.org/wiki/Sakon_Nakhon',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
+  },
+  SamutPrakan: {
+    en: 'Samut Prakan (Paknam)', wiki: 'https://en.wikipedia.org/wiki/Samut_Prakan',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
+  },
+  SamutSakhon: {
+    en: 'Samut Sakhon (Tachin)', wiki: 'https://en.wikipedia.org/wiki/Samut_Sakhon',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
+  },
+  SamutSongkhram: {
+    en: 'Samut Songkhram (Meklong)', wiki: 'https://en.wikipedia.org/wiki/Samut_Songkhram',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
+  },
+  Saraburi: {
+    en: 'Saraburi', wiki: 'https://en.wikipedia.org/wiki/Saraburi',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
+  },
+  Satun: {
+    en: 'Satun (Setul)', wiki: 'https://en.wikipedia.org/wiki/Satun',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
+  },
+  SiSaKet: {
+    en: 'Khukhan (renamed Sisaket in 1938)',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
+  },
+  SingBuri: {
+    en: 'Singburi', wiki: 'https://en.wikipedia.org/wiki/Sing_Buri_province',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
+  },
+  Songkhla: {
+    en: 'Songkhla (Singora)', wiki: 'https://en.wikipedia.org/wiki/Songkhla',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
+  },
+  Sukhothai: {
+    en: 'Sawankhalok (Sukhothai)', wiki: 'https://en.wikipedia.org/wiki/Sukhothai_province',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
+  },
+  SuphanBuri: {
+    en: 'Suphanburi', wiki: 'https://en.wikipedia.org/wiki/Suphan_Buri',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
+  },
+  SuratThani: {
+    en: 'Surat Thani (Bandon)', wiki: 'https://en.wikipedia.org/wiki/Surat_Thani',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
+  },
+  Surin: {
+    en: 'Surin', wiki: 'https://en.wikipedia.org/wiki/Surin_province',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
+  },
+  Tak: {
+    en: 'Tak (Raheng)', wiki: 'https://en.wikipedia.org/wiki/Tak_province',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
+  },
+  Thonburi: {
+    en: 'Thonburi (Bangkok, right bank)', wiki: 'https://en.wikipedia.org/wiki/Thonburi',
+    note: 'The right bank of the Chao Phraya, and a province of its own until 1971: the capital King Taksin built after the fall of Ayutthaya in 1767, before Rama I crossed the river and began Bangkok on the other side. Through both of this map\'s dates it was the working half of the city — rice mills, sawmills, the docks and the klong network — against Phra Nakhon\'s palaces and ministries opposite. It is drawn here from the fifteen modern khet that descend from its districts. These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
+  },
+  Trang: {
+    en: 'Trang', wiki: 'https://en.wikipedia.org/wiki/Trang_province',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
+  },
+  Trat: {
+    en: 'Trat', wiki: 'https://en.wikipedia.org/wiki/Trat',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
+  },
+  UbonRatchathani: {
+    en: 'Ubon Ratchathani', wiki: 'https://en.wikipedia.org/wiki/Ubon_Ratchathani',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
+  },
+  UdonThani: {
+    en: 'Udon Thani (Udorn)', wiki: 'https://en.wikipedia.org/wiki/Udon_Thani',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
+  },
+  UthaiThani: {
+    en: 'Uthai Thani', wiki: 'https://en.wikipedia.org/wiki/Uthai_Thani',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
+  },
+  Uttaradit: {
+    en: 'Uttaradit', wiki: 'https://en.wikipedia.org/wiki/Uttaradit',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
+  },
+  Yala: {
+    en: 'Yala (Jala)', wiki: 'https://en.wikipedia.org/wiki/Yala_province',
+    note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
+  },
   'Singapore (Pulau Ujong)': {
     en: 'Singapore (Pulau Ujong) — Shōnantō from February 1942', ja: '昭南島 (Shōnantō)',
     orig: 'Pulau Ujong', wiki: 'https://en.wikipedia.org/wiki/Singapore',

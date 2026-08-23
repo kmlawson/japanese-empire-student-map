@@ -844,7 +844,7 @@ WELD_RINGS = {"indochina"}
 # 1942 sheet the answer a reader wants is that this is the ceded territory,
 # which is what the atom itself says. With no blocks the atom answers for
 # itself on both dates and Indochina stays one polygon.
-NO_ADMIN_SUBUNITS = {"burma", "siam", "indochina", "siamgain"}
+NO_ADMIN_SUBUNITS = {"burma", "dei", "indochina", "siamgain"}
 
 # Sub-units that belong together and should light up together. Hovering
 # Singapore lit the whole Malay peninsula, which says the wrong thing: the
@@ -963,8 +963,20 @@ SIAM_SPLITS = {
     "Kalasin": "Maha Sarakham",     # abolished into it 1932, restored only 1947
     "Mukdahan": "Nakhon Phanom", "Bueng Kan": "Nong Khai",
     "Nong Bua Lam Phu": "Udon Thani", "Phayao": "Chiang Rai",
-    "Sa Kaeo": "Prachin Buri", "Bangkok": "Phra Nakhon",
+    "Sa Kaeo": "Prachin Buri",
 }
+
+# Bangkok is two provinces, and modern Thailand's first-level units cannot say
+# so: Phra Nakhon on the left bank of the Chao Phraya and Thonburi on the right
+# were separate changwat until they were merged in 1971, so the single modern
+# outline is wrong on both of this map's dates. The two are assembled instead
+# from the fifty khet of the modern city, fifteen of which — Thon Buri, Khlong
+# San, Bangkok Yai, Bangkok Noi, Bang Phlat, Taling Chan, Thawi Watthana, Bang
+# Khun Thian, Chom Thong, Rat Burana, Thung Khru, Phasi Charoen, Nong Khaem,
+# Bang Khae and Bang Bon — descend from Thonburi's districts and the other
+# thirty-five from Phra Nakhon's. See tools/fetch_tha_bangkok.py; the two come
+# out as one ring each, so no district boundary is drawn inside either.
+THA_BANGKOK_FILE = "tha_bangkok_2.json"
 
 # The Netherlands Indies below the level of the whole colony. Java had been
 # divided into three provinces since 1926, with Jogjakarta and Surakarta left
@@ -5288,8 +5300,19 @@ def main():
             for feat in json.load(fh)["features"]:
                 name = (feat["properties"].get("shapeName") or "")
                 name = name[:-9].strip() if name.endswith(" Province") else name
+                if name == "Bangkok":
+                    continue                 # two provinces; see THA_BANGKOK_FILE
                 name = SIAM_SPLITS.get(name, name)
                 blocks[name.replace(" ", "")].extend(iter_rings(feat["geometry"]))
+            bpath = os.path.join(CACHE, THA_BANGKOK_FILE)
+            if os.path.exists(bpath):
+                with open(bpath) as bfh:
+                    for feat in json.load(bfh)["features"]:
+                        blocks[feat["properties"]["shapeName"].replace(" ", "")] \
+                            .extend(iter_rings(feat["geometry"]))
+            else:
+                sys.stderr.write("note: %s missing, Bangkok drawn as one province\n"
+                                 % THA_BANGKOK_FILE)
             for label, rs in blocks.items():
                 provinces["siam"].append((label, rs))
 
