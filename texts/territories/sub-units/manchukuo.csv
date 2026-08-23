@@ -1,15 +1,15 @@
-key,en,ja,zh,wiki
-Hsing An Peh,Xīng’ānběi (Hsingan North),興安北省 (Kōan-hoku),興安北省,
-Hsing An Tung,Xīng’āndōng (Hsingan East),興安東省 (Kōan-tō),興安東省,
-Hsing An Si,Xīng’ānxī (Hsingan West),興安西省 (Kōan-sei),興安西省,
-Hsing An Nan,Xīng’ānnán (Hsingan South),興安南省 (Kōan-nan),興安南省,
-Heiho,Hēihé (Heiho),黒河省 (Kokka),黑河省,https://en.wikipedia.org/wiki/Heihe
-Lungkiang,Lóngjiāng (Lungkiang),龍江省 (Ryūkō),龍江省,https://en.wikipedia.org/wiki/Heilongjiang
-Sankiang,Sānjiāng (Sankiang),三江省 (Sankō),三江省,
-Pin Kiang,Bīnjiāng (Pinkiang),濱江省 (Hinkō),濱江省,"https://en.wikipedia.org/wiki/Binjiang,_Hangzhou"
-Chien Tao,Jiāndǎo (Chientao),間島省 (Kantō),間島省,https://en.wikipedia.org/wiki/Jiandao
-Feng Tien,Fèngtiān (Fengtien),奉天省 (Hōten),奉天省,https://en.wikipedia.org/wiki/Liaoning
-An Tung,Āndōng (Antung),安東省 (Antō),安東省,https://en.wikipedia.org/wiki/Andong
-Kirin,Jílín (Kirin),吉林省 (Kirin),吉林省,https://en.wikipedia.org/wiki/Jilin
-Chinchow,Jǐnzhōu (Chinchow),錦州省 (Kinshū),錦州省,https://en.wikipedia.org/wiki/Jinzhou
-Je Hol,Rèhé (Jehol),熱河省 (Nekka),熱河省,
+key,en,ko,ja,zh,wiki
+Hsing An Peh,Xīng’ānběi (Hsingan North),,興安北省 (Kōan-hoku),興安北省,
+Hsing An Tung,Xīng’āndōng (Hsingan East),,興安東省 (Kōan-tō),興安東省,
+Hsing An Si,Xīng’ānxī (Hsingan West),,興安西省 (Kōan-sei),興安西省,
+Hsing An Nan,Xīng’ānnán (Hsingan South),,興安南省 (Kōan-nan),興安南省,
+Heiho,Hēihé (Heiho),헤이허,黒河省 (Kokka),黑河省,https://en.wikipedia.org/wiki/Heihe
+Lungkiang,Lóngjiāng (Lungkiang),헤이룽장성,龍江省 (Ryūkō),龍江省,https://en.wikipedia.org/wiki/Heilongjiang
+Sankiang,Sānjiāng (Sankiang),,三江省 (Sankō),三江省,
+Pin Kiang,Bīnjiāng (Pinkiang),빈장구,濱江省 (Hinkō),濱江省,"https://en.wikipedia.org/wiki/Binjiang,_Hangzhou"
+Chien Tao,Jiāndǎo (Chientao),간도,間島省 (Kantō),間島省,https://en.wikipedia.org/wiki/Jiandao
+Feng Tien,Fèngtiān (Fengtien),랴오닝성,奉天省 (Hōten),奉天省,https://en.wikipedia.org/wiki/Liaoning
+An Tung,Āndōng (Antung),안동,安東省 (Antō),安東省,https://en.wikipedia.org/wiki/Andong
+Kirin,Jílín (Kirin),지린성,吉林省 (Kirin),吉林省,https://en.wikipedia.org/wiki/Jilin
+Chinchow,Jǐnzhōu (Chinchow),,錦州省 (Kinshū),錦州省,https://en.wikipedia.org/wiki/Jinzhou
+Je Hol,Rèhé (Jehol),,熱河省 (Nekka),熱河省,

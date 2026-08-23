@@ -5,11 +5,11 @@ ogasawara,Bonin Islands (Ogasawara),小笠原諸島 (Ogasawara Shotō),小笠原
 chishima,Kurile Islands (Chishima),千島列島 (Chishima Rettō),Курильские острова,千島群島,,Japanese from 1875,,metropole,2,,chishima,,,,,,,,,,,,https://en.wikipedia.org/wiki/Kuril_Islands
 chosen,Chōsen (Korea),朝鮮 (Chōsen),조선 (Chosŏn),朝鮮,조선 (Chosŏn),Annexed 1910–1945,,colony,1,,korea,,,,,,,,,,,,https://en.wikipedia.org/wiki/Korea_under_Japanese_rule
 formosa,Taiwan (Formosa),臺灣 (Taiwan),臺灣 (Tâi-oân),臺灣,,Japanese colony 1895–1945,,colony,1,,taiwan,,,,,,,,,,,,https://en.wikipedia.org/wiki/Taiwan_under_Japanese_rule
-karafuto,Karafuto (southern Sakhalin),樺太 (Karafuto),Южный Сахалин,樺太（南薩哈林）,,Japanese 1905–1945,,colony,1,,karafuto,,,,,,,,,,,,https://en.wikipedia.org/wiki/Karafuto_Prefecture
-kwantung,Kwantung Leased Territory,関東州 (Kantōshū),關東州 (Guāndōngzhōu),關東州,,Leased 1905–1945,,colony,2,,kwantung,,,,#9a1813,,,,,,,,https://en.wikipedia.org/wiki/Kwantung_Leased_Territory
+karafuto,Karafuto (southern Sakhalin),樺太 (Karafuto),Южный Сахалин,樺太（南薩哈林）,가라후토청,Japanese 1905–1945,,colony,1,,karafuto,,,,,,,,,,,,https://en.wikipedia.org/wiki/Karafuto_Prefecture
+kwantung,Kwantung Leased Territory,関東州 (Kantōshū),關東州 (Guāndōngzhōu),關東州,관동주,Leased 1905–1945,,colony,2,,kwantung,,,,#9a1813,,,,,,,,https://en.wikipedia.org/wiki/Kwantung_Leased_Territory
 nanyo,South Seas Mandate,南洋群島 (Nan’yō Guntō),,南洋群島,,Japanese from 1914; League mandate from 1920,Japanese mandate,colony,2,,nanyo,,,,,,,,,,,,https://en.wikipedia.org/wiki/South_Seas_Mandate
 manchukuo,Manchukuo (Manchuria),満洲国 (Manshūkoku),滿洲國,滿洲國,만주국,Japanese-occupied; nominally independent from March 1932,,puppet,1,,manchukuo,,滿洲國,,,,,,,,,,https://en.wikipedia.org/wiki/Manchukuo
-mengjiang,Měngjiāng (Mengchiang),蒙古自治邦 (Mōko Jichihō),蒙古自治邦,蒙古自治邦,,"Renamed the Mongol Autonomous Federation, August 1941; federated September 1939; Japanese client from 1936",,puppet,2,,mengjiang,,,,,,,,,,,,https://en.wikipedia.org/wiki/Mengjiang
+mengjiang,Měngjiāng (Mengchiang),蒙古自治邦 (Mōko Jichihō),蒙古自治邦,蒙古自治邦,몽강연합자치정부,"Renamed the Mongol Autonomous Federation, August 1941; federated September 1939; Japanese client from 1936",,puppet,2,,mengjiang,,,,,,,,,,,,https://en.wikipedia.org/wiki/Mengjiang
 nanjinggov,Japanese-occupied China (approximate),日本占領地区,日軍佔領區,日軍佔領區（大略）,,Occupied from 1937; Nanking government from March 1940,,occupied,1,,occupiedzone,,,,,,,,,,,traced,https://en.wikipedia.org/wiki/Wang_Jingwei_regime
 indochina,French Indochina,仏印 (Futsuin),Đông Dương thuộc Pháp,法屬印度支那,,Occupied September 1940 – July 1941,,occupied,2,,indochina,,,,,,,,,,,,https://en.wikipedia.org/wiki/French_Indochina
 burma,Burma,緬甸 (Biruma),မြန်မာ (Myanma),緬甸,,Taken 1942; nominal independence August 1943,,occupied,2,,burma,,,,,,,,,,,,https://en.wikipedia.org/wiki/Japanese_occupation_of_Burma
@@ -24,7 +24,7 @@ turtle,Turtle & Mangsee Islands,,Kepulauan Penyu / Mangsee,,,"Taken with British
 miangas,Miangas (Palmas),ミアンガス島,Miangas,,,"Taken with the Netherlands Indies, 1942",,occupied,3,,miangas,,,,,,,,,,,,https://en.wikipedia.org/wiki/Miangas
 cocos,Cocos (Keeling) Islands,,Pulu Kokos,,,Never occupied; shelled 25 December 1942,"British colony, run from Singapore — Allied throughout",allied,3,,cocos,,,raid,,,,,,,,,https://en.wikipedia.org/wiki/Cocos_(Keeling)_Islands
 spratly,Shinnan Guntō (Spratly & Paracel Islands),新南群島・西沙群島,Trường Sa / Hoàng Sa,南沙群島・西沙群島,,"Annexed to Taiwan, 30 March 1939","Japanese, administered from Takao in Taiwan",colony,3,,spratly paracel,,,,,,,,,,,,https://en.wikipedia.org/wiki/Spratly_Islands
-pratas,Dōngshā (Pratas Island),東沙島 (Tōsa-tō),東沙島 (Dōngshā),東沙島,,Occupied by Japan,,occupied,3,,pratas,,,,,,,,,,,,https://en.wikipedia.org/wiki/Pratas_Island
+pratas,Dōngshā (Pratas Island),東沙島 (Tōsa-tō),東沙島 (Dōngshā),東沙島,프라타스섬,Occupied by Japan,,occupied,3,,pratas,,,,,,,,,,,,https://en.wikipedia.org/wiki/Pratas_Island
 timor_pt,Portuguese Timor (contested),,Timor Português,,,Invaded February 1942; Allied withdrawal December 1942 – February 1943,,portuguese,3,,timor_pt,,,occupied,,,,,,,,,https://en.wikipedia.org/wiki/Portuguese_Timor
 wake,Wake Island,ウェーク島・大鳥島 (Ōtorishima),Wake,,,Taken 23 December 1941,American territory under Japanese occupation,occupied,3,,wake,,,,,,,,,,,,https://en.wikipedia.org/wiki/Wake_Island
 guam,Guam (Ōmiyajima),大宮島 (Ōmiyajima),Guåhan,關島,,Taken 10 December 1941,American territory under Japanese occupation,occupied,3,,guam,,,,,,,,,,,,https://en.wikipedia.org/wiki/Guam

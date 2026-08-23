@@ -4213,6 +4213,82 @@ border band are covered by neither country, against a strip 1.5 km wide before.
 `SAKHALIN_BORDER` and `SAKHALIN_SNAP` are named, and the Karafuto cut reads
 from the same constant, so the parallel is stated once.
 
+### Place names in four scripts, taken rather than invented
+Groundwork for an interface-language switch. The English name of every place
+was there; the Japanese, Chinese and Korean were not, and the corpus had no
+`ko` column at all in fourteen tables.
+
+**Where the names came from.** Each record already cites an English Wikipedia
+article. The language links on that article give the Japanese, Chinese and
+Korean titles, so `texts/admin/langlinks.py` reads them back rather than
+translating anything. A record with no link, or a link with no article in that
+language, is left blank and counted. **480 cells filled — ja 91, zh 84, ko
+305** — and 125 refused for want of a source.
+
+CJK coverage now stands at **ja 92%, zh 94%, ko 67%**, against 61%, 63% and 21%
+before.
+
+**Three things it does to what comes back.** Administrative suffixes come off —
+Wikipedia titles its article 遼陽市, the city *of* Liaoyang, and the corpus
+names the place. Titles carrying a bracket are refused: the English *Lhasa*
+links to 城関区 (ラサ市), a district inside it, and a link to something else is
+not a translation. And Chinese comes back simplified where this corpus is
+traditional throughout, so it is converted — by asking the article to render
+its own title in the traditional variant, not from a table here.
+
+**And one thing it will not do: write a romanisation.** The convention is
+保定 (Hotei) and 경기도 (Kyŏnggi-do), but a reading is a fact about a place and
+not about its spelling — 千葉 is Chiba because that is what the place is
+called. So the characters are filled and the reading left to somebody who knows
+it. The column is mixed, which is visible and fixable; a wrong reading would be
+neither.
+
+**Two bugs, both of which had been answering confidently and wrongly.**
+`converttitles=zh-hant` is a no-op — every title came back exactly as it went
+in — and 大分县 was about to be written into a traditional corpus. And asking
+for all three languages at once lost most of the answer: `lllimit` counts
+langlinks across the whole response, a well-linked article carries a hundred,
+so the cap was spent on the first two titles and the rest came back bare. It
+read as *Wikipedia has no Korean name for Baoding*, when nobody had asked.
+One request per language, and all of them answer.
+
+**Three bad links in the corpus, found by the same pass.** `jilincity` pointed
+at *Jilin*, the province, so the Korean langlink followed it there and gave
+지린성 — Jilin Province — for a city. `jinzhou` pointed at *Battle of Jinzhou*
+and `hollandia` at *Battle of Hollandia*, events rather than places, in a table
+of places. All three repointed.
+
+**Twenty commits landed on main while this ran**, and they rebuilt much of
+`texts/` — `burma.csv` came back with different rows in a different order. The
+script had taken its row *positions* three hours earlier and wrote to them at
+the end, which is precisely how a name gets written onto the wrong city, and
+the first audit appeared to show it happening: eleven values shifted by one
+row. That turned out to be my stale snapshot being compared against a rebuilt
+file, not corruption. Checked properly — every written cell re-derived from its
+own row's article — **479 of 480 agree, none disagree**, and the 84 Chinese
+cells were re-checked against the source *and* its conversion rather than being
+waved through. No row moved, none was lost, no existing value was overwritten.
+
+It came out clean because the write pass re-reads each file immediately before
+writing and the audit matched rows by key rather than by position. That is luck
+and not design. The hazard is real and stays until the script is split: a
+`fetch` that only fills a title-keyed cache and touches nothing, and an `apply`
+that reads, decides and writes inside a millisecond and can be run again
+whenever. Idempotent, so a later run fills whatever is newly blank instead of
+being a migration with one chance to be right.
+
+And the snapshot it took beforehand was deleted rather than kept. It predated
+those twenty commits, so restoring it would have reverted somebody else's whole
+day while appearing to undo the names. In a checkout more than one session
+writes to, git is the restore mechanism and a zip is a trap;
+`texts/admin/backups/READ-ME-FIRST.md` now says so where somebody would find it.
+
+Left blank on purpose: 85 records with no link to follow, among them the 17
+physical features and the 14 overrides in `sites/overrides-1930.csv`. And the
+whole non-CJK half of the corpus — a Korean rendering of *Batavia* or a Chinese
+one of *Kuala Lumpur* would be a transcription invented here, and the map would
+show it in the same type as a researched name.
+
 ---
 
 ## Sources worth fetching

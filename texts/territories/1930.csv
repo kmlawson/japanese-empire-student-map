@@ -5,14 +5,14 @@ ogasawara,Bonin Islands (Ogasawara),小笠原諸島 (Ogasawara Shotō),小笠原
 chishima,Kurile Islands (Chishima),千島列島 (Chishima Rettō),Курильские острова,千島群島,,Japanese from 1875,,metropole,2,,chishima,,,,,,,,,https://en.wikipedia.org/wiki/Kuril_Islands
 chosen,Chōsen (Korea),朝鮮 (Chōsen),조선 (Chosŏn),朝鮮,조선 (Chosŏn),"Protectorate 1905, annexed 1910",,jpcolony,1,,korea,,,,,,,,,https://en.wikipedia.org/wiki/Korea_under_Japanese_rule
 formosa,Taiwan (Formosa),臺灣 (Taiwan),臺灣 (Tâi-oân),臺灣,,Japanese colony from 1895,,jpcolony,1,,taiwan,,,,,,,,,https://en.wikipedia.org/wiki/Taiwan_under_Japanese_rule
-karafuto,Karafuto (southern Sakhalin),樺太 (Karafuto),Южный Сахалин,樺太（南薩哈林）,,Japanese from 1905,,jpcolony,1,,karafuto,,,,,,,,,https://en.wikipedia.org/wiki/Karafuto_Prefecture
-kwantung,Kwantung Leased Territory,関東州 (Kantōshū),關東州 (Guāndōngzhōu),關東州,,Leased from China 1905–1945,,jpcolony,2,,kwantung,,,,,,,,,https://en.wikipedia.org/wiki/Kwantung_Leased_Territory
+karafuto,Karafuto (southern Sakhalin),樺太 (Karafuto),Южный Сахалин,樺太（南薩哈林）,가라후토청,Japanese from 1905,,jpcolony,1,,karafuto,,,,,,,,,https://en.wikipedia.org/wiki/Karafuto_Prefecture
+kwantung,Kwantung Leased Territory,関東州 (Kantōshū),關東州 (Guāndōngzhōu),關東州,관동주,Leased from China 1905–1945,,jpcolony,2,,kwantung,,,,,,,,,https://en.wikipedia.org/wiki/Kwantung_Leased_Territory
 nanyo,South Seas Mandate,南洋群島 (Nan’yō Guntō),,南洋群島,,Japanese from 1914; League mandate from 1920,Japanese mandate,jpcolony,2,,nanyo,,,,,,,,,https://en.wikipedia.org/wiki/South_Seas_Mandate
 china,China (Republic of China),中華民国 (Chūka Minkoku),中華民國 (Zhōnghuá Mínguó),中華民國,,"Republic from 1912; warlord rule, nominal unity from 1928",,chinese,1,,china,manchuria jehol chahar suiyuan xinjiang,,,,,,,,https://en.wikipedia.org/wiki/Republic_of_China_(1912%E2%80%931949)
 manchuria,Manchuria (the Three Eastern Provinces),満洲 (Manshū),東三省 (Dōngsānshěng),滿洲（東三省）,만주,"Chinese, under Zhang Xueliang",,chinese,1,,manchuria,,china,,,,,,,https://en.wikipedia.org/wiki/Manchuria
 jehol,Rèhé (Jehol),熱河 (Nekka),熱河省 (Rèhé shěng),熱河省,,Chinese province from 1928,,chinese,3,,jehol,,china,,,,,,,https://en.wikipedia.org/wiki/Rehe_Province
-chahar,Cháhā’ěr (Chahar),察哈爾 (Chaharu),察哈爾,察哈爾,,Chinese province from 1928,,chinese,3,,chahar,,china,,,,,,,https://en.wikipedia.org/wiki/Chahar_Province
-suiyuan,Suíyuǎn (Suiyuan),綏遠 (Suien),綏遠,綏遠,,Chinese province from 1928,,chinese,3,,suiyuan suiyuan_w,,china,,,,,,,https://en.wikipedia.org/wiki/Suiyuan
+chahar,Cháhā’ěr (Chahar),察哈爾 (Chaharu),察哈爾,察哈爾,차하얼성,Chinese province from 1928,,chinese,3,,chahar,,china,,,,,,,https://en.wikipedia.org/wiki/Chahar_Province
+suiyuan,Suíyuǎn (Suiyuan),綏遠 (Suien),綏遠,綏遠,쑤이위안성,Chinese province from 1928,,chinese,3,,suiyuan suiyuan_w,,china,,,,,,,https://en.wikipedia.org/wiki/Suiyuan
 xinjiang,Xīnjiāng (Sinkiang),新疆 (Shinkyō),شىنجاڭ (Shinjang),新疆,,Under largely autonomous provincial rule,,chinese,3,,xinjiang,,china,,,,,,,https://en.wikipedia.org/wiki/Xinjiang
 tibet,Tibet,チベット (Chibetto),བོད་ (Bod),西藏,,De facto independent from 1913,,frontier,3,,tibet,,,,,,,,,https://en.wikipedia.org/wiki/Tibet_(1912%E2%80%931951)
 britishindia,British India (including Burma),,,,,Burma a province of India until 1937,,british,1,,india andaman burma saharat,,,,#8f5f6e,burma,92 20.6 97.4 28.4,,,https://en.wikipedia.org/wiki/British_Raj
@@ -46,7 +46,7 @@ miangas,Miangas (Palmas),ミアンガス島,Miangas,,,"Awarded to the Netherland
 cocos,Cocos (Keeling) Islands,,Pulu Kokos,,,A Straits Settlement from 1903,"British colony, run from Singapore",british,3,,cocos,,,,,,,,,https://en.wikipedia.org/wiki/Cocos_(Keeling)_Islands
 spratly,Spratly Islands,新南群島 (Shinnan Guntō),Trường Sa / Kapuluan ng Kalayaan,南沙群島,,"Occupied by France, April 1930; annexed 1933",Claimed by France; Britain had claimed them earlier,french,3,,spratly,,,,,,,,,https://en.wikipedia.org/wiki/Spratly_Islands
 paracel,Paracel Islands,西沙群島 (Seisa Guntō),Hoàng Sa,西沙群島,,Claimed by China and by France,,chinese,3,,paracel,,,,,,,,,https://en.wikipedia.org/wiki/Paracel_Islands
-pratas,Dōngshā (Pratas Island),東沙島 (Tōsa-tō),東沙島 (Dōngshā),東沙島,,"Chinese, in Kwangtung province",,chinese,3,,pratas,,,,,,,,,https://en.wikipedia.org/wiki/Pratas_Island
+pratas,Dōngshā (Pratas Island),東沙島 (Tōsa-tō),東沙島 (Dōngshā),東沙島,프라타스섬,"Chinese, in Kwangtung province",,chinese,3,,pratas,,,,,,,,,https://en.wikipedia.org/wiki/Pratas_Island
 timor_pt,Portuguese Timor,,Timor Português,,,Portuguese,,portuguese,3,,timor_pt,,,,,,,,,https://en.wikipedia.org/wiki/Portuguese_Timor
 macau,Macao,マカオ (Makao),澳門 (Ou-mun),澳門,,Portuguese from the 1550s,,portuguese,3,,macau,,,,,,,,,https://en.wikipedia.org/wiki/Portuguese_Macau
 siam,Siam,,สยาม (Sayam),,,Never colonised,,independent,2,,siam,,,,,,,,,https://en.wikipedia.org/wiki/Thailand
