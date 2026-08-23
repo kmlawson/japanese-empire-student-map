@@ -823,13 +823,21 @@ NO_BACKING = {"china"}
 WELD_RINGS = {"indochina"}
 
 # Atoms drawn whole, with no divisions inside them, because the divisions on
-# hand are not trustworthy for the dates this map draws. Burma's are the
-# present-day states and regions; Thailand's are the present-day changwat,
-# of which there were fewer in 1942 and not on these lines; and Indochina's
-# three Vietnamese pieces — Tonkin, Annam, Cochinchina — are cut here by two
-# straight lines standing in for watershed boundaries, which is a guess put in
-# the shape of a fact. Until each is drawn from a period source the country is
-# better shown as one piece.
+# hand are not trustworthy for the dates this map draws. Indochina's three
+# Vietnamese pieces — Tonkin, Annam, Cochinchina — are cut here by two straight
+# lines standing in for watershed boundaries, which is a guess put in the shape
+# of a fact. The Indies' are not residencies at all but the thirty-four modern
+# provinces of the Republic merged into seventeen units, with Bali, the Lesser
+# Sundas, the Moluccas and New Guinea in none of them — 563,235 km², 29.7% of
+# the colony, carrying no unit whatever — and for 1930 the count is out by an
+# order of magnitude, Java alone having had some thirty-five residencies against
+# the four that were drawn. Until each is drawn from a period source the country
+# is better shown as one piece.
+#
+# Burma was here and is not any longer: its divisions are built out of modern
+# districts now rather than modern states, which is fine enough to draw. See
+# BURMA_DIVISION_FILE. Siam left for the same reason — Bangkok is two provinces
+# and only ADM2 can say so.
 #
 # The provinces ceded to Thailand in 1941 are not affected: they are atoms of
 # their own, `siamgain` on the 1930 map and `saharat` on the 1942 one, and keep
@@ -844,7 +852,7 @@ WELD_RINGS = {"indochina"}
 # 1942 sheet the answer a reader wants is that this is the ceded territory,
 # which is what the atom itself says. With no blocks the atom answers for
 # itself on both dates and Indochina stays one polygon.
-NO_ADMIN_SUBUNITS = {"burma", "dei", "indochina", "siamgain"}
+NO_ADMIN_SUBUNITS = {"dei", "indochina", "siamgain"}
 
 # Sub-units that belong together and should light up together. Hovering
 # Singapore lit the whole Malay peninsula, which says the wrong thing: the
@@ -896,18 +904,20 @@ SAHARAT_FILE = "adm2_MMR_shan_east.json"
 SAHARAT_WHOLE = {"Kengtung", "Monghsat", "Tachileik"}
 SAHARAT_PARTIAL = {"Langkho": 98.15}       # district -> the meridian to cut it on
 
-# Burma's divisions and the frontier areas, under their period names.
-BURMA_DIVISIONS = {
-    "Yangon": "Pegu", "Bago": "Pegu", "Ayeyarwady": "Irrawaddy",
-    "Magway": "Magwe", "Mandalay": "MandalayDiv", "Saigang": "Sagaing",
-    "Rakhine": "Arakan",
-    "Shan": "ShanStates", "Kachin": "KachinHills", "Chin": "ChinHills",
-    "Kayah": "Karenni",
-    # Tenasserim ran from Toungoo down to Mergui. Thaton and Amherst — now Mon
-    # State and most of Kayin — were its heart and held Moulmein, its capital.
-    # Only Toungoo cannot be separated out, and stays with Pegu.
-    "Tanitharyi": "Tenasserim", "Mon": "Tenasserim", "Kayin": "Tenasserim",
-}
+# Burma's eight commissioners' divisions and the Karenni states beside them,
+# built out of Myanmar's seventy-four modern districts by
+# tools/fetch_mmr_divisions.py and dissolved there, one shape per division. The
+# fourteen modern states and regions cannot give this: Toungoo District was
+# Tenasserim's and is inside modern Bago, the Chin Hills were a district of
+# Magwe Division, and the Kachin Hill Tracts were tracts inside Sagaing's
+# Myitkyina, Bhamo and Katha. Every one of those falls out at district level.
+#
+# The set is the one settled in June 1925 and it did not change again: the
+# separation from India in 1937 redrew no division, and the Japanese military
+# administration and Ba Maw's government after it kept the framework. So one
+# layer serves both of this map's dates, which is not true of the Philippines
+# or the Indies.
+BURMA_DIVISION_FILE = "mmr_divisions.json"
 
 # The provinces of British India and the larger princely states, from the
 # modern units of India, Pakistan and Bangladesh. Every one of these is an
@@ -3944,7 +3954,8 @@ MENGJIANG_UNHELD_FILE = "mengjiang-unoccupied-fixed.geojson"
 # Shansi, and a hole punched in one would leave the other painting over it —
 # so all three are clipped to the same shape instead, the way the mandate's
 # wash is clipped off Guam.
-SUB_CLIP = {"mengjiang": "clip-meng-held", "princely": "clip-off-frontier"}
+SUB_CLIP = {"mengjiang": "clip-meng-held", "princely": "clip-off-frontier",
+            "burma": "clip-burma"}
 # A point inside the contested block east of Bhutan, which is the one of the
 # four in CONTESTED_FILE that the princely states have to be cut back to. The
 # two in Kashmir are left alone: nothing is drawn over those.
@@ -5244,18 +5255,15 @@ def main():
         provinces["pondicherry"].append(("Chandernagore", [list(CHANDERNAGORE)]))
 
     # ---- Burma, division by division ---------------------------------------
-    bpath = os.path.join(CACHE, "adm1_MMR.json")
+    bpath = os.path.join(CACHE, BURMA_DIVISION_FILE)
     if os.path.exists(bpath):
         with open(bpath) as fh:
-            blocks = collections.defaultdict(list)
             for feat in json.load(fh)["features"]:
-                pname = feat["properties"].get("shapeName")
-                label = BURMA_DIVISIONS.get(pname)
-                if not label:
-                    continue
-                blocks[label].extend(iter_rings(feat["geometry"]))
-            for label, rs in blocks.items():
-                provinces["burma"].append((label, rs))
+                provinces["burma"].append((feat["properties"]["shapeName"],
+                                           list(iter_rings(feat["geometry"]))))
+    else:
+        sys.stderr.write("note: %s missing, Burma drawn whole\n"
+                         % BURMA_DIVISION_FILE)
 
     # ---- the provinces and states of British India -------------------------
     # Drawn from India, Pakistan and Bangladesh together, since Punjab and
@@ -6577,6 +6585,25 @@ def main():
             hole += ring_to_path([project(x, y) for x, y in cut], FINE_PRECISION)
             out.append('    <clipPath id="clip-off-gzw" clipPathUnits="userSpaceOnUse">'
                        f'<path clip-rule="evenodd" d="{hole}"/></clipPath>')
+    # Burma's divisions are built out of modern districts and the country they
+    # are drawn inside is a tracing, so they overhang it: measured before the
+    # clip, 14,650 km² of the district union lay outside the traced outline —
+    # 2.2% of it, mostly the Mergui archipelago and the Arakan islands, which
+    # the tracing does not carry, and 5,111 km² along the Kachin frontier, of
+    # which 2,040 falls inside the block this map marks as contested. Drawn
+    # through the tracing they stop exactly where Burma stops, so there is one
+    # outline and not two, and no filler is needed under them: the districts
+    # were dissolved division by division out of a single source, so the
+    # divisions already meet each other without a crack.
+    if burma_traced:
+        keep = ""
+        for ring in burma_traced:
+            cut = clip_halfplanes(normalise_ring(ring), frame)
+            if len(cut) >= 3:
+                keep += ring_to_path([project(x, y) for x, y in cut], FINE_PRECISION)
+        if keep:
+            out.append('    <clipPath id="clip-burma" clipPathUnits="userSpaceOnUse">'
+                       f'<path d="{keep}"/></clipPath>')
     if meng_held:
         keep = ""
         for ring in meng_held:

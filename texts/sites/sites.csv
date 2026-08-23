@@ -1,16 +1,16 @@
 id,en,ja,orig,zh,ko,date,cat,lvl,both,lat,lon,year,wiki
-tokyo,Tokyo,東京 (Tōkyō),東京 (Tōkyō),東京,,Capital from 1868,city,1,,35.68,139.76,1868,https://en.wikipedia.org/wiki/Tokyo
-yokohama,Yokohama,横浜 (Yokohama),横浜 (Yokohama),橫濱,,Treaty port opened 1859,city,2,,35.44,139.64,1859,https://en.wikipedia.org/wiki/Yokohama
+tokyo,Tokyo,東京 (Tōkyō),東京 (Tōkyō),東京,도쿄도,Capital from 1868,city,1,,35.68,139.76,1868,https://en.wikipedia.org/wiki/Tokyo
+yokohama,Yokohama,横浜 (Yokohama),横浜 (Yokohama),橫濱,요코하마,Treaty port opened 1859,city,2,,35.44,139.64,1859,https://en.wikipedia.org/wiki/Yokohama
 uraga,Uraga,浦賀 (Uraga),浦賀 (Uraga),浦賀,,July 1853,battle,3,yes,35.25,139.72,1853,https://en.wikipedia.org/wiki/Perry_Expedition
 shimoda,Shimoda,下田 (Shimoda),下田 (Shimoda),下田,,Opened 1854,city,3,,34.67,138.95,1854,https://en.wikipedia.org/wiki/Shimoda_Ropeway
-kyoto,Kyoto,京都 (Kyōto),京都 (Kyōto),京都,,Imperial seat until 1868,city,2,,35.01,135.77,1868,https://en.wikipedia.org/wiki/Kyoto
-osaka,Osaka,大阪 (Ōsaka),大阪 (Ōsaka),大阪,,Opened 1868,city,2,,34.69,135.5,1868,https://en.wikipedia.org/wiki/Osaka
+kyoto,Kyoto,京都 (Kyōto),京都 (Kyōto),京都,교토,Imperial seat until 1868,city,2,,35.01,135.77,1868,https://en.wikipedia.org/wiki/Kyoto
+osaka,Osaka,大阪 (Ōsaka),大阪 (Ōsaka),大阪,오사카,Opened 1868,city,2,,34.69,135.5,1868,https://en.wikipedia.org/wiki/Osaka
 kobe,Kobe,神戸 (Kōbe),神戸 (Kōbe),神戶,,Treaty port opened 1868,city,3,,34.69,135.2,1868,https://en.wikipedia.org/wiki/Kobe
 nagoya,Nagoya,名古屋 (Nagoya),名古屋 (Nagoya),名古屋,,Bombed 1944–1945,city,3,,35.18,136.91,1889,https://en.wikipedia.org/wiki/Nagoya
-hiroshima,Hiroshima,広島 (Hiroshima),広島 (Hiroshima),廣島,,"Atomic bomb, 6 August 1945",city,1,yes,34.39,132.46,1894,https://en.wikipedia.org/wiki/Hiroshima
-nagasaki,Nagasaki,長崎 (Nagasaki),長崎 (Nagasaki),長崎,,"Atomic bomb, 9 August 1945",city,1,yes,32.74,129.87,1641,https://en.wikipedia.org/wiki/Nagasaki
+hiroshima,Hiroshima,広島 (Hiroshima),広島 (Hiroshima),廣島,히로시마,"Atomic bomb, 6 August 1945",city,1,yes,34.39,132.46,1894,https://en.wikipedia.org/wiki/Hiroshima
+nagasaki,Nagasaki,長崎 (Nagasaki),長崎 (Nagasaki),長崎,나가사키,"Atomic bomb, 9 August 1945",city,1,yes,32.74,129.87,1641,https://en.wikipedia.org/wiki/Nagasaki
 shimonoseki,Shimonoseki,下関 (Shimonoseki),下関 (Shimonoseki),下關,,Bombarded 1864; treaty signed April 1895,city,2,,33.96,130.94,1864,https://en.wikipedia.org/wiki/Shimonoseki
-kagoshima,Kagoshima,鹿児島 (Kagoshima),鹿児島 (Kagoshima),鹿兒島,,Bombarded 1863; rebellion 1877,city,2,,31.6,130.56,1863,https://en.wikipedia.org/wiki/Kagoshima
+kagoshima,Kagoshima,鹿児島 (Kagoshima),鹿児島 (Kagoshima),鹿兒島,가고시마,Bombarded 1863; rebellion 1877,city,2,,31.6,130.56,1863,https://en.wikipedia.org/wiki/Kagoshima
 hakodate,Hakodate,函館 (Hakodate),函館 (Hakodate),函館,,Opened 1854; Republic of Ezo 1869,city,3,,41.77,140.73,1854,https://en.wikipedia.org/wiki/Hakodate
 sapporo,Sapporo,札幌 (Sapporo),札幌 (Sapporo),札幌,,Founded 1869,city,3,,43.06,141.35,1869,https://en.wikipedia.org/wiki/Sapporo
 tsushima,Tsushima Strait,対馬海峡 (Tsushima Kaikyō),,對馬海峽,대한해협 (Taehan Haehyŏp),27–28 May 1905,battle,3,yes,34.35,129.78,1905,https://en.wikipedia.org/wiki/Battle_of_Tsushima
@@ -23,7 +23,7 @@ kanghwa,Kanghwa Island,江華島 (Kōkatō),,江華島,강화도 (Kanghwado),Tre
 pyongyang,Heijō (P’yŏngyang),平壌 (Heijō),,平壤,평양 (P’yŏngyang),"Battle, 15 September 1894",city,3,,39.02,125.75,1894,https://en.wikipedia.org/wiki/Pyongyang
 mukden,Shěnyáng (Mukden),奉天 (Hōten),瀋陽 (Shěnyáng),瀋陽（奉天）,,Battle 1905; Manchurian Incident 18 September 1931,city,1,yes,41.8,123.43,1905,https://en.wikipedia.org/wiki/Shenyang
 changchun,Chángchūn (Hsinking),新京 (Shinkyō),長春 (Chángchūn),長春（新京）,,Capital of Manchukuo from 1932,city,2,,43.88,125.32,1907,https://en.wikipedia.org/wiki/Changchun
-harbin,Hā’ěrbīn (Harbin),ハルビン (Harubin),哈爾濱 (Hā’ěrbīn),哈爾濱,,Itō assassinated 26 October 1909,city,2,,45.8,126.53,1909,https://en.wikipedia.org/wiki/Harbin
+harbin,Hā’ěrbīn (Harbin),ハルビン (Harubin),哈爾濱 (Hā’ěrbīn),哈爾濱,하얼빈,Itō assassinated 26 October 1909,city,2,,45.8,126.53,1909,https://en.wikipedia.org/wiki/Harbin
 portarthur,"Lǚshùn (Port Arthur, Ryojun)",旅順 (Ryojun),旅順 (Lǚshùn),旅順,,"Siege, August 1904 – January 1905",city,1,,38.82,121.22,1894,https://en.wikipedia.org/wiki/L%C3%BCshunkou
 dairen,"Dàlián (Dairen, Dalny)",大連 (Dairen),大連 (Dàlián),大連,,Japanese from 1905,city,2,,38.91,121.61,1905,https://en.wikipedia.org/wiki/Dalian
 chengde,Chéngdé (Chengteh),承徳 (Shōtoku),承德 (Chéngdé),承德,,Occupied 4 March 1933,city,3,,40.98,117.94,1933,https://en.wikipedia.org/wiki/Chengde
@@ -31,18 +31,18 @@ nomonhan,"Nuòménhǎn (Nomonhan, Khalkhin Gol)",ノモンハン事件 (Nomonhan
 wanpaoshan,Wànbǎoshān (Wanpaoshan),万宝山事件 (Manpōzan jiken),萬寶山 (Wànbǎoshān),萬寶山,,July 1931,battle,3,,44.95,125.4,1931,https://en.wikipedia.org/wiki/Wanpaoshan_Incident
 beijing,Běijīng (Peking / Peiping),北京 (Pekin),北京 / 北平 (Běijīng / Běipíng),北京（北平）,,Renamed Peiping in 1928; occupied July–August 1937,city,1,,39.9,116.4,1900,https://en.wikipedia.org/wiki/Beijing
 marcopolo,Lúgōuqiáo (the Marco Polo Bridge),盧溝橋事件 (Rokōkyō jiken),盧溝橋 (Lúgōuqiáo),盧溝橋,,7 July 1937,battle,2,yes,39.85,116.21,1937,https://en.wikipedia.org/wiki/Marco_Polo_Bridge_incident
-tianjin,Tiānjīn (Tientsin),天津 (Tenshin),天津 (Tiānjīn),天津,,Convention 1885; occupied 1937,city,2,,39.13,117.2,1885,https://en.wikipedia.org/wiki/Tianjin
+tianjin,Tiānjīn (Tientsin),天津 (Tenshin),天津 (Tiānjīn),天津,톈진,Convention 1885; occupied 1937,city,2,,39.13,117.2,1885,https://en.wikipedia.org/wiki/Tianjin
 kalgan,"Zhāngjiākǒu (Kalgan, Changchiakou)",張家口 (Chōkakō),張家口 (Zhāngjiākǒu),張家口,,Capital of Mengchiang from 1939,city,3,,40.81,114.88,1937,https://en.wikipedia.org/wiki/Zhangjiakou
 jinan,Jǐnán (Tsinan),済南 (Sainan),濟南 (Jǐnán),濟南,,May 1928,city,3,,36.67,116.99,1928,https://en.wikipedia.org/wiki/Jinan
 qingdao,Qīngdǎo (Tsingtao),青島 (Seitō),青島 (Qīngdǎo),青島,,"Seized from Germany, November 1914",city,2,,36.07,120.38,1914,https://en.wikipedia.org/wiki/Qingdao
 weihai,Wēihǎi (Weihaiwei),威海衛 (Ikaiei),威海衛 (Wēihǎiwèi),威海衛,,"Battle, January–February 1895",city,3,,37.51,122.12,1895,https://en.wikipedia.org/wiki/Weihai
-nanjing,Nánjīng (Nanking),南京 (Nankin),南京 (Nánjīng),南京,,Fell 13 December 1937,city,1,yes,32.06,118.8,1927,https://en.wikipedia.org/wiki/Nanjing
-shanghai,Shànghǎi (Shanghai),上海 (Shanhai),上海 (Shànghǎi),上海,,Fighting 1932; battle August–November 1937,city,1,,31.23,121.47,1863,https://en.wikipedia.org/wiki/Shanghai
-wuhan,Wǔhàn (Hankow),漢口 (Hankō),武漢 / 漢口 (Wǔhàn / Hànkǒu),武漢（漢口）,,Fell 25 October 1938,city,2,,30.58,114.28,1861,https://en.wikipedia.org/wiki/Wuhan
+nanjing,Nánjīng (Nanking),南京 (Nankin),南京 (Nánjīng),南京,난징,Fell 13 December 1937,city,1,yes,32.06,118.8,1927,https://en.wikipedia.org/wiki/Nanjing
+shanghai,Shànghǎi (Shanghai),上海 (Shanhai),上海 (Shànghǎi),上海,상하이,Fighting 1932; battle August–November 1937,city,1,,31.23,121.47,1863,https://en.wikipedia.org/wiki/Shanghai
+wuhan,Wǔhàn (Hankow),漢口 (Hankō),武漢 / 漢口 (Wǔhàn / Hànkǒu),武漢（漢口）,우한,Fell 25 October 1938,city,2,,30.58,114.28,1861,https://en.wikipedia.org/wiki/Wuhan
 chongqing,Chóngqìng (Chungking),重慶 (Jūkei),重慶 (Chóngqìng),重慶,,Wartime capital 1938–1945,city,2,,29.56,106.55,1891,https://en.wikipedia.org/wiki/Chongqing
 yanan,Yán’ān (Yenan),延安 (En’an),延安 (Yán’ān),延安,,Communist base 1936–1947,city,3,,36.6,109.49,1936,https://en.wikipedia.org/wiki/Yan'an
-xian,Xī’ān (Sian),西安 (Seian),西安 (Xī’ān),西安,,December 1936,city,3,,34.34,108.94,1936,https://en.wikipedia.org/wiki/Xi'an
-guangzhou,Guǎngzhōu (Canton),広州 (Kōshū),廣州 (Guǎngzhōu),廣州,,Fell 21 October 1938,city,2,,23.13,113.26,1842,https://en.wikipedia.org/wiki/Guangzhou
+xian,Xī’ān (Sian),西安 (Seian),西安 (Xī’ān),西安,시안,December 1936,city,3,,34.34,108.94,1936,https://en.wikipedia.org/wiki/Xi'an
+guangzhou,Guǎngzhōu (Canton),広州 (Kōshū),廣州 (Guǎngzhōu),廣州,광저우,Fell 21 October 1938,city,2,,23.13,113.26,1842,https://en.wikipedia.org/wiki/Guangzhou
 xiamen,Xiàmén (Amoy),厦門 (Amoi),廈門 (Xiàmén),廈門,,Occupied May 1938,city,3,,24.48,118.09,1842,https://en.wikipedia.org/wiki/Xiamen
 hainan,Hǎinándǎo (Hainan Island),海南島 (Kainantō),海南島 (Hǎinándǎo),海南島,,Occupied February 1939,battle,3,,19.55,109.6,1939,https://en.wikipedia.org/wiki/Hainan_Island_Operation
 taipei,Taihoku (Taipei),臺北 (Taihoku),臺北 (Tâi-pak),臺北,,Colonial capital from 1895,city,2,,25.03,121.57,1895,https://en.wikipedia.org/wiki/Taihoku_Prefecture

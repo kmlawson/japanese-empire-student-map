@@ -275,9 +275,9 @@ JMAP.TERRITORIES = {
     },
     {
       id: 'manchuria', en: 'Manchuria (the Three Eastern Provinces)', ja: '満洲 (Manshū)',
-      orig: '東三省 (Dōngsānshěng)', zh: '滿洲（東三省）', when: 'Chinese, under Zhang Xueliang',
-      cat: 'chinese', lvl: 1, atoms: ['manchuria'], within: 'china',
-      wiki: 'https://en.wikipedia.org/wiki/Manchuria',
+      orig: '東三省 (Dōngsānshěng)', zh: '滿洲（東三省）', ko: '만주',
+      when: 'Chinese, under Zhang Xueliang', cat: 'chinese', lvl: 1, atoms: ['manchuria'],
+      within: 'china', wiki: 'https://en.wikipedia.org/wiki/Manchuria',
       note: 'Chinese territory in 1930, run by the Fengtian clique — Zhang Zuolin until his assassination by Japanese officers in 1928, then his son Zhang Xueliang, who declared for Nanjing. Japan already held the railway zone and the Kwantung leasehold inside it. The Kwantung Army invaded in September 1931.'
     },
     {
@@ -684,7 +684,7 @@ JMAP.TERRITORIES = {
     },
     {
       id: 'manchukuo', en: 'Manchukuo (Manchuria)', ja: '満洲国 (Manshūkoku)', orig: '滿洲國',
-      zh: '滿洲國', when: 'Japanese-occupied; nominally independent from March 1932',
+      zh: '滿洲國', ko: '만주국', when: 'Japanese-occupied; nominally independent from March 1932',
       cat: 'puppet', lvl: 1, atoms: ['manchukuo'], under: '滿洲國',
       wiki: 'https://en.wikipedia.org/wiki/Manchukuo',
       note: 'Invaded from September 1931 and proclaimed independent under the last Qing emperor Puyi. Rehe was added in 1933; the eastern Inner Mongolian leagues had been part of the three provinces all along and became its Hinggan provinces. Real power lay with the Kwantung Army and Japanese vice-ministers.'
@@ -1086,14 +1086,14 @@ JMAP.TERRITORIES = {
 
 JMAP.SITES = [
   {
-    id: 'tokyo', en: 'Tokyo', ja: '東京 (Tōkyō)', orig: '東京 (Tōkyō)', zh: '東京',
+    id: 'tokyo', en: 'Tokyo', ja: '東京 (Tōkyō)', orig: '東京 (Tōkyō)', zh: '東京', ko: '도쿄도',
     date: 'Capital from 1868', cat: 'city', lvl: 1, lat: 35.68, lon: 139.76,
     wiki: 'https://en.wikipedia.org/wiki/Tokyo', year: 1868,
     note: 'Edo until the Restoration. The Great Kantō earthquake struck in 1923 and was followed by the massacre of Koreans; young officers of the Imperial Way faction seized the government quarter in the 2.26 Incident of February 1936 and killed three senior figures, the finance minister among them; the firebombing of 9–10 March 1945 killed some 100,000 people in a night.'
   },
   {
     id: 'yokohama', en: 'Yokohama', ja: '横浜 (Yokohama)', orig: '横浜 (Yokohama)', zh: '橫濱',
-    date: 'Treaty port opened 1859', cat: 'city', lvl: 2, lat: 35.44, lon: 139.64,
+    ko: '요코하마', date: 'Treaty port opened 1859', cat: 'city', lvl: 2, lat: 35.44, lon: 139.64,
     wiki: 'https://en.wikipedia.org/wiki/Yokohama', year: 1859,
     note: 'The foreign settlement nearest Edo, and the terminus of Japan’s first railway in 1872.'
   },
@@ -1110,13 +1110,13 @@ JMAP.SITES = [
     note: 'One of the two ports opened by the Treaty of Kanagawa; Townsend Harris was the first American consul here, and negotiated the 1858 commercial treaty.'
   },
   {
-    id: 'kyoto', en: 'Kyoto', ja: '京都 (Kyōto)', orig: '京都 (Kyōto)', zh: '京都',
+    id: 'kyoto', en: 'Kyoto', ja: '京都 (Kyōto)', orig: '京都 (Kyōto)', zh: '京都', ko: '교토',
     date: 'Imperial seat until 1868', cat: 'city', lvl: 2, lat: 35.01, lon: 135.77,
     wiki: 'https://en.wikipedia.org/wiki/Kyoto', year: 1868,
     note: 'The emperor’s city for over a thousand years, until the court moved to Tokyo. The Takikawa Incident at its Imperial University in 1933 marked the closing of academic freedom.'
   },
   {
-    id: 'osaka', en: 'Osaka', ja: '大阪 (Ōsaka)', orig: '大阪 (Ōsaka)', zh: '大阪',
+    id: 'osaka', en: 'Osaka', ja: '大阪 (Ōsaka)', orig: '大阪 (Ōsaka)', zh: '大阪', ko: '오사카',
     date: 'Opened 1868', cat: 'city', lvl: 2, lat: 34.69, lon: 135.5,
     wiki: 'https://en.wikipedia.org/wiki/Osaka', year: 1868,
     note: 'The commercial capital of Tokugawa Japan and later a centre of heavy industry and of labour organising. The rice riots of 1918, which began among fishermen\'s wives in Toyama, were at their worst here.'
@@ -1135,13 +1135,13 @@ JMAP.SITES = [
   },
   {
     id: 'hiroshima', en: 'Hiroshima', ja: '広島 (Hiroshima)', orig: '広島 (Hiroshima)', zh: '廣島',
-    date: 'Atomic bomb, 6 August 1945', cat: 'city', lvl: 1, both: true, lat: 34.39,
+    ko: '히로시마', date: 'Atomic bomb, 6 August 1945', cat: 'city', lvl: 1, both: true, lat: 34.39,
     lon: 132.46, wiki: 'https://en.wikipedia.org/wiki/Hiroshima', year: 1894,
     note: 'Army headquarters and the embarkation port for the continent since 1894. Destroyed by the first atomic bomb; around 140,000 were dead by the end of the year.'
   },
   {
     id: 'nagasaki', en: 'Nagasaki', ja: '長崎 (Nagasaki)', orig: '長崎 (Nagasaki)', zh: '長崎',
-    date: 'Atomic bomb, 9 August 1945', cat: 'city', lvl: 1, both: true, lat: 32.74,
+    ko: '나가사키', date: 'Atomic bomb, 9 August 1945', cat: 'city', lvl: 1, both: true, lat: 32.74,
     lon: 129.87, wiki: 'https://en.wikipedia.org/wiki/Nagasaki', year: 1641,
     note: 'The Dutch post at Dejima made this Japan’s only window on Europe under the Tokugawa. Destroyed by the second atomic bomb; around 70,000 were dead by the end of the year.'
   },
@@ -1153,8 +1153,8 @@ JMAP.SITES = [
   },
   {
     id: 'kagoshima', en: 'Kagoshima', ja: '鹿児島 (Kagoshima)', orig: '鹿児島 (Kagoshima)', zh: '鹿兒島',
-    date: 'Bombarded 1863; rebellion 1877', cat: 'city', lvl: 2, lat: 31.6, lon: 130.56,
-    wiki: 'https://en.wikipedia.org/wiki/Kagoshima', year: 1863,
+    ko: '가고시마', date: 'Bombarded 1863; rebellion 1877', cat: 'city', lvl: 2, lat: 31.6,
+    lon: 130.56, wiki: 'https://en.wikipedia.org/wiki/Kagoshima', year: 1863,
     note: 'Castle town of Satsuma, shelled by the Royal Navy in 1863 over the Richardson Affair, and the base of Saigō Takamori’s rebellion in 1877.'
   },
   {
@@ -1234,8 +1234,8 @@ JMAP.SITES = [
   },
   {
     id: 'harbin', en: 'Hā’ěrbīn (Harbin)', ja: 'ハルビン (Harubin)', orig: '哈爾濱 (Hā’ěrbīn)',
-    zh: '哈爾濱', date: 'Itō assassinated 26 October 1909', cat: 'city', lvl: 2, lat: 45.8,
-    lon: 126.53, wiki: 'https://en.wikipedia.org/wiki/Harbin', year: 1909,
+    zh: '哈爾濱', ko: '하얼빈', date: 'Itō assassinated 26 October 1909', cat: 'city', lvl: 2,
+    lat: 45.8, lon: 126.53, wiki: 'https://en.wikipedia.org/wiki/Harbin', year: 1909,
     note: 'A Russian-built railway city with a large émigré population. Itō Hirobumi was shot at its station by the Korean independence activist An Chunggŭn. Unit 731 ran human vivisection at Pingfang on the outskirts from 1936, and field-tested plague and cholera on Chinese towns.'
   },
   {
@@ -1286,8 +1286,8 @@ JMAP.SITES = [
   },
   {
     id: 'tianjin', en: 'Tiānjīn (Tientsin)', ja: '天津 (Tenshin)', orig: '天津 (Tiānjīn)', zh: '天津',
-    date: 'Convention 1885; occupied 1937', cat: 'city', lvl: 2, lat: 39.13, lon: 117.2,
-    wiki: 'https://en.wikipedia.org/wiki/Tianjin', year: 1885,
+    ko: '톈진', date: 'Convention 1885; occupied 1937', cat: 'city', lvl: 2, lat: 39.13,
+    lon: 117.2, wiki: 'https://en.wikipedia.org/wiki/Tianjin', year: 1885,
     note: 'The treaty port for Beijing, carved into nine foreign concessions at their greatest extent, a Japanese one among them. The Tianjin Convention of 1885 regulated Chinese and Japanese troops in Korea, and broke down in 1894; the Tanggu Truce of May 1933, signed at its port, gave north China a demilitarised zone that Japan spent the next four years pushing into.'
   },
   {
@@ -1317,20 +1317,20 @@ JMAP.SITES = [
   },
   {
     id: 'nanjing', en: 'Nánjīng (Nanking)', ja: '南京 (Nankin)', orig: '南京 (Nánjīng)', zh: '南京',
-    date: 'Fell 13 December 1937', cat: 'city', lvl: 1, both: true, lat: 32.06, lon: 118.8,
-    wiki: 'https://en.wikipedia.org/wiki/Nanjing', year: 1927,
+    ko: '난징', date: 'Fell 13 December 1937', cat: 'city', lvl: 1, both: true, lat: 32.06,
+    lon: 118.8, wiki: 'https://en.wikipedia.org/wiki/Nanjing', year: 1927,
     note: 'Nationalist capital from 1927. Its capture on 13 December 1937 was followed by weeks of mass killing and rape — the Nanjing Massacre — in which the dead are counted from the tens of thousands to 300,000, depending on the period and the boundary taken. From 1940 it housed Wang Jingwei\'s collaborationist government.'
   },
   {
     id: 'shanghai', en: 'Shànghǎi (Shanghai)', ja: '上海 (Shanhai)', orig: '上海 (Shànghǎi)',
-    zh: '上海', date: 'Fighting 1932; battle August–November 1937', cat: 'city', lvl: 1,
-    lat: 31.23, lon: 121.47, wiki: 'https://en.wikipedia.org/wiki/Shanghai', year: 1863,
+    zh: '上海', ko: '상하이', date: 'Fighting 1932; battle August–November 1937', cat: 'city',
+    lvl: 1, lat: 31.23, lon: 121.47, wiki: 'https://en.wikipedia.org/wiki/Shanghai', year: 1863,
     note: 'The largest treaty port in China, with an International Settlement and a French Concession. Fighting in January 1932 and again in 1937, when three months of street and river fighting cost both armies enormously and destroyed China’s best divisions.'
   },
   {
     id: 'wuhan', en: 'Wǔhàn (Hankow)', ja: '漢口 (Hankō)', orig: '武漢 / 漢口 (Wǔhàn / Hànkǒu)',
-    zh: '武漢（漢口）', date: 'Fell 25 October 1938', cat: 'city', lvl: 2, lat: 30.58, lon: 114.28,
-    wiki: 'https://en.wikipedia.org/wiki/Wuhan', year: 1861,
+    zh: '武漢（漢口）', ko: '우한', date: 'Fell 25 October 1938', cat: 'city', lvl: 2, lat: 30.58,
+    lon: 114.28, wiki: 'https://en.wikipedia.org/wiki/Wuhan', year: 1861,
     note: 'The Nationalist government’s refuge after Nanjing. Its fall ended the first mobile phase of the war; from then on the fighting in China settled into stalemate.'
   },
   {
@@ -1346,15 +1346,15 @@ JMAP.SITES = [
     note: 'The Long March ended in northern Shaanxi in 1935 and the party moved here at the end of 1936. From it Mao consolidated his leadership and the party grew from tens of thousands to over a million. The American observers of the Dixie Mission arrived in July 1944, the first official contact between Washington and the Communists.'
   },
   {
-    id: 'xian', en: 'Xī’ān (Sian)', ja: '西安 (Seian)', orig: '西安 (Xī’ān)', zh: '西安',
+    id: 'xian', en: 'Xī’ān (Sian)', ja: '西安 (Seian)', orig: '西安 (Xī’ān)', zh: '西安', ko: '시안',
     date: 'December 1936', cat: 'city', lvl: 3, lat: 34.34, lon: 108.94,
     wiki: 'https://en.wikipedia.org/wiki/Xi\'an', year: 1936,
     note: 'Chiang Kai-shek was kidnapped here by his own generals and released only after agreeing to a united front with the Communists against Japan.'
   },
   {
     id: 'guangzhou', en: 'Guǎngzhōu (Canton)', ja: '広州 (Kōshū)', orig: '廣州 (Guǎngzhōu)',
-    zh: '廣州', date: 'Fell 21 October 1938', cat: 'city', lvl: 2, lat: 23.13, lon: 113.26,
-    wiki: 'https://en.wikipedia.org/wiki/Guangzhou', year: 1842,
+    zh: '廣州', ko: '광저우', date: 'Fell 21 October 1938', cat: 'city', lvl: 2, lat: 23.13,
+    lon: 113.26, wiki: 'https://en.wikipedia.org/wiki/Guangzhou', year: 1842,
     note: 'The original treaty port and the cradle of the Nationalist revolution, taken in 1938 to cut the supply line from Hong Kong.'
   },
   {
@@ -2004,7 +2004,7 @@ JMAP.BROWSE = [
     note: 'A treaty port from 1842 and the great tea shipping port of the nineteenth century. Taken in April 1941, retaken by Chinese forces that September, and taken again in October 1944.'
   },
   {
-    id: 'changsha', en: 'Chángshā (Changsha)', ja: '長沙 (Chōsa)', zh: '長沙', lat: 28.23,
+    id: 'changsha', en: 'Chángshā (Changsha)', ja: '長沙 (Chōsa)', zh: '長沙', ko: '창사', lat: 28.23,
     lon: 112.94, wiki: 'https://en.wikipedia.org/wiki/Changsha',
     note: 'The rice bowl of Hunan and a junction on the Guangzhou–Hankou line. Its own garrison burned it down by mistake in November 1938; it then beat off three Japanese offensives and fell at last on 18 June 1944.'
   },
@@ -2234,8 +2234,8 @@ JMAP.BROWSE = [
     note: 'The naval anchorage in the Pescadores, which Japan took in March 1895 — a month before the treaty that gave it Taiwan.'
   },
   {
-    id: 'fukuoka', en: 'Fukuoka', ja: '福岡 (Fukuoka)', zh: '福岡', lat: 33.59, lon: 130.4,
-    wiki: 'https://en.wikipedia.org/wiki/Fukuoka',
+    id: 'fukuoka', en: 'Fukuoka', ja: '福岡 (Fukuoka)', zh: '福岡', ko: '후쿠오카', lat: 33.59,
+    lon: 130.4, wiki: 'https://en.wikipedia.org/wiki/Fukuoka',
     note: 'The city of the northern Kyūshū coalfield and the port for Korea. Firebombed on 19 June 1945.'
   },
   {
@@ -2274,8 +2274,8 @@ JMAP.BROWSE = [
     note: 'The navy yard that built the Yamato. Carrier raids in July 1945 sank what was left of the fleet at its moorings.'
   },
   {
-    id: 'yokosuka', en: 'Yokosuka', ja: '横須賀 (Yokosuka)', zh: '橫須賀', lat: 35.28, lon: 139.67,
-    wiki: 'https://en.wikipedia.org/wiki/Yokosuka',
+    id: 'yokosuka', en: 'Yokosuka', ja: '横須賀 (Yokosuka)', zh: '橫須賀', ko: '요코스카', lat: 35.28,
+    lon: 139.67, wiki: 'https://en.wikipedia.org/wiki/Yokosuka',
     note: 'The oldest of the navy yards, built with French help from 1865, and the base that guarded the approaches to Tokyo Bay.'
   },
   {
@@ -2289,8 +2289,8 @@ JMAP.BROWSE = [
     note: 'The Japan Sea naval base, and after the surrender the longest-serving of the repatriation ports: some 660,000 people came home through it over thirteen years.'
   },
   {
-    id: 'aomori', en: 'Aomori', ja: '青森 (Aomori)', zh: '青森', lat: 40.82, lon: 140.75,
-    wiki: 'https://en.wikipedia.org/wiki/Aomori',
+    id: 'aomori', en: 'Aomori', ja: '青森 (Aomori)', zh: '青森', ko: '아오모리', lat: 40.82,
+    lon: 140.75, wiki: 'https://en.wikipedia.org/wiki/Aomori',
     note: 'The ferry crossing to Hokkaidō, and the bottleneck of the northern railway. Firebombed on 28 July 1945.'
   },
   {
@@ -2934,8 +2934,8 @@ JMAP.BROWSE = [
     note: 'The Yangtze port below Chongqing where the Tuo river comes in, and a salt and sugar market.'
   },
   {
-    id: 'macaucity', en: 'Macao (Cidade do Santo Nome de Deus)', lat: 22.19, lon: 113.54,
-    wiki: 'https://en.wikipedia.org/wiki/Macau',
+    id: 'macaucity', en: 'Macao (Cidade do Santo Nome de Deus)', ja: 'マカオ', zh: '澳門', ko: '마카오',
+    lat: 22.19, lon: 113.54, wiki: 'https://en.wikipedia.org/wiki/Macau',
     note: 'Neutral Portuguese territory throughout the war; its population several times over as refugees came in from Hong Kong and Canton.'
   },
   {
@@ -3054,7 +3054,7 @@ JMAP.BROWSE = [
     note: 'The salt wells that supplied wartime free China after the coastal salt was lost.'
   },
   {
-    id: 'oita', en: 'Ōita', lat: 33.24, lon: 131.61,
+    id: 'oita', en: 'Ōita', ja: '大分県', zh: '大分縣', ko: '오이타현', lat: 33.24, lon: 131.61,
     wiki: 'https://en.wikipedia.org/wiki/%C5%8Cita_Prefecture',
     note: 'The hot-spring country of eastern Kyūshū, and a port facing the Inland Sea.'
   },
@@ -3284,7 +3284,7 @@ JMAP.BROWSE = [
     note: 'The capital of the French leased territory the map already draws, and the smuggling channel into free China until the Japanese took it in February 1943.'
   },
   {
-    id: 'fukushima', en: 'Fukushima', lat: 37.76, lon: 140.47,
+    id: 'fukushima', en: 'Fukushima', ja: '福島', zh: '福島', ko: '후쿠시마', lat: 37.76, lon: 140.47,
     wiki: 'https://en.wikipedia.org/wiki/Fukushima_(city)',
     note: 'Silk-reeling and the orchards of the Fukushima basin, on the northern trunk railway.'
   },
@@ -4217,32 +4217,52 @@ JMAP.PROVINCES = {
     wiki: 'https://en.wikipedia.org/wiki/Bombay_Presidency'
   },
   Madras: { en: 'Madras Presidency', wiki: 'https://en.wikipedia.org/wiki/Madras_Presidency' },
+  Arakan: {
+    en: 'Arakan Division', zh: '阿拉干省', wiki: 'https://en.wikipedia.org/wiki/Arakan_Division',
+    note: 'The coast west of the Arakan Yoma, shut off from the rest of Burma by a range with no road across it and reached instead by sea, which is why it looks to the Bay of Bengal and to Chittagong rather than to Rangoon. Akyab, at the mouth of the Kaladan, was one of the great rice ports of the world in the nineteenth century and still shipped the delta\'s crop in these years; behind it the division ran down through Kyaukpyu and Sandoway to the Arakan Hill Tracts, a district of a few thousand people whose Deputy Commissioner was a police officer and which was an Excluded Area after 1937. Seasonal and then permanent migration from Bengal had made Akyab district heavily Muslim, and when the front passed through in 1942 the communal killing that followed emptied whole tracts in both directions.'
+  },
   Pegu: {
-    en: 'Pegu Division (Toungoo district was Tenasserim’s)', zh: '勃固省',
-    wiki: 'https://en.wikipedia.org/wiki/Bago_Region'
+    en: 'Pegu Division', zh: '勃固省', wiki: 'https://en.wikipedia.org/wiki/Bago_Region',
+    note: 'The lower Sittang and the country round Rangoon: the richest rice ground in Burma and the division through which nearly everything the country sold left it. Rangoon Town was a district in its own right and the division\'s headquarters, the third port of the Indian empire, with the rice mills along the Pazundaung creek, the Burmah Oil refineries at Syriam across the river, and a population more Indian than Burmese for much of this period. Prome and Tharrawaddy behind it are old rice districts, and Tharrawaddy is where Saya San proclaimed himself king in December 1930 and set off the rising that took two years and several divisions of troops to put down. Toungoo is not here: it was Tenasserim\'s, apart from the thirty months between December 1922 and June 1925.'
   },
   Irrawaddy: {
     en: 'Irrawaddy Division', zh: '伊洛瓦底省',
-    wiki: 'https://en.wikipedia.org/wiki/Ayeyarwady_Region'
+    wiki: 'https://en.wikipedia.org/wiki/Ayeyarwady_Region',
+    note: 'The delta proper — Bassein, Henzada, Myaungmya, Maubin and Pyapon — and the largest single work of land clearance in nineteenth-century Asia: after 1852 the British opened the swamp and tidal forest to settlement, and Burmese cultivators moving down from the dry zone turned it into the rice bowl that fed India and much of the East. The money came from Chettiar bankers out of Madras lending against the land, and when the price of rice collapsed after 1930 the mortgages were foreclosed on a scale that transferred a quarter of the delta\'s paddy to non-agriculturist owners inside a decade. That is the ground the tenancy agitation and the anti-Indian riots of the 1930s grew out of, and the division was also where the Karen Christian communities of the delta lived.'
   },
-  Magwe: { en: 'Magwe Division', zh: '馬圭省', wiki: 'https://en.wikipedia.org/wiki/Magway_Region' },
-  MandalayDiv: { en: 'Mandalay Division', zh: '曼德勒省', wiki: 'https://en.wikipedia.org/wiki/Mandalay_Region' },
-  Sagaing: { en: 'Sagaing Division', zh: '實皆省' },
   Tenasserim: {
-    en: 'Tenasserim Division — Thaton, Amherst, Tavoy, Mergui', zh: '丹那沙林省',
-    wiki: 'https://en.wikipedia.org/wiki/Tanintharyi_Region'
+    en: 'Tenasserim Division', zh: '丹那沙林省',
+    wiki: 'https://en.wikipedia.org/wiki/Tanintharyi_Region',
+    note: 'The longest of the divisions, running from Toungoo on the Sittang down the narrow coast almost to the Kra isthmus. Moulmein, in Amherst district, was the second port of Burma and the teak town, where the logs came down the Salween to be sawn and shipped; Tavoy and Mergui in the south had the tin and wolfram that made Burma one of the world\'s larger producers of both in the 1930s, worked in lode mines and by dredge, and the Mergui archipelago\'s eight hundred islands lie off them. At its head is the Salween District — one township of Karen hills round Papun, the smallest district in Burma by population, with no town in it and a police officer for a Deputy Commissioner, and wholly an Excluded Area after 1937.'
   },
-  Arakan: { en: 'Arakan Division', zh: '阿拉干省', wiki: 'https://en.wikipedia.org/wiki/Arakan_Division' },
-  MongpanEast: { en: 'Mongpan east of the Salween', zh: '孟畔東部' },
+  Magwe: {
+    en: 'Magwe Division', zh: '馬圭省', wiki: 'https://en.wikipedia.org/wiki/Magway_Region',
+    note: 'The dry zone: the middle Irrawaddy in the rain shadow of the Arakan Yoma, where under nine hundred millimetres fall in a year and the crops are sesame, millet, groundnut, beans and cotton rather than rice. Its wealth was oil — the seepages at Yenangyaung had been worked by hereditary hand-diggers for centuries and by the Burmah Oil Company from 1886, and the field supplied the greater part of British India\'s petroleum until the British fired it on 16 April 1942 as they withdrew. Behind it stand the Chin Hills, a district of this division on paper and a country of terraced villages and tribal chiefs in practice, administered under the Chin Hills Regulation of 1896 and an Excluded Area from 1937.'
+  },
+  MandalayDiv: { en: 'Mandalay Division', zh: '曼德勒省', wiki: 'https://en.wikipedia.org/wiki/Mandalay_Region' },
+  Sagaing: {
+    en: 'Sagaing Division', zh: '實皆省', wiki: 'https://en.wikipedia.org/wiki/Sagaing_Region',
+    note: 'The largest division and the emptiest, running from the Shwebo plain up the Chindwin and the Irrawaddy to Putao and the Triangle, and taking in Bhamo and Myitkyina with the Kachin Hill Tracts inside them. It is teak country — the Chindwin forests were the Bombay Burmah Trading Corporation\'s, and it was a quarrel over their leases that gave Britain its pretext for the war of 1885 — with jade at Hpakant, amber in the Hukawng and gold in the northern rivers. Much of it was not administered at all: the 1931 census left 28,118 square miles of the province unenumerated and most of that was here, in the Naga country, the Hukawng, the Triangle and the Putao subdivision. The Kachin Hill Tracts were Part I Excluded Areas from 1937 and the rest of Myitkyina and Bhamo Part II.'
+  },
+  ShanStates: {
+    en: 'The Federated Shan States', zh: '撣邦',
+    wiki: 'https://en.wikipedia.org/wiki/Shan_States',
+    note: 'The plateau east of the Sittang, a thousand metres up and cut through by the Salween gorge, held not as districts but as thirty-three states under their own saohpa, myoza and ngwekunhmu — federated in 1922 under a Commissioner at Taunggyi with a council of chiefs and a Federal Fund fed by a share of each state\'s revenue. Rice grew in the valleys and opium in the hills; the Bawdwin mine at Namtu, worked since the Ming for silver and reopened by Herbert Hoover\'s syndicate before the First World War, was the largest lead and silver producer in the British Empire, with its own railway down to Lashio. The Federation was an Excluded Area under the 1935 Act, outside the Burmese legislature altogether, and beyond it to the east lay the Wa country, which nobody administered and whose boundary with China was not settled until 1941.'
+  },
+  Karenni: {
+    en: 'The Karenni States — never annexed', zh: '克倫尼',
+    wiki: 'https://en.wikipedia.org/wiki/Karenni_States',
+    note: 'Three small states — Kantarawadi, Bawlake and Kyebogyi — which were never British territory at all. The agreement Britain made with King Mindon on 21 June 1875 declared Western Karenni "separate and independent", and after the annexation of Upper Burma in 1886 Britain held to the position that the Karenni chiefs had never been the king\'s subjects and were not now its own: they took sanads in 1889 and 1892 and were supervised by the Superintendent of the Southern Shan States, but they were left out of the Second Schedule of the 1935 Act entirely, as ground "not part of His Majesty\'s dominions", and the suzerainty lapsed only in 1948. The country is steep and forested, its people Kayah, Kayan, Bre and Padaung, and its one industry of weight was the Mawchi mine, which in the late 1930s was among the largest producers of tungsten in the world.'
+  },
   Kengtung: {
     en: 'Kengtung State — Kengtung, Monghsat and Tachileik', zh: '景棟',
-    wiki: 'https://en.wikipedia.org/wiki/Kengtung_State'
+    wiki: 'https://en.wikipedia.org/wiki/Kengtung_State',
+    note: 'The largest of the Shan states by a distance — some twelve thousand square miles across the Salween, reaching to the Mekong and the borders of China, Laos and Siam — and the one with the fewest ties to Burma: its saohpa\'s country was Tai Khün, its trade ran east and north, and Britain kept the road to it open after the siege of Chitral generation because it was the far end of the empire. Thai troops crossed into it behind the Japanese advance in May 1942 and administered it from December; Japan transferred it formally on 20 August 1943. It went back to Burma in 1945.'
   },
-  ShanStates: { en: 'Shan States (federated)', zh: '撣邦', wiki: 'https://en.wikipedia.org/wiki/Shan_States' },
-  KachinHills: { en: 'Kachin Hills', zh: '克欽山區' },
-  ChinHills: { en: 'Chin Hills', zh: '欽丘陵', wiki: 'https://en.wikipedia.org/wiki/Chin_Hills' },
-  Karenni: { en: 'Karenni States', zh: '克倫尼', wiki: 'https://en.wikipedia.org/wiki/Karenni_States' },
-  Salween: { en: 'Salween District — the Papun hills, inside Tenasserim', zh: '薩爾溫地區' },
+  MongpanEast: {
+    en: 'Mongpan east of the Salween', zh: '孟畔東部',
+    note: 'The part of the Shan state of Mongpan lying east of the Salween, taken with Kengtung in 1942 and handed to Thailand with it in 1943. The river is the boundary that mattered: everything east of it went, and the rest of Mongpan stayed Burmese, which is why this is a piece of a state and not a state.'
+  },
   'Shaan-Gan-Ning': {
     en: 'Shǎngānníng border region — Yenan', zh: '陝甘寧邊區',
     wiki: 'https://en.wikipedia.org/wiki/Yan\'an_Soviet',
@@ -4322,116 +4342,123 @@ JMAP.PROVINCES = {
   },
   Anhui: {
     en: 'Ānhuī (Anhwei) — the Huai plain and the lower Yangtze, rice and wheat, and the floods the Huai brought almost yearly',
-    wiki: 'https://en.wikipedia.org/wiki/Anhui'
+    ja: '安徽 (Anki)', zh: '安徽', ko: '안후이성', wiki: 'https://en.wikipedia.org/wiki/Anhui'
   },
   Chahaer: {
     en: 'Cháhā’ěr (Chahar) — steppe and the caravan road north from Zhangjiakou, which handled the brick tea and wool of Outer Mongolia. Japanese-sponsored Mongol government in the north from 1936; abolished in 1952',
-    wiki: 'https://en.wikipedia.org/wiki/Chahar_Province'
+    ja: '察哈爾 (Chaharu)', zh: '察哈爾', wiki: 'https://en.wikipedia.org/wiki/Chahar_Province'
   },
   Fujian: {
     en: 'Fújiàn (Fukien) — mountains to the sea, tea from the Wuyi hills, and the province most of Southeast Asia\'s Chinese emigrants came from',
-    wiki: 'https://en.wikipedia.org/wiki/Fujian'
+    ja: '福建 (Fukken)', zh: '福建', wiki: 'https://en.wikipedia.org/wiki/Fujian'
   },
   Gansu: {
     en: 'Gānsù (Kansu) — the Hexi corridor, the old road to Central Asia between the Qilian mountains and the desert; wool, and Muslim generals of the Ma family in the west',
-    wiki: 'https://en.wikipedia.org/wiki/Gansu'
+    ja: '甘粛 (Kanshuku)', zh: '甘肅', wiki: 'https://en.wikipedia.org/wiki/Gansu'
   },
   Guangdong: {
     en: 'Guǎngdōng (Kwangtung) — the Pearl River delta, silk and rice, Canton\'s trade, and the emigration that built the Chinese communities of the Americas. Chen Jitang ran it in near-independence from 1929',
-    wiki: 'https://en.wikipedia.org/wiki/Guangdong'
+    ja: '広東 (Kanton)', zh: '廣東', ko: '광둥성', wiki: 'https://en.wikipedia.org/wiki/Guangdong'
   },
   Guangxi: {
     en: 'Guǎngxī (Kwangsi) — karst hills and poor soil, and the base of the Guangxi clique under Li Zongren and Bai Chongxi, who fought Chiang Kai-shek in 1929 and again in 1930',
-    wiki: 'https://en.wikipedia.org/wiki/Guangxi'
+    ja: '広西 (Kōsei)', zh: '廣西', wiki: 'https://en.wikipedia.org/wiki/Guangxi'
   },
   Guizhou: {
     en: 'Guìzhōu (Kweichow) — the poorest province of the interior, mountains and mist, opium the one crop that paid to carry out',
-    wiki: 'https://en.wikipedia.org/wiki/Guizhou'
+    ja: '貴州 (Kishū)', zh: '貴州', wiki: 'https://en.wikipedia.org/wiki/Guizhou'
   },
   Hebei: {
     en: 'Héběi (Hopei) — called Zhili, the \'directly ruled\' province, until 1928, when the capital moved to Nanjing and Beijing became Beiping; wheat, cotton and the coal at Kailuan',
-    wiki: 'https://en.wikipedia.org/wiki/Hebei'
+    ja: '河北 (Kahoku)', zh: '河北', ko: '허베이성', wiki: 'https://en.wikipedia.org/wiki/Hebei'
   },
   Heilongjiang: {
     en: 'Hēilóngjiāng (Heilungkiang) — the black-earth north, soybeans and timber; called Lungkiang under Manchukuo',
-    wiki: 'https://en.wikipedia.org/wiki/Heilongjiang'
+    ja: '黒竜江 (Kokuryūkō)', zh: '黑龍江', wiki: 'https://en.wikipedia.org/wiki/Heilongjiang'
   },
   Henan: {
     en: 'Hénán (Honan) — the north China plain either side of the Yellow River, wheat and cotton, and the Longhai and Pinghan railways crossing at Zhengzhou',
-    wiki: 'https://en.wikipedia.org/wiki/Henan'
+    ja: '河南 (Kanan)', zh: '河南', wiki: 'https://en.wikipedia.org/wiki/Henan'
   },
   Hubei: {
     en: 'Húběi (Hupeh) — the Yangtze and the Han meeting at Wuhan, cotton and the iron at Daye that fed the Hanyang works',
-    wiki: 'https://en.wikipedia.org/wiki/Hubei'
+    ja: '湖北 (Kohoku)', zh: '湖北', ko: '후베이성', wiki: 'https://en.wikipedia.org/wiki/Hubei'
   },
   Hunan: {
     en: 'Húnán — rice from the Dongting basin, and the antimony at Xikuangshan, the largest deposit in the world',
-    wiki: 'https://en.wikipedia.org/wiki/Hunan'
+    ja: '湖南 (Konan)', zh: '湖南', wiki: 'https://en.wikipedia.org/wiki/Hunan'
   },
   Jehol: {
-    en: 'Rèhé (Jehol) — forest and grassland beyond the Wall, made a province in 1928 and taken by Japan in February 1933, when it was attached to Manchukuo; abolished in 1955 and divided between Hebei, Liaoning and Inner Mongolia'
+    en: 'Rèhé (Jehol) — forest and grassland beyond the Wall, made a province in 1928 and taken by Japan in February 1933, when it was attached to Manchukuo; abolished in 1955 and divided between Hebei, Liaoning and Inner Mongolia',
+    ja: '熱河 (Nekka)', zh: '熱河'
   },
   Jiangsu: {
     en: 'Jiāngsū (Kiangsu) — the Yangtze delta, silk, cotton and the richest farmland in China; Nanjing was the capital from 1928 and Shanghai sat inside it',
-    wiki: 'https://en.wikipedia.org/wiki/Jiangsu'
+    ja: '江蘇 (Kōso)', zh: '江蘇', wiki: 'https://en.wikipedia.org/wiki/Jiangsu'
   },
   Jiangxi: {
     en: 'Jiāngxī (Kiangsi) — rice, the tungsten of the southern hills and the porcelain kilns at Jingdezhen; the Communist base areas that became the Jiangxi Soviet were forming here in 1930',
-    wiki: 'https://en.wikipedia.org/wiki/Jiangxi'
+    ja: '江西 (Kōsei)', zh: '江西', wiki: 'https://en.wikipedia.org/wiki/Jiangxi'
   },
   Jilin: {
     en: 'Jílín (Kirin) — soybeans and forest, and the South Manchuria Railway\'s northern reach',
-    wiki: 'https://en.wikipedia.org/wiki/Jilin'
+    ja: '吉林 (Kirin)', zh: '吉林', wiki: 'https://en.wikipedia.org/wiki/Jilin'
   },
   Liaoning: {
     en: 'Liáoníng — renamed from Fengtien in 1929 and called Fengtien again under Manchukuo; the industrial heart of the north-east, with the coal at Fushun and the steel at Anshan',
-    wiki: 'https://en.wikipedia.org/wiki/Liaoning'
+    ja: '遼寧 (Ryōnei)', zh: '遼寧', wiki: 'https://en.wikipedia.org/wiki/Liaoning'
   },
   Ningxia: {
     en: 'Níngxià (Ninghsia) — the Yellow River\'s irrigated bend and desert either side of it, made a province in 1928 and run by Ma Hongkui',
-    wiki: 'https://en.wikipedia.org/wiki/Ningxia'
+    ja: '寧夏 (Neika)', zh: '寧夏', wiki: 'https://en.wikipedia.org/wiki/Ningxia'
   },
   Qinghai: {
     en: 'Qīnghǎi (Tsinghai) — high pasture round the salt lake of Kokonor, Tibetan and Mongol herders, made a province in 1928 and run by Ma Bufang',
-    wiki: 'https://en.wikipedia.org/wiki/Qinghai'
+    ja: '青海 (Seikai)', zh: '青海', wiki: 'https://en.wikipedia.org/wiki/Qinghai'
   },
   Shaanxi: {
     en: 'Shǎnxī (Shensi) — the loess plateau and the Wei valley below it, wheat and cotton; the Communists reached northern Shaanxi at the end of the Long March in 1935',
-    wiki: 'https://en.wikipedia.org/wiki/Shaanxi'
+    ja: '陝西 (Sensei)', zh: '陝西', wiki: 'https://en.wikipedia.org/wiki/Shaanxi'
   },
   Shandong: {
     en: 'Shāndōng (Shantung) — wheat and groundnuts on a peninsula between two seas, Confucius\'s Qufu, and the German legacy at Qingdao. Han Fuju governed it from 1930',
-    wiki: 'https://en.wikipedia.org/wiki/Shandong'
+    ja: '山東 (Santō)', zh: '山東', wiki: 'https://en.wikipedia.org/wiki/Shandong'
   },
   Shanxi: {
     en: 'Shānxī (Shansi) — the richest coalfield in China under a loess plateau, and Yan Xishan\'s province: he ruled it from 1911 to 1949, ran it with its own railway gauge and its own currency, and led the coalition that fought Chiang Kai-shek in the Central Plains War of 1930',
-    wiki: 'https://en.wikipedia.org/wiki/Shanxi'
+    ja: '山西 (Sansei)', zh: '山西', wiki: 'https://en.wikipedia.org/wiki/Shanxi'
   },
   Sichuan: {
     en: 'Sìchuān (Szechwan) — the Red Basin behind its gorges, rice, salt from the wells at Zigong and a great deal of opium; divided in 1930 among garrison-area warlords, Liu Xiang and Liu Wenhui the largest, and not brought under Nanjing until 1935',
-    wiki: 'https://en.wikipedia.org/wiki/Sichuan'
+    ja: '四川 (Shisen)', zh: '四川', ko: '쓰촨성', wiki: 'https://en.wikipedia.org/wiki/Sichuan'
   },
   Suiyuan: {
     en: 'Suíyuǎn (Suiyuan) — the Yellow River\'s northern bend, irrigated at Hetao, with Baotou the wool railhead of the steppe. Made a province in 1928; the eastern half is what Mengchiang held',
-    wiki: 'https://en.wikipedia.org/wiki/Suiyuan'
+    ja: '綏遠 (Suien)', zh: '綏遠', wiki: 'https://en.wikipedia.org/wiki/Suiyuan'
   },
-  SuiyuanWest: { en: 'Western Suíyuǎn — Wuyuan, Linhe and the Ordos, held by Fu Zuoyi throughout' },
+  SuiyuanWest: {
+    en: 'Western Suíyuǎn — Wuyuan, Linhe and the Ordos, held by Fu Zuoyi throughout',
+    ja: '綏遠西部 (Suien seibu)', zh: '綏遠西部'
+  },
   Xikang: {
     en: 'Xīkāng (Sikang) — eastern Kham, Tibetan in speech and religion, claimed by both Nanjing and Lhasa; a special administrative region until 1939, then a province, and abolished in 1955 between Sichuan and Tibet',
-    wiki: 'https://en.wikipedia.org/wiki/Xikang'
+    ja: '西康 (Seikō)', zh: '西康', wiki: 'https://en.wikipedia.org/wiki/Xikang'
   },
   Xinjiang: {
     en: 'Xīnjiāng (Sinkiang) — oases round the Taklamakan, cotton and livestock, and a trade that ran to the Soviet Union rather than to China; Jin Shuren governed in 1930, Sheng Shicai from 1933',
-    wiki: 'https://en.wikipedia.org/wiki/Xinjiang'
+    ja: '新疆 (Shinkyō)', zh: '新疆', wiki: 'https://en.wikipedia.org/wiki/Xinjiang'
   },
-  Xizang: { en: 'Tibet', wiki: 'https://en.wikipedia.org/wiki/Tibet' },
+  Xizang: {
+    en: 'Tibet', ja: '西蔵 (Seizō)', zh: '西藏', ko: '티베트',
+    wiki: 'https://en.wikipedia.org/wiki/Tibet'
+  },
   Yunnan: {
     en: 'Yúnnán — high plateau on the Burmese and Indochinese frontier, tin from Gejiu, copper and opium, and a French railway to Haiphong. Long Yun ruled it from 1927 to 1945 with little reference to Nanjing',
-    wiki: 'https://en.wikipedia.org/wiki/Yunnan'
+    ja: '雲南 (Unnan)', zh: '雲南', ko: '윈난성', wiki: 'https://en.wikipedia.org/wiki/Yunnan'
   },
   Zhejiang: {
     en: 'Zhèjiāng (Chekiang) — silk from the Hangzhou basin, tea, and a coast of fishing ports and islands',
-    wiki: 'https://en.wikipedia.org/wiki/Zhejiang'
+    ja: '浙江 (Sekkō)', zh: '浙江', ko: '저장성', wiki: 'https://en.wikipedia.org/wiki/Zhejiang'
   },
   Nanumea: {
     en: 'Nanumea', wiki: 'https://en.wikipedia.org/wiki/Nanumea',
@@ -4655,7 +4682,7 @@ JMAP.PROVINCES = {
     note: 'Not a prefecture but the Hokkaidō-chō, an agency of the central government, and the one part of Japan settled as a frontier: the Colonisation Commission began in 1869, farm households were brought in from the poorer parts of Tōhoku, and the Ainu were dispossessed of the land and then of the right to hunt on it. The island was worth taking for coal — the Ishikari field and Yūbari above all, which fed the navy and the railways — and for herring, timber and the only large arable frontier the country had. Sapporo was laid out on an American grid by the Commission and is the youngest large city in Japan.'
   },
   Aomori: {
-    en: 'Aomori-ken', ja: '青森県 (Aomori)', zh: '青森縣',
+    en: 'Aomori-ken', ja: '青森県 (Aomori)', zh: '青森縣', ko: '아오모리현',
     wiki: 'https://en.wikipedia.org/wiki/Aomori_Prefecture',
     note: 'The northern end of Honshū, made out of the Tsugaru and Nanbu country, with the castle town of Hirosaki as the older centre and the port of Aomori as the newer. Aomori was the ferry terminus for Hakodate, so everything going to and from Hokkaidō passed through it, and the Tsugaru plain has grown apples for export since the 1870s. Ōminato, on Mutsu Bay, was a naval guard district, and Hirosaki was the garrison town of the 8th Division, the division whose men died in the Hakkōda snow march of 1902.'
   },
@@ -4832,7 +4859,7 @@ JMAP.PROVINCES = {
     note: 'The smallest prefecture in Japan, on the sheltered Inland Sea side of Shikoku, and one of the driest places in the country — the ponds that dot it are irrigation reservoirs, some of them fourteen centuries old. Sakaide and the flats along the coast were the country\'s principal salt fields, evaporating sea water in graded pans. Kotohira\'s shrine, sacred to sailors, drew pilgrims from every port in Japan, and Takamatsu was the ferry head for the Honshū crossing.'
   },
   Ehime: {
-    en: 'Ehime-ken', ja: '愛媛県 (Ehime)', zh: '愛媛縣',
+    en: 'Ehime-ken', ja: '愛媛県 (Ehime)', zh: '愛媛縣', ko: '에히메현',
     wiki: 'https://en.wikipedia.org/wiki/Ehime_Prefecture',
     note: 'Matsuyama and its castle, with the Dōgo hot spring beside it — reputedly the oldest in Japan and the setting of Natsume Sōseki\'s Botchan. The mountain behind Niihama holds the Besshi copper mine, worked continuously from 1691 and the foundation of the whole Sumitomo enterprise, with a smelter on the coast whose fumes were the cause of one of Japan\'s earliest pollution settlements. The lowlands grow mandarins, which is still what the prefecture is best known for.'
   },
@@ -4861,7 +4888,7 @@ JMAP.PROVINCES = {
     note: 'Katō Kiyomasa\'s castle here is the most heavily fortified in Japan, and it was put to the test in 1877 when Saigō Takamori\'s Satsuma army besieged the garrison for fifty days and failed to take it — the Satsuma Rebellion turned on that siege. The 6th Division was raised in the city afterwards. Inland is Aso, a caldera twenty-five kilometres across with villages and railways inside it; on the coast at Minamata the Chisso corporation had been making carbide and fertiliser since 1908, and would poison the bay with methylmercury after this map\'s dates.'
   },
   Oita: {
-    en: 'Ōita-ken', ja: '大分県 (Ōita)', zh: '大分縣',
+    en: 'Ōita-ken', ja: '大分県 (Ōita)', zh: '大分縣', ko: '오이타현',
     wiki: 'https://en.wikipedia.org/wiki/%C5%8Cita_Prefecture',
     note: 'Beppu, on the bay, produces more hot spring water than anywhere else in Japan and by the 1930s was a full-scale resort town with hospitals, hotels and a municipal bathing industry. Usa Jingū above it is the head shrine of the Hachiman cult, the god of war, with some forty thousand branch shrines under it — and the navy put one of its main air training bases on the plain beside it, from which kamikaze units flew in 1945. The rest is farming and forestry in narrow valleys, and the prefecture has been one of the emptier parts of Kyūshū since.'
   },
@@ -4876,7 +4903,7 @@ JMAP.PROVINCES = {
     note: 'Satsuma: the domain that fought the British at Kagoshima in 1863, then bought their ships, and with Chōshū made the Restoration and afterwards gave the navy most of its admirals, Tōgō Heihachirō among them. Sakurajima in the bay erupted in 1914, killed some sixty people and poured out enough lava to join the island to the mainland, which it has been part of ever since. The prefecture is volcanic ash and sweet potatoes rather than rice, it administers the Ōsumi, Tokara and Amami islands, and in 1945 the airfield at Chiran was the main base from which army kamikaze units flew to Okinawa.'
   },
   Okinawa: {
-    en: 'Okinawa-ken', ja: '沖縄県 (Okinawa)', zh: '沖繩縣',
+    en: 'Okinawa-ken', ja: '沖縄県 (Okinawa)', zh: '沖繩縣', ko: '오키나와현',
     wiki: 'https://en.wikipedia.org/wiki/Okinawa_Prefecture',
     note: 'The Ryūkyū Kingdom paid tribute to both China and Satsuma until Japan abolished it in 1879 and made the islands a prefecture, and it stayed the poorest one: sugar cane on land that would not grow enough rice, awamori distilled from imported Thai rice, and emigration to Hawaii, Peru and the Philippines on a scale no other prefecture matched. Okinawan speech, names and religion were treated as things to be corrected, and Okinawans in the mainland labour market were treated accordingly. The American landing of 1 April 1945 opened an eighty-two-day battle that destroyed Shuri and killed something like a quarter of the civilian population; the islands were then under American administration until 1972.'
   },
