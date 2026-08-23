@@ -210,55 +210,59 @@ JMAP.TERRITORIES = {
     {
       id: 'japan', en: 'Japan', ja: '内地 (Naichi)', orig: '日本 (Nihon)', zh: '日本內地',
       when: 'The metropole', cat: 'metropole', lvl: 1, atoms: ['japan'],
+      wiki: 'https://en.wikipedia.org/wiki/Empire_of_Japan',
       note: 'Honshū, Kyūshū, Shikoku and Hokkaidō. Hokkaidō was itself a settler frontier, colonised from 1869 at the expense of the Ainu.'
     },
     {
       id: 'ryukyu', en: 'Ryūkyū and Ōsumi Islands', ja: '沖縄県・鹿児島県 (Okinawa-ken・Kagoshima-ken)',
       orig: '琉球 (Ruuchuu)', zh: '琉球・沖繩縣', when: 'Annexed 1879',
       rule: 'Okinawa Prefecture, and Kagoshima from the Amami group north', cat: 'metropole',
-      lvl: 1, atoms: ['ryukyu'],
+      lvl: 1, atoms: ['ryukyu'], wiki: 'https://en.wikipedia.org/wiki/Ryukyu_Islands',
       note: 'The Ryūkyū Kingdom paid tribute to both China and Satsuma until Japan abolished it and created Okinawa Prefecture in 1879. Only the southern half of this chain is that prefecture. Satsuma had taken the Amami islands from the kingdom in 1609, and they stayed with Kagoshima after 1879 as Ōshima-gun, along with the Tokara and Ōsumi groups north of them.'
     },
     {
       id: 'ogasawara', en: 'Bonin Islands (Ogasawara)', ja: '小笠原諸島 (Ogasawara Shotō)',
       orig: '小笠原諸島', zh: '小笠原群島', when: 'Claimed 1876',
       rule: 'Japanese, part of Tokyo prefecture', cat: 'metropole', lvl: 3,
-      atoms: ['ogasawara'],
+      atoms: ['ogasawara'], wiki: 'https://en.wikipedia.org/wiki/Bonin_Islands',
       note: 'A scattering of volcanic islands 1,000 km south of Tokyo. The Bonins proper were claimed in 1876 and settled from Chichijima; the Volcano Islands 250 km further south, Iwo Jima among them, were annexed in 1891. Both are governed from Tokyo.'
     },
     {
       id: 'chishima', en: 'Kurile Islands (Chishima)', ja: '千島列島 (Chishima Rettō)',
       orig: 'Курильские острова', zh: '千島群島', when: 'Japanese from 1875', cat: 'metropole',
-      lvl: 2, atoms: ['chishima'],
+      lvl: 2, atoms: ['chishima'], wiki: 'https://en.wikipedia.org/wiki/Kuril_Islands',
       note: 'Traded to Japan by Russia in the 1875 Treaty of Saint Petersburg, in exchange for Japanese claims to Sakhalin.'
     },
     {
       id: 'chosen', en: 'Chōsen (Korea)', ja: '朝鮮 (Chōsen)', orig: '조선 (Chosŏn)', zh: '朝鮮',
       ko: '조선 (Chosŏn)', when: 'Protectorate 1905, annexed 1910', cat: 'jpcolony', lvl: 1,
-      atoms: ['korea'],
+      atoms: ['korea'], wiki: 'https://en.wikipedia.org/wiki/Korea_under_Japanese_rule',
       note: 'Opened by the Kanghwa Treaty of 1876, made a protectorate after the Russo-Japanese War and annexed outright in August 1910. The March First Movement of 1919 was met with mass repression.'
     },
     {
       id: 'formosa', en: 'Taiwan (Formosa)', ja: '臺灣 (Taiwan)', orig: '臺灣 (Tâi-oân)', zh: '臺灣',
       when: 'Japanese colony from 1895', cat: 'jpcolony', lvl: 1, atoms: ['taiwan'],
+      wiki: 'https://en.wikipedia.org/wiki/Taiwan_under_Japanese_rule',
       note: 'Japan’s first modern colony, ceded by the Qing in the 1895 Treaty of Shimonoseki after the First Sino-Japanese War.'
     },
     {
       id: 'karafuto', en: 'Karafuto (southern Sakhalin)', ja: '樺太 (Karafuto)',
       orig: 'Южный Сахалин', zh: '樺太（南薩哈林）', when: 'Japanese from 1905', cat: 'jpcolony',
-      lvl: 1, atoms: ['karafuto'],
+      lvl: 1, atoms: ['karafuto'], wiki: 'https://en.wikipedia.org/wiki/Karafuto_Prefecture',
       note: 'Sakhalin south of the 50th parallel, taken from Russia by the 1905 Treaty of Portsmouth.'
     },
     {
       id: 'kwantung', en: 'Kwantung Leased Territory', ja: '関東州 (Kantōshū)',
       orig: '關東州 (Guāndōngzhōu)', zh: '關東州', when: 'Leased from China 1905–1945',
       cat: 'jpcolony', lvl: 2, atoms: ['kwantung'],
+      wiki: 'https://en.wikipedia.org/wiki/Kwantung_Leased_Territory',
       note: 'The tip of the Liaodong peninsula, leased by Russia in 1898 and transferred to Japan in 1905. Lüshun and Dalian sat inside it, and so did the garrison that became the Kwantung Army.'
     },
     {
       id: 'nanyo', en: 'South Seas Mandate', ja: '南洋群島 (Nan’yō Guntō)', zh: '南洋群島',
       when: 'Japanese from 1914; League mandate from 1920', rule: 'Japanese mandate',
       cat: 'jpcolony', lvl: 2, atoms: ['nanyo'],
+      wiki: 'https://en.wikipedia.org/wiki/South_Seas_Mandate',
       note: 'The Marianas, Carolines and Marshalls: seized from Germany in 1914 and held by Japan from 1920 under a League of Nations Class C mandate, which meant governing them as an integral part of its own territory. The dotted line shows the boundary of the mandate, since the islands themselves are specks at this scale. Guam, in the middle of the Marianas, stayed American.'
     },
     {
@@ -266,71 +270,77 @@ JMAP.TERRITORIES = {
       orig: '中華民國 (Zhōnghuá Mínguó)', zh: '中華民國',
       when: 'Republic from 1912; warlord rule, nominal unity from 1928', cat: 'chinese', lvl: 1,
       atoms: ['china'], lights: ['manchuria', 'jehol', 'chahar', 'suiyuan', 'xinjiang'],
+      wiki: 'https://en.wikipedia.org/wiki/Republic_of_China_(1912%E2%80%931949)',
       note: 'A republic in name from 1912, but from 1916 to 1928 the country was fought over by regional militarists — the warlord era — with rival governments claiming to be the real one. The Northern Expedition of 1926–28 brought most of it under the Nationalists at Nanjing, but the unity was nominal: warlords kept their armies and their provinces, Manchuria answered to Zhang Xueliang, the Communists held rural base areas, and Xinjiang and Tibet went their own way. Japan meanwhile held a concession at Tianjin, a garrison in north China and the South Manchuria Railway zone.'
     },
     {
       id: 'manchuria', en: 'Manchuria (the Three Eastern Provinces)', ja: '満洲 (Manshū)',
       orig: '東三省 (Dōngsānshěng)', zh: '滿洲（東三省）', when: 'Chinese, under Zhang Xueliang',
       cat: 'chinese', lvl: 1, atoms: ['manchuria'], within: 'china',
+      wiki: 'https://en.wikipedia.org/wiki/Manchuria',
       note: 'Chinese territory in 1930, run by the Fengtian clique — Zhang Zuolin until his assassination by Japanese officers in 1928, then his son Zhang Xueliang, who declared for Nanjing. Japan already held the railway zone and the Kwantung leasehold inside it. The Kwantung Army invaded in September 1931.'
     },
     {
       id: 'jehol', en: 'Rèhé (Jehol)', ja: '熱河 (Nekka)', orig: '熱河省 (Rèhé shěng)', zh: '熱河省',
       when: 'Chinese province from 1928', cat: 'chinese', lvl: 3, atoms: ['jehol'],
-      within: 'china',
+      within: 'china', wiki: 'https://en.wikipedia.org/wiki/Rehe_Province',
       note: 'The province between the Great Wall and Manchuria, made a full province in 1928. Japan took it in February and March 1933 and attached it to Manchukuo.'
     },
     {
       id: 'chahar', en: 'Cháhā’ěr (Chahar)', ja: '察哈爾 (Chaharu)', orig: '察哈爾', zh: '察哈爾',
       when: 'Chinese province from 1928', cat: 'chinese', lvl: 3, atoms: ['chahar'],
-      within: 'china',
+      within: 'china', wiki: 'https://en.wikipedia.org/wiki/Chahar_Province',
       note: 'The steppe province north-west of the Wall, made a province in 1928 out of one of the old frontier special districts, with Zhangjiakou at its gate — the Kalgan of the caravan trade, where the brick tea and wool of Outer Mongolia came south. From 1936 the Mongol prince Demchugdongrub headed a Japanese-sponsored government in the north of it; after Japan took Zhangjiakou in 1937 that grew, with the Chinese autonomous governments of southern Chahar and northern Shanxi, into the client regime of Mengchiang, federated in 1939 and governed from Zhangjiakou. The province was abolished in 1952 and divided between Hebei, Shanxi and Inner Mongolia.'
     },
     {
       id: 'suiyuan', en: 'Suíyuǎn (Suiyuan)', ja: '綏遠 (Suien)', orig: '綏遠', zh: '綏遠',
       when: 'Chinese province from 1928', cat: 'chinese', lvl: 3,
       atoms: ['suiyuan', 'suiyuan_w'], within: 'china',
+      wiki: 'https://en.wikipedia.org/wiki/Suiyuan',
       note: 'The northern bend of the Yellow River, irrigated at Hetao and dry beyond it, with Baotou the wool railhead of the steppe and the western end of the Beijing–Suiyuan railway. Also a province from 1928, and in 1930 within Yan Xishan\'s reach from Shanxi; Fu Zuoyi took the chairmanship in 1931 and held the western half of it through the whole war. The eastern half is what Mengchiang held after 1937. Abolished in 1954 into Inner Mongolia.'
     },
     {
       id: 'xinjiang', en: 'Xīnjiāng (Sinkiang)', ja: '新疆 (Shinkyō)', orig: 'شىنجاڭ (Shinjang)',
       zh: '新疆', when: 'Under largely autonomous provincial rule', cat: 'chinese', lvl: 3,
-      atoms: ['xinjiang'], within: 'china',
+      atoms: ['xinjiang'], within: 'china', wiki: 'https://en.wikipedia.org/wiki/Xinjiang',
       note: 'A province of the Republic in name, and Nanjing recognised Jin Shuren as its chairman. In practice his government ran its own army, finances and foreign trade, and Nanjing\'s writ reached almost nothing of it.'
     },
     {
       id: 'tibet', en: 'Tibet', ja: 'チベット (Chibetto)', orig: 'བོད་ (Bod)', zh: '西藏',
       when: 'De facto independent from 1913', cat: 'frontier', lvl: 3, atoms: ['tibet'],
+      wiki: 'https://en.wikipedia.org/wiki/Tibet_(1912%E2%80%931951)',
       note: 'Claimed by the Republic of China, but self-governing in practice from 1913, when the 13th Dalai Lama expelled the last Chinese officials, until 1951. Shown here in the independent colour on that basis; no foreign power recognised it.'
     },
     {
       id: 'britishindia', en: 'British India (including Burma)',
       when: 'Burma a province of India until 1937', cat: 'british', lvl: 1,
       atoms: ['india', 'andaman', 'burma', 'saharat'], edge: '#8f5f6e', edgeAtoms: ['burma'],
-      edgeClip: [92, 20.6, 97.4, 28.4],
+      edgeClip: [92, 20.6, 97.4, 28.4], wiki: 'https://en.wikipedia.org/wiki/British_Raj',
       note: 'Burma was governed as a province of British India until it was separated in 1937. The Andaman and Nicobar Islands were run from India as a penal settlement.'
     },
     {
       id: 'goa', en: 'Portuguese India — Goa, Damão, Diu, Dadra & Nagar Haveli',
       orig: 'Estado da Índia', when: 'Portuguese from 1510', cat: 'portuguese', lvl: 3,
-      atoms: ['goa'],
+      atoms: ['goa'], wiki: 'https://en.wikipedia.org/wiki/Portuguese_India',
       note: 'Goa, with Damão and Diu on the Gujarat coast and Dadrá and Nagar Aveli inland behind them, is the seat of the Estado da Índia and the oldest European possession in Asia, held since 1510. It would stay Portuguese until India took it by force in 1961.'
     },
     {
       id: 'pondicherry', en: 'French India — Pondicherry, Karikal, Yanaon, Mahé, Chandernagore',
       orig: 'Établissements français dans l’Inde', when: 'French from 1674', cat: 'french',
-      lvl: 3, atoms: ['pondicherry'],
+      lvl: 3, atoms: ['pondicherry'], wiki: 'https://en.wikipedia.org/wiki/French_India',
       note: 'Five scattered enclaves left to France when Britain took the rest of India: Pondicherry and Karikal on the Coromandel coast, Yanaon on the Godavari, Mahé on the Malabar coast, and Chandernagore on the Hooghly above Calcutta. They would declare for the Free French in 1940 and pass to India in the 1950s.'
     },
     {
       id: 'princelystates', en: 'Princely states',
       when: 'Rulers in subsidiary alliance with the Crown', cat: 'british', lvl: 3,
       atoms: ['princely'], adminOnly: true,
+      wiki: 'https://en.wikipedia.org/wiki/Princely_state',
       note: 'British India was a patchwork: nine governors\' provinces and a handful of smaller chief commissioners\' ones, ruled directly, and beside them some six hundred princely states whose rulers kept their thrones under treaties with the Crown. Hyderabad, the largest by population and revenue, had its own army and currency, and the Nizam was reckoned the richest man alive. The states are drawn here from a layer of their 1931 boundaries rather than approximated from modern units, so the shapes are the shapes: the Rajputana and Central India agencies as one western mass, the Baluchistan states of Kalat and Las Bela, the Eastern States through Orissa and Chhattisgarh, the hill states along the frontier, and the small Deccan states scattered through Bombay. The very smallest of the six hundred are below the resolution of this map and are drawn inside whichever province surrounded them.'
     },
     {
       id: 'ceylon', en: 'Ceylon', orig: 'ලංකාව (Lanka)', zh: '錫蘭', when: 'Crown colony',
       cat: 'british', lvl: 3, atoms: ['ceylon'],
+      wiki: 'https://en.wikipedia.org/wiki/British_Ceylon',
       note: 'A separate Crown colony, not part of British India, and the Royal Navy’s main base in the eastern Indian Ocean.'
     },
     {
@@ -338,26 +348,31 @@ JMAP.TERRITORIES = {
       orig: 'Tanah Melayu / Singapura', zh: '馬來亞・新加坡',
       when: 'Straits Settlements & protected states', cat: 'british', lvl: 2,
       atoms: ['malaya', 'malaya_thai', 'christmas'],
+      wiki: 'https://en.wikipedia.org/wiki/British_Malaya',
       note: 'The Straits Settlements and the protected Malay states, with the Singapore naval base begun in 1923 as the anchor of British power east of Suez. The four northern states — Kedah, Perlis, Kelantan and Trengganu — had been Siamese until the Anglo-Siamese Treaty of 1909.'
     },
     {
       id: 'sarawak', en: 'Sarawak', ja: 'サラワク (Sarawaku)', orig: 'Sarawak', zh: '砂拉越',
       when: 'Ruled by the Brooke family, 1841–1946', cat: 'british', lvl: 3, atoms: ['sarawak'],
+      wiki: 'https://en.wikipedia.org/wiki/Raj_of_Sarawak',
       note: 'The private kingdom of the "White Rajahs": James Brooke took it from the sultan of Brunei in 1841 and his family ruled it for a century. A British protectorate from 1888, ceded to the Crown in 1946.'
     },
     {
       id: 'northborneo', en: 'North Borneo', ja: '北ボルネオ (Kita Boruneo)', zh: '北婆羅洲',
       when: 'Chartered company from 1881', cat: 'british', lvl: 3, atoms: ['northborneo'],
+      wiki: 'https://en.wikipedia.org/wiki/North_Borneo',
       note: 'Governed not by the Crown but by the British North Borneo Chartered Company, one of the last trading companies to rule territory in its own right. Labuan, a Crown colony since 1848, was attached to the Straits Settlements in 1907.'
     },
     {
       id: 'brunei', en: 'Brunei', ja: 'ブルネイ (Burunei)', orig: 'Brunei', zh: '汶萊',
       when: 'Protectorate from 1888', cat: 'british', lvl: 3, c: '#c79aa8', atoms: ['brunei'],
+      wiki: 'https://en.wikipedia.org/wiki/Brunei',
       note: 'What was left of the sultanate that had once ruled the whole north coast of Borneo, after Sarawak and North Borneo were carved out of it. A British protectorate with a Resident from 1906; oil was struck at Seria in 1929.'
     },
     {
       id: 'hongkong', en: 'Hong Kong', ja: '香港 (Honkon)', orig: '香港 (Hēunggóng)', zh: '香港',
       when: 'British from 1842', cat: 'british', lvl: 2, atoms: ['hongkong'],
+      wiki: 'https://en.wikipedia.org/wiki/British_Hong_Kong',
       note: 'Hong Kong Island was ceded in 1842, Kowloon in 1860, and the New Territories leased for ninety-nine years in 1898.'
     },
     {
@@ -365,91 +380,105 @@ JMAP.TERRITORIES = {
       zh: '所羅門群島', when: 'Protectorate from 1893', rule: 'British protectorate', cat: 'british',
       lvl: 3,
       atoms: ['solomons_br', 'solomons_gc', 'solomons_us', 'solomons_ml', 'solomons_al'],
+      wiki: 'https://en.wikipedia.org/wiki/British_Solomon_Islands',
       note: 'A British protectorate; Guadalcanal would become the turning point of the Pacific War in 1942–43.'
     },
     {
       id: 'mandate_jp', en: 'South Seas Mandate — the mandate boundary', ja: '南洋群島委任統治領の境界',
       zh: '南洋群島委任統治地界', when: 'Japanese from 1914; League Class C mandate from 1920',
       cat: 'jpcolony', lvl: 2, c: '#c2463d', atoms: ['mandate_jp'], unseen: true,
+      wiki: 'https://en.wikipedia.org/wiki/South_Seas_Mandate',
       note: 'Some two thousand islands — the Marianas except Guam, the Carolines and the Marshalls — with about 2,100 km² of land scattered across three million square miles of ocean, which is why the mandate is drawn here as a line and not as a shape. Japan took them from Germany in October 1914, held them under naval administration, and was granted them as a Class C mandate by the League in December 1920; Class C meant a territory could be governed as an integral part of the mandatory’s own. A civil South Seas Bureau ran them from Koror in Palau from 1922. Japanese settlers came with the sugar industry on Saipan and Tinian and outnumbered the islanders by the mid-1930s. Fortifying the islands was forbidden both by the mandate and by the Washington naval treaty; Japan gave notice of leaving the League in 1933, kept the islands, and fortified them anyway. They would become the American Trust Territory of the Pacific Islands in 1947.'
     },
     {
       id: 'mandate_ex_guam', en: 'Guam — inside the line, outside the mandate',
       when: 'American since 1898; never part of the mandate', cat: 'american', lvl: 3,
       c: '#325d7b', atoms: ['mandate_ex_guam'], unseen: true,
+      wiki: 'https://en.wikipedia.org/wiki/Guam',
       note: 'The mandate covered the Marianas except Guam, which is why every description of it says so. Spain ceded Guam to the United States in 1898, so when Japan took the German Marianas in 1914 it took the chain round an American island: Saipan, a hundred and thirty miles north, was Japanese, and Guam was a US naval station with a small Marine garrison. Japan would land there on 10 December 1941, two days after Pearl Harbor, rename it Ōmiyajima, and hold it until the Americans retook it in the summer of 1944.'
     },
     {
       id: 'mandate_au', en: 'Territory of New Guinea — the mandate boundary',
       when: 'Australian Class C mandate from 1920, run from Rabaul', cat: 'british', lvl: 3,
       c: '#c9a6b0', atoms: ['mandate_au'], unseen: true,
+      wiki: 'https://en.wikipedia.org/wiki/Territory_of_New_Guinea',
       note: 'German New Guinea south of the equator — the Kaiser-Wilhelmsland mainland, the Bismarck Archipelago, Bougainville and Buka — held by Australia as a Class C mandate from 1920 and administered from Rabaul, separately from Papua next door, which was Australian territory outright. Japan landed at Rabaul in January 1942 and made it the base for the whole southern campaign.'
     },
     {
       id: 'mandate_br', en: 'Nauru — the mandate boundary',
       when: 'British Class C mandate from 1920, administered by Australia', cat: 'british',
       lvl: 3, c: '#b07f8e', atoms: ['mandate_br'], unseen: true,
+      wiki: 'https://en.wikipedia.org/wiki/Nauru',
       note: 'One island, held as a Class C mandate jointly by Britain, Australia and New Zealand under the Nauru Island Agreement of 1919 and administered in practice by Australia. What it was held for was phosphate, worked by the British Phosphate Commissioners. Japan took it in August 1942 and deported most of the population to Truk.'
     },
     {
       id: 'gilberts', en: 'Gilbert & Ellice Islands', ja: 'ギルバート諸島', orig: 'Tungaru',
       zh: '吉爾伯特群島', when: 'British colony from 1916; a protectorate from 1892', cat: 'british',
       lvl: 3, atoms: ['gilberts', 'ellice'],
+      wiki: 'https://en.wikipedia.org/wiki/Gilbert_and_Ellice_Islands',
       note: 'Two scatters of atolls governed as one colony from Ocean Island: the Gilberts on the equator, the Ellice Islands six hundred miles south, and Ocean Island — Banaba — off to the west, which was worked for phosphate by the British Phosphate Commissioners and is where the administration actually sat. Japan took the Gilberts in December 1941 and never reached the Ellice.'
     },
     {
       id: 'linephoenix', en: 'The Line & Phoenix Islands',
       when: 'Gilbert & Ellice Islands Colony', rule: 'British colony', cat: 'british', lvl: 3,
-      atoms: ['linephoenix'],
+      atoms: ['linephoenix'], wiki: 'https://en.wikipedia.org/wiki/Line_Islands',
       note: 'Two scatters of atolls east of the date line, run from Ocean Island. Fanning carried the trans-Pacific telegraph cable from Vancouver to Australia, landed in 1902 and the reason these specks were worth holding. The Phoenix group was almost empty until the settlement scheme of 1938–40 moved Gilbertese families there against overcrowding at home. Canton Island and Enderbury were claimed by Britain and by the United States at once, and in 1939 the two agreed to administer them jointly for fifty years; Pan American Airways put a flying-boat base on Canton Island that year, on the route to New Zealand.'
     },
     {
       id: 'uspacific', en: 'Palmyra, Kingman Reef, Howland, Baker, Jarvis & Swains',
       when: 'American; most claimed under the Guano Islands Act', rule: 'American',
       cat: 'american', lvl: 3, atoms: ['uspacific'],
+      wiki: 'https://en.wikipedia.org/wiki/United_States_Minor_Outlying_Islands',
       note: 'Coral specks claimed for their guano in the 1850s and remembered eighty years later for their runways: an aircraft crossing the Pacific needed somewhere to land. Howland, Baker and Jarvis were settled in 1935–36 by young Hawaiians sent out to hold them, and the airstrip on Howland was built for Amelia Earhart, who vanished on the way to it in July 1937. Palmyra became a naval air station. Swains is a private copra island administered with American Samoa.'
     },
     {
       id: 'nzpacific', en: 'Tokelau & the northern Cook Islands',
       when: 'Administered by New Zealand', cat: 'british', lvl: 3, atoms: ['nzpacific'],
+      wiki: 'https://en.wikipedia.org/wiki/Tokelau',
       note: 'Penrhyn, Manihiki, Rakahanga and Pukapuka are the northern Cooks, annexed by New Zealand in 1901. Tokelau — Atafu, Nukunonu and Fakaofo — was run from the Gilbert & Ellice Islands Colony until 1925 and handed to New Zealand then. They are drawn in the British colour because the map has no New Zealand one; the line above says who actually administered them.'
     },
     {
       id: 'indochina', en: 'French Indochina', ja: '仏印 (Futsuin)',
       orig: 'Đông Dương thuộc Pháp', zh: '法屬印度支那', when: 'French from the 1880s', cat: 'french',
       lvl: 1, atoms: ['indochina', 'siamgain'],
+      wiki: 'https://en.wikipedia.org/wiki/French_Indochina',
       note: 'Tonkin, Annam, Cochinchina, Cambodia and Laos under a single Governor-General at Hanoi. Shown as one territory because that is what it was: the borders of Vietnam, Laos and Cambodia are later.'
     },
     {
       id: 'dei', en: 'Netherlands East Indies', orig: 'Nederlandsch-Indië', when: 'Dutch',
       cat: 'dutch', lvl: 1, atoms: ['dei'],
+      wiki: 'https://en.wikipedia.org/wiki/Dutch_East_Indies',
       note: 'Java, Sumatra, the Dutch share of Borneo, the eastern islands and western New Guinea. Its oil would be the central economic prize of Japan’s southern advance.'
     },
     {
       id: 'philippines', en: 'Philippine Islands', ja: '比島 (Hitō)', orig: 'Pilipinas',
       zh: '菲律賓', when: 'American from 1898', cat: 'american', lvl: 1, atoms: ['philippines'],
+      wiki: 'https://en.wikipedia.org/wiki/Insular_Government_of_the_Philippine_Islands',
       note: 'Taken from Spain in 1898 and held after a brutal war against Filipino republicans. A commonwealth with a promise of independence would follow in 1935.'
     },
     {
       id: 'wake', en: 'Wake Island', orig: 'Wake', when: 'American from 1899',
       rule: 'American territory', cat: 'american', lvl: 3, atoms: ['wake'],
+      wiki: 'https://en.wikipedia.org/wiki/Wake_Island',
       note: 'Three islets round a lagoon, with no fresh water and nobody living on them: the Marshallese came for birds and shells and called it Enen-kio. The United States annexed it in 1899 and left it empty until Pan American built a hotel and a flying-boat station on Peale in 1935, for the Honolulu–Guam–Manila run. The Navy began an air station there in January 1941.'
     },
     {
       id: 'guam', en: 'Guam', ja: 'グアム (Guamu)', orig: 'Guåhan', zh: '關島',
       when: 'American from 1898', rule: 'American territory', cat: 'american', lvl: 3,
-      atoms: ['guam'],
+      atoms: ['guam'], wiki: 'https://en.wikipedia.org/wiki/Guam',
       note: 'A US naval station sitting in the middle of the Japanese-held Marianas.'
     },
     {
       id: 'hawaii', en: 'Hawaii', orig: 'Hawaiʻi', zh: '夏威夷', when: 'Annexed 1898',
       rule: 'American territory', cat: 'american', lvl: 2, atoms: ['hawaii'],
+      wiki: 'https://en.wikipedia.org/wiki/Territory_of_Hawaii',
       note: 'A US territory with a large Japanese immigrant population. Pearl Harbor had a navy yard and a drydock from 1919, but the Pacific Fleet was based on the California coast until it was ordered to stay at Hawaii in May 1940.'
     },
     {
       id: 'aleutians', en: 'Aleutian Islands', orig: 'Unangam Tanangin', zh: '阿留申群島',
       when: 'Part of the Alaska Territory', rule: 'American territory', cat: 'american', lvl: 3,
       atoms: ['aleutians', 'aleutians_jp'],
+      wiki: 'https://en.wikipedia.org/wiki/Aleutian_Islands',
       note: 'The chain reaching from Alaska towards Kamchatka; Attu and Kiska at its western end would be occupied by Japan in 1942.'
     },
     {
@@ -457,18 +486,20 @@ JMAP.TERRITORIES = {
       when: 'Allocated to the Philippines by treaty, 2 January 1930',
       rule: 'Administered by British North Borneo', cat: 'american', lvl: 3,
       atoms: ['turtle', 'mangsee'], hatch: 'brit',
+      wiki: 'https://en.wikipedia.org/wiki/Turtle_Islands,_Tawi-Tawi',
       note: 'Two small groups in the Sulu Sea that the British North Borneo Company had administered since the 1880s. The Anglo-American convention of 2 January 1930 placed them inside the boundary of the American Philippine Islands, but left the Company running them: the transfer was not actually made until 16 October 1947, to the independent Philippines. Drawn in the American colour with British diagonals, which is what the arrangement was.'
     },
     {
       id: 'miangas', en: 'Miangas (Palmas)', ja: 'ミアンガス島', orig: 'Miangas',
       when: 'Awarded to the Netherlands, 4 April 1928', cat: 'dutch', lvl: 3,
-      atoms: ['miangas'],
+      atoms: ['miangas'], wiki: 'https://en.wikipedia.org/wiki/Miangas',
       note: 'The Island of Palmas of the arbitration: the United States claimed it as part of the Philippines it had bought from Spain in 1898, the Netherlands claimed it by long administration, and Max Huber awarded it to the Netherlands on 4 April 1928 — the case that made continuous and peaceful display of authority the test of title, and one of the most cited decisions in international law. It lies nearer Mindanao than any Dutch island.'
     },
     {
       id: 'cocos', en: 'Cocos (Keeling) Islands', orig: 'Pulu Kokos',
       when: 'A Straits Settlement from 1903', rule: 'British colony, run from Singapore',
       cat: 'british', lvl: 3, atoms: ['cocos'],
+      wiki: 'https://en.wikipedia.org/wiki/Cocos_(Keeling)_Islands',
       note: 'Two atolls in the Indian Ocean, held by the Clunies-Ross family under a grant of 1886 and attached to the Straits Settlements in 1903. The cable station on Direction Island linked Australia, Africa and Ceylon, which is why the Emden came for it in 1914 and was destroyed there.'
     },
     {
@@ -476,103 +507,113 @@ JMAP.TERRITORIES = {
       orig: 'Trường Sa / Kapuluan ng Kalayaan', zh: '南沙群島',
       when: 'Occupied by France, April 1930; annexed 1933',
       rule: 'Claimed by France; Britain had claimed them earlier', cat: 'french', lvl: 3,
-      atoms: ['spratly'],
+      atoms: ['spratly'], wiki: 'https://en.wikipedia.org/wiki/Spratly_Islands',
       note: 'A scatter of sandbanks, cays and reefs with no permanent population. Britain claimed them from 1877 and did nothing with them; France occupied Spratly Island in April 1930 and annexed the group — nine islands, Itu Aba among them — in 1933, attaching it to Cochinchina. Japan disputed the claim throughout, worked the guano and phosphate, and took them in 1939. Islands are traced from present-day shapes, which does not reflect more recent land reclamation.'
     },
     {
       id: 'paracel', en: 'Paracel Islands', ja: '西沙群島 (Seisa Guntō)', orig: 'Hoàng Sa',
       zh: '西沙群島', when: 'Claimed by China and by France', cat: 'chinese', lvl: 3,
-      atoms: ['paracel'],
+      atoms: ['paracel'], wiki: 'https://en.wikipedia.org/wiki/Paracel_Islands',
       note: 'Claimed by the Republic of China as part of Guangdong and by France on behalf of Annam, and administered by neither in any continuous way in 1930. France occupied them in 1938 and Japan took them in 1939. Islands are traced from present-day shapes, which does not reflect more recent land reclamation.'
     },
     {
       id: 'pratas', en: 'Dōngshā (Pratas Island)', ja: '東沙島 (Tōsa-tō)', orig: '東沙島 (Dōngshā)',
       zh: '東沙島', when: 'Chinese, in Kwangtung province', cat: 'chinese', lvl: 3,
-      atoms: ['pratas'],
+      atoms: ['pratas'], wiki: 'https://en.wikipedia.org/wiki/Pratas_Island',
       note: 'One island and its reef, 340 km south-east of Hong Kong. A Japanese merchant occupied it and worked the guano from 1907; China bought him out in 1909 and it has been administered from the mainland, and later from Taiwan, ever since. Islands are traced from present-day shapes, which does not reflect more recent land reclamation.'
     },
     {
       id: 'timor_pt', en: 'Portuguese Timor', orig: 'Timor Português', when: 'Portuguese',
       cat: 'portuguese', lvl: 3, atoms: ['timor_pt'],
+      wiki: 'https://en.wikipedia.org/wiki/Portuguese_Timor',
       note: 'The eastern half of Timor, and one of the last fragments of the old Portuguese seaborne empire.'
     },
     {
       id: 'macau', en: 'Macao', ja: 'マカオ (Makao)', orig: '澳門 (Ou-mun)', zh: '澳門',
       when: 'Portuguese from the 1550s', cat: 'portuguese', lvl: 3, atoms: ['macau'],
+      wiki: 'https://en.wikipedia.org/wiki/Portuguese_Macau',
       note: 'The oldest European settlement in East Asia, and neutral throughout the Pacific War.'
     },
     {
       id: 'siam', en: 'Siam', orig: 'สยาม (Sayam)', when: 'Never colonised', cat: 'independent',
-      lvl: 2, atoms: ['siam'],
+      lvl: 2, atoms: ['siam'], wiki: 'https://en.wikipedia.org/wiki/Thailand',
       note: 'The one state in Southeast Asia that kept its independence, by playing Britain and France against each other and ceding territory to both. Renamed Thailand in 1939.'
     },
     {
       id: 'ussr', en: 'Soviet Union (USSR)', orig: 'СССР (SSSR)', zh: '蘇聯', when: 'From 1922',
       cat: 'soviet', lvl: 1, atoms: ['ussr'],
+      wiki: 'https://en.wikipedia.org/wiki/Soviet_Union',
       note: 'Japan had intervened in the Russian Civil War in Siberia from 1918 to 1922 and held northern Sakhalin until 1925. Relations along the Manchurian border stayed tense.'
     },
     {
       id: 'mongolia', en: 'Mongolian People’s Republic (Outer Mongolia)',
       orig: 'Бүгд Найрамдах Монгол Ард Улс', zh: '蒙古人民共和國', when: 'From 1924', cat: 'soviet',
       lvl: 2, c: '#d3d1e6', atoms: ['mongolia'],
+      wiki: 'https://en.wikipedia.org/wiki/Mongolian_People\'s_Republic',
       note: 'Independent of China in fact from 1911 and a Soviet satellite from 1924, though only the USSR recognised it.'
     },
     {
       id: 'australia', en: 'Australia', orig: 'Australia', zh: '澳大利亞', when: 'Dominion',
       cat: 'british', lvl: 2, c: '#c9a6b0', atoms: ['australia'],
+      wiki: 'https://en.wikipedia.org/wiki/Australia',
       note: 'A self-governing dominion whose defence rested on the British naval base at Singapore.'
     },
     {
       id: 'newguinea_au', en: 'Papua & the Territory of New Guinea', ja: 'ニューギニア',
       orig: 'Niugini', zh: '新幾內亞', when: 'Australian territory & mandate', cat: 'british',
       lvl: 3, c: '#c9a6b0', atoms: ['newguinea_au'],
+      wiki: 'https://en.wikipedia.org/wiki/Territory_of_Papua',
       note: 'Papua was an Australian territory; German New Guinea, taken in 1914, was held from 1920 under a League mandate — the southern counterpart of Japan’s.'
     },
     {
       id: 'nauru_au', en: 'Nauru', ja: 'ナウル', orig: 'Naoero', zh: '諾魯',
       when: 'Mandate from 1920', rule: 'Mandate — Australia, Britain and New Zealand',
       cat: 'british', lvl: 3, c: '#c9a6b0', atoms: ['nauru_au'],
+      wiki: 'https://en.wikipedia.org/wiki/Nauru',
       note: 'A phosphate island held under a mandate shared by Australia, Britain and New Zealand.'
     },
     {
       id: 'weihaiwei', en: 'Wēihǎi (Weihaiwei)', ja: '威海衛 (Ikaiei)', orig: '威海衛 (Wēihǎiwèi)',
       zh: '威海衛', when: 'Leased 1898, returned 1 October 1930', cat: 'british', lvl: 3,
       c: '#c08a99', atoms: ['weihaiwei'],
+      wiki: 'https://en.wikipedia.org/wiki/British_Weihaiwei',
       note: 'Britain took the lease in 1898 to balance the Russian one at Lüshun, and used the harbour as the Royal Navy’s summer station. It was handed back to China in October 1930 — so on this map it is in its last months.'
     },
     {
       id: 'guangzhouwan', en: 'Guǎngzhōuwān (Kwangchowan)', ja: '広州湾 (Kōshūwan)',
       orig: 'Kouang-Tchéou-Wan', zh: '廣州灣', when: 'Leased to France 1898–1945', cat: 'french',
-      lvl: 3, atoms: ['guangzhouwan'],
+      lvl: 3, atoms: ['guangzhouwan'], wiki: 'https://en.wikipedia.org/wiki/Guangzhouwan',
       note: 'A French leased territory on the Leizhou peninsula, administered from Indochina. Japan occupied it in February 1943; it went back to China in 1945.'
     },
     {
       id: 'tuva', en: 'Tannu Tuva (Tuvan People’s Republic)', orig: 'Тыва Арат Республик',
       zh: '唐努圖瓦', when: 'Independent in name from 1921', cat: 'soviet', lvl: 3, c: '#d3d1e6',
       atoms: ['tuva'], edge: '#bebada',
+      wiki: 'https://en.wikipedia.org/wiki/Tuvan_People\'s_Republic',
       note: 'Qing territory until 1911, then a Russian protectorate, then a nominally independent republic from 1921 — recognised only by the Soviet Union and Mongolia. Absorbed into the USSR in 1944. China went on claiming it.'
     },
     {
       id: 'nepal', en: 'Nepal', orig: 'नेपाल (Nepāl)', zh: '尼泊爾',
       when: 'Independent, in treaty with Britain', cat: 'other', lvl: 3, c: '#e2d9c6',
-      atoms: ['nepal'],
+      atoms: ['nepal'], wiki: 'https://en.wikipedia.org/wiki/Kingdom_of_Nepal',
       note: 'Never colonised, and recognised as fully independent by Britain in 1923, though bound to it by treaty and supplying the Gurkha regiments.'
     },
     {
       id: 'sikkim', en: 'Sikkim', orig: 'འབྲས་ལྗོངས (Drenjong)', zh: '錫金',
       when: 'British protectorate from 1861, recognised by China 1890', cat: 'british', lvl: 3,
-      c: '#dcc2ce', atoms: ['sikkim'],
+      c: '#dcc2ce', atoms: ['sikkim'], wiki: 'https://en.wikipedia.org/wiki/Kingdom_of_Sikkim',
       note: 'A Himalayan kingdom under British protection, not a part of British India — which is why it is drawn apart from it here. The protectorate began with the Treaty of Tumlong in 1861, which followed a British punitive expedition and put Sikkim’s external relations in British hands; China recognised it, and the Sikkim–Tibet boundary was drawn, by the Convention of Calcutta of 17 March 1890.'
     },
     {
       id: 'bhutan', en: 'Bhutan', orig: 'འབྲུག་ཡུལ (Druk Yul)', zh: '不丹',
       when: 'British protectorate from 1910', cat: 'other', lvl: 3, c: '#c9a6b0',
-      atoms: ['bhutan'],
+      atoms: ['bhutan'], wiki: 'https://en.wikipedia.org/wiki/Bhutan',
       note: 'Internally self-governing, with Britain conducting its foreign relations under the Treaty of Punakha.'
     },
     {
       id: 'other', en: 'Afghanistan', orig: 'Afghanistan, Nepal, Bhutan', zh: '阿富汗・尼泊爾・不丹',
       cat: 'other', lvl: 3, atoms: ['other'],
+      wiki: 'https://en.wikipedia.org/wiki/Kingdom_of_Afghanistan',
       note: 'Drawn for context rather than as part of the story. Afghanistan and Nepal were independent states; Bhutan and Sikkim were British protectorates, outside the directly administered provinces of British India.'
     },
     {
@@ -586,60 +627,66 @@ JMAP.TERRITORIES = {
     {
       id: 'japan', en: 'Japan', ja: '内地 (Naichi)', orig: '日本 (Nihon)', zh: '日本內地',
       when: 'The metropole', cat: 'metropole', lvl: 1, atoms: ['japan'],
+      wiki: 'https://en.wikipedia.org/wiki/Empire_of_Japan',
       note: 'Untouched by the war so far, apart from the Doolittle raid of April 1942. Systematic bombing would begin once the Marianas fell in 1944.'
     },
     {
       id: 'ryukyu', en: 'Ryūkyū and Ōsumi Islands', ja: '沖縄県・鹿児島県 (Okinawa-ken・Kagoshima-ken)',
       orig: '琉球 (Ruuchuu)', zh: '琉球・沖繩縣', when: 'Annexed 1879',
       rule: 'Okinawa Prefecture, and Kagoshima from the Amami group north', cat: 'metropole',
-      lvl: 1, atoms: ['ryukyu'],
+      lvl: 1, atoms: ['ryukyu'], wiki: 'https://en.wikipedia.org/wiki/Ryukyu_Islands',
       note: 'A prefecture, not a colony, though it was governed and garrisoned as a frontier. The Battle of Okinawa in 1945 killed roughly a quarter of the civilian population.'
     },
     {
       id: 'ogasawara', en: 'Bonin Islands (Ogasawara)', ja: '小笠原諸島 (Ogasawara Shotō)',
       orig: '小笠原諸島', zh: '小笠原群島', when: 'Claimed 1876',
       rule: 'Japanese, part of Tokyo prefecture', cat: 'metropole', lvl: 3,
-      atoms: ['ogasawara'],
+      atoms: ['ogasawara'], wiki: 'https://en.wikipedia.org/wiki/Bonin_Islands',
       note: 'The chain that includes Iwo Jima, fortified as the last barrier on the direct approach to Tokyo.'
     },
     {
       id: 'chishima', en: 'Kurile Islands (Chishima)', ja: '千島列島 (Chishima Rettō)',
       orig: 'Курильские острова', zh: '千島群島', when: 'Japanese from 1875', cat: 'metropole',
-      lvl: 2, atoms: ['chishima'],
+      lvl: 2, atoms: ['chishima'], wiki: 'https://en.wikipedia.org/wiki/Kuril_Islands',
       note: 'The Pearl Harbor strike force sailed from Hitokappu Bay in these islands in November 1941. Seized by the USSR in 1945 and still disputed.'
     },
     {
       id: 'chosen', en: 'Chōsen (Korea)', ja: '朝鮮 (Chōsen)', orig: '조선 (Chosŏn)', zh: '朝鮮',
       ko: '조선 (Chosŏn)', when: 'Annexed 1910–1945', cat: 'colony', lvl: 1, atoms: ['korea'],
+      wiki: 'https://en.wikipedia.org/wiki/Korea_under_Japanese_rule',
       note: 'By 1942 under the assimilation drive: Korean-language teaching suppressed, Japanese names imposed from 1940, and mobilisation of labour and, from 1944, conscription.'
     },
     {
       id: 'formosa', en: 'Taiwan (Formosa)', ja: '臺灣 (Taiwan)', orig: '臺灣 (Tâi-oân)', zh: '臺灣',
       when: 'Japanese colony 1895–1945', cat: 'colony', lvl: 1, atoms: ['taiwan'],
+      wiki: 'https://en.wikipedia.org/wiki/Taiwan_under_Japanese_rule',
       note: 'The oldest colony and the staging ground for the invasion of the Philippines in December 1941.'
     },
     {
       id: 'karafuto', en: 'Karafuto (southern Sakhalin)', ja: '樺太 (Karafuto)',
       orig: 'Южный Сахалин', zh: '樺太（南薩哈林）', when: 'Japanese 1905–1945', cat: 'colony', lvl: 1,
-      atoms: ['karafuto'],
+      atoms: ['karafuto'], wiki: 'https://en.wikipedia.org/wiki/Karafuto_Prefecture',
       note: 'Coal, timber and fisheries, and — apart from Korea\'s short frontier on the lower Tumen — the empire\'s land border with the Soviet Union. Lost in August 1945.'
     },
     {
       id: 'kwantung', en: 'Kwantung Leased Territory', ja: '関東州 (Kantōshū)',
       orig: '關東州 (Guāndōngzhōu)', zh: '關東州', when: 'Leased 1905–1945', cat: 'colony', lvl: 2,
       atoms: ['kwantung'], edge: '#9a1813',
+      wiki: 'https://en.wikipedia.org/wiki/Kwantung_Leased_Territory',
       note: 'Nominally Manchukuo’s, in that the new state re-granted the lease in 1932; in practice a Japanese leasehold with its own administration to the end, and the seat of the Kwantung Army that had taken Manchuria. Lüshun and Dalian are inside it.'
     },
     {
       id: 'nanyo', en: 'South Seas Mandate', ja: '南洋群島 (Nan’yō Guntō)', zh: '南洋群島',
       when: 'Japanese from 1914; League mandate from 1920', rule: 'Japanese mandate',
       cat: 'colony', lvl: 2, atoms: ['nanyo'],
+      wiki: 'https://en.wikipedia.org/wiki/South_Seas_Mandate',
       note: 'Fortified through the 1930s in defiance of the mandate’s terms, and the anchorage of the Combined Fleet at Truk. The dotted line shows the boundary of the mandate; the islands themselves are specks at this scale. The Americans came through it from November 1943 and did not take most of it: they landed on the atolls that carried an airfield or an anchorage — Kwajalein, Enewetak, Saipan, Tinian, Peleliu — and flew past the rest, which left those garrisons behind the front without supply until the surrender in August 1945. Truk, the strongest place in the mandate, was one of the ones they went round.'
     },
     {
       id: 'manchukuo', en: 'Manchukuo (Manchuria)', ja: '満洲国 (Manshūkoku)', orig: '滿洲國',
       zh: '滿洲國', when: 'Japanese-occupied; nominally independent from March 1932',
       cat: 'puppet', lvl: 1, atoms: ['manchukuo'], under: '滿洲國',
+      wiki: 'https://en.wikipedia.org/wiki/Manchukuo',
       note: 'Invaded from September 1931 and proclaimed independent under the last Qing emperor Puyi. Rehe was added in 1933; the eastern Inner Mongolian leagues had been part of the three provinces all along and became its Hinggan provinces. Real power lay with the Kwantung Army and Japanese vice-ministers.'
     },
     {
@@ -647,6 +694,7 @@ JMAP.TERRITORIES = {
       zh: '蒙古自治邦',
       when: 'Renamed the Mongol Autonomous Federation, August 1941; federated September 1939; Japanese client from 1936',
       cat: 'puppet', lvl: 2, atoms: ['mengjiang'],
+      wiki: 'https://en.wikipedia.org/wiki/Mengjiang',
       note: 'The Inner Mongolian autonomous government under Prince Demchugdongrub, with its capital at Zhangjiakou, assembled out of eastern Chahar, the Mongol leagues and a strip of northern Shanxi. Japanese-sponsored Mongol governments date from 1936, and the regime changed its name more than once: the federation of September 1939 joined the Mongol leagues to two Chinese-populated administrations — Chanan out of southern Chahar and Jinbei out of northern Shanxi — as the Mengchiang United Autonomous Government, and in August 1941 that was renamed the Mongol Autonomous Federation, 蒙古自治邦, which is what it was called in December 1942. Switch Administrative on and the three parts are named. The line indicates claimed Mengjiang territory and the fill indicates approximate simplified area of control.'
     },
     {
@@ -654,18 +702,20 @@ JMAP.TERRITORIES = {
       orig: '日軍佔領區', zh: '日軍佔領區（大略）',
       when: 'Occupied from 1937; Nanking government from March 1940', cat: 'occupied', lvl: 1,
       atoms: ['occupiedzone'], srcOnly: 'traced',
+      wiki: 'https://en.wikipedia.org/wiki/Wang_Jingwei_regime',
       note: 'Governed on paper by Wang Jingwei’s collaborationist government at Nanjing, with the far south under military administration instead. Traced from a 1940 map of the occupation and adjusted to December 1942: the plains, the railways and the cities of the north and the Yangtze valley, the Guangzhou delta from October 1938, Hainan from February 1939, and the ports of Xiamen and Shantou. Western Shanxi and Henan, most of Hunan, Jiangxi and Fujian were never taken, Changsha held out until 1944, and Communist and Nationalist guerrillas operated in force inside the line as well as beyond it — the shading marks where Japanese authority reached, not where it was unchallenged.'
     },
     {
       id: 'indochina', en: 'French Indochina', ja: '仏印 (Futsuin)',
       orig: 'Đông Dương thuộc Pháp', zh: '法屬印度支那', when: 'Occupied September 1940 – July 1941',
       cat: 'occupied', lvl: 2, atoms: ['indochina'],
+      wiki: 'https://en.wikipedia.org/wiki/French_Indochina',
       note: 'Japanese troops entered the north in September 1940 and the south in July 1941 — the step that brought the American oil embargo. Vichy French governors, courts and police stayed at their desks until the coup of 9 March 1945, but they governed on Japanese terms: the colony is drawn as occupied because that is what decided things in it. Japan set the rice quotas, took the airfields and the ports, and let Thailand carry off four provinces in 1941. Requisition and the collapse of transport then produced the Tonkin famine of 1944–45, in which perhaps a million people died.'
     },
     {
       id: 'burma', en: 'Burma', ja: '緬甸 (Biruma)', orig: 'မြန်မာ (Myanma)', zh: '緬甸',
       when: 'Taken 1942; nominal independence August 1943', cat: 'occupied', lvl: 2,
-      atoms: ['burma'],
+      atoms: ['burma'], wiki: 'https://en.wikipedia.org/wiki/Japanese_occupation_of_Burma',
       note: 'Separated from British India in 1937 and overrun in the first half of 1942, closing the Burma Road to Chongqing. Ba Maw headed the nominally independent state declared in 1943.'
     },
     {
@@ -673,13 +723,14 @@ JMAP.TERRITORIES = {
       orig: 'สหรัฐไทยเดิม (Saharat Thai Doem)',
       when: 'Thai-occupied 1942; transferred August 1943', cat: 'occupied', lvl: 3,
       atoms: ['saharat'], hatch: 'thai', outline: true, outlineColor: '#3da492',
+      wiki: 'https://en.wikipedia.org/wiki/Saharat_Thai_Doem',
       note: 'Thai troops crossed into the Shan states behind the Japanese advance in May 1942 and took Kengtung, and by December they were administering the country east of the Salween. It was still legally Burmese: Japan did not hand it over until 20 August 1943, when it became Saharat Thai Doem, the "original Thai territories". Not everything Thailand claimed in the Shan and Karenni states was granted. It went back to Burma in 1945.'
     },
     {
       id: 'malaya', en: 'Malaya & Shōnantō (Singapore)', ja: '馬来 (Marai)・昭南島 (Shōnantō)',
       orig: 'Tanah Melayu / Syonan', zh: '馬來亞・昭南島',
       when: 'Invaded 8 December 1941; Singapore fell 15 February 1942', cat: 'occupied', lvl: 1,
-      atoms: ['malaya', 'christmas'],
+      atoms: ['malaya', 'christmas'], wiki: 'https://en.wikipedia.org/wiki/British_Malaya',
       note: 'The seventy-day campaign down the peninsula ended in the largest capitulation in British military history. Singapore was renamed Shōnantō, "light of the south"; the Sook Ching massacres of Chinese residents followed within weeks.'
     },
     {
@@ -687,6 +738,7 @@ JMAP.TERRITORIES = {
       orig: 'Kedah, Perlis, Kelantan, Terengganu', zh: '馬來北部四邦',
       when: 'Transferred to Thailand, October 1943', cat: 'occupied', lvl: 3,
       atoms: ['malaya_thai'], outline: true, outlineColor: '#dd3e2c',
+      wiki: 'https://en.wikipedia.org/wiki/Si_Rat_Malai',
       note: 'In December 1942 these four northern Malay states are under Japanese military administration with the rest of Malaya. On 20 August 1943 Japan agreed to hand them to Thailand, and the transfer took effect that October — the price of the alliance, and a restoration of what Siam had given up to Britain in 1909. They went back to British rule in 1945.'
     },
     {
@@ -694,35 +746,39 @@ JMAP.TERRITORIES = {
       orig: 'Borneo', zh: '英屬婆羅洲',
       when: 'Landings 16 December 1941; British surrender 1 April 1942', cat: 'occupied',
       lvl: 3, atoms: ['sarawak', 'northborneo', 'brunei'],
+      wiki: 'https://en.wikipedia.org/wiki/Japanese_occupation_of_British_Borneo',
       note: 'Taken first, and quickly, for the oilfields at Miri and Seria. Sarawak, Brunei, North Borneo and Labuan lost their separate identities: Japan ran them together as one military administration under Kawaguchi Kiyotake and called the whole Kita Boruneo, northern Borneo, with Labuan renamed Maeda-shima. British administration returned in September 1945.'
     },
     {
       id: 'dei', en: 'Netherlands East Indies', orig: 'Nederlandsch-Indië',
       when: 'Conquered January – March 1942', cat: 'occupied', lvl: 1, atoms: ['dei'],
+      wiki: 'https://en.wikipedia.org/wiki/Dutch_East_Indies',
       note: 'The object of the whole southern advance. The Dutch surrendered on 8 March 1942; Sukarno and other nationalists chose to work with the occupation.'
     },
     {
       id: 'philippines', en: 'Philippine Islands', ja: '比島 (Hitō)', orig: 'Pilipinas',
       zh: '菲律賓', when: 'Invaded December 1941; Corregidor fell 6 May 1942', cat: 'occupied',
       lvl: 1, atoms: ['philippines'],
+      wiki: 'https://en.wikipedia.org/wiki/Commonwealth_of_the_Philippines',
       note: 'A US commonwealth, promised full independence in 1946. MacArthur withdrew to Australia in March 1942. On 14 October 1943 Japan declared the Second Philippine Republic under José Laurel — nominal independence inside the Greater East Asia Co-Prosperity Sphere, with Japanese troops in place and a large guerrilla resistance in the hills. MacArthur returned in October 1944.'
     },
     {
       id: 'hongkong', en: 'Hong Kong', ja: '香港 (Honkon)', orig: '香港 (Hēunggóng)', zh: '香港',
       when: 'Attacked 8 December 1941; surrendered 25 December 1941', cat: 'occupied', lvl: 2,
-      atoms: ['hongkong'],
+      atoms: ['hongkong'], wiki: 'https://en.wikipedia.org/wiki/British_Hong_Kong',
       note: 'Held for eighteen days and then occupied until 1945, its population halved by deportation and hunger.'
     },
     {
       id: 'turtle', en: 'Turtle & Mangsee Islands', orig: 'Kepulauan Penyu / Mangsee',
       when: 'Taken with British Borneo, January 1942', rule: 'Under Japanese occupation',
       cat: 'occupied', lvl: 3, atoms: ['turtle', 'mangsee'],
+      wiki: 'https://en.wikipedia.org/wiki/Turtle_Islands,_Tawi-Tawi',
       note: 'Still administered by the British North Borneo Company on paper, and inside the Philippine boundary drawn in 1930; in December 1942 both they and the Philippines were Japanese, and the transfer that the 1930 treaty provided for was made in 1947, five years after this map.'
     },
     {
       id: 'miangas', en: 'Miangas (Palmas)', ja: 'ミアンガス島', orig: 'Miangas',
       when: 'Taken with the Netherlands Indies, 1942', cat: 'occupied', lvl: 3,
-      atoms: ['miangas'],
+      atoms: ['miangas'], wiki: 'https://en.wikipedia.org/wiki/Miangas',
       note: 'Dutch since the arbitration of 1928, which the United States had brought claiming it as part of the Philippines. Japan took both in the same three months.'
     },
     {
@@ -730,91 +786,100 @@ JMAP.TERRITORIES = {
       when: 'Never occupied; shelled 25 December 1942',
       rule: 'British colony, run from Singapore — Allied throughout', cat: 'allied', lvl: 3,
       atoms: ['cocos'], hatch: 'raid',
+      wiki: 'https://en.wikipedia.org/wiki/Cocos_(Keeling)_Islands',
       note: 'One of the few places inside this frame that Japan neither took nor bypassed but simply could not reach. The garrison held the cable and wireless station through the war; a submarine shelled the islands on Christmas Day 1942, and in May 1942 the Ceylon Garrison Artillery detachment mutinied there and three men were hanged — the only British Commonwealth soldiers executed for mutiny in the war. Airfields were built in 1944 for the bombing of Java and Singapore.'
     },
     {
       id: 'spratly', en: 'Shinnan Guntō (Spratly & Paracel Islands)', ja: '新南群島・西沙群島',
       orig: 'Trường Sa / Hoàng Sa', zh: '南沙群島・西沙群島', when: 'Annexed to Taiwan, 30 March 1939',
       rule: 'Japanese, administered from Takao in Taiwan', cat: 'colony', lvl: 3,
-      atoms: ['spratly', 'paracel'],
+      atoms: ['spratly', 'paracel'], wiki: 'https://en.wikipedia.org/wiki/Spratly_Islands',
       note: 'Japan took both groups in 1939, over French protest, and attached them to Takao prefecture in Taiwan as the Shinnan Guntō — the "new southern islands". They were a submarine and seaplane anchorage on the flank of the route to Singapore and the Indies, and Itu Aba had a garrison and a small base. Both went back to being disputed in 1945. Islands are traced from present-day shapes, which does not reflect more recent land reclamation.'
     },
     {
       id: 'pratas', en: 'Dōngshā (Pratas Island)', ja: '東沙島 (Tōsa-tō)', orig: '東沙島 (Dōngshā)',
       zh: '東沙島', when: 'Occupied by Japan', cat: 'occupied', lvl: 3, atoms: ['pratas'],
+      wiki: 'https://en.wikipedia.org/wiki/Pratas_Island',
       note: 'Held by Japan through the war as a weather and radio station on the approach to Hong Kong and the Guangzhou delta. Islands are traced from present-day shapes, which does not reflect more recent land reclamation.'
     },
     {
       id: 'timor_pt', en: 'Portuguese Timor (contested)', orig: 'Timor Português',
       when: 'Invaded February 1942; Allied withdrawal December 1942 – February 1943',
       cat: 'portuguese', lvl: 3, atoms: ['timor_pt'], hatch: 'occupied',
+      wiki: 'https://en.wikipedia.org/wiki/Portuguese_Timor',
       note: 'Neutral Portuguese territory, invaded anyway in February 1942 after a small Allied force landed there first. In December 1942 it is still being fought over: Australian and Dutch commandos are running a guerrilla campaign in the hills, and are withdrawn over the following two months, after which Japan holds the colony to the end of the war. Drawn in the Portuguese colour with Japanese stripes across it for that reason. Between 40,000 and 70,000 Timorese died.'
     },
     {
       id: 'wake', en: 'Wake Island', ja: 'ウェーク島・大鳥島 (Ōtorishima)', orig: 'Wake',
       when: 'Taken 23 December 1941', rule: 'American territory under Japanese occupation',
       cat: 'occupied', lvl: 3, atoms: ['wake'],
+      wiki: 'https://en.wikipedia.org/wiki/Wake_Island',
       note: 'The garrison beat off the first landing on 11 December — one of the very few times in the war an amphibious assault was stopped at the water’s edge — and surrendered to the second on the 23rd. Renamed Ōtorishima. Japan held it to the surrender in 1945, bypassed and starving; ninety-eight American civilian prisoners kept on the island were murdered there in October 1943.'
     },
     {
       id: 'guam', en: 'Guam (Ōmiyajima)', ja: '大宮島 (Ōmiyajima)', orig: 'Guåhan', zh: '關島',
       when: 'Taken 10 December 1941', rule: 'American territory under Japanese occupation',
-      cat: 'occupied', lvl: 3, atoms: ['guam'],
+      cat: 'occupied', lvl: 3, atoms: ['guam'], wiki: 'https://en.wikipedia.org/wiki/Guam',
       note: 'The one American possession inside the Japanese-held Marianas, renamed Ōmiyajima and retaken in 1944.'
     },
     {
       id: 'gilberts', en: 'Gilbert Islands', ja: 'ギルバート諸島', orig: 'Tungaru', zh: '吉爾伯特群島',
       when: 'Occupied December 1941', rule: 'British colony under Japanese occupation',
       cat: 'occupied', lvl: 3, atoms: ['gilberts'],
+      wiki: 'https://en.wikipedia.org/wiki/Gilbert_and_Ellice_Islands',
       note: 'The outermost ring of the perimeter. The assault on Tarawa in November 1943 opened the American drive across the central Pacific — seventy-six hours of fighting for an islet of barely more than a square kilometre, and the casualty lists that followed changed how the rest of the campaign was planned. Ocean Island (Banaba), off to the west, was taken in August 1942 and most of its people deported to Nauru, Kosrae and Tarawa; the garrison there murdered the roughly 150 labourers who remained on 20 August 1945, five days after the surrender, and one man survived by hiding in a cave. The Ellice Islands, the southern half of the same colony, were never occupied and are drawn separately here for that reason.'
     },
     {
       id: 'ellice', en: 'Ellice Islands',
       when: 'Never occupied; American bases from October 1942', rule: 'British colony',
       cat: 'allied', lvl: 3, atoms: ['ellice'], hatch: 'us',
+      wiki: 'https://en.wikipedia.org/wiki/Tuvalu',
       note: 'Eight atolls and reef islands are drawn here — Niulakita, the ninth and empty then, is not — the southern half of the Gilbert & Ellice Islands Colony, and the nearest unoccupied ground to the Gilberts. American marines landed on Funafuti on 2 October 1942 and built an airfield there, with two more on Nanumea and Nukufetau the following year; Funafuti was the base the assault on Tarawa and Makin was mounted from in November 1943. Japanese aircraft bombed it from the Gilberts in the meantime. The islanders were moved off the airfield sites and the atolls were left with the runways, the scrap and the borrow pits when the war moved north.'
     },
     {
       id: 'linephoenix', en: 'The Line & Phoenix Islands', when: 'Never occupied',
       rule: 'British colony', cat: 'allied', lvl: 3, atoms: ['linephoenix'],
+      wiki: 'https://en.wikipedia.org/wiki/Line_Islands',
       note: 'Part of the same colony as the Gilberts and never reached by it. American troops landed on Christmas Island and Fanning in February 1942 and built airfields there, under British sovereignty, to cover the ferry route to Australia; Canton Island, already an airline base under the joint Anglo-American administration agreed in 1939, became a staging field and a submarine refuelling point. Japan came no further east than Tarawa, six hundred miles away.'
     },
     {
       id: 'uspacific', en: 'Palmyra, Kingman Reef, Howland, Baker, Jarvis & Swains',
       when: 'Shelled December 1941; held throughout', rule: 'American', cat: 'american', lvl: 3,
       atoms: ['uspacific'],
+      wiki: 'https://en.wikipedia.org/wiki/United_States_Minor_Outlying_Islands',
       note: 'Japanese bombers from Kwajalein struck Howland and Baker on 8 December 1941, the day after Pearl Harbor, killing two of the young Hawaiian colonists; the survivors were taken off at the end of January. Palmyra was a naval air station and was shelled once; Kingman Reef was a seaplane anchorage. None of them was taken, and the chain of runways across these atolls is what made the supply line to Australia and the Solomons possible.'
     },
     {
       id: 'nzpacific', en: 'Tokelau & the northern Cook Islands', when: 'Never occupied',
       rule: 'New Zealand administration', cat: 'allied', lvl: 3, atoms: ['nzpacific'],
+      wiki: 'https://en.wikipedia.org/wiki/Tokelau',
       note: 'Penrhyn was surveyed for an airfield in 1942 and built by American engineers that year as a staging point on the southern ferry route; the other atolls saw the war only as ships passing. They are drawn in the Allied colour because the map has no New Zealand one; the line above says who administered them.'
     },
     {
       id: 'nauru_au', en: 'Nauru', ja: 'ナウル', orig: 'Naoero', zh: '諾魯',
       when: 'Occupied August 1942', rule: 'Mandate under Japanese occupation', cat: 'occupied',
-      lvl: 3, atoms: ['nauru_au'],
+      lvl: 3, atoms: ['nauru_au'], wiki: 'https://en.wikipedia.org/wiki/Nauru',
       note: 'Held for its phosphate and then bypassed and starved; most of the population was deported to Truk.'
     },
     {
       id: 'andaman', en: 'Andaman & Nicobar Islands', ja: '安達曼・ニコバル諸島',
       orig: 'Andaman & Nicobar', zh: '安達曼・尼科巴群島',
       when: 'Occupied March 1942; ceded to Azad Hind December 1943', cat: 'occupied', lvl: 2,
-      atoms: ['andaman'],
+      atoms: ['andaman'], wiki: 'https://en.wikipedia.org/wiki/Andaman_and_Nicobar_Islands',
       note: 'The only Indian territory Japan held. In December 1943 they were handed nominally to Subhas Chandra Bose’s Provisional Government of Free India and renamed Shaheed and Swaraj — "martyr" and "self-rule". The transfer was a gesture: the Japanese navy kept real control, and the occupation was harsh.'
     },
     {
       id: 'newguinea_au', en: 'New Guinea (Papua & the Mandated Territory)', ja: 'ニューギニア',
       orig: 'Niugini', zh: '新幾內亞', when: 'Taken from Australia in 1942',
       rule: 'Australian territory and mandate, part under Japanese occupation', cat: 'occupied',
-      lvl: 2, atoms: ['newguinea_au'],
+      lvl: 2, atoms: ['newguinea_au'], wiki: 'https://en.wikipedia.org/wiki/Territory_of_Papua',
       note: 'Rabaul, on New Britain, fell in January 1942 and became the greatest Japanese base south of Truk, and the north coast of the mainland followed. Port Moresby was the objective and was never reached: the overland push across the Kokoda Track was turned back in September 1942, and in December the fighting was at the Buna–Gona beachhead. The island was the southern limit of the advance and the ground the counter-offensive started from.'
     },
     {
       id: 'solomons_br', en: 'Western Solomons', ja: 'ソロモン諸島西部', orig: 'Solomon Islands',
       zh: '所羅門群島西部', when: 'Occupied from early 1942',
       rule: 'British protectorate under Japanese occupation', cat: 'occupied', lvl: 2,
-      atoms: ['solomons_br'],
+      atoms: ['solomons_br'], wiki: 'https://en.wikipedia.org/wiki/British_Solomon_Islands',
       note: 'Choiseul, Santa Isabel, New Georgia, Kolombangara and the Shortlands were Japanese, with airfields and a seaplane base at Rekata Bay, and stayed so until the Allies came up the chain through 1943.'
     },
     {
@@ -822,23 +887,26 @@ JMAP.TERRITORIES = {
       orig: 'Guadalcanal', zh: '瓜達爾卡納爾島（爭奪中）',
       when: 'American landing 7 August 1942; fought over into February 1943', cat: 'occupied',
       lvl: 2, atoms: ['solomons_gc'], hatch: 'us',
+      wiki: 'https://en.wikipedia.org/wiki/Guadalcanal',
       note: 'In December 1942 the island was divided: the Americans held the airfield and the perimeter around it, the Japanese the ground to the west, and neither could dislodge the other. It is drawn in the occupation colour with American stripes across it for that reason — the only ground on the map the two were contesting at this date. Japan evacuated in the first week of February 1943, and the campaign is usually taken as the point at which the initiative changed hands.'
     },
     {
       id: 'tulagi', en: 'Tulagi and the Florida Islands', ja: 'ツラギ・フロリダ諸島', orig: 'Tulagi',
       zh: '圖拉吉・佛羅里達群島', when: 'Taken by the Americans 7–8 August 1942', cat: 'allied', lvl: 3,
-      atoms: ['solomons_us'],
+      atoms: ['solomons_us'], wiki: 'https://en.wikipedia.org/wiki/Tulagi',
       note: 'Two different places under one shape, and they answer differently. Tulagi was the old seat of the British protectorate and the Japanese garrison in this corner of the Solomons: seized on 3 May 1942 and held until the Marines landed on 7 August, with Tulagi secured the following afternoon and Gavutu and Tanambogo, the two islets across the harbour, taken in the same two days. Almost the whole garrison of about three hundred and fifty died; some forty swam across to Florida. Florida itself — Nggela Sule and Nggela Pile, the large island north of Tulagi, with the islets round it — was never Japanese- held. The landings there on 7 August, at Haleta and Halavo, were unopposed covering parties for the assault on Tulagi and were withdrawn the same day. By this map’s date Tulagi’s harbour was an Allied base with a motor torpedo boat flotilla at Sesapi, and the seaplane base at Halavo on Florida was being built.'
     },
     {
       id: 'malaita', en: 'Malaita (never fully occupied)', ja: 'マライタ島', orig: 'Malaita',
       zh: '馬萊塔島', when: 'Raided but never held', cat: 'allied', lvl: 3, atoms: ['solomons_ml'],
+      wiki: 'https://en.wikipedia.org/wiki/Malaita',
       note: 'Japanese patrols and coastwatcher hunts reached the island, but it was never occupied: the protectorate administration and its coastwatchers stayed on it throughout, which is why it keeps the British colour outright.'
     },
     {
       id: 'solomons_allied', en: 'The central & eastern Solomons and the Santa Cruz Islands',
       ja: 'ソロモン諸島中部・東部・サンタクルーズ諸島', orig: 'Makira / Nendö', zh: '所羅門群島中部・東部・聖克魯斯群島',
       when: 'British throughout', cat: 'allied', lvl: 3, atoms: ['solomons_al'],
+      wiki: 'https://en.wikipedia.org/wiki/Solomon_Islands_(archipelago)',
       note: 'San Cristobal, Ulawa, Rennell and Bellona, and the Santa Cruz group 500 km further east — Nendö, Utupua, Vanikoro and Tinakula. Nearer in, the Russell Islands, Savo and the Nggela islets. All of it was the British protectorate and none of it was taken: the occupation stopped in the western chain, and the perimeter runs west of these islands. The carrier battle of the Santa Cruz Islands was fought north of them in October 1942 and the naval battle of Rennell Island off Rennell in January 1943. Two of these had no garrison of either side at this date, which the one colour cannot show. Savo, off which the cruiser action of 9 August 1942 was fought, was visited by Japanese boats and patrolled by American raiders in September, and held by neither. The Russell Islands were a Japanese barge staging point during the Guadalcanal campaign but had no garrison until 28 January 1943, when six destroyers put 328 men ashore to cover the evacuation of Guadalcanal; they were gone by 11 February, and the American landing on 21 February was unopposed.'
     },
     {
@@ -846,12 +914,14 @@ JMAP.TERRITORIES = {
       zh: '阿圖島・基斯卡島',
       when: 'Occupied June 1942; Attu retaken May 1943, Kiska evacuated July 1943',
       cat: 'occupied', lvl: 3, atoms: ['aleutians_jp'],
+      wiki: 'https://en.wikipedia.org/wiki/Aleutian_Islands_campaign',
       note: 'The only North American soil Japan occupied, taken during the Midway operation and held for a year. Attu fell to the Americans in May 1943 after the garrison charged and was destroyed; Kiska was evacuated under cover of fog in July and the landing three weeks later met nobody. The rest of the Aleutian chain stayed American throughout, which is why the line round these two is drawn on its own.'
     },
     {
       id: 'aleutians', en: 'Aleutian Islands', orig: 'Unangam Tanangin', zh: '阿留申群島',
       when: 'American throughout, but for Attu and Kiska', rule: 'American territory',
       cat: 'american', lvl: 3, atoms: ['aleutians'],
+      wiki: 'https://en.wikipedia.org/wiki/Aleutian_Islands',
       note: 'The chain runs from Alaska almost to Kamchatka. Japan took only Attu and Kiska at its western end; the rest was American, and Adak and Amchitka became the bases from which they were retaken.'
     },
     {
@@ -859,13 +929,14 @@ JMAP.TERRITORIES = {
       when: 'Alliance signed 21 December 1941', cat: 'cobelligerent', lvl: 2,
       atoms: ['siam', 'siamgain'], edge: '#8dd3c7', edgeAtoms: ['siam', 'siamgain'],
       edgeClip: [100, 11.5, 106.2, 20.6], edgeWidth: 6,
+      wiki: 'https://en.wikipedia.org/wiki/Thailand_in_World_War_II',
       note: 'Invaded on 8 December 1941, it capitulated in hours, granted passage to the invasion of Malaya and Burma, allied with Japan and declared war on Britain and the United States. Cambodia and Laos had already given up territory to it under the Franco-Thai settlement of May 1941; Malaya and Burma were the reward for the alliance.'
     },
     {
       id: 'cededthai', en: 'Battambang & Siem Reap (ceded to Thailand, 1941)',
       ja: '泰国への割譲地 (1941)', orig: 'Phra Tabong / Phibunsongkhram / Lan Chang',
       zh: '割讓予泰國之地（1941）', when: 'Ceded 9 May 1941, returned 1946', cat: 'cobelligerent',
-      lvl: 3, atoms: ['siamgain'],
+      lvl: 3, atoms: ['siamgain'], wiki: 'https://en.wikipedia.org/wiki/Franco-Thai_War',
       note: 'Taken from French Indochina after the Franco-Thai war and handed to Thailand under Japanese mediation: Battambang and Siem Reap in Cambodia, and the Lao country west of the Mekong. Renamed Phra Tabong, Phibunsongkhram, Nakhon Champasak and Lan Chang. Angkor itself was left to France. All of it went back in 1946.'
     },
     {
@@ -873,113 +944,124 @@ JMAP.TERRITORIES = {
       ja: '中華民国・重慶政権 (Chūka Minkoku)', orig: '中華民國 (Zhōnghuá Mínguó)', zh: '中華民國（重慶國民政府）',
       when: 'Capital at Chungking from 1938', cat: 'freechina', lvl: 1,
       atoms: ['china', 'suiyuan_w', 'chahar', 'suiyuan'],
+      wiki: 'https://en.wikipedia.org/wiki/Republic_of_China_(1912%E2%80%931949)',
       note: 'The unoccupied interior, governed by Chiang Kai-shek from Chongqing and supplied over the Burma Road until 1942 and then by air over "the Hump". The Communist base areas are drawn separately, in cross-hatching.'
     },
     {
       id: 'ccp', en: 'Communist base areas and guerrilla zones', ja: '中国共産党抗日根拠地',
       orig: '抗日根據地 (Kàngrì gēnjùdì)', zh: '中共抗日根據地', when: 'As they stood in 1941–1942',
       cat: 'ccp', lvl: 2, atoms: ['ccp'], srcOnly: 'traced',
+      wiki: 'https://en.wikipedia.org/wiki/Revolutionary_base_area',
       note: 'The base areas and guerrilla zones of the Eighth Route Army and the New Fourth Army, and the reason the occupied shading on this map is described as generous. Almost all of this ground lies inside the line the Japanese army had drawn round itself: Japan held the cities, the railways and the plains between them, and the countryside behind that line was fought over. The largest is Shǎngānníng, the border region round Yan’an, which was never occupied at all; the rest — Jìnchájì in the Wutai mountains, Jìlǔyù on the Hebei–Shandong plain, the Shandong and coastal pockets, and the New Fourth Army areas along the lower Yangtze — were inside it. Their extent moved from month to month, and the "mopping-up" campaigns of 1941–42 cut some of them badly; these are the areas as one atlas draws them for those two years, not a line anyone held.'
     },
     {
       id: 'britishindia', en: 'British India', when: 'The western limit of the advance',
       cat: 'allied', lvl: 1, atoms: ['india'],
+      wiki: 'https://en.wikipedia.org/wiki/British_Raj',
       note: 'The front stopped at the Burmese border in 1942. The Quit India movement was suppressed that August, while the Indian National Army formed on the other side.'
     },
     {
       id: 'goa', en: 'Portuguese India — Goa, Damão, Diu, Dadra & Nagar Haveli',
       orig: 'Estado da Índia', when: 'Portuguese from 1510', cat: 'portuguese', lvl: 3,
-      atoms: ['goa'],
+      atoms: ['goa'], wiki: 'https://en.wikipedia.org/wiki/Portuguese_India',
       note: 'Goa, with Damão and Diu on the Gujarat coast and Dadrá and Nagar Aveli inland behind them, was the seat of the Estado da Índia and the oldest European possession in Asia. Portugal was neutral, and it stayed Portuguese until India took it by force in 1961.'
     },
     {
       id: 'pondicherry', en: 'French India — Pondicherry, Karikal, Yanaon, Mahé, Chandernagore',
       orig: 'Établissements français dans l’Inde', when: 'French from 1674', cat: 'french',
-      lvl: 3, atoms: ['pondicherry'],
+      lvl: 3, atoms: ['pondicherry'], wiki: 'https://en.wikipedia.org/wiki/French_India',
       note: 'Five scattered enclaves left to France when Britain took the rest of India: Pondicherry and Karikal on the Coromandel coast, Yanaon on the Godavari, Mahé on the Malabar coast, and Chandernagore on the Hooghly above Calcutta. They declared for the Free French in 1940 and were transferred to India in the 1950s.'
     },
     {
       id: 'princelystates', en: 'Princely states',
       when: 'Rulers in subsidiary alliance with the Crown', cat: 'allied', lvl: 3,
       atoms: ['princely'], adminOnly: true,
+      wiki: 'https://en.wikipedia.org/wiki/Princely_state',
       note: 'British India was a patchwork: eleven provinces ruled directly, and beside them some six hundred princely states whose rulers kept their thrones under treaties with the Crown. Hyderabad, the largest by population and revenue, had its own army and currency, and the Nizam was reckoned the richest man alive. The states are drawn here from a layer of their 1931 boundaries rather than approximated from modern units, so the shapes are the shapes: the Rajputana and Central India agencies as one western mass, the Baluchistan states of Kalat and Las Bela, the Eastern States through Orissa and Chhattisgarh, the hill states along the frontier, and the small Deccan states scattered through Bombay. The very smallest of the six hundred are below the resolution of this map and are drawn inside whichever province surrounded them.'
     },
     {
       id: 'ceylon', en: 'Ceylon', orig: 'ලංකාව (Lanka)', zh: '錫蘭', when: 'Raided April 1942',
       cat: 'allied', lvl: 3, atoms: ['ceylon'],
+      wiki: 'https://en.wikipedia.org/wiki/British_Ceylon',
       note: 'The Indian Ocean raid of April 1942 struck Colombo and Trincomalee and drove the Royal Navy west to East Africa.'
     },
     {
       id: 'australia', en: 'Australia', orig: 'Australia', zh: '澳大利亞',
       when: 'Bombed from February 1942', cat: 'allied', lvl: 2, c: '#c9a6b0',
-      atoms: ['australia'],
+      atoms: ['australia'], wiki: 'https://en.wikipedia.org/wiki/Australia',
       note: 'Never invaded, but Darwin was bombed from February 1942 and Australia became the base from which the counter-offensive in New Guinea was mounted.'
     },
     {
       id: 'hawaii', en: 'Hawaii', orig: 'Hawaiʻi', zh: '夏威夷', when: 'Attacked 7 December 1941',
       rule: 'American territory', cat: 'american', lvl: 1, atoms: ['hawaii'],
+      wiki: 'https://en.wikipedia.org/wiki/Territory_of_Hawaii',
       note: 'The US Pacific Fleet base at Pearl Harbor. The attack missed the carriers and the fuel farm, and both would decide the war within a year.'
     },
     {
       id: 'ussr', en: 'Soviet Union (USSR)', orig: 'СССР (SSSR)', zh: '蘇聯',
       when: 'Neutrality Pact, April 1941', cat: 'neutral', lvl: 1, atoms: ['ussr'],
+      wiki: 'https://en.wikipedia.org/wiki/Soviet_Union',
       note: 'At war with Germany but not with Japan: the Neutrality Pact of April 1941 held until the Soviet invasion of Manchuria in August 1945. Both sides kept large armies on the Manchurian border throughout. The frontier had already been fought over: an undeclared border war ran through the late 1930s and was settled at Nomonhan on the Manchukuo–Mongolian border in the summer of 1939, where Zhukov destroyed a Japanese division. That defeat is a large part of why the Japanese advance in 1941 went south rather than north.'
     },
     {
       id: 'mongolia', en: 'Mongolian People’s Republic', orig: 'Бүгд Найрамдах Монгол Ард Улс',
       zh: '蒙古人民共和國', when: 'Soviet satellite', cat: 'neutral', lvl: 2, c: '#d3d1e6',
-      atoms: ['mongolia'],
+      atoms: ['mongolia'], wiki: 'https://en.wikipedia.org/wiki/Mongolian_People\'s_Republic',
       note: 'Its border with Manchukuo was the scene of the undeclared war at Nomonhan in 1939, whose outcome helped turn Japanese strategy south rather than north.'
     },
     {
       id: 'xinjiang', en: 'Xīnjiāng (Sinkiang)', ja: '新疆 (Shinkyō)', orig: 'شىنجاڭ (Shinjang)',
       zh: '新疆', when: 'Realigned with Chungking in 1942', cat: 'freechina', lvl: 3,
-      atoms: ['xinjiang'], within: 'freechina',
+      atoms: ['xinjiang'], within: 'freechina', wiki: 'https://en.wikipedia.org/wiki/Xinjiang',
       note: 'A province of the Republic in name, run since 1933 by Sheng Shicai on Soviet money and with Soviet troops in the province. He broke with Moscow in 1942 and turned to Chongqing, but he was still governing in December, and central rule only followed his removal in 1944. The overland road through Xinjiang had carried Soviet aid to China from 1937 to 1941.'
     },
     {
       id: 'tibet', en: 'Tibet', ja: 'チベット (Chibetto)', orig: 'བོད་ (Bod)', zh: '西藏',
       when: 'De facto independent', cat: 'frontier', lvl: 3, atoms: ['tibet'],
+      wiki: 'https://en.wikipedia.org/wiki/Tibet_(1912%E2%80%931951)',
       note: 'Self-governing in practice and neutral in the war, it refused passage to an Allied supply route to China.'
     },
     {
       id: 'macau', en: 'Macao', ja: 'マカオ (Makao)', orig: '澳門 (Ou-mun)', zh: '澳門',
       when: 'Portuguese and neutral throughout', cat: 'portuguese', lvl: 3, atoms: ['macau'],
+      wiki: 'https://en.wikipedia.org/wiki/Portuguese_Macau',
       note: 'Japan never occupied Macao and never raised its flag here: Portugal was neutral, the colony stayed Portuguese to the end of the war, and it filled with refugees from Hong Kong and Guangzhou — its population several times what it had been. That neutrality was held on Japanese sufferance, though. The colony was surrounded, and it was fed and policed by agreement; from 1943 Japanese "advisers" were installed and had their way in most things. It is drawn Portuguese because that is what it was, and this note is where the qualification belongs.'
     },
     {
       id: 'guangzhouwan', en: 'Guǎngzhōuwān (Kwangchowan)', ja: '広州湾 (Kōshūwan)',
       orig: 'Kouang-Tchéou-Wan', zh: '廣州灣', when: 'Leased to France 1898–1945', cat: 'french',
-      lvl: 3, atoms: ['guangzhouwan'],
+      lvl: 3, atoms: ['guangzhouwan'], wiki: 'https://en.wikipedia.org/wiki/Guangzhouwan',
       note: 'A French leased territory on the Leizhou peninsula, run from Indochina and drawn like it. In December 1942 Vichy French administration continued inside a Japanese-occupied region, and it was the last neutral door into south China — a smuggling route and an escape route. Japanese troops moved in in February 1943.'
     },
     {
       id: 'tuva', en: 'Tannu Tuva (Tuvan People’s Republic)', orig: 'Тыва Арат Республик',
       zh: '唐努圖瓦', when: 'Independent in name from 1921', cat: 'neutral', lvl: 3, c: '#d3d1e6',
       atoms: ['tuva'], edge: '#bebada',
+      wiki: 'https://en.wikipedia.org/wiki/Tuvan_People\'s_Republic',
       note: 'Qing territory until 1911, then a Russian protectorate, then a nominally independent republic from 1921 — recognised only by the Soviet Union and Mongolia. Absorbed into the USSR in 1944. China went on claiming it.'
     },
     {
       id: 'nepal', en: 'Nepal', orig: 'नेपाल (Nepāl)', zh: '尼泊爾',
       when: 'Independent, in treaty with Britain', cat: 'other', lvl: 3, c: '#e2d9c6',
-      atoms: ['nepal'],
+      atoms: ['nepal'], wiki: 'https://en.wikipedia.org/wiki/Kingdom_of_Nepal',
       note: 'Never colonised, and recognised as fully independent by Britain in 1923, though bound to it by treaty and supplying the Gurkha regiments.'
     },
     {
       id: 'sikkim', en: 'Sikkim', orig: 'འབྲས་ལྗོངས (Drenjong)', zh: '錫金',
       when: 'British protectorate from 1861, recognised by China 1890', cat: 'allied', lvl: 3,
-      c: '#dcc2ce', atoms: ['sikkim'],
+      c: '#dcc2ce', atoms: ['sikkim'], wiki: 'https://en.wikipedia.org/wiki/Kingdom_of_Sikkim',
       note: 'A Himalayan kingdom under British protection, not a part of British India — which is why it is drawn apart from it here. The protectorate began with the Treaty of Tumlong in 1861, which followed a British punitive expedition and put Sikkim’s external relations in British hands; China recognised it, and the Sikkim–Tibet boundary was drawn, by the Convention of Calcutta of 17 March 1890.'
     },
     {
       id: 'bhutan', en: 'Bhutan', orig: 'འབྲུག་ཡུལ (Druk Yul)', zh: '不丹',
       when: 'British protectorate from 1910', cat: 'other', lvl: 3, c: '#c9a6b0',
-      atoms: ['bhutan'],
+      atoms: ['bhutan'], wiki: 'https://en.wikipedia.org/wiki/Bhutan',
       note: 'Internally self-governing, with Britain conducting its foreign relations under the Treaty of Punakha.'
     },
     {
       id: 'other', en: 'Afghanistan', orig: 'Afghanistan, Nepal, Bhutan', zh: '阿富汗・尼泊爾・不丹',
       cat: 'other', lvl: 3, atoms: ['other'],
+      wiki: 'https://en.wikipedia.org/wiki/Kingdom_of_Afghanistan',
       note: 'Drawn for context rather than as part of the story. Afghanistan and Nepal were independent states; Bhutan and Sikkim were British protectorates, outside the directly administered provinces of British India.'
     },
     {
@@ -1107,7 +1189,7 @@ JMAP.SITES = [
     note: 'Taken at a cost of nearly 7,000 American and over 18,000 Japanese dead, to give fighter cover to the bombers over Japan.'
   },
   {
-    id: 'seoul', en: 'Keijō (Seoul)', ja: '京城 (Keijō)', zh: '京城（漢城）',
+    id: 'seoul', en: 'Keijō (Kyŏngsŏng, Seoul)', ja: '京城 (Keijō)', zh: '京城（漢城）',
     ko: '서울 / 한성 (Sŏul / Hansŏng)', date: 'Renamed Keijō in 1910', cat: 'city', lvl: 1,
     lat: 37.57, lon: 126.98, wiki: 'https://en.wikipedia.org/wiki/Keij%C5%8D', year: 1876,
     note: 'Capital of Chosŏn Korea as Hansŏng, and of the colony as Keijō. The Kapsin Coup of 1884 and the March First Movement of 1919 both began here; Queen Min was murdered in the palace in 1895.'
@@ -1119,7 +1201,7 @@ JMAP.SITES = [
     note: 'The port closest to Japan, long the site of a Japanese trading enclave, and the southern end of the ferry and rail link that tied Korea into the Japanese economy.'
   },
   {
-    id: 'incheon', en: 'Jinsen (Chemulpo, Inchon)', ja: '仁川 (Jinsen)', zh: '仁川',
+    id: 'incheon', en: 'Jinsen (Inch’ŏn)', ja: '仁川 (Jinsen)', zh: '仁川',
     ko: '인천 / 제물포 (Inch’ŏn / Chemulp’o)', date: 'Naval action 9 February 1904', cat: 'city',
     lvl: 3, lat: 37.46, lon: 126.71, wiki: 'https://en.wikipedia.org/wiki/Incheon', year: 1883,
     note: 'Seoul’s port, known to foreigners as Chemulpo. The Japanese attack on Russian ships here opened the Russo-Japanese War.'
@@ -1132,9 +1214,9 @@ JMAP.SITES = [
     note: 'Japanese gunboat diplomacy — an engineered incident in 1875, then a fleet — produced the Kanghwa Treaty, Korea’s own unequal treaty, on the model of the ones imposed on Japan twenty years before.'
   },
   {
-    id: 'pyongyang', en: 'Heijō (Pyongyang)', ja: '平壌 (Heijō)', zh: '平壤', ko: '평양 (P’yŏngyang)',
-    date: 'Battle, 15 September 1894', cat: 'city', lvl: 3, lat: 39.02, lon: 125.75,
-    wiki: 'https://en.wikipedia.org/wiki/Korean_Art_Gallery', year: 1894,
+    id: 'pyongyang', en: 'Heijō (P’yŏngyang)', ja: '平壌 (Heijō)', zh: '平壤',
+    ko: '평양 (P’yŏngyang)', date: 'Battle, 15 September 1894', cat: 'city', lvl: 3, lat: 39.02,
+    lon: 125.75, wiki: 'https://en.wikipedia.org/wiki/Pyongyang', year: 1894,
     note: 'Site of a decisive Japanese victory over Qing forces in the First Sino-Japanese War, and later a centre of colonial industry and of Korean Christianity.'
   },
   {
@@ -2068,46 +2150,46 @@ JMAP.BROWSE = [
   },
   {
     id: 'kwangju', en: 'Kōshū (Kwangju)', ja: '光州 (Kōshū)', zh: '光州', lat: 35.16, lon: 126.85,
-    wiki: 'https://en.wikipedia.org/wiki/Gwangju%E2%80%93Daegu_Expressway',
+    wiki: 'https://en.wikipedia.org/wiki/Gwangju',
     note: 'Where the student movement of November 1929 began, after Japanese schoolboys harassed Korean girls on the Naju train; it spread to some two hundred schools across the colony.'
   },
   {
-    id: 'taejon', en: 'Taiden (Taejon)', ja: '大田 (Taiden)', zh: '大田', lat: 36.35, lon: 127.38,
+    id: 'taejon', en: 'Taiden (Taejŏn)', ja: '大田 (Taiden)', zh: '大田', lat: 36.35, lon: 127.38,
     wiki: 'https://en.wikipedia.org/wiki/Daejeon',
     note: 'The junction where the Seoul–Pusan trunk line meets the Honam line down to the rice country of the south-west.'
   },
   {
-    id: 'wonsan', en: 'Genzan (Wonsan)', ja: '元山 (Genzan)', zh: '元山', lat: 39.15, lon: 127.44,
+    id: 'wonsan', en: 'Genzan (Wŏnsan)', ja: '元山 (Genzan)', zh: '元山', lat: 39.15, lon: 127.44,
     wiki: 'https://en.wikipedia.org/wiki/Wonsan',
     note: 'Opened to Japanese trade in 1880, and by the 1930s the east-coast port for the fisheries and for the oil refinery built beside it.'
   },
   {
-    id: 'chongjin', en: 'Seishin (Chongjin)', ja: '清津 (Seishin)', zh: '清津', lat: 41.8,
-    lon: 129.78, wiki: 'https://en.wikipedia.org/wiki/Pohang-guyok',
+    id: 'chongjin', en: 'Seishin (Ch’ŏngjin)', ja: '清津 (Seishin)', zh: '清津', lat: 41.8,
+    lon: 129.78, wiki: 'https://en.wikipedia.org/wiki/Chongjin',
     note: 'Steel and a deep-water harbour built to carry Manchurian ore and soya to Japan. Soviet marines landed here on 13 August 1945.'
   },
   {
-    id: 'hamhung', en: 'Kankō (Hamhung)', ja: '咸興 (Kankō)', zh: '咸興', lat: 39.92, lon: 127.54,
+    id: 'hamhung', en: 'Kankō (Hamhŭng)', ja: '咸興 (Kankō)', zh: '咸興', lat: 39.92, lon: 127.54,
     wiki: 'https://en.wikipedia.org/wiki/Hamhung',
     note: 'Beside it at Hŭngnam stood Noguchi\'s Chōsen Chisso works, the largest chemical plant in the empire — fertiliser, and later explosives, on power from the Pujŏn river dams.'
   },
   {
-    id: 'sinuiju', en: 'Shingishū (Sinuiju)', ja: '新義州 (Shingishū)', zh: '新義州', lat: 40.1,
+    id: 'sinuiju', en: 'Shingishū (Sinŭiju)', ja: '新義州 (Shingishū)', zh: '新義州', lat: 40.1,
     lon: 124.39, wiki: 'https://en.wikipedia.org/wiki/Sinuiju',
     note: 'The Korean end of the Yalu bridge to Dandong, and downstream of the Suiho dam, which was the largest in Asia when it was finished in 1941.'
   },
   {
-    id: 'kaesong', en: 'Kaijō (Kaesong)', ja: '開城 (Kaijō)', zh: '開城', lat: 37.97, lon: 126.55,
+    id: 'kaesong', en: 'Kaijō (Kaesŏng)', ja: '開城 (Kaijō)', zh: '開城', lat: 37.97, lon: 126.55,
     wiki: 'https://en.wikipedia.org/wiki/Kaesong',
     note: 'The Koryŏ capital, and the ginseng town. It was in Keiki-dō in the colonial period, which is where this map draws it, not in Hwanghae.'
   },
   {
-    id: 'nampo', en: 'Chinnampo (Nampo)', ja: '鎮南浦 (Chinnanpo)', zh: '鎮南浦', lat: 38.74,
+    id: 'nampo', en: 'Chinnanpo (Chinnamp’o)', ja: '鎮南浦 (Chinnanpo)', zh: '鎮南浦', lat: 38.74,
     lon: 125.41, wiki: 'https://en.wikipedia.org/wiki/Nampo',
     note: 'Pyongyang\'s port, and the smelter that took Korean and Manchurian ore.'
   },
   {
-    id: 'mokpo', en: 'Moppo (Mokpo)', ja: '木浦 (Mokupo)', zh: '木浦', lat: 34.79, lon: 126.39,
+    id: 'mokpo', en: 'Moppo (Mokp’o)', ja: '木浦 (Mokupo)', zh: '木浦', lat: 34.79, lon: 126.39,
     wiki: 'https://en.wikipedia.org/wiki/Mokpo',
     note: 'The cotton and rice port of the south-west, through which the Honam harvest left for Japan.'
   },
@@ -3117,7 +3199,7 @@ JMAP.BROWSE = [
     note: 'The Mongol trade town in western Rehe, on the road from the Wall to the steppe.'
   },
   {
-    id: 'chinju', en: 'Chinju (Shinshū)', lat: 35.19, lon: 128.08,
+    id: 'chinju', en: 'Shinshū (Chinju)', lat: 35.19, lon: 128.08,
     wiki: 'https://en.wikipedia.org/wiki/Jinju',
     note: 'The seat of South Kyŏngsang until 1925, and the site of one of the great sieges of the Japanese invasions of the 1590s.'
   },
@@ -3137,17 +3219,17 @@ JMAP.BROWSE = [
     note: 'The medieval port foreign traders knew as Zaiton, and the home district of much of the Chinese population of Southeast Asia.'
   },
   {
-    id: 'chonju', en: 'Chŏnju (Zenshū)', lat: 35.82, lon: 127.15,
+    id: 'chonju', en: 'Zenshū (Chŏnju)', lat: 35.82, lon: 127.15,
     wiki: 'https://en.wikipedia.org/wiki/Jeonju',
     note: 'The seat of North Chŏlla and the old Chosŏn dynasty\'s ancestral home, in the rice country of the south-west.'
   },
   {
-    id: 'chunchon', en: 'Ch’unch’ŏn (Shunsen)', lat: 37.88, lon: 127.73,
-    wiki: 'https://en.wikipedia.org/wiki/Camp_Page',
+    id: 'chunchon', en: 'Shunsen (Ch’unch’ŏn)', lat: 37.88, lon: 127.73,
+    wiki: 'https://en.wikipedia.org/wiki/Chuncheon',
     note: 'The seat of Kangwŏn, in the lake and mountain country east of Seoul.'
   },
   {
-    id: 'chongju', en: 'Ch’ŏngju (Seishū)', lat: 36.64, lon: 127.49,
+    id: 'chongju', en: 'Seishū (Ch’ŏngju)', lat: 36.64, lon: 127.49,
     wiki: 'https://en.wikipedia.org/wiki/Cheongju',
     note: 'The seat of North Ch\'ungch\'ŏng, on the road and rail line south from Seoul.'
   },
@@ -3237,7 +3319,7 @@ JMAP.BROWSE = [
     note: 'Where Chiang Ching-kuo ran southern Jiangxi from 1939 to 1945, and made the reputation that carried him later.'
   },
   {
-    id: 'haeju', en: 'Haeju (Kaishū)', lat: 38.04, lon: 125.71,
+    id: 'haeju', en: 'Kaishū (Haeju)', lat: 38.04, lon: 125.71,
     wiki: 'https://en.wikipedia.org/wiki/Haeju',
     note: 'The seat of Hwanghae, and the port for the wheat and iron of the west coast.'
   },
@@ -3277,7 +3359,7 @@ JMAP.BROWSE = [
     note: 'A junction on the Beijing–Hankou railway in southern Hebei, in the country the base areas worked.'
   },
   {
-    id: 'hungnam', en: 'Hŭngnam (Konan)', lat: 39.83, lon: 127.62,
+    id: 'hungnam', en: 'Kōnan (Hŭngnam)', lat: 39.83, lon: 127.62,
     wiki: 'https://en.wikipedia.org/wiki/Hungnam',
     note: 'Noguchi Jun’s chemical combine, the largest industrial complex in the empire outside Japan, built on Korean and later forced labour.'
   },
@@ -3339,7 +3421,7 @@ JMAP.BROWSE = [
     note: 'The administrative town of Ponape, with a Japanese agricultural station and the ruins of Nan Madol beyond it.'
   },
   {
-    id: 'kongju', en: 'Kongju (Kōshū)', lat: 36.45, lon: 127.12,
+    id: 'kongju', en: 'Kōshū (Kongju)', lat: 36.45, lon: 127.12,
     wiki: 'https://en.wikipedia.org/wiki/Gongju',
     note: 'Capital of South Ch’ungch’ŏng until 1932, when the seat moved to Taejŏn.'
   },
@@ -3364,7 +3446,7 @@ JMAP.BROWSE = [
     note: 'The landing of 8 December 1941, and the sea off it where Prince of Wales and Repulse were sunk on the 10th.'
   },
   {
-    id: 'kunsan', en: 'Kunsan (Gunzan)', lat: 35.98, lon: 126.72,
+    id: 'kunsan', en: 'Gunzan (Kunsan)', lat: 35.98, lon: 126.72,
     wiki: 'https://en.wikipedia.org/wiki/Gunsan',
     note: 'The rice port: the outlet through which the Chŏlla harvest left for Japan, and a heavily Japanese town.'
   },
@@ -3641,7 +3723,7 @@ JMAP.BROWSE = [
     note: 'The eastern rail crossing to Vladivostok, and a fortified belt.'
   },
   {
-    id: 'suwon', en: 'Suwŏn (Suigen)', lat: 37.26, lon: 127.01,
+    id: 'suwon', en: 'Suigen (Suwŏn)', lat: 37.26, lon: 127.01,
     wiki: 'https://en.wikipedia.org/wiki/Suwon',
     note: 'The colonial agricultural experiment station, where the rice varieties that fed the empire\'s grain shipments were bred.'
   },
@@ -3651,7 +3733,7 @@ JMAP.BROWSE = [
     note: 'The junction where the line from Changchun meets the branch west into the Mongol country.'
   },
   {
-    id: 'songjin', en: 'Sŏngjin (Jōshin)', lat: 40.67, lon: 129.2,
+    id: 'songjin', en: 'Jōshin (Sŏngjin)', lat: 40.67, lon: 129.2,
     wiki: 'https://en.wikipedia.org/wiki/Kimchaek',
     note: 'Magnesite and steel, and one of the northern ports built to move Manchurian ore to Japan.'
   },
@@ -3785,7 +3867,7 @@ JMAP.BROWSE = [
   },
   {
     id: 'yamaguchi', en: 'Yamaguchi', lat: 34.19, lon: 131.47,
-    wiki: 'https://en.wikipedia.org/wiki/Yamaguchi_Prefectural_Museum',
+    wiki: 'https://en.wikipedia.org/wiki/Yamaguchi_(city)',
     note: 'The seat of the old Chōshū domain, which supplied more of the Meiji leadership than anywhere else.'
   },
   {
@@ -4883,6 +4965,11 @@ JMAP.PROVINCES = {
     ko: '함경남도 (Hamgyŏngnam-do)', wiki: 'https://en.wikipedia.org/wiki/Kanky%C5%8Dnan_Province',
     note: 'A narrow coastal shelf under high mountains, and the site of the largest industrial complex in the empire outside Japan itself: at Kōnan (Hŭngnam), Noguchi Shitagau\'s Chōsen Chisso built a nitrogen fertiliser works from 1927 that grew into carbide, explosives and synthetic oil, running on power diverted from the Pujŏn and Changjin rivers through the watershed to fall down the seaward side. Kankō (Hamhŭng) beside it was the administrative town, and the workforce was Korean and largely unskilled, housed in company barracks. Behind the plants the province is forest and terraced dry field, with the Kaema plateau — the highest and emptiest ground in Korea — filling its interior.'
   },
+  Saishu: {
+    en: 'Saishū-tō (Cheju-do)', ja: '済州島 (Saishū-tō)', zh: '濟州島', ko: '제주도 (Cheju-do)',
+    wiki: 'https://en.wikipedia.org/wiki/Jeju_Island',
+    note: 'A volcanic island a hundred kilometres off the south coast, administered as a county of South Chŏlla and unlike anywhere on the mainland: Halla-san, a shield volcano of 1,950 m, stands in the middle of it with some three hundred and sixty cinder cones around its flanks, and the ground is porous basalt that will not hold surface water, so the island grew barley, millet and tangerines rather than rice. The Mongols pastured horses here from the thirteenth century and Cheju horses remained a byword afterwards; the Chosŏn state used the island as a place of exile; and the haenyŏ, the women who dive without air for abalone and seaweed, were the island\'s cash economy and are still what it is known for. In the war it mattered for its position — bombers of the Kanoya and Kisarazu groups flew from Cheju to raid Nanjing in August 1937, in what were then the longest over-water bombing missions ever flown — and from 1945 the Japanese army turned the whole island into a fortress against the invasion that never came, tunnelling the coastal cones and building airfields at Moseulp\'o.'
+  },
   'Shumshu (Shimushu)': {
     en: 'Shumshu (Shimushu)', ja: '占守島 (Shumushu-tō)', zh: '占守島',
     wiki: 'https://en.wikipedia.org/wiki/Shumshu',
@@ -5303,16 +5390,30 @@ JMAP.PROVINCES = {
     wiki: 'https://en.wikipedia.org/wiki/Territory_of_New_Guinea',
     note: 'The former German colony, held by Australia under a League mandate and administered from Rabaul — which Japan took in January 1942 and made the base for the whole southern campaign.'
   },
-  'North China and the Yangtze valley': { en: 'North China and the Yangtze valley — the main occupied mass', zh: '華北與長江流域' },
-  'The Canton delta': { en: 'The Guǎngzhōu (Canton) delta and the West River, held from October 1938', zh: '廣州三角洲' },
-  Hainan: { en: 'Hǎinán (Hainan), taken February 1939', ja: '海南島 (Kainan-tō)', zh: '海南島' },
+  'North China and the Yangtze valley': {
+    en: 'North China and the Yangtze valley — the main occupied mass', zh: '華北與長江流域',
+    wiki: 'https://en.wikipedia.org/wiki/Second_Sino-Japanese_War',
+    note: 'The main mass: the north China plain and the railway towns on it, taken between July 1937 and the summer of 1938, and then the Yangtze valley up to Wuhan in October 1938 and Yichang in June 1940. On paper it was governed from March 1940 by Wang Jingwei\'s Reorganized National Government at Nanjing, with the north under the North China Political Council and the army behind both. What the shading cannot show is how thin it was: Japanese authority ran along the railways and around the cities, and much of the countryside inside this line was worked by Communist and Nationalist guerrillas, which is what the base-area layer and the army\'s own security map are for.'
+  },
+  'The Canton delta': {
+    en: 'The Guǎngzhōu (Canton) delta and the West River, held from October 1938', zh: '廣州三角洲',
+    wiki: 'https://en.wikipedia.org/wiki/Canton_Operation',
+    note: 'Japanese troops landed at Bias Bay on 12 October 1938 and were in Guangzhou nine days later, with almost no fighting: the Nationalist divisions had been drawn north to Wuhan. Taking the delta cut the Guangzhou–Hankou railway and closed the port through which the greater part of China\'s imported arms and fuel had been arriving, which is why it was done in the same weeks as Wuhan. Control reached up the West River and along the rail line, and Hong Kong, forty miles away, was left as the one gap until December 1941.'
+  },
+  Hainan: {
+    en: 'Hǎinán (Hainan), taken February 1939', ja: '海南島 (Kainan-tō)', zh: '海南島',
+    wiki: 'https://en.wikipedia.org/wiki/Hainan_Island_Operation',
+    note: 'Landings on 10 February 1939 at Haikou and Yulin took the island in a fortnight against a small garrison. It was worth having for three things: a naval and air base commanding the Gulf of Tonkin and the approaches to French Indochina, which mattered a great deal when Japan moved into Indochina in 1940; the iron ore at Shilu, which was mined with conscripted and prisoner labour and shipped to Japan\'s furnaces; and the closing of another stretch of coast. The garrison held it until the surrender, and the island\'s Li and Miao interior was never brought under control.'
+  },
   'Amoy and Kinmen': {
     en: 'Xiàmén (Amoy), taken May 1938, and Jīnmén (Kinmen), taken October 1937',
-    ja: '厦門 (Amoi)', zh: '廈門・金門'
+    ja: '厦門 (Amoi)', zh: '廈門・金門', wiki: 'https://en.wikipedia.org/wiki/Amoy_Operation',
+    note: 'Kinmen was taken in October 1937 and Xiamen by a naval landing on 10 May 1938 — a treaty port since 1842, and the harbour through which the coast\'s remittance and emigrant traffic with South-East Asia ran. The small island of Gulangyu in the harbour was an International Settlement with its own municipal council, and it stayed nominally neutral, and crowded with refugees, until Japan occupied it in December 1941. The point of the operation was blockade rather than ground: Xiamen faces Taiwan across the strait and had been the obvious hole in it.'
   },
   'Swatow and Chaochow': {
     en: 'Shàntóu (Swatow) and Cháozhōu (Chaochow), taken June 1939', ja: '汕頭 (Suatō)',
-    zh: '汕頭・潮州'
+    zh: '汕頭・潮州', wiki: 'https://en.wikipedia.org/wiki/Swatow_Operation',
+    note: 'Shantou was taken on 21 June 1939 and Chaozhou four days later, the last of the southern ports to go. This is the Teochew country of the Han river delta, whose people had emigrated to Siam, Malaya and the Indies for a century and whose remittances came back through this port — and by 1939 so did a good deal of the war material still reaching Free China, which is what the landing was for. With Shantou closed the coast between Shanghai and Hong Kong was shut, and supply had to come overland through Burma or Indochina.'
   },
   Luzon: {
     en: 'Luzon', wiki: 'https://en.wikipedia.org/wiki/Luzon',
@@ -5360,178 +5461,178 @@ JMAP.PROVINCES = {
   },
   Abra: {
     en: 'Abra (Luzon)', wiki: 'https://en.wikipedia.org/wiki/Abra_(province)',
-    note: 'A landlocked basin in the foothills of the Cordillera, drained by the Abra river and shut in by mountains on three sides, with Bangued as its town. The valley floor is Ilocano and grows irrigated rice, maize and — since the Spanish tobacco monopoly reached up here — leaf for the Manila factories; the ridges above it are Tinguian country, worked in swidden and terrace. Gold was panned out of the river gravels, and pine and hardwood came off the slopes, but the province had no road worth the name until the American period and stayed one of the poorest and least visited in Luzon.'
+    note: 'A landlocked basin in the foothills of the Cordillera, drained by the Abra river and shut in by mountains on three sides, with Bangued as its town. The valley floor is Ilocano and grows irrigated rice, maize and — since the Spanish tobacco monopoly reached up here — leaf for the Manila factories; the ridges above it are Tinguian country, worked in swidden and terrace. Gold was panned out of the river gravels, and pine and hardwood came off the slopes, but the province had no road worth the name until the American period and stayed one of the poorest and least visited in Luzon. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   Agusan: {
     en: 'Agusan (Mindanao)', wiki: 'https://en.wikipedia.org/wiki/Agusan_(province)',
-    note: 'The valley of the Agusan river, running north through eastern Mindanao to the sea at Butuan, with one of the largest freshwater marshes in South-East Asia filling its middle course — thousands of hectares of swamp forest, floating villages and seasonal lake. The province lived on timber, which the American period turned into a serious industry as sawmills went up along the river, and on abaca and coconut planted on the drier ground. Its people were Manobo, Higaonon and Mamanwa in the interior with Cebuano and Boholano settlers along the coast and the road, a pattern the government\'s resettlement schemes deliberately encouraged.'
+    note: 'The valley of the Agusan river, running north through eastern Mindanao to the sea at Butuan, with one of the largest freshwater marshes in South-East Asia filling its middle course — thousands of hectares of swamp forest, floating villages and seasonal lake. The province lived on timber, which the American period turned into a serious industry as sawmills went up along the river, and on abaca and coconut planted on the drier ground. Its people were Manobo, Higaonon and Mamanwa in the interior with Cebuano and Boholano settlers along the coast and the road, a pattern the government\'s resettlement schemes deliberately encouraged. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   Albay: {
     en: 'Albay (Luzon, with the sub-province of Catanduanes)',
     wiki: 'https://en.wikipedia.org/wiki/Albay',
-    note: 'Mayon stands over this province — a volcanic cone of 2,462 m, as close to symmetrical as any on earth, which erupted in 1897, 1928 and 1938 and buried villages each time. The ash makes exceptionally good soil, and Albay was the centre of the abaca country: Manila hemp, stripped from the stalks of a wild banana relative, was the world\'s rope fibre before synthetics and the Philippines\' second export after sugar. Legazpi was the port that shipped it, Tabaco and Ligao the market towns, and the sub-province of Catanduanes, a typhoon-battered island to the east, was administered from here.'
+    note: 'Mayon stands over this province — a volcanic cone of 2,462 m, as close to symmetrical as any on earth, which erupted in 1897, 1928 and 1938 and buried villages each time. The ash makes exceptionally good soil, and Albay was the centre of the abaca country: Manila hemp, stripped from the stalks of a wild banana relative, was the world\'s rope fibre before synthetics and the Philippines\' second export after sugar. Legazpi was the port that shipped it, Tabaco and Ligao the market towns, and the sub-province of Catanduanes, a typhoon-battered island to the east, was administered from here. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   Antique: {
     en: 'Antique (Panay)', wiki: 'https://en.wikipedia.org/wiki/Antique_(province)',
-    note: 'The narrow western coast of Panay, a strip of shore between the Central Panay mountains and the Sulu Sea, with no harbour of consequence and the mountains cutting it off from the richer provinces on the other side. Its people farmed rice and maize on the coastal flats and fished from the beach, and the interior was Iraya and Sulod country in the uplands. It was the poorest province on the island and lost people steadily to Iloilo, Negros and Manila; San Jose de Buenavista was the capital and never grew large.'
+    note: 'The narrow western coast of Panay, a strip of shore between the Central Panay mountains and the Sulu Sea, with no harbour of consequence and the mountains cutting it off from the richer provinces on the other side. Its people farmed rice and maize on the coastal flats and fished from the beach, and the interior was Iraya and Sulod country in the uplands. It was the poorest province on the island and lost people steadily to Iloilo, Negros and Manila; San Jose de Buenavista was the capital and never grew large. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   Bataan: {
     en: 'Bataan (Luzon)', wiki: 'https://en.wikipedia.org/wiki/Bataan',
-    note: 'The mountainous peninsula that closes Manila Bay on the west, forested from the shore to the summits of Natib and Samat, with a thin fringe of rice land and fishing villages round its edge. Charcoal, timber and fish were what it sold, and Balanga was a market town of a few thousand. In January 1942 the American and Filipino army withdrew into it and held the line across the peninsula for three months on half rations; the surrender on 9 April was the largest in American history, and the march of some sixty to eighty thousand prisoners north to Camp O\'Donnell killed thousands of them on the road.'
+    note: 'The mountainous peninsula that closes Manila Bay on the west, forested from the shore to the summits of Natib and Samat, with a thin fringe of rice land and fishing villages round its edge. Charcoal, timber and fish were what it sold, and Balanga was a market town of a few thousand. In January 1942 the American and Filipino army withdrew into it and held the line across the peninsula for three months on half rations; the surrender on 9 April was the largest in American history, and the march of some sixty to eighty thousand prisoners north to Camp O\'Donnell killed thousands of them on the road. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   Batanes: {
     en: 'Batanes', wiki: 'https://en.wikipedia.org/wiki/Batanes',
-    note: 'Ten small islands in the strait between Luzon and Taiwan, in the direct path of the typhoons, which is why the Ivatan build their houses of metre-thick limestone and lime mortar with thatch roofs lashed down and no windows on the weather side. There is almost no flat land: the living was root crops, garlic, cattle grazed on the cliff tops and fishing for flying fish in the season, with Basco on Batan as the only town. It is the northernmost Philippine territory and the closest to Japan, and Japanese troops came ashore there on 8 December 1941 — the first landing of the Philippines campaign, made before the attacks on Luzon.'
+    note: 'Ten small islands in the strait between Luzon and Taiwan, in the direct path of the typhoons, which is why the Ivatan build their houses of metre-thick limestone and lime mortar with thatch roofs lashed down and no windows on the weather side. There is almost no flat land: the living was root crops, garlic, cattle grazed on the cliff tops and fishing for flying fish in the season, with Basco on Batan as the only town. It is the northernmost Philippine territory and the closest to Japan, and Japanese troops came ashore there on 8 December 1941 — the first landing of the Philippines campaign, made before the attacks on Luzon. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   Batangas: {
     en: 'Batangas (Luzon)', wiki: 'https://en.wikipedia.org/wiki/Batangas',
-    note: 'South-western Luzon: rolling volcanic uplands and cattle country round the caldera lake of Taal, with the small active cone inside it, and a coastline of deep bays on the Verde Island passage. It grew the coffee that made Lipa briefly one of the richest towns in the islands, until blight destroyed the trees in the 1880s and the ground went over to sugar, maize and cattle. Batangueños have a reputation for being difficult that they earned twice: the province was one of the first to rise in 1896, and General Bell\'s campaign against it in 1901–02, with the population concentrated into zones, was the harshest of the Philippine–American war.'
+    note: 'South-western Luzon: rolling volcanic uplands and cattle country round the caldera lake of Taal, with the small active cone inside it, and a coastline of deep bays on the Verde Island passage. It grew the coffee that made Lipa briefly one of the richest towns in the islands, until blight destroyed the trees in the 1880s and the ground went over to sugar, maize and cattle. Batangueños have a reputation for being difficult that they earned twice: the province was one of the first to rise in 1896, and General Bell\'s campaign against it in 1901–02, with the population concentrated into zones, was the harshest of the Philippine–American war. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   Bukidnon: {
     en: 'Bukidnon (Mindanao)', wiki: 'https://en.wikipedia.org/wiki/Bukidnon',
-    note: 'A grassland plateau six hundred to a thousand metres up in the interior of northern Mindanao, cooler than the coast, with pine on the higher ground and deep canyons cut into it. Its people were Bukidnon, Higaonon and Manobo, herding and farming in the open country, and cattle ranching was the first commercial use the plateau was put to. Then in 1926 the Del Monte corporation planted pineapple at Camp Phillips on land leased from the government — within a decade it was among the largest pineapple plantations in the world, with a cannery down at Bugo on the coast and a railway between them.'
+    note: 'A grassland plateau six hundred to a thousand metres up in the interior of northern Mindanao, cooler than the coast, with pine on the higher ground and deep canyons cut into it. Its people were Bukidnon, Higaonon and Manobo, herding and farming in the open country, and cattle ranching was the first commercial use the plateau was put to. Then in 1926 the Del Monte corporation planted pineapple at Camp Phillips on land leased from the government — within a decade it was among the largest pineapple plantations in the world, with a cannery down at Bugo on the coast and a railway between them. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   Bulacan: {
     en: 'Bulacan (Luzon)', wiki: 'https://en.wikipedia.org/wiki/Bulacan',
-    note: 'The alluvial plain immediately north of Manila, flat, densely settled and heavily irrigated, running down to fishponds and mangrove along the bay. It grew rice for the capital and raised milkfish in the ponds, and its towns kept unusually specialised crafts — goldsmiths and jewellers at Meycauayan, fireworks at Bocaue, buntal hats at Baliuag. It has a place in the country\'s political memory out of proportion to its size: Marcelo H. del Pilar and the poet Balagtas came from here, and the congress of the First Philippine Republic met in the church at Malolos in 1898 and wrote a constitution there.'
+    note: 'The alluvial plain immediately north of Manila, flat, densely settled and heavily irrigated, running down to fishponds and mangrove along the bay. It grew rice for the capital and raised milkfish in the ponds, and its towns kept unusually specialised crafts — goldsmiths and jewellers at Meycauayan, fireworks at Bocaue, buntal hats at Baliuag. It has a place in the country\'s political memory out of proportion to its size: Marcelo H. del Pilar and the poet Balagtas came from here, and the congress of the First Philippine Republic met in the church at Malolos in 1898 and wrote a constitution there. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   Cagayan: {
     en: 'Cagayan (Luzon)', wiki: 'https://en.wikipedia.org/wiki/Cagayan',
-    note: 'The lower valley of the Cagayan, the largest river in the Philippines, running north between the Cordillera and the Sierra Madre to a delta at Aparri. The Spanish tobacco monopoly of 1782 forced this valley to grow leaf for the crown, and long after the monopoly ended in 1882 Cagayan and Isabela were still the tobacco provinces, supplying the cigar factories of Manila and an export trade to Spain. Rice and maize filled the rest of the floodplain, hardwood came off the Sierra Madre, and the whole province took the full force of the typhoons that come in from the Pacific every year.'
+    note: 'The lower valley of the Cagayan, the largest river in the Philippines, running north between the Cordillera and the Sierra Madre to a delta at Aparri. The Spanish tobacco monopoly of 1782 forced this valley to grow leaf for the crown, and long after the monopoly ended in 1882 Cagayan and Isabela were still the tobacco provinces, supplying the cigar factories of Manila and an export trade to Spain. Rice and maize filled the rest of the floodplain, hardwood came off the Sierra Madre, and the whole province took the full force of the typhoons that come in from the Pacific every year. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   CamarinesNorte: {
     en: 'Camarines Norte (Luzon)', wiki: 'https://en.wikipedia.org/wiki/Camarines_Norte',
-    note: 'The northern shoulder of the Bicol peninsula, hilly and forested with a broken coast on the Pacific side and Daet as its town. Paracale here is one of the oldest gold districts in the country — worked before the Spanish arrived, named for the placer channels dug to get at the gravels, and revived on a large scale in the gold boom of the 1930s when American and Filipino companies sank shafts along the coast. Coconut and abaca covered most of the rest of the province, and the iron deposits at Larap were opened in the same years.'
+    note: 'The northern shoulder of the Bicol peninsula, hilly and forested with a broken coast on the Pacific side and Daet as its town. Paracale here is one of the oldest gold districts in the country — worked before the Spanish arrived, named for the placer channels dug to get at the gravels, and revived on a large scale in the gold boom of the 1930s when American and Filipino companies sank shafts along the coast. Coconut and abaca covered most of the rest of the province, and the iron deposits at Larap were opened in the same years. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   CamarinesSur: {
     en: 'Camarines Sur (Luzon)', wiki: 'https://en.wikipedia.org/wiki/Camarines_Sur',
-    note: 'The waist of the Bicol peninsula, with Mount Isarog and Mount Iriga standing over the Bicol river plain and Lake Bato, and coasts on both the Pacific and San Miguel Bay. It is fertile volcanic country: rice on the plain, abaca and coconut on the slopes, and fishing in the bay and the lakes. Naga, which the Spanish called Nueva Cáceres, was one of the few cities they chartered outright and the seat of the bishopric for the whole region, and the Peñafrancia procession down the Bicol river every September is the largest Marian devotion in the country.'
+    note: 'The waist of the Bicol peninsula, with Mount Isarog and Mount Iriga standing over the Bicol river plain and Lake Bato, and coasts on both the Pacific and San Miguel Bay. It is fertile volcanic country: rice on the plain, abaca and coconut on the slopes, and fishing in the bay and the lakes. Naga, which the Spanish called Nueva Cáceres, was one of the few cities they chartered outright and the seat of the bishopric for the whole region, and the Peñafrancia procession down the Bicol river every September is the largest Marian devotion in the country. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   Capiz: {
     en: 'Capiz (Panay)', wiki: 'https://en.wikipedia.org/wiki/Capiz',
-    note: 'The northern side of Panay, where the Panay river comes down to a broad coastal plain on the Sibuyan Sea — rice ground, with fishponds and a fishing fleet working the shallow gulf. It was a quieter and less commercial province than Iloilo across the mountains, sending its rice and its people there rather than trading on its own account. The translucent windowpane oyster shell used for lanterns and sliding screens all over the archipelago is called capiz after this province, and Manuel Roxas, the Commonwealth\'s last vice-president and the republic\'s first president, was born in the capital.'
+    note: 'The northern side of Panay, where the Panay river comes down to a broad coastal plain on the Sibuyan Sea — rice ground, with fishponds and a fishing fleet working the shallow gulf. It was a quieter and less commercial province than Iloilo across the mountains, sending its rice and its people there rather than trading on its own account. The translucent windowpane oyster shell used for lanterns and sliding screens all over the archipelago is called capiz after this province, and Manuel Roxas, the Commonwealth\'s last vice-president and the republic\'s first president, was born in the capital. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   Cavite: {
     en: 'Cavite (Luzon)', wiki: 'https://en.wikipedia.org/wiki/Cavite',
-    note: 'The province on the south shore of Manila Bay, with the sandy hook of Cavite point running out into it and the uplands of Tagaytay behind. The Spanish put their naval yard on that point, and it was there that Dewey destroyed the Spanish squadron on 1 May 1898; the Americans kept it as a naval station and it was bombed to pieces in December 1941. Inland the province was friar estate country — sugar, coffee and rice held by the religious orders and worked by tenants — which is why the revolution of 1896 caught here first and hardest, and why Aguinaldo, a Kawit man, ended up leading it.'
+    note: 'The province on the south shore of Manila Bay, with the sandy hook of Cavite point running out into it and the uplands of Tagaytay behind. The Spanish put their naval yard on that point, and it was there that Dewey destroyed the Spanish squadron on 1 May 1898; the Americans kept it as a naval station and it was bombed to pieces in December 1941. Inland the province was friar estate country — sugar, coffee and rice held by the religious orders and worked by tenants — which is why the revolution of 1896 caught here first and hardest, and why Aguinaldo, a Kawit man, ended up leading it. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   Cotabato: {
     en: 'Cotabato (Mindanao)', wiki: 'https://en.wikipedia.org/wiki/Cotabato',
-    note: 'The largest province in the Philippines: the basin of the Pulangi or Mindanao river, a great alluvial plain with marsh and lake in its middle, hemmed by mountains and opening on Illana Bay. This was the country of the Maguindanao sultanate, brought under American administration only after 1900, and from the 1910s the government planted agricultural colonies here — settlers from Luzon and the Visayas given land in the valley — which by the 1930s had begun to change the province\'s population and its politics for good. Rice, maize and abaca were what it grew, with forest over most of the rest of it, and the roads were few enough that the river was still the way in.'
+    note: 'The largest province in the Philippines: the basin of the Pulangi or Mindanao river, a great alluvial plain with marsh and lake in its middle, hemmed by mountains and opening on Illana Bay. This was the country of the Maguindanao sultanate, brought under American administration only after 1900, and from the 1910s the government planted agricultural colonies here — settlers from Luzon and the Visayas given land in the valley — which by the 1930s had begun to change the province\'s population and its politics for good. Rice, maize and abaca were what it grew, with forest over most of the rest of it, and the roads were few enough that the river was still the way in. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   Davao: {
     en: 'Davao (Mindanao)', wiki: 'https://en.wikipedia.org/wiki/Davao_(province)',
-    note: 'The gulf of Davao and the shoulders of Mount Apo, at 2,954 m the highest mountain in the Philippines, with rainforest, volcanic soil and no dry season worth the name. Abaca made it: Ohta Kyozaburo began planting in 1907, other Japanese companies followed, and by the late 1930s Japanese planters held most of the hemp land and the Japanese community in Davao numbered some twenty thousand — with its own schools, hospital and newspapers, and enough autonomy that Manila newspapers called the place Davaokuo. The province supplied a large part of the world\'s rope fibre, and Japanese forces landed there on 20 December 1941 and were welcomed by part of that community.'
+    note: 'The gulf of Davao and the shoulders of Mount Apo, at 2,954 m the highest mountain in the Philippines, with rainforest, volcanic soil and no dry season worth the name. Abaca made it: Ohta Kyozaburo began planting in 1907, other Japanese companies followed, and by the late 1930s Japanese planters held most of the hemp land and the Japanese community in Davao numbered some twenty thousand — with its own schools, hospital and newspapers, and enough autonomy that Manila newspapers called the place Davaokuo. The province supplied a large part of the world\'s rope fibre, and Japanese forces landed there on 20 December 1941 and were welcomed by part of that community. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   IlocosNorte: {
     en: 'Ilocos Norte (Luzon)', wiki: 'https://en.wikipedia.org/wiki/Ilocos_Norte',
-    note: 'A narrow shelf of coast between the Cordillera and the South China Sea, with more people on it than the land can feed — the reason Ilocanos have been leaving for four hundred years. What it grows it grows intensively: irrigated rice on the terraces, then tobacco, garlic, onions and cotton in the dry season, with fishing off a straight and dangerous coast. From 1906 the province supplied the Hawaiian sugar plantations with contract labour, and later the farms of California, and the remittances that came back paid for much of what was built here. Paoay\'s buttressed church and the Spanish town plan of Laoag are what survives from the earlier centuries.'
+    note: 'A narrow shelf of coast between the Cordillera and the South China Sea, with more people on it than the land can feed — the reason Ilocanos have been leaving for four hundred years. What it grows it grows intensively: irrigated rice on the terraces, then tobacco, garlic, onions and cotton in the dry season, with fishing off a straight and dangerous coast. From 1906 the province supplied the Hawaiian sugar plantations with contract labour, and later the farms of California, and the remittances that came back paid for much of what was built here. Paoay\'s buttressed church and the Spanish town plan of Laoag are what survives from the earlier centuries. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   IlocosSur: {
     en: 'Ilocos Sur (Luzon)', wiki: 'https://en.wikipedia.org/wiki/Ilocos_Sur',
-    note: 'The same coast further south, with the Abra river breaking through the mountains to the sea, and the same crowded, terraced, water-managed agriculture: rice, tobacco, maize and cotton, with indigo in the Spanish period. Vigan, at the river mouth, grew rich on that trade and is the best-preserved Spanish colonial town in the country, its merchant houses built by Chinese-mestizo families who ran the tobacco and indigo business. The province rose against the tobacco monopoly and the state liquor monopoly more than once — the Basi Revolt of 1807 is commemorated in a series of paintings still in Vigan — and it exported people at the same rate as its northern neighbour.'
+    note: 'The same coast further south, with the Abra river breaking through the mountains to the sea, and the same crowded, terraced, water-managed agriculture: rice, tobacco, maize and cotton, with indigo in the Spanish period. Vigan, at the river mouth, grew rich on that trade and is the best-preserved Spanish colonial town in the country, its merchant houses built by Chinese-mestizo families who ran the tobacco and indigo business. The province rose against the tobacco monopoly and the state liquor monopoly more than once — the Basi Revolt of 1807 is commemorated in a series of paintings still in Vigan — and it exported people at the same rate as its northern neighbour. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   Iloilo: {
     en: 'Iloilo (Panay)', wiki: 'https://en.wikipedia.org/wiki/Iloilo',
-    note: 'The south-eastern quarter of Panay and the richest of the Visayan provinces: broad rice plains, and a port that from the 1850s handled the sugar of Negros across the strait. Iloilo City had the customs house, the consulates, the sugar warehouses and the merchant families, British and Chinese-mestizo, who financed the Negros haciendas, and it called itself the Queen City of the South until Cebu overtook it. Its own older industry was weaving — piña from pineapple fibre and jusi silk, made in Molo and Jaro and worn all over the islands — which machine-made imports had largely destroyed by the 1880s.'
+    note: 'The south-eastern quarter of Panay and the richest of the Visayan provinces: broad rice plains, and a port that from the 1850s handled the sugar of Negros across the strait. Iloilo City had the customs house, the consulates, the sugar warehouses and the merchant families, British and Chinese-mestizo, who financed the Negros haciendas, and it called itself the Queen City of the South until Cebu overtook it. Its own older industry was weaving — piña from pineapple fibre and jusi silk, made in Molo and Jaro and worn all over the islands — which machine-made imports had largely destroyed by the 1880s. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   Isabela: {
     en: 'Isabela (Luzon)', wiki: 'https://en.wikipedia.org/wiki/Isabela_(province)',
-    note: 'The middle Cagayan valley, the second of the tobacco provinces, with the Sierra Madre on one side and the Cordillera on the other and a floodplain between them wide enough to make it one of the great grain provinces of Luzon. Tobacco under the monopoly gave way to rice and maize on a large scale, and the forests on both ranges were logged hard once the sawmills and the roads arrived. Its population was assembled rather than native: Ibanag and Gaddang villages, Ilongot and Agta in the mountains, and a steady inflow of Ilocano settlers from over the pass, who by this period were the majority.'
+    note: 'The middle Cagayan valley, the second of the tobacco provinces, with the Sierra Madre on one side and the Cordillera on the other and a floodplain between them wide enough to make it one of the great grain provinces of Luzon. Tobacco under the monopoly gave way to rice and maize on a large scale, and the forests on both ranges were logged hard once the sawmills and the roads arrived. Its population was assembled rather than native: Ibanag and Gaddang villages, Ilongot and Agta in the mountains, and a steady inflow of Ilocano settlers from over the pass, who by this period were the majority. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   Laguna: {
     en: 'Laguna (Luzon)', wiki: 'https://en.wikipedia.org/wiki/Laguna_(province)',
-    note: 'The province wrapped round the southern and eastern shores of Laguna de Bay, the largest lake in the country, with Mount Makiling and the Sierra Madre behind it. Coconut is what it grew — the copra belt of southern Luzon begins here — with rice on the lake plain, citrus on the slopes and freshwater fishing in the lake itself. Los Baños on Makiling\'s flank held the College of Agriculture of the University of the Philippines from 1909, the country\'s main agricultural research station; Calamba, next door, was a Dominican estate and José Rizal\'s birthplace, and the dispute over that estate was one of the things that made him a revolutionary\'s inspiration.'
+    note: 'The province wrapped round the southern and eastern shores of Laguna de Bay, the largest lake in the country, with Mount Makiling and the Sierra Madre behind it. Coconut is what it grew — the copra belt of southern Luzon begins here — with rice on the lake plain, citrus on the slopes and freshwater fishing in the lake itself. Los Baños on Makiling\'s flank held the College of Agriculture of the University of the Philippines from 1909, the country\'s main agricultural research station; Calamba, next door, was a Dominican estate and José Rizal\'s birthplace, and the dispute over that estate was one of the things that made him a revolutionary\'s inspiration. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   LaUnion: {
     en: 'La Union (Luzon)', wiki: 'https://en.wikipedia.org/wiki/La_Union',
-    note: 'A short strip of the Ilocos coast made into a province in 1850 out of pieces of Ilocos Sur and Pangasinan, which is why it is small and why its people are Ilocano and Pangasinan both. The coastal plain grows rice and tobacco, the beaches south of San Fernando make salt in pans and the potters of San Juan and Bacnotan have turned out the big burnay storage jars for centuries. San Fernando is the port and the capital, and the Naguilian road that climbs from here to Baguio was one of the two ways up to the mountain capital.'
+    note: 'A short strip of the Ilocos coast made into a province in 1850 out of pieces of Ilocos Sur and Pangasinan, which is why it is small and why its people are Ilocano and Pangasinan both. The coastal plain grows rice and tobacco, the beaches south of San Fernando make salt in pans and the potters of San Juan and Bacnotan have turned out the big burnay storage jars for centuries. San Fernando is the port and the capital, and the Naguilian road that climbs from here to Baguio was one of the two ways up to the mountain capital. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   Lanao: {
     en: 'Lanao (Mindanao)', wiki: 'https://en.wikipedia.org/wiki/Lanao_(province)',
-    note: 'The plateau of western Mindanao round Lake Lanao, seven hundred metres up, cool, and the heartland of the Maranao — the largest of the Muslim peoples of the Philippines and the last to be brought under outside control, which the American army did between 1902 and 1913 at a considerable cost in lives on both sides. The lake plain grows rice and maize, and the province\'s crafts — brass casting, the okir carving on the great torogan houses, malong weaving — were among the most elaborate in the islands. Dansalan, later Marawi, on the northern shore, was the administrative town, and the Agus river falling out of the lake to Iligan was the hydro-electric site the government had its eye on.'
+    note: 'The plateau of western Mindanao round Lake Lanao, seven hundred metres up, cool, and the heartland of the Maranao — the largest of the Muslim peoples of the Philippines and the last to be brought under outside control, which the American army did between 1902 and 1913 at a considerable cost in lives on both sides. The lake plain grows rice and maize, and the province\'s crafts — brass casting, the okir carving on the great torogan houses, malong weaving — were among the most elaborate in the islands. Dansalan, later Marawi, on the northern shore, was the administrative town, and the Agus river falling out of the lake to Iligan was the hydro-electric site the government had its eye on. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   Manila: {
     en: 'City of Manila', wiki: 'https://en.wikipedia.org/wiki/Manila',
-    note: 'The capital and the reason for everything else: the port through which the country\'s trade passed, the seat of the Insular and then Commonwealth government, the university, the banks and the newspapers, with something over six hundred thousand people by 1939. Intramuros, the walled Spanish city at the mouth of the Pasig, held the churches, the archives and the Ateneo; outside it Daniel Burnham had laid out in 1905 the boulevards, the Luneta and the neoclassical government buildings that gave the twentieth-century city its shape. It was declared an open city on 26 December 1941 and occupied on 2 January 1942; in February 1945 it was fought over street by street and burnt, and something like a hundred thousand civilians died in a month — the worst destruction of any Allied capital except Warsaw.'
+    note: 'The capital and the reason for everything else: the port through which the country\'s trade passed, the seat of the Insular and then Commonwealth government, the university, the banks and the newspapers, with something over six hundred thousand people by 1939. Intramuros, the walled Spanish city at the mouth of the Pasig, held the churches, the archives and the Ateneo; outside it Daniel Burnham had laid out in 1905 the boulevards, the Luneta and the neoclassical government buildings that gave the twentieth-century city its shape. It was declared an open city on 26 December 1941 and occupied on 2 January 1942; in February 1945 it was fought over street by street and burnt, and something like a hundred thousand civilians died in a month — the worst destruction of any Allied capital except Warsaw. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   Marinduque: {
     en: 'Marinduque', wiki: 'https://en.wikipedia.org/wiki/Marinduque',
-    note: 'A nearly circular island between the tail of Luzon and Mindoro, mountainous in the middle with a fringe of coastal plain, and small enough to be a province of one island and a few islets. Coconut and rice were the ordinary living, with fishing all round the coast, and from the 1930s the Marinduque Iron Mines Corporation worked an open-cut iron deposit at Santa Cruz and shipped the ore to Japan — one of several such contracts that later looked different than they had. The Moriones pageant at Easter, with its carved Roman helmets and masks, was and is the island\'s best-known thing.'
+    note: 'A nearly circular island between the tail of Luzon and Mindoro, mountainous in the middle with a fringe of coastal plain, and small enough to be a province of one island and a few islets. Coconut and rice were the ordinary living, with fishing all round the coast, and from the 1930s the Marinduque Iron Mines Corporation worked an open-cut iron deposit at Santa Cruz and shipped the ore to Japan — one of several such contracts that later looked different than they had. The Moriones pageant at Easter, with its carved Roman helmets and masks, was and is the island\'s best-known thing. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   MisamisOccidental: {
     en: 'Misamis Occidental (Mindanao)',
     wiki: 'https://en.wikipedia.org/wiki/Misamis_Occidental',
-    note: 'A narrow province on the western shore of the Panguil Bay inlet, a strip of coast under a mountain spine with almost no interior at all — you can cross it in an hour. Coconut was the crop, with maize on the slopes and a large inshore fishery in the bay and along the Iligan Bay coast, and Ozamiz and Oroquieta were its towns. Its people were Cebuano and Subanen, and the province was cut off from its eastern namesake in 1929 because the two halves had nothing to do with each other except a name.'
+    note: 'A narrow province on the western shore of the Panguil Bay inlet, a strip of coast under a mountain spine with almost no interior at all — you can cross it in an hour. Coconut was the crop, with maize on the slopes and a large inshore fishery in the bay and along the Iligan Bay coast, and Ozamiz and Oroquieta were its towns. Its people were Cebuano and Subanen, and the province was cut off from its eastern namesake in 1929 because the two halves had nothing to do with each other except a name. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   MisamisOriental: {
     en: 'Misamis Oriental (Mindanao)', wiki: 'https://en.wikipedia.org/wiki/Misamis_Oriental',
-    note: 'The north coast of Mindanao along Macajalar and Gingoog bays, a shelf of coconut and maize under the escarpment of the Bukidnon plateau. Cagayan de Misamis, later Cagayan de Oro, was the port at the foot of the road up to that plateau, and so the outlet for its cattle, coffee and above all for the pineapple: Del Monte\'s cannery at Bugo took the fruit down from Camp Phillips and shipped the tins from here. Fishing, copra and abaca made up the rest, and the province was one of the first parts of Mindanao settled from the Visayas.'
+    note: 'The north coast of Mindanao along Macajalar and Gingoog bays, a shelf of coconut and maize under the escarpment of the Bukidnon plateau. Cagayan de Misamis, later Cagayan de Oro, was the port at the foot of the road up to that plateau, and so the outlet for its cattle, coffee and above all for the pineapple: Del Monte\'s cannery at Bugo took the fruit down from Camp Phillips and shipped the tins from here. Fishing, copra and abaca made up the rest, and the province was one of the first parts of Mindanao settled from the Visayas. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   MountainProvince: {
     en: 'Mountain Province (Luzon)', wiki: 'https://en.wikipedia.org/wiki/Mountain_Province',
-    note: 'The whole Cordillera Central as a single province until long after this map\'s dates, divided into the sub-provinces of Benguet, Bontoc, Ifugao, Kalinga and Apayao — high, folded country of pine and cloud forest, home to peoples the Spanish never subdued and the Americans governed separately as non-Christian tribes. Two things brought outsiders in. Gold: the Benguet lodes at Balatoc, Antamok and Acupan were worked from 1903 on a scale that made the Philippines one of the larger gold producers in the world by the late 1930s. And Baguio: laid out by Burnham from 1904 as the summer capital, reached by the Kennon Road up the Bued gorge, and the place the Insular government moved to every hot season. The rice terraces of Ifugao, cut into the mountainsides over centuries, are the other thing the province is known for.'
+    note: 'The whole Cordillera Central as a single province until long after this map\'s dates, divided into the sub-provinces of Benguet, Bontoc, Ifugao, Kalinga and Apayao — high, folded country of pine and cloud forest, home to peoples the Spanish never subdued and the Americans governed separately as non-Christian tribes. Two things brought outsiders in. Gold: the Benguet lodes at Balatoc, Antamok and Acupan were worked from 1903 on a scale that made the Philippines one of the larger gold producers in the world by the late 1930s. And Baguio: laid out by Burnham from 1904 as the summer capital, reached by the Kennon Road up the Bued gorge, and the place the Insular government moved to every hot season. The rice terraces of Ifugao, cut into the mountainsides over centuries, are the other thing the province is known for. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   NegrosOccidental: {
     en: 'Negros Occidental', wiki: 'https://en.wikipedia.org/wiki/Negros_Occidental',
-    note: 'The sugar province. The western plain of Negros was cleared from the 1850s by planters who came over from Iloilo, and by this period it grew the larger part of the Philippine crop — cane cut by sacadas, migrant labourers brought in for the season from Panay and Antique, and milled in a dozen big centrals connected to the fields by their own railways. The American market took that sugar duty-free under quota, which made the province rich, its hacienda families conspicuous and its labour relations bitter. Bacolod was the capital, Kanlaon the volcano behind the plain, and the province spoke Hiligaynon like Iloilo across the strait.'
+    note: 'The sugar province. The western plain of Negros was cleared from the 1850s by planters who came over from Iloilo, and by this period it grew the larger part of the Philippine crop — cane cut by sacadas, migrant labourers brought in for the season from Panay and Antique, and milled in a dozen big centrals connected to the fields by their own railways. The American market took that sugar duty-free under quota, which made the province rich, its hacienda families conspicuous and its labour relations bitter. Bacolod was the capital, Kanlaon the volcano behind the plain, and the province spoke Hiligaynon like Iloilo across the strait. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   NegrosOriental: {
     en: 'Negros Oriental', wiki: 'https://en.wikipedia.org/wiki/Negros_Oriental',
-    note: 'The eastern side of the island, narrower and steeper, where the mountains come down close to the sea and there was never room for sugar on the western scale. Coconut, maize and fishing were what it lived on, with some sugar on the coastal flats round Bais, and the people spoke Cebuano rather than Hiligaynon, looking across to Cebu rather than over the mountains. Dumaguete, its capital, has been a university town since 1901, when American Presbyterians founded Silliman — the first American institution of higher learning in Asia — and the town\'s economy was largely built round it.'
+    note: 'The eastern side of the island, narrower and steeper, where the mountains come down close to the sea and there was never room for sugar on the western scale. Coconut, maize and fishing were what it lived on, with some sugar on the coastal flats round Bais, and the people spoke Cebuano rather than Hiligaynon, looking across to Cebu rather than over the mountains. Dumaguete, its capital, has been a university town since 1901, when American Presbyterians founded Silliman — the first American institution of higher learning in Asia — and the town\'s economy was largely built round it. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   NuevaEcija: {
     en: 'Nueva Ecija (Luzon)', wiki: 'https://en.wikipedia.org/wiki/Nueva_Ecija',
-    note: 'The heart of the central Luzon rice bowl: a wide, flat, irrigated plain that grew more rice than any other province, mostly on large estates worked by tenants on a half-share. That arrangement, and the debt that went with it, made the province the most agrarian-conflicted in the country — the Sakdalista rising of May 1935 took town halls here, and the Hukbalahap, formed in 1942, had its strongest base in these villages. Cabanatuan was the market town and later the site of the largest American prisoner-of-war camp in the islands.'
+    note: 'The heart of the central Luzon rice bowl: a wide, flat, irrigated plain that grew more rice than any other province, mostly on large estates worked by tenants on a half-share. That arrangement, and the debt that went with it, made the province the most agrarian-conflicted in the country — the Sakdalista rising of May 1935 took town halls here, and the Hukbalahap, formed in 1942, had its strongest base in these villages. Cabanatuan was the market town and later the site of the largest American prisoner-of-war camp in the islands. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   NuevaVizcaya: {
     en: 'Nueva Vizcaya (Luzon)', wiki: 'https://en.wikipedia.org/wiki/Nueva_Vizcaya',
-    note: 'A basin in the upper Cagayan valley, ringed by the Caraballo and Sierra Madre mountains, with the road from the central plain climbing through the Dalton Pass to reach it — the only practical way into the valley from the south. It grows rice and maize on the flats, citrus and vegetables on the slopes, and lumber came off the mountains once the sawmills arrived. Its people were Isinai, Gaddang, Ifugao and Ilongot, with Ilocano settlers taking up land through the American period; Bayombong was the capital and the province stayed small and hard to reach.'
+    note: 'A basin in the upper Cagayan valley, ringed by the Caraballo and Sierra Madre mountains, with the road from the central plain climbing through the Dalton Pass to reach it — the only practical way into the valley from the south. It grows rice and maize on the flats, citrus and vegetables on the slopes, and lumber came off the mountains once the sawmills arrived. Its people were Isinai, Gaddang, Ifugao and Ilongot, with Ilocano settlers taking up land through the American period; Bayombong was the capital and the province stayed small and hard to reach. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   Pampanga: {
     en: 'Pampanga (Luzon)', wiki: 'https://en.wikipedia.org/wiki/Pampanga',
-    note: 'The delta country at the head of Manila Bay, half of it swamp and fishpond and the rest some of the most productive rice and sugar land in Luzon, with big centrals at Del Carmen and Pasudeco. Kapampangan society was sharply divided between hacienda families and tenants, and the province was, with Nueva Ecija and Tarlac, the ground the peasant unions and then the Hukbalahap grew out of. Clark Field at Angeles was the United States Army\'s principal air base in the Far East, and its destruction on the ground on 8 December 1941, hours after the warning from Pearl Harbor, cost the defence of the Philippines most of its aircraft.'
+    note: 'The delta country at the head of Manila Bay, half of it swamp and fishpond and the rest some of the most productive rice and sugar land in Luzon, with big centrals at Del Carmen and Pasudeco. Kapampangan society was sharply divided between hacienda families and tenants, and the province was, with Nueva Ecija and Tarlac, the ground the peasant unions and then the Hukbalahap grew out of. Clark Field at Angeles was the United States Army\'s principal air base in the Far East, and its destruction on the ground on 8 December 1941, hours after the warning from Pearl Harbor, cost the defence of the Philippines most of its aircraft. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   Pangasinan: {
     en: 'Pangasinan (Luzon)', wiki: 'https://en.wikipedia.org/wiki/Pangasinan',
-    note: 'The plain behind the Lingayen Gulf, whose name means the place where salt is made — the coastal flats have produced salt and bagoong fish paste for centuries, alongside rice on the plain, fishponds in the delta and the milkfish fry trade. Dagupan was the terminus of the first railway in the islands, opened from Manila in 1892, which made the province the capital\'s granary. The gulf is a natural landing beach and both armies used it: the Japanese Fourteenth Army came ashore there on 22 December 1941 and the American Sixth Army did the same on 9 January 1945.'
+    note: 'The plain behind the Lingayen Gulf, whose name means the place where salt is made — the coastal flats have produced salt and bagoong fish paste for centuries, alongside rice on the plain, fishponds in the delta and the milkfish fry trade. Dagupan was the terminus of the first railway in the islands, opened from Manila in 1892, which made the province the capital\'s granary. The gulf is a natural landing beach and both armies used it: the Japanese Fourteenth Army came ashore there on 22 December 1941 and the American Sixth Army did the same on 9 January 1945. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   Rizal: {
     en: 'Rizal (Luzon)',
-    note: 'The ring of towns round Manila to the east and south — created in 1901 out of parts of the old province of Manila and Morong, and named for José Rizal. It is the Marikina valley and the hills up to the Sierra Madre: rice and vegetables for the capital\'s markets, quarries and the Wawa dam in the Montalban gorge that supplied Manila\'s water, and a shoemaking industry at Marikina that clothed most of the country\'s feet. Antipolo, up in the hills, holds the shrine of the Virgin of Peace and Good Voyage, brought from Mexico on the galleons, and the May pilgrimage to it was one of the great annual movements of people in Luzon.'
+    note: 'The ring of towns round Manila to the east and south — created in 1901 out of parts of the old province of Manila and Morong, and named for José Rizal. It is the Marikina valley and the hills up to the Sierra Madre: rice and vegetables for the capital\'s markets, quarries and the Wawa dam in the Montalban gorge that supplied Manila\'s water, and a shoemaking industry at Marikina that clothed most of the country\'s feet. Antipolo, up in the hills, holds the shrine of the Virgin of Peace and Good Voyage, brought from Mexico on the galleons, and the May pilgrimage to it was one of the great annual movements of people in Luzon. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   Romblon: {
     en: 'Romblon',
-    note: 'Three main islands and a scatter of smaller ones in the middle of the archipelago between Mindoro and Panay, hilly, with narrow coastal strips and no large town. Coconut, maize and fishing were the ordinary living, and the province\'s one distinctive export was marble: Romblon island is largely crystalline limestone, quarried and cut here since the Spanish period and used for church floors, altars and monuments all over the country. Its position in the middle of the sea lanes made it a place ships passed rather than called at.'
+    note: 'Three main islands and a scatter of smaller ones in the middle of the archipelago between Mindoro and Panay, hilly, with narrow coastal strips and no large town. Coconut, maize and fishing were the ordinary living, and the province\'s one distinctive export was marble: Romblon island is largely crystalline limestone, quarried and cut here since the Spanish period and used for church floors, altars and monuments all over the country. Its position in the middle of the sea lanes made it a place ships passed rather than called at. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   Sorsogon: {
     en: 'Sorsogon (Luzon)', wiki: 'https://en.wikipedia.org/wiki/Sorsogon',
-    note: 'The southern tip of the Bicol peninsula, wrapped round a deep sheltered bay with the Bulusan volcano behind it, and the crossing at Matnog to Samar at its end — the link between Luzon and the Visayas for anything travelling by road. It grew abaca and coconut like the rest of Bicol, with rice on the small plains and a substantial fishery in the bay and the San Bernardino strait. The strait is deep and swift, and both navies used it in 1944.'
+    note: 'The southern tip of the Bicol peninsula, wrapped round a deep sheltered bay with the Bulusan volcano behind it, and the crossing at Matnog to Samar at its end — the link between Luzon and the Visayas for anything travelling by road. It grew abaca and coconut like the rest of Bicol, with rice on the small plains and a substantial fishery in the bay and the San Bernardino strait. The strait is deep and swift, and both navies used it in 1944. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   Sulu: {
     en: 'Sulu', wiki: 'https://en.wikipedia.org/wiki/Sulu',
-    note: 'The archipelago that runs from Zamboanga to within sight of Borneo — several hundred islands, and the seat of the Sultanate of Sulu, which had been a power in these seas for centuries and was subdued by the Americans only after long and bloody fighting, at Bud Dajo in 1906 and Bud Bagsak in 1913. The Tausug and Samal lived by the sea: pearling above all, on beds that were among the richest in the world and were worked by divers from Jolo and Siasi, with copra, seaweed and a trade to British North Borneo that no customs service ever controlled. Jolo, the walled town on the main island, was the capital and the market.'
+    note: 'The archipelago that runs from Zamboanga to within sight of Borneo — several hundred islands, and the seat of the Sultanate of Sulu, which had been a power in these seas for centuries and was subdued by the Americans only after long and bloody fighting, at Bud Dajo in 1906 and Bud Bagsak in 1913. The Tausug and Samal lived by the sea: pearling above all, on beds that were among the richest in the world and were worked by divers from Jolo and Siasi, with copra, seaweed and a trade to British North Borneo that no customs service ever controlled. Jolo, the walled town on the main island, was the capital and the market. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   Surigao: {
     en: 'Surigao (Mindanao)', wiki: 'https://en.wikipedia.org/wiki/Surigao_(province)',
-    note: 'The north-eastern corner of Mindanao, a heavily indented coast of bays and small islands facing the Pacific, with forest over most of the interior and a wet climate that has no real dry season. Gold was placer-mined at Placer and the rivers round it, and the hills hold enormous lateritic nickel and iron deposits that were known but scarcely touched in this period; coconut, abaca and timber were what actually paid. The Surigao Strait at its southern end, between Mindanao and Leyte, was where in October 1944 an American battle line crossed the Japanese T in the last engagement between battleships ever fought.'
+    note: 'The north-eastern corner of Mindanao, a heavily indented coast of bays and small islands facing the Pacific, with forest over most of the interior and a wet climate that has no real dry season. Gold was placer-mined at Placer and the rivers round it, and the hills hold enormous lateritic nickel and iron deposits that were known but scarcely touched in this period; coconut, abaca and timber were what actually paid. The Surigao Strait at its southern end, between Mindanao and Leyte, was where in October 1944 an American battle line crossed the Japanese T in the last engagement between battleships ever fought. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   Tarlac: {
     en: 'Tarlac (Luzon)', wiki: 'https://en.wikipedia.org/wiki/Tarlac',
-    note: 'A central Luzon province between Pampanga and Pangasinan, half of it the flat rice plain and half the drier ground rising to the Zambales mountains, with large estates and sugar centrals along the railway. Like its neighbours it was tenant country with a long history of peasant organisation, and it was for a few weeks in 1899 the seat of Aguinaldo\'s republic as it retreated northwards. Camp O\'Donnell, on its northern edge, was the prison camp the Bataan march ended at in April 1942, where thousands of Filipino and American prisoners died of disease and neglect in the following months.'
+    note: 'A central Luzon province between Pampanga and Pangasinan, half of it the flat rice plain and half the drier ground rising to the Zambales mountains, with large estates and sugar centrals along the railway. Like its neighbours it was tenant country with a long history of peasant organisation, and it was for a few weeks in 1899 the seat of Aguinaldo\'s republic as it retreated northwards. Camp O\'Donnell, on its northern edge, was the prison camp the Bataan march ended at in April 1942, where thousands of Filipino and American prisoners died of disease and neglect in the following months. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   Tayabas: {
     en: 'Tayabas (Luzon; renamed Quezon in 1946)', wiki: 'https://en.wikipedia.org/wiki/Quezon',
-    note: 'The long province down the eastern side of southern Luzon, from Mount Banahaw to the Bondoc peninsula, with the Polillo islands offshore — renamed Quezon in 1946 for the Commonwealth president, who was born at Baler in its northern district. It was the coconut province: copra from Tayabas and Laguna made the Philippines the largest exporter of coconut oil in the world, and the trees ran unbroken for miles along the coast roads. Mount Banahaw, a dormant volcano on its border with Laguna, was and is the centre of a set of folk-religious sects who hold the mountain to be sacred ground.'
+    note: 'The long province down the eastern side of southern Luzon, from Mount Banahaw to the Bondoc peninsula, with the Polillo islands offshore — renamed Quezon in 1946 for the Commonwealth president, who was born at Baler in its northern district. It was the coconut province: copra from Tayabas and Laguna made the Philippines the largest exporter of coconut oil in the world, and the trees ran unbroken for miles along the coast roads. Mount Banahaw, a dormant volcano on its border with Laguna, was and is the centre of a set of folk-religious sects who hold the mountain to be sacred ground. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   Zambales: {
     en: 'Zambales (Luzon)', wiki: 'https://en.wikipedia.org/wiki/Zambales',
-    note: 'The west coast of Luzon under the Zambales mountains, a strip of rice land and fishing villages backed by ridges of serpentine rock — which is what made the province matter. The Coto mine at Masinloc, opened in 1935, sat on one of the largest refractory chromite deposits in the world, and Philippine chromite went into the furnace linings of the American steel industry through the war. At the southern end Subic Bay, a deep and sheltered anchorage, held a United States naval station and the town of Olongapo that served it, and the Aeta of the mountains behind were among the oldest inhabitants of the islands.'
+    note: 'The west coast of Luzon under the Zambales mountains, a strip of rice land and fishing villages backed by ridges of serpentine rock — which is what made the province matter. The Coto mine at Masinloc, opened in 1935, sat on one of the largest refractory chromite deposits in the world, and Philippine chromite went into the furnace linings of the American steel industry through the war. At the southern end Subic Bay, a deep and sheltered anchorage, held a United States naval station and the town of Olongapo that served it, and the Aeta of the mountains behind were among the oldest inhabitants of the islands. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   Zamboanga: {
     en: 'Zamboanga (Mindanao, with Basilan)',
     wiki: 'https://en.wikipedia.org/wiki/Zamboanga_(province)',
-    note: 'The long peninsula reaching south-west from Mindanao towards Borneo, with the island of Basilan off its tip, mountainous and forested along its spine and planted with coconut round its edges. Zamboanga City, under the Spanish fort of Pilar, was the old military capital of the Moro country and the seat of the American Moro Province, and its people speak Chavacano, a Spanish creole that exists nowhere else in the country. Copra was the province\'s export, Basilan grew rubber on a Goodyear plantation opened in 1928, and the fishing fleets working out of Zamboanga were among the largest in the islands.'
+    note: 'The long peninsula reaching south-west from Mindanao towards Borneo, with the island of Basilan off its tip, mountainous and forested along its spine and planted with coconut round its edges. Zamboanga City, under the Spanish fort of Pilar, was the old military capital of the Moro country and the seat of the American Moro Province, and its people speak Chavacano, a Spanish creole that exists nowhere else in the country. Copra was the province\'s export, Basilan grew rubber on a Goodyear plantation opened in 1928, and the fishing fleets working out of Zamboanga were among the largest in the islands. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   'Kashmir & Jammu': {
     en: 'Kashmir & Jammu',

@@ -681,6 +681,10 @@ PRINCELY_NAMES = {
 # province until 1954, Ryanggang and Jagang did not exist, and Kaesong was in
 # Keiki-do rather than in Hwanghae.
 KOREA_FILE = "korea_13_provinces.json"
+# The one Korean province block that is split out of its province: Cheju, in
+# the box fetch_korea_1930.py lifts it out of the land layer with. Province,
+# block name, bounding box.
+KOREA_ISLAND_BLOCK = ("Zenranan", "Saishu", (125.9, 32.9, 127.1, 33.8))
 
 # The atoms drawn from the ENP-China 1928-45 sheet. It is the authority for
 # where China's boundaries were, and it is also a coarse drawing of them:
@@ -5344,6 +5348,22 @@ def main():
             for feat in json.load(fh)["features"]:
                 pname = feat["properties"]["shapeName"]
                 rs = list(iter_rings(feat["geometry"]))
+                # Cheju is a county of South Chŏlla and the province layer does
+                # not carry it at all — fetch_korea_1930.py lifts it out of the
+                # land layer and puts it in Zenranan, which is administratively
+                # right and leaves an island a hundred kilometres offshore
+                # answering with the name of a province on the mainland. It is
+                # its own block: the same province underneath, and a place a
+                # reader can point at and be told about.
+                if pname == KOREA_ISLAND_BLOCK[0]:
+                    x0, y0, x1, y1 = KOREA_ISLAND_BLOCK[2]
+                    off = [r for r in rs
+                           if x0 < min(p[0] for p in r) and max(p[0] for p in r) < x1
+                           and y0 < min(p[1] for p in r) and max(p[1] for p in r) < y1]
+                    if off:
+                        rs = [r for r in rs if r not in off]
+                        provinces["korea"].append((KOREA_ISLAND_BLOCK[1], off))
+                        groups["korea"].extend(off)
                 provinces["korea"].append((pname, rs))
                 groups["korea"].extend(rs)
     else:

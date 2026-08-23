@@ -17,7 +17,7 @@ nanjing,Nánjīng (Nanking),,32.06,118.8,Occupied China,on map (quiz site),large
 yokohama,Yokohama,,35.44,139.64,Japan,on map (quiz site),large,capital-province,Kanagawa Prefecture,423000,620000,968000,951000,968000,1940,contemporary (1940),census (rounded),jp_census;jp_chouki,
 kobe,Kobe,,34.69,135.2,Japan,on map (quiz site),large,capital-province,Hyōgo Prefecture,609000,788000,967000,765000,967000,1940,contemporary (1940),census (rounded),jp_census;jp_chouki,
 singapore,Singapore (Shōnantō),,1.29,103.85,Straits Settlements,on map (quiz site),large,capital-territory,Straits Settlements,,558000,,938000,938000,1947,contemporary (1947),census (rounded),my_census1931;my_census1947,
-seoul,Keijō (Seoul),,37.57,126.98,Chōsen,on map (quiz site),large,capital-territory,Chōsen,250000,394000,935000,1446000,935000,1940,contemporary (1940),census (rounded),kr_census;kr_kosis,
+seoul,"Keijō (Kyŏngsŏng, Seoul)",,37.57,126.98,Chōsen,on map (quiz site),large,capital-territory,Chōsen,250000,394000,935000,1446000,935000,1940,contemporary (1940),census (rounded),kr_census;kr_kosis,
 qingdao,Qīngdǎo (Tsingtao),,36.07,120.38,Occupied China,on map (quiz site),large,,,,440000,,917000,917000,1953,inferred from 1953,estimate,cn_yearbook;cn_census1953,
 batavia,Batavia (Jakarta),,-6.21,106.85,Netherlands East Indies,on map (quiz site),large,capital-territory,Netherlands East Indies,,533000,,900000,900000,1948,contemporary (1948),census (rounded),id_volkstelling;un_dyb,
 bangkok,Bangkok,,13.75,100.5,Thailand,on map (quiz site),large,capital-territory,Thailand,,,890000,782000,890000,1937,contemporary (1937),estimate,th_census,
@@ -57,7 +57,7 @@ kaifeng,Kāifēng (Kaifeng),,34.8,114.31,Occupied China,on map (browse layer),la
 bandung,Bandung,,-6.91,107.61,Netherlands East Indies,on map (browse layer),large,capital-province,West Java,,167000,,300000,300000,1948,contemporary (1948),census (rounded),id_volkstelling;un_dyb,
 semarang,Semarang,,-6.97,110.42,Netherlands East Indies,on map (browse layer),large,capital-province,Central Java,,218000,,300000,300000,1948,contemporary (1948),census (rounded),id_volkstelling;un_dyb,
 suzhou,Sūzhōu (Soochow),,31.3,120.62,Occupied China,on map (browse layer),large,,,,,300000,474000,300000,1936,contemporary (1936),estimate,cn_statistical;cn_census1953,
-pyongyang,Heijō (Pyongyang),,39.02,125.75,Chōsen,on map (quiz site),large,capital-province,South P’yŏngan,,140000,286000,,286000,1940,contemporary (1940),census (rounded),kr_census,
+pyongyang,Heijō (P’yŏngyang),,39.02,125.75,Chōsen,on map (quiz site),large,capital-province,South P’yŏngan,,140000,286000,,286000,1940,contemporary (1940),census (rounded),kr_census,
 agra,Agra,,27.18,78.01,British India,on map (browse layer),large,,,,230000,284000,376000,284000,1941,contemporary (1941),census (rounded),in_census,
 kure,Kure,,34.25,132.57,Japan,on map (browse layer),large,,,130000,190000,276000,188000,276000,1940,contemporary (1940),census (rounded),jp_census,
 wuxi,Wúxī (Wusih),,31.57,120.3,Occupied China,on map (browse layer),large,,,,,270000,582000,270000,1936,contemporary (1936),estimate,cn_statistical;cn_census1953,
@@ -89,7 +89,7 @@ palembang,Palembang,,-2.99,104.76,Netherlands East Indies,on map (browse layer),
 tangshan,Tángshān (Tangshan),,39.63,118.18,Occupied China,on map (browse layer),medium,,,,,200000,693000,200000,1936,contemporary (1936),estimate,cn_statistical;cn_census1953,
 jogjakarta,Jogjakarta (Yogyakarta),,-7.8,110.37,Netherlands East Indies,on map (browse layer),medium,capital-province,Sultanate of Yogyakarta,,136000,,200000,200000,1948,contemporary (1948),census (rounded),id_volkstelling,
 soerakarta,"Soerakarta (Surakarta, Solo)",,-7.57,110.83,Netherlands East Indies,on map (browse layer),medium,capital-province,Susuhunanate of Surakarta,,165000,,200000,200000,1948,contemporary (1948),census (rounded),id_volkstelling,
-chongjin,Seishin (Chongjin),,41.8,129.78,Chōsen,on map (browse layer),medium,capital-province,North Hamgyŏng,,20000,197000,,197000,1940,contemporary (1940),estimate,kr_census,
+chongjin,Seishin (Ch’ŏngjin),,41.8,129.78,Chōsen,on map (browse layer),medium,capital-province,North Hamgyŏng,,20000,197000,,197000,1940,contemporary (1940),estimate,kr_census,
 patna,Patna,पटना,25.61,85.14,British India,proposed,medium,capital-province,Bihar,,160000,197000,284000,197000,1941,contemporary (1941),estimate,in_census,Provincial capital.
 shimonoseki,Shimonoseki,,33.96,130.94,Japan,on map (quiz site),medium,,,,98000,196000,194000,196000,1940,contemporary (1940),census (rounded),jp_census,
 wakayama,Wakayama,和歌山 (Wakayama),34.23,135.17,Japan,proposed,medium,capital-province,Wakayama Prefecture,,,195000,191000,195000,1940,contemporary (1940),census (rounded),jp_census,
@@ -116,7 +116,7 @@ jilincity,Jílín (Kirin),,43.84,126.55,Manchukuo,on map (browse layer),medium,c
 peshawar,Peshawar,,34.01,71.58,British India,on map (browse layer),medium,capital-province,North-West Frontier Province,,110000,173000,151000,173000,1941,contemporary (1941),estimate,in_census,
 dandong,Antung (Dandong),,40.13,124.39,Manchukuo,on map (browse layer),medium,capital-province,Antung,,90000,172000,361000,172000,1940,contemporary (1940),census (rounded),mk_census1940;cn_census1953,
 gifu,Gifu,岐阜 (Gifu),35.42,136.76,Japan,proposed,medium,capital-province,Gifu Prefecture,,,172000,212000,172000,1940,contemporary (1940),census (rounded),jp_census,
-incheon,"Jinsen (Chemulpo, Incheon)",,37.46,126.71,Chōsen,on map (quiz site),medium,,,,,171000,265000,171000,1940,contemporary (1940),census (rounded),kr_census;kr_kosis,
+incheon,Jinsen (Inch’ŏn),,37.46,126.71,Chōsen,on map (quiz site),medium,,,,,171000,265000,171000,1940,contemporary (1940),census (rounded),kr_census;kr_kosis,
 hamamatsu,Hamamatsu,浜松 (Hamamatsu),34.71,137.73,Japan,proposed,medium,,,,,166000,153000,166000,1940,contemporary (1940),census (rounded),jp_census,Aircraft and instrument industry; bombed and shelled from the sea in 1945.
 okayama,Okayama,,34.66,133.93,Japan,on map (browse layer),medium,capital-province,Okayama Prefecture,,132000,164000,163000,164000,1940,contemporary (1940),census (rounded),jp_census,
 otaru,Otaru,小樽 (Otaru),43.19,140.99,Japan,proposed,medium,,,,145000,164000,179000,164000,1940,contemporary (1940),census (rounded),jp_census,Hokkaidō’s main port and the terminal for the Karafuto and Japan Sea trade.
@@ -206,18 +206,18 @@ hitachi,Hitachi,日立 (Hitachi),36.6,140.65,Japan,proposed,medium,,,,30000,8200
 ipoh,Ipoh,,4.6,101.09,Malaya,on map (browse layer),medium,capital-province,Perak,,53000,,81000,81000,1947,contemporary (1947),census (rounded),my_census1931;my_census1947,
 baotou,Bāotóu (Paotow),,40.66,109.84,Mengjiang,on map (browse layer),medium,,,,,80000,149000,80000,1936,contemporary (1936),estimate,cn_statistical;cn_census1953,
 shaoguan,Sháoguān (Shiuchow),,24.81,113.6,Free China,on map (browse layer),medium,capital-province,Kwangtung (wartime),,,80000,100000,80000,1936,contemporary (1936),estimate,cn_statistical;cn_census1953,
-hungnam,Hŭngnam (Konan),흥남 / 興南 (Kōnan),39.83,127.62,Chōsen,proposed,medium,,,,10000,80000,,80000,1940,contemporary (1940),estimate,kr_sotokufu,"Noguchi Jun’s chemical combine, the largest industrial complex in the empire outside Japan, built on Korean and later forced labour."
+hungnam,Kōnan (Hŭngnam),흥남 / 興南 (Kōnan),39.83,127.62,Chōsen,proposed,medium,,,,10000,80000,,80000,1940,contemporary (1940),estimate,kr_sotokufu,"Noguchi Jun’s chemical combine, the largest industrial complex in the empire outside Japan, built on Korean and later forced labour."
 fuxin,Fùxīn (Fuhsin),阜新 (Fushin),42.02,121.67,Manchukuo,proposed,medium,,,,20000,80000,189000,80000,1940,contemporary (1940),estimate,mk_yearbook;cn_census1953,Open-cast coal worked largely by conscripted Chinese labour.
-wonsan,Genzan (Wonsan),,39.15,127.44,Chōsen,on map (browse layer),medium,,,,,79000,,79000,1940,contemporary (1940),estimate,kr_census,
+wonsan,Genzan (Wŏnsan),,39.15,127.44,Chōsen,on map (browse layer),medium,,,,,79000,,79000,1940,contemporary (1940),estimate,kr_census,
 bassein,Bassein (Pathein),ပုသိမ်,16.78,94.73,Burma,proposed,medium,capital-province,Irrawaddy Division,,40000,,78000,78000,1953,inferred from 1953,estimate,bur_census,
 oita,Ōita,大分 (Ōita),33.24,131.61,Japan,proposed,medium,capital-province,Ōita Prefecture,,,77000,96000,77000,1940,contemporary (1940),estimate,jp_census,
-hamhung,Kankō (Hamhung),,39.92,127.54,Chōsen,on map (browse layer),medium,capital-province,South Hamgyŏng,,,76000,,76000,1940,contemporary (1940),estimate,kr_census,
+hamhung,Kankō (Hamhŭng),,39.92,127.54,Chōsen,on map (browse layer),medium,capital-province,South Hamgyŏng,,,76000,,76000,1940,contemporary (1940),estimate,kr_census,
 nagano,Nagano,長野 (Nagano),36.65,138.18,Japan,proposed,medium,capital-province,Nagano Prefecture,,,76000,97000,76000,1940,contemporary (1940),estimate,jp_census,
 cuttack,Cuttack,କଟକ,20.46,85.88,British India,proposed,medium,capital-province,Orissa,,65000,76000,102000,76000,1941,contemporary (1941),estimate,in_census,Provincial capital.
 bhopal,Bhopal,भोपाल,23.26,77.41,Princely states,proposed,medium,capital-province,Bhopal,,55000,76000,102000,76000,1941,contemporary (1941),estimate,in_census,Princely state capital.
 johore,Johore Bahru,,1.49,103.74,Malaya,on map (browse layer),medium,capital-province,Johor,,21000,,75000,75000,1947,contemporary (1947),estimate,my_census1931;my_census1947,
 chiayi,Kagi (Chiayi),,23.48,120.45,Formosa,on map (browse layer),small,,,,,74000,123000,74000,1940,contemporary (1940),census (rounded),tw_51yr,
-kaesong,Kaijō (Kaesong),,37.97,126.55,Chōsen,on map (browse layer),small,,,,,72000,,72000,1940,contemporary (1940),estimate,kr_census,
+kaesong,Kaijō (Kaesŏng),,37.97,126.55,Chōsen,on map (browse layer),small,,,,,72000,,72000,1940,contemporary (1940),estimate,kr_census,
 ussuriysk,Voroshilov (Ussuriysk/Nikolsk),Ворошилов,43.8,131.95,USSR,proposed,small,,,,,72000,104000,72000,1939,contemporary (1939),census (rounded),ussr_census,The rail junction behind Vladivostok and the Soviet Far Eastern army’s main base.
 komsomolsk,Komsomolsk-on-Amur,Комсомольск-на-Амуре,50.55,137.01,USSR,proposed,small,,,,,71000,177000,71000,1939,contemporary (1939),census (rounded),ussr_census,"Built from 1932 as the Soviet Far East’s arms and aircraft city, out of range of Japanese attack."
 chengde,Chéngdé (Chengteh),,40.98,117.94,Manchukuo,on map (quiz site),small,capital-province,Jehol,,50000,70000,93000,70000,1940,contemporary (1940),estimate,mk_yearbook;cn_census1953,
@@ -227,7 +227,7 @@ jiamusi,Jiāmùsī (Kiamusze),,46.81,130.32,Manchukuo,on map (browse layer),smal
 vizag,Vizagapatam (Visakhapatnam),,17.69,83.22,British India,on map (browse layer),small,,,,58000,70000,108000,70000,1941,contemporary (1941),estimate,in_census,
 siping,Sìpíng (Ssupingkai),四平街 (Shiheigai),43.17,124.35,Manchukuo,proposed,small,,,,30000,70000,126000,70000,1940,contemporary (1940),estimate,mk_yearbook;cn_census1953,Rail junction on the Hsinking–Mukden line.
 akita,Akita,秋田 (Akita),39.72,140.1,Japan,proposed,small,capital-province,Akita Prefecture,,,69000,92000,69000,1940,contemporary (1940),estimate,jp_census,
-nampo,Chinnampo (Nampo),,38.74,125.41,Chōsen,on map (browse layer),small,,,,,68000,,68000,1940,contemporary (1940),estimate,kr_census,
+nampo,Chinnanpo (Chinnamp’o),,38.74,125.41,Chōsen,on map (browse layer),small,,,,,68000,,68000,1940,contemporary (1940),estimate,kr_census,
 tsu,Tsu,津 (Tsu),34.72,136.51,Japan,proposed,small,capital-province,Mie Prefecture,,,68000,76000,68000,1940,contemporary (1940),estimate,jp_census,
 miyazaki,Miyazaki,宮崎 (Miyazaki),31.91,131.42,Japan,proposed,small,capital-province,Miyazaki Prefecture,,,68000,85000,68000,1940,contemporary (1940),estimate,jp_census,
 yamagata,Yamagata,山形 (Yamagata),38.24,140.36,Japan,proposed,small,capital-province,Yamagata Prefecture,,,68000,92000,68000,1940,contemporary (1940),estimate,jp_census,
@@ -238,12 +238,12 @@ naha,Naha (Okinawa),,26.21,127.68,Japan,on map (quiz site),small,capital-provinc
 kwangju,Kōshū (Kwangju),,35.16,126.85,Chōsen,on map (browse layer),small,capital-province,South Chŏlla,,,65000,139000,65000,1940,contemporary (1940),census (rounded),kr_census;kr_kosis,
 quetta,Quetta,,30.18,66.99,British India,on map (browse layer),small,capital-province,Baluchistan,,60000,65000,84000,65000,1941,contemporary (1941),estimate,in_census,
 buitenzorg,Buitenzorg (Bogor),,-6.6,106.8,Netherlands East Indies,on map (browse layer),small,,,,65000,,,65000,1930,inferred from 1930,census (rounded),id_volkstelling,
-mokpo,Moppo (Mokpo),,34.79,126.39,Chōsen,on map (browse layer),small,,,,,64000,,64000,1940,contemporary (1940),estimate,kr_census,
-sinuiju,Shingishū (Sinuiju),,40.1,124.39,Chōsen,on map (browse layer),small,capital-province,North P’yŏngan,,40000,61000,,61000,1940,contemporary (1940),estimate,kr_census,
+mokpo,Moppo (Mokp’o),,34.79,126.39,Chōsen,on map (browse layer),small,,,,,64000,,64000,1940,contemporary (1940),estimate,kr_census,
+sinuiju,Shingishū (Sinŭiju),,40.1,124.39,Chōsen,on map (browse layer),small,capital-province,North P’yŏngan,,40000,61000,,61000,1940,contemporary (1940),estimate,kr_census,
 weihai,Wēihǎi (Weihaiwei),,37.51,122.12,Occupied China,on map (quiz site),small,,,,,60000,70000,60000,1936,contemporary (1936),estimate,cn_statistical;cn_census1953,
 kashgar,Kāshí (Kashgar),,39.47,75.99,Sinkiang,on map (browse layer),small,,,,,60000,90000,60000,1936,contemporary (1936),estimate,cn_statistical;cn_census1953,
 otsu,Ōtsu,大津 (Ōtsu),35.02,135.85,Japan,proposed,small,capital-province,Shiga Prefecture,,,60000,76000,60000,1940,contemporary (1940),estimate,jp_census,
-haeju,Haeju (Kaishū),해주 / 海州 (Kaishū),38.04,125.71,Chōsen,proposed,small,capital-province,Hwanghae,,,60000,,60000,1940,contemporary (1940),estimate,kr_census,Provincial capital missing from the layer.
+haeju,Kaishū (Haeju),해주 / 海州 (Kaishū),38.04,125.71,Chōsen,proposed,small,capital-province,Hwanghae,,,60000,,60000,1940,contemporary (1940),estimate,kr_census,Provincial capital missing from the layer.
 xiangyang,Xiāngyáng (Siangyang),襄陽 (Jōyō),32.01,112.12,Free China,proposed,small,,,,,60000,80000,60000,1936,contemporary (1936),estimate,cn_statistical;cn_census1953,
 ganzhou,Gànzhōu (Kanchow),贛州 (Kanshū),25.83,114.93,Free China,proposed,small,,,,,60000,80000,60000,1936,contemporary (1936),estimate,cn_statistical;cn_census1953,"Chiang Ching-kuo’s administration, 1939–45."
 zhanjiang,Fort Bayard (Zhanjiang),廣州灣 / 湛江 (Kōshūwan),21.27,110.36,Kwangchowan,proposed,small,capital-territory,Kwangchowan,,,60000,170000,60000,1936,contemporary (1936),estimate,cn_statistical;cn_census1953,"The capital of the French leased territory the map already draws, and the smuggling channel into free China until the Japanese took it in February 1943."
@@ -267,9 +267,9 @@ xining,Xīníng (Sining),,36.62,101.78,Free China,on map (browse layer),small,ca
 yinchuan,Yínchuān (Ningsia),,38.49,106.23,Free China,on map (browse layer),small,capital-province,Ningsia,,,50000,84000,50000,1936,contemporary (1936),estimate,cn_statistical;cn_census1953,
 zunyi,Zūnyì (Tsunyi),,27.73,106.93,Free China,on map (browse layer),small,,,,,50000,70000,50000,1936,contemporary (1936),estimate,cn_statistical;cn_census1953,
 anyang,Ānyáng (Changteh),安陽 (Anyō),36.1,114.39,Occupied China,proposed,small,,,,,50000,90000,50000,1936,contemporary (1936),estimate,cn_statistical;cn_census1953,
-chonju,Chŏnju (Zenshū),전주 / 全州 (Zenshū),35.82,127.15,Chōsen,proposed,small,capital-province,North Chŏlla,,,47000,101000,47000,1940,contemporary (1940),estimate,kr_census;kr_kosis,Provincial capital missing from the layer.
+chonju,Zenshū (Chŏnju),전주 / 全州 (Zenshū),35.82,127.15,Chōsen,proposed,small,capital-province,North Chŏlla,,,47000,101000,47000,1940,contemporary (1940),estimate,kr_census;kr_kosis,Provincial capital missing from the layer.
 pegu,Pegu (Bago),ပဲခူး,17.34,96.48,Burma,proposed,small,capital-province,Pegu Division,,25000,,47000,47000,1953,inferred from 1953,estimate,bur_census,
-taejon,Taiden (Taejon),,36.35,127.38,Chōsen,on map (browse layer),small,capital-province,South Ch’ungch’ŏng,,,45000,127000,45000,1940,contemporary (1940),census (rounded),kr_census;kr_kosis,
+taejon,Taiden (Taejŏn),,36.35,127.38,Chōsen,on map (browse layer),small,capital-province,South Ch’ungch’ŏng,,,45000,127000,45000,1940,contemporary (1940),census (rounded),kr_census;kr_kosis,
 pontianak,Pontianak,,-0.02,109.34,Netherlands East Indies,on map (browse layer),small,capital-province,West Borneo,,45000,,,45000,1930,inferred from 1930,census (rounded),id_volkstelling,
 urawa,Urawa,浦和 (Urawa),35.86,139.65,Japan,proposed,small,capital-province,Saitama Prefecture,,,45000,71000,45000,1940,contemporary (1940),estimate,jp_census,
 tottori,Tottori,鳥取 (Tottori),35.5,134.24,Japan,proposed,small,capital-province,Tottori Prefecture,,,44000,55000,44000,1940,contemporary (1940),estimate,jp_census,
@@ -279,8 +279,8 @@ baoji,Bǎojī (Paoki),,34.36,107.14,Free China,on map (browse layer),small,,,,,4
 tianshui,Tiānshuǐ (Tienshui),,34.58,105.72,Free China,on map (browse layer),small,,,,,40000,60000,40000,1936,contemporary (1936),estimate,cn_statistical;cn_census1953,
 yanji,Yenki (Yanji),,42.91,129.51,Manchukuo,on map (browse layer),small,capital-province,Chientao,,15000,40000,,40000,1940,contemporary (1940),estimate,mk_yearbook,
 cochin,Cochin (Kochi),,9.93,76.27,Princely states,on map (browse layer),small,capital-province,Cochin,,30000,40000,46000,40000,1941,contemporary (1941),estimate,in_census,
-kunsan,Kunsan (Gunzan),군산 / 群山 (Gunzan),35.98,126.72,Chōsen,proposed,small,,,,,40000,,40000,1940,contemporary (1940),estimate,kr_census,"The rice port: the outlet through which the Chŏlla harvest left for Japan, and a heavily Japanese town."
-songjin,Sŏngjin (Jōshin),성진 / 城津 (Jōshin),40.67,129.2,Chōsen,proposed,small,,,,15000,40000,,40000,1940,contemporary (1940),estimate,kr_census,Magnesite and steel; one of the northern industrial ports.
+kunsan,Gunzan (Kunsan),군산 / 群山 (Gunzan),35.98,126.72,Chōsen,proposed,small,,,,,40000,,40000,1940,contemporary (1940),estimate,kr_census,"The rice port: the outlet through which the Chŏlla harvest left for Japan, and a heavily Japanese town."
+songjin,Jōshin (Sŏngjin),성진 / 城津 (Jōshin),40.67,129.2,Chōsen,proposed,small,,,,15000,40000,,40000,1940,contemporary (1940),estimate,kr_census,Magnesite and steel; one of the northern industrial ports.
 tonghua,Tōnghuà,通化 (Tsūka),41.73,125.94,Manchukuo,proposed,small,,,,15000,40000,,40000,1940,contemporary (1940),estimate,mk_yearbook,"Manchukuo’s final capital in August 1945, and the redoubt planned for the Kwantung Army’s last stand."
 handan,Hándān,邯鄲 (Kantan),36.63,114.54,Occupied China,proposed,small,,,,,40000,90000,40000,1936,contemporary (1936),estimate,cn_statistical;cn_census1953,
 linfen,Línfén,臨汾 (Rinpun),36.09,111.52,Occupied China,proposed,small,,,,,40000,60000,40000,1936,contemporary (1936),estimate,cn_statistical;cn_census1953,
@@ -307,8 +307,8 @@ shanhaiguan,Shānhǎiguān (Shanhaikuan),,40.01,119.75,Occupied China,on map (br
 dali,Dàlǐ (Tali),,25.61,100.27,Free China,on map (browse layer),small,,,,,30000,40000,30000,1936,contemporary (1936),estimate,cn_statistical;cn_census1953,
 chaoyang,Cháoyáng (Chaoyang),,41.57,120.45,Manchukuo,on map (browse layer),small,,,,20000,30000,,30000,1940,contemporary (1940),estimate,mk_yearbook,
 yining,Yīníng (Ining),,43.91,81.32,Sinkiang,on map (browse layer),small,,,,,30000,50000,30000,1936,contemporary (1936),estimate,cn_statistical;cn_census1953,
-chongju,Ch’ŏngju (Seishū),청주 / 清州 (Seishū),36.64,127.49,Chōsen,proposed,small,capital-province,North Ch’ungch’ŏng,,,30000,,30000,1940,contemporary (1940),estimate,kr_census,Provincial capital missing from the layer.
-chinju,Chinju (Shinshū),진주 / 晉州 (Shinshū),35.19,128.08,Chōsen,proposed,small,,,,,30000,,30000,1940,contemporary (1940),estimate,kr_census,Capital of South Kyŏngsang until 1925.
+chongju,Seishū (Ch’ŏngju),청주 / 清州 (Seishū),36.64,127.49,Chōsen,proposed,small,capital-province,North Ch’ungch’ŏng,,,30000,,30000,1940,contemporary (1940),estimate,kr_census,Provincial capital missing from the layer.
+chinju,Shinshū (Chinju),진주 / 晉州 (Shinshū),35.19,128.08,Chōsen,proposed,small,,,,,30000,,30000,1940,contemporary (1940),estimate,kr_census,Capital of South Kyŏngsang until 1925.
 hailar,Hailar,海拉爾 (Hairaru),49.2,119.7,Manchukuo,proposed,small,capital-province,Hsingan North,,15000,30000,,30000,1940,contemporary (1940),estimate,mk_yearbook,The Hulunbuir garrison and fortified zone facing Mongolia; the base for the Nomonhan fighting.
 laohekou,Lǎohékǒu (Laohokow),老河口 (Rōkakō),32.39,111.67,Free China,proposed,small,,,,,30000,40000,30000,1936,contemporary (1936),estimate,cn_statistical;cn_census1953,"Fourteenth Air Force base and the object of the last Japanese offensive in China, 1945."
 enshi,Ēnshī (Enshih),恩施 (Onshi),30.3,109.49,Free China,proposed,small,capital-province,Hubei (wartime),,,30000,40000,30000,1936,contemporary (1936),estimate,cn_statistical;cn_census1953,Hubei’s wartime provincial capital after the loss of Wuchang.
@@ -319,7 +319,7 @@ taiping,Taiping,تاईڤيڠ,4.85,100.74,Malaya,proposed,small,,,,20000,,30000,
 cilacap,Tjilatjap (Cilacap),Tjilatjap,-7.73,109.01,Netherlands East Indies,proposed,small,,,,30000,,,30000,1930,inferred from 1930,estimate,id_volkstelling,Java’s only south-coast port and the evacuation channel in March 1942; the ships leaving it were hunted down.
 tacloban,Tacloban,Tacloban,11.24,125.0,Philippines,proposed,small,capital-province,Leyte,,,30000,45000,30000,1939,contemporary (1939),estimate,ph_census,MacArthur came ashore here on 20 October 1944; the seat of the restored Commonwealth government until Manila was retaken.
 townsville,Townsville,Townsville,-19.26,146.82,Australia,proposed,small,,,,25000,30000,41000,30000,1940,contemporary (1940),estimate,statesmans,"The forward base for the New Guinea campaign, and bombed in July 1942."
-chunchon,Ch’unch’ŏn (Shunsen),춘천 / 春川 (Shunsen),37.88,127.73,Chōsen,proposed,small,capital-province,Kangwŏn,,,28000,,28000,1940,contemporary (1940),estimate,kr_census,Provincial capital missing from the layer.
+chunchon,Shunsen (Ch’unch’ŏn),춘천 / 春川 (Shunsen),37.88,127.73,Chōsen,proposed,small,capital-province,Kangwŏn,,,28000,,28000,1940,contemporary (1940),estimate,kr_census,Provincial capital missing from the layer.
 cagayandeoro,Cagayan de Misamis,Cagayan de Misamis,8.48,124.65,Philippines,proposed,small,capital-province,Misamis Oriental,,,28000,45000,28000,1939,contemporary (1939),estimate,ph_census,Where MacArthur was flown out of the Philippines in March 1942.
 manado,Menado (Manado),,1.49,124.84,Netherlands East Indies,on map (browse layer),small,capital-province,Manado,,27000,,,27000,1930,inferred from 1930,census (rounded),id_volkstelling,
 najin,Rashin (Najin),,42.24,130.29,Chōsen,on map (browse layer),small,,,,3000,26000,,26000,1940,contemporary (1940),estimate,kr_census,
@@ -329,7 +329,7 @@ lhasa,Lhasa,,29.65,91.14,Tibet,on map (browse layer),small,capital-territory,Tib
 makung,"Makō (Makung), Pescadores",,23.57,119.57,Formosa,on map (browse layer),small,capital-province,Hōko Prefecture,,,25000,,25000,1940,contemporary (1940),estimate,tw_51yr,
 maoka,Maoka (Kholmsk),真岡 (Maoka),47.06,142.05,Karafuto,proposed,small,,,,,25000,,25000,1941,contemporary (1941),estimate,jp_teikoku;ndl_digital,West-coast port; the Soviet landing of 20 August 1945 and the telephone operators’ suicides.
 shikuka,Shikuka (Poronaysk),敷香 (Shikuka),49.22,143.1,Karafuto,proposed,small,,,,,25000,,25000,1941,contemporary (1941),estimate,jp_teikoku;ndl_digital,"The northernmost Japanese town on Sakhalin, on the frontier with the Soviet half."
-suwon,Suwŏn (Suigen),수원 / 水原 (Suigen),37.26,127.01,Chōsen,proposed,small,,,,,25000,,25000,1940,contemporary (1940),estimate,kr_census,The colonial agricultural experiment station.
+suwon,Suigen (Suwŏn),수원 / 水原 (Suigen),37.26,127.01,Chōsen,proposed,small,,,,,25000,,25000,1940,contemporary (1940),estimate,kr_census,The colonial agricultural experiment station.
 manzhouli,Manchouli (Manzhouli),滿洲里 (Manshūri),49.6,117.45,Manchukuo,proposed,small,,,,15000,25000,,25000,1940,contemporary (1940),estimate,mk_yearbook,The rail frontier with the Soviet Union on the Chinese Eastern Railway.
 danang,Tourane (Da Nang),沱㶞 (Tourane),16.07,108.22,French Indochina,proposed,small,,,,25000,,,25000,1936,contemporary (1936),estimate,fr_annuaire,
 meiktila,Meiktila,မိတ္ထီလာ,20.88,95.86,Burma,proposed,small,,,,15000,,25000,25000,1953,inferred from 1953,estimate,bur_census,The battle of February–March 1945 that broke the Japanese army in Burma; the road and airfield hub behind Mandalay.
@@ -360,7 +360,7 @@ ambon,Ambon (Amboina),,-3.7,128.18,Netherlands East Indies,on map (browse layer)
 jambi,Jambi,Djambi,-1.61,103.61,Netherlands East Indies,proposed,small,capital-province,Jambi,,18000,,,18000,1930,inferred from 1930,estimate,id_volkstelling,
 bandaaceh,Kutaraja (Banda Aceh),Koetaradja,5.55,95.32,Netherlands East Indies,proposed,small,capital-province,Aceh,,17000,,,17000,1930,inferred from 1930,estimate,id_volkstelling,Residency capital at the northern tip of Sumatra.
 kangding,Kāngdìng (Kangting),,30.05,101.96,Free China,on map (browse layer),small,capital-province,Sikang,,,15000,20000,15000,1936,contemporary (1936),estimate,cn_statistical;cn_census1953,
-kongju,Kongju (Kōshū),공주 / 公州 (Kōshū),36.45,127.12,Chōsen,proposed,small,,,,,15000,,15000,1940,contemporary (1940),estimate,kr_census,"Capital of South Ch’ungch’ŏng until 1932, when the seat moved to Taejŏn."
+kongju,Kōshū (Kongju),공주 / 公州 (Kōshū),36.45,127.12,Chōsen,proposed,small,,,,,15000,,15000,1940,contemporary (1940),estimate,kr_census,"Capital of South Ch’ungch’ŏng until 1932, when the seat moved to Taejŏn."
 taitung,Taitung (Taitō),臺東 (Taitō),22.76,121.14,Formosa,proposed,small,capital-province,Taitō Prefecture,,,15000,,15000,1940,contemporary (1940),estimate,tw_51yr,The last of the eight Taiwanese prefectural seats missing from the layer.
 suifenhe,Suifenho (Pogranichnaya),綏芬河 (Suifenga),44.4,131.15,Manchukuo,proposed,small,,,,8000,15000,,15000,1940,contemporary (1940),estimate,mk_yearbook,"The eastern rail crossing to Vladivostok, and a fortified belt."
 nikolaevsk,Nikolaevsk-on-Amur,Николаевск-на-Амуре,53.14,140.73,USSR,proposed,small,,,,,15000,,15000,1939,contemporary (1939),estimate,ussr_census,Already on the map as a battle marker for the 1920 massacre; worth a settlement marker too.

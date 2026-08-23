@@ -22,6 +22,8 @@ river gravels, and pine and hardwood came off the slopes, but the province had n
 road worth the name until the American period and stayed one of the poorest and
 least visited in Luzon.
 
+{{phlprov}}
+
 ## Agusan
 
 The valley of the Agusan river, running north through eastern Mindanao to the sea
@@ -32,6 +34,8 @@ into a serious industry as sawmills went up along the river, and on abaca and
 coconut planted on the drier ground. Its people were Manobo, Higaonon and
 Mamanwa in the interior with Cebuano and Boholano settlers along the coast and
 the road, a pattern the government's resettlement schemes deliberately encouraged.
+
+{{phlprov}}
 
 ## Albay
 
@@ -44,6 +48,8 @@ Philippines' second export after sugar. Legazpi was the port that shipped it,
 Tabaco and Ligao the market towns, and the sub-province of Catanduanes, a
 typhoon-battered island to the east, was administered from here.
 
+{{phlprov}}
+
 ## Antique
 
 The narrow western coast of Panay, a strip of shore between the Central Panay
@@ -53,6 +59,8 @@ rice and maize on the coastal flats and fished from the beach, and the interior
 was Iraya and Sulod country in the uplands. It was the poorest province on the
 island and lost people steadily to Iloilo, Negros and Manila; San Jose de
 Buenavista was the capital and never grew large.
+
+{{phlprov}}
 
 ## Bataan
 
@@ -65,6 +73,8 @@ months on half rations; the surrender on 9 April was the largest in American
 history, and the march of some sixty to eighty thousand prisoners north to Camp
 O'Donnell killed thousands of them on the road.
 
+{{phlprov}}
+
 ## Batanes
 
 Ten small islands in the strait between Luzon and Taiwan, in the direct path of
@@ -75,6 +85,8 @@ on the cliff tops and fishing for flying fish in the season, with Basco on Batan
 as the only town. It is the northernmost Philippine territory and the closest to
 Japan, and Japanese troops came ashore there on 8 December 1941 — the first
 landing of the Philippines campaign, made before the attacks on Luzon.
+
+{{phlprov}}
 
 ## Batangas
 
@@ -88,6 +100,8 @@ one of the first to rise in 1896, and General Bell's campaign against it in
 1901–02, with the population concentrated into zones, was the harshest of the
 Philippine–American war.
 
+{{phlprov}}
+
 ## Bukidnon
 
 A grassland plateau six hundred to a thousand metres up in the interior of
@@ -98,6 +112,8 @@ plateau was put to. Then in 1926 the Del Monte corporation planted pineapple at
 Camp Phillips on land leased from the government — within a decade it was among
 the largest pineapple plantations in the world, with a cannery down at Bugo on
 the coast and a railway between them.
+
+{{phlprov}}
 
 ## Bulacan
 
@@ -110,6 +126,8 @@ proportion to its size: Marcelo H. del Pilar and the poet Balagtas came from
 here, and the congress of the First Philippine Republic met in the church at
 Malolos in 1898 and wrote a constitution there.
 
+{{phlprov}}
+
 ## Cagayan
 
 The lower valley of the Cagayan, the largest river in the Philippines, running
@@ -121,6 +139,8 @@ Spain. Rice and maize filled the rest of the floodplain, hardwood came off the
 Sierra Madre, and the whole province took the full force of the typhoons that
 come in from the Pacific every year.
 
+{{phlprov}}
+
 ## CamarinesNorte
 
 The northern shoulder of the Bicol peninsula, hilly and forested with a broken
@@ -131,6 +151,8 @@ in the gold boom of the 1930s when American and Filipino companies sank shafts
 along the coast. Coconut and abaca covered most of the rest of the province, and
 the iron deposits at Larap were opened in the same years.
 
+{{phlprov}}
+
 ## CamarinesSur
 
 The waist of the Bicol peninsula, with Mount Isarog and Mount Iriga standing over
@@ -140,6 +162,8 @@ on the slopes, and fishing in the bay and the lakes. Naga, which the Spanish
 called Nueva Cáceres, was one of the few cities they chartered outright and the
 seat of the bishopric for the whole region, and the Peñafrancia procession down
 the Bicol river every September is the largest Marian devotion in the country.
+
+{{phlprov}}
 
 ## Capiz
 
@@ -152,6 +176,8 @@ lanterns and sliding screens all over the archipelago is called capiz after this
 province, and Manuel Roxas, the Commonwealth's last vice-president and the
 republic's first president, was born in the capital.
 
+{{phlprov}}
+
 ## Cavite
 
 The province on the south shore of Manila Bay, with the sandy hook of Cavite
@@ -162,6 +188,8 @@ was bombed to pieces in December 1941. Inland the province was friar estate
 country — sugar, coffee and rice held by the religious orders and worked by
 tenants — which is why the revolution of 1896 caught here first and hardest, and
 why Aguinaldo, a Kawit man, ended up leading it.
+
+{{phlprov}}
 
 ## Cotabato
 
@@ -175,6 +203,8 @@ the province's population and its politics for good. Rice, maize and abaca were
 what it grew, with forest over most of the rest of it, and the roads were few
 enough that the river was still the way in.
 
+{{phlprov}}
+
 ## Davao
 
 The gulf of Davao and the shoulders of Mount Apo, at 2,954 m the highest mountain
@@ -186,6 +216,8 @@ with its own schools, hospital and newspapers, and enough autonomy that Manila
 newspapers called the place Davaokuo. The province supplied a large part of the
 world's rope fibre, and Japanese forces landed there on 20 December 1941 and were
 welcomed by part of that community.
+
+{{phlprov}}
 
 ## IlocosNorte
 
@@ -199,6 +231,8 @@ the remittances that came back paid for much of what was built here. Paoay's
 buttressed church and the Spanish town plan of Laoag are what survives from the
 earlier centuries.
 
+{{phlprov}}
+
 ## IlocosSur
 
 The same coast further south, with the Abra river breaking through the mountains
@@ -211,6 +245,8 @@ the state liquor monopoly more than once — the Basi Revolt of 1807 is
 commemorated in a series of paintings still in Vigan — and it exported people at
 the same rate as its northern neighbour.
 
+{{phlprov}}
+
 ## Iloilo
 
 The south-eastern quarter of Panay and the richest of the Visayan provinces:
@@ -222,6 +258,8 @@ Cebu overtook it. Its own older industry was weaving — piña from pineapple fi
 and jusi silk, made in Molo and Jaro and worn all over the islands — which
 machine-made imports had largely destroyed by the 1880s.
 
+{{phlprov}}
+
 ## Isabela
 
 The middle Cagayan valley, the second of the tobacco provinces, with the Sierra
@@ -232,6 +270,8 @@ ranges were logged hard once the sawmills and the roads arrived. Its population
 was assembled rather than native: Ibanag and Gaddang villages, Ilongot and Agta
 in the mountains, and a steady inflow of Ilocano settlers from over the pass, who
 by this period were the majority.
+
+{{phlprov}}
 
 ## Laguna
 
@@ -245,6 +285,8 @@ station; Calamba, next door, was a Dominican estate and José Rizal's birthplace
 and the dispute over that estate was one of the things that made him a
 revolutionary's inspiration.
 
+{{phlprov}}
+
 ## LaUnion
 
 A short strip of the Ilocos coast made into a province in 1850 out of pieces of
@@ -254,6 +296,8 @@ south of San Fernando make salt in pans and the potters of San Juan and Bacnotan
 have turned out the big burnay storage jars for centuries. San Fernando is the
 port and the capital, and the Naguilian road that climbs from here to Baguio was
 one of the two ways up to the mountain capital.
+
+{{phlprov}}
 
 ## Lanao
 
@@ -266,6 +310,8 @@ the okir carving on the great torogan houses, malong weaving — were among the
 most elaborate in the islands. Dansalan, later Marawi, on the northern shore, was
 the administrative town, and the Agus river falling out of the lake to Iligan was
 the hydro-electric site the government had its eye on.
+
+{{phlprov}}
 
 ## Manila
 
@@ -281,6 +327,8 @@ fought over street by street and burnt, and something like a hundred thousand
 civilians died in a month — the worst destruction of any Allied capital except
 Warsaw.
 
+{{phlprov}}
+
 ## Marinduque
 
 A nearly circular island between the tail of Luzon and Mindoro, mountainous in
@@ -292,6 +340,8 @@ Japan — one of several such contracts that later looked different than they ha
 The Moriones pageant at Easter, with its carved Roman helmets and masks, was and
 is the island's best-known thing.
 
+{{phlprov}}
+
 ## MisamisOccidental
 
 A narrow province on the western shore of the Panguil Bay inlet, a strip of coast
@@ -302,6 +352,8 @@ towns. Its people were Cebuano and Subanen, and the province was cut off from it
 eastern namesake in 1929 because the two halves had nothing to do with each other
 except a name.
 
+{{phlprov}}
+
 ## MisamisOriental
 
 The north coast of Mindanao along Macajalar and Gingoog bays, a shelf of coconut
@@ -311,6 +363,8 @@ the outlet for its cattle, coffee and above all for the pineapple: Del Monte's
 cannery at Bugo took the fruit down from Camp Phillips and shipped the tins from
 here. Fishing, copra and abaca made up the rest, and the province was one of the
 first parts of Mindanao settled from the Visayas.
+
+{{phlprov}}
 
 ## MountainProvince
 
@@ -326,6 +380,8 @@ Bued gorge, and the place the Insular government moved to every hot season. The
 rice terraces of Ifugao, cut into the mountainsides over centuries, are the other
 thing the province is known for.
 
+{{phlprov}}
+
 ## NegrosOccidental
 
 The sugar province. The western plain of Negros was cleared from the 1850s by
@@ -336,6 +392,8 @@ the fields by their own railways. The American market took that sugar duty-free
 under quota, which made the province rich, its hacienda families conspicuous and
 its labour relations bitter. Bacolod was the capital, Kanlaon the volcano behind
 the plain, and the province spoke Hiligaynon like Iloilo across the strait.
+
+{{phlprov}}
 
 ## NegrosOriental
 
@@ -348,6 +406,8 @@ university town since 1901, when American Presbyterians founded Silliman — the
 first American institution of higher learning in Asia — and the town's economy
 was largely built round it.
 
+{{phlprov}}
+
 ## NuevaEcija
 
 The heart of the central Luzon rice bowl: a wide, flat, irrigated plain that grew
@@ -358,6 +418,8 @@ took town halls here, and the Hukbalahap, formed in 1942, had its strongest base
 in these villages. Cabanatuan was the market town and later the site of the
 largest American prisoner-of-war camp in the islands.
 
+{{phlprov}}
+
 ## NuevaVizcaya
 
 A basin in the upper Cagayan valley, ringed by the Caraballo and Sierra Madre
@@ -367,6 +429,8 @@ rice and maize on the flats, citrus and vegetables on the slopes, and lumber cam
 off the mountains once the sawmills arrived. Its people were Isinai, Gaddang,
 Ifugao and Ilongot, with Ilocano settlers taking up land through the American
 period; Bayombong was the capital and the province stayed small and hard to reach.
+
+{{phlprov}}
 
 ## Pampanga
 
@@ -379,6 +443,8 @@ Field at Angeles was the United States Army's principal air base in the Far East
 and its destruction on the ground on 8 December 1941, hours after the warning
 from Pearl Harbor, cost the defence of the Philippines most of its aircraft.
 
+{{phlprov}}
+
 ## Pangasinan
 
 The plain behind the Lingayen Gulf, whose name means the place where salt is
@@ -389,6 +455,8 @@ in 1892, which made the province the capital's granary. The gulf is a natural
 landing beach and both armies used it: the Japanese Fourteenth Army came ashore
 there on 22 December 1941 and the American Sixth Army did the same on 9 January
 1945.
+
+{{phlprov}}
 
 ## Rizal
 
@@ -401,6 +469,8 @@ of the country's feet. Antipolo, up in the hills, holds the shrine of the Virgin
 of Peace and Good Voyage, brought from Mexico on the galleons, and the May
 pilgrimage to it was one of the great annual movements of people in Luzon.
 
+{{phlprov}}
+
 ## Romblon
 
 Three main islands and a scatter of smaller ones in the middle of the archipelago
@@ -411,6 +481,8 @@ quarried and cut here since the Spanish period and used for church floors,
 altars and monuments all over the country. Its position in the middle of the sea
 lanes made it a place ships passed rather than called at.
 
+{{phlprov}}
+
 ## Sorsogon
 
 The southern tip of the Bicol peninsula, wrapped round a deep sheltered bay with
@@ -419,6 +491,8 @@ the link between Luzon and the Visayas for anything travelling by road. It grew
 abaca and coconut like the rest of Bicol, with rice on the small plains and a
 substantial fishery in the bay and the San Bernardino strait. The strait is deep
 and swift, and both navies used it in 1944.
+
+{{phlprov}}
 
 ## Sulu
 
@@ -431,6 +505,8 @@ world and were worked by divers from Jolo and Siasi, with copra, seaweed and a
 trade to British North Borneo that no customs service ever controlled. Jolo, the
 walled town on the main island, was the capital and the market.
 
+{{phlprov}}
+
 ## Surigao
 
 The north-eastern corner of Mindanao, a heavily indented coast of bays and small
@@ -441,6 +517,8 @@ that were known but scarcely touched in this period; coconut, abaca and timber
 were what actually paid. The Surigao Strait at its southern end, between Mindanao
 and Leyte, was where in October 1944 an American battle line crossed the Japanese
 T in the last engagement between battleships ever fought.
+
+{{phlprov}}
 
 ## Tarlac
 
@@ -453,6 +531,8 @@ O'Donnell, on its northern edge, was the prison camp the Bataan march ended at i
 April 1942, where thousands of Filipino and American prisoners died of disease
 and neglect in the following months.
 
+{{phlprov}}
+
 ## Tayabas
 
 The long province down the eastern side of southern Luzon, from Mount Banahaw to
@@ -463,6 +543,8 @@ the largest exporter of coconut oil in the world, and the trees ran unbroken for
 miles along the coast roads. Mount Banahaw, a dormant volcano on its border with
 Laguna, was and is the centre of a set of folk-religious sects who hold the
 mountain to be sacred ground.
+
+{{phlprov}}
 
 ## Zambales
 
@@ -475,6 +557,8 @@ southern end Subic Bay, a deep and sheltered anchorage, held a United States nav
 station and the town of Olongapo that served it, and the Aeta of the mountains
 behind were among the oldest inhabitants of the islands.
 
+{{phlprov}}
+
 ## Zamboanga
 
 The long peninsula reaching south-west from Mindanao towards Borneo, with the
@@ -485,3 +569,5 @@ American Moro Province, and its people speak Chavacano, a Spanish creole that
 exists nowhere else in the country. Copra was the province's export, Basilan grew
 rubber on a Goodyear plantation opened in 1928, and the fishing fleets working out
 of Zamboanga were among the largest in the islands.
+
+{{phlprov}}

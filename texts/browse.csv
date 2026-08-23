@@ -36,15 +36,15 @@ ningbo,Níngbō (Ningpo),寧波 (Neiha),寧波,29.87,121.55,https://en.wikipedia
 wenzhou,Wēnzhōu (Wenchow),温州 (Onshū),溫州,28,120.7,https://en.wikipedia.org/wiki/Wenzhou
 yantai,Yāntái (Chefoo),芝罘 (Shifu),芝罘（煙臺）,37.46,121.45,https://en.wikipedia.org/wiki/Yantai
 taegu,Taikyū (Taegu),大邱 (Taikyū),大邱,35.87,128.6,https://en.wikipedia.org/wiki/Daegu
-kwangju,Kōshū (Kwangju),光州 (Kōshū),光州,35.16,126.85,https://en.wikipedia.org/wiki/Gwangju%E2%80%93Daegu_Expressway
-taejon,Taiden (Taejon),大田 (Taiden),大田,36.35,127.38,https://en.wikipedia.org/wiki/Daejeon
-wonsan,Genzan (Wonsan),元山 (Genzan),元山,39.15,127.44,https://en.wikipedia.org/wiki/Wonsan
-chongjin,Seishin (Chongjin),清津 (Seishin),清津,41.8,129.78,https://en.wikipedia.org/wiki/Pohang-guyok
-hamhung,Kankō (Hamhung),咸興 (Kankō),咸興,39.92,127.54,https://en.wikipedia.org/wiki/Hamhung
-sinuiju,Shingishū (Sinuiju),新義州 (Shingishū),新義州,40.1,124.39,https://en.wikipedia.org/wiki/Sinuiju
-kaesong,Kaijō (Kaesong),開城 (Kaijō),開城,37.97,126.55,https://en.wikipedia.org/wiki/Kaesong
-nampo,Chinnampo (Nampo),鎮南浦 (Chinnanpo),鎮南浦,38.74,125.41,https://en.wikipedia.org/wiki/Nampo
-mokpo,Moppo (Mokpo),木浦 (Mokupo),木浦,34.79,126.39,https://en.wikipedia.org/wiki/Mokpo
+kwangju,Kōshū (Kwangju),光州 (Kōshū),光州,35.16,126.85,https://en.wikipedia.org/wiki/Gwangju
+taejon,Taiden (Taejŏn),大田 (Taiden),大田,36.35,127.38,https://en.wikipedia.org/wiki/Daejeon
+wonsan,Genzan (Wŏnsan),元山 (Genzan),元山,39.15,127.44,https://en.wikipedia.org/wiki/Wonsan
+chongjin,Seishin (Ch’ŏngjin),清津 (Seishin),清津,41.8,129.78,https://en.wikipedia.org/wiki/Chongjin
+hamhung,Kankō (Hamhŭng),咸興 (Kankō),咸興,39.92,127.54,https://en.wikipedia.org/wiki/Hamhung
+sinuiju,Shingishū (Sinŭiju),新義州 (Shingishū),新義州,40.1,124.39,https://en.wikipedia.org/wiki/Sinuiju
+kaesong,Kaijō (Kaesŏng),開城 (Kaijō),開城,37.97,126.55,https://en.wikipedia.org/wiki/Kaesong
+nampo,Chinnanpo (Chinnamp’o),鎮南浦 (Chinnanpo),鎮南浦,38.74,125.41,https://en.wikipedia.org/wiki/Nampo
+mokpo,Moppo (Mokp’o),木浦 (Mokupo),木浦,34.79,126.39,https://en.wikipedia.org/wiki/Mokpo
 najin,Rashin (Najin),羅津 (Rashin),羅津,42.24,130.29,https://en.wikipedia.org/wiki/Rajin-guyok
 tainan,Tainan,臺南 (Tainan),臺南,22.99,120.2,https://en.wikipedia.org/wiki/Tainan
 taichung,Taichū (Taichung),臺中 (Taichū),臺中,24.15,120.67,https://en.wikipedia.org/wiki/Taich%C5%AB_Prefecture
@@ -248,13 +248,13 @@ canberra,Canberra,,,-35.28,149.13,https://en.wikipedia.org/wiki/Canberra
 capas,Capas (Camp O’Donnell),,,15.33,120.59,https://en.wikipedia.org/wiki/Capas
 changhua,Changhua (Shōka),,,24.08,120.54,https://en.wikipedia.org/wiki/Changhua
 chifeng,Chifeng (Ulanhad),,,42.26,118.89,https://en.wikipedia.org/wiki/Chifeng
-chinju,Chinju (Shinshū),,,35.19,128.08,https://en.wikipedia.org/wiki/Jinju
+chinju,Shinshū (Chinju),,,35.19,128.08,https://en.wikipedia.org/wiki/Jinju
 chita,Chita,,,52.03,113.5,https://en.wikipedia.org/wiki/Chita_Oblast
 choibalsan,Choibalsan,,,48.07,114.54,https://en.wikipedia.org/wiki/Choibalsan_Thermal_Power_Plant
 quanzhou,Chüanchow (Quanzhou),,,24.87,118.68,https://en.wikipedia.org/wiki/Quanzhou
-chonju,Chŏnju (Zenshū),,,35.82,127.15,https://en.wikipedia.org/wiki/Jeonju
-chunchon,Ch’unch’ŏn (Shunsen),,,37.88,127.73,https://en.wikipedia.org/wiki/Camp_Page
-chongju,Ch’ŏngju (Seishū),,,36.64,127.49,https://en.wikipedia.org/wiki/Cheongju
+chonju,Zenshū (Chŏnju),,,35.82,127.15,https://en.wikipedia.org/wiki/Jeonju
+chunchon,Shunsen (Ch’unch’ŏn),,,37.88,127.73,https://en.wikipedia.org/wiki/Chuncheon
+chongju,Seishū (Ch’ŏngju),,,36.64,127.49,https://en.wikipedia.org/wiki/Cheongju
 yapcolonia,Colonia (Yap),,,9.51,138.13,"https://en.wikipedia.org/wiki/Colonia,_Federated_States_of_Micronesia"
 cuttack,Cuttack,,,20.46,85.88,https://en.wikipedia.org/wiki/Cuttack
 dalat,Dalat,,,11.94,108.44,https://en.wikipedia.org/wiki/Dalat_Palace_Hotel
@@ -272,7 +272,7 @@ gangtok,Gangtok,,,27.33,88.61,https://en.wikipedia.org/wiki/Gangtok
 garapan,Garapan (Saipan),,,15.21,145.72,"https://en.wikipedia.org/wiki/Garapan,_Saipan"
 gyantse,Gyantse,,,28.95,89.6,https://en.wikipedia.org/wiki/Gyantse
 ganzhou,Gànzhōu (Kanchow),,,25.83,114.93,https://en.wikipedia.org/wiki/Ganzhou
-haeju,Haeju (Kaishū),,,38.04,125.71,https://en.wikipedia.org/wiki/Haeju
+haeju,Kaishū (Haeju),,,38.04,125.71,https://en.wikipedia.org/wiki/Haeju
 haikou,Haikou (Kiungchow),,,20.04,110.34,https://en.wikipedia.org/wiki/Haikou
 hailar,Hailar,,,49.2,119.7,https://en.wikipedia.org/wiki/Hailar_District
 hami,Hami (Kumul),,,42.83,93.51,https://en.wikipedia.org/wiki/Hami
@@ -280,7 +280,7 @@ heihe,Heihe (Sakhalyan/Aigun),,,50.25,127.53,https://en.wikipedia.org/wiki/Heihe
 hitachi,Hitachi,,,36.6,140.65,"https://en.wikipedia.org/wiki/Hitachi,_Ibaraki"
 hollandia,Hollandia (Jayapura),,,-2.53,140.72,https://en.wikipedia.org/wiki/Battle_of_Hollandia
 handan,Hándān,,,36.63,114.54,https://en.wikipedia.org/wiki/Handan
-hungnam,Hŭngnam (Konan),,,39.83,127.62,https://en.wikipedia.org/wiki/Hungnam
+hungnam,Kōnan (Hŭngnam),,,39.83,127.62,https://en.wikipedia.org/wiki/Hungnam
 ise,Ise (Uji-Yamada),,,34.49,136.71,https://en.wikipedia.org/wiki/Ise_Province
 jaluit,Jaluit,,,5.92,169.64,
 jambi,Jambi,,,-1.61,103.61,
@@ -293,12 +293,12 @@ kendari,Kendari,,,-3.97,122.51,https://en.wikipedia.org/wiki/Kendari
 kengtung,Kengtung,,,21.3,99.6,https://en.wikipedia.org/wiki/Kengtung
 khotan,Khotan (Hotan),,,37.11,79.93,https://en.wikipedia.org/wiki/Hotan
 kolonia,Kolonia (Ponape),,,6.96,158.21,https://en.wikipedia.org/wiki/Kolonia
-kongju,Kongju (Kōshū),,,36.45,127.12,https://en.wikipedia.org/wiki/Gongju
+kongju,Kōshū (Kongju),,,36.45,127.12,https://en.wikipedia.org/wiki/Gongju
 kotabharu_c,Kota Bharu,,,6.13,102.24,https://en.wikipedia.org/wiki/Kota_Bharu
 kualalipis,Kuala Lipis,,,4.18,102.05,https://en.wikipedia.org/wiki/Kuala_Lipis
 kualaterengganu,Kuala Terengganu,,,5.33,103.14,https://en.wikipedia.org/wiki/Kuala_Terengganu
 kuantan,Kuantan,,,3.81,103.33,https://en.wikipedia.org/wiki/Kuantan
-kunsan,Kunsan (Gunzan),,,35.98,126.72,https://en.wikipedia.org/wiki/Gunsan
+kunsan,Gunzan (Kunsan),,,35.98,126.72,https://en.wikipedia.org/wiki/Gunsan
 kushiro,Kushiro,,,42.98,144.38,https://en.wikipedia.org/wiki/Kushiro
 bandaaceh,Kutaraja (Banda Aceh),,,5.55,95.32,https://en.wikipedia.org/wiki/Banda_Aceh
 kyzyl,Kyzyl,,,51.72,94.44,https://en.wikipedia.org/wiki/Kyzyl
@@ -354,9 +354,9 @@ shikuka,Shikuka (Poronaysk),,,49.22,143.1,https://en.wikipedia.org/wiki/Poronays
 shillong,Shillong,,,25.58,91.89,https://en.wikipedia.org/wiki/Shillong
 songkhla,Songkhla,,,7.2,100.6,https://en.wikipedia.org/wiki/Songkhla
 suifenhe,Suifenho (Pogranichnaya),,,44.4,131.15,https://en.wikipedia.org/wiki/Suifenhe
-suwon,Suwŏn (Suigen),,,37.26,127.01,https://en.wikipedia.org/wiki/Suwon
+suwon,Suigen (Suwŏn),,,37.26,127.01,https://en.wikipedia.org/wiki/Suwon
 siping,Sìpíng (Ssupingkai),,,43.17,124.35,"https://en.wikipedia.org/wiki/Siping,_Jilin"
-songjin,Sŏngjin (Jōshin),,,40.67,129.2,https://en.wikipedia.org/wiki/Kimchaek
+songjin,Jōshin (Sŏngjin),,,40.67,129.2,https://en.wikipedia.org/wiki/Kimchaek
 tacloban,Tacloban,,,11.24,125.0,https://en.wikipedia.org/wiki/Tacloban
 taiping,Taiping,,,4.85,100.74,https://en.wikipedia.org/wiki/Taiping_Island
 taitung,Taitung (Taitō),,,22.76,121.14,https://en.wikipedia.org/wiki/Taitung_Performing_Art_Center
@@ -383,7 +383,7 @@ ussuriysk,Voroshilov (Ussuriysk/Nikolsk),,,43.8,131.95,https://en.wikipedia.org/
 wewak,Wewak,,,-3.55,143.63,https://en.wikipedia.org/wiki/Wewak
 xiangyang,Xiāngyáng (Siangyang),,,32.01,112.12,https://en.wikipedia.org/wiki/Xiangyang
 yamagata,Yamagata,,,38.24,140.36,
-yamaguchi,Yamaguchi,,,34.19,131.47,https://en.wikipedia.org/wiki/Yamaguchi_Prefectural_Museum
+yamaguchi,Yamaguchi,,,34.19,131.47,https://en.wikipedia.org/wiki/Yamaguchi_(city)
 nauru,Yaren (Nauru),,,-0.55,166.92,https://en.wikipedia.org/wiki/Yaren
 yenangyaung,Yenangyaung,,,20.46,94.87,https://en.wikipedia.org/wiki/Yenangyaung
 yilan,Yilan (Giran),,,24.76,121.75,https://en.wikipedia.org/wiki/Yilan_Distillery_Chia_Chi_Lan_Liquor_Museum

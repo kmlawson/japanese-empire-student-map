@@ -4461,6 +4461,21 @@
       d.addEventListener('click', function (e) { if (e.target === d) d.close(); });
     });
 
+    /* The title goes back to the map as it opens: the address bar carries the
+       bbox and the layer code through every other navigation, so without this
+       a reader who has followed a link into one corner has to edit the URL by
+       hand. The href in the markup is `./`, which is right on a web server and
+       wrong on a file:// path, so it is replaced here with the page's own path
+       and nothing after it. */
+    var brand = $('#brand');
+    if (brand) {
+      brand.setAttribute('href', window.location.pathname);
+      brand.addEventListener('click', function (e) {
+        e.preventDefault();
+        window.location.href = window.location.pathname;
+      });
+    }
+
     $('#info-close').addEventListener('click', function () { select(null); });
     var infoFlip = $('#info-flip');
     if (infoFlip) infoFlip.addEventListener('click', function () {

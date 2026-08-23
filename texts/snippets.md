@@ -20,3 +20,8 @@ with a police detachment since 1954; Japan claims them still.
 
 Claimed today by Japan, by the People’s Republic of China and by Taiwan;
 uninhabited, and administered by Japan.
+
+## phlprov
+
+Provinces are a 1930 approximation, not the revised 1942 occupation period
+provinces.

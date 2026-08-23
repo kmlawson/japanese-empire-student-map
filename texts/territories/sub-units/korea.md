@@ -150,3 +150,20 @@ side. Kankō (Hamhŭng) beside it was the administrative town, and the workforce
 was Korean and largely unskilled, housed in company barracks. Behind the plants
 the province is forest and terraced dry field, with the Kaema plateau — the
 highest and emptiest ground in Korea — filling its interior.
+
+## Saishu
+
+A volcanic island a hundred kilometres off the south coast, administered as a
+county of South Chŏlla and unlike anywhere on the mainland: Halla-san, a shield
+volcano of 1,950 m, stands in the middle of it with some three hundred and
+sixty cinder cones around its flanks, and the ground is porous basalt that will
+not hold surface water, so the island grew barley, millet and tangerines rather
+than rice. The Mongols pastured horses here from the thirteenth century and
+Cheju horses remained a byword afterwards; the Chosŏn state used the island as
+a place of exile; and the haenyŏ, the women who dive without air for abalone
+and seaweed, were the island's cash economy and are still what it is known
+for. In the war it mattered for its position — bombers of the Kanoya and Kisarazu
+groups flew from Cheju to raid Nanjing in August 1937, in what were then the
+longest over-water bombing missions ever flown — and from 1945 the Japanese army
+turned the whole island into a fortress against the invasion that never came,
+tunnelling the coastal cones and building airfields at Moseulp'o.
