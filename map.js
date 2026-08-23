@@ -233,7 +233,13 @@
     var cut = name ? name.indexOf(' — ') : -1;
     if (cut < 0) return { name: name || '', gloss: '' };
     var gloss = name.slice(cut + 3).trim();
-    if (gloss) gloss = gloss.charAt(0).toUpperCase() + gloss.slice(1) + '.';
+    // Capitalised and given a full stop, unless it brought its own. The
+    // province descriptions are whole paragraphs and end in one already, so
+    // adding another put ".." at the end of thirty of them.
+    if (gloss) {
+      gloss = gloss.charAt(0).toUpperCase() + gloss.slice(1);
+      if (!/[.!?…]$/.test(gloss)) gloss += '.';
+    }
     return { name: name.slice(0, cut), gloss: gloss };
   }
 
@@ -995,6 +1001,15 @@
         terrLabelByEl[t.id] = entry;
         scalables.push({ el: text, x: x, y: y });
       }
+    });
+
+    // Marked once per epoch, because which territory holds an atom is an
+    // epoch's answer and `data-id` has only just been written. It is what
+    // keeps Labuan dark when North Borneo lights: the atom's `.hot` is a
+    // filter on the whole group and no child can opt out of a filter above
+    // it, so styles.css gives this one a filter that undoes it exactly.
+    $$('#land [data-cluster]', svg).forEach(function (el) {
+      el.classList.toggle('foreign-sub', foreignSub(el));
     });
 
     var rank = { territory: 0, feature: 1, site: 2, browse: 3 };
@@ -2375,6 +2390,15 @@
      around them were protectorates that were never British soil. */
   var hotCluster = null;
 
+  /* The territory a cluster answers to, where the cluster is a polity in its
+     own right and not a country drawn in two pieces. The Straits Settlements
+     are the first kind: Labuan is drawn inside the North Borneo atom because
+     that is where the island is, and it was never North Borneo's — it was a
+     Crown colony administered from Singapore. Laos and Cambodia are the
+     second, a country split across two atoms by the 1941 cession, and they
+     have no home here because neither half is more Laos than the other. */
+  var CLUSTER_HOME = { 'Straits Settlements': 'malaya' };
+
   /* A cluster is written into the SVG and the SVG serves both dates, so a
      sub-unit that left its cluster between them needs saying here. The
      Dindings are the case: a Straits Settlement from 1826 and retroceded to
@@ -2408,6 +2432,28 @@
       if (clusterName(n) === name) out.push(n);
     });
     return out.length ? out : null;
+  }
+
+  /* A sub-unit drawn inside an atom its own polity does not hold. Only the
+     Straits Settlements have any: Labuan, in the North Borneo atom. Christmas
+     Island is not one — its atom is Malaya's, so the Settlements do hold it. */
+  function foreignSub(el) {
+    if (!el || !el.getAttribute || !el.getAttribute('data-cluster')) return false;
+    var home = CLUSTER_HOME[clusterName(el) || ''];
+    if (!home) return false;
+    var atom = el.closest && el.closest('.atom');
+    return !!atom && atom.getAttribute('data-id') !== home;
+  }
+
+  /* Which territory a card or a tooltip should name under a sub-unit. Normally
+     the atom's own; for a foreign sub-unit, the polity it belonged to. The
+     card for Labuan was headed Labuan and then said "North Borneo — chartered
+     company from 1881", followed by North Borneo's paragraph, which is the
+     country the island sits off rather than the colony it was governed as. */
+  function hostOf(rec, provEl) {
+    if (!foreignSub(provEl)) return rec;
+    var home = byId[CLUSTER_HOME[clusterName(provEl)]];
+    return home ? shown(home) : rec;
   }
 
   /* What lights up when a territory is hovered: itself, and anything it says
@@ -2768,6 +2814,16 @@
       var merged = {};
       Object.keys(rec).forEach(function (k) { merged[k] = rec[k]; });
       Object.keys(over).forEach(function (k) { merged[k] = over[k]; });
+      // An override exists to say what a province was called on this date —
+      // Fengtien in 1942, Liaoning in 1930 — and it carries the name alone.
+      // Taking it whole therefore threw away the description as well as the
+      // name, and Liaoning, Heilungkiang and Suiyuan lost their paragraphs on
+      // the epoch where they had one. The name comes from the override; the
+      // description stays unless the override writes a new one.
+      var baseGloss = splitGloss(rec.en || '').gloss;
+      if (over.en && baseGloss && (over.en || '').indexOf(' — ') < 0) {
+        merged.en = over.en + ' — ' + baseGloss.replace(/\.$/, '');
+      }
       rec = merged;
     }
     return { key: key, rec: rec, el: target };
@@ -2801,6 +2857,8 @@
   function showTooltip(base, cx, cy, prov) {
     var rec = shown(base);
     var head = prov && prov.rec ? shown(prov.rec) : rec;
+    // Whose the sub-unit was, which is not always whose atom it is drawn in.
+    var host = hostOf(rec, prov && prov.el);
     tooltip.innerHTML = '';
     tooltip.appendChild(document.createTextNode(nameOf(head)));
     if (head !== rec) {
@@ -2834,18 +2892,18 @@
       // third romanisation to that. It is opt-in, and no other record sets it —
       // taking `orig` for every record instead cost Japan its 内地 and the
       // Philippines their 比島, which are not duplicates of anything.
-      var owner = rec.under || otherNames(rec) || [];
-      pv.textContent = [nameOf(rec)].concat(owner).join('  ');
+      var owner = host.under || otherNames(host) || [];
+      pv.textContent = [nameOf(host)].concat(owner).join('  ');
       tooltip.appendChild(pv);
       // What the country line does not say plainly. In the Pacific the name
       // carries the sovereignty inside it — "South Seas Mandate", "Papua & the
       // Territory of New Guinea" — and a reader looking at one atoll in the
       // Carolines has to parse it out of a phrase. `rule` says it in three
       // words: Japanese mandate, British colony, Australian territory.
-      if (rec.rule) {
+      if (host.rule) {
         var rl = document.createElement('span');
         rl.className = 'sub rule';
-        rl.textContent = rec.rule;
+        rl.textContent = host.rule;
         tooltip.appendChild(rl);
       }
     } else {
@@ -2857,7 +2915,7 @@
         tooltip.appendChild(sub);
       }
     }
-    var when = rec.date || rec.when;
+    var when = host.date || host.when;
     if (when) {
       var w = document.createElement('span');
       w.className = 'sub when';
@@ -3012,7 +3070,9 @@
       // .superseded is a coarse shape a finer one has taken over: hidden in the
       // drawing, and it must be hidden here too, or selecting Okinawa traces
       // both coastlines at once
-      var paths = el.tagName === 'path' ? [el] : $$('path:not(.superseded)', el);
+      // and a sub-unit that belongs to somebody else is not part of this
+      // shape either: outlining North Borneo drew a ring round Labuan.
+      var paths = el.tagName === 'path' ? [el] : $$('path:not(.superseded):not(.foreign-sub)', el);
       // .islet is a ring drawn round an island too small to see, not a shape.
       // Filled black in the mask it wiped out the coastline underneath it, and
       // stroked in the outline it drew a circle in open water.
@@ -3150,6 +3210,10 @@
     // settlement under the pointer is what was asked about, and the country it
     // belongs to is the line under it.
     var sub = lastProv && lastProv.rec ? shown(lastProv.rec) : null;
+    // Whose it was. For all but a handful of sub-units this is the territory
+    // of the atom they are drawn in; for a Straits Settlement drawn off
+    // somebody else's coast it is the colony it was governed as.
+    var host = hostOf(rec, lastProv && lastProv.el);
     var head = sub || rec;
     // A sub-unit's `en` is written `Name — what it was`: Christmas Island —
     // annexed 1888, attached to the Straits Settlements in 1900. The card was
@@ -3175,13 +3239,13 @@
     // it under Taihang and Taiyueh, in four scripts, said nothing the reader
     // had not read two lines earlier.
     var owner = (sub && rec.cat !== 'ccp')
-      ? [nameOf(rec)].concat(otherNames(rec) || []).join('  ') : '';
+      ? [nameOf(host)].concat(otherNames(host) || []).join('  ') : '';
     // and, where the name alone does not say it, what kind of rule that was
-    if (owner && rec.rule) owner += '  ·  ' + rec.rule;
+    if (owner && host.rule) owner += '  ·  ' + host.rule;
     $('.prov', infoBox).textContent = owner;
     $('.prov', infoBox).hidden = !owner;
-    $('.when', infoBox).textContent = rec.date || rec.when || '';
-    $('.when', infoBox).hidden = !(rec.date || rec.when);
+    $('.when', infoBox).textContent = host.date || host.when || '';
+    $('.when', infoBox).hidden = !(host.date || host.when);
     // This place first, then the group it belongs to. Only eleven of the 489
     // sub-units carry a note of their own, and the group's note used to be
     // moved up into the first slot whenever one did not — so a reader who
@@ -3191,7 +3255,7 @@
     // sub-units that is the only sentence written about them, and it was
     // being spent on the headline.
     var ownNote = sub ? (head.note || split.gloss || '') : (rec.note || '');
-    var groupNote = sub ? (rec.note || '') : '';
+    var groupNote = sub ? (host.note || '') : '';
     var own = $('.note-own', infoBox);
     var grp = $('.note-group', infoBox);
     own.textContent = ownNote;
@@ -3215,7 +3279,7 @@
       }
     }
     var ownLink = appendSource(own, sub ? head : rec);
-    if (groupNote) appendSource(grp, sub ? rec : null);
+    if (groupNote) appendSource(grp, sub ? host : null);
     own.hidden = !ownNote && !ownLink;
     grp.hidden = !groupNote;
     // Whose note the second block is. Without this the reader has two
@@ -3224,7 +3288,7 @@
     // Not when it would repeat the headline: Tibet is drawn as one province of
     // itself, and captioning its own note TIBET on a card headed Tibet is
     // noise rather than an answer.
-    var groupName = nameOf(rec);
+    var groupName = nameOf(host);
     grp.setAttribute('data-group',
       (groupNote && groupName !== primary) ? groupName : '');
     collapseInfo();

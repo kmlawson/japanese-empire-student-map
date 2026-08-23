@@ -304,13 +304,13 @@ JMAP.TERRITORIES = {
       id: 'xinjiang', en: 'Xīnjiāng (Sinkiang)', ja: '新疆 (Shinkyō)', orig: 'شىنجاڭ (Shinjang)',
       zh: '新疆', when: 'Under largely autonomous provincial rule', cat: 'chinese', lvl: 3,
       atoms: ['xinjiang'], within: 'china', wiki: 'https://en.wikipedia.org/wiki/Xinjiang',
-      note: 'A province of the Republic in name, and Nanjing recognised Jin Shuren as its chairman. In practice his government ran its own army, finances and foreign trade, and Nanjing\'s writ reached almost nothing of it.'
+      note: 'Oasis towns round the rim of the Taklamakan, watered off the Tian Shan and the Kunlun, growing cotton, wheat and melons, with pastoral country in the north; Uyghur, Kazakh and Hui more than Han, and Turkic and Muslim more than Chinese. A quarter of the Republic\'s area and about one per cent of its people. A province in name, and Nanjing recognised Jin Shuren as its chairman after Yang Zengxin was assassinated in 1928 — but the government ran its own army, currency, finances and foreign trade, its roads and its telegraph ran to Soviet Central Asia rather than to China, and Nanjing\'s writ reached almost nothing of it.'
     },
     {
       id: 'tibet', en: 'Tibet', ja: 'チベット (Chibetto)', orig: 'བོད་ (Bod)', zh: '西藏',
       when: 'De facto independent from 1913', cat: 'frontier', lvl: 3, atoms: ['tibet'],
       wiki: 'https://en.wikipedia.org/wiki/Tibet_(1912%E2%80%931951)',
-      note: 'Claimed by the Republic of China, but self-governing in practice from 1913, when the 13th Dalai Lama expelled the last Chinese officials, until 1951. Shown here in the independent colour on that basis; no foreign power recognised it.'
+      note: 'The highest inhabited country on earth: grassland and rock above 4,000 metres, barley in the valleys, yaks on everything else, and the monasteries as landlords and government together. Claimed by the Republic of China and self- governing in practice since 1913, when the 13th Dalai Lama expelled the last Chinese officials — with its own army, currency, postage and foreign relations, and no Chinese garrison anywhere in it. Shown here in the independent colour on that basis, though no foreign power recognised it. The Simla convention of 1914, which drew the McMahon line, was signed by Britain and Tibet and never ratified by China, which is why that frontier is argued over still.'
     },
     {
       id: 'britishindia', en: 'British India (including Burma)',
@@ -947,7 +947,7 @@ JMAP.TERRITORIES = {
       when: 'Capital at Chungking from 1938', cat: 'freechina', lvl: 1,
       atoms: ['china', 'suiyuan_w', 'chahar', 'suiyuan'],
       wiki: 'https://en.wikipedia.org/wiki/Republic_of_China_(1912%E2%80%931949)',
-      note: 'The unoccupied interior, governed by Chiang Kai-shek from Chongqing and supplied over the Burma Road until 1942 and then by air over "the Hump". The Communist base areas are drawn separately, in cross-hatching.'
+      note: 'The unoccupied interior — some two thirds of the country\'s area and rather less than half its people — with the government at Chongqing, up the Yangtze gorges behind the mountains of Sichuan, where it moved in 1938 after Nanjing and then Wuhan fell. A capital chosen for being hard to reach: fog for half the year, no railway to it, and bombed from 1938 to 1943 all the same. Cut off from the sea, it was supplied over the Burma Road from Rangoon until Burma fell in the spring of 1942, and after that only by air over the Hump from Assam. The universities came too, and the arsenals; the currency collapsed by degrees. The Communist base areas, in the same nominal united front and by 1941 barely on speaking terms with Chongqing, are drawn separately in cross- hatching.'
     },
     {
       id: 'ccp', en: 'Communist base areas and guerrilla zones', ja: '中国共産党抗日根拠地',
@@ -1015,13 +1015,13 @@ JMAP.TERRITORIES = {
       id: 'xinjiang', en: 'Xīnjiāng (Sinkiang)', ja: '新疆 (Shinkyō)', orig: 'شىنجاڭ (Shinjang)',
       zh: '新疆', when: 'Realigned with Chungking in 1942', cat: 'freechina', lvl: 3,
       atoms: ['xinjiang'], within: 'freechina', wiki: 'https://en.wikipedia.org/wiki/Xinjiang',
-      note: 'A province of the Republic in name, run since 1933 by Sheng Shicai on Soviet money and with Soviet troops in the province. He broke with Moscow in 1942 and turned to Chongqing, but he was still governing in December, and central rule only followed his removal in 1944. The overland road through Xinjiang had carried Soviet aid to China from 1937 to 1941.'
+      note: 'Oasis towns round the rim of the Taklamakan, watered off the Tian Shan and the Kunlun, growing cotton, wheat and melons, with pastoral country in the north; Uyghur, Kazakh and Hui more than Han, and its trade running to Soviet Central Asia rather than to China. A province in name only. A Muslim rising in 1931 grew into the East Turkestan Republic proclaimed at Kashgar in 1933 and put down with Soviet help; Sheng Shicai then governed on Soviet money, with Soviet advisers, aircraft and a garrison at Hami, running the province as a Soviet dependency in all but name. He broke with Moscow in 1942 and turned to Chongqing — he was still governing in December — and within two years had lost the confidence of both.'
     },
     {
       id: 'tibet', en: 'Tibet', ja: 'チベット (Chibetto)', orig: 'བོད་ (Bod)', zh: '西藏',
       when: 'De facto independent', cat: 'frontier', lvl: 3, atoms: ['tibet'],
       wiki: 'https://en.wikipedia.org/wiki/Tibet_(1912%E2%80%931951)',
-      note: 'Self-governing in practice and neutral in the war, it refused passage to an Allied supply route to China.'
+      note: 'The highest inhabited country on earth: grassland and rock above 4,000 metres, barley in the valleys and yaks on everything else, governed from Lhasa by the monasteries and the noble houses together, with the 14th Dalai Lama a child of seven. Self-governing in practice since 1913 and claimed by China throughout. Neutral in the war, and it refused passage to an Allied supply route from India to China — which mattered once Burma fell in 1942 and left only the airlift over the Hump; Britain and the United States pressed hard and Lhasa did not give way.'
     },
     {
       id: 'macau', en: 'Macao', ja: 'マカオ (Makao)', orig: '澳門 (Ou-mun)', zh: '澳門',
@@ -4453,12 +4453,12 @@ JMAP.PROVINCES = {
     ja: '西康 (Seikō)', zh: '西康', ko: '시캉성', wiki: 'https://en.wikipedia.org/wiki/Xikang'
   },
   Xinjiang: {
-    en: 'Xīnjiāng (Sinkiang) — oasis towns round the rim of the Taklamakan, watered by rivers off the Tian Shan and the Kunlun, growing cotton, wheat and melons, with pastoral country in the north; Uyghur, Kazakh, Hui and Han, and Turkic and Muslim more than Chinese. Its trade ran to the Soviet Union rather than to China, and so did its politics. Yang Zengxin was assassinated in 1928 and Jin Shuren succeeded him; a Muslim rising in 1931 grew into the East Turkestan Republic proclaimed at Kashgar in 1933 and put down with Soviet help. Sheng Shicai then governed from 1933 with Soviet money, advisers and troops, running the province as a Soviet dependency in all but name, until he turned to Chongqing in 1942 and lost both.',
-    ja: '新疆 (Shinkyō)', zh: '新疆', wiki: 'https://en.wikipedia.org/wiki/Xinjiang'
+    en: 'Xīnjiāng (Sinkiang)', ja: '新疆 (Shinkyō)', zh: '新疆',
+    wiki: 'https://en.wikipedia.org/wiki/Xinjiang'
   },
   Xizang: {
-    en: 'Tibet — the highest inhabited country on earth, grassland and rock above 4,000 metres, barley in the valleys and yaks on everything else, with the monasteries as landlords and government together. Independent in practice from 1913, when the 13th Dalai Lama expelled the Chinese garrison, and never reconquered before 1950: Lhasa ran its own army, currency, postage and foreign relations, and China\'s claim was maintained on paper. The Simla convention of 1914, which drew the McMahon line, was signed by Britain and Tibet and never ratified by China, which is why that frontier is still disputed. The 13th Dalai Lama died in 1933 and the 14th was found in 1937.',
-    ja: '西蔵 (Seizō)', zh: '西藏', ko: '티베트', wiki: 'https://en.wikipedia.org/wiki/Tibet'
+    en: 'Tibet', ja: '西蔵 (Seizō)', zh: '西藏', ko: '티베트',
+    wiki: 'https://en.wikipedia.org/wiki/Tibet'
   },
   Yunnan: {
     en: 'Yúnnán — a high plateau of red earth broken by gorges, on the Burmese and Indochinese frontier, mild enough to be called the land of eternal spring and mountainous enough to have kept two dozen non-Han peoples distinct. Tin from Gejiu, one of the world\'s great deposits, copper, and a very great deal of opium; a French metre-gauge railway ran from Kunming to Haiphong and did more of the province\'s trade than the rest of China did. Long Yun ruled it from 1927 to 1945 with little reference to Nanjing. When the coast was lost the province became Free China\'s back door: the Burma Road opened from Kunming in 1938, the universities of Beijing, Tsinghua and Nankai moved there as the National Southwestern Associated University, and after Burma fell in 1942 the airlift over the Hump came in over the same mountains.',

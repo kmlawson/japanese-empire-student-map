@@ -1496,6 +1496,14 @@ dialog h3 {
    country; these are paths inside an atom and need saying separately. */
 .atom > path.hot { filter: brightness(1.12); }
 
+/* Labuan is a Straits Settlement drawn inside the North Borneo atom, because
+   that is where the island is, and it must not brighten when North Borneo
+   does. `.atom.hot` is a filter on the whole group and nothing a child says
+   exempts it from a filter above it — but a filter of the child's own composes
+   with it, so this undoes exactly what the group did: 1 / 1.12. It stands down
+   when the sub-unit is itself what is lit. */
+.atom.hot > path.foreign-sub:not(.hot) { filter: brightness(.8929); }
+
 /* Administrative on: draw the divisions. Without this the switch changed
    nothing visible — sub-units inherit their atom's fill and stroke, so every
    seam between two provinces was the same colour as the provinces. The line is

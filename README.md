@@ -195,6 +195,12 @@ and the reading behind the place list and the notes.
 
 Built with Anthropic's Claude, with Konrad Lawson at the prompt.
 
+## Putting it on a server
+
+It is eleven static files and about 6 MB. See **[DEPLOY.md](DEPLOY.md)** for
+the list, a sparse shallow checkout that pulls 8 MB instead of 420 and can be
+updated with one `git pull`, and the one `.htaccess` worth adding.
+
 ## Licence
 
 The work done here — the code, the texts and the georeferencing — is public

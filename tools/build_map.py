@@ -2013,6 +2013,18 @@ def point_in_poly(x, y, poly):
     return inside
 
 
+def ring_key(ring):
+    """Enough of a ring to recognise it again: its length and its first and
+    last vertex. Identity would do for rings that are literally the same list
+    object, and they are today — but a source that is re-read, or a ring that
+    is copied on the way past, would quietly stop matching and the guard would
+    go silent rather than fail."""
+    if not ring:
+        return (0, 0.0, 0.0, 0.0, 0.0)
+    return (len(ring), round(ring[0][0], 7), round(ring[0][1], 7),
+            round(ring[-1][0], 7), round(ring[-1][1], 7))
+
+
 def ring_centroid(points):
     a = cx = cy = 0.0
     n = len(points)
@@ -5913,8 +5925,19 @@ def main():
         rings = groups.get(key)
         if not rings:
             continue
+        # A ring an explicit sub-unit has already claimed is not this table's
+        # to name a second time. Labuan is the case: a Straits Settlement drawn
+        # inside the North Borneo atom because that is where the island is, and
+        # the box that sweeps Borneo's rings into "NorthBorneo" swept it in
+        # too. The island was then in two sub-units at once, so hovering North
+        # Borneo lit Labuan and drew a line round it — it was inside North
+        # Borneo's own path, and no amount of care in the page could take it
+        # out of a shape it was part of.
+        claimed = {ring_key(r) for _n, rs in provinces.get(key, []) for r in rs}
         named = collections.defaultdict(list)
         for ring in rings:
+            if ring_key(ring) in claimed:
+                continue
             cx, cy = ring_centroid(ring)
             label = ""
             for name, (x0, y0, x1, y1) in table:
