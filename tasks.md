@@ -4337,6 +4337,33 @@ sit west of the box that covers Xinjiang, so western Xinjiang has a box of its
 own now, above the Karakoram so that it does not reach into Kashmir. Back to
 **1,324 records, none unplaced**.
 
+### China's provinces, at some length
+All thirty rewritten from a clause into a paragraph, on the same three legs
+each: what the country looks like, what it lived on, and what happened there
+between 1920 and 1945. Median 637 characters, longest 816 — one chunky
+paragraph and no more, which is about what a reader will take standing at a
+map.
+
+The point of the third leg is that a province stops being a shape. Henan is
+where the dikes were cut at Huayuankou in 1938 and where two million died in
+the famine of 1942–43. Shaanxi is where the Long March ended and where Chiang
+Kai-shek was arrested in 1936, which is the event that turned a civil war into
+a national one. Liaoning is where a bomb on the South Manchuria Railway began
+fourteen years of war. Zhejiang is where the Japanese army spent three months
+in 1942 destroying the airfields the Doolittle raiders might have used, and the
+villages that had sheltered them.
+
+Where a province is best explained by something that is not a battle, that is
+what it gets: Sichuan's bamboo-cabled salt wells at Zigong, sunk deeper than
+anyone else drilled for centuries; Fujian's remittances from Southeast Asia as
+a real line in the provincial economy; Shanxi's own railway gauge, laid narrow
+so that no outside army could use its track; Guizhou's saying about never three
+days without rain or three acres of flat land.
+
+The headline still splits off cleanly at the em dash in all thirty, so the card
+shows *Shānxī (Shansi)* in bold with the paragraph beneath it, and Tibet — which
+has no postal form to give — still reads simply *Tibet*.
+
 ---
 
 ## Sources worth fetching
