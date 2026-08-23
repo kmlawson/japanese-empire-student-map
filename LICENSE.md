@@ -32,22 +32,58 @@ None of the underlying map data originates here, and **no copyright over any of
 it is claimed by this project**. Every source keeps whatever terms its own
 author put on it, and nothing above alters them in any way.
 
-`SOURCES.md` names every source with its licence and a link, and
-`occupation-maps/README.md` does the same for the scanned sheets. In summary:
+Some of the shapes drawn here are derived from other people's data. They are
+listed below, with what each one gave, who made it, and under what terms.
+**No copyright over any of them is claimed by this project**, and nothing in
+section 1 alters their terms in any way. `SOURCES.md` gives the fuller account,
+including what was done to each dataset and how accurate it turned out to be;
+`occupation-maps/README.md` lists the scanned sheets one by one.
 
-| | |
+### Derived from openly licensed datasets
+
+| What is drawn from it | Source | Licence |
+|---|---|---|
+| All coastlines and national outlines outside China; the frame; Christmas Island and the Cocos group | Natural Earth 1:10m cultural vectors — [github.com/nvkelso/natural-earth-vector](https://github.com/nvkelso/natural-earth-vector) | [Public domain](https://www.naturalearthdata.com/about/terms-of-use/) |
+| The Yangzi and the Yellow River | Natural Earth 1:10m rivers and lake centrelines | [Public domain](https://www.naturalearthdata.com/about/terms-of-use/) |
+| Every Chinese land region: the provinces of 1928–1945, and the dissolved outline of the Republic laid under China | ENP-China provincial boundaries, "Provinces 1922–1928 © 2021 by ENP-China Project", Elites, Networks and Power in Modern China, Aix-Marseille University — [enp-china.eu](https://www.enp-china.eu/) | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
+| The provinces ceded to Thailand in 1941; the northern Malay states; Burma by division; Kengtung by district; the Indian, Japanese and Philippine first-level units; the Indonesian residencies; Laos and Cambodia province by province | geoBoundaries ADM1 and ADM2 — [github.com/wmgeolab/geoBoundaries](https://github.com/wmgeolab/geoBoundaries) · Runfola, D. et al. (2020), *PLoS ONE* 15(4): e0231866 | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
+| The fine coastlines and island names of the Ryukyus, the Bonins, the Volcano and Izu Islands, Micronesia and Melanesia, the islands off the Japanese coast, the South China Sea, Singapore, Ulleung and the Liancourt Rocks, the Turtle and Mangsee Islands, Miangas, the Cocos (Keeling) Islands and the central Pacific | OpenStreetMap — © OpenStreetMap contributors — [openstreetmap.org/copyright](https://www.openstreetmap.org/copyright) | [ODbL 1.0](https://opendatacommons.org/licenses/odbl/1-0/). The geometry drawn from it is a **Produced Work** under that licence |
+| The alternative Republican provinces offered in Layers | [File:Republic of China edcp location map 1936.svg](https://commons.wikimedia.org/wiki/File:Republic_of_China_edcp_location_map_1936.svg), traced by Wikimedia Commons user Lilauid, on Uwe Dedering's *China edcp location map* (CC BY-SA 3.0 / GFDL) | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) — **share-alike, and the boundaries derived from it inherit it** |
+| Saharat Thai Doem — Kengtung and the trans-Salween Shan states | [File:Saharat_Thai_Doem_map.png](https://commons.wikimedia.org/wiki/File:Saharat_Thai_Doem_map.png) by Xufanc on Wikimedia Commons | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) — **share-alike** |
+| The 1938–47 course of the Yellow River | The channel map at [disasterhistory.org](https://disasterhistory.org/) (Chris Courtney, after Saito et al. 2000) | see that site |
+
+### Traced or georeferenced here, from sheets not made here
+
+These shapes are the project's own work — the tracing and the georeferencing are
+dedicated to the public domain under section 1 — but the sheets they were traced
+*from* are somebody else's, and are listed here so that nobody has to guess where
+a line came from. `occupation-maps/README.md` gives each scanned sheet's Commons
+page, author and licence.
+
+| What is drawn | Traced from |
 |---|---|
-| **Public domain** | Natural Earth's 1:10m vectors; the AMS *China 1900–1949* sheet the occupied zone is traced from |
-| **CC BY 4.0** | ENP-China's provincial boundaries, 1928–1945 (© 2021 ENP-China Project, Aix-Marseille University); geoBoundaries ADM1 and ADM2 |
-| **CC BY-SA 4.0** | the Republican provinces traced by Wikimedia Commons user Lilauid; Xufanc's *Saharat Thai Doem* map |
-| **ODbL** | OpenStreetMap — © OpenStreetMap contributors. The fine coastline geometry drawn from it is a Produced Work under that licence |
+| The occupied zone in China, December 1942 | The 1940 sheet of the US Army *China 1900–1949* series — public domain |
+| The pacified and un-pacified areas, the alternative reading in Layers | 付図第五「北支那方面軍占拠地域内治安概況（昭和十七年九月中）」, an appendix to 『北支の治安戦＜2＞』(戦史叢書 50, 1971), held by the National Institute for Defense Studies |
+| Manchukuo and its fourteen provinces | 滿洲國地圖 1935, South Manchuria Railway Company research section |
+| Mengchiang and Outer Mongolia | 支那全土並附近大地圖・欧洲現勢大地圖, a Japanese sheet of the period |
+| The Kwantung Leased Territory, mainland and nineteen islands | a 1935 sheet |
+| The Communist base areas and guerrilla zones, 1941–42 | sheet 199 of 武月星主編，《中國抗日戰爭史地圖集：1931–1945》 (Wu Yuexing, ed.) |
+| The princely states of India; British India in 1931 and the French and Portuguese enclaves in it; Nepal, Afghanistan, Sikkim and Bhutan | the 1931 Imperial Gazetteer of India sheets |
+| The Pacific mandates — Japan's, Australia's and the British mandate over Nauru | a period sheet of the mandate boundaries |
+| The thirteen provinces of colonial Korea, with their coastline | a map of the period |
+| Weihaiwei and Kwangchowan | the author's own *Modern East Asia GIS* project |
 
-Where a shape in this repository is derived from one of those, **the source's
-conditions travel with the shape**. A share-alike source stays share-alike; an
-attribution source still has to be attributed. The dedication in section 1
-cannot release anyone from those obligations and does not attempt to. If you
-are taking geometry rather than code, read `SOURCES.md` first and find out
-which source it came from.
+### What that means for reuse
+
+Where a shape in this repository is derived from one of the datasets above,
+**the source's conditions travel with the shape**. A share-alike source stays
+share-alike — that is OpenStreetMap's ODbL, Lilauid's Republican provinces and
+Xufanc's Saharat map. An attribution source still has to be attributed — that
+is ENP-China and geoBoundaries. The dedication in section 1 cannot release
+anyone from those obligations and does not attempt to; it applies to the work
+done here and not to the material it was done on. If you are taking geometry
+rather than code, read `SOURCES.md` first and find out which source it came
+from.
 
 ## 3. A request, not a condition
 

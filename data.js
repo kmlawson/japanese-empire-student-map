@@ -573,7 +573,7 @@ JMAP.TERRITORIES = {
     {
       id: 'other', en: 'Afghanistan', orig: 'Afghanistan, Nepal, Bhutan', zh: '阿富汗・尼泊爾・不丹',
       cat: 'other', lvl: 3, atoms: ['other'],
-      note: 'Outside the story of the Japanese Empire, drawn for context. Nepal, Bhutan and Sikkim were British protectorates rather than parts of British India, which is why they are not drawn inside it.'
+      note: 'Drawn for context rather than as part of the story. Nepal was an independent kingdom, recognised as such by treaty in 1923; Bhutan and Sikkim were British protectorates, outside the directly administered provinces of British India.'
     },
     {
       id: 'contested', en: 'Border is contested or not fixed', ja: '未確定国境', zh: '未定國界',
@@ -5995,7 +5995,5 @@ JMAP.PROVINCE_EPOCH = {
 JMAP.CLUSTER_EPOCH = {
   e1942: {
     'malaya/Dindings': null,
-    'siamgain/Laos': null,
-    'siamgain/Cambodia': null,
   },
 };

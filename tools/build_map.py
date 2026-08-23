@@ -830,7 +830,17 @@ WELD_RINGS = {"indochina"}
 # The provinces ceded to Thailand in 1941 are not affected: they are atoms of
 # their own, `siamgain` on the 1930 map and `saharat` on the 1942 one, and keep
 # their own sub-units.
-NO_ADMIN_SUBUNITS = {"burma", "siam", "indochina"}
+# `siamgain` is here for a different reason from the other three. It is the
+# ground France ceded to Thailand in May 1941, and it is drawn on both sheets:
+# as part of French Indochina in 1930, when the cession had not happened, and
+# as Thailand's in December 1942. Its blocks were named Cambodia and Laos,
+# which is true of the ground and wrong on both dates as a label — on the 1930
+# sheet Indochina's own divisions are switched off, so naming two of them here
+# put a boundary inside a country that is otherwise drawn whole, and on the
+# 1942 sheet the answer a reader wants is that this is the ceded territory,
+# which is what the atom itself says. With no blocks the atom answers for
+# itself on both dates and Indochina stays one polygon.
+NO_ADMIN_SUBUNITS = {"burma", "siam", "indochina", "siamgain"}
 
 # Sub-units that belong together and should light up together. Hovering
 # Singapore lit the whole Malay peninsula, which says the wrong thing: the

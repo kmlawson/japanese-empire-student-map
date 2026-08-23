@@ -1341,6 +1341,27 @@
      the price of being able to look at the small islands at all. */
   var MAX_ZOOM = 100;
 
+  /* And the same magnification on every screen. The limit above is a view
+     *width* in map units, which is the same number of degrees whatever the
+     screen is — so the deepest view puts 28 units across a 1,200-pixel desktop
+     and the same 28 units across a 390-pixel phone, and the phone stops three
+     times further out with every island three times smaller. On a map whose
+     point is islands a few hundred metres across, that is the wrong screen to
+     be stingy with. The floor is the scale instead: a minimum number of map
+     units per CSS pixel, taken from what a desktop already reached, so a phone
+     now goes on to the same magnification and simply sees less ground at it.
+
+     The reference width is a constant rather than the container's, so the
+     limit does not move when the window is resized. */
+  var ZOOM_REF_PX = 1200;
+
+  function minViewW() {
+    // mapW is read off the SVG, so this is worked out when it is asked for and
+    // not when the file is parsed — computed at load time it was zero, and a
+    // floor of zero is no floor at all.
+    return (mapW / MAX_ZOOM) / ZOOM_REF_PX * containerSize().w;
+  }
+
   function clampView(v) {
     var c = containerSize();
     var aspect = c.w / c.h;
@@ -1353,7 +1374,7 @@
     // what a framed map on a page looks like, and is better than not being
     // able to see the whole of it at once.
     var maxW = Math.min(fitView().w, mapW);
-    var minW = mapW / MAX_ZOOM;
+    var minW = Math.min(minViewW(), maxW);
     if (v.w > maxW) { v.w = maxW; v.h = v.w / aspect; }
     if (v.w < minW) { v.w = minW; v.h = v.w / aspect; }
 
@@ -1755,7 +1776,7 @@
   function zoomAt(cx, cy, factor) {
     var p = clientToSvg(cx, cy);
     var oldW = view.w;
-    var newW = Math.min(Math.max(view.w / factor, mapW / MAX_ZOOM), fitView().w);
+    var newW = Math.min(Math.max(view.w / factor, minViewW()), fitView().w);
     if (Math.abs(newW - oldW) < 1e-6) return;
     var ratio = newW / oldW;
     view.x = p.x - (p.x - view.x) * ratio;
@@ -1812,7 +1833,7 @@
     // overflow the map, clamping pushes it back, and the thing you asked to
     // see slides out of the frame. Fit whichever axis is the tighter one.
     var w = aspect < 1 ? want * aspect : want;
-    view.w = Math.min(Math.max(w, mapW / MAX_ZOOM), fitView().w);
+    view.w = Math.min(Math.max(w, minViewW()), fitView().w);
     view.h = view.w / aspect;
     view.x = cx - view.w / 2;
     view.y = cy - view.h / 2;
@@ -1957,7 +1978,7 @@
     var want = Math.max(bw, bh * aspect);
     var cx = (a.x + b.x) / 2;
     var cy = (a.y + b.y) / 2;
-    view.w = Math.min(Math.max(want, mapW / MAX_ZOOM), fitView().w);
+    view.w = Math.min(Math.max(want, minViewW()), fitView().w);
     view.h = view.w / aspect;
     view.x = cx - view.w / 2;
     view.y = cy - view.h / 2;
@@ -1991,7 +2012,7 @@
     if (pointers.size >= 2 && pinchStart) {
       var now = pinchState();
       var maxW = fitView().w;
-      var newW = Math.min(Math.max(pinchStart.w * (pinchStart.dist / now.dist), mapW / MAX_ZOOM), maxW);
+      var newW = Math.min(Math.max(pinchStart.w * (pinchStart.dist / now.dist), minViewW()), maxW);
       var c = containerSize();
       var k = newW / c.w;
       var r = container.getBoundingClientRect();
@@ -2433,7 +2454,7 @@
      the ceded provinces of Cambodia, where the strips are widest, that read as
      a thick band of another colour inside the outline. They light with their
      atom now and are outlined with nothing. */
-  function seamsFor(id) {
+  function seamsFor(id, cluster) {
     var els = [];
     if (!id) return els;
     // By colour, not by atom. The strip that shows is not always the hovered
@@ -2443,7 +2464,7 @@
     // frontier dark — a band of the same teal, unlit, inside the outline.
     // Anything painted the colour that is lighting up lights with it.
     var want = {};
-    litFor(id).forEach(function (el) {
+    litFor(id, cluster).forEach(function (el) {
       var c = el.style && el.style.getPropertyValue('--c');
       if (c) want[c.trim()] = true;
     });
@@ -2473,12 +2494,18 @@
   function setHot(id, cluster) {
     cluster = cluster || null;
     if (hot === id && hotCluster === cluster) return;
-    litFor(hot).forEach(function (el) { el.classList.remove('hot'); });
-    seamsFor(hot).forEach(function (el) { el.classList.remove('hot'); });
+    // with the cluster, both times: the set being unlit is the set that was
+    // lit, and litFor answers differently for a cluster than for an atom. It
+    // was reading a module-level hotCluster and now takes it as an argument,
+    // and these four calls were left behind when it changed — so hovering
+    // Labuan stopped lighting the Straits Settlements and lit the whole of
+    // North Borneo again, which is the fault that was fixed twice already.
+    litFor(hot, hotCluster).forEach(function (el) { el.classList.remove('hot'); });
+    seamsFor(hot, hotCluster).forEach(function (el) { el.classList.remove('hot'); });
     hot = id;
     hotCluster = cluster;
-    litFor(hot).forEach(function (el) { el.classList.add('hot'); });
-    seamsFor(hot).forEach(function (el) { el.classList.add('hot'); });
+    litFor(hot, hotCluster).forEach(function (el) { el.classList.add('hot'); });
+    seamsFor(hot, hotCluster).forEach(function (el) { el.classList.add('hot'); });
     redrawHighlight();
   }
 
