@@ -26,6 +26,7 @@ every one of those was a real bug that hid in data.js for months, and the
 generator is the place they can be caught for good.
 """
 
+import csv
 import os
 import time
 import re
@@ -72,6 +73,60 @@ def check_unique(rows, field, where):
                           "key means the second quietly replaces the first."
                           % (where, k, seen[k] + 2, i + 2))
         seen[k] = i
+
+
+# Where one column does not name a row on its own. Each of these is unique on
+# the columns named together. Checked across all 45 tables; these five are the
+# whole of the exception.
+COMPOUND_KEYS = {
+    "categories.csv": ("epoch", "id"),
+    "extent-1942.csv": ("en", "ja"),
+    "version.csv": ("version",),
+    "territories/sub-units/clusters.csv": ("epoch", "cluster"),
+    "sites/overrides-1930.csv": ("site", "en"),
+}
+
+
+def check_every_table_has_unique_keys():
+    """Every row in texts/ must be nameable, and no two may share a name.
+
+    This is what lets a tool address a row by what it is rather than by which
+    line it sits on. A row number is only true of one version of a file: rewrite
+    the file and row 47 is somewhere else, and an edit aimed at it lands on a
+    stranger. A key survives the file being rebuilt, but only while it is
+    unique — so the guarantee is asserted here rather than assumed by every
+    tool that relies on it.
+    """
+    bad = []
+    for base, dirs, names in os.walk(TEXTS):
+        dirs[:] = [d for d in dirs if d != "admin"]
+        for n in sorted(names):
+            if not n.endswith(".csv"):
+                continue
+            path = os.path.join(base, n)
+            rel = os.path.relpath(path, TEXTS).replace(os.sep, "/")
+            with open(path, encoding="utf-8", newline="") as fh:
+                r = csv.DictReader(fh)
+                cols = r.fieldnames or []
+                rows = list(r)
+            kcols = COMPOUND_KEYS.get(rel)
+            if not (kcols and all(c in cols for c in kcols)):
+                kcols = next(((c,) for c in ("id", "key") if c in cols), None)
+            if not kcols:
+                bad.append("%s has no column that names a row; give it an `id`, "
+                           "or add it to COMPOUND_KEYS" % rel)
+                continue
+            seen = {}
+            for i, row in enumerate(rows):
+                k = tuple((row.get(c) or "").strip() for c in kcols)
+                if k in seen:
+                    bad.append("%s: %s is in rows %d and %d — two records under "
+                               "one name, and the second quietly replaces the "
+                               "first" % (rel, " / ".join(k) or "(blank)",
+                                          seen[k] + 2, i + 2))
+                seen[k] = i
+    if bad:
+        raise Problem("keys are not unique:\n  " + "\n  ".join(bad))
 
 
 # ------------------------------------------------------------ collections
@@ -317,6 +372,7 @@ def splice_between(path, marker, html):
 
 
 def build_pages():
+    check_every_table_has_unique_keys()
     written = []
 
     # The version, and when this build was made. The date is stamped here

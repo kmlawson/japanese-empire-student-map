@@ -4289,6 +4289,54 @@ whole non-CJK half of the corpus — a Korean rendering of *Batavia* or a Chines
 one of *Kuala Lumpur* would be a transcription invented here, and the map would
 show it in the same type as a researched name.
 
+### A row is named, not numbered
+The near-miss in the name fill was not bad luck to be avoided next time; it was
+a way of addressing data that cannot be made safe. A row number is true of one
+version of a file. Four changes, so that it stops being used as an address.
+
+**Keys, compound where they have to be.** Forty of the forty-five tables have a
+unique `id` or `key` already. The other five are unique on two columns together
+— `categories.csv` on `epoch + id`, `clusters.csv` on `epoch + cluster`,
+`overrides-1930.csv` on `site + en` — and that, not a missing identity, was the
+reason the editor had fallen back on row numbers. `key_columns()` returns a
+tuple now and everything addresses rows through it. A synthetic numbered key was
+considered and rejected: it is a second identity to keep in sync with the real
+one, it means nothing in a diff, and two sessions adding a row both reach for
+the same next number.
+
+**The guarantee is asserted, not assumed.** `build_texts.py` walks every table,
+works out its key, and refuses to build on a duplicate — tested by planting one,
+which fails the build with the file and both line numbers.
+
+**The write finds the row by name.** `set_csv_cell` takes the key and searches
+for it, using the row number only as a hint for where to look first. The old
+`expect` check is kept and now means what it should — somebody edited this very
+field — rather than standing in for a check it could not perform: it compares
+*values*, so it could never tell a moved row from an unmoved one whenever the
+field was blank at both ends, which is most of what this tool does.
+
+Tested end to end: an edit aimed at row 1 was saved after the file had been
+reordered so that row 1 was a different city. It landed on the right row and
+left row 1 alone. A row that has been renamed away is refused by name; a field
+somebody else has edited is refused as a conflict.
+
+**Restore says what it would destroy.** It lists the files it would overwrite
+with an older version and warns that anything written since is lost, including
+another session's work. It restores everything or nothing, and that is now
+visible before agreeing rather than after.
+
+**And the knock-on effects, which is why this was inspected rather than
+assumed.** `langlinks.py` had the original bug in its own write path and now
+resolves each row by key, reporting any that moved out from under it instead of
+silently skipping. Compound keys read as `e1930 / metropole`, which broke two
+things in the region taxonomy: the pass that places an override note by the
+record it overrides was matching the whole key rather than its first component,
+and the notes files of vocabulary tables were no longer being recognised. Both
+fixed, and `kashgar` — a city the other session added meanwhile — turned out to
+sit west of the box that covers Xinjiang, so western Xinjiang has a box of its
+own now, above the Karakoram so that it does not reach into Kashmir. Back to
+**1,324 records, none unplaced**.
+
 ---
 
 ## Sources worth fetching

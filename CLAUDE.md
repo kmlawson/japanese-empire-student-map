@@ -50,6 +50,42 @@ had been done.
 An entry says what was actually changed and what was measured, not what was
 intended. Where something is unverified, say so in the entry.
 
+## Never address a row in texts/ by its position
+
+A row number is only true of one version of a file. Rewrite the file and row 47
+is a different place — so an edit aimed at row 47, decided a while ago, lands on
+a stranger. Two guards that look sufficient are not: `row < len(rows)` is still
+true, and "is the field blank?" is still true, because the row you hit by
+mistake was blank too. It writes confidently and wrongly and reports success.
+
+This nearly happened. A three-hour name fill took its row numbers at the start
+and wrote at the end; twenty commits landed in between and rebuilt several
+tables — `burma.csv` went from 14 rows to 11, reordered. It came out clean only
+because the files that moved and the files being written did not overlap.
+
+**Address rows by their key.** Every table has one: `id` or `key`, and for the
+five that need two columns, `COMPOUND_KEYS` in `tools/build_texts.py` and
+`texts/admin/serve.py` names them. `build_texts.py` refuses to build if any key
+is duplicated, so the guarantee is enforced rather than assumed. A row number
+may be passed as a *hint* — it is usually still right and saves a scan — but it
+must never be the address.
+
+**And do not hold a decision across a slow gap.** If something takes minutes or
+hours — a network fetch, a long conversation — split it: one pass that gathers
+and writes nothing, a second that re-reads, decides and writes in the same
+breath. The second pass should be safe to run again, filling whatever is blank
+now.
+
+## Snapshots are not a restore point here
+
+`texts/admin/` writes a zip before every save, which is right for undoing an
+edit and wrong for anything else. It restores *every* file to that moment, and
+somebody else has probably written here since — so a zip from this morning
+would revert their afternoon while appearing to undo five minutes of yours.
+
+Use git. `git diff HEAD -- texts/` is what changed and `git checkout --` puts
+one file back, and unlike a zip they know what everyone else did.
+
 ## Other sessions may be working in this checkout
 
 `index.html`, `data.js`, `sources.html` and `SOURCES.md` are **built** from
