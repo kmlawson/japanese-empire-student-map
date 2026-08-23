@@ -1183,7 +1183,12 @@ dialog hr { border: 0; border-top: 1px solid var(--line); margin: 16px 0; }
 /* The jump to the other date, under the occupation settings that only apply to
    one of them. Set apart from the switches above it so it reads as an action
    rather than another thing to turn on. */
-dialog .epoch-jump { margin-top: 10px; font-size: 13.5px; }
+/* The button that offers the other reading of the occupation, in the Layers
+   pane and again at the foot of the card. It sat almost against the paragraph
+   above it and read as part of the same block; a button is a different kind of
+   thing from a sentence and wants a gap saying so. */
+.epoch-jump { margin-top: 18px; }
+dialog .epoch-jump { font-size: 13.5px; }
 
 dialog label.row {
   display: flex;

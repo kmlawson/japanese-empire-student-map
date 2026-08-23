@@ -194,3 +194,11 @@ See **[SOURCES.md](SOURCES.md)** for the full list of data sources, licences,
 and the reading behind the place list and the notes.
 
 Built with Anthropic's Claude, with Konrad Lawson at the prompt.
+
+## Licence
+
+The work done here — the code, the texts and the georeferencing — is public
+domain under CC0. No copyright is claimed over any of the map sources, which
+keep their own terms; attribution for the georeferencing is asked for but not
+required. See [LICENSE.md](LICENSE.md), and `SOURCES.md` for every source with
+its licence.
