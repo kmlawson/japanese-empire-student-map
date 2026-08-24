@@ -924,7 +924,15 @@ button.plain:hover { background: #f2ede2; }
   width: 100%;
   min-height: 40px;
   margin: 0 0 5px;
-  padding: 3px 0;
+  /* 3px on the right, for the caret. It is a 10px square standing on one
+     corner, and a square rotated 45 degrees has a bounding box 1.41 times its
+     side — 14.1px, which is 2px past each edge of the 10px the layout gives
+     it. `justify-content: space-between` puts that box hard against the
+     content edge, so the corner stuck 2px out of the panel; and because
+     `overflow-y: auto` makes the other axis `auto` too, the browser answered
+     with a horizontal scrollbar across the bottom of the legend, for two
+     pixels of a rotated corner. */
+  padding: 3px 3px 3px 0;
   border: 0;
   background: none;
   font: inherit;

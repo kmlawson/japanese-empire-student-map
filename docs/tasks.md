@@ -5536,6 +5536,32 @@ a time are stable across repeated samples: Solomons 40, 40, 40; Bonins 13, 13,
 
 ---
 
+## A horizontal scrollbar across the legend, for two pixels of a caret
+
+Reported as the info pane; it is the legend, and it was two pixels.
+
+`#legend .legend-head`'s fold arrow is a 10px square — 8px plus a 2px border
+on two sides — standing on one corner, `transform: rotate(45deg)`. A square
+rotated 45 degrees has a bounding box 1.41 times its side: **14.1px against the
+10px the layout gives it, so 2px past each edge.** `justify-content:
+space-between` puts that box hard against the head's content edge, so the
+corner stuck 2px out of the panel — and `overflow-y: auto` makes the other axis
+`auto` too, so the browser answered with a full-width horizontal scrollbar for
+a corner nobody could see sticking out.
+
+`padding-right: 3px` on the head. Measured, `scrollWidth - clientWidth` on
+`#legend` at 1500, 1300 and 1100 wide: **2px, 2px, 2px becomes 0, 0, 0**, and
+0 at the narrow widths where it never happened. Checked open and folded — the
+folded caret is the same square at -135 degrees and has the same bounding box —
+and with an info card and the Layers dialog open, `#info`, `#quiz`,
+`#dlg-options` and `.legend-body` all at 0.
+
+Worth remembering as a shape of bug rather than as this one caret: **a rotated
+element's layout box is not its painted extent**, and any ancestor with
+`overflow` set on one axis will grow a scrollbar on the other to reach it.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible
