@@ -130,6 +130,7 @@ script — `tools/build_map.py` — and neither needs the other to run.
 | `tools/texts_lib.py`, `tools/md.py` | the CSV/Markdown readers, and just enough Markdown for the two prose pages |
 | `tools/shapefile.py` | a small stdlib-only shapefile reader used by the build |
 | `tools/bundle.py` | builds the single-file version |
+| `tools/compare_perf.js` | pan-and-zoom timings for two builds side by side, for checking a new version against the live one before updating it |
 
 Adding a city or a battlefield needs nothing but a row in `texts/sites/sites.csv`
 with its longitude and latitude, a `## id` section in `sites.md` for the note,

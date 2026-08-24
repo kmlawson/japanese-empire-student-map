@@ -5412,6 +5412,65 @@ Administrative on, reset again — and the two agree line for line.
 
 ---
 
+## A script for comparing two builds before an update
+
+`tools/compare_perf.js`. Asked for because this comparison will be wanted every
+time the live site is about to be updated, and doing it by hand each time is
+how the first attempt at it got the wrong answer.
+
+```
+node tools/compare_perf.js                                   # live, pages, local over India
+node tools/compare_perf.js --region japan --targets live,local
+node tools/compare_perf.js --admin --epoch 1942 --reps 5 --throttle 8
+```
+
+Targets are `live` (froginawell), `pages`, `local` (a server on 8123) or any
+URL. Regions are india, japan, china, indies, solomons, home. It reports busy
+script time, forced-layout time, and frame p50/p90/p99, averaged over the
+repetitions, with a percentage against the first target.
+
+**Two things it does that a hand-rolled run did not, and both were the reason
+the earlier attempt failed.**
+
+*It throttles the CPU.* Unthrottled, headless Chrome pins every region of this
+map to vsync at 16.7 ms a frame and the profile comes back 93% idle, so every
+build and every region measures the same. At 6x the ranking is legible. This is
+recorded at the head of the file so nobody removes it as a needless
+complication.
+
+*It walks the call tree instead of reading self-time.* `getBoundingClientRect`
+at the top of a profile is not actionable — the same call is a bug once a frame
+and harmless once a click. The script reports the layout-forcing reads with
+four frames of their caller, which is what turned "India feels slow" into
+`containerSize < defaultView < applyView`.
+
+Puppeteer is looked for rather than required, since it is 300 MB and nothing
+the map ships needs it: `npm install puppeteer` here, or set `PUPPETEER_PATH`.
+`node_modules/` was added to `.gitignore`.
+
+**What it says today**, India with Administrative on, 6x, three repetitions:
+
+| build | version | busy | forced layout | p90 |
+| --- | --- | ---: | ---: | ---: |
+| froginawell | 1.21 | 1,335 ms | **122 ms** | 18.7 |
+| github pages | 1.23 | 1,279 ms | 5 ms | 17.8 |
+| working tree | 1.23 | 1,239 ms | 5 ms | 17.8 |
+
+and on the home view, where the whole map is drawn: froginawell 97 ms of forced
+layout against **none worth reporting**.
+
+Pages and the working tree are the same build and measure within 3% of each
+other, which is the harness telling you what its own noise floor is — worth
+knowing before reading anything into a small difference.
+
+One bug written and fixed while writing it, and it is the one `CLAUDE.md`
+already warns about: `console.log('%-7s %9s', ...)` prints the flags literally
+in Node, which supports `%s` and `%d` and no width or alignment, and then every
+argument after the first lands a column to the left. The table is padded by
+hand now.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

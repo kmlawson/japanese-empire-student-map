@@ -50,3 +50,8 @@ tools/cache/deletion-tests/
 # texts/, and the zip snapshots it takes before every save. It edits the files
 # that are committed; it is not one of them.
 texts/admin/
+
+# Puppeteer, for tools/compare_perf.js and the headless checks. 300 MB, and
+# nothing the map ships needs it: install it here when you want to measure
+# something and leave it out of the history.
+node_modules/
