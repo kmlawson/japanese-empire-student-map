@@ -5234,6 +5234,124 @@ for standing in the wrong place.
 
 ---
 
+## A density quota for island names
+
+Asked for: cells over the map, each keeping its largest K islands, K falling as
+the cell fills, so a lone islet keeps its name and a shoal of thirty does not.
+
+`islandQuota` in `map.js`. K = `clamp(round(10 / sqrt(n)), 1, n)`: one island in
+a cell keeps its name, three keep all three, nine keep three, thirty keep two.
+Cells are anchored to the map's own origin and sized in map units, so they do
+not slide under a pan — a boundary drifting across an island would make its
+name blink as the reader dragged, which is worse than the clutter. Only the
+fine coastlines are counted; a division has no measured box (`area` is Infinity)
+and is never subject to it.
+
+**The cell size steps on half-powers of two**, sized to about 170 screen pixels.
+Whole powers were tried first and the cell can then be out by a factor of two
+either way: across one notch of the zoom the count of names jumped between 30
+and 49. On half-powers the same sweep runs 26–40.
+
+Measured over a zoom sweep on the Solomons, 1108x740:
+
+| view | islands on screen | named | under 100px² | ≤10px² |
+| ---: | ---: | ---: | ---: | ---: |
+| 100 units | 329 | 26 | 14 | 9 |
+| 66.7 | 271 | 30 | 14 | 3 |
+| 44.4 | 183 | 31 | 10 | 4 |
+| 29.6 | 153 | 40 | 17 | 4 |
+| 19.8 | 120 | 29 | 8 | 0 |
+| 17.9 | 108 | 28 | 5 | 0 |
+
+Against 84 names before, of which 48 were under 100px² and 15 were specks.
+
+**And it leaves the sparse places alone, which was the point.** The Bonins, 18
+islands on screen, keep 13 names (14 before). The Ryukyus, 66 islands, keep 21
+(32 before). The Solomons, 183 islands, keep 31 (84 before). Zoom is the
+release valve: because the cell is a fixed number of screen pixels, closing in
+thins the crowd rather than magnifying it, and the shoal that gets two names
+from across the Solomon Sea gets all thirty from among them.
+
+---
+
+## Every city has its description, in both epochs
+
+Reported: detailed city descriptions missing from the info pane, and present in
+1930 but not 1942.
+
+**Found, and it was fifty-one cities in each epoch — the most important
+fifty-one on the map.** `gazEnrich` takes a gazetteer dot's prose from the
+browse layer and, by an explicit decision, took only *names* from the
+examinable sites: "what a site's note and date say is about the event it is a
+marker for". That is right for a battle and wrong for a city, and `siteById`
+holds only the cities — `cat: 'city'`, 56 of the 127 — so the note it was
+declining to copy was prose about the place.
+
+The result: **Tokyo, Shanghai, Beijing, Singapore, Manila, Seoul, Hiroshima,
+Nagasaki, Rangoon, Vladivostok** and forty-one others had no description at
+all, while a county town in Húnán had one. It looked like descriptions going
+missing at random because that is what it was, and it moved with the epoch
+because whether the site's own marker is drawn over the dot — and so whether
+the site record or the bare gazetteer one answers the pointer — depends on the
+date.
+
+One line: `if (!c.extra && s.note) c.extra = s.note;`. Measured, both epochs:
+**51 cities with no prose becomes 1.**
+
+The one left is `nikolaevsk`, which is a battle site and not a city site: its
+note is about the 1920 massacre, not about the town, and that is exactly the
+prose the original decision was right to keep off a city dot. Left as it is.
+
+**And the tooltip needed trimming after it.** `short` was first set to the
+whole "Capital of Japan · Japan" line, which the tooltip already prints as its
+`when`, so Tokyo came up saying "Capital of Japan" twice, one under the other.
+`short` now carries only the part `when` does not — the polity, and nothing
+when the capital line has already named it. Checked across all 890 gazetteer
+records in the two epochs: **none is left with nothing to say in the tooltip.**
+
+Live, hovering and clicking the dots in both epochs: tooltip "Tokyo / 東京
+(Tōkyō) / Capital of Japan", card "Capital of Japan · Edo until the
+Restoration. The Great Kantō earthquake…" — the same in 1930 and 1942.
+
+---
+
+## Pan and zoom around India: measured, and not reproduced
+
+Reported as bad again. **I could not reproduce it, and I am not going to change
+geometry on a guess.** What was measured, all on a scripted pan and three zoom
+steps over 68–90°E, 8–32°N with Administrative on:
+
+*It is not JavaScript.* A CPU profile over 3.8 seconds of panning and zooming
+is **3,520 ms idle**. The largest entry that is our own code is `onPointerMove`
+at 3 ms. Hovering across the region for two seconds: 1,878 ms idle,
+`querySelectorAll` 6 ms, `getBBox` 4 ms — against Japan's 3 and 2. Nothing here
+is a hundred milliseconds, which is what the last one was.
+
+*And headless cannot see the rest.* Frame times are pinned to vsync — India
+16.2 ms mean, Japan 16.3, China 16.3, the Indies 16.3 — and the paint timeline
+is flat across regions: PrePaint 45 ms, Layout 12, Paint 9 for India against
+PrePaint 46, Layout 24, Paint 9 for Japan. India measures *cheaper* than Japan
+on layout. Headless Chrome rasterises through SwiftShader and does not stress
+a real compositor, so the absence of a signal here is not evidence of absence
+on the reader's machine.
+
+*The one structural suspect was tested and cleared.* `clip-burma` is a
+**4,523-vertex clip path applied to nine separate paths**, and it is next to
+India in the same view — by far the heaviest clip on the map (`clip-off-frontier`,
+which the princely states use, is 92 vertices across 24 paths). Stripped at
+runtime and re-traced, three runs each: **83 ms with it, 83 ms without.** No
+difference in this harness.
+
+For the record, what is in that view: `#a-princely` 24 paths and 24,166
+vertices, `#a-india` 5,522, 33 clipped elements visible, the India rivers layer
+off by default (3,505 vertices when on).
+
+**What would settle it:** which browser, whether Administrative and Cities are
+on, and whether it is the drag or the wheel that stutters. A profile from the
+machine it is slow on would find it in one pass, as the last one did.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

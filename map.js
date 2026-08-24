@@ -1402,14 +1402,30 @@
       });
       if (b.note) c.extra = b.note;
     }
-    // and the quiz sites, 51 of which are the same place under the same id.
-    // Their names only: what a site's note and date say is about the event it
-    // is a marker for, and the marker itself is drawn over the dot to say it.
+    /* And the examinable sites, 52 of which are the same place under the same
+       id. Names, and the note as well where the browse layer had none.
+
+       Taking only the names was right for a battle and wrong for a city, and
+       `siteById` holds only the cities — `cat: 'city'`, 56 of the 127; the
+       battle markers are not in it — so what is copied here is prose about the
+       place and not about an event that happened at it.
+
+       Withholding it left **fifty-one gazetteer cities in each epoch with no
+       description at all, and they were the most important fifty-one on the
+       map**: Tokyo, Shanghai, Beijing, Singapore, Manila, Seoul, Hiroshima,
+       Nagasaki, Rangoon, Vladivostok. A reader who pointed at a county town in
+       Húnán was told what it was; a reader who pointed at Tokyo got its name
+       and the word Japan. It read as descriptions going missing at random,
+       which is exactly what it was, and it changed with the epoch because
+       whether the site's own marker was drawn over the dot — and so whether
+       the site record or the bare gazetteer one answered — depends on the
+       date. */
     var s = siteById[c.id];
     if (s) {
       ['ja', 'zh', 'ko', 'orig', 'wiki'].forEach(function (k) {
         if (!c[k] && s[k]) c[k] = s[k];
       });
+      if (!c.extra && s.note) c.extra = s.note;
     }
   }
 
@@ -1460,9 +1476,14 @@
         gazEnrich(c);
         // "Capital of British India · British India" says it twice; the polity
         // is dropped when the capital line has already named it.
-        c.note = [c.when,
-                  (c.p && (!c.when || c.when.indexOf(c.p) < 0)) ? c.p : '',
-                  c.extra].filter(Boolean).join(' · ');
+        // "Capital of British India · British India" says it twice; the polity
+        // is dropped when the capital line has already named it.
+        var whose = (c.p && (!c.when || c.when.indexOf(c.p) < 0)) ? c.p : '';
+        /* The tooltip prints `when` on a line of its own already, so `short`
+           carries only what that line does not say — otherwise Tokyo came up
+           as "Capital of Japan" twice, once under the other. */
+        c.short = whose;
+        c.note = [c.when, whose, c.extra].filter(Boolean).join(' · ');
         gazRecs.push(c);
         elById[c.rid] = g;
         sitePos[c.rid] = p;
@@ -2536,16 +2557,81 @@
   var NUDGES = [[0, -1], [0, 1], [-1, 0], [1, 0],
                 [-1, -1], [1, -1], [-1, 1], [1, 1], [0, -2], [0, 2]];
 
+  /* How many island names one patch of map is allowed.
+
+     Ranking the fine coastlines by size fixed which names survive a crowd but
+     not how many there are. In the western Solomons 183 islands are on screen
+     at once, 141 of them under a hundred square pixels, and the placer will
+     happily fit 84 names among them because they are small enough to fit —
+     each one legible, the sheet as a whole unreadable.
+
+     What the reader wants is not a fixed number of names. It is *few names
+     where the islands are few and only the big ones where they are many*: a
+     lone islet off a coast is worth naming at any zoom, and the same islet in
+     a shoal of thirty is not. So the map is divided into cells and each cell
+     keeps its largest K, with K falling as the cell fills:
+
+         K = clamp(round(10 / sqrt(n)), 1, n)
+
+     one island in a cell keeps its name, three keep all three, nine keep three
+     and thirty keep two.
+
+     The cells are anchored to the map's own origin and sized in map units, so
+     they do not slide under a pan — a cell boundary drifting across an island
+     would make its name blink on and off as the reader dragged, which is worse
+     than the clutter. The size steps in powers of two, chosen to be about
+     QUOTA_PX across on screen, so zooming in genuinely thins the crowd rather
+     than merely magnifying it: the same shoal that gets two names from across
+     the Solomon Sea gets all thirty once the reader is in among them.
+
+     Only the fine coastlines are counted. A division has no measured box —
+     `area` is Infinity for those — and is never subject to this. */
+  var QUOTA_PX = 170;
+  var quotaAt = { size: 0, n: -1 };
+
+  function islandQuota() {
+    var k = view.w / containerSize().w;             // map units per screen pixel
+    // Snapped to a ladder so the grid changes in steps and is the same grid
+    // for every view at that zoom, rather than a new one on every notch of the
+    // wheel. Half-powers of two rather than whole ones: on whole powers the
+    // cell can be out by a factor of two either way, and the count of names
+    // jumped between 30 and 49 across one step of the zoom.
+    var size = Math.pow(2, Math.round(Math.log(QUOTA_PX * k) / Math.LN2 * 2) / 2);
+    if (quotaAt.size === size && quotaAt.n === labels.length) return;
+    quotaAt.size = size;
+    quotaAt.n = labels.length;
+
+    var cells = {}, i, L, key;
+    for (i = 0; i < labels.length; i++) {
+      L = labels[i];
+      if (!L.half || !isFinite(L.area)) { if (L) L.crowded = false; continue; }
+      key = Math.floor(L.x / size) + ',' + Math.floor(L.y / size);
+      (cells[key] || (cells[key] = [])).push(L);
+      L.crowded = true;
+    }
+    Object.keys(cells).forEach(function (c2) {
+      var group = cells[c2];
+      group.sort(function (a, b) { return b.area - a.area; });
+      var keep = Math.max(1, Math.min(group.length,
+        Math.round(10 / Math.sqrt(group.length))));
+      for (var j = 0; j < keep; j++) group[j].crowded = false;
+    });
+  }
+
   function placeLabels() {
     if (!state.labels || state.mode === 'quiz') return;
     var c = containerSize();
     var sx = c.w / view.w;
     var sy = c.h / view.h;
     var placed = uiBoxes();
+    islandQuota();
 
     for (var i = 0; i < labels.length; i++) {
       var L = labels[i];
       if (!L.w) { L.el.style.display = 'none'; continue; }
+      // too many islands in this patch of sea for this one to be among the
+      // names it is worth carrying — see islandQuota
+      if (L.crowded) { L.el.style.display = 'none'; continue; }
       // a browse name with no dot under it is just a word floating in the sea
       if (L.rec.kind === 'browse' && !browseVisible()) { L.el.style.display = 'none'; continue; }
 
