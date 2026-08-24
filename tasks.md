@@ -4795,57 +4795,41 @@ Bangkok in the report is Phra Nakhon, Thonburi, Nonthaburi and Samut Prakan —
 four tiny changwat packed round the city and outlined by the Administrative
 layer. They really are provinces.
 
-### The sideways T in Suiyuan, closed for good
-Suiyuan is cut into two atoms by a meridian at 109.6E and a parallel at 40.45N.
-Cut at exactly those coordinates the two polygons *abut*: each is antialiased
-against the ground behind it rather than against the other, and a hairline
-opens along the join — up the meridian, then east along the parallel. That is
-the sideways T.
+### Suiyuan is one province again, and the meridian is gone
+Two goes at this were wrong and the third was to stop patching it.
 
-The thing worth recording is that **the cut divides nothing.** Both halves
-belong to one territory on both sheets: `suiyuan` in 1930 takes
-`suiyuan suiyuan_w`, and `freechina` in 1942 takes both as well, Mengchiang
-being drawn from a traced polygon of its own. So the line has no meaning to
-misrepresent and only has to stop being visible.
+Suiyuan was cut in two by a meridian at 109.6E and a parallel at 40.45N,
+standing in for how far Japanese control reached into the province. First I
+closed the seam that cut left by overlapping the halves; then I found I had
+overlapped them in the direction that pushed Free China's yellow into ground
+Mengchiang held, and reversed it. Both were repairs to a line that should not
+have been there.
 
-`SUIYUAN_LAP` makes the pieces overlap by 0.06 degrees instead of meeting.
+**The cut is a guess in the shape of a fact, and it contradicts the sources
+already on hand.** Sampling 30,000 points inside Mengchiang's traced polygon,
+6.3% of them fell inside the western half of Suiyuan as the meridian defined
+it, concentrated at 108.5-109.5E and 41-42.6N — the Wuyuan and Linhe plain.
+The traced polygon of what Mengchiang held reaches well west of 109.6; the
+meridian says control stopped there. Where two sources disagree the map showed
+the disagreement, as a straight-edged seam and as yellow inside the client
+state.
 
-**Which piece reaches matters, and I got it the wrong way round and shipped
-it.** Lapping the *western* pieces east and north pushed Free China's yellow
-into ground Mengchiang holds, and with the Administrative layer on a yellow
-spike showed through the red. Reversed: the eastern piece reaches west and
-south instead, into ground that is its own colour and that `suiyuan_w` is drawn
-over anyway. Measured with the same 6,000 sample points against all three
-builds — points inside Mengchiang that also fall inside `suiyuan_w`:
+Nothing needed the cut. Both halves belonged to one territory on both sheets
+anyway. On the 1942 sheet the question is answered by the two traced polygons —
+what Mengchiang held, and what it claimed and did not hold — and on the 1930
+sheet Suiyuan is simply a province of the Republic. So `SUIYUAN_CUT`,
+`SUIYUAN_ORDOS_LAT`, `SUIYUAN_LAP`, the `suiyuan_w` atom, the `SuiyuanWest`
+sub-unit and the build-time guard on the lap are all gone: 84 atoms where there
+were 85, and Suiyuan is one ring.
 
-| | |
-| --- | ---: |
-| before any lap | 401 / 6000 — 6.68% |
-| the lap as first pushed | 440 / 6000 — 7.33% |
-| after reversing it | 401 / 6000 — 6.68% |
+Measured after: **0 of 2,528 sample points inside the Mengchiang shape are
+painted Free China's yellow** with the Administrative layer off. With it on the
+yellow that shows is inside the *claim* and outside the held polygon, which is
+what the dotted line is for — 1% of it falls in the Jinbei box, at the level of
+edge pixels.
 
-`suiyuan_w`'s path is byte-identical to what it was before any of this, and
-Mengchiang's never changed.
-
-**And that 6.68% is not new.** `suiyuan_w` already overlapped Mengchiang before
-any of today's work; the lap made it a little worse and the reversal put it
-back, but the overlap itself is older and is the real reason a piece of
-Mengchiang can come up yellow. Not yet fixed, and not understood: it wants its
-own look at why the traced Mengchiang polygon and the western half of Suiyuan
-claim the same ground, and which of them is right there.
-
-It has to be wider than the simplification or Douglas-Peucker pulls the two
-edges apart and the seam returns — which is presumably how it came back before.
-A province this size earns the coarsest band, 0.55 units, which is 0.0275
-degrees; the lap is 0.06. That is not left to memory: the build refuses to run
-if the lap ever stops exceeding `--tolerance`.
-
-Measured, scanning for a one-pixel line along both cut lines: **0 of 544 pixels
-on the parallel and 0 of 344 on the meridian**, in five states — 1930 plain,
-1930 hovered, 1930 with divisions on, 1930 at five times the zoom, and 1942.
-And the province still covers exactly the ground it did: the combined bounding
-box of the two halves moved by **0.000 units**, `suiyuan`'s area is unchanged,
-and `suiyuan_w` gained only the 343 units of overlap.
+The seam the whole business began with is still gone: 0 of 544 pixels on the
+parallel and 0 of 344 on the meridian.
 
 ### UPLOAD.md
 Ten files, and the list was arrived at rather than guessed: they were copied to
@@ -4874,6 +4858,12 @@ Run against a real Apache 2.4.62 with the site in the document root:
 616 KB a visitor was paying for. `.htaccess` is in the repository now, so there
 is nothing to type, and every directive is inside an `<IfModule>` guard: a
 missing module skips it rather than returning 500 and taking the site down.
+
+### The rivers of India read as water
+`#4d7f9e` at 0.6 opacity over the British mauve came out as a slightly cooler
+mauve, and the lines read as a texture in the fill rather than as rivers. Their
+own colour instead, `#6fa8cd` at 0.95 and 1.1 wide. The luminance ratio barely
+moves — 1.20 to 1.28 — because what was wrong was the hue, not the lightness.
 
 ---
 

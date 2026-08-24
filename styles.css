@@ -528,8 +528,13 @@ button.plain:hover { background: #f2ede2; }
 /* Thinner and paler than the Yangzi and the Yellow River, which are the two
    rivers this map has an argument about. These are context. */
 .india-river {
-  stroke-width: 1;
-  opacity: .6;
+  /* A lighter blue than the two Chinese rivers, and its own colour rather than
+     theirs at a lower opacity: over the British mauve, #4d7f9e at .6 came out
+     as a slightly cooler mauve and the lines read as a texture in the fill
+     rather than as water. */
+  stroke: #6fa8cd;
+  stroke-width: 1.1;
+  opacity: .95;
 }
 
 #legend .sw.river {

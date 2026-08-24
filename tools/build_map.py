@@ -160,55 +160,21 @@ def project(lon, lat):
 # Ordos — stayed Fu Tso-yi's throughout, and the occupied corridor on this map
 # stops at 109.6E. The province is cut here so the client state does not
 # swallow several hundred kilometres of free China.
-SUIYUAN_CUT = 109.6
-
-# The line of control across Suiyuan, and it is not a meridian any more.
+# Suiyuan is one province and is drawn as one shape.
 #
-# What Mengchiang held in that province was the eastern end of the Hetao and
-# the country north of the Yellow River — Kweisui and Paotow, taken in
-# February 1938 — while Fu Tso-yi held the irrigated plain west of Paotow, as
-# the Wuyuan campaign of 1940 settled. A line of longitude at 109.6 gets that
-# much right and then keeps going south, and in doing so hands the eastern
-# Ordos banners to Mengchiang: Jungar and Junwang, in the Yekejao league,
-# which sits *inside* the river's loop across the whole width of the province
-# and which Mengchiang never securely held.
+# It used to be cut in two by a meridian at 109.6E and a parallel at 40.45N,
+# standing in for how far Japanese control reached into it. That was a guess in
+# the shape of a fact, and it contradicted the sources actually on hand: the
+# traced polygon of what Mengchiang held reaches west of 109.6 into the Wuyuan
+# and Linhe plain, so the two disagreed over about 6% of Mengchiang and the
+# disagreement showed as Free China's yellow inside the client state — Jinbei
+# among it — and as a straight-edged seam up the meridian and along the
+# parallel.
 #
-# So the cut is two conditions rather than one. Mengchiang's half is east of
-# the line **and** north of the Yellow River's east-west reach through the
-# Hetao, which runs at about 40.45 N from the Ningsia border to Paotow before
-# the river turns south. Everything else — the plain to the west, and the whole
-# Ordos south of the river — is Free China's.
-#
-# Still a generalisation, and still not the NIDS sheets, which would settle it
-# properly: see the entry in tasks.md. But it is the river doing the work
-# rather than a line of longitude, and it no longer awards ground to a regime
-# on the strength of its being east of something.
-SUIYUAN_ORDOS_LAT = 40.45
-# How far the eastern piece reaches back over the cut, so that the two halves
-# overlap instead of abutting.
-#
-# The cut is a meridian and a parallel, and both halves belong to one territory
-# on both sheets — Suiyuan the province in 1930, Free China in 1942 — so it
-# divides nothing and only has to be invisible. Cut at exactly the same
-# coordinate, the two polygons share an edge, the renderer antialiases each of
-# them against the ground behind, and a hairline opens along the join: a
-# vertical up the meridian and a horizontal east along the parallel, meeting.
-# The sideways T.
-#
-# **Which piece reaches matters, and getting it the wrong way round was a bug
-# on the map.** `suiyuan_w` is Free China's on both sheets and nothing is drawn
-# over it; `suiyuan` is Free China's too, but Mengchiang's traced polygon lies
-# on top of part of it. Lapping the *western* pieces east and north pushed Free
-# China's yellow into ground Mengchiang holds, and with the Administrative
-# layer on a yellow spike appeared through the red at about 110.5E 39.9N. So it
-# is the eastern piece that reaches, west and south, into ground that is the
-# same colour as itself and that `suiyuan_w` is drawn over anyway.
-#
-# It has to be wider than the simplification, or Douglas-Peucker moves the two
-# edges apart again and the seam comes back: a country this size earns the
-# coarsest band, 0.55 units, which is 0.0275 degrees. `check_suiyuan_lap`
-# refuses to build if that stops being true.
-SUIYUAN_LAP = 0.06
+# Nothing needs the cut. On the 1942 sheet what Japan held is the traced
+# `mengjiang` polygon and what it did not is the traced unoccupied one, and
+# those two answer the question between them. On the 1930 sheet Suiyuan is
+# simply a province of the Republic.
 
 # Natural Earth's outline of the modern Chinese mainland, which used to be laid
 # under the Republican provinces twice over: once in the neutral "elsewhere"
@@ -717,7 +683,7 @@ KOREA_ISLAND_BLOCK = ("Zenranan", "Saishu", (125.9, 32.9, 127.1, 33.8))
 # China is 11,896 for the mainland ring alone. A source that spare cannot
 # afford to be simplified again, and it was: two thirds of its substantive
 # rings survived and the rest of the loss was its islands.
-ENP_ATOMS = {"china", "manchuria", "chahar", "suiyuan", "suiyuan_w", "jehol",
+ENP_ATOMS = {"china", "manchuria", "chahar", "suiyuan", "jehol",
              "tibet", "xinjiang"}
 
 # Drawn at the full detail of their source rather than simplified. Korea's
@@ -2564,7 +2530,7 @@ def _seg_dist(p, a, b):
 # it is traced from the railway company's own 1935 map, its neighbours are
 # Natural Earth's, and the traced line is the one the map keeps. So the Soviet
 # Union and Mongolia reach it, exactly as they reach China.
-ENP_SIDE = ("china", "manchuria", "jehol", "chahar", "suiyuan", "suiyuan_w",
+ENP_SIDE = ("china", "manchuria", "jehol", "chahar", "suiyuan",
             "xinjiang", "tibet", "manchukuo")
 
 # The neighbours drawn from some other source, which therefore put the frontier
@@ -3487,37 +3453,13 @@ def load_roc_provinces(enp_provinces):
         if not name or not rings:
             continue
         seen.add(name)
-        if name == "Suiyuan":
-            # Mengchiang's half: east of the line and north of the river.
-            # Free China's: the plain west of the line, and the Ordos south of
-            # the river whichever side of the line it falls. See SUIYUAN_CUT.
-            # `east` is the piece that reaches, and it reaches west and south —
-            # away from Mengchiang. See SUIYUAN_LAP for why that direction.
-            east = [line_plane((SUIYUAN_CUT - SUIYUAN_LAP, 0.0),
-                               (SUIYUAN_CUT - SUIYUAN_LAP, 90.0), keep_right=True),
-                    line_plane((0.0, SUIYUAN_ORDOS_LAT - SUIYUAN_LAP),
-                               (180.0, SUIYUAN_ORDOS_LAT - SUIYUAN_LAP),
-                               keep_right=False)]
-            west = [line_plane((SUIYUAN_CUT, 0.0), (SUIYUAN_CUT, 90.0), keep_right=False)]
-            ordos = [line_plane((SUIYUAN_CUT, 0.0), (SUIYUAN_CUT, 90.0), keep_right=True),
-                     line_plane((0.0, SUIYUAN_ORDOS_LAT), (180.0, SUIYUAN_ORDOS_LAT),
-                                keep_right=True)]
-            for sides, dest, label in (([east], "suiyuan", "Suiyuan"),
-                                       ([west, ordos], "suiyuan_w", "SuiyuanWest")):
-                cut = []
-                for side in sides:
-                    cut.extend(c for c in (clip_halfplanes(r, side) for r in rings)
-                               if len(c) >= 3)
-                if cut:
-                    out[dest].append((label, cut))
-            continue
         out[PROVINCE_ATOM.get(name) or "china"].append((name, rings))
 
     for key, blocks in enp_provinces.items():
         if key not in ENP_ATOMS:
             continue
         for pname, prings in blocks:
-            if pname not in seen and pname not in ("Suiyuan", "SuiyuanWest"):
+            if pname not in seen and pname != "Suiyuan":
                 out[key].append((pname, prings))
     return dict(out)
 
@@ -4772,7 +4714,7 @@ ORDER = [
     # and not part of the shading. The resistance areas stay above it, being in
     # ON_TOP, because they are what the shading is an overstatement of.
     "mandate_jp", "mandate_au", "mandate_br", "mandate_ex_guam",
-    "occupiedzone", "chahar", "suiyuan", "suiyuan_w", "mengjiang",
+    "occupiedzone", "chahar", "suiyuan", "mengjiang",
     "jehol", "manchuria", "manchukuo",
     # The North China Area Army's survey is the exception, and goes over the
     # client states rather than under them. The traced zone is this map's own
@@ -5774,30 +5716,6 @@ def main():
         # one province since 1928. Two atoms of one territory share a fill and
         # a stroke and show no boundary between them, so on that date it is one
         # province again and says so once.
-        if name == "Suiyuan":
-            # the same two conditions as in province_paths, above
-            # `east` is the piece that reaches, and it reaches west and south —
-            # away from Mengchiang. See SUIYUAN_LAP for why that direction.
-            east = [line_plane((SUIYUAN_CUT - SUIYUAN_LAP, 0.0),
-                               (SUIYUAN_CUT - SUIYUAN_LAP, 90.0), keep_right=True),
-                    line_plane((0.0, SUIYUAN_ORDOS_LAT - SUIYUAN_LAP),
-                               (180.0, SUIYUAN_ORDOS_LAT - SUIYUAN_LAP),
-                               keep_right=False)]
-            west = [line_plane((SUIYUAN_CUT, 0.0), (SUIYUAN_CUT, 90.0), keep_right=False)]
-            ordos = [line_plane((SUIYUAN_CUT, 0.0), (SUIYUAN_CUT, 90.0), keep_right=True),
-                     line_plane((0.0, SUIYUAN_ORDOS_LAT), (180.0, SUIYUAN_ORDOS_LAT),
-                                keep_right=True)]
-            for sides, dest, label in (([east], "suiyuan", "Suiyuan"),
-                                       ([west, ordos], "suiyuan_w", "SuiyuanWest")):
-                cut = []
-                for side in sides:
-                    cut.extend(c for c in (clip_halfplanes(r, side) for r in rings)
-                               if len(c) >= 3)
-                if cut:
-                    tally[dest] += 1
-                    groups[dest].extend(cut)
-                    provinces[dest].append((label, cut))
-            continue
 
         tally[key] += 1
         groups[key].extend(rings)
@@ -6192,16 +6110,6 @@ def main():
             + ", ".join(f"{k}={len(v)}" for k, v in sorted(seamed.items()))
             + "\n")
 
-    # The Suiyuan halves overlap by SUIYUAN_LAP so that no seam opens between
-    # them. Simplification is what would reopen it, so the one has to stay
-    # wider than the other. Checked rather than remembered.
-    _lap_units = SUIYUAN_LAP * PX_PER_DEG
-    if _lap_units <= args.tolerance:
-        raise SystemExit(
-            "SUIYUAN_LAP is %.4f degrees (%.2f units) and the tolerance is %.2f "
-            "units: the two halves of Suiyuan would be simplified apart and the "
-            "seam between them would come back. Raise the lap." %
-            (SUIYUAN_LAP, _lap_units, args.tolerance))
 
     # ---- dissolve, project, clip, simplify --------------------------------
     frame = box_planes(LON_MIN, LAT_MIN, LON_MAX, LAT_MAX)

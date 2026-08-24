@@ -296,8 +296,7 @@ JMAP.TERRITORIES = {
     {
       id: 'suiyuan', en: 'Suíyuǎn (Suiyuan)', ja: '綏遠 (Suien)', orig: '綏遠', zh: '綏遠',
       ko: '쑤이위안성', when: 'Chinese province from 1928', cat: 'chinese', lvl: 3,
-      atoms: ['suiyuan', 'suiyuan_w'], within: 'china',
-      wiki: 'https://en.wikipedia.org/wiki/Suiyuan',
+      atoms: ['suiyuan'], within: 'china', wiki: 'https://en.wikipedia.org/wiki/Suiyuan',
       note: 'The northern bend of the Yellow River, irrigated at Hetao and dry beyond it, with Baotou the wool railhead of the steppe and the western end of the Beijing–Suiyuan railway. Also a province from 1928, and in 1930 within Yan Xishan\'s reach from Shanxi; Fu Zuoyi took the chairmanship in 1931 and held the western half of it through the whole war. The eastern half is what Mengchiang held after 1937. Abolished in 1954 into Inner Mongolia.'
     },
     {
@@ -949,7 +948,7 @@ JMAP.TERRITORIES = {
       id: 'freechina', en: 'Republic of China (Nationalist government)',
       ja: '中華民国・重慶政権 (Chūka Minkoku)', orig: '中華民國 (Zhōnghuá Mínguó)', zh: '中華民國（重慶國民政府）',
       when: 'Capital at Chungking from 1938', cat: 'freechina', lvl: 1,
-      atoms: ['china', 'suiyuan_w', 'chahar', 'suiyuan'],
+      atoms: ['china', 'chahar', 'suiyuan'],
       wiki: 'https://en.wikipedia.org/wiki/Republic_of_China_(1912%E2%80%931949)',
       label: 'China', labelAt: '106.5,29.5',
       note: 'The unoccupied interior — some two thirds of the country\'s area and rather less than half its people — with the government at Chongqing, up the Yangtze gorges behind the mountains of Sichuan, where it moved in 1938 after Nanjing and then Wuhan fell. A capital chosen for being hard to reach: fog for half the year, no railway to it, and bombed from 1938 to 1943 all the same. Cut off from the sea, it was supplied over the Burma Road from Rangoon until Burma fell in the spring of 1942, and after that only by air over the Hump from Assam. The universities came too, and the arsenals; the currency collapsed by degrees. The Communist base areas, in the same nominal united front and by 1941 barely on speaking terms with Chongqing, are drawn separately in cross- hatching.'
@@ -4493,11 +4492,6 @@ JMAP.PROVINCES = {
     ja: '綏遠 (Suien)', zh: '綏遠', ko: '쑤이위안성', wiki: 'https://en.wikipedia.org/wiki/Suiyuan',
     short: 'The Yellow River\'s northern bend'
   },
-  SuiyuanWest: {
-    en: 'Western Suíyuǎn — Wuyuan, Linhe and the Ordos beyond the reach of the occupation, held by Fu Zuoyi for the whole war. Irrigated farmland along the river, desert and grazing behind it, and the base from which he counter-attacked into Baotou in the winter of 1939–40.',
-    ja: '綏遠西部 (Suien seibu)', zh: '綏遠西部',
-    short: 'Wuyuan, Linhe and the Ordos beyond the reach of the occupation'
-  },
   Xikang: {
     en: 'Xīkāng (Sikang) — eastern Kham, a country of gorges and 5,000-metre ranges where the Yangtze, Mekong and Salween run parallel within a hundred miles of each other; Tibetan in speech, dress and religion, with monasteries rather than magistrates as the real government. Barley, yaks, and the brick tea carried west from Sichuan in exchange for wool and hides. Claimed by both Nanjing and Lhasa and effectively held by neither: Liu Wenhui ran the eastern part from Kangding after being pushed out of Sichuan in 1933. A special administrative region until 1939, then a province, and abolished in 1955 between Sichuan and Tibet.',
     ja: '西康 (Seikō)', zh: '西康', ko: '시캉성', wiki: 'https://en.wikipedia.org/wiki/Xikang',
@@ -6679,10 +6673,6 @@ JMAP.PROVINCE_EPOCH = {
       wiki: 'https://en.wikipedia.org/wiki/Heilongjiang'
     },
     Suiyuan: {
-      en: 'Suíyuǎn (Suiyuan)', ja: '綏遠省', zh: '綏遠', ko: '쑤이위안성',
-      wiki: 'https://en.wikipedia.org/wiki/Suiyuan'
-    },
-    SuiyuanWest: {
       en: 'Suíyuǎn (Suiyuan)', ja: '綏遠省', zh: '綏遠', ko: '쑤이위안성',
       wiki: 'https://en.wikipedia.org/wiki/Suiyuan'
     },
