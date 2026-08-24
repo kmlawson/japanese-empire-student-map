@@ -4865,6 +4865,47 @@ mauve, and the lines read as a texture in the fill rather than as rivers. Their
 own colour instead, `#6fa8cd` at 0.95 and 1.1 wide. The luminance ratio barely
 moves — 1.20 to 1.28 — because what was wrong was the hue, not the lightness.
 
+### Mengchiang draws itself, and the regression was mine
+The author reported yellow inside Jinbei with the Administrative layer on, and
+said it had been right before. It had. This is what I did to it.
+
+`#a-mengjiang` has always been an *empty group* — its three governments are
+divisions and were deferred to the administrative file — so what filled it was
+its **backing**, set from the traced occupied polygon rather than dissolved out
+of the sub-units above it. Then the backings toggle went in (`e483a89`) with a
+rule that stands a backing down as redundant once its atom has paths of its
+own. That rule assumes a backing is the same ground as the divisions over it.
+Here it is not: the backing was what Mengchiang *held* and the sub-units are
+the three governments it *claimed*, a larger and a different shape. So the
+moment the administrative file grafted the governments in, the held ground
+underneath was hidden and Free China's yellow came through. Exactly "it
+reappears when admin is on".
+
+The fix is not to patch the rule. Mengchiang no longer has a backing at all:
+
+* it joins `china` in `NO_BACKING`
+* and `NEVER_DEFERRED`, so its three governments are in the base sheet
+
+The three governments, clipped to the occupied polygon, **are** the fill. With
+the layer off they carry no stroke and read as one shape; with it on they are
+the Mongol leagues, Jinbei and Chanan. Nothing is dissolved, merged or fitted
+to anything, and the two traced files are used as they are: the occupied one is
+the shape, the unoccupied one is the dotted line.
+
+Measured inside the occupied polygon itself — sampling the clip path rather
+than the claim, which is what my earlier probes kept getting wrong: **0 of
+3,205 points painted Free China's yellow, with the layer off and with it on.**
+
+One departure from the letter of the instruction, and it is the author's own
+earlier instruction that it follows. `mengjiang-unoccupied.geojson` has eight
+features: the claim, at 17.59 square degrees, and seven slivers of 0.000008 to
+0.0013 scattered along the Mongolian and Manchukuo frontiers, which drew dotted
+marks where the claim never reached and which the author asked to have removed.
+They are dropped at a floor of 0.01 square degrees — four orders of magnitude
+below anything real — so that the file the author draws in stays the file the
+build reads, instead of a second trimmed copy going stale beside it. The dotted
+line is one subpath of 132 vertices, which is the polygon exactly.
+
 ---
 
 ## Sources worth fetching

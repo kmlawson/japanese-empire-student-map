@@ -782,7 +782,7 @@ BACKING_FROM_SUBUNITS = {"philippines", "malaya", "northborneo", "indochina"}
 # themselves. The filler's own rings are still computed, because
 # occupied_coast() reads what whole_union leaves in `whole_pts`; only the path
 # is not drawn, and the sub-units then stand as the atom.
-NO_BACKING = {"china",
+NO_BACKING = {"china", "mengjiang",
               # and the Indies, whose eighteen islands are never deferred and
               # never hidden, so the union under them is a second copy of the
               # same ground that nothing can ever be looking at. 167 KB.
@@ -3811,7 +3811,12 @@ ALWAYS_NAMED = frozenset({"goa", "pondicherry", "christmas", "ccp",
 # at all in 1930 and, in 1942, that the outline drawn to mark them out had
 # nothing to draw, the atom holding it being empty. They are still states of
 # Malaya, though, so with Administrative off they are Malaya and nothing more.
-NEVER_DEFERRED = ALWAYS_NAMED | frozenset({"malaya_thai"})
+# Mengchiang is here because it has no filler under it: its three governments
+# are what fills it, clipped to the ground it actually held, so they have to be
+# in the base file rather than in the administrative one. With the layer off
+# they carry no stroke and read as one shape; with it on they are Mongol
+# Leagues, Jinbei and Chanan.
+NEVER_DEFERRED = ALWAYS_NAMED | frozenset({"malaya_thai", "mengjiang"})
 
 ISLAND_BOXES = {
     "aleutians": ALEUTIAN_BOXES,
@@ -3986,18 +3991,9 @@ MENGJIANG_HELD_FILE = "mengjiang-actual-occupied.geojson"
 # Eight pieces, and every one of them is ground the state put on its maps and
 # never governed. Left unfilled, so whatever is beneath — Free China, the
 # provinces — shows through.
-# The eight features of `mengjiang-unoccupied.geojson`, less the seven that
-# were never ground. That file is a difference of the claim and the held
-# polygon, and where the two trace the same frontier from different
-# digitisations the subtraction leaves a hairline instead of nothing: seven
-# four- and five-point rings, 23.9 km² between them, four metres to 334 metres
-# wide, along the Mongolian frontier in the north and the Manchukuo frontier
-# in the east. Invisible in QGIS at any sane view, and impossible to miss here,
-# because every ring gets a 2.6 px non-scaling stroke — a four-metre sliver
-# drawn a thousand times its own width, and dashed, is a row of dots along a
-# border that has no business carrying one. The one feature kept is the
-# unoccupied west, 132 vertices and 164,809 km². The original is left beside it.
-MENGJIANG_UNHELD_FILE = "mengjiang-unoccupied-fixed.geojson"
+# The unoccupied claim, as the author drew it. Used exactly as it is: it is
+# the dotted line and nothing else is derived from it.
+MENGJIANG_UNHELD_FILE = "mengjiang-unoccupied.geojson"
 # Atoms whose sub-units are drawn through a clip, because the divisions cover
 # more ground than the atom itself does. Mengchiang is the only one: its three
 # governments are drawn as they were claimed, and the western half of what they
@@ -5236,7 +5232,16 @@ def main():
     meng_held = [r for _p, rs in load_traced(MENGJIANG_HELD_FILE) for r in rs]
     # the fill is what was held; the unheld remainder becomes the dotted line
     # below, and falls back to the whole claim if that file is not there
-    meng_unheld = [r for _p, rs in load_traced(MENGJIANG_UNHELD_FILE) for r in rs]
+    # The file has eight features and one of them is the claim; the other seven
+    # are slivers a few hundred metres across, scattered along the Mongolian and
+    # Manchukuo frontiers, and they were drawing dotted marks in places the
+    # claim never reached — which the author asked to have taken out. Kept out
+    # here rather than in a second copy of the file, so the file the author
+    # draws in stays the one the build reads. The claim is 17.59 square
+    # degrees and the largest sliver is 0.0013, so the floor is nowhere near
+    # anything real.
+    meng_unheld = [r for _p, rs in load_traced(MENGJIANG_UNHELD_FILE) for r in rs
+                   if len(r) >= 3 and ring_area(r) > 0.01]
     meng_line = meng_unheld or meng_claim
     meng = meng_held or meng_claim
     if meng:
@@ -5246,8 +5251,6 @@ def main():
         # so without this the western half would be filled after all, whatever
         # the atom's own rings say. Set from the held ground directly, the way
         # Manchukuo's is.
-        if meng_held:
-            backing["mengjiang"].extend(meng_held)
         # one sub-unit per constituent government, and anything the three
         # points do not claim goes in unlabelled rather than off the map
         claimed, spare = {}, []
