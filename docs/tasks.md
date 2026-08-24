@@ -5091,6 +5091,31 @@ was true when they were written, not a set of live paths.
 
 ---
 
+## The filler toggle comes out of Layers
+
+Asked for: remove **Draw each country's filler under its divisions** and its
+paragraph.
+
+The control and the hint are gone from `index.html`, along with the horizontal
+rule that had been separating it from the resistance-base-areas row and that
+would otherwise have been left hanging above the About slot. The Layers panel
+is ten rows now.
+
+`map.js` is untouched. The listener was already written as `var optBacks =
+$('#opt-backings'); if (optBacks) { ... }`, so a missing control is simply never
+wired; `state.backs` defaults to false, which is the off position, and
+`backs-off` is confirmed on at load. Bit 13 of the layer code is still read and
+written, so a link made while the switch existed still restores what it said —
+there is now no way to turn the fillers off again from inside the map, which is
+the same as having no control at all and was judged not worth breaking old
+links over.
+
+Checked: panel opens, ten rows, no `#opt-backings`, `backs-off` set, and with
+Administrative on the map still grafts 1,230 divisions across 84 atoms with no
+console errors.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible
