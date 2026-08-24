@@ -5116,6 +5116,40 @@ console errors.
 
 ---
 
+## The gazetteer bulk moves into data/ignored/
+
+Asked for: everything under `data/` that git ignores, gathered into one
+directory, and `.gitignore` updated to match.
+
+`data/` was **588 MB**, and 587 of it was `data/gazetteer/`. All 44 ignored
+files are now in `data/ignored/`: the 38 GeoNames country dumps (339 MB, of
+which `CN` is 122 and `IN` 58), `cities500.txt` (41 MB),
+`places-china-all.geojson` (201 MB) and the four working layers (35 MB).
+`data/gazetteer/` keeps the two tracked files, the recipe: `README.md` and
+`build_geojson.py`. What git tracks under `data/` is the same seven files it
+tracked before, checked with `git check-ignore` either side of the move.
+
+Three ignore patterns become one directory. The comment that stood over them
+said the four `places-*.geojson` layers were "what is committed and what gets
+used", and the rule two lines below it excluded them; neither half was true, so
+both were rewritten. Nothing in the map's build reads any of it — `grep` finds
+no reference to `data/gazetteer` anywhere in `tools/` or `texts/` — and
+`cities-gaz.js` comes from `data/cities-1930.csv` and `data/cities-1942.csv`,
+which did not move. Rebuilt to confirm: byte-identical.
+
+`build_geojson.py` had used bare relative filenames and so depended on being run
+from its own directory. It now works `data/ignored/` out from its own location,
+which is both what the move required and one less thing to get wrong. Checked
+by running it from `/tmp` against a copied subset — two country dumps and a
+trimmed `cities500` — which read and wrote in the new place and produced 1,079
+merged features.
+
+**Not moved, and worth saying so:** `data/cities.csv` stays. Its 446 ids are a
+strict superset of the two epoch files and nothing reads it, but it is the
+parent document `data/report.md` refers to five times, and it is 85 KB.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

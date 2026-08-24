@@ -20,7 +20,16 @@ class **P** (populated places); the mountains, rivers and spot heights are disca
 
 ## Files
 
-### Ready to use — commit these
+**Everything below lives in `data/ignored/`, and none of it is committed.** It
+comes to 588 MB, which is too much for a repository whose whole published site
+is 6 MB. What is tracked is this file and `build_geojson.py` — the recipe —
+so that anyone can rebuild the layers from a fresh GeoNames download.
+
+Nothing in the map's build reads any of it. `cities-gaz.js` is made from
+`../cities-1930.csv` and `../cities-1942.csv`; this gazetteer was the pool
+those 446 places were chosen from, and the choosing is done.
+
+### The working layers — built by `build_geojson.py`
 
 | file | features | what it is |
 |---|---:|---|
@@ -29,15 +38,16 @@ class **P** (populated places); the mountains, rivers and spot heights are disca
 | `places-seats.geojson` | 30,836 | Administrative seats only (`PPLC`, `PPLA`, `PPLA2`–`PPLA5`, `PPLG`) — national capitals down to township seats. |
 | `places-china.geojson` | 16,049 | The China subset of `places-merged`: 14,896 seats plus the populated places. This is the county-seat layer. |
 
-### Full detail — large, gitignored
+### The dumps they are built from
 
 | file | features | what it is |
 |---|---:|---|
-| `places-china-all.geojson` | 896,262 | Every populated place in China, 192 MB. Opens in QGIS, slowly. |
-| `*.p.tsv` | 2,689,290 | The raw GeoNames records, one file per country, feature class P only. Tab-separated, no header — columns are as in the GeoNames [readme](https://download.geonames.org/export/dump/readme.txt). |
-| `cities500.txt` | 235,285 | The unclipped global `cities500` dump. |
+| `places-china-all.geojson` | 896,262 | Every populated place in China, 201 MB. Opens in QGIS, slowly. Not made by `build_geojson.py`. |
+| `*.p.tsv` | 2,689,290 | The raw GeoNames records, one file per country, feature class P only. 339 MB, of which `CN` is 122 and `IN` 58. Tab-separated, no header — columns are as in the GeoNames [readme](https://download.geonames.org/export/dump/readme.txt). |
+| `cities500.txt` | 235,285 | The unclipped global `cities500` dump, 41 MB. |
 
-Rebuild the GeoJSON from the TSVs with `python3 build_geojson.py`.
+Rebuild the four layers from the TSVs with `python3 build_geojson.py`. It works
+out `data/ignored/` from its own location, so it runs from any directory.
 
 ## Properties on each feature
 

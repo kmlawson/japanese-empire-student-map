@@ -1,4 +1,11 @@
-import glob, json, collections, io
+import glob, json, collections, io, os
+
+# The dumps and the layers built from them are gitignored and live together in
+# data/ignored/; this script is tracked and lives in data/gazetteer/. Paths are
+# worked out from the script's own location rather than the working directory,
+# so it runs the same from anywhere.
+BULK = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'ignored')
+def bulk(name): return os.path.join(BULK, name)
 
 COLS = ['geonameid','name','asciiname','alt','lat','lon','fclass','fcode','country',
         'cc2','admin1','admin2','admin3','admin4','population','elevation','dem','tz','mod']
@@ -33,29 +40,29 @@ def write(path, feats, note):
 
 # --- 1. everything with a real population figure, from cities500 (global, clipped) ---
 pop_feats=[]; seen=set()
-for c in rows('cities500.txt'):
+for c in rows(bulk('cities500.txt')):
     lat, lon = float(c[4]), float(c[5])
     if inbox(lat, lon):
         pop_feats.append(feat(c)); seen.add(int(c[0]))
 pop_feats.sort(key=lambda f: -f['properties']['pop'])
-write('places-populated.geojson', pop_feats, 'GeoNames cities500, map region')
+write(bulk('places-populated.geojson'), pop_feats, 'GeoNames cities500, map region')
 
 # --- 2. every administrative seat from the country dumps ---
 seat_feats=[]
-for path in sorted(glob.glob('*.p.tsv')):
+for path in sorted(glob.glob(bulk('*.p.tsv'))):
     for c in rows(path):
         if c[7] in SEATS:
             seat_feats.append(feat(c))
 seat_feats.sort(key=lambda f: (f['properties']['fcode'], -f['properties']['pop']))
-write('places-seats.geojson', seat_feats, 'GeoNames administrative seats')
+write(bulk('places-seats.geojson'), seat_feats, 'GeoNames administrative seats')
 
 # --- 3. the union: seats + anything with a population, deduped ---
 union={}
 for f in seat_feats + pop_feats:
     union[f['properties']['id']] = f
 u=sorted(union.values(), key=lambda f: -f['properties']['pop'])
-write('places-merged.geojson', u, 'GeoNames seats + populated places')
+write(bulk('places-merged.geojson'), u, 'GeoNames seats + populated places')
 
 # --- 4. China only, at full county-seat detail ---
 cn=[f for f in u if f['properties']['country']=='CN']
-write('places-china.geojson', cn, 'GeoNames China: seats + populated places')
+write(bulk('places-china.geojson'), cn, 'GeoNames China: seats + populated places')

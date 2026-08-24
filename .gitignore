@@ -26,17 +26,17 @@ tools/cache/seams-*.json
 # too heavy to keep in the history.
 exports/
 
-# The raw GeoNames dumps behind data/gazetteer: 2.7 million populated places as
-# tab-separated records, 377 MB, plus the 192 MB full-detail China GeoJSON built
-# from them. data/gazetteer/build_geojson.py turns these into the four small
-# GeoJSON files beside them, and those are what is committed and what gets used.
-data/gazetteer/*.p.tsv
-data/gazetteer/cities500.txt
-# and the four built from them, which are not small: 34 MB between them, and
-# nothing on the site fetches one. cities-gaz.js is built from data/cities-*.csv
-# and not from these at all, so what is committed is the recipe — README.md and
-# build_geojson.py — and whoever needs the places rebuilds them.
-data/gazetteer/places-*.geojson
+# The GeoNames bulk, 588 MB of it, all in one place so that what is ignored
+# under data/ is a directory rather than three patterns: 2.7 million populated
+# places as tab-separated country dumps, the global cities500 file, the 201 MB
+# full-detail China GeoJSON, and the four working layers built from them.
+#
+# None of it is read by any build step. cities-gaz.js comes from
+# data/cities-1930.csv and data/cities-1942.csv; the gazetteer was the pool the
+# 446 cities were chosen from, and the choosing is done. What is committed is
+# the recipe — data/gazetteer/README.md and build_geojson.py — and whoever
+# needs the layers rebuilds them into data/ignored/ from the dumps.
+data/ignored/
 
 # Working scratch, not part of the map. rr.html is a saved copy of somebody
 # else's site kept while looking at how they model historical boundaries;
