@@ -5352,6 +5352,66 @@ machine it is slow on would find it in one pass, as the last one did.
 
 ---
 
+## India's pan and zoom: found on the second attempt, and it was a forced layout
+
+The first attempt said "measured and not reproduced". That was true of what it
+measured and it stopped one step short. Comparing the two deployed builds
+against the working tree found it.
+
+**The harness that worked.** The same scripted pan and zoom run against
+`froginawell.net` (1.21), GitHub Pages (1.22) and localhost, three to four
+repetitions each, **with `Emulation.setCPUThrottlingRate` at 6–8x**. Throttling
+is what the earlier attempt lacked: unthrottled, headless pins every region to
+vsync at 16.7 ms and the profile is 93% idle, so nothing shows. Slowed down,
+the ranking is legible.
+
+**No regression between the versions.** 1.21 and 1.22 measure the same —
+1,171 ms busy against 1,240 at 6x, 1,618 against 1,573 at 8x, within the noise
+of each other. Whatever the reader is seeing is not something the recent work
+introduced; it has been there all along.
+
+**And the largest single cost was a forced synchronous layout on every frame of
+the drag.** Attributed by walking the profile's call tree rather than reading
+self-time:
+
+```
+96 ms  getBoundingClientRect  <-  containerSize < defaultView < applyView
+13 ms  getBBox                <-  activeBounds  < defaultView < applyView
+```
+
+`applyView` runs once a frame and asks `defaultView` how far in the reader has
+come, for two comparisons: whether to drop the island rings, and whether the
+reset button is idle. `defaultView` reads the container's rectangle and calls
+`getBBox` **on every atom on the map**. Both force the browser to lay the
+document out synchronously in the middle of a pointer handler — and the answer
+is identical every time, because nothing it depends on can change during a
+drag. India is the worst of it because India is where the most shapes are in
+view: 74 ms with Administrative off, **96 ms with it on**.
+
+This is the same shape of fault as the tooltip's 99 ms `getBoundingClientRect`,
+and the same fix: do the read when the answer changes, not when it is wanted.
+`containerSize` and `defaultView` are cached against a generation counter,
+bumped by `onResize`, `applyState`, `composeEpoch`, `replaceInProjection`,
+`graftFine` and `dropFine` — a resize, a change of state, a new epoch, a
+reprojection, and each graft that puts more geometry on the map.
+
+**After: `getBoundingClientRect` does not appear in the profile at all**, and
+`activeBounds`'s `getBBox` falls from 13 ms to 0. At 8x throttle, 124–135 ms of
+it in the two deployed builds against none here; frame p90 18.2 ms against
+19.5.
+
+**One bug on the way, caught by the test and not by reading.** `defaultView`
+ends in `clampView`, which returns the object it was given, and four callers do
+`view = defaultView()`. Handing back the cached object therefore made the cache
+*be* the live view, so every pan and zoom mutated what the map believed its
+opening view was. The symptom was the reset button: three notches in it still
+called itself idle and did nothing, because `home.w` had followed `view.w`
+down. `defaultView` returns a copy now. Checked against `HEAD` on the same
+script — home, zoom in, reset, resize, resize back, change epoch, switch
+Administrative on, reset again — and the two agree line for line.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

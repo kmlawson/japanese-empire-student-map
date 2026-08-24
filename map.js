@@ -1221,6 +1221,7 @@
      from the file, so they move the same way it does — and from the original
      each time, not from wherever the last projection left them. */
   function replaceInProjection() {
+    bumpLayout();
     var i;
     for (i = 0; i < scalables.length; i++) {
       var sc = scalables[i];
@@ -1589,6 +1590,7 @@
   }
 
   function composeEpoch() {
+    bumpLayout();
     // clear anything the previous epoch left behind
     Object.keys(atomEls).forEach(function (a) {
       var el = atomEls[a];
@@ -1821,9 +1823,43 @@
   var lastScaleW = -1;
   var rafPending = false;
 
+  /* Three answers that do not change while the reader is dragging, and that
+     were being worked out afresh on every frame of the drag.
+
+     `applyView` runs once a frame and asks `defaultView` how far in the reader
+     has come. `defaultView` asks `containerSize`, which reads the container's
+     rectangle, and `activeBounds`, which calls `getBBox` on **every atom on
+     the map**. Both force the browser to lay the document out synchronously,
+     in the middle of a pointer handler, once a frame — and the answer is the
+     same every time, because none of what it depends on can change during a
+     drag.
+
+     Measured on India at 6x CPU throttle over a four-second pan and zoom:
+     `getBoundingClientRect` under `containerSize` under `defaultView` was
+     **74 ms with the Administrative layer off and 96 ms with it on**, the
+     largest single entry in the profile, with `activeBounds`'s `getBBox` a
+     further 11–13 ms. It is the same shape of fault as the tooltip's, which
+     cost 99 ms and was fixed the same way: do the read when the answer
+     changes, not when it is wanted.
+
+     `bumpLayout` is called wherever the answer *can* change — a resize, a
+     change of state, a new epoch, a reprojection, and each of the two grafts
+     that put more geometry on the map. */
+  var layoutGen = 0;
+  var sizeCache = null;
+  var homeCache = null;
+
+  function bumpLayout() {
+    layoutGen++;
+    sizeCache = null;
+    homeCache = null;
+  }
+
   function containerSize() {
+    if (sizeCache) return sizeCache;
     var r = container.getBoundingClientRect();
-    return { w: Math.max(1, r.width), h: Math.max(1, r.height) };
+    sizeCache = { w: Math.max(1, r.width), h: Math.max(1, r.height) };
+    return sizeCache;
   }
 
   function fitView() {
@@ -2109,7 +2145,21 @@
    * whole Pacific into a tall, narrow window leaves a postage stamp adrift in
    * empty sea, so there we fill the height and open on the empire's core
    * instead, and leave the rest to panning. */
+  /* A fresh object every time, and the cache keeps its own. Four callers do
+     `view = defaultView()`, so handing back the cached object would make the
+     cache *be* the live view: every pan and zoom would then mutate what the
+     map believes its opening view is. It did, and the symptom was the reset
+     button — three notches in, it still called itself idle and did nothing,
+     because `home.w` had followed `view.w` down. */
   function defaultView() {
+    if (!homeCache || homeCache.gen !== layoutGen) {
+      homeCache = { gen: layoutGen, v: computeDefaultView() };
+    }
+    var v = homeCache.v;
+    return { x: v.x, y: v.y, w: v.w, h: v.h };
+  }
+
+  function computeDefaultView() {
     var c = containerSize();
     var aspect = c.w / c.h;
     var b = activeBounds();
@@ -2720,6 +2770,7 @@
   }
 
   function onResize() {
+    bumpLayout();                 // the window is a different shape
     applyPhoneLayout();
     var before = { cx: view.x + view.w / 2, cy: view.y + view.h / 2,
                    area: view.w * view.h };
@@ -4512,6 +4563,9 @@
   /* ----------------------------------------------------- applying state -- */
 
   function applyState() {
+    // an epoch, a layer or a projection can all change which shapes are on
+    // the map, and so what the opening view frames
+    bumpLayout();
     scheduleUrl();
     var quizzing = state.mode === 'quiz';
     var showLabels = state.labels && !quizzing;
@@ -5152,12 +5206,14 @@
     });
     reprojectGraft(nodes);
     fineLive[key] = nodes;
+    bumpLayout();               // a window of coastline is new geometry
     return true;
   }
 
   function dropFine(key) {
     var nodes = fineLive[key];
     if (!nodes) return false;
+    bumpLayout();
     nodes.forEach(function (n) { if (n.parentNode) n.parentNode.removeChild(n); });
     delete fineLive[key];
     return true;
