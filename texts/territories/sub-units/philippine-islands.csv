@@ -1,12 +1,12 @@
-key,en,wiki
-Luzon,Luzon,https://en.wikipedia.org/wiki/Luzon
-Mindanao,Mindanao,https://en.wikipedia.org/wiki/Mindanao
-Palawan,Palawan,https://en.wikipedia.org/wiki/Palawan
-Mindoro,Mindoro,https://en.wikipedia.org/wiki/Mindoro
-Panay,Panay,https://en.wikipedia.org/wiki/Panay
-Negros,Negros,https://en.wikipedia.org/wiki/Negros
-Cebu,Cebu,https://en.wikipedia.org/wiki/Cebu
-Bohol,Bohol,https://en.wikipedia.org/wiki/Bohol
-Leyte,Leyte,https://en.wikipedia.org/wiki/Leyte
-Samar,Samar,https://en.wikipedia.org/wiki/Samar
-Masbate,Masbate,https://en.wikipedia.org/wiki/Masbate
+key,en,short,wiki
+Luzon,Luzon,"The main island, with Manila and the rice plain behind it. Invaded in December 1941",https://en.wikipedia.org/wiki/Luzon
+Mindanao,Mindanao,"The southern island, with the Japanese abaca colony at Davao",https://en.wikipedia.org/wiki/Mindanao
+Palawan,Palawan,The long island reaching towards Borneo,https://en.wikipedia.org/wiki/Palawan
+Mindoro,Mindoro,Taken by the Americans in December 1944 for its airfields,https://en.wikipedia.org/wiki/Mindoro
+Panay,Panay,"Sugar, and the port of Iloilo",https://en.wikipedia.org/wiki/Panay
+Negros,Negros,"The sugar island, whose plantations supplied much of the Philippine crop",https://en.wikipedia.org/wiki/Negros
+Cebu,Cebu,The oldest Spanish settlement in the islands and the busiest port after Manila,https://en.wikipedia.org/wiki/Cebu
+Bohol,Bohol,A quiet island of rice and coconut,https://en.wikipedia.org/wiki/Bohol
+Leyte,Leyte,Where MacArthur came ashore on 20 October 1944,https://en.wikipedia.org/wiki/Leyte
+Samar,Samar,"Off it, escort carriers turned back a battleship force in October 1944",https://en.wikipedia.org/wiki/Samar
+Masbate,Masbate,Cattle ranches and the gold mines at Aroroy,https://en.wikipedia.org/wiki/Masbate

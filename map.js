@@ -373,6 +373,16 @@
 
      English only, deliberately: the other scripts carry their own strings and
      none of them has this problem. */
+  /* The few words a record says when the pointer is on it. */
+  var SHORT_MAX = 88;
+  function shortOf(rec) {
+    if (!rec) return '';
+    var r = shown(rec);
+    if (r.short) return r.short;
+    var gloss = splitGloss(nameOf(r)).gloss;
+    return gloss && gloss.length <= SHORT_MAX ? gloss : '';
+  }
+
   function mapLabel(rec) {
     var r = shown(rec);
     if (r && r.label && state.lang === 'en') {
@@ -529,6 +539,21 @@
     // the standing outlines round territories that share a neighbour's colour
     subOutlineLayer = svgEl('g', { id: 'sub-outlines' });
     svg.appendChild(subOutlineLayer);
+    /* The markers go back on top of the three line layers just created.
+       `#markers` is written into the SVG before them, so a province hairline
+       lifted clear of its atom, a mandate line, or a standing sub-outline was
+       drawn straight across a city dot — and a dark line through the white
+       ring round a dot reads as a broken marker rather than as a boundary.
+       Bangkok is the case a reader sees, with a changwat edge through it.
+
+       Not above the highlight, and not above the labels: a selection outline a
+       row of city dots can rub out is not much of an outline, and that was a
+       deliberate choice made here before. Only the lines that belong to the
+       land go under. `#browse`, `#gaz` and `#atom-hits` follow on their own:
+       each is built later and inserted *before* `#markers`, so moving the one
+       carries the other three. */
+    if (markersGroup) svg.appendChild(markersGroup);
+
     highlightLayer = svgEl('g', { id: 'highlight' });
     svg.appendChild(highlightLayer);
     extentPath = svg.querySelector('#extent-1942');
@@ -3114,7 +3139,11 @@
     }
     tipKey = key;
     tooltip.innerHTML = '';
-    tooltip.appendChild(document.createTextNode(nameOf(head)));
+    // The name, and only the name. `en` is written `Name — what it was`, and
+    // the tooltip was printing the whole string as its headline: Qīnghǎi came
+    // up as five hundred and fifty-eight characters of pasture and salt lake
+    // in bold. The card splits it, the map label splits it, and so does this.
+    tooltip.appendChild(document.createTextNode(splitGloss(nameOf(head)).name));
     if (head !== rec) {
       var alt = otherNames(head);
       if (alt) {
@@ -3176,13 +3205,22 @@
       w.textContent = when;
       tooltip.appendChild(w);
     }
-    // A sub-unit may carry a note of its own — the Senkakus are disputed
-    // today, Labuan joined the Straits Settlements on a date. It belongs under
-    // the name it is about, not in it.
-    if (head !== rec && head.note) {
+    /* A phrase, not a paragraph. What the pointer is over gets a few words
+       here — the whole of it is a click away, and the card has room for it.
+       Hovering a changwat used to bring up four hundred and forty-four
+       characters about how the changwat were drawn, which is a thing to read
+       once and not something to be handed every time the mouse crosses a
+       frontier.
+
+       `short` is written for the record. Where there is none, the gloss on the
+       name does the job for most sub-units — it is the one sentence anybody
+       wrote about them — but only when it is short enough to be a phrase;
+       past that it is prose and belongs in the card with the rest. */
+    var brief = shortOf(head);
+    if (brief) {
       var pn = document.createElement('span');
       pn.className = 'sub prov-note';
-      pn.textContent = head.note;
+      pn.textContent = brief;
       tooltip.appendChild(pn);
     }
     tooltip.hidden = false;

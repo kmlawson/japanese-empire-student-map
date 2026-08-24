@@ -1,18 +1,18 @@
-key,en,ja,zh,wiki
-Saipan,Saipan,サイパン (Saipan),塞班,"https://en.wikipedia.org/wiki/Saipan,_Northern_Mariana_Islands"
-Tinian,Tinian,テニアン (Tenian),天寧,"https://en.wikipedia.org/wiki/Tinian,_Northern_Mariana_Islands"
-Rota,Rota,ロタ (Rota),羅塔,"https://en.wikipedia.org/wiki/Rota,_Northern_Mariana_Islands"
-Pagan,Pagan,パガン (Pagan),帕甘,https://en.wikipedia.org/wiki/Pagan_(island)
-Agrihan,Agrihan,アグリハン (Agurihan),阿格里漢,https://en.wikipedia.org/wiki/Agrihan
-Anatahan,Anatahan,アナタハン (Anatahan),阿納塔漢,https://en.wikipedia.org/wiki/Anatahan
-Babeldaob,Babeldaob (Palau),バベルダオブ (Baberudaobu),巴貝爾道布,https://en.wikipedia.org/wiki/Babeldaob
-Peleliu,Peleliu,ペリリュー (Peririyū),貝里琉,https://en.wikipedia.org/wiki/Peleliu
-Angaur,Angaur,,安加爾,https://en.wikipedia.org/wiki/Angaur
-Weno,"Moen (Weno), Truk",春島 (Harushima),春島,https://en.wikipedia.org/wiki/Weno
-Kwajalein,Kwajalein,,瓜加林,https://en.wikipedia.org/wiki/Kwajalein_Atoll
-Majuro,Majuro,マジュロ (Majuro),馬久羅,https://en.wikipedia.org/wiki/Majuro
-Jaluit,Jaluit,ヤルート (Yarūto),賈盧伊特,https://en.wikipedia.org/wiki/Jaluit_Atoll
-Wotje,Wotje,,沃杰,https://en.wikipedia.org/wiki/Wotje_Atoll
-Enewetak,Enewetak,,埃內韋塔克,https://en.wikipedia.org/wiki/Enewetak_Atoll
-Bikini,Bikini,,比基尼,https://en.wikipedia.org/wiki/Bikini_Atoll
-Ebon,Ebon,エボン (Ebon),埃邦,https://en.wikipedia.org/wiki/Ebon_Atoll
+key,en,short,ja,zh,wiki
+Saipan,Saipan,The largest of the Marianas and the sugar island: Nan'yō Kōhatsu's cane and mills,サイパン (Saipan),塞班,"https://en.wikipedia.org/wiki/Saipan,_Northern_Mariana_Islands"
+Tinian,Tinian,Flat limestone three miles from Saipan and almost all of it under cane,テニアン (Tenian),天寧,"https://en.wikipedia.org/wiki/Tinian,_Northern_Mariana_Islands"
+Rota,Rota,"Between Saipan and Guam, with sugar and a few thousand people, Chamorro and Japanese",ロタ (Rota),羅塔,"https://en.wikipedia.org/wiki/Rota,_Northern_Mariana_Islands"
+Pagan,Pagan,Two volcanoes joined by an isthmus in the northern Marianas,パガン (Pagan),帕甘,https://en.wikipedia.org/wiki/Pagan_(island)
+Agrihan,Agrihan,The highest island in the Marianas — a volcano of 965 m,アグリハン (Agurihan),阿格里漢,https://en.wikipedia.org/wiki/Agrihan
+Anatahan,Anatahan,A volcanic ridge with no harbour and a small copra settlement,アナタハン (Anatahan),阿納塔漢,https://en.wikipedia.org/wiki/Anatahan
+Babeldaob,Babeldaob (Palau),"The largest island of the mandate, volcanic and forested",バベルダオブ (Baberudaobu),巴貝爾道布,https://en.wikipedia.org/wiki/Babeldaob
+Peleliu,Peleliu,A low coral island with the airfield the Americans came for,ペリリュー (Peririyū),貝里琉,https://en.wikipedia.org/wiki/Peleliu
+Angaur,Angaur,Eight square kilometres of phosphate,,安加爾,https://en.wikipedia.org/wiki/Angaur
+Weno,"Moen (Weno), Truk","Moen, the main island of Truk lagoon — the Combined Fleet's forward anchorage and",春島 (Harushima),春島,https://en.wikipedia.org/wiki/Weno
+Kwajalein,Kwajalein,The largest coral atoll in the world by the area of its lagoon,,瓜加林,https://en.wikipedia.org/wiki/Kwajalein_Atoll
+Majuro,Majuro,A thin ring of islets round a deep lagoon,マジュロ (Majuro),馬久羅,https://en.wikipedia.org/wiki/Majuro
+Jaluit,Jaluit,The seat of the Marshalls under the Germans from 1885 and under Japan after 1914,ヤルート (Yarūto),賈盧伊特,https://en.wikipedia.org/wiki/Jaluit_Atoll
+Wotje,Wotje,One of the four Marshalls atolls Japan built an airfield on,,沃杰,https://en.wikipedia.org/wiki/Wotje_Atoll
+Enewetak,Enewetak,"A large atoll at the western edge of the Marshalls, with an airstrip on Engebi",,埃內韋塔克,https://en.wikipedia.org/wiki/Enewetak_Atoll
+Bikini,Bikini,A northern atoll with no airfield and no battle,,比基尼,https://en.wikipedia.org/wiki/Bikini_Atoll
+Ebon,Ebon,The southernmost atoll of the Marshalls,エボン (Ebon),埃邦,https://en.wikipedia.org/wiki/Ebon_Atoll

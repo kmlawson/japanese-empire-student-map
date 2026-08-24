@@ -4165,31 +4165,37 @@ JMAP.PROVINCES = {
   Chichijima: {
     en: 'Chichijima', ja: '父島 (Chichijima)', zh: '父島', ko: '지치지마섬',
     wiki: 'https://en.wikipedia.org/wiki/Chichijima',
+    short: 'The administrative centre of the group and its only good harbour, Futami',
     note: 'The administrative centre of the group and its only good harbour, Futami. The first settlement was made in 1830 by a party of Americans, Europeans and Hawaiians; Perry called in 1853 and wanted a coaling station on it. Japan annexed the islands in 1876 and naturalised the settlers, whose descendants live on the island still.'
   },
   Hahajima: {
     en: 'Hahajima', ja: '母島 (Hahajima)', zh: '母島', ko: '하하지마섬',
     wiki: 'https://en.wikipedia.org/wiki/Hahajima',
+    short: 'The second settlement of the Bonins, forty kilometres south of Chichijima',
     note: 'The second settlement of the Bonins, forty kilometres south of Chichijima, growing sugar cane and vegetables for the Tokyo market.'
   },
   Mukojima: {
     en: 'Mukojima', ja: '聟島 (Mukojima)', zh: '聟島', ko: '무코지마섬',
     wiki: 'https://en.wikipedia.org/wiki/Muko-jima',
+    short: 'The northernmost cluster of the Bonins, uninhabited',
     note: 'The northernmost cluster of the Bonins, uninhabited, and grazed bare by the goats landed on it in the nineteenth century.'
   },
   'Iwo Jima (Iō-tō)': {
     en: 'Iwo Jima (Iō-tō)', ja: '硫黄島 (Iō-tō)', zh: '硫磺島', ko: '이오섬',
     wiki: 'https://en.wikipedia.org/wiki/Iwo_Jima',
+    short: 'The name means sulphur island and the sulphur was worked from the 1890s',
     note: 'The name means sulphur island and the sulphur was worked from the 1890s, alongside sugar and coca, by about a thousand settlers in two villages. It is the only one of the Volcano Islands flat enough to build an airfield on, which is what decided its history.'
   },
   'Kita-Iō-tō': {
     en: 'Kita-Iō-tō (North Iwo Jima)', ja: '北硫黄島 (Kita-Iōtō)', zh: '北硫磺島', ko: '기타이오섬',
     wiki: 'https://en.wikipedia.org/wiki/North_Iwo_Jima',
+    short: 'A cone with no harbour and no flat ground',
     note: 'A cone with no harbour and no flat ground, farmed in terraces by a few hundred people until they were taken off in 1944. Uninhabited since.'
   },
   'Minami-Iō-tō': {
     en: 'Minami-Iō-tō (South Iwo Jima)', ja: '南硫黄島 (Minami-Iōtō)', zh: '南硫磺島', ko: '미나미이오섬',
     wiki: 'https://en.wikipedia.org/wiki/South_Iwo_Jima',
+    short: 'Cliffs on every side, never settled and never garrisoned',
     note: 'Cliffs on every side, never settled and never garrisoned. It is a nature reserve now and almost nobody is allowed to land.'
   },
   Assam: {
@@ -4233,37 +4239,44 @@ JMAP.PROVINCES = {
   Madras: { en: 'Madras Presidency', wiki: 'https://en.wikipedia.org/wiki/Madras_Presidency' },
   Arakan: {
     en: 'Arakan Division', zh: '阿拉干省', wiki: 'https://en.wikipedia.org/wiki/Arakan_Division',
+    short: 'The coast west of the Arakan Yoma',
     note: 'The coast west of the Arakan Yoma, shut off from the rest of Burma by a range with no road across it and reached instead by sea, which is why it looks to the Bay of Bengal and to Chittagong rather than to Rangoon. Akyab, at the mouth of the Kaladan, was one of the great rice ports of the world in the nineteenth century and still shipped the delta\'s crop in these years; behind it the division ran down through Kyaukpyu and Sandoway to the Arakan Hill Tracts, a district of a few thousand people whose Deputy Commissioner was a police officer and which was an Excluded Area after 1937. Seasonal and then permanent migration from Bengal had made Akyab district heavily Muslim, and when the front passed through in 1942 the communal killing that followed emptied whole tracts in both directions.'
   },
   Pegu: {
     en: 'Pegu Division', zh: '勃固省', wiki: 'https://en.wikipedia.org/wiki/Bago_Region',
+    short: 'The lower Sittang and the country round Rangoon',
     note: 'The lower Sittang and the country round Rangoon: the richest rice ground in Burma and the division through which nearly everything the country sold left it. Rangoon Town was a district in its own right and the division\'s headquarters, the third port of the Indian empire, with the rice mills along the Pazundaung creek, the Burmah Oil refineries at Syriam across the river, and a population more Indian than Burmese for much of this period. Prome and Tharrawaddy behind it are old rice districts, and Tharrawaddy is where Saya San proclaimed himself king in December 1930 and set off the rising that took two years and several divisions of troops to put down. Toungoo is not here: it was Tenasserim\'s, apart from the thirty months between December 1922 and June 1925.'
   },
   Irrawaddy: {
     en: 'Irrawaddy Division', zh: '伊洛瓦底省',
     wiki: 'https://en.wikipedia.org/wiki/Ayeyarwady_Region',
+    short: 'The delta proper — Bassein, Henzada, Myaungmya, Maubin and Pyapon',
     note: 'The delta proper — Bassein, Henzada, Myaungmya, Maubin and Pyapon — and the largest single work of land clearance in nineteenth-century Asia: after 1852 the British opened the swamp and tidal forest to settlement, and Burmese cultivators moving down from the dry zone turned it into the rice bowl that fed India and much of the East. The money came from Chettiar bankers out of Madras lending against the land, and when the price of rice collapsed after 1930 the mortgages were foreclosed on a scale that transferred a quarter of the delta\'s paddy to non-agriculturist owners inside a decade. That is the ground the tenancy agitation and the anti-Indian riots of the 1930s grew out of, and the division was also where the Karen Christian communities of the delta lived.'
   },
   Tenasserim: {
     en: 'Tenasserim Division', zh: '丹那沙林省',
     wiki: 'https://en.wikipedia.org/wiki/Tanintharyi_Region',
+    short: 'The longest of the divisions',
     note: 'The longest of the divisions, running from Toungoo on the Sittang down the narrow coast almost to the Kra isthmus. Moulmein, in Amherst district, was the second port of Burma and the teak town, where the logs came down the Salween to be sawn and shipped; Tavoy and Mergui in the south had the tin and wolfram that made Burma one of the world\'s larger producers of both in the 1930s, worked in lode mines and by dredge, and the Mergui archipelago\'s eight hundred islands lie off them. At its head is the Salween District — one township of Karen hills round Papun, the smallest district in Burma by population, with no town in it and a police officer for a Deputy Commissioner, and wholly an Excluded Area after 1937.'
   },
   Magwe: {
     en: 'Magwe Division', zh: '馬圭省', wiki: 'https://en.wikipedia.org/wiki/Magway_Region',
+    short: 'The dry zone: the middle Irrawaddy in the rain shadow of the Arakan Yoma',
     note: 'The dry zone: the middle Irrawaddy in the rain shadow of the Arakan Yoma, where under nine hundred millimetres fall in a year and the crops are sesame, millet, groundnut, beans and cotton rather than rice. Its wealth was oil — the seepages at Yenangyaung had been worked by hereditary hand-diggers for centuries and by the Burmah Oil Company from 1886, and the field supplied the greater part of British India\'s petroleum until the British fired it on 16 April 1942 as they withdrew. Behind it stand the Chin Hills, a district of this division on paper and a country of terraced villages and tribal chiefs in practice, administered under the Chin Hills Regulation of 1896 and an Excluded Area from 1937.'
   },
   MandalayDiv: {
     en: 'Mandalay Division', zh: '曼德勒省', wiki: 'https://en.wikipedia.org/wiki/Mandalay_Region',
+    short: 'The last royal capital, taken in November 1885',
     note: 'The last royal capital, taken in November 1885, and the cultural centre of Buddhist Burma: the palace inside its moat, the monasteries, the Kuthodaw pagoda with the Tipitaka cut into seven hundred and twenty-nine marble slabs. The division is the other half of the dry zone and depends on irrigation — the Kyaukse weirs are among the oldest working waterworks in South-East Asia, and the canals of Mandalay, Shwebo and Meiktila carried the rice that the rainfall would not. Maymyo, up in the hills at a thousand metres, was where the government of Burma moved for the hot weather, and the division held the army\'s Burmese and Gurkha depots. The palace burned in the fighting of March 1945.'
   },
   Sagaing: {
     en: 'Sagaing Division', zh: '實皆省', wiki: 'https://en.wikipedia.org/wiki/Sagaing_Region',
+    short: 'The largest division and the emptiest',
     note: 'The largest division and the emptiest, running from the Shwebo plain up the Chindwin and the Irrawaddy to Putao and the Triangle, and taking in Bhamo and Myitkyina with the Kachin Hill Tracts inside them. It is teak country — the Chindwin forests were the Bombay Burmah Trading Corporation\'s, and it was a quarrel over their leases that gave Britain its pretext for the war of 1885 — with jade at Hpakant, amber in the Hukawng and gold in the northern rivers. Much of it was not administered at all: the 1931 census left 28,118 square miles of the province unenumerated and most of that was here, in the Naga country, the Hukawng, the Triangle and the Putao subdivision. The Kachin Hill Tracts were Part I Excluded Areas from 1937 and the rest of Myitkyina and Bhamo Part II.'
   },
   ShanStates: {
     en: 'The Federated Shan States', zh: '撣邦',
-    wiki: 'https://en.wikipedia.org/wiki/Shan_States',
+    wiki: 'https://en.wikipedia.org/wiki/Shan_States', short: 'The plateau east of the Sittang',
     note: 'The plateau east of the Sittang, a thousand metres up and cut through by the Salween gorge, held not as districts but as thirty-three states under their own saohpa, myoza and ngwekunhmu — federated in 1922 under a Commissioner at Taunggyi with a council of chiefs and a Federal Fund fed by a share of each state\'s revenue. Rice grew in the valleys and opium in the hills; the Bawdwin mine at Namtu, worked since the Ming for silver and reopened by Herbert Hoover\'s syndicate before the First World War, was the largest lead and silver producer in the British Empire, with its own railway down to Lashio. The Federation was an Excluded Area under the 1935 Act, outside the Burmese legislature altogether, and beyond it to the east lay the Wa country, which nobody administered and whose boundary with China was not settled until 1941.'
   },
   Karenni: {
@@ -4278,6 +4291,7 @@ JMAP.PROVINCES = {
   },
   MongpanEast: {
     en: 'Mongpan east of the Salween', zh: '孟畔東部',
+    short: 'The part of the Shan state of Mongpan lying east of the Salween',
     note: 'The part of the Shan state of Mongpan lying east of the Salween, taken with Kengtung in 1942 and handed to Thailand with it in 1943. The river is the boundary that mattered: everything east of it went, and the rest of Mongpan stayed Burmese, which is why this is a piece of a state and not a state.'
   },
   'Shaan-Gan-Ning': {
@@ -4299,6 +4313,7 @@ JMAP.PROVINCES = {
   },
   'Taihang and Taiyue': {
     en: 'Tàiháng and Tàiyuè', zh: '太行・太岳',
+    short: 'The mountain spine the Eighth Route Army\'s 129th Division held',
     note: 'The mountain spine the Eighth Route Army\'s 129th Division held, and the headquarters of the whole north China command. The Hundred Regiments Offensive was launched from here in August 1940, and the reprisals that followed fell hardest on these valleys.'
   },
   'Ji-Lu-Yu': {
@@ -4359,109 +4374,134 @@ JMAP.PROVINCES = {
   },
   Anhui: {
     en: 'Ānhuī (Anhwei) — cut in two by the Huai and again by the Yangtze: wheat and sweet potato on the northern plain, rice and tea in the hills south of the river, and between them a floodplain that drowned somewhere almost every year. Poor, populous and a byword for famine relief. The Nationalists broke the Yellow River dikes at Huayuankou in June 1938 to slow the Japanese advance, and the flood ran across northern Anhui for the next nine years; the province stayed divided for the rest of the war between the occupied railway corridor, the Nationalist pocket in the north-west, and the New Fourth Army in the hills — where in January 1941 Nationalist troops destroyed its headquarters, the Wannan Incident, and the united front effectively ended.',
-    ja: '安徽 (Anki)', zh: '安徽', ko: '안후이성', wiki: 'https://en.wikipedia.org/wiki/Anhui'
+    ja: '安徽 (Anki)', zh: '安徽', ko: '안후이성', wiki: 'https://en.wikipedia.org/wiki/Anhui',
+    short: 'Cut in two by the Huai and again by the Yangtze'
   },
   Chahaer: {
     en: 'Cháhā’ěr (Chahar) — steppe rising north from the Wall, thin soil, mostly grazed rather than ploughed, with Zhangjiakou at its gate: the Kalgan of the caravan trade, where the brick tea, wool and hides of Outer Mongolia came south. Made a province out of a frontier special district in 1928. Japanese pressure detached the north from 1935, and from 1936 the Mongol prince Demchugdongrub headed a Japanese-sponsored government there; after Zhangjiakou fell in 1937 the province became the core of Mengchiang. Abolished in 1952 and divided between Hebei, Shanxi and Inner Mongolia.',
     ja: '察哈爾 (Chaharu)', zh: '察哈爾', ko: '차하얼성',
-    wiki: 'https://en.wikipedia.org/wiki/Chahar_Province'
+    wiki: 'https://en.wikipedia.org/wiki/Chahar_Province',
+    short: 'Steppe rising north from the Wall, thin soil, mostly grazed rather than ploughed'
   },
   Fujian: {
     en: 'Fújiàn (Fukien) — mountains that come almost to the sea, so little flat land that the province never fed itself and the sea did the work instead: tea from the Wuyi hills, timber down the Min, and the ports that sent more emigrants to Southeast Asia than anywhere else in China, whose remittances were a real part of the provincial economy. The 19th Route Army, sent to suppress the Communists, revolted instead and declared the People\'s Government of Fujian in November 1933; Chiang Kai-shek crushed it by January. Japan took Xiamen in May 1938 and Fuzhou twice, but never the interior.',
-    ja: '福建 (Fukken)', zh: '福建', ko: '푸젠성', wiki: 'https://en.wikipedia.org/wiki/Fujian'
+    ja: '福建 (Fukken)', zh: '福建', ko: '푸젠성', wiki: 'https://en.wikipedia.org/wiki/Fujian',
+    short: 'Mountains that come almost to the sea'
   },
   Gansu: {
     en: 'Gānsù (Kansu) — the Hexi corridor, a thread of oasis towns between the Qilian snows and the desert, carrying the old road to Central Asia and, after 1937, the lorries bringing Soviet aid to Free China. Wool, wheat where there is water, and very little else; the Muslim generals of the Ma family held the west in near-independence. One of the poorest and most isolated provinces, and a byword for famine: the drought of 1928–30 is thought to have killed millions, and the earthquake of 1920 in the loess hills perhaps 200,000 more.',
-    ja: '甘粛 (Kanshuku)', zh: '甘肅', ko: '간쑤성', wiki: 'https://en.wikipedia.org/wiki/Gansu'
+    ja: '甘粛 (Kanshuku)', zh: '甘肅', ko: '간쑤성', wiki: 'https://en.wikipedia.org/wiki/Gansu',
+    short: 'The Hexi corridor, a thread of oasis towns between the Qilian snows and the desert'
   },
   Guangdong: {
     en: 'Guǎngdōng (Kwangtung) — the Pearl River delta, warm and wet enough for two or three crops a year, with silk, sugar and fruit alongside the rice, and Canton at the centre of a trade that had run to the outside world for longer than anywhere else in China. The province that sent most of the emigrants who built the Chinese communities of the Americas and Southeast Asia, and whose remittances paid for much of what was modern in it. The Nationalist revolution began here — the Canton–Hong Kong strike of 1925–26, the Northern Expedition setting out in 1926, the Canton Commune of 1927. Chen Jitang then ran it in near-independence from 1929 until 1936. Japan landed at Bias Bay in October 1938 and had Canton within ten days, cutting the last railway to Hong Kong.',
-    ja: '広東 (Kanton)', zh: '廣東', ko: '광둥성', wiki: 'https://en.wikipedia.org/wiki/Guangdong'
+    ja: '広東 (Kanton)', zh: '廣東', ko: '광둥성', wiki: 'https://en.wikipedia.org/wiki/Guangdong',
+    short: 'The Pearl River delta, warm and wet enough for two or three crops a year, with silk'
   },
   Guangxi: {
     en: 'Guǎngxī (Kwangsi) — karst towers over thin red soil, more hill than field, and poor: rice in the valleys, timber and star anise off the slopes, and not much surplus in any of it. What it exported was soldiers. The Guangxi clique under Li Zongren and Bai Chongxi ran the province as a model militarised state, conscripting and drilling on a scale nowhere else attempted, and used it to fight Chiang Kai-shek in 1929 and again in 1930 before becoming, after 1937, among the most effective commanders of the war. Japan drove down the province in 1939 to cut the road from Indochina, and again in the Ichigō offensive of 1944, which took Guilin and Liuzhou and the American airfields on them.',
-    ja: '広西 (Kōsei)', zh: '廣西', wiki: 'https://en.wikipedia.org/wiki/Guangxi'
+    ja: '広西 (Kōsei)', zh: '廣西', wiki: 'https://en.wikipedia.org/wiki/Guangxi',
+    short: 'Karst towers over thin red soil, more hill than field, and poor: rice in the valleys'
   },
   Guizhou: {
     en: 'Guìzhōu (Kweichow) — the poorest province of the interior and the one least able to feed itself: limestone hills, thin soil, cloud for much of the year, and a saying that there are never three days without rain or three acres of flat land. Maize and buckwheat where rice will not grow, mercury from Wanshan, and opium as the one crop worth the cost of carrying out. Home to Miao and Bouyei peoples with a long history of revolt against Han administration. The Long March crossed it in 1935, and at Zunyi in January that year the Party conference met that left Mao Zedong in effective command. From 1937 the road from Chongqing to Burma ran through Guiyang, and the province mattered more in five years than it had in fifty.',
-    ja: '貴州 (Kishū)', zh: '貴州', ko: '구이저우성', wiki: 'https://en.wikipedia.org/wiki/Guizhou'
+    ja: '貴州 (Kishū)', zh: '貴州', ko: '구이저우성', wiki: 'https://en.wikipedia.org/wiki/Guizhou',
+    short: 'The poorest province of the interior and the one least able to feed itself'
   },
   Hebei: {
     en: 'Héběi (Hopei) — the north China plain, flat, dusty and intensively farmed in wheat, millet and cotton, with the coal at Kailuan and the ports of Tianjin and Qinhuangdao. Called Zhili, the \'directly ruled\' province, until 1928: the capital moved to Nanjing that year, Beijing became Beiping, and the province was renamed to say so. Then the frontier of every Japanese encroachment in turn — the Tanggu Truce of 1933 demilitarised its north-east, the He–Umezu agreement of 1935 pushed Nationalist forces out altogether, and the East Hebei Autonomous Council was set up under Japanese sponsorship. The war proper began at the Marco Polo Bridge outside Beiping on 7 July 1937.',
-    ja: '河北 (Kahoku)', zh: '河北', ko: '허베이성', wiki: 'https://en.wikipedia.org/wiki/Hebei'
+    ja: '河北 (Kahoku)', zh: '河北', ko: '허베이성', wiki: 'https://en.wikipedia.org/wiki/Hebei',
+    short: 'The north China plain, flat, dusty and intensively farmed in wheat, millet and cotton'
   },
   Heilongjiang: {
     en: 'Hēilóngjiāng (Heilungkiang) — the black-earth north, the deepest and best soil in China, thinly settled until the great migration from Shandong and Hebei filled it in the 1920s and 30s. Soybeans above all — Manchuria supplied most of the world\'s crop, and this province much of Manchuria\'s — with wheat, timber from the Khingan forests, and Harbin as a Russian-built railway city on the Sungari. Occupied by Japan in the winter of 1931–32 after fighting at the Nen river bridges, and folded into Manchukuo, where it was broken up and the name Lungkiang given to a smaller province. Unit 731 built its compound at Pingfang outside Harbin.',
     ja: '黒竜江 (Kokuryūkō)', zh: '黑龍江', ko: '헤이룽장성',
-    wiki: 'https://en.wikipedia.org/wiki/Heilongjiang'
+    wiki: 'https://en.wikipedia.org/wiki/Heilongjiang',
+    short: 'The black-earth north, the deepest and best soil in China'
   },
   Henan: {
     en: 'Hénán (Honan) — the north China plain either side of the Yellow River, wheat and cotton and too many people for the land, with the Longhai and Pinghan railways crossing at Zhengzhou and making it the hinge of every campaign fought in the north. The Nationalists broke the dikes at Huayuankou in June 1938 to stop the Japanese advance on Wuhan: the river left its bed and ran south-east into the Huai, drowning several hundred thousand people and displacing millions, and did not return until 1947. The famine of 1942–43, drought compounded by requisitioning, killed perhaps two million more. Ichigō overran what was left in 1944.',
-    ja: '河南 (Kanan)', zh: '河南', ko: '허난성', wiki: 'https://en.wikipedia.org/wiki/Henan'
+    ja: '河南 (Kanan)', zh: '河南', ko: '허난성', wiki: 'https://en.wikipedia.org/wiki/Henan',
+    short: 'The north China plain either side of the Yellow River'
   },
   Hubei: {
     en: 'Húběi (Hupeh) — the Yangtze and the Han meeting at Wuhan, which by the 1920s was the industrial centre of the interior: the Hanyang ironworks and arsenal fed by the ore at Daye, cotton mills, and the head of navigation for ocean shipping. Rice and cotton on the lake plains, and floods when the river rose over them. The revolution of 1911 began at Wuchang, and the Nationalist government moved here in 1926–27 before splitting. After Nanjing fell in 1937 Wuhan became China\'s capital in all but name until the four-month battle for it ended in October 1938, when the government withdrew up the gorges to Chongqing.',
-    ja: '湖北 (Kohoku)', zh: '湖北', ko: '후베이성', wiki: 'https://en.wikipedia.org/wiki/Hubei'
+    ja: '湖北 (Kohoku)', zh: '湖北', ko: '후베이성', wiki: 'https://en.wikipedia.org/wiki/Hubei',
+    short: 'The Yangtze and the Han meeting at Wuhan'
   },
   Hunan: {
     en: 'Húnán — rice from the Dongting lake plains, enough that the province was one of the country\'s granaries, with tea, timber and the antimony at Xikuangshan, the largest deposit in the world. Hills and lakes, and a strong provincial tradition of soldiering and dissent: Mao Zedong was born at Shaoshan, and the Autumn Harvest Uprising of 1927 was fought here. Changsha was burned by its own garrison in November 1938, in a scorched-earth order given in panic and carried out on a city that had not yet been threatened — one of the war\'s worst self-inflicted disasters. The city was then defended successfully three times between 1939 and 1942 before falling in 1944.',
-    ja: '湖南 (Konan)', zh: '湖南', ko: '후난성', wiki: 'https://en.wikipedia.org/wiki/Hunan'
+    ja: '湖南 (Konan)', zh: '湖南', ko: '후난성', wiki: 'https://en.wikipedia.org/wiki/Hunan',
+    short: 'Rice from the Dongting lake plains'
   },
   Jehol: {
     en: 'Rèhé (Jehol) — forest, grassland and dry hills beyond the Wall, the old Qing hunting country with the summer palace at Chengde, thinly populated and poor, its cash crop opium. Made a province in 1928 out of one of the frontier special districts. Japan took it in a three-week campaign in February and March 1933 and attached it to Manchukuo, which brought the frontier to the Great Wall and produced the Tanggu Truce; the province was the first ground beyond Manchuria that Japan annexed outright. Abolished in 1955 and divided between Hebei, Liaoning and Inner Mongolia.',
-    ja: '熱河 (Nekka)', zh: '熱河'
+    ja: '熱河 (Nekka)', zh: '熱河', short: 'Forest, grassland and dry hills beyond the Wall'
   },
   Jiangsu: {
     en: 'Jiāngsū (Kiangsu) — the Yangtze delta, flat, wet, and the richest farmland in China: rice, wheat, cotton and silk, canals instead of roads, and the greatest concentration of industry in the country round Shanghai, which sat inside the province but was governed apart from it. Nanjing became the national capital in 1928. Japan landed on the Shanghai front in August 1937; the battle lasted three months and cost the Nationalists their best divisions, and Nanjing fell on 13 December, when the Japanese army massacred somewhere between tens of thousands and 300,000 people in the city and around it. The province was occupied for the rest of the war, and the collaborationist government under Wang Jingwei sat in the same capital from 1940.',
-    ja: '江蘇 (Kōso)', zh: '江蘇', ko: '장쑤성', wiki: 'https://en.wikipedia.org/wiki/Jiangsu'
+    ja: '江蘇 (Kōso)', zh: '江蘇', ko: '장쑤성', wiki: 'https://en.wikipedia.org/wiki/Jiangsu',
+    short: 'The Yangtze delta, flat, wet, and the richest farmland in China: rice, wheat'
   },
   Jiangxi: {
     en: 'Jiāngxī (Kiangsi) — the Gan valley draining north into Poyang lake, rice on the flats, tungsten in the southern hills — the world\'s main source — and the porcelain kilns at Jingdezhen, working for six centuries. Also where the Chinese Communist Party built its first state: the Jiangxi Soviet, proclaimed at Ruijin in 1931, survived four encirclement campaigns and fell to the fifth in 1934, and the Long March set out from here in October of that year. Japan took Nanchang in 1939; the Ichigō offensive cleared the railway in 1944.',
-    ja: '江西 (Kōsei)', zh: '江西', ko: '장시성', wiki: 'https://en.wikipedia.org/wiki/Jiangxi'
+    ja: '江西 (Kōsei)', zh: '江西', ko: '장시성', wiki: 'https://en.wikipedia.org/wiki/Jiangxi',
+    short: 'The Gan valley draining north into Poyang lake, rice on the flats'
   },
   Jilin: {
     en: 'Jílín (Kirin) — soybeans, sorghum and forest between the Sungari and the Changbai mountains, a frontier province settled late and fast by migrants from Shandong. Changchun sat on it, an ordinary railway town until Japan made it the capital of Manchukuo in 1932, renamed it Hsinking, the New Capital, and rebuilt it with boulevards and ministries for a state that answered to the Kwantung Army. The province was occupied in the first weeks after the Mukden Incident of September 1931, and its army units split between surrender and resistance under Ma Zhanshan and others.',
-    ja: '吉林 (Kirin)', zh: '吉林', ko: '지린성', wiki: 'https://en.wikipedia.org/wiki/Jilin'
+    ja: '吉林 (Kirin)', zh: '吉林', ko: '지린성', wiki: 'https://en.wikipedia.org/wiki/Jilin',
+    short: 'Soybeans, sorghum and forest between the Sungari and the Changbai mountains'
   },
   Liaoning: {
     en: 'Liáoníng — the industrial heart of the north-east and the most developed province in China: coal at Fushun, the open pit the largest in Asia; iron and steel at Anshan; Dalian and Yingkou for shipping; and the South Manchuria Railway, which was less a railway than a Japanese state within a state, owning mines, towns and its own garrison. Soybeans and sorghum on the Liao plain besides. Renamed from Fengtien in 1929 by Zhang Xueliang, and called Fengtien again under Manchukuo. The Mukden Incident of 18 September 1931 — a bomb on the railway, laid by Japanese officers — began the occupation here, and with it the fourteen years of war.',
-    ja: '遼寧 (Ryōnei)', zh: '遼寧', ko: '랴오닝성', wiki: 'https://en.wikipedia.org/wiki/Liaoning'
+    ja: '遼寧 (Ryōnei)', zh: '遼寧', ko: '랴오닝성', wiki: 'https://en.wikipedia.org/wiki/Liaoning',
+    short: 'The industrial heart of the north-east and the most developed province in China'
   },
   Ningxia: {
     en: 'Níngxià (Ninghsia) — the Yellow River\'s irrigated bend, green in a band a few miles wide, with desert and the Helan mountains either side. Wheat and rice under canals dug for a thousand years, sheep and wool, and the goji and liquorice that were about all it exported. Made a province in 1928 and run as a family holding by Ma Hongkui of the Muslim Ma clique, who kept his own army and his own politics; the Communists reached its southern edge on the Long March. Never occupied by Japan, though bombed, and the frontier with Japanese-held Suiyuan ran across the desert to the east.',
-    ja: '寧夏 (Neika)', zh: '寧夏', wiki: 'https://en.wikipedia.org/wiki/Ningxia'
+    ja: '寧夏 (Neika)', zh: '寧夏', wiki: 'https://en.wikipedia.org/wiki/Ningxia',
+    short: 'The Yellow River\'s irrigated bend, green in a band a few miles wide'
   },
   Qinghai: {
     en: 'Qīnghǎi (Tsinghai) — high pasture round the salt lake of Kokonor, cold, dry and mostly above 3,000 metres, grazed by Tibetan and Mongol herders rather than farmed; the Yellow and Yangtze both rise here. Wool and hides were the export, carried out by caravan. Made a province in 1928 and run by Ma Bufang of the Ma clique, whose cavalry mauled the Communist Fourth Front Army\'s Western Column in 1936–37. Nominally Chinese and in practice governed from Xining by agreement with the monasteries and the tribes; Lhasa claimed the southern grasslands throughout.',
-    ja: '青海 (Seikai)', zh: '青海', ko: '칭하이성', wiki: 'https://en.wikipedia.org/wiki/Qinghai'
+    ja: '青海 (Seikai)', zh: '青海', ko: '칭하이성', wiki: 'https://en.wikipedia.org/wiki/Qinghai',
+    short: 'High pasture round the salt lake of Kokonor, cold, dry and mostly above 3,000 metres'
   },
   Shaanxi: {
     en: 'Shǎnxī (Shensi) — the loess plateau, wind-blown yellow soil cut into ravines, and the Wei valley below it, where wheat and cotton grow and Chinese history begins: Xi\'an was the capital of eleven dynasties. Poor, eroded and drought-stricken in the north. The Long March ended here in October 1935, and Yan\'an became the Communist capital for the next decade, the base from which the Party rebuilt itself. In December 1936 Zhang Xueliang arrested Chiang Kai-shek at Xi\'an and held him until he agreed to a united front against Japan — the single event that turned the civil war into a national one.',
-    ja: '陝西 (Sensei)', zh: '陝西', wiki: 'https://en.wikipedia.org/wiki/Shaanxi'
+    ja: '陝西 (Sensei)', zh: '陝西', wiki: 'https://en.wikipedia.org/wiki/Shaanxi',
+    short: 'The loess plateau, wind-blown yellow soil cut into ravines, and the Wei valley below it'
   },
   Shandong: {
     en: 'Shāndōng (Shantung) — wheat, millet, cotton and groundnuts on a densely farmed plain, a hilly peninsula between two seas, and more people than the land could hold, which is why Shandong supplied most of the migrants who filled Manchuria. Confucius\'s Qufu, Tai Shan, and at Qingdao a German colony taken by Japan in 1914 and returned in 1922, leaving a brewery and a European town behind it. The Japanese army clashed with the Northern Expedition at Jinan in 1928 and killed several thousand. Han Fuju governed from 1930, withdrew without fighting in December 1937, and was shot for it. Much of the countryside then passed to Communist base areas that the occupation never cleared.',
-    ja: '山東 (Santō)', zh: '山東', ko: '산둥성', wiki: 'https://en.wikipedia.org/wiki/Shandong'
+    ja: '山東 (Santō)', zh: '山東', ko: '산둥성', wiki: 'https://en.wikipedia.org/wiki/Shandong',
+    short: 'Wheat, millet, cotton and groundnuts on a densely farmed plain'
   },
   Shanxi: {
     en: 'Shānxī (Shansi) — the richest coalfield in China under a dry loess plateau, ringed by mountains that made it easy to hold and hard to enter, with the Fen valley for wheat and millet and very little rain. Yan Xishan ruled it from 1911 to 1949, ran it with its own narrow-gauge railway so that no outside army could use it, its own currency and its own bank, built an arsenal and a steelworks at Taiyuan, and led the coalition that fought Chiang Kai-shek in the Central Plains War of 1930. Japan invaded in 1937 and took Taiyuan in November after the battles at Pingxingguan and Xinkou; the Eighth Route Army then made the Taihang mountains a base area, and the Hundred Regiments Offensive of 1940 was fought largely across this province.',
-    ja: '山西 (Sansei)', zh: '山西', wiki: 'https://en.wikipedia.org/wiki/Shanxi'
+    ja: '山西 (Sansei)', zh: '山西', wiki: 'https://en.wikipedia.org/wiki/Shanxi',
+    short: 'The richest coalfield in China under a dry loess plateau'
   },
   Sichuan: {
     en: 'Sìchuān (Szechwan) — the Red Basin behind the Yangtze gorges, warm, wet and walled in by mountains, the most populous province in China and among the most fertile: rice, silk, tea, tung oil, and salt from the deep bored wells at Zigong, sunk with bamboo cable centuries before anyone else drilled that far. Also a great deal of opium. Cut off enough to go its own way, and divided in the 1920s among garrison-area warlords — Liu Xiang and Liu Wenhui the largest — who fought each other steadily and were not brought under Nanjing until 1935. When the government withdrew up the gorges in 1938 and made Chongqing its wartime capital, the province became Free China\'s arsenal and granary, and was bombed for five years for it.',
-    ja: '四川 (Shisen)', zh: '四川', ko: '쓰촨성', wiki: 'https://en.wikipedia.org/wiki/Sichuan'
+    ja: '四川 (Shisen)', zh: '四川', ko: '쓰촨성', wiki: 'https://en.wikipedia.org/wiki/Sichuan',
+    short: 'The Red Basin behind the Yangtze gorges, warm, wet and walled in by mountains'
   },
   Suiyuan: {
     en: 'Suíyuǎn (Suiyuan) — the Yellow River\'s northern bend, where the Hetao canals make a strip of irrigated wheat and sugar beet between the desert and the Ordos, with Baotou the railhead where the wool of the steppe met the line to Beijing. Made a province in 1928. Fu Zuoyi beat back a Japanese-sponsored Mongol force at Bailingmiao in November 1936 — the Suiyuan campaign, the first clear Chinese victory over Japanese-backed troops, and a considerable boost to national morale on the eve of the war. Japan took Baotou and the east in 1937 and it became part of Mengchiang; the west stayed Chinese throughout. Abolished in 1954 into Inner Mongolia.',
-    ja: '綏遠 (Suien)', zh: '綏遠', ko: '쑤이위안성', wiki: 'https://en.wikipedia.org/wiki/Suiyuan'
+    ja: '綏遠 (Suien)', zh: '綏遠', ko: '쑤이위안성', wiki: 'https://en.wikipedia.org/wiki/Suiyuan',
+    short: 'The Yellow River\'s northern bend'
   },
   SuiyuanWest: {
     en: 'Western Suíyuǎn — Wuyuan, Linhe and the Ordos beyond the reach of the occupation, held by Fu Zuoyi for the whole war. Irrigated farmland along the river, desert and grazing behind it, and the base from which he counter-attacked into Baotou in the winter of 1939–40.',
-    ja: '綏遠西部 (Suien seibu)', zh: '綏遠西部'
+    ja: '綏遠西部 (Suien seibu)', zh: '綏遠西部',
+    short: 'Wuyuan, Linhe and the Ordos beyond the reach of the occupation'
   },
   Xikang: {
     en: 'Xīkāng (Sikang) — eastern Kham, a country of gorges and 5,000-metre ranges where the Yangtze, Mekong and Salween run parallel within a hundred miles of each other; Tibetan in speech, dress and religion, with monasteries rather than magistrates as the real government. Barley, yaks, and the brick tea carried west from Sichuan in exchange for wool and hides. Claimed by both Nanjing and Lhasa and effectively held by neither: Liu Wenhui ran the eastern part from Kangding after being pushed out of Sichuan in 1933. A special administrative region until 1939, then a province, and abolished in 1955 between Sichuan and Tibet.',
-    ja: '西康 (Seikō)', zh: '西康', ko: '시캉성', wiki: 'https://en.wikipedia.org/wiki/Xikang'
+    ja: '西康 (Seikō)', zh: '西康', ko: '시캉성', wiki: 'https://en.wikipedia.org/wiki/Xikang',
+    short: 'Eastern Kham, a country of gorges and 5,000-metre ranges where the Yangtze'
   },
   Xinjiang: {
     en: 'Xīnjiāng (Sinkiang)', ja: '新疆 (Shinkyō)', zh: '新疆',
@@ -4473,34 +4513,42 @@ JMAP.PROVINCES = {
   },
   Yunnan: {
     en: 'Yúnnán — a high plateau of red earth broken by gorges, on the Burmese and Indochinese frontier, mild enough to be called the land of eternal spring and mountainous enough to have kept two dozen non-Han peoples distinct. Tin from Gejiu, one of the world\'s great deposits, copper, and a very great deal of opium; a French metre-gauge railway ran from Kunming to Haiphong and did more of the province\'s trade than the rest of China did. Long Yun ruled it from 1927 to 1945 with little reference to Nanjing. When the coast was lost the province became Free China\'s back door: the Burma Road opened from Kunming in 1938, the universities of Beijing, Tsinghua and Nankai moved there as the National Southwestern Associated University, and after Burma fell in 1942 the airlift over the Hump came in over the same mountains.',
-    ja: '雲南 (Unnan)', zh: '雲南', ko: '윈난성', wiki: 'https://en.wikipedia.org/wiki/Yunnan'
+    ja: '雲南 (Unnan)', zh: '雲南', ko: '윈난성', wiki: 'https://en.wikipedia.org/wiki/Yunnan',
+    short: 'A high plateau of red earth broken by gorges, on the Burmese and Indochinese frontier'
   },
   Zhejiang: {
     en: 'Zhèjiāng (Chekiang) — silk from the Hangzhou basin and the country round Lake Tai, tea from the hills, rice on the plain and a coast of fishing ports and thousands of islands; small, crowded, and among the wealthiest provinces per head. Ningbo\'s merchants ran much of Shanghai\'s banking. Japan took the north in 1937 and the coast in stages; after the Doolittle raiders of April 1942 came down in the province, the Japanese army spent three months destroying the airfields they might have used and the villages that had sheltered them, in a campaign that killed perhaps a quarter of a million people.',
-    ja: '浙江 (Sekkō)', zh: '浙江', ko: '저장성', wiki: 'https://en.wikipedia.org/wiki/Zhejiang'
+    ja: '浙江 (Sekkō)', zh: '浙江', ko: '저장성', wiki: 'https://en.wikipedia.org/wiki/Zhejiang',
+    short: 'Silk from the Hangzhou basin and the country round Lake Tai, tea from the hills'
   },
   Nanumea: {
     en: 'Nanumea', wiki: 'https://en.wikipedia.org/wiki/Nanumea',
+    short: 'An American airfield was built here in 1943',
     note: 'An American airfield was built here in 1943, one of three in the Ellice from which the Gilberts were attacked.'
   },
   Nanumanga: {
     en: 'Nanumanga (Nanumaga)', wiki: 'https://en.wikipedia.org/wiki/Nanumanga',
+    short: 'Never occupied by either side',
     note: 'Never occupied by either side. A wartime American landing party is remembered chiefly for what it did to the reef.'
   },
   Niutao: {
     en: 'Niutao', wiki: 'https://en.wikipedia.org/wiki/Niutao',
+    short: 'Never occupied. The Ellice were the nearest unoccupied ground to the Japanese perimeter',
     note: 'Never occupied. The Ellice were the nearest unoccupied ground to the Japanese perimeter.'
   },
   Nui: {
     en: 'Nui', wiki: 'https://en.wikipedia.org/wiki/Nui_(atoll)',
+    short: 'Never occupied; its people speak a Gilbertese dialect',
     note: 'Never occupied, and one of the Ellice atolls whose people speak a Gilbertese dialect rather than Tuvaluan — the boundary between the two groups runs through it.'
   },
   Vaitupu: {
     en: 'Vaitupu', wiki: 'https://en.wikipedia.org/wiki/Vaitupu',
+    short: 'The most populous of the Ellice',
     note: 'The most populous of the Ellice, and the site of the colony\'s secondary school.'
   },
   Nukufetau: {
     en: 'Nukufetau', wiki: 'https://en.wikipedia.org/wiki/Nukufetau',
+    short: 'An American airfield from 1943',
     note: 'An American airfield from 1943, the second of the three built in the group.'
   },
   Funafuti: {
@@ -4509,46 +4557,57 @@ JMAP.PROVINCES = {
   },
   Nukulaelae: {
     en: 'Nukulaelae', wiki: 'https://en.wikipedia.org/wiki/Nukulaelae',
+    short: 'Never occupied; two thirds of its people were carried off by slavers in 1863',
     note: 'Never occupied. Two thirds of its people had been carried off by Peruvian slavers in 1863 and it never recovered the numbers.'
   },
   Goa: {
     en: 'Goa', wiki: 'https://en.wikipedia.org/wiki/Goa',
+    short: 'Portuguese since 1510, and the capital of their Indian empire',
     note: 'Afonso de Albuquerque took Goa from the sultan of Bijapur in 1510 and it became the capital of the Estado da Índia, the seat of an archbishop, a viceroy and, from 1560, the Inquisition — "Golden Goa", a city said to rival Lisbon before malaria and cholera emptied it and the government moved down the Mandovi to Panjim in 1843. The territory is a laterite plateau cut by two estuaries, with the Western Ghats rising behind it, and it lived on coconut, cashew — which the Portuguese brought from Brazil and which is distilled here into feni — rice, salt and fish, with manganese and iron ore only beginning to be worked on any scale. Its largest export by this period was people: Goans went to Bombay and to the shipping lines in such numbers that the territory ran on remittances. Portugal was neutral, so Goa stayed out of the war — except in March 1943, when a British commando party from Calcutta rowed into Mormugão harbour and the German ship interned there was scuttled to avoid capture.'
   },
   'Damão (Daman)': {
     en: 'Damão (Daman)', wiki: 'https://en.wikipedia.org/wiki/Daman,_India',
+    short: 'A stretch of the Gujarat coast taken in 1559 and held ever since',
     note: 'A stretch of the Gujarat coast taken in 1559 and held ever since, split by the Damanganga river into Moti Daman inside its walls, with the fort, the churches and the administration, and Nani Daman across the water where the harbour and the boatyards are. It is flat, sandy country with salt pans, coconut and a shallow river mouth that would take nothing larger than a country craft, and its living came from fishing, from building and sailing wooden boats along the coast to Africa and Arabia, and from a distilling trade whose customers were on the other side of the frontier. The Bombay Presidency introduced prohibition in 1939, at which point a small Portuguese port a few kilometres away became considerably more interesting than it had been.'
   },
   Diu: {
     en: 'Diu', wiki: 'https://en.wikipedia.org/wiki/Diu,_India',
+    short: 'An island of two hundred metres of channel off the southern tip of Saurashtra',
     note: 'An island of two hundred metres of channel off the southern tip of Saurashtra, taken in 1535 after the Portuguese helped the sultan of Gujarat against the Mughals and kept in 1546 after one of the celebrated sieges of the sixteenth century — the fortress that came out of it runs the whole length of the seaward side and is the reason anyone remembers the place. By this period it was a town of a few thousand behind the walls, living on fishing, salt evaporated in pans along the creek, and the coconut and date palms that will grow on sand. Like the rest of Portuguese India it exported its young men, in Diu\'s case largely to Mozambique.'
   },
   'Dadrá (Dadra)': {
     en: 'Dadrá (Dadra)', wiki: 'https://en.wikipedia.org/wiki/Dadra',
+    short: 'Seven square kilometres and a single village',
     note: 'Seven square kilometres and a single village, sitting by itself a few kilometres inland from Daman and entirely surrounded by British India. It came to Portugal in 1783 with Nagar Haveli, made over by the Marathas in settlement of a claim for a ship taken at sea, and nothing much happened to it afterwards. It is farmland — rice, ragi and grazing on the plain below the hills — with a customs post, which in the twentieth century was the most economically significant thing about it.'
   },
   'Nagar Aveli (Nagar Haveli)': {
     en: 'Nagar Aveli (Nagar Haveli)', wiki: 'https://en.wikipedia.org/wiki/Nagar_Haveli',
+    short: 'Some seventy villages of hill country inland from Damão',
     note: 'Some seventy villages spread over about five hundred square kilometres of hill country inland from Daman, ceded by the Marathas in 1783 in the same settlement as Dadra, and by far the largest piece of Portuguese India outside Goa. The land is broken and forested, drained by the Damanganga, and the great majority of the people are Warli, Dhodia and Koli cultivators who were not Portuguese-speaking and not Catholic and who were administered lightly and taxed through their own headmen. Timber cut in the forests and floated down to Daman was the territory\'s export; rice and millet were what it ate.'
   },
   'Pondicherry (Puducherry)': {
     en: 'Pondicherry (Puducherry)', wiki: 'https://en.wikipedia.org/wiki/Pondicherry',
+    short: 'French from 1674, and the capital of French India',
     note: 'François Martin founded the settlement in 1674 and Dupleix made it the capital of French India and very nearly the capital of a French empire in the Carnatic before the wars of the 1750s settled that question the other way. What survived is a town laid out on a grid behind a sea wall, divided by a canal into a Ville Blanche of colonnaded houses and a Ville Noire of streets and temples, with four small districts of paddy and coconut behind it. Its old industry was cotton — the plain blue guinée cloth woven and dyed here was shipped to Senegal for the West African trade — and by the 1930s it had a spinning mill, oil presses and a brisk business in carrying goods across a customs line into British India. Sri Aurobindo had settled here in 1910 to be out of British reach, and the ashram built round him from 1926 made the town a place people came to for a quite different reason.'
   },
   'Karikal (Karaikal)': {
     en: 'Karikal (Karaikal)', wiki: 'https://en.wikipedia.org/wiki/Karaikal',
+    short: 'Bought from the raja of Thanjavur in 1739',
     note: 'Bought from the raja of Thanjavur in 1739, a compact block of the Cauvery delta with a small port at its mouth, which is to say some of the most productive rice land in southern India. It grew paddy, coconut and groundnut, milled and shipped rice, and had one of the very few sea outlets that was not under British customs. Beyond that it was a quiet town of temples and a colonial administration, tied to Pondicherry a hundred kilometres up the coast.'
   },
   'Yanaon (Yanam)': {
     en: 'Yanaon (Yanam)', wiki: 'https://en.wikipedia.org/wiki/Yanaon',
+    short: 'A few square kilometres on a creek of the Godavari delta',
     note: 'A few square kilometres on a creek of the Godavari delta, held from the 1720s and never more than a village with a residency, a customs house and a couple of thousand people. The delta round it is heavy irrigated rice country and the enclave grew the same, with a little coastal trade and, again, the advantage of being outside British India for anything the British taxed. It is the smallest and least visited of the five French settlements, and the one furthest from Pondicherry\'s reach.'
   },
   'Mahé (Mahe)': {
     en: 'Mahé (Mahe)', wiki: 'https://en.wikipedia.org/wiki/Mah%C3%A9',
+    short: 'The French post on the Malabar coast',
     note: 'The French post on the Malabar coast, established in 1721 at the mouth of a river running out of the Western Ghats, and originally there for one thing: the pepper that came down from the hills behind. The pepper trade went to the British in the nineteenth century and what remained was a town of some ten thousand people on nine square kilometres, growing coconut and areca and enclosed on every side by British Malabar. Its twentieth-century economy was frankly the frontier — tobacco, liquor and cloth carried the short distance into Madras Presidency — and the enclave\'s own politics were shaped by the Malayali world it sat inside rather than by Pondicherry.'
   },
   'Chandernagore (Chandannagar)': {
     en: 'Chandernagore (Chandannagar)', wiki: 'https://en.wikipedia.org/wiki/Chandannagar',
+    short: 'A French factory on the Hooghly from 1673, thirty-five kilometres above Calcutta',
     note: 'A French factory on the Hooghly from 1673, thirty-five kilometres above Calcutta, which was a serious rival to the British settlement until Clive took and dismantled it in 1757 and the wars of 1794 and 1803 finished the job. What was left was a riverside town of some twenty-five thousand people with a strand, a church, a French school and jute mills at Gondalpara, prosperous enough but with no hinterland at all. Its real importance in this period was jurisdictional: a few square kilometres of French soil in the middle of Bengal, half an hour from Calcutta, where Bengali revolutionaries could print, meet and shelter beyond the reach of British police — which they did, from the Swadeshi years onwards, and which the two governments argued about for decades.'
   },
   Tonkin: { en: 'Tonkin (protectorate)', zh: '東京', wiki: 'https://en.wikipedia.org/wiki/Tonkin' },
@@ -4562,26 +4621,31 @@ JMAP.PROVINCES = {
   'Sado Island': {
     en: 'Sado (Sadogashima)', ja: '佐渡島 (Sadogashima)', zh: '佐渡島', ko: '사도가섬',
     wiki: 'https://en.wikipedia.org/wiki/Sado_Island',
+    short: 'Gold and silver, worked from 1601',
     note: 'The gold and silver of Sado were worked from 1601 and paid for a good deal of the Tokugawa state; before that it was where the court sent people it wanted out of the way, Emperor Juntoku and the priest Nichiren among them. Korean and Chinese conscripts were worked in the mines during the war.'
   },
   'Tsushima Island': {
     en: 'Tsushima', ja: '対馬 (Tsushima)', zh: '對馬', ko: '쓰시마섬',
     wiki: 'https://en.wikipedia.org/wiki/Tsushima_Island',
+    short: 'Halfway between Kyūshū and Korea',
     note: 'Halfway between Kyūshū and Korea, and for three centuries the Sō family held the Korea trade from it under the shogunate\'s licence. Fortified from the 1880s as the gate to the strait, and the Russian fleet was destroyed off it in May 1905.'
   },
   'Iki Island': {
     en: 'Iki', ja: '壱岐島 (Ikinoshima)', zh: '壹岐島', ko: '이키섬',
     wiki: 'https://en.wikipedia.org/wiki/Iki_Island',
+    short: 'On the same road to Korea, and where the Mongol fleets landed in 1274 and again in 1281',
     note: 'On the same road to Korea, and where the Mongol fleets landed in 1274 and again in 1281, killing most of the population both times.'
   },
   'Awaji Island': {
     en: 'Awajishima', ja: '淡路島 (Awajishima)', zh: '淡路島', ko: '아와지섬',
     wiki: 'https://en.wikipedia.org/wiki/Awaji_Island',
+    short: 'In the Inland Sea between Kōbe and Shikoku, and known for its onions',
     note: 'In the Inland Sea between Kōbe and Shikoku, and known for its onions, its roof tiles and a puppet theatre older than Bunraku.'
   },
   Shodoshima: {
     en: 'Shōdoshima', ja: '小豆島 (Shōdoshima)', zh: '小豆島', ko: '쇼도섬',
     wiki: 'https://en.wikipedia.org/wiki/Sh%C5%8Ddoshima',
+    short: 'Where olives were first grown in Japan, from 1908',
     note: 'Where olives were first grown in Japan, from 1908, on land the government thought might suit them. Soy sauce and stone for Osaka Castle came from it too.'
   },
   Dōgo: {
@@ -4597,335 +4661,398 @@ JMAP.PROVINCES = {
   'Rishiri Island': {
     en: 'Rishiri', ja: '利尻島 (Rishiritō)', zh: '利尻島', ko: '리시리섬',
     wiki: 'https://en.wikipedia.org/wiki/Rishiri_Island',
+    short: 'A single volcanic cone off north-west Hokkaidō, and a herring station',
     note: 'A single volcanic cone off the north-west of Hokkaidō, and a herring station in the years when the herring still came.'
   },
   'Rebun Island': {
     en: 'Rebun', ja: '礼文島 (Rebuntō)', zh: '禮文島', ko: '레분섬',
     wiki: 'https://en.wikipedia.org/wiki/Rebun_Island',
+    short: 'The northernmost island of Hokkaidō\'s coast, treeless and flowered',
     note: 'The northernmost island of Hokkaidō\'s coast, treeless and flowered, and a herring and kelp fishery.'
   },
   'Okushiri-to': {
     en: 'Okushiri', ja: '奥尻島 (Okushiritō)', zh: '奧尻島', ko: '오쿠시리섬',
     wiki: 'https://en.wikipedia.org/wiki/Okushiri_Island',
+    short: 'A herring island off south-west Hokkaidō',
     note: 'Off the south-west of Hokkaidō, a herring island whose catch collapsed with the rest of the fishery between the wars.'
   },
   Izuoshima: {
     en: 'Izu Ōshima', ja: '伊豆大島 (Izu Ōshima)', zh: '伊豆大島', ko: '이즈오섬',
     wiki: 'https://en.wikipedia.org/wiki/Izu_%C5%8Cshima',
+    short: 'The nearest of the Izu islands to Tokyo',
     note: 'The nearest of the Izu islands to Tokyo, and its volcano Mihara was close enough to the capital to be a day\'s outing — and, in the 1930s, notorious as a place people went to jump into it.'
   },
   Kamishima: {
     en: 'Kamishima', ja: '天草上島 (Amakusa Kamishima)', zh: '天草上島',
     wiki: 'https://en.wikipedia.org/wiki/Kamishima_Island,_Amakusa',
+    short: 'The eastern of the two Amakusa islands',
     note: 'The eastern of the two Amakusa islands. Amakusa was Christian ground in the sixteenth century and rose with Shimabara in 1637; after the rising it was held directly by the shogunate, and lived on fish, salt and a little coal.'
   },
   Nagashima: {
     en: 'Nagashima', ja: '長島 (Nagashima)', zh: '長島',
     wiki: 'https://en.wikipedia.org/wiki/Nagashima_Island,_Kagoshima',
+    short: 'Off the northern tip of Kagoshima across the narrow Kuronoseto strait',
     note: 'Off the northern tip of Kagoshima across the narrow Kuronoseto strait, and Satsuma\'s outpost on that side. Terraced fields and yellowtail fishing; no bridge until 1974.'
   },
   'Ōyanojima': {
     en: 'Ōyanojima', ja: '大矢野島 (Ōyanojima)', zh: '大矢野島',
     wiki: 'https://en.wikipedia.org/wiki/%C5%8Cyano-jima',
+    short: 'The Amakusa island nearest the Kyūshū shore',
     note: 'The Amakusa island nearest the Kyūshū shore, and where Amakusa Shirō, the boy who led the Shimabara rising of 1637, is said to have been born.'
   },
   Nishinoshima: {
     en: 'Nishinoshima', ja: '西ノ島 (Nishinoshima)', zh: '西之島', ko: '니시노시마정',
     wiki: 'https://en.wikipedia.org/wiki/Nishinoshima,_Shimane',
+    short: 'One of the three Dōzen islands of Oki, the rim of a drowned crater',
     note: 'One of the three Dōzen islands of Oki, the rim of a drowned crater. The retired emperor Go-Toba was exiled here after the Jōkyū war of 1221 and died on the island in 1239.'
   },
   'Chiburi-jima': {
     en: 'Chiburijima', ja: '知夫里島 (Chiburijima)', zh: '知夫里島', ko: '지부리섬',
     wiki: 'https://en.wikipedia.org/wiki/Chiburijima',
+    short: 'The smallest and southernmost of the Oki Dōzen',
     note: 'The smallest and southernmost of the Oki Dōzen, cliffs down its western side and common grazing on top. Go-Daigo was held somewhere in these islands from 1332 and escaped in 1333; by one account it was from here.'
   },
   Hachijojima: {
     en: 'Hachijōjima', ja: '八丈島 (Hachijōjima)', zh: '八丈島', ko: '하치조섬',
     wiki: 'https://en.wikipedia.org/wiki/Hachij%C5%8D-jima',
+    short: 'Two volcanoes joined at the waist, 290 km south of Tokyo',
     note: 'Two volcanoes joined at the waist, 290 km south of Tokyo, and an exile island under the Tokugawa: Ukita Hideie, on the losing side at Sekigahara, was sent here and lived on it fifty years. Its export was kihachijō, a yellow silk pongee woven by the island\'s women.'
   },
   Miyakejima: {
     en: 'Miyakejima', ja: '三宅島 (Miyakejima)', zh: '三宅島', ko: '미야케섬',
     wiki: 'https://en.wikipedia.org/wiki/Miyake-jima',
+    short: 'A volcano that erupts about every twenty years — 1874, 1940, 1962',
     note: 'A volcano that erupts about every twenty years — 1874, 1940, 1962 — and an exile island before that. The eruption of 1940 killed eleven people.'
   },
   Niijima: {
     en: 'Niijima', ja: '新島 (Niijima)', zh: '新島', ko: '니지마섬',
     wiki: 'https://en.wikipedia.org/wiki/Nii-jima',
+    short: 'Quarried for kōga stone, a pale volcanic rock carried to Tokyo for building',
     note: 'Quarried for kōga stone, a pale volcanic rock carried to Tokyo for building, and one of the Izu exile islands.'
   },
   Kozushima: {
     en: 'Kōzushima', ja: '神津島 (Kōzushima)', zh: '神津島', ko: '고즈섬',
     wiki: 'https://en.wikipedia.org/wiki/K%C5%8Dzu-shima',
+    short: 'Obsidian was carried from here to the mainland in the Jōmon period',
     note: 'Obsidian was carried from here to the mainland in the Jōmon period, across forty kilometres of open sea — the earliest evidence of sea crossing in Japan. Christians were exiled to the island after 1614.'
   },
   Mikurajima: {
     en: 'Mikurajima', ja: '御蔵島 (Mikurajima)', zh: '御藏島', ko: '미쿠라섬',
     wiki: 'https://en.wikipedia.org/wiki/Mikura-jima',
+    short: 'Steep on every side, one village of a few hundred people',
     note: 'Steep on every side, one village of a few hundred people, and a ferry that lands only when the sea allows. Old-growth forest on the slopes above it.'
   },
   Toshima: {
     en: 'Toshima', ja: '利島 (Toshima)', zh: '利島',
     wiki: 'https://en.wikipedia.org/wiki/To-shima,_Tokyo',
+    short: 'A single cone with no harbour and about three hundred people, living by the camellias',
     note: 'A single cone with no harbour and about three hundred people, living by the camellias — the oil pressed from their seed is what the island sells.'
   },
   'Shikine-jima': {
     en: 'Shikinejima', ja: '式根島 (Shikinejima)', zh: '式根島', ko: '시키네섬',
     wiki: 'https://en.wikipedia.org/wiki/Shikine-jima',
+    short: 'Split from Niijima by an earthquake, the islanders say',
     note: 'Split from Niijima by an earthquake, the islanders say, and left with hot springs among the rocks at the water\'s edge.'
   },
   Aogashima: {
     en: 'Aogashima', ja: '青ヶ島 (Aogashima)', zh: '青島', ko: '아오가섬',
-    wiki: 'https://en.wikipedia.org/wiki/Aogashima',
+    wiki: 'https://en.wikipedia.org/wiki/Aogashima', short: 'A crater within a crater',
     note: 'A crater within a crater, 360 km south of Tokyo and the remotest inhabited island of the Izu chain. The eruption of 1785 killed about half the islanders; the rest fled to Hachijōjima and did not return for fifty years.'
   },
   Torishima: {
     en: 'Torishima', ja: '鳥島 (Torishima)', zh: '鳥島',
     wiki: 'https://en.wikipedia.org/wiki/Tori-shima_(Izu_Islands)',
+    short: 'Albatross were killed here for their feathers from 1887, millions of them',
     note: 'Albatross were killed here for their feathers from 1887, millions of them, until the eruption of 1902 killed all 125 people on the island. It is uninhabited now, and the last breeding ground of the short-tailed albatross.'
   },
   Naoshima: {
     en: 'Naoshima', ja: '直島 (Naoshima)', zh: '直島', ko: '나오시마정',
     wiki: 'https://en.wikipedia.org/wiki/Naoshima',
+    short: 'A Mitsubishi copper smelter opened here in 1917 and the island lived by it',
     note: 'A Mitsubishi copper smelter opened here in 1917 and the island lived by it; the fumes stripped the hills. The art museums came in the 1990s.'
   },
   Teshima: {
     en: 'Teshima', ja: '豊島 (Teshima)', zh: '豐島', ko: '데시마섬',
     wiki: 'https://en.wikipedia.org/wiki/Teshima',
+    short: 'Spring water and terraced rice, which most Inland Sea islands lack, and granite quarries',
     note: 'Spring water and terraced rice, which most Inland Sea islands lack, and granite quarries. Half a million tonnes of industrial waste were dumped on it from 1975 and took until 2017 to clear away.'
   },
   Inujima: {
     en: 'Inujima', ja: '犬島 (Inujima)', zh: '犬島', wiki: 'https://en.wikipedia.org/wiki/Inujima',
+    short: 'Quarried for the granite of Osaka Castle',
     note: 'Quarried for the granite of Osaka Castle, and a copper refinery worked here from 1909 to 1919; its brick chimneys are still standing.'
   },
   Hokkaido: {
     en: 'Hokkaidō-chō', ja: '北海道庁 (Hokkaidō-chō)', zh: '北海道廳',
+    short: 'Not a prefecture but the Hokkaidō-chō, an agency of the central government',
     note: 'Not a prefecture but the Hokkaidō-chō, an agency of the central government, and the one part of Japan settled as a frontier: the Colonisation Commission began in 1869, farm households were brought in from the poorer parts of Tōhoku, and the Ainu were dispossessed of the land and then of the right to hunt on it. The island was worth taking for coal — the Ishikari field and Yūbari above all, which fed the navy and the railways — and for herring, timber and the only large arable frontier the country had. Sapporo was laid out on an American grid by the Commission and is the youngest large city in Japan.'
   },
   Aomori: {
     en: 'Aomori-ken', ja: '青森県 (Aomori)', zh: '青森縣', ko: '아오모리현',
     wiki: 'https://en.wikipedia.org/wiki/Aomori_Prefecture',
+    short: 'The northern end of Honshū, made out of the Tsugaru and Nanbu country',
     note: 'The northern end of Honshū, made out of the Tsugaru and Nanbu country, with the castle town of Hirosaki as the older centre and the port of Aomori as the newer. Aomori was the ferry terminus for Hakodate, so everything going to and from Hokkaidō passed through it, and the Tsugaru plain has grown apples for export since the 1870s. Ōminato, on Mutsu Bay, was a naval guard district, and Hirosaki was the garrison town of the 8th Division, the division whose men died in the Hakkōda snow march of 1902.'
   },
   Iwate: {
     en: 'Iwate-ken', ja: '岩手県 (Iwate)', zh: '岩手縣', ko: '이와테현',
     wiki: 'https://en.wikipedia.org/wiki/Iwate_Prefecture',
+    short: 'The largest prefecture on Honshū and the poorest',
     note: 'The largest prefecture on Honshū and the poorest, the old Nanbu domain with its castle town at Morioka, cold enough that the summer yamase wind off the Pacific can take the rice crop altogether. The failures of 1931, 1934 and 1935 are the ones the country noticed: families in the Sanriku villages sold daughters into service and the army officers who mutinied in 1936 talked about this coast. Its one industry of weight was iron — Kamaishi, where the first Western-style blast furnace in Japan was blown in in 1857 and a modern works built in 1880, and which American and British battleships shelled from the sea in July and August 1945.'
   },
   Miyagi: {
     en: 'Miyagi-ken', ja: '宮城県 (Miyagi)', zh: '宮城縣', ko: '미야기현',
-    wiki: 'https://en.wikipedia.org/wiki/Miyagi_Prefecture',
+    wiki: 'https://en.wikipedia.org/wiki/Miyagi_Prefecture', short: 'The old Date domain',
     note: 'The old Date domain, whose castle town Sendai was and is the largest city in Tōhoku and the region\'s commercial and military capital, with the 2nd Division quartered there. The Sendai plain is good rice country and the coast north of it is the drowned Sanriku shore, deep-water bays that make fine harbours and funnel tsunami — the wave of 1933 killed some three thousand people along it. Matsushima, in the bay, was one of the three views a Japanese traveller was expected to have seen.'
   },
   Akita: {
     en: 'Akita-ken', ja: '秋田県 (Akita)', zh: '秋田縣',
+    short: 'Rice on the Yokote basin and the Ōdate country',
     note: 'Rice on the Yokote basin and the Ōdate country, cedar forests that supplied timber to the whole north, and two things scarce in Japan: metal and oil. The Kosaka and Osarizawa mines were among the country\'s largest copper producers, and the Yabase field at Akita city was one of the very few domestic oilfields, which mattered a great deal to a state whose fuel came by sea from somewhere else. The prefecture is also snow country, cut off for months, and lost people steadily to Tokyo and to Hokkaidō.'
   },
   Yamagata: {
     en: 'Yamagata-ken', ja: '山形県 (Yamagata)', zh: '山形縣', ko: '야마가타현',
     wiki: 'https://en.wikipedia.org/wiki/Yamagata_Prefecture',
+    short: 'The Mogami valley behind the Dewa mountains, opening on the Japan Sea at Sakata',
     note: 'The Mogami valley behind the Dewa mountains, opening on the Japan Sea at Sakata, which shipped the north\'s rice down the coast to Osaka in the sailing-ship years and kept the warehouses to prove it. Yonezawa, the Uesugi castle town in the south, wove silk and was one of the places where a domain deliberately turned itself into a textile district in the nineteenth century. Safflower for dye had been the cash crop, killed by chemical dyes; sericulture, rice and fruit took its place.'
   },
   Fukushima: {
     en: 'Fukushima-ken', ja: '福島県 (Fukushima)', zh: '福島縣', ko: '후쿠시마현',
     wiki: 'https://en.wikipedia.org/wiki/Fukushima_Prefecture',
+    short: 'The largest prefecture in Tōhoku and three countries in one: the Hamadōri coast',
     note: 'The largest prefecture in Tōhoku and three countries in one: the Hamadōri coast, the Nakadōri basins along the road north, and Aizu behind the mountains. Aizu- Wakamatsu was the domain that fought for the shogunate to the end in 1868, and the boys of the Byakkotai who killed themselves on Iimoriyama were a set piece of schoolbook patriotism afterwards. It lived on silk in the basins and on coal at Jōban, the field that runs into Ibaraki and was the one large coalfield near Tokyo.'
   },
   Ibaraki: {
     en: 'Ibaraki-ken', ja: '茨城県 (Ibaraki)', zh: '茨城縣', ko: '이바라키현',
     wiki: 'https://en.wikipedia.org/wiki/Ibaraki_Prefecture',
+    short: 'Mito, the castle town, was the seat of a Tokugawa branch house and of the Mito school',
     note: 'Mito, the castle town, was the seat of a Tokugawa branch house and of the Mito school, the scholarship that gave the slogan "revere the emperor, expel the barbarian" to the men who brought the shogunate down. The prefecture is flat and agricultural, and Lake Kasumigaura carried the naval air station and flying school where most of Japan\'s naval pilots were trained. Hitachi, on the coast, grew from a copper mine into the electrical works that took its name, and was bombed and shelled from the sea in 1945 for that reason.'
   },
   Tochigi: {
     en: 'Tochigi-ken', ja: '栃木県 (Tochigi)', zh: '栃木縣', ko: '도치기현',
     wiki: 'https://en.wikipedia.org/wiki/Tochigi_Prefecture',
+    short: 'Nikkō is here — the mausoleum of Ieyasu',
     note: 'Nikkō is here — the mausoleum of Ieyasu, the most elaborate building complex in Japan and a place every schoolchild was taken to — and so is Ashikaga, weaving silk since the middle ages. The prefecture\'s other fame is unhappier: the Ashio copper mine poisoned the Watarase river from the 1880s, ruined the farmland below it, and produced in Tanaka Shōzō the first sustained environmental protest in the country, which he took as far as attempting to petition the emperor in person. Otherwise it is rice, hemp and the plain north of Tokyo.'
   },
   Gunma: {
     en: 'Gunma-ken', ja: '群馬県 (Gunma)', zh: '群馬縣', ko: '군마현',
     wiki: 'https://en.wikipedia.org/wiki/Gunma_Prefecture',
+    short: 'The centre of the raw silk that paid for Japan\'s industrialisation: Tomioka',
     note: 'The centre of the raw silk that paid for Japan\'s industrialisation: Tomioka, the government\'s model filature of 1872, is here, and so are Maebashi and the weaving town of Kiryū. Silk was the country\'s largest export until the American market collapsed after 1929, and the collapse fell on the farm households of this prefecture harder than on anyone. Mount Asama, an active volcano, stands on its border, and the mountains behind it were where the Nakasendō crossed to the Japan Sea side.'
   },
   Saitama: {
     en: 'Saitama-ken', ja: '埼玉県 (Saitama)', zh: '埼玉縣',
+    short: 'Market gardens, wheat and mulberry on the plain immediately north of Tokyo',
     note: 'Market gardens, wheat and mulberry on the plain immediately north of Tokyo, close enough to feed the capital and to lose its young people to it. Kawagoe kept a street of fireproof warehouse-fronted merchant houses from the years when it was the river port for that trade. In the hills at Chichibu, in 1884, a debt-ridden peasant army of several thousand took over the county for a week and had to be put down by troops — the largest armed rising against the Meiji state after Satsuma.'
   },
   Chiba: {
     en: 'Chiba-ken', ja: '千葉県 (Chiba)', zh: '千葉縣', ko: '지바현',
     wiki: 'https://en.wikipedia.org/wiki/Chiba_Prefecture',
+    short: 'The Bōsō peninsula, farming and fishing, and the soy-sauce towns: Noda and Chōshi',
     note: 'The Bōsō peninsula, farming and fishing, and the soy-sauce towns: Noda and Chōshi, where the brewers who became Kikkoman and Yamasa had been at work since the seventeenth century, sending the sauce up the river to Edo. Chōshi is also one of Japan\'s great fishing ports, on the shelf where the cold and warm currents meet. The army kept much of its school system on the sandy uplands here — cavalry, railways and other branches at Narashino and Chiba — because the ground was cheap and Tokyo was an hour away.'
   },
   Tokyo: {
     en: 'Tōkyō-fu', ja: '東京府 (Tōkyō)', zh: '東京府', ko: '도쿄부',
     wiki: 'https://en.wikipedia.org/wiki/Tokyo_Prefecture_(1868%E2%80%931943)',
+    short: 'Tokyo-fu: the prefecture',
     note: 'Tokyo-fu: the prefecture, which contained Tokyo City until the two were abolished and merged into the Tokyo Metropolis on 1 July 1943, and which also runs out to sea to take in the Izu and Bonin islands. It held the palace, the Diet, the ministries, the general staff, the universities and about a tenth of the country\'s people, and it had been almost entirely rebuilt once already after the earthquake and fire of 1 September 1923 killed something over a hundred thousand people. The Doolittle raid touched it in April 1942; the firebombing of the night of 9–10 March 1945 burnt out sixteen square miles of it and killed on the order of a hundred thousand in a single night, the deadliest air raid of the war.'
   },
   Kanagawa: {
     en: 'Kanagawa-ken', ja: '神奈川県 (Kanagawa)', zh: '神奈川縣', ko: '가나가와현',
     wiki: 'https://en.wikipedia.org/wiki/Kanagawa_Prefecture',
+    short: 'Yokohama was opened to foreign trade in 1859 and became the country\'s gate',
     note: 'Yokohama was opened to foreign trade in 1859 and became the country\'s gate: raw silk went out through it, ideas and people came in through it, and by 1930 it was the second port of Japan. Yokosuka, round the point, was the navy\'s oldest modern dockyard and the headquarters of a naval district; Kawasaki, between Yokohama and Tokyo, was one long belt of steel, chemicals and shipbuilding. All three were destroyed from the air in 1945, Yokohama in a single raid on 29 May.'
   },
   Niigata: {
     en: 'Niigata-ken', ja: '新潟県 (Niigata)', zh: '新潟縣', ko: '니가타현',
     wiki: 'https://en.wikipedia.org/wiki/Niigata_Prefecture',
+    short: 'The country\'s rice prefecture, the long Echigo plain behind sand dunes',
     note: 'The country\'s rice prefecture, the long Echigo plain behind sand dunes, and the deepest snow in inhabited Japan. Niigata city was the main Japan Sea port for the run to Korea and Manchuria, and the prefecture also had oil — the Niitsu field — and the gold and silver of Sado, which is administratively part of it. Tanaka Kakuei\'s later politics of tunnels and subsidies came out of exactly this combination: fertile, populous, and cut off behind mountains for half the year.'
   },
   Toyama: {
     en: 'Toyama-ken', ja: '富山県 (Toyama)', zh: '富山縣', ko: '도야마현',
     wiki: 'https://en.wikipedia.org/wiki/Toyama_Prefecture',
+    short: 'Water is what this prefecture sold',
     note: 'Water is what this prefecture sold. The rivers off the Tateyama range fall fast enough to make hydro-electricity cheaply, and from the 1920s that power drew the aluminium, carbide and chemical works that clustered on Toyama Bay. It is also where the rice riots of 1918 began — fishermen\'s wives at Uozu blocking the rice being shipped out while the price at home rose — and the disturbances spread across the country and brought down the Terauchi cabinet. Its older trade was the travelling medicine seller, who left a box of remedies in a house and collected for what had been used on the next round.'
   },
   Ishikawa: {
     en: 'Ishikawa-ken', ja: '石川県 (Ishikawa)', zh: '石川縣', ko: '이시카와현',
     wiki: 'https://en.wikipedia.org/wiki/Ishikawa_Prefecture',
+    short: 'Kanazawa was the castle town of the Maeda',
     note: 'Kanazawa was the castle town of the Maeda, the richest house in Japan after the shogun with more than a million koku, and a domain that spent its money on craft: gold leaf, Kutani porcelain, Kaga silk dyeing, lacquer at Wajima. It was big enough and old enough that the city came through the war unbombed, which is why it still has its tea districts and its samurai streets. The 9th Division was raised here, and the Noto peninsula behind it is fishing and salt country.'
   },
   Fukui: {
     en: 'Fukui-ken', ja: '福井県 (Fukui)', zh: '福井縣', ko: '후쿠이현',
     wiki: 'https://en.wikipedia.org/wiki/Fukui_Prefecture',
+    short: 'Habutae, a plain smooth silk',
     note: 'Habutae, a plain smooth silk, was woven here in enormous quantity for export to America and Europe, and Fukui was the centre of it — a single-crop industry that went down with the silk market after 1929. Tsuruga, on the bay, was the port for the Japan Sea crossing to Vladivostok, and so the beginning of the overland route to Europe: the through tickets sold in Tokyo went by rail to Tsuruga, ship to Vladivostok and Trans-Siberian to Berlin. Eiheiji, the head temple of the Sōtō Zen school, is in the mountains behind it.'
   },
   Yamanashi: {
     en: 'Yamanashi-ken', ja: '山梨県 (Yamanashi)', zh: '山梨縣', ko: '야마나시현',
     wiki: 'https://en.wikipedia.org/wiki/Yamanashi_Prefecture',
+    short: 'A basin ringed by mountains with Kōfu in the middle, the old Kai of Takeda Shingen',
     note: 'A basin ringed by mountains with Kōfu in the middle, the old Kai of Takeda Shingen, landlocked and short of flat land. It grew grapes — Katsunuma has made wine since the 1870s, the first in Japan — and raised silkworms on the slopes where rice would not go. Mount Fuji stands on its southern border, and the prefecture\'s other export was people, to Tokyo over the Kōshū road.'
   },
   Nagano: {
     en: 'Nagano-ken', ja: '長野県 (Nagano)', zh: '長野縣', ko: '나가노현',
-    wiki: 'https://en.wikipedia.org/wiki/Nagano_Prefecture',
+    wiki: 'https://en.wikipedia.org/wiki/Nagano_Prefecture', short: 'The silk prefecture',
     note: 'The silk prefecture: the filatures at Okaya and round Lake Suwa were the largest concentration of reeling machinery in the country, worked by girls hired out of farm households on yearly contracts, whose conditions were the subject of the first serious factory investigations in Japan. It is also the most mountainous prefecture, with the ranges the English called the Japanese Alps, and Zenkōji at Nagano drew pilgrims from all over the country. More settlers went from here to Manchuria than from anywhere else — the prefecture organised its own village brigades — and more of them died in 1945.'
   },
   Gifu: {
     en: 'Gifu-ken', ja: '岐阜県 (Gifu)', zh: '岐阜縣', ko: '기후현',
     wiki: 'https://en.wikipedia.org/wiki/Gifu_Prefecture',
+    short: 'Two prefectures in one: the Nōbi plain in the south',
     note: 'Two prefectures in one: the Nōbi plain in the south, which is industrial and part of Nagoya\'s world, and the Hida mountains in the north, which are timber and isolation. Mino paper and Seki cutlery are old trades here, and Kakamigahara on the plain held one of the army\'s chief air bases and the Kawasaki aircraft works beside it. The Nōbi earthquake of 1891, the largest inland earthquake in recorded Japanese history, was centred in this prefecture and is what started seismology as a state science in Japan.'
   },
   Shizuoka: {
     en: 'Shizuoka-ken', ja: '静岡県 (Shizuoka)', zh: '靜岡縣', ko: '시즈오카현',
     wiki: 'https://en.wikipedia.org/wiki/Shizuoka_Prefecture',
+    short: 'Tea and mandarins above the Tōkaidō, and the largest tea crop in the country',
     note: 'Tea and mandarins on the slopes above the Tōkaidō, and the largest tea crop in the country by a distance — the Makinohara plateau was cleared for it after 1869 by unemployed retainers of the last shogun, who had retired to Sunpu here. Shimizu was the port that shipped the tea, and mandarins came off the same warm slopes above the bay. Hamamatsu at the western end made textile machinery, musical instruments and, later, aircraft engines, which is why it was one of the most heavily bombed medium-sized cities in Japan and was shelled from the sea as well.'
   },
   Aichi: {
     en: 'Aichi-ken', ja: '愛知県 (Aichi)', zh: '愛知縣', ko: '아이치현',
     wiki: 'https://en.wikipedia.org/wiki/Aichi_Prefecture',
+    short: 'Nagoya was the third city of Japan and its most important arms centre',
     note: 'Nagoya was the third city of Japan and its most important arms centre: the Mitsubishi works there built the A6M Zero, the Aichi company built naval aircraft, and the whole Nōbi plain was engineering, textile machinery and pottery. The Toyoda family\'s automatic loom business, in Kariya, turned itself into a car company in 1937. The city was bombed repeatedly from December 1944 and burnt in March and May 1945; the castle, one of the great surviving keeps, went with it.'
   },
   Mie: {
     en: 'Mie-ken', ja: '三重県 (Mie)', zh: '三重縣', ko: '미에현',
-    wiki: 'https://en.wikipedia.org/wiki/Mie_Prefecture',
+    wiki: 'https://en.wikipedia.org/wiki/Mie_Prefecture', short: 'The Ise Shrine is here',
     note: 'The Ise Shrine is here, and after 1868 that made the prefecture the centre of gravity of state Shinto — school parties, army recruits and organised pilgrim associations came in millions, and the shrine is rebuilt every twenty years to the same plan. Toba, on the same coast, is where Mikimoto Kōkichi produced the first cultured pearls in 1893 and built an industry that was one of Japan\'s more unusual exports. Yokkaichi on Ise Bay was already an industrial port, and the Kii mountains in the south are forest and very little else.'
   },
   Shiga: {
     en: 'Shiga-ken', ja: '滋賀県 (Shiga)', zh: '滋賀縣', ko: '시가현',
     wiki: 'https://en.wikipedia.org/wiki/Shiga_Prefecture',
+    short: 'Lake Biwa, the largest lake in Japan',
     note: 'Lake Biwa, the largest lake in Japan, with the prefecture wrapped round it and Ōtsu at its southern outlet. The Ōmi merchants of this province were one of the three great merchant networks of the Tokugawa period and their houses turn up running businesses all over the country. Hikone keeps its castle, one of the twelve original keeps left standing, and the Lake Biwa Canal cut through to Kyoto in 1890 gave that city its first hydro-electric power and its trams.'
   },
   Kyoto: {
     en: 'Kyōto-fu', ja: '京都府 (Kyōto)', zh: '京都府', ko: '교토부',
     wiki: 'https://en.wikipedia.org/wiki/Kyoto_Prefecture',
+    short: 'Kyoto-fu, made of the old capital and the country running north to the Japan Sea',
     note: 'Kyoto-fu, made of the old capital and the country running north to the Japan Sea. The city had been the emperor\'s seat for a thousand years until 1869 and remained the centre of the crafts that went with a court — Nishijin silk weaving, Kiyomizu ware, dyeing on the Kamo river — as well as of Buddhist scholarship and of two imperial universities\' worth of students. Maizuru, on the northern coast, was a naval district and base facing Korea and the Soviet Maritime Province. The city itself was on the atomic target list and was taken off it, and was never seriously bombed.'
   },
   Osaka: {
     en: 'Ōsaka-fu', ja: '大阪府 (Ōsaka)', zh: '大阪府', ko: '오사카부',
     wiki: 'https://en.wikipedia.org/wiki/Osaka_Prefecture',
+    short: 'The merchant city — "the kitchen of the realm" under the Tokugawa',
     note: 'The merchant city — "the kitchen of the realm" under the Tokugawa, where the rice of the whole country was sold and where the first futures exchange in the world had operated since the 1730s. By 1930 it was the industrial capital as well: cotton spinning above all, the trading houses that ran the raw-cotton and yarn trade with India and China, and the Osaka Arsenal, the largest army arsenal in the empire. It was firebombed from 13 March 1945 onwards and lost the greater part of its built area.'
   },
   Hyogo: {
     en: 'Hyōgo-ken', ja: '兵庫県 (Hyōgo)', zh: '兵庫縣', ko: '효고현',
     wiki: 'https://en.wikipedia.org/wiki/Hy%C5%8Dgo_Prefecture',
+    short: 'Reaches from the Inland Sea to the Japan Sea',
     note: 'The prefecture reaches from the Inland Sea to the Japan Sea and holds both the most modern and the most old-fashioned things in the region. Kobe was the port that handled the emigrant traffic and much of the western trade, with the Kawasaki and Mitsubishi yards along its waterfront; Nada, next door, brewed a large share of Japan\'s sake with water from the Rokkō hills. Himeji keeps the finest castle in Japan, which survived the firebombing of the town around it in July 1945; Kobe had been burnt out in March.'
   },
   Nara: {
     en: 'Nara-ken', ja: '奈良県 (Nara)', zh: '奈良縣', ko: '나라현',
     wiki: 'https://en.wikipedia.org/wiki/Nara_Prefecture',
+    short: 'The capital in the eighth century, and what is left of it is the reason people come',
     note: 'The capital in the eighth century, and what is left of it is the reason people come: Tōdaiji with the Great Buddha, Kōfukuji, and Hōryūji, whose main hall is the oldest wooden building standing anywhere. Under the Tokugawa this was mostly temple land and small farming, and it stayed a prefecture with no city of any size and no industry to speak of. Its money came from the Yoshino forests, which grow cedar in dense stands for building timber, and from brushes, ink and sake.'
   },
   Wakayama: {
     en: 'Wakayama-ken', ja: '和歌山県 (Wakayama)', zh: '和歌山縣', ko: '와카야마현',
     wiki: 'https://en.wikipedia.org/wiki/Wakayama_Prefecture',
+    short: 'Kii: the Kii peninsula\'s steep forested spine',
     note: 'Kii: the Kii peninsula\'s steep forested spine, the Kumano shrines that pilgrims have walked to since the eleventh century, and Kōyasan, the mountain monastery Kūkai founded in 816. Taiji on its coast is the town where organised whaling in Japan began in the seventeenth century. It is also one of the prefectures that sent most people abroad — to Hawaii, California and Australia — because the land would not carry them, and mandarin oranges and forestry were what was left.'
   },
   Tottori: {
     en: 'Tottori-ken', ja: '鳥取県 (Tottori)', zh: '鳥取縣', ko: '돗토리현',
     wiki: 'https://en.wikipedia.org/wiki/Tottori_Prefecture',
+    short: 'The least populous prefecture in Japan, on the Japan Sea behind the Chūgoku mountains',
     note: 'The least populous prefecture in Japan, on the Japan Sea behind the Chūgoku mountains, with the sand dunes east of Tottori city that are the largest in the country. Sakaiminato at the western end is a major fishing port, and the Daisen volcano and the pear orchards below it are the rest of the prefecture\'s stock in trade. The earthquake of 10 September 1943 flattened much of Tottori city and killed over a thousand people, two years before the bombing would have.'
   },
   Shimane: {
     en: 'Shimane-ken', ja: '島根県 (Shimane)', zh: '島根縣', ko: '시마네현',
     wiki: 'https://en.wikipedia.org/wiki/Shimane_Prefecture',
+    short: 'The old Izumo, which is where the myths that were not about the sun goddess came from',
     note: 'The old Izumo, which is where the myths that were not about the sun goddess came from: Izumo Taisha, the shrine of Ōkuninushi, is the second most important in the country and the oldest in form. Iwami Ginzan, in the west, was one of the great silver mines of the world in the sixteenth century and supplied a third of the silver in circulation globally at its peak; by this period it was finished. The prefecture also administers the Oki islands, exile country for two emperors, and — since Japan incorporated them in 1905 — the Liancourt Rocks that Korea calls Dokdo.'
   },
   Okayama: {
     en: 'Okayama-ken', ja: '岡山県 (Okayama)', zh: '岡山縣', ko: '오카야마현',
     wiki: 'https://en.wikipedia.org/wiki/Okayama_Prefecture',
+    short: 'Inland Sea country: mild, dry and fertile',
     note: 'Inland Sea country: mild, dry and fertile, with the castle town of Okayama and its Kōrakuen, one of the three gardens Japanese guidebooks list together. Kurashiki was a shogunal storehouse town that turned into a cotton-spinning centre — Kurabō — under the Ōhara family, who spent the proceeds on a labour research institute and on the first museum of Western art in Japan. Mizushima on the coast was developed as an aircraft plant during the war and bombed for it; the prefecture is otherwise known for peaches and muscat grapes.'
   },
   Hiroshima: {
     en: 'Hiroshima-ken', ja: '広島県 (Hiroshima)', zh: '廣島縣', ko: '히로시마현',
     wiki: 'https://en.wikipedia.org/wiki/Hiroshima_Prefecture',
+    short: 'The army\'s western capital: the 5th Division was raised here',
     note: 'The army\'s western capital: the 5th Division was raised here, imperial headquarters moved to the city during the war with China in 1894, and the port of Ujina at its mouth was where the divisions embarked for the continent from that war onwards. Kure, twenty kilometres away, was the largest naval arsenal in Asia and built the battleship Yamato. At 8.15 in the morning of 6 August 1945 an atomic bomb was dropped over the centre of the city; something like 70,000 people died at once and about as many again by the end of the year.'
   },
   Yamaguchi: {
     en: 'Yamaguchi-ken', ja: '山口県 (Yamaguchi)', zh: '山口縣', ko: '야마구치현',
     wiki: 'https://en.wikipedia.org/wiki/Yamaguchi_Prefecture',
+    short: 'Chōshū, the domain that with Satsuma overthrew the shogunate',
     note: 'Chōshū, the domain that with Satsuma overthrew the shogunate, and which then supplied the Meiji state with prime ministers and the army with its leadership — Yamagata Aritomo, Itō Hirobumi, Terauchi, Tanaka Giichi. The Shimonoseki strait at its tip is the gate between the Inland Sea and the Japan Sea and the crossing to Kyūshū, and the town gave its name to the treaty of 1895 that took Taiwan from China. Ube and Onoda in the west lived on coal — mined out under the sea — and on cement.'
   },
   Tokushima: {
     en: 'Tokushima-ken', ja: '徳島県 (Tokushima)', zh: '德島縣', ko: '도쿠시마현',
     wiki: 'https://en.wikipedia.org/wiki/Tokushima_Prefecture',
+    short: 'Awa, the eastern corner of Shikoku, whose crop was indigo',
     note: 'Awa, the eastern corner of Shikoku, whose crop was indigo: the Yoshino river plain grew the country\'s dye and Tokushima\'s merchants sold it, until synthetic indigo arrived in the 1890s and took the trade away within a generation. What was left was sweet potatoes, lumber off the mountains and emigration. The Awa-odori dance in August and the whirlpools in the Naruto strait are the things the prefecture is known for now.'
   },
   Kagawa: {
     en: 'Kagawa-ken', ja: '香川県 (Kagawa)', zh: '香川縣',
+    short: 'The smallest prefecture in Japan, on the sheltered Inland Sea side of Shikoku',
     note: 'The smallest prefecture in Japan, on the sheltered Inland Sea side of Shikoku, and one of the driest places in the country — the ponds that dot it are irrigation reservoirs, some of them fourteen centuries old. Sakaide and the flats along the coast were the country\'s principal salt fields, evaporating sea water in graded pans. Kotohira\'s shrine, sacred to sailors, drew pilgrims from every port in Japan, and Takamatsu was the ferry head for the Honshū crossing.'
   },
   Ehime: {
     en: 'Ehime-ken', ja: '愛媛県 (Ehime)', zh: '愛媛縣', ko: '에히메현',
     wiki: 'https://en.wikipedia.org/wiki/Ehime_Prefecture',
+    short: 'Matsuyama and its castle, with the Dōgo hot spring beside it',
     note: 'Matsuyama and its castle, with the Dōgo hot spring beside it — reputedly the oldest in Japan and the setting of Natsume Sōseki\'s Botchan. The mountain behind Niihama holds the Besshi copper mine, worked continuously from 1691 and the foundation of the whole Sumitomo enterprise, with a smelter on the coast whose fumes were the cause of one of Japan\'s earliest pollution settlements. The lowlands grow mandarins, which is still what the prefecture is best known for.'
   },
   Kochi: {
     en: 'Kōchi-ken', ja: '高知県 (Kōchi)', zh: '高知縣', ko: '고치현',
     wiki: 'https://en.wikipedia.org/wiki/K%C5%8Dchi_Prefecture',
+    short: 'Tosa, shut off from the rest of Shikoku by the mountains and facing the open Pacific',
     note: 'Tosa, shut off from the rest of Shikoku by the mountains and facing the open Pacific, which made it both poor and unusually political: Sakamoto Ryōma, who brokered the alliance that ended the shogunate, and Itagaki Taisuke, who founded the first party and the freedom and popular rights movement, were both Tosa men. Its living came from the sea — skipjack tuna, caught with a pole and a barbless hook and dried into katsuobushi, the hard smoked block that the whole country\'s cooking is built on. Behind the coast it is forest, and it rains more here than almost anywhere else in Japan.'
   },
   Fukuoka: {
     en: 'Fukuoka-ken', ja: '福岡県 (Fukuoka)', zh: '福岡縣', ko: '후쿠오카현',
     wiki: 'https://en.wikipedia.org/wiki/Fukuoka_Prefecture',
+    short: 'The industrial heart of Kyūshū and the point where Japan touches the continent',
     note: 'The industrial heart of Kyūshū and the point where Japan touches the continent. The Chikuhō basin was the largest coalfield in the empire, and in 1901 the state put the Yawata Iron and Steel Works beside it at the mouth of the Dōkai bay, which made the rails, plate and armour the country had been importing. Hakata and Moji were the ports for Korea and China, and Fukuoka was where the ferry and later the aeroplane left from; the industrial belt was bombed hard in 1945, and Kokura was the first target on 9 August, saved by cloud.'
   },
   Saga: {
-    en: 'Saga-ken', ja: '佐賀県 (Saga)', zh: '佐賀縣',
+    en: 'Saga-ken', ja: '佐賀県 (Saga)', zh: '佐賀縣', short: 'The Nabeshima domain',
     note: 'The Nabeshima domain, which had been given charge of the Nagasaki defences and used the position to buy Western guns and build the first reverberatory furnace in Japan, so that in 1868 it had the best-armed force of any han. Its lasting export is porcelain: Arita has made it since Korean potters were brought back in the 1590s and found kaolin nearby, and it went to Europe through the port of Imari, whose name stuck to it. The Saga plain, reclaimed from the Ariake sea, is some of the best rice land in Kyūshū.'
   },
   Nagasaki: {
     en: 'Nagasaki-ken', ja: '長崎県 (Nagasaki)', zh: '長崎縣', ko: '나가사키현',
     wiki: 'https://en.wikipedia.org/wiki/Nagasaki_Prefecture',
+    short: 'For two centuries the only place in Japan where Europeans could trade at all',
     note: 'For two centuries the only place in Japan where Europeans could trade at all — the Dutch factory on the artificial island of Dejima — and so the channel through which Western medicine, astronomy and gunnery reached the country. Mitsubishi\'s shipyard, taken over from the government in 1884, was the largest private yard in Japan and built the battleship Musashi in a covered slip so that nobody could see it. Sasebo, in the north-west, was a naval district and base; the prefecture also includes the Gotō islands, the hidden-Christian country, and Tsushima. An atomic bomb was dropped on the Urakami valley on 9 August 1945, killing some forty thousand people outright.'
   },
   Kumamoto: {
     en: 'Kumamoto-ken', ja: '熊本県 (Kumamoto)', zh: '熊本縣', ko: '구마모토현',
     wiki: 'https://en.wikipedia.org/wiki/Kumamoto_Prefecture',
+    short: 'Katō Kiyomasa\'s castle here is the most heavily fortified in Japan',
     note: 'Katō Kiyomasa\'s castle here is the most heavily fortified in Japan, and it was put to the test in 1877 when Saigō Takamori\'s Satsuma army besieged the garrison for fifty days and failed to take it — the Satsuma Rebellion turned on that siege. The 6th Division was raised in the city afterwards. Inland is Aso, a caldera twenty-five kilometres across with villages and railways inside it; on the coast at Minamata the Chisso corporation had been making carbide and fertiliser since 1908, and would poison the bay with methylmercury after this map\'s dates.'
   },
   Oita: {
     en: 'Ōita-ken', ja: '大分県 (Ōita)', zh: '大分縣', ko: '오이타현',
     wiki: 'https://en.wikipedia.org/wiki/%C5%8Cita_Prefecture',
+    short: 'Beppu, and more hot spring water than anywhere else in Japan',
     note: 'Beppu, on the bay, produces more hot spring water than anywhere else in Japan and by the 1930s was a full-scale resort town with hospitals, hotels and a municipal bathing industry. Usa Jingū above it is the head shrine of the Hachiman cult, the god of war, with some forty thousand branch shrines under it — and the navy put one of its main air training bases on the plain beside it, from which kamikaze units flew in 1945. The rest is farming and forestry in narrow valleys, and the prefecture has been one of the emptier parts of Kyūshū since.'
   },
   Miyazaki: {
     en: 'Miyazaki-ken', ja: '宮崎県 (Miyazaki)', zh: '宮崎縣', ko: '미야자키현',
     wiki: 'https://en.wikipedia.org/wiki/Miyazaki_Prefecture',
+    short: 'Hyūga, the coast facing the Pacific, poor',
     note: 'Hyūga, the coast facing the Pacific, poor, remote and famous chiefly for what the Kojiki says happened here: Ninigi came down at Takachiho and Jimmu set out from this coast to found the state. That made the prefecture useful in 1940, the official 2,600th anniversary of the founding, when the government built the Hakkō Ichiu tower at Miyazaki out of stones sent from all over the empire — the slogan on it, "the eight corners of the world under one roof", was the justification of the New Order. Its living came from sweet potatoes, cattle and cedar.'
   },
   Kagoshima: {
     en: 'Kagoshima-ken', ja: '鹿児島県 (Kagoshima)', zh: '鹿兒島縣', ko: '가고시마현',
     wiki: 'https://en.wikipedia.org/wiki/Kagoshima_Prefecture',
+    short: 'Satsuma: the domain that fought the British at Kagoshima in 1863',
     note: 'Satsuma: the domain that fought the British at Kagoshima in 1863, then bought their ships, and with Chōshū made the Restoration and afterwards gave the navy most of its admirals, Tōgō Heihachirō among them. Sakurajima in the bay erupted in 1914, killed some sixty people and poured out enough lava to join the island to the mainland, which it has been part of ever since. The prefecture is volcanic ash and sweet potatoes rather than rice, it administers the Ōsumi, Tokara and Amami islands, and in 1945 the airfield at Chiran was the main base from which army kamikaze units flew to Okinawa.'
   },
   Okinawa: {
     en: 'Okinawa-ken', ja: '沖縄県 (Okinawa)', zh: '沖繩縣', ko: '오키나와현',
     wiki: 'https://en.wikipedia.org/wiki/Okinawa_Prefecture',
+    short: 'The Ryūkyū Kingdom, until Japan abolished it in 1879',
     note: 'The Ryūkyū Kingdom paid tribute to both China and Satsuma until Japan abolished it in 1879 and made the islands a prefecture, and it stayed the poorest one: sugar cane on land that would not grow enough rice, awamori distilled from imported Thai rice, and emigration to Hawaii, Peru and the Philippines on a scale no other prefecture matched. Okinawan speech, names and religion were treated as things to be corrected, and Okinawans in the mainland labour market were treated accordingly. The American landing of 1 April 1945 opened an eighty-two-day battle that destroyed Shuri and killed something like a quarter of the civilian population; the islands were then under American administration until 1972.'
   },
   Ulleungdo: {
@@ -4948,137 +5075,163 @@ JMAP.PROVINCES = {
   Keiki: {
     en: 'Keiki-dō (Kyŏnggi-do)', ja: '京畿道 (Keiki-dō)', zh: '京畿道', ko: '경기도 (Kyŏnggi-do)',
     wiki: 'https://en.wikipedia.org/wiki/Keiki_Province',
+    short: 'The Han river plain around Keijō — Seoul, renamed and rebuilt as the colonial capital',
     note: 'The Han river plain around Keijō — Seoul, renamed and rebuilt as the colonial capital, with the Government-General\'s new granite headquarters put up directly in front of the old royal palace in 1926 to make the point. Jinsen (Inch\'ŏn) is its port, the one the Japanese landed at in 1894 and 1904, and the province is the hub of every railway in the peninsula: the main line south to Pusan and north to Sinŭiju and Mukden crosses here. Otherwise it is good rice and vegetable country feeding the city, with the ginseng of Kaesŏng — a state monopoly under the Government-General — as its one specialised crop.'
   },
   Kogen: {
     en: 'Kōgen-dō (Kangwŏn-do)', ja: '江原道 (Kōgen-dō)', zh: '江原道', ko: '강원도 (Kangwŏn-do)',
     wiki: 'https://en.wikipedia.org/wiki/K%C5%8Dgen_Province',
+    short: 'The Taebaek range down its spine, and very little flat ground',
     note: 'The Taebaek range runs down the spine of this province and leaves very little flat ground: it is the most mountainous part of southern Korea, forested, thinly settled and poor, with the Diamond Mountains at its northern end drawing Japanese tourists on a purpose-built railway. Its wealth was underground and offshore — the Sangdong tungsten deposit, one of the largest in the world, and a coast where the winter pollack and the summer sardine runs supported a fishing industry that Japanese boats came to dominate. Timber floated down its rivers, and slash-and-burn cultivators worked the slopes that nothing else could use.'
   },
   Chuseihoku: {
     en: 'Chūseihoku-dō (Ch’ungch’ŏngbuk-to)', ja: '忠清北道 (Chūseihoku-dō)', zh: '忠清北道',
     ko: '충청북도 (Ch’ungch’ŏngbuk-to)',
     wiki: 'https://en.wikipedia.org/wiki/Ch%C5%ABseihoku_Province',
+    short: 'The only province in Korea with no coastline',
     note: 'The only province in Korea with no coastline: a set of basins in the middle of the peninsula, ringed by hills, with Seishū (Ch\'ŏngju) as its seat. Rice grows in the basin floors and the slopes above them carried the country\'s tobacco, another Government-General monopoly, along with mulberry for silk. Being inland and off the main line it stayed one of the least developed provinces, and its surplus population went to the mills of Japan and the farms of Manchuria.'
   },
   Chuseinan: {
     en: 'Chūseinan-dō (Ch’ungch’ŏngnam-do)', ja: '忠清南道 (Chūseinan-dō)', zh: '忠清南道',
     ko: '충청남도 (Ch’ungch’ŏngnam-do)',
     wiki: 'https://en.wikipedia.org/wiki/Ch%C5%ABseinan_Province',
+    short: 'The lower Kŭm river and the tidal flats of the west coast',
     note: 'The lower Kŭm river and the tidal flats of the west coast, with Kōshū (Kongju) the old seat and Taiden (Taejŏn) — a village until the railway arrived — growing into the real centre because two main lines crossed there. This is broad, flat, well-watered rice country, and Kanggyŏng on the river was one of the largest grain markets in Korea. It was also where Japanese landlord companies bought most heavily, so that a high proportion of the rice grown here left for Japan while the people who grew it moved to millet.'
   },
   Zenrahoku: {
     en: 'Zenrahoku-dō (Chŏllabuk-to)', ja: '全羅北道 (Zenrahoku-dō)', zh: '全羅北道',
     ko: '전라북도 (Chŏllabuk-to)', wiki: 'https://en.wikipedia.org/wiki/Zenrahoku_Province',
+    short: 'The Honam plain, the largest stretch of paddy in Korea',
     note: 'The Honam plain, the largest continuous stretch of paddy in Korea and the reason this province mattered to Japan: rice from here fed the industrial cities of the home islands, and Gunzan (Kunsan) was built up as the port to ship it, with a Japanese quarter, a customs house and warehouses along the estuary. The irrigation works and land surveys of the 1910s and 1920s concentrated ownership in Japanese hands faster here than anywhere else in the country. Behind the plain the Noryŏng hills carry paper mulberry and bamboo, and Chŏnju was the old provincial capital and the home town of the Yi dynasty.'
   },
   Zenranan: {
     en: 'Zenranan-dō (Chŏllanam-do)', ja: '全羅南道 (Zenranan-dō)', zh: '全羅南道',
     ko: '전라남도 (Chŏllanam-do)', wiki: 'https://en.wikipedia.org/wiki/Zenranan_Province',
+    short: 'The south-western corner and its archipelago — several thousand islands',
     note: 'The south-western corner and its archipelago — several thousand islands, the richest inshore fishing grounds in Korea, and the volcanic island of Saishū (Cheju) administered from here as a county. Mokp\'o was opened as a treaty port in 1897 and grew on two exports, rice and raw cotton, the cotton grown under an official campaign to supply Japanese spinning mills. It is warm, wet and fertile, and it was also the most persistently rebellious province in the peninsula, from the Tonghak rising of 1894 to the Kwangju student movement of 1929, which began with an incident on a commuter train and spread into a nationwide strike of schools.'
   },
   Keishohoku: {
     en: 'Keishōhoku-dō (Kyŏngsangbuk-to)', ja: '慶尚北道 (Keishōhoku-dō)', zh: '慶尚北道',
     ko: '경상북도 (Kyŏngsangbuk-to)',
     wiki: 'https://en.wikipedia.org/wiki/Keish%C5%8Dhoku_Province',
+    short: 'The Naktong river\'s upper basin, hills and small plains',
     note: 'The Naktong river\'s upper basin, hills and small plains, with Taikyū (Taegu) at its centre — the third city of Korea, a market town that became the country\'s apple district after Japanese varieties were introduced, and a textile centre. Kyŏngju in the south-east was the capital of Silla for a thousand years, and the colonial government excavated and restored its tombs and the Sŏkkuram grotto, partly as scholarship and partly as an argument about a shared ancient past. Hemp, tobacco and cattle came off the uplands, and the north of the province is forest.'
   },
   Keishonan: {
     en: 'Keishōnan-dō (Kyŏngsangnam-do)', ja: '慶尚南道 (Keishōnan-dō)', zh: '慶尚南道',
     ko: '경상남도 (Kyŏngsangnam-do)', wiki: 'https://en.wikipedia.org/wiki/Keish%C5%8Dnan_Province',
+    short: 'The end of the peninsula facing Japan, and the province the colony was entered through',
     note: 'The end of the peninsula facing Japan, and the province the colony was entered through: Fusan (Pusan) took the ferry from Shimonoseki, had the largest Japanese settler population in Korea, and was the southern terminus of the railway that ran to Manchuria and, in principle, to Europe. The fisheries off this coast were the most valuable in Korea and were worked increasingly by Japanese boats and canneries; the Naktong delta behind the city is heavy rice ground. Chinkai (Chinhae), on the sheltered bay, was built as a naval base for the Japanese fleet after 1905.'
   },
   Kokai: {
     en: 'Kōkai-dō (Hwanghae-do)', ja: '黄海道 (Kōkai-dō)', zh: '黃海道', ko: '황해도 (Hwanghae-do)',
     wiki: 'https://en.wikipedia.org/wiki/K%C5%8Dkai_Province',
+    short: 'The province between the capital and P\'yŏngyang, rolling hills opening on the Yellow Sea',
     note: 'The province between the capital and P\'yŏngyang, rolling hills opening on the Yellow Sea, drier than the south and given as much to wheat, millet and barley as to rice. Its ore is what the colonial economy wanted: the gold of Suan and Sŏngch\'ŏn, worked hard through the 1930s when Japan needed foreign exchange, and the iron that fed the Kyŏmip\'o works on the Taedong estuary, built by Mitsubishi in 1918 and the first modern steel plant in Korea. Haeju was the seat, and the long indented coast made salt in evaporation pans on the tidal flats.'
   },
   Heianhoku: {
     en: 'Heianhoku-dō (P’yŏnganbuk-to)', ja: '平安北道 (Heianhoku-dō)', zh: '平安北道',
     ko: '평안북도 (P’yŏnganbuk-to)', wiki: 'https://en.wikipedia.org/wiki/Heianhoku_Province',
+    short: 'The north-western march, with the Yalu as its border: the river carried the timber trade',
     note: 'The north-western march, with the Yalu as its border: the river carried the timber trade, logs cut in the interior and floated down to Sinŭiju to be sawn, and Sinŭiju itself faced Antung across the bridge and became a chemical and paper town. From 1937 the Sup\'ung dam was built across the Yalu, and when it was finished in 1941 it was among the largest hydro-electric stations in the world, supplying Manchuria and northern Korea together. Inland the province is high, cold and forested, with gold at Unsan — the concession an American company held from 1896, and the largest gold mine in the Far East.'
   },
   Heiannan: {
     en: 'Heiannan-dō (P’yŏngannam-do)', ja: '平安南道 (Heiannan-dō)', zh: '平安南道',
     ko: '평안남도 (P’yŏngannam-do)',
+    short: 'P\'yŏngyang, the oldest city in Korea and the one with the largest Christian community',
     note: 'P\'yŏngyang, the oldest city in Korea and the one with the largest Christian community, sat here on the Taedong; it had been a mission and printing centre since the 1890s and became an industrial one under the colonial state. The province holds Korea\'s principal anthracite, in the Anju and P\'yŏngyang fields, and the smelter and port of Chinnamp\'o at the river mouth handled the ore of the north-west. The hills grow apples, chestnuts and millet on ground too dry for much rice, and the province was one of the chief sources of the labour conscripted to Japan after 1939.'
   },
   Kankyohoku: {
     en: 'Kankyōhoku-dō (Hamgyŏngbuk-to)', ja: '咸鏡北道 (Kankyōhoku-dō)', zh: '咸鏡北道',
     ko: '함경북도 (Hamgyŏngbuk-to)', wiki: 'https://en.wikipedia.org/wiki/Kanky%C5%8Dhoku_Province',
+    short: 'The far north-east, against the Tumen and the Soviet and Manchurian borders: mountains',
     note: 'The far north-east, against the Tumen and the Soviet and Manchurian borders: mountains, larch and pine forest, and the coldest winters in the country. The 1930s turned it into a frontier of a new kind — Rashin (Najin), Yūki (Unggi) and Seishin (Ch\'ŏngjin) were developed as the ports through which Manchurian soya, coal and iron would reach Japan by the short sea route, and Rashin was laid out from nothing after 1932 as the terminus of that plan. The Musan deposit inland is one of the largest iron ore bodies in East Asia, and the province\'s own people lived on dry-field grain, fishing and the timber that came down the Tumen.'
   },
   Kankyonan: {
     en: 'Kankyōnan-dō (Hamgyŏngnam-do)', ja: '咸鏡南道 (Kankyōnan-dō)', zh: '咸鏡南道',
     ko: '함경남도 (Hamgyŏngnam-do)', wiki: 'https://en.wikipedia.org/wiki/Kanky%C5%8Dnan_Province',
+    short: 'A narrow coastal shelf under high mountains',
     note: 'A narrow coastal shelf under high mountains, and the site of the largest industrial complex in the empire outside Japan itself: at Kōnan (Hŭngnam), Noguchi Shitagau\'s Chōsen Chisso built a nitrogen fertiliser works from 1927 that grew into carbide, explosives and synthetic oil, running on power diverted from the Pujŏn and Changjin rivers through the watershed to fall down the seaward side. Kankō (Hamhŭng) beside it was the administrative town, and the workforce was Korean and largely unskilled, housed in company barracks. Behind the plants the province is forest and terraced dry field, with the Kaema plateau — the highest and emptiest ground in Korea — filling its interior.'
   },
   Saishu: {
     en: 'Saishū-tō (Cheju-do)', ja: '済州島 (Saishū-tō)', zh: '濟州島', ko: '제주도 (Cheju-do)',
     wiki: 'https://en.wikipedia.org/wiki/Jeju_Island',
+    short: 'A volcanic island a hundred kilometres off the south coast',
     note: 'A volcanic island a hundred kilometres off the south coast, administered as a county of South Chŏlla and unlike anywhere on the mainland: Halla-san, a shield volcano of 1,950 m, stands in the middle of it with some three hundred and sixty cinder cones around its flanks, and the ground is porous basalt that will not hold surface water, so the island grew barley, millet and tangerines rather than rice. The Mongols pastured horses here from the thirteenth century and Cheju horses remained a byword afterwards; the Chosŏn state used the island as a place of exile; and the haenyŏ, the women who dive without air for abalone and seaweed, were the island\'s cash economy and are still what it is known for. In the war it mattered for its position — bombers of the Kanoya and Kisarazu groups flew from Cheju to raid Nanjing in August 1937, in what were then the longest over-water bombing missions ever flown — and from 1945 the Japanese army turned the whole island into a fortress against the invasion that never came, tunnelling the coastal cones and building airfields at Moseulp\'o.'
   },
   'Shumshu (Shimushu)': {
     en: 'Shumshu (Shimushu)', ja: '占守島 (Shumushu-tō)', zh: '占守島', ko: '슘슈섬',
     wiki: 'https://en.wikipedia.org/wiki/Shumshu',
+    short: 'The northernmost island, heavily garrisoned and facing Kamchatka',
     note: 'The northernmost island, heavily garrisoned and facing Kamchatka. Soviet troops landed here on 18 August 1945, three days after the surrender, in the last battle of the war.'
   },
   'Alaid (Araito)': {
     en: 'Alaid (Araito)', ja: '阿頼度島 (Araito-tō)', zh: '阿賴度島', ko: '아틀라소프섬',
-    wiki: 'https://en.wikipedia.org/wiki/Atlasov_Island',
+    wiki: 'https://en.wikipedia.org/wiki/Atlasov_Island', short: 'A volcanic cone off Shumshu',
     note: 'A volcanic cone off Shumshu, uninhabited but for a fishery station.'
   },
   'Paramushir (Paramushiro)': {
     en: 'Paramushir (Paramushiro)', ja: '幌筵島 (Paramushiro-tō)', zh: '幌筵島', ko: '파라무시르섬',
     wiki: 'https://en.wikipedia.org/wiki/Paramushir',
+    short: 'The naval and air base from which the Aleutian operation was mounted',
     note: 'The naval and air base from which the Aleutian operation was mounted, and the target of American bombers flying from Attu after 1943.'
   },
   'Makanrushi (Makanru)': {
     en: 'Makanrushi (Makanru)', ja: '磨勘留島 (Makanru-tō)', zh: '磨勘留島', ko: '마칸루시섬',
     wiki: 'https://en.wikipedia.org/wiki/Makanrushi',
+    short: 'Uninhabited, and used only by fishing crews in season',
     note: 'Uninhabited, and used only by fishing crews in season.'
   },
   Onekotan: {
     en: 'Onekotan', ja: '温禰古丹島 (Onnekotan-tō)', zh: '溫禰古丹島', ko: '오네코탄섬',
     wiki: 'https://en.wikipedia.org/wiki/Onekotan',
+    short: 'Uninhabited but for its wartime garrison, and two great calderas',
     note: 'Uninhabited but for its wartime garrison, and two great calderas, one holding a lake with an island in it.'
   },
   'Kharimkotan (Harimukotan)': {
     en: 'Kharimkotan (Harimukotan)', ja: '春牟古丹島 (Harimukotan-tō)', zh: '春牟古丹島', ko: '하림코탄섬',
     wiki: 'https://en.wikipedia.org/wiki/Harimkotan',
+    short: 'Uninhabited; its 1933 eruption swept the shore',
     note: 'Uninhabited; its 1933 eruption swept the shore.'
   },
   Ekarma: {
     en: 'Ekarma', ja: '越渇磨島 (Ekaruma-tō)', zh: '越渴磨島', ko: '예카르마섬',
-    wiki: 'https://en.wikipedia.org/wiki/Ekarma', note: 'Uninhabited.'
+    wiki: 'https://en.wikipedia.org/wiki/Ekarma', short: 'Uninhabited', note: 'Uninhabited.'
   },
   'Shiashkotan (Shasukotan)': {
     en: 'Shiashkotan (Shasukotan)', ja: '捨子古丹島 (Shasukotan-tō)', zh: '捨子古丹島', ko: '시아시코탄섬',
     wiki: 'https://en.wikipedia.org/wiki/Shiashkotan',
+    short: 'A small settlement and a fox farm',
     note: 'A small settlement and a fox farm, abandoned when the islands changed hands.'
   },
   'Matua (Matsuwa)': {
     en: 'Matua (Matsuwa)', ja: '松輪島 (Matsuwa-tō)', zh: '松輪島', ko: '마투아섬',
     wiki: 'https://en.wikipedia.org/wiki/Matua_(island)',
+    short: 'An airfield in the middle of the chain',
     note: 'An airfield in the middle of the chain, bombed from the Aleutians and bypassed.'
   },
-  'Rasshua (Rasuwa)': { en: 'Rasshua (Rasuwa)', ja: '羅処和島 (Rasuwa-tō)', zh: '羅處和島', note: 'Uninhabited.' },
+  'Rasshua (Rasuwa)': {
+    en: 'Rasshua (Rasuwa)', ja: '羅処和島 (Rasuwa-tō)', zh: '羅處和島', short: 'Uninhabited',
+    note: 'Uninhabited.'
+  },
   'Ketoy (Ketoi)': {
     en: 'Ketoy (Ketoi)', ja: '計吐夷島 (Ketoi-tō)', zh: '計吐夷島', ko: '케토이섬',
-    wiki: 'https://en.wikipedia.org/wiki/Ketoy', note: 'Uninhabited.'
+    wiki: 'https://en.wikipedia.org/wiki/Ketoy', short: 'Uninhabited', note: 'Uninhabited.'
   },
   'Simushir (Shimushiru)': {
     en: 'Simushir (Shimushiru)', ja: '新知島 (Shimushiru-tō)', zh: '新知島', ko: '시무시르섬',
     wiki: 'https://en.wikipedia.org/wiki/Simushir',
+    short: 'A garrison, and a flooded crater making one of the few anchorages',
     note: 'A garrison, and a flooded crater at Broughton Bay that makes one of the few sheltered anchorages in the chain.'
   },
   'Chirpoy (Chirihoi)': {
     en: 'Chirpoy (Chirihoi)', ja: '知理保以島 (Chirihoi-tō)', zh: '知理保以島', ko: '초르니예브라티야섬',
-    wiki: 'https://en.wikipedia.org/wiki/Chyornye_Bratya', note: 'Uninhabited.'
+    wiki: 'https://en.wikipedia.org/wiki/Chyornye_Bratya', short: 'Uninhabited',
+    note: 'Uninhabited.'
   },
   'Urup (Uruppu)': {
     en: 'Urup (Uruppu)', ja: '得撫島 (Uruppu-tō)', zh: '得撫島', ko: '우루프섬',
-    wiki: 'https://en.wikipedia.org/wiki/Urup',
+    wiki: 'https://en.wikipedia.org/wiki/Urup', short: 'Sea otter hunting ground',
     note: 'Sea otter hunting ground, and Russian until the exchange of 1875.'
   },
   'Etorofu (Iturup)': {
@@ -5087,24 +5240,28 @@ JMAP.PROVINCES = {
   },
   'Kunashiri (Kunashir)': {
     en: 'Kunashiri (Kunashir)', ja: '国後島 (Kunashiri-tō)', zh: '國後島', ko: '쿠나시르섬',
-    wiki: 'https://en.wikipedia.org/wiki/Kunashir',
+    wiki: 'https://en.wikipedia.org/wiki/Kunashir', short: 'The southernmost large island',
     note: 'The southernmost large island, Japanese-settled and taken by Soviet troops on 1 September 1945. Japan claims it still.'
   },
   Shikotan: {
     en: 'Shikotan', ja: '色丹島 (Shikotan-tō)', zh: '色丹島', ko: '시코탄섬',
     wiki: 'https://en.wikipedia.org/wiki/Shikotan',
+    short: 'Taken by Soviet troops on 1 September 1945',
     note: 'Taken by Soviet troops on 1 September 1945; its Japanese inhabitants were deported in 1947 and Japan claims it still.'
   },
   'the Habomai Islands': {
     en: 'The Habomai Islands', ja: '歯舞群島 (Habomai Guntō)', zh: '齒舞群島',
+    short: 'A scatter of islets in sight of Hokkaidō, taken between 1 and 5 September 1945',
     note: 'A scatter of islets in sight of Hokkaidō, taken between 1 and 5 September 1945 — after the surrender — and claimed by Japan ever since.'
   },
   Sarawak: {
     en: 'Sarawak', wiki: 'https://en.wikipedia.org/wiki/Sarawak',
+    short: 'A private kingdom under the Brooke rajahs',
     note: 'A private kingdom: James Brooke put down a revolt for the Sultan of Brunei and was made rajah of Sarawak in 1841, and his family governed it as their own until 1946, under British protection from 1888. It is a country of rivers running out of forested mountains through swamp — the Rejang is the longest in Borneo — and the Brookes deliberately kept plantation capital out, so its economy stayed smallholder pepper and gambier grown by Chinese settlers, sago from the Melanau coast, jungle produce and a little gold and antimony at Bau. Oil changed that: the first well at Miri came in in 1910 and by the 1930s Sarawak Shell\'s field and refinery there were the most valuable thing the raj had. Japanese troops landed at Miri on 16 December 1941, three days ahead of Kuching, for exactly that reason.'
   },
   NorthBorneo: {
     en: 'North Borneo', wiki: 'https://en.wikipedia.org/wiki/North_Borneo',
+    short: 'Governed by the British North Borneo Chartered Company from 1881',
     note: 'Governed by the British North Borneo Chartered Company from 1881, one of the last places on earth run by a company with a royal charter, and a British protectorate from 1888. The country rises from a mangrove coast through forest to Mount Kinabalu, at 4,095 m the highest mountain between the Himalaya and New Guinea, and its wealth was standing timber — some of the finest hardwood in the tropics — cut and shipped from Sandakan, which was the capital. Tobacco estates in the 1880s and 1890s gave way to rubber, copra and hemp, worked largely by Chinese and Javanese labour, and a railway was pushed inland from Jesselton on the west coast. The Japanese took it in January 1942; Sandakan became a prisoner-of-war camp from which, in 1945, some two thousand five hundred Australian and British prisoners were marched inland and all but six died.'
   },
   Labuan: {
@@ -5114,6 +5271,7 @@ JMAP.PROVINCES = {
   },
   Brunei: {
     en: 'Brunei', wiki: 'https://en.wikipedia.org/wiki/Brunei',
+    short: 'What was left of a sultanate that had claimed the whole of northern Borneo',
     note: 'What remained of a sultanate that had once claimed the whole of northern Borneo and the Sulu islands, whittled down over sixty years by cessions to the Brookes and the Chartered Company until it was two separate pieces of coast with a few thousand square kilometres between them. A British Resident was accepted in 1906, and until the end of the 1920s the state was so poor that its administration ran at a loss. Oil was struck at Seria in 1929 and the field proved to be one of the largest in the region, which reversed the position entirely; the Japanese landed at Kuala Belait on 16 December 1941 and the retreating British fired the wells.'
   },
   Johor: {
@@ -5159,6 +5317,7 @@ JMAP.PROVINCES = {
   'Christmas Island': {
     en: 'Christmas Island — annexed 1888, attached to the Straits Settlements in 1900 and run from Singapore, worked for phosphate',
     ja: 'クリスマス島 (Kurisumasu-tō)', wiki: 'https://en.wikipedia.org/wiki/Christmas_Island',
+    short: 'A single block of limestone in the Indian Ocean, uninhabited until the 1880s',
     note: 'A single block of limestone in the Indian Ocean, uninhabited until the 1880s, annexed by Britain in 1888 once John Murray\'s survey showed that the rock was almost pure phosphate of lime. The Christmas Island Phosphate Company began mining in 1899 with Chinese indentured labour and a few hundred Malays, and the island was attached to the Straits Settlements in 1900 and administered from Singapore. Japan took it on 31 March 1942 for the phosphate, and worked it with what was left of the labour force until the mine was abandoned.'
   },
   Kedah: {
@@ -5216,114 +5375,139 @@ JMAP.PROVINCES = {
   },
   'Je Hol': {
     en: 'Rèhé (Jehol)', ja: '熱河省 (Nekka)', zh: '熱河省',
+    short: 'A province of the Republic until February 1933',
     note: 'A province of the Republic until February 1933, when the Kwantung Army took it and attached it to Manchukuo.'
   },
   Marianas: {
     en: 'Mariana Islands', ja: 'マリアナ諸島 (Mariana Shotō)',
     wiki: 'https://en.wikipedia.org/wiki/Mariana_Islands',
+    short: 'The chain Japan took from Germany in 1914, less Guam',
     note: 'The chain Japan took from Germany in 1914, less Guam, and the most heavily settled part of the mandate. The Americans took Saipan, Tinian and Guam between June and August 1944 and left the northern islands alone; the fall of Saipan put Japan within B-29 range and brought down the Tōjō cabinet. The Commonwealth of the Northern Mariana Islands since 1978.'
   },
   Palau: {
     en: 'Palau', ja: 'パラオ (Parao)', wiki: 'https://en.wikipedia.org/wiki/Palau',
+    short: 'The seat of the South Seas Bureau at Koror from 1922, and the westernmost of the mandate',
     note: 'The seat of the South Seas Bureau at Koror from 1922, and the westernmost of the mandate. The Americans took Peleliu and Angaur in September 1944 and went round the rest, leaving some 25,000 troops on Babeldaob to grow their own food until the surrender. The Republic of Palau since 1994.'
   },
   Yap: {
     en: 'Yap', ja: 'ヤップ (Yappu)', wiki: 'https://en.wikipedia.org/wiki/Yap',
+    short: 'A cable and radio station',
     note: 'A cable and radio station, and the subject of a long dispute between Japan and the United States in the 1920s. The Americans never landed: they bombed the airfields from 1944 and went past. Its stone money and its navigators are what it is known for now. Federated States of Micronesia.'
   },
   Chuuk: {
     en: 'Truk (Chuuk)', ja: 'トラック (Torakku)',
+    short: 'Truk lagoon, the Combined Fleet\'s central Pacific anchorage',
     note: 'Truk lagoon, the Combined Fleet\'s central Pacific anchorage — the "Gibraltar of the Pacific" until the American carrier raids of February 1944 showed it was nothing of the kind. No landing was ever made on it: it was left behind the front and starved. Chuuk State, Federated States of Micronesia.'
   },
   Pohnpei: {
     en: 'Ponape (Pohnpei)', ja: 'ポナペ (Ponape)', wiki: 'https://en.wikipedia.org/wiki/Pohnpei',
+    short: 'Ponape, the wettest and most fertile of the Carolines',
     note: 'Ponape, the wettest and most fertile of the Carolines, with a Japanese agricultural station and the basalt city of Nan Madol on its reef. The Americans shelled and bombed it from 1944 and never landed; its garrison of about 8,000 was still there in August 1945. Federated States of Micronesia.'
   },
   Kosrae: {
     en: 'Kusaie (Kosrae)', ja: 'クサイエ (Kusaie)', wiki: 'https://en.wikipedia.org/wiki/Kosrae',
+    short: 'The easternmost of the Carolines, with the basalt ruins of Lelu on its shore',
     note: 'The easternmost of the Carolines, with the basalt ruins of Lelu on its shore. The Americans passed it by altogether — no landing and little bombing — and its garrison of some 4,000 surrendered in September 1945. A state of the Federated States of Micronesia.'
   },
   Marshalls: {
     en: 'Marshall Islands', ja: 'マーシャル諸島 (Māsharu Shotō)',
     wiki: 'https://en.wikipedia.org/wiki/Marshall_Islands',
+    short: 'The outermost ring of the mandate, and the first of it to go',
     note: 'The outermost ring of the mandate, and the first of it to go: the Americans took Kwajalein and Majuro in January 1944 and Enewetak in February, and left the other atolls — Jaluit, Wotje, Mili, Maloelap — bombed and unsupplied behind the front. The Republic of the Marshall Islands since 1986.'
   },
   Saipan: {
     en: 'Saipan', ja: 'サイパン (Saipan)', zh: '塞班',
     wiki: 'https://en.wikipedia.org/wiki/Saipan,_Northern_Mariana_Islands',
+    short: 'The largest of the Marianas and the sugar island: Nan\'yō Kōhatsu\'s cane and mills',
     note: 'The largest of the Marianas and the sugar island: Nan\'yō Kōhatsu\'s cane and mills, a narrow-gauge railway round the coast, and about 29,000 Japanese and Okinawan settlers by the late 1930s against some 4,000 Chamorro and Carolinian islanders. Garapan was the largest town in the mandate. The Americans landed on 15 June 1944 and took it by 9 July; nearly the whole garrison of 30,000 died, and hundreds of Japanese civilians threw themselves off the cliffs at Marpi Point rather than surrender. The B-29 fields built here began the bombing of Japan. It is the seat of the Commonwealth of the Northern Mariana Islands.'
   },
   Tinian: {
     en: 'Tinian', ja: 'テニアン (Tenian)', zh: '天寧',
     wiki: 'https://en.wikipedia.org/wiki/Tinian,_Northern_Mariana_Islands',
+    short: 'Flat limestone three miles from Saipan and almost all of it under cane',
     note: 'Flat limestone three miles from Saipan and almost all of it under cane: some 15,000 settlers, a sugar mill and a company town. The Marines landed on 24 July 1944 and had the island by 1 August, in what their own official history calls the best-executed amphibious operation of the war. North Field\'s six runways then made it the busiest airfield in the world, and the aircraft that bombed Hiroshima and Nagasaki flew from them. Northern Marianas, with much of the island still leased to the American military.'
   },
   Rota: {
     en: 'Rota', ja: 'ロタ (Rota)', zh: '羅塔',
     wiki: 'https://en.wikipedia.org/wiki/Rota,_Northern_Mariana_Islands',
+    short: 'Between Saipan and Guam, with sugar and a few thousand people, Chamorro and Japanese',
     note: 'Between Saipan and Guam, with sugar and a few thousand people, Chamorro and Japanese. It was never assaulted — the Americans took the islands they wanted and flew past this one — so its garrison of about 3,000 sat out the war under bombing and surrendered on 2 September 1945. The quietest of the Northern Marianas now.'
   },
   Pagan: {
     en: 'Pagan', ja: 'パガン (Pagan)', zh: '帕甘',
     wiki: 'https://en.wikipedia.org/wiki/Pagan_(island)',
+    short: 'Two volcanoes joined by an isthmus in the northern Marianas',
     note: 'Two volcanoes joined by an isthmus in the northern Marianas, with a copra settlement and an airstrip built in the 1930s. Bombed from 1944 and then left behind the front; the garrison of about 2,000 was still there, and hungry, at the surrender. Mount Pagan erupted in 1981 and the island has been evacuated ever since. Northern Marianas.'
   },
   Agrihan: {
     en: 'Agrihan', ja: 'アグリハン (Agurihan)', zh: '阿格里漢',
     wiki: 'https://en.wikipedia.org/wiki/Agrihan',
+    short: 'The highest island in the Marianas — a volcano of 965 m',
     note: 'The highest island in the Marianas — a volcano of 965 m — with a few dozen people on it growing copra. The Americans never came near it; the handful of troops on it gave themselves up in 1945. All but uninhabited now. Northern Marianas.'
   },
   Anatahan: {
     en: 'Anatahan', ja: 'アナタハン (Anatahan)', zh: '阿納塔漢',
     wiki: 'https://en.wikipedia.org/wiki/Anatahan',
+    short: 'A volcanic ridge with no harbour and a small copra settlement',
     note: 'A volcanic ridge with no harbour and a small copra settlement. No landing was ever made on it. Thirty-odd Japanese survivors of ships sunk in 1944 lived on it after the surrender and would not believe the war was over; the last of them came off in June 1951, with a woman, Higa Kazuko, among them, whose presence the newspapers made the whole of the story. Evacuated after the 2003 eruption. Northern Marianas.'
   },
   Babeldaob: {
     en: 'Babeldaob (Palau)', ja: 'バベルダオブ (Baberudaobu)', zh: '巴貝爾道布',
     wiki: 'https://en.wikipedia.org/wiki/Babeldaob',
+    short: 'The largest island of the mandate, volcanic and forested',
     note: 'The largest island of the mandate, volcanic and forested, with bauxite mined from the late 1930s. The South Seas Bureau governed the whole mandate from Koror on its doorstep from 1922, and there were some 25,000 Japanese in Palau by 1940 — more than there were Palauans. After Peleliu the Americans left it alone, and its garrison of about 25,000 spent the last year of the war growing its own food and going hungry. The capital of the Republic of Palau moved onto it, to Ngerulmud, in 2006.'
   },
   Peleliu: {
     en: 'Peleliu', ja: 'ペリリュー (Peririyū)', zh: '貝里琉',
     wiki: 'https://en.wikipedia.org/wiki/Peleliu',
+    short: 'A low coral island with the airfield the Americans came for',
     note: 'A low coral island with the airfield the Americans came for. They landed on 15 September 1944 expecting four days; it took over two months and cost some 1,800 American and 10,000 Japanese lives. Nakagawa Kunio gave up the beaches and fought from the caves of the Umurbrogol ridge — the defence used again at Iwo Jima and Okinawa. Whether the island needed taking at all has been argued ever since. Palau.'
   },
   Angaur: {
     en: 'Angaur', zh: '安加爾', wiki: 'https://en.wikipedia.org/wiki/Angaur',
+    short: 'Eight square kilometres of phosphate',
     note: 'Eight square kilometres of phosphate, mined by the Germans from 1909 and by Japan after them, worked by labour brought in from the Carolines and the Marianas. Taken between 17 September and 22 October 1944 alongside Peleliu and turned into a bomber field. Palau.'
   },
   Weno: {
     en: 'Moen (Weno), Truk', ja: '春島 (Harushima)', zh: '春島',
     wiki: 'https://en.wikipedia.org/wiki/Weno',
+    short: 'Moen, the main island of Truk lagoon — the Combined Fleet\'s forward anchorage and',
     note: 'Moen, the main island of Truk lagoon — the Combined Fleet\'s forward anchorage and, in the phrase of the time, the Gibraltar of the Pacific: airfields, a seaplane base, a Japanese town and some 27,000 troops. Operation Hailstone on 17–18 February 1944 sank about forty ships and destroyed some 250 aircraft in two days, after which the Americans left Truk behind the front and it starved. The wrecks in the lagoon are dived on now. Weno is the capital of Chuuk State, Federated States of Micronesia.'
   },
   Kwajalein: {
     en: 'Kwajalein', zh: '瓜加林', wiki: 'https://en.wikipedia.org/wiki/Kwajalein_Atoll',
+    short: 'The largest coral atoll in the world by the area of its lagoon',
     note: 'The largest coral atoll in the world by the area of its lagoon, ninety-odd islets round it, and the Japanese headquarters in the Marshalls. Taken between 31 January and 4 February 1944 — the first assault on ground Japan had held before the war began, and the breach of the outer perimeter. It is an American missile range now, leased from the Marshall Islands and the largest employer in the country.'
   },
   Majuro: {
     en: 'Majuro', ja: 'マジュロ (Majuro)', zh: '馬久羅', wiki: 'https://en.wikipedia.org/wiki/Majuro',
+    short: 'A thin ring of islets round a deep lagoon',
     note: 'A thin ring of islets round a deep lagoon. The small Japanese garrison had already gone when the Americans arrived on 31 January 1944, so it was taken without a shot and became the fleet anchorage the drive across the central Pacific was mounted from. The capital of the Republic of the Marshall Islands.'
   },
   Jaluit: {
     en: 'Jaluit', ja: 'ヤルート (Yarūto)', zh: '賈盧伊特',
     wiki: 'https://en.wikipedia.org/wiki/Jaluit_Atoll',
+    short: 'The seat of the Marshalls under the Germans from 1885 and under Japan after 1914',
     note: 'The seat of the Marshalls under the Germans from 1885 and under Japan after 1914, with a trading town at Jabor and the copra trade run from it. The Americans went round it in 1944, bombed it and left it to starve; the garrison surrendered in August 1945 and a typhoon finished the town off in 1958. Marshall Islands.'
   },
   Wotje: {
     en: 'Wotje', zh: '沃杰', wiki: 'https://en.wikipedia.org/wiki/Wotje_Atoll',
+    short: 'One of the four Marshalls atolls Japan built an airfield on',
     note: 'One of the four Marshalls atolls Japan built an airfield on, with some 3,000 troops on it. The Americans left it behind the front in 1944 and bombed it for the rest of the war without ever landing on it; the garrison, reduced to fishing and gardening, surrendered in 1945. Marshall Islands.'
   },
   Enewetak: {
     en: 'Enewetak', zh: '埃內韋塔克', wiki: 'https://en.wikipedia.org/wiki/Enewetak_Atoll',
+    short: 'A large atoll at the western edge of the Marshalls, with an airstrip on Engebi',
     note: 'A large atoll at the western edge of the Marshalls, with an airstrip on Engebi. Taken between 17 and 23 February 1944, which carried the Americans past the last of the Marshalls. Its people were moved off in 1947 and forty-three nuclear tests were fired here, among them Ivy Mike in 1952, the first hydrogen bomb, which left a crater where the islet of Elugelab had been. The contaminated debris is under a concrete dome on Runit. Marshall Islands.'
   },
   Bikini: {
     en: 'Bikini', zh: '比基尼', wiki: 'https://en.wikipedia.org/wiki/Bikini_Atoll',
+    short: 'A northern atoll with no airfield and no battle',
     note: 'A northern atoll with no airfield and no battle: the Japanese watch post on it was killed in February 1944 and that was the war. Its 167 people were moved off in 1946 for Operation Crossroads and twenty-three tests followed, Castle Bravo in 1954 the largest the United States ever fired. They have never been able to go back. Marshall Islands.'
   },
   Ebon: {
     en: 'Ebon', ja: 'エボン (Ebon)', zh: '埃邦', wiki: 'https://en.wikipedia.org/wiki/Ebon_Atoll',
+    short: 'The southernmost atoll of the Marshalls',
     note: 'The southernmost atoll of the Marshalls, and where American missionaries first landed in 1857 — the church has been at the centre of Marshallese life ever since. Copra, no airfield, and nothing the war wanted: it was passed over entirely. Marshall Islands.'
   },
   'The Mongol leagues': { en: 'The Mongol leagues', ja: '蒙古聯盟 (Mōko renmei)', zh: '蒙古各盟' },
@@ -5331,188 +5515,230 @@ JMAP.PROVINCES = {
   'South Chahar (Chanan) Administration': { en: 'Chánán — the South Chahar Administration', ja: '察南政廳 (Satsunan seichō)', zh: '察南政廳' },
   Sumatra: {
     en: 'Sumatra', ja: 'スマトラ (Sumatora)', wiki: 'https://en.wikipedia.org/wiki/Sumatra',
+    short: 'Rubber, tobacco and above all the oil of Palembang',
     note: 'Rubber, tobacco and above all the oil of Palembang, which was taken by parachute assault on 14 February 1942 before the refineries could be destroyed.'
   },
   Java: {
     en: 'Java', ja: 'ジャワ (Jawa)',
+    short: 'The centre of the colony and of its population: two thirds of the Indies lived here',
     note: 'The centre of the colony and of its population: two thirds of the Indies lived here. The Dutch surrendered on 8 March 1942, and the Japanese levied the rōmusha labour drafts from it.'
   },
   Madura: {
     en: 'Madura', ja: 'マドゥラ (Madura)', wiki: 'https://en.wikipedia.org/wiki/Madura',
+    short: 'Salt from the pans along its south coast, cattle',
     note: 'Salt from the pans along its south coast, cattle, and two courts of its own under the Dutch — poor, dry and densely peopled.'
   },
   Borneo: {
     en: 'Borneo (Kalimantan)', ja: 'ボルネオ (Boruneo)',
-    wiki: 'https://en.wikipedia.org/wiki/Borneo',
+    wiki: 'https://en.wikipedia.org/wiki/Borneo', short: 'Oil at Balikpapan and Tarakan',
     note: 'Oil at Balikpapan and Tarakan, which was the reason the southern advance came this way at all. Taken in January and February 1942.'
   },
   Sulawesi: {
     en: 'Celebes (Sulawesi)', ja: 'セレベス (Serebesu)',
     wiki: 'https://en.wikipedia.org/wiki/Sulawesi',
+    short: 'Celebes, taken between January and February 1942',
     note: 'Celebes, taken between January and February 1942, and put under naval rather than army administration for the rest of the war.'
   },
   Bali: {
     en: 'Bali', ja: 'バリ (Bari)', wiki: 'https://en.wikipedia.org/wiki/Bali',
+    short: 'Taken on 19 February 1942',
     note: 'Taken on 19 February 1942. The action in Badung Strait the following night went the other way: four Japanese destroyers beat off a much larger Allied force and sank a Dutch destroyer.'
   },
   Lombok: {
     en: 'Lombok', ja: 'ロンボク (Ronboku)', wiki: 'https://en.wikipedia.org/wiki/Lombok',
+    short: 'Between Bali and Sumbawa',
     note: 'Between Bali and Sumbawa, and the strait through which the Allied ships that got away from Java escaped south.'
   },
   Sumbawa: {
     en: 'Sumbawa', ja: 'スンバワ (Sunbawa)', wiki: 'https://en.wikipedia.org/wiki/Sumbawa',
+    short: 'A dry island of horses and sandalwood, and of Tambora',
     note: 'A dry island of horses and sandalwood, and of Tambora, whose eruption in 1815 cooled the whole world.'
   },
   Flores: {
     en: 'Flores', ja: 'フローレス (Furōresu)', wiki: 'https://en.wikipedia.org/wiki/Flores',
+    short: 'Taken in 1942 and used for an airstrip',
     note: 'Taken in 1942 and used for an airstrip; otherwise left to itself.'
   },
   Sumba: {
     en: 'Sumba', ja: 'スンバ (Sunba)', wiki: 'https://en.wikipedia.org/wiki/Sumba',
+    short: 'Horses, sandalwood and ikat weaving',
     note: 'Horses, sandalwood and ikat weaving, and a society of clans and megalithic tombs that the Dutch reached late and governed lightly.'
   },
   WestTimor: {
     en: 'Dutch Timor', ja: 'チモール (Chimōru)', wiki: 'https://en.wikipedia.org/wiki/West_Timor',
+    short: 'The Dutch half of Timor',
     note: 'The Dutch half of Timor, taken on 20 February 1942 with a parachute landing behind the Australian force at Koepang.'
   },
   Halmahera: {
     en: 'Halmahera', ja: 'ハルマヘラ (Harumahera)', wiki: 'https://en.wikipedia.org/wiki/Halmahera',
+    short: 'Bypassed in 1944 when the Americans took Morotai beside it instead',
     note: 'Bypassed in 1944 when the Americans took Morotai beside it instead, and its garrison was left to starve.'
   },
   Seram: {
     en: 'Ceram (Seram)', ja: 'セラム (Seramu)', wiki: 'https://en.wikipedia.org/wiki/Seram_Island',
+    short: 'Sago and the oil at Bula on its eastern end',
     note: 'Sago and the oil at Bula on its eastern end. The mountainous interior was never properly administered.'
   },
   Buru: {
     en: 'Buru', ja: 'ブル (Buru)', wiki: 'https://en.wikipedia.org/wiki/Buru',
+    short: 'A quiet island off Ceram',
     note: 'A quiet island off Ceram, later notorious as an Indonesian prison colony.'
   },
   Bangka: {
     en: 'Banka (Bangka)', ja: 'バンカ (Banka)',
     wiki: 'https://en.wikipedia.org/wiki/Bangka_Island',
+    short: 'Tin, worked by Chinese labour since the eighteenth century',
     note: 'Tin, worked by Chinese labour since the eighteenth century. Off its coast in February 1942 Japanese troops machine-gunned twenty-two Australian nurses who had survived a sinking; one lived.'
   },
   Belitung: {
     en: 'Billiton (Belitung)', ja: 'ビリトン (Biriton)',
     wiki: 'https://en.wikipedia.org/wiki/Belitung',
+    short: 'Tin, worked by Chinese labour since the nineteenth century under the Billiton company',
     note: 'Tin, worked by Chinese labour since the nineteenth century under the Billiton company — which later gave half its name to BHP Billiton.'
   },
   Nias: {
     en: 'Nias', ja: 'ニアス (Niasu)', wiki: 'https://en.wikipedia.org/wiki/Nias',
+    short: 'Off the west coast of Sumatra',
     note: 'Off the west coast of Sumatra, and famous for its megaliths and stone-jumping.'
   },
   WestNewGuinea: {
     en: 'Dutch New Guinea', ja: '西部ニューギニア (Seibu Nyūginia)',
     wiki: 'https://en.wikipedia.org/wiki/Dutch_New_Guinea',
+    short: 'The Dutch half of New Guinea',
     note: 'The Dutch half of New Guinea, hardly administered before the war and the ground the Americans came back through in 1944 — Hollandia, Biak, Sansapor.'
   },
   Aru: {
     en: 'Aru Islands', ja: 'アル諸島 (Aru-shotō)',
     wiki: 'https://en.wikipedia.org/wiki/Aru_Islands',
+    short: 'A low, swampy group off New Guinea across the Arafura Sea',
     note: 'A low, swampy group off New Guinea across the Arafura Sea, governed from Amboina with the rest of the Moluccas and not from New Guinea at all. Pearl shell and birds of paradise were what the outside world came for; the Japanese took it in 1942 and used Dobo as a seaplane base.'
   },
   Tanimbar: {
     en: 'Tanimbar Islands', ja: 'タニンバル諸島 (Taninbaru-shotō)',
     wiki: 'https://en.wikipedia.org/wiki/Tanimbar_Islands',
+    short: 'The largest of the south-eastern Moluccas, Yamdena and its neighbours',
     note: 'The largest of the south-eastern Moluccas, Yamdena and its neighbours. Australian and Dutch aircraft raided Saumlaki through 1942, and the Japanese held it as the eastern shoulder of the Banda Sea.'
   },
   Kai: {
     en: 'Kai Islands', ja: 'カイ諸島 (Kai-shotō)',
     wiki: 'https://en.wikipedia.org/wiki/Kai_Islands',
+    short: 'Two islands of very different make — Kai Besar high and forested, Kai Kecil flat coral',
     note: 'Two islands of very different make — Kai Besar high and forested, Kai Kecil flat coral — famous for the boatbuilders of Banda Eli. Taken in 1942 and used as a staging point for the Arafura Sea.'
   },
   RajaAmpat: {
     en: 'Raja Ampat Islands', wiki: 'https://en.wikipedia.org/wiki/Raja_Ampat_Islands',
+    short: 'Waigeo, Batanta, Salawati and Misool, off the western tip of New Guinea',
     note: 'Waigeo, Batanta, Salawati and Misool, off the western tip of New Guinea. Nominally under the Sultan of Tidore until the Dutch took the claim over, and among the least administered ground in the colony.'
   },
   Biak: {
     en: 'Biak', ja: 'ビアク島 (Biaku-tō)', wiki: 'https://en.wikipedia.org/wiki/Biak_Island',
+    short: 'Taken by the Japanese in 1942 and turned into an airfield complex',
     note: 'Taken by the Japanese in 1942 and turned into an airfield complex. The American landing of 27 May 1944 met a defence dug into the coral terraces above the strips and cost more than any other operation in New Guinea.'
   },
   Yapen: {
     en: 'Japen (Yapen)', wiki: 'https://en.wikipedia.org/wiki/Yapen',
+    short: 'A long ridge of an island in Geelvink Bay, between Biak and the New Guinea shore',
     note: 'A long ridge of an island in Geelvink Bay, between Biak and the New Guinea shore. Held by the Japanese from 1942 and taken by American forces in 1944.'
   },
   Kolepom: {
     en: 'Frederik Hendrik Island', wiki: 'https://en.wikipedia.org/wiki/Dolak_Island',
+    short: 'Frederik Hendrik Island, called Dolak now',
     note: 'Frederik Hendrik Island, called Dolak now — a slab of swamp and grass the size of Bali off the south coast, separated from New Guinea by a channel a few hundred metres wide.'
   },
   Wetar: {
     en: 'Wetar', wiki: 'https://en.wikipedia.org/wiki/Wetar',
+    short: 'Dry, mountainous and barely populated, north of Timor across the strait',
     note: 'Dry, mountainous and barely populated, north of Timor across the strait. It mattered in 1942 only as the ground the Japanese had to hold to seal the Timor campaign off from the sea.'
   },
   Obi: {
     en: 'Obi Islands', wiki: 'https://en.wikipedia.org/wiki/Obi_Islands',
+    short: 'Forested and almost empty, between Halmahera and Sula',
     note: 'Forested and almost empty, between Halmahera and Sula. The Dutch worked it for timber and a little gold; the Japanese passed it by in favour of Halmahera.'
   },
   Alor: {
     en: 'Alor', wiki: 'https://en.wikipedia.org/wiki/Alor_Island',
+    short: 'A crowded, mountainous island north of Timor',
     note: 'A crowded, mountainous island north of Timor, better known to anthropology than to administration: Cora Du Bois worked here in 1938 and 1939, and *The People of Alor* came out of it in 1944.'
   },
   Pantar: {
-    en: 'Pantar', wiki: 'https://en.wikipedia.org/wiki/Pantar',
+    en: 'Pantar', wiki: 'https://en.wikipedia.org/wiki/Pantar', short: 'Volcanic, dry and poor',
     note: 'Volcanic, dry and poor, west of Alor and governed with it.'
   },
   Lembata: {
     en: 'Lomblen (Lembata)', wiki: 'https://en.wikipedia.org/wiki/Lembata',
+    short: 'Lomblen, in the Solor chain east of Flores',
     note: 'Lomblen, in the Solor chain east of Flores, where the whaling village of Lamalera still took sperm whales from open boats.'
   },
   Rote: {
     en: 'Roti (Rote)', wiki: 'https://en.wikipedia.org/wiki/Rote_Island',
+    short: 'The southernmost island of the Indies, dry and low',
     note: 'The southernmost island of the Indies, dry and low, with the lontar palm at the centre of its economy. Its people were among the earliest and most thoroughly Christianised in the archipelago.'
   },
   Savu: {
     en: 'Savu (Sabu)', wiki: 'https://en.wikipedia.org/wiki/Savu',
+    short: 'A small dry island between Sumba and Timor, living off the lontar palm as Roti did',
     note: 'A small dry island between Sumba and Timor, living off the lontar palm as Roti did, and sending migrants across the eastern islands.'
   },
   Sula: {
     en: 'Sula Islands', wiki: 'https://en.wikipedia.org/wiki/Sula_Islands',
+    short: 'Taliabu, Mangole and Sanana, west of Halmahera. Ruled from Ternate before the Dutch',
     note: 'Taliabu, Mangole and Sanana, west of Halmahera. Ruled from Ternate before the Dutch, and left largely to itself after.'
   },
   Talaud: {
     en: 'Talaud Islands', wiki: 'https://en.wikipedia.org/wiki/Talaud_Islands',
+    short: 'The northernmost land of the Indies, closer to Mindanao than to Celebes',
     note: 'The northernmost land of the Indies, closer to Mindanao than to Celebes, and the first Dutch territory the Japanese passed on the way south.'
   },
   Sangihe: {
     en: 'Sangihe Islands', ja: 'サンギヘ諸島 (Sangihe-shotō)',
     wiki: 'https://en.wikipedia.org/wiki/Sangir_Islands',
+    short: 'A volcanic chain between Celebes and the Philippines',
     note: 'A volcanic chain between Celebes and the Philippines. Awu erupted repeatedly through the colonial period, and its people migrated in numbers to Minahasa and Mindanao.'
   },
   Ambon: {
     en: 'Ambon', ja: 'アンボン島 (Anbon-tō)', wiki: 'https://en.wikipedia.org/wiki/Ambon_Island',
+    short: 'The seat of government for the Moluccas and the centre of the old spice trade',
     note: 'The seat of government for the Moluccas and the centre of the old spice trade. Taken between 30 January and 3 February 1942; the Australian and Dutch garrison surrendered, and more than three hundred prisoners were killed at Laha airfield in the days that followed.'
   },
   Babar: {
     en: 'Babar Islands', wiki: 'https://en.wikipedia.org/wiki/Babar_Islands',
+    short: 'A small group east of Timor',
     note: 'A small group east of Timor, among the least visited of the Dutch possessions.'
   },
   Bacan: {
     en: 'Batjan (Bacan)', wiki: 'https://en.wikipedia.org/wiki/Bacan',
+    short: 'Batjan, south of Halmahera',
     note: 'Batjan, south of Halmahera, once a sultanate of its own and by 1930 a quiet island of forest and clove gardens.'
   },
   Morotai: {
     en: 'Morotai', ja: 'モロタイ島 (Morotai-tō)',
     wiki: 'https://en.wikipedia.org/wiki/Morotai_Island',
+    short: 'North of Halmahera, and the one island in the group the Allies wanted',
     note: 'North of Halmahera, and the one island in the group the Allies wanted. The American landing of 15 September 1944 was almost unopposed, and the airfields built here carried the return to the Philippines.'
   },
   Natuna: {
     en: 'Natuna Islands', wiki: 'https://en.wikipedia.org/wiki/Natuna_Islands',
+    short: 'In the South China Sea between Borneo and the Malay peninsula',
     note: 'In the South China Sea between Borneo and the Malay peninsula, Dutch by treaty and Malay by population.'
   },
   Siberut: {
     en: 'Siberut', wiki: 'https://en.wikipedia.org/wiki/Siberut',
+    short: 'The largest of the Mentawai islands off west Sumatra, kept deliberately apart',
     note: 'The largest of the Mentawai islands off west Sumatra, kept deliberately apart: its people were left to themselves for longer than almost anywhere else in the colony.'
   },
   Simeulue: {
     en: 'Simalur (Simeulue)', wiki: 'https://en.wikipedia.org/wiki/Simeulue',
+    short: 'Simalur, off the Acehnese coast',
     note: 'Simalur, off the Acehnese coast, with a clove and coconut economy and a long memory of the sea — the warning song about *smong*, the retreating tide, is from here.'
   },
   Bawean: {
     en: 'Bawean', wiki: 'https://en.wikipedia.org/wiki/Bawean',
+    short: 'Its men migrated to Singapore and Malaya in such numbers that most lived abroad',
     note: 'A small island in the Java Sea whose men migrated to Singapore and Malaya in such numbers that the Bawean community there long outnumbered the one at home.'
   },
   Komodo: {
     en: 'Komodo', wiki: 'https://en.wikipedia.org/wiki/Komodo_(island)',
+    short: 'Dry, rugged and almost uninhabited between Sumbawa and Flores',
     note: 'Dry, rugged and almost uninhabited between Sumbawa and Flores. The monitor lizard was described for science in 1912 and the Dutch protected it from 1931.'
   },
   Atjeh: { en: 'Atjeh and Dependencies (Sumatra)', wiki: 'https://en.wikipedia.org/wiki/Aceh' },
@@ -5540,11 +5766,13 @@ JMAP.PROVINCES = {
   Papua: {
     en: 'Territory of Papua', zh: '巴布亞',
     wiki: 'https://en.wikipedia.org/wiki/Territory_of_Papua',
+    short: 'Australian territory outright, not a mandate. Japan never took Port Moresby',
     note: 'Australian territory outright, not a mandate. Japan never took Port Moresby: the seaborne attempt turned back at the Coral Sea and the overland push was stopped on the Kokoda Track in September 1942.'
   },
   NewGuineaMandate: {
     en: 'Territory of New Guinea (mandate)', zh: '新幾內亞委任統治地',
     wiki: 'https://en.wikipedia.org/wiki/Territory_of_New_Guinea',
+    short: 'The former German colony',
     note: 'The former German colony, held by Australia under a League mandate and administered from Rabaul — which Japan took in January 1942 and made the base for the whole southern campaign.'
   },
   'North China and the Yangtze valley': {
@@ -5555,245 +5783,302 @@ JMAP.PROVINCES = {
   'The Canton delta': {
     en: 'The Guǎngzhōu (Canton) delta and the West River, held from October 1938', ja: '広東攻略戦',
     zh: '廣州三角洲', wiki: 'https://en.wikipedia.org/wiki/Canton_Operation',
+    short: 'Taken from Bias Bay in October 1938',
     note: 'Japanese troops landed at Bias Bay on 12 October 1938 and were in Guangzhou nine days later, with almost no fighting: the Nationalist divisions had been drawn north to Wuhan. Taking the delta cut the Guangzhou–Hankou railway and closed the port through which the greater part of China\'s imported arms and fuel had been arriving, which is why it was done in the same weeks as Wuhan. Control reached up the West River and along the rail line, and Hong Kong, forty miles away, was left as the one gap until December 1941.'
   },
   Hainan: {
     en: 'Hǎinán (Hainan), taken February 1939', ja: '海南島 (Kainan-tō)', zh: '海南島',
     wiki: 'https://en.wikipedia.org/wiki/Hainan_Island_Operation',
+    short: 'Taken in a fortnight in February 1939',
     note: 'Landings on 10 February 1939 at Haikou and Yulin took the island in a fortnight against a small garrison. It was worth having for three things: a naval and air base commanding the Gulf of Tonkin and the approaches to French Indochina, which mattered a great deal when Japan moved into Indochina in 1940; the iron ore at Shilu, which was mined with conscripted and prisoner labour and shipped to Japan\'s furnaces; and the closing of another stretch of coast. The garrison held it until the surrender, and the island\'s Li and Miao interior was never brought under control.'
   },
   'Amoy and Kinmen': {
     en: 'Xiàmén (Amoy), taken May 1938, and Jīnmén (Kinmen), taken October 1937',
     ja: '厦門 (Amoi)', zh: '廈門・金門', wiki: 'https://en.wikipedia.org/wiki/Amoy_Operation',
+    short: 'Kinmen was taken in October 1937 and Xiamen by a naval landing on 10 May 1938',
     note: 'Kinmen was taken in October 1937 and Xiamen by a naval landing on 10 May 1938 — a treaty port since 1842, and the harbour through which the coast\'s remittance and emigrant traffic with South-East Asia ran. The small island of Gulangyu in the harbour was an International Settlement with its own municipal council, and it stayed nominally neutral, and crowded with refugees, until Japan occupied it in December 1941. The point of the operation was blockade rather than ground: Xiamen faces Taiwan across the strait and had been the obvious hole in it.'
   },
   'Swatow and Chaochow': {
     en: 'Shàntóu (Swatow) and Cháozhōu (Chaochow), taken June 1939', ja: '汕頭 (Suatō)',
     zh: '汕頭・潮州', wiki: 'https://en.wikipedia.org/wiki/Swatow_Operation',
+    short: 'Shantou was taken on 21 June 1939 and Chaozhou four days later',
     note: 'Shantou was taken on 21 June 1939 and Chaozhou four days later, the last of the southern ports to go. This is the Teochew country of the Han river delta, whose people had emigrated to Siam, Malaya and the Indies for a century and whose remittances came back through this port — and by 1939 so did a good deal of the war material still reaching Free China, which is what the landing was for. With Shantou closed the coast between Shanghai and Hong Kong was shut, and supply had to come overland through Burma or Indochina.'
   },
   Luzon: {
     en: 'Luzon', wiki: 'https://en.wikipedia.org/wiki/Luzon',
+    short: 'The main island, with Manila and the rice plain behind it. Invaded in December 1941',
     note: 'The main island, with Manila and the rice plain behind it. Invaded in December 1941, lost with Corregidor in May 1942, and fought over again from January 1945 in the longest campaign of the Pacific war.'
   },
   Mindanao: {
     en: 'Mindanao', wiki: 'https://en.wikipedia.org/wiki/Mindanao',
+    short: 'The southern island, with the Japanese abaca colony at Davao',
     note: 'The southern island, with the Japanese abaca colony at Davao, the largest Japanese settlement in Southeast Asia before the war. Taken in 1942 and retaken in 1945.'
   },
   Palawan: {
     en: 'Palawan', wiki: 'https://en.wikipedia.org/wiki/Palawan',
+    short: 'The long island reaching towards Borneo',
     note: 'The long island reaching towards Borneo. In December 1944 the garrison at Puerto Princesa burned some 140 American prisoners alive rather than let them be liberated.'
   },
   Mindoro: {
     en: 'Mindoro', wiki: 'https://en.wikipedia.org/wiki/Mindoro',
+    short: 'Taken by the Americans in December 1944 for its airfields',
     note: 'Taken by the Americans in December 1944 for its airfields, as the stepping stone from Leyte to Luzon.'
   },
   Panay: {
     en: 'Panay', wiki: 'https://en.wikipedia.org/wiki/Panay',
+    short: 'Sugar, and the port of Iloilo',
     note: 'Sugar, and the port of Iloilo. Taken in April 1942 and held afterwards by one of the strongest guerrilla organisations in the islands.'
   },
   Negros: {
     en: 'Negros', wiki: 'https://en.wikipedia.org/wiki/Negros',
+    short: 'The sugar island, whose plantations supplied much of the Philippine crop',
     note: 'The sugar island, whose plantations supplied much of the Philippine crop.'
   },
   Cebu: {
     en: 'Cebu', wiki: 'https://en.wikipedia.org/wiki/Cebu',
+    short: 'The oldest Spanish settlement in the islands and the busiest port after Manila',
     note: 'The oldest Spanish settlement in the islands and the busiest port after Manila.'
   },
   Bohol: {
     en: 'Bohol', wiki: 'https://en.wikipedia.org/wiki/Bohol',
+    short: 'A quiet island of rice and coconut',
     note: 'A quiet island of rice and coconut, taken without much fighting in 1942.'
   },
   Leyte: {
     en: 'Leyte', wiki: 'https://en.wikipedia.org/wiki/Leyte',
+    short: 'Where MacArthur came ashore on 20 October 1944',
     note: 'Where MacArthur came ashore on 20 October 1944, and off which the largest naval battle ever fought was decided four days later.'
   },
   Samar: {
     en: 'Samar', wiki: 'https://en.wikipedia.org/wiki/Samar',
+    short: 'Off it, escort carriers turned back a battleship force in October 1944',
     note: 'Off its coast on 25 October 1944 a handful of American escort carriers and destroyers turned back a Japanese battleship force, in the action that decided Leyte Gulf.'
   },
   Masbate: {
     en: 'Masbate', wiki: 'https://en.wikipedia.org/wiki/Masbate',
+    short: 'Cattle ranches and the gold mines at Aroroy',
     note: 'Cattle ranches and the gold mines at Aroroy, which were among the largest producers in the Philippines before the war.'
   },
   Abra: {
     en: 'Abra (Luzon)', wiki: 'https://en.wikipedia.org/wiki/Abra_(province)',
+    short: 'A landlocked basin in the foothills of the Cordillera',
     note: 'A landlocked basin in the foothills of the Cordillera, drained by the Abra river and shut in by mountains on three sides, with Bangued as its town. The valley floor is Ilocano and grows irrigated rice, maize and — since the Spanish tobacco monopoly reached up here — leaf for the Manila factories; the ridges above it are Tinguian country, worked in swidden and terrace. Gold was panned out of the river gravels, and pine and hardwood came off the slopes, but the province had no road worth the name until the American period and stayed one of the poorest and least visited in Luzon. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   Agusan: {
     en: 'Agusan (Mindanao)', wiki: 'https://en.wikipedia.org/wiki/Agusan_(province)',
+    short: 'The valley of the Agusan river',
     note: 'The valley of the Agusan river, running north through eastern Mindanao to the sea at Butuan, with one of the largest freshwater marshes in South-East Asia filling its middle course — thousands of hectares of swamp forest, floating villages and seasonal lake. The province lived on timber, which the American period turned into a serious industry as sawmills went up along the river, and on abaca and coconut planted on the drier ground. Its people were Manobo, Higaonon and Mamanwa in the interior with Cebuano and Boholano settlers along the coast and the road, a pattern the government\'s resettlement schemes deliberately encouraged. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   Albay: {
     en: 'Albay (Luzon, with the sub-province of Catanduanes)',
     wiki: 'https://en.wikipedia.org/wiki/Albay',
+    short: 'Mayon stands over this province — a volcanic cone of 2,462 m',
     note: 'Mayon stands over this province — a volcanic cone of 2,462 m, as close to symmetrical as any on earth, which erupted in 1897, 1928 and 1938 and buried villages each time. The ash makes exceptionally good soil, and Albay was the centre of the abaca country: Manila hemp, stripped from the stalks of a wild banana relative, was the world\'s rope fibre before synthetics and the Philippines\' second export after sugar. Legazpi was the port that shipped it, Tabaco and Ligao the market towns, and the sub-province of Catanduanes, a typhoon-battered island to the east, was administered from here. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   Antique: {
     en: 'Antique (Panay)', wiki: 'https://en.wikipedia.org/wiki/Antique_(province)',
+    short: 'The narrow western coast of Panay',
     note: 'The narrow western coast of Panay, a strip of shore between the Central Panay mountains and the Sulu Sea, with no harbour of consequence and the mountains cutting it off from the richer provinces on the other side. Its people farmed rice and maize on the coastal flats and fished from the beach, and the interior was Iraya and Sulod country in the uplands. It was the poorest province on the island and lost people steadily to Iloilo, Negros and Manila; San Jose de Buenavista was the capital and never grew large. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   Bataan: {
     en: 'Bataan (Luzon)', wiki: 'https://en.wikipedia.org/wiki/Bataan',
+    short: 'The mountainous peninsula that closes Manila Bay on the west',
     note: 'The mountainous peninsula that closes Manila Bay on the west, forested from the shore to the summits of Natib and Samat, with a thin fringe of rice land and fishing villages round its edge. Charcoal, timber and fish were what it sold, and Balanga was a market town of a few thousand. In January 1942 the American and Filipino army withdrew into it and held the line across the peninsula for three months on half rations; the surrender on 9 April was the largest in American history, and the march of some sixty to eighty thousand prisoners north to Camp O\'Donnell killed thousands of them on the road. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   Batanes: {
     en: 'Batanes', wiki: 'https://en.wikipedia.org/wiki/Batanes',
+    short: 'Ten small islands in the strait between Luzon and Taiwan',
     note: 'Ten small islands in the strait between Luzon and Taiwan, in the direct path of the typhoons, which is why the Ivatan build their houses of metre-thick limestone and lime mortar with thatch roofs lashed down and no windows on the weather side. There is almost no flat land: the living was root crops, garlic, cattle grazed on the cliff tops and fishing for flying fish in the season, with Basco on Batan as the only town. It is the northernmost Philippine territory and the closest to Japan, and Japanese troops came ashore there on 8 December 1941 — the first landing of the Philippines campaign, made before the attacks on Luzon. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   Batangas: {
     en: 'Batangas (Luzon)', wiki: 'https://en.wikipedia.org/wiki/Batangas',
+    short: 'South-western Luzon',
     note: 'South-western Luzon: rolling volcanic uplands and cattle country round the caldera lake of Taal, with the small active cone inside it, and a coastline of deep bays on the Verde Island passage. It grew the coffee that made Lipa briefly one of the richest towns in the islands, until blight destroyed the trees in the 1880s and the ground went over to sugar, maize and cattle. Batangueños have a reputation for being difficult that they earned twice: the province was one of the first to rise in 1896, and General Bell\'s campaign against it in 1901–02, with the population concentrated into zones, was the harshest of the Philippine–American war. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   Bukidnon: {
     en: 'Bukidnon (Mindanao)', wiki: 'https://en.wikipedia.org/wiki/Bukidnon',
+    short: 'A grassland plateau in the interior of northern Mindanao',
     note: 'A grassland plateau six hundred to a thousand metres up in the interior of northern Mindanao, cooler than the coast, with pine on the higher ground and deep canyons cut into it. Its people were Bukidnon, Higaonon and Manobo, herding and farming in the open country, and cattle ranching was the first commercial use the plateau was put to. Then in 1926 the Del Monte corporation planted pineapple at Camp Phillips on land leased from the government — within a decade it was among the largest pineapple plantations in the world, with a cannery down at Bugo on the coast and a railway between them. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   Bulacan: {
     en: 'Bulacan (Luzon)', wiki: 'https://en.wikipedia.org/wiki/Bulacan',
+    short: 'The alluvial plain immediately north of Manila, flat',
     note: 'The alluvial plain immediately north of Manila, flat, densely settled and heavily irrigated, running down to fishponds and mangrove along the bay. It grew rice for the capital and raised milkfish in the ponds, and its towns kept unusually specialised crafts — goldsmiths and jewellers at Meycauayan, fireworks at Bocaue, buntal hats at Baliuag. It has a place in the country\'s political memory out of proportion to its size: Marcelo H. del Pilar and the poet Balagtas came from here, and the congress of the First Philippine Republic met in the church at Malolos in 1898 and wrote a constitution there. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   Cagayan: {
     en: 'Cagayan (Luzon)', wiki: 'https://en.wikipedia.org/wiki/Cagayan',
+    short: 'The lower valley of the Cagayan, the largest river in the Philippines',
     note: 'The lower valley of the Cagayan, the largest river in the Philippines, running north between the Cordillera and the Sierra Madre to a delta at Aparri. The Spanish tobacco monopoly of 1782 forced this valley to grow leaf for the crown, and long after the monopoly ended in 1882 Cagayan and Isabela were still the tobacco provinces, supplying the cigar factories of Manila and an export trade to Spain. Rice and maize filled the rest of the floodplain, hardwood came off the Sierra Madre, and the whole province took the full force of the typhoons that come in from the Pacific every year. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   CamarinesNorte: {
     en: 'Camarines Norte (Luzon)', wiki: 'https://en.wikipedia.org/wiki/Camarines_Norte',
+    short: 'The northern shoulder of the Bicol peninsula',
     note: 'The northern shoulder of the Bicol peninsula, hilly and forested with a broken coast on the Pacific side and Daet as its town. Paracale here is one of the oldest gold districts in the country — worked before the Spanish arrived, named for the placer channels dug to get at the gravels, and revived on a large scale in the gold boom of the 1930s when American and Filipino companies sank shafts along the coast. Coconut and abaca covered most of the rest of the province, and the iron deposits at Larap were opened in the same years. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   CamarinesSur: {
     en: 'Camarines Sur (Luzon)', wiki: 'https://en.wikipedia.org/wiki/Camarines_Sur',
+    short: 'The waist of the Bicol peninsula',
     note: 'The waist of the Bicol peninsula, with Mount Isarog and Mount Iriga standing over the Bicol river plain and Lake Bato, and coasts on both the Pacific and San Miguel Bay. It is fertile volcanic country: rice on the plain, abaca and coconut on the slopes, and fishing in the bay and the lakes. Naga, which the Spanish called Nueva Cáceres, was one of the few cities they chartered outright and the seat of the bishopric for the whole region, and the Peñafrancia procession down the Bicol river every September is the largest Marian devotion in the country. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   Capiz: {
     en: 'Capiz (Panay)', wiki: 'https://en.wikipedia.org/wiki/Capiz',
+    short: 'The northern side of Panay',
     note: 'The northern side of Panay, where the Panay river comes down to a broad coastal plain on the Sibuyan Sea — rice ground, with fishponds and a fishing fleet working the shallow gulf. It was a quieter and less commercial province than Iloilo across the mountains, sending its rice and its people there rather than trading on its own account. The translucent windowpane oyster shell used for lanterns and sliding screens all over the archipelago is called capiz after this province, and Manuel Roxas, the Commonwealth\'s last vice-president and the republic\'s first president, was born in the capital. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   Cavite: {
     en: 'Cavite (Luzon)', wiki: 'https://en.wikipedia.org/wiki/Cavite',
+    short: 'The province on the south shore of Manila Bay',
     note: 'The province on the south shore of Manila Bay, with the sandy hook of Cavite point running out into it and the uplands of Tagaytay behind. The Spanish put their naval yard on that point, and it was there that Dewey destroyed the Spanish squadron on 1 May 1898; the Americans kept it as a naval station and it was bombed to pieces in December 1941. Inland the province was friar estate country — sugar, coffee and rice held by the religious orders and worked by tenants — which is why the revolution of 1896 caught here first and hardest, and why Aguinaldo, a Kawit man, ended up leading it. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   Cotabato: {
     en: 'Cotabato (Mindanao)', wiki: 'https://en.wikipedia.org/wiki/Cotabato',
+    short: 'The largest province in the Philippines: the basin of the Pulangi or Mindanao river',
     note: 'The largest province in the Philippines: the basin of the Pulangi or Mindanao river, a great alluvial plain with marsh and lake in its middle, hemmed by mountains and opening on Illana Bay. This was the country of the Maguindanao sultanate, brought under American administration only after 1900, and from the 1910s the government planted agricultural colonies here — settlers from Luzon and the Visayas given land in the valley — which by the 1930s had begun to change the province\'s population and its politics for good. Rice, maize and abaca were what it grew, with forest over most of the rest of it, and the roads were few enough that the river was still the way in. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   Davao: {
     en: 'Davao (Mindanao)', wiki: 'https://en.wikipedia.org/wiki/Davao_(province)',
+    short: 'The gulf of Davao and the shoulders of Mount Apo',
     note: 'The gulf of Davao and the shoulders of Mount Apo, at 2,954 m the highest mountain in the Philippines, with rainforest, volcanic soil and no dry season worth the name. Abaca made it: Ohta Kyozaburo began planting in 1907, other Japanese companies followed, and by the late 1930s Japanese planters held most of the hemp land and the Japanese community in Davao numbered some twenty thousand — with its own schools, hospital and newspapers, and enough autonomy that Manila newspapers called the place Davaokuo. The province supplied a large part of the world\'s rope fibre, and Japanese forces landed there on 20 December 1941 and were welcomed by part of that community. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   IlocosNorte: {
     en: 'Ilocos Norte (Luzon)', wiki: 'https://en.wikipedia.org/wiki/Ilocos_Norte',
+    short: 'A narrow shelf of coast between the Cordillera and the South China Sea',
     note: 'A narrow shelf of coast between the Cordillera and the South China Sea, with more people on it than the land can feed — the reason Ilocanos have been leaving for four hundred years. What it grows it grows intensively: irrigated rice on the terraces, then tobacco, garlic, onions and cotton in the dry season, with fishing off a straight and dangerous coast. From 1906 the province supplied the Hawaiian sugar plantations with contract labour, and later the farms of California, and the remittances that came back paid for much of what was built here. Paoay\'s buttressed church and the Spanish town plan of Laoag are what survives from the earlier centuries. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   IlocosSur: {
     en: 'Ilocos Sur (Luzon)', wiki: 'https://en.wikipedia.org/wiki/Ilocos_Sur',
+    short: 'The same coast further south',
     note: 'The same coast further south, with the Abra river breaking through the mountains to the sea, and the same crowded, terraced, water-managed agriculture: rice, tobacco, maize and cotton, with indigo in the Spanish period. Vigan, at the river mouth, grew rich on that trade and is the best-preserved Spanish colonial town in the country, its merchant houses built by Chinese-mestizo families who ran the tobacco and indigo business. The province rose against the tobacco monopoly and the state liquor monopoly more than once — the Basi Revolt of 1807 is commemorated in a series of paintings still in Vigan — and it exported people at the same rate as its northern neighbour. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   Iloilo: {
     en: 'Iloilo (Panay)', wiki: 'https://en.wikipedia.org/wiki/Iloilo',
+    short: 'The south-eastern quarter of Panay and the richest of the Visayan provinces',
     note: 'The south-eastern quarter of Panay and the richest of the Visayan provinces: broad rice plains, and a port that from the 1850s handled the sugar of Negros across the strait. Iloilo City had the customs house, the consulates, the sugar warehouses and the merchant families, British and Chinese-mestizo, who financed the Negros haciendas, and it called itself the Queen City of the South until Cebu overtook it. Its own older industry was weaving — piña from pineapple fibre and jusi silk, made in Molo and Jaro and worn all over the islands — which machine-made imports had largely destroyed by the 1880s. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   Isabela: {
     en: 'Isabela (Luzon)', wiki: 'https://en.wikipedia.org/wiki/Isabela_(province)',
+    short: 'The middle Cagayan valley, the second of the tobacco provinces',
     note: 'The middle Cagayan valley, the second of the tobacco provinces, with the Sierra Madre on one side and the Cordillera on the other and a floodplain between them wide enough to make it one of the great grain provinces of Luzon. Tobacco under the monopoly gave way to rice and maize on a large scale, and the forests on both ranges were logged hard once the sawmills and the roads arrived. Its population was assembled rather than native: Ibanag and Gaddang villages, Ilongot and Agta in the mountains, and a steady inflow of Ilocano settlers from over the pass, who by this period were the majority. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   Laguna: {
     en: 'Laguna (Luzon)', wiki: 'https://en.wikipedia.org/wiki/Laguna_(province)',
+    short: 'The province wrapped round the southern and eastern shores of Laguna de Bay',
     note: 'The province wrapped round the southern and eastern shores of Laguna de Bay, the largest lake in the country, with Mount Makiling and the Sierra Madre behind it. Coconut is what it grew — the copra belt of southern Luzon begins here — with rice on the lake plain, citrus on the slopes and freshwater fishing in the lake itself. Los Baños on Makiling\'s flank held the College of Agriculture of the University of the Philippines from 1909, the country\'s main agricultural research station; Calamba, next door, was a Dominican estate and José Rizal\'s birthplace, and the dispute over that estate was one of the things that made him a revolutionary\'s inspiration. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   LaUnion: {
     en: 'La Union (Luzon)', wiki: 'https://en.wikipedia.org/wiki/La_Union',
+    short: 'A short strip of the Ilocos coast, made a province in 1850',
     note: 'A short strip of the Ilocos coast made into a province in 1850 out of pieces of Ilocos Sur and Pangasinan, which is why it is small and why its people are Ilocano and Pangasinan both. The coastal plain grows rice and tobacco, the beaches south of San Fernando make salt in pans and the potters of San Juan and Bacnotan have turned out the big burnay storage jars for centuries. San Fernando is the port and the capital, and the Naguilian road that climbs from here to Baguio was one of the two ways up to the mountain capital. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   Lanao: {
     en: 'Lanao (Mindanao)', wiki: 'https://en.wikipedia.org/wiki/Lanao_(province)',
+    short: 'The plateau of western Mindanao round Lake Lanao, seven hundred metres up, cool',
     note: 'The plateau of western Mindanao round Lake Lanao, seven hundred metres up, cool, and the heartland of the Maranao — the largest of the Muslim peoples of the Philippines and the last to be brought under outside control, which the American army did between 1902 and 1913 at a considerable cost in lives on both sides. The lake plain grows rice and maize, and the province\'s crafts — brass casting, the okir carving on the great torogan houses, malong weaving — were among the most elaborate in the islands. Dansalan, later Marawi, on the northern shore, was the administrative town, and the Agus river falling out of the lake to Iligan was the hydro-electric site the government had its eye on. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   Manila: {
     en: 'City of Manila', wiki: 'https://en.wikipedia.org/wiki/Manila',
+    short: 'The capital and the reason for everything else',
     note: 'The capital and the reason for everything else: the port through which the country\'s trade passed, the seat of the Insular and then Commonwealth government, the university, the banks and the newspapers, with something over six hundred thousand people by 1939. Intramuros, the walled Spanish city at the mouth of the Pasig, held the churches, the archives and the Ateneo; outside it Daniel Burnham had laid out in 1905 the boulevards, the Luneta and the neoclassical government buildings that gave the twentieth-century city its shape. It was declared an open city on 26 December 1941 and occupied on 2 January 1942; in February 1945 it was fought over street by street and burnt, and something like a hundred thousand civilians died in a month — the worst destruction of any Allied capital except Warsaw. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   Marinduque: {
     en: 'Marinduque', wiki: 'https://en.wikipedia.org/wiki/Marinduque',
+    short: 'A nearly circular island between the tail of Luzon and Mindoro',
     note: 'A nearly circular island between the tail of Luzon and Mindoro, mountainous in the middle with a fringe of coastal plain, and small enough to be a province of one island and a few islets. Coconut and rice were the ordinary living, with fishing all round the coast, and from the 1930s the Marinduque Iron Mines Corporation worked an open-cut iron deposit at Santa Cruz and shipped the ore to Japan — one of several such contracts that later looked different than they had. The Moriones pageant at Easter, with its carved Roman helmets and masks, was and is the island\'s best-known thing. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   MisamisOccidental: {
     en: 'Misamis Occidental (Mindanao)',
     wiki: 'https://en.wikipedia.org/wiki/Misamis_Occidental',
+    short: 'A narrow province on the western shore of the Panguil Bay inlet',
     note: 'A narrow province on the western shore of the Panguil Bay inlet, a strip of coast under a mountain spine with almost no interior at all — you can cross it in an hour. Coconut was the crop, with maize on the slopes and a large inshore fishery in the bay and along the Iligan Bay coast, and Ozamiz and Oroquieta were its towns. Its people were Cebuano and Subanen, and the province was cut off from its eastern namesake in 1929 because the two halves had nothing to do with each other except a name. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   MisamisOriental: {
     en: 'Misamis Oriental (Mindanao)', wiki: 'https://en.wikipedia.org/wiki/Misamis_Oriental',
+    short: 'The north coast of Mindanao along Macajalar and Gingoog bays',
     note: 'The north coast of Mindanao along Macajalar and Gingoog bays, a shelf of coconut and maize under the escarpment of the Bukidnon plateau. Cagayan de Misamis, later Cagayan de Oro, was the port at the foot of the road up to that plateau, and so the outlet for its cattle, coffee and above all for the pineapple: Del Monte\'s cannery at Bugo took the fruit down from Camp Phillips and shipped the tins from here. Fishing, copra and abaca made up the rest, and the province was one of the first parts of Mindanao settled from the Visayas. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   MountainProvince: {
     en: 'Mountain Province (Luzon)', wiki: 'https://en.wikipedia.org/wiki/Mountain_Province',
+    short: 'The whole Cordillera Central as a single province until long after this map\'s dates',
     note: 'The whole Cordillera Central as a single province until long after this map\'s dates, divided into the sub-provinces of Benguet, Bontoc, Ifugao, Kalinga and Apayao — high, folded country of pine and cloud forest, home to peoples the Spanish never subdued and the Americans governed separately as non-Christian tribes. Two things brought outsiders in. Gold: the Benguet lodes at Balatoc, Antamok and Acupan were worked from 1903 on a scale that made the Philippines one of the larger gold producers in the world by the late 1930s. And Baguio: laid out by Burnham from 1904 as the summer capital, reached by the Kennon Road up the Bued gorge, and the place the Insular government moved to every hot season. The rice terraces of Ifugao, cut into the mountainsides over centuries, are the other thing the province is known for. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   NegrosOccidental: {
     en: 'Negros Occidental', wiki: 'https://en.wikipedia.org/wiki/Negros_Occidental',
+    short: 'The sugar province',
     note: 'The sugar province. The western plain of Negros was cleared from the 1850s by planters who came over from Iloilo, and by this period it grew the larger part of the Philippine crop — cane cut by sacadas, migrant labourers brought in for the season from Panay and Antique, and milled in a dozen big centrals connected to the fields by their own railways. The American market took that sugar duty-free under quota, which made the province rich, its hacienda families conspicuous and its labour relations bitter. Bacolod was the capital, Kanlaon the volcano behind the plain, and the province spoke Hiligaynon like Iloilo across the strait. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   NegrosOriental: {
     en: 'Negros Oriental', wiki: 'https://en.wikipedia.org/wiki/Negros_Oriental',
+    short: 'The eastern side of the island, narrower and steeper',
     note: 'The eastern side of the island, narrower and steeper, where the mountains come down close to the sea and there was never room for sugar on the western scale. Coconut, maize and fishing were what it lived on, with some sugar on the coastal flats round Bais, and the people spoke Cebuano rather than Hiligaynon, looking across to Cebu rather than over the mountains. Dumaguete, its capital, has been a university town since 1901, when American Presbyterians founded Silliman — the first American institution of higher learning in Asia — and the town\'s economy was largely built round it. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   NuevaEcija: {
     en: 'Nueva Ecija (Luzon)', wiki: 'https://en.wikipedia.org/wiki/Nueva_Ecija',
+    short: 'The heart of the central Luzon rice bowl: a wide, flat',
     note: 'The heart of the central Luzon rice bowl: a wide, flat, irrigated plain that grew more rice than any other province, mostly on large estates worked by tenants on a half-share. That arrangement, and the debt that went with it, made the province the most agrarian-conflicted in the country — the Sakdalista rising of May 1935 took town halls here, and the Hukbalahap, formed in 1942, had its strongest base in these villages. Cabanatuan was the market town and later the site of the largest American prisoner-of-war camp in the islands. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   NuevaVizcaya: {
     en: 'Nueva Vizcaya (Luzon)', wiki: 'https://en.wikipedia.org/wiki/Nueva_Vizcaya',
+    short: 'A basin in the upper Cagayan valley, ringed by the Caraballo and Sierra Madre mountains',
     note: 'A basin in the upper Cagayan valley, ringed by the Caraballo and Sierra Madre mountains, with the road from the central plain climbing through the Dalton Pass to reach it — the only practical way into the valley from the south. It grows rice and maize on the flats, citrus and vegetables on the slopes, and lumber came off the mountains once the sawmills arrived. Its people were Isinai, Gaddang, Ifugao and Ilongot, with Ilocano settlers taking up land through the American period; Bayombong was the capital and the province stayed small and hard to reach. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   Pampanga: {
     en: 'Pampanga (Luzon)', wiki: 'https://en.wikipedia.org/wiki/Pampanga',
+    short: 'The delta country at the head of Manila Bay',
     note: 'The delta country at the head of Manila Bay, half of it swamp and fishpond and the rest some of the most productive rice and sugar land in Luzon, with big centrals at Del Carmen and Pasudeco. Kapampangan society was sharply divided between hacienda families and tenants, and the province was, with Nueva Ecija and Tarlac, the ground the peasant unions and then the Hukbalahap grew out of. Clark Field at Angeles was the United States Army\'s principal air base in the Far East, and its destruction on the ground on 8 December 1941, hours after the warning from Pearl Harbor, cost the defence of the Philippines most of its aircraft. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   Pangasinan: {
     en: 'Pangasinan (Luzon)', wiki: 'https://en.wikipedia.org/wiki/Pangasinan',
+    short: 'The plain behind the Lingayen Gulf, whose name means the place where salt is made',
     note: 'The plain behind the Lingayen Gulf, whose name means the place where salt is made — the coastal flats have produced salt and bagoong fish paste for centuries, alongside rice on the plain, fishponds in the delta and the milkfish fry trade. Dagupan was the terminus of the first railway in the islands, opened from Manila in 1892, which made the province the capital\'s granary. The gulf is a natural landing beach and both armies used it: the Japanese Fourteenth Army came ashore there on 22 December 1941 and the American Sixth Army did the same on 9 January 1945. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   Rizal: {
-    en: 'Rizal (Luzon)',
+    en: 'Rizal (Luzon)', short: 'The ring of towns round Manila to the east and south',
     note: 'The ring of towns round Manila to the east and south — created in 1901 out of parts of the old province of Manila and Morong, and named for José Rizal. It is the Marikina valley and the hills up to the Sierra Madre: rice and vegetables for the capital\'s markets, quarries and the Wawa dam in the Montalban gorge that supplied Manila\'s water, and a shoemaking industry at Marikina that clothed most of the country\'s feet. Antipolo, up in the hills, holds the shrine of the Virgin of Peace and Good Voyage, brought from Mexico on the galleons, and the May pilgrimage to it was one of the great annual movements of people in Luzon. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   Romblon: {
-    en: 'Romblon',
+    en: 'Romblon', short: 'Islands in mid-archipelago, between Mindoro and Panay',
     note: 'Three main islands and a scatter of smaller ones in the middle of the archipelago between Mindoro and Panay, hilly, with narrow coastal strips and no large town. Coconut, maize and fishing were the ordinary living, and the province\'s one distinctive export was marble: Romblon island is largely crystalline limestone, quarried and cut here since the Spanish period and used for church floors, altars and monuments all over the country. Its position in the middle of the sea lanes made it a place ships passed rather than called at. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   Sorsogon: {
     en: 'Sorsogon (Luzon)', wiki: 'https://en.wikipedia.org/wiki/Sorsogon',
+    short: 'The southern tip of the Bicol peninsula',
     note: 'The southern tip of the Bicol peninsula, wrapped round a deep sheltered bay with the Bulusan volcano behind it, and the crossing at Matnog to Samar at its end — the link between Luzon and the Visayas for anything travelling by road. It grew abaca and coconut like the rest of Bicol, with rice on the small plains and a substantial fishery in the bay and the San Bernardino strait. The strait is deep and swift, and both navies used it in 1944. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   Sulu: {
     en: 'Sulu', wiki: 'https://en.wikipedia.org/wiki/Sulu',
+    short: 'The archipelago that runs from Zamboanga to within sight of Borneo',
     note: 'The archipelago that runs from Zamboanga to within sight of Borneo — several hundred islands, and the seat of the Sultanate of Sulu, which had been a power in these seas for centuries and was subdued by the Americans only after long and bloody fighting, at Bud Dajo in 1906 and Bud Bagsak in 1913. The Tausug and Samal lived by the sea: pearling above all, on beds that were among the richest in the world and were worked by divers from Jolo and Siasi, with copra, seaweed and a trade to British North Borneo that no customs service ever controlled. Jolo, the walled town on the main island, was the capital and the market. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   Surigao: {
     en: 'Surigao (Mindanao)', wiki: 'https://en.wikipedia.org/wiki/Surigao_(province)',
+    short: 'The north-eastern corner of Mindanao',
     note: 'The north-eastern corner of Mindanao, a heavily indented coast of bays and small islands facing the Pacific, with forest over most of the interior and a wet climate that has no real dry season. Gold was placer-mined at Placer and the rivers round it, and the hills hold enormous lateritic nickel and iron deposits that were known but scarcely touched in this period; coconut, abaca and timber were what actually paid. The Surigao Strait at its southern end, between Mindanao and Leyte, was where in October 1944 an American battle line crossed the Japanese T in the last engagement between battleships ever fought. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   Tarlac: {
     en: 'Tarlac (Luzon)', wiki: 'https://en.wikipedia.org/wiki/Tarlac',
+    short: 'A central Luzon province between Pampanga and Pangasinan',
     note: 'A central Luzon province between Pampanga and Pangasinan, half of it the flat rice plain and half the drier ground rising to the Zambales mountains, with large estates and sugar centrals along the railway. Like its neighbours it was tenant country with a long history of peasant organisation, and it was for a few weeks in 1899 the seat of Aguinaldo\'s republic as it retreated northwards. Camp O\'Donnell, on its northern edge, was the prison camp the Bataan march ended at in April 1942, where thousands of Filipino and American prisoners died of disease and neglect in the following months. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   Tayabas: {
     en: 'Tayabas (Luzon; renamed Quezon in 1946)', wiki: 'https://en.wikipedia.org/wiki/Quezon',
+    short: 'The long province down the eastern side of southern Luzon',
     note: 'The long province down the eastern side of southern Luzon, from Mount Banahaw to the Bondoc peninsula, with the Polillo islands offshore — renamed Quezon in 1946 for the Commonwealth president, who was born at Baler in its northern district. It was the coconut province: copra from Tayabas and Laguna made the Philippines the largest exporter of coconut oil in the world, and the trees ran unbroken for miles along the coast roads. Mount Banahaw, a dormant volcano on its border with Laguna, was and is the centre of a set of folk-religious sects who hold the mountain to be sacred ground. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   Zambales: {
     en: 'Zambales (Luzon)', wiki: 'https://en.wikipedia.org/wiki/Zambales',
+    short: 'The west coast of Luzon under the Zambales mountains',
     note: 'The west coast of Luzon under the Zambales mountains, a strip of rice land and fishing villages backed by ridges of serpentine rock — which is what made the province matter. The Coto mine at Masinloc, opened in 1935, sat on one of the largest refractory chromite deposits in the world, and Philippine chromite went into the furnace linings of the American steel industry through the war. At the southern end Subic Bay, a deep and sheltered anchorage, held a United States naval station and the town of Olongapo that served it, and the Aeta of the mountains behind were among the oldest inhabitants of the islands. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   Zamboanga: {
     en: 'Zamboanga (Mindanao, with Basilan)',
     wiki: 'https://en.wikipedia.org/wiki/Zamboanga_(province)',
+    short: 'The long peninsula reaching south-west from Mindanao towards Borneo',
     note: 'The long peninsula reaching south-west from Mindanao towards Borneo, with the island of Basilan off its tip, mountainous and forested along its spine and planted with coconut round its edges. Zamboanga City, under the Spanish fort of Pilar, was the old military capital of the Moro country and the seat of the American Moro Province, and its people speak Chavacano, a Spanish creole that exists nowhere else in the country. Copra was the province\'s export, Basilan grew rubber on a Goodyear plantation opened in 1928, and the fishing fleets working out of Zamboanga were among the largest in the islands. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   'Kashmir & Jammu': {
     en: 'Kashmir & Jammu',
     wiki: 'https://en.wikipedia.org/wiki/Jammu_and_Kashmir_(princely_state)',
+    short: 'The largest princely state by area — the Jammu plains, the Vale of Kashmir, Ladakh',
     note: 'The largest princely state by area — the Jammu plains, the Vale of Kashmir, Ladakh, Baltistan and the Gilgit country, some 220,000 square kilometres of it, most of it above the tree line. The Dogra dynasty had it because Gulab Singh bought it from the East India Company in 1846 for seven and a half million rupees under the Treaty of Amritsar, which left a Hindu house ruling a large Muslim majority — the arrangement that made the state\'s politics from the 1931 agitation onwards. Its economy was the Vale: rice and saffron on the valley floor, orchards, and the shawl and carpet weaving that had made Kashmir a word in English, with a state silk filature at Srinagar and deodar logs floated down the Jhelum. It also had a summer visitor trade, and the houseboats on the Dal lake exist because the state would not let Europeans own land.'
   },
   Hyderabad: {
@@ -5803,14 +6088,16 @@ JMAP.PROVINCES = {
   },
   Mysore: {
     en: 'Mysore', wiki: 'https://en.wikipedia.org/wiki/Mysore_State',
+    short: 'Held up by the British as the model state, and with reason',
     note: 'Held up by the British as the model state, and with reason: under the Wodeyars and dewans like Sheshadri Iyer and M. Visvesvaraya it built the first large hydro-electric station in India at Shivanasamudra in 1902, the Krishnaraja Sagara dam across the Cauvery, an iron and steel works at Bhadravati and a university at Mysore. What paid for it was the Kolar Gold Fields, then among the deepest mines in the world and for decades the source of most of India\'s gold — the reason the hydro station was built in the first place. The state is high plateau, dry in the east where millet and groundnut grow, wet on the Ghats in the west where coffee, cardamom and sandalwood do; Bangalore, its second city, had the cantonment, the Indian Institute of Science and the beginnings of an aircraft industry.'
   },
   'Travancore & Cochin': {
-    en: 'Travancore & Cochin',
+    en: 'Travancore & Cochin', short: 'The two states of the Malabar coast',
     note: 'The two states of the Malabar coast, wedged between the Western Ghats and the Arabian Sea: a strip of lagoon, backwater and coconut palm, rising through rubber and tea estates on the High Range to the Cardamom Hills. They produced what the coast has always produced — pepper, cardamom, ginger and coconut — with coir spun and woven at Alleppey, cashew shelled at Quilon by a very large female workforce, and tea and rubber on the hills above. Travancore had the highest literacy of any Indian territory, a consequence of a state school system begun in the 1810s and of the Syrian Christian and mission schools, and in 1936 its maharaja issued the Temple Entry Proclamation opening state temples to Ezhavas and Pulayas, which no British province had managed. Cochin\'s harbour was cut through the sand bar between 1928 and 1936 and gave the coast its first deep-water port.'
   },
   'Rajputana, Central India & the Gujarat States': {
     en: 'Rajputana, Central India and the Gujarat states',
+    short: 'Three agencies covering the largest concentration of states in India',
     note: 'Three agencies covering the largest concentration of states in India: Rajputana alone had twenty-odd, from Jodhpur and Jaipur and Udaipur down to holdings of a few villages, and the Western India and Gujarat States Agency counted its members in the hundreds. The country runs from the Thar desert, where the living was millet, camels and cattle and the towns lived on the caravan trade until the railways killed it, across the Aravallis to the Malwa plateau, which grew the opium that had gone to China and was being wound down under the international agreements, and on to the cotton black soil of Kathiawar and Gujarat. Sambhar lake produced salt on a large scale, Jaipur and Jodhpur had planned capitals and model administrations, and the whole region was chronically short of water: the famines of 1899–1900 and 1918 fell on it harder than on British India.'
   },
   'The Baluchistan States — Kalat, Las Bela, Kharan, Makran': {
@@ -5831,38 +6118,46 @@ JMAP.PROVINCES = {
   },
   'Kolhapur & the Deccan States': {
     en: 'Kolhapur and the Deccan states',
+    short: 'Kolhapur was the senior Maratha state, its ruler a Chhatrapati descended from Shivaji',
     note: 'Kolhapur was the senior Maratha state, its ruler a Chhatrapati descended from Shivaji, and its country the black cotton soil of the upper Krishna with the Ghats behind it: jowar, cotton, groundnut and, where the new canals reached, sugarcane. Shahu Chhatrapati, who ruled from 1894 to 1922, reserved half the posts in his administration for non-Brahmins in 1902 — the first reservation of its kind anywhere in India — and built hostels, schools and a dam; his state also became the first centre of Marathi cinema, with Baburao Painter\'s studio and then Prabhat Film Company working here from the 1920s. Around it the Deccan States Agency held some seventeen smaller states of the same kind, scattered through the Bombay Presidency.'
   },
   'The Khasi Hill States': {
     en: 'The Khasi Hill states',
+    short: 'Some twenty-five small states in the Khasi and Jaintia hills of Assam',
     note: 'Some twenty-five small states in the Khasi and Jaintia hills of Assam, each under a syiem or other chief, which had never been annexed and were held by engagements rather than by conquest. The hills catch the full force of the Bengal monsoon as it comes off the plain, and Cherrapunji and Mawsynram record the heaviest rainfall on earth — upwards of eleven metres a year — which is why the country is deep gorge, orchid and the living root bridges the Khasis grow across the streams. Khasi society is matrilineal, with property and clan name passing through the youngest daughter, and the economy was potatoes, oranges, bay leaf, lime and a little coal and iron. Shillong, the summer capital of Assam, sat on ground acquired from these states, so a British hill station and its government stood in the middle of them.'
   },
   Bastar: {
     en: 'Bastar', wiki: 'https://en.wikipedia.org/wiki/Bastar_State',
+    short: 'One of the largest states in India by area and one of the emptiest',
     note: 'One of the largest states in India by area and one of the emptiest: some 34,000 square kilometres of the Chhattisgarh plateau, almost all of it sal and teak forest, with the Indravati falling over the Chitrakote falls in the middle of it. The great majority of its people were Adivasi — Gond, Maria, Muria, Halba — and its economy was shifting cultivation, forest produce and cattle, with the state\'s revenue coming largely from timber. That was the trouble: the reservation of the forests and the restrictions that came with it provoked the Bhumkal rising of 1910, which the state and the Central Provinces police put down with some severity. The Bailadila hills in the south hold one of the richest iron ore bodies in Asia, unworked in this period.'
   },
   Manipur: {
     en: 'Manipur', wiki: 'https://en.wikipedia.org/wiki/Manipur',
+    short: 'A flat oval valley about forty kilometres across, ringed on every side by hills',
     note: 'A flat oval valley about forty kilometres across, ringed on every side by hills: the Meiteis in the valley, growing wet rice and weaving — a loom in almost every house — and Naga and Kuki peoples in the hills around them under a quite separate administration. Britain fought the state in 1891, hanged its senapati, and left it under a Political Agent with the raja in place. Loktak, the great floating-weed lake in the south of the valley, gave fish and reed; polo was played here before anywhere else and was taken from Manipur to Calcutta and thence to the world. The state sat on the Burma road, which is why in 1944 the Japanese army\'s advance into India stopped at Imphal and Kohima.'
   },
   Tripura: {
     en: 'Tripura (Hill Tippera)', wiki: 'https://en.wikipedia.org/wiki/Tripura',
+    short: 'A hill state on the Bengal frontier under the Manikya dynasty',
     note: 'A hill state on the Bengal frontier under the Manikya dynasty, one of the oldest ruling houses in India, with a rulership that had long looked two ways — to the hills whose Tripuri, Reang and Jamatia people practised jhum cultivation, and to the Bengali plains from which its revenue, its administration and increasingly its population came. The country is low forested ridges running north to south, with narrow valleys between; rice, jhum crops and forest produce were the staples, and tea gardens were opened from the 1910s along the same lines as in Assam. Agartala, on the plains edge, was the capital, and the court\'s connection with Rabindranath Tagore — who visited repeatedly and whose Bengali the state patronised — is the thing outsiders knew about it.'
   },
   'Cooch Behar': {
     en: 'Cooch Behar', wiki: 'https://en.wikipedia.org/wiki/Cooch_Behar_State',
+    short: 'A small, flat and unusually fertile state in northern Bengal',
     note: 'A small, flat and unusually fertile state in northern Bengal, on the alluvium between the Himalayan foothills and the Brahmaputra plain, watered by the Torsa and the Tista and given to jute, rice, tobacco and mustard. It was one of the most Anglicised courts in India: Nripendra Narayan, who ruled from 1863 to 1911, was educated in England, married Suniti Devi, daughter of the Brahmo leader Keshub Chandra Sen, and laid out a capital of straight roads round the Victor Jubilee Palace. The state\'s revenue was good for its size, its administration was run on British provincial lines, and its rulers were as well known in London as in Calcutta.'
   },
   Khairpur: {
     en: 'Khairpur', wiki: 'https://en.wikipedia.org/wiki/Khairpur_(princely_state)',
+    short: 'A Talpur state on the left bank of the Indus in upper Sind',
     note: 'A Talpur state on the left bank of the Indus in upper Sind, running from the riverine belt eastwards into the sandhills of the Nara and the Thar. Before 1932 it depended on inundation canals that ran only when the river rose; the Sukkur Barrage, opened that year, brought perennial irrigation to the western part of the state and turned it into wheat, cotton and rice ground. Its own speciality is dates — the groves round Khairpur town are among the largest in the subcontinent — and the desert half of the state remained grazing for camels and sheep. It was the only state of any size in Sind and was administered directly with the Governor-General\'s agent after Sind was separated from Bombay in 1936.'
   },
   'Tehri Garhwal': {
     en: 'Tehri Garhwal', wiki: 'https://en.wikipedia.org/wiki/Tehri_Garhwal_district',
+    short: 'The Garhwal Himalaya: the upper Bhagirathi and Bhilangna valleys',
     note: 'The Garhwal Himalaya: the upper Bhagirathi and Bhilangna valleys, with Gangotri and the source of the Ganges inside the state and Yamunotri on its edge, so that its main visitors were pilgrims. The living was terraced millet, barley and potatoes on steep slopes, transhumant grazing on the high meadows, and above all forest — deodar and chir pine felled on the hills and floated down the rivers to the timber depots of the plains. That trade was the state\'s principal revenue and the reason for its principal grievance: the reservation of forests and the restriction of grazing and lopping rights produced repeated protest, and in 1930 the state\'s troops fired on a gathering of villagers at Tilari and killed a number of them.'
   },
   Rampur: {
-    en: 'Rampur',
+    en: 'Rampur', short: 'A small Rohilla state on the Ganges plain of the United Provinces',
     note: 'A small Rohilla state on the Ganges plain of the United Provinces, all of it canal-irrigated alluvium growing sugarcane, wheat and rice, with sugar mills and a good deal of orchard. What made it notable was not its size but its patronage: the Nawabs collected manuscripts on a scale that made the Raza Library one of the great repositories of Persian, Arabic, Turkish and Sanskrit texts in Asia, including a Qur\'an attributed to Ali. The court kept musicians as a matter of policy — the Rampur–Sahaswan gharana of khyal singing came out of it, and so did much of the surviving tradition of the been — and Urdu poets went there when Delhi and Lucknow could no longer pay.'
   },
   Benares: {
@@ -5872,6 +6167,7 @@ JMAP.PROVINCES = {
   },
   Pudukkottai: {
     en: 'Pudukkottai', wiki: 'https://en.wikipedia.org/wiki/Pudukkottai_State',
+    short: 'The only princely state in the Tamil country',
     note: 'The only princely state in the Tamil country, held by the Tondaiman family since the seventeenth century and surrounded on every side by the Madras Presidency. It is dry, thin-soiled and stony, without a perennial river, so its agriculture depended on rain-fed tanks and on the millets, pulses and groundnut that will grow with little water, and it was one of the poorer states of the south. Its rulers ran it as an administrative experiment with a succession of able dewans, building schools and a hospital out of a small revenue; it also sent out labourers and clerks in numbers, to Madras, to Ceylon and to Malaya.'
   },
   'The Punjab Hill States — Bashahr, Mandi, Suket, Sirmur': {
@@ -5879,7 +6175,7 @@ JMAP.PROVINCES = {
     note: 'The Simla Hill States, thirty-odd of them in the ranges between the Sutlej and the Yamuna, mostly very small. The country is terraced fields on steep valley sides, deodar and pine forest above them, and alpine grazing above that; the living was maize, wheat, potatoes and apples, with the forests leased to contractors and floated down to the plains. Bashahr was the largest and reached to the Tibetan border, so the Hindustan–Tibet road and the wool and borax trade over the Shipki pass ran through it, and Mandi had rock salt at Drang and Guma — one of the few sources in northern India, and a state monopoly. Simla, the summer capital of the Government of India, stood on ground taken from these states, so the empire was governed for half of every year from among them.'
   },
   'Savanur, Sandur & Banganapalle': {
-    en: 'Savanur, Sandur and Banganapalle',
+    en: 'Savanur, Sandur and Banganapalle', short: 'Three very small states in the south',
     note: 'Three very small states in the south, each of a few hundred square kilometres and each entirely enclosed by British districts. Sandur, in the Bellary hills, is the one that mattered: the ridges inside it hold high-grade iron ore and manganese, and the manganese was being mined for export by the 1930s, which gave a state of some twenty thousand people a revenue out of all proportion to its size. Banganapalle, in the Kurnool country, was a Muslim ruled state of dry black soil and jowar whose lasting contribution is the mango that carries its name. Savanur, in the Dharwad country, was a Nawab\'s estate of cotton and millet on the black soil, older than either and by this time the least significant.'
   },
   'Waziristan & the frontier tribal agencies': {
@@ -5889,81 +6185,91 @@ JMAP.PROVINCES = {
   'Okinawa Island': {
     en: 'Okinawa Hontō', ja: '沖縄本島 (Okinawa Hontō)', zh: '沖繩本島', ko: '오키나와섬',
     wiki: 'https://en.wikipedia.org/wiki/Okinawa_Island',
+    short: 'Naha and the castle at Shuri, and a third of the prefecture\'s people',
     note: 'Naha and the castle at Shuri, and a third of the prefecture\'s people. The American landing on 1 April 1945 opened a battle of eighty-two days that killed roughly a quarter of the civilian population, destroyed Shuri, and left the island an American base for the next twenty-seven years.'
   },
   Yakushima: {
     en: 'Yakushima', ja: '屋久島 (Yakushima)', zh: '屋久島', ko: '야쿠섬',
     wiki: 'https://en.wikipedia.org/wiki/Yakushima',
+    short: 'Kagoshima, not Okinawa: the cedar forests here were logged for the navy',
     note: 'Kagoshima, not Okinawa: the cedar forests here were logged for the navy, and some of the trees standing are thousands of years old.'
   },
   Kuchinoerabujima: {
     en: 'Kuchinoerabujima', ja: '口永良部島 (Kuchinoerabujima)', zh: '口永良部島', ko: '구치노에라부섬',
     wiki: 'https://en.wikipedia.org/wiki/Kuchinoerabu-jima',
+    short: 'Kagoshima. An active volcano with a few hundred people on it',
     note: 'Kagoshima. An active volcano with a few hundred people on it.'
   },
   Kuchinoshima: {
     en: 'Kuchinoshima', ja: '口之島 (Kuchinoshima)', zh: '口之島',
     wiki: 'https://en.wikipedia.org/wiki/Kuchinoshima',
+    short: 'The northernmost of the Tokara islands and Kagoshima\'s',
     note: 'The northernmost of the Tokara islands and Kagoshima\'s, at the top of the chain where the Kuroshio runs hardest.'
   },
   Nakanoshima: {
     en: 'Nakanoshima', ja: '中之島 (Nakanoshima)', zh: '中之島',
     wiki: 'https://en.wikipedia.org/wiki/Tokara_Islands',
+    short: 'The highest of the Tokara islands, Kagoshima\'s',
     note: 'The highest of the Tokara islands, Kagoshima\'s, with a volcano that has smoked through most of recorded history.'
   },
   Tairajima: {
     en: 'Tairajima', ja: '平島 (Tairajima)', zh: '平島',
     wiki: 'https://en.wikipedia.org/wiki/Tairajima',
+    short: 'One of the smaller Tokara islands, Kagoshima\'s',
     note: 'One of the smaller Tokara islands, Kagoshima\'s, with a few dozen people on it.'
   },
   Suwanosejima: {
     en: 'Suwanosejima', ja: '諏訪之瀬島 (Suwanosejima)', zh: '諏訪之瀨島', ko: '스와노세섬',
-    wiki: 'https://en.wikipedia.org/wiki/Suwanosejima',
+    wiki: 'https://en.wikipedia.org/wiki/Suwanosejima', short: 'Tokara, and Kagoshima\'s',
     note: 'Tokara, and Kagoshima\'s. Its volcano drove the islanders off for seventy years in the nineteenth century.'
   },
   Akusekijima: {
     en: 'Akusekijima', ja: '悪石島 (Akusekijima)', zh: '惡石島',
-    wiki: 'https://en.wikipedia.org/wiki/Akusekijima',
+    wiki: 'https://en.wikipedia.org/wiki/Akusekijima', short: 'A Tokara island of Kagoshima',
     note: 'A Tokara island of Kagoshima, remote enough that it kept its own dialect and its own festivals.'
   },
   Kikaijima: {
     en: 'Kikaijima', ja: '喜界島 (Kikaijima)', zh: '喜界島', ko: '기카이섬',
-    wiki: 'https://en.wikipedia.org/wiki/Kikaijima',
+    wiki: 'https://en.wikipedia.org/wiki/Kikaijima', short: 'Amami, and Kagoshima\'s',
     note: 'Amami, and Kagoshima\'s. Its airfield was a staging point for the kamikaze sorties flown against the fleet off Okinawa in 1945.'
   },
   'Amami Ōshima': {
     en: 'Amami Ōshima', ja: '奄美大島 (Amami Ōshima)', zh: '奄美大島', ko: '아마미오시마',
     wiki: 'https://en.wikipedia.org/wiki/Amami_%C5%8Cshima',
+    short: 'The largest of the Amami group',
     note: 'The largest of the Amami group, taken from the Ryūkyū kingdom by Satsuma in 1609 and administered from Kagoshima as Ōshima-gun ever since — not Okinawa Prefecture. The United States held it separately until 1953.'
   },
   Tokunoshima: {
     en: 'Tokunoshima', ja: '徳之島 (Tokunoshima)', zh: '德之島', ko: '도쿠노섬',
-    wiki: 'https://en.wikipedia.org/wiki/Tokunoshima',
+    wiki: 'https://en.wikipedia.org/wiki/Tokunoshima', short: 'Amami, and Kagoshima\'s',
     note: 'Amami, and Kagoshima\'s. Its three airfields were bombed hard in the spring of 1945.'
   },
   Okinoerabujima: {
     en: 'Okinoerabujima', ja: '沖永良部島 (Okinoerabujima)', zh: '沖永良部島', ko: '오키노에라부섬',
-    wiki: 'https://en.wikipedia.org/wiki/Okinoerabujima',
+    wiki: 'https://en.wikipedia.org/wiki/Okinoerabujima', short: 'Sugar and Easter lilies',
     note: 'Sugar and Easter lilies — the bulbs were exported to America until the war closed the trade. Kagoshima\'s, not Okinawa\'s.'
   },
   Yoronjima: {
     en: 'Yoronjima', ja: '与論島 (Yoronjima)', zh: '與論島', ko: '요론섬',
     wiki: 'https://en.wikipedia.org/wiki/Yoronjima',
+    short: 'The southernmost of the Amami group and of Kagoshima',
     note: 'The southernmost of the Amami group and of Kagoshima, twenty kilometres from Okinawa.'
   },
   Iheyajima: {
     en: 'Iheyajima', ja: '伊平屋島 (Iheyajima)', zh: '伊平屋島', ko: '이헤야섬',
     wiki: 'https://en.wikipedia.org/wiki/Iheya_Island',
+    short: 'Okinawa Prefecture, north-west of the main island',
     note: 'Okinawa Prefecture, north-west of the main island, and never fought over.'
   },
   Izenajima: {
     en: 'Izenajima', ja: '伊是名島 (Izenajima)', zh: '伊是名島', ko: '이제나섬',
-    wiki: 'https://en.wikipedia.org/wiki/Izena_Island',
+    wiki: 'https://en.wikipedia.org/wiki/Izena_Island', short: 'Okinawa Prefecture',
     note: 'Okinawa Prefecture. The Shō dynasty of the Ryūkyū kings came from here.'
   },
   Iejima: {
     en: 'Iejima', ja: '伊江島 (Iejima)', zh: '伊江島', ko: '이에섬',
     wiki: 'https://en.wikipedia.org/wiki/Iejima',
+    short: 'Taken between 16 and 21 April 1945 for its airfield',
     note: 'Taken between 16 and 21 April 1945 for its airfield. The war correspondent Ernie Pyle was killed on it.'
   },
   'the Kerama Islands': {
@@ -5973,25 +6279,29 @@ JMAP.PROVINCES = {
   Kumejima: {
     en: 'Kumejima', ja: '久米島 (Kumejima)', zh: '久米島', ko: '구메지마정',
     wiki: 'https://en.wikipedia.org/wiki/Kumejima,_Okinawa',
+    short: 'Okinawa Prefecture. Taken in June 1945',
     note: 'Okinawa Prefecture. Taken in June 1945; the garrison murdered twenty islanders it accused of collaborating.'
   },
   Miyakojima: {
     en: 'Miyakojima', ja: '宮古島 (Miyakojima)', zh: '宮古島', ko: '미야코섬',
     wiki: 'https://en.wikipedia.org/wiki/Miyako_Island',
+    short: 'Garrisoned by some thirty thousand men, bombed and blockaded, and never assaulted',
     note: 'Garrisoned by some thirty thousand men, bombed and blockaded, and never assaulted — the troops and the islanders were both close to starving by the surrender.'
   },
   Taramajima: {
     en: 'Taramajima', ja: '多良間島 (Taramajima)', zh: '多良間島',
+    short: 'A flat coral island between Miyako and Ishigaki',
     note: 'A flat coral island between Miyako and Ishigaki, bypassed with them and blockaded to the surrender.'
   },
   Ishigakijima: {
     en: 'Ishigakijima', ja: '石垣島 (Ishigakijima)', zh: '石垣島', ko: '이시가키섬',
     wiki: 'https://en.wikipedia.org/wiki/Ishigaki_Island',
+    short: 'The seat of the Yaeyama islands, bypassed and bombed',
     note: 'The seat of the Yaeyama islands, bypassed and bombed. Three captured American airmen were executed here in 1945, and the officers responsible were tried for it.'
   },
   Iriomotejima: {
     en: 'Iriomotejima', ja: '西表島 (Iriomotejima)', zh: '西表島', ko: '이리오모테섬',
-    wiki: 'https://en.wikipedia.org/wiki/Iriomote_Island',
+    wiki: 'https://en.wikipedia.org/wiki/Iriomote_Island', short: 'Jungle and malaria',
     note: 'Jungle and malaria, and the island the people of Hateruma were forced to evacuate to in 1945.'
   },
   Haterumajima: {
@@ -6005,6 +6315,7 @@ JMAP.PROVINCES = {
   },
   'the Daitō Islands': {
     en: 'The Daitō Islands', ja: '大東諸島 (Daitō Shotō)', zh: '大東群島',
+    short: 'Uninhabited until 1900',
     note: 'Uninhabited until 1900, then settled from Hachijōjima and worked for sugar by a single company that owned the whole of them.'
   },
   'the Senkaku / Diaoyu Islands': {
@@ -6280,6 +6591,7 @@ JMAP.PROVINCES = {
   },
   Thonburi: {
     en: 'Thonburi (Bangkok, right bank)', wiki: 'https://en.wikipedia.org/wiki/Thonburi',
+    short: 'The right bank of the Chao Phraya, and a province of its own until 1971',
     note: 'The right bank of the Chao Phraya, and a province of its own until 1971: the capital King Taksin built after the fall of Ayutthaya in 1767, before Rama I crossed the river and began Bangkok on the other side. Through both of this map\'s dates it was the working half of the city — rice mills, sawmills, the docks and the klong network — against Phra Nakhon\'s palaces and ministries opposite. It is drawn here from the fifteen modern khet that descend from its districts. These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
   },
   Trang: {
@@ -6318,6 +6630,7 @@ JMAP.PROVINCES = {
   'Sentosa (Pulau Blakang Mati)': {
     en: 'Sentosa (Pulau Blakang Mati)', orig: 'Pulau Blakang Mati',
     wiki: 'https://en.wikipedia.org/wiki/Sentosa',
+    short: 'A garrison island guarding the western approach',
     note: 'A garrison island guarding the western approach, with the coastal batteries at Fort Siloso — the guns that faced the wrong way in the accounts, though they were turned and fired north in February 1942.'
   },
   'Jurong Island — reclaimed from seven islands after 1995': {
@@ -6327,6 +6640,7 @@ JMAP.PROVINCES = {
   'Peale Island': {
     en: 'Peale Island', ja: 'ピール島 (Pīru-tō)', zh: '皮爾島',
     wiki: 'https://en.wikipedia.org/wiki/Peale_Island',
+    short: 'Pan American\'s stop on the Clipper route: a forty-eight-room hotel',
     note: 'Pan American\'s stop on the Clipper route: a forty-eight-room hotel, a pier and a radio mast, put up in 1935 on an islet that had never had a building on it. The seaplane base was destroyed in the first Japanese air raid on 8 December 1941.'
   },
 };
@@ -6390,7 +6704,8 @@ JMAP.PROVINCE_EPOCH = {
       wiki: 'https://en.wikipedia.org/wiki/Labuan'
     },
     Dindings: {
-      en: 'The Dindings — Straits Settlement: Lumut, Sitiawan and Pangkor, ceded by Perak in 1874 and ruled from Singapore'
+      en: 'The Dindings — Straits Settlement: Lumut, Sitiawan and Pangkor, ceded by Perak in 1874 and ruled from Singapore',
+      short: 'Straits Settlement: Lumut, Sitiawan and Pangkor'
     },
   },
   e1942: {
@@ -6452,12 +6767,15 @@ JMAP.PROVINCE_EPOCH = {
       wiki: 'https://en.wikipedia.org/wiki/Malacca'
     },
     'Iwo Jima (Iō-tō)': {
+      short: 'Its civilians taken off in 1944, and the island made a fortress',
       note: 'The thousand civilians were taken off in July 1944 and the island was turned into a fortress of tunnels. Kuribayashi Tadamichi gave up any thought of holding the beaches and fought from underground with some 21,000 men, almost all of whom died. The landing on 19 February 1945 took five weeks and cost nearly 7,000 American lives; the airfields then served the B-29s over Tokyo.'
     },
     Chichijima: {
+      short: 'A fortified naval base, bombed from 1944 but never invaded',
       note: 'A fortified naval base, bombed from 1944 but never invaded, and the garrison held out to the surrender. George H. W. Bush was shot down off it in September 1944. Officers on the island killed several captured American airmen and ate part of them, and were tried and hanged for it in 1946.'
     },
     Hahajima: {
+      short: 'Shelled and bombed and then left alone',
       note: 'Shelled and bombed and then left alone. Its people were evacuated to the mainland with those of Chichijima in 1944.'
     },
   },

@@ -1,26 +1,26 @@
-key,en,ko,ja,zh,wiki
-Okinawa Island,Okinawa Hontō,오키나와섬,沖縄本島 (Okinawa Hontō),沖繩本島,https://en.wikipedia.org/wiki/Okinawa_Island
-Yakushima,Yakushima,야쿠섬,屋久島 (Yakushima),屋久島,https://en.wikipedia.org/wiki/Yakushima
-Kuchinoerabujima,Kuchinoerabujima,구치노에라부섬,口永良部島 (Kuchinoerabujima),口永良部島,https://en.wikipedia.org/wiki/Kuchinoerabu-jima
-Kuchinoshima,Kuchinoshima,,口之島 (Kuchinoshima),口之島,https://en.wikipedia.org/wiki/Kuchinoshima
-Nakanoshima,Nakanoshima,,中之島 (Nakanoshima),中之島,https://en.wikipedia.org/wiki/Tokara_Islands
-Tairajima,Tairajima,,平島 (Tairajima),平島,https://en.wikipedia.org/wiki/Tairajima
-Suwanosejima,Suwanosejima,스와노세섬,諏訪之瀬島 (Suwanosejima),諏訪之瀨島,https://en.wikipedia.org/wiki/Suwanosejima
-Akusekijima,Akusekijima,,悪石島 (Akusekijima),惡石島,https://en.wikipedia.org/wiki/Akusekijima
-Kikaijima,Kikaijima,기카이섬,喜界島 (Kikaijima),喜界島,https://en.wikipedia.org/wiki/Kikaijima
-Amami Ōshima,Amami Ōshima,아마미오시마,奄美大島 (Amami Ōshima),奄美大島,https://en.wikipedia.org/wiki/Amami_%C5%8Cshima
-Tokunoshima,Tokunoshima,도쿠노섬,徳之島 (Tokunoshima),德之島,https://en.wikipedia.org/wiki/Tokunoshima
-Okinoerabujima,Okinoerabujima,오키노에라부섬,沖永良部島 (Okinoerabujima),沖永良部島,https://en.wikipedia.org/wiki/Okinoerabujima
-Yoronjima,Yoronjima,요론섬,与論島 (Yoronjima),與論島,https://en.wikipedia.org/wiki/Yoronjima
-Iheyajima,Iheyajima,이헤야섬,伊平屋島 (Iheyajima),伊平屋島,https://en.wikipedia.org/wiki/Iheya_Island
-Izenajima,Izenajima,이제나섬,伊是名島 (Izenajima),伊是名島,https://en.wikipedia.org/wiki/Izena_Island
-Iejima,Iejima,이에섬,伊江島 (Iejima),伊江島,https://en.wikipedia.org/wiki/Iejima
-the Kerama Islands,"The Kerama Islands — taken first, 26 March 1945",,慶良間諸島 (Kerama Shotō),慶良間群島,
-Kumejima,Kumejima,구메지마정,久米島 (Kumejima),久米島,"https://en.wikipedia.org/wiki/Kumejima,_Okinawa"
-Miyakojima,Miyakojima,미야코섬,宮古島 (Miyakojima),宮古島,https://en.wikipedia.org/wiki/Miyako_Island
-Taramajima,Taramajima,,多良間島 (Taramajima),多良間島,
-Ishigakijima,Ishigakijima,이시가키섬,石垣島 (Ishigakijima),石垣島,https://en.wikipedia.org/wiki/Ishigaki_Island
-Iriomotejima,Iriomotejima,이리오모테섬,西表島 (Iriomotejima),西表島,https://en.wikipedia.org/wiki/Iriomote_Island
-Haterumajima,Haterumajima — the southernmost inhabited island of Japan proper,,波照間島 (Haterumajima),波照間島,
-Yonagunijima,Yonagunijima — 110 km from Taiwan,,与那国島 (Yonagunijima),與那國島,
-the Daitō Islands,The Daitō Islands,,大東諸島 (Daitō Shotō),大東群島,
+key,en,short,ko,ja,zh,wiki
+Okinawa Island,Okinawa Hontō,"Naha and the castle at Shuri, and a third of the prefecture's people",오키나와섬,沖縄本島 (Okinawa Hontō),沖繩本島,https://en.wikipedia.org/wiki/Okinawa_Island
+Yakushima,Yakushima,"Kagoshima, not Okinawa: the cedar forests here were logged for the navy",야쿠섬,屋久島 (Yakushima),屋久島,https://en.wikipedia.org/wiki/Yakushima
+Kuchinoerabujima,Kuchinoerabujima,Kagoshima. An active volcano with a few hundred people on it,구치노에라부섬,口永良部島 (Kuchinoerabujima),口永良部島,https://en.wikipedia.org/wiki/Kuchinoerabu-jima
+Kuchinoshima,Kuchinoshima,The northernmost of the Tokara islands and Kagoshima's,,口之島 (Kuchinoshima),口之島,https://en.wikipedia.org/wiki/Kuchinoshima
+Nakanoshima,Nakanoshima,"The highest of the Tokara islands, Kagoshima's",,中之島 (Nakanoshima),中之島,https://en.wikipedia.org/wiki/Tokara_Islands
+Tairajima,Tairajima,"One of the smaller Tokara islands, Kagoshima's",,平島 (Tairajima),平島,https://en.wikipedia.org/wiki/Tairajima
+Suwanosejima,Suwanosejima,"Tokara, and Kagoshima's",스와노세섬,諏訪之瀬島 (Suwanosejima),諏訪之瀨島,https://en.wikipedia.org/wiki/Suwanosejima
+Akusekijima,Akusekijima,A Tokara island of Kagoshima,,悪石島 (Akusekijima),惡石島,https://en.wikipedia.org/wiki/Akusekijima
+Kikaijima,Kikaijima,"Amami, and Kagoshima's",기카이섬,喜界島 (Kikaijima),喜界島,https://en.wikipedia.org/wiki/Kikaijima
+Amami Ōshima,Amami Ōshima,The largest of the Amami group,아마미오시마,奄美大島 (Amami Ōshima),奄美大島,https://en.wikipedia.org/wiki/Amami_%C5%8Cshima
+Tokunoshima,Tokunoshima,"Amami, and Kagoshima's",도쿠노섬,徳之島 (Tokunoshima),德之島,https://en.wikipedia.org/wiki/Tokunoshima
+Okinoerabujima,Okinoerabujima,Sugar and Easter lilies,오키노에라부섬,沖永良部島 (Okinoerabujima),沖永良部島,https://en.wikipedia.org/wiki/Okinoerabujima
+Yoronjima,Yoronjima,The southernmost of the Amami group and of Kagoshima,요론섬,与論島 (Yoronjima),與論島,https://en.wikipedia.org/wiki/Yoronjima
+Iheyajima,Iheyajima,"Okinawa Prefecture, north-west of the main island",이헤야섬,伊平屋島 (Iheyajima),伊平屋島,https://en.wikipedia.org/wiki/Iheya_Island
+Izenajima,Izenajima,Okinawa Prefecture,이제나섬,伊是名島 (Izenajima),伊是名島,https://en.wikipedia.org/wiki/Izena_Island
+Iejima,Iejima,Taken between 16 and 21 April 1945 for its airfield,이에섬,伊江島 (Iejima),伊江島,https://en.wikipedia.org/wiki/Iejima
+the Kerama Islands,"The Kerama Islands — taken first, 26 March 1945",,,慶良間諸島 (Kerama Shotō),慶良間群島,
+Kumejima,Kumejima,Okinawa Prefecture. Taken in June 1945,구메지마정,久米島 (Kumejima),久米島,"https://en.wikipedia.org/wiki/Kumejima,_Okinawa"
+Miyakojima,Miyakojima,"Garrisoned by some thirty thousand men, bombed and blockaded, and never assaulted",미야코섬,宮古島 (Miyakojima),宮古島,https://en.wikipedia.org/wiki/Miyako_Island
+Taramajima,Taramajima,A flat coral island between Miyako and Ishigaki,,多良間島 (Taramajima),多良間島,
+Ishigakijima,Ishigakijima,"The seat of the Yaeyama islands, bypassed and bombed",이시가키섬,石垣島 (Ishigakijima),石垣島,https://en.wikipedia.org/wiki/Ishigaki_Island
+Iriomotejima,Iriomotejima,Jungle and malaria,이리오모테섬,西表島 (Iriomotejima),西表島,https://en.wikipedia.org/wiki/Iriomote_Island
+Haterumajima,Haterumajima — the southernmost inhabited island of Japan proper,,,波照間島 (Haterumajima),波照間島,
+Yonagunijima,Yonagunijima — 110 km from Taiwan,,,与那国島 (Yonagunijima),與那國島,
+the Daitō Islands,The Daitō Islands,Uninhabited until 1900,,大東諸島 (Daitō Shotō),大東群島,

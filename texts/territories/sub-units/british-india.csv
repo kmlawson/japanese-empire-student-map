@@ -1,14 +1,14 @@
-key,en,wiki
-Assam,"Assam Province — with Sylhet, and with Manipur and Tripura inside it",https://en.wikipedia.org/wiki/Assam_Province
-Bengal,Bengal Presidency,https://en.wikipedia.org/wiki/Bengal_Presidency
-Bihar,Bihar Province,https://en.wikipedia.org/wiki/Bihar_Province
-Orissa,Orissa — the Orissa States are drawn inside it,https://en.wikipedia.org/wiki/Odisha
-UnitedProvinces,United Provinces of Agra and Oudh,https://en.wikipedia.org/wiki/United_Provinces_(1937%E2%80%931950)
-Punjab,Punjab Province,https://en.wikipedia.org/wiki/Punjab_Province_(British_India)
-Delhi,Delhi (chief commissioner’s province),https://en.wikipedia.org/wiki/Delhi
-Sind,"Sind Province (separated from Bombay, 1936)",https://en.wikipedia.org/wiki/Sindh
-Baluchistan,Baluchistan (agency territory),https://en.wikipedia.org/wiki/Baluchistan_Agency
-NWFP,North-West Frontier Province,https://en.wikipedia.org/wiki/North-West_Frontier_Province
-CentralProvinces,"Central Provinces — Berar and Nagpur are drawn with Bombay, the Central India states with this",https://en.wikipedia.org/wiki/Central_Provinces
-Bombay,"Bombay Presidency — drawn with Berar, Nagpur and the western states inside it",https://en.wikipedia.org/wiki/Bombay_Presidency
-Madras,Madras Presidency,https://en.wikipedia.org/wiki/Madras_Presidency
+key,en,short,wiki
+Assam,"Assam Province — with Sylhet, and with Manipur and Tripura inside it",,https://en.wikipedia.org/wiki/Assam_Province
+Bengal,Bengal Presidency,,https://en.wikipedia.org/wiki/Bengal_Presidency
+Bihar,Bihar Province,,https://en.wikipedia.org/wiki/Bihar_Province
+Orissa,Orissa — the Orissa States are drawn inside it,,https://en.wikipedia.org/wiki/Odisha
+UnitedProvinces,United Provinces of Agra and Oudh,,https://en.wikipedia.org/wiki/United_Provinces_(1937%E2%80%931950)
+Punjab,Punjab Province,,https://en.wikipedia.org/wiki/Punjab_Province_(British_India)
+Delhi,Delhi (chief commissioner’s province),,https://en.wikipedia.org/wiki/Delhi
+Sind,"Sind Province (separated from Bombay, 1936)",,https://en.wikipedia.org/wiki/Sindh
+Baluchistan,Baluchistan (agency territory),,https://en.wikipedia.org/wiki/Baluchistan_Agency
+NWFP,North-West Frontier Province,,https://en.wikipedia.org/wiki/North-West_Frontier_Province
+CentralProvinces,"Central Provinces — Berar and Nagpur are drawn with Bombay, the Central India states with this",,https://en.wikipedia.org/wiki/Central_Provinces
+Bombay,"Bombay Presidency — drawn with Berar, Nagpur and the western states inside it",,https://en.wikipedia.org/wiki/Bombay_Presidency
+Madras,Madras Presidency,,https://en.wikipedia.org/wiki/Madras_Presidency

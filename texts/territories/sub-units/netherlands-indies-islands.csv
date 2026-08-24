@@ -1,45 +1,45 @@
-key,en,ja,wiki
-Sumatra,Sumatra,スマトラ (Sumatora),https://en.wikipedia.org/wiki/Sumatra
-Java,Java,ジャワ (Jawa),
-Madura,Madura,マドゥラ (Madura),https://en.wikipedia.org/wiki/Madura
-Borneo,Borneo (Kalimantan),ボルネオ (Boruneo),https://en.wikipedia.org/wiki/Borneo
-Sulawesi,Celebes (Sulawesi),セレベス (Serebesu),https://en.wikipedia.org/wiki/Sulawesi
-Bali,Bali,バリ (Bari),https://en.wikipedia.org/wiki/Bali
-Lombok,Lombok,ロンボク (Ronboku),https://en.wikipedia.org/wiki/Lombok
-Sumbawa,Sumbawa,スンバワ (Sunbawa),https://en.wikipedia.org/wiki/Sumbawa
-Flores,Flores,フローレス (Furōresu),https://en.wikipedia.org/wiki/Flores
-Sumba,Sumba,スンバ (Sunba),https://en.wikipedia.org/wiki/Sumba
-WestTimor,Dutch Timor,チモール (Chimōru),https://en.wikipedia.org/wiki/West_Timor
-Halmahera,Halmahera,ハルマヘラ (Harumahera),https://en.wikipedia.org/wiki/Halmahera
-Seram,Ceram (Seram),セラム (Seramu),https://en.wikipedia.org/wiki/Seram_Island
-Buru,Buru,ブル (Buru),https://en.wikipedia.org/wiki/Buru
-Bangka,Banka (Bangka),バンカ (Banka),https://en.wikipedia.org/wiki/Bangka_Island
-Belitung,Billiton (Belitung),ビリトン (Biriton),https://en.wikipedia.org/wiki/Belitung
-Nias,Nias,ニアス (Niasu),https://en.wikipedia.org/wiki/Nias
-WestNewGuinea,Dutch New Guinea,西部ニューギニア (Seibu Nyūginia),https://en.wikipedia.org/wiki/Dutch_New_Guinea
-Aru,Aru Islands,アル諸島 (Aru-shotō),https://en.wikipedia.org/wiki/Aru_Islands
-Tanimbar,Tanimbar Islands,タニンバル諸島 (Taninbaru-shotō),https://en.wikipedia.org/wiki/Tanimbar_Islands
-Kai,Kai Islands,カイ諸島 (Kai-shotō),https://en.wikipedia.org/wiki/Kai_Islands
-RajaAmpat,Raja Ampat Islands,,https://en.wikipedia.org/wiki/Raja_Ampat_Islands
-Biak,Biak,ビアク島 (Biaku-tō),https://en.wikipedia.org/wiki/Biak_Island
-Yapen,Japen (Yapen),,https://en.wikipedia.org/wiki/Yapen
-Kolepom,Frederik Hendrik Island,,https://en.wikipedia.org/wiki/Dolak_Island
-Wetar,Wetar,,https://en.wikipedia.org/wiki/Wetar
-Obi,Obi Islands,,https://en.wikipedia.org/wiki/Obi_Islands
-Alor,Alor,,https://en.wikipedia.org/wiki/Alor_Island
-Pantar,Pantar,,https://en.wikipedia.org/wiki/Pantar
-Lembata,Lomblen (Lembata),,https://en.wikipedia.org/wiki/Lembata
-Rote,Roti (Rote),,https://en.wikipedia.org/wiki/Rote_Island
-Savu,Savu (Sabu),,https://en.wikipedia.org/wiki/Savu
-Sula,Sula Islands,,https://en.wikipedia.org/wiki/Sula_Islands
-Talaud,Talaud Islands,,https://en.wikipedia.org/wiki/Talaud_Islands
-Sangihe,Sangihe Islands,サンギヘ諸島 (Sangihe-shotō),https://en.wikipedia.org/wiki/Sangir_Islands
-Ambon,Ambon,アンボン島 (Anbon-tō),https://en.wikipedia.org/wiki/Ambon_Island
-Babar,Babar Islands,,https://en.wikipedia.org/wiki/Babar_Islands
-Bacan,Batjan (Bacan),,https://en.wikipedia.org/wiki/Bacan
-Morotai,Morotai,モロタイ島 (Morotai-tō),https://en.wikipedia.org/wiki/Morotai_Island
-Natuna,Natuna Islands,,https://en.wikipedia.org/wiki/Natuna_Islands
-Siberut,Siberut,,https://en.wikipedia.org/wiki/Siberut
-Simeulue,Simalur (Simeulue),,https://en.wikipedia.org/wiki/Simeulue
-Bawean,Bawean,,https://en.wikipedia.org/wiki/Bawean
-Komodo,Komodo,,https://en.wikipedia.org/wiki/Komodo_(island)
+key,en,short,ja,wiki
+Sumatra,Sumatra,"Rubber, tobacco and above all the oil of Palembang",スマトラ (Sumatora),https://en.wikipedia.org/wiki/Sumatra
+Java,Java,The centre of the colony and of its population: two thirds of the Indies lived here,ジャワ (Jawa),
+Madura,Madura,"Salt from the pans along its south coast, cattle",マドゥラ (Madura),https://en.wikipedia.org/wiki/Madura
+Borneo,Borneo (Kalimantan),Oil at Balikpapan and Tarakan,ボルネオ (Boruneo),https://en.wikipedia.org/wiki/Borneo
+Sulawesi,Celebes (Sulawesi),"Celebes, taken between January and February 1942",セレベス (Serebesu),https://en.wikipedia.org/wiki/Sulawesi
+Bali,Bali,Taken on 19 February 1942,バリ (Bari),https://en.wikipedia.org/wiki/Bali
+Lombok,Lombok,Between Bali and Sumbawa,ロンボク (Ronboku),https://en.wikipedia.org/wiki/Lombok
+Sumbawa,Sumbawa,"A dry island of horses and sandalwood, and of Tambora",スンバワ (Sunbawa),https://en.wikipedia.org/wiki/Sumbawa
+Flores,Flores,Taken in 1942 and used for an airstrip,フローレス (Furōresu),https://en.wikipedia.org/wiki/Flores
+Sumba,Sumba,"Horses, sandalwood and ikat weaving",スンバ (Sunba),https://en.wikipedia.org/wiki/Sumba
+WestTimor,Dutch Timor,The Dutch half of Timor,チモール (Chimōru),https://en.wikipedia.org/wiki/West_Timor
+Halmahera,Halmahera,Bypassed in 1944 when the Americans took Morotai beside it instead,ハルマヘラ (Harumahera),https://en.wikipedia.org/wiki/Halmahera
+Seram,Ceram (Seram),Sago and the oil at Bula on its eastern end,セラム (Seramu),https://en.wikipedia.org/wiki/Seram_Island
+Buru,Buru,A quiet island off Ceram,ブル (Buru),https://en.wikipedia.org/wiki/Buru
+Bangka,Banka (Bangka),"Tin, worked by Chinese labour since the eighteenth century",バンカ (Banka),https://en.wikipedia.org/wiki/Bangka_Island
+Belitung,Billiton (Belitung),"Tin, worked by Chinese labour since the nineteenth century under the Billiton company",ビリトン (Biriton),https://en.wikipedia.org/wiki/Belitung
+Nias,Nias,Off the west coast of Sumatra,ニアス (Niasu),https://en.wikipedia.org/wiki/Nias
+WestNewGuinea,Dutch New Guinea,The Dutch half of New Guinea,西部ニューギニア (Seibu Nyūginia),https://en.wikipedia.org/wiki/Dutch_New_Guinea
+Aru,Aru Islands,"A low, swampy group off New Guinea across the Arafura Sea",アル諸島 (Aru-shotō),https://en.wikipedia.org/wiki/Aru_Islands
+Tanimbar,Tanimbar Islands,"The largest of the south-eastern Moluccas, Yamdena and its neighbours",タニンバル諸島 (Taninbaru-shotō),https://en.wikipedia.org/wiki/Tanimbar_Islands
+Kai,Kai Islands,"Two islands of very different make — Kai Besar high and forested, Kai Kecil flat coral",カイ諸島 (Kai-shotō),https://en.wikipedia.org/wiki/Kai_Islands
+RajaAmpat,Raja Ampat Islands,"Waigeo, Batanta, Salawati and Misool, off the western tip of New Guinea",,https://en.wikipedia.org/wiki/Raja_Ampat_Islands
+Biak,Biak,Taken by the Japanese in 1942 and turned into an airfield complex,ビアク島 (Biaku-tō),https://en.wikipedia.org/wiki/Biak_Island
+Yapen,Japen (Yapen),"A long ridge of an island in Geelvink Bay, between Biak and the New Guinea shore",,https://en.wikipedia.org/wiki/Yapen
+Kolepom,Frederik Hendrik Island,"Frederik Hendrik Island, called Dolak now",,https://en.wikipedia.org/wiki/Dolak_Island
+Wetar,Wetar,"Dry, mountainous and barely populated, north of Timor across the strait",,https://en.wikipedia.org/wiki/Wetar
+Obi,Obi Islands,"Forested and almost empty, between Halmahera and Sula",,https://en.wikipedia.org/wiki/Obi_Islands
+Alor,Alor,"A crowded, mountainous island north of Timor",,https://en.wikipedia.org/wiki/Alor_Island
+Pantar,Pantar,"Volcanic, dry and poor",,https://en.wikipedia.org/wiki/Pantar
+Lembata,Lomblen (Lembata),"Lomblen, in the Solor chain east of Flores",,https://en.wikipedia.org/wiki/Lembata
+Rote,Roti (Rote),"The southernmost island of the Indies, dry and low",,https://en.wikipedia.org/wiki/Rote_Island
+Savu,Savu (Sabu),"A small dry island between Sumba and Timor, living off the lontar palm as Roti did",,https://en.wikipedia.org/wiki/Savu
+Sula,Sula Islands,"Taliabu, Mangole and Sanana, west of Halmahera. Ruled from Ternate before the Dutch",,https://en.wikipedia.org/wiki/Sula_Islands
+Talaud,Talaud Islands,"The northernmost land of the Indies, closer to Mindanao than to Celebes",,https://en.wikipedia.org/wiki/Talaud_Islands
+Sangihe,Sangihe Islands,A volcanic chain between Celebes and the Philippines,サンギヘ諸島 (Sangihe-shotō),https://en.wikipedia.org/wiki/Sangir_Islands
+Ambon,Ambon,The seat of government for the Moluccas and the centre of the old spice trade,アンボン島 (Anbon-tō),https://en.wikipedia.org/wiki/Ambon_Island
+Babar,Babar Islands,A small group east of Timor,,https://en.wikipedia.org/wiki/Babar_Islands
+Bacan,Batjan (Bacan),"Batjan, south of Halmahera",,https://en.wikipedia.org/wiki/Bacan
+Morotai,Morotai,"North of Halmahera, and the one island in the group the Allies wanted",モロタイ島 (Morotai-tō),https://en.wikipedia.org/wiki/Morotai_Island
+Natuna,Natuna Islands,In the South China Sea between Borneo and the Malay peninsula,,https://en.wikipedia.org/wiki/Natuna_Islands
+Siberut,Siberut,"The largest of the Mentawai islands off west Sumatra, kept deliberately apart",,https://en.wikipedia.org/wiki/Siberut
+Simeulue,Simalur (Simeulue),"Simalur, off the Acehnese coast",,https://en.wikipedia.org/wiki/Simeulue
+Bawean,Bawean,Its men migrated to Singapore and Malaya in such numbers that most lived abroad,,https://en.wikipedia.org/wiki/Bawean
+Komodo,Komodo,"Dry, rugged and almost uninhabited between Sumbawa and Flores",,https://en.wikipedia.org/wiki/Komodo_(island)

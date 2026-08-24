@@ -4736,6 +4736,65 @@ and survive a refresh, and a save re-reads the columns from disk — tested on a
 copy, an edit from a page that had never heard of `label` or `labelAt`
 preserved both and left every other row byte-identical.
 
+### A phrase on hover, the prose on the card
+Two faults, and the first was the larger. `showTooltip` printed `nameOf(head)`
+as its headline — the whole of `en`, which is written `Name — what it was` — so
+hovering Qīnghǎi came up with **558 characters** of pasture and salt lake set
+in bold. The card splits that gloss off and so does the map label; the tooltip
+never did. It does now.
+
+Under it went the record's full note: 150 characters for Sumatra, and 444 for
+any changwat of Thailand, which is the shared explanation of how the changwat
+were drawn — a thing to read once, not to be handed every time the mouse
+crosses a frontier. That is replaced by `short`, and where there is no `short`
+the gloss on the name serves, but only while it is under 88 characters. Past
+that it is prose and belongs on the card.
+
+**Coverage of the 583 sub-units:**
+
+* **112** already carried a gloss short enough to be a phrase
+* **317** derived from the first complete clause of their own note
+* **25** written by hand, where no clause fitted
+* **68** Siam's changwat, whose only note is the shared `{{siamprov}}` snippet
+  — deliberately none: the name and "Thailand" are the answer, and the
+  methodology is not
+* **61** a name and a coordinate, with nothing written about them anywhere
+
+So 454 say something and 129 do not, and none of the 129 is a place the map
+knows a fact about and is withholding.
+
+The derivation was measured before it was trusted. A first rule that cut at a
+character count truncated half its output mid-thought — "the port through", "at
+2,954 m the highest" — which is worse than silence, so it was thrown away. The
+rule that shipped takes only **complete clauses**, extending while they still
+fit and stopping when they do not, and where no clause fits at all it writes
+nothing and reports the row for hand-work. That is what the 25 are.
+
+The card is untouched: Qīnghǎi still opens with its 559 characters and China's
+590-character note under it, the specific thing above the general one.
+
+### The city dots go above the lines of the land
+`#markers` is written into the SVG before `subs-lift`, `mandate-lift` and
+`sub-outlines`, all three of which are appended in `init()` — so every line
+lifted clear of the land was drawn straight across the city dots, and a dark
+hairline through the white ring round a dot reads as a broken marker.
+
+Bangkok is the case, and it is Thailand for a reason: `SUBS_LIFT` names India
+and Siam, so hovering Thailand lifts its changwat lines above `#land` and, until
+now, above the markers too. Reproduced at 8x magnification — the ring came up
+rubbed out and mottled — and clean after.
+
+The markers do **not** go above `#highlight` or `#labels`. That was a decision
+made here before and the note on it still holds: a selection outline that a row
+of city dots can rub out is not much of an outline. Only the lines that belong
+to the land go under. `#browse`, `#gaz` and `#atom-hits` follow on their own,
+each being inserted before `#markers` when it is built.
+
+Worth recording, because it looked like a bug and is not: the dark square round
+Bangkok in the report is Phra Nakhon, Thonburi, Nonthaburi and Samut Prakan —
+four tiny changwat packed round the city and outlined by the Administrative
+layer. They really are provinces.
+
 ---
 
 ## Sources worth fetching

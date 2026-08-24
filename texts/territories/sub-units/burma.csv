@@ -1,12 +1,12 @@
-key,en,zh,wiki
-Arakan,Arakan Division,阿拉干省,https://en.wikipedia.org/wiki/Arakan_Division
-Pegu,Pegu Division,勃固省,https://en.wikipedia.org/wiki/Bago_Region
-Irrawaddy,Irrawaddy Division,伊洛瓦底省,https://en.wikipedia.org/wiki/Ayeyarwady_Region
-Tenasserim,Tenasserim Division,丹那沙林省,https://en.wikipedia.org/wiki/Tanintharyi_Region
-Magwe,Magwe Division,馬圭省,https://en.wikipedia.org/wiki/Magway_Region
-MandalayDiv,Mandalay Division,曼德勒省,https://en.wikipedia.org/wiki/Mandalay_Region
-Sagaing,Sagaing Division,實皆省,https://en.wikipedia.org/wiki/Sagaing_Region
-ShanStates,The Federated Shan States,撣邦,https://en.wikipedia.org/wiki/Shan_States
-Karenni,The Karenni States — never annexed,克倫尼,https://en.wikipedia.org/wiki/Karenni_States
-Kengtung,"Kengtung State — Kengtung, Monghsat and Tachileik",景棟,https://en.wikipedia.org/wiki/Kengtung_State
-MongpanEast,Mongpan east of the Salween,孟畔東部,
+key,en,short,zh,wiki
+Arakan,Arakan Division,The coast west of the Arakan Yoma,阿拉干省,https://en.wikipedia.org/wiki/Arakan_Division
+Pegu,Pegu Division,The lower Sittang and the country round Rangoon,勃固省,https://en.wikipedia.org/wiki/Bago_Region
+Irrawaddy,Irrawaddy Division,"The delta proper — Bassein, Henzada, Myaungmya, Maubin and Pyapon",伊洛瓦底省,https://en.wikipedia.org/wiki/Ayeyarwady_Region
+Tenasserim,Tenasserim Division,The longest of the divisions,丹那沙林省,https://en.wikipedia.org/wiki/Tanintharyi_Region
+Magwe,Magwe Division,The dry zone: the middle Irrawaddy in the rain shadow of the Arakan Yoma,馬圭省,https://en.wikipedia.org/wiki/Magway_Region
+MandalayDiv,Mandalay Division,"The last royal capital, taken in November 1885",曼德勒省,https://en.wikipedia.org/wiki/Mandalay_Region
+Sagaing,Sagaing Division,The largest division and the emptiest,實皆省,https://en.wikipedia.org/wiki/Sagaing_Region
+ShanStates,The Federated Shan States,The plateau east of the Sittang,撣邦,https://en.wikipedia.org/wiki/Shan_States
+Karenni,The Karenni States — never annexed,,克倫尼,https://en.wikipedia.org/wiki/Karenni_States
+Kengtung,"Kengtung State — Kengtung, Monghsat and Tachileik",,景棟,https://en.wikipedia.org/wiki/Kengtung_State
+MongpanEast,Mongpan east of the Salween,The part of the Shan state of Mongpan lying east of the Salween,孟畔東部,
