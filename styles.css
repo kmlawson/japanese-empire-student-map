@@ -1357,7 +1357,7 @@ dialog h3 {
 
   /* relative, not static: the info card's close button is positioned against
      it, and static would send it off to the stage corner */
-  #legend, #info, #quiz, #annotate {
+  #legend, #info, #quiz {
     position: relative;
     inset: auto;
     width: auto;
@@ -1365,8 +1365,6 @@ dialog h3 {
     max-height: none;
     box-shadow: none;
   }
-
-  #annotate { background: transparent; border: 0; padding: 0; }
 
   #legend { background: transparent; border: 0; padding: 0; font-size: 13px; }
   #legend .item { padding: 2px 0; }
@@ -1805,225 +1803,10 @@ dialog h3 {
 }
 
 
-/* ------------------------------------------------------------ annotations */
-
-/* The panel lives in the rail with the legend and the card. On a phone the
-   rail is a sheet over the map, which is the same place the card goes, and
-   the same rules carry it. */
-#annotate {
-  position: absolute;
-  left: max(10px, var(--safe-l));
-  top: 10px;
-  width: min(46vw, 280px);
-  max-height: calc(100% - 20px);
-  overflow-y: auto;
-  padding: 10px;
-  background: rgba(255, 253, 248, .97);
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  box-shadow: var(--shadow);
-  font-size: 12.5px;
-  z-index: 6;
-}
-
-#annotate .ann-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  margin-bottom: 8px;
-}
-
-#annotate .ann-head strong {
-  font-size: 11.5px;
-  font-weight: 700;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-
-#ann-close {
-  border: 0;
-  background: none;
-  font: inherit;
-  font-size: 17px;
-  line-height: 1;
-  padding: 2px 4px;
-  color: var(--muted);
-  cursor: pointer;
-}
-#ann-close:hover { color: var(--ink); }
-
-#annotate .ann-tools {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 4px;
-}
-
-#annotate .ann-tool {
-  padding: 6px 2px;
-  border: 1px solid var(--line);
-  border-radius: 6px;
-  background: #fff;
-  font: inherit;
-  font-size: 11.5px;
-  color: var(--ink);
-  cursor: pointer;
-}
-#annotate .ann-tool:hover { border-color: var(--muted); }
-#annotate .ann-tool.on {
-  background: var(--ink);
-  border-color: var(--ink);
-  color: #fffdf8;
-}
-
-#annotate .ann-hint {
-  margin: 6px 0 8px;
-  color: var(--muted);
-  font-size: 11.5px;
-  line-height: 1.35;
-}
-
-/* `display` on a class beats the user agent's `[hidden] { display: none }`,
-   so the row of finish-and-cancel buttons stood there from the moment the
-   panel opened, offering to finish a shape nobody had started. */
-#annotate .ann-drawing {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-  margin-bottom: 8px;
-}
-#annotate .ann-drawing[hidden] { display: none; }
-#annotate .ann-drawing button {
-  padding: 5px 8px;
-  border: 1px solid var(--line);
-  border-radius: 6px;
-  background: #fff;
-  font: inherit;
-  font-size: 11.5px;
-  cursor: pointer;
-}
-#annotate #ann-finish { background: var(--ink); border-color: var(--ink); color: #fffdf8; }
-
-#annotate .ann-style {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 4px 10px;
-  margin-bottom: 8px;
-}
-#annotate .ann-style label {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 11.5px;
-  color: var(--muted);
-}
-#annotate .ann-style input[type="color"] {
-  width: 26px;
-  height: 20px;
-  padding: 0;
-  border: 1px solid var(--line);
-  border-radius: 4px;
-  background: none;
-  cursor: pointer;
-}
-#annotate .ann-style input[type="range"] { width: 74px; }
-
-#annotate .ann-field {
-  display: block;
-  margin-bottom: 7px;
-  font-size: 11.5px;
-  color: var(--muted);
-}
-#annotate .ann-field input,
-#annotate .ann-field textarea {
-  display: block;
-  width: 100%;
-  margin-top: 3px;
-  padding: 5px 6px;
-  border: 1px solid var(--line);
-  border-radius: 5px;
-  background: #fff;
-  font: inherit;
-  font-size: 12.5px;
-  color: var(--ink);
-  resize: vertical;
-}
-#annotate .ann-field input:disabled,
-#annotate .ann-field textarea:disabled { background: #f4f1ea; color: var(--muted); }
-
-#ann-list {
-  list-style: none;
-  margin: 0 0 8px;
-  padding: 0;
-  max-height: 172px;
-  overflow-y: auto;
-}
-#ann-list li {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  border-bottom: 1px solid var(--line);
-}
-#ann-list li.sel { background: rgba(0, 0, 0, .05); }
-#ann-list .ann-pick {
-  flex: 1 1 auto;
-  min-width: 0;
-  text-align: left;
-  padding: 5px 4px;
-  border: 0;
-  background: none;
-  font: inherit;
-  font-size: 12px;
-  color: var(--ink);
-  cursor: pointer;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-#ann-list .ann-del {
-  flex: 0 0 auto;
-  border: 0;
-  background: none;
-  font: inherit;
-  font-size: 14px;
-  line-height: 1;
-  padding: 3px 5px;
-  color: var(--muted);
-  cursor: pointer;
-}
-#ann-list .ann-del:hover { color: #8c2f39; }
-
-#annotate .ann-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
-}
-#annotate .ann-actions button {
-  padding: 6px 9px;
-  border: 1px solid var(--line);
-  border-radius: 6px;
-  background: #fff;
-  font: inherit;
-  font-size: 11.5px;
-  cursor: pointer;
-}
-#annotate .ann-actions button:disabled { opacity: .45; cursor: default; }
-#annotate #ann-save { background: var(--ink); border-color: var(--ink); color: #fffdf8; }
-#annotate #ann-save:disabled { background: var(--muted); border-color: var(--muted); }
-
-.ann-msg {
-  margin: 8px 0 0;
-  font-size: 11.5px;
-  line-height: 1.4;
-  color: var(--muted);
-}
-/* An error is the one message that has to be read, so it is the one that is
-   coloured and that stays until something replaces it. */
-.ann-msg.bad { color: #8c2f39; font-weight: 600; }
-
-/* the two buttons in the Layers pane */
+/* The two buttons in the Layers pane. Everything else about annotations —
+   the panel, the marks, the fields — is styled by `annotate.js`, which injects
+   its own sheet when it loads, so a reader who never draws pays for neither
+   the code nor the rules. */
 .ann-row { display: flex; gap: 6px; flex-wrap: wrap; }
 .ann-row button {
   padding: 7px 10px;
@@ -2037,59 +1820,6 @@ dialog h3 {
 }
 .ann-row button:hover { border-color: var(--muted); }
 
-/* the marks themselves */
-#annotations { pointer-events: none; }
-#annotations .ann-shape { vector-effect: non-scaling-stroke; stroke-linejoin: round; }
-#annotations .ann-draft {
-  vector-effect: non-scaling-stroke;
-  stroke-dasharray: 5 4;
-  opacity: .8;
-}
-#annotations .sel { filter: drop-shadow(0 0 3px rgba(0, 0, 0, .55)); }
-
-/* a pen, not a pointer */
-#map-container.ann-drawing { cursor: crosshair; }
-
-/* Below the rail's breakpoint both the legend and this panel float in the
-   top-left corner of the map, and the annotation panel is the taller of the
-   two — so they were drawn one over the other, the legend's colours showing
-   faintly through. While a reader is drawing, the panel is what they are
-   using; the legend stands down and comes back when the panel closes. */
-@media (max-width: 999.98px) {
-  #stage.annotating #legend { display: none; }
-}
-
 @media (prefers-color-scheme: dark) {
-  #annotate { background: rgba(20, 26, 32, .97); }
-  #annotate .ann-tool,
-  #annotate .ann-drawing button,
-  #annotate .ann-actions button,
-  #annotate .ann-field input,
-  #annotate .ann-field textarea,
   .ann-row button { background: #1b232b; color: var(--ink); }
-  #annotate .ann-field input:disabled,
-  #annotate .ann-field textarea:disabled { background: #161d24; }
-  #annotate .ann-tool.on,
-  #annotate #ann-finish,
-  #annotate #ann-save { background: var(--ink); color: #12181e; }
-  .ann-msg.bad { color: #e08b95; }
-}
-
-/* The rail again, because these rules are written after it. `#annotate` is
-   declared far below the layout section — it is a late addition and it reads
-   better kept together — and a later rule of equal specificity wins, so the
-   floating panel was overriding the rail and standing over the map on a wide
-   screen with the legend beside it. This puts it back in the column. */
-@media (min-width: 1000px) {
-  #annotate {
-    position: relative;
-    inset: auto;
-    width: auto;
-    max-width: none;
-    max-height: none;
-    padding: 0;
-    background: transparent;
-    border: 0;
-    box-shadow: none;
-  }
 }

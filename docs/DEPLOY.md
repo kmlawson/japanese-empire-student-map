@@ -4,7 +4,7 @@ The site is static — no PHP, no database, no build step on the server. Every
 path in it is relative, so it works at a domain root, in a subdirectory, or off
 a memory stick, without changing anything.
 
-## The eleven files it needs, and one more worth adding
+## The twelve files it needs, and one more worth adding
 
 Nothing else in this repository is used at runtime. `texts/`, `tools/`,
 `data/`, `occupation-maps/` and `reports/` are how the site is *made*; they are
@@ -22,6 +22,7 @@ not part of it.
 | `japan-empire-map-admin.svg` | 1.1 MB | 327 KB | when Administrative is switched on |
 | `japan-empire-map-fine.svg` | 635 KB | 128 KB | when the reader zooms deep into an island group |
 | `japan-empire-map-roc.svg` | 698 KB | 243 KB | when the AMS province source is chosen in Layers |
+| `annotate.js` | 61 KB | 17 KB | when a reader presses Create or Load annotations in Layers |
 | `admin.js` | 32 KB | — | only on option-click of Layers; leave it out if you would rather not ship the editing tools |
 
 **About 6.1 MB in all, and about 1.8 MB over the wire with compression on.** A
@@ -51,7 +52,7 @@ git clone --depth 1 --filter=blob:none --sparse \
     https://github.com/kmlawson/japanese-empire-student-map.git map-src
 cd map-src
 git sparse-checkout set --no-cone \
-    /index.html /sources.html /styles.css /map.js /admin.js \
+    /index.html /sources.html /styles.css /map.js /admin.js /annotate.js \
     /data.js /cities-gaz.js /.htaccess '/japan-empire-map*.svg'
 ```
 
@@ -80,7 +81,7 @@ If you would rather not have git on the server at all, from your Mac:
 
 ```sh
 rsync -avz --delete \
-  index.html sources.html styles.css map.js admin.js data.js cities-gaz.js .htaccess \
+  index.html sources.html styles.css map.js admin.js annotate.js data.js cities-gaz.js .htaccess \
   japan-empire-map.svg japan-empire-map-admin.svg \
   japan-empire-map-fine.svg japan-empire-map-roc.svg \
   USER@SERVER:~/example.com/

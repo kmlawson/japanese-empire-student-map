@@ -90,7 +90,18 @@ the old name with a timestamp.
 **Copy link** puts the whole set into the address itself, deflated and
 base64'd, for anything small enough to fit: a dozen annotations come to a few
 hundred characters, and the reader is told the number and asked to send the
-file instead when it will not.
+file instead when it will not. A link opens with the panel folded — the marks
+are the point, the tools are one tap away.
+
+Lines are measured in kilometres and areas in square kilometres, on the sphere
+rather than on the flat, so an area in Hokkaido and the same area on the
+equator read alike. A mark can be dragged, a shape reshaped by its corners,
+and `Ctrl`/`⌘ Z` undoes. A point dropped on a country takes that country's name
+without your typing it. Work is kept in the browser between visits and offered
+back when you return.
+
+The tools live in `annotate.js`, fetched only when one of the two buttons is
+pressed: a reader who never draws never downloads it.
 
 None of it goes anywhere. The file is written by the browser and read back by
 it, which is the point for a class: a student can annotate a map, hand the file
@@ -152,6 +163,7 @@ script — `tools/build_map.py` — and neither needs the other to run.
 | `tools/texts_lib.py`, `tools/md.py` | the CSV/Markdown readers, and just enough Markdown for the two prose pages |
 | `tools/shapefile.py` | a small stdlib-only shapefile reader used by the build |
 | `tools/bundle.py` | builds the single-file version |
+| `annotate.js` | the drawing tools, fetched on demand and inlined into the single-file build |
 | `tools/compare_perf.js` | pan-and-zoom timings for two builds side by side, for checking a new version against the live one before updating it |
 
 Adding a city or a battlefield needs nothing but a row in `texts/sites/sites.csv`

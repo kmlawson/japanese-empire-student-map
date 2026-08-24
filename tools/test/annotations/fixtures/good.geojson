@@ -1,0 +1,64 @@
+{
+ "type": "FeatureCollection",
+ "properties": {
+  "generator": "The Japanese Empire in Asia and the Pacific",
+  "style": "simplestyle-spec"
+ },
+ "features": [
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     141.06978,
+     37.03016
+    ]
+   },
+   "properties": {
+    "title": "Mukden",
+    "description": "Where the incident began, 18 September 1931.",
+    "stroke": "#1b1b1b",
+    "stroke-width": 3,
+    "stroke-opacity": 1,
+    "marker-color": "#1b1b1b",
+    "marker-size": "medium",
+    "marker-symbol": "circle"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       167.48488,
+       31.57906
+      ],
+      [
+       178.05092,
+       29.30192
+      ],
+      [
+       174.08865,
+       20.94189
+      ],
+      [
+       167.48488,
+       31.57906
+      ]
+     ]
+    ]
+   },
+   "properties": {
+    "title": "",
+    "description": "",
+    "stroke": "#1b1b1b",
+    "stroke-width": 3,
+    "stroke-opacity": 1,
+    "fill": "#1b1b1b",
+    "fill-opacity": 0.28
+   }
+  }
+ ]
+}

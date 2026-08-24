@@ -68,6 +68,11 @@ def main():
     gaz = read("cities-gaz.js") if os.path.exists(
         os.path.join(ROOT, "cities-gaz.js")) else ""
     js = read("map.js")
+    # The annotation tools are a separate file that `map.js` fetches when a
+    # reader asks for them — which a page opened from the file system cannot
+    # do. Inlined here, `annLoad` finds `window.JMAP_ANNOTATE` already defined
+    # and never reaches for the network.
+    ann = read("annotate.js")
     svg = read("japan-empire-map.svg")
     admin = read("japan-empire-map-admin.svg")
     fine = read("japan-empire-map-fine.svg") if os.path.exists(
@@ -87,7 +92,8 @@ def main():
         "<script>\nwindow.JMAP_INLINE_SVG = "
         + json.dumps(svg) + ";\nwindow.JMAP_INLINE_ADMIN = "
         + json.dumps(admin) + ";\nwindow.JMAP_INLINE_FINE = "
-        + json.dumps(fine) + ";\n</script>\n<script>\n" + js + "\n</script>",
+        + json.dumps(fine) + ";\n</script>\n<script>\n" + ann + "\n</script>"
+        + "\n<script>\n" + js + "\n</script>",
     )
 
     if "JMAP_INLINE_SVG" not in html or "JMAP_INLINE_ADMIN" not in html:

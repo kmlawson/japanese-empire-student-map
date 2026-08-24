@@ -1260,7 +1260,7 @@
     drawGraticule();
     // annotations are held in longitude and latitude, so they are simply
     // redrawn rather than moved
-    if (annOn) annRedraw();
+    if (annApi) annApi.reproject();
     if (lastScaleW > 0) rescale();
     applyView(true);
     placeLabels();
@@ -2977,6 +2977,13 @@
         hideTooltip();
         return;
       }
+      // a press on a mark of the reader's own moves the mark, not the map
+      if (annApi && annApi.grab(e.target, e.clientX, e.clientY)) {
+        dragStart = null;
+        movedFar = true;                     // never a tap: it is a handle
+        hideTooltip();
+        return;
+      }
       dragStart = { cx: e.clientX, cy: e.clientY, vx: view.x, vy: view.y };
       container.classList.add('dragging');
       hideTooltip();
@@ -3190,6 +3197,7 @@
 
     container.classList.remove('dragging');
     dragStart = null;
+    if (annApi && annApi.drop()) { downTarget = null; return; }
 
     if (had === 1 && !movedFar && e.type === 'pointerup') {
       // An admin tool may want the tap instead — drawing a polygon is one.
@@ -3216,7 +3224,7 @@
             pendingTap = 0;
             handleTap(t, tx, ty);
           }, 300);
-        } else if (!annTap(e.clientX, e.clientY)) {
+        } else if (!(annApi && annApi.tap(e.clientX, e.clientY))) {
           // a drawing tool takes the tap when one is armed, so that placing a
           // point never also selects the country under it
           handleTap(downTarget, e.clientX, e.clientY);
@@ -3912,9 +3920,11 @@
   }
 
   function onHover(e) {
+    // A mark being dragged owns the pointer until it is let go.
+    if (annApi && annApi.drag && annApi.drag(e.clientX, e.clientY)) return;
     // While a drawing tool is armed the pointer is a pen, and naming whatever
     // it passes over is both noise and a lie about what a click will do.
-    if (annOn && annTool) { setHot(null); setHotProv(null); hideTooltip(); return; }
+    if (annApi && annApi.drawing()) { setHot(null); setHotProv(null); hideTooltip(); return; }
     if (state.mode === 'quiz' || dragStart || marquee) {
       setHot(null); setHotProv(null); setSubsAtom(null); return;
     }
@@ -5919,810 +5929,120 @@
     zoomAt(r.left + r.width / 2, r.top + r.height / 2, factor);
   }
 
-  /* ================================================================== *
-   *  Annotations                                                        *
-   * ================================================================== *
-   *
-   * A reader's own marks on the map: points, events, lines and areas,
-   * each with a name, a description and a style, saved as GeoJSON.
-   *
-   * Nothing here touches a server. The file is written by the browser and
-   * read back by it, which is the whole point for a class: a student can
-   * annotate a map, hand the file to somebody else, and that person opens it
-   * without an account, a login or a service that might be gone next year.
-   *
-   * WHERE THE STYLING LIVES. GeoJSON says nothing about how a feature should
-   * look, and the question of where to put it has one good answer:
-   * **simplestyle-spec**, which QGIS, GitHub's GeoJSON preview, geojson.io,
-   * Mapbox and Leaflet plugins all read. It is plain members of `properties`,
-   * so it survives any tool that does not know about it rather than being
-   * stripped as foreign:
-   *
-   *     title, description
-   *     marker-color, marker-size, marker-symbol
-   *     stroke, stroke-width, stroke-opacity
-   *     fill, fill-opacity
-   *
-   * The one thing simplestyle has no word for is the difference between a
-   * point and an event, which this map draws as a dot and a diamond. That
-   * goes in `marker-symbol`, which the spec leaves open to any string, and is
-   * read back on load; anything else opening the file sees a marker with an
-   * unfamiliar symbol and draws its default, which is the right failure.
-   */
+  /* -------------------------------------------------------- annotations -- */
 
-  var ANN_MAX_BYTES = 24 * 1024 * 1024;   // a file bigger than this is refused
-  var ANN_MAX_VERTS = 240000;             // and so is one with more points than this
-  /* How much GeoJSON will go in a link. Browsers differ and so do the servers
-     and chat clients that pass a URL along; 6,000 characters of payload keeps
-     the whole address under about 6.2 KB, which every browser in use accepts
-     and which survives being pasted into mail. Past that the reader is told
-     to send the file instead, with the number, rather than being handed a
-     link that works on the machine that made it and nowhere else. */
-  var ANN_URL_MAX = 6000;
+  /* A reader's own marks live in `annotate.js`, which is fetched the first
+     time somebody asks for them — from Layers, or because the address carries
+     a shared set. It is 15 KB gzipped, and most readers of this map will never
+     draw anything on it; charging them for it on every visit to save one
+     request from the few who do is the wrong trade, and it is the trade the
+     lazily-loaded administrative sheet and fine coastlines already refuse.
 
-  var annOn = false;
-  var annTool = null;                     // point | event | line | polygon
-  var annFeatures = [];                   // GeoJSON features, lon/lat
-  var annDraft = null;                    // the shape being drawn: [[lon,lat],…]
-  var annSel = -1;                        // which feature the fields belong to
-  var annGroup = null;
-  var annSourceName = '';                 // the file a loaded set came from
-  var annPanel, annMsgEl, annListEl, annHintEl, annDrawEl;
-  var annMsgTimer = 0;
+     `map.js` hands it a host object and takes back a handful of hooks. Nothing
+     there reaches into this file and nothing here knows what a feature is. */
+  var annApi = null;
+  var annLoading = null;
 
-  function annEl(id) { return document.getElementById(id); }
-
-  function annSay(text, kind) {
-    if (!annMsgEl) return;
-    annMsgEl.textContent = text || '';
-    annMsgEl.className = 'ann-msg' + (kind ? ' ' + kind : '');
-    if (annMsgTimer) window.clearTimeout(annMsgTimer);
-    // an error stays until something replaces it; a confirmation does not
-    if (text && kind !== 'bad') {
-      annMsgTimer = window.setTimeout(function () {
-        annMsgTimer = 0;
-        if (annMsgEl.textContent === text) annMsgEl.textContent = '';
-      }, 6000);
-    }
-  }
-
-  /* ------------------------------------------------------------ style -- */
-
-  function annStyleNow() {
-    var colour = (annEl('ann-colour') || {}).value || '#1b1b1b';
-    var size = parseInt((annEl('ann-size') || {}).value, 10) || 3;
-    var fill = !!((annEl('ann-fill') || {}).checked);
-    return { colour: colour, size: size, fill: fill };
-  }
-
-  /* One feature's properties, in simplestyle-spec. `marker-size` is the
-     spec's three words rather than a number, so the slider is mapped onto
-     them and the exact weight kept alongside for our own drawing. */
-  function annProps(kind, st) {
-    var p = {
-      title: '', description: '',
-      stroke: st.colour,
-      'stroke-width': st.size,
-      'stroke-opacity': 1,
-    };
-    if (kind === 'point' || kind === 'event') {
-      p['marker-color'] = st.colour;
-      p['marker-size'] = st.size <= 2 ? 'small' : (st.size >= 5 ? 'large' : 'medium');
-      p['marker-symbol'] = kind === 'event' ? 'diamond' : 'circle';
-    }
-    if (kind === 'polygon') {
-      p.fill = st.colour;
-      p['fill-opacity'] = st.fill ? 0.28 : 0;
-    }
-    return p;
-  }
-
-  function annKindOf(f) {
-    var g = f.geometry || {};
-    var t = g.type;
-    if (t === 'Point' || t === 'MultiPoint') {
-      return (f.properties && f.properties['marker-symbol']) === 'diamond' ? 'event' : 'point';
-    }
-    if (t === 'LineString' || t === 'MultiLineString') return 'line';
-    return 'polygon';
-  }
-
-  /* ---------------------------------------------------------- drawing -- */
-
-  /* Every ring of a geometry, whatever its type, as arrays of [lon, lat].
-     One shape of code for the seven geometry types so that a file from
-     anywhere — a Natural Earth export, a QGIS layer, one of this map's own
-     caches — draws without a special case for each. */
-  function annRings(g) {
-    if (!g) return [];
-    var t = g.type, c = g.coordinates;
-    if (t === 'Point') return [[c]];
-    if (t === 'MultiPoint' || t === 'LineString') return [c];
-    if (t === 'MultiLineString' || t === 'Polygon') return c;
-    if (t === 'MultiPolygon') return c.reduce(function (a, poly) { return a.concat(poly); }, []);
-    if (t === 'GeometryCollection') {
-      return (g.geometries || []).reduce(function (a, sub) { return a.concat(annRings(sub)); }, []);
-    }
-    return [];
-  }
-
-  function annPathFor(ring, close) {
-    var d = '';
-    for (var i = 0; i < ring.length; i++) {
-      var q = project(ring[i][0], ring[i][1]);
-      d += (i ? 'L' : 'M') + (Math.round(q.x * 100) / 100) + ' ' + (Math.round(q.y * 100) / 100);
-    }
-    return d + (close ? 'Z' : '');
-  }
-
-  function annMarker(kind, lon, lat, colour, size, cls) {
-    var g = svgEl('g', { 'class': 'ann-mark ' + cls });
-    var r = 2.6 + size * 0.9;
-    if (kind === 'event') {
-      g.appendChild(svgEl('path', {
-        d: 'M0 ' + (-r) + 'L' + r + ' 0L0 ' + r + 'L' + (-r) + ' 0Z',
-        fill: colour, stroke: '#fffdf8', 'stroke-width': 1.2,
-      }));
-    } else {
-      g.appendChild(svgEl('circle', {
-        r: r, fill: colour, stroke: '#fffdf8', 'stroke-width': 1.2,
-      }));
-    }
-    var p = project(lon, lat);
-    scalables.push({ el: g, x: p.x, y: p.y, ann: true });
-    return g;
-  }
-
-  function annRedraw() {
-    if (!svg) return;
-    if (!annGroup) {
-      annGroup = svgEl('g', { id: 'annotations' });
-      var before = svg.querySelector('#highlight') || null;
-      if (before) svg.insertBefore(annGroup, before); else svg.appendChild(annGroup);
-    }
-    // the constant-size markers are rebuilt with the rest, so their old
-    // entries have to go or `rescale` walks a list of detached nodes
-    scalables = scalables.filter(function (s) { return !s.ann; });
-    annGroup.innerHTML = '';
-    annGroup.style.display = annOn ? '' : 'none';
-    if (!annOn) { if (lastScaleW > 0) rescale(); return; }
-
-    annFeatures.forEach(function (f, i) {
-      var kind = annKindOf(f);
-      var p = f.properties || {};
-      var colour = p['marker-color'] || p.stroke || '#1b1b1b';
-      var width = parseFloat(p['stroke-width']);
-      if (!isFinite(width)) width = 3;
-      var cls = 'ann-f' + (i === annSel ? ' sel' : '');
-      var rings = annRings(f.geometry);
-
-      if (kind === 'point' || kind === 'event') {
-        rings.forEach(function (ring) {
-          ring.forEach(function (pt) {
-            var m = annMarker(kind, pt[0], pt[1], colour, width, cls);
-            m.setAttribute('data-ann', i);
-            annGroup.appendChild(m);
-          });
-        });
-        return;
-      }
-      var closed = kind === 'polygon';
-      rings.forEach(function (ring) {
-        if (ring.length < 2) return;
-        var path = svgEl('path', {
-          'class': 'ann-f ann-shape' + (i === annSel ? ' sel' : ''),
-          'data-ann': i,
-          d: annPathFor(ring, closed),
-          stroke: p.stroke || colour,
-          'stroke-width': width,
-          'stroke-opacity': p['stroke-opacity'] === undefined ? 1 : p['stroke-opacity'],
-          fill: closed ? (p.fill || colour) : 'none',
-          'fill-opacity': closed ? (p['fill-opacity'] === undefined ? 0.28 : p['fill-opacity']) : 0,
-        });
-        annGroup.appendChild(path);
-      });
-    });
-
-    // the shape under the pointer, while it is still being drawn
-    if (annDraft && annDraft.pts.length) {
-      var st = annStyleNow();
-      if (annDraft.pts.length > 1) {
-        annGroup.appendChild(svgEl('path', {
-          'class': 'ann-draft', d: annPathFor(annDraft.pts, annDraft.kind === 'polygon'),
-          stroke: st.colour, 'stroke-width': st.size, fill: 'none',
-        }));
-      }
-      annDraft.pts.forEach(function (pt) {
-        annGroup.appendChild(annMarker('point', pt[0], pt[1], st.colour, 1, 'ann-vertex'));
-      });
-    }
-    if (lastScaleW > 0) rescale();
-  }
-
-  /* ------------------------------------------------------------- tools -- */
-
-  function annSetTool(t) {
-    if (annDraft && annDraft.kind !== t) annCancelDraft();
-    annTool = annTool === t ? null : t;
-    $$('.ann-tool').forEach(function (b) {
-      var on = b.getAttribute('data-tool') === annTool;
-      b.setAttribute('aria-pressed', on ? 'true' : 'false');
-      b.classList.toggle('on', on);
-    });
-    if (container) container.classList.toggle('ann-drawing', !!annTool);
-    annHintEl.textContent = !annTool ? 'Pick a tool, then click the map.'
-      : (annTool === 'point' || annTool === 'event')
-        ? 'Click the map to place it.'
-        : 'Click to add each corner, then Finish shape. Enter finishes, Escape cancels.';
-    if (!annTool) annCancelDraft();
-  }
-
-  function annCancelDraft() {
-    annDraft = null;
-    if (annDrawEl) annDrawEl.hidden = true;
-    annRedraw();
-  }
-
-  /* A tap on the map while a tool is armed. Returns true when it has taken
-     the tap, so that the map's own selection never also happens. */
-  function annTap(cx, cy) {
-    if (!annOn || !annTool) return false;
-    var pt = clientToSvg(cx, cy);
-    var ll = unproject(pt.x, pt.y);
-    if (!isFinite(ll.lon) || !isFinite(ll.lat)) return true;
-    var here = [Math.round(ll.lon * 1e5) / 1e5, Math.round(ll.lat * 1e5) / 1e5];
-
-    if (annTool === 'point' || annTool === 'event') {
-      var st = annStyleNow();
-      annFeatures.push({
-        type: 'Feature',
-        geometry: { type: 'Point', coordinates: here },
-        properties: annProps(annTool, st),
-      });
-      annSel = annFeatures.length - 1;
-      annSyncFields();
-      annRedraw();
-      annList();
-      annSay('Placed. Give it a name if you like.');
-      return true;
-    }
-    if (!annDraft) annDraft = { kind: annTool, pts: [] };
-    annDraft.pts.push(here);
-    if (annDrawEl) annDrawEl.hidden = false;
-    annRedraw();
-    return true;
-  }
-
-  function annFinish() {
-    if (!annDraft) return;
-    var pts = annDraft.pts, kind = annDraft.kind;
-    var need = kind === 'polygon' ? 3 : 2;
-    if (pts.length < need) {
-      annSay(kind === 'polygon'
-        ? 'An area needs at least three corners.'
-        : 'A line needs at least two points.', 'bad');
-      return;
-    }
-    var st = annStyleNow();
-    var geom = kind === 'polygon'
-      ? { type: 'Polygon', coordinates: [pts.concat([pts[0]])] }
-      : { type: 'LineString', coordinates: pts.slice() };
-    annFeatures.push({ type: 'Feature', geometry: geom, properties: annProps(kind, st) });
-    annSel = annFeatures.length - 1;
-    annDraft = null;
-    if (annDrawEl) annDrawEl.hidden = true;
-    annSyncFields();
-    annRedraw();
-    annList();
-    annSay('Added. Give it a name if you like.');
-  }
-
-  /* --------------------------------------------------------- the list -- */
-
-  function annLabelOf(f, i) {
-    var p = f.properties || {};
-    var name = (p.title || p.name || p.NAME || '').toString().trim();
-    return name || (annKindOf(f) + ' ' + (i + 1));
-  }
-
-  function annList() {
-    if (!annListEl) return;
-    annListEl.innerHTML = '';
-    annFeatures.forEach(function (f, i) {
-      var li = document.createElement('li');
-      if (i === annSel) li.className = 'sel';
-      var pick = document.createElement('button');
-      pick.type = 'button';
-      pick.className = 'ann-pick';
-      pick.textContent = annLabelOf(f, i);
-      pick.addEventListener('click', function () {
-        annSel = i; annSyncFields(); annList(); annRedraw();
-      });
-      var del = document.createElement('button');
-      del.type = 'button';
-      del.className = 'ann-del';
-      del.setAttribute('aria-label', 'Delete ' + annLabelOf(f, i));
-      del.textContent = '×';
-      del.addEventListener('click', function () {
-        annFeatures.splice(i, 1);
-        if (annSel >= annFeatures.length) annSel = annFeatures.length - 1;
-        annSyncFields(); annList(); annRedraw();
-      });
-      li.appendChild(pick);
-      li.appendChild(del);
-      annListEl.appendChild(li);
-    });
-    var save = annEl('ann-save'), link = annEl('ann-link'), clear = annEl('ann-clear');
-    var none = !annFeatures.length;
-    [save, link, clear].forEach(function (b) { if (b) b.disabled = none; });
-  }
-
-  function annSyncFields() {
-    var t = annEl('ann-title'), d = annEl('ann-desc');
-    var f = annFeatures[annSel];
-    if (!t || !d) return;
-    t.value = f ? ((f.properties && f.properties.title) || '') : '';
-    d.value = f ? ((f.properties && f.properties.description) || '') : '';
-    t.disabled = d.disabled = !f;
-  }
-
-  function annFieldChanged() {
-    var f = annFeatures[annSel];
-    if (!f) return;
-    f.properties = f.properties || {};
-    f.properties.title = (annEl('ann-title') || {}).value || '';
-    f.properties.description = (annEl('ann-desc') || {}).value || '';
-    annList();
-  }
-
-  function annStyleChanged() {
-    var f = annFeatures[annSel];
-    if (!f) return;
-    var st = annStyleNow();
-    var p = f.properties = f.properties || {};
-    var kind = annKindOf(f);
-    p.stroke = st.colour;
-    p['stroke-width'] = st.size;
-    if (kind === 'point' || kind === 'event') {
-      p['marker-color'] = st.colour;
-      p['marker-size'] = st.size <= 2 ? 'small' : (st.size >= 5 ? 'large' : 'medium');
-    }
-    if (kind === 'polygon') {
-      p.fill = st.colour;
-      p['fill-opacity'] = st.fill ? 0.28 : 0;
-    }
-    annRedraw();
-  }
-
-  /* ------------------------------------------------ reading a file in -- */
-
-  /* What is wrong with this GeoJSON, in a sentence a reader can act on, or
-     null if there is nothing wrong with it. Every message names the thing it
-     found rather than saying "invalid", because "invalid GeoJSON" tells
-     somebody with a broken file precisely nothing. */
-  function annProblem(o) {
-    if (o === null || typeof o !== 'object') return 'That file is not a GeoJSON object.';
-    if (Array.isArray(o)) return 'That file is a bare array. GeoJSON needs a "type" — a FeatureCollection, a Feature, or a geometry.';
-    if (typeof o.type !== 'string') return 'That file has no "type" member, so it is not GeoJSON.';
-    var known = ['FeatureCollection', 'Feature', 'Point', 'MultiPoint', 'LineString',
-                 'MultiLineString', 'Polygon', 'MultiPolygon', 'GeometryCollection'];
-    if (known.indexOf(o.type) < 0) return 'Its type is "' + o.type + '", which is not a GeoJSON type.';
-    if (o.type === 'FeatureCollection') {
-      if (!Array.isArray(o.features)) return 'A FeatureCollection needs a "features" array; this one has none.';
-      if (!o.features.length) return 'That file is an empty FeatureCollection — nothing to draw.';
-      for (var i = 0; i < o.features.length; i++) {
-        var f = o.features[i];
-        if (!f || typeof f !== 'object') return 'Feature ' + (i + 1) + ' is not an object.';
-        if (f.type !== 'Feature') return 'Item ' + (i + 1) + ' of "features" has type "' + f.type + '" and should be "Feature".';
-        if (f.geometry !== null && !annGeomOK(f.geometry)) {
-          return 'Feature ' + (i + 1) + ' has a geometry this map cannot read.';
-        }
-      }
-      return null;
-    }
-    if (o.type === 'Feature') {
-      if (o.geometry !== null && !annGeomOK(o.geometry)) return 'That feature has a geometry this map cannot read.';
-      return null;
-    }
-    return annGeomOK(o) ? null : 'That geometry has no usable coordinates.';
-  }
-
-  function annGeomOK(g) {
-    if (!g || typeof g !== 'object' || typeof g.type !== 'string') return false;
-    if (g.type === 'GeometryCollection') {
-      return Array.isArray(g.geometries) && g.geometries.every(annGeomOK);
-    }
-    if (!Array.isArray(g.coordinates)) return false;
-    var rings = annRings(g);
-    if (!rings.length) return false;
-    // one real coordinate is enough to call it readable; the rest are checked
-    // as they are drawn, and a stray null in a long file should not throw the
-    // whole thing away
-    for (var i = 0; i < rings.length; i++) {
-      var r = rings[i];
-      if (!Array.isArray(r)) return false;
-      for (var j = 0; j < r.length; j++) {
-        var c = r[j];
-        if (Array.isArray(c) && isFinite(c[0]) && isFinite(c[1])
-            && Math.abs(c[0]) <= 720 && Math.abs(c[1]) <= 90) return true;
-      }
-    }
-    return false;
-  }
-
-  function annCountVerts(list) {
-    var n = 0;
-    list.forEach(function (f) {
-      annRings(f.geometry).forEach(function (r) { n += r.length; });
-    });
-    return n;
-  }
-
-  /* Anything GeoJSON can be, as a flat list of features. A bare geometry and
-     a lone Feature are both perfectly legal files and both turn up. */
-  function annToFeatures(o) {
-    if (o.type === 'FeatureCollection') {
-      return o.features.filter(function (f) { return f && f.geometry; });
-    }
-    if (o.type === 'Feature') return [o];
-    return [{ type: 'Feature', geometry: o, properties: {} }];
-  }
-
-  /* Fill in what a foreign file has not got. A layer exported from QGIS has
-     no simplestyle at all, so it would draw in whatever the default is and
-     then save back without style — this gives every feature one, taking a
-     name from whichever of the usual property spellings the file uses. */
-  function annAdopt(list) {
-    var pal = ['#1b1b1b', '#8c2f39', '#1f5c7a', '#5b7d3a', '#7a4a86', '#a8642a'];
-    return list.map(function (f, i) {
-      var p = f.properties && typeof f.properties === 'object' ? f.properties : {};
-      var out = {};
-      Object.keys(p).forEach(function (k) { out[k] = p[k]; });
-      if (!out.title) {
-        out.title = (p.title || p.name || p.NAME || p.Name || p.label || '').toString();
-      }
-      if (out.description === undefined) {
-        out.description = (p.description || p.desc || p.note || '').toString();
-      }
-      var kind = annKindOf({ geometry: f.geometry, properties: out });
-      var colour = out.stroke || out['marker-color'] || pal[i % pal.length];
-      if (!out.stroke) out.stroke = colour;
-      if (out['stroke-width'] === undefined) out['stroke-width'] = 3;
-      if (kind === 'point' || kind === 'event') {
-        if (!out['marker-color']) out['marker-color'] = colour;
-        if (!out['marker-size']) out['marker-size'] = 'medium';
-      }
-      if (kind === 'polygon') {
-        if (!out.fill) out.fill = colour;
-        if (out['fill-opacity'] === undefined) out['fill-opacity'] = 0.28;
-      }
-      return { type: 'Feature', geometry: f.geometry, properties: out };
-    });
-  }
-
-  function annBounds(list) {
-    var b = null;
-    list.forEach(function (f) {
-      annRings(f.geometry).forEach(function (r) {
-        r.forEach(function (c) {
-          if (!Array.isArray(c) || !isFinite(c[0]) || !isFinite(c[1])) return;
-          if (!b) b = { w: c[0], e: c[0], s: c[1], n: c[1] };
-          else {
-            if (c[0] < b.w) b.w = c[0];
-            if (c[0] > b.e) b.e = c[0];
-            if (c[1] < b.s) b.s = c[1];
-            if (c[1] > b.n) b.n = c[1];
-          }
-        });
-      });
-    });
-    return b;
-  }
-
-  function annZoomToExtent() {
-    var b = annBounds(annFeatures);
-    if (!b) return false;
-    // a single point has no extent, so it is given a degree of room rather
-    // than a zero-width box that `viewForBox` would refuse
-    var padLon = Math.max((b.e - b.w) * 0.12, 0.6);
-    var padLat = Math.max((b.n - b.s) * 0.12, 0.6);
-    var v = viewForBox(b.w - padLon, b.s - padLat, b.e + padLon, b.n + padLat);
-    if (!v) return false;
-    view = v;
-    applyView(true);
-    return true;
-  }
-
-  function annLoadText(text, name) {
-    var o;
-    try {
-      o = JSON.parse(text);
-    } catch (err) {
-      var m = /position (\d+)/.exec(String(err.message || ''));
-      annSay('That file is not valid JSON' +
-        (m ? ', and the first thing wrong with it is at character ' + m[1] + '.' : '.') +
-        ' Nothing was loaded.', 'bad');
-      return false;
-    }
-    var bad = annProblem(o);
-    if (bad) { annSay(bad + ' Nothing was loaded.', 'bad'); return false; }
-
-    var list = annToFeatures(o);
-    if (!list.length) { annSay('That file has no features with geometry in it.', 'bad'); return false; }
-    var verts = annCountVerts(list);
-    if (verts > ANN_MAX_VERTS) {
-      annSay('That file has ' + verts.toLocaleString() + ' points in it, past the '
-        + ANN_MAX_VERTS.toLocaleString() + ' this map will draw. Nothing was loaded.', 'bad');
-      return false;
-    }
-    annFeatures = annAdopt(list);
-    annSourceName = (name || '').replace(/\.(geo)?json$/i, '');
-    annSel = annFeatures.length ? 0 : -1;
-    annOpen();
-    annSyncFields();
-    annList();
-    annRedraw();
-    var zoomed = annZoomToExtent();
-    annSay('Loaded ' + annFeatures.length + ' feature' + (annFeatures.length === 1 ? '' : 's')
-      + ' — ' + verts.toLocaleString() + ' point' + (verts === 1 ? '' : 's')
-      + (zoomed ? ', and the map has moved to them.' : '.'));
-    return true;
-  }
-
-  function annLoadFile(file) {
-    if (!file) return;
-    if (file.size > ANN_MAX_BYTES) {
-      annOpen();
-      annSay('That file is ' + Math.round(file.size / 1048576) + ' MB, past the '
-        + Math.round(ANN_MAX_BYTES / 1048576) + ' MB this map will read.', 'bad');
-      return;
-    }
-    var fr = new FileReader();
-    fr.onerror = function () { annOpen(); annSay('That file could not be read.', 'bad'); };
-    fr.onload = function () { annOpen(); annLoadText(String(fr.result), file.name); };
-    fr.readAsText(file);
-  }
-
-  /* -------------------------------------------------------- saving out -- */
-
-  function annCollection() {
+  function annHost() {
     return {
-      type: 'FeatureCollection',
-      // named so that anything reading the file can tell where it came from,
-      // and so that a reader who opens it in a text editor is not puzzled
-      properties: {
-        generator: 'The Japanese Empire in Asia and the Pacific',
-        style: 'simplestyle-spec',
+      svgEl: svgEl,
+      project: function (lon, lat) { return project(lon, lat); },
+      unproject: function (x, y) { return unproject(x, y); },
+      clientToSvg: clientToSvg,
+      svg: function () { return svg; },
+      container: function () { return container; },
+      addScalable: function (entry) { entry.ann = true; scalables.push(entry); },
+      dropScalables: function () {
+        scalables = scalables.filter(function (s) { return !s.ann; });
       },
-      features: annFeatures,
+      rescale: function () { if (lastScaleW > 0) rescale(); },
+      zoomToBox: function (w, s2, e, n) {
+        var v = viewForBox(w, s2, e, n);
+        if (!v) return false;
+        view = v;
+        applyView(true);
+        return true;
+      },
+      /* What the map calls the place under the pointer, so that dropping a
+         mark on Mukden can name it Mukden without the reader typing it. */
+      placeAt: function (cx, cy) {
+        try {
+          var t = document.elementFromPoint(cx, cy);
+          var got = t ? pick(t, cx, cy) : null;
+          if (!got || !got.hit) return '';
+          var prov = got.hit.rec.kind === 'territory' ? provinceAt(got, cx, cy) : null;
+          var rec = (prov && prov.rec) || got.hit.rec;
+          return splitGloss(nameOf(rec)).name || '';
+        } catch (err) { return ''; }
+      },
     };
   }
 
-  function annStamp() {
-    var d = new Date();
-    var p = function (n) { return (n < 10 ? '0' : '') + n; };
-    return d.getFullYear() + p(d.getMonth() + 1) + p(d.getDate())
-      + '-' + p(d.getHours()) + p(d.getMinutes());
-  }
-
-  function annSave() {
-    if (!annFeatures.length) { annSay('There is nothing to save yet.', 'bad'); return; }
-    var name = (annSourceName ? annSourceName + '-' + annStamp() : 'annotations-' + annStamp())
-      + '.geojson';
-    var text = JSON.stringify(annCollection(), null, 1);
-    try {
-      var blob = new Blob([text], { type: 'application/geo+json' });
-      var url = URL.createObjectURL(blob);
-      var a = document.createElement('a');
-      a.href = url;
-      a.download = name;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      window.setTimeout(function () { URL.revokeObjectURL(url); }, 30000);
-      annSay('Saved as ' + name + '.');
-    } catch (err) {
-      annSay('The file could not be written: ' + (err.message || err), 'bad');
+  function annLoad(then) {
+    if (annApi) { if (then) then(annApi); return; }
+    // the single-file build inlines it, and a file:// page cannot fetch a
+    // neighbour, so a module that is already here is simply used
+    if (window.JMAP_ANNOTATE) {
+      annApi = window.JMAP_ANNOTATE(annHost());
+      if (then) then(annApi);
+      return;
     }
-  }
-
-  /* ------------------------------------------------- a link that holds -- */
-
-  function annB64(bytes) {
-    var s = '';
-    for (var i = 0; i < bytes.length; i++) s += String.fromCharCode(bytes[i]);
-    return btoa(s).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
-  }
-
-  function annUnB64(str) {
-    var s = str.replace(/-/g, '+').replace(/_/g, '/');
-    while (s.length % 4) s += '=';
-    var bin = atob(s);
-    var out = new Uint8Array(bin.length);
-    for (var i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
-    return out;
-  }
-
-  /* Deflate where the browser has it, plain where it has not. The prefix says
-     which, so a link made in one browser opens in the other. Compression is
-     worth doing rather than skipping: GeoJSON is mostly punctuation and
-     repeated property names, and deflate takes a typical set of a dozen
-     annotations to about a fifth of its size, which is the difference between
-     a link that fits and one that does not. */
-  function annPack(obj) {
-    var bytes = new TextEncoder().encode(JSON.stringify(obj));
-    if (!window.CompressionStream) return Promise.resolve('p' + annB64(bytes));
-    try {
-      var stream = new Blob([bytes]).stream()
-        .pipeThrough(new CompressionStream('deflate-raw'));
-      return new Response(stream).arrayBuffer().then(function (buf) {
-        return 'z' + annB64(new Uint8Array(buf));
-      });
-    } catch (err) {
-      return Promise.resolve('p' + annB64(bytes));
-    }
-  }
-
-  function annUnpack(code) {
-    var head = code.charAt(0), body = code.slice(1);
-    var bytes;
-    try { bytes = annUnB64(body); } catch (err) { return Promise.reject(new Error('the link is damaged')); }
-    if (head === 'p') return Promise.resolve(new TextDecoder().decode(bytes));
-    if (head !== 'z') return Promise.reject(new Error('the link is in a form this map does not know'));
-    if (!window.DecompressionStream) {
-      return Promise.reject(new Error('this browser cannot read a compressed link'));
-    }
-    var stream = new Blob([bytes]).stream()
-      .pipeThrough(new DecompressionStream('deflate-raw'));
-    return new Response(stream).text();
-  }
-
-  function annCopyLink() {
-    if (!annFeatures.length) { annSay('There is nothing to put in a link yet.', 'bad'); return; }
-    annPack(annCollection()).then(function (code) {
-      if (code.length > ANN_URL_MAX) {
-        annSay('These annotations come to ' + code.length.toLocaleString()
-          + ' characters compressed, past the ' + ANN_URL_MAX.toLocaleString()
-          + ' a link can carry. Save the file and send that instead.', 'bad');
-        return;
-      }
-      var base = window.location.origin + window.location.pathname;
-      var q = [];
-      new URLSearchParams(window.location.search).forEach(function (v, k) {
-        if (k !== 'ann') q.push(encodeURIComponent(k) + '=' + encodeURIComponent(v));
-      });
-      q.push('ann=' + code);
-      var url = base + '?' + q.join('&');
-      var done = function () {
-        annSay('Link copied — ' + url.length.toLocaleString() + ' characters. '
-          + 'Anyone who opens it sees these annotations.');
-      };
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(url).then(done, function () { annPrompt(url); });
-      } else {
-        annPrompt(url);
-      }
-    }, function (err) {
-      annSay('The link could not be made: ' + (err.message || err), 'bad');
-    });
-  }
-
-  function annPrompt(url) {
-    // clipboard refused, which it is entitled to do without a gesture it
-    // recognises: show the address instead of losing it
-    window.prompt('Copy this link:', url);
-    annSay('Link ready — ' + url.length.toLocaleString() + ' characters.');
-  }
-
-  function annFromUrl(code) {
-    annUnpack(code).then(function (text) {
-      annOpen();
-      annLoadText(text, 'shared');
-    }, function (err) {
-      annOpen();
-      annSay('That shared link could not be read: ' + (err.message || err) + '.', 'bad');
-    });
-  }
-
-  /* --------------------------------------------------------- the panel -- */
-
-  function annOpen() {
-    annOn = true;
-    if (annPanel) annPanel.hidden = false;
-    var stage = document.getElementById('stage');
-    if (stage) stage.classList.add('annotating');
-    annRedraw();
-    annList();
-    annSyncFields();
-  }
-
-  function annClose() {
-    annOn = false;
-    annSetTool(null);
-    if (annPanel) annPanel.hidden = true;
-    var stage = document.getElementById('stage');
-    if (stage) stage.classList.remove('annotating');
-    if (container) container.classList.remove('ann-drawing');
-    annRedraw();
+    if (annLoading) { annLoading.push(then); return; }
+    annLoading = [then];
+    var done = function (ok) {
+      var queue = annLoading;
+      annLoading = null;
+      queue.forEach(function (f) { if (f) f(ok ? annApi : null); });
+    };
+    var el = document.createElement('script');
+    el.src = 'annotate.js';
+    el.onload = function () {
+      if (!window.JMAP_ANNOTATE) { done(false); return; }
+      annApi = window.JMAP_ANNOTATE(annHost());
+      done(true);
+    };
+    el.onerror = function () {
+      done(false);
+      window.alert('The annotation tools could not be loaded. '
+        + 'They are in annotate.js, which has to sit beside index.html.');
+    };
+    document.head.appendChild(el);
   }
 
   function annWire() {
-    annPanel = annEl('annotate');
-    annMsgEl = annEl('ann-msg');
-    annListEl = annEl('ann-list');
-    annHintEl = annEl('ann-hint');
-    annDrawEl = annPanel ? annPanel.querySelector('.ann-drawing') : null;
-    if (!annPanel) return;
-
-    var create = annEl('ann-create'), load = annEl('ann-load'), file = annEl('ann-file');
+    var create = $('#ann-create'), load = $('#ann-load'), file = $('#ann-file');
+    var shut = function () {
+      var dlg = $('#dlg-options');
+      if (dlg && dlg.close && dlg.open) dlg.close();
+    };
     if (create) create.addEventListener('click', function () {
-      annOpen();
-      var dlg = annEl('dlg-options');
-      if (dlg && dlg.close) dlg.close();
-      annSay(annFeatures.length ? '' : 'Pick a tool and click the map.');
+      shut();
+      annLoad(function (api) { if (api) api.open(); });
     });
     if (load && file) {
-      load.addEventListener('click', function () { file.value = ''; file.click(); });
+      load.addEventListener('click', function () {
+        file.value = '';
+        file.removeAttribute('data-merge');
+        file.click();
+      });
       file.addEventListener('change', function () {
-        var dlg = annEl('dlg-options');
-        if (dlg && dlg.close) dlg.close();
-        annLoadFile(file.files && file.files[0]);
+        var merge = file.hasAttribute('data-merge');
+        file.removeAttribute('data-merge');
+        var chosen = file.files && file.files[0];
+        if (!chosen) return;
+        shut();
+        annLoad(function (api) {
+          if (!api) return;
+          api.open();
+          api.loadFile(chosen, merge);
+        });
       });
     }
-    var close = annEl('ann-close');
-    if (close) close.addEventListener('click', annClose);
-
-    $$('.ann-tool').forEach(function (b) {
-      b.addEventListener('click', function () { annSetTool(b.getAttribute('data-tool')); });
-    });
-    var fin = annEl('ann-finish'), undo = annEl('ann-undo'), cancel = annEl('ann-cancel');
-    if (fin) fin.addEventListener('click', annFinish);
-    if (undo) undo.addEventListener('click', function () {
-      if (!annDraft) return;
-      annDraft.pts.pop();
-      if (!annDraft.pts.length) annCancelDraft(); else annRedraw();
-    });
-    if (cancel) cancel.addEventListener('click', annCancelDraft);
-
-    ['ann-title', 'ann-desc'].forEach(function (id) {
-      var el = annEl(id);
-      if (el) el.addEventListener('input', annFieldChanged);
-    });
-    ['ann-colour', 'ann-size', 'ann-fill'].forEach(function (id) {
-      var el = annEl(id);
-      if (el) el.addEventListener('input', annStyleChanged);
-    });
-
-    var save = annEl('ann-save'), link = annEl('ann-link'), clear = annEl('ann-clear');
-    if (save) save.addEventListener('click', annSave);
-    if (link) link.addEventListener('click', annCopyLink);
-    if (clear) clear.addEventListener('click', function () {
-      if (!annFeatures.length) return;
-      if (!window.confirm('Remove all ' + annFeatures.length + ' annotations? '
-          + 'This cannot be undone, and anything unsaved is lost.')) return;
-      annFeatures = [];
-      annSel = -1;
-      annSourceName = '';
-      annCancelDraft();
-      annSyncFields();
-      annList();
-      annRedraw();
-      annSay('Cleared.');
-    });
-
-    document.addEventListener('keydown', function (e) {
-      if (!annOn || !annDraft) return;
-      var t = e.target;
-      if (t && /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName)) return;
-      if (e.key === 'Enter') { e.preventDefault(); annFinish(); }
-      if (e.key === 'Escape') { e.preventDefault(); annCancelDraft(); }
-    });
-
-    annList();
-    annSyncFields();
-
+    // a shared set in the address opens itself
     var code = null;
-    try { code = new URLSearchParams(window.location.search).get('ann'); } catch (err) { code = null; }
-    if (code) annFromUrl(code);
+    try { code = new URLSearchParams(window.location.search).get('ann'); }
+    catch (err) { code = null; }
+    if (code) annLoad(function (api) { if (api) api.fromUrl(code); });
   }
+
 }());

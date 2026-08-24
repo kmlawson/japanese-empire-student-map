@@ -5664,6 +5664,121 @@ not they ever draw anything. No new file to upload, so `UPLOAD.md` and
 
 ---
 
+## Annotations, second pass: out of the payload, and much deeper
+
+Six things asked for. All six done, and the testing found things reading would
+not have.
+
+### What a reader who never draws now pays
+
+`annotate.js`, fetched the first time somebody presses one of the two buttons
+or opens a link carrying a set. The panel's markup and its stylesheet went with
+it — the file builds its own DOM and injects its own `<style>` — so `map.js`,
+`styles.css` and `index.html` all shrank.
+
+| | first load, gzipped |
+| --- | ---: |
+| before annotations existed | 108,849 |
+| annotations inside `map.js` | 119,985 |
+| **now, split out** | **110,874** |
+
+**2 KB above where the map was before the feature existed**, against 11 KB when
+it all sat in `map.js`. What is left in the base is the loader, the two buttons
+and their rules. `annotate.js` is 17.8 KB gzipped and arrives only when asked
+for. The single-file build inlines it instead, because a page opened from the
+file system cannot fetch a neighbour — checked from `file://`: 84 atoms, the
+panel opens, a mark can be placed, and **no request is made at all**.
+
+### Copy link, and what was actually wrong
+
+Reported as not working properly. It works on Chrome and it works on the live
+site — measured end to end against GitHub Pages: a link of 483 characters,
+opened in a clean browser, two marks, both names. What was wrong is
+**Safari**, and the shape of the bug is worth recording.
+
+Deflating is asynchronous. A clipboard write that happens after an `await` is
+outside the click that caused it: Safari refuses it outright, and the old code
+then fell to `window.prompt` — a dialog nobody asked for, which some browsers
+suppress and which, when I first ran the live test, hung the test runner for
+two minutes. That hang was the evidence.
+
+So the set is now **packed before the button is pressed**, on a timer after
+every change, and the press does nothing but read a string that is already
+there: synchronous, inside the gesture, allowed everywhere. `window.prompt` is
+gone; when a clipboard write is refused the link appears in a field in the
+panel, selected and ready. Tested by making `writeText` reject as Safari does:
+the field appears, holds a working URL, and no dialog is raised.
+
+### A shared link opens folded
+
+`fromUrl` opens the panel folded and says so: *"These annotations came with the
+link. Open the panel above to add to them or save them."* The head keeps a
+count — "1 mark" — so a folded panel still says what it holds, and an error
+message unfolds it, because a message a folded panel cannot show is a message
+nobody reads.
+
+### What the editor can do now
+
+* **Names on the map.** A name typed in the panel is written beside its mark,
+  with a switch to take them off. Without this a reader types into a list and
+  looks at anonymous dots.
+* **Measurement.** A line in kilometres, an area in square kilometres, a point
+  as a coordinate — in the list and under the fields. The area is the
+  **spherical excess**, not a planar shoelace: on a map whose whole argument is
+  that Mercator lies about area, calling a shape in Hokkaido a third smaller
+  than the same shape on the equator would be a poor thing to do in its own
+  annotations.
+* **Dragging.** A mark can be moved and a shape reshaped by its corners, which
+  is the difference between a drawing tool and a stamp. It only takes the
+  pointer when the press landed on a mark and no tool is armed, or repositioning
+  and panning would be one gesture with two meanings.
+* **Undo**, 40 deep, on the button and on `Ctrl`/`⌘ Z`; `Delete` removes the
+  selection; `Escape` cancels a shape and then puts the tool away.
+* **The place names the mark.** A point dropped on China comes up called China.
+  On a map like this one that is most of the typing a reader would do.
+* **Four marker shapes**, dashed lines, and the style controls follow the
+  selection — so pressing a colour after clicking a mark changes *that* mark.
+* **Add file…** merges rather than replacing, for building a set from several.
+* **Fit** and a per-row **⌖** to move the map to everything, or to one thing.
+* **It survives a reload.** The set is kept in the browser and offered back on
+  return; declining clears it rather than asking again.
+
+### The interface, at four sizes and with a finger
+
+The panel floated in the top-left corner. On a 390-pixel phone that was **34%
+of the screen and half the map's width**, and it stood on the legend, which had
+to be hidden to make room. It docks to the foot of the screen below the rail's
+breakpoint now — the map is whole above it, the tools are under the thumb, and
+the legend stays. And **while a tool is armed it collapses to the tools alone**:
+46% of the height becomes 14%, so a reader drawing on a phone has 86% of the
+screen to draw on.
+
+### 120 checks, in `tools/test/annotations/`
+
+Kept in the repository rather than thrown away, since this will be touched
+again. Four scripts: tools and styling and undo and dragging; files and saving
+and the link; the store, the map, the projections and touch; and the panel at
+390, 768, 1100 and 1600 pixels. Every one passes.
+
+Three things the tests taught, all recorded in the suite's own README:
+
+*One browser cannot run them all.* Forty pages over a hundred checks slows a
+headless browser until `Runtime.callFunctionOn` times out. `run4` opens a fresh
+browser per screen size, because a viewport change on a used page is not the
+same thing as a page that opened at that size.
+
+*`page.evaluate` ships one function and nothing else.* A helper defined beside
+it is not in the page and throws `ReferenceError` there. The spot-finder had to
+be made self-contained.
+
+*Three of the failures were the tests, not the code* — an assertion that
+indexed a promise, an obsolete "the legend stands down" check left over from
+the layout the bottom sheet replaced, and a spot-finder that gave up on a small
+screen. Worth saying plainly, because a suite that is wrong in a way that
+matches the code is worse than no suite.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

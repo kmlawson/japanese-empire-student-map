@@ -1,6 +1,6 @@
 # What to upload
 
-Ten files. Nothing else in this repository is used at runtime — `texts/`,
+Eleven files. Nothing else in this repository is used at runtime — `texts/`,
 `tools/`, `data/` and `occupation-maps/` are how the map is *made*, and
 uploading them costs bandwidth and gives a reader nothing.
 
@@ -22,11 +22,13 @@ to configure.
 | `japan-empire-map-fine.svg` | 635 KB | 128 KB | on a deep zoom, for the fine coastlines |
 | `japan-empire-map-roc.svg` | 698 KB | 243 KB | if the reader switches China's province source |
 | `sources.html` | 48 KB | 18 KB | from the link in About |
-| **total** | **6.1 MB** | **1.8 MB** | |
+| `annotate.js` | 61 KB | 17 KB | when **Create** or **Load annotations** is pressed |
+| **total** | **6.2 MB** | **1.8 MB** | |
 
 Only the first six are fetched before the map is on screen: **3.7 MB raw,
-1.08 MB gzipped**. The other four wait until something asks for them, and a
-reader who never presses Administrative never downloads it.
+1.08 MB gzipped**. The other five wait until something asks for them, and a
+reader who never presses Administrative — or never draws on the map — never
+downloads those.
 
 ## Two optional extras
 
