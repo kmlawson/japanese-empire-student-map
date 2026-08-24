@@ -42,8 +42,8 @@ data/gazetteer/places-*.geojson
 # else's site kept while looking at how they model historical boundaries;
 # whg.tmp is a zero-byte leftover; deletion-tests holds a copy of a superseded
 # occupied-zone file kept while testing what the removal tool did to it.
-rr.html
-whg.tmp
+stale/rr.html
+stale/whg.tmp
 tools/cache/deletion-tests/
 
 # The texts editor: a local tool for browsing and editing everything under

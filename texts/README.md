@@ -11,13 +11,13 @@ python3 tools/build_texts.py
 ```
 
 which writes the generated half of `data.js`, the About dialog inside
-`index.html`, `sources.html`, and `SOURCES.md`. `tools/build_map.py` does not
+`index.html`, `sources.html`, and `docs/SOURCES.md`. `tools/build_map.py` does not
 need to run again — no shapes are involved — but `tools/bundle.py` does if you
 want the standalone file to match.
 
 Before this folder existed all of it lived in `data.js`, a 2,500-line file of
 JavaScript object literals, and the same facts were written twice more by hand
-in `sources.html` and `SOURCES.md`. Three copies of the sources list had already
+in `sources.html` and `docs/SOURCES.md`. Three copies of the sources list had already
 drifted apart, and two records had quietly swallowed each other (see *What the
 move turned up*, below).
 
@@ -75,7 +75,7 @@ they *are* rendered, by `tools/md.py`, into the HTML those two places expect.
 | `sites/sites.csv` + `.md` | the cities, ports, battles and incidents |
 | `sites/overrides-1930.csv` + `.md` | what a city was in 1930, where that differs |
 | `pages/about.md` | the About dialog |
-| `pages/sources.md` | the Sources page, and `SOURCES.md` at the root |
+| `pages/sources.md` | the Sources page, and `docs/SOURCES.md` |
 
 The sub-units are split into 27 group files rather than one sheet of 485 rows —
 `korea.csv`, `siam.csv`, `manchukuo.csv`, `aleutians.csv`, and so on — because

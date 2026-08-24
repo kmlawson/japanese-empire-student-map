@@ -45,7 +45,7 @@ country that size earns — 0.55 units, three kilometres — the drawn shape lay
 over 390 km² of one and 585 of the other. The clipping was undone as fast as it
 had been done.
 
-## Record what changed in tasks.md before marking it done
+## Record what changed in docs/tasks.md before marking it done
 
 An entry says what was actually changed and what was measured, not what was
 intended. Where something is unverified, say so in the entry.

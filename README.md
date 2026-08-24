@@ -89,7 +89,7 @@ refuse to let a `file://` page read the neighbouring SVG. For that case there is
 a single-file build with everything inlined:
 
 ```sh
-python3 tools/bundle.py     # writes japan-empire-map-standalone.html
+python3 tools/bundle.py     # writes stale/japan-empire-map-standalone.html
 ```
 
 That file opens by double-clicking and can be emailed or copied to a memory
@@ -101,7 +101,7 @@ Every word the map shows — names, dates, notes, legend labels, the About and
 Sources pages — lives in `texts/` as CSV and Markdown. Edit there and run:
 
 ```sh
-python3 tools/build_texts.py   # writes data.js, index.html's About, sources.html, SOURCES.md
+python3 tools/build_texts.py   # writes data.js, index.html's About, sources.html, docs/SOURCES.md
 ```
 
 `texts/README.md` says how that folder is arranged and what each column holds.
@@ -123,10 +123,10 @@ script — `tools/build_map.py` — and neither needs the other to run.
 | `japan-empire-map-roc.svg` | the alternative Chinese provinces, fetched only if chosen in Layers |
 | `admin.js` | a panel of tools for working on the map, fetched only when Layers is option-clicked; no reader ever loads it |
 | `sources.html` | the Sources page, linked from About — generated from `texts/pages/sources.md` |
-| `SOURCES.md` | the same page as a plain file: every data source, licence, and what was done to it — also generated |
-| `tasks.md` | what has been fixed and how, and what is still open |
+| `docs/SOURCES.md` | the same page as a plain file: every data source, licence, and what was done to it — also generated |
+| `docs/tasks.md` | what has been fixed and how, and what is still open |
 | `tools/build_map.py` | regenerates the base map from the source data |
-| `tools/build_texts.py` | folds `texts/` into `data.js`, `index.html`, `sources.html` and `SOURCES.md` |
+| `tools/build_texts.py` | folds `texts/` into `data.js`, `index.html`, `sources.html` and `docs/SOURCES.md` |
 | `tools/texts_lib.py`, `tools/md.py` | the CSV/Markdown readers, and just enough Markdown for the two prose pages |
 | `tools/shapefile.py` | a small stdlib-only shapefile reader used by the build |
 | `tools/bundle.py` | builds the single-file version |
@@ -174,7 +174,7 @@ inside them as you zoom in.
 
 ## A caution about borders
 
-**[SOURCES.md](SOURCES.md) says how good each boundary is.** Karafuto is exact,
+**[SOURCES.md](docs/SOURCES.md) says how good each boundary is.** Karafuto is exact,
 being a parallel. Manchukuo and Mengchiang are traced from period sheets;
 Jehol and the Kwantung lease line are real historical boundaries. The area of
 Japanese-controlled China is traced from a period map of the occupation rather
@@ -190,14 +190,14 @@ For close work, use a proper historical atlas.
 
 ## Credits
 
-See **[SOURCES.md](SOURCES.md)** for the full list of data sources, licences,
+See **[SOURCES.md](docs/SOURCES.md)** for the full list of data sources, licences,
 and the reading behind the place list and the notes.
 
 Built with Anthropic's Claude, with Konrad Lawson at the prompt.
 
 ## Putting it on a server
 
-It is eleven static files and about 6 MB. See **[DEPLOY.md](DEPLOY.md)** for
+It is eleven static files and about 6 MB. See **[DEPLOY.md](docs/DEPLOY.md)** for
 the list, a sparse shallow checkout that pulls 8 MB instead of 420 and can be
 updated with one `git pull`, and the one `.htaccess` worth adding.
 
@@ -206,5 +206,5 @@ updated with one `git pull`, and the one `.htaccess` worth adding.
 The work done here — the code, the texts and the georeferencing — is public
 domain under CC0. No copyright is claimed over any of the map sources, which
 keep their own terms; attribution for the georeferencing is asked for but not
-required. See [LICENSE.md](LICENSE.md), and `SOURCES.md` for every source with
+required. See [LICENSE.md](LICENSE.md), and `docs/SOURCES.md` for every source with
 its licence.

@@ -5001,6 +5001,96 @@ and the reason both are offered rather than one being called correct.
 
 ---
 
+## Selection under the alternative projections, and a share link that was wrong
+
+**What was reported:** selection and mouseover of Korean provinces and Indian
+princely states "a bit wonky" once an equal-area projection was on.
+
+**Measured, and hit-testing is not the fault.** Administrative on, zoomed to
+each region, an interior point of every sub-unit found with `isPointInFill` and
+hovered, comparing what the map names against `document.elementFromPoint` — the
+browser's own hit test on the geometry as rendered:
+
+| | Mercator | Albers | LAEA |
+| --- | ---: | ---: | ---: |
+| Korea, 14 provinces | 1 | 1 | 1 |
+| princely states, 23 | 5 | 1 | 5 |
+
+In every Korean case the map's answer and the browser's were **the same**, so
+the map is faithful to what is drawn; those are the sampling artefact of a
+neighbour painted over that pixel. The five princely states are the same five
+in Mercator as in LAEA — Chitral/Dir/Swat, Khairpur, Rajputana, Baluchistan and
+Waziristan, every one of them on the north-west frontier — and they are
+`clip-off-frontier` doing its job, which `isPointInFill` cannot see because it
+ignores clipping. Pre-existing, identical across projections, not a fault here.
+
+**What was actually broken was `viewForBox`, and it was mine.** It read a box
+of longitude and latitude with `xForLon(w)` and `project(0, n)` — x from
+longitude alone, y taken at the Greenwich meridian — which is true of the
+Mercator cylinder and of nothing else. `viewBox()` *writes* a share link
+correctly in any projection, because it goes out through `unproject`; reading
+one back put the reader somewhere else. A Korean view, written in LAEA as
+`107.38,72.54,131.39,79.66`, came back at **72 to 79 degrees north**. That is
+what the reported wonkiness almost certainly was: the map was not mis-naming
+provinces, it was in the wrong place.
+
+The Mercator branch is kept exactly as it was, so no existing link moves. The
+other two walk the four edges of the box in 24 steps and take the extremes,
+because a parallel bows and a meridian leans and the corners no longer bound
+the shape. Round-tripped — write a link, reload it, compare:
+
+| | before | after |
+| --- | --- | --- |
+| Mercator | 0.00 deg | 0.00 deg |
+| Albers | *(nonsense)* | 1.72 deg |
+| LAEA | 39 deg of latitude | 1.46 deg |
+
+The remaining degree and a half is inherent and not an error: the link records
+the bounding box of a curved view, so reading it back fits a view that contains
+that whole box, which is very slightly wider. It is centred correctly.
+
+**One projection-linked effect left, unfixed and reported rather than assumed
+away.** At the opening zoom Albers fits the sheet 3,052 units wide against
+Mercator's 2,800, so the map is drawn about 8% smaller while the target circles
+that make a tiny country reachable stay a constant 10.4 px. Kwantung's six
+targets then reach across the Yellow Sea. Of 14 Korean provinces sampled at the
+opening view, **3 answered something else in Mercator and 6 in Albers**. It is
+a reachability trade that already existed and that the smaller fit makes worse;
+changing it means touching `pick()`, which is the Labuan code, so it is left
+alone until it is asked for.
+
+**Also cleared, and unrelated to the projections:** `tools/bundle.py` matched
+the sources link in `index.html` by an exact copy of its sentence, and that
+sentence is prose spliced out of `texts/pages/about.md`. It had been rewritten,
+so the standalone build had been failing since 22 August with `bundle: could
+not find the sources link`. It matches on `href="sources.html"` now and keeps
+whatever words are around it. Rebuilt: 5,607 KB, 84 atoms, sources folded in,
+no console errors.
+
+---
+
+## The root holds what gets uploaded, and nothing else
+
+Asked for: everything not deployed moved out of the root.
+
+`stale/` — `rr.html`, `whg.tmp`, `recommendations.md`, `tasks-done.md`, and
+`japan-empire-map-standalone.html`, which is a build output rather than part of
+the site and which `DEPLOY.md` already described as going stale.
+
+`docs/` — `DEPLOY.md`, `UPLOAD.md`, `SOURCES.md` and this file.
+
+Left at the root: the ten runtime files, `.htaccess`, `admin.js`, and
+`README.md`, `LICENSE.md` and `CLAUDE.md`, which belong there by convention.
+
+Two tools write into what moved and were repointed: `build_texts.py` now writes
+`docs/SOURCES.md`, `bundle.py` now writes `stale/`. Links were fixed in
+`README.md`, `LICENSE.md`, `CLAUDE.md`, `texts/README.md`,
+`texts/admin/README.md`, `texts/pages/sources.md` and `docs/UPLOAD.md`.
+`reports/` and the body of this file were left alone: they are a record of what
+was true when they were written, not a set of live paths.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

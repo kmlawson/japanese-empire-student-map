@@ -1,7 +1,7 @@
 <!-- texts/pages/sources.md — the Sources page.
 
      One file, two destinations: it is spliced into sources.html between the
-     BEGIN/END markers, and written out whole as SOURCES.md at the root of the
+     BEGIN/END markers, and written out whole as docs/SOURCES.md in the
      repository. Both used to be kept by hand and had drifted apart — the page
      had the AMS sheets, the princely-states gazetteer, the base areas and the
      New Guinea corrections; the Markdown file had the confidence table, the

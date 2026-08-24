@@ -72,10 +72,10 @@ divisions, 127 city markers.
 python3 tools/bundle.py
 ```
 
-writes `japan-empire-map-standalone.html`, which inlines the base map and needs
+writes `stale/japan-empire-map-standalone.html`, which inlines the base map and needs
 nothing beside it. It is a single large download with no deferred layers, so it
 is slower to first paint and heavier for a reader who only wants a look — but
 it is one file, and it works from a memory stick or an email attachment.
 
-`DEPLOY.md` has the rest: URLs, caching headers, and putting it behind a
+`DEPLOY.md`, beside it, has the rest: URLs, caching headers, and putting it behind a
 subdirectory.

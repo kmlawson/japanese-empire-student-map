@@ -84,6 +84,8 @@
     // are sixty-three lines of context under the Raj, which is a different
     // kind of thing and should not arrive with them.
     indiaRivers: false,
+    // the mesh of meridians and parallels; off by default
+    graticule: false,
     // 'mercator' or 'laea'. The file is drawn in the first; the second is
     // worked out in the browser, Mercator being exactly invertible. See the
     // projection block for what each is good and bad at.
@@ -165,7 +167,8 @@
       if (typeof saved.hairline === 'boolean') state.hairline = saved.hairline;
       if (typeof saved.backs === 'boolean') state.backs = saved.backs;
       if (typeof saved.indiaRivers === 'boolean') state.indiaRivers = saved.indiaRivers;
-      if (saved.projection === 'laea' || saved.projection === 'mercator') {
+      if (typeof saved.graticule === 'boolean') state.graticule = saved.graticule;
+      if (['mercator', 'albers', 'laea'].indexOf(saved.projection) >= 0) {
         state.projection = saved.projection;
       }
       if (typeof saved.ccp === 'boolean') state.ccp = saved.ccp;
@@ -183,7 +186,7 @@
         cats: state.cats, labels: state.labels, extent: state.extent,
         rivers: state.rivers, legend: state.legend, hairline: state.hairline,
         backs: state.backs, indiaRivers: state.indiaRivers,
-        projection: state.projection,
+        projection: state.projection, graticule: state.graticule,
         occSource: state.occSource, ccp: state.ccp,
       }));
     } catch (err) { /* private browsing; not worth complaining about */ }
@@ -712,9 +715,36 @@
      The middle of the subject is drawn well and the edges pay for it, which is
      the opposite trade from Mercator and the reason both are offered rather
      than one being declared correct. */
-  var LAEA = { lon0: 135, lat0: 20 };
+  /* Three projections, one of which is how the file was drawn.
+
+     `mercator` is the sheet as built: shapes right, north straight up, and
+     area wrong by sec squared of the latitude — 1 at the equator, 2.0 at 45N,
+     3.0 at the top of this frame, so Karafuto and the Soviet Far East come out
+     two to three times the size of Java and the mandate.
+
+     `albers` is an equal-area conic on 117.5E with standard parallels at 12.5N
+     and 37.5N. A conic is the usual answer for a mid-latitude region and it is
+     honest about area along those two parallels; what it is not built for is
+     140 degrees of longitude, which is what this frame has. The cone constant
+     is 0.41, so the meridians fan by about 21 degrees at the western edge and
+     36 at the eastern, and the far Pacific swings round noticeably. That is
+     the projection behaving correctly rather than a fault, and it is worth
+     being able to see.
+
+     `laea` is Lambert azimuthal equal area on 25N 115E. Azimuthal suits a
+     region about as tall as it is wide, and this centre sits over the South
+     China Sea, which puts the middle of the subject where the distortion is
+     least: shape error grows with distance from the centre, so the Indies and
+     the China coast are drawn well and the Aleutians and the far Pacific pay
+     for it. */
+  var PROJ_DEFS = {
+    albers: { lon0: 117.5, lat1: 12.5, lat2: 37.5, lat0: 25 },
+    laea: { lon0: 115, lat0: 25 },
+  };
   var projMode = 'mercator';
-  var laeaFit = null;                    // scale and offset, worked out once
+  var projFits = {};                     // scale and offset per projection
+
+  var RAD = Math.PI / 180;
 
   function mercFwd(lon, lat) {
     var l = lon < proj.lonMin ? lon + 360 : lon;
@@ -733,10 +763,11 @@
     };
   }
 
+  /* --- the two equal-area projections, in their own units, y north-up ---- */
+
   function laeaRaw(lon, lat) {
-    var lam = (lon - LAEA.lon0) * Math.PI / 180;
-    var phi = lat * Math.PI / 180;
-    var p1 = LAEA.lat0 * Math.PI / 180;
+    var d0 = PROJ_DEFS.laea;
+    var lam = (lon - d0.lon0) * RAD, phi = lat * RAD, p1 = d0.lat0 * RAD;
     var d = 1 + Math.sin(p1) * Math.sin(phi)
               + Math.cos(p1) * Math.cos(phi) * Math.cos(lam);
     if (d <= 1e-9) return null;          // the antipode; nothing here reaches it
@@ -747,17 +778,68 @@
     };
   }
 
+  function laeaRawInv(x, y) {
+    var d0 = PROJ_DEFS.laea, p1 = d0.lat0 * RAD;
+    var rho = Math.hypot(x, y);
+    if (rho < 1e-9) return { lon: d0.lon0, lat: d0.lat0 };
+    var c = 2 * Math.asin(Math.min(1, rho / (2 * proj.R)));
+    return {
+      lat: Math.asin(Math.cos(c) * Math.sin(p1) + y * Math.sin(c) * Math.cos(p1) / rho) / RAD,
+      lon: d0.lon0 + Math.atan2(x * Math.sin(c),
+        rho * Math.cos(c) * Math.cos(p1) - y * Math.sin(c) * Math.sin(p1)) / RAD,
+    };
+  }
+
+  var _alb = null;
+  function albersConst() {
+    if (_alb) return _alb;
+    var d0 = PROJ_DEFS.albers;
+    var p1 = d0.lat1 * RAD, p2 = d0.lat2 * RAD, p0 = d0.lat0 * RAD;
+    var n = (Math.sin(p1) + Math.sin(p2)) / 2;
+    var C = Math.cos(p1) * Math.cos(p1) + 2 * n * Math.sin(p1);
+    _alb = { n: n, C: C, rho0: proj.R * Math.sqrt(Math.max(0, C - 2 * n * Math.sin(p0))) / n };
+    return _alb;
+  }
+
+  function albersRaw(lon, lat) {
+    var a = albersConst(), d0 = PROJ_DEFS.albers;
+    var q = a.C - 2 * a.n * Math.sin(lat * RAD);
+    if (q < 0) return null;                       // beyond the cone's limit
+    var rho = proj.R * Math.sqrt(q) / a.n;
+    var th = a.n * (lon - d0.lon0) * RAD;
+    return { x: rho * Math.sin(th), y: a.rho0 - rho * Math.cos(th) };
+  }
+
+  function albersRawInv(x, y) {
+    var a = albersConst(), d0 = PROJ_DEFS.albers;
+    var dy = a.rho0 - y;
+    var rho = Math.hypot(x, dy) * (a.n < 0 ? -1 : 1);
+    var th = Math.atan2(x, dy);
+    var q = (a.C - rho * rho * a.n * a.n / (proj.R * proj.R)) / (2 * a.n);
+    return {
+      lat: Math.asin(Math.max(-1, Math.min(1, q))) / RAD,
+      lon: d0.lon0 + th / a.n / RAD,
+    };
+  }
+
+  function rawFwd(mode, lon, lat) {
+    return mode === 'albers' ? albersRaw(lon, lat) : laeaRaw(lon, lat);
+  }
+  function rawInv(mode, x, y) {
+    return mode === 'albers' ? albersRawInv(x, y) : laeaRawInv(x, y);
+  }
+
   /* The offset that puts the whole frame in positive coordinates with y down,
      measured off the frame itself rather than guessed. */
-  function laeaFitting() {
-    if (laeaFit) return laeaFit;
-    var lonMax = proj.lonMin + mapW / proj.pxPerDeg;
-    var latMin = (Math.atan(Math.exp((proj.yTop - mapH) / proj.R)) - Math.PI / 4) * 360 / Math.PI;
+  function fitOf(mode) {
+    if (projFits[mode]) return projFits[mode];
+    var lonMax = proj.lonMin + mapW0 / proj.pxPerDeg;
+    var latMin = (Math.atan(Math.exp((proj.yTop - mapH0) / proj.R)) - Math.PI / 4) * 360 / Math.PI;
     var x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
-    for (var i = 0; i <= 80; i++) {
-      for (var j = 0; j <= 60; j++) {
-        var q = laeaRaw(proj.lonMin + (lonMax - proj.lonMin) * i / 80,
-                        latMin + (proj.latMax - latMin) * j / 60);
+    for (var i = 0; i <= 100; i++) {
+      for (var j = 0; j <= 80; j++) {
+        var q = rawFwd(mode, proj.lonMin + (lonMax - proj.lonMin) * i / 100,
+                             latMin + (proj.latMax - latMin) * j / 80);
         if (!q) continue;
         if (q.x < x0) x0 = q.x;
         if (q.x > x1) x1 = q.x;
@@ -765,19 +847,16 @@
         if (q.y > y1) y1 = q.y;
       }
     }
-    laeaFit = { dx: -x0, dy: y1, w: x1 - x0, h: y1 - y0 };
-    return laeaFit;
-  }
-
-  function laeaFwd(lon, lat) {
-    var q = laeaRaw(lon, lat);
-    var f = laeaFitting();
-    if (!q) return { x: 0, y: 0 };
-    return { x: q.x + f.dx, y: f.dy - q.y };
+    projFits[mode] = { dx: -x0, dy: y1, w: x1 - x0, h: y1 - y0 };
+    return projFits[mode];
   }
 
   function project(lon, lat) {
-    return projMode === 'laea' ? laeaFwd(lon, lat) : mercFwd(lon, lat);
+    if (projMode === 'mercator') return mercFwd(lon, lat);
+    var q = rawFwd(projMode, lon, lat);
+    var f = fitOf(projMode);
+    if (!q) return { x: 0, y: 0 };
+    return { x: q.x + f.dx, y: f.dy - q.y };
   }
 
   /* Every coordinate in the document, moved. The original is kept on the
@@ -926,6 +1005,71 @@
     }
   }
 
+  /* The graticule. It earns its place here more than on most maps: with three
+     projections on offer, the meridians and parallels are what shows the
+     reader *what the projection is doing* — straight and square in Mercator,
+     fanned in the conic, curved round a centre in the azimuthal. It is also
+     the honest way to show Mercator's area stretch, which is otherwise
+     invisible: the ten-degree bands get taller towards the top of the sheet.
+
+     The spacing follows the zoom, so the mesh stays about the same density on
+     screen rather than becoming a fog when you go in. Lines are drawn as
+     polylines through `project`, a point every degree, so they bend correctly
+     in whatever is on. */
+  var gratGroup = null;
+  var GRAT_STEPS = [30, 20, 10, 5, 2, 1];
+
+  function graticuleStep() {
+    var span = view.w / proj.pxPerDeg;          // degrees of longitude on screen
+    for (var i = 0; i < GRAT_STEPS.length; i++) {
+      if (span / GRAT_STEPS[i] >= 4) return GRAT_STEPS[i];
+    }
+    return GRAT_STEPS[GRAT_STEPS.length - 1];
+  }
+
+  function drawGraticule() {
+    if (!svg) return;
+    if (!gratGroup) {
+      gratGroup = svgEl('g', { id: 'graticule' });
+      // under the land, over the sea: a grid drawn on top of the countries
+      // reads as a cage rather than as a frame of reference
+      var land = svg.querySelector('#land');
+      if (land) svg.insertBefore(gratGroup, land); else svg.appendChild(gratGroup);
+    }
+    gratGroup.style.display = state.graticule ? '' : 'none';
+    if (!state.graticule) return;
+
+    var step = graticuleStep();
+    if (gratGroup.__step === step && gratGroup.__mode === projMode) return;
+    gratGroup.__step = step;
+    gratGroup.__mode = projMode;
+    gratGroup.innerHTML = '';
+
+    var lonMax = proj.lonMin + mapW0 / proj.pxPerDeg;
+    var latMin = (Math.atan(Math.exp((proj.yTop - mapH0) / proj.R)) - Math.PI / 4) * 360 / Math.PI;
+    var d = '', lon, lat, first, q;
+
+    for (lon = Math.ceil(proj.lonMin / step) * step; lon <= lonMax; lon += step) {
+      first = true;
+      for (lat = latMin; lat <= proj.latMax + 1e-9; lat = Math.min(lat + 1, proj.latMax)) {
+        q = project(lon, lat);
+        d += (first ? 'M' : 'L') + Math.round(q.x * 10) / 10 + ' ' + Math.round(q.y * 10) / 10;
+        first = false;
+        if (lat >= proj.latMax) break;
+      }
+    }
+    for (lat = Math.ceil(latMin / step) * step; lat <= proj.latMax; lat += step) {
+      first = true;
+      for (lon = proj.lonMin; lon <= lonMax + 1e-9; lon = Math.min(lon + 1, lonMax)) {
+        q = project(lon, lat);
+        d += (first ? 'M' : 'L') + Math.round(q.x * 10) / 10 + ' ' + Math.round(q.y * 10) / 10;
+        first = false;
+        if (lon >= lonMax) break;
+      }
+    }
+    gratGroup.appendChild(svgEl('path', { 'class': 'grat-line', d: d }));
+  }
+
   /* The sea and the edge of the drawing. A rectangle in Mercator, where a box
      of longitude and latitude is a box; a curved quadrilateral in anything
      else, so it is traced along the frame rather than assumed. */
@@ -958,7 +1102,7 @@
       ['x', 'y', 'width', 'height'].forEach(function (a) { el.removeAttribute(a); });
       el.setAttribute('d', d);
     });
-    var f = laeaFitting();
+    var f = fitOf(projMode);
     mapW = f.w; mapH = f.h;
     svg.setAttribute('viewBox', '0 0 ' + mapW + ' ' + mapH);
   }
@@ -987,6 +1131,8 @@
       var q = reprojectXY(p.x0, p.y0);
       p.x = q.x; p.y = q.y;
     });
+    if (gratGroup) { gratGroup.__step = null; gratGroup.__mode = null; }
+    drawGraticule();
     if (lastScaleW > 0) rescale();
     applyView(true);
     placeLabels();
@@ -996,7 +1142,7 @@
   function reprojectXY(x, y) {
     if (projMode === 'mercator') return { x: x, y: y };
     var ll = storedLonLat(x, y);
-    return laeaFwd(ll.lon, ll.lat);
+    return project(ll.lon, ll.lat);
   }
 
 
@@ -1614,7 +1760,8 @@
    *   10  hairline    11  the NCA reading    12  resistance base areas
    *   13  the filler under each country
    *   14  the rivers of India
-   *   15  equal-area projection (clear: Web Mercator)
+   *   15,16  projection: 0 Web Mercator, 1 Albers conic, 2 Lambert azimuthal
+   *   17  the graticule
    *
    * Bits 7 and 10 no longer have a switch in the Layers panel — the province
    * source came out once the period sheet was redrawn, and the hairline came
@@ -1654,7 +1801,8 @@
     if (!state.ccp) bits |= 4096;
     if (state.backs) bits |= 8192;
     if (state.indiaRivers) bits |= 16384;
-    if (state.projection === 'laea') bits |= 32768;
+    bits |= ({ albers: 1, laea: 2 }[state.projection] || 0) << 15;
+    if (state.graticule) bits |= 131072;
     return bits.toString(36);
   }
 
@@ -1676,7 +1824,8 @@
     state.ccp = !(bits & 4096);          // inverted; see layerCode
     state.backs = !!(bits & 8192);
     state.indiaRivers = !!(bits & 16384);
-    state.projection = (bits & 32768) ? 'laea' : 'mercator';
+    state.projection = ['mercator', 'albers', 'laea'][(bits >> 15) & 3] || 'mercator';
+    state.graticule = !!(bits & 131072);
     urlProvSource = (bits & 128) ? 'roc' : 'enp';
   }
 
@@ -1695,23 +1844,14 @@
      form; the azimuthal one is solved rather than inverted, which is three
      lines and runs only when the reader asks where they are. */
   function unproject(x, y) {
-    if (projMode !== 'laea') {
+    if (projMode === 'mercator') {
       return {
         lon: proj.lonMin + x / proj.pxPerDeg,
         lat: (Math.atan(Math.exp((proj.yTop - y) / proj.R)) - Math.PI / 4) * 360 / Math.PI,
       };
     }
-    var f = laeaFitting();
-    var X = x - f.dx, Y = f.dy - y;
-    var rho = Math.hypot(X, Y);
-    if (rho < 1e-9) return { lon: LAEA.lon0, lat: LAEA.lat0 };
-    var c = 2 * Math.asin(Math.min(1, rho / (2 * proj.R)));
-    var p1 = LAEA.lat0 * Math.PI / 180;
-    var lat = Math.asin(Math.cos(c) * Math.sin(p1) + Y * Math.sin(c) * Math.cos(p1) / rho);
-    var lon = LAEA.lon0 * Math.PI / 180 + Math.atan2(
-      X * Math.sin(c),
-      rho * Math.cos(c) * Math.cos(p1) - Y * Math.sin(c) * Math.sin(p1));
-    return { lon: lon * 180 / Math.PI, lat: lat * 180 / Math.PI };
+    var f = fitOf(projMode);
+    return rawInv(projMode, x - f.dx, f.dy - y);
   }
 
   /* West, south, east, north, to two decimal places. The link says roughly
@@ -1728,15 +1868,50 @@
     return [r(a.lon), r(b.lat), r(b.lon), r(a.lat)];
   }
 
-  /* The view that contains a box, whatever shape the window is. */
+  /* The view that contains a box, whatever shape the window is.
+
+     In Mercator x is a function of longitude alone and y of latitude alone, so
+     the two edges give the box and there is nothing to walk. That is not true
+     of either equal-area projection: a parallel bows and a meridian leans, so
+     the corners no longer bound the shape and `xForLon` — which knows only
+     about the cylinder — is meaningless. The other two walk the four edges
+     instead and take the extremes of what comes back.
+
+     This is what a share link is read through, so it is worth being plain
+     about what was wrong: a link written while an equal-area view was on
+     recorded the right longitudes and latitudes, and reading it back put the
+     reader somewhere else entirely. A Korean view came back at 72°N. */
   function viewForBox(w, s, e, n) {
-    var ax = xForLon(w), zx = xForLon(e);
-    // a box written the other way round, as one crossing the date line would
-    // be if it were ever normalised, is still meant to be read west to east
-    if (zx < ax) zx += 360 * proj.pxPerDeg;
-    var a = project(0, n), z = project(0, s);
-    var x0 = Math.min(ax, zx), x1 = Math.max(ax, zx);
-    var y0 = Math.min(a.y, z.y), y1 = Math.max(a.y, z.y);
+    var x0, x1, y0, y1;
+    if (projMode === 'mercator') {
+      var ax = xForLon(w), zx = xForLon(e);
+      // a box written the other way round, as one crossing the date line would
+      // be if it were ever normalised, is still meant to be read west to east
+      if (zx < ax) zx += 360 * proj.pxPerDeg;
+      var a = project(0, n), z = project(0, s);
+      x0 = Math.min(ax, zx); x1 = Math.max(ax, zx);
+      y0 = Math.min(a.y, z.y); y1 = Math.max(a.y, z.y);
+    } else {
+      var e2 = e < w ? e + 360 : e;
+      x0 = y0 = Infinity; x1 = y1 = -Infinity;
+      var eat = function (p) {
+        if (!p) return;
+        if (p.x < x0) x0 = p.x;
+        if (p.x > x1) x1 = p.x;
+        if (p.y < y0) y0 = p.y;
+        if (p.y > y1) y1 = p.y;
+      };
+      // 24 steps: the widest box the map can be asked for is the whole sheet,
+      // 140 degrees across, so this samples every six degrees, and the bow of
+      // a parallel over six degrees is far under a pixel
+      for (var i = 0; i <= 24; i++) {
+        var f = i / 24;
+        var lon = w + (e2 - w) * f, lat = s + (n - s) * f;
+        eat(project(lon, s)); eat(project(lon, n));
+        eat(project(w, lat)); eat(project(e2, lat));
+      }
+      if (!isFinite(x0) || !isFinite(y0)) return null;
+    }
     if (!(x1 > x0) || !(y1 > y0)) return null;
     var c = containerSize();
     var aspect = c.w / c.h;
@@ -1918,6 +2093,7 @@
       rst.classList.toggle('idle', atHome);
       rst.setAttribute('aria-disabled', atHome ? 'true' : 'false');
     }
+    if (state.graticule) drawGraticule();
     var zoomed = force || Math.abs(view.w - lastScaleW) > 0.01;
     if (zoomed) lastScaleW = view.w;
     if (!rafPending) {
@@ -4138,7 +4314,8 @@
       // the ground in the middle and how much of the drawing is on screen.
       var mid = unproject(view.x + view.w / 2, view.y + view.h / 2);
       var frac = view.w / mapW;
-      projMode = state.projection === 'laea' ? 'laea' : 'mercator';
+      projMode = ['albers', 'laea'].indexOf(state.projection) >= 0
+        ? state.projection : 'mercator';
       reprojectDocument();
       var c = project(mid.lon, mid.lat);
       view.w = Math.max(minViewW(), Math.min(frac * mapW, fitView().w));
@@ -4147,6 +4324,7 @@
       view.y = c.y - view.h / 2;
       replaceInProjection();
     }
+    drawGraticule();
     if (svg) svg.classList.toggle('hairline', !!state.hairline);
     // A layer going on or off changes what `litFor` hands back for the same
     // id, so every outline standing on screen is out of date whatever its
@@ -5290,6 +5468,16 @@
     // Removed from the Layers panel. The state and bit 10 of the layer code
     // still work, so an old address still means what it meant; this is null
     // now and the block below is skipped.
+    var optGrat = $('#opt-graticule');
+    if (optGrat) {
+      optGrat.checked = state.graticule;
+      optGrat.addEventListener('change', function () {
+        state.graticule = optGrat.checked;
+        applyState();
+        saveState();
+      });
+    }
+
     $$('input[name="projection"]').forEach(function (r) {
       r.checked = (r.value === state.projection);
       r.addEventListener('change', function () {

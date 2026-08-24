@@ -3,7 +3,7 @@
 
     python3 tools/bundle.py
 
-Writes japan-empire-map-standalone.html, which opens straight from the file
+Writes stale/japan-empire-map-standalone.html, which opens straight from the file
 system with no web server: useful for handing to students on a memory stick,
 or for working offline.
 """
@@ -22,8 +22,11 @@ def read(name):
         return fh.read()
 
 
-SOURCES_LINK = ('<a href="sources.html">Every dataset this map is drawn from is '
-                'listed here</a>')
+# The anchor is matched by its href and not by its words. The sentence around
+# it is prose spliced out of `texts/pages/about.md`, so it is rewritten
+# whenever that page is edited — and a hard-coded copy of it here went stale
+# without anyone noticing, which stopped the standalone build for two days.
+SOURCES_LINK = re.compile(r'<a href="sources\.html">(.*?)</a>', re.S)
 
 
 def inline_sources(html, sources):
@@ -44,12 +47,14 @@ def inline_sources(html, sources):
                     r'<p><a href="index\.html">.*?</a></p>'):
         body = re.sub(pattern, "", body, flags=re.S)
 
-    if SOURCES_LINK not in html:
+    m = SOURCES_LINK.search(html)
+    if not m:
         sys.exit("bundle: could not find the sources link in index.html")
-    html = html.replace(
-        SOURCES_LINK, "Every dataset this map is drawn from is listed below")
-    end = html.index("</p>", html.index(
-        "Every dataset this map is drawn from is listed below")) + 4
+    # the link's own words, kept, with the link taken off them: whatever About
+    # says about the sources page still reads correctly when the page is
+    # folded in underneath instead of linked to
+    html = html[:m.start()] + m.group(1) + html[m.end():]
+    end = html.index("</p>", m.start()) + 4
     return (html[:end]
             + '\n  <details class="sources-inline"><summary>Sources in full</summary>'
             + body.strip() + "</details>\n"
@@ -92,7 +97,7 @@ def main():
 
     html = inline_sources(html, read("sources.html"))
 
-    dest = os.path.join(ROOT, "japan-empire-map-standalone.html")
+    dest = os.path.join(ROOT, "stale", "japan-empire-map-standalone.html")
     with open(dest, "w", encoding="utf-8") as fh:
         fh.write(html)
     sys.stderr.write(f"wrote {dest} ({os.path.getsize(dest)/1024:.0f} KB)\n")

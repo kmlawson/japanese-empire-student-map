@@ -9,7 +9,7 @@ script writes them into the places the browser actually reads:
 
     texts/*.csv, texts/**/*.md   ->  the generated half of data.js
     texts/pages/about.md         ->  the About dialog in index.html
-    texts/pages/sources.md       ->  sources.html, and SOURCES.md at the root
+    texts/pages/sources.md       ->  sources.html, and docs/SOURCES.md
 
 data.js keeps a hand-written head — the home view, which date the map opens on,
 and the Yellow River's 1938 flood course, none of which are words — and
@@ -419,11 +419,11 @@ def build_pages():
     written.append("sources.html")
 
     # The same words as a plain file, for reading in the repository itself.
-    with open(os.path.join(ROOT, "SOURCES.md"), "w", encoding="utf-8") as fh:
+    with open(os.path.join(ROOT, "docs", "SOURCES.md"), "w", encoding="utf-8") as fh:
         fh.write("<!-- Generated from texts/pages/sources.md by "
                  "tools/build_texts.py. Edit that file, not this one. -->\n\n"
                  + src.lstrip())
-    written.append("SOURCES.md")
+    written.append("docs/SOURCES.md")
     return written
 
 

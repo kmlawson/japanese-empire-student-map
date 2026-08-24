@@ -14,8 +14,8 @@ covers:
 * **the code** — `map.js`, `admin.js`, `styles.css`, `index.html`, and
   everything under `tools/`;
 * **the prose** — everything under `texts/`, and the `data.js`, `sources.html`
-  and `SOURCES.md` built out of it;
-* **the georeferencing, tracing and clipping** described in `SOURCES.md`: the
+  and `docs/SOURCES.md` built out of it;
+* **the georeferencing, tracing and clipping** described in `docs/SOURCES.md`: the
   work of putting drawn sheets on the ground, chaining open coastlines back
   into islands, cutting shapes to the frontiers of a particular date, and
   deciding which shape stands for which place on which map. This includes the
@@ -35,7 +35,7 @@ author put on it, and nothing above alters them in any way.
 Some of the shapes drawn here are derived from other people's data. They are
 listed below, with what each one gave, who made it, and under what terms.
 **No copyright over any of them is claimed by this project**, and nothing in
-section 1 alters their terms in any way. `SOURCES.md` gives the fuller account,
+section 1 alters their terms in any way. `docs/SOURCES.md` gives the fuller account,
 including what was done to each dataset and how accurate it turned out to be;
 `occupation-maps/README.md` lists the scanned sheets one by one.
 
@@ -82,7 +82,7 @@ Xufanc's Saharat map. An attribution source still has to be attributed — that
 is ENP-China and geoBoundaries. The dedication in section 1 cannot release
 anyone from those obligations and does not attempt to; it applies to the work
 done here and not to the material it was done on. If you are taking geometry
-rather than code, read `SOURCES.md` first and find out which source it came
+rather than code, read `docs/SOURCES.md` first and find out which source it came
 from.
 
 ## 3. A request, not a condition

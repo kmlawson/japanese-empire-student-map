@@ -32,7 +32,7 @@ Twelfth is `.htaccess`, which is not part of the site — the map works without
 it — but which is what makes the compression above actually happen on Apache.
 See the last section.
 
-`japan-empire-map-standalone.html` is a single-file build for handing out
+`stale/japan-empire-map-standalone.html` is a single-file build for handing out
 offline. It is **not** part of the website and it goes stale — rebuild it with
 `python3 tools/bundle.py` before you give it to anyone.
 
