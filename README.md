@@ -75,6 +75,28 @@ framework. Serve the folder over HTTP, or hand out the single-file build.
 Pan by dragging, zoom with the wheel, a pinch, the buttons, or `+` / `-`; `0`
 returns to the opening view and `Esc` closes the detail card.
 
+### Your own marks on the map
+
+**Layers → Annotations** gives a reader points, events, lines and areas of
+their own, each with a name, a description and a colour. **Save file** writes
+them to a GeoJSON file, styled with
+[simplestyle-spec](https://github.com/mapbox/simplestyle-spec) so that QGIS,
+geojson.io and GitHub's own preview all draw them as intended. **Load
+annotations** reads such a file back — or any other GeoJSON, including this
+project's own caches and anything exported from QGIS — draws it, and moves the
+map to it; you can then keep adding and save again, and the new file carries
+the old name with a timestamp.
+
+**Copy link** puts the whole set into the address itself, deflated and
+base64'd, for anything small enough to fit: a dozen annotations come to a few
+hundred characters, and the reader is told the number and asked to send the
+file instead when it will not.
+
+None of it goes anywhere. The file is written by the browser and read back by
+it, which is the point for a class: a student can annotate a map, hand the file
+to somebody else, and that person opens it with no account and no service that
+might be gone next year.
+
 ## Running it
 
 Any static web server will do:

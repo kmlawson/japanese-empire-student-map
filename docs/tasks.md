@@ -5562,6 +5562,108 @@ element's layout box is not its painted extent**, and any ancestor with
 
 ---
 
+## Annotations: a reader's own marks, saved as GeoJSON
+
+Asked for: two buttons in Layers, drawing tools with styling and text, save to
+a file, load one back, keep editing, and a shareable link for a small set.
+
+**Where the styling lives, which was the open question.** GeoJSON says nothing
+about how a feature should look, and there is one good answer:
+**simplestyle-spec**, which QGIS, geojson.io, GitHub's GeoJSON preview, Mapbox
+and the Leaflet plugins all read. It is plain members of `properties` —
+`title`, `description`, `marker-color`, `marker-size`, `marker-symbol`,
+`stroke`, `stroke-width`, `stroke-opacity`, `fill`, `fill-opacity` — so it
+survives a tool that has never heard of it rather than being stripped as
+foreign. The one thing it has no word for is the difference between a point and
+an event, which this map draws as a dot and a diamond; that goes in
+`marker-symbol`, which the spec leaves open to any string. Anything else
+opening the file sees an unfamiliar symbol and draws its default, which is the
+right failure.
+
+A saved point comes out as:
+
+```json
+{"title":"Mukden","description":"Where the incident began, 18 September 1931.",
+ "stroke":"#1b1b1b","stroke-width":3,"stroke-opacity":1,
+ "marker-color":"#1b1b1b","marker-size":"medium","marker-symbol":"circle"}
+```
+
+**Loading.** Any GeoJSON: a FeatureCollection, a lone Feature, a bare geometry,
+and all seven geometry types including the Multi- forms and GeometryCollection,
+because a file from QGIS or from this project's own caches uses them. A foreign
+file has no simplestyle at all, so every feature is given one on the way in —
+taking a name from whichever of `title`, `name`, `NAME`, `Name` or `label` the
+file happens to use — and it therefore saves back out styled rather than bare.
+
+**Errors say what is wrong, not that something is.** Ten fixtures, all
+measured:
+
+| file | what the reader is told |
+| --- | --- |
+| `good.geojson` | Loaded 2 features — 5 points, and the map has moved to them. |
+| `lone-feature.geojson` | Loaded 1 feature — 2 points… |
+| `bare-geometry.geojson` | Loaded 1 feature — 1 point… |
+| `india-rivers.geojson` (this project's own, 354 KB) | Loaded 63 features — 14,851 points… |
+| `notjson.geojson` | That file is not valid JSON. Nothing was loaded. |
+| `truncated.geojson` | …and the first thing wrong with it is at character 58. |
+| `bare-array.geojson` | That file is a bare array. GeoJSON needs a "type" — a FeatureCollection, a Feature, or a geometry. |
+| `wrong-type.geojson` | Its type is "Banana", which is not a GeoJSON type. |
+| `empty.geojson` | That file is an empty FeatureCollection — nothing to draw. |
+| `bad-coords.geojson` | Feature 1 has a geometry this map cannot read. |
+
+Nothing is half-loaded: the check runs before a single feature is adopted, so a
+bad file leaves what is already on the map alone. A file over 24 MB or with
+more than 240,000 points is refused with the count, rather than being allowed
+to hang the browser.
+
+**The link.** Deflated through `CompressionStream('deflate-raw')` and base64url
+encoded, with a one-character prefix saying whether it is compressed so that a
+link made in one browser opens in another that lacks it. Two annotations with a
+name and a sentence of description come to **576 characters**; the cap is 6,000
+of payload, which keeps the whole address near 6.2 KB. Past it the reader is
+told the number — `india-rivers` reports "160,528 characters compressed, past
+the 6,000 a link can carry. Save the file and send that instead." A damaged
+link says so rather than failing silently.
+
+**Round-tripped.** Draw two features, copy the link, open it in a clean
+browser: both features, both names, the description, and the map moved to their
+extent. Loading a file and then drawing on top of it saves as
+`good-20260824-2202.geojson` — the source name with a stamp — with all four
+features.
+
+**Held in longitude and latitude, so the projections come free.** Switching to
+Albers and to LAEA moves the marks with the map and back to the pixel:
+`[[600,400],[700,450]]` in Mercator, `[[574,410],[656,432]]` in Albers,
+`[[577,399],[671,419]]` in LAEA, and exactly `[[600,400],[700,450]]` again on
+the way back.
+
+**Two bugs found by testing, neither by reading.**
+
+*`[hidden]` lost to `display: flex`.* The finish-and-cancel row is marked
+`hidden` in the markup, and `#annotate .ann-drawing { display: flex }` beats
+the user agent's `[hidden] { display: none }` — so it stood there from the
+moment the panel opened, offering to finish a shape nobody had started.
+
+*The panel stood over the legend.* Below the rail's 1000px breakpoint both
+float in the same corner and the annotation panel is the taller, so the
+legend's colours showed faintly through it. The legend stands down while the
+panel is open and comes back when it closes. And above the breakpoint the panel
+was over the map rather than in the rail, because these rules are written at
+the foot of the stylesheet and a later rule of equal specificity wins; the rail
+rule is re-stated after them.
+
+**Checked with a mouse and with a finger**, as the rule here requires. On both,
+a tap with a tool armed places the mark and does *not* select the country under
+it; with the tool off, the same tap selects China exactly as a control page
+that never opened the panel does.
+
+**What it costs.** `map.js` goes from 265,362 to 297,584 bytes, and **84,294 to
+93,263 gzipped — 9 KB on the wire**, which is what every reader pays whether or
+not they ever draw anything. No new file to upload, so `UPLOAD.md` and
+`DEPLOY.md` are unchanged.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible
