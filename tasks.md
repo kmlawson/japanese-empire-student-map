@@ -4795,6 +4795,43 @@ Bangkok in the report is Phra Nakhon, Thonburi, Nonthaburi and Samut Prakan —
 four tiny changwat packed round the city and outlined by the Administrative
 layer. They really are provinces.
 
+### The sideways T in Suiyuan, closed for good
+Suiyuan is cut into two atoms by a meridian at 109.6E and a parallel at 40.45N.
+Cut at exactly those coordinates the two polygons *abut*: each is antialiased
+against the ground behind it rather than against the other, and a hairline
+opens along the join — up the meridian, then east along the parallel. That is
+the sideways T.
+
+The thing worth recording is that **the cut divides nothing.** Both halves
+belong to one territory on both sheets: `suiyuan` in 1930 takes
+`suiyuan suiyuan_w`, and `freechina` in 1942 takes both as well, Mengchiang
+being drawn from a traced polygon of its own. So the line has no meaning to
+misrepresent and only has to stop being visible.
+
+`SUIYUAN_LAP` makes the western pieces reach 0.06 degrees back over the cut, so
+they overlap instead of meeting. Six and a half kilometres of overlap, all of it
+inside the province and all of it under ground of the same colour.
+
+It has to be wider than the simplification or Douglas-Peucker pulls the two
+edges apart and the seam returns — which is presumably how it came back before.
+A province this size earns the coarsest band, 0.55 units, which is 0.0275
+degrees; the lap is 0.06. That is not left to memory: the build refuses to run
+if the lap ever stops exceeding `--tolerance`.
+
+Measured, scanning for a one-pixel line along both cut lines: **0 of 544 pixels
+on the parallel and 0 of 344 on the meridian**, in five states — 1930 plain,
+1930 hovered, 1930 with divisions on, 1930 at five times the zoom, and 1942.
+And the province still covers exactly the ground it did: the combined bounding
+box of the two halves moved by **0.000 units**, `suiyuan`'s area is unchanged,
+and `suiyuan_w` gained only the 343 units of overlap.
+
+### UPLOAD.md
+Ten files, and the list was arrived at rather than guessed: they were copied to
+an empty directory, served alone, and put through every layer, both dates, the
+province-source switch and a deep zoom. No failed requests, no console errors,
+85 territories, 1,293 divisions, 127 markers. 6.1 MB raw, 1.8 MB gzipped, of
+which only 3.7 MB / 1.08 MB is fetched before the map is on screen.
+
 ---
 
 ## Sources worth fetching

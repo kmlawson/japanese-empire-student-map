@@ -184,6 +184,22 @@ SUIYUAN_CUT = 109.6
 # rather than a line of longitude, and it no longer awards ground to a regime
 # on the strength of its being east of something.
 SUIYUAN_ORDOS_LAT = 40.45
+# How far the western pieces reach back over the cut, so that the two halves
+# overlap instead of abutting.
+#
+# The cut is a meridian and a parallel, and both halves belong to one territory
+# on both sheets — Suiyuan the province in 1930, Free China in 1942 — so it
+# divides nothing and only has to be invisible. Cut at exactly the same
+# coordinate, the two polygons share an edge, the renderer antialiases each of
+# them against the ground behind, and a hairline opens along the join: a
+# vertical up the meridian and a horizontal east along the parallel, meeting.
+# The sideways T.
+#
+# It has to be wider than the simplification, or Douglas-Peucker moves the two
+# edges apart again and the seam comes back: a country this size earns the
+# coarsest band, 0.55 units, which is 0.0275 degrees. `check_suiyuan_lap`
+# refuses to build if that stops being true.
+SUIYUAN_LAP = 0.06
 
 # Natural Earth's outline of the modern Chinese mainland, which used to be laid
 # under the Republican provinces twice over: once in the neutral "elsewhere"
@@ -3466,12 +3482,16 @@ def load_roc_provinces(enp_provinces):
             # Mengchiang's half: east of the line and north of the river.
             # Free China's: the plain west of the line, and the Ordos south of
             # the river whichever side of the line it falls. See SUIYUAN_CUT.
+            # `east` is the piece the others reach over; see SUIYUAN_LAP.
             east = [line_plane((SUIYUAN_CUT, 0.0), (SUIYUAN_CUT, 90.0), keep_right=True),
                     line_plane((0.0, SUIYUAN_ORDOS_LAT), (180.0, SUIYUAN_ORDOS_LAT),
                                keep_right=False)]
-            west = [line_plane((SUIYUAN_CUT, 0.0), (SUIYUAN_CUT, 90.0), keep_right=False)]
-            ordos = [line_plane((SUIYUAN_CUT, 0.0), (SUIYUAN_CUT, 90.0), keep_right=True),
-                     line_plane((0.0, SUIYUAN_ORDOS_LAT), (180.0, SUIYUAN_ORDOS_LAT),
+            west = [line_plane((SUIYUAN_CUT + SUIYUAN_LAP, 0.0),
+                               (SUIYUAN_CUT + SUIYUAN_LAP, 90.0), keep_right=False)]
+            ordos = [line_plane((SUIYUAN_CUT - SUIYUAN_LAP, 0.0),
+                                (SUIYUAN_CUT - SUIYUAN_LAP, 90.0), keep_right=True),
+                     line_plane((0.0, SUIYUAN_ORDOS_LAT + SUIYUAN_LAP),
+                                (180.0, SUIYUAN_ORDOS_LAT + SUIYUAN_LAP),
                                 keep_right=True)]
             for sides, dest, label in (([east], "suiyuan", "Suiyuan"),
                                        ([west, ordos], "suiyuan_w", "SuiyuanWest")):
@@ -5747,12 +5767,16 @@ def main():
         # province again and says so once.
         if name == "Suiyuan":
             # the same two conditions as in province_paths, above
+            # `east` is the piece the others reach over; see SUIYUAN_LAP.
             east = [line_plane((SUIYUAN_CUT, 0.0), (SUIYUAN_CUT, 90.0), keep_right=True),
                     line_plane((0.0, SUIYUAN_ORDOS_LAT), (180.0, SUIYUAN_ORDOS_LAT),
                                keep_right=False)]
-            west = [line_plane((SUIYUAN_CUT, 0.0), (SUIYUAN_CUT, 90.0), keep_right=False)]
-            ordos = [line_plane((SUIYUAN_CUT, 0.0), (SUIYUAN_CUT, 90.0), keep_right=True),
-                     line_plane((0.0, SUIYUAN_ORDOS_LAT), (180.0, SUIYUAN_ORDOS_LAT),
+            west = [line_plane((SUIYUAN_CUT + SUIYUAN_LAP, 0.0),
+                               (SUIYUAN_CUT + SUIYUAN_LAP, 90.0), keep_right=False)]
+            ordos = [line_plane((SUIYUAN_CUT - SUIYUAN_LAP, 0.0),
+                                (SUIYUAN_CUT - SUIYUAN_LAP, 90.0), keep_right=True),
+                     line_plane((0.0, SUIYUAN_ORDOS_LAT + SUIYUAN_LAP),
+                                (180.0, SUIYUAN_ORDOS_LAT + SUIYUAN_LAP),
                                 keep_right=True)]
             for sides, dest, label in (([east], "suiyuan", "Suiyuan"),
                                        ([west, ordos], "suiyuan_w", "SuiyuanWest")):
@@ -6158,6 +6182,17 @@ def main():
             "frontier seams: "
             + ", ".join(f"{k}={len(v)}" for k, v in sorted(seamed.items()))
             + "\n")
+
+    # The Suiyuan halves overlap by SUIYUAN_LAP so that no seam opens between
+    # them. Simplification is what would reopen it, so the one has to stay
+    # wider than the other. Checked rather than remembered.
+    _lap_units = SUIYUAN_LAP * PX_PER_DEG
+    if _lap_units <= args.tolerance:
+        raise SystemExit(
+            "SUIYUAN_LAP is %.4f degrees (%.2f units) and the tolerance is %.2f "
+            "units: the two halves of Suiyuan would be simplified apart and the "
+            "seam between them would come back. Raise the lap." %
+            (SUIYUAN_LAP, _lap_units, args.tolerance))
 
     # ---- dissolve, project, clip, simplify --------------------------------
     frame = box_planes(LON_MIN, LAT_MIN, LON_MAX, LAT_MAX)
