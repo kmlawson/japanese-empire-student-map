@@ -9,10 +9,25 @@
 <link rel="stylesheet" href="styles.css">
 <style>
   /* styles.css belongs to the map, which is an app shell that must never
-     scroll: it sets `html, body { height: 100%; overflow: hidden }` and a
-     flex column. This is an ordinary page and needs all of that undone, or it
-     shows the first screenful and nothing else — which is what it was doing. */
-  html, body { height: auto; overflow: auto; display: block; }
+     scroll: it sets `html, body { height: 100%; overflow: hidden }`, a flex
+     column, and `overscroll-behavior: none` so a drag on the map cannot pull
+     the page about. This is an ordinary page and needs all of that undone, or
+     it shows the first screenful and nothing else.
+
+     `overflow: visible` and not `auto`, and the overscroll rule put back —
+     both matter, and `auto` was the bug. It makes `body` a scroll container of
+     its own; `height: auto` then leaves it exactly as tall as its content, so
+     it has nothing to scroll. A wheel over the text is delivered to that dead
+     scroller and `overscroll-behavior: none` forbids it chaining up to the
+     viewport, so nothing moves. The keyboard and the scrollbar never chain and
+     were working the whole time, which is what made it look like a wheel
+     problem rather than a CSS one. */
+  html, body {
+    height: auto;
+    overflow: visible;
+    display: block;
+    overscroll-behavior: auto;
+  }
   body { background: var(--bg); color: var(--ink); }
   .page { max-width: 46rem; margin: 0 auto; padding: 32px 20px 64px; line-height: 1.55; }
   .page h1 { font-size: 26px; margin: 0 0 6px; }

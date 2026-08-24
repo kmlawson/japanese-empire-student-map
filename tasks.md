@@ -4906,6 +4906,30 @@ below anything real — so that the file the author draws in stays the file the
 build reads, instead of a second trimmed copy going stale beside it. The dotted
 line is one subpath of 132 vertices, which is the polygon exactly.
 
+### The wheel does nothing on sources.html
+`styles.css` belongs to the map, which is an app shell that must never scroll:
+`html, body { height: 100%; overflow: hidden }` and `overscroll-behavior: none`
+so that dragging the map cannot pull the page about. `sources.html` shares that
+stylesheet and already undid the first part — but it undid it with
+`overflow: auto`, and that was the bug.
+
+`auto` makes `body` a scroll container of its own. `height: auto` then leaves it
+exactly as tall as its content, so it has nothing to scroll. A wheel over the
+text is delivered to that dead scroller, and `overscroll-behavior: none` —
+still inherited — forbids it from chaining up to the viewport. Nothing moves.
+
+The keyboard and the scrollbar never chain, so they worked the whole time,
+which is what made it look like a wheel fault rather than a CSS one. Measured
+before the fix: 3,968 px of content in an 800 px window, a 600 px wheel moved
+`scrollY` by **0**, while `window.scrollTo(0, 500)` gave 500 and PageDown gave
+760.
+
+`overflow: visible` instead, with `overscroll-behavior: auto` put back. After:
+a 600 px wheel gives `scrollY` 600. The shell survives `build_texts.py`, which
+splices only between the `BEGIN sources` markers, and the map page is
+untouched: it still does not scroll and its wheel still zooms, 2800 to 1476 and
+back.
+
 ---
 
 ## Sources worth fetching
