@@ -4939,6 +4939,52 @@ page still cannot scroll — `scrollHeight` 800 in an 800 px window, `scrollY` 0
 after a 2,000 px wheel and an explicit `scrollTo(0, 900)` — while its own wheel
 still zooms, 2800 to 1476.
 
+### A second projection, worked out in the browser
+Mercator's area scale is sec squared of the latitude: 1 at the equator, 1.5 at
+35N, 2.0 at 45N, 3.0 at the top of this frame. So Karafuto and the Soviet Far
+East are drawn at two to three times the area of Java and the mandate — on a
+map whose subject is partly how much ocean this empire was, and which is
+thinnest exactly where Mercator is kindest.
+
+Layers now offers **Lambert azimuthal equal area on 20N 135E** beside it.
+
+**No second sheet, and nothing extra over the wire.** Mercator inverts in
+closed form, so every coordinate in the document can be turned back into
+longitude and latitude and sent through another projection in the browser. The
+switch walks the document once — 1,158 paths, 586 circles, 373 label anchors,
+48 finger-target lists, about 200,000 coordinate pairs — in **1.6 seconds**,
+and keeps the original string on each element so switching back is the file
+exactly rather than a round trip through two projections.
+
+What had to be found and moved, none of it obvious from the maths:
+
+* `#ocean` and `#frame` are rectangles because a box of longitude and latitude
+  is a box *in Mercator*. They are paths now, traced along the frame at 120
+  points a side, and in Mercator the path is the same rectangle.
+* `data-cx`/`data-cy`, where a label hangs, and `data-hits`, where the finger
+  targets for a tiny country sit.
+* The administrative sheet and the fine-coastline windows arrive later and
+  arrive in Mercator, so they are moved as they are grafted.
+* `unproject` had to gain the azimuthal inverse — solved rather than inverted,
+  and it runs only when the reader asks where they are.
+* The reader's place is held across the switch as the ground in the middle and
+  the fraction of the drawing on screen, because the view is a rectangle in
+  coordinates that are about to mean something else.
+
+Checked in the new projection: hovering names the right country (China, the
+Indies down to Sumatra, British India, the Philippines), the same eleven
+territory labels and forty-eight city dots are placed, a deep zoom pulls the
+fine coastlines and they land in the right place, the administrative graft puts
+1,292 divisions where they belong, and switching back restores the viewBox to
+the character.
+
+**A correction to what I said when this was only a discussion.** I put the
+whole empire "within about 45 degrees of centre". That is true of Japan, at 16,
+and the Indies, at 36 — not of British India at 64 or the corners of the frame
+at 77, where tangential stretch is about 28%. The middle of the subject is
+drawn well and the edges pay for it, which is the opposite trade from Mercator
+and the reason both are offered rather than one being called correct.
+
 ---
 
 ## Sources worth fetching

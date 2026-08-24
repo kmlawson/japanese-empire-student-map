@@ -106,6 +106,17 @@
   <label class="row"><input type="checkbox" id="opt-extent" checked> Show the 1942 approximate line of control</label>
   <label class="row"><input type="checkbox" id="opt-india-rivers"> Show the rivers of India</label>
   <hr>
+  <h3>Projection</h3>
+  <label class="row"><input type="radio" name="projection" id="proj-mercator" value="mercator" checked>
+     Web Mercator</label>
+  <label class="row"><input type="radio" name="projection" id="proj-laea" value="laea">
+     Equal area (Lambert azimuthal, 20°N 135°E)</label>
+  <p class="hint">Mercator keeps shapes right and north straight up, at the cost of area: it
+     draws Karafuto and the Soviet Far East at two to three times the size of Java and the
+     mandate. The equal-area view fixes that — the empire's oceans and islands read at their
+     true relative size — but shapes stretch towards the edges of the frame, and the meridians
+     fan out rather than standing upright.</p>
+  <hr>
   <h3>Occupied China, Dec 1942</h3>
   <label class="row"><input type="radio" name="occ-src" id="occ-traced" value="traced" checked>
      1942 general occupation extent</label>
@@ -174,7 +185,7 @@
 
   <p>Built with Anthropic's Claude, with <a href="https://muninn.net/">Konrad M. Lawson</a> at the prompt, primarily as a tool for students in his University of St Andrews honours module, <a href="https://github.com/kmlawson/japanese-empire-mo3335/">MO3335</a>.</p>
 
-  <p>Code for the website may be found <a href="https://github.com/kmlawson/japanese-empire-student-map">here</a>.</p>  <p class="version">Version 1.14 · last updated 24 August 2026, 16:25</p>
+  <p>Code for the website may be found <a href="https://github.com/kmlawson/japanese-empire-student-map">here</a>.</p>  <p class="version">Version 1.15 · last updated 24 August 2026, 16:35</p>
 
 <!-- END about -->
 </dialog>

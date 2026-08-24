@@ -84,6 +84,10 @@
     // are sixty-three lines of context under the Raj, which is a different
     // kind of thing and should not arrive with them.
     indiaRivers: false,
+    // 'mercator' or 'laea'. The file is drawn in the first; the second is
+    // worked out in the browser, Mercator being exactly invertible. See the
+    // projection block for what each is good and bad at.
+    projection: 'mercator',
     // Which reading of the occupation in China is drawn. 'traced' is the map's
     // own: the 1940 sheet adjusted to December 1942, with Wu Yuexing's
     // Communist base areas over it. 'nca' is the North China Area Army's own
@@ -120,6 +124,9 @@
   var ownedDefs = { hi: [], sub: [] };
   var proj = null;
   var mapW = 0, mapH = 0;
+  // the same two as the file was drawn: `mapW`/`mapH` follow the projection on
+  // screen, these do not, and every coordinate in the document is in these
+  var mapW0 = 0, mapH0 = 0;
 
   var atomEls = {};
   // the whole-country fillers, in their own layer under every atom
@@ -158,6 +165,9 @@
       if (typeof saved.hairline === 'boolean') state.hairline = saved.hairline;
       if (typeof saved.backs === 'boolean') state.backs = saved.backs;
       if (typeof saved.indiaRivers === 'boolean') state.indiaRivers = saved.indiaRivers;
+      if (saved.projection === 'laea' || saved.projection === 'mercator') {
+        state.projection = saved.projection;
+      }
       if (typeof saved.ccp === 'boolean') state.ccp = saved.ccp;
       if (saved.occSource === 'nca' || saved.occSource === 'traced') {
         state.occSource = saved.occSource;
@@ -173,6 +183,7 @@
         cats: state.cats, labels: state.labels, extent: state.extent,
         rivers: state.rivers, legend: state.legend, hairline: state.hairline,
         backs: state.backs, indiaRivers: state.indiaRivers,
+        projection: state.projection,
         occSource: state.occSource, ccp: state.ccp,
       }));
     } catch (err) { /* private browsing; not worth complaining about */ }
@@ -501,8 +512,8 @@
     svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
 
     var box = svg.getAttribute('viewBox').split(/\s+/).map(Number);
-    mapW = box[2];
-    mapH = box[3];
+    mapW = mapW0 = box[2];
+    mapH = mapH0 = box[3];
 
     var meta = svg.querySelector('#proj');
     proj = {
@@ -512,6 +523,18 @@
       R: parseFloat(meta.getAttribute('data-r')),
     };
     proj.yTop = proj.R * Math.log(Math.tan(Math.PI / 4 + proj.latMax * Math.PI / 360));
+
+    // The sea and the edge of the drawing are rectangles in the file because a
+    // box of longitude and latitude is a box in Mercator. In anything else it
+    // is a curved quadrilateral, so both become paths here once and `reframe`
+    // writes whichever shape is wanted.
+    ['ocean', 'frame'].forEach(function (id) {
+      var r = svg.querySelector('rect#' + id);
+      if (!r) return;
+      var pth = svgEl('path', { id: id });
+      r.parentNode.replaceChild(pth, r);
+    });
+    reframe();
 
     markersGroup = svg.querySelector('#markers');
     // above the markers, not below them: a selection outline that a row of
@@ -664,13 +687,271 @@
     document.head.appendChild(s);
   }
 
-  function project(lon, lat) {
+  /* ---------------------------------------------------------- projection --
+
+     The sheet is drawn in Web Mercator, and that is a fact about the file
+     rather than a choice the reader is stuck with: Mercator inverts exactly,
+     so every coordinate in the document can be turned back into longitude and
+     latitude and sent through a different projection without fetching
+     anything. `proj` below is how the file was drawn and never changes;
+     `projMode` is what the reader is looking at.
+
+     Why offer the choice at all. Mercator's area scale is sec squared of the
+     latitude: at the equator 1, at 35N 1.5, at 45N 2.0, at the top of this
+     frame 3.0. So Karafuto and the Soviet Far East are drawn at two to three
+     times the area of Java and the mandate, relative to the truth — on a map
+     whose subject is partly how much ocean this empire was, and which is
+     thinnest exactly where Mercator is kindest.
+
+     The alternative is Lambert azimuthal equal area on 20N 135E. Equal area,
+     so Java against Hokkaido reads honestly; azimuthal because this region is
+     about as tall as it is wide rather than a band, which is what conics want.
+     It is not free: shape distortion grows with distance from the centre, and
+     while Japan is 16 degrees out and the Indies 36, British India is 64 and
+     the corners of the frame reach 77. Tangential stretch there is about 28%.
+     The middle of the subject is drawn well and the edges pay for it, which is
+     the opposite trade from Mercator and the reason both are offered rather
+     than one being declared correct. */
+  var LAEA = { lon0: 135, lat0: 20 };
+  var projMode = 'mercator';
+  var laeaFit = null;                    // scale and offset, worked out once
+
+  function mercFwd(lon, lat) {
     var l = lon < proj.lonMin ? lon + 360 : lon;
     return {
       x: (l - proj.lonMin) * proj.pxPerDeg,
       y: proj.yTop - proj.R * Math.log(Math.tan(Math.PI / 4 + lat * Math.PI / 360)),
     };
   }
+
+  /* Longitude and latitude back out of a coordinate in the file. Always
+     Mercator, whatever is on screen: this reads the drawing, not the view. */
+  function storedLonLat(x, y) {
+    return {
+      lon: proj.lonMin + x / proj.pxPerDeg,
+      lat: (Math.atan(Math.exp((proj.yTop - y) / proj.R)) - Math.PI / 4) * 360 / Math.PI,
+    };
+  }
+
+  function laeaRaw(lon, lat) {
+    var lam = (lon - LAEA.lon0) * Math.PI / 180;
+    var phi = lat * Math.PI / 180;
+    var p1 = LAEA.lat0 * Math.PI / 180;
+    var d = 1 + Math.sin(p1) * Math.sin(phi)
+              + Math.cos(p1) * Math.cos(phi) * Math.cos(lam);
+    if (d <= 1e-9) return null;          // the antipode; nothing here reaches it
+    var k = Math.sqrt(2 / d) * proj.R;
+    return {
+      x: k * Math.cos(phi) * Math.sin(lam),
+      y: k * (Math.cos(p1) * Math.sin(phi) - Math.sin(p1) * Math.cos(phi) * Math.cos(lam)),
+    };
+  }
+
+  /* The offset that puts the whole frame in positive coordinates with y down,
+     measured off the frame itself rather than guessed. */
+  function laeaFitting() {
+    if (laeaFit) return laeaFit;
+    var lonMax = proj.lonMin + mapW / proj.pxPerDeg;
+    var latMin = (Math.atan(Math.exp((proj.yTop - mapH) / proj.R)) - Math.PI / 4) * 360 / Math.PI;
+    var x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+    for (var i = 0; i <= 80; i++) {
+      for (var j = 0; j <= 60; j++) {
+        var q = laeaRaw(proj.lonMin + (lonMax - proj.lonMin) * i / 80,
+                        latMin + (proj.latMax - latMin) * j / 60);
+        if (!q) continue;
+        if (q.x < x0) x0 = q.x;
+        if (q.x > x1) x1 = q.x;
+        if (q.y < y0) y0 = q.y;
+        if (q.y > y1) y1 = q.y;
+      }
+    }
+    laeaFit = { dx: -x0, dy: y1, w: x1 - x0, h: y1 - y0 };
+    return laeaFit;
+  }
+
+  function laeaFwd(lon, lat) {
+    var q = laeaRaw(lon, lat);
+    var f = laeaFitting();
+    if (!q) return { x: 0, y: 0 };
+    return { x: q.x + f.dx, y: f.dy - q.y };
+  }
+
+  function project(lon, lat) {
+    return projMode === 'laea' ? laeaFwd(lon, lat) : mercFwd(lon, lat);
+  }
+
+  /* Every coordinate in the document, moved. The original is kept on the
+     element the first time it is touched, so switching back is the file
+     exactly and not a round trip through two projections.
+
+     What has to move: the `d` of every path, the centre of every circle, and
+     the three attributes the build writes coordinates into — `data-cx`/`cy`,
+     which is where a label hangs, and `data-hits`, which is where the finger
+     targets for a tiny country go. Patterns are in their own space and are
+     left alone; masks are rebuilt from the paths on the next hover anyway. */
+  var COORD = /(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)/g;
+
+  function movePairs(text) {
+    return text.replace(COORD, function (_m, a, b) {
+      var q = reprojectXY(parseFloat(a), parseFloat(b));
+      return (Math.round(q.x * 100) / 100) + ' ' + (Math.round(q.y * 100) / 100);
+    });
+  }
+
+  /* Anything grafted in later — the administrative sheet, a window of fine
+     coastline — arrives in the projection the file was drawn in. If the reader
+     is looking at another one it has to be moved before it is shown, or the
+     divisions of a country land somewhere the country is not. */
+  function reprojectGraft(nodes) {
+    if (projMode === 'mercator' || !nodes || !nodes.length) return;
+    nodes.forEach(function (n) {
+      if (!n || n.nodeType !== 1) return;
+      var all = [n].concat(Array.prototype.slice.call(n.querySelectorAll('*')));
+      all.forEach(function (el) {
+        if (el.tagName === 'path' && el.hasAttribute('d')) {
+          if (el.__d0 === undefined) el.__d0 = el.getAttribute('d');
+          el.setAttribute('d', movePairs(el.__d0));
+        } else if (el.tagName === 'circle' && el.hasAttribute('cx')) {
+          if (el.__c0 === undefined) {
+            el.__c0 = [parseFloat(el.getAttribute('cx')), parseFloat(el.getAttribute('cy'))];
+          }
+          var q = reprojectXY(el.__c0[0], el.__c0[1]);
+          el.setAttribute('cx', Math.round(q.x * 100) / 100);
+          el.setAttribute('cy', Math.round(q.y * 100) / 100);
+        }
+        if (el.hasAttribute && el.hasAttribute('data-cx')) {
+          if (el.__a0 === undefined) {
+            el.__a0 = [parseFloat(el.getAttribute('data-cx')), parseFloat(el.getAttribute('data-cy'))];
+          }
+          var a = reprojectXY(el.__a0[0], el.__a0[1]);
+          el.setAttribute('data-cx', Math.round(a.x * 100) / 100);
+          el.setAttribute('data-cy', Math.round(a.y * 100) / 100);
+        }
+      });
+    });
+    bumpHi();
+  }
+
+  function reprojectDocument() {
+    if (!svg) return;
+    var t0 = (window.performance || Date).now();
+    var moved = 0;
+
+    $$('path[d]', svg).forEach(function (el) {
+      if (el.closest('pattern')) return;
+      if (el.__d0 === undefined) el.__d0 = el.getAttribute('d');
+      el.setAttribute('d', projMode === 'mercator' ? el.__d0 : movePairs(el.__d0));
+      moved++;
+    });
+    $$('circle[cx]', svg).forEach(function (el) {
+      if (el.closest('pattern')) return;
+      if (el.__c0 === undefined) {
+        el.__c0 = [parseFloat(el.getAttribute('cx')), parseFloat(el.getAttribute('cy'))];
+      }
+      var q = reprojectXY(el.__c0[0], el.__c0[1]);
+      el.setAttribute('cx', Math.round(q.x * 100) / 100);
+      el.setAttribute('cy', Math.round(q.y * 100) / 100);
+      moved++;
+    });
+    $$('[data-cx]', svg).forEach(function (el) {
+      if (el.__a0 === undefined) {
+        el.__a0 = [parseFloat(el.getAttribute('data-cx')), parseFloat(el.getAttribute('data-cy'))];
+      }
+      var q = reprojectXY(el.__a0[0], el.__a0[1]);
+      el.setAttribute('data-cx', Math.round(q.x * 100) / 100);
+      el.setAttribute('data-cy', Math.round(q.y * 100) / 100);
+    });
+    $$('[data-hits]', svg).forEach(function (el) {
+      if (el.__h0 === undefined) el.__h0 = el.getAttribute('data-hits');
+      el.setAttribute('data-hits', el.__h0.split(' ').map(function (pt) {
+        var c = pt.split(',');
+        if (c.length !== 2) return pt;
+        var q = reprojectXY(parseFloat(c[0]), parseFloat(c[1]));
+        return (Math.round(q.x * 100) / 100) + ',' + (Math.round(q.y * 100) / 100);
+      }).join(' '));
+    });
+
+    reframe();
+    bumpHi();
+    var ms = (window.performance || Date).now() - t0;
+    if (window.console && console.debug) {
+      console.debug('reprojected %d shapes in %d ms', moved, Math.round(ms));
+    }
+  }
+
+  /* The sea and the edge of the drawing. A rectangle in Mercator, where a box
+     of longitude and latitude is a box; a curved quadrilateral in anything
+     else, so it is traced along the frame rather than assumed. */
+  function reframe() {
+    var ocean = svg.querySelector('#ocean');
+    var frame = svg.querySelector('#frame');
+    var lonMax = proj.lonMin + mapW0 / proj.pxPerDeg;
+    var latMin = (Math.atan(Math.exp((proj.yTop - mapH0) / proj.R)) - Math.PI / 4) * 360 / Math.PI;
+
+    if (projMode === 'mercator') {
+      // still a path, so that the two projections differ in the `d` alone
+      var box = 'M0 0L' + mapW0 + ' 0L' + mapW0 + ' ' + mapH0 + 'L0 ' + mapH0 + 'Z';
+      [ocean, frame].forEach(function (el) { if (el) el.setAttribute('d', box); });
+      mapW = mapW0; mapH = mapH0;
+      svg.setAttribute('viewBox', '0 0 ' + mapW + ' ' + mapH);
+      return;
+    }
+
+    var pts = [], i;
+    var N = 120;
+    for (i = 0; i <= N; i++) pts.push(project(proj.lonMin + (lonMax - proj.lonMin) * i / N, proj.latMax));
+    for (i = 0; i <= N; i++) pts.push(project(lonMax, proj.latMax + (latMin - proj.latMax) * i / N));
+    for (i = 0; i <= N; i++) pts.push(project(lonMax + (proj.lonMin - lonMax) * i / N, latMin));
+    for (i = 0; i <= N; i++) pts.push(project(proj.lonMin, latMin + (proj.latMax - latMin) * i / N));
+    var d = pts.map(function (q, k) {
+      return (k ? 'L' : 'M') + (Math.round(q.x * 100) / 100) + ' ' + (Math.round(q.y * 100) / 100);
+    }).join('') + 'Z';
+    [ocean, frame].forEach(function (el) {
+      if (!el) return;
+      ['x', 'y', 'width', 'height'].forEach(function (a) { el.removeAttribute(a); });
+      el.setAttribute('d', d);
+    });
+    var f = laeaFitting();
+    mapW = f.w; mapH = f.h;
+    svg.setAttribute('viewBox', '0 0 ' + mapW + ' ' + mapH);
+  }
+
+  /* The things the page holds in map coordinates rather than the document:
+     where each marker sits, where each label hangs. They were all worked out
+     from the file, so they move the same way it does — and from the original
+     each time, not from wherever the last projection left them. */
+  function replaceInProjection() {
+    var i;
+    for (i = 0; i < scalables.length; i++) {
+      var sc = scalables[i];
+      if (sc.x0 === undefined) { sc.x0 = sc.x; sc.y0 = sc.y; }
+      var a = reprojectXY(sc.x0, sc.y0);
+      sc.x = a.x; sc.y = a.y;
+    }
+    for (i = 0; i < labels.length; i++) {
+      var L = labels[i];
+      if (L.x0 === undefined) { L.x0 = L.x; L.y0 = L.y; }
+      var b = reprojectXY(L.x0, L.y0);
+      L.x = b.x; L.y = b.y;
+    }
+    Object.keys(sitePos).forEach(function (k) {
+      var p = sitePos[k];
+      if (p.x0 === undefined) { p.x0 = p.x; p.y0 = p.y; }
+      var q = reprojectXY(p.x0, p.y0);
+      p.x = q.x; p.y = q.y;
+    });
+    if (lastScaleW > 0) rescale();
+    applyView(true);
+    placeLabels();
+  }
+
+  /* One coordinate in the file, moved into whatever projection is on. */
+  function reprojectXY(x, y) {
+    if (projMode === 'mercator') return { x: x, y: y };
+    var ll = storedLonLat(x, y);
+    return laeaFwd(ll.lon, ll.lat);
+  }
+
 
   function svgEl(name, attrs) {
     var el = document.createElementNS('http://www.w3.org/2000/svg', name);
@@ -1286,6 +1567,7 @@
    *   10  hairline    11  the NCA reading    12  resistance base areas
    *   13  the filler under each country
    *   14  the rivers of India
+   *   15  equal-area projection (clear: Web Mercator)
    *
    * Bits 7 and 10 no longer have a switch in the Layers panel — the province
    * source came out once the period sheet was redrawn, and the hairline came
@@ -1325,6 +1607,7 @@
     if (!state.ccp) bits |= 4096;
     if (state.backs) bits |= 8192;
     if (state.indiaRivers) bits |= 16384;
+    if (state.projection === 'laea') bits |= 32768;
     return bits.toString(36);
   }
 
@@ -1346,6 +1629,7 @@
     state.ccp = !(bits & 4096);          // inverted; see layerCode
     state.backs = !!(bits & 8192);
     state.indiaRivers = !!(bits & 16384);
+    state.projection = (bits & 32768) ? 'laea' : 'mercator';
     urlProvSource = (bits & 128) ? 'roc' : 'enp';
   }
 
@@ -1360,11 +1644,27 @@
      same meridian and it round-trips, which -158.2 did not. */
   function xForLon(lon) { return (lon - proj.lonMin) * proj.pxPerDeg; }
 
+  /* A point on screen, as longitude and latitude. Mercator inverts in closed
+     form; the azimuthal one is solved rather than inverted, which is three
+     lines and runs only when the reader asks where they are. */
   function unproject(x, y) {
-    return {
-      lon: proj.lonMin + x / proj.pxPerDeg,
-      lat: (Math.atan(Math.exp((proj.yTop - y) / proj.R)) - Math.PI / 4) * 360 / Math.PI,
-    };
+    if (projMode !== 'laea') {
+      return {
+        lon: proj.lonMin + x / proj.pxPerDeg,
+        lat: (Math.atan(Math.exp((proj.yTop - y) / proj.R)) - Math.PI / 4) * 360 / Math.PI,
+      };
+    }
+    var f = laeaFitting();
+    var X = x - f.dx, Y = f.dy - y;
+    var rho = Math.hypot(X, Y);
+    if (rho < 1e-9) return { lon: LAEA.lon0, lat: LAEA.lat0 };
+    var c = 2 * Math.asin(Math.min(1, rho / (2 * proj.R)));
+    var p1 = LAEA.lat0 * Math.PI / 180;
+    var lat = Math.asin(Math.cos(c) * Math.sin(p1) + Y * Math.sin(c) * Math.cos(p1) / rho);
+    var lon = LAEA.lon0 * Math.PI / 180 + Math.atan2(
+      X * Math.sin(c),
+      rho * Math.cos(c) * Math.cos(p1) - Y * Math.sin(c) * Math.sin(p1));
+    return { lon: lon * 180 / Math.PI, lat: lat * 180 / Math.PI };
   }
 
   /* West, south, east, north, to two decimal places. The link says roughly
@@ -3783,6 +4083,23 @@
     // a province, which is feedback you have to go looking for. It reads as a
     // switch that works sometimes. Now it draws the divisions.
     if (svg) svg.classList.toggle('admin-on', !!state.cats.territory);
+    // A change of projection moves every coordinate in the document, so it is
+    // done once here and not on the way past.
+    if (svg && (state.projection || 'mercator') !== projMode) {
+      // Hold the reader's place. The view is a rectangle in map coordinates
+      // and those are about to mean something else, so it is remembered as
+      // the ground in the middle and how much of the drawing is on screen.
+      var mid = unproject(view.x + view.w / 2, view.y + view.h / 2);
+      var frac = view.w / mapW;
+      projMode = state.projection === 'laea' ? 'laea' : 'mercator';
+      reprojectDocument();
+      var c = project(mid.lon, mid.lat);
+      view.w = Math.max(minViewW(), Math.min(frac * mapW, fitView().w));
+      view.h = view.w / (containerSize().w / containerSize().h);
+      view.x = c.x - view.w / 2;
+      view.y = c.y - view.h / 2;
+      replaceInProjection();
+    }
     if (svg) svg.classList.toggle('hairline', !!state.hairline);
     // A layer going on or off changes what `litFor` hands back for the same
     // id, so every outline standing on screen is out of date whatever its
@@ -4393,6 +4710,7 @@
       el.insertBefore(node, before);
       nodes.push(node);
     });
+    reprojectGraft(nodes);
     fineLive[key] = nodes;
     return true;
   }
@@ -4552,6 +4870,7 @@
           mine.push(node);
         }
         rememberProvinces('enp', g.getAttribute('data-for'), mine);
+        reprojectGraft(mine);
         el.classList.remove('deferred');
       });
       if (!grafted) {
@@ -4924,6 +5243,16 @@
     // Removed from the Layers panel. The state and bit 10 of the layer code
     // still work, so an old address still means what it meant; this is null
     // now and the block below is skipped.
+    $$('input[name="projection"]').forEach(function (r) {
+      r.checked = (r.value === state.projection);
+      r.addEventListener('change', function () {
+        if (!r.checked) return;
+        state.projection = r.value;
+        applyState();
+        saveState();
+      });
+    });
+
     var optIndiaRivers = $('#opt-india-rivers');
     if (optIndiaRivers) {
       optIndiaRivers.checked = state.indiaRivers;
