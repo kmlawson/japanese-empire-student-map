@@ -1027,47 +1027,156 @@
     return GRAT_STEPS[GRAT_STEPS.length - 1];
   }
 
+  var gratLabelGroup = null;
+  var gratLines = { mer: [], par: [] };   // {v, pts} per line, in map units
+
+  /* Where the graticule sits in the stack. Over the land: a reader who turns
+     it on has asked to see where the parallels run, and a mesh hidden behind
+     the countries answers that question only over the sea, which is where they
+     least need it. Under the markers, the highlight and the labels, so that
+     turning it on cannot rub out a city dot or a selection outline — the same
+     rule the mandate lines follow.
+
+     Reasserted on every call rather than only at creation: `#markers` is
+     appended during init and the graticule can be built before or after it,
+     depending on whether the reader arrives with the layer already on from a
+     share link. */
+  function placeGratGroup() {
+    var before = svg.querySelector('#markers') || highlightLayer || labelLayer;
+    if (before && before.parentNode === svg) {
+      if (gratGroup.nextSibling !== before) svg.insertBefore(gratGroup, before);
+      if (gratLabelGroup && gratLabelGroup.nextSibling !== before) {
+        svg.insertBefore(gratLabelGroup, before);
+      }
+    }
+  }
+
   function drawGraticule() {
     if (!svg) return;
     if (!gratGroup) {
       gratGroup = svgEl('g', { id: 'graticule' });
-      // under the land, over the sea: a grid drawn on top of the countries
-      // reads as a cage rather than as a frame of reference
-      var land = svg.querySelector('#land');
-      if (land) svg.insertBefore(gratGroup, land); else svg.appendChild(gratGroup);
+      svg.appendChild(gratGroup);
+      gratLabelGroup = svgEl('g', { id: 'grat-labels' });
+      svg.appendChild(gratLabelGroup);
     }
+    placeGratGroup();
     gratGroup.style.display = state.graticule ? '' : 'none';
+    gratLabelGroup.style.display = state.graticule ? '' : 'none';
     if (!state.graticule) return;
 
     var step = graticuleStep();
-    if (gratGroup.__step === step && gratGroup.__mode === projMode) return;
-    gratGroup.__step = step;
-    gratGroup.__mode = projMode;
-    gratGroup.innerHTML = '';
+    if (gratGroup.__step !== step || gratGroup.__mode !== projMode) {
+      gratGroup.__step = step;
+      gratGroup.__mode = projMode;
+      gratGroup.innerHTML = '';
+      gratLines = { mer: [], par: [] };
 
-    var lonMax = proj.lonMin + mapW0 / proj.pxPerDeg;
-    var latMin = (Math.atan(Math.exp((proj.yTop - mapH0) / proj.R)) - Math.PI / 4) * 360 / Math.PI;
-    var d = '', lon, lat, first, q;
+      var lonMax = proj.lonMin + mapW0 / proj.pxPerDeg;
+      var latMin = (Math.atan(Math.exp((proj.yTop - mapH0) / proj.R)) - Math.PI / 4)
+                   * 360 / Math.PI;
+      var d = '', lon, lat, first, q, pts;
 
-    for (lon = Math.ceil(proj.lonMin / step) * step; lon <= lonMax; lon += step) {
-      first = true;
-      for (lat = latMin; lat <= proj.latMax + 1e-9; lat = Math.min(lat + 1, proj.latMax)) {
-        q = project(lon, lat);
-        d += (first ? 'M' : 'L') + Math.round(q.x * 10) / 10 + ' ' + Math.round(q.y * 10) / 10;
-        first = false;
-        if (lat >= proj.latMax) break;
+      for (lon = Math.ceil(proj.lonMin / step) * step; lon <= lonMax; lon += step) {
+        first = true; pts = [];
+        for (lat = latMin; lat <= proj.latMax + 1e-9; lat = Math.min(lat + 1, proj.latMax)) {
+          q = project(lon, lat);
+          pts.push(q);
+          d += (first ? 'M' : 'L') + Math.round(q.x * 10) / 10 + ' ' + Math.round(q.y * 10) / 10;
+          first = false;
+          if (lat >= proj.latMax) break;
+        }
+        gratLines.mer.push({ v: lon, pts: pts });
       }
-    }
-    for (lat = Math.ceil(latMin / step) * step; lat <= proj.latMax; lat += step) {
-      first = true;
-      for (lon = proj.lonMin; lon <= lonMax + 1e-9; lon = Math.min(lon + 1, lonMax)) {
-        q = project(lon, lat);
-        d += (first ? 'M' : 'L') + Math.round(q.x * 10) / 10 + ' ' + Math.round(q.y * 10) / 10;
-        first = false;
-        if (lon >= lonMax) break;
+      for (lat = Math.ceil(latMin / step) * step; lat <= proj.latMax; lat += step) {
+        first = true; pts = [];
+        for (lon = proj.lonMin; lon <= lonMax + 1e-9; lon = Math.min(lon + 1, lonMax)) {
+          q = project(lon, lat);
+          pts.push(q);
+          d += (first ? 'M' : 'L') + Math.round(q.x * 10) / 10 + ' ' + Math.round(q.y * 10) / 10;
+          first = false;
+          if (lon >= lonMax) break;
+        }
+        gratLines.par.push({ v: lat, pts: pts });
       }
+      gratGroup.appendChild(svgEl('path', { 'class': 'grat-line', d: d }));
     }
-    gratGroup.appendChild(svgEl('path', { 'class': 'grat-line', d: d }));
+    placeGratLabels();
+  }
+
+  /* A meridian or parallel is no use unnamed. The labels ride the edge of the
+     window rather than the edge of the sheet — a reader who has zoomed into
+     Luzon wants to know which parallel is crossing Luzon, and the sheet's own
+     margin is a thousand kilometres away and off screen.
+
+     So each line is labelled where it crosses an inset from the top of the
+     view (meridians) or from the left (parallels). The crossing is found by
+     walking the line's own points, which are already computed at one-degree
+     steps in whatever projection is on, so this needs no inverse and bends
+     with the conic and the azimuthal exactly as the line does. */
+  function gratText(v, pos, neg) {
+    var r = Math.round(v * 1000) / 1000;
+    if (Math.abs(r) < 1e-6) return '0\u00b0';
+    return Math.abs(r) + '\u00b0' + (r > 0 ? pos : neg);
+  }
+
+  /* The first point of a line that is inside the window. Both kinds are built
+     south to north and west to east, so a parallel is walked forwards to reach
+     it from the left and a meridian backwards to reach it from the top — the
+     usual places to hang the two, and read left to right along the top and
+     down the left side.
+
+     Walking the points rather than cutting at a fixed height is what makes
+     this work in all three projections: when the whole sheet fits, "the top
+     edge" is the top of the drawing itself, which in the two equal-area views
+     is a curve, and a horizontal cut taken above the apex of that curve
+     crosses nothing at all. The home view came up with a mesh and no names on
+     it while this was a cut. */
+  function firstInside(pts, r, back) {
+    for (var n = 0; n < pts.length; n++) {
+      var p = pts[back ? pts.length - 1 - n : n];
+      if (p.x >= r.x0 && p.x <= r.x1 && p.y >= r.y0 && p.y <= r.y1) return p;
+    }
+    return null;
+  }
+
+  function placeGratLabels() {
+    if (!gratLabelGroup) return;
+    var c = containerSize();
+    var k = view.w / c.w;                       // map units per screen pixel
+    var pad = 3 * k;
+    var r = { x0: view.x + pad, x1: view.x + view.w - pad,
+              y0: view.y + pad, y1: view.y + view.h - pad };
+    var want = [];
+
+    gratLines.mer.forEach(function (m) {
+      var p = firstInside(m.pts, r, true);
+      if (!p) return;
+      want.push({ t: gratText(m.v > 180 ? m.v - 360 : m.v, 'E', 'W'),
+                  x: p.x, y: p.y, anchor: 'middle', ox: 0, oy: 10 });
+    });
+    gratLines.par.forEach(function (q) {
+      var p = firstInside(q.pts, r);
+      if (!p) return;
+      want.push({ t: gratText(q.v, 'N', 'S'),
+                  x: p.x, y: p.y, anchor: 'start', ox: 5, oy: 0 });
+    });
+
+    // the text elements are reused: this runs on every pan, and rebuilding a
+    // dozen nodes a frame is churn for nothing
+    var have = gratLabelGroup.childNodes;
+    while (have.length > want.length) gratLabelGroup.removeChild(gratLabelGroup.lastChild);
+    while (have.length < want.length) {
+      gratLabelGroup.appendChild(svgEl('text', { 'class': 'grat-label' }));
+    }
+    want.forEach(function (w, i) {
+      var el = have[i];
+      if (el.textContent !== w.t) el.textContent = w.t;
+      el.setAttribute('text-anchor', w.anchor);
+      // the offset is applied inside the scale, so it stays the same number of
+      // screen pixels off the edge at every zoom
+      el.setAttribute('transform', 'translate(' + w.x + ' ' + w.y + ') scale(' + k
+        + ') translate(' + w.ox + ' ' + w.oy + ')');
+    });
   }
 
   /* The sea and the edge of the drawing. A rectangle in Mercator, where a box
@@ -2311,7 +2420,7 @@
       if (!key) return;
       var x = parseFloat(el.getAttribute('data-cx'));
       var y = parseFloat(el.getAttribute('data-cy'));
-      var half = 0;
+      var half = 0, area = Infinity;
       if (!isFinite(x) || !isFinite(y)) {
         // Not everything wearing data-prov is a division. The occupied zone
         // names its own blocks that way — "North China and the Yangtze
@@ -2331,11 +2440,13 @@
         // half the island's own height, kept so the name can be moved off it
         // when the island is small — see isleOffset
         half = bb.height / 2;
+        area = bb.width * bb.height;
       }
       var text = svgEl('text', { 'class': 'tlabel sublabel', 'font-size': SUB_PX });
       labelLayer.appendChild(text);
       var entry = { rec: subRec(el, key), el: text, x: x, y: y, dy: 0,
                     size: SUB_PX, w: 0, h: SUB_PX * 1.2, half: half, key: key,
+                    area: area,
                     owner: el, atom: el.closest ? el.closest('.atom') : null };
       labels.push(entry);
       subLabels.push(entry);
@@ -2344,12 +2455,30 @@
       scalables.push(sc);
       made++;
     });
-    // country names first, then divisions, then the rest: a province must
-    // never crowd out the country it is in
+    /* Country names first, then divisions, then the rest: a province must
+       never crowd out the country it is in.
+
+       Within the divisions, the largest shape first. `placeLabels` is greedy
+       and first-come-first-served, so whatever this order is decides which
+       names survive a crowd — and it used to be the order the shapes happened
+       to be grafted in. In the western Solomons that put 183 islands on screen
+       and gave 84 of them names, of which 48 were islands under 100 square
+       pixels and ten were four pixels or less, while **Santa Isabel and
+       Choiseul, the two largest things in the frame at 175,000 and 111,000
+       square pixels, got no name at all**: a one-pixel islet had taken the
+       space first because it came first in the file.
+
+       A division measured from `data-cx` has no box — asking the browser for
+       thirteen hundred of them is a layout flush the fine coastlines do not
+       cost — so it sorts as `Infinity` and keeps its place ahead of the
+       islets, which is what the rank above already intends. Sorting is stable,
+       so divisions keep their document order among themselves. */
     if (made) {
       var rank = { territory: 0, feature: 1, sub: 2, site: 3, browse: 4 };
       labels.sort(function (a, b) {
-        return (rank[a.rec.kind] || 2) - (rank[b.rec.kind] || 2);
+        var d = (rank[a.rec.kind] || 2) - (rank[b.rec.kind] || 2);
+        if (d) return d;
+        return (b.area || 0) - (a.area || 0);
       });
       rescale();
     }

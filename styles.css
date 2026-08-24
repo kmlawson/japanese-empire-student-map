@@ -512,8 +512,25 @@ button.plain:hover { background: #f2ede2; }
   pointer-events: none;
 }
 
+/* Over the land now, so the mesh needs to sit on the countries without
+   reading as a cage: a shade stronger than it was over water alone, and
+   dashed, which the eye takes as a reference line rather than as a border. */
+#grat-labels .grat-label {
+  pointer-events: none;
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: .02em;
+  paint-order: stroke;
+  stroke: #fffdf8;
+  stroke-width: 3px;
+  stroke-linejoin: round;
+  fill: #6a7a88;
+  dominant-baseline: middle;
+}
+
 @media (prefers-color-scheme: dark) {
-  #graticule .grat-line { stroke: rgba(210, 225, 240, .18); }
+  #graticule .grat-line { stroke: rgba(210, 225, 240, .22); }
+  #grat-labels .grat-label { stroke: #10161c; fill: #93a6b6; }
 }
 
 /* Gordon's greatest-extent perimeter */

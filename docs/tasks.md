@@ -5150,6 +5150,90 @@ parent document `data/report.md` refers to five times, and it is 85 KB.
 
 ---
 
+## The graticule over the map, and named
+
+Asked for: the graticule drawn over the map rather than under it, and labelled.
+
+**Over the land, under everything a reader interacts with.** It was inserted
+before `#land` — under the countries, over the sea — so a reader who switched
+it on to see where the parallels run was answered only over water, which is
+where they least need it. It sits before `#markers` now: over the land, the
+rivers and the hatching, under the city dots, the selection outline and the
+names, which is the rule the mandate lines already follow. The position is
+reasserted on every call rather than only at creation, because `#markers` is
+appended during init and the graticule can be built either side of it
+depending on whether the reader arrives with the layer already on from a link.
+Measured in the DOM: graticule at index 16, `#land` at 4, `#markers` at 18,
+`#labels` at 20.
+
+**Named where each line enters the window.** Meridians are walked from the
+north end and parallels from the west, and each is labelled at the first of its
+own points that falls inside the view — so the names ride the top edge and the
+left side, read left to right and top to bottom, and follow the pan.
+
+Two attempts. The first cut the mesh at a fixed height below the top of the
+view and interpolated the crossing, which is correct in Mercator and useless in
+the other two: **the top of the sheet there is a curve, and a horizontal cut
+taken above its apex crosses nothing at all** — the home view came up with a
+full mesh and not one name on it, 0 labels in Albers and 1 in LAEA. Walking the
+line's own points needs no cut, no inverse, and no special case: the points are
+already computed at one-degree steps in whatever projection is on, so the label
+lands on the curve exactly where the line does. Home view now gives 6 labels in
+all three (90/120/150/180°E, 0°, 30°N), and a view over Japan gives 8
+(115–135°E every 5, 25/30/35°N).
+
+The text elements are reused between frames rather than rebuilt, since this
+runs on every pan. Offsets are applied inside the scale transform so a label
+stays the same number of pixels off the edge at every zoom. A white halo
+(`paint-order: stroke`) was added because the names are over land now, and the
+line itself went from 20% to 22% opacity in dark mode for the same reason.
+
+---
+
+## Island names: the largest first, and what that did not fix
+
+Asked for: rank the fine-coastline labels by size before placing them, since
+`placeLabels` is greedy and first-come-first-served and the order was whatever
+the shapes were grafted in.
+
+Done. `ensureSubLabels` already measured each island's box and kept only half
+its height; it keeps the area now, and the `sub` block sorts on it descending
+inside the existing kind rank. A division measured from `data-cx` has no box —
+asking the browser for thirteen hundred of them is a layout flush the fine
+coastlines do not cost — so it sorts as `Infinity` and stays ahead of the
+islets, which is what the kind rank already intends. Sorting is stable, so
+divisions keep their document order among themselves.
+
+**Measured, on the western Solomons at 1108x740, the view that prompted this.**
+183 fine islands on screen, 163 of them under 400 square pixels and 141 under
+100. Before and after, 84 names are drawn. Seven change: **Ghebira, Karunjou,
+Malangari, Mauru, Mbarambuni, Ramata and Singgo come in; Kapatene, Kokorana,
+Lola, Mbaghumbaghu, Moluana Nggete, Nggulasa and Njapuana go out.** Islands of
+ten square pixels or less fall from 18 to 15. Real, and small.
+
+**And it does not fix Santa Isabel, which is what I said it would.** That claim
+was wrong and the measurement says so: Santa Isabel is still unnamed after the
+sort. Two separate faults, neither of them the ordering:
+
+*Choiseul* — its label anchor is the centre of the shape's full bounding box,
+and with the island half off the top of the window that centre is at y = -20.
+`free()` rejects any box outside the frame, so the name is dropped although
+two-thirds of the island is on screen. The anchor needs clamping to the visible
+part of the shape.
+
+*Santa Isabel* — its anchor is **57 pixels above the island's own centre**
+(label at 955,271 against a shape centred on 955,328), and it is rejected for a
+clash at that displaced position, with nothing at the true centre to stop it.
+The anchor comes from `getBBox()` read once when the label is made, and it does
+not agree with where the shape is rendered. Not chased further today.
+
+Neither is the density quota that was actually asked about; that is still to
+come, and it needs the anchor to be right first, since a quota that keeps the
+largest island in a cell is no use if the largest island's name is thrown away
+for standing in the wrong place.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible
