@@ -463,7 +463,22 @@
     // are a grey mat across the whole map. Their dots are there from the
     // moment Cities is switched on; their names wait until the reader has
     // closed in on somewhere, which is when a name is any use to them.
-    if (rec.kind === 'browse') return browseVisible() && labelLevel() >= 2;
+    if (rec.kind === 'browse') {
+      if (!browseVisible() || labelLevel() < 2) return false;
+      /* Where the gazetteer is loaded it is what draws the dots — `#browse`'s
+         own are hidden the moment `JMAP.GAZ` exists — and these names are the
+         names of *those* dots. So a name must not outlast the dot it belongs
+         to, and the gazetteer thins its dots by tier as the reader pulls back.
+         It did not ask, and the result was a screen of city names over western
+         China with nothing under them: Wūlǔmùqí, Hami, Éjìnà, Yínchuān, Xīníng
+         and thirty more, floating, because their dots were below the tier
+         floor at that zoom while their names were not gated at all. */
+      if (JMAP.GAZ) {
+        var dot = gazFor(rec.id);
+        return !!dot && gazVisible(dot);
+      }
+      return true;
+    }
     return state.cats[rec.cat] && rec.lvl <= labelLevel() && siteInEpoch(rec);
   }
 
@@ -1385,6 +1400,14 @@
   var gazGroup = null;
   var gazEls = [];
   var gazRecs = [];
+  var gazByKey = {};              // epoch + '|' + id -> the gazetteer record
+
+  /* The gazetteer dot that a context city's name belongs to, in the epoch on
+     screen. There is one per epoch, because a place can change tier between
+     1930 and 1942. */
+  function gazFor(id) {
+    return gazByKey[state.epoch + '|' + id];
+  }
   var GAZ_R = [2.5, 3.4, 4.4, 5.8];      // small, medium, large, largest
 
   /* What the browse layer knew and the gazetteer does not. The CSVs carry a
@@ -1486,6 +1509,7 @@
         c.short = whose;
         c.note = [c.when, whose, c.extra].filter(Boolean).join(' · ');
         gazRecs.push(c);
+        gazByKey[epoch + '|' + c.id] = c;
         elById[c.rid] = g;
         sitePos[c.rid] = p;
         g.setAttribute('data-id', c.rid);
@@ -2639,6 +2663,20 @@
   var QUOTA_PX = 170;
   var quotaAt = { size: 0, n: -1 };
 
+  /* And a ceiling on top of the quota. The quota decides *which* islands are
+     worth naming in each patch of sea, and it does that well in a sparse
+     archipelago; in the western Solomons and along the north coast of New
+     Guinea there are so many patches that the sum of a reasonable answer in
+     each is still an unreasonable answer overall. Forty names is a map a
+     reader can take in. Every island keeps its identity — it is still
+     hoverable, still named in the panel — it simply is not written across the
+     sea unless it is one of the forty largest in view.
+
+     No sorting is needed to find them: the divisions and islands are already
+     ordered largest first for the placer, so the fortieth island to be drawn
+     is by construction the fortieth largest that fitted. */
+  var ISLAND_CAP = 40;
+
   function islandQuota() {
     var k = view.w / containerSize().w;             // map units per screen pixel
     // Snapped to a ladder so the grid changes in steps and is the same grid
@@ -2675,13 +2713,19 @@
     var sy = c.h / view.h;
     var placed = uiBoxes();
     islandQuota();
+    var isles = 0;
 
     for (var i = 0; i < labels.length; i++) {
       var L = labels[i];
       if (!L.w) { L.el.style.display = 'none'; continue; }
+      var isIsle = L.half && isFinite(L.area);
       // too many islands in this patch of sea for this one to be among the
-      // names it is worth carrying — see islandQuota
-      if (L.crowded) { L.el.style.display = 'none'; continue; }
+      // names it is worth carrying — see islandQuota — or forty are already
+      // written and this is the forty-first largest
+      if (isIsle && (L.crowded || isles >= ISLAND_CAP)) {
+        L.el.style.display = 'none';
+        continue;
+      }
       // a browse name with no dot under it is just a word floating in the sea
       if (L.rec.kind === 'browse' && !browseVisible()) { L.el.style.display = 'none'; continue; }
 
@@ -2726,6 +2770,7 @@
       if (!ok) { L.el.style.display = 'none'; continue; }
 
       placed.push(box);
+      if (isIsle) isles++;
       L.el.style.display = '';
     }
   }

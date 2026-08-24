@@ -5471,6 +5471,71 @@ hand now.
 
 ---
 
+## City names with no dots under them
+
+Reported: names for cities that "haven't landed yet" — a screen of them across
+western China with nothing beneath.
+
+**They had not failed to land; they were never going to.** When `JMAP.GAZ` is
+present it is what draws the city dots, and `#browse`'s own dots are hidden
+outright — `browseGroup.style.display = (!JMAP.GAZ && browseVisible())`. So the
+names in `#labels` are the names of *gazetteer* dots. The gazetteer thins its
+dots by tier as the reader pulls back, `gazMinTier()`, and the name asked no
+such question: its whole gate was `browseVisible() && labelLevel() >= 2`. Below
+the tier floor the dot went and the name stayed.
+
+A browse label now also requires its own dot to be drawn, through a new
+`gazFor(id)` index into the epoch's gazetteer records. Measured, counting names
+with no visible dot within 30 px:
+
+| view | names before | orphaned | names after | orphaned |
+| --- | ---: | ---: | ---: | ---: |
+| western China | 37 | **20** | 17 | **0** |
+| British India | 45 | **18** | 27 | **0** |
+| eastern China, Japan, home | 0 | 0 | 0 | 0 |
+
+Wūlǔmùqí and Lánzhōu keep their names because their dots are above the floor;
+Hami, Éjìnà, Yínchuān and Xīníng lose them at that zoom along with their dots,
+and get them back on the way in.
+
+---
+
+## Forty island names, and no more
+
+Asked for: at most the top forty islands named with Other on, in the Solomons
+and off New Guinea.
+
+`ISLAND_CAP = 40` in `placeLabels`. It needs no sorting of its own: the
+divisions and islands are already ordered largest-first for the placer, so the
+fortieth island drawn is by construction the fortieth largest that fitted. The
+quota still runs underneath it and still does the useful half of the job —
+deciding *which* island is worth naming in each patch of sea, so the forty are
+spread rather than all in one shoal.
+
+Measured at 1264x716, the reader's own window:
+
+| view | islands on screen | named |
+| --- | ---: | ---: |
+| Solomons, the reported view | 295 | 37 |
+| Solomons, tighter | 182 | **40** |
+| north coast of New Guinea | 187 | 32 |
+| Ryukyus | 66 | 22 |
+| Bonins | 18 | 13 |
+
+The cap binds where it was asked to and nowhere else: the Bonins and the
+Ryukyus are under it and unaffected. Every island keeps its identity — still
+hoverable, still named in the panel — it simply is not written across the sea
+unless it is one of the forty largest in view. Santa Isabel and Choiseul are
+named in that view now, which they were not before.
+
+**A note on the harness, because it wasted time twice.** Running several pages
+through one headless browser makes some of them report *zero* island labels —
+a timing artefact, not a fault in the map. The same views measured one page at
+a time are stable across repeated samples: Solomons 40, 40, 40; Bonins 13, 13,
+13. Measure one view per browser when the number matters.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible
