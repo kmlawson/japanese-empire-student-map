@@ -231,6 +231,7 @@ JMAP.TERRITORIES = {
       id: 'chishima', en: 'Kurile Islands (Chishima)', ja: '千島列島 (Chishima Rettō)',
       orig: 'Курильские острова', zh: '千島群島', when: 'Japanese from 1875', cat: 'metropole',
       lvl: 2, atoms: ['chishima'], wiki: 'https://en.wikipedia.org/wiki/Kuril_Islands',
+      label: 'Kurile Islands',
       note: 'Traded to Japan by Russia in the 1875 Treaty of Saint Petersburg, in exchange for Japanese claims to Sakhalin.'
     },
     {
@@ -249,7 +250,7 @@ JMAP.TERRITORIES = {
       id: 'karafuto', en: 'Karafuto (southern Sakhalin)', ja: '樺太 (Karafuto)',
       orig: 'Южный Сахалин', zh: '樺太（南薩哈林）', ko: '가라후토청', when: 'Japanese from 1905',
       cat: 'jpcolony', lvl: 1, atoms: ['karafuto'],
-      wiki: 'https://en.wikipedia.org/wiki/Karafuto_Prefecture',
+      wiki: 'https://en.wikipedia.org/wiki/Karafuto_Prefecture', label: 'Karafuto',
       note: 'Sakhalin south of the 50th parallel, taken from Russia by the 1905 Treaty of Portsmouth.'
     },
     {
@@ -304,6 +305,7 @@ JMAP.TERRITORIES = {
       id: 'xinjiang', en: 'Xīnjiāng (Sinkiang)', ja: '新疆 (Shinkyō)', orig: 'شىنجاڭ (Shinjang)',
       zh: '新疆', when: 'Under largely autonomous provincial rule', cat: 'chinese', lvl: 3,
       atoms: ['xinjiang'], within: 'china', wiki: 'https://en.wikipedia.org/wiki/Xinjiang',
+      label: 'Xīnjiāng',
       note: 'Oasis towns round the rim of the Taklamakan, watered off the Tian Shan and the Kunlun, growing cotton, wheat and melons, with pastoral country in the north; Uyghur, Kazakh and Hui more than Han, and Turkic and Muslim more than Chinese. A quarter of the Republic\'s area and about one per cent of its people. A province in name, and Nanjing recognised Jin Shuren as its chairman after Yang Zengxin was assassinated in 1928 — but the government ran its own army, currency, finances and foreign trade, its roads and its telegraph ran to Soviet Central Asia rather than to China, and Nanjing\'s writ reached almost nothing of it.'
     },
     {
@@ -335,7 +337,7 @@ JMAP.TERRITORIES = {
       id: 'princelystates', en: 'Princely states',
       when: 'Rulers in subsidiary alliance with the Crown', cat: 'british', lvl: 3,
       atoms: ['princely'], adminOnly: true,
-      wiki: 'https://en.wikipedia.org/wiki/Princely_state',
+      wiki: 'https://en.wikipedia.org/wiki/Princely_state', label: '-',
       note: 'British India was a patchwork: nine governors\' provinces and a handful of smaller chief commissioners\' ones, ruled directly, and beside them some six hundred princely states whose rulers kept their thrones under treaties with the Crown. Hyderabad, the largest by population and revenue, had its own army and currency, and the Nizam was reckoned the richest man alive. The states are drawn here from a layer of their 1931 boundaries rather than approximated from modern units, so the shapes are the shapes: the Rajputana and Central India agencies as one western mass, the Baluchistan states of Kalat and Las Bela, the Eastern States through Orissa and Chhattisgarh, the hill states along the frontier, and the small Deccan states scattered through Bombay. The very smallest of the six hundred are below the resolution of this map and are drawn inside whichever province surrounded them.'
     },
     {
@@ -492,7 +494,7 @@ JMAP.TERRITORIES = {
     },
     {
       id: 'miangas', en: 'Miangas (Palmas)', ja: 'ミアンガス島', orig: 'Miangas',
-      when: 'Awarded to the Netherlands, 4 April 1928', cat: 'dutch', lvl: 3,
+      when: 'Awarded to the Netherlands, 4 April 1928', cat: 'dutch', lvl: 4,
       atoms: ['miangas'], wiki: 'https://en.wikipedia.org/wiki/Miangas',
       note: 'The Island of Palmas of the arbitration: the United States claimed it as part of the Philippines it had bought from Spain in 1898, the Netherlands claimed it by long administration, and Max Huber awarded it to the Netherlands on 4 April 1928 — the case that made continuous and peaceful display of authority the test of title, and one of the most cited decisions in international law. It lies nearer Mindanao than any Dutch island.'
     },
@@ -543,7 +545,7 @@ JMAP.TERRITORIES = {
     {
       id: 'ussr', en: 'Soviet Union (USSR)', orig: 'СССР (SSSR)', zh: '蘇聯', when: 'From 1922',
       cat: 'soviet', lvl: 1, atoms: ['ussr'],
-      wiki: 'https://en.wikipedia.org/wiki/Soviet_Union',
+      wiki: 'https://en.wikipedia.org/wiki/Soviet_Union', label: 'Soviet Union',
       note: 'Japan had intervened in the Russian Civil War in Siberia from 1918 to 1922 and held northern Sakhalin until 1925. Relations along the Manchurian border stayed tense.'
     },
     {
@@ -590,7 +592,7 @@ JMAP.TERRITORIES = {
       id: 'tuva', en: 'Tannu Tuva (Tuvan People’s Republic)', orig: 'Тыва Арат Республик',
       zh: '唐努圖瓦', when: 'Independent in name from 1921', cat: 'soviet', lvl: 3, c: '#d3d1e6',
       atoms: ['tuva'], edge: '#bebada',
-      wiki: 'https://en.wikipedia.org/wiki/Tuvan_People\'s_Republic',
+      wiki: 'https://en.wikipedia.org/wiki/Tuvan_People\'s_Republic', label: 'Tannu Tuva',
       note: 'Qing territory until 1911, then a Russian protectorate, then a nominally independent republic from 1921 — recognised only by the Soviet Union and Mongolia. Absorbed into the USSR in 1944. China went on claiming it.'
     },
     {
@@ -620,7 +622,7 @@ JMAP.TERRITORIES = {
     {
       id: 'contested', en: 'Border is contested or not fixed', ja: '未確定国境', zh: '未定國界',
       cat: 'contested', lvl: 3, c: 'transparent', atoms: ['contested', 'contested_burma'],
-      hatch: 'unclear',
+      hatch: 'unclear', label: '-',
       note: 'These stretches of frontier were contested or the sources for this map disagree about them. They include the Pamirs where Afghanistan, the Soviet Union and China meet; the Aksai Chin plateau in northeastern Kashmir; the frontier east of Bhutan; and the frontier between Burma and Yunnan.'
     },
   ],
@@ -649,6 +651,7 @@ JMAP.TERRITORIES = {
       id: 'chishima', en: 'Kurile Islands (Chishima)', ja: '千島列島 (Chishima Rettō)',
       orig: 'Курильские острова', zh: '千島群島', when: 'Japanese from 1875', cat: 'metropole',
       lvl: 2, atoms: ['chishima'], wiki: 'https://en.wikipedia.org/wiki/Kuril_Islands',
+      label: 'Kurile Islands',
       note: 'The Pearl Harbor strike force sailed from Hitokappu Bay in these islands in November 1941. Seized by the USSR in 1945 and still disputed.'
     },
     {
@@ -667,7 +670,7 @@ JMAP.TERRITORIES = {
       id: 'karafuto', en: 'Karafuto (southern Sakhalin)', ja: '樺太 (Karafuto)',
       orig: 'Южный Сахалин', zh: '樺太（南薩哈林）', ko: '가라후토청', when: 'Japanese 1905–1945',
       cat: 'colony', lvl: 1, atoms: ['karafuto'],
-      wiki: 'https://en.wikipedia.org/wiki/Karafuto_Prefecture',
+      wiki: 'https://en.wikipedia.org/wiki/Karafuto_Prefecture', label: 'Karafuto',
       note: 'Coal, timber and fisheries, and — apart from Korea\'s short frontier on the lower Tumen — the empire\'s land border with the Soviet Union. Lost in August 1945.'
     },
     {
@@ -696,7 +699,7 @@ JMAP.TERRITORIES = {
       zh: '蒙古自治邦', ko: '몽강연합자치정부',
       when: 'Renamed the Mongol Autonomous Federation, August 1941; federated September 1939; Japanese client from 1936',
       cat: 'puppet', lvl: 2, atoms: ['mengjiang'],
-      wiki: 'https://en.wikipedia.org/wiki/Mengjiang',
+      wiki: 'https://en.wikipedia.org/wiki/Mengjiang', label: 'Měngjiāng',
       note: 'The Inner Mongolian autonomous government under Prince Demchugdongrub, with its capital at Zhangjiakou, assembled out of eastern Chahar, the Mongol leagues and a strip of northern Shanxi. Japanese-sponsored Mongol governments date from 1936, and the regime changed its name more than once: the federation of September 1939 joined the Mongol leagues to two Chinese-populated administrations — Chanan out of southern Chahar and Jinbei out of northern Shanxi — as the Mengchiang United Autonomous Government, and in August 1941 that was renamed the Mongol Autonomous Federation, 蒙古自治邦, which is what it was called in December 1942. Switch Administrative on and the three parts are named. The line indicates claimed Mengjiang territory and the fill indicates approximate simplified area of control.'
     },
     {
@@ -704,7 +707,7 @@ JMAP.TERRITORIES = {
       orig: '日軍佔領區', zh: '日軍佔領區（大略）',
       when: 'Occupied from 1937; Nanking government from March 1940', cat: 'occupied', lvl: 1,
       atoms: ['occupiedzone'], srcOnly: 'traced',
-      wiki: 'https://en.wikipedia.org/wiki/Wang_Jingwei_regime',
+      wiki: 'https://en.wikipedia.org/wiki/Wang_Jingwei_regime', label: 'Japanese-occupied',
       note: 'Governed on paper by Wang Jingwei’s collaborationist government at Nanjing, with the far south under military administration instead. Traced from a 1940 map of the occupation and adjusted to December 1942: the plains, the railways and the cities of the north and the Yangtze valley, the Guangzhou delta from October 1938, Hainan from February 1939, and the ports of Xiamen and Shantou. Western Shanxi and Henan, most of Hunan, Jiangxi and Fujian were never taken, Changsha held out until 1944, and Communist and Nationalist guerrillas operated in force inside the line as well as beyond it — the shading marks where Japanese authority reached, not where it was unchallenged.'
     },
     {
@@ -749,6 +752,7 @@ JMAP.TERRITORIES = {
       when: 'Landings 16 December 1941; British surrender 1 April 1942', cat: 'occupied',
       lvl: 3, atoms: ['sarawak', 'northborneo', 'brunei'],
       wiki: 'https://en.wikipedia.org/wiki/Japanese_occupation_of_British_Borneo',
+      label: 'Kita Boruneo',
       note: 'Taken first, and quickly, for the oilfields at Miri and Seria. Sarawak, Brunei, North Borneo and Labuan lost their separate identities: Japan ran them together as one military administration under Kawaguchi Kiyotake and called the whole Kita Boruneo, northern Borneo, with Labuan renamed Maeda-shima. British administration returned in September 1945.'
     },
     {
@@ -779,7 +783,7 @@ JMAP.TERRITORIES = {
     },
     {
       id: 'miangas', en: 'Miangas (Palmas)', ja: 'ミアンガス島', orig: 'Miangas',
-      when: 'Taken with the Netherlands Indies, 1942', cat: 'occupied', lvl: 3,
+      when: 'Taken with the Netherlands Indies, 1942', cat: 'occupied', lvl: 4,
       atoms: ['miangas'], wiki: 'https://en.wikipedia.org/wiki/Miangas',
       note: 'Dutch since the arbitration of 1928, which the United States had brought claiming it as part of the Philippines. Japan took both in the same three months.'
     },
@@ -822,6 +826,7 @@ JMAP.TERRITORIES = {
       id: 'guam', en: 'Guam (Ōmiyajima)', ja: '大宮島 (Ōmiyajima)', orig: 'Guåhan', zh: '關島',
       when: 'Taken 10 December 1941', rule: 'American territory under Japanese occupation',
       cat: 'occupied', lvl: 3, atoms: ['guam'], wiki: 'https://en.wikipedia.org/wiki/Guam',
+      label: 'Guam',
       note: 'The one American possession inside the Japanese-held Marianas, renamed Ōmiyajima and retaken in 1944.'
     },
     {
@@ -889,7 +894,7 @@ JMAP.TERRITORIES = {
       orig: 'Guadalcanal', zh: '瓜達爾卡納爾島（爭奪中）',
       when: 'American landing 7 August 1942; fought over into February 1943', cat: 'occupied',
       lvl: 2, atoms: ['solomons_gc'], hatch: 'us',
-      wiki: 'https://en.wikipedia.org/wiki/Guadalcanal',
+      wiki: 'https://en.wikipedia.org/wiki/Guadalcanal', label: 'Guadalcanal',
       note: 'In December 1942 the island was divided: the Americans held the airfield and the perimeter around it, the Japanese the ground to the west, and neither could dislodge the other. It is drawn in the occupation colour with American stripes across it for that reason — the only ground on the map the two were contesting at this date. Japan evacuated in the first week of February 1943, and the campaign is usually taken as the point at which the initiative changed hands.'
     },
     {
@@ -978,7 +983,7 @@ JMAP.TERRITORIES = {
       id: 'princelystates', en: 'Princely states',
       when: 'Rulers in subsidiary alliance with the Crown', cat: 'allied', lvl: 3,
       atoms: ['princely'], adminOnly: true,
-      wiki: 'https://en.wikipedia.org/wiki/Princely_state',
+      wiki: 'https://en.wikipedia.org/wiki/Princely_state', label: '-',
       note: 'British India was a patchwork: eleven provinces ruled directly, and beside them some six hundred princely states whose rulers kept their thrones under treaties with the Crown. Hyderabad, the largest by population and revenue, had its own army and currency, and the Nizam was reckoned the richest man alive. The states are drawn here from a layer of their 1931 boundaries rather than approximated from modern units, so the shapes are the shapes: the Rajputana and Central India agencies as one western mass, the Baluchistan states of Kalat and Las Bela, the Eastern States through Orissa and Chhattisgarh, the hill states along the frontier, and the small Deccan states scattered through Bombay. The very smallest of the six hundred are below the resolution of this map and are drawn inside whichever province surrounded them.'
     },
     {
@@ -1002,7 +1007,7 @@ JMAP.TERRITORIES = {
     {
       id: 'ussr', en: 'Soviet Union (USSR)', orig: 'СССР (SSSR)', zh: '蘇聯',
       when: 'Neutrality Pact, April 1941', cat: 'neutral', lvl: 1, atoms: ['ussr'],
-      wiki: 'https://en.wikipedia.org/wiki/Soviet_Union',
+      wiki: 'https://en.wikipedia.org/wiki/Soviet_Union', label: 'Soviet Union',
       note: 'At war with Germany but not with Japan: the Neutrality Pact of April 1941 held until the Soviet invasion of Manchuria in August 1945. Both sides kept large armies on the Manchurian border throughout. The frontier had already been fought over: an undeclared border war ran through the late 1930s and was settled at Nomonhan on the Manchukuo–Mongolian border in the summer of 1939, where Zhukov destroyed a Japanese division. That defeat is a large part of why the Japanese advance in 1941 went south rather than north.'
     },
     {
@@ -1015,6 +1020,7 @@ JMAP.TERRITORIES = {
       id: 'xinjiang', en: 'Xīnjiāng (Sinkiang)', ja: '新疆 (Shinkyō)', orig: 'شىنجاڭ (Shinjang)',
       zh: '新疆', when: 'Realigned with Chungking in 1942', cat: 'freechina', lvl: 3,
       atoms: ['xinjiang'], within: 'freechina', wiki: 'https://en.wikipedia.org/wiki/Xinjiang',
+      label: 'Xīnjiāng',
       note: 'Oasis towns round the rim of the Taklamakan, watered off the Tian Shan and the Kunlun, growing cotton, wheat and melons, with pastoral country in the north; Uyghur, Kazakh and Hui more than Han, and its trade running to Soviet Central Asia rather than to China. A province in name only. A Muslim rising in 1931 grew into the East Turkestan Republic proclaimed at Kashgar in 1933 and put down with Soviet help; Sheng Shicai then governed on Soviet money, with Soviet advisers, aircraft and a garrison at Hami, running the province as a Soviet dependency in all but name. He broke with Moscow in 1942 and turned to Chongqing — he was still governing in December — and within two years had lost the confidence of both.'
     },
     {
@@ -1039,7 +1045,7 @@ JMAP.TERRITORIES = {
       id: 'tuva', en: 'Tannu Tuva (Tuvan People’s Republic)', orig: 'Тыва Арат Республик',
       zh: '唐努圖瓦', when: 'Independent in name from 1921', cat: 'neutral', lvl: 3, c: '#d3d1e6',
       atoms: ['tuva'], edge: '#bebada',
-      wiki: 'https://en.wikipedia.org/wiki/Tuvan_People\'s_Republic',
+      wiki: 'https://en.wikipedia.org/wiki/Tuvan_People\'s_Republic', label: 'Tannu Tuva',
       note: 'Qing territory until 1911, then a Russian protectorate, then a nominally independent republic from 1921 — recognised only by the Soviet Union and Mongolia. Absorbed into the USSR in 1944. China went on claiming it.'
     },
     {
@@ -1081,6 +1087,7 @@ JMAP.TERRITORIES = {
     {
       id: 'contested', en: 'Border is contested or not fixed', ja: '未確定国境', zh: '未定國界',
       cat: 'contested', lvl: 3, c: 'transparent', atoms: ['contested'], hatch: 'unclear',
+      label: '-',
       note: 'These stretches of frontier were contested or the sources for this map disagree about them. They include the Pamirs where Afghanistan, the Soviet Union and China meet; the Aksai Chin plateau in northeastern Kashmir; the frontier east of Bhutan; and the frontier between Burma and Yunnan.'
     },
   ],
@@ -4058,7 +4065,7 @@ JMAP.FEATURES = [
     lon: 107.8, kind: 'land'
   },
   {
-    id: 'dabie', en: 'Dabie Shan', ja: '大別山 (Daibetsu-san)', zh: '大別山', lvl: 3, lat: 31.2,
+    id: 'dabie', en: 'Dabie Mountains', ja: '大別山 (Daibetsu-san)', zh: '大別山', lvl: 3, lat: 31.2,
     lon: 115.6, kind: 'land'
   },
   {

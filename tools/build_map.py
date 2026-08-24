@@ -791,7 +791,11 @@ BACKING_FROM_SUBUNITS = {"philippines", "malaya", "northborneo", "indochina"}
 # themselves. The filler's own rings are still computed, because
 # occupied_coast() reads what whole_union leaves in `whole_pts`; only the path
 # is not drawn, and the sub-units then stand as the atom.
-NO_BACKING = {"china"}
+NO_BACKING = {"china",
+              # and the Indies, whose eighteen islands are never deferred and
+              # never hidden, so the union under them is a second copy of the
+              # same ground that nothing can ever be looking at. 167 KB.
+              "dei"}
 
 # Atoms assembled from two sources whose shapes overlap, and which are drawn as
 # one path. A path is filled by the non-zero rule, so two rings that overlap
@@ -852,7 +856,14 @@ WELD_RINGS = {"indochina"}
 # 1942 sheet the answer a reader wants is that this is the ceded territory,
 # which is what the atom itself says. With no blocks the atom answers for
 # itself on both dates and Indochina stays one polygon.
-NO_ADMIN_SUBUNITS = {"dei", "indochina", "siamgain"}
+# `dei` was here and is not any longer. It was put here to stop the residencies
+# being drawn, and it did — along with the island names, which are not
+# divisions at all. An island is a place: Bali is Bali whatever the
+# Administrative switch says, and a reader who zoomed into the Indies and found
+# nothing named at all had been told less than the map knows. The residencies
+# are dropped where they were read instead, and what is left in
+# `provinces["dei"]` is the eighteen islands.
+NO_ADMIN_SUBUNITS = {"indochina", "siamgain"}
 
 # Sub-units that belong together and should light up together. Hovering
 # Singapore lit the whole Malay peninsula, which says the wrong thing: the
@@ -1697,14 +1708,26 @@ MALAYA_MYS = {
 # Islands worth naming when the pointer is over them. Matched by the centroid
 # of each ring, so an island is named only if it falls squarely in the box.
 RING_NAMES = {
-    # Sumatra, Java, Borneo and Celebes come from the residencies instead, so
-    # their outlines are dropped here ("-") and only the islands the residency
-    # map leaves whole are named.
+    # These eight were dropped ("-") while the Indies were drawn residency by
+    # residency and the residencies covered them. The residencies are gone —
+    # see the note on NO_ADMIN_SUBUNITS — and with nothing else naming them the
+    # islands went unnamed too, so a reader who zoomed into the Indies found
+    # the largest colony on the map with not one name in it.
+    # `netherlands-indies-islands.csv` has had all eighteen waiting in it.
+    #
+    # Order is the logic, as it is in the boxes in `regions.py`: a box inside
+    # another box has to be asked about first. Madura sits inside Java's, and
+    # Bangka and Nias inside Sumatra's, so those three come before the islands
+    # that would otherwise swallow them.
     "dei": [
-        ("-", (95.0, -6.2, 106.5, 6.0)), ("-", (105.0, -8.9, 114.7, -5.8)),
-        ("-", (112.6, -7.3, 114.2, -6.8)), ("-", (108.8, -4.3, 119.2, 4.4)),
-        ("-", (118.7, -6.1, 125.3, 1.9)), ("-", (105.0, -3.3, 106.9, -1.4)),
-        ("-", (107.4, -3.4, 108.4, -2.4)), ("-", (97.0, -1.3, 98.1, 1.5)),
+        ("Madura", (112.6, -7.3, 114.2, -6.8)),
+        ("Bangka", (105.0, -3.3, 106.9, -1.4)),
+        ("Nias", (97.0, -1.3, 98.1, 1.5)),
+        ("Sumatra", (95.0, -6.2, 106.5, 6.0)),
+        ("Java", (105.0, -8.9, 114.7, -5.8)),
+        ("Borneo", (108.8, -4.3, 119.2, 4.4)),
+        ("Sulawesi", (118.7, -6.1, 125.3, 1.9)),
+        ("Belitung", (107.4, -3.4, 108.4, -2.4)),
         ("Bali", (114.4, -8.9, 115.8, -8.0)), ("Lombok", (115.8, -9.0, 116.8, -8.1)),
         ("Sumbawa", (116.8, -9.2, 119.2, -8.0)), ("Flores", (119.5, -9.0, 123.3, -8.0)),
         ("Sumba", (118.9, -10.4, 120.9, -9.1)), ("WestTimor", (123.5, -10.4, 125.2, -9.0)),
@@ -4630,6 +4653,9 @@ ONE_ISLET = {"cocos"}
 TINY_ISLES = {"spratly", "paracel", "pratas", "turtle", "mangsee"}
 
 ARCHIPELAGOS = {
+    # its islands are places and not divisions, so they are named with the
+    # Administrative layer off and kept in the main file rather than deferred
+    "dei",
     "wake", "turtle", "mangsee", "miangas", "cocos",
     "linephoenix", "uspacific", "nzpacific", "ellice",
     "spratly", "paracel", "pratas",
@@ -5359,17 +5385,13 @@ def main():
             for label, rs in blocks.items():
                 provinces["siam"].append((label, rs))
 
-    # ---- the Netherlands Indies, residency by residency ---------------------
-    ipath = os.path.join(CACHE, "adm1_IDN.json")
-    if os.path.exists(ipath):
-        with open(ipath) as fh:
-            blocks = collections.defaultdict(list)
-            for feat in json.load(fh)["features"]:
-                label = DEI_RESIDENCIES.get(feat["properties"].get("shapeName"))
-                if label:
-                    blocks[label].extend(iter_rings(feat["geometry"]))
-            for label, rs in blocks.items():
-                provinces["dei"].append((label, rs))
+    # ---- the Netherlands Indies ---------------------------------------------
+    # No residencies. `DEI_RESIDENCIES` maps thirty-four modern provinces onto
+    # seventeen units with Bali, the Lesser Sundas, the Moluccas and New Guinea
+    # in none of them — 563,235 km2, 29.7% of the colony, carrying no unit at
+    # all — and for 1930 Java alone had some thirty-five residencies against
+    # the four that were drawn. The islands name themselves, through
+    # RING_NAMES above.
 
     # ---- the Philippines, province by province ------------------------------
     ppath = os.path.join(CACHE, "adm2_PHL_1939.json")

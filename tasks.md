@@ -4504,6 +4504,104 @@ the selection, so the card appears and goes again. Deferring every tap by 300
 ms would stop that -- the quiz already does it, for the same reason -- at the
 cost of making every single tap on the map feel late. Left as it is.
 
+### The hover path costs a third of what it did
+Three outlines shared one lifecycle in the highlight layer: `redrawHighlight`
+emptied it and built all three again. The province under the pointer changes on
+nearly every move inside a country, and it was taking the country's own
+silhouette down with it and rebuilding it identically — `hot` had not changed
+and neither had the shape.
+
+Measured over 120 moves inside China with the divisions on: sixteen crossings,
+thirty-two masks where sixteen would do, and 7.84 million characters of path
+data copied. China's atom is 152,621 characters, read out, merged into one `d`,
+written into the mask solid and written again into the stroked copy, twice a
+crossing. Each outline has its own slot now, keyed on what it was built from,
+and a slot whose key has not moved is left alone. **32 masks become 16, and
+7.84 million characters become 0.11 million — 65 KB a move becomes 1 KB.**
+
+That turned out to be worth 5%. Two wrong guesses before the right one, both
+recorded here because the reasoning was plausible and wrong:
+
+* `nearestSubUnit` looping `getBoundingClientRect` over every division — it
+  fires only for the hit circles, and the common path calls it once.
+* the mask rebuild flushing layout for a 5,947-element document — serving
+  `getBBox` from a cache saved 4%.
+
+The profiler found it in one pass, which is what should have been done first:
+**`getBoundingClientRect`, 99 ms of self time over 240 moves**, one call a
+move, from `showTooltip` measuring the tooltip immediately after rewriting it.
+Mutate, measure, mutate — a forced synchronous layout of the whole document,
+per pointer move. The words change only when the record under the pointer
+changes, so the DOM is rebuilt then and not otherwise; and the measurement
+moved into a frame callback, where the same read costs nothing because layout
+is about to happen anyway. Moves arriving faster than frames coalesce for free.
+
+With that gone the `getBBox` flush was worth 20% rather than 4%, so it is
+cached too, against the generation counter the slots already use.
+
+**120 pointer moves over China: 257 ms → 89 ms.** Layout 73 → 28, paint 63 →
+32, script 96 → 22. Against the Leaflet build's 59 ms for the same sequence,
+that is 1.5× rather than 4.2×.
+
+The trap in it, which is why `hiGen` exists: `litFor(hot)` can return a
+different set of shapes without `hot` changing — a fine coastline grafts in,
+the administrative file arrives, an atom stands down. A key on the id alone
+would go stale and stop redrawing while looking as though it works. Anything
+that adds, removes or supersedes geometry has to bump it.
+
+### The map's own names, separate from the card's
+`label` in the territory tables is what to write across the map when that is
+not what the record is called. A card has room for "Karafuto (southern
+Sakhalin)" and a reader who asked for it; a name floating over the island has
+room for one name. A single hyphen means write nothing at all.
+
+Nineteen set. The princely states and the contested frontiers say nothing on
+the map now — they are answers to a question asked by pointing. Kurile Islands,
+Karafuto, Xīnjiāng, Soviet Union, Tannu Tuva, Měngjiāng, Guam, Guadalcanal drop
+their brackets. "Japanese-occupied China (approximate)" becomes
+**Japanese-occupied** — read literally from the request, and a word either way
+if that was not the intention. And British Borneo becomes **Kita Boruneo**,
+which is what that ground was administered as in December 1942; the card still
+says both.
+
+Miangas keeps its brackets and gets level 4 instead — a band above the three
+the reader can ask for, for a name only worth the room once somebody has gone
+looking for the speck. One square kilometre forty miles off Mindanao, and its
+name was on the map from the opening view because a territory of its own earns
+a territory's label however small it is. Nothing else is level 4 and nothing
+below it is affected.
+
+Dabie Shan is Dabie Mountains.
+
+### The Indies get their island names back
+Turning the residencies off turned the island names off with them, and the
+largest colony on the map had not one name in it. The two are not the same
+thing: a residency is a division and an island is a place, and Bali is Bali
+whatever the Administrative switch says.
+
+`DEI_RESIDENCIES` is gone from where it was read — thirty-four modern provinces
+merged into seventeen units, with Bali, the Lesser Sundas, the Moluccas and New
+Guinea in none of them, 29.7% of the colony carrying no unit at all. `dei`
+leaves `NO_ADMIN_SUBUNITS` and joins `ARCHIPELAGOS`, so its islands are named
+with the layer off and are never deferred. The eight boxes that were dropped
+("-") because the residencies covered them are named, and
+`netherlands-indies-islands.csv` had all eighteen names waiting in it.
+
+Order is the logic in those boxes, as it is in `regions.py`: Madura sits inside
+Java's box and Bangka and Nias inside Sumatra's, so those three are asked about
+first. Verified by unprojecting every centroid — Madura at 113.36E 7.08S,
+Bangka at 105.94E 2.17S, Nias at 97.53E 1.09N, all eighteen where they belong.
+
+Nothing was lost by re-cutting: **204 rings become 257 and the path data grows
+9.5 KB**, because `tol_for` gives an island-sized ring a finer band than a
+country-sized one, so Bali and Madura keep detail they did not have when they
+were part of one country's outline.
+
+The backing was the cost — the union under eighteen islands that are never
+deferred and never hidden is a second copy of ground nothing can ever be
+looking at, and it was 167 KB. `dei` joins `china` in `NO_BACKING`, and the
+sheet ends up **11 KB larger** rather than 167.
+
 ---
 
 ## Sources worth fetching

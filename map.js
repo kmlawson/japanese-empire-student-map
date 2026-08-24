@@ -342,9 +342,37 @@
      At the opening view you get the places every student should know; closing
      in on a corner of the map brings out the rest of them, and the collision
      test still decides which of those actually fit. */
+  /* Level 4 is a band above the three the reader can ask for: a name that is
+     only worth the room once somebody has gone looking for the speck it
+     belongs to. Miangas is the case — one square kilometre of Dutch soil
+     forty miles off Mindanao, and its name was on the map from the opening
+     view, over open sea, because a territory of its own earns a territory's
+     label however small it is. It waits for the same zoom the islands wait
+     for now. Nothing else is level 4, and nothing below it is affected: a
+     level-3 name still appears the moment the level reaches 3. */
   function labelLevel() {
-    var bonus = view.w < mapW / 10 ? 2 : (view.w < mapW / 3 ? 1 : 0);
-    return Math.min(3, state.level + bonus);
+    var bonus = view.w < mapW / SUB_LABEL_ZOOM ? 3
+      : (view.w < mapW / 10 ? 2 : (view.w < mapW / 3 ? 1 : 0));
+    return Math.min(4, state.level + bonus);
+  }
+
+  /* What a record is called *on the map*, which is not always what it is
+     called. A card has room for "Karafuto (southern Sakhalin)" and a reader
+     who has asked for it; a name floating over the island has room for one
+     name, and the alternative in brackets is clutter at every zoom. `label` in
+     the territory tables says what to write there when the two differ, and a
+     single hyphen says to write nothing at all — the princely states and the
+     contested frontiers are answers to a question the reader asks by pointing,
+     not things whose names belong across the map.
+
+     English only, deliberately: the other scripts carry their own strings and
+     none of them has this problem. */
+  function mapLabel(rec) {
+    var r = shown(rec);
+    if (r && r.label && state.lang === 'en') {
+      return r.label === '-' ? '' : r.label;
+    }
+    return nameOf(rec);
   }
 
   function labelVisible(rec) {
@@ -1761,7 +1789,8 @@
         L.w = 0;
         return;
       }
-      var text = nameOf(L.rec);
+      var text = mapLabel(L.rec);
+      if (!text) { L.el.textContent = ''; L.el.style.display = 'none'; L.w = 0; return; }
       if (L.el.textContent !== text) {
         L.el.textContent = text;
         L.w = estimateWidth(text, L.size);
@@ -2961,11 +2990,47 @@
      settlement, and that is what the reader is asking about; the country it
      belongs to is context and goes underneath. When there is no sub-unit the
      country is itself the nearest thing and takes the top line. */
+  /* What the tooltip is currently saying, and where it has been asked to go.
+     Rebuilding it on every pointer move was 99 ms of `getBoundingClientRect`
+     over 240 moves — the whole document laid out again, synchronously, once a
+     move — because the box was measured immediately after being rewritten and
+     the browser has to flush layout to answer. Two things follow from that.
+
+     The words change only when the record under the pointer changes, so the
+     DOM is rebuilt then and not otherwise. And the measurement moved into a
+     frame callback: the same read costs nothing there, because layout is
+     about to happen anyway and is no longer being forced in the middle of an
+     event handler. Moves arriving faster than frames coalesce for free. */
+  var tipKey = null;
+  var tipAt = null;
+  var tipFrame = 0;
+
+  function placeTooltip() {
+    tipFrame = 0;
+    if (!tipAt || tooltip.hidden) return;
+    var r = tooltip.getBoundingClientRect();
+    var x = Math.min(Math.max(8, tipAt.x + 16), window.innerWidth - r.width - 8);
+    var y = tipAt.y - r.height - 14;
+    if (y < 8) y = tipAt.y + 22;
+    tooltip.style.left = x + 'px';
+    tooltip.style.top = y + 'px';
+  }
+
   function showTooltip(base, cx, cy, prov) {
     var rec = shown(base);
     var head = prov && prov.rec ? shown(prov.rec) : rec;
     // Whose the sub-unit was, which is not always whose atom it is drawn in.
     var host = hostOf(rec, prov && prov.el);
+    tipAt = { x: cx, y: cy };
+    // the epoch and the language are in it because both change what the same
+    // record says without changing which record it is
+    var key = (rec && (rec.rid || rec.id)) + '|' + (head && (head.rid || head.id || head.en)) +
+              '|' + (host && (host.rid || host.id)) + '|' + state.epoch + '|' + state.lang;
+    if (key === tipKey && !tooltip.hidden) {
+      if (!tipFrame) tipFrame = requestAnimationFrame(placeTooltip);
+      return;
+    }
+    tipKey = key;
     tooltip.innerHTML = '';
     tooltip.appendChild(document.createTextNode(nameOf(head)));
     if (head !== rec) {
@@ -3039,15 +3104,14 @@
       tooltip.appendChild(pn);
     }
     tooltip.hidden = false;
-    var r = tooltip.getBoundingClientRect();
-    var x = Math.min(Math.max(8, cx + 16), window.innerWidth - r.width - 8);
-    var y = cy - r.height - 14;
-    if (y < 8) y = cy + 22;
-    tooltip.style.left = x + 'px';
-    tooltip.style.top = y + 'px';
+    if (!tipFrame) tipFrame = requestAnimationFrame(placeTooltip);
   }
 
-  function hideTooltip() { tooltip.hidden = true; }
+  function hideTooltip() {
+    tooltip.hidden = true;
+    tipKey = null;
+    tipAt = null;
+  }
 
   /* Selecting also lifts the polygons to the front, because a territory drawn
    * under its neighbours only shows part of its outline otherwise. The place
@@ -3109,7 +3173,7 @@
     var bb = null;
     els.forEach(function (e) {
       try {
-        var r = e.getBBox();
+        var r = bboxOf(e);
         if (!r.width && !r.height) return;
         if (!bb) bb = { x0: r.x, y0: r.y, x1: r.x + r.width, y1: r.y + r.height };
         else {
@@ -3252,8 +3316,97 @@
     ownedDefs[which] = [];
   }
 
+  /* The three outlines in the highlight layer had one lifecycle between them:
+     `redrawHighlight` emptied the whole layer and built all three again. The
+     province under the pointer changes on nearly every move inside a country,
+     and it took the country's own silhouette down with it and rebuilt it
+     identically — `hot` had not changed, and neither had the shape.
+
+     What that cost, measured over 120 pointer moves inside China with the
+     Administrative layer on: sixteen province crossings, thirty-two masks
+     built where sixteen would do, and 7.84 million characters of path data
+     copied — 490 KB a crossing, of which the larger part is China's own atom,
+     152,621 characters, read out, merged into one `d`, written into the mask
+     solid and written again into the stroked copy.
+
+     Each outline keeps its own slot now, with the key it was built for. A slot
+     whose key has not changed is left alone. Each has a container of its own
+     so that rebuilding one does not move it above the others: the selection is
+     the stronger statement and has to stay on top of the hover. */
+  var hiSlots = { territory: null, province: null, selected: null };
+  var hiHost = { territory: null, province: null, selected: null };
+
+  /* Every id in a slot's key answers for the shape it stands for -- but not
+     for whether that shape is still the same shape. A fine coastline grafting
+     in, the administrative file arriving, an atom standing down: all of them
+     change what `litFor` returns while `hot` stays the word it was. This
+     counts those, so a key can carry one. Anything that adds, removes or
+     supersedes geometry has to bump it, or a slot goes stale and stops
+     redrawing while looking as though it works. */
+  var hiGen = 0;
+  function bumpHi() { hiGen++; }
+
+  /* A shape's own bounds, in map units, remembered until the geometry moves.
+     `getBBox` has to flush layout to answer, and sizing the mask asked it once
+     per outline per pointer move; the generation counter that tells a slot its
+     shapes have changed is exactly the signal that tells this its answer has.
+     Worth 20% of what the hover path costs after the tooltip was fixed. */
+  function bboxOf(el) {
+    if (el.__bbGen === hiGen && el.__bb) return el.__bb;
+    var r = el.getBBox();
+    el.__bb = r;
+    el.__bbGen = hiGen;
+    return r;
+  }
+
+  function hiHostFor(name) {
+    if (!highlightLayer) return null;
+    if (!hiHost[name] || !hiHost[name].isConnected) {
+      // built in the order they must stay in
+      ['territory', 'province', 'selected'].forEach(function (k) {
+        if (!hiHost[k] || !hiHost[k].isConnected) {
+          hiHost[k] = svgEl('g', { 'class': 'hi-slot' });
+          highlightLayer.appendChild(hiHost[k]);
+        }
+      });
+    }
+    return hiHost[name];
+  }
+
+  function dropSlot(name) {
+    var slot = hiSlots[name];
+    if (!slot) return;
+    if (slot.group && slot.group.parentNode) {
+      slot.group.parentNode.removeChild(slot.group);
+    }
+    slot.defs.forEach(function (d) {
+      if (d.parentNode) d.parentNode.removeChild(d);
+      var i = ownedDefs.hi.indexOf(d);
+      if (i >= 0) ownedDefs.hi.splice(i, 1);
+    });
+    hiSlots[name] = null;
+  }
+
+  /* Build this outline only if it is not the one already standing there. The
+     defs `outlineOf` appended are read off the end of `ownedDefs.hi`, which is
+     how the sub-outline layer already tracks its own. */
+  function fillSlot(name, key, els, cls) {
+    if (hiSlots[name] && hiSlots[name].key === key) return;
+    dropSlot(name);
+    if (!key || !els || !els.length) return;
+    var host = hiHostFor(name);
+    if (!host) return;
+    var before = ownedDefs.hi.length;
+    var group = outlineOf(els, cls, host);
+    if (!group) return;
+    hiSlots[name] = { key: key, group: group,
+                      defs: ownedDefs.hi.slice(before) };
+  }
+
   function clearHighlight() {
+    ['territory', 'province', 'selected'].forEach(dropSlot);
     if (highlightLayer) highlightLayer.innerHTML = '';
+    hiHost = { territory: null, province: null, selected: null };
     dropDefs('hi');
   }
 
@@ -3261,8 +3414,17 @@
   // rectangle it happens to be: a box ruled across empty ocean
   function seen(id) { return id && byId[id] && !byId[id].unseen; }
 
+  /* A key that stands for the exact set of shapes an outline was built from.
+     The generation is in it because the ids do not change when the geometry
+     under them does. */
+  function slotKey(kind, id, cluster, els) {
+    if (!els || !els.length) return null;
+    return kind + '|' + (id || '') + '|' +
+      (cluster ? (clusterName(cluster[0]) || 'c') + ':' + cluster.length : '') +
+      '|' + els.length + '|' + hiGen;
+  }
+
   function redrawHighlight() {
-    clearHighlight();
     // One line per shape. The hover outline and the selection outline are
     // different widths — 3.3 against 3.7 — so a country that is both selected
     // and under the pointer was drawn round twice, and the two strokes read as
@@ -3270,18 +3432,24 @@
     // land on exactly the same pixels. The selection is the stronger statement
     // and the one that survives the pointer moving away, so it wins.
     var bothSame = selected && hot === selected && !hotCluster && !selCluster;
-    if (hotCluster) outlineOf(hotCluster, 'hi-territory');
+    var tEls = null;
+    if (hotCluster) tEls = hotCluster;
     else if (!bothSame && hot && atomsOf[hot] && seen(hot)) {
-      outlineOf(litFor(hot, hotCluster), 'hi-territory');
+      tEls = litFor(hot, hotCluster);
     }
-    if (hotProv.length) outlineOf(hotProv, 'hi-province');
+    fillSlot('territory', slotKey('t', hot, hotCluster, tEls), tEls, 'hi-territory');
+    fillSlot('province', slotKey('p', hotProvEl && hotProvEl.getAttribute('data-prov'),
+                                 null, hotProv), hotProv, 'hi-province');
     if (selected && atomsOf[selected] && seen(selected)) {
       // `litFor` and not `atomsOf`, so that selecting draws round the same
       // ground hovering lights. They disagreed: hovering China on the 1930
       // map lit Manchuria, Jehol, Chahar and Suiyuan and Sinkiang with it —
       // all of them the Republic on that date — and then clicking outlined
       // China proper alone and left the rest of the country outside the line.
-      outlineOf(litFor(selected, selCluster), 'hi-selected');
+      var sEls = litFor(selected, selCluster);
+      fillSlot('selected', slotKey('s', selected, selCluster, sEls), sEls, 'hi-selected');
+    } else {
+      dropSlot('selected');
     }
   }
 
@@ -3496,6 +3664,10 @@
     // switch that works sometimes. Now it draws the divisions.
     if (svg) svg.classList.toggle('admin-on', !!state.cats.territory);
     if (svg) svg.classList.toggle('hairline', !!state.hairline);
+    // A layer going on or off changes what `litFor` hands back for the same
+    // id, so every outline standing on screen is out of date whatever its
+    // key says.
+    bumpHi();
     // Which backings are a second copy of ground that is already drawn. Asked
     // here rather than at build time because the answer changes when the
     // administrative file arrives: until it does, Siam's atom is an empty
@@ -3991,6 +4163,9 @@
      windows were added in, and with no window grafted it leaves the map
      exactly as it was built. */
   function reprune() {
+    // shapes are about to be superseded or restored; the outlines drawn from
+    // them are stale either way
+    bumpHi();
     coarseOrig.forEach(function (r) {
       if (r.d !== null) r.el.setAttribute('d', r.d);
       r.el.classList.remove('superseded');
@@ -4083,6 +4258,7 @@
 
   function graftFine(key) {
     if (fineLive[key] || !fineDoc) return false;
+    bumpHi();
     var g = $('g[data-for="' + key + '"]', fineDoc.documentElement);
     var el = atomEls[key];
     if (!g || !el) return false;
