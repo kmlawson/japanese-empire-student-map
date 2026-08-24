@@ -34,7 +34,7 @@ Most of the coastlines and national outlines are originally Natural Earth, excep
 ## Rivers
 
 * **Natural Earth, 1:10m rivers and lake centrelines.** The Yangtze and the Yellow River; Indian rivers. Public domain. Two hand-drawn tails were needed: Natural Earth's Yangtze centreline stops about 200 km short of the sea, and its Yellow River stops short of the Gulf of Chihli.
-* **The 1938–47 course of the Yellow River** is redrawn from the channel map at disasterhistory.org (Chris Courtney, after Saito et al. 2000): out of the breach below Zhengzhou, down the Chia-lu into the Ying, down the Ying into the Huai, and through Hongze Lake and the Grand Canal into the Yangtze above Zhenjiang. For nine years the Yellow River reached the sea through the Yangtze's mouth.<br>[disasterhistory.org](https://disasterhistory.org/)
+* **The 1938–47 course of the Yellow River** is redrawn from the channel map first seen at disasterhistory.org but originally from a map at this article: [Archived on Archive.org](https://web.archive.org/web/20141227175208/http://news.wustl.edu/news/Pages/27041.aspx).
 
 ## Japanese Occupations and the line of control
 
