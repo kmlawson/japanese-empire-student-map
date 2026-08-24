@@ -4671,6 +4671,18 @@ at them or names them. Off unless asked for, bit 14 of the layer code, thinner
 and paler than the Yangzi and the Yellow River, which are the two rivers this
 map has an argument about.
 
+### The Soviet Union's name comes off Mongolia
+It was at 91.2E 49.8N — inside Mongolia's bounding box and immediately under
+Tannu Tuva, because the mean of the Soviet Union's shapes on this map falls
+there: the frame cuts at 55N, so what the map holds of the USSR is a band along
+the top and its centre of area sits over the countries below it.
+
+`labelAt` puts it at 112.0E 52.5N instead, north of eastern Outer Mongolia and
+about two and a half degrees clear of the frontier on one side and the frame on
+the other — the band is only 4.7 degrees deep there. Tested on both sheets:
+the drawn box overlaps neither `#a-mongolia` nor `#a-tuva`, and collides with no
+other label.
+
 ---
 
 ## Sources worth fetching

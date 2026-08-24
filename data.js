@@ -545,7 +545,7 @@ JMAP.TERRITORIES = {
     {
       id: 'ussr', en: 'Soviet Union (USSR)', orig: 'СССР (SSSR)', zh: '蘇聯', when: 'From 1922',
       cat: 'soviet', lvl: 1, atoms: ['ussr'],
-      wiki: 'https://en.wikipedia.org/wiki/Soviet_Union',
+      wiki: 'https://en.wikipedia.org/wiki/Soviet_Union', labelAt: '112.0,52.5',
       note: 'Japan had intervened in the Russian Civil War in Siberia from 1918 to 1922 and held northern Sakhalin until 1925. Relations along the Manchurian border stayed tense.'
     },
     {
@@ -1008,7 +1008,7 @@ JMAP.TERRITORIES = {
     {
       id: 'ussr', en: 'Soviet Union (USSR)', orig: 'СССР (SSSR)', zh: '蘇聯',
       when: 'Neutrality Pact, April 1941', cat: 'neutral', lvl: 1, atoms: ['ussr'],
-      wiki: 'https://en.wikipedia.org/wiki/Soviet_Union',
+      wiki: 'https://en.wikipedia.org/wiki/Soviet_Union', labelAt: '112.0,52.5',
       note: 'At war with Germany but not with Japan: the Neutrality Pact of April 1941 held until the Soviet invasion of Manchuria in August 1945. Both sides kept large armies on the Manchurian border throughout. The frontier had already been fought over: an undeclared border war ran through the late 1930s and was settled at Nomonhan on the Manchukuo–Mongolian border in the summer of 1939, where Zhukov destroyed a Japanese division. That defeat is a large part of why the Japanese advance in 1941 went south rather than north.'
     },
     {
