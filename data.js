@@ -487,7 +487,7 @@ JMAP.TERRITORIES = {
     {
       id: 'turtle', en: 'Turtle & Mangsee Islands', orig: 'Kepulauan Penyu / Mangsee',
       when: 'Allocated to the Philippines by treaty, 2 January 1930',
-      rule: 'Administered by British North Borneo', cat: 'american', lvl: 3,
+      rule: 'Administered by British North Borneo', cat: 'american', lvl: 4,
       atoms: ['turtle', 'mangsee'], hatch: 'brit',
       wiki: 'https://en.wikipedia.org/wiki/Turtle_Islands,_Tawi-Tawi',
       note: 'Two small groups in the Sulu Sea that the British North Borneo Company had administered since the 1880s. The Anglo-American convention of 2 January 1930 placed them inside the boundary of the American Philippine Islands, but left the Company running them: the transfer was not actually made until 16 October 1947, to the independent Philippines. Drawn in the American colour with British diagonals, which is what the arrangement was.'
@@ -522,7 +522,7 @@ JMAP.TERRITORIES = {
     {
       id: 'pratas', en: 'Dōngshā (Pratas Island)', ja: '東沙島 (Tōsa-tō)', orig: '東沙島 (Dōngshā)',
       zh: '東沙島', ko: '프라타스섬', when: 'Chinese, in Kwangtung province', cat: 'chinese', lvl: 3,
-      atoms: ['pratas'], wiki: 'https://en.wikipedia.org/wiki/Pratas_Island',
+      atoms: ['pratas'], wiki: 'https://en.wikipedia.org/wiki/Pratas_Island', label: '-',
       note: 'One island and its reef, 340 km south-east of Hong Kong. A Japanese merchant occupied it and worked the guano from 1907; China bought him out in 1909 and it has been administered from the mainland, and later from Taiwan, ever since. Islands are traced from present-day shapes, which does not reflect more recent land reclamation.'
     },
     {
@@ -597,19 +597,19 @@ JMAP.TERRITORIES = {
     },
     {
       id: 'nepal', en: 'Nepal', orig: 'नेपाल (Nepāl)', zh: '尼泊爾',
-      when: 'Independent, in treaty with Britain', cat: 'other', lvl: 3, c: '#e2d9c6',
+      when: 'Independent, in treaty with Britain', cat: 'other', lvl: 2, c: '#e2d9c6',
       atoms: ['nepal'], wiki: 'https://en.wikipedia.org/wiki/Kingdom_of_Nepal',
       note: 'Never colonised, and recognised as fully independent by Britain in 1923, though bound to it by treaty and supplying the Gurkha regiments.'
     },
     {
       id: 'sikkim', en: 'Sikkim', orig: 'འབྲས་ལྗོངས (Drenjong)', zh: '錫金',
-      when: 'British protectorate from 1861, recognised by China 1890', cat: 'british', lvl: 3,
+      when: 'British protectorate from 1861, recognised by China 1890', cat: 'british', lvl: 2,
       c: '#dcc2ce', atoms: ['sikkim'], wiki: 'https://en.wikipedia.org/wiki/Kingdom_of_Sikkim',
       note: 'A Himalayan kingdom under British protection, not a part of British India — which is why it is drawn apart from it here. The protectorate began with the Treaty of Tumlong in 1861, which followed a British punitive expedition and put Sikkim’s external relations in British hands; China recognised it, and the Sikkim–Tibet boundary was drawn, by the Convention of Calcutta of 17 March 1890.'
     },
     {
       id: 'bhutan', en: 'Bhutan', orig: 'འབྲུག་ཡུལ (Druk Yul)', zh: '不丹',
-      when: 'British protectorate from 1910', cat: 'other', lvl: 3, c: '#c9a6b0',
+      when: 'British protectorate from 1910', cat: 'other', lvl: 2, c: '#c9a6b0',
       atoms: ['bhutan'], wiki: 'https://en.wikipedia.org/wiki/Bhutan',
       note: 'Internally self-governing, with Britain conducting its foreign relations under the Treaty of Punakha.'
     },
@@ -776,7 +776,7 @@ JMAP.TERRITORIES = {
     {
       id: 'turtle', en: 'Turtle & Mangsee Islands', orig: 'Kepulauan Penyu / Mangsee',
       when: 'Taken with British Borneo, January 1942', rule: 'Under Japanese occupation',
-      cat: 'occupied', lvl: 3, atoms: ['turtle', 'mangsee'],
+      cat: 'occupied', lvl: 4, atoms: ['turtle', 'mangsee'],
       wiki: 'https://en.wikipedia.org/wiki/Turtle_Islands,_Tawi-Tawi',
       note: 'Still administered by the British North Borneo Company on paper, and inside the Philippine boundary drawn in 1930; in December 1942 both they and the Philippines were Japanese, and the transfer that the 1930 treaty provided for was made in 1947, five years after this map.'
     },
@@ -799,12 +799,13 @@ JMAP.TERRITORIES = {
       orig: 'Trường Sa / Hoàng Sa', zh: '南沙群島・西沙群島', when: 'Annexed to Taiwan, 30 March 1939',
       rule: 'Japanese, administered from Takao in Taiwan', cat: 'colony', lvl: 3,
       atoms: ['spratly', 'paracel'], wiki: 'https://en.wikipedia.org/wiki/Spratly_Islands',
+      label: 'Spratly & Paracel Islands',
       note: 'Japan took both groups in 1939, over French protest, and attached them to Takao prefecture in Taiwan as the Shinnan Guntō — the "new southern islands". They were a submarine and seaplane anchorage on the flank of the route to Singapore and the Indies, and Itu Aba had a garrison and a small base. Both went back to being disputed in 1945. Islands are traced from present-day shapes, which does not reflect more recent land reclamation.'
     },
     {
       id: 'pratas', en: 'Dōngshā (Pratas Island)', ja: '東沙島 (Tōsa-tō)', orig: '東沙島 (Dōngshā)',
       zh: '東沙島', ko: '프라타스섬', when: 'Occupied by Japan', cat: 'occupied', lvl: 3,
-      atoms: ['pratas'], wiki: 'https://en.wikipedia.org/wiki/Pratas_Island',
+      atoms: ['pratas'], wiki: 'https://en.wikipedia.org/wiki/Pratas_Island', label: '-',
       note: 'Held by Japan through the war as a weather and radio station on the approach to Hong Kong and the Guangzhou delta. Islands are traced from present-day shapes, which does not reflect more recent land reclamation.'
     },
     {
@@ -1050,19 +1051,19 @@ JMAP.TERRITORIES = {
     },
     {
       id: 'nepal', en: 'Nepal', orig: 'नेपाल (Nepāl)', zh: '尼泊爾',
-      when: 'Independent, in treaty with Britain', cat: 'other', lvl: 3, c: '#e2d9c6',
+      when: 'Independent, in treaty with Britain', cat: 'other', lvl: 2, c: '#e2d9c6',
       atoms: ['nepal'], wiki: 'https://en.wikipedia.org/wiki/Kingdom_of_Nepal',
       note: 'Never colonised, and recognised as fully independent by Britain in 1923, though bound to it by treaty and supplying the Gurkha regiments.'
     },
     {
       id: 'sikkim', en: 'Sikkim', orig: 'འབྲས་ལྗོངས (Drenjong)', zh: '錫金',
-      when: 'British protectorate from 1861, recognised by China 1890', cat: 'allied', lvl: 3,
+      when: 'British protectorate from 1861, recognised by China 1890', cat: 'allied', lvl: 2,
       c: '#dcc2ce', atoms: ['sikkim'], wiki: 'https://en.wikipedia.org/wiki/Kingdom_of_Sikkim',
       note: 'A Himalayan kingdom under British protection, not a part of British India — which is why it is drawn apart from it here. The protectorate began with the Treaty of Tumlong in 1861, which followed a British punitive expedition and put Sikkim’s external relations in British hands; China recognised it, and the Sikkim–Tibet boundary was drawn, by the Convention of Calcutta of 17 March 1890.'
     },
     {
       id: 'bhutan', en: 'Bhutan', orig: 'འབྲུག་ཡུལ (Druk Yul)', zh: '不丹',
-      when: 'British protectorate from 1910', cat: 'other', lvl: 3, c: '#c9a6b0',
+      when: 'British protectorate from 1910', cat: 'other', lvl: 2, c: '#c9a6b0',
       atoms: ['bhutan'], wiki: 'https://en.wikipedia.org/wiki/Bhutan',
       note: 'Internally self-governing, with Britain conducting its foreign relations under the Treaty of Punakha.'
     },
@@ -4252,7 +4253,10 @@ JMAP.PROVINCES = {
     en: 'Magwe Division', zh: '馬圭省', wiki: 'https://en.wikipedia.org/wiki/Magway_Region',
     note: 'The dry zone: the middle Irrawaddy in the rain shadow of the Arakan Yoma, where under nine hundred millimetres fall in a year and the crops are sesame, millet, groundnut, beans and cotton rather than rice. Its wealth was oil — the seepages at Yenangyaung had been worked by hereditary hand-diggers for centuries and by the Burmah Oil Company from 1886, and the field supplied the greater part of British India\'s petroleum until the British fired it on 16 April 1942 as they withdrew. Behind it stand the Chin Hills, a district of this division on paper and a country of terraced villages and tribal chiefs in practice, administered under the Chin Hills Regulation of 1896 and an Excluded Area from 1937.'
   },
-  MandalayDiv: { en: 'Mandalay Division', zh: '曼德勒省', wiki: 'https://en.wikipedia.org/wiki/Mandalay_Region' },
+  MandalayDiv: {
+    en: 'Mandalay Division', zh: '曼德勒省', wiki: 'https://en.wikipedia.org/wiki/Mandalay_Region',
+    note: 'The last royal capital, taken in November 1885, and the cultural centre of Buddhist Burma: the palace inside its moat, the monasteries, the Kuthodaw pagoda with the Tipitaka cut into seven hundred and twenty-nine marble slabs. The division is the other half of the dry zone and depends on irrigation — the Kyaukse weirs are among the oldest working waterworks in South-East Asia, and the canals of Mandalay, Shwebo and Meiktila carried the rice that the rainfall would not. Maymyo, up in the hills at a thousand metres, was where the government of Burma moved for the hot weather, and the division held the army\'s Burmese and Gurkha depots. The palace burned in the fighting of March 1945.'
+  },
   Sagaing: {
     en: 'Sagaing Division', zh: '實皆省', wiki: 'https://en.wikipedia.org/wiki/Sagaing_Region',
     note: 'The largest division and the emptiest, running from the Shwebo plain up the Chindwin and the Irrawaddy to Putao and the Triangle, and taking in Bhamo and Myitkyina with the Kachin Hill Tracts inside them. It is teak country — the Chindwin forests were the Bombay Burmah Trading Corporation\'s, and it was a quarrel over their leases that gave Britain its pretext for the war of 1885 — with jade at Hpakant, amber in the Hukawng and gold in the northern rivers. Much of it was not administered at all: the 1931 census left 28,118 square miles of the province unenumerated and most of that was here, in the Naga country, the Hukawng, the Triangle and the Putao subdivision. The Kachin Hill Tracts were Part I Excluded Areas from 1937 and the rest of Myitkyina and Bhamo Part II.'

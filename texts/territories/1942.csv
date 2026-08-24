@@ -20,11 +20,11 @@ borneo_br,British Borneo (Kita Boruneo),Kita Boruneo,,北ボルネオ (Kita Boru
 dei,Netherlands East Indies,,,,Nederlandsch-Indië,,,Conquered January – March 1942,,occupied,1,,dei,,,,,,,,,,,,https://en.wikipedia.org/wiki/Dutch_East_Indies
 philippines,Philippine Islands,,,比島 (Hitō),Pilipinas,菲律賓,,Invaded December 1941; Corregidor fell 6 May 1942,,occupied,1,,philippines,,,,,,,,,,,,https://en.wikipedia.org/wiki/Commonwealth_of_the_Philippines
 hongkong,Hong Kong,,,香港 (Honkon),香港 (Hēunggóng),香港,,Attacked 8 December 1941; surrendered 25 December 1941,,occupied,2,,hongkong,,,,,,,,,,,,https://en.wikipedia.org/wiki/British_Hong_Kong
-turtle,Turtle & Mangsee Islands,,,,Kepulauan Penyu / Mangsee,,,"Taken with British Borneo, January 1942",Under Japanese occupation,occupied,3,,turtle mangsee,,,,,,,,,,,,"https://en.wikipedia.org/wiki/Turtle_Islands,_Tawi-Tawi"
+turtle,Turtle & Mangsee Islands,,,,Kepulauan Penyu / Mangsee,,,"Taken with British Borneo, January 1942",Under Japanese occupation,occupied,4,,turtle mangsee,,,,,,,,,,,,"https://en.wikipedia.org/wiki/Turtle_Islands,_Tawi-Tawi"
 miangas,Miangas (Palmas),,,ミアンガス島,Miangas,,,"Taken with the Netherlands Indies, 1942",,occupied,4,,miangas,,,,,,,,,,,,https://en.wikipedia.org/wiki/Miangas
 cocos,Cocos (Keeling) Islands,,,,Pulu Kokos,,,Never occupied; shelled 25 December 1942,"British colony, run from Singapore — Allied throughout",allied,3,,cocos,,,raid,,,,,,,,,https://en.wikipedia.org/wiki/Cocos_(Keeling)_Islands
-spratly,Shinnan Guntō (Spratly & Paracel Islands),,,新南群島・西沙群島,Trường Sa / Hoàng Sa,南沙群島・西沙群島,,"Annexed to Taiwan, 30 March 1939","Japanese, administered from Takao in Taiwan",colony,3,,spratly paracel,,,,,,,,,,,,https://en.wikipedia.org/wiki/Spratly_Islands
-pratas,Dōngshā (Pratas Island),,,東沙島 (Tōsa-tō),東沙島 (Dōngshā),東沙島,프라타스섬,Occupied by Japan,,occupied,3,,pratas,,,,,,,,,,,,https://en.wikipedia.org/wiki/Pratas_Island
+spratly,Shinnan Guntō (Spratly & Paracel Islands),Spratly & Paracel Islands,,新南群島・西沙群島,Trường Sa / Hoàng Sa,南沙群島・西沙群島,,"Annexed to Taiwan, 30 March 1939","Japanese, administered from Takao in Taiwan",colony,3,,spratly paracel,,,,,,,,,,,,https://en.wikipedia.org/wiki/Spratly_Islands
+pratas,Dōngshā (Pratas Island),-,,東沙島 (Tōsa-tō),東沙島 (Dōngshā),東沙島,프라타스섬,Occupied by Japan,,occupied,3,,pratas,,,,,,,,,,,,https://en.wikipedia.org/wiki/Pratas_Island
 timor_pt,Portuguese Timor (contested),,,,Timor Português,,,Invaded February 1942; Allied withdrawal December 1942 – February 1943,,portuguese,3,,timor_pt,,,occupied,,,,,,,,,https://en.wikipedia.org/wiki/Portuguese_Timor
 wake,Wake Island,,,ウェーク島・大鳥島 (Ōtorishima),Wake,,,Taken 23 December 1941,American territory under Japanese occupation,occupied,3,,wake,,,,,,,,,,,,https://en.wikipedia.org/wiki/Wake_Island
 guam,Guam (Ōmiyajima),,,大宮島 (Ōmiyajima),Guåhan,關島,,Taken 10 December 1941,American territory under Japanese occupation,occupied,3,,guam,,,,,,,,,,,,https://en.wikipedia.org/wiki/Guam
@@ -61,9 +61,9 @@ tibet,Tibet,,,チベット (Chibetto),བོད་ (Bod),西藏,,De facto indepe
 macau,Macao,,,マカオ (Makao),澳門 (Ou-mun),澳門,,Portuguese and neutral throughout,,portuguese,3,,macau,,,,,,,,,,,,https://en.wikipedia.org/wiki/Portuguese_Macau
 guangzhouwan,Guǎngzhōuwān (Kwangchowan),,,広州湾 (Kōshūwan),Kouang-Tchéou-Wan,廣州灣,,Leased to France 1898–1945,,french,3,,guangzhouwan,,,,,,,,,,,,https://en.wikipedia.org/wiki/Guangzhouwan
 tuva,Tannu Tuva (Tuvan People’s Republic),,,,Тыва Арат Республик,唐努圖瓦,,Independent in name from 1921,,neutral,3,#d3d1e6,tuva,,,,#bebada,,,,,,,,https://en.wikipedia.org/wiki/Tuvan_People's_Republic
-nepal,Nepal,,,,नेपाल (Nepāl),尼泊爾,,"Independent, in treaty with Britain",,other,3,#e2d9c6,nepal,,,,,,,,,,,,https://en.wikipedia.org/wiki/Kingdom_of_Nepal
-sikkim,Sikkim,,,,འབྲས་ལྗོངས (Drenjong),錫金,,"British protectorate from 1861, recognised by China 1890",,allied,3,#dcc2ce,sikkim,,,,,,,,,,,,https://en.wikipedia.org/wiki/Kingdom_of_Sikkim
-bhutan,Bhutan,,,,འབྲུག་ཡུལ (Druk Yul),不丹,,British protectorate from 1910,,other,3,#c9a6b0,bhutan,,,,,,,,,,,,https://en.wikipedia.org/wiki/Bhutan
+nepal,Nepal,,,,नेपाल (Nepāl),尼泊爾,,"Independent, in treaty with Britain",,other,2,#e2d9c6,nepal,,,,,,,,,,,,https://en.wikipedia.org/wiki/Kingdom_of_Nepal
+sikkim,Sikkim,,,,འབྲས་ལྗོངས (Drenjong),錫金,,"British protectorate from 1861, recognised by China 1890",,allied,2,#dcc2ce,sikkim,,,,,,,,,,,,https://en.wikipedia.org/wiki/Kingdom_of_Sikkim
+bhutan,Bhutan,,,,འབྲུག་ཡུལ (Druk Yul),不丹,,British protectorate from 1910,,other,2,#c9a6b0,bhutan,,,,,,,,,,,,https://en.wikipedia.org/wiki/Bhutan
 other,Afghanistan,,,,"Afghanistan, Nepal, Bhutan",阿富汗・尼泊爾・不丹,,,,other,3,,other,,,,,,,,,,,,https://en.wikipedia.org/wiki/Kingdom_of_Afghanistan
 nca_pacified,Pacified areas (治安地区),,,治安地区,,治安地區,,September 1942,The North China Area Army's own classification,pacified,3,,nca_pacified,,,,,,,,,,,nca,
 nca_unpacified,Un-pacified areas (未治安地区),,,未治安地区,,未治安地區,,September 1942,The North China Area Army's own classification,unpacified,3,,nca_unpacified,,,,,,,,,,,nca,

@@ -391,6 +391,26 @@
     return name.replace(/\s+\([^()]*\)\s*$/, '');
   }
 
+  /* The physical names have a ladder of their own, one rung further in than
+     the political ones. Thirteen of the thirty-seven are level 1 — nine seas,
+     the Gobi, the Taklamakan, the Tibetan Plateau and the Himalaya — and at
+     the opening view they all arrived at once, which is a mat of grey italic
+     across the whole hemisphere before the reader has looked at anything.
+     Nothing at the opening view; the seas at a turn of the wheel; the deserts
+     and the basins after that.
+
+     Measured against the opening view rather than the drawing's own width, as
+     `zoomed-in` is: a phone opens cropped to the empire and a wide desktop on
+     the whole hemisphere, and the question is how far the reader has come. */
+  function featureLevel() {
+    var home = defaultView().w;
+    if (view.w < home / 8) return 4;
+    if (view.w < home / 4) return 3;
+    if (view.w < home / 2) return 2;
+    if (view.w < home / 1.35) return 1;
+    return 0;
+  }
+
   function labelVisible(rec) {
     // a province or an island: shown only once the reader is close in, and
     // never mind the Administrative switch — see ensureSubLabels
@@ -399,7 +419,7 @@
     // frames the whole picture, the Hexi Corridor is worth naming only once
     // somebody is looking at Gansu. Nothing else gates them — they are not a
     // layer, they are the ground the layers sit on.
-    if (rec && rec.kind === 'feature') return rec.lvl <= labelLevel();
+    if (rec && rec.kind === 'feature') return rec.lvl <= featureLevel();
     // A country's name has nothing to do with the Administrative layer, which
     // is about its divisions. Gating it on that switch meant "Show names on
     // the map" showed no country names at all until a second, unrelated button
@@ -1834,6 +1854,11 @@
     });
   }
 
+  /* Where a name may go when it cannot stay where it is: up and down first,
+     because a label sits above its point and the room is usually there. */
+  var NUDGES = [[0, -1], [0, 1], [-1, 0], [1, 0],
+                [-1, -1], [1, -1], [-1, 1], [1, 1], [0, -2], [0, 2]];
+
   function placeLabels() {
     if (!state.labels || state.mode === 'quiz') return;
     var c = containerSize();
@@ -1854,17 +1879,38 @@
         t: y - L.h * 0.85, b: y + L.h * 0.25,
       };
 
-      if (box.l < 2 || box.r > c.w - 2 || box.t < 2 || box.b > c.h - 2) {
-        L.el.style.display = 'none';
-        continue;
-      }
+      var free = function (b) {
+        if (b.l < 2 || b.r > c.w - 2 || b.t < 2 || b.b > c.h - 2) return false;
+        for (var j = 0; j < placed.length; j++) {
+          var p = placed[j];
+          if (b.l < p.r && b.r > p.l && b.t < p.b && b.b > p.t) return false;
+        }
+        return true;
+      };
 
-      var clash = false;
-      for (var j = 0; j < placed.length; j++) {
-        var p = placed[j];
-        if (box.l < p.r && box.r > p.l && box.t < p.b && box.b > p.t) { clash = true; break; }
+      /* A name that will not fit where it belongs is moved a little before it
+         is given up on. Nepal, Sikkim and Bhutan are the case that asked for
+         it: three small countries in a row along the Himalaya, all the same
+         level, so they were placed in file order and whichever came first kept
+         its name while the others lost theirs — and Nepal, much the largest of
+         the three, was one of the ones that vanished.
+
+         Only for a label that clashes where it stands. Anything that already
+         fits is placed exactly where it was before, so this can add names to
+         the map and cannot move one. The offsets are small on purpose: a
+         country's name nudged far enough to clear its neighbour is a name over
+         the neighbour. */
+      var ok = free(box);
+      if (!ok) {
+        var dx = L.w * 0.55, dy = L.h * 1.15;
+        for (var n = 0; n < NUDGES.length && !ok; n++) {
+          var o = NUDGES[n];
+          var nb = { l: box.l + o[0] * dx, r: box.r + o[0] * dx,
+                     t: box.t + o[1] * dy, b: box.b + o[1] * dy };
+          if (free(nb)) { box = nb; y += o[1] * dy; x += o[0] * dx; ok = true; }
+        }
       }
-      if (clash) { L.el.style.display = 'none'; continue; }
+      if (!ok) { L.el.style.display = 'none'; continue; }
 
       placed.push(box);
       L.el.style.display = '';

@@ -91,7 +91,7 @@ withdrew. Behind it stand the Chin Hills, a district of this division on paper
 and a country of terraced villages and tribal chiefs in practice, administered
 under the Chin Hills Regulation of 1896 and an Excluded Area from 1937.
 
-## Mandalay
+## MandalayDiv
 
 The last royal capital, taken in November 1885, and the cultural centre of
 Buddhist Burma: the palace inside its moat, the monasteries, the Kuthodaw

@@ -4683,6 +4683,59 @@ the other — the band is only 4.7 degrees deep there. Tested on both sheets:
 the drawn box overlaps neither `#a-mongolia` nor `#a-tuva`, and collides with no
 other label.
 
+### The physical names wait for a turn of the wheel
+Thirteen of the thirty-seven features are level 1 — nine seas, the Gobi, the
+Taklamakan, the Tibetan Plateau and the Himalaya — and they all arrived at the
+opening view, which is a mat of grey italic across the hemisphere before the
+reader has looked at anything.
+
+`featureLevel()` is a ladder of its own, measured against the opening view
+rather than the drawing's width, as `zoomed-in` already is: nothing at rest,
+the seas at a turn of the wheel, the deserts and the basins after that.
+Measured at 1500 px: **0 names at the opening view, 7 after one wheel step.**
+
+### A label that will not fit is moved before it is given up on
+`placeLabels` was first-come-first-served with a hard drop. Nepal, Sikkim and
+Bhutan are three small countries in a row along the Himalaya, all the same
+level, so they were placed in file order and whichever came first kept its name
+— and Nepal, much the largest of the three, was one that vanished.
+
+Now a label that clashes tries ten small offsets before it is dropped. **Only
+when it clashes**, so anything that already fits is placed exactly where it was
+and this can add names to the map but never move one. The offsets are
+deliberately short: a country's name nudged far enough to clear its neighbour
+is a name over the neighbour.
+
+That was not the whole of it, and the second half is worth writing down because
+it caught two records. Nepal, Sikkim and Bhutan were level 3, which wants a
+view under 280 units — and the three of them together span nearly 400, so
+**there was no zoom at which all three could be on screen and lettered at
+once.** They are level 2 now, and all three show with no overlap. The Spratly
+and Paracel groups had the same fault for the same reason, being seven degrees
+apart under one record; framed together at 258 units the name appears.
+
+### Five smaller label decisions
+Dōngshā says nothing across the map — the island still names itself at the zoom
+where the sub-unit labels come in. Shinnan Guntō reads **Spratly & Paracel
+Islands** there instead, the one place a Japanese administrative name is not
+the useful one for a student. Turtle & Mangsee drops to level 4, so it waits
+until the reader is over it: nothing at 411 units, named at 60.
+
+### burma.md had a heading that reached nothing
+`## Mandalay`, where the row is `MandalayDiv` — every other heading in the file
+matches its key exactly, and the SVG says `data-prov="MandalayDiv"`. So it was
+a typo, and the prose under it had never reached the map. It does now.
+
+### The editor stops needing to be reloaded
+`build_index()` already read every file on every request, so the server was
+never stale; the page was, holding whatever it fetched when it was opened.
+`load()` hands back its promise now, a place button on the home screen waits
+for fresh records before it shows you the place, and coming back to the tab
+refreshes it when nothing is part-written. `edits` and `open` are keyed by uid
+and survive a refresh, and a save re-reads the columns from disk — tested on a
+copy, an edit from a page that had never heard of `label` or `labelAt`
+preserved both and left every other row byte-identical.
+
 ---
 
 ## Sources worth fetching

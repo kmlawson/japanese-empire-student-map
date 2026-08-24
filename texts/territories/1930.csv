@@ -41,12 +41,12 @@ wake,Wake Island,,,,Wake,,,American from 1899,American territory,american,3,,wak
 guam,Guam,,,グアム (Guamu),Guåhan,關島,,American from 1898,American territory,american,3,,guam,,,,,,,,,https://en.wikipedia.org/wiki/Guam
 hawaii,Hawaii,,,,Hawaiʻi,夏威夷,,Annexed 1898,American territory,american,2,,hawaii,,,,,,,,,https://en.wikipedia.org/wiki/Territory_of_Hawaii
 aleutians,Aleutian Islands,,,,Unangam Tanangin,阿留申群島,,Part of the Alaska Territory,American territory,american,3,,aleutians aleutians_jp,,,,,,,,,https://en.wikipedia.org/wiki/Aleutian_Islands
-turtle,Turtle & Mangsee Islands,,,,Kepulauan Penyu / Mangsee,,,"Allocated to the Philippines by treaty, 2 January 1930",Administered by British North Borneo,american,3,,turtle mangsee,,,brit,,,,,,"https://en.wikipedia.org/wiki/Turtle_Islands,_Tawi-Tawi"
+turtle,Turtle & Mangsee Islands,,,,Kepulauan Penyu / Mangsee,,,"Allocated to the Philippines by treaty, 2 January 1930",Administered by British North Borneo,american,4,,turtle mangsee,,,brit,,,,,,"https://en.wikipedia.org/wiki/Turtle_Islands,_Tawi-Tawi"
 miangas,Miangas (Palmas),,,ミアンガス島,Miangas,,,"Awarded to the Netherlands, 4 April 1928",,dutch,4,,miangas,,,,,,,,,https://en.wikipedia.org/wiki/Miangas
 cocos,Cocos (Keeling) Islands,,,,Pulu Kokos,,,A Straits Settlement from 1903,"British colony, run from Singapore",british,3,,cocos,,,,,,,,,https://en.wikipedia.org/wiki/Cocos_(Keeling)_Islands
 spratly,Spratly Islands,,,新南群島 (Shinnan Guntō),Trường Sa / Kapuluan ng Kalayaan,南沙群島,,"Occupied by France, April 1930; annexed 1933",Claimed by France; Britain had claimed them earlier,french,3,,spratly,,,,,,,,,https://en.wikipedia.org/wiki/Spratly_Islands
 paracel,Paracel Islands,,,西沙群島 (Seisa Guntō),Hoàng Sa,西沙群島,,Claimed by China and by France,,chinese,3,,paracel,,,,,,,,,https://en.wikipedia.org/wiki/Paracel_Islands
-pratas,Dōngshā (Pratas Island),,,東沙島 (Tōsa-tō),東沙島 (Dōngshā),東沙島,프라타스섬,"Chinese, in Kwangtung province",,chinese,3,,pratas,,,,,,,,,https://en.wikipedia.org/wiki/Pratas_Island
+pratas,Dōngshā (Pratas Island),-,,東沙島 (Tōsa-tō),東沙島 (Dōngshā),東沙島,프라타스섬,"Chinese, in Kwangtung province",,chinese,3,,pratas,,,,,,,,,https://en.wikipedia.org/wiki/Pratas_Island
 timor_pt,Portuguese Timor,,,,Timor Português,,,Portuguese,,portuguese,3,,timor_pt,,,,,,,,,https://en.wikipedia.org/wiki/Portuguese_Timor
 macau,Macao,,,マカオ (Makao),澳門 (Ou-mun),澳門,,Portuguese from the 1550s,,portuguese,3,,macau,,,,,,,,,https://en.wikipedia.org/wiki/Portuguese_Macau
 siam,Siam,,,,สยาม (Sayam),,,Never colonised,,independent,2,,siam,,,,,,,,,https://en.wikipedia.org/wiki/Thailand
@@ -58,8 +58,8 @@ nauru_au,Nauru,,,ナウル,Naoero,諾魯,,Mandate from 1920,"Mandate — Austral
 weihaiwei,Wēihǎiwèi (Wēihǎi),Wēihǎiwèi,,威海衛 (Ikaiei),威海衛 (Wēihǎiwèi),威海衛,,"Leased 1898, returned 1 October 1930",,british,3,#c08a99,weihaiwei,,,,,,,,,https://en.wikipedia.org/wiki/British_Weihaiwei
 guangzhouwan,Guǎngzhōuwān (Kwangchowan),,,広州湾 (Kōshūwan),Kouang-Tchéou-Wan,廣州灣,,Leased to France 1898–1945,,french,3,,guangzhouwan,,,,,,,,,https://en.wikipedia.org/wiki/Guangzhouwan
 tuva,Tannu Tuva (Tuvan People’s Republic),,,,Тыва Арат Республик,唐努圖瓦,,Independent in name from 1921,,soviet,3,#d3d1e6,tuva,,,,#bebada,,,,,https://en.wikipedia.org/wiki/Tuvan_People's_Republic
-nepal,Nepal,,,,नेपाल (Nepāl),尼泊爾,,"Independent, in treaty with Britain",,other,3,#e2d9c6,nepal,,,,,,,,,https://en.wikipedia.org/wiki/Kingdom_of_Nepal
-sikkim,Sikkim,,,,འབྲས་ལྗོངས (Drenjong),錫金,,"British protectorate from 1861, recognised by China 1890",,british,3,#dcc2ce,sikkim,,,,,,,,,https://en.wikipedia.org/wiki/Kingdom_of_Sikkim
-bhutan,Bhutan,,,,འབྲུག་ཡུལ (Druk Yul),不丹,,British protectorate from 1910,,other,3,#c9a6b0,bhutan,,,,,,,,,https://en.wikipedia.org/wiki/Bhutan
+nepal,Nepal,,,,नेपाल (Nepāl),尼泊爾,,"Independent, in treaty with Britain",,other,2,#e2d9c6,nepal,,,,,,,,,https://en.wikipedia.org/wiki/Kingdom_of_Nepal
+sikkim,Sikkim,,,,འབྲས་ལྗོངས (Drenjong),錫金,,"British protectorate from 1861, recognised by China 1890",,british,2,#dcc2ce,sikkim,,,,,,,,,https://en.wikipedia.org/wiki/Kingdom_of_Sikkim
+bhutan,Bhutan,,,,འབྲུག་ཡུལ (Druk Yul),不丹,,British protectorate from 1910,,other,2,#c9a6b0,bhutan,,,,,,,,,https://en.wikipedia.org/wiki/Bhutan
 other,Afghanistan,,,,"Afghanistan, Nepal, Bhutan",阿富汗・尼泊爾・不丹,,,,other,3,,other,,,,,,,,,https://en.wikipedia.org/wiki/Kingdom_of_Afghanistan
 contested,Border is contested or not fixed,-,,未確定国境,,未定國界,,,,contested,3,transparent,contested contested_burma,,,unclear,,,,,,
