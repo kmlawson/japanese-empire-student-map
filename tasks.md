@@ -4978,6 +4978,20 @@ fine coastlines and they land in the right place, the administrative graft puts
 1,292 divisions where they belong, and switching back restores the viewBox to
 the character.
 
+**A straight line in one projection is not straight in another**, and this
+turned up as the Soviet Union spilling over the top of the drawing. Every shape
+cut to the frame has one long straight edge along it — the USSR's northern
+limit is a single segment right across the sheet at 55N — and in Mercator that
+is a horizontal line while in an azimuthal projection it is a curve. Moving
+only the two ends of it draws the chord, which stands proud of the frame.
+
+Segments longer than a degree are walked in degree steps now, interpolating in
+longitude and latitude, which is the space the edge was straight in when it was
+cut. Coastline vertices are already far closer together than that, so this adds
+points to a handful of clipped edges and to nothing else. After it, **59 land
+vertices of 186,025 fall outside the frame, the worst by 11.5 units in the
+southern corner** — 0.4% of the width, and nothing at the top at all.
+
 **A correction to what I said when this was only a discussion.** I put the
 whole empire "within about 45 degrees of centre". That is true of Japan, at 16,
 and the Indies, at 36 — not of British India at 64 or the corners of the frame

@@ -791,6 +791,53 @@
      left alone; masks are rebuilt from the paths on the next hover anyway. */
   var COORD = /(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)/g;
 
+  /* A straight line in one projection is not straight in another, and moving
+     only the ends of it draws the chord instead of the line. Every shape here
+     that was cut to the frame has a long straight edge along it — the Soviet
+     Union's northern limit is one segment right across the sheet at 55N — and
+     in Mercator that is a horizontal line while in an azimuthal projection it
+     is a curve. Reprojected end to end it came out as a chord standing proud
+     of the frame, with the Soviet fill spilling over the top of the drawing.
+
+     So a segment longer than a degree is walked in steps of about a degree,
+     interpolating in longitude and latitude, which is the space the line was
+     straight in when it was cut. Nothing else needs it: a coastline's vertices
+     are already far closer together than that, so this adds points to a
+     handful of clipped edges and to nothing else. */
+  var DENSIFY_DEG = 1.0;
+
+  function moveD(d) {
+    var out = '';
+    var subs = d.split('M');
+    for (var s2 = 1; s2 < subs.length; s2++) {
+      var body = subs[s2];
+      var closed = /Z\s*$/i.test(body);
+      var pts = body.replace(/Z\s*$/i, '').split('L');
+      var prev = null, first = true;
+      for (var i = 0; i < pts.length; i++) {
+        var c = pts[i].trim().split(/\s+/);
+        if (c.length < 2) continue;
+        var ll = storedLonLat(parseFloat(c[0]), parseFloat(c[1]));
+        if (prev) {
+          var dlon = ll.lon - prev.lon, dlat = ll.lat - prev.lat;
+          var steps = Math.ceil(Math.max(Math.abs(dlon), Math.abs(dlat)) / DENSIFY_DEG);
+          for (var k = 1; k < steps; k++) {
+            var q = project(prev.lon + dlon * k / steps, prev.lat + dlat * k / steps);
+            out += 'L' + (Math.round(q.x * 100) / 100) + ' ' + (Math.round(q.y * 100) / 100);
+          }
+        }
+        var p = project(ll.lon, ll.lat);
+        out += (first ? 'M' : 'L') + (Math.round(p.x * 100) / 100) + ' ' +
+               (Math.round(p.y * 100) / 100);
+        first = false;
+        prev = ll;
+      }
+      if (closed) out += 'Z';
+    }
+    return out;
+  }
+
+  /* Points that are not part of a line, so nothing to walk between. */
   function movePairs(text) {
     return text.replace(COORD, function (_m, a, b) {
       var q = reprojectXY(parseFloat(a), parseFloat(b));
@@ -810,7 +857,7 @@
       all.forEach(function (el) {
         if (el.tagName === 'path' && el.hasAttribute('d')) {
           if (el.__d0 === undefined) el.__d0 = el.getAttribute('d');
-          el.setAttribute('d', movePairs(el.__d0));
+          el.setAttribute('d', moveD(el.__d0));
         } else if (el.tagName === 'circle' && el.hasAttribute('cx')) {
           if (el.__c0 === undefined) {
             el.__c0 = [parseFloat(el.getAttribute('cx')), parseFloat(el.getAttribute('cy'))];
@@ -840,7 +887,7 @@
     $$('path[d]', svg).forEach(function (el) {
       if (el.closest('pattern')) return;
       if (el.__d0 === undefined) el.__d0 = el.getAttribute('d');
-      el.setAttribute('d', projMode === 'mercator' ? el.__d0 : movePairs(el.__d0));
+      el.setAttribute('d', projMode === 'mercator' ? el.__d0 : moveD(el.__d0));
       moved++;
     });
     $$('circle[cx]', svg).forEach(function (el) {
