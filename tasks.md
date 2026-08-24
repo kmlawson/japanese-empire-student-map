@@ -4924,11 +4924,20 @@ before the fix: 3,968 px of content in an 800 px window, a 600 px wheel moved
 `scrollY` by **0**, while `window.scrollTo(0, 500)` gave 500 and PageDown gave
 760.
 
-`overflow: visible` instead, with `overscroll-behavior: auto` put back. After:
-a 600 px wheel gives `scrollY` 600. The shell survives `build_texts.py`, which
-splices only between the `BEGIN sources` markers, and the map page is
-untouched: it still does not scroll and its wheel still zooms, 2800 to 1476 and
-back.
+The first fix was `overflow: visible` with `overscroll-behavior: auto` in
+sources.html's own override, and it worked — but undoing a lock from the far
+end is the wrong shape. The lock is a fact about the *map*, not about the
+stylesheet, and any other page that ever links `styles.css` would inherit it
+and need the same dance.
+
+Scoped to the page that wants it instead. `index.html` carries
+`<html class="app">`, the rule is `html.app, html.app body`, and sources.html
+overrides nothing at all.
+
+Measured after: sources.html takes a 600 px wheel to `scrollY` 600, and the map
+page still cannot scroll — `scrollHeight` 800 in an 800 px window, `scrollY` 0
+after a 2,000 px wheel and an explicit `scrollTo(0, 900)` — while its own wheel
+still zooms, 2800 to 1476.
 
 ---
 

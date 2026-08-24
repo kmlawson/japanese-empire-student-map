@@ -31,8 +31,20 @@
 
 * { box-sizing: border-box; }
 
-html, body {
-  margin: 0;
+html, body { margin: 0; }
+
+/* The map is an app shell and must never scroll: a drag on it would otherwise
+   pull the page about under the pointer. That is a fact about the map, though,
+   and not about this stylesheet — `sources.html` uses the same file and is an
+   ordinary document that has to scroll like one. It was inheriting the lock,
+   and undoing it from the far end is fragile: the override it had used
+   `overflow: auto`, which made `body` a scroll container with nothing in it to
+   scroll, and `overscroll-behavior: none` then stopped the wheel chaining up
+   to the viewport, so the wheel did nothing at all.
+
+   Scoped to the page that wants it instead. `index.html` carries
+   `<html class="app">`; anything else that links this stylesheet scrolls. */
+html.app, html.app body {
   height: 100%;
   overflow: hidden;
   overscroll-behavior: none;
