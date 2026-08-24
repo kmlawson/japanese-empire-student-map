@@ -1,0 +1,48 @@
+# Apache configuration for the map. Upload this beside index.html.
+#
+# Everything here is inside an <IfModule> guard, so if a module is missing the
+# directives are skipped rather than throwing a 500 and taking the site down.
+# There is nothing here that the map needs in order to work — it is entirely
+# about how much is sent down the wire and how long a browser keeps it.
+
+# ---------------------------------------------------------------- compression
+#
+# Two things Apache gets wrong by default for this site.
+#
+# SVG is not on its compressed list, and two thirds of this site's weight is
+# SVG: 5.3 MB raw against 1.5 MB gzipped.
+#
+# And `.js` is served as `text/javascript` by a current Apache and as
+# `application/javascript` by an older one. A rule naming only one of them
+# matches nothing on a server using the other, and then `map.js`, `data.js` and
+# `cities-gaz.js` — 877 KB, which gzip takes to 261 KB — go down uncompressed
+# with no sign that anything is wrong. Both spellings are listed.
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/plain
+  AddOutputFilterByType DEFLATE text/javascript application/javascript application/x-javascript
+  AddOutputFilterByType DEFLATE image/svg+xml application/json
+</IfModule>
+
+# and make sure the SVGs really are declared as SVG, or the rule above has
+# nothing to match
+<IfModule mod_mime.c>
+  AddType image/svg+xml .svg
+</IfModule>
+
+# -------------------------------------------------------------------- caching
+#
+# The map's data changes only when it is rebuilt. `index.html` is small and
+# carries the version number, so it is kept short: a reader who comes back gets
+# the new page quickly and the heavy files from cache.
+#
+# If you are pushing changes during a teaching week, cut the seven days to an
+# hour — otherwise somebody who visited on Monday sees Monday's map until the
+# following Monday.
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/svg+xml          "access plus 7 days"
+  ExpiresByType text/javascript        "access plus 7 days"
+  ExpiresByType application/javascript "access plus 7 days"
+  ExpiresByType text/css               "access plus 7 days"
+  ExpiresByType text/html              "access plus 10 minutes"
+</IfModule>

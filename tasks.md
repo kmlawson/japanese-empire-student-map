@@ -4808,9 +4808,31 @@ belong to one territory on both sheets: `suiyuan` in 1930 takes
 being drawn from a traced polygon of its own. So the line has no meaning to
 misrepresent and only has to stop being visible.
 
-`SUIYUAN_LAP` makes the western pieces reach 0.06 degrees back over the cut, so
-they overlap instead of meeting. Six and a half kilometres of overlap, all of it
-inside the province and all of it under ground of the same colour.
+`SUIYUAN_LAP` makes the pieces overlap by 0.06 degrees instead of meeting.
+
+**Which piece reaches matters, and I got it the wrong way round and shipped
+it.** Lapping the *western* pieces east and north pushed Free China's yellow
+into ground Mengchiang holds, and with the Administrative layer on a yellow
+spike showed through the red. Reversed: the eastern piece reaches west and
+south instead, into ground that is its own colour and that `suiyuan_w` is drawn
+over anyway. Measured with the same 6,000 sample points against all three
+builds — points inside Mengchiang that also fall inside `suiyuan_w`:
+
+| | |
+| --- | ---: |
+| before any lap | 401 / 6000 — 6.68% |
+| the lap as first pushed | 440 / 6000 — 7.33% |
+| after reversing it | 401 / 6000 — 6.68% |
+
+`suiyuan_w`'s path is byte-identical to what it was before any of this, and
+Mengchiang's never changed.
+
+**And that 6.68% is not new.** `suiyuan_w` already overlapped Mengchiang before
+any of today's work; the lap made it a little worse and the reversal put it
+back, but the overlap itself is older and is the real reason a piece of
+Mengchiang can come up yellow. Not yet fixed, and not understood: it wants its
+own look at why the traced Mengchiang polygon and the western half of Suiyuan
+claim the same ground, and which of them is right there.
 
 It has to be wider than the simplification or Douglas-Peucker pulls the two
 edges apart and the seam returns — which is presumably how it came back before.
@@ -4831,6 +4853,27 @@ an empty directory, served alone, and put through every layer, both dates, the
 province-source switch and a deep zoom. No failed requests, no console errors,
 85 territories, 1,293 divisions, 127 markers. 6.1 MB raw, 1.8 MB gzipped, of
 which only 3.7 MB / 1.08 MB is fetched before the map is on screen.
+
+### An .htaccess, and the bug in the one we were recommending
+DreamHost is Apache, and the `.htaccess` in DEPLOY.md had
+
+    AddOutputFilterByType DEFLATE text/html text/css application/javascript
+
+A current Apache serves `.js` as `text/javascript`; only an older one uses
+`application/javascript`. So that rule matched nothing, and `map.js`, `data.js`
+and `cities-gaz.js` went down uncompressed with nothing to show for it.
+
+Run against a real Apache 2.4.62 with the site in the document root:
+
+| | old block | both spellings |
+| --- | ---: | ---: |
+| `map.js` | 224,970 bytes, **no encoding** | 71,173, gzip |
+| `data.js` | 577,934 bytes, **no encoding** | 173,799, gzip |
+| `japan-empire-map.svg` | 819,759, gzip | 819,759, gzip |
+
+616 KB a visitor was paying for. `.htaccess` is in the repository now, so there
+is nothing to type, and every directive is inside an `<IfModule>` guard: a
+missing module skips it rather than returning 500 and taking the site down.
 
 ---
 

@@ -184,7 +184,7 @@ SUIYUAN_CUT = 109.6
 # rather than a line of longitude, and it no longer awards ground to a regime
 # on the strength of its being east of something.
 SUIYUAN_ORDOS_LAT = 40.45
-# How far the western pieces reach back over the cut, so that the two halves
+# How far the eastern piece reaches back over the cut, so that the two halves
 # overlap instead of abutting.
 #
 # The cut is a meridian and a parallel, and both halves belong to one territory
@@ -194,6 +194,15 @@ SUIYUAN_ORDOS_LAT = 40.45
 # them against the ground behind, and a hairline opens along the join: a
 # vertical up the meridian and a horizontal east along the parallel, meeting.
 # The sideways T.
+#
+# **Which piece reaches matters, and getting it the wrong way round was a bug
+# on the map.** `suiyuan_w` is Free China's on both sheets and nothing is drawn
+# over it; `suiyuan` is Free China's too, but Mengchiang's traced polygon lies
+# on top of part of it. Lapping the *western* pieces east and north pushed Free
+# China's yellow into ground Mengchiang holds, and with the Administrative
+# layer on a yellow spike appeared through the red at about 110.5E 39.9N. So it
+# is the eastern piece that reaches, west and south, into ground that is the
+# same colour as itself and that `suiyuan_w` is drawn over anyway.
 #
 # It has to be wider than the simplification, or Douglas-Peucker moves the two
 # edges apart again and the seam comes back: a country this size earns the
@@ -3482,16 +3491,16 @@ def load_roc_provinces(enp_provinces):
             # Mengchiang's half: east of the line and north of the river.
             # Free China's: the plain west of the line, and the Ordos south of
             # the river whichever side of the line it falls. See SUIYUAN_CUT.
-            # `east` is the piece the others reach over; see SUIYUAN_LAP.
-            east = [line_plane((SUIYUAN_CUT, 0.0), (SUIYUAN_CUT, 90.0), keep_right=True),
-                    line_plane((0.0, SUIYUAN_ORDOS_LAT), (180.0, SUIYUAN_ORDOS_LAT),
+            # `east` is the piece that reaches, and it reaches west and south —
+            # away from Mengchiang. See SUIYUAN_LAP for why that direction.
+            east = [line_plane((SUIYUAN_CUT - SUIYUAN_LAP, 0.0),
+                               (SUIYUAN_CUT - SUIYUAN_LAP, 90.0), keep_right=True),
+                    line_plane((0.0, SUIYUAN_ORDOS_LAT - SUIYUAN_LAP),
+                               (180.0, SUIYUAN_ORDOS_LAT - SUIYUAN_LAP),
                                keep_right=False)]
-            west = [line_plane((SUIYUAN_CUT + SUIYUAN_LAP, 0.0),
-                               (SUIYUAN_CUT + SUIYUAN_LAP, 90.0), keep_right=False)]
-            ordos = [line_plane((SUIYUAN_CUT - SUIYUAN_LAP, 0.0),
-                                (SUIYUAN_CUT - SUIYUAN_LAP, 90.0), keep_right=True),
-                     line_plane((0.0, SUIYUAN_ORDOS_LAT + SUIYUAN_LAP),
-                                (180.0, SUIYUAN_ORDOS_LAT + SUIYUAN_LAP),
+            west = [line_plane((SUIYUAN_CUT, 0.0), (SUIYUAN_CUT, 90.0), keep_right=False)]
+            ordos = [line_plane((SUIYUAN_CUT, 0.0), (SUIYUAN_CUT, 90.0), keep_right=True),
+                     line_plane((0.0, SUIYUAN_ORDOS_LAT), (180.0, SUIYUAN_ORDOS_LAT),
                                 keep_right=True)]
             for sides, dest, label in (([east], "suiyuan", "Suiyuan"),
                                        ([west, ordos], "suiyuan_w", "SuiyuanWest")):
@@ -5767,16 +5776,16 @@ def main():
         # province again and says so once.
         if name == "Suiyuan":
             # the same two conditions as in province_paths, above
-            # `east` is the piece the others reach over; see SUIYUAN_LAP.
-            east = [line_plane((SUIYUAN_CUT, 0.0), (SUIYUAN_CUT, 90.0), keep_right=True),
-                    line_plane((0.0, SUIYUAN_ORDOS_LAT), (180.0, SUIYUAN_ORDOS_LAT),
+            # `east` is the piece that reaches, and it reaches west and south —
+            # away from Mengchiang. See SUIYUAN_LAP for why that direction.
+            east = [line_plane((SUIYUAN_CUT - SUIYUAN_LAP, 0.0),
+                               (SUIYUAN_CUT - SUIYUAN_LAP, 90.0), keep_right=True),
+                    line_plane((0.0, SUIYUAN_ORDOS_LAT - SUIYUAN_LAP),
+                               (180.0, SUIYUAN_ORDOS_LAT - SUIYUAN_LAP),
                                keep_right=False)]
-            west = [line_plane((SUIYUAN_CUT + SUIYUAN_LAP, 0.0),
-                               (SUIYUAN_CUT + SUIYUAN_LAP, 90.0), keep_right=False)]
-            ordos = [line_plane((SUIYUAN_CUT - SUIYUAN_LAP, 0.0),
-                                (SUIYUAN_CUT - SUIYUAN_LAP, 90.0), keep_right=True),
-                     line_plane((0.0, SUIYUAN_ORDOS_LAT + SUIYUAN_LAP),
-                                (180.0, SUIYUAN_ORDOS_LAT + SUIYUAN_LAP),
+            west = [line_plane((SUIYUAN_CUT, 0.0), (SUIYUAN_CUT, 90.0), keep_right=False)]
+            ordos = [line_plane((SUIYUAN_CUT, 0.0), (SUIYUAN_CUT, 90.0), keep_right=True),
+                     line_plane((0.0, SUIYUAN_ORDOS_LAT), (180.0, SUIYUAN_ORDOS_LAT),
                                 keep_right=True)]
             for sides, dest, label in (([east], "suiyuan", "Suiyuan"),
                                        ([west, ordos], "suiyuan_w", "SuiyuanWest")):

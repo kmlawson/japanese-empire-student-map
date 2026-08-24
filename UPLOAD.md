@@ -28,12 +28,27 @@ Only the first six are fetched before the map is on screen: **3.7 MB raw,
 1.08 MB gzipped**. The other four wait until something asks for them, and a
 reader who never presses Administrative never downloads it.
 
+## Two optional extras
+
+`.htaccess` — upload it too if the server is Apache, which DreamHost is. The
+map works without it; what it does is make the compression below actually
+happen. It is a dotfile, so an SFTP client will hide it until you turn on
+"show hidden files".
+
+`admin.js` (32 KB) is the text-editing tool, fetched only if you option-click
+Layers. A reader never loads it. Leave it out unless you want it.
+
 ## Serve them gzipped
 
 The map is 1.8 MB compressed against 6.1 MB raw, so this is the one server
-setting worth checking. Most hosts do it for `.html`, `.css` and `.js` already
-and forget `.svg`, which is where two thirds of the weight is. If your host has
-a switch for "compress SVG" or a MIME list to add `image/svg+xml` to, use it.
+setting worth checking. Most hosts do it for `.html` and `.css`
+already and forget `.svg`, which is where two thirds of the weight is. On
+Apache the `.htaccess` in this repository handles it.
+
+One trap, if you are writing the rules yourself: `.js` is served as
+`text/javascript` by a current Apache and `application/javascript` by an older
+one, so a compression rule naming only one of them silently misses `map.js`,
+`data.js` and `cities-gaz.js` — 877 KB where 261 KB would do. List both.
 
 GitHub Pages, Netlify, Cloudflare Pages and Vercel all do this without being
 asked.
