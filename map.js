@@ -79,6 +79,11 @@
     // administrative file and the backing is the only shape they have until
     // it loads -- hiding it would take three countries off the map.
     backs: false,
+    // Natural Earth's rivers of the subcontinent, off unless asked for. The
+    // Yangzi and the Yellow River are two rivers this map argues with; these
+    // are sixty-three lines of context under the Raj, which is a different
+    // kind of thing and should not arrive with them.
+    indiaRivers: false,
     // Which reading of the occupation in China is drawn. 'traced' is the map's
     // own: the 1940 sheet adjusted to December 1942, with Wu Yuexing's
     // Communist base areas over it. 'nca' is the North China Area Army's own
@@ -152,6 +157,7 @@
       if (typeof saved.rivers === 'boolean') state.rivers = saved.rivers;
       if (typeof saved.hairline === 'boolean') state.hairline = saved.hairline;
       if (typeof saved.backs === 'boolean') state.backs = saved.backs;
+      if (typeof saved.indiaRivers === 'boolean') state.indiaRivers = saved.indiaRivers;
       if (typeof saved.ccp === 'boolean') state.ccp = saved.ccp;
       if (saved.occSource === 'nca' || saved.occSource === 'traced') {
         state.occSource = saved.occSource;
@@ -166,7 +172,7 @@
         epoch: state.epoch, level: state.level,
         cats: state.cats, labels: state.labels, extent: state.extent,
         rivers: state.rivers, legend: state.legend, hairline: state.hairline,
-        backs: state.backs,
+        backs: state.backs, indiaRivers: state.indiaRivers,
         occSource: state.occSource, ccp: state.ccp,
       }));
     } catch (err) { /* private browsing; not worth complaining about */ }
@@ -372,7 +378,17 @@
     if (r && r.label && state.lang === 'en') {
       return r.label === '-' ? '' : r.label;
     }
-    return nameOf(rec);
+    var name = nameOf(rec);
+    if (state.lang !== 'en') return name;
+    // The gloss after an em dash is for the card, as it is everywhere else:
+    // "Portuguese India — Goa, Damão, Diu, Dadra & Nagar Haveli" is a list of
+    // five enclaves and a name for one place, and the map has room for the
+    // name. And the alternative in brackets is the card's too: a reader who
+    // wants to know that Chōsen is Korea, that Wēihǎi was Weihaiwei or that
+    // Tannu Tuva called itself the Tuvan People's Republic can point at it.
+    // Across the map it is one more thing to read at every zoom.
+    name = splitGloss(name).name;
+    return name.replace(/\s+\([^()]*\)\s*$/, '');
   }
 
   function labelVisible(rec) {
@@ -497,6 +513,7 @@
     svg.appendChild(highlightLayer);
     extentPath = svg.querySelector('#extent-1942');
     riversGroup = svg.querySelector('#rivers');
+    indiaRiversGroup = svg.querySelector('#india-rivers');
     buildYellow1938();
     buildBrowse();
     buildGazetteer();
@@ -675,6 +692,7 @@
 
   var extentPath = null;
   var riversGroup = null;
+  var indiaRiversGroup = null;
   var yellow1938 = null;
   var browseGroup = null;
 
@@ -1046,6 +1064,21 @@
       // else. A label over it would be a name floating in empty sea.
       if (total > 0 && !t.unseen) {
         var x = mx / total, y = my / total;
+        // Where the name goes, when the middle of the shapes is the wrong
+        // place for it. Two kinds of record need it. A country drawn as one
+        // atom with something else laid over most of it — the Republic in
+        // 1942 is the whole of China with the occupation on top, so its name
+        // was computed into occupied ground, collided with "Japanese-occupied"
+        // and was dropped; it belongs in the west, over the part that was
+        // still Chungking's. And a country that is a scatter of enclaves —
+        // French India is five of them from Mahé to Chandernagore, and the
+        // mean of five specks two thousand kilometres apart is a point in the
+        // Deccan belonging to none of them.
+        if (t.labelAt) {
+          var ll = String(t.labelAt).split(',');
+          var pt = project(parseFloat(ll[0]), parseFloat(ll[1]));
+          if (isFinite(pt.x) && isFinite(pt.y)) { x = pt.x; y = pt.y; }
+        }
         var text = svgEl('text', { 'class': 'tlabel', 'font-size': TERR_PX });
         labelLayer.appendChild(text);
         var entry = { rec: t, el: text, x: x, y: y, dy: 0, size: TERR_PX, w: 0, h: TERR_PX * 1.2 };
@@ -1207,6 +1240,7 @@
    *   8,9  detail level, 1 to 3, stored one less
    *   10  hairline    11  the NCA reading    12  resistance base areas
    *   13  the filler under each country
+   *   14  the rivers of India
    *
    * Bits 7 and 10 no longer have a switch in the Layers panel — the province
    * source came out once the period sheet was redrawn, and the hairline came
@@ -1245,6 +1279,7 @@
     // should mean.
     if (!state.ccp) bits |= 4096;
     if (state.backs) bits |= 8192;
+    if (state.indiaRivers) bits |= 16384;
     return bits.toString(36);
   }
 
@@ -1265,6 +1300,7 @@
     state.occSource = (bits & 2048) ? 'nca' : 'traced';
     state.ccp = !(bits & 4096);          // inverted; see layerCode
     state.backs = !!(bits & 8192);
+    state.indiaRivers = !!(bits & 16384);
     urlProvSource = (bits & 128) ? 'roc' : 'enp';
   }
 
@@ -3740,6 +3776,9 @@
       var extentOK = state.extent && state.occSource === 'traced';
       extentPath.style.display = (state.epoch === 'e1942' && extentOK) ? '' : 'none';
     }
+    if (indiaRiversGroup) {
+      indiaRiversGroup.style.display = state.indiaRivers ? '' : 'none';
+    }
     if (riversGroup) {
       riversGroup.style.display = state.rivers ? '' : 'none';
       var flood = state.epoch === 'e1942';
@@ -4801,6 +4840,16 @@
     // Removed from the Layers panel. The state and bit 10 of the layer code
     // still work, so an old address still means what it meant; this is null
     // now and the block below is skipped.
+    var optIndiaRivers = $('#opt-india-rivers');
+    if (optIndiaRivers) {
+      optIndiaRivers.checked = state.indiaRivers;
+      optIndiaRivers.addEventListener('change', function () {
+        state.indiaRivers = optIndiaRivers.checked;
+        applyState();
+        saveState();
+      });
+    }
+
     var optBacks = $('#opt-backings');
     if (optBacks) {
       optBacks.checked = state.backs;

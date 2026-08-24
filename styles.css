@@ -525,6 +525,13 @@ button.plain:hover { background: #f2ede2; }
   opacity: .8;
 }
 
+/* Thinner and paler than the Yangzi and the Yellow River, which are the two
+   rivers this map has an argument about. These are context. */
+.india-river {
+  stroke-width: 1;
+  opacity: .6;
+}
+
 #legend .sw.river {
   height: 0;
   border: 0;

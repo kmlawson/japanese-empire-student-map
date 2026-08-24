@@ -4602,6 +4602,75 @@ deferred and never hidden is a second copy of ground nothing can ever be
 looking at, and it was 167 KB. `dei` joins `china` in `NO_BACKING`, and the
 sheet ends up **11 KB larger** rather than 167.
 
+### The map's names stop repeating the card's
+The `label` column was the wrong shape for what kept being asked for. Nine
+separate requests in one session, all of them the same request: Chishima,
+southern Sakhalin, Sinkiang, USSR, Tuvan People's Republic, Mengchiang,
+Ōmiyajima, contested, Suiyuan, Chahar, Jehol, Formosa, Ogasawara, Korea,
+Kwangchowan. So the rule moved into `mapLabel` instead: **a floating label
+drops the gloss after an em dash and the alternative in brackets.** A card has
+room for "Karafuto (southern Sakhalin)" and a reader who asked for it; a name
+across the map has room for one name.
+
+That left five explicit exceptions rather than nineteen redundant ones, and
+redundancy in a table is a hazard — edit `en` and a stale `label` wins.
+`princelystates` and `contested` say nothing on the map at all; `nanjinggov` is
+*Japanese-occupied*; `borneo_br` is *Kita Boruneo*; `freechina` is *China*.
+
+**`labelAt`** puts a name where it belongs when the middle of the shapes is the
+wrong place. Two kinds of record need it and both were broken:
+
+* The Republic in 1942 is the whole of China with the occupation drawn on top,
+  so its name was computed into occupied ground, collided with
+  "Japanese-occupied" and was dropped — the reader saw what Japan held and
+  nothing to compare it against. Moved to Chungking, 106.5E 29.5N. Framed on
+  China the 1942 sheet now shows *Japanese-occupied* and *China* together,
+  which is the whole point of the pair.
+* French India is five enclaves from Mahé to Chandernagore, and the mean of
+  five specks two thousand kilometres apart is a point in the Deccan belonging
+  to none of them. Both are on their capitals now.
+
+The redundant brackets were a corpus-wide fault rather than the two the eye
+caught. Comparing each name with its bracketed alternative after stripping the
+tone marks found **fourteen**: Shanghai, Taiyuan, Kaifeng, Nanchang, Changsha,
+Nanning, Kunming, Fushun, Anshan, Tangshan, Wuhu, Hengyang, Chaoyang and Yen
+Bai. "Wúhú (Wuhu)" says nothing twice. Guìlín (Kweilin) is untouched, being a
+different romanisation and not the same word typed twice.
+
+Andong, not Dandong, which is a name from 1965. Běipíng on the 1930 sheet and
+Běijīng on the 1942 one, through the epoch override, because it was renamed in
+1928 and renamed back under the occupation. Wēihǎiwèi is the name the lease
+went by, with Wēihǎi in the card. Battambang and Siem Reap drop to level 4 —
+the ceded provinces were shouting over Thailand from the opening view.
+
+### The Arafura islands were being called New Guinea
+Reported as unnamed. They were worse than unnamed: the box for Dutch New Guinea
+runs 130.5E to 141.1E and reached across the Arafura Sea to take in the Aru and
+Tanimbar groups, so pointing at them answered "Dutch New Guinea". They are a
+hundred miles and more off it and were governed from Amboina with the rest of
+the Moluccas.
+
+Twenty-six islands named, with an article and a description each: Aru,
+Tanimbar, Kai, Raja Ampat, Biak, Yapen and Frederik Hendrik Island out of the
+New Guinea box; Bacan and Morotai out of Halmahera's; Siberut and Simeulue out
+of Sumatra's; and Wetar, Obi, Alor, Pantar, Lembata, Rote, Savu, Sula, Talaud,
+Sangihe, Ambon, Babar, Natuna, Bawean and Komodo out of the bucket of rings
+that matched no box at all — drawn, and answering the pointer as "Netherlands
+East Indies", with nothing else to say for themselves.
+
+Order is the logic in those boxes. Four had to go first because a larger box
+reaches over them, and every centroid was unprojected and checked: 44 sub-units
+in the atom, all where they belong.
+
+### The rivers of India, on a switch
+Natural Earth's rivers clipped to the subcontinent and Burma, from the
+GeoPackage in Dropbox, converted to cached GeoJSON. 14,851 vertices thinned to
+**3,515** at 0.30 units, 123 subpaths, one element — sixty-three separate paths
+would be sixty-three more things to rasterise on every pan, and nothing points
+at them or names them. Off unless asked for, bit 14 of the layer code, thinner
+and paler than the Yangzi and the Yellow River, which are the two rivers this
+map has an argument about.
+
 ---
 
 ## Sources worth fetching

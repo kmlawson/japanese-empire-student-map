@@ -1720,6 +1720,13 @@ RING_NAMES = {
     # Bangka and Nias inside Sumatra's, so those three come before the islands
     # that would otherwise swallow them.
     "dei": [
+        # First of all, the four that a bigger box reaches over: Halmahera's
+        # takes in Bacan and Morotai, and Sumatra's takes in Siberut and
+        # Simeulue off its west coast.
+        ("Bacan", (127.3, -0.9, 128.0, -0.2)),
+        ("Morotai", (128.1, 1.9, 128.8, 2.6)),
+        ("Siberut", (98.5, -1.9, 99.4, -0.9)),
+        ("Simeulue", (95.7, 2.3, 96.5, 2.9)),
         ("Madura", (112.6, -7.3, 114.2, -6.8)),
         ("Bangka", (105.0, -3.3, 106.9, -1.4)),
         ("Nias", (97.0, -1.3, 98.1, 1.5)),
@@ -1728,11 +1735,43 @@ RING_NAMES = {
         ("Borneo", (108.8, -4.3, 119.2, 4.4)),
         ("Sulawesi", (118.7, -6.1, 125.3, 1.9)),
         ("Belitung", (107.4, -3.4, 108.4, -2.4)),
+        # The Arafura and Banda islands, which the box for Dutch New Guinea
+        # reached across and swallowed. The Aru and Tanimbar groups were being
+        # named New Guinea, which is wrong twice over: they are a hundred and
+        # more miles off it across the Arafura Sea, and they were governed from
+        # Amboina with the rest of the Moluccas. Before the New Guinea box, or
+        # it takes them again.
+        ("Aru", (133.9, -7.1, 135.1, -5.3)),
+        ("Tanimbar", (130.6, -8.4, 132.1, -6.7)),
+        ("Kai", (132.3, -6.2, 133.4, -5.2)),
+        ("RajaAmpat", (129.8, -2.4, 131.4, 0.6)),
+        ("Biak", (135.4, -1.4, 136.4, -0.5)),
+        ("Yapen", (135.7, -2.0, 137.2, -1.4)),
+        ("Kolepom", (137.7, -8.7, 139.2, -7.3)),
         ("Bali", (114.4, -8.9, 115.8, -8.0)), ("Lombok", (115.8, -9.0, 116.8, -8.1)),
         ("Sumbawa", (116.8, -9.2, 119.2, -8.0)), ("Flores", (119.5, -9.0, 123.3, -8.0)),
         ("Sumba", (118.9, -10.4, 120.9, -9.1)), ("WestTimor", (123.5, -10.4, 125.2, -9.0)),
         ("Halmahera", (127.2, -0.9, 129.0, 2.7)), ("Seram", (127.7, -3.5, 131.2, -2.6)),
         ("Buru", (125.9, -3.9, 127.3, -3.0)),
+        # and the rest of the archipelago that was carrying no name at all.
+        # Every one of these was in the bucket of rings that matched no box, so
+        # it was drawn, and answered the pointer as "Netherlands East Indies",
+        # and had nothing else to say for itself.
+        ("Wetar", (125.8, -8.1, 127.0, -7.4)),
+        ("Obi", (127.3, -1.9, 128.2, -1.2)),
+        ("Alor", (124.3, -8.5, 125.3, -8.0)),
+        ("Pantar", (123.9, -8.6, 124.3, -8.1)),
+        ("Lembata", (123.3, -8.6, 123.9, -8.2)),
+        ("Rote", (122.7, -11.0, 123.4, -10.4)),
+        ("Savu", (121.6, -10.7, 122.1, -10.3)),
+        ("Sula", (124.5, -2.4, 126.5, -1.5)),
+        ("Talaud", (126.5, 3.9, 127.2, 4.6)),
+        ("Sangihe", (125.2, 3.2, 125.8, 3.9)),
+        ("Ambon", (127.8, -3.8, 128.4, -3.4)),
+        ("Babar", (129.4, -8.1, 130.0, -7.6)),
+        ("Natuna", (107.8, 3.5, 108.6, 4.3)),
+        ("Bawean", (112.5, -5.9, 112.8, -5.7)),
+        ("Komodo", (119.2, -8.8, 119.7, -8.4)),
         ("WestNewGuinea", (130.5, -9.2, 141.1, 0.5)),
     ],
     "nanyo": [
@@ -2509,6 +2548,13 @@ ENP_SIDE = ("china", "manchuria", "jehol", "chahar", "suiyuan", "suiyuan_w",
 # line that is the better one and Manchuria that has to reach it.
 CHINA_NEIGHBOURS = ("ussr", "mongolia", "indochina", "burma", "siam", "india",
                     "nepal", "bhutan", "sikkim", "tuva", "saharat", "siamgain")
+
+# Natural Earth's rivers clipped to the subcontinent, exported from QGIS by
+# tools/gpkg_to_geojson.py. Thinned harder than the coastlines: a river is a
+# line and nobody measures it off this map, so half a pixel of wander costs
+# nothing and the vertex count matters more.
+INDIA_RIVERS_FILE = "india-rivers.geojson"
+INDIA_RIVER_TOL = 0.30
 
 SEAM_STEP = 0.015          # degrees; how finely the gap is searched
 SEAM_MAX = 0.50            # degrees; wider than this is not a seam but a hole
@@ -5974,6 +6020,33 @@ def main():
             # the two overlap the finer admin outline is the one on top
             provinces[key][:0] = [(k, v) for k, v in named.items()]
 
+    # ---- the rivers of India ------------------------------------------------
+    # Natural Earth's rivers, clipped to the subcontinent and Burma in QGIS.
+    # Drawn as one path: sixty-three lines each in an element of its own is
+    # sixty-three more things for the renderer to think about on every pan, and
+    # nothing points at them or names them, so nothing needs them apart.
+    india_rivers = ""
+    irpath = os.path.join(CACHE, INDIA_RIVERS_FILE)
+    if os.path.exists(irpath):
+        with open(irpath) as fh:
+            kept = dropped = 0
+            parts = []
+            for feat in json.load(fh)["features"]:
+                for line in iter_lines(feat["geometry"]):
+                    pts = [project(x, y) for x, y in line]
+                    pts = simplify(pts, INDIA_RIVER_TOL) if len(pts) >= 4 else pts
+                    if len(pts) < 2:
+                        dropped += 1
+                        continue
+                    kept += len(pts)
+                    parts.append(line_to_path(pts))
+            india_rivers = "".join(parts)
+        sys.stderr.write("india rivers: %d vertices kept, %d lines dropped\n"
+                         % (kept, dropped))
+    else:
+        sys.stderr.write("note: %s missing, the India rivers layer is empty\n"
+                         % INDIA_RIVERS_FILE)
+
     # ---- rivers ------------------------------------------------------------
     rivers = {}
     try:
@@ -6926,6 +6999,15 @@ def main():
     out.append("  </g>")
     if extent_path:
         out.append(f'  <path id="extent-1942" fill="none" d="{extent_path}"/>')
+    if india_rivers:
+        # A layer of its own with a switch of its own, off unless asked for.
+        # The Yangzi and the Yellow River are two rivers the map argues with —
+        # the 1938 breach is drawn twice over — and these are sixty-three lines
+        # of context under the Raj, which is a different kind of thing and
+        # should not arrive with them.
+        out.append('  <g id="india-rivers" style="display:none">')
+        out.append(f'    <path class="river india-river" fill="none" d="{india_rivers}"/>')
+        out.append("  </g>")
     if rivers:
         out.append('  <g id="rivers">')
         for key in ("yangzi", "yellow_upper", "yellow_lower"):

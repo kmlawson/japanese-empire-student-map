@@ -29,7 +29,7 @@ dairen,"Dàlián (Dairen, Dalny)",大連 (Dairen),大連 (Dàlián),大連,다�
 chengde,Chéngdé (Chengteh),承徳 (Shōtoku),承德 (Chéngdé),承德,청더,Occupied 4 March 1933,city,3,,40.98,117.94,1933,https://en.wikipedia.org/wiki/Chengde
 nomonhan,"Nuòménhǎn (Nomonhan, Khalkhin Gol)",ノモンハン事件 (Nomonhan jiken),Халхын гол,諾門罕,,May – September 1939,battle,3,yes,47.73,118.55,1939,https://en.wikipedia.org/wiki/Battles_of_Khalkhin_Gol
 wanpaoshan,Wànbǎoshān (Wanpaoshan),万宝山事件 (Manpōzan jiken),萬寶山 (Wànbǎoshān),萬寶山,,July 1931,battle,3,,44.95,125.4,1931,https://en.wikipedia.org/wiki/Wanpaoshan_Incident
-beijing,Běijīng (Peking / Peiping),北京 (Pekin),北京 / 北平 (Běijīng / Běipíng),北京（北平）,베이징,Renamed Peiping in 1928; occupied July–August 1937,city,1,,39.9,116.4,1900,https://en.wikipedia.org/wiki/Beijing
+beijing,Běijīng (Peking),北京 (Pekin),北京 / 北平 (Běijīng / Běipíng),北京 (Běijīng),베이징,Renamed Peiping in 1928; occupied July–August 1937,city,1,,39.9,116.4,1900,https://en.wikipedia.org/wiki/Beijing
 marcopolo,Lúgōuqiáo (the Marco Polo Bridge),盧溝橋事件 (Rokōkyō jiken),盧溝橋 (Lúgōuqiáo),盧溝橋,,7 July 1937,battle,2,yes,39.85,116.21,1937,https://en.wikipedia.org/wiki/Marco_Polo_Bridge_incident
 tianjin,Tiānjīn (Tientsin),天津 (Tenshin),天津 (Tiānjīn),天津,톈진,Convention 1885; occupied 1937,city,2,,39.13,117.2,1885,https://en.wikipedia.org/wiki/Tianjin
 kalgan,"Zhāngjiākǒu (Kalgan, Changchiakou)",張家口 (Chōkakō),張家口 (Zhāngjiākǒu),張家口,,Capital of Mengchiang from 1939,city,3,,40.81,114.88,1937,https://en.wikipedia.org/wiki/Zhangjiakou
@@ -37,7 +37,7 @@ jinan,Jǐnán (Tsinan),済南 (Sainan),濟南 (Jǐnán),濟南,지난,May 1928,c
 qingdao,Qīngdǎo (Tsingtao),青島 (Seitō),青島 (Qīngdǎo),青島,칭다오,"Seized from Germany, November 1914",city,2,,36.07,120.38,1914,https://en.wikipedia.org/wiki/Qingdao
 weihai,Wēihǎi (Weihaiwei),威海衛 (Ikaiei),威海衛 (Wēihǎiwèi),威海衛,웨이하이,"Battle, January–February 1895",city,3,,37.51,122.12,1895,https://en.wikipedia.org/wiki/Weihai
 nanjing,Nánjīng (Nanking),南京 (Nankin),南京 (Nánjīng),南京,난징,Fell 13 December 1937,city,1,yes,32.06,118.8,1927,https://en.wikipedia.org/wiki/Nanjing
-shanghai,Shànghǎi (Shanghai),上海 (Shanhai),上海 (Shànghǎi),上海,상하이,Fighting 1932; battle August–November 1937,city,1,,31.23,121.47,1863,https://en.wikipedia.org/wiki/Shanghai
+shanghai,Shànghǎi,上海 (Shanhai),上海 (Shànghǎi),上海,상하이,Fighting 1932; battle August–November 1937,city,1,,31.23,121.47,1863,https://en.wikipedia.org/wiki/Shanghai
 wuhan,Wǔhàn (Hankow),漢口 (Hankō),武漢 / 漢口 (Wǔhàn / Hànkǒu),武漢（漢口）,우한,Fell 25 October 1938,city,2,,30.58,114.28,1861,https://en.wikipedia.org/wiki/Wuhan
 chongqing,Chóngqìng (Chungking),重慶 (Jūkei),重慶 (Chóngqìng),重慶,충칭,Wartime capital 1938–1945,city,2,,29.56,106.55,1891,https://en.wikipedia.org/wiki/Chongqing
 yanan,Yán’ān (Yenan),延安 (En’an),延安 (Yán’ān),延安,옌안,Communist base 1936–1947,city,3,,36.6,109.49,1936,https://en.wikipedia.org/wiki/Yan'an
@@ -83,7 +83,7 @@ huangqiao,Huángqiáo (Hwangchiao),黄橋 (Kōkyō),,黃橋,,October 1940,battle
 musha,Musha (Wushe),霧社事件 (Musha jiken),,霧社,,27 October 1930,battle,2,,24.02,121.14,1930,https://en.wikipedia.org/wiki/Musha_Incident
 huanggutun,Huánggūtún (Huangkutun),張作霖爆殺事件 (Chō Sakurin bakusatsu jiken),,皇姑屯,,4 June 1928,battle,2,,41.83,123.35,1928,https://en.wikipedia.org/wiki/Huanggutun_incident
 dandi,Dandi,ダンディ (Dandi),દાંડી,,,6 April 1930,battle,2,,20.92,72.71,1930,https://en.wikipedia.org/wiki/Salt_March
-yenbai,Yen Bai (Yên Bái),イエンバイ (Ienbai),Yên Bái,安沛,,10 February 1930,battle,3,,21.7,104.87,1930,https://en.wikipedia.org/wiki/Y%C3%AAn_B%C3%A1i_mutiny
+yenbai,Yên Bái,イエンバイ (Ienbai),Yên Bái,安沛,,10 February 1930,battle,3,,21.7,104.87,1930,https://en.wikipedia.org/wiki/Y%C3%AAn_B%C3%A1i_mutiny
 chittagongraid,Chittagong,チッタゴン (Chittagon),চট্টগ্রাম,,,18 April 1930,battle,3,,22.36,91.78,1930,https://en.wikipedia.org/wiki/Chittagong_armoury_raid
 cheamri,Cheam-ri,堤岩里 (Teiganri),,堤岩里,제암리 (Cheam-ri),15 April 1919,battle,2,,37.13,126.86,1919,https://en.wikipedia.org/wiki/Jeamni_massacre
 uozu,Uozu,魚津 (Uozu),,魚津,,23 July 1918,battle,3,,36.83,137.4,1918,https://en.wikipedia.org/wiki/Rice_riots_of_1918

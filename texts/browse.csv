@@ -1,17 +1,17 @@
 id,en,ko,ja,zh,lat,lon,wiki
 paoting,Bǎodìng (Paoting),바오딩,保定 (Hotei),保定,38.87,115.47,https://en.wikipedia.org/wiki/Baoding
-taiyuan,Tàiyuán (Taiyuan),타이위안,太原 (Taigen),太原,37.87,112.55,https://en.wikipedia.org/wiki/Taiyuan
-kaifeng,Kāifēng (Kaifeng),카이펑,開封 (Kaihō),開封,34.8,114.31,https://en.wikipedia.org/wiki/Kaifeng
+taiyuan,Tàiyuán,타이위안,太原 (Taigen),太原,37.87,112.55,https://en.wikipedia.org/wiki/Taiyuan
+kaifeng,Kāifēng,카이펑,開封 (Kaihō),開封,34.8,114.31,https://en.wikipedia.org/wiki/Kaifeng
 hefei,Héféi (Hofei),허페이,合肥 (Gōhi),合肥,31.86,117.28,https://en.wikipedia.org/wiki/Hefei
 anqing,Ānqìng (Anking),안칭,安慶 (Ankei),安慶,30.51,117.05,https://en.wikipedia.org/wiki/Anqing
 hangzhou,Hángzhōu (Hangchow),항저우,杭州 (Kōshū),杭州,30.27,120.16,https://en.wikipedia.org/wiki/Hangzhou
-nanchang,Nánchāng (Nanchang),난창,南昌 (Nanshō),南昌,28.68,115.89,https://en.wikipedia.org/wiki/Nanchang
+nanchang,Nánchāng,난창,南昌 (Nanshō),南昌,28.68,115.89,https://en.wikipedia.org/wiki/Nanchang
 fuzhou,Fúzhōu (Foochow),푸저우,福州 (Fukushū),福州,26.07,119.3,https://en.wikipedia.org/wiki/Fuzhou
-changsha,Chángshā (Changsha),창사,長沙 (Chōsa),長沙,28.23,112.94,https://en.wikipedia.org/wiki/Changsha
+changsha,Chángshā,창사,長沙 (Chōsa),長沙,28.23,112.94,https://en.wikipedia.org/wiki/Changsha
 guilin,Guìlín (Kweilin),구이린,桂林 (Keirin),桂林,25.27,110.29,https://en.wikipedia.org/wiki/Guilin
-nanning,Nánníng (Nanning),,南寧 (Nannei),南寧,22.82,108.32,https://en.wikipedia.org/wiki/Nanning
+nanning,Nánníng,,南寧 (Nannei),南寧,22.82,108.32,https://en.wikipedia.org/wiki/Nanning
 guiyang,Guìyáng (Kweiyang),구이양,貴陽 (Kiyō),貴陽,26.65,106.63,https://en.wikipedia.org/wiki/Guiyang
-kunming,Kūnmíng (Kunming),쿤밍,昆明 (Konmei),昆明,25.04,102.72,https://en.wikipedia.org/wiki/Kunming
+kunming,Kūnmíng,쿤밍,昆明 (Konmei),昆明,25.04,102.72,https://en.wikipedia.org/wiki/Kunming
 chengdu,Chéngdū (Chengtu),,成都 (Seito),成都,30.66,104.07,https://en.wikipedia.org/wiki/Chengdu
 lanzhou,Lánzhōu (Lanchow),,蘭州 (Ranshū),蘭州,36.06,103.83,https://en.wikipedia.org/wiki/Lanzhou
 xining,Xīníng (Sining),,西寧 (Seinei),西寧,36.62,101.78,https://en.wikipedia.org/wiki/Xining
@@ -21,11 +21,11 @@ baotou,Bāotóu (Paotow),바오터우,包頭 (Hōtō),包頭,40.66,109.84,https:
 qiqihar,Qíqíhā’ěr (Tsitsihar),치치하얼,チチハル (Chichiharu),齊齊哈爾,47.35,123.92,https://en.wikipedia.org/wiki/Qiqihar
 jilincity,Jílín (Kirin),지린시,吉林 (Kirin),吉林,43.84,126.55,https://en.wikipedia.org/wiki/Jilin_City
 mudanjiang,Mǔdānjiāng (Mutankiang),무단장,牡丹江 (Botankō),牡丹江,44.58,129.6,https://en.wikipedia.org/wiki/Mudanjiang
-fushun,Fǔshùn (Fushun),푸순,撫順 (Bujun),撫順,41.88,123.94,https://en.wikipedia.org/wiki/Fushun
-anshan,Ānshān (Anshan),,鞍山 (Anzan),鞍山,41.11,122.99,https://en.wikipedia.org/wiki/Anshan
+fushun,Fǔshùn,푸순,撫順 (Bujun),撫順,41.88,123.94,https://en.wikipedia.org/wiki/Fushun
+anshan,Ānshān,,鞍山 (Anzan),鞍山,41.11,122.99,https://en.wikipedia.org/wiki/Anshan
 jinzhou,Jǐnzhōu (Chinchow),,錦州 (Kinshū),錦州,41.1,121.13,https://en.wikipedia.org/wiki/Jinzhou
 yingkou,Yíngkǒu (Newchwang),잉커우,営口 (Eikō),營口,40.67,122.24,https://en.wikipedia.org/wiki/Yingkou
-dandong,Dāndōng (Antung),단둥,安東 (Antō),安東,40.13,124.39,https://en.wikipedia.org/wiki/Dandong
+dandong,Āndōng (Dandong),단둥,安東 (Antō),安東,40.13,124.39,https://en.wikipedia.org/wiki/Dandong
 urumqi,Wūlǔmùqí (Urumchi),,迪化 (Tekika),迪化（烏魯木齊）,43.83,87.62,https://en.wikipedia.org/wiki/%C3%9Cr%C3%BCmqi
 kashgar,Kāshí (Kashgar),,カシュガル (Kashugaru),喀什噶爾,39.47,75.99,https://en.wikipedia.org/wiki/Kashgar
 lhasa,Lhasa,,,,29.65,91.14,https://en.wikipedia.org/wiki/Lhasa
@@ -102,7 +102,7 @@ colombo,Colombo,,,,6.93,79.86,https://en.wikipedia.org/wiki/Colombo
 honolulu,Honolulu,,ホノルル (Honoruru),檀香山,21.31,-157.86,https://en.wikipedia.org/wiki/Honolulu
 agana,Agana (Hagatna),,アガナ (Agana),阿加尼亞,13.47,144.75,"https://en.wikipedia.org/wiki/Hag%C3%A5t%C3%B1a,_Guam"
 koror,Koror,,コロール (Korōru),,7.34,134.48,https://en.wikipedia.org/wiki/Koror
-tangshan,Tángshān (Tangshan),탕산,唐山 (Tōzan),唐山,39.63,118.18,https://en.wikipedia.org/wiki/Tangshan
+tangshan,Tángshān,탕산,唐山 (Tōzan),唐山,39.63,118.18,https://en.wikipedia.org/wiki/Tangshan
 shanhaiguan,Shānhǎiguān (Shanhaikuan),산해관,山海関 (Sankaikan),山海關,40.01,119.75,https://en.wikipedia.org/wiki/Shanhai_Pass
 datong,Dàtóng (Tatung),다퉁,大同 (Daidō),大同,40.09,113.3,https://en.wikipedia.org/wiki/Datong
 luoyang,Luòyáng (Loyang),뤄양,洛陽 (Rakuyō),洛陽,34.62,112.45,https://en.wikipedia.org/wiki/Luoyang
@@ -110,11 +110,11 @@ zhengzhou,Zhèngzhōu (Chengchow),정저우,鄭州 (Teishū),鄭州,34.75,113.63
 suzhou,Sūzhōu (Soochow),쑤저우,蘇州 (Soshū),蘇州,31.3,120.62,https://en.wikipedia.org/wiki/Suzhou
 wuxi,Wúxī (Wusih),우시,無錫 (Mushaku),無錫,31.57,120.3,https://en.wikipedia.org/wiki/Wuxi
 xuzhou,Xúzhōu (Hsuchow),쉬저우,徐州 (Joshū),徐州,34.26,117.19,https://en.wikipedia.org/wiki/Xuzhou
-wuhu,Wúhú (Wuhu),우후,蕪湖 (Buko),蕪湖,31.35,118.38,https://en.wikipedia.org/wiki/Wuhu
+wuhu,Wúhú,우후,蕪湖 (Buko),蕪湖,31.35,118.38,https://en.wikipedia.org/wiki/Wuhu
 bengbu,Bèngbù (Pengpu),벙부,蚌埠 (Bōfu),蚌埠,32.92,117.39,https://en.wikipedia.org/wiki/Bengbu
 jiujiang,Jiǔjiāng (Kiukiang),주장,九江 (Kyūkō),九江,29.71,116,https://en.wikipedia.org/wiki/Jiujiang
 yichang,Yíchāng (Ichang),이창,宜昌 (Gishō),宜昌,30.69,111.29,https://en.wikipedia.org/wiki/Yichang
-hengyang,Héngyáng (Hengyang),헝양,衡陽 (Kōyō),衡陽,26.89,112.57,https://en.wikipedia.org/wiki/Hengyang
+hengyang,Héngyáng,헝양,衡陽 (Kōyō),衡陽,26.89,112.57,https://en.wikipedia.org/wiki/Hengyang
 yueyang,Yuèyáng (Yochow),웨양,岳陽 (Gakuyō),岳陽,29.36,113.13,https://en.wikipedia.org/wiki/Yueyang
 shaoguan,Sháoguān (Shiuchow),사오관,韶関 (Shōkan),韶關,24.81,113.6,https://en.wikipedia.org/wiki/Shaoguan
 wuzhou,Wúzhōu (Wuchow),우저우,梧州 (Goshū),梧州,23.48,111.28,https://en.wikipedia.org/wiki/Wuzhou
@@ -123,7 +123,7 @@ dali,Dàlǐ (Tali),,大理 (Dairi),大理,25.61,100.27,
 wanxian,Wànzhōu (Wanhsien),완저우구,万県 (Manken),萬縣,30.81,108.41,"https://en.wikipedia.org/wiki/Wanzhou,_Chongqing"
 baoji,Bǎojī (Paoki),바오지,宝鶏 (Hōkei),寶雞,34.36,107.14,https://en.wikipedia.org/wiki/Baoji
 tianshui,Tiānshuǐ (Tienshui),톈수이,天水 (Tensui),天水,34.58,105.72,https://en.wikipedia.org/wiki/Tianshui
-chaoyang,Cháoyáng (Chaoyang),차오양,朝陽 (Chōyō),朝陽,41.57,120.45,"https://en.wikipedia.org/wiki/Chaoyang,_Liaoning"
+chaoyang,Cháoyáng,차오양,朝陽 (Chōyō),朝陽,41.57,120.45,"https://en.wikipedia.org/wiki/Chaoyang,_Liaoning"
 yanji,Yánjí (Yenki),옌지,延吉 (Enkichi),延吉,42.91,129.51,https://en.wikipedia.org/wiki/Yanji
 jiamusi,Jiāmùsī (Kiamusze),자무쓰,佳木斯 (Kamusu),佳木斯,46.81,130.32,https://en.wikipedia.org/wiki/Jiamusi
 yining,Yīníng (Ining),,伊寧 (Inei),伊寧,43.91,81.32,https://en.wikipedia.org/wiki/Yining

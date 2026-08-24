@@ -231,7 +231,6 @@ JMAP.TERRITORIES = {
       id: 'chishima', en: 'Kurile Islands (Chishima)', ja: '千島列島 (Chishima Rettō)',
       orig: 'Курильские острова', zh: '千島群島', when: 'Japanese from 1875', cat: 'metropole',
       lvl: 2, atoms: ['chishima'], wiki: 'https://en.wikipedia.org/wiki/Kuril_Islands',
-      label: 'Kurile Islands',
       note: 'Traded to Japan by Russia in the 1875 Treaty of Saint Petersburg, in exchange for Japanese claims to Sakhalin.'
     },
     {
@@ -250,7 +249,7 @@ JMAP.TERRITORIES = {
       id: 'karafuto', en: 'Karafuto (southern Sakhalin)', ja: '樺太 (Karafuto)',
       orig: 'Южный Сахалин', zh: '樺太（南薩哈林）', ko: '가라후토청', when: 'Japanese from 1905',
       cat: 'jpcolony', lvl: 1, atoms: ['karafuto'],
-      wiki: 'https://en.wikipedia.org/wiki/Karafuto_Prefecture', label: 'Karafuto',
+      wiki: 'https://en.wikipedia.org/wiki/Karafuto_Prefecture',
       note: 'Sakhalin south of the 50th parallel, taken from Russia by the 1905 Treaty of Portsmouth.'
     },
     {
@@ -305,7 +304,6 @@ JMAP.TERRITORIES = {
       id: 'xinjiang', en: 'Xīnjiāng (Sinkiang)', ja: '新疆 (Shinkyō)', orig: 'شىنجاڭ (Shinjang)',
       zh: '新疆', when: 'Under largely autonomous provincial rule', cat: 'chinese', lvl: 3,
       atoms: ['xinjiang'], within: 'china', wiki: 'https://en.wikipedia.org/wiki/Xinjiang',
-      label: 'Xīnjiāng',
       note: 'Oasis towns round the rim of the Taklamakan, watered off the Tian Shan and the Kunlun, growing cotton, wheat and melons, with pastoral country in the north; Uyghur, Kazakh and Hui more than Han, and Turkic and Muslim more than Chinese. A quarter of the Republic\'s area and about one per cent of its people. A province in name, and Nanjing recognised Jin Shuren as its chairman after Yang Zengxin was assassinated in 1928 — but the government ran its own army, currency, finances and foreign trade, its roads and its telegraph ran to Soviet Central Asia rather than to China, and Nanjing\'s writ reached almost nothing of it.'
     },
     {
@@ -325,12 +323,14 @@ JMAP.TERRITORIES = {
       id: 'goa', en: 'Portuguese India — Goa, Damão, Diu, Dadra & Nagar Haveli',
       orig: 'Estado da Índia', when: 'Portuguese from 1510', cat: 'portuguese', lvl: 3,
       atoms: ['goa'], wiki: 'https://en.wikipedia.org/wiki/Portuguese_India',
+      labelAt: '73.9,15.4',
       note: 'Goa, with Damão and Diu on the Gujarat coast and Dadrá and Nagar Aveli inland behind them, is the seat of the Estado da Índia and the oldest European possession in Asia, held since 1510. It would stay Portuguese until India took it by force in 1961.'
     },
     {
       id: 'pondicherry', en: 'French India — Pondicherry, Karikal, Yanaon, Mahé, Chandernagore',
       orig: 'Établissements français dans l’Inde', when: 'French from 1674', cat: 'french',
       lvl: 3, atoms: ['pondicherry'], wiki: 'https://en.wikipedia.org/wiki/French_India',
+      labelAt: '79.83,11.93',
       note: 'Five scattered enclaves left to France when Britain took the rest of India: Pondicherry and Karikal on the Coromandel coast, Yanaon on the Godavari, Mahé on the Malabar coast, and Chandernagore on the Hooghly above Calcutta. They would declare for the Free French in 1940 and pass to India in the 1950s.'
     },
     {
@@ -545,7 +545,7 @@ JMAP.TERRITORIES = {
     {
       id: 'ussr', en: 'Soviet Union (USSR)', orig: 'СССР (SSSR)', zh: '蘇聯', when: 'From 1922',
       cat: 'soviet', lvl: 1, atoms: ['ussr'],
-      wiki: 'https://en.wikipedia.org/wiki/Soviet_Union', label: 'Soviet Union',
+      wiki: 'https://en.wikipedia.org/wiki/Soviet_Union',
       note: 'Japan had intervened in the Russian Civil War in Siberia from 1918 to 1922 and held northern Sakhalin until 1925. Relations along the Manchurian border stayed tense.'
     },
     {
@@ -576,10 +576,10 @@ JMAP.TERRITORIES = {
       note: 'A phosphate island held under a mandate shared by Australia, Britain and New Zealand.'
     },
     {
-      id: 'weihaiwei', en: 'Wēihǎi (Weihaiwei)', ja: '威海衛 (Ikaiei)', orig: '威海衛 (Wēihǎiwèi)',
+      id: 'weihaiwei', en: 'Wēihǎiwèi (Wēihǎi)', ja: '威海衛 (Ikaiei)', orig: '威海衛 (Wēihǎiwèi)',
       zh: '威海衛', when: 'Leased 1898, returned 1 October 1930', cat: 'british', lvl: 3,
       c: '#c08a99', atoms: ['weihaiwei'],
-      wiki: 'https://en.wikipedia.org/wiki/British_Weihaiwei',
+      wiki: 'https://en.wikipedia.org/wiki/British_Weihaiwei', label: 'Wēihǎiwèi',
       note: 'Britain took the lease in 1898 to balance the Russian one at Lüshun, and used the harbour as the Royal Navy’s summer station. It was handed back to China in October 1930 — so on this map it is in its last months.'
     },
     {
@@ -592,7 +592,7 @@ JMAP.TERRITORIES = {
       id: 'tuva', en: 'Tannu Tuva (Tuvan People’s Republic)', orig: 'Тыва Арат Республик',
       zh: '唐努圖瓦', when: 'Independent in name from 1921', cat: 'soviet', lvl: 3, c: '#d3d1e6',
       atoms: ['tuva'], edge: '#bebada',
-      wiki: 'https://en.wikipedia.org/wiki/Tuvan_People\'s_Republic', label: 'Tannu Tuva',
+      wiki: 'https://en.wikipedia.org/wiki/Tuvan_People\'s_Republic',
       note: 'Qing territory until 1911, then a Russian protectorate, then a nominally independent republic from 1921 — recognised only by the Soviet Union and Mongolia. Absorbed into the USSR in 1944. China went on claiming it.'
     },
     {
@@ -651,7 +651,6 @@ JMAP.TERRITORIES = {
       id: 'chishima', en: 'Kurile Islands (Chishima)', ja: '千島列島 (Chishima Rettō)',
       orig: 'Курильские острова', zh: '千島群島', when: 'Japanese from 1875', cat: 'metropole',
       lvl: 2, atoms: ['chishima'], wiki: 'https://en.wikipedia.org/wiki/Kuril_Islands',
-      label: 'Kurile Islands',
       note: 'The Pearl Harbor strike force sailed from Hitokappu Bay in these islands in November 1941. Seized by the USSR in 1945 and still disputed.'
     },
     {
@@ -670,7 +669,7 @@ JMAP.TERRITORIES = {
       id: 'karafuto', en: 'Karafuto (southern Sakhalin)', ja: '樺太 (Karafuto)',
       orig: 'Южный Сахалин', zh: '樺太（南薩哈林）', ko: '가라후토청', when: 'Japanese 1905–1945',
       cat: 'colony', lvl: 1, atoms: ['karafuto'],
-      wiki: 'https://en.wikipedia.org/wiki/Karafuto_Prefecture', label: 'Karafuto',
+      wiki: 'https://en.wikipedia.org/wiki/Karafuto_Prefecture',
       note: 'Coal, timber and fisheries, and — apart from Korea\'s short frontier on the lower Tumen — the empire\'s land border with the Soviet Union. Lost in August 1945.'
     },
     {
@@ -699,7 +698,7 @@ JMAP.TERRITORIES = {
       zh: '蒙古自治邦', ko: '몽강연합자치정부',
       when: 'Renamed the Mongol Autonomous Federation, August 1941; federated September 1939; Japanese client from 1936',
       cat: 'puppet', lvl: 2, atoms: ['mengjiang'],
-      wiki: 'https://en.wikipedia.org/wiki/Mengjiang', label: 'Měngjiāng',
+      wiki: 'https://en.wikipedia.org/wiki/Mengjiang',
       note: 'The Inner Mongolian autonomous government under Prince Demchugdongrub, with its capital at Zhangjiakou, assembled out of eastern Chahar, the Mongol leagues and a strip of northern Shanxi. Japanese-sponsored Mongol governments date from 1936, and the regime changed its name more than once: the federation of September 1939 joined the Mongol leagues to two Chinese-populated administrations — Chanan out of southern Chahar and Jinbei out of northern Shanxi — as the Mengchiang United Autonomous Government, and in August 1941 that was renamed the Mongol Autonomous Federation, 蒙古自治邦, which is what it was called in December 1942. Switch Administrative on and the three parts are named. The line indicates claimed Mengjiang territory and the fill indicates approximate simplified area of control.'
     },
     {
@@ -826,7 +825,6 @@ JMAP.TERRITORIES = {
       id: 'guam', en: 'Guam (Ōmiyajima)', ja: '大宮島 (Ōmiyajima)', orig: 'Guåhan', zh: '關島',
       when: 'Taken 10 December 1941', rule: 'American territory under Japanese occupation',
       cat: 'occupied', lvl: 3, atoms: ['guam'], wiki: 'https://en.wikipedia.org/wiki/Guam',
-      label: 'Guam',
       note: 'The one American possession inside the Japanese-held Marianas, renamed Ōmiyajima and retaken in 1944.'
     },
     {
@@ -894,7 +892,7 @@ JMAP.TERRITORIES = {
       orig: 'Guadalcanal', zh: '瓜達爾卡納爾島（爭奪中）',
       when: 'American landing 7 August 1942; fought over into February 1943', cat: 'occupied',
       lvl: 2, atoms: ['solomons_gc'], hatch: 'us',
-      wiki: 'https://en.wikipedia.org/wiki/Guadalcanal', label: 'Guadalcanal',
+      wiki: 'https://en.wikipedia.org/wiki/Guadalcanal',
       note: 'In December 1942 the island was divided: the Americans held the airfield and the perimeter around it, the Japanese the ground to the west, and neither could dislodge the other. It is drawn in the occupation colour with American stripes across it for that reason — the only ground on the map the two were contesting at this date. Japan evacuated in the first week of February 1943, and the campaign is usually taken as the point at which the initiative changed hands.'
     },
     {
@@ -943,7 +941,7 @@ JMAP.TERRITORIES = {
       id: 'cededthai', en: 'Battambang & Siem Reap (ceded to Thailand, 1941)',
       ja: '泰国への割譲地 (1941)', orig: 'Phra Tabong / Phibunsongkhram / Lan Chang',
       zh: '割讓予泰國之地（1941）', when: 'Ceded 9 May 1941, returned 1946', cat: 'cobelligerent',
-      lvl: 3, atoms: ['siamgain'], wiki: 'https://en.wikipedia.org/wiki/Franco-Thai_War',
+      lvl: 4, atoms: ['siamgain'], wiki: 'https://en.wikipedia.org/wiki/Franco-Thai_War',
       note: 'Taken from French Indochina after the Franco-Thai war and handed to Thailand under Japanese mediation: Battambang and Siem Reap in Cambodia, and the Lao country west of the Mekong. Renamed Phra Tabong, Phibunsongkhram, Nakhon Champasak and Lan Chang. Angkor itself was left to France. All of it went back in 1946.'
     },
     {
@@ -952,6 +950,7 @@ JMAP.TERRITORIES = {
       when: 'Capital at Chungking from 1938', cat: 'freechina', lvl: 1,
       atoms: ['china', 'suiyuan_w', 'chahar', 'suiyuan'],
       wiki: 'https://en.wikipedia.org/wiki/Republic_of_China_(1912%E2%80%931949)',
+      label: 'China', labelAt: '106.5,29.5',
       note: 'The unoccupied interior — some two thirds of the country\'s area and rather less than half its people — with the government at Chongqing, up the Yangtze gorges behind the mountains of Sichuan, where it moved in 1938 after Nanjing and then Wuhan fell. A capital chosen for being hard to reach: fog for half the year, no railway to it, and bombed from 1938 to 1943 all the same. Cut off from the sea, it was supplied over the Burma Road from Rangoon until Burma fell in the spring of 1942, and after that only by air over the Hump from Assam. The universities came too, and the arsenals; the currency collapsed by degrees. The Communist base areas, in the same nominal united front and by 1941 barely on speaking terms with Chongqing, are drawn separately in cross- hatching.'
     },
     {
@@ -971,12 +970,14 @@ JMAP.TERRITORIES = {
       id: 'goa', en: 'Portuguese India — Goa, Damão, Diu, Dadra & Nagar Haveli',
       orig: 'Estado da Índia', when: 'Portuguese from 1510', cat: 'portuguese', lvl: 3,
       atoms: ['goa'], wiki: 'https://en.wikipedia.org/wiki/Portuguese_India',
+      labelAt: '73.9,15.4',
       note: 'Goa, with Damão and Diu on the Gujarat coast and Dadrá and Nagar Aveli inland behind them, was the seat of the Estado da Índia and the oldest European possession in Asia. Portugal was neutral, and it stayed Portuguese until India took it by force in 1961.'
     },
     {
       id: 'pondicherry', en: 'French India — Pondicherry, Karikal, Yanaon, Mahé, Chandernagore',
       orig: 'Établissements français dans l’Inde', when: 'French from 1674', cat: 'french',
       lvl: 3, atoms: ['pondicherry'], wiki: 'https://en.wikipedia.org/wiki/French_India',
+      labelAt: '79.83,11.93',
       note: 'Five scattered enclaves left to France when Britain took the rest of India: Pondicherry and Karikal on the Coromandel coast, Yanaon on the Godavari, Mahé on the Malabar coast, and Chandernagore on the Hooghly above Calcutta. They declared for the Free French in 1940 and were transferred to India in the 1950s.'
     },
     {
@@ -1007,7 +1008,7 @@ JMAP.TERRITORIES = {
     {
       id: 'ussr', en: 'Soviet Union (USSR)', orig: 'СССР (SSSR)', zh: '蘇聯',
       when: 'Neutrality Pact, April 1941', cat: 'neutral', lvl: 1, atoms: ['ussr'],
-      wiki: 'https://en.wikipedia.org/wiki/Soviet_Union', label: 'Soviet Union',
+      wiki: 'https://en.wikipedia.org/wiki/Soviet_Union',
       note: 'At war with Germany but not with Japan: the Neutrality Pact of April 1941 held until the Soviet invasion of Manchuria in August 1945. Both sides kept large armies on the Manchurian border throughout. The frontier had already been fought over: an undeclared border war ran through the late 1930s and was settled at Nomonhan on the Manchukuo–Mongolian border in the summer of 1939, where Zhukov destroyed a Japanese division. That defeat is a large part of why the Japanese advance in 1941 went south rather than north.'
     },
     {
@@ -1020,7 +1021,6 @@ JMAP.TERRITORIES = {
       id: 'xinjiang', en: 'Xīnjiāng (Sinkiang)', ja: '新疆 (Shinkyō)', orig: 'شىنجاڭ (Shinjang)',
       zh: '新疆', when: 'Realigned with Chungking in 1942', cat: 'freechina', lvl: 3,
       atoms: ['xinjiang'], within: 'freechina', wiki: 'https://en.wikipedia.org/wiki/Xinjiang',
-      label: 'Xīnjiāng',
       note: 'Oasis towns round the rim of the Taklamakan, watered off the Tian Shan and the Kunlun, growing cotton, wheat and melons, with pastoral country in the north; Uyghur, Kazakh and Hui more than Han, and its trade running to Soviet Central Asia rather than to China. A province in name only. A Muslim rising in 1931 grew into the East Turkestan Republic proclaimed at Kashgar in 1933 and put down with Soviet help; Sheng Shicai then governed on Soviet money, with Soviet advisers, aircraft and a garrison at Hami, running the province as a Soviet dependency in all but name. He broke with Moscow in 1942 and turned to Chongqing — he was still governing in December — and within two years had lost the confidence of both.'
     },
     {
@@ -1045,7 +1045,7 @@ JMAP.TERRITORIES = {
       id: 'tuva', en: 'Tannu Tuva (Tuvan People’s Republic)', orig: 'Тыва Арат Республик',
       zh: '唐努圖瓦', when: 'Independent in name from 1921', cat: 'neutral', lvl: 3, c: '#d3d1e6',
       atoms: ['tuva'], edge: '#bebada',
-      wiki: 'https://en.wikipedia.org/wiki/Tuvan_People\'s_Republic', label: 'Tannu Tuva',
+      wiki: 'https://en.wikipedia.org/wiki/Tuvan_People\'s_Republic',
       note: 'Qing territory until 1911, then a Russian protectorate, then a nominally independent republic from 1921 — recognised only by the Soviet Union and Mongolia. Absorbed into the USSR in 1944. China went on claiming it.'
     },
     {
@@ -1281,8 +1281,8 @@ JMAP.SITES = [
     note: 'A quarrel over an irrigation ditch between Korean and Chinese farmers, inflamed by Japanese press reports into anti-Chinese riots in Korea, two months before the invasion of Manchuria.'
   },
   {
-    id: 'beijing', en: 'Běijīng (Peking / Peiping)', ja: '北京 (Pekin)',
-    orig: '北京 / 北平 (Běijīng / Běipíng)', zh: '北京（北平）', ko: '베이징',
+    id: 'beijing', en: 'Běijīng (Peking)', ja: '北京 (Pekin)',
+    orig: '北京 / 北平 (Běijīng / Běipíng)', zh: '北京 (Běijīng)', ko: '베이징',
     date: 'Renamed Peiping in 1928; occupied July–August 1937', cat: 'city', lvl: 1, lat: 39.9,
     lon: 116.4, wiki: 'https://en.wikipedia.org/wiki/Beijing', year: 1900,
     note: 'The Qing capital, demoted to "Peiping" when the Nationalists moved the capital to Nanjing in 1928. Japanese troops joined the eight-nation force that relieved the legations in 1900, and took the city outright in August 1937.'
@@ -1332,9 +1332,9 @@ JMAP.SITES = [
     note: 'Nationalist capital from 1927. Its capture on 13 December 1937 was followed by weeks of mass killing and rape — the Nanjing Massacre — in which the dead are counted from the tens of thousands to 300,000, depending on the period and the boundary taken. From 1940 it housed Wang Jingwei\'s collaborationist government.'
   },
   {
-    id: 'shanghai', en: 'Shànghǎi (Shanghai)', ja: '上海 (Shanhai)', orig: '上海 (Shànghǎi)',
-    zh: '上海', ko: '상하이', date: 'Fighting 1932; battle August–November 1937', cat: 'city',
-    lvl: 1, lat: 31.23, lon: 121.47, wiki: 'https://en.wikipedia.org/wiki/Shanghai', year: 1863,
+    id: 'shanghai', en: 'Shànghǎi', ja: '上海 (Shanhai)', orig: '上海 (Shànghǎi)', zh: '上海',
+    ko: '상하이', date: 'Fighting 1932; battle August–November 1937', cat: 'city', lvl: 1,
+    lat: 31.23, lon: 121.47, wiki: 'https://en.wikipedia.org/wiki/Shanghai', year: 1863,
     note: 'The largest treaty port in China, with an International Settlement and a French Concession. Fighting in January 1932 and again in 1937, when three months of street and river fighting cost both armies enormously and destroyed China’s best divisions.'
   },
   {
@@ -1614,7 +1614,7 @@ JMAP.SITES = [
     note: 'Gandhi reached the sea here on 6 April 1930 after walking 240 miles from Ahmedabad, and made salt in defiance of the government monopoly. Some sixty thousand people were imprisoned in the civil disobedience that followed.'
   },
   {
-    id: 'yenbai', en: 'Yen Bai (Yên Bái)', ja: 'イエンバイ (Ienbai)', orig: 'Yên Bái', zh: '安沛',
+    id: 'yenbai', en: 'Yên Bái', ja: 'イエンバイ (Ienbai)', orig: 'Yên Bái', zh: '安沛',
     date: '10 February 1930', cat: 'battle', lvl: 3, lat: 21.7, lon: 104.87,
     wiki: 'https://en.wikipedia.org/wiki/Y%C3%AAn_B%C3%A1i_mutiny', year: 1930,
     note: 'Vietnamese soldiers of the garrison mutinied on 10 February 1930 and killed their French officers. The rising was put down in a day, the VNQDD leadership was guillotined, and the initiative in Vietnamese nationalism passed to the communists.'
@@ -1905,7 +1905,7 @@ JMAP.EPOCH_OVERRIDES = {
       note: 'Where the Russian Chinese Eastern Railway met the Japanese South Manchuria Railway — the seam between the two spheres in Manchuria. It would be rebuilt as Hsinking, capital of Manchukuo, after 1932.'
     } },
   beijing: { e1930: {
-      date: 'Renamed Peiping in 1928',
+      en: 'Běipíng (Peiping)', zh: '北平 (Běipíng)', date: 'Renamed Peiping in 1928',
       note: 'The Qing capital until 1912 and the seat of the warlord governments after it; demoted to Peiping — "northern peace" — when the Nationalists moved the capital to Nanjing in 1928. Japanese troops had joined the eight-nation force that relieved the legations here in 1900.'
     } },
   nanjing: { e1930: {
@@ -1979,13 +1979,13 @@ JMAP.BROWSE = [
     note: 'On the Beijing–Hankou railway, and the seat of the military academy that trained a generation of Republican officers. Fell on 24 September 1937; Shijiazhuang, the junction south of it, went in October.'
   },
   {
-    id: 'taiyuan', en: 'Tàiyuán (Taiyuan)', ja: '太原 (Taigen)', zh: '太原', ko: '타이위안', lat: 37.87,
+    id: 'taiyuan', en: 'Tàiyuán', ja: '太原 (Taigen)', zh: '太原', ko: '타이위안', lat: 37.87,
     lon: 112.55, wiki: 'https://en.wikipedia.org/wiki/Taiyuan',
     note: 'Yan Xishan\'s capital for thirty years, with the arsenal and steelworks he built to keep Shanxi independent of everyone. Lin Biao\'s ambush at Pingxingguan in September 1937 and the battle of Xinkou in October delayed its fall until 9 November.'
   },
   {
-    id: 'kaifeng', en: 'Kāifēng (Kaifeng)', ja: '開封 (Kaihō)', zh: '開封', ko: '카이펑', lat: 34.8,
-    lon: 114.31, wiki: 'https://en.wikipedia.org/wiki/Kaifeng',
+    id: 'kaifeng', en: 'Kāifēng', ja: '開封 (Kaihō)', zh: '開封', ko: '카이펑', lat: 34.8, lon: 114.31,
+    wiki: 'https://en.wikipedia.org/wiki/Kaifeng',
     note: 'The Northern Song capital, and a station on the Lunghai railway. Fell on 6 June 1938; the dikes at Huayuankou were cut three days later to stop the advance beyond it.'
   },
   {
@@ -2004,8 +2004,8 @@ JMAP.BROWSE = [
     note: 'Silk, and the southern end of the Grand Canal. Fell on 24 December 1937.'
   },
   {
-    id: 'nanchang', en: 'Nánchāng (Nanchang)', ja: '南昌 (Nanshō)', zh: '南昌', ko: '난창',
-    lat: 28.68, lon: 115.89, wiki: 'https://en.wikipedia.org/wiki/Nanchang',
+    id: 'nanchang', en: 'Nánchāng', ja: '南昌 (Nanshō)', zh: '南昌', ko: '난창', lat: 28.68,
+    lon: 115.89, wiki: 'https://en.wikipedia.org/wiki/Nanchang',
     note: 'Where the Communist rising of 1 August 1927 gave the Red Army its founding date, and where Chiang launched the New Life Movement seven years later. Fell on 27 March 1939.'
   },
   {
@@ -2014,7 +2014,7 @@ JMAP.BROWSE = [
     note: 'A treaty port from 1842 and the great tea shipping port of the nineteenth century. Taken in April 1941, retaken by Chinese forces that September, and taken again in October 1944.'
   },
   {
-    id: 'changsha', en: 'Chángshā (Changsha)', ja: '長沙 (Chōsa)', zh: '長沙', ko: '창사', lat: 28.23,
+    id: 'changsha', en: 'Chángshā', ja: '長沙 (Chōsa)', zh: '長沙', ko: '창사', lat: 28.23,
     lon: 112.94, wiki: 'https://en.wikipedia.org/wiki/Changsha',
     note: 'The rice bowl of Hunan and a junction on the Guangzhou–Hankou line. Its own garrison burned it down by mistake in November 1938; it then beat off three Japanese offensives and fell at last on 18 June 1944.'
   },
@@ -2024,8 +2024,8 @@ JMAP.BROWSE = [
     note: 'A Nationalist air base among the limestone hills, and the refuge of the universities of the south. Destroyed by its own garrison and abandoned on 10 November 1944.'
   },
   {
-    id: 'nanning', en: 'Nánníng (Nanning)', ja: '南寧 (Nannei)', zh: '南寧', lat: 22.82,
-    lon: 108.32, wiki: 'https://en.wikipedia.org/wiki/Nanning',
+    id: 'nanning', en: 'Nánníng', ja: '南寧 (Nannei)', zh: '南寧', lat: 22.82, lon: 108.32,
+    wiki: 'https://en.wikipedia.org/wiki/Nanning',
     note: 'The road and rail gate to Indochina, which is why it was taken in November 1939, given up in 1940, and taken again in 1944.'
   },
   {
@@ -2034,7 +2034,7 @@ JMAP.BROWSE = [
     note: 'The hinge of the road system of the south-west, where the routes from Chongqing, Kunming and Guangxi met. Never occupied: the Japanese advance of December 1944 reached Dushan, a hundred miles short of it, and turned back — the furthest inland the war ever came.'
   },
   {
-    id: 'kunming', en: 'Kūnmíng (Kunming)', ja: '昆明 (Konmei)', zh: '昆明', ko: '쿤밍', lat: 25.04,
+    id: 'kunming', en: 'Kūnmíng', ja: '昆明 (Konmei)', zh: '昆明', ko: '쿤밍', lat: 25.04,
     lon: 102.72, wiki: 'https://en.wikipedia.org/wiki/Kunming',
     note: 'The terminus of the Burma Road, of the railway from Haiphong, and after both were cut of the air route over the Hump. Peking University, Tsinghua and Nankai spent the war here as Lianda, the National Southwest Associated University. Never occupied.'
   },
@@ -2084,12 +2084,12 @@ JMAP.BROWSE = [
     note: 'A garrison town and railway junction on the eastern line to Vladivostok, and the first objective of the Soviet armies in August 1945.'
   },
   {
-    id: 'fushun', en: 'Fǔshùn (Fushun)', ja: '撫順 (Bujun)', zh: '撫順', ko: '푸순', lat: 41.88,
-    lon: 123.94, wiki: 'https://en.wikipedia.org/wiki/Fushun',
+    id: 'fushun', en: 'Fǔshùn', ja: '撫順 (Bujun)', zh: '撫順', ko: '푸순', lat: 41.88, lon: 123.94,
+    wiki: 'https://en.wikipedia.org/wiki/Fushun',
     note: 'The open-cast coal mine that fuelled the South Manchuria Railway and much of Japanese industry. Chinese labourers died here in tens of thousands.'
   },
   {
-    id: 'anshan', en: 'Ānshān (Anshan)', ja: '鞍山 (Anzan)', zh: '鞍山', lat: 41.11, lon: 122.99,
+    id: 'anshan', en: 'Ānshān', ja: '鞍山 (Anzan)', zh: '鞍山', lat: 41.11, lon: 122.99,
     wiki: 'https://en.wikipedia.org/wiki/Anshan',
     note: 'The Shōwa Steel Works, the largest ironworks in the empire outside Japan, and the target of the first B-29 raid on Manchuria in July 1944.'
   },
@@ -2104,7 +2104,7 @@ JMAP.BROWSE = [
     note: 'The old treaty port of Yingkou at the mouth of the Liao, once the outlet for Manchurian soya beans and long overtaken by Dalian.'
   },
   {
-    id: 'dandong', en: 'Dāndōng (Antung)', ja: '安東 (Antō)', zh: '安東', ko: '단둥', lat: 40.13,
+    id: 'dandong', en: 'Āndōng (Dandong)', ja: '安東 (Antō)', zh: '安東', ko: '단둥', lat: 40.13,
     lon: 124.39, wiki: 'https://en.wikipedia.org/wiki/Dandong',
     note: 'Where the railway crosses the Yalu into Korea — the bridge that carried the army to the continent — and the port for the timber floated down the river.'
   },
@@ -2489,7 +2489,7 @@ JMAP.BROWSE = [
     note: 'The seat of the South Seas Bureau, which governed the whole mandate from Palau from 1922.'
   },
   {
-    id: 'tangshan', en: 'Tángshān (Tangshan)', ja: '唐山 (Tōzan)', zh: '唐山', ko: '탕산', lat: 39.63,
+    id: 'tangshan', en: 'Tángshān', ja: '唐山 (Tōzan)', zh: '唐山', ko: '탕산', lat: 39.63,
     lon: 118.18, wiki: 'https://en.wikipedia.org/wiki/Tangshan',
     note: 'The Kailuan mines, the largest coal workings in north China and British-managed until Japan took them over in 1941.'
   },
@@ -2529,7 +2529,7 @@ JMAP.BROWSE = [
     note: 'The crossing of the north–south and east–west trunk railways, and for that reason the object of the largest campaign of 1938. The Chinese victory at Taierzhuang in April held it until 19 May, and the army got away rather than be encircled.'
   },
   {
-    id: 'wuhu', en: 'Wúhú (Wuhu)', ja: '蕪湖 (Buko)', zh: '蕪湖', ko: '우후', lat: 31.35, lon: 118.38,
+    id: 'wuhu', en: 'Wúhú', ja: '蕪湖 (Buko)', zh: '蕪湖', ko: '우후', lat: 31.35, lon: 118.38,
     wiki: 'https://en.wikipedia.org/wiki/Wuhu',
     note: 'The great rice market of the lower Yangtze. Fell on 10 December 1937, three days before Nanjing, cutting the river escape route from the capital.'
   },
@@ -2549,7 +2549,7 @@ JMAP.BROWSE = [
     note: 'Where cargo transferred from steamer to junk for the passage of the gorges. Taken on 12 June 1940 and held as the furthest Japanese post up the Yangtze, below the water that shielded Chongqing.'
   },
   {
-    id: 'hengyang', en: 'Héngyáng (Hengyang)', ja: '衡陽 (Kōyō)', zh: '衡陽', ko: '헝양', lat: 26.89,
+    id: 'hengyang', en: 'Héngyáng', ja: '衡陽 (Kōyō)', zh: '衡陽', ko: '헝양', lat: 26.89,
     lon: 112.57, wiki: 'https://en.wikipedia.org/wiki/Hengyang',
     note: 'The junction of the Guangzhou–Hankou and Hunan–Guangxi railways, and the airfield the Ichigo offensive was launched to take. Its garrison held for forty-seven days and surrendered on 8 August 1944.'
   },
@@ -2593,8 +2593,8 @@ JMAP.BROWSE = [
     note: 'On the Gansu corridor where the Lunghai railway ran out, a stage on the overland road that carried Soviet aid until 1941.'
   },
   {
-    id: 'chaoyang', en: 'Cháoyáng (Chaoyang)', ja: '朝陽 (Chōyō)', zh: '朝陽', ko: '차오양',
-    lat: 41.57, lon: 120.45, wiki: 'https://en.wikipedia.org/wiki/Chaoyang,_Liaoning',
+    id: 'chaoyang', en: 'Cháoyáng', ja: '朝陽 (Chōyō)', zh: '朝陽', ko: '차오양', lat: 41.57,
+    lon: 120.45, wiki: 'https://en.wikipedia.org/wiki/Chaoyang,_Liaoning',
     note: 'On the road from the Wall into Rehe, taken in the campaign of February and March 1933.'
   },
   {
@@ -5401,6 +5401,115 @@ JMAP.PROVINCES = {
     en: 'Dutch New Guinea', ja: '西部ニューギニア (Seibu Nyūginia)',
     wiki: 'https://en.wikipedia.org/wiki/Dutch_New_Guinea',
     note: 'The Dutch half of New Guinea, hardly administered before the war and the ground the Americans came back through in 1944 — Hollandia, Biak, Sansapor.'
+  },
+  Aru: {
+    en: 'Aru Islands', ja: 'アル諸島 (Aru-shotō)',
+    wiki: 'https://en.wikipedia.org/wiki/Aru_Islands',
+    note: 'A low, swampy group off New Guinea across the Arafura Sea, governed from Amboina with the rest of the Moluccas and not from New Guinea at all. Pearl shell and birds of paradise were what the outside world came for; the Japanese took it in 1942 and used Dobo as a seaplane base.'
+  },
+  Tanimbar: {
+    en: 'Tanimbar Islands', ja: 'タニンバル諸島 (Taninbaru-shotō)',
+    wiki: 'https://en.wikipedia.org/wiki/Tanimbar_Islands',
+    note: 'The largest of the south-eastern Moluccas, Yamdena and its neighbours. Australian and Dutch aircraft raided Saumlaki through 1942, and the Japanese held it as the eastern shoulder of the Banda Sea.'
+  },
+  Kai: {
+    en: 'Kai Islands', ja: 'カイ諸島 (Kai-shotō)',
+    wiki: 'https://en.wikipedia.org/wiki/Kai_Islands',
+    note: 'Two islands of very different make — Kai Besar high and forested, Kai Kecil flat coral — famous for the boatbuilders of Banda Eli. Taken in 1942 and used as a staging point for the Arafura Sea.'
+  },
+  RajaAmpat: {
+    en: 'Raja Ampat Islands', wiki: 'https://en.wikipedia.org/wiki/Raja_Ampat_Islands',
+    note: 'Waigeo, Batanta, Salawati and Misool, off the western tip of New Guinea. Nominally under the Sultan of Tidore until the Dutch took the claim over, and among the least administered ground in the colony.'
+  },
+  Biak: {
+    en: 'Biak', ja: 'ビアク島 (Biaku-tō)', wiki: 'https://en.wikipedia.org/wiki/Biak_Island',
+    note: 'Taken by the Japanese in 1942 and turned into an airfield complex. The American landing of 27 May 1944 met a defence dug into the coral terraces above the strips and cost more than any other operation in New Guinea.'
+  },
+  Yapen: {
+    en: 'Japen (Yapen)', wiki: 'https://en.wikipedia.org/wiki/Yapen',
+    note: 'A long ridge of an island in Geelvink Bay, between Biak and the New Guinea shore. Held by the Japanese from 1942 and taken by American forces in 1944.'
+  },
+  Kolepom: {
+    en: 'Frederik Hendrik Island', wiki: 'https://en.wikipedia.org/wiki/Dolak_Island',
+    note: 'Frederik Hendrik Island, called Dolak now — a slab of swamp and grass the size of Bali off the south coast, separated from New Guinea by a channel a few hundred metres wide.'
+  },
+  Wetar: {
+    en: 'Wetar', wiki: 'https://en.wikipedia.org/wiki/Wetar',
+    note: 'Dry, mountainous and barely populated, north of Timor across the strait. It mattered in 1942 only as the ground the Japanese had to hold to seal the Timor campaign off from the sea.'
+  },
+  Obi: {
+    en: 'Obi Islands', wiki: 'https://en.wikipedia.org/wiki/Obi_Islands',
+    note: 'Forested and almost empty, between Halmahera and Sula. The Dutch worked it for timber and a little gold; the Japanese passed it by in favour of Halmahera.'
+  },
+  Alor: {
+    en: 'Alor', wiki: 'https://en.wikipedia.org/wiki/Alor_Island',
+    note: 'A crowded, mountainous island north of Timor, better known to anthropology than to administration: Cora Du Bois worked here in 1938 and 1939, and *The People of Alor* came out of it in 1944.'
+  },
+  Pantar: {
+    en: 'Pantar', wiki: 'https://en.wikipedia.org/wiki/Pantar',
+    note: 'Volcanic, dry and poor, west of Alor and governed with it.'
+  },
+  Lembata: {
+    en: 'Lomblen (Lembata)', wiki: 'https://en.wikipedia.org/wiki/Lembata',
+    note: 'Lomblen, in the Solor chain east of Flores, where the whaling village of Lamalera still took sperm whales from open boats.'
+  },
+  Rote: {
+    en: 'Roti (Rote)', wiki: 'https://en.wikipedia.org/wiki/Rote_Island',
+    note: 'The southernmost island of the Indies, dry and low, with the lontar palm at the centre of its economy. Its people were among the earliest and most thoroughly Christianised in the archipelago.'
+  },
+  Savu: {
+    en: 'Savu (Sabu)', wiki: 'https://en.wikipedia.org/wiki/Savu',
+    note: 'A small dry island between Sumba and Timor, living off the lontar palm as Roti did, and sending migrants across the eastern islands.'
+  },
+  Sula: {
+    en: 'Sula Islands', wiki: 'https://en.wikipedia.org/wiki/Sula_Islands',
+    note: 'Taliabu, Mangole and Sanana, west of Halmahera. Ruled from Ternate before the Dutch, and left largely to itself after.'
+  },
+  Talaud: {
+    en: 'Talaud Islands', wiki: 'https://en.wikipedia.org/wiki/Talaud_Islands',
+    note: 'The northernmost land of the Indies, closer to Mindanao than to Celebes, and the first Dutch territory the Japanese passed on the way south.'
+  },
+  Sangihe: {
+    en: 'Sangihe Islands', ja: 'サンギヘ諸島 (Sangihe-shotō)',
+    wiki: 'https://en.wikipedia.org/wiki/Sangir_Islands',
+    note: 'A volcanic chain between Celebes and the Philippines. Awu erupted repeatedly through the colonial period, and its people migrated in numbers to Minahasa and Mindanao.'
+  },
+  Ambon: {
+    en: 'Ambon', ja: 'アンボン島 (Anbon-tō)', wiki: 'https://en.wikipedia.org/wiki/Ambon_Island',
+    note: 'The seat of government for the Moluccas and the centre of the old spice trade. Taken between 30 January and 3 February 1942; the Australian and Dutch garrison surrendered, and more than three hundred prisoners were killed at Laha airfield in the days that followed.'
+  },
+  Babar: {
+    en: 'Babar Islands', wiki: 'https://en.wikipedia.org/wiki/Babar_Islands',
+    note: 'A small group east of Timor, among the least visited of the Dutch possessions.'
+  },
+  Bacan: {
+    en: 'Batjan (Bacan)', wiki: 'https://en.wikipedia.org/wiki/Bacan',
+    note: 'Batjan, south of Halmahera, once a sultanate of its own and by 1930 a quiet island of forest and clove gardens.'
+  },
+  Morotai: {
+    en: 'Morotai', ja: 'モロタイ島 (Morotai-tō)',
+    wiki: 'https://en.wikipedia.org/wiki/Morotai_Island',
+    note: 'North of Halmahera, and the one island in the group the Allies wanted. The American landing of 15 September 1944 was almost unopposed, and the airfields built here carried the return to the Philippines.'
+  },
+  Natuna: {
+    en: 'Natuna Islands', wiki: 'https://en.wikipedia.org/wiki/Natuna_Islands',
+    note: 'In the South China Sea between Borneo and the Malay peninsula, Dutch by treaty and Malay by population.'
+  },
+  Siberut: {
+    en: 'Siberut', wiki: 'https://en.wikipedia.org/wiki/Siberut',
+    note: 'The largest of the Mentawai islands off west Sumatra, kept deliberately apart: its people were left to themselves for longer than almost anywhere else in the colony.'
+  },
+  Simeulue: {
+    en: 'Simalur (Simeulue)', wiki: 'https://en.wikipedia.org/wiki/Simeulue',
+    note: 'Simalur, off the Acehnese coast, with a clove and coconut economy and a long memory of the sea — the warning song about *smong*, the retreating tide, is from here.'
+  },
+  Bawean: {
+    en: 'Bawean', wiki: 'https://en.wikipedia.org/wiki/Bawean',
+    note: 'A small island in the Java Sea whose men migrated to Singapore and Malaya in such numbers that the Bawean community there long outnumbered the one at home.'
+  },
+  Komodo: {
+    en: 'Komodo', wiki: 'https://en.wikipedia.org/wiki/Komodo_(island)',
+    note: 'Dry, rugged and almost uninhabited between Sumbawa and Flores. The monitor lizard was described for science in 1912 and the Dutch protected it from 1931.'
   },
   Atjeh: { en: 'Atjeh and Dependencies (Sumatra)', wiki: 'https://en.wikipedia.org/wiki/Aceh' },
   SumatraEastCoast: { en: 'Sumatra’s East Coast and Tapanoeli' },
