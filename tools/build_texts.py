@@ -27,6 +27,8 @@ generator is the place they can be caught for good.
 """
 
 import csv
+import hashlib
+import json
 import os
 import time
 import re
@@ -420,38 +422,73 @@ def build_pages():
     # `map.js` now carries its own, and the dialog prefers it. When the two
     # disagree the dialog says both, which is the only honest thing it can do
     # and turns an invisible problem into a visible one.
-    # And the version onto every script and stylesheet the pages ask for, so
-    # that a release changes their URLs and the browser cannot serve last
-    # week's copy. `index.html` itself is short-cached, and it is the only
-    # thing that has to be.
-    for page in ("index.html", "sources.html"):
-        ppath = os.path.join(ROOT, page)
-        if not os.path.exists(ppath):
-            continue
-        txt = open(ppath, encoding="utf-8").read()
-        def stamp_ref(m):
-            return '%s="%s?v=%s"' % (m.group(1), m.group(2), version)
-        out = re.sub(r'\b(src|href)="([A-Za-z0-9_.-]+\.(?:js|css))(?:\?v=[^"]*)?"',
-                     stamp_ref, txt)
-        if out != txt:
-            with open(ppath, "w", encoding="utf-8") as fh:
-                fh.write(out)
-            written.append(page + " (asset versions)")
+    # ------------------------------------------------------------ cache keys
+    #
+    # The URL of every file the site fetches carries a short hash of that
+    # file's own contents, so a release changes the URL of whatever actually
+    # changed and of nothing else.
+    #
+    # It was the version number, and that had a hole in it the size of the
+    # rule that governs the version number: it moves once per push, so a file
+    # edited and uploaded *without* a bump kept its old URL and readers kept
+    # the old file — for a week, since the versioned URLs are what let the
+    # week-long cache come back. A content hash cannot be forgotten. Bump or
+    # not, an edited file gets a new name; an unedited one keeps its cache.
+    #
+    # `map.js` is given the table for the files it fetches itself, and the
+    # pages are given the rest. Nothing lists `map.js`'s own hash except
+    # `index.html`, which is written after `map.js` is, so there is no
+    # circularity to resolve.
+    def digest(path):
+        with open(path, "rb") as fh:
+            return hashlib.sha256(fh.read()).hexdigest()[:10]
+
+    # what map.js fetches for itself
+    FETCHED = ("japan-empire-map.svg", "japan-empire-map-admin.svg",
+               "japan-empire-map-fine.svg", "japan-empire-map-roc.svg",
+               "annotate.js", "admin.js")
+    assets = {}
+    for name in FETCHED:
+        apath = os.path.join(ROOT, name)
+        if os.path.exists(apath):
+            assets[name] = digest(apath)
 
     mpath = os.path.join(ROOT, "map.js")
     if os.path.exists(mpath):
         mjs = open(mpath, encoding="utf-8").read()
-        want = "  var JEM_VERSION = '%s';" % version
-        pat = re.compile(r"^  var JEM_VERSION = '[^']*';", re.M)
+        stamps = ["  var JEM_VERSION = '%s';" % version,
+                  "  var JEM_ASSETS = %s;" % json.dumps(assets, sort_keys=True)]
+        want = "\n".join(stamps)
+        pat = re.compile(r"^  var JEM_VERSION = '[^']*';(?:\n  var JEM_ASSETS = \{[^\n]*\};)?", re.M)
         if pat.search(mjs):
-            mjs2 = pat.sub(want.replace("\\", "\\\\"), mjs, count=1)
+            mjs2 = pat.sub(lambda m: want, mjs, count=1)
         else:
             mjs2 = mjs.replace("(function () {\n  'use strict';",
                                "(function () {\n  'use strict';\n" + want, 1)
         if mjs2 != mjs:
             with open(mpath, "w", encoding="utf-8") as fh:
                 fh.write(mjs2)
-            written.append("map.js (version stamp)")
+            written.append("map.js (version and asset hashes)")
+
+    # and now the pages, with map.js hashed as it now stands
+    for page in ("index.html", "sources.html"):
+        ppath = os.path.join(ROOT, page)
+        if not os.path.exists(ppath):
+            continue
+        txt = open(ppath, encoding="utf-8").read()
+
+        def stamp_ref(m):
+            name = m.group(2)
+            fpath = os.path.join(ROOT, name)
+            key = digest(fpath) if os.path.exists(fpath) else version
+            return '%s="%s?v=%s"' % (m.group(1), name, key)
+
+        out = re.sub(r'\b(src|href)="([A-Za-z0-9_.-]+\.(?:js|css))(?:\?v=[^"]*)?"',
+                     stamp_ref, txt)
+        if out != txt:
+            with open(ppath, "w", encoding="utf-8") as fh:
+                fh.write(out)
+            written.append(page + " (cache keys)")
 
     about = open(os.path.join(TEXTS, "pages", "about.md"),
                  encoding="utf-8").read()

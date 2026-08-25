@@ -6215,6 +6215,63 @@ Measured in that direction — a page rewritten to ask for 0.01 — About shows
 
 ---
 
+## The two caching downsides, actually fixed
+
+They had been named and documented, which is not the same as fixed. Both are
+dealt with now.
+
+### The key is a hash of the file, not the version number
+
+The hole was the size of the rule that governs the version: **it moves once per
+push**, so a file edited and uploaded without a bump kept its old URL — and its
+old place in a week-long cache, which is a week rather than the hour it used to
+be. Documenting that as a caveat left the trap set.
+
+`build_texts.py` now writes the first ten hex digits of each file's own
+SHA-256. `map.js` is given a `JEM_ASSETS` table for the six files it fetches
+itself; the pages carry their own. Nothing lists `map.js`'s own hash except
+`index.html`, which is written after `map.js` is, so there is no circularity.
+
+Proved by doing the thing the old scheme could not catch — an edit with no bump:
+
+```
+before  : map.js?v=d2e54ae7b8   version 1.35
+after   : map.js?v=9d39e3edcb   version 1.35   ← the URL changed, the version did not
+reverted: map.js?v=d2e54ae7b8                  ← and an unchanged file keeps its cache
+```
+
+Measured across the whole site: every first-load file carries a distinct
+ten-character key, and so do the administrative sheet, the fine coastlines and
+`annotate.js` when they are fetched later.
+
+### And the upload-order trap is now findable
+
+That one cannot be fixed in code — the server ignores the query, so a page that
+goes up before its files does hands a reader old bytes under a new name. What
+can be fixed is that it was **silent**: no error, no 404, nothing in the
+console, and a week before it clears.
+
+`tools/check_deploy.py <url>` fetches the deployed page, reads the keys out of
+it and out of the deployed `map.js`, and fetches every file the site would —
+reporting whether each is present, served compressed, and whose contents match
+the key it was asked for. Exit 1 if anything is wrong, so it can go in a script.
+
+**Two flaws in the checker itself, found by pointing it at the real sites.** It
+cried "WRONG" at GitHub Pages, which is serving a build keyed on the version
+number and is perfectly consistent — a version key simply cannot be checked
+against contents, and saying so is the honest answer. And at `froginawell`,
+which predates keys entirely, it printed "0 files, all matching" and exited 0 —
+a cheerful all-clear for having checked nothing. Both fixed: it distinguishes a
+ten-hex content key from a version key, and it fails when it could verify
+nothing.
+
+A checker that gives false alarms and false all-clears is worse than none, which
+is why it was worth pointing at three real deployments before trusting it.
+
+`tools/test/cache-keys.js`, 7 checks, keeps the scheme honest.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

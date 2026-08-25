@@ -164,6 +164,7 @@ script — `tools/build_map.py` — and neither needs the other to run.
 | `tools/shapefile.py` | a small stdlib-only shapefile reader used by the build |
 | `tools/bundle.py` | builds the single-file version |
 | `annotate.js` | the drawing tools, fetched on demand and inlined into the single-file build |
+| `tools/check_deploy.py` | fetches a deployed copy and checks every file against the key it was asked for |
 | `tools/compare_perf.js` | pan-and-zoom timings for two builds side by side, for checking a new version against the live one before updating it |
 
 Adding a city or a battlefield needs nothing but a row in `texts/sites/sites.csv`

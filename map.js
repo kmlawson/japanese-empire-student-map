@@ -13,7 +13,8 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '1.35';
+  var JEM_VERSION = '1.36';
+  var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "1fd5fac384", "japan-empire-map-admin.svg": "d821c75055", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "132ece917d"};
 
   /* Every file this one fetches, with the version on it.
 
@@ -25,13 +26,22 @@
      has no choice but to fetch, and between releases the week-long cache does
      its work untouched.
 
-     The one thing it cannot do is notice a change that was never released:
-     the number moves once per push, by the rule in `CLAUDE.md`, so a file
-     edited without a bump still comes from cache. That is the same trade as
-     the version number itself. */
+     The key is a hash of the file's own contents, not the version number.
+     That distinction is the whole of it: the version moves once per push, by
+     the rule in `CLAUDE.md`, so keying on it meant a file edited and uploaded
+     without a bump kept its old URL and its old place in the cache — for a
+     week, since these URLs are what let the week-long cache come back. A
+     content hash cannot be forgotten. Bump or not, an edited file gets a new
+     name and an unedited one keeps its cache.
+
+     `JEM_ASSETS` is written by `build_texts.py` and holds only what this file
+     fetches for itself; the pages carry their own. The version is kept as a
+     fallback for a build that has not been run. */
   function asset(name) {
-    return typeof JEM_VERSION === 'undefined' || !JEM_VERSION
-      ? name : name + '?v=' + encodeURIComponent(JEM_VERSION);
+    var key = (typeof JEM_ASSETS !== 'undefined' && JEM_ASSETS
+               && JEM_ASSETS[name]) || null;
+    if (!key && typeof JEM_VERSION !== 'undefined' && JEM_VERSION) key = JEM_VERSION;
+    return key ? name + '?v=' + encodeURIComponent(key) : name;
   }
 
   var $ = function (sel, root) { return (root || document).querySelector(sel); };

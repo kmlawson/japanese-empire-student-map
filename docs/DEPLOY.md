@@ -162,12 +162,24 @@ file that has to stay short-cached, because it is what carries the new names.
 
 Two things this does **not** do, and both are worth knowing:
 
-* **It cannot bust a change that was never released.** The version moves once
-  per push, by the rule in `CLAUDE.md`. Edit `map.js` and upload it without
-  bumping and readers keep the old one for a week — where before they would
-  have kept it for an hour. If you push a fix without a bump, bump and push
-  again rather than waiting.
-* **It relies on the upload order above.** See the two-pass `rsync`.
+* **The key is a hash of each file's own contents, not the version number.**
+  That matters: the version moves once per push, so keying on it meant a file
+  edited and uploaded without a bump kept its old URL and readers kept the old
+  file. A content hash cannot be forgotten — bump or not, an edited file gets a
+  new name and an unedited one keeps its cache.
+* **It relies on the upload order above.** See the two-pass `rsync`, and check
+  it worked:
+
+```sh
+python3 tools/check_deploy.py https://example.com/path/to/the/map/
+```
+
+  That fetches the deployed page, reads the keys out of it and out of the
+  deployed `map.js`, and fetches every file the site would — reporting whether
+  each is present, served compressed, and **whose contents match the key it was
+  asked for**. A mismatch is the upload-order trap, which is otherwise
+  completely silent: no error, no 404, nothing in the console. Exit code 1 if
+  anything is wrong, so it can go in a script.
 
 ## Checked
 
