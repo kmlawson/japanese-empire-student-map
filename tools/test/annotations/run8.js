@@ -8,8 +8,14 @@ const COORD=()=>{const m=document.querySelector('#annotations .ann-mark');
   if(!m)return null; const r=m.getBoundingClientRect(); return {x:Math.round((r.left+r.right)/2),y:Math.round((r.top+r.bottom)/2)};};
 const VB=p=>p.evaluate(()=>document.getElementById('jmap').getAttribute('viewBox'));
 
-async function open(b, touch){
+/* A browser of its own per section, and it is closed with the page. Three
+   sections through one browser timed out on `Runtime.callFunctionOn` at the
+   third — the accumulation the README warns about, which closing the page
+   does not undo. */
+async function open(_ignored, touch){
+  const b=await puppeteer.launch({headless:'new',args:['--no-sandbox'],protocolTimeout:180000});
   const p=await b.newPage();
+  p.__b=b;
   await p.setViewport(touch?{width:900,height:1100,isMobile:true,hasTouch:true}:{width:1500,height:950});
   if(!touch) await p.evaluateOnNewDocument(SHIM);
   p.__errs=[]; p.on('pageerror',e=>p.__errs.push(String(e)));
@@ -21,7 +27,7 @@ const armTool=async(p,t)=>p.evaluate(t=>{const b=document.querySelector('.ann-to
   if(b.getAttribute('aria-pressed')!=='true') b.click();},t);
 const putAway=async p=>p.evaluate(()=>{const b=document.querySelector('.ann-tool[aria-pressed="true"]'); if(b) b.click();});
 
-(async()=>{const b=await puppeteer.launch({headless:'new',args:['--no-sandbox'],protocolTimeout:120000});
+(async()=>{const b=null;
 
 console.log('\n— right click —');
 { const p=await open(b,false);
@@ -50,7 +56,7 @@ console.log('\n— right click —');
   check('one Undo puts the corner back',
     await p.evaluate(()=>document.querySelectorAll('#annotations .ann-vertex').length)===before);
   check('no page errors', p.__errs.length===0, p.__errs[0]);
-  await p.close(); }
+  await p.__b.close(); }
 
 console.log('\n— a mouse still drags at once —');
 { const p=await open(b,false);
@@ -60,7 +66,7 @@ console.log('\n— a mouse still drags at once —');
   await p.mouse.move(c0.x+110,c0.y+70,{steps:8}); await sleep(80); await p.mouse.up(); await sleep(500);
   const c1=await p.evaluate(COORD);
   check('the mark follows the mouse', Math.abs(c1.x-c0.x)>60, JSON.stringify([c0,c1]));
-  await p.close(); }
+  await p.__b.close(); }
 
 console.log('\n— a finger: hold to move, flick to pan —');
 { const p=await open(b,true);
@@ -86,7 +92,7 @@ console.log('\n— a finger: hold to move, flick to pan —');
   check('the map did not pan while moving it',
     (await VB(p))===vb1, vb1+' → '+(await VB(p)));
   check('no page errors on touch', p.__errs.length===0, p.__errs[0]);
-  await p.close(); }
+  await p.__b.close(); }
 
 console.log('\n  '+pass+' passed, '+fail+' failed');
-await b.close(); process.exit(fail);})();
+process.exit(fail);})();

@@ -3,7 +3,7 @@ const {puppeteer,sleep,page,tap,openPanel,pickTool,SPOT,FIX,BIG,check,report}=H;
 const path=require('path');
 
 (async()=>{
-const b=await puppeteer.launch({headless:'new',args:['--no-sandbox']});
+const b=await puppeteer.launch({headless:'new',args:['--no-sandbox'],protocolTimeout:180000});
 
 console.log('\n— files in —');
 const CASES=[

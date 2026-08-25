@@ -3,7 +3,7 @@ const {puppeteer,sleep,page,tap,openPanel,pickTool,SPOT,FIX,check,report}=H;
 const path=require('path');
 
 (async()=>{
-const b=await puppeteer.launch({headless:'new',args:['--no-sandbox']});
+const b=await puppeteer.launch({headless:'new',args:['--no-sandbox'],protocolTimeout:180000});
 
 console.log('\n— loading, and what is not loaded —');
 { const p=await page(b);
@@ -23,7 +23,8 @@ console.log('\n— the four tools —');
   check('a point names itself from the place under it',
     /China|Chinese/.test(await p.evaluate(()=>document.querySelector('#ann-title').value)),
     await p.evaluate(()=>document.querySelector('#ann-title').value));
-  await pickTool(p,'event');  await tap(p,s1.x+40,s1.y+30);
+  // the Arrow tool, where Event used to be: two presses and it finishes itself
+  await pickTool(p,'arrow');  await tap(p,s1.x+40,s1.y+30); await tap(p,s1.x+160,s1.y+90);
   await pickTool(p,'line');   await tap(p,600,500); await tap(p,700,560); await tap(p,780,540);
   await p.evaluate(()=>document.querySelector('#ann-finish').click()); await sleep(300);
   await pickTool(p,'polygon'); await tap(p,850,500); await tap(p,950,530); await tap(p,900,610);
@@ -33,7 +34,8 @@ console.log('\n— the four tools —');
     rows:document.querySelectorAll('#ann-list li').length,
     meas:[...document.querySelectorAll('#ann-list .ann-meas')].map(x=>x.textContent)}));
   check('four features in the list', st.rows===4, JSON.stringify(st));
-  check('two shapes drawn', st.shapes===2);
+  check('three shapes drawn', st.shapes===3, JSON.stringify(st));
+  check('an arrow is measured in km', /km$/.test(st.meas[1]), st.meas[1]);
   check('a line is measured in km', /km$/.test(st.meas[2]), st.meas[2]);
   check('an area is measured in km²', /km²$/.test(st.meas[3]), st.meas[3]);
   check('a point is measured as a coordinate', /°[NS], .*°[EW]/.test(st.meas[0]), st.meas[0]);

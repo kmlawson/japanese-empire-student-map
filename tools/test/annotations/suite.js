@@ -66,7 +66,22 @@ function SPOT(ids){
       }
     }
   }
-  return null;
+  /* Last resort: sweep the screen itself. The named atoms are the ones a test
+     would rather have, but a portrait stage opens cropped to the empire — by
+     design, `computeDefaultView` says so — and then China's bounding box is
+     mostly Sinkiang, off to the left of the frame, and India is not on screen
+     at all. Every sampled point falls outside the view and the caller gets a
+     null it reads as a bug in the map. Walk the free part of the screen for
+     any land the map has on top, which is what the caller actually needs. */
+  const step=56; let spare=null;
+  for(let y=96;y<innerHeight-60;y+=step) for(let x=64;x<innerWidth-60;x+=step){
+    if(panels.some(r=>x>r.left-8&&x<r.right+8&&y>r.top-8&&y<r.bottom+8)) continue;
+    const top=document.elementFromPoint(x,y);
+    if(!top||!top.closest||!top.closest('#jmap')) continue;
+    if(top.closest('[id^="a-"]')) return {x:x,y:y,from:'sweep'};
+    if(!spare) spare={x:x,y:y,from:'sweep-sea'};
+  }
+  return spare;
 }
 const BIG=path.join(__dirname,'..','..','cache','india-rivers.geojson');
 module.exports={puppeteer,sleep,page,tap,openPanel,pickTool,SPOT,FIX,BIG,check,

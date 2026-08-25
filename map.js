@@ -13,8 +13,8 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '1.37';
-  var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "057232a4b9", "japan-empire-map-admin.svg": "d821c75055", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "132ece917d"};
+  var JEM_VERSION = '1.38';
+  var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "79ddb3655d", "japan-empire-map-admin.svg": "d821c75055", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "132ece917d"};
 
   /* Every file this one fetches, with the version on it.
 
@@ -6063,6 +6063,33 @@
         view = v;
         applyView(true);
         return true;
+      },
+      /* The map's own detail card, lent out — a reader's own mark has a name
+         and a description, and the description belongs where every other
+         description on this map is read rather than in a box of its own. */
+      card: function (title, sub, prov, note) {
+        if (!infoBox) return;
+        markSelected(selected, false);
+        selected = null;
+        infoBox.hidden = false;
+        var chip = $('.chip', infoBox);
+        if (chip) { chip.textContent = 'Annotation'; chip.hidden = false; }
+        $('.primary', infoBox).textContent = title || 'Annotation';
+        $('.alt', infoBox).textContent = sub || '';
+        $('.prov', infoBox).textContent = prov || '';
+        $('.prov', infoBox).hidden = !prov;
+        $('.when', infoBox).textContent = '';
+        $('.when', infoBox).hidden = true;
+        var own = $('.note-own', infoBox);
+        own.textContent = note || '';
+        own.hidden = !note;
+        var grp = $('.note-group', infoBox);
+        grp.textContent = '';
+        grp.hidden = true;
+        var flip = $('#info-flip');
+        if (flip) flip.hidden = true;
+        var src = $('.source', infoBox);
+        if (src) src.hidden = true;
       },
       /* The map's own tooltip, lent out. A reader's mark has a name and a
          description of its own and this is where they are read — which is

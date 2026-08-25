@@ -4,7 +4,7 @@ const {puppeteer,sleep,check,report}=H;
 console.log('\n— narrow and wide —');
 for (const [w,h,tag,touch] of [[390,780,'phone   ',true],[768,1024,'tablet  ',true],
                                [1100,800,'laptop  ',false],[1600,1000,'desktop ',false]]) {
-  const b=await puppeteer.launch({headless:'new',args:['--no-sandbox']});
+  const b=await puppeteer.launch({headless:'new',args:['--no-sandbox'],protocolTimeout:180000});
   const p=await b.newPage();
   await p.setViewport(touch?{width:w,height:h,isMobile:true,hasTouch:true}:{width:w,height:h});
   const errs=[]; p.on('pageerror',e=>errs.push(String(e)));

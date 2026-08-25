@@ -13,10 +13,12 @@ await p.evaluateOnNewDocument(SHIM);
 const errs=[]; p.on('pageerror',e=>errs.push(String(e)));
 await p.goto('http://localhost:8123/index.html',{waitUntil:'networkidle0'}); await sleep(3400);
 
-console.log('\n— 8) the Event tool —');
+console.log('\n— 8) the tools on offer —');
 await p.evaluate(()=>document.querySelector('#ann-create').click()); await sleep(1500);
 const tools=await p.evaluate(()=>[...document.querySelectorAll('.ann-tool')].map(b=>b.getAttribute('data-tool')));
-check('three tools, no Event', tools.join(',')==='point,line,polygon', tools.join(','));
+// Event was dropped and Arrow took its place, so the tools are four
+check('four tools — point, arrow, line, area — and no Event',
+  tools.join(',')==='point,arrow,line,polygon', tools.join(','));
 
 console.log('\n— 10) the legend —');
 check('the legend folds when the pane opens',

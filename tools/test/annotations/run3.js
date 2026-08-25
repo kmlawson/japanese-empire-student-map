@@ -3,7 +3,7 @@ const {puppeteer,sleep,page,tap,openPanel,pickTool,SPOT,FIX,check,report}=H;
 const path=require('path');
 
 (async()=>{
-const b=await puppeteer.launch({headless:'new',args:['--no-sandbox']});
+const b=await puppeteer.launch({headless:'new',args:['--no-sandbox'],protocolTimeout:180000});
 
 console.log('\n— it survives a reload —');
 { const p=await page(b,{accept:true}); await openPanel(p); await pickTool(p,'point');
@@ -93,30 +93,13 @@ console.log('\n— a finger —');
   check('no page errors on touch', p.__errs.length===0, p.__errs[0]);
   await p.close(); }
 
-console.log('\n— narrow and wide —');
-for (const [w,h,tag] of [[390,780,'phone   '],[768,1024,'tablet  '],[1100,800,'laptop  '],[1600,1000,'desktop ']]) {
-  const p=await b.newPage(); await p.setViewport({width:w,height:h});
-  p.__errs=[]; p.on('pageerror',e=>p.__errs.push(String(e)));
-  await p.goto('http://localhost:8123/index.html',{waitUntil:'networkidle0'}); await sleep(3200);
-  await p.evaluate(()=>document.querySelector('#btn-options').click()); await sleep(400);
-  const btn=await p.evaluate(()=>{const b=document.querySelector('#ann-create');
-    const r=b.getBoundingClientRect(); return {w:Math.round(r.width),vis:r.width>0&&r.height>0};});
-  await p.evaluate(()=>document.querySelector('#ann-create').click()); await sleep(1400);
-  const st=await p.evaluate(()=>{
-    const a=document.querySelector('#annotate'), r=a.getBoundingClientRect();
-    return {left:Math.round(r.left),top:Math.round(r.top),w:Math.round(r.width),h:Math.round(r.height),
-            overflowX:a.scrollWidth-a.clientWidth,
-            offRight:Math.round(r.right)>innerWidth, offBottom:Math.round(r.bottom)>innerHeight+2,
-            tools:[...document.querySelectorAll('.ann-tool')].map(b=>Math.round(b.getBoundingClientRect().width))};
-  });
-  check(tag+'the Layers button is reachable', btn.vis);
-  check(tag+'the panel fits the width', !st.offRight && st.overflowX===0, JSON.stringify(st));
-  check(tag+'its four tools are all on one row and non-zero', st.tools.length===4 && st.tools.every(v=>v>20), JSON.stringify(st.tools));
-  check(tag+'no page errors', p.__errs.length===0, p.__errs[0]);
-  await p.screenshot({path:'a-'+tag.trim()+'.png'});
-  await p.close();
-}
-
+/* The four screen sizes used to be measured here too, in this same
+   browser — a fifth, sixth, seventh and eighth page on top of the four
+   above, which is exactly the accumulation the README warns about: the
+   run reached them and `Runtime.callFunctionOn` timed out. `run4.js`
+   does the same measurements with a fresh browser per size, and a
+   viewport set at open rather than changed after, which is the more
+   honest test anyway. It lives there and not here. */
 await b.close();
 process.exit(report());
 })();

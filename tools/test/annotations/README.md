@@ -1,6 +1,6 @@
 # The annotation tests
 
-201 checks over the drawing tools: what loads and when, the four kinds of mark,
+227 checks over the drawing tools: what loads and when, the four kinds of mark,
 styling, measurement, undo and dragging, files in and out, the shared link, the
 browser's own store, and the panel at four screen sizes with a mouse and with a
 finger.
@@ -20,16 +20,22 @@ node tools/test/annotations/run7.js    # the warning before leaving unsaved work
 node tools/test/annotations/run8.js    # right click, and the long press
 node tools/test/annotations/run9.js    # the tools, the controls, undo, selection
 node tools/test/annotations/run10.js   # arrows: heads, bend, and the handle
+node tools/test/annotations/run11.js   # short note vs description, dashes, weightless points
 ```
 
 Each exits non-zero on a failure and prints which check failed.
 
-## Ten scripts rather than one
+## Eleven scripts rather than one
 
 They were one, and it timed out: a single browser accumulating forty pages
 across a hundred checks slows until `Runtime.callFunctionOn` gives up. `run4`
 goes further and opens a fresh browser per screen size, because a viewport
 change on a used page is not the same thing as a page that opened at that size.
+
+**Closing the page does not undo the accumulation.** `run8` opened three pages
+in turn, each closed before the next, and still timed out on the third; `run11`
+was written with a browser per section from the start. When a script needs more
+than two pages, give each one its own browser.
 
 **A related trap, which cost two debugging rounds.** Driving several pages
 through one browser makes some of them report *zero* island labels — a timing

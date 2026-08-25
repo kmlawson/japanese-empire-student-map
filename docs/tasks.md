@@ -6349,12 +6349,89 @@ unclickable exactly when a reader would first want them.
   and lost its right-hand border — which is what "too wide to fit everything"
   was. `scrollbar-gutter: stable` and three pixels of padding.
 
-36 new checks in `run9` and `run10`; the suite is 201, all passing.
+36 new checks in `run9` and `run10`.
+
+**A correction to this entry as first written, and to commit `ddb2643`.** Both
+said "201, all passing". That was not true when it was written: `run.js` was
+crashing, because it still drove the Event tool that had just been removed —
+`pickTool(p,'event')` returned null. It was fixed the same day by pointing that
+case at the Arrow tool, and `run9` still asserted "three tools, no Event" until
+the next session. The count was reported from the file rather than from a run.
 
 **Still open, because the sentence was cut off.** "After finishing a line or
 polygon, only show points on its vertices when the user has …" — vertices are
 already drawn only for the selected feature, so I have left it as it is rather
 than guess at the ending.
+
+
+## A short note and a long one, a menu of dashes, and a point of no weight
+
+### Two lengths of text, and two places to read them
+
+A mark now carries a **short note** and a **description**. The short note is
+what the pointer shows, beside the name; the description is what a click puts
+in the info pane, where every other description on this map is read. Where
+there is no short note the pointer falls back to the first clause of the
+description, so a set written before this change still reads sensibly.
+
+`jem-short` holds it — a prefixed extension, as the other non-simplestyle
+properties are. The card is the map's own: `map.js` lends `host.card(title,
+sub, prov, note)` to the annotation module, so a reader's mark is read in the
+same box as Mukden.
+
+**The click had to be caught in two places, and that is the whole of the bug
+that took the longest here.** A finger's tap reaches `tap()`, which knew what
+to do. A mouse never does: `grab()` takes a press on a mark *at once* so that
+dragging works without a hold, and `onPointerDown` then sets `movedFar = true`
+— it is a handle, not a tap — so `onPointerUp` never offers the tap at all. The
+description could be read with a finger and not with a mouse. `drop()` now
+opens the card when a press ends where it began, which is what a click on a
+mark is. Measured both ways: nine checks with a mouse and five with a
+finger, and the long press still moves the mark.
+
+### A menu of dashes, in place of the checkbox
+
+Six patterns — solid, dashed, dotted, dash-dot, long, fine — scaled to the line
+weight rather than fixed, so a hairline and a 6-pixel line both read as dashed.
+`jem-dash` now holds the name; the old `true` from the checkbox still loads and
+means "dashed". Measured: six styles, six distinct `stroke-dasharray` values.
+
+### A point of no weight
+
+Weight 0 draws nothing but keeps the label and the target: a transparent 9-pixel
+disc, so it can still be pointed at, tapped, dragged and deleted, with a faint
+dashed ring when it is selected so the reader can find what they cannot see.
+This is for putting a name on the map and nothing else. Measured: `stroke-width`
+0 recorded, no visible shape, the name still drawn, and the tooltip still
+answers.
+
+### Three faults in the test harness, found while checking the above
+
+* **`run3` had been dead from its fourth section on.** `SPOT` looks for an
+  interior point of China, Japan, India, the Indies or Siam that is on screen
+  and clear of the panels — and on a 900×1000 touch viewport it returned null,
+  so the script threw rather than failing a check. Not a fault in the map: a
+  portrait stage opens cropped to the empire by design (`computeDefaultView`),
+  and China's *bounding box* is then mostly Sinkiang, off the left of the
+  frame. `SPOT` now sweeps the screen itself as a last resort and takes any
+  land the map has on top. 19 checks, which had not been running.
+* **`run3`'s last section duplicated `run4`** and timed out where it stood, so
+  it is gone; `run4` measures the four screen sizes with a browser apiece,
+  which is the more honest test anyway.
+* **Closing a page does not undo the accumulation.** `run8` opened three pages
+  in turn, each closed before the next, and still timed out on the third. A
+  browser per section fixes it. `run11` was written that way from the start.
+
+`run9`'s "three tools, no Event" was stale from the day Arrow replaced Event;
+it asserts four now. And `run11`'s own touch case had to re-measure the mark
+before the long press: on a phone the card is a bottom sheet, so opening it
+shrinks the map and moves the mark out from under the finger that just tapped
+it. That is the map behaving correctly and the test holding a stale
+coordinate — the same shape of mistake as addressing a row by its number.
+
+**22 new checks in `run11`, and 19 in `run3` that were never running. The suite
+is 227 across eleven scripts — and this time the number is from running them,
+not from reading the files.**
 
 ---
 
