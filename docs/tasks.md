@@ -5891,6 +5891,45 @@ and the old test asked the first child for its fill.
 
 ---
 
+## A running count of what will fit in a link
+
+Asked for: a concise `x / x` of the link's capacity in the panel, because names
+and descriptions are characters too, and so are the vertices of a closely
+traced shape.
+
+A line above the buttons, there from the first mark: a thin bar and
+`329 / 6,000 for a link`. It goes amber past 80% and red past 100%, where it
+reads `160,528 / 6,000 for a link — file only` and Copy link is struck through.
+
+**It counts the compressed length, which is the only number that means
+anything** — that is what has to fit in an address. It also means the count
+does not climb evenly, and the tests measure that rather than asserting it:
+
+| | counter |
+| --- | ---: |
+| one mark | 329 |
+| plus 1,200 characters of repeated text | 348 |
+| plus 1,200 characters of *varied* text | 484 |
+| 31 marks | 616 |
+| `india-rivers`, 63 features | 160,528 |
+
+The same 1,200 characters cost 19 or 155 depending on what they are, which is
+exactly why a counter beats a count of features.
+
+Packing is deflate and a description is typed a letter at a time, so it is
+debounced by 250 ms — a quarter of a second after the last keystroke, rather
+than forty compressions of the same set.
+
+`tools/test/annotations/run5.js`, 11 checks, all passing.
+
+**One thing that looked like a bug and was not.** A first pass at the test saw
+the counter stall at exactly the seventh description, twice running. It was the
+test addressing rows by `k * 11` in a list that had fewer rows than it assumed.
+Driven properly, eight descriptions of 1,800 characters each moved the count
+every time and all eight were in the store.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible
