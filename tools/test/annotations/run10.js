@@ -75,6 +75,53 @@ if (handle) {
 }
 check('it measures in km', /km$/.test(await p.evaluate(()=>document.querySelector('#ann-list .ann-meas').textContent)),
   await p.evaluate(()=>document.querySelector('#ann-list .ann-meas').textContent));
+
+/* A sharp tip at any weight. The shaft is drawn with a round cap, so at a
+   heavy weight half its width used to dome out over the apex sitting at the
+   same point — a blunt nose exactly where the point should be. The apex now
+   reaches past the placed point and the shaft stops short of the head. */
+console.log('\n— a sharp tip at every weight —');
+{ const b2=await puppeteer.launch({headless:'new',args:['--no-sandbox'],protocolTimeout:180000});
+  const p2=await b2.newPage(); await p2.setViewport({width:1400,height:900});
+  await p2.evaluateOnNewDocument(SHIM);
+  const e2=[]; p2.on('pageerror',x=>e2.push(String(x)));
+  await p2.goto('http://localhost:8123/index.html',{waitUntil:'networkidle0'}); await sleep(3400);
+  await p2.evaluate(()=>document.querySelector('#ann-create').click()); await sleep(1500);
+  check('the weight slider reaches 16', await p2.evaluate(()=>document.querySelector('#ann-size').max)==='16',
+    await p2.evaluate(()=>document.querySelector('#ann-size').max));
+  await arm(p2,'arrow');
+  await tap(p2,300,300); await tap(p2,700,300); await sleep(400);
+  for (const w of [2,6,16]) {
+    await p2.evaluate(v=>{const el=document.querySelector('#ann-size'); el.value=v;
+      el.dispatchEvent(new Event('input',{bubbles:true}));},String(w)); await sleep(320);
+    const m=await p2.evaluate(()=>{
+      const sh=document.querySelector('#annotations .ann-arrow').getBoundingClientRect();
+      const hd=document.querySelector('#annotations .ann-head');
+      const hr=hd.getBoundingClientRect();
+      const d=hd.querySelector('path').getAttribute('d');
+      const xs=[...d.matchAll(/(-?[\d.]+) (-?[\d.]+)/g)].map(m=>[+m[1],+m[2]]);
+      const apex=Math.max(...xs.map(v=>v[0])), back=Math.min(...xs.map(v=>v[0]));
+      const half=Math.max(...xs.map(v=>Math.abs(v[1])));
+      return {shaftRight:Math.round(sh.right), headRight:Math.round(hr.right),
+              len:Math.round((apex-back)*10)/10, wide:Math.round(half*20)/10};});
+    console.log('    weight '+String(w).padStart(2)+': head '+m.len+' long, '+m.wide+
+                ' across; shaft ends '+(m.headRight-m.shaftRight)+'px inside the tip');
+    check('  w'+w+': the point is the outermost thing', m.headRight>m.shaftRight,
+      JSON.stringify(m));
+    check('  w'+w+': the head is longer than it is wide', m.len>m.wide, JSON.stringify(m));
+  }
+  // and the shaft really is cut, not merely covered
+  const cut=await p2.evaluate(()=>{
+    const d=document.querySelector('#annotations .ann-arrow').getAttribute('d');
+    const n=[...d.matchAll(/(-?[\d.]+) (-?[\d.]+)/g)].map(m=>[+m[1],+m[2]]);
+    const end=n[n.length-1];
+    const v=document.querySelector('#annotations .ann-head').getBoundingClientRect();
+    return {endX:end[0], headMid:Math.round((v.left+v.right)/2)};});
+  check('  at weight 16 the shaft is cut short of the end it was drawn to',
+    cut.endX>0, JSON.stringify(cut));
+  check('  no page errors', e2.length===0, e2[0]);
+  await p2.screenshot({path:'arrow-tips.png'});
+  await b2.close(); }   // its own browser: a second page in the first one times out
 check('no page errors', errs.length===0, errs[0]);
 await p.screenshot({path:'arrow.png'});
 console.log('\n  '+pass+' passed, '+fail+' failed');

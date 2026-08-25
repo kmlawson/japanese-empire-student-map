@@ -6469,6 +6469,49 @@ in the legend, both readings of occupied China keep it, it survives a reload
 under the NCA reading, the checkbox is what turns it off and back on, and all
 three projections draw it at a size.
 
+
+## A sharp arrow at any weight, and much heavier arrows to be had
+
+A thick arrow had a blunt nose, and there were two reasons, one of them
+invisible in the code and obvious on screen.
+
+**The shaft's own cap sat on the tip.** The line is drawn to the point the
+reader placed, with `stroke-linecap: round`, so half its weight domes out
+*beyond* that point — and the head's apex was at the same point, underneath the
+dome. At weight 3 that is 1.5px against a 14px head and nobody sees it. At 12
+it is 6px of rounded shaft sitting exactly where the point should be.
+
+The apex now reaches as far as the cap would have, so the sharp thing is the
+outermost thing, and the shaft is **cut short** so its cap is buried inside the
+head rather than showing through. The head narrows towards the apex, so the
+depth at which it is at least as wide as the shaft is `len·width / 2·half`;
+that plus the cap's own reach is how far back the cut goes. Cut, not shortened:
+the quadratic is subdivided by de Casteljau, because moving the end point back
+along the tangent would straighten the last part of a bent arrow. Arc length is
+approximated as the mean of the chord and the control net, which is much closer
+than the chord alone on a hard bend and needs to be right only over the length
+of a head.
+
+**And the triangle was wider than it was long** — 1.15r by 1.24r, an apex of
+57°, which reads as blunt at any weight and as a lozenge at a heavy one. It is
+1.55r by 1.2r now: 42°. The barbed head is longer too. An open chevron and a
+dot trim nothing, because neither covers the shaft.
+
+**The weight slider goes to 16 rather than 6.** It is shared with points, so a
+marker can be that much larger too — radius `2.6 + size·0.9`, so 17px at the
+top of the range.
+
+Measured, in `run10`: at weights 2, 6 and 16 the head is longer than it is wide
+and its apex is outside the shaft's own bounding box, and at 16 the shaft's
+recorded end is short of the point it was drawn to. 12 new checks; `run10` is
+28. The section runs in a browser of its own — a second page in the first one
+timed out, the same accumulation as `run8`.
+
+`run11`'s touch case was flaky at about one run in three and is not any more:
+the card is a bottom sheet on a phone, so opening it resizes the map and the
+mark slides for a frame or two, and the test was measuring into that gap. It
+waits for the position to stop changing now.
+
 ---
 
 ## Sources worth fetching

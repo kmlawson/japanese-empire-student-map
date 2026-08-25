@@ -385,36 +385,95 @@
        scalable, so it stays the size it was drawn at whatever the zoom — the
        same as the stroke it belongs to, which is `non-scaling-stroke`. A head
        in map units would grow while its own line did not. */
+    /* How big a head of each kind is, in the head's own frame: `len` from apex
+       to base, `half` across at the base, and `over` — how far the apex sits
+       *past* the point the reader placed.
+
+       The overshoot is the fix for a blunt tip. The shaft is drawn to that
+       point with a round cap, so half its weight bulges beyond it; at weight 3
+       that is 1.5px against a 14px head and invisible, and at 12 it is 6px of
+       dome sitting exactly where the point should be. The apex now reaches as
+       far as the cap would have, so the sharp thing is the outermost thing.
+
+       And the triangle is longer than it is wide now. It was 1.15r long and
+       1.24r across — wider than long, an apex of 57°, which reads as blunt at
+       any weight and as a lozenge at a heavy one. 1.55r by 1.2r is 42°. */
+    function headSize(kind, width) {
+      var r = 4 + width * 1.7;
+      var over = width * 0.5;
+      if (kind === 'dot') return { r: r, len: r * 0.6, half: r * 0.6, over: 0 };
+      if (kind === 'line') return { r: r, len: r * 1.35, half: r * 0.78, over: over };
+      if (kind === 'barbed') return { r: r, len: r * 1.7, half: r * 0.68, over: over };
+      return { r: r, len: r * 1.55, half: r * 0.6, over: over };
+    }
+
+    /* How far back from the placed point the shaft has to stop so that its cap
+       is buried in the head rather than showing through it. The head narrows
+       towards the apex, so the shaft is covered from the depth at which the
+       head is at least as wide — `len·width / 2·half` — plus the cap's own
+       reach. An open chevron covers nothing, and a dot is drawn over the end
+       on purpose, so neither trims. */
+    function shaftTrim(kind, width) {
+      if (kind === 'none' || kind === 'dot' || kind === 'line') return 0;
+      var h = headSize(kind, width);
+      return h.len * width / (2 * h.half) + width * 0.5 - h.over;
+    }
+
     function arrowHead(g, kind, colour, width, alpha, cls) {
       if (kind === 'none') return null;
       var ang = Math.atan2(g.b.y - g.ctrl.y, g.b.x - g.ctrl.x) * 180 / Math.PI;
-      var r = 4 + width * 1.7;
+      var h = headSize(kind, width), r = h.r, o = h.over;
+      var back = o - h.len;
       var wrap = host.svgEl('g', { 'class': 'ann-mark ann-head ' + cls });
       var turn = host.svgEl('g', { transform: 'rotate(' + (Math.round(ang * 10) / 10) + ')' });
       var el;
       if (kind === 'dot') {
-        el = host.svgEl('circle', { r: r * 0.6, fill: colour, 'fill-opacity': alpha });
+        el = host.svgEl('circle', { r: h.half, fill: colour, 'fill-opacity': alpha });
       } else if (kind === 'line') {
         el = host.svgEl('path', {
-          d: 'M' + (-r) + ' ' + (-r * 0.72) + 'L0 0L' + (-r) + ' ' + (r * 0.72),
+          d: 'M' + r2(back) + ' ' + r2(-h.half) + 'L' + r2(o) + ' 0L'
+             + r2(back) + ' ' + r2(h.half),
           fill: 'none', stroke: colour, 'stroke-width': Math.max(1.4, width),
           'stroke-linecap': 'round', 'stroke-linejoin': 'round',
           'stroke-opacity': alpha });
       } else if (kind === 'barbed') {
         el = host.svgEl('path', {
-          d: 'M0 0L' + (-r * 1.25) + ' ' + (-r * 0.7) + 'L' + (-r * 0.72) + ' 0L'
-             + (-r * 1.25) + ' ' + (r * 0.7) + 'Z',
+          d: 'M' + r2(o) + ' 0L' + r2(back) + ' ' + r2(-h.half) + 'L'
+             + r2(o - h.len * 0.42) + ' 0L' + r2(back) + ' ' + r2(h.half) + 'Z',
           fill: colour, 'fill-opacity': alpha });
       } else {
         el = host.svgEl('path', {
-          d: 'M0 0L' + (-r * 1.15) + ' ' + (-r * 0.62) + 'L' + (-r * 1.15) + ' '
-             + (r * 0.62) + 'Z',
+          d: 'M' + r2(o) + ' 0L' + r2(back) + ' ' + r2(-h.half) + 'L'
+             + r2(back) + ' ' + r2(h.half) + 'Z',
           fill: colour, 'fill-opacity': alpha });
       }
       turn.appendChild(el);
       wrap.appendChild(turn);
       host.addScalable({ el: wrap, x: g.b.x, y: g.b.y });
       return wrap;
+    }
+
+    /* The shaft, stopped short of the head. A quadratic cut at `t` by de
+       Casteljau — cutting it is the only way to keep the curve's own shape;
+       moving the end point back along the tangent would straighten the last
+       part of a bent arrow. Arc length is approximated as the mean of the
+       chord and the control net, which is close enough over the fraction of a
+       head, and much closer than the chord alone on a hard bend. */
+    function shaftPath(g, trim) {
+      var a = g.a, c = g.ctrl, b = g.b;
+      if (trim > 0) {
+        var net = Math.hypot(c.x - a.x, c.y - a.y) + Math.hypot(b.x - c.x, b.y - c.y);
+        var arc = (g.len + net) / 2 || 1;
+        var t = Math.max(0.05, Math.min(1, 1 - trim / arc));
+        if (t < 1) {
+          var q1 = { x: a.x + (c.x - a.x) * t, y: a.y + (c.y - a.y) * t };
+          var m = { x: c.x + (b.x - c.x) * t, y: c.y + (b.y - c.y) * t };
+          c = q1;
+          b = { x: q1.x + (m.x - q1.x) * t, y: q1.y + (m.y - q1.y) * t };
+        }
+      }
+      return 'M' + r2(a.x) + ' ' + r2(a.y) + 'Q' + r2(c.x) + ' ' + r2(c.y)
+             + ' ' + r2(b.x) + ' ' + r2(b.y);
     }
 
     function pathFor(ring, close) {
@@ -580,8 +639,7 @@
             var attrs2 = {
               'class': 'ann-f ann-shape ann-arrow' + (i === sel ? ' sel' : ''),
               'data-ann': i, 'data-shape': '1',
-              d: 'M' + r2(g2.a.x) + ' ' + r2(g2.a.y) + 'Q' + r2(g2.ctrl.x) + ' '
-                 + r2(g2.ctrl.y) + ' ' + r2(g2.b.x) + ' ' + r2(g2.b.y),
+              d: shaftPath(g2, shaftTrim(p['jem-arrow-head'] || 'triangle', width)),
               stroke: p.stroke || colour, 'stroke-width': width,
               'stroke-opacity': p['stroke-opacity'] === undefined ? 1 : p['stroke-opacity'],
               'stroke-linecap': 'round', fill: 'none',
@@ -1706,7 +1764,7 @@
         '</div>' +
         '<div class="ann-style">' +
           '<label>Colour <input type="color" id="ann-colour" value="#1b1b1b"></label>' +
-          '<label>Weight <input type="range" id="ann-size" min="0" max="6" step="1" value="3"></label>' +
+          '<label>Weight <input type="range" id="ann-size" min="0" max="16" step="1" value="3"></label>' +
           '<label id="ann-shape-row">Shape <select id="ann-symbol">' +
             '<option value="circle">Dot</option>' +
             '<option value="ring">Ring</option>' +

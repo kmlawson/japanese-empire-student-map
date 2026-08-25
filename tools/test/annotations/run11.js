@@ -125,7 +125,15 @@ console.log('\n— the card, with a finger —');
   // and the hold must still move it, which is the other thing a press can mean.
   // Re-measure first: on a phone the card is a bottom sheet, so opening it
   // shrinks the map and the mark is no longer where it was pressed.
-  const at2=await p.evaluate(MARK);
+  /* Wait for it to stop moving first. The card is a bottom sheet, so opening
+     it resizes the map and the mark slides for a frame or two; measuring into
+     that gap put the press beside the mark rather than on it, and the case
+     failed about one run in three. */
+  var at2=await p.evaluate(MARK);
+  for (let i=0;i<12;i++) { await sleep(220);
+    const now=await p.evaluate(MARK);
+    if (now.x===at2.x && now.y===at2.y) break;
+    at2=now; }
   const before=await p.evaluate(()=>JSON.parse(localStorage.getItem('jem-annotations-v1')).f[0].geometry.coordinates.slice());
   await p.mouse.move(at2.x,at2.y); await p.mouse.down(); await sleep(800);
   await p.mouse.move(at2.x+40,at2.y+30,{steps:8}); await sleep(200); await p.mouse.up(); await sleep(600);
