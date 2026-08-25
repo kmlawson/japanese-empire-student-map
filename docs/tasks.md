@@ -5779,6 +5779,57 @@ matches the code is worse than no suite.
 
 ---
 
+## Japan disappeared, and had done since long before this week
+
+Reported from a phone: Japan sometimes gone after zooming. Korea, Karafuto,
+the Kuriles and Taiwan drawn, and no Honshu.
+
+**Not the annotations, and not new.** The same test against `froginawell` at
+1.21 loses Japan exactly as the working tree did, so this has been in the map
+for as long as the fine coastlines have.
+
+**What happens.** `#a-japan` is one of the empty atoms: the country is drawn by
+its *backing*, the single polygon under the group. A backing is hidden as
+`redundant` once its atom carries paths of its own, which is right for the
+administrative sheet — Siam's atom is empty until the sheet arrives and carries
+seventy changwat afterwards, and the backing beneath them is then a second copy
+of the same ground.
+
+The fine coastline layer is not that. It has a window of **62 small rings** for
+the Japanese coast, and `FINE_W_FOR = { japan: 420 }` grafts it at a shallower
+zoom than any other window. The moment it arrived the atom held paths, the
+backing was called redundant and hidden, and what was left of Japan was those
+62 islets. Nothing recomputed it on the way back out, so the country stayed
+gone for the rest of the visit.
+
+Measured, as painted area in square map units — the atom's live paths plus its
+backing where it is showing:
+
+| | 1.21, and the working tree before | after |
+| --- | ---: | ---: |
+| opening view | 133,425 | 133,425 |
+| three notches in, window grafted | **495** | 133,919 |
+| back out at the opening view | **495** | 133,919 |
+
+**The fix is one selector and three call sites.** The redundancy rule counts
+`path:not(.superseded):not(.fine)` — only a division makes a backing redundant,
+and a grafted coastline is passed over. It was a loop buried in `applyState`;
+it is `syncBackings()` now, called there and from `graftFine` and `dropFine`, so
+it is right whenever a window comes or goes rather than only when a layer is
+switched.
+
+**Checked that the rule still does its job.** With the administrative sheet on,
+fifteen backings still flip from live to redundant — Tibet, Xinjiang, the
+princely states, Chahar, Suiyuan, Jehol, Manchuria, Manchukuo, Siam, Burma,
+Saharat, Sarawak, Brunei, Korea and Japan. Deep in the Ryukyus, `ryukyu` stays
+redundant because its atom has coarse paths of its own, and Japan stays live.
+
+`tools/test/backings.js` is a regression test for it: it zooms in past the
+Japanese window and back out and asserts the country is still painted, and that
+the administrative sheet still stands the backings down.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

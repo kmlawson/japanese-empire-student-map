@@ -2063,7 +2063,7 @@ dialog h3 {
 
   <p>Built with Anthropic's Claude, with <a href="https://muninn.net/">Konrad M. Lawson</a> at the prompt, primarily as a tool for students in his University of St Andrews honours module, <a href="https://github.com/kmlawson/japanese-empire-mo3335/">MO3335</a>.</p>
 
-  <p>Code for the website may be found <a href="https://github.com/kmlawson/japanese-empire-student-map">here</a>.</p>  <p class="version">Version 1.28 · last updated 25 August 2026, 00:03</p>
+  <p>Code for the website may be found <a href="https://github.com/kmlawson/japanese-empire-student-map">here</a>.</p>  <p class="version">Version 1.29 · last updated 25 August 2026, 06:57</p>
 
 <!-- END about -->
 </dialog>
@@ -15699,21 +15699,8 @@ window.JMAP_INLINE_FINE = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<svg xmln
     // id, so every outline standing on screen is out of date whatever its
     // key says.
     bumpHi();
-    // Which backings are a second copy of ground that is already drawn. Asked
-    // here rather than at build time because the answer changes when the
-    // administrative file arrives: until it does, Siam's atom is an empty
-    // group and its backing is the whole country; after it, the atom carries
-    // seventy changwat and the backing is underneath all of them. `loadAdmin`
-    // calls this again when the graft is done.
-    if (svg) {
-      svg.classList.toggle('backs-off', !state.backs);
-      Object.keys(backingEls).forEach(function (k) {
-        var atom = atomEls[k];
-        var own = atom && atom.tagName !== 'path'
-          && $$('path:not(.superseded)', atom).length;
-        backingEls[k].classList.toggle('redundant', !!own);
-      });
-    }
+    if (svg) svg.classList.toggle('backs-off', !state.backs);
+    syncBackings();
     // the lifted hairlines exist only while that layer is on, and the geometry
     // they copy arrives with it, so they are rebuilt whenever it changes
     liftSubs(subsAtom);
@@ -16307,6 +16294,7 @@ window.JMAP_INLINE_FINE = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<svg xmln
     reprojectGraft(nodes);
     fineLive[key] = nodes;
     bumpLayout();               // a window of coastline is new geometry
+    syncBackings();
     return true;
   }
 
@@ -16316,6 +16304,7 @@ window.JMAP_INLINE_FINE = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<svg xmln
     bumpLayout();
     nodes.forEach(function (n) { if (n.parentNode) n.parentNode.removeChild(n); });
     delete fineLive[key];
+    syncBackings();
     return true;
   }
 
@@ -17044,6 +17033,36 @@ window.JMAP_INLINE_FINE = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<svg xmln
         + 'They are in annotate.js, which has to sit beside index.html.');
     };
     document.head.appendChild(el);
+  }
+
+  /* Which backings are a second copy of ground that is already drawn.
+
+     Asked at run time rather than at build time because the answer changes
+     when the administrative file arrives: until it does, Siam's atom is an
+     empty group and its backing is the whole country; after it, the atom
+     carries seventy changwat and the backing is underneath all of them.
+
+     **The fine coastlines are not that, and treating them as if they were lost
+     Japan.** Its atom is one of the empty ones — the backing is what draws
+     Honshu, Hokkaido, Kyushu and Shikoku — and the fine file has a window of
+     62 small rings for the Japanese coast that grafts at a shallower zoom than
+     any other. The moment it arrived the atom held paths, the backing was
+     called redundant and hidden, and what was left of Japan was those 62
+     islets: the painted area went from 133,425 square units to 495 and stayed
+     there for the rest of the visit, because nothing recomputed this on the
+     way back out. A reader who zoomed anywhere near Japan lost the country.
+
+     So only a division counts. A grafted coastline carries `fine` and is
+     passed over, and this is re-run whenever a window is grafted or dropped
+     rather than only when a layer is switched. */
+  function syncBackings() {
+    if (!svg) return;
+    Object.keys(backingEls).forEach(function (k) {
+      var atom = atomEls[k];
+      var own = atom && atom.tagName !== 'path'
+        && $$('path:not(.superseded):not(.fine)', atom).length;
+      backingEls[k].classList.toggle('redundant', !!own);
+    });
   }
 
   function annWire() {
