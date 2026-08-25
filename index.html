@@ -7,7 +7,7 @@
 <meta name="description" content="Interactive map for revising the geography of the Japanese Empire: colonies, occupied territories, neighbouring states, cities and battles, 1853-1945.">
 <title>The Japanese Empire</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23f4f1ea'/%3E%3Ccircle cx='16' cy='16' r='8' fill='%239a1813'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=ac882282e4">
+<link rel="stylesheet" href="styles.css?v=b4639bbbf2">
 </head>
 <body>
 
@@ -121,10 +121,22 @@
      1942 general occupation extent</label>
   <label class="row"><input type="radio" name="occ-src" id="occ-nca" value="nca">
      North China Area Army report September 1942</label>
+  <label class="row"><input type="radio" name="occ-src" id="occ-none" value="none">
+     Hide the Japanese occupation map</label>
   <p class="hint">The default map shows a simplified representation of the maximum extent at around
      1942 but hides the fragmented and partial nature of that occupation. Both readings are drawn on
      the Dec 1942 map only.</p>
   <label class="row"><input type="checkbox" id="opt-ccp" checked> Show resistance base areas</label>
+  <label class="row"><input type="checkbox" id="opt-manchukuo" checked> Show Manchukuo</label>
+  <label class="row"><input type="checkbox" id="opt-mengjiang" checked> Show Mengjiang</label>
+  <p class="hint">Switched off, the land stays and can still be pointed at — Manchuria did not stop
+     being Manchuria — but it is painted the neutral this map uses for ground it makes no claim
+     about, so you can put your own account over it.</p>
+  <hr>
+  <h3>Drawing your own</h3>
+  <label class="row"><input type="checkbox" id="opt-mono"> Make the map a single colour</label>
+  <p class="hint">Every state and province in one grey, with the coastlines and frontiers drawn as
+     hairlines and the hatchings off — a base to lay your own coloured shapes over.</p>
   <hr>
   <h3>Annotations</h3>
   <div class="row ann-row">
@@ -187,13 +199,13 @@
 
   <p>Built with Anthropic's Claude, with <a href="https://muninn.net/">Konrad M. Lawson</a> at the prompt, primarily as a tool for students in his University of St Andrews honours module, <a href="https://github.com/kmlawson/japanese-empire-mo3335/">MO3335</a>.</p>
 
-  <p>Code for the website may be found <a href="https://github.com/kmlawson/japanese-empire-student-map">here</a>.</p>  <p class="version">Version <span id="jem-version">1.40</span> · last updated 25 August 2026, 11:19</p>
+  <p>Code for the website may be found <a href="https://github.com/kmlawson/japanese-empire-student-map">here</a>.</p>  <p class="version">Version <span id="jem-version">1.41</span> · last updated 25 August 2026, 12:00</p>
 
 <!-- END about -->
 </dialog>
 
 <script src="data.js?v=616e530f8b"></script>
 <script src="cities-gaz.js?v=88a319fe12"></script>
-<script src="map.js?v=e5445e4c5c"></script>
+<script src="map.js?v=54f8a05e38"></script>
 </body>
 </html>

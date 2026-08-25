@@ -6512,6 +6512,103 @@ the card is a bottom sheet on a phone, so opening it resizes the map and the
 mark slides for a frame or two, and the test was measuring into that gap. It
 waits for the position to stop changing now.
 
+
+## Names on a switch, military symbols, dates that can be walked, and a map that can be stripped
+
+### The names, globally and one at a time
+
+"Names on the map" has moved out of the row of style controls to the top of the
+panel, where a switch that governs everything below it belongs. Under the Name
+field each mark now has its own answer — **Keep this one's name off the map** —
+which overrides the global switch in the one direction that is useful. Six
+units in a bay with their names in a heap is the case; the reader wants the
+other forty named. The pointer still says it, so nothing is lost, only moved.
+
+### An arrow that was stopped
+
+A sixth head, `blocked`: the triangle with a bar across it at right angles,
+drawn just beyond the tip so the arrow runs *into* the bar rather than through
+it. It is the military sign for an advance that was held, and it follows the
+tangent, so a curved arrow's bar sits square to where it arrived.
+
+### Fifteen military symbols
+
+A unit is a box with its branch inside — infantry a saltire, armour an oval,
+artillery a dot, cavalry a bar, airborne a canopy, a headquarters its staff —
+and the three formation sizes carry their echelon marks above: XX a division,
+XXX a corps, XXXX an army. Then a warship, an aircraft, an anchor for a naval
+base, crossed blades for a battle, and a bastioned trace for a fortification.
+Grouped under four headings in the Shape menu.
+
+Drawn plainly rather than to APP-6's letter. This is a teaching map, and a
+shape a student can tell apart at fourteen pixels is worth more here than a
+faithful one they cannot.
+
+**Their names had to move down.** A fixed fifteen-pixel drop was right when
+every symbol was a dot of about that size and wrong the moment there were
+symbols reaching further down than across — an anchor's fluke, a headquarters'
+staff, an aeroplane's tail. The name sat over them and its own pale halo, the
+thing that makes it readable, rubbed out the bottom of the symbol it was
+naming. Each symbol now says how far below the point it goes and the name
+clears it.
+
+### Dates, and a way to walk them
+
+Optional **Start** and **End** fields, on a line of their own. They were asked
+for beside the Name and there is no width for three fields in a 280px rail, let
+alone on a phone; they sit under it instead, side by side while there is room.
+
+They are read leniently: `1937`, `Sept 1931` and `1941-12-08` all parse, and an
+absent month or day reads as the earliest it could be. A teaching map is
+annotated with all three in the same set, and refusing two to be strict about
+the third would only push the reader into typing the date into the name.
+
+When two or more marks carry a start date, a row appears above the tools:
+**« ‹ 3/7 1941-12-08 › »**. It steps through them in date order, selecting
+each, moving the map to it and opening its card. Fewer than two and it is not
+there — a pair of arrows that steps between one thing and itself is furniture.
+
+### Three switches in Layers, for a map to draw on
+
+* **Hide the Japanese occupation map**, a third choice beside the two readings.
+  `srcOK` already asked whether a record's source matches the one chosen, so a
+  source that matches nothing hides every layer tied to one — the traced zone,
+  the NCA areas, the base areas — in a line.
+* **Show Manchukuo** and **Show Mengjiang**, both on. Off, they are not
+  removed: the land stays and still answers to the pointer, because Manchuria
+  did not stop being Manchuria. It takes the neutral this map uses for ground
+  it makes no claim about. Mengjiang's dotted claim goes with the state — a
+  claim drawn round nothing is a line with no subject.
+* **Make the map a single colour.** Every state and province one grey, the
+  hatchings off, and the coastlines and frontiers *added* as hairlines —
+  without them a single grey is a single grey blob, because on this map the
+  fills are what separate one country from the next.
+
+**Three things had to be excluded from it, each found by looking.** The
+finger-sized targets over the smallest territories carry `.atom` too and came
+out as eighty-three grey discs across the Pacific, each the size of a thumb —
+which is the size they are, and the whole reason they are transparent. The
+rings that trace a whole country are unclassed paths in the outline layer, so
+naming `.edge-line` alone left Thailand teal and China red over grey land. And
+`--edge-w` is six pixels on the Thai cessions, which is right in colour — they
+are small enough that only a thick ring shows them — and wrong here, because a
+6px ring round a small shape *is* the shape: Laos and Cambodia came out as a
+block of rgb(189,182,166) against rgb(228,224,214) land. Measured off the
+rendered pixels before and after; 1,453 wrong pixels down to 292 of a soft
+grey ring.
+
+All four survive a reload and a shared link: `occSource: 'none'` takes a second
+bit read before the first, so a link written before it existed still says what
+it meant, and the two client states go the same way round as the base areas
+because they start on.
+
+`tools/test/mapstrip.js`, 25 checks. `run4` caught the one regression: the new
+rows pushed the phone panel from 22% of the screen to 23% while a tool is out,
+and they now stand down with the fields, as that rule intends.
+
+The suite is 252 across twelve annotation scripts and five map ones, all
+passing.
+
 ---
 
 ## Sources worth fetching

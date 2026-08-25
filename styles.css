@@ -15,6 +15,11 @@
   --inactive: #ded8cb;
   --inactive-line: #b9b1a1;
 
+  /* the map stripped to one colour, for drawing over: see `#jmap.mono` */
+  --mono-land: #e4e0d6;
+  --mono-line: #bdb6a6;
+  --mono-sub: #d5cfc1;   /* the sub-unit rings: softer, and there are many */
+
   --c-metropole: #9a1813;
   --c-colony: #c2463d;
   --c-occupied: #fb8072;
@@ -1830,4 +1835,105 @@ dialog h3 {
 
 @media (prefers-color-scheme: dark) {
   .version-stale { color: #e08b95; }
+}
+
+
+/* ------------------------------------------------- the map at one colour --
+
+   Every state and every province painted one grey, for a reader who wants the
+   coastline and the frontiers as a base and means to lay their own colours
+   over it. It is a class on the SVG rather than a repaint, so it costs nothing
+   to turn on and nothing to turn off, and the colours it hides are still in
+   the elements' own `--c` waiting to come back.
+
+   The outlines are *added* rather than left off. Without them a single grey is
+   a single grey blob: the fills are what separate one country from the next on
+   this map, so taking the colour away takes the frontiers with it unless
+   something else draws them. A hairline of a darker grey is that something.
+
+   The hatchings go too. Stripes over Timor and diagonals over occupied China
+   are assertions in exactly the way a fill is, and a map stripped to one
+   colour that kept them would be stripped of everything except an argument. */
+#jmap.mono .atom:not(.atom-hit),
+#jmap.mono .atom > path,
+#jmap.mono #backings path,
+#jmap.mono #seams path {
+  fill: var(--mono-land);
+}
+/* The stroke goes on the group and inherits, which is how every path of an
+   atom gets it. That is also its one cost: a territory drawn as forty
+   overlapping polygons — French Indochina is the worked example — becomes a
+   scribble of hairlines rather than an outline, because each piece is stroked
+   and the pieces are small. Thin and pale is what makes that tolerable while
+   still separating one country from the next; at 1.1 and the full line colour
+   Laos and Cambodia read as a darker grey than the rest of the map, which is
+   the one thing a single-colour map must not do. */
+#jmap.mono #backings path:not(.nostroke) {
+  stroke: var(--mono-line);
+  stroke-width: 0.9;
+}
+/* An atom that has no filler under it *is* the shape, so it carries the line
+   itself. One that has a filler does not: the filler is the whole country and
+   the atom is the pieces it was built from, and stroking the pieces draws
+   every seam inside it. That is what turned the Thai cession in Laos into a
+   patch visibly darker than the rest of the map — the one thing a map stripped
+   to a single colour must not have. */
+#jmap.mono .atom:not(.atom-hit):not(.has-fill) {
+  stroke: var(--mono-line);
+  stroke-width: 0.9;
+}
+/* The finger-sized targets over the smallest territories carry `.atom` too,
+   and they are meant to be invisible. Painted with the rest they became
+   eighty-three grey discs across the Pacific, each one the size of a thumb —
+   which is the size they are, and the whole reason they are transparent. */
+#jmap.mono .atom-hit,
+#jmap.mono .islet-hit { fill: transparent; stroke: none; }
+#jmap.mono .islet,
+#jmap.mono .tiny-isles,
+#jmap.mono .tiny-isles path {
+  stroke: var(--mono-line);
+}
+#jmap.mono .hatch-fill,
+#jmap.mono .chinabase,
+#jmap.mono .ccp-fill {
+  display: none;
+}
+#jmap.mono .mandate,
+#jmap.mono .mandate.hot { fill: none; }
+/* The edge lines go the same way as the fills. Thailand's teal, China's two
+   halves and the mandate's dashes are territorial claims drawn as lines rather
+   than as areas, and a map stripped of its colours that kept them would have
+   kept the argument and thrown away the evidence. They stay as lines — the
+   frontier is still where it was — in the same grey as everything else. */
+/* every line in the outline layer, not only those with `.edge-line` on them:
+   the rings that trace a whole country — Thailand's teal, China's two halves —
+   are unclassed paths in there, and naming the class alone left them coloured
+   over grey land */
+#jmap.mono #sub-outlines path,
+#jmap.mono #sub-outlines .sub-outline circle,
+#jmap.mono #backings path.whole-edge,
+#jmap.mono #land path.coast,
+#jmap.mono #mandate-lift .mandate-line { stroke: var(--mono-line); }
+#jmap.mono #mengjiang-claim { stroke: var(--mono-line); }
+/* The dashed rings round sub-units are 2.8px wide, which is right for a
+   coloured ring seen against a coloured country and wrong once everything is
+   one grey: where a territory has many of them close together — the Thai
+   cessions across Laos and Cambodia are the case — the dashes touch and the
+   region reads as a *darker fill*, which is precisely what this view exists to
+   remove. Measured: rgb(189,182,166) over Laos against rgb(228,224,214)
+   everywhere else. Halved, they read as dashes again. */
+#jmap.mono #sub-outlines .sub-outline path,
+#jmap.mono #sub-outlines .sub-outline circle {
+  stroke: var(--mono-sub);
+  stroke-width: 1.4;
+  stroke-dasharray: 4 5;
+}
+/* And the edge lines are capped. `--edge-w` is 6 pixels on the Thai cessions,
+   which is right in colour — they are small enough that a thick teal ring is
+   the only way to see them — and wrong here, because a 6px ring round a small
+   shape *is* the shape, and Laos and Cambodia came out as a block of
+   rgb(189,182,166) against rgb(228,224,214) land. Measured before and after. */
+#jmap.mono #sub-outlines .edge-line {
+  stroke: var(--mono-sub);
+  stroke-width: 1.6;
 }

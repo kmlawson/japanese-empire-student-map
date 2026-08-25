@@ -13,8 +13,8 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '1.40';
-  var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "aa23fcc49b", "japan-empire-map-admin.svg": "d821c75055", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "132ece917d"};
+  var JEM_VERSION = '1.41';
+  var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "7aa92b9a75", "japan-empire-map-admin.svg": "d821c75055", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "132ece917d"};
 
   /* Every file this one fetches, with the version on it.
 
@@ -127,6 +127,15 @@
     // else — so it replaces both rather than joining them, and the map then
     // shows what that one source shows.
     occSource: 'traced',
+    /* The 1942 map's two client states, each on its own switch. A reader
+       building their own account of the war wants the coastline and the
+       Republic under it and nothing else asserted; these are the two shapes
+       most often in the way of that. Off, the ground stays — it is still
+       land — but it is painted the neutral the map uses for everywhere it
+       makes no claim about. */
+    manchukuo: true,
+    mengjiang: true,
+    mono: false,                    // every state and province one grey
     // The Communist base areas, drawn over the traced zone. They are a second
     // author's answer laid on top of the first, so they get a switch of their
     // own inside that reading: turning them off leaves the occupation as the
@@ -193,6 +202,9 @@
       // next reader chose. The rest below is preference and does carry over.
       state.labels = !!saved.labels;
       if (typeof saved.extent === 'boolean') state.extent = saved.extent;
+      ['manchukuo', 'mengjiang', 'mono'].forEach(function (k) {
+        if (typeof saved[k] === 'boolean') state[k] = saved[k];
+      });
       if (typeof saved.rivers === 'boolean') state.rivers = saved.rivers;
       if (typeof saved.hairline === 'boolean') state.hairline = saved.hairline;
       if (typeof saved.backs === 'boolean') state.backs = saved.backs;
@@ -202,7 +214,8 @@
         state.projection = saved.projection;
       }
       if (typeof saved.ccp === 'boolean') state.ccp = saved.ccp;
-      if (saved.occSource === 'nca' || saved.occSource === 'traced') {
+      if (saved.occSource === 'nca' || saved.occSource === 'traced'
+          || saved.occSource === 'none') {
         state.occSource = saved.occSource;
       }
       if (typeof saved.legend === 'boolean') state.legend = saved.legend;
@@ -218,6 +231,7 @@
         backs: state.backs, indiaRivers: state.indiaRivers,
         projection: state.projection, graticule: state.graticule,
         occSource: state.occSource, ccp: state.ccp,
+        manchukuo: state.manchukuo, mengjiang: state.mengjiang, mono: state.mono,
       }));
     } catch (err) { /* private browsing; not worth complaining about */ }
   }
@@ -654,6 +668,12 @@
     });
     $$('#backings [data-for]', svg).forEach(function (el) {
       backingEls[el.getAttribute('data-for')] = el;
+      /* The atom this filler belongs to is marked, so a stylesheet can tell
+         "this shape is the country" from "these are the pieces it was built
+         out of" — which is what the single-colour view needs in order to draw
+         one outline round a country rather than every seam inside it. */
+      var owner = svg.getElementById('a-' + el.getAttribute('data-for'));
+      if (owner) owner.classList.add('has-fill');
     });
     // Anywhere in the drawing, not only among the backings: the occupied
     // coast is a sibling of its atom rather than a child of one.
@@ -2018,6 +2038,14 @@
     // bit 10, not 8: the level has 8 and 9, and LAYER_FLAGS is indexed by bit
     if (state.hairline) bits |= 1024;
     if (state.occSource === 'nca') bits |= 2048;
+    // A third reading — none at all — needs a second bit, and it is read
+    // first, so a link written before this one existed still says what it
+    // meant. The two client states and the base areas go the same way round
+    // as `ccp` below and for the same reason: they start on.
+    if (state.occSource === 'none') bits |= 262144;
+    if (!state.manchukuo) bits |= 524288;
+    if (!state.mengjiang) bits |= 1048576;
+    if (state.mono) bits |= 2097152;
     // Bit 4096 means the base areas are OFF, not on. It is the one layer here
     // that starts switched on, and a bitfield cannot tell "the sender had it
     // off" from "the sender's build had no such bit": every link made before
@@ -2047,7 +2075,10 @@
     state.rivers = !!(bits & 64);
     state.level = ((bits >> 8) & 3) + 1;
     state.hairline = !!(bits & 1024);
-    state.occSource = (bits & 2048) ? 'nca' : 'traced';
+    state.occSource = (bits & 262144) ? 'none' : ((bits & 2048) ? 'nca' : 'traced');
+    state.manchukuo = !(bits & 524288);
+    state.mengjiang = !(bits & 1048576);
+    state.mono = !!(bits & 2097152);
     state.ccp = !(bits & 4096);          // inverted; see layerCode
     state.backs = !!(bits & 8192);
     state.indiaRivers = !!(bits & 16384);
@@ -4765,12 +4796,40 @@
 
     syncMandateLines();
 
+    /* The two client states, each on its own switch. Hidden they are not
+       *removed*: the land is still there and still answers to the pointer,
+       because Manchuria did not stop being Manchuria — it is painted the
+       neutral this map uses for ground it makes no claim about, so a reader
+       drawing their own account has a coastline to draw on and no assertion
+       under it. `--c` is what every fill here reads, so overriding it on the
+       atom and its filler and its seams reaches all of them at once. */
+    ['manchukuo', 'mengjiang'].forEach(function (id) {
+      var rec = byId[id];
+      if (!rec) return;
+      var shown = state[id] !== false;
+      var col = shown ? ((rec.c || (catInfo(rec.cat) || {}).c) || null) : null;
+      (rec.atoms || []).forEach(function (a) {
+        [atomEls[a], backingEls[a], backingEdges[a]].forEach(function (el) {
+          if (!el) return;
+          if (col) el.style.setProperty('--c', col);
+          else el.style.setProperty('--c', 'var(--inactive)');
+        });
+        (seamEls[a] || []).forEach(function (sm) {
+          if (col) sm.style.setProperty('--c', col);
+          else sm.style.setProperty('--c', 'var(--inactive)');
+        });
+      });
+    });
+
     // the state exists on the 1942 map only, and so do its claim and the
-    // whole-claim shape the hover outline traces
+    // whole-claim shape the hover outline traces. Its dotted claim goes with
+    // the state itself: a claim drawn round nothing is a line with no subject.
     ['#mengjiang-claim', '#mengjiang-whole'].forEach(function (sel) {
       var el = svg && svg.querySelector(sel);
-      if (el) el.style.display = state.epoch === 'e1942' ? '' : 'none';
+      if (el) el.style.display =
+        (state.epoch === 'e1942' && state.mengjiang !== false) ? '' : 'none';
     });
+    if (svg) svg.classList.toggle('mono', !!state.mono);
     if (extentPath) {
       /* The perimeter is one continuous ring: down the inland edge of occupied
          China, out past the Kuriles, round the Pacific and back through the
@@ -4958,10 +5017,11 @@
      one of them; both come through here so the radios and the card cannot
      disagree about which is showing. */
   var OCC_LABEL = { traced: '1942 general occupation extent',
-                    nca: 'the North China Area Army reading' };
+                    nca: 'the North China Area Army reading',
+                    none: 'no occupation layer' };
 
   function setOccSource(v) {
-    if (v !== 'traced' && v !== 'nca') return;
+    if (v !== 'traced' && v !== 'nca' && v !== 'none') return;
     state.occSource = v;
     $$('#dlg-options [name="occ-src"]').forEach(function (r) {
       r.checked = (r.value === v);
@@ -5895,6 +5955,20 @@
       r.checked = (r.value === state.occSource);
       r.addEventListener('change', function () {
         if (r.checked) setOccSource(r.value);
+      });
+    });
+
+    [['#opt-manchukuo', 'manchukuo'], ['#opt-mengjiang', 'mengjiang'],
+     ['#opt-mono', 'mono']].forEach(function (pair) {
+      var el = $(pair[0]);
+      if (!el) return;
+      el.checked = !!state[pair[1]];
+      el.addEventListener('change', function () {
+        state[pair[1]] = el.checked;
+        // one of them may be what is selected, and it is still selectable —
+        // only its colour changes — so nothing is deselected here
+        applyState();
+        redrawHighlight();
       });
     });
 
