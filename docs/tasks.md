@@ -5830,6 +5830,67 @@ the administrative sheet still stands the backings down.
 
 ---
 
+## The annotation editor: shapes, opacity, hidden names, and honest limits
+
+Six things asked for.
+
+**Names can be hidden and are still readable.** The switch was already there;
+what it lacked was anywhere else for a name to live. Pointing at a mark now
+gives its name, its description and its measurement in the map's own tooltip —
+`map.js` lends it out through the host as `tip`/`untip` — so hiding the names is
+a display choice rather than a loss. A description was never on the map at any
+setting, so this is the only way to read one at all. A tap on a mark selects it
+in the panel, which is the useful answer now that shapes take the pointer;
+before, a tap inside a drawn area reached the country underneath and now cannot.
+
+**Ten shapes, not four.** Dot, ring, square, triangle, triangle-down, diamond,
+star, cross, plus and pin. They ride in `marker-symbol`, which simplestyle
+leaves open to any string, so a file opened elsewhere shows a marker with an
+unfamiliar symbol and draws its default. Cross and plus have no fill to put a
+casing round, so they are drawn twice — a thick light stroke under a thin
+coloured one — which is the trick the mandate lines already use. The pin stands
+on the point it marks, so the coordinate is the tip and not the middle of a
+blob.
+
+**Full colour and opacity.** The colour control was always a full RGB picker;
+what was missing was opacity. Two sliders now: **Opacity** for the mark or the
+line, **Fill** for an area, with the fill checkbox retired in favour of a
+slider whose zero is "no fill". Stroke opacity is simplestyle's own
+`stroke-opacity` and `fill-opacity`; a marker's has no word in the spec, so it
+is `jem-marker-opacity`, prefixed so nobody mistakes it for standard. Measured
+through a save: `stroke-opacity: 0.55`, `fill-opacity: 0` survive the round
+trip to the file.
+
+**A big set arrives with its names off.** Past 40 features or 4,000 points the
+`Names on the map` switch comes up off and the message says why —
+`india-rivers` loads as *"63 features — 14,851 points, and the map has moved to
+them. Names are off — that is too many to write on the map at once."* The
+reader can switch them straight back on; measured that they then appear.
+
+**The ceiling came down, because it was not one.** It was 24 MB and 240,000
+points, which at that size is hundreds of thousands of SVG nodes and a browser
+that will not pan. **6 MB and 60,000 points** now — `india-rivers`, one of the
+larger files anybody will hand it, is 354 KB and 14,851 points, a quarter of
+the new ceiling. A refusal names both numbers and how far over.
+
+**And the link warns before it is asked.** A set loaded from a file is very
+often too big for an address, and being told so only on pressing Copy link is
+being told at the wrong moment. A standing line appears the moment the set is
+packed:
+
+> Too much for a link: these 63 features come to 160,528 characters
+> compressed, 27× the 6,000 an address can carry. Save file works; Copy link
+> cannot. Fewer or simpler features would fit.
+
+Copy link is struck through while it holds. Measured on `india-rivers`.
+
+**Checked:** 19 new assertions across the six, plus the committed suite —
+`run.js` 25 of 25 and `backings.js` 6 of 6. One of its assertions had to be
+updated rather than the code: a marker is a `<g>` of one or two elements now,
+and the old test asked the first child for its fill.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

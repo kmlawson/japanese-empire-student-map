@@ -2063,7 +2063,7 @@ dialog h3 {
 
   <p>Built with Anthropic's Claude, with <a href="https://muninn.net/">Konrad M. Lawson</a> at the prompt, primarily as a tool for students in his University of St Andrews honours module, <a href="https://github.com/kmlawson/japanese-empire-mo3335/">MO3335</a>.</p>
 
-  <p>Code for the website may be found <a href="https://github.com/kmlawson/japanese-empire-student-map">here</a>.</p>  <p class="version">Version 1.29 · last updated 25 August 2026, 06:57</p>
+  <p>Code for the website may be found <a href="https://github.com/kmlawson/japanese-empire-student-map">here</a>.</p>  <p class="version">Version 1.30 · last updated 25 August 2026, 07:25</p>
 
 <!-- END about -->
 </dialog>
@@ -9797,8 +9797,21 @@ window.JMAP_INLINE_FINE = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<svg xmln
       return Array.prototype.slice.call((r || document).querySelectorAll(s));
     };
 
-    var ANN_MAX_BYTES = 24 * 1024 * 1024;   // a bigger file is refused
-    var ANN_MAX_VERTS = 240000;             // and so is one with more points
+    /* What this map will read. The ceiling was 24 MB and 240,000 points,
+       which is not a limit so much as an absence of one: at that size the SVG
+       is hundreds of thousands of nodes and the browser stops being able to
+       pan. 6 MB and 60,000 points is the size at which the map still behaves
+       — `tools/cache/india-rivers.geojson`, this project's own and one of the
+       larger files anybody will hand it, is 354 KB and 14,851 points, a
+       quarter of the ceiling. A file past it is refused with both numbers, so
+       the reader can see how far past it they are. */
+    var ANN_MAX_BYTES = 6 * 1024 * 1024;
+    var ANN_MAX_VERTS = 60000;
+    /* And past this, a set arrives with its names switched off. Sixty
+       thousand points may be forty thousand names, and a map wearing forty
+       thousand names is a grey mat with a coastline somewhere under it. */
+    var ANN_QUIET_FEATURES = 40;
+    var ANN_QUIET_VERTS = 4000;
     /* How much GeoJSON will go in a link. Browsers differ, and so do the
        servers and chat clients that pass a URL along; 6,000 characters of
        payload keeps the whole address near 6.2 KB, which everything in use
@@ -9807,7 +9820,10 @@ window.JMAP_INLINE_FINE = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<svg xmln
     var ANN_STORE = 'jem-annotations-v1';
     var ANN_UNDO_MAX = 40;
 
-    var SYMBOLS = ['circle', 'diamond', 'square', 'triangle'];
+    /* simplestyle-spec leaves `marker-symbol` open to any string, so these
+       ride in it and anything else opening the file draws its own default. */
+    var SYMBOLS = ['circle', 'ring', 'square', 'triangle', 'down-triangle',
+                   'diamond', 'star', 'cross', 'plus', 'pin'];
     var PALETTE = ['#1b1b1b', '#8c2f39', '#1f5c7a', '#5b7d3a', '#7a4a86', '#a8642a'];
 
     var on = false;                 // the panel is up
@@ -9876,11 +9892,19 @@ window.JMAP_INLINE_FINE = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<svg xmln
 
     /* ------------------------------------------------------------ style -- */
 
+    function pct(id, dflt) {
+      var el = $(id);
+      if (!el) return dflt;
+      var v = parseInt(el.value, 10);
+      return isFinite(v) ? Math.max(0, Math.min(100, v)) / 100 : dflt;
+    }
+
     function styleNow() {
       return {
         colour: ($('#ann-colour') || {}).value || '#1b1b1b',
         size: parseInt(($('#ann-size') || {}).value, 10) || 3,
-        fill: !!(($('#ann-fill') || {}).checked),
+        alpha: pct('#ann-opacity', 1),
+        fillAlpha: pct('#ann-fillop', 0.28),
         dash: !!(($('#ann-dash') || {}).checked),
         symbol: ($('#ann-symbol') || {}).value || 'circle',
       };
@@ -9891,16 +9915,18 @@ window.JMAP_INLINE_FINE = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<svg xmln
         title: '', description: '',
         stroke: st.colour,
         'stroke-width': st.size,
-        'stroke-opacity': 1,
+        'stroke-opacity': st.alpha,
       };
       if (kind === 'point' || kind === 'event') {
         p['marker-color'] = st.colour;
         p['marker-size'] = st.size <= 2 ? 'small' : (st.size >= 5 ? 'large' : 'medium');
         p['marker-symbol'] = kind === 'event' ? 'diamond' : st.symbol;
+        // simplestyle has no opacity for a marker, so ours is prefixed
+        if (st.alpha < 1) p['jem-marker-opacity'] = st.alpha;
       }
       if (kind === 'polygon') {
         p.fill = st.colour;
-        p['fill-opacity'] = st.fill ? 0.28 : 0;
+        p['fill-opacity'] = st.fillAlpha;
       }
       if (kind === 'line' && st.dash) p['jem-dash'] = true;
       return p;
@@ -10002,26 +10028,79 @@ window.JMAP_INLINE_FINE = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<svg xmln
       return d + (close ? 'Z' : '');
     }
 
-    function markerShape(symbol, r, colour) {
-      if (symbol === 'diamond') {
-        return host.svgEl('path', { d: 'M0 ' + (-r) + 'L' + r + ' 0L0 ' + r + 'L' + (-r) + ' 0Z',
-          fill: colour, stroke: '#fffdf8', 'stroke-width': 1.2 });
+    /* Every mark carries a pale casing so that a dark one reads over dark
+       ground and a pale one over pale — the same trick the mandate lines use.
+       The two open shapes, `cross` and `plus`, have no fill to put a casing
+       round, so they are drawn twice instead: a thick light stroke under a
+       thin coloured one. */
+    function markerShape(symbol, r, colour, alpha) {
+      var g = host.svgEl('g', {});
+      var solid = function (attrs) {
+        attrs.fill = colour;
+        attrs.stroke = '#fffdf8';
+        attrs['stroke-width'] = 1.2;
+        attrs['fill-opacity'] = alpha;
+        attrs['stroke-opacity'] = Math.min(1, alpha + 0.15);
+        g.appendChild(host.svgEl(symbol === 'square' ? 'rect' : 'path', attrs));
+        return g;
+      };
+      var open = function (d, w) {
+        g.appendChild(host.svgEl('path', { d: d, fill: 'none', stroke: '#fffdf8',
+          'stroke-width': w + 2, 'stroke-linecap': 'round', 'stroke-opacity': alpha }));
+        g.appendChild(host.svgEl('path', { d: d, fill: 'none', stroke: colour,
+          'stroke-width': w, 'stroke-linecap': 'round', 'stroke-opacity': alpha }));
+        return g;
+      };
+      var poly = function (pts) {
+        return pts.map(function (p, i) { return (i ? 'L' : 'M') + p[0] + ' ' + p[1]; }).join('') + 'Z';
+      };
+      switch (symbol) {
+        case 'ring':
+          g.appendChild(host.svgEl('circle', { r: r, fill: 'none', stroke: '#fffdf8',
+            'stroke-width': r * 0.85 + 2, 'stroke-opacity': alpha * 0.9 }));
+          g.appendChild(host.svgEl('circle', { r: r, fill: 'none', stroke: colour,
+            'stroke-width': r * 0.85, 'stroke-opacity': alpha }));
+          return g;
+        case 'square':
+          return solid({ x: -r * 0.85, y: -r * 0.85, width: r * 1.7, height: r * 1.7 });
+        case 'triangle':
+          return solid({ d: poly([[0, -r * 1.15], [r, r * 0.8], [-r, r * 0.8]]) });
+        case 'down-triangle':
+          return solid({ d: poly([[0, r * 1.15], [r, -r * 0.8], [-r, -r * 0.8]]) });
+        case 'diamond':
+          return solid({ d: poly([[0, -r], [r, 0], [0, r], [-r, 0]]) });
+        case 'star': {
+          var pts = [];
+          for (var i = 0; i < 10; i++) {
+            var a = -Math.PI / 2 + i * Math.PI / 5;
+            var rr = i % 2 ? r * 0.46 : r * 1.2;
+            pts.push([Math.round(Math.cos(a) * rr * 100) / 100,
+                      Math.round(Math.sin(a) * rr * 100) / 100]);
+          }
+          return solid({ d: poly(pts) });
+        }
+        case 'cross':
+          return open('M' + (-r) + ' ' + (-r) + 'L' + r + ' ' + r
+                    + 'M' + r + ' ' + (-r) + 'L' + (-r) + ' ' + r, Math.max(1.6, r * 0.42));
+        case 'plus':
+          return open('M0 ' + (-r * 1.15) + 'L0 ' + (r * 1.15)
+                    + 'M' + (-r * 1.15) + ' 0L' + (r * 1.15) + ' 0', Math.max(1.6, r * 0.42));
+        case 'pin':
+          // a teardrop standing on the point it marks, so the coordinate is the
+          // tip and not the middle of a blob
+          return solid({ d: 'M0 0C' + (-r * 1.5) + ' ' + (-r * 1.5) + ' ' + (-r) + ' ' + (-r * 2.9)
+            + ' 0 ' + (-r * 2.9) + 'C' + r + ' ' + (-r * 2.9) + ' ' + (r * 1.5) + ' '
+            + (-r * 1.5) + ' 0 0Z' });
+        default:
+          return solid({ d: 'M' + (-r) + ' 0A' + r + ' ' + r + ' 0 1 0 ' + r
+            + ' 0A' + r + ' ' + r + ' 0 1 0 ' + (-r) + ' 0Z' });
       }
-      if (symbol === 'square') {
-        return host.svgEl('rect', { x: -r * 0.85, y: -r * 0.85, width: r * 1.7, height: r * 1.7,
-          fill: colour, stroke: '#fffdf8', 'stroke-width': 1.2 });
-      }
-      if (symbol === 'triangle') {
-        return host.svgEl('path', { d: 'M0 ' + (-r * 1.1) + 'L' + (r) + ' ' + (r * 0.8)
-          + 'L' + (-r) + ' ' + (r * 0.8) + 'Z',
-          fill: colour, stroke: '#fffdf8', 'stroke-width': 1.2 });
-      }
-      return host.svgEl('circle', { r: r, fill: colour, stroke: '#fffdf8', 'stroke-width': 1.2 });
     }
 
-    function addMarker(symbol, lon, lat, colour, size, cls, meta) {
+    function addMarker(symbol, lon, lat, colour, size, cls, meta, alpha) {
       var g = host.svgEl('g', { 'class': 'ann-mark ' + cls });
-      g.appendChild(markerShape(symbol, 2.6 + size * 0.9, colour));
+      g.appendChild(markerShape(symbol, 2.6 + size * 0.9, colour,
+        alpha === undefined ? 1 : alpha));
       var p = host.project(lon, lat);
       host.addScalable({ el: g, x: p.x, y: p.y });
       if (meta) {
@@ -10062,11 +10141,14 @@ window.JMAP_INLINE_FINE = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<svg xmln
 
         if (kind === 'point' || kind === 'event') {
           var sym = p['marker-symbol'] || 'circle';
+          var alpha = p['jem-marker-opacity'];
+          if (alpha === undefined) alpha = p['stroke-opacity'];
+          if (!isFinite(alpha)) alpha = 1;
           rings.forEach(function (ring, ri) {
             ring.forEach(function (pt, vi) {
               if (!ok2(pt)) return;
               group.appendChild(addMarker(sym, pt[0], pt[1], colour, width, cls,
-                { i: i, r: ri, v: vi }));
+                { i: i, r: ri, v: vi }, alpha));
             });
           });
         } else {
@@ -10076,6 +10158,7 @@ window.JMAP_INLINE_FINE = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<svg xmln
             var attrs = {
               'class': 'ann-f ann-shape' + (i === sel ? ' sel' : ''),
               'data-ann': i,
+              'data-shape': '1',
               d: pathFor(ring, closed),
               stroke: p.stroke || colour,
               'stroke-width': width,
@@ -10178,11 +10261,54 @@ window.JMAP_INLINE_FINE = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<svg xmln
       redraw();
     }
 
+    /* The pointer over one of the reader's own marks: its name and its
+       description, in the map's own tooltip.
+
+       This is what makes the names switch a display choice rather than a loss.
+       Forty thousand names written across a map are unreadable and a set that
+       size arrives with them off — but every one of them is still *there*, and
+       pointing at the mark says what it is. It is also the only way to read a
+       description, which never goes on the map at any setting.
+
+       Returns true when it has taken the pointer, so the country underneath is
+       not named over the top of it. */
+    function hover(target, cx, cy) {
+      if (!on || tool || dragging) return false;
+      var el = target && target.closest ? target.closest('[data-ann]') : null;
+      if (!el) return false;
+      var f = feats[parseInt(el.getAttribute('data-ann'), 10)];
+      if (!f) return false;
+      var p = f.properties || {};
+      var name = (p.title || '').toString().trim();
+      var desc = (p.description || '').toString().trim();
+      var meas = measureOf(f);
+      if (!name && !desc) name = kindOf(f).charAt(0).toUpperCase() + kindOf(f).slice(1);
+      host.tip(name, [desc, meas].filter(Boolean).join('  ·  '), cx, cy);
+      return true;
+    }
+
     /* A tap on the map. Returns true when it has taken it, so the map's own
        selection never also happens. */
-    function tap(cx, cy) {
+    function tap(cx, cy, target) {
       if (!on) return false;
-      if (!tool) return false;
+      /* With no tool out, a tap on one of the reader's own marks selects it —
+         its name and description in the fields, ready to edit. Shapes take the
+         pointer now so that hovering can name them, which means a tap inside a
+         drawn area no longer reaches the country underneath; answering with
+         the mark itself is the useful thing to do with it rather than nothing. */
+      if (!tool) {
+        var el = target && target.closest ? target.closest('[data-ann]') : null;
+        var i = el ? parseInt(el.getAttribute('data-ann'), 10) : -1;
+        if (feats[i]) {
+          sel = i;
+          syncFields();
+          drawList();
+          redraw();
+          if (panel && panel.classList.contains('folded')) fold(false);
+          return true;
+        }
+        return false;
+      }
       var pt = host.clientToSvg(cx, cy);
       var ll = host.unproject(pt.x, pt.y);
       if (!isFinite(ll.lon) || !isFinite(ll.lat)) return true;
@@ -10345,6 +10471,10 @@ window.JMAP_INLINE_FINE = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<svg xmln
         var b = $(s);
         if (b) b.disabled = none;
       });
+      if (none) {
+        var warn = $('#ann-warn');
+        if (warn) warn.hidden = true;
+      }
       var count = $('#ann-count');
       if (count) {
         count.textContent = none ? ''
@@ -10374,12 +10504,20 @@ window.JMAP_INLINE_FINE = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<svg xmln
       if (f) {
         var p = f.properties || {};
         var col = $('#ann-colour'), sz = $('#ann-size'),
-            fill = $('#ann-fill'), dash = $('#ann-dash'), sym = $('#ann-symbol');
+            op = $('#ann-opacity'), fop = $('#ann-fillop'),
+            dash = $('#ann-dash'), sym = $('#ann-symbol');
         if (col && (p['marker-color'] || p.stroke)) col.value = p['marker-color'] || p.stroke;
         if (sz && isFinite(parseFloat(p['stroke-width']))) {
           sz.value = Math.max(1, Math.min(6, Math.round(parseFloat(p['stroke-width']))));
         }
-        if (fill && p['fill-opacity'] !== undefined) fill.checked = p['fill-opacity'] > 0;
+        if (op) {
+          var a = p['jem-marker-opacity'];
+          if (a === undefined) a = p['stroke-opacity'];
+          op.value = Math.round((isFinite(a) ? a : 1) * 100);
+        }
+        if (fop && p['fill-opacity'] !== undefined) {
+          fop.value = Math.round(parseFloat(p['fill-opacity']) * 100);
+        }
         if (dash) dash.checked = !!p['jem-dash'];
         if (sym && p['marker-symbol'] && SYMBOLS.indexOf(p['marker-symbol']) >= 0) {
           sym.value = p['marker-symbol'];
@@ -10408,15 +10546,18 @@ window.JMAP_INLINE_FINE = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<svg xmln
       var kind = kindOf(f);
       p.stroke = st.colour;
       p['stroke-width'] = st.size;
+      p['stroke-opacity'] = st.alpha;
       if (kind === 'point' || kind === 'event') {
         p['marker-color'] = st.colour;
         p['marker-size'] = st.size <= 2 ? 'small' : (st.size >= 5 ? 'large' : 'medium');
         // an event stays a diamond; a point takes whichever symbol is chosen
         if (kind === 'point') p['marker-symbol'] = st.symbol;
+        if (st.alpha < 1) p['jem-marker-opacity'] = st.alpha;
+        else delete p['jem-marker-opacity'];
       }
       if (kind === 'polygon') {
         p.fill = st.colour;
-        p['fill-opacity'] = st.fill ? 0.28 : 0;
+        p['fill-opacity'] = st.fillAlpha;
       }
       if (kind === 'line') {
         if (st.dash) p['jem-dash'] = true; else delete p['jem-dash'];
@@ -10572,13 +10713,18 @@ window.JMAP_INLINE_FINE = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<svg xmln
       if (!list.length) { say('That file has no features with geometry in it.', 'bad'); return false; }
       var verts = countVerts(list) + (merge ? countVerts(feats) : 0);
       if (verts > ANN_MAX_VERTS) {
-        say('That would come to ' + verts.toLocaleString() + ' points, past the '
-          + ANN_MAX_VERTS.toLocaleString() + ' this map will draw. Nothing was loaded.', 'bad');
+        say('That would come to ' + verts.toLocaleString() + ' points across '
+          + (list.length + (merge ? feats.length : 0)).toLocaleString() + ' features, past the '
+          + ANN_MAX_VERTS.toLocaleString() + ' points this map will draw. '
+          + 'Nothing was loaded — simplify it and try again.', 'bad');
         return false;
       }
       snapshot();
       var fresh = adopt(list, merge ? feats.length : 0);
       feats = merge ? feats.concat(fresh) : fresh;
+      var quiet = feats.length > ANN_QUIET_FEATURES || countVerts(feats) > ANN_QUIET_VERTS;
+      var names = $('#ann-names');
+      if (quiet && names && names.checked) names.checked = false;
       if (!merge) sourceName = (name || '').replace(/\.(geo)?json$/i, '');
       sel = feats.length ? (merge ? feats.length - fresh.length : 0) : -1;
       changed(true);
@@ -10586,15 +10732,18 @@ window.JMAP_INLINE_FINE = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<svg xmln
       say((merge ? 'Added ' : 'Loaded ') + fresh.length + ' feature'
         + (fresh.length === 1 ? '' : 's') + ' — ' + countVerts(fresh).toLocaleString()
         + ' point' + (countVerts(fresh) === 1 ? '' : 's')
-        + (zoomed ? ', and the map has moved to them.' : '.'));
+        + (zoomed ? ', and the map has moved to them' : '')
+        + (quiet ? '. Names are off — that is too many to write on the map at '
+                 + 'once; switch "Names on the map" back on if you want them.' : '.'));
       return true;
     }
 
     function loadFile(file, merge) {
       if (!file) return;
       if (file.size > ANN_MAX_BYTES) {
-        say('That file is ' + Math.round(file.size / 1048576) + ' MB, past the '
-          + Math.round(ANN_MAX_BYTES / 1048576) + ' MB this map will read.', 'bad');
+        say('That file is ' + (file.size / 1048576).toFixed(1) + ' MB, past the '
+          + Math.round(ANN_MAX_BYTES / 1048576) + ' MB this map will read. '
+          + 'Cut it down in QGIS or split it, and load the parts.', 'bad');
         return;
       }
       var fr = new FileReader();
@@ -10702,20 +10851,46 @@ window.JMAP_INLINE_FINE = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<svg xmln
        string that is already there — synchronous, inside the gesture, allowed
        everywhere. */
     function prepLink() {
-      if (!linkDirty || !feats.length) return;
+      var warn = $('#ann-warn');
+      if (!feats.length) {
+        if (warn) warn.hidden = true;
+        return;
+      }
+      if (!linkDirty) return;
       var mine = feats;
       pack(collection()).then(function (code) {
         if (feats !== mine) return;              // it changed again while we packed
         linkCode = code;
         linkDirty = false;
-        var b = $('#ann-link');
-        if (b) {
-          b.disabled = false;
-          b.title = code.length > ANN_URL_MAX
-            ? 'Too much to put in a link — save the file instead'
-            : 'Copy a link that carries these annotations';
-        }
+        tellLinkSize();
       }, function () { linkCode = null; });
+    }
+
+    /* Whether these will go in a link, said before the reader presses the
+       button rather than after. A set loaded from a file is very often past
+       it — `india-rivers` packs to 160,000 characters against a ceiling of
+       6,000 — and being told that only on pressing Copy link is being told it
+       at the wrong moment. The line names both numbers and how far over. */
+    function tellLinkSize() {
+      var warn = $('#ann-warn'), b = $('#ann-link');
+      if (!warn || !b) return;
+      if (!linkCode || !feats.length) { warn.hidden = true; return; }
+      var over = linkCode.length > ANN_URL_MAX;
+      b.classList.toggle('too-big', over);
+      b.title = over
+        ? 'Too much for a link — save the file instead'
+        : 'Copy a link that carries these annotations';
+      if (!over) {
+        warn.hidden = true;
+        return;
+      }
+      warn.hidden = false;
+      warn.textContent = 'Too much for a link: these '
+        + feats.length.toLocaleString() + ' features come to '
+        + linkCode.length.toLocaleString() + ' characters compressed, '
+        + Math.round(linkCode.length / ANN_URL_MAX) + '× the '
+        + ANN_URL_MAX.toLocaleString() + ' an address can carry. '
+        + 'Save file works; Copy link cannot. Fewer or simpler features would fit.';
     }
 
     function linkUrl() {
@@ -10804,10 +10979,19 @@ window.JMAP_INLINE_FINE = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<svg xmln
           '<label>Colour <input type="color" id="ann-colour" value="#1b1b1b"></label>' +
           '<label>Weight <input type="range" id="ann-size" min="1" max="6" step="1" value="3"></label>' +
           '<label>Shape <select id="ann-symbol">' +
-            '<option value="circle">Dot</option><option value="square">Square</option>' +
-            '<option value="triangle">Triangle</option><option value="diamond">Diamond</option>' +
+            '<option value="circle">Dot</option>' +
+            '<option value="ring">Ring</option>' +
+            '<option value="square">Square</option>' +
+            '<option value="triangle">Triangle</option>' +
+            '<option value="down-triangle">Triangle, down</option>' +
+            '<option value="diamond">Diamond</option>' +
+            '<option value="star">Star</option>' +
+            '<option value="cross">Cross</option>' +
+            '<option value="plus">Plus</option>' +
+            '<option value="pin">Pin</option>' +
           '</select></label>' +
-          '<label class="ann-check"><input type="checkbox" id="ann-fill" checked> Fill areas</label>' +
+          '<label>Opacity <input type="range" id="ann-opacity" min="10" max="100" step="5" value="100"></label>' +
+          '<label>Fill <input type="range" id="ann-fillop" min="0" max="100" step="5" value="28"></label>' +
           '<label class="ann-check"><input type="checkbox" id="ann-dash"> Dashed lines</label>' +
           '<label class="ann-check"><input type="checkbox" id="ann-names" checked> Names on the map</label>' +
         '</div>' +
@@ -10815,6 +10999,7 @@ window.JMAP_INLINE_FINE = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<svg xmln
         '<label class="ann-field">Description <textarea id="ann-desc" rows="3" maxlength="2000" placeholder="What should a reader know?"></textarea></label>' +
         '<p class="ann-measure" id="ann-measure"></p>' +
         '<ul id="ann-list" aria-label="Your annotations"></ul>' +
+        '<p class="ann-warn" id="ann-warn" hidden></p>' +
         '<div class="ann-actions">' +
           '<button type="button" id="ann-save">Save file</button>' +
           '<button type="button" id="ann-link">Copy link</button>' +
@@ -10856,7 +11041,7 @@ window.JMAP_INLINE_FINE = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<svg xmln
        rather than in `styles.css` for the same reason the code is here: a
        reader who never annotates should not download the rules for a panel
        they will never see. */
-    var CSS = "/* ------------------------------------------------------------ annotations */\n\n/* The panel lives in the rail with the legend and the card. On a phone the\n   rail is a sheet over the map, which is the same place the card goes, and\n   the same rules carry it. */\n#annotate {\n  position: absolute;\n  left: max(10px, var(--safe-l));\n  top: 10px;\n  width: min(46vw, 280px);\n  max-height: calc(100% - 20px);\n  overflow-y: auto;\n  padding: 10px;\n  background: rgba(255, 253, 248, .97);\n  border: 1px solid var(--line);\n  border-radius: 8px;\n  box-shadow: var(--shadow);\n  font-size: 12.5px;\n  z-index: 6;\n}\n\n#annotate .ann-head {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  gap: 8px;\n  margin-bottom: 8px;\n}\n\n#annotate .ann-head strong {\n  font-size: 11.5px;\n  font-weight: 700;\n  letter-spacing: .08em;\n  text-transform: uppercase;\n  color: var(--muted);\n}\n\n#ann-close {\n  border: 0;\n  background: none;\n  font: inherit;\n  font-size: 17px;\n  line-height: 1;\n  padding: 2px 4px;\n  color: var(--muted);\n  cursor: pointer;\n}\n#ann-close:hover { color: var(--ink); }\n\n#annotate .ann-tools {\n  display: grid;\n  grid-template-columns: repeat(4, 1fr);\n  gap: 4px;\n}\n\n#annotate .ann-tool {\n  padding: 6px 2px;\n  border: 1px solid var(--line);\n  border-radius: 6px;\n  background: #fff;\n  font: inherit;\n  font-size: 11.5px;\n  color: var(--ink);\n  cursor: pointer;\n}\n#annotate .ann-tool:hover { border-color: var(--muted); }\n#annotate .ann-tool.on {\n  background: var(--ink);\n  border-color: var(--ink);\n  color: #fffdf8;\n}\n\n#annotate .ann-hint {\n  margin: 6px 0 8px;\n  color: var(--muted);\n  font-size: 11.5px;\n  line-height: 1.35;\n}\n\n/* `display` on a class beats the user agent's `[hidden] { display: none }`,\n   so the row of finish-and-cancel buttons stood there from the moment the\n   panel opened, offering to finish a shape nobody had started. */\n#annotate .ann-drawing {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 4px;\n  margin-bottom: 8px;\n}\n#annotate .ann-drawing[hidden] { display: none; }\n#annotate .ann-drawing button {\n  padding: 5px 8px;\n  border: 1px solid var(--line);\n  border-radius: 6px;\n  background: #fff;\n  font: inherit;\n  font-size: 11.5px;\n  cursor: pointer;\n}\n#annotate #ann-finish { background: var(--ink); border-color: var(--ink); color: #fffdf8; }\n\n#annotate .ann-style {\n  display: flex;\n  flex-wrap: wrap;\n  align-items: center;\n  gap: 4px 10px;\n  margin-bottom: 8px;\n}\n#annotate .ann-style label {\n  display: flex;\n  align-items: center;\n  gap: 5px;\n  font-size: 11.5px;\n  color: var(--muted);\n}\n#annotate .ann-style input[type=\"color\"] {\n  width: 26px;\n  height: 20px;\n  padding: 0;\n  border: 1px solid var(--line);\n  border-radius: 4px;\n  background: none;\n  cursor: pointer;\n}\n#annotate .ann-style input[type=\"range\"] { width: 74px; }\n\n#annotate .ann-field {\n  display: block;\n  margin-bottom: 7px;\n  font-size: 11.5px;\n  color: var(--muted);\n}\n#annotate .ann-field input,\n#annotate .ann-field textarea {\n  display: block;\n  width: 100%;\n  margin-top: 3px;\n  padding: 5px 6px;\n  border: 1px solid var(--line);\n  border-radius: 5px;\n  background: #fff;\n  font: inherit;\n  font-size: 12.5px;\n  color: var(--ink);\n  resize: vertical;\n}\n#annotate .ann-field input:disabled,\n#annotate .ann-field textarea:disabled { background: #f4f1ea; color: var(--muted); }\n\n#ann-list {\n  list-style: none;\n  margin: 0 0 8px;\n  padding: 0;\n  max-height: 172px;\n  overflow-y: auto;\n}\n#ann-list li {\n  display: flex;\n  align-items: center;\n  gap: 4px;\n  border-bottom: 1px solid var(--line);\n}\n#ann-list li.sel { background: rgba(0, 0, 0, .05); }\n#ann-list .ann-pick {\n  flex: 1 1 auto;\n  min-width: 0;\n  text-align: left;\n  padding: 5px 4px;\n  border: 0;\n  background: none;\n  font: inherit;\n  font-size: 12px;\n  color: var(--ink);\n  cursor: pointer;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n#ann-list .ann-del {\n  flex: 0 0 auto;\n  border: 0;\n  background: none;\n  font: inherit;\n  font-size: 14px;\n  line-height: 1;\n  padding: 3px 5px;\n  color: var(--muted);\n  cursor: pointer;\n}\n#ann-list .ann-del:hover { color: #8c2f39; }\n\n#annotate .ann-actions {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 5px;\n}\n#annotate .ann-actions button {\n  padding: 6px 9px;\n  border: 1px solid var(--line);\n  border-radius: 6px;\n  background: #fff;\n  font: inherit;\n  font-size: 11.5px;\n  cursor: pointer;\n}\n#annotate .ann-actions button:disabled { opacity: .45; cursor: default; }\n#annotate #ann-save { background: var(--ink); border-color: var(--ink); color: #fffdf8; }\n#annotate #ann-save:disabled { background: var(--muted); border-color: var(--muted); }\n\n.ann-msg {\n  margin: 8px 0 0;\n  font-size: 11.5px;\n  line-height: 1.4;\n  color: var(--muted);\n}\n/* An error is the one message that has to be read, so it is the one that is\n   coloured and that stays until something replaces it. */\n.ann-msg.bad { color: #8c2f39; font-weight: 600; }\n\n/* the marks themselves */\n#annotations { pointer-events: none; }\n#annotations .ann-shape { vector-effect: non-scaling-stroke; stroke-linejoin: round; }\n#annotations .ann-draft {\n  vector-effect: non-scaling-stroke;\n  stroke-dasharray: 5 4;\n  opacity: .8;\n}\n#annotations .sel { filter: drop-shadow(0 0 3px rgba(0, 0, 0, .55)); }\n\n/* a pen, not a pointer */\n#map-container.ann-drawing { cursor: crosshair; }\n\n/* Below the rail's breakpoint both the legend and this panel float in the\n   top-left corner of the map, and the annotation panel is the taller of the\n   two \u2014 so they were drawn one over the other, the legend's colours showing\n   faintly through. While a reader is drawing, the panel is what they are\n   using; the legend stands down and comes back when the panel closes. */\n/* Below the rail's breakpoint the panel docks to the foot of the screen\n   rather than floating in the top-left corner, where it took a third of a\n   phone and covered half the map's width \u2014 and where it stood on top of the\n   legend, which had to be hidden to make room. A sheet along the bottom\n   leaves the map whole above it, puts the tools under the thumb, and lets the\n   legend stay where it was. */\n@media (max-width: 999.98px) {\n  #annotate {\n    left: 0;\n    right: 0;\n    top: auto;\n    bottom: 0;\n    width: auto;\n    max-width: none;\n    max-height: 46vh;\n    border-width: 1px 0 0;\n    border-radius: 12px 12px 0 0;\n    padding: 8px 12px calc(10px + var(--safe-b, 0px));\n    box-shadow: 0 -4px 18px rgba(0, 0, 0, .16);\n  }\n  /* folded it is a bar the map can be worked around */\n  #annotate.folded { max-height: none; }\n  /* and with a tool out it keeps the tools and the hint and nothing else */\n  #annotate.tooling .ann-style,\n  #annotate.tooling .ann-field,\n  #annotate.tooling .ann-measure,\n  #annotate.tooling #ann-list,\n  #annotate.tooling .ann-actions,\n  #annotate.tooling .ann-link-out { display: none; }\n  #annotate .ann-style { gap: 6px 14px; }\n  #ann-list { max-height: 120px; }\n}\n\n@media (prefers-color-scheme: dark) {\n  #annotate { background: rgba(20, 26, 32, .97); }\n  #annotate .ann-tool,\n  #annotate .ann-drawing button,\n  #annotate .ann-actions button,\n  #annotate .ann-field input,\n  #annotate .ann-field textarea,\n  .ann-row button { background: #1b232b; color: var(--ink); }\n  #annotate .ann-field input:disabled,\n  #annotate .ann-field textarea:disabled { background: #161d24; }\n  #annotate .ann-tool.on,\n  #annotate #ann-finish,\n  #annotate #ann-save { background: var(--ink); color: #12181e; }\n  .ann-msg.bad { color: #e08b95; }\n}\n\n\n/* what the new controls need */\n#annotate .ann-style select {\n  padding: 2px 4px;\n  border: 1px solid var(--line);\n  border-radius: 4px;\n  background: #fff;\n  font: inherit;\n  font-size: 11.5px;\n  color: var(--ink);\n}\n\n#annotate .ann-foldbtn {\n  display: flex;\n  align-items: center;\n  gap: 7px;\n  flex: 1 1 auto;\n  min-width: 0;\n  padding: 3px 3px 3px 0;\n  border: 0;\n  background: none;\n  font: inherit;\n  color: var(--muted);\n  cursor: pointer;\n  text-align: left;\n}\n#annotate .ann-foldbtn strong {\n  font-size: 11.5px;\n  font-weight: 700;\n  letter-spacing: .08em;\n  text-transform: uppercase;\n}\n#annotate .ann-foldbtn:hover { color: var(--ink); }\n/* the caret is a square on one corner: its rotated bounding box is 1.41 times\n   its side, so it is given room rather than sticking out of the panel */\n#annotate .ann-foldbtn .caret {\n  flex: 0 0 auto;\n  width: 7px;\n  height: 7px;\n  margin-left: 2px;\n  border-right: 2px solid currentColor;\n  border-bottom: 2px solid currentColor;\n  transform: translateY(-2px) rotate(45deg);\n  transition: transform .15s ease;\n}\n#annotate.folded .ann-foldbtn .caret { transform: translateY(1px) rotate(-135deg); }\n#annotate.folded .ann-body { display: none; }\n#annotate .ann-count { font-size: 11px; color: var(--muted); }\n\n#annotate .ann-measure {\n  margin: 0 0 7px;\n  font-size: 11.5px;\n  font-variant-numeric: tabular-nums;\n  color: var(--muted);\n}\n\n#ann-list .ann-pick { display: flex; gap: 8px; align-items: baseline; }\n#ann-list .ann-name {\n  flex: 1 1 auto;\n  min-width: 0;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n#ann-list .ann-meas {\n  flex: 0 0 auto;\n  font-size: 10.5px;\n  font-variant-numeric: tabular-nums;\n  color: var(--muted);\n}\n#ann-list .ann-go {\n  flex: 0 0 auto;\n  border: 0;\n  background: none;\n  font: inherit;\n  font-size: 13px;\n  line-height: 1;\n  padding: 3px 4px;\n  color: var(--muted);\n  cursor: pointer;\n}\n#ann-list .ann-go:hover { color: var(--ink); }\n\n.ann-link-out { margin-top: 7px; }\n.ann-link-out input {\n  width: 100%;\n  padding: 5px 6px;\n  border: 1px solid var(--line);\n  border-radius: 5px;\n  background: #fff;\n  font: inherit;\n  font-size: 11px;\n  color: var(--ink);\n}\n\n/* a name the reader typed, written on the map beside its mark */\n#ann-labels .ann-label {\n  pointer-events: none;\n  text-anchor: middle;\n  paint-order: stroke;\n  stroke: #fffdf8;\n  stroke-width: 3.2px;\n  stroke-linejoin: round;\n  fill: #2b2b2b;\n  font-weight: 600;\n  font-size: 11px;\n}\n/* a vertex is a handle, so it takes the pointer where nothing else here does */\n#annotations .ann-mark { pointer-events: auto; cursor: grab; }\n#annotations .ann-vertex { opacity: .9; }\n#map-container.ann-drawing #annotations .ann-mark { pointer-events: none; }\n\n@media (prefers-color-scheme: dark) {\n  #annotate .ann-style select,\n  .ann-link-out input { background: #1b232b; color: var(--ink); }\n  #ann-labels .ann-label { stroke: #10161c; fill: #dfe6ec; }\n}\n\n@media (min-width: 1000px) {\n  #annotate {\n    position: relative;\n    inset: auto;\n    width: auto;\n    max-width: none;\n    max-height: none;\n    padding: 0;\n    background: transparent;\n    border: 0;\n    box-shadow: none;\n  }\n}\n";
+    var CSS = "/* ------------------------------------------------------------ annotations */\n\n/* The panel lives in the rail with the legend and the card. On a phone the\n   rail is a sheet over the map, which is the same place the card goes, and\n   the same rules carry it. */\n#annotate {\n  position: absolute;\n  left: max(10px, var(--safe-l));\n  top: 10px;\n  width: min(46vw, 280px);\n  max-height: calc(100% - 20px);\n  overflow-y: auto;\n  padding: 10px;\n  background: rgba(255, 253, 248, .97);\n  border: 1px solid var(--line);\n  border-radius: 8px;\n  box-shadow: var(--shadow);\n  font-size: 12.5px;\n  z-index: 6;\n}\n\n#annotate .ann-head {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  gap: 8px;\n  margin-bottom: 8px;\n}\n\n#annotate .ann-head strong {\n  font-size: 11.5px;\n  font-weight: 700;\n  letter-spacing: .08em;\n  text-transform: uppercase;\n  color: var(--muted);\n}\n\n#ann-close {\n  border: 0;\n  background: none;\n  font: inherit;\n  font-size: 17px;\n  line-height: 1;\n  padding: 2px 4px;\n  color: var(--muted);\n  cursor: pointer;\n}\n#ann-close:hover { color: var(--ink); }\n\n#annotate .ann-tools {\n  display: grid;\n  grid-template-columns: repeat(4, 1fr);\n  gap: 4px;\n}\n\n#annotate .ann-tool {\n  padding: 6px 2px;\n  border: 1px solid var(--line);\n  border-radius: 6px;\n  background: #fff;\n  font: inherit;\n  font-size: 11.5px;\n  color: var(--ink);\n  cursor: pointer;\n}\n#annotate .ann-tool:hover { border-color: var(--muted); }\n#annotate .ann-tool.on {\n  background: var(--ink);\n  border-color: var(--ink);\n  color: #fffdf8;\n}\n\n#annotate .ann-hint {\n  margin: 6px 0 8px;\n  color: var(--muted);\n  font-size: 11.5px;\n  line-height: 1.35;\n}\n\n/* `display` on a class beats the user agent's `[hidden] { display: none }`,\n   so the row of finish-and-cancel buttons stood there from the moment the\n   panel opened, offering to finish a shape nobody had started. */\n#annotate .ann-drawing {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 4px;\n  margin-bottom: 8px;\n}\n#annotate .ann-drawing[hidden] { display: none; }\n#annotate .ann-drawing button {\n  padding: 5px 8px;\n  border: 1px solid var(--line);\n  border-radius: 6px;\n  background: #fff;\n  font: inherit;\n  font-size: 11.5px;\n  cursor: pointer;\n}\n#annotate #ann-finish { background: var(--ink); border-color: var(--ink); color: #fffdf8; }\n\n#annotate .ann-style {\n  display: flex;\n  flex-wrap: wrap;\n  align-items: center;\n  gap: 4px 10px;\n  margin-bottom: 8px;\n}\n#annotate .ann-style label {\n  display: flex;\n  align-items: center;\n  gap: 5px;\n  font-size: 11.5px;\n  color: var(--muted);\n}\n#annotate .ann-style input[type=\"color\"] {\n  width: 26px;\n  height: 20px;\n  padding: 0;\n  border: 1px solid var(--line);\n  border-radius: 4px;\n  background: none;\n  cursor: pointer;\n}\n#annotate .ann-style input[type=\"range\"] { width: 74px; }\n\n#annotate .ann-field {\n  display: block;\n  margin-bottom: 7px;\n  font-size: 11.5px;\n  color: var(--muted);\n}\n#annotate .ann-field input,\n#annotate .ann-field textarea {\n  display: block;\n  width: 100%;\n  margin-top: 3px;\n  padding: 5px 6px;\n  border: 1px solid var(--line);\n  border-radius: 5px;\n  background: #fff;\n  font: inherit;\n  font-size: 12.5px;\n  color: var(--ink);\n  resize: vertical;\n}\n#annotate .ann-field input:disabled,\n#annotate .ann-field textarea:disabled { background: #f4f1ea; color: var(--muted); }\n\n#ann-list {\n  list-style: none;\n  margin: 0 0 8px;\n  padding: 0;\n  max-height: 172px;\n  overflow-y: auto;\n}\n#ann-list li {\n  display: flex;\n  align-items: center;\n  gap: 4px;\n  border-bottom: 1px solid var(--line);\n}\n#ann-list li.sel { background: rgba(0, 0, 0, .05); }\n#ann-list .ann-pick {\n  flex: 1 1 auto;\n  min-width: 0;\n  text-align: left;\n  padding: 5px 4px;\n  border: 0;\n  background: none;\n  font: inherit;\n  font-size: 12px;\n  color: var(--ink);\n  cursor: pointer;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n#ann-list .ann-del {\n  flex: 0 0 auto;\n  border: 0;\n  background: none;\n  font: inherit;\n  font-size: 14px;\n  line-height: 1;\n  padding: 3px 5px;\n  color: var(--muted);\n  cursor: pointer;\n}\n#ann-list .ann-del:hover { color: #8c2f39; }\n\n#annotate .ann-actions {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 5px;\n}\n#annotate .ann-actions button {\n  padding: 6px 9px;\n  border: 1px solid var(--line);\n  border-radius: 6px;\n  background: #fff;\n  font: inherit;\n  font-size: 11.5px;\n  cursor: pointer;\n}\n#annotate .ann-actions button:disabled { opacity: .45; cursor: default; }\n#annotate #ann-save { background: var(--ink); border-color: var(--ink); color: #fffdf8; }\n#annotate #ann-save:disabled { background: var(--muted); border-color: var(--muted); }\n\n.ann-msg {\n  margin: 8px 0 0;\n  font-size: 11.5px;\n  line-height: 1.4;\n  color: var(--muted);\n}\n/* An error is the one message that has to be read, so it is the one that is\n   coloured and that stays until something replaces it. */\n.ann-msg.bad { color: #8c2f39; font-weight: 600; }\n\n/* the standing note about a set too big for a link */\n.ann-warn {\n  margin: 0 0 7px;\n  padding: 6px 8px;\n  border-radius: 5px;\n  background: rgba(140, 47, 57, .09);\n  font-size: 11.5px;\n  line-height: 1.4;\n  color: #8c2f39;\n}\n#annotate .ann-actions button.too-big {\n  opacity: .55;\n  text-decoration: line-through;\n}\n\n/* the marks themselves */\n#annotations { pointer-events: none; }\n#annotations .ann-shape { vector-effect: non-scaling-stroke; stroke-linejoin: round; }\n#annotations .ann-draft {\n  vector-effect: non-scaling-stroke;\n  stroke-dasharray: 5 4;\n  opacity: .8;\n}\n#annotations .sel { filter: drop-shadow(0 0 3px rgba(0, 0, 0, .55)); }\n\n/* a pen, not a pointer */\n#map-container.ann-drawing { cursor: crosshair; }\n\n/* Below the rail's breakpoint both the legend and this panel float in the\n   top-left corner of the map, and the annotation panel is the taller of the\n   two \u2014 so they were drawn one over the other, the legend's colours showing\n   faintly through. While a reader is drawing, the panel is what they are\n   using; the legend stands down and comes back when the panel closes. */\n/* Below the rail's breakpoint the panel docks to the foot of the screen\n   rather than floating in the top-left corner, where it took a third of a\n   phone and covered half the map's width \u2014 and where it stood on top of the\n   legend, which had to be hidden to make room. A sheet along the bottom\n   leaves the map whole above it, puts the tools under the thumb, and lets the\n   legend stay where it was. */\n@media (max-width: 999.98px) {\n  #annotate {\n    left: 0;\n    right: 0;\n    top: auto;\n    bottom: 0;\n    width: auto;\n    max-width: none;\n    max-height: 46vh;\n    border-width: 1px 0 0;\n    border-radius: 12px 12px 0 0;\n    padding: 8px 12px calc(10px + var(--safe-b, 0px));\n    box-shadow: 0 -4px 18px rgba(0, 0, 0, .16);\n  }\n  /* folded it is a bar the map can be worked around */\n  #annotate.folded { max-height: none; }\n  /* and with a tool out it keeps the tools and the hint and nothing else */\n  #annotate.tooling .ann-style,\n  #annotate.tooling .ann-field,\n  #annotate.tooling .ann-measure,\n  #annotate.tooling #ann-list,\n  #annotate.tooling .ann-actions,\n  #annotate.tooling .ann-link-out { display: none; }\n  #annotate .ann-style { gap: 6px 14px; }\n  #ann-list { max-height: 120px; }\n}\n\n@media (prefers-color-scheme: dark) {\n  #annotate { background: rgba(20, 26, 32, .97); }\n  #annotate .ann-tool,\n  #annotate .ann-drawing button,\n  #annotate .ann-actions button,\n  #annotate .ann-field input,\n  #annotate .ann-field textarea,\n  .ann-row button { background: #1b232b; color: var(--ink); }\n  #annotate .ann-field input:disabled,\n  #annotate .ann-field textarea:disabled { background: #161d24; }\n  #annotate .ann-tool.on,\n  #annotate #ann-finish,\n  #annotate #ann-save { background: var(--ink); color: #12181e; }\n  .ann-msg.bad { color: #e08b95; }\n  .ann-warn { background: rgba(224, 139, 149, .14); color: #e08b95; }\n}\n\n\n/* what the new controls need */\n#annotate .ann-style select {\n  padding: 2px 4px;\n  border: 1px solid var(--line);\n  border-radius: 4px;\n  background: #fff;\n  font: inherit;\n  font-size: 11.5px;\n  color: var(--ink);\n}\n\n#annotate .ann-foldbtn {\n  display: flex;\n  align-items: center;\n  gap: 7px;\n  flex: 1 1 auto;\n  min-width: 0;\n  padding: 3px 3px 3px 0;\n  border: 0;\n  background: none;\n  font: inherit;\n  color: var(--muted);\n  cursor: pointer;\n  text-align: left;\n}\n#annotate .ann-foldbtn strong {\n  font-size: 11.5px;\n  font-weight: 700;\n  letter-spacing: .08em;\n  text-transform: uppercase;\n}\n#annotate .ann-foldbtn:hover { color: var(--ink); }\n/* the caret is a square on one corner: its rotated bounding box is 1.41 times\n   its side, so it is given room rather than sticking out of the panel */\n#annotate .ann-foldbtn .caret {\n  flex: 0 0 auto;\n  width: 7px;\n  height: 7px;\n  margin-left: 2px;\n  border-right: 2px solid currentColor;\n  border-bottom: 2px solid currentColor;\n  transform: translateY(-2px) rotate(45deg);\n  transition: transform .15s ease;\n}\n#annotate.folded .ann-foldbtn .caret { transform: translateY(1px) rotate(-135deg); }\n#annotate.folded .ann-body { display: none; }\n#annotate .ann-count { font-size: 11px; color: var(--muted); }\n\n#annotate .ann-measure {\n  margin: 0 0 7px;\n  font-size: 11.5px;\n  font-variant-numeric: tabular-nums;\n  color: var(--muted);\n}\n\n#ann-list .ann-pick { display: flex; gap: 8px; align-items: baseline; }\n#ann-list .ann-name {\n  flex: 1 1 auto;\n  min-width: 0;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n#ann-list .ann-meas {\n  flex: 0 0 auto;\n  font-size: 10.5px;\n  font-variant-numeric: tabular-nums;\n  color: var(--muted);\n}\n#ann-list .ann-go {\n  flex: 0 0 auto;\n  border: 0;\n  background: none;\n  font: inherit;\n  font-size: 13px;\n  line-height: 1;\n  padding: 3px 4px;\n  color: var(--muted);\n  cursor: pointer;\n}\n#ann-list .ann-go:hover { color: var(--ink); }\n\n.ann-link-out { margin-top: 7px; }\n.ann-link-out input {\n  width: 100%;\n  padding: 5px 6px;\n  border: 1px solid var(--line);\n  border-radius: 5px;\n  background: #fff;\n  font: inherit;\n  font-size: 11px;\n  color: var(--ink);\n}\n\n/* a name the reader typed, written on the map beside its mark */\n#ann-labels .ann-label {\n  pointer-events: none;\n  text-anchor: middle;\n  paint-order: stroke;\n  stroke: #fffdf8;\n  stroke-width: 3.2px;\n  stroke-linejoin: round;\n  fill: #2b2b2b;\n  font-weight: 600;\n  font-size: 11px;\n}\n/* A mark is a handle, so it takes the pointer where nothing else here does.\n   A shape takes it on its stroke and on its fill where it has one, so that\n   pointing at an outlined area anywhere inside it still names it \u2014 `all`\n   rather than `visiblePainted`, because a fill at zero opacity is still the\n   thing the reader drew and still has a name. */\n#annotations .ann-mark { pointer-events: auto; cursor: grab; }\n#annotations .ann-shape { pointer-events: all; }\n#annotations .ann-vertex { opacity: .9; }\n#map-container.ann-drawing #annotations .ann-mark { pointer-events: none; }\n\n@media (prefers-color-scheme: dark) {\n  #annotate .ann-style select,\n  .ann-link-out input { background: #1b232b; color: var(--ink); }\n  #ann-labels .ann-label { stroke: #10161c; fill: #dfe6ec; }\n}\n\n@media (min-width: 1000px) {\n  #annotate {\n    position: relative;\n    inset: auto;\n    width: auto;\n    max-width: none;\n    max-height: none;\n    padding: 0;\n    background: transparent;\n    border: 0;\n    box-shadow: none;\n  }\n}\n";
 
     function addCss() {
       if (document.getElementById('ann-css')) return;
@@ -10902,7 +11087,7 @@ window.JMAP_INLINE_FINE = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<svg xmln
       ['ann-title', 'ann-desc'].forEach(function (id) {
         $('#' + id, panel).addEventListener('input', fieldChanged);
       });
-      ['ann-colour', 'ann-size', 'ann-fill', 'ann-dash', 'ann-symbol'].forEach(function (id) {
+      ['ann-colour', 'ann-size', 'ann-opacity', 'ann-fillop', 'ann-dash', 'ann-symbol'].forEach(function (id) {
         var el = $('#' + id, panel);
         el.addEventListener('input', styleChanged);
         el.addEventListener('change', styleChanged);
@@ -11025,6 +11210,7 @@ window.JMAP_INLINE_FINE = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<svg xmln
       active: function () { return on; },
       drawing: function () { return on && !!tool; },
       tap: tap,
+      hover: hover,
       grab: grab,
       drag: drag,
       drop: drop,
@@ -14261,7 +14447,7 @@ window.JMAP_INLINE_FINE = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<svg xmln
             pendingTap = 0;
             handleTap(t, tx, ty);
           }, 300);
-        } else if (!(annApi && annApi.tap(e.clientX, e.clientY))) {
+        } else if (!(annApi && annApi.tap(e.clientX, e.clientY, downTarget))) {
           // a drawing tool takes the tap when one is armed, so that placing a
           // point never also selects the country under it
           handleTap(downTarget, e.clientX, e.clientY);
@@ -14962,6 +15148,12 @@ window.JMAP_INLINE_FINE = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<svg xmln
     // While a drawing tool is armed the pointer is a pen, and naming whatever
     // it passes over is both noise and a lie about what a click will do.
     if (annApi && annApi.drawing()) { setHot(null); setHotProv(null); hideTooltip(); return; }
+    // and a mark of the reader's own answers for itself, over the country it
+    // happens to sit on
+    if (annApi && annApi.hover(e.target, e.clientX, e.clientY)) {
+      setHot(null); setHotProv(null); setSubsAtom(null);
+      return;
+    }
     if (state.mode === 'quiz' || dragStart || marquee) {
       setHot(null); setHotProv(null); setSubsAtom(null); return;
     }
@@ -16989,6 +17181,28 @@ window.JMAP_INLINE_FINE = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<svg xmln
         applyView(true);
         return true;
       },
+      /* The map's own tooltip, lent out. A reader's mark has a name and a
+         description of its own and this is where they are read — which is
+         what lets the names be switched off the map without being lost. */
+      tip: function (title, sub, cx, cy) {
+        if (!tooltip) return;
+        var key = 'ann|' + title + '|' + sub;
+        tipAt = { x: cx, y: cy };
+        if (key !== tipKey || tooltip.hidden) {
+          tipKey = key;
+          tooltip.innerHTML = '';
+          tooltip.appendChild(document.createTextNode(title));
+          if (sub) {
+            var el = document.createElement('span');
+            el.className = 'sub prov-note';
+            el.textContent = sub;
+            tooltip.appendChild(el);
+          }
+          tooltip.hidden = false;
+        }
+        if (!tipFrame) tipFrame = requestAnimationFrame(placeTooltip);
+      },
+      untip: function () { hideTooltip(); },
       /* What the map calls the place under the pointer, so that dropping a
          mark on Mukden can name it Mukden without the reader typing it. */
       placeAt: function (cx, cy) {

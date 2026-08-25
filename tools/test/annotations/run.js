@@ -59,8 +59,10 @@ console.log('\n— styling —');
   await p.evaluate(()=>{const c=document.querySelector('#ann-colour'); c.value='#8c2f39'; c.dispatchEvent(new Event('input',{bubbles:true}));
     const s=document.querySelector('#ann-symbol'); s.value='triangle'; s.dispatchEvent(new Event('change',{bubbles:true}));});
   await sleep(400);
+  // the shape is a <g> of one or two elements now, so ask any of them
   check('the colour reaches the drawn mark',
-    await p.evaluate(()=>{const m=document.querySelector('#annotations .ann-mark *'); return m.getAttribute('fill')==='#8c2f39';}));
+    await p.evaluate(()=>[...document.querySelectorAll('#annotations .ann-mark *')]
+      .some(e=>e.getAttribute('fill')==='#8c2f39'||e.getAttribute('stroke')==='#8c2f39')));
   check('the shape changes to a triangle',
     await p.evaluate(()=>document.querySelector('#annotations .ann-mark path')!==null));
   check('and it is recorded as simplestyle',

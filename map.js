@@ -3224,7 +3224,7 @@
             pendingTap = 0;
             handleTap(t, tx, ty);
           }, 300);
-        } else if (!(annApi && annApi.tap(e.clientX, e.clientY))) {
+        } else if (!(annApi && annApi.tap(e.clientX, e.clientY, downTarget))) {
           // a drawing tool takes the tap when one is armed, so that placing a
           // point never also selects the country under it
           handleTap(downTarget, e.clientX, e.clientY);
@@ -3925,6 +3925,12 @@
     // While a drawing tool is armed the pointer is a pen, and naming whatever
     // it passes over is both noise and a lie about what a click will do.
     if (annApi && annApi.drawing()) { setHot(null); setHotProv(null); hideTooltip(); return; }
+    // and a mark of the reader's own answers for itself, over the country it
+    // happens to sit on
+    if (annApi && annApi.hover(e.target, e.clientX, e.clientY)) {
+      setHot(null); setHotProv(null); setSubsAtom(null);
+      return;
+    }
     if (state.mode === 'quiz' || dragStart || marquee) {
       setHot(null); setHotProv(null); setSubsAtom(null); return;
     }
@@ -5952,6 +5958,28 @@
         applyView(true);
         return true;
       },
+      /* The map's own tooltip, lent out. A reader's mark has a name and a
+         description of its own and this is where they are read — which is
+         what lets the names be switched off the map without being lost. */
+      tip: function (title, sub, cx, cy) {
+        if (!tooltip) return;
+        var key = 'ann|' + title + '|' + sub;
+        tipAt = { x: cx, y: cy };
+        if (key !== tipKey || tooltip.hidden) {
+          tipKey = key;
+          tooltip.innerHTML = '';
+          tooltip.appendChild(document.createTextNode(title));
+          if (sub) {
+            var el = document.createElement('span');
+            el.className = 'sub prov-note';
+            el.textContent = sub;
+            tooltip.appendChild(el);
+          }
+          tooltip.hidden = false;
+        }
+        if (!tipFrame) tipFrame = requestAnimationFrame(placeTooltip);
+      },
+      untip: function () { hideTooltip(); },
       /* What the map calls the place under the pointer, so that dropping a
          mark on Mukden can name it Mukden without the reader typing it. */
       placeAt: function (cx, cy) {
