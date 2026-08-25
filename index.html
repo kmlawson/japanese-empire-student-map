@@ -7,7 +7,7 @@
 <meta name="description" content="Interactive map for revising the geography of the Japanese Empire: colonies, occupied territories, neighbouring states, cities and battles, 1853-1945.">
 <title>The Japanese Empire</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23f4f1ea'/%3E%3Ccircle cx='16' cy='16' r='8' fill='%239a1813'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=e3c50323a0">
+<link rel="stylesheet" href="styles.css?v=7ab425933c">
 </head>
 <body>
 
@@ -26,10 +26,10 @@
   <div class="seg" role="group" aria-label="Date shown" id="epoch-seg"></div>
 
   <div class="seg toggles" role="group" aria-label="What is shown" id="layer-seg">
-    <button type="button" data-cat="city" class="on" aria-pressed="true" aria-label="Cities"><span class="wide">Cities</span><span class="mid">Cities</span><span class="narrow"><i class="g dot"></i></span></button>
-    <button type="button" data-cat="battle" class="on" aria-pressed="true" aria-label="Events"><span class="wide">Events</span><span class="mid">Events</span><span class="narrow"><i class="g diamond"></i></span></button>
-    <button type="button" data-cat="territory" class="on" aria-pressed="true" aria-label="Administrative"><span class="wide">Administrative</span><span class="mid">Admin</span><span class="narrow"><i class="g block"></i></span></button>
-    <button type="button" data-opt="labels" aria-pressed="false" aria-label="Other" title="Names of countries and regions on the map"><span class="wide">Other</span><span class="mid">Other</span><span class="narrow"><i class="g name"></i></span></button>
+    <button type="button" data-cat="city" class="on" aria-pressed="true" aria-label="Cities" title="Towns and cities, with their names as they were used at the time"><span class="wide">Cities</span><span class="mid">Cities</span><span class="narrow"><i class="g dot"></i></span></button>
+    <button type="button" data-cat="battle" class="on" aria-pressed="true" aria-label="Events" title="Battles, incidents and other dated events"><span class="wide">Events</span><span class="mid">Events</span><span class="narrow"><i class="g diamond"></i></span></button>
+    <button type="button" data-cat="territory" class="on" aria-pressed="true" aria-label="Administrative" title="Provinces, prefectures and other divisions inside each country"><span class="wide">Administrative</span><span class="mid">Admin</span><span class="narrow"><i class="g block"></i></span></button>
+    <button type="button" data-opt="labels" aria-pressed="false" aria-label="Other" title="Names of countries, regions and physical features on the map"><span class="wide">Other</span><span class="mid">Other</span><span class="narrow"><i class="g name"></i></span></button>
   </div>
 
   <!-- The two 1942 controls, in the bar rather than three presses deep in the
@@ -44,16 +44,16 @@
   </div>
   <div class="seg" role="group" aria-label="Occupied China" id="occ-seg" hidden>
     <button type="button" data-occ="traced" class="on"
-            title="1942 general occupation extent">General</button>
+            title="The simplified maximum extent of Japanese control in China">Max</button>
     <button type="button" data-occ="nca"
-            title="North China Area Army report, September 1942">Army report</button>
+            title="The North China Area Army’s own map of pacified and un-pacified areas, September 1942">Army Report</button>
     <button type="button" data-occ="none"
-            title="Hide the Japanese occupation map">Hide</button>
+            title="Draw no occupation layer over China at all">Hide</button>
   </div>
 
   <span class="spacer"></span>
-  <button type="button" id="btn-options" class="plain" aria-haspopup="dialog">Layers</button>
-  <button type="button" id="btn-about" class="plain" aria-haspopup="dialog">About</button>
+  <button type="button" id="btn-options" class="plain" aria-haspopup="dialog" title="Projection, rivers, the occupation layers, and what the map covers">Layers</button>
+  <button type="button" id="btn-about" class="plain" aria-haspopup="dialog" title="What this map is, where it comes from, and how to use it">About</button>
 </header>
 
 <main id="stage">
@@ -157,10 +157,11 @@
   <label class="row"><input type="checkbox" id="opt-mono"> Make the map a single colour</label>
   <hr>
   <h3>Annotations</h3>
-  <div class="row ann-row">
-    <button type="button" id="ann-create" class="plain">Create annotations</button>
-    <button type="button" id="ann-load" class="plain">Load annotations…</button>
+  <div class="row ann-row" id="ann-row">
+    <button type="button" id="ann-create" class="plain" title="Draw your own points, arrows, lines and areas over the map">Create annotations</button>
+    <button type="button" id="ann-load" class="plain" title="Open a GeoJSON file you or somebody else saved">Load annotations…</button>
   </div>
+  <p class="hint" id="ann-toosmall" hidden>Annotation features are not supported on small screens.</p>
   <input type="file" id="ann-file" accept=".geojson,.json,application/geo+json,application/json" hidden>
   <div id="about-slot" hidden></div>
 </dialog>
@@ -215,13 +216,13 @@
 
   <p>Built with Anthropic's Claude, with <a href="https://muninn.net/">Konrad M. Lawson</a> at the prompt, primarily as a tool for students in his University of St Andrews honours module, <a href="https://github.com/kmlawson/japanese-empire-mo3335/">MO3335</a>.</p>
 
-  <p>Code for the website may be found <a href="https://github.com/kmlawson/japanese-empire-student-map">here</a>.</p>  <p class="version">Version <span id="jem-version">1.48</span> · last updated 25 August 2026, 16:53</p>
+  <p>Code for the website may be found <a href="https://github.com/kmlawson/japanese-empire-student-map">here</a>.</p>  <p class="version">Version <span id="jem-version">1.49</span> · last updated 25 August 2026, 17:07</p>
 
 <!-- END about -->
 </dialog>
 
-<script src="data.js?v=35c41c39b6"></script>
+<script src="data.js?v=1fd9f4a14c"></script>
 <script src="cities-gaz.js?v=88a319fe12"></script>
-<script src="map.js?v=583f038c33"></script>
+<script src="map.js?v=fb3502465b"></script>
 </body>
 </html>

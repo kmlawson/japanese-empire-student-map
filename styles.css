@@ -193,7 +193,7 @@ body {
 }
 
 .seg button:first-child { border-left: 0; }
-.seg button:hover { background: #f2ede2; color: var(--ink); }
+.seg button:hover { background: var(--hover-fill); color: var(--ink); }
 
 .seg button.on {
   background: var(--accent);
@@ -887,6 +887,16 @@ button.plain:hover { background: #f2ede2; }
    convention in English but shouts the romanisations in the other two
    columns, so territories are set apart by size and colour instead. */
 .tlabel { fill: #4a3b2a; letter-spacing: .07em; font-weight: 700; }
+
+/* A division of a country, named as one: lighter and a shade less black than
+   the country it sits inside. Without it Suiyuan, Chahar, Jehol and Sinkiang
+   were set in the same weight as China beside them and read as four more
+   countries. */
+.tlabel.sub { font-weight: 600; fill: #4a453c; letter-spacing: 0; }
+@media (prefers-color-scheme: dark) {
+  .tlabel.sub { fill: #b9bfc6; }
+}
+
 .slabel { fill: #14304a; font-weight: 600; }
 
 @keyframes flash {
@@ -1358,9 +1368,12 @@ dialog label.row {
   font-size: 14.5px;
 }
 
-dialog input[type="checkbox"] {
+dialog input[type="checkbox"],
+dialog input[type="radio"] {
   width: 18px;
   height: 18px;
+  /* the map's own red, not the browser's blue for one and green for the other:
+     two colours doing one job in the same dialog */
   accent-color: var(--accent);
   flex: 0 0 auto;
 }
@@ -1375,8 +1388,13 @@ dialog h3 {
 
 /* The layer switches are three independent toggles sharing one shell, so
    several can be lit at once; the level control below is still one-of-three. */
-.seg.toggles button.on { background: var(--ink); }
-.seg.toggles button.on:hover { background: #3a352c; }
+/* A pressed layer button. On a light page this is dark ink under pale text;
+   in dark it has to go the other way, a light fill under dark text, or it is
+   near-white on near-white — which is what "too little contrast between the
+   selected button and the text inside it" was. Both come from one pair of
+   tokens so the two can never drift apart again. */
+.seg.toggles button.on { background: var(--on-fill); color: var(--on-ink); }
+.seg.toggles button.on:hover { filter: brightness(.92); }
 
 /* On a phone the three words would take a whole row of the header to
    themselves. They shrink to the marks the map already uses -- the city dot,
@@ -1864,8 +1882,15 @@ dialog h3 {
 }
 
 @media (prefers-color-scheme: dark) {
-  .flabel.f-sea { fill: #93b4cc; stroke: rgba(0, 0, 0, .45); }
-  .flabel.f-land { fill: #c2ac8e; stroke: rgba(0, 0, 0, .45); }
+  /* A feature name has to hold over two very different grounds — the dark sea
+     and the pale yellow of China — so it is given a dark halo heavy enough to
+     carry it over the light one and a fill light enough to carry it over the
+     dark. Reported against the Taklamakan, which is written across the palest
+     ground on the map. */
+  .flabel.f-sea { fill: #a8c6dc; stroke: rgba(6, 12, 18, .78); stroke-width: 3.4px; }
+  .flabel.f-land { fill: #d8c49f; stroke: rgba(6, 12, 18, .78); stroke-width: 3.4px; }
+  /* and the 1942 perimeter, which is a dark red dash over a dark sea */
+  #extent-1942 { stroke: #e0808a; opacity: .85; }
 }
 
 

@@ -7072,6 +7072,36 @@ halo that was still making it findable. Measured: two shapes before, two after,
 at `fill-opacity 0.1 / stroke-opacity 0.2`. The label is what misled, and the
 label is being changed.
 
+
+## Dark mode retuned, four provinces stop pretending to be countries, and the bar explains itself
+
+* **Suiyuan, Chahar, Jehol and Sinkiang were set in a country's weight.** They
+  are territories in this file because they were governed apart, and that made
+  them *look* like four more countries beside China. A `sub` column marks a
+  division; its name is 11.07px against a country's 13.5 and a shade lighter.
+  Measured: four labels carry it, and China does not.
+* **The ocean was a step too dark** — `#16303f` to `#1d3d4f`.
+* **A pressed layer button was near-white text on a near-white fill.** On a
+  light page it is dark ink under pale text; inverted it has to go the other
+  way. Both come from one pair of tokens now, so the two cannot drift apart.
+* **The radios take the map's own red**, like the checkboxes beside them: a
+  green radio next to a red checkbox is two colours doing one job.
+* **The feature names** — the Taklamakan is the case — carry a heavier dark
+  halo and a lighter fill, because they have to hold over the dark sea *and*
+  over the palest yellow on the map.
+* **The 1942 perimeter** was a dark red dash on a dark sea; it is a light red
+  one in dark mode.
+* **General is Max, Army report is Army Report**, and every control in the bar
+  now says what it does on hover — including the two date buttons, whose
+  tooltips are set where they are built.
+* **On an area, "Opacity" is called "Stroke"**, because that is what it is: the
+  slider beside it is the fill's. The old name is what "the polygon
+  disappeared" was.
+* **The drawing tools are withdrawn below 700px**, with a line in Layers saying
+  so. They need a panel with room for four tools, eight controls, four fields
+  and a list, and a map to draw on beside it; below that the reader is drawing
+  through a letterbox.
+
 ---
 
 ## Sources worth fetching

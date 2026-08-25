@@ -284,25 +284,27 @@ JMAP.TERRITORIES = {
     {
       id: 'jehol', en: 'Rèhé (Jehol)', ja: '熱河 (Nekka)', orig: '熱河省 (Rèhé shěng)', zh: '熱河省',
       when: 'Chinese province from 1928', cat: 'chinese', lvl: 3, atoms: ['jehol'],
-      within: 'china', wiki: 'https://en.wikipedia.org/wiki/Rehe_Province',
+      within: 'china', wiki: 'https://en.wikipedia.org/wiki/Rehe_Province', sub: '1',
       note: 'The province between the Great Wall and Manchuria, made a full province in 1928. Japan took it in February and March 1933 and attached it to Manchukuo.'
     },
     {
       id: 'chahar', en: 'Cháhā’ěr (Chahar)', ja: '察哈爾 (Chaharu)', orig: '察哈爾', zh: '察哈爾',
       ko: '차하얼성', when: 'Chinese province from 1928', cat: 'chinese', lvl: 3, atoms: ['chahar'],
-      within: 'china', wiki: 'https://en.wikipedia.org/wiki/Chahar_Province',
+      within: 'china', wiki: 'https://en.wikipedia.org/wiki/Chahar_Province', sub: '1',
       note: 'The steppe province north-west of the Wall, made a province in 1928 out of one of the old frontier special districts, with Zhangjiakou at its gate — the Kalgan of the caravan trade, where the brick tea and wool of Outer Mongolia came south. From 1936 the Mongol prince Demchugdongrub headed a Japanese-sponsored government in the north of it; after Japan took Zhangjiakou in 1937 that grew, with the Chinese autonomous governments of southern Chahar and northern Shanxi, into the client regime of Mengchiang, federated in 1939 and governed from Zhangjiakou. The province was abolished in 1952 and divided between Hebei, Shanxi and Inner Mongolia.'
     },
     {
       id: 'suiyuan', en: 'Suíyuǎn (Suiyuan)', ja: '綏遠 (Suien)', orig: '綏遠', zh: '綏遠',
       ko: '쑤이위안성', when: 'Chinese province from 1928', cat: 'chinese', lvl: 3,
       atoms: ['suiyuan'], within: 'china', wiki: 'https://en.wikipedia.org/wiki/Suiyuan',
+      sub: '1',
       note: 'The northern bend of the Yellow River, irrigated at Hetao and dry beyond it, with Baotou the wool railhead of the steppe and the western end of the Beijing–Suiyuan railway. Also a province from 1928, and in 1930 within Yan Xishan\'s reach from Shanxi; Fu Zuoyi took the chairmanship in 1931 and held the western half of it through the whole war. The eastern half is what Mengchiang held after 1937. Abolished in 1954 into Inner Mongolia.'
     },
     {
       id: 'xinjiang', en: 'Xīnjiāng (Sinkiang)', ja: '新疆 (Shinkyō)', orig: 'شىنجاڭ (Shinjang)',
       zh: '新疆', when: 'Under largely autonomous provincial rule', cat: 'chinese', lvl: 3,
       atoms: ['xinjiang'], within: 'china', wiki: 'https://en.wikipedia.org/wiki/Xinjiang',
+      sub: '1',
       note: 'Oasis towns round the rim of the Taklamakan, watered off the Tian Shan and the Kunlun, growing cotton, wheat and melons, with pastoral country in the north; Uyghur, Kazakh and Hui more than Han, and Turkic and Muslim more than Chinese. A quarter of the Republic\'s area and about one per cent of its people. A province in name, and Nanjing recognised Jin Shuren as its chairman after Yang Zengxin was assassinated in 1928 — but the government ran its own army, currency, finances and foreign trade, its roads and its telegraph ran to Soviet Central Asia rather than to China, and Nanjing\'s writ reached almost nothing of it.'
     },
     {
@@ -1021,6 +1023,7 @@ JMAP.TERRITORIES = {
       id: 'xinjiang', en: 'Xīnjiāng (Sinkiang)', ja: '新疆 (Shinkyō)', orig: 'شىنجاڭ (Shinjang)',
       zh: '新疆', when: 'Realigned with Chungking in 1942', cat: 'freechina', lvl: 3,
       atoms: ['xinjiang'], within: 'freechina', wiki: 'https://en.wikipedia.org/wiki/Xinjiang',
+      sub: '1',
       note: 'Oasis towns round the rim of the Taklamakan, watered off the Tian Shan and the Kunlun, growing cotton, wheat and melons, with pastoral country in the north; Uyghur, Kazakh and Hui more than Han, and its trade running to Soviet Central Asia rather than to China. A province in name only. A Muslim rising in 1931 grew into the East Turkestan Republic proclaimed at Kashgar in 1933 and put down with Soviet help; Sheng Shicai then governed on Soviet money, with Soviet advisers, aircraft and a garrison at Hami, running the province as a Soviet dependency in all but name. He broke with Moscow in 1942 and turned to Chongqing — he was still governing in December — and within two years had lost the confidence of both.'
     },
     {

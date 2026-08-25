@@ -1152,6 +1152,14 @@
       if (shape) shape.hidden = kind !== 'point';
       if (fill) fill.hidden = kind !== 'polygon';
       if (edge) edge.hidden = kind !== 'polygon';
+      /* On an area this slider is the *outline's* opacity and the one beside
+         it is the fill's, so calling it "Opacity" invited the reader to read
+         it as the shape's. Turned down with the fill also low the shape becomes
+         a ghost, and clicking elsewhere takes away the halo that was still
+         making it findable — which is how "the polygon disappeared" was
+         reported. It is named for what it does. */
+      var opName = $('#ann-opacity-name');
+      if (opName) opName.textContent = kind === 'polygon' ? 'Stroke' : 'Opacity';
       if (dash) dash.hidden = kind !== 'line' && kind !== 'arrow';
       if (dist) dist.hidden = kind !== 'line';
       if (head) head.hidden = kind !== 'arrow';
@@ -2419,7 +2427,9 @@
             '<option value="fort">Fortification</option>' +
             '</optgroup>' +
           '</select></label>' +
-          '<label>Opacity <input type="range" id="ann-opacity" min="10" max="100" step="5" value="100"></label>' +
+          '<label id="ann-opacity-row">' +
+            '<span id="ann-opacity-name">Opacity</span> ' +
+            '<input type="range" id="ann-opacity" min="10" max="100" step="5" value="100"></label>' +
           '<label id="ann-fill-row">Fill <input type="range" id="ann-fillop" min="0" max="100" step="5" value="28"></label>' +
           '<label id="ann-edge-row">Edge <select id="ann-edge">' +
             '<option value="">Sharp</option>' +

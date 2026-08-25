@@ -1,70 +1,70 @@
-id,en,label,labelAt,ja,orig,zh,ko,when,rule,cat,lvl,c,atoms,within,under,hatch,edge,edgeAtoms,edgeClip,edgeWidth,outline,outlineColor,adminOnly,srcOnly,wiki
-japan,Japan,,,内地 (Naichi),日本 (Nihon),日本內地,,The metropole,,metropole,1,,japan,,,,,,,,,,,,https://en.wikipedia.org/wiki/Empire_of_Japan
-ryukyu,Ryūkyū and Ōsumi Islands,,,沖縄県・鹿児島県 (Okinawa-ken・Kagoshima-ken),琉球 (Ruuchuu),琉球・沖繩縣,,Annexed 1879,"Okinawa Prefecture, and Kagoshima from the Amami group north",metropole,1,,ryukyu,,,,,,,,,,,,https://en.wikipedia.org/wiki/Ryukyu_Islands
-ogasawara,Bonin Islands (Ogasawara),,,小笠原諸島 (Ogasawara Shotō),小笠原諸島,小笠原群島,,Claimed 1876,"Japanese, part of Tokyo prefecture",metropole,3,,ogasawara,,,,,,,,,,,,https://en.wikipedia.org/wiki/Bonin_Islands
-chishima,Kurile Islands (Chishima),,,千島列島 (Chishima Rettō),Курильские острова,千島群島,,Japanese from 1875,,metropole,2,,chishima,,,,,,,,,,,,https://en.wikipedia.org/wiki/Kuril_Islands
-chosen,Chōsen (Korea),,,朝鮮 (Chōsen),조선 (Chosŏn),朝鮮,조선 (Chosŏn),Annexed 1910–1945,,colony,1,,korea,,,,,,,,,,,,https://en.wikipedia.org/wiki/Korea_under_Japanese_rule
-formosa,Taiwan (Formosa),,,臺灣 (Taiwan),臺灣 (Tâi-oân),臺灣,,Japanese colony 1895–1945,,colony,1,,taiwan,,,,,,,,,,,,https://en.wikipedia.org/wiki/Taiwan_under_Japanese_rule
-karafuto,Karafuto (southern Sakhalin),,,樺太 (Karafuto),Южный Сахалин,樺太（南薩哈林）,가라후토청,Japanese 1905–1945,,colony,1,,karafuto,,,,,,,,,,,,https://en.wikipedia.org/wiki/Karafuto_Prefecture
-kwantung,Kwantung Leased Territory,,,関東州 (Kantōshū),關東州 (Guāndōngzhōu),關東州,관동주,Leased 1905–1945,,colony,2,,kwantung,,,,#9a1813,,,,,,,,https://en.wikipedia.org/wiki/Kwantung_Leased_Territory
-nanyo,South Seas Mandate,,,南洋群島 (Nan’yō Guntō),,南洋群島,,Japanese from 1914; League mandate from 1920,Japanese mandate,colony,2,,nanyo,,,,,,,,,,,,https://en.wikipedia.org/wiki/South_Seas_Mandate
-manchukuo,Manchukuo (Manchuria),,,満洲国 (Manshūkoku),滿洲國,滿洲國,만주국,Japanese-occupied; nominally independent from March 1932,,puppet,1,,manchukuo,,滿洲國,,,,,,,,,,https://en.wikipedia.org/wiki/Manchukuo
-mengjiang,Měngjiāng (Mengchiang),,,蒙古自治邦 (Mōko Jichihō),蒙古自治邦,蒙古自治邦,몽강연합자치정부,"Renamed the Mongol Autonomous Federation, August 1941; federated September 1939; Japanese client from 1936",,puppet,2,,mengjiang,,,,,,,,,,,,https://en.wikipedia.org/wiki/Mengjiang
-nanjinggov,Japanese-occupied China (approximate),Japanese-occupied,,日本占領地区,日軍佔領區,日軍佔領區（大略）,,Occupied from 1937; Nanking government from March 1940,,occupied,1,,occupiedzone,,,,,,,,,,,traced,https://en.wikipedia.org/wiki/Wang_Jingwei_regime
-indochina,French Indochina,,,仏印 (Futsuin),Đông Dương thuộc Pháp,法屬印度支那,,Occupied September 1940 – July 1941,,occupied,2,,indochina,,,,,,,,,,,,https://en.wikipedia.org/wiki/French_Indochina
-burma,Burma,,,緬甸 (Biruma),မြန်မာ (Myanma),緬甸,,Taken 1942; nominal independence August 1943,,occupied,2,,burma,,,,,,,,,,,,https://en.wikipedia.org/wiki/Japanese_occupation_of_Burma
-saharat,Kengtung and the trans-Salween Shan states,,,,สหรัฐไทยเดิม (Saharat Thai Doem),,,Thai-occupied 1942; transferred August 1943,,occupied,3,,saharat,,,thai,,,,,yes,#3da492,,,https://en.wikipedia.org/wiki/Saharat_Thai_Doem
-malaya,Malaya & Shōnantō (Singapore),,,馬来 (Marai)・昭南島 (Shōnantō),Tanah Melayu / Syonan,馬來亞・昭南島,,Invaded 8 December 1941; Singapore fell 15 February 1942,,occupied,1,,malaya christmas,,,,,,,,,,,,https://en.wikipedia.org/wiki/British_Malaya
-malaya_thai,"Kedah, Perlis, Kelantan & Trengganu",,,マレー北部四州,"Kedah, Perlis, Kelantan, Terengganu",馬來北部四邦,,"Transferred to Thailand, October 1943",,occupied,3,,malaya_thai,,,,,,,,yes,#dd3e2c,,,https://en.wikipedia.org/wiki/Si_Rat_Malai
-borneo_br,British Borneo (Kita Boruneo),Kita Boruneo,,北ボルネオ (Kita Boruneo),Borneo,英屬婆羅洲,,Landings 16 December 1941; British surrender 1 April 1942,,occupied,3,,sarawak northborneo brunei,,,,,,,,,,,,https://en.wikipedia.org/wiki/Japanese_occupation_of_British_Borneo
-dei,Netherlands East Indies,,,,Nederlandsch-Indië,,,Conquered January – March 1942,,occupied,1,,dei,,,,,,,,,,,,https://en.wikipedia.org/wiki/Dutch_East_Indies
-philippines,Philippine Islands,,,比島 (Hitō),Pilipinas,菲律賓,,Invaded December 1941; Corregidor fell 6 May 1942,,occupied,1,,philippines,,,,,,,,,,,,https://en.wikipedia.org/wiki/Commonwealth_of_the_Philippines
-hongkong,Hong Kong,,,香港 (Honkon),香港 (Hēunggóng),香港,,Attacked 8 December 1941; surrendered 25 December 1941,,occupied,2,,hongkong,,,,,,,,,,,,https://en.wikipedia.org/wiki/British_Hong_Kong
-turtle,Turtle & Mangsee Islands,,,,Kepulauan Penyu / Mangsee,,,"Taken with British Borneo, January 1942",Under Japanese occupation,occupied,4,,turtle mangsee,,,,,,,,,,,,"https://en.wikipedia.org/wiki/Turtle_Islands,_Tawi-Tawi"
-miangas,Miangas (Palmas),,,ミアンガス島,Miangas,,,"Taken with the Netherlands Indies, 1942",,occupied,4,,miangas,,,,,,,,,,,,https://en.wikipedia.org/wiki/Miangas
-cocos,Cocos (Keeling) Islands,,,,Pulu Kokos,,,Never occupied; shelled 25 December 1942,"British colony, run from Singapore — Allied throughout",allied,3,,cocos,,,raid,,,,,,,,,https://en.wikipedia.org/wiki/Cocos_(Keeling)_Islands
-spratly,Shinnan Guntō (Spratly & Paracel Islands),Spratly & Paracel Islands,,新南群島・西沙群島,Trường Sa / Hoàng Sa,南沙群島・西沙群島,,"Annexed to Taiwan, 30 March 1939","Japanese, administered from Takao in Taiwan",colony,3,,spratly paracel,,,,,,,,,,,,https://en.wikipedia.org/wiki/Spratly_Islands
-pratas,Dōngshā (Pratas Island),-,,東沙島 (Tōsa-tō),東沙島 (Dōngshā),東沙島,프라타스섬,Occupied by Japan,,occupied,3,,pratas,,,,,,,,,,,,https://en.wikipedia.org/wiki/Pratas_Island
-timor_pt,Portuguese Timor (contested),,,,Timor Português,,,Invaded February 1942; Allied withdrawal December 1942 – February 1943,,portuguese,3,,timor_pt,,,occupied,,,,,,,,,https://en.wikipedia.org/wiki/Portuguese_Timor
-wake,Wake Island,,,ウェーク島・大鳥島 (Ōtorishima),Wake,,,Taken 23 December 1941,American territory under Japanese occupation,occupied,3,,wake,,,,,,,,,,,,https://en.wikipedia.org/wiki/Wake_Island
-guam,Guam (Ōmiyajima),,,大宮島 (Ōmiyajima),Guåhan,關島,,Taken 10 December 1941,American territory under Japanese occupation,occupied,3,,guam,,,,,,,,,,,,https://en.wikipedia.org/wiki/Guam
-gilberts,Gilbert Islands,,,ギルバート諸島,Tungaru,吉爾伯特群島,,Occupied December 1941,British colony under Japanese occupation,occupied,3,,gilberts,,,,,,,,,,,,https://en.wikipedia.org/wiki/Gilbert_and_Ellice_Islands
-ellice,Ellice Islands,,,,,,,Never occupied; American bases from October 1942,British colony,allied,3,,ellice,,,us,,,,,,,,,https://en.wikipedia.org/wiki/Tuvalu
-linephoenix,The Line & Phoenix Islands,,,,,,,Never occupied,British colony,allied,3,,linephoenix,,,,,,,,,,,,https://en.wikipedia.org/wiki/Line_Islands
-uspacific,"Palmyra, Kingman Reef, Howland, Baker, Jarvis & Swains",,,,,,,Shelled December 1941; held throughout,American,american,3,,uspacific,,,,,,,,,,,,https://en.wikipedia.org/wiki/United_States_Minor_Outlying_Islands
-nzpacific,Tokelau & the northern Cook Islands,,,,,,,Never occupied,New Zealand administration,allied,3,,nzpacific,,,,,,,,,,,,https://en.wikipedia.org/wiki/Tokelau
-nauru_au,Nauru,,,ナウル,Naoero,諾魯,,Occupied August 1942,Mandate under Japanese occupation,occupied,3,,nauru_au,,,,,,,,,,,,https://en.wikipedia.org/wiki/Nauru
-andaman,Andaman & Nicobar Islands,,,安達曼・ニコバル諸島,Andaman & Nicobar,安達曼・尼科巴群島,,Occupied March 1942; ceded to Azad Hind December 1943,,occupied,2,,andaman,,,,,,,,,,,,https://en.wikipedia.org/wiki/Andaman_and_Nicobar_Islands
-newguinea_au,New Guinea (Papua & the Mandated Territory),,,ニューギニア,Niugini,新幾內亞,,Taken from Australia in 1942,"Australian territory and mandate, part under Japanese occupation",occupied,2,,newguinea_au,,,,,,,,,,,,https://en.wikipedia.org/wiki/Territory_of_Papua
-solomons_br,Western Solomons,,,ソロモン諸島西部,Solomon Islands,所羅門群島西部,,Occupied from early 1942,British protectorate under Japanese occupation,occupied,2,,solomons_br,,,,,,,,,,,,https://en.wikipedia.org/wiki/British_Solomon_Islands
-guadalcanal_i,Guadalcanal (contested),,,ガダルカナル島（争奪中）,Guadalcanal,瓜達爾卡納爾島（爭奪中）,,American landing 7 August 1942; fought over into February 1943,,occupied,2,,solomons_gc,,,us,,,,,,,,,https://en.wikipedia.org/wiki/Guadalcanal
-tulagi,Tulagi and the Florida Islands,,,ツラギ・フロリダ諸島,Tulagi,圖拉吉・佛羅里達群島,,Taken by the Americans 7–8 August 1942,,allied,3,,solomons_us,,,,,,,,,,,,https://en.wikipedia.org/wiki/Tulagi
-malaita,Malaita (never fully occupied),,,マライタ島,Malaita,馬萊塔島,,Raided but never held,,allied,3,,solomons_ml,,,,,,,,,,,,https://en.wikipedia.org/wiki/Malaita
-solomons_allied,The central & eastern Solomons and the Santa Cruz Islands,,,ソロモン諸島中部・東部・サンタクルーズ諸島,Makira / Nendö,所羅門群島中部・東部・聖克魯斯群島,,British throughout,,allied,3,,solomons_al,,,,,,,,,,,,https://en.wikipedia.org/wiki/Solomon_Islands_(archipelago)
-attukiska,Attu and Kiska,,,アッツ島・キスカ島,Atan / Qisxa,阿圖島・基斯卡島,,"Occupied June 1942; Attu retaken May 1943, Kiska evacuated July 1943",,occupied,3,,aleutians_jp,,,,,,,,,,,,https://en.wikipedia.org/wiki/Aleutian_Islands_campaign
-aleutians,Aleutian Islands,,,,Unangam Tanangin,阿留申群島,,"American throughout, but for Attu and Kiska",American territory,american,3,,aleutians,,,,,,,,,,,,https://en.wikipedia.org/wiki/Aleutian_Islands
-thailand,Thailand,,,,ประเทศไทย (Prathet Thai),,,Alliance signed 21 December 1941,,cobelligerent,2,,siam siamgain,,,,#8dd3c7,siam siamgain,100 11.5 106.2 20.6,6,,,,,https://en.wikipedia.org/wiki/Thailand_in_World_War_II
-cededthai,"Battambang & Siem Reap (ceded to Thailand, 1941)",,,泰国への割譲地 (1941),Phra Tabong / Phibunsongkhram / Lan Chang,割讓予泰國之地（1941）,,"Ceded 9 May 1941, returned 1946",,cobelligerent,4,,siamgain,,,,,,,,,,,,https://en.wikipedia.org/wiki/Franco-Thai_War
-freechina,Republic of China (Nationalist government),China,"106.5,29.5",中華民国・重慶政権 (Chūka Minkoku),中華民國 (Zhōnghuá Mínguó),中華民國（重慶國民政府）,,Capital at Chungking from 1938,,freechina,1,,china chahar suiyuan,,,,,,,,,,,,https://en.wikipedia.org/wiki/Republic_of_China_(1912%E2%80%931949)
-ccp,Communist base areas and guerrilla zones,,,中国共産党抗日根拠地,抗日根據地 (Kàngrì gēnjùdì),中共抗日根據地,,As they stood in 1941–1942,,ccp,2,,ccp,,,,,,,,,,,traced,https://en.wikipedia.org/wiki/Revolutionary_base_area
-britishindia,British India,,,,,,,The western limit of the advance,,allied,1,,india,,,,,,,,,,,,https://en.wikipedia.org/wiki/British_Raj
-goa,"Portuguese India — Goa, Damão, Diu, Dadra & Nagar Haveli",,"73.9,15.4",,Estado da Índia,,,Portuguese from 1510,,portuguese,3,,goa,,,,,,,,,,,,https://en.wikipedia.org/wiki/Portuguese_India
-pondicherry,"French India — Pondicherry, Karikal, Yanaon, Mahé, Chandernagore",,"79.83,11.93",,Établissements français dans l’Inde,,,French from 1674,,french,3,,pondicherry,,,,,,,,,,,,https://en.wikipedia.org/wiki/French_India
-princelystates,Princely states,-,,,,,,Rulers in subsidiary alliance with the Crown,,allied,3,,princely,,,,,,,,,,yes,,https://en.wikipedia.org/wiki/Princely_state
-ceylon,Ceylon,,,,ලංකාව (Lanka),錫蘭,,Raided April 1942,,allied,3,,ceylon,,,,,,,,,,,,https://en.wikipedia.org/wiki/British_Ceylon
-australia,Australia,,,,Australia,澳大利亞,,Bombed from February 1942,,allied,2,#c9a6b0,australia,,,,,,,,,,,,https://en.wikipedia.org/wiki/Australia
-hawaii,Hawaii,,,,Hawaiʻi,夏威夷,,Attacked 7 December 1941,American territory,american,1,,hawaii,,,,,,,,,,,,https://en.wikipedia.org/wiki/Territory_of_Hawaii
-ussr,Soviet Union (USSR),,"112.0,52.5",,СССР (SSSR),蘇聯,,"Neutrality Pact, April 1941",,neutral,1,,ussr,,,,,,,,,,,,https://en.wikipedia.org/wiki/Soviet_Union
-mongolia,Mongolian People’s Republic,,,,Бүгд Найрамдах Монгол Ард Улс,蒙古人民共和國,,Soviet satellite,,neutral,2,#d3d1e6,mongolia,,,,,,,,,,,,https://en.wikipedia.org/wiki/Mongolian_People's_Republic
-xinjiang,Xīnjiāng (Sinkiang),,,新疆 (Shinkyō),شىنجاڭ (Shinjang),新疆,,Realigned with Chungking in 1942,,freechina,3,,xinjiang,freechina,,,,,,,,,,,https://en.wikipedia.org/wiki/Xinjiang
-tibet,Tibet,,,チベット (Chibetto),བོད་ (Bod),西藏,,De facto independent,,frontier,3,,tibet,,,,,,,,,,,,https://en.wikipedia.org/wiki/Tibet_(1912%E2%80%931951)
-macau,Macao,,,マカオ (Makao),澳門 (Ou-mun),澳門,,Portuguese and neutral throughout,,portuguese,3,,macau,,,,,,,,,,,,https://en.wikipedia.org/wiki/Portuguese_Macau
-guangzhouwan,Guǎngzhōuwān (Kwangchowan),,,広州湾 (Kōshūwan),Kouang-Tchéou-Wan,廣州灣,,Leased to France 1898–1945,,french,3,,guangzhouwan,,,,,,,,,,,,https://en.wikipedia.org/wiki/Guangzhouwan
-tuva,Tannu Tuva (Tuvan People’s Republic),,,,Тыва Арат Республик,唐努圖瓦,,Independent in name from 1921,,neutral,3,#d3d1e6,tuva,,,,#bebada,,,,,,,,https://en.wikipedia.org/wiki/Tuvan_People's_Republic
-nepal,Nepal,,,,नेपाल (Nepāl),尼泊爾,,"Independent, in treaty with Britain",,other,2,#e2d9c6,nepal,,,,,,,,,,,,https://en.wikipedia.org/wiki/Kingdom_of_Nepal
-sikkim,Sikkim,,,,འབྲས་ལྗོངས (Drenjong),錫金,,"British protectorate from 1861, recognised by China 1890",,allied,2,#dcc2ce,sikkim,,,,,,,,,,,,https://en.wikipedia.org/wiki/Kingdom_of_Sikkim
-bhutan,Bhutan,,,,འབྲུག་ཡུལ (Druk Yul),不丹,,British protectorate from 1910,,other,2,#c9a6b0,bhutan,,,,,,,,,,,,https://en.wikipedia.org/wiki/Bhutan
-other,Afghanistan,,,,"Afghanistan, Nepal, Bhutan",阿富汗・尼泊爾・不丹,,,,other,3,,other,,,,,,,,,,,,https://en.wikipedia.org/wiki/Kingdom_of_Afghanistan
-nca_pacified,Pacified areas (治安地区),,,治安地区,,治安地區,,September 1942,The North China Area Army's own classification,pacified,3,,nca_pacified,,,,,,,,,,,nca,
-nca_unpacified,Un-pacified areas (未治安地区),,,未治安地区,,未治安地區,,September 1942,The North China Area Army's own classification,unpacified,3,,nca_unpacified,,,,,,,,,,,nca,
-contested,Border is contested or not fixed,-,,未確定国境,,未定國界,,,,contested,3,transparent,contested,,,unclear,,,,,,,,,
+id,en,label,labelAt,ja,orig,zh,ko,when,rule,cat,lvl,c,atoms,within,under,hatch,edge,edgeAtoms,edgeClip,edgeWidth,outline,outlineColor,adminOnly,srcOnly,wiki,sub
+japan,Japan,,,内地 (Naichi),日本 (Nihon),日本內地,,The metropole,,metropole,1,,japan,,,,,,,,,,,,https://en.wikipedia.org/wiki/Empire_of_Japan,
+ryukyu,Ryūkyū and Ōsumi Islands,,,沖縄県・鹿児島県 (Okinawa-ken・Kagoshima-ken),琉球 (Ruuchuu),琉球・沖繩縣,,Annexed 1879,"Okinawa Prefecture, and Kagoshima from the Amami group north",metropole,1,,ryukyu,,,,,,,,,,,,https://en.wikipedia.org/wiki/Ryukyu_Islands,
+ogasawara,Bonin Islands (Ogasawara),,,小笠原諸島 (Ogasawara Shotō),小笠原諸島,小笠原群島,,Claimed 1876,"Japanese, part of Tokyo prefecture",metropole,3,,ogasawara,,,,,,,,,,,,https://en.wikipedia.org/wiki/Bonin_Islands,
+chishima,Kurile Islands (Chishima),,,千島列島 (Chishima Rettō),Курильские острова,千島群島,,Japanese from 1875,,metropole,2,,chishima,,,,,,,,,,,,https://en.wikipedia.org/wiki/Kuril_Islands,
+chosen,Chōsen (Korea),,,朝鮮 (Chōsen),조선 (Chosŏn),朝鮮,조선 (Chosŏn),Annexed 1910–1945,,colony,1,,korea,,,,,,,,,,,,https://en.wikipedia.org/wiki/Korea_under_Japanese_rule,
+formosa,Taiwan (Formosa),,,臺灣 (Taiwan),臺灣 (Tâi-oân),臺灣,,Japanese colony 1895–1945,,colony,1,,taiwan,,,,,,,,,,,,https://en.wikipedia.org/wiki/Taiwan_under_Japanese_rule,
+karafuto,Karafuto (southern Sakhalin),,,樺太 (Karafuto),Южный Сахалин,樺太（南薩哈林）,가라후토청,Japanese 1905–1945,,colony,1,,karafuto,,,,,,,,,,,,https://en.wikipedia.org/wiki/Karafuto_Prefecture,
+kwantung,Kwantung Leased Territory,,,関東州 (Kantōshū),關東州 (Guāndōngzhōu),關東州,관동주,Leased 1905–1945,,colony,2,,kwantung,,,,#9a1813,,,,,,,,https://en.wikipedia.org/wiki/Kwantung_Leased_Territory,
+nanyo,South Seas Mandate,,,南洋群島 (Nan’yō Guntō),,南洋群島,,Japanese from 1914; League mandate from 1920,Japanese mandate,colony,2,,nanyo,,,,,,,,,,,,https://en.wikipedia.org/wiki/South_Seas_Mandate,
+manchukuo,Manchukuo (Manchuria),,,満洲国 (Manshūkoku),滿洲國,滿洲國,만주국,Japanese-occupied; nominally independent from March 1932,,puppet,1,,manchukuo,,滿洲國,,,,,,,,,,https://en.wikipedia.org/wiki/Manchukuo,
+mengjiang,Měngjiāng (Mengchiang),,,蒙古自治邦 (Mōko Jichihō),蒙古自治邦,蒙古自治邦,몽강연합자치정부,"Renamed the Mongol Autonomous Federation, August 1941; federated September 1939; Japanese client from 1936",,puppet,2,,mengjiang,,,,,,,,,,,,https://en.wikipedia.org/wiki/Mengjiang,
+nanjinggov,Japanese-occupied China (approximate),Japanese-occupied,,日本占領地区,日軍佔領區,日軍佔領區（大略）,,Occupied from 1937; Nanking government from March 1940,,occupied,1,,occupiedzone,,,,,,,,,,,traced,https://en.wikipedia.org/wiki/Wang_Jingwei_regime,
+indochina,French Indochina,,,仏印 (Futsuin),Đông Dương thuộc Pháp,法屬印度支那,,Occupied September 1940 – July 1941,,occupied,2,,indochina,,,,,,,,,,,,https://en.wikipedia.org/wiki/French_Indochina,
+burma,Burma,,,緬甸 (Biruma),မြန်မာ (Myanma),緬甸,,Taken 1942; nominal independence August 1943,,occupied,2,,burma,,,,,,,,,,,,https://en.wikipedia.org/wiki/Japanese_occupation_of_Burma,
+saharat,Kengtung and the trans-Salween Shan states,,,,สหรัฐไทยเดิม (Saharat Thai Doem),,,Thai-occupied 1942; transferred August 1943,,occupied,3,,saharat,,,thai,,,,,yes,#3da492,,,https://en.wikipedia.org/wiki/Saharat_Thai_Doem,
+malaya,Malaya & Shōnantō (Singapore),,,馬来 (Marai)・昭南島 (Shōnantō),Tanah Melayu / Syonan,馬來亞・昭南島,,Invaded 8 December 1941; Singapore fell 15 February 1942,,occupied,1,,malaya christmas,,,,,,,,,,,,https://en.wikipedia.org/wiki/British_Malaya,
+malaya_thai,"Kedah, Perlis, Kelantan & Trengganu",,,マレー北部四州,"Kedah, Perlis, Kelantan, Terengganu",馬來北部四邦,,"Transferred to Thailand, October 1943",,occupied,3,,malaya_thai,,,,,,,,yes,#dd3e2c,,,https://en.wikipedia.org/wiki/Si_Rat_Malai,
+borneo_br,British Borneo (Kita Boruneo),Kita Boruneo,,北ボルネオ (Kita Boruneo),Borneo,英屬婆羅洲,,Landings 16 December 1941; British surrender 1 April 1942,,occupied,3,,sarawak northborneo brunei,,,,,,,,,,,,https://en.wikipedia.org/wiki/Japanese_occupation_of_British_Borneo,
+dei,Netherlands East Indies,,,,Nederlandsch-Indië,,,Conquered January – March 1942,,occupied,1,,dei,,,,,,,,,,,,https://en.wikipedia.org/wiki/Dutch_East_Indies,
+philippines,Philippine Islands,,,比島 (Hitō),Pilipinas,菲律賓,,Invaded December 1941; Corregidor fell 6 May 1942,,occupied,1,,philippines,,,,,,,,,,,,https://en.wikipedia.org/wiki/Commonwealth_of_the_Philippines,
+hongkong,Hong Kong,,,香港 (Honkon),香港 (Hēunggóng),香港,,Attacked 8 December 1941; surrendered 25 December 1941,,occupied,2,,hongkong,,,,,,,,,,,,https://en.wikipedia.org/wiki/British_Hong_Kong,
+turtle,Turtle & Mangsee Islands,,,,Kepulauan Penyu / Mangsee,,,"Taken with British Borneo, January 1942",Under Japanese occupation,occupied,4,,turtle mangsee,,,,,,,,,,,,"https://en.wikipedia.org/wiki/Turtle_Islands,_Tawi-Tawi",
+miangas,Miangas (Palmas),,,ミアンガス島,Miangas,,,"Taken with the Netherlands Indies, 1942",,occupied,4,,miangas,,,,,,,,,,,,https://en.wikipedia.org/wiki/Miangas,
+cocos,Cocos (Keeling) Islands,,,,Pulu Kokos,,,Never occupied; shelled 25 December 1942,"British colony, run from Singapore — Allied throughout",allied,3,,cocos,,,raid,,,,,,,,,https://en.wikipedia.org/wiki/Cocos_(Keeling)_Islands,
+spratly,Shinnan Guntō (Spratly & Paracel Islands),Spratly & Paracel Islands,,新南群島・西沙群島,Trường Sa / Hoàng Sa,南沙群島・西沙群島,,"Annexed to Taiwan, 30 March 1939","Japanese, administered from Takao in Taiwan",colony,3,,spratly paracel,,,,,,,,,,,,https://en.wikipedia.org/wiki/Spratly_Islands,
+pratas,Dōngshā (Pratas Island),-,,東沙島 (Tōsa-tō),東沙島 (Dōngshā),東沙島,프라타스섬,Occupied by Japan,,occupied,3,,pratas,,,,,,,,,,,,https://en.wikipedia.org/wiki/Pratas_Island,
+timor_pt,Portuguese Timor (contested),,,,Timor Português,,,Invaded February 1942; Allied withdrawal December 1942 – February 1943,,portuguese,3,,timor_pt,,,occupied,,,,,,,,,https://en.wikipedia.org/wiki/Portuguese_Timor,
+wake,Wake Island,,,ウェーク島・大鳥島 (Ōtorishima),Wake,,,Taken 23 December 1941,American territory under Japanese occupation,occupied,3,,wake,,,,,,,,,,,,https://en.wikipedia.org/wiki/Wake_Island,
+guam,Guam (Ōmiyajima),,,大宮島 (Ōmiyajima),Guåhan,關島,,Taken 10 December 1941,American territory under Japanese occupation,occupied,3,,guam,,,,,,,,,,,,https://en.wikipedia.org/wiki/Guam,
+gilberts,Gilbert Islands,,,ギルバート諸島,Tungaru,吉爾伯特群島,,Occupied December 1941,British colony under Japanese occupation,occupied,3,,gilberts,,,,,,,,,,,,https://en.wikipedia.org/wiki/Gilbert_and_Ellice_Islands,
+ellice,Ellice Islands,,,,,,,Never occupied; American bases from October 1942,British colony,allied,3,,ellice,,,us,,,,,,,,,https://en.wikipedia.org/wiki/Tuvalu,
+linephoenix,The Line & Phoenix Islands,,,,,,,Never occupied,British colony,allied,3,,linephoenix,,,,,,,,,,,,https://en.wikipedia.org/wiki/Line_Islands,
+uspacific,"Palmyra, Kingman Reef, Howland, Baker, Jarvis & Swains",,,,,,,Shelled December 1941; held throughout,American,american,3,,uspacific,,,,,,,,,,,,https://en.wikipedia.org/wiki/United_States_Minor_Outlying_Islands,
+nzpacific,Tokelau & the northern Cook Islands,,,,,,,Never occupied,New Zealand administration,allied,3,,nzpacific,,,,,,,,,,,,https://en.wikipedia.org/wiki/Tokelau,
+nauru_au,Nauru,,,ナウル,Naoero,諾魯,,Occupied August 1942,Mandate under Japanese occupation,occupied,3,,nauru_au,,,,,,,,,,,,https://en.wikipedia.org/wiki/Nauru,
+andaman,Andaman & Nicobar Islands,,,安達曼・ニコバル諸島,Andaman & Nicobar,安達曼・尼科巴群島,,Occupied March 1942; ceded to Azad Hind December 1943,,occupied,2,,andaman,,,,,,,,,,,,https://en.wikipedia.org/wiki/Andaman_and_Nicobar_Islands,
+newguinea_au,New Guinea (Papua & the Mandated Territory),,,ニューギニア,Niugini,新幾內亞,,Taken from Australia in 1942,"Australian territory and mandate, part under Japanese occupation",occupied,2,,newguinea_au,,,,,,,,,,,,https://en.wikipedia.org/wiki/Territory_of_Papua,
+solomons_br,Western Solomons,,,ソロモン諸島西部,Solomon Islands,所羅門群島西部,,Occupied from early 1942,British protectorate under Japanese occupation,occupied,2,,solomons_br,,,,,,,,,,,,https://en.wikipedia.org/wiki/British_Solomon_Islands,
+guadalcanal_i,Guadalcanal (contested),,,ガダルカナル島（争奪中）,Guadalcanal,瓜達爾卡納爾島（爭奪中）,,American landing 7 August 1942; fought over into February 1943,,occupied,2,,solomons_gc,,,us,,,,,,,,,https://en.wikipedia.org/wiki/Guadalcanal,
+tulagi,Tulagi and the Florida Islands,,,ツラギ・フロリダ諸島,Tulagi,圖拉吉・佛羅里達群島,,Taken by the Americans 7–8 August 1942,,allied,3,,solomons_us,,,,,,,,,,,,https://en.wikipedia.org/wiki/Tulagi,
+malaita,Malaita (never fully occupied),,,マライタ島,Malaita,馬萊塔島,,Raided but never held,,allied,3,,solomons_ml,,,,,,,,,,,,https://en.wikipedia.org/wiki/Malaita,
+solomons_allied,The central & eastern Solomons and the Santa Cruz Islands,,,ソロモン諸島中部・東部・サンタクルーズ諸島,Makira / Nendö,所羅門群島中部・東部・聖克魯斯群島,,British throughout,,allied,3,,solomons_al,,,,,,,,,,,,https://en.wikipedia.org/wiki/Solomon_Islands_(archipelago),
+attukiska,Attu and Kiska,,,アッツ島・キスカ島,Atan / Qisxa,阿圖島・基斯卡島,,"Occupied June 1942; Attu retaken May 1943, Kiska evacuated July 1943",,occupied,3,,aleutians_jp,,,,,,,,,,,,https://en.wikipedia.org/wiki/Aleutian_Islands_campaign,
+aleutians,Aleutian Islands,,,,Unangam Tanangin,阿留申群島,,"American throughout, but for Attu and Kiska",American territory,american,3,,aleutians,,,,,,,,,,,,https://en.wikipedia.org/wiki/Aleutian_Islands,
+thailand,Thailand,,,,ประเทศไทย (Prathet Thai),,,Alliance signed 21 December 1941,,cobelligerent,2,,siam siamgain,,,,#8dd3c7,siam siamgain,100 11.5 106.2 20.6,6,,,,,https://en.wikipedia.org/wiki/Thailand_in_World_War_II,
+cededthai,"Battambang & Siem Reap (ceded to Thailand, 1941)",,,泰国への割譲地 (1941),Phra Tabong / Phibunsongkhram / Lan Chang,割讓予泰國之地（1941）,,"Ceded 9 May 1941, returned 1946",,cobelligerent,4,,siamgain,,,,,,,,,,,,https://en.wikipedia.org/wiki/Franco-Thai_War,
+freechina,Republic of China (Nationalist government),China,"106.5,29.5",中華民国・重慶政権 (Chūka Minkoku),中華民國 (Zhōnghuá Mínguó),中華民國（重慶國民政府）,,Capital at Chungking from 1938,,freechina,1,,china chahar suiyuan,,,,,,,,,,,,https://en.wikipedia.org/wiki/Republic_of_China_(1912%E2%80%931949),
+ccp,Communist base areas and guerrilla zones,,,中国共産党抗日根拠地,抗日根據地 (Kàngrì gēnjùdì),中共抗日根據地,,As they stood in 1941–1942,,ccp,2,,ccp,,,,,,,,,,,traced,https://en.wikipedia.org/wiki/Revolutionary_base_area,
+britishindia,British India,,,,,,,The western limit of the advance,,allied,1,,india,,,,,,,,,,,,https://en.wikipedia.org/wiki/British_Raj,
+goa,"Portuguese India — Goa, Damão, Diu, Dadra & Nagar Haveli",,"73.9,15.4",,Estado da Índia,,,Portuguese from 1510,,portuguese,3,,goa,,,,,,,,,,,,https://en.wikipedia.org/wiki/Portuguese_India,
+pondicherry,"French India — Pondicherry, Karikal, Yanaon, Mahé, Chandernagore",,"79.83,11.93",,Établissements français dans l’Inde,,,French from 1674,,french,3,,pondicherry,,,,,,,,,,,,https://en.wikipedia.org/wiki/French_India,
+princelystates,Princely states,-,,,,,,Rulers in subsidiary alliance with the Crown,,allied,3,,princely,,,,,,,,,,yes,,https://en.wikipedia.org/wiki/Princely_state,
+ceylon,Ceylon,,,,ලංකාව (Lanka),錫蘭,,Raided April 1942,,allied,3,,ceylon,,,,,,,,,,,,https://en.wikipedia.org/wiki/British_Ceylon,
+australia,Australia,,,,Australia,澳大利亞,,Bombed from February 1942,,allied,2,#c9a6b0,australia,,,,,,,,,,,,https://en.wikipedia.org/wiki/Australia,
+hawaii,Hawaii,,,,Hawaiʻi,夏威夷,,Attacked 7 December 1941,American territory,american,1,,hawaii,,,,,,,,,,,,https://en.wikipedia.org/wiki/Territory_of_Hawaii,
+ussr,Soviet Union (USSR),,"112.0,52.5",,СССР (SSSR),蘇聯,,"Neutrality Pact, April 1941",,neutral,1,,ussr,,,,,,,,,,,,https://en.wikipedia.org/wiki/Soviet_Union,
+mongolia,Mongolian People’s Republic,,,,Бүгд Найрамдах Монгол Ард Улс,蒙古人民共和國,,Soviet satellite,,neutral,2,#d3d1e6,mongolia,,,,,,,,,,,,https://en.wikipedia.org/wiki/Mongolian_People's_Republic,
+xinjiang,Xīnjiāng (Sinkiang),,,新疆 (Shinkyō),شىنجاڭ (Shinjang),新疆,,Realigned with Chungking in 1942,,freechina,3,,xinjiang,freechina,,,,,,,,,,,https://en.wikipedia.org/wiki/Xinjiang,1
+tibet,Tibet,,,チベット (Chibetto),བོད་ (Bod),西藏,,De facto independent,,frontier,3,,tibet,,,,,,,,,,,,https://en.wikipedia.org/wiki/Tibet_(1912%E2%80%931951),
+macau,Macao,,,マカオ (Makao),澳門 (Ou-mun),澳門,,Portuguese and neutral throughout,,portuguese,3,,macau,,,,,,,,,,,,https://en.wikipedia.org/wiki/Portuguese_Macau,
+guangzhouwan,Guǎngzhōuwān (Kwangchowan),,,広州湾 (Kōshūwan),Kouang-Tchéou-Wan,廣州灣,,Leased to France 1898–1945,,french,3,,guangzhouwan,,,,,,,,,,,,https://en.wikipedia.org/wiki/Guangzhouwan,
+tuva,Tannu Tuva (Tuvan People’s Republic),,,,Тыва Арат Республик,唐努圖瓦,,Independent in name from 1921,,neutral,3,#d3d1e6,tuva,,,,#bebada,,,,,,,,https://en.wikipedia.org/wiki/Tuvan_People's_Republic,
+nepal,Nepal,,,,नेपाल (Nepāl),尼泊爾,,"Independent, in treaty with Britain",,other,2,#e2d9c6,nepal,,,,,,,,,,,,https://en.wikipedia.org/wiki/Kingdom_of_Nepal,
+sikkim,Sikkim,,,,འབྲས་ལྗོངས (Drenjong),錫金,,"British protectorate from 1861, recognised by China 1890",,allied,2,#dcc2ce,sikkim,,,,,,,,,,,,https://en.wikipedia.org/wiki/Kingdom_of_Sikkim,
+bhutan,Bhutan,,,,འབྲུག་ཡུལ (Druk Yul),不丹,,British protectorate from 1910,,other,2,#c9a6b0,bhutan,,,,,,,,,,,,https://en.wikipedia.org/wiki/Bhutan,
+other,Afghanistan,,,,"Afghanistan, Nepal, Bhutan",阿富汗・尼泊爾・不丹,,,,other,3,,other,,,,,,,,,,,,https://en.wikipedia.org/wiki/Kingdom_of_Afghanistan,
+nca_pacified,Pacified areas (治安地区),,,治安地区,,治安地區,,September 1942,The North China Area Army's own classification,pacified,3,,nca_pacified,,,,,,,,,,,nca,,
+nca_unpacified,Un-pacified areas (未治安地区),,,未治安地区,,未治安地區,,September 1942,The North China Area Army's own classification,unpacified,3,,nca_unpacified,,,,,,,,,,,nca,,
+contested,Border is contested or not fixed,-,,未確定国境,,未定國界,,,,contested,3,transparent,contested,,,unclear,,,,,,,,,,

@@ -13,8 +13,8 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '1.48';
-  var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "328cf9e3a0", "japan-empire-map-admin.svg": "d821c75055", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "132ece917d"};
+  var JEM_VERSION = '1.49';
+  var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "b79236bc2a", "japan-empire-map-admin.svg": "d821c75055", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "132ece917d"};
 
   /* Every file this one fetches, with the version on it.
 
@@ -1824,9 +1824,16 @@
           var pt = project(parseFloat(ll[0]), parseFloat(ll[1]));
           if (isFinite(pt.x) && isFinite(pt.y)) { x = pt.x; y = pt.y; }
         }
-        var text = svgEl('text', { 'class': 'tlabel', 'font-size': TERR_PX });
+        /* A division of a country is named like a division. Suiyuan, Chahar,
+           Jehol and Sinkiang are territories in this file because they were
+           governed apart, and that made them *look* like countries: the same
+           weight and the same size as China itself, set beside it. They are
+           smaller and lighter now, which is what they were. */
+        var px = t.sub ? TERR_PX * 0.82 : TERR_PX;
+        var text = svgEl('text', {
+          'class': 'tlabel' + (t.sub ? ' sub' : ''), 'font-size': px });
         labelLayer.appendChild(text);
-        var entry = { rec: t, el: text, x: x, y: y, dy: 0, size: TERR_PX, w: 0, h: TERR_PX * 1.2 };
+        var entry = { rec: t, el: text, x: x, y: y, dy: 0, size: px, w: 0, h: px * 1.2 };
         labels.push(entry);
         terrLabelByEl[t.id] = entry;
         scalables.push({ el: text, x: x, y: y });
@@ -5204,6 +5211,11 @@
       b.type = 'button';
       b.setAttribute('data-epoch', e.id);
       b.textContent = e.en;
+      // every control in the bar says what it does on hover; these are built
+      // here rather than in the markup, so this is where theirs goes
+      b.title = e.id === 'e1942'
+        ? 'December 1942: the empire at its widest, and how Japan held it'
+        : '1930: whose empire each place belonged to, on the eve of the Manchurian Incident';
       b.classList.toggle('on', e.id === state.epoch);
       b.addEventListener('click', function () { setEpoch(e.id); });
       seg.appendChild(b);
@@ -6584,6 +6596,24 @@
 
   function annWire() {
     stampVersion();
+    /* The drawing tools need a panel with room for four tools, eight style
+       controls, four fields and a list, and a map big enough to draw on beside
+       it. Below the rail's own breakpoint there is neither: the panel becomes a
+       sheet over the map and the reader is drawing through a letterbox. The
+       buttons are withdrawn rather than left to disappoint, and the line says
+       so. */
+    var ANN_MIN_W = 700;
+
+    function syncAnnRoom() {
+      var row = $('#ann-row'), note = $('#ann-toosmall');
+      if (!row || !note) return;
+      var room = (window.innerWidth || 0) >= ANN_MIN_W;
+      row.hidden = !room;
+      note.hidden = room;
+    }
+    syncAnnRoom();
+    window.addEventListener('resize', syncAnnRoom);
+
     var create = $('#ann-create'), load = $('#ann-load'), file = $('#ann-file');
     var shut = function () {
       var dlg = $('#dlg-options');
