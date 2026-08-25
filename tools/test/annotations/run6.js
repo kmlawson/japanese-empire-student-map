@@ -1,3 +1,4 @@
+const S=require('./suite.js');   // for shot(): pictures go to tools/test/shots
 const puppeteer=(function(){const t=[];if(process.env.PUPPETEER_PATH)t.push(process.env.PUPPETEER_PATH);t.push('puppeteer');
   for(const x of t){try{return require(x);}catch(e){}}
   console.error('annotation tests: puppeteer not found. npm install puppeteer, or set PUPPETEER_PATH.');process.exit(1);})(); const sleep=ms=>new Promise(r=>setTimeout(r,ms));
@@ -80,6 +81,6 @@ await p.evaluate(()=>document.querySelector('#ann-lock').click()); await sleep(6
 check('the padlock puts it away again', await p.evaluate(()=>document.querySelector('#annotate').hidden));
 check('and the pencil returns', await p.evaluate(()=>!document.querySelector('#ann-edit').hidden));
 check('no page errors', errs.length===0, errs[0]);
-await p.screenshot({path:'locked.png'});
+await p.screenshot({path:S.shot('locked.png')});
 console.log('  '+pass+' passed, '+fail+' failed');
 await b.close(); process.exit(fail);})();

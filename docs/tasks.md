@@ -7667,6 +7667,31 @@ seconds, on stage 2 after 2.5 — and pause checked by waiting 2.4 seconds and
 finding it where it was left. The whole suite is 295 annotation checks and 136
 map checks.
 
+## The tests stop leaving pictures in the repository root
+
+Thirteen PNGs were lying in the top of the working tree. Six of them —
+`barx.png`, `east.png`, `w-on.png`, `w-off.png`, `w-back-off.png`, `w3.png` —
+were **committed**, from scratch scripts that no longer exist and that nothing
+references. The other seven were the test suite's own screenshots, ignored
+individually by name in `.gitignore`.
+
+Naming them one at a time is why the six got in: anything a new test drew was
+untracked and visible until somebody remembered to add a line, and the easy
+mistake is `git add -A`. So the cause is fixed rather than the symptom.
+`suite.js` has a `shot(name)` that makes `tools/test/shots/` on demand and
+returns a path inside it, the four scripts that take pictures use it — run6 and
+run10 had not been importing the suite at all — and `.gitignore` ignores the
+one folder. The old per-file patterns stay, and `/w-*.png`, `/barx.png` and
+`/east.png` join them, so a checkout that still has the debris lying about does
+not offer it up.
+
+The six tracked files are removed. `occupation-maps/*.png` are untouched: those
+are the source maps the occupied zone was traced from and belong in the history.
+
+Checked by running the full suite and looking: 295 checks pass, no PNG in the
+root, seven in `tools/test/shots/`, and `git status` clean apart from the
+change itself.
+
 ---
 
 ## Sources worth fetching

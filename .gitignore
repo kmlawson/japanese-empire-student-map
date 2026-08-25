@@ -56,7 +56,14 @@ texts/admin/
 # something and leave it out of the history.
 node_modules/
 
-# screenshots the annotation tests write beside themselves
+# Pictures the tests take. They used to be written into the repository root and
+# named one by one here, which worked until it didn't: six of them were
+# committed by accident and stayed, and anything a new test drew had to be
+# added to this list or it sat in `git status` for good. `suite.js` has a
+# `shot()` that puts them all in one place instead, and this ignores the place.
+tools/test/shots/
+
+# and the old names, for a checkout that still has them lying about
 /a-*.png
 /lay-*.png
 /arrow.png
@@ -64,3 +71,7 @@ node_modules/
 /symsheet.png
 /locked.png
 /three*.png
+/w-*.png
+/w[0-9].png
+/barx.png
+/east.png

@@ -146,7 +146,18 @@ function SPOT(ids){
   return spare;
 }
 const BIG=path.join(__dirname,'..','..','cache','india-rivers.geojson');
-module.exports={puppeteer,sleep,page,ready,tap,openPanel,pickTool,stickTool,dropTool,SPOT,FIX,BIG,check,SHIM,
+/* Where a test's picture goes. Not the repository root, which is where they
+   used to go and where they stayed: six of them were committed by accident and
+   the rest sat in `git status` forever, each run overwriting the last. One
+   ignored folder instead, made on demand. */
+const _path=require('path');
+const SHOTS=_path.join(__dirname,'..','shots');
+function shot(name){
+  try{ require('fs').mkdirSync(SHOTS,{recursive:true}); }catch(e){ /* already there */ }
+  return _path.join(SHOTS,name);
+}
+
+module.exports={puppeteer,sleep,page,ready,tap,openPanel,pickTool,stickTool,dropTool,SPOT,FIX,BIG,check,SHIM,shot,
   report:()=>{console.log('\n  '+pass+' passed, '+fail+' failed');
     if(fail) failures.forEach(f=>console.log('   × '+f));
     return fail;}};

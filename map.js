@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '1.56';
+  var JEM_VERSION = '1.57';
   var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "68df9771df", "japan-empire-map-admin.svg": "388671eccd", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "ba24f18b40"};
 
   /* Every file this one fetches, with the version on it.

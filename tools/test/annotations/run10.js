@@ -1,3 +1,4 @@
+const S=require('./suite.js');   // for shot(): pictures go to tools/test/shots
 const puppeteer=(function(){const t=[];if(process.env.PUPPETEER_PATH)t.push(process.env.PUPPETEER_PATH);t.push('puppeteer');
   for(const x of t){try{return require(x);}catch(e){}}
   console.error('annotation tests: puppeteer not found. npm install puppeteer, or set PUPPETEER_PATH.');process.exit(1);})(); const sleep=ms=>new Promise(r=>setTimeout(r,ms));
@@ -135,7 +136,7 @@ console.log('\n— a sharp tip at every weight —');
   check('  at weight 16 the shaft is cut short of the end it was drawn to',
     cut.endX>0, JSON.stringify(cut));
   check('  no page errors', e2.length===0, e2[0]);
-  await p2.screenshot({path:'arrow-tips.png'});
+  await p2.screenshot({path:S.shot('arrow-tips.png')});
   await b2.close(); }   // its own browser: a second page in the first one times out
 
 /* Anything the reader sees the size of has to stay that size as the map zooms.
@@ -189,6 +190,6 @@ console.log('\n— what the reader sees the size of stays that size —');
   check('no page errors', e3.length===0, e3[0]);
   await b3.close(); }
 check('no page errors', errs.length===0, errs[0]);
-await p.screenshot({path:'arrow.png'});
+await p.screenshot({path:S.shot('arrow.png')});
 console.log('\n  '+pass+' passed, '+fail+' failed');
 await b.close(); process.exit(fail);})();

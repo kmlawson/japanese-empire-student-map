@@ -49,7 +49,7 @@ for (const [w,h,tag,touch] of [[390,780,'phone   ',true],[768,1024,'tablet  ',tr
   const armed=await p.evaluate(()=>Math.round(100*document.querySelector('#annotate').getBoundingClientRect().height/innerHeight));
   check(tag+'the map keeps the screen while drawing', w>=1000 ? true : armed<=22, armed+'% used by the panel');
   check(tag+'no page errors', errs.length===0, errs[0]);
-  await p.screenshot({path:'lay-'+tag.trim()+'.png'});
+  await p.screenshot({path:H.shot('lay-'+tag.trim()+'.png')});
   await b.close();
 }
 process.exit(report());
