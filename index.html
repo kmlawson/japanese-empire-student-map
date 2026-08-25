@@ -7,7 +7,7 @@
 <meta name="description" content="Interactive map for revising the geography of the Japanese Empire: colonies, occupied territories, neighbouring states, cities and battles, 1853-1945.">
 <title>The Japanese Empire</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23f4f1ea'/%3E%3Ccircle cx='16' cy='16' r='8' fill='%239a1813'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=b4639bbbf2">
+<link rel="stylesheet" href="styles.css?v=c964e3f569">
 </head>
 <body>
 
@@ -134,6 +134,11 @@
      about, so you can put your own account over it.</p>
   <hr>
   <h3>Drawing your own</h3>
+  <label class="row"><input type="checkbox" id="opt-world" checked> Show the whole map</label>
+  <p class="hint">Switched off, the map keeps China and Tibet, Japan with the Ryūkyūs, Korea, Taiwan
+     and Karafuto, and the leased ground on the China coast — Kwantung, Weihaiwei, Kwangchowan,
+     Hong Kong and Macao — and on the 1942 map Manchukuo, Mengjiang and the occupied zone with them.
+     Everything else becomes sea, for a reader who wants only the East Asian frame.</p>
   <label class="row"><input type="checkbox" id="opt-mono"> Make the map a single colour</label>
   <p class="hint">Every state and province in one grey, with the coastlines and frontiers drawn as
      hairlines and the hatchings off — a base to lay your own coloured shapes over.</p>
@@ -199,13 +204,13 @@
 
   <p>Built with Anthropic's Claude, with <a href="https://muninn.net/">Konrad M. Lawson</a> at the prompt, primarily as a tool for students in his University of St Andrews honours module, <a href="https://github.com/kmlawson/japanese-empire-mo3335/">MO3335</a>.</p>
 
-  <p>Code for the website may be found <a href="https://github.com/kmlawson/japanese-empire-student-map">here</a>.</p>  <p class="version">Version <span id="jem-version">1.43</span> · last updated 25 August 2026, 13:11</p>
+  <p>Code for the website may be found <a href="https://github.com/kmlawson/japanese-empire-student-map">here</a>.</p>  <p class="version">Version <span id="jem-version">1.44</span> · last updated 25 August 2026, 13:27</p>
 
 <!-- END about -->
 </dialog>
 
 <script src="data.js?v=616e530f8b"></script>
 <script src="cities-gaz.js?v=88a319fe12"></script>
-<script src="map.js?v=7751927ba6"></script>
+<script src="map.js?v=c54dd3cba8"></script>
 </body>
 </html>

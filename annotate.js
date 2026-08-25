@@ -2616,19 +2616,15 @@
       var stage = document.getElementById('stage');
       if (stage) stage.classList.add('annotating');
       if (folded) fold(true);
-      /* The legend folds to its title. Both live in the same rail and the
-         panel is the taller of the two, so a reader who opens the tools is
-         otherwise scrolling past a colour key to reach them. It is one press
-         to bring it back, and it is left alone if the reader has already
-         folded or unfolded it themselves. */
-      var legend = document.getElementById('legend');
-      if (legend && !legend.hidden && !legend.classList.contains('folded')
-          && !legend.hasAttribute('data-ann-folded')) {
-        legend.classList.add('folded');
-        legend.setAttribute('data-ann-folded', '1');
-        var head = legend.querySelector('.legend-head');
-        if (head) head.setAttribute('aria-expanded', 'false');
-      }
+      /* The legend folds to its title and the detail card is set aside. All
+         three live in one column and the panel is the tallest, so a reader who
+         opens the tools was otherwise scrolling past a colour key and a
+         country's description to reach them.
+
+         The map does it, not this file: the legend's folded class is written
+         from `state.legend` on every `applyState`, so setting the class here
+         lasted until the next hover. */
+      if (host.makeRoom) host.makeRoom();
       redraw();
       drawList();
       syncFields();
@@ -2636,14 +2632,8 @@
     }
 
     function close() {
-      // and it comes back, unless the reader has since chosen otherwise
-      var legend = document.getElementById('legend');
-      if (legend && legend.hasAttribute('data-ann-folded')) {
-        legend.removeAttribute('data-ann-folded');
-        legend.classList.remove('folded');
-        var head = legend.querySelector('.legend-head');
-        if (head) head.setAttribute('aria-expanded', 'true');
-      }
+      // and the legend comes back, unless the reader has since chosen otherwise
+      if (host.giveBack) host.giveBack();
       on = false;
       locked = false;
       setTool(null);

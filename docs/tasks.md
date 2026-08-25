@@ -6798,6 +6798,75 @@ because it takes the year and drops two numbers it cannot order. That last one
 is mine and is the most likely to bite — it puts a mark in the wrong place in
 the walk rather than leaving it out.
 
+
+## Room for the panel, a map that can be cut back to East Asia, and a better one colour
+
+### The legend folds and stays folded
+
+Pressing Create annotations folds the legend and sets the detail card aside.
+The fold was already written — and lasted until the next hover, because the
+legend's folded class is written by `buildLegend()` from `state.legend`, so
+every `applyState` put it straight back. **The state has to move, not the
+class.** `host.makeRoom()` does it from the map's side, and `giveBack()` puts
+the legend where it was when the panel closes, unless the reader has decided
+for themselves in between. The card goes at the same time: rail, legend and
+card share one column, and somebody who has just asked for the drawing tools is
+not reading a country's description.
+
+### Hiding the occupation takes the base areas with it
+
+They are the other half of the same argument — where the occupier's writ did
+not run — and a map with the resistance shaded and nothing to resist reads as a
+claim nobody made. Switched off, not disabled: the switch is still there.
+
+### One colour, three corrections
+
+* **A land grey that is not the sea.** `#e4e0d6` sat at almost the lightness of
+  `--ocean`, so the coastline was the only thing separating them and at a
+  glance the map was one field of pale. `#ded7c4` is warmer and a step darker —
+  still light enough to draw over in any colour.
+* **The mandates keep their line and lose their wash.** The wash is a claim
+  about who administered the sea between the islands; the line is where the
+  boundary was drawn, which is geography of a kind.
+* **Every shape gets a line.** The outline was drawn on the whole-country
+  fillers and on atoms that have none, which was right for not stroking every
+  seam inside a country built out of pieces — and left the pieces of a country
+  whose filler exists but is not drawn with no edge at all, running into their
+  neighbours. A 0.55 hairline on the atom's own paths, thin enough that a dense
+  one does not go grey.
+
+### A map cut back to East Asia
+
+**Show the whole map**, on by default. Off, the frame keeps China and Tibet,
+Japan with the Ryūkyūs, Korea, Taiwan and Karafuto, the leased ground on the
+China coast — Kwantung, Weihaiwei, Kwangchowan, Hong Kong, Macao — and on the
+1942 map Manchukuo, Mengjiang and the occupied zone. Everything else is sea.
+
+*Two departures from the request, both stated.* The switch is labelled for what
+it does when it is on, because "Show only Japan, its colonies and China" being
+**on** while the whole world is drawn would be a label that lies. And Manchukuo
+and Mengjiang are kept although the list did not name them: they are the 1942
+form of the same ground, "its colonies" plainly covers them, and dropping them
+would leave a hole where Manchuria is, which reads as a fault rather than a
+choice.
+
+**Three things had to be hidden that are not the atom.** Measured each time by
+looking at the render: the outline rings live in a separate layer and are drawn
+from an atom's path, so Indochina's teal ring and Tuva's grey one were still
+traced over open sea with the country gone from under them — they carry a
+`data-id` now. The filler under each atom and the seam strips beside it left a
+ghost of the coastline. And the 1942 perimeter runs out past the Marshalls and
+round the Solomons, so with everything under it gone it was a dashed line round
+empty sea; it goes with the world.
+
+And it had to be **reversible**: the first version could only hide, so putting
+the whole map back left 65 atoms hidden. What this rule hides it marks, so
+turning it back on does not also un-hide the administrative-only territories
+and whichever reading of the occupation is not showing. Measured after: 1 atom
+still hidden on 1930, 3 on 1942, all of them legitimately.
+
+`tools/test/mapstrip.js` is 34 checks now.
+
 ---
 
 ## Sources worth fetching

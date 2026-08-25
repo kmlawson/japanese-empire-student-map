@@ -16,9 +16,15 @@
   --inactive-line: #b9b1a1;
 
   /* the map stripped to one colour, for drawing over: see `#jmap.mono` */
-  --mono-land: #e4e0d6;
-  --mono-line: #bdb6a6;
-  --mono-sub: #d5cfc1;   /* the sub-unit rings: softer, and there are many */
+  /* Land at one colour has to read as *land* against `--ocean` (#cadfeb),
+     which is a light blue. #e4e0d6 was the first try and sits at almost the
+     same lightness as the sea: the coastline was the only thing separating
+     them, and at a glance the map was one field of pale. This is warmer and a
+     step darker — still light enough to draw over in any colour, and no longer
+     mistakable for water. */
+  --mono-land: #ded7c4;
+  --mono-line: #a9a08b;
+  --mono-sub: #c7bfa9;   /* the sub-unit rings: softer, and there are many */
 
   --c-metropole: #9a1813;
   --c-colony: #c2463d;
@@ -1898,8 +1904,23 @@ dialog h3 {
 #jmap.mono .ccp-fill {
   display: none;
 }
+/* The mandates keep their line and lose their wash. The wash is a claim about
+   who administered the sea between the islands; the line is where the boundary
+   was drawn, which is geography of a kind and worth keeping. */
 #jmap.mono .mandate,
 #jmap.mono .mandate.hot { fill: none; }
+/* And every shape gets a line, not only those with a filler under them. The
+   rule above draws the outline on `#backings` — the whole-country shapes — and
+   on atoms that have no filler, which was meant to avoid stroking every seam
+   inside a country built out of pieces. It also left the pieces of a country
+   whose filler exists but is not drawn with nothing at all: at one colour
+   those territories had no edge and ran into their neighbours. A hairline on
+   the atom's own paths, thin enough that a dense one does not go grey. */
+#jmap.mono .atom > path:not(.superseded),
+#jmap.mono .atom > circle {
+  stroke: var(--mono-line);
+  stroke-width: 0.55;
+}
 /* The edge lines go the same way as the fills. Thailand's teal, China's two
    halves and the mandate's dashes are territorial claims drawn as lines rather
    than as areas, and a map stripped of its colours that kept them would have

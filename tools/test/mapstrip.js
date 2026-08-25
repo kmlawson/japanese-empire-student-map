@@ -95,6 +95,42 @@ await tick(p,'#opt-mono',false);
 check('and it all comes back', (await fillOf(p,'#a-japan'))===japanBefore,
   japanBefore+' → '+(await fillOf(p,'#a-japan')));
 
+console.log('\n— hiding the occupation drops the base areas with it —');
+await p.evaluate(()=>{const c=document.querySelector('#opt-ccp');
+  c.checked=true; c.dispatchEvent(new Event('change',{bubbles:true}));}); await sleep(1200);
+await p.evaluate(()=>{const r=document.querySelector('#occ-traced');
+  r.checked=true; r.dispatchEvent(new Event('change',{bubbles:true}));}); await sleep(1500);
+check('the base areas start on', await p.evaluate(()=>document.querySelector('#opt-ccp').checked));
+await p.evaluate(()=>{const r=document.querySelector('#occ-none');
+  r.checked=true; r.dispatchEvent(new Event('change',{bubbles:true}));}); await sleep(1500);
+check('hiding the occupation switches them off',
+  await p.evaluate(()=>!document.querySelector('#opt-ccp').checked));
+await p.evaluate(()=>{const c=document.querySelector('#opt-ccp');
+  c.checked=true; c.dispatchEvent(new Event('change',{bubbles:true}));}); await sleep(1200);
+check('and the reader can put them back',
+  await p.evaluate(()=>document.querySelector('#opt-ccp').checked));
+
+console.log('\n— only East Asia —');
+check('the whole map is the default', await p.evaluate(()=>document.querySelector('#opt-world').checked));
+const drawn=()=>p.evaluate(()=>{const out={};
+  document.querySelectorAll('#land .atom[data-id]').forEach(e=>{
+    if(getComputedStyle(e).display!=='none') out[e.getAttribute('data-id')]=1;});
+  return Object.keys(out).sort();});
+const all=await drawn();
+await tick(p,'#opt-world',false);
+const few=await drawn();
+console.log('    kept: '+few.join(', '));
+check('switching it off leaves far fewer', few.length < all.length/2, all.length+' → '+few.length);
+check('and keeps China, Japan and the leased ground',
+  ['japan','tibet','kwantung','hongkong','macau'].every(id=>few.indexOf(id)>=0), few.join(','));
+check('while India and the Indies go',
+  !few.some(id=>/india|dei|australia|burma|siam/.test(id)), few.join(','));
+check('the perimeter goes with them, being a line round empty sea',
+  await p.evaluate(()=>getComputedStyle(document.querySelector('#extent-1942')).display)==='none');
+await tick(p,'#opt-world',true);
+const back=await drawn();
+check('and everything comes back', back.length===all.length, all.length+' → '+back.length);
+
 console.log('\n— a link carries them —');
 const code=await p.evaluate(()=>{
   const r=document.querySelector('#occ-none'); r.checked=true; r.dispatchEvent(new Event('change',{bubbles:true}));

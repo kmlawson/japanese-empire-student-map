@@ -13,8 +13,8 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '1.43';
-  var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "4de344750b", "japan-empire-map-admin.svg": "d821c75055", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "132ece917d"};
+  var JEM_VERSION = '1.44';
+  var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "e0dba84688", "japan-empire-map-admin.svg": "d821c75055", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "132ece917d"};
 
   /* Every file this one fetches, with the version on it.
 
@@ -136,6 +136,16 @@
     manchukuo: true,
     mengjiang: true,
     mono: false,                    // every state and province one grey
+    /* The whole map, or only the ground the course is about. On, everything is
+       drawn as it always was; off, the frame keeps China and Tibet, Japan and
+       its colonies, and the treaty ports on the China coast, and everything
+       else is sea.
+
+       Manchukuo, Mengjiang and the occupied zone are kept on the 1942 map even
+       though the reader's list did not name them: they are the 1942 form of
+       the same ground, and dropping them would leave a hole where Manchuria
+       is, which reads as a fault rather than as a choice. */
+    world: true,
     // The Communist base areas, drawn over the traced zone. They are a second
     // author's answer laid on top of the first, so they get a switch of their
     // own inside that reading: turning them off leaves the occupation as the
@@ -202,7 +212,7 @@
       // next reader chose. The rest below is preference and does carry over.
       state.labels = !!saved.labels;
       if (typeof saved.extent === 'boolean') state.extent = saved.extent;
-      ['manchukuo', 'mengjiang', 'mono'].forEach(function (k) {
+      ['manchukuo', 'mengjiang', 'mono', 'world'].forEach(function (k) {
         if (typeof saved[k] === 'boolean') state[k] = saved[k];
       });
       if (typeof saved.rivers === 'boolean') state.rivers = saved.rivers;
@@ -232,6 +242,7 @@
         projection: state.projection, graticule: state.graticule,
         occSource: state.occSource, ccp: state.ccp,
         manchukuo: state.manchukuo, mengjiang: state.mengjiang, mono: state.mono,
+        world: state.world,
       }));
     } catch (err) { /* private browsing; not worth complaining about */ }
   }
@@ -1391,6 +1402,7 @@
   }
 
   var extentPath = null;
+  var annWasLegend = false;      // where the legend stood before the panel took the rail
   var riversGroup = null;
   var indiaRiversGroup = null;
   var yellow1938 = null;
@@ -1648,7 +1660,8 @@
     var src = el.tagName === 'path' ? el
                                     : backingEls[key] || el.querySelector('path');
     if (!src) return;
-    var line = svgEl('path', { d: src.getAttribute('d'), 'class': 'edge-line' });
+    var line = svgEl('path', { d: src.getAttribute('d'), 'class': 'edge-line',
+                               'data-id': t.id });
     line.style.setProperty('--edge', t.edge);
     if (t.edgeWidth) line.style.setProperty('--edge-w', t.edgeWidth);
     if (t.edgeClip) {
@@ -1787,6 +1800,7 @@
         // a dashed black line over a coloured country reads as a border
         // somebody else drew; a darker shade of the country's own colour reads
         // as a line about the country
+        if (ring) ring.setAttribute('data-id', t.id);
         if (ring && t.outlineColor) ring.style.setProperty('--sub', t.outlineColor);
       }
 
@@ -2046,6 +2060,7 @@
     if (!state.manchukuo) bits |= 524288;
     if (!state.mengjiang) bits |= 1048576;
     if (state.mono) bits |= 2097152;
+    if (!state.world) bits |= 4194304;      // inverted: the whole map is the default
     // Bit 4096 means the base areas are OFF, not on. It is the one layer here
     // that starts switched on, and a bitfield cannot tell "the sender had it
     // off" from "the sender's build had no such bit": every link made before
@@ -2079,6 +2094,7 @@
     state.manchukuo = !(bits & 524288);
     state.mengjiang = !(bits & 1048576);
     state.mono = !!(bits & 2097152);
+    state.world = !(bits & 4194304);
     state.ccp = !(bits & 4096);          // inverted; see layerCode
     state.backs = !!(bits & 8192);
     state.indiaRivers = !!(bits & 16384);
@@ -4794,6 +4810,48 @@
       });
     });
 
+    /* Only the ground the course is about, when the reader asks for it. Every
+       territory outside the list is taken off the map — not greyed, taken off,
+       because the point is to leave sea around what is left.
+
+       It runs last, after the rules that hide a layer for their own reasons,
+       and it marks what *it* hid. Without the mark, putting the whole map back
+       would also un-hide the administrative-only territories and whichever
+       reading of the occupation is not showing: measured, 65 atoms stayed
+       hidden when the switch went back on, because the first version could
+       only hide and never show. */
+    territories().forEach(function (t) {
+      var keep = state.world || !!EAST_ASIA[t.id];
+      var els = (atomsOf[t.id] || []).slice();
+      $$('[data-edge-for="' + (t.atoms || [])[0] + '"]', svg).forEach(function (e) {
+        els.push(e);
+      });
+      /* The rings in the outline layer go with their territory. They are drawn
+         from an atom's own path and live in a different layer, so hiding the
+         atom left them behind: Indochina's teal ring and Tuva's grey one were
+         still traced over open sea with the country gone from under them. */
+      $$('#sub-outlines [data-id="' + t.id + '"]', svg).forEach(function (e) {
+        els.push(e);
+      });
+      /* And the filler under each atom, and the seam strips beside it. They
+         are separate elements in separate layers, so a hidden country left a
+         faint ghost of its own coastline where its filler still showed. */
+      (t.atoms || []).forEach(function (a) {
+        if (backingEls[a]) els.push(backingEls[a]);
+        if (backingEdges[a]) els.push(backingEdges[a]);
+        (seamEls[a] || []).forEach(function (sm) { els.push(sm); });
+      });
+      els.forEach(function (el) {
+        if (!keep) {
+          if (el.style.display !== 'none') el.setAttribute('data-world-off', '1');
+          el.style.display = 'none';
+        } else if (el.hasAttribute('data-world-off')) {
+          el.removeAttribute('data-world-off');
+          el.style.display = '';
+        }
+      });
+    });
+
     syncMandateLines();
 
     /* The two client states, each on its own switch. Hidden they are not
@@ -4846,8 +4904,11 @@
          character ring at two points; until that is done the whole line is
          drawn under both readings, and the legend says it is one of several
          maps used. */
+      /* And not when the map has been cut back to East Asia: the ring runs out
+         past the Marshalls and round the Solomons, and with everything under
+         it gone it is a dashed line drawn round empty sea. */
       extentPath.style.display =
-        (state.epoch === 'e1942' && state.extent) ? '' : 'none';
+        (state.epoch === 'e1942' && state.extent && state.world) ? '' : 'none';
     }
     if (indiaRiversGroup) {
       indiaRiversGroup.style.display = state.indiaRivers ? '' : 'none';
@@ -5016,12 +5077,34 @@
      Changed from the Layers panel or from the card of a record that belongs to
      one of them; both come through here so the radios and the card cannot
      disagree about which is showing. */
+  /* What "Japan, its colonies, and China" means, by id. China and Tibet; Japan
+     with the Ryukyus, Korea, Taiwan and Karafuto; the leased ground on the
+     China coast; and on the 1942 map the three shapes that stand on the same
+     ground — Manchukuo, Mengjiang and the occupied zone with the Nanjing
+     government over it. Anything not here is sea when the switch is off. */
+  var EAST_ASIA = {
+    china: 1, freechina: 1, tibet: 1, ccp: 1,
+    japan: 1, ryukyu: 1, chosen: 1, formosa: 1, karafuto: 1,
+    kwantung: 1, weihaiwei: 1, guangzhouwan: 1, hongkong: 1, macau: 1,
+    manchuria: 1, manchukuo: 1, mengjiang: 1, occupiedzone: 1, nanjinggov: 1,
+  };
+
   var OCC_LABEL = { traced: '1942 general occupation extent',
                     nca: 'the North China Area Army reading',
                     none: 'no occupation layer' };
 
   function setOccSource(v) {
     if (v !== 'traced' && v !== 'nca' && v !== 'none') return;
+    /* Choosing to hide the occupation takes the base areas with it. They are
+       the other half of the same argument — where the occupier's writ did not
+       run — and a map with the resistance shaded and nothing to resist reads
+       as a claim nobody made. Turned off, not disabled: a reader who wants
+       them back has the switch. */
+    if (v === 'none' && state.occSource !== 'none' && state.ccp) {
+      state.ccp = false;
+      var cc = $('#opt-ccp');
+      if (cc) cc.checked = false;
+    }
     state.occSource = v;
     $$('#dlg-options [name="occ-src"]').forEach(function (r) {
       r.checked = (r.value === v);
@@ -5959,7 +6042,7 @@
     });
 
     [['#opt-manchukuo', 'manchukuo'], ['#opt-mengjiang', 'mengjiang'],
-     ['#opt-mono', 'mono']].forEach(function (pair) {
+     ['#opt-mono', 'mono'], ['#opt-world', 'world']].forEach(function (pair) {
       var el = $(pair[0]);
       if (!el) return;
       el.checked = !!state[pair[1]];
@@ -6147,6 +6230,35 @@
         view = v;
         applyView(true);
         return true;
+      },
+      /* Room for the panel, asked for by the panel.
+
+         Folding the legend from inside `annotate.js` was not enough: the
+         legend's folded class is written by `buildLegend()` from `state.legend`,
+         so the next `applyState` — a hover, a layer switch, anything — put it
+         straight back. The state has to move, not the class. And the detail
+         card is set aside at the same time: rail, legend and card share one
+         column, and a reader who has just asked for the drawing tools is not
+         reading a country's description.
+
+         Both are one press from coming back, and neither is remembered as a
+         preference: `wasLegend` puts the legend where it was when the panel
+         closes, unless the reader has meanwhile decided for themselves. */
+      makeRoom: function () {
+        annWasLegend = state.legend;
+        if (state.legend) { state.legend = false; buildLegend(); saveState(); }
+        if (infoBox && !infoBox.hidden) {
+          markSelected(selected, false);
+          selected = null;
+          infoBox.hidden = true;
+          document.body.classList.toggle('panel-open', !quizBox.hidden);
+        }
+      },
+      giveBack: function () {
+        if (annWasLegend && !state.legend) {
+          state.legend = true; buildLegend(); saveState();
+        }
+        annWasLegend = false;
       },
       /* The map's own detail card, lent out — a reader's own mark has a name
          and a description, and the description belongs where every other
