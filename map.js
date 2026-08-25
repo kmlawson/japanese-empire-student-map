@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '1.53';
+  var JEM_VERSION = '1.54';
   var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "865f8a4768", "japan-empire-map-admin.svg": "d821c75055", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "132ece917d"};
 
   /* Every file this one fetches, with the version on it.
@@ -1034,6 +1034,35 @@
     bumpHi();
   }
 
+  /* The clip rectangles that hold an edge line to a window are worked out by
+     projecting two corners, and they are built during the colouring pass —
+     which does not run again when the projection changes. Left alone, a
+     Mercator rectangle goes on clipping in a space where it means something
+     else: British India's window over Burma landed across Rajputana, and the
+     stroke it kept there read as a straight line across the princely states,
+     in Albers and Lambert and never in Mercator. They are refitted here. */
+  function refitEdgeClips() {
+    if (!hiDefs) return;
+    territories().forEach(function (t) {
+      if (!t.edgeClip) return;
+      var want = 'edge-clip-' + t.id + '-' + projMode;
+      var line = $$('#sub-outlines .edge-line[data-id="' + t.id + '"]', svg)[0];
+      var cp = hiDefs.querySelector('#' + want);
+      if (!cp) {
+        var b = t.edgeClip;
+        var a1 = project(b[0], b[1]), a2 = project(b[2], b[3]);
+        cp = svgEl('clipPath', { id: want, clipPathUnits: 'userSpaceOnUse' });
+        cp.appendChild(svgEl('rect', {
+          x: Math.min(a1.x, a2.x), y: Math.min(a1.y, a2.y),
+          width: Math.abs(a2.x - a1.x), height: Math.abs(a2.y - a1.y),
+        }));
+        hiDefs.appendChild(cp);
+        ownedDefs.sub.push(cp);
+      }
+      if (line) line.setAttribute('clip-path', 'url(#' + want + ')');
+    });
+  }
+
   function reprojectDocument() {
     if (!svg) return;
     var t0 = (window.performance || Date).now();
@@ -1665,7 +1694,18 @@
     line.style.setProperty('--edge', t.edge);
     if (t.edgeWidth) line.style.setProperty('--edge-w', t.edgeWidth);
     if (t.edgeClip) {
-      var id = 'edge-clip-' + t.id;
+      /* Keyed by projection, because the rectangle is worked out by projecting
+         two corners — and it was built once and kept for ever. Under Albers or
+         Lambert the map is a different space, so a rectangle computed in
+         Mercator lands somewhere else entirely: British India's edge line is
+         clipped to a window over Burma, and in a reprojected map that window
+         fell across Rajputana, where the stroke it kept showed up as a
+         straight line with nothing to do with any frontier.
+
+         A new key means a new rectangle, worked out in the space it is going
+         to be used in. It cannot change Mercator, which is where the original
+         one was already right. */
+      var id = 'edge-clip-' + t.id + '-' + projMode;
       if (!hiDefs.querySelector('#' + id)) {
         var b = t.edgeClip;
         var a1 = project(b[0], b[1]), a2 = project(b[2], b[3]);
@@ -4821,6 +4861,7 @@
       projMode = ['albers', 'laea'].indexOf(state.projection) >= 0
         ? state.projection : 'mercator';
       reprojectDocument();
+      refitEdgeClips();
       var c = project(mid.lon, mid.lat);
       view.w = Math.max(minViewW(), Math.min(frac * mapW, fitView().w));
       view.h = view.w / (containerSize().w / containerSize().h);

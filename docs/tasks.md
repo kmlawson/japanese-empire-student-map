@@ -7293,6 +7293,58 @@ seams are filled from below, and every target is where it was. Measured: 70
 paths still in the atom and still hit-testable, no visible seam, and the whole
 suite green.
 
+
+## The straight line across Rajputana: a Mercator rectangle clipping in another space
+
+Found, and it is the third member of the family the blur and the arrowhead
+belong to — **a quantity worked out in one space and used in another.**
+
+`drawEdge` restricts some territories' edge lines to a window given in longitude
+and latitude: British India's line is held off Burma by `edgeClip = 92 20.6 97.4
+28.4`. The rectangle is made by projecting two corners — and it was made **once**
+and kept:
+
+```js
+var id = 'edge-clip-' + t.id;
+if (!hiDefs.querySelector('#' + id)) { … project(b[0], b[1]) … }
+```
+
+Switch to an equal-area projection and that Mercator rectangle goes on clipping
+in a space where it means something else. The window meant for Burma landed
+across Rajputana, and the stroke it kept there is the straight line — dark,
+running north-east to south-west across the princely states, in Albers and
+Lambert and never in Mercator.
+
+The clip is keyed by projection now and refitted whenever the document is
+reprojected, because the colouring pass that used to build it does not run
+again on a projection change. Measured: Mercator's window at x 520 w 108,
+Lambert's at x 553 w 119 — a different rectangle, as it must be.
+
+**It cannot change Mercator**, where the original rectangle was already right.
+
+### What it took to find, and what that says
+
+Four earlier candidates were ruled out by measurement — densification, the
+bbox cache, the mask bounds, and the source geometry, which parses as clean
+`M`/`L`/`Z` with nothing dropped. What settled it was **the reader's Mercator
+screenshot of the same view**: identical data, an irregular frontier in one
+projection and a dead-straight line in the other. Two screenshots did what four
+rounds of reasoning had not.
+
+Two mistakes of mine on the way, both worth keeping:
+
+* I compared the view against itself. `layers=1f23` **already encodes Lambert**
+  — bits 15–16 decode to projection 2 — so the run labelled "mercator" was
+  Lambert too, and reported the geometry as identical, which it was.
+* I twice screenshotted an unhighlighted map and read nothing into it. The
+  province is only drawn pale while it is hovered, and a synthetic hover at the
+  wrong zoom does not select it. An absent effect in a shot that could not have
+  shown it is not evidence.
+
+`tools/test/projclip.js`, 8 checks: each projection builds a window of its own,
+the edge line uses that one rather than Mercator's, and the rectangle is not
+Mercator's in a new coat.
+
 ---
 
 ## Sources worth fetching
