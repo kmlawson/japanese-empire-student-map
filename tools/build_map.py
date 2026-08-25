@@ -5536,8 +5536,15 @@ def main():
     if os.path.exists(dpath):
         with open(dpath) as fh:
             for feat in json.load(fh)["features"]:
+                # An empty key is the ground the sheet does not divide — the
+                # central range, the east coast, the unattributed block round
+                # Takao. It is drawn and it cannot be named, which is what the
+                # emitter does with a nameless block: with Administrative on an
+                # atom is its divisions and nothing else, so without these the
+                # island came up as a rind of coastal districts round a hole.
                 provinces["taiwan"].append(
-                    (feat["properties"]["key"], list(iter_rings(feat["geometry"]))))
+                    (feat["properties"]["key"] or None,
+                     list(iter_rings(feat["geometry"]))))
 
     # ---- Japan, prefecture by prefecture -----------------------------------
     jpath = os.path.join(CACHE, "adm1_JPN.json")

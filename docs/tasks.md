@@ -7609,6 +7609,64 @@ Orchid Island, Green Island and an 18 km² sandbar off Chiayi that the 1926
 sheet does not have are all dropped, the sandbar being a bank that has moved
 kilometres within living memory and had no business beside a 1926 shore.
 
+## A clock on the map: the marks come and go, and the map stays where it is
+
+The date walk that went in earlier stepped from one dated mark to the next and
+flew the map to each. That is a way of *inspecting* a set. It is not a way of
+showing one, which is what a class needs: the thing a sequence of maps does is
+hold the ground still and let the shapes change over it.
+
+So the walk is gone and a clock has taken its place.
+
+### What a stage is
+
+Every start date and every end date in the set, deduplicated and sorted.
+Nothing is interpolated and no stage is invented — three marks starting in 1931
+and one ending in 1933 make two stages, not three years' worth. At a stage, a
+mark is drawn if its start has come and its end has not passed.
+
+**A mark with no dates at all is always drawn.** It is the coastline of the
+argument — the frontier the arrows are about, the line the reader put in first
+— and hiding it would leave a class watching arrows over open sea.
+
+The date is written to the precision it was given. `1931-09-18` reads as
+"18 September 1931" and `1937` reads as "1937", not "1 January 1937", which
+would be a precision nobody claimed. Which mark contributed the date decides
+that, so a stage that two marks share takes the more precise of the two.
+
+### Where it is, and why there
+
+On the map, immediately left of the **+** button, and not in the annotation
+panel. It is a control for *reading* a set rather than editing one: somebody
+who followed a shared link has the marks and not the tools, and this is the one
+control they are meant to have. It is hidden until there are two dates, because
+a pair of arrows that steps between one thing and itself is furniture.
+
+`‹` and `›` step. `▶` plays at two seconds a stage, from the beginning, and
+stops at the end rather than looping — a loop makes a reader wait to find out
+whether what they are looking at is the beginning or the end. Pressing it again
+pauses where it is. `×` shows every mark again and only appears once a stage has
+been chosen.
+
+On a screen under 700px the clock moves to the foot of the map, where a 44-pixel
+zoom stack and the header leave it no room in the corner.
+
+### Nothing moves
+
+A step redraws and does nothing else: no flying, no zooming, no selection.
+Checked both ways — mouse and finger — by reading the `viewBox` before and
+after three steps and comparing the strings.
+
+### Measured
+
+`tools/test/annotations/run12.js`, 25 checks, in the parallel runner. Four
+marks and four dates: 8 shapes drawn with the clock off, 6 at 18 September
+1931, 7 at July 1937, 8 at October 1938, and the undated line present at every
+one of them. Play checked against the clock — still on stage 1 after 1.2
+seconds, on stage 2 after 2.5 — and pause checked by waiting 2.4 seconds and
+finding it where it was left. The whole suite is 295 annotation checks and 136
+map checks.
+
 ---
 
 ## Sources worth fetching

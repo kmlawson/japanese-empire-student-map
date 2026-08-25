@@ -38,11 +38,17 @@ and a block of the southern coastal plain around Takao whose attribution the
 sheet has lost, with Takao, Hōzan and Okayama all inside it while small
 fragments labelled 岡山郡 and 鳳山郡 sit inland of them.
 
-Neither is given a name here. They are in the outline, so the island is whole
-and the colony's colour covers it; they are not in the districts file, so with
-Administrative on they are the colony's own fill and answer as Taiwan. Naming
-them would mean either inventing a unit the sheet does not have or repairing an
-attribution from guesswork, and this is a map students are marked on.
+Neither is given a name. Both are still *written out*, with an empty key: with
+Administrative on, an atom is drawn from its divisions and nothing else, so
+leaving them out of this file took half of Taiwan off the map the moment the
+layer went on — the island came up as a rind of coastal districts round a hole.
+They go in as unnamed blocks, which the build draws in the colony's colour and
+leaves unnameable and unoutlineable, so the island is whole and pointing at the
+mountains answers "Taiwan".
+
+Naming them would mean either inventing a unit the sheet does not have or
+repairing an attribution from guesswork, and this is a map students are marked
+on.
 
 ## Provenance
 
@@ -277,10 +283,18 @@ def main():
     # ---- the districts ---------------------------------------------------
     by_key = {}
     skipped = []
+    unnamed = {"type": "Feature",
+               "properties": {"key": "", "kanji": "", "romaji": "",
+                              "modern": None, "shu": ""},
+               "geometry": {"type": "MultiPolygon", "coordinates": []}}
     for feat in feats:
         kanji = feat["properties"].get("NAME")
         if not kanji:
+            # the ground the sheet does not divide: drawn, and not named
             skipped.append(feat["properties"]["fid"])
+            for poly in rings_of(feat["geometry"]):
+                unnamed["geometry"]["coordinates"].append(
+                    [[list(to_wgs84(x, y)) for x, y in ring] for ring in poly])
             continue
         if kanji not in NAMES:
             sys.stderr.write("unknown district %r\n" % kanji)
@@ -301,14 +315,16 @@ def main():
     for kanji, (key, _r, _m) in NAMES.items():
         if key in by_key and key not in order:
             order.append(key)
+    out = [by_key[k] for k in order]
+    if unnamed["geometry"]["coordinates"]:
+        out.append(unnamed)
     with open(OUT_DISTRICTS, "w") as fh:
-        json.dump({"type": "FeatureCollection",
-                   "features": [by_key[k] for k in order]}, fh)
+        json.dump({"type": "FeatureCollection", "features": out}, fh)
 
     verts = sum(len(r) for r in ll)
     print("outline: %d rings, %d vertices" % (len(ll), verts))
     print("districts: %d named units from %d features; %d unnamed features "
-          "left to the colony's own fill (fids %s)"
+          "written as one unnameable block (fids %s)"
           % (len(by_key), len(feats) - len(skipped), len(skipped),
              ", ".join(str(f) for f in skipped)))
     return 0

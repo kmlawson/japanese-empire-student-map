@@ -146,7 +146,7 @@ function SPOT(ids){
   return spare;
 }
 const BIG=path.join(__dirname,'..','..','cache','india-rivers.geojson');
-module.exports={puppeteer,sleep,page,ready,tap,openPanel,pickTool,stickTool,dropTool,SPOT,FIX,BIG,check,
+module.exports={puppeteer,sleep,page,ready,tap,openPanel,pickTool,stickTool,dropTool,SPOT,FIX,BIG,check,SHIM,
   report:()=>{console.log('\n  '+pass+' passed, '+fail+' failed');
     if(fail) failures.forEach(f=>console.log('   × '+f));
     return fail;}};
