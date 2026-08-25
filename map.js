@@ -13,8 +13,8 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '1.54';
-  var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "865f8a4768", "japan-empire-map-admin.svg": "d821c75055", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "132ece917d"};
+  var JEM_VERSION = '1.55';
+  var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "865f8a4768", "japan-empire-map-admin.svg": "38a68001c4", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "ba24f18b40"};
 
   /* Every file this one fetches, with the version on it.
 
@@ -196,7 +196,6 @@
   var sitePos = {};       // site id -> {x, y} in map units
   var scalables = [];     // {el, x, y} kept at constant screen size
   var labels = [];        // {rec, el, x, y, dy, size, w, h}
-  var terrLabelByEl = {}; // territory id -> label entry
   var selected = null;
 
   /* ------------------------------------------------------------ state -- */
@@ -551,7 +550,10 @@
   // way init() must run *after* the rest of this file has been evaluated, so
   // the inline path is deferred to a microtask rather than called outright.
   if (window.JMAP_INLINE_SVG) {
-    Promise.resolve(window.JMAP_INLINE_SVG).then(init);
+    // the same net as the fetched build has. A standalone file with a damaged
+    // or mismatched map in it used to throw into an unhandled rejection and
+    // leave a blank page with nothing to read
+    Promise.resolve(window.JMAP_INLINE_SVG).then(init).catch(showLoadError);
   } else {
     fetch(asset('japan-empire-map.svg'))
       .then(function (res) {
@@ -584,11 +586,14 @@
     svg.removeAttribute('height');
     svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
 
-    var box = svg.getAttribute('viewBox').split(/\s+/).map(Number);
+    var vb = svg.getAttribute('viewBox');
+    var meta = svg.querySelector('#proj');
+    // a map with no frame and no projection metadata is not this map
+    if (!vb || !meta) { showLoadError(); return; }
+    var box = vb.split(/\s+/).map(Number);
     mapW = mapW0 = box[2];
     mapH = mapH0 = box[3];
 
-    var meta = svg.querySelector('#proj');
     proj = {
       lonMin: parseFloat(meta.getAttribute('data-lon-min')),
       latMax: parseFloat(meta.getAttribute('data-lat-max')),
@@ -1005,14 +1010,23 @@
      is looking at another one it has to be moved before it is shown, or the
      divisions of a country land somewhere the country is not. */
   function reprojectGraft(nodes) {
-    if (projMode === 'mercator' || !nodes || !nodes.length) return;
+    if (!nodes || !nodes.length) return;
     nodes.forEach(function (n) {
       if (!n || n.nodeType !== 1) return;
       var all = [n].concat(Array.prototype.slice.call(n.querySelectorAll('*')));
       all.forEach(function (el) {
         if (el.tagName === 'path' && el.hasAttribute('d')) {
           if (el.__d0 === undefined) el.__d0 = el.getAttribute('d');
-          el.setAttribute('d', moveD(el.__d0));
+          /* Mercator is how the file was drawn, so it is the stored `d` put
+             back rather than nothing at all: these nodes may have spent a
+             projection change out of the document, where `reprojectDocument`
+             cannot see them, and still be carrying an equal-area `d`.
+             Only when it differs, though — a freshly imported node has just
+             had `__d0` read off it, so for the common case (a graft arriving
+             in Mercator, which is the default) this writes nothing, and the
+             administrative sheet is 1,300 paths. */
+          var want = projMode === 'mercator' ? el.__d0 : moveD(el.__d0);
+          if (el.getAttribute('d') !== want) el.setAttribute('d', want);
         } else if (el.tagName === 'circle' && el.hasAttribute('cx')) {
           if (el.__c0 === undefined) {
             el.__c0 = [parseFloat(el.getAttribute('cx')), parseFloat(el.getAttribute('cy'))];
@@ -1646,8 +1660,11 @@
       var p = sitePos[s.id];
       var text = svgEl('text', { 'class': 'slabel', 'font-size': SITE_PX, y: SITE_PX + 7 });
       labelLayer.appendChild(text);
-      labels.push({ rec: s, el: text, x: p.x, y: p.y, dy: SITE_PX + 7, size: SITE_PX, w: 0, h: SITE_PX * 1.2 });
-      scalables.push({ el: text, x: p.x, y: p.y, sid: s.id, cat: s.cat });
+      var sEntry = { rec: s, el: text, x: p.x, y: p.y, dy: SITE_PX + 7,
+                     size: SITE_PX, w: 0, h: SITE_PX * 1.2 };
+      labels.push(sEntry);
+      sEntry.sc = { el: text, x: p.x, y: p.y, sid: s.id, cat: s.cat };
+      scalables.push(sEntry.sc);
     });
 
     /* The physical map: seas, deserts, plateaus, ranges. They belong to no
@@ -1662,18 +1679,22 @@
       var text = svgEl('text', { 'class': 'flabel f-' + physical,
                                  'font-size': FEAT_PX });
       labelLayer.appendChild(text);
-      labels.push({ rec: f, el: text, x: p.x, y: p.y, dy: 0, size: FEAT_PX,
-                    w: 0, h: FEAT_PX * 1.2 });
-      scalables.push({ el: text, x: p.x, y: p.y });
+      var fEntry = { rec: f, el: text, x: p.x, y: p.y, dy: 0, size: FEAT_PX,
+                     w: 0, h: FEAT_PX * 1.2 };
+      labels.push(fEntry);
+      fEntry.sc = { el: text, x: p.x, y: p.y };
+      scalables.push(fEntry.sc);
     });
 
     (JMAP.BROWSE || []).forEach(function (b) {
       var p = sitePos[b.rid];
       var text = svgEl('text', { 'class': 'blabel', 'font-size': SITE_PX - 1.5, y: SITE_PX + 4 });
       labelLayer.appendChild(text);
-      labels.push({ rec: b, el: text, x: p.x, y: p.y, dy: SITE_PX + 4, size: SITE_PX - 1.5,
-                    w: 0, h: SITE_PX * 1.1 });
-      scalables.push({ el: text, x: p.x, y: p.y });
+      var bEntry = { rec: b, el: text, x: p.x, y: p.y, dy: SITE_PX + 4,
+                     size: SITE_PX - 1.5, w: 0, h: SITE_PX * 1.1 };
+      labels.push(bEntry);
+      bEntry.sc = { el: text, x: p.x, y: p.y };
+      scalables.push(bEntry.sc);
     });
   }
 
@@ -1768,9 +1789,6 @@
     scalables = scalables.filter(function (s) { return s.el.isConnected; });
     byId = {};
     atomsOf = {};
-    Object.keys(elById).forEach(function (k) {
-      if (!byId[k] && elById[k] && elById[k].classList.contains('site')) return;
-    });
 
     var subUnits = [];
     JMAP.SITES.forEach(function (s) { byId[s.id] = s; });
@@ -1875,8 +1893,8 @@
         labelLayer.appendChild(text);
         var entry = { rec: t, el: text, x: x, y: y, dy: 0, size: px, w: 0, h: px * 1.2 };
         labels.push(entry);
-        terrLabelByEl[t.id] = entry;
-        scalables.push({ el: text, x: x, y: y });
+        entry.sc = { el: text, x: x, y: y };
+        scalables.push(entry.sc);
       }
     });
 
@@ -1968,6 +1986,15 @@
   var view = { x: 0, y: 0, w: 100, h: 100 };
   var lastScaleW = -1;
   var rafPending = false;
+  /* Whether the frame that is queued has a zoom in it. It has to live here and
+     not in the closure of whichever `applyView` happened to book the frame:
+     the second call in a frame cannot reach into the first one's variables, so
+     a pan that booked the frame and a zoom that arrived before it ran meant
+     the zoom's `rescale()` was dropped — and because `lastScaleW` had already
+     moved on, every later pan agreed there was nothing to do. Measured: a drag
+     and a wheel tick in one frame left the city dots and the hatching at 62%
+     too large, and panning afterwards never put them right. */
+  var rafZoomed = false;
 
   /* Three answers that do not change while the reader is dragging, and that
      were being worked out afresh on every frame of the drag.
@@ -2147,7 +2174,11 @@
     state.labels = !!(bits & 16);
     state.extent = !!(bits & 32);
     state.rivers = !!(bits & 64);
-    state.level = ((bits >> 8) & 3) + 1;
+    // 1 to 3. The two bits can say 4 and nothing else can: the buttons offer
+    // three, `layerCode` writes three, and a saved state is only accepted at
+    // three — so a hand-edited link asking for 4 used to run at a level with
+    // no button lit and an address bar that disagreed with the map.
+    state.level = Math.min(3, ((bits >> 8) & 3) + 1);
     state.hairline = !!(bits & 1024);
     state.occSource = (bits & 262144) ? 'none' : ((bits & 2048) ? 'nca' : 'traced');
     state.manchukuo = !(bits & 524288);
@@ -2448,12 +2479,16 @@
       rst.setAttribute('aria-disabled', atHome ? 'true' : 'false');
     }
     if (state.graticule) drawGraticule();
-    var zoomed = force || Math.abs(view.w - lastScaleW) > 0.01;
-    if (zoomed) lastScaleW = view.w;
+    if (force || Math.abs(view.w - lastScaleW) > 0.01) {
+      lastScaleW = view.w;
+      rafZoomed = true;
+    }
     if (!rafPending) {
       rafPending = true;
       requestAnimationFrame(function () {
         rafPending = false;
+        var zoomed = rafZoomed;
+        rafZoomed = false;
         if (zoomed) rescale();
         if (browseGroup) browseGroup.style.display =
           (!JMAP.GAZ && browseVisible()) ? '' : 'none';
@@ -2486,7 +2521,6 @@
     { id: 'hatch-ccp', rot: -45 },
   ];
   var hatchPatterns = null;
-  var lastDouble = 0;
   var lastTap = null;
   var pendingTap = 0;
 
@@ -2558,6 +2592,27 @@
     return hpx < SMALL_ISLE_PX ? hpx / 2 + L.h * 0.9 : 0;
   }
 
+  /* One scalable, put where it belongs at the current zoom.
+   *
+   * `translate(x y)` is in map units — where the thing is on the map.
+   * `scale(k)` makes what follows a screen-pixel space, so `ox`/`oy` and
+   * `nx`/`ny` are both in **screen pixels**, which is what they have to be:
+   * `oy` is half an island's height on screen, and `nx`/`ny` come out of
+   * `placeLabels`, which works entirely in screen pixels. See the map-units
+   * note in CLAUDE.md — this is the same trap as the blur and the arrowhead.
+   *
+   * `ox`/`oy` are the offset the map gives a name (an islet's name lifted off
+   * the islet). `nx`/`ny` are the nudge `placeLabels` applies on top to clear
+   * a collision. They are added rather than one overwriting the other,
+   * because a small island's name can need both. */
+  function placeScalable(s, k) {
+    var ox = (s.ox || 0) + (s.nx || 0);
+    var oy = (s.oy || 0) + (s.ny || 0);
+    var t = 'translate(' + s.x + ' ' + s.y + ') scale(' + k + ')';
+    if (ox || oy) t += ' translate(' + ox + ' ' + oy + ')';
+    s.el.setAttribute('transform', t);
+  }
+
   function rescale() {
     var c = containerSize();
     var k = view.w / c.w;                       // SVG units per screen pixel
@@ -2567,9 +2622,7 @@
         s.oy = isleOffset(s.label, k);
         s.label.dy = s.oy;
       }
-      var t = 'translate(' + s.x + ' ' + s.y + ') scale(' + k + ')';
-      if (s.ox || s.oy) t += ' translate(' + (s.ox || 0) + ' ' + (s.oy || 0) + ')';
-      s.el.setAttribute('transform', t);
+      placeScalable(s, k);
     }
     /* `k` is SVG units per screen pixel, and anything a reader's own marks draw
        in *screen* terms needs it. A filter's deviation is the case: it is in
@@ -2701,7 +2754,8 @@
       labels.push(entry);
       subLabels.push(entry);
       var sc = { el: text, x: x, y: y };
-      if (half) { sc.label = entry; entry.sc = sc; }
+      entry.sc = sc;
+      if (half) sc.label = entry;
       scalables.push(sc);
       made++;
     });
@@ -2737,6 +2791,7 @@
   function gateLabels() {
     ensureSubLabels();
     var showLabels = state.labels && state.mode !== 'quiz';
+    var measure = [];
     /* An island can be named twice: once by the base map, from the centroid
        written into its shape, and again by the fine coastline layer, off the
        ring it grafts in. The two used to land on top of each other and the
@@ -2777,8 +2832,33 @@
       if (L.el.textContent !== text) {
         L.el.textContent = text;
         L.w = estimateWidth(text, L.size);
+        /* A guess, for now. `estimateWidth` counts 0.56 em for a Latin letter
+           and these names are set bold, so it is short — measured across the
+           51 names on the opening view, short by 11% in the middle of the
+           distribution and by 41% for "Guam". The placer believed the guess,
+           reserved a box narrower than the word, and let two names that
+           genuinely fought be placed side by side: Hong Kong over
+           Guǎngzhōuwān, Macao over Hong Kong. The real width is read below. */
+        measure.push(L);
+        // A width can only be measured on something that is laid out, and the
+        // element may have been hidden by the last pass. `placeLabels` runs
+        // immediately after this, in the same frame, and will hide it again if
+        // it does not fit — so nothing is painted in between.
+        L.el.style.display = '';
       }
     });
+    /* All the writing above, then all the reading here. Interleaved, each
+       `getComputedTextLength` would force the browser to lay the document out
+       again — thirteen hundred times over on the first pass with the
+       administrative sheet in. Batched, it is one layout. */
+    for (var m = 0; m < measure.length; m++) {
+      var M = measure[m], real = 0;
+      try { real = M.el.getComputedTextLength(); } catch (err) { real = 0; }
+      // The text is drawn in local units and the scalable's `scale(k)` turns
+      // those into screen pixels one for one, which is the space `placeLabels`
+      // works in. A hidden or unlaid-out element answers 0; keep the guess.
+      if (real > 0) M.w = real;
+    }
   }
 
   /* Where a name may go when it cannot stay where it is: up and down first,
@@ -2866,6 +2946,7 @@
     var c = containerSize();
     var sx = c.w / view.w;
     var sy = c.h / view.h;
+    var k = view.w / c.w;                 // map units per screen pixel
     var placed = uiBoxes();
     islandQuota();
     var isles = 0;
@@ -2922,16 +3003,33 @@
          country's name nudged far enough to clear its neighbour is a name over
          the neighbour. */
       var ok = free(box);
+      var nx = 0, ny = 0;
       if (!ok) {
         var dx = L.w * 0.55, dy = L.h * 1.15;
         for (var n = 0; n < NUDGES.length && !ok; n++) {
           var o = NUDGES[n];
           var nb = { l: box.l + o[0] * dx, r: box.r + o[0] * dx,
                      t: box.t + o[1] * dy, b: box.b + o[1] * dy };
-          if (free(nb)) { box = nb; y += o[1] * dy; x += o[0] * dx; ok = true; }
+          if (free(nb)) { box = nb; nx = o[0] * dx; ny = o[1] * dy; ok = true; }
         }
       }
       if (!ok) { L.el.style.display = 'none'; continue; }
+
+      /* And then the label is actually *moved* there. It was not, for as long
+         as this code has existed: the offset went into local variables and
+         `box`, so the map reserved the free space and went on drawing the name
+         in the collision it had just found — which both wrote one name over
+         another and blocked a third from the space nothing was using.
+         Measured: Karafuto's box was recorded 37 px below where Karafuto was
+         drawn.
+
+         In screen pixels, and `placeScalable` is where they are turned back
+         into map units. Nothing else may write `nx`/`ny`. */
+      if (L.sc && (L.sc.nx !== nx || L.sc.ny !== ny)) {
+        L.sc.nx = nx;
+        L.sc.ny = ny;
+        placeScalable(L.sc, k);
+      }
 
       placed.push(box);
       if (isIsle) isles++;
@@ -4713,7 +4811,14 @@
     // the gloss on the name is what the first slot gets instead: for most
     // sub-units that is the only sentence written about them, and it was
     // being spent on the headline.
-    var ownNote = sub ? (head.note || split.gloss || '') : (rec.note || '');
+    /* And the short line, if that is all there is. `short` is what the tooltip
+       says when the pointer rests on a sub-unit, and for a table like Taiwan's
+       forty-nine districts it is the whole of what has been written about most
+       of them — the prefecture each was in and a clause about the ground. It
+       was going to the tooltip and nowhere else, so a card opened on one of
+       them had a name, a kanji line and a link, and no sentence at all. */
+    var ownNote = sub ? (head.note || split.gloss || shortOf(head) || '')
+                      : (rec.note || '');
     var groupNote = sub ? (host.note || '') : '';
     var own = $('.note-own', infoBox);
     var grp = $('.note-group', infoBox);
@@ -5374,6 +5479,14 @@
      view reaches it, and taken out again when the view leaves — its coarse
      shapes going back exactly as they were. */
   var fineState = 'none';           // none | loading | ready | failed
+  /* `failed` used to be documented and never used — the catch put the state
+     back to `none`, and `syncFine` runs on every settled pan and wheel, so a
+     reader who was offline at deep zoom fired a fresh request for a 2 MB file
+     every time they moved. Not the opposite mistake either: `failed` forever
+     would mean a blip on the school wifi cost the fine coastline for the rest
+     of the lesson. One attempt every half minute. */
+  var fineFailedAt = 0;
+  var FINE_RETRY_MS = 30000;
   var fineBoxes = null;             // atom -> [x0, y0, x1, y1], from the map
   var fineDoc = null;               // the parsed file, kept for regrafting
   var fineLive = {};                // region key -> the nodes it has grafted
@@ -5511,6 +5624,8 @@
   function fetchFine(then) {
     if (fineState === 'ready') { then(); return; }
     if (fineState === 'loading') return;
+    if (fineState === 'failed' &&
+        (window.performance || Date).now() - fineFailedAt < FINE_RETRY_MS) return;
     fineState = 'loading';
     var parse = function (text) {
       fineDoc = new DOMParser().parseFromString(text, 'image/svg+xml');
@@ -5524,7 +5639,10 @@
         return r.text();
       })
       .then(parse)
-      .catch(function () { fineState = 'none'; });
+      .catch(function () {
+        fineState = 'failed';
+        fineFailedAt = (window.performance || Date).now();
+      });
   }
 
   /* Every island in the windows currently grafted. An island's coarse copy is
@@ -5682,12 +5800,58 @@
     return true;
   }
 
+  /* The names of the islands in a window go out with the window.
+   *
+   * They used not to. `gateLabels` hides a label whose shape has gone, which
+   * looks like enough and is not: the entry stays in `labels`, `subLabels` and
+   * `scalables`, and its `<text>` stays in the document. Coming back to the
+   * region imports the rings *afresh*, so `subLabelled` has never seen them
+   * and builds a second complete set of names over the first. Measured, with
+   * names on, going between the Ryukyus and the Solomons: 909 labels at the
+   * start and 4,305 after four round trips, +802 every time and none of it
+   * ever given back, with `placeLabels` — which runs on every frame of every
+   * pan — walking the whole pile.
+   *
+   * Only the shapes this window is taking out. Not "every label whose owner is
+   * detached", which would also catch the province set held out of the
+   * document by `setProvinceSource`: those elements come back, and dropping
+   * their labels would leave them nameless for good, because the WeakSet would
+   * still recognise the elements and never rebuild them. */
+  function dropLabelsFor(els) {
+    if (!els.length) return;
+    els.forEach(function (e) { e.__dropping = 1; });
+    var dropped = [];
+    labels = labels.filter(function (L) {
+      if (!L.owner || !L.owner.__dropping) return true;
+      if (L.el && L.el.parentNode) L.el.parentNode.removeChild(L.el);
+      dropped.push(L);
+      return false;
+    });
+    if (dropped.length) {
+      subLabels = subLabels.filter(function (F) {
+        return !(F.owner && F.owner.__dropping);
+      });
+      dropped.forEach(function (L) { if (L.sc) L.sc.__dropping = 1; });
+      scalables = scalables.filter(function (s) { return !s.__dropping; });
+    }
+    els.forEach(function (e) { delete e.__dropping; });
+  }
+
   function dropFine(key) {
     var nodes = fineLive[key];
     if (!nodes) return false;
     bumpLayout();
+    var named = [];
+    nodes.forEach(function (n) {
+      if (!n || n.nodeType !== 1) return;
+      if (n.hasAttribute('data-prov')) named.push(n);
+      if (n.querySelectorAll) {
+        Array.prototype.push.apply(named, $$('[data-prov]', n));
+      }
+    });
     nodes.forEach(function (n) { if (n.parentNode) n.parentNode.removeChild(n); });
     delete fineLive[key];
+    dropLabelsFor(named);
     syncBackings();
     return true;
   }
@@ -5763,14 +5927,20 @@
   var rocState = 'none';            // none | loading | ready | failed
 
   function rememberProvinces(which, key, nodes) {
-    (provSets[which][key] = provSets[which][key] || []).push.apply(
-      provSets[which][key], nodes);
+    var bag = (provSets[which][key] = provSets[which][key] || []);
+    // once each: the same node is put away again every time the source is
+    // switched back and forth, and a bag that grew each time would hand the
+    // same path to `insertBefore` twice
+    nodes.forEach(function (n) { if (bag.indexOf(n) < 0) bag.push(n); });
   }
 
   function setProvinceSource(which) {
     if (which !== 'enp' && which !== 'roc') return;
     provSource = which;
-    if (which === 'roc' && rocState === 'none') loadRoc();
+    // 'failed' as well as 'none': a request that fell over once used to leave
+    // the reader with a control that said ROC, a map that showed ENP and no
+    // way to ask again, because only `none` started a fetch.
+    if (which === 'roc' && (rocState === 'none' || rocState === 'failed')) loadRoc();
     Object.keys(atomEls).forEach(function (key) {
       var el = atomEls[key];
       var wanted = provSets[which][key];
@@ -5778,9 +5948,42 @@
       // nothing to swap to: the atom keeps what it has
       if (!wanted || !wanted.length) return;
       if (other) other.forEach(function (n) { if (n.parentNode) n.parentNode.removeChild(n); });
+      /* And whatever the atom is carrying of its own.
+         China's provinces are drawn in the base map file, not in the
+         administrative sheet, so they were never in `provSets` and the swap
+         had nothing to take out — the Republic's sheet went in *beside* them
+         and China's atom held 42 provinces where it should hold 21, each
+         boundary drawn twice and answering the pointer twice. They are
+         remembered under the source they belong to on the way out, so
+         switching back puts them back.
+         Not the fine coastline: those wear `data-prov` too, they are the
+         islands' own names rather than a province set, and `graftFine` owns
+         their lifetime. */
+      var back = which === 'enp' ? 'roc' : 'enp';
+      var inPlace = $$('[data-prov]', el).filter(function (n) {
+        return !(n.closest && n.closest('.fine'));
+      });
+      if (inPlace.length) {
+        rememberProvinces(back, key, inPlace);
+        inPlace.forEach(function (n) { if (n.parentNode) n.parentNode.removeChild(n); });
+      }
       var before = el.querySelector('circle');
       wanted.forEach(function (n) { el.insertBefore(n, before); });
+      /* And into the projection that is on. A set held out of the document is
+         invisible to `reprojectDocument`, which walks the SVG, so it comes
+         back carrying whatever coordinates it had when it left — and a set
+         that has never been in the document at all, which is every ROC
+         province on first use, is still in the Mercator the file was drawn in.
+         Measured, in Albers: ROC Gansu was drawn at x 548 where the same
+         province in the other source sits at x 786. */
+      reprojectGraft(wanted);
     });
+    /* The province the card is describing and the one under the pointer may be
+       nodes that have just been taken out of the document. `select` rebuilds
+       the card head from `lastProv`, so without this the card can go on naming
+       a province that is no longer on the map. */
+    lastProv = null;
+    setHotProv(null);
     applyState();
     if (selected) select(selected);
     redrawHighlight();
@@ -5839,8 +6042,20 @@
           el.insertBefore(node, before);
           mine.push(node);
         }
-        rememberProvinces('enp', g.getAttribute('data-for'), mine);
-        reprojectGraft(mine);
+        var forKey = g.getAttribute('data-for');
+        rememberProvinces('enp', forKey, mine);
+        /* Two fetches, and whichever lands last used to win. This one appends
+           its provinces whatever the reader asked for, so a link that chose
+           the Republic's sheet and got it first ended up with *both* sets in
+           the document — 42 provinces inside China's atom where there should
+           be 21, every one of them doubled in the hover outline, the cluster
+           and the names. Measured on four loads out of four. If ROC is what is
+           wanted and ROC is there, these are remembered and put away. */
+        if (provSource !== 'enp' && provSets.roc[forKey] && provSets.roc[forKey].length) {
+          mine.forEach(function (n) { if (n.parentNode) n.parentNode.removeChild(n); });
+        } else {
+          reprojectGraft(mine);
+        }
         el.classList.remove('deferred');
       });
       if (!grafted) {
@@ -6313,6 +6528,15 @@
         if (!r.checked) return;
         state.projection = r.value;
         applyState();
+        /* An outline is stroked through a mask sized to the shape's bounding
+           box, and the projection has just moved every shape out of the box
+           the standing outline was cut to. Measured: select the Soviet Union
+           in Mercator and switch to Albers, and 695 map units of the country
+           lie outside the mask and are simply not drawn. `applyState` bumps
+           the generation, which marks the slot stale but does not rebuild it;
+           this is the rebuild, and it is here for the same reason the other
+           layer switches call it. */
+        redrawHighlight();
         saveState();
       });
     });
@@ -6479,6 +6703,10 @@
           selected = null;
           infoBox.hidden = true;
           document.body.classList.toggle('panel-open', !quizBox.hidden);
+          // and the outline goes with the card. Dropping `selected` alone left
+          // the masked outline — the expensive one — standing on screen with
+          // nothing selected, until something else happened to redraw it.
+          redrawHighlight();
         }
       },
       giveBack: function () {
@@ -6494,6 +6722,7 @@
         if (!infoBox) return;
         markSelected(selected, false);
         selected = null;
+        redrawHighlight();          // see makeRoom
         infoBox.hidden = false;
         var chip = $('.chip', infoBox);
         if (chip) { chip.textContent = 'Annotation'; chip.hidden = false; }

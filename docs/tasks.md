@@ -7345,6 +7345,270 @@ Two mistakes of mine on the way, both worth keeping:
 the edge line uses that one rather than Mercator's, and the rectangle is not
 Mercator's in a new coat.
 
+## The names were moved and then drawn where they had been, and five other things an outside review found
+
+`codex` was given `map.js` and asked for faults, inefficiencies and redundancy.
+`agy` was asked the same and returned nothing — headless mode auto-denied a tool
+it needed — so this was one reviewer, not two, and none of the "both agreed"
+weight applies. Fifteen findings. Nine were real, one was a documented
+trade-off, five were true and trivial. The verification, the measurements and a
+correction to one of my own claims are in
+`reports/2026.08.25-mapjs-review.md`; what follows is what changed.
+
+### The nudge went into a variable and never onto the label
+
+`placeLabels` moves a colliding name through ten offsets until one is free, then
+reserves that box. It never moved the name. The offset went into local `x`, `y`
+and into `box`, and the label's position comes from the `transform` `rescale()`
+writes on its `scalables` entry, which nothing touched. So the map wrote the
+name in the collision it had just found **and** blocked a third name from the
+empty space it had claimed.
+
+Caught in one frame: Karafuto drawn at top −32, its box recorded at top +5, the
+nudge +37.26. Nine nudges fired in ten wheel steps from the opening view, up to
+100 px. Nepal, Sikkim and Bhutan — the three the comment in `map.js` is written
+about — had never worked.
+
+Fixed by making `placeScalable()` the single place a scalable's transform is
+written, and having `placeLabels` put the offset in `sc.nx`/`sc.ny`. **In screen
+pixels**, because the `translate` after `scale(k)` is a screen-pixel space —
+which is the same map-units-versus-pixels distinction as the blur and the
+arrowhead, and the reason `placeScalable` carries a comment saying so.
+
+### And the width it was placing against was a guess
+
+Once the nudge worked, names still touched. `estimateWidth` counts 0.56 em for a
+Latin letter and these are set bold: measured over the 51 names on the opening
+view it is short by 11% in the middle and by 41% for "Guam". The placer believed
+it, reserved a box narrower than the word, and let two names that genuinely
+fought sit side by side.
+
+`gateLabels` now reads the real width with `getComputedTextLength`, and does it
+in a second pass after all the writing — interleaved, each read would force a
+fresh layout, which with the administrative sheet in is thirteen hundred of
+them. Measured: no change in cost, 0.6–2.7 ms shallow and 2.7–3.9 ms over the
+Solomons, the same as before either way.
+
+Overlapping names at the opening view and through six wheel steps: **18, 8, 2 →
+0, 0, 0**, with the same number of names on screen. One name fewer fits at level
+3 now, which is what an honest box costs.
+
+### Leaving a fine-coastline window left its names behind
+
+`dropFine` took out the islands and not their labels. `gateLabels` hides a label
+whose shape has gone, which looks like enough; the entry stayed in `labels`,
+`subLabels` and `scalables`, and the `<text>` stayed in the document. Coming
+back imported the rings afresh, so the `WeakSet` had never seen them and built a
+second complete set.
+
+Measured, names on, between the Ryukyus and the Solomons: **909 labels → 4,305
+over four round trips**, +802 each time, none of it given back, with
+`placeLabels` walking the pile on every frame of every pan (0.26 → 1.12 ms).
+Zooming in and out of the *same* window does not leak — the view has to leave
+the region.
+
+`dropLabelsFor()` now goes with the window, and only for the shapes that window
+is taking out. Not "every label whose owner is detached", which would also catch
+the province set held out of the document by `setProvinceSource` — those come
+back, and dropping their labels would leave them nameless for good, because the
+WeakSet would still recognise the elements. After: flat at 1,211 and 1,785
+across four round trips, and the islands still named on return.
+
+### A pan and a zoom in one frame lost the zoom, permanently
+
+`applyView` captured `zoomed` in the closure it handed to
+`requestAnimationFrame`. A second call before the frame ran updated `lastScaleW`
+but could not upgrade the pending callback, so `rescale()` was skipped — and
+because `lastScaleW` had moved, every later pan agreed there was nothing to do.
+
+```
+baseline                      wanted k 2.6415   drawn scale(2.6415)
+after a pan + wheel, one frame wanted k 1.6345   drawn scale(2.6415)   62% oversize
+after a further pan            wanted k 1.6345   drawn scale(2.6415)   not repaired
+```
+
+`rafZoomed` is a module-level flag now, set by any call and cleared by the frame
+that runs. After: 1.6345 against 1.6345, and still right after a further pan.
+
+### China was carrying both province sheets at once
+
+A link with bit 128 — the Republic's own provinces, whose switch came out of the
+Layers panel when the period sheet was redrawn — put **42 provinces inside
+China's atom where there are 21**, on four loads out of four. Two causes, and
+the second is the one that would have been missed:
+
+* the administrative graft appended its own provinces whatever the reader had
+  asked for; and
+* **China's provinces are in the base map file, not the administrative sheet**,
+  so they were never in `provSets` and the swap had nothing to take out. Fixing
+  only the first would have left the fault exactly where it was.
+
+The swap now also takes out whatever the atom is already carrying and remembers
+it under the source it belongs to, so it goes back on the way back. Not the fine
+coastline, which wears `data-prov` too and whose lifetime `graftFine` owns.
+
+And the Republic's sheet was drawn in Mercator whatever projection was on, since
+a set held out of the document is invisible to `reprojectDocument`. In Albers,
+ROC Gansu at x 548 where the other sheet has it at x 786. `reprojectGraft` is
+called on insert now, and it can put nodes *back* into Mercator as well as out
+of it — a set that spent a projection change detached still carries the old
+coordinates. Round-tripped three times in each projection: 21 provinces every
+time, right source, right place.
+
+Also on that path: a failed ROC fetch could never be retried (the caller only
+started one from `none`, and the catch set `failed`), and the swap left
+`lastProv` pointing at a detached node, so the card could go on naming a
+province that was no longer on the map.
+
+### The smaller ones
+
+* **The outline stayed up when the annotation tools opened.** `makeRoom` cleared
+  `selected` and closed the card without redrawing, so the expensive masked
+  outline stood there with nothing selected. Same in `card()`.
+* **A projection change did not rebuild the outline either**, and `applyState`
+  bumping the generation only marks it stale. I reported this as clipping 695
+  units off the Soviet Union; that number was wrong — I had compared the mask
+  against the whole atom's bounding box rather than the shapes the outline is
+  built from. Screenshotting select-then-switch against switch-then-select over
+  eight territories found no visible difference at all, before the fix or after.
+  Fixed anyway, and the fix is pixel-neutral.
+* **A failed fine-coastline fetch was retried on every settled pan.** `failed`
+  was documented and never used — the catch put it back to `none`, and
+  `syncFine` runs on every settle, so an offline reader at deep zoom asked for a
+  2 MB file every time they moved. One attempt every 30 seconds now, which is
+  neither that nor "failed forever".
+* **A hand-edited link could ask for level 4.** Two bits decode to 1–4 and
+  everything else allows 1–3; clamped.
+* **The standalone build had no error boundary.** The fetched path ends
+  `.catch(showLoadError)`; the inline path did not, and `init` dereferenced
+  `viewBox` and `#proj` unchecked. Both fixed.
+* **Dead code confirmed and removed**: `terrLabelByEl`, written and never read;
+  `lastDouble`, declared and never touched; and a `Object.keys(elById)` loop
+  whose body could only `return` from its own callback.
+
+### What was measured afterwards
+
+Two new scripts: `tools/test/labels.js` (19 checks — the nudge, the leak's two
+guards, the coalesced frame) and `tools/test/provsource.js` (9 — one sheet at a
+time, in the projection that is on). Both were run against the code as it was
+before: five failures and four. The whole suite is 270 annotation checks and 136
+map checks, all passing, and the touch path was driven separately — tap, second
+tap, the outline going with the card, and a two-finger pinch leaving the markers
+at the right screen scale.
+
+Fourteen map states were screenshotted before and after. Twelve are
+byte-identical. The two that differ are "level 3 with names" and "1942 with
+everything on", which is the label fix and is the point of it: Nepal/Sikkim/
+Bhutan, Kwantung/Chōsen/Weihaiwei, Macao/Hong Kong/Guangzhouwan, North
+Borneo/Brunei/Sarawak and Nauru/Gilbert & Ellice all legible where they were
+printed over each other, and Běijīng, Shěnyáng, Lǚshùn, Nánjīng, Shànghǎi,
+Nagasaki and Hiroshima placed on the 1942 map where they had been a smear.
+
+Left alone: the whole fine file is still parsed and kept — the comment above it
+argues for that, and the saving that was wanted was in what is drawn — and
+`placeLabels` is still a full-inventory pass per frame, which is worth its own
+look now that the inventory no longer grows.
+
+## Taiwan stops being a modern coastline: the 1926 sheet, dissolved and divided
+
+Taiwan was the last big place on the map drawn from Natural Earth's
+present-day outline, with no boundary of any kind inside it. The export script
+beside it said so and apologised. It is now a period source: Academia Sinica's
+《日治時期臺灣行政區域沿革》 郡(市)界 for July 1926, reprojected by the author
+from TWD67 to TWD97, and turned into map geometry by
+`tools/fetch_taiwan_1926.py`.
+
+### The coastline is the districts, added up
+
+The sheet is 54 polygons that tile the island. Checked before anything was
+built: 79,634 directed edges, of which 31,488 are shared pairs and 16,658 are
+walked once. That is a clean partition, so the coast is exactly the unpaired
+edges chained head to tail — no unioning library, no snapping tolerance, no
+vertex moved. The chaining is done in the sheet's own projected coordinates,
+where shared vertices are bit-identical; only the result is turned into
+lon/lat, because doing it the other way round puts a float conversion between
+two numbers that have to match.
+
+It comes out at 20 rings and 16,658 vertices, and the areas identify
+themselves: 35,758 km² for the main island (against 35,808 published), 46.5 for
+Orchid Island, 15.1 for Green Island, 6.7 for Little Liuqiu, 2.8 for Guishan.
+Drawn over Natural Earth's Taiwan the two agree everywhere except where you
+would expect a century of reclamation — Takao, Taichū, and the lagoon coast of
+Chiayi and Yunlin, where the modern shore is well out to sea of the 1926 one.
+
+Thinned into the map at `TRACED_TOL` 0.021 units — about 107 m, half a pixel at
+the deepest zoom — the main island keeps 1,131 of 15,230 vertices, 7.4%. The
+size band it would otherwise have been given, 0.55 units, is three kilometres,
+which would have flattened the Kōshun peninsula and the east-coast cliffs back
+into the shapes Natural Earth had.
+
+### What the sheet does not have, and what was not invented to fill it
+
+Four of the 54 polygons carry no name, and two of them are large:
+
+* **The central range and the east coast**, 19,089 km² — more than half the
+  island. In 1926 that was 蕃地 together with Karenkō-chō and the mainland of
+  Taitō-chō, none of which was cut into 郡 at all, so the sheet is right to
+  have no name for it.
+* **An 800 km² block of the south-western coastal plain**, which swallows
+  Takao, Hōzan and Okayama while small fragments labelled 岡山郡 and 鳳山郡 sit
+  inland of them. Takao had been a city since 1924; the sheet has no 高雄市 and
+  no 基隆市 either, and Kīrun's ground is a hole inside Kīrun-gun. That is a
+  gap in the source, not a misreading of it.
+
+Both are drawn in the colony's colour and answer as Taiwan. Neither is named.
+Okayama-gun's and Hōzan-gun's own cards say they are drawn short of the ground
+they governed, and `sources.md` says the same at more length. Naming them would
+have meant either inventing a unit the sheet does not have or repairing an
+attribution by guesswork.
+
+### Forty-nine districts, and the readings that are not guessable
+
+Every 郡, 市 and 支廳 the sheet names is a sub-unit with its own card:
+`Kagi-gun (Chiayi)`, with 嘉義郡 (Kagi-gun) beneath it, the prefecture it
+belonged to in its first sentence, and a link to that prefecture's article
+rather than to the district's — the eight 州廳 are the level a reader can
+follow up, and most districts have no article anywhere.
+
+**Ten of the readings in the first pass were wrong**, and none of them was
+wrong in a way reading the kanji would catch. 大湖 is Taiko and 大溪 is Daikei,
+which is the opposite of what the voicing rule suggests. 竹山 is Takeyama, not
+Chikuzan. 新豐 is Niitoyo, not Shinpō. 文山 is Bunzan, 新莊 Shinshō, 蘇澳 Suō,
+北港 Hokukō, 曾文 Sobun, 新營 Shin'ei. All fifty were then checked against the
+breakdown tables in the Wikipedia articles for the five 州 and the 廳, which is
+where the colonial readings actually live, and Takao-shū's seven came back
+matching. 大甲 (Taikō) and 大湖 (Taiko) differ only by a macron, so their keys
+are `TwTaikou` and `TwTaiko`.
+
+### Two things this broke, and the fixes
+
+**The Pescadores disappeared when Administrative went on.** They are the one
+part of the colony the sheet does not cover, so they still come from Natural
+Earth, and they were only in the filler underneath the atom. The filler is
+stood down the moment an atom has divisions of its own — so with the layer off
+they were drawn, and with it on they vanished. They are a named sub-unit now,
+which is also what they were: Hōko-chō, taken back out of Takao-shū in 1926 and
+made a chō again, and not divided into 郡.
+
+**Taichū-shi and Hōzan-gun fell through the minimum-area sieve.** Both are
+about 20 km², under the floor a country's provinces are given, and the colony's
+third city was being dropped silently. `sub_min_area` now gives Taiwan 0.04.
+
+**And a card with nothing in it.** A sub-unit's `short` line was going to the
+tooltip and nowhere else, so a district with no long note opened a card with a
+name, a kanji line and a link and no sentence at all. The card falls back to it
+now, which is why every one of the forty-nine says which prefecture it was in.
+
+### Measured after
+
+49 districts drawn out of 49 named in the sheet, plus Hōko-chō. Cards checked
+by clicking eight of them across the island. 22 rings in the atom, 31.4 KB. The
+whole map suite — 136 checks — and the 270 annotation checks pass. Natural
+Earth now contributes nothing to Taiwan but the Pescadores: the main island,
+Orchid Island, Green Island and an 18 km² sandbar off Chiayi that the 1926
+sheet does not have are all dropped, the sandbar being a bank that has moved
+kilometres within living memory and had no business beside a 1926 shore.
+
 ---
 
 ## Sources worth fetching

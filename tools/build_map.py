@@ -719,7 +719,14 @@ TRACED_TOL = {"india": 0.021, "nca_pacified": 0.021, "nca_unpacified": 0.021,
               # India and China by nothing at all, and thinned at 0.55 the drawn
               # shape lay over 390 km² of one and 585 of the other. A clipped
               # edge has to be drawn where it was clipped.
-              "burma": 0.021}
+              "burma": 0.021,
+              # Taiwan is a period survey sheet with 16,658 coastline vertices,
+              # and the point of putting it in was fidelity to a 1926 shore.
+              # The band an island that size earns — 0.55 units, three
+              # kilometres — would flatten the Kōshun peninsula and the whole
+              # of the east coast's cliffs into the shapes Natural Earth had.
+              # Held to half a pixel at the deepest zoom, as India is.
+              "taiwan": 0.021}
 
 FULL_DETAIL = ({"korea", "saharat", "princely", "kwantung", "ccp", "malaya",
                 "turtle", "mangsee", "miangas", "cocos",
@@ -1664,6 +1671,20 @@ EXTENT_MANCHURIA = [
 # Fujian throughout, and the ENP province data already includes it there. The
 # Pescadores, which *were* ceded with Taiwan in 1895, stay put.
 KINMEN_BOX = (117.9, 24.2, 118.8, 24.8)
+
+# Taiwan is drawn from a period sheet now — Academia Sinica's 郡(市)界 for July
+# 1926, dissolved into a coastline and cut into the districts the colony was
+# run in by tools/fetch_taiwan_1926.py. Natural Earth keeps only the
+# Pescadores, which the 1926 sheet does not cover: they were ceded with Taiwan
+# in 1895 and were part of the colony, so they still have to be drawn, and
+# nothing else Natural Earth has for Taiwan is wanted beside a period coast.
+# What that drops, besides the main island: Orchid Island and Green Island,
+# which the sheet has as Taitō-shichō, and an 18 km² sandbar off Chiayi which
+# it does not have at all — a bank that has moved several kilometres within
+# living memory, and a modern one beside a 1926 shore.
+TAIWAN_1926_OUTLINE = "taiwan_1926_outline.json"
+TAIWAN_1926_DISTRICTS = "taiwan_1926_districts.json"
+PESCADORES_BOX = (119.3, 23.2, 119.8, 23.8)
 
 # Territory transferred to Thailand by the Tokyo treaty of 9 May 1941, after
 # the Franco-Thai war: the Cambodian provinces of Battambang and Siem Reap
@@ -3818,7 +3839,18 @@ ALWAYS_NAMED = frozenset({"goa", "pondicherry", "christmas", "ccp",
 # Leagues, Jinbei and Chanan.
 NEVER_DEFERRED = ALWAYS_NAMED | frozenset({"malaya_thai", "mengjiang"})
 
+# The Pescadores are the one part of the colony the 1926 sheet does not cover,
+# so they come from Natural Earth — and they have to be a named sub-unit rather
+# than only a piece of the filler underneath, because the filler is stood down
+# the moment an atom has divisions of its own. Left in the filler alone they
+# were drawn with Administrative off and vanished when it went on.
+#
+# One unit, not three islands: they had been 澎湖廳 again since 1926, when they
+# were taken back out of Takao-shū, and the 廳 was not divided into 郡.
+PESCADORES_BOXES = [("TwHoko", (119.3, 23.2, 119.8, 23.8))]
+
 ISLAND_BOXES = {
+    "taiwan": PESCADORES_BOXES,
     "aleutians": ALEUTIAN_BOXES,
     "aleutians_jp": ALEUTIAN_BOXES,
     "chishima": KURILE_BOXES,
@@ -4547,13 +4579,20 @@ def split_solomons(ring):
 
 
 def split_taiwan(ring):
-    """Kinmen is Fujian's, not the colony's."""
+    """Only the Pescadores. The rest of Taiwan comes from the 1926 sheet.
+
+    Kinmen is outside the box for the reason it always was — Natural Earth
+    files it under Taiwan because it is governed from Taipei today, and it
+    belonged to Fujian throughout the colonial period — and now so is
+    everything else, because a present-day coastline underneath a period one
+    is a second, coarser drawing of the same shore.
+    """
     xs = [p[0] for p in ring]
     ys = [p[1] for p in ring]
-    x0, y0, x1, y1 = KINMEN_BOX
+    x0, y0, x1, y1 = PESCADORES_BOX
     if x0 < min(xs) and max(xs) < x1 and y0 < min(ys) and max(ys) < y1:
-        return None
-    return "taiwan"
+        return "taiwan"
+    return None
 
 
 def split_malaysia(ring):
@@ -5477,6 +5516,29 @@ def main():
     else:
         sys.stderr.write(f"note: {KOREA_FILE} missing, Korea not drawn\n")
 
+    # ---- Taiwan: the 1926 coast, and the districts on top of it ------------
+    # The outline is the dissolve of the same 54 polygons the districts come
+    # out of — every edge inside the island is shared by two of them and
+    # cancels, every edge on the coast is walked once and survives — so the
+    # coast and the district boundaries are the same vertices and cannot
+    # disagree about where the sea is. See tools/fetch_taiwan_1926.py.
+    tpath = os.path.join(CACHE, TAIWAN_1926_OUTLINE)
+    if os.path.exists(tpath):
+        with open(tpath) as fh:
+            for feat in json.load(fh)["features"]:
+                rs = list(iter_rings(feat["geometry"]))
+                groups["taiwan"].extend(rs)
+                backing["taiwan"].extend(rs)
+    else:
+        sys.stderr.write("note: %s missing, run tools/fetch_taiwan_1926.py\n"
+                         % TAIWAN_1926_OUTLINE)
+    dpath = os.path.join(CACHE, TAIWAN_1926_DISTRICTS)
+    if os.path.exists(dpath):
+        with open(dpath) as fh:
+            for feat in json.load(fh)["features"]:
+                provinces["taiwan"].append(
+                    (feat["properties"]["key"], list(iter_rings(feat["geometry"]))))
+
     # ---- Japan, prefecture by prefecture -----------------------------------
     jpath = os.path.join(CACHE, "adm1_JPN.json")
     if os.path.exists(jpath):
@@ -6279,6 +6341,13 @@ def main():
         # was the one that gave it away.
         if key in ENP_ATOMS:
             return 0.12
+        # Taiwan's districts, because two of them are small and neither can be
+        # dropped: Taichū-shi is the colony's third city and Hōzan-gun is one
+        # of the seven districts of Takao-shū. On this map's scale a city of
+        # twenty square kilometres is below the floor a country's provinces
+        # are given, and the floor was quietly throwing both away.
+        if key == "taiwan":
+            return 0.04
         # The eastern Pacific by the same argument as its `min_area` above:
         # Kingman Reef is a square kilometre and Howland two, and the floor an
         # archipelago is given threw away twelve of the twenty-two islands —
