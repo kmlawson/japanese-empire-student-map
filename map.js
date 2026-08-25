@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '1.38';
+  var JEM_VERSION = '1.39';
   var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "79ddb3655d", "japan-empire-map-admin.svg": "d821c75055", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "132ece917d"};
 
   /* Every file this one fetches, with the version on it.
@@ -4772,12 +4772,23 @@
       if (el) el.style.display = state.epoch === 'e1942' ? '' : 'none';
     });
     if (extentPath) {
-      // Across China the dashed perimeter *is* the inland edge of the traced
-      // zone, so it cannot be drawn when that zone is not: it would be a line
-      // round shading that is not there, asserting the very thing the other
-      // source was chosen instead of.
-      var extentOK = state.extent && state.occSource === 'traced';
-      extentPath.style.display = (state.epoch === 'e1942' && extentOK) ? '' : 'none';
+      /* The perimeter is one continuous ring: down the inland edge of occupied
+         China, out past the Kuriles, round the Pacific and back through the
+         Indies and Burma. It used to be tied to the traced reading, because
+         across China the dashed line *is* that zone's inland edge and drawing
+         it beside the other reading's shading asserts an extent the reader has
+         just chosen against.
+
+         That argument holds for the China arc and for nothing else. The rest
+         of the ring — which is most of it, and the only line on the map that
+         says how far the empire reached — has no bearing on which reading of
+         China is shown, and switching source silently took the whole Pacific
+         perimeter away with it. Separating the two means cutting a 12,000-
+         character ring at two points; until that is done the whole line is
+         drawn under both readings, and the legend says it is one of several
+         maps used. */
+      extentPath.style.display =
+        (state.epoch === 'e1942' && state.extent) ? '' : 'none';
     }
     if (indiaRiversGroup) {
       indiaRiversGroup.style.display = state.indiaRivers ? '' : 'none';
@@ -4861,8 +4872,7 @@
       legend.appendChild(row);
     });
 
-    if (state.epoch === 'e1942' && state.extent && state.occSource === 'traced'
-        && JMAP.EXTENT_1942) {
+    if (state.epoch === 'e1942' && state.extent && JMAP.EXTENT_1942) {
       var row = document.createElement('div');
       row.className = 'item';
       var sw = document.createElement('span');

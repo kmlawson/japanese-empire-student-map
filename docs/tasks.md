@@ -6433,6 +6433,42 @@ coordinate — the same shape of mistake as addressing a row by its number.
 is 227 across eleven scripts — and this time the number is from running them,
 not from reading the files.**
 
+
+## The dashed perimeter went with the occupation source, and should not have
+
+Reported as "what happened to our 1942 boundary line — the dotted line going
+round all Japanese imperial territory". It was not gone from the build. It was
+switched off by something that gave no sign of doing it.
+
+**Layers → Occupied China, Dec 1942 → "North China Area Army report September
+1942" hid the whole perimeter.** Not the arc across China: the whole ring — the
+Kuriles, the Pacific box out past the Marshalls, the Solomons, the Indies,
+Burma. The "Show the 1942 approximate line of control" checkbox stayed ticked
+throughout, so nothing on screen connected the two, and `occSource` is saved to
+`localStorage`, so it stayed gone across reloads with no obvious way back.
+
+`applyState` tied the line to `occSource === 'traced'`, and the comment gave the
+reason: across China the dashed perimeter *is* the inland edge of the traced
+zone, so drawing it beside the other reading's shading asserts the very extent
+the reader has just chosen against. That is right about the China arc and about
+nothing else. The rest of the ring — most of it, and the only line on the map
+that says how far the empire reached — has no bearing on which reading of China
+is drawn.
+
+**The line is now drawn under both readings.** The alternative was to cut the
+China arc out and keep the rest, which is the better answer and a real piece of
+work: `#extent-1942` is a single path whose main subpath is one continuous ring
+of 12,138 characters, x 489–2308 and y 49–1555, with the inland edge an arc
+inside it, so separating them means cutting the ring at two points. Chosen
+knowingly, with the cost stated: under the NCA reading the dashed line across
+China now sits beside shading it does not describe. The legend entry carries
+its "one of several maps used; see Sources" note in both readings.
+
+`tools/test/extent.js`, 15 checks: 1930 draws none, 1942 draws it and names it
+in the legend, both readings of occupied China keep it, it survives a reload
+under the NCA reading, the checkbox is what turns it off and back on, and all
+three projections draw it at a size.
+
 ---
 
 ## Sources worth fetching
