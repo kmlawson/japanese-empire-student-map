@@ -1258,6 +1258,9 @@
     });
     if (gratGroup) { gratGroup.__step = null; gratGroup.__mode = null; }
     drawGraticule();
+    // the reach that lets a reader point at a reef is held in map units, so it
+    // has to be rebuilt when those units change
+    rebuildFineHits();
     // annotations are held in longitude and latitude, so they are simply
     // redrawn rather than moved
     if (annApi) annApi.reproject();
@@ -2906,6 +2909,12 @@
   var MARQUEE_MIN = 12;                       // px, below which it was a click
 
   function wirePointer() {
+    /* The right button, or a long press that the browser turns into one,
+       takes a point out of a shape or a mark off the map. Only over one of the
+       reader's own marks: everywhere else the ordinary menu is theirs. */
+    container.addEventListener('contextmenu', function (e) {
+      if (annApi && annApi.rightClick(e.target)) e.preventDefault();
+    });
     container.addEventListener('pointerdown', onPointerDown);
     container.addEventListener('pointermove', onPointerMove);
     container.addEventListener('pointerup', onPointerUp);
@@ -2977,8 +2986,11 @@
         hideTooltip();
         return;
       }
-      // a press on a mark of the reader's own moves the mark, not the map
-      if (annApi && annApi.grab(e.target, e.clientX, e.clientY)) {
+      // A press on a mark of the reader's own moves the mark, not the map. On a
+      // finger it does not take the press at once — it arms a hold, and comes
+      // back false so that a press that moves away still pans.
+      if (annApi && annApi.grab(e.target, e.clientX, e.clientY,
+                                e.pointerType === 'touch' || coarse)) {
         dragStart = null;
         movedFar = true;                     // never a tap: it is a handle
         hideTooltip();
@@ -3063,6 +3075,15 @@
   }
 
   function onPointerMove(e) {
+    /* The annotations see every move, not only the ones a mouse makes.
+       `onHover` is wired only where a pointer can hover, so on a phone the
+       drag was never delivered: pressing a mark cancelled the pan and then
+       nothing happened. A hold that is still maturing is watched here too, so
+       that a finger which wanders off is a pan again. */
+    if (annApi) {
+      annApi.held(e.clientX, e.clientY);
+      if (annApi.drag(e.clientX, e.clientY)) { e.preventDefault(); return; }
+    }
     if (!pointers.has(e.pointerId)) return;
     pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
 
@@ -3920,8 +3941,8 @@
   }
 
   function onHover(e) {
-    // A mark being dragged owns the pointer until it is let go.
-    if (annApi && annApi.drag && annApi.drag(e.clientX, e.clientY)) return;
+    // a mark being dragged owns the pointer, and `onPointerMove` has it
+    if (annApi && annApi.dragging && annApi.dragging()) return;
     // While a drawing tool is armed the pointer is a pen, and naming whatever
     // it passes over is both noise and a lie about what a click will do.
     if (annApi && annApi.drawing()) { setHot(null); setHotProv(null); hideTooltip(); return; }
@@ -5071,14 +5092,51 @@
      is a set and not a single answer, and a view that takes in two of them
      legitimately gets both. What it will not do is give a reader in the
      Ryukyus the Solomons. */
+  /* The view, in the units the fine windows are written in.
+
+     `data-fine` is written by the build and is therefore in **Mercator**
+     units, while `view` is in whatever projection is on. Comparing them
+     directly was right by accident for one of the three and wrong for the
+     others: an Okinawa view in Albers sits at x≈1308, which falls outside the
+     Mercator `ryukyu` box and inside the Mercator `nanyo` box — so the
+     Ryukyus were dropped and five hundred and fifty-nine Caroline islands
+     were grafted in their place, and the reader was left looking at empty sea.
+
+     The frame is sampled rather than taken at its corners, because off the
+     cylinder a parallel bows and a meridian leans and the corners no longer
+     bound the view. Thirteen by thirteen, and only when something has settled
+     — `syncFine` is on a 220 ms timer, not on every frame. */
+  function viewMercBox() {
+    if (projMode === 'mercator') {
+      return [view.x, view.y, view.x + view.w, view.y + view.h];
+    }
+    var x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+    var N = 12;
+    for (var i = 0; i <= N; i++) {
+      for (var j = 0; j <= N; j++) {
+        var ll = unproject(view.x + view.w * i / N, view.y + view.h * j / N);
+        if (!isFinite(ll.lon) || !isFinite(ll.lat)) continue;
+        var q = mercFwd(ll.lon, ll.lat);
+        if (q.x < x0) x0 = q.x;
+        if (q.x > x1) x1 = q.x;
+        if (q.y < y0) y0 = q.y;
+        if (q.y > y1) y1 = q.y;
+      }
+    }
+    if (!isFinite(x0)) return [view.x, view.y, view.x + view.w, view.y + view.h];
+    return [x0, y0, x1, y1];
+  }
+
   function wantsFine() {
     var boxes = fineRegions();
     var out = [];
+    var v = viewMercBox();
+    var vw = v[2] - v[0];
     for (var k in boxes) {
-      if (view.w >= (FINE_W_FOR[k] || FINE_W)) continue;
+      if (vw >= (FINE_W_FOR[k] || FINE_W)) continue;
       var b = boxes[k];
-      if (view.x < b[2] && view.x + view.w > b[0] &&
-          view.y < b[3] && view.y + view.h > b[1]) out.push(k);
+      if (v[0] < b[2] && v[2] > b[0] &&
+          v[1] < b[3] && v[3] > b[1]) out.push(k);
     }
     return out;
   }
@@ -5157,7 +5215,11 @@
     // them are stale either way
     bumpHi();
     coarseOrig.forEach(function (r) {
-      if (r.d !== null) r.el.setAttribute('d', r.d);
+      // `r.d` is the Mercator original — see `remember` — so it is put through
+      // whatever projection is on rather than written back as it was captured
+      if (r.d !== null) {
+        r.el.setAttribute('d', projMode === 'mercator' ? r.d : moveD(r.d));
+      }
       r.el.classList.remove('superseded');
     });
 
@@ -5185,10 +5247,22 @@
       return false;
     };
 
+    /* What a shape looked like before any window pruned it — kept as the
+       **Mercator** original rather than as whatever was on screen at the time.
+       Stored as drawn, a shape captured under Mercator and put back under
+       Albers came back a hundred units from where it belonged, while the
+       shapes that had never been pruned were correctly in Albers, so the two
+       halves of one coastline disagreed.
+
+       `__d0` is the file's own string, set the first time anything reprojects
+       the document; before that has happened the attribute is already
+       Mercator, so the pre-prune string passed in is the right one. */
     var remember = function (node, d) {
       if (node.__coarse) return;
       node.__coarse = true;
-      coarseOrig.push({ el: node, d: d });
+      var base = d;
+      if (base !== null && node.__d0 !== undefined) base = node.__d0;
+      coarseOrig.push({ el: node, d: base });
     };
 
     /* Island by island: the replaced sub-paths are cut out of the shape and
@@ -5303,7 +5377,8 @@
      mandate takes their place. */
   function syncFine() {
     var want = wantsFine();
-    var deep = view.w < FINE_W;
+    var mb = viewMercBox();
+    var deep = (mb[2] - mb[0]) < FINE_W;
     if (!want.length && !Object.keys(fineLive).length) {
       fineSupersedes = false;
       return;

@@ -82,16 +82,23 @@ console.log('\n— the link —');
   check('the link opens with the annotations', await q.evaluate(()=>document.querySelectorAll('#annotations .ann-mark').length)===1);
   var names = await q.evaluate(()=>[...document.querySelectorAll('#ann-list .ann-name')].map(x=>x.textContent));
   check('with the name intact', names[0]==='Shared point', JSON.stringify(names));
-  check('the panel opens FOLDED for a shared link',
-    await q.evaluate(()=>document.querySelector('#annotate').classList.contains('folded')));
-  check('but the panel is present, so it can be opened',
+  // A shared link opens LOCKED: the marks are drawn, the tools are put away,
+  // and a pencil in the corner of the map is the way in. Somebody who followed
+  // a link came to look, and a set that is not theirs should not lose a point
+  // to a stray press.
+  check('the panel is put away for a shared link',
+    await q.evaluate(()=>document.querySelector('#annotate').hidden));
+  check('and a pencil is offered instead',
+    await q.evaluate(()=>{const e=document.querySelector('#ann-edit'); return !!e && !e.hidden;}));
+  await q.evaluate(()=>document.querySelector('#ann-edit').click()); await sleep(500);
+  check('the pencil opens the panel',
     await q.evaluate(()=>!document.querySelector('#annotate').hidden));
-  check('and the count is visible while folded',
-    /1 mark/.test(await q.evaluate(()=>document.querySelector('#ann-count').textContent)),
-    await q.evaluate(()=>document.querySelector('#ann-count').textContent));
-  await q.evaluate(()=>document.querySelector('#ann-fold').click()); await sleep(300);
-  check('pressing the head unfolds it',
+  check('open rather than folded',
     await q.evaluate(()=>!document.querySelector('#annotate').classList.contains('folded')));
+  check('and the pencil steps aside',
+    await q.evaluate(()=>document.querySelector('#ann-edit').hidden));
+  check('the count is there', /1 mark/.test(
+    await q.evaluate(()=>document.querySelector('#ann-count').textContent)));
   check('no page errors on the shared page', q.__errs.length===0, q.__errs[0]);
   await q.close(); await p.close(); }
 

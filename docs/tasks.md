@@ -5930,6 +5930,102 @@ every time and all eight were in the store.
 
 ---
 
+## The two serious bugs from the review, fixed
+
+Both were confirmed twice before being touched — see
+`reports/2026.08.25-bug-review.md` — and both are fixed and measured.
+
+### Changing projection no longer empties the map
+
+Two faults compounding, and both the same mistake: geometry captured under one
+projection used as though it were in another.
+
+*`wantsFine()` compared the live view against Mercator boxes.* `data-fine` is
+written by the build and is therefore in Mercator units; `view` is in whatever
+projection is on. An Okinawa view in Albers sits at x≈1308, outside the
+Mercator `ryukyu` box and inside the Mercator `nanyo` box — so the Ryukyus were
+dropped and **559 Caroline islands grafted in their place**. There is a
+`viewMercBox()` now, sampling the frame 13×13 because off the cylinder a
+parallel bows and the corners no longer bound the view. It is cheap: `syncFine`
+is on a 220 ms timer, not on a frame.
+
+*`reprune()` put coarse shapes back exactly as captured.* `coarseOrig` held raw
+`d` strings with no record of the projection. It holds the **Mercator**
+original now — `__d0` where the document has been reprojected, the attribute
+where it has not — and restores it through whatever is on.
+
+`rebuildFineHits()` is also called from `replaceInProjection` now: the reach
+that lets a reader point at a reef is in map units, so it has to be rebuilt
+when those units change.
+
+Measured at Okinawa, `?bbox=126.5,25.8,128.6,26.9`:
+
+| | fine paths in the Ryukyus | land shapes in view |
+| --- | ---: | ---: |
+| Mercator | 126 | 60 |
+| Albers, before | **0** | **0** |
+| Albers, after | 126 | 60 |
+
+Switching mercator → albers → laea → mercator → laea → albers gives 126 and 60
+every time. A cold Albers link, which never worked at all, now brings the fine
+coast with it: 126 and 61. And LAEA after a pan: 126 and 55.
+
+### A shared link no longer destroys the reader's own work
+
+`fromUrl` skipped the restore offer, `loadText` replaced everything and
+`store()` wrote it over the top — no dialog, nothing said. The reader's set is
+**set aside rather than replaced** now: while a shared set is on screen the
+store writes to a key of its own, their own is left exactly where it is, and a
+button offers it back — *"Back to my 2 annotations"*. Measured: their
+`["MY FIRST MARK","MY SECOND MARK"]` survives a shared link intact.
+
+---
+
+## Locked by default, a warning before leaving, and two new gestures
+
+**A shared link opens locked.** Somebody who followed a link came to look, and
+a set that is not theirs should not lose a point to a stray press. The marks
+are drawn, the panel is not shown at all, and a pencil on a coloured disc in
+the corner of the map is the way in. Hovering still names a mark — reading is
+not editing. The panel has a padlock that puts it away again, and the pencil
+exists only while there is something to edit.
+
+**A warning before leaving unsaved work, and not the greedy kind.**
+`beforeunload` is abused often enough that browsers have rules: the handler is
+ignored unless the reader has interacted with the page, and the words are the
+browser's own. Both suit us. The listener is **added only while there is
+unsaved work and removed the moment there is not** — measured: a reader who has
+drawn nothing is not stopped, nor one who has only opened the panel; one with a
+mark of their own is; saving the file settles it; drawing again arms it.
+
+**Right click takes a point out.** On a mark, the mark goes. On one corner of a
+line or an area, only that corner goes and the shape stays — and below the
+minimum, two points for a line and three for an area, the whole feature goes
+and the message says so. One `Ctrl`/`⌘ Z` puts back exactly one of those.
+
+**A long press moves a mark on a finger, which also fixes a bug the review
+found.** `drag` had one call site, inside the map's `mousemove` handler, which
+is wired only where a pointer can hover — so on a phone a press on a mark
+cancelled the pan and then did nothing at all. Every pointer move reaches the
+annotations now. A mouse still takes a mark the moment it goes down; a finger
+has to hold it still for 330 ms first, with 10 px of slop for the wobble of a
+held thumb, and a press that wanders off before then is a pan as it always was.
+
+Measured, on a touch viewport: a quick drag off a mark still pans; a hold
+announces itself; the finger then moves the mark while the map stays put; one
+Undo puts it back.
+
+**34 new checks**, in `run6`, `run7` and `run8`. The suite is 165.
+
+**Three things the tests said that reading would not have.** The pencil opened
+the panel *folded*, which is not what somebody who pressed edit asked for — a
+real bug in the new code, fixed. And two of the failures were my own
+assertions: one measured a locked mark's position in screen pixels, which a pan
+changes even though the mark has not moved, and one hovered after a pan had
+shifted what was under the pointer.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

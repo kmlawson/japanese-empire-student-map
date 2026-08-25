@@ -56,6 +56,9 @@
        accepts and which survives being pasted into mail. */
     var ANN_URL_MAX = 6000;
     var ANN_STORE = 'jem-annotations-v1';
+    /* Where a set that arrived by link is kept while the reader still has work
+       of their own in the ordinary place. See `shadowed`. */
+    var ANN_STORE_SHARED = 'jem-annotations-shared-v1';
     var ANN_UNDO_MAX = 40;
 
     /* simplestyle-spec leaves `marker-symbol` open to any string, so these
@@ -76,6 +79,23 @@
     var linkCode = null;            // the packed set, kept ready for the click
     var linkDirty = true;
     var dragging = null;            // {feat, ring, index} while a mark is moved
+    /* The reader's own saved set, standing aside while a shared link is being
+       looked at. Following a classmate's link used to overwrite it silently:
+       `fromUrl` skipped the restore offer, `loadText` replaced everything and
+       `store()` wrote it over the top, with no dialog and nothing said. Now
+       their work is left exactly where it is and the shared set is kept under
+       a key of its own until they choose. */
+    var shadowed = null;
+    /* Locked: the marks are on the map and nothing can move them. This is how
+       a shared link opens, because the reader who followed it came to look,
+       and a set somebody else made is the last thing that should lose a point
+       to a stray press. Hover still names a mark — reading is not editing. */
+    var locked = false;
+    var editBtn = null;
+    /* Whether there is work in memory that has not been written to a file.
+       Loading a file or saving one clears it; drawing, moving or deleting
+       sets it. It is what the leaving-the-page warning is armed on. */
+    var dirty = false;
     var panel, msgEl, listEl, hintEl, drawEl, bodyEl, msgTimer = 0;
 
     /* ------------------------------------------------------------ state -- */
@@ -100,6 +120,7 @@
        for the callers that took one themselves. */
     function changed(quiet) {
       linkDirty = true;
+      setDirty(feats.length > 0);
       syncFields();
       drawList();
       redraw();
@@ -117,10 +138,35 @@
       packTimer = window.setTimeout(function () { packTimer = 0; prepLink(); }, 250);
     }
 
+    /* THE WARNING ON LEAVING, and why it is not the greedy kind.
+
+       `beforeunload` is abused often enough that browsers have rules about it:
+       the handler is ignored unless the reader has interacted with the page,
+       and the message is the browser's own rather than anything we write. Both
+       suit us. A reader who has drawn something has interacted by definition,
+       and the listener is **added only while there is unsaved work and removed
+       the moment there is not** — so somebody who saves, or who never draws,
+       or who is only looking at a shared set, is never stopped. That is the
+       difference between a guard and a nuisance. */
+    function setDirty(yes) {
+      if (dirty === yes) return;
+      dirty = yes;
+      if (yes) window.addEventListener('beforeunload', beforeUnload);
+      else window.removeEventListener('beforeunload', beforeUnload);
+    }
+
+    function beforeUnload(e) {
+      if (!dirty) return undefined;
+      e.preventDefault();
+      e.returnValue = '';          // the browser writes its own words
+      return '';
+    }
+
     function store() {
+      var key = shadowed ? ANN_STORE_SHARED : ANN_STORE;
       try {
-        if (!feats.length) window.localStorage.removeItem(ANN_STORE);
-        else window.localStorage.setItem(ANN_STORE,
+        if (!feats.length) window.localStorage.removeItem(key);
+        else window.localStorage.setItem(key,
           JSON.stringify({ f: feats, s: sourceName, t: Date.now() }));
       } catch (err) { /* private mode, or a full quota: not worth a message */ }
     }
@@ -517,6 +563,7 @@
        Returns true when it has taken the pointer, so the country underneath is
        not named over the top of it. */
     function hover(target, cx, cy) {
+      // reading is not editing, so this one works locked too
       if (!on || tool || dragging) return false;
       var el = target && target.closest ? target.closest('[data-ann]') : null;
       if (!el) return false;
@@ -534,7 +581,7 @@
     /* A tap on the map. Returns true when it has taken it, so the map's own
        selection never also happens. */
     function tap(cx, cy, target) {
-      if (!on) return false;
+      if (!on || locked) return false;
       /* With no tool out, a tap on one of the reader's own marks selects it —
          its name and description in the fields, ready to edit. Shapes take the
          pointer now so that hovering can name them, which means a tap inside a
@@ -613,21 +660,80 @@
        so this only takes the pointer when it went down on a mark of ours and
        no tool is armed — otherwise dragging to reposition and dragging to pan
        would be the same gesture with two meanings. */
-    function grab(target, cx, cy) {
-      if (!on || tool) return false;
+    var holdTimer = 0;
+    var armed = null;                   // a press waiting to become a hold
+
+    /* THE LONG PRESS. A mouse can grab a mark the moment it goes down, because
+       a mouse has a second button and a cursor to say what is under it. A
+       finger has neither, and every press on the map might be the start of a
+       pan — so on a touch screen the press has to *wait*, and only becomes a
+       move if the finger stays put for a third of a second.
+       `HOLD_SLOP` is what "stays put" means: a finger never rests perfectly
+       still, and 10 px is the wobble of a held thumb rather than the beginning
+       of a drag.
+
+       This is also what fixes moving a mark with a finger at all. `drag` used
+       to be called only from the map's `mousemove` handler, which is wired
+       only where a pointer can hover — so on a phone the press cancelled the
+       pan and then did nothing. */
+    var HOLD_MS = 330;
+    var HOLD_SLOP = 10;
+
+    function markUnder(target) {
       var el = target && target.closest ? target.closest('[data-ann]') : null;
-      if (!el || !el.classList.contains('ann-mark')) return false;
+      if (!el || !el.classList.contains('ann-mark')) return null;
       var i = parseInt(el.getAttribute('data-ann'), 10);
       var r = parseInt(el.getAttribute('data-ring'), 10);
       var v = parseInt(el.getAttribute('data-vert'), 10);
-      if (!feats[i] || isNaN(r) || isNaN(v)) return false;
+      if (!feats[i] || isNaN(r) || isNaN(v)) return null;
+      return { i: i, r: r, v: v };
+    }
+
+    function beginDrag(what) {
       snapshot();
-      dragging = { i: i, r: r, v: v, moved: false };
-      sel = i;
+      dragging = { i: what.i, r: what.r, v: what.v, moved: false };
+      sel = what.i;
       syncFields();
       drawList();
       redraw();
-      return true;
+      var c = host.container();
+      if (c) c.classList.add('ann-moving');
+    }
+
+    /* `coarse` says the press came from a finger: wait for it to become a
+       hold. A mouse takes the mark at once, as it always did. */
+    function grab(target, cx, cy, coarse) {
+      if (!on || tool || locked) return false;
+      var what = markUnder(target);
+      if (!what) return false;
+      if (!coarse) { beginDrag(what); return true; }
+      armed = { what: what, x: cx, y: cy };
+      if (holdTimer) window.clearTimeout(holdTimer);
+      holdTimer = window.setTimeout(function () {
+        holdTimer = 0;
+        if (!armed) return;
+        var a = armed;
+        armed = null;
+        beginDrag(a.what);
+        say('Hold to move — drag it where you want it.');
+      }, HOLD_MS);
+      // the press is not taken yet: until the hold matures it is still the
+      // map's, so a finger that moves away pans as it always did
+      return false;
+    }
+
+    /* A press that wandered before the timer fired was a pan after all. */
+    function held(cx, cy) {
+      if (!armed) return;
+      if (Math.abs(cx - armed.x) > HOLD_SLOP || Math.abs(cy - armed.y) > HOLD_SLOP) {
+        armed = null;
+        if (holdTimer) { window.clearTimeout(holdTimer); holdTimer = 0; }
+      }
+    }
+
+    function letGo() {
+      armed = null;
+      if (holdTimer) { window.clearTimeout(holdTimer); holdTimer = 0; }
     }
 
     function drag(cx, cy) {
@@ -654,6 +760,9 @@
     }
 
     function drop() {
+      letGo();
+      var c = host.container();
+      if (c) c.classList.remove('ann-moving');
       if (!dragging) return false;
       var moved = dragging.moved;
       dragging = null;
@@ -715,6 +824,7 @@
         var b = $(s);
         if (b) b.disabled = none;
       });
+      showEdit();
       if (none) {
         ['#ann-warn', '#ann-cap'].forEach(function (s) {
           var el = $(s);
@@ -726,6 +836,60 @@
         count.textContent = none ? ''
           : feats.length + (feats.length === 1 ? ' mark' : ' marks');
       }
+    }
+
+    /* One point out of a shape, rather than the whole shape.
+
+       A line of five points that should have been four is otherwise a line to
+       be drawn again from scratch. Below the minimum — two for a line, three
+       for an area — there is no shape left to take a point from, so the whole
+       feature goes and the message says so. */
+    function removeVertex(i, r, v) {
+      var f = feats[i];
+      if (!f) return false;
+      var g = f.geometry, kind = kindOf(f);
+      if (kind === 'point' || kind === 'event') { removeAt(i); return true; }
+      var ring, closed = false;
+      if (g.type === 'LineString') ring = g.coordinates;
+      else if (g.type === 'MultiPoint') ring = g.coordinates;
+      else if (g.type === 'Polygon') { ring = g.coordinates[r]; closed = true; }
+      else return false;                       // the Multi- forms: see the note
+      if (!ring || v < 0 || v >= ring.length) return false;
+
+      var real = closed ? ring.length - 1 : ring.length;   // the repeated close
+      var least = closed ? 3 : 2;
+      if (real <= least) {
+        removeAt(i);
+        say('That was its last ' + (closed ? 'corner' : 'point')
+          + ' to spare, so the whole ' + kind + ' has gone. Undo brings it back.');
+        return true;
+      }
+      snapshot();
+      ring.splice(v, 1);
+      if (closed) {
+        // a polygon's first and last point are one point
+        ring[ring.length - 1] = ring[0].slice();
+      }
+      changed(true);
+      say('Point removed — ' + measureOf(f) + '. Undo brings it back.');
+      return true;
+    }
+
+    /* A press on a mark, asking for it to go. Returns true when it took the
+       press, so the map's own context menu never appears over it. */
+    function rightClick(target) {
+      if (!on || tool || locked) return false;
+      var el = target && target.closest ? target.closest('[data-ann]') : null;
+      if (!el) return false;
+      var i = parseInt(el.getAttribute('data-ann'), 10);
+      if (!feats[i]) return false;
+      if (el.classList.contains('ann-mark')) {
+        var r = parseInt(el.getAttribute('data-ring'), 10);
+        var v = parseInt(el.getAttribute('data-vert'), 10);
+        if (!isNaN(r) && !isNaN(v)) return removeVertex(i, r, v);
+      }
+      removeAt(i);
+      return true;
     }
 
     function removeAt(i) {
@@ -966,6 +1130,7 @@
         return false;
       }
       snapshot();
+      if (locked) setLocked(false);
       var fresh = adopt(list, merge ? feats.length : 0);
       feats = merge ? feats.concat(fresh) : fresh;
       var quiet = feats.length > ANN_QUIET_FEATURES || countVerts(feats) > ANN_QUIET_VERTS;
@@ -974,6 +1139,7 @@
       if (!merge) sourceName = (name || '').replace(/\.(geo)?json$/i, '');
       sel = feats.length ? (merge ? feats.length - fresh.length : 0) : -1;
       changed(true);
+      if (!merge) setDirty(false);       // it came off a disk; it is still there
       var zoomed = zoomTo(merge ? fresh : feats);
       say((merge ? 'Added ' : 'Loaded ') + fresh.length + ' feature'
         + (fresh.length === 1 ? '' : 's') + ' — ' + countVerts(fresh).toLocaleString()
@@ -1032,6 +1198,7 @@
         a.click();
         document.body.removeChild(a);
         window.setTimeout(function () { URL.revokeObjectURL(url); }, 30000);
+        setDirty(false);           // it is on disk now
         say('Saved as ' + name + '.');
       } catch (err) {
         say('The file could not be written: ' + (err.message || err), 'bad');
@@ -1228,6 +1395,11 @@
         '<button type="button" id="ann-fold" class="ann-foldbtn" aria-expanded="true">' +
           '<span class="caret"></span><strong>Annotations</strong>' +
           '<span id="ann-count" class="ann-count"></span></button>' +
+        '<button type="button" id="ann-lock" aria-label="Lock the annotations" ' +
+          'title="Lock: put the tools away and leave the marks on the map">' +
+          '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">' +
+          '<rect x="5" y="11" width="14" height="9" rx="1.6"/>' +
+          '<path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></button>' +
         '<button type="button" id="ann-close" aria-label="Close annotations">×</button>' +
       '</div>' +
       '<div class="ann-body">' +
@@ -1267,6 +1439,8 @@
         '<label class="ann-field">Description <textarea id="ann-desc" rows="3" maxlength="2000" placeholder="What should a reader know?"></textarea></label>' +
         '<p class="ann-measure" id="ann-measure"></p>' +
         '<ul id="ann-list" aria-label="Your annotations"></ul>' +
+        '<p class="ann-mine" id="ann-mine" hidden>' +
+          '<button type="button" id="ann-mine-btn"></button></p>' +
         '<p class="ann-cap" id="ann-cap" hidden>' +
           '<span class="ann-bar"><i id="ann-bar-fill"></i></span>' +
           '<span id="ann-cap-text"></span></p>' +
@@ -1312,7 +1486,7 @@
        rather than in `styles.css` for the same reason the code is here: a
        reader who never annotates should not download the rules for a panel
        they will never see. */
-    var CSS = "/* ------------------------------------------------------------ annotations */\n\n/* The panel lives in the rail with the legend and the card. On a phone the\n   rail is a sheet over the map, which is the same place the card goes, and\n   the same rules carry it. */\n#annotate {\n  position: absolute;\n  left: max(10px, var(--safe-l));\n  top: 10px;\n  width: min(46vw, 280px);\n  max-height: calc(100% - 20px);\n  overflow-y: auto;\n  padding: 10px;\n  background: rgba(255, 253, 248, .97);\n  border: 1px solid var(--line);\n  border-radius: 8px;\n  box-shadow: var(--shadow);\n  font-size: 12.5px;\n  z-index: 6;\n}\n\n#annotate .ann-head {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  gap: 8px;\n  margin-bottom: 8px;\n}\n\n#annotate .ann-head strong {\n  font-size: 11.5px;\n  font-weight: 700;\n  letter-spacing: .08em;\n  text-transform: uppercase;\n  color: var(--muted);\n}\n\n#ann-close {\n  border: 0;\n  background: none;\n  font: inherit;\n  font-size: 17px;\n  line-height: 1;\n  padding: 2px 4px;\n  color: var(--muted);\n  cursor: pointer;\n}\n#ann-close:hover { color: var(--ink); }\n\n#annotate .ann-tools {\n  display: grid;\n  grid-template-columns: repeat(4, 1fr);\n  gap: 4px;\n}\n\n#annotate .ann-tool {\n  padding: 6px 2px;\n  border: 1px solid var(--line);\n  border-radius: 6px;\n  background: #fff;\n  font: inherit;\n  font-size: 11.5px;\n  color: var(--ink);\n  cursor: pointer;\n}\n#annotate .ann-tool:hover { border-color: var(--muted); }\n#annotate .ann-tool.on {\n  background: var(--ink);\n  border-color: var(--ink);\n  color: #fffdf8;\n}\n\n#annotate .ann-hint {\n  margin: 6px 0 8px;\n  color: var(--muted);\n  font-size: 11.5px;\n  line-height: 1.35;\n}\n\n/* `display` on a class beats the user agent's `[hidden] { display: none }`,\n   so the row of finish-and-cancel buttons stood there from the moment the\n   panel opened, offering to finish a shape nobody had started. */\n#annotate .ann-drawing {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 4px;\n  margin-bottom: 8px;\n}\n#annotate .ann-drawing[hidden] { display: none; }\n#annotate .ann-drawing button {\n  padding: 5px 8px;\n  border: 1px solid var(--line);\n  border-radius: 6px;\n  background: #fff;\n  font: inherit;\n  font-size: 11.5px;\n  cursor: pointer;\n}\n#annotate #ann-finish { background: var(--ink); border-color: var(--ink); color: #fffdf8; }\n\n#annotate .ann-style {\n  display: flex;\n  flex-wrap: wrap;\n  align-items: center;\n  gap: 4px 10px;\n  margin-bottom: 8px;\n}\n#annotate .ann-style label {\n  display: flex;\n  align-items: center;\n  gap: 5px;\n  font-size: 11.5px;\n  color: var(--muted);\n}\n#annotate .ann-style input[type=\"color\"] {\n  width: 26px;\n  height: 20px;\n  padding: 0;\n  border: 1px solid var(--line);\n  border-radius: 4px;\n  background: none;\n  cursor: pointer;\n}\n#annotate .ann-style input[type=\"range\"] { width: 74px; }\n\n#annotate .ann-field {\n  display: block;\n  margin-bottom: 7px;\n  font-size: 11.5px;\n  color: var(--muted);\n}\n#annotate .ann-field input,\n#annotate .ann-field textarea {\n  display: block;\n  width: 100%;\n  margin-top: 3px;\n  padding: 5px 6px;\n  border: 1px solid var(--line);\n  border-radius: 5px;\n  background: #fff;\n  font: inherit;\n  font-size: 12.5px;\n  color: var(--ink);\n  resize: vertical;\n}\n#annotate .ann-field input:disabled,\n#annotate .ann-field textarea:disabled { background: #f4f1ea; color: var(--muted); }\n\n#ann-list {\n  list-style: none;\n  margin: 0 0 8px;\n  padding: 0;\n  max-height: 172px;\n  overflow-y: auto;\n}\n#ann-list li {\n  display: flex;\n  align-items: center;\n  gap: 4px;\n  border-bottom: 1px solid var(--line);\n}\n#ann-list li.sel { background: rgba(0, 0, 0, .05); }\n#ann-list .ann-pick {\n  flex: 1 1 auto;\n  min-width: 0;\n  text-align: left;\n  padding: 5px 4px;\n  border: 0;\n  background: none;\n  font: inherit;\n  font-size: 12px;\n  color: var(--ink);\n  cursor: pointer;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n#ann-list .ann-del {\n  flex: 0 0 auto;\n  border: 0;\n  background: none;\n  font: inherit;\n  font-size: 14px;\n  line-height: 1;\n  padding: 3px 5px;\n  color: var(--muted);\n  cursor: pointer;\n}\n#ann-list .ann-del:hover { color: #8c2f39; }\n\n#annotate .ann-actions {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 5px;\n}\n#annotate .ann-actions button {\n  padding: 6px 9px;\n  border: 1px solid var(--line);\n  border-radius: 6px;\n  background: #fff;\n  font: inherit;\n  font-size: 11.5px;\n  cursor: pointer;\n}\n#annotate .ann-actions button:disabled { opacity: .45; cursor: default; }\n#annotate #ann-save { background: var(--ink); border-color: var(--ink); color: #fffdf8; }\n#annotate #ann-save:disabled { background: var(--muted); border-color: var(--muted); }\n\n.ann-msg {\n  margin: 8px 0 0;\n  font-size: 11.5px;\n  line-height: 1.4;\n  color: var(--muted);\n}\n/* An error is the one message that has to be read, so it is the one that is\n   coloured and that stays until something replaces it. */\n.ann-msg.bad { color: #8c2f39; font-weight: 600; }\n\n/* The running count of what will fit in a link. Always there once there is\n   anything to count, because the useful moment to know is while typing the\n   description that will push it over, not afterwards. */\n.ann-cap {\n  display: flex;\n  align-items: center;\n  gap: 7px;\n  margin: 0 0 6px;\n  font-size: 11px;\n  font-variant-numeric: tabular-nums;\n  color: var(--muted);\n}\n.ann-cap .ann-bar {\n  flex: 0 0 62px;\n  height: 4px;\n  border-radius: 2px;\n  background: rgba(0, 0, 0, .12);\n  overflow: hidden;\n}\n.ann-cap .ann-bar i {\n  display: block;\n  height: 100%;\n  width: 0;\n  background: var(--muted);\n  transition: width .18s ease;\n}\n.ann-cap.near { color: #a8642a; }\n.ann-cap.near .ann-bar i { background: #a8642a; }\n.ann-cap.over { color: #8c2f39; font-weight: 600; }\n.ann-cap.over .ann-bar i { background: #8c2f39; }\n\n/* the standing note about a set too big for a link */\n.ann-warn {\n  margin: 0 0 7px;\n  padding: 6px 8px;\n  border-radius: 5px;\n  background: rgba(140, 47, 57, .09);\n  font-size: 11.5px;\n  line-height: 1.4;\n  color: #8c2f39;\n}\n#annotate .ann-actions button.too-big {\n  opacity: .55;\n  text-decoration: line-through;\n}\n\n/* the marks themselves */\n#annotations { pointer-events: none; }\n#annotations .ann-shape { vector-effect: non-scaling-stroke; stroke-linejoin: round; }\n#annotations .ann-draft {\n  vector-effect: non-scaling-stroke;\n  stroke-dasharray: 5 4;\n  opacity: .8;\n}\n#annotations .sel { filter: drop-shadow(0 0 3px rgba(0, 0, 0, .55)); }\n\n/* a pen, not a pointer */\n#map-container.ann-drawing { cursor: crosshair; }\n\n/* Below the rail's breakpoint both the legend and this panel float in the\n   top-left corner of the map, and the annotation panel is the taller of the\n   two \u2014 so they were drawn one over the other, the legend's colours showing\n   faintly through. While a reader is drawing, the panel is what they are\n   using; the legend stands down and comes back when the panel closes. */\n/* Below the rail's breakpoint the panel docks to the foot of the screen\n   rather than floating in the top-left corner, where it took a third of a\n   phone and covered half the map's width \u2014 and where it stood on top of the\n   legend, which had to be hidden to make room. A sheet along the bottom\n   leaves the map whole above it, puts the tools under the thumb, and lets the\n   legend stay where it was. */\n@media (max-width: 999.98px) {\n  #annotate {\n    left: 0;\n    right: 0;\n    top: auto;\n    bottom: 0;\n    width: auto;\n    max-width: none;\n    max-height: 46vh;\n    border-width: 1px 0 0;\n    border-radius: 12px 12px 0 0;\n    padding: 8px 12px calc(10px + var(--safe-b, 0px));\n    box-shadow: 0 -4px 18px rgba(0, 0, 0, .16);\n  }\n  /* folded it is a bar the map can be worked around */\n  #annotate.folded { max-height: none; }\n  /* and with a tool out it keeps the tools and the hint and nothing else */\n  #annotate.tooling .ann-style,\n  #annotate.tooling .ann-field,\n  #annotate.tooling .ann-measure,\n  #annotate.tooling #ann-list,\n  #annotate.tooling .ann-actions,\n  #annotate.tooling .ann-link-out { display: none; }\n  #annotate .ann-style { gap: 6px 14px; }\n  #ann-list { max-height: 120px; }\n}\n\n@media (prefers-color-scheme: dark) {\n  #annotate { background: rgba(20, 26, 32, .97); }\n  #annotate .ann-tool,\n  #annotate .ann-drawing button,\n  #annotate .ann-actions button,\n  #annotate .ann-field input,\n  #annotate .ann-field textarea,\n  .ann-row button { background: #1b232b; color: var(--ink); }\n  #annotate .ann-field input:disabled,\n  #annotate .ann-field textarea:disabled { background: #161d24; }\n  #annotate .ann-tool.on,\n  #annotate #ann-finish,\n  #annotate #ann-save { background: var(--ink); color: #12181e; }\n  .ann-msg.bad { color: #e08b95; }\n  .ann-warn { background: rgba(224, 139, 149, .14); color: #e08b95; }\n  .ann-cap .ann-bar { background: rgba(255, 255, 255, .14); }\n  .ann-cap.near { color: #d99a5e; }\n  .ann-cap.near .ann-bar i { background: #d99a5e; }\n  .ann-cap.over { color: #e08b95; }\n  .ann-cap.over .ann-bar i { background: #e08b95; }\n}\n\n\n/* what the new controls need */\n#annotate .ann-style select {\n  padding: 2px 4px;\n  border: 1px solid var(--line);\n  border-radius: 4px;\n  background: #fff;\n  font: inherit;\n  font-size: 11.5px;\n  color: var(--ink);\n}\n\n#annotate .ann-foldbtn {\n  display: flex;\n  align-items: center;\n  gap: 7px;\n  flex: 1 1 auto;\n  min-width: 0;\n  padding: 3px 3px 3px 0;\n  border: 0;\n  background: none;\n  font: inherit;\n  color: var(--muted);\n  cursor: pointer;\n  text-align: left;\n}\n#annotate .ann-foldbtn strong {\n  font-size: 11.5px;\n  font-weight: 700;\n  letter-spacing: .08em;\n  text-transform: uppercase;\n}\n#annotate .ann-foldbtn:hover { color: var(--ink); }\n/* the caret is a square on one corner: its rotated bounding box is 1.41 times\n   its side, so it is given room rather than sticking out of the panel */\n#annotate .ann-foldbtn .caret {\n  flex: 0 0 auto;\n  width: 7px;\n  height: 7px;\n  margin-left: 2px;\n  border-right: 2px solid currentColor;\n  border-bottom: 2px solid currentColor;\n  transform: translateY(-2px) rotate(45deg);\n  transition: transform .15s ease;\n}\n#annotate.folded .ann-foldbtn .caret { transform: translateY(1px) rotate(-135deg); }\n#annotate.folded .ann-body { display: none; }\n#annotate .ann-count { font-size: 11px; color: var(--muted); }\n\n#annotate .ann-measure {\n  margin: 0 0 7px;\n  font-size: 11.5px;\n  font-variant-numeric: tabular-nums;\n  color: var(--muted);\n}\n\n#ann-list .ann-pick { display: flex; gap: 8px; align-items: baseline; }\n#ann-list .ann-name {\n  flex: 1 1 auto;\n  min-width: 0;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n#ann-list .ann-meas {\n  flex: 0 0 auto;\n  font-size: 10.5px;\n  font-variant-numeric: tabular-nums;\n  color: var(--muted);\n}\n#ann-list .ann-go {\n  flex: 0 0 auto;\n  border: 0;\n  background: none;\n  font: inherit;\n  font-size: 13px;\n  line-height: 1;\n  padding: 3px 4px;\n  color: var(--muted);\n  cursor: pointer;\n}\n#ann-list .ann-go:hover { color: var(--ink); }\n\n.ann-link-out { margin-top: 7px; }\n.ann-link-out input {\n  width: 100%;\n  padding: 5px 6px;\n  border: 1px solid var(--line);\n  border-radius: 5px;\n  background: #fff;\n  font: inherit;\n  font-size: 11px;\n  color: var(--ink);\n}\n\n/* a name the reader typed, written on the map beside its mark */\n#ann-labels .ann-label {\n  pointer-events: none;\n  text-anchor: middle;\n  paint-order: stroke;\n  stroke: #fffdf8;\n  stroke-width: 3.2px;\n  stroke-linejoin: round;\n  fill: #2b2b2b;\n  font-weight: 600;\n  font-size: 11px;\n}\n/* A mark is a handle, so it takes the pointer where nothing else here does.\n   A shape takes it on its stroke and on its fill where it has one, so that\n   pointing at an outlined area anywhere inside it still names it \u2014 `all`\n   rather than `visiblePainted`, because a fill at zero opacity is still the\n   thing the reader drew and still has a name. */\n#annotations .ann-mark { pointer-events: auto; cursor: grab; }\n#annotations .ann-shape { pointer-events: all; }\n#annotations .ann-vertex { opacity: .9; }\n#map-container.ann-drawing #annotations .ann-mark { pointer-events: none; }\n\n@media (prefers-color-scheme: dark) {\n  #annotate .ann-style select,\n  .ann-link-out input { background: #1b232b; color: var(--ink); }\n  #ann-labels .ann-label { stroke: #10161c; fill: #dfe6ec; }\n}\n\n@media (min-width: 1000px) {\n  #annotate {\n    position: relative;\n    inset: auto;\n    width: auto;\n    max-width: none;\n    max-height: none;\n    padding: 0;\n    background: transparent;\n    border: 0;\n    box-shadow: none;\n  }\n}\n";
+    var CSS = "/* ------------------------------------------------------------ annotations */\n\n/* The panel lives in the rail with the legend and the card. On a phone the\n   rail is a sheet over the map, which is the same place the card goes, and\n   the same rules carry it. */\n#annotate {\n  position: absolute;\n  left: max(10px, var(--safe-l));\n  top: 10px;\n  width: min(46vw, 280px);\n  max-height: calc(100% - 20px);\n  overflow-y: auto;\n  padding: 10px;\n  background: rgba(255, 253, 248, .97);\n  border: 1px solid var(--line);\n  border-radius: 8px;\n  box-shadow: var(--shadow);\n  font-size: 12.5px;\n  z-index: 6;\n}\n\n#annotate .ann-head {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  gap: 8px;\n  margin-bottom: 8px;\n}\n\n#annotate .ann-head strong {\n  font-size: 11.5px;\n  font-weight: 700;\n  letter-spacing: .08em;\n  text-transform: uppercase;\n  color: var(--muted);\n}\n\n#ann-close {\n  border: 0;\n  background: none;\n  font: inherit;\n  font-size: 17px;\n  line-height: 1;\n  padding: 2px 4px;\n  color: var(--muted);\n  cursor: pointer;\n}\n#ann-close:hover { color: var(--ink); }\n\n#annotate .ann-tools {\n  display: grid;\n  grid-template-columns: repeat(4, 1fr);\n  gap: 4px;\n}\n\n#annotate .ann-tool {\n  padding: 6px 2px;\n  border: 1px solid var(--line);\n  border-radius: 6px;\n  background: #fff;\n  font: inherit;\n  font-size: 11.5px;\n  color: var(--ink);\n  cursor: pointer;\n}\n#annotate .ann-tool:hover { border-color: var(--muted); }\n#annotate .ann-tool.on {\n  background: var(--ink);\n  border-color: var(--ink);\n  color: #fffdf8;\n}\n\n#annotate .ann-hint {\n  margin: 6px 0 8px;\n  color: var(--muted);\n  font-size: 11.5px;\n  line-height: 1.35;\n}\n\n/* `display` on a class beats the user agent's `[hidden] { display: none }`,\n   so the row of finish-and-cancel buttons stood there from the moment the\n   panel opened, offering to finish a shape nobody had started. */\n#annotate .ann-drawing {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 4px;\n  margin-bottom: 8px;\n}\n#annotate .ann-drawing[hidden] { display: none; }\n#annotate .ann-drawing button {\n  padding: 5px 8px;\n  border: 1px solid var(--line);\n  border-radius: 6px;\n  background: #fff;\n  font: inherit;\n  font-size: 11.5px;\n  cursor: pointer;\n}\n#annotate #ann-finish { background: var(--ink); border-color: var(--ink); color: #fffdf8; }\n\n#annotate .ann-style {\n  display: flex;\n  flex-wrap: wrap;\n  align-items: center;\n  gap: 4px 10px;\n  margin-bottom: 8px;\n}\n#annotate .ann-style label {\n  display: flex;\n  align-items: center;\n  gap: 5px;\n  font-size: 11.5px;\n  color: var(--muted);\n}\n#annotate .ann-style input[type=\"color\"] {\n  width: 26px;\n  height: 20px;\n  padding: 0;\n  border: 1px solid var(--line);\n  border-radius: 4px;\n  background: none;\n  cursor: pointer;\n}\n#annotate .ann-style input[type=\"range\"] { width: 74px; }\n\n#annotate .ann-field {\n  display: block;\n  margin-bottom: 7px;\n  font-size: 11.5px;\n  color: var(--muted);\n}\n#annotate .ann-field input,\n#annotate .ann-field textarea {\n  display: block;\n  width: 100%;\n  margin-top: 3px;\n  padding: 5px 6px;\n  border: 1px solid var(--line);\n  border-radius: 5px;\n  background: #fff;\n  font: inherit;\n  font-size: 12.5px;\n  color: var(--ink);\n  resize: vertical;\n}\n#annotate .ann-field input:disabled,\n#annotate .ann-field textarea:disabled { background: #f4f1ea; color: var(--muted); }\n\n#ann-list {\n  list-style: none;\n  margin: 0 0 8px;\n  padding: 0;\n  max-height: 172px;\n  overflow-y: auto;\n}\n#ann-list li {\n  display: flex;\n  align-items: center;\n  gap: 4px;\n  border-bottom: 1px solid var(--line);\n}\n#ann-list li.sel { background: rgba(0, 0, 0, .05); }\n#ann-list .ann-pick {\n  flex: 1 1 auto;\n  min-width: 0;\n  text-align: left;\n  padding: 5px 4px;\n  border: 0;\n  background: none;\n  font: inherit;\n  font-size: 12px;\n  color: var(--ink);\n  cursor: pointer;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n#ann-list .ann-del {\n  flex: 0 0 auto;\n  border: 0;\n  background: none;\n  font: inherit;\n  font-size: 14px;\n  line-height: 1;\n  padding: 3px 5px;\n  color: var(--muted);\n  cursor: pointer;\n}\n#ann-list .ann-del:hover { color: #8c2f39; }\n\n#annotate .ann-actions {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 5px;\n}\n#annotate .ann-actions button {\n  padding: 6px 9px;\n  border: 1px solid var(--line);\n  border-radius: 6px;\n  background: #fff;\n  font: inherit;\n  font-size: 11.5px;\n  cursor: pointer;\n}\n#annotate .ann-actions button:disabled { opacity: .45; cursor: default; }\n#annotate #ann-save { background: var(--ink); border-color: var(--ink); color: #fffdf8; }\n#annotate #ann-save:disabled { background: var(--muted); border-color: var(--muted); }\n\n.ann-msg {\n  margin: 8px 0 0;\n  font-size: 11.5px;\n  line-height: 1.4;\n  color: var(--muted);\n}\n/* An error is the one message that has to be read, so it is the one that is\n   coloured and that stays until something replaces it. */\n.ann-msg.bad { color: #8c2f39; font-weight: 600; }\n\n/* The running count of what will fit in a link. Always there once there is\n   anything to count, because the useful moment to know is while typing the\n   description that will push it over, not afterwards. */\n.ann-cap {\n  display: flex;\n  align-items: center;\n  gap: 7px;\n  margin: 0 0 6px;\n  font-size: 11px;\n  font-variant-numeric: tabular-nums;\n  color: var(--muted);\n}\n.ann-cap .ann-bar {\n  flex: 0 0 62px;\n  height: 4px;\n  border-radius: 2px;\n  background: rgba(0, 0, 0, .12);\n  overflow: hidden;\n}\n.ann-cap .ann-bar i {\n  display: block;\n  height: 100%;\n  width: 0;\n  background: var(--muted);\n  transition: width .18s ease;\n}\n.ann-cap.near { color: #a8642a; }\n.ann-cap.near .ann-bar i { background: #a8642a; }\n.ann-cap.over { color: #8c2f39; font-weight: 600; }\n.ann-cap.over .ann-bar i { background: #8c2f39; }\n\n/* The pencil that unlocks a shared set. It sits under the zoom controls in\n   the corner of the map, and it is the only annotation control a reader who\n   followed a link is shown until they ask for more. */\n#ann-edit {\n  position: absolute;\n  right: 10px;\n  top: 176px;\n  z-index: 5;\n  display: grid;\n  place-items: center;\n  width: 40px;\n  height: 40px;\n  padding: 0;\n  border: 1px solid var(--line);\n  border-radius: 9px;\n  background: #8c2f39;\n  box-shadow: var(--shadow);\n  cursor: pointer;\n}\n#ann-edit svg {\n  width: 19px;\n  height: 19px;\n  fill: none;\n  stroke: #fffdf8;\n  stroke-width: 1.9;\n  stroke-linecap: round;\n  stroke-linejoin: round;\n}\n#ann-edit:hover { background: #7a2831; }\n\n/* locked: the marks are there to be read, and nothing else */\n#map-container.ann-locked #annotations .ann-mark { cursor: default; }\n#map-container.ann-locked #annotations .ann-vertex { display: none; }\n\n#annotate #ann-lock {\n  display: grid;\n  place-items: center;\n  width: 26px;\n  height: 24px;\n  padding: 0;\n  border: 0;\n  background: none;\n  cursor: pointer;\n}\n#annotate #ann-lock svg {\n  width: 15px;\n  height: 15px;\n  fill: none;\n  stroke: var(--muted);\n  stroke-width: 1.7;\n  stroke-linecap: round;\n  stroke-linejoin: round;\n}\n#annotate #ann-lock:hover svg { stroke: var(--ink); }\n\n/* the way back to a reader's own work, when a link has taken the screen */\n.ann-mine { margin: 0 0 7px; }\n.ann-mine button {\n  width: 100%;\n  padding: 7px 9px;\n  border: 1px solid var(--line);\n  border-radius: 6px;\n  background: rgba(31, 92, 122, .10);\n  font: inherit;\n  font-size: 11.5px;\n  font-weight: 600;\n  color: var(--ink);\n  cursor: pointer;\n}\n.ann-mine button:hover { border-color: var(--muted); }\n\n/* the standing note about a set too big for a link */\n.ann-warn {\n  margin: 0 0 7px;\n  padding: 6px 8px;\n  border-radius: 5px;\n  background: rgba(140, 47, 57, .09);\n  font-size: 11.5px;\n  line-height: 1.4;\n  color: #8c2f39;\n}\n#annotate .ann-actions button.too-big {\n  opacity: .55;\n  text-decoration: line-through;\n}\n\n/* the marks themselves */\n#annotations { pointer-events: none; }\n#annotations .ann-shape { vector-effect: non-scaling-stroke; stroke-linejoin: round; }\n#annotations .ann-draft {\n  vector-effect: non-scaling-stroke;\n  stroke-dasharray: 5 4;\n  opacity: .8;\n}\n#annotations .sel { filter: drop-shadow(0 0 3px rgba(0, 0, 0, .55)); }\n\n/* a pen, not a pointer */\n#map-container.ann-drawing { cursor: crosshair; }\n\n/* Below the rail's breakpoint both the legend and this panel float in the\n   top-left corner of the map, and the annotation panel is the taller of the\n   two \u2014 so they were drawn one over the other, the legend's colours showing\n   faintly through. While a reader is drawing, the panel is what they are\n   using; the legend stands down and comes back when the panel closes. */\n/* Below the rail's breakpoint the panel docks to the foot of the screen\n   rather than floating in the top-left corner, where it took a third of a\n   phone and covered half the map's width \u2014 and where it stood on top of the\n   legend, which had to be hidden to make room. A sheet along the bottom\n   leaves the map whole above it, puts the tools under the thumb, and lets the\n   legend stay where it was. */\n@media (max-width: 999.98px) {\n  /* clear of the zoom controls on a narrow screen, where they stack lower */\n  #ann-edit { top: auto; bottom: calc(14px + var(--safe-b, 0px)); }\n  #annotate {\n    left: 0;\n    right: 0;\n    top: auto;\n    bottom: 0;\n    width: auto;\n    max-width: none;\n    max-height: 46vh;\n    border-width: 1px 0 0;\n    border-radius: 12px 12px 0 0;\n    padding: 8px 12px calc(10px + var(--safe-b, 0px));\n    box-shadow: 0 -4px 18px rgba(0, 0, 0, .16);\n  }\n  /* folded it is a bar the map can be worked around */\n  #annotate.folded { max-height: none; }\n  /* and with a tool out it keeps the tools and the hint and nothing else */\n  #annotate.tooling .ann-style,\n  #annotate.tooling .ann-field,\n  #annotate.tooling .ann-measure,\n  #annotate.tooling #ann-list,\n  #annotate.tooling .ann-actions,\n  #annotate.tooling .ann-link-out { display: none; }\n  #annotate .ann-style { gap: 6px 14px; }\n  #ann-list { max-height: 120px; }\n}\n\n@media (prefers-color-scheme: dark) {\n  #annotate { background: rgba(20, 26, 32, .97); }\n  #annotate .ann-tool,\n  #annotate .ann-drawing button,\n  #annotate .ann-actions button,\n  #annotate .ann-field input,\n  #annotate .ann-field textarea,\n  .ann-row button { background: #1b232b; color: var(--ink); }\n  #annotate .ann-field input:disabled,\n  #annotate .ann-field textarea:disabled { background: #161d24; }\n  #annotate .ann-tool.on,\n  #annotate #ann-finish,\n  #annotate #ann-save { background: var(--ink); color: #12181e; }\n  .ann-msg.bad { color: #e08b95; }\n  .ann-warn { background: rgba(224, 139, 149, .14); color: #e08b95; }\n  .ann-cap .ann-bar { background: rgba(255, 255, 255, .14); }\n  .ann-cap.near { color: #d99a5e; }\n  .ann-cap.near .ann-bar i { background: #d99a5e; }\n  .ann-cap.over { color: #e08b95; }\n  .ann-cap.over .ann-bar i { background: #e08b95; }\n}\n\n\n/* what the new controls need */\n#annotate .ann-style select {\n  padding: 2px 4px;\n  border: 1px solid var(--line);\n  border-radius: 4px;\n  background: #fff;\n  font: inherit;\n  font-size: 11.5px;\n  color: var(--ink);\n}\n\n#annotate .ann-foldbtn {\n  display: flex;\n  align-items: center;\n  gap: 7px;\n  flex: 1 1 auto;\n  min-width: 0;\n  padding: 3px 3px 3px 0;\n  border: 0;\n  background: none;\n  font: inherit;\n  color: var(--muted);\n  cursor: pointer;\n  text-align: left;\n}\n#annotate .ann-foldbtn strong {\n  font-size: 11.5px;\n  font-weight: 700;\n  letter-spacing: .08em;\n  text-transform: uppercase;\n}\n#annotate .ann-foldbtn:hover { color: var(--ink); }\n/* the caret is a square on one corner: its rotated bounding box is 1.41 times\n   its side, so it is given room rather than sticking out of the panel */\n#annotate .ann-foldbtn .caret {\n  flex: 0 0 auto;\n  width: 7px;\n  height: 7px;\n  margin-left: 2px;\n  border-right: 2px solid currentColor;\n  border-bottom: 2px solid currentColor;\n  transform: translateY(-2px) rotate(45deg);\n  transition: transform .15s ease;\n}\n#annotate.folded .ann-foldbtn .caret { transform: translateY(1px) rotate(-135deg); }\n#annotate.folded .ann-body { display: none; }\n#annotate .ann-count { font-size: 11px; color: var(--muted); }\n\n#annotate .ann-measure {\n  margin: 0 0 7px;\n  font-size: 11.5px;\n  font-variant-numeric: tabular-nums;\n  color: var(--muted);\n}\n\n#ann-list .ann-pick { display: flex; gap: 8px; align-items: baseline; }\n#ann-list .ann-name {\n  flex: 1 1 auto;\n  min-width: 0;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n#ann-list .ann-meas {\n  flex: 0 0 auto;\n  font-size: 10.5px;\n  font-variant-numeric: tabular-nums;\n  color: var(--muted);\n}\n#ann-list .ann-go {\n  flex: 0 0 auto;\n  border: 0;\n  background: none;\n  font: inherit;\n  font-size: 13px;\n  line-height: 1;\n  padding: 3px 4px;\n  color: var(--muted);\n  cursor: pointer;\n}\n#ann-list .ann-go:hover { color: var(--ink); }\n\n.ann-link-out { margin-top: 7px; }\n.ann-link-out input {\n  width: 100%;\n  padding: 5px 6px;\n  border: 1px solid var(--line);\n  border-radius: 5px;\n  background: #fff;\n  font: inherit;\n  font-size: 11px;\n  color: var(--ink);\n}\n\n/* a name the reader typed, written on the map beside its mark */\n#ann-labels .ann-label {\n  pointer-events: none;\n  text-anchor: middle;\n  paint-order: stroke;\n  stroke: #fffdf8;\n  stroke-width: 3.2px;\n  stroke-linejoin: round;\n  fill: #2b2b2b;\n  font-weight: 600;\n  font-size: 11px;\n}\n/* A mark is a handle, so it takes the pointer where nothing else here does.\n   A shape takes it on its stroke and on its fill where it has one, so that\n   pointing at an outlined area anywhere inside it still names it \u2014 `all`\n   rather than `visiblePainted`, because a fill at zero opacity is still the\n   thing the reader drew and still has a name. */\n#annotations .ann-mark { pointer-events: auto; cursor: grab; }\n#annotations .ann-shape { pointer-events: all; }\n#annotations .ann-vertex { opacity: .9; }\n#map-container.ann-drawing #annotations .ann-mark { pointer-events: none; }\n\n@media (prefers-color-scheme: dark) {\n  #annotate .ann-style select,\n  .ann-link-out input { background: #1b232b; color: var(--ink); }\n  #ann-labels .ann-label { stroke: #10161c; fill: #dfe6ec; }\n}\n\n@media (min-width: 1000px) {\n  #annotate {\n    position: relative;\n    inset: auto;\n    width: auto;\n    max-width: none;\n    max-height: none;\n    padding: 0;\n    background: transparent;\n    border: 0;\n    box-shadow: none;\n  }\n}\n";
 
     function addCss() {
       if (document.getElementById('ann-css')) return;
@@ -1345,6 +1519,10 @@
         fold(!panel.classList.contains('folded'));
       });
       $('#ann-close', panel).addEventListener('click', close);
+      $('#ann-lock', panel).addEventListener('click', function () {
+        setLocked(true);
+        say('Locked. The pencil in the corner of the map unlocks it.');
+      });
       $$('.ann-tool', panel).forEach(function (b) {
         b.addEventListener('click', function () { setTool(b.getAttribute('data-tool')); });
       });
@@ -1390,6 +1568,7 @@
         say('Cleared. Undo brings them back.');
       });
       $('#ann-link-field', panel).addEventListener('focus', function (e) { e.target.select(); });
+      $('#ann-mine-btn', panel).addEventListener('click', backToMine);
 
       document.addEventListener('keydown', onKey);
     }
@@ -1415,6 +1594,52 @@
 
     /* ------------------------------------------------------ opening up -- */
 
+    /* The edit button: a pencil on a coloured disc, in the corner of the map.
+       It is the only way back into the panel while the marks are locked, and
+       it exists only while there are marks — a reader who has never annotated
+       anything is never shown a control for annotations. */
+    function makeEditBtn() {
+      if (editBtn) return;
+      editBtn = document.createElement('button');
+      editBtn.type = 'button';
+      editBtn.id = 'ann-edit';
+      editBtn.hidden = true;
+      editBtn.title = 'Edit these annotations';
+      editBtn.setAttribute('aria-label', 'Edit these annotations');
+      editBtn.innerHTML =
+        '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">' +
+        '<path d="M4 20h4L19 9l-4-4L4 16v4z"/>' +
+        '<path d="M14.5 5.5l4 4"/></svg>';
+      editBtn.addEventListener('click', function () { setLocked(false); });
+      var host2 = document.getElementById('map-container') || document.body;
+      host2.appendChild(editBtn);
+    }
+
+    function setLocked(yes) {
+      locked = !!yes;
+      makeEditBtn();
+      if (panel) panel.hidden = locked || !on;
+      var stage = document.getElementById('stage');
+      if (stage) stage.classList.toggle('annotating', on && !locked);
+      var c = host.container();
+      if (c) c.classList.toggle('ann-locked', locked);
+      if (locked) {
+        setTool(null);
+        cancelDraft();
+      } else if (on) {
+        // somebody who pressed the pencil asked to edit: give them the panel
+        // open, not folded down to its title
+        fold(false);
+      }
+      showEdit();
+      redraw();
+    }
+
+    function showEdit() {
+      if (!editBtn) return;
+      editBtn.hidden = !(on && locked && feats.length);
+    }
+
     function open(folded) {
       build();
       on = true;
@@ -1430,8 +1655,12 @@
 
     function close() {
       on = false;
+      locked = false;
       setTool(null);
       if (panel) panel.hidden = true;
+      if (editBtn) editBtn.hidden = true;
+      var c0 = host.container();
+      if (c0) c0.classList.remove('ann-locked');
       var stage = document.getElementById('stage');
       if (stage) stage.classList.remove('annotating');
       var c = host.container();
@@ -1440,20 +1669,63 @@
     }
 
     function fromUrl(code) {
-      open(true);                 // a reader who followed a link came to look
+      /* Locked, and the panel not shown at all. Somebody followed a link to
+         look at what a classmate made; the tools are not what they came for,
+         and a set that is not theirs should not lose a point to a stray press.
+         The pencil in the corner is how they get in. */
+      open(true);
+      setLocked(true);
+      // whatever they had is set aside, not replaced
+      shadowed = restore();
       unpack(code).then(function (text) {
         loadText(text, 'shared');
-        // it was opened folded on purpose: the marks are the point, the tools
-        // are there if wanted. The message says where they are.
-        say('These annotations came with the link. Open the panel above to add '
-          + 'to them or save them.');
+        setLocked(true);           // loadText unlocks; a link stays locked
+        setDirty(false);           // nothing of theirs is at stake yet
+        if (shadowed) {
+          showShadow();
+          say('These annotations came with the link. Your own '
+            + shadowed.f.length + ' — still here, untouched — are one press away.');
+        } else {
+          // it was opened folded on purpose: the marks are the point, the
+          // tools are there if wanted. The message says where they are.
+          say('These annotations came with the link.');
+        }
       }, function (err) {
+        shadowed = null;
         fold(false);
         say('That shared link could not be read: ' + (err.message || err) + '.', 'bad');
       });
     }
 
+    /* The way back to a reader's own work after a link has taken the screen. */
+    function showShadow() {
+      var row = $('#ann-mine');
+      if (!row) return;
+      row.hidden = !shadowed;
+      if (!shadowed) return;
+      $('#ann-mine-btn').textContent = 'Back to my ' + shadowed.f.length
+        + ' annotation' + (shadowed.f.length === 1 ? '' : 's');
+    }
+
+    function backToMine() {
+      if (!shadowed) return;
+      var was = shadowed;
+      snapshot();
+      shadowed = null;
+      feats = was.f;
+      sourceName = was.s || '';
+      sel = feats.length ? 0 : -1;
+      changed(true);
+      zoomTo(feats);
+      showShadow();
+      fold(false);
+      try { window.localStorage.removeItem(ANN_STORE_SHARED); } catch (err) { /* fine */ }
+      say('Back to your own ' + feats.length + ' annotation'
+        + (feats.length === 1 ? '' : 's') + '. The shared set is in Undo if you want it.');
+    }
+
     function offerRestore() {
+      if (shadowed) return;              // it is already offered, as a button
       var was = restore();
       if (!was || feats.length) return;
       var when = was.t ? new Date(was.t) : null;
@@ -1482,7 +1754,10 @@
       drawing: function () { return on && !!tool; },
       tap: tap,
       hover: hover,
+      rightClick: rightClick,
       grab: grab,
+      held: held,
+      dragging: function () { return !!dragging; },
       drag: drag,
       drop: drop,
       reproject: function () { if (on) redraw(); },
