@@ -13,8 +13,8 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '1.51';
-  var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "f765e5fd38", "japan-empire-map-admin.svg": "d821c75055", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "132ece917d"};
+  var JEM_VERSION = '1.52';
+  var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "865f8a4768", "japan-empire-map-admin.svg": "d821c75055", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "132ece917d"};
 
   /* Every file this one fetches, with the version on it.
 
@@ -3082,6 +3082,18 @@
     if (pointers.size === 1) {
       downTarget = e.target;
       movedFar = false;
+      /* Shift and drag draws a selection box over the reader's own marks, and
+         it has to be asked before the admin marquee below — which also takes
+         shift, and which returns, so it was swallowing every one of these.
+         The two never both apply: the marquee belongs to `admin.js`, which is
+         reached by option-clicking Layers and which a reader never loads. */
+      if (e.shiftKey && annApi && annApi.boxStart
+          && annApi.boxStart(e.clientX, e.clientY)) {
+        dragStart = null;
+        movedFar = true;
+        hideTooltip();
+        return;
+      }
       if (e.shiftKey && e.pointerType !== 'touch') {
         marquee = { x0: e.clientX, y0: e.clientY, x1: e.clientX, y1: e.clientY };
         dragStart = null;
@@ -3199,6 +3211,7 @@
        nothing happened. A hold that is still maturing is watched here too, so
        that a finger which wanders off is a pan again. */
     if (annApi) {
+      if (annApi.boxMove && annApi.boxMove(e.clientX, e.clientY)) return;
       annApi.held(e.clientX, e.clientY);
       if (annApi.drag(e.clientX, e.clientY)) { e.preventDefault(); return; }
     }
@@ -3336,6 +3349,7 @@
 
     container.classList.remove('dragging');
     dragStart = null;
+    if (annApi && annApi.boxEnd && annApi.boxEnd()) { downTarget = null; return; }
     if (annApi && annApi.drop()) { downTarget = null; return; }
 
     if (had === 1 && !movedFar && e.type === 'pointerup') {

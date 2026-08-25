@@ -132,7 +132,21 @@ console.log('\n— the link —');
 
 { const p=await page(b);
   await (await p.$('#ann-file')).uploadFile(BIG); await settled(p, 20000);
-  await p.evaluate(()=>document.querySelector('#ann-link').click()); await sleep(2500);
+  /* Wait for the *counter*, not for a number of milliseconds. Packing 63
+     features and 14,851 points takes as long as it takes, and with four
+     browsers sharing the machine it took longer than the 2.5 seconds this used
+     to allow — so this one check failed about one parallel run in three while
+     passing every time it was run alone. The thing being waited for is the
+     thing the check then reads. */
+  await p.evaluate(()=>document.querySelector('#ann-link').click());
+  try {
+    await p.waitForFunction(()=>{
+      const c=document.querySelector('#ann-cap');
+      return c && !c.hidden && /file only/.test(
+        document.querySelector('#ann-cap-text').textContent);},
+      {timeout:30000, polling:'raf'});
+  } catch (e) { /* the checks below report it better than a timeout would */ }
+  await sleep(300);
   check('too much for a link says so with the number',
     /past the 6,000 a link can carry/.test(await p.evaluate(()=>document.querySelector('#ann-msg').textContent)),
     await p.evaluate(()=>document.querySelector('#ann-msg').textContent).then?'':'');

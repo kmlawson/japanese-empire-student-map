@@ -7201,6 +7201,47 @@ stays positive in both Albers and Lambert, so the clamp does not bite for it.
 The fix above is right on its own terms and was made on that basis, not on a
 claim that it closes the report. The report stays open.
 
+
+## A box round one mark, and the flake that had been hiding in the suite
+
+### Shift and drag
+
+A box, and the first mark it touches is selected — "first" in drawing order,
+and it stops looking the moment it has found something, because the reader
+asked for one object and not a heap. The box is dashed while it has found
+nothing and solid once it has, so the catch is visible without letting go.
+
+**Shift, not a plain drag.** A plain drag on empty map pans and has to go on
+doing so; a map you cannot move is worse than a map you must hold a key to
+select on. It is the way to reach a mark that is under something else, or so
+thin that pointing at it is a matter of luck.
+
+**And it was swallowed for its first two attempts by a branch nobody was
+thinking about.** `onPointerDown` already had a shift-drag: the admin
+marquee, which `return`s. Mine was asked afterwards and so was never asked at
+all — the shift-drag panned, and the pointer-up then selected whatever it had
+landed on, which looked enough like working to be confusing. The annotation
+box is asked first now. The two never both apply: the marquee belongs to
+`admin.js`, which is reached by option-clicking Layers and which a reader never
+loads.
+
+*And a bad test caught a good behaviour.* The first version of the check dragged
+from a point that had a shape under it, so the drag moved the shape instead of
+panning — which is exactly right, and two sections earlier in the same file.
+It looks for empty map now.
+
+### The flake, found
+
+One check in `run2` had been failing about one parallel run in three and
+passing every time it was run alone: *"too much for a link says so with the
+number"*. It pressed Copy link on the 63-feature, 14,851-point river file and
+then slept 2.5 seconds. Packing that takes as long as it takes, and with four
+browsers sharing the machine it took longer.
+
+It waits for the counter now rather than for a number of milliseconds — the
+same fix as the load waits, and the same reason: **the thing to wait for is the
+thing the next line reads.** Three parallel runs, 270 checks, all passing.
+
 ---
 
 ## Sources worth fetching

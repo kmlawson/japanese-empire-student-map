@@ -203,6 +203,46 @@ const grab=await p.evaluate(()=>{const v=[...document.querySelectorAll('#annotat
 check('every vertex carries a grab disc, and it is bigger than the dot',
   grab.n>0 && grab.withDisc===grab.n && +grab.r >= 8, JSON.stringify(grab));
 
+console.log('\n— a box round one mark —');
+/* Shift, because a plain drag pans and has to go on doing so. That is the
+   half of this worth asserting: the modifier picks, the bare drag moves. */
+await p.evaluate(()=>{const t=document.querySelector('.ann-tool.on'); if(t) t.click();}); await sleep(300);
+const vb=()=>p.evaluate(()=>document.getElementById('jmap').getAttribute('viewBox'));
+const v0=await vb();
+/* Somewhere with none of the reader's own marks under it: a drag that starts
+   on a shape moves the shape, which is the behaviour two sections above. */
+const empty=await p.evaluate(()=>{
+  for (let y=760; y>200; y-=40) for (let x=1380; x>200; x-=40) {
+    const e=document.elementFromPoint(x,y);
+    if (e && !e.closest('#annotations') && e.closest('#map-container')) return {x,y};
+  }
+  return null;});
+await p.mouse.move(empty.x,empty.y); await p.mouse.down(); await sleep(60);
+await p.mouse.move(empty.x-80,empty.y-40,{steps:6}); await sleep(60);
+await p.mouse.up(); await sleep(500);
+check('a plain drag still pans', (await vb())!==v0, JSON.stringify(empty));
+const v1=await vb();
+const spot=await p.evaluate(()=>{const g=document.querySelector('#annotations .ann-mark');
+  if(!g) return null; const r=g.getBoundingClientRect();
+  return {x:Math.round((r.left+r.right)/2), y:Math.round((r.top+r.bottom)/2)};});
+if (!spot) check('a box round one mark', false, 'no mark on screen');
+else {
+  await p.keyboard.down('Shift');
+  await p.mouse.move(spot.x-70,spot.y-70); await p.mouse.down(); await sleep(80);
+  await p.mouse.move(spot.x+30,spot.y+30,{steps:8}); await sleep(200);
+  const shown=await p.evaluate(()=>{const e=document.querySelector('#ann-box');
+    return e ? getComputedStyle(e).display+'/'+(e.classList.contains('got')?'got':'empty') : 'none';});
+  await p.mouse.up(); await p.keyboard.up('Shift'); await sleep(600);
+  check('the box is drawn while dragging, and says it has caught something',
+    shown==='block/got', shown);
+  check('and shift-dragging does not pan', (await vb())===v1);
+  check('something is selected by it',
+    await p.evaluate(()=>!!document.querySelector('#ann-list li.sel')));
+  check('and the box is put away afterwards',
+    await p.evaluate(()=>{const e=document.querySelector('#ann-box');
+      return !e || getComputedStyle(e).display==='none';}));
+}
+
 console.log('\n— 2) nothing runs under the scrollbar —');
 console.log('  ' + JSON.stringify(await p.evaluate(()=>{
   const a=document.querySelector('#annotate'), s=document.querySelector('#side');
