@@ -6272,6 +6272,92 @@ is why it was worth pointing at three real deployments before trusting it.
 
 ---
 
+## Twelve changes to the annotation editor, and one bug that explained itself
+
+### The shape menu stopped obeying, and the reason was the Event tool
+
+Reported as "when I get to star it stops working", with the note that there was
+nothing special about star. There was not. **Choosing `diamond` silently turned
+the point into an *event***: `kindOf` read `marker-symbol === 'diamond'` as "this
+is an event" so that the two tools could be told apart, and `styleChanged`
+writes a symbol only for a *point*. Diamond was a one-way door, and star is
+simply the next entry in the menu.
+
+Measured before the fix — every shape applies until diamond, and nothing after
+it ever does:
+
+```
+circle ok   ring ok   square ok   triangle ok   down-triangle ok   diamond ok
+star   → stored diamond   ← IGNORED
+circle → stored diamond   ← IGNORED
+```
+
+The Event tool was to be disabled anyway, so there is nothing left to tell
+apart: `kindOf` reads the geometry alone, and a diamond is a shape like any
+other. A file arriving with `marker-symbol: diamond` draws a diamond, which is
+what it asked for. Now every shape applies, twice round.
+
+### An Arrow tool in its place
+
+Two presses — where it starts, where it points — and it finishes itself,
+because an arrow has no middle. Five heads (solid, barbed, open, dot, none) and
+a **Bend**, straight at zero, which can be dragged on the map by the square
+handle at the arrow's apex.
+
+It is a two-point `LineString` with `jem-kind: 'arrow'`, so anything reading
+the file without knowing the word draws the line — the right failure.
+`jem-curve` is a **signed fraction of the arrow's own length**, not a control
+point in map units, so a bend keeps its shape through a zoom and through a
+change of projection. The head is a scalable, like a mark, because the stroke
+it belongs to is `non-scaling-stroke` and a head in map units would grow while
+its own line did not.
+
+The bend handle sits at the quadratic's apex, `(a + 2c + b) / 4`; dragging it
+solves back for the control point, `c = (4·apex − a − b) / 2`, and records how
+far that lies off the chord. Measured: dragging it bends the arrow and **the
+two ends do not move**.
+
+### A mark now answers for itself, whatever tool is out
+
+Right-click did nothing and a press just panned, and both had the same cause:
+`rightClick`, `grab` and `tap` all began `if (!on || tool …) return false`, and
+**the tool stays armed after a point is placed**. So the ordinary way of
+working — place one, then adjust it — met a map that ignored the mark and put a
+second point on top of it.
+
+A press that lands on a mark now addresses that mark: it selects, it drags, it
+deletes on the right button. Placing happens on empty map, which is where
+somebody who means to place is pointing. One CSS rule had to go with it —
+`#map-container.ann-drawing .ann-mark { pointer-events: none }` made marks
+unclickable exactly when a reader would first want them.
+
+### And the rest
+
+* **Undo takes back the last corner**, not the whole shape, while one is being
+  drawn. Nine corners placed and the tenth misplaced wants the tenth back.
+* **Only the controls that apply**: Shape with Point, Fill with Area, Dashed
+  with Line or Arrow, Head and Bend with Arrow. They follow the tool that is
+  out, or failing that the feature selected.
+* **The selection halo is back and stronger.** Lightening the colour was tried
+  and is worse — the point of choosing a colour is that the colour you chose is
+  the colour you see. Two shadows now, a tight dark one and a wide soft one,
+  and light ones over a dark map where black is invisible.
+* **The legend folds** when the panel opens and comes back when it closes,
+  unless the reader has meanwhile chosen otherwise.
+* **Nothing runs under the rail's scrollbar.** On a Mac that scrollbar is an
+  overlay drawn *over* the content, so a field at `width: 100%` ran beneath it
+  and lost its right-hand border — which is what "too wide to fit everything"
+  was. `scrollbar-gutter: stable` and three pixels of padding.
+
+36 new checks in `run9` and `run10`; the suite is 201, all passing.
+
+**Still open, because the sentence was cut off.** "After finishing a line or
+polygon, only show points on its vertices when the user has …" — vertices are
+already drawn only for the selected feature, so I have left it as it is rather
+than guess at the ending.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

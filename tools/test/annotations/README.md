@@ -1,6 +1,6 @@
 # The annotation tests
 
-165 checks over the drawing tools: what loads and when, the four kinds of mark,
+201 checks over the drawing tools: what loads and when, the four kinds of mark,
 styling, measurement, undo and dragging, files in and out, the shared link, the
 browser's own store, and the panel at four screen sizes with a mouse and with a
 finger.
@@ -18,11 +18,13 @@ node tools/test/annotations/run5.js    # the running link-capacity counter
 node tools/test/annotations/run6.js    # a shared link opens locked
 node tools/test/annotations/run7.js    # the warning before leaving unsaved work
 node tools/test/annotations/run8.js    # right click, and the long press
+node tools/test/annotations/run9.js    # the tools, the controls, undo, selection
+node tools/test/annotations/run10.js   # arrows: heads, bend, and the handle
 ```
 
 Each exits non-zero on a failure and prints which check failed.
 
-## Eight scripts rather than one
+## Ten scripts rather than one
 
 They were one, and it timed out: a single browser accumulating forty pages
 across a hundred checks slows until `Runtime.callFunctionOn` gives up. `run4`
