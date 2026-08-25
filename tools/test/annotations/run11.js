@@ -5,6 +5,21 @@ const puppeteer=(function(){const t=[];if(process.env.PUPPETEER_PATH)t.push(proc
   for(const x of t){try{return require(x);}catch(e){}}
   console.error('annotation tests: puppeteer not found. npm install puppeteer, or set PUPPETEER_PATH.');process.exit(1);})();
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+
+/* Wait for the map rather than for a number. Measured: the atoms and the first
+   labels are there 730 ms after the navigation resolves — these scripts were
+   sleeping three and a half seconds for it. See `suite.js`. */
+async function ready(pg, wantsAnn){
+  try {
+    await pg.waitForFunction(want=>{
+      if(!document.querySelectorAll('#land .atom').length) return false;
+      if(!document.querySelectorAll('#labels text').length) return false;
+      if(want && !document.querySelectorAll('#annotations [data-ann]').length) return false;
+      return true;
+    },{timeout:25000,polling:'raf'},!!wantsAnn);
+  } catch(e){ /* the script's own checks will say so */ }
+  await sleep(250);
+}
 const SHIM=()=>{const o=window.matchMedia;window.matchMedia=q=>(/hover:\s*hover|pointer:\s*fine/.test(q)?{matches:true,media:q,addListener(){},removeListener(){},addEventListener(){},removeEventListener(){}}:o.call(window,q));};
 const press=async(p,x,y)=>{await p.mouse.move(x,y);await p.mouse.down();await sleep(70);await p.mouse.up();await sleep(300);};
 let pass=0,fail=0; const check=(n,c,d)=>{ if(c){pass++;console.log('  ok   '+n);} else {fail++;console.log('  FAIL '+n+(d?' — '+d:''));} };
@@ -26,7 +41,7 @@ async function open(touch){
                            :{width:1500,height:950});
   if(!touch) await p.evaluateOnNewDocument(SHIM);
   p.__errs=[]; p.on('pageerror',e=>p.__errs.push(String(e)));
-  await p.goto('http://localhost:8123/index.html',{waitUntil:'networkidle0'}); await sleep(3500);
+  await p.goto('http://localhost:8123/index.html',{waitUntil:'networkidle0'}); await ready(p, false);
   await p.evaluate(()=>document.querySelector('#ann-create').click()); await sleep(1500);
   return p;
 }

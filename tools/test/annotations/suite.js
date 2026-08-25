@@ -31,11 +31,58 @@ async function page(b, opts={}) {
   p.__errs=[]; p.on('pageerror',e=>p.__errs.push(String(e)));
   p.on('console',m=>{if(m.type()==='error')p.__errs.push('console: '+m.text());});
   await p.goto('http://localhost:8123/index.html'+(opts.query||''),{waitUntil:'networkidle0'});
-  await sleep(opts.query&&opts.query.includes('ann=')?4200:3200);
+  await ready(p, opts);
   return p;
 }
+
+/* Wait for the map to be up rather than for a number of milliseconds.
+
+   Every script slept 3,200 ms after loading, and 4,200 when a link had to be
+   unpacked. Measured, the map has its atoms and its labels **730 ms** after
+   the navigation resolves, and the annotation panel is open and wired at
+   1,014. Nearly three and a half seconds per page were being spent waiting for
+   something that had already happened, thirty-odd times across the suite.
+
+   The wait is on what the next line is about to look at: the atoms exist, some
+   labels have been placed, and — when a link carried annotations — the marks
+   have been drawn. Then a short settle, because the README's warning still
+   stands: measure a count too early and it comes back zero. A quarter of a
+   second is enough for that and is not three seconds. */
+async function ready(p, opts={}) {
+  try {
+    await p.waitForFunction(() =>
+      document.querySelectorAll('#land .atom').length > 0 &&
+      document.querySelectorAll('#labels text').length > 0,
+      { timeout: 25000, polling: 'raf' });
+  } catch (err) {
+    // a script that is *testing* an empty or broken load still has to proceed;
+    // it will fail on its own assertion, which says more than a timeout here
+  }
+  /* A link's marks are waited for **separately and briefly**. Half the point of
+     the link tests is that a damaged link draws nothing, and folding that into
+     the wait above charged every one of those cases the full timeout: run2 grew
+     a 26-second pause at exactly the check that says a damaged link says so. */
+  if (opts.query && opts.query.includes('ann=')) {
+    try {
+      await p.waitForFunction(() =>
+        document.querySelectorAll('#annotations [data-ann]').length > 0,
+        { timeout: 3500, polling: 'raf' });
+    } catch (err) { /* a link that draws nothing is a case, not a fault */ }
+  }
+  await sleep(250);
+}
 const tap=async(p,x,y)=>{await p.mouse.move(x,y);await p.mouse.down();await sleep(60);await p.mouse.up();await sleep(260);};
-const openPanel=async p=>{await p.evaluate(()=>document.querySelector('#ann-create').click()); await sleep(1200);};
+const openPanel=async p=>{
+  await p.evaluate(()=>document.querySelector('#ann-create').click());
+  // the panel is fetched on demand, so this is a real wait — but it is a wait
+  // for the panel, not for a guess at how long the fetch takes
+  try {
+    await p.waitForFunction(()=>{const a=document.querySelector('#annotate');
+      return a && !a.hidden && document.querySelectorAll('.ann-tool').length===4;},
+      {timeout:20000, polling:'raf'});
+  } catch (err) { /* the caller's own check will say so */ }
+  await sleep(150);
+};
 const pickTool=async(p,t)=>{await p.evaluate(t=>document.querySelector('.ann-tool[data-tool="'+t+'"]').click(),t); await sleep(200);};
 // an interior point of an atom, clear of every panel
 // an interior point of one of these atoms, clear of every panel. Self
@@ -84,7 +131,7 @@ function SPOT(ids){
   return spare;
 }
 const BIG=path.join(__dirname,'..','..','cache','india-rivers.geojson');
-module.exports={puppeteer,sleep,page,tap,openPanel,pickTool,SPOT,FIX,BIG,check,
+module.exports={puppeteer,sleep,page,ready,tap,openPanel,pickTool,SPOT,FIX,BIG,check,
   report:()=>{console.log('\n  '+pass+' passed, '+fail+' failed');
     if(fail) failures.forEach(f=>console.log('   × '+f));
     return fail;}};

@@ -1,4 +1,17 @@
 const H=require('./suite.js');
+
+/* A file has been read when the panel has something to say about it — either
+   a complaint or a count. Waiting for the message beats waiting for a number
+   of milliseconds: the message is the thing every check below then reads. */
+async function settled(pg, timeout){
+  try {
+    await pg.waitForFunction(()=>{
+      const m=document.querySelector('#ann-msg');
+      return !!(m && m.textContent.trim());
+    },{timeout:timeout||6000, polling:'raf'});
+  } catch(e){ /* silence is itself a result; the checks below say so */ }
+  await sleep(250);
+}
 const {puppeteer,sleep,page,tap,openPanel,pickTool,SPOT,FIX,BIG,check,report}=H;
 const path=require('path');
 
@@ -21,7 +34,10 @@ const CASES=[
 for (const [f, good, re] of CASES) {
   const p=await page(b);
   await (await p.$('#ann-file')).uploadFile(f==='india-rivers.geojson'?BIG:path.join(FIX,f));
-  await sleep(f.includes('india')?4500:1800);
+  /* Wait for the panel to have *said* something rather than for a guess at how
+     long reading a file takes. Every fixture was charged 1.8 seconds and the
+     big one 4.5, and each of them answers in a fraction of that. */
+  await settled(p, f.includes('india') ? 20000 : 6000);
   const msg=await p.evaluate(()=>{const m=document.querySelector('#ann-msg'); return m?m.textContent:'(no panel)';});
   const bad=await p.evaluate(()=>{const m=document.querySelector('#ann-msg'); return m?m.className.includes('bad'):false;});
   check(f+' → '+(good?'loads':'is refused with a reason'), re.test(msg)&&bad===!good, JSON.stringify(msg).slice(0,90));
@@ -33,10 +49,10 @@ for (const [f, good, re] of CASES) {
 
 console.log('\n— adding a second file to the first —');
 { const p=await page(b);
-  await (await p.$('#ann-file')).uploadFile(path.join(FIX,'good.geojson')); await sleep(1800);
+  await (await p.$('#ann-file')).uploadFile(path.join(FIX,'good.geojson')); await settled(p);
   const n1=await p.evaluate(()=>document.querySelectorAll('#ann-list li').length);
   await p.evaluate(()=>document.querySelector('#ann-add').click()); await sleep(300);
-  await (await p.$('#ann-file')).uploadFile(path.join(FIX,'lone-feature.geojson')); await sleep(1800);
+  await (await p.$('#ann-file')).uploadFile(path.join(FIX,'lone-feature.geojson')); await settled(p);
   const n2=await p.evaluate(()=>document.querySelectorAll('#ann-list li').length);
   check('Add file merges rather than replacing', n2===n1+1, n1+' then '+n2);
   check('and says so', /Added 1 feature/.test(await p.evaluate(()=>document.querySelector('#ann-msg').textContent)));
@@ -62,7 +78,7 @@ console.log('\n— saving —');
   await p.close(); }
 
 { const p=await page(b);
-  await (await p.$('#ann-file')).uploadFile(path.join(FIX,'good.geojson')); await sleep(1800);
+  await (await p.$('#ann-file')).uploadFile(path.join(FIX,'good.geojson')); await settled(p);
   await p.evaluate(()=>document.querySelector('#ann-save').click()); await sleep(800);
   check('a loaded file saves back under its own name plus a stamp',
     /good-\d{8}-\d{4}\.geojson/.test(await p.evaluate(()=>document.querySelector('#ann-msg').textContent)),
@@ -115,7 +131,7 @@ console.log('\n— the link —');
   await p.close(); }
 
 { const p=await page(b);
-  await (await p.$('#ann-file')).uploadFile(BIG); await sleep(5000);
+  await (await p.$('#ann-file')).uploadFile(BIG); await settled(p, 20000);
   await p.evaluate(()=>document.querySelector('#ann-link').click()); await sleep(2500);
   check('too much for a link says so with the number',
     /past the 6,000 a link can carry/.test(await p.evaluate(()=>document.querySelector('#ann-msg').textContent)),

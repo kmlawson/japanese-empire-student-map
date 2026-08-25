@@ -1,6 +1,21 @@
 const puppeteer=(function(){const t=[];if(process.env.PUPPETEER_PATH)t.push(process.env.PUPPETEER_PATH);t.push('puppeteer');
   for(const x of t){try{return require(x);}catch(e){}}
   console.error('annotation tests: puppeteer not found. npm install puppeteer, or set PUPPETEER_PATH.');process.exit(1);})(); const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+
+/* Wait for the map rather than for a number. Measured: the atoms and the first
+   labels are there 730 ms after the navigation resolves — these scripts were
+   sleeping three and a half seconds for it. See `suite.js`. */
+async function ready(pg, wantsAnn){
+  try {
+    await pg.waitForFunction(want=>{
+      if(!document.querySelectorAll('#land .atom').length) return false;
+      if(!document.querySelectorAll('#labels text').length) return false;
+      if(want && !document.querySelectorAll('#annotations [data-ann]').length) return false;
+      return true;
+    },{timeout:25000,polling:'raf'},!!wantsAnn);
+  } catch(e){ /* the script's own checks will say so */ }
+  await sleep(250);
+}
 const SHIM=()=>{const o=window.matchMedia;window.matchMedia=q=>(/hover:\s*hover|pointer:\s*fine/.test(q)?{matches:true,media:q,addListener(){},removeListener(){},addEventListener(){},removeEventListener(){}}:o.call(window,q));};
 const tap=async(p,x,y)=>{await p.mouse.move(x,y);await p.mouse.down();await sleep(60);await p.mouse.up();await sleep(260);};
 let pass=0,fail=0; const check=(n,c,d)=>{ if(c){pass++;console.log('  ok   '+n);} else {fail++;console.log('  FAIL '+n+(d?' — '+d:''));} };
@@ -21,7 +36,7 @@ let url;
   await p.evaluateOnNewDocument(SHIM);
   await p.evaluateOnNewDocument(()=>{window.__clip=null;
     if(navigator.clipboard) navigator.clipboard.writeText=t=>{window.__clip=t;return Promise.resolve();};});
-  await p.goto('http://localhost:8123/index.html',{waitUntil:'networkidle0'}); await sleep(3500);
+  await p.goto('http://localhost:8123/index.html',{waitUntil:'networkidle0'}); await ready(p, false);
   await p.evaluate(()=>document.querySelector('#ann-create').click()); await sleep(1400);
   await p.evaluate(()=>{const b=document.querySelector('.ann-tool[data-tool="point"]'); if(b.getAttribute('aria-pressed')!=='true') b.click();});
   await sleep(250); await tap(p,700,450);
@@ -33,7 +48,7 @@ let url;
 const p=await b.newPage(); await p.setViewport({width:1500,height:950});
 await p.evaluateOnNewDocument(SHIM);
 const errs=[]; p.on('pageerror',e=>errs.push(String(e)));
-await p.goto(url,{waitUntil:'networkidle0'}); await sleep(4500);
+await p.goto(url,{waitUntil:'networkidle0'}); await ready(p, true);
 check('the marks are drawn', await p.evaluate(()=>document.querySelectorAll('#annotations .ann-mark').length)===1);
 check('the panel is put away', await p.evaluate(()=>document.querySelector('#annotate').hidden));
 check('a pencil is offered', await p.evaluate(()=>{const e=document.querySelector('#ann-edit'); return !!e && !e.hidden;}));

@@ -9,6 +9,21 @@
  * both of those rather than asserting them.
  */
 const H = require('./suite.js');
+
+/* Wait for the map rather than for a number. Measured: the atoms and the first
+   labels are there 730 ms after the navigation resolves — these scripts were
+   sleeping three and a half seconds for it. See `suite.js`. */
+async function ready(pg, wantsAnn){
+  try {
+    await pg.waitForFunction(want=>{
+      if(!document.querySelectorAll('#land .atom').length) return false;
+      if(!document.querySelectorAll('#labels text').length) return false;
+      if(want && !document.querySelectorAll('#annotations [data-ann]').length) return false;
+      return true;
+    },{timeout:25000,polling:'raf'},!!wantsAnn);
+  } catch(e){ /* the script's own checks will say so */ }
+  await sleep(250);
+}
 const { puppeteer, sleep, page, tap, openPanel, pickTool, BIG, check, report } = H;
 
 const CAP = () => {
@@ -98,6 +113,77 @@ const num = t => parseInt(String(t).replace(/,/g, ''), 10);
         return !w.hidden && /characters compressed/.test(w.textContent) && /×/.test(w.textContent);
       }));
     console.log('      ' + over.text);
+    await p.close();
+  }
+
+  /* What the link leaves out, and that leaving it out costs nothing.
+     A link is capped at 6,000 characters and a file is not, so the two are not
+     the same document: the link drops coordinates below four decimals and
+     every property that only repeats a default. Both halves have to be
+     measured — the saving, and that the map comes back identical. */
+  console.log('\n— the link carries less than the file —');
+  {
+    const p = await page(b);
+    await openPanel(p);
+    const put = async (id, v) => p.evaluate((i, val) => { const el = document.querySelector(i);
+      el.value = val; el.dispatchEvent(new Event('input', { bubbles: true }));
+      el.dispatchEvent(new Event('change', { bubbles: true })); }, id, v);
+    await pickTool(p, 'point'); await tap(p, 400, 300);
+    await pickTool(p, 'point'); await tap(p, 470, 340);
+    await put('#ann-colour', '#1f5c7a'); await put('#ann-size', '9');
+    await put('#ann-symbol', 'division'); await put('#ann-opacity', '60');
+    await put('#ann-title', 'Kwantung');
+    await pickTool(p, 'polygon');
+    await tap(p, 600, 400); await tap(p, 700, 440); await tap(p, 660, 520);
+    await p.evaluate(() => document.querySelector('#ann-finish').click()); await sleep(400);
+    await pickTool(p, 'arrow'); await tap(p, 300, 600); await tap(p, 500, 660);
+    await sleep(400);
+    await put('#ann-head', 'barbed'); await put('#ann-curve', '25');
+    await sleep(1600);
+    const before = await p.evaluate(() =>
+      JSON.parse(localStorage.getItem('jem-annotations-v1')).f);
+    const cap = await p.evaluate(CAP);
+    const fileSize = JSON.stringify(before).length;
+    console.log('      file ' + fileSize + ' chars, link ' + cap.text);
+    check('the link is a fraction of the file', num(cap.text) < fileSize,
+      num(cap.text) + ' vs ' + fileSize);
+    await p.evaluate(() => document.querySelector('#ann-link').click());
+    await sleep(1200);
+    const link = await p.evaluate(() => {
+      const f = document.querySelector('#ann-link-field'); return f ? f.value : ''; });
+    // the annotations ride in a query parameter, not a fragment
+    check('and there is a link to follow', /[?&]ann=/.test(link), link.slice(0, 70));
+    const p2 = await page(b, { query: '' });
+    await p2.goto(link, { waitUntil: 'networkidle0' }); await ready(p2, true);
+    const after = await p2.evaluate(() => {
+      const k = localStorage.getItem('jem-annotations-shared-v1')
+             || localStorage.getItem('jem-annotations-v1');
+      return k ? JSON.parse(k).f : null; });
+    check('every mark comes back', after && after.length === before.length,
+      before.length + ' → ' + (after ? after.length : 'none'));
+    // A property equal to its own default is the same as no property: those
+    // are what the link drops, and what the drawing code fills back in.
+    const DEF = { 'stroke-opacity': 1, 'marker-symbol': 'circle', 'stroke-width': 3,
+                  'fill-opacity': 0.28, 'jem-curve': 0, 'jem-arrow-head': 'triangle' };
+    const diffs = [];
+    (after || []).forEach((g, i) => {
+      const f = before[i]; if (!f) return;
+      new Set([...Object.keys(f.properties), ...Object.keys(g.properties)]).forEach(k => {
+        const a = f.properties[k], c = g.properties[k];
+        if ((a === '' && c === undefined) || (a === undefined && c === '')) return;
+        if (c === undefined && DEF[k] === a) return;
+        if (a === undefined && DEF[k] === c) return;
+        if (JSON.stringify(a) !== JSON.stringify(c)) diffs.push('#' + i + ' ' + k
+          + ': ' + JSON.stringify(a) + ' vs ' + JSON.stringify(c));
+      });
+      const rd = v => JSON.parse(JSON.stringify(v).replace(/-?\d+\.\d+/g,
+        m => String(Math.round(+m * 1e4) / 1e4)));
+      if (JSON.stringify(rd(f.geometry.coordinates))
+          !== JSON.stringify(rd(g.geometry.coordinates))) diffs.push('#' + i + ' geometry');
+    });
+    check('and comes back the same, to four decimals and every property',
+      diffs.length === 0, diffs.slice(0, 4).join(' | '));
+    await p2.close();
     await p.close();
   }
 

@@ -1,6 +1,21 @@
 const puppeteer=(function(){const t=[];if(process.env.PUPPETEER_PATH)t.push(process.env.PUPPETEER_PATH);t.push('puppeteer');
   for(const x of t){try{return require(x);}catch(e){}}
   console.error('annotation tests: puppeteer not found. npm install puppeteer, or set PUPPETEER_PATH.');process.exit(1);})(); const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+
+/* Wait for the map rather than for a number. Measured: the atoms and the first
+   labels are there 730 ms after the navigation resolves — these scripts were
+   sleeping three and a half seconds for it. See `suite.js`. */
+async function ready(pg, wantsAnn){
+  try {
+    await pg.waitForFunction(want=>{
+      if(!document.querySelectorAll('#land .atom').length) return false;
+      if(!document.querySelectorAll('#labels text').length) return false;
+      if(want && !document.querySelectorAll('#annotations [data-ann]').length) return false;
+      return true;
+    },{timeout:25000,polling:'raf'},!!wantsAnn);
+  } catch(e){ /* the script's own checks will say so */ }
+  await sleep(250);
+}
 const SHIM=()=>{const o=window.matchMedia;window.matchMedia=q=>(/hover:\s*hover|pointer:\s*fine/.test(q)?{matches:true,media:q,addListener(){},removeListener(){},addEventListener(){},removeEventListener(){}}:o.call(window,q));};
 const tap=async(p,x,y)=>{await p.mouse.move(x,y);await p.mouse.down();await sleep(60);await p.mouse.up();await sleep(260);};
 let pass=0,fail=0; const check=(n,c,d)=>{ if(c){pass++;console.log('  ok   '+n);} else {fail++;console.log('  FAIL '+n+(d?' — '+d:''));} };
@@ -11,7 +26,7 @@ const arm=async(p,t)=>p.evaluate(t=>{const b=document.querySelector('.ann-tool[d
 const p=await b.newPage(); await p.setViewport({width:1500,height:950});
 await p.evaluateOnNewDocument(SHIM);
 const errs=[]; p.on('pageerror',e=>errs.push(String(e)));
-await p.goto('http://localhost:8123/index.html',{waitUntil:'networkidle0'}); await sleep(3400);
+await p.goto('http://localhost:8123/index.html',{waitUntil:'networkidle0'}); await ready(p, false);
 
 console.log('\n— 8) the tools on offer —');
 await p.evaluate(()=>document.querySelector('#ann-create').click()); await sleep(1500);
@@ -39,12 +54,18 @@ check('every shape applies, twice round, including diamond then star', !stuck, S
 
 console.log('\n— 7) only the controls that apply —');
 const vis=async()=>p.evaluate(()=>({shape:!document.querySelector('#ann-shape-row').hidden,
-  fill:!document.querySelector('#ann-fill-row').hidden, dash:!document.querySelector('#ann-dash-row').hidden}));
-check('with Point out: Shape only', JSON.stringify(await vis())==='{"shape":true,"fill":false,"dash":false}', JSON.stringify(await vis()));
+  fill:!document.querySelector('#ann-fill-row').hidden, dash:!document.querySelector('#ann-dash-row').hidden,
+  edge:!document.querySelector('#ann-edge-row').hidden, dist:!document.querySelector('#ann-dist-row').hidden}));
+const only=(...on)=>JSON.stringify(['shape','fill','dash','edge','dist']
+  .reduce((o,k)=>{o[k]=on.indexOf(k)>=0; return o;},{}));
+check('with Point out: Shape only', JSON.stringify(await vis())===only('shape'), JSON.stringify(await vis()));
 await arm(p,'polygon'); await sleep(300);
-check('with Area out: Fill only', JSON.stringify(await vis())==='{"shape":false,"fill":true,"dash":false}', JSON.stringify(await vis()));
+check('with Area out: Fill and Edge', JSON.stringify(await vis())===only('fill','edge'), JSON.stringify(await vis()));
 await arm(p,'line'); await sleep(300);
-check('with Line out: Dashed only', JSON.stringify(await vis())==='{"shape":false,"fill":false,"dash":true}', JSON.stringify(await vis()));
+check('with Line out: Line style and Distances', JSON.stringify(await vis())===only('dash','dist'), JSON.stringify(await vis()));
+await arm(p,'arrow'); await sleep(300);
+check('with Arrow out: Line style, no Distances', JSON.stringify(await vis())===only('dash'), JSON.stringify(await vis()));
+await arm(p,'line'); await sleep(300);
 
 console.log('\n— 9) undo takes back a point, not the shape —');
 await tap(p,500,600); await tap(p,600,660); await tap(p,700,620); await tap(p,780,680);
@@ -84,6 +105,60 @@ check('and right click deletes it, tool armed', (await p.evaluate(STORE)).length
 console.log('\n— 5) the selected one reads differently —');
 check('the selected feature carries a class of its own',
   await p.evaluate(()=>document.querySelector('#annotations .sel')!==null));
+
+console.log('\n— an approximate area, and distances on a line —');
+await arm(p,'polygon');
+await tap(p,300,300); await tap(p,420,320); await tap(p,400,430);
+await p.evaluate(()=>document.querySelector('#ann-finish').click()); await sleep(400);
+const sharp=await p.evaluate(()=>[...document.querySelectorAll('#annotations .ann-shape')].pop().getAttribute('filter'));
+check('an area is sharp to begin with', !sharp, String(sharp));
+await p.evaluate(()=>{const el=document.querySelector('#ann-edge'); el.value='blurred';
+  el.dispatchEvent(new Event('change',{bubbles:true}));}); await sleep(400);
+const soft=await p.evaluate(()=>[...document.querySelectorAll('#annotations .ann-shape')].pop().getAttribute('filter'));
+check('blurred gives it a filter', /ann-blur/.test(String(soft)), String(soft));
+check('and the filter is a real definition',
+  await p.evaluate(()=>{const f=[...document.querySelectorAll('#annotations .ann-shape')].pop().getAttribute('filter');
+    const id=f.replace(/^url\(#|\)$/g,''); const d=document.getElementById(id);
+    return !!(d && d.querySelector('feGaussianBlur'));}));
+check('and it is recorded',
+  (await p.evaluate(STORE)).pop().properties['jem-edge']==='blurred');
+await p.evaluate(()=>{const el=document.querySelector('#ann-edge'); el.value='';
+  el.dispatchEvent(new Event('change',{bubbles:true}));}); await sleep(400);
+check('sharp again takes it off',
+  !(await p.evaluate(()=>[...document.querySelectorAll('#annotations .ann-shape')].pop().getAttribute('filter'))));
+
+await arm(p,'line');
+await tap(p,300,700); await tap(p,470,760); await tap(p,640,700);
+await p.evaluate(()=>document.querySelector('#ann-finish').click()); await sleep(400);
+const nDist=()=>p.evaluate(()=>document.querySelectorAll('#ann-labels .ann-dist').length);
+check('no distances to begin with', await nDist()===0);
+await p.evaluate(()=>{const el=document.querySelector('#ann-dist'); el.value='segments';
+  el.dispatchEvent(new Event('change',{bubbles:true}));}); await sleep(500);
+check('each leg gets one — two legs, two labels', await nDist()===2, String(await nDist()));
+await p.evaluate(()=>{const el=document.querySelector('#ann-dist'); el.value='total';
+  el.dispatchEvent(new Event('change',{bubbles:true}));}); await sleep(500);
+check('a total is one label', await nDist()===1, String(await nDist()));
+check('and it reads in km',
+  /km$/.test(await p.evaluate(()=>document.querySelector('#ann-labels .ann-dist').textContent)),
+  await p.evaluate(()=>document.querySelector('#ann-labels .ann-dist').textContent));
+/* The name hangs below the middle of the line and a total wants the same
+   place, so they take opposite sides of it. Measured as a *move*: the two
+   labels hang from different anchors — the name from the centroid, the total
+   from the point halfway along — so comparing their positions to each other
+   says nothing, and comparing the distance's own position before and after
+   the name arrives says exactly the thing being claimed. */
+const distTop=()=>p.evaluate(()=>Math.round(
+  document.querySelector('#ann-labels .ann-dist').getBoundingClientRect().top));
+const bare=await distTop();
+await p.evaluate(()=>{const el=document.querySelector('#ann-title'); el.value='Advance';
+  el.dispatchEvent(new Event('input',{bubbles:true}));}); await sleep(500);
+const named=await distTop();
+check('named, the distance moves to the other side of the line', named < bare - 10,
+  bare + ' → ' + named);
+check('and back again when the name goes', await (async()=>{
+  await p.evaluate(()=>{const el=document.querySelector('#ann-title'); el.value='';
+    el.dispatchEvent(new Event('input',{bubbles:true}));}); await sleep(500);
+  return Math.abs((await distTop()) - bare) <= 2;})());
 
 console.log('\n— 2) nothing runs under the scrollbar —');
 console.log('  ' + JSON.stringify(await p.evaluate(()=>{

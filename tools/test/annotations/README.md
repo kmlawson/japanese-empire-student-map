@@ -10,6 +10,17 @@ cd /path/to/this/repo
 python3 -m http.server 8123 &          # the suite drives a real page
 npm install puppeteer                  # node_modules/ is gitignored
 
+node tools/test/annotations/all.js     # all of them, four at a time
+node tools/test/annotations/all.js 7 9 # or just these
+JOBS=2 node tools/test/annotations/all.js   # narrower, on a small machine
+```
+
+`all.js` buffers each script's output and prints it whole when that script
+ends, so eleven interleaved streams do not become one unreadable one, and it
+finishes with a table sorted by how long each took. Its exit code is the number
+of scripts that failed. To run one on its own:
+
+```sh
 node tools/test/annotations/run.js     # tools, styling, undo, dragging
 node tools/test/annotations/run2.js    # files, saving, the link
 node tools/test/annotations/run3.js    # the store, the map, projections, touch
@@ -24,6 +35,37 @@ node tools/test/annotations/run11.js   # short note vs description, dashes, weig
 ```
 
 Each exits non-zero on a failure and prints which check failed.
+
+## Why it used to take seven minutes
+
+Three things, and none of them was the tests doing work.
+
+**`run7` waited 150 seconds for a dialog nobody answered.** Its last step
+presses Clear, Clear asks "are you sure?", and `run7` builds its own page
+rather than using `page()` from `suite.js` — so it had no `dialog` handler. The
+`confirm()` blocked until the protocol timed out, and a `.catch(() => {})` on
+the line swallowed the error. Eight checks, six seconds of work, two and a half
+minutes of waiting. It is five seconds now.
+
+**Every page slept 3,200 ms for a map that is ready in 730.** Measured: the
+atoms and the first labels are in the document 730 ms after the navigation
+resolves, and the annotation panel is open and wired at 1,014. `page()` waits
+for those now instead, with a 250 ms settle — because the warning below still
+stands, and a count read too early comes back zero. Thirty-odd page loads
+across the suite were paying three and a half seconds each.
+
+*A trap that cost one debugging round:* folding "and its marks are drawn" into
+that same wait charges the **damaged-link** cases the full timeout, because
+half the point of those cases is that a damaged link draws nothing. `run2` grew
+a 26-second pause at exactly the check that says so. The marks are waited for
+separately and briefly.
+
+**And the fixtures were charged 1.8 seconds each** for a file that is read in a
+fraction of it. They wait for the panel to have *said* something now, which is
+what the next line reads anyway.
+
+Sequentially the suite is about four minutes; four at a time, **74 seconds for
+252 checks**.
 
 ## Eleven scripts rather than one
 

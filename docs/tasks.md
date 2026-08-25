@@ -6609,6 +6609,109 @@ and they now stand down with the fields, as that rule intends.
 The suite is 252 across twelve annotation scripts and five map ones, all
 passing.
 
+
+## An approximate area, distances on a line, a smaller link, and a suite that runs in a minute
+
+### An edge that says "about here"
+
+Areas take a **Sharp / Blurred** choice. Blurred gives the shape a soft edge —
+a Gaussian in map units, one filter per line weight so a heavy outline blurs
+more than a hairline and the two read as equally uncertain. A hard edge on a
+shape drawn from a sentence in a book asserts a frontier the source never had;
+this says "about here", which is what the reader meant.
+
+The blur is in **map units**, not screen units: the vagueness belongs to the
+ground, so it widens as the reader zooms in, the way an uncertain frontier
+should. First cut was `0.7 + w·0.45` and read as a slightly soft line at a
+glance — indistinguishable from sharp beside a sharp one, which is the whole
+test. `2.4 + w·1.7` is what makes the pair read differently.
+
+### Distances, on the other side of the name
+
+Lines take a **Distances** menu: none, each leg, or the total. Each leg labels
+every segment; the total labels the whole, at the point **halfway along the
+line** rather than the middle of the box round it — a line that doubles back
+has a centroid off the line itself, and a total written there is a number
+floating in the sea.
+
+They go on the opposite side of the line from the name, because the name hangs
+below the middle of the line and that is exactly where a total wants to be.
+Above when there is a name to avoid, below when there is not.
+
+### The link carries less than the file
+
+The advice was to quantise coordinates, drop default style values, and compress
+before base64. The third was already done — deflate, then base64url, with the
+prefix saying which. The other two are now:
+
+* **Coordinates cut to four decimals.** About 11 m at the equator and less
+  further north, far below the accuracy of anything this map is traced from,
+  and below a pixel at every zoom it allows. A river imported from a GIS file
+  carries fifteen decimals; that is where the length of a link mostly goes.
+* **Every property equal to its own default is dropped** — and only those the
+  loader puts back. `stroke` is the counter-example and stays: dropped, `adopt`
+  would hand the feature a palette colour rather than the black it had.
+
+Measured: a normal teaching set of fourteen marks went **751 → 613** characters,
+and `india-rivers` — 63 features, 14,851 points — went **160,528 → 122,972**, a
+23% cut. Still far past a link, which the counter already says.
+
+**The file is untouched.** A link is capped at 6,000 characters and a file is
+not, so they are not the same document: the file is the archival copy.
+
+*And one wrong value came out of it.* `adopt` wrote `marker-size: 'medium'`
+whenever there was none — so a large marker came back through a link labelled
+medium, and any foreign file with a weight and no size got the same wrong
+label. It is derived from the weight now, which makes the round trip exact:
+measured property by property across a link, identical to four decimals.
+
+### The suite: seven minutes to seventy-four seconds
+
+Three things, and none of them was the tests doing work.
+
+* **`run7` waited 150 seconds for a dialog nobody answered.** Its last step
+  presses Clear, Clear asks "are you sure?", and `run7` builds its own page
+  rather than using `page()` — so it had no `dialog` handler. The `confirm()`
+  blocked until the protocol timed out, and a `.catch(() => {})` swallowed the
+  error. Eight checks, six seconds of work, two and a half minutes of waiting.
+  **156s → 5s.**
+* **Every page slept 3,200 ms for a map that is ready in 730.** Measured: atoms
+  and first labels 730 ms after the navigation resolves, the annotation panel
+  open and wired at 1,014. Thirty-odd page loads were each paying three and a
+  half seconds for something that had already happened.
+* **The fixtures were charged 1.8 seconds each** for a file read in a fraction
+  of that. They wait for the panel to have *said* something now — which is what
+  the next line reads anyway. **run2: 91s → 43s.**
+
+A trap that cost one round: folding "and its marks are drawn" into the
+readiness wait charges the **damaged-link** cases the full timeout, because
+half the point of those cases is that a damaged link draws nothing. `run2` grew
+a 26-second pause at exactly the check that says so. The marks are waited for
+separately, briefly.
+
+`tools/test/annotations/all.js` runs them four at a time, buffering each
+script's output so eleven interleaved streams stay readable, and prints a table
+sorted by duration. **252 checks in 73.9 seconds**, against about four minutes
+run one after another.
+
+### And the deep-zoom panning question, answered by measurement
+
+`reports/2026.08.25-deep-zoom-panning.md`. Nothing was changed. The short of
+it: **panning is not slower when zoomed in — it is cheaper.** Path commands
+inside the frame fall from 211,173 at the opening view to 11,855 at sixteen
+wheel steps; layout falls with them; the move handler costs 0.1 ms median at
+every depth; 60 frames take about 1,000 ms at every depth, which is the
+`requestAnimationFrame` interval, at 4× CPU throttling and device pixel ratio
+2. No long task fired at any depth. The pan tracks the pointer 1:1 at every
+zoom except the opening view, where `clampView` has reached the edge of the map
+and it moves 95 px for 200 — if anything feels different, it is that.
+
+The report says plainly what those numbers do not cover: GPU rasterising on a
+real machine, Safari's SVG rasteriser, and — new today — a **blurred** polygon,
+whose filter is re-evaluated every paint at a cost set by its area in device
+pixels. That last one is the only thing on this map that gets dearer the
+further in you go, and it is worth knowing before it is reported as a mystery.
+
 ---
 
 ## Sources worth fetching

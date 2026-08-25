@@ -1,4 +1,19 @@
 const H=require('./suite.js');
+
+/* Wait for the map rather than for a number. Measured: the atoms and the first
+   labels are there 730 ms after the navigation resolves — these scripts were
+   sleeping three and a half seconds for it. See `suite.js`. */
+async function ready(pg, wantsAnn){
+  try {
+    await pg.waitForFunction(want=>{
+      if(!document.querySelectorAll('#land .atom').length) return false;
+      if(!document.querySelectorAll('#labels text').length) return false;
+      if(want && !document.querySelectorAll('#annotations [data-ann]').length) return false;
+      return true;
+    },{timeout:25000,polling:'raf'},!!wantsAnn);
+  } catch(e){ /* the script's own checks will say so */ }
+  await sleep(250);
+}
 const {puppeteer,sleep,check,report}=H;
 (async()=>{
 console.log('\n— narrow and wide —');
@@ -8,7 +23,7 @@ for (const [w,h,tag,touch] of [[390,780,'phone   ',true],[768,1024,'tablet  ',tr
   const p=await b.newPage();
   await p.setViewport(touch?{width:w,height:h,isMobile:true,hasTouch:true}:{width:w,height:h});
   const errs=[]; p.on('pageerror',e=>errs.push(String(e)));
-  await p.goto('http://localhost:8123/index.html',{waitUntil:'networkidle0'}); await sleep(3200);
+  await p.goto('http://localhost:8123/index.html',{waitUntil:'networkidle0'}); await ready(p, false);
   await p.evaluate(()=>document.querySelector('#btn-options').click()); await sleep(500);
   const btn=await p.evaluate(()=>{const b=document.querySelector('#ann-create').getBoundingClientRect();
     return {vis:b.width>0&&b.height>0, w:Math.round(b.width)};});

@@ -1,4 +1,19 @@
 const H=require('./suite.js');
+
+/* Wait for the map rather than for a number. Measured: the atoms and the first
+   labels are there 730 ms after the navigation resolves — these scripts were
+   sleeping three and a half seconds for it. See `suite.js`. */
+async function ready(pg, wantsAnn){
+  try {
+    await pg.waitForFunction(want=>{
+      if(!document.querySelectorAll('#land .atom').length) return false;
+      if(!document.querySelectorAll('#labels text').length) return false;
+      if(want && !document.querySelectorAll('#annotations [data-ann]').length) return false;
+      return true;
+    },{timeout:25000,polling:'raf'},!!wantsAnn);
+  } catch(e){ /* the script's own checks will say so */ }
+  await sleep(250);
+}
 const {puppeteer,sleep,page,tap,openPanel,pickTool,SPOT,FIX,check,report}=H;
 const path=require('path');
 
@@ -12,7 +27,7 @@ console.log('\n— it survives a reload —');
   await sleep(600);
   check('it is written to this browser',
     await p.evaluate(()=>!!window.localStorage.getItem('jem-annotations-v1')));
-  await p.reload({waitUntil:'networkidle0'}); await sleep(3200);
+  await p.reload({waitUntil:'networkidle0'}); await ready(p, false);
   await p.evaluate(()=>document.querySelector('#ann-create').click()); await sleep(1600);
   const names=await p.evaluate(()=>[...document.querySelectorAll('#ann-list .ann-name')].map(x=>x.textContent));
   check('and offered back after a reload', names.indexOf('Kept')>=0, JSON.stringify(names));
