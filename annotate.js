@@ -735,6 +735,15 @@
        latitude only to project them again would be a round trip for nothing. */
     function addMarkerAt(symbol, x, y, colour, size, cls, meta, alpha) {
       var g = host.svgEl('g', { 'class': 'ann-mark ' + cls });
+      /* A vertex is drawn at about three pixels, which is the right size to
+         look at and much too small to hit — especially with a finger, and
+         especially on a corner where two of them nearly touch. A transparent
+         disc over it gives the pointer something to find without changing what
+         the reader sees. It goes *under* the dot so the dot still draws. */
+      if (/ann-vertex|ann-bend/.test(cls)) {
+        g.appendChild(host.svgEl('circle', { r: 11, fill: 'transparent',
+                                             stroke: 'none', 'class': 'ann-grab' }));
+      }
       g.appendChild(markerShape(symbol, 2.6 + size * 0.9, colour,
         alpha === undefined ? 1 : alpha));
       host.addScalable({ el: g, x: x, y: y });
@@ -748,6 +757,12 @@
 
     function addMarker(symbol, lon, lat, colour, size, cls, meta, alpha) {
       var g = host.svgEl('g', { 'class': 'ann-mark ' + cls });
+      // the same transparent disc as `addMarkerAt`: a three-pixel handle is
+      // the right size to look at and much too small to hit
+      if (/ann-vertex|ann-bend/.test(cls)) {
+        g.appendChild(host.svgEl('circle', { r: 11, fill: 'transparent',
+                                             stroke: 'none', 'class': 'ann-grab' }));
+      }
       g.appendChild(markerShape(symbol, 2.6 + size * 0.9, colour,
         alpha === undefined ? 1 : alpha));
       var p = host.project(lon, lat);
@@ -884,8 +899,15 @@
             stroke: st.colour, 'stroke-width': st.size, fill: 'none',
           }));
         }
-        draft.pts.forEach(function (pt) {
-          group.appendChild(addMarker('circle', pt[0], pt[1], st.colour, 0.6, 'ann-vertex'));
+        /* The corners of a shape still being drawn are handles like any
+           other. They were drawn as plain dots with no `data-ann`, so
+           `markUnder` could not see them and a long press on one panned the
+           map: a reader who put a corner in the wrong place had to cancel the
+           whole shape. `-1` is the feature index for "the draft", which
+           `drag` understands. */
+        draft.pts.forEach(function (pt, vi) {
+          group.appendChild(addMarker('circle', pt[0], pt[1], st.colour, 0.6,
+            'ann-vertex ann-draft-vertex', { i: -1, r: 0, v: vi }));
         });
       }
       host.rescale();
@@ -1114,14 +1136,24 @@
 
     /* ------------------------------------------------------------ tools -- */
 
+    var sticky = false;         // the tool stays out after a shape is made
+
     function setTool(t) {
       if (draft && draft.kind !== t) cancelDraft();
-      tool = tool === t ? null : t;
-      $$('.ann-tool').forEach(function (b) {
-        var isOn = b.getAttribute('data-tool') === tool;
-        b.setAttribute('aria-pressed', isOn ? 'true' : 'false');
-        b.classList.toggle('on', isOn);
-      });
+      /* One press arms the tool, a second makes it stick, a third puts it
+         away. A tool that stayed armed for ever meant every press after the
+         first shape was another shape — a reader who wanted to adjust what
+         they had just drawn had to remember to put the tool down first, and
+         mostly did not. One shape and it steps back, which is the common case;
+         press it again and it stays, which is the other one. */
+      if (t && tool === t) {
+        if (!sticky) { sticky = true; syncTools(); return; }
+        tool = null; sticky = false;
+      } else {
+        tool = t;
+        sticky = false;
+      }
+      syncTools();
       var c = host.container();
       if (c) c.classList.toggle('ann-drawing', !!tool);
       // on a phone the sheet stands back while a tool is out: a reader who has
@@ -1164,6 +1196,31 @@
       if (dist) dist.hidden = kind !== 'line';
       if (head) head.hidden = kind !== 'arrow';
       if (curve) curve.hidden = kind !== 'arrow';
+    }
+
+    function syncTools() {
+      $$('.ann-tool').forEach(function (b) {
+        var isOn = b.getAttribute('data-tool') === tool;
+        b.setAttribute('aria-pressed', isOn ? 'true' : 'false');
+        b.classList.toggle('on', isOn);
+        b.classList.toggle('sticky', isOn && sticky);
+        b.title = isOn
+          ? (sticky ? 'Staying out — press again to put it away'
+                    : 'Press again to keep it out for several')
+          : '';
+      });
+    }
+
+    /* A shape has just been made. The tool steps back unless it was told to
+       stay, so the next press selects rather than draws. */
+    function toolDone() {
+      if (sticky) return;
+      tool = null;
+      syncTools();
+      var c = host.container();
+      if (c) c.classList.remove('ann-drawing');
+      if (panel) panel.classList.remove('tooling');
+      syncControls();
     }
 
     function cancelDraft() {
@@ -1283,6 +1340,7 @@
                      properties: p });
         sel = feats.length - 1;
         changed(true);
+        toolDone();
         say(where ? 'Placed on ' + where + '.' : 'Placed. Name it if you like.');
         return true;
       }
@@ -1297,6 +1355,14 @@
     }
 
     function round5(v) { return Math.round(v * 1e5) / 1e5; }
+
+    /* Longitude and latitude under a screen point, or null off the projection. */
+    function llAt(cx, cy) {
+      var pt = host.clientToSvg(cx, cy);
+      var ll = host.unproject(pt.x, pt.y);
+      if (!isFinite(ll.lon) || !isFinite(ll.lat)) return null;
+      return [round5(ll.lon), round5(ll.lat)];
+    }
 
     /* What a click on a mark puts in the detail card. */
     function showCard(f) {
@@ -1331,7 +1397,38 @@
       draft = null;
       if (drawEl) drawEl.hidden = true;
       changed(true);
+      toolDone();
       say('Added — ' + measureOf(feats[sel]) + '. Name it if you like.');
+    }
+
+    /* ------------------------------------------------------ a copy of it -- */
+
+    /* The selected mark again, a little to the south-east so the copy is not
+       hidden under the original. A reader building a legend of six identical
+       unit symbols, or three arrows of the same weight and colour, was setting
+       every one of them by hand. */
+    function duplicate() {
+      var f = feats[sel];
+      if (!f) { say('Select something to copy first.', 'bad'); return; }
+      snapshot();
+      var copy = JSON.parse(JSON.stringify(f));
+      // a twentieth of what is on screen: far enough to see, near enough to
+      // still be where the reader is looking
+      var step = viewStep();
+      shiftGeom(copy.geometry, step, -step);
+      copy.properties = copy.properties || {};
+      feats.push(copy);
+      sel = feats.length - 1;
+      changed(true);
+      say('Copied. Drag it where you want it.');
+    }
+
+    /* How far a copy moves, in degrees: a twentieth of the width on screen, so
+       it is the same apparent distance at every zoom. */
+    function viewStep() {
+      var a = llAt(0, 0), b2 = llAt(200, 0);
+      if (!a || !b2) return 0.5;
+      return Math.max(0.002, Math.abs(b2[0] - a[0]) * 0.35);
     }
 
     /* ------------------------------------------------- moving a mark ----- */
@@ -1365,13 +1462,36 @@
       var i = parseInt(el.getAttribute('data-ann'), 10);
       var r = parseInt(el.getAttribute('data-ring'), 10);
       var v = parseInt(el.getAttribute('data-vert'), 10);
-      if (!feats[i] || isNaN(r) || isNaN(v)) return null;
+      if (isNaN(r) || isNaN(v)) return null;
+      if (i === -1) return draft && draft.pts[v] ? { i: -1, r: 0, v: v } : null;
+      if (!feats[i]) return null;
       return { i: i, r: r, v: v };
+    }
+
+    /* Every coordinate of a geometry moved by the same amount. */
+    function shiftGeom(g, dlon, dlat) {
+      if (!g) return;
+      if (g.type === 'GeometryCollection') {
+        (g.geometries || []).forEach(function (x) { shiftGeom(x, dlon, dlat); });
+        return;
+      }
+      var walk = function (c) {
+        if (typeof c[0] === 'number') {
+          c[0] = round5(c[0] + dlon);
+          c[1] = round5(c[1] + dlat);
+          return;
+        }
+        c.forEach(walk);
+      };
+      if (g.coordinates) walk(g.coordinates);
     }
 
     function beginDrag(what) {
       snapshot();
-      dragging = { i: what.i, r: what.r, v: what.v, moved: false };
+      dragging = { i: what.i, r: what.r, v: what.v, whole: !!what.whole,
+                   moved: false, last: null, start: what.start || null };
+      // a corner of the draft belongs to no feature, so nothing is selected
+      if (what.i === -1) { redraw(); return; }
       sel = what.i;
       syncFields();
       drawList();
@@ -1387,6 +1507,20 @@
       // even mid-drawing
       if (!on || locked) return false;
       var what = markUnder(target);
+      /* Failing a handle, the *body* of a shape: taking hold of an area in the
+         middle and dragging moves the whole of it. Only with no tool armed —
+         with one out, a press on a shape is a corner of the next one, which is
+         the rule that let a second area be drawn inside the first. */
+      if (!what && !tool) {
+        var body = target && target.closest ? target.closest('.ann-shape') : null;
+        if (body) {
+          var bi = parseInt(body.getAttribute('data-ann'), 10);
+          if (feats[bi]) {
+            what = { i: bi, r: 0, v: 0, whole: true,
+                     start: llAt(cx, cy) };
+          }
+        }
+      }
       if (!what) return false;
       if (!coarse) { beginDrag(what); return true; }
       armed = { what: what, x: cx, y: cy };
@@ -1423,10 +1557,36 @@
       var pt = host.clientToSvg(cx, cy);
       var ll = host.unproject(pt.x, pt.y);
       if (!isFinite(ll.lon) || !isFinite(ll.lat)) return true;
+      // where the pointer is, in degrees. Declared here because the two cases
+      // below both need it: `var` hoists the name and not the value, so a use
+      // above this line reads `undefined` and throws on its first index.
+      var here = [round5(ll.lon), round5(ll.lat)];
+      /* A corner of the shape still being drawn. */
+      if (dragging.i === -1) {
+        if (!draft || !draft.pts[dragging.v]) { dragging = null; return false; }
+        draft.pts[dragging.v] = here;
+        dragging.moved = true;
+        redraw();
+        return true;
+      }
       var f = feats[dragging.i];
       if (!f) { dragging = null; return false; }
+      /* The whole shape, moved by its middle. Every coordinate shifts by the
+         same amount the pointer has, which is what dragging a thing means —
+         and what a reader expects when they take hold of an area rather than
+         one of its corners. */
+      if (dragging.whole) {
+        var from = dragging.last || dragging.start;
+        if (from) {
+          var dlon = here[0] - from[0], dlat = here[1] - from[1];
+          shiftGeom(f.geometry, dlon, dlat);
+        }
+        dragging.last = here;
+        dragging.moved = true;
+        redraw();
+        return true;
+      }
       var g = f.geometry;
-      var here = [round5(ll.lon), round5(ll.lat)];
       if (kindOf(f) === 'arrow') {
         if (dragging.v === 2) {
           /* The bend. The apex of a quadratic at t = 0.5 is (a + 2c + b) / 4,
@@ -2480,6 +2640,8 @@
           '<button type="button" id="ann-save">Save file</button>' +
           '<button type="button" id="ann-link">Copy link</button>' +
           '<button type="button" id="ann-fit" class="plain">Fit</button>' +
+          '<button type="button" id="ann-copy" class="plain" ' +
+            'title="Another one just like the selected mark">Duplicate</button>' +
           '<button type="button" id="ann-undo" class="plain">Undo</button>' +
           '<button type="button" id="ann-add" class="plain">Add file…</button>' +
           '<button type="button" id="ann-clear" class="plain">Clear</button>' +
@@ -2517,7 +2679,7 @@
        rather than in `styles.css` for the same reason the code is here: a
        reader who never annotates should not download the rules for a panel
        they will never see. */
-    var CSS = "/* ------------------------------------------------------------ annotations */\n\n/* The panel lives in the rail with the legend and the card. On a phone the\n   rail is a sheet over the map, which is the same place the card goes, and\n   the same rules carry it. */\n#annotate {\n  position: absolute;\n  left: max(10px, var(--safe-l));\n  top: 10px;\n  width: min(46vw, 280px);\n  max-height: calc(100% - 20px);\n  overflow-y: auto;\n  padding: 10px;\n  background: rgba(255, 253, 248, .97);\n  border: 1px solid var(--line);\n  border-radius: 8px;\n  box-shadow: var(--shadow);\n  font-size: 12.5px;\n  z-index: 6;\n}\n\n#annotate .ann-head {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  gap: 8px;\n  margin-bottom: 8px;\n}\n\n#annotate .ann-head strong {\n  font-size: 11.5px;\n  font-weight: 700;\n  letter-spacing: .08em;\n  text-transform: uppercase;\n  color: var(--muted);\n}\n\n#ann-close {\n  border: 0;\n  background: none;\n  font: inherit;\n  font-size: 17px;\n  line-height: 1;\n  padding: 2px 4px;\n  color: var(--muted);\n  cursor: pointer;\n}\n#ann-close:hover { color: var(--ink); }\n\n#annotate .ann-tools {\n  display: grid;\n  grid-template-columns: repeat(4, 1fr);\n  gap: 4px;\n}\n\n#annotate .ann-tool {\n  padding: 6px 2px;\n  border: 1px solid var(--line);\n  border-radius: 6px;\n  background: #fff;\n  font: inherit;\n  font-size: 11.5px;\n  color: var(--ink);\n  cursor: pointer;\n}\n#annotate .ann-tool:hover { border-color: var(--muted); }\n#annotate .ann-tool.on {\n  background: var(--ink);\n  border-color: var(--ink);\n  color: #fffdf8;\n}\n\n#annotate .ann-hint {\n  margin: 6px 0 8px;\n  color: var(--muted);\n  font-size: 11.5px;\n  line-height: 1.35;\n}\n\n/* `display` on a class beats the user agent's `[hidden] { display: none }`,\n   so the row of finish-and-cancel buttons stood there from the moment the\n   panel opened, offering to finish a shape nobody had started. */\n#annotate .ann-drawing {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 4px;\n  margin-bottom: 8px;\n}\n#annotate .ann-drawing[hidden] { display: none; }\n#annotate .ann-drawing button {\n  padding: 5px 8px;\n  border: 1px solid var(--line);\n  border-radius: 6px;\n  background: #fff;\n  font: inherit;\n  font-size: 11.5px;\n  cursor: pointer;\n}\n#annotate #ann-finish { background: var(--ink); border-color: var(--ink); color: #fffdf8; }\n\n#annotate .ann-style {\n  display: flex;\n  flex-wrap: wrap;\n  align-items: center;\n  gap: 4px 10px;\n  margin-bottom: 8px;\n}\n#annotate .ann-style label[hidden] { display: none; }\n#annotate .ann-style label {\n  display: flex;\n  align-items: center;\n  gap: 5px;\n  font-size: 11.5px;\n  color: var(--muted);\n}\n#annotate .ann-style input[type=\"color\"] {\n  width: 26px;\n  height: 20px;\n  padding: 0;\n  border: 1px solid var(--line);\n  border-radius: 4px;\n  background: none;\n  cursor: pointer;\n}\n#annotate .ann-style input[type=\"range\"] { width: 74px; }\n\n#annotate .ann-field {\n  display: block;\n  margin-bottom: 7px;\n  font-size: 11.5px;\n  color: var(--muted);\n}\n#annotate .ann-field input,\n#annotate .ann-field textarea {\n  display: block;\n  width: 100%;\n  margin-top: 3px;\n  padding: 5px 6px;\n  border: 1px solid var(--line);\n  border-radius: 5px;\n  background: #fff;\n  font: inherit;\n  font-size: 12.5px;\n  color: var(--ink);\n  resize: vertical;\n}\n#annotate .ann-field input:disabled,\n#annotate .ann-field textarea:disabled { background: #f4f1ea; color: var(--muted); }\n\n#ann-list {\n  list-style: none;\n  margin: 0 0 8px;\n  padding: 0;\n  max-height: 172px;\n  overflow-y: auto;\n}\n#ann-list li {\n  display: flex;\n  align-items: center;\n  gap: 4px;\n  border-bottom: 1px solid var(--line);\n}\n#ann-list li.sel { background: rgba(0, 0, 0, .05); }\n#ann-list .ann-pick {\n  flex: 1 1 auto;\n  min-width: 0;\n  text-align: left;\n  padding: 5px 4px;\n  border: 0;\n  background: none;\n  font: inherit;\n  font-size: 12px;\n  color: var(--ink);\n  cursor: pointer;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n#ann-list .ann-del {\n  flex: 0 0 auto;\n  border: 0;\n  background: none;\n  font: inherit;\n  font-size: 14px;\n  line-height: 1;\n  padding: 3px 5px;\n  color: var(--muted);\n  cursor: pointer;\n}\n#ann-list .ann-del:hover { color: #8c2f39; }\n\n#annotate .ann-actions {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 5px;\n}\n#annotate .ann-actions button {\n  padding: 6px 9px;\n  border: 1px solid var(--line);\n  border-radius: 6px;\n  background: #fff;\n  font: inherit;\n  font-size: 11.5px;\n  cursor: pointer;\n}\n#annotate .ann-actions button:disabled { opacity: .45; cursor: default; }\n#annotate #ann-save { background: var(--ink); border-color: var(--ink); color: #fffdf8; }\n#annotate #ann-save:disabled { background: var(--muted); border-color: var(--muted); }\n\n.ann-msg {\n  margin: 8px 0 0;\n  font-size: 11.5px;\n  line-height: 1.4;\n  color: var(--muted);\n}\n/* An error is the one message that has to be read, so it is the one that is\n   coloured and that stays until something replaces it. */\n.ann-msg.bad { color: #8c2f39; font-weight: 600; }\n\n/* The running count of what will fit in a link. Always there once there is\n   anything to count, because the useful moment to know is while typing the\n   description that will push it over, not afterwards. */\n.ann-cap {\n  display: flex;\n  align-items: center;\n  gap: 7px;\n  margin: 0 0 6px;\n  font-size: 11px;\n  font-variant-numeric: tabular-nums;\n  color: var(--muted);\n}\n.ann-cap .ann-bar {\n  flex: 0 0 62px;\n  height: 4px;\n  border-radius: 2px;\n  background: rgba(0, 0, 0, .12);\n  overflow: hidden;\n}\n.ann-cap .ann-bar i {\n  display: block;\n  height: 100%;\n  width: 0;\n  background: var(--muted);\n  transition: width .18s ease;\n}\n.ann-cap.near { color: #a8642a; }\n.ann-cap.near .ann-bar i { background: #a8642a; }\n.ann-cap.over { color: #8c2f39; font-weight: 600; }\n.ann-cap.over .ann-bar i { background: #8c2f39; }\n\n/* The pencil that unlocks a shared set. It sits under the zoom controls in\n   the corner of the map, and it is the only annotation control a reader who\n   followed a link is shown until they ask for more. */\n#ann-edit {\n  position: absolute;\n  right: 10px;\n  top: 176px;\n  z-index: 5;\n  display: grid;\n  place-items: center;\n  width: 40px;\n  height: 40px;\n  padding: 0;\n  border: 1px solid var(--line);\n  border-radius: 9px;\n  background: #8c2f39;\n  box-shadow: var(--shadow);\n  cursor: pointer;\n}\n#ann-edit svg {\n  width: 19px;\n  height: 19px;\n  fill: none;\n  stroke: #fffdf8;\n  stroke-width: 1.9;\n  stroke-linecap: round;\n  stroke-linejoin: round;\n}\n#ann-edit:hover { background: #7a2831; }\n\n/* locked: the marks are there to be read, and nothing else */\n#map-container.ann-locked #annotations .ann-mark { cursor: default; }\n#map-container.ann-locked #annotations .ann-vertex { display: none; }\n\n#annotate #ann-lock {\n  display: grid;\n  place-items: center;\n  width: 26px;\n  height: 24px;\n  padding: 0;\n  border: 0;\n  background: none;\n  cursor: pointer;\n}\n#annotate #ann-lock svg {\n  width: 15px;\n  height: 15px;\n  fill: none;\n  stroke: var(--muted);\n  stroke-width: 1.7;\n  stroke-linecap: round;\n  stroke-linejoin: round;\n}\n#annotate #ann-lock:hover svg { stroke: var(--ink); }\n\n/* the way back to a reader's own work, when a link has taken the screen */\n.ann-mine { margin: 0 0 7px; }\n.ann-mine button {\n  width: 100%;\n  padding: 7px 9px;\n  border: 1px solid var(--line);\n  border-radius: 6px;\n  background: rgba(31, 92, 122, .10);\n  font: inherit;\n  font-size: 11.5px;\n  font-weight: 600;\n  color: var(--ink);\n  cursor: pointer;\n}\n.ann-mine button:hover { border-color: var(--muted); }\n\n/* the standing note about a set too big for a link */\n.ann-warn {\n  margin: 0 0 7px;\n  padding: 6px 8px;\n  border-radius: 5px;\n  background: rgba(140, 47, 57, .09);\n  font-size: 11.5px;\n  line-height: 1.4;\n  color: #8c2f39;\n}\n#annotate .ann-actions button.too-big {\n  opacity: .55;\n  text-decoration: line-through;\n}\n\n/* the marks themselves */\n#annotations { pointer-events: none; }\n#annotations .ann-shape { vector-effect: non-scaling-stroke; stroke-linejoin: round; }\n#annotations .ann-draft {\n  vector-effect: non-scaling-stroke;\n  stroke-dasharray: 5 4;\n  opacity: .8;\n}\n/* The selected feature: a halo, and nothing else.\n   Lightening it was tried and is worse \u2014 the whole point of choosing a colour\n   is that the colour you chose is the colour you see, and a selection that\n   changes it makes you doubt what you picked. Two shadows instead, a tight\n   dark one to lift the shape off the map and a wider soft one to catch the\n   eye from across it. */\n#annotations .sel {\n  filter: drop-shadow(0 0 2px rgba(0, 0, 0, .9))\n          drop-shadow(0 0 7px rgba(0, 0, 0, .55));\n}\n#annotations .ann-mark.sel {\n  filter: drop-shadow(0 0 2px rgba(0, 0, 0, .95))\n          drop-shadow(0 0 9px rgba(0, 0, 0, .6));\n}\n\n/* a pen, not a pointer */\n#map-container.ann-drawing { cursor: crosshair; }\n\n/* Below the rail's breakpoint both the legend and this panel float in the\n   top-left corner of the map, and the annotation panel is the taller of the\n   two \u2014 so they were drawn one over the other, the legend's colours showing\n   faintly through. While a reader is drawing, the panel is what they are\n   using; the legend stands down and comes back when the panel closes. */\n/* Below the rail's breakpoint the panel docks to the foot of the screen\n   rather than floating in the top-left corner, where it took a third of a\n   phone and covered half the map's width \u2014 and where it stood on top of the\n   legend, which had to be hidden to make room. A sheet along the bottom\n   leaves the map whole above it, puts the tools under the thumb, and lets the\n   legend stay where it was. */\n@media (max-width: 999.98px) {\n  /* clear of the zoom controls on a narrow screen, where they stack lower */\n  #ann-edit { top: auto; bottom: calc(14px + var(--safe-b, 0px)); }\n  #annotate {\n    left: 0;\n    right: 0;\n    top: auto;\n    bottom: 0;\n    width: auto;\n    max-width: none;\n    max-height: 46vh;\n    border-width: 1px 0 0;\n    border-radius: 12px 12px 0 0;\n    padding: 8px 12px calc(10px + var(--safe-b, 0px));\n    box-shadow: 0 -4px 18px rgba(0, 0, 0, .16);\n  }\n  /* folded it is a bar the map can be worked around */\n  #annotate.folded { max-height: none; }\n  /* and with a tool out it keeps the tools and the hint and nothing else */\n  #annotate.tooling .ann-style,\n  #annotate.tooling .ann-field,\n  #annotate.tooling .ann-check,\n  #annotate.tooling .ann-when,\n  #annotate.tooling .ann-dates,\n  #annotate.tooling .ann-measure,\n  #annotate.tooling #ann-list,\n  #annotate.tooling .ann-actions,\n  #annotate.tooling .ann-link-out { display: none; }\n  #annotate .ann-style { gap: 6px 14px; }\n  #ann-list { max-height: 120px; }\n}\n\n@media (prefers-color-scheme: dark) {\n  #annotate { background: rgba(20, 26, 32, .97); }\n  #annotate .ann-tool,\n  #annotate .ann-drawing button,\n  #annotate .ann-actions button,\n  #annotate .ann-field input,\n  #annotate .ann-field textarea,\n  .ann-row button { background: #1b232b; color: var(--ink); }\n  #annotate .ann-field input:disabled,\n  #annotate .ann-field textarea:disabled { background: #161d24; }\n  #annotate .ann-tool.on,\n  #annotate #ann-finish,\n  #annotate #ann-save { background: var(--ink); color: #12181e; }\n  .ann-msg.bad { color: #e08b95; }\n  .ann-warn { background: rgba(224, 139, 149, .14); color: #e08b95; }\n  .ann-cap .ann-bar { background: rgba(255, 255, 255, .14); }\n  .ann-cap.near { color: #d99a5e; }\n  .ann-cap.near .ann-bar i { background: #d99a5e; }\n  .ann-cap.over { color: #e08b95; }\n  .ann-cap.over .ann-bar i { background: #e08b95; }\n}\n\n\n/* what the new controls need */\n#annotate .ann-style select {\n  padding: 2px 4px;\n  border: 1px solid var(--line);\n  border-radius: 4px;\n  background: #fff;\n  font: inherit;\n  font-size: 11.5px;\n  color: var(--ink);\n}\n\n#annotate .ann-foldbtn {\n  display: flex;\n  align-items: center;\n  gap: 7px;\n  flex: 1 1 auto;\n  min-width: 0;\n  padding: 3px 3px 3px 0;\n  border: 0;\n  background: none;\n  font: inherit;\n  color: var(--muted);\n  cursor: pointer;\n  text-align: left;\n}\n#annotate .ann-foldbtn strong {\n  font-size: 11.5px;\n  font-weight: 700;\n  letter-spacing: .08em;\n  text-transform: uppercase;\n}\n#annotate .ann-foldbtn:hover { color: var(--ink); }\n/* the caret is a square on one corner: its rotated bounding box is 1.41 times\n   its side, so it is given room rather than sticking out of the panel */\n#annotate .ann-foldbtn .caret {\n  flex: 0 0 auto;\n  width: 7px;\n  height: 7px;\n  margin-left: 2px;\n  border-right: 2px solid currentColor;\n  border-bottom: 2px solid currentColor;\n  transform: translateY(-2px) rotate(45deg);\n  transition: transform .15s ease;\n}\n#annotate.folded .ann-foldbtn .caret { transform: translateY(1px) rotate(-135deg); }\n#annotate.folded .ann-body { display: none; }\n#annotate .ann-count { font-size: 11px; color: var(--muted); }\n\n#annotate .ann-measure {\n  margin: 0 0 7px;\n  font-size: 11.5px;\n  font-variant-numeric: tabular-nums;\n  color: var(--muted);\n}\n\n#ann-list .ann-pick { display: flex; gap: 8px; align-items: baseline; }\n#ann-list .ann-name {\n  flex: 1 1 auto;\n  min-width: 0;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n#ann-list .ann-meas {\n  flex: 0 0 auto;\n  font-size: 10.5px;\n  font-variant-numeric: tabular-nums;\n  color: var(--muted);\n}\n#ann-list .ann-go {\n  flex: 0 0 auto;\n  border: 0;\n  background: none;\n  font: inherit;\n  font-size: 13px;\n  line-height: 1;\n  padding: 3px 4px;\n  color: var(--muted);\n  cursor: pointer;\n}\n#ann-list .ann-go:hover { color: var(--ink); }\n\n.ann-link-out { margin-top: 7px; }\n.ann-link-out input {\n  width: 100%;\n  padding: 5px 6px;\n  border: 1px solid var(--line);\n  border-radius: 5px;\n  background: #fff;\n  font: inherit;\n  font-size: 11px;\n  color: var(--ink);\n}\n\n/* a name the reader typed, written on the map beside its mark */\n#ann-labels .ann-label {\n  pointer-events: none;\n  text-anchor: middle;\n  paint-order: stroke;\n  stroke: #fffdf8;\n  stroke-width: 3.2px;\n  stroke-linejoin: round;\n  fill: #2b2b2b;\n  font-weight: 600;\n  font-size: 11px;\n}\n/* A mark is a handle, so it takes the pointer where nothing else here does.\n   A shape takes it on its stroke and on its fill where it has one, so that\n   pointing at an outlined area anywhere inside it still names it \u2014 `all`\n   rather than `visiblePainted`, because a fill at zero opacity is still the\n   thing the reader drew and still has a name. */\n#annotations .ann-mark { pointer-events: auto; cursor: grab; }\n#annotations .ann-shape { pointer-events: all; }\n#annotations .ann-vertex { opacity: .9; }\n#annotations .ann-bend { cursor: ew-resize; }\n/* A weightless point: nothing to see, and still something to press. Selected,\n   it is given a faint ring so that a reader editing it can find it again. */\n#annotations .ann-ghost circle { pointer-events: all; }\n#annotations .sel .ann-ghost circle,\n#annotations .ann-mark.sel .ann-ghost circle {\n  fill: rgba(0, 0, 0, .06);\n  stroke: rgba(0, 0, 0, .45);\n  stroke-width: 1;\n  stroke-dasharray: 3 3;\n}\n#annotations .ann-head { pointer-events: none; }\n/* A mark stays pressable while a tool is out. It used to be made inert so that\n   drawing over one was never blocked, and the cost was that the ordinary way of\n   working \u2014 place a point, then adjust it \u2014 could not reach the point at all:\n   the tool stays armed after a placement, so the mark was unclickable exactly\n   when a reader would first want it. Placing happens on empty map, which is\n   where somebody who means to place is pointing. */\n\n@media (prefers-color-scheme: dark) {\n  #annotate .ann-style select,\n  .ann-link-out input { background: #1b232b; color: var(--ink); }\n  #ann-labels .ann-label { stroke: #10161c; fill: #dfe6ec; }\n  /* over a dark map a black halo is invisible, so it is light there */\n  #annotations .sel {\n    filter: drop-shadow(0 0 2px rgba(255, 255, 255, .85))\n            drop-shadow(0 0 8px rgba(255, 255, 255, .5));\n  }\n  #annotations .ann-mark.sel {\n    filter: drop-shadow(0 0 2px rgba(255, 255, 255, .9))\n            drop-shadow(0 0 10px rgba(255, 255, 255, .55));\n  }\n}\n\n/* The global switch, first thing in the panel: it governs every name, and a\n   thing that governs the rest belongs above the rest. */\n#annotate .ann-check {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  margin: 0 0 8px;\n  font-size: 11.5px;\n  color: var(--muted);\n  cursor: pointer;\n}\n#annotate .ann-names-row {\n  padding-bottom: 7px;\n  border-bottom: 1px solid var(--line);\n  font-weight: 600;\n  color: var(--ink);\n}\n/* and the one mark's own answer, which sits under the name it is about */\n#annotate .ann-nolabel { margin: -3px 0 8px; }\n#annotate .ann-check input:disabled + * ,\n#annotate .ann-check:has(input:disabled) { opacity: .5; }\n\n/* Start and end on a line of their own. Side by side while there is room and\n   stacked when there is not \u2014 they were tried beside the name and there is\n   no width for three fields in a 280px rail, let alone a phone. */\n#annotate .ann-dates {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 0 8px;\n}\n#annotate .ann-dates .ann-field { flex: 1 1 96px; min-width: 96px; }\n\n/* Walking the dated marks. Hidden until there are two, because a pair of\n   arrows that steps between one thing and itself is furniture. */\n#annotate .ann-when {\n  display: flex;\n  align-items: center;\n  gap: 3px;\n  margin: 0 0 8px;\n  padding: 3px;\n  border: 1px solid var(--line);\n  border-radius: 6px;\n  background: rgba(0, 0, 0, .03);\n}\n#annotate .ann-when[hidden] { display: none; }\n#annotate .ann-when button {\n  flex: 0 0 auto;\n  min-width: 24px;\n  padding: 3px 5px;\n  border: 0;\n  border-radius: 4px;\n  background: none;\n  font: inherit;\n  font-size: 14px;\n  line-height: 1;\n  color: var(--ink);\n  cursor: pointer;\n}\n#annotate .ann-when button:hover:not(:disabled) { background: rgba(0, 0, 0, .08); }\n#annotate .ann-when button:disabled { opacity: .3; cursor: default; }\n#annotate .ann-when span {\n  flex: 1 1 auto;\n  min-width: 0;\n  text-align: center;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n  font-size: 11px;\n  font-variant-numeric: tabular-nums;\n  color: var(--muted);\n}\n\n@media (prefers-color-scheme: dark) {\n  #annotate .ann-when { background: rgba(255, 255, 255, .05); }\n  #annotate .ann-when button:hover:not(:disabled) { background: rgba(255, 255, 255, .12); }\n}\n\n/* A distance written on a line: smaller and lighter than a name, because it is\n   a measurement beside the thing and not the thing's name. */\n#ann-labels .ann-dist {\n  font-size: 9.5px;\n  font-weight: 500;\n  font-variant-numeric: tabular-nums;\n  fill: #4a4a4a;\n  stroke-width: 2.6px;\n}\n@media (prefers-color-scheme: dark) {\n  #ann-labels .ann-dist { fill: #b9c4cd; }\n}\n\n@media (min-width: 1000px) {\n  /* Leave the scrollbar its own lane. On a Mac the rail's scrollbar is an\n     overlay drawn *over* the content, so a field at `width: 100%` runs under\n     it and its right-hand border disappears \u2014 which is what \"the pane is too\n     wide to fit everything\" was. `scrollbar-gutter` reserves the space when\n     the browser supports it, and the padding covers the browsers that do not. */\n  #side { scrollbar-gutter: stable; }\n  #annotate {\n    position: relative;\n    inset: auto;\n    width: auto;\n    max-width: none;\n    max-height: none;\n    padding: 0 3px 0 0;\n    background: transparent;\n    border: 0;\n    box-shadow: none;\n  }\n}\n";
+    var CSS = "/* ------------------------------------------------------------ annotations */\n\n/* The panel lives in the rail with the legend and the card. On a phone the\n   rail is a sheet over the map, which is the same place the card goes, and\n   the same rules carry it. */\n#annotate {\n  position: absolute;\n  left: max(10px, var(--safe-l));\n  top: 10px;\n  width: min(46vw, 280px);\n  max-height: calc(100% - 20px);\n  overflow-y: auto;\n  padding: 10px;\n  background: rgba(255, 253, 248, .97);\n  border: 1px solid var(--line);\n  border-radius: 8px;\n  box-shadow: var(--shadow);\n  font-size: 12.5px;\n  z-index: 6;\n}\n\n#annotate .ann-head {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  gap: 8px;\n  margin-bottom: 8px;\n}\n\n#annotate .ann-head strong {\n  font-size: 11.5px;\n  font-weight: 700;\n  letter-spacing: .08em;\n  text-transform: uppercase;\n  color: var(--muted);\n}\n\n#ann-close {\n  border: 0;\n  background: none;\n  font: inherit;\n  font-size: 17px;\n  line-height: 1;\n  padding: 2px 4px;\n  color: var(--muted);\n  cursor: pointer;\n}\n#ann-close:hover { color: var(--ink); }\n\n#annotate .ann-tools {\n  display: grid;\n  grid-template-columns: repeat(4, 1fr);\n  gap: 4px;\n}\n\n#annotate .ann-tool {\n  padding: 6px 2px;\n  border: 1px solid var(--line);\n  border-radius: 6px;\n  background: var(--panel);\n  font: inherit;\n  font-size: 11.5px;\n  color: var(--ink);\n  cursor: pointer;\n}\n#annotate .ann-tool:hover { border-color: var(--muted); }\n#annotate .ann-tool.on {\n  background: var(--ink);\n  border-color: var(--ink);\n  color: #fffdf8;\n}\n\n#annotate .ann-hint {\n  margin: 6px 0 8px;\n  color: var(--muted);\n  font-size: 11.5px;\n  line-height: 1.35;\n}\n\n/* `display` on a class beats the user agent's `[hidden] { display: none }`,\n   so the row of finish-and-cancel buttons stood there from the moment the\n   panel opened, offering to finish a shape nobody had started. */\n#annotate .ann-drawing {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 4px;\n  margin-bottom: 8px;\n}\n#annotate .ann-drawing[hidden] { display: none; }\n#annotate .ann-drawing button {\n  padding: 5px 8px;\n  border: 1px solid var(--line);\n  border-radius: 6px;\n  background: var(--panel);\n  font: inherit;\n  font-size: 11.5px;\n  cursor: pointer;\n}\n#annotate #ann-finish { background: var(--ink); border-color: var(--ink); color: #fffdf8; }\n\n#annotate .ann-style {\n  display: flex;\n  flex-wrap: wrap;\n  align-items: center;\n  gap: 4px 10px;\n  margin-bottom: 8px;\n}\n#annotate .ann-style label[hidden] { display: none; }\n#annotate .ann-style label {\n  display: flex;\n  align-items: center;\n  gap: 5px;\n  font-size: 11.5px;\n  color: var(--muted);\n}\n#annotate .ann-style input[type=\"color\"] {\n  width: 26px;\n  height: 20px;\n  padding: 0;\n  border: 1px solid var(--line);\n  border-radius: 4px;\n  background: none;\n  cursor: pointer;\n}\n#annotate .ann-style input[type=\"range\"] { width: 74px; }\n\n#annotate .ann-field {\n  display: block;\n  margin-bottom: 7px;\n  font-size: 11.5px;\n  color: var(--muted);\n}\n#annotate .ann-field input,\n#annotate .ann-field textarea {\n  display: block;\n  width: 100%;\n  margin-top: 3px;\n  padding: 5px 6px;\n  border: 1px solid var(--line);\n  border-radius: 5px;\n  background: var(--panel);\n  font: inherit;\n  font-size: 12.5px;\n  color: var(--ink);\n  resize: vertical;\n}\n#annotate .ann-field input:disabled,\n#annotate .ann-field textarea:disabled { background: #f4f1ea; color: var(--muted); }\n\n#ann-list {\n  list-style: none;\n  margin: 0 0 8px;\n  padding: 0;\n  max-height: 172px;\n  overflow-y: auto;\n}\n#ann-list li {\n  display: flex;\n  align-items: center;\n  gap: 4px;\n  border-bottom: 1px solid var(--line);\n}\n#ann-list li.sel { background: rgba(0, 0, 0, .05); }\n#ann-list .ann-pick {\n  flex: 1 1 auto;\n  min-width: 0;\n  text-align: left;\n  padding: 5px 4px;\n  border: 0;\n  background: none;\n  font: inherit;\n  font-size: 12px;\n  color: var(--ink);\n  cursor: pointer;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n#ann-list .ann-del {\n  flex: 0 0 auto;\n  border: 0;\n  background: none;\n  font: inherit;\n  font-size: 14px;\n  line-height: 1;\n  padding: 3px 5px;\n  color: var(--muted);\n  cursor: pointer;\n}\n#ann-list .ann-del:hover { color: #8c2f39; }\n\n#annotate .ann-actions {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 5px;\n}\n#annotate .ann-actions button {\n  padding: 6px 9px;\n  border: 1px solid var(--line);\n  border-radius: 6px;\n  background: var(--panel);\n  font: inherit;\n  font-size: 11.5px;\n  cursor: pointer;\n}\n#annotate .ann-actions button:disabled { opacity: .45; cursor: default; }\n#annotate #ann-save { background: var(--ink); border-color: var(--ink); color: #fffdf8; }\n#annotate #ann-save:disabled { background: var(--muted); border-color: var(--muted); }\n\n.ann-msg {\n  margin: 8px 0 0;\n  font-size: 11.5px;\n  line-height: 1.4;\n  color: var(--muted);\n}\n/* An error is the one message that has to be read, so it is the one that is\n   coloured and that stays until something replaces it. */\n.ann-msg.bad { color: #8c2f39; font-weight: 600; }\n\n/* The running count of what will fit in a link. Always there once there is\n   anything to count, because the useful moment to know is while typing the\n   description that will push it over, not afterwards. */\n.ann-cap {\n  display: flex;\n  align-items: center;\n  gap: 7px;\n  margin: 0 0 6px;\n  font-size: 11px;\n  font-variant-numeric: tabular-nums;\n  color: var(--muted);\n}\n.ann-cap .ann-bar {\n  flex: 0 0 62px;\n  height: 4px;\n  border-radius: 2px;\n  background: rgba(0, 0, 0, .12);\n  overflow: hidden;\n}\n.ann-cap .ann-bar i {\n  display: block;\n  height: 100%;\n  width: 0;\n  background: var(--muted);\n  transition: width .18s ease;\n}\n.ann-cap.near { color: #a8642a; }\n.ann-cap.near .ann-bar i { background: #a8642a; }\n.ann-cap.over { color: #8c2f39; font-weight: 600; }\n.ann-cap.over .ann-bar i { background: #8c2f39; }\n\n/* The pencil that unlocks a shared set. It sits under the zoom controls in\n   the corner of the map, and it is the only annotation control a reader who\n   followed a link is shown until they ask for more. */\n#ann-edit {\n  position: absolute;\n  right: 10px;\n  top: 176px;\n  z-index: 5;\n  display: grid;\n  place-items: center;\n  width: 40px;\n  height: 40px;\n  padding: 0;\n  border: 1px solid var(--line);\n  border-radius: 9px;\n  background: #8c2f39;\n  box-shadow: var(--shadow);\n  cursor: pointer;\n}\n#ann-edit svg {\n  width: 19px;\n  height: 19px;\n  fill: none;\n  stroke: #fffdf8;\n  stroke-width: 1.9;\n  stroke-linecap: round;\n  stroke-linejoin: round;\n}\n#ann-edit:hover { background: #7a2831; }\n\n/* locked: the marks are there to be read, and nothing else */\n#map-container.ann-locked #annotations .ann-mark { cursor: default; }\n#map-container.ann-locked #annotations .ann-vertex { display: none; }\n\n#annotate #ann-lock {\n  display: grid;\n  place-items: center;\n  width: 26px;\n  height: 24px;\n  padding: 0;\n  border: 0;\n  background: none;\n  cursor: pointer;\n}\n#annotate #ann-lock svg {\n  width: 15px;\n  height: 15px;\n  fill: none;\n  stroke: var(--muted);\n  stroke-width: 1.7;\n  stroke-linecap: round;\n  stroke-linejoin: round;\n}\n#annotate #ann-lock:hover svg { stroke: var(--ink); }\n\n/* the way back to a reader's own work, when a link has taken the screen */\n.ann-mine { margin: 0 0 7px; }\n.ann-mine button {\n  width: 100%;\n  padding: 7px 9px;\n  border: 1px solid var(--line);\n  border-radius: 6px;\n  background: rgba(31, 92, 122, .10);\n  font: inherit;\n  font-size: 11.5px;\n  font-weight: 600;\n  color: var(--ink);\n  cursor: pointer;\n}\n.ann-mine button:hover { border-color: var(--muted); }\n\n/* the standing note about a set too big for a link */\n.ann-warn {\n  margin: 0 0 7px;\n  padding: 6px 8px;\n  border-radius: 5px;\n  background: rgba(140, 47, 57, .09);\n  font-size: 11.5px;\n  line-height: 1.4;\n  color: #8c2f39;\n}\n#annotate .ann-actions button.too-big {\n  opacity: .55;\n  text-decoration: line-through;\n}\n\n/* the marks themselves */\n#annotations { pointer-events: none; }\n#annotations .ann-shape { vector-effect: non-scaling-stroke; stroke-linejoin: round; }\n#annotations .ann-draft {\n  vector-effect: non-scaling-stroke;\n  stroke-dasharray: 5 4;\n  opacity: .8;\n}\n/* The selected feature: a halo, and nothing else.\n   Lightening it was tried and is worse \u2014 the whole point of choosing a colour\n   is that the colour you chose is the colour you see, and a selection that\n   changes it makes you doubt what you picked. Two shadows instead, a tight\n   dark one to lift the shape off the map and a wider soft one to catch the\n   eye from across it. */\n#annotations .sel {\n  filter: drop-shadow(0 0 2px rgba(0, 0, 0, .9))\n          drop-shadow(0 0 7px rgba(0, 0, 0, .55));\n}\n#annotations .ann-mark.sel {\n  filter: drop-shadow(0 0 2px rgba(0, 0, 0, .95))\n          drop-shadow(0 0 9px rgba(0, 0, 0, .6));\n}\n\n/* a pen, not a pointer */\n#map-container.ann-drawing { cursor: crosshair; }\n\n/* Below the rail's breakpoint both the legend and this panel float in the\n   top-left corner of the map, and the annotation panel is the taller of the\n   two \u2014 so they were drawn one over the other, the legend's colours showing\n   faintly through. While a reader is drawing, the panel is what they are\n   using; the legend stands down and comes back when the panel closes. */\n/* Below the rail's breakpoint the panel docks to the foot of the screen\n   rather than floating in the top-left corner, where it took a third of a\n   phone and covered half the map's width \u2014 and where it stood on top of the\n   legend, which had to be hidden to make room. A sheet along the bottom\n   leaves the map whole above it, puts the tools under the thumb, and lets the\n   legend stay where it was. */\n@media (max-width: 999.98px) {\n  /* clear of the zoom controls on a narrow screen, where they stack lower */\n  #ann-edit { top: auto; bottom: calc(14px + var(--safe-b, 0px)); }\n  #annotate {\n    left: 0;\n    right: 0;\n    top: auto;\n    bottom: 0;\n    width: auto;\n    max-width: none;\n    max-height: 46vh;\n    border-width: 1px 0 0;\n    border-radius: 12px 12px 0 0;\n    padding: 8px 12px calc(10px + var(--safe-b, 0px));\n    box-shadow: 0 -4px 18px rgba(0, 0, 0, .16);\n  }\n  /* folded it is a bar the map can be worked around */\n  #annotate.folded { max-height: none; }\n  /* and with a tool out it keeps the tools and the hint and nothing else */\n  #annotate.tooling .ann-style,\n  #annotate.tooling .ann-field,\n  #annotate.tooling .ann-check,\n  #annotate.tooling .ann-when,\n  #annotate.tooling .ann-dates,\n  #annotate.tooling .ann-measure,\n  #annotate.tooling #ann-list,\n  #annotate.tooling .ann-actions,\n  #annotate.tooling .ann-link-out { display: none; }\n  #annotate .ann-style { gap: 6px 14px; }\n  #ann-list { max-height: 120px; }\n}\n\n@media (prefers-color-scheme: dark) {\n  #annotate { background: rgba(20, 26, 32, .97); }\n  #annotate .ann-tool,\n  #annotate .ann-drawing button,\n  #annotate .ann-actions button,\n  #annotate .ann-field input,\n  #annotate .ann-field textarea,\n  .ann-row button { background: #1b232b; color: var(--ink); }\n  #annotate .ann-field input:disabled,\n  #annotate .ann-field textarea:disabled { background: #161d24; }\n  #annotate .ann-tool.on,\n  #annotate #ann-finish,\n  #annotate #ann-save { background: var(--ink); color: #12181e; }\n  .ann-msg.bad { color: #e08b95; }\n  .ann-warn { background: rgba(224, 139, 149, .14); color: #e08b95; }\n  .ann-cap .ann-bar { background: rgba(255, 255, 255, .14); }\n  .ann-cap.near { color: #d99a5e; }\n  .ann-cap.near .ann-bar i { background: #d99a5e; }\n  .ann-cap.over { color: #e08b95; }\n  .ann-cap.over .ann-bar i { background: #e08b95; }\n}\n\n\n/* what the new controls need */\n#annotate .ann-style select {\n  padding: 2px 4px;\n  border: 1px solid var(--line);\n  border-radius: 4px;\n  background: var(--panel);\n  font: inherit;\n  font-size: 11.5px;\n  color: var(--ink);\n}\n\n#annotate .ann-foldbtn {\n  display: flex;\n  align-items: center;\n  gap: 7px;\n  flex: 1 1 auto;\n  min-width: 0;\n  padding: 3px 3px 3px 0;\n  border: 0;\n  background: none;\n  font: inherit;\n  color: var(--muted);\n  cursor: pointer;\n  text-align: left;\n}\n#annotate .ann-foldbtn strong {\n  font-size: 11.5px;\n  font-weight: 700;\n  letter-spacing: .08em;\n  text-transform: uppercase;\n}\n#annotate .ann-foldbtn:hover { color: var(--ink); }\n/* the caret is a square on one corner: its rotated bounding box is 1.41 times\n   its side, so it is given room rather than sticking out of the panel */\n#annotate .ann-foldbtn .caret {\n  flex: 0 0 auto;\n  width: 7px;\n  height: 7px;\n  margin-left: 2px;\n  border-right: 2px solid currentColor;\n  border-bottom: 2px solid currentColor;\n  transform: translateY(-2px) rotate(45deg);\n  transition: transform .15s ease;\n}\n#annotate.folded .ann-foldbtn .caret { transform: translateY(1px) rotate(-135deg); }\n#annotate.folded .ann-body { display: none; }\n#annotate .ann-count { font-size: 11px; color: var(--muted); }\n\n#annotate .ann-measure {\n  margin: 0 0 7px;\n  font-size: 11.5px;\n  font-variant-numeric: tabular-nums;\n  color: var(--muted);\n}\n\n#ann-list .ann-pick { display: flex; gap: 8px; align-items: baseline; }\n#ann-list .ann-name {\n  flex: 1 1 auto;\n  min-width: 0;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n#ann-list .ann-meas {\n  flex: 0 0 auto;\n  font-size: 10.5px;\n  font-variant-numeric: tabular-nums;\n  color: var(--muted);\n}\n#ann-list .ann-go {\n  flex: 0 0 auto;\n  border: 0;\n  background: none;\n  font: inherit;\n  font-size: 13px;\n  line-height: 1;\n  padding: 3px 4px;\n  color: var(--muted);\n  cursor: pointer;\n}\n#ann-list .ann-go:hover { color: var(--ink); }\n\n.ann-link-out { margin-top: 7px; }\n.ann-link-out input {\n  width: 100%;\n  padding: 5px 6px;\n  border: 1px solid var(--line);\n  border-radius: 5px;\n  background: var(--panel);\n  font: inherit;\n  font-size: 11px;\n  color: var(--ink);\n}\n\n/* a name the reader typed, written on the map beside its mark */\n#ann-labels .ann-label {\n  pointer-events: none;\n  text-anchor: middle;\n  paint-order: stroke;\n  stroke: #fffdf8;\n  stroke-width: 3.2px;\n  stroke-linejoin: round;\n  fill: #2b2b2b;\n  font-weight: 600;\n  font-size: 11px;\n}\n/* A mark is a handle, so it takes the pointer where nothing else here does.\n   A shape takes it on its stroke and on its fill where it has one, so that\n   pointing at an outlined area anywhere inside it still names it \u2014 `all`\n   rather than `visiblePainted`, because a fill at zero opacity is still the\n   thing the reader drew and still has a name. */\n#annotations .ann-mark { pointer-events: auto; cursor: grab; }\n#annotations .ann-shape { pointer-events: all; }\n#annotations .ann-vertex { opacity: .9; }\n#annotations .ann-bend { cursor: ew-resize; }\n/* A weightless point: nothing to see, and still something to press. Selected,\n   it is given a faint ring so that a reader editing it can find it again. */\n#annotations .ann-ghost circle { pointer-events: all; }\n#annotations .sel .ann-ghost circle,\n#annotations .ann-mark.sel .ann-ghost circle {\n  fill: rgba(0, 0, 0, .06);\n  stroke: rgba(0, 0, 0, .45);\n  stroke-width: 1;\n  stroke-dasharray: 3 3;\n}\n#annotations .ann-head { pointer-events: none; }\n/* A mark stays pressable while a tool is out. It used to be made inert so that\n   drawing over one was never blocked, and the cost was that the ordinary way of\n   working \u2014 place a point, then adjust it \u2014 could not reach the point at all:\n   the tool stays armed after a placement, so the mark was unclickable exactly\n   when a reader would first want it. Placing happens on empty map, which is\n   where somebody who means to place is pointing. */\n\n@media (prefers-color-scheme: dark) {\n  #annotate .ann-style select,\n  .ann-link-out input { background: #1b232b; color: var(--ink); }\n  #ann-labels .ann-label { stroke: #10161c; fill: #dfe6ec; }\n  /* over a dark map a black halo is invisible, so it is light there */\n  #annotations .sel {\n    filter: drop-shadow(0 0 2px rgba(255, 255, 255, .85))\n            drop-shadow(0 0 8px rgba(255, 255, 255, .5));\n  }\n  #annotations .ann-mark.sel {\n    filter: drop-shadow(0 0 2px rgba(255, 255, 255, .9))\n            drop-shadow(0 0 10px rgba(255, 255, 255, .55));\n  }\n}\n\n/* The global switch, first thing in the panel: it governs every name, and a\n   thing that governs the rest belongs above the rest. */\n#annotate .ann-check {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  margin: 0 0 8px;\n  font-size: 11.5px;\n  color: var(--muted);\n  cursor: pointer;\n}\n#annotate .ann-names-row {\n  padding-bottom: 7px;\n  border-bottom: 1px solid var(--line);\n  font-weight: 600;\n  color: var(--ink);\n}\n/* and the one mark's own answer, which sits under the name it is about */\n#annotate .ann-nolabel { margin: -3px 0 8px; }\n#annotate .ann-check input:disabled + * ,\n#annotate .ann-check:has(input:disabled) { opacity: .5; }\n\n/* Start and end on a line of their own. Side by side while there is room and\n   stacked when there is not \u2014 they were tried beside the name and there is\n   no width for three fields in a 280px rail, let alone a phone. */\n#annotate .ann-dates {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 0 8px;\n}\n#annotate .ann-dates .ann-field { flex: 1 1 96px; min-width: 96px; }\n\n/* Walking the dated marks. Hidden until there are two, because a pair of\n   arrows that steps between one thing and itself is furniture. */\n#annotate .ann-when {\n  display: flex;\n  align-items: center;\n  gap: 3px;\n  margin: 0 0 8px;\n  padding: 3px;\n  border: 1px solid var(--line);\n  border-radius: 6px;\n  background: rgba(0, 0, 0, .03);\n}\n#annotate .ann-when[hidden] { display: none; }\n#annotate .ann-when button {\n  flex: 0 0 auto;\n  min-width: 24px;\n  padding: 3px 5px;\n  border: 0;\n  border-radius: 4px;\n  background: none;\n  font: inherit;\n  font-size: 14px;\n  line-height: 1;\n  color: var(--ink);\n  cursor: pointer;\n}\n#annotate .ann-when button:hover:not(:disabled) { background: rgba(0, 0, 0, .08); }\n#annotate .ann-when button:disabled { opacity: .3; cursor: default; }\n#annotate .ann-when span {\n  flex: 1 1 auto;\n  min-width: 0;\n  text-align: center;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n  font-size: 11px;\n  font-variant-numeric: tabular-nums;\n  color: var(--muted);\n}\n\n@media (prefers-color-scheme: dark) {\n  #annotate .ann-when { background: rgba(255, 255, 255, .05); }\n  #annotate .ann-when button:hover:not(:disabled) { background: rgba(255, 255, 255, .12); }\n}\n\n/* A distance written on a line: smaller and lighter than a name, because it is\n   a measurement beside the thing and not the thing's name. */\n#ann-labels .ann-dist {\n  font-size: 9.5px;\n  font-weight: 500;\n  font-variant-numeric: tabular-nums;\n  fill: #4a4a4a;\n  stroke-width: 2.6px;\n}\n@media (prefers-color-scheme: dark) {\n  #ann-labels .ann-dist { fill: #b9c4cd; }\n}\n\n/* A tool told to stay out. It is the same pressed state with a mark on it,\n   because it *is* the pressed state — the difference is only whether it steps\n   back after one shape. */\n#annotate .ann-tool.sticky { box-shadow: inset 0 -3px 0 rgba(255, 255, 255, .55); }\n@media (prefers-color-scheme: dark) {\n  #annotate .ann-tool.sticky { box-shadow: inset 0 -3px 0 rgba(0, 0, 0, .45); }\n}\n/* the transparent disc that makes a three-pixel handle findable */\n#annotations .ann-grab { pointer-events: all; }\n\n@media (min-width: 1000px) {\n  /* Leave the scrollbar its own lane. On a Mac the rail's scrollbar is an\n     overlay drawn *over* the content, so a field at `width: 100%` runs under\n     it and its right-hand border disappears \u2014 which is what \"the pane is too\n     wide to fit everything\" was. `scrollbar-gutter` reserves the space when\n     the browser supports it, and the padding covers the browsers that do not. */\n  #side { scrollbar-gutter: stable; }\n  #annotate {\n    position: relative;\n    inset: auto;\n    width: auto;\n    max-width: none;\n    max-height: none;\n    padding: 0 3px 0 0;\n    background: transparent;\n    border: 0;\n    box-shadow: none;\n  }\n}\n";
 
     function addCss() {
       if (document.getElementById('ann-css')) return;
@@ -2584,6 +2746,7 @@
       $('#ann-fit', panel).addEventListener('click', function () {
         if (!zoomTo(feats)) say('There is nothing to move to.', 'bad');
       });
+      $('#ann-copy', panel).addEventListener('click', duplicate);
       $('#ann-undo', panel).addEventListener('click', undo);
       $('#ann-add', panel).addEventListener('click', function () {
         var f = document.getElementById('ann-file');

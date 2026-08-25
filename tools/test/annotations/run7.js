@@ -42,7 +42,7 @@ check('nor one who has only opened the panel', (await p.evaluate(ASKS))===false)
 check('and it opens unlocked', await p.evaluate(()=>!document.querySelector('#annotate').hidden));
 check('with no pencil, there being nothing to edit',
   await p.evaluate(()=>{const e=document.querySelector('#ann-edit'); return !e||e.hidden;}));
-await p.evaluate(()=>{const b=document.querySelector('.ann-tool[data-tool="point"]'); if(b.getAttribute('aria-pressed')!=='true') b.click();});
+await p.evaluate(()=>{const b=document.querySelector('.ann-tool[data-tool="point"]'); if(!b.classList.contains('on')) b.click(); if(!b.classList.contains('sticky')) b.click();});
 await sleep(250); await tap(p,700,450);
 check('but one with a mark of their own IS asked', (await p.evaluate(ASKS))===true);
 await p.evaluate(()=>document.querySelector('#ann-save').click()); await sleep(900);

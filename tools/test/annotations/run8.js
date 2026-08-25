@@ -38,8 +38,11 @@ async function open(_ignored, touch){
   await p.evaluate(()=>document.querySelector('#ann-create').click()); await sleep(1400);
   return p;
 }
+// arm it *and* make it stick: a tool now steps back after one shape, and
+// these cases place several in a row
 const armTool=async(p,t)=>p.evaluate(t=>{const b=document.querySelector('.ann-tool[data-tool="'+t+'"]');
-  if(b.getAttribute('aria-pressed')!=='true') b.click();},t);
+  if(!b.classList.contains('on')) b.click();
+  if(!b.classList.contains('sticky')) b.click();},t);
 const putAway=async p=>p.evaluate(()=>{const b=document.querySelector('.ann-tool[aria-pressed="true"]'); if(b) b.click();});
 
 (async()=>{const b=null;

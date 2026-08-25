@@ -1,5 +1,5 @@
 const H=require('./suite.js');
-const {puppeteer,sleep,page,tap,openPanel,pickTool,SPOT,FIX,check,report}=H;
+const {puppeteer,sleep,page,tap,openPanel,pickTool,SPOT,FIX,check,report,stickTool,dropTool}=H;
 const path=require('path');
 
 (async()=>{
@@ -77,12 +77,12 @@ console.log('\n— styling —');
   await p.close(); }
 
 console.log('\n— undo, delete, drag —');
-{ const p=await page(b); await openPanel(p); await pickTool(p,'point');
+{ const p=await page(b); await openPanel(p); await stickTool(p,'point');
   await tap(p,700,450); await tap(p,760,500);
   check('two marks', await p.evaluate(()=>document.querySelectorAll('#ann-list li').length)===2);
   await p.evaluate(()=>document.querySelector('#ann-undo').click()); await sleep(400);
   check('undo removes the last', await p.evaluate(()=>document.querySelectorAll('#ann-list li').length)===1);
-  await pickTool(p,'point');            // turn the tool off so drag is allowed
+  await dropTool(p);                    // the tool away, so a drag is allowed
   const before=await p.evaluate(()=>{const m=document.querySelector('#annotations .ann-mark');
     const r=m.getBoundingClientRect(); return {x:(r.left+r.right)/2,y:(r.top+r.bottom)/2};});
   await p.mouse.move(before.x,before.y); await p.mouse.down(); await sleep(80);

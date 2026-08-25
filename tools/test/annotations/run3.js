@@ -14,7 +14,7 @@ async function ready(pg, wantsAnn){
   } catch(e){ /* the script's own checks will say so */ }
   await sleep(250);
 }
-const {puppeteer,sleep,page,tap,openPanel,pickTool,SPOT,FIX,check,report}=H;
+const {puppeteer,sleep,page,tap,openPanel,pickTool,SPOT,FIX,check,report,stickTool,dropTool}=H;
 const path=require('path');
 
 (async()=>{
@@ -74,7 +74,7 @@ console.log('\n— the map itself still works —');
   await p.close(); }
 
 console.log('\n— projections —');
-{ const p=await page(b); await openPanel(p); await pickTool(p,'point');
+{ const p=await page(b); await openPanel(p); await stickTool(p,'point');
   await tap(p,700,450); await tap(p,800,500);
   const at=async()=>p.evaluate(()=>[...document.querySelectorAll('#annotations .ann-mark')]
     .map(e=>{const r=e.getBoundingClientRect(); return [Math.round((r.left+r.right)/2),Math.round((r.top+r.bottom)/2)];}));
@@ -112,7 +112,7 @@ console.log('\n— a finger —');
   await p.evaluate(()=>document.querySelector('#ann-finish').click()); await sleep(400);
   check('a finger draws a line and finishes it',
     await p.evaluate(()=>document.querySelectorAll('#annotations .ann-shape').length)===1);
-  await pickTool(p,'line');
+  await dropTool(p);            // the tool away, so a tap selects rather than draws
   const s2=await p.evaluate(SPOT,['#a-china','#a-japan','#a-india','#a-dei','#a-siam']);
   if(s2){ await tap(p,s2.x,s2.y); await sleep(300);
     check('with the tool off, a tap selects again',

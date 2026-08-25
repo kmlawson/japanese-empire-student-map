@@ -7102,6 +7102,63 @@ label is being changed.
   and a list, and a map to draw on beside it; below that the reader is drawing
   through a letterbox.
 
+
+## A tool that does one thing, handles you can hit, and a copy of what you drew
+
+* **A tool steps back after one shape.** One press arms it, a shape is made,
+  and it puts itself away so the next press selects rather than draws. A tool
+  that stayed out for ever meant every press after the first was another shape,
+  and a reader who wanted to adjust what they had just drawn had to remember to
+  put it down first. **Press it again and it sticks** — a shallow inset line
+  says which — for the case where six of the same thing are wanted.
+* **A handle is bigger than it looks.** Vertices are drawn at about three
+  pixels, which is right to look at and much too small to hit, especially where
+  two nearly touch. A transparent 11px disc under each gives the pointer
+  something to find without changing what is seen.
+* **The corners of a shape still being drawn are handles too.** They were plain
+  dots with no `data-ann`, so a long press on one panned the map and a corner in
+  the wrong place meant cancelling the whole shape. `-1` is the index for "the
+  draft", which `drag` now understands.
+* **Take hold of an area in the middle and the whole of it moves.** Only with
+  no tool armed — with one out, a press on a shape is a corner of the next one,
+  which is the rule that lets a second area be drawn inside the first.
+* **Duplicate.** The selected mark again, a little to the south-east so the copy
+  is not hidden under the original, and moved by the same apparent distance at
+  every zoom.
+
+**And a mistake worth recording.** The whole-shape drag read `here` — the
+pointer's position in degrees — from a `var` declared thirty lines further
+down. `var` hoists the name and not the value, so it was `undefined` and threw
+on its first index, twice per drag, silently: the shape simply did not move.
+Caught by watching `pageerror` rather than by reading.
+
+### The suite had the old contract written into it
+
+Five scripts placed two marks in a row and assumed the tool stayed out. That is
+no longer true, and the tests were asserting the behaviour rather than the
+intent — so `suite.js` grew `stickTool` (arm it *and* tell it to stay) and
+`dropTool` (put it away), and each case now says which it means. `run9` asserts
+the new contract directly: one press arms, a shape steps it back, a second
+press makes it stay, a third puts it away.
+
+### Every layer setting, out and back through the URL
+
+Asked for after the term's worth of new switches. `tools/test/layers-url.js`
+sets all sixteen to the opposite of their default, packs them, opens the
+address in a fresh page and reads every one back. A bit written and not read,
+or read at the wrong offset, is otherwise silent: the link opens, the map looks
+plausible, and one setting is quietly wrong. All sixteen survive, and a code
+written before any of the new bits existed still opens with the three that
+start *on* still on — which is why they are stored inverted.
+
+### And the last of the pale buttons
+
+Layers, About and the two annotation buttons still went white on hover in dark
+mode: `#f2ede2` is a pale cream that reads as a white slab under a dark
+palette. There is no hard-coded hover colour left in `styles.css`, and the six
+remaining `#fff` backgrounds in the panel's own stylesheet now read
+`var(--panel)`. Measured: seven controls, none of them pale on hover.
+
 ---
 
 ## Sources worth fetching

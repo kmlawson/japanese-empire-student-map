@@ -84,6 +84,21 @@ const openPanel=async p=>{
   await sleep(150);
 };
 const pickTool=async(p,t)=>{await p.evaluate(t=>document.querySelector('.ann-tool[data-tool="'+t+'"]').click(),t); await sleep(200);};
+/* Arm a tool and tell it to stay out. A tool now steps back after one shape —
+   one press draws one thing, a second press on the same button makes it stick —
+   so a test that places several in a row has to say which it means. Most of
+   them mean this one. */
+const stickTool=async(p,t)=>{
+  await p.evaluate(t=>{const b=document.querySelector('.ann-tool[data-tool="'+t+'"]');
+    if(!b.classList.contains('on')) b.click();
+    if(!b.classList.contains('sticky')) b.click();},t);
+  await sleep(220);
+};
+const dropTool=async p=>{
+  await p.evaluate(()=>{const b=document.querySelector('.ann-tool.on');
+    if(b){ b.click(); if(document.querySelector('.ann-tool.on')) b.click(); }});
+  await sleep(200);
+};
 // an interior point of an atom, clear of every panel
 // an interior point of one of these atoms, clear of every panel. Self
 // contained, because page.evaluate ships this function and nothing else.
@@ -131,7 +146,7 @@ function SPOT(ids){
   return spare;
 }
 const BIG=path.join(__dirname,'..','..','cache','india-rivers.geojson');
-module.exports={puppeteer,sleep,page,ready,tap,openPanel,pickTool,SPOT,FIX,BIG,check,
+module.exports={puppeteer,sleep,page,ready,tap,openPanel,pickTool,stickTool,dropTool,SPOT,FIX,BIG,check,
   report:()=>{console.log('\n  '+pass+' passed, '+fail+' failed');
     if(fail) failures.forEach(f=>console.log('   × '+f));
     return fail;}};

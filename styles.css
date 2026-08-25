@@ -160,7 +160,7 @@ body {
   margin: -2px -4px;
 }
 
-#bar h1 a:hover { background: #f2ede2; }
+#bar h1 a:hover { background: var(--hover-fill); }
 #bar h1 a:focus-visible { outline: 2px solid var(--line); outline-offset: 1px; }
 
 #bar .spacer { flex: 1 1 auto; }
@@ -214,7 +214,11 @@ button.plain {
   cursor: pointer;
 }
 
-button.plain:hover { background: #f2ede2; }
+/* Every chrome button's hover comes from one token. `#f2ede2` is a pale
+   cream, which under a dark palette is a white slab — Layers, About, and the
+   two annotation buttons all went white on hover, which is how it was
+   reported. There is no hard-coded hover colour left in this file. */
+button.plain:hover { background: var(--hover-fill); }
 
 /* Two labels per button: the words on a screen with room for them, a single
    character when the header would otherwise wrap into four rows and take a

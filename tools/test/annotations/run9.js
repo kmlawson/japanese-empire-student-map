@@ -160,6 +160,49 @@ check('and back again when the name goes', await (async()=>{
     el.dispatchEvent(new Event('input',{bubbles:true}));}); await sleep(500);
   return Math.abs((await distTop()) - bare) <= 2;})());
 
+console.log('\n— a tool does one shape, unless it is told to stay —');
+const toolNow=()=>p.evaluate(()=>{const t=document.querySelector('.ann-tool.on');
+  return t?t.getAttribute('data-tool')+(t.classList.contains('sticky')?':sticky':''):'none';});
+const press9=t=>p.evaluate(t=>document.querySelector('.ann-tool[data-tool="'+t+'"]').click(),t);
+await press9('point'); await sleep(250);
+check('one press arms it', await toolNow()==='point', await toolNow());
+await tap(p,640,300); await sleep(400);
+check('and it steps back once a shape is made', await toolNow()==='none', await toolNow());
+await press9('point'); await sleep(200); await press9('point'); await sleep(250);
+check('a second press makes it stay', await toolNow()==='point:sticky', await toolNow());
+await tap(p,690,330); await sleep(400);
+check('and then it stays', await toolNow()==='point:sticky', await toolNow());
+await press9('point'); await sleep(250);
+check('a third press puts it away', await toolNow()==='none', await toolNow());
+
+console.log('\n— a copy of the selected mark —');
+const count9=()=>p.evaluate(STORE).then(f=>f.length);
+const was=await count9();
+await p.evaluate(()=>document.querySelector('#ann-copy').click()); await sleep(600);
+check('Duplicate adds one', await count9()===was+1, was+' → '+(await count9()));
+check('and it is the copy that is selected',
+  await p.evaluate(()=>{const li=[...document.querySelectorAll('#ann-list li')];
+    return li.length && li[li.length-1].classList.contains('sel');}));
+check('the copy is not on top of the original', await (async()=>{
+  const f=await p.evaluate(STORE);
+  return JSON.stringify(f[f.length-1].geometry.coordinates)
+      !== JSON.stringify(f[f.length-2].geometry.coordinates);})());
+
+console.log('\n— a handle is bigger than it looks —');
+/* Vertices are drawn for the selected feature only, and only for a shape that
+   has corners — a point has none. So an area is what gets selected here. */
+await p.evaluate(()=>{
+  const f=JSON.parse(localStorage.getItem('jem-annotations-v1')).f;
+  let at=-1; f.forEach((x,i)=>{ if(/Polygon|LineString/.test(x.geometry.type)) at=i; });
+  const li=[...document.querySelectorAll('#ann-list .ann-pick')];
+  if(at>=0 && li[at]) li[at].click();}); await sleep(500);
+const grab=await p.evaluate(()=>{const v=[...document.querySelectorAll('#annotations .ann-vertex')];
+  return {n:v.length, withDisc:v.filter(g=>g.querySelector('.ann-grab')).length,
+          r:v.length?(v[0].querySelector('.ann-grab')||{}).getAttribute
+            ? v[0].querySelector('.ann-grab').getAttribute('r') : null : null};});
+check('every vertex carries a grab disc, and it is bigger than the dot',
+  grab.n>0 && grab.withDisc===grab.n && +grab.r >= 8, JSON.stringify(grab));
+
 console.log('\n— 2) nothing runs under the scrollbar —');
 console.log('  ' + JSON.stringify(await p.evaluate(()=>{
   const a=document.querySelector('#annotate'), s=document.querySelector('#side');
