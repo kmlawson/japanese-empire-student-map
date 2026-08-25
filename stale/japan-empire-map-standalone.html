@@ -2071,7 +2071,7 @@ dialog h3 {
 
   <p>Built with Anthropic's Claude, with <a href="https://muninn.net/">Konrad M. Lawson</a> at the prompt, primarily as a tool for students in his University of St Andrews honours module, <a href="https://github.com/kmlawson/japanese-empire-mo3335/">MO3335</a>.</p>
 
-  <p>Code for the website may be found <a href="https://github.com/kmlawson/japanese-empire-student-map">here</a>.</p>  <p class="version">Version <span id="jem-version">1.34</span> · last updated 25 August 2026, 08:37</p>
+  <p>Code for the website may be found <a href="https://github.com/kmlawson/japanese-empire-student-map">here</a>.</p>  <p class="version">Version <span id="jem-version">1.35</span> · last updated 25 August 2026, 08:42</p>
 
 <!-- END about -->
 </dialog>
@@ -11552,7 +11552,7 @@ window.JMAP_INLINE_FINE = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<svg xmln
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '1.34';
+  var JEM_VERSION = '1.35';
 
   /* Every file this one fetches, with the version on it.
 
@@ -17726,10 +17726,18 @@ window.JMAP_INLINE_FINE = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<svg xmln
     var page = (el.textContent || '').trim();
     if (page === JEM_VERSION) return;
     el.textContent = JEM_VERSION;
+    /* Which of the two is stale is not knowable from here, and the first
+       wording guessed. A server ignores the `?v=` — the filename is unchanged
+       — so an old page asking for `map.js?v=1.20` is handed the *current*
+       script, and the running code is then newer than the page that asked for
+       it. The opposite happens when the page is fresh and the script is held
+       in cache. Both are fixed by the same reload, so the note reports the two
+       numbers and does not pretend to know which way round it is. */
     var note = document.createElement('span');
     note.className = 'version-stale';
-    note.textContent = ' — the page says ' + page + ', so your browser is holding'
-      + ' an old map.js. Reload with a hard refresh to get ' + page + '.';
+    note.textContent = ' — this page was built for ' + page
+      + ', so one of the two is coming from your browser\'s cache.'
+      + ' A hard reload will put them in step.';
     el.parentNode.appendChild(note);
   }
 

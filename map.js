@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '1.34';
+  var JEM_VERSION = '1.35';
 
   /* Every file this one fetches, with the version on it.
 
@@ -6187,10 +6187,18 @@
     var page = (el.textContent || '').trim();
     if (page === JEM_VERSION) return;
     el.textContent = JEM_VERSION;
+    /* Which of the two is stale is not knowable from here, and the first
+       wording guessed. A server ignores the `?v=` — the filename is unchanged
+       — so an old page asking for `map.js?v=1.20` is handed the *current*
+       script, and the running code is then newer than the page that asked for
+       it. The opposite happens when the page is fresh and the script is held
+       in cache. Both are fixed by the same reload, so the note reports the two
+       numbers and does not pretend to know which way round it is. */
     var note = document.createElement('span');
     note.className = 'version-stale';
-    note.textContent = ' — the page says ' + page + ', so your browser is holding'
-      + ' an old map.js. Reload with a hard refresh to get ' + page + '.';
+    note.textContent = ' — this page was built for ' + page
+      + ', so one of the two is coming from your browser\'s cache.'
+      + ' A hard reload will put them in step.';
     el.parentNode.appendChild(note);
   }
 

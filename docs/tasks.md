@@ -6175,6 +6175,46 @@ it reads `JEM_VERSION` now, for the same reason About does.
 
 ---
 
+## Bookmarks, and what an old version gets
+
+Asked, before shipping the cache busting: does it touch bookmarking, and does a
+call for an outdated version fail gracefully? Both measured.
+
+**Bookmarks are untouched, because `?v=` never reaches the address bar.** It is
+written onto `<script src>` and `<link href>` and onto what `map.js` fetches —
+never onto the page's own URL. A reader who pans, switches Cities on and
+bookmarks gets `?bbox=74.4,-25.87,214.4,68.84&layers=2q`, which is what they
+would have got a week ago. Reopened in a clean profile it comes back to the
+same view and the same layers.
+
+The round trip drifts by **0.09 map units, three thousandths of one per cent of
+the view width** — the link records a lon/lat box rounded to two decimals, so
+that is arithmetic and not the caching. It behaved this way before any of this.
+
+**An outdated version is served, never refused.** A server ignores the query —
+the filename is unchanged — so `map.js?v=0.01`, `?v=nonsense` and `?v=%20%22'`
+all return 200 and the same 279,939 bytes as `map.js`, on GitHub Pages and
+locally alike. There is no 404 to handle because there is no such thing: the
+worst case is a *cache hit* on a URL nobody asks for any more, which is the
+whole point of the scheme.
+
+**And that corrected the wording of the version warning, which was guessing.**
+Because an old page asking for `map.js?v=1.20` is handed the *current* script,
+the running code can be **newer** than the page that asked for it — the
+opposite of the case the note was written for. It said "your browser is holding
+an old map.js", which in that case is exactly backwards. It reports both
+numbers now and does not pretend to know which way round it is:
+
+> Version 1.34 — this page was built for 0.01, so one of the two is coming from
+> your browser's cache. A hard reload will put them in step.
+
+Measured in that direction — a page rewritten to ask for 0.01 — About shows
+1.34, the map draws its 84 atoms, and nothing errors.
+
+`tools/test/bookmarks.js`, 11 checks.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible
