@@ -7159,6 +7159,48 @@ palette. There is no hard-coded hover colour left in `styles.css`, and the six
 remaining `#fff` backgrounds in the panel's own stylesheet now read
 `var(--panel)`. Measured: seven controls, none of them pale on hover.
 
+
+## The annotations get their own section in About, and a mask bound that was measured in the wrong space
+
+### About
+
+The annotation paragraph that used to sit in the Layers panel is a section of
+its own now, a sentence to each feature: the four tools and how a tool steps
+back after one shape, the three kinds of text, the dates and the walk through
+them, the styling, the blurred edge, the editing gestures, saving and sharing,
+and what a reader who follows a link sees.
+
+### A latent bug in the highlight mask — found while looking for something else
+
+The outline of a hovered or selected shape is drawn through a mask, and the
+mask's rectangle was intersected with the **document's** extent:
+
+```js
+var mx1 = mapW + pad, my1 = mapH + pad;      // the Mercator drawing's size
+mx0 = Math.max(mx0, bb.x0 - pad);
+mx1 = Math.min(mx1, bb.x1 + pad);
+```
+
+`mapW` and `mapH` are the Mercator drawing's dimensions. In Mercator that
+intersection is a no-op — every shape is inside the document by definition —
+but the projections move the ground, and a shape whose reprojected box falls
+outside `0 … mapW` had its mask cut along a straight line. It is the same
+mistake as the blur and the arrowhead in a different currency: **a quantity
+measured in one space applied in another.**
+
+The shape's own box already bounds the buffer, which is all the clamp was for,
+so it is gone. **It cannot change Mercator, where it never bit.**
+
+**And it is not yet confirmed to be the reported line across Rajputana.** Four
+candidates were checked and ruled out by measurement: the reprojection is
+densifying that path the same in both projections (5,741 segments either way);
+`edgeClip` is only on British India's Burma window and Thailand's, neither of
+them Rajputana; the bbox cache *is* invalidated on reprojection, so the mask is
+not positioned from stale Mercator coordinates; and British India's own box
+stays positive in both Albers and Lambert, so the clamp does not bite for it.
+The fix above is right on its own terms and was made on that basis, not on a
+claim that it closes the report. The report stays open.
+
 ---
 
 ## Sources worth fetching

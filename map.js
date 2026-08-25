@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '1.50';
+  var JEM_VERSION = '1.51';
   var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "f765e5fd38", "japan-empire-map-admin.svg": "d821c75055", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "132ece917d"};
 
   /* Every file this one fetches, with the version on it.
@@ -4300,8 +4300,21 @@
       } catch (err) { /* not laid out yet */ }
     });
     if (bb) {
-      mx0 = Math.max(mx0, bb.x0 - pad); my0 = Math.max(my0, bb.y0 - pad);
-      mx1 = Math.min(mx1, bb.x1 + pad); my1 = Math.min(my1, bb.y1 + pad);
+      /* The shape's own box, and nothing else. It used to be intersected with
+         the *document's* extent — `0 … mapW`, `0 … mapH` — which are the
+         Mercator drawing's dimensions.
+
+         In Mercator that intersection is a no-op: every shape is inside the
+         document by definition. Under Albers or Lambert it is not. The
+         projection moves the ground, and western India goes *left of zero* —
+         so the mask was cut at `x = -60` and the outline ended in a straight
+         vertical line down the middle of Rajputana, which is exactly how it
+         was reported and only ever in a projection that is not Mercator.
+
+         The shape's box already bounds the buffer, which is all the clamp was
+         for. Taking it out cannot change Mercator, where it never bit. */
+      mx0 = bb.x0 - pad; my0 = bb.y0 - pad;
+      mx1 = bb.x1 + pad; my1 = bb.y1 + pad;
     }
     var mw = mx1 - mx0, mh = my1 - my0;
     var mask = svgEl('mask', { id: id, maskUnits: 'userSpaceOnUse',

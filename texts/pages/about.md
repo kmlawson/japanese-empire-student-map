@@ -13,8 +13,22 @@ This interactive map is for exploring the geography of the Japanese Empire. It a
 * ** Cities, Events, Administrative boundaries, and other labels** - Buttons at the top of the screen allow you to toggle the visibility of cities, some historical events, administrative boundaries for some of the countries shown and other labels. These may be the same in the 1930 and 1942 maps or may differ somewhat.
 * **Other Layers** - See the Layers pane for options to add or swap out layers to display.
 * **Island Details** - Some islands will get swapped out with a more detailed as you zoom in closer to them. 
-* **Annotations** - The Layers pane offers Create annotations and Load annotations. Draw your own points, events, lines and areas over the map, name them and describe them, and save the result as a GeoJSON file. Nothing is sent anywhere: the file is written by your own browser and read back by it, and a map you load stays on your machine. A small enough set can also be copied as a link and sent to somebody else.
+* **Annotations** - Draw your own marks over the map, name them, describe them and share them. See **Drawing your own annotations** below.
 * **Links** - If you pan or zoom to a location, and copy the URL, it will keep the bounding box information in the link allowing the person you are sharing the link with to view roughly the same location you are looking at. Useful if you want to share a specific view. Click on the page title in the top left to load the default view.
+
+
+### Drawing your own annotations
+
+Open **Layers** and press **Create annotations**. Nothing is sent anywhere: the file is written by your own browser and read back by it, and a map you load stays on your machine. The tools need a reasonably wide screen and are not offered on a small one.
+
+* **The four tools** - **Point** places a single mark, **Arrow** takes a start and an end, **Line** takes as many corners as you like, and **Area** closes into a shape. Press a tool once and it draws one thing and then steps back; press it a second time and it stays out until you put it away.
+* **Naming and describing** - A **Name** is written on the map beside the mark, and can be kept off it for one mark without hiding the rest. A **Short note** is what the pointer shows. A **Description** is the longer account, and it opens in the panel on the right when the mark is clicked.
+* **Dates** - Optional **Start** and **End**, read leniently: `1937`, `Sept 1931` and `1941-12-08` all work. Once two marks carry a date, a row of arrows appears that walks through them in order, moving the map to each in turn.
+* **Style** - Colour, weight, opacity, and for an area a separate fill. A **Point** can be one of twenty-five shapes, including military unit symbols and formation sizes. A **Line** can be dashed six ways and can label its own length, leg by leg or as a total. An **Arrow** can be curved, and can end in a solid head, a barbed one, an open one, a dot, or a bar meaning an advance that was stopped.
+* **Approximate areas** - An area can have a **Blurred** edge, which says "about here" rather than drawing a frontier the source never had.
+* **Editing** - Click a mark to select it. Drag a corner to move it, drag the middle of an area to move the whole shape, right-click a corner to remove it, and press **Duplicate** for another one like it. Undo takes back one step, including the last corner of a shape you are still drawing.
+* **Keeping it** - **Save file** writes a GeoJSON file. **Copy link** puts the whole set into a web address if it is small enough, and a counter above the buttons says how close you are. **Add file…** merges another set into this one rather than replacing it.
+* **Sharing** - Someone who opens your link sees the marks locked, so a stray press cannot move them, and can read any of them by clicking. A pencil button unlocks the tools. Their own annotations are set aside, not overwritten, and one press brings them back.
 
 ### Caution Around the Maps
 

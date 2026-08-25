@@ -181,8 +181,23 @@
     <li><strong> Cities, Events, Administrative boundaries, and other labels</strong> - Buttons at the top of the screen allow you to toggle the visibility of cities, some historical events, administrative boundaries for some of the countries shown and other labels. These may be the same in the 1930 and 1942 maps or may differ somewhat.</li>
     <li><strong>Other Layers</strong> - See the Layers pane for options to add or swap out layers to display.</li>
     <li><strong>Island Details</strong> - Some islands will get swapped out with a more detailed as you zoom in closer to them. </li>
-    <li><strong>Annotations</strong> - The Layers pane offers Create annotations and Load annotations. Draw your own points, events, lines and areas over the map, name them and describe them, and save the result as a GeoJSON file. Nothing is sent anywhere: the file is written by your own browser and read back by it, and a map you load stays on your machine. A small enough set can also be copied as a link and sent to somebody else.</li>
+    <li><strong>Annotations</strong> - Draw your own marks over the map, name them, describe them and share them. See <strong>Drawing your own annotations</strong> below.</li>
     <li><strong>Links</strong> - If you pan or zoom to a location, and copy the URL, it will keep the bounding box information in the link allowing the person you are sharing the link with to view roughly the same location you are looking at. Useful if you want to share a specific view. Click on the page title in the top left to load the default view.</li>
+  </ul>
+
+  <h3>Drawing your own annotations</h3>
+
+  <p>Open <strong>Layers</strong> and press <strong>Create annotations</strong>. Nothing is sent anywhere: the file is written by your own browser and read back by it, and a map you load stays on your machine. The tools need a reasonably wide screen and are not offered on a small one.</p>
+
+  <ul>
+    <li><strong>The four tools</strong> - <strong>Point</strong> places a single mark, <strong>Arrow</strong> takes a start and an end, <strong>Line</strong> takes as many corners as you like, and <strong>Area</strong> closes into a shape. Press a tool once and it draws one thing and then steps back; press it a second time and it stays out until you put it away.</li>
+    <li><strong>Naming and describing</strong> - A <strong>Name</strong> is written on the map beside the mark, and can be kept off it for one mark without hiding the rest. A <strong>Short note</strong> is what the pointer shows. A <strong>Description</strong> is the longer account, and it opens in the panel on the right when the mark is clicked.</li>
+    <li><strong>Dates</strong> - Optional <strong>Start</strong> and <strong>End</strong>, read leniently: <code>1937</code>, <code>Sept 1931</code> and <code>1941-12-08</code> all work. Once two marks carry a date, a row of arrows appears that walks through them in order, moving the map to each in turn.</li>
+    <li><strong>Style</strong> - Colour, weight, opacity, and for an area a separate fill. A <strong>Point</strong> can be one of twenty-five shapes, including military unit symbols and formation sizes. A <strong>Line</strong> can be dashed six ways and can label its own length, leg by leg or as a total. An <strong>Arrow</strong> can be curved, and can end in a solid head, a barbed one, an open one, a dot, or a bar meaning an advance that was stopped.</li>
+    <li><strong>Approximate areas</strong> - An area can have a <strong>Blurred</strong> edge, which says "about here" rather than drawing a frontier the source never had.</li>
+    <li><strong>Editing</strong> - Click a mark to select it. Drag a corner to move it, drag the middle of an area to move the whole shape, right-click a corner to remove it, and press <strong>Duplicate</strong> for another one like it. Undo takes back one step, including the last corner of a shape you are still drawing.</li>
+    <li><strong>Keeping it</strong> - <strong>Save file</strong> writes a GeoJSON file. <strong>Copy link</strong> puts the whole set into a web address if it is small enough, and a counter above the buttons says how close you are. <strong>Add file…</strong> merges another set into this one rather than replacing it.</li>
+    <li><strong>Sharing</strong> - Someone who opens your link sees the marks locked, so a stray press cannot move them, and can read any of them by clicking. A pencil button unlocks the tools. Their own annotations are set aside, not overwritten, and one press brings them back.</li>
   </ul>
 
   <h3>Caution Around the Maps</h3>
@@ -216,13 +231,13 @@
 
   <p>Built with Anthropic's Claude, with <a href="https://muninn.net/">Konrad M. Lawson</a> at the prompt, primarily as a tool for students in his University of St Andrews honours module, <a href="https://github.com/kmlawson/japanese-empire-mo3335/">MO3335</a>.</p>
 
-  <p>Code for the website may be found <a href="https://github.com/kmlawson/japanese-empire-student-map">here</a>.</p>  <p class="version">Version <span id="jem-version">1.50</span> · last updated 25 August 2026, 17:29</p>
+  <p>Code for the website may be found <a href="https://github.com/kmlawson/japanese-empire-student-map">here</a>.</p>  <p class="version">Version <span id="jem-version">1.51</span> · last updated 25 August 2026, 17:47</p>
 
 <!-- END about -->
 </dialog>
 
 <script src="data.js?v=1fd9f4a14c"></script>
 <script src="cities-gaz.js?v=88a319fe12"></script>
-<script src="map.js?v=195c04780b"></script>
+<script src="map.js?v=677af3f69b"></script>
 </body>
 </html>
