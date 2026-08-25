@@ -7242,6 +7242,57 @@ It waits for the counter now rather than for a number of milliseconds — the
 same fix as the load waits, and the same reason: **the thing to wait for is the
 thing the next line reads.** Three parallel runs, 270 checks, all passing.
 
+
+## The cracks between provinces, closed without touching a single traced shape
+
+Reported as breaks showing between the provinces of Siam, China, the
+Philippines, Japan and Korea with Administrative switched **off**, and asked for
+as merged `[country]-whole` polygons.
+
+**No merge was needed, and the whole-country polygons already exist.** Each of
+these countries has a filler under its atom — a single polygon, and its class in
+the drawing is literally `whole`. The naming asked for is already the
+convention.
+
+### What the cracks actually were
+
+Once the administrative file is fetched, a country's divisions are grafted into
+its atom and stay there — seventy of them for Siam — and they stay *drawn* even
+when the layer is switched off. Their stroke is `none`, so what shows is not a
+boundary at all: it is the antialiasing seam where two abutting fills meet, a
+pale hairline along every shared edge. In dark mode it reads as a crack.
+
+Filling those seams is exactly what the filler beneath is for. But a filler is
+marked **redundant** once its atom has divisions of its own, and
+`#jmap.backs-off #backings path.redundant { display: none }` hid it — *at the
+moment the divisions arrived*. The one thing that would have covered the seams
+was switched off by the arrival of the thing that caused them.
+
+The rule now reads `#jmap.backs-off.admin-on …`: the filler stands down only
+while the divisions are actually on show. One line, no geometry.
+
+### The version I tried first, and why it is not the one that shipped
+
+The obvious reading was to hide the divisions when the layer is off and let the
+filler draw alone. It looks right — Siam comes up as one clean polygon — and it
+**breaks hit-testing**: the division paths *are* the country's targets. A press
+inside Siam fell through to whatever was behind it, and `run.js` started
+reporting the place under a new point as the Soviet Union.
+
+Giving the filler `pointer-events: auto` did not rescue it either; a filler
+lives in `#backings`, not in the atom, so the pointer path does not find a
+territory through it. That would have needed a change in `pick`, and a
+hit-testing change is not worth making for a cosmetic seam.
+
+**Confirmed as mine before diagnosing it**: the check was stashed against the
+previous `styles.css` and passed, which is the difference between "my change
+broke this" and "this was already broken".
+
+Keeping the divisions and restoring the filler *beneath* them gets both — the
+seams are filled from below, and every target is where it was. Measured: 70
+paths still in the atom and still hit-testable, no visible seam, and the whole
+suite green.
+
 ---
 
 ## Sources worth fetching

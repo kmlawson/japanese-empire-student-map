@@ -463,9 +463,26 @@ button.plain:hover { background: var(--hover-fill); }
    from JS, per atom and per state of the administrative file, because whether
    a backing is a second copy is not a fact about the backing: Siam's is the
    whole country until its changwat load and underneath all of them after. */
-#jmap.backs-off #backings path.redundant { display: none; }
+/* A filler is "redundant" once its atom has divisions of its own — the
+   provinces cover the same ground, so drawing both is drawing twice. That is
+   true while the divisions are *being shown*, and not otherwise.
+
+   With Administrative off the divisions are still there, still filled, and
+   still abutting one another: seventy polygons edge to edge, each antialiased,
+   leaving a pale hairline along every shared boundary. Siam, China, the
+   Philippines, Japan and Korea all showed their provinces as faint cracks with
+   the layer switched off — and the whole-country shape that would have covered
+   them was hidden at exactly the moment it was needed, because the arrival of
+   the divisions is what marked it redundant.
+
+   So the filler stands down only when the divisions are on show, and the
+   divisions stand down when they are not. The reader sees one polygon per
+   country either way — which is what the map looked like before the
+   administrative file was ever fetched. */
+#jmap.backs-off.admin-on #backings path.redundant { display: none; }
 
 #backings path[data-deferred] { pointer-events: auto; }
+
 #backings path.hot { filter: brightness(1.12); }
 
 /* vector-effect does not inherit, so an atom drawn as a group of provinces
