@@ -54,15 +54,24 @@ console.log('\n— the two client states —');
 const before=await cvar(p,'#a-manchukuo');
 check('Manchukuo carries its own colour', /#|rgb/.test(before), before);
 await tick(p,'#opt-manchukuo',false);
-check('switched off it takes the neutral', (await cvar(p,'#a-manchukuo')).indexOf('inactive')>=0,
-  await cvar(p,'#a-manchukuo'));
+/* It takes the Republic's own yellow, not a neutral grey. The ground did not
+   become unclaimed when the reader switched the client state off — on this
+   map's terms it became the rest of China, and a grey slab in the north-east
+   reads as a hole rather than as a country. */
+const china=await p.evaluate(()=>{const e=document.querySelector('#a-freechina')
+  || document.querySelector('#a-china');
+  return e ? e.style.getPropertyValue('--c') : '';});
+check('switched off it is drawn as the rest of China',
+  (await cvar(p,'#a-manchukuo'))===china && /#|rgb/.test(china),
+  await cvar(p,'#a-manchukuo') + ' against China\'s ' + china);
 check('and the land is still there to point at',
   await p.evaluate(()=>getComputedStyle(document.querySelector('#a-manchukuo')).display)!=='none');
 await tick(p,'#opt-manchukuo',true);
 check('switched on again it has its colour back', (await cvar(p,'#a-manchukuo'))===before,
   before+' → '+(await cvar(p,'#a-manchukuo')));
 await tick(p,'#opt-mengjiang',false);
-check('Mengjiang goes neutral too', (await cvar(p,'#a-mengjiang')).indexOf('inactive')>=0);
+check('Mengjiang is drawn as the rest of China too',
+  (await cvar(p,'#a-mengjiang'))===china, await cvar(p,'#a-mengjiang'));
 check('and its dotted claim goes with it',
   await p.evaluate(()=>getComputedStyle(document.querySelector('#mengjiang-claim')).display)==='none');
 await tick(p,'#opt-mengjiang',true);
@@ -138,6 +147,46 @@ check('the perimeter goes with them, being a line round empty sea',
 await tick(p,'#opt-world',true);
 const back=await drawn();
 check('and everything comes back', back.length===all.length, all.length+' → '+back.length);
+
+/* Everything that is *not* the atom has to go with it, and each of these was
+   found by looking at the render rather than by reasoning about the code. */
+await tick(p,'#opt-world',false);
+check('the Army report is not hidden with the rest — it is China',
+  await (async()=>{
+    await p.evaluate(()=>{const r=document.querySelector('#occ-nca');
+      r.checked=true; r.dispatchEvent(new Event('change',{bubbles:true}));}); await sleep(1800);
+    return await p.evaluate(()=>['#a-nca_pacified','#a-nca_unpacified']
+      .every(s=>{const e=document.querySelector(s);
+        return e && getComputedStyle(e).display!=='none';}));})());
+await p.evaluate(()=>{const r=document.querySelector('#occ-traced');
+  r.checked=true; r.dispatchEvent(new Event('change',{bubbles:true}));}); await sleep(1600);
+check('no country outside the frame is still named',
+  await p.evaluate(()=>[...document.querySelectorAll('#labels text')]
+    .filter(t=>getComputedStyle(t).display!=='none')
+    .every(t=>!/Indies|Philippine|Hawaii|Soviet|Kengtung|Australia|Burma/.test(t.textContent))));
+check('and no shading is left over open sea',
+  await p.evaluate(()=>{
+    const svg=document.getElementById('jmap');
+    const vb=svg.getAttribute('viewBox').split(' ').map(Number);
+    return [...document.querySelectorAll('.hatch-fill')]
+      .filter(e=>getComputedStyle(e).display!=='none').length <= 2;}));
+check('the frame fits what is drawn rather than the whole hemisphere',
+  await p.evaluate(()=>{
+    const svg=document.getElementById('jmap');
+    const vb=svg.getAttribute('viewBox').split(' ').map(Number);
+    let x0=1e9,x1=-1e9;
+    document.querySelectorAll('#land .atom[data-id]').forEach(e=>{
+      if(getComputedStyle(e).display==='none') return;
+      let bb; try{bb=e.getBBox();}catch(err){return;}
+      if(!bb.width&&!bb.height) return;
+      x0=Math.min(x0,bb.x); x1=Math.max(x1,bb.x+bb.width);});
+    return (x1-x0) / vb[2] > 0.7;}));
+check('and the key no longer lists colours that appear nowhere',
+  await p.evaluate(()=>{const t=[...document.querySelectorAll('#legend .item')]
+    .map(x=>x.textContent).join(' ');
+    return !/British|Dutch|Soviet|Thai/.test(t);}),
+  await p.evaluate(()=>[...document.querySelectorAll('#legend .item')].map(x=>x.textContent.trim()).join(' / ')));
+await tick(p,'#opt-world',true);
 
 console.log('\n— a link carries them —');
 const code=await p.evaluate(()=>{

@@ -6879,6 +6879,63 @@ still hidden on 1930, 3 on 1942, all of them legitimately.
 
 `tools/test/mapstrip.js` is 34 checks now.
 
+
+## The East Asia frame, finished — and a layer that vanished with it
+
+### A bug: the Army report did not appear
+
+Reported as "I switched to the 1942 army occupation map and it didn't appear",
+and it was the East Asia rule doing it. `nca_pacified` and `nca_unpacified`
+were not in the list of what that frame keeps, so a reader who had cut the map
+back and *then* chose the Army report was shown nothing at all — the layer was
+there and this rule was hiding it. They are China; they are in the list now.
+
+**Everything that is not the atom had to go with the atom, and each was found
+by looking at the render rather than by reasoning about the code:**
+
+* **The shading.** A hatch is a *copy* of an atom's path in another layer, so
+  hiding the atom left the stripes behind, drawn over open sea. Tagged with
+  their territory: 13 hatch paths drawn in the East Asia view, now 1 — and that
+  one is Mengjiang's claim, which belongs.
+* **The names.** The label entries are built once, when the map is coloured, so
+  nothing downstream knew the frame had been cut back.
+* **The key.** It still listed British, French, Dutch, American, Portuguese,
+  Soviet and Thai — seven colours that appeared nowhere on the map.
+
+### The frame fits what is drawn
+
+`activeBounds` measured every atom, drawn or not, so with the Pacific emptied
+the frame still reached the Marshalls: **the land came to 61% of the view on a
+desktop and 209% on a phone**, which is to say China ran off both sides of a
+map the reader had asked to be smaller. Hidden atoms no longer set the edge,
+the view is re-fitted when the switch moves, and a portrait screen no longer
+crops *again* to the empire on top of a frame the reader has already narrowed —
+answering a question they have just answered. Measured after: **94% in all
+three projections, on a desktop and on a phone, on both maps.**
+
+Getting the order wrong is easy and I did: the frame is measured from what is
+drawn, so the atoms have to be hidden *before* it is worked out, and the cached
+frame has to be cleared before `defaultView` is asked for it.
+
+### A hidden client state is the rest of China, not a hole
+
+Manchukuo and Mengjiang switched off now take the Republic's own yellow rather
+than a neutral grey, and keep the provinces drawn on that ground in 1942. The
+land did not become unclaimed when the reader switched the state off; on this
+map's terms it became the rest of China, and a grey slab in the north-east
+reads as a fault rather than as a country.
+
+### And the panel
+
+"Show the whole map" was under a heading called *Drawing your own*, which it
+has nothing to do with; the two switches that decide what the map covers are
+under **What the map covers** now. Three hints came out — the long one
+explaining the East Asia frame is one line, the single-colour one is gone, and
+the annotations paragraph has moved to the About list, where a reader looking
+for what the map can do will actually find it.
+
+`tools/test/mapstrip.js` is 42 checks.
+
 ---
 
 ## Sources worth fetching

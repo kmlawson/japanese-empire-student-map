@@ -13,6 +13,7 @@ This interactive map is for exploring the geography of the Japanese Empire. It a
 * ** Cities, Events, Administrative boundaries, and other labels** - Buttons at the top of the screen allow you to toggle the visibility of cities, some historical events, administrative boundaries for some of the countries shown and other labels. These may be the same in the 1930 and 1942 maps or may differ somewhat.
 * **Other Layers** - See the Layers pane for options to add or swap out layers to display.
 * **Island Details** - Some islands will get swapped out with a more detailed as you zoom in closer to them. 
+* **Annotations** - The Layers pane offers Create annotations and Load annotations. Draw your own points, events, lines and areas over the map, name them and describe them, and save the result as a GeoJSON file. Nothing is sent anywhere: the file is written by your own browser and read back by it, and a map you load stays on your machine. A small enough set can also be copied as a link and sent to somebody else.
 * **Links** - If you pan or zoom to a location, and copy the URL, it will keep the bounding box information in the link allowing the person you are sharing the link with to view roughly the same location you are looking at. Useful if you want to share a specific view. Click on the page title in the top left to load the default view.
 
 ### Caution Around the Maps

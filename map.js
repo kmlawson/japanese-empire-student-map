@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '1.45';
+  var JEM_VERSION = '1.46';
   var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "e0dba84688", "japan-empire-map-admin.svg": "d821c75055", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "132ece917d"};
 
   /* Every file this one fetches, with the version on it.
@@ -1892,7 +1892,11 @@
         paths.forEach(function (path) {
           var d = path.getAttribute('d');
           if (!d) return;
-          var attrs = { 'class': cls, d: d };
+          // tagged with the territory, so a rule that takes a country off the
+          // map can take its shading with it: a hatch is a *copy* of the
+          // atom's path in another layer, so hiding the atom left the stripes
+          // behind, drawn over open sea
+          var attrs = { 'class': cls, d: d, 'data-id': t.id };
           var own = path.getAttribute('clip-path') || clip;
           if (own) attrs['clip-path'] = own;
           hatchGroup.appendChild(svgEl('path', attrs));
@@ -1974,9 +1978,15 @@
         b.x1 = Math.max(b.x1, x1); b.y1 = Math.max(b.y1, y1);
       }
     }
+    /* What is *drawn*, not what exists. With the map cut back to East Asia the
+       Pacific is empty, and a frame that still reached the Marshalls opened on
+       two thirds ocean — the reader asked for a closer look and got the same
+       view with most of it blank. A hidden atom has no business setting the
+       edge of the frame. */
     Object.keys(atomEls).forEach(function (a) {
       var el = atomEls[a];
       if (!el.getAttribute('data-id')) return;
+      if (el.style.display === 'none') return;
       try {
         var bb = el.getBBox();
         if (bb.width || bb.height) grow(bb.x, bb.y, bb.x + bb.width, bb.y + bb.height);
@@ -1984,6 +1994,8 @@
     });
     JMAP.SITES.forEach(function (s) {
       if (!siteVisible(s)) return;
+      var rec = byId[s.id];
+      if (!state.world && rec && rec.of && !EAST_ASIA[rec.of]) return;
       var p = sitePos[s.id];
       grow(p.x - 30, p.y - 30, p.x + 30, p.y + 30);
     });
@@ -2277,7 +2289,14 @@
     // A stage far narrower than the content wastes its height on sea; a stage
     // far wider wastes its width on the same. Either way, open on the empire
     // rather than on the whole hemisphere.
-    var cropToHome = aspect < (bw / bh) / 1.7 || aspect > (bw / bh) * 1.2;
+    /* A stage far narrower or wider than the content opens on the empire
+       rather than on the whole hemisphere — except when the reader has already
+       said which part of the world they want. Cropping *again* on top of that
+       is answering a question they have just answered: on a phone the East
+       Asia frame came out at 209% of the view, which is to say China ran off
+       both sides of a map the reader had asked to be smaller. */
+    var cropToHome = state.world
+      && (aspect < (bw / bh) / 1.7 || aspect > (bw / bh) * 1.2);
     if (cropToHome) {
       b = homeBounds();
       bw = b.x1 - b.x0;
@@ -2812,6 +2831,15 @@
       }
       // a browse name with no dot under it is just a word floating in the sea
       if (L.rec.kind === 'browse' && !browseVisible()) { L.el.style.display = 'none'; continue; }
+      /* And neither is a country's name when the country has been taken off
+         the map. The label entries are built once, when the map is coloured,
+         so nothing downstream knew the frame had been cut back: with the East
+         Asia view on, the Indies, the Philippines, British India, Hawaii, the
+         Soviet Union and Kengtung were all still named over open sea. */
+      if (!state.world && L.rec.kind === 'territory' && !EAST_ASIA[L.rec.id]) {
+        L.el.style.display = 'none';
+        continue;
+      }
 
       var x = (L.x - view.x) * sx;
       var y = (L.y - view.y) * sy + L.dy;
@@ -4833,6 +4861,9 @@
       $$('#sub-outlines [data-id="' + t.id + '"]', svg).forEach(function (e) {
         els.push(e);
       });
+      if (hatchGroup) {
+        $$('[data-id="' + t.id + '"]', hatchGroup).forEach(function (e) { els.push(e); });
+      }
       /* And the filler under each atom, and the seam strips beside it. They
          are separate elements in separate layers, so a hidden country left a
          faint ghost of its own coastline where its filler still showed. */
@@ -4865,16 +4896,21 @@
       var rec = byId[id];
       if (!rec) return;
       var shown = state[id] !== false;
-      var col = shown ? ((rec.c || (catInfo(rec.cat) || {}).c) || null) : null;
+      /* Hidden, it takes the Republic's own colour rather than a neutral grey.
+         The ground did not become unclaimed when the reader switched the client
+         state off — it became, on this map's own terms, the rest of China, and
+         a grey slab in the north-east reads as a hole rather than as a country.
+         Its provinces are the ones drawn there in 1942, which are the
+         administrative divisions that ground actually had. */
+      var host = byId.freechina || byId.china;
+      var col = shown ? ((rec.c || (catInfo(rec.cat) || {}).c) || null)
+                      : ((host && (host.c || (catInfo(host.cat) || {}).c)) || null);
       (rec.atoms || []).forEach(function (a) {
         [atomEls[a], backingEls[a], backingEdges[a]].forEach(function (el) {
-          if (!el) return;
-          if (col) el.style.setProperty('--c', col);
-          else el.style.setProperty('--c', 'var(--inactive)');
+          if (el) el.style.setProperty('--c', col || 'var(--inactive)');
         });
         (seamEls[a] || []).forEach(function (sm) {
-          if (col) sm.style.setProperty('--c', col);
-          else sm.style.setProperty('--c', 'var(--inactive)');
+          sm.style.setProperty('--c', col || 'var(--inactive)');
         });
       });
     });
@@ -4943,9 +4979,14 @@
 
     var used = {};
     // a territory with nothing drawn in it puts no colour on the map and so
-    // earns no swatch in the legend
+    // earns no swatch in the legend — and neither does one the reader has
+    // taken off the map. With the frame cut back to East Asia the key still
+    // listed British, French, Dutch, American, Portuguese, Soviet and Thai,
+    // seven colours that appeared nowhere on it.
     territories().forEach(function (t) {
-      if (!t.unseen && srcOK(t)) used[t.cat] = true;
+      if (t.unseen || !srcOK(t)) return;
+      if (!state.world && !EAST_ASIA[t.id]) return;
+      used[t.cat] = true;
     });
 
     var epoch = JMAP.EPOCHS.filter(function (e) { return e.id === state.epoch; })[0];
@@ -5101,6 +5142,13 @@
     kwantung: 1, weihaiwei: 1, guangzhouwan: 1, hongkong: 1, macau: 1,
     /* and what stood on Chinese ground in each epoch */
     manchuria: 1, manchukuo: 1, mengjiang: 1, occupiedzone: 1, nanjinggov: 1,
+    /* Both readings of the occupation, not only the traced one. Leaving the
+       North China Area Army's pacified and un-pacified areas out of this list
+       meant that a reader with the map cut back to East Asia who then chose
+       the Army report saw *nothing appear at all* — the layer was there and
+       this rule was hiding it. Reported as "I switched to the 1942 army
+       occupation map and it didn't appear". */
+    nca_pacified: 1, nca_unpacified: 1,
     /* the hatching that says a frontier was not agreed: it belongs to the
        frontiers that are still on screen, and without it Tibet's and
        Xinjiang's edges assert lines nobody had settled */
@@ -6066,10 +6114,28 @@
       el.checked = !!state[pair[1]];
       el.addEventListener('change', function () {
         state[pair[1]] = el.checked;
+        /* What is drawn decides the frame, so changing it moves the frame.
+           `bumpLayout` alone only clears the cache — the reader is still
+           looking at wherever they were, which with the Pacific emptied is two
+           thirds ocean. Measured: the land came to 61% of the view on a
+           desktop and 209% on a phone, which is to say it did not fit at all.
+           The view is re-fitted here, which is what "the bounding box can be
+           smaller" asks for. */
         // one of them may be what is selected, and it is still selectable —
         // only its colour changes — so nothing is deselected here
         applyState();
         redrawHighlight();
+        /* And then, for the world switch, the frame. In that order: the frame
+           is measured from what is *drawn*, so the atoms have to be hidden or
+           shown before it is worked out, and `bumpLayout` has to clear the
+           cached one before `defaultView` is asked for it. Getting the order
+           wrong leaves the reader looking at wherever they were, which with
+           the Pacific emptied is two thirds ocean. */
+        if (pair[1] === 'world') {
+          bumpLayout();
+          view = defaultView();
+          applyView(true);
+        }
       });
     });
 

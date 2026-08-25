@@ -130,18 +130,12 @@
   <label class="row"><input type="checkbox" id="opt-manchukuo" checked> Show Manchukuo</label>
   <label class="row"><input type="checkbox" id="opt-mengjiang" checked> Show Mengjiang</label>
   <p class="hint">Switched off, the land stays and can still be pointed at — Manchuria did not stop
-     being Manchuria — but it is painted the neutral this map uses for ground it makes no claim
-     about, so you can put your own account over it.</p>
+     being Manchuria — but it is drawn as the rest of China rather than as a state of its own.</p>
   <hr>
-  <h3>Drawing your own</h3>
+  <h3>What the map covers</h3>
   <label class="row"><input type="checkbox" id="opt-world" checked> Show the whole map</label>
-  <p class="hint">Switched off, the map keeps China and Tibet, Japan with the Ryūkyūs, Korea, Taiwan
-     and Karafuto, and the leased ground on the China coast — Kwantung, Weihaiwei, Kwangchowan,
-     Hong Kong and Macao — and on the 1942 map Manchukuo, Mengjiang and the occupied zone with them.
-     Everything else becomes sea, for a reader who wants only the East Asian frame.</p>
+  <p class="hint">Turning off switches to an East Asia only focused map.</p>
   <label class="row"><input type="checkbox" id="opt-mono"> Make the map a single colour</label>
-  <p class="hint">Every state and province in one grey, with the coastlines and frontiers drawn as
-     hairlines and the hatchings off — a base to lay your own coloured shapes over.</p>
   <hr>
   <h3>Annotations</h3>
   <div class="row ann-row">
@@ -149,9 +143,6 @@
     <button type="button" id="ann-load" class="plain">Load annotations…</button>
   </div>
   <input type="file" id="ann-file" accept=".geojson,.json,application/geo+json,application/json" hidden>
-  <p class="hint">Draw your own points, events, lines and areas over the map, name them and
-     describe them, and save the result as a GeoJSON file. Nothing is sent anywhere: the file is
-     written by your own browser and read back by it, and a map you load stays on your machine.</p>
   <div id="about-slot" hidden></div>
 </dialog>
 
@@ -170,6 +161,7 @@
     <li><strong> Cities, Events, Administrative boundaries, and other labels</strong> - Buttons at the top of the screen allow you to toggle the visibility of cities, some historical events, administrative boundaries for some of the countries shown and other labels. These may be the same in the 1930 and 1942 maps or may differ somewhat.</li>
     <li><strong>Other Layers</strong> - See the Layers pane for options to add or swap out layers to display.</li>
     <li><strong>Island Details</strong> - Some islands will get swapped out with a more detailed as you zoom in closer to them. </li>
+    <li><strong>Annotations</strong> - The Layers pane offers Create annotations and Load annotations. Draw your own points, events, lines and areas over the map, name them and describe them, and save the result as a GeoJSON file. Nothing is sent anywhere: the file is written by your own browser and read back by it, and a map you load stays on your machine. A small enough set can also be copied as a link and sent to somebody else.</li>
     <li><strong>Links</strong> - If you pan or zoom to a location, and copy the URL, it will keep the bounding box information in the link allowing the person you are sharing the link with to view roughly the same location you are looking at. Useful if you want to share a specific view. Click on the page title in the top left to load the default view.</li>
   </ul>
 
@@ -204,13 +196,13 @@
 
   <p>Built with Anthropic's Claude, with <a href="https://muninn.net/">Konrad M. Lawson</a> at the prompt, primarily as a tool for students in his University of St Andrews honours module, <a href="https://github.com/kmlawson/japanese-empire-mo3335/">MO3335</a>.</p>
 
-  <p>Code for the website may be found <a href="https://github.com/kmlawson/japanese-empire-student-map">here</a>.</p>  <p class="version">Version <span id="jem-version">1.45</span> · last updated 25 August 2026, 13:32</p>
+  <p>Code for the website may be found <a href="https://github.com/kmlawson/japanese-empire-student-map">here</a>.</p>  <p class="version">Version <span id="jem-version">1.46</span> · last updated 25 August 2026, 14:46</p>
 
 <!-- END about -->
 </dialog>
 
 <script src="data.js?v=616e530f8b"></script>
 <script src="cities-gaz.js?v=88a319fe12"></script>
-<script src="map.js?v=cb8ef53fce"></script>
+<script src="map.js?v=6a37a104ea"></script>
 </body>
 </html>
