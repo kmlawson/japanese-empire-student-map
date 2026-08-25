@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '1.44';
+  var JEM_VERSION = '1.45';
   var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "e0dba84688", "japan-empire-map-admin.svg": "d821c75055", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "132ece917d"};
 
   /* Every file this one fetches, with the version on it.
@@ -5083,10 +5083,28 @@
      ground — Manchukuo, Mengjiang and the occupied zone with the Nanjing
      government over it. Anything not here is sea when the switch is off. */
   var EAST_ASIA = {
-    china: 1, freechina: 1, tibet: 1, ccp: 1,
-    japan: 1, ryukyu: 1, chosen: 1, formosa: 1, karafuto: 1,
+    /* China, in all the pieces this map draws it in. Xinjiang, Jehol, Chahar
+       and Suiyuan are territories in their own right here — they were governed
+       apart, and three of the four are what the 1930s were about — so naming
+       "china" alone left a hole across the whole north-west. Dongsha and the
+       Paracels are Chinese ground in the South China Sea. */
+    china: 1, freechina: 1, xinjiang: 1, tibet: 1, ccp: 1,
+    jehol: 1, chahar: 1, suiyuan: 1, paracel: 1, pratas: 1,
+    /* Japan proper: the home islands, the Ryūkyūs, and the two chains that are
+       as much Japan as Kyūshū is — the Bonins to the south and the Kuriles to
+       the north-east. The South Seas Mandate is a Japanese colony too and is
+       *not* here: it is two thousand miles into the Pacific, and the point of
+       this frame is East Asia. */
+    japan: 1, ryukyu: 1, ogasawara: 1, chishima: 1,
+    chosen: 1, formosa: 1, karafuto: 1,
+    /* the leased and ceded ground on the China coast */
     kwantung: 1, weihaiwei: 1, guangzhouwan: 1, hongkong: 1, macau: 1,
+    /* and what stood on Chinese ground in each epoch */
     manchuria: 1, manchukuo: 1, mengjiang: 1, occupiedzone: 1, nanjinggov: 1,
+    /* the hatching that says a frontier was not agreed: it belongs to the
+       frontiers that are still on screen, and without it Tibet's and
+       Xinjiang's edges assert lines nobody had settled */
+    contested: 1,
   };
 
   var OCC_LABEL = { traced: '1942 general occupation extent',

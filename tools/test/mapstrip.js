@@ -123,6 +123,14 @@ console.log('    kept: '+few.join(', '));
 check('switching it off leaves far fewer', few.length < all.length/2, all.length+' → '+few.length);
 check('and keeps China, Japan and the leased ground',
   ['japan','tibet','kwantung','hongkong','macau'].every(id=>few.indexOf(id)>=0), few.join(','));
+/* China in all the pieces this map draws it in. Naming "china" alone left a
+   hole across the whole north-west, because Xinjiang is a territory in its own
+   right here — and so are Jehol, Chahar and Suiyuan on the 1930 map. */
+check('China is whole — Xinjiang among the rest', few.indexOf('xinjiang')>=0, few.join(','));
+check('and Japan is whole — the Kuriles and the Bonins with it',
+  few.indexOf('chishima')>=0 && few.indexOf('ogasawara')>=0, few.join(','));
+check('but the South Seas Mandate is not, being two thousand miles out',
+  few.indexOf('nanyo')<0 && few.indexOf('mandate_jp')<0, few.join(','));
 check('while India and the Indies go',
   !few.some(id=>/india|dei|australia|burma|siam/.test(id)), few.join(','));
 check('the perimeter goes with them, being a line round empty sea',

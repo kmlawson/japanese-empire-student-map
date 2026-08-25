@@ -6842,6 +6842,18 @@ Japan with the Ryūkyūs, Korea, Taiwan and Karafuto, the leased ground on the
 China coast — Kwantung, Weihaiwei, Kwangchowan, Hong Kong, Macao — and on the
 1942 map Manchukuo, Mengjiang and the occupied zone. Everything else is sea.
 
+**And it was wrong on the first go: China was drawn without its north-west.**
+Reported as "your optional view of just east Asia is missing Xinjiang", and
+naming `china` alone was the fault — Xinjiang is a territory in its own right
+in this file, as are Jehol, Chahar and Suiyuan on the 1930 map, because they
+were governed apart and three of the four are what the 1930s in north China
+were about. Dongsha and the Paracels went in with them; so did the Bonins and
+the Kuriles, which are as much Japan as Kyūshū is and were being dropped from
+"Japan"; and so did the contested-frontier hatching, without which Tibet's and
+Xinjiang's edges assert lines nobody had settled. The South Seas Mandate stays
+out although it is a Japanese colony: it is two thousand miles into the
+Pacific, and the point of this frame is East Asia.
+
 *Two departures from the request, both stated.* The switch is labelled for what
 it does when it is on, because "Show only Japan, its colonies and China" being
 **on** while the whole world is drawn would be a label that lies. And Manchukuo
