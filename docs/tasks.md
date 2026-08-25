@@ -6936,6 +6936,87 @@ for what the map can do will actually find it.
 
 `tools/test/mapstrip.js` is 42 checks.
 
+
+## Dark mode was half-built, the 1942 pair moved to the bar, and Manchukuo got its provinces described
+
+### Dark mode: a palette, not four patches
+
+Reported as "the buttons look black unless moused over", and the cause was
+worse than a wrong tint. **The page had no dark palette at all.** `--ink`,
+`--panel` and `--bg` were never redefined, so `body` stayed `rgb(244,241,234)`
+under `prefers-color-scheme: dark` — and yet four scattered dark blocks *did*
+fire. One of them was:
+
+```css
+@media (prefers-color-scheme: dark) {
+  .ann-row button { background: #1b232b; color: var(--ink); }
+}
+```
+
+`#1b232b` is near-black and `--ink` was `#23201b`, also near-black. The two
+annotation buttons were **black on black until the pointer crossed them**. The
+much larger dark block inside `annotate.js` did the same to every tool button,
+action button and field: they had all been written *assuming* a dark palette
+that was never defined.
+
+So the tokens move now, and the rules follow. The four patches are gone, the
+chrome's hard-coded whites read `var(--panel)`, and the zoom controls and the
+legend take the panel colour instead of a white tile with a pale `+` on it.
+
+**The map's own colours do not change.** They are the argument — Japan's red,
+the Republic's yellow, the occupied salmon — and inverting them to suit a
+display preference would be inventing history. The *ocean* is darkened, because
+a bright blue field behind a dark page is a lamp, and the neutral land tokens
+with it so that a coastline still reads.
+
+Measured: eleven controls, every one at a luminance difference above 130.
+
+### The two 1942 controls in the bar
+
+**Extent line**, and **General | Army report | Hide**, to the right of Other.
+They appear on the December 1942 map only — the perimeter and the occupation
+are both that date and nothing else — and only at 1120px and up, because the
+bar already carries six controls and a title and wraps before it truncates.
+Below that the Layers dialog is the way in, where the wording is fuller and
+where both remain.
+
+They are the same two settings, not a copy: pressing Army report in the bar
+moves the radio in the dialog and draws the layer; choosing Hide in the dialog
+moves the bar. Both directions measured.
+
+### And a locked set can be read
+
+A press on a mark did nothing while locked, because `tap()` began `if (!on ||
+locked) return false`. But locked is what a reader who followed a link *is* —
+the pointer already names a mark and gives its short note, and a press is how
+the same reader asks for the description, which never goes on the map at any
+setting. It was a set they could see and could not read. Reading works locked
+now; editing, dragging and deleting still do not.
+
+*Not reproduced:* "my drawn polygon getting hidden when I click away". Tried
+with the tool put away and with it still armed, clicking empty ocean and
+clicking a country, probing the pixels under the shape before and after — the
+polygon stayed drawn, stored and listed every time. Recorded here rather than
+guessed at.
+
+### The Manchukuo provinces, described
+
+All fourteen, and Mengjiang's three while the same gap was open: landscape
+first, then what the place lived on, then what happened there between the wars
+— the Nonni bridges in November 1931, the railway blown up outside Mukden,
+Pingfang on the southern edge of Harbin, the Fengman dam and the labour that
+built it, Jehol carried down to the Wall in 1933. Written into `short`, which
+is the field the pointer and the card both read, and addressed by key.
+
+### The record itself, audited
+
+Asked to check whether anything had dropped out. Every request from the
+morning has its own entry: the projection selection bug, the root cleared into
+`stale/`, the graticule, island names by size and then by density, every city's
+description in both epochs, India's pan and zoom found on the second attempt,
+the two-build comparison script, city names with no dots under them, and the
+legend's two-pixel scrollbar. Nothing missing.
+
 ---
 
 ## Sources worth fetching

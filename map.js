@@ -13,8 +13,8 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '1.46';
-  var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "e0dba84688", "japan-empire-map-admin.svg": "d821c75055", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "132ece917d"};
+  var JEM_VERSION = '1.47';
+  var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "479bd8a502", "japan-empire-map-admin.svg": "d821c75055", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "132ece917d"};
 
   /* Every file this one fetches, with the version on it.
 
@@ -4964,6 +4964,9 @@
 
     var ol = $('#opt-labels');
     if (ol) ol.disabled = quizzing;   // the switch lives in the header now
+    // the two 1942 controls in the bar come and go with the date, so they are
+    // settled here rather than only when a layer button is pressed
+    syncBarExtras();
     buildLegend();
     if (showLabels) placeLabels();
     saveState();
@@ -5174,6 +5177,9 @@
     state.occSource = v;
     $$('#dlg-options [name="occ-src"]').forEach(function (r) {
       r.checked = (r.value === v);
+    });
+    $$('#occ-seg button').forEach(function (x) {
+      x.classList.toggle('on', x.getAttribute('data-occ') === v);
     });
     // whatever was selected may be one of the shapes that has just gone
     if (selected && !srcOK(byId[selected])) select(null);
@@ -5820,6 +5826,34 @@
       b.classList.toggle('on', on);
       b.setAttribute('aria-pressed', on ? 'true' : 'false');
     });
+    syncBarExtras();
+  }
+
+  /* The two 1942 controls in the bar. They exist on that map only — the
+     perimeter and the occupation are both December 1942 and nothing else —
+     and only where there is width for them, because the bar already carries
+     six controls and a title and wraps before it truncates.
+
+     `BAR_EXTRAS_MIN` is the width at which the bar still has room after the
+     four layer buttons have taken their short labels. Below it the reader has
+     the Layers dialog, which is where these have always been and where the
+     wording is fuller. */
+  var BAR_EXTRAS_MIN = 1120;
+
+  function syncBarExtras() {
+    var ext = $('#extent-seg'), occ = $('#occ-seg');
+    if (!ext || !occ) return;
+    var room = (window.innerWidth || 0) >= BAR_EXTRAS_MIN;
+    var here = state.epoch === 'e1942' && room && state.mode !== 'quiz';
+    ext.hidden = !here;
+    occ.hidden = !here;
+    if (!here) return;
+    var b = ext.querySelector('button');
+    b.classList.toggle('on', !!state.extent);
+    b.setAttribute('aria-pressed', state.extent ? 'true' : 'false');
+    $$('#occ-seg button').forEach(function (x) {
+      x.classList.toggle('on', x.getAttribute('data-occ') === state.occSource);
+    });
   }
 
   /* -------------------------------------------------------------- quiz -- */
@@ -6056,6 +6090,28 @@
       });
     });
 
+    // the 1942 pair in the bar, which are the same two settings as the ones
+    // in Layers and go through the same places
+    var extBtn = $('#extent-seg button');
+    if (extBtn) {
+      extBtn.addEventListener('click', function () {
+        state.extent = !state.extent;
+        var box = $('#opt-extent');
+        if (box) box.checked = state.extent;
+        syncLayerButtons();
+        applyState();
+        saveState();
+      });
+    }
+    $$('#occ-seg button').forEach(function (b) {
+      b.addEventListener('click', function () {
+        setOccSource(b.getAttribute('data-occ'));
+        syncLayerButtons();
+        saveState();
+      });
+    });
+    window.addEventListener('resize', syncBarExtras);
+
     // the three kinds of place, on and off. They are switches rather than a
     // one-of-three group, so they carry aria-pressed and not aria-checked
     $$('#layer-seg button').forEach(function (b) {
@@ -6094,7 +6150,9 @@
 
     var optExtent = $('#opt-extent');
     optExtent.checked = state.extent;
-    optExtent.addEventListener('change', function () { state.extent = optExtent.checked; applyState(); });
+    optExtent.addEventListener('change', function () {
+      state.extent = optExtent.checked; syncLayerButtons(); applyState();
+    });
 
     var optRivers = $('#opt-rivers');
     optRivers.checked = state.rivers;

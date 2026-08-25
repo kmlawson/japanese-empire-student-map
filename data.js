@@ -5330,46 +5330,69 @@ JMAP.PROVINCES = {
     en: 'Trengganu — Unfederated Malay State', wiki: 'https://en.wikipedia.org/wiki/Terengganu',
     note: 'A long east-coast state of fishing villages, boat-builders and rice deltas, with forested hills behind and a monsoon coast that beaches the boats from November to February. Its people were almost entirely Malay and its administration the most traditional in the peninsula; the British Adviser accepted after the transfer of 1909 pressed land and tax rules on it, and in 1928 a peasant rising led by Haji Abdul Rahman Limbong had to be put down by police and troops. Iron ore at Dungun, worked by a Japanese company from 1929 and shipped straight to Japan, was the one modern industry it had.'
   },
-  'Hsing An Peh': { en: 'Xīng’ānběi (Hsingan North)', ja: '興安北省 (Kōan-hoku)', zh: '興安北省' },
-  'Hsing An Tung': { en: 'Xīng’āndōng (Hsingan East)', ja: '興安東省 (Kōan-tō)', zh: '興安東省' },
-  'Hsing An Si': { en: 'Xīng’ānxī (Hsingan West)', ja: '興安西省 (Kōan-sei)', zh: '興安西省' },
-  'Hsing An Nan': { en: 'Xīng’ānnán (Hsingan South)', ja: '興安南省 (Kōan-nan)', zh: '興安南省' },
+  'Hsing An Peh': {
+    en: 'Xīng’ānběi (Hsingan North)', ja: '興安北省 (Kōan-hoku)', zh: '興安北省',
+    short: 'The Hulun Buir grasslands west of the Greater Khingan — Mongol banners, horses and sheep, and the Trans-Manchurian line running out to the Soviet frontier at Manchouli'
+  },
+  'Hsing An Tung': {
+    en: 'Xīng’āndōng (Hsingan East)', ja: '興安東省 (Kōan-tō)', zh: '興安東省',
+    short: 'The eastern slope of the Greater Khingan falling to the Nen — larch and birch forest above, Daur and Mongol grazing below, and logging camps worked for the railway'
+  },
+  'Hsing An Si': {
+    en: 'Xīng’ānxī (Hsingan West)', ja: '興安西省 (Kōan-sei)', zh: '興安西省',
+    short: 'Dry steppe between the Khingan and the Mongolian plateau, too thin to plough: pasture, and the caravan roads that carried wool south before the railways took the traffic'
+  },
+  'Hsing An Nan': {
+    en: 'Xīng’ānnán (Hsingan South)', ja: '興安南省 (Kōan-nan)', zh: '興安南省',
+    short: 'The southern tail of the Khingan where the steppe meets the farmed land — Mongol banners losing ground to Chinese settlement, a frontier of tillage that had been moving north for a century'
+  },
   Heiho: {
     en: 'Hēihé (Heiho)', ja: '黒河省 (Kokka)', zh: '黑河省', ko: '헤이허',
-    wiki: 'https://en.wikipedia.org/wiki/Heihe'
+    wiki: 'https://en.wikipedia.org/wiki/Heihe',
+    short: 'Taiga and the Amur, facing Blagoveshchensk across the water — gold along the tributaries, and after 1932 a garrison frontier watched from both banks'
   },
   Lungkiang: {
     en: 'Lóngjiāng (Lungkiang)', ja: '龍江省 (Ryūkō)', zh: '龍江省', ko: '헤이룽장성',
-    wiki: 'https://en.wikipedia.org/wiki/Heilongjiang'
+    wiki: 'https://en.wikipedia.org/wiki/Heilongjiang',
+    short: 'The Nonni plain, black earth and the great soya and wheat country of the north; Tsitsihar its capital, and the first serious fighting of the Manchurian Incident fought at the Nonni bridges in November 1931'
   },
-  Sankiang: { en: 'Sānjiāng (Sankiang)', ja: '三江省 (Sankō)', zh: '三江省' },
+  Sankiang: {
+    en: 'Sānjiāng (Sankiang)', ja: '三江省 (Sankō)', zh: '三江省',
+    short: 'The marshy confluence of the Sungari and the Amur — the Sanjiang plain, drained and broken in the 1930s for the Japanese agricultural colonies, the largest settlement scheme of the empire'
+  },
   'Pin Kiang': {
     en: 'Bīnjiāng (Pinkiang)', ja: '濱江省 (Hinkō)', zh: '濱江省', ko: '빈장구',
-    wiki: 'https://en.wikipedia.org/wiki/Binjiang,_Hangzhou'
+    wiki: 'https://en.wikipedia.org/wiki/Binjiang,_Hangzhou',
+    short: 'Harbin and the Sungari: the junction of the Chinese Eastern Railway, a city of Russian émigrés, grain and distilling — and, at Pingfang on its southern edge, the Kwantung Army’s biological warfare establishment, Unit 731'
   },
   'Chien Tao': {
     en: 'Jiāndǎo (Chientao)', ja: '間島省 (Kantō)', zh: '間島省', ko: '간도',
-    wiki: 'https://en.wikipedia.org/wiki/Jiandao'
+    wiki: 'https://en.wikipedia.org/wiki/Jiandao',
+    short: 'The Tumen frontier with Korea, mountainous and mostly Korean-settled; the ground on which the anti-Japanese partisan bands of the 1930s formed, and were hunted through'
   },
   'Feng Tien': {
     en: 'Fèngtiān (Fengtien)', ja: '奉天省 (Hōten)', zh: '奉天省', ko: '랴오닝성',
-    wiki: 'https://en.wikipedia.org/wiki/Liaoning'
+    wiki: 'https://en.wikipedia.org/wiki/Liaoning',
+    short: 'The Liao plain and Mukden — headquarters of the South Manchuria Railway, the region’s arsenal and heavy industry, and the place where the line was blown up on 18 September 1931'
   },
   'An Tung': {
     en: 'Āndōng (Antung)', ja: '安東省 (Antō)', zh: '安東省', ko: '안동',
-    wiki: 'https://en.wikipedia.org/wiki/Andong'
+    wiki: 'https://en.wikipedia.org/wiki/Andong',
+    short: 'The Yalu frontier, timber floated down from the interior and milled at Antung, and the bridge across to Sinuiju that carried the traffic between Manchuria and Korea'
   },
   Kirin: {
     en: 'Jílín (Kirin)', ja: '吉林省 (Kirin)', zh: '吉林省', ko: '지린성',
-    wiki: 'https://en.wikipedia.org/wiki/Jilin'
+    wiki: 'https://en.wikipedia.org/wiki/Jilin',
+    short: 'The upper Sungari in forested hills — lumber, and the Fengman dam begun in 1937, one of the largest hydroelectric works in Asia, built with conscripted labour'
   },
   Chinchow: {
     en: 'Jǐnzhōu (Chinchow)', ja: '錦州省 (Kinshū)', zh: '錦州省',
-    wiki: 'https://en.wikipedia.org/wiki/Jinzhou'
+    wiki: 'https://en.wikipedia.org/wiki/Jinzhou',
+    short: 'The corridor between the Gulf of Chihli and the mountains — the road and railway into China proper, taken in January 1932, which is how the fighting passed south of the Wall'
   },
   'Je Hol': {
     en: 'Rèhé (Jehol)', ja: '熱河省 (Nekka)', zh: '熱河省',
-    short: 'A province of the Republic until February 1933',
+    short: 'Mountain country north of the Great Wall, thin farming and opium; invaded in the spring of 1933 and attached to Manchukuo, which carried the frontier down to the Wall itself',
     note: 'A province of the Republic until February 1933, when the Kwantung Army took it and attached it to Manchukuo.'
   },
   Marianas: {
@@ -5504,9 +5527,18 @@ JMAP.PROVINCES = {
     short: 'The southernmost atoll of the Marshalls',
     note: 'The southernmost atoll of the Marshalls, and where American missionaries first landed in 1857 — the church has been at the centre of Marshallese life ever since. Copra, no airfield, and nothing the war wanted: it was passed over entirely. Marshall Islands.'
   },
-  'The Mongol leagues': { en: 'The Mongol leagues', ja: '蒙古聯盟 (Mōko renmei)', zh: '蒙古各盟' },
-  'North Shansi (Jinbei) Administration': { en: 'Jìnběi — the North Shansi Administration', ja: '晉北政廳 (Shinpoku seichō)', zh: '晉北政廳' },
-  'South Chahar (Chanan) Administration': { en: 'Chánán — the South Chahar Administration', ja: '察南政廳 (Satsunan seichō)', zh: '察南政廳' },
+  'The Mongol leagues': {
+    en: 'The Mongol leagues', ja: '蒙古聯盟 (Mōko renmei)', zh: '蒙古各盟',
+    short: 'The Ulanchab and Silingol leagues on the plateau north of the Wall — grazing land, Mongol banners, and the constituency for the autonomy Prince Demchugdongrub was offered and Japan supervised'
+  },
+  'North Shansi (Jinbei) Administration': {
+    en: 'Jìnběi — the North Shansi Administration', ja: '晉北政廳 (Shinpoku seichō)', zh: '晉北政廳',
+    short: 'The loess uplands of northern Shansi around Tatung, coal country — the mines worked hard through the occupation, and the ground the Eighth Route Army contested from the hills'
+  },
+  'South Chahar (Chanan) Administration': {
+    en: 'Chánán — the South Chahar Administration', ja: '察南政廳 (Satsunan seichō)', zh: '察南政廳',
+    short: 'The Chahar basin around Kalgan, the old gate on the caravan road to Urga; the administrative seat of the federation and the junction of its railways'
+  },
   Sumatra: {
     en: 'Sumatra', ja: 'スマトラ (Sumatora)', wiki: 'https://en.wikipedia.org/wiki/Sumatra',
     short: 'Rubber, tobacco and above all the oil of Palembang',

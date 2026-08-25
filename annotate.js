@@ -1162,7 +1162,19 @@
     }
 
     function tap(cx, cy, target) {
-      if (!on || locked) return false;
+      if (!on) return false;
+      /* Locked is not silent. A reader who followed a link is *reading*: the
+         pointer already names a mark and gives its short note, and a press is
+         how the same reader asks for the description — the long account that
+         never goes on the map at any setting. Refusing the press left them a
+         set they could see and could not read, which is the opposite of what
+         locking is for. It stays read-only: no selection to edit, no drag, no
+         delete, and no tool. */
+      if (locked) {
+        var seen = featUnder(target);
+        if (seen >= 0) { showCard(feats[seen]); return true; }
+        return false;
+      }
       /* A press on one of the reader's own marks addresses **that mark**,
          whatever tool is out: it selects it, with its name and description in
          the fields, ready to edit.

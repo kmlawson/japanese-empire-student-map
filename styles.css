@@ -40,6 +40,43 @@
   --safe-r: env(safe-area-inset-right, 0px);
 }
 
+/* ------------------------------------------------------------ dark mode --
+
+   The map's own colours do not change. They are the argument — Japan's red,
+   the Republic's yellow, the occupied salmon — and a palette that inverted
+   them would be inventing history to suit a display preference. The *ocean* is
+   darkened, because a bright blue field behind a dark page is a lamp, and the
+   neutral land tokens with it so that a coastline still reads.
+
+   Everything else is chrome: the bar, the panels, the dialogs, the buttons.
+   Those follow the reader's setting, and they follow it by moving the tokens
+   rather than by patching rules one at a time — which is what the scattered
+   dark blocks in this file were doing, and why the annotation buttons ended up
+   black on black. */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #11161c;
+    --ink: #e6e9ec;
+    --muted: #9aa4ae;
+    --line: #333c46;
+    --panel: #1b232b;
+    --accent: #d9564e;
+    --accent-soft: #3a2320;
+
+    --ocean: #16303f;
+    --inactive: #2c3540;
+    --inactive-line: #47525f;
+
+    --mono-land: #2b333c;
+    --mono-line: #55606c;
+    --mono-sub: #3d4954;
+
+    --shadow: 0 2px 12px rgba(0, 0, 0, .55);
+  }
+  /* the page behind the map, and the bands above and below a letterboxed one */
+  html.app, html.app body, #stage { background: var(--bg); }
+}
+
 * { box-sizing: border-box; }
 
 html, body { margin: 0; }
@@ -118,7 +155,7 @@ body {
   border: 1px solid var(--line);
   border-radius: 8px;
   overflow: hidden;
-  background: #fff;
+  background: var(--panel);
 }
 
 /* `display` here beats the browser's own rule for the attribute, so a hidden
@@ -153,7 +190,7 @@ button.plain {
   appearance: none;
   border: 1px solid var(--line);
   border-radius: 8px;
-  background: #fff;
+  background: var(--panel);
   color: var(--ink);
   font: inherit;
   font-size: 14px;
@@ -250,7 +287,7 @@ button.plain:hover { background: #f2ede2; }
 
 .load-error code {
   display: inline-block;
-  background: #fff;
+  background: var(--panel);
   border: 1px solid var(--line);
   border-radius: 5px;
   padding: 2px 6px;
@@ -876,7 +913,10 @@ button.plain:hover { background: #f2ede2; }
   height: 40px;
   border: 1px solid var(--line);
   border-radius: 8px;
-  background: rgba(255, 253, 248, .94);
+  /* mostly opaque so the map does not read through the glyph, and taken from
+     the panel token so it follows the reader's colour scheme rather than
+     staying a white tile with a pale + on it */
+  background: color-mix(in srgb, var(--panel) 94%, transparent);
   color: var(--ink);
   font-size: 19px;
   line-height: 1;
@@ -884,7 +924,7 @@ button.plain:hover { background: #f2ede2; }
   box-shadow: var(--shadow);
 }
 
-#zoom-controls button:hover { background: #fff; }
+#zoom-controls button:hover { background: var(--panel); }
 
 #legend {
   position: absolute;
@@ -897,7 +937,7 @@ button.plain:hover { background: #f2ede2; }
      only the rows themselves take the pointer */
   pointer-events: none;
   padding: 8px 10px;
-  background: rgba(255, 253, 248, .94);
+  background: color-mix(in srgb, var(--panel) 94%, transparent);
   border: 1px solid var(--line);
   border-radius: 8px;
   box-shadow: var(--shadow);
@@ -1225,7 +1265,7 @@ button.plain:hover { background: #f2ede2; }
   appearance: none;
   border: 1px solid var(--line);
   border-radius: 8px;
-  background: #fff;
+  background: var(--panel);
   font: inherit;
   font-size: 14px;
   padding: 8px 14px;
@@ -1823,7 +1863,7 @@ dialog h3 {
   padding: 7px 10px;
   border: 1px solid var(--line);
   border-radius: 6px;
-  background: #fff;
+  background: var(--panel);
   font: inherit;
   font-size: 12.5px;
   color: var(--ink);
@@ -1831,9 +1871,11 @@ dialog h3 {
 }
 .ann-row button:hover { border-color: var(--muted); }
 
-@media (prefers-color-scheme: dark) {
-  .ann-row button { background: #1b232b; color: var(--ink); }
-}
+/* The rule that used to be here set `.ann-row button` to `#1b232b` with
+   `color: var(--ink)` — and `--ink` was never redefined for dark, so it stayed
+   `#23201b`. Near-black on near-black: the two buttons were invisible until
+   the pointer crossed them, which is exactly how it was reported. It is gone,
+   because the palette does the job for every control at once. */
 
 /* When the page and the script disagree about the version, the reader is told
    rather than left with a number that is quietly wrong. */
