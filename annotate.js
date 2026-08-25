@@ -97,6 +97,12 @@
        their work is left exactly where it is and the shared set is kept under
        a key of its own until they choose. */
     var shadowed = null;
+    /* Whether what is on screen came from a link. Separate from `shadowed`,
+       which is only about whether the reader *also* had something of their
+       own — the two were conflated, and a reader with an empty browser had a
+       stranger's set filed as their own. */
+    var fromLink = false;
+    var declined = false;          // the restore offer, refused for this session
     /* Locked: the marks are on the map and nothing can move them. This is how
        a shared link opens, because the reader who followed it came to look,
        and a set somebody else made is the last thing that should lose a point
@@ -190,7 +196,14 @@
     }
 
     function store() {
-      var key = shadowed ? ANN_STORE_SHARED : ANN_STORE;
+      /* A set that arrived in a link is written under its own key, whether or
+         not the reader had anything of their own. `shadowed ? …` was the test,
+         and `shadowed` is only set when `restore()` found something — so a
+         reader with an empty browser who opened a classmate's link had it
+         written into `jem-annotations-v1`, their own place, and was offered it
+         back as their own work the next time they came without the link.
+         Confirmed: own-store features 1 after opening a stranger's link. */
+      var key = fromLink ? ANN_STORE_SHARED : ANN_STORE;
       try {
         if (!feats.length) window.localStorage.removeItem(key);
         else window.localStorage.setItem(key,
@@ -491,12 +504,34 @@
        part of a bent arrow. Arc length is approximated as the mean of the
        chord and the control net, which is close enough over the fraction of a
        head, and much closer than the chord alone on a hard bend. */
+    /* Map units per screen pixel, right now. The shaft is drawn in map units
+       and its width is in screen pixels — `non-scaling-stroke` — so anything
+       derived from the width has to be converted before it can be subtracted
+       from a length along the curve.
+
+       This is the whole of the detached-arrowhead bug. At the opening view a
+       map unit is about a screen pixel, so the two were interchangeable and
+       every test passed; zoomed in, a map unit is a fraction of a pixel, the
+       trim in units became enormous, and the shaft was cut back until the head
+       was floating on its own well past the end of the line. */
+    function unitsPerPx() {
+      try {
+        var p0 = host.clientToSvg(0, 0), p1 = host.clientToSvg(100, 0);
+        var k = Math.abs(p1.x - p0.x) / 100;
+        return isFinite(k) && k > 0 ? k : 1;
+      } catch (err) { return 1; }
+    }
+
     function shaftPath(g, trim) {
       var a = g.a, c = g.ctrl, b = g.b;
+      trim = trim * unitsPerPx();
       if (trim > 0) {
         var net = Math.hypot(c.x - a.x, c.y - a.y) + Math.hypot(b.x - c.x, b.y - c.y);
         var arc = (g.len + net) / 2 || 1;
-        var t = Math.max(0.05, Math.min(1, 1 - trim / arc));
+        /* And never more than a third of the arrow. A short arrow with a heavy
+           head would otherwise be trimmed away to nothing and leave the head
+           standing alone — the same symptom by a different route. */
+        var t = Math.max(0.67, Math.min(1, 1 - trim / arc));
         if (t < 1) {
           var q1 = { x: a.x + (c.x - a.x) * t, y: a.y + (c.y - a.y) * t };
           var m = { x: c.x + (b.x - c.x) * t, y: c.y + (b.y - c.y) * t };
@@ -1138,6 +1173,23 @@
          second point on top of it. Placing happens on empty map now, which is
          where somebody who means to place is pointing anyway. */
       var hit = featUnder(target);
+      /* A press on a shape the reader already drew, while a tool is out, is a
+         corner of the next one — not a request to select.
+
+         Selecting on a press was right for *handles*: a point marker is a few
+         pixels across and "place one, then adjust it" is the ordinary way of
+         working. An area is not a few pixels across. Draw one over China and
+         the whole country stopped accepting marks: every press inside it
+         selected the area instead, so a second area begun inside the first
+         swallowed all three corners and nothing appeared. That is what "the
+         first area disappears when I start another" was.
+
+         Handles keep their behaviour, because they are small and that is what
+         they are for. With no tool out, everything is selectable as before. */
+      if (hit >= 0 && tool && target && target.closest
+          && target.closest('.ann-shape')) {
+        hit = -1;
+      }
       if (hit >= 0) {
         sel = hit;
         syncFields();
@@ -1778,15 +1830,22 @@
       if (!Array.isArray(g.coordinates)) return false;
       var rings = ringsOf(g);
       if (!rings.length) return false;
+      /* Every position, not the first one that looks right. Returning true at
+         the first good coordinate let `[[139,35], null]` through validation,
+         and the drawing code then dereferenced the null — after `feats` had
+         already been replaced, so a file that was supposed to be refused whole
+         had half-loaded. One good point is not a good geometry. */
+      var any = false;
       for (var i = 0; i < rings.length; i++) {
         var r = rings[i];
         if (!Array.isArray(r)) return false;
         for (var j = 0; j < r.length; j++) {
           var c = r[j];
-          if (ok2(c) && Math.abs(c[0]) <= 720 && Math.abs(c[1]) <= 90) return true;
+          if (!ok2(c) || Math.abs(c[0]) > 720 || Math.abs(c[1]) > 90) return false;
+          any = true;
         }
       }
-      return false;
+      return any;
     }
 
     function countVerts(list) {
@@ -2607,6 +2666,7 @@
       open(true);
       setLocked(true);
       // whatever they had is set aside, not replaced
+      fromLink = true;
       shadowed = restore();
       unpack(code).then(function (text) {
         loadText(text, 'shared');
@@ -2623,6 +2683,7 @@
         }
       }, function (err) {
         shadowed = null;
+        fromLink = false;          // nothing arrived, so nothing is shadowing
         fold(false);
         say('That shared link could not be read: ' + (err.message || err) + '.', 'bad');
       });
@@ -2640,6 +2701,7 @@
 
     function backToMine() {
       if (!shadowed) return;
+      fromLink = false;            // their own set again, and their own key
       var was = shadowed;
       snapshot();
       shadowed = null;
@@ -2656,15 +2718,21 @@
     }
 
     function offerRestore() {
+      if (declined) return;              // asked once this session, answered
       if (shadowed) return;              // it is already offered, as a button
       var was = restore();
       if (!was || feats.length) return;
       var when = was.t ? new Date(was.t) : null;
       var ago = when ? when.toLocaleString() : 'earlier';
+      /* Cancel means "not now", not "delete them". It used to remove the only
+         copy the browser had, without saying so — a reader who did not want
+         them back *this minute* lost them for good. They are left where they
+         are; the offer simply is not made again this session. */
       if (!window.confirm('You have ' + was.f.length + ' annotation'
           + (was.f.length === 1 ? '' : 's') + ' from ' + ago
-          + ' still in this browser. Bring them back?')) {
-        try { window.localStorage.removeItem(ANN_STORE); } catch (err) { /* fine */ }
+          + ' still in this browser. Bring them back?\n\n'
+          + 'They stay in the browser either way — Cancel just leaves them there.')) {
+        declined = true;
         return;
       }
       feats = was.f;

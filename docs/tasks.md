@@ -6712,6 +6712,92 @@ whose filter is re-evaluated every paint at a cost set by its area in device
 pixels. That last one is the only thing on this map that gets dearer the
 further in you go, and it is worth knowing before it is reported as a mystery.
 
+
+## An outside review, verified — and the one bug that mattered
+
+`codex` and `agy` were each given `annotate.js` and asked for bugs, correctness
+problems and performance issues. Between them they raised thirty findings. They
+were not relayed: each substantive claim was checked, and the serious ones were
+checked **by driving the page**, not by reading.
+
+### Confirmed, and fixed
+
+**A press could not reach the map inside a shape already drawn.** `tap()` gave
+an existing mark priority over the armed tool, and the reasoning behind that —
+"place a point, then adjust it" — is about *handles*, which are a few pixels
+across. An area is not. Draw one over China and the whole country stopped
+accepting marks: measured, three presses inside an existing polygon with the
+Area tool armed produced **no draft and no corners at all**, and the reader saw
+their second area simply never appear. This is what "when I draw one area and
+start drawing another, the first area disappears" was. A press on a *shape*
+with a tool out is now a corner of the next one; handles keep their behaviour,
+and with no tool out everything is selectable as before. Measured after: 1 → 2
+areas, from inside the first.
+
+**A stranger's link was filed as the reader's own work.** `store()` chose its
+key on `shadowed`, which is only set when the reader *already had* something.
+A reader with an empty browser who opened a classmate's link had it written
+into `jem-annotations-v1` — their own place — and offered back as their own the
+next time they came without the link. Confirmed by opening a link in a clean
+profile: own-store features **1**. A separate `fromLink` flag decides the key
+now; measured after, own-store features **0** and the set under the shared key.
+
+**`geomOK` returned true at the first coordinate that looked right.**
+`[[139,35], null]` passed validation, and the drawing code then dereferenced
+the null — *after* `feats` had been replaced, so a file that should have been
+refused whole had half-loaded. Every position is checked now. One good point is
+not a good geometry.
+
+**Cancel on the restore prompt deleted the only copy.** "You have 4 annotations
+still in this browser. Bring them back?" — and Cancel removed them, with
+nothing on screen to say that is what it meant. Cancel means "not now": they
+stay, the prompt says so, and the offer is not made again that session. The
+test asserted the old behaviour and has been rewritten to the new contract,
+which is the more useful thing to have asserted all along.
+
+### Raised, and not true
+
+* **The blur filter does not break across a projection change.** Claimed as a
+  broken cache; measured before and after switching to Albers — the filter is
+  present both times.
+* **Recolouring does not straighten an arrow bent by dragging.** Claimed to
+  reset the curve to zero; measured, −0.44 → −0.45. That is the slider's own
+  step quantising a dragged value by one hundredth, which is a real if tiny
+  effect and not the one described.
+* **The stale-pack race did not reproduce.** The identity check in `prepLink`
+  is genuinely weak — it compares array identity while edits mutate in place —
+  but driving the case it describes, the link carried the last edit every time.
+  Recorded here rather than fixed on a theory.
+
+### And a bug of my own, found by a screenshot rather than by either reviewer
+
+**The arrowhead detached from the shaft when zoomed in.** The shaft is drawn in
+map units and its width is in screen pixels — `non-scaling-stroke` — so the
+trim, which is derived from the width, was a screen-pixel quantity subtracted
+from a length in map units. At the opening view a map unit is about a pixel and
+the two are interchangeable, which is why every test passed. Eight wheel steps
+in, a map unit is a fraction of a pixel, the trim in units became enormous, and
+the shaft was cut back until the head floated well past the end of the line.
+Converted through `clientToSvg` now, and capped at a third of the arrow so a
+short one with a heavy head cannot be trimmed away. Measured: shaft end to head
+centre **2 px** on a bent arrow at that zoom.
+
+### Standing, not acted on
+
+The performance findings are real as descriptions and not as problems at this
+scale: every keystroke rebuilds the list and the SVG and serialises the whole
+set, and undo keeps up to forty complete copies. That is fine for the forty
+marks a teaching set has and would not be for four thousand. The vertex ceiling
+is what stands between the two. Worth knowing before somebody loads a shapefile
+of every county in China.
+
+Also true and unfixed: polygon holes are filled rather than cut; MultiPolygon
+and MultiLineString show handles that cannot be dragged; the dateline is not
+normalised anywhere; and `parseWhen` reads "08/12/1941" as 1 January 1941,
+because it takes the year and drops two numbers it cannot order. That last one
+is mine and is the most likely to bite — it puts a mark in the wrong place in
+the walk rather than leaving it out.
+
 ---
 
 ## Sources worth fetching

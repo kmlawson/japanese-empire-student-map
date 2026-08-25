@@ -37,10 +37,22 @@ console.log('\n— it survives a reload —');
   await p.evaluate(()=>window.localStorage.setItem('jem-annotations-v1',
     JSON.stringify({f:[{type:'Feature',geometry:{type:'Point',coordinates:[120,30]},properties:{title:'Old'}}],s:'',t:Date.now()})));
   await p.evaluate(()=>document.querySelector('#ann-create').click()); await sleep(1600);
-  check('declining leaves nothing behind',
+  check('declining leaves nothing on the map',
     await p.evaluate(()=>document.querySelectorAll('#ann-list li').length)===0);
-  check('and clears the store',
-    await p.evaluate(()=>!window.localStorage.getItem('jem-annotations-v1')));
+  /* And leaves them in the browser. This used to assert the opposite — that
+     declining removed the store — which is what the code did and what it
+     should never have done: Cancel meant "not now" to the reader and "delete
+     the only copy" to the map, with nothing on screen to say so. The prompt
+     says which it is now, and the offer is simply not made again this
+     session. */
+  check('but keeps them in the browser, because Cancel is not Delete',
+    await p.evaluate(()=>{const raw=window.localStorage.getItem('jem-annotations-v1');
+      return !!raw && JSON.parse(raw).f.length===1;}));
+  check('and does not ask again in the same session', await (async()=>{
+    await p.evaluate(()=>{const c=document.querySelector('#ann-close'); if(c) c.click();});
+    await sleep(400);
+    await p.evaluate(()=>document.querySelector('#ann-create').click()); await sleep(900);
+    return await p.evaluate(()=>document.querySelectorAll('#ann-list li').length)===0;})());
   await p.close(); }
 
 console.log('\n— the map itself still works —');
