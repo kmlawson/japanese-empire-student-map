@@ -403,8 +403,37 @@ def build_pages():
             with open(vpath, "w", encoding="utf-8", newline="") as fh:
                 fh.write("version\n%s\n" % version)
     stamp = time.strftime("%d %B %Y, %H:%M")
-    footer = ('  <p class="version">Version %s · last updated %s</p>\n'
+    footer = ('  <p class="version">Version <span id="jem-version">%s</span>'
+              ' · last updated %s</p>\n'
               % (html_escape(version), html_escape(stamp)))
+
+    # And the same number into map.js, so the About dialog can report the
+    # version of the code that is actually running.
+    #
+    # index.html is cached for ten minutes and map.js for seven days — see
+    # `.htaccess` — so a reader who came back to the site got a fresh page
+    # carrying a fresh version number over a `map.js` that could be a week
+    # old, and the About dialog said so with complete confidence. That cost a
+    # long afternoon: a bug fixed and pushed was reported as still present,
+    # and the version number agreed with the reporter.
+    #
+    # `map.js` now carries its own, and the dialog prefers it. When the two
+    # disagree the dialog says both, which is the only honest thing it can do
+    # and turns an invisible problem into a visible one.
+    mpath = os.path.join(ROOT, "map.js")
+    if os.path.exists(mpath):
+        mjs = open(mpath, encoding="utf-8").read()
+        want = "  var JEM_VERSION = '%s';" % version
+        pat = re.compile(r"^  var JEM_VERSION = '[^']*';", re.M)
+        if pat.search(mjs):
+            mjs2 = pat.sub(want.replace("\\", "\\\\"), mjs, count=1)
+        else:
+            mjs2 = mjs.replace("(function () {\n  'use strict';",
+                               "(function () {\n  'use strict';\n" + want, 1)
+        if mjs2 != mjs:
+            with open(mpath, "w", encoding="utf-8") as fh:
+                fh.write(mjs2)
+            written.append("map.js (version stamp)")
 
     about = open(os.path.join(TEXTS, "pages", "about.md"),
                  encoding="utf-8").read()

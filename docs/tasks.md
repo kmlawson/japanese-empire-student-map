@@ -6026,6 +6026,71 @@ shifted what was under the pointer.
 
 ---
 
+## Selecting Japan traced only the islets — the same mistake, a third time
+
+Reported with a screenshot: tapping Japan without Administrative drew the
+selection outline round Sado, Oki, Awaji, Tsushima and the Gotō islands, and
+nothing round Honshu, Kyushu or Shikoku.
+
+**The same predicate, written out a third time.** `outlineOf` drops a backing
+from an outline unless the atom is empty, because a backing is Natural Earth's
+coastline of the same country and stroking it beside the sub-units draws one
+line twice. Its test for "empty" was `$$('path:not(.superseded)', atom).length`
+— the same words as the backing-redundancy rule that lost Japan a week ago, and
+wrong for the same reason. Once the fine window grafts 62 islets into
+`#a-japan`, the atom "has shapes of its own", the backing is dropped, and what
+is left to trace is the islets.
+
+It is one function now — `ownShapes(atom)`, `path:not(.superseded):not(.fine)`
+— and the three places that ask the question call it: the backing rule, the
+outline, and the hatching, whose own comment already said it was "the same case
+the hatching has to make an exception for".
+
+Measured on a view over Japan with the window grafted, as the outline's own
+bounding box against the country's:
+
+| | outline paths | covers |
+| --- | ---: | ---: |
+| before | 1 | **70%** of the country, and none of the mainland |
+| after, finger | 2 | **100%** |
+| after, mouse | 3 | **100%** |
+
+---
+
+## The version number was lying, and it cost an afternoon
+
+Japan was reported as still disappearing on `froginawell.net` after the fix,
+and the About dialog there said 1.29 — a version that has the fix. Every
+measurement of the live site said the map was correct: backing live, display
+inline, right colour, opacity 1, no mask, no filter, no clip, 3,926 valid
+points, painted area 133,425.
+
+**`.htaccess` cached `index.html` for ten minutes and `map.js` for seven days.**
+The version number lives in `index.html`. So a reader who had been to the site
+before got a fresh page carrying a fresh version number over a `map.js` that
+could be a week old — and the dialog reported the new number with complete
+confidence. A fix that was pushed read as a fix that had not worked, and the
+version number backed the reporter up.
+
+Two changes, because either alone leaves the trap half-set.
+
+*The code is cached for an hour, not a week.* The SVGs keep their seven days —
+they are two thirds of the weight and change rarely — so almost all of the
+saving is kept.
+
+*And `map.js` carries its own stamp.* `build_texts.py` writes `JEM_VERSION`
+into it, and About reports **that** number rather than the page's. Where the
+two disagree it says so:
+
+> Version 1.32 — the page says 1.40, so your browser is holding an old map.js.
+> Reload with a hard refresh to get 1.40.
+
+Measured both ways: in step, no warning; with the page's number forced to 1.40,
+the dialog shows 1.32 and the sentence above. A stale script announces itself
+now instead of lying about what it is.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

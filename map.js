@@ -13,6 +13,7 @@
  */
 (function () {
   'use strict';
+  var JEM_VERSION = '1.33';
 
   var $ = function (sel, root) { return (root || document).querySelector(sel); };
   var $$ = function (sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); };
@@ -1817,7 +1818,8 @@
         var el = atomEls[a];
         if (!el) return;
         var clip = el.getAttribute('clip-path');
-        var paths = el.tagName === 'path' ? [el] : $$('path:not(.superseded)', el);
+        var paths = el.tagName === 'path' ? [el]
+          : $$('path:not(.superseded):not(.fine)', el);
         // An atom whose divisions are still in the administrative file is an
         // empty group, and what the reader sees is its backing. Kengtung is
         // one, so its Thai stripes were drawn only when the Administrative
@@ -4153,7 +4155,7 @@
       if (!e.parentNode || e.parentNode.id !== 'backings') return true;
       var atom = atomEls[e.getAttribute('data-for')];
       if (!atom) return true;
-      return !(atom.tagName === 'path' ? 1 : $$('path:not(.superseded)', atom).length);
+      return !ownShapes(atom);
     });
     if (!layer || !els.length || !hiDefs) return;
     var owned = ownedDefs[layer === subOutlineLayer ? 'sub' : 'hi'];
@@ -6121,17 +6123,60 @@
      So only a division counts. A grafted coastline carries `fine` and is
      passed over, and this is re-run whenever a window is grafted or dropped
      rather than only when a layer is switched. */
+  /* Has this atom any shape of its own, or is its backing the only thing
+     drawing the country?
+
+     Asked in three places — whether a backing is redundant, whether it belongs
+     in a selection outline, and whether it takes the hatching — and it was
+     written out three times, so the same mistake had to be found three times.
+     It is one function now.
+
+     A grafted fine coastline does not count. Japan's atom is one of the empty
+     ones: the backing draws Honshu, Hokkaido, Kyushu and Shikoku, and the fine
+     file has a window of 62 small rings for the Japanese coast. Counting those
+     as "shapes of its own" hid the backing, and then — after that was fixed —
+     dropped it from the selection outline too, so tapping Japan drew a line
+     round Sado, Oki, Awaji, Tsushima and the Gotō islands and nothing round
+     the country. */
+  function ownShapes(atom) {
+    if (!atom) return 0;
+    if (atom.tagName === 'path') return 1;
+    return $$('path:not(.superseded):not(.fine)', atom).length;
+  }
+
   function syncBackings() {
     if (!svg) return;
     Object.keys(backingEls).forEach(function (k) {
-      var atom = atomEls[k];
-      var own = atom && atom.tagName !== 'path'
-        && $$('path:not(.superseded):not(.fine)', atom).length;
-      backingEls[k].classList.toggle('redundant', !!own);
+      backingEls[k].classList.toggle('redundant', !!ownShapes(atomEls[k]));
     });
   }
 
+  /* What version is actually running.
+
+     `index.html` is cached for ten minutes and `map.js` for seven days, so a
+     reader who returns gets a fresh page — carrying a fresh version number —
+     over a `map.js` that may be a week old, and the About dialog reports the
+     page's number with complete confidence. A fix that was pushed then reads
+     as a fix that did not work, and the version number backs the reporter up.
+
+     `JEM_VERSION` is stamped into this file by `build_texts.py`. Where the two
+     disagree the dialog says so, which turns a silent wrong answer into a
+     visible one and tells the reader exactly what to do about it. */
+  function stampVersion() {
+    var el = $('#jem-version');
+    if (!el || typeof JEM_VERSION === 'undefined') return;
+    var page = (el.textContent || '').trim();
+    if (page === JEM_VERSION) return;
+    el.textContent = JEM_VERSION;
+    var note = document.createElement('span');
+    note.className = 'version-stale';
+    note.textContent = ' — the page says ' + page + ', so your browser is holding'
+      + ' an old map.js. Reload with a hard refresh to get ' + page + '.';
+    el.parentNode.appendChild(note);
+  }
+
   function annWire() {
+    stampVersion();
     var create = $('#ann-create'), load = $('#ann-load'), file = $('#ann-file');
     var shut = function () {
       var dlg = $('#dlg-options');

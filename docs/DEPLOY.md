@@ -112,9 +112,9 @@ which is where two thirds of this site's weight is. It is in the repository as
   ExpiresActive On
   # the map's data changes only when it is rebuilt, and index.html is small
   ExpiresByType image/svg+xml          "access plus 7 days"
-  ExpiresByType text/javascript        "access plus 7 days"
-  ExpiresByType application/javascript "access plus 7 days"
-  ExpiresByType text/css               "access plus 7 days"
+  ExpiresByType text/javascript        "access plus 1 hour"
+  ExpiresByType application/javascript "access plus 1 hour"
+  ExpiresByType text/css               "access plus 1 hour"
   ExpiresByType text/html              "access plus 10 minutes"
 </IfModule>
 ```
@@ -128,9 +128,19 @@ with nothing to show that anything is wrong. Checked against what a server
 actually sends: `Content-type: text/javascript`.
 
 The SVG line alone takes the opening view from about 2.9 MB to about 1.05 MB.
-If you set the seven-day caches, remember that a reader who has been before
-will keep the old map for a week after you update; shorten it to an hour or two
-if you are pushing changes during a teaching week.
+
+**The code is cached for an hour and the geometry for a week, and that split
+matters.** `index.html` carries the version number and refreshes every ten
+minutes. With `map.js` held for seven days a returning reader got a fresh page
+reporting a fresh version over a week-old script — and the About dialog said so
+with complete confidence. A bug that had been fixed and pushed was reported as
+still present, with the version number backing the reporter up. An hour still
+saves almost all of the traffic; the SVGs, which are two thirds of the weight
+and change rarely, keep their week.
+
+`map.js` also carries its own version stamp now, and About reports *that* one,
+saying plainly when the two disagree — so a stale script announces itself
+instead of lying.
 
 ## Checked
 

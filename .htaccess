@@ -38,11 +38,20 @@
 # If you are pushing changes during a teaching week, cut the seven days to an
 # hour — otherwise somebody who visited on Monday sees Monday's map until the
 # following Monday.
+#
+# The code is kept for an hour, not a week. `index.html` carries the version
+# number and refreshes every ten minutes; if `map.js` were held for seven days
+# a returning reader would get a fresh page reporting a fresh version over a
+# week-old script, and the About dialog would say so with complete confidence.
+# That happened: a bug that had been fixed and pushed was reported as still
+# present, and the version number agreed with the reporter. An hour still saves
+# almost all of the traffic — the geometry, which is two thirds of the weight
+# and changes rarely, is what the seven days is for.
 <IfModule mod_expires.c>
   ExpiresActive On
   ExpiresByType image/svg+xml          "access plus 7 days"
-  ExpiresByType text/javascript        "access plus 7 days"
-  ExpiresByType application/javascript "access plus 7 days"
-  ExpiresByType text/css               "access plus 7 days"
+  ExpiresByType text/javascript        "access plus 1 hour"
+  ExpiresByType application/javascript "access plus 1 hour"
+  ExpiresByType text/css               "access plus 1 hour"
   ExpiresByType text/html              "access plus 10 minutes"
 </IfModule>

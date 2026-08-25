@@ -1823,3 +1823,11 @@ dialog h3 {
 @media (prefers-color-scheme: dark) {
   .ann-row button { background: #1b232b; color: var(--ink); }
 }
+
+/* When the page and the script disagree about the version, the reader is told
+   rather than left with a number that is quietly wrong. */
+.version-stale { color: #8c2f39; font-weight: 600; }
+
+@media (prefers-color-scheme: dark) {
+  .version-stale { color: #e08b95; }
+}
