@@ -10,6 +10,12 @@
   --panel: #fffdf8;
   --accent: #9a1813;
   --accent-soft: #f6e2df;
+  /* Checkboxes and radios take the map's own red rather than the browser's
+     blue-or-green default: a green radio beside a red checkbox is two colours
+     doing one job. */
+  --on-fill: #e9e5da;
+  --on-ink: #23201b;
+  --hover-fill: #efece3;
 
   --ocean: #cadfeb;
   --inactive: #ded8cb;
@@ -63,7 +69,7 @@
     --accent: #d9564e;
     --accent-soft: #3a2320;
 
-    --ocean: #16303f;
+    --ocean: #1d3d4f;
     --inactive: #2c3540;
     --inactive-line: #47525f;
 
@@ -72,6 +78,15 @@
     --mono-sub: #3d4954;
 
     --shadow: 0 2px 12px rgba(0, 0, 0, .55);
+
+    /* The pressed and hovered states. On a light page a button turns pale grey
+       when it is on and the dark text still reads; inverted, a pale grey fill
+       under near-white text is the "too little contrast" that was reported.
+       These two are what the toggles and the hover use, and in dark they go
+       the other way — a lighter fill with *dark* text. */
+    --on-fill: #e6e9ec;
+    --on-ink: #12181e;
+    --hover-fill: #2a343f;
   }
   /* the page behind the map, and the bands above and below a letterboxed one */
   html.app, html.app body, #stage { background: var(--bg); }

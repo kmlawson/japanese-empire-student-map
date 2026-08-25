@@ -45,6 +45,47 @@ country that size earns — 0.55 units, three kilometres — the drawn shape lay
 over 390 km² of one and 585 of the other. The clipping was undone as fast as it
 had been done.
 
+
+## Map units and screen pixels are different things, and mixing them is this
+## project's most-repeated bug
+
+Everything drawn on the SVG lives in **map units**. Everything a reader
+perceives — a stroke width, a blur, a gap, a hit target — is in **screen
+pixels**. The two are related by one number, `view.w / containerWidth`, which
+`rescale()` calls `k`. At the opening view `k` is about 1, so the two are
+interchangeable and *every test passes*. Zoom in and `k` becomes a fraction;
+zoom out and it grows. That is when the bug appears, and it never appears in
+the view a test happens to open on.
+
+It has now bitten three times:
+
+* **The arrowhead detached from the shaft.** The trim was derived from the
+  stroke width — screen pixels, because the stroke is `non-scaling-stroke` —
+  and subtracted from a length along the curve, which is map units. Eight wheel
+  steps in, the shaft was cut back until the head floated in open water.
+* **A blurred polygon smeared across the map and then vanished.** The filter's
+  `stdDeviation` is in user units. Left alone it grew with the zoom without
+  limit; the reader saw it come back when they zoomed out, which is the
+  signature of exactly this mistake.
+* **And the fix for it was wrong the first time.** `primitiveUnits=
+  "objectBoundingBox"` looks like it makes a filter relative — it does not. The
+  fraction resolves against a bounding box that is itself in user units, so the
+  deviation is still fixed in map units.
+
+**The rules.**
+
+1. If a quantity is something the reader *sees the size of*, it is in screen
+   pixels. Convert it once, explicitly, and say so at the point of use.
+2. `non-scaling-stroke` means the width is already in screen pixels. Anything
+   computed from it is too.
+3. A filter's `stdDeviation`, an `feOffset`, a dash array on a scaled path — all
+   user units. They must be rewritten when the zoom changes. `rescale()` in
+   `map.js` is where that happens and it hands `k` to the annotation module for
+   exactly this.
+4. **Test at more than one zoom.** A single check at the opening view proves
+   nothing about any of this. `run10` measures the arrow tip and the blur at
+   several zooms for that reason.
+
 ## Record what changed in docs/tasks.md before marking it done
 
 An entry says what was actually changed and what was measured, not what was

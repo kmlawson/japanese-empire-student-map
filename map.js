@@ -13,8 +13,8 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '1.47';
-  var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "479bd8a502", "japan-empire-map-admin.svg": "d821c75055", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "132ece917d"};
+  var JEM_VERSION = '1.48';
+  var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "328cf9e3a0", "japan-empire-map-admin.svg": "d821c75055", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "132ece917d"};
 
   /* Every file this one fetches, with the version on it.
 
@@ -2524,6 +2524,11 @@
       if (s.ox || s.oy) t += ' translate(' + (s.ox || 0) + ' ' + (s.oy || 0) + ')';
       s.el.setAttribute('transform', t);
     }
+    /* `k` is SVG units per screen pixel, and anything a reader's own marks draw
+       in *screen* terms needs it. A filter's deviation is the case: it is in
+       user units, so left alone it grows with the zoom until the shape it
+       softens is a cloud across the map. */
+    if (annApi && annApi.rescaled) annApi.rescaled(k);
     // Keep the shading stripes a constant width on screen rather than letting
     // them grow into stripes the width of a province as you zoom in. Only the
     // plain dark hatch was being rescaled; the four coloured ones were not, so

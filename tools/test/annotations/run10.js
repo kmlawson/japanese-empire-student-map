@@ -137,6 +137,57 @@ console.log('\n— a sharp tip at every weight —');
   check('  no page errors', e2.length===0, e2[0]);
   await p2.screenshot({path:'arrow-tips.png'});
   await b2.close(); }   // its own browser: a second page in the first one times out
+
+/* Anything the reader sees the size of has to stay that size as the map zooms.
+   This is the project's most-repeated bug — see CLAUDE.md — and it never shows
+   at the opening view, where a map unit is about a screen pixel and the two are
+   interchangeable. So it is measured across four zooms, not one. */
+console.log('\n— what the reader sees the size of stays that size —');
+{ const b3=await puppeteer.launch({headless:'new',args:['--no-sandbox'],protocolTimeout:180000});
+  const p3=await b3.newPage(); await p3.setViewport({width:1400,height:900});
+  await p3.evaluateOnNewDocument(SHIM);
+  const e3=[]; p3.on('pageerror',x=>e3.push(String(x)));
+  await p3.goto('http://localhost:8123/index.html',{waitUntil:'networkidle0'}); await ready(p3, false);
+  await p3.evaluate(()=>document.querySelector('#ann-create').click()); await sleep(1500);
+  const put3=async(id,v)=>p3.evaluate((i,val)=>{const el=document.querySelector(i);
+    el.value=val; el.dispatchEvent(new Event('input',{bubbles:true}));
+    el.dispatchEvent(new Event('change',{bubbles:true}));},id,v);
+  await arm(p3,'polygon');
+  await tap(p3,300,300); await tap(p3,520,320); await tap(p3,500,470);
+  await p3.evaluate(()=>document.querySelector('#ann-finish').click()); await sleep(400);
+  await put3('#ann-edge','blurred'); await sleep(400);
+  await arm(p3,'arrow');
+  await tap(p3,700,300); await tap(p3,950,430); await sleep(400);
+  await put3('#ann-size','9'); await sleep(400);
+  await p3.evaluate(()=>{const t=document.querySelector('.ann-tool[aria-pressed="true"]'); if(t) t.click();});
+  const measure=()=>p3.evaluate(()=>{
+    const svg=document.getElementById('jmap');
+    const vb=svg.getAttribute('viewBox').split(' ').map(Number);
+    const k=vb[2]/svg.getBoundingClientRect().width;   // user units per screen px
+    const sh=document.querySelector('#annotations .ann-shape[filter]');
+    const id=sh&&sh.getAttribute('filter').replace(/^url\(#|\)$/g,'');
+    const d=id&&document.getElementById(id);
+    const dev=d?parseFloat(d.querySelector('feGaussianBlur').getAttribute('stdDeviation')):null;
+    const hd=document.querySelector('#annotations .ann-head');
+    return {viewW:Math.round(vb[2]),
+      blurPx: dev===null?null:Math.round(dev/k*10)/10,
+      headPx: hd?Math.round(hd.getBoundingClientRect().width*10)/10:null};});
+  const seen=[];
+  for (const step of [0,1,2,3]) {
+    if(step){ for(let i=0;i<3;i++){ await p3.mouse.move(560,380);
+      await p3.mouse.wheel({deltaY:-260}); await sleep(150); } }
+    await sleep(900);
+    const m=await measure(); seen.push(m);
+    console.log('    viewW '+String(m.viewW).padStart(6)+'   blur '+m.blurPx
+      +' px   arrowhead '+m.headPx+' px');
+  }
+  const spread=a=>{const v=a.filter(x=>x!==null); return Math.max(...v)-Math.min(...v);};
+  check('the blur is the same number of screen pixels at every zoom',
+    spread(seen.map(x=>x.blurPx)) < 1, JSON.stringify(seen.map(x=>x.blurPx)));
+  check('and so is the arrowhead',
+    spread(seen.map(x=>x.headPx)) < 2, JSON.stringify(seen.map(x=>x.headPx)));
+  check('no page errors', e3.length===0, e3[0]);
+  await b3.close(); }
 check('no page errors', errs.length===0, errs[0]);
 await p.screenshot({path:'arrow.png'});
 console.log('\n  '+pass+' passed, '+fail+' failed');

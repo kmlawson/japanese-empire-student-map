@@ -7017,6 +7017,61 @@ description in both epochs, India's pan and zoom found on the second attempt,
 the two-build comparison script, city names with no dots under them, and the
 legend's two-pixel scrollbar. Nothing missing.
 
+
+## The blur smeared the map, and the rule that stops this happening a fourth time
+
+Reported as a polygon that disappeared and "reappears when I zoom way out",
+with a screenshot of a black cloud across Shantung, and: "blurred works on that
+first unit but not on the second". Both halves are the same fault, and it is
+the fault this project keeps making.
+
+**A filter's `stdDeviation` is in user units.** Left alone it is a fixed number
+of *map* units, so its size on screen multiplies with the zoom: at the opening
+view it was the 7 pixels intended, and eight wheel steps in it was hundreds.
+The shape softened into a cloud, then into nothing, and came back when the
+reader zoomed out — which is the signature.
+
+**And the region was wrong in a second way.** Under `filterUnits=
+"userSpaceOnUse"` a percentage resolves against the *viewport*, not the shape,
+so the filter's rectangle was a fixed patch of the map. A polygon outside it was
+clipped and drew with no blur at all. That is the second unit that "didn't
+work".
+
+**The first fix was also wrong, and measuring caught it.**
+`primitiveUnits="objectBoundingBox"` looks like it makes the deviation
+relative. It does not: the fraction resolves against a bounding box that is
+itself in user units, so the deviation is still fixed in map units. Eight wheel
+steps in, the whole viewport was smeared. The screenshot is what disproved it.
+
+**What it is now.** The region is left bbox-relative, which is the default and
+follows the shape wherever it is. The deviation is written in user units and
+**rewritten on every zoom**: `rescale()` in `map.js` already computes `k`, the
+SVG units per screen pixel, for the constant-size marks, and now hands it to
+the annotation module, which rewrites every blur from a size in screen pixels.
+
+Measured: **6.7 screen pixels at viewBox width 2800, 804, 231, 66 and 25.**
+
+### The rule, written down
+
+This is the third time. The arrowhead detached from its shaft for exactly this
+reason — a trim derived from a `non-scaling-stroke` width, which is in screen
+pixels, subtracted from a length in map units. `CLAUDE.md` now carries the rule
+and the three cases, and the point that matters most: **at the opening view a
+map unit is about a screen pixel, so the two are interchangeable and every test
+passes.** The bug only exists somewhere a test was not looking.
+
+So `run10` measures the blur and the arrowhead at four zooms and asserts both
+stay the same size on screen. That check is the guard; the prose is the reason.
+
+### And the polygon that "disappeared" after editing
+
+Not deleted, and not this: nothing was ever removed from the set. The **Area**
+tool's "Opacity" slider is the *stroke* opacity, and with fill also turned down
+the shape becomes a ghost — then clicking elsewhere takes away the selection
+halo that was still making it findable. Measured: two shapes before, two after,
+at `fill-opacity 0.1 / stroke-opacity 0.2`. The label is what misled, and the
+label is being changed.
+
 ---
 
 ## Sources worth fetching

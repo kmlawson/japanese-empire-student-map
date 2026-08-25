@@ -933,13 +933,59 @@
         defs = host.svgEl('defs', { id: 'ann-defs' });
         svg.appendChild(defs);
       }
+      /* THE BLUR IS A SCREEN-PIXEL QUANTITY, KEPT SO ON EVERY ZOOM.
+
+         In map units it was the arrowhead bug over again. `stdDeviation` was
+         `2.4 + w·1.7` in the map's coordinates, so zooming in multiplied it in
+         screen pixels without limit: the shape smeared into a cloud and then
+         into nothing, and came back when the reader zoomed out — reported as
+         "the polygon disappeared, and it reappears when I zoom way out".
+
+         And the region was wrong in a second way. Under
+         `filterUnits="userSpaceOnUse"` a percentage resolves against the
+         *viewport*, not the shape, so the filter's rectangle was a fixed patch
+         of the map: a polygon that fell outside it was clipped and drew with no
+         blur at all, which is why "blurred works on that first unit but not on
+         the second".
+
+         A fraction of the bounding box does *not* fix it, which was the second
+         attempt: `primitiveUnits="objectBoundingBox"` resolves the fraction
+         against a box that is itself in user units, so the deviation is still
+         a fixed number of map units and still grows on screen. Measured — at
+         eight wheel steps the whole viewport was smeared.
+
+         So the region is left bbox-relative, which is the default and follows
+         the shape wherever it is, and the deviation is written in user units
+         and **rewritten on every zoom** from `rescaled(k)`, which the map hands
+         us. `blurPx` is the size in screen pixels; that is the number that
+         means something to a reader. */
       var f = host.svgEl('filter', {
-        id: id, filterUnits: 'userSpaceOnUse',
-        x: '-35%', y: '-35%', width: '170%', height: '170%' });
-      f.appendChild(host.svgEl('feGaussianBlur', { stdDeviation: 2.4 + w * 1.7 }));
+        id: id, x: '-60%', y: '-60%', width: '220%', height: '220%' });
+      var dev = host.svgEl('feGaussianBlur', { stdDeviation: blurPx(w) * lastK });
+      f.appendChild(dev);
       defs.appendChild(f);
-      blurs[w] = true;
+      blurs[w] = dev;
       return id;
+    }
+
+    /* How soft, in screen pixels. A heavy outline is blurred more than a
+       hairline so the two read as equally uncertain. */
+    function blurPx(w) { return 2.2 + w * 1.5; }
+
+    var lastK = 1;              // SVG units per screen pixel, from the map
+
+    /* The map has zoomed. Every blur is rewritten so that its softness on
+       screen is what it was before — which is the whole of the fix, and the
+       reason the map calls in here at all. */
+    function rescaled(k) {
+      if (!isFinite(k) || k <= 0) return;
+      lastK = k;
+      Object.keys(blurs).forEach(function (w) {
+        var dev = blurs[w];
+        if (dev && dev.setAttribute) {
+          dev.setAttribute('stdDeviation', Math.round(blurPx(+w) * k * 1000) / 1000);
+        }
+      });
     }
 
     /* How far along a line, written on the line. Either every leg or the whole
@@ -2755,6 +2801,7 @@
       drawing: function () { return on && !!tool; },
       tap: tap,
       hover: hover,
+      rescaled: rescaled,
       rightClick: rightClick,
       grab: grab,
       held: held,
