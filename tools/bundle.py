@@ -81,20 +81,22 @@ def main():
     # strip the XML declaration; it is only legal at the very top of a document
     svg = re.sub(r"^\s*<\?xml[^>]*\?>\s*", "", svg)
 
-    html = html.replace(
-        '<link rel="stylesheet" href="styles.css">',
-        "<style>\n" + css + "\n</style>",
-    )
-    html = html.replace(
-        '<script src="data.js"></script>\n<script src="cities-gaz.js"></script>\n'
-        '<script src="map.js"></script>',
-        "<script>\n" + data + "\n</script>\n<script>\n" + gaz + "\n</script>\n"
-        "<script>\nwindow.JMAP_INLINE_SVG = "
-        + json.dumps(svg) + ";\nwindow.JMAP_INLINE_ADMIN = "
-        + json.dumps(admin) + ";\nwindow.JMAP_INLINE_FINE = "
-        + json.dumps(fine) + ";\n</script>\n<script>\n" + ann + "\n</script>"
-        + "\n<script>\n" + js + "\n</script>",
-    )
+    # The tags carry a `?v=` now, so these are matched by pattern rather than
+    # by an exact string — a literal that has to be kept in step with what the
+    # build writes is a literal that will one day not be.
+    html = re.sub(r'<link rel="stylesheet" href="styles\.css(?:\?v=[^"]*)?">',
+                  lambda m: "<style>\n" + css + "\n</style>", html, count=1)
+    inline = ("<script>\n" + data + "\n</script>\n<script>\n" + gaz + "\n</script>\n"
+              "<script>\nwindow.JMAP_INLINE_SVG = "
+              + json.dumps(svg) + ";\nwindow.JMAP_INLINE_ADMIN = "
+              + json.dumps(admin) + ";\nwindow.JMAP_INLINE_FINE = "
+              + json.dumps(fine) + ";\n</script>\n<script>\n" + ann + "\n</script>"
+              + "\n<script>\n" + js + "\n</script>")
+    html = re.sub(
+        r'<script src="data\.js(?:\?v=[^"]*)?"></script>\s*'
+        r'<script src="cities-gaz\.js(?:\?v=[^"]*)?"></script>\s*'
+        r'<script src="map\.js(?:\?v=[^"]*)?"></script>',
+        lambda m: inline, html, count=1)
 
     if "JMAP_INLINE_SVG" not in html or "JMAP_INLINE_ADMIN" not in html:
         sys.exit("bundle: could not find the script tags to replace in index.html")

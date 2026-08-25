@@ -39,19 +39,24 @@
 # hour — otherwise somebody who visited on Monday sees Monday's map until the
 # following Monday.
 #
-# The code is kept for an hour, not a week. `index.html` carries the version
-# number and refreshes every ten minutes; if `map.js` were held for seven days
-# a returning reader would get a fresh page reporting a fresh version over a
-# week-old script, and the About dialog would say so with complete confidence.
-# That happened: a bug that had been fixed and pushed was reported as still
-# present, and the version number agreed with the reporter. An hour still saves
-# almost all of the traffic — the geometry, which is two thirds of the weight
-# and changes rarely, is what the seven days is for.
+# Everything heavy is kept for a week, and that is safe because **a release
+# changes its URL**: the build writes the version onto every script, stylesheet
+# and SVG the page asks for — `map.js?v=1.33` — so a browser holding last
+# week's copy is holding it under a name nothing asks for any more.
+#
+# `index.html` is the one file that must stay short, because it is what carries
+# the new names. Ten minutes.
+#
+# Without the versioned names this seven days was a trap, and it caught us: a
+# returning reader got a fresh page reporting a fresh version over a week-old
+# `map.js`, and the About dialog said so with complete confidence. A bug that
+# had been fixed and pushed was reported as still present, with the version
+# number backing the reporter up.
 <IfModule mod_expires.c>
   ExpiresActive On
   ExpiresByType image/svg+xml          "access plus 7 days"
-  ExpiresByType text/javascript        "access plus 1 hour"
-  ExpiresByType application/javascript "access plus 1 hour"
-  ExpiresByType text/css               "access plus 1 hour"
+  ExpiresByType text/javascript        "access plus 7 days"
+  ExpiresByType application/javascript "access plus 7 days"
+  ExpiresByType text/css               "access plus 7 days"
   ExpiresByType text/html              "access plus 10 minutes"
 </IfModule>

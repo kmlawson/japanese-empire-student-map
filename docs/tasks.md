@@ -6091,6 +6091,90 @@ now instead of lying about what it is.
 
 ---
 
+## Cache busting, so a release really is a release
+
+Asked for: whenever the code changes, the page should load fresh objects rather
+than whatever the browser is holding.
+
+`build_texts.py` writes the version onto every script and stylesheet the pages
+ask for — `map.js?v=1.34` — and `map.js` puts it on everything **it** fetches:
+the base SVG, the administrative sheet, the fine coastlines, the ROC provinces,
+`annotate.js` and `admin.js`. A release therefore changes every URL, and a
+browser holding last week's copy is holding it under a name nothing asks for.
+
+Measured on a clean profile:
+
+```
+first load : styles.css?v=1.34  data.js?v=1.34  cities-gaz.js?v=1.34
+             map.js?v=1.34      japan-empire-map.svg?v=1.34
+on demand  : japan-empire-map-admin.svg?v=1.34  annotate.js?v=1.34
+deep zoom  : japan-empire-map-fine.svg?v=1.34
+```
+
+**Which lets the week-long cache come back.** It had been cut to an hour as a
+stopgap; `.htaccess` returns everything heavy to seven days, and `index.html`
+stays at ten minutes because it is the one file that carries the new names. So
+a returning reader gets the full saving between releases and a guaranteed-fresh
+set the moment one is pushed.
+
+### The downsides, which are real
+
+*It cannot bust a change that was never released.* The number moves once per
+push, by the rule in `CLAUDE.md`, so a file edited and uploaded without a bump
+is now held for a week where before it was an hour. **This scheme makes an
+unbumped push worse, not better.** If a fix goes out without a bump, the answer
+is to bump and push again, not to wait.
+
+*And it introduces one new failure, which is why the upload order changed.* The
+server ignores `?v=` — the filename is unchanged — so if `index.html` goes up
+before `map.js` does, a reader arriving in that gap asks for `map.js?v=1.34`
+and is handed the **old** `map.js`, which their browser then keeps under the
+new name for a week. The window is seconds and it takes somebody arriving
+inside it, but it is silent and it lasts. `DEPLOY.md` and `UPLOAD.md` now say
+to upload the scripts, the stylesheet and the SVGs first and the pages last,
+and the `rsync` recipe is two passes rather than one — it used to list
+`index.html` first, which is exactly the wrong order.
+
+Smaller ones, for the record: a browser keeps a copy per version until it
+evicts them, which is a little disk; and some very old caching proxies decline
+to cache a URL with a query string, which no host this map is served from does.
+
+`bundle.py` had to be taught to match those tags by pattern rather than by an
+exact string — a literal kept in step with what the build writes is one that
+will eventually drift. The single-file build still works from `file://`.
+
+---
+
+## A performance review, and a bug it found in our own tool
+
+`reports/2026.08.25-performance-review.md`. Measured against a build pinned with
+`git archive`, because this checkout was being edited while the sweep ran.
+
+**The finding worth acting on first:** a pinch on a phone runs at half frame
+rate, and **56% of the main thread is forced layout** — 1,994 ms of it
+`getBoundingClientRect` under `uiBoxes` inside the once-a-frame `placeLabels`,
+and 1,158 ms of `getScreenCTM` under `pinchState` for a conversion the drag path
+already does with arithmetic. A prototype took p50 from 32.5 ms to 17.4 and
+forced layout from 3,353 ms to 443, landing the viewBox within a hundredth of a
+unit.
+
+**Two results that overturn what we assumed.** India is no longer the worst
+region — China and Japan are, by 20–50%, because of the fine-coastline graft
+firing mid-gesture. And **turning the Administrative layer on makes a pan
+cheaper**, consistently across ten paired rows, because the divisions replace
+the one huge backing with many small shapes.
+
+**And a bug in `tools/compare_perf.js`, which is ours.** `map.js` persists the
+layer switches and the projection in `localStorage`, so a second page in the
+same browser starts where the first finished — a run that "switches labels on"
+actually switches them off. The tool reused one browser across targets and
+repetitions, so every `--admin` run after the first was measuring something
+other than what it said. Each measured page gets its own browser context now.
+Its version column also read the *page's* number rather than the running code's;
+it reads `JEM_VERSION` now, for the same reason About does.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

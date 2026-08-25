@@ -420,6 +420,24 @@ def build_pages():
     # `map.js` now carries its own, and the dialog prefers it. When the two
     # disagree the dialog says both, which is the only honest thing it can do
     # and turns an invisible problem into a visible one.
+    # And the version onto every script and stylesheet the pages ask for, so
+    # that a release changes their URLs and the browser cannot serve last
+    # week's copy. `index.html` itself is short-cached, and it is the only
+    # thing that has to be.
+    for page in ("index.html", "sources.html"):
+        ppath = os.path.join(ROOT, page)
+        if not os.path.exists(ppath):
+            continue
+        txt = open(ppath, encoding="utf-8").read()
+        def stamp_ref(m):
+            return '%s="%s?v=%s"' % (m.group(1), m.group(2), version)
+        out = re.sub(r'\b(src|href)="([A-Za-z0-9_.-]+\.(?:js|css))(?:\?v=[^"]*)?"',
+                     stamp_ref, txt)
+        if out != txt:
+            with open(ppath, "w", encoding="utf-8") as fh:
+                fh.write(out)
+            written.append(page + " (asset versions)")
+
     mpath = os.path.join(ROOT, "map.js")
     if os.path.exists(mpath):
         mjs = open(mpath, encoding="utf-8").read()

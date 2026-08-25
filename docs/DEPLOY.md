@@ -79,17 +79,29 @@ you want the site to follow the repository on its own.
 
 If you would rather not have git on the server at all, from your Mac:
 
+**Send `index.html` last.** It is the file that names the versions —
+`map.js?v=1.34` — and the server ignores the `?v=`, so if the page goes up
+before the script does, a reader arriving in the gap asks for `map.js?v=1.34`
+and is handed the *old* `map.js`, which their browser then keeps under the new
+name for a week. Two passes, everything else and then the page:
+
 ```sh
-rsync -avz --delete \
-  index.html sources.html styles.css map.js admin.js annotate.js data.js cities-gaz.js .htaccess \
+rsync -avz \
+  styles.css map.js admin.js annotate.js data.js cities-gaz.js .htaccess \
   japan-empire-map.svg japan-empire-map-admin.svg \
   japan-empire-map-fine.svg japan-empire-map-roc.svg \
   USER@SERVER:~/example.com/
+
+rsync -avz index.html sources.html USER@SERVER:~/example.com/
 ```
 
-SFTP with the same files does the same job by hand. Note that `.htaccess`
-is a dotfile and many SFTP clients hide it until you turn on “show hidden
-files”.
+The window is a few seconds and it takes a reader arriving inside it, so this
+is a small risk — but it is a silent one that lasts a week, and the cost of
+avoiding it is one extra line.
+
+SFTP with the same files does the same job by hand, in the same order. Note
+that `.htaccess` is a dotfile and many SFTP clients hide it until you turn on
+“show hidden files”.
 
 ## One `.htaccess` worth adding
 
@@ -141,6 +153,21 @@ and change rarely, keep their week.
 `map.js` also carries its own version stamp now, and About reports *that* one,
 saying plainly when the two disagree — so a stale script announces itself
 instead of lying.
+
+**How the week is made safe.** `build_texts.py` writes the version onto every
+script, stylesheet and SVG the pages ask for, and `map.js` puts it on everything
+it fetches itself, so a release changes every URL and a browser holding last
+week's copy is holding it under a name nothing asks for. `index.html` is the one
+file that has to stay short-cached, because it is what carries the new names.
+
+Two things this does **not** do, and both are worth knowing:
+
+* **It cannot bust a change that was never released.** The version moves once
+  per push, by the rule in `CLAUDE.md`. Edit `map.js` and upload it without
+  bumping and readers keep the old one for a week — where before they would
+  have kept it for an hour. If you push a fix without a bump, bump and push
+  again rather than waiting.
+* **It relies on the upload order above.** See the two-pass `rsync`.
 
 ## Checked
 

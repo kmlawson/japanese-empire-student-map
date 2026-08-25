@@ -13,7 +13,26 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '1.33';
+  var JEM_VERSION = '1.34';
+
+  /* Every file this one fetches, with the version on it.
+
+     `index.html` is short-cached and carries the version; everything heavy is
+     cached for a week. Without this the week is a trap — a reader who has been
+     before keeps last week's `map.js` and `data.js` while the page tells them
+     they have the new one, which is exactly how a fixed bug came to be
+     reported as unfixed. With it, a release changes every URL, so the browser
+     has no choice but to fetch, and between releases the week-long cache does
+     its work untouched.
+
+     The one thing it cannot do is notice a change that was never released:
+     the number moves once per push, by the rule in `CLAUDE.md`, so a file
+     edited without a bump still comes from cache. That is the same trade as
+     the version number itself. */
+  function asset(name) {
+    return typeof JEM_VERSION === 'undefined' || !JEM_VERSION
+      ? name : name + '?v=' + encodeURIComponent(JEM_VERSION);
+  }
 
   var $ = function (sel, root) { return (root || document).querySelector(sel); };
   var $$ = function (sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); };
@@ -499,7 +518,7 @@
   if (window.JMAP_INLINE_SVG) {
     Promise.resolve(window.JMAP_INLINE_SVG).then(init);
   } else {
-    fetch('japan-empire-map.svg')
+    fetch(asset('japan-empire-map.svg'))
       .then(function (res) {
         if (!res.ok) throw new Error('HTTP ' + res.status);
         return res.text();
@@ -701,7 +720,7 @@
     if (adminPending) return;
     adminPending = true;
     var s = document.createElement('script');
-    s.src = 'admin.js';
+    s.src = asset('admin.js');
     s.onerror = function () { adminPending = false; };
     document.head.appendChild(s);
   }
@@ -5179,7 +5198,7 @@
       then();
     };
     if (window.JMAP_INLINE_FINE) { parse(window.JMAP_INLINE_FINE); return; }
-    fetch('japan-empire-map-fine.svg')
+    fetch(asset('japan-empire-map-fine.svg'))
       .then(function (r) {
         if (!r.ok) throw new Error(r.status);
         return r.text();
@@ -5450,7 +5469,7 @@
   function loadRoc() {
     if (rocState === 'loading' || rocState === 'ready') return;
     rocState = 'loading';
-    fetch('japan-empire-map-roc.svg')
+    fetch(asset('japan-empire-map-roc.svg'))
       .then(function (r) {
         if (!r.ok) throw new Error(r.status);
         return r.text();
@@ -5518,7 +5537,7 @@
       if (selected) select(selected);
     };
     if (window.JMAP_INLINE_ADMIN) { graft(window.JMAP_INLINE_ADMIN); return; }
-    fetch('japan-empire-map-admin.svg')
+    fetch(asset('japan-empire-map-admin.svg'))
       .then(function (r) {
         if (!r.ok) throw new Error(r.status);
         return r.text();
@@ -6089,7 +6108,7 @@
       queue.forEach(function (f) { if (f) f(ok ? annApi : null); });
     };
     var el = document.createElement('script');
-    el.src = 'annotate.js';
+    el.src = asset('annotate.js');
     el.onload = function () {
       if (!window.JMAP_ANNOTATE) { done(false); return; }
       annApi = window.JMAP_ANNOTATE(annHost());

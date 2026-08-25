@@ -40,6 +40,17 @@ happen. It is a dotfile, so an SFTP client will hide it until you turn on
 `admin.js` (32 KB) is the text-editing tool, fetched only if you option-click
 Layers. A reader never loads it. Leave it out unless you want it.
 
+## Send index.html last
+
+The page names the versions of everything else — `map.js?v=1.34` — and the
+server ignores the `?v=`. If the page goes up before the script does, a reader
+arriving in the gap asks for `map.js?v=1.34`, is handed the *old* `map.js`, and
+their browser keeps it under the new name for a week. Upload the scripts, the
+stylesheet and the SVGs first; upload `index.html` and `sources.html` last.
+
+It is a few seconds' window and it takes somebody arriving inside it — but it
+is silent and it lasts a week, so it is worth the ordering.
+
 ## Serve them gzipped
 
 The map is 1.8 MB compressed against 6.1 MB raw, so this is the one server

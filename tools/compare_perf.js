@@ -129,7 +129,20 @@ const FRAME_HOOK = () => {
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
 async function measure(browser, url, opt) {
-  const page = await browser.newPage();
+  /* A context of its own for every measured page.
+   *
+   * `map.js` keeps `labels`, `graticule`, `indiaRivers`, `projection`,
+   * `occSource` and the annotation set in localStorage, so a second page in
+   * the same browser starts where the first finished — and a script that
+   * "switches labels on" for run two actually switches them off. This tool
+   * reused one browser across targets and repetitions, so every `--admin` run
+   * after the first was measuring something other than what it said.
+   */
+  const ctx = browser.createBrowserContext
+    ? await browser.createBrowserContext()
+    : (browser.createIncognitoBrowserContext
+        ? await browser.createIncognitoBrowserContext() : null);
+  const page = ctx ? await ctx.newPage() : await browser.newPage();
   await page.setViewport({ width: 1300, height: 900 });
   await page.evaluateOnNewDocument(SHIM);
 
@@ -137,7 +150,12 @@ async function measure(browser, url, opt) {
   await page.goto(url + (bbox ? '?bbox=' + bbox : ''), { waitUntil: 'networkidle0' });
   await sleep(3500);
 
+  /* The version of the code that is running, which is what `JEM_VERSION` in
+     `map.js` is for — reading it out of the page would report whatever
+     `index.html` says, and those two can differ by a week. */
   const version = await page.evaluate(() => {
+    const el = document.getElementById('jem-version');
+    if (el && el.textContent.trim()) return el.textContent.trim();
     const m = document.body.innerHTML.match(/[vV]ersion\s*([0-9.]+)/);
     return m ? m[1] : '?';
   });
@@ -184,6 +202,7 @@ async function measure(browser, url, opt) {
   const frames = await page.evaluate(() => window.__frames.slice());
   await cdp.send('Emulation.setCPUThrottlingRate', { rate: 1 });
   await page.close();
+  if (ctx) await ctx.close();
 
   return { version, ...digest(profile, frames) };
 }
