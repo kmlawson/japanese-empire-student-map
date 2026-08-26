@@ -2156,3 +2156,9 @@ dialog h3 {
 @media (prefers-color-scheme: dark) {
   #options .row-note.bad { color: #e08b95; }
 }
+
+/* The space bar held down: the pointer is a hand until it is let go, whatever
+   tool is out. It beats `.ann-drawing`'s crosshair, which is the point. */
+#map-container.space-pan,
+#map-container.space-pan.ann-drawing { cursor: grab; }
+#map-container.space-pan.dragging { cursor: grabbing; }

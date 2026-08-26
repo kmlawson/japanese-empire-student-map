@@ -504,16 +504,29 @@
       var b2 = host.project(c[1][0], c[1][1]);
       var bend = parseFloat((f.properties || {})['jem-curve']);
       if (!isFinite(bend)) bend = 0;
+      /* Where along the shaft the bend is. A bow that can only swell at its
+         middle is not a bow a reader can aim: an arrow round a headland or
+         into a bay bulges near one end. `jem-curve` is how far off the chord
+         and this is how far along it, and an arrow drawn before this existed
+         has no `jem-curve-t` and gets 0.5, which is exactly where its apex
+         already was. */
+      var t = parseFloat((f.properties || {})['jem-curve-t']);
+      if (!isFinite(t)) t = 0.5;
+      t = Math.max(0.08, Math.min(0.92, t));
       var dx = b2.x - a.x, dy = b2.y - a.y;
       var len = Math.sqrt(dx * dx + dy * dy) || 1;
-      var mx = (a.x + b2.x) / 2, my = (a.y + b2.y) / 2;
+      // the foot of the apex: t of the way along the chord, not its middle
+      var fx = a.x + dx * t, fy = a.y + dy * t;
       // the perpendicular, which is what "one way or the other" means
       var px = -dy / len, py = dx / len;
-      var ctrl = { x: mx + px * bend * len, y: my + py * bend * len };
-      // a quadratic at t = 0.5
-      var apex = { x: (a.x + 2 * ctrl.x + b2.x) / 4,
-                   y: (a.y + 2 * ctrl.y + b2.y) / 4 };
-      return { a: a, b: b2, ctrl: ctrl, apex: apex, len: len, bend: bend };
+      var apex = { x: fx + px * bend * len, y: fy + py * bend * len };
+      /* The control point that makes the quadratic pass through the apex at
+         parameter t: B(t) = (1-t)^2 a + 2t(1-t) c + t^2 b, solved for c. At
+         t = 0.5 that is (4·apex - a - b) / 2, which is what this was. */
+      var w = 2 * t * (1 - t) || 1e-6;
+      var ctrl = { x: (apex.x - (1 - t) * (1 - t) * a.x - t * t * b2.x) / w,
+                   y: (apex.y - (1 - t) * (1 - t) * a.y - t * t * b2.y) / w };
+      return { a: a, b: b2, ctrl: ctrl, apex: apex, len: len, bend: bend, t: t };
     }
 
     /* The head, drawn at the end and turned along the tangent there. It is a
@@ -1812,11 +1825,28 @@
       el.style.height = Math.abs(textDraft.y1 - textDraft.y0) + 'px';
     }
 
+    /* With a tool out, only that tool's own kind answers the pointer.
+     
+       A reader drawing a chain of arrows across a map that already has lines
+       on it was having presses taken by whatever happened to be nearest — a
+       line's handle a few pixels away would grab instead of the arrow being
+       aimed at. While a tool is armed the reader has said what they are
+       working on, so everything else stands down; with no tool out every mark
+       answers, as before. */
+    function kindAt(i) {
+      return feats[i] ? kindOf(feats[i]) : null;
+    }
+    function minesOnly(what) {
+      if (!what || !tool) return what;
+      if (what.i === -1) return what;          // the draft being drawn
+      return kindAt(what.i) === tool ? what : null;
+    }
+
     function grab(target, cx, cy, coarse) {
       // likewise a press that lands on a mark: it moves the mark, not the map,
       // even mid-drawing
       if (!on || locked) return false;
-      var what = markUnder(target);
+      var what = minesOnly(markUnder(target));
       // the text tool takes an empty press and turns it into a rectangle
       if (!what && tool === 'text'
           && !(target && target.closest && target.closest('.ann-shape'))) {
@@ -1838,7 +1868,10 @@
          happened at all — the press was taken as the first corner of an arrow
          that was never finished, and the reader saw no response of any kind. */
       var body = target && target.closest ? target.closest('[data-shape]') : null;
-      var strokeOnly = body && /^(arrow|line)$/.test(body.getAttribute('data-shape'));
+      var bodyKind = body && body.getAttribute('data-shape');
+      /* A stroke has no inside to draw a new shape in, so its body may be
+         taken hold of even with a tool armed — but only by its *own* tool. */
+      var strokeOnly = /^(arrow|line)$/.test(bodyKind || '') && bodyKind === tool;
       if (!what && (!tool || strokeOnly)) {
         if (body) {
           var bi = parseInt(body.getAttribute('data-ann'), 10);
@@ -2056,19 +2089,23 @@
       }
       if (kindOf(f) === 'arrow') {
         if (dragging.v === 2) {
-          /* The bend. The apex of a quadratic at t = 0.5 is (a + 2c + b) / 4,
-             so the control point that puts the apex under the pointer is
-             c = (4·apex − a − b) / 2; the bend is how far that lies off the
-             chord, as a fraction of the chord's own length, signed. */
+          /* The bend, which the apex simply follows. The pointer is resolved
+             into the chord's own frame — how far along it, and how far off it
+             — and both are kept. It used to keep only the second, so the apex
+             slid back to the middle however the reader dragged it and an arrow
+             could only ever bow symmetrically. */
           var ga = host.project(g.coordinates[0][0], g.coordinates[0][1]);
           var gb = host.project(g.coordinates[1][0], g.coordinates[1][1]);
-          var cx2 = (4 * pt.x - ga.x - gb.x) / 2, cy2 = (4 * pt.y - ga.y - gb.y) / 2;
           var dx2 = gb.x - ga.x, dy2 = gb.y - ga.y;
           var len2 = Math.sqrt(dx2 * dx2 + dy2 * dy2) || 1;
-          var off = ((cx2 - (ga.x + gb.x) / 2) * (-dy2 / len2)
-                   + (cy2 - (ga.y + gb.y) / 2) * (dx2 / len2)) / len2;
+          var ux = dx2 / len2, uy = dy2 / len2;
+          var rx = pt.x - ga.x, ry = pt.y - ga.y;
+          var along = (rx * ux + ry * uy) / len2;          // 0 at the tail, 1 at the head
+          var off = (rx * -uy + ry * ux) / len2;           // signed, chord lengths
           f.properties = f.properties || {};
           f.properties['jem-curve'] = Math.max(-2, Math.min(2, Math.round(off * 1000) / 1000));
+          f.properties['jem-curve-t'] =
+            Math.max(0.08, Math.min(0.92, Math.round(along * 1000) / 1000));
         } else {
           g.coordinates[dragging.v] = here;
         }
@@ -3329,7 +3366,10 @@
                           : (p['stroke-width'] >= 5 ? 'large' : 'medium'));
       }
       if (kind === 'polygon') { d.fill = p.stroke; d['fill-opacity'] = 0.28; }
-      if (kind === 'arrow') { d['jem-arrow-head'] = 'triangle'; d['jem-curve'] = 0; }
+      if (kind === 'arrow') {
+        d['jem-arrow-head'] = 'triangle'; d['jem-curve'] = 0;
+        d['jem-curve-t'] = 0.5;          // the middle, which is where it was
+      }
       return d;
     }
 

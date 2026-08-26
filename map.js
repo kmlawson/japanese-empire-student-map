@@ -13,8 +13,8 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '1.78';
-  var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "50f952d66d", "japan-empire-map-admin.svg": "9de0304837", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "9214380208", "relief-coarse-albers.webp": "b57f3373ec", "relief-coarse-laea.webp": "4a79ce52b8", "relief-coarse-mercator.webp": "dd24772c29", "relief-fine-albers.webp": "641d43c5c5", "relief-fine-laea.webp": "52676e1c50", "relief-fine-mercator.webp": "1dc7a621a2", "relief-finest-albers.webp": "05b24e1e30", "relief-finest-laea.webp": "1325488946", "relief-finest-mercator.webp": "cac01f8da0"};
+  var JEM_VERSION = '1.79';
+  var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "3758d3cf05", "japan-empire-map-admin.svg": "9de0304837", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "9214380208", "relief-coarse-albers.webp": "b57f3373ec", "relief-coarse-laea.webp": "4a79ce52b8", "relief-coarse-mercator.webp": "dd24772c29", "relief-fine-albers.webp": "641d43c5c5", "relief-fine-laea.webp": "52676e1c50", "relief-fine-mercator.webp": "1dc7a621a2", "relief-finest-albers.webp": "05b24e1e30", "relief-finest-laea.webp": "1325488946", "relief-finest-mercator.webp": "cac01f8da0"};
 
   /* Every file this one fetches, with the version on it.
 
@@ -2831,6 +2831,15 @@
   ];
   var hatchPatterns = null;
   var lastTap = null;
+
+  /* Space held down means "pan", whatever else is going on.
+     
+     With a drawing tool out every press belongs to the tool, which is right —
+     but it leaves a reader who wants to move the map having to put the tool
+     away and take it out again. Every drawing program answers this the same
+     way and readers arrive knowing it: hold the space bar and the pointer is a
+     hand until it is let go. */
+  var spaceHeld = false;
   var pendingTap = 0;
 
   /* The context cities come in with the Cities button, which is the button a
@@ -3541,6 +3550,33 @@
     // have zoomed twice on a mouse; this one is left to stop the text
     // selection a double click would otherwise make.
     container.addEventListener('dblclick', function (e) { e.preventDefault(); });
+
+    /* The space bar, held. It is only a modifier — it never scrolls the page,
+       because the map is not a scrolling thing — and it is ignored while the
+       reader is typing, or a description with a space in it would start
+       panning the map behind the panel. */
+    var typing = function (t) {
+      return t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA'
+                   || t.tagName === 'SELECT' || t.isContentEditable);
+    };
+    window.addEventListener('keydown', function (e) {
+      if (e.code !== 'Space' && e.key !== ' ') return;
+      if (typing(e.target) || e.repeat) return;
+      if (spaceHeld) return;
+      spaceHeld = true;
+      container.classList.add('space-pan');
+      e.preventDefault();
+    });
+    var releaseSpace = function () {
+      if (!spaceHeld) return;
+      spaceHeld = false;
+      container.classList.remove('space-pan');
+    };
+    window.addEventListener('keyup', function (e) {
+      if (e.code === 'Space' || e.key === ' ') releaseSpace();
+    });
+    // a reader who alt-tabs away with it down is not still panning on return
+    window.addEventListener('blur', releaseSpace);
     container.addEventListener('contextmenu', function (e) { if (coarse) e.preventDefault(); });
     if (hoverCapable) {
       container.addEventListener('mousemove', onHover);
@@ -3602,8 +3638,14 @@
       // it: this is the second half of a double tap and it does not pan. What
       // it does is settled when it ends -- lifted where it landed, one step of
       // zoom; drawn up or down first, the one-finger zoom.
+      /* Not while a tool is out. Two presses in the same place is how a
+         polygon's second corner gets placed on top of its first, and how a
+         reader corrects a point they have just put down — and the map answered
+         by zooming out from under them. A tool armed means the presses are the
+         tool's, and the wheel and the buttons still zoom. */
+      var drawing = !spaceHeld && annApi && annApi.drawing && annApi.drawing();
       var back = Date.now() - (lastTap ? lastTap.t : -1e9);
-      if (lastTap && back < DBL_MS &&
+      if (!drawing && lastTap && back < DBL_MS &&
           Math.abs(e.clientX - lastTap.x) < DBL_SLOP &&
           Math.abs(e.clientY - lastTap.y) < DBL_SLOP) {
         zoomHold = { x: e.clientX, y: e.clientY, w: view.w,
@@ -3615,7 +3657,7 @@
       // A press on a mark of the reader's own moves the mark, not the map. On a
       // finger it does not take the press at once — it arms a hold, and comes
       // back false so that a press that moves away still pans.
-      if (annApi && annApi.grab(e.target, e.clientX, e.clientY,
+      if (!spaceHeld && annApi && annApi.grab(e.target, e.clientX, e.clientY,
                                 e.pointerType === 'touch' || coarse)) {
         dragStart = null;
         movedFar = true;                     // never a tap: it is a handle

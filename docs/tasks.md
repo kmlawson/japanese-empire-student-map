@@ -9198,6 +9198,69 @@ for ever. Whole suite: 608 checks across 27 scripts, all passing, 195s.
 
 ---
 
+## Space to pan, no zoom under a tool, and an arrow that bends where you put it
+
+### Hold space and the pointer is a hand
+
+With a tool out every press belongs to the tool, which left a reader wanting to
+move the map having to put the tool away and take it out again. Space held is
+what every drawing program does and what readers arrive knowing. It is only a
+modifier — ignored while typing, so a space in a description does not pan the
+map behind the panel, and released on `blur` so alt-tabbing away with it down
+does not leave the map stuck in a hand.
+
+### A tool out means no double-tap zoom
+
+Two presses in the same place is how a polygon's second corner lands on its
+first, and how a reader corrects a point they have just put down — and the map
+answered by zooming out from under them. The wheel and the buttons still zoom;
+only the double press stands down, and only while a tool is armed.
+
+### An arrow bends where the reader drags it
+
+`jem-curve` was one number: how far off the chord, always at the middle. A bow
+that can only swell at its middle is not a bow anybody can aim — an arrow round
+a headland or into a bay bulges near one end.
+
+The handle now keeps both numbers. The pointer is resolved into the chord's own
+frame: `jem-curve` is how far off it, `jem-curve-t` how far along. The control
+point is then the one that makes the quadratic pass through the apex at that
+parameter — at t = 0.5 the formula is `(4·apex − a − b) / 2`, which is exactly
+what it was, so an arrow drawn before this exists has no `jem-curve-t`, gets
+0.5, and does not move. `linkDefaults` carries 0.5 as the default so the middle
+costs nothing in a shared link.
+
+### Only the armed tool's own kind answers the pointer
+
+A reader drawing a chain of arrows across a map that already had lines on it
+was having presses taken by whatever was nearest — a line's handle a few pixels
+away grabbed instead of the arrow being aimed at. While a tool is armed the
+reader has said what they are working on, so everything else stands down; with
+no tool out every mark answers, as before.
+
+### And one that was already right
+
+"A new arrow should inherit the last arrow's weight and colour." Measured
+before changing anything: draw an arrow, set it to `#cc2222` at weight 8, draw
+a second — the second comes out `#cc2222` at weight 8. The style controls are
+read at creation and are only rewritten when a mark is *selected*, so the panel
+keeps whatever was last set. Nothing was changed; if it is failing in some
+particular sequence, that sequence is the thing to find.
+
+### Measured
+
+Whole suite: 608 checks across 27 scripts, all passing, 193s. The two new
+behaviours were driven by hand: with the polygon tool armed, a drag draws and a
+space-held drag pans, and a double tap moves the view not at all; with the
+arrow tool armed a line's body does not answer, and with the line tool armed it
+does.
+
+One of those checks failed at first and the code was right — the previous
+drag had left an unfinished draft open, so the next press went to the draft.
+Re-run from a clean page, both pass.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible
