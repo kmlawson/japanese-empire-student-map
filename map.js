@@ -13,8 +13,8 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '1.57';
-  var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "68df9771df", "japan-empire-map-admin.svg": "388671eccd", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "ba24f18b40"};
+  var JEM_VERSION = '1.58';
+  var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "7b304d34c7", "japan-empire-map-admin.svg": "388671eccd", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "ba24f18b40"};
 
   /* Every file this one fetches, with the version on it.
 
@@ -6901,12 +6901,17 @@
        so. */
     var ANN_MIN_W = 700;
 
+    /* The tools are offered at every width. They used to be taken away below
+       700px and replaced with a line saying they were not supported, which was
+       not true — the panel docks to the foot of a phone, every tool works with
+       a finger, and the annotation suite tests exactly that. What is true is
+       that drawing a coastline through a thumb is harder than through a mouse,
+       so the note says so and the buttons stay. */
     function syncAnnRoom() {
       var row = $('#ann-row'), note = $('#ann-toosmall');
       if (!row || !note) return;
-      var room = (window.innerWidth || 0) >= ANN_MIN_W;
-      row.hidden = !room;
-      note.hidden = room;
+      row.hidden = false;
+      note.hidden = (window.innerWidth || 0) >= ANN_MIN_W;
     }
     syncAnnRoom();
     window.addEventListener('resize', syncAnnRoom);

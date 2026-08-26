@@ -7692,6 +7692,113 @@ Checked by running the full suite and looking: 295 checks pass, no PNG in the
 root, seven in `tools/test/shots/`, and `git status` clean apart from the
 change itself.
 
+## Auditing the annotations: two ways to lose a reader's work, and one clock reading dates backwards
+
+A thorough pass over `annotate.js` — my own driving of it, plus independent
+reviews from `codex` (21 findings) and `agy` (12) with a context block saying
+what the feature is for. The verified write-up is
+`reports/2026.08.26-annotation-audit.md`; the raw reviews are beside it.
+
+### Undo after a rename destroyed the set
+
+A title, description or date edit took **no snapshot**. So Undo did not merely
+fail to undo the rename — it reached past it and consumed whichever structural
+snapshot was underneath. Measured:
+
+    load two marks    ->  ['first', 'second']
+    rename the first  ->  ['first RENAMED', 'second']
+    Undo              ->  []
+    Undo              ->  "Nothing left to undo."
+
+The snapshot it found was the state before the load, and there is no redo. Two
+presses, no warning, everything gone. Both reviewers found it independently.
+
+The fix snapshots in `fieldChanged` and `styleChanged`, but **once per burst of
+typing** — per keystroke would mean forty presses of Undo to get back through a
+sentence, and a forty-deep stack holding one field. The first change in a burst
+takes the snapshot, the rest ride on it, and the burst ends after 900 ms of
+quiet or when the selection moves.
+
+### "Unsaved" was asking a different question
+
+`changed()` defined it as `feats.length > 0`. That is true the moment anything
+is drawn and false again when the last mark is deleted, and it has nothing to
+do with whether the set differs from the file. So an edit after saving left the
+page willing to close without a word.
+
+Worth recording how the fix went wrong first: setting the flag in `changed()`
+did nothing, because `fieldChanged` and `styleChanged` do their own drawing and
+never call it. The test caught that, which is the argument for writing the test
+before believing the fix.
+
+### The clock read an end date as the first of January
+
+Mine, from the day before. `parseWhen` filled a missing month and day with 1
+for starts and ends alike, so **start 1931, end 1931** vanished the moment the
+clock reached September 1931, and **start 1931-05-01, end 1931** was never
+visible at all — its end four months before its start. An end date now rounds
+up to the end of whatever precision was written, with a real leap-year rule.
+
+That exposed a second wart: a mark running through 1931 puts 1 January and 31
+December into the stage list, so the reader stepped from "1931" to "1931". A
+stage nothing starts at now reads "end of 1931".
+
+And the clock was accidentally quadratic — `inScope()` called `stages()`, which
+walks and sorts every feature, and `redraw()` calls `inScope()` per feature. The
+stage date is worked out once per redraw now.
+
+### Four reported faults that are not there
+
+Driven in a browser and recorded so nobody looks again. **"Back to my
+annotations then Undo overwrites the reader's own set"** was codex's top
+finding and agy's second — the place they agreed most emphatically — and the
+reader's own work was in storage throughout and intact after a reload.
+**"Work added on top of a shared link is lost on reload"**, **"right-clicking
+an arrow's bend handle deletes the arrow"** and **"a quick tap arms a drag that
+teleports the mark"** did not happen either; the last was checked against the
+saved coordinates rather than the screen position, because a pan moves
+everything.
+
+### And the small screens
+
+"Annotation features are not supported on small screens" was not true — the
+panel docks to the foot of a phone, every tool works with a finger, and the
+suite tests exactly that. The buttons were nonetheless being removed below
+700px. They are offered at every width now, with one sentence saying a desktop
+is easier.
+
+### Why agy came back empty last time
+
+I had reported that headless agy could not open the file. That was the wrong
+explanation: the skill already hands it the file inline. What happens is that
+the prompt *invites* it to go and look — "review this file: annotate.js", cite
+line numbers — and once in a while it takes the invitation, and in headless
+mode any tool it asks for is auto-denied and it then produces nothing. It is
+nondeterministic, which is why it worked today. Ruled out by testing: the same
+163 KB inline works, the full rules on a small file work, and running from the
+directory that holds the file works.
+
+`ask-friends.sh` now tells agy it has no tools and needs none, gives it
+`/dev/null` on stdin as codex already had, retries once if the permission
+complaint comes back, and — the part that actually mattered — **says so in the
+output file** when the result is too short to be a review. The cost last time
+was not the missing review; it was that a one-reviewer round could be written
+up as though two had agreed.
+
+### Measured
+
+`tools/test/annotations/run13.js`, 13 checks over the three work-loss fixes,
+all failing on the code as it was. Round trip checked separately and clean: a
+polygon with a hole, a MultiLineString, a dateline-crossing line, a point at
+nine decimal places and a GeometryCollection all came back with their geometry
+type, titles and coordinates intact. Scale checked: 500 marks load in 75 ms and
+a keystroke costs 10 ms. Suite: 308 annotation checks and 136 map checks.
+
+What is real and still open is listed at the end of the report — a file load
+replacing unsaved work without asking, storage failures being swallowed,
+unfinished drafts discarded without confirmation, and polygon holes drawn
+filled rather than cut.
+
 ---
 
 ## Sources worth fetching

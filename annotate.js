@@ -150,9 +150,14 @@
     /* Everything that has to happen after the set changes, in one place so
        that no path can forget one of them. `quiet` skips the undo snapshot,
        for the callers that took one themselves. */
+    /* `changed` means something about the set is different from what was last
+       written to a file. It used to say `feats.length > 0`, which is a
+       different question and gets two cases wrong: editing a title after
+       saving left the page willing to close without a word, and deleting the
+       last mark *cleared* the warning because the count went to zero. */
     function changed(quiet) {
       linkDirty = true;
-      setDirty(feats.length > 0);
+      setDirty(true);
       syncFields();
       drawList();
       redraw();
@@ -794,6 +799,7 @@
       labelGroup.style.display = on ? '' : 'none';
       if (!on) { host.rescale(); return; }
 
+      clockDate = clockNow();          // once, not once per feature
       feats.forEach(function (f, i) {
         // out of the stage the clock is showing: not drawn at all, so its
         // name and its handles go with it rather than hanging over a map the
@@ -1319,6 +1325,7 @@
       }
       if (hit >= 0) {
         sel = hit;
+        endEdit();
         syncFields();
         drawList();
         redraw();
@@ -1497,6 +1504,7 @@
       // a corner of the draft belongs to no feature, so nothing is selected
       if (what.i === -1) { redraw(); return; }
       sel = what.i;
+      endEdit();
       syncFields();
       drawList();
       redraw();
@@ -1580,6 +1588,7 @@
       if (!moved) return false;
       if (got >= 0) {
         sel = got;
+        endEdit();
         syncFields(); drawList(); redraw(); syncClock();
         showCard(feats[got]);
         say('Selected ' + (labelOf(feats[got], got)) + '.');
@@ -1761,7 +1770,7 @@
         pick.appendChild(name);
         pick.appendChild(meas);
         pick.addEventListener('click', function () {
-          sel = i; syncFields(); drawList(); redraw();
+          sel = i; endEdit(); syncFields(); drawList(); redraw();
         });
         var go = document.createElement('button');
         go.type = 'button';
@@ -1770,7 +1779,7 @@
         go.setAttribute('aria-label', 'Move the map to ' + labelOf(f, i));
         go.textContent = '⌖';
         go.addEventListener('click', function () {
-          sel = i; syncFields(); drawList(); redraw(); zoomTo([f]);
+          sel = i; endEdit(); syncFields(); drawList(); redraw(); zoomTo([f]);
         });
         var del = document.createElement('button');
         del.type = 'button';
@@ -1932,9 +1941,41 @@
       }
     }
 
+    /* One snapshot per burst of typing, not one per keystroke.
+     *
+     * Undo used to have no snapshot at all for a rename, a description or a
+     * date, which did not merely mean "you cannot undo a rename" — it meant
+     * Undo reached past it and consumed whatever structural snapshot was
+     * underneath. Measured: load two marks, rename one, press Undo, and the
+     * list is *empty*, because the snapshot it found was the state before the
+     * load. A second press says "Nothing left to undo." One careless press
+     * after a rename destroyed the lot.
+     *
+     * Per keystroke would be as bad the other way: forty presses of Undo to
+     * get back through a sentence, and the forty-deep stack full of one field.
+     * So the first change in a burst takes the snapshot and the rest ride on
+     * it, the burst ending when the reader stops typing for a moment or
+     * touches something else. */
+    var typingIn = null, typingTimer = 0;
+    function noteEdit(what) {
+      if (typingIn !== what) {
+        snapshot();
+        typingIn = what;
+      }
+      if (typingTimer) clearTimeout(typingTimer);
+      typingTimer = setTimeout(function () { typingIn = null; typingTimer = 0; }, 900);
+    }
+    // anything that is not typing ends the burst, so the next keystroke is a
+    // fresh snapshot rather than joining one from before a selection changed
+    function endEdit() {
+      if (typingTimer) { clearTimeout(typingTimer); typingTimer = 0; }
+      typingIn = null;
+    }
+
     function fieldChanged() {
       var f = feats[sel];
       if (!f) return;
+      noteEdit('field:' + sel);
       f.properties = f.properties || {};
       f.properties.title = ($('#ann-title') || {}).value || '';
       f.properties.description = ($('#ann-desc') || {}).value || '';
@@ -1952,6 +1993,12 @@
       if (nl && nl.checked) f.properties['jem-nolabel'] = true;
       else delete f.properties['jem-nolabel'];
       linkDirty = true;
+      // `changed()` is where this normally happens, and these two handlers do
+      // their own drawing instead of calling it — so a title, a description or
+      // a date edited after a save left the page willing to close without a
+      // word. Measured before the fix: save, rename, and `beforeunload` was
+      // not cancelled.
+      setDirty(true);
       drawList();
       redraw();                    // the name on the map follows the field
       syncClock();
@@ -1972,7 +2019,12 @@
     var MONTHS = ['jan', 'feb', 'mar', 'apr', 'may', 'jun',
                   'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
 
-    function parseWhen(v) {
+    /* `upto` is for an end date. "1931" as a start means the beginning of
+       1931 and as an end means the end of it, and reading both as 1 January
+       had the clock hide a mark that ran through 1931 the moment it reached
+       September 1931 — and hide one written start 1931-05-01, end 1931
+       always, its end landing four months before its start. */
+    function parseWhen(v, upto) {
       if (!v) return null;
       var t = String(v).trim().toLowerCase();
       if (!t) return null;
@@ -1996,9 +2048,18 @@
       function num(y, mo, d) {
         var yy = parseInt(y, 10);
         if (!isFinite(yy)) return null;
-        var mm = parseInt(mo, 10); if (!isFinite(mm) || mm < 1 || mm > 12) mm = 1;
-        var dd = parseInt(d, 10); if (!isFinite(dd) || dd < 1 || dd > 31) dd = 1;
+        var mm = parseInt(mo, 10);
+        var haveM = isFinite(mm) && mm >= 1 && mm <= 12;
+        if (!haveM) mm = upto ? 12 : 1;
+        var dd = parseInt(d, 10);
+        var haveD = isFinite(dd) && dd >= 1 && dd <= 31;
+        if (!haveD) dd = upto ? lastDay(yy, mm) : 1;
         return yy * 10000 + mm * 100 + dd;
+      }
+
+      function lastDay(y, m) {
+        if (m === 2) return (y % 4 === 0 && (y % 100 !== 0 || y % 400 === 0)) ? 29 : 28;
+        return (m === 4 || m === 6 || m === 9 || m === 11) ? 30 : 31;
       }
     }
 
@@ -2036,7 +2097,7 @@
       var seen = {}, out = [];
       feats.forEach(function (f) {
         var p = f.properties || {};
-        [parseWhen(p['jem-start']), parseWhen(p['jem-end'])].forEach(function (w) {
+        [parseWhen(p['jem-start']), parseWhen(p['jem-end'], true)].forEach(function (w) {
           if (w === null || seen[w]) return;
           seen[w] = 1;
           out.push(w);
@@ -2053,14 +2114,23 @@
      * would leave the reader watching arrows over an empty sea. A mark with a
      * start and no end has arrived and stays; one with an end and no start was
      * always there and goes. */
-    function inScope(f) {
-      if (clockAt < 0) return true;
+    /* The date the clock is showing, worked out once per redraw and held here.
+       `inScope` used to call `stages()` itself — which walks every feature and
+       sorts — and `redraw` calls `inScope` once per feature, so drawing was
+       quadratic in the number of marks and playback did that once a frame. */
+    var clockDate = null;
+    function clockNow() {
+      if (clockAt < 0) return null;
       var list = stages();
-      if (!list.length) return true;
-      var d = list[Math.min(clockAt, list.length - 1)];
+      return list.length ? list[Math.min(clockAt, list.length - 1)] : null;
+    }
+
+    function inScope(f) {
+      var d = clockDate;
+      if (d === null) return true;
       var p = f.properties || {};
       var a = parseWhen(p['jem-start']);
-      var b = parseWhen(p['jem-end']);
+      var b = parseWhen(p['jem-end'], true);
       if (a === null && b === null) return true;
       if (a !== null && d < a) return false;
       if (b !== null && d > b) return false;
@@ -2077,11 +2147,12 @@
     function stageLabel(d) {
       var y = Math.floor(d / 10000), m = Math.floor(d / 100) % 100, dd = d % 100;
       // whichever mark contributed this date says how precisely it was written
-      var prec = 0;
+      var prec = 0, isStart = false;
       feats.forEach(function (f) {
         var p = f.properties || {};
         ['jem-start', 'jem-end'].forEach(function (k) {
-          if (parseWhen(p[k]) !== d) return;
+          if (parseWhen(p[k], k === 'jem-end') !== d) return;
+          if (k === 'jem-start') isStart = true;
           var t = String(p[k] || '');
           var digits = (t.match(/\d+/g) || []);
           var named = /[a-z]{3,}/i.test(t);
@@ -2090,9 +2161,14 @@
           if (got > prec) prec = got;
         });
       });
-      if (prec === 0) return String(y);
-      if (prec === 1) return MONTH_NAMES[m - 1] + ' ' + y;
-      return dd + ' ' + MONTH_NAMES[m - 1] + ' ' + y;
+      /* A stage nothing starts at is a stage something *stops* at, and with a
+         date written as a year it reads as the same stage twice: a mark
+         running through 1931 puts 1 January and 31 December into the list, and
+         the reader stepped from "1931" to "1931". Say which end it is. */
+      var when = prec === 0 ? String(y)
+               : prec === 1 ? MONTH_NAMES[m - 1] + ' ' + y
+               : dd + ' ' + MONTH_NAMES[m - 1] + ' ' + y;
+      return isStart || prec === 2 ? when : 'end of ' + when;
     }
 
     /* The clock's own controls, on the map beside the zoom buttons rather
@@ -2207,6 +2283,7 @@
     function styleChanged() {
       var f = feats[sel];
       if (!f) return;
+      noteEdit('style:' + sel);          // see noteEdit: a slider is a burst too
       var st = styleNow();
       var p = f.properties = f.properties || {};
       var kind = kindOf(f);
@@ -2236,6 +2313,7 @@
         p['jem-curve'] = st.curve;
       }
       linkDirty = true;
+      setDirty(true);              // see fieldChanged: this does its own drawing
       redraw();
       store();
       schedulePack();
