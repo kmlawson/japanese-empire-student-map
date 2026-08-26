@@ -562,6 +562,15 @@ button.plain:hover { background: var(--hover-fill); }
   stroke-width: 3.3;
 }
 
+/* A prefecture's own shape. It exists to be traced round when one of its
+   districts is pointed at, and for nothing else: no fill, no stroke, and out
+   of the pointer's way so it cannot swallow a click meant for a district. */
+#land .shu {
+  fill: none;
+  stroke: none;
+  pointer-events: none;
+}
+
 /* Two levels at once — Taiwan's districts inside their prefectures.
  *
  * A 郡 inside a 州 needs both drawn, and two lines of the same weight read as

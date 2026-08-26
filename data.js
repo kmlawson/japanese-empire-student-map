@@ -5392,7 +5392,7 @@ JMAP.PROVINCES = {
     en: 'Jǐnzhōu (Chinchow)', ja: '錦州省 (Kinshū)', zh: '錦州省',
     wiki: 'https://en.wikipedia.org/wiki/Jinzhou_Operation',
     short: 'The corridor between the Gulf of Chihli and the mountains — the road and railway into China proper, taken in January 1932, which is how the fighting passed south of the Wall',
-    note: 'The corridor between the Gulf of Chihli and the mountains: the road and the railway into China proper, and so the ground the Kwantung Army had to hold if the fighting was to pass south of the Wall. It is also where the war in the air began. Chang Hsüeh-liang had withdrawn his government here after Mukden, and on **8 October 1931** eleven Japanese aircraft bombed the city — one of the first aerial bombardments of an undefended town, and the first anywhere to be reported live to the League of Nations, whose observers were in China at the time. The raid did more than any other single act to turn foreign opinion, and it is what prompted Stimson to begin drafting the non-recognition doctrine that bears his name. Chinchow itself was occupied on **3 January 1932**, and with it the last Chinese administration in Manchuria went.'
+    note: 'The corridor between the Gulf of Chihli and the mountains: the road and the railway into China proper, and so the ground the Kwantung Army had to hold if the fighting was to pass south of the Wall. It is also where the war in the air began. Chang Hsüeh-liang had withdrawn his government here after Mukden, and on 8 October 1931 eleven Japanese aircraft bombed the city — one of the first aerial bombardments of an undefended town, and the first anywhere to be reported live to the League of Nations, whose observers were in China at the time. The raid did more than any other single act to turn foreign opinion, and it is what prompted Stimson to begin drafting the non-recognition doctrine that bears his name. Chinchow itself was occupied on 3 January 1932, and with it the last Chinese administration in Manchuria went.'
   },
   'Je Hol': {
     en: 'Rèhé (Jehol)', ja: '熱河省 (Nekka)', zh: '熱河省',
@@ -6689,9 +6689,9 @@ JMAP.PROVINCES = {
     short: 'In Taihoku-shū (臺北州). Coal measures and brick kilns along the southern branch of the Tamsui'
   },
   TwKirun: {
-    en: 'Kīrun-gun (Keelung)', ja: '基隆郡 (Kīrun-gun)', zh: '基隆郡',
+    en: 'Kīrun-gun', ja: '基隆郡 (Kīrun-gun)', zh: '基隆郡',
     wiki: 'https://en.wikipedia.org/wiki/Taihoku_Prefecture',
-    short: 'In Taihoku-shū (臺北州). The coalfield and fishing coast behind the northern port; the port itself was a city apart and is not on this sheet',
+    short: 'In Taihoku-shū (臺北州). The coalfield and fishing coast around the port, the port itself being a city apart',
     note: 'The north\'s port, and the reason the island could be held: coal from the Zuihō seams behind it, a harbour dredged and re-dredged through the 1920s, and the ferry to Moji that every official, soldier and settler arrived on. It rains here about two hundred days a year. The city itself was Kīrun-shi, a municipality separate from this district since 1924, and the sheet leaves its ground blank.'
   },
   TwTansui: {
@@ -6720,9 +6720,9 @@ JMAP.PROVINCES = {
     short: 'In Taihoku-shū (臺北州). The harbour at the north end of the east-coast cliff road, and the marble the road was cut through'
   },
   TwShinchiku: {
-    en: 'Shinchiku-gun (Hsinchu)', ja: '新竹郡 (Shinchiku-gun)', zh: '新竹郡',
+    en: 'Shinchiku-gun', ja: '新竹郡 (Shinchiku-gun)', zh: '新竹郡',
     wiki: 'https://en.wikipedia.org/wiki/Shinchiku_Prefecture',
-    short: 'In Shinchiku-shū (新竹州). The prefectural seat on the windy northern plain, and its rice and glass'
+    short: 'In Shinchiku-shū (新竹州). The rice country round the seat, the town itself being a city apart'
   },
   TwChikuto: {
     en: 'Chikutō-gun (Zhudong)', ja: '竹東郡 (Chikutō-gun)', zh: '竹東郡',
@@ -6916,10 +6916,10 @@ JMAP.PROVINCES = {
     note: 'The southern tip, hot enough for rubber and coconut trials, and the site of the 1874 expedition: Japan\'s first overseas military action, sent after Ryūkyūan sailors were killed by Paiwan villagers here, and the beginning of the argument that ended with Taiwan being ceded twenty-one years later.'
   },
   TwTaito: {
-    en: 'Taitō-shichō', ja: '臺東支廳 (Taitō-shichō)', zh: '臺東支廳',
+    en: 'Taitō-chō (Taitung)', ja: '臺東廳 (Taitō-chō)', zh: '臺東廳',
     wiki: 'https://en.wikipedia.org/wiki/Tait%C5%8D_Prefecture',
-    short: 'In Taitō-chō (臺東廳). The two islands off the east coast — Kōtōsho and Kasho-tō — the only part of the chō this sheet divides',
-    note: 'The two islands off the east coast — Kōtōsho (Orchid Island), left largely alone as a reservation for the Yami, and Kasho-tō (Green Island). They are the only part of Taitō-chō the sheet divides at all; the mainland of the chō is in the undivided ground described above.'
+    short: 'The administered coast of Taitō-chō in the south-east, with Kōtōsho and Kasho-tō offshore',
+    note: 'The administered coast of Taitō-chō: a strip of the south-east between the mountains and the sea, with Kōtōsho (Orchid Island) and Kasho-tō (Green Island) offshore. Kōtōsho was left largely alone as a reservation for the Yami, and the interior of the chō is 蕃地.'
   },
   TwHoko: {
     en: 'Hōko-chō (Penghu)', ja: '澎湖廳 (Hōko-chō)', zh: '澎湖廳',
@@ -6966,6 +6966,37 @@ JMAP.PROVINCES = {
     en: 'Hōko-chō (Penghu Prefecture)', ja: '澎湖廳 (Hōko-chō)', zh: '澎湖廳',
     wiki: 'https://en.wikipedia.org/wiki/H%C5%8Dko_Prefecture',
     short: 'The Pescadores, taken back out of Takao-shū in 1926 and made a chō of their own again'
+  },
+  TwKirunShi: {
+    en: 'Kīrun-shi (Keelung)', ja: '基隆市 (Kīrun-shi)', zh: '基隆市',
+    wiki: 'https://en.wikipedia.org/wiki/Taihoku_Prefecture',
+    short: 'In Taihoku-shū (臺北州). The colony\'s northern port, raised to a city in 1924: coal from the Zuihō seams, and the ferry every official and settler arrived on'
+  },
+  TwShinchikuShi: {
+    en: 'Shinchiku-shi (Hsinchu)', ja: '新竹市 (Shinchiku-shi)', zh: '新竹市',
+    wiki: 'https://en.wikipedia.org/wiki/Shinchiku_Prefecture',
+    short: 'In Shinchiku-shū (新竹州). The prefectural seat on the windy northern plain, raised to a city in January 1930'
+  },
+  TwKagiShi: {
+    en: 'Kagi-shi (Chiayi)', ja: '嘉義市 (Kagi-shi)', zh: '嘉義市',
+    wiki: 'https://en.wikipedia.org/wiki/Tainan_Prefecture',
+    short: 'In Tainan-shū (臺南州). Raised to a city in January 1930; the head of the forest railway that climbs into the cypress of Arisan'
+  },
+  TwTakaoShi: {
+    en: 'Takao-shi (Kaohsiung)', ja: '高雄市 (Takao-shi)', zh: '高雄市',
+    wiki: 'https://en.wikipedia.org/wiki/Takao_Prefecture',
+    short: 'In Takao-shū (高雄州). The southern harbour, dredged through the 1920s into the colony\'s sugar and cement port, and a city since 1924'
+  },
+  TwKarenko: {
+    en: 'Karenkō-chō (Hualien)', ja: '花蓮港廳 (Karenkō-chō)', zh: '花蓮港廳',
+    wiki: 'https://en.wikipedia.org/wiki/Karenk%C5%8D_Prefecture',
+    short: 'The administered coast of Karenkō-chō, a thin shelf between the mountains and the Pacific, settled late and largely by Japanese immigrants'
+  },
+  TwBanchi: {
+    en: 'Taiwan Indigenous Peoples', ja: '蕃地 (banchi)', zh: '蕃地',
+    wiki: 'https://en.wikipedia.org/wiki/Taiwanese_indigenous_peoples',
+    short: '蕃地 in the colonial administration: the highlands and the east, claimed and policed but never governed as the plains were',
+    note: 'This territory is the Taiwan Government-General\'s demarcated "Aborigine Territory" (蕃地) for around 1930. It is drawn from the administration\'s own demarcation, not from any account of where people actually lived, and the line moved: what is shown is where it stood at this date. 蕃地 — "savage land" — was the administration\'s own word for it, and the category is the point: this was the part of Taiwan deliberately kept outside the ordinary machinery of 州, 郡 and 街庄 that governed the plains, and run instead by the police bureau under a separate law. A guard line — 隘勇線, a cordon of stations, fences, mines and electrified wire — was drawn round it and pushed inward year by year, most heavily in the campaigns of 1910–15, as the camphor forests and the timber were opened up. The peoples inside it were not administered as subjects of the ordinary kind and the land was not held to be theirs. That is the boundary a reader is looking at when the coloured districts stop: not a line between two sorts of province, but the edge of the ground the colonial state had taken into its administration by 1930. Musha, where the Seediq rose in 1930 and where the reprisal that followed used poison gas, is just inside it, in Nōkō-gun. Please see *Outcasts of Empire: Japan\'s Rule on Taiwan\'s "Savage Border," 1874–1945* by Paul Barclay for more discussion on representations of this territory and its peoples.'
   },
   'Peale Island': {
     en: 'Peale Island', ja: 'ピール島 (Pīru-tō)', zh: '皮爾島',

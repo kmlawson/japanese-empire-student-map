@@ -1681,19 +1681,14 @@ EXTENT_MANCHURIA = [
 # Pescadores, which *were* ceded with Taiwan in 1895, stay put.
 KINMEN_BOX = (117.9, 24.2, 118.8, 24.8)
 
-# Taiwan is drawn from a period sheet now — Academia Sinica's 郡(市)界 for July
-# 1926, dissolved into a coastline and cut into the districts the colony was
-# run in by tools/fetch_taiwan_1926.py. Natural Earth keeps only the
-# Pescadores, which the 1926 sheet does not cover: they were ceded with Taiwan
-# in 1895 and were part of the colony, so they still have to be drawn, and
-# nothing else Natural Earth has for Taiwan is wanted beside a period coast.
-# What that drops, besides the main island: Orchid Island and Green Island,
-# which the sheet has as Taitō-shichō, and an 18 km² sandbar off Chiayi which
-# it does not have at all — a bank that has moved several kilometres within
-# living memory, and a modern one beside a 1926 shore.
-TAIWAN_1926_OUTLINE = "taiwan_1926_outline.json"
-TAIWAN_1926_DISTRICTS = "taiwan_1926_districts.json"
-PESCADORES_BOX = (119.3, 23.2, 119.8, 23.8)
+# Taiwan comes from a period sheet — the 1930 reconstruction built by
+# tools/fetch_taiwan_1930.py, which supersedes the 1926 one. Natural Earth now
+# contributes nothing at all: the sheet carries the Pescadores, both eastern
+# 廳, every 市, and the 蕃地, so there is no gap left for a present-day coast to
+# fill and nothing to gain from laying one underneath.
+TAIWAN_OUTLINE = "taiwan_1930_outline.json"
+TAIWAN_DISTRICTS = "taiwan_1930_districts.json"
+TAIWAN_SHU = "taiwan_1930_shu.json"
 
 # Territory transferred to Thailand by the Tokyo treaty of 9 May 1941, after
 # the Franco-Thai war: the Cambodian provinces of Battambang and Siem Reap
@@ -3848,20 +3843,7 @@ ALWAYS_NAMED = frozenset({"goa", "pondicherry", "christmas", "ccp",
 # Leagues, Jinbei and Chanan.
 NEVER_DEFERRED = ALWAYS_NAMED | frozenset({"malaya_thai", "mengjiang"})
 
-# The Pescadores are the one part of the colony the 1926 sheet does not cover,
-# so they come from Natural Earth — and they have to be a named sub-unit rather
-# than only a piece of the filler underneath, because the filler is stood down
-# the moment an atom has divisions of its own. Left in the filler alone they
-# were drawn with Administrative off and vanished when it went on.
-#
-# One unit, not three islands: they had been 澎湖廳 again since 1926, when they
-# were taken back out of Takao-shū, and the 廳 was not divided into 郡.
-PESCADORES_BOXES = [("TwHoko", (119.3, 23.2, 119.8, 23.8))]
-# and it is its own prefecture, so it answers the same way the districts do
-SUB_PARENTS_FIXED = {("taiwan", "TwHoko"): "TwShuHoko"}
-
 ISLAND_BOXES = {
-    "taiwan": PESCADORES_BOXES,
     "aleutians": ALEUTIAN_BOXES,
     "aleutians_jp": ALEUTIAN_BOXES,
     "chishima": KURILE_BOXES,
@@ -4590,19 +4572,15 @@ def split_solomons(ring):
 
 
 def split_taiwan(ring):
-    """Only the Pescadores. The rest of Taiwan comes from the 1926 sheet.
+    """Nothing. Every part of the colony is in the period sheet now.
 
-    Kinmen is outside the box for the reason it always was — Natural Earth
-    files it under Taiwan because it is governed from Taipei today, and it
-    belonged to Fujian throughout the colonial period — and now so is
-    everything else, because a present-day coastline underneath a period one
-    is a second, coarser drawing of the same shore.
+    The Pescadores were the last thing Natural Earth still supplied, because
+    the 1926 sheet did not cover them; the 1930 reconstruction does. A
+    present-day coastline underneath a period one is a second, coarser drawing
+    of the same shore, and Kinmen — which Natural Earth files under Taiwan
+    because it is governed from Taipei today, and which belonged to Fujian
+    throughout the colonial period — would come with it.
     """
-    xs = [p[0] for p in ring]
-    ys = [p[1] for p in ring]
-    x0, y0, x1, y1 = PESCADORES_BOX
-    if x0 < min(xs) and max(xs) < x1 and y0 < min(ys) and max(ys) < y1:
-        return "taiwan"
     return None
 
 
@@ -4864,6 +4842,12 @@ def main():
     # Chinese atoms keep their provinces as separate sub-paths, so hovering can
     # name the province as well as the country.
     provinces = collections.defaultdict(list)
+    # A level *above* the sub-units, for a country whose larger divisions are
+    # not the sum of their smaller ones. Taiwan is the only one: a 州 reaches
+    # back over the mountains into the 蕃地 while its 郡 are a rind along the
+    # west coast. Drawn with neither fill nor stroke — they are there to be
+    # traced round when a district is pointed at.
+    shu_shapes = collections.defaultdict(list)
     # whole-country outlines kept aside to go under the sub-units; see
     # whole_union below
     backing = collections.defaultdict(list)
@@ -5527,13 +5511,13 @@ def main():
     else:
         sys.stderr.write(f"note: {KOREA_FILE} missing, Korea not drawn\n")
 
-    # ---- Taiwan: the 1926 coast, and the districts on top of it ------------
-    # The outline is the dissolve of the same 54 polygons the districts come
-    # out of — every edge inside the island is shared by two of them and
-    # cancels, every edge on the coast is walked once and survives — so the
-    # coast and the district boundaries are the same vertices and cannot
-    # disagree about where the sea is. See tools/fetch_taiwan_1926.py.
-    tpath = os.path.join(CACHE, TAIWAN_1926_OUTLINE)
+    # ---- Taiwan: the 1930 coast, its districts, and its prefectures --------
+    # The outline is the dissolve of the same 62 units the districts come out
+    # of — every edge inside the colony is shared by two of them and cancels,
+    # every edge on the coast is walked once and survives — so the coast and
+    # the district boundaries are the same vertices and cannot disagree about
+    # where the sea is. See tools/fetch_taiwan_1930.py.
+    tpath = os.path.join(CACHE, TAIWAN_OUTLINE)
     if os.path.exists(tpath):
         with open(tpath) as fh:
             for feat in json.load(fh)["features"]:
@@ -5541,28 +5525,36 @@ def main():
                 groups["taiwan"].extend(rs)
                 backing["taiwan"].extend(rs)
     else:
-        sys.stderr.write("note: %s missing, run tools/fetch_taiwan_1926.py\n"
-                         % TAIWAN_1926_OUTLINE)
-    dpath = os.path.join(CACHE, TAIWAN_1926_DISTRICTS)
+        sys.stderr.write("note: %s missing, run tools/fetch_taiwan_1930.py\n"
+                         % TAIWAN_OUTLINE)
+    dpath = os.path.join(CACHE, TAIWAN_DISTRICTS)
     if os.path.exists(dpath):
         with open(dpath) as fh:
             for feat in json.load(fh)["features"]:
-                # which 州 or 廳 it was in, so that pointing at a district can
-                # outline the prefecture and the names layer can write the
-                # eight prefectures rather than the fifty districts
+                # Which 州 or 廳 it was in, so that pointing at a district can
+                # outline the prefecture. The 蕃地 has no parent on purpose:
+                # it was one territory under one regime and the prefecture it
+                # was filed under says nothing true about how it was run.
                 if feat["properties"].get("parent"):
                     SUB_PARENTS[("taiwan", feat["properties"]["key"])] = \
                         feat["properties"]["parent"]
-                # An empty key is the ground the sheet does not divide — the
-                # central range, the east coast, the unattributed block round
-                # Takao. It is drawn and it cannot be named, which is what the
-                # emitter does with a nameless block: with Administrative on an
-                # atom is its divisions and nothing else, so without these the
-                # island came up as a rind of coastal districts round a hole.
                 provinces["taiwan"].append(
                     (feat["properties"]["key"] or None,
                      list(iter_rings(feat["geometry"]))))
-        SUB_PARENTS.update(SUB_PARENTS_FIXED)
+
+    # And the prefectures themselves, which are *not* the sum of their
+    # districts: a 州 runs back over the mountains into the 蕃地 while its
+    # districts are a rind along the west. Adding the districts up gave the
+    # wrong shape, so the eight are carried at their own extent and drawn with
+    # neither fill nor stroke — they exist to be traced round, the way
+    # #mengjiang-whole does for the claim Mengchiang made.
+    spath = os.path.join(CACHE, TAIWAN_SHU)
+    if os.path.exists(spath):
+        with open(spath) as fh:
+            for feat in json.load(fh)["features"]:
+                shu_shapes["taiwan"].append(
+                    (feat["properties"]["key"],
+                     list(iter_rings(feat["geometry"]))))
 
     # ---- Japan, prefecture by prefecture -----------------------------------
     jpath = os.path.join(CACHE, "adm1_JPN.json")
@@ -6896,6 +6888,16 @@ def main():
                 if parent:
                     attr += f' data-parent="{esc(parent)}"'
                 sink.append(f'      <path{attr} d="{pd}"/>')
+            # and the larger divisions, where they are their own shapes
+            for sname, srings in shu_shapes.get(key, []):
+                sd = "".join(ring_to_path([project(x, y) for x, y in
+                                           clip_halfplanes(normalise_ring(r), frame)],
+                                          FINE_PRECISION)
+                             for r in srings
+                             if len(clip_halfplanes(normalise_ring(r), frame)) >= 3)
+                if sd:
+                    sink.append(f'      <path class="shu" data-shu="{esc(sname)}"'
+                                f' d="{sd}"/>')
             if sink is admin_out:
                 sink.append("  </g>")
             # The same atom's sub-units from the finer source, in a file of

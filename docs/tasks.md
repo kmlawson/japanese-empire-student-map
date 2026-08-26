@@ -8098,6 +8098,63 @@ measurement that seemed to justify it was comparing the shape's *centre* while
 the code anchored a *corner* — two different things. The original behaviour is
 right; what it lacked was a comment saying why, which it now has.
 
+## Taiwan again, from a 1930 reconstruction, and 蕃地 drawn as one country
+
+The 1926 sheet is gone. It could not make a complete map: no 澎湖廳, no 高雄市
+and no 基隆市, both eastern 廳 and every 蕃地 collapsed into one unnamed
+19,000 km² residual, and schematic boundaries round Takao that left Okayama-gun
+and Hōzan-gun as inland fragments of themselves. What replaces it is a
+reconstruction from the 1920 街(庄)界 sheet with the administrative changes to
+January 1930 applied — the full account, including the coordinate-reference
+fault that displaces the whole distributed series about 830 m west, is now the
+Taiwan entry in `sources.md`.
+
+What arrives with it: **55 郡 and 市** against 49 before, including Kīrun-shi,
+Takao-shi, Shinchiku-shi and Kagi-shi; both eastern 廳 as administered units;
+澎湖廳 as part of the sheet rather than borrowed from Natural Earth; and seven
+blocks of 蕃地. Natural Earth now contributes **nothing at all** to Taiwan.
+
+The dissolve is the same exact trick and still checks out: 62,527 undirected
+edges, 38,434 of them shared and 24,093 unpaired, so the coastline is the
+unpaired ones chained head to tail. 154 rings, 35,939 km², of which 35,738 is
+the main island.
+
+### 蕃地 is one shape, and points at nothing above it
+
+More than half the island. The source divides it into seven blocks, one per
+prefecture, and those seven are a fact about the filing rather than about the
+ground: it was one continuous territory under one regime — outside the 州/郡/
+街庄 hierarchy entirely, run by the police bureau under a separate law, with
+the 隘勇線 guard cordon drawn round it and pushed inward as the camphor was
+taken. Slicing it by prefecture on a teaching map would be drawing the
+registry, so the seven are emitted as one path with one name: **Taiwan
+Indigenous Peoples**, with 蕃地 beside it.
+
+For the same reason it has no parent prefecture. Pointing at it outlines the
+colony, not whichever 州 that slice happened to be filed under, because the
+prefecture says nothing true about how the place was governed.
+
+### A prefecture is not the sum of its districts
+
+This is the part that needed new geometry. A 州 runs back over the mountains
+into the 蕃地 while its 郡 are a rind along the west coast, so adding the
+districts up drew a prefecture that stopped at the foothills — which is what
+the map did until now. The eight are carried at their own full extent in a
+`taiwan_1930_shu.json` of their own, emitted as paths with `data-shu`, no fill,
+no stroke and no pointer events: they exist to be traced round and for nothing
+else, the way `#mengjiang-whole` does for the claim Mengchiang made.
+
+Measured: Tainan-shū's own shape is 19 map units wide where the districts filed
+under it come to 14.
+
+### Measured
+
+`tools/test/taiwan.js` grew to 19 checks, including that the 蕃地 is one shape
+and not seven, that pointing at it outlines the colony rather than a
+prefecture, and that a prefecture's own shape is wider than the districts
+inside it. The names layer writes eight prefecture names and the indigenous
+territory, and no districts. 148 map checks pass.
+
 ---
 
 ## Sources worth fetching

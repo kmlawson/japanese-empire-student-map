@@ -2,8 +2,9 @@
  *
  *     node tools/test/taiwan.js          # with a server on 8123
  *
- * The 1926 sheet gives fifty 郡, 市 and 支廳 inside eight 州 and 廳, and the map
- * has to say both things about a district without being asked twice:
+ * The 1930 layer gives 55 郡 and 市 inside eight 州 and 廳, plus the 蕃地 — the
+ * highlands and the east, outside that hierarchy altogether — as one unit. The
+ * map has to say two things about a district without being asked twice:
  *
  *   * pointing at one outlines the **prefecture** it belongs to, with the
  *     district itself picked out more lightly inside it. The outline round the
@@ -60,13 +61,24 @@ console.log('\n— every district knows its prefecture —');
 {
   const n=await p.evaluate(()=>document.querySelectorAll('#a-taiwan [data-prov]').length);
   const withParent=await p.evaluate(()=>document.querySelectorAll('#a-taiwan [data-parent]').length);
-  check('all fifty named units carry one', n===withParent && withParent===50,
-    withParent+' of '+n);
+  check('the 55 districts each carry one, and the 蕃地 does not',
+    n===56 && withParent===55, withParent+' of '+n);
   const shu=await p.evaluate(()=>{const s=new Set();
     document.querySelectorAll('#a-taiwan [data-parent]').forEach(e=>s.add(e.getAttribute('data-parent')));
     return [...s].sort();});
-  check('and they come to seven prefectures, which is what the sheet divides',
-    shu.length===7, shu.join(','));
+  check('and they come to all eight prefectures', shu.length===8, shu.join(','));
+  check('the prefectures are carried as their own shapes, not summed from districts',
+    (await p.evaluate(()=>document.querySelectorAll('#a-taiwan [data-shu]').length))===8);
+  /* A prefecture reaches back over the mountains into the 蕃地 while its
+     districts are a rind along the west, so its own shape has to be wider than
+     the districts filed under it. Tainan-shū is the plainest case. */
+  const cmp=await p.evaluate(()=>{
+    const box=els=>{let x0=1e9,x1=-1e9;els.forEach(e=>{const b=e.getBBox();
+      x0=Math.min(x0,b.x); x1=Math.max(x1,b.x+b.width);}); return x1-x0;};
+    return {shu: box([...document.querySelectorAll('[data-shu="TwShuTainan"]')]),
+            sum: box([...document.querySelectorAll('[data-parent="TwShuTainan"]')])};});
+  check('and it is', cmp.shu > cmp.sum + 1,
+    'prefecture '+cmp.shu.toFixed(1)+' wide, its districts '+cmp.sum.toFixed(1));
 }
 
 console.log('\n— pointing at a district outlines its prefecture —');
@@ -90,7 +102,30 @@ console.log('\n— pointing at a district outlines its prefecture —');
     return t?t.textContent:'';});
   check('the tooltip still names the district, not the prefecture',
     /Kagi-gun/.test(tip), tip.slice(0,60));
-  check('and says which prefecture it was in', /Tainan-sh/.test(tip), tip.slice(0,120));
+  check('and says which prefecture it was in, with its kanji',
+    /Tainan-sh/.test(tip) && /臺南州/.test(tip), tip.slice(0,140));
+}
+
+console.log('\n— the 蕃地 is one shape, and points at no prefecture —');
+{
+  const at=await hoverProv(p,'TwBanchi');
+  check('it can be pointed at', !!at);
+  const tip=await p.evaluate(()=>{const t=document.querySelector('#tip,#tooltip');
+    return t?t.textContent:'';});
+  check('and it is called Taiwan Indigenous Peoples',
+    /Taiwan Indigenous Peoples/.test(tip), tip.slice(0,60));
+  check('with the administration\'s own word for it beside that',
+    /蕃地/.test(tip), tip.slice(0,90));
+  const one=await p.evaluate(()=>document.querySelectorAll('[data-prov="TwBanchi"]').length);
+  check('the seven blocks are drawn as one shape, not seven', one===1, String(one));
+  /* Pointing at it must not light a prefecture: it was one territory under one
+     regime, and the 州 a slice was filed under says nothing true about it. */
+  const slots=await p.evaluate(SLOTS);
+  const island=await p.evaluate(()=>{const b2=document.getElementById('a-taiwan').getBBox();
+    return Math.round(b2.width);});
+  check('and the larger outline is the colony, not one of its prefectures',
+    slots.length>=2 && Math.abs(slots[0][2]-island)<3,
+    'island '+island+' wide, outline '+(slots[0]||[])[2]);
 }
 
 console.log('\n— and the names layer writes prefectures, not districts —');

@@ -13,8 +13,8 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '1.62';
-  var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "b7e2fe1a73", "japan-empire-map-admin.svg": "eda0acd4cd", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "ba24f18b40"};
+  var JEM_VERSION = '1.63';
+  var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "b7e2fe1a73", "japan-empire-map-admin.svg": "043e65c713", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "9214380208"};
 
   /* Every file this one fetches, with the version on it.
 
@@ -4204,8 +4204,18 @@
   function parentPeers(el) {
     var want = el && el.getAttribute && el.getAttribute('data-parent');
     if (!want) return null;
+    /* The prefecture's own shape, not the sum of its districts. A 州 runs back
+       over the mountains into the 蕃地 while its 郡 are a rind along the west
+       coast, so adding the districts up drew a prefecture that stopped at the
+       foothills. `data-shu` carries the real extent, drawn with neither fill
+       nor stroke for exactly this. Falling back to the districts if the shape
+       is missing, so a build without the prefecture layer still says
+       something rather than nothing. */
     var out = [];
-    $$('#land [data-parent="' + want + '"]', svg).forEach(function (n) { out.push(n); });
+    $$('#land [data-shu="' + want + '"]', svg).forEach(function (n) { out.push(n); });
+    if (!out.length) {
+      $$('#land [data-parent="' + want + '"]', svg).forEach(function (n) { out.push(n); });
+    }
     return out.length ? out : null;
   }
 

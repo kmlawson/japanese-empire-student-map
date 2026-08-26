@@ -1,7 +1,8 @@
 <!-- texts/territories/sub-units/taiwan.md -->
 
-> Taiwan as Japan administered it in July 1926: five 州 and three 廳, cut into
-> 郡 and 市. The names are given in the Japanese reading first, because that is
+> Taiwan as Japan administered it in January 1930: five 州 and three 廳, cut
+> into 郡 and 市, with the highlands and the east outside that scheme
+> altogether. The names are given in the Japanese reading first, because that is
 > what a map of this date would print, with the name the place goes by now
 > beside it. Each district says which 州 or 廳 it belonged to, and the link on
 > every card goes to that prefecture rather than to the district — the eight
@@ -13,27 +14,32 @@
 > Tamsui mouth, and the whole island is drawn from the same survey the
 > districts are cut out of.
 
-# What the sheet does not have
+# 蕃地, and what the word was doing
 
-The source is the 郡(市) boundaries, so ground that was in neither is not
-divided — and in 1926 that was more than half the island. The central range
-and the east coast were **蕃地**, the unincorporated aboriginal territory,
-together with **Karenkō-chō** and the mainland of **Taitō-chō**, neither of
-which was cut into 郡 at all. All of that is drawn in the colony's own colour
-and answers as Taiwan. Nothing has been invented to fill it.
+Rather more than half the island — the whole central range and most of the east
+— is drawn here as one unit called **Taiwan Indigenous Peoples**. In the
+colonial administration it was **蕃地**, *banchi*: "savage land".
 
-Two cities are missing from the sheet as well. There were five 市 in July 1926
-— Taihoku, Kīrun, Taichū, Tainan and Takao — and the sheet carries three.
-**Kīrun-shi** is the hole inside Kīrun-gun, unattributed. **Takao-shi**, which
-had been a city since 1924, is inside an 800 km² block of the south-western
-coastal plain that the sheet leaves unnamed; Okayama-gun and Hōzan-gun are
-drawn as what is left inland of it, which is why both are smaller here than
-they were on the ground. Their cards say so.
+The word is doing work. Taiwan's plains were governed through an ordinary
+hierarchy of 州, 郡 and 街庄, with police, land registers and taxes. The
+highlands were not. They were put outside that hierarchy altogether and run by
+the police bureau under a separate law — the aborigine administration — with a
+guard line of fences, mines and electrified wire drawn round them and pushed
+inward decade by decade as the camphor and the timber were taken. The people
+inside it, the Atayal, Bunun, Paiwan, Rukai, Tsou, Saisiyat, Amis, Puyuma,
+Seediq and others, were not counted as subjects in the way the Han population
+of the plains was, and the land was not held to be theirs.
 
-The Pescadores are the one part of the colony the sheet does not cover at all.
-They had been taken back out of Takao-shū in 1926 and made **Hōko-chō** again,
-and they are drawn here from Natural Earth's coastline — the only piece of
-present-day geometry left in Taiwan.
+So the boundary between the coloured districts on the west and this one shape
+is not a boundary between two kinds of province. It is the edge of the part of
+Taiwan the colonial state had actually taken into its administration, and it
+moved.
+
+**Drawn as one unit on purpose.** The source divides 蕃地 into seven blocks,
+one per prefecture, and those seven are a fact about the filing and not about
+the ground: it was continuous country under a single regime. Slicing it by
+prefecture here would be drawing the registry. For the same reason, pointing at
+it does not light up whichever 州 the slice under the pointer was filed in.
 
 # The prefectures
 
@@ -114,10 +120,10 @@ that ended with Taiwan being ceded twenty-one years later.
 
 ## TwTaito
 
-The two islands off the east coast — Kōtōsho (Orchid Island), left largely
-alone as a reservation for the Yami, and Kasho-tō (Green Island). They are the
-only part of Taitō-chō the sheet divides at all; the mainland of the chō is in
-the undivided ground described above.
+The administered coast of Taitō-chō: a strip of the south-east between the
+mountains and the sea, with Kōtōsho (Orchid Island) and Kasho-tō (Green
+Island) offshore. Kōtōsho was left largely alone as a reservation for the Yami,
+and the interior of the chō is 蕃地.
 
 ## TwHoko
 
@@ -126,3 +132,32 @@ Japan in March 1895 before the treaty that ceded Taiwan was signed, and used as
 the fleet's forward anchorage. Too dry and too windy for rice — groundnuts,
 sweet potato and fish — and the first part of the colony to be taken and the
 last thing on it a visitor expects.
+
+## TwBanchi
+
+This territory is the Taiwan Government-General's demarcated "Aborigine
+Territory" (蕃地) for around 1930. It is drawn from the administration's own
+demarcation, not from any account of where people actually lived, and the line
+moved: what is shown is where it stood at this date.
+
+蕃地 — "savage land" — was the administration's own word for it, and the
+category is the point: this was the part of Taiwan deliberately kept outside
+the ordinary machinery of 州, 郡 and 街庄 that governed the plains, and run
+instead by the police bureau under a separate law.
+
+A guard line — 隘勇線, a cordon of stations, fences, mines and electrified wire
+— was drawn round it and pushed inward year by year, most heavily in the
+campaigns of 1910–15, as the camphor forests and the timber were opened up. The
+peoples inside it were not administered as subjects of the ordinary kind and
+the land was not held to be theirs.
+
+That is the boundary a reader is looking at when the coloured districts stop:
+not a line between two sorts of province, but the edge of the ground the
+colonial state had taken into its administration by 1930. Musha, where the
+Seediq rose in 1930 and where the reprisal that followed used poison gas, is
+just inside it, in Nōkō-gun.
+
+Please see *Outcasts of Empire: Japan's Rule on Taiwan's "Savage Border,"
+1874–1945* by Paul Barclay for more discussion on representations of this
+territory and its peoples.
+
