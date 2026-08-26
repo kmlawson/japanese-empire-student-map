@@ -1659,3 +1659,15 @@ The Paiwan settlement the 1874 expedition was sent against, after Ryūkyūan sai
 
 ## hengchun
 The walled town at the southern tip, built by the Qing after the 1874 expedition to hold a coast they had just been shown they did not control. Hot enough for rubber and coconut trials under Japanese rule.
+
+## chamdo
+The seat of the Tibetan governor of Kham and the garrison town on the road to Szechwan — the eastern end of what Lhasa administered, and the frontier the Republic disputed.
+
+## nagchuka
+The staging post on the northern plain where the caravan road from Sining comes down to Lhasa, and where Tibet met the Mongol and Chinese trade.
+
+## rudok
+A fort and salt-trading centre in the far north-west, on the caravan route over to Ladakh and Sinkiang.
+
+## gartok
+One of the three marts opened to British trade by the 1904 convention, and the western Tibetan government post — a tent encampment for most of the year rather than a town.

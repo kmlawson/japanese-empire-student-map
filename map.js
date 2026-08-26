@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '1.76';
+  var JEM_VERSION = '1.77';
   var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "50f952d66d", "japan-empire-map-admin.svg": "9de0304837", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "9214380208", "relief-coarse-albers.webp": "b57f3373ec", "relief-coarse-laea.webp": "4a79ce52b8", "relief-coarse-mercator.webp": "dd24772c29", "relief-fine-albers.webp": "641d43c5c5", "relief-fine-laea.webp": "52676e1c50", "relief-fine-mercator.webp": "1dc7a621a2", "relief-finest-albers.webp": "05b24e1e30", "relief-finest-laea.webp": "1325488946", "relief-finest-mercator.webp": "cac01f8da0"};
 
   /* Every file this one fetches, with the version on it.
@@ -149,6 +149,16 @@
        makes no claim about. */
     manchukuo: true,
     mengjiang: true,
+    /* Japanese names foremost inside the empire — the names an official
+       document or a railway timetable of the period would print — or the local
+       ones. On by default because the map is a map *of* the empire, and the
+       names it administered under are the ones its own paperwork used; a
+       reader who wants Kyŏnggi-do rather than Keiki-dō has one switch.
+
+       It governs the insides only. Chōsen, Taiwan and Manchukuo are what those
+       polities were called, and a switch about how their provinces are
+       labelled has no business renaming them. */
+    jpNames: true,
     mono: false,                    // every state and province one grey
     /* And which colour that is, once a reader has chosen one. Null means the
        stylesheet's own — which is not one colour but two, a warm parchment in
@@ -239,6 +249,7 @@
       if (typeof saved.indiaRivers === 'boolean') state.indiaRivers = saved.indiaRivers;
       if (typeof saved.graticule === 'boolean') state.graticule = saved.graticule;
       if (typeof saved.relief === 'boolean') state.relief = saved.relief;
+      if (typeof saved.jpNames === 'boolean') state.jpNames = saved.jpNames;
       if (typeof saved.monoColour === 'string' && HEX.test(saved.monoColour)) {
         state.monoColour = saved.monoColour;
       }
@@ -266,6 +277,7 @@
         backs: state.backs, indiaRivers: state.indiaRivers,
         projection: state.projection, graticule: state.graticule,
         relief: state.relief, reliefDetail: state.reliefDetail,
+        jpNames: state.jpNames,
         occSource: state.occSource, ccp: state.ccp,
         manchukuo: state.manchukuo, mengjiang: state.mengjiang, mono: state.mono,
         monoColour: state.monoColour,
@@ -277,14 +289,38 @@
   /* A place on the 1930 map should not be labelled or described by something
    * that had not happened yet. Sites with a per-epoch entry get it merged over
    * the base record at display time; ids and geometry never change. */
+  /* Which of a record's two English forms is the one to show.
+     
+     `en` is Japanese-first and `local` is the other way round; a record with no
+     `local` has only one name and is unaffected. The local form wins when the
+     switch is off — and also, whatever the switch says, when the Japanese form
+     is not yet true: `jpfrom` marks the rows that only became Japanese at the
+     later date, which is every Manchurian and Mengjiang city. Manchukuo's
+     provinces are drawn on the 1942 map alone, but its cities are on both, and
+     calling Mukden `Hōten` on a map of 1930 would be an anachronism no switch
+     can excuse. */
+  function localWins(rec) {
+    if (!rec || !rec.local) return false;
+    if (!state.jpNames) return true;
+    return !!rec.jpfrom && rec.jpfrom !== state.epoch;
+  }
+
   function shown(rec) {
-    if (!rec || !rec.id) return rec;
-    var over = JMAP.EPOCH_OVERRIDES && JMAP.EPOCH_OVERRIDES[rec.id];
+    if (!rec) return rec;
+    /* The `id` test guards the override lookup and nothing else. It used to
+       guard the whole function, which meant sub-units never got this far: they
+       are keyed by `key`, that column is dropped from the record as the file's
+       own business, and so a province record has no `id` at all. Every Korean
+       and Taiwanese name went through here unchanged for that reason. */
+    var over = rec.id && JMAP.EPOCH_OVERRIDES && JMAP.EPOCH_OVERRIDES[rec.id];
     over = over && over[state.epoch];
-    if (!over) return rec;
+    var swap = localWins(rec);
+    if (!over && !swap) return rec;
     var out = {};
     Object.keys(rec).forEach(function (k) { out[k] = rec[k]; });
-    Object.keys(over).forEach(function (k) { out[k] = over[k]; });
+    if (over) Object.keys(over).forEach(function (k) { out[k] = over[k]; });
+    // after the epoch override, which may have replaced `en` and `local` both
+    if (localWins(out)) out.en = out.local;
     return out;
   }
 
@@ -2280,6 +2316,7 @@
    *   14  the rivers of India
    *   15,16  projection: 0 Web Mercator, 1 Albers conic, 2 Lambert azimuthal
    *   17  the graticule    18  shaded relief   19,20  which relief sheet
+   *   22  local names inside the empire (stored inverted; on is the default)
    *
    * Bits 7 and 10 no longer have a switch in the Layers panel — the province
    * source came out once the period sheet was redrawn, and the hairline came
@@ -2332,6 +2369,7 @@
     if (state.graticule) bits |= 131072;
     if (state.relief) bits |= 262144;
     bits |= (state.reliefDetail & 3) << 19;
+    if (!state.jpNames) bits |= 4194304;    // inverted; see the note above
     return bits.toString(36);
   }
 
@@ -2365,6 +2403,7 @@
     state.graticule = !!(bits & 131072);
     state.relief = !!(bits & 262144);
     state.reliefDetail = Math.min(2, (bits >> 19) & 3);
+    state.jpNames = !(bits & 4194304);
     urlProvSource = (bits & 128) ? 'roc' : 'enp';
   }
 
@@ -6877,7 +6916,8 @@
     });
 
     [['#opt-manchukuo', 'manchukuo'], ['#opt-mengjiang', 'mengjiang'],
-     ['#opt-mono', 'mono'], ['#opt-world', 'world']].forEach(function (pair) {
+     ['#opt-mono', 'mono'], ['#opt-world', 'world'],
+     ['#opt-jpnames', 'jpNames']].forEach(function (pair) {
       var el = $(pair[0]);
       if (!el) return;
       el.checked = !!state[pair[1]];

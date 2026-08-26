@@ -1204,19 +1204,21 @@ JMAP.SITES = [
   {
     id: 'seoul', en: 'Keijō (Kyŏngsŏng, Seoul)', ja: '京城 (Keijō)', zh: '京城（漢城）',
     ko: '서울 / 한성 (Sŏul / Hansŏng)', date: 'Renamed Keijō in 1910', cat: 'city', lvl: 1,
-    lat: 37.57, lon: 126.98, wiki: 'https://en.wikipedia.org/wiki/Keij%C5%8D', year: 1876,
+    lat: 37.57, lon: 126.98, wiki: 'https://en.wikipedia.org/wiki/Keij%C5%8D',
+    local: 'Kyŏngsŏng (Keijō, Seoul)', year: 1876,
     note: 'Capital of Chosŏn Korea as Hansŏng, and of the colony as Keijō. The Kapsin Coup of 1884 and the March First Movement of 1919 both began here; Queen Min was murdered in the palace in 1895.'
   },
   {
     id: 'pusan', en: 'Fusan (Pusan)', ja: '釜山 (Fusan)', zh: '釜山', ko: '부산 (Pusan)',
     date: 'Opened by treaty 1876', cat: 'city', lvl: 2, lat: 35.18, lon: 129.08,
-    wiki: 'https://en.wikipedia.org/wiki/Busan', year: 1876,
+    wiki: 'https://en.wikipedia.org/wiki/Busan', local: 'Pusan (Fusan)', year: 1876,
     note: 'The port closest to Japan, long the site of a Japanese trading enclave, and the southern end of the ferry and rail link that tied Korea into the Japanese economy.'
   },
   {
     id: 'incheon', en: 'Jinsen (Inch’ŏn)', ja: '仁川 (Jinsen)', zh: '仁川',
     ko: '인천 / 제물포 (Inch’ŏn / Chemulp’o)', date: 'Naval action 9 February 1904', cat: 'city',
-    lvl: 3, lat: 37.46, lon: 126.71, wiki: 'https://en.wikipedia.org/wiki/Incheon', year: 1883,
+    lvl: 3, lat: 37.46, lon: 126.71, wiki: 'https://en.wikipedia.org/wiki/Incheon',
+    local: 'Inch’ŏn (Jinsen)', year: 1883,
     note: 'Seoul’s port, known to foreigners as Chemulpo. The Japanese attack on Russian ships here opened the Russo-Japanese War.'
   },
   {
@@ -1229,45 +1231,53 @@ JMAP.SITES = [
   {
     id: 'pyongyang', en: 'Heijō (P’yŏngyang)', ja: '平壌 (Heijō)', zh: '平壤',
     ko: '평양 (P’yŏngyang)', date: 'Battle, 15 September 1894', cat: 'city', lvl: 3, lat: 39.02,
-    lon: 125.75, wiki: 'https://en.wikipedia.org/wiki/Pyongyang', year: 1894,
+    lon: 125.75, wiki: 'https://en.wikipedia.org/wiki/Pyongyang', local: 'P’yŏngyang (Heijō)',
+    year: 1894,
     note: 'Site of a decisive Japanese victory over Qing forces in the First Sino-Japanese War, and later a centre of colonial industry and of Korean Christianity.'
   },
   {
-    id: 'mukden', en: 'Shěnyáng (Mukden)', ja: '奉天 (Hōten)', orig: '瀋陽 (Shěnyáng)',
+    id: 'mukden', en: 'Hōten (Shěnyáng, Mukden)', ja: '奉天 (Hōten)', orig: '瀋陽 (Shěnyáng)',
     zh: '瀋陽（奉天）', ko: '선양', date: 'Battle 1905; Manchurian Incident 18 September 1931',
     cat: 'city', lvl: 1, both: true, lat: 41.8, lon: 123.43,
-    wiki: 'https://en.wikipedia.org/wiki/Shenyang', year: 1905,
+    wiki: 'https://en.wikipedia.org/wiki/Shenyang', jpfrom: 'e1942', local: 'Shěnyáng (Mukden)',
+    year: 1905,
     note: 'The Manchu dynastic capital, and the prize of the largest land battle of the Russo-Japanese War. The explosion staged on the South Manchuria Railway just outside the city on 18 September 1931 was the pretext for the invasion of Manchuria.'
   },
   {
-    id: 'changchun', en: 'Chángchūn (Hsinking)', ja: '新京 (Shinkyō)', orig: '長春 (Chángchūn)',
-    zh: '長春（新京）', ko: '창춘', date: 'Capital of Manchukuo from 1932', cat: 'city', lvl: 2,
-    lat: 43.88, lon: 125.32, wiki: 'https://en.wikipedia.org/wiki/Changchun', year: 1907,
+    id: 'changchun', en: 'Shinkyō (Chángchūn, Hsinking)', ja: '新京 (Shinkyō)',
+    orig: '長春 (Chángchūn)', zh: '長春（新京）', ko: '창춘', date: 'Capital of Manchukuo from 1932',
+    cat: 'city', lvl: 2, lat: 43.88, lon: 125.32,
+    wiki: 'https://en.wikipedia.org/wiki/Changchun', jpfrom: 'e1942',
+    local: 'Chángchūn (Hsinking)', year: 1907,
     note: 'Renamed Hsinking, "new capital", and rebuilt on a planned grid with boulevards and ministries as the showpiece of the puppet state.'
   },
   {
-    id: 'harbin', en: 'Hā’ěrbīn (Harbin)', ja: 'ハルビン (Harubin)', orig: '哈爾濱 (Hā’ěrbīn)',
-    zh: '哈爾濱', ko: '하얼빈', date: 'Itō assassinated 26 October 1909', cat: 'city', lvl: 2,
-    lat: 45.8, lon: 126.53, wiki: 'https://en.wikipedia.org/wiki/Harbin', year: 1909,
+    id: 'harbin', en: 'Harubin (Hā’ěrbīn, Harbin)', ja: 'ハルビン (Harubin)',
+    orig: '哈爾濱 (Hā’ěrbīn)', zh: '哈爾濱', ko: '하얼빈', date: 'Itō assassinated 26 October 1909',
+    cat: 'city', lvl: 2, lat: 45.8, lon: 126.53, wiki: 'https://en.wikipedia.org/wiki/Harbin',
+    jpfrom: 'e1942', local: 'Hā’ěrbīn (Harbin)', year: 1909,
     note: 'A Russian-built railway city with a large émigré population. Itō Hirobumi was shot at its station by the Korean independence activist An Chunggŭn. Unit 731 ran human vivisection at Pingfang on the outskirts from 1936, and field-tested plague and cholera on Chinese towns.'
   },
   {
-    id: 'portarthur', en: 'Lǚshùn (Port Arthur, Ryojun)', ja: '旅順 (Ryojun)',
+    id: 'portarthur', en: 'Ryojun (Lǚshùn, Port Arthur)', ja: '旅順 (Ryojun)',
     orig: '旅順 (Lǚshùn)', zh: '旅順', ko: '뤼순커우구', date: 'Siege, August 1904 – January 1905',
     cat: 'city', lvl: 1, lat: 38.82, lon: 121.22,
-    wiki: 'https://en.wikipedia.org/wiki/L%C3%BCshunkou', year: 1894,
+    wiki: 'https://en.wikipedia.org/wiki/L%C3%BCshunkou', local: 'Lǚshùn (Port Arthur, Ryojun)',
+    year: 1894,
     note: 'Taken from China in 1894, given up under the Triple Intervention of 1895, leased by Russia in 1898, and won back at enormous cost in the siege of 1904–05. The pivot of Japanese continental policy for fifty years.'
   },
   {
-    id: 'dairen', en: 'Dàlián (Dairen, Dalny)', ja: '大連 (Dairen)', orig: '大連 (Dàlián)',
+    id: 'dairen', en: 'Dairen (Dàlián, Dalny)', ja: '大連 (Dairen)', orig: '大連 (Dàlián)',
     zh: '大連', ko: '다롄', date: 'Japanese from 1905', cat: 'city', lvl: 2, lat: 38.91,
-    lon: 121.61, wiki: 'https://en.wikipedia.org/wiki/Dalian', year: 1905,
+    lon: 121.61, wiki: 'https://en.wikipedia.org/wiki/Dalian', local: 'Dàlián (Dairen, Dalny)',
+    year: 1905,
     note: 'The commercial capital of the Kwantung Leased Territory and headquarters of the South Manchuria Railway Company, the vehicle of Japanese economic power in the region.'
   },
   {
-    id: 'chengde', en: 'Chéngdé (Chengteh)', ja: '承徳 (Shōtoku)', orig: '承德 (Chéngdé)', zh: '承德',
-    ko: '청더', date: 'Occupied 4 March 1933', cat: 'city', lvl: 3, lat: 40.98, lon: 117.94,
-    wiki: 'https://en.wikipedia.org/wiki/Chengde', year: 1933,
+    id: 'chengde', en: 'Shōtoku (Chéngdé, Chengteh)', ja: '承徳 (Shōtoku)', orig: '承德 (Chéngdé)',
+    zh: '承德', ko: '청더', date: 'Occupied 4 March 1933', cat: 'city', lvl: 3, lat: 40.98,
+    lon: 117.94, wiki: 'https://en.wikipedia.org/wiki/Chengde', jpfrom: 'e1942',
+    local: 'Chéngdé (Chengteh)', year: 1933,
     note: 'The Qing emperors’ summer capital, and capital of Rehe province — English sources often call the city itself Rehe. Taken in a ten-day campaign and attached to Manchukuo; the Tanggu Truce followed in May.'
   },
   {
@@ -1304,10 +1314,10 @@ JMAP.SITES = [
     note: 'The treaty port for Beijing, carved into nine foreign concessions at their greatest extent, a Japanese one among them. The Tianjin Convention of 1885 regulated Chinese and Japanese troops in Korea, and broke down in 1894; the Tanggu Truce of May 1933, signed at its port, gave north China a demilitarised zone that Japan spent the next four years pushing into.'
   },
   {
-    id: 'kalgan', en: 'Zhāngjiākǒu (Kalgan, Changchiakou)', ja: '張家口 (Chōkakō)',
+    id: 'kalgan', en: 'Chōkakō (Zhāngjiākǒu, Kalgan, Changchiakou)', ja: '張家口 (Chōkakō)',
     orig: '張家口 (Zhāngjiākǒu)', zh: '張家口', date: 'Capital of Mengchiang from 1939', cat: 'city',
     lvl: 3, lat: 40.81, lon: 114.88, wiki: 'https://en.wikipedia.org/wiki/Zhangjiakou',
-    year: 1937,
+    jpfrom: 'e1942', local: 'Zhāngjiākǒu (Kalgan, Changchiakou)', year: 1937,
     note: 'The old caravan gate through the Great Wall to Mongolia, and the seat of the Japanese-sponsored Inner Mongolian regime.'
   },
   {
@@ -1386,13 +1396,15 @@ JMAP.SITES = [
   {
     id: 'taipei', en: 'Taihoku (Taibei, Taipei)', ja: '臺北 (Taihoku)', orig: '臺北 (Tâi-pak)',
     zh: '臺北', ko: '다이호쿠주', date: 'Colonial capital from 1895', cat: 'city', lvl: 2, lat: 25.03,
-    lon: 121.57, wiki: 'https://en.wikipedia.org/wiki/Taihoku_Prefecture', year: 1895,
+    lon: 121.57, wiki: 'https://en.wikipedia.org/wiki/Taihoku_Prefecture',
+    local: 'Taibei (Taihoku, Taipei)', year: 1895,
     note: 'Seat of the Governor-General of Taiwan, and the administrative model that later colonies were built on.'
   },
   {
     id: 'kaohsiung', en: 'Takao (Gaoxiong, Kaohsiung)', ja: '高雄 (Takao)', orig: '高雄 (Ko-hiông)',
     zh: '高雄', date: 'Developed from 1908', cat: 'city', lvl: 3, lat: 22.63, lon: 120.3,
-    wiki: 'https://en.wikipedia.org/wiki/Xin-Fu-Hwa', year: 1908,
+    wiki: 'https://en.wikipedia.org/wiki/Xin-Fu-Hwa', local: 'Gaoxiong (Takao, Kaohsiung)',
+    year: 1908,
     note: 'The southern port built up by the colonial government, and the springboard for the "southward advance" into Southeast Asia.'
   },
   {
@@ -2062,53 +2074,61 @@ JMAP.BROWSE = [
     note: 'The oasis capital of Ningxia on the upper Yellow River, held for the Republic by Ma Hongkui throughout. Never occupied.'
   },
   {
-    id: 'hohhot', en: 'Hūhéhàotè (Kweisui)', ja: '厚和 (Kōwa)', zh: '歸綏（呼和浩特）', ko: '후허하오터',
-    lat: 40.84, lon: 111.75, wiki: 'https://en.wikipedia.org/wiki/Hohhot',
+    id: 'hohhot', en: 'Kōwa (Hūhéhàotè, Kweisui)', ja: '厚和 (Kōwa)', zh: '歸綏（呼和浩特）', ko: '후허하오터',
+    lat: 40.84, lon: 111.75, wiki: 'https://en.wikipedia.org/wiki/Hohhot', jpfrom: 'e1942',
+    local: 'Hūhéhàotè (Kweisui)',
     note: 'The Inner Mongolian trade and lamasery city on the Beijing–Suiyuan railway. Taken on 14 October 1937 and renamed Kōwa; Demchugdongrub\'s Mongol government sat here before the seat moved to Zhangjiakou.'
   },
   {
-    id: 'baotou', en: 'Bāotóu (Paotow)', ja: '包頭 (Hōtō)', zh: '包頭', ko: '바오터우', lat: 40.66,
-    lon: 109.84, wiki: 'https://en.wikipedia.org/wiki/Baotou',
+    id: 'baotou', en: 'Hōtō (Bāotóu, Paotow)', ja: '包頭 (Hōtō)', zh: '包頭', ko: '바오터우',
+    lat: 40.66, lon: 109.84, wiki: 'https://en.wikipedia.org/wiki/Baotou', jpfrom: 'e1942',
+    local: 'Bāotóu (Paotow)',
     note: 'The railhead of the Beijing–Suiyuan line and the wool market of the steppe. Taken in October 1937, and the western limit of Japanese control; the country beyond stayed with Fu Zuoyi.'
   },
   {
-    id: 'qiqihar', en: 'Qíqíhā’ěr (Tsitsihar)', ja: 'チチハル (Chichiharu)', zh: '齊齊哈爾', ko: '치치하얼',
-    lat: 47.35, lon: 123.92, wiki: 'https://en.wikipedia.org/wiki/Qiqihar',
+    id: 'qiqihar', en: 'Chichiharu (Qíqíhā’ěr, Tsitsihar)', ja: 'チチハル (Chichiharu)', zh: '齊齊哈爾',
+    ko: '치치하얼', lat: 47.35, lon: 123.92, wiki: 'https://en.wikipedia.org/wiki/Qiqihar',
+    jpfrom: 'e1942', local: 'Qíqíhā’ěr (Tsitsihar)',
     note: 'The seat of Heilongjiang and the junction of the Chinese Eastern Railway with the line north. Taken on 19 November 1931 after the fighting at the Nen bridges.'
   },
   {
-    id: 'jilincity', en: 'Jílín (Kirin)', ja: '吉林 (Kirin)', zh: '吉林', ko: '지린시', lat: 43.84,
-    lon: 126.55, wiki: 'https://en.wikipedia.org/wiki/Jilin_City',
+    id: 'jilincity', en: 'Kirin (Jílín)', ja: '吉林 (Kirin)', zh: '吉林', ko: '지린시', lat: 43.84,
+    lon: 126.55, wiki: 'https://en.wikipedia.org/wiki/Jilin_City', jpfrom: 'e1942',
+    local: 'Jílín (Kirin)',
     note: 'A timber and river city on the Songhua, taken in September 1931 when its provincial governor went over to the Japanese.'
   },
   {
-    id: 'mudanjiang', en: 'Mǔdānjiāng (Mutankiang)', ja: '牡丹江 (Botankō)', zh: '牡丹江', ko: '무단장',
-    lat: 44.58, lon: 129.6, wiki: 'https://en.wikipedia.org/wiki/Mudanjiang',
+    id: 'mudanjiang', en: 'Botankō (Mǔdānjiāng, Mutankiang)', ja: '牡丹江 (Botankō)', zh: '牡丹江',
+    ko: '무단장', lat: 44.58, lon: 129.6, wiki: 'https://en.wikipedia.org/wiki/Mudanjiang',
+    jpfrom: 'e1942', local: 'Mǔdānjiāng (Mutankiang)',
     note: 'A garrison town and railway junction on the eastern line to Vladivostok, and the first objective of the Soviet armies in August 1945.'
   },
   {
-    id: 'fushun', en: 'Fǔshùn', ja: '撫順 (Bujun)', zh: '撫順', ko: '푸순', lat: 41.88, lon: 123.94,
-    wiki: 'https://en.wikipedia.org/wiki/Fushun',
+    id: 'fushun', en: 'Bujun (Fǔshùn)', ja: '撫順 (Bujun)', zh: '撫順', ko: '푸순', lat: 41.88,
+    lon: 123.94, wiki: 'https://en.wikipedia.org/wiki/Fushun', jpfrom: 'e1942', local: 'Fǔshùn',
     note: 'The open-cast coal mine that fuelled the South Manchuria Railway and much of Japanese industry. Chinese labourers died here in tens of thousands.'
   },
   {
-    id: 'anshan', en: 'Ānshān', ja: '鞍山 (Anzan)', zh: '鞍山', lat: 41.11, lon: 122.99,
-    wiki: 'https://en.wikipedia.org/wiki/Anshan',
+    id: 'anshan', en: 'Anzan (Ānshān)', ja: '鞍山 (Anzan)', zh: '鞍山', lat: 41.11, lon: 122.99,
+    wiki: 'https://en.wikipedia.org/wiki/Anshan', jpfrom: 'e1942', local: 'Ānshān',
     note: 'The Shōwa Steel Works, the largest ironworks in the empire outside Japan, and the target of the first B-29 raid on Manchuria in July 1944.'
   },
   {
-    id: 'jinzhou', en: 'Jǐnzhōu (Chinchow)', ja: '錦州 (Kinshū)', zh: '錦州', lat: 41.1,
-    lon: 121.13, wiki: 'https://en.wikipedia.org/wiki/Jinzhou',
+    id: 'jinzhou', en: 'Kinshū (Jǐnzhōu, Chinchow)', ja: '錦州 (Kinshū)', zh: '錦州', lat: 41.1,
+    lon: 121.13, wiki: 'https://en.wikipedia.org/wiki/Jinzhou', jpfrom: 'e1942',
+    local: 'Jǐnzhōu (Chinchow)',
     note: 'The gate between Manchuria and the Wall, on the railway from Shenyang to Beijing. Taken on 3 January 1932, which put Japanese troops on the Wall; Harbin held out until February.'
   },
   {
-    id: 'yingkou', en: 'Yíngkǒu (Newchwang)', ja: '営口 (Eikō)', zh: '營口', ko: '잉커우', lat: 40.67,
-    lon: 122.24, wiki: 'https://en.wikipedia.org/wiki/Yingkou',
+    id: 'yingkou', en: 'Eikō (Yíngkǒu, Newchwang)', ja: '営口 (Eikō)', zh: '營口', ko: '잉커우',
+    lat: 40.67, lon: 122.24, wiki: 'https://en.wikipedia.org/wiki/Yingkou', jpfrom: 'e1942',
+    local: 'Yíngkǒu (Newchwang)',
     note: 'The old treaty port of Yingkou at the mouth of the Liao, once the outlet for Manchurian soya beans and long overtaken by Dalian.'
   },
   {
-    id: 'dandong', en: 'Āndōng (Dandong)', ja: '安東 (Antō)', zh: '安東', ko: '단둥', lat: 40.13,
-    lon: 124.39, wiki: 'https://en.wikipedia.org/wiki/Dandong',
+    id: 'dandong', en: 'Antō (Āndōng, Dandong)', ja: '安東 (Antō)', zh: '安東', ko: '단둥',
+    lat: 40.13, lon: 124.39, wiki: 'https://en.wikipedia.org/wiki/Dandong', jpfrom: 'e1942',
+    local: 'Āndōng (Dandong)',
     note: 'Where the railway crosses the Yalu into Korea — the bridge that carried the army to the continent — and the port for the timber floated down the river.'
   },
   {
@@ -2158,57 +2178,60 @@ JMAP.BROWSE = [
   },
   {
     id: 'taegu', en: 'Taikyū (Taegu)', ja: '大邱 (Taikyū)', zh: '大邱', ko: '대구광역', lat: 35.87,
-    lon: 128.6, wiki: 'https://en.wikipedia.org/wiki/Daegu',
+    lon: 128.6, wiki: 'https://en.wikipedia.org/wiki/Daegu', local: 'Taegu (Taikyū)',
     note: 'The provincial seat of North Kyŏngsang, and the apple and textile town of the south-east. The March First Movement reached it on 8 March 1919 and was put down by troops.'
   },
   {
     id: 'kwangju', en: 'Kōshū (Kwangju)', ja: '光州 (Kōshū)', zh: '光州', ko: '광주광역', lat: 35.16,
-    lon: 126.85, wiki: 'https://en.wikipedia.org/wiki/Gwangju',
+    lon: 126.85, wiki: 'https://en.wikipedia.org/wiki/Gwangju', local: 'Kwangju (Kōshū)',
     note: 'Where the student movement of November 1929 began, after Japanese schoolboys harassed Korean girls on the Naju train; it spread to some two hundred schools across the colony.'
   },
   {
     id: 'taejon', en: 'Taiden (Taejŏn)', ja: '大田 (Taiden)', zh: '大田', ko: '대전광역', lat: 36.35,
-    lon: 127.38, wiki: 'https://en.wikipedia.org/wiki/Daejeon',
+    lon: 127.38, wiki: 'https://en.wikipedia.org/wiki/Daejeon', local: 'Taejŏn (Taiden)',
     note: 'The junction where the Seoul–Pusan trunk line meets the Honam line down to the rice country of the south-west.'
   },
   {
     id: 'wonsan', en: 'Genzan (Wŏnsan)', ja: '元山 (Genzan)', zh: '元山', ko: '원산', lat: 39.15,
-    lon: 127.44, wiki: 'https://en.wikipedia.org/wiki/Wonsan',
+    lon: 127.44, wiki: 'https://en.wikipedia.org/wiki/Wonsan', local: 'Wŏnsan (Genzan)',
     note: 'Opened to Japanese trade in 1880, and by the 1930s the east-coast port for the fisheries and for the oil refinery built beside it.'
   },
   {
     id: 'chongjin', en: 'Seishin (Ch’ŏngjin)', ja: '清津 (Seishin)', zh: '清津', ko: '청진',
     lat: 41.8, lon: 129.78, wiki: 'https://en.wikipedia.org/wiki/Chongjin',
+    local: 'Ch’ŏngjin (Seishin)',
     note: 'Steel and a deep-water harbour built to carry Manchurian ore and soya to Japan. Soviet marines landed here on 13 August 1945.'
   },
   {
     id: 'hamhung', en: 'Kankō (Hamhŭng)', ja: '咸興 (Kankō)', zh: '咸興', ko: '함흥', lat: 39.92,
-    lon: 127.54, wiki: 'https://en.wikipedia.org/wiki/Hamhung',
+    lon: 127.54, wiki: 'https://en.wikipedia.org/wiki/Hamhung', local: 'Hamhŭng (Kankō)',
     note: 'Beside it at Hŭngnam stood Noguchi\'s Chōsen Chisso works, the largest chemical plant in the empire — fertiliser, and later explosives, on power from the Pujŏn river dams.'
   },
   {
     id: 'sinuiju', en: 'Shingishū (Sinŭiju)', ja: '新義州 (Shingishū)', zh: '新義州', ko: '신의주',
     lat: 40.1, lon: 124.39, wiki: 'https://en.wikipedia.org/wiki/Sinuiju',
+    local: 'Sinŭiju (Shingishū)',
     note: 'The Korean end of the Yalu bridge to Dandong, and downstream of the Suiho dam, which was the largest in Asia when it was finished in 1941.'
   },
   {
     id: 'kaesong', en: 'Kaijō (Kaesŏng)', ja: '開城 (Kaijō)', zh: '開城', ko: '개성', lat: 37.97,
-    lon: 126.55, wiki: 'https://en.wikipedia.org/wiki/Kaesong',
+    lon: 126.55, wiki: 'https://en.wikipedia.org/wiki/Kaesong', local: 'Kaesŏng (Kaijō)',
     note: 'The Koryŏ capital, and the ginseng town. It was in Keiki-dō in the colonial period, which is where this map draws it, not in Hwanghae.'
   },
   {
     id: 'nampo', en: 'Chinnanpo (Chinnamp’o)', ja: '鎮南浦 (Chinnanpo)', zh: '鎮南浦', ko: '남포',
     lat: 38.74, lon: 125.41, wiki: 'https://en.wikipedia.org/wiki/Nampo',
+    local: 'Chinnamp’o (Chinnanpo)',
     note: 'Pyongyang\'s port, and the smelter that took Korean and Manchurian ore.'
   },
   {
     id: 'mokpo', en: 'Moppo (Mokp’o)', ja: '木浦 (Mokupo)', zh: '木浦', ko: '목포', lat: 34.79,
-    lon: 126.39, wiki: 'https://en.wikipedia.org/wiki/Mokpo',
+    lon: 126.39, wiki: 'https://en.wikipedia.org/wiki/Mokpo', local: 'Mokp’o (Moppo)',
     note: 'The cotton and rice port of the south-west, through which the Honam harvest left for Japan.'
   },
   {
     id: 'najin', en: 'Rashin (Najin)', ja: '羅津 (Rashin)', zh: '羅津', ko: '라진구역', lat: 42.24,
-    lon: 130.29, wiki: 'https://en.wikipedia.org/wiki/Rajin-guyok',
+    lon: 130.29, wiki: 'https://en.wikipedia.org/wiki/Rajin-guyok', local: 'Najin (Rashin)',
     note: 'Built from a fishing village in the 1930s as the terminus of the short sea route from Manchuria to Japan, bypassing the long haul round Korea.'
   },
   {
@@ -2219,33 +2242,38 @@ JMAP.BROWSE = [
   {
     id: 'taichung', en: 'Taichū (Taizhong, Taichung)', ja: '臺中 (Taichū)', zh: '臺中', ko: '다이추주',
     lat: 24.15, lon: 120.67, wiki: 'https://en.wikipedia.org/wiki/Taich%C5%AB_Prefecture',
+    local: 'Taizhong (Taichū, Taichung)',
     note: 'The centre of the rice plain, and the prefecture in which the Musha rising broke out in October 1930 — the last armed resistance by Taiwan\'s indigenous peoples, put down with aircraft and poison gas.'
   },
   {
     id: 'keelung', en: 'Kīrun (Jilong, Keelung)', ja: '基隆 (Kīrun)', zh: '基隆', ko: '지룽',
     lat: 25.13, lon: 121.74, wiki: 'https://en.wikipedia.org/wiki/Keelung',
+    local: 'Jilong (Kīrun, Keelung)',
     note: 'The northern coaling port and the ferry terminus for Japan. American carrier raids struck its harbour in October 1944.'
   },
   {
     id: 'hualien', en: 'Karenkō (Hualiangang, Hualien)', ja: '花蓮港 (Karenkō)', zh: '花蓮港',
     ko: '가렌코청', lat: 23.98, lon: 121.6,
     wiki: 'https://en.wikipedia.org/wiki/Karenk%C5%8D_Prefecture',
+    local: 'Hualiangang (Karenkō, Hualien)',
     note: 'The port of the east coast, cut off from the rest of the island by the central range and settled late.'
   },
   {
     id: 'hsinchu', en: 'Shinchiku (Xinzhu, Hsinchu)', ja: '新竹 (Shinchiku)', zh: '新竹',
     ko: '신치쿠주', lat: 24.81, lon: 120.97,
     wiki: 'https://en.wikipedia.org/wiki/Shinchiku_Prefecture',
+    local: 'Xinzhu (Shinchiku, Hsinchu)',
     note: 'Natural gas and an air base. American bombers from China hit its airfields on 25 November 1943, the first raid of the war on Taiwan.'
   },
   {
     id: 'chiayi', en: 'Kagi (Jiayi, Chiayi)', ja: '嘉義 (Kagi)', zh: '嘉義', ko: '자이', lat: 23.48,
-    lon: 120.45, wiki: 'https://en.wikipedia.org/wiki/Chiayi',
+    lon: 120.45, wiki: 'https://en.wikipedia.org/wiki/Chiayi', local: 'Jiayi (Kagi, Chiayi)',
     note: 'The foot of the Alishan forest railway, built by the colonial government to bring the cypress down off the mountain.'
   },
   {
     id: 'makung', en: 'Makō, Pescadores (Magong, Makung)', ja: '馬公 (Makō)', zh: '馬公（澎湖）',
     lat: 23.57, lon: 119.57, wiki: 'https://en.wikipedia.org/wiki/Longgui_Park',
+    local: 'Magong, Pescadores (Makō, Makung)',
     note: 'The naval anchorage in the Pescadores, which Japan took in March 1895 — a month before the treaty that gave it Taiwan.'
   },
   {
@@ -2504,8 +2532,9 @@ JMAP.BROWSE = [
     note: 'Where the Great Wall meets the sea and the Manchurian railway crosses into China proper. Taken on 1 January 1933, opening the Rehe campaign.'
   },
   {
-    id: 'datong', en: 'Dàtóng (Tatung)', ja: '大同 (Daidō)', zh: '大同', ko: '다퉁', lat: 40.09,
-    lon: 113.3, wiki: 'https://en.wikipedia.org/wiki/Datong',
+    id: 'datong', en: 'Daidō (Dàtóng, Tatung)', ja: '大同 (Daidō)', zh: '大同', ko: '다퉁',
+    lat: 40.09, lon: 113.3, wiki: 'https://en.wikipedia.org/wiki/Datong', jpfrom: 'e1942',
+    local: 'Dàtóng (Tatung)',
     note: 'Coal, and the junction of the two railways the occupation ran on. Taken on 13 September 1937 and attached to the Japanese-sponsored government of northern Shanxi.'
   },
   {
@@ -2598,18 +2627,21 @@ JMAP.BROWSE = [
     note: 'On the Gansu corridor where the Lunghai railway ran out, a stage on the overland road that carried Soviet aid until 1941.'
   },
   {
-    id: 'chaoyang', en: 'Cháoyáng', ja: '朝陽 (Chōyō)', zh: '朝陽', ko: '차오양', lat: 41.57,
-    lon: 120.45, wiki: 'https://en.wikipedia.org/wiki/Chaoyang,_Liaoning',
+    id: 'chaoyang', en: 'Chōyō (Cháoyáng)', ja: '朝陽 (Chōyō)', zh: '朝陽', ko: '차오양', lat: 41.57,
+    lon: 120.45, wiki: 'https://en.wikipedia.org/wiki/Chaoyang,_Liaoning', jpfrom: 'e1942',
+    local: 'Cháoyáng',
     note: 'On the road from the Wall into Rehe, taken in the campaign of February and March 1933.'
   },
   {
-    id: 'yanji', en: 'Yánjí (Yenki)', ja: '延吉 (Enkichi)', zh: '延吉', ko: '옌지', lat: 42.91,
-    lon: 129.51, wiki: 'https://en.wikipedia.org/wiki/Yanji',
+    id: 'yanji', en: 'Enkichi (Yánjí, Yenki)', ja: '延吉 (Enkichi)', zh: '延吉', ko: '옌지',
+    lat: 42.91, lon: 129.51, wiki: 'https://en.wikipedia.org/wiki/Yanji', jpfrom: 'e1942',
+    local: 'Yánjí (Yenki)',
     note: 'The seat of Jiandao, the one Manchurian province with a Korean majority, and the ground of both Korean resistance and the counter-insurgency against it.'
   },
   {
-    id: 'jiamusi', en: 'Jiāmùsī (Kiamusze)', ja: '佳木斯 (Kamusu)', zh: '佳木斯', ko: '자무쓰',
-    lat: 46.81, lon: 130.32, wiki: 'https://en.wikipedia.org/wiki/Jiamusi',
+    id: 'jiamusi', en: 'Kamusu (Jiāmùsī, Kiamusze)', ja: '佳木斯 (Kamusu)', zh: '佳木斯', ko: '자무쓰',
+    lat: 46.81, lon: 130.32, wiki: 'https://en.wikipedia.org/wiki/Jiamusi', jpfrom: 'e1942',
+    local: 'Jiāmùsī (Kiamusze)',
     note: 'The seat of Sankiang on the Songhua, and the country the Manchukuo settler schemes were pushed into hardest.'
   },
   {
@@ -3178,7 +3210,7 @@ JMAP.BROWSE = [
   },
   {
     id: 'benxi', en: 'Běnxī (Penhsihu)', ja: '本渓', zh: '本溪', ko: '번시', lat: 41.29, lon: 123.77,
-    wiki: 'https://en.wikipedia.org/wiki/Benxi',
+    wiki: 'https://en.wikipedia.org/wiki/Benxi', jpfrom: 'e1942',
     note: 'Iron and coal; the Penhsihu colliery explosion of 1942 killed over 1,500 miners, the worst in history.'
   },
   {
@@ -3209,16 +3241,17 @@ JMAP.BROWSE = [
   {
     id: 'changhua', en: 'Shōka (Zhanghua, Changhua)', ja: '彰化', zh: '彰化', ko: '장화', lat: 24.08,
     lon: 120.54, wiki: 'https://en.wikipedia.org/wiki/Changhua',
+    local: 'Zhanghua (Shōka, Changhua)',
     note: 'On the Taiwan trunk railway at the foot of Baguashan, in the centre of the rice and sugar plain.'
   },
   {
     id: 'chifeng', en: 'Chifeng (Ulanhad)', ja: '赤峰', zh: '赤峰', ko: '츠펑', lat: 42.26,
-    lon: 118.89, wiki: 'https://en.wikipedia.org/wiki/Chifeng',
+    lon: 118.89, wiki: 'https://en.wikipedia.org/wiki/Chifeng', jpfrom: 'e1942',
     note: 'The Mongol trade town in western Rehe, on the road from the Wall to the steppe.'
   },
   {
     id: 'chinju', en: 'Shinshū (Chinju)', ko: '진주', lat: 35.19, lon: 128.08,
-    wiki: 'https://en.wikipedia.org/wiki/Jinju',
+    wiki: 'https://en.wikipedia.org/wiki/Jinju', local: 'Chinju (Shinshū)',
     note: 'The seat of South Kyŏngsang until 1925, and the site of one of the great sieges of the Japanese invasions of the 1590s.'
   },
   {
@@ -3238,17 +3271,17 @@ JMAP.BROWSE = [
   },
   {
     id: 'chonju', en: 'Zenshū (Chŏnju)', ja: '全州', zh: '全州', ko: '전주', lat: 35.82, lon: 127.15,
-    wiki: 'https://en.wikipedia.org/wiki/Jeonju',
+    wiki: 'https://en.wikipedia.org/wiki/Jeonju', local: 'Chŏnju (Zenshū)',
     note: 'The seat of North Chŏlla and the old Chosŏn dynasty\'s ancestral home, in the rice country of the south-west.'
   },
   {
     id: 'chunchon', en: 'Shunsen (Ch’unch’ŏn)', ja: '春川', zh: '春川', ko: '춘천', lat: 37.88,
-    lon: 127.73, wiki: 'https://en.wikipedia.org/wiki/Chuncheon',
+    lon: 127.73, wiki: 'https://en.wikipedia.org/wiki/Chuncheon', local: 'Ch’unch’ŏn (Shunsen)',
     note: 'The seat of Kangwŏn, in the lake and mountain country east of Seoul.'
   },
   {
     id: 'chongju', en: 'Seishū (Ch’ŏngju)', ja: '清州', zh: '清州', ko: '청주', lat: 36.64,
-    lon: 127.49, wiki: 'https://en.wikipedia.org/wiki/Cheongju',
+    lon: 127.49, wiki: 'https://en.wikipedia.org/wiki/Cheongju', local: 'Ch’ŏngju (Seishū)',
     note: 'The seat of North Ch\'ungch\'ŏng, on the road and rail line south from Seoul.'
   },
   {
@@ -3278,7 +3311,7 @@ JMAP.BROWSE = [
   },
   {
     id: 'duolun', en: 'Dolonnor (Duolun)', zh: '多倫諾爾鎮', lat: 42.19, lon: 116.47,
-    wiki: 'https://en.wikipedia.org/wiki/Dolon_Nor',
+    wiki: 'https://en.wikipedia.org/wiki/Dolon_Nor', jpfrom: 'e1942',
     note: 'Taken in 1933 and a staging point for the push into Inner Mongolia.'
   },
   {
@@ -3313,7 +3346,7 @@ JMAP.BROWSE = [
   },
   {
     id: 'fuxin', en: 'Fùxīn (Fuhsin)', ja: '阜新', zh: '阜新', ko: '푸신', lat: 42.02, lon: 121.67,
-    wiki: 'https://en.wikipedia.org/wiki/Fuxin',
+    wiki: 'https://en.wikipedia.org/wiki/Fuxin', jpfrom: 'e1942',
     note: 'Open-cast coal in western Manchuria, worked largely by conscripted Chinese labour under the South Manchuria Railway.'
   },
   {
@@ -3338,7 +3371,7 @@ JMAP.BROWSE = [
   },
   {
     id: 'haeju', en: 'Kaishū (Haeju)', ja: '海州', zh: '海州', ko: '해주', lat: 38.04, lon: 125.71,
-    wiki: 'https://en.wikipedia.org/wiki/Haeju',
+    wiki: 'https://en.wikipedia.org/wiki/Haeju', local: 'Haeju (Kaishū)',
     note: 'The seat of Hwanghae, and the port for the wheat and iron of the west coast.'
   },
   {
@@ -3348,7 +3381,7 @@ JMAP.BROWSE = [
   },
   {
     id: 'hailar', en: 'Hailar', ja: 'ハイラル区', zh: '海拉爾', ko: '하이라얼구', lat: 49.2, lon: 119.7,
-    wiki: 'https://en.wikipedia.org/wiki/Hailar_District',
+    wiki: 'https://en.wikipedia.org/wiki/Hailar_District', jpfrom: 'e1942',
     note: 'The Hulunbuir garrison and fortified zone facing Mongolia; the base for the Nomonhan fighting.'
   },
   {
@@ -3358,7 +3391,7 @@ JMAP.BROWSE = [
   },
   {
     id: 'heihe', en: 'Heihe (Sakhalyan/Aigun)', ja: '黒河', zh: '黑河', ko: '헤이허', lat: 50.25,
-    lon: 127.53, wiki: 'https://en.wikipedia.org/wiki/Heihe',
+    lon: 127.53, wiki: 'https://en.wikipedia.org/wiki/Heihe', jpfrom: 'e1942',
     note: 'The Amur crossing facing Blagoveshchensk, and the northern end of the Manchurian frontier the Kwantung Army fortified.'
   },
   {
@@ -3378,7 +3411,7 @@ JMAP.BROWSE = [
   },
   {
     id: 'hungnam', en: 'Kōnan (Hŭngnam)', ja: '興南区域', zh: '興南區域', ko: '흥남구역', lat: 39.83,
-    lon: 127.62, wiki: 'https://en.wikipedia.org/wiki/Hungnam',
+    lon: 127.62, wiki: 'https://en.wikipedia.org/wiki/Hungnam', local: 'Hŭngnam (Kōnan)',
     note: 'Noguchi Jun’s chemical combine, the largest industrial complex in the empire outside Japan, built on Korean and later forced labour.'
   },
   {
@@ -3440,7 +3473,7 @@ JMAP.BROWSE = [
   },
   {
     id: 'kongju', en: 'Kōshū (Kongju)', ja: '公州', zh: '公州', ko: '공주', lat: 36.45, lon: 127.12,
-    wiki: 'https://en.wikipedia.org/wiki/Gongju',
+    wiki: 'https://en.wikipedia.org/wiki/Gongju', local: 'Kongju (Kōshū)',
     note: 'Capital of South Ch’ungch’ŏng until 1932, when the seat moved to Taejŏn.'
   },
   {
@@ -3465,7 +3498,7 @@ JMAP.BROWSE = [
   },
   {
     id: 'kunsan', en: 'Gunzan (Kunsan)', ja: '群山', zh: '群山', ko: '군산', lat: 35.98, lon: 126.72,
-    wiki: 'https://en.wikipedia.org/wiki/Gunsan',
+    wiki: 'https://en.wikipedia.org/wiki/Gunsan', local: 'Kunsan (Gunzan)',
     note: 'The rice port: the outlet through which the Chŏlla harvest left for Japan, and a heavily Japanese town.'
   },
   {
@@ -3514,7 +3547,7 @@ JMAP.BROWSE = [
   },
   {
     id: 'liaoyang', en: 'Liáoyáng', ja: '遼陽', zh: '遼陽', ko: '랴오양', lat: 41.27, lon: 123.17,
-    wiki: 'https://en.wikipedia.org/wiki/Liaoyang',
+    wiki: 'https://en.wikipedia.org/wiki/Liaoyang', jpfrom: 'e1942',
     note: 'The old capital of the Liao country and the field of the largest battle of 1904 before Mukden.'
   },
   {
@@ -3534,7 +3567,7 @@ JMAP.BROWSE = [
   },
   {
     id: 'manzhouli', en: 'Manchouli (Manzhouli)', ja: '満洲里', zh: '滿洲里', ko: '만저우리', lat: 49.6,
-    lon: 117.45, wiki: 'https://en.wikipedia.org/wiki/Manzhouli',
+    lon: 117.45, wiki: 'https://en.wikipedia.org/wiki/Manzhouli', jpfrom: 'e1942',
     note: 'The rail frontier with the Soviet Union on the Chinese Eastern Railway.'
   },
   {
@@ -3648,12 +3681,12 @@ JMAP.BROWSE = [
   },
   {
     id: 'pingfang', en: 'Pingfang', ja: '平房区', ko: '핑팡구', lat: 45.61, lon: 126.63,
-    wiki: 'https://en.wikipedia.org/wiki/Pingfang,_Harbin',
+    wiki: 'https://en.wikipedia.org/wiki/Pingfang,_Harbin', jpfrom: 'e1942',
     note: 'Unit 731. A village rather than a city, but the site of the biological-warfare programme and its human experiments.'
   },
   {
     id: 'pingtung', en: 'Heitō (Pingdong, Pingtung)', zh: '屏東', lat: 22.68, lon: 120.49,
-    wiki: 'https://en.wikipedia.org/wiki/Pingtung_City',
+    wiki: 'https://en.wikipedia.org/wiki/Pingtung_City', local: 'Pingdong (Heitō, Pingtung)',
     note: 'An army airfield in the southern sugar plain, from which aircraft flew against the Philippines in December 1941.'
   },
   {
@@ -3737,22 +3770,22 @@ JMAP.BROWSE = [
   },
   {
     id: 'suifenhe', en: 'Suifenho (Pogranichnaya)', lat: 44.4, lon: 131.15,
-    wiki: 'https://en.wikipedia.org/wiki/Suifenhe',
+    wiki: 'https://en.wikipedia.org/wiki/Suifenhe', jpfrom: 'e1942',
     note: 'The eastern rail crossing to Vladivostok, and a fortified belt.'
   },
   {
     id: 'suwon', en: 'Suigen (Suwŏn)', ja: '水原', zh: '水原', ko: '수원', lat: 37.26, lon: 127.01,
-    wiki: 'https://en.wikipedia.org/wiki/Suwon',
+    wiki: 'https://en.wikipedia.org/wiki/Suwon', local: 'Suwŏn (Suigen)',
     note: 'The colonial agricultural experiment station, where the rice varieties that fed the empire\'s grain shipments were bred.'
   },
   {
     id: 'siping', en: 'Sìpíng (Ssupingkai)', ja: '四平', zh: '四平', ko: '쓰핑', lat: 43.17,
-    lon: 124.35, wiki: 'https://en.wikipedia.org/wiki/Siping,_Jilin',
+    lon: 124.35, wiki: 'https://en.wikipedia.org/wiki/Siping,_Jilin', jpfrom: 'e1942',
     note: 'The junction where the line from Changchun meets the branch west into the Mongol country.'
   },
   {
     id: 'songjin', en: 'Jōshin (Sŏngjin)', ja: '金策', zh: '金策', ko: '김책', lat: 40.67, lon: 129.2,
-    wiki: 'https://en.wikipedia.org/wiki/Kimchaek',
+    wiki: 'https://en.wikipedia.org/wiki/Kimchaek', local: 'Sŏngjin (Jōshin)',
     note: 'Magnesite and steel, and one of the northern ports built to move Manchurian ore to Japan.'
   },
   {
@@ -3768,6 +3801,7 @@ JMAP.BROWSE = [
   {
     id: 'taitung', en: 'Taitō (Taidong, Taitung)', lat: 22.76, lon: 121.14,
     wiki: 'https://en.wikipedia.org/wiki/Taitung_Performing_Art_Center',
+    local: 'Taidong (Taitō, Taitung)',
     note: 'The last of the eight Taiwanese prefectural seats missing from the layer.'
   },
   {
@@ -3837,7 +3871,7 @@ JMAP.BROWSE = [
   },
   {
     id: 'tonghua', en: 'Tōnghuà', ja: '通化', zh: '通化', ko: '퉁화', lat: 41.73, lon: 125.94,
-    wiki: 'https://en.wikipedia.org/wiki/Tonghua',
+    wiki: 'https://en.wikipedia.org/wiki/Tonghua', jpfrom: 'e1942',
     note: 'Manchukuo’s final capital in August 1945, and the redoubt planned for the Kwantung Army’s last stand.'
   },
   {
@@ -3901,6 +3935,7 @@ JMAP.BROWSE = [
   {
     id: 'yilan', en: 'Giran (Yilan)', zh: '甲子蘭酒文物館', lat: 24.76, lon: 121.75,
     wiki: 'https://en.wikipedia.org/wiki/Yilan_Distillery_Chia_Chi_Lan_Liquor_Museum',
+    local: 'Yilan (Giran)',
     note: 'The rice plain behind the north-east coast of Taiwan, cut off from Taipei by the mountains until the railway.'
   },
   {
@@ -3944,48 +3979,72 @@ JMAP.BROWSE = [
   },
   {
     id: 'daxi', en: 'Daikei (Daxi)', ja: '大溪 (Daikei)', zh: '大溪', lat: 24.8806, lon: 121.2871,
-    wiki: 'https://en.wikipedia.org/wiki/Daxi_District',
+    wiki: 'https://en.wikipedia.org/wiki/Daxi_District', local: 'Daxi (Daikei)',
     note: 'A camphor and tea town on the Dahan, at the head of the navigable water. It was called Dakekan until 1920, and the name a reader meets in accounts of the camphor frontier is that one.'
   },
   {
     id: 'tamsui', en: 'Tansui (Danshui, Tamsui)', ja: '淡水 (Tansui)', zh: '淡水', lat: 25.1719,
     lon: 121.4439, wiki: 'https://en.wikipedia.org/wiki/Tamsui_District',
+    local: 'Danshui (Tansui, Tamsui)',
     note: 'The treaty port at the mouth of the river below Taipei, and the way in for foreign trade and missionaries under the Qing. Its bar silted through the nineteenth century and the trade went to Keelung.'
   },
   {
     id: 'beipu', en: 'Hoppo (Beipu)', ja: '北埔 (Hoppo)', zh: '北埔', lat: 24.6639, lon: 121.0681,
-    wiki: 'https://en.wikipedia.org/wiki/Beipu,_Hsinchu',
+    wiki: 'https://en.wikipedia.org/wiki/Beipu,_Hsinchu', local: 'Beipu (Hoppo)',
     note: 'A Hakka village in the hills behind Hsinchu, laid out in the 1830s as a base for clearing land toward the mountains. In November 1907 a rising here killed some sixty Japanese; it was the first of the armed revolts of the middle colonial period.'
   },
   {
     id: 'puli', en: 'Hori (Puli)', ja: '埔里 (Hori)', zh: '埔里', lat: 23.9667, lon: 120.9667,
-    wiki: 'https://en.wikipedia.org/wiki/Puli,_Nantou',
+    wiki: 'https://en.wikipedia.org/wiki/Puli,_Nantou', local: 'Puli (Hori)',
     note: 'The basin at almost the exact centre of the island, ringed by mountains, and the last town on the road up into the highlands. Everything that went to or came from Musha passed through it.'
   },
   {
     id: 'wushe', en: 'Musha (Wushe)', ja: '霧社 (Musha)', zh: '霧社', lat: 24.0212, lon: 121.1323,
-    wiki: 'https://en.wikipedia.org/wiki/Musha_Incident',
+    wiki: 'https://en.wikipedia.org/wiki/Musha_Incident', local: 'Wushe (Musha)',
     note: 'A police post and Atayal settlement in the mountains above Puli, inside the territory the administration governed separately. In October 1930 the Seediq of six villages attacked the schoolyard here during a sports day and killed 134 Japanese; the reprisal that followed, with aircraft and gas, destroyed the villages that had risen.'
   },
   {
     id: 'fangliao', en: 'Hōryō (Fangliao)', ja: '枋寮 (Hōryō)', zh: '枋寮', lat: 22.3656,
     lon: 120.5936, wiki: 'https://en.wikipedia.org/wiki/Fangliao,_Pingtung',
+    local: 'Fangliao (Hōryō)',
     note: 'The last town on the coast road south, where the western plain runs out against the mountains. The line from Takao reached it in 1941.'
   },
   {
     id: 'checheng', en: 'Shajō (Checheng)', ja: '車城 (Shajō)', zh: '車城', lat: 22.0798,
     lon: 120.7457, wiki: 'https://en.wikipedia.org/wiki/Checheng,_Pingtung',
+    local: 'Checheng (Shajō)',
     note: 'The bay on the south-west coast where the Japanese expedition of 1874 put its troops ashore — Japan\'s first overseas military action, and the beginning of the argument that ended with Taiwan being ceded twenty-one years later.'
   },
   {
     id: 'mudan', en: 'Botansha (Mudan)', ja: '牡丹社 (Botansha)', zh: '牡丹', lat: 22.1262,
     lon: 120.7743, wiki: 'https://en.wikipedia.org/wiki/Mudan,_Pingtung',
+    local: 'Mudan (Botansha)',
     note: 'The Paiwan settlement the 1874 expedition was sent against, after Ryūkyūan sailors wrecked on this coast were killed here three years before. It lay inside the highland territory and was never a Japanese municipality.'
   },
   {
     id: 'hengchun', en: 'Kōshun (Hengchun)', ja: '恆春 (Kōshun)', zh: '恆春', lat: 22.0039,
-    lon: 120.7473, wiki: 'https://en.wikipedia.org/wiki/Hengchun',
+    lon: 120.7473, wiki: 'https://en.wikipedia.org/wiki/Hengchun', local: 'Hengchun (Kōshun)',
     note: 'The walled town at the southern tip, built by the Qing after the 1874 expedition to hold a coast they had just been shown they did not control. Hot enough for rubber and coconut trials under Japanese rule.'
+  },
+  {
+    id: 'chamdo', en: 'Chamdo (Qamdo)', zh: '昌都', lat: 31.143, lon: 97.17,
+    wiki: 'https://en.wikipedia.org/wiki/Chamdo',
+    note: 'The seat of the Tibetan governor of Kham and the garrison town on the road to Szechwan — the eastern end of what Lhasa administered, and the frontier the Republic disputed.'
+  },
+  {
+    id: 'nagchuka', en: 'Nagchuka (Nagqu, Naqu)', zh: '那曲', lat: 31.476, lon: 92.051,
+    wiki: 'https://en.wikipedia.org/wiki/Nagqu',
+    note: 'The staging post on the northern plain where the caravan road from Sining comes down to Lhasa, and where Tibet met the Mongol and Chinese trade.'
+  },
+  {
+    id: 'rudok', en: 'Rudok (Rutog)', zh: '日土', lat: 33.38, lon: 79.732,
+    wiki: 'https://en.wikipedia.org/wiki/Rutog_County',
+    note: 'A fort and salt-trading centre in the far north-west, on the caravan route over to Ladakh and Sinkiang.'
+  },
+  {
+    id: 'gartok', en: 'Gartok (Gar)', zh: '噶爾', lat: 31.728, lon: 80.337,
+    wiki: 'https://en.wikipedia.org/wiki/Gartok',
+    note: 'One of the three marts opened to British trade by the 1904 convention, and the western Tibetan government post — a tent encampment for most of the year rather than a town.'
   },
 ];
 
@@ -5118,13 +5177,13 @@ JMAP.PROVINCES = {
   },
   Keiki: {
     en: 'Keiki-dō (Kyŏnggi-do)', ja: '京畿道 (Keiki-dō)', zh: '京畿道', ko: '경기도 (Kyŏnggi-do)',
-    wiki: 'https://en.wikipedia.org/wiki/Keiki_Province',
+    wiki: 'https://en.wikipedia.org/wiki/Keiki_Province', local: 'Kyŏnggi-do (Keiki-dō)',
     short: 'The Han river plain around Keijō — Seoul, renamed and rebuilt as the colonial capital',
     note: 'The Han river plain around Keijō — Seoul, renamed and rebuilt as the colonial capital, with the Government-General\'s new granite headquarters put up directly in front of the old royal palace in 1926 to make the point. Jinsen (Inch\'ŏn) is its port, the one the Japanese landed at in 1894 and 1904, and the province is the hub of every railway in the peninsula: the main line south to Pusan and north to Sinŭiju and Mukden crosses here. Otherwise it is good rice and vegetable country feeding the city, with the ginseng of Kaesŏng — a state monopoly under the Government-General — as its one specialised crop.'
   },
   Kogen: {
     en: 'Kōgen-dō (Kangwŏn-do)', ja: '江原道 (Kōgen-dō)', zh: '江原道', ko: '강원도 (Kangwŏn-do)',
-    wiki: 'https://en.wikipedia.org/wiki/K%C5%8Dgen_Province',
+    wiki: 'https://en.wikipedia.org/wiki/K%C5%8Dgen_Province', local: 'Kangwŏn-do (Kōgen-dō)',
     short: 'The Taebaek range down its spine, and very little flat ground',
     note: 'The Taebaek range runs down the spine of this province and leaves very little flat ground: it is the most mountainous part of southern Korea, forested, thinly settled and poor, with the Diamond Mountains at its northern end drawing Japanese tourists on a purpose-built railway. Its wealth was underground and offshore — the Sangdong tungsten deposit, one of the largest in the world, and a coast where the winter pollack and the summer sardine runs supported a fishing industry that Japanese boats came to dominate. Timber floated down its rivers, and slash-and-burn cultivators worked the slopes that nothing else could use.'
   },
@@ -5132,6 +5191,7 @@ JMAP.PROVINCES = {
     en: 'Chūseihoku-dō (Ch’ungch’ŏngbuk-to)', ja: '忠清北道 (Chūseihoku-dō)', zh: '忠清北道',
     ko: '충청북도 (Ch’ungch’ŏngbuk-to)',
     wiki: 'https://en.wikipedia.org/wiki/Ch%C5%ABseihoku_Province',
+    local: 'Ch’ungch’ŏngbuk-to (Chūseihoku-dō)',
     short: 'The only province in Korea with no coastline',
     note: 'The only province in Korea with no coastline: a set of basins in the middle of the peninsula, ringed by hills, with Seishū (Ch\'ŏngju) as its seat. Rice grows in the basin floors and the slopes above them carried the country\'s tobacco, another Government-General monopoly, along with mulberry for silk. Being inland and off the main line it stayed one of the least developed provinces, and its surplus population went to the mills of Japan and the farms of Manchuria.'
   },
@@ -5139,18 +5199,21 @@ JMAP.PROVINCES = {
     en: 'Chūseinan-dō (Ch’ungch’ŏngnam-do)', ja: '忠清南道 (Chūseinan-dō)', zh: '忠清南道',
     ko: '충청남도 (Ch’ungch’ŏngnam-do)',
     wiki: 'https://en.wikipedia.org/wiki/Ch%C5%ABseinan_Province',
+    local: 'Ch’ungch’ŏngnam-do (Chūseinan-dō)',
     short: 'The lower Kŭm river and the tidal flats of the west coast',
     note: 'The lower Kŭm river and the tidal flats of the west coast, with Kōshū (Kongju) the old seat and Taiden (Taejŏn) — a village until the railway arrived — growing into the real centre because two main lines crossed there. This is broad, flat, well-watered rice country, and Kanggyŏng on the river was one of the largest grain markets in Korea. It was also where Japanese landlord companies bought most heavily, so that a high proportion of the rice grown here left for Japan while the people who grew it moved to millet.'
   },
   Zenrahoku: {
     en: 'Zenrahoku-dō (Chŏllabuk-to)', ja: '全羅北道 (Zenrahoku-dō)', zh: '全羅北道',
     ko: '전라북도 (Chŏllabuk-to)', wiki: 'https://en.wikipedia.org/wiki/Zenrahoku_Province',
+    local: 'Chŏllabuk-to (Zenrahoku-dō)',
     short: 'The Honam plain, the largest stretch of paddy in Korea',
     note: 'The Honam plain, the largest continuous stretch of paddy in Korea and the reason this province mattered to Japan: rice from here fed the industrial cities of the home islands, and Gunzan (Kunsan) was built up as the port to ship it, with a Japanese quarter, a customs house and warehouses along the estuary. The irrigation works and land surveys of the 1910s and 1920s concentrated ownership in Japanese hands faster here than anywhere else in the country. Behind the plain the Noryŏng hills carry paper mulberry and bamboo, and Chŏnju was the old provincial capital and the home town of the Yi dynasty.'
   },
   Zenranan: {
     en: 'Zenranan-dō (Chŏllanam-do)', ja: '全羅南道 (Zenranan-dō)', zh: '全羅南道',
     ko: '전라남도 (Chŏllanam-do)', wiki: 'https://en.wikipedia.org/wiki/Zenranan_Province',
+    local: 'Chŏllanam-do (Zenranan-dō)',
     short: 'The south-western corner and its archipelago — several thousand islands',
     note: 'The south-western corner and its archipelago — several thousand islands, the richest inshore fishing grounds in Korea, and the volcanic island of Saishū (Cheju) administered from here as a county. Mokp\'o was opened as a treaty port in 1897 and grew on two exports, rice and raw cotton, the cotton grown under an official campaign to supply Japanese spinning mills. It is warm, wet and fertile, and it was also the most persistently rebellious province in the peninsula, from the Tonghak rising of 1894 to the Kwangju student movement of 1929, which began with an incident on a commuter train and spread into a nationwide strike of schools.'
   },
@@ -5158,48 +5221,53 @@ JMAP.PROVINCES = {
     en: 'Keishōhoku-dō (Kyŏngsangbuk-to)', ja: '慶尚北道 (Keishōhoku-dō)', zh: '慶尚北道',
     ko: '경상북도 (Kyŏngsangbuk-to)',
     wiki: 'https://en.wikipedia.org/wiki/Keish%C5%8Dhoku_Province',
+    local: 'Kyŏngsangbuk-to (Keishōhoku-dō)',
     short: 'The Naktong river\'s upper basin, hills and small plains',
     note: 'The Naktong river\'s upper basin, hills and small plains, with Taikyū (Taegu) at its centre — the third city of Korea, a market town that became the country\'s apple district after Japanese varieties were introduced, and a textile centre. Kyŏngju in the south-east was the capital of Silla for a thousand years, and the colonial government excavated and restored its tombs and the Sŏkkuram grotto, partly as scholarship and partly as an argument about a shared ancient past. Hemp, tobacco and cattle came off the uplands, and the north of the province is forest.'
   },
   Keishonan: {
     en: 'Keishōnan-dō (Kyŏngsangnam-do)', ja: '慶尚南道 (Keishōnan-dō)', zh: '慶尚南道',
     ko: '경상남도 (Kyŏngsangnam-do)', wiki: 'https://en.wikipedia.org/wiki/Keish%C5%8Dnan_Province',
+    local: 'Kyŏngsangnam-do (Keishōnan-dō)',
     short: 'The end of the peninsula facing Japan, and the province the colony was entered through',
     note: 'The end of the peninsula facing Japan, and the province the colony was entered through: Fusan (Pusan) took the ferry from Shimonoseki, had the largest Japanese settler population in Korea, and was the southern terminus of the railway that ran to Manchuria and, in principle, to Europe. The fisheries off this coast were the most valuable in Korea and were worked increasingly by Japanese boats and canneries; the Naktong delta behind the city is heavy rice ground. Chinkai (Chinhae), on the sheltered bay, was built as a naval base for the Japanese fleet after 1905.'
   },
   Kokai: {
     en: 'Kōkai-dō (Hwanghae-do)', ja: '黄海道 (Kōkai-dō)', zh: '黃海道', ko: '황해도 (Hwanghae-do)',
-    wiki: 'https://en.wikipedia.org/wiki/K%C5%8Dkai_Province',
+    wiki: 'https://en.wikipedia.org/wiki/K%C5%8Dkai_Province', local: 'Hwanghae-do (Kōkai-dō)',
     short: 'The province between the capital and P\'yŏngyang, rolling hills opening on the Yellow Sea',
     note: 'The province between the capital and P\'yŏngyang, rolling hills opening on the Yellow Sea, drier than the south and given as much to wheat, millet and barley as to rice. Its ore is what the colonial economy wanted: the gold of Suan and Sŏngch\'ŏn, worked hard through the 1930s when Japan needed foreign exchange, and the iron that fed the Kyŏmip\'o works on the Taedong estuary, built by Mitsubishi in 1918 and the first modern steel plant in Korea. Haeju was the seat, and the long indented coast made salt in evaporation pans on the tidal flats.'
   },
   Heianhoku: {
     en: 'Heianhoku-dō (P’yŏnganbuk-to)', ja: '平安北道 (Heianhoku-dō)', zh: '平安北道',
     ko: '평안북도 (P’yŏnganbuk-to)', wiki: 'https://en.wikipedia.org/wiki/Heianhoku_Province',
+    local: 'P’yŏnganbuk-to (Heianhoku-dō)',
     short: 'The north-western march, with the Yalu as its border: the river carried the timber trade',
     note: 'The north-western march, with the Yalu as its border: the river carried the timber trade, logs cut in the interior and floated down to Sinŭiju to be sawn, and Sinŭiju itself faced Antung across the bridge and became a chemical and paper town. From 1937 the Sup\'ung dam was built across the Yalu, and when it was finished in 1941 it was among the largest hydro-electric stations in the world, supplying Manchuria and northern Korea together. Inland the province is high, cold and forested, with gold at Unsan — the concession an American company held from 1896, and the largest gold mine in the Far East.'
   },
   Heiannan: {
     en: 'Heiannan-dō (P’yŏngannam-do)', ja: '平安南道 (Heiannan-dō)', zh: '平安南道',
-    ko: '평안남도 (P’yŏngannam-do)',
+    ko: '평안남도 (P’yŏngannam-do)', local: 'P’yŏngannam-do (Heiannan-dō)',
     short: 'P\'yŏngyang, the oldest city in Korea and the one with the largest Christian community',
     note: 'P\'yŏngyang, the oldest city in Korea and the one with the largest Christian community, sat here on the Taedong; it had been a mission and printing centre since the 1890s and became an industrial one under the colonial state. The province holds Korea\'s principal anthracite, in the Anju and P\'yŏngyang fields, and the smelter and port of Chinnamp\'o at the river mouth handled the ore of the north-west. The hills grow apples, chestnuts and millet on ground too dry for much rice, and the province was one of the chief sources of the labour conscripted to Japan after 1939.'
   },
   Kankyohoku: {
     en: 'Kankyōhoku-dō (Hamgyŏngbuk-to)', ja: '咸鏡北道 (Kankyōhoku-dō)', zh: '咸鏡北道',
     ko: '함경북도 (Hamgyŏngbuk-to)', wiki: 'https://en.wikipedia.org/wiki/Kanky%C5%8Dhoku_Province',
+    local: 'Hamgyŏngbuk-to (Kankyōhoku-dō)',
     short: 'The far north-east, against the Tumen and the Soviet and Manchurian borders: mountains',
     note: 'The far north-east, against the Tumen and the Soviet and Manchurian borders: mountains, larch and pine forest, and the coldest winters in the country. The 1930s turned it into a frontier of a new kind — Rashin (Najin), Yūki (Unggi) and Seishin (Ch\'ŏngjin) were developed as the ports through which Manchurian soya, coal and iron would reach Japan by the short sea route, and Rashin was laid out from nothing after 1932 as the terminus of that plan. The Musan deposit inland is one of the largest iron ore bodies in East Asia, and the province\'s own people lived on dry-field grain, fishing and the timber that came down the Tumen.'
   },
   Kankyonan: {
     en: 'Kankyōnan-dō (Hamgyŏngnam-do)', ja: '咸鏡南道 (Kankyōnan-dō)', zh: '咸鏡南道',
     ko: '함경남도 (Hamgyŏngnam-do)', wiki: 'https://en.wikipedia.org/wiki/Kanky%C5%8Dnan_Province',
+    local: 'Hamgyŏngnam-do (Kankyōnan-dō)',
     short: 'A narrow coastal shelf under high mountains',
     note: 'A narrow coastal shelf under high mountains, and the site of the largest industrial complex in the empire outside Japan itself: at Kōnan (Hŭngnam), Noguchi Shitagau\'s Chōsen Chisso built a nitrogen fertiliser works from 1927 that grew into carbide, explosives and synthetic oil, running on power diverted from the Pujŏn and Changjin rivers through the watershed to fall down the seaward side. Kankō (Hamhŭng) beside it was the administrative town, and the workforce was Korean and largely unskilled, housed in company barracks. Behind the plants the province is forest and terraced dry field, with the Kaema plateau — the highest and emptiest ground in Korea — filling its interior.'
   },
   Saishu: {
     en: 'Saishū-tō (Cheju-do)', ja: '済州島 (Saishū-tō)', zh: '濟州島', ko: '제주도 (Cheju-do)',
-    wiki: 'https://en.wikipedia.org/wiki/Jeju_Island',
+    wiki: 'https://en.wikipedia.org/wiki/Jeju_Island', local: 'Cheju-do (Saishū-tō)',
     short: 'A volcanic island a hundred kilometres off the south coast',
     note: 'A volcanic island a hundred kilometres off the south coast, administered as a county of South Chŏlla and unlike anywhere on the mainland: Halla-san, a shield volcano of 1,950 m, stands in the middle of it with some three hundred and sixty cinder cones around its flanks, and the ground is porous basalt that will not hold surface water, so the island grew barley, millet and tangerines rather than rice. The Mongols pastured horses here from the thirteenth century and Cheju horses remained a byword afterwards; the Chosŏn state used the island as a place of exile; and the haenyŏ, the women who dive without air for abalone and seaweed, were the island\'s cash economy and are still what it is known for. In the war it mattered for its position — bombers of the Kanoya and Kisarazu groups flew from Cheju to raid Nanjing in August 1937, in what were then the longest over-water bombing missions ever flown — and from 1945 the Japanese army turned the whole island into a fortress against the invasion that never came, tunnelling the coastal cones and building airfields at Moseulp\'o.'
   },
@@ -5381,68 +5449,73 @@ JMAP.PROVINCES = {
     note: 'A long east-coast state of fishing villages, boat-builders and rice deltas, with forested hills behind and a monsoon coast that beaches the boats from November to February. Its people were almost entirely Malay and its administration the most traditional in the peninsula; the British Adviser accepted after the transfer of 1909 pressed land and tax rules on it, and in 1928 a peasant rising led by Haji Abdul Rahman Limbong had to be put down by police and troops. Iron ore at Dungun, worked by a Japanese company from 1929 and shipped straight to Japan, was the one modern industry it had.'
   },
   'Hsing An Peh': {
-    en: 'Xīng’ānběi (Hsingan North)', ja: '興安北省 (Kōan-hoku)', zh: '興安北省',
+    en: 'Kōan-hoku-shō (Xīng’ānběi, Hsingan North)', ja: '興安北省 (Kōan-hoku)', zh: '興安北省',
+    local: 'Xīng’ānběi (Hsingan North)',
     short: 'The Hulun Buir grasslands west of the Greater Khingan — Mongol banners, horses and sheep, and the Trans-Manchurian line running out to the Soviet frontier at Manchouli'
   },
   'Hsing An Tung': {
-    en: 'Xīng’āndōng (Hsingan East)', ja: '興安東省 (Kōan-tō)', zh: '興安東省',
+    en: 'Kōan-tō-shō (Xīng’āndōng, Hsingan East)', ja: '興安東省 (Kōan-tō)', zh: '興安東省',
+    local: 'Xīng’āndōng (Hsingan East)',
     short: 'The eastern slope of the Greater Khingan falling to the Nen — larch and birch forest above, Daur and Mongol grazing below, and logging camps worked for the railway'
   },
   'Hsing An Si': {
-    en: 'Xīng’ānxī (Hsingan West)', ja: '興安西省 (Kōan-sei)', zh: '興安西省',
+    en: 'Kōan-sei-shō (Xīng’ānxī, Hsingan West)', ja: '興安西省 (Kōan-sei)', zh: '興安西省',
+    local: 'Xīng’ānxī (Hsingan West)',
     short: 'Dry steppe between the Khingan and the Mongolian plateau, too thin to plough: pasture, and the caravan roads that carried wool south before the railways took the traffic'
   },
   'Hsing An Nan': {
-    en: 'Xīng’ānnán (Hsingan South)', ja: '興安南省 (Kōan-nan)', zh: '興安南省',
+    en: 'Kōan-nan-shō (Xīng’ānnán, Hsingan South)', ja: '興安南省 (Kōan-nan)', zh: '興安南省',
+    local: 'Xīng’ānnán (Hsingan South)',
     short: 'The southern tail of the Khingan where the steppe meets the farmed land — Mongol banners losing ground to Chinese settlement, a frontier of tillage that had been moving north for a century'
   },
   Heiho: {
-    en: 'Hēihé (Heiho)', ja: '黒河省 (Kokka)', zh: '黑河省', ko: '헤이허',
-    wiki: 'https://en.wikipedia.org/wiki/Heihe',
+    en: 'Kokka-shō (Hēihé, Heiho)', ja: '黒河省 (Kokka)', zh: '黑河省', ko: '헤이허',
+    wiki: 'https://en.wikipedia.org/wiki/Heihe', local: 'Hēihé (Heiho)',
     short: 'Taiga and the Amur, facing Blagoveshchensk across the water — gold along the tributaries, and after 1932 a garrison frontier watched from both banks'
   },
   Lungkiang: {
-    en: 'Lóngjiāng (Lungkiang)', ja: '龍江省 (Ryūkō)', zh: '龍江省', ko: '헤이룽장성',
-    wiki: 'https://en.wikipedia.org/wiki/Heilongjiang',
+    en: 'Ryūkō-shō (Lóngjiāng, Lungkiang)', ja: '龍江省 (Ryūkō)', zh: '龍江省', ko: '헤이룽장성',
+    wiki: 'https://en.wikipedia.org/wiki/Heilongjiang', local: 'Lóngjiāng (Lungkiang)',
     short: 'The Nonni plain, black earth and the great soya and wheat country of the north; Tsitsihar its capital, and the first serious fighting of the Manchurian Incident fought at the Nonni bridges in November 1931'
   },
   Sankiang: {
-    en: 'Sānjiāng (Sankiang)', ja: '三江省 (Sankō)', zh: '三江省',
+    en: 'Sankō-shō (Sānjiāng, Sankiang)', ja: '三江省 (Sankō)', zh: '三江省',
+    local: 'Sānjiāng (Sankiang)',
     short: 'The marshy confluence of the Sungari and the Amur — the Sanjiang plain, drained and broken in the 1930s for the Japanese agricultural colonies, the largest settlement scheme of the empire'
   },
   'Pin Kiang': {
-    en: 'Bīnjiāng (Pinkiang)', ja: '濱江省 (Hinkō)', zh: '濱江省', ko: '빈장구',
-    wiki: 'https://en.wikipedia.org/wiki/Binjiang,_Hangzhou',
+    en: 'Hinkō-shō (Bīnjiāng, Pinkiang)', ja: '濱江省 (Hinkō)', zh: '濱江省', ko: '빈장구',
+    wiki: 'https://en.wikipedia.org/wiki/Binjiang,_Hangzhou', local: 'Bīnjiāng (Pinkiang)',
     short: 'Harbin and the Sungari: the junction of the Chinese Eastern Railway, a city of Russian émigrés, grain and distilling — and, at Pingfang on its southern edge, the Kwantung Army’s biological warfare establishment, Unit 731'
   },
   'Chien Tao': {
-    en: 'Jiāndǎo (Chientao)', ja: '間島省 (Kantō)', zh: '間島省', ko: '간도',
-    wiki: 'https://en.wikipedia.org/wiki/Jiandao',
+    en: 'Kantō-shō (Jiāndǎo, Chientao)', ja: '間島省 (Kantō)', zh: '間島省', ko: '간도',
+    wiki: 'https://en.wikipedia.org/wiki/Jiandao', local: 'Jiāndǎo (Chientao)',
     short: 'The Tumen frontier with Korea, mountainous and mostly Korean-settled; the ground on which the anti-Japanese partisan bands of the 1930s formed, and were hunted through'
   },
   'Feng Tien': {
-    en: 'Fèngtiān (Fengtien)', ja: '奉天省 (Hōten)', zh: '奉天省', ko: '랴오닝성',
-    wiki: 'https://en.wikipedia.org/wiki/Liaoning',
+    en: 'Hōten-shō (Fèngtiān, Fengtien)', ja: '奉天省 (Hōten)', zh: '奉天省', ko: '랴오닝성',
+    wiki: 'https://en.wikipedia.org/wiki/Liaoning', local: 'Fèngtiān (Fengtien)',
     short: 'The Liao plain and Mukden — headquarters of the South Manchuria Railway, the region’s arsenal and heavy industry, and the place where the line was blown up on 18 September 1931'
   },
   'An Tung': {
-    en: 'Āndōng (Antung)', ja: '安東省 (Antō)', zh: '安東省', ko: '안동',
-    wiki: 'https://en.wikipedia.org/wiki/Andong',
+    en: 'Antō-shō (Āndōng, Antung)', ja: '安東省 (Antō)', zh: '安東省', ko: '안동',
+    wiki: 'https://en.wikipedia.org/wiki/Andong', local: 'Āndōng (Antung)',
     short: 'The Yalu frontier, timber floated down from the interior and milled at Antung, and the bridge across to Sinuiju that carried the traffic between Manchuria and Korea'
   },
   Kirin: {
-    en: 'Jílín (Kirin)', ja: '吉林省 (Kirin)', zh: '吉林省', ko: '지린성',
-    wiki: 'https://en.wikipedia.org/wiki/Jilin',
+    en: 'Kirin-shō (Jílín, Kirin)', ja: '吉林省 (Kirin)', zh: '吉林省', ko: '지린성',
+    wiki: 'https://en.wikipedia.org/wiki/Jilin', local: 'Jílín (Kirin)',
     short: 'The upper Sungari in forested hills — lumber, and the Fengman dam begun in 1937, one of the largest hydroelectric works in Asia, built with conscripted labour'
   },
   Chinchow: {
-    en: 'Jǐnzhōu (Chinchow)', ja: '錦州省 (Kinshū)', zh: '錦州省',
-    wiki: 'https://en.wikipedia.org/wiki/Jinzhou_Operation',
+    en: 'Kinshū-shō (Jǐnzhōu, Chinchow)', ja: '錦州省 (Kinshū)', zh: '錦州省',
+    wiki: 'https://en.wikipedia.org/wiki/Jinzhou_Operation', local: 'Jǐnzhōu (Chinchow)',
     short: 'The corridor between the Gulf of Chihli and the mountains — the road and railway into China proper, taken in January 1932, which is how the fighting passed south of the Wall',
     note: 'The corridor between the Gulf of Chihli and the mountains: the road and the railway into China proper, and so the ground the Kwantung Army had to hold if the fighting was to pass south of the Wall. It is also where the war in the air began. Chang Hsüeh-liang had withdrawn his government here after Mukden, and on **8 October 1931** eleven Japanese aircraft bombed the city — one of the first aerial bombardments of an undefended town, and the first anywhere to be reported live to the League of Nations, whose observers were in China at the time. The raid did more than any other single act to turn foreign opinion, and it is what prompted Stimson to begin drafting the non-recognition doctrine that bears his name. Chinchow itself was occupied on **3 January 1932**, and with it the last Chinese administration in Manchuria went.'
   },
   'Je Hol': {
-    en: 'Rèhé (Jehol)', ja: '熱河省 (Nekka)', zh: '熱河省',
+    en: 'Nekka-shō (Rèhé, Jehol)', ja: '熱河省 (Nekka)', zh: '熱河省', local: 'Rèhé (Jehol)',
     short: 'Mountain country north of the Great Wall, thin farming and opium; invaded in the spring of 1933 and attached to Manchukuo, which carried the frontier down to the Wall itself',
     note: 'A province of the Republic until February 1933, when the Kwantung Army took it and attached it to Manchukuo.'
   },
@@ -5579,15 +5652,18 @@ JMAP.PROVINCES = {
     note: 'The southernmost atoll of the Marshalls, and where American missionaries first landed in 1857 — the church has been at the centre of Marshallese life ever since. Copra, no airfield, and nothing the war wanted: it was passed over entirely. Marshall Islands.'
   },
   'The Mongol leagues': {
-    en: 'The Mongol leagues', ja: '蒙古聯盟 (Mōko renmei)', zh: '蒙古各盟',
+    en: 'Mōko renmei (the Mongol leagues)', ja: '蒙古聯盟 (Mōko renmei)', zh: '蒙古各盟',
+    local: 'The Mongol leagues',
     short: 'The Ulanchab and Silingol leagues on the plateau north of the Wall — grazing land, Mongol banners, and the constituency for the autonomy Prince Demchugdongrub was offered and Japan supervised'
   },
   'North Shansi (Jinbei) Administration': {
-    en: 'Jìnběi — the North Shansi Administration', ja: '晉北政廳 (Shinpoku seichō)', zh: '晉北政廳',
+    en: 'Shinpoku seichō (Jìnběi) — the North Shansi Administration',
+    ja: '晉北政廳 (Shinpoku seichō)', zh: '晉北政廳', local: 'Jìnběi — the North Shansi Administration',
     short: 'The loess uplands of northern Shansi around Tatung, coal country — the mines worked hard through the occupation, and the ground the Eighth Route Army contested from the hills'
   },
   'South Chahar (Chanan) Administration': {
-    en: 'Chánán — the South Chahar Administration', ja: '察南政廳 (Satsunan seichō)', zh: '察南政廳',
+    en: 'Satsunan seichō (Chánán) — the South Chahar Administration',
+    ja: '察南政廳 (Satsunan seichō)', zh: '察南政廳', local: 'Chánán — the South Chahar Administration',
     short: 'The Chahar basin around Kalgan, the old gate on the caravan road to Urga; the administrative seat of the federation and the junction of its railways'
   },
   Sumatra: {
@@ -6717,156 +6793,178 @@ JMAP.PROVINCES = {
   TwTaihoku: {
     en: 'Taihoku-shi (Taibei, Taipei)', ja: '臺北市 (Taihoku-shi)', zh: '臺北市',
     wiki: 'https://en.wikipedia.org/wiki/Taihoku_Prefecture',
+    local: 'Taibei-shi (Taihoku-shi, Taipei)',
     short: 'In Taihoku-shū (臺北州). The colony\'s capital, and the seat of the Governor-General',
     note: 'Taihoku, the capital, laid out inside and then over the walls of the Ch\'ing prefectural city. The Government-General\'s new headquarters, finished in 1919, is the tallest building in the empire outside Japan, and the city around it is the one place in the colony built to be looked at: the museum, the hospital, the imperial university of 1928, and a grid of Japanese quarters west of the old Chinese streets of Daitōtei, which went on doing the tea trade regardless.'
   },
   TwShichisei: {
     en: 'Shichisei-gun (Qixing)', ja: '七星郡 (Shichisei-gun)', zh: '七星郡',
     wiki: 'https://en.wikipedia.org/wiki/Taihoku_Prefecture',
+    local: 'Qixing-jun (Shichisei-gun)',
     short: 'In Taihoku-shū (臺北州). The volcanic hills north of the capital, the hot springs at Hokutō and the tea slopes above them'
   },
   TwBunzan: {
     en: 'Bunzan-gun (Wenshan)', ja: '文山郡 (Bunzan-gun)', zh: '文山郡',
-    wiki: 'https://en.wikipedia.org/wiki/Taihoku_Prefecture',
+    wiki: 'https://en.wikipedia.org/wiki/Taihoku_Prefecture', local: 'Wenshan-jun (Bunzan-gun)',
     short: 'In Taihoku-shū (臺北州). Tea country in the hills south of the capital, and the gorge the city drinks from'
   },
   TwKaizan: {
     en: 'Kaizan-gun (Haishan)', ja: '海山郡 (Kaizan-gun)', zh: '海山郡',
-    wiki: 'https://en.wikipedia.org/wiki/Taihoku_Prefecture',
+    wiki: 'https://en.wikipedia.org/wiki/Taihoku_Prefecture', local: 'Haishan-jun (Kaizan-gun)',
     short: 'In Taihoku-shū (臺北州). Coal measures and brick kilns along the southern branch of the Tamsui'
   },
   TwKirun: {
     en: 'Kīrun-gun (Jilong, Keelung)', ja: '基隆郡 (Kīrun-gun)', zh: '基隆郡',
     wiki: 'https://en.wikipedia.org/wiki/Taihoku_Prefecture',
+    local: 'Jilong-jun (Kīrun-gun, Keelung)',
     short: 'In Taihoku-shū (臺北州). The coalfield and fishing coast around the port, the port itself being a city apart',
     note: 'The north\'s port, and the reason the island could be held: coal from the Zuihō seams behind it, a harbour dredged and re-dredged through the 1920s, and the ferry to Moji that every official, soldier and settler arrived on. It rains here about two hundred days a year. The city itself was Kīrun-shi, a municipality separate from this district since 1924, and the sheet leaves its ground blank.'
   },
   TwTansui: {
     en: 'Tansui-gun (Danshui, Tamsui)', ja: '淡水郡 (Tansui-gun)', zh: '淡水郡',
     wiki: 'https://en.wikipedia.org/wiki/Taihoku_Prefecture',
+    local: 'Danshui-jun (Tansui-gun, Tamsui)',
     short: 'In Taihoku-shū (臺北州). The old treaty port at the Tamsui mouth, silted up and long past its trade'
   },
   TwShinsho: {
     en: 'Shinshō-gun (Xinzhuang)', ja: '新莊郡 (Shinshō-gun)', zh: '新莊郡',
     wiki: 'https://en.wikipedia.org/wiki/Taihoku_Prefecture',
+    local: 'Xinzhuang-jun (Shinshō-gun)',
     short: 'In Taihoku-shū (臺北州). Rice land on the plain upstream of the capital'
   },
   TwGiran: {
     en: 'Giran-gun (Yilan)', ja: '宜蘭郡 (Giran-gun)', zh: '宜蘭郡',
-    wiki: 'https://en.wikipedia.org/wiki/Taihoku_Prefecture',
+    wiki: 'https://en.wikipedia.org/wiki/Taihoku_Prefecture', local: 'Yilan-jun (Giran-gun)',
     short: 'In Taihoku-shū (臺北州). The Giran plain on the east coast, cut off from the rest of the prefecture by the mountains'
   },
   TwRato: {
     en: 'Ratō-gun (Luodong)', ja: '羅東郡 (Ratō-gun)', zh: '羅東郡',
-    wiki: 'https://en.wikipedia.org/wiki/Taihoku_Prefecture',
+    wiki: 'https://en.wikipedia.org/wiki/Taihoku_Prefecture', local: 'Luodong-jun (Ratō-gun)',
     short: 'In Taihoku-shū (臺北州). The southern half of the Giran plain, and the camphor forest behind it'
   },
   TwSuo: {
     en: 'Suō-gun (Su’ao)', ja: '蘇澳郡 (Suō-gun)', zh: '蘇澳郡',
-    wiki: 'https://en.wikipedia.org/wiki/Taihoku_Prefecture',
+    wiki: 'https://en.wikipedia.org/wiki/Taihoku_Prefecture', local: 'Su’ao-jun (Suō-gun)',
     short: 'In Taihoku-shū (臺北州). The harbour at the north end of the east-coast cliff road, and the marble the road was cut through'
   },
   TwShinchiku: {
     en: 'Shinchiku-gun (Xinzhu, Hsinchu)', ja: '新竹郡 (Shinchiku-gun)', zh: '新竹郡',
     wiki: 'https://en.wikipedia.org/wiki/Shinchiku_Prefecture',
+    local: 'Xinzhu-jun (Shinchiku-gun, Hsinchu)',
     short: 'In Shinchiku-shū (新竹州). The rice country round the seat, the town itself being a city apart'
   },
   TwChikuto: {
     en: 'Chikutō-gun (Zhudong)', ja: '竹東郡 (Chikutō-gun)', zh: '竹東郡',
     wiki: 'https://en.wikipedia.org/wiki/Shinchiku_Prefecture',
+    local: 'Zhudong-jun (Chikutō-gun)',
     short: 'In Shinchiku-shū (新竹州). The foothills east of Shinchiku — camphor, coal, and the edge of the aboriginal territory'
   },
   TwChikunan: {
     en: 'Chikunan-gun (Zhunan)', ja: '竹南郡 (Chikunan-gun)', zh: '竹南郡',
     wiki: 'https://en.wikipedia.org/wiki/Shinchiku_Prefecture',
+    local: 'Zhunan-jun (Chikunan-gun)',
     short: 'In Shinchiku-shū (新竹州). The coast south of Shinchiku, and the gas wells at Shutsuryōkō'
   },
   TwByoritsu: {
     en: 'Byōritsu-gun (Miaoli)', ja: '苗栗郡 (Byōritsu-gun)', zh: '苗栗郡',
     wiki: 'https://en.wikipedia.org/wiki/Shinchiku_Prefecture',
+    local: 'Miaoli-jun (Byōritsu-gun)',
     short: 'In Shinchiku-shū (新竹州). Hakka farming country in the hills, and the colony\'s oilfield'
   },
   TwTaiko: {
     en: 'Taiko-gun (Dahu)', ja: '大湖郡 (Taiko-gun)', zh: '大湖郡',
-    wiki: 'https://en.wikipedia.org/wiki/Shinchiku_Prefecture',
+    wiki: 'https://en.wikipedia.org/wiki/Shinchiku_Prefecture', local: 'Dahu-jun (Taiko-gun)',
     short: 'In Shinchiku-shū (新竹州). A basin deep in the mountains, opened late and held against the Atayal'
   },
   TwToen: {
     en: 'Tōen-gun (Taoyuan)', ja: '桃園郡 (Tōen-gun)', zh: '桃園郡',
-    wiki: 'https://en.wikipedia.org/wiki/Shinchiku_Prefecture',
+    wiki: 'https://en.wikipedia.org/wiki/Shinchiku_Prefecture', local: 'Taoyuan-jun (Tōen-gun)',
     short: 'In Shinchiku-shū (新竹州). The pond country of the northern terrace — thousands of irrigation tanks on ground no river reaches'
   },
   TwChureki: {
     en: 'Chūreki-gun (Zhongli)', ja: '中壢郡 (Chūreki-gun)', zh: '中壢郡',
     wiki: 'https://en.wikipedia.org/wiki/Shinchiku_Prefecture',
+    local: 'Zhongli-jun (Chūreki-gun)',
     short: 'In Shinchiku-shū (新竹州). Hakka rice and tea on the Tōen terrace'
   },
   TwDaikei: {
     en: 'Daikei-gun (Daxi)', ja: '大溪郡 (Daikei-gun)', zh: '大溪郡',
-    wiki: 'https://en.wikipedia.org/wiki/Shinchiku_Prefecture',
+    wiki: 'https://en.wikipedia.org/wiki/Shinchiku_Prefecture', local: 'Daxi-jun (Daikei-gun)',
     short: 'In Shinchiku-shū (新竹州). The Daikei river gorge and the camphor forests above it'
   },
   TwTaichu: {
     en: 'Taichū-shi (Taizhong, Taichung)', ja: '臺中市 (Taichū-shi)', zh: '臺中市',
     wiki: 'https://en.wikipedia.org/wiki/Taich%C5%AB_Prefecture',
+    local: 'Taizhong-shi (Taichū-shi, Taichung)',
     short: 'In Taichū-shū (臺中州). The colony\'s third city, laid out new on a grid with the first modern drainage in Taiwan',
     note: 'Taichū was built rather than inherited: a new grid on the Taichū basin, laid out by the Japanese from 1900 with the first proper drainage in Taiwan after an earlier plan for a provincial capital there had been abandoned by the Ch\'ing. It is the market town for the whole middle of the island, and the head of the line up into the mountains.'
   },
   TwDaiton: {
     en: 'Daiton-gun (Datun)', ja: '大屯郡 (Daiton-gun)', zh: '大屯郡',
     wiki: 'https://en.wikipedia.org/wiki/Taich%C5%AB_Prefecture',
+    local: 'Datun-jun (Daiton-gun)',
     short: 'In Taichū-shū (臺中州). The basin ringed round Taichū, with the city itself a hole in the middle of it'
   },
   TwTaikou: {
     en: 'Taikō-gun (Dajia)', ja: '大甲郡 (Taikō-gun)', zh: '大甲郡',
     wiki: 'https://en.wikipedia.org/wiki/Taich%C5%AB_Prefecture',
+    local: 'Dajia-jun (Taikō-gun)',
     short: 'In Taichū-shū (臺中州). The coast at the Taikō river mouth, and the rush mats and straw hats it exported'
   },
   TwToyohara: {
     en: 'Toyohara-gun (Fengyuan)', ja: '豐原郡 (Toyohara-gun)', zh: '豐原郡',
     wiki: 'https://en.wikipedia.org/wiki/Taich%C5%AB_Prefecture',
+    local: 'Fengyuan-jun (Toyohara-gun)',
     short: 'In Taichū-shū (臺中州). The Toyohara plain — sugar, rice, and the junction of the mountain railway'
   },
   TwTosei: {
     en: 'Tōsei-gun (Dongshi)', ja: '東勢郡 (Tōsei-gun)', zh: '東勢郡',
     wiki: 'https://en.wikipedia.org/wiki/Taich%C5%AB_Prefecture',
+    local: 'Dongshi-jun (Tōsei-gun)',
     short: 'In Taichū-shū (臺中州). The upper Taikō, timber and camphor at the mouth of the central range'
   },
   TwShoka: {
     en: 'Shōka-gun (Zhanghua, Changhua)', ja: '彰化郡 (Shōka-gun)', zh: '彰化郡',
     wiki: 'https://en.wikipedia.org/wiki/Taich%C5%AB_Prefecture',
+    local: 'Zhanghua-jun (Shōka-gun, Changhua)',
     short: 'In Taichū-shū (臺中州). The rice plain behind the Shōka coast, and the great irrigation canal that made it'
   },
   TwInrin: {
     en: 'Inrin-gun (Yuanlin)', ja: '員林郡 (Inrin-gun)', zh: '員林郡',
     wiki: 'https://en.wikipedia.org/wiki/Taich%C5%AB_Prefecture',
+    local: 'Yuanlin-jun (Inrin-gun)',
     short: 'In Taichū-shū (臺中州). Sugar and fruit on the southern half of the Shōka plain'
   },
   TwHokuto: {
     en: 'Hokuto-gun (Beidou)', ja: '北斗郡 (Hokuto-gun)', zh: '北斗郡',
     wiki: 'https://en.wikipedia.org/wiki/Taich%C5%AB_Prefecture',
+    local: 'Beidou-jun (Hokuto-gun)',
     short: 'In Taichū-shū (臺中州). The Dakusui river\'s delta — sugar cane, and flood'
   },
   TwNanto: {
     en: 'Nantō-gun (Nantou)', ja: '南投郡 (Nantō-gun)', zh: '南投郡',
     wiki: 'https://en.wikipedia.org/wiki/Taich%C5%AB_Prefecture',
+    local: 'Nantou-jun (Nantō-gun)',
     short: 'In Taichū-shū (臺中州). The hill basins of the interior, betel and bananas, and the road up to Sun-Moon Lake'
   },
   TwNiitaka: {
     en: 'Niitaka-gun (Xingao)', ja: '新高郡 (Niitaka-gun)', zh: '新高郡',
     wiki: 'https://en.wikipedia.org/wiki/Taich%C5%AB_Prefecture',
+    local: 'Xingao-jun (Niitaka-gun)',
     short: 'In Taichū-shū (臺中州). Named for Niitaka-yama, Mount Morrison — renamed in 1897 for standing higher than Fuji — and mostly the mountain itself',
     note: 'Almost entirely mountain. Niitaka-yama is Mount Morrison, 3,952 metres, renamed in 1897 for being higher than Fuji and so the tallest mountain in the empire — the name the Combined Fleet used in December 1941 for the signal to attack.'
   },
   TwNoko: {
     en: 'Nōkō-gun (Nenggao)', ja: '能高郡 (Nōkō-gun)', zh: '能高郡',
     wiki: 'https://en.wikipedia.org/wiki/Taich%C5%AB_Prefecture',
+    local: 'Nenggao-jun (Nōkō-gun)',
     short: 'In Taichū-shū (臺中州). The Puri basin at the island\'s centre, and the hydro-electric works at Sun-Moon Lake',
     note: 'The Puri basin, almost exactly the centre of the island, and Sun-Moon Lake above it — dammed through the 1920s and 30s for the hydro-electric scheme that powered the colony\'s industry. This was also the district of Musha, where in 1930 the Seediq rose and killed 134 Japanese at a school sports day, and where the reprisal that followed — poison gas among it — destroyed the villages that took part.'
   },
   TwTakeyama: {
     en: 'Takeyama-gun (Zhushan)', ja: '竹山郡 (Takeyama-gun)', zh: '竹山郡',
     wiki: 'https://en.wikipedia.org/wiki/Taich%C5%AB_Prefecture',
+    local: 'Zhushan-jun (Takeyama-gun)',
     short: 'In Taichū-shū (臺中州). Bamboo country in the foothills below the Rokudō gorge'
   },
   TwTainan: {
@@ -6877,116 +6975,124 @@ JMAP.PROVINCES = {
   },
   TwNiitoyo: {
     en: 'Niitoyo-gun (Xinfeng)', ja: '新豐郡 (Niitoyo-gun)', zh: '新豐郡',
-    wiki: 'https://en.wikipedia.org/wiki/Tainan_Prefecture',
+    wiki: 'https://en.wikipedia.org/wiki/Tainan_Prefecture', local: 'Xinfeng-jun (Niitoyo-gun)',
     short: 'In Tainan-shū (臺南州). The salt pans and fish ponds along the coast south of Tainan'
   },
   TwShinka: {
     en: 'Shinka-gun (Xinhua)', ja: '新化郡 (Shinka-gun)', zh: '新化郡',
-    wiki: 'https://en.wikipedia.org/wiki/Tainan_Prefecture',
+    wiki: 'https://en.wikipedia.org/wiki/Tainan_Prefecture', local: 'Xinhua-jun (Shinka-gun)',
     short: 'In Tainan-shū (臺南州). The hills east of Tainan, and the badlands above them'
   },
   TwSobun: {
     en: 'Sobun-gun (Zengwen)', ja: '曾文郡 (Sobun-gun)', zh: '曾文郡',
-    wiki: 'https://en.wikipedia.org/wiki/Tainan_Prefecture',
+    wiki: 'https://en.wikipedia.org/wiki/Tainan_Prefecture', local: 'Zengwen-jun (Sobun-gun)',
     short: 'In Tainan-shū (臺南州). The Sobun river basin, and the reservoir that watered the Kanan plain'
   },
   TwHokumon: {
     en: 'Hokumon-gun (Beimen)', ja: '北門郡 (Hokumon-gun)', zh: '北門郡',
-    wiki: 'https://en.wikipedia.org/wiki/Tainan_Prefecture',
+    wiki: 'https://en.wikipedia.org/wiki/Tainan_Prefecture', local: 'Beimen-jun (Hokumon-gun)',
     short: 'In Tainan-shū (臺南州). The salt fields of the west coast, worked since the seventeenth century'
   },
   TwShinei: {
     en: 'Shin\'ei-gun (Xinying)', ja: '新營郡 (Shin\'ei-gun)', zh: '新營郡',
     wiki: 'https://en.wikipedia.org/wiki/Tainan_Prefecture',
+    local: 'Xinying-jun (Shin\'ei-gun)',
     short: 'In Tainan-shū (臺南州). Sugar country on the Kanan plain, below the great Ushantou dam'
   },
   TwKagi: {
     en: 'Kagi-gun (Jiayi, Chiayi)', ja: '嘉義郡 (Kagi-gun)', zh: '嘉義郡',
     wiki: 'https://en.wikipedia.org/wiki/Tainan_Prefecture',
+    local: 'Jiayi-jun (Kagi-gun, Chiayi)',
     short: 'In Tainan-shū (臺南州). The plain below Mount Ari, and the forest railway that brought its cypress down',
     note: 'The plain below Mount Ari, and the reason anyone in Japan had heard of it: the forest railway that climbs 2,200 metres out of Kagi into the cypress and hinoki of Arisan, built from 1906 to bring the timber down. The trees went to shrines and temples across the empire, including Meiji Jingū.'
   },
   TwToseki: {
     en: 'Tōseki-gun (Dongshi)', ja: '東石郡 (Tōseki-gun)', zh: '東石郡',
-    wiki: 'https://en.wikipedia.org/wiki/Tainan_Prefecture',
+    wiki: 'https://en.wikipedia.org/wiki/Tainan_Prefecture', local: 'Dongshi-jun (Tōseki-gun)',
     short: 'In Tainan-shū (臺南州). The lagoon coast and oyster beds at the Hokukō river mouth'
   },
   TwHokuko: {
     en: 'Hokukō-gun (Beigang)', ja: '北港郡 (Hokukō-gun)', zh: '北港郡',
-    wiki: 'https://en.wikipedia.org/wiki/Tainan_Prefecture',
+    wiki: 'https://en.wikipedia.org/wiki/Tainan_Prefecture', local: 'Beigang-jun (Hokukō-gun)',
     short: 'In Tainan-shū (臺南州). The old junk port on the Hokukō river, and the Matsu temple that outlived its trade'
   },
   TwKobi: {
     en: 'Kobi-gun (Huwei)', ja: '虎尾郡 (Kobi-gun)', zh: '虎尾郡',
-    wiki: 'https://en.wikipedia.org/wiki/Tainan_Prefecture',
+    wiki: 'https://en.wikipedia.org/wiki/Tainan_Prefecture', local: 'Huwei-jun (Kobi-gun)',
     short: 'In Tainan-shū (臺南州). The largest sugar refinery in the colony, and the cane fields round it'
   },
   TwToroku: {
     en: 'Toroku-gun (Douliu)', ja: '斗六郡 (Toroku-gun)', zh: '斗六郡',
-    wiki: 'https://en.wikipedia.org/wiki/Tainan_Prefecture',
+    wiki: 'https://en.wikipedia.org/wiki/Tainan_Prefecture', local: 'Douliu-jun (Toroku-gun)',
     short: 'In Tainan-shū (臺南州). Rice and sugar on the Toroku plain, at the foot of the central range'
   },
   TwOkayama: {
     en: 'Okayama-gun (Gangshan)', ja: '岡山郡 (Okayama-gun)', zh: '岡山郡',
-    wiki: 'https://en.wikipedia.org/wiki/Takao_Prefecture',
+    wiki: 'https://en.wikipedia.org/wiki/Takao_Prefecture', local: 'Gangshan-jun (Okayama-gun)',
     short: 'In Takao-shū (高雄州). Drawn short of its own coast: the sheet leaves the ground round Okayama town unattributed'
   },
   TwHozan: {
     en: 'Hōzan-gun (Fengshan)', ja: '鳳山郡 (Hōzan-gun)', zh: '鳳山郡',
-    wiki: 'https://en.wikipedia.org/wiki/Takao_Prefecture',
+    wiki: 'https://en.wikipedia.org/wiki/Takao_Prefecture', local: 'Fengshan-jun (Hōzan-gun)',
     short: 'In Takao-shū (高雄州). Drawn as a fragment: the sheet leaves the ground round Hōzan town — and Takao city with it — unattributed'
   },
   TwKizan: {
     en: 'Kizan-gun (Qishan)', ja: '旗山郡 (Kizan-gun)', zh: '旗山郡',
-    wiki: 'https://en.wikipedia.org/wiki/Takao_Prefecture',
+    wiki: 'https://en.wikipedia.org/wiki/Takao_Prefecture', local: 'Qishan-jun (Kizan-gun)',
     short: 'In Takao-shū (高雄州). Bananas and sugar in the hill basins of the upper Kaohei'
   },
   TwHeito: {
     en: 'Heitō-gun (Pingdong, Pingtung)', ja: '屏東郡 (Heitō-gun)', zh: '屏東郡',
     wiki: 'https://en.wikipedia.org/wiki/Takao_Prefecture',
+    local: 'Pingdong-jun (Heitō-gun, Pingtung)',
     short: 'In Takao-shū (高雄州). The Heitō plain — sugar, pineapple, and the airfield built on it'
   },
   TwChoshu: {
     en: 'Chōshū-gun (Chaozhou)', ja: '潮州郡 (Chōshū-gun)', zh: '潮州郡',
-    wiki: 'https://en.wikipedia.org/wiki/Takao_Prefecture',
+    wiki: 'https://en.wikipedia.org/wiki/Takao_Prefecture', local: 'Chaozhou-jun (Chōshū-gun)',
     short: 'In Takao-shū (高雄州). The eastern side of the Heitō plain, Hakka villages under the Dawu range'
   },
   TwToko: {
     en: 'Tōkō-gun (Donggang)', ja: '東港郡 (Tōkō-gun)', zh: '東港郡',
-    wiki: 'https://en.wikipedia.org/wiki/Takao_Prefecture',
+    wiki: 'https://en.wikipedia.org/wiki/Takao_Prefecture', local: 'Donggang-jun (Tōkō-gun)',
     short: 'In Takao-shū (高雄州). The fishing port at the Kaohei mouth, with Ryūkyū island offshore'
   },
   TwKoshun: {
     en: 'Kōshun-gun (Hengchun)', ja: '恆春郡 (Kōshun-gun)', zh: '恆春郡',
-    wiki: 'https://en.wikipedia.org/wiki/Takao_Prefecture',
+    wiki: 'https://en.wikipedia.org/wiki/Takao_Prefecture', local: 'Hengchun-jun (Kōshun-gun)',
     short: 'In Takao-shū (高雄州). The peninsula at the island\'s southern tip, and the lighthouse at Garanpi',
     note: 'The southern tip, hot enough for rubber and coconut trials, and the site of the 1874 expedition: Japan\'s first overseas military action, sent after Ryūkyūan sailors were killed by Paiwan villagers here, and the beginning of the argument that ended with Taiwan being ceded twenty-one years later.'
   },
   TwTaito: {
     en: 'Taitō-chō (Taidong, Taitung)', ja: '臺東廳 (Taitō-chō)', zh: '臺東廳',
     wiki: 'https://en.wikipedia.org/wiki/Tait%C5%8D_Prefecture',
+    local: 'Taidong-ting (Taitō-chō, Taitung)',
     short: 'The administered coast of Taitō-chō in the south-east, with Kōtōsho and Kasho-tō offshore',
     note: 'The administered coast of Taitō-chō: a strip of the south-east between the mountains and the sea, with Kōtōsho (Orchid Island) and Kasho-tō (Green Island) offshore. Kōtōsho was left largely alone as a reservation for the Yami, and the interior of the chō is Taiwan Indigenous Peoples\' territory.'
   },
   TwHoko: {
     en: 'Hōko-chō (Penghu, the Pescadores)', ja: '澎湖廳 (Hōko-chō)', zh: '澎湖廳',
     wiki: 'https://en.wikipedia.org/wiki/H%C5%8Dko_Prefecture',
+    local: 'Penghu-ting (Hōko-chō, the Pescadores)',
     short: 'The Pescadores: taken back out of Takao-shū in 1926 and made a chō of their own again. Fishing, groundnuts and wind',
     note: 'The Pescadores: sixty-odd islands of basalt and wind in the strait, taken by Japan in March 1895 before the treaty that ceded Taiwan was signed, and used as the fleet\'s forward anchorage. Too dry and too windy for rice — groundnuts, sweet potato and fish — and the first part of the colony to be taken and the last thing on it a visitor expects.'
   },
   TwShuTaihoku: {
     en: 'Taihoku-shū (Taibei, Taipei)', ja: '臺北州 (Taihoku-shū)', zh: '臺北州',
     wiki: 'https://en.wikipedia.org/wiki/Taihoku_Prefecture',
+    local: 'Taibei-zhou (Taihoku-shū, Taipei)',
     short: 'The whole prefecture. The north: the capital, the port of Kīrun and its coalfield, the tea hills, and the Giran plain beyond the mountains'
   },
   TwShuShinchiku: {
     en: 'Shinchiku-shū (Xinzhu, Hsinchu)', ja: '新竹州 (Shinchiku-shū)', zh: '新竹州',
     wiki: 'https://en.wikipedia.org/wiki/Shinchiku_Prefecture',
+    local: 'Xinzhu-zhou (Shinchiku-shū, Hsinchu)',
     short: 'The whole prefecture. The Hakka terrace country of the north-west, its thousands of irrigation ponds, and the colony\'s oilfield'
   },
   TwShuTaichu: {
     en: 'Taichū-shū (Taizhong, Taichung)', ja: '臺中州 (Taichū-shū)', zh: '臺中州',
     wiki: 'https://en.wikipedia.org/wiki/Taich%C5%AB_Prefecture',
+    local: 'Taizhong-zhou (Taichū-shū, Taichung)',
     short: 'The whole prefecture. From the Taichū basin across the irrigated rice plain of Shōka to the central mountains and Sun-Moon Lake'
   },
   TwShuTainan: {
@@ -6997,46 +7103,55 @@ JMAP.PROVINCES = {
   TwShuTakao: {
     en: 'Takao-shū (Gaoxiong, Kaohsiung)', ja: '高雄州 (Takao-shū)', zh: '高雄州',
     wiki: 'https://en.wikipedia.org/wiki/Takao_Prefecture',
+    local: 'Gaoxiong-zhou (Takao-shū, Kaohsiung)',
     short: 'The whole prefecture. The far south: sugar and pineapple on the Heitō plain, the harbour at Takao, and the peninsula below them'
   },
   TwShuKarenko: {
     en: 'Karenkō-chō (Hualiangang, Hualien)', ja: '花蓮港廳 (Karenkō-chō)', zh: '花蓮港廳',
     wiki: 'https://en.wikipedia.org/wiki/Karenk%C5%8D_Prefecture',
+    local: 'Hualiangang-ting (Karenkō-chō, Hualien)',
     short: 'The whole prefecture. The east coast north of Taitō, thinly settled and not divided into districts at all in 1926'
   },
   TwShuTaito: {
     en: 'Taitō-chō (Taidong, Taitung)', ja: '臺東廳 (Taitō-chō)', zh: '臺東廳',
     wiki: 'https://en.wikipedia.org/wiki/Tait%C5%8D_Prefecture',
+    local: 'Taidong-ting (Taitō-chō, Taitung)',
     short: 'The whole prefecture. The south-east coast and the two islands off it; the mainland of the chō was not divided into districts'
   },
   TwShuHoko: {
     en: 'Hōko-chō (Penghu, the Pescadores)', ja: '澎湖廳 (Hōko-chō)', zh: '澎湖廳',
     wiki: 'https://en.wikipedia.org/wiki/H%C5%8Dko_Prefecture',
+    local: 'Penghu-ting (Hōko-chō, the Pescadores)',
     short: 'The whole prefecture. The Pescadores, taken back out of Takao-shū in 1926 and made a chō of their own again'
   },
   TwKirunShi: {
     en: 'Kīrun-shi (Jilong, Keelung)', ja: '基隆市 (Kīrun-shi)', zh: '基隆市',
     wiki: 'https://en.wikipedia.org/wiki/Taihoku_Prefecture',
+    local: 'Jilong-shi (Kīrun-shi, Keelung)',
     short: 'In Taihoku-shū (臺北州). The colony\'s northern port, raised to a city in 1924: coal from the Zuihō seams, and the ferry every official and settler arrived on'
   },
   TwShinchikuShi: {
     en: 'Shinchiku-shi (Xinzhu, Hsinchu)', ja: '新竹市 (Shinchiku-shi)', zh: '新竹市',
     wiki: 'https://en.wikipedia.org/wiki/Shinchiku_Prefecture',
+    local: 'Xinzhu-shi (Shinchiku-shi, Hsinchu)',
     short: 'In Shinchiku-shū (新竹州). The prefectural seat on the windy northern plain, raised to a city in January 1930'
   },
   TwKagiShi: {
     en: 'Kagi-shi (Jiayi, Chiayi)', ja: '嘉義市 (Kagi-shi)', zh: '嘉義市',
     wiki: 'https://en.wikipedia.org/wiki/Tainan_Prefecture',
+    local: 'Jiayi-shi (Kagi-shi, Chiayi)',
     short: 'In Tainan-shū (臺南州). Raised to a city in January 1930; the head of the forest railway that climbs into the cypress of Arisan'
   },
   TwTakaoShi: {
     en: 'Takao-shi (Gaoxiong, Kaohsiung)', ja: '高雄市 (Takao-shi)', zh: '高雄市',
     wiki: 'https://en.wikipedia.org/wiki/Takao_Prefecture',
+    local: 'Gaoxiong-shi (Takao-shi, Kaohsiung)',
     short: 'In Takao-shū (高雄州). The southern harbour, dredged through the 1920s into the colony\'s sugar and cement port, and a city since 1924'
   },
   TwKarenko: {
     en: 'Karenkō-chō (Hualiangang, Hualien)', ja: '花蓮港廳 (Karenkō-chō)', zh: '花蓮港廳',
     wiki: 'https://en.wikipedia.org/wiki/Karenk%C5%8D_Prefecture',
+    local: 'Hualiangang-ting (Karenkō-chō, Hualien)',
     short: 'The administered coast of Karenkō-chō, a thin shelf between the mountains and the Pacific, settled late and largely by Japanese immigrants'
   },
   TwBanchi: {

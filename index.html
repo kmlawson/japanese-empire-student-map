@@ -183,6 +183,7 @@
   <h3>What the map covers</h3>
   <label class="row"><input type="checkbox" id="opt-world" checked> Show the whole map</label>
   <p class="hint">Turning off switches to an East Asia only focused map.</p>
+  <label class="row" title="The names an official document or a railway timetable of the period would print. Unticked, Korea reads in McCune–Reischauer and Taiwan, Kwantung, Manchukuo and Mengjiang in Pinyin, with the Japanese name after. The colonies’ own names do not change."><input type="checkbox" id="opt-jpnames" checked> Use Japanese city and administrative names within the empire</label>
   <label class="row"><input type="checkbox" id="opt-mono"> Make the map a single colour</label>
   <!-- The colour it is drawn in, hidden until the switch is on. A picker for
        something that is not on screen is a control with nothing to show for
@@ -248,7 +249,7 @@
 
   <p>Built with Anthropic's Claude, with <a href="https://muninn.net/">Konrad M. Lawson</a> at the prompt, primarily as a tool for students in his University of St Andrews honours module, <a href="https://github.com/kmlawson/japanese-empire-mo3335/">MO3335</a>.</p>
 
-  <p>Code for the website may be found <a href="https://github.com/kmlawson/japanese-empire-student-map">here</a>.</p>  <p class="version">Version <span id="jem-version">1.76</span> · last updated 26 August 2026, 19:22</p>
+  <p>Code for the website may be found <a href="https://github.com/kmlawson/japanese-empire-student-map">here</a>.</p>  <p class="version">Version <span id="jem-version">1.77</span> · last updated 26 August 2026, 19:43</p>
 
 <!-- END about -->
 </dialog>
@@ -294,14 +295,14 @@
 <!-- END help -->
 </dialog>
 
-<script src="data.js?v=69cad48219"></script>
-<script src="cities-gaz.js?v=2b2736ff79"></script>
+<script src="data.js?v=cccb78b3c8"></script>
+<script src="cities-gaz.js?v=3c78c0c5c8"></script>
 <!-- After data.js, not before it: data.js opens with `const JMAP = {}`,
      which is a global *lexical* binding and shadows `window.JMAP` for every
      script after it. Loaded first, this file sets RELIEF on the window object
      and data.js then hides it behind a fresh one. cities-gaz.js sits here for
      the same reason. -->
 <script src="relief.js?v=dcfa8e88f2"></script>
-<script src="map.js?v=4dd456e1c8"></script>
+<script src="map.js?v=f294707680"></script>
 </body>
 </html>

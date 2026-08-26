@@ -301,7 +301,7 @@ chunchon,Shunsen (Ch’unch’ŏn),춘천 / 春川 (Shunsen),37.88,127.73,Chōse
 cagayandeoro,Cagayan de Misamis,Cagayan de Misamis,8.48,124.65,Philippine Islands (US),proposed,small,capital-province,Misamis Oriental,,,28000,45000,28000,1939,inferred from 1939,estimate,ph_census,Where MacArthur was flown out of the Philippines in March 1942.
 manado,Menado (Manado),,1.49,124.84,Netherlands East Indies,on map (browse layer),small,capital-province,Manado,,27000,,,27000,1930,contemporary (1930),census (rounded),id_volkstelling,
 hualien,"Karenkō (Hualiangang, Hualien)",,23.98,121.6,Formosa,on map (browse layer),small,capital-province,Karenkō Prefecture,,,26000,,26000,1940,inferred from 1940,estimate,tw_51yr,
-lhasa,Lhasa,,29.65,91.14,Tibet,on map (browse layer),small,capital-territory,Tibet,,,25000,30000,25000,1936,contemporary (1936),estimate,statesmans,
+lhasa,Lhasa,,29.65,91.14,Tibet,on map (browse layer),medium,capital-territory,Tibet,,,25000,30000,25000,1936,contemporary (1936),estimate,statesmans,
 makung,"Makō, Pescadores (Magong, Makung)",,23.57,119.57,Formosa,on map (browse layer),small,capital-province,Hōko Prefecture,,,25000,,25000,1940,inferred from 1940,estimate,tw_51yr,
 maoka,Maoka (Kholmsk),真岡 (Maoka),47.06,142.05,Karafuto,proposed,small,,,,,25000,,25000,1941,inferred from 1941,estimate,jp_teikoku;ndl_digital,West-coast port; the Soviet landing of 20 August 1945 and the telephone operators’ suicides.
 shikuka,Shikuka (Poronaysk),敷香 (Shikuka),49.22,143.1,Karafuto,proposed,small,,,,,25000,,25000,1941,inferred from 1941,estimate,jp_teikoku;ndl_digital,"The northernmost Japanese town on Sakhalin, on the frontier with the Soviet half."
@@ -452,3 +452,7 @@ fangliao,Hōryō (Fangliao),枋寮 (Hōryō),22.3656,120.5936,Formosa,on map (br
 checheng,Shajō (Checheng),車城 (Shajō),22.0798,120.7457,Formosa,on map (browse layer),small,,,,,,,,,,,,"Where the Japanese force landed in 1874, in Kōshun-gun."
 mudan,Botansha (Mudan),牡丹社 (Botansha),22.1262,120.7743,Formosa,on map (browse layer),small,,,,,,,,,,,,Site of the Mudan Incident of 1874. Inside the 蕃地 of Kōshun-gun.
 hengchun,Kōshun (Hengchun),恆春 (Kōshun),22.0039,120.7473,Formosa,on map (browse layer),small,,,,,,,,,,,,"The walled town at the southern tip, seat of Kōshun-gun."
+chamdo,Chamdo (Qamdo),,31.143,97.17,Tibet,on map (browse layer),small,,,,,,,,,,,,"The seat of the Tibetan governor of Kham and the garrison town on the road to Szechwan — the eastern end of what Lhasa administered, and the frontier the Republic disputed."
+nagchuka,"Nagchuka (Nagqu, Naqu)",,31.476,92.051,Tibet,on map (browse layer),small,,,,,,,,,,,,"The staging post on the northern plain where the caravan road from Sining comes down to Lhasa, and where Tibet met the Mongol and Chinese trade."
+rudok,Rudok (Rutog),,33.38,79.732,Tibet,on map (browse layer),small,,,,,,,,,,,,"A fort and salt-trading centre in the far north-west, on the caravan route over to Ladakh and Sinkiang."
+gartok,Gartok (Gar),,31.728,80.337,Tibet,on map (browse layer),small,,,,,,,,,,,,"One of the three marts opened to British trade by the 1904 convention, and the western Tibetan government post — a tent encampment for most of the year rather than a town."

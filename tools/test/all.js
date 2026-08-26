@@ -28,7 +28,7 @@ const os = require('os');
 
 const MAP = ['taiwan', 'labels', 'provsource', 'backings', 'mapstrip',
              'projclip', 'extent', 'layers-url', 'bookmarks', 'cache-keys',
-             'relief', 'mono'];
+             'relief', 'mono', 'names'];
 const ANN = ['run', 'run2', 'run3', 'run4', 'run5', 'run6', 'run7',
              'run8', 'run9', 'run10', 'run11', 'run12', 'run13', 'run14'];
 
@@ -51,7 +51,7 @@ const SECS = { mapstrip: 45, run2: 41, labels: 32, run5: 35, run14: 32, run9: 30
                run3: 28, extent: 26, run10: 25, run11: 24, run12: 19, run: 19,
                run8: 19, provsource: 18, run13: 18, 'layers-url': 18, run4: 17,
                bookmarks: 16, 'cache-keys': 15, backings: 15, run6: 12,
-               projclip: 11, taiwan: 15, relief: 60, mono: 30, run7: 5 };
+               projclip: 11, taiwan: 15, relief: 60, mono: 30, names: 55, run7: 5 };
 list = list.slice().sort((a, b) => (SECS[b] || 0) - (SECS[a] || 0));
 
 /* Each script drives a browser, and a browser is several processes. Half the

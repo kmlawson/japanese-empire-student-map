@@ -9051,6 +9051,106 @@ a no-op and the sequence had to start from Max. Whole suite: 582 checks across
 
 ---
 
+## Japanese names inside the empire, or the local ones
+
+One switch in the Layers pane, on by default. `en` carries the Japanese-first
+form of a name and a new `local` column carries the other way round;
+`shown()` picks between them, which is the single place every reader of a name
+already went through.
+
+### The two halves were not the same job
+
+`tools/build_localnames.py` derives both and prints before it writes. 159 names
+changed.
+
+* **Korea and Taiwan** already read Japanese-first, so only `local` had to be
+  derived: the first alternative becomes the head and the old head moves in
+  front of the rest. `Keiki-dō (Kyŏnggi-do)` gives `Kyŏnggi-do (Keiki-dō)`.
+* **Manchukuo, Mengjiang and Kwantung** already read *Chinese*-first, from the
+  earlier Pinyin pass. There the Japanese form is the one that had to be built,
+  out of the reading in the `ja` column, and `en` itself changed:
+  `Hēihé (Heiho)` with `ja` of `黒河省 (Kokka)` gives
+  `Kokka-shō (Hēihé, Heiho)`. So the switch being on by default **changes** how
+  those read rather than preserving it. That was said before it was built.
+
+Taiwan's suffixes are built rather than shuffled: its heads carry `-gun` where
+its parentheses have a bare `Jiayi`, so a straight swap would demote a district
+to a place name. The Chinese suffix is put back from the kanji — 郡 `-jun`, 市
+`-shi`, 州 `-zhou`, 廳 `-ting` — which keeps the local form parallel to Korea's,
+where `-do` was there already.
+
+### Three things the mechanical swap would have got wrong
+
+* **The colonies keep their own names.** Chōsen, Taiwan and Manchukuo are what
+  those polities were called; a switch about how their provinces are labelled
+  has no business renaming them. Only sub-units and towns carry `local`.
+* **Manchuria is not Japanese in 1930.** Manchukuo's provinces are drawn on the
+  1942 map alone, but its *cities* are on both, and calling Mukden `Hōten` on a
+  map of 1930 would be an anachronism no switch can excuse. Those rows carry
+  `jpfrom: e1942` and read Chinese-first there whatever the switch says.
+  Measured: 1942 with the switch on gives Hōten and Kirin-shō; 1930 with the
+  same switch on gives Shěnyáng and Jílín.
+* **Ejina is skipped.** A Torghut banner a thousand kilometres west of anything
+  Mengjiang administered, listed under it only because the polity column had to
+  say something. Giving it a katakana name on that basis would be inventing a
+  fact.
+
+Two more corrected by hand: `Makō, Pescadores` had its locator swallowed into
+the list of alternatives, and `the Mongol leagues` is a description and does not
+take a capital inside brackets.
+
+**Where it is still wrong.** The local form is Pinyin, and for the four Hsingan
+provinces, the Mengjiang leagues and Musha it should be Mongolian or Seediq.
+The script cannot invent those; `OVERRIDE` is the hook and the rest are honest
+placeholders.
+
+### The bug that would have made all of it invisible
+
+`shown()` began `if (!rec || !rec.id) return rec;`. Sub-units are keyed by
+`key`, that column is dropped from the record as the file's own business, and
+so **a province record has no `id` at all** — every Korean and Taiwanese
+province went straight through unchanged. The `id` test guards the
+epoch-override lookup and nothing else, and now says so.
+
+### Measured
+
+`tools/test/names.js`, 16 checks: Korea both ways in labels and in the tooltip,
+provinces as well as cities, the colonies unmoved under both settings, Mukden
+Japanese in 1942 and Chinese in 1930, and an old link still reading
+Japanese-first because the bit is stored inverted.
+
+Two of its own checks were wrong first: the sub-unit global is `JMAP.PROVINCES`,
+and a province is hovered at the middle of its box — which for Keiki-dō is
+Seoul, so the pointer landed on the city and the tooltip named the city. It
+hovers Kōgen-dō, which is mountain in the middle.
+
+---
+
+## Five Tibetan towns, and Lhasa off the smallest dot
+
+Chamdo, Nagchuka, Rudok and Gartok added; Lhasa raised from the smallest tier
+to medium and marked as the seat of its territory, so it carries the capital's
+box.
+
+```
+Chamdo (Qamdo)          31.143  97.170   the governor of Kham, and the Szechwan road
+Nagchuka (Nagqu, Naqu)  31.476  92.051   the northern staging post on the Sining caravan road
+Rudok (Rutog)           33.380  79.732   the north-west fort, on the route to Ladakh
+Gartok (Gar)            31.728  80.337   a 1904 treaty mart, and a tent camp most of the year
+```
+
+Coordinates from the articles' own `coordinates` property. Period English
+spellings lead, as the rest of the Tibetan places on the map do, with the
+present-day forms after.
+
+Verified drawn: Lhasa, Shigatse, Gyantse, Chamdo and Nagchuka on the eastern
+view, Rudok and Gartok on the western one — the four new ones are at the
+smallest tier and so wait for the reader to close in, which is the same rule
+every small place follows. Whole suite: 598 checks across 27 scripts, all
+passing, 181s.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible
