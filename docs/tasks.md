@@ -8373,6 +8373,86 @@ Last four runs: 499 checks, all passing, 134.9s.
 
 ---
 
+## Taiwan's names: the name of the day first, and the colonial word off the places
+
+### 蕃 is not used as a name for anywhere
+
+The term stays in two places and leaves everywhere else. It stays in the
+`# 蕃地, and what the word was doing` section at the head of
+`texts/territories/sub-units/taiwan.md`, which exists to say what the word was
+doing, and in the one sentence of the `## TwBanchi` card that names whose
+demarcation it was. It is gone from:
+
+* the **tooltip**, which was `蕃地 in the colonial administration: the highlands
+  and the east…` — the tooltip is where a reader meets a place with no context
+  round it, so the term was leading as the name. Now `The highlands and the
+  east: country the colonial state claimed and policed but never governed as it
+  did the plains`.
+* the **Japanese name field**, which was `蕃地 (banchi)` and is drawn beside the
+  title wherever Japanese script is on. Now 台湾原住民族 (Taiwan genjūminzoku),
+  with 臺灣原住民族 for Chinese. The unit has no name of its own that is not the
+  administration's word for it, so the modern term for the peoples is used.
+* **Taitō-chō's description**, which ended "and the interior of the chō is 蕃地"
+  and now ends "Taiwan Indigenous Peoples' territory".
+
+`tools/test/taiwan.js` now asserts the tooltip carries no 蕃 at all, where it
+used to assert the opposite.
+
+### One rule for every Taiwanese place
+
+**Title: the name it had at the time. Brackets: the Pinyin of the same
+characters, then the spelling a reader is likelier to have met, where that is
+different.** So `Kagi-gun (Jiayi, Chiayi)`, `Takao-shi (Gaoxiong, Kaohsiung)`,
+`Kīrun (Jilong, Keelung)`. Where Pinyin and the Japanese reading are the same
+word there are no brackets: Tainan-shi, Tainan-shū.
+
+32 of the 64 sub-units changed; the other 32 already carried the right Pinyin
+and needed nothing. Four **cities** were the other way round —
+`Pingtung (Heitō)`, `Changhua (Shōka)`, `Yilan (Giran)`, `Taitung (Taitō)` —
+putting the modern name where every other place on the map puts the
+contemporary one. And Kirun gained the macron it has everywhere else.
+
+### Three lists, not one
+
+The cities are in **three** files and the first pass changed the wrong two.
+`data/cities-1930.csv` and `data/cities-1942.csv` feed `cities-gaz.js`;
+`texts/sites/sites.csv` feeds the two quiz sites; and `texts/browse.csv` feeds
+`JMAP.BROWSE`, which is what the browse layer actually draws. Measured after
+changing only the first two: the island still read `Kirun`, `Changhua`,
+`Pingtung`, `Taitung`, `Yilan`. All three are updated and all three are checked.
+
+(`data/cities.csv` is a fourth, older file that nothing now reads —
+`build_cities.py` takes the two epoch files — and it was left alone.)
+
+### The brackets stay off the island
+
+`mapLabel` strips a trailing bracket, so the map draws `Taihoku-shū` and the
+card gets `(Taibei, Taipei)`. Two things defeated that and were caught by
+measuring what is drawn rather than what is stored:
+
+* `Taihoku-shū (Taibei, Taipei), prefecture` — the qualifier after the bracket
+  meant the whole string was painted across the island. The eight prefectures
+  say "The whole prefecture." at the head of their note instead, which is where
+  it was needed: three of them — 臺東廳, 澎湖廳, 花蓮港廳 — had no 郡 at all and
+  so share a name with the district drawn inside them.
+* `Makō (Makung), Pescadores` — the same fault, and the label read that way in
+  full across the strait. Now `Makō, Pescadores (Magong, Makung)`, drawn as
+  `Makō, Pescadores`.
+
+### Measured
+
+Drawn on the island with Cities and Names on: Taihoku, Takao, Tainan, Taichū,
+Kīrun, Karenkō, Shinchiku, Kagi, Makō/Pescadores, Shōka, Heitō, Taitō, Giran,
+and the eight prefectures and Taiwan Indigenous Peoples. Not one bracket among
+them. The tooltip on Taihoku-shi reads `Taihoku-shi (Taibei, Taipei)`.
+
+`tools/test/taiwan.js` is 31 checks, six of them new: every city drawn under
+its Japanese name, none under a modern one, no bracket painted on the island,
+Makō still saying where it is, the record carrying both romanisations, and the
+tooltip carrying no 蕃. Whole suite: 505 checks across 24 scripts, all passing.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

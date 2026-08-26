@@ -1384,14 +1384,14 @@ JMAP.SITES = [
     note: 'Landings on 10 February 1939 took the island to blockade the south China coast and as a step towards Indochina. Its iron ore was then worked with forced labour, much of it Chinese prisoners and conscripted Hainanese.'
   },
   {
-    id: 'taipei', en: 'Taihoku (Taipei)', ja: '臺北 (Taihoku)', orig: '臺北 (Tâi-pak)', zh: '臺北',
-    ko: '다이호쿠주', date: 'Colonial capital from 1895', cat: 'city', lvl: 2, lat: 25.03,
+    id: 'taipei', en: 'Taihoku (Taibei, Taipei)', ja: '臺北 (Taihoku)', orig: '臺北 (Tâi-pak)',
+    zh: '臺北', ko: '다이호쿠주', date: 'Colonial capital from 1895', cat: 'city', lvl: 2, lat: 25.03,
     lon: 121.57, wiki: 'https://en.wikipedia.org/wiki/Taihoku_Prefecture', year: 1895,
     note: 'Seat of the Governor-General of Taiwan, and the administrative model that later colonies were built on.'
   },
   {
-    id: 'kaohsiung', en: 'Takao (Kaohsiung)', ja: '高雄 (Takao)', orig: '高雄 (Ko-hiông)', zh: '高雄',
-    date: 'Developed from 1908', cat: 'city', lvl: 3, lat: 22.63, lon: 120.3,
+    id: 'kaohsiung', en: 'Takao (Gaoxiong, Kaohsiung)', ja: '高雄 (Takao)', orig: '高雄 (Ko-hiông)',
+    zh: '高雄', date: 'Developed from 1908', cat: 'city', lvl: 3, lat: 22.63, lon: 120.3,
     wiki: 'https://en.wikipedia.org/wiki/Xin-Fu-Hwa', year: 1908,
     note: 'The southern port built up by the colonial government, and the springboard for the "southward advance" into Southeast Asia.'
   },
@@ -2217,33 +2217,35 @@ JMAP.BROWSE = [
     note: 'The old capital of the island under the Dutch and the Qing, and the seat of the south until Japanese rule moved the centre to Taihoku.'
   },
   {
-    id: 'taichung', en: 'Taichū (Taichung)', ja: '臺中 (Taichū)', zh: '臺中', ko: '다이추주',
+    id: 'taichung', en: 'Taichū (Taizhong, Taichung)', ja: '臺中 (Taichū)', zh: '臺中', ko: '다이추주',
     lat: 24.15, lon: 120.67, wiki: 'https://en.wikipedia.org/wiki/Taich%C5%AB_Prefecture',
     note: 'The centre of the rice plain, and the prefecture in which the Musha rising broke out in October 1930 — the last armed resistance by Taiwan\'s indigenous peoples, put down with aircraft and poison gas.'
   },
   {
-    id: 'keelung', en: 'Kirun (Keelung)', ja: '基隆 (Kīrun)', zh: '基隆', ko: '지룽', lat: 25.13,
-    lon: 121.74, wiki: 'https://en.wikipedia.org/wiki/Keelung',
+    id: 'keelung', en: 'Kīrun (Jilong, Keelung)', ja: '基隆 (Kīrun)', zh: '基隆', ko: '지룽',
+    lat: 25.13, lon: 121.74, wiki: 'https://en.wikipedia.org/wiki/Keelung',
     note: 'The northern coaling port and the ferry terminus for Japan. American carrier raids struck its harbour in October 1944.'
   },
   {
-    id: 'hualien', en: 'Karenkō (Hualien)', ja: '花蓮港 (Karenkō)', zh: '花蓮港', ko: '가렌코청',
-    lat: 23.98, lon: 121.6, wiki: 'https://en.wikipedia.org/wiki/Karenk%C5%8D_Prefecture',
+    id: 'hualien', en: 'Karenkō (Hualiangang, Hualien)', ja: '花蓮港 (Karenkō)', zh: '花蓮港',
+    ko: '가렌코청', lat: 23.98, lon: 121.6,
+    wiki: 'https://en.wikipedia.org/wiki/Karenk%C5%8D_Prefecture',
     note: 'The port of the east coast, cut off from the rest of the island by the central range and settled late.'
   },
   {
-    id: 'hsinchu', en: 'Shinchiku (Hsinchu)', ja: '新竹 (Shinchiku)', zh: '新竹', ko: '신치쿠주',
-    lat: 24.81, lon: 120.97, wiki: 'https://en.wikipedia.org/wiki/Shinchiku_Prefecture',
+    id: 'hsinchu', en: 'Shinchiku (Xinzhu, Hsinchu)', ja: '新竹 (Shinchiku)', zh: '新竹',
+    ko: '신치쿠주', lat: 24.81, lon: 120.97,
+    wiki: 'https://en.wikipedia.org/wiki/Shinchiku_Prefecture',
     note: 'Natural gas and an air base. American bombers from China hit its airfields on 25 November 1943, the first raid of the war on Taiwan.'
   },
   {
-    id: 'chiayi', en: 'Kagi (Chiayi)', ja: '嘉義 (Kagi)', zh: '嘉義', ko: '자이', lat: 23.48,
+    id: 'chiayi', en: 'Kagi (Jiayi, Chiayi)', ja: '嘉義 (Kagi)', zh: '嘉義', ko: '자이', lat: 23.48,
     lon: 120.45, wiki: 'https://en.wikipedia.org/wiki/Chiayi',
     note: 'The foot of the Alishan forest railway, built by the colonial government to bring the cypress down off the mountain.'
   },
   {
-    id: 'makung', en: 'Makō (Makung), Pescadores', ja: '馬公 (Makō)', zh: '馬公（澎湖）', lat: 23.57,
-    lon: 119.57, wiki: 'https://en.wikipedia.org/wiki/Longgui_Park',
+    id: 'makung', en: 'Makō, Pescadores (Magong, Makung)', ja: '馬公 (Makō)', zh: '馬公（澎湖）',
+    lat: 23.57, lon: 119.57, wiki: 'https://en.wikipedia.org/wiki/Longgui_Park',
     note: 'The naval anchorage in the Pescadores, which Japan took in March 1895 — a month before the treaty that gave it Taiwan.'
   },
   {
@@ -3205,7 +3207,7 @@ JMAP.BROWSE = [
     note: 'The end of the Bataan Death March, where thousands more died in the weeks that followed.'
   },
   {
-    id: 'changhua', en: 'Changhua (Shōka)', ja: '彰化', zh: '彰化', ko: '장화', lat: 24.08,
+    id: 'changhua', en: 'Shōka (Zhanghua, Changhua)', ja: '彰化', zh: '彰化', ko: '장화', lat: 24.08,
     lon: 120.54, wiki: 'https://en.wikipedia.org/wiki/Changhua',
     note: 'On the Taiwan trunk railway at the foot of Baguashan, in the centre of the rice and sugar plain.'
   },
@@ -3650,7 +3652,7 @@ JMAP.BROWSE = [
     note: 'Unit 731. A village rather than a city, but the site of the biological-warfare programme and its human experiments.'
   },
   {
-    id: 'pingtung', en: 'Pingtung (Heitō)', zh: '屏東縣議會', lat: 22.68, lon: 120.49,
+    id: 'pingtung', en: 'Heitō (Pingdong, Pingtung)', zh: '屏東縣議會', lat: 22.68, lon: 120.49,
     wiki: 'https://en.wikipedia.org/wiki/Pingtung_County_Council',
     note: 'An army airfield in the southern sugar plain, from which aircraft flew against the Philippines in December 1941.'
   },
@@ -3764,7 +3766,7 @@ JMAP.BROWSE = [
     note: 'The Perak tin town where the Larut wars brought in British rule in 1874, and the wettest place in Malaya.'
   },
   {
-    id: 'taitung', en: 'Taitung (Taitō)', lat: 22.76, lon: 121.14,
+    id: 'taitung', en: 'Taitō (Taidong, Taitung)', lat: 22.76, lon: 121.14,
     wiki: 'https://en.wikipedia.org/wiki/Taitung_Performing_Art_Center',
     note: 'The last of the eight Taiwanese prefectural seats missing from the layer.'
   },
@@ -3897,7 +3899,7 @@ JMAP.BROWSE = [
     note: 'The Irrawaddy oilfields — a principal reason for the invasion of Burma, and destroyed by the retreating British in April 1942.'
   },
   {
-    id: 'yilan', en: 'Yilan (Giran)', zh: '甲子蘭酒文物館', lat: 24.76, lon: 121.75,
+    id: 'yilan', en: 'Giran (Yilan)', zh: '甲子蘭酒文物館', lat: 24.76, lon: 121.75,
     wiki: 'https://en.wikipedia.org/wiki/Yilan_Distillery_Chia_Chi_Lan_Liquor_Museum',
     note: 'The rice plain behind the north-east coast of Taiwan, cut off from Taipei by the mountains until the railway.'
   },
@@ -6668,34 +6670,34 @@ JMAP.PROVINCES = {
     note: 'Not a shape of this period at all: the coastline drawn here is the modern one, and this island was made by joining seven smaller ones from 1995. It is on the map because the coastline source is a modern one; see Sources.'
   },
   TwTaihoku: {
-    en: 'Taihoku-shi (Taipei)', ja: '臺北市 (Taihoku-shi)', zh: '臺北市',
+    en: 'Taihoku-shi (Taibei, Taipei)', ja: '臺北市 (Taihoku-shi)', zh: '臺北市',
     wiki: 'https://en.wikipedia.org/wiki/Taihoku_Prefecture',
     short: 'In Taihoku-shū (臺北州). The colony\'s capital, and the seat of the Governor-General',
     note: 'Taihoku, the capital, laid out inside and then over the walls of the Ch\'ing prefectural city. The Government-General\'s new headquarters, finished in 1919, is the tallest building in the empire outside Japan, and the city around it is the one place in the colony built to be looked at: the museum, the hospital, the imperial university of 1928, and a grid of Japanese quarters west of the old Chinese streets of Daitōtei, which went on doing the tea trade regardless.'
   },
   TwShichisei: {
-    en: 'Shichisei-gun', ja: '七星郡 (Shichisei-gun)', zh: '七星郡',
+    en: 'Shichisei-gun (Qixing)', ja: '七星郡 (Shichisei-gun)', zh: '七星郡',
     wiki: 'https://en.wikipedia.org/wiki/Taihoku_Prefecture',
     short: 'In Taihoku-shū (臺北州). The volcanic hills north of the capital, the hot springs at Hokutō and the tea slopes above them'
   },
   TwBunzan: {
-    en: 'Bunzan-gun', ja: '文山郡 (Bunzan-gun)', zh: '文山郡',
+    en: 'Bunzan-gun (Wenshan)', ja: '文山郡 (Bunzan-gun)', zh: '文山郡',
     wiki: 'https://en.wikipedia.org/wiki/Taihoku_Prefecture',
     short: 'In Taihoku-shū (臺北州). Tea country in the hills south of the capital, and the gorge the city drinks from'
   },
   TwKaizan: {
-    en: 'Kaizan-gun', ja: '海山郡 (Kaizan-gun)', zh: '海山郡',
+    en: 'Kaizan-gun (Haishan)', ja: '海山郡 (Kaizan-gun)', zh: '海山郡',
     wiki: 'https://en.wikipedia.org/wiki/Taihoku_Prefecture',
     short: 'In Taihoku-shū (臺北州). Coal measures and brick kilns along the southern branch of the Tamsui'
   },
   TwKirun: {
-    en: 'Kīrun-gun', ja: '基隆郡 (Kīrun-gun)', zh: '基隆郡',
+    en: 'Kīrun-gun (Jilong, Keelung)', ja: '基隆郡 (Kīrun-gun)', zh: '基隆郡',
     wiki: 'https://en.wikipedia.org/wiki/Taihoku_Prefecture',
     short: 'In Taihoku-shū (臺北州). The coalfield and fishing coast around the port, the port itself being a city apart',
     note: 'The north\'s port, and the reason the island could be held: coal from the Zuihō seams behind it, a harbour dredged and re-dredged through the 1920s, and the ferry to Moji that every official, soldier and settler arrived on. It rains here about two hundred days a year. The city itself was Kīrun-shi, a municipality separate from this district since 1924, and the sheet leaves its ground blank.'
   },
   TwTansui: {
-    en: 'Tansui-gun (Tamsui)', ja: '淡水郡 (Tansui-gun)', zh: '淡水郡',
+    en: 'Tansui-gun (Danshui, Tamsui)', ja: '淡水郡 (Tansui-gun)', zh: '淡水郡',
     wiki: 'https://en.wikipedia.org/wiki/Taihoku_Prefecture',
     short: 'In Taihoku-shū (臺北州). The old treaty port at the Tamsui mouth, silted up and long past its trade'
   },
@@ -6715,12 +6717,12 @@ JMAP.PROVINCES = {
     short: 'In Taihoku-shū (臺北州). The southern half of the Giran plain, and the camphor forest behind it'
   },
   TwSuo: {
-    en: 'Suō-gun (Su-ao)', ja: '蘇澳郡 (Suō-gun)', zh: '蘇澳郡',
+    en: 'Suō-gun (Su’ao)', ja: '蘇澳郡 (Suō-gun)', zh: '蘇澳郡',
     wiki: 'https://en.wikipedia.org/wiki/Taihoku_Prefecture',
     short: 'In Taihoku-shū (臺北州). The harbour at the north end of the east-coast cliff road, and the marble the road was cut through'
   },
   TwShinchiku: {
-    en: 'Shinchiku-gun', ja: '新竹郡 (Shinchiku-gun)', zh: '新竹郡',
+    en: 'Shinchiku-gun (Xinzhu, Hsinchu)', ja: '新竹郡 (Shinchiku-gun)', zh: '新竹郡',
     wiki: 'https://en.wikipedia.org/wiki/Shinchiku_Prefecture',
     short: 'In Shinchiku-shū (新竹州). The rice country round the seat, the town itself being a city apart'
   },
@@ -6760,13 +6762,13 @@ JMAP.PROVINCES = {
     short: 'In Shinchiku-shū (新竹州). The Daikei river gorge and the camphor forests above it'
   },
   TwTaichu: {
-    en: 'Taichū-shi (Taichung)', ja: '臺中市 (Taichū-shi)', zh: '臺中市',
+    en: 'Taichū-shi (Taizhong, Taichung)', ja: '臺中市 (Taichū-shi)', zh: '臺中市',
     wiki: 'https://en.wikipedia.org/wiki/Taich%C5%AB_Prefecture',
     short: 'In Taichū-shū (臺中州). The colony\'s third city, laid out new on a grid with the first modern drainage in Taiwan',
     note: 'Taichū was built rather than inherited: a new grid on the Taichū basin, laid out by the Japanese from 1900 with the first proper drainage in Taiwan after an earlier plan for a provincial capital there had been abandoned by the Ch\'ing. It is the market town for the whole middle of the island, and the head of the line up into the mountains.'
   },
   TwDaiton: {
-    en: 'Daiton-gun', ja: '大屯郡 (Daiton-gun)', zh: '大屯郡',
+    en: 'Daiton-gun (Datun)', ja: '大屯郡 (Daiton-gun)', zh: '大屯郡',
     wiki: 'https://en.wikipedia.org/wiki/Taich%C5%AB_Prefecture',
     short: 'In Taichū-shū (臺中州). The basin ringed round Taichū, with the city itself a hole in the middle of it'
   },
@@ -6786,7 +6788,7 @@ JMAP.PROVINCES = {
     short: 'In Taichū-shū (臺中州). The upper Taikō, timber and camphor at the mouth of the central range'
   },
   TwShoka: {
-    en: 'Shōka-gun (Changhua)', ja: '彰化郡 (Shōka-gun)', zh: '彰化郡',
+    en: 'Shōka-gun (Zhanghua, Changhua)', ja: '彰化郡 (Shōka-gun)', zh: '彰化郡',
     wiki: 'https://en.wikipedia.org/wiki/Taich%C5%AB_Prefecture',
     short: 'In Taichū-shū (臺中州). The rice plain behind the Shōka coast, and the great irrigation canal that made it'
   },
@@ -6806,13 +6808,13 @@ JMAP.PROVINCES = {
     short: 'In Taichū-shū (臺中州). The hill basins of the interior, betel and bananas, and the road up to Sun-Moon Lake'
   },
   TwNiitaka: {
-    en: 'Niitaka-gun', ja: '新高郡 (Niitaka-gun)', zh: '新高郡',
+    en: 'Niitaka-gun (Xingao)', ja: '新高郡 (Niitaka-gun)', zh: '新高郡',
     wiki: 'https://en.wikipedia.org/wiki/Taich%C5%AB_Prefecture',
     short: 'In Taichū-shū (臺中州). Named for Niitaka-yama, Mount Morrison — renamed in 1897 for standing higher than Fuji — and mostly the mountain itself',
     note: 'Almost entirely mountain. Niitaka-yama is Mount Morrison, 3,952 metres, renamed in 1897 for being higher than Fuji and so the tallest mountain in the empire — the name the Combined Fleet used in December 1941 for the signal to attack.'
   },
   TwNoko: {
-    en: 'Nōkō-gun (Puli)', ja: '能高郡 (Nōkō-gun)', zh: '能高郡',
+    en: 'Nōkō-gun (Nenggao)', ja: '能高郡 (Nōkō-gun)', zh: '能高郡',
     wiki: 'https://en.wikipedia.org/wiki/Taich%C5%AB_Prefecture',
     short: 'In Taichū-shū (臺中州). The Puri basin at the island\'s centre, and the hydro-electric works at Sun-Moon Lake',
     note: 'The Puri basin, almost exactly the centre of the island, and Sun-Moon Lake above it — dammed through the 1920s and 30s for the hydro-electric scheme that powered the colony\'s industry. This was also the district of Musha, where in 1930 the Seediq rose and killed 134 Japanese at a school sports day, and where the reprisal that followed — poison gas among it — destroyed the villages that took part.'
@@ -6823,13 +6825,13 @@ JMAP.PROVINCES = {
     short: 'In Taichū-shū (臺中州). Bamboo country in the foothills below the Rokudō gorge'
   },
   TwTainan: {
-    en: 'Tainan-shi (Tainan)', ja: '臺南市 (Tainan-shi)', zh: '臺南市',
+    en: 'Tainan-shi', ja: '臺南市 (Tainan-shi)', zh: '臺南市',
     wiki: 'https://en.wikipedia.org/wiki/Tainan_Prefecture',
     short: 'In Tainan-shū (臺南州). The oldest city in Taiwan, and the Ch\'ing capital of the island until 1885',
     note: 'The oldest city in Taiwan and its capital until 1885 — Dutch fort, Ch\'ing prefecture, and the temples of both still standing. By 1926 the harbour it grew on had silted into fish ponds and the trade had gone to Takao, and Tainan was what it has stayed since: the place the island keeps its past in.'
   },
   TwNiitoyo: {
-    en: 'Niitoyo-gun', ja: '新豐郡 (Niitoyo-gun)', zh: '新豐郡',
+    en: 'Niitoyo-gun (Xinfeng)', ja: '新豐郡 (Niitoyo-gun)', zh: '新豐郡',
     wiki: 'https://en.wikipedia.org/wiki/Tainan_Prefecture',
     short: 'In Tainan-shū (臺南州). The salt pans and fish ponds along the coast south of Tainan'
   },
@@ -6854,7 +6856,7 @@ JMAP.PROVINCES = {
     short: 'In Tainan-shū (臺南州). Sugar country on the Kanan plain, below the great Ushantou dam'
   },
   TwKagi: {
-    en: 'Kagi-gun (Chiayi)', ja: '嘉義郡 (Kagi-gun)', zh: '嘉義郡',
+    en: 'Kagi-gun (Jiayi, Chiayi)', ja: '嘉義郡 (Kagi-gun)', zh: '嘉義郡',
     wiki: 'https://en.wikipedia.org/wiki/Tainan_Prefecture',
     short: 'In Tainan-shū (臺南州). The plain below Mount Ari, and the forest railway that brought its cypress down',
     note: 'The plain below Mount Ari, and the reason anyone in Japan had heard of it: the forest railway that climbs 2,200 metres out of Kagi into the cypress and hinoki of Arisan, built from 1906 to bring the timber down. The trees went to shrines and temples across the empire, including Meiji Jingū.'
@@ -6895,7 +6897,7 @@ JMAP.PROVINCES = {
     short: 'In Takao-shū (高雄州). Bananas and sugar in the hill basins of the upper Kaohei'
   },
   TwHeito: {
-    en: 'Heitō-gun (Pingtung)', ja: '屏東郡 (Heitō-gun)', zh: '屏東郡',
+    en: 'Heitō-gun (Pingdong, Pingtung)', ja: '屏東郡 (Heitō-gun)', zh: '屏東郡',
     wiki: 'https://en.wikipedia.org/wiki/Takao_Prefecture',
     short: 'In Takao-shū (高雄州). The Heitō plain — sugar, pineapple, and the airfield built on it'
   },
@@ -6916,86 +6918,86 @@ JMAP.PROVINCES = {
     note: 'The southern tip, hot enough for rubber and coconut trials, and the site of the 1874 expedition: Japan\'s first overseas military action, sent after Ryūkyūan sailors were killed by Paiwan villagers here, and the beginning of the argument that ended with Taiwan being ceded twenty-one years later.'
   },
   TwTaito: {
-    en: 'Taitō-chō (Taitung)', ja: '臺東廳 (Taitō-chō)', zh: '臺東廳',
+    en: 'Taitō-chō (Taidong, Taitung)', ja: '臺東廳 (Taitō-chō)', zh: '臺東廳',
     wiki: 'https://en.wikipedia.org/wiki/Tait%C5%8D_Prefecture',
     short: 'The administered coast of Taitō-chō in the south-east, with Kōtōsho and Kasho-tō offshore',
-    note: 'The administered coast of Taitō-chō: a strip of the south-east between the mountains and the sea, with Kōtōsho (Orchid Island) and Kasho-tō (Green Island) offshore. Kōtōsho was left largely alone as a reservation for the Yami, and the interior of the chō is 蕃地.'
+    note: 'The administered coast of Taitō-chō: a strip of the south-east between the mountains and the sea, with Kōtōsho (Orchid Island) and Kasho-tō (Green Island) offshore. Kōtōsho was left largely alone as a reservation for the Yami, and the interior of the chō is Taiwan Indigenous Peoples\' territory.'
   },
   TwHoko: {
-    en: 'Hōko-chō (Penghu)', ja: '澎湖廳 (Hōko-chō)', zh: '澎湖廳',
+    en: 'Hōko-chō (Penghu, the Pescadores)', ja: '澎湖廳 (Hōko-chō)', zh: '澎湖廳',
     wiki: 'https://en.wikipedia.org/wiki/H%C5%8Dko_Prefecture',
     short: 'The Pescadores: taken back out of Takao-shū in 1926 and made a chō of their own again. Fishing, groundnuts and wind',
     note: 'The Pescadores: sixty-odd islands of basalt and wind in the strait, taken by Japan in March 1895 before the treaty that ceded Taiwan was signed, and used as the fleet\'s forward anchorage. Too dry and too windy for rice — groundnuts, sweet potato and fish — and the first part of the colony to be taken and the last thing on it a visitor expects.'
   },
   TwShuTaihoku: {
-    en: 'Taihoku-shū (Taipei Prefecture)', ja: '臺北州 (Taihoku-shū)', zh: '臺北州',
+    en: 'Taihoku-shū (Taibei, Taipei)', ja: '臺北州 (Taihoku-shū)', zh: '臺北州',
     wiki: 'https://en.wikipedia.org/wiki/Taihoku_Prefecture',
-    short: 'The north: the capital, the port of Kīrun and its coalfield, the tea hills, and the Giran plain beyond the mountains'
+    short: 'The whole prefecture. The north: the capital, the port of Kīrun and its coalfield, the tea hills, and the Giran plain beyond the mountains'
   },
   TwShuShinchiku: {
-    en: 'Shinchiku-shū (Hsinchu Prefecture)', ja: '新竹州 (Shinchiku-shū)', zh: '新竹州',
+    en: 'Shinchiku-shū (Xinzhu, Hsinchu)', ja: '新竹州 (Shinchiku-shū)', zh: '新竹州',
     wiki: 'https://en.wikipedia.org/wiki/Shinchiku_Prefecture',
-    short: 'The Hakka terrace country of the north-west, its thousands of irrigation ponds, and the colony\'s oilfield'
+    short: 'The whole prefecture. The Hakka terrace country of the north-west, its thousands of irrigation ponds, and the colony\'s oilfield'
   },
   TwShuTaichu: {
-    en: 'Taichū-shū (Taichung Prefecture)', ja: '臺中州 (Taichū-shū)', zh: '臺中州',
+    en: 'Taichū-shū (Taizhong, Taichung)', ja: '臺中州 (Taichū-shū)', zh: '臺中州',
     wiki: 'https://en.wikipedia.org/wiki/Taich%C5%AB_Prefecture',
-    short: 'From the Taichū basin across the irrigated rice plain of Shōka to the central mountains and Sun-Moon Lake'
+    short: 'The whole prefecture. From the Taichū basin across the irrigated rice plain of Shōka to the central mountains and Sun-Moon Lake'
   },
   TwShuTainan: {
-    en: 'Tainan-shū (Tainan Prefecture)', ja: '臺南州 (Tainan-shū)', zh: '臺南州',
+    en: 'Tainan-shū', ja: '臺南州 (Tainan-shū)', zh: '臺南州',
     wiki: 'https://en.wikipedia.org/wiki/Tainan_Prefecture',
-    short: 'The old south-west: the island\'s oldest city, the salt coast, and the Kanan plain the Ushantou dam turned to paddy'
+    short: 'The whole prefecture. The old south-west: the island\'s oldest city, the salt coast, and the Kanan plain the Ushantou dam turned to paddy'
   },
   TwShuTakao: {
-    en: 'Takao-shū (Kaohsiung Prefecture)', ja: '高雄州 (Takao-shū)', zh: '高雄州',
+    en: 'Takao-shū (Gaoxiong, Kaohsiung)', ja: '高雄州 (Takao-shū)', zh: '高雄州',
     wiki: 'https://en.wikipedia.org/wiki/Takao_Prefecture',
-    short: 'The far south: sugar and pineapple on the Heitō plain, the harbour at Takao, and the peninsula below them'
+    short: 'The whole prefecture. The far south: sugar and pineapple on the Heitō plain, the harbour at Takao, and the peninsula below them'
   },
   TwShuKarenko: {
-    en: 'Karenkō-chō (Hualien Prefecture)', ja: '花蓮港廳 (Karenkō-chō)', zh: '花蓮港廳',
+    en: 'Karenkō-chō (Hualiangang, Hualien)', ja: '花蓮港廳 (Karenkō-chō)', zh: '花蓮港廳',
     wiki: 'https://en.wikipedia.org/wiki/Karenk%C5%8D_Prefecture',
-    short: 'The east coast north of Taitō, thinly settled and not divided into districts at all in 1926'
+    short: 'The whole prefecture. The east coast north of Taitō, thinly settled and not divided into districts at all in 1926'
   },
   TwShuTaito: {
-    en: 'Taitō-chō (Taitung Prefecture)', ja: '臺東廳 (Taitō-chō)', zh: '臺東廳',
+    en: 'Taitō-chō (Taidong, Taitung)', ja: '臺東廳 (Taitō-chō)', zh: '臺東廳',
     wiki: 'https://en.wikipedia.org/wiki/Tait%C5%8D_Prefecture',
-    short: 'The south-east coast and the two islands off it; the mainland of the chō was not divided into districts'
+    short: 'The whole prefecture. The south-east coast and the two islands off it; the mainland of the chō was not divided into districts'
   },
   TwShuHoko: {
-    en: 'Hōko-chō (Penghu Prefecture)', ja: '澎湖廳 (Hōko-chō)', zh: '澎湖廳',
+    en: 'Hōko-chō (Penghu, the Pescadores)', ja: '澎湖廳 (Hōko-chō)', zh: '澎湖廳',
     wiki: 'https://en.wikipedia.org/wiki/H%C5%8Dko_Prefecture',
-    short: 'The Pescadores, taken back out of Takao-shū in 1926 and made a chō of their own again'
+    short: 'The whole prefecture. The Pescadores, taken back out of Takao-shū in 1926 and made a chō of their own again'
   },
   TwKirunShi: {
-    en: 'Kīrun-shi (Keelung)', ja: '基隆市 (Kīrun-shi)', zh: '基隆市',
+    en: 'Kīrun-shi (Jilong, Keelung)', ja: '基隆市 (Kīrun-shi)', zh: '基隆市',
     wiki: 'https://en.wikipedia.org/wiki/Taihoku_Prefecture',
     short: 'In Taihoku-shū (臺北州). The colony\'s northern port, raised to a city in 1924: coal from the Zuihō seams, and the ferry every official and settler arrived on'
   },
   TwShinchikuShi: {
-    en: 'Shinchiku-shi (Hsinchu)', ja: '新竹市 (Shinchiku-shi)', zh: '新竹市',
+    en: 'Shinchiku-shi (Xinzhu, Hsinchu)', ja: '新竹市 (Shinchiku-shi)', zh: '新竹市',
     wiki: 'https://en.wikipedia.org/wiki/Shinchiku_Prefecture',
     short: 'In Shinchiku-shū (新竹州). The prefectural seat on the windy northern plain, raised to a city in January 1930'
   },
   TwKagiShi: {
-    en: 'Kagi-shi (Chiayi)', ja: '嘉義市 (Kagi-shi)', zh: '嘉義市',
+    en: 'Kagi-shi (Jiayi, Chiayi)', ja: '嘉義市 (Kagi-shi)', zh: '嘉義市',
     wiki: 'https://en.wikipedia.org/wiki/Tainan_Prefecture',
     short: 'In Tainan-shū (臺南州). Raised to a city in January 1930; the head of the forest railway that climbs into the cypress of Arisan'
   },
   TwTakaoShi: {
-    en: 'Takao-shi (Kaohsiung)', ja: '高雄市 (Takao-shi)', zh: '高雄市',
+    en: 'Takao-shi (Gaoxiong, Kaohsiung)', ja: '高雄市 (Takao-shi)', zh: '高雄市',
     wiki: 'https://en.wikipedia.org/wiki/Takao_Prefecture',
     short: 'In Takao-shū (高雄州). The southern harbour, dredged through the 1920s into the colony\'s sugar and cement port, and a city since 1924'
   },
   TwKarenko: {
-    en: 'Karenkō-chō (Hualien)', ja: '花蓮港廳 (Karenkō-chō)', zh: '花蓮港廳',
+    en: 'Karenkō-chō (Hualiangang, Hualien)', ja: '花蓮港廳 (Karenkō-chō)', zh: '花蓮港廳',
     wiki: 'https://en.wikipedia.org/wiki/Karenk%C5%8D_Prefecture',
     short: 'The administered coast of Karenkō-chō, a thin shelf between the mountains and the Pacific, settled late and largely by Japanese immigrants'
   },
   TwBanchi: {
-    en: 'Taiwan Indigenous Peoples', ja: '蕃地 (banchi)', zh: '蕃地',
+    en: 'Taiwan Indigenous Peoples', ja: '台湾原住民族 (Taiwan genjūminzoku)', zh: '臺灣原住民族',
     wiki: 'https://en.wikipedia.org/wiki/Taiwanese_indigenous_peoples',
-    short: '蕃地 in the colonial administration: the highlands and the east, claimed and policed but never governed as the plains were',
+    short: 'The highlands and the east: country the colonial state claimed and policed but never governed as it did the plains',
     note: 'This territory is the Taiwan Government-General\'s demarcated "Aborigine Territory" (蕃地) for around 1930. It is drawn from the administration\'s own demarcation, not from any account of where people actually lived. Please see *Outcasts of Empire: Japan\'s Rule on Taiwan\'s "Savage Border," 1874–1945* by Paul Barclay for more discussion on representations of this territory and its peoples.'
   },
   'Peale Island': {

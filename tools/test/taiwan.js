@@ -176,6 +176,13 @@ console.log('\n— pointing at a district outlines its prefecture —');
     /Kagi-gun/.test(tip), tip.slice(0,60));
   check('and says which prefecture it was in, with its kanji',
     /Tainan-sh/.test(tip) && /臺南州/.test(tip), tip.slice(0,140));
+  /* The title is the name the place had at the time, and the brackets are how
+     to find it now: the Pinyin of the same characters, then the spelling a
+     reader is likelier to have met where that differs. Four of the cities used
+     to be the other way round — `Pingtung (Heitō)` — which put the modern name
+     where every other place on the map puts the contemporary one. */
+  check('the district is titled in Japanese with the Pinyin after it',
+    /Kagi-gun \(Jiayi, Chiayi\)/.test(tip), tip.slice(0,60));
 }
 
 console.log('\n— the 蕃地 is one shape, and points at no prefecture —');
@@ -186,8 +193,12 @@ console.log('\n— the 蕃地 is one shape, and points at no prefecture —');
     return t?t.textContent:'';});
   check('and it is called Taiwan Indigenous Peoples',
     /Taiwan Indigenous Peoples/.test(tip), tip.slice(0,60));
-  check('with the administration\'s own word for it beside that',
-    /蕃地/.test(tip), tip.slice(0,90));
+  /* And the administration's own word for it is *not* in the tooltip. 蕃 is
+     "savage", and the tooltip is where a reader meets a place with no context
+     round it — the term belongs in the card, once, in the sentence that says
+     whose demarcation it was, and nowhere a name would go. */
+  check('and the colonial term is not used as its name', !/蕃/.test(tip),
+    tip.slice(0,90));
   const one=await p.evaluate(()=>document.querySelectorAll('[data-prov="TwBanchi"]').length);
   check('the seven blocks are drawn as one shape, not seven', one===1, String(one));
   /* Pointing at it must not light a prefecture: it was one territory under one
@@ -253,6 +264,55 @@ console.log('\n— and the names layer writes prefectures, not districts —');
   check('the prefectures are written', shu.length>=6, shu.join(' | '));
   check('and not one district is', gun.length===0, gun.join(' | '));
   check('Taiwan itself is still named', shown.some(t=>/^Taiwan$/.test(t)), shown.join(' | '));
+}
+
+/* And the cities under the same rule.
+ *
+ * Four of them were the other way round — `Pingtung (Heitō)`, `Changhua
+ * (Shōka)`, `Yilan (Giran)`, `Taitung (Taitō)` — which put the modern name
+ * where every other place on the map puts the contemporary one. They are drawn
+ * from `texts/browse.csv`, which is a third list beside `texts/sites/sites.csv`
+ * and `data/cities-*.csv`; the first pass at this changed the other two and
+ * the map went on drawing the old names, so all three are checked here.
+ *
+ * What the map draws is the name alone: `mapLabel` strips a trailing bracket
+ * so the romanisations stay in the card and off the island. Makō had a comma
+ * and "Pescadores" *after* its bracket, which defeats that, and the label read
+ * "Makō (Makung), Pescadores" across the strait.
+ */
+console.log('\n— and the cities are named the same way —');
+{
+  await p.goto('http://localhost:8123/index.html?layers='
+    + ((1<<1)|(1<<4)|(1<<5)|(1<<6)|(2<<8)).toString(36)
+    + '&bbox=118.5,21.3,123,25.8', {waitUntil:'networkidle0'});
+  await sleep(3200);
+  const drawn = await p.evaluate(()=>[...document.querySelectorAll('#browse text, text.blabel')]
+    .filter(e=>e.textContent.trim() && e.getBoundingClientRect().width>0)
+    .map(e=>e.textContent));
+  const WANT = ['Kīrun','Taichū','Shinchiku','Kagi','Karenkō','Shōka','Heitō','Taitō','Giran'];
+  const missing = WANT.filter(w=>drawn.indexOf(w)<0);
+  check('every city is drawn under its Japanese name', missing.length===0,
+    'missing '+missing.join(',')+' — drawn: '+drawn.join(' | '));
+  const modern = drawn.filter(t=>/^(Keelung|Taichung|Hsinchu|Chiayi|Hualien|Changhua|Pingtung|Taitung|Yilan|Kirun)$/.test(t));
+  check('and not one of them under a modern one', modern.length===0, modern.join(','));
+  check('no romanisation is painted on the island',
+    drawn.every(t=>t.indexOf('(')<0), drawn.filter(t=>t.indexOf('(')>=0).join(' | '));
+  check('Makō still says where it is', drawn.indexOf('Makō, Pescadores')>=0,
+    drawn.join(' | '));
+  /* And the brackets are in the record, which is what the tooltip and the card
+     read — so a reader who points at Kīrun is told it is Jilong and Keelung. */
+  const recs = await p.evaluate(()=>{
+    const out={}; ['keelung','pingtung','makung','taipei'].forEach(id=>{
+      const all=[].concat(JMAP.BROWSE||[], JMAP.SITES||[]);
+      const r=all.filter(x=>x.id===id).map(x=>x.en);
+      if(r.length) out[id]=r;});
+    return out;});
+  check('the record carries the Pinyin and the familiar spelling',
+    /Jilong, Keelung/.test((recs.keelung||[]).join())
+    && /Pingdong, Pingtung/.test((recs.pingtung||[]).join())
+    && /Magong, Makung/.test((recs.makung||[]).join())
+    && (recs.taipei||[]).every(v=>/Taibei, Taipei/.test(v)),
+    JSON.stringify(recs));
 }
 
 check('no page errors', errs.length===0, errs[0]);

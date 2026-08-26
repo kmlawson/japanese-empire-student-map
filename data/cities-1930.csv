@@ -49,7 +49,7 @@ wuxi,Wúxī (Wusih),,31.57,120.3,Republic of China,on map (browse layer),large,,
 amritsar,Amritsar,,31.63,74.87,British India,on map (browse layer),large,,,,264000,391000,325000,264000,1931,contemporary (1931),census (rounded),in_census,
 kowloon,Kowloon,九龍 (Kūron),22.32,114.17,Hong Kong,proposed,large,,,,264000,581000,,264000,1931,contemporary (1931),estimate,hk_census,"Optional: the mainland half of the city, and where the December 1941 fighting was decided."
 poona,Poona (Pune),,18.52,73.86,British India,on map (browse layer),large,,,,250000,258000,481000,250000,1931,contemporary (1931),census (rounded),in_census,
-taipei,Taihoku (Taipei),,25.03,121.57,Formosa,on map (quiz site),medium,capital-territory,Formosa,176000,248000,353000,503000,248000,1930,contemporary (1930),census (rounded),tw_51yr;tw_sotokufu,
+taipei,"Taihoku (Taibei, Taipei)",,25.03,121.57,Formosa,on map (quiz site),medium,capital-territory,Formosa,176000,248000,353000,503000,248000,1930,contemporary (1930),census (rounded),tw_51yr;tw_sotokufu,
 cawnpore,Cawnpore (Kanpur),,26.45,80.33,British India,on map (browse layer),medium,,,,244000,487000,705000,244000,1931,contemporary (1931),census (rounded),in_census,
 agra,Agra,,27.18,78.01,British India,on map (browse layer),medium,,,,230000,284000,376000,230000,1931,contemporary (1931),census (rounded),in_census,
 fukuoka,Fukuoka,,33.59,130.4,Japan,on map (browse layer),medium,capital-province,Fukuoka Prefecture,95000,228000,307000,393000,228000,1930,contemporary (1930),census (rounded),jp_census,
@@ -101,7 +101,7 @@ kunming,Kūnmíng (Kunming),,25.04,102.72,Republic of China,on map (browse layer
 jaipur,Jaipur,,26.92,75.79,Princely states,on map (browse layer),medium,capital-province,Jaipur,,145000,175000,291000,145000,1931,contemporary (1931),census (rounded),in_census,
 otaru,Otaru,小樽 (Otaru),43.19,140.99,Japan,proposed,medium,,,,145000,164000,179000,145000,1930,contemporary (1930),census (rounded),jp_census,Hokkaidō’s main port and the terminal for the Karafuto and Japan Sea trade.
 toyohashi,Toyohashi,豊橋 (Toyohashi),34.77,137.39,Japan,proposed,medium,,,,,143000,123000,143000,1940,inferred from 1940,census (rounded),jp_census,
-kaohsiung,Takao (Kaohsiung),,22.63,120.3,Formosa,on map (quiz site),medium,capital-province,Takao Prefecture,,,141000,213000,141000,1940,inferred from 1940,census (rounded),tw_51yr,
+kaohsiung,"Takao (Gaoxiong, Kaohsiung)",,22.63,120.3,Formosa,on map (quiz site),medium,capital-province,Takao Prefecture,,,141000,213000,141000,1940,inferred from 1940,census (rounded),tw_51yr,
 kumamoto,Kumamoto,,32.8,130.71,Japan,on map (browse layer),medium,capital-province,Kumamoto Prefecture,70000,141000,194000,268000,141000,1930,contemporary (1930),census (rounded),jp_census,
 pyongyang,Heijō (P’yŏngyang),,39.02,125.75,Chōsen,on map (quiz site),medium,capital-province,South P’yŏngan,,140000,286000,,140000,1930,contemporary (1930),census (rounded),kr_census,
 dacca,Dacca (Dhaka),,23.81,90.41,British India,on map (browse layer),medium,,,,139000,213000,336000,139000,1931,contemporary (1931),census (rounded),in_census,
@@ -158,7 +158,7 @@ kawasaki,Kawasaki,川崎 (Kawasaki),35.53,139.7,Japan,proposed,medium,,,,100000,
 aomori,Aomori,,40.82,140.75,Japan,on map (browse layer),medium,capital-province,Aomori Prefecture,,,99000,108000,99000,1940,inferred from 1940,census (rounded),jp_census,
 shimonoseki,Shimonoseki,,33.96,130.94,Japan,on map (quiz site),medium,,,,98000,196000,194000,98000,1930,contemporary (1930),census (rounded),jp_census,
 fukui,Fukui,福井 (Fukui),36.06,136.22,Japan,proposed,medium,capital-province,Fukui Prefecture,,,98000,101000,98000,1940,inferred from 1940,census (rounded),jp_census,
-keelung,Kirun (Keelung),,25.13,121.74,Formosa,on map (browse layer),medium,,,,,96000,105000,96000,1940,inferred from 1940,census (rounded),tw_51yr,
+keelung,"Kīrun (Jilong, Keelung)",,25.13,121.74,Formosa,on map (browse layer),medium,,,,,96000,105000,96000,1940,inferred from 1940,census (rounded),tw_51yr,
 davao,Davao,,7.07,125.61,Philippine Islands (US),on map (browse layer),medium,capital-province,Davao,,,96000,111000,96000,1939,inferred from 1939,census (rounded),ph_census,
 trivandrum,Trivandrum (Thiruvananthapuram),,8.52,76.94,Princely states,on map (browse layer),medium,capital-province,Travancore,,96000,128000,186000,96000,1931,contemporary (1931),estimate,in_census,
 chiba,Chiba,千葉 (Chiba),35.61,140.12,Japan,proposed,medium,capital-province,Chiba Prefecture,,,92000,134000,92000,1940,inferred from 1940,census (rounded),jp_census,
@@ -175,7 +175,7 @@ kokura,Kokura,小倉 (Kokura),33.88,130.88,Japan,proposed,medium,,,,90000,174000
 sakai,Sakai,堺 (Sakai),34.57,135.48,Japan,proposed,medium,,,,90000,182000,239000,90000,1930,contemporary (1930),census (rounded),jp_census,Historic port and Osaka industrial suburb.
 changde,Chángdé (Changteh),常德 (Jōtoku),29.03,111.7,Republic of China,proposed,medium,,,,,90000,100000,90000,1936,contemporary (1936),estimate,cn_statistical;cn_census1953,"The battle of November–December 1943, and one of the confirmed targets of Unit 731’s plague attacks in 1941."
 liuzhou,Liǔzhōu (Liuchow),柳州 (Ryūshū),24.31,109.42,Republic of China,proposed,medium,,,,,90000,110000,90000,1936,contemporary (1936),estimate,cn_statistical;cn_census1953,"A principal Fourteenth Air Force base, and with Kweilin the objective of the Ichi-gō offensive of 1944."
-taichung,Taichū (Taichung),,24.15,120.67,Formosa,on map (browse layer),medium,capital-province,Taichū Prefecture,,,89000,139000,89000,1940,inferred from 1940,census (rounded),tw_51yr,
+taichung,"Taichū (Taizhong, Taichung)",,24.15,120.67,Formosa,on map (browse layer),medium,capital-province,Taichū Prefecture,,,89000,139000,89000,1940,inferred from 1940,census (rounded),tw_51yr,
 malang,Malang,,-7.98,112.63,Netherlands East Indies,on map (browse layer),medium,,,,87000,,150000,87000,1930,contemporary (1930),census (rounded),id_volkstelling,
 utsunomiya,Utsunomiya,宇都宮 (Utsunomiya),36.56,139.88,Japan,proposed,medium,capital-province,Tochigi Prefecture,,,87000,127000,87000,1940,inferred from 1940,estimate,jp_census,
 maebashi,Maebashi,前橋 (Maebashi),36.39,139.06,Japan,proposed,medium,capital-province,Gunma Prefecture,,,87000,107000,87000,1940,inferred from 1940,estimate,jp_census,
@@ -190,7 +190,7 @@ hamhung,Kankō (Hamhŭng),,39.92,127.54,Chōsen,on map (browse layer),medium,cap
 medan,Medan,,3.59,98.67,Netherlands East Indies,on map (browse layer),medium,capital-province,East Sumatra,,76000,,150000,76000,1930,contemporary (1930),census (rounded),id_volkstelling,
 nagano,Nagano,長野 (Nagano),36.65,138.18,Japan,proposed,medium,capital-province,Nagano Prefecture,,,76000,97000,76000,1940,inferred from 1940,estimate,jp_census,
 qiqihar,Qíqíhā’ěr (Tsitsihar),,47.35,123.92,Republic of China,on map (browse layer),medium,capital-province,Heilungkiang,,75000,106000,345000,75000,1930,contemporary (1930),census (rounded),mk_census1940;cn_census1953,
-chiayi,Kagi (Chiayi),,23.48,120.45,Formosa,on map (browse layer),small,,,,,74000,123000,74000,1940,inferred from 1940,census (rounded),tw_51yr,
+chiayi,"Kagi (Jiayi, Chiayi)",,23.48,120.45,Formosa,on map (browse layer),small,,,,,74000,123000,74000,1940,inferred from 1940,census (rounded),tw_51yr,
 kaesong,Kaijō (Kaesŏng),,37.97,126.55,Chōsen,on map (browse layer),small,,,,,72000,,72000,1940,inferred from 1940,estimate,kr_census,
 ussuriysk,Voroshilov (Ussuriysk/Nikolsk),Ворошилов,43.8,131.95,USSR,proposed,small,,,,,72000,104000,72000,1939,inferred from 1939,census (rounded),ussr_census,The rail junction behind Vladivostok and the Soviet Far Eastern army’s main base.
 hefei,Héféi (Hofei),,31.86,117.28,Republic of China,on map (browse layer),small,,,,,70000,184000,70000,1936,contemporary (1936),estimate,cn_statistical;cn_census1953,
@@ -204,7 +204,7 @@ tsu,Tsu,津 (Tsu),34.72,136.51,Japan,proposed,small,capital-province,Mie Prefect
 miyazaki,Miyazaki,宮崎 (Miyazaki),31.91,131.42,Japan,proposed,small,capital-province,Miyazaki Prefecture,,,68000,85000,68000,1940,inferred from 1940,estimate,jp_census,
 yamagata,Yamagata,山形 (Yamagata),38.24,140.36,Japan,proposed,small,capital-province,Yamagata Prefecture,,,68000,92000,68000,1940,inferred from 1940,estimate,jp_census,
 naha,Naha (Okinawa),,26.21,127.68,Japan,on map (quiz site),small,capital-province,Okinawa Prefecture,,66000,65000,90000,66000,1930,contemporary (1930),estimate,jp_census,
-hsinchu,Shinchiku (Hsinchu),,24.81,120.97,Formosa,on map (browse layer),small,capital-province,Shinchiku Prefecture,,,66000,97000,66000,1940,inferred from 1940,census (rounded),tw_51yr,
+hsinchu,"Shinchiku (Xinzhu, Hsinchu)",,24.81,120.97,Formosa,on map (browse layer),small,capital-province,Shinchiku Prefecture,,,66000,97000,66000,1940,inferred from 1940,census (rounded),tw_51yr,
 bandjermasin,Bandjermasin (Banjarmasin),,-3.32,114.59,Netherlands East Indies,on map (browse layer),small,capital-province,South & East Borneo,,66000,,,66000,1930,contemporary (1930),census (rounded),id_volkstelling,
 mito,Mito,水戸 (Mito),36.37,140.47,Japan,proposed,small,capital-province,Ibaraki Prefecture,,,66000,75000,66000,1940,inferred from 1940,estimate,jp_census,
 kwangju,Kōshū (Kwangju),,35.16,126.85,Chōsen,on map (browse layer),small,capital-province,South Chŏlla,,,65000,139000,65000,1940,inferred from 1940,census (rounded),kr_census;kr_kosis,
@@ -235,8 +235,8 @@ nara,Nara,奈良 (Nara),34.69,135.81,Japan,proposed,small,capital-province,Nara 
 matsue,Matsue,松江 (Matsue),35.47,133.05,Japan,proposed,small,capital-province,Shimane Prefecture,,,55000,64000,55000,1940,inferred from 1940,estimate,jp_census,
 bhopal,Bhopal,भोपाल,23.26,77.41,Princely states,proposed,small,capital-province,Bhopal,,55000,76000,102000,55000,1931,contemporary (1931),estimate,in_census,Princely state capital.
 cheribon,Cheribon (Cirebon),,-6.71,108.55,Netherlands East Indies,on map (browse layer),small,,,,54000,,,54000,1930,contemporary (1930),census (rounded),id_volkstelling,
-pingtung,Pingtung (Heitō),屏東 (Heitō),22.68,120.49,Formosa,proposed,small,,,,,54000,,54000,1940,inferred from 1940,estimate,tw_51yr,Army airfield and sugar town.
-changhua,Changhua (Shōka),彰化 (Shōka),24.08,120.54,Formosa,proposed,small,,,,,54000,,54000,1940,inferred from 1940,estimate,tw_51yr,
+pingtung,"Heitō (Pingdong, Pingtung)",屏東 (Heitō),22.68,120.49,Formosa,proposed,small,,,,,54000,,54000,1940,inferred from 1940,estimate,tw_51yr,Army airfield and sugar town.
+changhua,"Shōka (Zhanghua, Changhua)",彰化 (Shōka),24.08,120.54,Formosa,proposed,small,,,,,54000,,54000,1940,inferred from 1940,estimate,tw_51yr,
 ipoh,Ipoh,,4.6,101.09,Malaya,on map (browse layer),small,capital-province,Perak,,53000,,81000,53000,1931,contemporary (1931),census (rounded),my_census1931;my_census1947,
 khabarovsk,Khabarovsk,,48.48,135.08,USSR,on map (browse layer),small,capital-province,Far Eastern Krai,52000,,207000,323000,52000,1926,contemporary (1926),census (rounded),ussr_census,
 padang,Padang,,-0.95,100.35,Netherlands East Indies,on map (browse layer),small,capital-province,West Sumatra,,52000,,,52000,1930,contemporary (1930),census (rounded),id_volkstelling,
@@ -277,7 +277,7 @@ malacca,Malacca,,2.19,102.25,Straits Settlements,on map (browse layer),small,,,,
 akyab,Akyab (Sittwe),,20.15,92.9,British India,on map (browse layer),small,capital-province,Arakan Division,,38000,,42000,38000,1931,contemporary (1931),estimate,bur_census,
 masan,Masan,마산 / 馬山 (Masan),35.2,128.57,Chōsen,proposed,small,,,,,36000,,36000,1940,inferred from 1940,estimate,kr_census,
 esutoru,Esutoru (Uglegorsk),恵須取 (Esutoru),49.08,142.07,Karafuto,proposed,small,,,,,35000,,35000,1941,inferred from 1941,estimate,jp_teikoku;ndl_digital,"Pulp and coal town, the largest settlement of northern Karafuto."
-yilan,Yilan (Giran),宜蘭 (Giran),24.76,121.75,Formosa,proposed,small,,,,,35000,,35000,1940,inferred from 1940,estimate,tw_51yr,
+yilan,Giran (Yilan),宜蘭 (Giran),24.76,121.75,Formosa,proposed,small,,,,,35000,,35000,1940,inferred from 1940,estimate,tw_51yr,
 petropavlovsk,Petropavlovsk-Kamchatsky,Петропавловск-Камчатский,53.02,158.65,USSR,proposed,small,,,,,35000,86000,35000,1939,inferred from 1939,census (rounded),ussr_census,The staging point for the Soviet seizure of the Kuriles in August 1945.
 yamaguchi,Yamaguchi,山口 (Yamaguchi),34.19,131.47,Japan,proposed,small,capital-province,Yamaguchi Prefecture,,,32000,48000,32000,1940,inferred from 1940,estimate,jp_census,
 hue,Hue,,16.46,107.6,French Indochina,on map (browse layer),small,capital-territory,Annam,,30000,,,30000,1936,contemporary (1936),estimate,fr_annuaire,
@@ -300,9 +300,9 @@ tacloban,Tacloban,Tacloban,11.24,125.0,Philippine Islands (US),proposed,small,ca
 chunchon,Shunsen (Ch’unch’ŏn),춘천 / 春川 (Shunsen),37.88,127.73,Chōsen,proposed,small,capital-province,Kangwŏn,,,28000,,28000,1940,inferred from 1940,estimate,kr_census,Provincial capital missing from the layer.
 cagayandeoro,Cagayan de Misamis,Cagayan de Misamis,8.48,124.65,Philippine Islands (US),proposed,small,capital-province,Misamis Oriental,,,28000,45000,28000,1939,inferred from 1939,estimate,ph_census,Where MacArthur was flown out of the Philippines in March 1942.
 manado,Menado (Manado),,1.49,124.84,Netherlands East Indies,on map (browse layer),small,capital-province,Manado,,27000,,,27000,1930,contemporary (1930),census (rounded),id_volkstelling,
-hualien,Karenkō (Hualien),,23.98,121.6,Formosa,on map (browse layer),small,capital-province,Karenkō Prefecture,,,26000,,26000,1940,inferred from 1940,estimate,tw_51yr,
+hualien,"Karenkō (Hualiangang, Hualien)",,23.98,121.6,Formosa,on map (browse layer),small,capital-province,Karenkō Prefecture,,,26000,,26000,1940,inferred from 1940,estimate,tw_51yr,
 lhasa,Lhasa,,29.65,91.14,Tibet,on map (browse layer),small,capital-territory,Tibet,,,25000,30000,25000,1936,contemporary (1936),estimate,statesmans,
-makung,"Makō (Makung), Pescadores",,23.57,119.57,Formosa,on map (browse layer),small,capital-province,Hōko Prefecture,,,25000,,25000,1940,inferred from 1940,estimate,tw_51yr,
+makung,"Makō, Pescadores (Magong, Makung)",,23.57,119.57,Formosa,on map (browse layer),small,capital-province,Hōko Prefecture,,,25000,,25000,1940,inferred from 1940,estimate,tw_51yr,
 maoka,Maoka (Kholmsk),真岡 (Maoka),47.06,142.05,Karafuto,proposed,small,,,,,25000,,25000,1941,inferred from 1941,estimate,jp_teikoku;ndl_digital,West-coast port; the Soviet landing of 20 August 1945 and the telephone operators’ suicides.
 shikuka,Shikuka (Poronaysk),敷香 (Shikuka),49.22,143.1,Karafuto,proposed,small,,,,,25000,,25000,1941,inferred from 1941,estimate,jp_teikoku;ndl_digital,"The northernmost Japanese town on Sakhalin, on the frontier with the Soviet half."
 suwon,Suigen (Suwŏn),수원 / 水原 (Suigen),37.26,127.01,Chōsen,proposed,small,,,,,25000,,25000,1940,inferred from 1940,estimate,kr_census,The colonial agricultural experiment station.
@@ -347,7 +347,7 @@ yanji,Yenki (Yanji),,42.91,129.51,Republic of China,on map (browse layer),small,
 jiamusi,Jiāmùsī (Kiamusze),,46.81,130.32,Republic of China,on map (browse layer),small,,,,15000,70000,110000,15000,1930,contemporary (1930),estimate,mk_yearbook;cn_census1953,
 songjin,Jōshin (Sŏngjin),성진 / 城津 (Jōshin),40.67,129.2,Chōsen,proposed,small,,,,15000,40000,,15000,1930,contemporary (1930),estimate,kr_census,Magnesite and steel; one of the northern industrial ports.
 kongju,Kōshū (Kongju),공주 / 公州 (Kōshū),36.45,127.12,Chōsen,proposed,small,capital-province,South Ch’ungch’ŏng,,,15000,,15000,1940,inferred from 1940,estimate,kr_census,"Capital of South Ch’ungch’ŏng until 1932, when the seat moved to Taejŏn."
-taitung,Taitung (Taitō),臺東 (Taitō),22.76,121.14,Formosa,proposed,small,capital-province,Taitō Prefecture,,,15000,,15000,1940,inferred from 1940,estimate,tw_51yr,The last of the eight Taiwanese prefectural seats missing from the layer.
+taitung,"Taitō (Taidong, Taitung)",臺東 (Taitō),22.76,121.14,Formosa,proposed,small,capital-province,Taitō Prefecture,,,15000,,15000,1940,inferred from 1940,estimate,tw_51yr,The last of the eight Taiwanese prefectural seats missing from the layer.
 tonghua,Tōnghuà,通化 (Tsūka),41.73,125.94,Republic of China,proposed,small,,,,15000,40000,,15000,1930,contemporary (1930),estimate,mk_yearbook,"Manchukuo’s final capital in August 1945, and the redoubt planned for the Kwantung Army’s last stand."
 hailar,Hailar,海拉爾 (Hairaru),49.2,119.7,Republic of China,proposed,small,,,,15000,30000,,15000,1930,contemporary (1930),estimate,mk_yearbook,The Hulunbuir garrison and fortified zone facing Mongolia; the base for the Nomonhan fighting.
 manzhouli,Manchouli (Manzhouli),滿洲里 (Manshūri),49.6,117.45,Republic of China,proposed,small,,,,15000,25000,,15000,1930,contemporary (1930),estimate,mk_yearbook,The rail frontier with the Soviet Union on the Chinese Eastern Railway.

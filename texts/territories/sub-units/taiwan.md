@@ -123,7 +123,7 @@ that ended with Taiwan being ceded twenty-one years later.
 The administered coast of Taitō-chō: a strip of the south-east between the
 mountains and the sea, with Kōtōsho (Orchid Island) and Kasho-tō (Green
 Island) offshore. Kōtōsho was left largely alone as a reservation for the Yami,
-and the interior of the chō is 蕃地.
+and the interior of the chō is Taiwan Indigenous Peoples' territory.
 
 ## TwHoko
 
