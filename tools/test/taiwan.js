@@ -81,6 +81,78 @@ console.log('\n— every district knows its prefecture —');
     'prefecture '+cmp.shu.toFixed(1)+' wide, its districts '+cmp.sum.toFixed(1));
 }
 
+/* A prefecture is the dissolve of its own districts, so the outline drawn
+   round it can only ever run along edges the map has actually filled. Both
+   halves of that have gone wrong once:
+
+     * the prefectures were taken from a second sheet, and it was the **1926**
+       one while the districts are 1930. Its 澎湖廳 carried 131 rings and
+       143 km² against the districts' 18 and 128.
+     * and then, dissolved from the right units, they were emitted at full
+       precision while the districts were thinned to a tenth and their small
+       islands dropped below a floor. Eighteen rings outlined, eleven filled.
+
+   Both showed the reader the same thing: rings in the strait round nothing.
+   Hoko-cho is the case that can be checked exactly — it has no 蕃地, so its
+   outline is its districts and not merely along them. */
+console.log('\n— the outline round a prefecture traces ground the map has drawn —');
+{
+  /* Ring for ring, by where each one is. Not by the path strings: a dissolve
+     starts a ring wherever it picked up the chain, and the thinning that
+     follows keeps a different vertex or two for having begun somewhere else.
+     Four of the eleven differ by one point that way. What has to match is the
+     island — which one, and how big — so the boxes are compared, to a
+     hundredth of a unit. */
+  const same = await p.evaluate(() => {
+    const boxes = d => {
+      const probe = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      document.querySelector('svg').appendChild(probe);
+      const out = (d.match(/M[^M]*/g) || []).map(one => {
+        probe.setAttribute('d', one); const b = probe.getBBox();
+        return [b.x, b.y, b.width, b.height];
+      }).sort((u, v) => u[0] - v[0] || u[1] - v[1]);
+      probe.remove(); return out;
+    };
+    const shu = document.querySelector('[data-shu="TwShuHoko"]');
+    return { shu: shu ? boxes(shu.getAttribute('d')) : [],
+             dis: boxes([...document.querySelectorAll('[data-parent="TwShuHoko"]')]
+               .map(e => e.getAttribute('d')).join('')) };
+  });
+  const off = same.shu.length === same.dis.length
+    ? same.shu.map((b, i) => Math.max(...b.map((v, j) => Math.abs(v - same.dis[i][j]))))
+    : [];
+  check('Hoko-cho is outlined on exactly the islands it is filled on',
+    same.shu.length > 1 && same.shu.length === same.dis.length
+      && Math.max(...off) < 0.02,
+    same.shu.length + ' rings outlined, ' + same.dis.length + ' filled, '
+      + 'worst disagreement ' + (off.length ? Math.max(...off).toFixed(3) : '-') + ' units');
+
+  /* And for the other seven — which do reach into the 蕃地, so their outline is
+     not their districts — no piece of the outline may sit over open water. */
+  const orphans = await p.evaluate(() => {
+    const bad = [];
+    document.querySelectorAll('[data-shu]').forEach(shu => {
+      const key = shu.getAttribute('data-shu');
+      const fills = [...document.querySelectorAll('[data-parent="' + key + '"],'
+                                                  + '[data-prov="TwBanchi"]')]
+        .map(e => e.getBBox());
+      const probe = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      shu.parentNode.appendChild(probe);
+      (shu.getAttribute('d').match(/M[^M]*/g) || []).forEach(d => {
+        probe.setAttribute('d', d);
+        const b = probe.getBBox();
+        const over = fills.some(f => b.x < f.x + f.width + 0.5 && f.x < b.x + b.width + 0.5
+                                  && b.y < f.y + f.height + 0.5 && f.y < b.y + b.height + 0.5);
+        if (!over) bad.push(key + ' ' + [b.x, b.y, b.width, b.height].map(Math.round).join(','));
+      });
+      probe.remove();
+    });
+    return bad;
+  });
+  check('and no prefecture is outlined over open water', orphans.length === 0,
+    orphans.slice(0, 4).join(' | '));
+}
+
 console.log('\n— pointing at a district outlines its prefecture —');
 {
   const island=await p.evaluate(()=>{const b2=document.getElementById('a-taiwan').getBBox();

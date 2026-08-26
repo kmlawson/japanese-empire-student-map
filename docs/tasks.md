@@ -8182,6 +8182,106 @@ checks pass.
 
 ---
 
+## The prefecture outline stops disagreeing with the fill it is drawn round
+
+Two faults, both showing the reader the same thing: an outline in the strait
+round nothing. The screenshot that started it was Hōko-chō, where a dozen small
+islands in the Pescadores were traced and not coloured.
+
+### The 1926 sheet under the 1930 map
+
+The eight prefectures were being read from `taiwan_1930_shu.geojson`, which
+despite the name is the **1926** sheet: its `PERIOD` says 大正十五年七月 where
+the districts say 昭和五年一月. The two do not agree about the Pescadores. On
+澎湖廳 the prefecture layer carries 131 rings and 143 km²; the districts carry
+18 and 128. So the outline traced islets the districts had never heard of.
+
+`tools/fetch_taiwan_1930.py` no longer opens that file. Each prefecture is now
+**dissolved out of its own units** — its 郡, its 市 and its 蕃地 block, all of
+which carry the prefecture they were filed under — by the same exact
+edge-cancelling the coastline already used. That keeps what the separate sheet
+was needed for, which is that a 州 reaches back over the mountains beyond the
+districts inside it:
+
+```
+prefecture     rings   own km²   its districts    the 蕃地 it also holds
+Taihoku-shū       12    3722.1        2158.8         1563.3
+Shinchiku-shū     11    3626.9        2112.2         1514.7
+Taichū-shū        12    5986.2        2875.3         3110.8
+Tainan-shū         4    4562.4        4164.0          398.4
+Takao-shū         22    4813.6        2421.6         2392.0
+Taitō-chō          5    2960.5        1212.1         1748.4
+Karenkō-chō        2    3792.9        1069.2         2723.7
+Hōko-chō          18     105.1         105.1            0.0
+```
+
+Hōko is the check: it has no 蕃地, so its prefecture is exactly its districts,
+and the difference is 0.0 km².
+
+### And then the build undid it again
+
+Dissolving from the right units is not enough on its own. The emitter in
+`tools/build_map.py` wrote the prefectures at `FINE_PRECISION` with no
+thinning and no minimum area, while the districts beside them went through
+`thin()` and `sub_min_area()`. Measured on the built sheet: the districts kept
+10,410 of 101,101 source vertices — 10.3% — and Hōko's districts came out as
+**11 rings, 523 vertices** against the prefecture's **18 rings, 4,055**. Seven
+whole islands outlined and not filled, and the rest traced four times finer
+than the shape underneath.
+
+The prefectures now go through the same `thin()` and the same
+`sub_min_area()`. Hōko's outline is 11 rings and 523 vertices, the same as its
+fill, and the eleven islands agree in position and size to within 0.010 map
+units — a hundredth of a pixel at the opening view. They are not
+bit-identical strings and are not expected to be: a dissolved ring starts
+wherever the chain was picked up, and Douglas–Peucker beginning at a different
+vertex keeps a different one or two. Four of the eleven differ by a single
+point that way.
+
+Across all eight, 35,060 of 35,951 dissolved vertices survive the build
+(97.5%) before thinning; after it the outlines run 365 to 919 vertices.
+
+### The outline that would not move between prefectures
+
+Reported separately and fixed in the same pass. Moving the pointer straight
+from a district in one 州 to a district in the next left the *first*
+prefecture outlined; going out to open sea and back in worked.
+
+`redrawHighlight()` was building the territory slot's key as
+`slotKey('t', hotParent ? 'parent' : hot, ...)` — the literal word `parent`
+for every prefecture there is. `slotKey` then falls back to `'c'` for a set
+with no cluster name, so all eight came out as the same string,
+`t|parent|c:1|1|gen`, and `fillSlot` returns early when the key has not
+changed. Sea in between worked because the empty key broke the run.
+
+It now passes the prefecture's own key. Measured on Kagi-gun → Kizan-gun with
+no gap between: the outline moved from `[1080.6, 831.6, 18.5, 20.6]` to
+`[1083.6, 839.5, 17.4, 34.1]`, where before it did not move at all.
+
+### The 蕃地 note, cut to four sentences
+
+`## TwBanchi` in `texts/territories/sub-units/taiwan.md` was five paragraphs on
+the guard line, the police bureau, the camphor and Musha. Replaced with the
+four sentences asked for: what the demarcation is, that it is the
+administration's own and not an account of where people lived, and Barclay's
+*Outcasts of Empire* to read on it. The longer account is still there — it is
+the `# 蕃地, and what the word was doing` section at the head of the same file,
+which is where a reader who wants it will be.
+
+### Measured
+
+`tools/test/taiwan.js` is 25 checks, two of them new and both guarding this:
+Hōko-chō is outlined on exactly the islands it is filled on, ring for ring by
+bounding box to a hundredth of a unit; and no piece of any prefecture's outline
+sits over open water, which is the general form for the seven that do reach
+into the 蕃地 and so cannot be checked against their districts alone.
+
+The rest: labels 19, provsource 9, backings 6, mapstrip 42, projclip 8,
+layers-url 19, extent 15, bookmarks 11, cache-keys 7 — 136 map checks, all
+passing.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

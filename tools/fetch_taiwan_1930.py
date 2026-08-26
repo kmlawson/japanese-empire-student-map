@@ -4,10 +4,9 @@
 
     python3 tools/fetch_taiwan_1930.py
 
-Reads two layers, both already in TWD97 / EPSG:3826:
+Reads one layer, already in TWD97 / EPSG:3826:
 
     tools/cache/taiwan_1930.geojson       62 units — 55 郡市 and 7 蕃地 blocks
-    tools/cache/taiwan_1930_shu.geojson    8 州廳, at their full extent
 
 and writes three files the map build reads:
 
@@ -40,14 +39,23 @@ merged unit has no parent prefecture — pointing at it says what it is, and
 outlining whichever 州 happens to own that slice would say something untrue
 about how the place was run.
 
-## The prefectures are a layer of their own
+## The prefectures are dissolved from the same units, not taken from a sheet
 
-A 州 or 廳 reaches beyond the districts inside it and into the 蕃地: the
-administered part is a rind along the west and the prefecture runs back over
-the mountains. Adding up its districts therefore gives the wrong shape, which
-is what the map drew before this file existed. The eight are carried at their
-own full extent instead, and the outline drawn round a district's prefecture is
-that.
+A 州 or 廳 reaches beyond its 郡 and 市 and into the 蕃地: the administered part
+is a rind along the west and the prefecture runs back over the mountains. So a
+prefecture is *not* the sum of the districts filed under it — but it is exactly
+the sum of its districts **and its 蕃地 block**, and every unit in this layer
+carries the prefecture it belonged to. Each of the eight is therefore dissolved
+out of its own units by the same edge-cancelling above.
+
+There is a `taiwan_1930_shu.geojson` beside the source with the eight drawn
+directly, and it is deliberately not used. It is the **1926** sheet — its
+`PERIOD` says 大正十五年七月 where the districts say 昭和五年一月 — and the two
+do not agree: its 澎湖廳 has 131 rings and 143 km² against the districts' 18
+rings and 128 km², so the outline drawn round Hōko-chō enclosed a dozen islets
+that were not drawn on the map at all. Dissolving from the units the map is
+made of cannot go wrong that way: the outline and the fill are the same
+vertices.
 
 ## The dissolve is exact, not approximate
 
@@ -70,7 +78,6 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 CACHE = os.path.join(HERE, "cache")
 SRC = os.path.join(CACHE, "taiwan_1930.geojson")
-SRC_SHU = os.path.join(CACHE, "taiwan_1930_shu.geojson")
 OUT_OUTLINE = os.path.join(CACHE, "taiwan_1930_outline.json")
 OUT_DISTRICTS = os.path.join(CACHE, "taiwan_1930_districts.json")
 OUT_SHU = os.path.join(CACHE, "taiwan_1930_shu.json")
@@ -282,14 +289,11 @@ def ll_poly(poly):
 
 
 def main():
-    for path in (SRC, SRC_SHU):
-        if not os.path.exists(path):
-            sys.stderr.write("missing %s\n" % path)
-            return 1
+    if not os.path.exists(SRC):
+        sys.stderr.write("missing %s\n" % SRC)
+        return 1
     with open(SRC) as fh:
         feats = json.load(fh)["features"]
-    with open(SRC_SHU) as fh:
-        shu_feats = json.load(fh)["features"]
 
     # ---- the colony, dissolved -------------------------------------------
     rings = dissolve(feats)
@@ -348,20 +352,28 @@ def main():
     with open(OUT_DISTRICTS, "w") as fh:
         json.dump({"type": "FeatureCollection", "features": out}, fh)
 
-    # ---- the eight prefectures, at their own extent ----------------------
+    # ---- the eight prefectures, dissolved from their own units -----------
+    mine = {}
+    for feat in feats:
+        shu_kanji = (feat["properties"].get("NAMED") or "").strip()
+        if shu_kanji in SHU_KEY:
+            mine.setdefault(shu_kanji, []).append(feat)
     shu_out = []
-    for feat in shu_feats:
-        kanji = (feat["properties"].get("NAME") or "").strip()
-        if kanji not in SHU_KEY:
-            sys.stderr.write("unknown prefecture %r\n" % kanji)
+    for kanji in SHU_KEY:
+        group = mine.get(kanji)
+        if not group:
+            sys.stderr.write("no units for prefecture %r\n" % kanji)
             return 1
+        rs = dissolve(group)
+        rs.sort(key=len, reverse=True)
         shu_out.append({
             "type": "Feature",
             "properties": {"key": SHU_KEY[kanji], "kanji": kanji,
                            "romaji": SHU[kanji]},
             "geometry": {"type": "MultiPolygon",
-                         "coordinates": [ll_poly(poly)
-                                         for poly in rings_of(feat["geometry"])]},
+                         "coordinates": [[[list(to_wgs84(x, y)) for x, y in r]
+                                          + [list(to_wgs84(r[0][0], r[0][1]))]]
+                                         for r in rs]},
         })
     with open(OUT_SHU, "w") as fh:
         json.dump({"type": "FeatureCollection", "features": shu_out}, fh)
@@ -370,7 +382,11 @@ def main():
     print("outline: %d rings, %d vertices" % (len(ll), verts))
     print("districts: %d named units, and %d 蕃地 blocks merged into one "
           "(%s)" % (len(by_key), len(banchi_parts), ", ".join(banchi_parts)))
-    print("prefectures: %d, at their full extent" % len(shu_out))
+    print("prefectures: %d, dissolved from their own units (%s)"
+          % (len(shu_out),
+             ", ".join("%s %d rings" % (f["properties"]["romaji"],
+                                        len(f["geometry"]["coordinates"]))
+                       for f in shu_out)))
     return 0
 
 

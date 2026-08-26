@@ -6888,16 +6888,28 @@ def main():
                 if parent:
                     attr += f' data-parent="{esc(parent)}"'
                 sink.append(f'      <path{attr} d="{pd}"/>')
-            # and the larger divisions, where they are their own shapes
+            # and the larger divisions, where they are their own shapes.
+            #
+            # Through exactly the same thinning and the same minimum area as
+            # the sub-units above, and that is the whole of the point. A
+            # prefecture here is the dissolve of its own districts, so on
+            # paper the outline and the fill are the same line — but only if
+            # they are also thinned the same and dropped the same. Emitted raw
+            # while the districts were thinned to a tenth, Hoko-cho was
+            # outlined round eighteen islands and filled on eleven, and the
+            # reader saw seven empty rings in the strait.
             for sname, srings in shu_shapes.get(key, []):
-                sd = "".join(ring_to_path([project(x, y) for x, y in
-                                           clip_halfplanes(normalise_ring(r), frame)],
-                                          FINE_PRECISION)
-                             for r in srings
-                             if len(clip_halfplanes(normalise_ring(r), frame)) >= 3)
-                if sd:
+                pieces = []
+                for r in srings:
+                    ring = clip_halfplanes(normalise_ring(r), frame)
+                    if len(ring) < 3:
+                        continue
+                    pts = thin(key, [project(x, y) for x, y in ring])
+                    if len(pts) >= 3 and ring_area(pts) >= sub_min_area(key):
+                        pieces.append(ring_to_path(pts, FINE_PRECISION))
+                if pieces:
                     sink.append(f'      <path class="shu" data-shu="{esc(sname)}"'
-                                f' d="{sd}"/>')
+                                f' d="{"".join(pieces)}"/>')
             if sink is admin_out:
                 sink.append("  </g>")
             # The same atom's sub-units from the finer source, in a file of

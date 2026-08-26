@@ -13,8 +13,8 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '1.64';
-  var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "b7e2fe1a73", "japan-empire-map-admin.svg": "043e65c713", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "9214380208"};
+  var JEM_VERSION = '1.65';
+  var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "b7e2fe1a73", "japan-empire-map-admin.svg": "9de0304837", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "9214380208"};
 
   /* Every file this one fetches, with the version on it.
 
@@ -4813,8 +4813,17 @@
        because its own colour shift already says which district it is and a
        second line of the same weight only competed with the first. */
     var deep = !!(hotParent && hotParent.length);
+    /* The prefecture's *own* key in the slot key, not the word "parent".
+       `slotKey` falls back to 'c' for a set with no cluster name, so every
+       prefecture came out as `t|parent|c:1|1|gen` — the same string — and
+       `fillSlot` returns early when the key has not changed. The visible
+       result was that moving the pointer straight from a district in one
+       prefecture to a district in another left the first prefecture outlined:
+       going out to open sea first made it work, because that changed the key. */
+    var parentKey = deep && hotProvEl && hotProvEl.getAttribute
+      ? hotProvEl.getAttribute('data-parent') : null;
     fillSlot('territory',
-      slotKey('t', hotParent ? 'parent' : hot, hotCluster || hotParent, tEls),
+      slotKey('t', parentKey || hot, hotCluster || hotParent, tEls),
       tEls, 'hi-territory' + (deep ? ' hi-parent' : ''));
     fillSlot('province', slotKey('p', hotProvEl && hotProvEl.getAttribute('data-prov'),
                                  (deep ? ['deep'] : null), hotProv),
