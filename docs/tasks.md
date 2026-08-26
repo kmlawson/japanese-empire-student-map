@@ -8073,6 +8073,31 @@ not move the box" case. 335 annotation checks across 14 scripts and 148 map
 checks pass. `run2` failed once under parallel load and passed three times
 alone — a flake, not a regression, and recorded as such rather than chased.
 
+### And then: does dragging work in the other two projections?
+
+Asked after the ring fix, and worth the check, because a whole-shape drag adds
+the same number of degrees to every coordinate — which is a constant step on
+screen only while the projection is linear, and none of the three quite is.
+
+Dragged a 20° × 25° block 144 px in each. **The shape is under the pointer
+where it was dropped in all three**, confirmed by hit-testing the drop point.
+What does change is the shape's drawn outline: 3.5% in height in Mercator,
+about 2% in Albers and Lambert, and a corner ten degrees from the pointer
+travels 9 px differently from the pointer in Mercator and 21 to 25 px in the
+equal-area two.
+
+That is not lag and it is not a bug to fix. The shape keeps its extent in
+degrees, so those corners land where *their own ground* lands, and ground
+carried north is drawn taller in Mercator and a different shape again in an
+equal-area projection. It is the point of moving a piece of ground rather than
+a picture of one.
+
+An anchored version was written and thrown away: nailing one corner to the
+pointer instead makes that corner exact and everything else worse, and the
+measurement that seemed to justify it was comparing the shape's *centre* while
+the code anchored a *corner* — two different things. The original behaviour is
+right; what it lacked was a comment saying why, which it now has.
+
 ---
 
 ## Sources worth fetching

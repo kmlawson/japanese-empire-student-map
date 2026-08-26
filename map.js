@@ -13,8 +13,8 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '1.61';
-  var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "264dc64507", "japan-empire-map-admin.svg": "eda0acd4cd", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "ba24f18b40"};
+  var JEM_VERSION = '1.62';
+  var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "b7e2fe1a73", "japan-empire-map-admin.svg": "eda0acd4cd", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "ba24f18b40"};
 
   /* Every file this one fetches, with the version on it.
 
