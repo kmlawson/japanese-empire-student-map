@@ -9308,6 +9308,85 @@ Whole suite: 608 checks across 27 scripts, all passing, 193s.
 
 ---
 
+## Dragging one mark stopped rewriting the whole map
+
+Reported: clicks slow to answer, marks lagging behind the pointer, with only a
+handful of marks drawn. Measured before anything was changed, CPU throttled to
+a sixth of this machine, Cities and Names on:
+
+```
+                    10 marks     50 marks
+one pointer move      10.9 ms      11.5 ms
+letting go            13.7 ms      17.9 ms
+selecting a row       14.1 ms      17.2 ms
+one keystroke          9.4 ms      12.6 ms
+```
+
+**Ten marks cost the same as fifty**, which says almost none of it was the
+marks. A CPU profile of a drag with ten of them: `setAttribute` 18% of samples,
+`placeScalable` 5%, the annotation redraw itself 0.6%.
+
+`redraw()` ended by calling the map's whole `rescale()`. That walks every
+scalable the map has — every city dot, every name, every hit target, some
+thousands with Cities and Names on — and writes a transform to each. One mark
+being dragged rewrote the entire map, once per pointer event.
+
+Three changes, each measured:
+
+* **`rescaleAnn()` in map.js**, which places the annotation entries only and
+  hands `k` to the annotation hook. `redraw()` calls that. The zoom has not
+  changed, so nothing else on the map needs moving.
+* **What a mark measures is remembered** — a length or an area is trigonometry
+  over every vertex, and the list asked for fifty of them on every keystroke,
+  getting the same fifty answers. Kept in a `WeakMap` beside the feature and
+  not on it: `store()` and the file writer both hand these objects to
+  `JSON.stringify`, so a field added to the feature would land in the reader's
+  saved file. Forgotten wherever a coordinate moves.
+* **A keystroke redraws only when the drawing changes.** A description is read
+  in the card and drawn nowhere; typing one rebuilt the list and the whole
+  layer per letter. Now the name, the two dates and the label switch are
+  compared before and after — and the description too *when the mark is a text
+  box*, where the words are the mark. `run14` caught that the moment the skip
+  went in, which is what it is for.
+
+Also: `unitsPerPx()` was two `getScreenCTM()` reads per arrow per redraw — a
+forced layout sync in the middle of rebuilding the layer. The map already hands
+that number to `rescaled(k)`; it is reused, with the DOM asked once before the
+first rescale.
+
+After, same conditions:
+
+```
+                    10 marks     50 marks    dense import
+one pointer move       1.0 ms       1.7 ms      13.4 ms
+letting go             3.8 ms       6.6 ms      21.2 ms
+selecting a row        3.1 ms       5.0 ms      13.9 ms
+one keystroke          0.1 ms       0.1 ms       4.4 ms
+```
+
+Eleven times faster on a pointer move, a hundred on a keystroke.
+
+**Still slow, and left alone:** a set imported from GIS with tens of thousands
+of vertices still costs 13 ms a move, because every feature's path is rebuilt
+whether or not it moved. Fixing that means updating the dragged feature in
+place rather than emptying the layer, which is a different piece of work.
+
+`tools/test/annotations/run15.js` pins this as *work* rather than as time, so
+it cannot fail on a busy machine: every transform the map holds is recorded
+before a drag and compared after, and none may have changed; a drawn node's
+identity says whether the layer was rebuilt, so a description keystroke must
+leave the same node standing and a name keystroke must replace it. Checked with
+a mouse and with a finger. 21 checks.
+
+Two of its own checks were wrong first: both read the first row of the list,
+and the suite shares one browser, so a set left in localStorage by an earlier
+page was restored and stood in front of the mark being measured. They read the
+*selected* row now.
+
+Whole suite: 629 checks across 28 scripts, all passing, 197s.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

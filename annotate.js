@@ -439,7 +439,37 @@
       return Math.abs(total * R_EARTH * R_EARTH / 2);
     }
 
+    /* What a mark measures, remembered until the mark moves.
+
+       A line's length and an area's area are trigonometry over every vertex,
+       and the list of marks asks for one of each on every rebuild — fifty of
+       them for a single keystroke in the description field, and the same fifty
+       answers each time. Measured with the CPU throttled to a quarter and
+       fifty marks loaded, `measureOf` was **22%** of the time a selection or a
+       keystroke took; with a dense imported set (india-rivers, 63 features and
+       tens of thousands of vertices) it was most of a 23 ms keystroke.
+
+       The answer is kept *beside* the feature and not on it. `store()` and the
+       file writer both hand these objects to `JSON.stringify`, so a field
+       added to the feature would end up in the reader's saved file and in
+       every shared link. A WeakMap keyed on the feature has no such reach, and
+       it lets go of a mark that has been deleted without being told.
+
+       Every place that moves a coordinate calls `forget()`; anything that
+       replaces a feature wholesale — undo, load, duplicate — is making new
+       objects and has nothing to forget. */
+    var measCache = (typeof WeakMap === 'function') ? new WeakMap() : null;
+
+    function forget(f) { if (measCache && f) measCache['delete'](f); }
+
     function measureOf(f) {
+      if (!measCache || !f) return measureNow(f);
+      var hit = measCache.get(f);
+      if (hit === undefined) { hit = measureNow(f); measCache.set(f, hit); }
+      return hit;
+    }
+
+    function measureNow(f) {
       var kind = kindOf(f);
       var rings = ringsOf(f.geometry);
       // an arrow is a line for this purpose: what it says is how far it reaches
@@ -633,7 +663,22 @@
        every test passed; zoomed in, a map unit is a fraction of a pixel, the
        trim in units became enormous, and the shaft was cut back until the head
        was floating on its own well past the end of the line. */
+    /* This is `k`, and the map already knows it.
+
+       `rescaled(k)` is handed the number on every rescale, so asking the DOM
+       for it again is slower and no more true: `host.clientToSvg` goes through
+       `getScreenCTM()`, which is a forced style-and-layout sync, and this ran
+       **twice per arrow per redraw** — in the middle of rebuilding the layer,
+       once per pointer event of a drag. Resizing a text box asked four times
+       in a single move.
+
+       The DOM is still asked once, for the one moment `lastK` cannot be
+       trusted: before the map has rescaled since the annotation hook was
+       attached. After that the map's own number stands. */
+    var kKnown = false;
+
     function unitsPerPx() {
+      if (kKnown) return lastK;
       try {
         var p0 = host.clientToSvg(0, 0), p1 = host.clientToSvg(100, 0);
         var k = Math.abs(p1.x - p0.x) / 100;
@@ -970,7 +1015,7 @@
       labelGroup.innerHTML = '';
       group.style.display = on ? '' : 'none';
       labelGroup.style.display = on ? '' : 'none';
-      if (!on) { host.rescale(); return; }
+      if (!on) { (host.rescaleAnn || host.rescale)(); return; }
 
       clockDate = clockNow();          // once, not once per feature
       feats.forEach(function (f, i) {
@@ -1099,7 +1144,10 @@
             'ann-vertex ann-draft-vertex', { i: -1, r: 0, v: vi }));
         });
       }
-      host.rescale();
+      /* Only the marks, not the whole map: the zoom has not changed, so every
+         city dot and every name is already where it belongs. See `rescaleAnn`
+         in map.js for what this used to cost on every pointer move. */
+      (host.rescaleAnn || host.rescale)();
     }
 
     function ok2(c) {
@@ -1206,6 +1254,7 @@
     function rescaled(k) {
       if (!isFinite(k) || k <= 0) return;
       lastK = k;
+      kKnown = true;
       Object.keys(blurs).forEach(function (w) {
         var dev = blurs[w];
         if (dev && dev.setAttribute) {
@@ -2041,6 +2090,7 @@
       }
       var f = feats[dragging.i];
       if (!f) { dragging = null; return false; }
+      forget(f);                        // its length or its area has just changed
       /* The whole shape, moved by its middle. Every coordinate shifts by the
          same amount the pointer has, which is what dragging a thing means —
          and what a reader expects when they take hold of an area rather than
@@ -2181,6 +2231,7 @@
        the box's size — `jem-w`/`jem-h` in screen pixels and the ring in
        degrees — always agree about right now. */
     function reseatText(f) {
+      forget(f);
       var p = f.properties || {};
       var ring = ((f.geometry || {}).coordinates || [])[0];
       if (!ring || ring.length < 4) return;
@@ -2477,6 +2528,7 @@
       }
       snapshot();
       ring.splice(v, 1);
+      forget(f);
       if (closed) {
         // a polygon's first and last point are one point
         ring[ring.length - 1] = ring[0].slice();
@@ -2621,10 +2673,27 @@
       typingIn = null;
     }
 
+    /* What of a mark's fields the *drawing* depends on: its name, whether that
+       name is shown, and the two dates, which decide whether the clock is
+       showing it at all. A description is read in the card and under the
+       pointer and is drawn nowhere —
+
+       — except in a text box, where the description **is** the mark. That is
+       the whole of that tool: the words go on the map. run14 caught this the
+       moment the skip went in, which is what it is for. */
+    function drawnFields(f) {
+      var p = (f && f.properties) || {};
+      var drawn = [p.title || '', p['jem-nolabel'] ? '1' : '',
+                   p['jem-start'] || '', p['jem-end'] || ''];
+      if (kindOf(f) === 'text') drawn.push(p.description || '');
+      return drawn.join('\u0000');
+    }
+
     function fieldChanged() {
       var f = feats[sel];
       if (!f) return;
       noteEdit('field:' + sel);
+      var was = drawnFields(f);
       f.properties = f.properties || {};
       f.properties.title = ($('#ann-title') || {}).value || '';
       f.properties.description = ($('#ann-desc') || {}).value || '';
@@ -2648,9 +2717,17 @@
       // word. Measured before the fix: save, rename, and `beforeunload` was
       // not cancelled.
       setDirty(true);
-      drawList();
-      redraw();                    // the name on the map follows the field
-      syncClock();
+      /* Typing a description used to rebuild every row of the list and the
+         whole of the drawing on every keystroke, and a description changes
+         neither: the name on the map follows the name field, the clock follows
+         the dates, and nothing on the map follows the description at all.
+         Measured at CPU/4 with a dense imported set, a keystroke was 15 ms of
+         re-projecting and re-pathing geometry that had not moved. */
+      if (drawnFields(f) !== was) {
+        drawList();
+        redraw();                  // the name on the map follows the field
+        syncClock();
+      }
       store();
       schedulePack();
     }

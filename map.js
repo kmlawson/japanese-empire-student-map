@@ -13,8 +13,8 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '1.80';
-  var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "1251dae0fc", "japan-empire-map-admin.svg": "9de0304837", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "9214380208", "relief-coarse-albers.webp": "b57f3373ec", "relief-coarse-laea.webp": "4a79ce52b8", "relief-coarse-mercator.webp": "dd24772c29", "relief-fine-albers.webp": "641d43c5c5", "relief-fine-laea.webp": "52676e1c50", "relief-fine-mercator.webp": "1dc7a621a2", "relief-finest-albers.webp": "05b24e1e30", "relief-finest-laea.webp": "1325488946", "relief-finest-mercator.webp": "cac01f8da0"};
+  var JEM_VERSION = '1.81';
+  var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "c1aaabaa28", "japan-empire-map-admin.svg": "9de0304837", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "9214380208", "relief-coarse-albers.webp": "b57f3373ec", "relief-coarse-laea.webp": "4a79ce52b8", "relief-coarse-mercator.webp": "dd24772c29", "relief-fine-albers.webp": "641d43c5c5", "relief-fine-laea.webp": "52676e1c50", "relief-fine-mercator.webp": "1dc7a621a2", "relief-finest-albers.webp": "05b24e1e30", "relief-finest-laea.webp": "1325488946", "relief-finest-mercator.webp": "cac01f8da0"};
 
   /* Every file this one fetches, with the version on it.
 
@@ -2929,6 +2929,30 @@
     var t = 'translate(' + s.x + ' ' + s.y + ') scale(' + k + ')';
     if (ox || oy) t += ' translate(' + ox + ' ' + oy + ')';
     s.el.setAttribute('transform', t);
+  }
+
+  /* Only the reader's own marks, put back at the current zoom.
+   *
+   * `redraw()` in annotate.js rebuilds its layer on every pointer move of a
+   * drag, and used to end by calling the whole of `rescale()` below. That
+   * walks **every** scalable the map has — every city dot, every name, every
+   * hit target, some thousands of them with Cities and Names on — and writes
+   * a transform to each. So dragging one mark rewrote the entire map once per
+   * pointer event, and it cost the same with ten marks as with fifty because
+   * almost none of the work was the marks.
+   *
+   * Measured, CPU throttled to a quarter, ten marks, Cities and Names on:
+   * `setAttribute` was 18% of the drag's samples and `placeScalable` another
+   * 5%, against 0.6% for the annotation redraw itself. The marks are the only
+   * things that moved, so they are the only things put back. The zoom has not
+   * changed either, which is what the rest of `rescale` is for. */
+  function rescaleAnn() {
+    if (lastScaleW <= 0) { rescale(); return; }
+    var k = view.w / containerSize().w;
+    for (var i = 0; i < scalables.length; i++) {
+      if (scalables[i].ann) placeScalable(scalables[i], k);
+    }
+    if (annApi && annApi.rescaled) annApi.rescaled(k);
   }
 
   function rescale() {
@@ -7348,6 +7372,7 @@
         scalables = scalables.filter(function (s) { return !s.ann; });
       },
       rescale: function () { if (lastScaleW > 0) rescale(); },
+      rescaleAnn: rescaleAnn,
       /* Where the map is looking, as west/south/east/north. The annotations
          use it to remember the frame a set is meant to be seen from — the
          same four numbers the address bar carries. */
