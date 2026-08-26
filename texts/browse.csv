@@ -176,10 +176,10 @@ brisbane,Brisbane,,,,-27.47,153.03,https://en.wikipedia.org/wiki/Brisbane
 kowloon,Kowloon,가우룽,九龍,九龍,22.32,114.17,https://en.wikipedia.org/wiki/Kowloon
 hongkong,"Victoria, Hong Kong",빅토리아시티,ヴィクトリア,維多利亞城,22.28,114.16,"https://en.wikipedia.org/wiki/Victoria,_Hong_Kong"
 baroda,Baroda (Vadodara),,,,22.31,73.18,https://en.wikipedia.org/wiki/Vadodara
-chiba,Chiba,지바추오역,千葉中央駅,千葉中央站,35.61,140.12,https://en.wikipedia.org/wiki/Chiba-Ch%C5%AB%C5%8D_Station
+chiba,Chiba,지바추오역,千葉中央駅,千葉,35.61,140.12,https://en.wikipedia.org/wiki/Chiba_(city)
 cholon,Cholon,,,,10.75,106.65,https://en.wikipedia.org/wiki/B%C3%ACnh_T%C3%A2y
 changde,Chángdé (Changteh),창더,常徳,常德,29.03,111.7,https://en.wikipedia.org/wiki/Changde
-fukui,Fukui,,,,36.06,136.22,https://en.wikipedia.org/wiki/Fukui_Station_(Fukui)
+fukui,Fukui,,,福井,36.06,136.22,https://en.wikipedia.org/wiki/Fukui_(city)
 gifu,Gifu,기후,岐阜,岐阜,35.42,136.76,https://en.wikipedia.org/wiki/Gifu
 gwalior,Gwalior,,,,26.22,78.18,https://en.wikipedia.org/wiki/Gwalior
 hamamatsu,Hamamatsu,하마마쓰,浜松,濱松,34.71,137.73,https://en.wikipedia.org/wiki/Hamamatsu
@@ -211,7 +211,7 @@ srinagar,Srinagar,,,,34.08,74.8,https://en.wikipedia.org/wiki/Srinagar
 takamatsu,Takamatsu,다카마쓰,高松,高松,34.34,134.05,https://en.wikipedia.org/wiki/Takamatsu
 thonburi,Thonburi,,,,13.72,100.49,https://en.wikipedia.org/wiki/Thonburi
 tokushima,Tokushima,도쿠시마,徳島,德島,34.07,134.55,https://en.wikipedia.org/wiki/Tokushima_(city)
-toyama,Toyama,도야마역,富山駅,富山車站,36.7,137.21,https://en.wikipedia.org/wiki/Toyama_Station
+toyama,Toyama,도야마역,富山駅,富山,36.7,137.21,https://en.wikipedia.org/wiki/Toyama_(city)
 toyohashi,Toyohashi,도요하시,豊橋,豐橋,34.77,137.39,https://en.wikipedia.org/wiki/Toyohashi
 utsunomiya,Utsunomiya,우쓰노미야,宇都宮,宇都宮,36.56,139.88,https://en.wikipedia.org/wiki/Utsunomiya
 wakayama,Wakayama,와카야마,和歌山,和歌山,34.23,135.17,https://en.wikipedia.org/wiki/Wakayama_(city)
@@ -274,7 +274,7 @@ gyantse,Gyantse,,,,28.95,89.6,https://en.wikipedia.org/wiki/Gyantse
 ganzhou,Gànzhōu (Kanchow),간저우,贛州,贛州,25.83,114.93,https://en.wikipedia.org/wiki/Ganzhou
 haeju,Kaishū (Haeju),해주,海州,海州,38.04,125.71,https://en.wikipedia.org/wiki/Haeju
 haikou,Haikou (Kiungchow),,,,20.04,110.34,https://en.wikipedia.org/wiki/Haikou
-hailar,Hailar,하이라얼구,ハイラル区,海拉爾區,49.2,119.7,https://en.wikipedia.org/wiki/Hailar_District
+hailar,Hailar,하이라얼구,ハイラル区,海拉爾,49.2,119.7,https://en.wikipedia.org/wiki/Hailar_District
 hami,Hami (Kumul),,,,42.83,93.51,https://en.wikipedia.org/wiki/Hami
 heihe,Heihe (Sakhalyan/Aigun),헤이허,黒河,黑河,50.25,127.53,https://en.wikipedia.org/wiki/Heihe
 hitachi,Hitachi,히타치,日立,日立,36.6,140.65,"https://en.wikipedia.org/wiki/Hitachi,_Ibaraki"
@@ -336,7 +336,7 @@ pekanbaru,Pekanbaru,,,,0.51,101.45,https://en.wikipedia.org/wiki/Pekanbaru
 petropavlovsk,Petropavlovsk-Kamchatsky,,,,53.02,158.65,https://en.wikipedia.org/wiki/Petropavlovsk-Kamchatsky
 phuket,Phuket,,,,7.88,98.39,https://en.wikipedia.org/wiki/Phuket_province
 pingfang,Pingfang,핑팡구,平房区,,45.61,126.63,"https://en.wikipedia.org/wiki/Pingfang,_Harbin"
-pingtung,"Heitō (Pingdong, Pingtung)",,,屏東縣議會,22.68,120.49,https://en.wikipedia.org/wiki/Pingtung_County_Council
+pingtung,"Heitō (Pingdong, Pingtung)",,,屏東,22.68,120.49,https://en.wikipedia.org/wiki/Pingtung_City
 pondicherrycity,Pondicherry,,,,11.93,79.83,https://en.wikipedia.org/wiki/Pondicherry
 portblair,Port Blair,,,,11.62,92.73,https://en.wikipedia.org/wiki/Port_Blair
 prachuap,Prachuap Khiri Khan,,,,11.81,99.8,https://en.wikipedia.org/wiki/Prachuap_Khiri_Khan
@@ -395,3 +395,12 @@ otsu,Ōtsu,오쓰,大津,大津,35.02,135.85,https://en.wikipedia.org/wiki/%C5%8
 komsomolsk,Komsomolsk-on-Amur,,,,50.55,137.01,https://en.wikipedia.org/wiki/Komsomolsk-on-Amur
 quezoncity,Quezon City,,,,14.68,121.04,
 beihai,Pakhoi (Beihai),,,,21.48,109.12,https://en.wikipedia.org/wiki/Beihai
+daxi,Daikei (Daxi),,大溪 (Daikei),大溪,24.8806,121.2871,https://en.wikipedia.org/wiki/Daxi_District
+tamsui,"Tansui (Danshui, Tamsui)",,淡水 (Tansui),淡水,25.1719,121.4439,https://en.wikipedia.org/wiki/Tamsui_District
+beipu,Hoppo (Beipu),,北埔 (Hoppo),北埔,24.6639,121.0681,"https://en.wikipedia.org/wiki/Beipu,_Hsinchu"
+puli,Hori (Puli),,埔里 (Hori),埔里,23.9667,120.9667,"https://en.wikipedia.org/wiki/Puli,_Nantou"
+wushe,Musha (Wushe),,霧社 (Musha),霧社,24.0212,121.1323,https://en.wikipedia.org/wiki/Musha_Incident
+fangliao,Hōryō (Fangliao),,枋寮 (Hōryō),枋寮,22.3656,120.5936,"https://en.wikipedia.org/wiki/Fangliao,_Pingtung"
+checheng,Shajō (Checheng),,車城 (Shajō),車城,22.0798,120.7457,"https://en.wikipedia.org/wiki/Checheng,_Pingtung"
+mudan,Botansha (Mudan),,牡丹社 (Botansha),牡丹,22.1262,120.7743,"https://en.wikipedia.org/wiki/Mudan,_Pingtung"
+hengchun,Kōshun (Hengchun),,恆春 (Kōshun),恆春,22.0039,120.7473,https://en.wikipedia.org/wiki/Hengchun

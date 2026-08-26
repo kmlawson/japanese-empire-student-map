@@ -2859,8 +2859,8 @@ JMAP.BROWSE = [
     note: 'The Gaekwad\'s capital, and one of the best-administered of the princely states: free primary schooling from 1906 and a state bank of its own.'
   },
   {
-    id: 'chiba', en: 'Chiba', ja: '千葉中央駅', zh: '千葉中央站', ko: '지바추오역', lat: 35.61, lon: 140.12,
-    wiki: 'https://en.wikipedia.org/wiki/Chiba-Ch%C5%AB%C5%8D_Station',
+    id: 'chiba', en: 'Chiba', ja: '千葉中央駅', zh: '千葉', ko: '지바추오역', lat: 35.61, lon: 140.12,
+    wiki: 'https://en.wikipedia.org/wiki/Chiba_(city)',
     note: 'The bay city east of Tokyo, with the army\'s railway and engineer schools and, by the war, steelworks on the reclaimed shore.'
   },
   {
@@ -2874,8 +2874,8 @@ JMAP.BROWSE = [
     note: 'The battle of November–December 1943, and one of the confirmed targets of Unit 731’s plague attacks in 1941.'
   },
   {
-    id: 'fukui', en: 'Fukui', lat: 36.06, lon: 136.22,
-    wiki: 'https://en.wikipedia.org/wiki/Fukui_Station_(Fukui)',
+    id: 'fukui', en: 'Fukui', zh: '福井', lat: 36.06, lon: 136.22,
+    wiki: 'https://en.wikipedia.org/wiki/Fukui_(city)',
     note: 'A textile town on the Japan Sea side, known for habutae silk.'
   },
   {
@@ -3031,8 +3031,8 @@ JMAP.BROWSE = [
     note: 'Indigo, the crop that made the old Awa domain rich, on the Shikoku side of the Naruto strait.'
   },
   {
-    id: 'toyama', en: 'Toyama', ja: '富山駅', zh: '富山車站', ko: '도야마역', lat: 36.7, lon: 137.21,
-    wiki: 'https://en.wikipedia.org/wiki/Toyama_Station',
+    id: 'toyama', en: 'Toyama', ja: '富山駅', zh: '富山', ko: '도야마역', lat: 36.7, lon: 137.21,
+    wiki: 'https://en.wikipedia.org/wiki/Toyama_(city)',
     note: 'The 1–2 August 1945 firebombing destroyed about 99% of the built-up area, the highest destruction rate of any Japanese city.'
   },
   {
@@ -3347,7 +3347,7 @@ JMAP.BROWSE = [
     note: 'Hainan was occupied in February 1939 and the map marks the landing; the island’s only real town is not on the layer.'
   },
   {
-    id: 'hailar', en: 'Hailar', ja: 'ハイラル区', zh: '海拉爾區', ko: '하이라얼구', lat: 49.2, lon: 119.7,
+    id: 'hailar', en: 'Hailar', ja: 'ハイラル区', zh: '海拉爾', ko: '하이라얼구', lat: 49.2, lon: 119.7,
     wiki: 'https://en.wikipedia.org/wiki/Hailar_District',
     note: 'The Hulunbuir garrison and fortified zone facing Mongolia; the base for the Nomonhan fighting.'
   },
@@ -3652,8 +3652,8 @@ JMAP.BROWSE = [
     note: 'Unit 731. A village rather than a city, but the site of the biological-warfare programme and its human experiments.'
   },
   {
-    id: 'pingtung', en: 'Heitō (Pingdong, Pingtung)', zh: '屏東縣議會', lat: 22.68, lon: 120.49,
-    wiki: 'https://en.wikipedia.org/wiki/Pingtung_County_Council',
+    id: 'pingtung', en: 'Heitō (Pingdong, Pingtung)', zh: '屏東', lat: 22.68, lon: 120.49,
+    wiki: 'https://en.wikipedia.org/wiki/Pingtung_City',
     note: 'An army airfield in the southern sugar plain, from which aircraft flew against the Philippines in December 1941.'
   },
   {
@@ -3941,6 +3941,42 @@ JMAP.BROWSE = [
     id: 'beihai', en: 'Pakhoi (Beihai)', lat: 21.48, lon: 109.12,
     wiki: 'https://en.wikipedia.org/wiki/Beihai',
     note: 'The Gulf of Tonkin treaty port opened in 1876, the outlet for Guangxi before the French built the railway from Haiphong, and occupied in 1940.'
+  },
+  {
+    id: 'daxi', en: 'Daikei (Daxi)', ja: '大溪 (Daikei)', zh: '大溪', lat: 24.8806, lon: 121.2871,
+    wiki: 'https://en.wikipedia.org/wiki/Daxi_District'
+  },
+  {
+    id: 'tamsui', en: 'Tansui (Danshui, Tamsui)', ja: '淡水 (Tansui)', zh: '淡水', lat: 25.1719,
+    lon: 121.4439, wiki: 'https://en.wikipedia.org/wiki/Tamsui_District'
+  },
+  {
+    id: 'beipu', en: 'Hoppo (Beipu)', ja: '北埔 (Hoppo)', zh: '北埔', lat: 24.6639, lon: 121.0681,
+    wiki: 'https://en.wikipedia.org/wiki/Beipu,_Hsinchu'
+  },
+  {
+    id: 'puli', en: 'Hori (Puli)', ja: '埔里 (Hori)', zh: '埔里', lat: 23.9667, lon: 120.9667,
+    wiki: 'https://en.wikipedia.org/wiki/Puli,_Nantou'
+  },
+  {
+    id: 'wushe', en: 'Musha (Wushe)', ja: '霧社 (Musha)', zh: '霧社', lat: 24.0212, lon: 121.1323,
+    wiki: 'https://en.wikipedia.org/wiki/Musha_Incident'
+  },
+  {
+    id: 'fangliao', en: 'Hōryō (Fangliao)', ja: '枋寮 (Hōryō)', zh: '枋寮', lat: 22.3656,
+    lon: 120.5936, wiki: 'https://en.wikipedia.org/wiki/Fangliao,_Pingtung'
+  },
+  {
+    id: 'checheng', en: 'Shajō (Checheng)', ja: '車城 (Shajō)', zh: '車城', lat: 22.0798,
+    lon: 120.7457, wiki: 'https://en.wikipedia.org/wiki/Checheng,_Pingtung'
+  },
+  {
+    id: 'mudan', en: 'Botansha (Mudan)', ja: '牡丹社 (Botansha)', zh: '牡丹', lat: 22.1262,
+    lon: 120.7743, wiki: 'https://en.wikipedia.org/wiki/Mudan,_Pingtung'
+  },
+  {
+    id: 'hengchun', en: 'Kōshun (Hengchun)', ja: '恆春 (Kōshun)', zh: '恆春', lat: 22.0039,
+    lon: 120.7473, wiki: 'https://en.wikipedia.org/wiki/Hengchun'
   },
 ];
 

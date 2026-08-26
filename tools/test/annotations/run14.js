@@ -213,6 +213,92 @@ check('and wakes the amount up', await p2.evaluate(() =>
 check('the points the reader placed are still on the line', await dOf() ?
   (await dOf()).indexOf('M') === 0 : false);
 
+/* Taking hold of an arrow while the tool is still out.
+ *
+ * A press on a shape with a tool armed is the first corner of the *next*
+ * shape — the rule that lets a second area be drawn inside the first. Applied
+ * to an arrow it meant that after drawing one, with the tool still out, there
+ * was no way to touch it: pressing the shaft did nothing visible at all,
+ * because the press was taken as a corner of an arrow that was never finished.
+ * And the head — the biggest and most obvious part to reach for — was
+ * `pointer-events: none` and answered to nothing, in any mode.
+ *
+ * An area has an inside to draw in and keeps the old rule. A stroke has none.
+ */
+console.log('\n  — an arrow can be taken hold of with the tool still out —');
+{
+  const q = await S.page(b, { accept: true });
+  await S.openPanel(q);
+  await S.pickTool(q, 'arrow');
+  // a second press tells the tool to stay out after the arrow is made
+  await q.evaluate(() => document.querySelector('.ann-tool[data-tool="arrow"]').click());
+  await sleep(300);
+  await S.tap(q, 500, 400); await S.tap(q, 760, 520);
+  await sleep(700);
+  check('the tool is still armed', await q.evaluate(() =>
+    !!document.querySelector('.ann-tool.on.sticky')));
+  const shaftD = () => q.evaluate(() => {
+    const e = document.querySelector('#annotations path.ann-arrow');
+    return e ? e.getAttribute('d') : null; });
+  /* A quarter of the way along, deliberately: the midpoint is where the bend
+     handle sits, and grabbing that would prove nothing about the body. */
+  const at = f => q.evaluate(fr => {
+    const el = document.querySelector('#annotations path.ann-arrow');
+    const L = el.getTotalLength(), pt = el.getPointAtLength(L * fr);
+    const m = el.ownerSVGElement.getScreenCTM(), s2 = el.ownerSVGElement.createSVGPoint();
+    s2.x = pt.x; s2.y = pt.y; const r = s2.matrixTransform(m); return [r.x, r.y]; }, f);
+  const drag = async (pt, dx, dy) => {
+    await q.mouse.move(pt[0], pt[1]); await q.mouse.down(); await sleep(90);
+    for (let i = 1; i <= 6; i++) {
+      await q.mouse.move(pt[0] + dx * i / 6, pt[1] + dy * i / 6); await sleep(40); }
+    await q.mouse.up(); await sleep(600); };
+  const marks = () => q.evaluate(() => document.querySelectorAll('#ann-list li').length);
+  let d0 = await shaftD();
+  const n0 = await marks();
+  await drag(await at(0.25), 40, 40);
+  check('dragging its shaft moves it', (await shaftD()) !== d0, String(d0));
+  check('and does not start another arrow', (await marks()) === n0,
+    n0 + ' -> ' + (await marks()));
+
+  const head = await q.evaluate(() => {
+    const g = document.querySelector('#annotations .ann-head');
+    if (!g) return null;
+    const r = g.getBoundingClientRect();
+    return { pe: getComputedStyle(g).pointerEvents,
+             c: [r.x + r.width / 2, r.y + r.height / 2] }; });
+  check('the head is not inert any more', !!head && head.pe !== 'none',
+    head ? head.pe : 'no head');
+  d0 = await shaftD();
+  if (head) await drag(head.c, 45, -30);
+  check('and taking hold of the head moves the arrow too', (await shaftD()) !== d0,
+    String(d0));
+  await q.close();
+}
+
+/* The rule an area keeps: a press inside one, with a tool armed, is a corner
+   of the next shape and must not drag the area out from under the reader. */
+console.log('\n  — and an area still takes the press as the next shape —');
+{
+  const q = await S.page(b, { accept: true });
+  await S.openPanel(q);
+  await S.pickTool(q, 'polygon');
+  await q.evaluate(() => document.querySelector('.ann-tool[data-tool="polygon"]').click());
+  await sleep(300);
+  await S.tap(q, 450, 350); await S.tap(q, 700, 350);
+  await S.tap(q, 700, 560); await S.tap(q, 450, 560);
+  await q.evaluate(() => document.querySelector('#ann-finish').click());
+  await sleep(800);
+  const dOf = () => q.evaluate(() => {
+    const e = document.querySelector('#annotations path.ann-shape');
+    return e ? e.getAttribute('d') : null; });
+  const d0 = await dOf();
+  await q.mouse.move(575, 455); await q.mouse.down(); await sleep(90);
+  for (let i = 1; i <= 6; i++) { await q.mouse.move(575 + i * 7, 455 + i * 7); await sleep(40); }
+  await q.mouse.up(); await sleep(600);
+  check('pressing inside it does not move it', (await dOf()) === d0, String(d0));
+  await q.close();
+}
+
 check('no page errors', errs.length === 0 && p2.__errs.length === 0,
   errs[0] || p2.__errs[0]);
 console.log('\n    ' + pass + ' passed, ' + fail + ' failed');

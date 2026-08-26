@@ -257,7 +257,7 @@ nara,Nara,奈良 (Nara),34.69,135.81,Japan,proposed,small,capital-province,Nara 
 malacca,Malacca,,2.19,102.25,Straits Settlements,on map (browse layer),small,,,,38000,,55000,55000,1947,contemporary (1947),estimate,my_census1931;my_census1947,
 matsue,Matsue,松江 (Matsue),35.47,133.05,Japan,proposed,small,capital-province,Shimane Prefecture,,,55000,64000,55000,1940,contemporary (1940),estimate,jp_census,
 cheribon,Cheribon (Cirebon),,-6.71,108.55,Netherlands East Indies,on map (browse layer),small,,,,54000,,,54000,1930,inferred from 1930,census (rounded),id_volkstelling,
-pingtung,"Heitō (Pingdong, Pingtung)",屏東 (Heitō),22.68,120.49,Formosa,proposed,small,,,,,54000,,54000,1940,contemporary (1940),estimate,tw_51yr,Army airfield and sugar town.
+pingtung,"Heitō (Pingdong, Pingtung)",屏東 (Heitō),22.68,120.49,Formosa,proposed,small,,,,,54000,,54000,1940,contemporary (1940),estimate,tw_51yr,"A 街 and the seat of Heitō-gun in 1930, raised to 屏東市 on 1 December 1933. Sugar refinery, and the army airfield beside it."
 changhua,"Shōka (Zhanghua, Changhua)",彰化 (Shōka),24.08,120.54,Formosa,proposed,small,,,,,54000,,54000,1940,contemporary (1940),estimate,tw_51yr,
 padang,Padang,,-0.95,100.35,Netherlands East Indies,on map (browse layer),small,capital-province,West Sumatra,,52000,,,52000,1930,inferred from 1930,census (rounded),id_volkstelling,
 kandy,Kandy,මහනුවර,7.29,80.64,Ceylon,proposed,small,,,,41000,,52000,52000,1946,contemporary (1946),estimate,lk_census,South East Asia Command’s headquarters from April 1944 — Mountbatten’s seat and the place the Southeast Asian war was directed from.
@@ -445,3 +445,12 @@ buin,Buin (Bougainville),Buin,-6.74,155.72,Solomon Islands,proposed,small,,,,,10
 kavieng,Kavieng,Kavieng,-2.58,150.8,New Guinea,proposed,small,,,,,1000,,1000,1940,contemporary (1940),estimate,lon_mandates,"With Rabaul, the northern anchor of the Bismarcks position."
 lorengau,Lorengau (Manus),Lorengau,-2.02,147.27,New Guinea,proposed,small,,,,,1000,,1000,1940,contemporary (1940),estimate,lon_mandates,"The Admiralties, taken in early 1944 and turned into the largest Allied base in the south-west Pacific."
 tulagitown,Tulagi,Tulagi,-9.1,160.15,Solomon Islands,proposed,small,capital-territory,British Solomon Islands,,,1000,,1000,1940,contemporary (1940),estimate,uk_colonial,"The capital of the protectorate, taken in May 1942 and the first objective of the Guadalcanal landings."
+daxi,Daikei (Daxi),大溪 (Daikei),24.8806,121.2871,Formosa,on map (browse layer),small,,,,,,,,,,,,"The camphor and tea town on the Tahan, called 大嵙崁 (Dakekan) until 1920."
+tamsui,"Tansui (Danshui, Tamsui)",淡水 (Tansui),25.1719,121.4439,Formosa,on map (browse layer),small,,,,,,,,,,,,"The treaty port at the Tamsui mouth, silted up and long past its trade."
+beipu,Hoppo (Beipu),北埔 (Hoppo),24.6639,121.0681,Formosa,on map (browse layer),small,,,,,,,,,,,,Site of the Beipu uprising of November 1907.
+puli,Hori (Puli),埔里 (Hori),23.9667,120.9667,Formosa,on map (browse layer),small,,,,,,,,,,,,"The basin town at the centre of the island, and the way up to Musha."
+wushe,Musha (Wushe),霧社 (Musha),24.0212,121.1323,Formosa,on map (browse layer),small,,,,,,,,,,,,Site of the Musha Incident of October 1930. Inside the 蕃地 of Nōkō-gun.
+fangliao,Hōryō (Fangliao),枋寮 (Hōryō),22.3656,120.5936,Formosa,on map (browse layer),small,,,,,,,,,,,,"The southern coast road town, in Chōshū-gun."
+checheng,Shajō (Checheng),車城 (Shajō),22.0798,120.7457,Formosa,on map (browse layer),small,,,,,,,,,,,,"Where the Japanese force landed in 1874, in Kōshun-gun."
+mudan,Botansha (Mudan),牡丹社 (Botansha),22.1262,120.7743,Formosa,on map (browse layer),small,,,,,,,,,,,,Site of the Mudan Incident of 1874. Inside the 蕃地 of Kōshun-gun.
+hengchun,Kōshun (Hengchun),恆春 (Kōshun),22.0039,120.7473,Formosa,on map (browse layer),small,,,,,,,,,,,,"The walled town at the southern tip, seat of Kōshun-gun."

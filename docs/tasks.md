@@ -8453,6 +8453,117 @@ tooltip carrying no 蕃. Whole suite: 505 checks across 24 scripts, all passing.
 
 ---
 
+## An arrow you can take hold of, a ring instead of a rim, and nine more places
+
+### The arrow that answered to nothing
+
+Reported: an arrow could not be grabbed after drawing it, before putting the
+tool away. Two separate causes, both measured before changing anything.
+
+**The body was gated on there being no tool armed.** `grab()` read
+
+```js
+if (!what && !tool) { var body = target.closest('.ann-shape'); ... }
+```
+
+with the comment that a press on a shape, tool out, is a corner of the *next*
+shape — the rule that lets a second area be drawn inside the first. Applied to
+an arrow that rule has nothing to protect: a stroke has no inside to draw in.
+Measured: draw an arrow with the tool still out, press a quarter of the way
+along the shaft, and **nothing visible happened at all** — the press became the
+first corner of an arrow that was never finished, so there was no response of
+any kind to tell the reader why.
+
+The gate is now `(!tool || strokeOnly)`, where `strokeOnly` is read from
+`data-shape`, which carries the kind — `arrow`, `line`, `polygon`, `text` —
+rather than the bare `'1'` it used to. An area is unchanged and is checked to
+be unchanged.
+
+**And the head was inert.** `#annotations .ann-head { pointer-events: none }`,
+so the biggest and most obvious part of an arrow to reach for answered to
+nothing in any mode, tool or no tool. It now takes the pointer and carries
+`data-shape="arrow"`, so it is grabbed as the arrow's body is.
+
+The first attempt at measuring this got the wrong answer: the probe pressed the
+midpoint of the shaft, which is exactly where the bend handle sits, and
+reported that dragging worked. The test presses at 0.25 along for that reason.
+
+### The stuck tool is ringed, not rimmed
+
+`box-shadow: inset 0 -4px 0` with `padding-bottom: 4px` — a rim along the foot
+of the button, which in a row of five reads as one button sitting lower than
+its neighbours rather than as a state, and which took its four pixels out of
+the button by pushing the label up. Now an inset ring in the button's own
+shape, a shade off the pressed colour:
+`inset 0 0 0 2.5px color-mix(in srgb, var(--accent) 78%, #fffdf8)`, and the
+dark-scheme equivalent. Checked: the shadow is inset with no negative offset,
+and a stuck tool is the same height and padding as the tools beside it.
+
+### Four cities pointed at a railway station or a council
+
+Asked why Heitō's Chinese read 屏東縣議會. Because its `wiki` was
+`Pingtung_County_Council` and its `zh` had been taken from that article's
+title. A scan of all 396 rows of `texts/browse.csv` for institution names found
+five of the same kind:
+
+```
+chiba      千葉中央站   Chiba-Chūō_Station     -> 千葉    Chiba_(city)
+fukui      (blank)     Fukui_Station_(Fukui)  -> 福井    Fukui_(city)
+toyama     富山車站     Toyama_Station         -> 富山    Toyama_(city)
+pingtung   屏東縣議會   Pingtung_County_Council-> 屏東    Pingtung_City
+hailar     海拉爾區     Hailar_District        -> 海拉爾  (article kept)
+```
+
+And Heitō is a town, not an airfield: 屏東街 and the seat of Heitō-gun in 1930,
+raised to 屏東市 on 1 December 1933, with the sugar refinery and later the army
+airfield beside it. Its `rationale` said only "Army airfield and sugar town"
+and now says that.
+
+### Nine more places on Taiwan
+
+All at the smallest tier, because they are small settlements. A place needs two
+records to appear: `data/cities-19xx.csv` gives it a dot sized by `size_tier`,
+and `texts/browse.csv` gives it a name — `shown()` will not write a name whose
+gazetteer dot is not visible.
+
+**The readings were checked, not guessed**, against the 州廳 breakdown tables,
+and one of them was wrong the way CLAUDE.md warns: 北埔 is **Hoppo**, not
+Hokuho.
+
+```
+Daikei (Daxi)              24.8806 121.2871   大溪 — 大嵙崁, Dakekan, until 1920
+Tansui (Danshui, Tamsui)   25.1719 121.4439
+Hoppo (Beipu)              24.6639 121.0681   北埔庄, Chikutō-gun — 1907 uprising
+Hori (Puli)                23.9667 120.9667   埔里街, Nōkō-gun
+Musha (Wushe)              24.0212 121.1323   蕃地 of Nōkō-gun — 1930
+Hōryō (Fangliao)           22.3656 120.5936   枋寮庄, Chōshū-gun
+Shajō (Checheng)           22.0798 120.7457   車城庄, Kōshun-gun — the 1874 landing
+Botansha (Mudan)           22.1262 120.7743   蕃地 of Kōshun-gun — 1874
+Kōshun (Hengchun)          22.0039 120.7473   恆春街, seat of Kōshun-gun
+```
+
+Two of them were never 街庄 at all: 霧社 and 牡丹 were inside the Indigenous
+territory, which is why the breakdown tables give them no Japanese
+municipal name. And **Dakekan is the pre-1920 name of Daxi**: on a 1930 or 1942
+map the town is 大溪, Daikei, so that is what it is titled, with Dakekan in its
+note.
+
+Coordinates are from the Wikipedia articles' own `coordinates` property, en or
+zh whichever carried it.
+
+### Measured
+
+Drawn on the island with Cities and Names on, the nine appear as Daikei,
+Tansui, Hoppo, Hori, Musha, Hōryō, Shajō, Botansha, Kōshun — all tier 0.
+
+Six new checks in `run14.js` (the shaft moves, no second arrow is started, the
+head is not inert, the head moves the arrow, and an area still takes the press
+as the next shape) and two in `run9.js` (the ring is inset with no negative
+offset; a stuck tool is the same height as its neighbours). Whole suite: 513
+checks across 24 scripts, all passing, 140s.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

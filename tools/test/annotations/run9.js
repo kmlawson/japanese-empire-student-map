@@ -175,6 +175,30 @@ check('and then it stays', await toolNow()==='point:sticky', await toolNow());
 await press9('point'); await sleep(250);
 check('a third press puts it away', await toolNow()==='none', await toolNow());
 
+/* And what "staying out" looks like. It was a four-pixel rim along the foot of
+   the button, which in a row of five reads as one button sitting lower than
+   its neighbours rather than as a state, and which took its four pixels out of
+   the button by pushing the label up. A ring drawn inside it is the button's
+   own shape, so nothing moves. */
+await press9('point'); await sleep(200); await press9('point'); await sleep(250);
+{
+  const look = await p.evaluate(()=>{
+    const b=document.querySelector('.ann-tool[data-tool="point"]');
+    const other=document.querySelector('.ann-tool[data-tool="line"]');
+    const cs=getComputedStyle(b);
+    return { shadow: cs.boxShadow, pad: cs.paddingBottom,
+             h: Math.round(b.getBoundingClientRect().height),
+             other: Math.round(other.getBoundingClientRect().height),
+             otherPad: getComputedStyle(other).paddingBottom };
+  });
+  check('a stuck tool is ringed inside, not rimmed underneath',
+    /inset/.test(look.shadow) && !/inset[^,]*-\d/.test(look.shadow), look.shadow);
+  check('and it is the same height and padding as the tools beside it',
+    look.h === look.other && look.pad === look.otherPad,
+    JSON.stringify(look));
+}
+await press9('point'); await sleep(250);
+
 console.log('\n— a copy of the selected mark —');
 const count9=()=>p.evaluate(STORE).then(f=>f.length);
 const was=await count9();
