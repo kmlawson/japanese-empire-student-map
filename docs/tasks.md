@@ -9261,6 +9261,53 @@ Re-run from a clean page, both pass.
 
 ---
 
+## A point placed near another point is placed, not swallowed
+
+Reported: "sometimes my point tool placement was just ignored, especially near
+other items."
+
+Every mark carries an invisible `.ann-grab` disc so a three-pixel handle is
+findable by a finger. Measured, it is **22 pixels across** — so with the point
+tool out, a point placed within eleven pixels of an existing one was taken as a
+press *on* that one, and the placement went nowhere. Nothing was drawn and
+nothing said why.
+
+With the point tool armed the disc no longer answers; the visible mark still
+does. Placing wins over adjusting when the reader has the tool out and is a
+hand's breadth away, and "place a point, then move it" is untouched. Measured:
+points now land at 8, 14 and 20 pixels from a neighbour, and dragging the
+visible mark still moves it.
+
+**The point tool only.** Blocking the disc for every tool broke the arrowhead —
+a head sits over its own tip handle, so it stopped answering — which `run14`
+caught before it went anywhere.
+
+### What could not be reproduced
+
+"Style stickiness remembers the first thing I made, not the last." Driven two
+ways and correct both times:
+
+```
+sticky tool:   arrow1 red/11 -> arrow2 red/11 -> restyle blue/4 -> arrow3 blue/4
+one press each: arrow1 red/11 -> re-arm -> arrow2 red/11
+```
+
+The style controls are read at creation and only rewritten when a mark is
+*selected*, so the panel keeps whatever was last set. Something else in the
+sequence must be resetting it — a load, a kind change, or a deselect — and the
+sequence is the thing to find before changing any code.
+
+### Still owed
+
+A performance review of the annotation pane, and the Safari faults — the
+highlights vanishing on click and admin units not colouring. The Safari work
+needs "Allow Remote Automation" turned on before it can be measured rather
+than guessed at.
+
+Whole suite: 608 checks across 27 scripts, all passing, 193s.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

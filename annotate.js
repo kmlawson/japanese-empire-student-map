@@ -1846,6 +1846,27 @@
       // likewise a press that lands on a mark: it moves the mark, not the map,
       // even mid-drawing
       if (!on || locked) return false;
+      /* With a tool out, the invisible enlargement round a mark does not
+         answer — only the mark a reader can actually see.
+         
+         Every mark carries an `.ann-grab` disc so that a three-pixel handle is
+         findable by a finger; measured, it is 22 pixels across. With a tool
+         armed that disc sits over the map like a trap: a point placed within
+         eleven pixels of an existing one was taken as a press *on* that one and
+         the placement was simply swallowed, which is exactly how it was
+         reported — "near other items" it did nothing. Placing wins over
+         adjusting when the reader has a tool out and is a hand's breadth away;
+         the visible mark still answers, so "place a point, then move it" is
+         untouched.
+
+         The point tool only. The other tools place by tapping empty map and
+         their handles are wanted at finger size — an arrow's head sits over
+         its own tip handle, so blocking the disc for every tool made the head
+         unusable, which `run14` caught. */
+      if (tool === 'point' && target && target.classList
+          && target.classList.contains('ann-grab')) {
+        return false;
+      }
       var what = minesOnly(markUnder(target));
       // the text tool takes an empty press and turns it into a rectangle
       if (!what && tool === 'text'
