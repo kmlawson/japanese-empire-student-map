@@ -8971,6 +8971,59 @@ suite: 579 checks across 26 scripts, all passing.
 
 ---
 
+## Topography in the bar, and one sheet instead of three
+
+### One sheet
+
+`RELIEF_ONLY = 'finest'` in `map.js` pins the layer to the 1:10m sheet and
+hides the chooser. The build still writes all three and the machinery still
+works — `state.reliefDetail`, bits 19 and 20, the segment in the Layers panel —
+so bringing the choice back is that one constant and no rebuild. The test
+asserts both halves of that: a link asking for `coarse` or `fine` still gets
+the finest, and the manifest still carries three levels so there would be
+something to offer.
+
+### A fifth button in the bar
+
+`Cities · Admin · Topo · Events · Other`, with Administrative shortened to
+Admin at every width rather than only on a phone. Topography rides in the bar
+on a wide screen only — it is a fifth button in a bar that already wraps at
+four on a phone — and follows `BAR_EXTRAS_MIN`, the same width the 1942 pair
+uses. The Layers dialog carries it at every width, which is where it was first.
+
+It needed no new wiring: `data-opt="relief"` goes through the same handler as
+Other, which reads and writes `state` by name.
+
+### Two switches that disagreed
+
+Topography is the first layer with a switch in two places, and ticking the
+Layers dialog left the bar's button reading "off" over a map that plainly had
+relief on it. Fixed at the source rather than in the one handler: `applyState`
+now writes the bar's buttons *and* the dialog's tick from `state`, so no path
+can leave them disagreeing. Both directions are checked.
+
+### A test that lied about a fresh reader
+
+The new section asserts what a first-time reader sees, and it failed with both
+switches already on. Every page in `relief.js` shares one browser and so one
+`localStorage`, and the sections above it open the layer through the address.
+
+Clearing the store from `index.html` did **not** work, and that is worth
+writing down: the app is already live on that page and writes its state
+straight back over the empty store. It is cleared from `relief.js` instead — a
+page on the same origin that does not boot the map.
+
+### Measured
+
+`tools/test/relief.js` is 42 checks. The three-sheet section is now a
+one-sheet section; the bar order, the two-way sync and the phone's lack of the
+button are new. Whole suite: 577 checks across 26 scripts, all passing, 166s.
+
+The sources bullet for Topography was rewritten to the wording asked for, and
+now names `SR_HR` rather than the three sheets.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

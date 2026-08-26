@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '1.74';
+  var JEM_VERSION = '1.75';
   var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "50f952d66d", "japan-empire-map-admin.svg": "9de0304837", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "9214380208", "relief-coarse-albers.webp": "b57f3373ec", "relief-coarse-laea.webp": "4a79ce52b8", "relief-coarse-mercator.webp": "dd24772c29", "relief-fine-albers.webp": "641d43c5c5", "relief-fine-laea.webp": "52676e1c50", "relief-fine-mercator.webp": "1dc7a621a2", "relief-finest-albers.webp": "05b24e1e30", "relief-finest-laea.webp": "1325488946", "relief-finest-mercator.webp": "cac01f8da0"};
 
   /* Every file this one fetches, with the version on it.
@@ -1213,9 +1213,21 @@
   var reliefGroup = null, reliefImg = null, reliefFor = '';
   var RELIEF_MAX = 0.8;      // how strong it ever gets
 
+  /* One sheet for now. The build still writes all three and the machinery to
+     choose still works — `state.reliefDetail`, bits 19 and 20, and the segment
+     in the Layers panel — but only this one is offered, so the choice is not
+     put to a reader who has no way to know what it means. Setting this to null
+     brings the other two back and is the whole of the change. */
+  var RELIEF_ONLY = 'finest';
+
   /* Which of the three sheets, and where its images are. */
   function reliefLevel() {
     var all = (JMAP.RELIEF && JMAP.RELIEF.levels) || [];
+    if (RELIEF_ONLY) {
+      for (var i = 0; i < all.length; i++) {
+        if (all[i].key === RELIEF_ONLY) return all[i];
+      }
+    }
     return all[Math.min(all.length - 1, Math.max(0, state.reliefDetail | 0))] || null;
   }
 
@@ -5470,6 +5482,12 @@
     });
     if (svg) svg.classList.toggle('mono', !!state.mono);
     applyMonoColour();
+    /* Every switch that has two places to be pressed is written from `state`
+       here, so the bar and the Layers dialog cannot disagree about the map in
+       front of the reader. Topography is the first to have both; before this
+       the dialog's tick left the bar's button looking off while the relief was
+       plainly on the map. */
+    syncLayerButtons();
     if (extentPath) {
       /* The perimeter is one continuous ring: down the inland edge of occupied
          China, out past the Kuriles, round the Pacific and back through the
@@ -6487,6 +6505,12 @@
       b.classList.toggle('on', on);
       b.setAttribute('aria-pressed', on ? 'true' : 'false');
     });
+    /* Topography now has two switches — this one and the tick in the Layers
+       dialog — and a reader who uses one and then opens the other must not
+       find it disagreeing with the map. The dialog is written from `state`
+       here rather than only at startup. */
+    var rc = $('#opt-relief');
+    if (rc) rc.checked = !!state.relief;
     syncBarExtras();
   }
 
@@ -6512,6 +6536,12 @@
        find them there. */
     var annSeg = $('#ann-seg');
     if (annSeg) annSeg.hidden = !(room && state.mode !== 'quiz');
+    /* Topography is a fifth button in a bar that already wraps at four on a
+       phone, so it rides in the bar on a wide screen only. The Layers dialog
+       carries it at every width, which is where it was first and where
+       somebody who has learned its place will still find it. */
+    var topo = $('#btn-topo');
+    if (topo) topo.hidden = !room;
     var here = state.epoch === 'e1942' && room && state.mode !== 'quiz';
     ext.hidden = !here;
     occ.hidden = !here;
@@ -6933,7 +6963,7 @@
        cost, because that is the whole of the decision. */
     function syncReliefSeg() {
       if (!reliefSeg) return;
-      reliefSeg.hidden = !state.relief;
+      reliefSeg.hidden = !state.relief || !!RELIEF_ONLY;
       var L = (JMAP.RELIEF && JMAP.RELIEF.levels) || [];
       $$('button', reliefSeg).forEach(function (b, i) {
         b.classList.toggle('on', i === state.reliefDetail);

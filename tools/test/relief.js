@@ -65,8 +65,8 @@ console.log('\n— off until it is asked for —');
   await p.evaluate(() => document.querySelector('#opt-relief').click());
   await sleep(2600);
   check('exactly one image is fetched', got.length === 1, got.join(','));
-  check('and it is the coarse one, for the projection on screen',
-    got[0] === 'relief-coarse-mercator.webp', got.join(','));
+  check('and it is the one sheet that is offered, for the projection on screen',
+    got[0] === 'relief-finest-mercator.webp', got.join(','));
   const img = await p.evaluate(() => {
     const i = document.querySelector('#relief image');
     if (!i) return null;
@@ -332,7 +332,7 @@ console.log('\n— one warp per projection, and only the one in use —');
     await p.goto(url(BASE | RELIEF | PROJBIT[mode]), { waitUntil: 'networkidle0' });
     await sleep(3200);
     check(mode + ': its own image and no other',
-      got.length === 1 && got[0] === 'relief-coarse-' + mode + '.webp', got.join(','));
+      got.length === 1 && got[0] === 'relief-finest-' + mode + '.webp', got.join(','));
     const box = await p.evaluate(() => {
       const i = document.querySelector('#relief image');
       return i ? [+i.getAttribute('w' + 'idth'), +i.getAttribute('height')] : null; });
@@ -352,67 +352,98 @@ console.log('\n— one warp per projection, and only the one in use —');
    fetches that one and *only* that one, and that the ramp moves with it: a
    finer sheet stays sharp further in and so must fade later, which is read
    off the manifest rather than written down three times. */
-console.log('\n— three sheets, and only the chosen one is fetched —');
+/* One sheet, for now.
+ *
+ * The build still writes three and the machinery to choose still works —
+ * `state.reliefDetail`, bits 19 and 20, and the segment in the Layers panel —
+ * but `RELIEF_ONLY` in `map.js` pins it to the finest, so a reader is not
+ * asked a question they have no way to answer. What has to hold while that is
+ * true: the chooser is not shown, and no link can make the map fetch one of
+ * the other two, because a link that did would be quoting file sizes and
+ * decode costs the reader was never told about.
+ */
+console.log('\n— one sheet is offered, and it is the finest —');
 {
-  const LEVELS = ['coarse', 'fine', 'finest'];
-  /* One page at a time, opened and closed. The three sheets decode to roughly
-     48, 107 and 191 MB, and holding all three open at once ran the browser out
-     of headroom here — `Input.dispatchMouseEvent` timed out mid-wheel. Which
-     is itself the argument for offering the choice. */
-  const at4x = [];
-  let degs = null, kbs = null;
-  for (let i = 0; i < 3; i++) {
+  for (const [n, name] of [[0, 'coarse'], [1, 'fine'], [2, 'finest']]) {
     const p = await b.newPage();
     await p.setViewport({ width: 1300, height: 900 });
     const got = [];
     p.on('request', r => { if (/relief-/.test(r.url())) got.push(r.url().split('/').pop().split('?')[0]); });
-    const errs = []; p.on('pageerror', e => errs.push(String(e)));
-    await p.goto(url(BASE | RELIEF | DETAIL(i)), { waitUntil: 'networkidle0' });
-    await sleep(3600);
-    check(LEVELS[i] + ': fetches its own sheet and no other',
-      got.length === 1 && got[0] === 'relief-' + LEVELS[i] + '-mercator.webp',
-      got.join(','));
-    const r = await p.evaluate(() => {
-      const g = document.querySelector('#relief');
-      const im = g && g.querySelector('image');
-      const L = JMAP.RELIEF.levels;
-      return { drawn: !!im && im.getBoundingClientRect().width > 0,
-               op: im ? parseFloat(getComputedStyle(im).opacity) : 0,
-               degs: L.map(x => x.deg), kbs: L.map(x => x.kb) };
-    });
-    check(LEVELS[i] + ': it is drawn at the opening view', r.drawn && r.op > 0.3,
-      JSON.stringify(r));
-    degs = r.degs; kbs = r.kbs;
-
-    /* And the ramp. The three differ only in how far each can be magnified
-       before its pixels show, so they can only be told apart deep in — the
-       coarse sheet is spent at about 29x on this viewport while the finest is
-       barely touched. This number has had to move twice as the ramp changed;
-       it is deliberately well past the coarse sheet's end rather than near it. */
-    for (let n = 0; n < 24; n++) {
-      const z = await p.evaluate(() => 2800 / parseFloat(
-        document.getElementById('jmap').getAttribute('viewBox').split(' ')[2]));
-      if (z >= 30) break;
-      await p.mouse.move(650, 450); await p.mouse.wheel({ deltaY: -260 }); await sleep(330);
-    }
-    at4x.push(await p.evaluate(() => {
-      const g = document.querySelector('#relief');
-      const im = g.querySelector('image');
-      return { z: +(2800 / parseFloat(document.getElementById('jmap')
-                 .getAttribute('viewBox').split(' ')[2])).toFixed(2),
-               op: getComputedStyle(g).display === 'none' ? 0
-                   : parseFloat(getComputedStyle(im).opacity) };
-    }));
-    check(LEVELS[i] + ': no page errors', errs.length === 0, errs[0]);
+    await p.goto(url(BASE | RELIEF | (n << 19)), { waitUntil: 'networkidle0' });
+    await sleep(3400);
+    check('a link asking for ' + name + ' still gets the finest',
+      got.length === 1 && got[0] === 'relief-finest-mercator.webp', got.join(','));
     await p.close();
   }
-  check('the three get finer, and heavier, in order',
-    degs[0] < degs[1] && degs[1] < degs[2] && kbs[0] < kbs[1] && kbs[1] < kbs[2],
-    JSON.stringify(degs) + ' ' + JSON.stringify(kbs));
-  check('the coarse sheet is spent by 30x', at4x[0].op < 0.15, JSON.stringify(at4x[0]));
-  check('and the finest is not', at4x[2].op > 0.35, JSON.stringify(at4x[2]));
-  check('with the middle one between them',
-    at4x[1].op >= at4x[0].op && at4x[1].op <= at4x[2].op, JSON.stringify(at4x));
+  const p = await b.newPage();
+  await p.setViewport({ width: 1300, height: 900 });
+  await p.goto(url(BASE | RELIEF), { waitUntil: 'networkidle0' });
+  await sleep(3200);
+  check('and the reader is not shown a chooser',
+    await p.evaluate(() => document.querySelector('#relief-seg').hidden));
+  /* The build still makes all three, so bringing the choice back is one
+     constant and not a rebuild. If this fails, the manifest has been cut down
+     and `RELIEF_ONLY = null` would no longer have three sheets to offer. */
+  const levels = await p.evaluate(() => JMAP.RELIEF.levels.map(l => l.key));
+  check('though the build still writes all three',
+    levels.join(',') === 'coarse,fine,finest', levels.join(','));
+  await p.close();
+}
+
+/* Topography has two switches — the bar's button on a wide screen and the tick
+   in the Layers dialog — and they must not disagree about what is on the map.
+   Before `applyState` wrote both, ticking the dialog left the bar's button
+   reading "off" over a map that plainly had relief on it. */
+console.log('\n— its two switches agree —');
+{
+  const p = await b.newPage();
+  await p.setViewport({ width: 1400, height: 950 });
+  /* Every page in this file shares one browser and so one localStorage, and
+     the sections above have been opening the layer through the address. A
+     fresh reader is what this section is about.
+     
+     The store is emptied from a page on the same origin that does *not* run
+     the map — clearing it from index.html does not work, because the app is
+     already live and writes its state straight back over the empty store. */
+  await p.goto('http://localhost:8123/relief.js', { waitUntil: 'domcontentloaded' });
+  await p.evaluate(() => { try { localStorage.clear(); } catch (e) { /* fine */ } });
+  await p.goto('http://localhost:8123/index.html', { waitUntil: 'networkidle0' });
+  await sleep(2800);
+  const both = () => p.evaluate(() => ({
+    bar: document.querySelector('#btn-topo').getAttribute('aria-pressed'),
+    box: document.querySelector('#opt-relief').checked,
+    order: [...document.querySelectorAll('#layer-seg button')]
+      .map(e => e.querySelector('.wide').textContent.trim()).join(' '),
+    hidden: document.querySelector('#btn-topo').hidden,
+  }));
+  let st = await both();
+  check('the bar reads Cities Admin Topo Events Other',
+    st.order === 'Cities Admin Topo Events Other', st.order);
+  check('and both switches start off', st.bar === 'false' && !st.box);
+  await p.evaluate(() => document.querySelector('#btn-topo').click());
+  await sleep(2600);
+  st = await both();
+  check('pressing the bar button ticks the dialog too', st.bar === 'true' && st.box);
+  await p.evaluate(() => document.querySelector('#opt-relief').click());
+  await sleep(1200);
+  st = await both();
+  check('and unticking the dialog releases the bar button',
+    st.bar === 'false' && !st.box, JSON.stringify(st));
+  await p.close();
+
+  /* A fifth button in a bar that wraps at four on a phone, so it rides there
+     on a wide screen only — the same rule the 1942 pair follows. */
+  const q = await b.newPage();
+  await q.setViewport({ width: 390, height: 780, isMobile: true, hasTouch: true });
+  await q.goto('http://localhost:8123/relief.js', { waitUntil: 'domcontentloaded' });
+  await q.evaluate(() => { try { localStorage.clear(); } catch (e) { /* fine */ } });
+  await q.goto('http://localhost:8123/index.html', { waitUntil: 'networkidle0' });
+  await sleep(2800);
+  check('on a phone the bar does not carry it',
+    await q.evaluate(() => document.querySelector('#btn-topo').hidden));
+  check('but the Layers dialog still does',
+    await q.evaluate(() => !!document.querySelector('#opt-relief')));
+  await q.close();
 }
 
 console.log('\n  ' + pass + ' passed, ' + fail + ' failed');

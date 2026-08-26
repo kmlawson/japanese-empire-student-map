@@ -27,8 +27,13 @@
 
   <div class="seg toggles" role="group" aria-label="What is shown" id="layer-seg">
     <button type="button" data-cat="city" class="on" aria-pressed="true" aria-label="Cities" title="Towns and cities, with their names as they were used at the time"><span class="wide">Cities</span><span class="mid">Cities</span><span class="narrow"><i class="g dot"></i></span></button>
+    <button type="button" data-cat="territory" class="on" aria-pressed="true" aria-label="Administrative" title="Provinces, prefectures and other divisions inside each country"><span class="wide">Admin</span><span class="mid">Admin</span><span class="narrow"><i class="g block"></i></span></button>
+    <!-- Topography rides in the bar on a wide screen only: it is a fifth
+         button and a phone bar already wraps at four. `map.js` hides it
+         below `BAR_EXTRAS_MIN`, the same width the 1942 controls use, and
+         the Layers dialog carries it at every width. -->
+    <button type="button" data-opt="relief" id="btn-topo" aria-pressed="false" aria-label="Topography" title="Shaded relief under the political colours. It fades out as you zoom in."><span class="wide">Topo</span><span class="mid">Topo</span><span class="narrow"><i class="g block"></i></span></button>
     <button type="button" data-cat="battle" class="on" aria-pressed="true" aria-label="Events" title="Battles, incidents and other dated events"><span class="wide">Events</span><span class="mid">Events</span><span class="narrow"><i class="g diamond"></i></span></button>
-    <button type="button" data-cat="territory" class="on" aria-pressed="true" aria-label="Administrative" title="Provinces, prefectures and other divisions inside each country"><span class="wide">Administrative</span><span class="mid">Admin</span><span class="narrow"><i class="g block"></i></span></button>
     <button type="button" data-opt="labels" aria-pressed="false" aria-label="Other" title="Names of countries, regions and physical features on the map"><span class="wide">Other</span><span class="mid">Other</span><span class="narrow"><i class="g name"></i></span></button>
   </div>
 
@@ -243,7 +248,7 @@
 
   <p>Built with Anthropic's Claude, with <a href="https://muninn.net/">Konrad M. Lawson</a> at the prompt, primarily as a tool for students in his University of St Andrews honours module, <a href="https://github.com/kmlawson/japanese-empire-mo3335/">MO3335</a>.</p>
 
-  <p>Code for the website may be found <a href="https://github.com/kmlawson/japanese-empire-student-map">here</a>.</p>  <p class="version">Version <span id="jem-version">1.74</span> · last updated 26 August 2026, 18:47</p>
+  <p>Code for the website may be found <a href="https://github.com/kmlawson/japanese-empire-student-map">here</a>.</p>  <p class="version">Version <span id="jem-version">1.75</span> · last updated 26 August 2026, 18:58</p>
 
 <!-- END about -->
 </dialog>
@@ -297,6 +302,6 @@
      and data.js then hides it behind a fresh one. cities-gaz.js sits here for
      the same reason. -->
 <script src="relief.js?v=dcfa8e88f2"></script>
-<script src="map.js?v=28602f4bbf"></script>
+<script src="map.js?v=c588c73ef0"></script>
 </body>
 </html>
