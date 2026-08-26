@@ -7,7 +7,7 @@
 <meta name="description" content="Interactive map for revising the geography of the Japanese Empire: colonies, occupied territories, neighbouring states, cities and battles, 1853-1945.">
 <title>The Japanese Empire</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23f4f1ea'/%3E%3Ccircle cx='16' cy='16' r='8' fill='%239a1813'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=8defb79c30">
+<link rel="stylesheet" href="styles.css?v=7a3b7106fc">
 </head>
 <body>
 
@@ -19,8 +19,8 @@
        to reach that mode the whole of it lies dormant. Drop the `hidden`
        to bring it back. -->
   <div class="seg" role="group" aria-label="Mode" hidden>
-    <button type="button" data-mode="explore" class="on">Explore</button>
-    <button type="button" data-mode="quiz">Quiz</button>
+    <button type="button" data-mode="explore" class="on" title="Read the map: point at anything to find out what it was">Explore</button>
+    <button type="button" data-mode="quiz" title="Be asked to find places on the map, and told how you did">Quiz</button>
   </div>
 
   <div class="seg" role="group" aria-label="Date shown" id="epoch-seg"></div>
@@ -51,9 +51,22 @@
             title="Draw no occupation layer over China at all">Hide</button>
   </div>
 
+  <!-- The two annotation actions, in the bar rather than two presses deep in
+       the Layers dialog: a teacher setting up a lesson reaches for them first,
+       and until now had to know they lived under Layers. Wide screens only —
+       `map.js` decides — because on a narrow one the bar has no room and the
+       Layers dialog still has both. -->
+  <div class="seg" role="group" aria-label="Annotations" id="ann-seg" hidden>
+    <button type="button" id="bar-ann-create"
+            title="Draw your own points, arrows, lines, areas and text over the map">Create</button>
+    <button type="button" id="bar-ann-load"
+            title="Open a GeoJSON file of annotations you or somebody else saved">Load</button>
+  </div>
+
   <span class="spacer"></span>
   <button type="button" id="btn-options" class="plain" aria-haspopup="dialog" title="Projection, rivers, the occupation layers, and what the map covers">Layers</button>
-  <button type="button" id="btn-about" class="plain" aria-haspopup="dialog" title="What this map is, where it comes from, and how to use it">About</button>
+  <button type="button" id="btn-about" class="plain" aria-haspopup="dialog" title="What this map is, where it comes from, and the sources behind it">About</button>
+  <button type="button" id="btn-help" class="plain icon" aria-haspopup="dialog" aria-label="How to use this map" title="How to use this map, and how to draw on it">?</button>
 </header>
 
 <main id="stage">
@@ -61,8 +74,8 @@
     <div id="map-svg"><p id="loading">Loading map…</p></div>
 
     <div id="zoom-controls">
-      <button type="button" id="zoom-in" aria-label="Zoom in">+</button>
-      <button type="button" id="zoom-out" aria-label="Zoom out">−</button>
+      <button type="button" id="zoom-in" aria-label="Zoom in" title="Zoom in">+</button>
+      <button type="button" id="zoom-out" aria-label="Zoom out" title="Zoom out">−</button>
       <button type="button" id="zoom-reset" aria-label="Reset the view" title="Reset the view">⤢</button>
     </div>
   </div>
@@ -118,9 +131,9 @@
        writes the `on` class back to them; `hidden` is the whole of the change,
        so putting it back is a one-word edit. -->
   <div class="seg" role="group" aria-label="Level" id="level-seg" hidden>
-    <button type="button" data-level="1" class="on">Basic</button>
-    <button type="button" data-level="2">Intermediate</button>
-    <button type="button" data-level="3">Advanced</button>
+    <button type="button" data-level="1" class="on" title="The countries and the largest places only">Basic</button>
+    <button type="button" data-level="2" title="More cities, islands and events">Intermediate</button>
+    <button type="button" data-level="3" title="Everything the map carries, including the smallest places">Advanced</button>
   </div>
   <label class="row"><input type="checkbox" id="opt-rivers" checked> Show the Yangzi and Yellow rivers</label>
   <label class="row"><input type="checkbox" id="opt-extent" checked> Show the 1942 approximate line of control</label>
@@ -173,32 +186,7 @@
 
   <p>This interactive map is for exploring the geography of the Japanese Empire. It allows you to compare two moments: Japan's colonial empire in 1930, prior to the invasion of northeast China and the establishment of a nominally independent Manchurian state, and around December 1942, just after the peak of Japanese expansion in the Pacific War and not long before Japanese forces withdrew from the island of Guadalcanal.</p>
 
-  <h3>How to use it</h3>
-
-  <ul>
-    <li><strong>1930 / Dec 1942</strong> — which map you are looking at. In 1930 the colours show whose empire each place belonged to, on the eve of the Manchurian Incident. In December 1942 they show how Japan held what it had taken. You may may also choose to view the general approximate extent of Japanese occupation in China (which hides the fragmented nature of that occupation), or switch to a layer which shows a version of a September, 1942 Japanese military report's depiction of so-called "pacified" and "un-pacified" areas.</li>
-    <li><strong>Explore</strong> — hover over, or tap, any territory or marker to see what it is, what it was called, when it changed hands, and why it matters. Many entries also provide links to Wikipedia entries when these are available.</li>
-    <li><strong> Cities, Events, Administrative boundaries, and other labels</strong> - Buttons at the top of the screen allow you to toggle the visibility of cities, some historical events, administrative boundaries for some of the countries shown and other labels. These may be the same in the 1930 and 1942 maps or may differ somewhat.</li>
-    <li><strong>Other Layers</strong> - See the Layers pane for options to add or swap out layers to display.</li>
-    <li><strong>Island Details</strong> - Some islands will get swapped out with a more detailed as you zoom in closer to them. </li>
-    <li><strong>Annotations</strong> - Draw your own marks over the map, name them, describe them and share them. See <strong>Drawing your own annotations</strong> below.</li>
-    <li><strong>Links</strong> - If you pan or zoom to a location, and copy the URL, it will keep the bounding box information in the link allowing the person you are sharing the link with to view roughly the same location you are looking at. Useful if you want to share a specific view. Click on the page title in the top left to load the default view.</li>
-  </ul>
-
-  <h3>Drawing your own annotations</h3>
-
-  <p>Open <strong>Layers</strong> and press <strong>Create annotations</strong>. Nothing is sent anywhere: the file is written by your own browser and read back by it, and a map you load stays on your machine. The tools need a reasonably wide screen and are not offered on a small one.</p>
-
-  <ul>
-    <li><strong>The four tools</strong> - <strong>Point</strong> places a single mark, <strong>Arrow</strong> takes a start and an end, <strong>Line</strong> takes as many corners as you like, and <strong>Area</strong> closes into a shape. Press a tool once and it draws one thing and then steps back; press it a second time and it stays out until you put it away.</li>
-    <li><strong>Naming and describing</strong> - A <strong>Name</strong> is written on the map beside the mark, and can be kept off it for one mark without hiding the rest. A <strong>Short note</strong> is what the pointer shows. A <strong>Description</strong> is the longer account, and it opens in the panel on the right when the mark is clicked.</li>
-    <li><strong>Dates</strong> - Optional <strong>Start</strong> and <strong>End</strong>, read leniently: <code>1937</code>, <code>Sept 1931</code> and <code>1941-12-08</code> all work. Once two dates are in play, a small clock appears on the map beside the zoom buttons: <strong>‹</strong> and <strong>›</strong> step through the dates at which something changes, showing only the marks that are in scope at that moment — together with every mark that carries no date at all, so the background of the argument stays put. <strong>▶</strong> runs it, two seconds a stage, and <strong>×</strong> puts everything back. The map does not move while it runs: you set the view, and the shapes appear and disappear over it.</li>
-    <li><strong>Style</strong> - Colour, weight, opacity, and for an area a separate fill. A <strong>Point</strong> can be one of twenty-five shapes, including military unit symbols and formation sizes. A <strong>Line</strong> can be dashed six ways and can label its own length, leg by leg or as a total. An <strong>Arrow</strong> can be curved, and can end in a solid head, a barbed one, an open one, a dot, or a bar meaning an advance that was stopped.</li>
-    <li><strong>Approximate areas</strong> - An area can have a <strong>Blurred</strong> edge, which says "about here" rather than drawing a frontier the source never had.</li>
-    <li><strong>Editing</strong> - Click a mark to select it. Drag a corner to move it, drag the middle of an area to move the whole shape, right-click a corner to remove it, and press <strong>Duplicate</strong> for another one like it. Undo takes back one step, including the last corner of a shape you are still drawing.</li>
-    <li><strong>Keeping it</strong> - <strong>Save file</strong> writes a GeoJSON file. <strong>Copy link</strong> puts the whole set into a web address if it is small enough, and a counter above the buttons says how close you are. <strong>Add file…</strong> merges another set into this one rather than replacing it.</li>
-    <li><strong>Sharing</strong> - Someone who opens your link sees the marks locked, so a stray press cannot move them, and can read any of them by clicking. A pencil button unlocks the tools. Their own annotations are set aside, not overwritten, and one press brings them back.</li>
-  </ul>
+  <p>For how to work the map and how to draw on it, press the <strong>?</strong> button beside About.</p>
 
   <h3>Caution Around the Maps</h3>
 
@@ -231,13 +219,48 @@
 
   <p>Built with Anthropic's Claude, with <a href="https://muninn.net/">Konrad M. Lawson</a> at the prompt, primarily as a tool for students in his University of St Andrews honours module, <a href="https://github.com/kmlawson/japanese-empire-mo3335/">MO3335</a>.</p>
 
-  <p>Code for the website may be found <a href="https://github.com/kmlawson/japanese-empire-student-map">here</a>.</p>  <p class="version">Version <span id="jem-version">1.58</span> · last updated 26 August 2026, 07:30</p>
+  <p>Code for the website may be found <a href="https://github.com/kmlawson/japanese-empire-student-map">here</a>.</p>  <p class="version">Version <span id="jem-version">1.59</span> · last updated 26 August 2026, 08:48</p>
 
 <!-- END about -->
 </dialog>
 
+<dialog id="dlg-help">
+  <form method="dialog"><button class="x" aria-label="Close">×</button></form>
+  <h2>How to use this map</h2>
+  <!-- BEGIN help -->
+  <h3>How to use it</h3>
+
+  <ul>
+    <li><strong>1930 / Dec 1942</strong> — which map you are looking at. In 1930 the colours show whose empire each place belonged to, on the eve of the Manchurian Incident. In December 1942 they show how Japan held what it had taken. You may may also choose to view the general approximate extent of Japanese occupation in China (which hides the fragmented nature of that occupation), or switch to a layer which shows a version of a September, 1942 Japanese military report's depiction of so-called "pacified" and "un-pacified" areas.</li>
+    <li><strong>Explore</strong> — hover over, or tap, any territory or marker to see what it is, what it was called, when it changed hands, and why it matters. Many entries also provide links to Wikipedia entries when these are available.</li>
+    <li><strong> Cities, Events, Administrative boundaries, and other labels</strong> - Buttons at the top of the screen allow you to toggle the visibility of cities, some historical events, administrative boundaries for some of the countries shown and other labels. These may be the same in the 1930 and 1942 maps or may differ somewhat.</li>
+    <li><strong>Other Layers</strong> - See the Layers pane for options to add or swap out layers to display.</li>
+    <li><strong>Island Details</strong> - Some islands will get swapped out with a more detailed as you zoom in closer to them. </li>
+    <li><strong>Annotations</strong> - Draw your own marks over the map, name them, describe them and share them. See <strong>Drawing your own annotations</strong> below.</li>
+    <li><strong>Links</strong> - If you pan or zoom to a location, and copy the URL, it will keep the bounding box information in the link allowing the person you are sharing the link with to view roughly the same location you are looking at. Useful if you want to share a specific view. Click on the page title in the top left to load the default view.</li>
+  </ul>
+
+  <h3>Drawing your own annotations</h3>
+
+  <p>Open <strong>Layers</strong> and press <strong>Create annotations</strong>. Nothing is sent anywhere: the file is written by your own browser and read back by it, and a map you load stays on your machine. The tools need a reasonably wide screen and are not offered on a small one.</p>
+
+  <ul>
+    <li><strong>The four tools</strong> - <strong>Point</strong> places a single mark, <strong>Arrow</strong> takes a start and an end, <strong>Line</strong> takes as many corners as you like, and <strong>Area</strong> closes into a shape. Press a tool once and it draws one thing and then steps back; press it a second time and it stays out until you put it away.</li>
+    <li><strong>Naming and describing</strong> - A <strong>Name</strong> is written on the map beside the mark, and can be kept off it for one mark without hiding the rest. A <strong>Short note</strong> is what the pointer shows. A <strong>Description</strong> is the longer account, and it opens in the panel on the right when the mark is clicked.</li>
+    <li><strong>Dates</strong> - Optional <strong>Start</strong> and <strong>End</strong>, read leniently: <code>1937</code>, <code>Sept 1931</code> and <code>1941-12-08</code> all work. Once two dates are in play, a small clock appears on the map beside the zoom buttons: <strong>‹</strong> and <strong>›</strong> step through the dates at which something changes, showing only the marks that are in scope at that moment — together with every mark that carries no date at all, so the background of the argument stays put. <strong>▶</strong> runs it, two seconds a stage, and <strong>×</strong> puts everything back. The map does not move while it runs: you set the view, and the shapes appear and disappear over it.</li>
+    <li><strong>Style</strong> - Colour, weight, opacity, and for an area a separate fill. A <strong>Point</strong> can be one of twenty-five shapes, including military unit symbols and formation sizes. A <strong>Line</strong> can be dashed six ways and can label its own length, leg by leg or as a total. An <strong>Arrow</strong> can be curved, and can end in a solid head, a barbed one, an open one, a dot, or a bar meaning an advance that was stopped.</li>
+    <li><strong>Text</strong> - Drag out a box for a note. The <strong>Description</strong> fills it and the <strong>Name</strong> becomes a bold heading at the top; with no name the description starts at the top instead. Its three colours — text, box and border — can all be changed, and the size a little. <strong>Scales</strong> decides what happens when you zoom: off, the box keeps its size on screen, like a caption; on, it covers the same ground at every zoom and its text grows with it. Drag the corner to resize it, or the middle to move it.</li>
+    <li><strong>Smooth</strong> - Lines and areas can have their corners rounded off, by four degrees. The points you placed stay on the line; only the pieces between them bend.</li>
+    <li><strong>Approximate areas</strong> - An area can have a <strong>Blurred</strong> edge, which says "about here" rather than drawing a frontier the source never had.</li>
+    <li><strong>Editing</strong> - Click a mark to select it. Drag a corner to move it, drag the middle of an area to move the whole shape, right-click a corner to remove it, and press <strong>Duplicate</strong> for another one like it. Undo takes back one step, including the last corner of a shape you are still drawing.</li>
+    <li><strong>Keeping it</strong> - <strong>Save file</strong> writes a GeoJSON file. <strong>Copy link</strong> puts the whole set into a web address if it is small enough, and a counter above the buttons says how close you are. <strong>Add file…</strong> merges another set into this one rather than replacing it.</li>
+    <li><strong>Sharing</strong> - Someone who opens your link sees the marks locked, so a stray press cannot move them, and can read any of them by clicking. A pencil button unlocks the tools. Their own annotations are set aside, not overwritten, and one press brings them back.</li>
+  </ul>
+<!-- END help -->
+</dialog>
+
 <script src="data.js?v=16f4e8ed6c"></script>
 <script src="cities-gaz.js?v=88a319fe12"></script>
-<script src="map.js?v=b61d204b25"></script>
+<script src="map.js?v=dad8ec7847"></script>
 </body>
 </html>

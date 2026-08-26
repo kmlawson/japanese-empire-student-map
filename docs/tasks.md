@@ -7799,6 +7799,129 @@ replacing unsaved work without asking, storage failures being swallowed,
 unfinished drafts discarded without confirmation, and polygon holes drawn
 filled rather than cut.
 
+## A Text tool, a ? of its own, fifteen steps, and the review's own findings acted on
+
+Nine things at once, so the short version first: a new annotation tool, four
+pieces of interface work, and the reasonable half of what the outside review
+found last time.
+
+### The Text tool
+
+A note on the map: drag out a box, and the **Description** fills it with the
+**Name** as a bold heading above. With no name there is no heading and no gap
+where one would be — the description starts at the top.
+
+It is stored as an ordinary Polygon with `jem-kind: text`, so a reader who
+opens the file in QGIS gets the rectangle, which is where the words are and so
+is the right failure. Three colours (text, box, border) and four font sizes,
+because a note that can be set at headline size stops being a note.
+
+**Scales is the whole of the design.** A box can mean two different things and
+the reader has to be able to say which:
+
+* **off** (the default) — constant size on screen, anchored by its top-left
+  corner. A caption *about* the map, readable at every zoom.
+* **on** — drawn from its rectangle in degrees, so it covers the same ground
+  however far in you go and its text grows with it. A label *on* the map, for
+  when the note belongs to an area.
+
+Off is the default because a note that shrinks to nothing two turns of the
+wheel out is a note nobody can read, and that is the surprising failure.
+
+The first version got the off case wrong in exactly the way CLAUDE.md warns
+about: it computed a width in map units that came to the right number of screen
+pixels *at the zoom it was written at*, and a redraw does not happen on every
+zoom, so the box grew from 180 px to 627 px over three wheel steps. It rides
+the map's own `scalables` mechanism now — a group at the anchor with `scale(k)`
+rewritten by `rescale()` — which is the same trick the city dots use. Measured
+before and after across three wheel steps, which is the only way to tell the
+two modes apart.
+
+### Fifteen steps, and the reader is told which one
+
+Weight, Stroke and Fill were three different scales — 0 to 16, 10 to 100 in
+fives, 0 to 100 in fives — with no answer to "how heavy is heavy?" beside a
+number in pixels. All three are 1 to 15 now. What the slider carries is the
+*step*; a table turns it into the stroke width or opacity that goes in the
+file, so nothing about the format changes and a width read out of somebody
+else's file becomes the nearest step rather than being rounded in place.
+
+The tables are deliberately not linear: weight matters at the thin end, where 1
+and 2 and 3 are visibly different, and not at the top, where 14 and 16 are not.
+While a slider is moving, the step shows over the thumb — `12 / 15` — and fades
+a moment after it stops. Permanently beside the slider it would be clutter in a
+280px rail; absent, the slider is a guess.
+
+### Smooth
+
+Lines and areas can have their corners rounded off, in four degrees. A
+Catmull-Rom spline written as cubic Béziers, and **through** the points, not
+near them: the vertices the reader placed stay on the line and dragging one
+still moves the line to it. Only the pieces between bend. That matters for a
+shape traced off a map, where smoothing that pulled the line away from the
+corners would be quietly editing somebody's tracing.
+
+### The interface work
+
+* **Create and Load in the bar**, on screens wide enough, with tooltips. They
+  are what a teacher reaches for first and they lived two presses deep in the
+  Layers dialog. The dialog keeps its pair — a narrow bar has no room, and
+  somebody who has learned where they are should still find them there.
+* **A ? beside About**, at every width, holding *How to use it* and *Drawing
+  your own annotations*, carved out of About into `texts/pages/help.md`. About
+  is what the map is and where it came from; a reader wanting to know which
+  button draws a line should not scroll past the provenance to find out.
+* **The Administrative button already had a tooltip.** What did not: Explore,
+  Quiz, +, −, Basic, Intermediate and Advanced. All seven now do.
+* **The name field was losing its right-hand border** under the rail's overlay
+  scrollbar. Six pixels narrower.
+* **A point is called "point"**, not named for the ground under it. Naming it
+  after the nearest place was meant to save typing and did the opposite: a
+  reader wanting "8th Route Army HQ" had to clear "Yan'an" out first, and one
+  wanting no name at all got a place name they never asked for written across
+  the map. The place is still said in the message, which is where it helps.
+* A text box no longer gets its name written over the middle of itself as well
+  as in its own heading.
+
+### And the review's findings, where they were reasonable
+
+* **A backup that failed in silence now says so.** Every `localStorage`
+  exception was swallowed — private browsing, a full quota — and this is the
+  only automatic copy of a reader's work. Once per session, not per keystroke.
+* **A load that replaces unsaved work says what it replaced.** A modal was
+  tried first and is the wrong instrument: the old set is already snapshotted,
+  so the load is undoable, and asking before every load punishes the ordinary
+  case to guard a rare one. What was missing was notice, not permission —
+  "This replaced 5 unsaved marks — Undo brings them back."
+* **An unfinished trace is kept rather than thrown away.** Twenty corners round
+  a coast, a stray press on another tool, and it was gone with no undo. A
+  question was tried here too and is also wrong: it stops the reader to ask
+  about something they can simply be given. If the draft is already a shape it
+  is finished as one, which is undoable and deletable in a press.
+
+### What the tests caught, and one that had been lying
+
+Three assertions encoded contracts I had deliberately changed — four tools not
+five, a point named for its ground, a weight slider whose `max` was 16 — and
+were updated with the reasoning written into them.
+
+The interesting one was not a failure at all. `openPanel` in `suite.js` waited
+for `.ann-tool` count `=== 4`. Adding a fifth tool meant it waited the full
+twenty seconds on every page and then carried on regardless — five pages a
+script, a hundred seconds a script, **and every check still passed**, so
+nothing said why the suite had gone from 80 seconds to 151. It is `>= 4` now.
+The other half of that was `beforeunload`: unsaved work warns properly now, and
+the suite's dialog handler was dismissing those, which means "stay on the
+page", so any script that navigated after drawing sat there until the protocol
+gave up. `beforeunload` is always accepted now; `opts.accept` still governs the
+confirms the panel asks.
+
+### Measured
+
+`tools/test/annotations/run14.js`, 22 checks over the text box, the sliders and
+Smooth. Suite: **330 annotation checks across 14 scripts in 80 seconds**, and
+136 map checks. All passing.
+
 ---
 
 ## Sources worth fetching

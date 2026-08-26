@@ -13,8 +13,8 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '1.58';
-  var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "7b304d34c7", "japan-empire-map-admin.svg": "388671eccd", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "ba24f18b40"};
+  var JEM_VERSION = '1.59';
+  var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "5b9b5f0dcf", "japan-empire-map-admin.svg": "388671eccd", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "ba24f18b40"};
 
   /* Every file this one fetches, with the version on it.
 
@@ -6144,6 +6144,13 @@
     var ext = $('#extent-seg'), occ = $('#occ-seg');
     if (!ext || !occ) return;
     var room = (window.innerWidth || 0) >= BAR_EXTRAS_MIN;
+    /* Create and Load belong to both maps and to no epoch, so they follow the
+       width and the mode and nothing else. They are the same two actions as
+       the pair in the Layers dialog, which stays: a narrow screen has no room
+       in the bar, and somebody who has learned where they live should still
+       find them there. */
+    var annSeg = $('#ann-seg');
+    if (annSeg) annSeg.hidden = !(room && state.mode !== 'quiz');
     var here = state.epoch === 'e1942' && room && state.mode !== 'quiz';
     ext.hidden = !here;
     occ.hidden = !here;
@@ -6588,6 +6595,11 @@
       $('#dlg-options').showModal();
     });
     $('#btn-about').addEventListener('click', function () { $('#dlg-about').showModal(); });
+    // how to work the map, in its own dialog: About is what it is and where it
+    // came from, and a reader wanting to know which button draws a line should
+    // not have to scroll past the provenance to find out
+    var helpBtn = $('#btn-help');
+    if (helpBtn) helpBtn.addEventListener('click', function () { $('#dlg-help').showModal(); });
     $$('dialog').forEach(function (d) {
       d.addEventListener('click', function (e) { if (e.target === d) d.close(); });
     });
@@ -6925,12 +6937,20 @@
       shut();
       annLoad(function (api) { if (api) api.open(); });
     });
+    // the same two actions from the bar, on a screen wide enough to carry them
+    var barCreate = $('#bar-ann-create');
+    if (barCreate) barCreate.addEventListener('click', function () {
+      annLoad(function (api) { if (api) api.open(); });
+    });
     if (load && file) {
-      load.addEventListener('click', function () {
+      var pickFile = function () {
         file.value = '';
         file.removeAttribute('data-merge');
         file.click();
-      });
+      };
+      load.addEventListener('click', pickFile);
+      var barLoad = $('#bar-ann-load');
+      if (barLoad) barLoad.addEventListener('click', pickFile);
       file.addEventListener('change', function () {
         var merge = file.hasAttribute('data-merge');
         file.removeAttribute('data-merge');

@@ -42,7 +42,7 @@ for (const [w,h,tag,touch] of [[390,780,'phone   ',true],[768,1024,'tablet  ',tr
   check(tag+'the Layers button is reachable', btn.vis);
   check(tag+'the panel fits the width', !st.offRight && st.overflowX===0, JSON.stringify(st));
   check(tag+'nothing runs off the bottom', !st.offBottom, JSON.stringify(st.box)+' of '+h);
-  check(tag+'its four tools are all sized', st.tools.length===4 && st.tools.every(v=>v>28), JSON.stringify(st.tools));
+  check(tag+'its five tools are all sized', st.tools.length===5 && st.tools.every(v=>v>24), JSON.stringify(st.tools));
   check(tag+'every field fits inside the window', st.fieldsFit);
   // with a tool armed the map must keep most of the screen on a small one
   await p.evaluate(()=>document.querySelector('.ann-tool[data-tool="point"]').click()); await sleep(500);

@@ -17,11 +17,16 @@ console.log('\n— loading, and what is not loaded —');
   check('no page errors', p.__errs.length===0, p.__errs[0]);
   await p.close(); }
 
-console.log('\n— the four tools —');
+console.log('\n— the tools —');
 { const p=await page(b); await openPanel(p);
   await pickTool(p,'point');  const s1=await p.evaluate(SPOT,'#a-china'); await tap(p,s1.x,s1.y);
-  check('a point names itself from the place under it',
-    /China|Chinese/.test(await p.evaluate(()=>document.querySelector('#ann-title').value)),
+  /* A point is called "point". It used to be named for the ground under it,
+     which was meant to save typing and did the opposite: a reader who wanted
+     "8th Route Army HQ" had to clear "China" out of the field first, and one
+     who wanted no name at all was left with a place name they never asked for
+     written across the map. The place is still said in the message. */
+  check('a point is called a point, and not named for the ground under it',
+    (await p.evaluate(()=>document.querySelector('#ann-title').value))==='point',
     await p.evaluate(()=>document.querySelector('#ann-title').value));
   // the Arrow tool, where Event used to be: two presses and it finishes itself
   await pickTool(p,'arrow');  await tap(p,s1.x+40,s1.y+30); await tap(p,s1.x+160,s1.y+90);

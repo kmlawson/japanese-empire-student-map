@@ -31,7 +31,7 @@ await p.goto('http://localhost:8123/index.html',{waitUntil:'networkidle0'}); awa
 await p.evaluate(()=>document.querySelector('#ann-create').click()); await sleep(1500);
 
 const tools=await p.evaluate(()=>[...document.querySelectorAll('.ann-tool')].map(b=>b.textContent));
-check('an Arrow tool, where Event was', tools.join(',')==='Point,Arrow,Line,Area', tools.join(','));
+check('an Arrow tool where Event was, and Text after Area', tools.join(',')==='Point,Arrow,Line,Area,Text', tools.join(','));
 
 await arm(p,'arrow'); await sleep(300);
 const vis=await p.evaluate(()=>({head:!document.querySelector('#ann-head-row').hidden,
@@ -103,7 +103,11 @@ console.log('\n— a sharp tip at every weight —');
   const e2=[]; p2.on('pageerror',x=>e2.push(String(x)));
   await p2.goto('http://localhost:8123/index.html',{waitUntil:'networkidle0'}); await ready(p2, false);
   await p2.evaluate(()=>document.querySelector('#ann-create').click()); await sleep(1500);
-  check('the weight slider reaches 16', await p2.evaluate(()=>document.querySelector('#ann-size').max)==='16',
+  // The slider carries a step now, 1 to 15, and the table behind it ends at a
+  // stroke width of 16 — so the thing to check is that the heaviest step still
+  // draws the heaviest line, not what the input's `max` attribute says.
+  check('the weight slider has fifteen steps',
+    await p2.evaluate(()=>document.querySelector('#ann-size').max)==='15',
     await p2.evaluate(()=>document.querySelector('#ann-size').max));
   await arm(p2,'arrow');
   await tap(p2,300,300); await tap(p2,700,300); await sleep(400);

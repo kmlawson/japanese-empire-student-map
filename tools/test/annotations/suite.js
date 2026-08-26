@@ -27,7 +27,16 @@ async function page(b, opts={}) {
                                 :{width:1500,height:950});
   if(!opts.touch) await p.evaluateOnNewDocument(SHIM);
   await p.evaluateOnNewDocument(CATCH);
-  p.on('dialog', async d=>{ await (opts.accept? d.accept(): d.dismiss()); });
+  /* A `beforeunload` is always accepted, whatever `opts.accept` says.
+     Dismissing one means "stay on this page", so a script that navigated or
+     closed after drawing anything sat there until the protocol gave up — 100
+     seconds a script, and it only started happening when unsaved work began
+     warning properly. `opts.accept` is about the confirms the panel asks
+     (Clear, restore), which is a different question. */
+  p.on('dialog', async d=>{
+    if (d.type()==='beforeunload') { await d.accept(); return; }
+    await (opts.accept? d.accept(): d.dismiss());
+  });
   p.__errs=[]; p.on('pageerror',e=>p.__errs.push(String(e)));
   p.on('console',m=>{if(m.type()==='error')p.__errs.push('console: '+m.text());});
   await p.goto('http://localhost:8123/index.html'+(opts.query||''),{waitUntil:'networkidle0'});
@@ -77,8 +86,12 @@ const openPanel=async p=>{
   // the panel is fetched on demand, so this is a real wait — but it is a wait
   // for the panel, not for a guess at how long the fetch takes
   try {
+    // `>= 4`, not `=== 4`. Waiting for an exact count meant that adding a
+    // fifth tool made this wait the full twenty seconds on every page and then
+    // carry on regardless — five pages a script, a hundred seconds a script,
+    // and every check still passing so nothing said why.
     await p.waitForFunction(()=>{const a=document.querySelector('#annotate');
-      return a && !a.hidden && document.querySelectorAll('.ann-tool').length===4;},
+      return a && !a.hidden && document.querySelectorAll('.ann-tool').length>=4;},
       {timeout:20000, polling:'raf'});
   } catch (err) { /* the caller's own check will say so */ }
   await sleep(150);

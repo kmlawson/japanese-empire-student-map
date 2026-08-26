@@ -9,6 +9,7 @@ script writes them into the places the browser actually reads:
 
     texts/*.csv, texts/**/*.md   ->  the generated half of data.js
     texts/pages/about.md         ->  the About dialog in index.html
+    texts/pages/help.md          ->  the ? dialog in index.html
     texts/pages/sources.md       ->  sources.html, and docs/SOURCES.md
 
 data.js keeps a hand-written head — the home view, which date the map opens on,
@@ -495,6 +496,14 @@ def build_pages():
     splice_between(os.path.join(ROOT, "index.html"), "about",
                    markdown.render(about, indent=2, drop_h1=True) + footer)
     written.append("index.html")
+
+    # How to work the map, in a dialog of its own behind the ? button. About is
+    # what the map is and where it comes from; this is how to use it, and the
+    # two were one page that a reader had to scroll through to find either.
+    help_md = open(os.path.join(TEXTS, "pages", "help.md"),
+                   encoding="utf-8").read()
+    splice_between(os.path.join(ROOT, "index.html"), "help",
+                   markdown.render(help_md, indent=2, drop_h1=True))
 
     src = open(os.path.join(TEXTS, "pages", "sources.md"),
                encoding="utf-8").read()

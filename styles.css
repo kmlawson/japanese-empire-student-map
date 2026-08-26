@@ -2061,3 +2061,18 @@ dialog h3 {
   stroke: var(--mono-sub);
   stroke-width: 1.6;
 }
+
+/* The ? beside About: a single glyph, so it keeps its shape rather than being
+   a very short word in a button built for words. Shown at every width — the
+   reader most likely to need it is on the smallest screen. */
+#btn-help.icon {
+  min-width: 34px;
+  padding-left: 0;
+  padding-right: 0;
+  font-weight: 700;
+  text-align: center;
+}
+
+/* Create and Load in the bar. They are actions rather than a set of choices,
+   so they do not take the `on` state the other segments use. */
+#ann-seg button { font-weight: 600; }

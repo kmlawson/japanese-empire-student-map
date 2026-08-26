@@ -20,7 +20,7 @@ const path = require('path');
 const os = require('os');
 
 const SCRIPTS = ['run', 'run2', 'run3', 'run4', 'run5', 'run6',
-                 'run7', 'run8', 'run9', 'run10', 'run11', 'run12', 'run13'];
+                 'run7', 'run8', 'run9', 'run10', 'run11', 'run12', 'run13', 'run14'];
 
 const pick = process.argv.slice(2);
 const list = pick.length
