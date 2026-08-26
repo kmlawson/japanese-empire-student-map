@@ -8923,6 +8923,54 @@ scripts, all passing, 158s.
 
 ---
 
+## A colour picker for the single-colour map
+
+"Make the map a single colour" strips every fill and hatching so the map can be
+drawn over. The colour was fixed; a reader can now choose it.
+
+Everything mono draws hangs off two custom properties, so the picker only ever
+writes `--mono-land` and `--mono-line` on the drawing — inline, so that
+clearing them hands both back to the stylesheet.
+
+### The line is derived, not picked
+
+A second picker for the outline would be a second decision to get wrong, and a
+fixed grey would be worse: on a light land the line has to be darker and on a
+dark land lighter, or it vanishes into the shape it is drawing round. One rule
+does both — a quarter toward black above mid luminance, a fifth toward white
+below — and it reproduces the stylesheet's own pairs to within three parts in
+255: `#ded7c4 -> #a6a193` against the sheet's `#a9a08b`, and `#2b333c ->
+#5a6067` against `#55606c`. That agreement is what says it is the right rule
+rather than a plausible one, and the test asserts the direction at both ends.
+
+### The default is a pair, which is why there is a Reset
+
+`--mono-land` is declared twice, once under `prefers-color-scheme: dark`. A
+reader who has chosen nothing must keep whichever applies, so "no colour" is a
+real state and not merely a colour — which a picker cannot hold. Reset appears
+only once something has been chosen and removes both properties rather than
+writing a default back. Writing the light default into the picker and applying
+it would have quietly frozen the light scheme for dark-mode readers.
+
+### It travels
+
+`mono=rrggbb` joins `bbox` and `layers` in the address, written when a colour
+is chosen and removed on reset, so a link shows what the person who sent it was
+looking at. A junk value is ignored rather than obeyed. The picker follows
+`input` rather than `change`, so the map moves while the colour is being
+dragged — which is the point of choosing one to draw over.
+
+### Measured
+
+`tools/test/mono.js`, 20 checks: the picker appears with the switch and opens
+on the colour in use; choosing reaches the drawn fill and the outline follows;
+Reset hands both properties back and clears the link; the light and dark
+defaults each stand untouched; a chosen colour overrides both, taking a darker
+outline in one case and a lighter one in the other; and junk is ignored. Whole
+suite: 579 checks across 26 scripts, all passing.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

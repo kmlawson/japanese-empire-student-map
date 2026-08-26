@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '1.73';
+  var JEM_VERSION = '1.74';
   var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "50f952d66d", "japan-empire-map-admin.svg": "9de0304837", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "9214380208", "relief-coarse-albers.webp": "b57f3373ec", "relief-coarse-laea.webp": "4a79ce52b8", "relief-coarse-mercator.webp": "dd24772c29", "relief-fine-albers.webp": "641d43c5c5", "relief-fine-laea.webp": "52676e1c50", "relief-fine-mercator.webp": "1dc7a621a2", "relief-finest-albers.webp": "05b24e1e30", "relief-finest-laea.webp": "1325488946", "relief-finest-mercator.webp": "cac01f8da0"};
 
   /* Every file this one fetches, with the version on it.
@@ -150,6 +150,11 @@
     manchukuo: true,
     mengjiang: true,
     mono: false,                    // every state and province one grey
+    /* And which colour that is, once a reader has chosen one. Null means the
+       stylesheet's own — which is not one colour but two, a warm parchment in
+       the light scheme and a slate in the dark, and a choice made here
+       replaces both. */
+    monoColour: null,
     /* The whole map, or only the ground the course is about. On, everything is
        drawn as it always was; off, the frame keeps China and Tibet, Japan and
        its colonies, and the treaty ports on the China coast, and everything
@@ -234,6 +239,9 @@
       if (typeof saved.indiaRivers === 'boolean') state.indiaRivers = saved.indiaRivers;
       if (typeof saved.graticule === 'boolean') state.graticule = saved.graticule;
       if (typeof saved.relief === 'boolean') state.relief = saved.relief;
+      if (typeof saved.monoColour === 'string' && HEX.test(saved.monoColour)) {
+        state.monoColour = saved.monoColour;
+      }
       if (typeof saved.reliefDetail === 'number') {
         state.reliefDetail = Math.max(0, Math.min(2, saved.reliefDetail | 0));
       }
@@ -260,6 +268,7 @@
         relief: state.relief, reliefDetail: state.reliefDetail,
         occSource: state.occSource, ccp: state.ccp,
         manchukuo: state.manchukuo, mengjiang: state.mengjiang, mono: state.mono,
+        monoColour: state.monoColour,
         world: state.world,
       }));
     } catch (err) { /* private browsing; not worth complaining about */ }
@@ -2462,10 +2471,13 @@
     try {
       var rest = [];
       new URLSearchParams(window.location.search).forEach(function (v, k) {
-        if (k !== 'bbox' && k !== 'layers') {
+        if (k !== 'bbox' && k !== 'layers' && k !== 'mono') {
           rest.push(encodeURIComponent(k) + '=' + encodeURIComponent(v));
         }
       });
+      if (state.mono && state.monoColour && HEX.test(state.monoColour)) {
+        rest.unshift('mono=' + state.monoColour.slice(1));
+      }
       var q = ['bbox=' + viewBox().join(','), 'layers=' + layerCode()].concat(rest);
       history.replaceState(null, '',
         window.location.pathname + '?' + q.join('&') + window.location.hash);
@@ -2479,6 +2491,8 @@
     try { q = new URLSearchParams(window.location.search); } catch (err) { return null; }
     var code = q.get('layers');
     if (code) applyLayerCode(code);
+    var mc = q.get('mono');
+    if (mc && HEX.test('#' + mc)) state.monoColour = '#' + mc;
     var raw = q.get('bbox');
     if (!raw) return null;
     // A comma is never a minus sign, so the box comes apart on commas and a
@@ -5249,6 +5263,44 @@
 
   /* ----------------------------------------------------- applying state -- */
 
+  var HEX = /^#[0-9a-fA-F]{6}$/;
+
+  /* The outline that goes with a chosen land colour.
+     
+     A step away from it rather than a fixed grey: on a light land the line has
+     to be darker and on a dark land lighter, or it disappears into what it is
+     drawing round. The two ends of that rule reproduce the stylesheet's own
+     pairs to within three parts in 255 — #ded7c4/#a9a08b in the light scheme
+     and #2b333c/#55606c in the dark — which is the check that it is the right
+     rule and not merely a plausible one. */
+  function monoLine(hex) {
+    var r = parseInt(hex.slice(1, 3), 16);
+    var g = parseInt(hex.slice(3, 5), 16);
+    var b = parseInt(hex.slice(5, 7), 16);
+    var light = (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255 > 0.45;
+    var f = light ? 0.75 : 0.22;
+    var out = light ? [r * f, g * f, b * f]
+                    : [r + (255 - r) * f, g + (255 - g) * f, b + (255 - b) * f];
+    return '#' + out.map(function (v) {
+      return ('0' + Math.round(v).toString(16)).slice(-2);
+    }).join('');
+  }
+
+  /* Written onto the drawing rather than into the sheet, so that clearing it
+     hands the two properties back to the stylesheet — and with them the
+     light-and-dark pair, which an inline value cannot express. */
+  function applyMonoColour() {
+    if (!svg) return;
+    var c = state.monoColour;
+    if (state.mono && c && HEX.test(c)) {
+      svg.style.setProperty('--mono-land', c);
+      svg.style.setProperty('--mono-line', monoLine(c));
+    } else {
+      svg.style.removeProperty('--mono-land');
+      svg.style.removeProperty('--mono-line');
+    }
+  }
+
   function applyState() {
     // an epoch, a layer or a projection can all change which shapes are on
     // the map, and so what the opening view frames
@@ -5417,6 +5469,7 @@
         (state.epoch === 'e1942' && state.mengjiang !== false) ? '' : 'none';
     });
     if (svg) svg.classList.toggle('mono', !!state.mono);
+    applyMonoColour();
     if (extentPath) {
       /* The perimeter is one continuous ring: down the inland edge of occupied
          China, out past the Kuriles, round the Pacific and back through the
@@ -6797,6 +6850,8 @@
         // one of them may be what is selected, and it is still selectable —
         // only its colour changes — so nothing is deselected here
         applyState();
+        // the colour picker belongs to the single-colour switch and goes with it
+        if (pair[1] === 'mono') syncMono();
         redrawHighlight();
         /* And then, for the world switch, the frame. In that order: the frame
            is measured from what is *drawn*, so the atoms have to be hidden or
@@ -6827,6 +6882,49 @@
     // Removed from the Layers panel. The state and bit 10 of the layer code
     // still work, so an old address still means what it meant; this is null
     // now and the block below is skipped.
+    /* The colour a single-colour map is drawn in. Hidden until the switch is
+       on, like the relief's three sheets: a colour picker for something that is
+       not on screen is a control with nothing to show for itself.
+
+       `input` rather than `change`, so the map follows the picker while it is
+       being dragged — the whole point of choosing a colour for drawing over is
+       seeing it against the sea and the annotation colours as you go. */
+    var monoPick = $('#opt-mono-colour');
+    var monoReset = $('#opt-mono-reset');
+    function syncMono() {
+      var row = $('#mono-colour-row');
+      if (row) row.hidden = !state.mono;
+      if (monoReset) monoReset.hidden = !state.monoColour;
+      if (monoPick && svg) {
+        // what the picker should be showing: the reader's own choice, or
+        // whatever the stylesheet is currently using
+        var cur = state.monoColour
+          || (getComputedStyle(svg).getPropertyValue('--mono-land') || '').trim();
+        if (HEX.test(cur)) monoPick.value = cur;
+      }
+    }
+    if (monoPick) {
+      monoPick.addEventListener('input', function () {
+        if (!HEX.test(monoPick.value)) return;
+        state.monoColour = monoPick.value;
+        applyMonoColour();
+        if (monoReset) monoReset.hidden = false;
+        scheduleUrl();
+      });
+      monoPick.addEventListener('change', saveState);
+    }
+    if (monoReset) {
+      monoReset.addEventListener('click', function () {
+        state.monoColour = null;
+        applyMonoColour();
+        syncMono();
+        saveState();
+        scheduleUrl();
+      });
+    }
+
+    syncMono();
+
     var optRelief = $('#opt-relief');
     var reliefSeg = $('#relief-seg');
     /* The tick says whether, the segment says which. The segment is dead while

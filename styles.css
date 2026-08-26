@@ -2109,3 +2109,34 @@ dialog h3 {
 /* Create and Load in the bar. They are actions rather than a set of choices,
    so they do not take the `on` state the other segments use. */
 #ann-seg button { font-weight: 600; }
+
+/* The single-colour map's own colour. A row rather than a label wrapping an
+   input, because it holds three things and the swatch should not be dragged
+   about by a click anywhere on the line. */
+#options .mono-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+#options .mono-row[hidden] { display: none; }
+#options .mono-row input[type="color"] {
+  width: 30px;
+  height: 22px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: none;
+  cursor: pointer;
+}
+#options .mono-row button {
+  padding: 3px 8px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: var(--panel);
+  font: inherit;
+  font-size: 11.5px;
+  color: var(--ink);
+  cursor: pointer;
+}
+#options .mono-row button[hidden] { display: none; }
+#options .mono-row button:hover { border-color: var(--muted); }
