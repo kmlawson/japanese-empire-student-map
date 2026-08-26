@@ -8730,6 +8730,94 @@ across 25 scripts, all passing, 151s.
 
 ---
 
+## Four faults in the relief layer, three of them one fault
+
+Reported: mercator's relief started over by Japan; China had none at all; it
+faded too fast; and with the layer on, nothing on the map highlighted.
+
+### The mercator warp was 66 degrees out
+
+`mercFwd` measures x from the **frame's** left edge — `(lon - lonMin) *
+pxPerDeg` — not from Greenwich. Those metres were handed to PROJ with
+`+lon_0=0`, so the warp asked the source for 0..140E when the frame is
+66..206E. The left 47% of the image came back empty and everything drawn sat
+66 degrees too far west. 0.47 of 2800 units is lon 131.8E, which is why the
+relief appeared to start at Japan; and China at 104E fell inside the empty
+part, which is why it had none. **One fault, two symptoms.** `+lon_0` is now
+the frame's own left edge, read from the SVG.
+
+### And the test had passed anyway, which is the more useful finding
+
+The alignment check asked only whether the drawn colour *changed* where there
+is terrain. With the sheet 66 degrees out, whatever landed on the Himalaya was
+some other piece of ground and duly changed the colour, so every check passed
+while the map was visibly wrong.
+
+It now asks the question the other way round, where it has a sharp answer.
+Shaded relief paints water one flat value, the build moves that to exactly mid
+grey, and the blend leaves mid grey alone — so **every open-sea pixel must be
+untouched**, which a shift cannot survive. A grid of 400 screen points is
+classified by asking the page what is under each one, in all three
+projections. No coordinates are computed in the test at all, which is what
+makes it projection-blind.
+
+"Open sea" means open: a point counts only if the sea reaches twelve pixels
+round it in every direction. The first version failed on a point in a strait
+where 13 of 16 directions at 4px were land — the shoreline pixel is shaded on
+purpose, because the warp's resampling carries the land's value into it.
+96, 71 and 81 open-sea points in the three projections, all untouched.
+
+### It captured every mouseover
+
+An SVG `<image>` takes the pointer by default, and this one is laid over the
+whole frame **above** `#atom-hits` — so with the layer on, every hover landed
+on the picture and nothing on the map lit up or could be named. Measured: five
+probes at five places, all five answering `image < relief < jmap`. It is
+`pointer-events: none` now, and the grid test asserts that no point in it ever
+answers with the relief.
+
+### It faded too fast, and it was too faint to see anyway
+
+The ramp was twice the sheet's crossover to four times it, so the coarse sheet
+had gone by 6x — about the width of Honshu on this map — while it was still
+telling the reader where the mountains were. Now three to seven: coarse holds
+to 4.5x and is gone by 10.5x, the finest holds to 9x and is gone by 21x.
+
+Then, with it staying longer, it became clear it was barely visible at all.
+Measured, as the number of parts in 255 the drawn colour moves:
+
+```
+                       soft-light 0.55   soft-light 1.0   overlay 0.8   + gain 1.7
+Karakoram                     11              20              31            51
+Sichuan                        6              11              12            21
+Everest                        4               7              10            19
+Japanese Alps                  2               4               5            11
+Philippine Sea                 0               0               0             0
+```
+
+Blend and opacity were not the lever. The sheet's own land sits close to its
+own water value — the interesting range is about 124 to 226 around a sea of
+206 — so a blend that respects the colour underneath has almost nothing to
+work with. `build_relief.py --gain` now stretches the land away from the
+neutral before encoding, and because the stretch is measured *from* the water
+value, water lands on 128 at any gain and the sea stays untouched by
+construction. Gain 1.7 with `overlay` at 0.8. The sea column stayed 0
+throughout, which is the check that mattered.
+
+The images grew from 8.4 MB to 11.3 MB in all — contrast costs compression —
+of which a reader still fetches at most one.
+
+### Measured
+
+`tools/test/relief.js` is 42 checks. Two of its own assertions had gone stale
+and were rewritten rather than worked around: one demanded `soft-light` by
+name where any mid-grey-neutral blend will do, and the ramp probe looked at 4x,
+which stopped separating the three sheets the moment the ramp was lengthened —
+it looks at 11x now. Whole suite: 555 checks across 25 scripts, all passing,
+156s.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

@@ -32,7 +32,7 @@ JMAP.RELIEF = {
   "levels": [
     {
       "deg": 30.0,
-      "kb": 440,
+      "kb": 641,
       "key": "coarse",
       "mb": 48,
       "note": "1:50m, 2 arc-minutes",
@@ -44,7 +44,7 @@ JMAP.RELIEF = {
     },
     {
       "deg": 45.0,
-      "kb": 1132,
+      "kb": 1607,
       "key": "fine",
       "mb": 107,
       "note": "1:10m, thinned to 4/5",
@@ -56,7 +56,7 @@ JMAP.RELIEF = {
     },
     {
       "deg": 60.0,
-      "kb": 1713,
+      "kb": 2465,
       "key": "finest",
       "mb": 191,
       "note": "1:10m, 1 arc-minute",

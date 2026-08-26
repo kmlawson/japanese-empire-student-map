@@ -13,8 +13,8 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '1.70';
-  var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "50f952d66d", "japan-empire-map-admin.svg": "9de0304837", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "9214380208", "relief-coarse-albers.webp": "df5678f9b1", "relief-coarse-laea.webp": "269ddc91d6", "relief-coarse-mercator.webp": "3f8e82b069", "relief-fine-albers.webp": "44bd9b73f7", "relief-fine-laea.webp": "2bdf69498a", "relief-fine-mercator.webp": "734de11d7f", "relief-finest-albers.webp": "9b46ce0e19", "relief-finest-laea.webp": "f464b96625", "relief-finest-mercator.webp": "a695a72eb9"};
+  var JEM_VERSION = '1.71';
+  var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "50f952d66d", "japan-empire-map-admin.svg": "9de0304837", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "9214380208", "relief-coarse-albers.webp": "448c277f0f", "relief-coarse-laea.webp": "93ffb30d2e", "relief-coarse-mercator.webp": "e8fc127ee2", "relief-fine-albers.webp": "0e50dc3936", "relief-fine-laea.webp": "fa114a9d03", "relief-fine-mercator.webp": "c2d2c22802", "relief-finest-albers.webp": "aed9172644", "relief-finest-laea.webp": "c985fdeed8", "relief-finest-mercator.webp": "96671349c4"};
 
   /* Every file this one fetches, with the version on it.
 
@@ -1176,9 +1176,16 @@
      grey the words. So it goes where the graticule goes, and for the same
      reason.
 
-     **`soft-light`, not `opacity`.** The sheet's own water value is remapped
-     at build time to exactly mid grey, and `soft-light` leaves the colour
-     beneath it *unchanged* wherever the source is mid grey. So the sea is not
+     **`overlay`, not `opacity`.** The sheet's own water value is remapped at
+     build time to exactly mid grey, and `overlay` leaves the colour beneath it
+     *unchanged* wherever the source is mid grey. `soft-light` shares that
+     neutral and was tried first; it is too gentle for this sheet, whose land
+     sits close to its own water value. Measured on the Japanese Alps, the drawn
+     colour moved by 4 parts in 255 under soft-light at full strength and by 5
+     under overlay — neither of them a hillshade a reader can see. What fixed it
+     was the sheet's own contrast: `build_relief.py --gain` pushes the land away
+     from the neutral before encoding, and the sea stays at 128 whatever the
+     gain because the stretch is measured from it. So the sea is not
      tinted, the land is shaded both ways, and nothing had to be masked to the
      coastline — which would have meant a path with every island in it.
      **The opacity and the blend go on the same element.** An ancestor with
@@ -1195,7 +1202,7 @@
      before the 40x the map allows. `reliefFade` is the ramp and `rescale`
      calls it, which is the one place in this file that knows about zoom. */
   var reliefGroup = null, reliefImg = null, reliefFor = '';
-  var RELIEF_MAX = 0.55;      // how strong it ever gets
+  var RELIEF_MAX = 0.8;      // how strong it ever gets
 
   /* Which of the three sheets, and where its images are. */
   function reliefLevel() {
@@ -1212,14 +1219,19 @@
 
   /* The two ends of the ramp, read off the sheet rather than written down.
      A sheet is level with the screen at `deg / pxPerDeg` times zoomed in — the
-     map draws 20 units to the degree — so it is left alone to twice that and
-     gone by four times it. The coarse sheet is sharp to 1.5x and so fades from
-     3x to 6x; the finest is sharp to 3x and fades from 6x to 12x. Three pairs
-     of numbers in this file would be three chances to forget one. */
+     map draws 20 units to the degree — and the ramp is a multiple of that, so
+     a finer sheet stays longer without anything here being written down twice.
+
+     Three and seven, not two and four. Magnified three times a hillshade is
+     still telling the reader where the mountains are, and the first ramp took
+     it away while it was still doing that: the coarse sheet had gone by six
+     times in, which on this map is about the width of Honshu. Now it holds to
+     4.5x and is gone by 10.5x, and the finest holds to 9x and is gone by
+     21x. */
   function reliefRamp() {
     var L = reliefLevel();
     var cross = L && L.deg && proj && proj.pxPerDeg ? L.deg / proj.pxPerDeg : 1.5;
-    return { full: cross * 2, gone: cross * 4 };
+    return { full: cross * 3, gone: cross * 7 };
   }
 
   function reliefFade() {
@@ -1247,8 +1259,14 @@
     }
     if (!reliefGroup) {
       reliefGroup = svgEl('g', { id: 'relief' });
+      /* It is a picture, not a target. An `<image>` takes the pointer by
+         default, and this one is laid over the whole frame and above
+         `#atom-hits` — so with the layer on, every hover landed on it and
+         nothing on the map lit up or could be named at all. */
+      reliefGroup.style.pointerEvents = 'none';
       reliefImg = svgEl('image', { preserveAspectRatio: 'none' });
-      reliefImg.style.mixBlendMode = 'soft-light';
+      reliefImg.style.pointerEvents = 'none';
+      reliefImg.style.mixBlendMode = 'overlay';
       reliefGroup.appendChild(reliefImg);
       svg.appendChild(reliefGroup);
     }

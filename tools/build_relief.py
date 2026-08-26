@@ -151,14 +151,30 @@ def laea_raw(P, lon, lat):
 
 RAWS = {"mercator": merc_raw, "albers": albers_raw, "laea": laea_raw}
 
-PROJ4 = {
-    "mercator": "+proj=merc +lon_0=0 +R=%.1f +units=m +no_defs" % R_EARTH,
-    "albers": ("+proj=aea +lat_1=%(lat1)s +lat_2=%(lat2)s +lat_0=%(lat0)s "
-               "+lon_0=%(lon0)s +x_0=0 +y_0=0 +R=%%.1f +units=m +no_defs"
-               % ALBERS) % R_EARTH,
-    "laea": ("+proj=laea +lat_0=%(lat0)s +lon_0=%(lon0)s +x_0=0 +y_0=0 "
-             "+R=%%.1f +units=m +no_defs" % LAEA) % R_EARTH,
-}
+def proj4(mode, P):
+    """PROJ's own name for the projection `map.js` draws in this mode.
+
+    The two equal-area ones are centred on a meridian of their own and their
+    x is measured from it, which is what `albersRaw` and `laeaRaw` do too — so
+    `+lon_0` is simply the definition's own and the two agree.
+
+    **Mercator is not.** `mercFwd` measures x from the *frame's* left edge,
+    `(lon - lonMin) * pxPerDeg`, not from Greenwich. Handed to PROJ with
+    `+lon_0=0` those metres mean a different place by the whole 66 degrees,
+    and the warp asks the source for 0..140E when the frame is 66..206E: the
+    left 47% of the image comes back empty and everything that is drawn sits
+    66 degrees too far west. On screen the relief began at Japan and China had
+    nothing under it at all, which is exactly how it was reported. `+lon_0` is
+    the frame's own left edge."""
+    if mode == "mercator":
+        return ("+proj=merc +lon_0=%s +R=%.1f +units=m +no_defs"
+                % (P["lonMin"], R_EARTH))
+    if mode == "albers":
+        return ("+proj=aea +lat_1=%(lat1)s +lat_2=%(lat2)s +lat_0=%(lat0)s "
+                "+lon_0=%(lon0)s +x_0=0 +y_0=0 " % ALBERS
+                + "+R=%.1f +units=m +no_defs" % R_EARTH)
+    return ("+proj=laea +lat_0=%(lat0)s +lon_0=%(lon0)s +x_0=0 +y_0=0 " % LAEA
+            + "+R=%.1f +units=m +no_defs" % R_EARTH)
 
 
 def fit(P, mode):
@@ -208,7 +224,7 @@ def sea_value(gdal, vrt):
     return max(range(256), key=lambda v: h[v])
 
 
-def neutralise(sea):
+def neutralise(sea, gain=1.0):
     """A lookup table putting the water at mid grey, so it blends to nothing.
 
     The image is laid over the map with `mix-blend-mode: soft-light`, which
@@ -220,14 +236,25 @@ def neutralise(sea):
 
     Piecewise linear, both sides stretched to fill their half, so no contrast
     is lost on land: the darkest shadow still reaches 0 and the brightest lit
-    slope still reaches 255."""
+    slope still reaches 255.
+    `gain` then pushes everything further from the middle. It is needed because
+    the sheet's land sits close to its water value — the interesting range is
+    roughly 124 to 226 around a sea of 206 — and a blend mode that respects the
+    colour under it can only do so much with that. Measured at gain 1, with the
+    strongest blend tried: the Japanese Alps moved the drawn colour by 5 parts
+    in 255, which is not a hillshade anybody can see. The stretch is about
+    `sea`, so water lands on 128 whatever the gain, and the sea stays untouched
+    by construction rather than by luck.
+    """
     lut = []
     for v in range(256):
         if v <= sea:
-            lut.append(int(round(v * 128.0 / sea)) if sea else 0)
+            base = v * 128.0 / sea if sea else 0.0
+        elif sea < 255:
+            base = 128 + (v - sea) * 127.0 / (255 - sea)
         else:
-            lut.append(int(round(128 + (v - sea) * 127.0 / (255 - sea)))
-                       if sea < 255 else 128)
+            base = 128.0
+        lut.append(max(0, min(255, int(round(128 + (base - 128) * gain)))))
     return lut
 
 
@@ -257,6 +284,8 @@ def main():
     ap.add_argument("--only", default="",
                     help="build one level only: coarse, fine or finest")
     ap.add_argument("--quality", type=int, default=72)
+    ap.add_argument("--gain", type=float, default=1.7,
+                    help="how far to push the shading from mid grey (1 = none)")
     ap.add_argument("--sea", type=int, default=0,
                     help="the flat grey the sheet uses for water "
                          "(default: the commonest value in the clip)")
@@ -327,10 +356,10 @@ def main():
             out_w = L["width"]
             out_h = max(1, int(round(out_w * box["h"] / box["w"])))
             tif = os.path.join(work, "rel-%s-%s.tif" % (L["key"], mode))
-            gdal.Warp(tif, vrt, dstSRS=PROJ4[mode], outputBounds=te,
+            gdal.Warp(tif, vrt, dstSRS=proj4(mode, P), outputBounds=te,
                       width=out_w, height=out_h, resampleAlg="cubic",
                       srcNodata=None, dstAlpha=False)
-            img = Image.open(tif).convert("L").point(neutralise(sea))
+            img = Image.open(tif).convert("L").point(neutralise(sea, args.gain))
             name = "relief-%s-%s.webp" % (L["key"], mode)
             path = os.path.join(args.out, name)
             img.save(path, "WEBP", quality=args.quality, method=6)
@@ -345,8 +374,9 @@ def main():
         px = L["width"] * max(1, int(round(L["width"] * boxes["laea"]["box"]["h"]
                                            / boxes["laea"]["box"]["w"])))
         entry["mb"] = round(px * 4 / 1e6)
-        print("  %-7s water at %d, %.1f Mpx, about %d MB decoded, sharp to %.1fx"
-              % (L["key"], sea, px / 1e6, entry["mb"], deg / P["pxPerDeg"]))
+        print("  %-7s water at %d pushed out by %.2f, %.1f Mpx, about %d MB, sharp to %.1fx"
+              % (L["key"], sea, args.gain, px / 1e6, entry["mb"],
+                 deg / P["pxPerDeg"]))
         manifest["levels"].append(entry)
     print("%d KB of images in all" % total)
 

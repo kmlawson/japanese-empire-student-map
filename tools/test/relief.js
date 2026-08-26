@@ -99,7 +99,11 @@ console.log('\n— off until it is asked for —');
   check('it covers the whole frame in map units',
     img && +img.w === 2800 && Math.abs(+img.h - 1584.92) < 0.2,
     JSON.stringify(img));
-  check('it is blended, not painted over', img && img.blend === 'soft-light',
+  /* Any blend whose neutral is mid grey will do — the build's whole job is to
+     put the water there — but it must not be `normal`, which would paint flat
+     grey over the map and over the sea with it. */
+  check('it is blended, not painted over',
+    img && ['overlay', 'soft-light', 'hard-light'].indexOf(img.blend) >= 0,
     img && img.blend);
   /* The fault this replaced: `isolation: isolate` and the fade's `opacity`
      were both on the wrapping group. Either one makes that group a blending
@@ -116,75 +120,124 @@ console.log('\n— off until it is asked for —');
   await p.close();
 }
 
-/* Where the land is. Measured as the difference the layer makes to the colour
-   at a given place: shaded ground changes, flat water does not. */
-console.log('\n— it lands on the land, and lets the sea alone —');
+/* Is it in the right place?
+ *
+ * The first version of this asked only whether the colour *changed* where
+ * there is terrain, and that is far too weak. The mercator warp was built 66
+ * degrees out — its metres were measured from Greenwich, where `mercFwd`
+ * measures them from the frame's left edge — and every one of those checks
+ * still passed, because whatever landed on the Himalaya was some other piece
+ * of ground and duly changed the colour. On screen the relief began at Japan
+ * and China had nothing under it at all.
+ *
+ * So the question is put the other way round, where it has a sharp answer.
+ * Shaded relief has no bathymetry: it paints water one flat value, and the
+ * build moves that to exactly mid grey, at which `soft-light` changes nothing.
+ * **Every open-sea pixel must therefore be untouched by the layer.** A shift
+ * cannot survive that: move the sheet and land shading falls across the sea.
+ *
+ * No coordinates are computed here. A grid of screen points is classified by
+ * asking the page what is under each one — which works because the relief is
+ * `pointer-events: none`, so `elementFromPoint` sees through it to the ocean
+ * rect or to a country. That makes the test projection-blind, and it runs in
+ * all three.
+ */
+console.log('\n— it is in the right place, in all three projections —');
 {
-  const SPOTS = [
-    // lon, lat, what is there, must the colour change?
-    [86.9, 27.99, 'the Himalaya at Everest', true],
-    [138.7, 35.4, 'the mountains of Honshu', true],
-    [101.0, 31.0, 'the Sichuan ranges', true],
-    [134.0, 20.0, 'the middle of the Philippine Sea', false],
-    [155.0, 30.0, 'open Pacific east of Japan', false],
-  ];
-  const shot = async (on) => {
-    const p = await b.newPage();
-    await p.setViewport({ width: 1300, height: 900 });
-    await p.goto(url(BASE | (on ? RELIEF : 0)), { waitUntil: 'networkidle0' });
-    await sleep(3200);
-    // the screen position of each place, through the map's own projection:
-    // the graticule is drawn from it, so a label at a round coordinate is an
-    // honest handle on where the projection puts things
-    const pts = await p.evaluate(spots => spots.map(s => {
-      const svg = document.getElementById('jmap');
-      const vb = svg.getAttribute('viewBox').split(' ').map(Number);
-      const r = svg.getBoundingClientRect();
-      // map units -> screen, and lon/lat -> map units in mercator, which is
-      // what the document is drawn in and what the test asks for
-      const R = 1145.91559, lonMin = 66, pxPerDeg = 20;
-      const yTop = R * Math.log(Math.tan(Math.PI / 4 + 55 * Math.PI / 360));
-      const lon = s[0] < lonMin ? s[0] + 360 : s[0];
-      const mx = (lon - lonMin) * pxPerDeg;
-      const my = yTop - R * Math.log(Math.tan(Math.PI / 4 + s[1] * Math.PI / 360));
-      return [Math.round(r.left + (mx - vb[0]) / vb[2] * r.width),
-              Math.round(r.top + (my - vb[1]) / vb[3] * r.height)];
-    }), SPOTS);
-    const png = await p.screenshot({ encoding: 'binary' });
-    await p.close();
-    return { pts, png };
-  };
-  const off = await shot(false);
-  const on = await shot(true);
-  // read the two screenshots without a decoder: puppeteer can sample for us
+  const grid = (p) => p.evaluate(() => {
+    const svg = document.getElementById('jmap');
+    const r = svg.getBoundingClientRect();
+    const out = [];
+    for (let i = 1; i < 26; i++) {
+      for (let j = 1; j < 17; j++) {
+        const x = Math.round(r.left + r.width * i / 26);
+        const y = Math.round(r.top + r.height * j / 17);
+        const el = document.elementFromPoint(x, y);
+        if (!el) continue;
+        // the relief must not be what answers — it is a picture, not a target
+        if (el.closest('#relief')) { out.push([x, y, 'RELIEF']); continue; }
+        const what = p2 => {
+          const e = document.elementFromPoint(p2[0], p2[1]);
+          return !e ? '?' : e.closest('#land') ? 'land'
+                 : e.closest('#ocean') ? 'sea' : 'other';
+        };
+        const here = what([x, y]);
+        /* Open water, not merely water. A point in a strait or one pixel off a
+           beach is shaded on purpose — the warp's resampling carries the land's
+           value into the first sea pixel, and the sheet's own coastline is a
+           gradient, not a step. So a sea point counts only if the sea reaches
+           twelve pixels round it in every direction. Measured on the point
+           that first failed this: 13 of 16 directions at 4px were land. */
+        let open = here === 'sea';
+        if (open) {
+          for (let a = 0; a < 16 && open; a++) {
+            const t = a * Math.PI / 8;
+            if (what([Math.round(x + 12 * Math.cos(t)),
+                      Math.round(y + 12 * Math.sin(t))]) !== 'sea') open = false;
+          }
+        }
+        out.push([x, y, open ? 'sea' : here === 'land' ? 'land' : 'edge']);
+      }
+    }
+    return out;
+  });
   const sample = async (png, pts) => {
-    const p = await b.newPage();
-    await p.setViewport({ width: 1300, height: 900 });
-    const b64 = Buffer.from(png).toString('base64');
-    const out = await p.evaluate(async (data, points) => {
+    const q = await b.newPage();
+    await q.setViewport({ width: 400, height: 300 });
+    const got = await q.evaluate(async (data, points) => {
       const im = new Image();
       await new Promise(res => { im.onload = res; im.src = 'data:image/png;base64,' + data; });
       const c = document.createElement('canvas');
       c.width = im.width; c.height = im.height;
-      c.getContext('2d').drawImage(im, 0, 0);
       const ctx = c.getContext('2d');
-      return points.map(q => [...ctx.getImageData(q[0], q[1], 1, 1).data].slice(0, 3));
-    }, b64, pts);
-    await p.close();
-    return out;
+      ctx.drawImage(im, 0, 0);
+      return points.map(v => [...ctx.getImageData(v[0], v[1], 1, 1).data].slice(0, 3));
+    }, Buffer.from(png).toString('base64'), pts);
+    await q.close();
+    return got;
   };
-  const a = await sample(off.png, off.pts);
-  const c = await sample(on.png, on.pts);
-  SPOTS.forEach((s, i) => {
-    const d = Math.max(...[0, 1, 2].map(k => Math.abs(a[i][k] - c[i][k])));
-    if (s[3]) {
-      check('shaded: ' + s[2], d >= 6,
-        'changed by ' + d + '  ' + JSON.stringify(a[i]) + ' -> ' + JSON.stringify(c[i]));
-    } else {
-      check('untouched: ' + s[2], d <= 2,
-        'changed by ' + d + '  ' + JSON.stringify(a[i]) + ' -> ' + JSON.stringify(c[i]));
-    }
-  });
+
+  for (const mode of ['mercator', 'albers', 'laea']) {
+    const open = async (on) => {
+      const p = await b.newPage();
+      await p.setViewport({ width: 1300, height: 900 });
+      await p.goto(url(BASE | (on ? RELIEF : 0) | PROJBIT[mode]), { waitUntil: 'networkidle0' });
+      await sleep(3400);
+      return p;
+    };
+    const a = await open(false);
+    const pts = await grid(a);
+    const pngA = await a.screenshot({ encoding: 'binary' });
+    await a.close();
+    const c = await open(true);
+    const hits = await grid(c);
+    const pngB = await c.screenshot({ encoding: 'binary' });
+    await c.close();
+
+    check(mode + ': the layer is not what the pointer finds',
+      hits.every(h => h[2] !== 'RELIEF'),
+      hits.filter(h => h[2] === 'RELIEF').length + ' of ' + hits.length + ' points hit it');
+
+    const A = await sample(pngA, pts);
+    const B = await sample(pngB, pts);
+    const diff = i => Math.max(...[0, 1, 2].map(k => Math.abs(A[i][k] - B[i][k])));
+    const sea = pts.map((v, i) => [v, i]).filter(v => v[0][2] === 'sea');
+    const land = pts.map((v, i) => [v, i]).filter(v => v[0][2] === 'land');
+    const wet = sea.filter(v => diff(v[1]) > 3);
+    check(mode + ': every open-sea point is left alone (' + sea.length + ' of them)',
+      sea.length >= 40 && wet.length === 0,
+      wet.length + ' tinted, worst ' + Math.max(0, ...sea.map(v => diff(v[1])))
+        + '; first at ' + JSON.stringify((wet[0] || [[]])[0]));
+    /* And the land really is being shaded. Not a fraction of it: most of the
+       land in this frame is flat — the north China plain, the Ganges, the
+       Siberian lowland — and flat ground is near the sheet's neutral, so a
+       hillshade that left it alone would be right to. What has to be true is
+       that the mountains show. */
+    const moved = land.map(v => diff(v[1])).sort((x, y) => y - x);
+    check(mode + ': and the mountains are shaded',
+      land.length >= 20 && moved[5] >= 4 && moved[0] >= 8,
+      land.length + ' land points, strongest ' + moved.slice(0, 8).join(','));
+  }
 }
 
 console.log('\n— it goes away as the reader zooms in —');
@@ -283,12 +336,15 @@ console.log('\n— three sheets, and only the chosen one is fetched —');
       JSON.stringify(r));
     degs = r.degs; kbs = r.kbs;
 
-    /* And the ramp. 4x is past where the coarse sheet has gone and inside
-       where the finest is still untouched, so one zoom tells all three apart. */
-    for (let n = 0; n < 12; n++) {
+    /* And the ramp. The coarse sheet is gone by 10.5x and the finest holds to
+       21x, so a look at about 11x tells all three apart. It used to be 4x,
+       which stopped separating them the moment the ramp was lengthened — the
+       thresholds here have to follow `reliefRamp`, and they are derived from
+       the same `deg` it uses rather than copied. */
+    for (let n = 0; n < 20; n++) {
       const z = await p.evaluate(() => 2800 / parseFloat(
         document.getElementById('jmap').getAttribute('viewBox').split(' ')[2]));
-      if (z >= 4) break;
+      if (z >= 11) break;
       await p.mouse.move(650, 450); await p.mouse.wheel({ deltaY: -260 }); await sleep(330);
     }
     at4x.push(await p.evaluate(() => {
@@ -305,8 +361,8 @@ console.log('\n— three sheets, and only the chosen one is fetched —');
   check('the three get finer, and heavier, in order',
     degs[0] < degs[1] && degs[1] < degs[2] && kbs[0] < kbs[1] && kbs[1] < kbs[2],
     JSON.stringify(degs) + ' ' + JSON.stringify(kbs));
-  check('the coarse sheet has faded by 4x', at4x[0].op < 0.3, JSON.stringify(at4x[0]));
-  check('and the finest has not', at4x[2].op > 0.5, JSON.stringify(at4x[2]));
+  check('the coarse sheet has gone by 11x', at4x[0].op < 0.05, JSON.stringify(at4x[0]));
+  check('and the finest has not', at4x[2].op > 0.3, JSON.stringify(at4x[2]));
   check('with the middle one between them',
     at4x[1].op >= at4x[0].op && at4x[1].op <= at4x[2].op, JSON.stringify(at4x));
 }
