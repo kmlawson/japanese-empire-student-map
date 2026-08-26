@@ -144,7 +144,7 @@ console.log('\n— the link —');
       const c=document.querySelector('#ann-cap');
       return c && !c.hidden && /file only/.test(
         document.querySelector('#ann-cap-text').textContent);},
-      {timeout:30000, polling:'raf'});
+      {timeout:60000, polling:'raf'});
   } catch (e) { /* the checks below report it better than a timeout would */ }
   await sleep(300);
   check('too much for a link says so with the number',

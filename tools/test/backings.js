@@ -58,8 +58,42 @@ function check(name, cond, detail) {
     await p.evaluate(() => document.querySelector('#zoom-in').click());
     await sleep(1100);
   }
+  const st = await p.evaluate(() => ({
+    fine: document.querySelectorAll('#a-japan path.fine').length,
+    own: document.querySelectorAll('#a-japan path:not(.fine):not(.superseded)').length,
+    redundant: document.querySelector('#backings [data-for="japan"]')
+      .classList.contains('redundant'),
+  }));
+  check('three steps in, the fine coastline has grafted', st.fine > 10,
+    st.fine + ' fine paths');
+
+  /* The check the file exists for, and it has to be made on the class rather
+     than on what is painted.
+     
+     The fault was in `ownShapes`: a grafted coastline was counted as the atom
+     having divisions of its own, so Japan's backing — which is the only thing
+     drawing Honshu, Hokkaido, Kyushu and Shikoku — was called redundant the
+     moment the fine window arrived, and the country went from 133,425 square
+     units to the 495 of its 62 grafted islets.
+     
+     Measuring the paint no longer catches that, and this script used to try.
+     `redundant` is a class and nothing acts on it but
+     
+         #jmap.backs-off.admin-on #backings path.redundant { display: none; }
+     
+     so with Administrative off the backing stays drawn however it is marked,
+     and with Administrative on Japan has 46 prefectures of its own and the
+     backing is redundant for a good reason. Neither state shows it. Proved by
+     mutation: take `:not(.fine)` out of `ownShapes` and the previous version
+     of this file reported six checks passing.
+     
+     So the invariant is asserted directly. A coastline is not a division. */
+  check('and it has not stood the backing down — a coastline is not a division',
+    st.own === 0 && !st.redundant,
+    st.own + ' own paths, ' + st.fine + ' grafted, redundant=' + st.redundant);
+
   const deep = await p.evaluate(PAINTED, 'japan');
-  check('and still drawn once its fine coastline grafts', deep > 100000, deep + ' units²');
+  check('so the country is still drawn under it', deep > 100000, deep + ' units²');
 
   for (let i = 0; i < 3; i++) {
     await p.evaluate(() => document.querySelector('#zoom-out').click());
@@ -79,6 +113,14 @@ function check(name, cond, detail) {
     document.querySelectorAll('#backings [data-for]:not(.redundant)').length);
   check('the administrative sheet still stands the backings down', after < before,
     before + ' live before, ' + after + ' after');
+  /* Japan among them, now for the right reason: its 46 prefectures draw it.
+     They are 46 separate boxes rather than one round the whole country, so the
+     figure is legitimately about half the backing's 133,425 and the threshold
+     is not the one above. The fault would read as a few hundred. */
+  const admin = await p.evaluate(PAINTED, 'japan');
+  check('and Japan is drawn by its own divisions once it has them',
+    admin > 20000, admin + ' units²');
+
   check('no page errors', errs.length === 0, errs[0]);
 
   await b.close();

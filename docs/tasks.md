@@ -8282,6 +8282,97 @@ passing.
 
 ---
 
+## The test suite reviewed: one runner, and one guard that was not guarding
+
+Asked whether the scripts are all still worth keeping, and whether the slow
+ones earn it. Measured rather than judged.
+
+### Nothing is redundant
+
+371 distinct check labels across 496 checks in 24 scripts. The only label that
+appears in more than one script is `no page errors`, which is in seventeen and
+belongs in all of them — it is per-page and costs nothing. Three others repeat
+trivially (`two marks`, `and it is recorded`, `the pencil opens the panel`).
+There is no script whose subject another covers, and none testing a feature
+that has since gone.
+
+### The cost was never redundancy, it was that half the suite ran serially
+
+`annotations/all.js` has pooled its fourteen scripts four at a time since they
+were sped up. The ten map suites never got that and were run one at a time by
+hand: 206s in a row, of which the longest single script is 45s.
+
+`tools/test/all.js` now pools all 24 together — both halves in one queue, so a
+long map suite and a long annotation suite overlap instead of queueing behind
+their own kind — longest-first so the tail is short jobs filling gaps.
+
+```
+before   206s (map, serial) + 98s (annotations, pooled)  =  304s
+after    496 checks across 24 scripts, 4 at a time, in 134s
+```
+
+`node tools/test/all.js`, or `all.js map`, `all.js ann`, or a list of names.
+
+### What is left is fixed sleeps, and they are the other half
+
+Counted across every script: 52% of the map suites' serial time is literal
+`sleep(n)` — 27.6s of mapstrip's 45s, 16s of extent's 26s, 12.8s of
+cache-keys' 15s. The annotation scripts are at 39%, having already been through
+this once. Applying the same `waitForFunction` treatment to the map half is the
+next real saving; mapstrip is the one that matters, because it is the critical
+path.
+
+### And `backings.js` was not testing what it says
+
+The thinnest script — six checks for 15s — so it was the one asked to earn its
+place, by mutation: put the `:not(.fine)` back out of `ownShapes`, which is
+exactly the regression the file was written against, the one that emptied Japan
+from 133,425 square units to 495.
+
+**It reported six checks passing.**
+
+The reason is that all four of its zoom checks measured *painted area*, and
+`redundant` is a class that nothing acts on but one rule:
+
+```css
+#jmap.backs-off.admin-on #backings path.redundant { display: none; }
+```
+
+With Administrative off — which is where the script did its zoom round trip —
+a backing marked redundant is still drawn, so the fault paints nothing
+differently. And with Administrative on it cannot be seen either, because Japan
+then has 46 prefectures of its own and its backing is redundant for a good
+reason. Neither state can show it.
+
+It now asserts the invariant instead of the symptom: three steps in, with the
+fine window grafted, Japan's atom holds 68 `.fine` paths, no paths of its own,
+and its backing is **not** marked redundant. A coastline is not a division.
+Nine checks, still 15s, and the mutation now fails it —
+`0 own paths, 68 grafted, redundant=true`.
+
+Worth saying plainly: this is one script of 24 checked this way. The others
+have not been mutation-tested, and a passing suite is weaker evidence than it
+looked.
+
+### Flakiness the parallel run brought into view
+
+Four runs of all 24. Two were clean; one lost four scripts in under three
+seconds each, and one lost `run2` to a puppeteer `Target.setAutoAttach`
+timeout at 181s. Both are contention, not truth: four browsers starting at
+once on a ten-core machine, and one of them losing.
+
+Two things done about it. The runner now retries, exactly once and at the back
+of the queue, any script that dies in under five seconds without reporting a
+count — a real failure reports its checks and is never retried, and a retried
+script is marked `*` in the summary so it is not silently hidden. And `run2`'s
+30-second wait for the over-length caption was raised to 60: it timed out
+under load and then reported a failing check, which is a false negative with
+no way to tell it from a true one.
+
+Last four runs: 499 checks, all passing, 134.9s.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible
