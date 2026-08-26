@@ -27,7 +27,8 @@ const path = require('path');
 const os = require('os');
 
 const MAP = ['taiwan', 'labels', 'provsource', 'backings', 'mapstrip',
-             'projclip', 'extent', 'layers-url', 'bookmarks', 'cache-keys'];
+             'projclip', 'extent', 'layers-url', 'bookmarks', 'cache-keys',
+             'relief'];
 const ANN = ['run', 'run2', 'run3', 'run4', 'run5', 'run6', 'run7',
              'run8', 'run9', 'run10', 'run11', 'run12', 'run13', 'run14'];
 
@@ -50,7 +51,7 @@ const SECS = { mapstrip: 45, run2: 41, labels: 32, run5: 35, run14: 32, run9: 30
                run3: 28, extent: 26, run10: 25, run11: 24, run12: 19, run: 19,
                run8: 19, provsource: 18, run13: 18, 'layers-url': 18, run4: 17,
                bookmarks: 16, 'cache-keys': 15, backings: 15, run6: 12,
-               projclip: 11, taiwan: 10, run7: 5 };
+               projclip: 11, taiwan: 15, relief: 40, run7: 5 };
 list = list.slice().sort((a, b) => (SECS[b] || 0) - (SECS[a] || 0));
 
 /* Each script drives a browser, and a browser is several processes. Half the
@@ -77,15 +78,21 @@ function launch() {
     child.on('close', code => {
       const secs = Math.round((Date.now() - t0) / 100) / 10;
       const m = out.match(/(\d+) passed, (\d+) failed/);
-      /* A script that dies in under five seconds without reporting anything
-         did not fail — it never started. Four of the twenty-four went that way
-         on one run here and passed alone straight afterwards: several browsers
-         launching at once and one of them losing. Give it exactly one more go,
-         at the back of the queue where the machine is quieter, and say so. A
-         real failure reports its checks and is never retried. */
-      if (!m && secs < 5 && !retried[name]) {
+      /* A script that never reported a count did not fail — it never ran. Two
+         shapes of this have been seen, both of them several browsers starting
+         at once and one of them losing:
+
+           * it dies in a second or two, before anything opens;
+           * or puppeteer's own connection to the browser times out, which
+             shows as a `ProtocolError` and can take two minutes to give up.
+
+         Either way there is no verdict to report, so it goes to the back of
+         the queue where the machine is quieter and is tried once more. A real
+         failure prints its checks and is never retried. */
+      var stillborn = !m && (secs < 5 || /ProtocolError|Target\.\w+ timed out/.test(out));
+      if (stillborn && !retried[name]) {
         retried[name] = true;
-        console.log('  ' + name + ' did not start (' + secs + 's) — retrying once');
+        console.log('  ' + name + ' never started (' + secs + 's, no verdict) — retrying once');
         list.push(name);
         running--;
         launch();

@@ -75,3 +75,9 @@ tools/test/shots/
 /w[0-9].png
 /barx.png
 /east.png
+
+# build_relief.py's working files: the clipped windows, the mosaic and the
+# three warps, 38 MB of GeoTIFF that the three WebPs are made from and that
+# nothing reads afterwards
+tools/cache/rel-*.tif
+tools/cache/rel-*.vrt

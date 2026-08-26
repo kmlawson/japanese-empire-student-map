@@ -8564,6 +8564,120 @@ checks across 24 scripts, all passing, 140s.
 
 ---
 
+## A Topography layer: 56 MB of shaded relief, in 350 KB, three times over
+
+Natural Earth's `SR_50M` under the political colours, off by default and
+ticked in the Layers pane. `tools/build_relief.py` makes it.
+
+### The size
+
+```
+source SR_50M.tif                      10800 x 5400   58.3 Mpx    56 MB
+clipped to the frame (66E-206E, 13S-55N) 4200 x 2040    8.6 Mpx
+  as PNG                                                        1,645 KB
+  as JPEG q72                                                     501 KB
+  as WebP q72                                                     347 KB
+```
+
+No resolution is thrown away to get there. The clip does most of the work —
+the map covers 6% of the world — and shaded relief is a smooth grey field,
+which is what WebP is for. Built: 441 KB mercator, 303 KB albers, 378 KB laea,
+and only the one in use is ever fetched.
+
+The clip crosses the antimeridian, so the source is read as two windows and the
+eastern one is given a geotransform 360 degrees further east before they are
+mosaicked. Warping across the seam without that gives a blank right-hand third.
+
+### Three files, because a raster cannot be reprojected in the browser
+
+`reprojectDocument` moves every coordinate in the document when the projection
+changes. An image has no coordinates to move — only pixels, and moving those is
+a resample. So each projection gets its own warp here, where there is a real
+resampler, and the browser swaps the `href`.
+
+The placement rectangle is not fitted by eye. `map.js` draws its Albers on a
+**sphere** of radius `proj.R` map units, and PROJ's `+proj=aea +R=` is the same
+formula, so the two differ by one uniform scale — `proj.R` map units against
+6,378,137 metres — which holds because `pxPerDeg` *is* `R * pi/180`. The script
+asserts that rather than assuming it. The box is then computed by the same
+sampling loop `fitOf` runs in the browser.
+
+Checked: the mercator box came out `0 0 2800 1584.92`, which is the document's
+own viewBox, and the albers width came out 3052.1 against the map's own
+3052.09.
+
+### The sea is left alone, and nothing had to be masked
+
+Shaded relief has no bathymetry: every water pixel is one flat value, and in
+this frame — three quarters ocean — it is simply the commonest value, read off
+GDAL's histogram rather than hardcoded. In `SR_50M` it is **206**, on 74% of
+the pixels.
+
+The build remaps that to exactly **128**, piecewise-linear on each side so no
+contrast is lost on land, and the image is laid over the map with
+`mix-blend-mode: soft-light` — which leaves the colour beneath it *unchanged*
+wherever the source is mid grey. So the sea is untouched, the land is shaded
+both ways, and no clip path round every island was needed.
+
+**And that went wrong in the way this kind of thing does.** `isolation:
+isolate` and the fade's `opacity` were both on the wrapping group. Either one
+makes that group a blending boundary: the image then blends with an empty group
+instead of with the map, and `soft-light` degenerates into grey paint at 55%.
+Measured before the fix, with the land still looking perfectly right, the open
+Pacific went from `[202,223,235]` to `[155,165,170]` — 51 points darker across
+the whole ocean. Both belong on the image itself. `tools/test/relief.js` walks
+every ancestor and fails if any of them isolates.
+
+### It fades as the reader zooms in
+
+30 pixels to the degree against the map's own 20 units, so it is sharp at the
+opening view, level with the screen about 1.5x in, and a mosaic well before the
+40x the map allows. Full to 3x, fading to nothing by 6x, and `display: none`
+past that so a deep zoom is not compositing a 4,200-pixel image for nothing.
+Measured: 0.55 at 1x and at 2.6x, 0 and undrawn at 6.8x, and back on the way
+out.
+
+### A gotcha in the loading order
+
+`relief.js` has to be loaded **after** `data.js`, not before. `data.js` opens
+with `const JMAP = {}`, which is a global *lexical* binding and shadows
+`window.JMAP` for every script after it — so a file that sets `window.JMAP.X`
+first has its work hidden behind a fresh object. `cities-gaz.js` already sat
+after `data.js` for the same reason. Loaded first, `JMAP.RELIEF` was simply
+undefined and the layer drew nothing, silently.
+
+### SR_HR, measured
+
+Asked what the 1:10m sheet would cost. Clipped the same way:
+
+```
+             source        clipped        WebP q72   sharp out to
+SR_50M    56 MB, 30 px/deg  4200 x 2040     347 KB      ~1.5x
+SR_HR    223 MB, 60 px/deg  8400 x 4080   1,374 KB      ~4.5x
+```
+
+Four times the bytes for twice the linear detail, and it would push the fade
+out by about 3x. The build takes `--src` and `--width`, so it is a rebuild
+rather than a rewrite. The thing that would decide it is not the download but
+the decode: 34.3 Mpx is roughly 137 MB of RGBA in the browser against 34 MB,
+which is a lot to ask of a phone for a layer that is off by default.
+
+### Measured
+
+`tools/test/relief.js`, 25 checks: off and unfetched until asked for, exactly
+one image fetched and the right one, the frame-sized box, `soft-light` with no
+isolating ancestor, the Himalaya and Honshu and Sichuan shaded while two open-
+ocean points are untouched to within 2/255, the fade out and back, and each of
+the other two projections fetching only its own image and placing it in its own
+box.
+
+`tools/test/all.js` now retries a script that reports no verdict at all —
+before it was only ones that died inside five seconds, and a puppeteer
+`ProtocolError` during browser launch can take two minutes to give up. Whole
+suite: 538 checks across 25 scripts, all passing, 156s.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

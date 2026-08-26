@@ -447,7 +447,11 @@ def build_pages():
     # what map.js fetches for itself
     FETCHED = ("japan-empire-map.svg", "japan-empire-map-admin.svg",
                "japan-empire-map-fine.svg", "japan-empire-map-roc.svg",
-               "annotate.js", "admin.js")
+               "annotate.js", "admin.js",
+               # the relief is three images map.js fetches by name, one per
+               # projection, and they are not .js or .css so the page's own
+               # stamper below never sees them
+               "relief-mercator.webp", "relief-albers.webp", "relief-laea.webp")
     assets = {}
     for name in FETCHED:
         apath = os.path.join(ROOT, name)

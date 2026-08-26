@@ -138,6 +138,7 @@
   <label class="row"><input type="checkbox" id="opt-rivers" checked> Show the Yangzi and Yellow rivers</label>
   <label class="row"><input type="checkbox" id="opt-extent" checked> Show the 1942 approximate line of control</label>
   <label class="row"><input type="checkbox" id="opt-india-rivers"> Show the rivers of India</label>
+  <label class="row" title="Natural Earth's shaded relief under the political colours. A coarse sheet, so it fades out as you zoom in."><input type="checkbox" id="opt-relief"> Topography</label>
   <label class="row"><input type="checkbox" id="opt-graticule"> Show the graticule</label>
   <hr>
   <h3>Projection</h3>
@@ -219,7 +220,7 @@
 
   <p>Built with Anthropic's Claude, with <a href="https://muninn.net/">Konrad M. Lawson</a> at the prompt, primarily as a tool for students in his University of St Andrews honours module, <a href="https://github.com/kmlawson/japanese-empire-mo3335/">MO3335</a>.</p>
 
-  <p>Code for the website may be found <a href="https://github.com/kmlawson/japanese-empire-student-map">here</a>.</p>  <p class="version">Version <span id="jem-version">1.68</span> · last updated 26 August 2026, 13:26</p>
+  <p>Code for the website may be found <a href="https://github.com/kmlawson/japanese-empire-student-map">here</a>.</p>  <p class="version">Version <span id="jem-version">1.69</span> · last updated 26 August 2026, 14:00</p>
 
 <!-- END about -->
 </dialog>
@@ -267,6 +268,12 @@
 
 <script src="data.js?v=7694dcceaa"></script>
 <script src="cities-gaz.js?v=2b2736ff79"></script>
-<script src="map.js?v=c7b180a752"></script>
+<!-- After data.js, not before it: data.js opens with `const JMAP = {}`,
+     which is a global *lexical* binding and shadows `window.JMAP` for every
+     script after it. Loaded first, this file sets RELIEF on the window object
+     and data.js then hides it behind a fresh one. cities-gaz.js sits here for
+     the same reason. -->
+<script src="relief.js?v=c5a7f960b1"></script>
+<script src="map.js?v=08d8a96b58"></script>
 </body>
 </html>

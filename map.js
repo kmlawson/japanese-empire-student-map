@@ -13,8 +13,8 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '1.68';
-  var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "50f952d66d", "japan-empire-map-admin.svg": "9de0304837", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "9214380208"};
+  var JEM_VERSION = '1.69';
+  var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "50f952d66d", "japan-empire-map-admin.svg": "9de0304837", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "9214380208", "relief-albers.webp": "df5678f9b1", "relief-laea.webp": "269ddc91d6", "relief-mercator.webp": "3f8e82b069"};
 
   /* Every file this one fetches, with the version on it.
 
@@ -116,6 +116,15 @@
     indiaRivers: false,
     // the mesh of meridians and parallels; off by default
     graticule: false,
+    /* Shaded relief under the political colours. Off by default and fetched
+       only when asked for: it is a third of a megabyte, and a map of who
+       governed what does not need the ground to answer its question.
+
+       It is a raster, so unlike everything else here it cannot be reprojected
+       in the browser — there is nothing to move but the pixels. `relief.js`
+       carries one warp per projection and where each one goes; see
+       `tools/build_relief.py`. */
+    relief: false,
     // 'mercator' or 'laea'. The file is drawn in the first; the second is
     // worked out in the browser, Mercator being exactly invertible. See the
     // projection block for what each is good and bad at.
@@ -219,6 +228,7 @@
       if (typeof saved.backs === 'boolean') state.backs = saved.backs;
       if (typeof saved.indiaRivers === 'boolean') state.indiaRivers = saved.indiaRivers;
       if (typeof saved.graticule === 'boolean') state.graticule = saved.graticule;
+      if (typeof saved.relief === 'boolean') state.relief = saved.relief;
       if (['mercator', 'albers', 'laea'].indexOf(saved.projection) >= 0) {
         state.projection = saved.projection;
       }
@@ -239,6 +249,7 @@
         rivers: state.rivers, legend: state.legend, hairline: state.hairline,
         backs: state.backs, indiaRivers: state.indiaRivers,
         projection: state.projection, graticule: state.graticule,
+        relief: state.relief,
         occSource: state.occSource, ccp: state.ccp,
         manchukuo: state.manchukuo, mengjiang: state.mengjiang, mono: state.mono,
         world: state.world,
@@ -1148,6 +1159,90 @@
 
   var gratLabelGroup = null;
   var gratLines = { mer: [], par: [] };   // {v, pts} per line, in map units
+
+  /* --------------------------------------------------------- shaded relief
+     Natural Earth's hillshade, laid over the political colours.
+
+     **Under the labels and over the land.** Under the land it would be
+     invisible — the country fills are opaque — and over the labels it would
+     grey the words. So it goes where the graticule goes, and for the same
+     reason.
+
+     **`soft-light`, not `opacity`.** The sheet's own water value is remapped
+     at build time to exactly mid grey, and `soft-light` leaves the colour
+     beneath it *unchanged* wherever the source is mid grey. So the sea is not
+     tinted, the land is shaded both ways, and nothing had to be masked to the
+     coastline — which would have meant a path with every island in it.
+     **The opacity and the blend go on the same element.** An ancestor with
+     `opacity < 1` — or with `isolation: isolate` — is a blending boundary: the
+     child then blends with an empty group instead of with the map, and
+     `soft-light` degenerates into painting grey over everything at that
+     opacity. Both were on the wrapping group first and the sea came out
+     51 points darker across the whole Pacific, which is what
+     `tools/test/relief.js` measures.
+
+     **It fades as the reader zooms in**, because it is a coarse sheet: 30
+     pixels to the degree against the map's own 20 units, so it is sharp at the
+     opening view, level with the screen about 1.5x in, and a mosaic well
+     before the 40x the map allows. `reliefFade` is the ramp and `rescale`
+     calls it, which is the one place in this file that knows about zoom. */
+  var reliefGroup = null, reliefImg = null, reliefFor = '';
+  var RELIEF_FULL = 3.0;      // sharp out to here, in multiples of the whole map
+  var RELIEF_GONE = 6.0;      // and no longer drawn past here
+  var RELIEF_MAX = 0.55;      // how strong it ever gets
+
+  /* How many times the reader has zoomed in past the whole frame. Not `k`:
+     `k` is units per screen pixel and depends on the window, and the relief's
+     own sharpness is a fact about the drawing, not about the container. */
+  function reliefZoom() {
+    return mapW0 && view.w ? mapW0 / view.w : 1;
+  }
+
+  function reliefFade() {
+    if (!reliefGroup) return;
+    var z = reliefZoom();
+    var a = z <= RELIEF_FULL ? 1
+          : z >= RELIEF_GONE ? 0
+          : (RELIEF_GONE - z) / (RELIEF_GONE - RELIEF_FULL);
+    if (reliefImg) reliefImg.style.opacity = String(RELIEF_MAX * a);
+    // and taken out of the drawing altogether once it contributes nothing, so
+    // a deep zoom is not compositing a 4200-pixel image every frame for nothing
+    reliefGroup.style.display = (state.relief && a > 0.01) ? '' : 'none';
+  }
+
+  function drawRelief() {
+    if (!svg) return;
+    var man = JMAP.RELIEF && JMAP.RELIEF[state.projection];
+    if (!state.relief || !man) {
+      if (reliefGroup) reliefGroup.style.display = 'none';
+      return;
+    }
+    if (!reliefGroup) {
+      reliefGroup = svgEl('g', { id: 'relief' });
+      reliefImg = svgEl('image', { preserveAspectRatio: 'none' });
+      reliefImg.style.mixBlendMode = 'soft-light';
+      reliefGroup.appendChild(reliefImg);
+      svg.appendChild(reliefGroup);
+    }
+    // above the land, below the markers and the labels — the graticule's rule
+    var before = svg.querySelector('#graticule') || svg.querySelector('#markers')
+      || highlightLayer || labelLayer;
+    if (before && before.parentNode === svg && reliefGroup.nextSibling !== before) {
+      svg.insertBefore(reliefGroup, before);
+    }
+    if (reliefFor !== state.projection) {
+      reliefFor = state.projection;
+      reliefImg.setAttribute('x', man.x);
+      reliefImg.setAttribute('y', man.y);
+      reliefImg.setAttribute('width', man.w);
+      reliefImg.setAttribute('height', man.h);
+      // fetched the first time it is wanted, and once per projection after
+      reliefImg.setAttributeNS('http://www.w3.org/1999/xlink', 'href',
+        asset(man.src));
+      reliefImg.setAttribute('href', asset(man.src));
+    }
+    reliefFade();
+  }
 
   /* Where the graticule sits in the stack. Over the land: a reader who turns
      it on has asked to see where the parallels run, and a mesh hidden behind
@@ -2109,7 +2204,7 @@
    *   13  the filler under each country
    *   14  the rivers of India
    *   15,16  projection: 0 Web Mercator, 1 Albers conic, 2 Lambert azimuthal
-   *   17  the graticule
+   *   17  the graticule    18  shaded relief
    *
    * Bits 7 and 10 no longer have a switch in the Layers panel — the province
    * source came out once the period sheet was redrawn, and the hairline came
@@ -2160,6 +2255,7 @@
     if (state.indiaRivers) bits |= 16384;
     bits |= ({ albers: 1, laea: 2 }[state.projection] || 0) << 15;
     if (state.graticule) bits |= 131072;
+    if (state.relief) bits |= 262144;
     return bits.toString(36);
   }
 
@@ -2191,6 +2287,7 @@
     state.indiaRivers = !!(bits & 16384);
     state.projection = ['mercator', 'albers', 'laea'][(bits >> 15) & 3] || 'mercator';
     state.graticule = !!(bits & 131072);
+    state.relief = !!(bits & 262144);
     urlProvSource = (bits & 128) ? 'roc' : 'enp';
   }
 
@@ -2480,6 +2577,8 @@
       rst.setAttribute('aria-disabled', atHome ? 'true' : 'false');
     }
     if (state.graticule) drawGraticule();
+    // the picture is `applyState`'s business; this is only the zoom ramp
+    reliefFade();
     if (force || Math.abs(view.w - lastScaleW) > 0.01) {
       lastScaleW = view.w;
       rafZoomed = true;
@@ -2630,6 +2729,7 @@
        user units, so left alone it grows with the zoom until the shape it
        softens is a cloud across the map. */
     if (annApi && annApi.rescaled) annApi.rescaled(k);
+    reliefFade();
     // the way-back button appears once the reader has moved off the frame the
     // annotations were meant to be seen from
     if (annApi && annApi.viewMoved) annApi.viewMoved();
@@ -5126,6 +5226,7 @@
       replaceInProjection();
     }
     drawGraticule();
+    drawRelief();
     if (svg) svg.classList.toggle('hairline', !!state.hairline);
     // A layer going on or off changes what `litFor` hands back for the same
     // id, so every outline standing on screen is out of date whatever its
@@ -6670,6 +6771,16 @@
     // Removed from the Layers panel. The state and bit 10 of the layer code
     // still work, so an old address still means what it meant; this is null
     // now and the block below is skipped.
+    var optRelief = $('#opt-relief');
+    if (optRelief) {
+      optRelief.checked = state.relief;
+      optRelief.addEventListener('change', function () {
+        state.relief = optRelief.checked;
+        applyState();
+        saveState();
+      });
+    }
+
     var optGrat = $('#opt-graticule');
     if (optGrat) {
       optGrat.checked = state.graticule;
