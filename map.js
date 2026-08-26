@@ -13,8 +13,8 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '1.60';
-  var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "5b9b5f0dcf", "japan-empire-map-admin.svg": "eda0acd4cd", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "ba24f18b40"};
+  var JEM_VERSION = '1.61';
+  var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "264dc64507", "japan-empire-map-admin.svg": "eda0acd4cd", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "ba24f18b40"};
 
   /* Every file this one fetches, with the version on it.
 
@@ -2630,6 +2630,9 @@
        user units, so left alone it grows with the zoom until the shape it
        softens is a cloud across the map. */
     if (annApi && annApi.rescaled) annApi.rescaled(k);
+    // the way-back button appears once the reader has moved off the frame the
+    // annotations were meant to be seen from
+    if (annApi && annApi.viewMoved) annApi.viewMoved();
     // Keep the shading stripes a constant width on screen rather than letting
     // them grow into stripes the width of a province as you zoom in. Only the
     // plain dark hatch was being rescaled; the four coloured ones were not, so
@@ -4209,10 +4212,14 @@
   function setHotProv(el) {
     if (hotProvEl === el) return;
     hotProv.forEach(function (n) { n.classList.remove('prov-hot'); });
+    if (hotParent) hotParent.forEach(function (n) { n.classList.remove('parent-hot'); });
     hotProvEl = el;
     hotProv = provPeers(el);
     hotParent = parentPeers(el);
     hotProv.forEach(function (n) { n.classList.add('prov-hot'); });
+    // the prefecture lifts very slightly too, so the reader can see how far it
+    // reaches without reading the outline
+    if (hotParent) hotParent.forEach(function (n) { n.classList.add('parent-hot'); });
     redrawHighlight();
   }
 
@@ -4790,11 +4797,18 @@
     else if (!bothSame && hot && atomsOf[hot] && seen(hot)) {
       tEls = litFor(hot, hotCluster);
     }
+    /* With a prefecture on screen the two outlines have to be told apart at a
+       glance, and two lines of nearly the same weight are not. The prefecture
+       takes the strong one; the district's is dropped to almost nothing,
+       because its own colour shift already says which district it is and a
+       second line of the same weight only competed with the first. */
+    var deep = !!(hotParent && hotParent.length);
     fillSlot('territory',
       slotKey('t', hotParent ? 'parent' : hot, hotCluster || hotParent, tEls),
-      tEls, 'hi-territory');
+      tEls, 'hi-territory' + (deep ? ' hi-parent' : ''));
     fillSlot('province', slotKey('p', hotProvEl && hotProvEl.getAttribute('data-prov'),
-                                 null, hotProv), hotProv, 'hi-province');
+                                 (deep ? ['deep'] : null), hotProv),
+             hotProv, 'hi-province' + (deep ? ' hi-inner' : ''));
     if (selected && atomsOf[selected] && seen(selected)) {
       // `litFor` and not `atomsOf`, so that selecting draws round the same
       // ground hovering lights. They disagreed: hovering China on the 1930
@@ -6760,6 +6774,15 @@
         scalables = scalables.filter(function (s) { return !s.ann; });
       },
       rescale: function () { if (lastScaleW > 0) rescale(); },
+      /* Where the map is looking, as west/south/east/north. The annotations
+         use it to remember the frame a set is meant to be seen from — the
+         same four numbers the address bar carries. */
+      viewBox: function () {
+        var a = unproject(view.x, view.y + view.h);
+        var b = unproject(view.x + view.w, view.y);
+        if (!isFinite(a.lon) || !isFinite(b.lat)) return null;
+        return [a.lon, a.lat, b.lon, b.lat];
+      },
       zoomToBox: function (w, s2, e, n) {
         var v = viewForBox(w, s2, e, n);
         if (!v) return false;

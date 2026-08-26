@@ -7978,6 +7978,101 @@ tooltip still names the district and says its prefecture, and the names layer
 writes prefectures and no districts. 330 annotation checks and 148 map checks
 pass.
 
+## A polygon that tore itself apart, a text box that knows when it is too small, and a view a set can remember
+
+Nine things. The bug first, because it was the one doing damage.
+
+### Dragging a polygon stretched one corner away
+
+Reported with a screenshot: an area dragged by its middle came out pulled into
+a spike. The cause is one character. `finish()` closed a ring with
+`pts.concat([pts[0]])` — the closing coordinate was **the same array object**
+as the opening one, so `shiftGeom`, which walks every coordinate, moved that
+one twice. Every drag pulled the first corner away at double speed.
+
+Fixed twice over. The ring closes on a copy now, and `shiftGeom` keeps a
+WeakSet of the coordinate objects it has already moved — because closing a ring
+on its own opening array is legal GeoJSON, so a file from anywhere may arrive
+that way and would otherwise tear itself apart the first time it was dragged.
+Measured after: all five coordinates shift by exactly 7.2414, −3.7672.
+
+### Two highlights that could actually be told apart
+
+The prefecture and the district were both drawn at 3.3 weight, which reads as
+one confused edge rather than two levels. The prefecture takes the emphatic
+line now — 4.2, and darker — and the district drops to a hairline at 1 and
+30% opacity, because `prov-hot` already lifts its fill and that is what says
+which district the pointer is on. The prefecture lifts very slightly too, 1.03
+against the district's 1.09, so its reach is visible without reading the line
+at all.
+
+And every district's first sentence now carries the kanji: *In Tainan-shū
+(臺南州)*, because the prefecture is named nowhere else on the card.
+
+### The text box, and what it becomes
+
+**Scales is on by default**, because a note usually belongs to the ground it is
+about.
+
+Turning it on used to make the box explode with a border to match: it was
+redrawn from a rectangle in degrees fixed when the box was made, so a reader
+who had zoomed in since watched it leap to several times its size. The ground
+rectangle is re-derived from where the box is *at that instant* now, so the
+switch changes what happens next and not what is on the screen. Measured: the
+box is 180×84 before, during and after switching it both ways.
+
+Scaled, it has three forms, and the reader crosses between them by zooming:
+
+| on screen | what is drawn |
+|---|---|
+| box wide enough to read | the box, heading and words |
+| words under about 6.5 px | the box, empty — a coloured rectangle over its ground |
+| box under 22 px | a small square that behaves like a city: still there, still clickable |
+
+Measured, drawing a box zoomed in and pulling back: `180×92 words → 119×61
+words → 78×40 → 52×27 → 34×18 → dot 8px`, and back to a box on the way in.
+
+That needed one thing that was not obvious: **zooming does not redraw**, it
+rescales, so a box drawn at one zoom kept its form for ever and a note the size
+of a full stop still tried to render two paragraphs inside itself. `rescaled()`
+now works out which of the three forms each scaling box should be in and
+redraws only when one of them actually changes — a redraw on every wheel click
+is the cost this whole mechanism exists to avoid.
+
+The border needed the same care in the other direction: inside a
+`foreignObject` a length is a *user* unit, so `1px` of border is one map unit
+and grows into a slab as the box scales up. It is set in the units the box is
+drawn in.
+
+### The rest
+
+* **Smooth has eight steps**, four of them new and rounder. Above a
+  Catmull-Rom tension of 0.5 a spline stops merely rounding a corner and starts
+  bulging past it — wanted for a coast sketched from memory, and firmly the far
+  end of the dial.
+* **A tool left out** is marked with a thick coloured line under it rather than
+  an inset shadow that read as a bevel.
+* **Set default view**, at the top of the panel, writes the current frame onto
+  the set — into the file and into the link. Anyone opening it starts there,
+  and once they wander more than a tenth of the frame away a button appears
+  under the map's own reset control to bring them back. It is hidden when there
+  is nowhere to go or nowhere to go back *from*, because a button that does
+  nothing is furniture and this one sits next to a button that resets somewhere
+  else.
+* **The help page** gained the text box, the eight smoothing steps, Enter and
+  Escape and Backspace, what Undo covers, the two-press sticky tool, the
+  locked/unlocked distinction at the top where it belongs, Set default view,
+  and a warning that this is a drawing tool and not a GIS — a QGIS export with
+  tens of thousands of points in one shape will make the whole map slow to
+  draw, to pan and to answer. A missing word was fixed in the islands bullet.
+
+### Measured
+
+`run14.js` grew to 27 checks, including the three forms and the "switching does
+not move the box" case. 335 annotation checks across 14 scripts and 148 map
+checks pass. `run2` failed once under parallel load and passed three times
+alone — a flake, not a regression, and recorded as such rather than chased.
+
 ---
 
 ## Sources worth fetching

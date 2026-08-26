@@ -562,6 +562,30 @@ button.plain:hover { background: var(--hover-fill); }
   stroke-width: 3.3;
 }
 
+/* Two levels at once — Taiwan's districts inside their prefectures.
+ *
+ * A 郡 inside a 州 needs both drawn, and two lines of the same weight read as
+ * one confused edge. The prefecture gets the emphatic line; the district's
+ * drops to a hairline, because `prov-hot` already lifts its fill and that is
+ * what says which district the pointer is on. Everywhere else on the map the
+ * ordinary weights above still apply. */
+#highlight .hi-parent path,
+#highlight .hi-parent circle {
+  stroke: rgba(40, 33, 24, .92);
+  stroke-width: 4.2;
+}
+#highlight .hi-inner path,
+#highlight .hi-inner circle {
+  stroke: rgba(30, 24, 16, .3);
+  stroke-width: 1;
+}
+
+/* and the prefecture lifts a little, so its reach is visible without reading
+   the line. Well under the district's own lift, which has to stay the louder
+   of the two: 1.03 against 1.06. */
+.atom .parent-hot { filter: brightness(1.03); }
+.atom .parent-hot.prov-hot { filter: brightness(1.09); }
+
 #highlight .hi-selected path,
 #highlight .hi-selected circle {
   stroke: #14110c;

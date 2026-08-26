@@ -6670,255 +6670,255 @@ JMAP.PROVINCES = {
   TwTaihoku: {
     en: 'Taihoku-shi (Taipei)', ja: '臺北市 (Taihoku-shi)', zh: '臺北市',
     wiki: 'https://en.wikipedia.org/wiki/Taihoku_Prefecture',
-    short: 'In Taihoku-shū. The colony\'s capital, and the seat of the Governor-General',
+    short: 'In Taihoku-shū (臺北州). The colony\'s capital, and the seat of the Governor-General',
     note: 'Taihoku, the capital, laid out inside and then over the walls of the Ch\'ing prefectural city. The Government-General\'s new headquarters, finished in 1919, is the tallest building in the empire outside Japan, and the city around it is the one place in the colony built to be looked at: the museum, the hospital, the imperial university of 1928, and a grid of Japanese quarters west of the old Chinese streets of Daitōtei, which went on doing the tea trade regardless.'
   },
   TwShichisei: {
     en: 'Shichisei-gun', ja: '七星郡 (Shichisei-gun)', zh: '七星郡',
     wiki: 'https://en.wikipedia.org/wiki/Taihoku_Prefecture',
-    short: 'In Taihoku-shū. The volcanic hills north of the capital, the hot springs at Hokutō and the tea slopes above them'
+    short: 'In Taihoku-shū (臺北州). The volcanic hills north of the capital, the hot springs at Hokutō and the tea slopes above them'
   },
   TwBunzan: {
     en: 'Bunzan-gun', ja: '文山郡 (Bunzan-gun)', zh: '文山郡',
     wiki: 'https://en.wikipedia.org/wiki/Taihoku_Prefecture',
-    short: 'In Taihoku-shū. Tea country in the hills south of the capital, and the gorge the city drinks from'
+    short: 'In Taihoku-shū (臺北州). Tea country in the hills south of the capital, and the gorge the city drinks from'
   },
   TwKaizan: {
     en: 'Kaizan-gun', ja: '海山郡 (Kaizan-gun)', zh: '海山郡',
     wiki: 'https://en.wikipedia.org/wiki/Taihoku_Prefecture',
-    short: 'In Taihoku-shū. Coal measures and brick kilns along the southern branch of the Tamsui'
+    short: 'In Taihoku-shū (臺北州). Coal measures and brick kilns along the southern branch of the Tamsui'
   },
   TwKirun: {
     en: 'Kīrun-gun (Keelung)', ja: '基隆郡 (Kīrun-gun)', zh: '基隆郡',
     wiki: 'https://en.wikipedia.org/wiki/Taihoku_Prefecture',
-    short: 'In Taihoku-shū. The coalfield and fishing coast behind the northern port; the port itself was a city apart and is not on this sheet',
+    short: 'In Taihoku-shū (臺北州). The coalfield and fishing coast behind the northern port; the port itself was a city apart and is not on this sheet',
     note: 'The north\'s port, and the reason the island could be held: coal from the Zuihō seams behind it, a harbour dredged and re-dredged through the 1920s, and the ferry to Moji that every official, soldier and settler arrived on. It rains here about two hundred days a year. The city itself was Kīrun-shi, a municipality separate from this district since 1924, and the sheet leaves its ground blank.'
   },
   TwTansui: {
     en: 'Tansui-gun (Tamsui)', ja: '淡水郡 (Tansui-gun)', zh: '淡水郡',
     wiki: 'https://en.wikipedia.org/wiki/Taihoku_Prefecture',
-    short: 'In Taihoku-shū. The old treaty port at the Tamsui mouth, silted up and long past its trade'
+    short: 'In Taihoku-shū (臺北州). The old treaty port at the Tamsui mouth, silted up and long past its trade'
   },
   TwShinsho: {
     en: 'Shinshō-gun (Xinzhuang)', ja: '新莊郡 (Shinshō-gun)', zh: '新莊郡',
     wiki: 'https://en.wikipedia.org/wiki/Taihoku_Prefecture',
-    short: 'In Taihoku-shū. Rice land on the plain upstream of the capital'
+    short: 'In Taihoku-shū (臺北州). Rice land on the plain upstream of the capital'
   },
   TwGiran: {
     en: 'Giran-gun (Yilan)', ja: '宜蘭郡 (Giran-gun)', zh: '宜蘭郡',
     wiki: 'https://en.wikipedia.org/wiki/Taihoku_Prefecture',
-    short: 'In Taihoku-shū. The Giran plain on the east coast, cut off from the rest of the prefecture by the mountains'
+    short: 'In Taihoku-shū (臺北州). The Giran plain on the east coast, cut off from the rest of the prefecture by the mountains'
   },
   TwRato: {
     en: 'Ratō-gun (Luodong)', ja: '羅東郡 (Ratō-gun)', zh: '羅東郡',
     wiki: 'https://en.wikipedia.org/wiki/Taihoku_Prefecture',
-    short: 'In Taihoku-shū. The southern half of the Giran plain, and the camphor forest behind it'
+    short: 'In Taihoku-shū (臺北州). The southern half of the Giran plain, and the camphor forest behind it'
   },
   TwSuo: {
     en: 'Suō-gun (Su-ao)', ja: '蘇澳郡 (Suō-gun)', zh: '蘇澳郡',
     wiki: 'https://en.wikipedia.org/wiki/Taihoku_Prefecture',
-    short: 'In Taihoku-shū. The harbour at the north end of the east-coast cliff road, and the marble the road was cut through'
+    short: 'In Taihoku-shū (臺北州). The harbour at the north end of the east-coast cliff road, and the marble the road was cut through'
   },
   TwShinchiku: {
     en: 'Shinchiku-gun (Hsinchu)', ja: '新竹郡 (Shinchiku-gun)', zh: '新竹郡',
     wiki: 'https://en.wikipedia.org/wiki/Shinchiku_Prefecture',
-    short: 'In Shinchiku-shū. The prefectural seat on the windy northern plain, and its rice and glass'
+    short: 'In Shinchiku-shū (新竹州). The prefectural seat on the windy northern plain, and its rice and glass'
   },
   TwChikuto: {
     en: 'Chikutō-gun (Zhudong)', ja: '竹東郡 (Chikutō-gun)', zh: '竹東郡',
     wiki: 'https://en.wikipedia.org/wiki/Shinchiku_Prefecture',
-    short: 'In Shinchiku-shū. The foothills east of Shinchiku — camphor, coal, and the edge of the aboriginal territory'
+    short: 'In Shinchiku-shū (新竹州). The foothills east of Shinchiku — camphor, coal, and the edge of the aboriginal territory'
   },
   TwChikunan: {
     en: 'Chikunan-gun (Zhunan)', ja: '竹南郡 (Chikunan-gun)', zh: '竹南郡',
     wiki: 'https://en.wikipedia.org/wiki/Shinchiku_Prefecture',
-    short: 'In Shinchiku-shū. The coast south of Shinchiku, and the gas wells at Shutsuryōkō'
+    short: 'In Shinchiku-shū (新竹州). The coast south of Shinchiku, and the gas wells at Shutsuryōkō'
   },
   TwByoritsu: {
     en: 'Byōritsu-gun (Miaoli)', ja: '苗栗郡 (Byōritsu-gun)', zh: '苗栗郡',
     wiki: 'https://en.wikipedia.org/wiki/Shinchiku_Prefecture',
-    short: 'In Shinchiku-shū. Hakka farming country in the hills, and the colony\'s oilfield'
+    short: 'In Shinchiku-shū (新竹州). Hakka farming country in the hills, and the colony\'s oilfield'
   },
   TwTaiko: {
     en: 'Taiko-gun (Dahu)', ja: '大湖郡 (Taiko-gun)', zh: '大湖郡',
     wiki: 'https://en.wikipedia.org/wiki/Shinchiku_Prefecture',
-    short: 'In Shinchiku-shū. A basin deep in the mountains, opened late and held against the Atayal'
+    short: 'In Shinchiku-shū (新竹州). A basin deep in the mountains, opened late and held against the Atayal'
   },
   TwToen: {
     en: 'Tōen-gun (Taoyuan)', ja: '桃園郡 (Tōen-gun)', zh: '桃園郡',
     wiki: 'https://en.wikipedia.org/wiki/Shinchiku_Prefecture',
-    short: 'In Shinchiku-shū. The pond country of the northern terrace — thousands of irrigation tanks on ground no river reaches'
+    short: 'In Shinchiku-shū (新竹州). The pond country of the northern terrace — thousands of irrigation tanks on ground no river reaches'
   },
   TwChureki: {
     en: 'Chūreki-gun (Zhongli)', ja: '中壢郡 (Chūreki-gun)', zh: '中壢郡',
     wiki: 'https://en.wikipedia.org/wiki/Shinchiku_Prefecture',
-    short: 'In Shinchiku-shū. Hakka rice and tea on the Tōen terrace'
+    short: 'In Shinchiku-shū (新竹州). Hakka rice and tea on the Tōen terrace'
   },
   TwDaikei: {
     en: 'Daikei-gun (Daxi)', ja: '大溪郡 (Daikei-gun)', zh: '大溪郡',
     wiki: 'https://en.wikipedia.org/wiki/Shinchiku_Prefecture',
-    short: 'In Shinchiku-shū. The Daikei river gorge and the camphor forests above it'
+    short: 'In Shinchiku-shū (新竹州). The Daikei river gorge and the camphor forests above it'
   },
   TwTaichu: {
     en: 'Taichū-shi (Taichung)', ja: '臺中市 (Taichū-shi)', zh: '臺中市',
     wiki: 'https://en.wikipedia.org/wiki/Taich%C5%AB_Prefecture',
-    short: 'In Taichū-shū. The colony\'s third city, laid out new on a grid with the first modern drainage in Taiwan',
+    short: 'In Taichū-shū (臺中州). The colony\'s third city, laid out new on a grid with the first modern drainage in Taiwan',
     note: 'Taichū was built rather than inherited: a new grid on the Taichū basin, laid out by the Japanese from 1900 with the first proper drainage in Taiwan after an earlier plan for a provincial capital there had been abandoned by the Ch\'ing. It is the market town for the whole middle of the island, and the head of the line up into the mountains.'
   },
   TwDaiton: {
     en: 'Daiton-gun', ja: '大屯郡 (Daiton-gun)', zh: '大屯郡',
     wiki: 'https://en.wikipedia.org/wiki/Taich%C5%AB_Prefecture',
-    short: 'In Taichū-shū. The basin ringed round Taichū, with the city itself a hole in the middle of it'
+    short: 'In Taichū-shū (臺中州). The basin ringed round Taichū, with the city itself a hole in the middle of it'
   },
   TwTaikou: {
     en: 'Taikō-gun (Dajia)', ja: '大甲郡 (Taikō-gun)', zh: '大甲郡',
     wiki: 'https://en.wikipedia.org/wiki/Taich%C5%AB_Prefecture',
-    short: 'In Taichū-shū. The coast at the Taikō river mouth, and the rush mats and straw hats it exported'
+    short: 'In Taichū-shū (臺中州). The coast at the Taikō river mouth, and the rush mats and straw hats it exported'
   },
   TwToyohara: {
     en: 'Toyohara-gun (Fengyuan)', ja: '豐原郡 (Toyohara-gun)', zh: '豐原郡',
     wiki: 'https://en.wikipedia.org/wiki/Taich%C5%AB_Prefecture',
-    short: 'In Taichū-shū. The Toyohara plain — sugar, rice, and the junction of the mountain railway'
+    short: 'In Taichū-shū (臺中州). The Toyohara plain — sugar, rice, and the junction of the mountain railway'
   },
   TwTosei: {
     en: 'Tōsei-gun (Dongshi)', ja: '東勢郡 (Tōsei-gun)', zh: '東勢郡',
     wiki: 'https://en.wikipedia.org/wiki/Taich%C5%AB_Prefecture',
-    short: 'In Taichū-shū. The upper Taikō, timber and camphor at the mouth of the central range'
+    short: 'In Taichū-shū (臺中州). The upper Taikō, timber and camphor at the mouth of the central range'
   },
   TwShoka: {
     en: 'Shōka-gun (Changhua)', ja: '彰化郡 (Shōka-gun)', zh: '彰化郡',
     wiki: 'https://en.wikipedia.org/wiki/Taich%C5%AB_Prefecture',
-    short: 'In Taichū-shū. The rice plain behind the Shōka coast, and the great irrigation canal that made it'
+    short: 'In Taichū-shū (臺中州). The rice plain behind the Shōka coast, and the great irrigation canal that made it'
   },
   TwInrin: {
     en: 'Inrin-gun (Yuanlin)', ja: '員林郡 (Inrin-gun)', zh: '員林郡',
     wiki: 'https://en.wikipedia.org/wiki/Taich%C5%AB_Prefecture',
-    short: 'In Taichū-shū. Sugar and fruit on the southern half of the Shōka plain'
+    short: 'In Taichū-shū (臺中州). Sugar and fruit on the southern half of the Shōka plain'
   },
   TwHokuto: {
     en: 'Hokuto-gun (Beidou)', ja: '北斗郡 (Hokuto-gun)', zh: '北斗郡',
     wiki: 'https://en.wikipedia.org/wiki/Taich%C5%AB_Prefecture',
-    short: 'In Taichū-shū. The Dakusui river\'s delta — sugar cane, and flood'
+    short: 'In Taichū-shū (臺中州). The Dakusui river\'s delta — sugar cane, and flood'
   },
   TwNanto: {
     en: 'Nantō-gun (Nantou)', ja: '南投郡 (Nantō-gun)', zh: '南投郡',
     wiki: 'https://en.wikipedia.org/wiki/Taich%C5%AB_Prefecture',
-    short: 'In Taichū-shū. The hill basins of the interior, betel and bananas, and the road up to Sun-Moon Lake'
+    short: 'In Taichū-shū (臺中州). The hill basins of the interior, betel and bananas, and the road up to Sun-Moon Lake'
   },
   TwNiitaka: {
     en: 'Niitaka-gun', ja: '新高郡 (Niitaka-gun)', zh: '新高郡',
     wiki: 'https://en.wikipedia.org/wiki/Taich%C5%AB_Prefecture',
-    short: 'In Taichū-shū. Named for Niitaka-yama, Mount Morrison — renamed in 1897 for standing higher than Fuji — and mostly the mountain itself',
+    short: 'In Taichū-shū (臺中州). Named for Niitaka-yama, Mount Morrison — renamed in 1897 for standing higher than Fuji — and mostly the mountain itself',
     note: 'Almost entirely mountain. Niitaka-yama is Mount Morrison, 3,952 metres, renamed in 1897 for being higher than Fuji and so the tallest mountain in the empire — the name the Combined Fleet used in December 1941 for the signal to attack.'
   },
   TwNoko: {
     en: 'Nōkō-gun (Puli)', ja: '能高郡 (Nōkō-gun)', zh: '能高郡',
     wiki: 'https://en.wikipedia.org/wiki/Taich%C5%AB_Prefecture',
-    short: 'In Taichū-shū. The Puri basin at the island\'s centre, and the hydro-electric works at Sun-Moon Lake',
+    short: 'In Taichū-shū (臺中州). The Puri basin at the island\'s centre, and the hydro-electric works at Sun-Moon Lake',
     note: 'The Puri basin, almost exactly the centre of the island, and Sun-Moon Lake above it — dammed through the 1920s and 30s for the hydro-electric scheme that powered the colony\'s industry. This was also the district of Musha, where in 1930 the Seediq rose and killed 134 Japanese at a school sports day, and where the reprisal that followed — poison gas among it — destroyed the villages that took part.'
   },
   TwTakeyama: {
     en: 'Takeyama-gun (Zhushan)', ja: '竹山郡 (Takeyama-gun)', zh: '竹山郡',
     wiki: 'https://en.wikipedia.org/wiki/Taich%C5%AB_Prefecture',
-    short: 'In Taichū-shū. Bamboo country in the foothills below the Rokudō gorge'
+    short: 'In Taichū-shū (臺中州). Bamboo country in the foothills below the Rokudō gorge'
   },
   TwTainan: {
     en: 'Tainan-shi (Tainan)', ja: '臺南市 (Tainan-shi)', zh: '臺南市',
     wiki: 'https://en.wikipedia.org/wiki/Tainan_Prefecture',
-    short: 'In Tainan-shū. The oldest city in Taiwan, and the Ch\'ing capital of the island until 1885',
+    short: 'In Tainan-shū (臺南州). The oldest city in Taiwan, and the Ch\'ing capital of the island until 1885',
     note: 'The oldest city in Taiwan and its capital until 1885 — Dutch fort, Ch\'ing prefecture, and the temples of both still standing. By 1926 the harbour it grew on had silted into fish ponds and the trade had gone to Takao, and Tainan was what it has stayed since: the place the island keeps its past in.'
   },
   TwNiitoyo: {
     en: 'Niitoyo-gun', ja: '新豐郡 (Niitoyo-gun)', zh: '新豐郡',
     wiki: 'https://en.wikipedia.org/wiki/Tainan_Prefecture',
-    short: 'In Tainan-shū. The salt pans and fish ponds along the coast south of Tainan'
+    short: 'In Tainan-shū (臺南州). The salt pans and fish ponds along the coast south of Tainan'
   },
   TwShinka: {
     en: 'Shinka-gun (Xinhua)', ja: '新化郡 (Shinka-gun)', zh: '新化郡',
     wiki: 'https://en.wikipedia.org/wiki/Tainan_Prefecture',
-    short: 'In Tainan-shū. The hills east of Tainan, and the badlands above them'
+    short: 'In Tainan-shū (臺南州). The hills east of Tainan, and the badlands above them'
   },
   TwSobun: {
     en: 'Sobun-gun (Zengwen)', ja: '曾文郡 (Sobun-gun)', zh: '曾文郡',
     wiki: 'https://en.wikipedia.org/wiki/Tainan_Prefecture',
-    short: 'In Tainan-shū. The Sobun river basin, and the reservoir that watered the Kanan plain'
+    short: 'In Tainan-shū (臺南州). The Sobun river basin, and the reservoir that watered the Kanan plain'
   },
   TwHokumon: {
     en: 'Hokumon-gun (Beimen)', ja: '北門郡 (Hokumon-gun)', zh: '北門郡',
     wiki: 'https://en.wikipedia.org/wiki/Tainan_Prefecture',
-    short: 'In Tainan-shū. The salt fields of the west coast, worked since the seventeenth century'
+    short: 'In Tainan-shū (臺南州). The salt fields of the west coast, worked since the seventeenth century'
   },
   TwShinei: {
     en: 'Shin\'ei-gun (Xinying)', ja: '新營郡 (Shin\'ei-gun)', zh: '新營郡',
     wiki: 'https://en.wikipedia.org/wiki/Tainan_Prefecture',
-    short: 'In Tainan-shū. Sugar country on the Kanan plain, below the great Ushantou dam'
+    short: 'In Tainan-shū (臺南州). Sugar country on the Kanan plain, below the great Ushantou dam'
   },
   TwKagi: {
     en: 'Kagi-gun (Chiayi)', ja: '嘉義郡 (Kagi-gun)', zh: '嘉義郡',
     wiki: 'https://en.wikipedia.org/wiki/Tainan_Prefecture',
-    short: 'In Tainan-shū. The plain below Mount Ari, and the forest railway that brought its cypress down',
+    short: 'In Tainan-shū (臺南州). The plain below Mount Ari, and the forest railway that brought its cypress down',
     note: 'The plain below Mount Ari, and the reason anyone in Japan had heard of it: the forest railway that climbs 2,200 metres out of Kagi into the cypress and hinoki of Arisan, built from 1906 to bring the timber down. The trees went to shrines and temples across the empire, including Meiji Jingū.'
   },
   TwToseki: {
     en: 'Tōseki-gun (Dongshi)', ja: '東石郡 (Tōseki-gun)', zh: '東石郡',
     wiki: 'https://en.wikipedia.org/wiki/Tainan_Prefecture',
-    short: 'In Tainan-shū. The lagoon coast and oyster beds at the Hokukō river mouth'
+    short: 'In Tainan-shū (臺南州). The lagoon coast and oyster beds at the Hokukō river mouth'
   },
   TwHokuko: {
     en: 'Hokukō-gun (Beigang)', ja: '北港郡 (Hokukō-gun)', zh: '北港郡',
     wiki: 'https://en.wikipedia.org/wiki/Tainan_Prefecture',
-    short: 'In Tainan-shū. The old junk port on the Hokukō river, and the Matsu temple that outlived its trade'
+    short: 'In Tainan-shū (臺南州). The old junk port on the Hokukō river, and the Matsu temple that outlived its trade'
   },
   TwKobi: {
     en: 'Kobi-gun (Huwei)', ja: '虎尾郡 (Kobi-gun)', zh: '虎尾郡',
     wiki: 'https://en.wikipedia.org/wiki/Tainan_Prefecture',
-    short: 'In Tainan-shū. The largest sugar refinery in the colony, and the cane fields round it'
+    short: 'In Tainan-shū (臺南州). The largest sugar refinery in the colony, and the cane fields round it'
   },
   TwToroku: {
     en: 'Toroku-gun (Douliu)', ja: '斗六郡 (Toroku-gun)', zh: '斗六郡',
     wiki: 'https://en.wikipedia.org/wiki/Tainan_Prefecture',
-    short: 'In Tainan-shū. Rice and sugar on the Toroku plain, at the foot of the central range'
+    short: 'In Tainan-shū (臺南州). Rice and sugar on the Toroku plain, at the foot of the central range'
   },
   TwOkayama: {
     en: 'Okayama-gun (Gangshan)', ja: '岡山郡 (Okayama-gun)', zh: '岡山郡',
     wiki: 'https://en.wikipedia.org/wiki/Takao_Prefecture',
-    short: 'In Takao-shū. Drawn short of its own coast: the sheet leaves the ground round Okayama town unattributed'
+    short: 'In Takao-shū (高雄州). Drawn short of its own coast: the sheet leaves the ground round Okayama town unattributed'
   },
   TwHozan: {
     en: 'Hōzan-gun (Fengshan)', ja: '鳳山郡 (Hōzan-gun)', zh: '鳳山郡',
     wiki: 'https://en.wikipedia.org/wiki/Takao_Prefecture',
-    short: 'In Takao-shū. Drawn as a fragment: the sheet leaves the ground round Hōzan town — and Takao city with it — unattributed'
+    short: 'In Takao-shū (高雄州). Drawn as a fragment: the sheet leaves the ground round Hōzan town — and Takao city with it — unattributed'
   },
   TwKizan: {
     en: 'Kizan-gun (Qishan)', ja: '旗山郡 (Kizan-gun)', zh: '旗山郡',
     wiki: 'https://en.wikipedia.org/wiki/Takao_Prefecture',
-    short: 'In Takao-shū. Bananas and sugar in the hill basins of the upper Kaohei'
+    short: 'In Takao-shū (高雄州). Bananas and sugar in the hill basins of the upper Kaohei'
   },
   TwHeito: {
     en: 'Heitō-gun (Pingtung)', ja: '屏東郡 (Heitō-gun)', zh: '屏東郡',
     wiki: 'https://en.wikipedia.org/wiki/Takao_Prefecture',
-    short: 'In Takao-shū. The Heitō plain — sugar, pineapple, and the airfield built on it'
+    short: 'In Takao-shū (高雄州). The Heitō plain — sugar, pineapple, and the airfield built on it'
   },
   TwChoshu: {
     en: 'Chōshū-gun (Chaozhou)', ja: '潮州郡 (Chōshū-gun)', zh: '潮州郡',
     wiki: 'https://en.wikipedia.org/wiki/Takao_Prefecture',
-    short: 'In Takao-shū. The eastern side of the Heitō plain, Hakka villages under the Dawu range'
+    short: 'In Takao-shū (高雄州). The eastern side of the Heitō plain, Hakka villages under the Dawu range'
   },
   TwToko: {
     en: 'Tōkō-gun (Donggang)', ja: '東港郡 (Tōkō-gun)', zh: '東港郡',
     wiki: 'https://en.wikipedia.org/wiki/Takao_Prefecture',
-    short: 'In Takao-shū. The fishing port at the Kaohei mouth, with Ryūkyū island offshore'
+    short: 'In Takao-shū (高雄州). The fishing port at the Kaohei mouth, with Ryūkyū island offshore'
   },
   TwKoshun: {
     en: 'Kōshun-gun (Hengchun)', ja: '恆春郡 (Kōshun-gun)', zh: '恆春郡',
     wiki: 'https://en.wikipedia.org/wiki/Takao_Prefecture',
-    short: 'In Takao-shū. The peninsula at the island\'s southern tip, and the lighthouse at Garanpi',
+    short: 'In Takao-shū (高雄州). The peninsula at the island\'s southern tip, and the lighthouse at Garanpi',
     note: 'The southern tip, hot enough for rubber and coconut trials, and the site of the 1874 expedition: Japan\'s first overseas military action, sent after Ryūkyūan sailors were killed by Paiwan villagers here, and the beginning of the argument that ended with Taiwan being ceded twenty-one years later.'
   },
   TwTaito: {
     en: 'Taitō-shichō', ja: '臺東支廳 (Taitō-shichō)', zh: '臺東支廳',
     wiki: 'https://en.wikipedia.org/wiki/Tait%C5%8D_Prefecture',
-    short: 'In Taitō-chō. The two islands off the east coast — Kōtōsho and Kasho-tō — the only part of the chō this sheet divides',
+    short: 'In Taitō-chō (臺東廳). The two islands off the east coast — Kōtōsho and Kasho-tō — the only part of the chō this sheet divides',
     note: 'The two islands off the east coast — Kōtōsho (Orchid Island), left largely alone as a reservation for the Yami, and Kasho-tō (Green Island). They are the only part of Taitō-chō the sheet divides at all; the mainland of the chō is in the undivided ground described above.'
   },
   TwHoko: {

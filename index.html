@@ -7,7 +7,7 @@
 <meta name="description" content="Interactive map for revising the geography of the Japanese Empire: colonies, occupied territories, neighbouring states, cities and battles, 1853-1945.">
 <title>The Japanese Empire</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23f4f1ea'/%3E%3Ccircle cx='16' cy='16' r='8' fill='%239a1813'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=7a3b7106fc">
+<link rel="stylesheet" href="styles.css?v=ec011cd3d2">
 </head>
 <body>
 
@@ -219,7 +219,7 @@
 
   <p>Built with Anthropic's Claude, with <a href="https://muninn.net/">Konrad M. Lawson</a> at the prompt, primarily as a tool for students in his University of St Andrews honours module, <a href="https://github.com/kmlawson/japanese-empire-mo3335/">MO3335</a>.</p>
 
-  <p>Code for the website may be found <a href="https://github.com/kmlawson/japanese-empire-student-map">here</a>.</p>  <p class="version">Version <span id="jem-version">1.60</span> · last updated 26 August 2026, 09:07</p>
+  <p>Code for the website may be found <a href="https://github.com/kmlawson/japanese-empire-student-map">here</a>.</p>  <p class="version">Version <span id="jem-version">1.61</span> · last updated 26 August 2026, 09:54</p>
 
 <!-- END about -->
 </dialog>
@@ -235,32 +235,38 @@
     <li><strong>Explore</strong> — hover over, or tap, any territory or marker to see what it is, what it was called, when it changed hands, and why it matters. Many entries also provide links to Wikipedia entries when these are available.</li>
     <li><strong> Cities, Events, Administrative boundaries, and other labels</strong> - Buttons at the top of the screen allow you to toggle the visibility of cities, some historical events, administrative boundaries for some of the countries shown and other labels. These may be the same in the 1930 and 1942 maps or may differ somewhat.</li>
     <li><strong>Other Layers</strong> - See the Layers pane for options to add or swap out layers to display.</li>
-    <li><strong>Island Details</strong> - Some islands will get swapped out with a more detailed as you zoom in closer to them. </li>
+    <li><strong>Island Details</strong> - Some islands will get swapped out with a more detailed one as you zoom in closer to them. </li>
     <li><strong>Annotations</strong> - Draw your own marks over the map, name them, describe them and share them. See <strong>Drawing your own annotations</strong> below.</li>
     <li><strong>Links</strong> - If you pan or zoom to a location, and copy the URL, it will keep the bounding box information in the link allowing the person you are sharing the link with to view roughly the same location you are looking at. Useful if you want to share a specific view. Click on the page title in the top left to load the default view.</li>
   </ul>
 
   <h3>Drawing your own annotations</h3>
 
-  <p>Open <strong>Layers</strong> and press <strong>Create annotations</strong>. Nothing is sent anywhere: the file is written by your own browser and read back by it, and a map you load stays on your machine. The tools need a reasonably wide screen and are not offered on a small one.</p>
+  <p>Press <strong>Create</strong> at the top of the screen, or open <strong>Layers</strong> and press <strong>Create annotations</strong>. Nothing is sent anywhere: the file is written by your own browser and read back by it, and a map you load stays on your machine. It works on a phone, but a desktop or a tablet is easier.</p>
+
+  <p><strong>Locked and unlocked.</strong> Marks that arrive with a shared link open <strong>locked</strong>: they can be read by clicking but a stray press cannot move them. A pencil button at the right of the map unlocks the tools. Your own marks open unlocked, and the small padlock at the top of the panel locks them — worth doing before showing a set to a class, so that a misplaced click does not redraw the lesson.</p>
 
   <ul>
-    <li><strong>The four tools</strong> - <strong>Point</strong> places a single mark, <strong>Arrow</strong> takes a start and an end, <strong>Line</strong> takes as many corners as you like, and <strong>Area</strong> closes into a shape. Press a tool once and it draws one thing and then steps back; press it a second time and it stays out until you put it away.</li>
+    <li><strong>The five tools</strong> - <strong>Point</strong> places a single mark, <strong>Arrow</strong> takes a start and an end, <strong>Line</strong> takes as many corners as you like, <strong>Area</strong> closes into a shape, and <strong>Text</strong> drags out a box of writing. Press a tool once and it draws one thing and then steps back; <strong>press it a second time and it stays out</strong> until you put it away — a tool left out is marked with a thick line under it.</li>
+    <li><strong>Finishing and undoing</strong> - For a line or an area, <strong>Enter</strong> finishes the shape and so does the <strong>Finish</strong> button; <strong>Escape</strong> abandons it. <strong>Backspace</strong> takes back the last corner while you are drawing, and removes the selected mark when you are not. <strong>Undo</strong> takes back one step of anything — a shape, a move, a deletion, or a burst of typing — and there is no redo, so it is worth saving before an experiment.</li>
     <li><strong>Naming and describing</strong> - A <strong>Name</strong> is written on the map beside the mark, and can be kept off it for one mark without hiding the rest. A <strong>Short note</strong> is what the pointer shows. A <strong>Description</strong> is the longer account, and it opens in the panel on the right when the mark is clicked.</li>
     <li><strong>Dates</strong> - Optional <strong>Start</strong> and <strong>End</strong>, read leniently: <code>1937</code>, <code>Sept 1931</code> and <code>1941-12-08</code> all work. Once two dates are in play, a small clock appears on the map beside the zoom buttons: <strong>‹</strong> and <strong>›</strong> step through the dates at which something changes, showing only the marks that are in scope at that moment — together with every mark that carries no date at all, so the background of the argument stays put. <strong>▶</strong> runs it, two seconds a stage, and <strong>×</strong> puts everything back. The map does not move while it runs: you set the view, and the shapes appear and disappear over it.</li>
     <li><strong>Style</strong> - Colour, weight, opacity, and for an area a separate fill. A <strong>Point</strong> can be one of twenty-five shapes, including military unit symbols and formation sizes. A <strong>Line</strong> can be dashed six ways and can label its own length, leg by leg or as a total. An <strong>Arrow</strong> can be curved, and can end in a solid head, a barbed one, an open one, a dot, or a bar meaning an advance that was stopped.</li>
-    <li><strong>Text</strong> - Drag out a box for a note. The <strong>Description</strong> fills it and the <strong>Name</strong> becomes a bold heading at the top; with no name the description starts at the top instead. Its three colours — text, box and border — can all be changed, and the size a little. <strong>Scales</strong> decides what happens when you zoom: off, the box keeps its size on screen, like a caption; on, it covers the same ground at every zoom and its text grows with it. Drag the corner to resize it, or the middle to move it.</li>
-    <li><strong>Smooth</strong> - Lines and areas can have their corners rounded off, by four degrees. The points you placed stay on the line; only the pieces between them bend.</li>
+    <li><strong>Text</strong> - Drag out a box for a note. The <strong>Description</strong> fills it and the <strong>Name</strong> becomes a bold heading at the top; with no name there is no heading and the description starts at the top instead. Its three colours — text, box and border — can all be changed, and the size a little. Drag the corner to resize it, or anywhere in the middle to move it.</li>
+    <li><strong>Whether a text box belongs to the ground</strong> - <strong>Scales</strong> decides what happens when you zoom, and it is on to begin with. <strong>On</strong>, the box belongs to the ground it covers: pull back and it shrinks, its words go when they get too small to read, and eventually it becomes a small square that behaves like a city — still there, still clickable, and it opens back out when you zoom in. <strong>Off</strong>, it keeps its size on screen however far you zoom, like a caption pinned to the map. Switching between the two never changes how the box looks at that moment; it only changes what happens next.</li>
+    <li><strong>Smooth</strong> - Lines and areas can have their corners rounded off, by eight degrees. The points you placed stay on the line; only the pieces between them bend, so smoothing never moves a corner you put somewhere deliberately.</li>
     <li><strong>Approximate areas</strong> - An area can have a <strong>Blurred</strong> edge, which says "about here" rather than drawing a frontier the source never had.</li>
-    <li><strong>Editing</strong> - Click a mark to select it. Drag a corner to move it, drag the middle of an area to move the whole shape, right-click a corner to remove it, and press <strong>Duplicate</strong> for another one like it. Undo takes back one step, including the last corner of a shape you are still drawing.</li>
+    <li><strong>Editing</strong> - Click a mark to select it. <strong>Drag a corner</strong> to move that corner; <strong>drag the middle of an area, a text box or a line</strong> to move the whole thing; <strong>right-click a corner</strong> to remove it, and press <strong>Duplicate</strong> for another one like it. Shift-drag a box over several marks to select them together.</li>
+    <li><strong>Where a set should be looked at from</strong> - <strong>Set default view</strong> at the top of the panel remembers the frame the map is showing now, and saves it with the annotations. Anyone who opens the file or the link starts there, and once they wander off, a button appears under the map's own reset control to bring them back to it.</li>
     <li><strong>Keeping it</strong> - <strong>Save file</strong> writes a GeoJSON file. <strong>Copy link</strong> puts the whole set into a web address if it is small enough, and a counter above the buttons says how close you are. <strong>Add file…</strong> merges another set into this one rather than replacing it.</li>
     <li><strong>Sharing</strong> - Someone who opens your link sees the marks locked, so a stray press cannot move them, and can read any of them by clicking. A pencil button unlocks the tools. Their own annotations are set aside, not overwritten, and one press brings them back.</li>
+    <li><strong>A warning about large files</strong> - This is a drawing tool, not a GIS. A GeoJSON exported from QGIS can carry tens of thousands of points in a single shape, and loading one will make the whole map slow to draw, slow to pan and slow to answer — on a school laptop or a phone, badly so. Simplify a layer before bringing it here, or cut it down to the part you actually want to talk about. Anything up to a few hundred marks is comfortable.</li>
   </ul>
 <!-- END help -->
 </dialog>
 
-<script src="data.js?v=01ab5606bd"></script>
+<script src="data.js?v=3ba2c499e9"></script>
 <script src="cities-gaz.js?v=88a319fe12"></script>
-<script src="map.js?v=e6bf824fe2"></script>
+<script src="map.js?v=563098dfdc"></script>
 </body>
 </html>
