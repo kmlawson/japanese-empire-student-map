@@ -868,6 +868,15 @@ NO_ADMIN_SUBUNITS = {"indochina", "siamgain"}
 # Straits Settlements were a Crown colony of four scattered pieces, and the
 # states around them were protectorates that were never British soil. Lighting
 # the colony rather than the peninsula is the distinction the map is for.
+# Which larger unit a sub-unit belongs to, written onto it as `data-parent`.
+# Different from a cluster: a cluster is a polity whose pieces are scattered
+# through other people's atoms (the Straits Settlements), and it *replaces* the
+# territory when one of its pieces is pointed at. This is a plain hierarchy
+# inside one country — Taiwan's fifty districts inside eight prefectures — and
+# it adds a second outline rather than replacing anything. Filled from the
+# districts file at build time.
+SUB_PARENTS = {}
+
 SUB_CLUSTERS = {
     ("malaya", "Singapore"): "Straits Settlements",
     ("malaya", "Penang"): "Straits Settlements",
@@ -3848,6 +3857,8 @@ NEVER_DEFERRED = ALWAYS_NAMED | frozenset({"malaya_thai", "mengjiang"})
 # One unit, not three islands: they had been 澎湖廳 again since 1926, when they
 # were taken back out of Takao-shū, and the 廳 was not divided into 郡.
 PESCADORES_BOXES = [("TwHoko", (119.3, 23.2, 119.8, 23.8))]
+# and it is its own prefecture, so it answers the same way the districts do
+SUB_PARENTS_FIXED = {("taiwan", "TwHoko"): "TwShuHoko"}
 
 ISLAND_BOXES = {
     "taiwan": PESCADORES_BOXES,
@@ -5536,6 +5547,12 @@ def main():
     if os.path.exists(dpath):
         with open(dpath) as fh:
             for feat in json.load(fh)["features"]:
+                # which 州 or 廳 it was in, so that pointing at a district can
+                # outline the prefecture and the names layer can write the
+                # eight prefectures rather than the fifty districts
+                if feat["properties"].get("parent"):
+                    SUB_PARENTS[("taiwan", feat["properties"]["key"])] = \
+                        feat["properties"]["parent"]
                 # An empty key is the ground the sheet does not divide — the
                 # central range, the east coast, the unattributed block round
                 # Takao. It is drawn and it cannot be named, which is what the
@@ -5545,6 +5562,7 @@ def main():
                 provinces["taiwan"].append(
                     (feat["properties"]["key"] or None,
                      list(iter_rings(feat["geometry"]))))
+        SUB_PARENTS.update(SUB_PARENTS_FIXED)
 
     # ---- Japan, prefecture by prefecture -----------------------------------
     jpath = os.path.join(CACHE, "adm1_JPN.json")
@@ -6874,6 +6892,9 @@ def main():
                 cluster = SUB_CLUSTERS.get((key, pname))
                 if cluster:
                     attr += f' data-cluster="{esc(cluster)}"'
+                parent = SUB_PARENTS.get((key, pname))
+                if parent:
+                    attr += f' data-parent="{esc(parent)}"'
                 sink.append(f'      <path{attr} d="{pd}"/>')
             if sink is admin_out:
                 sink.append("  </g>")

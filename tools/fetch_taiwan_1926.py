@@ -191,10 +191,19 @@ NAMES = {
     "臺東支廳": ("TwTaito", "Taitō-shichō", None),
 }
 
-# Which 州 or 廳 each one was in, for the card's second line.
+# Which 州 or 廳 each one was in: the romanised name for the card's first line,
+# and the key of the prefecture's own record, which the map writes onto every
+# district as `data-parent`. That is what lets pointing at a 郡 outline the 州
+# it belongs to, and what lets the names layer write the eight prefectures
+# rather than fifty districts.
 SHU = {
     "臺北州": "Taihoku-shū", "新竹州": "Shinchiku-shū", "臺中州": "Taichū-shū",
     "臺南州": "Tainan-shū", "高雄州": "Takao-shū", "臺東廳": "Taitō-chō",
+}
+SHU_KEY = {
+    "臺北州": "TwShuTaihoku", "新竹州": "TwShuShinchiku", "臺中州": "TwShuTaichu",
+    "臺南州": "TwShuTainan", "高雄州": "TwShuTakao", "臺東廳": "TwShuTaito",
+    "花蓮港廳": "TwShuKarenko", "澎湖廳": "TwShuHoko",
 }
 
 
@@ -300,11 +309,13 @@ def main():
             sys.stderr.write("unknown district %r\n" % kanji)
             return 1
         key, romaji, modern = NAMES[kanji]
-        shu = SHU.get(feat["properties"].get("NAMEC") or "", "")
+        namec = feat["properties"].get("NAMEC") or ""
+        shu = SHU.get(namec, "")
+        parent = SHU_KEY.get(namec, "")
         rec = by_key.setdefault(key, {
             "type": "Feature",
             "properties": {"key": key, "kanji": kanji, "romaji": romaji,
-                           "modern": modern, "shu": shu},
+                           "modern": modern, "shu": shu, "parent": parent},
             "geometry": {"type": "MultiPolygon", "coordinates": []},
         })
         for poly in rings_of(feat["geometry"]):

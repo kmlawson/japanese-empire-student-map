@@ -7922,6 +7922,62 @@ confirms the panel asks.
 Smooth. Suite: **330 annotation checks across 14 scripts in 80 seconds**, and
 136 map checks. All passing.
 
+## Taiwan's two levels: a district points at its prefecture, and only prefectures are written
+
+Two requests about the 1926 sheet, and they turn out to be the same fact stated
+twice: a 郡 or a 市 is inside a 州 or a 廳, and the map did not know it.
+
+### Pointing at a district
+
+Hovering Kagi-gun outlined Kagi-gun faintly and the whole of Taiwan strongly,
+which answers neither question a reader is actually asking. It now draws both
+levels: the **prefecture** as the main outline and the **district** picked out
+more lightly inside it. Measured on the built map — the island is 51 units
+wide, the prefecture outline 14, the district 9, and the district's box sits
+inside the prefecture's.
+
+The card and the tooltip are unchanged: they still name the district, with the
+prefecture in the first line of its description, as they did before.
+
+### Writing the names
+
+With Other on, the names layer wanted to write fifty district names across an
+island fifty pixels wide at the opening view. That is not a map, it is a
+smudge — and the placer would have dropped most of them anyway and kept an
+arbitrary handful, which is worse than dropping them all. Seven prefecture
+names go on instead, each in the middle of the ground its districts cover, and
+not one district name is written. Taiwan's own name stays.
+
+### One attribute, and what it is not
+
+Both come off `data-parent`, written onto every district at build time from the
+districts file, which already carried the 州廳 for the card. Fifty of fifty
+carry it, coming to seven prefectures — seven and not eight, because Karenkō-chō
+has no districts in this sheet at all and so has no shapes to hang a name on.
+
+**It is deliberately not a cluster.** A cluster is a scattered polity whose
+pieces sit inside other people's atoms and which *replaces* the territory when
+one of its pieces is pointed at — the Straits Settlements, and Labuan inside
+the North Borneo atom. That machinery carries `CLUSTER_HOME` and `foreignSub`
+with it and would have changed what the card is headed. This is a plain
+hierarchy inside one country, and it *adds* an outline rather than replacing
+anything, so it is its own attribute and its own three lines in
+`redrawHighlight`.
+
+The eight prefectures are now records in their own right in
+`texts/territories/sub-units/taiwan.csv`, each with the article the reader
+asked for, so the name written on the map is a thing the map knows about rather
+than a string lifted off a district.
+
+### Measured
+
+`tools/test/taiwan.js`, 12 checks: every district carries a parent, they come
+to seven, pointing at one draws two outlines with the smaller inside the
+larger, the larger is a fraction of the island rather than the whole of it, the
+tooltip still names the district and says its prefecture, and the names layer
+writes prefectures and no districts. 330 annotation checks and 148 map checks
+pass.
+
 ---
 
 ## Sources worth fetching

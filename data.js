@@ -6927,6 +6927,46 @@ JMAP.PROVINCES = {
     short: 'The Pescadores: taken back out of Takao-shū in 1926 and made a chō of their own again. Fishing, groundnuts and wind',
     note: 'The Pescadores: sixty-odd islands of basalt and wind in the strait, taken by Japan in March 1895 before the treaty that ceded Taiwan was signed, and used as the fleet\'s forward anchorage. Too dry and too windy for rice — groundnuts, sweet potato and fish — and the first part of the colony to be taken and the last thing on it a visitor expects.'
   },
+  TwShuTaihoku: {
+    en: 'Taihoku-shū (Taipei Prefecture)', ja: '臺北州 (Taihoku-shū)', zh: '臺北州',
+    wiki: 'https://en.wikipedia.org/wiki/Taihoku_Prefecture',
+    short: 'The north: the capital, the port of Kīrun and its coalfield, the tea hills, and the Giran plain beyond the mountains'
+  },
+  TwShuShinchiku: {
+    en: 'Shinchiku-shū (Hsinchu Prefecture)', ja: '新竹州 (Shinchiku-shū)', zh: '新竹州',
+    wiki: 'https://en.wikipedia.org/wiki/Shinchiku_Prefecture',
+    short: 'The Hakka terrace country of the north-west, its thousands of irrigation ponds, and the colony\'s oilfield'
+  },
+  TwShuTaichu: {
+    en: 'Taichū-shū (Taichung Prefecture)', ja: '臺中州 (Taichū-shū)', zh: '臺中州',
+    wiki: 'https://en.wikipedia.org/wiki/Taich%C5%AB_Prefecture',
+    short: 'From the Taichū basin across the irrigated rice plain of Shōka to the central mountains and Sun-Moon Lake'
+  },
+  TwShuTainan: {
+    en: 'Tainan-shū (Tainan Prefecture)', ja: '臺南州 (Tainan-shū)', zh: '臺南州',
+    wiki: 'https://en.wikipedia.org/wiki/Tainan_Prefecture',
+    short: 'The old south-west: the island\'s oldest city, the salt coast, and the Kanan plain the Ushantou dam turned to paddy'
+  },
+  TwShuTakao: {
+    en: 'Takao-shū (Kaohsiung Prefecture)', ja: '高雄州 (Takao-shū)', zh: '高雄州',
+    wiki: 'https://en.wikipedia.org/wiki/Takao_Prefecture',
+    short: 'The far south: sugar and pineapple on the Heitō plain, the harbour at Takao, and the peninsula below them'
+  },
+  TwShuKarenko: {
+    en: 'Karenkō-chō (Hualien Prefecture)', ja: '花蓮港廳 (Karenkō-chō)', zh: '花蓮港廳',
+    wiki: 'https://en.wikipedia.org/wiki/Karenk%C5%8D_Prefecture',
+    short: 'The east coast north of Taitō, thinly settled and not divided into districts at all in 1926'
+  },
+  TwShuTaito: {
+    en: 'Taitō-chō (Taitung Prefecture)', ja: '臺東廳 (Taitō-chō)', zh: '臺東廳',
+    wiki: 'https://en.wikipedia.org/wiki/Tait%C5%8D_Prefecture',
+    short: 'The south-east coast and the two islands off it; the mainland of the chō was not divided into districts'
+  },
+  TwShuHoko: {
+    en: 'Hōko-chō (Penghu Prefecture)', ja: '澎湖廳 (Hōko-chō)', zh: '澎湖廳',
+    wiki: 'https://en.wikipedia.org/wiki/H%C5%8Dko_Prefecture',
+    short: 'The Pescadores, taken back out of Takao-shū in 1926 and made a chō of their own again'
+  },
   'Peale Island': {
     en: 'Peale Island', ja: 'ピール島 (Pīru-tō)', zh: '皮爾島',
     wiki: 'https://en.wikipedia.org/wiki/Peale_Island',

@@ -13,8 +13,8 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '1.59';
-  var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "5b9b5f0dcf", "japan-empire-map-admin.svg": "388671eccd", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "ba24f18b40"};
+  var JEM_VERSION = '1.60';
+  var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "5b9b5f0dcf", "japan-empire-map-admin.svg": "eda0acd4cd", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "ba24f18b40"};
 
   /* Every file this one fetches, with the version on it.
 
@@ -1778,6 +1778,7 @@
     hot = null;
     hotProv = [];
     hotProvEl = null;
+    hotParent = null;
     subsAtoms.forEach(function (a) { a.classList.remove('subs'); });
     subsAtoms = [];
     subsAtom = null;
@@ -2716,11 +2717,28 @@
     if (adminState !== 'ready' && adminState !== 'loading') loadAdmin();
     if (!subLabelled) subLabelled = new WeakSet();
     var made = 0;
+    /* A district whose prefecture is named does not write its own name.
+     *
+     * Taiwan is fifty 郡 and 市 inside eight 州 and 廳, and writing fifty names
+     * across an island that is fifty pixels wide at the opening view is not a
+     * map, it is a smudge — the placer would drop most of them anyway and the
+     * ones that survived would be an arbitrary handful. The eight prefectures
+     * are the level worth writing, so one name goes on each group and the
+     * districts keep their tooltips and their cards.
+     *
+     * Collected first, and made below: a group's name goes in the middle of
+     * the whole group and not on whichever district happened to come first. */
+    var groups = {};
     $$('#land [data-prov]', svg).forEach(function (el) {
       if (subLabelled.has(el)) return;
       subLabelled.add(el);
       var key = el.getAttribute('data-prov');
       if (!key) return;
+      var parent = el.getAttribute('data-parent');
+      if (parent) {
+        (groups[parent] = groups[parent] || []).push(el);
+        return;
+      }
       var x = parseFloat(el.getAttribute('data-cx'));
       var y = parseFloat(el.getAttribute('data-cy'));
       var half = 0, area = Infinity;
@@ -2759,6 +2777,34 @@
       scalables.push(sc);
       made++;
     });
+
+    // one name per prefecture, in the middle of the ground it covers
+    Object.keys(groups).forEach(function (pkey) {
+      var els = groups[pkey];
+      var x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity, got = 0;
+      els.forEach(function (el) {
+        var bb;
+        try { bb = el.getBBox(); } catch (err) { return; }
+        if (!bb || !bb.width) return;
+        got++;
+        x0 = Math.min(x0, bb.x); y0 = Math.min(y0, bb.y);
+        x1 = Math.max(x1, bb.x + bb.width); y1 = Math.max(y1, bb.y + bb.height);
+      });
+      if (!got) return;
+      var text = svgEl('text', { 'class': 'tlabel sublabel', 'font-size': SUB_PX });
+      labelLayer.appendChild(text);
+      var entry = { rec: subRec(els[0], pkey), el: text,
+                    x: (x0 + x1) / 2, y: (y0 + y1) / 2, dy: 0,
+                    size: SUB_PX, w: 0, h: SUB_PX * 1.2, half: 0, key: pkey,
+                    area: Infinity,
+                    owner: els[0], atom: els[0].closest ? els[0].closest('.atom') : null };
+      labels.push(entry);
+      subLabels.push(entry);
+      entry.sc = { el: text, x: entry.x, y: entry.y };
+      scalables.push(entry.sc);
+      made++;
+    });
+
     /* Country names first, then divisions, then the rest: a province must
        never crowd out the country it is in.
 
@@ -4142,11 +4188,30 @@
   }
 
   /* The province under the pointer, picked out inside the lit-up country. */
+  /* The larger unit a sub-unit belongs to. Taiwan's districts are the case it
+     was built for: a 郡 or a 市 sits inside a 州 or a 廳, and pointing at one
+     should say both — the district under the pointer, lightly, and the
+     prefecture it is part of as the main outline. The relation is written onto
+     the district at build time as `data-parent`; see SUB_PARENTS.
+
+     Not a cluster. A cluster is a scattered polity that *replaces* the
+     territory when one of its pieces is pointed at (the Straits Settlements);
+     this is a plain hierarchy inside one country, and it adds an outline. */
+  var hotParent = null;
+  function parentPeers(el) {
+    var want = el && el.getAttribute && el.getAttribute('data-parent');
+    if (!want) return null;
+    var out = [];
+    $$('#land [data-parent="' + want + '"]', svg).forEach(function (n) { out.push(n); });
+    return out.length ? out : null;
+  }
+
   function setHotProv(el) {
     if (hotProvEl === el) return;
     hotProv.forEach(function (n) { n.classList.remove('prov-hot'); });
     hotProvEl = el;
     hotProv = provPeers(el);
+    hotParent = parentPeers(el);
     hotProv.forEach(function (n) { n.classList.add('prov-hot'); });
     redrawHighlight();
   }
@@ -4716,10 +4781,18 @@
     var bothSame = selected && hot === selected && !hotCluster && !selCluster;
     var tEls = null;
     if (hotCluster) tEls = hotCluster;
+    /* The prefecture, where there is one. A reader pointing at Kagi-gun wants
+       to be told two things — which district this is, and which prefecture it
+       belongs to — and the outline round the whole of Taiwan answers neither.
+       So the main outline is the prefecture and the district keeps the lighter
+       one. Everywhere else on the map this is the country, as before. */
+    else if (hotParent && hotParent.length) tEls = hotParent;
     else if (!bothSame && hot && atomsOf[hot] && seen(hot)) {
       tEls = litFor(hot, hotCluster);
     }
-    fillSlot('territory', slotKey('t', hot, hotCluster, tEls), tEls, 'hi-territory');
+    fillSlot('territory',
+      slotKey('t', hotParent ? 'parent' : hot, hotCluster || hotParent, tEls),
+      tEls, 'hi-territory');
     fillSlot('province', slotKey('p', hotProvEl && hotProvEl.getAttribute('data-prov'),
                                  null, hotProv), hotProv, 'hi-province');
     if (selected && atomsOf[selected] && seen(selected)) {
