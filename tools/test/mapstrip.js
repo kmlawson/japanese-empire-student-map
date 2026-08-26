@@ -119,6 +119,37 @@ await p.evaluate(()=>{const c=document.querySelector('#opt-ccp');
 check('and the reader can put them back',
   await p.evaluate(()=>document.querySelector('#opt-ccp').checked));
 
+/* And the same rule the other way. Max is the reading that says how far the
+   occupier's writ was claimed to run and the base areas are where it did not,
+   so choosing one without the other is half an argument — Hide takes them away
+   and Max brings them back.
+
+   The guard that matters is the third check: only on the way *to* Max. A
+   reader looking at Max who unticks the base areas has said something, and
+   pressing a button that is already pressed must not argue with them. */
+console.log('\n— and choosing Max brings them back —');
+const setOcc = async id => { await p.evaluate(i => { const r = document.querySelector(i);
+  r.checked = true; r.dispatchEvent(new Event('change', { bubbles: true })); }, id);
+  await sleep(1500); };
+const ccpOn = () => p.evaluate(() => document.querySelector('#opt-ccp').checked);
+/* The block above leaves the map on Hide with the base areas put back by
+   hand, so Hide is pressed *from Max* here — pressing it while already on it
+   is correctly a no-op, and the first draft of this check failed on that. */
+await setOcc('#occ-traced');
+await setOcc('#occ-none');
+check('coming to Hide from Max switches them off', !(await ccpOn()));
+await setOcc('#occ-traced');
+check('and coming back to Max switches them on', await ccpOn());
+await p.evaluate(()=>{const c=document.querySelector('#opt-ccp');
+  c.checked=false; c.dispatchEvent(new Event('change',{bubbles:true}));}); await sleep(1000);
+await setOcc('#occ-traced');
+check('but Max pressed while already on Max leaves the reader alone',
+  !(await ccpOn()));
+await setOcc('#occ-nca');
+check('the army reading does not switch them on by itself', !(await ccpOn()));
+await setOcc('#occ-traced');
+check('and coming to Max from it does', await ccpOn());
+
 console.log('\n— only East Asia —');
 check('the whole map is the default', await p.evaluate(()=>document.querySelector('#opt-world').checked));
 const drawn=()=>p.evaluate(()=>{const out={};

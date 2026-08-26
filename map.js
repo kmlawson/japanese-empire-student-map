@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '1.75';
+  var JEM_VERSION = '1.76';
   var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "50f952d66d", "japan-empire-map-admin.svg": "9de0304837", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "9214380208", "relief-coarse-albers.webp": "b57f3373ec", "relief-coarse-laea.webp": "4a79ce52b8", "relief-coarse-mercator.webp": "dd24772c29", "relief-fine-albers.webp": "641d43c5c5", "relief-fine-laea.webp": "52676e1c50", "relief-fine-mercator.webp": "1dc7a621a2", "relief-finest-albers.webp": "05b24e1e30", "relief-finest-laea.webp": "1325488946", "relief-finest-mercator.webp": "cac01f8da0"};
 
   /* Every file this one fetches, with the version on it.
@@ -5737,6 +5737,19 @@
       state.ccp = false;
       var cc = $('#opt-ccp');
       if (cc) cc.checked = false;
+    }
+    /* And the other way for the same reason. Max is the reading that says how
+       far the occupier's writ was claimed to run, and the base areas are where
+       it did not: choosing the one and being shown it without the other is
+       half an argument. So Max brings them back.
+
+       Only on the way *to* Max, never while already there — a reader who has
+       Max on screen and unticks the base areas has said something, and pressing
+       a button that is already pressed must not argue with them. */
+    if (v === 'traced' && state.occSource !== 'traced' && !state.ccp) {
+      state.ccp = true;
+      var cy = $('#opt-ccp');
+      if (cy) cy.checked = true;
     }
     state.occSource = v;
     $$('#dlg-options [name="occ-src"]').forEach(function (r) {

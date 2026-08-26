@@ -9024,6 +9024,33 @@ now names `SR_HR` rather than the three sheets.
 
 ---
 
+## Max brings the resistance areas back
+
+Hide already took them away, with the reasoning that the two are halves of one
+argument: Max is how far the occupier's writ was claimed to run and the base
+areas are where it did not, so a map with one and not the other is half of it.
+The rule now runs both ways.
+
+**Only on the way to Max.** A reader looking at Max who unticks the base areas
+has said something, and a button that is already pressed must not argue with
+them — the guard is `state.occSource !== 'traced'`, the mirror of the one Hide
+already used. The Army Report reading is left alone: it carries its own
+pacified and un-pacified shading and was not asked about.
+
+### Measured
+
+Five checks in `tools/test/mapstrip.js`: Hide from Max switches them off, Max
+switches them back on, Max pressed while already on Max leaves the reader
+alone, the Army Report does not switch them on by itself, and coming to Max
+from it does.
+
+The third of those caught the first draft of the test rather than the code —
+the block above it leaves the map on Hide, so pressing Hide again is correctly
+a no-op and the sequence had to start from Max. Whole suite: 582 checks across
+26 scripts, all passing, 171s.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible
