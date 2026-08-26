@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '1.63';
+  var JEM_VERSION = '1.64';
   var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "b7e2fe1a73", "japan-empire-map-admin.svg": "043e65c713", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "9214380208"};
 
   /* Every file this one fetches, with the version on it.
@@ -4832,6 +4832,51 @@
     }
   }
 
+  /* A note, with its emphasis drawn rather than spelled.
+   *
+   * The prose in `texts/` marks a book title the way prose does — *Outcasts of
+   * Empire* — and the card was setting `textContent`, so a reader saw the
+   * asterisks. This turns `*…*` into an <em> and `**…**` into a <strong>, and
+   * nothing else: no links, no images, no raw HTML.
+   *
+   * Built out of text nodes rather than assigned as `innerHTML`, which is the
+   * whole point. Notes are authored here and are trustworthy, but the same
+   * card is lent to the annotation panel to show a description that arrived in
+   * a shared link from a stranger. A parser that can only ever produce text
+   * nodes, <em> and <strong> cannot be talked into producing a <script>,
+   * whatever it is handed. */
+  /* No lookbehind. Safari only learned it in 16.4, and an iPad two years old
+     would throw a SyntaxError on the whole file — which is not a bug in the
+     card, it is the map failing to load. The "no space before the closing
+     marker" rule is checked in code below instead. */
+  var EMPH = /(\*\*?)(?!\s)([^*]+?)\1/;
+  function setProse(el, text) {
+    if (!el) return;
+    while (el.firstChild) el.removeChild(el.firstChild);
+    var rest = String(text == null ? '' : text);
+    if (!rest) return;
+    // a bound on the loop as well as on the string: a pattern that somehow
+    // matched empty would otherwise spin here for ever
+    for (var guard = 0; guard < 500; guard++) {
+      var m = EMPH.exec(rest);
+      if (!m || !m[2]) break;
+      // ` *not this* ` — a marker with a space in front of it is a stray
+      // asterisk in the prose, not emphasis, and is left as it was written
+      if (/\s$/.test(m[2])) {
+        el.appendChild(document.createTextNode(rest.slice(0, m.index + m[0].length)));
+        rest = rest.slice(m.index + m[0].length);
+        continue;
+      }
+      if (m.index) el.appendChild(document.createTextNode(rest.slice(0, m.index)));
+      var tag = m[1].length === 2 ? 'strong' : 'em';
+      var mark = document.createElement(tag);
+      mark.textContent = m[2];
+      el.appendChild(mark);
+      rest = rest.slice(m.index + m[0].length);
+    }
+    if (rest) el.appendChild(document.createTextNode(rest));
+  }
+
   function markSelected(id, on) {
     if (!id) return;
     var els = atomsOf[id] || (elById[id] ? [elById[id]] : []);
@@ -4919,8 +4964,8 @@
     var groupNote = sub ? (host.note || '') : '';
     var own = $('.note-own', infoBox);
     var grp = $('.note-group', infoBox);
-    own.textContent = ownNote;
-    grp.textContent = groupNote;
+    setProse(own, ownNote);
+    setProse(grp, groupNote);
     // The source shows even where a record has no prose of its own. More than
     // half the provinces and islands are a name and a coordinate and nothing
     // else, and for those the article is the only thing the card has to offer;
@@ -5515,7 +5560,7 @@
     $('.prov', infoBox).hidden = true;
     $('.when', infoBox).textContent = '';
     $('.when', infoBox).hidden = true;
-    $('.note-own', infoBox).textContent = epoch.blurb;
+    setProse($('.note-own', infoBox), epoch.blurb);
     $('.note-own', infoBox).hidden = false;
     $('.note-group', infoBox).textContent = '';
     $('.note-group', infoBox).hidden = true;

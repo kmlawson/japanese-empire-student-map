@@ -8147,13 +8147,38 @@ else, the way `#mengjiang-whole` does for the claim Mengchiang made.
 Measured: Tainan-shū's own shape is 19 map units wide where the districts filed
 under it come to 14.
 
+### And a book title set in italics rather than in asterisks
+
+The prose in `texts/` marks a title the way prose does — *Outcasts of Empire* —
+and the card was setting `textContent`, so the reader saw the asterisks. It has
+been doing that for a while: `*The People of Alor*` and `*smong*` were already
+in the corpus.
+
+`setProse` turns `*…*` into an `<em>` and `**…**` into a `<strong>`, and does
+nothing else. Two things about how it is written:
+
+* **It builds text nodes; it never assigns `innerHTML`.** The notes here are
+  authored and trustworthy, but the same card is lent to the annotation panel
+  to show a description that arrived in a shared link from a stranger. A parser
+  that can only ever produce a text node, an `<em>` or a `<strong>` cannot be
+  talked into producing a `<script>`, whatever it is handed. Checked: a note
+  containing `<script>alert(1)</script>` comes out as those characters.
+* **No lookbehind**, which the obvious pattern wants for "no space before the
+  closing marker". Safari only learned lookbehind in 16.4, and a two-year-old
+  iPad would throw a SyntaxError on the whole of `map.js` — not a broken card
+  but a map that does not load. The rule is checked in code instead.
+
+`3 * 4 * 5` and a lone asterisk are left exactly as written.
+
 ### Measured
 
-`tools/test/taiwan.js` grew to 19 checks, including that the 蕃地 is one shape
-and not seven, that pointing at it outlines the colony rather than a
-prefecture, and that a prefecture's own shape is wider than the districts
-inside it. The names layer writes eight prefecture names and the indigenous
-territory, and no districts. 148 map checks pass.
+`tools/test/taiwan.js` grew to 23 checks: the 蕃地 is one shape and not seven,
+pointing at it outlines the colony rather than a prefecture, a prefecture's own
+shape is wider than the districts inside it, the names layer writes eight
+prefecture names and the indigenous territory and no districts, and the book
+title comes out as a real `<em>` with no asterisk left on screen and nothing in
+the note the parser could not have made. 335 annotation checks and 148 map
+checks pass.
 
 ---
 

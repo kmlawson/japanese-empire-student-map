@@ -32,11 +32,11 @@ railway into China proper, and so the ground the Kwantung Army had to hold if
 the fighting was to pass south of the Wall.
 
 It is also where the war in the air began. Chang Hsüeh-liang had withdrawn his
-government here after Mukden, and on 8 October 1931 eleven Japanese
+government here after Mukden, and on **8 October 1931** eleven Japanese
 aircraft bombed the city — one of the first aerial bombardments of an
 undefended town, and the first anywhere to be reported live to the League of
 Nations, whose observers were in China at the time. The raid did more than any
 other single act to turn foreign opinion, and it is what prompted Stimson to
 begin drafting the non-recognition doctrine that bears his name. Chinchow
-itself was occupied on 3 January 1932, and with it the last Chinese
+itself was occupied on **3 January 1932**, and with it the last Chinese
 administration in Manchuria went.

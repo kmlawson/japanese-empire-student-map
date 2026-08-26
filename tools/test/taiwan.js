@@ -128,6 +128,43 @@ console.log('\n— the 蕃地 is one shape, and points at no prefecture —');
     'island '+island+' wide, outline '+(slots[0]||[])[2]);
 }
 
+console.log('\n— a book title in a note is set in italics, not in asterisks —');
+{
+  await hoverProv(p,'TwBanchi');
+  const at=await p.evaluate(()=>{
+    const el=document.querySelector('[data-prov="TwBanchi"]');
+    const bb=el.getBBox(), svg=el.ownerSVGElement, m=svg.getScreenCTM(), q=svg.createSVGPoint();
+    for(let fy=0.2;fy<0.9;fy+=0.08) for(let fx=0.2;fx<0.9;fx+=0.08){
+      q.x=bb.x+bb.width*fx; q.y=bb.y+bb.height*fy;
+      const s2=q.matrixTransform(m);
+      if(document.elementFromPoint(s2.x,s2.y)===el) return [s2.x,s2.y];
+    } return null;});
+  if(at){
+    await p.mouse.move(at[0],at[1]); await sleep(300);
+    await p.mouse.down(); await sleep(60); await p.mouse.up(); await sleep(900);
+  }
+  const note=await p.evaluate(()=>{
+    const n=document.querySelector('#info .note-own');
+    return n ? {em:[...n.querySelectorAll('em')].map(e=>e.textContent),
+                stars:(n.textContent.match(/\*/g)||[]).length} : null;});
+  check('the card is open on it', !!note);
+  check('the title is a real <em>', !!note && note.em.length===1
+    && /Outcasts of Empire/.test(note.em[0]), JSON.stringify(note));
+  check('and not one asterisk is left on screen', !!note && note.stars===0,
+    JSON.stringify(note));
+  /* The same card is lent to the annotation panel to show a description that
+     arrived in a link from a stranger, so the parser may only ever produce
+     text, <em> and <strong> — never markup it was handed. */
+  const safe=await p.evaluate(() => {
+    const n=document.querySelector('#info .note-own');
+    return {bad: !!n.querySelector('script,iframe,img,object,embed,style,link,form'),
+            // the card appends its own source link inside this element; the
+            // parser's own output is only ever text, <em> and <strong>
+            marks: [...n.querySelectorAll('em,strong')].length};});
+  check('and it grew nothing the parser cannot make',
+    !safe.bad && safe.marks >= 1, JSON.stringify(safe));
+}
+
 console.log('\n— and the names layer writes prefectures, not districts —');
 {
   await p.goto('http://localhost:8123/index.html?layers='+code(16,8,512)+TAIWAN,
