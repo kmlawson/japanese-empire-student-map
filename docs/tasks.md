@@ -8818,6 +8818,82 @@ it looks at 11x now. Whole suite: 555 checks across 25 scripts, all passing,
 
 ---
 
+## Relief: the yellow that would not shade, and a fade measured in the wrong units
+
+### China resisted the blend because two of its channels were already full
+
+`overlay` multiplies where the colour underneath is below mid grey and
+**screens** where it is above — and screening a channel that is already 255
+cannot move it. China's fill is `[255,255,179]`. Two channels at the ceiling,
+so only blue could move, which reads as a shift of hue rather than as ground.
+Measured against a 60/255 shadow in the sheet: China moved 40 where Japan's
+dark red moved 53.
+
+`multiply` has no ceiling. It darkens every channel in proportion, so a
+near-white yellow shades exactly as well as a dark red, and its neutral is
+white — so the water is remapped to 255 instead of 128 and the sea is still
+untouched. What it cannot do is lift a lit slope: everything above the water
+value flattens to no change. That is the ordinary bargain of a multiply
+hillshade and the reason most printed atlases make it.
+
+```
+                    overlay 0.8 + gain 1.7      multiply 0.8, no gain
+Everest                     19                          58
+Karakoram                   51                          53
+Sichuan (China's yellow)    21                          50
+Japanese Alps               11                          30
+Philippine Sea               0                           0
+```
+
+Sichuan now moves as `[255,255,179] -> [205,205,144]` — red and green
+darkening together, which is a shadow, rather than blue alone, which was a
+tint. No gain is needed at all, and the images got **smaller**: 6.9 MB in all
+against 11.3, because a multiply ramp compresses better than a stretched
+two-sided one. The blend is chosen by `build_relief.py --blend`, which sets
+the neutral to match, and written into the manifest so `map.js` reads the name
+rather than carrying one of its own.
+
+### The fade was measured in map units and should have been in screen pixels
+
+Asked whether the relief fades sooner on a phone. **It did**, and the cause is
+the rule in CLAUDE.md that this project keeps breaking.
+
+`reliefZoom()` was `mapW0 / view.w` — how far the *drawing* is magnified. But
+pixelation is not a fact about the drawing: at the same document zoom a narrow
+phone puts *fewer* screen pixels on each pixel of the sheet than a wide desktop
+does, so the sheet is still perfectly sharp there when the fade has already
+taken it away.
+
+It now measures the thing the fade is actually about — how many screen pixels
+one pixel of the sheet is stretched over, `(pxPerDeg / deg) / k` — and it needs
+no separate handling for the three sheets, because a finer one has a bigger
+`deg`, covers less ground per pixel and so stays longer on its own.
+
+Untouched to 2.8 screen pixels per sheet pixel, gone by 6.5 — which is double
+the previous ramp where it can be compared, as asked. Measured:
+
+```
+                   desktop 1300px        phone 390px
+opening view       0.80                  0.80  (at 3.3x, its own fit)
+13-18x             0.53                  0.80
+58x                0                     0.23
+```
+
+### Measured
+
+`tools/test/relief.js` is 44 checks. The fade section is rewritten around what
+the code now measures, and carries a new guard for the thing that was
+reported: at the same document zoom where the desktop has begun to lose the
+layer, a phone still has it at full strength.
+
+Three of this file's own assertions have now gone stale as the design moved —
+the blend named by hand, and the ramp probe twice. The blend check reads the
+name from the manifest now, so it cannot go stale again; the ramp probe is
+deliberately set well past the coarse sheet's end rather than near it. Whole
+suite: 557 checks across 25 scripts, all passing, 158s.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

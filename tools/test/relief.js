@@ -99,11 +99,13 @@ console.log('\n— off until it is asked for —');
   check('it covers the whole frame in map units',
     img && +img.w === 2800 && Math.abs(+img.h - 1584.92) < 0.2,
     JSON.stringify(img));
-  /* Any blend whose neutral is mid grey will do — the build's whole job is to
-     put the water there — but it must not be `normal`, which would paint flat
-     grey over the map and over the sea with it. */
+  /* Whichever blend the build chose — it writes the water to that blend's own
+     neutral, and `map.js` reads the name out of the manifest rather than
+     carrying one of its own. What must not happen is `normal`, which would
+     paint flat grey over the map and over the sea with it. */
   check('it is blended, not painted over',
-    img && ['overlay', 'soft-light', 'hard-light'].indexOf(img.blend) >= 0,
+    img && img.blend !== 'normal' && img.blend === (await p.evaluate(() =>
+      JMAP.RELIEF.blend)),
     img && img.blend);
   /* The fault this replaced: `isolation: isolate` and the fade's `opacity`
      were both on the wrapping group. Either one makes that group a blending
@@ -240,37 +242,83 @@ console.log('\n— it is in the right place, in all three projections —');
   }
 }
 
-console.log('\n— it goes away as the reader zooms in —');
+/* The fade is a **screen pixel** measurement, not a document-zoom one, and
+ * that is the whole of this section.
+ *
+ * It was `mapW0 / view.w` — how far the drawing is magnified — and pixelation
+ * is not a fact about the drawing. At the same document zoom a narrow phone
+ * puts fewer screen pixels on each pixel of the sheet than a wide desktop
+ * does, so the sheet is still sharp there when the fade has already removed
+ * it. Reported as the relief seeming to go sooner on a phone, and it did.
+ */
+console.log('\n— it goes away as the reader zooms in, and not before —');
 {
-  const p = await b.newPage();
-  await p.setViewport({ width: 1300, height: 900 });
-  await p.goto(url(BASE | RELIEF), { waitUntil: 'networkidle0' });
-  await sleep(3000);
-  const read = () => p.evaluate(() => {
+  const wheelTo = async (p, w, h, want) => {
+    for (let i = 0; i < 22; i++) {
+      const r = await p.evaluate(() => {
+        const g = document.querySelector('#relief');
+        const im = g.querySelector('image');
+        const vb = document.getElementById('jmap').getAttribute('viewBox').split(' ');
+        return { z: 2800 / parseFloat(vb[2]),
+                 op: getComputedStyle(g).display === 'none' ? 0
+                     : parseFloat(getComputedStyle(im).opacity) };
+      });
+      if (r.z >= want) return r;
+      await p.mouse.move(w / 2, h / 2); await p.mouse.wheel({ deltaY: -300 });
+      await sleep(300);
+    }
+    return p.evaluate(() => {
+      const g = document.querySelector('#relief');
+      const im = g.querySelector('image');
+      const vb = document.getElementById('jmap').getAttribute('viewBox').split(' ');
+      return { z: 2800 / parseFloat(vb[2]),
+               op: getComputedStyle(g).display === 'none' ? 0
+                   : parseFloat(getComputedStyle(im).opacity) };
+    });
+  };
+  const open = async (w, h, touch) => {
+    const p = await b.newPage();
+    await p.setViewport(touch ? { width: w, height: h, isMobile: true, hasTouch: true }
+                              : { width: w, height: h });
+    await p.goto(url(BASE | RELIEF), { waitUntil: 'networkidle0' });
+    await sleep(3200);
+    return p;
+  };
+
+  const p = await open(1300, 900, false);
+  const home = await p.evaluate(() => {
     const g = document.querySelector('#relief');
-    const vb = document.getElementById('jmap').getAttribute('viewBox').split(' ');
-    return { z: 2800 / parseFloat(vb[2]),
-             op: parseFloat(getComputedStyle(g).opacity),
-             shown: getComputedStyle(g).display !== 'none' };
+    return { shown: getComputedStyle(g).display !== 'none',
+             op: parseFloat(getComputedStyle(g.querySelector('image')).opacity) };
   });
-  const home = await read();
   check('it is drawn at the opening view', home.shown && home.op > 0.3,
     JSON.stringify(home));
-  let deep = home;
-  for (let i = 0; i < 10 && deep.z < 9; i++) {
-    await p.mouse.move(650, 450); await p.mouse.wheel({ deltaY: -300 }); await sleep(340);
-    deep = await read();
-  }
-  check('and is gone once its pixels would show', deep.z >= 6 && !deep.shown,
+  const mid = await wheelTo(p, 1300, 900, 15);
+  check('and is still there well past where it used to have gone',
+    mid.z >= 12 && mid.op > 0.2, JSON.stringify(mid));
+  const deep = await wheelTo(p, 1300, 900, 60);
+  check('but gone once its pixels really would show', deep.op === 0,
     JSON.stringify(deep));
-  // and comes back
-  for (let i = 0; i < 14; i++) {
-    await p.mouse.move(650, 450); await p.mouse.wheel({ deltaY: 300 }); await sleep(300);
+  for (let i = 0; i < 20; i++) {
+    await p.mouse.move(650, 450); await p.mouse.wheel({ deltaY: 300 }); await sleep(260);
   }
-  const back = await read();
-  check('coming back out brings it back', back.shown && back.op > 0.3,
-    JSON.stringify(back));
+  const back = await p.evaluate(() => {
+    const g = document.querySelector('#relief');
+    return getComputedStyle(g).display === 'none' ? 0
+      : parseFloat(getComputedStyle(g.querySelector('image')).opacity);
+  });
+  check('coming back out brings it back', back > 0.3, String(back));
   await p.close();
+
+  /* And the phone. Its map area is a third the width, so one pixel of the
+     sheet covers a third as much of the screen and it should still be there
+     at a zoom where the desktop has begun to lose it. */
+  const q = await open(390, 780, true);
+  const phone = await wheelTo(q, 390, 780, 15);
+  check('on a phone it is still full strength where the desktop has faded',
+    phone.z >= 12 && phone.op > 0.7,
+    'phone ' + JSON.stringify(phone) + ' vs desktop ' + JSON.stringify(mid));
+  await q.close();
 }
 
 console.log('\n— one warp per projection, and only the one in use —');
@@ -336,15 +384,15 @@ console.log('\n— three sheets, and only the chosen one is fetched —');
       JSON.stringify(r));
     degs = r.degs; kbs = r.kbs;
 
-    /* And the ramp. The coarse sheet is gone by 10.5x and the finest holds to
-       21x, so a look at about 11x tells all three apart. It used to be 4x,
-       which stopped separating them the moment the ramp was lengthened — the
-       thresholds here have to follow `reliefRamp`, and they are derived from
-       the same `deg` it uses rather than copied. */
-    for (let n = 0; n < 20; n++) {
+    /* And the ramp. The three differ only in how far each can be magnified
+       before its pixels show, so they can only be told apart deep in — the
+       coarse sheet is spent at about 29x on this viewport while the finest is
+       barely touched. This number has had to move twice as the ramp changed;
+       it is deliberately well past the coarse sheet's end rather than near it. */
+    for (let n = 0; n < 24; n++) {
       const z = await p.evaluate(() => 2800 / parseFloat(
         document.getElementById('jmap').getAttribute('viewBox').split(' ')[2]));
-      if (z >= 11) break;
+      if (z >= 30) break;
       await p.mouse.move(650, 450); await p.mouse.wheel({ deltaY: -260 }); await sleep(330);
     }
     at4x.push(await p.evaluate(() => {
@@ -361,8 +409,8 @@ console.log('\n— three sheets, and only the chosen one is fetched —');
   check('the three get finer, and heavier, in order',
     degs[0] < degs[1] && degs[1] < degs[2] && kbs[0] < kbs[1] && kbs[1] < kbs[2],
     JSON.stringify(degs) + ' ' + JSON.stringify(kbs));
-  check('the coarse sheet has gone by 11x', at4x[0].op < 0.05, JSON.stringify(at4x[0]));
-  check('and the finest has not', at4x[2].op > 0.3, JSON.stringify(at4x[2]));
+  check('the coarse sheet is spent by 30x', at4x[0].op < 0.15, JSON.stringify(at4x[0]));
+  check('and the finest is not', at4x[2].op > 0.35, JSON.stringify(at4x[2]));
   check('with the middle one between them',
     at4x[1].op >= at4x[0].op && at4x[1].op <= at4x[2].op, JSON.stringify(at4x));
 }

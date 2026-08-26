@@ -9,6 +9,7 @@
            is roughly what it costs to decode. */
 window.JMAP = window.JMAP || {};
 JMAP.RELIEF = {
+  "blend": "multiply",
   "boxes": {
     "albers": {
       "h": 1680.75,
@@ -32,7 +33,7 @@ JMAP.RELIEF = {
   "levels": [
     {
       "deg": 30.0,
-      "kb": 641,
+      "kb": 360,
       "key": "coarse",
       "mb": 48,
       "note": "1:50m, 2 arc-minutes",
@@ -44,7 +45,7 @@ JMAP.RELIEF = {
     },
     {
       "deg": 45.0,
-      "kb": 1607,
+      "kb": 966,
       "key": "fine",
       "mb": 107,
       "note": "1:10m, thinned to 4/5",
@@ -56,7 +57,7 @@ JMAP.RELIEF = {
     },
     {
       "deg": 60.0,
-      "kb": 2465,
+      "kb": 1454,
       "key": "finest",
       "mb": 191,
       "note": "1:10m, 1 arc-minute",

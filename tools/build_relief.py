@@ -224,19 +224,38 @@ def sea_value(gdal, vrt):
     return max(range(256), key=lambda v: h[v])
 
 
-def neutralise(sea, gain=1.0):
-    """A lookup table putting the water at mid grey, so it blends to nothing.
+def neutralise(sea, gain=1.0, blend="multiply"):
+    """A lookup table putting the water at the blend's neutral.
 
-    The image is laid over the map with `mix-blend-mode: soft-light`, which
-    leaves the colour under it **unchanged** wherever the image is exactly
-    128 and shades it either way on the two sides of that. So the sheet's own
-    flat water value has to become 128 — otherwise the sea is tinted along
-    with the land, and a shaded-relief sheet has nothing true to say about the
-    sea in the first place.
+    The image is laid over the map with a blend mode that leaves the colour
+    under it **unchanged** at one particular value, so the sheet's own flat
+    water value has to become exactly that value — otherwise the sea is tinted
+    along with the land, and a shaded-relief sheet has nothing true to say
+    about the sea in the first place.
 
-    Piecewise linear, both sides stretched to fill their half, so no contrast
-    is lost on land: the darkest shadow still reaches 0 and the brightest lit
-    slope still reaches 255.
+    Which value depends on the blend, and the choice of blend is not a matter
+    of taste:
+
+      * **`overlay`** (neutral 128) shades in both directions, darkening the
+        shadows and lifting the lit slopes. But it *screens* wherever the
+        colour underneath is above 128, and screening a channel that is
+        already 255 cannot move it. China's fill is `[255,255,179]` — two
+        channels at the ceiling — so on China only blue could move, which
+        reads as a change of hue rather than as terrain. Measured on a
+        60/255 shadow: China moved 40 where Japan's dark red moved 53.
+
+      * **`multiply`** (neutral 255) has no ceiling. It darkens every channel
+        in proportion, so a near-white yellow shades exactly as well as a dark
+        red. The same shadow moves China by 105. What it cannot do is lift a
+        lit slope — everything above the water value flattens to no change —
+        which is the ordinary bargain of a multiply hillshade and the reason
+        most printed atlases make it.
+
+    For `overlay` the map is piecewise linear, both sides stretched to fill
+    their half, so the darkest shadow reaches 0 and the brightest lit slope
+    255. For `multiply` there is only one side: water is 255 and everything
+    below it is scaled into 0..255, with the lit slopes above water clamped
+    back to 255.
     `gain` then pushes everything further from the middle. It is needed because
     the sheet's land sits close to its water value — the interesting range is
     roughly 124 to 226 around a sea of 206 — and a blend mode that respects the
@@ -246,15 +265,18 @@ def neutralise(sea, gain=1.0):
     `sea`, so water lands on 128 whatever the gain, and the sea stays untouched
     by construction rather than by luck.
     """
+    mid = 255.0 if blend == "multiply" else 128.0
     lut = []
     for v in range(256):
-        if v <= sea:
+        if blend == "multiply":
+            base = min(255.0, v * 255.0 / sea) if sea else 255.0
+        elif v <= sea:
             base = v * 128.0 / sea if sea else 0.0
         elif sea < 255:
             base = 128 + (v - sea) * 127.0 / (255 - sea)
         else:
             base = 128.0
-        lut.append(max(0, min(255, int(round(128 + (base - 128) * gain)))))
+        lut.append(max(0, min(255, int(round(mid + (base - mid) * gain)))))
     return lut
 
 
@@ -284,7 +306,9 @@ def main():
     ap.add_argument("--only", default="",
                     help="build one level only: coarse, fine or finest")
     ap.add_argument("--quality", type=int, default=72)
-    ap.add_argument("--gain", type=float, default=1.7,
+    ap.add_argument("--blend", default="multiply", choices=("multiply", "overlay"),
+                    help="which blend the page will use; sets the neutral")
+    ap.add_argument("--gain", type=float, default=1.0,
                     help="how far to push the shading from mid grey (1 = none)")
     ap.add_argument("--sea", type=int, default=0,
                     help="the flat grey the sheet uses for water "
@@ -333,7 +357,7 @@ def main():
                    f["rawx1"] / scale, f["rawy1"] / scale],
         }
 
-    manifest = {"levels": [], "boxes": {}}
+    manifest = {"levels": [], "boxes": {}, "blend": args.blend}
     for mode, b in boxes.items():
         manifest["boxes"][mode] = {k: round(v, 2) for k, v in b["box"].items()}
 
@@ -359,7 +383,8 @@ def main():
             gdal.Warp(tif, vrt, dstSRS=proj4(mode, P), outputBounds=te,
                       width=out_w, height=out_h, resampleAlg="cubic",
                       srcNodata=None, dstAlpha=False)
-            img = Image.open(tif).convert("L").point(neutralise(sea, args.gain))
+            img = Image.open(tif).convert("L").point(
+                neutralise(sea, args.gain, args.blend))
             name = "relief-%s-%s.webp" % (L["key"], mode)
             path = os.path.join(args.out, name)
             img.save(path, "WEBP", quality=args.quality, method=6)
@@ -374,8 +399,9 @@ def main():
         px = L["width"] * max(1, int(round(L["width"] * boxes["laea"]["box"]["h"]
                                            / boxes["laea"]["box"]["w"])))
         entry["mb"] = round(px * 4 / 1e6)
-        print("  %-7s water at %d pushed out by %.2f, %.1f Mpx, about %d MB, sharp to %.1fx"
-              % (L["key"], sea, args.gain, px / 1e6, entry["mb"],
+        print("  %-7s water at %d -> %s neutral, gain %.2f, %.1f Mpx, "
+              "about %d MB, sharp to %.1fx"
+              % (L["key"], sea, args.blend, args.gain, px / 1e6, entry["mb"],
                  deg / P["pxPerDeg"]))
         manifest["levels"].append(entry)
     print("%d KB of images in all" % total)

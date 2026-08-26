@@ -13,8 +13,8 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '1.71';
-  var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "50f952d66d", "japan-empire-map-admin.svg": "9de0304837", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "9214380208", "relief-coarse-albers.webp": "448c277f0f", "relief-coarse-laea.webp": "93ffb30d2e", "relief-coarse-mercator.webp": "e8fc127ee2", "relief-fine-albers.webp": "0e50dc3936", "relief-fine-laea.webp": "fa114a9d03", "relief-fine-mercator.webp": "c2d2c22802", "relief-finest-albers.webp": "aed9172644", "relief-finest-laea.webp": "c985fdeed8", "relief-finest-mercator.webp": "96671349c4"};
+  var JEM_VERSION = '1.72';
+  var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "50f952d66d", "japan-empire-map-admin.svg": "9de0304837", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "9214380208", "relief-coarse-albers.webp": "b57f3373ec", "relief-coarse-laea.webp": "4a79ce52b8", "relief-coarse-mercator.webp": "dd24772c29", "relief-fine-albers.webp": "641d43c5c5", "relief-fine-laea.webp": "52676e1c50", "relief-fine-mercator.webp": "1dc7a621a2", "relief-finest-albers.webp": "05b24e1e30", "relief-finest-laea.webp": "1325488946", "relief-finest-mercator.webp": "cac01f8da0"};
 
   /* Every file this one fetches, with the version on it.
 
@@ -1210,37 +1210,42 @@
     return all[Math.min(all.length - 1, Math.max(0, state.reliefDetail | 0))] || null;
   }
 
-  /* How many times the reader has zoomed in past the whole frame. Not `k`:
-     `k` is units per screen pixel and depends on the window, and the relief's
-     own sharpness is a fact about the drawing, not about the container. */
-  function reliefZoom() {
-    return mapW0 && view.w ? mapW0 / view.w : 1;
-  }
+  /* How many screen pixels one pixel of the sheet is being stretched over.
+     This is the whole of the fade, and it is a **screen pixel** measurement —
+     see the rule in CLAUDE.md, which this got wrong first time.
 
-  /* The two ends of the ramp, read off the sheet rather than written down.
-     A sheet is level with the screen at `deg / pxPerDeg` times zoomed in — the
-     map draws 20 units to the degree — and the ramp is a multiple of that, so
-     a finer sheet stays longer without anything here being written down twice.
+     It used to be `mapW0 / view.w`, how far the document is magnified. That is
+     a fact about the drawing and pixelation is not: at the same document zoom
+     a narrow phone puts *fewer* screen pixels on each pixel of the sheet than
+     a wide desktop does, so the sheet is still perfectly sharp there when the
+     fade has already taken it away. Which is exactly how it was reported —
+     that the relief seemed to go sooner on a phone.
 
-     Three and seven, not two and four. Magnified three times a hillshade is
-     still telling the reader where the mountains are, and the first ramp took
-     it away while it was still doing that: the coarse sheet had gone by six
-     times in, which on this map is about the width of Honshu. Now it holds to
-     4.5x and is gone by 10.5x, and the finest holds to 9x and is gone by
-     21x. */
-  function reliefRamp() {
+     One pixel of the sheet is `pxPerDeg / deg` map units across, and `k` is
+     map units per screen pixel, so the ratio is the two divided. It needs no
+     separate handling for the three sheets: a finer one has a bigger `deg`,
+     covers less ground per pixel, and so stays sharp further in on its own. */
+  function reliefStretch() {
     var L = reliefLevel();
-    var cross = L && L.deg && proj && proj.pxPerDeg ? L.deg / proj.pxPerDeg : 1.5;
-    return { full: cross * 3, gone: cross * 7 };
+    var c = containerSize();
+    var k = c.w && view.w ? view.w / c.w : 1;      // map units per screen pixel
+    if (!L || !L.deg || !proj || !proj.pxPerDeg || !k) return 1;
+    return (proj.pxPerDeg / L.deg) / k;
   }
+
+  /* Untouched until one pixel of the sheet covers this many screen pixels,
+     and gone by the second. Magnified three times over, a hillshade is still
+     telling the reader where the mountains are; the first two rounds of this
+     took it away while it was still doing that. */
+  var RELIEF_FULL = 2.8;
+  var RELIEF_GONE = 6.5;
 
   function reliefFade() {
     if (!reliefGroup) return;
-    var z = reliefZoom();
-    var r = reliefRamp();
-    var a = z <= r.full ? 1
-          : z >= r.gone ? 0
-          : (r.gone - z) / (r.gone - r.full);
+    var z = reliefStretch();
+    var a = z <= RELIEF_FULL ? 1
+          : z >= RELIEF_GONE ? 0
+          : (RELIEF_GONE - z) / (RELIEF_GONE - RELIEF_FULL);
     if (reliefImg) reliefImg.style.opacity = String(RELIEF_MAX * a);
     // and taken out of the drawing altogether once it contributes nothing, so
     // a deep zoom is not compositing a 4200-pixel image every frame for nothing
@@ -1266,7 +1271,8 @@
       reliefGroup.style.pointerEvents = 'none';
       reliefImg = svgEl('image', { preserveAspectRatio: 'none' });
       reliefImg.style.pointerEvents = 'none';
-      reliefImg.style.mixBlendMode = 'overlay';
+      reliefImg.style.mixBlendMode =
+        (JMAP.RELIEF && JMAP.RELIEF.blend) || 'multiply';
       reliefGroup.appendChild(reliefImg);
       svg.appendChild(reliefGroup);
     }
