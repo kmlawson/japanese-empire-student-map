@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '1.77';
+  var JEM_VERSION = '1.78';
   var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "50f952d66d", "japan-empire-map-admin.svg": "9de0304837", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "9214380208", "relief-coarse-albers.webp": "b57f3373ec", "relief-coarse-laea.webp": "4a79ce52b8", "relief-coarse-mercator.webp": "dd24772c29", "relief-fine-albers.webp": "641d43c5c5", "relief-fine-laea.webp": "52676e1c50", "relief-fine-mercator.webp": "1dc7a621a2", "relief-finest-albers.webp": "05b24e1e30", "relief-finest-laea.webp": "1325488946", "relief-finest-mercator.webp": "cac01f8da0"};
 
   /* Every file this one fetches, with the version on it.
@@ -1247,6 +1247,84 @@
      before the 40x the map allows. `reliefFade` is the ramp and `rescale`
      calls it, which is the one place in this file that knows about zoom. */
   var reliefGroup = null, reliefImg = null, reliefFor = '';
+  var reliefState = 'none';     // none | loading | ready | failed
+  var reliefHave = {};          // 'mercator/finest' -> a blob URL, once fetched
+
+  /* The switch turns the relief on and off every time; what it cannot do is
+     make one and three quarter megabytes arrive instantly. The same problem
+     Administrative had and the same answer — the button says so.
+
+     Two switches to mark, because Topography has two: the button in the bar,
+     which takes the spinner `#layer-seg button.busy` already draws, and the
+     tick in the Layers dialog, which is the only one a phone has. */
+  function setReliefBusy() {
+    var b = $('#btn-topo');
+    if (b) {
+      b.classList.toggle('busy', reliefState === 'loading');
+      b.classList.toggle('failed', reliefState === 'failed');
+      b.setAttribute('aria-busy', reliefState === 'loading' ? 'true' : 'false');
+      b.title = reliefState === 'loading' ? 'Loading the shaded relief…'
+        : reliefState === 'failed' ? 'The relief did not load — press again to retry'
+        : 'Shaded relief under the political colours. It fades out as you zoom in.';
+    }
+    var note = $('#relief-note');
+    if (note) {
+      note.textContent = reliefState === 'loading' ? 'loading…'
+        : reliefState === 'failed' ? 'did not load' : '';
+      note.hidden = !note.textContent;
+      note.classList.toggle('bad', reliefState === 'failed');
+    }
+  }
+
+  /* Fetched whole, then drawn — not handed to the `<image>` as a URL.
+     
+     An `<image>` given an address paints the file as it arrives, so a sheet
+     this size wiped down the map a band at a time while the reader watched.
+     Reading it into a blob first costs nothing but the same bytes and the map
+     changes once, when there is a whole picture to change it to. Each blob is
+     kept, so going back to a projection already seen is instant and silent. */
+  var reliefPending = 0;
+  function reliefFetch(want, src, then) {
+    if (reliefHave[want]) { then(reliefHave[want]); return; }
+    /* Not `if already loading, give up`. That is what this said first, and it
+       meant a reader who changed projection while the first sheet was still
+       coming down got the second one dropped on the floor — with `reliefFor`
+       already moved on, so nothing ever asked for it again and the map simply
+       had no relief. Both run; each checks on arrival whether it is still the
+       one wanted, and the spinner stops when the last of them is done. */
+    reliefPending++;
+    reliefState = 'loading';
+    setReliefBusy();
+    var url = asset(src);
+    if (!window.fetch) {                       // nothing to be gained; just draw
+      reliefPending--; reliefState = 'ready'; setReliefBusy(); then(url); return;
+    }
+    var done = function () {
+      reliefPending = Math.max(0, reliefPending - 1);
+      if (!reliefPending && reliefState === 'loading') reliefState = 'ready';
+      setReliefBusy();
+    };
+    window.fetch(url).then(function (r) {
+      if (!r.ok) throw new Error(String(r.status));
+      return r.blob();
+    }).then(function (blob) {
+      reliefHave[want] = URL.createObjectURL(blob);
+      done();
+      // the reader may have moved on while it was in the air
+      if (reliefFor === want) then(reliefHave[want]);
+    }).catch(function () {
+      reliefPending = Math.max(0, reliefPending - 1);
+      // only the sheet the reader is actually waiting for is a failure worth
+      // reporting; one they have already navigated away from is not
+      if (reliefFor === want) {
+        reliefState = 'failed';
+        reliefFor = '';                        // so pressing again retries
+      } else if (!reliefPending && reliefState === 'loading') {
+        reliefState = 'ready';
+      }
+      setReliefBusy();
+    });
+  }
   var RELIEF_MAX = 0.8;      // how strong it ever gets
 
   /* One sheet for now. The build still writes all three and the machinery to
@@ -1317,6 +1395,9 @@
       ? { box: boxes[state.projection], src: L.src[state.projection] } : null;
     if (!state.relief || !man) {
       if (reliefGroup) reliefGroup.style.display = 'none';
+      // a reader who changed their mind is not still waiting for it
+      if (reliefState === 'loading') { reliefState = 'none'; reliefFor = ''; }
+      setReliefBusy();
       return;
     }
     if (!reliefGroup) {
@@ -1347,10 +1428,17 @@
       reliefImg.setAttribute('y', man.box.y);
       reliefImg.setAttribute('width', man.box.w);
       reliefImg.setAttribute('height', man.box.h);
-      // fetched the first time that pair is wanted, and never again
-      reliefImg.setAttributeNS('http://www.w3.org/1999/xlink', 'href',
-        asset(man.src));
-      reliefImg.setAttribute('href', asset(man.src));
+      /* The box goes on straight away and the picture follows. The box is the
+         same shape whichever sheet is in it, so there is nothing to see until
+         the bytes land — and the old sheet is cleared, or a reader switching
+         projection would look at the previous one stretched over the new
+         frame while the new one came down. */
+      reliefImg.removeAttributeNS('http://www.w3.org/1999/xlink', 'href');
+      reliefImg.removeAttribute('href');
+      reliefFetch(want, man.src, function (href) {
+        reliefImg.setAttributeNS('http://www.w3.org/1999/xlink', 'href', href);
+        reliefImg.setAttribute('href', href);
+      });
     }
     reliefFade();
   }

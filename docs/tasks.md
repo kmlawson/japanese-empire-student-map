@@ -9151,6 +9151,53 @@ passing, 181s.
 
 ---
 
+## The relief says it is loading, and arrives whole
+
+Two things, and the second is the one that was actually visible.
+
+**It says so.** The same treatment Administrative has — `busy` on the bar's
+button, which `#layer-seg button.busy` already draws a spinner for, and a
+`failed` state that says to press again. Topography has two switches, so the
+Layers row gets a word beside its tick as well: on a phone the bar does not
+carry the button at all and the tick is the only switch there is, so a spinner
+nobody can see would be no feedback.
+
+**It arrives whole.** An `<image>` handed an address paints the file as it
+arrives, so a 1.7 MB sheet wiped down the map a band at a time. It is fetched
+into a blob and the `href` set once, so the map changes when there is a whole
+picture to change it to. Each blob is kept, so a projection already seen comes
+back instantly and silently.
+
+### A real bug the test found
+
+`reliefFetch` began `if (reliefState === 'loading') return;`. A reader who
+changed projection while the first sheet was still coming down had the second
+one **dropped on the floor** — and `reliefFor` had already moved on, so nothing
+ever asked for it again and the map simply had no relief until they switched
+away and back. Both fetches run now; each checks on arrival whether it is still
+the one wanted, and the spinner stops when the last of them is done. A failure
+is only reported for the sheet the reader is actually waiting for.
+
+### Three of the test's own faults, all the same fault
+
+Every section in `relief.js` shared one browser, and that has now cost three
+things: a shared HTTP cache hid the download from the throttling, a shared
+profile carried state into a block about a reader starting fresh, and waiting
+on "the href is a blob" returned at once because it always is after the first
+sheet. The throttled block disables the cache, the caching block has a browser
+of its own, and the waits are on the requests themselves and on the spinner
+going out.
+
+### Measured
+
+`tools/test/relief.js` is 52 checks, ten of them new: the button and the row
+both say "loading", nothing is painted while it comes down, the href ends as a
+`blob:`, changing projection fetches that sheet, going back fetches nothing,
+and a refused download shows a failure on both switches rather than spinning
+for ever. Whole suite: 608 checks across 27 scripts, all passing, 195s.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

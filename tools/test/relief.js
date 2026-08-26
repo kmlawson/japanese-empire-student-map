@@ -446,6 +446,139 @@ console.log('\n— its two switches agree —');
   await q.close();
 }
 
+/* What a reader sees while one and three quarter megabytes are on the way.
+ *
+ * Two things, and the second is the one that is easy to get wrong. An `<image>`
+ * handed an address paints the file as it arrives, so a sheet this size wiped
+ * down the map a band at a time. It is fetched into a blob first and the
+ * `href` set once, so the map changes when there is a whole picture to change
+ * it to — which is checked by the href being a `blob:` and never the file.
+ */
+console.log('\n— it says it is loading, and arrives whole —');
+{
+  const p = await b.newPage();
+  await p.setViewport({ width: 1400, height: 950 });
+  const cdp = await p.createCDPSession();
+  await cdp.send('Network.enable');
+  /* Every page in this file shares one browser and so one HTTP cache, and the
+     sections above have already fetched this sheet — throttling a download
+     that never happens shows nothing. */
+  await cdp.send('Network.setCacheDisabled', { cacheDisabled: true });
+  await cdp.send('Network.emulateNetworkConditions', { offline: false,
+    downloadThroughput: 220 * 1024, uploadThroughput: 220 * 1024, latency: 120 });
+  await p.goto('http://localhost:8123/index.html', { waitUntil: 'networkidle0' });
+  await sleep(3000);
+  const look = () => p.evaluate(() => {
+    const btn = document.querySelector('#btn-topo');
+    const n = document.querySelector('#relief-note');
+    const im = document.querySelector('#relief image');
+    return { busy: btn.classList.contains('busy'),
+             aria: btn.getAttribute('aria-busy'),
+             note: n.hidden ? '' : n.textContent,
+             href: im ? (im.getAttribute('href') || '') : null };
+  });
+  await p.evaluate(() => document.querySelector('#btn-topo').click());
+  await sleep(400);
+  const mid = await look();
+  check('the button says it is working', mid.busy && mid.aria === 'true',
+    JSON.stringify(mid));
+  /* The dialog says so too. On a phone the bar does not carry Topography at
+     all and the tick is the only switch there is, so a spinner on a button
+     nobody can see would be no feedback at all. */
+  check('and so does the row in the Layers dialog', /loading/.test(mid.note),
+    JSON.stringify(mid));
+  check('and nothing is painted while it comes down', mid.href === '',
+    JSON.stringify(mid));
+  let end = mid;
+  for (let i = 0; i < 40; i++) {
+    end = await look();
+    if (!end.busy && /^blob:/.test(end.href)) break;
+    await sleep(700);
+  }
+  check('when it lands the map takes it whole, from a blob',
+    /^blob:/.test(end.href), JSON.stringify(end));
+  check('and the button stops saying anything',
+    !end.busy && end.aria === 'false' && end.note === '', JSON.stringify(end));
+  await p.close();
+}
+
+console.log('\n— a sheet already fetched is not fetched again —');
+{
+  /* Its own browser. Every other section here shares one, and this is the
+     third time that has cost something: a shared HTTP cache hid the download
+     from the throttling above, and a shared profile carried a projection
+     and a stored state into a block that is about a reader starting fresh. */
+  const b2 = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox'] });
+  const p = await b2.newPage();
+  await p.setViewport({ width: 1400, height: 950 });
+  const got = [];
+  p.on('request', r => { if (/relief-/.test(r.url())) got.push(r.url().split('/').pop().split('?')[0]); });
+  await p.goto('http://localhost:8123/index.html', { waitUntil: 'networkidle0' });
+  await sleep(2800);
+  /* Waited on from the outside, by counting the requests that actually
+     happen, rather than on a page-side proxy for them: the href is a blob
+     after the first sheet whatever the second one is doing, so waiting for
+     "a blob" returns at once and the count is read before the fetch fires. */
+  const nRequests = async (n, secs) => {
+    for (let i = 0; i < secs * 2; i++) {
+      if (got.length >= n) return true;
+      await sleep(500);
+    }
+    return false;
+  };
+  /* And each one is allowed to *finish* before the next is asked for. A sheet
+     is only kept once it has arrived, so switching away mid-download and back
+     again fetches it a second time — which is right, and is not what this
+     section is about. */
+  const idle = async () => {
+    for (let i = 0; i < 60; i++) {
+      if (!(await p.evaluate(() =>
+        document.querySelector('#btn-topo').classList.contains('busy')))) return;
+      await sleep(500);
+    }
+  };
+  await p.evaluate(() => document.querySelector('#btn-topo').click());
+  await nRequests(1, 25); await idle();
+  const pick = m => p.evaluate(v => { const r = document.querySelector('input[value="' + v + '"]');
+    if (r) { r.checked = true; r.dispatchEvent(new Event('change', { bubbles: true })); } }, m);
+  await pick('albers');
+  await nRequests(2, 25); await idle();
+  check('changing projection fetches that projection\'s sheet',
+    got.length === 2 && /albers/.test(got[1]), got.join(','));
+  await pick('mercator');
+  await sleep(1600);
+  check('and going back fetches nothing — the blob was kept',
+    got.length === 2, got.join(','));
+  check('with no spinner for a picture already in hand',
+    !(await p.evaluate(() => document.querySelector('#btn-topo').classList.contains('busy'))));
+  await p.close();
+  await b2.close();
+}
+
+console.log('\n— and it says so when it fails —');
+{
+  const p = await b.newPage();
+  await p.setViewport({ width: 1400, height: 950 });
+  await p.setRequestInterception(true);
+  p.on('request', r => { if (/relief-.*\.webp/.test(r.url())) r.abort(); else r.continue(); });
+  await p.goto('http://localhost:8123/index.html', { waitUntil: 'networkidle0' });
+  await sleep(2800);
+  await p.evaluate(() => document.querySelector('#btn-topo').click());
+  await sleep(2600);
+  const st = await p.evaluate(() => {
+    const btn = document.querySelector('#btn-topo');
+    const n = document.querySelector('#relief-note');
+    return { failed: btn.classList.contains('failed'),
+             busy: btn.classList.contains('busy'),
+             note: n.hidden ? '' : n.textContent, title: btn.title };
+  });
+  check('the button shows the failure rather than spinning for ever',
+    st.failed && !st.busy, JSON.stringify(st));
+  check('and both switches say what went wrong',
+    /did not load/.test(st.note) && /did not load/.test(st.title), JSON.stringify(st));
+  await p.close();
+}
+
 console.log('\n  ' + pass + ' passed, ' + fail + ' failed');
 await b.close();
 process.exit(fail);

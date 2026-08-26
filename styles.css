@@ -2140,3 +2140,19 @@ dialog h3 {
 }
 #options .mono-row button[hidden] { display: none; }
 #options .mono-row button:hover { border-color: var(--muted); }
+
+/* A word beside a switch while its file is on the way. The bar's own button
+   takes the spinner `#layer-seg button.busy` draws, but on a phone the bar
+   does not carry Topography at all and the dialog's tick is the only switch
+   there is — so the dialog says it too. */
+#options .row-note {
+  margin-left: 6px;
+  font-size: 11px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+#options .row-note[hidden] { display: none; }
+#options .row-note.bad { color: #8c2f39; }
+@media (prefers-color-scheme: dark) {
+  #options .row-note.bad { color: #e08b95; }
+}
