@@ -40,6 +40,7 @@ const check = (n, c, d) => { if (c) { pass++; console.log('  ok   ' + n); }
 const BASE = (1 << 5) | (1 << 6);          // line of control and rivers, as they start
 const RELIEF = 1 << 18;
 const PROJBIT = { mercator: 0, albers: 1 << 15, laea: 2 << 15 };
+const DETAIL = n => n << 19;
 const url = (bits) => 'http://localhost:8123/index.html?layers=' + (bits >>> 0).toString(36);
 
 (async () => {
@@ -64,8 +65,8 @@ console.log('\n— off until it is asked for —');
   await p.evaluate(() => document.querySelector('#opt-relief').click());
   await sleep(2600);
   check('exactly one image is fetched', got.length === 1, got.join(','));
-  check('and it is the one for the projection on screen',
-    got[0] === 'relief-mercator.webp', got.join(','));
+  check('and it is the coarse one, for the projection on screen',
+    got[0] === 'relief-coarse-mercator.webp', got.join(','));
   const img = await p.evaluate(() => {
     const i = document.querySelector('#relief image');
     if (!i) return null;
@@ -230,7 +231,7 @@ console.log('\n— one warp per projection, and only the one in use —');
     await p.goto(url(BASE | RELIEF | PROJBIT[mode]), { waitUntil: 'networkidle0' });
     await sleep(3200);
     check(mode + ': its own image and no other',
-      got.length === 1 && got[0] === 'relief-' + mode + '.webp', got.join(','));
+      got.length === 1 && got[0] === 'relief-coarse-' + mode + '.webp', got.join(','));
     const box = await p.evaluate(() => {
       const i = document.querySelector('#relief image');
       return i ? [+i.getAttribute('w' + 'idth'), +i.getAttribute('height')] : null; });
@@ -242,6 +243,72 @@ console.log('\n— one warp per projection, and only the one in use —');
     check(mode + ': no page errors', errs.length === 0, errs[0]);
     await p.close();
   }
+}
+
+/* Three sheets to choose between, and the point of offering the choice is
+   that a reader on a phone should not be made to decode 191 MB of pixels for
+   a layer that is off by default. So what has to hold is that picking one
+   fetches that one and *only* that one, and that the ramp moves with it: a
+   finer sheet stays sharp further in and so must fade later, which is read
+   off the manifest rather than written down three times. */
+console.log('\n— three sheets, and only the chosen one is fetched —');
+{
+  const LEVELS = ['coarse', 'fine', 'finest'];
+  /* One page at a time, opened and closed. The three sheets decode to roughly
+     48, 107 and 191 MB, and holding all three open at once ran the browser out
+     of headroom here — `Input.dispatchMouseEvent` timed out mid-wheel. Which
+     is itself the argument for offering the choice. */
+  const at4x = [];
+  let degs = null, kbs = null;
+  for (let i = 0; i < 3; i++) {
+    const p = await b.newPage();
+    await p.setViewport({ width: 1300, height: 900 });
+    const got = [];
+    p.on('request', r => { if (/relief-/.test(r.url())) got.push(r.url().split('/').pop().split('?')[0]); });
+    const errs = []; p.on('pageerror', e => errs.push(String(e)));
+    await p.goto(url(BASE | RELIEF | DETAIL(i)), { waitUntil: 'networkidle0' });
+    await sleep(3600);
+    check(LEVELS[i] + ': fetches its own sheet and no other',
+      got.length === 1 && got[0] === 'relief-' + LEVELS[i] + '-mercator.webp',
+      got.join(','));
+    const r = await p.evaluate(() => {
+      const g = document.querySelector('#relief');
+      const im = g && g.querySelector('image');
+      const L = JMAP.RELIEF.levels;
+      return { drawn: !!im && im.getBoundingClientRect().width > 0,
+               op: im ? parseFloat(getComputedStyle(im).opacity) : 0,
+               degs: L.map(x => x.deg), kbs: L.map(x => x.kb) };
+    });
+    check(LEVELS[i] + ': it is drawn at the opening view', r.drawn && r.op > 0.3,
+      JSON.stringify(r));
+    degs = r.degs; kbs = r.kbs;
+
+    /* And the ramp. 4x is past where the coarse sheet has gone and inside
+       where the finest is still untouched, so one zoom tells all three apart. */
+    for (let n = 0; n < 12; n++) {
+      const z = await p.evaluate(() => 2800 / parseFloat(
+        document.getElementById('jmap').getAttribute('viewBox').split(' ')[2]));
+      if (z >= 4) break;
+      await p.mouse.move(650, 450); await p.mouse.wheel({ deltaY: -260 }); await sleep(330);
+    }
+    at4x.push(await p.evaluate(() => {
+      const g = document.querySelector('#relief');
+      const im = g.querySelector('image');
+      return { z: +(2800 / parseFloat(document.getElementById('jmap')
+                 .getAttribute('viewBox').split(' ')[2])).toFixed(2),
+               op: getComputedStyle(g).display === 'none' ? 0
+                   : parseFloat(getComputedStyle(im).opacity) };
+    }));
+    check(LEVELS[i] + ': no page errors', errs.length === 0, errs[0]);
+    await p.close();
+  }
+  check('the three get finer, and heavier, in order',
+    degs[0] < degs[1] && degs[1] < degs[2] && kbs[0] < kbs[1] && kbs[1] < kbs[2],
+    JSON.stringify(degs) + ' ' + JSON.stringify(kbs));
+  check('the coarse sheet has faded by 4x', at4x[0].op < 0.3, JSON.stringify(at4x[0]));
+  check('and the finest has not', at4x[2].op > 0.5, JSON.stringify(at4x[2]));
+  check('with the middle one between them',
+    at4x[1].op >= at4x[0].op && at4x[1].op <= at4x[2].op, JSON.stringify(at4x));
 }
 
 console.log('\n  ' + pass + ' passed, ' + fail + ' failed');

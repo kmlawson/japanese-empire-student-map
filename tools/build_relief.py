@@ -57,8 +57,28 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 SVG = os.path.join(ROOT, "japan-empire-map.svg")
-DEFAULT_SRC = os.path.expanduser(
-    "~/Library/CloudStorage/Dropbox/GIS/SR_50M/SR_50M.tif")
+SR50 = os.path.expanduser("~/Library/CloudStorage/Dropbox/GIS/SR_50M/SR_50M.tif")
+SR_HR = os.path.expanduser("~/Library/CloudStorage/Dropbox/GIS/SR_50M/SR_HR/SR_HR.tif")
+
+# The three the reader can choose between, coarsest first.
+#
+# `deg` is pixels per degree of longitude, which is the only number that
+# decides anything: the map draws 20 units to the degree, so a sheet is level
+# with the screen at `deg / 20` times zoomed in and a mosaic past that. The
+# browser reads it back out of the manifest and sets the fade from it, rather
+# than carrying three pairs of thresholds that would have to be kept in step
+# with these by hand.
+#
+# `finest` is the 1:10m sheet at its own resolution and `fine` is the same
+# sheet at three quarters — which is the useful middle, because what decides
+# this is not the download but the decode: 34.3 Mpx is about 137 MB of RGBA in
+# a browser against 77 for 19.3 and 34 for 8.6, and the largest is a lot to ask
+# of a phone for a layer that is off by default.
+LEVELS = [
+    {"key": "coarse", "src": SR50,  "width": 4200, "label": "1:50m, 2 arc-minutes"},
+    {"key": "fine",   "src": SR_HR, "width": 6300, "label": "1:10m, thinned to 4/5"},
+    {"key": "finest", "src": SR_HR, "width": 8400, "label": "1:10m, 1 arc-minute"},
+]
 
 # the frame, as build_map.py draws it
 LON_MIN, LON_MAX = 66.0, 206.0
@@ -234,10 +254,8 @@ def clip_source(gdal, src, work):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    ap.add_argument("--src", default=DEFAULT_SRC,
-                    help="the Natural Earth relief GeoTIFF (default: SR_50M)")
-    ap.add_argument("--width", type=int, default=0,
-                    help="output width in pixels (default: the clip's own)")
+    ap.add_argument("--only", default="",
+                    help="build one level only: coarse, fine or finest")
     ap.add_argument("--quality", type=int, default=72)
     ap.add_argument("--sea", type=int, default=0,
                     help="the flat grey the sheet uses for water "
@@ -256,8 +274,12 @@ def main():
     Image.MAX_IMAGE_PIXELS = None
     gdal.UseExceptions()
 
-    if not os.path.exists(args.src):
-        sys.exit("build_relief: no such file: %s" % args.src)
+    levels = [L for L in LEVELS if not args.only or L["key"] == args.only]
+    if not levels:
+        sys.exit("build_relief: no such level: %s" % args.only)
+    for L in levels:
+        if not os.path.exists(L["src"]):
+            sys.exit("build_relief: no such file: %s" % L["src"])
     P = svg_proj()
     # pxPerDeg has to be R in radians or mercator x and y are on different
     # scales and the image is stretched sideways. Checked, not assumed.
@@ -268,47 +290,76 @@ def main():
 
     work = os.path.join(HERE, "cache")
     os.makedirs(work, exist_ok=True)
-    vrt, (sw, sh) = clip_source(gdal, args.src, work)
-    sea = args.sea or sea_value(gdal, vrt)
-    print("water sits at %d and is moved to 128, so soft-light leaves it alone" % sea)
-    print("clipped to the frame: %d x %d  (%.1f Mpx of the world's %.1f)"
-          % (sw, sh, sw * sh / 1e6,
-             gdal.Open(args.src).RasterXSize * gdal.Open(args.src).RasterYSize / 1e6))
-
     scale = P["R"] / R_EARTH             # map units per projection metre
-    out_w = args.width or sw
-    manifest = {}
+
+    # the three placement boxes, which are a fact about the projections and not
+    # about the sheet, so they are worked out once and shared by every level
+    boxes = {}
     for mode in ("mercator", "albers", "laea"):
         f = fit(P, mode)
-        # the box in map units, y down, which is where the browser puts it
-        box = {"x": f["rawx0"] + f["dx"], "y": f["dy"] - f["rawy1"],
-               "w": f["rawx1"] - f["rawx0"], "h": f["rawy1"] - f["rawy0"]}
-        # and the same box in the metres PROJ works in
-        te = [f["rawx0"] / scale, f["rawy0"] / scale,
-              f["rawx1"] / scale, f["rawy1"] / scale]
-        out_h = max(1, int(round(out_w * box["h"] / box["w"])))
-        tif = os.path.join(work, "rel-%s.tif" % mode)
-        gdal.Warp(tif, vrt, dstSRS=PROJ4[mode], outputBounds=te,
-                  width=out_w, height=out_h, resampleAlg="cubic",
-                  srcNodata=None, dstAlpha=False)
-        png = Image.open(tif).convert("L")
-        png = png.point(neutralise(sea))
-        name = "relief-%s.webp" % mode
-        path = os.path.join(args.out, name)
-        png.save(path, "WEBP", quality=args.quality, method=6)
-        kb = os.path.getsize(path) // 1024
-        manifest[mode] = {"src": name,
-                          "x": round(box["x"], 2), "y": round(box["y"], 2),
-                          "w": round(box["w"], 2), "h": round(box["h"], 2),
-                          "px": [out_w, out_h]}
-        print("  %-9s %5d x %-5d  %5d KB   box %8.1f %8.1f %8.1f %8.1f"
-              % (mode, out_w, out_h, kb, box["x"], box["y"], box["w"], box["h"]))
+        boxes[mode] = {
+            "box": {"x": f["rawx0"] + f["dx"], "y": f["dy"] - f["rawy1"],
+                    "w": f["rawx1"] - f["rawx0"], "h": f["rawy1"] - f["rawy0"]},
+            "te": [f["rawx0"] / scale, f["rawy0"] / scale,
+                   f["rawx1"] / scale, f["rawy1"] / scale],
+        }
+
+    manifest = {"levels": [], "boxes": {}}
+    for mode, b in boxes.items():
+        manifest["boxes"][mode] = {k: round(v, 2) for k, v in b["box"].items()}
+
+    seen_src = {}
+    total = 0
+    for L in levels:
+        if L["src"] not in seen_src:
+            seen_src[L["src"]] = clip_source(gdal, L["src"], work)
+            sw, sh = seen_src[L["src"]][1]
+            print("%s: clipped to the frame at %d x %d"
+                  % (os.path.basename(L["src"]), sw, sh))
+        vrt, (sw, sh) = seen_src[L["src"]]
+        sea = args.sea or sea_value(gdal, vrt)
+        # pixels per degree of longitude, which is what the fade is set from
+        deg = L["width"] / (LON_MAX - LON_MIN)
+        entry = {"key": L["key"], "deg": round(deg, 2), "note": L["label"],
+                 "src": {}, "kb": 0}
+        for mode in ("mercator", "albers", "laea"):
+            box, te = boxes[mode]["box"], boxes[mode]["te"]
+            out_w = L["width"]
+            out_h = max(1, int(round(out_w * box["h"] / box["w"])))
+            tif = os.path.join(work, "rel-%s-%s.tif" % (L["key"], mode))
+            gdal.Warp(tif, vrt, dstSRS=PROJ4[mode], outputBounds=te,
+                      width=out_w, height=out_h, resampleAlg="cubic",
+                      srcNodata=None, dstAlpha=False)
+            img = Image.open(tif).convert("L").point(neutralise(sea))
+            name = "relief-%s-%s.webp" % (L["key"], mode)
+            path = os.path.join(args.out, name)
+            img.save(path, "WEBP", quality=args.quality, method=6)
+            kb = os.path.getsize(path) // 1024
+            entry["src"][mode] = name
+            entry["kb"] = max(entry["kb"], kb)
+            os.remove(tif)
+            print("  %-7s %-9s %5d x %-5d  %5d KB" % (L["key"], mode, out_w, out_h, kb))
+            total += kb
+        # what a reader is actually letting themselves in for: the decode, not
+        # the download. One byte per pixel in, four out.
+        px = L["width"] * max(1, int(round(L["width"] * boxes["laea"]["box"]["h"]
+                                           / boxes["laea"]["box"]["w"])))
+        entry["mb"] = round(px * 4 / 1e6)
+        print("  %-7s water at %d, %.1f Mpx, about %d MB decoded, sharp to %.1fx"
+              % (L["key"], sea, px / 1e6, entry["mb"], deg / P["pxPerDeg"]))
+        manifest["levels"].append(entry)
+    print("%d KB of images in all" % total)
 
     js = os.path.join(args.out, "relief.js")
     with open(js, "w", encoding="utf-8") as fh:
         fh.write("/* Generated by tools/build_relief.py. Do not edit.\n"
-                 "   Shaded relief after Natural Earth, one warp per projection.\n"
-                 "   x/y/w/h are the map units the image is drawn in. */\n"
+                 "   Shaded relief after Natural Earth.\n\n"
+                 "   boxes:  where an image goes, in map units, per projection.\n"
+                 "           A fact about the projection, not about the sheet,\n"
+                 "           so all three levels share these.\n"
+                 "   levels: coarsest first. `deg` is pixels per degree, which\n"
+                 "           is what the browser sets the zoom fade from; `mb`\n"
+                 "           is roughly what it costs to decode. */\n"
                  "window.JMAP = window.JMAP || {};\n"
                  "JMAP.RELIEF = %s;\n"
                  % json.dumps(manifest, indent=2, sort_keys=True))

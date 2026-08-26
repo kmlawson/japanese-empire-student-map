@@ -13,8 +13,8 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '1.69';
-  var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "50f952d66d", "japan-empire-map-admin.svg": "9de0304837", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "9214380208", "relief-albers.webp": "df5678f9b1", "relief-laea.webp": "269ddc91d6", "relief-mercator.webp": "3f8e82b069"};
+  var JEM_VERSION = '1.70';
+  var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "50f952d66d", "japan-empire-map-admin.svg": "9de0304837", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "9214380208", "relief-coarse-albers.webp": "df5678f9b1", "relief-coarse-laea.webp": "269ddc91d6", "relief-coarse-mercator.webp": "3f8e82b069", "relief-fine-albers.webp": "44bd9b73f7", "relief-fine-laea.webp": "2bdf69498a", "relief-fine-mercator.webp": "734de11d7f", "relief-finest-albers.webp": "9b46ce0e19", "relief-finest-laea.webp": "f464b96625", "relief-finest-mercator.webp": "a695a72eb9"};
 
   /* Every file this one fetches, with the version on it.
 
@@ -125,6 +125,11 @@
        carries one warp per projection and where each one goes; see
        `tools/build_relief.py`. */
     relief: false,
+    /* Which of the three sheets. 0 is the 1:50m one at 347 KB, 2 the 1:10m at
+       1.7 MB and four times the pixels to decode. The reader chooses, because
+       the right answer depends on their machine and their connection and this
+       file cannot know either. */
+    reliefDetail: 0,
     // 'mercator' or 'laea'. The file is drawn in the first; the second is
     // worked out in the browser, Mercator being exactly invertible. See the
     // projection block for what each is good and bad at.
@@ -229,6 +234,9 @@
       if (typeof saved.indiaRivers === 'boolean') state.indiaRivers = saved.indiaRivers;
       if (typeof saved.graticule === 'boolean') state.graticule = saved.graticule;
       if (typeof saved.relief === 'boolean') state.relief = saved.relief;
+      if (typeof saved.reliefDetail === 'number') {
+        state.reliefDetail = Math.max(0, Math.min(2, saved.reliefDetail | 0));
+      }
       if (['mercator', 'albers', 'laea'].indexOf(saved.projection) >= 0) {
         state.projection = saved.projection;
       }
@@ -249,7 +257,7 @@
         rivers: state.rivers, legend: state.legend, hairline: state.hairline,
         backs: state.backs, indiaRivers: state.indiaRivers,
         projection: state.projection, graticule: state.graticule,
-        relief: state.relief,
+        relief: state.relief, reliefDetail: state.reliefDetail,
         occSource: state.occSource, ccp: state.ccp,
         manchukuo: state.manchukuo, mengjiang: state.mengjiang, mono: state.mono,
         world: state.world,
@@ -1187,9 +1195,13 @@
      before the 40x the map allows. `reliefFade` is the ramp and `rescale`
      calls it, which is the one place in this file that knows about zoom. */
   var reliefGroup = null, reliefImg = null, reliefFor = '';
-  var RELIEF_FULL = 3.0;      // sharp out to here, in multiples of the whole map
-  var RELIEF_GONE = 6.0;      // and no longer drawn past here
   var RELIEF_MAX = 0.55;      // how strong it ever gets
+
+  /* Which of the three sheets, and where its images are. */
+  function reliefLevel() {
+    var all = (JMAP.RELIEF && JMAP.RELIEF.levels) || [];
+    return all[Math.min(all.length - 1, Math.max(0, state.reliefDetail | 0))] || null;
+  }
 
   /* How many times the reader has zoomed in past the whole frame. Not `k`:
      `k` is units per screen pixel and depends on the window, and the relief's
@@ -1198,12 +1210,25 @@
     return mapW0 && view.w ? mapW0 / view.w : 1;
   }
 
+  /* The two ends of the ramp, read off the sheet rather than written down.
+     A sheet is level with the screen at `deg / pxPerDeg` times zoomed in — the
+     map draws 20 units to the degree — so it is left alone to twice that and
+     gone by four times it. The coarse sheet is sharp to 1.5x and so fades from
+     3x to 6x; the finest is sharp to 3x and fades from 6x to 12x. Three pairs
+     of numbers in this file would be three chances to forget one. */
+  function reliefRamp() {
+    var L = reliefLevel();
+    var cross = L && L.deg && proj && proj.pxPerDeg ? L.deg / proj.pxPerDeg : 1.5;
+    return { full: cross * 2, gone: cross * 4 };
+  }
+
   function reliefFade() {
     if (!reliefGroup) return;
     var z = reliefZoom();
-    var a = z <= RELIEF_FULL ? 1
-          : z >= RELIEF_GONE ? 0
-          : (RELIEF_GONE - z) / (RELIEF_GONE - RELIEF_FULL);
+    var r = reliefRamp();
+    var a = z <= r.full ? 1
+          : z >= r.gone ? 0
+          : (r.gone - z) / (r.gone - r.full);
     if (reliefImg) reliefImg.style.opacity = String(RELIEF_MAX * a);
     // and taken out of the drawing altogether once it contributes nothing, so
     // a deep zoom is not compositing a 4200-pixel image every frame for nothing
@@ -1212,7 +1237,10 @@
 
   function drawRelief() {
     if (!svg) return;
-    var man = JMAP.RELIEF && JMAP.RELIEF[state.projection];
+    var L = reliefLevel();
+    var boxes = JMAP.RELIEF && JMAP.RELIEF.boxes;
+    var man = L && boxes && boxes[state.projection]
+      ? { box: boxes[state.projection], src: L.src[state.projection] } : null;
     if (!state.relief || !man) {
       if (reliefGroup) reliefGroup.style.display = 'none';
       return;
@@ -1230,13 +1258,15 @@
     if (before && before.parentNode === svg && reliefGroup.nextSibling !== before) {
       svg.insertBefore(reliefGroup, before);
     }
-    if (reliefFor !== state.projection) {
-      reliefFor = state.projection;
-      reliefImg.setAttribute('x', man.x);
-      reliefImg.setAttribute('y', man.y);
-      reliefImg.setAttribute('width', man.w);
-      reliefImg.setAttribute('height', man.h);
-      // fetched the first time it is wanted, and once per projection after
+    // the projection *and* the chosen sheet: either one changes the picture
+    var want = state.projection + '/' + L.key;
+    if (reliefFor !== want) {
+      reliefFor = want;
+      reliefImg.setAttribute('x', man.box.x);
+      reliefImg.setAttribute('y', man.box.y);
+      reliefImg.setAttribute('width', man.box.w);
+      reliefImg.setAttribute('height', man.box.h);
+      // fetched the first time that pair is wanted, and never again
       reliefImg.setAttributeNS('http://www.w3.org/1999/xlink', 'href',
         asset(man.src));
       reliefImg.setAttribute('href', asset(man.src));
@@ -2204,7 +2234,7 @@
    *   13  the filler under each country
    *   14  the rivers of India
    *   15,16  projection: 0 Web Mercator, 1 Albers conic, 2 Lambert azimuthal
-   *   17  the graticule    18  shaded relief
+   *   17  the graticule    18  shaded relief   19,20  which relief sheet
    *
    * Bits 7 and 10 no longer have a switch in the Layers panel — the province
    * source came out once the period sheet was redrawn, and the hairline came
@@ -2256,6 +2286,7 @@
     bits |= ({ albers: 1, laea: 2 }[state.projection] || 0) << 15;
     if (state.graticule) bits |= 131072;
     if (state.relief) bits |= 262144;
+    bits |= (state.reliefDetail & 3) << 19;
     return bits.toString(36);
   }
 
@@ -2288,6 +2319,7 @@
     state.projection = ['mercator', 'albers', 'laea'][(bits >> 15) & 3] || 'mercator';
     state.graticule = !!(bits & 131072);
     state.relief = !!(bits & 262144);
+    state.reliefDetail = Math.min(2, (bits >> 19) & 3);
     urlProvSource = (bits & 128) ? 'roc' : 'enp';
   }
 
@@ -6772,13 +6804,45 @@
     // still work, so an old address still means what it meant; this is null
     // now and the block below is skipped.
     var optRelief = $('#opt-relief');
+    var reliefSeg = $('#relief-seg');
+    /* The tick says whether, the segment says which. The segment is dead while
+       the tick is clear — a reader choosing between three sheets none of which
+       is on screen is choosing nothing — and each button says what it will
+       cost, because that is the whole of the decision. */
+    function syncReliefSeg() {
+      if (!reliefSeg) return;
+      reliefSeg.hidden = !state.relief;
+      var L = (JMAP.RELIEF && JMAP.RELIEF.levels) || [];
+      $$('button', reliefSeg).forEach(function (b, i) {
+        b.classList.toggle('on', i === state.reliefDetail);
+        b.setAttribute('aria-pressed', i === state.reliefDetail ? 'true' : 'false');
+        if (L[i]) {
+          b.title = L[i].note + ' — about ' + L[i].kb + ' KB to fetch and '
+            + L[i].mb + ' MB once decoded, sharp to about '
+            + (Math.round(L[i].deg / 20 * 10) / 10) + 'x zoom';
+        }
+      });
+    }
     if (optRelief) {
       optRelief.checked = state.relief;
       optRelief.addEventListener('change', function () {
         state.relief = optRelief.checked;
+        syncReliefSeg();
         applyState();
         saveState();
       });
+    }
+    if (reliefSeg) {
+      $$('button', reliefSeg).forEach(function (b, i) {
+        b.addEventListener('click', function () {
+          if (state.reliefDetail === i) return;
+          state.reliefDetail = i;
+          syncReliefSeg();
+          applyState();
+          saveState();
+        });
+      });
+      syncReliefSeg();
     }
 
     var optGrat = $('#opt-graticule');

@@ -451,7 +451,10 @@ def build_pages():
                # the relief is three images map.js fetches by name, one per
                # projection, and they are not .js or .css so the page's own
                # stamper below never sees them
-               "relief-mercator.webp", "relief-albers.webp", "relief-laea.webp")
+               ) + tuple(
+                   "relief-%s-%s.webp" % (lvl, mode)
+                   for lvl in ("coarse", "fine", "finest")
+                   for mode in ("mercator", "albers", "laea"))
     assets = {}
     for name in FETCHED:
         apath = os.path.join(ROOT, name)

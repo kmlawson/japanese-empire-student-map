@@ -8678,6 +8678,58 @@ suite: 538 checks across 25 scripts, all passing, 156s.
 
 ---
 
+## Three relief sheets, and the reader picks one
+
+The Topography layer now offers a choice, on the same three-button `seg` the
+Level control uses, hidden until the layer is ticked.
+
+```
+          source          out       fetch   decoded   sharp to
+coarse   SR_50M  30 px/deg  4200 wide   440 KB    48 MB     1.5x
+fine     SR_HR   45 px/deg  6300 wide  1132 KB   107 MB     2.3x
+finest   SR_HR   60 px/deg  8400 wide  1713 KB   191 MB     3.0x
+```
+
+(The figures are the largest of the three projections; 8.2 MB of images in
+all, of which a reader fetches at most one.)
+
+### The decode is the number that matters, not the download
+
+1.7 MB is a fine download. 191 MB of RGBA is not a fine thing to hand a phone
+for a layer that is off by default — one byte per pixel in the file, four in
+memory. That is why this is a choice and not a single better sheet, and each
+button's tooltip quotes both figures along with how far in it stays sharp. The
+tooltips are written by `map.js` out of `relief.js`, so they describe the files
+that were actually built rather than what was intended.
+
+It bit the test as well, which is the honest confirmation: holding all three
+pages open at once ran the browser out of headroom and
+`Input.dispatchMouseEvent` timed out mid-wheel. The test now opens and closes
+one at a time.
+
+### The fade follows the sheet
+
+A sheet is level with the screen at `deg / pxPerDeg` times zoomed in — the map
+draws 20 units to the degree — so the ramp is twice that to four times it,
+read out of the manifest rather than written down. Coarse fades 3x to 6x as
+before; finest fades 6x to 12x. Measured at 4x: coarse has gone, finest is
+untouched, and the middle sits between them.
+
+### Backwards compatible
+
+`state.relief` is still bit 18 and still a boolean, so a link made yesterday
+still opens with the layer on. The level is bits 19 and 20 and defaults to 0,
+which is the sheet those links were made with.
+
+### Measured
+
+`tools/test/relief.js` is 38 checks. The new ones: each level fetches its own
+sheet and no other, each is drawn at the opening view, the three run finer and
+heavier in order, and the ramp separates them at 4x. Whole suite: 551 checks
+across 25 scripts, all passing, 151s.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible
