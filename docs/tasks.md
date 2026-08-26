@@ -8894,6 +8894,35 @@ suite: 557 checks across 25 scripts, all passing, 158s.
 
 ---
 
+## Notes for the nine Taiwanese places that had none
+
+A browse-layer place is three records, not two: a dot in
+`data/cities-19xx.csv`, a name in `texts/browse.csv`, and a note as a `## id`
+section in `texts/browse.md`. Nothing enforces the third. The nine places added
+to Taiwan had the first two, so they were drawn, named and clickable, and
+opened a card with a heading and nothing under it.
+
+Written for Daikei, Tansui, Hoppo, Hori, Musha, Hōryō, Shajō, Botansha and
+Kōshun, in the file's own voice and its own order. What each one is for:
+Beipu's 1907 rising, Musha's 1930 one and what followed it, Checheng as where
+the 1874 expedition landed and Mudan as what it was sent against, Puli as the
+road up to the highlands, Daxi under the name Dakekan that the camphor-frontier
+literature uses, Tamsui as the treaty port that silted, Hengchun as the wall
+the Qing built after being shown they did not hold the coast, and Fangliao as
+where the western plain runs out.
+
+All 405 browse rows now have one.
+
+### Measured
+
+`tools/test/taiwan.js` gained a check that no record in `JMAP.BROWSE` is left
+without a note — a whole-file check rather than a Taiwanese one, because the
+next gap will not be in Taiwan. Cards opened for real on Musha, Hoppo and
+Kōshun and each reads `Formosa · <its note>`. Whole suite: 559 checks across 25
+scripts, all passing, 158s.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

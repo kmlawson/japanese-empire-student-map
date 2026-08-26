@@ -3944,39 +3944,48 @@ JMAP.BROWSE = [
   },
   {
     id: 'daxi', en: 'Daikei (Daxi)', ja: '大溪 (Daikei)', zh: '大溪', lat: 24.8806, lon: 121.2871,
-    wiki: 'https://en.wikipedia.org/wiki/Daxi_District'
+    wiki: 'https://en.wikipedia.org/wiki/Daxi_District',
+    note: 'A camphor and tea town on the Dahan, at the head of the navigable water. It was called Dakekan until 1920, and the name a reader meets in accounts of the camphor frontier is that one.'
   },
   {
     id: 'tamsui', en: 'Tansui (Danshui, Tamsui)', ja: '淡水 (Tansui)', zh: '淡水', lat: 25.1719,
-    lon: 121.4439, wiki: 'https://en.wikipedia.org/wiki/Tamsui_District'
+    lon: 121.4439, wiki: 'https://en.wikipedia.org/wiki/Tamsui_District',
+    note: 'The treaty port at the mouth of the river below Taipei, and the way in for foreign trade and missionaries under the Qing. Its bar silted through the nineteenth century and the trade went to Keelung.'
   },
   {
     id: 'beipu', en: 'Hoppo (Beipu)', ja: '北埔 (Hoppo)', zh: '北埔', lat: 24.6639, lon: 121.0681,
-    wiki: 'https://en.wikipedia.org/wiki/Beipu,_Hsinchu'
+    wiki: 'https://en.wikipedia.org/wiki/Beipu,_Hsinchu',
+    note: 'A Hakka village in the hills behind Hsinchu, laid out in the 1830s as a base for clearing land toward the mountains. In November 1907 a rising here killed some sixty Japanese; it was the first of the armed revolts of the middle colonial period.'
   },
   {
     id: 'puli', en: 'Hori (Puli)', ja: '埔里 (Hori)', zh: '埔里', lat: 23.9667, lon: 120.9667,
-    wiki: 'https://en.wikipedia.org/wiki/Puli,_Nantou'
+    wiki: 'https://en.wikipedia.org/wiki/Puli,_Nantou',
+    note: 'The basin at almost the exact centre of the island, ringed by mountains, and the last town on the road up into the highlands. Everything that went to or came from Musha passed through it.'
   },
   {
     id: 'wushe', en: 'Musha (Wushe)', ja: '霧社 (Musha)', zh: '霧社', lat: 24.0212, lon: 121.1323,
-    wiki: 'https://en.wikipedia.org/wiki/Musha_Incident'
+    wiki: 'https://en.wikipedia.org/wiki/Musha_Incident',
+    note: 'A police post and Atayal settlement in the mountains above Puli, inside the territory the administration governed separately. In October 1930 the Seediq of six villages attacked the schoolyard here during a sports day and killed 134 Japanese; the reprisal that followed, with aircraft and gas, destroyed the villages that had risen.'
   },
   {
     id: 'fangliao', en: 'Hōryō (Fangliao)', ja: '枋寮 (Hōryō)', zh: '枋寮', lat: 22.3656,
-    lon: 120.5936, wiki: 'https://en.wikipedia.org/wiki/Fangliao,_Pingtung'
+    lon: 120.5936, wiki: 'https://en.wikipedia.org/wiki/Fangliao,_Pingtung',
+    note: 'The last town on the coast road south, where the western plain runs out against the mountains. The line from Takao reached it in 1941.'
   },
   {
     id: 'checheng', en: 'Shajō (Checheng)', ja: '車城 (Shajō)', zh: '車城', lat: 22.0798,
-    lon: 120.7457, wiki: 'https://en.wikipedia.org/wiki/Checheng,_Pingtung'
+    lon: 120.7457, wiki: 'https://en.wikipedia.org/wiki/Checheng,_Pingtung',
+    note: 'The bay on the south-west coast where the Japanese expedition of 1874 put its troops ashore — Japan\'s first overseas military action, and the beginning of the argument that ended with Taiwan being ceded twenty-one years later.'
   },
   {
     id: 'mudan', en: 'Botansha (Mudan)', ja: '牡丹社 (Botansha)', zh: '牡丹', lat: 22.1262,
-    lon: 120.7743, wiki: 'https://en.wikipedia.org/wiki/Mudan,_Pingtung'
+    lon: 120.7743, wiki: 'https://en.wikipedia.org/wiki/Mudan,_Pingtung',
+    note: 'The Paiwan settlement the 1874 expedition was sent against, after Ryūkyūan sailors wrecked on this coast were killed here three years before. It lay inside the highland territory and was never a Japanese municipality.'
   },
   {
     id: 'hengchun', en: 'Kōshun (Hengchun)', ja: '恆春 (Kōshun)', zh: '恆春', lat: 22.0039,
-    lon: 120.7473, wiki: 'https://en.wikipedia.org/wiki/Hengchun'
+    lon: 120.7473, wiki: 'https://en.wikipedia.org/wiki/Hengchun',
+    note: 'The walled town at the southern tip, built by the Qing after the 1874 expedition to hold a coast they had just been shown they did not control. Hot enough for rubber and coconut trials under Japanese rule.'
   },
 ];
 

@@ -1632,3 +1632,30 @@ Laid out from 1939 as a new capital to replace Manila, and still mostly plans an
 
 The Gulf of Tonkin treaty port opened in 1876, the outlet for Guangxi before the
 French built the railway from Haiphong, and occupied in 1940.
+
+## daxi
+A camphor and tea town on the Dahan, at the head of the navigable water. It was called Dakekan until 1920, and the name a reader meets in accounts of the camphor frontier is that one.
+
+## tamsui
+The treaty port at the mouth of the river below Taipei, and the way in for foreign trade and missionaries under the Qing. Its bar silted through the nineteenth century and the trade went to Keelung.
+
+## beipu
+A Hakka village in the hills behind Hsinchu, laid out in the 1830s as a base for clearing land toward the mountains. In November 1907 a rising here killed some sixty Japanese; it was the first of the armed revolts of the middle colonial period.
+
+## puli
+The basin at almost the exact centre of the island, ringed by mountains, and the last town on the road up into the highlands. Everything that went to or came from Musha passed through it.
+
+## wushe
+A police post and Atayal settlement in the mountains above Puli, inside the territory the administration governed separately. In October 1930 the Seediq of six villages attacked the schoolyard here during a sports day and killed 134 Japanese; the reprisal that followed, with aircraft and gas, destroyed the villages that had risen.
+
+## fangliao
+The last town on the coast road south, where the western plain runs out against the mountains. The line from Takao reached it in 1941.
+
+## checheng
+The bay on the south-west coast where the Japanese expedition of 1874 put its troops ashore — Japan's first overseas military action, and the beginning of the argument that ended with Taiwan being ceded twenty-one years later.
+
+## mudan
+The Paiwan settlement the 1874 expedition was sent against, after Ryūkyūan sailors wrecked on this coast were killed here three years before. It lay inside the highland territory and was never a Japanese municipality.
+
+## hengchun
+The walled town at the southern tip, built by the Qing after the 1874 expedition to hold a coast they had just been shown they did not control. Hot enough for rubber and coconut trials under Japanese rule.
