@@ -1738,3 +1738,35 @@ from 1859.
 ## waingapu
 
 Sumba's port, shipping the island's horses across the archipelago.
+
+## portmoresbytown
+
+The seat of the Territory of Papua, and the objective Japan never reached:
+the Coral Sea operation of May 1942 was turned back at sea and the overland
+push down the Kokoda Track was stopped in September within forty miles of it.
+The Allied base for the whole New Guinea campaign afterwards.
+
+## madang
+
+A German-founded port on the north coast, taken with Wewak in December 1942.
+
+## salamaua
+
+The airstrip and wharf on the isthmus below Lae, seized in March 1942 and
+held as the southern anchor of the Japanese position.
+
+## wau
+
+The goldfields town in the mountains behind Salamaua, reached only by air.
+It stayed Australian: the Japanese attack came in January 1943, a month after
+the date this map draws.
+
+## samarai
+
+The government station on its islet off the eastern tip of Papua, and the
+territory's second port before the war.
+
+## daru
+
+The station on the Fly delta, the westernmost place the Australian
+administration kept in Papua.

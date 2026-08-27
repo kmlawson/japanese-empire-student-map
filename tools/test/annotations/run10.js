@@ -55,7 +55,18 @@ console.log('  heads:');
 for (const h of ['triangle','barbed','line','dot','none']) {
   await p.evaluate(v=>{const el=document.querySelector('#ann-head'); el.value=v;
     el.dispatchEvent(new Event('change',{bubbles:true}));},h);
-  await sleep(250);
+  /* Wait for the stored value, do not sleep at it. This read is of the
+     *automatic copy*, and `styleChanged` debounces that by a quarter-second —
+     so a flat `sleep(250)` raced the debounce exactly, and read the previous
+     head about one run in three once four browsers shared the machine. It
+     passed alone every time, which is what a race looks like. */
+  try {
+    await p.waitForFunction(want => {
+      const raw = window.localStorage.getItem('jem-annotations-v1');
+      if (!raw) return false;
+      return JSON.parse(raw).f[0].properties['jem-arrow-head'] === want;
+    }, {timeout:4000, polling:'raf'}, h);
+  } catch (e) { /* the check below reports what it actually found */ }
   const st=await p.evaluate(()=>({stored:JSON.parse(window.localStorage.getItem('jem-annotations-v1')).f[0].properties['jem-arrow-head'],
     heads:document.querySelectorAll('#annotations .ann-head').length}));
   console.log('    '+h.padEnd(9)+' stored '+String(st.stored).padEnd(9)+' drawn '+st.heads);
@@ -70,7 +81,15 @@ await p.evaluate(()=>{const el=document.querySelector('#ann-curve'); el.value='4
   el.dispatchEvent(new Event('input',{bubbles:true}));}); await sleep(350);
 const bent=await p.evaluate(()=>document.querySelector('#annotations .ann-arrow').getAttribute('d'));
 check('the bend slider changes the curve', straight!==bent, straight+' vs '+bent);
-check('and it is recorded', (await p.evaluate(STORE))[0].properties['jem-curve']===0.45);
+// again the debounced copy: wait for the value rather than for a duration
+try {
+  await p.waitForFunction(() => {
+    const raw = window.localStorage.getItem('jem-annotations-v1');
+    return raw && JSON.parse(raw).f[0].properties['jem-curve'] === 0.45;
+  }, {timeout:4000, polling:'raf'});
+} catch (e) { /* the check reports what was found */ }
+check('and it is recorded', (await p.evaluate(STORE))[0].properties['jem-curve']===0.45,
+  String((await p.evaluate(STORE))[0].properties['jem-curve']));
 
 // the bend handle on the map
 await arm(p,'arrow');   // put the tool away so the handles are reachable

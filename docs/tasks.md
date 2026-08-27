@@ -9828,6 +9828,37 @@ Whole suite: 653 checks across 29 scripts, all passing.
 
 ---
 
+## Port Moresby was an event, not a place — and two tests were racing the debounce
+
+**Port Moresby was in the data only as a battle.** `cat: battle`, so it drew
+as an event diamond with the Events layer and was absent from the gazetteer
+entirely: with Cities on and Events off, the capital of Papua was not on the
+map. Papua had no town at all, in fact — New Guinea's side carried Rabaul,
+Lae, Wewak, Kavieng and Lorengau and the Papuan side nothing.
+
+Port Moresby joins the gazetteer as a town, smallest tier, capital of Papua,
+and the battle marker stays where it belongs — the Coral Sea and Kokoda are
+events and this is a place. Five more with it, all smallest tier: **Madang**
+and **Salamaua**, which the extent line's own comments already name; **Wau**,
+the goldfields town the January 1943 attack was aimed at, a month after this
+map's date; and **Samarai** and **Daru**, Papua's other two government
+stations. Each has a one-line note. Verified with Events off: all six draw,
+all six are named, and the tooltip says "Capital of Papua".
+
+**And two annotation checks were racing a debounce I had introduced.** run10
+set an arrow head, slept exactly 250 ms, then read the *automatic copy* —
+which `styleChanged` now debounces by exactly 250 ms. It passed alone every
+time and failed about one run in three with four browsers sharing the
+machine, reading the previous head. That is a race, not a flake: both reads
+now wait for the value they expect rather than for a duration. The same
+pattern was checked across every other read of that key in the suite; the
+rest sit behind a `drop()`, which stores at once, or behind waits long
+enough not to matter.
+
+Whole suite: 653 checks across 29 scripts, all passing.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

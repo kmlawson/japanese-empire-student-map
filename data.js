@@ -4136,6 +4136,36 @@ JMAP.BROWSE = [
     wiki: 'https://en.wikipedia.org/wiki/Waingapu',
     note: 'Sumba\'s port, shipping the island\'s horses across the archipelago.'
   },
+  {
+    id: 'portmoresbytown', en: 'Port Moresby', lat: -9.4438, lon: 147.1803,
+    wiki: 'https://en.wikipedia.org/wiki/Port_Moresby',
+    note: 'The seat of the Territory of Papua, and the objective Japan never reached: the Coral Sea operation of May 1942 was turned back at sea and the overland push down the Kokoda Track was stopped in September within forty miles of it. The Allied base for the whole New Guinea campaign afterwards.'
+  },
+  {
+    id: 'madang', en: 'Madang', lat: -5.2246, lon: 145.7966,
+    wiki: 'https://en.wikipedia.org/wiki/Madang',
+    note: 'A German-founded port on the north coast, taken with Wewak in December 1942.'
+  },
+  {
+    id: 'salamaua', en: 'Salamaua', lat: -7.0167, lon: 147.05,
+    wiki: 'https://en.wikipedia.org/wiki/Salamaua',
+    note: 'The airstrip and wharf on the isthmus below Lae, seized in March 1942 and held as the southern anchor of the Japanese position.'
+  },
+  {
+    id: 'wau', en: 'Wau', lat: -7.3372, lon: 146.7164,
+    wiki: 'https://en.wikipedia.org/wiki/Wau,_Papua_New_Guinea',
+    note: 'The goldfields town in the mountains behind Salamaua, reached only by air. It stayed Australian: the Japanese attack came in January 1943, a month after the date this map draws.'
+  },
+  {
+    id: 'samarai', en: 'Samarai', lat: -10.6167, lon: 150.6667,
+    wiki: 'https://en.wikipedia.org/wiki/Samarai',
+    note: 'The government station on its islet off the eastern tip of Papua, and the territory\'s second port before the war.'
+  },
+  {
+    id: 'daru', en: 'Daru', lat: -9.0763, lon: 143.2092,
+    wiki: 'https://en.wikipedia.org/wiki/Daru',
+    note: 'The station on the Fly delta, the westernmost place the Australian administration kept in Papua.'
+  },
 ];
 
 JMAP.FEATURES = [
