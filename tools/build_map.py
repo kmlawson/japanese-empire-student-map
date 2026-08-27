@@ -7073,6 +7073,16 @@ def main():
     # border" of the report, occupied salmon showing through. Each half now
     # reaches 0.6° across the line and its own country's land clip draws the
     # real border, river bend and all.
+    # And the belt to those braces: the occupied colouring is cut away
+    # entirely inside the reporter's traced region, whatever the overlay
+    # covers. A frame-with-hole clip in the clip-off-guam pattern; map.js
+    # applies it to the dei and newguinea_au atoms, their backings and their
+    # seams on the 1942 map alone — on 1930 the same shapes are Dutch and
+    # Australian ground and are left whole.
+    _hole = ring_to_path([(0.0, 0.0), (WIDTH, 0.0), (WIDTH, HEIGHT), (0.0, HEIGHT)])
+    _hole += ring_to_path([project(x, y) for x, y in NG_FREE_TRACED])
+    out.append('    <clipPath id="clip-ng-unoccupied" clipPathUnits="userSpaceOnUse">'
+               f'<path clip-rule="evenodd" d="{_hole}"/></clipPath>')
     _ng_west = line_plane((141.6, 10.0), (141.6, -20.0), True)
     _ng_east = line_plane((140.4, 10.0), (140.4, -20.0), False)
     for _k, _pl, _landkey, _cx, _cy in (

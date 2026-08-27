@@ -1733,6 +1733,21 @@ dialog h3 {
    would take its place in the drawing order with it. */
 #land .superseded { display: none; }
 
+/* The unoccupied south of New Guinea, cut out of the occupied colouring on
+   the 1942 map. The free territories drawn on top say what the ground was;
+   this says what it was not, so no sliver of the occupation can show between
+   the two whatever the overlay's fit. The clip is a frame with the traced
+   region punched out (see clip-ng-unoccupied in the build); 1930 is left
+   whole — the same shapes are simply Dutch and Australian ground there. */
+#jmap.e1942 #a-newguinea_au,
+#jmap.e1942 #a-dei,
+#jmap.e1942 #backings path[data-for="newguinea_au"],
+#jmap.e1942 #backings path[data-for="dei"],
+#jmap.e1942 #seams path[data-for="newguinea_au"],
+#jmap.e1942 #seams path[data-for="dei"] {
+  clip-path: url(#clip-ng-unoccupied);
+}
+
 /* The fine coastlines carry no colour of their own — they are their atom's
    shapes, drawn better. */
 .atom > path.fine { vector-effect: non-scaling-stroke; }

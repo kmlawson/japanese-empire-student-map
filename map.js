@@ -13,8 +13,8 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '1.89';
-  var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "761fbd5949", "japan-empire-map-admin.svg": "9de0304837", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "37590f5ad8", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0"};
+  var JEM_VERSION = '1.90';
+  var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "761fbd5949", "japan-empire-map-admin.svg": "9de0304837", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "eef051b1ee", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0"};
 
   /* Every file this one fetches, with the version on it.
 
@@ -1849,6 +1849,16 @@
       ['ja', 'zh', 'ko', 'orig', 'wiki'].forEach(function (k) {
         if (!c[k] && b[k]) c[k] = b[k];
       });
+      /* The names come across too, and they overwrite. `c.en` was set from
+         the gazetteer's own `n` a moment ago, and without `local` and
+         `jpfrom` beside it `shown()` had nothing to switch: a Taiwanese
+         city's card read Japanese-first whatever the names switch said,
+         while the label over the same dot — drawn from the browse record —
+         switched correctly beside it. The browse row is the curated one;
+         its names win. */
+      ['en', 'local', 'jpfrom'].forEach(function (k) {
+        if (b[k]) c[k] = b[k];
+      });
       if (b.note) c.extra = b.note;
     }
     /* And the examinable sites, 52 of which are the same place under the same
@@ -1873,6 +1883,11 @@
     if (s) {
       ['ja', 'zh', 'ko', 'orig', 'wiki'].forEach(function (k) {
         if (!c[k] && s[k]) c[k] = s[k];
+      });
+      // same again, and the site's names beat the browse row's: the site
+      // records carry the epoch-aware `jpfrom` (Mukden, Kalgan)
+      ['en', 'local', 'jpfrom'].forEach(function (k) {
+        if (s[k]) c[k] = s[k];
       });
       if (!c.extra && s.note) c.extra = s.note;
     }
@@ -5696,6 +5711,9 @@
     // a province, which is feedback you have to go looking for. It reads as a
     // switch that works sometimes. Now it draws the divisions.
     if (svg) svg.classList.toggle('admin-on', !!state.cats.territory);
+    // the epoch as a class, so the stylesheet can cut the occupied colouring
+    // out of the unoccupied south of New Guinea on the 1942 map alone
+    if (svg) svg.classList.toggle('e1942', state.epoch === 'e1942');
     // A change of projection moves every coordinate in the document, so it is
     // done once here and not on the way past.
     if (svg && (state.projection || 'mercator') !== projMode) {

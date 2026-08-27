@@ -9765,6 +9765,35 @@ Whole suite: 653 checks across 29 scripts, all passing.
 
 ---
 
+## The gazetteer's cards switch names at last, and the occupied colour is cut out of southern New Guinea
+
+**Taiwan's cities said Japanese whatever the switch said — in the card and
+the tooltip, while the label over the same dot switched correctly.** The
+label is drawn from the browse record, which carries `local` and `jpfrom`;
+the tooltip and card answer from the *gazetteer* record, and `gazEnrich`
+copied `ja`, `zh`, `ko`, `orig` and `wiki` across but never the names — so
+`shown()` had nothing to swap. The browse row's `en`, `local` and `jpfrom`
+now come across and overwrite the gazetteer's own `n`-derived name, and the
+site record's names beat both, being the epoch-aware ones (Mukden, Kalgan).
+Verified on Keelung: switch off, tooltip and card head "Jīlóng (Kīrun,
+Keelung)"; on, "Kīrun (Jīlóng, Keelung)".
+
+**And the belt to the New Guinea braces.** The reporter asked for the
+occupied colouring to be cut away inside the traced region, not merely
+covered, and that is now done: `clip-ng-unoccupied` is a frame with the
+traced ring punched out (the clip-off-guam pattern), and the stylesheet
+applies it to the `dei` and `newguinea_au` atoms, their backings and their
+seams — under a new `e1942` class the map stamps on the root, so the 1930
+map, where the same shapes are simply Dutch and Australian ground, is left
+whole. Nothing occupied can show inside the region now whatever the
+overlay's fit; the Buna–Sanananda beachhead sits outside the traced ring
+and keeps poking through, as it should. Verified by pixel on 1942 and by
+screenshot on 1930.
+
+Whole suite: 653 checks across 29 scripts, all passing.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible
