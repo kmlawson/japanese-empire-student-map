@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '1.83';
+  var JEM_VERSION = '1.84';
   var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "761fbd5949", "japan-empire-map-admin.svg": "9de0304837", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "9214380208", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0"};
 
   /* Every file this one fetches, with the version on it.
@@ -655,6 +655,11 @@
        under the map's own tooltip, saying the same thing everywhere. The
        name moves to aria-label, which assistive tech reads and a mouse does
        not. */
+    /* Apple's engine rasterises masks coarsely enough to lose the outline's
+       one-pixel band — see the `.saf` rules in styles.css. Vendor, not UA:
+       every browser on iOS is WebKit and says so here, and desktop Chrome
+       does not. */
+    if (/Apple/.test(navigator.vendor || '')) svg.classList.add('saf');
     var t0 = svg.querySelector(':scope > title');
     if (t0) {
       if (!svg.getAttribute('aria-label')) {
@@ -5162,6 +5167,19 @@
         }
       }
 
+      /* The guard: how far beyond the shape's edge the mask's solid reaches.
+
+         For a country assembled from several atoms it is 1.3 — the same
+         stroke that closes the cracks between atoms in the drawing closes
+         them in the mask, or hovering China ruled Manchuria and Jehol off
+         inside it. But it also pushes the visible outline 0.65px off the
+         shape's edge, and for a prefecture or a district that costs the
+         reader a doubled line: the boundary's own stroke, a sliver of plain
+         fill, then the outline — which is exactly how it was reported beside
+         an adjacent shū. Those shapes are cut from one sheet and share their
+         edges exactly, so they have no cracks to guard; near zero, and the
+         outline sits against the boundary line as one line. */
+      var guard = /hi-parent|hi-province|sub-/.test(cls) ? 0.1 : 1.3;
       paths.concat(circles).forEach(function (shape) {
         // Stroked as well as filled, and at the width the atoms themselves are
         // stroked. Two atoms of one territory abut without quite meeting — the
@@ -5172,7 +5190,7 @@
         // layer off it is one unit, and it was coming up with Manchuria, Jehol
         // and Chahar ruled off inside it.
         var solid = copyOf(shape, {
-          fill: '#000', stroke: '#000', 'stroke-width': 1.3,
+          fill: '#000', stroke: '#000', 'stroke-width': guard,
           'stroke-linejoin': 'round', 'vector-effect': 'non-scaling-stroke',
         });
         if (clip) solid.setAttribute('clip-path', clip);

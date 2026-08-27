@@ -9527,6 +9527,58 @@ Whole suite: 641 checks across 28 scripts, all passing.
 
 ---
 
+## Safari never drew a highlight, and the shū line stops doubling
+
+Driven directly, at last: Remote Automation on, safaridriver against Safari
+18.6, every claim below checked by pixels in the real browser.
+
+**What Safari was actually showing: nothing.** Not one of the hover effects
+drew. Two separate engine behaviours, one report:
+
+* Every lift was a CSS `filter: brightness(...)` on an SVG element, and
+  Safari does not rasterise those at all — `getComputedStyle` reports the
+  filter and not one pixel of a 157x150 province changes. The country lift,
+  the province lift, the prefecture lift, the cluster lift, the princely
+  wash, the India darken: all invisible.
+* The masked outlines died differently. Safari draws masks into a coarser
+  buffer than Chrome, and the outline's design leaves exactly one pixel of
+  stroke outside the mask's solid. Measured by bisection in the live page:
+  at stroke 3.3 nothing survives, at 5 it draws.
+
+**The lifts are fills now, everywhere.** The colour already flows through
+`--c` and SVG fill inherits, so each lift is a `color-mix` toward white on
+the same selector the filter sat on — which Safari renders, and which every
+compositor repaints more cheaply than a filter pass. The one place the old
+approach was genuinely clever — the foreign-sub reciprocal
+`brightness(.8929)` undoing its parent's 1.12 — becomes the plain colour
+stated plainly. Mono gets the same lifts restated over `--mono-land`, at the
+specificity mono's own fill rule demands. Hit overlays are excluded: they
+are `.atom`s too, and a fill would have painted a blob over the country.
+Verified in Safari by pixel probe — China 255,255,173 -> 255,255,182 on
+hover, the province a step further — and in Chrome, whose look changes only
+in that the lift is now arithmetic instead of filter magic.
+
+**The masked strokes widen under `.saf`** — a class `init` stamps for
+Apple's engine off `navigator.vendor` — 3.3 to 5.4, 4.2 to 6.6, 3.7 to 5.8,
+2.8 to 4.6, so about two pixels of band clear Safari's buffer. The first
+cut of this also caught `hi-inner`, which carries `hi-province` too, and a
+deliberate hairline became a 5.4px band; it is pinned back to 1.6 by a later
+rule.
+
+**The doubled line beside an adjacent shū** (report of 27-08) fell out of
+the same session. The mask's solid is stroked 1.3 wider than the shape to
+close cracks between atoms drawn from different sources — and that guard
+holds the visible outline 0.65px off the shape's edge, so along a shū
+border the reader saw: boundary stroke, sliver of plain fill, outline. A
+prefecture is cut from one sheet and has no cracks to guard, so the guard is
+now 0.1 for `hi-parent`, `hi-province` and the `sub-` outlines and 1.3 only
+for the territory level, where the cracks are real. Verified in Safari at
+Daikei-gun on the Shinchiku-Taihoku border: one line where there were two.
+
+Whole suite: 641 checks across 28 scripts, all passing.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

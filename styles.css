@@ -494,17 +494,32 @@ button.plain:hover { background: var(--hover-fill); }
    plain :hover would light up only the polygon under the pointer and make the
    seams between atoms of one territory look like real boundaries — China
    would appear to be two countries. */
-.atom.hot { filter: brightness(1.12); }
+/* Fills, not filters. Every lift here was `filter: brightness(...)`, and
+   Safari does not rasterise CSS filters on SVG elements at all — measured
+   27-08-2026 in a driven Safari 18.6: `getComputedStyle` reported the filter
+   and not one pixel of a 157x150 province changed. The colour already flows
+   through `--c` and SVG fill inherits, so the lift is said as a colour:
+   `color-mix` toward white, which every browser this map supports renders,
+   and which the compositor also repaints more cheaply than a filter pass.
+   The hit overlays are excluded — they are `.atom`s too, and a fill on a
+   transparent hit shape would paint a blob over the country. */
+.atom.hot:not(.atom-hit) {
+  fill: color-mix(in srgb, var(--c, var(--inactive)) 89%, #fff);
+}
 /* and the seam strips of a lit atom with it: they carry its colour, so leaving
    them out of the lighting left a band of the unlit colour along its frontier
    — widest on the ceded provinces of Cambodia, where it read as a thick inner
    band inside the outline. They are still outlined by nothing and named by
    nothing; only the brightness follows the atom. */
-#seams path.hot { filter: brightness(1.12); }
-#sub-outlines .edge-line.hot { filter: brightness(1.12); }
+#seams path.hot { fill: color-mix(in srgb, var(--c, var(--inactive)) 89%, #fff); }
+#sub-outlines .edge-line.hot { stroke: color-mix(in srgb, var(--c, var(--inactive)) 89%, #fff); }
 
 /* the province under the pointer, picked out inside the lit country */
-.atom .prov-hot { filter: brightness(1.06); }
+/* A child's own fill replaces the inherited one, so these carry the atom's
+   lift *and* their own on top — the atom is always hot when they are. */
+.atom .prov-hot {
+  fill: color-mix(in srgb, var(--c, var(--inactive)) 83%, #fff);
+}
 
 /* A unit inside a larger territory that shares its colour — the land ceded to
    Thailand in 1941, the four northern Malay states — outlined so it can be
@@ -556,6 +571,30 @@ button.plain:hover { background: var(--hover-fill); }
   stroke-width: 3.3;
 }
 
+/* Safari rasterises a mask into a coarser buffer than Chrome does, and the
+   outline's design leaves only one pixel of stroke outside the mask's solid
+   — measured in a driven Safari 18.6: at 3.3 not one pixel of the outline
+   survives, at 5 it draws. `map.js` stamps `.saf` on the root for Apple's
+   engine, and the masked strokes take enough extra width there for about
+   two pixels of band to clear the buffer. The guard stroke inside the mask
+   is unchanged, so the band starts where it always started. */
+#jmap.saf #highlight .hi-territory path,
+#jmap.saf #highlight .hi-territory circle,
+#jmap.saf #highlight .hi-province path,
+#jmap.saf #highlight .hi-province circle { stroke-width: 5.4; }
+#jmap.saf #highlight .hi-parent path,
+#jmap.saf #highlight .hi-parent circle { stroke-width: 6.6; }
+#jmap.saf #highlight .hi-selected path,
+#jmap.saf #highlight .hi-selected circle { stroke-width: 5.8; }
+#jmap.saf #sub-outlines .sub-outline path,
+#jmap.saf #sub-outlines .sub-outline circle,
+#jmap.saf #sub-outlines .sub-merged path,
+#jmap.saf #sub-outlines .sub-merged circle { stroke-width: 4.6; }
+/* hi-inner carries hi-province too, so the widening above caught it and a
+   deliberate hairline became a band. Last, so it wins the tie. */
+#jmap.saf #highlight .hi-inner path,
+#jmap.saf #highlight .hi-inner circle { stroke-width: 1.6; }
+
 #highlight .hi-province path,
 #highlight .hi-province circle {
   stroke: rgba(30, 24, 16, .7);
@@ -592,8 +631,12 @@ button.plain:hover { background: var(--hover-fill); }
 /* and the prefecture lifts a little, so its reach is visible without reading
    the line. Well under the district's own lift, which has to stay the louder
    of the two: 1.03 against 1.06. */
-.atom .parent-hot { filter: brightness(1.03); }
-.atom .parent-hot.prov-hot { filter: brightness(1.09); }
+.atom .parent-hot {
+  fill: color-mix(in srgb, var(--c, var(--inactive)) 86%, #fff);
+}
+.atom .parent-hot.prov-hot {
+  fill: color-mix(in srgb, var(--c, var(--inactive)) 80%, #fff);
+}
 
 #highlight .hi-selected path,
 #highlight .hi-selected circle {
@@ -1711,7 +1754,9 @@ dialog h3 {
 /* Sub-units lit as a group: the Straits Settlements when the pointer is on one
    of them. The rule above matches the atom itself, which is what lights a whole
    country; these are paths inside an atom and need saying separately. */
-.atom > path.hot { filter: brightness(1.12); }
+.atom > path.hot {
+  fill: color-mix(in srgb, var(--c, var(--inactive)) 89%, #fff);
+}
 
 /* Labuan is a Straits Settlement drawn inside the North Borneo atom, because
    that is where the island is, and it must not brighten when North Borneo
@@ -1719,7 +1764,9 @@ dialog h3 {
    exempts it from a filter above it — but a filter of the child's own composes
    with it, so this undoes exactly what the group did: 1 / 1.12. It stands down
    when the sub-unit is itself what is lit. */
-.atom.hot > path.foreign-sub:not(.hot) { filter: brightness(.8929); }
+/* With the lift a fill, the exemption is simply the plain colour back —
+   no reciprocal arithmetic. */
+.atom.hot > path.foreign-sub:not(.hot) { fill: var(--c, var(--inactive)); }
 
 /* Administrative on: draw the divisions. Without this the switch changed
    nothing visible — sub-units inherit their atom's fill and stroke, so every
@@ -1738,7 +1785,7 @@ dialog h3 {
 /* Hovering a princely state: the whole layer lightens, which says "these are
    the states, there are six hundred of them"; the one under the pointer goes
    to a flat near-white and takes the only outline on the map. */
-#a-princely.hot { filter: brightness(1.18) saturate(.62); }
+#a-princely.hot { fill: color-mix(in srgb, var(--c, var(--inactive)) 82%, #fff); }
 #a-princely .prov-hot {
   /* a very light British, not white: the state is still part of that layer */
   fill: #C79AAB;
@@ -1750,7 +1797,7 @@ dialog h3 {
    for whichever country is under the pointer, and the princely states are left
    entirely alone — they are not divisions of the Raj and have nothing to do
    with the question being asked. */
-#a-india .prov-hot { filter: brightness(.86) saturate(1.25); }
+#a-india .prov-hot { fill: color-mix(in srgb, var(--c, var(--inactive)) 86%, #14110c); }
 
 #jmap.admin-on .atom.subs > path[data-prov]:not(.fine) {
   stroke: rgba(18, 15, 10, .62);
@@ -2002,6 +2049,24 @@ dialog h3 {
 #jmap.mono #seams path {
   fill: var(--mono-land);
 }
+/* The pointer lift under mono, said the same way as in colour. Mono's rule
+   above outranks the plain lifts, so each one is restated at mono's own
+   specificity with the mono land colour as its base. */
+#jmap.mono .atom.hot:not(.atom-hit),
+#jmap.mono .atom.hot > path,
+#jmap.mono #seams path.hot {
+  fill: color-mix(in srgb, var(--mono-land) 89%, #fff);
+}
+#jmap.mono .atom .prov-hot {
+  fill: color-mix(in srgb, var(--mono-land) 83%, #fff);
+}
+#jmap.mono .atom .parent-hot {
+  fill: color-mix(in srgb, var(--mono-land) 86%, #fff);
+}
+#jmap.mono .atom .parent-hot.prov-hot {
+  fill: color-mix(in srgb, var(--mono-land) 80%, #fff);
+}
+#jmap.mono .atom.hot > path.foreign-sub:not(.hot) { fill: var(--mono-land); }
 /* The stroke goes on the group and inherits, which is how every path of an
    atom gets it. That is also its one cost: a territory drawn as forty
    overlapping polygons — French Indochina is the worked example — becomes a
