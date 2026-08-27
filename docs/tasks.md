@@ -9579,6 +9579,16 @@ Whole suite: 641 checks across 28 scripts, all passing.
 
 ---
 
+## The opening toast is gone
+
+"Hover or tap any place to see what it was" no longer appears when the map
+opens. The element, its styles, `showHint` and the first-visit call are all
+removed rather than hidden; the suite's panel-avoidance selector still names
+`#hint` and now simply matches nothing. Checked with a clean profile: no
+toast, no errors.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

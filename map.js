@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '1.84';
+  var JEM_VERSION = '1.85';
   var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "761fbd5949", "japan-empire-map-admin.svg": "9de0304837", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "9214380208", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0"};
 
   /* Every file this one fetches, with the version on it.
@@ -807,10 +807,7 @@
       || defaultView();
     applyView(true);
 
-    // A student arriving cold sees a map, some rows of buttons and no words.
-    // One line, once, that goes away as soon as they touch anything.
     applyPhoneLayout();
-    if (firstVisit) showHint();
 
     // Only now, with the atoms built. Started from loadState() it raced the
     // map's own fetch: whenever the administrative file arrived first the
@@ -6192,17 +6189,6 @@
       b.addEventListener('click', function () { setEpoch(e.id); });
       seg.appendChild(b);
     });
-  }
-
-  function showHint() {
-    var hint = document.getElementById('hint');
-    if (!hint) return;
-    // there is no quiz on a phone, so do not offer it one
-    if (isPhone()) hint.textContent = 'Tap any place to see what it was';
-    hint.hidden = false;
-    var go = function () { hint.hidden = true; };
-    container.addEventListener('pointerdown', go, { once: true });
-    window.setTimeout(go, 9000);
   }
 
   function showEpochBlurb() {

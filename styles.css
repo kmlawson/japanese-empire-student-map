@@ -1134,26 +1134,6 @@ button.plain:hover { background: var(--hover-fill); }
 #legend.folded .legend-head .caret { transform: translateY(1px) rotate(-135deg); }
 #legend.folded .legend-body { display: none; }
 
-/* One line for a first-time visitor, gone as soon as they touch anything. */
-#hint {
-  position: absolute;
-  left: 50%;
-  top: 12px;
-  transform: translateX(-50%);
-  z-index: 12;
-  margin: 0;
-  max-width: min(92%, 460px);
-  padding: 8px 14px;
-  border-radius: 999px;
-  background: rgba(35, 32, 27, .88);
-  color: #fdfbf6;
-  font-size: 13.5px;
-  text-align: center;
-  box-shadow: var(--shadow);
-  /* it must not stand between a finger and the map: the first touch anywhere
-     dismisses it, so it never needs to be hit itself */
-  pointer-events: none;
-}
 
 #tooltip {
   position: fixed;
