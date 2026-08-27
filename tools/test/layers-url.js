@@ -89,5 +89,46 @@ check('a code from before these settings still opens sensibly',
   && await boxIs(old,'#opt-world') && !(await boxIs(old,'#opt-mono')),
   JSON.stringify({man:await boxIs(old,'#opt-manchukuo'), men:await boxIs(old,'#opt-mengjiang'),
                   world:await boxIs(old,'#opt-world'), mono:await boxIs(old,'#opt-mono')}));
+/* The collision this file existed to prevent, found the day a reader's link
+   opened cropped to East Asia. Two pairs of settings had been written to the
+   SAME bit — world and the Japanese-names switch both to 4194304, hiding the
+   occupation and the relief both to 262144 — so flipping one silently flipped
+   the other for whoever opened the link. Each pair is checked one way and
+   then the other, straight off the parsed state, because the pairing is
+   exactly what a whole-round-trip of every switch at once cannot see. */
+console.log('\n— no two settings share a bit —');
+for (const [flip, keep, want] of [
+  ['jpNames', 'world', true],       // names off must not crop the map
+  ['world', 'jpNames', true],       // East Asia must not strip Japanese names
+  ['relief', 'occSource', 'traced'],// topography must not hide the occupation
+]) {
+  /* A clean slate each time. The browser is shared, and the previous
+     iteration's flip is in localStorage — with it there, the second write
+     honestly carries both bits and the check reads a collision that is not
+     one. The same trap as ever: state persists across pages. */
+  /* The page already read the old state into memory before the clear, and
+     its own applyState writes it straight back — so writing is disabled on
+     this page as well as cleared. It exists only to scrub the slate. */
+  { const t = await b.newPage();
+    await t.goto('http://localhost:8123/index.html', { waitUntil: 'domcontentloaded' });
+    await t.evaluate(() => { localStorage.clear();
+      Storage.prototype.setItem = function () {}; });
+    await t.close(); }
+  const r = await open(b);
+  await r.evaluate(k => {
+    if (k === 'jpNames') document.querySelector('#opt-jpnames').click();
+    if (k === 'world') document.querySelector('#opt-world').click();
+    if (k === 'relief') document.querySelector('#opt-relief').click();
+  }, flip);
+  await sleep(1200);
+  const href = await r.evaluate(() => location.href);
+  await r.close();
+  const s2 = await open(b, href);
+  const got = await s2.evaluate(k => JSON.parse(localStorage.getItem('jmap.v3'))[k], keep);
+  check(flip + ' off leaves ' + keep + ' alone', JSON.stringify(got) === JSON.stringify(want),
+    href.slice(-24) + ' -> ' + keep + '=' + JSON.stringify(got));
+  await s2.close();
+}
+
 console.log('\n  '+pass+' passed, '+fail+' failed');
 await b.close(); process.exit(fail);})();

@@ -385,11 +385,17 @@ def main():
                       srcNodata=None, dstAlpha=False)
             img = Image.open(tif).convert("L").point(
                 neutralise(sea, args.gain, args.blend))
+            # into relief/ rather than the repository root: nine sheets in
+            # the top level were clutter no other deployed asset lives in
             name = "relief-%s-%s.webp" % (L["key"], mode)
-            path = os.path.join(args.out, name)
+            rel = "relief/" + name
+            outdir = os.path.join(args.out, "relief")
+            if not os.path.isdir(outdir):
+                os.makedirs(outdir)
+            path = os.path.join(outdir, name)
             img.save(path, "WEBP", quality=args.quality, method=6)
             kb = os.path.getsize(path) // 1024
-            entry["src"][mode] = name
+            entry["src"][mode] = rel
             entry["kb"] = max(entry["kb"], kb)
             os.remove(tif)
             print("  %-7s %-9s %5d x %-5d  %5d KB" % (L["key"], mode, out_w, out_h, kb))

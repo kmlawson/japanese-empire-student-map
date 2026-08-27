@@ -4,30 +4,35 @@ The site is static — no PHP, no database, no build step on the server. Every
 path in it is relative, so it works at a domain root, in a subdirectory, or off
 a memory stick, without changing anything.
 
-## The twelve files it needs, and one more worth adding
+## The files it needs, one folder, and one more worth adding
 
 Nothing else in this repository is used at runtime. `texts/`, `tools/`,
 `data/`, `occupation-maps/` and `reports/` are how the site is *made*; they are
-not part of it.
+not part of it. The nine Topography sheets live in **`relief/`** — the one
+folder the deployment carries; everything else sits beside `index.html`.
 
 | file | size | gzipped | when it loads |
 |---|---:|---:|---|
-| `index.html` | 12 KB | 5 KB | first |
-| `styles.css` | 57 KB | 18 KB | first |
-| `map.js` | 219 KB | 69 KB | first |
-| `data.js` | 564 KB | 169 KB | first |
-| `cities-gaz.js` | 94 KB | 23 KB | first |
-| `japan-empire-map.svg` | 2.8 MB | 797 KB | first |
-| `sources.html` | 48 KB | 18 KB | when the Sources page is opened |
-| `japan-empire-map-admin.svg` | 1.1 MB | 327 KB | when Administrative is switched on |
+| `index.html` | 27 KB | 10 KB | first |
+| `styles.css` | 76 KB | 24 KB | first |
+| `map.js` | 355 KB | 114 KB | first |
+| `data.js` | 601 KB | 179 KB | first |
+| `cities-gaz.js` | 97 KB | 24 KB | first |
+| `relief.js` | 2 KB | 1 KB | first — the manifest for the sheets below |
+| `japan-empire-map.svg` | 2.8 MB | 807 KB | first |
+| `sources.html` | 15 KB | 7 KB | when the Sources page is opened |
+| `japan-empire-map-admin.svg` | 1.4 MB | 382 KB | when Administrative is switched on |
 | `japan-empire-map-fine.svg` | 635 KB | 128 KB | when the reader zooms deep into an island group |
 | `japan-empire-map-roc.svg` | 698 KB | 243 KB | when the AMS province source is chosen in Layers |
-| `annotate.js` | 61 KB | 17 KB | when a reader presses Create or Load annotations in Layers |
-| `admin.js` | 32 KB | — | only on option-click of Layers; leave it out if you would rather not ship the editing tools |
+| `annotate.js` | 220 KB | 64 KB | when a reader presses Create or Load annotations |
+| `relief/` (9 `.webp` sheets) | 6.8 MB | — | when Topography is switched on; one sheet per projection, fetched as asked for |
+| `admin.js` | 31 KB | — | only on option-click of Layers; leave it out if you would rather not ship the editing tools |
 
-**About 6.1 MB in all, and about 1.8 MB over the wire with compression on.** A
-first view costs roughly 1.05 MB gzipped; the other three SVGs are fetched only
-if the reader asks for what is in them.
+**About 13.7 MB in all, and about 8.7 MB over the wire** — but a reader never
+fetches most of it. A first view costs roughly 1.16 MB gzipped; the other
+three SVGs and the relief sheets are fetched only if the reader asks for what
+is in them, and WebP is already compressed, so the sheets cost what they
+weigh and no more.
 
 Twelfth is `.htaccess`, which is not part of the site — the map works without
 it — but which is what makes the compression above actually happen on Apache.
@@ -53,7 +58,8 @@ git clone --depth 1 --filter=blob:none --sparse \
 cd map-src
 git sparse-checkout set --no-cone \
     /index.html /sources.html /styles.css /map.js /admin.js /annotate.js \
-    /data.js /cities-gaz.js /.htaccess '/japan-empire-map*.svg'
+    /data.js /cities-gaz.js /relief.js /relief /.htaccess \
+    '/japan-empire-map*.svg'
 ```
 
 That leaves exactly those files and the `.htaccess`. Then either point the domain at
@@ -87,7 +93,8 @@ name for a week. Two passes, everything else and then the page:
 
 ```sh
 rsync -avz \
-  styles.css map.js admin.js annotate.js data.js cities-gaz.js .htaccess \
+  styles.css map.js admin.js annotate.js data.js cities-gaz.js relief.js \
+  .htaccess relief \
   japan-empire-map.svg japan-empire-map-admin.svg \
   japan-empire-map-fine.svg japan-empire-map-roc.svg \
   USER@SERVER:~/example.com/

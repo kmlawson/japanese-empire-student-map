@@ -9449,6 +9449,84 @@ Whole suite: 638 checks across 28 scripts, all passing, 201s.
 
 ---
 
+## Two links that lied, the survey's fixes P1-P7, and the relief in a folder
+
+**The lying links first, because a reader hit one.** `?layers=2o7zc` opened
+cropped to East Asia whatever the sender's own setting said. Two pairs of
+switches had been written to the *same bit* of the layers code: the East Asia
+switch and the Japanese-names switch both to bit 22, and hiding the occupation
+and the Topography layer both to bit 18. Unticking Japanese names therefore
+forced East Asia on whoever followed the link, and Topography hid the
+occupation. The occupation-hidden flag moved to bit 23 and East Asia to bit
+24; bits 18 and 22 keep the meanings the documented table always gave them,
+so the reported link now opens whole-map with local names, which is what its
+sender had. `layers-url` grew a section that flips each pair one way and then
+the other in a scrubbed browser — the scrubbing matters, and took two goes:
+the page re-persists its in-memory state after a `localStorage.clear()`, so
+the scrub page also has its `setItem` stubbed out.
+
+**P1-P7 from the 27 August survey, all measured before and after:**
+
+* P1 — `uiBoxes()` cached against `layoutGen`, invalidated by a
+  ResizeObserver on the four panels. `getBoundingClientRect` fell from 13.5%
+  of a wheel zoom's self time to nothing measurable.
+* P2 — the pinch reads no layout at all per move: the container rect is
+  captured at pinch start and `svgMid` is arithmetic, the same arithmetic the
+  move branch inverts, so the two agree by construction.
+* P3 — each projection's `d` strings are remembered on the node
+  (`__d_albers`, `__d_laea`) the way `__d0` always remembered Mercator's.
+  Revisiting Albers: 620 ms frozen -> 262 ms to paint (longest task 182 ms).
+  First visits unchanged. Grafts share the cache.
+* P4 — hover outlines are parked, not burned: `dropSlot` detaches the group
+  and its defs into an eight-entry cache keyed by `slotKey` (which already
+  carries `hiGen`, so no stale reattach is possible); `fillSlot` reattaches
+  on hit. Verified by pixels: China hovered, Japan, China again — the parked
+  return is byte-identical to the first build. And `litFor`'s two per-call
+  scans (the territory table for `within`, the whole SVG for `data-lit-for`)
+  are indexes built once per epoch.
+* P5 — `gateLabels` computes a signature of everything it decides from and
+  skips the walk when it matches; `applyState` calls it with `force`, which
+  is what lets the signature stay small.
+* P6 — the graticule labels return early when the view has not moved and
+  write `text-anchor` only when it changes, which is never.
+* P7 — `placeLabels`: one `free()` closure per pass, `browseVisible()` asked
+  once, and display writes guarded by an `L.shown` mirror — which
+  `gateLabels` keeps honest where it writes display itself.
+
+Hover long tasks while sweeping frontiers at CPU/6: 147-204 ms -> 52-143 (the
+remaining cost is first-time builds, which the park does not touch).
+
+**The relief sheets moved to `relief/`** — nine WebP files out of the
+repository root. `build_relief.py` writes there, the manifest carries the
+folder, `build_texts.py` hashes the new names, and `docs/DEPLOY.md` was
+brought up to date: it predates the relief entirely, and its table, sparse
+checkout and rsync lists now name `relief.js` and `relief/`. Smoke-tested:
+the sheet loads from the folder, no 404s.
+
+**The map's own <title> no longer floats under the pointer.** The SVG's
+title element is right for a downloaded file and for a screen reader, and
+inlined it was also a browser tooltip saying the same thing over the whole
+map. `init` moves it to `aria-label` + `role="img"` and removes the element.
+
+Also: `run2`'s too-big-link check raced a deliberate quarter-second debounce
+and started failing the day the map got faster — the click now lands inside
+the pack window and the answer arrives via the other, equally honest branch.
+The check accepts both wordings and waits for either.
+
+**Open:** the doubled highlight beside an adjacent shū (image from 27 Aug).
+Reproduced the state headlessly — prefecture outline `hi-parent` and district
+`hi-inner` both present with correct geometry and styles — but headless
+Chrome does not paint the masked outlines in screenshots at that zoom, so the
+doubling itself is not yet pinned down. The machinery draws the outline
+*outside* the shape (the mask hides the inner half), so along a shared shū
+edge the strong prefecture line lands inside the neighbour, beside the
+boundary's own stroke — the likeliest reading of the photograph, not yet
+proven. Needs a headed-browser look before changing the mask.
+
+Whole suite: 641 checks across 28 scripts, all passing.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

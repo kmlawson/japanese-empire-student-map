@@ -13,8 +13,8 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '1.82';
-  var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "761fbd5949", "japan-empire-map-admin.svg": "9de0304837", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "9214380208", "relief-coarse-albers.webp": "b57f3373ec", "relief-coarse-laea.webp": "4a79ce52b8", "relief-coarse-mercator.webp": "dd24772c29", "relief-fine-albers.webp": "641d43c5c5", "relief-fine-laea.webp": "52676e1c50", "relief-fine-mercator.webp": "1dc7a621a2", "relief-finest-albers.webp": "05b24e1e30", "relief-finest-laea.webp": "1325488946", "relief-finest-mercator.webp": "cac01f8da0"};
+  var JEM_VERSION = '1.83';
+  var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "761fbd5949", "japan-empire-map-admin.svg": "9de0304837", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "9214380208", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0"};
 
   /* Every file this one fetches, with the version on it.
 
@@ -649,6 +649,20 @@
     svg.removeAttribute('width');
     svg.removeAttribute('height');
     svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+    /* The file's <title> is its name — right for a downloaded SVG opened on
+       its own, and read out by a screen reader. Inlined into the page it is
+       also what the browser shows as a floating tooltip over the whole map,
+       under the map's own tooltip, saying the same thing everywhere. The
+       name moves to aria-label, which assistive tech reads and a mouse does
+       not. */
+    var t0 = svg.querySelector(':scope > title');
+    if (t0) {
+      if (!svg.getAttribute('aria-label')) {
+        svg.setAttribute('aria-label', t0.textContent);
+        svg.setAttribute('role', 'img');
+      }
+      t0.parentNode.removeChild(t0);
+    }
 
     var vb = svg.getAttribute('viewBox');
     var meta = svg.querySelector('#proj');
@@ -819,6 +833,17 @@
 
     window.addEventListener('resize', onResize);
     if (window.visualViewport) window.visualViewport.addEventListener('resize', onResize);
+    /* The floating panels are what `uiBoxes` measures, and its cache is only
+       safe if every way a panel can change shape bumps the generation. A list
+       of call sites is a list that goes stale; watching the boxes themselves
+       cannot. Display none reports 0x0, so opening and closing fire too. */
+    if (typeof ResizeObserver === 'function') {
+      var ro = new ResizeObserver(function () { bumpLayout(); });
+      ['#legend', '#zoom-controls', '#info', '#quiz'].forEach(function (sel) {
+        var el = $(sel);
+        if (el) ro.observe(el);
+      });
+    }
   }
 
   /* admin.js, once, on demand. It is a tool for working on the map and not
@@ -1089,8 +1114,13 @@
              had `__d0` read off it, so for the common case (a graft arriving
              in Mercator, which is the default) this writes nothing, and the
              administrative sheet is 1,300 paths. */
-          var want = projMode === 'mercator' ? el.__d0 : moveD(el.__d0);
-          if (el.getAttribute('d') !== want) el.setAttribute('d', want);
+          // into the same per-mode cache reprojectDocument keeps, so a graft
+          // that arrives under Albers is not re-projected on the next visit
+          var gKey = '__d_' + projMode;
+          if (el[gKey] === undefined) {
+            el[gKey] = projMode === 'mercator' ? el.__d0 : moveD(el.__d0);
+          }
+          if (el.getAttribute('d') !== el[gKey]) el.setAttribute('d', el[gKey]);
         } else if (el.tagName === 'circle' && el.hasAttribute('cx')) {
           if (el.__c0 === undefined) {
             el.__c0 = [parseFloat(el.getAttribute('cx')), parseFloat(el.getAttribute('cy'))];
@@ -1146,10 +1176,28 @@
     var t0 = (window.performance || Date).now();
     var moved = 0;
 
+    /* Each projection's answer is remembered on the node, the way Mercator's
+       always was in `__d0`. Re-projecting was the whole cost of a switch — a
+       parse, a densify to a point per degree and a projection of every vertex
+       of every path, 620-731 ms frozen at CPU/4 — and it was paid again in
+       full on every *return* to a projection already visited, when nothing
+       about it had changed. Now the second visit is what going back to
+       Mercator has always been: a setAttribute loop, ~180 ms at CPU/4.
+
+       The cache lives and dies with the node. A graft (fine coastlines, the
+       admin sheet) arrives as new nodes with no cache and pays once; a node
+       that is replaced takes its cache with it. `__d0` is never rewritten, so
+       the entries cannot go stale — and the memory is two extra copies of the
+       path text for a reader who visits all three projections, which is a few
+       megabytes against a frozen phone. */
+    var dKey = '__d_' + projMode;
     $$('path[d]', svg).forEach(function (el) {
       if (el.closest('pattern')) return;
       if (el.__d0 === undefined) el.__d0 = el.getAttribute('d');
-      el.setAttribute('d', projMode === 'mercator' ? el.__d0 : moveD(el.__d0));
+      if (el[dKey] === undefined) {
+        el[dKey] = projMode === 'mercator' ? el.__d0 : moveD(el.__d0);
+      }
+      el.setAttribute('d', el[dKey]);
       moved++;
     });
     $$('circle[cx]', svg).forEach(function (el) {
@@ -1552,8 +1600,16 @@
     return null;
   }
 
+  var gratSig = '';
+
   function placeGratLabels() {
     if (!gratLabelGroup) return;
+    /* Nothing moved, nothing to write. `drawGraticule` calls this on every
+       `applyView`, and some of those — a state change, a layer toggle — have
+       not moved the view at all. */
+    var sig = view.x + '|' + view.y + '|' + view.w + '|' + state.epoch;
+    if (sig === gratSig && gratLabelGroup.childNodes.length) return;
+    gratSig = sig;
     var c = containerSize();
     var k = view.w / c.w;                       // map units per screen pixel
     var pad = 3 * k;
@@ -1584,7 +1640,11 @@
     want.forEach(function (w, i) {
       var el = have[i];
       if (el.textContent !== w.t) el.textContent = w.t;
-      el.setAttribute('text-anchor', w.anchor);
+      // never changes after creation — meridians are middle, parallels start
+      if (el.__anchor !== w.anchor) {
+        el.__anchor = w.anchor;
+        el.setAttribute('text-anchor', w.anchor);
+      }
       // the offset is applied inside the scale, so it stays the same number of
       // screen pixels off the edge at every zoom
       el.setAttribute('transform', 'translate(' + w.x + ' ' + w.y + ') scale(' + k
@@ -2039,6 +2099,7 @@
 
   function composeEpoch() {
     bumpLayout();
+    dropLitIndex();               // the epoch's own lookups are rebuilt lazily
     // clear anything the previous epoch left behind
     Object.keys(atomEls).forEach(function (a) {
       var el = atomEls[a];
@@ -2404,7 +2465,8 @@
    *   14  the rivers of India
    *   15,16  projection: 0 Web Mercator, 1 Albers conic, 2 Lambert azimuthal
    *   17  the graticule    18  shaded relief   19,20  which relief sheet
-   *   22  local names inside the empire (stored inverted; on is the default)
+   *   21  single-colour map    22  local names inside the empire (inverted)
+   *   23  the occupation hidden    24  East Asia only (inverted)
    *
    * Bits 7 and 10 no longer have a switch in the Layers panel — the province
    * source came out once the period sheet was redrawn, and the hairline came
@@ -2438,11 +2500,21 @@
     // first, so a link written before this one existed still says what it
     // meant. The two client states and the base areas go the same way round
     // as `ccp` below and for the same reason: they start on.
-    if (state.occSource === 'none') bits |= 262144;
+    /* Bit 23, not 18. This wrote 262144 — the same bit the relief takes
+       below — so a link with Topography on also hid the occupation, and a
+       link with the occupation hidden turned Topography on. Old links with
+       bit 18 set now read as what the documented table always said bit 18
+       was: the relief. */
+    if (state.occSource === 'none') bits |= 8388608;
     if (!state.manchukuo) bits |= 524288;
     if (!state.mengjiang) bits |= 1048576;
     if (state.mono) bits |= 2097152;
-    if (!state.world) bits |= 4194304;      // inverted: the whole map is the default
+    /* Bit 24, not 22. This wrote 4194304 — the bit the name switch below
+       has carried since it shipped (tools/test/names.js pins it) — so a link
+       made with Japanese names off forced East Asia on whoever opened it,
+       whatever the sender's own frame was. That is the reported fault:
+       ?layers=2o7zc opening cropped despite the sender's whole-map setting. */
+    if (!state.world) bits |= 16777216;     // inverted: the whole map is the default
     // Bit 4096 means the base areas are OFF, not on. It is the one layer here
     // that starts switched on, and a bitfield cannot tell "the sender had it
     // off" from "the sender's build had no such bit": every link made before
@@ -2479,11 +2551,11 @@
     // no button lit and an address bar that disagreed with the map.
     state.level = Math.min(3, ((bits >> 8) & 3) + 1);
     state.hairline = !!(bits & 1024);
-    state.occSource = (bits & 262144) ? 'none' : ((bits & 2048) ? 'nca' : 'traced');
+    state.occSource = (bits & 8388608) ? 'none' : ((bits & 2048) ? 'nca' : 'traced');
     state.manchukuo = !(bits & 524288);
     state.mengjiang = !(bits & 1048576);
     state.mono = !!(bits & 2097152);
-    state.world = !(bits & 4194304);
+    state.world = !(bits & 16777216);
     state.ccp = !(bits & 4096);          // inverted; see layerCode
     state.backs = !!(bits & 8192);
     state.indiaRivers = !!(bits & 16384);
@@ -2996,7 +3068,20 @@
 
   /* The floating panels are treated as obstacles, so no name ends up hiding
    * under the legend, the zoom buttons or the detail card. */
+  /* Cached against `layoutGen`, because this runs at the top of
+     `placeLabels` on every frame of every gesture — and `rescale()` has just
+     written ~2,200 transforms, so the document is wholly dirty and each of
+     these reads costs a full layout of a 7,000-node SVG. Measured: 13.5% of
+     a wheel zoom's self time, and 1,994 ms of a 6,109 ms phone pinch, all
+     from this function. The panels it measures move only when one opens,
+     closes, folds or the window resizes; a ResizeObserver wired in `init`
+     bumps the generation on exactly those, so the cache cannot go stale by
+     a path forgetting to. A copy is returned because `placeLabels` pushes
+     its own placed boxes into the array it gets. */
+  var uiBoxCache = null, uiBoxGen = -1;
+
   function uiBoxes() {
+    if (uiBoxCache && uiBoxGen === layoutGen) return uiBoxCache.slice();
     var base = container.getBoundingClientRect();
     var boxes = [];
     ['#legend', '#zoom-controls', '#info', '#quiz'].forEach(function (sel) {
@@ -3009,7 +3094,9 @@
         t: r.top - base.top - 4, b: r.bottom - base.top + 4,
       });
     });
-    return boxes;
+    uiBoxCache = boxes;
+    uiBoxGen = layoutGen;
+    return boxes.slice();
   }
 
   /* Greedy label placement in screen space: walk the candidates in teaching
@@ -3202,6 +3289,7 @@
       if (doubled && L.key && !L.half && doubled[L.key]) {
         L.el.textContent = '';
         L.el.style.display = 'none';
+        L.shown = false;               // placeLabels mirrors what was written
         L.w = 0;
         return;
       }
@@ -3215,11 +3303,13 @@
       if (gone || !(showLabels && labelVisible(L.rec))) {
         L.el.textContent = '';
         L.el.style.display = 'none';
+        L.shown = false;
         L.w = 0;
         return;
       }
       var text = mapLabel(L.rec);
-      if (!text) { L.el.textContent = ''; L.el.style.display = 'none'; L.w = 0; return; }
+      if (!text) { L.el.textContent = ''; L.el.style.display = 'none';
+                   L.shown = false; L.w = 0; return; }
       if (L.el.textContent !== text) {
         L.el.textContent = text;
         L.w = estimateWidth(text, L.size);
@@ -3236,6 +3326,7 @@
         // immediately after this, in the same frame, and will hide it again if
         // it does not fit — so nothing is painted in between.
         L.el.style.display = '';
+        L.shown = true;
       }
     });
     /* All the writing above, then all the reading here. Interleaved, each
@@ -3341,27 +3432,46 @@
     var placed = uiBoxes();
     islandQuota();
     var isles = 0;
+    var browseOn = browseVisible();     // once, not once per browse label
+
+    /* One closure for the whole pass, not one per label per frame; and a
+       display write only when the value changes, because every write dirties
+       style whether or not it changed anything. `L.shown` mirrors what was
+       last written. */
+    var free = function (b) {
+      if (b.l < 2 || b.r > c.w - 2 || b.t < 2 || b.b > c.h - 2) return false;
+      for (var j = 0; j < placed.length; j++) {
+        var p = placed[j];
+        if (b.l < p.r && b.r > p.l && b.t < p.b && b.b > p.t) return false;
+      }
+      return true;
+    };
+    var show = function (L, yes) {
+      if (L.shown === yes) return;
+      L.shown = yes;
+      L.el.style.display = yes ? '' : 'none';
+    };
 
     for (var i = 0; i < labels.length; i++) {
       var L = labels[i];
-      if (!L.w) { L.el.style.display = 'none'; continue; }
+      if (!L.w) { show(L, false); continue; }
       var isIsle = L.half && isFinite(L.area);
       // too many islands in this patch of sea for this one to be among the
       // names it is worth carrying — see islandQuota — or forty are already
       // written and this is the forty-first largest
       if (isIsle && (L.crowded || isles >= ISLAND_CAP)) {
-        L.el.style.display = 'none';
+        show(L, false);
         continue;
       }
       // a browse name with no dot under it is just a word floating in the sea
-      if (L.rec.kind === 'browse' && !browseVisible()) { L.el.style.display = 'none'; continue; }
+      if (L.rec.kind === 'browse' && !browseOn) { show(L, false); continue; }
       /* And neither is a country's name when the country has been taken off
          the map. The label entries are built once, when the map is coloured,
          so nothing downstream knew the frame had been cut back: with the East
          Asia view on, the Indies, the Philippines, British India, Hawaii, the
          Soviet Union and Kengtung were all still named over open sea. */
       if (!state.world && L.rec.kind === 'territory' && !EAST_ASIA[L.rec.id]) {
-        L.el.style.display = 'none';
+        show(L, false);
         continue;
       }
 
@@ -3370,15 +3480,6 @@
       var box = {
         l: x - L.w / 2, r: x + L.w / 2,
         t: y - L.h * 0.85, b: y + L.h * 0.25,
-      };
-
-      var free = function (b) {
-        if (b.l < 2 || b.r > c.w - 2 || b.t < 2 || b.b > c.h - 2) return false;
-        for (var j = 0; j < placed.length; j++) {
-          var p = placed[j];
-          if (b.l < p.r && b.r > p.l && b.t < p.b && b.b > p.t) return false;
-        }
-        return true;
       };
 
       /* A name that will not fit where it belongs is moved a little before it
@@ -3404,7 +3505,7 @@
           if (free(nb)) { box = nb; nx = o[0] * dx; ny = o[1] * dy; ok = true; }
         }
       }
-      if (!ok) { L.el.style.display = 'none'; continue; }
+      if (!ok) { show(L, false); continue; }
 
       /* And then the label is actually *moved* there. It was not, for as long
          as this code has existed: the offset went into local variables and
@@ -3424,7 +3525,7 @@
 
       placed.push(box);
       if (isIsle) isles++;
-      L.el.style.display = '';
+      show(L, true);
     }
   }
 
@@ -3753,15 +3854,29 @@
     applyView();
   }
 
+  /* Taken once, at the moment the second finger lands. `svgMid` used to go
+     through `clientToSvg`, which is `getScreenCTM` — a forced layout of the
+     whole SVG, and it was asked again on every move right after `rescale()`
+     had dirtied the document: 1,158 ms of the throttled phone pinch. The
+     same conversion is one line of arithmetic from the container's rect and
+     `view`, which is exactly how the move branch goes the other way — so
+     the two are consistent by construction now, where before they agreed
+     only as long as the SVG's box matched the container's. The rect is kept
+     on the state and reused for the whole gesture: the container cannot
+     move while two fingers are on it. */
   function pinchState() {
     var pts = Array.from(pointers.values());
     var dx = pts[0].x - pts[1].x;
     var dy = pts[0].y - pts[1].y;
     var mid = { x: (pts[0].x + pts[1].x) / 2, y: (pts[0].y + pts[1].y) / 2 };
+    var r = container.getBoundingClientRect();
+    var k = view.w / containerSize().w;
     return {
       dist: Math.max(1, Math.hypot(dx, dy)),
       mid: mid,
-      svgMid: clientToSvg(mid.x, mid.y),
+      rect: r,
+      svgMid: { x: view.x + (mid.x - r.left) * k,
+                y: view.y + (mid.y - r.top) * k },
       w: view.w,
     };
   }
@@ -3788,12 +3903,19 @@
     }
 
     if (pointers.size >= 2 && pinchStart) {
-      var now = pinchState();
+      /* Only the distance and the midpoint move; everything that costs a
+         layout read was captured in `pinchStart`. This branch now performs
+         no layout read at all — see `pinchState`. */
+      var pts2 = Array.from(pointers.values());
+      var now = { dist: Math.max(1, Math.hypot(pts2[0].x - pts2[1].x,
+                                               pts2[0].y - pts2[1].y)),
+                  mid: { x: (pts2[0].x + pts2[1].x) / 2,
+                         y: (pts2[0].y + pts2[1].y) / 2 } };
       var maxW = fitView().w;
       var newW = Math.min(Math.max(pinchStart.w * (pinchStart.dist / now.dist), minViewW()), maxW);
       var c = containerSize();
       var k = newW / c.w;
-      var r = container.getBoundingClientRect();
+      var r = pinchStart.rect;
       view.w = newW;
       view.h = newW / (c.w / c.h);
       view.x = pinchStart.svgMid.x - (now.mid.x - r.left) * k;
@@ -4265,6 +4387,34 @@
      it lights with. In 1930 that is China and the four territories drawn
      separately so they can be named — Manchuria, Jehol, Chahar and Suiyuan,
      and Sinkiang — which were all the Republic on that date. */
+  /* Two lookups litFor used to recompute on every call — and it is called
+     four times per hover change (unlight, light, and twice more inside
+     redrawHighlight). `withinIdx` scans the territory table; `litExtraEls`
+     is a querySelectorAll over the whole SVG. Both inputs change only when
+     the epoch is recomposed, which is where they are dropped. The extras'
+     *display* check stays at call time: the occupation switches toggle those
+     shapes without recomposing anything. */
+  var withinIdx = null;
+  var litExtraEls = null;
+
+  function dropLitIndex() { withinIdx = null; litExtraEls = null; }
+
+  function litIndexes() {
+    if (!withinIdx) {
+      withinIdx = {};
+      territories().forEach(function (t) {
+        if (t.within) (withinIdx[t.within] = withinIdx[t.within] || []).push(t.id);
+      });
+    }
+    if (!litExtraEls) {
+      litExtraEls = {};
+      $$('[data-lit-for]', svg).forEach(function (el) {
+        var t = el.getAttribute('data-lit-for');
+        (litExtraEls[t] = litExtraEls[t] || []).push(el);
+      });
+    }
+  }
+
   function litFor(id, cluster) {
     if (cluster) return cluster;
     var els = (atomsOf[id] || []).slice();
@@ -4279,9 +4429,9 @@
     // and anything that says it is part of this one, so the relation only has
     // to be written once and on the part rather than on the whole
     if (id) {
-      territories().forEach(function (t) {
-        if (t.within !== id) return;
-        (atomsOf[t.id] || []).forEach(function (el) {
+      litIndexes();
+      (withinIdx[id] || []).forEach(function (tid) {
+        (atomsOf[tid] || []).forEach(function (el) {
           if (els.indexOf(el) < 0) els.push(el);
         });
       });
@@ -4290,7 +4440,7 @@
       // held and #mengjiang-whole is the whole of what it claimed, drawn with
       // neither fill nor stroke, so that hovering the state draws a line round
       // all of it rather than round the limit of Japanese control.
-      $$('[data-lit-for="' + id + '"]', svg).forEach(function (el) {
+      (litExtraEls[id] || []).forEach(function (el) {
         if (el.style.display !== 'none' && els.indexOf(el) < 0) els.push(el);
       });
     }
@@ -5083,7 +5233,7 @@
      supersedes geometry has to bump it, or a slot goes stale and stops
      redrawing while looking as though it works. */
   var hiGen = 0;
-  function bumpHi() { hiGen++; }
+  function bumpHi() { hiGen++; emptyPark(); }
 
   /* A shape's own bounds, in map units, remembered until the geometry moves.
      `getBBox` has to flush layout to answer, and sizing the mask asked it once
@@ -5112,6 +5262,33 @@
     return hiHost[name];
   }
 
+  /* Outlines that have been built once are parked, not burned.
+
+     Building one is the most expensive thing a hover does — a `getBBox`
+     flush, a mask, stroked copies of every path — and it happened again
+     every time the pointer came *back*: A to B to A rebuilt A from scratch.
+     Measured while sweeping across the map at CPU/6: long tasks of 50 to
+     204 ms, one per frontier crossed. Parked outlines are detached whole —
+     group and defs together, out of `ownedDefs` so no wholesale drop can
+     touch them — and reattached by key. The key is `slotKey`, which already
+     encodes the exact element set *and* `hiGen`, so a parked outline can
+     never be reattached across a geometry change; the park is emptied on
+     `bumpHi` and `clearHighlight` all the same, to give the memory back. */
+  var outlinePark = {};
+  var outlineParkKeys = [];
+  var OUTLINE_PARK_MAX = 8;
+
+  function emptyPark() { outlinePark = {}; outlineParkKeys = []; }
+
+  function parkSlot(slot) {
+    if (!slot || !slot.key || outlinePark[slot.key]) return;
+    outlinePark[slot.key] = slot;
+    outlineParkKeys.push(slot.key);
+    if (outlineParkKeys.length > OUTLINE_PARK_MAX) {
+      delete outlinePark[outlineParkKeys.shift()];
+    }
+  }
+
   function dropSlot(name) {
     var slot = hiSlots[name];
     if (!slot) return;
@@ -5123,6 +5300,7 @@
       var i = ownedDefs.hi.indexOf(d);
       if (i >= 0) ownedDefs.hi.splice(i, 1);
     });
+    parkSlot(slot);
     hiSlots[name] = null;
   }
 
@@ -5135,6 +5313,18 @@
     if (!key || !els || !els.length) return;
     var host = hiHostFor(name);
     if (!host) return;
+    var parked = outlinePark[key];
+    if (parked) {
+      delete outlinePark[key];
+      outlineParkKeys.splice(outlineParkKeys.indexOf(key), 1);
+      parked.defs.forEach(function (d) {
+        hiDefs.appendChild(d);
+        ownedDefs.hi.push(d);
+      });
+      host.appendChild(parked.group);
+      hiSlots[name] = parked;
+      return;
+    }
     var before = ownedDefs.hi.length;
     var group = outlineOf(els, cls, host);
     if (!group) return;
@@ -5143,7 +5333,11 @@
   }
 
   function clearHighlight() {
-    ['territory', 'province', 'selected'].forEach(dropSlot);
+    emptyPark();
+    ['territory', 'province', 'selected'].forEach(function (n) {
+      dropSlot(n);
+    });
+    emptyPark();                  // and what dropSlot just parked goes too
     if (highlightLayer) highlightLayer.innerHTML = '';
     hiHost = { territory: null, province: null, selected: null };
     dropDefs('hi');
@@ -5559,7 +5753,9 @@
       (!JMAP.GAZ && browseVisible()) ? '' : 'none';
     applyGazetteer();
 
-    gateLabels();
+    // forced: a state change can flip switches the gate signature does not
+    // carry — that is the deal that lets the zoom path skip
+    gateLabels(true);
 
     // A territory marked adminOnly is administrative detail drawn inside
     // another one — the princely states inside British India — so it comes and

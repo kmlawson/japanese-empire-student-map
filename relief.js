@@ -38,9 +38,9 @@ JMAP.RELIEF = {
       "mb": 48,
       "note": "1:50m, 2 arc-minutes",
       "src": {
-        "albers": "relief-coarse-albers.webp",
-        "laea": "relief-coarse-laea.webp",
-        "mercator": "relief-coarse-mercator.webp"
+        "albers": "relief/relief-coarse-albers.webp",
+        "laea": "relief/relief-coarse-laea.webp",
+        "mercator": "relief/relief-coarse-mercator.webp"
       }
     },
     {
@@ -50,9 +50,9 @@ JMAP.RELIEF = {
       "mb": 107,
       "note": "1:10m, thinned to 4/5",
       "src": {
-        "albers": "relief-fine-albers.webp",
-        "laea": "relief-fine-laea.webp",
-        "mercator": "relief-fine-mercator.webp"
+        "albers": "relief/relief-fine-albers.webp",
+        "laea": "relief/relief-fine-laea.webp",
+        "mercator": "relief/relief-fine-mercator.webp"
       }
     },
     {
@@ -62,9 +62,9 @@ JMAP.RELIEF = {
       "mb": 191,
       "note": "1:10m, 1 arc-minute",
       "src": {
-        "albers": "relief-finest-albers.webp",
-        "laea": "relief-finest-laea.webp",
-        "mercator": "relief-finest-mercator.webp"
+        "albers": "relief/relief-finest-albers.webp",
+        "laea": "relief/relief-finest-laea.webp",
+        "mercator": "relief/relief-finest-mercator.webp"
       }
     }
   ]

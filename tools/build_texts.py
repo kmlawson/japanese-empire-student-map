@@ -452,7 +452,7 @@ def build_pages():
                # projection, and they are not .js or .css so the page's own
                # stamper below never sees them
                ) + tuple(
-                   "relief-%s-%s.webp" % (lvl, mode)
+                   "relief/relief-%s-%s.webp" % (lvl, mode)
                    for lvl in ("coarse", "fine", "finest")
                    for mode in ("mercator", "albers", "laea"))
     assets = {}

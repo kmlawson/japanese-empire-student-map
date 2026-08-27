@@ -146,10 +146,25 @@ console.log('\n— the link —');
         document.querySelector('#ann-cap-text').textContent);},
       {timeout:60000, polling:'raf'});
   } catch (e) { /* the checks below report it better than a timeout would */ }
-  await sleep(300);
+  /* Two messages can honestly answer here, and which one arrives is a race
+     the reader never sees. Packing is debounced a quarter-second behind the
+     load; a press inside that window takes copyLink's not-ready branch, which
+     packs at once and answers through showLink 350 ms later — "Too much for a
+     link: N characters against a limit of 6,000". A press after the window
+     answers immediately — "N characters compressed, past the 6,000 a link can
+     carry". Same number, same advice. This used to demand the second wording
+     and a 300 ms read, and started failing the day the map got faster: the
+     click began landing inside the pack window. Wait for either. */
+  try {
+    await p.waitForFunction(()=>{
+      const m=document.querySelector('#ann-msg');
+      return m && /(past the 6,000 a link can carry|against a limit of 6,000)/.test(m.textContent);},
+      {timeout:5000, polling:'raf'});
+  } catch (e) { /* the check reports the actual text */ }
   check('too much for a link says so with the number',
-    /past the 6,000 a link can carry/.test(await p.evaluate(()=>document.querySelector('#ann-msg').textContent)),
-    await p.evaluate(()=>document.querySelector('#ann-msg').textContent).then?'':'');
+    /(past the 6,000 a link can carry|against a limit of 6,000)/.test(
+      await p.evaluate(()=>document.querySelector('#ann-msg').textContent)),
+    await p.evaluate(()=>document.querySelector('#ann-msg').textContent));
   await p.close(); }
 
 { const p=await page(b,{query:'?ann=zBROKEN!!!!'});
