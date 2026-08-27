@@ -10005,6 +10005,30 @@ and re-run clean, which is worth knowing next time the suite seems to hang.)
 
 ---
 
+## Kwantung's darker rim, switched off
+
+The leasehold was drawn with a stroke along its own boundary in a colour
+darker than its fill — Japan-proper red round a colony-red shape — and it
+read as a rim rather than as a frontier. Off for now, at the author's
+request, and kept easy to put back.
+
+It was one field: `edge` in `texts/territories/1942.csv`, which `drawEdge`
+turns into a stroke-only path in the sub-outline layer. **To restore it,
+write `#9a1813` back into that row's `edge` column and rebuild** — nothing
+else was touched, and the machinery is untouched: Thailand's edge (with its
+`edgeWidth` of 6 and two edge atoms), Tuva's inside Mongolia and British
+India's along Burma all still draw, which is what the check below confirms.
+
+Verified on the 1942 map: three edge lines remain — Thailand twice and Tuva
+— and none of them is Kwantung's; the 1930 map, which never had one here,
+is unchanged. The leasehold now reads as flat colony red, and its landward
+boundary with Manchukuo is told by colour alone, which is how every other
+neighbour of a different category on this map is told.
+
+Whole suite: 661 checks across 29 scripts, all passing.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

@@ -680,7 +680,7 @@ JMAP.TERRITORIES = {
     {
       id: 'kwantung', en: 'Kwantung Leased Territory', ja: '関東州 (Kantōshū)',
       orig: '關東州 (Guāndōngzhōu)', zh: '關東州', ko: '관동주', when: 'Leased 1905–1945', cat: 'colony',
-      lvl: 2, atoms: ['kwantung'], edge: '#9a1813',
+      lvl: 2, atoms: ['kwantung'],
       wiki: 'https://en.wikipedia.org/wiki/Kwantung_Leased_Territory',
       note: 'Nominally Manchukuo’s, in that the new state re-granted the lease in 1932; in practice a Japanese leasehold with its own administration to the end, and the seat of the Kwantung Army that had taken Manchuria. Lüshun and Dalian are inside it.'
     },
