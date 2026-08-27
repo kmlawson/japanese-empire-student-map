@@ -9636,6 +9636,39 @@ Whole suite: 653 checks across 29 scripts, all passing.
 
 ---
 
+## Sarawak's outline no longer swallows North Borneo
+
+Reported plainly: "Sarawak seems to currently include North Borneo." It did —
+in the one place it showed. Selecting or hovering Sarawak on the 1930 map
+drew the outline round the whole of British Borneo, Sabah and all, cutting
+out only Brunei; the card and the tooltip said Sarawak throughout, and the
+fill error was invisible because North Borneo paints over the same ground in
+the same British mauve.
+
+The mechanism: `a-sarawak` is a deferred atom, so its backing is what draws
+and outlines it — and its backing was the whole landmass. Natural Earth's
+Malaysian share of Borneo is one contiguous ring, and `malaysia_backing`
+assigns rings by centroid, a test that cannot divide a ring: the centroid
+falls in Sarawak's box, so Sabah went with it. Measured before the fix:
+Sarawak's backing bbox x 871-1066 — North Borneo's own backing (x 983-1065)
+wholly inside it.
+
+The cure is the one North Borneo itself took when Penang was found drawn
+twice: `sarawak` joins `BACKING_FROM_SUBUNITS`, so its backing is the union
+of its own geoBoundaries polygon from the administrative sheet — the same
+file its neighbours' edges come from — and the foreign ring is dropped.
+After: backing bbox x 871-994, ending where North Borneo begins; the
+selection outline runs along the frontier and round the Brunei cutout, which
+is the Brooke raj's actual shape. Not a simplification — the backing changes
+source from a coarser file to the finer one the sheet already carries.
+
+1942 is unchanged and correct both before and after: British Borneo is one
+occupied territory there, and selecting any of the three outlines all three.
+
+Whole suite: 653 checks across 29 scripts, all passing.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

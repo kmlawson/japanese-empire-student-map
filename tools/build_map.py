@@ -775,7 +775,15 @@ NO_DISSOLVE = ({"kwantung", "ccp", "linephoenix", "uspacific", "nzpacific", "ell
 # Indochina joined them when the 1941 cessions turned out to be inside its
 # filler: Laos and Cambodia were being laid underneath whole, so the outline of
 # French Indochina still enclosed the ground Thailand had been given.
-BACKING_FROM_SUBUNITS = {"philippines", "malaya", "northborneo", "indochina"}
+# Sarawak joined on 28-08, when selecting it was found to outline the whole
+# of British Borneo. Natural Earth's Malaysian share of the island is one
+# contiguous ring, and `malaysia_backing` splits rings by centroid — a test
+# that cannot divide one ring — so the entire landmass, Sabah included, fell
+# into Sarawak's backing. Its own geoBoundaries polygon is already in the
+# administrative sheet; the union of that is the backing, the same cure
+# North Borneo took when Penang was found drawn twice.
+BACKING_FROM_SUBUNITS = {"philippines", "malaya", "northborneo", "sarawak",
+                         "indochina"}
 
 # Atoms that get no filler at all, and are drawn from their sub-units alone.
 # China is here because its filler was doing harm rather than good. The v5
