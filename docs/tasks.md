@@ -10029,6 +10029,60 @@ Whole suite: 661 checks across 29 scripts, all passing.
 
 ---
 
+## The 1942 line encloses 48 unoccupied islands — measured, not yet fixed
+
+Reported from a phone: the line of control sweeps in yellow islands off the
+Chinese coast. The rule given is unambiguous — **except for the red occupied
+areas, everything yellow belongs outside the line** — so this is now
+measurable rather than a matter of eye. `tools/check_extent.py` reads the
+built sheet, takes every piece of Chinese land small enough to be an island
+with none of the traced occupation over it, and tests its centroid against
+the built `#extent-1942` path. It exits non-zero while any remain.
+
+**48 islands, 41.3 square units, the whole length of the coast:**
+
+```
+Gulf of Chihli (Shandong)               2   largest 1.37 at 120.72E 37.95N
+Jiangsu / Shanghai approaches           3   largest 0.31 at 120.87E 32.77N
+Zhejiang — Zhoushan and south           1   largest 1.54 at 122.36E 30.25N
+Zhejiang — Wenzhou coast                7   largest 1.03 at 120.91E 27.96N
+Fujian — Fuzhou to Pingtan             17   largest 10.64 at 119.76E 25.53N
+Fujian/Guangdong — Xiamen to Swatow     1   largest  7.18 at 117.42E 23.67N
+Guangdong — the Canton delta and west  17   largest  2.97 at 113.51E 22.11N
+```
+
+The largest is Haitan (Pingtan), off Fuzhou.
+
+**Why it happens, and why two obvious fixes did not work.** The coastal
+course is a hand-drawn line (`EXTENT_SOUTH_CHINA`) pushed off the shore by
+`hug_coast` to a fixed standoff of `EXTENT_OFFSHORE` — 0.085°, about nine
+kilometres. The islands off Fukien and in the delta lie *inside* that
+standoff, so the line passes seaward of them by construction.
+
+Tried and reverted, both measured:
+
+* a pass after the detours that pushed offending vertices inshore along the
+  line's normal — 65 vertices moved, enclosure **50 → 52**. Moving a vertex
+  away from an island does not put the island outside a closed loop.
+* clamping the standoff at the point it is chosen, so the line never stands
+  further out than the sea leaves before an unoccupied island — enclosure
+  **50 → 48**. It barely fires, because along most of this coast the line's
+  position is not set by the push-off-land branch at all: the hand-drawn
+  course is already offshore and `hug_coast` leaves it alone.
+
+**What would work**, and why it is a decision rather than a patch: the
+coastal stretch should be derived from the occupied zone's own seaward edge,
+the way `china_front()` already derives the inland front from the shading —
+"the line marks where Japanese forces actually were and has no business
+floating west of the ground the map shades as theirs". The same argument
+applies to the coast, and it satisfies the rule by construction, since the
+shading is already clipped to China's land and contains exactly the islands
+Japan held. But it would redraw the whole southern coast, overriding the
+hand-tuned stretches: `EXTENT_KEEP_INLAND`, the Amoy, Swatow and Canton
+delta detours, and the Chekiang standoff. That is the author's call.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible
