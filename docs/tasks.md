@@ -9589,6 +9589,53 @@ toast, no errors.
 
 ---
 
+## Labuan pinned, the mandate wash restored, Max means the maximum, and a bare URL means the defaults
+
+**Labuan, finally held by a test.** The project's own notes call it the fault
+that cost two goes, and nothing in the suite pinned it. At current HEAD every
+direction is correct — verified in Chrome headless and in a driven Safari
+18.6 — and `tools/test/labuan.js` now holds all four: hovering Labuan lights
+the five scattered Straits pieces and Christmas Island and not North Borneo;
+hovering North Borneo lifts the atom while Labuan keeps the plain colour (as
+a *computed fill*, not a class — classes were right in Safari for a month
+while nothing on screen changed); a finger's first tap names Labuan; and on
+the 1942 map the Dindings are Perak's, so the lit set is one smaller.
+
+**The mandate wash, un-flooded.** The fill-based lift's first cut wrote
+`fill` on `.atom.hot`, and at (0,3,0) that outranked every special fill a
+`.hot` element carried — the South Seas Mandate's 8% wash became solid
+colony-red, which is the screenshot that reported it. The lift is a custom
+property now: `.atom` fills with `var(--lit, var(--c, …))` and `.hot` defines
+`--lit` — so a shape that declares its own fill never reads it and is
+untouched, which is what the old filter gave every special case for free.
+The same shape protects mono, and `.atom > path.hot` takes
+`:not([data-lit-for])` so the outline-only shapes (Mengjiang's claim) can
+never be flooded by cluster lighting. Verified: mandate hot computes to the
+8% wash again, Japan hot to the strong mix, `#mengjiang-whole` keeps
+`fill: none` with `.hot` forced on.
+
+**Max always brings the resistance areas back.** The one-way rule ("a
+pressed button must not argue") is overruled by the author: every press of
+Max — bar button or dialog radio — restores the base areas, already-on or
+not. Links and code still go through `setOccSource`'s gentler on-the-way-to
+rule, so a URL's own ccp bit is never overridden. `mapstrip` re-pinned.
+
+**A bare URL loads the canonical opening, and the map stores nothing.**
+1930; cities, admin, topo, events and names off; the rivers, the 1942 line,
+the resistance areas, Manchukuo, Mengjiang and the whole map on; Mercator.
+That is exactly the `state` block's defaults, so the change is that
+`loadState`/`saveState` are no-ops: the address bar — `bbox`, `layers`,
+`mono`, written continuously — is the only carrier, and a shared machine
+never opens on the last reader's leavings. The annotations keep their own
+storage; a backup of work is not a preference. Two tests were leaning on the
+old storage without knowing it: mapstrip's "a link carries them" copied
+`location.hash` — the empty string — and passed through localStorage; it
+copies the real `location.search` now and tests what its name says.
+
+Whole suite: 653 checks across 29 scripts, all passing.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

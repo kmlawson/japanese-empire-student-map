@@ -323,7 +323,13 @@ button.plain:hover { background: var(--hover-fill); }
    under the Raj, and none along the Mekong in French Indochina. The stroke
    also closes the anti-aliasing hairline where two polygons abut. */
 .atom {
-  fill: var(--c, var(--inactive));
+  /* `--lit` is how the hover lift arrives — see the .hot rules. A variable
+     rather than a fill on `.atom.hot`, because a fill rule replaces every
+     special fill outranked by it: the first cut of the fill-based lift
+     painted the South Seas Mandate's 8% wash solid colony-red. Shapes that
+     declare their own fill never read this and are untouched, which is the
+     behaviour the old filter gave them for free. */
+  fill: var(--lit, var(--c, var(--inactive)));
   /* The stroke is switched on by `#jmap.hairline`, from the Layers panel; see
      the block below the backings for why it is off to begin with. */
   stroke: none;
@@ -504,7 +510,7 @@ button.plain:hover { background: var(--hover-fill); }
    The hit overlays are excluded — they are `.atom`s too, and a fill on a
    transparent hit shape would paint a blob over the country. */
 .atom.hot:not(.atom-hit) {
-  fill: color-mix(in srgb, var(--c, var(--inactive)) 89%, #fff);
+  --lit: color-mix(in srgb, var(--c, var(--inactive)) 89%, #fff);
 }
 /* and the seam strips of a lit atom with it: they carry its colour, so leaving
    them out of the lighting left a band of the unlit colour along its frontier
@@ -1734,7 +1740,7 @@ dialog h3 {
 /* Sub-units lit as a group: the Straits Settlements when the pointer is on one
    of them. The rule above matches the atom itself, which is what lights a whole
    country; these are paths inside an atom and need saying separately. */
-.atom > path.hot {
+.atom > path.hot:not([data-lit-for]) {
   fill: color-mix(in srgb, var(--c, var(--inactive)) 89%, #fff);
 }
 
@@ -2027,13 +2033,15 @@ dialog h3 {
 #jmap.mono .atom > path,
 #jmap.mono #backings path,
 #jmap.mono #seams path {
-  fill: var(--mono-land);
+  fill: var(--lit, var(--mono-land));
 }
 /* The pointer lift under mono, said the same way as in colour. Mono's rule
    above outranks the plain lifts, so each one is restated at mono's own
    specificity with the mono land colour as its base. */
-#jmap.mono .atom.hot:not(.atom-hit),
-#jmap.mono .atom.hot > path,
+#jmap.mono .atom.hot:not(.atom-hit) {
+  --lit: color-mix(in srgb, var(--mono-land) 89%, #fff);
+}
+#jmap.mono .atom > path.hot:not([data-lit-for]),
 #jmap.mono #seams path.hot {
   fill: color-mix(in srgb, var(--mono-land) 89%, #fff);
 }

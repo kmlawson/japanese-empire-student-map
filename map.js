@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '1.85';
+  var JEM_VERSION = '1.86';
   var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "761fbd5949", "japan-empire-map-admin.svg": "9de0304837", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "9214380208", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0"};
 
   /* Every file this one fetches, with the version on it.
@@ -47,7 +47,6 @@
   var $ = function (sel, root) { return (root || document).querySelector(sel); };
   var $$ = function (sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); };
 
-  var STORE_KEY = 'jmap.v3';
   var DOT_R = 5.5;        // marker radius, in screen pixels
   var HIT_R_TOUCH = 22;   // finger-sized tap target
   var HIT_R_MOUSE = 13;
@@ -229,62 +228,20 @@
 
   /* ------------------------------------------------------------ state -- */
 
-  function loadState() {
-    try {
-      var saved = JSON.parse(localStorage.getItem(STORE_KEY) || '{}');
-      if (saved.level >= 1 && saved.level <= 3) state.level = saved.level;
-      // The year and the three layer buttons are deliberately not restored.
-      // The map is a teaching one and every visit should start from the same
-      // place — 1930, nothing switched on — rather than from wherever the last
-      // reader happened to leave it, which on a shared machine is nowhere the
-      // next reader chose. The rest below is preference and does carry over.
-      state.labels = !!saved.labels;
-      if (typeof saved.extent === 'boolean') state.extent = saved.extent;
-      ['manchukuo', 'mengjiang', 'mono', 'world'].forEach(function (k) {
-        if (typeof saved[k] === 'boolean') state[k] = saved[k];
-      });
-      if (typeof saved.rivers === 'boolean') state.rivers = saved.rivers;
-      if (typeof saved.hairline === 'boolean') state.hairline = saved.hairline;
-      if (typeof saved.backs === 'boolean') state.backs = saved.backs;
-      if (typeof saved.indiaRivers === 'boolean') state.indiaRivers = saved.indiaRivers;
-      if (typeof saved.graticule === 'boolean') state.graticule = saved.graticule;
-      if (typeof saved.relief === 'boolean') state.relief = saved.relief;
-      if (typeof saved.jpNames === 'boolean') state.jpNames = saved.jpNames;
-      if (typeof saved.monoColour === 'string' && HEX.test(saved.monoColour)) {
-        state.monoColour = saved.monoColour;
-      }
-      if (typeof saved.reliefDetail === 'number') {
-        state.reliefDetail = Math.max(0, Math.min(2, saved.reliefDetail | 0));
-      }
-      if (['mercator', 'albers', 'laea'].indexOf(saved.projection) >= 0) {
-        state.projection = saved.projection;
-      }
-      if (typeof saved.ccp === 'boolean') state.ccp = saved.ccp;
-      if (saved.occSource === 'nca' || saved.occSource === 'traced'
-          || saved.occSource === 'none') {
-        state.occSource = saved.occSource;
-      }
-      if (typeof saved.legend === 'boolean') state.legend = saved.legend;
-    } catch (err) { /* first visit, or storage is off — defaults are fine */ }
-  }
+  /* The map keeps no state of its own. It used to persist every switch in
+     localStorage and restore it on a bare URL, which on a shared machine —
+     and this is a teaching map — opened on wherever the last reader left it.
+     Asked for plainly on 27-08: a bare URL loads the canonical opening —
+     1930, nothing switched on but the rivers, the 1942 line, the resistance
+     areas, the client states and the whole map, in Mercator — which is
+     exactly the `state` block above, and nothing is written back. The address
+     bar already carries everything a reader changes (`bbox`, `layers`,
+     `mono`), continuously, so a reload or a shared link keeps their state
+     without a byte stored. The annotations keep their own storage: that is a
+     backup of a reader's work, which is a different thing from a preference. */
+  function loadState() { /* the defaults above are the load */ }
 
-  function saveState() {
-    try {
-      localStorage.setItem(STORE_KEY, JSON.stringify({
-        epoch: state.epoch, level: state.level,
-        cats: state.cats, labels: state.labels, extent: state.extent,
-        rivers: state.rivers, legend: state.legend, hairline: state.hairline,
-        backs: state.backs, indiaRivers: state.indiaRivers,
-        projection: state.projection, graticule: state.graticule,
-        relief: state.relief, reliefDetail: state.reliefDetail,
-        jpNames: state.jpNames,
-        occSource: state.occSource, ccp: state.ccp,
-        manchukuo: state.manchukuo, mengjiang: state.mengjiang, mono: state.mono,
-        monoColour: state.monoColour,
-        world: state.world,
-      }));
-    } catch (err) { /* private browsing; not worth complaining about */ }
-  }
+  function saveState() { /* the URL is the store */ }
 
   /* A place on the 1930 map should not be labelled or described by something
    * that had not happened yet. Sites with a per-epoch entry get it merged over
@@ -606,8 +563,6 @@
 
   /* ------------------------------------------------------------- boot -- */
 
-  var firstVisit = false;
-  try { firstVisit = !window.localStorage.getItem(STORE_KEY); } catch (err) { firstVisit = true; }
   loadState();
 
   // The bundled single-file build inlines the map; otherwise fetch it. Either
@@ -7209,6 +7164,17 @@
     }
     $$('#occ-seg button').forEach(function (b) {
       b.addEventListener('click', function () {
+        /* Pressing Max always brings the resistance areas back — even when
+           Max is already on. It used to hold to "a pressed button must not
+           argue", but the reader who presses Max is asking for the maximum
+           reading, and the base areas are half of it. Asked for on 27-08.
+           Links and code go through setOccSource and keep the gentler
+           on-the-way-to rule, so a URL's own ccp bit is never overridden. */
+        if (b.getAttribute('data-occ') === 'traced' && !state.ccp) {
+          state.ccp = true;
+          var cy2 = $('#opt-ccp');
+          if (cy2) cy2.checked = true;
+        }
         setOccSource(b.getAttribute('data-occ'));
         syncLayerButtons();
         saveState();
@@ -7265,6 +7231,12 @@
     $$('#dlg-options [name="occ-src"]').forEach(function (r) {
       r.checked = (r.value === state.occSource);
       r.addEventListener('change', function () {
+        // the dialog's Max radio is the same press as the bar's Max button
+        if (r.checked && r.value === 'traced' && !state.ccp) {
+          state.ccp = true;
+          var cy3 = $('#opt-ccp');
+          if (cy3) cy3.checked = true;
+        }
         if (r.checked) setOccSource(r.value);
       });
     });

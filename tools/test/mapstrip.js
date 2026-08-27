@@ -125,8 +125,8 @@ check('and the reader can put them back',
    and Max brings them back.
 
    The guard that matters is the third check: only on the way *to* Max. A
-   reader looking at Max who unticks the base areas has said something, and
-   pressing a button that is already pressed must not argue with them. */
+   reader who presses Max is asking for the maximum reading, and the base
+   areas are half of it — every press restores them (changed 27-08). */
 console.log('\n— and choosing Max brings them back —');
 const setOcc = async id => { await p.evaluate(i => { const r = document.querySelector(i);
   r.checked = true; r.dispatchEvent(new Event('change', { bubbles: true })); }, id);
@@ -143,8 +143,13 @@ check('and coming back to Max switches them on', await ccpOn());
 await p.evaluate(()=>{const c=document.querySelector('#opt-ccp');
   c.checked=false; c.dispatchEvent(new Event('change',{bubbles:true}));}); await sleep(1000);
 await setOcc('#occ-traced');
-check('but Max pressed while already on Max leaves the reader alone',
-  !(await ccpOn()));
+/* This used to pin the opposite — a pressed button must not argue — and the
+   map's author overruled it on 27-08: pressing Max always asks for the
+   maximum reading, and the base areas are half of it. Every press restores
+   them, already-on or not. */
+check('Max pressed again brings the base areas back', await ccpOn());
+await p.evaluate(()=>{const c=document.querySelector('#opt-ccp');
+  c.checked=false; c.dispatchEvent(new Event('change',{bubbles:true}));}); await sleep(1000);
 await setOcc('#occ-nca');
 check('the army reading does not switch them on by itself', !(await ccpOn()));
 await setOcc('#occ-traced');
@@ -225,19 +230,24 @@ const code=await p.evaluate(()=>{
   ['#opt-manchukuo','#opt-mengjiang'].forEach(s=>{const c=document.querySelector(s);
     c.checked=false; c.dispatchEvent(new Event('change',{bubbles:true}));});
   const m=document.querySelector('#opt-mono'); m.checked=true; m.dispatchEvent(new Event('change',{bubbles:true}));
-  return location.hash;});
+  return location.search;});
 await sleep(1200);
-const hash=await p.evaluate(()=>location.hash);
+/* The SEARCH, not the hash: the map's address is ?bbox=…&layers=…, and this
+   used to copy `location.hash` — the empty string — and still pass, because
+   the second page restored the four settings from localStorage instead. The
+   map keeps no stored state now, so the check finally tests what its name
+   says: the link itself. */
+const search=await p.evaluate(()=>location.search);
 const p2=await b.newPage(); await p2.setViewport({width:1500,height:950});
 await p2.evaluateOnNewDocument(SHIM);
-await p2.goto('http://localhost:8123/index.html'+hash,{waitUntil:'networkidle0'}); await sleep(3600);
+await p2.goto('http://localhost:8123/index.html'+search,{waitUntil:'networkidle0'}); await sleep(3600);
 await p2.evaluate(()=>document.querySelector('#btn-options').click()); await sleep(500);
 const got=await p2.evaluate(()=>({occ:document.querySelector('#occ-none').checked,
   man:document.querySelector('#opt-manchukuo').checked,
   men:document.querySelector('#opt-mengjiang').checked,
   mono:document.querySelector('#opt-mono').checked}));
 check('a shared link brings all four across',
-  got.occ && !got.man && !got.men && got.mono, hash+' → '+JSON.stringify(got));
+  got.occ && !got.man && !got.men && got.mono, search+' → '+JSON.stringify(got));
 check('no page errors', errs.length===0, errs[0]);
 console.log('\n  '+pass+' passed, '+fail+' failed');
 await b.close(); process.exit(fail);})();

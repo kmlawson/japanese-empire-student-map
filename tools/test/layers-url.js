@@ -102,18 +102,8 @@ for (const [flip, keep, want] of [
   ['world', 'jpNames', true],       // East Asia must not strip Japanese names
   ['relief', 'occSource', 'traced'],// topography must not hide the occupation
 ]) {
-  /* A clean slate each time. The browser is shared, and the previous
-     iteration's flip is in localStorage — with it there, the second write
-     honestly carries both bits and the check reads a collision that is not
-     one. The same trap as ever: state persists across pages. */
-  /* The page already read the old state into memory before the clear, and
-     its own applyState writes it straight back — so writing is disabled on
-     this page as well as cleared. It exists only to scrub the slate. */
-  { const t = await b.newPage();
-    await t.goto('http://localhost:8123/index.html', { waitUntil: 'domcontentloaded' });
-    await t.evaluate(() => { localStorage.clear();
-      Storage.prototype.setItem = function () {}; });
-    await t.close(); }
+  /* No scrub needed any more: the map neither reads nor writes stored
+     state, so every page opens on the canonical defaults. */
   const r = await open(b);
   await r.evaluate(k => {
     if (k === 'jpNames') document.querySelector('#opt-jpnames').click();
@@ -124,7 +114,18 @@ for (const [flip, keep, want] of [
   const href = await r.evaluate(() => location.href);
   await r.close();
   const s2 = await open(b, href);
-  const got = await s2.evaluate(k => JSON.parse(localStorage.getItem('jmap.v3'))[k], keep);
+  /* Read the controls, not localStorage: the map no longer stores its state
+     anywhere — the URL is the store — so the dialog's own checkboxes are the
+     truth about what the link delivered. */
+  const got = await s2.evaluate(k => {
+    if (k === 'world') return document.querySelector('#opt-world').checked;
+    if (k === 'jpNames') return document.querySelector('#opt-jpnames').checked;
+    if (k === 'occSource') {
+      const r = document.querySelector('input[name="occ-src"]:checked');
+      return r ? r.value : null;
+    }
+    return null;
+  }, keep);
   check(flip + ' off leaves ' + keep + ' alone', JSON.stringify(got) === JSON.stringify(want),
     href.slice(-24) + ' -> ' + keep + '=' + JSON.stringify(got));
   await s2.close();
