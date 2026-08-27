@@ -3657,14 +3657,60 @@ def iter_lines(geom):
             yield [(float(c[0]), float(c[1])) for c in line]
 
 
+def check_no_zero_subpaths(text, what):
+    """Refuse to ship a subpath that begins and ends at the same written point.
+
+    Such a subpath draws nothing on some engines and, under a round cap, a
+    filled dot on others — and not always a dot the size of the line it
+    belongs to. One of them in the Taiwan railways drew a white circle at
+    Kaohsiung many times the width of the dotted line, on iOS Safari and iOS
+    Firefox but not on desktop Chrome, which is the worst kind of fault to
+    find: invisible to whoever built it. `line_to_path` no longer emits one;
+    this makes sure nothing else starts.
+    """
+    bad = []
+    for m in re.finditer(r'\sd="(M[^"]+)"', text):
+        for sub in m.group(1).split("M"):
+            if not sub.strip():
+                continue
+            pts = re.findall(r"-?\d+\.?\d*\s+-?\d+\.?\d*", "M" + sub)
+            if len(pts) < 2 or len(set(pts)) == 1:
+                bad.append(("M" + sub)[:60])
+    if bad:
+        sys.stderr.write("%s: %d subpath(s) of zero length, which draw as "
+                         "dots on some engines:\n" % (what, len(bad)))
+        for b in bad[:8]:
+            sys.stderr.write("    %s\n" % b)
+        raise SystemExit(1)
+    sys.stderr.write("%s: no zero-length subpaths\n" % what)
+
+
 def line_to_path(points):
-    d = [f"M{fmt(points[0][0])} {fmt(points[0][1])}"]
-    px, py = points[0]
+    """A polyline, with no two written points the same.
+
+    The guard compares the *written* coordinates rather than the raw ones. It
+    used to drop a point only when it was within 0.05 units of the last, and
+    `fmt` writes a tenth — so two points 0.06 apart passed the guard and then
+    printed identically, giving `M x y L x y`: a subpath of zero length.
+
+    That is not nothing on screen. Under a round cap it is a dot, and a dot
+    whose size does not always follow the same rules as the line it belongs
+    to: on iOS Safari and iOS Firefox a single such subpath in the Taiwan
+    railways drew a filled white circle forty times the width of the dotted
+    line, at Kaohsiung, where a 150 m harbour siding collapsed to one point.
+    Reported twice; found by scanning the built `d` for subpaths of zero
+    extent, of which there was exactly one in each epoch.
+
+    Comparing the formatted strings cannot drift from `fmt` the way a hard
+    threshold did, and it fixes every line layer at once."""
+    fx, fy = fmt(points[0][0]), fmt(points[0][1])
+    d = [f"M{fx} {fy}"]
     for x, y in points[1:]:
-        if abs(x - px) < 0.05 and abs(y - py) < 0.05:
+        sx, sy = fmt(x), fmt(y)
+        if sx == fx and sy == fy:
             continue
-        d.append(f"L{fmt(x)} {fmt(y)}")
-        px, py = x, y
+        d.append(f"L{sx} {sy}")
+        fx, fy = sx, sy
     return "".join(d) if len(d) > 1 else ""
 
 
@@ -7281,8 +7327,10 @@ def main():
         out[head:head] = ['    <g id="seams">'] + seam_out + ['    </g>']
 
     dest = os.path.join(ROOT, "japan-empire-map.svg")
+    _text = "\n".join(out) + "\n"
+    check_no_zero_subpaths(_text, "japan-empire-map.svg")
     with open(dest, "w") as fh:
-        fh.write("\n".join(out) + "\n")
+        fh.write(_text)
 
     # The administrative divisions, in their own file. They are more than half
     # the weight of the map and the map opens without them.

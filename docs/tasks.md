@@ -9960,6 +9960,51 @@ Whole suite: 661 checks across 29 scripts, all passing.
 
 ---
 
+## The white dot at Kaohsiung: one subpath that began and ended in the same place
+
+Reported three times, and the third report — a photograph of iOS Safari, then
+iOS Firefox — is what solved it. **Not a Chrome/WebKit rendering difference in
+the sense of a browser bug to work around: bad geometry that Chrome forgives
+and WebKit and Gecko do not.**
+
+Scanning the built `d` attributes for subpaths of zero extent found exactly
+one, in each epoch, at map units (1085.9, 857.6) — which converts to
+120.2950 E, 22.6396 N: Kaohsiung, where the reader pointed. A 150-metre
+harbour siding whose two ends round to the same written coordinate leaves
+`M x y L x y`, and under `stroke-linecap: round` that is a dot. On desktop
+Chrome it is a dot the width of the line, indistinguishable from the dots
+either side of it; on iOS Safari and iOS Firefox it came out a filled circle
+many times that width. Which is the worst kind of fault to ship: invisible
+to the person who built it.
+
+The cause is in `line_to_path`, and it is general rather than particular to
+railways. It dropped a point only when it was within **0.05 units** of the
+last one, while `fmt` writes a **tenth** — so two points 0.06 apart passed
+the guard and then printed identically. The guard now compares the *written*
+strings, which cannot drift from `fmt` the way a hard threshold did, and it
+fixes every line layer at once.
+
+And the build refuses to ship another: `check_no_zero_subpaths` scans the
+finished sheet and exits non-zero if any subpath begins and ends at the same
+written point. All 4,595 subpaths pass.
+
+Verified in a phone-shaped viewport at the reporter's own frame: the
+junction at Kaohsiung is ordinary dots, and the circle is gone.
+
+Two things tried and thrown away on the way, recorded so they are not tried
+again: a filter dropping short lines already covered by longer ones (it
+changed **zero pixels** at island zoom — the sidings lie exactly under the
+lines already drawn), and a hunt for a rendering-threshold difference in
+WebKit's dash handling (measured by rasterising the same dash patterns
+through canvas in real Safari: 108 runs at `0.01 2.7` against 82 at `1 2.6`,
+a smooth progression with no cliff — the dash was never the problem).
+
+Whole suite: 661 checks across 29 scripts, all passing. (The first run of it
+stalled with twenty-one browsers left alive by earlier killed runs; killed
+and re-run clean, which is worth knowing next time the suite seems to hang.)
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible
