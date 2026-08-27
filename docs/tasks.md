@@ -9720,6 +9720,51 @@ Whole suite: 653 checks across 29 scripts, all passing.
 
 ---
 
+## New Guinea's free ground ends at the dashes, the border keeps its river, and the Taiwan pinyin gains its tones
+
+**The north edge is the line of control itself now.** The first cut used the
+reporter's rough ring, and the occupation leaked through wherever the ring
+fell short of the drawn line. The free polygons' northern boundary is now
+the same `EXTENT_OCEAN` vertices through the same `chaikin` smoothing that
+draws the dashes — from the Arafura landfall at (135.8, −9.2) to (157.2,
+−9.6) off the Solomons — so the free ground ends exactly where the dashes
+run. The reporter's corrected tracing is kept whole as a second subpath, the
+two rings drawn into one path and filled as a union. That union failed
+silently the first time: the rings wound opposite ways, and under the
+nonzero rule two opposite rings cancel where they overlap — the island went
+back to salmon entire. Both subpaths are wound the same way now, by signed
+area.
+
+**The border trap.** The Dutch–Australian frontier is not the meridian: it
+follows the Fly River's bulge west of 141° between about 6.3 and 7.6 south,
+and a cut at the meridian left the bulge covered by neither half — occupied
+salmon showing through, exactly as photographed. Each half now reaches 0.6°
+across the line and its own country's land clip draws the real border,
+river bend and all.
+
+Pixel-verified after the rework: the highlands, Wau, Kokoda's southern
+slope, Moresby and Milne all Australian; Merauke and the Digul Dutch; Lae,
+Madang, the Buna–Sanananda beachhead and everything north of the dashes
+still occupied — the beachhead pokes through south of the line at the
+coast, which is the one piece of Papua Japan held at this date and is
+right.
+
+**165 Taiwan pinyin fields gained their tone marks** — every Han community
+and administrative area in the sub-unit, browse and site tables: Jiāyì-jùn,
+Táiběi-zhōu, Zhānghuà, Dànshuǐ, Pǔlǐ, Mǎgōng and the rest, with the toned
+suffixes (-jùn, -shì, -zhōu, -tīng) written into `build_localnames.py` so a
+regeneration cannot strip them. Two places are romanised alike and told
+apart only by tone: 東勢 Dōngshì and 東石 Dōngshí. And Tainan, whose
+Japanese and Chinese readings share one spelling, gets its local forms set
+by hand — Táinán-shì, Táinán-zhōu — so the two languages differ on the map
+at last. The Japanese heads were never touched: the pass tones heads only
+in `local` and bracket-contents only in `en`, so a shared romanisation
+cannot be corrupted.
+
+Whole suite: 653 checks across 29 scripts, all passing.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

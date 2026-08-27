@@ -182,7 +182,7 @@ console.log('\n— pointing at a district outlines its prefecture —');
      to be the other way round — `Pingtung (Heitō)` — which put the modern name
      where every other place on the map puts the contemporary one. */
   check('the district is titled in Japanese with the Pinyin after it',
-    /Kagi-gun \(Jiayi, Chiayi\)/.test(tip), tip.slice(0,60));
+    /Kagi-gun \(Jiāyì, Chiayi\)/.test(tip), tip.slice(0,60));
 }
 
 console.log('\n— the 蕃地 is one shape, and points at no prefecture —');
@@ -309,10 +309,10 @@ console.log('\n— and the cities are named the same way —');
       if(r.length) out[id]=r;});
     return out;});
   check('the record carries the Pinyin and the familiar spelling',
-    /Jilong, Keelung/.test((recs.keelung||[]).join())
-    && /Pingdong, Pingtung/.test((recs.pingtung||[]).join())
-    && /Magong, Makung/.test((recs.makung||[]).join())
-    && (recs.taipei||[]).every(v=>/Taibei, Taipei/.test(v)),
+    /Jīlóng, Keelung/.test((recs.keelung||[]).join())
+    && /Píngdōng, Pingtung/.test((recs.pingtung||[]).join())
+    && /Mǎgōng, Makung/.test((recs.makung||[]).join())
+    && (recs.taipei||[]).every(v=>/Táiběi, Taipei/.test(v)),
     JSON.stringify(recs));
 }
 

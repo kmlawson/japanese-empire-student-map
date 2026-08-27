@@ -7034,26 +7034,72 @@ def main():
     # halves overlap each other by a whisker rather than leave a red thread.
     # Drawn after every ordered atom, so it paints over the occupation and
     # answers the pointer above it.
-    NG_FREE = [
-        (156.24067, -9.97040), (155.44380, -12.35114), (147.83732, -11.53610),
-        (144.90340, -9.61346), (142.36791, -9.68488), (138.49223, -9.54203),
-        (137.18826, -8.68370), (136.86227, -7.14106), (137.69536, -5.37686),
-        (138.74578, -4.54691), (139.97730, -4.36634), (140.77417, -4.47469),
-        (142.83879, -5.19653), (144.90340, -5.70134), (145.95381, -6.20570),
-        (146.82313, -7.24887), (147.72866, -7.85928), (148.52553, -8.68370),
-        (149.93816, -8.14623), (151.74922, -8.46880), (153.63273, -9.14889),
-        (155.26269, -9.82767),
+    # The northern edge is the 1942 line of control itself — the same
+    # EXTENT_OCEAN vertices through the same chaikin smoothing that draws the
+    # dashes — so the free ground ends exactly where the dashes run and no
+    # occupied colour can show between the two. The first cut used a rough
+    # hand ring here and the occupation leaked through wherever the ring fell
+    # short of the line (reported 28-08 with a corrected tracing, which is
+    # kept below as a second subpath: the two rings are drawn into one path
+    # and the nonzero rule fills their union).
+    _ng_a = EXTENT_OCEAN.index((135.8, -9.2))
+    _ng_b = EXTENT_OCEAN.index((157.2, -9.6))
+    NG_FREE = chaikin(EXTENT_OCEAN[_ng_a:_ng_b + 1]) + [
+        # and closed to the south through open sea, generously: the land clip
+        # decides every coast
+        (156.5, -12.6), (150.0, -12.6), (147.8, -11.8), (144.9, -10.3),
+        (142.0, -10.3), (138.2, -10.0), (136.0, -9.6),
     ]
-    _ng_west = grow_plane(line_plane((141.001, 10.0), (141.001, -20.0), True), 0.02)
-    _ng_east = grow_plane(line_plane((141.001, 10.0), (141.001, -20.0), False), 0.02)
-    for _k, _ring, _landkey, _cx, _cy in (
-            ("dutchng_free", clip_halfplanes(NG_FREE, [_ng_west]), "dei", 139.0, -7.6),
-            ("papua_free", clip_halfplanes(NG_FREE, [_ng_east]), "newguinea_au", 147.4, -9.1)):
-        if len(_ring) < 3:
-            print(f"  !! {_k}: the 141° cut left no ring")
+    # The reporter's own tracing of the unoccupied ground, kept whole.
+    NG_FREE_TRACED = [
+        (141.29316, -7.97840), (140.98416, -9.76194), (143.55916, -9.78865),
+        (146.90937, -10.71152), (149.97227, -11.34471), (150.95890, -11.16925),
+        (154.00005, -12.14614), (154.91621, -11.18521), (153.73984, -9.62301),
+        (152.73695, -8.80965), (151.28947, -8.49325), (151.05637, -8.36991),
+        (148.79077, -8.86330), (148.44706, -8.70810), (148.33800, -8.64342),
+        (148.21531, -8.45169), (148.09603, -8.31278), (146.82569, -7.24924),
+        (146.54453, -7.01353), (145.91747, -6.24734), (145.62847, -5.98913),
+        (145.45397, -5.88472), (145.02567, -5.72640), (143.85972, -5.49084),
+        (143.52329, -5.42320), (143.34062, -5.37570), (142.36727, -5.13455),
+        (141.82011, -4.95152), (140.65049, -4.44769), (140.22561, -4.36299),
+        (139.72736, -4.34125), (139.22662, -4.41451), (138.74108, -4.56799),
+        (138.29871, -4.75142), (137.95529, -4.96153), (137.70173, -5.22767),
+        (137.33333, -8.72314), (139.88281, -9.38710), (140.95919, -9.74738),
+        (141.08174, -9.19299),
+    ]
+    # The Dutch–Australian frontier is not the meridian: it follows the Fly
+    # River's bulge west of 141° between about 6.3 and 7.6 south, and a cut at
+    # the meridian left that bulge covered by neither half — the "trap in the
+    # border" of the report, occupied salmon showing through. Each half now
+    # reaches 0.6° across the line and its own country's land clip draws the
+    # real border, river bend and all.
+    _ng_west = line_plane((141.6, 10.0), (141.6, -20.0), True)
+    _ng_east = line_plane((140.4, 10.0), (140.4, -20.0), False)
+    for _k, _pl, _landkey, _cx, _cy in (
+            ("dutchng_free", _ng_west, "dei", 139.0, -7.6),
+            ("papua_free", _ng_east, "newguinea_au", 147.4, -9.1)):
+        _subs = []
+        for _src in (NG_FREE, NG_FREE_TRACED):
+            _ring = clip_halfplanes(_src, [_pl])
+            if len(_ring) < 3:
+                continue
+            _pr = [project(*q) for q in _ring]
+            # Both subpaths must wind the same way: under the nonzero rule two
+            # opposite rings cancel where they overlap, and these two overlap
+            # almost entirely — the first cut of this union filled nothing at
+            # all and the island went back to salmon.
+            _sa = sum(x1 * y2 - x2 * y1
+                      for (x1, y1), (x2, y2) in zip(_pr, _pr[1:] + _pr[:1]))
+            if _sa < 0:
+                _pr.reverse()
+            _subs.append(ring_to_path(_pr))
+        if not _subs:
+            print(f"  !! {_k}: the border cut left nothing")
             continue
-        _bb = (min(q[0] for q in _ring) - 0.3, min(q[1] for q in _ring) - 0.3,
-               max(q[0] for q in _ring) + 0.3, max(q[1] for q in _ring) + 0.3)
+        _all = [q for _src in (NG_FREE, NG_FREE_TRACED)
+                for q in clip_halfplanes(_src, [_pl])]
+        _bb = (min(q[0] for q in _all) - 0.3, min(q[1] for q in _all) - 0.3,
+               max(q[0] for q in _all) + 0.3, max(q[1] for q in _all) + 0.3)
         _clip = []
         for _r in groups.get(_landkey, []):
             _xs = [q[0] for q in _r]
@@ -7068,9 +7114,9 @@ def main():
         out.append(f'    <g id="a-{_k}" class="atom" data-cx="{fmt(_acx)}" '
                    f'data-cy="{fmt(_acy)}" data-area="60">')
         out.append(f'      <path clip-path="url(#clip-{_k})" '
-                   f'd="{ring_to_path([project(*q) for q in _ring])}"/>')
+                   f'd="{"".join(_subs)}"/>')
         out.append('    </g>')
-        print(f"  ng-free {_k}: {len(_ring)} ring pts, clipped to {len(_clip)} land rings")
+        print(f"  ng-free {_k}: {len(_subs)} subpaths, {len(_clip)} land rings")
     # Guangzhou Bay, cut back out of China: one path holding the bay's box and
     # the leasehold's own rings, filled by the even-odd rule so that what is
     # painted is the box minus the leasehold — a polygon difference done with a

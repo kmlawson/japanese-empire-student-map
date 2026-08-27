@@ -80,7 +80,7 @@ FROM_1942 = ("Manchukuo", "Mengjiang")
 OVERRIDE = {
     # ", Pescadores" locates the town, it is not one of its names, so the
     # derived form swallowed it into the list of alternatives
-    "makung": "Magong, Pescadores (Makō, Makung)",
+    "makung": "Mǎgōng, Pescadores (Makō, Makung)",
 }
 
 # And the Japanese-first form, where building it from the reading is not right.
@@ -99,8 +99,10 @@ SKIP = {
     "hohhot2",
 }
 
-SUFFIX_TW = {"郡": "jun", "市": "shi", "州": "zhou", "廳": "ting",
-             "庄": "zhuang", "街": "jie"}
+# Toned, since 28-08, when the pinyin heads gained their tone marks: a
+# regeneration must not strip them back off.
+SUFFIX_TW = {"郡": "jùn", "市": "shì", "州": "zhōu", "廳": "tīng",
+             "庄": "zhuāng", "街": "jiē"}
 SUFFIX_JP = {"省": "shō", "政廳": "seichō", "聯盟": "renmei"}
 
 
