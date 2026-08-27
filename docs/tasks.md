@@ -9929,6 +9929,37 @@ Whole suite: 659 checks across 29 scripts, all passing.
 
 ---
 
+## The white dot in south-west Taiwan was the whole railway
+
+Reported as a big white dot in SW Taiwan whenever the railways were switched
+on. It was not a dot and not a fault in the data: at the opening view Taiwan
+is **thirteen pixels across**, and a network of dots two pixels apart on a
+thirteen-pixel island merges into one white mass — thickest in the south-west,
+where the lines run closest together, which is why it read as a blob there.
+
+The layer now fades in as the reader closes on it, the way the relief fades
+out, and leaves the drawing altogether while it contributes nothing:
+`view.w >= mapW / 4` draws none of it, `<= mapW / 9` draws it in full, and
+between the two it ramps. Measured against the frame rather than the island,
+so the same line will serve a railway laid over China without knowing where
+it is. Verified at four zooms: hidden at the opening view and at 800 units,
+87% at 360, full on the island — and the dots read as separate dots wherever
+it is drawn.
+
+`layers-url` pins both ends of the gate. Two checks written yesterday had to
+move to a Taiwan frame: they opened on the whole map and asserted the layer
+was drawn, which is exactly what must not happen now.
+
+While looking, the source turned out to carry a handful of degenerate lines —
+six in 1930 and seven in 1944, of which one in 1944 has zero length. They
+render as a single dot each under a round cap, which is invisible among the
+rest and is left alone; noted here in case a future pass wants them cleaned
+out of the geojson.
+
+Whole suite: 661 checks across 29 scripts, all passing.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

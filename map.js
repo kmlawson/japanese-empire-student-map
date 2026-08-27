@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '1.94';
+  var JEM_VERSION = '1.95';
   var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "761fbd5949", "japan-empire-map-admin.svg": "9de0304837", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "e383021939", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0"};
 
   /* Every file this one fetches, with the version on it.
@@ -1401,6 +1401,36 @@
     reliefGroup.style.display = (state.relief && a > 0.01) ? '' : 'none';
   }
 
+  /* A railway is only worth drawing once the ground it crosses is worth
+     looking at.
+
+     At the opening view Taiwan is thirteen pixels across, and a network of
+     dots two pixels apart on a thirteen-pixel island is not a network: every
+     line merges into one white mass, which is exactly how it was reported —
+     "a big white dot in SW Taiwan", the south-west being where the lines run
+     thickest. So the layer fades in as the reader closes on it, the way the
+     relief fades out, and leaves the drawing entirely while it contributes
+     nothing.
+
+     Measured against the *frame* rather than the island, so the rule is one
+     line and will serve a railway laid over China as well: at `mapW / 9` the
+     viewport is about fifteen degrees wide, which puts Taiwan at a fifth of
+     the screen and its dots comfortably apart; by `mapW / 4` it is thirty-five
+     degrees and they have merged. Between the two it ramps. */
+  var RAIL_FULL_W = 9;        // view.w <= mapW / 9: drawn in full
+  var RAIL_GONE_W = 4;        // view.w >= mapW / 4: not drawn at all
+
+  function railFade() {
+    if (!twRailGroup) return;
+    if (!state.twRail) { twRailGroup.style.display = 'none'; return; }
+    var full = mapW / RAIL_FULL_W, gone = mapW / RAIL_GONE_W;
+    var a = view.w <= full ? 1
+          : view.w >= gone ? 0
+          : (gone - view.w) / (gone - full);
+    twRailGroup.style.opacity = String(a);
+    twRailGroup.style.display = a > 0.02 ? '' : 'none';
+  }
+
   function drawRelief() {
     if (!svg) return;
     var L = reliefLevel();
@@ -1455,6 +1485,7 @@
       });
     }
     reliefFade();
+    railFade();
   }
 
   /* Where the graticule sits in the stack. Over the land: a reader who turns
@@ -2880,6 +2911,7 @@
     if (state.graticule) drawGraticule();
     // the picture is `applyState`'s business; this is only the zoom ramp
     reliefFade();
+    railFade();
     if (force || Math.abs(view.w - lastScaleW) > 0.01) {
       lastScaleW = view.w;
       rafZoomed = true;
@@ -3064,6 +3096,7 @@
        softens is a cloud across the map. */
     if (annApi && annApi.rescaled) annApi.rescaled(k);
     reliefFade();
+    railFade();
     // the way-back button appears once the reader has moved off the frame the
     // annotations were meant to be seen from
     if (annApi && annApi.viewMoved) annApi.viewMoved();
@@ -5946,7 +5979,9 @@
         (state.epoch === 'e1942' && state.extent && state.world) ? '' : 'none';
     }
     if (twRailGroup) {
-      twRailGroup.style.display = state.twRail ? '' : 'none';
+      // whether it is drawn at all is `railFade`'s business: it depends on
+      // the zoom as well as on the switch
+      railFade();
       // one path per date; the map shows the network as it stood
       $$('path', twRailGroup).forEach(function (el) {
         el.style.display = el.getAttribute('data-epoch') === state.epoch ? '' : 'none';

@@ -100,7 +100,10 @@ check('a code from before these settings still opens sensibly',
    round-trip above only covers what SETTINGS lists. */
 console.log('\n— the railway layer travels in the address —');
 {
-  const r = await open(b);
+  /* Opened on the island, because the layer is faded out at the whole-map
+     view by design — a network of dots on a thirteen-pixel Taiwan is a white
+     blob, and the zoom gate below is the check for that. */
+  const r = await open(b, 'http://localhost:8123/index.html?bbox=119.9,21.8,122.2,25.4');
   await r.evaluate(() => document.querySelector('#opt-tw-rail').click());
   await sleep(1200);
   const href = await r.evaluate(() => location.href);
@@ -156,6 +159,30 @@ console.log('\n— the railway layer travels in the address —');
     const atom = document.querySelector('#a-' + el.getAttribute('data-over'));
     return { rail: getComputedStyle(el).stroke, ground: getComputedStyle(atom).fill };
   });
+  /* And it is not drawn at all until the ground is worth it. At the opening
+     view Taiwan is thirteen pixels across and the whole network merged into
+     one white mass — reported as "a big white dot in SW Taiwan". */
+  const wide = await open(b, 'http://localhost:8123/index.html?layers='
+    + ((1|(1<<5)|(1<<6)|(1<<8)|(1<<25))>>>0).toString(36));
+  const far = await wide.evaluate(() => {
+    const g = document.getElementById('tw-rail');
+    return { display: getComputedStyle(g).display, ticked:
+      document.querySelector('#opt-tw-rail').checked };
+  });
+  check('at the opening view the railway is not drawn, though it is switched on',
+    far.ticked && far.display === 'none', JSON.stringify(far));
+  await wide.close();
+
+  const close = await open(b, 'http://localhost:8123/index.html?layers='
+    + ((1|(1<<5)|(1<<6)|(1<<8)|(1<<25))>>>0).toString(36) + '&bbox=119.9,21.8,122.2,25.4');
+  const near = await close.evaluate(() => {
+    const g = document.getElementById('tw-rail');
+    return { display: getComputedStyle(g).display, opacity: +getComputedStyle(g).opacity };
+  });
+  check('and it is drawn in full once the island fills the frame',
+    near.display !== 'none' && near.opacity > 0.98, JSON.stringify(near));
+  await close.close();
+
   check('and the rule still holds when the map goes one colour',
     (lum(monoInk.ground) < 0.55) === (lum(monoInk.rail) > 0.5),
     'rail ' + monoInk.rail + ' on ' + monoInk.ground);
