@@ -9899,6 +9899,36 @@ Whole suite: 656 checks across 29 scripts, all passing.
 
 ---
 
+## Railways are tight dots, inked against the ground they cross
+
+The standard for every railway this map draws, set now while there is one to
+set it on: a tightly dotted line — near-black dots over a pale country, white
+over a dark one.
+
+The colour is not written into the stylesheet, because the ground moves. Each
+railway path carries `data-over`, naming the atom it runs on, and `railInk()`
+reads that atom's **computed** fill and inks the dots by its Rec. 709
+luminance. So the rule holds in colour (Taiwan's colonial red, 0.30 → white
+dots), in the single-colour map (parchment at 0.79 → near-black), for a
+colour the reader chose themselves, and for a railway added over China later
+without a line of this code learning its name. The threshold is 0.55 rather
+than 0.5, and nothing on the map is near it: China's pale yellow is 0.97.
+
+Dots rather than a solid line or a ladder of sleeper ticks: `0.01 2.7` under
+a round cap is a dot and a gap, and `non-scaling-stroke` carries the dash
+array into screen space with the width — so the dots keep their size and
+spacing at every zoom instead of stretching into dashes. That is the
+map-units-versus-screen-pixels rule in CLAUDE.md, and it was checked at three
+zooms rather than assumed: same dot, same spacing, four wheel steps in.
+
+`layers-url` pins the rule as a *relation* — dark ground implies light dots —
+rather than as two hex strings, so retuning either colour cannot silently
+invert it, and it checks mono as well as colour.
+
+Whole suite: 659 checks across 29 scripts, all passing.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

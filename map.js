@@ -13,8 +13,8 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '1.93';
-  var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "761fbd5949", "japan-empire-map-admin.svg": "9de0304837", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "9a88154fde", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0"};
+  var JEM_VERSION = '1.94';
+  var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "761fbd5949", "japan-empire-map-admin.svg": "9de0304837", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "e383021939", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0"};
 
   /* Every file this one fetches, with the version on it.
 
@@ -1705,6 +1705,35 @@
     var el = document.createElementNS('http://www.w3.org/2000/svg', name);
     Object.keys(attrs || {}).forEach(function (k) { el.setAttribute(k, attrs[k]); });
     return el;
+  }
+
+  /* What colour a railway's dots are: the opposite of the ground under them.
+
+     Read off the *computed* fill of the atom the line crosses rather than
+     from a table, because the ground changes — the single-colour switch
+     paints every country one grey, and a reader who has chosen their own
+     colour for it can put anything there. One rule covers all of it, and
+     covers a railway added over some other country later without this
+     function learning its name.
+
+     Rec. 709 luminance, and the threshold is 0.55 rather than 0.5: the pale
+     yellow China is drawn in sits at 0.97 and Japan's colonial red at 0.30,
+     so nothing on this map is near the line, and a mid-tone is better served
+     by the darker ink. */
+  function railInk(over) {
+    var atom = over && (atomEls[over] || $('#a-' + over, svg));
+    var fill = '';
+    try { fill = atom ? getComputedStyle(atom).fill : ''; } catch (err) { fill = ''; }
+    var m = /(-?[\d.]+)[,\s]+(-?[\d.]+)[,\s]+(-?[\d.]+)/.exec(fill || '');
+    if (!m) return '#2b2b2b';
+    var v = [+m[1], +m[2], +m[3]];
+    // rgb() gives 0-255 and color(srgb …) gives 0-1; both arrive here
+    if (v[0] > 1 || v[1] > 1 || v[2] > 1) v = v.map(function (x) { return x / 255; });
+    var lin = v.map(function (x) {
+      return x <= 0.04045 ? x / 12.92 : Math.pow((x + 0.055) / 1.055, 2.4);
+    });
+    var lum = 0.2126 * lin[0] + 0.7152 * lin[1] + 0.0722 * lin[2];
+    return lum > 0.55 ? '#161310' : '#fbf7ef';
   }
 
   function buildMarkers() {
@@ -5921,6 +5950,7 @@
       // one path per date; the map shows the network as it stood
       $$('path', twRailGroup).forEach(function (el) {
         el.style.display = el.getAttribute('data-epoch') === state.epoch ? '' : 'none';
+        el.style.setProperty('--rail-ink', railInk(el.getAttribute('data-over')));
       });
     }
     if (indiaRiversGroup) {

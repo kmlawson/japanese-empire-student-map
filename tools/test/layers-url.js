@@ -120,7 +120,46 @@ console.log('\n— the railway layer travels in the address —');
     JSON.stringify(got));
   check('with one date\u2019s network drawn, not both',
     got.epochs.length === 1 && got.epochs[0] === 'e1930', JSON.stringify(got.epochs));
+  /* The ink is read off the ground, not written into the stylesheet: light
+     dots over a dark country, dark dots over a pale one. Checked as a
+     *relation* between the two rather than as two hex strings, so the rule
+     survives anyone retuning either colour — and checked in mono too, where
+     the ground is a pale grey and the same line must flip. */
+  const lum = c => {
+    const m = /(-?[\d.]+)[,\s]+(-?[\d.]+)[,\s]+(-?[\d.]+)/.exec(c || '');
+    if (!m) return null;
+    let v = [+m[1], +m[2], +m[3]];
+    if (v.some(x => x > 1)) v = v.map(x => x / 255);
+    const f = x => (x <= 0.04045 ? x / 12.92 : Math.pow((x + 0.055) / 1.055, 2.4));
+    return 0.2126 * f(v[0]) + 0.7152 * f(v[1]) + 0.0722 * f(v[2]);
+  };
+  const inked = await s3.evaluate(() => {
+    const el = document.querySelector('#tw-rail path[data-epoch="e1930"]');
+    const atom = document.querySelector('#a-' + el.getAttribute('data-over'));
+    return { rail: getComputedStyle(el).stroke, ground: getComputedStyle(atom).fill,
+             dash: getComputedStyle(el).strokeDasharray };
+  });
+  check('the dots are inked against the ground they cross',
+    lum(inked.rail) !== null && lum(inked.ground) !== null
+    && (lum(inked.ground) < 0.55) === (lum(inked.rail) > 0.5),
+    'rail ' + inked.rail + ' on ' + inked.ground);
+  check('and they are dots, not dashes', /^0\.?0?1?px/.test(inked.dash), inked.dash);
   await s3.close();
+
+  const s4 = await open(b, href + '&nocache=' + Math.random());
+  await s4.evaluate(() => document.querySelector('#btn-options').click());
+  await sleep(300);
+  await s4.evaluate(() => document.querySelector('#opt-mono').click());
+  await sleep(1200);
+  const monoInk = await s4.evaluate(() => {
+    const el = document.querySelector('#tw-rail path[data-epoch="e1930"]');
+    const atom = document.querySelector('#a-' + el.getAttribute('data-over'));
+    return { rail: getComputedStyle(el).stroke, ground: getComputedStyle(atom).fill };
+  });
+  check('and the rule still holds when the map goes one colour',
+    (lum(monoInk.ground) < 0.55) === (lum(monoInk.rail) > 0.5),
+    'rail ' + monoInk.rail + ' on ' + monoInk.ground);
+  await s4.close();
 }
 
 console.log('\n— no two settings share a bit —');

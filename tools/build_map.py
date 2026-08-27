@@ -7230,8 +7230,12 @@ def main():
         # for and hides the layer altogether unless the switch is on.
         out.append('  <g id="tw-rail" style="display:none">')
         for _ep in sorted(tw_rail):
-            out.append(f'    <path class="tw-rail" data-epoch="{_ep}" '
-                       f'fill="none" d="{tw_rail[_ep]}"/>')
+            # `data-over` names the ground the line runs on. map.js reads that
+            # atom's *computed* fill and inks the dots against it — white on a
+            # dark country, near-black on a pale one — so the rule holds in
+            # colour, in mono and in whatever a future railway crosses.
+            out.append(f'    <path class="rail" data-epoch="{_ep}" '
+                       f'data-over="taiwan" fill="none" d="{tw_rail[_ep]}"/>')
         out.append("  </g>")
     if rivers:
         out.append('  <g id="rivers">')
