@@ -9387,6 +9387,68 @@ Whole suite: 629 checks across 28 scripts, all passing, 197s.
 
 ---
 
+## One feature redrawn, not the layer
+
+Round two of the annotation performance work, asked for as a review of the
+whole pane. Yesterday's fix stopped a drag rewriting the *map*; today's stops
+it rewriting the *layer*. `redraw()` is honest and total — empty the groups,
+draw everything — which is right when the set changes shape and was also what
+a pointer move, a change of selection and a nudge of a style slider paid.
+With a dense imported set (india-rivers: 63 features, tens of thousands of
+vertices) `pathFor` alone was 25% of a selection's profile, re-projecting
+geometry that had not moved.
+
+What changed, all in `annotate.js` plus one hook in `map.js`:
+
+* **`drawFeature(f, i)`** — the body of `redraw()`'s loop, extracted whole.
+  `drawOne` wraps it and stamps every node it makes with the feature's index,
+  including the label texts and a pinned text box's wrapping group, which
+  carried nothing before.
+* **`redrawOne(i)`** removes exactly that feature's nodes, draws it into a
+  fragment, and puts the fragment back where the old nodes stood — so paint
+  order never changes. Used by every branch of `drag()`, by `styleChanged`,
+  by `fieldChanged`, and by selection, which is now `reselect()`: the mark
+  that loses its handles, the one that gains them, and one pass over the
+  list's classes instead of a full `drawList`.
+* **`dropScalables(idx)`** in map.js takes an index, so one feature's
+  constant-size entries can go without orphaning the rest.
+* **The undo snapshot waits for the first movement.** `beginDrag` stringified
+  the whole set on every press, and most presses are clicks that move
+  nothing. `drag()` takes the snapshot before the first mutation; `drop()`
+  no longer pops an entry it no longer pushed.
+* **The automatic copy is a beat behind the typing.** `store()` per keystroke
+  and per slider input is a stringify and a synchronous write; `storeSoon()`
+  debounces it a quarter-second and is **flushed on `pagehide` and on
+  `visibilitychange` to hidden**, so a closed tab still loses nothing.
+  Everything that is not a typing or slider burst stores immediately, as
+  before.
+
+Measured, CPU throttled, Cities and Names on (before yesterday / after
+yesterday / now):
+
+```
+                       50 marks              dense import
+one pointer move   11.5 / 1.7 / 0.9 ms    20.6 / 13.4 / 3.7
+selecting a row    17.2 / 5.0 / 1.6       28.2 / 13.9 / 3.4
+one keystroke      12.6 / 0.1 / ~0        26.4 /  4.4 / ~0
+```
+
+`run15` grew three sections: a drag rebuilds its own feature and leaves the
+others' *node identities* standing; undo after a drag puts the stored
+geometry back exactly (the deferred snapshot's proof); and the debounced copy
+lands on its own and is flushed at once by `pagehide`. Its first version
+failed twice on the suite's shared browser restoring an earlier page's set —
+the section now clears both storage keys before opening the panel. `run9`
+needed its wait over a symbol change raised from 180 ms to 300, because it
+reads the automatic copy and the copy is now deliberately a beat behind.
+
+Nothing was removed: every tool, the clock, the box selection, load, save,
+links and undo behave as before, which is what the 638 checks are for.
+
+Whole suite: 638 checks across 28 scripts, all passing, 201s.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

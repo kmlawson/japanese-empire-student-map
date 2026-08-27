@@ -46,7 +46,10 @@ let stuck=null;
 for (let r=0;r<2 && !stuck;r++) for (const sy of syms) {
   await p.evaluate(v=>{const el=document.querySelector('#ann-symbol'); el.value=v;
     el.dispatchEvent(new Event('change',{bubbles:true}));}, sy);
-  await sleep(180);
+  /* 300, not 180: this reads the *automatic copy*, and the copy is a beat
+     behind on purpose — style and field edits debounce their store by a
+     quarter-second (flushed on pagehide). run15 owns the checks on that. */
+  await sleep(300);
   const got=await p.evaluate(STORE);
   if(got[0].properties['marker-symbol']!==sy){ stuck=sy+' → '+got[0].properties['marker-symbol']; }
 }

@@ -203,6 +203,115 @@ console.log('\n  — a measurement is remembered, and forgotten when it moves �
    place: there is no press-and-hold on a mouse, and `grab` arms a timer rather
    than beginning the drag. It ends in the same `redraw()`, and that is what
    changed, so it is checked here rather than assumed. */
+console.log('\n  — a drag rebuilds its own feature and leaves the others standing —');
+{
+  /* Round two. The layer-wide costs above were fixed by not calling the
+     map's whole rescale; this section pins the finer grain — `redrawOne` —
+     which rebuilds the dragged feature alone. With a dense imported set the
+     difference is 13 ms a move against 4. The invariant is identity again:
+     a node of a feature that was not touched must be the same node after
+     eight pointer moves of somebody else's drag. */
+  const p = await S.page(b, { accept: true });
+  /* An empty slate, asked for before the panel opens: the suite shares one
+     browser, and a set left by an earlier page is otherwise offered back and
+     accepted by the auto-accepted confirm — after which every data-ann index
+     this section counts on belongs to somebody else's marks. */
+  await p.evaluate(() => { localStorage.removeItem('jem-annotations-v1');
+                           localStorage.removeItem('jem-annotations-shared-v1'); });
+  await S.openPanel(p);
+  await S.pickTool(p, 'point');
+  const a = await p.evaluate(S.SPOT, ['#a-china', '#a-japan']);
+  await p.mouse.click(a.x, a.y); await sleep(500);
+  await S.pickTool(p, 'line');
+  await p.mouse.click(a.x + 150, a.y + 60); await sleep(240);
+  await p.mouse.click(a.x + 260, a.y + 120); await sleep(240);
+  await p.evaluate(() => { const f = document.querySelector('#ann-finish');
+    if (f && !f.hidden) f.click(); });
+  await sleep(700);
+  const counts = await p.evaluate(() => {
+    const per = {};
+    document.querySelectorAll('#annotations [data-ann]').forEach(el => {
+      const i = el.getAttribute('data-ann');
+      per[i] = (per[i] || 0) + 1; });
+    return per; });
+  check('two features are drawn', Object.keys(counts).length >= 2,
+    JSON.stringify(counts));
+  // where the line stands before anything drags it, from the automatic copy
+  const atRest = await p.evaluate(() => {
+    const f = (JSON.parse(localStorage.getItem('jem-annotations-v1') || '{}').f || [])[1];
+    return f ? JSON.stringify(f.geometry.coordinates) : ''; });
+
+  await p.evaluate(TAG);
+  const mid = { x: a.x + 205, y: a.y + 90 };
+  await p.mouse.move(mid.x, mid.y);
+  await p.mouse.down();
+  for (let i = 1; i <= 8; i++) { await p.mouse.move(mid.x + i * 5, mid.y + i * 3); await sleep(40); }
+  const during = await p.evaluate(() => {
+    const line = [], others = [];
+    document.querySelectorAll('#annotations [data-ann]').forEach(el => {
+      (el.getAttribute('data-ann') === '1' ? line : others)
+        .push(el.__tag || 'new'); });
+    return { line, others }; });
+  await p.mouse.up(); await sleep(500);
+  check('the dragged line was rebuilt', during.line.some(t => t === 'new'),
+    during.line.join(','));
+  check('and the point it was dragged past was not touched',
+    during.others.length > 0 && during.others.every(t => t !== 'new'),
+    during.others.join(','));
+
+  /* Undo after that drag. The snapshot is taken at the first movement now,
+     not on the press, so this is the check that the deferral did not cost
+     undo its meaning: what comes back must be where the line stood before
+     the drag — not where it ended, and not one edit further back. */
+  const lineGeom = () => p.evaluate(() => {
+    const f = (JSON.parse(localStorage.getItem('jem-annotations-v1') || '{}').f || [])[1];
+    return f ? JSON.stringify(f.geometry.coordinates) : ''; });
+  const dragged = await lineGeom();
+  await p.keyboard.down('Control'); await p.keyboard.press('z'); await p.keyboard.up('Control');
+  await sleep(600);
+  const undone = await lineGeom();
+  check('the drag moved the stored line', dragged !== '' && dragged !== atRest, dragged.slice(0, 40));
+  check('and undo puts it back where it stood', undone === atRest,
+    undone.slice(0, 40) + ' vs ' + atRest.slice(0, 40));
+  check('no page errors', p.__errs.length === 0, p.__errs[0]);
+  await p.close();
+}
+
+console.log('\n  — the automatic copy is a beat behind the typing, never lost —');
+{
+  const p = await S.page(b, { accept: true });
+  await S.openPanel(p);
+  await S.pickTool(p, 'point');
+  const a = await p.evaluate(S.SPOT, ['#a-china', '#a-japan']);
+  await p.mouse.click(a.x, a.y); await sleep(600);
+  await p.evaluate(() => {
+    const el = document.querySelector('#ann-desc');
+    el.focus(); el.value = 'kept through the debounce';
+    el.dispatchEvent(new Event('input', { bubbles: true })); });
+  /* Within the quarter-second window the copy may not have landed; after it,
+     it must have. And hiding the page must flush it at once, because a tab
+     closed mid-window is exactly what the copy exists for. */
+  await sleep(450);
+  check('a typed description reaches localStorage on its own',
+    await p.evaluate(() =>
+      /kept through the debounce/.test(localStorage.getItem('jem-annotations-v1') || '')));
+  await p.evaluate(() => {
+    const el = document.querySelector('#ann-desc');
+    el.value = 'flushed on pagehide';
+    el.dispatchEvent(new Event('input', { bubbles: true }));
+    // the page hides before the timer fires
+    document.dispatchEvent(new Event('visibilitychange'));
+  });
+  /* jsdom-style synthetic visibilitychange cannot fake visibilityState, so
+     drive the same flush the way a real hide does: pagehide. */
+  await p.evaluate(() => window.dispatchEvent(new Event('pagehide')));
+  check('and hiding the page flushes it without waiting',
+    await p.evaluate(() =>
+      /flushed on pagehide/.test(localStorage.getItem('jem-annotations-v1') || '')));
+  check('no page errors', p.__errs.length === 0, p.__errs[0]);
+  await p.close();
+}
+
 console.log('\n  — and the same with a finger —');
 {
   const p = await S.page(b, { touch: true, accept: true });

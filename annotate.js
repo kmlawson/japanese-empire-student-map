@@ -230,6 +230,38 @@
     }
     var storeWarned = false;
 
+    /* The automatic copy, a beat behind the typing.
+
+       `store()` is a stringify of the whole set and a synchronous disk write,
+       and `fieldChanged` runs per keystroke, `styleChanged` per slider input —
+       several a frame. The copy exists so a closed tab loses nothing, and a
+       copy taken a quarter-second after the last keystroke protects exactly as
+       well **provided it cannot be skipped by leaving** — so the timer is
+       flushed the moment the page hides. `pagehide` and `visibilitychange`
+       both, because iOS Safari historically fires one without the other.
+       Everything that is not a typing or slider burst still calls `store()`
+       directly and pays nothing new. */
+    var storeTimer = 0;
+
+    function storeSoon() {
+      if (storeTimer) return;
+      storeTimer = window.setTimeout(function () {
+        storeTimer = 0;
+        store();
+      }, 250);
+    }
+
+    function flushStore() {
+      if (!storeTimer) return;
+      window.clearTimeout(storeTimer);
+      storeTimer = 0;
+      store();
+    }
+    window.addEventListener('pagehide', flushStore);
+    document.addEventListener('visibilitychange', function () {
+      if (document.visibilityState === 'hidden') flushStore();
+    });
+
     function restore() {
       try {
         var raw = window.localStorage.getItem(ANN_STORE);
@@ -643,7 +675,7 @@
       }
       turn.appendChild(el);
       wrap.appendChild(turn);
-      host.addScalable({ el: wrap, x: g.b.x, y: g.b.y });
+      addScalable({ el: wrap, x: g.b.x, y: g.b.y });
       return wrap;
     }
 
@@ -969,7 +1001,7 @@
       }
       g.appendChild(markerShape(symbol, 2.6 + size * 0.9, colour,
         alpha === undefined ? 1 : alpha));
-      host.addScalable({ el: g, x: x, y: y });
+      addScalable({ el: g, x: x, y: y });
       if (meta) {
         g.setAttribute('data-ann', meta.i);
         g.setAttribute('data-ring', meta.r);
@@ -989,7 +1021,7 @@
       g.appendChild(markerShape(symbol, 2.6 + size * 0.9, colour,
         alpha === undefined ? 1 : alpha));
       var p = host.project(lon, lat);
-      host.addScalable({ el: g, x: p.x, y: p.y });
+      addScalable({ el: g, x: p.x, y: p.y });
       if (meta) {
         g.setAttribute('data-ann', meta.i);
         g.setAttribute('data-ring', meta.r);
@@ -998,31 +1030,120 @@
       return g;
     }
 
-    function redraw() {
-      var svg = host.svg();
-      if (!svg) return;
-      if (!group) {
-        group = host.svgEl('g', { id: 'annotations' });
-        labelGroup = host.svgEl('g', { id: 'ann-labels' });
-        var before = svg.querySelector('#highlight') || null;
-        if (before) { svg.insertBefore(group, before); svg.insertBefore(labelGroup, before); }
-        else { svg.appendChild(group); svg.appendChild(labelGroup); }
-      }
-      // the constant-size marks are rebuilt with the rest, so their old
-      // entries have to go or the map rescales a list of detached nodes
-      host.dropScalables();
-      group.innerHTML = '';
-      labelGroup.innerHTML = '';
-      group.style.display = on ? '' : 'none';
-      labelGroup.style.display = on ? '' : 'none';
-      if (!on) { (host.rescaleAnn || host.rescale)(); return; }
+    /* -------------------------------- one feature at a time -- */
 
-      clockDate = clockNow();          // once, not once per feature
-      feats.forEach(function (f, i) {
-        // out of the stage the clock is showing: not drawn at all, so its
-        // name and its handles go with it rather than hanging over a map the
-        // shape has left
-        if (!inScope(f)) return;
+    /* Which feature the nodes being made belong to. Set by `drawOne` around
+       the drawing of each feature, so that every scalable registered while a
+       feature is drawn can be dropped with that feature and no other. The
+       draft's own handles are drawn at -1, which no `redrawOne` ever asks
+       for, so a full redraw is the only thing that clears them — as before. */
+    var drawIdx = -1;
+
+    function addScalable(entry) {
+      entry.annIdx = drawIdx;
+      host.addScalable(entry);
+    }
+
+    /* One feature drawn, and every node it made stamped with its index — the
+       label texts and the wrapping group of a pinned text box included, which
+       used to carry nothing. The stamp is what lets `redrawOne` find and
+       remove exactly this feature's nodes later; without it a targeted redraw
+       would strand the labels of the thing it was redrawing.
+
+       Stamping by position — everything appended since the count was taken —
+       works because each feature's nodes are appended contiguously, which is
+       also what keeps the layer's paint order equal to feature order. */
+    function drawOne(f, i) {
+      if (!inScope(f)) return;
+      var g0 = group.childNodes.length, l0 = labelGroup.childNodes.length;
+      var was = drawIdx;
+      drawIdx = i;
+      try { drawFeature(f, i); } finally { drawIdx = was; }
+      stampFrom(group, g0, i);
+      stampFrom(labelGroup, l0, i);
+    }
+
+    function stampFrom(parent, from, i) {
+      for (var n = from; n < parent.childNodes.length; n++) {
+        var el = parent.childNodes[n];
+        if (el.setAttribute && !el.hasAttribute('data-ann')) {
+          el.setAttribute('data-ann', i);
+        }
+      }
+    }
+
+    /* One feature redrawn in place, instead of the whole layer.
+
+       `redraw()` is honest and total: empty the groups, draw everything. That
+       is right when the set changes shape — a load, an undo, a delete, a new
+       epoch of the clock — and it is what a pointer move of a drag, a change
+       of selection and a nudge of a style slider used to pay as well. With a
+       set imported from GIS (india-rivers: 63 features, tens of thousands of
+       vertices) every one of those re-projected and re-pathed every vertex of
+       every feature, 13 ms a pointer move at a quarter CPU, for geometry that
+       had not moved.
+
+       Only this feature's nodes are removed — direct children carrying its
+       stamp — and its new ones are inserted where the old ones stood, so the
+       paint order of the layer never changes. Everything else stands. */
+    function redrawOne(i) {
+      if (!on || !group) { redraw(); return; }
+      removeOwn(group, i);
+      removeOwn(labelGroup, i);
+      host.dropScalables(i);
+      var f = feats[i];
+      if (f) {
+        clockDate = clockNow();
+        var g0 = group, l0 = labelGroup;
+        var gf = document.createDocumentFragment();
+        var lf = document.createDocumentFragment();
+        group = gf; labelGroup = lf;
+        try { drawOne(f, i); } finally { group = g0; labelGroup = l0; }
+        group.insertBefore(gf, refAfter(group, i));
+        labelGroup.insertBefore(lf, refAfter(labelGroup, i));
+      }
+      (host.rescaleAnn || host.rescale)();
+    }
+
+    function removeOwn(parent, i) {
+      var kids = parent.children, n = kids.length, key = String(i);
+      while (n--) {
+        if (kids[n].getAttribute('data-ann') === key) parent.removeChild(kids[n]);
+      }
+    }
+
+    /* The first child belonging to a later feature, or to the draft — which
+       is where feature `i` goes back in. Children are ordered by feature
+       because `redraw` draws them in order and this insertion keeps it so. */
+    function refAfter(parent, i) {
+      var kids = parent.children;
+      for (var n = 0; n < kids.length; n++) {
+        var a = kids[n].getAttribute('data-ann');
+        if (a === null || +a > i) return kids[n];
+      }
+      return null;
+    }
+
+    /* A change of selection is two features' worth of drawing — the one that
+       loses its handles and the one that gains them — and one pass over the
+       list's classes. It used to be a full `drawList` (every row, three
+       listeners each, a measurement per feature) plus a full `redraw`. */
+    function reselect(was) {
+      if (was === sel) return;
+      if (was >= 0 && feats[was]) redrawOne(was);
+      if (sel >= 0 && feats[sel]) redrawOne(sel);
+      syncListSel();
+    }
+
+    function syncListSel() {
+      if (!listEl) return;
+      for (var n = 0; n < listEl.children.length; n++) {
+        listEl.children[n].className = n === sel ? 'sel' : '';
+      }
+    }
+
+    function drawFeature(f, i) {
+      if (!inScope(f)) return;
         var kind = kindOf(f);
         var p = f.properties || {};
         var colour = p['marker-color'] || p.stroke || '#1b1b1b';
@@ -1122,7 +1243,29 @@
           }
         }
         addLabel(f, rings, colour);
-      });
+    }
+
+    function redraw() {
+      var svg = host.svg();
+      if (!svg) return;
+      if (!group) {
+        group = host.svgEl('g', { id: 'annotations' });
+        labelGroup = host.svgEl('g', { id: 'ann-labels' });
+        var before = svg.querySelector('#highlight') || null;
+        if (before) { svg.insertBefore(group, before); svg.insertBefore(labelGroup, before); }
+        else { svg.appendChild(group); svg.appendChild(labelGroup); }
+      }
+      // the constant-size marks are rebuilt with the rest, so their old
+      // entries have to go or the map rescales a list of detached nodes
+      host.dropScalables();
+      group.innerHTML = '';
+      labelGroup.innerHTML = '';
+      group.style.display = on ? '' : 'none';
+      labelGroup.style.display = on ? '' : 'none';
+      if (!on) { (host.rescaleAnn || host.rescale)(); return; }
+
+      clockDate = clockNow();          // once, not once per feature
+      feats.forEach(drawOne);
 
       // the shape under the pointer, while it is still being drawn
       if (draft && draft.pts.length) {
@@ -1336,7 +1479,7 @@
       t.textContent = km >= 10 ? Math.round(km).toLocaleString() + ' km'
         : (Math.round(km * 10) / 10) + ' km';
       var q = host.project(lon, lat);
-      host.addScalable({ el: t, x: q.x, y: q.y, oy: side > 0 ? 14 : -8 });
+      addScalable({ el: t, x: q.x, y: q.y, oy: side > 0 ? 14 : -8 });
       labelGroup.appendChild(t);
     }
 
@@ -1360,7 +1503,7 @@
       var t = host.svgEl('text', { 'class': 'ann-label' });
       t.textContent = name.length > 40 ? name.slice(0, 39) + '…' : name;
       var p = host.project(pt[0], pt[1]);
-      host.addScalable({ el: t, x: p.x, y: p.y, oy: labelDrop(f) });
+      addScalable({ el: t, x: p.x, y: p.y, oy: labelDrop(f) });
       labelGroup.appendChild(t);
     }
 
@@ -1624,11 +1767,11 @@
         hit = -1;
       }
       if (hit >= 0) {
+        var had = sel;
         sel = hit;
         endEdit();
         syncFields();
-        drawList();
-        redraw();
+        reselect(had);
         if (panel && panel.classList.contains('folded')) fold(false);
         showCard(feats[hit]);
         return true;
@@ -1830,16 +1973,19 @@
     }
 
     function beginDrag(what) {
-      snapshot();
+      /* No snapshot here: `drag()` takes one at the first movement, so a
+         press that never moves — which is most presses, because a click on a
+         mark comes through here — costs no serialisation at all. */
       dragging = { i: what.i, r: what.r, v: what.v, whole: !!what.whole,
-                   moved: false, last: null, start: what.start || null };
+                   snapped: false, moved: false, last: null,
+                   start: what.start || null };
       // a corner of the draft belongs to no feature, so nothing is selected
       if (what.i === -1) { redraw(); return; }
+      var had = sel;
       sel = what.i;
       endEdit();
       syncFields();
-      drawList();
-      redraw();
+      reselect(had);
       var c = host.container();
       if (c) c.classList.add('ann-moving');
     }
@@ -2005,9 +2151,10 @@
       drawBox();
       if (!moved) return false;
       if (got >= 0) {
+        var had = sel;
         sel = got;
         endEdit();
-        syncFields(); drawList(); redraw(); syncClock();
+        syncFields(); reselect(had);
         showCard(feats[got]);
         say('Selected ' + (labelOf(feats[got], got)) + '.');
       } else {
@@ -2080,6 +2227,14 @@
       // below both need it: `var` hoists the name and not the value, so a use
       // above this line reads `undefined` and throws on its first index.
       var here = [round5(ll.lon), round5(ll.lat)];
+      /* The undo snapshot, at the first movement rather than on the press.
+         `snapshot()` stringifies the whole set, and a press is most often a
+         click — select, read, let go — that never moves anything. Paying the
+         stringify on the press put a dense set's whole serialisation between
+         the reader's finger and the card opening. Nothing has been mutated
+         yet at this line, so the state captured is the state before the
+         drag, which is what undo has to give back. */
+      if (!dragging.snapped) { snapshot(); dragging.snapped = true; }
       /* A corner of the shape still being drawn. */
       if (dragging.i === -1) {
         if (!draft || !draft.pts[dragging.v]) { dragging = null; return false; }
@@ -2125,7 +2280,7 @@
         }
         dragging.last = here;
         dragging.moved = true;
-        redraw();
+        redrawOne(dragging.i);
         return true;
       }
       var g = f.geometry;
@@ -2154,7 +2309,7 @@
             ring0[4] = ring0[0].slice();
           }
           dragging.moved = true;
-          redraw();
+          redrawOne(dragging.i);
         }
         return true;
       }
@@ -2181,7 +2336,7 @@
           g.coordinates[dragging.v] = here;
         }
         dragging.moved = true;
-        redraw();
+        redrawOne(dragging.i);
         return true;
       }
       if (g.type === 'Point') g.coordinates = here;
@@ -2194,7 +2349,7 @@
         if (dragging.v === 0) ring[ring.length - 1] = here;
       } else { dragging = null; return false; }
       dragging.moved = true;
-      redraw();
+      redrawOne(dragging.i);
       return true;
     }
 
@@ -2214,7 +2369,7 @@
       dragging = null;
       if (moved) { changed(true); say('Moved.'); }
       else {
-        undoStack.pop();             // a press that never moved is not an edit
+        // a press that never moved took no snapshot, so there is nothing to pop
         /* A mouse takes a mark on the press, so a plain click on one never
            reaches `tap` — the map has already written the press off as a
            handle rather than a tap. Lifting it where it landed is that click,
@@ -2362,7 +2517,7 @@
       if (host_g) {
         host_g.appendChild(fo);
         group.appendChild(host_g);
-        host.addScalable({ el: host_g, x: a.x, y: a.y });
+        addScalable({ el: host_g, x: a.x, y: a.y });
       } else {
         group.appendChild(fo);
       }
@@ -2459,7 +2614,7 @@
         pick.appendChild(name);
         pick.appendChild(meas);
         pick.addEventListener('click', function () {
-          sel = i; endEdit(); syncFields(); drawList(); redraw();
+          var had = sel; sel = i; endEdit(); syncFields(); reselect(had);
         });
         var go = document.createElement('button');
         go.type = 'button';
@@ -2468,7 +2623,8 @@
         go.setAttribute('aria-label', 'Move the map to ' + labelOf(f, i));
         go.textContent = '⌖';
         go.addEventListener('click', function () {
-          sel = i; endEdit(); syncFields(); drawList(); redraw(); zoomTo([f]);
+          var had = sel; sel = i; endEdit(); syncFields(); reselect(had);
+          zoomTo([f]);
         });
         var del = document.createElement('button');
         del.type = 'button';
@@ -2725,10 +2881,10 @@
          re-projecting and re-pathing geometry that had not moved. */
       if (drawnFields(f) !== was) {
         drawList();
-        redraw();                  // the name on the map follows the field
+        redrawOne(sel);            // the name on the map follows the field
         syncClock();
       }
-      store();
+      storeSoon();
       schedulePack();
     }
 
@@ -3060,8 +3216,11 @@
       }
       linkDirty = true;
       setDirty(true);              // see fieldChanged: this does its own drawing
-      redraw();
-      store();
+      /* Only the selected feature: a style belongs to one mark, and a slider
+         emits several inputs per frame. Redrawing the layer per input meant a
+         dense set visibly trailed the thumb. */
+      redrawOne(sel);
+      storeSoon();
       schedulePack();
     }
 
