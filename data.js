@@ -203,6 +203,10 @@ JMAP.SITE_CATEGORIES = [
     id: 'battle', en: 'Battles & incidents', ja: '戦闘・事件', orig: 'Battles & incidents',
     zh: '戰役・事件', ko: '전투·사건', c: '#8e1f57'
   },
+  {
+    id: 'poi', en: 'Places of interest', ja: '名所・旧跡', orig: 'Places of interest', zh: '重要地點',
+    ko: '주요 장소', c: '#5b5142'
+  },
 ];
 
 JMAP.TERRITORIES = {
@@ -1753,15 +1757,9 @@ JMAP.SITES = [
   },
   {
     id: 'consan', en: 'Côn Sơn (Poulo Condore)', ja: 'コンソン島 (Konson-tō)', orig: 'Côn Sơn',
-    zh: '崑崙島', date: 'Penal island from 1862', cat: 'city', lvl: 3, lat: 8.69, lon: 106.61,
+    zh: '崑崙島', date: 'Penal island from 1862', cat: 'poi', lvl: 3, lat: 8.69, lon: 106.61,
     wiki: 'https://en.wikipedia.org/wiki/C%C3%B4n_S%C6%A1n_Island', year: 1862,
     note: 'The French penal islands, in use from 1862. Most of the leadership of the Vietnamese communist party passed through them, which is how a prison became a political school.'
-  },
-  {
-    id: 'bovendigoel', en: 'Boven Digoel', ja: 'ボーフェン・ディグル (Bōfen Diguru)',
-    orig: 'Boven Digoel', date: 'Internment camp from 1927', cat: 'city', lvl: 3, lat: -6.1,
-    lon: 140.3, wiki: 'https://en.wikipedia.org/wiki/Boven_Digoel_Regency', year: 1927,
-    note: 'The camp the Dutch built in 1927 in the New Guinea swamps for the leaders of the nationalist and communist movements, Hatta and Sjahrir among them. Malaria did the work that a sentence did not have to.'
   },
   {
     id: 'ashio', en: 'Ashio', ja: '足尾 (Ashio)', zh: '足尾', ko: '아시오정',
@@ -2488,7 +2486,7 @@ JMAP.BROWSE = [
     note: 'The American summer capital in the mountains, taken on 27 December 1941.'
   },
   {
-    id: 'dili', en: 'Dili', ja: 'ディリ (Diri)', lat: -8.56, lon: 125.56,
+    id: 'dili', en: 'Dili (Dilly)', ja: 'ディリ (Diri)', lat: -8.56, lon: 125.56,
     wiki: 'https://en.wikipedia.org/wiki/Dili',
     note: 'Australian and Dutch troops landed here on 17 December 1941 to forestall Japan, in a neutral Portuguese colony; the Japanese came on 19 February 1942.'
   },
@@ -4068,6 +4066,75 @@ JMAP.BROWSE = [
     id: 'gartok', en: 'Gartok (Gar)', zh: '噶爾', lat: 31.728, lon: 80.337,
     wiki: 'https://en.wikipedia.org/wiki/Gartok',
     note: 'One of the three marts opened to British trade by the 1904 convention, and the western Tibetan government post — a tent encampment for most of the year rather than a town.'
+  },
+  {
+    id: 'bovendigoel', en: 'Boven Digoel (Tanah Merah)', lat: -6.09, lon: 140.3,
+    wiki: 'https://en.wikipedia.org/wiki/Boven-Digoel_concentration_camp',
+    note: 'Tanah Merah, the river town on the upper Digul — and the internment camp beside it where the Dutch held Indonesian nationalists without trial from 1927, Hatta and Sjahrir among them. The prisoners were evacuated to Australia in 1943.'
+  },
+  {
+    id: 'sarmi', en: 'Sarmi', lat: -1.87, lon: 138.75,
+    wiki: 'https://en.wikipedia.org/wiki/Sarmi',
+    note: 'A Dutch coastal post on New Guinea\'s north shore, west of the Sepik; a Japanese garrison and airfield complex from 1942, bypassed in 1944.'
+  },
+  {
+    id: 'babo', en: 'Babo', lat: -2.55, lon: 133.44,
+    wiki: 'https://en.wikipedia.org/wiki/Babo,_Indonesia',
+    note: 'The oil settlement on Bintuni Bay, flown against and then used by both sides: its pre-war airfield made it the Japanese base for the Bird\'s Head.'
+  },
+  {
+    id: 'sorong', en: 'Sorong', lat: -0.88, lon: 131.25,
+    wiki: 'https://en.wikipedia.org/wiki/Sorong',
+    note: 'The oil town of the Bird\'s Head, and Dutch New Guinea\'s one real industry before the war.'
+  },
+  {
+    id: 'merauke', en: 'Merauke', lat: -8.49, lon: 140.4,
+    wiki: 'https://en.wikipedia.org/wiki/Merauke',
+    note: 'The Dutch post on the south coast, and the one piece of the Indies never occupied: an Allied garrison and airfields through the war.'
+  },
+  {
+    id: 'kepi', en: 'Kepi', lat: -6.54, lon: 139.33,
+    wiki: 'https://en.wikipedia.org/wiki/Kepi,_Indonesia',
+    note: 'A government post in the Mappi country of the Digul plain.'
+  },
+  {
+    id: 'atambua', en: 'Atamboea (Atambua)', lat: -9.11, lon: 124.89,
+    wiki: 'https://en.wikipedia.org/wiki/Atambua',
+    note: 'The chief inland town of Dutch Timor, near the Portuguese frontier.'
+  },
+  {
+    id: 'ocussi', en: 'Ocussi (Pante Macassar)', lat: -9.2, lon: 124.37,
+    wiki: 'https://en.wikipedia.org/wiki/Pante_Macassar',
+    note: 'Pante Macassar, seat of the Ocussi exclave — the oldest Portuguese foothold on Timor, and the first place their flag flew on the island.'
+  },
+  {
+    id: 'mataram', en: 'Mataram (Ampenan)', lat: -8.58, lon: 116.12,
+    wiki: 'https://en.wikipedia.org/wiki/Mataram_(city)',
+    note: 'The chief town of Lombok, with its port at Ampenan a mile west.'
+  },
+  {
+    id: 'bima', en: 'Bima', lat: -8.46, lon: 118.72, wiki: 'https://en.wikipedia.org/wiki/Bima',
+    note: 'The old sultanate port of eastern Sumbawa, on one of the finest harbours in the Lesser Sundas.'
+  },
+  {
+    id: 'sumbawabesar', en: 'Sumbawa Besar', lat: -8.49, lon: 117.42,
+    wiki: 'https://en.wikipedia.org/wiki/Sumbawa_Besar',
+    note: 'Seat of the western Sumbawa sultanate.'
+  },
+  {
+    id: 'ende', en: 'Ende', lat: -8.84, lon: 121.66,
+    wiki: 'https://en.wikipedia.org/wiki/Ende,_Indonesia',
+    note: 'The chief Dutch post on Flores — and Sukarno\'s place of exile from 1934 to 1938, before he was moved to Bengkulu.'
+  },
+  {
+    id: 'larantuka', en: 'Larantuka', lat: -8.34, lon: 123.0,
+    wiki: 'https://en.wikipedia.org/wiki/Larantuka',
+    note: 'The old Portuguese-Catholic port at the eastern tip of Flores, in Dutch hands from 1859.'
+  },
+  {
+    id: 'waingapu', en: 'Waingapu', lat: -9.66, lon: 120.26,
+    wiki: 'https://en.wikipedia.org/wiki/Waingapu',
+    note: 'Sumba\'s port, shipping the island\'s horses across the archipelago.'
   },
 ];
 

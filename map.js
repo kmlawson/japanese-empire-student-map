@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '1.90';
+  var JEM_VERSION = '1.91';
   var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "761fbd5949", "japan-empire-map-admin.svg": "9de0304837", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "eef051b1ee", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0"};
 
   /* Every file this one fetches, with the version on it.
@@ -85,7 +85,9 @@
     // three layers already on gives them nothing to switch. Administrative is
     // also more than half the weight of the map and is fetched only when it is
     // asked for, so an opening view without it is a faster one.
-    cats: { city: false, battle: false, territory: false },
+    // `poi` rides with `city`: the Cities button switches both, and the URL's
+    // city bit carries both — a place of interest is a place.
+    cats: { city: false, battle: false, territory: false, poi: false },
     labels: false,
     extent: true,
     rivers: true,
@@ -1709,6 +1711,11 @@
       if (s.cat === 'battle') {
         var d = DOT_R + 1.2;
         g.appendChild(svgEl('path', { 'class': 'dot', d: 'M0 ' + -d + 'L' + d + ' 0L0 ' + d + 'L' + -d + ' 0Z' }));
+      } else if (s.cat === 'poi') {
+        // a place of interest: a square, no bigger than the smallest town
+        var pr = 2.5;
+        g.appendChild(svgEl('rect', { 'class': 'dot', x: -pr, y: -pr,
+                                      width: pr * 2, height: pr * 2 }));
       } else {
         g.appendChild(svgEl('circle', { 'class': 'dot', r: DOT_R }));
       }
@@ -2515,6 +2522,7 @@
     var other = epochs.filter(function (id) { return id !== JMAP.DEFAULT_EPOCH; })[0];
     if ((bits & 1) && other) state.epoch = other;
     state.cats.city = !!(bits & 2);
+    state.cats.poi = state.cats.city;
     state.cats.battle = !!(bits & 4);
     state.cats.territory = !!(bits & 8);
     state.labels = !!(bits & 16);
@@ -6022,7 +6030,7 @@
       var row = document.createElement('div');
       row.className = 'item';
       var sw = document.createElement('span');
-      sw.className = 'sw ' + (c.id === 'city' ? 'round' : 'diamond');
+      sw.className = 'sw ' + (c.id === 'city' ? 'round' : c.id === 'poi' ? 'square' : 'diamond');
       sw.style.background = c.c;
       row.appendChild(sw);
       row.appendChild(document.createTextNode(nameOf(c)));
@@ -7223,6 +7231,7 @@
         } else {
           var cat = b.getAttribute('data-cat');
           state.cats[cat] = !state.cats[cat];
+          if (cat === 'city') state.cats.poi = state.cats.city;
           if (cat === 'territory' && state.cats[cat]) loadAdmin();
         }
         syncLayerButtons();

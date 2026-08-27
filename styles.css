@@ -1092,6 +1092,7 @@ button.plain:hover { background: var(--hover-fill); }
 
 #legend .sw.round { border-radius: 50%; width: 12px; }
 #legend .sw.diamond { border-radius: 2px; transform: rotate(45deg) scale(.82); }
+#legend .sw.square { border-radius: 1px; transform: scale(.8); }
 
 /* The head is the fold control. It is a real button so it takes the keyboard
    and announces its state, but it has to read as the legend's title. */

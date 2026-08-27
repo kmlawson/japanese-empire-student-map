@@ -9794,6 +9794,40 @@ Whole suite: 653 checks across 29 scripts, all passing.
 
 ---
 
+## Places of interest, Boven Digoel as a town, and the eastern archipelago filled in
+
+**A new marker kind: `poi`, a square no bigger than the smallest town.**
+Poulo Condore is the first — a penal island is not a city, and the city dot
+overstated it. The category lives in `site-categories.csv` ("Places of
+interest", its own colour and a square legend swatch), rides with the
+Cities button and the URL's city bit rather than taking a bit of its own,
+and draws as a 5×5 square. More can join it by writing `poi` in a site
+row's `cat`.
+
+**Boven Digoel stops being a site and becomes what it is — a town.** Tanah
+Merah joins the gazetteer at the smallest tier under "Boven Digoel (Tanah
+Merah)", with the camp — Hatta and Sjahrir among its prisoners — in the
+note where it belongs, and the oversized site dot is gone.
+
+**Fourteen towns added at the smallest tier, both epochs.** Checked against
+the list asked for: Hollandia, Amboina, Surabaja, Tjilatjap, Bandoeng,
+Palembang, Bandjermasin, Balikpapan, Menado and Kendari were already
+drawn; missing were Sarmi, Babo, Sorong (read from "Saron" — flagged in
+case Salawati or some other place was meant), Merauke and Kepi in New
+Guinea, and Atamboea and Ocussi (Pante Macassar, Portuguese) on Timor —
+Dilly was present as Dili and now carries the period spelling as an
+alternate. And for the Lesser Sundas, six towns that earn the smallest
+icon: Mataram (with its port Ampenan) on Lombok, Bima and Sumbawa Besar on
+Sumbawa, Ende — Sukarno's exile, 1934–38 — and Larantuka on Flores, and
+Waingapu on Sumba. Each carries a one-line note in browse.md.
+
+Verified in the browser: the square draws at Côn Sơn, all fourteen dots
+stand, and the legend shows "Places of interest" beside "Cities & ports".
+
+Whole suite: 653 checks across 29 scripts, all passing.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

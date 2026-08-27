@@ -1671,3 +1671,70 @@ A fort and salt-trading centre in the far north-west, on the caravan route over 
 
 ## gartok
 One of the three marts opened to British trade by the 1904 convention, and the western Tibetan government post — a tent encampment for most of the year rather than a town.
+
+## bovendigoel
+
+Tanah Merah, the river town on the upper Digul — and the internment camp
+beside it where the Dutch held Indonesian nationalists without trial from
+1927, Hatta and Sjahrir among them. The prisoners were evacuated to Australia
+in 1943.
+
+## sarmi
+
+A Dutch coastal post on New Guinea's north shore, west of the Sepik; a
+Japanese garrison and airfield complex from 1942, bypassed in 1944.
+
+## babo
+
+The oil settlement on Bintuni Bay, flown against and then used by both sides:
+its pre-war airfield made it the Japanese base for the Bird's Head.
+
+## sorong
+
+The oil town of the Bird's Head, and Dutch New Guinea's one real industry
+before the war.
+
+## merauke
+
+The Dutch post on the south coast, and the one piece of the Indies never
+occupied: an Allied garrison and airfields through the war.
+
+## kepi
+
+A government post in the Mappi country of the Digul plain.
+
+## atambua
+
+The chief inland town of Dutch Timor, near the Portuguese frontier.
+
+## ocussi
+
+Pante Macassar, seat of the Ocussi exclave — the oldest Portuguese foothold
+on Timor, and the first place their flag flew on the island.
+
+## mataram
+
+The chief town of Lombok, with its port at Ampenan a mile west.
+
+## bima
+
+The old sultanate port of eastern Sumbawa, on one of the finest harbours in
+the Lesser Sundas.
+
+## sumbawabesar
+
+Seat of the western Sumbawa sultanate.
+
+## ende
+
+The chief Dutch post on Flores — and Sukarno's place of exile from 1934 to
+1938, before he was moved to Bengkulu.
+
+## larantuka
+
+The old Portuguese-Catholic port at the eastern tip of Flores, in Dutch hands
+from 1859.
+
+## waingapu
+
+Sumba's port, shipping the island's horses across the archipelago.

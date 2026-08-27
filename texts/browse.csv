@@ -92,7 +92,7 @@ cebu,Cebu,,,,セブ (Sebu),宿霧,10.32,123.89,https://en.wikipedia.org/wiki/Ceb
 davao,Davao,,,,ダバオ (Dabao),,7.07,125.61,https://en.wikipedia.org/wiki/Davao_(province)
 iloilo,Iloilo,,,,イロイロ (Iroiro),伊洛伊洛,10.72,122.56,https://en.wikipedia.org/wiki/Iloilo_City
 baguio,Baguio,,,,バギオ (Bagio),碧瑤,16.41,120.6,https://en.wikipedia.org/wiki/Baguio
-dili,Dili,,,,ディリ (Diri),,-8.56,125.56,https://en.wikipedia.org/wiki/Dili
+dili,Dili (Dilly),,,,ディリ (Diri),,-8.56,125.56,https://en.wikipedia.org/wiki/Dili
 khabarovsk,Khabarovsk,,,,ハバロフスク,伯力,48.48,135.08,https://en.wikipedia.org/wiki/Khabarovsk
 ulanbator,Urga (Ulan Bator),,,,庫倫 (Kuron),庫倫（烏蘭巴托）,47.89,106.91,https://en.wikipedia.org/wiki/Zaisan_Bridge
 calcutta,Calcutta,,,,,,22.57,88.36,https://en.wikipedia.org/wiki/Kolkata
@@ -408,3 +408,17 @@ chamdo,Chamdo (Qamdo),,,,,昌都,31.143,97.17,https://en.wikipedia.org/wiki/Cham
 nagchuka,"Nagchuka (Nagqu, Naqu)",,,,,那曲,31.476,92.051,https://en.wikipedia.org/wiki/Nagqu
 rudok,Rudok (Rutog),,,,,日土,33.38,79.732,https://en.wikipedia.org/wiki/Rutog_County
 gartok,Gartok (Gar),,,,,噶爾,31.728,80.337,https://en.wikipedia.org/wiki/Gartok
+bovendigoel,Boven Digoel (Tanah Merah),,,,,,-6.09,140.3,https://en.wikipedia.org/wiki/Boven-Digoel_concentration_camp
+sarmi,Sarmi,,,,,,-1.87,138.75,https://en.wikipedia.org/wiki/Sarmi
+babo,Babo,,,,,,-2.55,133.44,"https://en.wikipedia.org/wiki/Babo,_Indonesia"
+sorong,Sorong,,,,,,-0.88,131.25,https://en.wikipedia.org/wiki/Sorong
+merauke,Merauke,,,,,,-8.49,140.4,https://en.wikipedia.org/wiki/Merauke
+kepi,Kepi,,,,,,-6.54,139.33,"https://en.wikipedia.org/wiki/Kepi,_Indonesia"
+atambua,Atamboea (Atambua),,,,,,-9.11,124.89,https://en.wikipedia.org/wiki/Atambua
+ocussi,Ocussi (Pante Macassar),,,,,,-9.2,124.37,https://en.wikipedia.org/wiki/Pante_Macassar
+mataram,Mataram (Ampenan),,,,,,-8.58,116.12,https://en.wikipedia.org/wiki/Mataram_(city)
+bima,Bima,,,,,,-8.46,118.72,https://en.wikipedia.org/wiki/Bima
+sumbawabesar,Sumbawa Besar,,,,,,-8.49,117.42,https://en.wikipedia.org/wiki/Sumbawa_Besar
+ende,Ende,,,,,,-8.84,121.66,"https://en.wikipedia.org/wiki/Ende,_Indonesia"
+larantuka,Larantuka,,,,,,-8.34,123.0,https://en.wikipedia.org/wiki/Larantuka
+waingapu,Waingapu,,,,,,-9.66,120.26,https://en.wikipedia.org/wiki/Waingapu
