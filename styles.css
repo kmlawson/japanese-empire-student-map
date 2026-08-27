@@ -668,6 +668,24 @@ button.plain:hover { background: var(--hover-fill); }
   pointer-events: none;
 }
 
+/* Taiwan's railways: one dark, thin, non-scaling line. Not a ladder of
+   sleeper ticks — at the zoom where the whole island is a thumbnail the ticks
+   are noise, and the map already asks a lot of that corner. Pointer-none,
+   because the network is context: a reader pointing at Taiwan wants the
+   district under it, not the line over it. */
+#tw-rail { pointer-events: none; }
+
+#tw-rail .tw-rail {
+  stroke: #2b2b2b;
+  stroke-width: 1.6;
+  stroke-linecap: butt;
+  vector-effect: non-scaling-stroke;
+  paint-order: stroke;
+}
+@media (prefers-color-scheme: dark) {
+  #tw-rail .tw-rail { stroke: #e6e0d4; }
+}
+
 /* The graticule. Faint on purpose: it is a frame of reference and not a thing
    to read, so it should be legible when looked for and invisible otherwise. */
 #graticule .grat-line {

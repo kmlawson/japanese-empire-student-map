@@ -13,8 +13,8 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '1.92';
-  var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "761fbd5949", "japan-empire-map-admin.svg": "9de0304837", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "eef051b1ee", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0"};
+  var JEM_VERSION = '1.93';
+  var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "761fbd5949", "japan-empire-map-admin.svg": "9de0304837", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "9a88154fde", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0"};
 
   /* Every file this one fetches, with the version on it.
 
@@ -115,6 +115,9 @@
     // are sixty-three lines of context under the Raj, which is a different
     // kind of thing and should not arrive with them.
     indiaRivers: false,
+    // Taiwan's railways, per date. Off by default: it is one island's detail
+    // on a map of an empire, and a reader who wants it asks for it.
+    twRail: false,
     // the mesh of meridians and parallels; off by default
     graticule: false,
     /* Shaded relief under the political colours. Off by default and fetched
@@ -703,6 +706,7 @@
     extentPath = svg.querySelector('#extent-1942');
     riversGroup = svg.querySelector('#rivers');
     indiaRiversGroup = svg.querySelector('#india-rivers');
+    twRailGroup = svg.querySelector('#tw-rail');
     buildYellow1938();
     buildBrowse();
     buildGazetteer();
@@ -1769,6 +1773,7 @@
   var annWasLegend = false;      // where the legend stood before the panel took the rail
   var riversGroup = null;
   var indiaRiversGroup = null;
+  var twRailGroup = null;
   var yellow1938 = null;
   var browseGroup = null;
 
@@ -2449,6 +2454,7 @@
    *   17  the graticule    18  shaded relief   19,20  which relief sheet
    *   21  single-colour map    22  Japanese names inside the empire (set = on)
    *   23  the occupation hidden    24  East Asia only (inverted)
+   *   25  Taiwan's railways
    *
    * Bits 7 and 10 no longer have a switch in the Layers panel — the province
    * source came out once the period sheet was redrawn, and the hairline came
@@ -2507,6 +2513,7 @@
     if (!state.ccp) bits |= 4096;
     if (state.backs) bits |= 8192;
     if (state.indiaRivers) bits |= 16384;
+    if (state.twRail) bits |= 33554432;   // bit 25: Taiwan's railways
     bits |= ({ albers: 1, laea: 2 }[state.projection] || 0) << 15;
     if (state.graticule) bits |= 131072;
     if (state.relief) bits |= 262144;
@@ -2542,6 +2549,7 @@
     state.ccp = !(bits & 4096);          // inverted; see layerCode
     state.backs = !!(bits & 8192);
     state.indiaRivers = !!(bits & 16384);
+    state.twRail = !!(bits & 33554432);
     state.projection = ['mercator', 'albers', 'laea'][(bits >> 15) & 3] || 'mercator';
     state.graticule = !!(bits & 131072);
     state.relief = !!(bits & 262144);
@@ -5908,6 +5916,13 @@
       extentPath.style.display =
         (state.epoch === 'e1942' && state.extent && state.world) ? '' : 'none';
     }
+    if (twRailGroup) {
+      twRailGroup.style.display = state.twRail ? '' : 'none';
+      // one path per date; the map shows the network as it stood
+      $$('path', twRailGroup).forEach(function (el) {
+        el.style.display = el.getAttribute('data-epoch') === state.epoch ? '' : 'none';
+      });
+    }
     if (indiaRiversGroup) {
       indiaRiversGroup.style.display = state.indiaRivers ? '' : 'none';
     }
@@ -7452,6 +7467,15 @@
         state.indiaRivers = optIndiaRivers.checked;
         applyState();
         saveState();
+      });
+    }
+
+    var optTwRail = $('#opt-tw-rail');
+    if (optTwRail) {
+      optTwRail.checked = state.twRail;
+      optTwRail.addEventListener('change', function () {
+        state.twRail = optTwRail.checked;
+        applyState();
       });
     }
 

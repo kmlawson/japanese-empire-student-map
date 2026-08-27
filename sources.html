@@ -6,7 +6,7 @@
 <meta name="color-scheme" content="light">
 <title>Sources — The Japanese Empire</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23f4f1ea'/%3E%3Ccircle cx='16' cy='16' r='8' fill='%239a1813'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=a500526fdc">
+<link rel="stylesheet" href="styles.css?v=f6cc9703ce">
 <style>
   /* Nothing to undo here any more: the map's scroll lock is scoped to
      `html.app` in styles.css and this page does not carry that class. */
@@ -78,7 +78,19 @@
   <li><strong>Saharat Thai Doem</strong> — Kengtung and the trans-Salween Shan states — follows the map by Xufanc on Wikimedia Commons, CC BY-SA 4.0, taken district by district rather than cut off with a straight line. <a href="https://commons.wikimedia.org/wiki/File:Saharat_Thai_Doem_map.png">File:Saharat_Thai_Doem_map.png</a> shows the territory Japan actually granted rather than everything Thailand claimed in the Shan and Karenni states.</li>
 </ul>
 
-<p><strong>Projection.</strong> Web Mercator, on a Pacific-centred frame running 66°E–206°E and 13°S–55°N — British India to Pearl Harbor, Sakhalin to northern Australia. Longitudes are normalised to 0–360 so the map is continuous across the antimeridian.</p>
+<p><strong>Projection.</strong> The map is drawn on a Pacific-centred frame running 66°E–206°E and 13°S–55°N — British India to Pearl Harbor, Sakhalin to northern Australia. Longitudes are normalised to 0–360 so the map is continuous across the antimeridian. Three projections are offered in Layers, and the map is re-projected in the browser rather than re-fetched:</p>
+
+<ul>
+  <li><strong>Web Mercator</strong> is the sheet as built and the one it opens on: shapes right, north straight up, and area wrong by sec² of the latitude — 1 at the equator, 2.0 at 45°N, 3.0 at the top of this frame. Karafuto and the Soviet Far East therefore come out two to three times the size of Java and the mandate, which is the distortion the other two exist to answer.</li>
+  <li><strong>Albers equal-area conic</strong>, on 117.5°E with standard parallels at 12.5°N and 37.5°N. A conic is the usual answer for a mid-latitude region and it is honest about area, which lets the empire be compared with what it was drawn against. What a conic is not built for is 140° of longitude: the cone constant is 0.41, so the meridians fan by about 21° at the western edge and 36° at the eastern, and the far Pacific swings round noticeably. That is the projection behaving correctly rather than a fault.</li>
+  <li><strong>Lambert azimuthal equal area</strong>, centred on 25°N 115°E. Azimuthal suits a region about as tall as it is wide, and this centre sits over the South China Sea, which puts the middle of the subject where the distortion is least: the Indies and the China coast are drawn well, and the Aleutians and the far Pacific pay for it.</li>
+</ul>
+
+<p>Both equal-area projections are worth switching to at least once. Mercator is what a reader has seen all their life, and it makes the northern empire look larger than it was.</p>
+
+<h2>Transport</h2>
+
+<p><strong>Taiwan Railways</strong> These were primarily based on the <a href="https://data.depositar.io/dataset/rd15-07030">日治時期鐵路分布圖</a> (CC BY-NC-SA 3.0 Taiwan) 0703b which was reprojected to TWD97. The map seems to align quite closely with historical maps where drawn. However, this map was missing several things needed for the 1930 and 1942 maps. The Hualien to Taidong line was added for both 1930 and 1942. The Hualien 1939 port extension for the 1942 map and a missing coastal station was added for 海岸驛 at 南濱 for the 1930 map. Part of the 宜蘭 line in the north was missing, as was its branch line to 菁桐坑. The 集集線 and 明治製糖南投線 departing east out of 二水 were also added to both maps. All of these were traced from 1944 <a href="https://gis.sinica.edu.tw/showwmts/index.php?s=tileserver&l=AM25K_1944A">1944-美軍地形圖-1:25,000 : AM25K_1944A</a>. 東港 line and 溪州/南州—枋寮 lines in the south are kept for 1942, removed for 1930 map. There are a variety of lines found on railway maps that are lines for sugar refineries and mines but some of these carried passengers. This dataset may need to be updated to take that in to account and better represent the full network.</p>
 
 <h2>Software</h2>
 

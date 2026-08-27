@@ -96,6 +96,33 @@ check('a code from before these settings still opens sensibly',
    the other for whoever opened the link. Each pair is checked one way and
    then the other, straight off the parsed state, because the pairing is
    exactly what a whole-round-trip of every switch at once cannot see. */
+/* The newest layer, pinned the moment it shipped: its bit is 25, and the
+   round-trip above only covers what SETTINGS lists. */
+console.log('\n— the railway layer travels in the address —');
+{
+  const r = await open(b);
+  await r.evaluate(() => document.querySelector('#opt-tw-rail').click());
+  await sleep(1200);
+  const href = await r.evaluate(() => location.href);
+  const drawnHere = await r.evaluate(() =>
+    getComputedStyle(document.getElementById('tw-rail')).display);
+  await r.close();
+  const s3 = await open(b, href);
+  const got = await s3.evaluate(() => ({
+    ticked: document.querySelector('#opt-tw-rail').checked,
+    display: getComputedStyle(document.getElementById('tw-rail')).display,
+    epochs: [...document.querySelectorAll('#tw-rail path')]
+      .filter(p => getComputedStyle(p).display !== 'none')
+      .map(p => p.getAttribute('data-epoch')),
+  }));
+  check('ticking it draws the layer', drawnHere === 'inline', drawnHere);
+  check('and a link brings it back', got.ticked && got.display === 'inline',
+    JSON.stringify(got));
+  check('with one date\u2019s network drawn, not both',
+    got.epochs.length === 1 && got.epochs[0] === 'e1930', JSON.stringify(got.epochs));
+  await s3.close();
+}
+
 console.log('\n— no two settings share a bit —');
 for (const [flip, keep, want] of [
   ['jpNames', 'world', true],       // toggling names must not crop the map

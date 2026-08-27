@@ -2580,6 +2580,19 @@ CHINA_NEIGHBOURS = ("ussr", "mongolia", "indochina", "burma", "siam", "india",
 INDIA_RIVERS_FILE = "india-rivers.geojson"
 INDIA_RIVER_TOL = 0.30
 
+# Taiwan's railways, traced per date: the 1930 network for the earlier sheet
+# and the 1944 one for the later, because the island gained lines in between.
+#
+# Thinned at TRACED_TOL, not at the river tolerance. These are hand-traced —
+# several stretches off a 1944 American 1:25,000 sheet — and CLAUDE.md's rule
+# is that traced work is thinned at the band traced work earns. Measured: at
+# the river's 0.30 only 12% of the vertices survived and the switchbacks in
+# the mountains came back as chords; at 0.021 it is 61%, and the line follows
+# the ground it was traced from.
+TW_RAIL_FILES = {"e1930": "taiwan_railways_1930_v1.geojson",
+                 "e1942": "taiwan_railways_1944_v1.geojson"}
+TW_RAIL_TOL = 0.021
+
 SEAM_STEP = 0.015          # degrees; how finely the gap is searched
 SEAM_MAX = 0.50            # degrees; wider than this is not a seam but a hole
 
@@ -6088,6 +6101,31 @@ def main():
         sys.stderr.write("note: %s missing, the India rivers layer is empty\n"
                          % INDIA_RIVERS_FILE)
 
+    # The same treatment for Taiwan's railways, one path per epoch.
+    tw_rail = {}
+    for _ep, _name in sorted(TW_RAIL_FILES.items()):
+        _path = os.path.join(CACHE, _name)
+        if not os.path.exists(_path):
+            sys.stderr.write("note: %s missing, that railway layer is empty\n" % _name)
+            continue
+        with open(_path) as fh:
+            _kept = _raw = _dropped = 0
+            _parts = []
+            for feat in json.load(fh)["features"]:
+                for line in iter_lines(feat["geometry"]):
+                    _raw += len(line)
+                    pts = [project(x, y) for x, y in line]
+                    pts = simplify(pts, TW_RAIL_TOL) if len(pts) >= 4 else pts
+                    if len(pts) < 2:
+                        _dropped += 1
+                        continue
+                    _kept += len(pts)
+                    _parts.append(line_to_path(pts))
+            tw_rail[_ep] = "".join(_parts)
+        sys.stderr.write("taiwan railways %s: %d of %d vertices kept (%.0f%%), "
+                         "%d lines dropped\n"
+                         % (_ep, _kept, _raw, 100.0 * _kept / max(1, _raw), _dropped))
+
     # ---- rivers ------------------------------------------------------------
     rivers = {}
     try:
@@ -7186,6 +7224,14 @@ def main():
         # should not arrive with them.
         out.append('  <g id="india-rivers" style="display:none">')
         out.append(f'    <path class="river india-river" fill="none" d="{india_rivers}"/>')
+        out.append("  </g>")
+    if tw_rail:
+        # One group, one path per epoch: map.js shows whichever the date asks
+        # for and hides the layer altogether unless the switch is on.
+        out.append('  <g id="tw-rail" style="display:none">')
+        for _ep in sorted(tw_rail):
+            out.append(f'    <path class="tw-rail" data-epoch="{_ep}" '
+                       f'fill="none" d="{tw_rail[_ep]}"/>')
         out.append("  </g>")
     if rivers:
         out.append('  <g id="rivers">')

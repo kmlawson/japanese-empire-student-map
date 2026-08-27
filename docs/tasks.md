@@ -9859,6 +9859,46 @@ Whole suite: 653 checks across 29 scripts, all passing.
 
 ---
 
+## A Transport section, and Taiwan's railways per date
+
+A new **Transport** heading in Layers with one switch under it, **Taiwan
+Railways**, off by default. Ticked, it draws the network as it stood on the
+date being shown: the 1930 geojson on the 1930 map and the 1944 one on the
+December 1942 map — so the southern Fangliao extension and the Hualien port
+line appear only on the later sheet, which is the point of having two.
+
+Built into the base SVG as one group with a path per epoch, the way the
+India rivers layer is built, and hidden behind `display:none` until asked
+for; map.js shows the layer and, inside it, the one path whose `data-epoch`
+matches. Bit 25 in the layers code, so it travels in a link.
+
+**Thinned at `TRACED_TOL`, not at the river tolerance.** The first pass used
+0.30 — the band a river earns — and **12%** of the vertices survived, with
+the mountain switchbacks coming back as chords. These lines are hand-traced,
+several stretches off a 1944 American 1:25,000 sheet, and CLAUDE.md's rule is
+that traced work is thinned at the band traced work earns. At 0.021 units —
+about 115 m, against a source that samples a point every 36 m — **20%**
+survive and the line follows the ground it was traced from.
+
+Drawn as one thin dark non-scaling line rather than a ladder of sleeper
+ticks: at the zoom where the whole island is a thumbnail the ticks are noise.
+`pointer-events: none`, because a reader pointing at Taiwan wants the
+district under it.
+
+`layers-url` pins the new bit the moment it ships: ticking draws the layer, a
+link brings it back, and exactly one date's network is drawn rather than
+both.
+
+**Sources** gains a Transport section with the railway's provenance as the
+author wrote it, and the **Projection** paragraph — which described Web
+Mercator alone, though the map has offered three projections since the
+projection work — now describes all three, with what each is good and bad
+at, drawn from map.js's own commentary.
+
+Whole suite: 656 checks across 29 scripts, all passing.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible
