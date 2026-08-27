@@ -39,7 +39,7 @@ const SHIM = () => { const o = window.matchMedia;
         addEventListener() {}, removeEventListener() {} } : o.call(window, q)); };
 
 const BASE = (1 << 1) | (1 << 3) | (1 << 4) | (1 << 5) | (1 << 6) | (2 << 8);
-const LOCAL = 1 << 22;                  // inverted: set means the switch is off
+const JP = 1 << 22;                     // set means Japanese names ON — off is the default
 const E1942 = 1;
 const url = (bits, bbox) => 'http://localhost:8123/index.html?layers='
   + (bits >>> 0).toString(36) + (bbox ? '&bbox=' + bbox : '');
@@ -62,23 +62,23 @@ const open = async (bits, bbox) => {
 console.log('\n— Korea, both ways —');
 {
   const KOREA = '124,33,131.5,43.5';
-  const on = await open(BASE, KOREA);
-  const a = await on.evaluate(LABELS);
-  check('the switch starts on', await on.evaluate(() =>
-    document.querySelector('#opt-jpnames').checked));
-  check('the capital is Keijō', a.indexOf('Keijō') >= 0, a.slice(0, 8).join(' | '));
-  check('and the ports are Fusan and Jinsen',
-    a.indexOf('Fusan') >= 0 && a.indexOf('Jinsen') >= 0, a.slice(0, 10).join(' | '));
-  await on.close();
-
-  const off = await open(BASE | LOCAL, KOREA);
+  const off = await open(BASE, KOREA);
   const c = await off.evaluate(LABELS);
-  check('unticked, it is Kyŏngsŏng', c.indexOf('Kyŏngsŏng') >= 0, c.slice(0, 8).join(' | '));
+  check('the switch starts OFF — local names are the default (changed 28-08)',
+    !(await off.evaluate(() => document.querySelector('#opt-jpnames').checked)));
+  check('so the capital is Kyŏngsŏng', c.indexOf('Kyŏngsŏng') >= 0, c.slice(0, 8).join(' | '));
   check('and Pusan and Inch’ŏn',
     c.indexOf('Pusan') >= 0 && c.indexOf('Inch’ŏn') >= 0, c.slice(0, 10).join(' | '));
   check('with no Japanese form left standing as a headline',
     c.indexOf('Keijō') < 0 && c.indexOf('Fusan') < 0, c.join(' | '));
   await off.close();
+
+  const on = await open(BASE | JP, KOREA);
+  const a = await on.evaluate(LABELS);
+  check('ticked, the capital is Keijō', a.indexOf('Keijō') >= 0, a.slice(0, 8).join(' | '));
+  check('and the ports are Fusan and Jinsen',
+    a.indexOf('Fusan') >= 0 && a.indexOf('Jinsen') >= 0, a.slice(0, 10).join(' | '));
+  await on.close();
 }
 
 console.log('\n— and the provinces, which are keyed differently —');
@@ -88,7 +88,7 @@ console.log('\n— and the provinces, which are keyed differently —');
      used to test for one before doing anything, which meant every Korean and
      Taiwanese province went through it unchanged. The guard belongs to the
      epoch-override lookup alone. */
-  const p = await open(BASE, '124,33,131.5,43.5');
+  const p = await open(BASE | JP, '124,33,131.5,43.5');
   const rec = await p.evaluate(() => {
     const k = JMAP.PROVINCES && JMAP.PROVINCES.Keiki;
     return k ? { en: k.en, local: k.local } : null;
@@ -119,7 +119,7 @@ console.log('\n— and the provinces, which are keyed differently —');
     tip.slice(0, 90));
   await p.close();
 
-  const q = await open(BASE | LOCAL, '124,33,131.5,43.5');
+  const q = await open(BASE, '124,33,131.5,43.5');
   const pt = await q.evaluate(() => {
     const el = document.querySelector('[data-prov="Kogen"]');
     if (!el) return null;
@@ -139,7 +139,7 @@ console.log('\n— and the provinces, which are keyed differently —');
 
 console.log('\n— the colonies keep their own names —');
 {
-  for (const [bits, tag] of [[BASE | E1942, 'ticked'], [BASE | E1942 | LOCAL, 'unticked']]) {
+  for (const [bits, tag] of [[BASE | E1942 | JP, 'ticked'], [BASE | E1942, 'unticked']]) {
     const p = await open(bits, '118,30,140,48');
     const a = await p.evaluate(LABELS);
     check(tag + ': Chōsen and Manchukuo are still themselves',
@@ -152,13 +152,13 @@ console.log('\n— the colonies keep their own names —');
 console.log('\n— and Manchuria is not Japanese in 1930 —');
 {
   const MANCH = '118,38,132,48';
-  const later = await open(BASE | E1942, MANCH);
+  const later = await open(BASE | JP | E1942, MANCH);
   const a = await later.evaluate(LABELS);
   check('on the 1942 map, with the switch on, Mukden is Hōten',
     a.indexOf('Hōten') >= 0, a.filter(t => /Hōten|Shěnyáng|Mukden/.test(t)).join(' | '));
   await later.close();
 
-  const early = await open(BASE, MANCH);
+  const early = await open(BASE | JP, MANCH);
   const c = await early.evaluate(LABELS);
   check('on the 1930 map, with the same switch on, it is Shěnyáng',
     c.indexOf('Shěnyáng') >= 0 && c.indexOf('Hōten') < 0,
@@ -169,20 +169,21 @@ console.log('\n— and Manchuria is not Japanese in 1930 —');
 console.log('\n— the switch travels, and comes back —');
 {
   const p = await open(BASE, '124,33,131.5,43.5');
-  const before = (await p.evaluate(LABELS)).indexOf('Keijō') >= 0;
+  const before = (await p.evaluate(LABELS)).indexOf('Kyŏngsŏng') >= 0;
   await p.evaluate(() => document.querySelector('#opt-jpnames').click());
   await sleep(2200);
   const after = await p.evaluate(LABELS);
   const link = await p.evaluate(() => location.search);
-  check('pressing it changes the map', before && after.indexOf('Kyŏngsŏng') >= 0);
+  check('pressing it changes the map', before && after.indexOf('Keijō') >= 0,
+    after.slice(0, 6).join(' | '));
   check('and the address says so', /layers=/.test(link) && link.length > 0, link);
-  /* Stored inverted, so the default costs nothing in the address and an old
-     link made before the switch existed still opens with Japanese names —
-     which is what those links were showing. */
+  /* An absent bit is the default, and the default is local names now: a link
+     made before the switch existed opens local-first. A deliberate change of
+     what old links show, made 28-08 together with the default. */
   const q = await open(BASE, '124,33,131.5,43.5');
   const old = await q.evaluate(LABELS);
-  check('a link made before the switch existed still reads Japanese-first',
-    old.indexOf('Keijō') >= 0, old.slice(0, 6).join(' | '));
+  check('a link made before the switch existed reads local-first, the new default',
+    old.indexOf('Kyŏngsŏng') >= 0 && old.indexOf('Keijō') < 0, old.slice(0, 6).join(' | '));
   await q.close();
   await p.close();
 }

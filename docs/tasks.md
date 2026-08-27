@@ -9669,6 +9669,57 @@ Whole suite: 653 checks across 29 scripts, all passing.
 
 ---
 
+## The unoccupied south of New Guinea, local names by default, Zhāngjiākǒu, and eleven pinyin heads
+
+**New Guinea south of the line stops being coloured Japanese.** On the 1942
+map the whole of `newguinea_au` and `dei` were painted occupied, though Japan
+never held Port Moresby, the Papuan south or Dutch Merauke. Two new
+territories now paint over the occupation from a supplied rough ring, split
+at the 141° Dutch–Australian frontier with a whisker of overlap so no red
+thread shows: `dutchng_free` in Dutch orange and `papua_free` in the
+Australian mauve of the 1930 sheet, both category Allied, level 3, with
+cards ("Merauke stayed in Allied hands"; "Port Moresby was the objective,
+and was never taken"). The ring runs deliberately out to sea and is clipped
+to the land — the same trick as the occupied zone over China — so the only
+edges that assert anything are the northern limit and the 141° line. Drawn
+after every ordered atom, so they sit above the occupation and answer the
+pointer. Verified by pixel: Merauke Dutch, Moresby and the Papuan tail
+Australian, Lae and Hollandia still occupied; hidden on 1930, where no
+territory claims them. The two atom-count canaries (bookmarks, cache-keys)
+move from 84 to 86.
+
+**Local names are the default everywhere now.** The Japanese-names switch
+ships off; bit 22 of the layers code reverses sense (set = Japanese on), so
+an absent bit means the new default and every address the map writes stays
+minimal. And the reported stuck case was real: `subRec` built a province
+label's record without the `local` field, so Korean provinces and Taiwanese
+shū could never switch on the map even as the tooltip beside them switched —
+Keiki-dō stayed Keiki-dō whatever the reader pressed. The field travels now;
+verified live both ways (Kyŏnggi-do ↔ Keiki-dō, per press). `names.js` is
+rewritten around the new default — including pinning that pre-switch links
+now read local-first, which is a deliberate change of what old links show —
+and `taiwan.js`, which tests the Japanese naming design, opens its pages
+with bit 22.
+
+**Zhāngjiākǒu was missing from the 1930 map** — `year: 1937` on the kalgan
+site record hid it there, which was right for the Mengjiang framing and
+wrong for a caravan city centuries old. The year is cleared, the 1942 date
+("Capital of Mengchiang from 1939") stays on the base record, and a 1930
+override says "Capital of Chahar province". Shown on both maps now.
+
+**Eleven China-world city heads were not pinyin.** Audited every browse and
+site row whose polity is China, Manchukuo or Mengjiang for heads without
+tone marks: Manchouli → Mǎnzhōulǐ (Manchouli), Tungchow → Tōngzhōu
+(Tungchow), Pakhoi → Běihǎi, Samah → Sānyà, Suifenho → Suífēnhé, Haikou →
+Hǎikǒu, Heihe → Hēihé, Chifeng → Chìfēng, Pingfang → Píngfáng — alternates
+kept in the brackets the card shows. The two Mongolian heads keep their
+names, as asked: Dolonnor and Hailar stand, each gaining the toned pinyin
+as an alternate.
+
+Whole suite: 653 checks across 29 scripts, all passing.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

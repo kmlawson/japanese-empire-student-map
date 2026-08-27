@@ -883,6 +883,21 @@ JMAP.TERRITORIES = {
       note: 'Rabaul, on New Britain, fell in January 1942 and became the greatest Japanese base south of Truk, and the north coast of the mainland followed. Port Moresby was the objective and was never reached: the overland push across the Kokoda Track was turned back in September 1942, and in December the fighting was at the Buna–Gona beachhead. The island was the southern limit of the advance and the ground the counter-offensive started from.'
     },
     {
+      id: 'dutchng_free', en: 'Dutch New Guinea — the unoccupied south', ja: '蘭領ニューギニア南部',
+      orig: 'Nederlands Nieuw-Guinea', zh: '荷屬新幾內亞南部',
+      when: 'Held throughout; Merauke stayed in Allied hands', cat: 'allied', lvl: 3,
+      c: '#fdb462', atoms: ['dutchng_free'],
+      wiki: 'https://en.wikipedia.org/wiki/Netherlands_New_Guinea',
+      note: 'The south of Dutch New Guinea stayed out of Japanese hands: the occupation of the Indies stopped at the island\'s western and northern coasts, and Merauke on the south coast held an Allied garrison and airfields through the war — the one piece of the Netherlands East Indies never occupied.'
+    },
+    {
+      id: 'papua_free', en: 'Papua — the unoccupied south', ja: 'パプア南部', orig: 'Papua',
+      zh: '巴布亞南部', when: 'Port Moresby was the objective, and was never taken', cat: 'allied',
+      lvl: 3, c: '#c9a6b0', atoms: ['papua_free'],
+      wiki: 'https://en.wikipedia.org/wiki/Territory_of_Papua',
+      note: 'Papua south of the mountains was the ground the war was about and never Japanese. Port Moresby was the objective of the Coral Sea operation in May and the Kokoda push in the autumn, and both failed; by December 1942 the fighting was at Buna–Gona on the north coast, off this ground.'
+    },
+    {
       id: 'solomons_br', en: 'Western Solomons', ja: 'ソロモン諸島西部', orig: 'Solomon Islands',
       zh: '所羅門群島西部', when: 'Occupied from early 1942',
       rule: 'British protectorate under Japanese occupation', cat: 'occupied', lvl: 2,
@@ -1317,7 +1332,7 @@ JMAP.SITES = [
     id: 'kalgan', en: 'Chōkakō (Zhāngjiākǒu, Kalgan, Changchiakou)', ja: '張家口 (Chōkakō)',
     orig: '張家口 (Zhāngjiākǒu)', zh: '張家口', date: 'Capital of Mengchiang from 1939', cat: 'city',
     lvl: 3, lat: 40.81, lon: 114.88, wiki: 'https://en.wikipedia.org/wiki/Zhangjiakou',
-    jpfrom: 'e1942', local: 'Zhāngjiākǒu (Kalgan, Changchiakou)', year: 1937,
+    jpfrom: 'e1942', local: 'Zhāngjiākǒu (Kalgan, Changchiakou)',
     note: 'The old caravan gate through the Great Wall to Mongolia, and the seat of the Japanese-sponsored Inner Mongolian regime.'
   },
   {
@@ -1895,89 +1910,90 @@ JMAP.SITES = [
 ];
 
 JMAP.EPOCH_OVERRIDES = {
-  hiroshima: { e1930: {
-      date: 'Army headquarters from 1894',
-      note: 'Base of the Fifth Division and the embarkation port for the continent. Imperial General Headquarters moved here during the war with China in 1894–95, and the emperor with it.'
+  bangkok: { e1930: {
+      date: 'Capital of Siam',
+      note: 'Capital of the one state in the region never colonised; the Chakri kings had kept their independence by ceding territory to Britain and France in turn.'
     } },
-  nagasaki: { e1930: {
-      date: 'Dutch trade from 1641; treaty port 1859',
-      note: 'The Dutch post at Dejima made this Japan’s only window on Europe under the Tokugawa. After 1859 a treaty port, and by 1930 a shipbuilding city dominated by the Mitsubishi yard.'
-    } },
-  naha: { e1930: {
-      date: 'Okinawa Prefecture from 1879',
-      note: 'Port of the Ryūkyū Kingdom. Japan abolished the kingdom in 1879, deposed its king and pensioned him off in Tokyo, and turned the islands into a prefecture.'
-    } },
-  nagoya: { e1930: {
-      date: 'Castle town and industrial city',
-      note: 'A Tokugawa castle town that became a centre of the textile trade and, later, of the aircraft industry.'
-    } },
-  mukden: { e1930: {
-      date: 'Battle of Mukden, February–March 1905',
-      note: 'The Manchu dynastic capital, and the prize of the largest land battle of the Russo-Japanese War. In 1930 it is the seat of Zhang Xueliang’s government, with the Japanese South Manchuria Railway running through it and the Kwantung Army guarding the line.'
-    } },
-  changchun: { e1930: {
-      en: 'Chángchūn', ja: '長春 (Chōshun)', zh: '長春', date: 'Railway junction',
-      note: 'Where the Russian Chinese Eastern Railway met the Japanese South Manchuria Railway — the seam between the two spheres in Manchuria. It would be rebuilt as Hsinking, capital of Manchukuo, after 1932.'
+  batavia: { e1930: {
+      en: 'Batavia', ja: 'バタビア (Batabia)', orig: 'Batavia', date: 'Dutch from 1619',
+      note: 'Capital of the Netherlands East Indies and seat of the Governor-General, built by the Dutch East India Company on the ruins of Jayakarta.'
     } },
   beijing: { e1930: {
       en: 'Běipíng (Peiping)', zh: '北平 (Běipíng)', date: 'Renamed Peiping in 1928',
       note: 'The Qing capital until 1912 and the seat of the warlord governments after it; demoted to Peiping — "northern peace" — when the Nationalists moved the capital to Nanjing in 1928. Japanese troops had joined the eight-nation force that relieved the legations here in 1900.'
     } },
-  nanjing: { e1930: {
-      date: 'Nationalist capital from 1927',
-      note: 'Capital of the Republic after the Northern Expedition, and the seat of Chiang Kai-shek’s government — such as its writ ran.'
-    } },
-  shanghai: { e1930: {
-      date: 'Treaty port from 1843',
-      note: 'The largest treaty port in China: an International Settlement run by its foreign ratepayers, a French Concession beside it, and the Chinese city around them. Japan had the largest foreign community in the city.'
-    } },
-  tianjin: { e1930: {
-      date: 'Convention of 1885',
-      note: 'The treaty port for Beijing, carved into nine foreign concessions at their greatest extent, a Japanese one among them. The Tianjin Convention of 1885 regulated Chinese and Japanese troops in Korea, and broke down in 1894.'
-    } },
-  guangzhou: { e1930: {
-      date: 'Treaty port from 1842',
-      note: 'The original treaty port and the cradle of the Nationalist revolution; the Northern Expedition set out from here in 1926.'
-    } },
-  wuhan: { e1930: {
-      date: 'Treaty port from 1861',
-      note: 'The tri-city on the middle Yangtze where the 1911 revolution began, and briefly the seat of the left Nationalist government in 1927.'
+  changchun: { e1930: {
+      en: 'Chángchūn', ja: '長春 (Chōshun)', zh: '長春', date: 'Railway junction',
+      note: 'Where the Russian Chinese Eastern Railway met the Japanese South Manchuria Railway — the seam between the two spheres in Manchuria. It would be rebuilt as Hsinking, capital of Manchukuo, after 1932.'
     } },
   chongqing: { e1930: {
       date: 'Treaty port from 1891',
       note: 'The head of steam navigation on the upper Yangtze, deep in the Sichuan interior and a fortnight from the coast.'
     } },
-  xiamen: { e1930: {
+  guangzhou: { e1930: {
       date: 'Treaty port from 1842',
-      note: 'One of the first five treaty ports, and a main point of departure for Chinese emigration to Southeast Asia.'
-    } },
-  bangkok: { e1930: {
-      date: 'Capital of Siam',
-      note: 'Capital of the one state in the region never colonised; the Chakri kings had kept their independence by ceding territory to Britain and France in turn.'
-    } },
-  singapore: { e1930: {
-      en: 'Singapore', ja: 'シンガポール (Shingapōru)', date: 'Naval base begun 1923',
-      note: 'Capital of the Straits Settlements and the site of the great naval base begun in 1923, on which the whole of British strategy east of Suez depended.'
+      note: 'The original treaty port and the cradle of the Nationalist revolution; the Northern Expedition set out from here in 1926.'
     } },
   hanoi: { e1930: {
       date: 'Capital of French Indochina from 1902',
       note: 'Seat of the Governor-General of Indochina, and of the colonial administration that ran Tonkin, Annam, Cochinchina, Cambodia and Laos together.'
     } },
-  saigon: { e1930: {
-      date: 'French from 1859',
-      note: 'Capital of Cochinchina, the oldest French possession in Indochina, and the rice-exporting port of the Mekong delta.'
+  hiroshima: { e1930: {
+      date: 'Army headquarters from 1894',
+      note: 'Base of the Fifth Division and the embarkation port for the continent. Imperial General Headquarters moved here during the war with China in 1894–95, and the emperor with it.'
+    } },
+  kalgan: { e1930: { date: 'Capital of Chahar province' } },
+  manila: { e1930: {
+      date: 'American from 1898',
+      note: 'Capital of the American-ruled Philippines, taken from Spain in 1898 and promised eventual independence.'
+    } },
+  mukden: { e1930: {
+      date: 'Battle of Mukden, February–March 1905',
+      note: 'The Manchu dynastic capital, and the prize of the largest land battle of the Russo-Japanese War. In 1930 it is the seat of Zhang Xueliang’s government, with the Japanese South Manchuria Railway running through it and the Kwantung Army guarding the line.'
+    } },
+  nagasaki: { e1930: {
+      date: 'Dutch trade from 1641; treaty port 1859',
+      note: 'The Dutch post at Dejima made this Japan’s only window on Europe under the Tokugawa. After 1859 a treaty port, and by 1930 a shipbuilding city dominated by the Mitsubishi yard.'
+    } },
+  nagoya: { e1930: {
+      date: 'Castle town and industrial city',
+      note: 'A Tokugawa castle town that became a centre of the textile trade and, later, of the aircraft industry.'
+    } },
+  naha: { e1930: {
+      date: 'Okinawa Prefecture from 1879',
+      note: 'Port of the Ryūkyū Kingdom. Japan abolished the kingdom in 1879, deposed its king and pensioned him off in Tokyo, and turned the islands into a prefecture.'
+    } },
+  nanjing: { e1930: {
+      date: 'Nationalist capital from 1927',
+      note: 'Capital of the Republic after the Northern Expedition, and the seat of Chiang Kai-shek’s government — such as its writ ran.'
     } },
   rangoon: { e1930: {
       en: 'Rangoon', date: 'British from 1852',
       note: 'Capital of British Burma — still a province of British India in 1930 — and a great rice port with an Indian majority in its population.'
     } },
-  manila: { e1930: {
-      date: 'American from 1898',
-      note: 'Capital of the American-ruled Philippines, taken from Spain in 1898 and promised eventual independence.'
+  saigon: { e1930: {
+      date: 'French from 1859',
+      note: 'Capital of Cochinchina, the oldest French possession in Indochina, and the rice-exporting port of the Mekong delta.'
     } },
-  batavia: { e1930: {
-      en: 'Batavia', ja: 'バタビア (Batabia)', orig: 'Batavia', date: 'Dutch from 1619',
-      note: 'Capital of the Netherlands East Indies and seat of the Governor-General, built by the Dutch East India Company on the ruins of Jayakarta.'
+  shanghai: { e1930: {
+      date: 'Treaty port from 1843',
+      note: 'The largest treaty port in China: an International Settlement run by its foreign ratepayers, a French Concession beside it, and the Chinese city around them. Japan had the largest foreign community in the city.'
+    } },
+  singapore: { e1930: {
+      en: 'Singapore', ja: 'シンガポール (Shingapōru)', date: 'Naval base begun 1923',
+      note: 'Capital of the Straits Settlements and the site of the great naval base begun in 1923, on which the whole of British strategy east of Suez depended.'
+    } },
+  tianjin: { e1930: {
+      date: 'Convention of 1885',
+      note: 'The treaty port for Beijing, carved into nine foreign concessions at their greatest extent, a Japanese one among them. The Tianjin Convention of 1885 regulated Chinese and Japanese troops in Korea, and broke down in 1894.'
+    } },
+  wuhan: { e1930: {
+      date: 'Treaty port from 1861',
+      note: 'The tri-city on the middle Yangtze where the 1911 revolution began, and briefly the seat of the left Nationalist government in 1927.'
+    } },
+  xiamen: { e1930: {
+      date: 'Treaty port from 1842',
+      note: 'One of the first five treaty ports, and a main point of departure for Chinese emigration to Southeast Asia.'
     } },
 };
 
@@ -3247,6 +3263,7 @@ JMAP.BROWSE = [
   {
     id: 'chifeng', en: 'Chifeng (Ulanhad)', ja: '赤峰', zh: '赤峰', ko: '츠펑', lat: 42.26,
     lon: 118.89, wiki: 'https://en.wikipedia.org/wiki/Chifeng', jpfrom: 'e1942',
+    local: 'Chìfēng (Ulanhad, Chifeng)',
     note: 'The Mongol trade town in western Rehe, on the road from the Wall to the steppe.'
   },
   {
@@ -3312,6 +3329,7 @@ JMAP.BROWSE = [
   {
     id: 'duolun', en: 'Dolonnor (Duolun)', zh: '多倫諾爾鎮', lat: 42.19, lon: 116.47,
     wiki: 'https://en.wikipedia.org/wiki/Dolon_Nor', jpfrom: 'e1942',
+    local: 'Dolonnor (Duōlún)',
     note: 'Taken in 1933 and a staging point for the push into Inner Mongolia.'
   },
   {
@@ -3376,12 +3394,13 @@ JMAP.BROWSE = [
   },
   {
     id: 'haikou', en: 'Haikou (Kiungchow)', lat: 20.04, lon: 110.34,
-    wiki: 'https://en.wikipedia.org/wiki/Haikou',
+    wiki: 'https://en.wikipedia.org/wiki/Haikou', local: 'Hǎikǒu (Kiungchow, Haikou)',
     note: 'Hainan was occupied in February 1939 and the map marks the landing; the island’s only real town is not on the layer.'
   },
   {
     id: 'hailar', en: 'Hailar', ja: 'ハイラル区', zh: '海拉爾', ko: '하이라얼구', lat: 49.2, lon: 119.7,
     wiki: 'https://en.wikipedia.org/wiki/Hailar_District', jpfrom: 'e1942',
+    local: 'Hailar (Hǎilā’ěr)',
     note: 'The Hulunbuir garrison and fortified zone facing Mongolia; the base for the Nomonhan fighting.'
   },
   {
@@ -3392,6 +3411,7 @@ JMAP.BROWSE = [
   {
     id: 'heihe', en: 'Heihe (Sakhalyan/Aigun)', ja: '黒河', zh: '黑河', ko: '헤이허', lat: 50.25,
     lon: 127.53, wiki: 'https://en.wikipedia.org/wiki/Heihe', jpfrom: 'e1942',
+    local: 'Hēihé (Sakhalyan, Aigun, Heihe)',
     note: 'The Amur crossing facing Blagoveshchensk, and the northern end of the Manchurian frontier the Kwantung Army fortified.'
   },
   {
@@ -3568,6 +3588,7 @@ JMAP.BROWSE = [
   {
     id: 'manzhouli', en: 'Manchouli (Manzhouli)', ja: '満洲里', zh: '滿洲里', ko: '만저우리', lat: 49.6,
     lon: 117.45, wiki: 'https://en.wikipedia.org/wiki/Manzhouli', jpfrom: 'e1942',
+    local: 'Mǎnzhōulǐ (Manchouli)',
     note: 'The rail frontier with the Soviet Union on the Chinese Eastern Railway.'
   },
   {
@@ -3681,7 +3702,7 @@ JMAP.BROWSE = [
   },
   {
     id: 'pingfang', en: 'Pingfang', ja: '平房区', ko: '핑팡구', lat: 45.61, lon: 126.63,
-    wiki: 'https://en.wikipedia.org/wiki/Pingfang,_Harbin', jpfrom: 'e1942',
+    wiki: 'https://en.wikipedia.org/wiki/Pingfang,_Harbin', jpfrom: 'e1942', local: 'Píngfáng',
     note: 'Unit 731. A village rather than a city, but the site of the biological-warfare programme and its human experiments.'
   },
   {
@@ -3725,7 +3746,7 @@ JMAP.BROWSE = [
   },
   {
     id: 'sanya', en: 'Samah (Sanya)', lat: 18.25, lon: 109.51,
-    wiki: 'https://en.wikipedia.org/wiki/Sanya_River',
+    wiki: 'https://en.wikipedia.org/wiki/Sanya_River', local: 'Sānyà (Samah)',
     note: 'The naval base and iron-ore port at the southern tip of Hainan, worked by prisoner and conscript labour.'
   },
   {
@@ -3771,6 +3792,7 @@ JMAP.BROWSE = [
   {
     id: 'suifenhe', en: 'Suifenho (Pogranichnaya)', lat: 44.4, lon: 131.15,
     wiki: 'https://en.wikipedia.org/wiki/Suifenhe', jpfrom: 'e1942',
+    local: 'Suífēnhé (Suifenho, Pogranichnaya)',
     note: 'The eastern rail crossing to Vladivostok, and a fortified belt.'
   },
   {
@@ -3867,6 +3889,7 @@ JMAP.BROWSE = [
   {
     id: 'tongzhou', en: 'Tungchow (Tongzhou)', lat: 39.91, lon: 116.66,
     wiki: 'https://en.wikipedia.org/wiki/Xinhua_Subdistrict,_Beijing',
+    local: 'Tōngzhōu (Tungchow)',
     note: 'The Tungchow Mutiny of 29 July 1937, in which the East Hopei puppet garrison turned on the Japanese and killed most of the Japanese and Korean residents; used afterwards to justify escalation.'
   },
   {
@@ -3974,7 +3997,7 @@ JMAP.BROWSE = [
   },
   {
     id: 'beihai', en: 'Pakhoi (Beihai)', lat: 21.48, lon: 109.12,
-    wiki: 'https://en.wikipedia.org/wiki/Beihai',
+    wiki: 'https://en.wikipedia.org/wiki/Beihai', local: 'Běihǎi (Pakhoi)',
     note: 'The Gulf of Tonkin treaty port opened in 1876, the outlet for Guangxi before the French built the railway from Haiphong, and occupied in 1940.'
   },
   {

@@ -61,7 +61,7 @@ console.log('\n— an out-of-date version is asked for —');
   await p.goto('http://localhost:8123/index.html',{waitUntil:'networkidle0'}); await sleep(3800);
   console.log('  ' + fetched.join('  '));
   check('an outdated version is served, not refused', fetched.every(f=>/200/.test(f)), fetched.join(' '));
-  check('the map still draws', await p.evaluate(()=>document.querySelectorAll('#land .atom').length)===84);
+  check('the map still draws', await p.evaluate(()=>document.querySelectorAll('#land .atom').length)===86);
   const note=await p.evaluate(()=>{const s=document.querySelector('.version-stale'); return s?s.textContent.trim():null;});
   const shown=await p.evaluate(()=>document.querySelector('#jem-version').textContent);
   console.log('  About reports: ' + shown + ' ' + (note||''));

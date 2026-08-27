@@ -13,8 +13,8 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '1.87';
-  var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "761fbd5949", "japan-empire-map-admin.svg": "9de0304837", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "920f8f35a6", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0"};
+  var JEM_VERSION = '1.88';
+  var JEM_ASSETS = {"admin.js": "39d0f40f07", "annotate.js": "761fbd5949", "japan-empire-map-admin.svg": "9de0304837", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "1392d795c9", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0"};
 
   /* Every file this one fetches, with the version on it.
 
@@ -157,7 +157,10 @@
        It governs the insides only. Chōsen, Taiwan and Manchukuo are what those
        polities were called, and a switch about how their provinces are
        labelled has no business renaming them. */
-    jpNames: true,
+    // Local names first — McCune-Reischauer in Korea, pinyin in Taiwan and
+    // Manchukuo — with the period Japanese forms one switch away. It shipped
+    // the other way round and was reversed on 28-08.
+    jpNames: false,
     mono: false,                    // every state and province one grey
     /* And which colour that is, once a reader has chosen one. Null means the
        stylesheet's own — which is not one colour but two, a warm parchment in
@@ -2422,7 +2425,7 @@
    *   14  the rivers of India
    *   15,16  projection: 0 Web Mercator, 1 Albers conic, 2 Lambert azimuthal
    *   17  the graticule    18  shaded relief   19,20  which relief sheet
-   *   21  single-colour map    22  local names inside the empire (inverted)
+   *   21  single-colour map    22  Japanese names inside the empire (set = on)
    *   23  the occupation hidden    24  East Asia only (inverted)
    *
    * Bits 7 and 10 no longer have a switch in the Layers panel — the province
@@ -2486,7 +2489,7 @@
     if (state.graticule) bits |= 131072;
     if (state.relief) bits |= 262144;
     bits |= (state.reliefDetail & 3) << 19;
-    if (!state.jpNames) bits |= 4194304;    // inverted; see the note above
+    if (state.jpNames) bits |= 4194304;    // set = Japanese names on (off is the default)
     return bits.toString(36);
   }
 
@@ -2520,7 +2523,7 @@
     state.graticule = !!(bits & 131072);
     state.relief = !!(bits & 262144);
     state.reliefDetail = Math.min(2, (bits >> 19) & 3);
-    state.jpNames = !(bits & 4194304);
+    state.jpNames = !!(bits & 4194304);
     urlProvSource = (bits & 128) ? 'roc' : 'enp';
   }
 
@@ -3090,9 +3093,19 @@
     var rec = JMAP.PROVINCES && JMAP.PROVINCES[key];
     var en = (rec && rec.en) || key;
     var cut = en.indexOf(' — ');
+    /* `local` travels too. It did not, and that was the whole of the reported
+       fault: `shown()` swaps `en` for `local` when the Japanese-names switch
+       is off, but a province label's record was built here without the field,
+       so Keiki-dō stayed Keiki-dō whatever the switch said — on the map
+       alone, while the tooltip (which reads JMAP.PROVINCES directly) switched
+       correctly beside it. */
+    var local = (rec && rec.local) || '';
+    var lcut = local.indexOf(' — ');
     return {
       kind: 'sub',
       en: cut > 0 ? en.slice(0, cut) : en,
+      local: lcut > 0 ? local.slice(0, lcut) : local,
+      jpfrom: (rec && rec.jpfrom) || '',
       ja: (rec && rec.ja) || el.getAttribute('data-ja') || '',
       zh: (rec && rec.zh) || el.getAttribute('data-zh') || '',
       ko: (rec && rec.ko) || '',

@@ -98,8 +98,8 @@ check('a code from before these settings still opens sensibly',
    exactly what a whole-round-trip of every switch at once cannot see. */
 console.log('\n— no two settings share a bit —');
 for (const [flip, keep, want] of [
-  ['jpNames', 'world', true],       // names off must not crop the map
-  ['world', 'jpNames', true],       // East Asia must not strip Japanese names
+  ['jpNames', 'world', true],       // toggling names must not crop the map
+  ['world', 'jpNames', false],      // East Asia must not flip the names (off is the default now)
   ['relief', 'occSource', 'traced'],// topography must not hide the occupation
 ]) {
   /* No scrub needed any more: the map neither reads nor writes stored

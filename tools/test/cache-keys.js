@@ -33,7 +33,7 @@ check('annotate.js carries one', urls.some(u=>/^annotate\.js\?v=[0-9a-f]{10}$/.t
 urls.length=0;
 await p.goto('http://localhost:8123/index.html?bbox=126.5,25.8,128.6,26.9',{waitUntil:'networkidle0'}); await sleep(4500);
 check('the fine coastlines carry one', urls.some(u=>/^japan-empire-map-fine\.svg\?v=[0-9a-f]{10}$/.test(u)), urls.join(' '));
-check('the map still works', await p.evaluate(()=>document.querySelectorAll('#land .atom').length)===84);
+check('the map still works', await p.evaluate(()=>document.querySelectorAll('#land .atom').length)===86);
 check('no errors and nothing failed to load', errs.length===0, errs[0]);
 console.log('  '+pass+' passed, '+fail+' failed');
 await b.close(); process.exit(fail);})();

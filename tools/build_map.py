@@ -7022,6 +7022,55 @@ def main():
     # if the slot went missing from ORDER it still has to be drawn
     if occ_out:
         out.extend(occ_out)
+
+    # ----- The unoccupied south of New Guinea, over the occupation ---------
+    # On the 1942 map the whole of `newguinea_au` and `dei` are painted
+    # occupied, though Japan never held Port Moresby, the Papuan south coast
+    # or Dutch Merauke — the line of control crosses the island and the
+    # colouring did not. Reported 28-08, with this line. The ring is rough
+    # and deliberately runs out to sea; like the occupied zone over China it
+    # is clipped to the land, so the only edges that assert anything are the
+    # northern limit and the 141° Dutch–Australian frontier, where the two
+    # halves overlap each other by a whisker rather than leave a red thread.
+    # Drawn after every ordered atom, so it paints over the occupation and
+    # answers the pointer above it.
+    NG_FREE = [
+        (156.24067, -9.97040), (155.44380, -12.35114), (147.83732, -11.53610),
+        (144.90340, -9.61346), (142.36791, -9.68488), (138.49223, -9.54203),
+        (137.18826, -8.68370), (136.86227, -7.14106), (137.69536, -5.37686),
+        (138.74578, -4.54691), (139.97730, -4.36634), (140.77417, -4.47469),
+        (142.83879, -5.19653), (144.90340, -5.70134), (145.95381, -6.20570),
+        (146.82313, -7.24887), (147.72866, -7.85928), (148.52553, -8.68370),
+        (149.93816, -8.14623), (151.74922, -8.46880), (153.63273, -9.14889),
+        (155.26269, -9.82767),
+    ]
+    _ng_west = grow_plane(line_plane((141.001, 10.0), (141.001, -20.0), True), 0.02)
+    _ng_east = grow_plane(line_plane((141.001, 10.0), (141.001, -20.0), False), 0.02)
+    for _k, _ring, _landkey, _cx, _cy in (
+            ("dutchng_free", clip_halfplanes(NG_FREE, [_ng_west]), "dei", 139.0, -7.6),
+            ("papua_free", clip_halfplanes(NG_FREE, [_ng_east]), "newguinea_au", 147.4, -9.1)):
+        if len(_ring) < 3:
+            print(f"  !! {_k}: the 141° cut left no ring")
+            continue
+        _bb = (min(q[0] for q in _ring) - 0.3, min(q[1] for q in _ring) - 0.3,
+               max(q[0] for q in _ring) + 0.3, max(q[1] for q in _ring) + 0.3)
+        _clip = []
+        for _r in groups.get(_landkey, []):
+            _xs = [q[0] for q in _r]
+            _ys = [q[1] for q in _r]
+            if (max(_xs) < _bb[0] or min(_xs) > _bb[2]
+                    or max(_ys) < _bb[1] or min(_ys) > _bb[3]):
+                continue
+            _clip.append(ring_to_path([project(*q) for q in _r]))
+        out.append(f'    <clipPath id="clip-{_k}" clipPathUnits="userSpaceOnUse">'
+                   f'<path d="{"".join(_clip)}"/></clipPath>')
+        _acx, _acy = project(_cx, _cy)
+        out.append(f'    <g id="a-{_k}" class="atom" data-cx="{fmt(_acx)}" '
+                   f'data-cy="{fmt(_acy)}" data-area="60">')
+        out.append(f'      <path clip-path="url(#clip-{_k})" '
+                   f'd="{ring_to_path([project(*q) for q in _ring])}"/>')
+        out.append('    </g>')
+        print(f"  ng-free {_k}: {len(_ring)} ring pts, clipped to {len(_clip)} land rings")
     # Guangzhou Bay, cut back out of China: one path holding the bay's box and
     # the leasehold's own rings, filled by the even-odd rule so that what is
     # painted is the box minus the leasehold — a polygon difference done with a
