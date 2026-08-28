@@ -599,9 +599,13 @@ button.plain:hover { background: var(--hover-fill); }
    which by the arithmetic above leaves 5.7 showing against 2.4, near enough
    two and a half times the band. The blur is a filter set in `map.js`, whose
    deviation is in user units and is rewritten on every zoom. */
+/* The pin. A neon yellow rather than the golden one it was: the pin is the
+   map's loudest mark and it should look switched on. The dark casing that
+   makes it survive the Republic's pale yellow is in the filter, not here —
+   see ensurePinFilter. */
 #highlight .hi-pinned path,
 #highlight .hi-pinned circle {
-  stroke: #ffd200;
+  stroke: #eaff00;
   stroke-width: 7;
 }
 #jmap.saf #highlight .hi-pinned path,
@@ -737,30 +741,49 @@ button.plain:hover { background: var(--hover-fill); }
   #labels .sta { fill: #c6ccd3; }
 }
 
+/* The Layers pane is `#dlg-options` in the markup, not `#dlg-layers`. Every
+   rule here was written against the name on the button rather than the id on
+   the element, and none of them applied — the sub-row indent had been dead
+   since it was written, and the side-by-side railway rows were shipped dead.
+   Nothing looked broken because a label with no flex on it still stacks and
+   still reads.
+
+   A standing note in the Layers pane: something true of the panel rather than
+   of any one switch in it. Set smaller and quieter than a row, so it reads as
+   an aside and not as another thing to tick. */
+#dlg-options .pane-note {
+  margin: .35em 0 .8em;
+  font-size: .9em;
+  line-height: 1.35;
+  color: var(--muted, #6a6a6a);
+  max-width: 46em;
+}
+#dlg-options h3 + .pane-note { margin-top: .2em; }
+
 /* The Layers pane: a railway and the stations that hang off it, side by side
    on one row. The pair reads as one thing that way — the line and the stops on
    it — where two stacked rows read as two unrelated switches, and the panel is
    long enough already. The station half is hidden until its railway is on, and
    the row keeps its height so the ones below it do not jump. */
-#dlg-layers .row.pair {
+#dlg-options .row.pair {
   display: flex;
   gap: 1.1em;
   align-items: baseline;
 }
-#dlg-layers .row.pair .half {
+#dlg-options .row.pair .half {
   display: flex;
   align-items: baseline;
   gap: .45em;
   flex: 1 1 0;
   min-width: 0;
 }
-#dlg-layers .row.pair .half[hidden] { display: none; }
+#dlg-options .row.pair .half[hidden] { display: none; }
 @media (max-width: 460px) {
   /* Two of these do not fit across a phone; they stack, and the second is
      indented so it still reads as belonging to the first. */
-  #dlg-layers .row.pair { display: block; }
-  #dlg-layers .row.pair .half { padding-left: 0; }
-  #dlg-layers .row.pair .half + .half { padding-left: 1.6em; font-size: .95em; }
+  #dlg-options .row.pair { display: block; }
+  #dlg-options .row.pair .half { padding-left: 0; }
+  #dlg-options .row.pair .half + .half { padding-left: 1.6em; font-size: .95em; }
 }
 
 .rail {

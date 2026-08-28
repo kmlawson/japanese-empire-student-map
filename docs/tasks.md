@@ -10924,6 +10924,113 @@ removing later, the lever is a finer coastline for Korea, not a shift.
 
 ---
 
+## Korea IS displaced, and my last answer was wrong
+
+Measured again, properly, after the author compared the same railway data over
+Natural Earth in QGIS and pointed out that a coarse line cannot make a bay
+*bigger*. It cannot, and that was the tell.
+
+**The previous entry's conclusion was wrong.** The tests it rested on —
+point-in-polygon over 850 stations, the peninsula's extremes, vertex spacing —
+none of them measures boundary displacement. An outside review put it exactly:
+"a bay moved inland by one kilometre between station locations leaves all 850
+classifications unchanged, the extrema still match, and the spacing stays
+dense". That is the defect, and every check passed over it.
+
+### What the coastline actually is
+
+**Korea's coast is not Natural Earth.** `tools/fetch_korea_1930.py` builds
+`korea_13_provinces.json` by scraping an SVG page from spatialhistory.net — a
+drawing of the thirteen provinces over Natural Earth 1:10m — and turning its
+pixels back into longitude and latitude with the projection parameters stated
+in the file, plus one constant correction, `DLON 0.0053, DLAT 0.0201`.
+
+The drawing is **660 × 1070 pixels** over 7.8° of longitude and 10.07° of
+latitude. That is **1,037 m per pixel east–west and 1,041 m north–south**. One
+pixel is a kilometre.
+
+### The measurement
+
+Matching 943 of our coast vertices to the nearest Natural Earth vertex within
+8 km:
+
+* **Median distance between the two coasts: 2.70 km.** Mean 3.00, 90th
+  percentile 5.67, worst 7.92.
+* **The displacement is systematic and it is southward.** Natural Earth's coast
+  lies north of ours at **72%** of matched points; east at 54%, which is no
+  bias at all. Mean residual **+1.67 km north**, median +1.32 km.
+* **And it grows with latitude**: median 0.91 km at 34–36N, 0.66 at 36–38N,
+  **1.90 at 38–40N, 2.08 at 40–43N**. The author's guess — "is our shape for
+  Korea slightly too far south" — is right, and worst exactly where the
+  complaint was.
+
+That is why the railways sit in water. The NIKH station coordinates are good to
+a few hundred metres (measured last time: 0.10 km at Keijō, 0.00 at Taejŏn,
+0.12 at Taegu). A coastal line drawn accurately against a coast drawn 1–2 km
+too far south runs into the sea.
+
+### It is not the projection parameters
+
+Worth ruling out, because it would have been the cheap fix. Pushing our coast
+back through `fetch_korea_1930.py`'s mapping to recover the pixels and fitting
+a fresh affine pixel→lon/lat against Natural Earth gives almost the same
+numbers as the build's own — and moves the median from 2.70 km only to
+**2.50 km**. The residual is not linear, so no correction constant and no
+better set of parameters will remove it. It is the tracing.
+
+### What the earlier grid search was really seeing
+
+Sliding all 850 stations 0.04° south scored +34. I dismissed that as fitting
+the wiggle of a coarse line. It was not: it was this displacement, seen through
+a blunt instrument. The instrument was blunt — a count of points inside a
+polygon — but the thing it was picking up was real.
+
+### Nothing changed here
+
+The polygon is untouched, as asked. The options when it is taken up:
+
+1. **Take Korea's coast from Natural Earth** and keep the traced sheet for the
+   *internal* province boundaries only, where a kilometre matters much less and
+   where no other source has the 1930 divisions. This is what the map already
+   does for China — the ENP provinces for the lines, a finer source for the
+   coast — and it is the one I would take.
+2. Re-trace at a higher resolution than one kilometre per pixel.
+3. Rubber-sheet the traced coast onto Natural Earth with a local warp rather
+   than a constant. Fixes the symptom, keeps a drawing as the source.
+
+### And a dead stylesheet found on the way
+
+`styles.css` had eight rules under `#dlg-layers`. There is no `#dlg-layers` in
+the document — the Layers pane is `#dlg-options`. The sub-row indent had been
+dead since it was written, and the side-by-side railway rows went out dead in
+update 209. Nothing *looked* broken, because a label with no flex on it still
+stacks and still reads, which is why it survived a test that only asked whether
+the row was inside a `.pair`. All eight now point at the real id, and the pairs
+are measured as sitting on one line.
+
+Two notes added to the pane at the author's request: one at the head about
+performance with several layers on, one under Transport about the railways
+fading in with the zoom.
+
+### The pin, in neon, with a casing
+
+The pinned highlight was #ffd200, a golden yellow, on a map where the Republic
+of China is a pale yellow — a bright line on a pale field of the same hue,
+right where a reader is most likely to pin something. It is #eaff00 now, and
+the separation comes from a dark casing laid by the filter rather than by a
+second stroke: dilate the shape's own alpha, flood it near-black at 0.92,
+blur it, and merge the neon back over the top.
+
+Both numbers in that filter are screen pixels held in user units —
+`feMorphology`'s radius as well as `stdDeviation` — so both are rewritten on
+every zoom. That is this project's most-repeated bug and this is two of it in
+one filter; measured at 0.713 and 0.603 at the opening view, 0.063 and 0.053
+six wheel steps in, and the test now checks both shrink.
+
+Whole suite: 770 checks across 32 scripts, all passing.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

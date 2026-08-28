@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '210';
+  var JEM_VERSION = '211';
   var JEM_ASSETS = {"admin.js": "e5f1a2fc6c", "annotate.js": "761fbd5949", "japan-empire-map-admin.svg": "9de0304837", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "5d59e0876c", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0"};
 
   /* Every file this one fetches, with the version on it.
@@ -222,6 +222,19 @@
      meant to see: screen pixels. */
   var pinFilter = null;
   var PIN_BLUR_PX = 2.2;
+  /* And a dark buffer under it. The pin is a neon yellow, and the Republic of
+     China is drawn in a pale yellow — a bright line on a pale field of the
+     same hue is the one case where the colour alone does not carry, and
+     Shantung and Kiangsu are exactly where a reader is most likely to pin
+     something. So the filter lays a dark casing under the stroke: widen the
+     shape's own alpha, fill it near-black, blur it, and put the neon back on
+     top. The line then reads on yellow, on the salmon of the colonies, on the
+     sea and in mono.
+
+     BOTH NUMBERS ARE SCREEN PIXELS AND BOTH ARE REWRITTEN ON EVERY ZOOM.
+     `stdDeviation` and `feMorphology`'s `radius` are in user units — the
+     project's most-repeated bug, and this is two of them in one filter. */
+  var PIN_CASE_PX = 2.6;
   var ownedDefs = { hi: [], sub: [] };
   var proj = null;
   var mapW = 0, mapH = 0;
@@ -5948,19 +5961,40 @@
     if (!hiDefs) return null;
     pinFilter = hiDefs.querySelector('#pin-glow');
     if (pinFilter) return pinFilter;
-    pinFilter = svgEl('filter', { id: 'pin-glow', x: '-30%', y: '-30%',
-                                  width: '160%', height: '160%' });
-    pinFilter.appendChild(svgEl('feGaussianBlur', { stdDeviation: PIN_BLUR_PX }));
+    pinFilter = svgEl('filter', { id: 'pin-glow', x: '-45%', y: '-45%',
+                                  width: '190%', height: '190%' });
+    // the casing: the stroke's own shape, widened and filled dark
+    pinFilter.appendChild(svgEl('feMorphology', {
+      'in': 'SourceAlpha', operator: 'dilate', radius: PIN_CASE_PX,
+      result: 'wide' }));
+    pinFilter.appendChild(svgEl('feFlood', {
+      'flood-color': '#1b1508', 'flood-opacity': '0.92', result: 'ink' }));
+    pinFilter.appendChild(svgEl('feComposite', {
+      'in': 'ink', in2: 'wide', operator: 'in', result: 'case' }));
+    pinFilter.appendChild(svgEl('feGaussianBlur', {
+      'in': 'case', stdDeviation: PIN_BLUR_PX, result: 'soft' }));
+    // and the neon stroke back over it
+    var merge = svgEl('feMerge', {});
+    merge.appendChild(svgEl('feMergeNode', { 'in': 'soft' }));
+    merge.appendChild(svgEl('feMergeNode', { 'in': 'SourceGraphic' }));
+    pinFilter.appendChild(merge);
     hiDefs.appendChild(pinFilter);
     return pinFilter;
   }
 
+  /* `k` is map units per screen pixel. Everything in a filter is user units,
+     so both the blur and the casing have to be rewritten whenever the zoom
+     changes or the casing grows without limit as the reader goes out and
+     vanishes as they come in. */
   function setPinBlur(k) {
     if (!pinned) return;                 // nothing is wearing it
     var f = ensurePinFilter();
-    if (!f || !f.firstChild) return;
-    f.firstChild.setAttribute(
-      'stdDeviation', Math.round(PIN_BLUR_PX * k * 1000) / 1000);
+    if (!f) return;
+    var round = function (v) { return Math.round(v * 1000) / 1000; };
+    var morph = f.querySelector('feMorphology');
+    var blur = f.querySelector('feGaussianBlur');
+    if (morph) morph.setAttribute('radius', round(PIN_CASE_PX * k));
+    if (blur) blur.setAttribute('stdDeviation', round(PIN_BLUR_PX * k));
   }
 
   /* What the pin stands for, worked out fresh every time rather than held as a

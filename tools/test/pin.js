@@ -82,7 +82,37 @@ console.log('— a country, with Admin off —');
   const a = await p.evaluate(STATE);
   check('a cmd-click pins an outline', a.pin, JSON.stringify(a).slice(0, 90));
   check('it is a country: more than one shape', a.paths > 1, String(a.paths));
-  check('bright yellow', a.stroke === 'rgb(255, 210, 0)', String(a.stroke));
+  check('neon yellow', a.stroke === 'rgb(234, 255, 0)', String(a.stroke));
+  /* And a dark casing under it, laid by the filter rather than by a second
+     stroke. A bright line on the Republic's pale yellow is the one place the
+     colour alone does not carry, and Shantung and Kiangsu are where a reader
+     is most likely to pin something. Both numbers in that filter are screen
+     pixels held in user units, so both are rewritten on every zoom — this
+     project's most-repeated bug, twice in one filter. */
+  {
+    const f = await p.evaluate(() => {
+      const el = document.getElementById('pin-glow');
+      if (!el) return null;
+      return { kinds: [...el.children].map(c => c.tagName),
+               ink: el.querySelector('feFlood').getAttribute('flood-color'),
+               morph: parseFloat(el.querySelector('feMorphology').getAttribute('radius')),
+               blur: parseFloat(el.querySelector('feGaussianBlur').getAttribute('stdDeviation')) };
+    });
+    check('the filter lays a casing under the stroke', !!f && f.kinds.indexOf('feMorphology') === 0,
+      JSON.stringify(f && f.kinds));
+    check('and the casing is dark', !!f && /^#1/.test(f.ink), f && f.ink);
+    const deep = await p.evaluate(async () => {
+      for (let i = 0; i < 6; i++) document.getElementById('zoom-in').click();
+      await new Promise(r => setTimeout(r, 900));
+      const el = document.getElementById('pin-glow');
+      return { morph: parseFloat(el.querySelector('feMorphology').getAttribute('radius')),
+               blur: parseFloat(el.querySelector('feGaussianBlur').getAttribute('stdDeviation')) };
+    });
+    await sleep(600);
+    check('the casing shrinks with the zoom, being screen pixels',
+      deep.morph < f.morph * 0.6, f.morph + ' then ' + deep.morph);
+    check('and so does the blur', deep.blur < f.blur * 0.6, f.blur + ' then ' + deep.blur);
+  }
   check('and it wears the blur filter', a.filter === 'url(#pin-glow)', String(a.filter));
   check('the deviation is ' + BLUR_PX + ' screen pixels',
         Math.abs(a.dev / a.k - BLUR_PX) < 0.02, a.dev + ' / ' + a.k.toFixed(4));
