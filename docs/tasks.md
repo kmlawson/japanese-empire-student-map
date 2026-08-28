@@ -10712,6 +10712,88 @@ Whole suite: 747 checks across 32 scripts, all passing. `stations.js` grew from
 
 ---
 
+## Korea's railways and its 918 stations, on the same machinery as Taiwan's
+
+Four datasets from the NIKH historical GIS — 1930 and 1942 lines, 1930 and 1942
+stations — wired as a second railway system rather than a second copy of the
+first one.
+
+### One table, two systems
+
+`STATION_SYS` in `map.js` and `RAIL_LAYERS` in `build_map.py` are what a
+railway is now. A third is a row in each plus a build script for its station
+table; the only code is the `rec` function saying which name goes in which
+slot. The Taiwan-specific `twStaGroup`, `TWSTA_*`, `.twsta-*` and
+`kind: 'twstation'` are gone, replaced by `cfg.group`, `STA_*`, `.sta-*` and
+`kind: 'station'` with a `sys` field.
+
+### The names
+
+Korea's source carries all four — hangul, hanja, McCune-Reischauer, and the
+Japanese reading — so nothing here is inferred, unlike Taiwan's, where 79 of
+191 readings could not be found and the characters stand in their place. The
+hanja goes in the `ja` slot and the hangul in `ko`, so `localWins` flips the
+headline with the Japanese-names switch and `otherNames` puts the rest under
+it. Measured on Taegu station: names off gives **Taegu**, names on gives
+**Taikyū**, and the second line reads `大邱  대구` either way.
+
+### What each station says
+
+`A station on the Gyeongbu line (Keifu, Seoul–Pusan), in Keishōhoku-dō.` The
+line comes from the source's `id_lines`, glossed through a table of 62 line
+names; the province is a point-in-polygon against
+`tools/cache/korea_13_provinces.json`, whose `shapeName` is already this
+project's own key, so what a province is *called* is read from `texts/` and not
+from the cache. 53 of the 918 fall outside every province polygon — coastal
+stations and the Antung–Mukden line over the Yalu — and those say the line
+alone rather than being given a province they were not in.
+
+### The two dates
+
+The two station files are the same 918 records; a station that did not exist at
+that date carries a **null geometry** rather than being absent. That is how the
+epochs are worked out — 636 stand on the 1930 map and 918 on the 1942 one — and
+it is done per mark rather than by rebuilding the layer, because a rebuild
+costs the whole group on every change of date.
+
+Lines: 611 features for 1930 and 917 for 1942, thinned at 0.021 like Taiwan's.
+**Vertex survival: 6,571 of 22,041 (30%) for 1930 and 9,847 of 31,733 (31%) for
+1942**, 0 lines dropped. Not traced work, so not TRACED_TOL.
+
+### Built when asked for, not at load
+
+Together the two systems are 1,109 SVG groups and 1,109 label entries. They are
+now built the first time a system is switched on and never taken down again.
+Two things had to follow the lazy build: `rescale()`, which is what walks
+`scalables` and gives each mark its transform — without it the whole system sat
+at the origin, 918 squares stacked in the corner — and `gateLabels()`, because
+the labels exist at that point and have no words yet.
+
+### The panel
+
+Each railway and its stations are one row, side by side, rather than two
+stacked rows: the pair reads as one thing that way, and the panel is long
+enough. Under 460px they stack, with the station half indented so it still
+reads as belonging to the line. Layer bits 27 and 28 carry the two new switches
+in a shared link.
+
+### Also
+
+The stations are drawn under `#markers` — see the previous entry — so Keijō and
+Fuzan are cities with a stop under them rather than a stop over the city. And
+`recordFor` still asked for `.twsta-mark` after the rename, which is why the
+Korean squares took the pointer and did nothing with it: the tooltip and the
+card were both reached through that selector.
+
+Sources page: the Korea Railways entry is the author's own wording, including
+its caveat that the Japanese romanisations came partly from automated
+best-guess work and want redoing methodically.
+
+Whole suite: 764 checks across 32 scripts, all passing. `stations.js` carries
+63 of them, 18 of those Korean.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

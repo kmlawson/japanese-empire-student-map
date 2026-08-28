@@ -35,7 +35,7 @@ const URL='http://localhost:8123/index.html'+TAIWAN;
 /* Whatever station names are on the sheet right now. The label elements are
    always present; an unasked-for one simply holds no text. */
 const names=p=>p.evaluate(()=>{const o=[];
-  document.querySelectorAll('#labels text.twsta').forEach(t=>{const s=t.textContent.trim(); if(s)o.push(s);});
+  document.querySelectorAll('#labels text.sta').forEach(t=>{const s=t.textContent.trim(); if(s)o.push(s);});
   return o;});
 
 /* What the card is saying. Hidden fields read as empty, which is what the
@@ -74,7 +74,7 @@ const turnOn=async p=>{
    pointer sent there is not fighting the edge of the sheet or a legend. */
 const aSquare=(p,skip)=>p.evaluate(n=>{
   let seen=0;
-  for(const m of document.querySelectorAll('#tw-stations .twsta-mark')){
+  for(const m of document.querySelectorAll('#tw-stations .sta-mark')){
     const r=m.getBoundingClientRect();
     if(!(r.width && r.left>90 && r.right<820 && r.top>140 && r.bottom<860)) continue;
     if(seen++<n) continue;
@@ -119,8 +119,8 @@ await turnOn(p);
 {
   const st=await p.evaluate(()=>{
     const g=document.getElementById('tw-stations');
-    return {marks:g?g.querySelectorAll('.twsta-mark').length:0,
-            hits:g?g.querySelectorAll('.twsta-hit').length:0,
+    return {marks:g?g.querySelectorAll('.sta-mark').length:0,
+            hits:g?g.querySelectorAll('.sta-hit').length:0,
             shown:g?getComputedStyle(g).display!=='none':false,
             total:(JMAP.TW_STATIONS||[]).length};
   });
@@ -134,9 +134,9 @@ await turnOn(p);
 console.log('\n— the hit target is bigger than the square it covers —');
 {
   const sz=await p.evaluate(()=>{
-    const m=document.querySelector('#tw-stations .twsta-mark');
-    const sq=m.querySelector('.twsta-sq').getBoundingClientRect();
-    const hit=m.querySelector('.twsta-hit').getBoundingClientRect();
+    const m=document.querySelector('#tw-stations .sta-mark');
+    const sq=m.querySelector('.sta-sq').getBoundingClientRect();
+    const hit=m.querySelector('.sta-hit').getBoundingClientRect();
     return {sq:Math.round(sq.width), hit:Math.round(hit.width)};
   });
   check('the square reads as a stop, not a town', sz.sq>=4 && sz.sq<=7, sz.sq+'px');
@@ -150,7 +150,7 @@ console.log('\n— pointing at one names it, and only it —');
   const el=await p.evaluate(({x,y})=>{
     const e=document.elementFromPoint(x,y);
     return e?(e.getAttribute('class')||e.tagName):null;},t);
-  check('and the pointer reaches it', el==='twsta-hit'||el==='twsta-sq', 'got '+el);
+  check('and the pointer reaches it', el==='sta-hit'||el==='sta-sq', 'got '+el);
   await p.mouse.move(t.x-60,t.y-60); await sleep(200);
   await p.mouse.move(t.x,t.y,{steps:8}); await sleep(500);
   const on=await names(p);
@@ -242,7 +242,7 @@ console.log('\n— and clicking one opens the card —');
   check('and not the same name twice', c.alt.split('·').length===1, c.alt);
   check('the short line is the ground it stood on', /^A (station|halt|temporary halt|goods yard) in /.test(c.own), c.own.slice(0,60));
   check('the selected square is marked',
-    (await p.evaluate(()=>document.querySelectorAll('#tw-stations .twsta-mark.sel').length))===1);
+    (await p.evaluate(()=>document.querySelectorAll('#tw-stations .sta-mark.sel').length))===1);
 }
 
 console.log('\n— a key station carries prose, and the rest do not —');
@@ -293,7 +293,7 @@ console.log('\n— with Other on, the names wait for the zoom —');
   check('half a degree of latitude in view names them', near.length>50, near.length+' named');
   const drawn=await far.evaluate(()=>{
     let n=0;
-    document.querySelectorAll('#labels text.twsta').forEach(t=>{
+    document.querySelectorAll('#labels text.sta').forEach(t=>{
       if(!t.textContent.trim()) return;
       const cs=getComputedStyle(t);
       if(cs.display!=='none' && cs.visibility!=='hidden' && +cs.opacity>0.05) n++;});
@@ -301,6 +301,113 @@ console.log('\n— with Other on, the names wait for the zoom —');
   check('though the placer still drops the ones that would collide',
     drawn>5 && drawn<near.length, drawn+' of '+near.length+' actually drawn');
   await far.close();
+}
+
+/* ————————————————————————— Korea ————————————————————————— */
+console.log('\n— Korea: the same machinery, a different pair of names —');
+{
+  const k=await b.newPage();
+  await k.setViewport({width:1100,height:950});
+  await k.evaluateOnNewDocument(SHIM);
+  k.on('pageerror',e=>errs.push(String(e)));
+  await k.goto('http://localhost:8123/index.html?bbox=125.0,34.5,130.0,38.5',{waitUntil:'networkidle0'});
+  await sleep(3000);
+
+  check('the row is hidden until the railways are on',
+    (await k.evaluate(()=>document.getElementById('row-kr-stations').hidden))===true);
+  check('and it sits beside the railway switch, not under it',
+    (await k.evaluate(()=>{
+      const row=document.getElementById('row-kr-stations');
+      return !!(row.parentNode && row.parentNode.classList.contains('pair')
+                && row.parentNode.querySelector('#opt-kr-rail'));})));
+  await k.evaluate(()=>{const r=document.getElementById('opt-kr-rail');
+    r.checked=true; r.dispatchEvent(new Event('change',{bubbles:true}));});
+  await sleep(900);
+  check('the railway draws one path for the date shown',
+    (await k.evaluate(()=>[...document.querySelectorAll('#kr-rail path')]
+      .filter(e=>e.style.display!=='none').length))===1);
+  check('and the station row appears with it',
+    (await k.evaluate(()=>document.getElementById('row-kr-stations').hidden))===false);
+
+  /* Nothing is built until it is asked for. Eleven hundred groups and eleven
+     hundred label entries across the two systems is not a thing to hand a
+     reader who never opens the Transport panel. */
+  check('no squares are built before the switch is touched',
+    (await k.evaluate(()=>!document.getElementById('kr-stations'))));
+  await k.evaluate(()=>{const s=document.getElementById('opt-kr-stations');
+    s.checked=true; s.dispatchEvent(new Event('change',{bubbles:true}));});
+  await sleep(1400);
+  await k.evaluate(()=>document.querySelectorAll('dialog[open]').forEach(d=>d.close()));
+  await sleep(400);
+  const built=await k.evaluate(()=>({
+    total:(JMAP.KR_STATIONS||[]).length,
+    marks:document.querySelectorAll('#kr-stations .sta-mark').length,
+    shown:[...document.querySelectorAll('#kr-stations .sta-mark')]
+      .filter(m=>m.style.display!=='none').length}));
+  check('one mark per station in the table', built.marks===built.total && built.total>900,
+    built.marks+' of '+built.total);
+  /* The two files are the same 918 stations; a station that did not exist at
+     that date carries a null geometry rather than being absent, and 282 of
+     them are null in 1930. */
+  check('and only the ones that stood in 1930 are drawn',
+    built.shown>600 && built.shown<built.total, built.shown+' of '+built.total);
+
+  const t=await k.evaluate(()=>{
+    for(const m of document.querySelectorAll('#kr-stations .sta-mark')){
+      if(m.style.display==='none') continue;
+      const r=m.getBoundingClientRect();
+      if(r.width && r.left>100 && r.right<1000 && r.top>200 && r.bottom<800)
+        return {id:m.getAttribute('data-id'),
+                x:Math.round(r.left+r.width/2), y:Math.round(r.top+r.height/2)};}
+    return null;});
+  check('there is a square to point at', !!t);
+  if(t){
+    await k.mouse.move(t.x-70,t.y-70); await sleep(200);
+    await k.mouse.move(t.x,t.y,{steps:8}); await sleep(600);
+    const mr=await tip(k);
+    check('with Japanese names off the headline is McCune-Reischauer',
+      !!mr && /^[A-Z][A-Za-z\u02bb\u2019'\- ]+$/.test(mr[0]), JSON.stringify(mr&&mr[0]));
+    check('the hanja is under it', !!(mr&&mr.some(l=>/[\u4e00-\u9fff]/.test(l))),
+      JSON.stringify(mr));
+    check('and the line it stood on is said',
+      !!(mr&&mr.some(l=>/^A station on the /.test(l))), JSON.stringify(mr));
+
+    await k.mouse.down(); await k.mouse.up(); await sleep(700);
+    const c=await card(k);
+    check('the card opens on it', c.hidden===false);
+    check('with the hanja and the hangul under the headline',
+      /[\u4e00-\u9fff]/.test(c.alt) && /[\uac00-\ud7af]/.test(c.alt), c.alt);
+
+    /* The whole point of the switch: the same station, read the other way. */
+    const before=(await tip(k)||[])[0] || c.primary;
+    await k.evaluate(()=>{const j=document.getElementById('opt-jpnames');
+      if(j&&!j.checked){j.checked=true; j.dispatchEvent(new Event('change',{bubbles:true}));}});
+    await sleep(700);
+    await k.evaluate(()=>document.querySelectorAll('dialog[open]').forEach(d=>d.close()));
+    await k.mouse.move(5,5); await sleep(200);
+    await k.mouse.move(t.x,t.y,{steps:6}); await sleep(500);
+    const jp=await tip(k);
+    check('and with Japanese names on it is the Japanese reading',
+      !!jp && jp[0] !== before, before+' then '+(jp&&jp[0]));
+    check('with the hanja still under it', !!(jp&&jp.some(l=>/[\u4e00-\u9fff]/.test(l))),
+      JSON.stringify(jp));
+  }
+
+  console.log('\n— and the 1942 map has the stations 1930 did not —');
+  {
+    const was=await k.evaluate(()=>[...document.querySelectorAll('#kr-stations .sta-mark')]
+      .filter(m=>m.style.display!=='none').length);
+    await k.evaluate(()=>{const btn=[...document.querySelectorAll('#epoch-seg button')]
+      .find(x=>/1942/.test(x.textContent)); if(btn) btn.click();});
+    await sleep(1800);
+    const now=await k.evaluate(()=>[...document.querySelectorAll('#kr-stations .sta-mark')]
+      .filter(m=>m.style.display!=='none').length);
+    check('more stations stand in 1942 than in 1930', now>was, was+' then '+now);
+    check('and the railway still draws one path for the date',
+      (await k.evaluate(()=>[...document.querySelectorAll('#kr-rail path')]
+        .filter(e=>e.style.display!=='none').length))===1);
+  }
+  await k.close();
 }
 
 check('no page errors', errs.length===0, errs[0]);

@@ -13,8 +13,8 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '208';
-  var JEM_ASSETS = {"admin.js": "e5f1a2fc6c", "annotate.js": "761fbd5949", "japan-empire-map-admin.svg": "9de0304837", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "e39f0a266e", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0"};
+  var JEM_VERSION = '209';
+  var JEM_ASSETS = {"admin.js": "e5f1a2fc6c", "annotate.js": "761fbd5949", "japan-empire-map-admin.svg": "9de0304837", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "5d59e0876c", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0"};
 
   /* Every file this one fetches, with the version on it.
 
@@ -63,8 +63,8 @@
   var TERR_PX = 13.5;     // label sizes, in screen pixels
   var SITE_PX = 11.5;
   var SUB_PX = 10.5;      // provinces and islands, a step under a country
-  var TWSTA_PX = 8.5;     // stations, the smallest thing on the map that reads
-  var TWSTA_SQ = 5;       // the square, in screen pixels: a stop, not a town
+  var STA_PX = 8.5;       // stations, the smallest thing on the map that reads
+  var STA_SQ = 5;         // the square, in screen pixels: a stop, not a town
   var FEAT_PX = 11;       // seas, deserts, plateaus: the physical map
   var EPOCH_1930_CUTOFF = 1930;   // the 1930 sheet's own year
   var EVENT_1930_FROM   = 1910;   // and how far back its detail reaches
@@ -120,6 +120,8 @@
     // Taiwan's railways, per date. Off by default: it is one island's detail
     // on a map of an empire, and a reader who wants it asks for it.
     twRail: false,
+    krRail: false,
+    krStations: false,
     twStations: false,
     // the mesh of meridians and parallels; off by default
     graticule: false,
@@ -398,16 +400,16 @@
   /* Stations are not one of the map's categories — there is no button for
      them in the bar and no swatch in the legend, they are a sub-layer of the
      railways. But the card puts a chip at the top of everything it opens, and
-     without an entry here it read the bare word `twstation`. */
+     without an entry here it read the bare word `station`. */
   var STATION_CATS = {
-    station: { id: 'twstation', en: 'Railway station', ja: '\u505c\u8eca\u5834',
+    station: { id: 'station', en: 'Railway station', ja: '\u505c\u8eca\u5834',
                zh: '\u8eca\u7ad9', ko: '\uc5ed', c: '#6b4a2f' },
-    halt: { id: 'twstation', en: 'Railway halt', ja: '\u4e57\u964d\u5834',
+    halt: { id: 'station', en: 'Railway halt', ja: '\u4e57\u964d\u5834',
             zh: '\u7c21\u6613\u7ad9', ko: '\uac04\uc774\uc5ed', c: '#6b4a2f' },
-    'temporary halt': { id: 'twstation', en: 'Temporary halt',
+    'temporary halt': { id: 'station', en: 'Temporary halt',
                         ja: '\u4eee\u4e57\u964d\u5834', zh: '\u81e8\u6642\u7ad9',
                         ko: '\uc784\uc2dc\uc5ed', c: '#6b4a2f' },
-    yard: { id: 'twstation', en: 'Goods yard', ja: '\u8ca8\u7269\u99c5',
+    yard: { id: 'station', en: 'Goods yard', ja: '\u8ca8\u7269\u99c5',
             zh: '\u8ca8\u904b\u7ad9', ko: '\ud654\ubb3c\uc5ed', c: '#6b4a2f' },
   };
 
@@ -469,7 +471,7 @@
   function siteVisible(s) {
     // a station answers for itself whenever its layer is drawn; it is not one
     // of the three site categories and has no button of its own in the bar
-    if (s.kind === 'twstation') return !!(state.twRail && state.twStations);
+    if (s.kind === 'station') return stationsOn(s.sys) && stationInEpoch(s);
     if (s.kind === 'gaz') return gazVisible(s);
     // the old browse dots are the same places the gazetteer draws better, so
     // they stand down while it is there rather than being hit-tested underneath
@@ -532,24 +534,29 @@
    * the characters says so.
    */
   function stationLabel(rec) {
-    var py = rec.py || '', ro = rec.ro || '', han = rec.han || '';
-    if (state.jpNames) {
-      var head = ro || han;
-      return py && py !== head ? head + ' (' + py + ')' : head;
-    }
-    return py ? (ro ? py + ' (' + ro + ')' : py) : han;
+    var jp = rec.jpro || '', loc = rec.locro || '', han = rec.han || '';
+    var head = state.jpNames ? jp : loc;
+    var other = state.jpNames ? loc : jp;
+    // The characters stand in for a romanisation that was never sourced —
+    // 79 of Taiwan's 191 — rather than one being invented on the spot.
+    if (!head) head = han;
+    if (!other || other === head) return head;
+    return head + ' (' + other + ')';
   }
 
   function mapLabel(rec) {
-    /* A station, in whichever name the reader has asked for.
+    /* A station, in whichever name the reader has asked for: the local
+     * romanisation by default — Pinyin in Taiwan, McCune-Reischauer in Korea
+     * — and the Japanese reading with Japanese names on, with the other in
+     * brackets after it.
      *
-     * Pinyin by default. With Japanese names on it is the Japanese reading —
-     * AND WHERE THERE IS NONE IT IS THE CHARACTERS, not a romanisation
-     * invented on the spot. Seventy-nine of the hundred and ninety-one have
-     * no sourced reading, because these names cannot be read off the
-     * characters: 萬里橋 is Maribashi, 名間 is Nama, 車籠埔 is Sharampo. The
-     * hanji is true; a guess would not be. */
-    if (rec && rec.kind === 'twstation') return stationLabel(rec);
+     * WHERE THERE IS NO JAPANESE READING IT IS THE CHARACTERS, not a
+     * romanisation invented on the spot. Seventy-nine of Taiwan's 191 have
+     * none, because those names cannot be read off the characters: 萬里橋 is
+     * Maribashi, 名間 is Nama, 車籠埔 is Sharampo. The hanji is true; a guess
+     * would not be. Korea's table carries all four names from the source, so
+     * nothing there falls back. */
+    if (rec && rec.kind === 'station') return stationLabel(rec);
     var r = shown(rec);
     if (r && r.label && state.lang === 'en') {
       return r.label === '-' ? '' : r.label;
@@ -596,8 +603,8 @@
        Two hundred names at once is a wall of type over a small island; the
        squares say where the stops are, and the reader asks for the one they
        want. */
-    if (rec && rec.kind === 'twstation') {
-      if (!(state.twRail && state.twStations)) return false;
+    if (rec && rec.kind === 'station') {
+      if (!stationsOn(rec.sys) || !stationInEpoch(rec)) return false;
       // the one that was asked for, at any zoom
       if (hotSta === rec.id) return true;
       /* And all of them, once the reader is close enough for the names to be
@@ -797,6 +804,7 @@
     riversGroup = svg.querySelector('#rivers');
     indiaRiversGroup = svg.querySelector('#india-rivers');
     twRailGroup = svg.querySelector('#tw-rail');
+    krRailGroup = svg.querySelector('#kr-rail');
     buildYellow1938();
     buildBrowse();
     buildGazetteer();
@@ -1511,14 +1519,19 @@
   var RAIL_GONE_W = 4;        // view.w >= mapW / 4: not drawn at all
 
   function railFade() {
-    if (!twRailGroup) return;
-    if (!state.twRail) { twRailGroup.style.display = 'none'; return; }
+    railFadeOne(twRailGroup, state.twRail);
+    railFadeOne(krRailGroup, state.krRail);
+  }
+
+  function railFadeOne(group, on) {
+    if (!group) return;
+    if (!on) { group.style.display = 'none'; return; }
     var full = mapW / RAIL_FULL_W, gone = mapW / RAIL_GONE_W;
     var a = view.w <= full ? 1
           : view.w >= gone ? 0
           : (gone - view.w) / (gone - full);
-    twRailGroup.style.opacity = String(a);
-    twRailGroup.style.display = a > 0.02 ? '' : 'none';
+    group.style.opacity = String(a);
+    group.style.display = a > 0.02 ? '' : 'none';
   }
 
   function drawRelief() {
@@ -1924,8 +1937,110 @@
   var riversGroup = null;
   var indiaRiversGroup = null;
   var twRailGroup = null;
-  var twStaGroup = null;
+  var krRailGroup = null;
   var staRecs = [];                   // the station records, to re-register
+  var buildStations = null;           // set in buildSiteLabels, called on demand
+
+  /* The railway systems the map draws, and everything that differs between
+     them. A third one is a row here: the geojson goes in `RAIL_LAYERS` in
+     build_map.py, the station table gets a build script of its own, and the
+     only code is the `rec` function that says which name goes in which slot.
+
+     `en` is the Japanese name and `local` the local one — the convention the
+     whole map uses, so `localWins` flips them with the Japanese-names switch
+     without knowing what kind of record it is holding. `jpro` and `locro` are
+     the two *romanisations*, kept apart from `en`/`local` because Taiwan has
+     stations with no sourced reading at all: there `en` falls back to the
+     characters, and the label has to know there is no second romanisation to
+     put in brackets rather than printing the characters twice. */
+  var STATION_SYS = {
+    tw: {
+      data: 'TW_STATIONS', gid: 'tw-stations',
+      rail: 'twRail', on: 'twStations',
+      row: 'row-tw-stations', box: 'opt-tw-stations',
+      rec: function (t) {
+        return { en: t.ro || t.han, local: t.py,
+                 ja: t.kana ? t.han + '\uff08' + t.kana + '\uff09' : t.han,
+                 jpro: t.ro || '', locro: t.py || '', han: t.han,
+                 wiki: t.wiki || '', when: t.when || '',
+                 staKind: t.kind || 'station' };
+      },
+    },
+    kr: {
+      data: 'KR_STATIONS', gid: 'kr-stations',
+      rail: 'krRail', on: 'krStations',
+      row: 'row-kr-stations', box: 'opt-kr-stations',
+      /* Korea's four names all come from the source. The hanja goes in the
+         Japanese slot and the hangul in the Korean one, so the card's second
+         line reads 釜山  부산 — the characters and then the name as it is
+         written today, which is what every other Korean record on this map
+         offers under its headline. */
+      rec: function (t) {
+        return { en: t.ro || t.han, local: t.mr || t.kr,
+                 ja: t.han, ko: t.kr,
+                 jpro: t.ro || '', locro: t.mr || '', han: t.han,
+                 staKind: 'station' };
+      },
+    },
+  };
+
+  /* Is this system drawn at all — the railway on, and the stations asked for
+     on top of it. */
+  function stationsOn(sys) {
+    var cfg = STATION_SYS[sys];
+    return !!(cfg && state[cfg.rail] && state[cfg.on]);
+  }
+
+  /* The station rows, the groups, and the marks that belong to a date.
+     Each system's row appears with its railway and goes with it, and its
+     checkbox goes with it too — one left ticked for a layer that is not drawn
+     is a promise the map is not keeping. The squares are built the first time
+     a system is asked for and never taken down again; from then on it is a
+     display toggle and a per-mark one for the date. */
+  function syncStationLayers() {
+    Object.keys(STATION_SYS).forEach(function (sys) {
+      var cfg = STATION_SYS[sys];
+      var row = $('#' + cfg.row);
+      if (row) row.hidden = !state[cfg.rail];
+      if (!state[cfg.rail] && state[cfg.on]) {
+        state[cfg.on] = false;
+        var box = $('#' + cfg.box);
+        if (box) box.checked = false;
+      }
+      var on = stationsOn(sys);
+      if (on && !cfg.built && buildStations) { buildStations(sys); return; }
+      if (!cfg.group) return;
+      cfg.group.style.display = on ? '' : 'none';
+      /* Korea's 1930 network is 636 of its 918 stations, and the rest were
+         not there to be pointed at. Hidden per mark rather than by rebuilding
+         the layer: the marks cost nothing while they are `display: none` and
+         a rebuild costs the whole group on every change of date. */
+      if (on) {
+        var live = state.epoch === 'e1930' ? '30' : '42';
+        for (var i = 0; i < cfg.group.childNodes.length; i++) {
+          var m = cfg.group.childNodes[i];
+          var rec = byId[m.getAttribute('data-id')];
+          m.style.display = (!rec || !rec.epochs
+                             || rec.epochs.indexOf(live) >= 0) ? '' : 'none';
+        }
+      }
+    });
+    // and the name under the pointer goes with the squares
+    if (hotSta && !(byId[hotSta] && labelVisible(byId[hotSta]))) hotSta = null;
+  }
+
+  function anyStationsOn() {
+    return Object.keys(STATION_SYS).some(stationsOn);
+  }
+
+  /* And did this station stand at the date being shown? Taiwan's table says
+     nothing and every station in it is on both maps; Korea's carries the two
+     dates, 282 of its 918 having been built after 1930. */
+  function stationInEpoch(rec) {
+    if (!rec || !rec.epochs) return true;
+    return rec.epochs.indexOf(state.epoch === 'e1930' ? '30' : '42') >= 0;
+  }
+
   var hotSta = null;                  // the one station whose name is showing
   var staTapped = null;               // and which one a finger last opened
   var yellow1938 = null;
@@ -2162,115 +2277,124 @@
       scalables.push(sEntry.sc);
     });
 
-    /* Taiwan's colonial stations.
+    /* The colonial railway stations, Taiwan's and Korea's.
      *
-     * `ro` is the Japanese reading and it is EMPTY FOR 79 OF THE 191, because
-     * a reading for these names cannot be worked out from the characters —
+     * Two systems, one machinery, because the next one should be a row in
+     * STATION_SYS and not a third copy of this. What differs between them is
+     * only where the names come from, and that is a function each system
+     * supplies.
+     *
+     * TAIWAN'S JAPANESE READING IS MISSING FOR 79 OF THE 191, because a
+     * reading for those names cannot be worked out from the characters —
      * 萬里橋 is Maribashi and 名間 is Nama — and a guess dressed as a fact is
-     * worse than a gap. Where there is none the map shows the characters, so
-     * a reader with Japanese names on is given something true rather than
-     * something invented. See data/taiwan/stations.csv for what each one
-     * rests on.
+     * worse than a gap. Where there is none the map shows the characters.
+     * KOREA'S CARRIES ALL FOUR NAMES FROM THE SOURCE: hangul, hanja, a
+     * McCune-Reischauer romanisation and the Japanese reading, checked by the
+     * people who built the database. Nothing there is inferred here.
+     *
+     * Built on demand rather than at load. Together they are eleven hundred
+     * groups and eleven hundred label entries, and a reader who never opens
+     * the Transport panel should not be paying for either.
      */
-    if (!twStaGroup) {
-      twStaGroup = svgEl('g', { id: 'tw-stations' });
+    buildStations = function (sys) {
+      var cfg = STATION_SYS[sys];
+      if (!cfg || cfg.built) return;
+      cfg.built = true;
+      var group = svgEl('g', { id: cfg.gid, 'class': 'sta-layer' });
       /* Under `#markers`, not on top of it. A station is the smallest thing on
          the map and a city is one of the largest, and appending this at the
-         end put 191 squares over the dots for Taihoku, Tainan and Takao —
-         which are the same places, so the reader saw a five-pixel square
-         sitting in the middle of the city it belonged to and hiding it. The
-         railway line itself is already under the markers, `#tw-rail` being
-         written into the SVG before them; this puts the stops where their
-         line is. Everything inserted before `#markers` moves with it. */
-      svg.insertBefore(twStaGroup, markersGroup || null);
-      /* One listener for all of them, not one each. The square is small and
-         the press has to be forgiving, so the hit is a transparent rect twice
-         its size sitting over it — and it answers a finger as well as a
-         pointer, because there is no hover on a touch screen and a tap has to
-         do the same job. */
-      /* Delegated over/out on the group churned: moving between the square
-         and the hit rect above it fires out-then-over, and the name flickered
-         off and on. `pointerenter`/`pointerleave` are put on each mark
-         instead — they do not fire for a move between a node's own children,
-         which is exactly the problem. */
-    }
-    (JMAP.TW_STATIONS || []).forEach(function (t) {
-      var p = project(t.lon, t.lat);
-      var mark = svgEl('g', { 'class': 'twsta-mark' });
-      var box = svgEl('rect', { x: -TWSTA_SQ / 2, y: -TWSTA_SQ / 2,
-                                width: TWSTA_SQ, height: TWSTA_SQ,
-                                'class': 'twsta-sq' });
-      var hit = svgEl('rect', { x: -TWSTA_SQ, y: -TWSTA_SQ,
-                                width: TWSTA_SQ * 2, height: TWSTA_SQ * 2,
-                                'class': 'twsta-hit', 'data-sta': t.id });
-      mark.appendChild(box);
-      mark.appendChild(hit);
-      twStaGroup.appendChild(mark);
-      /* Mouse only. A finger fires this pair too, and it fires the whole of
-         it in one tap: over, enter, down, out, leave, because the touch
-         pointer is destroyed the moment the finger lifts. Left ungated, the
-         leave undid the tap's own name a few milliseconds after it appeared,
-         and the tap looked as though it had done nothing. */
-      mark.addEventListener('pointerenter', function (e) {
-        if (e.pointerType && e.pointerType !== 'mouse') return;
-        if (hotSta === t.id) return;
-        hotSta = t.id;
-        gateLabels();
-        placeLabels();
+         end put the square for Taihoku, Tainan or Keijō over the city dot for
+         the same place and hid it. The line itself is already under the
+         markers, `#tw-rail` and `#kr-rail` being written into the SVG before
+         them; this puts the stops where their line is. */
+      svg.insertBefore(group, markersGroup || null);
+      cfg.group = group;
+      (JMAP[cfg.data] || []).forEach(function (t) {
+        var p = project(t.lon, t.lat);
+        var mark = svgEl('g', { 'class': 'sta-mark', 'data-id': t.id });
+        mark.appendChild(svgEl('rect', { x: -STA_SQ / 2, y: -STA_SQ / 2,
+                                         width: STA_SQ, height: STA_SQ,
+                                         'class': 'sta-sq' }));
+        /* The press has to be forgiving: five pixels is not a thing anybody
+           can put a finger on, so a transparent rect twice the size sits over
+           the square. */
+        mark.appendChild(svgEl('rect', { x: -STA_SQ, y: -STA_SQ,
+                                         width: STA_SQ * 2, height: STA_SQ * 2,
+                                         'class': 'sta-hit' }));
+        group.appendChild(mark);
+        /* Mouse only. A finger fires this pair too, and it fires the whole of
+           it in one tap: over, enter, down, out, leave, because the touch
+           pointer is destroyed the moment the finger lifts. Left ungated, the
+           leave undid the tap's own name a few milliseconds after it appeared,
+           and the tap looked as though it had done nothing. */
+        mark.addEventListener('pointerenter', function (e) {
+          if (e.pointerType && e.pointerType !== 'mouse') return;
+          if (hotSta === t.id) return;
+          hotSta = t.id;
+          gateLabels();
+          placeLabels();
+        });
+        mark.addEventListener('pointerleave', function (e) {
+          if (e.pointerType && e.pointerType !== 'mouse') return;
+          if (hotSta !== t.id) return;
+          hotSta = null;
+          gateLabels();
+          placeLabels();
+        });
+        /* A finger has no hover and no longer needs one here: a tap goes
+           through the ordinary pointer path like a tap on anything else,
+           opens the card, and `select` lights the label from the selection.
+           This mark used to carry a pointerdown of its own that toggled the
+           label, and it fought the tap — the mark cleared the name and the tap
+           that followed re-selected the station and put it back. */
+        scalables.push({ el: mark, x: p.x, y: p.y });
+        var text = svgEl('text', { 'class': 'tlabel sta', 'font-size': STA_PX,
+                                   y: STA_PX + 5 });
+        labelLayer.appendChild(text);
+        /* The same shape as every other record on the map, so that the
+           tooltip, the card and the name switch all work on it without knowing
+           it is a station. `en` is the Japanese name and `local` the local
+           one, which is this project's convention throughout — `localWins`
+           swaps them when the Japanese-names switch is off. */
+        var rec = cfg.rec(t);
+        rec.kind = 'station';
+        rec.sys = sys;
+        rec.cat = 'station';
+        rec.id = t.id;
+        rec.lvl = 0;
+        rec.short = t.short || '';
+        rec.note = t.note || '';
+        rec.epochs = t.e || '';       // '', or '30', '42', '3042'
+        /* Held in a list of their own as well, because `composeEpoch` empties
+           `byId` and fills it again from the tables it knows about. Stations
+           are built outside that cycle, so without this every station stopped
+           answering the pointer the first time the reader changed the date. */
+        staRecs.push(rec);
+        byId[t.id] = rec;
+        // so the card does not open on top of the station it is describing,
+        // and so the mark can be given the selected class
+        sitePos[t.id] = { x: p.x, y: p.y };
+        elById[t.id] = mark;
+        // the characters, on the element itself: this is what a screen reader
+        // and a `find in page` are given
+        if (rec.han) text.setAttribute('aria-label', rec.han);
+        var entry = { rec: rec, el: text, x: p.x, y: p.y, dy: STA_PX + 5,
+                      size: STA_PX, w: 0, h: STA_PX * 1.2, sta: true };
+        labels.push(entry);
+        entry.sc = { el: text, x: p.x, y: p.y };
+        scalables.push(entry.sc);
       });
-      mark.addEventListener('pointerleave', function (e) {
-        if (e.pointerType && e.pointerType !== 'mouse') return;
-        if (hotSta !== t.id) return;
-        hotSta = null;
-        gateLabels();
-        placeLabels();
-      });
-      /* A finger has no hover, and it no longer needs one here: a tap goes
-         through the ordinary pointer path like a tap on anything else, opens
-         the card, and `select` lights the label from the selection. This mark
-         used to carry a pointerdown of its own that toggled the label, and it
-         fought the tap — the mark cleared the name and the tap that followed
-         re-selected the station and put it back. */
-      scalables.push({ el: mark, x: p.x, y: p.y });
-      var text = svgEl('text', { 'class': 'tlabel twsta', 'font-size': TWSTA_PX,
-                                 y: TWSTA_PX + 5 });
-      labelLayer.appendChild(text);
-      /* The same shape as every other record on the map, so that the
-         tooltip, the card and the name switch all work on it without knowing
-         it is a station. `en` is the Japanese reading and `local` the Pinyin,
-         which is this project's convention throughout — `localWins` swaps
-         them when the Japanese-names switch is off. Where no reading has been
-         sourced the characters take the Japanese slot, because they are what
-         is true; see stationLabel. */
-      var rec = { kind: 'twstation', id: t.id, cat: 'twstation',
-                  en: t.ro || t.han, local: t.py,
-                  ja: t.kana ? t.han + '\uff08' + t.kana + '\uff09' : t.han,
-                  zh: t.han,
-                  ro: t.ro, py: t.py, han: t.han,
-                  short: t.short || '', note: t.note || '',
-                  wiki: t.wiki || '', when: t.when || '',
-                  staKind: t.kind || 'station', lvl: 0 };
-      /* Held in a list of their own as well, because `composeEpoch` empties
-         `byId` and fills it again from the tables it knows about. The stations
-         are built once, outside that cycle, so without this every station
-         stopped answering the pointer the first time the reader changed the
-         date. */
-      staRecs.push(rec);
-      byId[t.id] = rec;
-      // so the card does not open on top of the station it is describing, and
-      // so the mark can be given the selected class
-      sitePos[t.id] = { x: p.x, y: p.y };
-      elById[t.id] = mark;
-      mark.setAttribute('data-id', t.id);
-      // the characters, on the element itself: the map has no tooltip and
-      // this is what a screen reader and a `find in page` are given
-      text.setAttribute('aria-label', t.han);
-      var entry = { rec: rec, el: text, x: p.x, y: p.y, dy: TWSTA_PX + 5,
-                    size: TWSTA_PX, w: 0, h: TWSTA_PX * 1.2, twsta: true };
-      labels.push(entry);
-      entry.sc = { el: text, x: p.x, y: p.y };
-      scalables.push(entry.sc);
-    });
+      /* Positions come from `rescale`, which is what walks `scalables` and
+         hands each mark its transform. Built lazily, the group misses the
+         rescale that init runs — so the whole system sat at the origin, 918
+         squares stacked in the corner of the map, until the reader happened to
+         zoom. `gateLabels` for the same reason: the labels exist now and have
+         no words yet. */
+      syncStationLayers();
+      rescale();
+      gateLabels();
+      placeLabels();
+    };
 
     /* The physical map: seas, deserts, plateaus, ranges. They belong to no
        polity and to neither epoch — the Gobi did not change hands in 1937 —
@@ -2857,7 +2981,9 @@
     if (state.backs) bits |= 8192;
     if (state.indiaRivers) bits |= 16384;
     if (state.twRail) bits |= 33554432;   // bit 25: Taiwan's railways
-    if (state.twStations) bits |= 67108864;  // bit 26: and their names
+    if (state.twStations) bits |= 67108864;  // bit 26: and their stations
+    if (state.krRail) bits |= 134217728;     // bit 27: Korea's railways
+    if (state.krStations) bits |= 268435456; // bit 28: and their stations
     bits |= ({ albers: 1, laea: 2 }[state.projection] || 0) << 15;
     if (state.graticule) bits |= 131072;
     if (state.relief) bits |= 262144;
@@ -2895,6 +3021,8 @@
     state.indiaRivers = !!(bits & 16384);
     state.twRail = !!(bits & 33554432);
     state.twStations = !!(bits & 67108864);
+    state.krRail = !!(bits & 134217728);
+    state.krStations = !!(bits & 268435456);
     state.projection = ['mercator', 'albers', 'laea'][(bits >> 15) & 3] || 'mercator';
     state.graticule = !!(bits & 131072);
     state.relief = !!(bits & 262144);
@@ -3706,7 +3834,7 @@
          and not by "Show names" — the reader who switches the railways on
          wants the stations named whether or not the country names are up.
          Everything else still waits on that button. */
-      var own = L.rec && L.rec.kind === 'twstation';
+      var own = L.rec && L.rec.kind === 'station';
       if (gone || !((showLabels || (own && state.mode !== 'quiz'))
                     && labelVisible(L.rec))) {
         L.el.textContent = '';
@@ -3848,7 +3976,7 @@
        its own — that is what it was, and the squares appeared while pointing
        at one did nothing at all. */
     if (state.mode === 'quiz') return;
-    if (!state.labels && !(state.twRail && state.twStations)) return;
+    if (!state.labels && !anyStationsOn()) return;
     var c = containerSize();
     var sx = c.w / view.w;
     var sy = c.h / view.h;
@@ -4664,7 +4792,7 @@
 
   function recordFor(target) {
     if (!target || !target.closest) return null;
-    var el = target.closest('.site, .browse, .gaz, .atom, .twsta-mark');
+    var el = target.closest('.site, .browse, .gaz, .atom, .sta-mark');
     // a backing is no longer inside its atom, so it answers for itself — which
     // it only ever gets the chance to do while its sub-units are in the other
     // file and it is the only thing there
@@ -4717,7 +4845,7 @@
        the map is deselected by tapping the sea, which is fine when the thing
        is a country and awkward when it is a five-pixel square: the finger is
        already there, and the gesture that opened it is the one to hand. */
-    if (hit && hit.rec.kind === 'twstation' && id === selected) {
+    if (hit && hit.rec.kind === 'station' && id === selected) {
       select(null);
       return;
     }
@@ -6024,7 +6152,7 @@
        there being no pointer to have set it. On a mouse the hover owns it and
        the selection leaves it alone — otherwise clicking a station and then
        moving away would leave its name behind. */
-    if (coarse) staTapped = hotSta = (byId[id] && byId[id].kind === 'twstation')
+    if (coarse) staTapped = hotSta = (byId[id] && byId[id].kind === 'station')
       ? id : null;
     if (!id || !byId[id]) {
       selCluster = null;
@@ -6065,14 +6193,14 @@
        `otherNames` is the function that already knows not to do that — it
        folds the kyūjitai and the traditional forms together and keeps the
        fullest spelling of each — and the tooltip has always used it. */
-    var others = rec.kind === 'twstation'
+    var others = rec.kind === 'station'
       ? [otherNames(head)].filter(Boolean)
       : LANGS
         .filter(function (l) { return l !== state.lang; })
         .map(function (l) { return head[l]; })
         .filter(function (n) { return n && n !== primary; });
 
-    var info = rec.kind === 'twstation'
+    var info = rec.kind === 'station'
       ? (STATION_CATS[rec.staKind] || STATION_CATS.station) : catInfo(rec.cat);
     var chip = $('.chip', infoBox);
     chip.textContent = info ? nameOf(info) : rec.cat;
@@ -6115,7 +6243,7 @@
        station with no note simply has nothing in the second. The caption on
        that slot names the *group* a note belongs to, and here the group is the
        station itself, so it comes out blank on its own. */
-    var isSta = rec.kind === 'twstation';
+    var isSta = rec.kind === 'station';
     var ownNote = isSta ? (shortOf(rec) || '')
                 : sub ? (head.note || split.gloss || shortOf(head) || '')
                       : (rec.note || '');
@@ -6294,22 +6422,7 @@
     // a province, which is feedback you have to go looking for. It reads as a
     // switch that works sometimes. Now it draws the divisions.
     if (svg) svg.classList.toggle('admin-on', !!state.cats.territory);
-    /* The station-name row appears with the railways and goes with them, and
-       the names go too — a checkbox left ticked for a layer that is not drawn
-       is a promise the map is not keeping. */
-    var _staRow = $('#row-tw-stations');
-    if (_staRow) _staRow.hidden = !state.twRail;
-    if (twStaGroup) {
-      var _staOn = !!(state.twRail && state.twStations);
-      twStaGroup.style.display = _staOn ? '' : 'none';
-      // and the name under the pointer goes with the squares
-      if (!_staOn && hotSta) hotSta = null;
-    }
-    if (!state.twRail && state.twStations) {
-      state.twStations = false;
-      var _staBox = $('#opt-tw-stations');
-      if (_staBox) _staBox.checked = false;
-    }
+    syncStationLayers();
     // the epoch as a class, so the stylesheet can cut the occupied colouring
     // out of the unoccupied south of New Guinea on the 1942 map alone
     if (svg) svg.classList.toggle('e1942', state.epoch === 'e1942');
@@ -6499,16 +6612,17 @@
       extentPath.style.display =
         (state.epoch === 'e1942' && state.extent && state.world) ? '' : 'none';
     }
-    if (twRailGroup) {
-      // whether it is drawn at all is `railFade`'s business: it depends on
-      // the zoom as well as on the switch
-      railFade();
+    // whether either is drawn at all is `railFade`'s business: it depends on
+    // the zoom as well as on the switch
+    railFade();
+    [twRailGroup, krRailGroup].forEach(function (g) {
+      if (!g) return;
       // one path per date; the map shows the network as it stood
-      $$('path', twRailGroup).forEach(function (el) {
+      $$('path', g).forEach(function (el) {
         el.style.display = el.getAttribute('data-epoch') === state.epoch ? '' : 'none';
         el.style.setProperty('--rail-ink', railInk(el.getAttribute('data-over')));
       });
-    }
+    });
     if (indiaRiversGroup) {
       indiaRiversGroup.style.display = state.indiaRivers ? '' : 'none';
     }
@@ -6533,7 +6647,7 @@
     buildLegend();
     // and the station names bring the placer with them, since they are not
     // under the "Show names" button that used to be the only thing that ran it
-    if (showLabels || (state.twRail && state.twStations)) placeLabels();
+    if (showLabels || anyStationsOn()) placeLabels();
     saveState();
   }
 
@@ -8058,27 +8172,22 @@
       });
     }
 
-    var optTwRail = $('#opt-tw-rail');
-    if (optTwRail) {
-      optTwRail.checked = state.twRail;
-      optTwRail.addEventListener('change', function () {
-        state.twRail = optTwRail.checked;
-        applyState();
+    /* One pair of switches per railway system, wired off the same table the
+       stations are built from. The stations hang off the lines: there is
+       nothing to mark when the lines are not drawn, so the row is not offered,
+       and switching the lines off takes the squares with them rather than
+       leaving a checkbox ticked for something invisible. */
+    [['#opt-tw-rail', 'twRail'], ['#opt-kr-rail', 'krRail'],
+     ['#opt-tw-stations', 'twStations'], ['#opt-kr-stations', 'krStations']]
+      .forEach(function (pair) {
+        var box = $(pair[0]);
+        if (!box) return;
+        box.checked = state[pair[1]];
+        box.addEventListener('change', function () {
+          state[pair[1]] = box.checked;
+          applyState();
+        });
       });
-    }
-
-    /* The station names hang off the railways: there is nothing to name when
-       the lines are not drawn, so the row is not offered. Switching the lines
-       off takes the names with them rather than leaving a checkbox ticked for
-       something invisible. */
-    var optTwSta = $('#opt-tw-stations');
-    if (optTwSta) {
-      optTwSta.checked = state.twStations;
-      optTwSta.addEventListener('change', function () {
-        state.twStations = optTwSta.checked;
-        applyState();
-      });
-    }
 
     var optBacks = $('#opt-backings');
     if (optBacks) {

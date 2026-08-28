@@ -2927,6 +2927,22 @@ TW_RAIL_FILES = {"e1930": "taiwan_railways_1930_v2.geojson",
                  "e1942": "taiwan_railways_1944_v2.geojson"}
 TW_RAIL_TOL = 0.021
 
+# Korea's, from the NIKH historical GIS -- a research database rather than a
+# hand trace, already filtered to each date by the year fields it carries. Not
+# traced work, so it is thinned at the ordinary tolerance and not at
+# TRACED_TOL; the survival is reported at build time like everything else.
+KR_RAIL_FILES = {"e1930": "korea_1930_lines.geojson",
+                 "e1942": "korea_1942_lines.geojson"}
+KR_RAIL_TOL = 0.021
+
+# Every railway layer the map draws, and the atom whose fill inks its dots.
+# One table so that the next one is a line here rather than a block of code in
+# three places.
+RAIL_LAYERS = [
+    ("tw-rail", "taiwan", TW_RAIL_FILES, TW_RAIL_TOL, "taiwan"),
+    ("kr-rail", "korea", KR_RAIL_FILES, KR_RAIL_TOL, "korea"),
+]
+
 SEAM_STEP = 0.015          # degrees; how finely the gap is searched
 SEAM_MAX = 0.50            # degrees; wider than this is not a seam but a hole
 
@@ -6484,30 +6500,37 @@ def main():
         sys.stderr.write("note: %s missing, the India rivers layer is empty\n"
                          % INDIA_RIVERS_FILE)
 
-    # The same treatment for Taiwan's railways, one path per epoch.
-    tw_rail = {}
-    for _ep, _name in sorted(TW_RAIL_FILES.items()):
-        _path = os.path.join(CACHE, _name)
-        if not os.path.exists(_path):
-            sys.stderr.write("note: %s missing, that railway layer is empty\n" % _name)
-            continue
-        with open(_path) as fh:
-            _kept = _raw = _dropped = 0
-            _parts = []
-            for feat in json.load(fh)["features"]:
-                for line in iter_lines(feat["geometry"]):
-                    _raw += len(line)
-                    pts = [project(x, y) for x, y in line]
-                    pts = simplify(pts, TW_RAIL_TOL) if len(pts) >= 4 else pts
-                    if len(pts) < 2:
-                        _dropped += 1
-                        continue
-                    _kept += len(pts)
-                    _parts.append(line_to_path(pts))
-            tw_rail[_ep] = "".join(_parts)
-        sys.stderr.write("taiwan railways %s: %d of %d vertices kept (%.0f%%), "
-                         "%d lines dropped\n"
-                         % (_ep, _kept, _raw, 100.0 * _kept / max(1, _raw), _dropped))
+    # The same treatment for the railways, one path per epoch per layer.
+    rails = {}
+    for _gid, _label, _files, _tol, _over in RAIL_LAYERS:
+        _epochs = {}
+        for _ep, _name in sorted(_files.items()):
+            _path = os.path.join(CACHE, _name)
+            if not os.path.exists(_path):
+                sys.stderr.write("note: %s missing, that railway layer is empty\n" % _name)
+                continue
+            with open(_path) as fh:
+                _kept = _raw = _dropped = 0
+                _parts = []
+                for feat in json.load(fh)["features"]:
+                    if not feat.get("geometry"):
+                        continue          # a row filtered out of this date
+                    for line in iter_lines(feat["geometry"]):
+                        _raw += len(line)
+                        pts = [project(x, y) for x, y in line]
+                        pts = simplify(pts, _tol) if len(pts) >= 4 else pts
+                        if len(pts) < 2:
+                            _dropped += 1
+                            continue
+                        _kept += len(pts)
+                        _parts.append(line_to_path(pts))
+                _epochs[_ep] = "".join(_parts)
+            sys.stderr.write("%s railways %s: %d of %d vertices kept (%.0f%%), "
+                             "%d lines dropped\n"
+                             % (_label, _ep, _kept, _raw,
+                                100.0 * _kept / max(1, _raw), _dropped))
+        if _epochs:
+            rails[_gid] = (_over, _epochs)
 
     # ---- rivers ------------------------------------------------------------
     rivers = {}
@@ -7608,17 +7631,17 @@ def main():
         out.append('  <g id="india-rivers" style="display:none">')
         out.append(f'    <path class="river india-river" fill="none" d="{india_rivers}"/>')
         out.append("  </g>")
-    if tw_rail:
-        # One group, one path per epoch: map.js shows whichever the date asks
-        # for and hides the layer altogether unless the switch is on.
-        out.append('  <g id="tw-rail" style="display:none">')
-        for _ep in sorted(tw_rail):
+    for _gid, (_over, _epochs) in sorted(rails.items()):
+        # One group per railway, one path per epoch: map.js shows whichever the
+        # date asks for and hides the layer altogether unless the switch is on.
+        out.append(f'  <g id="{_gid}" style="display:none">')
+        for _ep in sorted(_epochs):
             # `data-over` names the ground the line runs on. map.js reads that
             # atom's *computed* fill and inks the dots against it — white on a
             # dark country, near-black on a pale one — so the rule holds in
             # colour, in mono and in whatever a future railway crosses.
             out.append(f'    <path class="rail" data-epoch="{_ep}" '
-                       f'data-over="taiwan" fill="none" d="{tw_rail[_ep]}"/>')
+                       f'data-over="{_over}" fill="none" d="{_epochs[_ep]}"/>')
         out.append("  </g>")
     if rivers:
         out.append('  <g id="rivers">')

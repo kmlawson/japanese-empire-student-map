@@ -706,40 +706,62 @@ button.plain:hover { background: var(--hover-fill); }
    same brown line the map draws everything else in. The hit target over it is
    twice its size and invisible: five pixels is not a thing anybody can put a
    finger on. */
-#tw-stations .twsta-sq {
+.sta-layer .sta-sq {
   fill: #fffdf8;
   stroke: #4a3b2a;
   stroke-width: 1.1;
   vector-effect: non-scaling-stroke;
   pointer-events: none;
 }
-#tw-stations .twsta-hit { fill: transparent; cursor: pointer; }
-#tw-stations .twsta-mark:hover .twsta-sq { fill: #ffd200; }
+.sta-layer .sta-hit { fill: transparent; cursor: pointer; }
+.sta-layer .sta-mark:hover .sta-sq { fill: #ffd200; }
 /* The one the card is open on. A touch screen has no hover to say which square
    was tapped, and a card headed Gāoxióng over a hundred and ninety identical
    squares does not say it either. */
-#tw-stations .twsta-mark.sel .twsta-sq {
+.sta-layer .sta-mark.sel .sta-sq {
   fill: #ffd200;
   stroke-width: 2;
 }
 @media (prefers-color-scheme: dark) {
-  #tw-stations .twsta-sq { fill: #20242a; stroke: #c6ccd3; }
-  #tw-stations .twsta-mark.sel .twsta-sq { fill: #ffd200; stroke: #4a3b2a; }
+  .sta-layer .sta-sq { fill: #20242a; stroke: #c6ccd3; }
+  .sta-layer .sta-mark.sel .sta-sq { fill: #ffd200; stroke: #4a3b2a; }
 }
 
-#labels .twsta {
+#labels .sta {
   font-weight: 600;
   fill: #4a453c;
   letter-spacing: 0;
   stroke-width: 3px;
 }
 @media (prefers-color-scheme: dark) {
-  #labels .twsta { fill: #c6ccd3; }
+  #labels .sta { fill: #c6ccd3; }
 }
 
-/* The Layers pane: a switch that belongs to the one above it. */
-#dlg-layers .row.sub { padding-left: 1.6em; font-size: .95em; }
-#dlg-layers .row.sub[hidden] { display: none; }
+/* The Layers pane: a railway and the stations that hang off it, side by side
+   on one row. The pair reads as one thing that way — the line and the stops on
+   it — where two stacked rows read as two unrelated switches, and the panel is
+   long enough already. The station half is hidden until its railway is on, and
+   the row keeps its height so the ones below it do not jump. */
+#dlg-layers .row.pair {
+  display: flex;
+  gap: 1.1em;
+  align-items: baseline;
+}
+#dlg-layers .row.pair .half {
+  display: flex;
+  align-items: baseline;
+  gap: .45em;
+  flex: 1 1 0;
+  min-width: 0;
+}
+#dlg-layers .row.pair .half[hidden] { display: none; }
+@media (max-width: 460px) {
+  /* Two of these do not fit across a phone; they stack, and the second is
+     indented so it still reads as belonging to the first. */
+  #dlg-layers .row.pair { display: block; }
+  #dlg-layers .row.pair .half { padding-left: 0; }
+  #dlg-layers .row.pair .half + .half { padding-left: 1.6em; font-size: .95em; }
+}
 
 #tw-rail .rail {
   stroke: var(--rail-ink, #2b2b2b);
