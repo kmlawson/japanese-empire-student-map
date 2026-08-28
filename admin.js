@@ -109,6 +109,9 @@
     '#jmap-extent-edit .vtx{fill:#fff;stroke:#2f9e6b;stroke-width:1.4;',
     ' vector-effect:non-scaling-stroke;cursor:grab;pointer-events:all}',
     '#jmap-extent-edit .vtx.moved{fill:#2f9e6b;stroke:#0f6b45}',
+    '#jmap-extent-edit .vtx.sel{stroke:#c2542e;stroke-width:3}',
+    '#jmap-extent-edit .vtx.gone{fill:none;stroke:#c2542e;stroke-width:1.6;',
+    ' stroke-dasharray:2 2;cursor:pointer}',
     'body.jmap-drawing #map-container{cursor:crosshair}',
   ].join('');
 
@@ -652,22 +655,50 @@
     title: 'Edit the 1942 extent',
     hint: 'Switch it on and every vertex of the line of control in view gets ' +
           'a handle. Drag one to move it. The map still pans from anywhere ' +
-          'else. What comes out is a list of moves — <i>from</i> a coordinate, ' +
-          '<i>to</i> a coordinate — to hand back for the build. Work in ' +
-          '<b>Web Mercator</b>: the line is stored in that space and a vertex ' +
-          'dragged in another one means nothing to the source. Edits survive a ' +
-          'reload; <b>Reset</b> clears them.',
+          'else. Press a handle to pick it out, then <b>Backspace</b> takes ' +
+          'that vertex out of the line altogether — the next one along is ' +
+          'picked up, so a run can be cut by holding the key. A removed ' +
+          'vertex stays on the map as a dashed red ring; press it to put it ' +
+          'back. What comes out is a list of moves — <i>from</i> a ' +
+          'coordinate, <i>to</i> a coordinate — and a list of removals, to ' +
+          'hand back for the build. Work in <b>Web Mercator</b>: the line is ' +
+          'stored in that space and a vertex dragged in another one means ' +
+          'nothing to the source. Edits survive a reload; <b>Reset</b> ' +
+          'clears them.',
     build: function (sec, api) {
       var EDIT_KEY = 'extent-edits';
       var on = false, layer = null, dots = null;
       var base = null;            // the vertices as built, in map units
       var moves = {};             // index -> {x, y} in map units, where it now is
+      var drops = {};             // index -> 1, vertices taken out of the line
       var dragging = null;
+      var sel = null;             // the vertex Backspace would take out
+      var hist = [];              // what each edit replaced, newest last
 
       try {
         var saved = api.setting(EDIT_KEY);
-        if (saved && typeof saved === 'object') moves = saved;
-      } catch (err) { moves = {}; }
+        if (saved && typeof saved === 'object') {
+          // the first version of this tool stored the moves alone
+          if (saved.moves || saved.drops) {
+            moves = saved.moves || {};
+            drops = saved.drops || {};
+          } else { moves = saved; }
+        }
+      } catch (err) { moves = {}; drops = {}; }
+
+      /* Undo needs to know the order the edits were made in, and the saved
+         state does not carry it — an object with numeric keys reads back in
+         index order however it was written, which is why the first version's
+         undo took the highest-numbered move rather than the last one. Read
+         the saved edits as a history in index order: arbitrary, but every
+         entry undoes to the right thing. */
+      Object.keys(moves).forEach(function (i) { hist.push({ i: +i }); });
+      Object.keys(drops).forEach(function (i) { hist.push({ i: +i }); });
+
+      // what index `i` held before this edit, so undo can put it back
+      function note(i) {
+        hist.push({ i: i, move: moves[i], drop: drops[i] });
+      }
 
       var row = document.createElement('div');
       row.className = 'row';
@@ -682,17 +713,23 @@
         return b;
       }
       var toggleBtn = btn('Edit extent', function () { setOn(!on); });
-      var undoBtn = btn('Undo move', function () {
-        var keys = Object.keys(moves);
-        if (!keys.length) return;
-        delete moves[keys[keys.length - 1]];
+      var undoBtn = btn('Undo', function () {
+        var h = hist.pop();
+        if (!h) return;
+        if (h.move) moves[h.i] = h.move; else delete moves[h.i];
+        if (h.drop) drops[h.i] = h.drop; else delete drops[h.i];
+        sel = h.i;
         save(); redraw();
       });
       var resetBtn = btn('Reset', function () {
-        if (!Object.keys(moves).length) return;
-        if (!window.confirm('Throw away every move?')) return;
-        moves = {}; save(); redraw();
+        if (!edits()) return;
+        if (!window.confirm('Throw away every edit?')) return;
+        moves = {}; drops = {}; hist = []; sel = null; save(); redraw();
       });
+
+      function edits() {
+        return Object.keys(moves).length + Object.keys(drops).length;
+      }
 
       var row2 = document.createElement('div');
       row2.className = 'row';
@@ -718,7 +755,9 @@
       sec.appendChild(ta);
 
       function save() {
-        try { api.setting(EDIT_KEY, moves); } catch (err) { /* private mode */ }
+        try {
+          api.setting(EDIT_KEY, { moves: moves, drops: drops });
+        } catch (err) { /* private mode */ }
       }
 
       function mercator() {
@@ -755,17 +794,20 @@
 
       function asMoves() {
         var keys = Object.keys(moves).map(Number).sort(function (a, b) { return a - b; });
-        if (!keys.length) return '# nothing moved yet';
+        var gone = Object.keys(drops).map(Number).sort(function (a, b) { return a - b; });
+        if (!keys.length && !gone.length) return '# nothing edited yet';
         /* Moves kept from a previous session are read back before the tool is
            switched on, so the line they refer to has not been looked at yet.
            Read it now rather than throwing — which is what the first version
            did, on every reload with edits in hand. */
         if (!base) base = readBase();
-        if (!base) return '# ' + keys.length + ' move(s) held — switch the tool ' +
-                          'on, on the Dec 1942 map, to read them out';
+        if (!base) return '# ' + (keys.length + gone.length) + ' edit(s) held — ' +
+                          'switch the tool on, on the Dec 1942 map, to read ' +
+                          'them out';
         var lines = ['# extent edits — from, to, in lon/lat',
                      '# vertex index is into the built #extent-1942 path',
                      'EXTENT_EDITS = ['];
+        if (!keys.length) lines.pop();
         keys.forEach(function (i) {
           var a = api.toLonLat(base[i].x, base[i].y);
           var b = api.toLonLat(moves[i].x, moves[i].y);
@@ -775,6 +817,17 @@
                      b.lon.toFixed(5) + ', ' + b.lat.toFixed(5) + ')),');
         });
         lines.push(']');
+        if (gone.length) {
+          lines.push('');
+          lines.push('# vertices to take out of the line altogether');
+          lines.push('EXTENT_DROPS = [');
+          gone.forEach(function (i) {
+            var c = api.toLonLat(base[i].x, base[i].y);
+            lines.push('    # ' + i);
+            lines.push('    (' + c.lon.toFixed(5) + ', ' + c.lat.toFixed(5) + '),');
+          });
+          lines.push(']');
+        }
         return lines.join('\n');
       }
 
@@ -783,6 +836,7 @@
         if (!base) return '# no extent on the map — switch to Dec 1942';
         var lines = ['# the whole line as it now stands, lon/lat'];
         for (var i = 0; i < base.length; i++) {
+          if (drops[i]) continue;
           var p = at(i), ll = api.toLonLat(p.x, p.y);
           lines.push('    (' + ll.lon.toFixed(5) + ', ' + ll.lat.toFixed(5) + '),');
         }
@@ -805,6 +859,17 @@
         return vb.length === 4 ? vb : null;
       }
 
+      function ghostD() {
+        var d = '', first = true;
+        for (var k = 0; k < base.length; k++) {
+          if (drops[k]) continue;         // gone from the line, so gone from it here
+          var q = at(k);
+          d += (first ? 'M' : 'L') + q.x.toFixed(2) + ' ' + q.y.toFixed(2);
+          first = false;
+        }
+        return d;
+      }
+
       function redraw() {
         if (!on) return;
         ensureLayer();
@@ -813,11 +878,7 @@
         var live = pathEl();
         if (live) {
           // the edited course, drawn over the built one
-          var d = '';
-          for (var k = 0; k < base.length; k++) {
-            var q = at(k);
-            d += (k ? 'L' : 'M') + q.x.toFixed(2) + ' ' + q.y.toFixed(2);
-          }
+          var d = ghostD();
           var ghost = layer.querySelector('.edited');
           if (!ghost) {
             ghost = document.createElementNS('http://www.w3.org/2000/svg', 'path');
@@ -834,21 +895,23 @@
           if (vb && (p.x < vb[0] - r || p.x > vb[0] + vb[2] + r ||
                      p.y < vb[1] - r || p.y > vb[1] + vb[3] + r)) continue;
           var c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-          c.setAttribute('class', 'vtx' + (moves[i] ? ' moved' : ''));
+          c.setAttribute('class', 'vtx' + (drops[i] ? ' gone' : moves[i] ? ' moved' : '') +
+                                  (i === sel ? ' sel' : ''));
           c.setAttribute('cx', p.x); c.setAttribute('cy', p.y);
-          c.setAttribute('r', r);
+          c.setAttribute('r', drops[i] ? r * 0.8 : r);
           c.setAttribute('data-i', i);
           dots.appendChild(c);
           shown++;
           if (shown > 400) break;         // a crowded view is a zoom-in cue
         }
-        var n = Object.keys(moves).length;
+        var n = Object.keys(moves).length, g = Object.keys(drops).length;
         out.textContent = shown + ' handle' + (shown === 1 ? '' : 's') + ' in view · ' +
-          n + (n === 1 ? ' vertex' : ' vertices') + ' moved' +
+          n + ' moved' + (g ? ' · ' + g + ' taken out' : '') +
+          (sel === null ? '' : ' · vertex ' + sel + ' picked — Backspace removes it') +
           (mercator() ? '' : ' · SWITCH TO WEB MERCATOR');
         ta.value = asMoves();
-        undoBtn.disabled = !n;
-        resetBtn.disabled = !n;
+        undoBtn.disabled = !hist.length;
+        resetBtn.disabled = !edits();
       }
 
       /* The handles take the press themselves, so the map does not pan under
@@ -860,31 +923,78 @@
         if (!t || !t.getAttribute || t.getAttribute('data-i') === null) return;
         e.stopPropagation();
         e.preventDefault();
-        dragging = { i: +t.getAttribute('data-i'), el: t };
+        var i = +t.getAttribute('data-i');
+        // a vertex already taken out: pressing it puts it back, and there is
+        // nothing to drag
+        if (drops[i]) {
+          note(i);
+          delete drops[i];
+          sel = i;
+          save();
+          redraw();
+          return;
+        }
+        sel = i;
+        markSel(t);
+        dragging = { i: i, el: t, was: { move: moves[i], drop: drops[i] }, noted: false };
         try { t.setPointerCapture(e.pointerId); } catch (err) { /* older engine */ }
       }
+
+      /* Picking one out must not go through redraw(), which empties the layer
+         and would take away the very circle the press was captured on. */
+      function markSel(el) {
+        var prev = dots && dots.querySelector('.vtx.sel');
+        if (prev) prev.classList.remove('sel');
+        if (el) el.classList.add('sel');
+      }
+
       function onMove(e) {
         if (!dragging) return;
         e.stopPropagation();
         e.preventDefault();
         var u = api.clientToUser(e.clientX, e.clientY);
         if (!u) return;
+        if (!dragging.noted) {          // one history entry per drag, not per step
+          hist.push({ i: dragging.i, move: dragging.was.move, drop: dragging.was.drop });
+          dragging.noted = true;
+        }
         moves[dragging.i] = { x: u.x, y: u.y };
         dragging.el.setAttribute('cx', u.x);
         dragging.el.setAttribute('cy', u.y);
-        dragging.el.setAttribute('class', 'vtx moved');
+        dragging.el.setAttribute('class', 'vtx moved sel');
         var ll = api.toLonLat(u.x, u.y);
         out.textContent = 'vertex ' + dragging.i + ' → ' +
           ll.lon.toFixed(4) + ', ' + ll.lat.toFixed(4);
         var ghost = layer && layer.querySelector('.edited');
-        if (ghost) {
-          var d = '';
-          for (var k = 0; k < base.length; k++) {
-            var q = at(k);
-            d += (k ? 'L' : 'M') + q.x.toFixed(2) + ' ' + q.y.toFixed(2);
-          }
-          ghost.setAttribute('d', d);
-        }
+        if (ghost) ghost.setAttribute('d', ghostD());
+      }
+
+      /* After a removal the next surviving vertex is picked up, so a run can
+         be cut by holding the key rather than pressing and re-aiming. */
+      function nextLive(i) {
+        var j;
+        for (j = i + 1; j < base.length; j++) if (!drops[j]) return j;
+        for (j = i - 1; j >= 0; j--) if (!drops[j]) return j;
+        return null;
+      }
+
+      function onKey(e) {
+        if (!on || sel === null) return;
+        if (e.key !== 'Backspace' && e.key !== 'Delete') return;
+        // a field being typed in owns its own Backspace; the readout is
+        // read-only, so a press there is meant for the map
+        var t = e.target, n = t && t.tagName ? String(t.tagName).toLowerCase() : '';
+        if (t && t.isContentEditable) return;
+        if ((n === 'input' || n === 'textarea') && !t.readOnly) return;
+        e.preventDefault();
+        e.stopPropagation();
+        if (drops[sel]) return;
+        note(sel);
+        drops[sel] = 1;
+        delete moves[sel];
+        sel = nextLive(sel);
+        save();
+        redraw();
       }
       function onUp(e) {
         if (!dragging) return;
@@ -918,16 +1028,19 @@
           api.svg.addEventListener('pointerdown', onDown, true);
           window.addEventListener('pointermove', onMove, true);
           window.addEventListener('pointerup', onUp, true);
+          window.addEventListener('keydown', onKey, true);
           obs.observe(api.svg, { attributes: true, attributeFilter: ['viewBox'] });
           redraw();
         } else {
           api.svg.removeEventListener('pointerdown', onDown, true);
           window.removeEventListener('pointermove', onMove, true);
           window.removeEventListener('pointerup', onUp, true);
+          window.removeEventListener('keydown', onKey, true);
+          sel = null;
           obs.disconnect();
           if (layer) { layer.parentNode.removeChild(layer); layer = null; dots = null; }
-          out.textContent = Object.keys(moves).length
-            ? Object.keys(moves).length + ' move(s) kept — switch on again to go on'
+          out.textContent = edits()
+            ? edits() + ' edit(s) kept — switch on again to go on'
             : '';
         }
       }

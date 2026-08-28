@@ -10130,6 +10130,57 @@ Whole suite: 661 checks across 29 scripts, all passing.
 
 ---
 
+## Backspace takes a vertex out of the 1942 line
+
+Moving a vertex was only half of what the coast needs. Where the line loops
+out to gather in an island it should not have, the fix is not to drag those
+vertices somewhere better — it is for them not to be there.
+
+Press a handle and it is picked out, ringed in orange, and the readout says
+so. **Backspace** (or Delete) takes that vertex out of the line, and picks up
+the next one along, so a run can be cut by holding the key rather than
+pressing and re-aiming each time. A removed vertex stays on the map as a
+small dashed red ring; press it and it comes back. The green edited course
+skips whatever has been taken out, so the chord that replaces the loop is
+visible while you work.
+
+It comes out as a second list beside the moves:
+
+```
+# vertices to take out of the line altogether
+EXTENT_DROPS = [
+    # 187
+    (119.82000, 26.08227),
+]
+```
+
+Measured, on the Fujian coast at 118.5–121.5°E, with the tool armed on 11
+handles and a line of 1,142 vertices:
+
+* one press then Backspace: `gone=1`, ghost down to 1,141 segments, vertex
+  188 picked up. Three more presses of the key: `gone=4`, 1,138 segments.
+* the map did not move — `viewBox` identical before and after, as with a drag.
+* pressing a dashed ring put its vertex back: `gone=3`, 1,139 segments.
+* six Undos walked back through both kinds of edit to `gone=0`, 1,142
+  segments, and a drag afterwards still emitted a normal move.
+* **Backspace in a field being typed in edits the field, not the line.** A
+  probe input holding `xy` went to `x` and nothing was removed from the map.
+  The tool's own readout is read-only, so a press there is still meant for
+  the map.
+* moves and removals both survive a reload — 2 rings and 1 moved handle came
+  back — and settings written by the first version of the tool, which stored
+  the moves alone with no wrapper, still read.
+
+**Undo was fixed while doing this.** It took the last key of the moves
+object, and an object with numeric keys reads back in *index* order however
+it was written — so the button undid the highest-numbered move, not the last
+one made. There is a proper history now, one entry per drag rather than per
+pointermove, and it covers removals too.
+
+Whole suite: 661 checks across 29 scripts, all passing.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible
