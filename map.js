@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '209';
+  var JEM_VERSION = '210';
   var JEM_ASSETS = {"admin.js": "e5f1a2fc6c", "annotate.js": "761fbd5949", "japan-empire-map-admin.svg": "9de0304837", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "5d59e0876c", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0"};
 
   /* Every file this one fetches, with the version on it.
@@ -533,15 +533,16 @@
    * gap. 萬里橋 is Maribashi, 名間 is Nama, 車籠埔 is Sharampo: nothing about
    * the characters says so.
    */
+  /* One name, not two. The label used to carry the pair — `Nántóu (Nantō)` —
+     and beside a card that already gives the other reading, the characters and
+     a sentence about the place, the bracket was the same fact a third time and
+     the longest thing on that part of the map. The other names are one hover
+     away; the label's job is to say which stop this is. */
   function stationLabel(rec) {
-    var jp = rec.jpro || '', loc = rec.locro || '', han = rec.han || '';
-    var head = state.jpNames ? jp : loc;
-    var other = state.jpNames ? loc : jp;
+    var head = state.jpNames ? rec.jpro : rec.locro;
     // The characters stand in for a romanisation that was never sourced —
     // 79 of Taiwan's 191 — rather than one being invented on the spot.
-    if (!head) head = han;
-    if (!other || other === head) return head;
-    return head + ' (' + other + ')';
+    return head || rec.han || rec.locro || rec.jpro || '';
   }
 
   function mapLabel(rec) {
@@ -603,16 +604,19 @@
        Two hundred names at once is a wall of type over a small island; the
        squares say where the stops are, and the reader asks for the one they
        want. */
+    /* A station is lettered on the map under one condition and one only: the
+       names layer is on and the reader is close enough in. Pointing at one
+       does *not* letter it — the tooltip is already up, saying the name, the
+       other reading, the characters and what the place was, and a white label
+       under the square repeating the first line of that was the same word
+       twice a few pixels apart.
+
+       The threshold is a degree of latitude in view — about 110km — which is
+       where the stops are far enough apart on screen to letter. Measured in
+       degrees rather than map units because that is the thing being
+       described: it holds whichever of the three projections is on. */
     if (rec && rec.kind === 'station') {
       if (!stationsOn(rec.sys) || !stationInEpoch(rec)) return false;
-      // the one that was asked for, at any zoom
-      if (hotSta === rec.id) return true;
-      /* And all of them, once the reader is close enough for the names to be
-         a map rather than a wall. The threshold is a degree of latitude in
-         view — about 110km, a third of the island — which is where the stops
-         are far enough apart on screen to letter. Measured in degrees rather
-         than in map units because that is the thing being described: it holds
-         whichever of the three projections is on. */
       return !!(state.labels && state.mode !== 'quiz'
                 && latSpan() <= STATION_LABEL_LAT);
     }
@@ -2025,12 +2029,6 @@
         }
       }
     });
-    // and the name under the pointer goes with the squares
-    if (hotSta && !(byId[hotSta] && labelVisible(byId[hotSta]))) hotSta = null;
-  }
-
-  function anyStationsOn() {
-    return Object.keys(STATION_SYS).some(stationsOn);
   }
 
   /* And did this station stand at the date being shown? Taiwan's table says
@@ -2041,8 +2039,6 @@
     return rec.epochs.indexOf(state.epoch === 'e1930' ? '30' : '42') >= 0;
   }
 
-  var hotSta = null;                  // the one station whose name is showing
-  var staTapped = null;               // and which one a finger last opened
   var yellow1938 = null;
   var browseGroup = null;
 
@@ -2322,31 +2318,14 @@
                                          width: STA_SQ * 2, height: STA_SQ * 2,
                                          'class': 'sta-hit' }));
         group.appendChild(mark);
-        /* Mouse only. A finger fires this pair too, and it fires the whole of
-           it in one tap: over, enter, down, out, leave, because the touch
-           pointer is destroyed the moment the finger lifts. Left ungated, the
-           leave undid the tap's own name a few milliseconds after it appeared,
-           and the tap looked as though it had done nothing. */
-        mark.addEventListener('pointerenter', function (e) {
-          if (e.pointerType && e.pointerType !== 'mouse') return;
-          if (hotSta === t.id) return;
-          hotSta = t.id;
-          gateLabels();
-          placeLabels();
-        });
-        mark.addEventListener('pointerleave', function (e) {
-          if (e.pointerType && e.pointerType !== 'mouse') return;
-          if (hotSta !== t.id) return;
-          hotSta = null;
-          gateLabels();
-          placeLabels();
-        });
-        /* A finger has no hover and no longer needs one here: a tap goes
-           through the ordinary pointer path like a tap on anything else,
-           opens the card, and `select` lights the label from the selection.
-           This mark used to carry a pointerdown of its own that toggled the
-           label, and it fought the tap — the mark cleared the name and the tap
-           that followed re-selected the station and put it back. */
+        /* No handlers of its own. The mark answers the pointer through the
+           ordinary path — `recordFor` finds it by `.sta-mark`, and from there
+           a hover raises the tooltip and a tap opens the card, exactly as for
+           a city or a province. It carried three listeners once, to letter
+           itself on hover and to toggle that label on a tap; the label is not
+           the hover's business any more, and 1,041 marks × 3 listeners was
+           three thousand closures for a job the map already had a path for.
+           The square still lights on hover, from CSS. */
         scalables.push({ el: mark, x: p.x, y: p.y });
         var text = svgEl('text', { 'class': 'tlabel sta', 'font-size': STA_PX,
                                    y: STA_PX + 5 });
@@ -3834,9 +3813,7 @@
          and not by "Show names" — the reader who switches the railways on
          wants the stations named whether or not the country names are up.
          Everything else still waits on that button. */
-      var own = L.rec && L.rec.kind === 'station';
-      if (gone || !((showLabels || (own && state.mode !== 'quiz'))
-                    && labelVisible(L.rec))) {
+      if (gone || !(showLabels && labelVisible(L.rec))) {
         L.el.textContent = '';
         L.el.style.display = 'none';
         L.shown = false;
@@ -3972,11 +3949,8 @@
   }
 
   function placeLabels() {
-    /* The station layer runs this too, so the guard cannot be "Show names" on
-       its own — that is what it was, and the squares appeared while pointing
-       at one did nothing at all. */
     if (state.mode === 'quiz') return;
-    if (!state.labels && !anyStationsOn()) return;
+    if (!state.labels) return;
     var c = containerSize();
     var sx = c.w / view.w;
     var sy = c.h / view.h;
@@ -6148,12 +6122,6 @@
     // last thing the pointer was over.
     selCluster = (cluster !== undefined ? cluster
                   : (lastProv && lastProv.el ? clusterOf(lastProv.el) : null)) || null;
-    /* On a touch screen the label under the square follows the selection,
-       there being no pointer to have set it. On a mouse the hover owns it and
-       the selection leaves it alone — otherwise clicking a station and then
-       moving away would leave its name behind. */
-    if (coarse) staTapped = hotSta = (byId[id] && byId[id].kind === 'station')
-      ? id : null;
     if (!id || !byId[id]) {
       selCluster = null;
       infoBox.hidden = true;
@@ -6647,7 +6615,7 @@
     buildLegend();
     // and the station names bring the placer with them, since they are not
     // under the "Show names" button that used to be the only thing that ran it
-    if (showLabels || anyStationsOn()) placeLabels();
+    if (showLabels) placeLabels();
     saveState();
   }
 

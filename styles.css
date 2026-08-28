@@ -696,7 +696,7 @@ button.plain:hover { background: var(--hover-fill); }
 
    Pointer-none, because the network is context: a reader pointing at Taiwan
    wants the district under it, not the line over it. */
-#tw-rail { pointer-events: none; }
+#tw-rail, #kr-rail { pointer-events: none; }
 
 /* A station name: the smallest lettering on the map, and there may be two
    hundred of them at once, so it is lighter than a province's and carries the
@@ -763,7 +763,7 @@ button.plain:hover { background: var(--hover-fill); }
   #dlg-layers .row.pair .half + .half { padding-left: 1.6em; font-size: .95em; }
 }
 
-#tw-rail .rail {
+.rail {
   stroke: var(--rail-ink, #2b2b2b);
   stroke-width: 1.7;
   stroke-linecap: round;

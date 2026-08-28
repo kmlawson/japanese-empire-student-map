@@ -10794,6 +10794,76 @@ Whole suite: 764 checks across 32 scripts, all passing. `stations.js` carries
 
 ---
 
+## Five things wrong with the station layers, one of which was not wrong
+
+### The label under the pointer was saying what the box already said
+
+Hovering a station raised the tooltip *and* lettered the square, so the name
+appeared twice a few pixels apart — and the tooltip was the fuller of the two,
+carrying the other reading, the characters and a sentence about the place. The
+label is now written under one condition and one only: **Show names is on and
+about a degree of latitude is in view**. Pointing does not letter anything.
+
+That took `hotSta` and `staTapped` out of the file altogether, along with the
+`pointerenter`/`pointerleave` pair on every mark. Those existed only to letter
+the square under the pointer; 1,041 marks × 3 listeners was three thousand
+closures for a job the ordinary pointer path already does — `recordFor` finds a
+mark by `.sta-mark` and a hover raises the tooltip like anything else. The
+square still lights yellow on hover, from CSS. Three exemptions elsewhere that
+let station labels through with Show names off went with them.
+
+### The label carried both readings
+
+`Nántóu (Nantō)` — the pair, on the map, beside a card giving the same pair. It
+is one name now, whichever the Japanese-names switch asks for, and the other is
+in the card.
+
+### Iri three times over
+
+A junction is in the Korean source **once per line**, at the same coordinate
+under a different `st_id`: Iri is there three times, on the Honam, the Jeolla
+and the Gunsan. Drawn as they arrived that was three squares stacked on one
+spot and one name lettered three times, which is what the screenshot showed.
+
+They are merged in the build, on name and position — same name within 300m,
+which is well clear of the widest of the source's own copies (11m to 92m:
+Taejon, Taegu, Yongsan, Kyŏngju) and nowhere near the distance between two real
+stations sharing a name. **55 junctions merged from 123 rows; 918 stations down
+to 850, 570 of them on the 1930 map.**
+
+The merged record knows all its lines, which is a better sentence than the one
+it replaced: not *A station on the Honam line* but *A junction of the Honam
+line, the Jeolla line and the Gunsan line.*
+
+Two coordinates carry two stations with **different** names — Musu/Yup'yŏng and
+Hakhyŏn/Yŏngyang, both in the north. Those look like source errors and are left
+alone: merging records whose names disagree would be inventing a fact.
+
+### The Korean lines did not draw
+
+`#tw-rail .rail` — the rail styling was scoped to the Taiwan group, so
+`#kr-rail`'s paths were there, positioned, with 80,000 characters of path data
+and `stroke: none`. The selector is `.rail` now.
+
+### The stations in the sea are not a projection fault
+
+Measured against what is actually drawn, at a view holding the whole peninsula:
+**28 of 636 stations fall in the water, and every one of them is one or two
+screen pixels from land.** Most are on the Tumen — Hoeryŏng, Hakp'o, Tonggwan,
+Hunyung, Sin'gŏn — where the frontier is a river and the drawn line is a
+simplification of it.
+
+The decisive test is whether the misses point the same way. If Korea were drawn
+too far south, every station that missed would miss northward. The mean
+direction is 29° with a **coherence of 0.43** and bearings spread from -129° to
++152° — they point all round the compass. That is boundary coarseness against
+accurate station coordinates, not an offset in the shape and not a projection
+error. Nothing to fix in the geometry; the stations are where they were.
+
+Whole suite: 766 checks across 32 scripts, all passing.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

@@ -143,7 +143,7 @@ console.log('\n— the hit target is bigger than the square it covers —');
   check('and the target is forgiving', sz.hit>=sz.sq*1.8, sz.hit+'px over '+sz.sq+'px');
 }
 
-console.log('\n— pointing at one names it, and only it —');
+console.log('\n— pointing at one raises the box and letters nothing —');
 {
   const t=await aSquare(p);
   check('there is a square to point at', !!t);
@@ -153,25 +153,24 @@ console.log('\n— pointing at one names it, and only it —');
   check('and the pointer reaches it', el==='sta-hit'||el==='sta-sq', 'got '+el);
   await p.mouse.move(t.x-60,t.y-60); await sleep(200);
   await p.mouse.move(t.x,t.y,{steps:8}); await sleep(500);
-  const on=await names(p);
-  check('hovering names exactly one station', on.length===1, JSON.stringify(on));
-  check('and the name carries both readings', /\(/.test(on[0]||''), on[0]);
-  await p.mouse.move(20,20,{steps:8}); await sleep(500);
-  check('moving off puts it away', (await names(p)).length===0);
+  check('the floating box comes up', !!(await tip(p)));
+  /* And no white label under the square. The box already says the name, the
+     other reading, the characters and what the place was; a label repeating
+     the first line of that a few pixels below was the same word twice. */
+  check('and nothing is lettered on the map', (await names(p)).length===0,
+    JSON.stringify(await names(p)));
+  await p.mouse.move(20,20,{steps:8}); await sleep(400);
+  check('the box goes when the pointer does', (await tip(p))===null);
 }
 
-console.log('\n— and the name never survives the layer going off —');
+console.log('\n— and the squares go when the layer does —');
 {
-  const t=await aSquare(p);
-  await p.mouse.move(t.x,t.y,{steps:6}); await sleep(450);
-  check('a name is showing to begin with', (await names(p)).length===1);
   await p.evaluate(()=>{const s=document.getElementById('opt-tw-stations');
     s.checked=false; s.dispatchEvent(new Event('change',{bubbles:true}));});
   await sleep(600);
-  const off=await p.evaluate(()=>({
-    shown:getComputedStyle(document.getElementById('tw-stations')).display!=='none'}));
-  check('the squares go', off.shown===false);
-  check('and the name with them', (await names(p)).length===0);
+  check('the squares go',
+    (await p.evaluate(()=>getComputedStyle(document.getElementById('tw-stations'))
+      .display))==='none');
 }
 
 /* ————————————————————————— a finger ————————————————————————— */
@@ -183,24 +182,27 @@ await q.goto(URL,{waitUntil:'networkidle0'});
 await sleep(3200);
 await turnOn(q);
 {
-  check('no name before anything is touched', (await names(q)).length===0);
   const t=await aSquare(q);
   check('there is a square to tap', !!t);
-  await q.touchscreen.tap(t.x,t.y); await sleep(600);
-  const one=await names(q);
-  check('a tap names it', one.length===1, JSON.stringify(one));
-  await q.touchscreen.tap(t.x,t.y); await sleep(600);
-  check('and a second tap puts it away', (await names(q)).length===0);
+  await q.touchscreen.tap(t.x,t.y); await sleep(700);
+  const c1=await card(q);
+  check('a tap opens the card', c1.hidden===false, JSON.stringify(c1.primary));
+  check('and marks the square it opened on',
+    (await q.evaluate(()=>document.querySelectorAll('#tw-stations .sta-mark.sel').length))===1);
+  check('and still letters nothing', (await names(q)).length===0);
+  await q.touchscreen.tap(t.x,t.y); await sleep(700);
+  check('a second tap on the same one closes it', (await card(q)).hidden===true);
 
-  /* Two different squares: the second tap should move the name, not add one. */
-  const a=await aSquare(q,0), c=await aSquare(q,4);
-  check('two different squares to work with', a && c && (a.x!==c.x||a.y!==c.y));
-  await q.touchscreen.tap(a.x,a.y); await sleep(500);
-  const first=(await names(q))[0];
-  await q.touchscreen.tap(c.x,c.y); await sleep(500);
-  const second=await names(q);
-  check('tapping another moves the name', second.length===1, JSON.stringify(second));
-  check('and it is a different one', second[0]!==first, first+' then '+second[0]);
+  /* Two different squares: the second tap should move the card, not stack. */
+  const a=await aSquare(q,0), d=await aSquare(q,4);
+  check('two different squares to work with', a && d && (a.x!==d.x||a.y!==d.y));
+  await q.touchscreen.tap(a.x,a.y); await sleep(600);
+  const first=(await card(q)).primary;
+  await q.touchscreen.tap(d.x,d.y); await sleep(600);
+  const second=await card(q);
+  check('tapping another moves the card', second.hidden===false);
+  check('and it names a different station', second.primary!==first,
+    first+' then '+second.primary);
 }
 
 /* ————————————————— what a station says ————————————————— */
@@ -300,6 +302,22 @@ console.log('\n— with Other on, the names wait for the zoom —');
     return n;});
   check('though the placer still drops the ones that would collide',
     drawn>5 && drawn<near.length, drawn+' of '+near.length+' actually drawn');
+  /* One name, not the pair. The label used to read `Nántóu (Nantō)`, which
+     beside a card that already gives the other reading was the same fact a
+     third time and the longest thing on that part of the map. */
+  check('and each label carries one name, not two',
+    near.every(n=>!/\(/.test(n)), JSON.stringify(near.slice(0,3)));
+  /* A junction is in the Korean source once per line, at one coordinate. Left
+     as they arrive that is three squares on one spot and one name lettered
+     three times, which is what a reader saw at Iri. */
+  const stacked=await far.evaluate(()=>{
+    const seen={}; let n=0;
+    document.querySelectorAll('.sta-layer .sta-mark').forEach(m=>{
+      if(m.style.display==='none') return;
+      const t=m.getAttribute('transform')||'';
+      if(seen[t]) n++; else seen[t]=1;});
+    return n;});
+  check('and no two squares are stacked on one spot', stacked===0, stacked+' stacked');
   await far.close();
 }
 
@@ -344,13 +362,19 @@ console.log('\n— Korea: the same machinery, a different pair of names —');
     marks:document.querySelectorAll('#kr-stations .sta-mark').length,
     shown:[...document.querySelectorAll('#kr-stations .sta-mark')]
       .filter(m=>m.style.display!=='none').length}));
-  check('one mark per station in the table', built.marks===built.total && built.total>900,
+  /* 850 and not the source's 918: a junction is in the source once per line,
+     at the same coordinate under a different id — Iri three times, on the
+     Honam, the Jeolla and the Gunsan — and they are merged into one station
+     that knows all its lines. 55 junctions out of 123 rows. */
+  check('one mark per station in the table', built.marks===built.total && built.total>800,
     built.marks+' of '+built.total);
+  check('and the source\'s repeated junctions are merged away',
+    built.total < 918 && built.total > 820, built.total+' from 918 rows');
   /* The two files are the same 918 stations; a station that did not exist at
      that date carries a null geometry rather than being absent, and 282 of
      them are null in 1930. */
   check('and only the ones that stood in 1930 are drawn',
-    built.shown>600 && built.shown<built.total, built.shown+' of '+built.total);
+    built.shown>500 && built.shown<built.total, built.shown+' of '+built.total);
 
   const t=await k.evaluate(()=>{
     for(const m of document.querySelectorAll('#kr-stations .sta-mark')){
@@ -370,7 +394,7 @@ console.log('\n— Korea: the same machinery, a different pair of names —');
     check('the hanja is under it', !!(mr&&mr.some(l=>/[\u4e00-\u9fff]/.test(l))),
       JSON.stringify(mr));
     check('and the line it stood on is said',
-      !!(mr&&mr.some(l=>/^A station on the /.test(l))), JSON.stringify(mr));
+      !!(mr&&mr.some(l=>/^A (station on|junction of) the /.test(l))), JSON.stringify(mr));
 
     await k.mouse.down(); await k.mouse.up(); await sleep(700);
     const c=await card(k);

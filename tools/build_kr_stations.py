@@ -24,6 +24,14 @@ map 918.
 `id_lines` is the line the station stood on, in Korean. It is carried through
 as the short line the card opens with, which for most of these is the only
 thing that can be said about them without somebody writing 900 paragraphs.
+
+A JUNCTION IS IN THE SOURCE ONCE PER LINE, at the same coordinate under a
+different `st_id` -- Iri is there three times, on the Honam, the Jeolla and the
+Gunsan. Drawn as they arrive that is three squares stacked on one spot and the
+same name lettered three times over, which is what the map did. They are merged
+here into one station that knows all its lines, which is both one square and a
+better sentence: not "a station on the Honam line" but "a junction where three
+lines met". 51 groups, 115 rows, 918 stations down to 854.
 """
 import csv
 import io
@@ -83,12 +91,12 @@ LINES = {
     # what it is -- 남부 southern, 북부 northern, 중부 central, 탄광 colliery --
     # that is said in English; where the name is only a place name it is left
     # as a place name. Nothing here is a guess about what a line *did*.
-    "동해남부선": "East Sea line, southern section",
-    "동해북부선": "East Sea line, northern section",
-    "동해중부선": "East Sea line, central section",
-    "경전남부선": "Gyeongjeon line, southern section",
-    "경경남부선": "Gyeonggyeong line, southern section",
-    "경경북부선": "Gyeonggyeong line, northern section",
+    "동해남부선": "East Sea line (southern section)",
+    "동해북부선": "East Sea line (northern section)",
+    "동해중부선": "East Sea line (central section)",
+    "경전남부선": "Gyeongjeon line (southern section)",
+    "경경남부선": "Gyeonggyeong line (southern section)",
+    "경경북부선": "Gyeonggyeong line (northern section)",
     "장진선": "Jangjin line (Chōshin)",
     "사장선": "Sajang line",
     "수려선": "Suryeo line (Suwon–Yeoju)",
@@ -205,6 +213,51 @@ def load():
     return recs, live
 
 
+def merge_junctions(recs, live):
+    """One record per name and place, carrying every line that met there.
+
+    Keyed on the name and the rounded position rather than on the position
+    alone: two different stations a few metres apart are two stations, and the
+    same name at the same coordinate is one station listed twice.
+    """
+    # Same name, and close enough that it cannot be a second station. The
+    # source's copies of one junction sit 11m to 92m apart -- Taejon, Taegu,
+    # Yongsan, Kyongju are all in that band -- so 300m is well clear of the
+    # widest of them and nowhere near the distance between two real stations
+    # that happen to share a name.
+    SAME = 0.0027                     # degrees, about 300m at this latitude
+    groups = {}
+    order = []
+    for sid in sorted(recs):
+        r = recs[sid]
+        if r["lon"] is None:
+            continue
+        key = None
+        for k in order:
+            g0 = groups[k]
+            if g0["hangul"] != r["hangul"]:
+                continue
+            if (abs(g0["lon"] - r["lon"]) < SAME
+                    and abs(g0["lat"] - r["lat"]) < SAME):
+                key = k
+                break
+        if key is None:
+            key = sid
+            groups[key] = dict(r)
+            groups[key]["lines"] = []
+            groups[key]["ids"] = []
+            order.append(key)
+        g = groups[key]
+        if r["line"] and r["line"] not in g["lines"]:
+            g["lines"].append(r["line"])
+        g["ids"].append(sid)
+        # the merged station stands at a date if any of its rows does
+        for ep in live:
+            if sid in live[ep]:
+                live[ep].add(g["id"])
+    return [groups[k] for k in order]
+
+
 def main():
     report = "--report" in sys.argv
     recs, live = load()
@@ -215,19 +268,17 @@ def main():
             for old in csv.DictReader(fh):
                 if old.get("id"):
                     held[old["id"]] = old
+    placeless = [sid for sid in sorted(recs) if recs[sid]["lon"] is None]
+    merged = merge_junctions(recs, live)
     rows = []
-    placeless = []
-    for sid in sorted(recs):
-        r = recs[sid]
-        if r["lon"] is None:
-            # null in both files: it is in the table and on no map
-            placeless.append(sid)
-            continue
+    for r in merged:
+        sid = r["id"]
         was = held.get(sid) or {}
         rows.append({
             "id": sid,
             "hangul": r["hangul"], "hanja": r["hanja"],
-            "mr": r["mr"], "romaji": r["romaji"], "line": r["line"],
+            "mr": r["mr"], "romaji": r["romaji"],
+            "line": " / ".join(r["lines"]),
             "lon": "%.5f" % r["lon"], "lat": "%.5f" % r["lat"],
             "e1930": "1" if sid in live["e1930"] else "",
             "e1942": "1" if sid in live["e1942"] else "",
@@ -240,10 +291,13 @@ def main():
         w.writeheader()
         w.writerows(rows)
     write_js(rows)
+    junctions = sum(1 for r in merged if len(r["lines"]) > 1)
     sys.stderr.write(
-        "%s: %d stations, %d on the 1930 map, %d on the 1942 map\n"
+        "%s: %d stations, %d on the 1930 map, %d on the 1942 map; "
+        "%d junctions merged from %d rows\n"
         % (os.path.relpath(OUT, ROOT), len(rows),
-           sum(1 for r in rows if r["e1930"]), sum(1 for r in rows if r["e1942"])))
+           sum(1 for r in rows if r["e1930"]), sum(1 for r in rows if r["e1942"]),
+           junctions, sum(len(r["ids"]) for r in merged if len(r["ids"]) > 1)))
     if placeless:
         sys.stderr.write("  %d with no position in either file: %s\n"
                          % (len(placeless), " ".join(placeless)))
@@ -272,15 +326,37 @@ def write_js(rows):
              "mr": r["mr"], "ro": r["romaji"],
              "lon": float(r["lon"]), "lat": float(r["lat"]),
              "e": ("30" if r["e1930"] else "") + ("42" if r["e1942"] else "")}
-        line = LINES.get(r["line"], r["line"])
-        where = []
-        if line:
-            where.append("on the " + line)
+        names = [LINES.get(k, k) for k in (r["line"] or "").split(" / ") if k]
+        if r["line"]:
             o["line"] = r["line"]
+        if len(names) > 1:
+            # A junction says so, and names what met there. `Honam line
+            # (Konan, the south-west)` is a mouthful three times over, so in a
+            # list the bracket goes and the word `line` is said once at the
+            # end: "where the Honam, Jeolla and Gunsan lines met". Everything
+            # after the first bracket is a gloss or a section, and two
+            # sections of one line meeting is still one name.
+            bare = []
+            for n in names:
+                b = n.split(" (")[0]
+                if b not in bare:
+                    bare.append(b)
+            if len(bare) == 1:
+                head = "A junction on the " + bare[0]
+            else:
+                # Each name in full and its own article. Factoring the word
+                # `line` out to the end read badly the moment the list held
+                # something that is not one -- "the Northern Korea Development
+                # Railway and North Hamgyong lines" makes the company a line.
+                head = ("A junction of the " + ", the ".join(bare[:-1])
+                        + " and the " + bare[-1])
+        elif names:
+            head = "A station on the " + names[0]
+        else:
+            head = "A station"
         if r.get("prov"):
-            where.append("in " + r["prov"])
-        if where:
-            o["short"] = "A station " + ", ".join(where) + "."
+            head += ", in " + r["prov"]
+        o["short"] = head + "."
         if r.get("note"):
             o["note"] = r["note"]
         out.append(o)
