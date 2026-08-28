@@ -17,8 +17,9 @@
 # 蕃地, and what the word was doing
 
 Rather more than half the island — the whole central range and most of the east
-— is drawn here as one unit called **Taiwan Indigenous Peoples**. In the
-colonial administration it was **蕃地**, *banchi*: "savage land".
+— is drawn here as one unit, named for what the colonial state called it: the
+**Taiwan Government-General's demarcated "Aborigine Territory"**. In the
+administration's own hand it was **蕃地**, *banchi*: "savage land".
 
 The word is doing work. Taiwan's plains were governed through an ordinary
 hierarchy of 州, 郡 and 街庄, with police, land registers and taxes. The
@@ -123,7 +124,8 @@ that ended with Taiwan being ceded twenty-one years later.
 The administered coast of Taitō-chō: a strip of the south-east between the
 mountains and the sea, with Kōtōsho (Orchid Island) and Kasho-tō (Green
 Island) offshore. Kōtōsho was left largely alone as a reservation for the Yami,
-and the interior of the chō is Taiwan Indigenous Peoples' territory.
+and the interior of the chō falls inside the demarcated "Aborigine
+Territory".
 
 ## TwHoko
 

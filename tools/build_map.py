@@ -1741,8 +1741,9 @@ EXTENT_EDIT_DRIFT = 5.0    # map units; about a hundred kilometres
 # what is known and accepted, an eighth means something else has moved.
 EXTENT_EDITS_UNPLACED = 7
 
+# ---- first pass, read off the sheet of 28 August ----
 # index hint, where it was, where it goes -- lon/lat
-EXTENT_EDITS = [
+EXTENT_EDITS_1 = [
     (172, (121.56500, 28.63098), (121.84987, 28.54406)),
     (173, (121.68500, 28.42451), (121.99176, 28.47957)),
     (176, (121.17500, 28.20001), (121.31758, 28.00180)),
@@ -1855,7 +1856,7 @@ EXTENT_EDITS = [
 ]
 
 # index hint, where it was -- vertices taken out of the line altogether
-EXTENT_DROPS = [
+EXTENT_DROPS_1 = [
     (212, (116.87500, 23.60977)),
     (213, (116.84000, 23.63726)),
     (214, (116.76000, 23.63267)),
@@ -1871,6 +1872,41 @@ EXTENT_DROPS = [
     (565, (104.19000, -8.28323)),
     (566, (104.76000, -8.65414)),
     (567, (105.07500, -8.95554)),
+]
+
+
+# ---- second pass, read off the sheet the first pass produced ----
+#
+# A pass is read off the line as it then stood, so its indices and coordinates
+# are into the *output* of the pass before it -- fifteen vertices came out in
+# the first, and everything after each of them moved up. They cannot be merged
+# into one list: 245 and 246 here are the two vertices at the Yangjiang
+# detour, which the first pass knew as 256 and 259.
+EXTENT_EDITS_2 = [
+    (181, (120.61500, 27.35952), (120.65283, 27.29103)),
+    (186, (120.04500, 26.32452), (120.27328, 26.23354)),
+    (187, (119.89500, 26.21243), (120.11600, 26.08316)),
+    (226, (116.51500, 22.92537), (116.52235, 22.86740)),
+    (227, (114.46500, 22.41324), (114.54951, 22.36556)),
+    (245, (112.91000, 22.74104), (112.99308, 22.78303)),
+    (246, (112.97500, 22.71337), (112.97150, 22.68996)),
+]
+
+EXTENT_DROPS_2 = [
+    (170, (121.47000, 28.69240)),
+    (171, (121.70500, 28.67485)),
+    (172, (121.71000, 28.62220)),
+    (173, (121.63500, 28.58269)),
+    (247, (112.97500, 22.78253)),
+]
+
+# Each pass, with how many of its edits are known not to place. Seven of the
+# first pass could not be put on the line the build draws and are held back;
+# see EXTENT_EDITS_UNPLACED above. A pass that fails more than its number
+# stops the build.
+EXTENT_EDIT_PASSES = [
+    (EXTENT_EDITS_1, EXTENT_DROPS_1, EXTENT_EDITS_UNPLACED),
+    (EXTENT_EDITS_2, EXTENT_DROPS_2, 0),
 ]
 
 
@@ -1910,16 +1946,26 @@ def _extent_match(pts, hint, want, bad):
 
 
 def apply_extent_edits(pts):
-    """Move and drop vertices of the built line, addressed by coordinate."""
+    """Move and drop vertices of the built line, addressed by coordinate.
+
+    One pass per session of editing. A pass is read off the line as it stood
+    when the tool was open, so each is applied to what the one before it left.
+    """
     if not pts:
         return pts
     if os.environ.get("EXTENT_EDITS_OFF"):
         sys.stderr.write("extent edits: SKIPPED (EXTENT_EDITS_OFF)\n")
         return pts
+    for n, (moves, drops, allowed) in enumerate(EXTENT_EDIT_PASSES, 1):
+        pts = _extent_pass(pts, moves, drops, allowed, n)
+    return pts
+
+
+def _extent_pass(pts, moves, drops, allowed, n):
     bad, drifted = [], []
     out = list(pts)
     taken = {}
-    for hint, was, now in EXTENT_EDITS:
+    for hint, was, now in moves:
         got = _extent_match(pts, hint, was, bad)
         if not got:
             continue
@@ -1932,7 +1978,7 @@ def apply_extent_edits(pts):
             drifted.append((hint, i, round(d, 2)))
         out[i] = project(*now)
     gone = set()
-    for hint, was in EXTENT_DROPS:
+    for hint, was in drops:
         got = _extent_match(pts, hint, was, bad)
         if not got:
             continue
@@ -1945,27 +1991,24 @@ def apply_extent_edits(pts):
         if d > EXTENT_EDIT_TOL:
             drifted.append((hint, i, round(d, 2)))
         gone.add(i)
-    if len(bad) > EXTENT_EDITS_UNPLACED:
+    if len(bad) > allowed:
         raise SystemExit(
-            "extent edits: %d could not be placed on the built line, and only "
-            "%d of those are known about. Something upstream has moved the "
-            "line again; re-read these with the admin tool.\n  "
-            % (len(bad), EXTENT_EDITS_UNPLACED) + "\n  ".join(bad))
-    if bad:
-        sys.stderr.write("extent edits: %d held back, unchanged from before:\n  %s\n"
-                         % (len(bad), "\n  ".join(bad)))
+            "extent pass %d: %d could not be placed on the built line, and "
+            "only %d of those are known about. Something upstream has moved "
+            "the line again; re-read these with the admin tool.\n  "
+            % (n, len(bad), allowed) + "\n  ".join(bad))
     out = [q for j, q in enumerate(out) if j not in gone]
-    sys.stderr.write("extent edits: %d of %d moved, %d of %d taken out; "
+    sys.stderr.write("extent pass %d: %d of %d moved, %d of %d taken out; "
                      "%d landed on the very vertex they name\n"
-                     % (len(taken) - len(gone), len(EXTENT_EDITS),
-                        len(gone), len(EXTENT_DROPS),
-                        len(taken) - len(drifted)))
+                     % (n, len(taken) - len(gone), len(moves),
+                        len(gone), len(drops), len(taken) - len(drifted)))
+    if bad:
+        sys.stderr.write("  %d held back, unchanged from before:\n    %s\n"
+                         % (len(bad), "\n    ".join(bad)))
     if drifted:
         sys.stderr.write(
             "  %d landed on a vertex that has drifted since they were read, "
-            "worst %.2f units: %s\n"
-            % (len(drifted), max(d for _, _, d in drifted),
-               ", ".join("%d->%d(%.2f)" % t for t in drifted)))
+            "worst %.2f units\n" % (len(drifted), max(d for _, _, d in drifted)))
     return out
 
 

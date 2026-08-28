@@ -191,8 +191,9 @@ console.log('\n— the 蕃地 is one shape, and points at no prefecture —');
   check('it can be pointed at', !!at);
   const tip=await p.evaluate(()=>{const t=document.querySelector('#tip,#tooltip');
     return t?t.textContent:'';});
-  check('and it is called Taiwan Indigenous Peoples',
-    /Taiwan Indigenous Peoples/.test(tip), tip.slice(0,60));
+  check('and it is named for the demarcation, not for the people in it',
+    /Government-General's demarcated "Aborigine Territory"/.test(tip),
+    tip.slice(0, 70));
   /* And the administration's own word for it is *not* in the tooltip. 蕃 is
      "savage", and the tooltip is where a reader meets a place with no context
      round it — the term belongs in the card, once, in the sentence that says

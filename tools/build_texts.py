@@ -389,25 +389,35 @@ def build_pages():
         rows = T.read_csv(vpath)
         if rows:
             version = rows[0].get("version", version)
-    # The number moves on a hundredth only when asked — `--bump`, which the
-    # release step passes and an ordinary build does not. It used to move on
-    # every run, and a session that rebuilds while measuring runs this twenty
-    # times: the version went 0.82 to 1.02 in a day with nothing released in
-    # between, which is a number that lies to the reader about how far the work
-    # has come. A build is not a release. Counted in hundredths and not added
-    # as a float, because 0.82 + 0.01 is 0.8300000000000001 and that would be
-    # the version somebody read.
+    # `version.csv` holds the UPDATE NUMBER — a whole number that counts
+    # releases of version 1 — and the reader is shown "Version 1 update 203",
+    # short form 1.203. THE LEADING 1 DOES NOT MOVE. It is not a major version
+    # that a hundred updates roll over: it changes when the author says the map
+    # is a version 2, and at no other time. See CLAUDE.md.
+    #
+    # It was a decimal, 0.82 through 2.02, and hundredths were doing two jobs
+    # at once — counting releases and implying that passing x.99 meant
+    # something. It did not. The number carried over from that scheme by
+    # multiplying by a hundred, so 2.02 became update 202 and nothing a reader
+    # had seen went backwards.
+    #
+    # The number moves by one only when asked — `--bump`, which the release
+    # step passes and an ordinary build does not. It used to move on every run,
+    # and a session that rebuilds while measuring runs this twenty times: it
+    # went 0.82 to 1.02 in a day with nothing released in between, which is a
+    # number that lies to the reader about how far the work has come. A build
+    # is not a release.
     if "--bump" in sys.argv and os.path.exists(vpath):
         try:
-            version = "%.2f" % ((int(round(float(version) * 100)) + 1) / 100.0)
+            version = str(int(version) + 1)
         except ValueError:
             pass
         else:
             with open(vpath, "w", encoding="utf-8", newline="") as fh:
                 fh.write("version\n%s\n" % version)
     stamp = time.strftime("%d %B %Y, %H:%M")
-    footer = ('  <p class="version">Version <span id="jem-version">%s</span>'
-              ' · last updated %s</p>\n'
+    footer = ('  <p class="version">Version 1 update '
+              '<span id="jem-version">%s</span> · last updated %s</p>\n'
               % (html_escape(version), html_escape(stamp)))
 
     # And the same number into map.js, so the About dialog can report the

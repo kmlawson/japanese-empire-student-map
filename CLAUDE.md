@@ -1,26 +1,39 @@
 # Working notes for this project
 
-## The version number moves once per push, not once per build
+## The map is version 1. Never make it version 2.
 
-`texts/version.csv` holds one number and `tools/build_texts.py` stamps it into
-the foot of the About dialog with the date and time of the build.
+`texts/version.csv` holds one whole number: the **update number**. The reader
+is shown *Version 1 update 203*, short form **1.203**, and the leading 1 is
+not a counter. It does not roll over at a hundred, it does not follow from
+anything the work does, and no amount of change earns it. **It moves only when
+the author says the map is a version 2**, in those words. Until then every
+release is another update of version 1.
 
-**Bump it by 0.01 once, immediately before pushing.** Not once per build.
+Bump the update number by **one**, once, immediately before pushing.
 
 ```
 python3 tools/build_texts.py --bump      # the release step: bump, then stamp
 python3 tools/build_texts.py             # every other build: stamp only
 ```
 
+It was a decimal once — 0.82 through 2.02 — and the hundredths were doing two
+jobs at once, counting releases and implying that crossing x.99 meant
+something. It did not. The number carried over by multiplying by a hundred, so
+2.02 became update 202 and nothing a reader had already seen went backwards.
+
+## The version number moves once per push, not once per build
+
+`tools/build_texts.py` stamps the update number into the foot of the About
+dialog with the date and time of the build.
+
 Without `--bump` the number is left alone. This matters because a working
 session rebuilds constantly — after a geometry change, after a text change,
 after every measurement — and a bump on each of those is not a version, it is a
-count of how many times a tool ran. It went 0.82 to 1.02 in a single day that
-way, with nothing released in between, which tells a student the map has passed
-1.0 when it has not.
+count of how many times a tool ran. It moved twenty in a single day that way,
+with nothing released in between.
 
-One push, one hundredth. If a session pushes twice, that is two hundredths. If
-a build is made and thrown away, the number does not move.
+One push, one update. If a session pushes twice, that is two updates. If a
+build is made and thrown away, the number does not move.
 
 The date beside it is stamped on every build, bump or no bump, because its job
 is to say how old the thing in front of the reader is.

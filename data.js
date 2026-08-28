@@ -7188,7 +7188,7 @@ JMAP.PROVINCES = {
     wiki: 'https://en.wikipedia.org/wiki/Tait%C5%8D_Prefecture',
     local: 'Táidōng-tīng (Taitō-chō, Taitung)',
     short: 'The administered coast of Taitō-chō in the south-east, with Kōtōsho and Kasho-tō offshore',
-    note: 'The administered coast of Taitō-chō: a strip of the south-east between the mountains and the sea, with Kōtōsho (Orchid Island) and Kasho-tō (Green Island) offshore. Kōtōsho was left largely alone as a reservation for the Yami, and the interior of the chō is Taiwan Indigenous Peoples\' territory.'
+    note: 'The administered coast of Taitō-chō: a strip of the south-east between the mountains and the sea, with Kōtōsho (Orchid Island) and Kasho-tō (Green Island) offshore. Kōtōsho was left largely alone as a reservation for the Yami, and the interior of the chō falls inside the demarcated "Aborigine Territory".'
   },
   TwHoko: {
     en: 'Hōko-chō (Pénghú, the Pescadores)', ja: '澎湖廳 (Hōko-chō)', zh: '澎湖廳',
@@ -7275,7 +7275,8 @@ JMAP.PROVINCES = {
     short: 'The administered coast of Karenkō-chō, a thin shelf between the mountains and the Pacific, settled late and largely by Japanese immigrants'
   },
   TwBanchi: {
-    en: 'Taiwan Indigenous Peoples', ja: '台湾原住民族 (Taiwan genjūminzoku)', zh: '臺灣原住民族',
+    en: 'Taiwan Government-General\'s demarcated "Aborigine Territory"',
+    ja: '台湾原住民族 (Taiwan genjūminzoku)', zh: '臺灣原住民族',
     wiki: 'https://en.wikipedia.org/wiki/Taiwanese_indigenous_peoples',
     short: 'The highlands and the east: country the colonial state claimed and policed but never governed as it did the plains',
     note: 'This territory is the Taiwan Government-General\'s demarcated "Aborigine Territory" (蕃地) for around 1930. It is drawn from the administration\'s own demarcation, not from any account of where people actually lived. Please see *Outcasts of Empire: Japan\'s Rule on Taiwan\'s "Savage Border," 1874–1945* by Paul Barclay for more discussion on representations of this territory and its peoples.'

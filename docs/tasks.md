@@ -10319,6 +10319,89 @@ Whole suite: 685 checks across 30 scripts, all passing.
 
 ---
 
+## The 蕃地 is named for the demarcation, not for the people inside it
+
+`TwBanchi` was **Taiwan Indigenous Peoples**. It is now the **Taiwan
+Government-General's demarcated "Aborigine Territory"** — the administration's
+own act rather than the people it drew a line around, which is what the shape
+actually records: the card already said so, and the label did not.
+
+Changed by key in `texts/territories/sub-units/taiwan.csv` with
+`csv.DictWriter`, so the quoting round-trips: the field now reads
+`"Taiwan Government-General's demarcated ""Aborigine Territory"""` and comes
+back out intact, with the file's 64 rows and every other column untouched.
+The prose in `taiwan.md` and the note in `sources.md` follow it, so the page
+does not contradict its own map. `tools/test/taiwan.js` asserted the old name
+and now asserts the new one.
+
+**The closing quote was added.** The name as given ended
+`demarcated "Aborigine Territory` with the quotation open; the prose two
+sections down in the same file closes it, so that is what went in.
+
+**The label is now 388 pixels wide against a 253-pixel shape**, a 136-pixel
+overrun at the Taiwan view — it is drawn straight across the island and out
+over the sea on both sides. It is only drawn at that zoom: at the opening view
+and at the East Asia view the level gate keeps it off entirely, so nothing is
+written across the Philippines. Left as it is, because the name was asked for
+by name. If it wants fixing, the map label and the card headline would have to
+part company.
+
+The Japanese and Chinese names are unchanged — 台湾原住民族 and 臺灣原住民族,
+which still say "Taiwan indigenous peoples". Making them agree with the
+English would mean putting 蕃地 on the map as a label, and that is a decision
+about a slur, not a consistency fix.
+
+---
+
+## Version 1, update 203
+
+The number was a decimal, 0.82 through 2.02, and the hundredths were doing two
+jobs at once: counting releases, and implying that crossing x.99 meant
+something had arrived. It did not.
+
+`texts/version.csv` now holds one whole number, the **update count**, and the
+About dialog reads **Version 1 update 203**. It carried over by multiplying by
+a hundred, so 2.02 became 202 and nothing a reader had already seen went
+backwards. `--bump` adds one instead of a hundredth.
+
+**The leading 1 does not move.** Not at a hundred updates, not at a thousand,
+not for any amount of work. It changes when the author says the map is a
+version 2, in those words, and the rule is written at the top of `CLAUDE.md`
+where the old hundredths rule was.
+
+---
+
+## A second pass of hand corrections to the 1942 line
+
+Seven moves and five removals, read off the sheet the first pass produced.
+**All twelve placed on the exact vertex they name** — no drift, nothing held
+back — which is what happens when the edits and the sheet are the same age.
+
+The passes cannot be merged into one list. Fifteen vertices came out in the
+first pass and everything after each of them moved up, so the second pass's
+numbering is into the *output* of the first: 245 and 246 here are the two
+vertices at the Yangjiang detour that the first pass knew as 256 and 259.
+`EXTENT_EDIT_PASSES` applies them in order, one pass per session of editing,
+each to what the one before it left.
+
+**It puts two islands back inside the line.** Measured with
+`tools/check_extent.py`:
+
+| | islands enclosed | area |
+|---|--:|--:|
+| after pass 1 | 48 | 32.2 |
+| after pass 2 | **50** | **32.9** |
+
+The two are just off Fuzhou, at **119.994 E 26.219 N** (0.33) and
+**119.946 E 26.161 N** (0.45) — inside because moves 186 and 187 take the line
+east, seaward of them, by about twenty kilometres. That may be the intention;
+it is written down here either way, because the run of work these edits belong
+to was about getting unoccupied ground *outside* the line.
+
+Whole suite: 685 checks across 30 scripts, all passing.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible
