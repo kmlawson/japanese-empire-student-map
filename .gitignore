@@ -38,6 +38,14 @@ exports/
 # needs the layers rebuilds them into data/ignored/ from the dumps.
 data/ignored/
 
+# The NIKH Korean modern-geography points, unpacked. The zip beside it is
+# committed — 1.0 MB, byte-for-byte what the institute served, with its
+# checksum — and this is what comes back out of it: a 19 MB DBF that is
+# almost entirely padding, since the records are fixed-width and five of the
+# fields are 100 or 200 characters wide. data/nikh-korea/fetch.sh unpacks it
+# again in a second.
+data/nikh-korea/shp/
+
 # Working scratch, not part of the map. rr.html is a saved copy of somebody
 # else's site kept while looking at how they model historical boundaries;
 # whg.tmp is a zero-byte leftover; deletion-tests holds a copy of a superseded
