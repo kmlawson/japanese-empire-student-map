@@ -701,6 +701,24 @@ button.plain:hover { background: var(--hover-fill); }
 /* A station name: the smallest lettering on the map, and there may be two
    hundred of them at once, so it is lighter than a province's and carries the
    same halo so it survives crossing the line it belongs to. */
+/* A station: a small square, drawn at a constant size on screen. Filled pale
+   so it reads on the dark red of the colony and on the sea alike, with the
+   same brown line the map draws everything else in. The hit target over it is
+   twice its size and invisible: five pixels is not a thing anybody can put a
+   finger on. */
+#tw-stations .twsta-sq {
+  fill: #fffdf8;
+  stroke: #4a3b2a;
+  stroke-width: 1.1;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
+}
+#tw-stations .twsta-hit { fill: transparent; cursor: pointer; }
+#tw-stations .twsta-mark:hover .twsta-sq { fill: #ffd200; }
+@media (prefers-color-scheme: dark) {
+  #tw-stations .twsta-sq { fill: #20242a; stroke: #c6ccd3; }
+}
+
 #labels .twsta {
   font-weight: 600;
   fill: #4a453c;

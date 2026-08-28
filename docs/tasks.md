@@ -10561,6 +10561,55 @@ Whole suite: 690 checks across 30 scripts, all passing.
 
 ---
 
+## A square for each station, and one name at a time
+
+The stations were drawn as 191 names, all of them at once, which is a smudge
+across an island fifty pixels wide. They are now 191 small squares, held at a
+constant size on screen, and a name appears only when the reader asks for one.
+
+The toggle reads **Show Taiwan Stations** and appears only once the railways
+are on; the row already worked that way and only the wording changed.
+
+Two defects were found in the asking, and both were about the difference
+between a mouse and a finger:
+
+* **Hovering showed nothing.** This was not a fault in the map. The Layers
+  dialog is modal and covers the middle of the sheet, and the test was leaving
+  it open — `elementFromPoint` over a station returned `dlg-options`, so the
+  pointer never reached a square. Shutting the dialog first, the hover worked
+  on the first run. Recorded here because it will cost the next person the same
+  hour: a hover test that measures nothing looks exactly like a hover that does
+  nothing.
+* **A tap named the station and then unnamed it.** This one was real. One tap
+  fires *the whole* of the hover pair — `pointerover`, `pointerenter`,
+  `pointerdown`, `pointerout`, `pointerleave` — because the touch pointer is
+  destroyed the moment the finger lifts. The leave undid the tap's own name a
+  few milliseconds after it appeared. `pointerenter`/`pointerleave` now take
+  mouse pointers only and `pointerdown` takes everything else.
+
+The second was hidden for a while by the test itself. Driving the touch path
+with `mouse.down()`/`mouse.up()` under `hasTouch: true` produces events whose
+`pointerType` is still `mouse`, so the tap handler returned early and the name
+that appeared was the *hover* firing — the finger path was never exercised. It
+wants `touchscreen.tap()`, which is what `tools/test/stations.js` uses.
+
+Also relaxed: `placeLabels()` only positions labels and `gateLabels()` decides
+their text, so the pointer handlers call both. And three `state.labels` guards
+that gated every label in the page were exempted for this layer, which is not
+part of Show names.
+
+Measured headlessly, mouse and finger separately: the row hidden until the
+railways are on and worded as asked; 191 marks with 191 hit targets over them;
+a 5px square inside a 10px target; no name until asked; hovering names exactly
+one and moving off clears it; turning the layer off takes the name with it; a
+tap names one, a second tap on the same square clears it, and a tap on another
+moves the name rather than adding a second.
+
+Whole suite: 716 checks across 31 scripts, all passing — `stations.js` is new
+and carries 26 of them.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

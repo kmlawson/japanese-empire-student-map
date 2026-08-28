@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '206';
+  var JEM_VERSION = '207';
   var JEM_ASSETS = {"admin.js": "e5f1a2fc6c", "annotate.js": "761fbd5949", "japan-empire-map-admin.svg": "9de0304837", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "e39f0a266e", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0"};
 
   /* Every file this one fetches, with the version on it.
@@ -64,6 +64,7 @@
   var SITE_PX = 11.5;
   var SUB_PX = 10.5;      // provinces and islands, a step under a country
   var TWSTA_PX = 8.5;     // stations, the smallest thing on the map that reads
+  var TWSTA_SQ = 5;       // the square, in screen pixels: a stop, not a town
   var FEAT_PX = 11;       // seas, deserts, plateaus: the physical map
   var EPOCH_1930_CUTOFF = 1930;   // the 1930 sheet's own year
   var EVENT_1930_FROM   = 1910;   // and how far back its detail reaches
@@ -572,7 +573,13 @@
        only offered while the railways are drawn, because a station name with
        no line under it is a dot in a field. Not gated on "Show names": these
        are asked for one layer at a time, the way the railways are. */
-    if (rec && rec.kind === 'twstation') return !!(state.twRail && state.twStations);
+    /* A square for every station, and a name for the one under the pointer.
+       Two hundred names at once is a wall of type over a small island; the
+       squares say where the stops are, and the reader asks for the one they
+       want. */
+    if (rec && rec.kind === 'twstation') {
+      return !!(state.twRail && state.twStations && hotSta === rec.id);
+    }
     // a province or an island: shown only once the reader is close in, and
     // never mind the Administrative switch — see ensureSubLabels
     if (rec && rec.kind === 'sub') return subLabelsWanted();
@@ -1888,6 +1895,9 @@
   var riversGroup = null;
   var indiaRiversGroup = null;
   var twRailGroup = null;
+  var twStaGroup = null;
+  var hotSta = null;                  // the one station whose name is showing
+  var staTapped = null;               // and which one a finger last opened
   var yellow1938 = null;
   var browseGroup = null;
 
@@ -2132,8 +2142,61 @@
      * something invented. See data/taiwan/stations.csv for what each one
      * rests on.
      */
+    if (!twStaGroup) {
+      twStaGroup = svgEl('g', { id: 'tw-stations' });
+      svg.appendChild(twStaGroup);
+      /* One listener for all of them, not one each. The square is small and
+         the press has to be forgiving, so the hit is a transparent rect twice
+         its size sitting over it — and it answers a finger as well as a
+         pointer, because there is no hover on a touch screen and a tap has to
+         do the same job. */
+      /* Delegated over/out on the group churned: moving between the square
+         and the hit rect above it fires out-then-over, and the name flickered
+         off and on. `pointerenter`/`pointerleave` are put on each mark
+         instead — they do not fire for a move between a node's own children,
+         which is exactly the problem. */
+    }
     (JMAP.TW_STATIONS || []).forEach(function (t) {
       var p = project(t.lon, t.lat);
+      var mark = svgEl('g', { 'class': 'twsta-mark' });
+      var box = svgEl('rect', { x: -TWSTA_SQ / 2, y: -TWSTA_SQ / 2,
+                                width: TWSTA_SQ, height: TWSTA_SQ,
+                                'class': 'twsta-sq' });
+      var hit = svgEl('rect', { x: -TWSTA_SQ, y: -TWSTA_SQ,
+                                width: TWSTA_SQ * 2, height: TWSTA_SQ * 2,
+                                'class': 'twsta-hit', 'data-sta': t.id });
+      mark.appendChild(box);
+      mark.appendChild(hit);
+      twStaGroup.appendChild(mark);
+      /* Mouse only. A finger fires this pair too, and it fires the whole of
+         it in one tap: over, enter, down, out, leave, because the touch
+         pointer is destroyed the moment the finger lifts. Left ungated, the
+         leave undid the tap's own name a few milliseconds after it appeared,
+         and the tap looked as though it had done nothing. */
+      mark.addEventListener('pointerenter', function (e) {
+        if (e.pointerType && e.pointerType !== 'mouse') return;
+        if (hotSta === t.id) return;
+        hotSta = t.id;
+        gateLabels();
+        placeLabels();
+      });
+      mark.addEventListener('pointerleave', function (e) {
+        if (e.pointerType && e.pointerType !== 'mouse') return;
+        if (hotSta !== t.id) return;
+        hotSta = null;
+        gateLabels();
+        placeLabels();
+      });
+      /* And a finger, which has no hover at all: the tap names the station and
+         a second tap on the same one puts the name away. */
+      mark.addEventListener('pointerdown', function (e) {
+        if (e.pointerType === 'mouse') return;    // the mouse has hover
+        hotSta = (staTapped === t.id) ? null : t.id;
+        staTapped = hotSta;
+        gateLabels();
+        placeLabels();
+      });
+      scalables.push({ el: mark, x: p.x, y: p.y });
       var text = svgEl('text', { 'class': 'tlabel twsta', 'font-size': TWSTA_PX,
                                  y: TWSTA_PX + 5 });
       labelLayer.appendChild(text);
@@ -3669,7 +3732,11 @@
   }
 
   function placeLabels() {
-    if (!state.labels || state.mode === 'quiz') return;
+    /* The station layer runs this too, so the guard cannot be "Show names" on
+       its own — that is what it was, and the squares appeared while pointing
+       at one did nothing at all. */
+    if (state.mode === 'quiz') return;
+    if (!state.labels && !(state.twRail && state.twStations)) return;
     var c = containerSize();
     var sx = c.w / view.w;
     var sy = c.h / view.h;
@@ -6082,6 +6149,12 @@
        is a promise the map is not keeping. */
     var _staRow = $('#row-tw-stations');
     if (_staRow) _staRow.hidden = !state.twRail;
+    if (twStaGroup) {
+      var _staOn = !!(state.twRail && state.twStations);
+      twStaGroup.style.display = _staOn ? '' : 'none';
+      // and the name under the pointer goes with the squares
+      if (!_staOn && hotSta) hotSta = null;
+    }
     if (!state.twRail && state.twStations) {
       state.twStations = false;
       var _staBox = $('#opt-tw-stations');
