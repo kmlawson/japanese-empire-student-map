@@ -10864,6 +10864,66 @@ Whole suite: 766 checks across 32 scripts, all passing.
 
 ---
 
+## Is Korea drawn in the wrong place? Measured four ways, and no
+
+Asked because stations on the coastal lines sit in the water in places. Nothing
+changed; this is the measurement. Scripts are throwaway, the numbers are here.
+
+**The build is not at fault.** The painted Korea is Natural Earth thinned by
+`build_map.py`. `tools/cache/korea_13_provinces.json` is a different source
+entirely. Run the 850 stations against both: **799 inside the painted coast,
+799 inside the province sheet, the same 799, and the same 51 outside both — not
+one station disagrees.** A projection error introduced by our build would make
+those two differ. It does not. Control: Taiwan, same build, same projection,
+**191 of 191 inside, none outside.**
+
+**The shape is not displaced or rescaled.** Unprojecting the drawn outline and
+comparing its limits with the peninsula's real ones: west +0.091°, east
+−0.056°, south −0.080°, north −0.037°. Errors of both signs, none above a
+tenth of a degree. Nineteen of twenty well-known places fall inside; the
+exception is Wonsan, on a spit inside Yŏnghŭng bay, out by 2.0 km.
+
+**The stations are not displaced either.** Against twelve station positions
+known independently: mean offset **0.47 km west, 0.37 km south**, and the big
+ones are far better than that — Keijō 0.10 km, Taejŏn 0.00, Taegu 0.12, Pusan
+0.19. The larger residuals are places where the colonial station was not on the
+modern site: Chongjin 4.1 km, Sinŭiju 3.0, Chŏnju 2.6.
+
+**What the 51 misses actually are: a generalised coastline.** Vertex spacing on
+the drawn outline is a median of 1.66 km, mean 2.11, 90th percentile 3.49. A
+line that coarse cuts the corners off bays and headlands both ways, and both
+show:
+
+* Ports end up *inland* — Rason 15.6 km, Pusan 11.2, Ulsan 10.2, Chongjin 8.3,
+  Inchon 7.5 — because their harbours are cut off.
+* Coastal-line stations end up *offshore*, by a median of 1.17 km and a worst
+  of 5.69, because headlands are cut. 50 of the 51 are in open water; the
+  fifty-first, Sinŭiju, stands on Manchuria, the Yalu channel being drawn on
+  the Korean side of it there.
+
+**One trap worth writing down.** Sliding all 850 stations over the coast and
+counting how many land on it says the fit improves by 34 if everything moves
+0.04° (4.4 km) south — which looks exactly like "Korea is drawn too far south",
+and was the thing being asked about. It is not. The same slide gives an
+*identical* grid against the province sheet, so it says nothing about our
+build; and the station coordinates are demonstrably right to a few hundred
+metres, so there is no 4 km to correct. What the metric is really doing is
+fitting the wiggle of a coarse line: 770 of the stations are tens of kilometres
+inland and cannot change, so the score is decided by the eighty near the coast,
+and on a coast running north–south a southward slide moves them *along* it onto
+a more generous stretch. It fixes 40 and breaks 6. A count of points inside a
+polygon is not an estimator of displacement.
+
+**A genuinely historical one.** Sup'ung and Pup'ung, on the 평북선, are 4.93 km
+and 3.10 km out into the Yalu — because the Supung reservoir, which the modern
+coastline includes, was filled in 1943. The stations are where they were; the
+water arrived later.
+
+Nothing to fix in the Korea polygon. If the offshore stations are worth
+removing later, the lever is a finer coastline for Korea, not a shift.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible
