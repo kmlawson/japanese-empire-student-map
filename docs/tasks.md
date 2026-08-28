@@ -10513,6 +10513,54 @@ Whole suite: 690 checks across 30 scripts, all passing.
 
 ---
 
+## The station names, wired
+
+**A switch that belongs to another switch.** *Show Taiwan station names* sits
+under *Taiwan Railways* in the Layers pane, indented, default off, and **it is
+not offered at all while the railways are off** — a station name with no line
+under it is a dot in a field. Switching the railways off takes the names with
+them and clears the box, rather than leaving it ticked for a layer that is not
+drawn. Layer bit 26.
+
+**Not gated on "Show names".** A reader who switches the railways on wants the
+stations named whether or not the country names are up, so `placeLabels` is
+run by this layer as well — it used to be run by that one button alone, which
+is why the first wiring drew nothing at all and the checkbox looked broken.
+
+**The two names, the asked-for one first.**
+
+| | with a sourced reading | without one |
+|---|---|---|
+| Japanese names **off** | `Dàjiǎ (Daikō)` | `Rìnán` |
+| Japanese names **on** | `Daikō (Dàjiǎ)` | `日南 (Rìnán)` |
+
+Where there is no sourced reading — 79 of the 191 — **the characters take the
+head of the label**, because the reading cannot be worked out from them and a
+guess is worse than a gap. 萬里橋 is Maribashi, 名間 is Nama, 車籠埔 is
+Sharampo, and nothing about the characters says so. The hanji is also set as
+`aria-label` on every station, sourced reading or not, so it is what a screen
+reader and a find-in-page are given; the map has no tooltip by design.
+
+`tools/build_tw_stations.py` writes `tw-stations.js` beside the CSV — the
+three names, the position and the kind of stop, and nothing about sources,
+which stay in the CSV where the checking happens.
+
+**The regenerator was destroying the research.** It rebuilt the table from the
+geojson, and the readings are not in the geojson — they are hours of somebody
+reading sources. One run took 46 of them out. It now carries `romaji`, `kana`,
+`confidence`, `source_type`, `source_url` and `alt_names` across a rebuild,
+keyed on the name rather than the row.
+
+Measured headlessly: 191 stations loaded, 112 with a reading; nothing drawn
+with the layer off; the row appears with the railways and the box starts
+clear; 191 names drawn when asked for; the pairing flips with the Japanese
+names switch; and switching the railways off empties the layer, hides the row
+and clears the box.
+
+Whole suite: 690 checks across 30 scripts, all passing.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

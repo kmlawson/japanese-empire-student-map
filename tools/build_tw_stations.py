@@ -116,11 +116,23 @@ def build():
     with io.open(SRC, encoding="utf-8") as fh:
         fc = json.load(fh)
     py = load_pinyin()
+    # WHAT HAS ALREADY BEEN LOOKED UP IS NOT THROWN AWAY. This rebuilds the
+    # table from the geojson, and the readings are not in the geojson -- they
+    # are hours of somebody reading sources. The first version rewrote the
+    # file from scratch and took 46 of them out in one run. Keyed on the name
+    # rather than the row: a row number is only true of one version of a file.
+    held = {}
+    if os.path.exists(OUT):
+        with io.open(OUT, encoding="utf-8", newline="") as fh:
+            for old in csv.DictReader(fh):
+                if old.get("hanji") and old.get("romaji"):
+                    held[old["hanji"]] = old
     rows, missing, repaired = [], [], []
     for feat in fc["features"]:
         p = feat["properties"]
         han, kind, fixed = split_name(p.get("NOTE"))
-        romaji = (p.get("ROMAJI") or "").strip()
+        was = held.get(han) or {}
+        romaji = (was.get("romaji") or p.get("ROMAJI") or "").strip()
         x, y = feat["geometry"]["coordinates"]
         lon, lat = to_lonlat(x, y)
         if han and han not in py:
@@ -132,7 +144,7 @@ def build():
             "hanji": han,
             "pinyin": py.get(han, ""),
             "romaji": romaji,
-            "kana": "",
+            "kana": was.get("kana", ""),
             "kind": kind,
             "lon": "%.5f" % lon,
             "lat": "%.5f" % lat,
@@ -141,12 +153,14 @@ def build():
             # better one than most of what is on the web for these names.
             # Anything without one starts unverified and stays that way until
             # something is written beside it.
-            "confidence": "verified" if romaji else "unverified",
-            "source_type": "author" if romaji else "",
-            "source_url": "",
+            "confidence": was.get("confidence") or
+                          ("verified" if romaji else "unverified"),
+            "source_type": was.get("source_type") or
+                           ("author" if romaji else ""),
+            "source_url": was.get("source_url", ""),
             "valid_from": str(p.get("START") or ""),
             "valid_to": str(p.get("END") or ""),
-            "alt_names": "",
+            "alt_names": was.get("alt_names", ""),
             "note": (p.get("Comments") or "").strip(),
         })
     rows.sort(key=lambda r: r["id"])
@@ -155,6 +169,7 @@ def build():
         w = csv.DictWriter(fh, fieldnames=FIELDS)
         w.writeheader()
         w.writerows(rows)
+    write_js(rows)
     named = [r for r in rows if r["hanji"]]
     sys.stderr.write(
         "%s: %d stations, %d named, %d with pinyin, %d with a romanisation\n"
@@ -168,6 +183,37 @@ def build():
         sys.stderr.write("  NO PINYIN for %d: %s\n"
                          % (len(missing), " ".join(sorted(set(missing)))))
     return rows
+
+
+def write_js(rows):
+    """The same table as a script the page loads, one object per station.
+
+    Only what the map draws: the name in three forms, where it is, and what
+    kind of stop it was. The sources and the confidence stay in the CSV, which
+    is where the work of checking them happens.
+    """
+    out = []
+    for r in rows:
+        if not r["hanji"]:
+            continue
+        out.append({"id": r["id"], "han": r["hanji"], "py": r["pinyin"],
+                    "ro": r["romaji"], "kind": r["kind"],
+                    "lon": float(r["lon"]), "lat": float(r["lat"])})
+    path = os.path.join(ROOT, "tw-stations.js")
+    with io.open(path, "w", encoding="utf-8", newline="\n") as fh:
+        fh.write("/* Built by tools/build_tw_stations.py -- do not edit.\n"
+                 " * Taiwan's colonial railway stations: %d of them, named in\n"
+                 " * hanji, in Pinyin, and in Japanese where a source gives the\n"
+                 " * reading. `ro` is empty where none does, and the map shows\n"
+                 " * the hanji rather than a guess. */\n" % len(out))
+        fh.write("window.JMAP = window.JMAP || {};\n")
+        fh.write("JMAP.TW_STATIONS = [\n")
+        for o in out:
+            fh.write("  %s,\n" % json.dumps(o, ensure_ascii=False,
+                                             sort_keys=True))
+        fh.write("];\n")
+    sys.stderr.write("tw-stations.js: %d stations, %d with a reading\n"
+                     % (len(out), sum(1 for o in out if o["ro"])))
 
 
 def report(rows):

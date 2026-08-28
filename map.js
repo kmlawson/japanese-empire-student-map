@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '205';
+  var JEM_VERSION = '206';
   var JEM_ASSETS = {"admin.js": "e5f1a2fc6c", "annotate.js": "761fbd5949", "japan-empire-map-admin.svg": "9de0304837", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "e39f0a266e", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0"};
 
   /* Every file this one fetches, with the version on it.
@@ -63,6 +63,7 @@
   var TERR_PX = 13.5;     // label sizes, in screen pixels
   var SITE_PX = 11.5;
   var SUB_PX = 10.5;      // provinces and islands, a step under a country
+  var TWSTA_PX = 8.5;     // stations, the smallest thing on the map that reads
   var FEAT_PX = 11;       // seas, deserts, plateaus: the physical map
   var EPOCH_1930_CUTOFF = 1930;   // the 1930 sheet's own year
   var EVENT_1930_FROM   = 1910;   // and how far back its detail reaches
@@ -118,6 +119,7 @@
     // Taiwan's railways, per date. Off by default: it is one island's detail
     // on a map of an empire, and a reader who wants it asks for it.
     twRail: false,
+    twStations: false,
     // the mesh of meridians and parallels; off by default
     graticule: false,
     /* Shaded relief under the political colours. Off by default and fetched
@@ -499,7 +501,35 @@
     return gloss && gloss.length <= SHORT_MAX ? gloss : '';
   }
 
+  /* A station's two names, the asked-for one first and the other after it.
+   *
+   * With Japanese names on it is `Daikō (Dàjiǎ)`, and off it is
+   * `Dàjiǎ (Daikō)`. WHERE THERE IS NO SOURCED READING — 79 of the 191 —
+   * there is no second name to give and the pair collapses: with Japanese
+   * names on the reader is shown the characters, `日南 (Rìnán)`, because the
+   * reading cannot be worked out from them and a guess would be worse than a
+   * gap. 萬里橋 is Maribashi, 名間 is Nama, 車籠埔 is Sharampo: nothing about
+   * the characters says so.
+   */
+  function stationLabel(rec) {
+    var py = rec.en || '', ro = rec.ro || '', han = rec.han || '';
+    if (state.jpNames) {
+      var head = ro || han;
+      return py && py !== head ? head + ' (' + py + ')' : head;
+    }
+    return py ? (ro ? py + ' (' + ro + ')' : py) : han;
+  }
+
   function mapLabel(rec) {
+    /* A station, in whichever name the reader has asked for.
+     *
+     * Pinyin by default. With Japanese names on it is the Japanese reading —
+     * AND WHERE THERE IS NONE IT IS THE CHARACTERS, not a romanisation
+     * invented on the spot. Seventy-nine of the hundred and ninety-one have
+     * no sourced reading, because these names cannot be read off the
+     * characters: 萬里橋 is Maribashi, 名間 is Nama, 車籠埔 is Sharampo. The
+     * hanji is true; a guess would not be. */
+    if (rec && rec.kind === 'twstation') return stationLabel(rec);
     var r = shown(rec);
     if (r && r.label && state.lang === 'en') {
       return r.label === '-' ? '' : r.label;
@@ -538,6 +568,11 @@
   }
 
   function labelVisible(rec) {
+    /* A station is named only when its own switch is on — and the switch is
+       only offered while the railways are drawn, because a station name with
+       no line under it is a dot in a field. Not gated on "Show names": these
+       are asked for one layer at a time, the way the railways are. */
+    if (rec && rec.kind === 'twstation') return !!(state.twRail && state.twStations);
     // a province or an island: shown only once the reader is close in, and
     // never mind the Administrative switch — see ensureSubLabels
     if (rec && rec.kind === 'sub') return subLabelsWanted();
@@ -2087,6 +2122,33 @@
       scalables.push(sEntry.sc);
     });
 
+    /* Taiwan's colonial stations.
+     *
+     * `ro` is the Japanese reading and it is EMPTY FOR 79 OF THE 191, because
+     * a reading for these names cannot be worked out from the characters —
+     * 萬里橋 is Maribashi and 名間 is Nama — and a guess dressed as a fact is
+     * worse than a gap. Where there is none the map shows the characters, so
+     * a reader with Japanese names on is given something true rather than
+     * something invented. See data/taiwan/stations.csv for what each one
+     * rests on.
+     */
+    (JMAP.TW_STATIONS || []).forEach(function (t) {
+      var p = project(t.lon, t.lat);
+      var text = svgEl('text', { 'class': 'tlabel twsta', 'font-size': TWSTA_PX,
+                                 y: TWSTA_PX + 5 });
+      labelLayer.appendChild(text);
+      var rec = { kind: 'twstation', id: t.id, en: t.py, local: t.han,
+                  ro: t.ro, han: t.han, lvl: 0 };
+      // the characters, on the element itself: the map has no tooltip and
+      // this is what a screen reader and a `find in page` are given
+      text.setAttribute('aria-label', t.han);
+      var entry = { rec: rec, el: text, x: p.x, y: p.y, dy: TWSTA_PX + 5,
+                    size: TWSTA_PX, w: 0, h: TWSTA_PX * 1.2, twsta: true };
+      labels.push(entry);
+      entry.sc = { el: text, x: p.x, y: p.y };
+      scalables.push(entry.sc);
+    });
+
     /* The physical map: seas, deserts, plateaus, ranges. They belong to no
        polity and to neither epoch — the Gobi did not change hands in 1937 —
        so they carry no dot, answer no pointer and are never asked about in the
@@ -2671,6 +2733,7 @@
     if (state.backs) bits |= 8192;
     if (state.indiaRivers) bits |= 16384;
     if (state.twRail) bits |= 33554432;   // bit 25: Taiwan's railways
+    if (state.twStations) bits |= 67108864;  // bit 26: and their names
     bits |= ({ albers: 1, laea: 2 }[state.projection] || 0) << 15;
     if (state.graticule) bits |= 131072;
     if (state.relief) bits |= 262144;
@@ -2707,6 +2770,7 @@
     state.backs = !!(bits & 8192);
     state.indiaRivers = !!(bits & 16384);
     state.twRail = !!(bits & 33554432);
+    state.twStations = !!(bits & 67108864);
     state.projection = ['mercator', 'albers', 'laea'][(bits >> 15) & 3] || 'mercator';
     state.graticule = !!(bits & 131072);
     state.relief = !!(bits & 262144);
@@ -3463,7 +3527,13 @@
       var gone = L.owner
         && (!L.owner.isConnected
             || (L.atom && L.atom.style.display === 'none'));
-      if (gone || !(showLabels && labelVisible(L.rec))) {
+      /* Station names are a layer of their own, asked for in the Layers pane
+         and not by "Show names" — the reader who switches the railways on
+         wants the stations named whether or not the country names are up.
+         Everything else still waits on that button. */
+      var own = L.rec && L.rec.kind === 'twstation';
+      if (gone || !((showLabels || (own && state.mode !== 'quiz'))
+                    && labelVisible(L.rec))) {
         L.el.textContent = '';
         L.el.style.display = 'none';
         L.shown = false;
@@ -6007,6 +6077,16 @@
     // a province, which is feedback you have to go looking for. It reads as a
     // switch that works sometimes. Now it draws the divisions.
     if (svg) svg.classList.toggle('admin-on', !!state.cats.territory);
+    /* The station-name row appears with the railways and goes with them, and
+       the names go too — a checkbox left ticked for a layer that is not drawn
+       is a promise the map is not keeping. */
+    var _staRow = $('#row-tw-stations');
+    if (_staRow) _staRow.hidden = !state.twRail;
+    if (!state.twRail && state.twStations) {
+      state.twStations = false;
+      var _staBox = $('#opt-tw-stations');
+      if (_staBox) _staBox.checked = false;
+    }
     // the epoch as a class, so the stylesheet can cut the occupied colouring
     // out of the unoccupied south of New Guinea on the 1942 map alone
     if (svg) svg.classList.toggle('e1942', state.epoch === 'e1942');
@@ -6228,7 +6308,9 @@
     // settled here rather than only when a layer button is pressed
     syncBarExtras();
     buildLegend();
-    if (showLabels) placeLabels();
+    // and the station names bring the placer with them, since they are not
+    // under the "Show names" button that used to be the only thing that ran it
+    if (showLabels || (state.twRail && state.twStations)) placeLabels();
     saveState();
   }
 
@@ -7758,6 +7840,19 @@
       optTwRail.checked = state.twRail;
       optTwRail.addEventListener('change', function () {
         state.twRail = optTwRail.checked;
+        applyState();
+      });
+    }
+
+    /* The station names hang off the railways: there is nothing to name when
+       the lines are not drawn, so the row is not offered. Switching the lines
+       off takes the names with them rather than leaving a checkbox ticked for
+       something invisible. */
+    var optTwSta = $('#opt-tw-stations');
+    if (optTwSta) {
+      optTwSta.checked = state.twStations;
+      optTwSta.addEventListener('change', function () {
+        state.twStations = optTwSta.checked;
         applyState();
       });
     }
