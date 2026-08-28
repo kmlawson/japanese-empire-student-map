@@ -1,200 +1,200 @@
-id,hanji,pinyin,romaji,kana,kind,lon,lat,confidence,source_type,source_url,valid_from,valid_to,alt_names,note
-tws001,大甲,Dàjiǎ,Daikō,だいこう,station,120.62716,24.34431,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E5%A4%A7%E7%94%B2%E9%A7%85,,,,
-tws002,日南,Rìnán,,,station,120.65390,24.37757,unverified,,,,,,
-tws003,清水,Qīngshuǐ,,,station,120.56921,24.26426,unverified,,,,,,
-tws004,甲南,Jiǎnán,,,station,120.60250,24.30354,unverified,,,,,,
-tws005,後里,Hòulǐ,,,station,120.73304,24.30902,unverified,,,,,,
-tws006,大安,Dà'ān,,,station,120.75009,24.32252,unverified,,,,,,
-tws007,豐原,Fēngyuán,,,station,120.72296,24.25387,unverified,,,,,,
-tws008,沙鹿,Shālù,,,station,120.55731,24.23689,unverified,,,,,,
-tws009,龍井,Lóngjǐng,,,station,120.54307,24.19757,unverified,,,,,,
-tws010,潭子,Tánzǐ,,,station,120.70591,24.21291,unverified,,,,,,
-tws011,彰化,Zhānghuà,,,station,120.53839,24.08165,unverified,,,,,,
-tws012,大肚,Dàdù,Daito,だいと,station,120.54237,24.15417,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E5%A4%A7%E8%82%9A%E9%A7%85,,,,
-tws013,追分,Zhuīfēn,,,station,120.56989,24.12016,unverified,,,,,,
-tws014,王田,Wángtián,,,station,120.58845,24.11498,unverified,,,,,,
-tws015,烏日,Wūrì,,,station,120.62253,24.10882,unverified,,,,,,
-tws016,台中,Táizhōng,,,station,120.68494,24.13671,unverified,,,,,,
-tws017,員林,Yuánlín,Inrin,いんりん,station,120.56939,23.95954,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E5%93%A1%E6%9E%97%E9%A7%85,,,,
-tws018,唭里岸,Qílǐàn,,,station,121.51764,25.11156,unverified,,,,,,
-tws019,士林,Shìlín,Shirin,しりん,station,121.52640,25.09210,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E5%A3%AB%E6%9E%97%E9%A7%85,,,,
-tws020,七堵,Qīdǔ,Shichito,しちと,station,121.71589,25.09717,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E4%B8%83%E5%A0%B5%E9%A7%85,,,,
-tws021,八堵,Bādǔ,Hatto,はっと,station,121.72917,25.10887,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E5%85%AB%E5%A0%B5%E9%A7%85,,,,
-tws022,八堵,Bādǔ,Hatto,はっと,station,121.72921,25.10844,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E5%85%AB%E5%A0%B5%E9%A7%85,,,,
-tws023,暖暖,Nuǎnnuǎn,Dandan,だんだん,station,121.74060,25.10208,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E6%9A%96%E6%9A%96%E9%A7%85,,,,
-tws024,基隆,Jīlóng,Kiirun,きいるん,station,121.73936,25.13256,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E5%9F%BA%E9%9A%86%E9%A7%85,,,,
-tws025,宮下,Gōngxià,,,halt,121.52335,25.07828,unverified,,,,,,
-tws026,圓山,Yuánshān,Maruyama,まるやま,station,121.52033,25.07134,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E5%9C%93%E5%B1%B1%E9%A7%85,,,,
-tws027,雙連,Shuānglián,,,station,121.52076,25.05876,unverified,,,,,,
-tws028,大正街,Dàzhèngjiē,,,station,121.52032,25.05052,unverified,,,,,,
-tws029,台北,Táiběi,,,station,121.51572,25.04815,unverified,,,,,,
-tws030,螢橋,Yíngqiáo,,,station,121.51701,25.02557,unverified,,,,,,
-tws031,十五份,Shíwǔfèn,,,halt,121.53948,25.00012,unverified,,,,,,
-tws032,公館,Gōngguǎn,Kōkan,こうかん,station,121.53596,25.01133,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E5%85%AC%E9%A4%A8%E9%A7%85,,,,
-tws033,水源地,Shuǐyuándì,,,halt,121.53190,25.01529,unverified,,,,,,
-tws034,南港,Nángǎng,Nankō,なんこう,temporary halt,121.61182,25.05386,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E5%8D%97%E6%B8%AF%E9%A7%85,,,,
-tws035,松山,Sōngshān,Matsuyama,まつやま,station,121.57756,25.04915,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E6%9D%BE%E5%B1%B1%E9%A7%85,,,,
-tws036,板橋,Bǎnqiáo,,,station,121.45933,25.00831,unverified,,,,,,
-tws037,萬華,Wànhuá,,,station,121.50100,25.03321,unverified,,,,,,
-tws038,紅毛,Hóngmáo,,,station,121.00936,24.83901,unverified,,,,,,
-tws039,湖口,Húkǒu,,,station,121.05496,24.87634,unverified,,,,,,
-tws040,楊梅,Yángméi,,,station,121.14614,24.90796,unverified,,,,,,
-tws041,龜山,Guīshān,,,station,121.84585,24.88389,unverified,,,,,,
-tws042,外澳,Wài'ào,Gaiō,がいおう,station,121.82267,24.85876,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E5%A4%96%E6%BE%B3%E9%A7%85,,,,
-tws043,香山,Xiāngshān,,,station,120.91439,24.76382,unverified,,,,,,
-tws044,新竹,Xīnzhú,Shinchiku,しんちく,station,120.97186,24.80121,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E6%96%B0%E7%AB%B9%E9%A7%85,,,,
-tws045,礁溪,Jiāoxī,,,station,121.76298,24.78696,unverified,,,,,,
-tws046,頭圍,Tóuwéi,,,station,121.77554,24.82673,unverified,,,,,,
-tws047,竹南,Zhúnán,,,station,120.88067,24.68697,unverified,,,,,,
-tws048,羅東,Luódōng,,,station,121.77438,24.67821,unverified,,,,,,
-tws049,二結,Èrjié,Niketsu,にけつ,station,121.77417,24.70619,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E4%BA%8C%E7%B5%90%E9%A7%85,,,,
-tws050,公司寮,Gōngsīliáo,,,station,120.75934,24.61168,unverified,,,,,,
-tws051,後龍,Hòulóng,Kōryō,こうりょう,station,120.78669,24.61604,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E5%BE%8C%E9%BE%8D%E9%A7%85,,,,
-tws052,大山腳,Dàshānjiǎo,,,station,120.80351,24.64599,unverified,,,,,,
-tws053,北勢,Běishì,Hokusei,ほくせい,station,120.82359,24.60091,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E5%8C%97%E5%8B%A2%E9%A7%85,,,,
-tws054,造橋,Zàoqiáo,,,station,120.86715,24.64188,unverified,,,,,,
-tws055,淡文湖,Dànwénhú,,,station,120.85848,24.65713,unverified,,,,,,
-tws056,冬山,Dōngshān,Tōzan,とうざん,station,121.79220,24.63663,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E5%86%AC%E5%B1%B1%E9%A7%85,,,,
-tws057,新城,Xīnchéng,,,station,121.82253,24.61580,unverified,,,,,,
-tws058,蘇澳,Sū'ào,,,station,121.85172,24.59496,unverified,,,,,,
-tws059,白沙屯,Báishātún,Hakusaton,はくさとん,station,120.70790,24.56476,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E7%99%BD%E6%B2%99%E5%B1%AF%E9%A7%85,,,,
-tws060,新埔,Xīnpǔ,Shimpo,しんぽ,station,120.69527,24.53995,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E6%96%B0%E5%9F%94%E9%A7%85,,,,
-tws061,苗栗,Miáolì,,,station,120.82229,24.56994,unverified,,,,,,
-tws062,南勢,Nánshì,,,station,120.79130,24.52213,unverified,,,,,,
-tws063,通霄,Tōngxiāo,,,station,120.67813,24.49157,unverified,,,,,,
-tws064,苑裡,Yuànlǐ,,,station,120.65105,24.44389,unverified,,,,,,
-tws065,銅鑼,Tóngluó,,,station,120.78602,24.48624,unverified,,,,,,
-tws066,三叉,Sānchā,,,station,120.77418,24.42094,unverified,,,,,,
-tws067,淡水,Dànshuǐ,Tansui,たんすい,station,121.44488,25.16879,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E6%B7%A1%E6%B0%B4%E9%A7%85,,,,
-tws068,新北投,Xīnběitóu,Shinhokutō,しんほくとう,station,121.50381,25.13700,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E6%96%B0%E5%8C%97%E6%8A%95%E9%A7%85,,,,
-tws069,北投,Běitóu,Hokutō,ほくとう,station,121.49853,25.13243,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E5%8C%97%E6%8A%95%E9%A7%85,,,,
-tws070,江頭,Jiāngtóu,,,station,121.47026,25.12876,unverified,,,,,,
-tws071,平鎮,Píngzhèn,Heichin,へいちん,station,121.18371,24.91968,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E5%B9%B3%E9%8E%AE%E9%A7%85,,,,
-tws072,中壢,Zhōnglì,,,station,121.22602,24.95360,unverified,,,,,,
-tws073,崁子腳,Kànzǐjiǎo,,,station,121.25865,24.97280,unverified,,,,,,
-tws074,桃園,Táoyuán,,,station,121.31374,24.98904,unverified,,,,,,
-tws075,鶯歌,Yīnggē,,,station,121.35552,24.95496,unverified,,,,,,
-tws076,山子腳,Shānzǐjiǎo,,,station,121.39345,24.97317,unverified,,,,,,
-tws077,樹林,Shùlín,,,station,121.42475,24.99176,unverified,,,,,,
-tws078,新店,Xīndiàn,Shinten,しんてん,station,121.53832,24.96037,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E6%96%B0%E5%BA%97%E9%A7%85,,,,
-tws079,大坪林,Dàpínglín,Daiheirin,だいへいりん,halt,121.54242,24.97560,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E5%A4%A7%E5%9D%AA%E6%9E%97%E9%A7%85,,,,
-tws080,景尾,Jǐngwěi,,,station,121.54008,24.99141,unverified,,,,,,
-tws081,大里,Dàlǐ,,,station,121.92268,24.96684,unverified,,,,,,
-tws082,大溪,Dàxī,,,station,121.89010,24.93891,unverified,,,,,,
-tws083,田中,Tiánzhōng,,,station,120.59121,23.85847,unverified,,,,,,
-tws084,社頭,Shètóu,,,station,120.58043,23.89570,unverified,,,,,,
-tws085,林內,Línnèi,,,station,120.61472,23.75952,unverified,,,,,,
-tws086,斗南,Dǒunán,Tonan,となん,station,120.48095,23.67287,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E6%96%97%E5%8D%97%E9%A7%85,,,,
-tws087,斗六,Dǒuliù,Toroku,とろく,station,120.54099,23.71192,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E6%96%97%E5%85%AD%E9%A7%85,,,,
-tws088,大林,Dàlín,Dairin,だいりん,station,120.45573,23.60060,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E5%A4%A7%E6%9E%97%E9%A7%85,,,,
-tws089,民雄,Mínxióng,Tamio,たみお,station,120.43158,23.55479,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E6%B0%91%E9%9B%84%E9%A7%85,,,,
-tws090,嘉義,Jiāyì,Kagi,かぎ,station,120.44119,23.47935,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E5%98%89%E7%BE%A9%E9%A7%85,,,,
-tws091,後壁,Hòubì,Kōheki,こうへき,station,120.36033,23.36589,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E5%BE%8C%E5%A3%81%E9%A7%85,,,,
-tws092,水上,Shuǐshàng,,,station,120.38683,23.41370,unverified,,,,,,
-tws093,新營,Xīnyíng,,,station,120.32311,23.30586,unverified,,,,,,
-tws094,林鳳營,Línfèngyíng,,,station,120.32107,23.24238,unverified,,,,,,
-tws095,番子田,Fānzǐtián,,,station,120.31919,23.19270,unverified,,,,,,
-tws096,善化,Shànhuà,Zenka,ぜんか,station,120.30656,23.13313,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E5%96%84%E5%8C%96%E9%A7%85,,,,
-tws097,永康,Yǒngkāng,,,station,120.25360,23.03844,unverified,,,,,,
-tws098,新市,Xīnshì,,,station,120.28975,23.06799,unverified,,,,,,
-tws099,車路墘,Chēlùqián,,,station,120.23170,22.93295,unverified,,,,,,
-tws100,台南,Táinán,Tainan,たいなん,station,120.21277,22.99687,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E5%8F%B0%E5%8D%97%E9%A7%85,,,,
-tws101,大湖,Dàhú,Daiko,だいこ,station,120.25358,22.87858,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E5%A4%A7%E6%B9%96%E9%A7%85,,,,
-tws102,中洲,Zhōngzhōu,,,station,120.25261,22.90382,unverified,,,,,,
-tws103,路竹,Lùzhú,,,station,120.26657,22.85376,unverified,,,,,,
-tws104,橋子頭,Qiáozǐtóu,,,station,120.31070,22.76046,unverified,,,,,,
-tws105,岡山,Gāngshān,,,station,120.29683,22.79401,unverified,,,,,,
-tws106,楠梓,Nánzǐ,Nanshi,なんし,station,120.32395,22.72692,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E6%A5%A0%E6%A2%93%E9%A7%85,,,,
-tws107,舊城,Jiùchéng,,,yard,120.29495,22.67534,unverified,,,,,,
-tws108,屏東,Píngdōng,,,station,120.48603,22.66940,unverified,,,,,,
-tws109,六塊厝,Liùkuàicuò,Rokukaiseki,ろくかいせき,station,120.46489,22.66567,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E5%85%AD%E5%A1%8A%E5%8E%9D%E9%A7%85,,,,
-tws110,高雄,Gāoxióng,,,station,120.30254,22.63948,unverified,,,,,,
-tws111,鳳山,Fèngshān,,,station,120.35733,22.63134,unverified,,,,,,
-tws112,後庄,Hòuzhuāng,Kōshō,こうしょう,station,120.39117,22.64073,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E5%BE%8C%E5%BA%84%E9%A7%85,,,,
-tws113,九曲堂,Jiǔqǔtáng,Kyūkyokudō,きゅうきょくどう,station,120.42147,22.65650,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E4%B9%9D%E6%9B%B2%E5%A0%82%E9%A7%85,,,,
-tws114,竹田,Zhútián,,,station,120.53990,22.58592,unverified,,,,,,
-tws115,潮州,Cháozhōu,,,station,120.53626,22.54985,unverified,,,,,,
-tws116,溪州,Xīzhōu,,,yard,120.51194,22.49176,unverified,,,,,,
-tws117,社邊,Shèbiān,,,station,120.51137,22.45851,unverified,,,,,,
-tws118,林邊,Línbiān,,,station,120.51512,22.43168,unverified,,,,,,
-tws119,佳冬,Jiādōng,Katō,かとう,station,120.54774,22.41382,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E4%BD%B3%E5%86%AC%E9%A7%85,,,,
-tws120,枋寮,Fāngliáo,Hōryō,ほうりょう,station,120.59531,22.36787,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E6%9E%8B%E5%AF%AE%E9%A7%85,,,,
-tws121,西勢,Xīshì,Seisei,せいせい,station,120.52660,22.61632,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E8%A5%BF%E5%8B%A2%E9%A7%85,,,,
-tws122,二水,Èrshuǐ,Nisui,にすい,station,120.61830,23.81287,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E4%BA%8C%E6%B0%B4%E9%A7%85,,,,
-tws123,花壇,Huātán,Kadan,かだん,station,120.53706,24.02438,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E8%8A%B1%E5%A3%87%E9%A7%85,,,,
-tws124,宜蘭,Yílán,Giran,ぎらん,station,121.75846,24.75462,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E5%AE%9C%E8%98%AD%E9%A7%85,,,,
-tws125,水返腳,Shuǐfǎnjiǎo,,,station,121.66268,25.06942,unverified,,,,,,
-tws126,,,Sekijōshi,,,121.95533,24.98375,verified,author,,,,,
-tws127,,,Ōtei,,,121.94485,25.01521,verified,author,,,,,
-tws128,,,Kōryosho,,,121.90703,25.02204,verified,author,,,,,
-tws129,,,Chō-sōkei,,,121.86661,25.03909,verified,author,,,,,
-tws130,,,Butankō,,,121.85054,25.05767,verified,author,,,,,
-tws131,,,Sanshōrei,,,121.82036,25.06532,verified,author,,,,,
-tws132,,,Ryūtanto,,,121.81155,25.10800,verified,author,,,,,
-tws133,,,Taikōho,,,121.76225,25.10275,verified,author,,,,,
-tws134,菁桐坑,Jīngtóngkēng,Seidōkō,,,121.72320,25.02413,verified,author,,,,,
-tws135,石底,Shídǐ,Sekitei,,,121.73876,25.02626,verified,author,,,,,
-tws136,嶺腳寮,Lǐngjiǎoliáo,Reikyakuryō,,,121.74784,25.03002,verified,author,,,,,
-tws137,十分寮,Shífēnliáo,Jippunryō,,,121.77449,25.04236,verified,author,,,,,
-tws138,鼻仔頭,Bízǎitóu,Bishitō,,,120.64240,23.79860,verified,author,,,,,
-tws139,濁水,Zhuóshuǐ,Dakusui,,,120.70459,23.83424,verified,author,,,,,
-tws140,名間,Míngjiān,Nama,,,120.70159,23.83805,verified,author,,,,,
-tws141,新街,Xīnjiē,Shingai,,,120.69103,23.87885,verified,author,,,,,
-tws142,隘寮,Àiliáo,Airyō,,,120.75033,23.83507,verified,author,,,,,
-tws143,集集,Jíjí,Shūshū,,,120.78490,23.82625,verified,author,,,,,
-tws144,水裡坑,Shuǐlǐkēng,Suirikō,,,120.85313,23.81885,verified,author,,,,,
-tws145,外車埕,Wàichēchéng,Gaishatei,,,120.86902,23.85165,verified,author,,,,,
-tws146,會社前,Huìshèqián,Kaisha-mae,,,120.68918,23.90450,verified,author,,,,,
-tws147,南投,Nántóu,Nantō,,,120.68997,23.90980,verified,author,,,,,
-tws148,半山,Bànshān,Hanzan,,,120.67940,23.92831,verified,author,,,,,
-tws149,林庄,Línzhuāng,Rinshō,,,120.67382,23.93537,verified,author,,,,,
-tws150,營盤口,Yíngpánkǒu,Eibankō,,,120.67150,23.94692,verified,author,,,,,
-tws151,林子頭,Línzǐtóu,Rinshitō,,,120.68093,23.96473,verified,author,,,,,
-tws152,草屯,Cǎotún,Sōton,,,120.68221,23.97885,verified,author,,,,,
-tws153,新豐,Xīnfēng,Shinpō,,,120.68766,23.99352,verified,author,,,,,
-tws154,萬斗六,Wàndǒuliù,Mantōroku,,,120.69514,24.02165,verified,author,,,,,
-tws155,六股,Liùgǔ,Rokkō,,,120.69104,24.04102,verified,author,,,,,
-tws156,霧峰,Wùfēng,Muhō,,,120.69819,24.06565,verified,author,,,,,
-tws157,北溝,Běigōu,Hokukō,,,120.70828,24.07782,verified,author,,,,,
-tws158,塗城,Túchéng,Tojō,,,120.70926,24.08874,verified,author,,,,,
-tws159,車籠埔,Chēlóngpǔ,Sharampo,,,120.72422,24.10667,verified,author,,,,,
-tws160,太平,Tàipíng,Taihei,,,120.71409,24.12395,verified,author,,,,,
-tws161,番子寮,Fānzǐliáo,Banshiryō,,,120.71622,24.09467,verified,author,,,,,
-tws162,花蓮港,Huāliángǎng,Karenkō,,,121.61303,23.97185,verified,author,,,,,
-tws163,海岸,Hǎi'àn,Kaigan,,,121.60890,23.96465,verified,author,,,1941,,
-tws164,東花蓮港,Dōnghuāliángǎng,Higashi-Karenkō,,,121.63563,23.99818,verified,author,,1939,,,
-tws165,臺東,Táidōng,Taitō,,,121.14741,22.75158,verified,author,,,,,
-tws166,馬蘭,Mǎlán,Baran,,,121.12892,22.76561,verified,author,,,,,
-tws167,日奈敷,Rìnàifū,Hinanki,,,121.09277,22.80887,verified,author,,,,,
-tws168,初鹿尾,Chūlùwěi,Hashikō,,,121.09273,22.85988,verified,author,,,,,
-tws169,稻葉,Dàoyè,Inaba,,,121.12804,22.88084,verified,author,,,,,
-tws170,鹿野,Lùyě,Shikano,,,121.13682,22.91201,verified,author,,,,,
-tws171,大原,Dàyuán,Ōhara,,,121.15903,22.95555,verified,author,,,,,
-tws172,大埔,Dàpǔ,Taiho,,,121.15373,22.98264,verified,author,,,,,
-tws173,月野,Yuèyě,Tsukino,,,121.15080,23.01088,verified,author,,,,,
-tws174,里壠,Lǐlǒng,Riran,,,121.16446,23.04657,verified,author,,,,,
-tws175,新武呂,Xīnwǔlǚ,Shimburo,,,121.17687,23.10255,verified,author,,,,,
-tws176,池上,Chíshàng,Ikegami,,,121.21947,23.12620,verified,author,,,,,
-tws177,公埔,Gōngpǔ,Kōho,,,121.25025,23.18222,verified,author,,,,,
-tws178,頭人埔,Tóurénpǔ,Tōjinpo,,,121.27804,23.22580,verified,author,,,,,
-tws179,大庄,Dàzhuāng,Taishō,,,121.30699,23.27073,verified,author,,,,,
-tws180,安通,Āntōng,Antsū,,,121.33366,23.30395,verified,author,,,,,
-tws181,玉里,Yùlǐ,Tamazato,,,121.31135,23.33225,verified,author,,,,,
-tws182,末廣,Mòguǎng,Suehiro,,,121.32641,23.38066,verified,author,,,,,
-tws183,三笠,Sānlì,Mikasa,,,121.34490,23.42508,verified,author,,,,,
-tws184,瑞穗,Ruìsuì,Mizuho,,,121.37677,23.49658,verified,author,,,,,
-tws185,拔子,Bázǐ,Basshi,,,121.38016,23.58026,verified,author,,,,,
-tws186,大和,Dàhé,Yamato,,,121.38960,23.60549,verified,author,,,,,
-tws187,馬太鞍,Mǎtài'ān,Mataan,,,121.42086,23.66598,verified,author,,,,,
-tws188,萬里橋,Wànlǐqiáo,Maribashi,,,121.41877,23.71170,verified,author,,,,,
-tws189,鳳林,Fènglín,Hōrin,,,121.44642,23.74599,verified,author,,,,,
-tws190,林田,Líntián,Hayashida,,,121.45785,23.78241,verified,author,,,,,
-tws191,平林,Pínglín,Hirabayashi,,,121.45153,23.80300,verified,author,,,,,
-tws192,溪口,Xīkǒu,Keikō,,,121.47299,23.81758,verified,author,,,,,
-tws193,豐田,Fēngtián,Toyoda,,,121.49632,23.84857,verified,author,,,,,
-tws194,壽,Shòu,Kotobuki,,,121.51105,23.86878,verified,author,,,,,
-tws195,賀田,Hètián,Kada,,,121.52931,23.90767,verified,author,,,,,
-tws196,池南,Chínán,Chinan,,,121.52071,23.88217,verified,author,,,,,"Not on 1944 map but on 1936 schedule, placed where settlement is today"
-tws197,初音,Chūyīn,Hatsune,,,121.54533,23.94210,verified,author,,,,,
-tws198,吉野,Jíyě,Yoshino,,,121.57322,23.96110,verified,author,,,,,
-tws199,荳蘭,Dòulán,Tōran,,,121.59209,23.97392,verified,author,,,,,
+id,hanji,pinyin,romaji,kana,kind,lon,lat,confidence,source_type,source_url,valid_from,valid_to,alt_names,note,district,district_kanji,shu,short
+tws001,大甲,Dàjiǎ,Daikō,だいこう,station,120.62716,24.34431,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E5%A4%A7%E7%94%B2%E9%A7%85,,,,,TwTaikou,大甲郡,Taichū-shū,"A station in Taikō-gun (大甲郡), Taichū-shū."
+tws002,日南,Rìnán,,,station,120.65390,24.37757,unverified,,,,,,,TwTaikou,大甲郡,Taichū-shū,"A station in Taikō-gun (大甲郡), Taichū-shū."
+tws003,清水,Qīngshuǐ,,,station,120.56921,24.26426,unverified,,,,,,,TwTaikou,大甲郡,Taichū-shū,"A station in Taikō-gun (大甲郡), Taichū-shū."
+tws004,甲南,Jiǎnán,,,station,120.60250,24.30354,unverified,,,,,,,TwTaikou,大甲郡,Taichū-shū,"A station in Taikō-gun (大甲郡), Taichū-shū."
+tws005,後里,Hòulǐ,,,station,120.73304,24.30902,unverified,,,,,,,TwToyohara,豐原郡,Taichū-shū,"A station in Toyohara-gun (豐原郡), Taichū-shū."
+tws006,大安,Dà'ān,,,station,120.75009,24.32252,unverified,,,,,,,TwToyohara,豐原郡,Taichū-shū,"A station in Toyohara-gun (豐原郡), Taichū-shū."
+tws007,豐原,Fēngyuán,,,station,120.72296,24.25387,unverified,,,,,,,TwToyohara,豐原郡,Taichū-shū,"A station in Toyohara-gun (豐原郡), Taichū-shū."
+tws008,沙鹿,Shālù,,,station,120.55731,24.23689,unverified,,,,,,,TwTaikou,大甲郡,Taichū-shū,"A station in Taikō-gun (大甲郡), Taichū-shū."
+tws009,龍井,Lóngjǐng,,,station,120.54307,24.19757,unverified,,,,,,,TwTaikou,大甲郡,Taichū-shū,"A station in Taikō-gun (大甲郡), Taichū-shū."
+tws010,潭子,Tánzǐ,,,station,120.70591,24.21291,unverified,,,,,,,TwToyohara,豐原郡,Taichū-shū,"A station in Toyohara-gun (豐原郡), Taichū-shū."
+tws011,彰化,Zhānghuà,,,station,120.53839,24.08165,unverified,,,,,,"Where the trunk line's two routes join again, the coast line of 1922 and the older mountain line through Taichū. The fan-shaped engine shed built here in 1922 to turn locomotives between them is still standing.",TwShoka,彰化郡,Taichū-shū,"A station in Shōka-gun (彰化郡), Taichū-shū."
+tws012,大肚,Dàdù,Daito,だいと,station,120.54237,24.15417,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E5%A4%A7%E8%82%9A%E9%A7%85,,,,,TwTaikou,大甲郡,Taichū-shū,"A station in Taikō-gun (大甲郡), Taichū-shū."
+tws013,追分,Zhuīfēn,,,station,120.56989,24.12016,unverified,,,,,,,TwTaikou,大甲郡,Taichū-shū,"A station in Taikō-gun (大甲郡), Taichū-shū."
+tws014,王田,Wángtián,,,station,120.58845,24.11498,unverified,,,,,,,TwDaiton,大屯郡,Taichū-shū,"A station in Daiton-gun (大屯郡), Taichū-shū."
+tws015,烏日,Wūrì,,,station,120.62253,24.10882,unverified,,,,,,,TwDaiton,大屯郡,Taichū-shū,"A station in Daiton-gun (大屯郡), Taichū-shū."
+tws016,台中,Táizhōng,,,station,120.68494,24.13671,unverified,,,,,,"The seat of Taichū-shū, and where the trunk line was declared finished: the ceremony for the through route from Kīrun to Takao was held in the park here in October 1908, and the pavilion built on the lake for it is still the city's emblem.",TwTaichu,臺中市,Taichū-shū,"A station in Taichū-shi (臺中市), Taichū-shū."
+tws017,員林,Yuánlín,Inrin,いんりん,station,120.56939,23.95954,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E5%93%A1%E6%9E%97%E9%A7%85,,,,,TwInrin,員林郡,Taichū-shū,"A station in Inrin-gun (員林郡), Taichū-shū."
+tws018,唭里岸,Qílǐàn,,,station,121.51764,25.11156,unverified,,,,,,,TwShichisei,七星郡,Taihoku-shū,"A station in Shichisei-gun (七星郡), Taihoku-shū."
+tws019,士林,Shìlín,Shirin,しりん,station,121.52640,25.09210,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E5%A3%AB%E6%9E%97%E9%A7%85,,,,,TwShichisei,七星郡,Taihoku-shū,"A station in Shichisei-gun (七星郡), Taihoku-shū."
+tws020,七堵,Qīdǔ,Shichito,しちと,station,121.71589,25.09717,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E4%B8%83%E5%A0%B5%E9%A7%85,,,,,TwKirun,基隆郡,Taihoku-shū,"A station in Kīrun-gun (基隆郡), Taihoku-shū."
+tws021,八堵,Bādǔ,Hatto,はっと,station,121.72917,25.10887,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E5%85%AB%E5%A0%B5%E9%A7%85,,,,"The junction where the Giran line left the trunk line for the north-east coast. It stands a few minutes short of Kīrun, and the whole eastern half of the northern network hung off it.",TwKirun,基隆郡,Taihoku-shū,"A station in Kīrun-gun (基隆郡), Taihoku-shū."
+tws022,八堵,Bādǔ,Hatto,はっと,station,121.72921,25.10844,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E5%85%AB%E5%A0%B5%E9%A7%85,,,,"The junction where the Giran line left the trunk line for the north-east coast. It stands a few minutes short of Kīrun, and the whole eastern half of the northern network hung off it.",TwKirun,基隆郡,Taihoku-shū,"A station in Kīrun-gun (基隆郡), Taihoku-shū."
+tws023,暖暖,Nuǎnnuǎn,Dandan,だんだん,station,121.74060,25.10208,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E6%9A%96%E6%9A%96%E9%A7%85,,,,,TwKirun,基隆郡,Taihoku-shū,"A station in Kīrun-gun (基隆郡), Taihoku-shū."
+tws024,基隆,Jīlóng,Kiirun,きいるん,station,121.73936,25.13256,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E5%9F%BA%E9%9A%86%E9%A7%85,,,,"The northern end of the trunk line and the colony's door to Japan. A railway from here to Taihoku was the Qing government's, opened in 1891; the Japanese rebuilt it, carried it the length of the island, and rebuilt the harbour alongside it. By the 1930s most people and most freight entering Taiwan came through Kīrun.",TwKirunShi,基隆市,Taihoku-shū,"A station in Kīrun-shi (基隆市), Taihoku-shū."
+tws025,宮下,Gōngxià,,,halt,121.52335,25.07828,unverified,,,,,,,TwTaihoku,臺北市,Taihoku-shū,"A halt in Taihoku-shi (臺北市), Taihoku-shū."
+tws026,圓山,Yuánshān,Maruyama,まるやま,station,121.52033,25.07134,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E5%9C%93%E5%B1%B1%E9%A7%85,,,,,TwTaihoku,臺北市,Taihoku-shū,"A station in Taihoku-shi (臺北市), Taihoku-shū."
+tws027,雙連,Shuānglián,,,station,121.52076,25.05876,unverified,,,,,,,TwTaihoku,臺北市,Taihoku-shū,"A station in Taihoku-shi (臺北市), Taihoku-shū."
+tws028,大正街,Dàzhèngjiē,,,station,121.52032,25.05052,unverified,,,,,,,TwTaihoku,臺北市,Taihoku-shū,"A station in Taihoku-shi (臺北市), Taihoku-shū."
+tws029,台北,Táiběi,,,station,121.51572,25.04815,unverified,,,,,,"The capital's station, and the middle of the network rather than one end of it: the trunk line south towards Takao, the short line north to Kīrun and the sea, and the branch out to Tansui all met here. The Governor-General's offices stood a few streets away.",TwTaihoku,臺北市,Taihoku-shū,"A station in Taihoku-shi (臺北市), Taihoku-shū."
+tws030,螢橋,Yíngqiáo,,,station,121.51701,25.02557,unverified,,,,,,,TwTaihoku,臺北市,Taihoku-shū,"A station in Taihoku-shi (臺北市), Taihoku-shū."
+tws031,十五份,Shíwǔfèn,,,halt,121.53948,25.00012,unverified,,,,,,,TwBunzan,文山郡,Taihoku-shū,"A halt in Bunzan-gun (文山郡), Taihoku-shū."
+tws032,公館,Gōngguǎn,Kōkan,こうかん,station,121.53596,25.01133,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E5%85%AC%E9%A4%A8%E9%A7%85,,,,,TwTaihoku,臺北市,Taihoku-shū,"A station in Taihoku-shi (臺北市), Taihoku-shū."
+tws033,水源地,Shuǐyuándì,,,halt,121.53190,25.01529,unverified,,,,,,,TwTaihoku,臺北市,Taihoku-shū,"A halt in Taihoku-shi (臺北市), Taihoku-shū."
+tws034,南港,Nángǎng,Nankō,なんこう,temporary halt,121.61182,25.05386,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E5%8D%97%E6%B8%AF%E9%A7%85,,,,,TwShichisei,七星郡,Taihoku-shū,"A temporary halt in Shichisei-gun (七星郡), Taihoku-shū."
+tws035,松山,Sōngshān,Matsuyama,まつやま,station,121.57756,25.04915,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E6%9D%BE%E5%B1%B1%E9%A7%85,,,,,TwShichisei,七星郡,Taihoku-shū,"A station in Shichisei-gun (七星郡), Taihoku-shū."
+tws036,板橋,Bǎnqiáo,,,station,121.45933,25.00831,unverified,,,,,,,TwKaizan,海山郡,Taihoku-shū,"A station in Kaizan-gun (海山郡), Taihoku-shū."
+tws037,萬華,Wànhuá,,,station,121.50100,25.03321,unverified,,,,,,,TwTaihoku,臺北市,Taihoku-shū,"A station in Taihoku-shi (臺北市), Taihoku-shū."
+tws038,紅毛,Hóngmáo,,,station,121.00936,24.83901,unverified,,,,,,,TwShinchiku,新竹郡,Shinchiku-shū,"A station in Shinchiku-gun (新竹郡), Shinchiku-shū."
+tws039,湖口,Húkǒu,,,station,121.05496,24.87634,unverified,,,,,,,TwShinchiku,新竹郡,Shinchiku-shū,"A station in Shinchiku-gun (新竹郡), Shinchiku-shū."
+tws040,楊梅,Yángméi,,,station,121.14614,24.90796,unverified,,,,,,,TwChureki,中壢郡,Shinchiku-shū,"A station in Chūreki-gun (中壢郡), Shinchiku-shū."
+tws041,龜山,Guīshān,,,station,121.84585,24.88389,unverified,,,,,,,TwGiran,宜蘭郡,Taihoku-shū,"A station in Giran-gun (宜蘭郡), Taihoku-shū."
+tws042,外澳,Wài'ào,Gaiō,がいおう,station,121.82267,24.85876,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E5%A4%96%E6%BE%B3%E9%A7%85,,,,,TwGiran,宜蘭郡,Taihoku-shū,"A station in Giran-gun (宜蘭郡), Taihoku-shū."
+tws043,香山,Xiāngshān,,,station,120.91439,24.76382,unverified,,,,,,,TwShinchiku,新竹郡,Shinchiku-shū,"A station in Shinchiku-gun (新竹郡), Shinchiku-shū."
+tws044,新竹,Xīnzhú,Shinchiku,しんちく,station,120.97186,24.80121,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E6%96%B0%E7%AB%B9%E9%A7%85,,,,"The seat of Shinchiku-shū, on the trunk line where it comes down out of the northern hills onto the western plain.",TwShinchikuShi,新竹市,Shinchiku-shū,"A station in Shinchiku-shi (新竹市), Shinchiku-shū."
+tws045,礁溪,Jiāoxī,,,station,121.76298,24.78696,unverified,,,,,,,TwGiran,宜蘭郡,Taihoku-shū,"A station in Giran-gun (宜蘭郡), Taihoku-shū."
+tws046,頭圍,Tóuwéi,,,station,121.77554,24.82673,unverified,,,,,,,TwGiran,宜蘭郡,Taihoku-shū,"A station in Giran-gun (宜蘭郡), Taihoku-shū."
+tws047,竹南,Zhúnán,,,station,120.88067,24.68697,unverified,,,,,,"Where the trunk line divides. From 1922 a coast line ran west of the hills while the older mountain line kept to the inland towns, and the two did not meet again until Shōka — so a timetable from the 1930s gives two quite different routes between the same two places.",TwChikunan,竹南郡,Shinchiku-shū,"A station in Chikunan-gun (竹南郡), Shinchiku-shū."
+tws048,羅東,Luódōng,,,station,121.77438,24.67821,unverified,,,,,,,TwRato,羅東郡,Taihoku-shū,"A station in Ratō-gun (羅東郡), Taihoku-shū."
+tws049,二結,Èrjié,Niketsu,にけつ,station,121.77417,24.70619,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E4%BA%8C%E7%B5%90%E9%A7%85,,,,,TwRato,羅東郡,Taihoku-shū,"A station in Ratō-gun (羅東郡), Taihoku-shū."
+tws050,公司寮,Gōngsīliáo,,,station,120.75934,24.61168,unverified,,,,,,,TwChikunan,竹南郡,Shinchiku-shū,"A station in Chikunan-gun (竹南郡), Shinchiku-shū."
+tws051,後龍,Hòulóng,Kōryō,こうりょう,station,120.78669,24.61604,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E5%BE%8C%E9%BE%8D%E9%A7%85,,,,,TwChikunan,竹南郡,Shinchiku-shū,"A station in Chikunan-gun (竹南郡), Shinchiku-shū."
+tws052,大山腳,Dàshānjiǎo,,,station,120.80351,24.64599,unverified,,,,,,,TwChikunan,竹南郡,Shinchiku-shū,"A station in Chikunan-gun (竹南郡), Shinchiku-shū."
+tws053,北勢,Běishì,Hokusei,ほくせい,station,120.82359,24.60091,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E5%8C%97%E5%8B%A2%E9%A7%85,,,,,TwChikunan,竹南郡,Shinchiku-shū,"A station in Chikunan-gun (竹南郡), Shinchiku-shū."
+tws054,造橋,Zàoqiáo,,,station,120.86715,24.64188,unverified,,,,,,,TwChikunan,竹南郡,Shinchiku-shū,"A station in Chikunan-gun (竹南郡), Shinchiku-shū."
+tws055,淡文湖,Dànwénhú,,,station,120.85848,24.65713,unverified,,,,,,,TwChikunan,竹南郡,Shinchiku-shū,"A station in Chikunan-gun (竹南郡), Shinchiku-shū."
+tws056,冬山,Dōngshān,Tōzan,とうざん,station,121.79220,24.63663,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E5%86%AC%E5%B1%B1%E9%A7%85,,,,,TwRato,羅東郡,Taihoku-shū,"A station in Ratō-gun (羅東郡), Taihoku-shū."
+tws057,新城,Xīnchéng,,,station,121.82253,24.61580,unverified,,,,,,,TwSuo,蘇澳郡,Taihoku-shū,"A station in Suō-gun (蘇澳郡), Taihoku-shū."
+tws058,蘇澳,Sū'ào,,,station,121.85172,24.59496,unverified,,,,,,"The southern end of the Giran line down the north-east coast, completed in 1924. Beyond it the cliffs carried no railway at all, and the gap between here and Karenkō was crossed by road and by sea.",TwSuo,蘇澳郡,Taihoku-shū,"A station in Suō-gun (蘇澳郡), Taihoku-shū."
+tws059,白沙屯,Báishātún,Hakusaton,はくさとん,station,120.70790,24.56476,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E7%99%BD%E6%B2%99%E5%B1%AF%E9%A7%85,,,,,TwByoritsu,苗栗郡,Shinchiku-shū,"A station in Byōritsu-gun (苗栗郡), Shinchiku-shū."
+tws060,新埔,Xīnpǔ,Shimpo,しんぽ,station,120.69527,24.53995,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E6%96%B0%E5%9F%94%E9%A7%85,,,,,TwByoritsu,苗栗郡,Shinchiku-shū,"A station in Byōritsu-gun (苗栗郡), Shinchiku-shū."
+tws061,苗栗,Miáolì,,,station,120.82229,24.56994,unverified,,,,,,,TwByoritsu,苗栗郡,Shinchiku-shū,"A station in Byōritsu-gun (苗栗郡), Shinchiku-shū."
+tws062,南勢,Nánshì,,,station,120.79130,24.52213,unverified,,,,,,,TwByoritsu,苗栗郡,Shinchiku-shū,"A station in Byōritsu-gun (苗栗郡), Shinchiku-shū."
+tws063,通霄,Tōngxiāo,,,station,120.67813,24.49157,unverified,,,,,,,TwByoritsu,苗栗郡,Shinchiku-shū,"A station in Byōritsu-gun (苗栗郡), Shinchiku-shū."
+tws064,苑裡,Yuànlǐ,,,station,120.65105,24.44389,unverified,,,,,,,TwByoritsu,苗栗郡,Shinchiku-shū,"A station in Byōritsu-gun (苗栗郡), Shinchiku-shū."
+tws065,銅鑼,Tóngluó,,,station,120.78602,24.48624,unverified,,,,,,,TwByoritsu,苗栗郡,Shinchiku-shū,"A station in Byōritsu-gun (苗栗郡), Shinchiku-shū."
+tws066,三叉,Sānchā,,,station,120.77418,24.42094,unverified,,,,,,,TwByoritsu,苗栗郡,Shinchiku-shū,"A station in Byōritsu-gun (苗栗郡), Shinchiku-shū."
+tws067,淡水,Dànshuǐ,Tansui,たんすい,station,121.44488,25.16879,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E6%B7%A1%E6%B0%B4%E9%A7%85,,,,"The end of the branch from Taihoku, opened in 1901. Tamsui had been the north's treaty port and the way foreign trade reached the island; the railway outlasted that trade, which moved to Kīrun as the harbour there was built out.",TwTansui,淡水郡,Taihoku-shū,"A station in Tansui-gun (淡水郡), Taihoku-shū."
+tws068,新北投,Xīnběitóu,Shinhokutō,しんほくとう,station,121.50381,25.13700,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E6%96%B0%E5%8C%97%E6%8A%95%E9%A7%85,,,,,TwShichisei,七星郡,Taihoku-shū,"A station in Shichisei-gun (七星郡), Taihoku-shū."
+tws069,北投,Běitóu,Hokutō,ほくとう,station,121.49853,25.13243,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E5%8C%97%E6%8A%95%E9%A7%85,,,,,TwShichisei,七星郡,Taihoku-shū,"A station in Shichisei-gun (七星郡), Taihoku-shū."
+tws070,江頭,Jiāngtóu,,,station,121.47026,25.12876,unverified,,,,,,,TwShichisei,七星郡,Taihoku-shū,"A station in Shichisei-gun (七星郡), Taihoku-shū."
+tws071,平鎮,Píngzhèn,Heichin,へいちん,station,121.18371,24.91968,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E5%B9%B3%E9%8E%AE%E9%A7%85,,,,,TwChureki,中壢郡,Shinchiku-shū,"A station in Chūreki-gun (中壢郡), Shinchiku-shū."
+tws072,中壢,Zhōnglì,,,station,121.22602,24.95360,unverified,,,,,,,TwChureki,中壢郡,Shinchiku-shū,"A station in Chūreki-gun (中壢郡), Shinchiku-shū."
+tws073,崁子腳,Kànzǐjiǎo,,,station,121.25865,24.97280,unverified,,,,,,,TwChureki,中壢郡,Shinchiku-shū,"A station in Chūreki-gun (中壢郡), Shinchiku-shū."
+tws074,桃園,Táoyuán,,,station,121.31374,24.98904,unverified,,,,,,,TwToen,桃園郡,Shinchiku-shū,"A station in Tōen-gun (桃園郡), Shinchiku-shū."
+tws075,鶯歌,Yīnggē,,,station,121.35552,24.95496,unverified,,,,,,,TwKaizan,海山郡,Taihoku-shū,"A station in Kaizan-gun (海山郡), Taihoku-shū."
+tws076,山子腳,Shānzǐjiǎo,,,station,121.39345,24.97317,unverified,,,,,,,TwKaizan,海山郡,Taihoku-shū,"A station in Kaizan-gun (海山郡), Taihoku-shū."
+tws077,樹林,Shùlín,,,station,121.42475,24.99176,unverified,,,,,,,TwKaizan,海山郡,Taihoku-shū,"A station in Kaizan-gun (海山郡), Taihoku-shū."
+tws078,新店,Xīndiàn,Shinten,しんてん,station,121.53832,24.96037,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E6%96%B0%E5%BA%97%E9%A7%85,,,,,TwBunzan,文山郡,Taihoku-shū,"A station in Bunzan-gun (文山郡), Taihoku-shū."
+tws079,大坪林,Dàpínglín,Daiheirin,だいへいりん,halt,121.54242,24.97560,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E5%A4%A7%E5%9D%AA%E6%9E%97%E9%A7%85,,,,,TwBunzan,文山郡,Taihoku-shū,"A halt in Bunzan-gun (文山郡), Taihoku-shū."
+tws080,景尾,Jǐngwěi,,,station,121.54008,24.99141,unverified,,,,,,,TwBunzan,文山郡,Taihoku-shū,"A station in Bunzan-gun (文山郡), Taihoku-shū."
+tws081,大里,Dàlǐ,,,station,121.92268,24.96684,unverified,,,,,,,TwGiran,宜蘭郡,Taihoku-shū,"A station in Giran-gun (宜蘭郡), Taihoku-shū."
+tws082,大溪,Dàxī,,,station,121.89010,24.93891,unverified,,,,,,,TwGiran,宜蘭郡,Taihoku-shū,"A station in Giran-gun (宜蘭郡), Taihoku-shū."
+tws083,田中,Tiánzhōng,,,station,120.59121,23.85847,unverified,,,,,,,TwInrin,員林郡,Taichū-shū,"A station in Inrin-gun (員林郡), Taichū-shū."
+tws084,社頭,Shètóu,,,station,120.58043,23.89570,unverified,,,,,,,TwInrin,員林郡,Taichū-shū,"A station in Inrin-gun (員林郡), Taichū-shū."
+tws085,林內,Línnèi,,,station,120.61472,23.75952,unverified,,,,,,,TwToroku,斗六郡,Tainan-shū,"A station in Toroku-gun (斗六郡), Tainan-shū."
+tws086,斗南,Dǒunán,Tonan,となん,station,120.48095,23.67287,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E6%96%97%E5%8D%97%E9%A7%85,,,,,TwToroku,斗六郡,Tainan-shū,"A station in Toroku-gun (斗六郡), Tainan-shū."
+tws087,斗六,Dǒuliù,Toroku,とろく,station,120.54099,23.71192,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E6%96%97%E5%85%AD%E9%A7%85,,,,,TwToroku,斗六郡,Tainan-shū,"A station in Toroku-gun (斗六郡), Tainan-shū."
+tws088,大林,Dàlín,Dairin,だいりん,station,120.45573,23.60060,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E5%A4%A7%E6%9E%97%E9%A7%85,,,,,TwKagi,嘉義郡,Tainan-shū,"A station in Kagi-gun (嘉義郡), Tainan-shū."
+tws089,民雄,Mínxióng,Tamio,たみお,station,120.43158,23.55479,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E6%B0%91%E9%9B%84%E9%A7%85,,,,,TwKagi,嘉義郡,Tainan-shū,"A station in Kagi-gun (嘉義郡), Tainan-shū."
+tws090,嘉義,Jiāyì,Kagi,かぎ,station,120.44119,23.47935,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E5%98%89%E7%BE%A9%E9%A7%85,,,,"The trunk-line station at the foot of the Alishan forest railway. The narrow line into the mountains was begun in 1906 and worked from here, bringing down cypress and camphor; the timber yards beside the station are much of the reason the town grew as it did.",TwKagiShi,嘉義市,Tainan-shū,"A station in Kagi-shi (嘉義市), Tainan-shū."
+tws091,後壁,Hòubì,Kōheki,こうへき,station,120.36033,23.36589,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E5%BE%8C%E5%A3%81%E9%A7%85,,,,,TwShinei,新營郡,Tainan-shū,"A station in Shin'ei-gun (新營郡), Tainan-shū."
+tws092,水上,Shuǐshàng,,,station,120.38683,23.41370,unverified,,,,,,,TwKagi,嘉義郡,Tainan-shū,"A station in Kagi-gun (嘉義郡), Tainan-shū."
+tws093,新營,Xīnyíng,,,station,120.32311,23.30586,unverified,,,,,,,TwShinei,新營郡,Tainan-shū,"A station in Shin'ei-gun (新營郡), Tainan-shū."
+tws094,林鳳營,Línfèngyíng,,,station,120.32107,23.24238,unverified,,,,,,,TwSobun,曾文郡,Tainan-shū,"A station in Sobun-gun (曾文郡), Tainan-shū."
+tws095,番子田,Fānzǐtián,,,station,120.31919,23.19270,unverified,,,,,,,TwSobun,曾文郡,Tainan-shū,"A station in Sobun-gun (曾文郡), Tainan-shū."
+tws096,善化,Shànhuà,Zenka,ぜんか,station,120.30656,23.13313,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E5%96%84%E5%8C%96%E9%A7%85,,,,,TwShinka,新化郡,Tainan-shū,"A station in Shinka-gun (新化郡), Tainan-shū."
+tws097,永康,Yǒngkāng,,,station,120.25360,23.03844,unverified,,,,,,,TwNiitoyo,新豐郡,Tainan-shū,"A station in Niitoyo-gun (新豐郡), Tainan-shū."
+tws098,新市,Xīnshì,,,station,120.28975,23.06799,unverified,,,,,,,TwShinka,新化郡,Tainan-shū,"A station in Shinka-gun (新化郡), Tainan-shū."
+tws099,車路墘,Chēlùqián,,,station,120.23170,22.93295,unverified,,,,,,,TwNiitoyo,新豐郡,Tainan-shū,"A station in Niitoyo-gun (新豐郡), Tainan-shū."
+tws100,台南,Táinán,Tainan,たいなん,station,120.21277,22.99687,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E5%8F%B0%E5%8D%97%E9%A7%85,,,,"The old capital of Qing Taiwan and the seat of Tainan-shū. The railway reached it from the south in 1900 and from the north in 1908, and the administration that had run the island from here had moved to Taihoku a generation before.",TwTainan,臺南市,Tainan-shū,"A station in Tainan-shi (臺南市), Tainan-shū."
+tws101,大湖,Dàhú,Daiko,だいこ,station,120.25358,22.87858,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E5%A4%A7%E6%B9%96%E9%A7%85,,,,,TwOkayama,岡山郡,Takao-shū,"A station in Okayama-gun (岡山郡), Takao-shū."
+tws102,中洲,Zhōngzhōu,,,station,120.25261,22.90382,unverified,,,,,,,TwNiitoyo,新豐郡,Tainan-shū,"A station in Niitoyo-gun (新豐郡), Tainan-shū."
+tws103,路竹,Lùzhú,,,station,120.26657,22.85376,unverified,,,,,,,TwOkayama,岡山郡,Takao-shū,"A station in Okayama-gun (岡山郡), Takao-shū."
+tws104,橋子頭,Qiáozǐtóu,,,station,120.31070,22.76046,unverified,,,,,,,TwOkayama,岡山郡,Takao-shū,"A station in Okayama-gun (岡山郡), Takao-shū."
+tws105,岡山,Gāngshān,,,station,120.29683,22.79401,unverified,,,,,,,TwOkayama,岡山郡,Takao-shū,"A station in Okayama-gun (岡山郡), Takao-shū."
+tws106,楠梓,Nánzǐ,Nanshi,なんし,station,120.32395,22.72692,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E6%A5%A0%E6%A2%93%E9%A7%85,,,,,TwOkayama,岡山郡,Takao-shū,"A station in Okayama-gun (岡山郡), Takao-shū."
+tws107,舊城,Jiùchéng,,,yard,120.29495,22.67534,unverified,,,,,,,TwOkayama,岡山郡,Takao-shū,"A goods yard in Okayama-gun (岡山郡), Takao-shū."
+tws108,屏東,Píngdōng,,,station,120.48603,22.66940,unverified,,,,,,"The end of the branch running east from Takao across the southern plain, in the sugar country. The line was pushed further south to Hōryō in 1941.",TwHeito,屏東郡,Takao-shū,"A station in Heitō-gun (屏東郡), Takao-shū."
+tws109,六塊厝,Liùkuàicuò,Rokukaiseki,ろくかいせき,station,120.46489,22.66567,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E5%85%AD%E5%A1%8A%E5%8E%9D%E9%A7%85,,,,,TwHeito,屏東郡,Takao-shū,"A station in Heitō-gun (屏東郡), Takao-shū."
+tws110,高雄,Gāoxióng,,,station,120.30254,22.63948,unverified,,,,,,"The southern end of the trunk line, and a harbour made to receive it. This was a small anchorage at 打狗 when the railway arrived in 1900; the port was dredged and built out in stages from 1908, the town was renamed Takao in 1920, and by the 1930s it was the empire's main southern outlet for Taiwanese sugar, rice and bananas.",TwTakaoShi,高雄市,Takao-shū,"A station in Takao-shi (高雄市), Takao-shū."
+tws111,鳳山,Fèngshān,,,station,120.35733,22.63134,unverified,,,,,,,TwHozan,鳳山郡,Takao-shū,"A station in Hōzan-gun (鳳山郡), Takao-shū."
+tws112,後庄,Hòuzhuāng,Kōshō,こうしょう,station,120.39117,22.64073,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E5%BE%8C%E5%BA%84%E9%A7%85,,,,,TwHozan,鳳山郡,Takao-shū,"A station in Hōzan-gun (鳳山郡), Takao-shū."
+tws113,九曲堂,Jiǔqǔtáng,Kyūkyokudō,きゅうきょくどう,station,120.42147,22.65650,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E4%B9%9D%E6%9B%B2%E5%A0%82%E9%A7%85,,,,,TwHozan,鳳山郡,Takao-shū,"A station in Hōzan-gun (鳳山郡), Takao-shū."
+tws114,竹田,Zhútián,,,station,120.53990,22.58592,unverified,,,,,,,TwChoshu,潮州郡,Takao-shū,"A station in Chōshū-gun (潮州郡), Takao-shū."
+tws115,潮州,Cháozhōu,,,station,120.53626,22.54985,unverified,,,,,,,TwChoshu,潮州郡,Takao-shū,"A station in Chōshū-gun (潮州郡), Takao-shū."
+tws116,溪州,Xīzhōu,,,yard,120.51194,22.49176,unverified,,,,,,,TwToko,東港郡,Takao-shū,"A goods yard in Tōkō-gun (東港郡), Takao-shū."
+tws117,社邊,Shèbiān,,,station,120.51137,22.45851,unverified,,,,,,,TwToko,東港郡,Takao-shū,"A station in Tōkō-gun (東港郡), Takao-shū."
+tws118,林邊,Línbiān,,,station,120.51512,22.43168,unverified,,,,,,,TwToko,東港郡,Takao-shū,"A station in Tōkō-gun (東港郡), Takao-shū."
+tws119,佳冬,Jiādōng,Katō,かとう,station,120.54774,22.41382,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E4%BD%B3%E5%86%AC%E9%A7%85,,,,,TwToko,東港郡,Takao-shū,"A station in Tōkō-gun (東港郡), Takao-shū."
+tws120,枋寮,Fāngliáo,Hōryō,ほうりょう,station,120.59531,22.36787,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E6%9E%8B%E5%AF%AE%E9%A7%85,,,,"The southern end of the western railway, reached in 1941. The line stopped here: the coast round the foot of the island carried no railway until the 1990s, so the two halves of Taiwan's network never met.",TwChoshu,潮州郡,Takao-shū,"A station in Chōshū-gun (潮州郡), Takao-shū."
+tws121,西勢,Xīshì,Seisei,せいせい,station,120.52660,22.61632,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E8%A5%BF%E5%8B%A2%E9%A7%85,,,,,TwChoshu,潮州郡,Takao-shū,"A station in Chōshū-gun (潮州郡), Takao-shū."
+tws122,二水,Èrshuǐ,Nisui,にすい,station,120.61830,23.81287,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E4%BA%8C%E6%B0%B4%E9%A7%85,,,,"The trunk-line junction for the Shūshū branch, built in 1922 to carry material up to the Sun Moon Lake hydroelectric scheme and kept afterwards as a local line.",TwInrin,員林郡,Taichū-shū,"A station in Inrin-gun (員林郡), Taichū-shū."
+tws123,花壇,Huātán,Kadan,かだん,station,120.53706,24.02438,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E8%8A%B1%E5%A3%87%E9%A7%85,,,,,TwShoka,彰化郡,Taichū-shū,"A station in Shōka-gun (彰化郡), Taichū-shū."
+tws124,宜蘭,Yílán,Giran,ぎらん,station,121.75846,24.75462,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E5%AE%9C%E8%98%AD%E9%A7%85,,,,"The seat of the Giran district, on the line from Hatto down the north-east coast to Suō, completed in 1924.",TwGiran,宜蘭郡,Taihoku-shū,"A station in Giran-gun (宜蘭郡), Taihoku-shū."
+tws125,水返腳,Shuǐfǎnjiǎo,,,station,121.66268,25.06942,unverified,,,,,,,TwShichisei,七星郡,Taihoku-shū,"A station in Shichisei-gun (七星郡), Taihoku-shū."
+tws126,,,Sekijōshi,,,121.95533,24.98375,verified,author,,,,,,,,,
+tws127,,,Ōtei,,,121.94485,25.01521,verified,author,,,,,,,,,
+tws128,,,Kōryosho,,,121.90703,25.02204,verified,author,,,,,,,,,
+tws129,,,Chō-sōkei,,,121.86661,25.03909,verified,author,,,,,,,,,
+tws130,,,Butankō,,,121.85054,25.05767,verified,author,,,,,,,,,
+tws131,,,Sanshōrei,,,121.82036,25.06532,verified,author,,,,,,,,,
+tws132,,,Ryūtanto,,,121.81155,25.10800,verified,author,,,,,,,,,
+tws133,,,Taikōho,,,121.76225,25.10275,verified,author,,,,,,,,,
+tws134,菁桐坑,Jīngtóngkēng,Seidōkō,,,121.72320,25.02413,verified,author,,,,,,TwShichisei,七星郡,Taihoku-shū,"A station in Shichisei-gun (七星郡), Taihoku-shū."
+tws135,石底,Shídǐ,Sekitei,,,121.73876,25.02626,verified,author,,,,,,TwShichisei,七星郡,Taihoku-shū,"A station in Shichisei-gun (七星郡), Taihoku-shū."
+tws136,嶺腳寮,Lǐngjiǎoliáo,Reikyakuryō,,,121.74784,25.03002,verified,author,,,,,,TwShichisei,七星郡,Taihoku-shū,"A station in Shichisei-gun (七星郡), Taihoku-shū."
+tws137,十分寮,Shífēnliáo,Jippunryō,,,121.77449,25.04236,verified,author,,,,,,TwShichisei,七星郡,Taihoku-shū,"A station in Shichisei-gun (七星郡), Taihoku-shū."
+tws138,鼻仔頭,Bízǎitóu,Bishitō,,,120.64240,23.79860,verified,author,,,,,,TwInrin,員林郡,Taichū-shū,"A station in Inrin-gun (員林郡), Taichū-shū."
+tws139,濁水,Zhuóshuǐ,Dakusui,,,120.70459,23.83424,verified,author,,,,,,TwNanto,南投郡,Taichū-shū,"A station in Nantō-gun (南投郡), Taichū-shū."
+tws140,名間,Míngjiān,Nama,,,120.70159,23.83805,verified,author,,,,,,TwNanto,南投郡,Taichū-shū,"A station in Nantō-gun (南投郡), Taichū-shū."
+tws141,新街,Xīnjiē,Shingai,,,120.69103,23.87885,verified,author,,,,,,TwNanto,南投郡,Taichū-shū,"A station in Nantō-gun (南投郡), Taichū-shū."
+tws142,隘寮,Àiliáo,Airyō,,,120.75033,23.83507,verified,author,,,,,,TwNiitaka,新高郡,Taichū-shū,"A station in Niitaka-gun (新高郡), Taichū-shū."
+tws143,集集,Jíjí,Shūshū,,,120.78490,23.82625,verified,author,,,,,,TwNiitaka,新高郡,Taichū-shū,"A station in Niitaka-gun (新高郡), Taichū-shū."
+tws144,水裡坑,Shuǐlǐkēng,Suirikō,,,120.85313,23.81885,verified,author,,,,,"A station on the Shūshū branch, at the foot of the climb to Sun Moon Lake and the power houses built there — the works that made industrial electricity cheap in Taiwan in the 1930s.",TwNiitaka,新高郡,Taichū-shū,"A station in Niitaka-gun (新高郡), Taichū-shū."
+tws145,外車埕,Wàichēchéng,Gaishatei,,,120.86902,23.85165,verified,author,,,,,,TwNiitaka,新高郡,Taichū-shū,"A station in Niitaka-gun (新高郡), Taichū-shū."
+tws146,會社前,Huìshèqián,Kaisha-mae,,,120.68918,23.90450,verified,author,,,,,,TwNanto,南投郡,Taichū-shū,"A station in Nantō-gun (南投郡), Taichū-shū."
+tws147,南投,Nántóu,Nantō,,,120.68997,23.90980,verified,author,,,,,,TwNanto,南投郡,Taichū-shū,"A station in Nantō-gun (南投郡), Taichū-shū."
+tws148,半山,Bànshān,Hanzan,,,120.67940,23.92831,verified,author,,,,,,TwNanto,南投郡,Taichū-shū,"A station in Nantō-gun (南投郡), Taichū-shū."
+tws149,林庄,Línzhuāng,Rinshō,,,120.67382,23.93537,verified,author,,,,,,TwNanto,南投郡,Taichū-shū,"A station in Nantō-gun (南投郡), Taichū-shū."
+tws150,營盤口,Yíngpánkǒu,Eibankō,,,120.67150,23.94692,verified,author,,,,,,TwNanto,南投郡,Taichū-shū,"A station in Nantō-gun (南投郡), Taichū-shū."
+tws151,林子頭,Línzǐtóu,Rinshitō,,,120.68093,23.96473,verified,author,,,,,,TwNanto,南投郡,Taichū-shū,"A station in Nantō-gun (南投郡), Taichū-shū."
+tws152,草屯,Cǎotún,Sōton,,,120.68221,23.97885,verified,author,,,,,,TwNanto,南投郡,Taichū-shū,"A station in Nantō-gun (南投郡), Taichū-shū."
+tws153,新豐,Xīnfēng,Shinpō,,,120.68766,23.99352,verified,author,,,,,,TwNanto,南投郡,Taichū-shū,"A station in Nantō-gun (南投郡), Taichū-shū."
+tws154,萬斗六,Wàndǒuliù,Mantōroku,,,120.69514,24.02165,verified,author,,,,,,TwDaiton,大屯郡,Taichū-shū,"A station in Daiton-gun (大屯郡), Taichū-shū."
+tws155,六股,Liùgǔ,Rokkō,,,120.69104,24.04102,verified,author,,,,,,TwDaiton,大屯郡,Taichū-shū,"A station in Daiton-gun (大屯郡), Taichū-shū."
+tws156,霧峰,Wùfēng,Muhō,,,120.69819,24.06565,verified,author,,,,,,TwDaiton,大屯郡,Taichū-shū,"A station in Daiton-gun (大屯郡), Taichū-shū."
+tws157,北溝,Běigōu,Hokukō,,,120.70828,24.07782,verified,author,,,,,,TwDaiton,大屯郡,Taichū-shū,"A station in Daiton-gun (大屯郡), Taichū-shū."
+tws158,塗城,Túchéng,Tojō,,,120.70926,24.08874,verified,author,,,,,,TwDaiton,大屯郡,Taichū-shū,"A station in Daiton-gun (大屯郡), Taichū-shū."
+tws159,車籠埔,Chēlóngpǔ,Sharampo,,,120.72422,24.10667,verified,author,,,,,,TwDaiton,大屯郡,Taichū-shū,"A station in Daiton-gun (大屯郡), Taichū-shū."
+tws160,太平,Tàipíng,Taihei,,,120.71409,24.12395,verified,author,,,,,,TwDaiton,大屯郡,Taichū-shū,"A station in Daiton-gun (大屯郡), Taichū-shū."
+tws161,番子寮,Fānzǐliáo,Banshiryō,,,120.71622,24.09467,verified,author,,,,,,TwDaiton,大屯郡,Taichū-shū,"A station in Daiton-gun (大屯郡), Taichū-shū."
+tws162,花蓮港,Huāliángǎng,Karenkō,,,121.61303,23.97185,verified,author,,,,,"The northern end of the east-coast line, which was a railway of its own: 762mm gauge, cut off from the trunk line by the central range, and reached from the rest of the island by sea. The line south to Taitō was completed in 1926.",TwKarenko,花蓮港廳,Karenkō-chō,A station in Karenkō-chō (花蓮港廳).
+tws163,海岸,Hǎi'àn,Kaigan,,,121.60890,23.96465,verified,author,,,1941,,,TwKarenko,花蓮港廳,Karenkō-chō,A station in Karenkō-chō (花蓮港廳).
+tws164,東花蓮港,Dōnghuāliángǎng,Higashi-Karenkō,,,121.63563,23.99818,verified,author,,1939,,,,TwKarenko,花蓮港廳,Karenkō-chō,A station in Karenkō-chō (花蓮港廳).
+tws165,臺東,Táidōng,Taitō,,,121.14741,22.75158,verified,author,,,,,"The southern end of the narrow-gauge line from Karenkō, completed in 1926. Nothing joined it to the trunk line on the other side of the mountains; the connection round the south coast was not built until 1991.",TwTaito,臺東廳,Taitō-chō,A station in Taitō-chō (臺東廳).
+tws166,馬蘭,Mǎlán,Baran,,,121.12892,22.76561,verified,author,,,,,,TwTaito,臺東廳,Taitō-chō,A station in Taitō-chō (臺東廳).
+tws167,日奈敷,Rìnàifū,Hinanki,,,121.09277,22.80887,verified,author,,,,,,TwTaito,臺東廳,Taitō-chō,A station in Taitō-chō (臺東廳).
+tws168,初鹿尾,Chūlùwěi,Hashikō,,,121.09273,22.85988,verified,author,,,,,,TwTaito,臺東廳,Taitō-chō,A station in Taitō-chō (臺東廳).
+tws169,稻葉,Dàoyè,Inaba,,,121.12804,22.88084,verified,author,,,,,,TwTaito,臺東廳,Taitō-chō,A station in Taitō-chō (臺東廳).
+tws170,鹿野,Lùyě,Shikano,,,121.13682,22.91201,verified,author,,,,,,TwTaito,臺東廳,Taitō-chō,A station in Taitō-chō (臺東廳).
+tws171,大原,Dàyuán,Ōhara,,,121.15903,22.95555,verified,author,,,,,,TwTaito,臺東廳,Taitō-chō,A station in Taitō-chō (臺東廳).
+tws172,大埔,Dàpǔ,Taiho,,,121.15373,22.98264,verified,author,,,,,,TwTaito,臺東廳,Taitō-chō,A station in Taitō-chō (臺東廳).
+tws173,月野,Yuèyě,Tsukino,,,121.15080,23.01088,verified,author,,,,,,TwTaito,臺東廳,Taitō-chō,A station in Taitō-chō (臺東廳).
+tws174,里壠,Lǐlǒng,Riran,,,121.16446,23.04657,verified,author,,,,,,TwTaito,臺東廳,Taitō-chō,A station in Taitō-chō (臺東廳).
+tws175,新武呂,Xīnwǔlǚ,Shimburo,,,121.17687,23.10255,verified,author,,,,,,TwTaito,臺東廳,Taitō-chō,A station in Taitō-chō (臺東廳).
+tws176,池上,Chíshàng,Ikegami,,,121.21947,23.12620,verified,author,,,,,,TwTaito,臺東廳,Taitō-chō,A station in Taitō-chō (臺東廳).
+tws177,公埔,Gōngpǔ,Kōho,,,121.25025,23.18222,verified,author,,,,,,TwKarenko,花蓮港廳,Karenkō-chō,A station in Karenkō-chō (花蓮港廳).
+tws178,頭人埔,Tóurénpǔ,Tōjinpo,,,121.27804,23.22580,verified,author,,,,,,TwKarenko,花蓮港廳,Karenkō-chō,A station in Karenkō-chō (花蓮港廳).
+tws179,大庄,Dàzhuāng,Taishō,,,121.30699,23.27073,verified,author,,,,,,TwKarenko,花蓮港廳,Karenkō-chō,A station in Karenkō-chō (花蓮港廳).
+tws180,安通,Āntōng,Antsū,,,121.33366,23.30395,verified,author,,,,,,TwKarenko,花蓮港廳,Karenkō-chō,A station in Karenkō-chō (花蓮港廳).
+tws181,玉里,Yùlǐ,Tamazato,,,121.31135,23.33225,verified,author,,,,,,TwKarenko,花蓮港廳,Karenkō-chō,A station in Karenkō-chō (花蓮港廳).
+tws182,末廣,Mòguǎng,Suehiro,,,121.32641,23.38066,verified,author,,,,,,TwKarenko,花蓮港廳,Karenkō-chō,A station in Karenkō-chō (花蓮港廳).
+tws183,三笠,Sānlì,Mikasa,,,121.34490,23.42508,verified,author,,,,,,TwKarenko,花蓮港廳,Karenkō-chō,A station in Karenkō-chō (花蓮港廳).
+tws184,瑞穗,Ruìsuì,Mizuho,,,121.37677,23.49658,verified,author,,,,,,TwKarenko,花蓮港廳,Karenkō-chō,A station in Karenkō-chō (花蓮港廳).
+tws185,拔子,Bázǐ,Basshi,,,121.38016,23.58026,verified,author,,,,,,TwKarenko,花蓮港廳,Karenkō-chō,A station in Karenkō-chō (花蓮港廳).
+tws186,大和,Dàhé,Yamato,,,121.38960,23.60549,verified,author,,,,,,TwKarenko,花蓮港廳,Karenkō-chō,A station in Karenkō-chō (花蓮港廳).
+tws187,馬太鞍,Mǎtài'ān,Mataan,,,121.42086,23.66598,verified,author,,,,,,TwKarenko,花蓮港廳,Karenkō-chō,A station in Karenkō-chō (花蓮港廳).
+tws188,萬里橋,Wànlǐqiáo,Maribashi,,,121.41877,23.71170,verified,author,,,,,,TwKarenko,花蓮港廳,Karenkō-chō,A station in Karenkō-chō (花蓮港廳).
+tws189,鳳林,Fènglín,Hōrin,,,121.44642,23.74599,verified,author,,,,,,TwKarenko,花蓮港廳,Karenkō-chō,A station in Karenkō-chō (花蓮港廳).
+tws190,林田,Líntián,Hayashida,,,121.45785,23.78241,verified,author,,,,,,TwKarenko,花蓮港廳,Karenkō-chō,A station in Karenkō-chō (花蓮港廳).
+tws191,平林,Pínglín,Hirabayashi,,,121.45153,23.80300,verified,author,,,,,,TwKarenko,花蓮港廳,Karenkō-chō,A station in Karenkō-chō (花蓮港廳).
+tws192,溪口,Xīkǒu,Keikō,,,121.47299,23.81758,verified,author,,,,,,TwKarenko,花蓮港廳,Karenkō-chō,A station in Karenkō-chō (花蓮港廳).
+tws193,豐田,Fēngtián,Toyoda,,,121.49632,23.84857,verified,author,,,,,,TwKarenko,花蓮港廳,Karenkō-chō,A station in Karenkō-chō (花蓮港廳).
+tws194,壽,Shòu,Kotobuki,,,121.51105,23.86878,verified,author,,,,,,TwKarenko,花蓮港廳,Karenkō-chō,A station in Karenkō-chō (花蓮港廳).
+tws195,賀田,Hètián,Kada,,,121.52931,23.90767,verified,author,,,,,,TwKarenko,花蓮港廳,Karenkō-chō,A station in Karenkō-chō (花蓮港廳).
+tws196,池南,Chínán,Chinan,,,121.52071,23.88217,verified,author,,,,,"Not on 1944 map but on 1936 schedule, placed where settlement is today",TwKarenko,花蓮港廳,Karenkō-chō,A station in Karenkō-chō (花蓮港廳).
+tws197,初音,Chūyīn,Hatsune,,,121.54533,23.94210,verified,author,,,,,,TwKarenko,花蓮港廳,Karenkō-chō,A station in Karenkō-chō (花蓮港廳).
+tws198,吉野,Jíyě,Yoshino,,,121.57322,23.96110,verified,author,,,,,,TwKarenko,花蓮港廳,Karenkō-chō,A station in Karenkō-chō (花蓮港廳).
+tws199,荳蘭,Dòulán,Tōran,,,121.59209,23.97392,verified,author,,,,,,TwKarenko,花蓮港廳,Karenkō-chō,A station in Karenkō-chō (花蓮港廳).

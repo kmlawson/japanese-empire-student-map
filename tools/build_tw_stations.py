@@ -43,7 +43,16 @@ OUT = os.path.join(ROOT, "data", "taiwan", "stations.csv")
 
 FIELDS = ["id", "hanji", "pinyin", "romaji", "kana", "kind", "lon", "lat",
           "confidence", "source_type", "source_url",
-          "valid_from", "valid_to", "alt_names", "note"]
+          "valid_from", "valid_to", "alt_names", "note",
+          "district", "district_kanji", "shu", "short"]
+
+# Columns this build does not produce and must never drop. `district`, `shu`
+# and `short` are written by tools/station_districts.py out of the district
+# sheet; `note` is hand-written prose for the twenty-odd stations that carry
+# one. None of it is in the geojson, so a rebuild that reads only the geojson
+# deletes it -- which is exactly what happened to 46 readings once already.
+KEPT = ["romaji", "kana", "confidence", "source_type", "source_url",
+        "alt_names", "note", "district", "district_kanji", "shu", "short"]
 
 # What follows a station's name on the sheet, and what it says about the stop.
 KINDS = {"驛": "station", "繹": "station",       # 繹 is a scanning slip for 驛
@@ -125,7 +134,11 @@ def build():
     if os.path.exists(OUT):
         with io.open(OUT, encoding="utf-8", newline="") as fh:
             for old in csv.DictReader(fh):
-                if old.get("hanji") and old.get("romaji"):
+                # Every row, not only the ones with a reading. Keying on
+                # `romaji` meant a station with a note and no reading -- and
+                # most of the ones with notes have no reading -- was not held
+                # at all, so the prose went out with the rebuild.
+                if old.get("hanji"):
                     held[old["hanji"]] = old
     rows, missing, repaired = [], [], []
     for feat in fc["features"]:
@@ -161,7 +174,14 @@ def build():
             "valid_from": str(p.get("START") or ""),
             "valid_to": str(p.get("END") or ""),
             "alt_names": was.get("alt_names", ""),
-            "note": (p.get("Comments") or "").strip(),
+            # The geojson's own Comments field seeds this and nothing more:
+            # once anything has been written here by hand it wins, because it
+            # is the thing that cannot be rebuilt.
+            "note": was.get("note") or (p.get("Comments") or "").strip(),
+            "district": was.get("district", ""),
+            "district_kanji": was.get("district_kanji", ""),
+            "shu": was.get("shu", ""),
+            "short": was.get("short", ""),
         })
     rows.sort(key=lambda r: r["id"])
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
@@ -196,9 +216,25 @@ def write_js(rows):
     for r in rows:
         if not r["hanji"]:
             continue
-        out.append({"id": r["id"], "han": r["hanji"], "py": r["pinyin"],
-                    "ro": r["romaji"], "kind": r["kind"],
-                    "lon": float(r["lon"]), "lat": float(r["lat"])})
+        o = {"id": r["id"], "han": r["hanji"], "py": r["pinyin"],
+             "ro": r["romaji"], "kind": r["kind"],
+             "lon": float(r["lon"]), "lat": float(r["lat"])}
+        # What the card says. `short` is the ground it stood on and every
+        # station has one; `note` is prose and only the key stations do.
+        if r.get("kana"):
+            o["kana"] = r["kana"]
+        if r.get("short"):
+            o["short"] = r["short"]
+        if r.get("note"):
+            o["note"] = r["note"]
+        if r.get("source_url"):
+            o["wiki"] = r["source_url"]
+        # Two of them are dated: one closed in 1941 and one opened in 1939.
+        # The card has a line for it and it would otherwise go unsaid.
+        if r.get("valid_from") or r.get("valid_to"):
+            o["when"] = ("from " + r["valid_from"] if r.get("valid_from")
+                         else "until " + r["valid_to"])
+        out.append(o)
     path = os.path.join(ROOT, "tw-stations.js")
     with io.open(path, "w", encoding="utf-8", newline="\n") as fh:
         fh.write("/* Built by tools/build_tw_stations.py -- do not edit.\n"
@@ -212,8 +248,11 @@ def write_js(rows):
             fh.write("  %s,\n" % json.dumps(o, ensure_ascii=False,
                                              sort_keys=True))
         fh.write("];\n")
-    sys.stderr.write("tw-stations.js: %d stations, %d with a reading\n"
-                     % (len(out), sum(1 for o in out if o["ro"])))
+    sys.stderr.write("tw-stations.js: %d stations, %d with a reading, "
+                     "%d with a short line, %d with a note\n"
+                     % (len(out), sum(1 for o in out if o["ro"]),
+                        sum(1 for o in out if o.get("short")),
+                        sum(1 for o in out if o.get("note"))))
 
 
 def report(rows):

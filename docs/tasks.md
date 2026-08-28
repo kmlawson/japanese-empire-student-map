@@ -10610,6 +10610,108 @@ and carries 26 of them.
 
 ---
 
+## What a station says, how deep a phone goes, and when the names appear
+
+Three asks in one batch, and one of them turned out to be about z-order.
+
+### A station answers like everything else on the map
+
+A station used to be a square with a name and nothing behind it. It is now an
+ordinary record: it sits in `byId`, `recordFor` finds it through
+`.twsta-mark`, and from there the tooltip and the card work on it without
+knowing it is a station. Hovering gives the same four lines every other unit
+gives — name, the other script, the date if there is one, the short line — and
+clicking or tapping opens the card.
+
+The names go in the map's own convention rather than a scheme of their own:
+`en` is the Japanese reading and `local` the Pinyin, so `localWins` flips them
+with the Japanese-names switch exactly as it does for Korea and Manchukuo.
+Where no reading has been sourced — 79 of the 191 — the characters take the
+Japanese slot, which is the same rule the label already followed.
+
+Two descriptions, because the ask was for two:
+
+* **A short line for every one of the 191**, and it is a join rather than
+  prose: point-in-polygon against `tools/cache/taiwan_1930_districts.json`,
+  the same districts the map draws, giving `A station in Taikō-gun (大甲郡),
+  Taichū-shū.` `tools/station_districts.py` does it and writes nothing it
+  cannot derive. The names come from `texts/`, not from the cache — the cache
+  still calls the 蕃地 "Taiwan Indigenous Peoples", which is the name this
+  project was told to stop using.
+* **A note for nineteen key stations**: the two ends of the trunk line, the
+  junctions where it splits and rejoins, the ports, and the places where a line
+  began or stopped. Kīrun, Hatto, Taihoku, Tansui, Shinchiku, Chikunan, Shōka,
+  Taichū, Nisui, Suirikō, Kagi, Tainan, Takao, Heitō, Hōryō, Suō, Giran,
+  Karenkō, Taitō.
+
+`build_tw_stations.py` now holds *every* row across a rebuild, not only the
+ones with a reading. It keyed on `romaji` before, and most of the stations that
+carry a note have no reading — so the first rebuild after this would have
+deleted the prose. That is the same fault that took out 46 readings once
+already, one column over.
+
+One fix in the shared card path: the alt line takes one field per language,
+and a station's Japanese and Chinese names are the same characters, so it
+printed `大甲（だいこう）  ·  大甲`. Stations use `otherNames` there, which is
+the function that already knows how to fold two spellings of one name together
+and which the tooltip has always used.
+
+### A phone goes four times deeper
+
+The scale floor already gave a phone the same magnification as a desktop. That
+was the fix for it stopping three times further out; it is not the same map,
+because the same magnification on 390 pixels shows a fifth of what 1,200 shows.
+`TOUCH_ZOOM_BOOST` allows a coarse pointer four times deeper still. Measured:
+0.00585 map units per CSS pixel against the desktop's 0.02334 — **3.99x**.
+
+Two things say a touch screen has room for it. Its pixels are physically
+smaller, so a phone at devicePixelRatio 3 has the detail and only the units say
+otherwise; and a finger needs a bigger target than a mouse, which is the same
+argument as the hit rects. The base map is visibly polygonal down there — it
+already was at 100x — and the fine coastlines are what carry it.
+
+The bbox in the URL was sized against the old limit: two decimal places, 0.7%
+of the deepest desktop view. Four times deeper that is 3% — a link landing a
+tenth of a screen from what was being looked at — so a view under three degrees
+wide is written to three places. Round trip measured at 0.01 map units.
+
+### The names wait for the zoom
+
+With **Other** on and the stations on, every station is named — but only once
+about a degree of latitude is in view. Measured through the zoom button: the
+gate is shut at 1.215° and open at 0.902°, and at that depth 191 labels carry
+text and the collision placer draws 33 of them. Hover and tap still name one at
+any zoom.
+
+The threshold is degrees of latitude and not map units, because a map unit is a
+degree of latitude in none of the three projections. `latSpan()` asks
+`unproject` and memoises on the view and the projection, being called once per
+label per gate pass.
+
+### And the stops go under the cities
+
+`#tw-stations` was appended last and so sat on top of `#markers`. Taihoku,
+Tainan and Takao are cities *and* stations, so a five-pixel square was sitting
+in the middle of the city dot for the same place and hiding it. It is inserted
+before `#markers` now, which is where `#tw-rail`, `#browse` and `#gaz` already
+were. Order measured: `tw-rail, browse, gaz, tw-stations, markers, highlight,
+labels`.
+
+### Also fixed on the way
+
+`select()` called `placeLabels()` and not `gateLabels()` — the first only moves
+labels and the second decides their words — so a tap opened the card and left
+the station unnamed. And the station mark's own touch handler, which toggled
+the label, fought the tap that followed it: the mark cleared the name and the
+tap re-selected the station and put it back. The mark has no handler now; the
+selection drives the label on a coarse pointer, and a second tap on an open
+station closes it.
+
+Whole suite: 747 checks across 32 scripts, all passing. `stations.js` grew from
+26 checks to 46 and `zoom.js` is new with 11.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

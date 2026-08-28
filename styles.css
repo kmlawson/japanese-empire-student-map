@@ -715,8 +715,16 @@ button.plain:hover { background: var(--hover-fill); }
 }
 #tw-stations .twsta-hit { fill: transparent; cursor: pointer; }
 #tw-stations .twsta-mark:hover .twsta-sq { fill: #ffd200; }
+/* The one the card is open on. A touch screen has no hover to say which square
+   was tapped, and a card headed Gāoxióng over a hundred and ninety identical
+   squares does not say it either. */
+#tw-stations .twsta-mark.sel .twsta-sq {
+  fill: #ffd200;
+  stroke-width: 2;
+}
 @media (prefers-color-scheme: dark) {
   #tw-stations .twsta-sq { fill: #20242a; stroke: #c6ccd3; }
+  #tw-stations .twsta-mark.sel .twsta-sq { fill: #ffd200; stroke: #4a3b2a; }
 }
 
 #labels .twsta {

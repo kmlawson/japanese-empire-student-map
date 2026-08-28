@@ -38,6 +38,26 @@ const names=p=>p.evaluate(()=>{const o=[];
   document.querySelectorAll('#labels text.twsta').forEach(t=>{const s=t.textContent.trim(); if(s)o.push(s);});
   return o;});
 
+/* What the card is saying. Hidden fields read as empty, which is what the
+   card itself does with them. */
+const card=p=>p.evaluate(()=>{
+  const b=document.getElementById('info');
+  const t=s=>{const e=b.querySelector(s); return e && !e.hidden ? e.textContent.trim() : '';};
+  return {hidden:b.hidden, chip:t('.chip'), primary:t('.primary'), alt:t('.alt'),
+          own:t('.note-own'), group:t('.note-group')};});
+
+const tip=p=>p.evaluate(()=>{
+  const t=document.getElementById('tooltip');
+  if(t.hidden) return null;
+  return [...t.childNodes].map(n=>(n.textContent||'').trim()).filter(Boolean);});
+
+/* The Other button in the bar — `state.labels`, the switch that writes names
+   across the map. */
+const otherOn=async p=>{
+  await p.evaluate(()=>{const b=document.querySelector('[data-opt="labels"]');
+    if(b && b.getAttribute('aria-pressed')!=='true') b.click();});
+  await sleep(800);};
+
 /* Turn the two layers on through the real checkboxes, then shut the dialog. */
 const turnOn=async p=>{
   await p.evaluate(()=>{
@@ -181,6 +201,106 @@ await turnOn(q);
   const second=await names(q);
   check('tapping another moves the name', second.length===1, JSON.stringify(second));
   check('and it is a different one', second[0]!==first, first+' then '+second[0]);
+}
+
+/* ————————————————— what a station says ————————————————— */
+console.log('\n— hovering one says the same things every other unit says —');
+{
+  /* A page of its own. The section above deliberately leaves the layer
+     switched off, and re-navigating the same tab did not put the view back
+     where the bbox asks for it — the map restores what the reader was looking
+     at, which is right for a reader and wrong for a test that wants a known
+     starting frame. */
+  await p.mouse.move(5,5); await sleep(150);
+  await turnOn(p);
+  const t=await aSquare(p);
+  if(!t) throw new Error('no station square in view');
+  await p.mouse.move(t.x-70,t.y-70); await sleep(200);
+  await p.mouse.move(t.x,t.y,{steps:8}); await sleep(600);
+  const lines=await tip(p);
+  check('the tooltip comes up', !!lines && lines.length>=2, JSON.stringify(lines));
+  check('with a name at the top', !!(lines&&lines[0]&&lines[0].length), JSON.stringify(lines&&lines[0]));
+  check('the characters under it', !!(lines&&lines.some(l=>/[\u4e00-\u9fff]/.test(l))),
+    JSON.stringify(lines));
+  check('and the ground it stood on', !!(lines&&lines.some(l=>/^A (station|halt|temporary halt|goods yard) /.test(l))),
+    JSON.stringify(lines));
+}
+
+console.log('\n— and clicking one opens the card —');
+{
+  const t=await aSquare(p);
+  await p.mouse.move(t.x,t.y,{steps:4}); await sleep(300);
+  await p.mouse.down(); await p.mouse.up(); await sleep(700);
+  const c=await card(p);
+  check('the card is open', c.hidden===false);
+  check('the chip says what kind of stop it was', /^(Railway station|Railway halt|Temporary halt|Goods yard)$/.test(c.chip), c.chip);
+  check('the headline is the name alone', c.primary.length>0 && c.primary.length<40, c.primary);
+  check('the other script is on its own line', /[\u4e00-\u9fff]/.test(c.alt), c.alt);
+  /* The alt line takes one field per language everywhere else on the map, and
+     for a station the Japanese and the Chinese are the same characters — so
+     it printed the same name twice, once with the reading in brackets. */
+  check('and not the same name twice', c.alt.split('·').length===1, c.alt);
+  check('the short line is the ground it stood on', /^A (station|halt|temporary halt|goods yard) in /.test(c.own), c.own.slice(0,60));
+  check('the selected square is marked',
+    (await p.evaluate(()=>document.querySelectorAll('#tw-stations .twsta-mark.sel').length))===1);
+}
+
+console.log('\n— a key station carries prose, and the rest do not —');
+{
+  const counts=await p.evaluate(()=>{
+    const all=JMAP.TW_STATIONS||[];
+    return {total:all.length, short:all.filter(s=>s.short).length,
+            note:all.filter(s=>s.note).length};});
+  check('every station has a short line', counts.short===counts.total,
+    counts.short+' of '+counts.total);
+  check('and only some have a note', counts.note>10 && counts.note<counts.total/4,
+    counts.note+' of '+counts.total);
+  // Takao: the southern end of the trunk line, and one of the ones with prose
+  const takao=await p.evaluate(()=>{
+    const r=(JMAP.TW_STATIONS||[]).find(s=>s.han==='\u9ad8\u96c4');
+    if(!r) return null;
+    const m=document.querySelector('[data-id="'+r.id+'"]');
+    if(!m) return null;
+    const b=m.getBoundingClientRect();
+    return {id:r.id, x:Math.round(b.left+b.width/2), y:Math.round(b.top+b.height/2)};});
+  check('Takao is on the map', !!takao);
+  if(takao && takao.x>0 && takao.y>0 && takao.x<900 && takao.y<1000){
+    await p.mouse.move(takao.x,takao.y,{steps:6}); await sleep(300);
+    await p.mouse.down(); await p.mouse.up(); await sleep(700);
+    const c=await card(p);
+    check('and its card carries the long note', c.group.length>150, c.group.slice(0,60));
+    check('with the short line still above it', /^A station in /.test(c.own), c.own.slice(0,40));
+  }
+}
+
+console.log('\n— with Other on, the names wait for the zoom —');
+{
+  const far=await b.newPage();
+  await far.setViewport({width:1100,height:900});
+  await far.evaluateOnNewDocument(SHIM);
+  far.on('pageerror',e=>errs.push(String(e)));
+  await far.goto('http://localhost:8123/index.html?bbox=119.5,21.5,122.5,25.6',{waitUntil:'networkidle0'});
+  await sleep(3000);
+  await turnOn(far);
+  await otherOn(far);
+  check('the whole island in view names nothing', (await names(far)).length===0);
+  await far.goto('http://localhost:8123/index.html?bbox=120.8,24.3,121.3,24.7',{waitUntil:'networkidle0'});
+  await sleep(3000);
+  await turnOn(far);
+  check('and still nothing before Other is pressed', (await names(far)).length===0);
+  await otherOn(far);
+  const near=await names(far);
+  check('half a degree of latitude in view names them', near.length>50, near.length+' named');
+  const drawn=await far.evaluate(()=>{
+    let n=0;
+    document.querySelectorAll('#labels text.twsta').forEach(t=>{
+      if(!t.textContent.trim()) return;
+      const cs=getComputedStyle(t);
+      if(cs.display!=='none' && cs.visibility!=='hidden' && +cs.opacity>0.05) n++;});
+    return n;});
+  check('though the placer still drops the ones that would collide',
+    drawn>5 && drawn<near.length, drawn+' of '+near.length+' actually drawn');
+  await far.close();
 }
 
 check('no page errors', errs.length===0, errs[0]);

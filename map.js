@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '207';
+  var JEM_VERSION = '208';
   var JEM_ASSETS = {"admin.js": "e5f1a2fc6c", "annotate.js": "761fbd5949", "japan-empire-map-admin.svg": "9de0304837", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "e39f0a266e", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0"};
 
   /* Every file this one fetches, with the version on it.
@@ -395,6 +395,22 @@
   function territories() { return JMAP.TERRITORIES[state.epoch]; }
   function catList() { return JMAP.CATEGORIES[state.epoch]; }
 
+  /* Stations are not one of the map's categories — there is no button for
+     them in the bar and no swatch in the legend, they are a sub-layer of the
+     railways. But the card puts a chip at the top of everything it opens, and
+     without an entry here it read the bare word `twstation`. */
+  var STATION_CATS = {
+    station: { id: 'twstation', en: 'Railway station', ja: '\u505c\u8eca\u5834',
+               zh: '\u8eca\u7ad9', ko: '\uc5ed', c: '#6b4a2f' },
+    halt: { id: 'twstation', en: 'Railway halt', ja: '\u4e57\u964d\u5834',
+            zh: '\u7c21\u6613\u7ad9', ko: '\uac04\uc774\uc5ed', c: '#6b4a2f' },
+    'temporary halt': { id: 'twstation', en: 'Temporary halt',
+                        ja: '\u4eee\u4e57\u964d\u5834', zh: '\u81e8\u6642\u7ad9',
+                        ko: '\uc784\uc2dc\uc5ed', c: '#6b4a2f' },
+    yard: { id: 'twstation', en: 'Goods yard', ja: '\u8ca8\u7269\u99c5',
+            zh: '\u8ca8\u904b\u7ad9', ko: '\ud654\ubb3c\uc5ed', c: '#6b4a2f' },
+  };
+
   function catInfo(id) {
     var all = catList().concat(JMAP.SITE_CATEGORIES);
     for (var i = 0; i < all.length; i++) if (all[i].id === id) return all[i];
@@ -451,6 +467,9 @@
      all — Batavia, Kobe and Pusan were on the map and invisible, because they
      are level 2 and 3 and the map opens at level 1. Cities on means cities. */
   function siteVisible(s) {
+    // a station answers for itself whenever its layer is drawn; it is not one
+    // of the three site categories and has no button of its own in the bar
+    if (s.kind === 'twstation') return !!(state.twRail && state.twStations);
     if (s.kind === 'gaz') return gazVisible(s);
     // the old browse dots are the same places the gazetteer draws better, so
     // they stand down while it is there rather than being hit-tested underneath
@@ -513,7 +532,7 @@
    * the characters says so.
    */
   function stationLabel(rec) {
-    var py = rec.en || '', ro = rec.ro || '', han = rec.han || '';
+    var py = rec.py || '', ro = rec.ro || '', han = rec.han || '';
     if (state.jpNames) {
       var head = ro || han;
       return py && py !== head ? head + ' (' + py + ')' : head;
@@ -578,7 +597,17 @@
        squares say where the stops are, and the reader asks for the one they
        want. */
     if (rec && rec.kind === 'twstation') {
-      return !!(state.twRail && state.twStations && hotSta === rec.id);
+      if (!(state.twRail && state.twStations)) return false;
+      // the one that was asked for, at any zoom
+      if (hotSta === rec.id) return true;
+      /* And all of them, once the reader is close enough for the names to be
+         a map rather than a wall. The threshold is a degree of latitude in
+         view — about 110km, a third of the island — which is where the stops
+         are far enough apart on screen to letter. Measured in degrees rather
+         than in map units because that is the thing being described: it holds
+         whichever of the three projections is on. */
+      return !!(state.labels && state.mode !== 'quiz'
+                && latSpan() <= STATION_LABEL_LAT);
     }
     // a province or an island: shown only once the reader is close in, and
     // never mind the Administrative switch — see ensureSubLabels
@@ -1896,6 +1925,7 @@
   var indiaRiversGroup = null;
   var twRailGroup = null;
   var twStaGroup = null;
+  var staRecs = [];                   // the station records, to re-register
   var hotSta = null;                  // the one station whose name is showing
   var staTapped = null;               // and which one a finger last opened
   var yellow1938 = null;
@@ -2144,7 +2174,15 @@
      */
     if (!twStaGroup) {
       twStaGroup = svgEl('g', { id: 'tw-stations' });
-      svg.appendChild(twStaGroup);
+      /* Under `#markers`, not on top of it. A station is the smallest thing on
+         the map and a city is one of the largest, and appending this at the
+         end put 191 squares over the dots for Taihoku, Tainan and Takao —
+         which are the same places, so the reader saw a five-pixel square
+         sitting in the middle of the city it belonged to and hiding it. The
+         railway line itself is already under the markers, `#tw-rail` being
+         written into the SVG before them; this puts the stops where their
+         line is. Everything inserted before `#markers` moves with it. */
+      svg.insertBefore(twStaGroup, markersGroup || null);
       /* One listener for all of them, not one each. The square is small and
          the press has to be forgiving, so the hit is a transparent rect twice
          its size sitting over it — and it answers a finger as well as a
@@ -2187,21 +2225,43 @@
         gateLabels();
         placeLabels();
       });
-      /* And a finger, which has no hover at all: the tap names the station and
-         a second tap on the same one puts the name away. */
-      mark.addEventListener('pointerdown', function (e) {
-        if (e.pointerType === 'mouse') return;    // the mouse has hover
-        hotSta = (staTapped === t.id) ? null : t.id;
-        staTapped = hotSta;
-        gateLabels();
-        placeLabels();
-      });
+      /* A finger has no hover, and it no longer needs one here: a tap goes
+         through the ordinary pointer path like a tap on anything else, opens
+         the card, and `select` lights the label from the selection. This mark
+         used to carry a pointerdown of its own that toggled the label, and it
+         fought the tap — the mark cleared the name and the tap that followed
+         re-selected the station and put it back. */
       scalables.push({ el: mark, x: p.x, y: p.y });
       var text = svgEl('text', { 'class': 'tlabel twsta', 'font-size': TWSTA_PX,
                                  y: TWSTA_PX + 5 });
       labelLayer.appendChild(text);
-      var rec = { kind: 'twstation', id: t.id, en: t.py, local: t.han,
-                  ro: t.ro, han: t.han, lvl: 0 };
+      /* The same shape as every other record on the map, so that the
+         tooltip, the card and the name switch all work on it without knowing
+         it is a station. `en` is the Japanese reading and `local` the Pinyin,
+         which is this project's convention throughout — `localWins` swaps
+         them when the Japanese-names switch is off. Where no reading has been
+         sourced the characters take the Japanese slot, because they are what
+         is true; see stationLabel. */
+      var rec = { kind: 'twstation', id: t.id, cat: 'twstation',
+                  en: t.ro || t.han, local: t.py,
+                  ja: t.kana ? t.han + '\uff08' + t.kana + '\uff09' : t.han,
+                  zh: t.han,
+                  ro: t.ro, py: t.py, han: t.han,
+                  short: t.short || '', note: t.note || '',
+                  wiki: t.wiki || '', when: t.when || '',
+                  staKind: t.kind || 'station', lvl: 0 };
+      /* Held in a list of their own as well, because `composeEpoch` empties
+         `byId` and fills it again from the tables it knows about. The stations
+         are built once, outside that cycle, so without this every station
+         stopped answering the pointer the first time the reader changed the
+         date. */
+      staRecs.push(rec);
+      byId[t.id] = rec;
+      // so the card does not open on top of the station it is describing, and
+      // so the mark can be given the selected class
+      sitePos[t.id] = { x: p.x, y: p.y };
+      elById[t.id] = mark;
+      mark.setAttribute('data-id', t.id);
       // the characters, on the element itself: the map has no tooltip and
       // this is what a screen reader and a `find in page` are given
       text.setAttribute('aria-label', t.han);
@@ -2341,6 +2401,7 @@
     JMAP.SITES.forEach(function (s) { byId[s.id] = s; });
     if (JMAP.BROWSE) JMAP.BROWSE.forEach(function (b) { byId[b.rid] = b; });
     gazRecs.forEach(function (c) { byId[c.rid] = c; });
+    staRecs.forEach(function (r) { byId[r.id] = r; });
 
     territories().forEach(function (t) {
       t.kind = 'territory';
@@ -2869,15 +2930,23 @@
 
   /* West, south, east, north, to two decimal places. The link says roughly
      where to look, and two places is finer than "roughly" needs: the map is
-     140 degrees wide and MAX_ZOOM is 100, so the closest the reader can get is
-     a view 1.4 degrees across, and a hundredth of a degree is 0.7% of that —
-     about six pixels on a phone, and half that as a placement error once it is
-     rounded rather than truncated. Anything finer is decimal places nobody can
-     see, in a URL somebody has to paste. */
+     140 degrees wide and MAX_ZOOM is 100, so the closest a desktop reader can
+     get is a view 1.4 degrees across, and a hundredth of a degree is 0.7% of
+     that — about six pixels on a phone, and half that as a placement error
+     once it is rounded rather than truncated. Anything finer is decimal places
+     nobody can see, in a URL somebody has to paste.
+
+     A phone goes four times deeper than that, and at the bottom of its range a
+     hundredth of a degree is 3% of the view — a link that lands a tenth of the
+     screen away from what was being looked at. So the deep end gets a third
+     place. It is spent only where it buys something: the round trip is
+     `parseFloat` either way, so nothing has to know which precision a link was
+     written at. */
   function viewBox() {
     var a = unproject(view.x, view.y);                       // north-west
     var b = unproject(view.x + view.w, view.y + view.h);     // south-east
-    var r = function (v) { return Math.round(v * 100) / 100; };
+    var q = (b.lon - a.lon) < 3 ? 1000 : 100;
+    var r = function (v) { return Math.round(v * q) / q; };
     return [r(a.lon), r(b.lat), r(b.lon), r(a.lat)];
   }
 
@@ -3067,11 +3136,35 @@
      limit does not move when the window is resized. */
   var ZOOM_REF_PX = 1200;
 
+  /* And further still on a phone. The scale floor above already gives a phone
+     the same magnification as a desktop, which was the fix for it stopping
+     three times further out — but the same magnification on a screen a third
+     the size is not the same map. A desktop reader who wants a closer look at
+     Uotsuri-shima has 1,200 pixels of it; a phone gets 390, and the whole of
+     what they were given the depth for is a fifth of a thumb.
+
+     Two things say a touch screen has room for more than the parity. Its
+     pixels are physically smaller — a phone at devicePixelRatio 3 is drawing
+     three device pixels for every CSS pixel this arithmetic counts, so the
+     detail is there to be shown and only the units say otherwise. And a finger
+     is a coarse instrument: a target that a mouse can hit at 100x needs to be
+     several times bigger before a thumb can, which is the same argument as the
+     hit rects and points the same way.
+
+     The base map is visibly polygonal this far in — it already was at 100x,
+     and this is four times past that. The fine coastlines carry it, the
+     Natural Earth outline does not, and that is the trade being made. */
+  var TOUCH_ZOOM_BOOST = 4;
+
+  function maxZoom() {
+    return MAX_ZOOM * (coarse ? TOUCH_ZOOM_BOOST : 1);
+  }
+
   function minViewW() {
     // mapW is read off the SVG, so this is worked out when it is asked for and
     // not when the file is parsed — computed at load time it was zero, and a
     // floor of zero is no floor at all.
-    return (mapW / MAX_ZOOM) / ZOOM_REF_PX * containerSize().w;
+    return (mapW / maxZoom()) / ZOOM_REF_PX * containerSize().w;
   }
 
   function clampView(v) {
@@ -3398,6 +3491,25 @@
   var SUB_LABEL_ZOOM = 12;
   var subLabels = [];
   var subLabelled = null;
+
+  /* How many degrees of latitude the window is showing. `unproject` is the
+     only honest way to ask: view.h is in map units, and a map unit is a degree
+     of latitude in none of the three projections — Mercator stretches it with
+     the latitude and the two conic ones are not degrees at all.
+
+     Memoised on the view and the projection, because it is asked once per
+     label per gate pass and there are 191 stations. */
+  var STATION_LABEL_LAT = 1.0;
+  var latKey = null, latVal = 0;
+
+  function latSpan() {
+    var key = view.y + '|' + view.h + '|' + projMode;
+    if (key === latKey) return latVal;
+    latKey = key;
+    latVal = Math.abs(unproject(view.x, view.y).lat
+                      - unproject(view.x, view.y + view.h).lat);
+    return latVal;
+  }
 
   function subLabelsWanted() {
     return state.labels && state.mode !== 'quiz'
@@ -4552,7 +4664,7 @@
 
   function recordFor(target) {
     if (!target || !target.closest) return null;
-    var el = target.closest('.site, .browse, .gaz, .atom');
+    var el = target.closest('.site, .browse, .gaz, .atom, .twsta-mark');
     // a backing is no longer inside its atom, so it answers for itself — which
     // it only ever gets the chance to do while its sub-units are in the other
     // file and it is the only thing there
@@ -4601,6 +4713,14 @@
       return;
     }
     var id = hit ? (hit.rec.rid || hit.rec.id) : null;
+    /* A second tap on a station already open closes it. Everything else on
+       the map is deselected by tapping the sea, which is fine when the thing
+       is a country and awkward when it is a five-pixel square: the finger is
+       already there, and the gesture that opened it is the one to hand. */
+    if (hit && hit.rec.kind === 'twstation' && id === selected) {
+      select(null);
+      return;
+    }
     // worked out before the two-tap rule below, which throws the province
     // away on the first tap: which cluster was tapped is a fact about the
     // territory and not about how much detail has been asked for
@@ -5900,11 +6020,20 @@
     // last thing the pointer was over.
     selCluster = (cluster !== undefined ? cluster
                   : (lastProv && lastProv.el ? clusterOf(lastProv.el) : null)) || null;
+    /* On a touch screen the label under the square follows the selection,
+       there being no pointer to have set it. On a mouse the hover owns it and
+       the selection leaves it alone — otherwise clicking a station and then
+       moving away would leave its name behind. */
+    if (coarse) staTapped = hotSta = (byId[id] && byId[id].kind === 'twstation')
+      ? id : null;
     if (!id || !byId[id]) {
       selCluster = null;
       infoBox.hidden = true;
       document.body.classList.toggle('panel-open', !quizBox.hidden);
       redrawHighlight();
+      // gate before place: one sets the words, the other only moves them, and
+      // a station whose name the selection just took away is still holding it
+      gateLabels();
       placeLabels();
       return;
     }
@@ -5930,12 +6059,21 @@
     // is the first thing the card says about it.
     var split = splitGloss(nameOf(head));
     var primary = split.name;
-    var others = LANGS
-      .filter(function (l) { return l !== state.lang; })
-      .map(function (l) { return head[l]; })
-      .filter(function (n) { return n && n !== primary; });
+    /* A station's Japanese and Chinese names are the same characters, and the
+       Japanese one carries the reading in brackets: taking one field per
+       language printed `大甲（だいこう）  ·  大甲`, the same name twice.
+       `otherNames` is the function that already knows not to do that — it
+       folds the kyūjitai and the traditional forms together and keeps the
+       fullest spelling of each — and the tooltip has always used it. */
+    var others = rec.kind === 'twstation'
+      ? [otherNames(head)].filter(Boolean)
+      : LANGS
+        .filter(function (l) { return l !== state.lang; })
+        .map(function (l) { return head[l]; })
+        .filter(function (n) { return n && n !== primary; });
 
-    var info = catInfo(rec.cat);
+    var info = rec.kind === 'twstation'
+      ? (STATION_CATS[rec.staKind] || STATION_CATS.station) : catInfo(rec.cat);
     var chip = $('.chip', infoBox);
     chip.textContent = info ? nameOf(info) : rec.cat;
     chip.style.setProperty('--chip', info ? info.c : 'var(--muted)');
@@ -5968,9 +6106,20 @@
        of them — the prefecture each was in and a clause about the ground. It
        was going to the tooltip and nowhere else, so a card opened on one of
        them had a name, a kanji line and a link, and no sentence at all. */
-    var ownNote = sub ? (head.note || split.gloss || shortOf(head) || '')
+    /* A station says two things and they are different lengths. The short
+       line is the ground it stood on — the 郡 and the 州, joined from the
+       district sheet — and every one of the 191 has it. The note is prose and
+       only the key stations carry one: the two ends of the trunk line, the
+       junctions, the ports, the places where a line began or stopped. So the
+       first slot takes the short line and the second takes the note, and a
+       station with no note simply has nothing in the second. The caption on
+       that slot names the *group* a note belongs to, and here the group is the
+       station itself, so it comes out blank on its own. */
+    var isSta = rec.kind === 'twstation';
+    var ownNote = isSta ? (shortOf(rec) || '')
+                : sub ? (head.note || split.gloss || shortOf(head) || '')
                       : (rec.note || '');
-    var groupNote = sub ? (host.note || '') : '';
+    var groupNote = isSta ? (rec.note || '') : (sub ? (host.note || '') : '');
     var own = $('.note-own', infoBox);
     var grp = $('.note-group', infoBox);
     setProse(own, ownNote);
@@ -6010,6 +6159,7 @@
     infoBox.hidden = false;
     document.body.classList.add('panel-open');
     hideTooltip();
+    gateLabels();
     placeLabels();
     keepClear(id);
   }
