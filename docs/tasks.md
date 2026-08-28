@@ -10446,6 +10446,73 @@ Whole suite: 690 checks across 30 scripts, all passing.
 
 ---
 
+## Taiwan's railways at v2, and a table of its colonial stations
+
+**The traces.** `TW_RAIL_FILES` now reads the v2 files. 165 features and
+4,177 vertices for 1930, 166 and 4,258 for 1944, against 164/4,118 and
+165/4,199 before.
+
+**One vertex in five survives the build** — 841 and 862 — and the v1 files
+thinned to the same fraction, checked by running the build's own `simplify`
+over both versions at `TW_RAIL_TOL`. The comment beside that constant claimed
+**61%**, which was never true of either file; it now says 20%, because a
+number written down to be checked has to be the number.
+
+**The stations.** `taiwan_1930_station_names_v1.geojson` is 199 points in
+TWD97 / TM2 zone 121, and `tools/build_tw_stations.py` turns it into
+`data/taiwan/stations.csv` — the inverse projection written out in the
+standard library, since that is the only dependency this build has ever had.
+Two faults in the source are repaired out loud rather than silently: `番子l田驛`
+carries a stray Latin *l*, and `中洲繹`/`六塊厝繹` use 繹 where the sheet means
+驛. The kind of stop is kept — station, halt, temporary halt — and the longest
+suffix wins, or `南港假乘降場` comes out as a place called 南港假.
+
+**Pinyin for all 191 named stations**, written with tone marks to match the
+rest of the map's Chinese names.
+
+### The Japanese readings, and what may not be guessed
+
+**112 of 191 are verified. 79 are not, and are empty rather than plausible.**
+
+* **66 were checked by hand by the author** and are marked `author`. That is a
+  source, and a better one than most of what is on the web for these names.
+* **46 came off ja.wikipedia's furigana** — `大甲駅（たいこうえき）` — with the
+  article URL beside each.
+
+Kanji are never romanised here. 萬里橋 is Maribashi, 鹿野 is Shikano, 名間 is
+Nama, 車籠埔 is Sharampo: the characters were chosen for a sound in Amis,
+Puyuma or Hokkien and their Sino-Japanese values have nothing to do with it.
+**Kana is different** — かな to Hepburn is a table, exact, and adds nothing —
+so the fetcher converts only a reading a source states in kana, and never
+reads a character.
+
+Two things it got wrong first and now guards against:
+
+* **A thousand requests.** Up to eight spellings of each of 125 names, asked
+  one at a time, and Wikipedia rate-limited it after fifteen — the right
+  response. The API takes titles by the fifty; it now asks in batches of
+  forty, and the whole run is about twenty requests.
+* **Homographs.** Most of these names are also stations in Japan. The first
+  pass returned **桃園 as Momozono**, which is in Japan and not Tōen in
+  Taiwan, and **竹田 as Takeda**, which is in Ōita. Ten articles are now
+  turned down for not being about Taiwan at all — 円山駅 in Sapporo among
+  them. Any name whose only match was one of those is back to unverified,
+  which is right.
+
+And the modern articles give the present Mandarin-derived name in katakana —
+`台北駅（タイペイえき）` — which is not what this map names. The furigana
+pattern matches hiragana only, so those fall through and are reported rather
+than taken. 台北, 台中, 高雄, 彰化, 豐原 are all in the unverified 79 for that
+reason.
+
+**Still to do**: the Layers toggle for station names, the labels themselves,
+and the 79 readings, which want zh.wikipedia's 沿革 sections and the
+國家文化記憶庫 rather than more of ja.wikipedia.
+
+Whole suite: 690 checks across 30 scripts, all passing.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

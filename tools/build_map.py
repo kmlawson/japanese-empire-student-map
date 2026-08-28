@@ -2914,12 +2914,17 @@ INDIA_RIVER_TOL = 0.30
 #
 # Thinned at TRACED_TOL, not at the river tolerance. These are hand-traced —
 # several stretches off a 1944 American 1:25,000 sheet — and CLAUDE.md's rule
-# is that traced work is thinned at the band traced work earns. Measured: at
-# the river's 0.30 only 12% of the vertices survived and the switchbacks in
-# the mountains came back as chords; at 0.021 it is 61%, and the line follows
-# the ground it was traced from.
-TW_RAIL_FILES = {"e1930": "taiwan_railways_1930_v1.geojson",
-                 "e1942": "taiwan_railways_1944_v1.geojson"}
+# is that traced work is thinned at the band traced work earns. At the river's
+# 0.30 the switchbacks in the mountains came back as chords; at 0.021 the line
+# follows the ground it was traced from.
+#
+# **One in five vertices survives**: 841 of 4,177 for 1930 and 862 of 4,258
+# for 1944, and the v1 files thinned to the same fraction. This comment used
+# to claim 61%, which was never true of either file — measured again when the
+# v2 traces went in, by running the build's own simplify over both versions at
+# this tolerance. The number is here to be checked, so it has to be the number.
+TW_RAIL_FILES = {"e1930": "taiwan_railways_1930_v2.geojson",
+                 "e1942": "taiwan_railways_1944_v2.geojson"}
 TW_RAIL_TOL = 0.021
 
 SEAM_STEP = 0.015          # degrees; how finely the gap is searched
