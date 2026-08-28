@@ -10242,6 +10242,83 @@ Whole suite: 685 checks across 30 scripts, all passing.
 
 ---
 
+## The hand corrections to the 1942 line, and what would not go in
+
+A hundred and twenty-four edits read off the drawing with the admin tool —
+109 vertices moved and 15 taken out — along the Fujian and Guangdong coast,
+with a few more in the Indian Ocean and on the Manchurian frontier.
+
+**117 went in. Seven did not, and were not guessed at.**
+
+`EXTENT_EDITS` and `EXTENT_DROPS` in `build_map.py` apply to `pts`, the
+projected simplified vertex list that becomes the `#extent-1942` path, and to
+nothing else — the occupied-zone shading has its own source and is untouched.
+
+**Addressed by coordinate, with the index as a hint.** The rule this project
+already has for rows in `texts/`, and for the same reason: the indices were
+read off one build, and anything upstream that adds or drops a vertex
+renumbers everything after it, so an edit aimed at 237 would land on a
+stranger, write confidently and report success. The hint is not decoration
+either — the line passes through (112.91, 22.74104) twice, at 256 and 259,
+and the two wanted moving to different places, so the coordinate alone cannot
+say which.
+
+### The build does not reproduce its own committed line
+
+Found while placing these, and it is the reason seven could not go in.
+Building the tree at `ae14124` — the commit that last wrote the sheet — does
+not reproduce the `#extent-1942` that commit contains. In this working tree,
+with `EXTENT_EDITS_OFF=1` so nothing of mine is in it:
+
+* **1,087 of the 1,143 vertices come out exactly**, to the last decimal —
+  median and 90th-percentile distance both 0.0000;
+* **56 do not.** All of them are between index 172 and 292, the south China
+  coast, which is where `hug_coast` and `enclave_detour` run — and it is the
+  same stretch these edits are in. Worst is 7.15 units, about 150 km; most
+  are under one.
+* The build is deterministic run to run — two runs are byte-identical — so
+  this is not a hash-order or a scheduling effect. It is an input that is not
+  in git, and it is **not diagnosed**.
+
+That drift ships with this commit, because the alternative is a sheet nobody
+can rebuild.
+
+### The seven, and why each was refused
+
+Three sit almost exactly between two vertices, close enough that picking one
+is a coin toss: **183** (3.98 against 4.11 units), **205** (2.91 / 3.21),
+**237** (4.39 / 6.90). Three are pairs that now want the same vertex:
+**190 and 191**, **239 and 240**, and **256 and 259** — the two passes
+through the same point, which the drift has merged into one, so there is no
+longer a second vertex to move. And **292** is 0.91 from one vertex and 0.94
+from another.
+
+`EXTENT_EDITS_UNPLACED = 7` is written down, and the build stops if it grows.
+Seven is what is known and accepted; an eighth means something else has moved.
+
+### What it did
+
+`tools/check_extent.py`, same build, edits off then on:
+
+| | islands enclosed | area |
+|---|--:|--:|
+| before | 50 | 35.0 |
+| after | **48** | **32.2** |
+
+Two islands and 8% of the enclosed area. The coast is visibly smoother
+through the northern Fujian island fringe and no vertex has been flung
+anywhere — checked against a render of the same frame before and after,
+which is the check that matters when twenty of the matches landed on a
+vertex that had drifted by up to 2.88 units.
+
+**It is not solved.** Forty-eight unoccupied islands are still inside the
+line, and the seven held-back edits want re-reading with the tool against
+this sheet.
+
+Whole suite: 685 checks across 30 scripts, all passing.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

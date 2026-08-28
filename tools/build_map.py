@@ -1683,6 +1683,292 @@ EXTENT_MANCHURIA = [
     (("mengjiang",), (119.595, 46.603), (112.40, 39.15), (111.60, 44.83)),
 ]
 
+# ---------------------------------------------------------------------------
+# Hand corrections to the drawn line of control.
+#
+# The perimeter is built rather than drawn -- a course through
+# EXTENT_SOUTH_CHINA, arcs lifted off territory outlines, a pass that pushes it
+# clear of the shore -- and along the Fujian and Guangdong coast that produced
+# a line looping out to gather in islands Japan did not hold. Two attempts to
+# fix it in the rules failed: the count of enclosed unoccupied islands went
+# from 50 to 52 and then from 50 to 48, both measured and both reverted.
+#
+# These are read off the drawing instead, with the "Edit the 1942 extent" tool
+# in the admin panel: drag a vertex, or press Backspace to take it out, and the
+# tool writes down what moved and where to. They apply to `pts` -- the
+# projected, simplified vertex list that becomes the #extent-1942 path -- and
+# to nothing else. The occupied-zone shading has its own source and is not
+# touched by any of this.
+#
+# ADDRESSED BY INDEX *AND* COORDINATE, and the build stops if the two
+# disagree. Index alone would be the mistake this project has a rule about:
+# these were read off one build, and a change anywhere upstream renumbers every
+# vertex after it, so an edit aimed at 237 would land on a stranger and report
+# success. Coordinate alone is not enough either -- the line passes through
+# (112.91, 22.74104) twice, at 256 and at 259, and the two want moving to
+# different places. The index says which; the coordinate proves the index is
+# still true.
+# A vertex is addressed by its COORDINATE, with the index as a hint -- the
+# rule this project already has for rows in texts/, and for the same reason.
+# The indices were read off one build; anything upstream that adds or drops a
+# vertex renumbers everything after it, and an edit aimed at 237 would then
+# land on a stranger, write confidently, and report success.
+#
+# The hint is not decoration. The line passes through (112.91, 22.74104)
+# twice, at 256 and at 259, and the two want moving to different places, so
+# coordinate alone cannot say which. The search is a window around the hint;
+# the coordinate picks the vertex inside it.
+EXTENT_EDIT_WINDOW = 12    # indices either side of the hint to look in
+EXTENT_EDIT_TOL = 0.1      # map units, about two kilometres; a match this
+                           # close is the same vertex, written to five decimal
+                           # places and read back through a different inverse
+# The south China coast is the one stretch of this line the build does not
+# reproduce exactly: 56 of its 1,143 vertices differ from the sheet these
+# edits were read off, by a unit or so each, because `hug_coast` and
+# `enclave_detour` run over ground that has moved. A match further out than
+# this is not trusted and stops the build rather than guessing.
+EXTENT_EDIT_DRIFT = 5.0    # map units; about a hundred kilometres
+
+# Seven of the hundred and twenty-four cannot be placed on the line the build
+# now draws, and are held back rather than guessed at. They are all in the
+# drifted stretch: three sit almost exactly between two vertices, three are
+# pairs of edits that now want the same one, and the pair at 256/259 -- the
+# two passes through (112.91, 22.74104) -- has become a single vertex, so
+# there is no longer a second one to move. Moving a line of control ninety
+# kilometres onto the wrong vertex is not a thing to do on a coin toss.
+#
+# The number is written down so that the build stops if it grows: seven is
+# what is known and accepted, an eighth means something else has moved.
+EXTENT_EDITS_UNPLACED = 7
+
+# index hint, where it was, where it goes -- lon/lat
+EXTENT_EDITS = [
+    (172, (121.56500, 28.63098), (121.84987, 28.54406)),
+    (173, (121.68500, 28.42451), (121.99176, 28.47957)),
+    (176, (121.17500, 28.20001), (121.31758, 28.00180)),
+    (177, (121.07500, 28.06774), (121.22560, 27.83591)),
+    (178, (121.01500, 27.88227), (121.13488, 27.44078)),
+    (179, (120.82500, 27.82038), (120.75185, 27.37590)),
+    (183, (120.27500, 26.95913), (120.39509, 26.86040)),
+    (184, (120.16000, 26.81643), (120.34048, 26.75570)),
+    (185, (120.18500, 26.60651), (120.31404, 26.57190)),
+    (186, (119.97500, 26.53049), (120.56406, 26.36545)),
+    (187, (119.82000, 26.08227), (120.02932, 25.91442)),
+    (188, (119.61000, 25.69092), (119.94824, 25.54783)),
+    (189, (119.65500, 25.47896), (119.69116, 25.24924)),
+    (190, (119.44500, 25.43833), (119.57216, 25.11363)),
+    (191, (119.35000, 25.31184), (119.42526, 25.10565)),
+    (195, (118.51000, 24.56831), (118.61304, 24.46652)),
+    (197, (118.13500, 24.64105), (118.33572, 24.51466)),
+    (198, (118.02500, 24.59559), (118.09897, 24.56912)),
+    (199, (117.97500, 24.40905), (118.03638, 24.44284)),
+    (200, (118.06000, 24.35441), (118.27313, 24.35735)),
+    (201, (117.92000, 24.14926), (117.98876, 24.10548)),
+    (204, (117.55500, 23.84322), (117.59404, 23.67886)),
+    (205, (117.43000, 23.74256), (117.38994, 23.53174)),
+    (206, (117.30500, 23.69221), (117.30015, 23.53673)),
+    (209, (116.98000, 23.55936), (117.01327, 23.58382)),
+    (210, (116.90000, 23.63726), (116.98334, 23.57829)),
+    (211, (116.81500, 23.62351), (116.95751, 23.55396)),
+    (215, (116.79500, 23.63726), (116.71716, 23.57829)),
+    (216, (116.76500, 23.65100), (116.64900, 23.63615)),
+    (222, (116.67500, 23.76545), (116.66048, 23.69660)),
+    (223, (116.61000, 23.78375), (116.60451, 23.71040)),
+    (224, (116.48000, 23.71968), (116.52025, 23.65197)),
+    (225, (116.42500, 23.63726), (116.49795, 23.60299)),
+    (226, (116.43500, 23.55020), (116.46997, 23.38914)),
+    (227, (116.39500, 23.38050), (116.47069, 23.25671)),
+    (228, (116.41500, 23.21058), (116.49795, 23.22639)),
+    (231, (116.53500, 23.20598), (116.60634, 23.21598)),
+    (232, (116.53000, 23.14623), (116.59817, 23.18059)),
+    (233, (116.58500, 23.10944), (116.54917, 23.12481)),
+    (236, (116.46000, 22.94839), (116.51358, 22.92456)),
+    (237, (116.25000, 22.88391), (115.56112, 22.63499)),
+    (238, (114.80500, 22.52875), (114.46295, 22.41305)),
+    (239, (114.22000, 22.63494), (114.24821, 22.58294)),
+    (240, (114.20500, 22.72720), (114.16254, 22.58148)),
+    (241, (114.01000, 23.16002), (113.99915, 23.13044)),
+    (242, (113.91000, 23.19679), (113.86271, 23.13117)),
+    (243, (113.81000, 23.17381), (113.79132, 23.14066)),
+    (244, (113.78000, 23.21058), (113.58429, 23.19754)),
+    (245, (113.68500, 23.23815), (113.36932, 23.22524)),
+    (246, (113.34000, 23.29327), (113.24929, 23.20456)),
+    (247, (113.20000, 23.27030), (113.11285, 23.10391)),
+    (248, (113.06500, 23.11404), (113.08826, 23.06013)),
+    (249, (113.02000, 23.11864), (113.01608, 23.06670)),
+    (250, (113.03500, 23.10484), (112.96451, 23.10829)),
+    (251, (112.97000, 23.19679), (112.87726, 23.18269)),
+    (252, (112.86500, 23.25193), (112.81380, 23.16883)),
+    (253, (112.73000, 23.17841), (112.78207, 23.11267)),
+    (254, (112.78000, 22.93918), (112.89392, 22.84538)),
+    (255, (112.84500, 22.81019), (112.94151, 22.78981)),
+    (256, (112.91000, 22.74104), (112.97721, 22.78323)),
+    (257, (112.99500, 22.71337), (112.97404, 22.71227)),
+    (259, (112.91000, 22.74104), (112.98593, 22.68080)),
+    (260, (112.93000, 22.54261), (112.99704, 22.50137)),
+    (263, (113.38500, 22.42249), (113.36364, 22.41309)),
+    (265, (113.42000, 22.12174), (113.51990, 21.95990)),
+    (266, (112.92500, 21.82498), (112.94635, 21.58035)),
+    (267, (112.84500, 21.62990), (112.84799, 21.54642)),
+    (268, (112.77500, 21.56947), (112.65048, 21.55601)),
+    (269, (112.53500, 21.58342), (112.38950, 21.59953)),
+    (271, (111.90000, 21.69496), (111.93425, 21.54509)),
+    (277, (111.06500, 21.48109), (110.66144, 21.22297)),
+    (278, (110.76500, 21.50435), (110.51231, 21.37300)),
+    (279, (110.09000, 21.42525), (110.33225, 21.34714)),
+    (280, (110.00500, 21.31350), (110.21406, 21.25328)),
+    (281, (110.01000, 21.01975), (110.06652, 21.04466)),
+    (282, (110.04000, 20.97774), (110.10380, 20.99283)),
+    (283, (110.14000, 20.92171), (110.20375, 20.94987)),
+    (284, (110.59000, 20.85631), (110.50864, 20.82851)),
+    (289, (110.37000, 20.28051), (110.38985, 20.25709)),
+    (290, (110.16500, 20.22422), (110.17553, 20.17863)),
+    (292, (109.85000, 20.26175), (109.82831, 20.23233)),
+    (298, (107.99000, 21.48574), (108.03404, 21.48471)),
+    (299, (107.78000, 21.65779), (107.87423, 21.68376)),
+    (301, (107.42500, 21.65314), (107.50915, 21.69466)),
+    (302, (107.35000, 21.59736), (107.35960, 21.66741)),
+    (303, (107.27500, 21.71819), (107.30536, 21.74370)),
+    (304, (107.17000, 21.71354), (107.18660, 21.76004)),
+    (305, (107.00500, 21.81106), (107.09130, 21.85533)),
+    (306, (107.01000, 21.92706), (106.99306, 21.95055)),
+    (325, (105.31000, 23.36673), (105.25839, 23.41968)),
+    (326, (105.20000, 23.25193), (104.98641, 23.31819)),
+    (345, (102.90500, 22.47794), (102.97081, 22.56120)),
+    (346, (102.83000, 22.59801), (102.87835, 22.77085)),
+    (347, (102.58500, 22.71798), (102.60889, 22.78059)),
+    (556, (96.02500, -2.25165), (95.40232, -1.44955)),
+    (557, (96.73500, -3.11070), (96.27540, -2.59581)),
+    (558, (97.51500, -3.93912), (97.30255, -3.89476)),
+    (559, (98.35000, -4.72686), (98.64077, -5.42544)),
+    (560, (99.25000, -5.47389), (99.57941, -6.31586)),
+    (561, (100.20000, -6.16033), (100.34283, -7.07241)),
+    (562, (101.20000, -6.78631), (101.24658, -7.66992)),
+    (563, (102.25000, -7.35197), (102.42145, -8.43054)),
+    (564, (103.35000, -7.84758), (103.41558, -9.05580)),
+    (569, (105.55500, -10.85668), (105.51444, -10.63472)),
+    (570, (105.62000, -10.94014), (105.61381, -10.73453)),
+    (571, (105.69000, -10.94505), (105.73085, -10.71718)),
+    (572, (105.76000, -10.87632), (105.86334, -10.64340)),
+    (734, (132.38500, 42.54453), (132.57479, 42.51412)),
+    (737, (130.88500, 42.33790), (130.73314, 42.29073)),
+]
+
+# index hint, where it was -- vertices taken out of the line altogether
+EXTENT_DROPS = [
+    (212, (116.87500, 23.60977)),
+    (213, (116.84000, 23.63726)),
+    (214, (116.76000, 23.63267)),
+    (217, (116.68000, 23.58228)),
+    (218, (116.77500, 23.61435)),
+    (219, (116.67000, 23.70595)),
+    (220, (116.72000, 23.61893)),
+    (221, (116.73000, 23.69221)),
+    (229, (116.51000, 23.14623)),
+    (230, (116.57500, 23.15542)),
+    (258, (112.93500, 22.82402)),
+    (344, (103.01000, 22.43173)),
+    (565, (104.19000, -8.28323)),
+    (566, (104.76000, -8.65414)),
+    (567, (105.07500, -8.95554)),
+]
+
+
+def _extent_match(pts, hint, want, bad):
+    """The vertex `want` names, looked for around `hint`. None if unsure."""
+    wx, wy = project(*want)
+    lo = max(0, hint - EXTENT_EDIT_WINDOW)
+    hi = min(len(pts), hint + EXTENT_EDIT_WINDOW + 1)
+    if lo >= hi:
+        bad.append("%d: past the end of a %d-point line" % (hint, len(pts)))
+        return None
+    # nearest in the window, and the hint breaks a tie between two vertices
+    # that really are at the same place
+    order = sorted(range(lo, hi),
+                   key=lambda j: (round(math.hypot(pts[j][0] - wx,
+                                                   pts[j][1] - wy), 6),
+                                  abs(j - hint)))
+    best = order[0]
+    d = math.hypot(pts[best][0] - wx, pts[best][1] - wy)
+    if d <= EXTENT_EDIT_TOL:
+        return best, d
+    if d > EXTENT_EDIT_DRIFT:
+        bad.append("%d: %.5f,%.5f is %.2f units from anything nearby -- the "
+                   "line has changed shape here, so re-read this one"
+                   % (hint, want[0], want[1], d))
+        return None
+    # drifted, so make sure it is not the neighbour of the one meant: the
+    # second-nearest has to be clearly further off
+    second = math.hypot(pts[order[1]][0] - wx, pts[order[1]][1] - wy) \
+        if len(order) > 1 else float('inf')
+    if second < d * 1.8:
+        bad.append("%d: %.5f,%.5f sits between two vertices, %.2f and %.2f "
+                   "units off -- too close to call" % (hint, want[0], want[1],
+                                                       d, second))
+        return None
+    return best, d
+
+
+def apply_extent_edits(pts):
+    """Move and drop vertices of the built line, addressed by coordinate."""
+    if not pts:
+        return pts
+    if os.environ.get("EXTENT_EDITS_OFF"):
+        sys.stderr.write("extent edits: SKIPPED (EXTENT_EDITS_OFF)\n")
+        return pts
+    bad, drifted = [], []
+    out = list(pts)
+    taken = {}
+    for hint, was, now in EXTENT_EDITS:
+        got = _extent_match(pts, hint, was, bad)
+        if not got:
+            continue
+        i, d = got
+        if i in taken:
+            bad.append("%d and %d both matched vertex %d" % (taken[i], hint, i))
+            continue
+        taken[i] = hint
+        if d > EXTENT_EDIT_TOL:
+            drifted.append((hint, i, round(d, 2)))
+        out[i] = project(*now)
+    gone = set()
+    for hint, was in EXTENT_DROPS:
+        got = _extent_match(pts, hint, was, bad)
+        if not got:
+            continue
+        i, d = got
+        if i in taken:
+            bad.append("drop %d matched vertex %d, already moved by %d"
+                       % (hint, i, taken[i]))
+            continue
+        taken[i] = hint
+        if d > EXTENT_EDIT_TOL:
+            drifted.append((hint, i, round(d, 2)))
+        gone.add(i)
+    if len(bad) > EXTENT_EDITS_UNPLACED:
+        raise SystemExit(
+            "extent edits: %d could not be placed on the built line, and only "
+            "%d of those are known about. Something upstream has moved the "
+            "line again; re-read these with the admin tool.\n  "
+            % (len(bad), EXTENT_EDITS_UNPLACED) + "\n  ".join(bad))
+    if bad:
+        sys.stderr.write("extent edits: %d held back, unchanged from before:\n  %s\n"
+                         % (len(bad), "\n  ".join(bad)))
+    out = [q for j, q in enumerate(out) if j not in gone]
+    sys.stderr.write("extent edits: %d of %d moved, %d of %d taken out; "
+                     "%d landed on the very vertex they name\n"
+                     % (len(taken) - len(gone), len(EXTENT_EDITS),
+                        len(gone), len(EXTENT_DROPS),
+                        len(taken) - len(drifted)))
+    if drifted:
+        sys.stderr.write(
+            "  %d landed on a vertex that has drifted since they were read, "
+            "worst %.2f units: %s\n"
+            % (len(drifted), max(d for _, _, d in drifted),
+               ", ".join("%d->%d(%.2f)" % t for t in drifted)))
+    return out
+
+
 # Kinmen (Quemoy) sits in Natural Earth's Taiwan polygon because it is governed
 # from Taipei today. It was not part of the Japanese colony: it belonged to
 # Fujian throughout, and the ENP province data already includes it there. The
@@ -6053,6 +6339,9 @@ def main():
     extent_path = ""
     if extent:
         pts = simplify([project(x, y) for x, y in extent], 0.35)
+        # and the hand corrections, which were read off this list and so
+        # apply to it rather than to the course it was built from
+        pts = apply_extent_edits(pts)
         extent_path = line_to_path(pts) + "Z"
         # Macao, cut out of the perimeter rather than swallowed by it.
         #
