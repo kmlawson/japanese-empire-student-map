@@ -104,6 +104,11 @@
     ' vector-effect:non-scaling-stroke;stroke-linejoin:round}',
     '#jmap-draw .vtx{fill:#fff;stroke:#c2542e;stroke-width:1.4;vector-effect:non-scaling-stroke}',
     '#jmap-draw .vtx.first{fill:#c2542e}',
+    '#jmap-extent-edit .edited{fill:none;stroke:#2f9e6b;stroke-width:2.2;',
+    ' stroke-dasharray:7 5;vector-effect:non-scaling-stroke;pointer-events:none}',
+    '#jmap-extent-edit .vtx{fill:#fff;stroke:#2f9e6b;stroke-width:1.4;',
+    ' vector-effect:non-scaling-stroke;cursor:grab;pointer-events:all}',
+    '#jmap-extent-edit .vtx.moved{fill:#2f9e6b;stroke:#0f6b45}',
     'body.jmap-drawing #map-container{cursor:crosshair}',
   ].join('');
 
@@ -466,7 +471,12 @@
   /* ---- draw a polygon and take its coordinates away ---- */
 
   var drawingOn = false;
-  function drawing() { return drawingOn; }
+  /* Escape closes the panel — but not while a tool has something live on the
+     map. The extent editor puts draggable handles over the line, and closing
+     the panel under them would leave them there catching presses meant for
+     the map, with nothing on screen to explain it. */
+  var editingExtent = false;
+  function drawing() { return drawingOn || editingExtent; }
 
   TOOLS.push({
     title: 'Draw polygon',
@@ -617,6 +627,312 @@
       });
 
       redraw();
+      setOn(false);
+    },
+  });
+
+  /* ---- edit the 1942 line of control ---- */
+
+  /* The perimeter is built, not drawn by hand: a course through
+     `EXTENT_SOUTH_CHINA`, arcs taken off territory outlines, and a pass that
+     pushes it off the shore. That makes it hard to say "this bit is wrong" in
+     the only language the build understands, which is coordinates.
+
+     So this tool lets the line be taken hold of. Every vertex in view gets a
+     handle; drag one and it moves. Nothing is saved into the map — the edit
+     lives in this browser and comes out as a list of moves, each naming where
+     a vertex was and where it should be, which is exactly what the build needs
+     to be told.
+
+     Mercator only. The line is drawn in the sheet's own space, and under the
+     two equal-area projections what is on screen is a reprojection of it; a
+     vertex dragged there would come back as a coordinate in a space the source
+     does not use. */
+  TOOLS.push({
+    title: 'Edit the 1942 extent',
+    hint: 'Switch it on and every vertex of the line of control in view gets ' +
+          'a handle. Drag one to move it. The map still pans from anywhere ' +
+          'else. What comes out is a list of moves — <i>from</i> a coordinate, ' +
+          '<i>to</i> a coordinate — to hand back for the build. Work in ' +
+          '<b>Web Mercator</b>: the line is stored in that space and a vertex ' +
+          'dragged in another one means nothing to the source. Edits survive a ' +
+          'reload; <b>Reset</b> clears them.',
+    build: function (sec, api) {
+      var EDIT_KEY = 'extent-edits';
+      var on = false, layer = null, dots = null;
+      var base = null;            // the vertices as built, in map units
+      var moves = {};             // index -> {x, y} in map units, where it now is
+      var dragging = null;
+
+      try {
+        var saved = api.setting(EDIT_KEY);
+        if (saved && typeof saved === 'object') moves = saved;
+      } catch (err) { moves = {}; }
+
+      var row = document.createElement('div');
+      row.className = 'row';
+      sec.appendChild(row);
+      function btn(label, fn, cls) {
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.textContent = label;
+        if (cls) b.className = cls;
+        b.addEventListener('click', function () { fn(b); });
+        row.appendChild(b);
+        return b;
+      }
+      var toggleBtn = btn('Edit extent', function () { setOn(!on); });
+      var undoBtn = btn('Undo move', function () {
+        var keys = Object.keys(moves);
+        if (!keys.length) return;
+        delete moves[keys[keys.length - 1]];
+        save(); redraw();
+      });
+      var resetBtn = btn('Reset', function () {
+        if (!Object.keys(moves).length) return;
+        if (!window.confirm('Throw away every move?')) return;
+        moves = {}; save(); redraw();
+      });
+
+      var row2 = document.createElement('div');
+      row2.className = 'row';
+      sec.appendChild(row2);
+      function btn2(label, fn) {
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.textContent = label;
+        b.addEventListener('click', function () { fn(b); });
+        row2.appendChild(b);
+        return b;
+      }
+      btn2('Copy the moves', function (b) { api.copy(asMoves(), b); });
+      btn2('Copy the whole line', function (b) { api.copy(asWholeLine(), b); });
+
+      var out = document.createElement('div');
+      out.className = 'readout';
+      sec.appendChild(out);
+
+      var ta = document.createElement('textarea');
+      ta.readOnly = true;
+      ta.spellcheck = false;
+      sec.appendChild(ta);
+
+      function save() {
+        try { api.setting(EDIT_KEY, moves); } catch (err) { /* private mode */ }
+      }
+
+      function mercator() {
+        var m = api.svg && api.svg.querySelector('#proj');
+        // map.js writes the projection onto the root; absent means Mercator
+        return !api.svg.classList.contains('proj-albers')
+            && !api.svg.classList.contains('proj-laea')
+            && !!m;
+      }
+
+      function pathEl() { return api.svg && api.svg.querySelector('#extent-1942'); }
+
+      /* The line as built. `__d0` is what map.js keeps of a path's original
+         `d` before any reprojection, so it is the sheet's own Mercator
+         geometry whatever is on screen — and the only geometry the source
+         can be told about. */
+      function readBase() {
+        var el = pathEl();
+        if (!el) return null;
+        var d = el.__d0 || el.getAttribute('d') || '';
+        var nums = d.match(/-?\d+\.?\d*/g);
+        if (!nums || nums.length < 4) return null;
+        var pts = [];
+        for (var i = 0; i + 1 < nums.length; i += 2) {
+          pts.push({ x: +nums[i], y: +nums[i + 1] });
+        }
+        return pts;
+      }
+
+      function at(i) {
+        var m = moves[i];
+        return m ? { x: m.x, y: m.y } : { x: base[i].x, y: base[i].y };
+      }
+
+      function asMoves() {
+        var keys = Object.keys(moves).map(Number).sort(function (a, b) { return a - b; });
+        if (!keys.length) return '# nothing moved yet';
+        /* Moves kept from a previous session are read back before the tool is
+           switched on, so the line they refer to has not been looked at yet.
+           Read it now rather than throwing — which is what the first version
+           did, on every reload with edits in hand. */
+        if (!base) base = readBase();
+        if (!base) return '# ' + keys.length + ' move(s) held — switch the tool ' +
+                          'on, on the Dec 1942 map, to read them out';
+        var lines = ['# extent edits — from, to, in lon/lat',
+                     '# vertex index is into the built #extent-1942 path',
+                     'EXTENT_EDITS = ['];
+        keys.forEach(function (i) {
+          var a = api.toLonLat(base[i].x, base[i].y);
+          var b = api.toLonLat(moves[i].x, moves[i].y);
+          lines.push('    # ' + i + ': ' + a.lon.toFixed(5) + ',' + a.lat.toFixed(5) +
+                     '  ->  ' + b.lon.toFixed(5) + ',' + b.lat.toFixed(5));
+          lines.push('    ((' + a.lon.toFixed(5) + ', ' + a.lat.toFixed(5) + '), (' +
+                     b.lon.toFixed(5) + ', ' + b.lat.toFixed(5) + ')),');
+        });
+        lines.push(']');
+        return lines.join('\n');
+      }
+
+      function asWholeLine() {
+        if (!base) base = readBase();
+        if (!base) return '# no extent on the map — switch to Dec 1942';
+        var lines = ['# the whole line as it now stands, lon/lat'];
+        for (var i = 0; i < base.length; i++) {
+          var p = at(i), ll = api.toLonLat(p.x, p.y);
+          lines.push('    (' + ll.lon.toFixed(5) + ', ' + ll.lat.toFixed(5) + '),');
+        }
+        return lines.join('\n');
+      }
+
+      function ensureLayer() {
+        if (layer) return;
+        layer = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        layer.setAttribute('id', 'jmap-extent-edit');
+        dots = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        layer.appendChild(dots);
+        api.svg.appendChild(layer);
+      }
+
+      /* Only the handles in view, because the line has eleven hundred vertices
+         and a handle for each is both unusable and slow. */
+      function viewBox() {
+        var vb = (api.svg.getAttribute('viewBox') || '').split(/\s+/).map(Number);
+        return vb.length === 4 ? vb : null;
+      }
+
+      function redraw() {
+        if (!on) return;
+        ensureLayer();
+        if (!base) base = readBase();
+        dots.textContent = '';
+        var live = pathEl();
+        if (live) {
+          // the edited course, drawn over the built one
+          var d = '';
+          for (var k = 0; k < base.length; k++) {
+            var q = at(k);
+            d += (k ? 'L' : 'M') + q.x.toFixed(2) + ' ' + q.y.toFixed(2);
+          }
+          var ghost = layer.querySelector('.edited');
+          if (!ghost) {
+            ghost = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            ghost.setAttribute('class', 'edited');
+            layer.insertBefore(ghost, dots);
+          }
+          ghost.setAttribute('d', d);
+        }
+        var vb = viewBox();
+        var r = api.unitsPerPixel() * 4.5;
+        var shown = 0;
+        for (var i = 0; i < base.length; i++) {
+          var p = at(i);
+          if (vb && (p.x < vb[0] - r || p.x > vb[0] + vb[2] + r ||
+                     p.y < vb[1] - r || p.y > vb[1] + vb[3] + r)) continue;
+          var c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+          c.setAttribute('class', 'vtx' + (moves[i] ? ' moved' : ''));
+          c.setAttribute('cx', p.x); c.setAttribute('cy', p.y);
+          c.setAttribute('r', r);
+          c.setAttribute('data-i', i);
+          dots.appendChild(c);
+          shown++;
+          if (shown > 400) break;         // a crowded view is a zoom-in cue
+        }
+        var n = Object.keys(moves).length;
+        out.textContent = shown + ' handle' + (shown === 1 ? '' : 's') + ' in view · ' +
+          n + (n === 1 ? ' vertex' : ' vertices') + ' moved' +
+          (mercator() ? '' : ' · SWITCH TO WEB MERCATOR');
+        ta.value = asMoves();
+        undoBtn.disabled = !n;
+        resetBtn.disabled = !n;
+      }
+
+      /* The handles take the press themselves, so the map does not pan under
+         a drag that was meant for a vertex. Everywhere else on the map the
+         press is not ours and panning goes on working. */
+      function onDown(e) {
+        if (!on) return;
+        var t = e.target;
+        if (!t || !t.getAttribute || t.getAttribute('data-i') === null) return;
+        e.stopPropagation();
+        e.preventDefault();
+        dragging = { i: +t.getAttribute('data-i'), el: t };
+        try { t.setPointerCapture(e.pointerId); } catch (err) { /* older engine */ }
+      }
+      function onMove(e) {
+        if (!dragging) return;
+        e.stopPropagation();
+        e.preventDefault();
+        var u = api.clientToUser(e.clientX, e.clientY);
+        if (!u) return;
+        moves[dragging.i] = { x: u.x, y: u.y };
+        dragging.el.setAttribute('cx', u.x);
+        dragging.el.setAttribute('cy', u.y);
+        dragging.el.setAttribute('class', 'vtx moved');
+        var ll = api.toLonLat(u.x, u.y);
+        out.textContent = 'vertex ' + dragging.i + ' → ' +
+          ll.lon.toFixed(4) + ', ' + ll.lat.toFixed(4);
+        var ghost = layer && layer.querySelector('.edited');
+        if (ghost) {
+          var d = '';
+          for (var k = 0; k < base.length; k++) {
+            var q = at(k);
+            d += (k ? 'L' : 'M') + q.x.toFixed(2) + ' ' + q.y.toFixed(2);
+          }
+          ghost.setAttribute('d', d);
+        }
+      }
+      function onUp(e) {
+        if (!dragging) return;
+        e.stopPropagation();
+        dragging = null;
+        save();
+        redraw();
+      }
+
+      var pending = false;
+      var obs = new MutationObserver(function () {
+        if (pending || !on) return;
+        pending = true;
+        window.requestAnimationFrame(function () { pending = false; redraw(); });
+      });
+
+      function setOn(v) {
+        on = v;
+        editingExtent = v;
+        toggleBtn.classList.toggle('on', on);
+        if (on) {
+          base = readBase();
+          if (!base) {
+            out.textContent = 'No 1942 extent on the map — switch to Dec 1942 ' +
+                              'and put the line of control on.';
+            on = false;
+            editingExtent = false;
+            toggleBtn.classList.remove('on');
+            return;
+          }
+          api.svg.addEventListener('pointerdown', onDown, true);
+          window.addEventListener('pointermove', onMove, true);
+          window.addEventListener('pointerup', onUp, true);
+          obs.observe(api.svg, { attributes: true, attributeFilter: ['viewBox'] });
+          redraw();
+        } else {
+          api.svg.removeEventListener('pointerdown', onDown, true);
+          window.removeEventListener('pointermove', onMove, true);
+          window.removeEventListener('pointerup', onUp, true);
+          obs.disconnect();
+          if (layer) { layer.parentNode.removeChild(layer); layer = null; dots = null; }
+          out.textContent = Object.keys(moves).length
+            ? Object.keys(moves).length + ' move(s) kept — switch on again to go on'
+            : '';
+        }
+      }
+
+      ta.value = asMoves();
       setOn(false);
     },
   });

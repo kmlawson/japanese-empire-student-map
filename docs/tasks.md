@@ -10083,6 +10083,53 @@ delta detours, and the Chekiang standoff. That is the author's call.
 
 ---
 
+## An admin tool for taking hold of the 1942 line
+
+The perimeter is built rather than drawn — a course through
+`EXTENT_SOUTH_CHINA`, arcs lifted off territory outlines, a pass that pushes
+it off the shore — which makes "this bit is wrong" hard to say in the only
+language the build understands, which is coordinates. Two attempts at fixing
+the enclosed islands algorithmically had just failed for that reason.
+
+**Edit the 1942 extent**, in the admin panel (option-click Layers). Switched
+on, every vertex of the line in view gets a handle; drag one and it moves.
+The press is taken by the handle itself, so the map still pans from anywhere
+else — checked by driving a drag and confirming the `viewBox` did not change.
+The edited course is drawn over the built one in green so the two can be
+compared as you work.
+
+What comes out is a list of moves, each naming where a vertex was and where
+it should be, in longitude and latitude:
+
+```
+    # 184: 120.16000,26.81643  ->  120.08547,26.77410
+    ((120.16000, 26.81643), (120.08547, 26.77410)),
+```
+
+which is exactly what the build needs to be told. There is a second button
+for the whole line, for stretches better replaced than nudged.
+
+Details that matter:
+
+* **Mercator only**, and it says so. The line is stored in the sheet's own
+  space and the geometry is read from `__d0` — what map.js keeps of a path
+  before any reprojection — so a vertex dragged under Albers or Lambert
+  would come back as a coordinate in a space the source does not use.
+* **Edits survive a reload**, in the admin settings. The first version threw
+  on every reload that had edits in hand: the saved moves are read back
+  before the tool is switched on, so the line they refer to had not been
+  looked at yet. It reads the line lazily now.
+* **Handles are drawn only for what is in view**, capped at 400 — the line
+  has 1,142 vertices and a handle for each is neither usable nor quick — and
+  they are resized on every zoom, being drawn in map units.
+* **Escape no longer closes the panel while the editor is on.** It would
+  have left the handles on the map catching presses meant for the map, with
+  nothing on screen to explain it.
+
+Whole suite: 661 checks across 29 scripts, all passing.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible
