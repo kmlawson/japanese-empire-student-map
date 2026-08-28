@@ -10181,6 +10181,67 @@ Whole suite: 661 checks across 29 scripts, all passing.
 
 ---
 
+## An outline that stays where it is put
+
+Every line this map draws round a shape is an answer to *where is the pointer
+now*, which is why `dropForGesture` throws all of them away the moment a pan
+or a zoom begins: a line round the country the pointer *was* over is a lie as
+soon as the ground moves under it. That is right for a hover and wrong for
+teaching, where the whole point of the sentence is *here is Shandong — now
+look at where it sits in the rest of the country*, and the looking is the pan.
+
+**Cmd-click** — Ctrl-click off a Mac, where Ctrl is already the secondary
+click — pins the shape under the pointer. With **Admin** off it holds the
+country; with **Admin** on it holds the division. A click anywhere inside it
+takes it off again, which is the way back out and needs no explaining.
+
+The pin is a fourth highlight slot, deliberately outside the hover and the
+selection's life rather than a flag on either of them: `dropForGesture` never
+sees it, so nothing has to remember to spare it. What it stands for is stored
+as a description — a territory id, or a division element — and the element set
+is worked out afresh on every redraw, so a fine coastline grafting in or the
+administrative file arriving replaces the ground under it without leaving a
+shape drawn where none is now.
+
+**Thick, bright yellow, blurred at the edge.** 7 against the selection's 3.7,
+which by the arithmetic in `styles.css` leaves 5.7 of band showing against
+2.4 — near enough two and a half times.
+
+**And the blur is in screen pixels, which is the whole difficulty.**
+`stdDeviation` is a user-unit quantity: left alone it grows with the zoom
+until the outline is a yellow cloud over half the map, and this project has
+shipped that bug twice. It is rewritten from `k` in `rescale()`, beside the
+call that does the same for the annotation layer. The filter is set as a
+**presentation attribute**, not in the stylesheet, because Safari does not
+apply a CSS `filter` to an SVG element — the same reason every hover lift
+here is a `color-mix` fill.
+
+Measured, in `tools/test/pin.js`, 24 checks:
+
+* survives the pointer leaving, a pan, a zoom in and a zoom out past where it
+  started;
+* the deviation holds at 2.2 screen pixels at k=0.149 and again at k=2.917,
+  a twentyfold spread — a single check at the opening view, where k is about
+  1, proves nothing about this and is exactly how it was missed before;
+* Admin on pins one shape and not the country's six;
+* a plain click inside takes the pin off *and* still opens the card; a
+  cmd-click inside toggles; a cmd-click on open sea clears. The sea is
+  searched for rather than guessed at — at that zoom nearly every corner of
+  the frame is still China, and a guess pins a second country instead;
+* a finger taps as it always did and pins nothing.
+
+Checked in real Safari through `safaridriver` as well: the outline draws, the
+filter attribute is honoured, `stroke: rgb(255, 210, 0)` at the widened 9.1
+the `.saf` rules give masked strokes, deviation rescaled.
+
+**There is no finger equivalent.** A touch screen has no modifier, so this is
+a mouse and trackpad gesture only. A long press is the obvious candidate and
+is not done here.
+
+Whole suite: 685 checks across 30 scripts, all passing.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

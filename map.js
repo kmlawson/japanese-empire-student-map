@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '2.00';
+  var JEM_VERSION = '2.01';
   var JEM_ASSETS = {"admin.js": "e5f1a2fc6c", "annotate.js": "761fbd5949", "japan-empire-map-admin.svg": "9de0304837", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "f6bffd0ef9", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0"};
 
   /* Every file this one fetches, with the version on it.
@@ -208,6 +208,15 @@
   var mandateLiftLayer = null;
   var subsLiftLayer = null;
   var hiDefs = null;
+  /* The pin's soft edge.
+
+     `stdDeviation` IS IN USER UNITS. Left alone it grows with the zoom until
+     the outline is a yellow cloud lying over half the map, which is this
+     project's most-repeated bug and has been shipped twice. It is rewritten
+     from `k` on every `rescale()`, and `PIN_BLUR_PX` is what the reader is
+     meant to see: screen pixels. */
+  var pinFilter = null;
+  var PIN_BLUR_PX = 2.2;
   var ownedDefs = { hi: [], sub: [] };
   var proj = null;
   var mapW = 0, mapH = 0;
@@ -233,6 +242,16 @@
   var scalables = [];     // {el, x, y} kept at constant screen size
   var labels = [];        // {rec, el, x, y, dy, size, w, h}
   var selected = null;
+
+  /* A highlight the reader has pinned with a modifier-click, which is a
+     different thing from the selection and deliberately outside its life.
+     Everything else the map lights is an answer to where the pointer is now —
+     and so `dropForGesture` throws all of it away the moment a pan or a zoom
+     begins, because a line drawn round the country the pointer *was* over is
+     a lie as soon as the map moves under it. A pin is the reader saying "keep
+     this one", so it survives the gesture; the only thing that takes it off
+     is a click inside it. */
+  var pinned = null;    // { id, cluster, provEl } — see pinnedEls()
 
   /* ------------------------------------------------------------ state -- */
 
@@ -3095,6 +3114,8 @@
        user units, so left alone it grows with the zoom until the shape it
        softens is a cloud across the map. */
     if (annApi && annApi.rescaled) annApi.rescaled(k);
+    // the pin's blur is the same kind of quantity, and the same mistake
+    setPinBlur(k);
     reliefFade();
     railFade();
     // the way-back button appears once the reader has moved off the frame the
@@ -4122,12 +4143,12 @@
           var t = downTarget, tx = e.clientX, ty = e.clientY;
           pendingTap = window.setTimeout(function () {
             pendingTap = 0;
-            handleTap(t, tx, ty);
+            handleTap(t, tx, ty);       // no pinning in the quiz
           }, 300);
         } else if (!(annApi && annApi.tap(e.clientX, e.clientY, downTarget))) {
           // a drawing tool takes the tap when one is armed, so that placing a
           // point never also selects the country under it
-          handleTap(downTarget, e.clientX, e.clientY);
+          handleTap(downTarget, e.clientX, e.clientY, stickyPress(e));
         }
       }
     }
@@ -4325,7 +4346,15 @@
     return { rec: rec, el: el };
   }
 
-  function handleTap(target, cx, cy) {
+  /* Cmd on a Mac, Ctrl elsewhere. Ctrl is not usable on a Mac: there it is
+     the secondary click, so every ctrl-press already means something else. */
+  var IS_MAC = /Mac|iPhone|iPad|iPod/.test(navigator.platform || '') ||
+               /Mac OS X/.test(navigator.userAgent || '');
+  function stickyPress(e) {
+    return !!(e && (e.metaKey || (e.ctrlKey && !IS_MAC)));
+  }
+
+  function handleTap(target, cx, cy, sticky) {
     var got = pick(target, cx, cy);
     var hit = got && got.hit;
     // on a touch screen the tap is the pointer, so it is what decides whose
@@ -4366,6 +4395,27 @@
         lastProv = null;
         setHotProv(null);
       }
+    }
+    /* A click inside what is pinned takes the pin off, whether or not the
+       modifier is down — that is the way back out, and it is the same
+       gesture that put it on. A modifier-click inside says only "off"; a
+       plain one goes on to select as it always did. */
+    if (inPin(id, prov)) {
+      pinned = null;
+      redrawHighlight();
+      if (sticky) return;
+    } else if (sticky) {
+      /* Admin on and a division under the pointer: the division is what was
+         asked about. Admin off, or open country: the territory. A modifier
+         press on the sea pins nothing and clears what was there. */
+      var onProv = !!(state.cats.territory && prov && prov.el);
+      pinned = !id ? null
+                   : { id: id,
+                       cluster: onProv ? null : clust,
+                       provEl: onProv ? prov.el : null };
+      if (pinned && !pinnedEls()) pinned = null;
+      redrawHighlight();
+      return;
     }
     select(id, clust);
   }
@@ -5298,8 +5348,10 @@
      whose key has not changed is left alone. Each has a container of its own
      so that rebuilding one does not move it above the others: the selection is
      the stronger statement and has to stay on top of the hover. */
-  var hiSlots = { territory: null, province: null, selected: null };
-  var hiHost = { territory: null, province: null, selected: null };
+  var hiSlots = { territory: null, province: null, selected: null, pinned: null };
+  var hiHost = { territory: null, province: null, selected: null, pinned: null };
+  // last, so a pin lies over every line the pointer draws
+  var HI_ORDER = ['territory', 'province', 'selected', 'pinned'];
 
   /* Every id in a slot's key answers for the shape it stands for -- but not
      for whether that shape is still the same shape. A fine coastline grafting
@@ -5328,7 +5380,7 @@
     if (!highlightLayer) return null;
     if (!hiHost[name] || !hiHost[name].isConnected) {
       // built in the order they must stay in
-      ['territory', 'province', 'selected'].forEach(function (k) {
+      HI_ORDER.forEach(function (k) {
         if (!hiHost[k] || !hiHost[k].isConnected) {
           hiHost[k] = svgEl('g', { 'class': 'hi-slot' });
           highlightLayer.appendChild(hiHost[k]);
@@ -5410,12 +5462,16 @@
 
   function clearHighlight() {
     emptyPark();
-    ['territory', 'province', 'selected'].forEach(function (n) {
+    HI_ORDER.forEach(function (n) {
       dropSlot(n);
     });
     emptyPark();                  // and what dropSlot just parked goes too
     if (highlightLayer) highlightLayer.innerHTML = '';
-    hiHost = { territory: null, province: null, selected: null };
+    hiHost = { territory: null, province: null, selected: null, pinned: null };
+    // The pin holds element references, and this runs when the sheet under
+    // them is being taken apart. Nothing it points at will be there.
+    pinned = null;
+    pinFilter = null;
     dropDefs('hi');
   }
 
@@ -5431,6 +5487,56 @@
     return kind + '|' + (id || '') + '|' +
       (cluster ? (clusterName(cluster[0]) || 'c') + ':' + cluster.length : '') +
       '|' + els.length + '|' + hiGen;
+  }
+
+  /* One filter, made once and kept. The region has to be given: the default
+     is the bounding box plus a tenth, and a blur that wide is cut off square
+     at the corners of the box — visible as a straight edge across the sea
+     beside a small island, where the box is small and the blur is not. */
+  function ensurePinFilter() {
+    if (pinFilter && pinFilter.isConnected) return pinFilter;
+    if (!hiDefs) return null;
+    pinFilter = hiDefs.querySelector('#pin-glow');
+    if (pinFilter) return pinFilter;
+    pinFilter = svgEl('filter', { id: 'pin-glow', x: '-30%', y: '-30%',
+                                  width: '160%', height: '160%' });
+    pinFilter.appendChild(svgEl('feGaussianBlur', { stdDeviation: PIN_BLUR_PX }));
+    hiDefs.appendChild(pinFilter);
+    return pinFilter;
+  }
+
+  function setPinBlur(k) {
+    if (!pinned) return;                 // nothing is wearing it
+    var f = ensurePinFilter();
+    if (!f || !f.firstChild) return;
+    f.firstChild.setAttribute(
+      'stdDeviation', Math.round(PIN_BLUR_PX * k * 1000) / 1000);
+  }
+
+  /* What the pin stands for, worked out fresh every time rather than held as a
+     list of nodes. The nodes can be replaced under it — a fine coastline
+     grafting in, the administrative file arriving — and a stale list would
+     draw a shape that is no longer on the map. Null means the ground it named
+     has gone, and the pin goes with it. */
+  function pinnedEls() {
+    if (!pinned) return null;
+    if (pinned.provEl) {
+      if (!pinned.provEl.isConnected) return null;
+      return provPeers(pinned.provEl);
+    }
+    if (!atomsOf[pinned.id] || !seen(pinned.id)) return null;
+    return litFor(pinned.id, pinned.cluster);
+  }
+
+  // Did this tap land in the thing that is pinned? A click inside takes the
+  // pin off; a click anywhere else leaves it alone.
+  function inPin(id, prov) {
+    if (!pinned) return false;
+    if (pinned.provEl) {
+      if (!prov || !prov.el || !pinned.provEl.isConnected) return false;
+      return provPeers(pinned.provEl).indexOf(prov.el) >= 0;
+    }
+    return !!id && id === pinned.id;
   }
 
   function redrawHighlight() {
@@ -5483,6 +5589,27 @@
       fillSlot('selected', slotKey('s', selected, selCluster, sEls), sEls, 'hi-selected');
     } else {
       dropSlot('selected');
+    }
+    var pEls = pinnedEls();
+    if (pinned && !pEls) pinned = null;      // its ground went out from under it
+    if (pinned) {
+      ensurePinFilter();
+      fillSlot('pinned',
+               slotKey('k', pinned.provEl
+                            ? pinned.provEl.getAttribute('data-prov') : pinned.id,
+                       pinned.cluster, pEls),
+               pEls, 'hi-pinned');
+      /* Set as an attribute, not in the stylesheet. Safari does not apply a
+         CSS `filter` to an SVG element — that is why every hover lift on this
+         map is a `color-mix` fill and not a brightness filter — but it honours
+         the presentation attribute. */
+      var ps = hiSlots.pinned;
+      if (ps && ps.group && ps.group.getAttribute('filter') !== 'url(#pin-glow)') {
+        ps.group.setAttribute('filter', 'url(#pin-glow)');
+      }
+      setPinBlur(view.w / containerSize().w);
+    } else {
+      dropSlot('pinned');
     }
   }
 

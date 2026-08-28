@@ -592,6 +592,20 @@ button.plain:hover { background: var(--hover-fill); }
 #jmap.saf #highlight .hi-parent circle { stroke-width: 6.6; }
 #jmap.saf #highlight .hi-selected path,
 #jmap.saf #highlight .hi-selected circle { stroke-width: 5.8; }
+
+/* A pinned outline: the one line on this map that is not an answer to where
+   the pointer is, so it has to look unlike all of them. Bright yellow where
+   every other outline is a dark brown, and 7 against the selection's 3.7 —
+   which by the arithmetic above leaves 5.7 showing against 2.4, near enough
+   two and a half times the band. The blur is a filter set in `map.js`, whose
+   deviation is in user units and is rewritten on every zoom. */
+#highlight .hi-pinned path,
+#highlight .hi-pinned circle {
+  stroke: #ffd200;
+  stroke-width: 7;
+}
+#jmap.saf #highlight .hi-pinned path,
+#jmap.saf #highlight .hi-pinned circle { stroke-width: 9.1; }
 #jmap.saf #sub-outlines .sub-outline path,
 #jmap.saf #sub-outlines .sub-outline circle,
 #jmap.saf #sub-outlines .sub-merged path,
