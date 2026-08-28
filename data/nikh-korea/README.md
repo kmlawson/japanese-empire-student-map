@@ -91,12 +91,38 @@ station carrying 1930 may well have existed in 1917 and a station carrying
 
 ## Licence
 
-The institute publishes this on its 개방데이터셋 (open dataset) page, which
-carries no licence badge; the site footer is a plain
-`COPYRIGHT © NATIONAL INSTITUTE OF KOREAN HISTORY`. Free to fetch and work
-with, but **check the terms before republishing any of it** in the map or in
-`sources.html`, and credit the 2019 역사 공간 정보 DB 구축 연구팀 named in the
-attribute table.
+**No restriction.** The institute registered this dataset on the national
+open-data portal, and the licence field there reads
+**`이용허락범위 제한 없음`** — scope of permitted use, unrestricted.
+
+- <https://www.data.go.kr/data/15080850/fileData.do> — 교육부 국사편찬위원회_근대지리정보,
+  registered 2021-10-28, last touched 2025-05-30, SHP, 무료. The portal does
+  not host the file: 제공형태 is `기관자체에서 다운로드` pointing back at
+  `hgis.history.go.kr/mod_g1/main.do`, so what `fetch.sh` gets is the file the
+  registration refers to.
+
+That is a deliberate setting, not an empty field. The same institute files
+other datasets under a named licence — 한국사데이터베이스's 한국사료총서 원문 is
+`공공저작물 : 출처표시, 상업적 이용금지, 변경금지 (제4유형)`, KOGL Type 4 — while
+this one and its neighbours are registered unrestricted. The portal is where
+Korean public bodies state terms per dataset, and this is what it states for
+this one.
+
+**Two things still worth knowing.** The dataset page itself says nothing, and
+the institute's site-wide copyright policy is narrower than the registration:
+it grants free use of works it wholly owns "학술, 연구 등의 개인적인 목적으로만",
+academic and research purposes only, and requires the source be given
+specifically — 국사편찬위원회 명칭 및 홈페이지 URL, 저작자 성명, 발행연도. Where
+it does not hold the whole copyright, anything past reading is barred. That
+policy governs the site in general; the portal registration governs this
+dataset. Nothing here needs the difference resolved — a teaching map is
+academic use either way — but credit it properly when it goes in:
+
+> 국사편찬위원회, 한국근대지리정보 (National Institute of Korean History, Korean
+> Modern Geographic Information), <https://hgis.history.go.kr/mod_g1/main.do>,
+> built 2019 by the 역사 공간 정보 DB 구축 연구팀.
+
+Checked 28 August 2026.
 
 ## Also on that page, not fetched
 
