@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '203';
+  var JEM_VERSION = '204';
   var JEM_ASSETS = {"admin.js": "e5f1a2fc6c", "annotate.js": "761fbd5949", "japan-empire-map-admin.svg": "9de0304837", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "7a789c6431", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0"};
 
   /* Every file this one fetches, with the version on it.
@@ -2403,6 +2403,84 @@
     return w * size;
   }
 
+  /* A name too long to sit on the shape it belongs to, broken across lines.
+
+     Most names here are a word or two. A few are not: the 蕃地 is called the
+     Taiwan Government-General's demarcated "Aborigine Territory", because that
+     is what the shape records — the administration's own act, not the people
+     it drew a line around — and set on one line that ran 388 screen pixels
+     across a 253-pixel island and out over the sea at both ends.
+
+     Measured in SCREEN PIXELS, which is what the reader sees the size of.
+     `estimateWidth` answers in them because the labels carry a scale that
+     makes one local unit one screen pixel, and it is the same guess the placer
+     uses; the real widths are read back off the tspans afterwards, in the same
+     batched layout as everything else. */
+  var LABEL_MAX_PX = 165;
+
+  /* `estimateWidth` counts 0.56 em for a Latin letter and these names are set
+     bold, so it answers short — the note in `placeLabels` measured it at 11%
+     in the middle of the distribution. Wrapping to the raw guess put the 蕃地
+     on three lines whose widest measured 182 against a budget of 165, so the
+     guess is corrected here rather than trusted. The real widths are still
+     read back off the tspans afterwards; this only decides where to break. */
+  var LABEL_EST_BOLD = 1.17;
+
+  function fillLines(words, size, budget) {
+    var lines = [], cur = '';
+    for (var i = 0; i < words.length; i++) {
+      var t = cur ? cur + ' ' + words[i] : words[i];
+      if (cur && estimateWidth(t, size) > budget) { lines.push(cur); cur = words[i]; }
+      else cur = t;
+    }
+    if (cur) lines.push(cur);
+    return lines;
+  }
+
+  function wrapLabel(text, size) {
+    var whole = estimateWidth(text, size) * LABEL_EST_BOLD;
+    if (whole <= LABEL_MAX_PX) return null;
+    var words = text.split(/\s+/);
+    if (words.length < 2) return null;      // one word has nothing to break
+    var budget = LABEL_MAX_PX / LABEL_EST_BOLD;
+    var lines = fillLines(words, size, budget);
+    if (lines.length < 2) return null;
+    /* Greedy fills each line to the brim and leaves the last one short, which
+       reads as a mistake rather than as a shape. Run it again with the width
+       the lines would have if they were even, so a three-line name comes out
+       as three lines of a similar length. */
+    var even = fillLines(words, size,
+                         (whole / LABEL_EST_BOLD / lines.length) * 1.12);
+    if (even.length === lines.length) lines = even;
+    return lines;
+  }
+
+  /* The text of one label, wrapped if it has to be. `L.extra` is how far the
+     block reaches above and below a single line's box, so that a name of any
+     number of lines stays centred on the point it belongs to and the collision
+     box grows with it. Zero for one line, which is every other name. */
+  function setLabelText(L, text) {
+    L.txt = text;
+    var lines = wrapLabel(text, L.size);
+    if (!lines) {
+      L.el.textContent = text;
+      L.lines = 1;
+      L.extra = 0;
+      L.w = estimateWidth(text, L.size);
+      return;
+    }
+    var lh = L.size * 1.2;
+    L.el.textContent = '';
+    for (var i = 0; i < lines.length; i++) {
+      var ts = svgEl('tspan', { x: 0, dy: i ? lh : -(lines.length - 1) * lh / 2 });
+      ts.textContent = lines[i];
+      L.el.appendChild(ts);
+      L.w = Math.max(L.w || 0, estimateWidth(lines[i], L.size));
+    }
+    L.lines = lines.length;
+    L.extra = (lines.length - 1) * lh / 2;
+  }
+
   /* ------------------------------------------------------ view control -- */
 
   var view = { x: 0, y: 0, w: 100, h: 100 };
@@ -3375,6 +3453,7 @@
         L.el.style.display = 'none';
         L.shown = false;               // placeLabels mirrors what was written
         L.w = 0;
+        L.txt = '';
         return;
       }
       // A division's name belongs to a shape, and the shape can go: the atom
@@ -3389,14 +3468,15 @@
         L.el.style.display = 'none';
         L.shown = false;
         L.w = 0;
+        L.txt = '';
         return;
       }
       var text = mapLabel(L.rec);
       if (!text) { L.el.textContent = ''; L.el.style.display = 'none';
-                   L.shown = false; L.w = 0; return; }
-      if (L.el.textContent !== text) {
-        L.el.textContent = text;
-        L.w = estimateWidth(text, L.size);
+                   L.shown = false; L.w = 0; L.txt = ''; return; }
+      if (L.txt !== text) {
+        L.w = 0;
+        setLabelText(L, text);
         /* A guess, for now. `estimateWidth` counts 0.56 em for a Latin letter
            and these names are set bold, so it is short — measured across the
            51 names on the opening view, short by 11% in the middle of the
@@ -3419,7 +3499,18 @@
        administrative sheet in. Batched, it is one layout. */
     for (var m = 0; m < measure.length; m++) {
       var M = measure[m], real = 0;
-      try { real = M.el.getComputedTextLength(); } catch (err) { real = 0; }
+      try {
+        if (M.lines > 1) {
+          // getComputedTextLength on the <text> adds every line together,
+          // which for a three-line name is three times the answer
+          var kids = M.el.childNodes;
+          for (var q = 0; q < kids.length; q++) {
+            real = Math.max(real, kids[q].getComputedTextLength());
+          }
+        } else {
+          real = M.el.getComputedTextLength();
+        }
+      } catch (err) { real = 0; }
       // The text is drawn in local units and the scalable's `scale(k)` turns
       // those into screen pixels one for one, which is the space `placeLabels`
       // works in. A hidden or unlaid-out element answers 0; keep the guess.
@@ -3563,7 +3654,7 @@
       var y = (L.y - view.y) * sy + L.dy;
       var box = {
         l: x - L.w / 2, r: x + L.w / 2,
-        t: y - L.h * 0.85, b: y + L.h * 0.25,
+        t: y - L.h * 0.85 - (L.extra || 0), b: y + L.h * 0.25 + (L.extra || 0),
       };
 
       /* A name that will not fit where it belongs is moved a little before it

@@ -10402,6 +10402,50 @@ Whole suite: 685 checks across 30 scripts, all passing.
 
 ---
 
+## A name too long for its shape is broken across lines
+
+The 蕃地's new name ran **388 screen pixels on one line across a 253-pixel
+island** and out over the sea at both ends. It now sets in four centred lines,
+**140 pixels at the widest**, wholly inside Taiwan.
+
+`wrapLabel` in `map.js` fills lines to a budget and then runs again at the
+width the lines would have if they were even, so a long name comes out as a
+block rather than as three full lines and a stub. The lines are `<tspan>`s
+with `x="0"` and a `dy`, the first lifted by half the block so the name stays
+centred on the point it belongs to.
+
+**`L.extra` is why the collision box still works.** It is how far a block
+reaches above and below one line's box, zero for a single line — which is
+every other name on the map — so the reservation grows with the name and the
+existing arithmetic is untouched for everything that did not wrap.
+
+Two things that would have broken quietly:
+
+* **`getComputedTextLength` on a `<text>` adds every line together.** A
+  three-line name measures three times its width, and the placer would reserve
+  a box that wide and refuse to put anything near it. The measure pass walks
+  the tspans and takes the widest.
+* **`estimateWidth` is short for bold text**, by the 11% the note in
+  `placeLabels` already records. Wrapping to the raw guess put the name on
+  three lines whose widest measured 182 against a budget of 165.
+  `LABEL_EST_BOLD = 1.17` corrects the guess; the real widths are still read
+  back off the tspans afterwards, in the same batched layout as before.
+
+**Four other names now wrap**, all of them long ones that were already
+sprawling: *Ryūkyū and / Ōsumi Islands*, *Netherlands / East Indies*,
+*Kwantung Leased / Territory*, *British Malaya / & Singapore*. Measured across
+four views — Taiwan, the opening view, East Asia, South-East Asia — **no name
+on screen is now wider than 165 pixels**, where before the widest was 388.
+
+Five checks added to `tools/test/labels.js`, including that the lines read
+back as the name that was written: a wrapped label's `textContent` runs them
+together with no space between, so a test that reads it naively passes on
+nonsense.
+
+Whole suite: 690 checks across 30 scripts, all passing.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

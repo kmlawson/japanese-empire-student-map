@@ -188,6 +188,53 @@ await sleep(2500);
     JSON.stringify(panned));
 }
 
+/* A name too long for the shape it belongs to, broken across lines.
+ *
+ * The 蕃地 is the case: "Taiwan Government-General's demarcated "Aborigine
+ * Territory"" ran 388 screen pixels on one line across a 253-pixel island and
+ * out over the sea at both ends. Two things are checked, and the second is
+ * the one that would break quietly — `getComputedTextLength` on a <text> adds
+ * every line together, so a three-line name measures three times its width
+ * and the placer reserves a box that wide. */
+console.log('\n— a long name is broken across lines —');
+{
+  await p.goto('http://localhost:8123/index.html?bbox=119.5,21.5,122.6,25.6',
+               {waitUntil:'networkidle0'});
+  await sleep(2600);
+  await p.evaluate(()=>{document.querySelector('header button[data-cat="territory"]').click();});
+  await sleep(1400);
+  await p.evaluate(()=>{const b=[...document.querySelectorAll('header button')]
+    .find(x=>/Other/.test(x.textContent)); if(b) b.click();});
+  await sleep(1600);
+  const seen=await p.evaluate(()=>{
+    const out=[];
+    document.querySelectorAll('text').forEach(t=>{
+      if(t.style.display==='none'||!t.textContent.trim()) return;
+      const sp=[...t.querySelectorAll('tspan')];
+      // a wrapped label's textContent runs the lines together with no space
+      // between them, so read the tspans and join them back up
+      out.push({txt: sp.length ? sp.map(x=>x.textContent).join(' ') : t.textContent,
+                lines:sp.length||1,
+                w:Math.round(t.getBoundingClientRect().width)});
+    });
+    return out;
+  });
+  const banchi=seen.find(x=>/Aborigine/.test(x.txt));
+  check('the 蕃地 name is drawn', !!banchi,
+    JSON.stringify(seen.map(s=>s.txt.slice(0,24))));
+  if (banchi) {
+    check('and is broken onto more than one line', banchi.lines>1, String(banchi.lines));
+    check('the lines read as written: '+banchi.txt.slice(0,60),
+      /^Taiwan Government-General's demarcated "Aborigine Territory"$/.test(banchi.txt),
+      banchi.txt);
+    check('so it fits inside the island: '+banchi.w+'px against 253',
+      banchi.w<253, String(banchi.w));
+  }
+  const wide=seen.filter(x=>x.w>175);
+  check('and no name on screen is wider than the budget',
+    wide.length===0, JSON.stringify(wide));
+}
+
 check('no page errors', errs.length===0, errs[0]);
 console.log('\n  '+pass+' passed, '+fail+' failed');
 await b.close(); process.exit(fail);})();
