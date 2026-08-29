@@ -11444,6 +11444,30 @@ Whole suite: 804 checks across 33 scripts, all passing.
 
 ---
 
+## Adjust Colours looks like the button beside it
+
+`Create annotations` and `Adjust Colours` are the same kind of thing — a
+control in the Layers pane that opens a piece of apparatus rather than
+switching a layer — and the map had two ideas about what that looked like. The
+colour button and the editor's Save, Load and Reset all take `.plain` and share
+the `.ann-row button` rule rather than carrying a copy of it, so retuning one
+retunes all five.
+
+Measured rather than eyeballed: every computed property of `#opt-colours-open`
+is byte-identical to `#ann-create` in light and in dark — padding 7px 10px,
+radius 6px, 12.5px, and the border, fill and ink all off the palette tokens, so
+they follow the scheme together.
+
+The group headings inside the list are set like the pane's own section
+headings — small, spaced, uppercase, muted, the way `TRANSPORT` and
+`PROJECTION` are. They were plain text at the weight of the colour names under
+them, which left the two Republics of China still looking adjacent when the
+whole point of the grouping was to separate them.
+
+Whole suite: 804 checks across 33 scripts, all passing.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

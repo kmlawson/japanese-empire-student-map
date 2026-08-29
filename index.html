@@ -7,7 +7,7 @@
 <meta name="description" content="Interactive map for revising the geography of the Japanese Empire: colonies, occupied territories, neighbouring states, cities and battles, 1853-1945.">
 <title>The Japanese Empire</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23f4f1ea'/%3E%3Ccircle cx='16' cy='16' r='8' fill='%239a1813'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=7dda95e642">
+<link rel="stylesheet" href="styles.css?v=a353d8bc96">
 </head>
 <body>
 
@@ -214,7 +214,7 @@
          carrying, so a category added to the tables turns up here without
          anything being said twice. -->
     <span class="half">
-      <button type="button" id="opt-colours-open" aria-expanded="false"
+      <button type="button" id="opt-colours-open" class="plain" aria-expanded="false"
               aria-controls="colour-editor"
               title="Change any colour the map draws with, including the sea. Save the set to a file, load one back, or send the link.">Adjust Colours</button>
     </span>
@@ -224,9 +224,9 @@
        and travel in the address, so sending the link sends the colours.</p>
     <div id="colour-rows"></div>
     <div class="colour-actions">
-      <button type="button" id="colour-save" title="Download this set as a small .json file">Save</button>
-      <button type="button" id="colour-load" title="Load a set from a .json file">Load</button>
-      <button type="button" id="colour-reset" title="Back to the map's own colours">Reset all</button>
+      <button type="button" id="colour-save" class="plain" title="Download this set as a small .json file">Save</button>
+      <button type="button" id="colour-load" class="plain" title="Load a set from a .json file">Load</button>
+      <button type="button" id="colour-reset" class="plain" title="Back to the map's own colours">Reset all</button>
       <input type="file" id="colour-file" accept=".json,application/json" hidden>
       <span class="colour-say" id="colour-say"></span>
     </div>
@@ -295,7 +295,7 @@
 
   <p>Built with Anthropic's Claude, with <a href="https://muninn.net/">Konrad M. Lawson</a> at the prompt, primarily as a tool for students in his University of St Andrews honours module, <a href="https://github.com/kmlawson/japanese-empire-mo3335/">MO3335</a>.</p>
 
-  <p>Code for the website may be found <a href="https://github.com/kmlawson/japanese-empire-student-map">here</a>.</p>  <p class="version">Version 1 update <span id="jem-version">218</span> · last updated 29 August 2026, 12:27</p>
+  <p>Code for the website may be found <a href="https://github.com/kmlawson/japanese-empire-student-map">here</a>.</p>  <p class="version">Version 1 update <span id="jem-version">219</span> · last updated 29 August 2026, 12:38</p>
 
 <!-- END about -->
 </dialog>
@@ -355,6 +355,6 @@
      and data.js then hides it behind a fresh one. cities-gaz.js sits here for
      the same reason. -->
 <script src="relief.js?v=a584543962"></script>
-<script src="map.js?v=7547f109a2"></script>
+<script src="map.js?v=6b82bfe649"></script>
 </body>
 </html>

@@ -2150,8 +2150,14 @@ dialog h3 {
    the panel, the marks, the fields — is styled by `annotate.js`, which injects
    its own sheet when it loads, so a reader who never draws pays for neither
    the code nor the rules. */
+/* The annotation buttons' look, shared with the colour editor's. They are the
+   same kind of thing — a control in the Layers pane that opens a piece of
+   apparatus rather than switching a layer — and there is no reason for the map
+   to have two ideas about what that looks like. */
 .ann-row { display: flex; gap: 6px; flex-wrap: wrap; }
-.ann-row button {
+.ann-row button,
+#opt-colours-open,
+.colour-actions button {
   padding: 7px 10px;
   border: 1px solid var(--line);
   border-radius: 6px;
@@ -2161,7 +2167,9 @@ dialog h3 {
   color: var(--ink);
   cursor: pointer;
 }
-.ann-row button:hover { border-color: var(--muted); }
+.ann-row button:hover,
+#opt-colours-open:hover,
+.colour-actions button:hover { border-color: var(--muted); }
 
 /* The rule that used to be here set `.ann-row button` to `#1b232b` with
    `color: var(--ink)` — and `--ink` was never redefined for dark, so it stayed
@@ -2427,6 +2435,18 @@ dialog h3 {
   border-radius: 4px;
   background: none;
 }
+/* A group heading inside the list, set like the pane's own section headings —
+   `TRANSPORT`, `PROJECTION` — because that is what it is. Without this the
+   dates read at the same weight as the colour names under them, and the two
+   Republics of China still looked adjacent. */
+#colour-rows .colour-group {
+  font-size: 12px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: .5em 0 .1em;
+}
+#colour-rows .colour-group:first-child { margin-top: 0; }
 #colour-rows .colour-name { font-size: .92em; min-width: 0; }
 /* Only offered once that colour has been moved, so the row is quiet until
    there is something to undo. */
