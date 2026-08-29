@@ -53,7 +53,7 @@ const SECS = { mapstrip: 45, run2: 41, labels: 32, run5: 35, run14: 32, run9: 30
                run8: 19, provsource: 18, run13: 18, 'layers-url': 18, run4: 17,
                bookmarks: 16, 'cache-keys': 15, backings: 15, run6: 12,
                projclip: 11, taiwan: 15, relief: 60, mono: 30, names: 53, run7: 5,
-               run15: 40, labuan: 35, pin: 44, stations: 65, zoom: 11, colours: 22 };
+               run15: 40, labuan: 35, pin: 44, stations: 65, zoom: 11, colours: 30 };
 list = list.slice().sort((a, b) => (SECS[b] || 0) - (SECS[a] || 0));
 
 /* Each script drives a browser, and a browser is several processes. Half the

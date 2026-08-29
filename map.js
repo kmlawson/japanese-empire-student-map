@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '216';
+  var JEM_VERSION = '217';
   var JEM_ASSETS = {"admin.js": "9f99c96627", "annotate.js": "761fbd5949", "japan-empire-map-admin.svg": "8f23cf49df", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "382143b5f7", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0"};
 
   /* Every file this one fetches, with the version on it.
@@ -1937,7 +1937,7 @@
     var fill = '';
     try { fill = atom ? getComputedStyle(atom).fill : ''; } catch (err) { fill = ''; }
     var m = /(-?[\d.]+)[,\s]+(-?[\d.]+)[,\s]+(-?[\d.]+)/.exec(fill || '');
-    if (!m) return '#2b2b2b';
+    if (!m) return state.colours.raillight || RAIL_LIGHT_DEF;
     var v = [+m[1], +m[2], +m[3]];
     // rgb() gives 0-255 and color(srgb …) gives 0-1; both arrive here
     if (v[0] > 1 || v[1] > 1 || v[2] > 1) v = v.map(function (x) { return x / 255; });
@@ -1945,7 +1945,12 @@
       return x <= 0.04045 ? x / 12.92 : Math.pow((x + 0.055) / 1.055, 2.4);
     });
     var lum = 0.2126 * lin[0] + 0.7152 * lin[1] + 0.0722 * lin[2];
-    return lum > 0.55 ? '#161310' : '#fbf7ef';
+    /* Which of the two is used stays the map's decision — a line has to read
+       against the ground it crosses — but the two themselves are the
+       reader's, and they follow the palette like everything else. */
+    return lum > 0.55
+      ? (state.colours.raillight || RAIL_LIGHT_DEF)
+      : (state.colours.raildark || RAIL_DARK_DEF);
   }
 
   function buildMarkers() {
@@ -6761,24 +6766,63 @@
      colours in the address. */
   var paletteCache = null;
   var OCEAN_DEF = '#cadfeb';
+  /* The two inks a railway is drawn in. Which one is used is not the reader's
+     choice — it follows the luminance of the country the line crosses, so the
+     line reads on Japan's dark red and on China's pale yellow alike — but what
+     those two inks *are* can be theirs. See railInk. */
+  var RAIL_LIGHT_DEF = '#161310';   // over a pale country
+  var RAIL_DARK_DEF = '#fbf7ef';    // over a dark one
+
+  /* GROUPED BY DATE, BECAUSE OTHERWISE IT READS AS A LIST WITH DUPLICATES IN
+     IT. Seven of the ids are in both epochs and appear once; the rest belong
+     to one date only, and two of those carry the same words — `chinese` on the
+     1930 map and `freechina` on the 1942 one are both "Republic of China", and
+     side by side with no heading between them they look like the same row
+     twice. They are two different colours for two different maps. */
+  var PALETTE_GROUPS = ['On both dates', 'The 1930 map',
+                        'The December 1942 map', 'Marks and the sea'];
 
   function palette() {
     if (paletteCache) return paletteCache;
-    var seen = {};
-    var out = [];
-    var add = function (rec, group) {
-      if (!rec || !rec.id || seen[rec.id] || !HEX.test(rec.c || '')) return;
-      seen[rec.id] = true;
-      out.push({ id: rec.id, label: rec.en || rec.id, def: rec.c, group: group });
-    };
-    Object.keys(JMAP.CATEGORIES || {}).forEach(function (ep) {
-      (JMAP.CATEGORIES[ep] || []).forEach(function (c) { add(c, 'The map'); });
+    var eps = Object.keys(JMAP.CATEGORIES || {}).sort();
+    var where = {};
+    var rec = {};
+    eps.forEach(function (ep) {
+      (JMAP.CATEGORIES[ep] || []).forEach(function (c) {
+        if (!c || !c.id || !HEX.test(c.c || '')) return;
+        (where[c.id] = where[c.id] || []).push(ep);
+        // the first epoch's wording wins, so a shared id is not renamed by
+        // whichever date happened to be read last
+        if (!rec[c.id]) rec[c.id] = c;
+      });
     });
-    (JMAP.SITE_CATEGORIES || []).forEach(function (c) { add(c, 'Marks'); });
+    var out = [];
+    var seen = {};
+    var add = function (r, group) {
+      if (!r || !r.id || seen[r.id] || !HEX.test(r.c || '')) return;
+      seen[r.id] = true;
+      out.push({ id: r.id, label: r.en || r.id, def: r.c, group: group });
+    };
+    var groupFor = function (id) {
+      var w = where[id] || [];
+      if (w.length > 1) return PALETTE_GROUPS[0];
+      return w[0] === 'e1930' ? PALETTE_GROUPS[1] : PALETTE_GROUPS[2];
+    };
+    PALETTE_GROUPS.slice(0, 3).forEach(function (g) {
+      Object.keys(where).forEach(function (id) {
+        if (groupFor(id) === g) add(rec[id], g);
+      });
+    });
+    var marks = PALETTE_GROUPS[3];
+    (JMAP.SITE_CATEGORIES || []).forEach(function (c) { add(c, marks); });
     /* The sea is not a category and has no record, so it is given one. It is
        the colour a reader is most likely to want to change and it would be an
-       odd list that left it out. */
-    out.push({ id: 'ocean', label: 'The sea', def: OCEAN_DEF, group: 'Marks' });
+       odd list that left it out. The railway inks are the same case. */
+    out.push({ id: 'ocean', label: 'The sea', def: OCEAN_DEF, group: marks });
+    out.push({ id: 'raillight', label: 'Railways over a pale country',
+               def: RAIL_LIGHT_DEF, group: marks });
+    out.push({ id: 'raildark', label: 'Railways over a dark country',
+               def: RAIL_DARK_DEF, group: marks });
     paletteCache = out;
     return out;
   }

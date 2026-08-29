@@ -51,6 +51,36 @@ console.log('\n— the button, and what it opens —');
   check('it opens', st.open);
   check('with a row for every colour the map carries', st.rows>20, st.rows+' rows');
   check('and the sea among them, which is not a category', st.ocean);
+
+  /* GROUPED BY DATE. Seven ids are in both epochs and appear once; the rest
+     belong to one date, and two of those carry the same words — `chinese` on
+     the 1930 map and `freechina` on the 1942 one are both "Republic of China".
+     Side by side with no heading between them they read as the same row twice,
+     which is what they were reported as. They are two colours for two maps. */
+  const groups = await p.evaluate(() => {
+    const out = []; let g = null;
+    [...document.getElementById('colour-rows').children].forEach(n => {
+      if (n.classList.contains('colour-group')) { g = n.textContent; out.push([g, []]); }
+      else if (n.classList.contains('colour-name') && out.length) {
+        out[out.length - 1][1].push(n.textContent);
+      }
+    });
+    return out;
+  });
+  check('the rows are grouped', groups.length === 4,
+    groups.map(g => g[0]).join(' | '));
+  check('and the groups say which date they belong to',
+    /1930/.test(groups.map(g => g[0]).join(' '))
+    && /1942/.test(groups.map(g => g[0]).join(' ')),
+    groups.map(g => g[0]).join(' | '));
+  const china = groups.filter(g => g[1].indexOf('Republic of China') >= 0);
+  check('the two Republics of China are in different groups, not adjacent',
+    china.length === 2, china.map(g => g[0]).join(' and '));
+  const flat = groups.reduce((a, g) => a.concat(g[1]), []);
+  check('and no group repeats a name within itself',
+    groups.every(g => new Set(g[1]).size === g[1].length));
+  check('every row is in a group', flat.length === st.rows,
+    flat.length + ' named, ' + st.rows + ' pickers');
 }
 
 console.log('\n— moving one changes the map —');
@@ -70,6 +100,32 @@ console.log('\n— moving one changes the map —');
   check('and the legend follows it, not a stale copy',
     (await p.evaluate(()=>{const sw=document.querySelector('#legend .sw');
       return sw?getComputedStyle(sw).backgroundColor:'';}))==='rgb(0, 170, 85)');
+}
+
+console.log('\n— the railways are inked by the reader too —');
+{
+  /* WHICH of the two inks is used is not the reader's choice — the line has
+     to read against the country it crosses, so it follows that country's
+     luminance — but the two inks themselves are theirs. */
+  await p.evaluate(()=>{const e=document.getElementById('opt-tw-rail');
+    if(e && !e.checked){e.checked=true; e.dispatchEvent(new Event('change',{bubbles:true}));}});
+  await sleep(1300);
+  const ink = () => p.evaluate(()=>{
+    const el=document.querySelector('#tw-rail path.rail[data-epoch="e1930"]');
+    return el ? el.style.getPropertyValue('--rail-ink') : null;});
+  check('the map picks the pale ink over dark Taiwan', (await ink())==='#fbf7ef',
+    String(await ink()));
+  check('there is a row for each of the two inks',
+    await p.evaluate(()=>!!document.getElementById('colour-raildark')
+                       && !!document.getElementById('colour-raillight')));
+  await p.evaluate(()=>{const c=document.getElementById('colour-raildark');
+    c.value='#00ffcc'; c.dispatchEvent(new Event('change',{bubbles:true}));});
+  await sleep(1500);
+  check('and changing that one changes the line', (await ink())==='#00ffcc',
+    String(await ink()));
+  await p.evaluate(()=>{const c=document.getElementById('colour-raildark');
+    c.value='#fbf7ef'; c.dispatchEvent(new Event('change',{bubbles:true}));});
+  await sleep(1200);
 }
 
 console.log('\n— and travels in the address —');

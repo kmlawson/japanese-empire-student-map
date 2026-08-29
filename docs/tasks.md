@@ -11354,6 +11354,38 @@ Whole suite: 796 checks across 33 scripts, all passing.
 
 ---
 
+## The colour list, grouped by date; and the railways inked by the reader
+
+### The duplicates were two maps' worth of the same words
+
+Reported as duplicate rows, and they are not duplicates: seven category ids are
+in both epochs and appear once, and the rest belong to one date only. Two of
+those carry the same words — `chinese` on the 1930 map and `freechina` on the
+1942 one are both **Republic of China** — and with no heading between them they
+read as one row written twice. They are two colours for two maps.
+
+Four groups now, in this order: **On both dates** (7), **The 1930 map** (6),
+**The December 1942 map** (10), **Marks and the sea** (6). Every row falls in
+one, no group repeats a name inside itself, and the test checks all three of
+those things rather than the headings' wording.
+
+Where a shared id is worded differently between the epochs, the first date's
+wording wins, so a row is not renamed by whichever table happened to be read
+last.
+
+### The railways take two inks and both are the reader's
+
+*Which* of the two a stretch of line uses is not a choice and should not be:
+the line has to read against the country it crosses, so it follows that
+country's luminance — pale ink over dark Japan, dark ink over pale China. But
+the two inks themselves are now rows in the list, `Railways over a pale
+country` and `Railways over a dark country`, and they travel in the address
+like the rest.
+
+Whole suite: 804 checks across 33 scripts, all passing.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible
