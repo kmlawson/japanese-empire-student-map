@@ -7,7 +7,7 @@
 <meta name="description" content="Interactive map for revising the geography of the Japanese Empire: colonies, occupied territories, neighbouring states, cities and battles, 1853-1945.">
 <title>The Japanese Empire</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23f4f1ea'/%3E%3Ccircle cx='16' cy='16' r='8' fill='%239a1813'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=13fe99e4ba">
+<link rel="stylesheet" href="styles.css?v=fd37bfe523">
 </head>
 <body>
 
@@ -90,13 +90,16 @@
            script does not offer buttons that do nothing. -->
       <button type="button" id="btn-stations" hidden aria-pressed="false"
               aria-label="Show railway stations" title="Show railway stations">
+        <!-- The mark the button puts on the map, and nothing else: a square
+             on a line, which is exactly how a station is drawn. Two small
+             squares read as a dumbbell at 21 px; the line stops either side
+             of the square rather than running through it, so no fill has to
+             be kept in step with the button's background in four states. -->
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <path d="M2 12h20" fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round"/>
-          <rect x="6" y="8.5" width="4.4" height="4.4" fill="none"
-                stroke="currentColor" stroke-width="2"/>
-          <rect x="14.4" y="8.5" width="4.4" height="4.4" fill="none"
-                stroke="currentColor" stroke-width="2"/>
+          <path d="M2.5 12h5M16.5 12h5" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round"/>
+          <rect x="7.9" y="7.9" width="8.2" height="8.2" fill="none"
+                stroke="currentColor" stroke-width="2.3"/>
         </svg>
       </button>
       <button type="button" id="btn-trains" hidden aria-pressed="false"
@@ -337,7 +340,7 @@
 
   <p>Built with Anthropic's Claude, with <a href="https://muninn.net/">Konrad M. Lawson</a> at the prompt, primarily as a tool for students in his University of St Andrews honours module, <a href="https://github.com/kmlawson/japanese-empire-mo3335/">MO3335</a>.</p>
 
-  <p>Code for the website may be found <a href="https://github.com/kmlawson/japanese-empire-student-map">here</a>.</p>  <p class="version">Version 1 update <span id="jem-version">224</span> · last updated 29 August 2026, 18:20</p>
+  <p>Code for the website may be found <a href="https://github.com/kmlawson/japanese-empire-student-map">here</a>.</p>  <p class="version">Version 1 update <span id="jem-version">225</span> · last updated 29 August 2026, 18:54</p>
 
 <!-- END about -->
 </dialog>
@@ -398,6 +401,6 @@
      and data.js then hides it behind a fresh one. cities-gaz.js sits here for
      the same reason. -->
 <script src="relief.js?v=a584543962"></script>
-<script src="map.js?v=4cd1496fdf"></script>
+<script src="map.js?v=6d628bdc84"></script>
 </body>
 </html>

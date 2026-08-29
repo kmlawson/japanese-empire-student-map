@@ -11869,6 +11869,57 @@ timetable running against 199 without.
 
 ---
 
+## The corner where four panels wanted to be, and a better station icon
+
+**Reported:** with a card open, the buttons under the zoom reset cover its
+close button. And the station icon is not good enough.
+
+### The corner
+
+Between **621 and 999 pixels** the legend, the detail card, the zoom controls
+and the train strip all float over the map rather than living in a sidebar, and
+they wanted the same two corners. Measured at five widths with a card open,
+three collisions were real and one was not:
+
+* **The reported one.** The column of zoom buttons runs 63–307 with five
+  buttons in it and the card's close button sat at 255–299, so the two new
+  buttons were drawn straight over it — the one control that gets the card out
+  of the way was the one they covered. With three buttons the column had ended
+  at 207 and there had been nothing to hit. **The card now clears the whole
+  column**: `right` is offset by 52 px, which is the 44 px buttons at these
+  widths plus eight of air. Static — no motion, nothing hidden — and it keeps
+  working if the column ever gains a sixth button.
+* **The strip under the card.** Both are anchored to the bottom, and at 900 px
+  they overlapped by about two hundred pixels, the strip drawn over the card's
+  table. They **stack** now: the strip's list of line colours stands down while
+  a card is open, which fixes its height at **73 px, measured**, and the card's
+  foot is lifted to 91 so it clears the strip's head at 83.
+* **The strip over the sidebar.** At 1000 px and up the map has a 340 px
+  sidebar beside it, so the middle of the screen is not the middle of the map:
+  the strip was centred on both and ran 150 px over the card. Centred on the
+  map instead — `left: calc(50% - 170px)`.
+* **Not a collision:** at 1400 and 1100 the card is in its own column and
+  nothing in the map area reaches it.
+
+Seven checks pin this at 999×760, 760×700, 660×900 and 1100×800: nothing sits
+on the card's close button, the strip and the card do not overlap, and the
+strip stays over the map.
+
+### The icon
+
+The station button showed two small squares on a line, which at 21 px reads as
+a dumbbell rather than as anything to do with a railway. Eight candidates were
+drawn at actual size and looked at — a shelter, a signpost, platforms, three
+squares, a post, a platform pair, sleepers — and the shelter read as a *home*
+button, the signpost as a lamp, and the rest as noise.
+
+What it shows now is **the mark the button puts on the map**: a square on a
+line, which is exactly how this map draws a station. The line stops either side
+of the square rather than running through it, so no fill has to be kept in step
+with the button's background across pressed, unpressed, light and dark.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

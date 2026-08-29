@@ -522,6 +522,58 @@ const shutDialogs=p=>p.evaluate(()=>{
       JSON.stringify(gone));
     await t.close();
 
+    /* ---- 10b. the widths where every panel floats over the map ------ */
+    /* Between 621 and 999 the legend, the card, the zoom controls and the
+       strip all float, and three of them wanted the same two corners. The
+       reported fault was the worst of it: the two layer buttons grew the zoom
+       column down into the card's top-right, which is where its close button
+       is, so the one control that gets the card out of the way was the one
+       they covered. Measured rather than eyeballed, at both ends of the range
+       and at a width where the sidebar exists. */
+    const overlaps=async(w,h)=>{
+      const q=await browser.newPage();
+      await q.evaluateOnNewDocument(SHIM);
+      await q.setViewport({width:w,height:h});
+      await q.goto(TAIWAN,{waitUntil:'networkidle0'});
+      await shutDialogs(q);
+      await setSwitch(q,true);
+      await sleep(1500);
+      await q.evaluate(()=>{
+        const el=document.querySelector('[data-id="tws029"]');
+        if(!el) return;
+        const r=el.getBoundingClientRect();
+        const ev=n=>el.dispatchEvent(new PointerEvent(n,{bubbles:true,
+          clientX:r.x+r.width/2,clientY:r.y+r.height/2,pointerType:'mouse'}));
+        ev('pointerover');ev('pointerdown');ev('pointerup');ev('click');});
+      await sleep(400);
+      const out=await q.evaluate(()=>{
+        const R=s=>{const e=document.querySelector(s);
+          if(!e||e.hidden) return null;
+          const b=e.getBoundingClientRect();
+          return b.width?{l:b.left,r:b.right,t:b.top,b:b.bottom}:null;};
+        const over=(a,b)=>!!(a&&b&&a.r>b.l+0.5&&a.l<b.r-0.5&&a.b>b.t+0.5&&a.t<b.b-0.5);
+        const close=R('#info-close'), bar=R('#train-bar'), info=R('#info');
+        const side=R('#side');
+        return {
+          onClose:['#btn-stations','#btn-trains','#zoom-in','#zoom-out','#zoom-reset']
+            .filter(s=>over(R(s),close)),
+          barOnCard: over(bar,info),
+          barOnSide: innerWidth>=1000 && over(bar,side),
+          cardOpen: !!info, barUp: !!bar};});
+      await q.close();
+      return out;
+    };
+    for (const [w,h] of [[999,760],[760,700],[660,900]]) {
+      const o=await overlaps(w,h);
+      check(w+'x'+h+': nothing sits on the card\u2019s close button',
+        o.cardOpen && o.onClose.length===0, JSON.stringify(o));
+      check(w+'x'+h+': the strip and the card do not overlap',
+        o.barUp && !o.barOnCard, JSON.stringify(o));
+    }
+    const wide=await overlaps(1100,800);
+    check('1100x800: the strip stays over the map, not the sidebar',
+      wide.barUp && !wide.barOnSide && !wide.barOnCard, JSON.stringify(wide));
+
     /* ---- 11. and in landscape, where the screen is 375 px tall ------- */
     /* The zoom buttons are a row along the top left there, so the strip has to
        start after them; and a card open on a screen that short is 76% of it,

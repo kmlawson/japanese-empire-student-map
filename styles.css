@@ -2745,3 +2745,46 @@ dialog h3 {
 }
 
 #zoom-controls button[aria-pressed="true"]:hover { background: var(--on-fill); }
+
+/* WHERE THE FLOATING PANELS DO NOT FIT TOGETHER.
+
+   Between 621 and 999 pixels the legend, the detail card and the zoom controls
+   all float over the map rather than living in a sidebar, and the train strip
+   joined them. Two of the three collisions that made were real:
+
+   * The two layer buttons under the zoom reset grew the column downwards into
+     the top-right corner of the detail card, which is where its close button
+     is — so the one control a reader needs to get the card out of the way was
+     the one the new buttons covered. The card now clears the whole column,
+     always: no motion, nothing hidden, and it keeps working if the column ever
+     gains another button.
+   * The strip and the card are both anchored to the bottom, and at these
+     widths they overlapped by a couple of hundred pixels. They stack instead —
+     the card sits above the strip — and the strip's list of line colours
+     stands down while a card is open, so its height is one row plus its note
+     and the lift below can be a number rather than a measurement.
+
+   Neither applies at 1000 px and up, where the card is in a sidebar of its
+   own, nor below 621, where the card is a bottom sheet and the strip is at the
+   top of the map. */
+@media (min-width: 621px) and (max-width: 999px) and (min-height: 521px) {
+  /* 52px: the 44px buttons at these widths, plus 8 of air. */
+  #info, #quiz { right: calc(max(10px, var(--safe-r)) + 52px); }
+
+  body.trains-up.panel-open #train-bar .train-legend { display: none; }
+  /* 81px: the strip is 73 tall with its line colours stood down — measured,
+     not guessed — and it sits 10 from the bottom, so the card's foot at 91
+     clears its head at 83 with eight pixels of air. */
+  body.trains-up.panel-open #info,
+  body.trains-up.panel-open #quiz {
+    bottom: calc(10px + var(--safe-b) + 81px);
+    max-height: calc(100% - 101px);
+  }
+}
+
+/* And at a thousand and up the map has a sidebar beside it, so the middle of
+   the screen is not the middle of the map: the strip was centred on both and
+   ran a hundred and fifty pixels over the card. Centred on the map instead. */
+@media (min-width: 1000px) {
+  #train-bar { left: calc(50% - 170px); }
+}

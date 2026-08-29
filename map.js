@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '224';
+  var JEM_VERSION = '225';
   var JEM_ASSETS = {"admin.js": "9f99c96627", "annotate.js": "761fbd5949", "japan-empire-map-admin.svg": "8f23cf49df", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "23439bf362", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "b09f9d37f7", "trains.js": "364452e6f7", "tw-trains.js": "41bcc255ed"};
 
   /* Every file this one fetches, with the version on it.
@@ -1846,8 +1846,11 @@
        * instead of coloured by line. So the borrow is simply released and the
        * layer stays on — which is also what makes the plain line reappear,
        * `railFade` having stood it down only while the tools were up. */
-      try { trainApi.unmount(); giveBackStations(!state.trainTools); }
-      finally { trainBusy = false; }
+      try {
+        trainApi.unmount();
+        document.body.classList.remove('trains-up');
+        giveBackStations(!state.trainTools);
+      } finally { trainBusy = false; }
       fillTrainCard(null);
       if (!want) return;
     }
@@ -1928,6 +1931,11 @@
       borrowStations(cfg);
       trainApi.mount({ sys: cfg.sys, data: JMAP[cfg.data], page: cfg.page,
                        note: cfg.note, ground: cfg.atom });
+      /* So the stylesheet can make room for the strip without asking the
+         module how tall it is: the detail card is lifted above it rather than
+         being drawn under it at the widths where the panels float over the
+         map. */
+      document.body.classList.add('trains-up');
       /* The squares were borrowed a moment ago, before there was anything to
          ask whether the timetable knew them. Filtered now that there is — and
          the names with them, or the 46 the timetable does not know would be
