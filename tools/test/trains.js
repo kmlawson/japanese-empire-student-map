@@ -631,6 +631,61 @@ const shutDialogs=p=>p.evaluate(()=>{
     } else check('landscape: a card does not land on top of the strip', false,
       'no station mark on screen');
     await L.close();
+    /* ---- 12. the printed tables, in three languages ----------------- */
+    /* The page the cards link to. Its furniture is translated and its tables
+       are not — they are a transcription of a printed document, and the only
+       thing that happens inside one is that a station name gains its reading
+       on a second line. The column headings are the one exception and only in
+       English, with the printed word kept on the cell. */
+    const tt=await browser.newPage();
+    const ttErr=[];
+    tt.on('pageerror',e=>ttErr.push(String(e).slice(0,160)));
+    await tt.setViewport({width:1200,height:900});
+    await tt.goto('http://localhost:8123/timetable/taiwan-1936.html',
+                  {waitUntil:'networkidle0'});
+    await sleep(500);
+    const page=()=>tt.evaluate(()=>({
+      lang:document.documentElement.lang,
+      h1:document.querySelector('h1').textContent,
+      cols:[...document.querySelectorAll('tr.hd th')].slice(0,2).map(t=>t.textContent),
+      colTitle:(document.querySelector('tr.hd th')||{}).title||'',
+      readings:document.querySelectorAll('.rd').length,
+      shown:[...document.querySelectorAll('.rd')].filter(r=>r.textContent).length,
+      first:(()=>{const c=document.querySelector('[data-stn]');
+        return c?[c.getAttribute('data-stn'),c.querySelector('.rd').textContent]:null;})(),
+      dir:document.querySelector('h2').textContent,
+      tables:document.querySelectorAll('table').length,
+      anchors:document.querySelectorAll('h2[id^="line-"]').length}));
+    let pv=await page();
+    check('the timetable page carries all eighteen tables',
+      pv.tables===18 && pv.anchors===18, JSON.stringify({t:pv.tables,a:pv.anchors}));
+    check('it opens in Japanese, as the transcription is',
+      pv.lang==='ja' && /\u8ee2\u8a18/.test(pv.h1), pv.lang+' '+pv.h1);
+    check('with the kana under the station names',
+      pv.readings>700 && pv.first && /[\u3040-\u309f]/.test(pv.first[1]),
+      JSON.stringify(pv.first)+' of '+pv.readings);
+    check('and the column headings as printed',
+      pv.cols[0]==='\u7c81\u7a0b' && pv.cols[1]==='\u9a5b\u540d', pv.cols.join('|'));
+    await tt.click('#langbar button[data-lang="zh"]');
+    await sleep(300);
+    pv=await page();
+    check('Chinese gives the pinyin and leaves the headings alone',
+      pv.lang==='zh-Hant' && /[\u0100-\u01ff]/.test(pv.first[1])
+      && pv.cols[0]==='\u7c81\u7a0b', JSON.stringify(pv.first)+' '+pv.cols.join('|'));
+    await tt.click('#langbar button[data-lang="en"]');
+    await sleep(300);
+    pv=await page();
+    check('English translates the furniture and the headings',
+      pv.lang==='en' && /Timetable/.test(pv.h1)
+      && pv.cols.join('|')==='km|Station', pv.h1+' / '+pv.cols.join('|'));
+    check('and keeps the printed heading on the cell',
+      pv.colTitle==='\u7c81\u7a0b', pv.colTitle);
+    check('the readings can be put away',
+      await tt.evaluate(async()=>{
+        document.querySelector('#rd-on').click();
+        return document.body.classList.contains('no-rd');}), '');
+    check('no page errors on the timetable', ttErr.length===0, ttErr.join(' | '));
+    await tt.close();
   } finally { await browser.close(); }
   console.log('\n'+pass+' passed, '+fail+' failed');
   process.exit(fail?1:0);

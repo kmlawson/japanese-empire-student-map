@@ -13,12 +13,25 @@ td:first-child,th:first-child{position:sticky;left:0;background:#f3ead8}
 td:nth-child(2),th:nth-child(2){position:sticky;left:46px;background:#f3ead8;font-weight:600}
 tr.hd th{background:#e8dcc2}.unc{color:#b00;font-weight:600}.notes{font-size:12.5px;
 background:#fbf6ea;border:1px dashed #caa;padding:8px 12px;margin:8px 0 0;max-width:900px}
-.legend{font-size:12.5px;color:#555;margin:6px 0 18px}</style></head><body>
-<header><h1>臺灣鐵道時刻表（昭和11年・1936）— 転記</h1>
-<a href="../index.html">地圖</a> <a href="https://archive.org/details/taiwan-train-times-1936">原本（Internet Archive）</a></header><main>
-<p class="legend">時刻は24時間表記（原本: 細字=午前・太字=午後）。レ=通過、×=追分接續、<span class="unc">赤?</span>=判読不確実。原本は<a href="https://archive.org/details/taiwan-train-times-1936">Internet Archive の『列車時刻表』（1936年2月）</a>で照合できます。</p>
-<h2 id="line-1-1">縱貫線 下り 基隆→新竹</h2>
-<p class="pg">原本 p.2・p.3（<a href="https://archive.org/details/taiwan-train-times-1936">Internet Archive</a>）</p><div class="tw"><table>
+.legend{font-size:12.5px;color:#555;margin:6px 0 18px}
+#langbar{display:flex;gap:6px;align-items:center;margin-left:auto;font-size:12px}
+#langbar button{font:inherit;padding:3px 9px;border:1px solid #8a7a5c;border-radius:5px;
+background:transparent;color:#e8c988;cursor:pointer}
+#langbar button:hover{border-color:#e8c988}
+/* Pressed is the pale one. The bar sits on the dark brown header, so a dark
+   fill for the current language made it the one you could not see. */
+#langbar button[aria-pressed=true]{background:#f5f0e6;color:#3a2b1e;border-color:#f5f0e6}
+#langbar label{color:#e8c988;display:flex;gap:4px;align-items:center;cursor:pointer}
+.rd{display:block;font-size:10px;line-height:1.25;color:#7a6a52;font-weight:400;
+white-space:nowrap}
+body.no-rd .rd{display:none}
+.notes-head{margin:18px 0 4px;font-size:13px;color:#666}
+</style></head><body>
+<header><h1 data-i18n="title">臺灣鐵道時刻表（昭和11年・1936）— 転記</h1>
+<a href="../index.html" data-i18n="map">地圖</a> <a href="https://archive.org/details/taiwan-train-times-1936" data-i18n="orig">原本（Internet Archive）</a><span id="langbar"><button type="button" data-lang="ja" aria-pressed="true">日本語</button><button type="button" data-lang="zh" aria-pressed="false">中文</button><button type="button" data-lang="en" aria-pressed="false">English</button><label><input type="checkbox" id="rd-on" checked><span data-i18n="readings">讀み</span></label></span></header><main>
+<p class="legend"><span data-i18n="legend"></span> <span id="check"></span></p>
+<h2 id="line-1-1" data-line="縱貫線" data-dir="down" data-ends="基隆→新竹">縱貫線 下り 基隆→新竹</h2>
+<p class="pg" data-pages="p.2・p.3">原本 p.2・p.3（<a href="https://archive.org/details/taiwan-train-times-1936">Internet Archive</a>）</p><div class="tw"><table>
 <tr class="hd"><th>粁程</th><th>驛名</th><th></th><th>11</th><th>301</th><th>21</th><th>61</th><th>303</th><th>1</th><th>13</th><th>A101</th><th>305</th><th>63</th><th>A100</th><th>100</th><th>15</th><th>307</th><th>23</th><th>A103</th><th>65</th><th>43</th><th>67</th><th>309</th><th>A102</th><th>102</th><th>25</th><th>311</th><th>53</th><th>69</th><th>55</th><th>313</th><th>3</th><th>57</th><th>71</th></tr>
 <tr class="hd"><th></th><th>等級</th><th></th><th>2.3</th><th>機</th><th>2.3</th><th>1.2.3</th><th>機</th><th>1.2.3急</th><th>1.23</th><th>機</th><th>機</th><th>2.3</th><th>機</th><th>2.3</th><th>2.3</th><th>機</th><th>2.3</th><th>2.3</th><th>2.3</th><th>2.3</th><th>1.2.3</th><th>機</th><th>機</th><th>2.3</th><th>2.3</th><th>機</th><th>2.3</th><th>2.3</th><th>2.3</th><th>機</th><th>1.2.3急</th><th>2.3</th><th>1.2.3</th></tr>
 <tr class="hd"><th></th><th>行先</th><th></th><th>高雄</th><th>中壢</th><th>臺中</th><th>臺北</th><th>桃園</th><th>高雄・臺中</th><th>高雄</th><th>八堵</th><th>中壢</th><th>臺北</th><th>八堵</th><th>臺北</th><th>高雄</th><th>中壢</th><th>臺中</th><th>八堵</th><th>臺北</th><th>嘉義</th><th>臺北</th><th>鶯歌</th><th>八堵</th><th>臺北</th><th>臺中</th><th>桃園</th><th>苗栗</th><th>臺北</th><th>新竹</th><th>臺北</th><th>高雄</th><th>中壢</th><th>臺北</th></tr>
@@ -64,9 +77,9 @@ background:#fbf6ea;border:1px dashed #caa;padding:8px 12px;margin:8px 0 0;max-wi
 <tr><td>404.0</td><td>高雄</td><td>著</td><td>15:45</td><td></td><td></td><td></td><td></td><td>16:27</td><td>19:57</td><td></td><td></td><td></td><td></td><td></td><td>22:07</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>08:00</td><td></td><td></td></tr>
 <tr><td></td><td>苗栗</td><td>著</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>22:35</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
 </table></div>
-<div class="notes">レ印ハ通過、細字ハ午前、太字ハ午後ヲ示ス<br>機ハガソリン機動車（3等）</div>
-<h2 id="line-1-2">縱貫線 下り 新竹→彰化</h2>
-<p class="pg">原本 p.4・p.5（<a href="https://archive.org/details/taiwan-train-times-1936">Internet Archive</a>）</p><div class="tw"><table>
+<p class="notes-head" data-i18n="notes"></p><div class="notes">レ印ハ通過、細字ハ午前、太字ハ午後ヲ示ス<br>機ハガソリン機動車（3等）</div>
+<h2 id="line-1-2" data-line="縱貫線" data-dir="down" data-ends="新竹→彰化">縱貫線 下り 新竹→彰化</h2>
+<p class="pg" data-pages="p.4・p.5">原本 p.4・p.5（<a href="https://archive.org/details/taiwan-train-times-1936">Internet Archive</a>）</p><div class="tw"><table>
 <tr class="hd"><th>粁程</th><th>驛名</th><th></th><th>A4</th><th>3</th><th>20</th><th>151</th><th>341</th><th>33</th><th>321</th><th>22</th><th>A51</th><th>153</th><th>51</th><th>A10</th><th>323</th><th>325</th><th>155</th><th>11</th><th>A2</th><th>327</th><th>331</th><th>21</th><th>329</th><th>157</th><th>1</th><th>35</th><th>A12</th><th>333</th><th>159</th><th>13</th><th>A14</th><th>335</th><th>161</th><th>15</th><th>337</th><th>24</th><th>23</th><th>163</th><th>37</th><th>A56</th><th>165</th><th>167</th><th>43</th><th>169</th><th>25</th><th>147</th><th>53</th><th>330</th></tr>
 <tr class="hd"><th></th><th>等級</th><th></th><th>1.2.3急</th><th>1.2.3急</th><th>2.3</th><th>2.3</th><th>機</th><th>2.3</th><th>機</th><th>2.3</th><th>1.2.3</th><th>2.3</th><th>2.3</th><th>2.3</th><th>機</th><th>機</th><th>2.3</th><th>2.3</th><th>1.2.3急</th><th>機</th><th>機</th><th>2.3</th><th>機</th><th>2.3</th><th>1.2.3急</th><th>2.3</th><th>1.2.3</th><th>機</th><th>2.3</th><th>1.2.3</th><th>2.3</th><th>機</th><th>2.3</th><th>2.3</th><th>機</th><th>2.3</th><th>2.3</th><th>2.3</th><th>2.3</th><th>2.3</th><th>2.3</th><th>2.3</th><th>2.3</th><th>2.3</th><th>2.3</th><th>2.3</th><th>2.3</th><th>機</th></tr>
 <tr class="hd"><th></th><th>行先</th><th></th><th>基隆</th><th>高雄</th><th>基隆</th><th>彰化</th><th>田中</th><th>高雄・外車埕</th><th>田中</th><th>基隆</th><th>追分</th><th>彰化</th><th>高雄</th><th>追分</th><th>二水</th><th>臺中</th><th>彰化</th><th>高雄</th><th>追分</th><th>追分</th><th>二水</th><th>臺中</th><th>彰化</th><th>彰化</th><th>高雄・臺中</th><th>高雄・外車埕</th><th>追分</th><th>二水</th><th>彰化</th><th>高雄</th><th>追分</th><th>二水</th><th>彰化</th><th>高雄</th><th>彰化</th><th>基隆</th><th>臺中</th><th>臺中</th><th>臺南</th><th>追分</th><th>彰化</th><th>彰化</th><th>嘉義</th><th>彰化</th><th>臺中</th><th>苗栗</th><th>苗栗</th><th>二水</th></tr>
@@ -122,9 +135,9 @@ background:#fbf6ea;border:1px dashed #caa;padding:8px 12px;margin:8px 0 0;max-wi
 <tr><td></td><td>田中</td><td>著</td><td></td><td></td><td></td><td></td><td>07:26</td><td></td><td>09:01</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
 <tr><td></td><td>二水</td><td>著</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>10:57</td><td></td><td></td><td></td><td></td><td></td><td>13:09</td><td></td><td></td><td></td><td></td><td></td><td></td><td>15:15</td><td></td><td></td><td></td><td>17:14</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>23:57</td></tr>
 </table></div>
-<div class="notes">×印ハ追分ニテ橫書ノ列車ニ接續ス(頁5上部の凡例)<br>( )內ハ追分著時刻トス(頁5上部の凡例)<br>頁4は「新竹 → 彰化」、頁5は「→ 彰化」の見開き。頁5には駅名欄がなく頁4の駅名欄を共用する<br>駅欄は竹南から海岸線(淡文湖〜追分)と臺中線(造橋〜王田)の二段構え。列車は片方のみ走行し他方は空欄<br>臺中線の十六份と后里の間(大安の行)は全列車空欄で、上下に太罫が引かれる(昭和10年新竹臺中地震による山線不通区間。北側の機動列車は十六份または三叉まで、南側の列車は后里始発)<br>急行・直行列車はすべて海岸線経由。臺中へは追分(王田聯絡線)経由で立寄り・折返し、または連絡列車(A51・A10・A2・327・A12・A14・A56等が臺中→追分で本線列車に接續、↓と箱囲み数字で接續先列車番號を示す)<br>列車3(夜行急行、各等寢臺・食堂)・列車1(晝行急行、食堂)<br>箱囲みの數字(131,133,135,137,139,141,143,145)は山線機動列車の別番號運轉区間を示す(同じ欄の上段に印刷)</div>
-<h2 id="line-1-3">縱貫線 下り 彰化→高雄</h2>
-<p class="pg">原本 p.6・p.7（<a href="https://archive.org/details/taiwan-train-times-1936">Internet Archive</a>）</p><div class="tw"><table>
+<p class="notes-head" data-i18n="notes"></p><div class="notes">×印ハ追分ニテ橫書ノ列車ニ接續ス(頁5上部の凡例)<br>( )內ハ追分著時刻トス(頁5上部の凡例)<br>頁4は「新竹 → 彰化」、頁5は「→ 彰化」の見開き。頁5には駅名欄がなく頁4の駅名欄を共用する<br>駅欄は竹南から海岸線(淡文湖〜追分)と臺中線(造橋〜王田)の二段構え。列車は片方のみ走行し他方は空欄<br>臺中線の十六份と后里の間(大安の行)は全列車空欄で、上下に太罫が引かれる(昭和10年新竹臺中地震による山線不通区間。北側の機動列車は十六份または三叉まで、南側の列車は后里始発)<br>急行・直行列車はすべて海岸線経由。臺中へは追分(王田聯絡線)経由で立寄り・折返し、または連絡列車(A51・A10・A2・327・A12・A14・A56等が臺中→追分で本線列車に接續、↓と箱囲み数字で接續先列車番號を示す)<br>列車3(夜行急行、各等寢臺・食堂)・列車1(晝行急行、食堂)<br>箱囲みの數字(131,133,135,137,139,141,143,145)は山線機動列車の別番號運轉区間を示す(同じ欄の上段に印刷)</div>
+<h2 id="line-1-3" data-line="縱貫線" data-dir="down" data-ends="彰化→高雄">縱貫線 下り 彰化→高雄</h2>
+<p class="pg" data-pages="p.6・p.7">原本 p.6・p.7（<a href="https://archive.org/details/taiwan-train-times-1936">Internet Archive</a>）</p><div class="tw"><table>
 <tr class="hd"><th>粁程</th><th>驛名</th><th></th><th>351</th><th>3</th><th>41</th><th>353</th><th>31</th><th>341</th><th>355</th><th>33</th><th>321</th><th>357</th><th>51</th><th>323</th><th>359</th><th>11</th><th>331</th><th>381</th><th>1</th><th>361</th><th>35</th><th>333</th><th>363</th><th>13</th><th>335</th><th>365</th><th>15</th><th>367</th><th>37</th><th>43</th><th>339</th></tr>
 <tr class="hd"><th></th><th>等級</th><th></th><th>機</th><th>1.2.3急</th><th>2.3</th><th>機</th><th>2.3</th><th>機</th><th>機</th><th>2.3</th><th>機</th><th>機</th><th>2.3</th><th>機</th><th>機</th><th>2.3</th><th>機</th><th>機</th><th>1.2.3急</th><th>機</th><th>2.3</th><th>機</th><th>機</th><th>1.2.3</th><th>機</th><th>機</th><th>2.3</th><th>機</th><th>2.3</th><th>2.3</th><th>機</th></tr>
 <tr class="hd"><th></th><th>行先</th><th></th><th>屏東</th><th>高雄</th><th>高雄</th><th>屏東</th><th>高雄</th><th>田中</th><th>屏東</th><th>高雄・外車埕</th><th>田中</th><th>屏東</th><th>高雄</th><th>二水</th><th>潮州</th><th>高雄</th><th>二水</th><th>臺南</th><th>高雄</th><th>屏東</th><th>高雄・外車埕</th><th>二水</th><th>高雄</th><th>高雄</th><th>二水</th><th>高雄</th><th>高雄</th><th>高雄</th><th>臺南</th><th>嘉義</th><th>二水</th></tr>
@@ -175,9 +188,9 @@ background:#fbf6ea;border:1px dashed #caa;padding:8px 12px;margin:8px 0 0;max-wi
 <tr><td>189.0</td><td>高雄</td><td>發</td><td>07:25</td><td></td><td></td><td>09:25</td><td></td><td></td><td>11:18</td><td></td><td></td><td>13:23</td><td></td><td></td><td>14:45</td><td></td><td></td><td></td><td></td><td>17:10</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
 <tr><td>213.6</td><td>屏東</td><td>著</td><td>08:05</td><td>09:00</td><td>09:40</td><td>10:04</td><td>11:19</td><td></td><td>12:00</td><td>13:16</td><td></td><td>14:04</td><td>15:01</td><td></td><td>15:24</td><td>16:39</td><td></td><td></td><td>17:21</td><td>17:54</td><td>19:12</td><td></td><td></td><td>20:56</td><td></td><td></td><td>23:03</td><td></td><td></td><td></td><td></td></tr>
 </table></div>
-<div class="notes">頁見出し: 囲み文字「四」 下リ 彰化──高雄 (見開き頁6-7)<br>頁6右端に頁7の欄が續く（同一表、彰化→高雄→屏東著までの行構成）<br>最下段の 屏東著 行は 潮州線 への直通參考行。高雄發欄の角囲み數字 175・177・179・181・183・185・187・189・191・193 は高雄からの改番（潮州線直通）を示す<br>機動車欄上部の角囲み數字 151・157・159・161・167（鉤括弧付）は前區間からの直通車輛の列車番號</div>
-<h2 id="line-1-4">縱貫線 上り 高雄→彰化</h2>
-<p class="pg">原本 p.8・p.9（<a href="https://archive.org/details/taiwan-train-times-1936">Internet Archive</a>）</p><div class="tw"><table>
+<p class="notes-head" data-i18n="notes"></p><div class="notes">頁見出し: 囲み文字「四」 下リ 彰化──高雄 (見開き頁6-7)<br>頁6右端に頁7の欄が續く（同一表、彰化→高雄→屏東著までの行構成）<br>最下段の 屏東著 行は 潮州線 への直通參考行。高雄發欄の角囲み數字 175・177・179・181・183・185・187・189・191・193 は高雄からの改番（潮州線直通）を示す<br>機動車欄上部の角囲み數字 151・157・159・161・167（鉤括弧付）は前區間からの直通車輛の列車番號</div>
+<h2 id="line-1-4" data-line="縱貫線" data-dir="up" data-ends="高雄→彰化">縱貫線 上り 高雄→彰化</h2>
+<p class="pg" data-pages="p.8・p.9">原本 p.8・p.9（<a href="https://archive.org/details/taiwan-train-times-1936">Internet Archive</a>）</p><div class="tw"><table>
 <tr class="hd"><th>粁程</th><th>驛名</th><th></th><th>322</th><th>40</th><th>326</th><th>10</th><th>328</th><th>30</th><th>350</th><th>2</th><th>380</th><th>352</th><th>330</th><th>12</th><th>354</th><th>332</th><th>14</th><th>356</th><th>334</th><th>32</th><th>358</th><th>336</th><th>56</th><th>360</th><th>34</th><th>362</th><th>36</th><th>364</th><th>42</th><th>4</th><th>366</th></tr>
 <tr class="hd"><th></th><th>等級</th><th></th><th>機</th><th>2.3</th><th>機</th><th>2.3</th><th>機</th><th>2.3</th><th>機</th><th>1.2.3急</th><th>機</th><th>機</th><th>機</th><th>2.3</th><th>機</th><th>機</th><th>1.2.3</th><th>機</th><th>機</th><th>2.3</th><th>機</th><th>機</th><th>2.3</th><th>機</th><th>2.3</th><th>機</th><th>2.3</th><th>機</th><th>2.3</th><th>1.2.3急</th><th>機</th></tr>
 <tr class="hd"><th></th><th>行先</th><th></th><th>臺中</th><th>臺中</th><th>臺中</th><th>基隆</th><th>臺中</th><th>臺中</th><th>臺南</th><th>基隆</th><th>斗六</th><th>臺南</th><th>臺中</th><th>基隆</th><th>臺南</th><th>后里</th><th>基隆</th><th>臺南</th><th>臺中</th><th>臺中</th><th>臺南</th><th>彰化</th><th>新竹</th><th>臺南</th><th>臺中</th><th>臺南</th><th>彰化</th><th>臺南</th><th>嘉義</th><th>基隆</th><th>臺南</th></tr>
@@ -229,9 +242,9 @@ background:#fbf6ea;border:1px dashed #caa;padding:8px 12px;margin:8px 0 0;max-wi
 <tr><td>375.4</td><td>臺北</td><td>發</td><td></td><td></td><td></td><td>14:12</td><td></td><td></td><td></td><td>14:56</td><td></td><td></td><td></td><td>18:49</td><td></td><td></td><td>20:43</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>07:05</td><td></td></tr>
 <tr><td>404.0</td><td>基隆</td><td>著</td><td></td><td></td><td></td><td>15:10</td><td></td><td></td><td></td><td>15:55</td><td></td><td></td><td></td><td>19:44</td><td></td><td></td><td>21:38</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>07:50</td><td></td></tr>
 </table></div>
-<div class="notes">頁上部見出し: 上リ 高雄──→彰化 (縱貫線上り、8-9頁)<br>行先・等級・列車番號は各列上部に縱書きで表示。機 = ガソリン機動車(三等)<br>屏東發の行: 太字の箱入り數字(170,172,174,178,180,182,184,186,188,160)は高雄で接續する屏東線列車番號。時刻が直接印刷されている列(354,356,358,360,362,366)は屏東線からの直通運轉<br>臺中著の行の( )時刻と箱入り數字(152,154,156,158,160)は彰化からの臺中方面接續列車<br>列車2に(食堂)、列車4に(各等寢臺、食堂)の縱書き注記<br>列車350の列中に(外車埕著8.45)、列車358の列中に(外車埕發3.48)の縱書き注記(二水接續の集集線列車)<br>列車330は列車352の列の空欄部分に(330)として掲載; 臺中著1.24の下に(后里著2.10)<br>列車362に(潮州發4.15)、列車366に(溪州發9.20)の縱書き注記(屏東線からの直通元)</div>
-<h2 id="line-1-5">縱貫線 上り 彰化→新竹</h2>
-<p class="pg">原本 p.10・p.11（<a href="https://archive.org/details/taiwan-train-times-1936">Internet Archive</a>）</p><div class="tw"><table>
+<p class="notes-head" data-i18n="notes"></p><div class="notes">頁上部見出し: 上リ 高雄──→彰化 (縱貫線上り、8-9頁)<br>行先・等級・列車番號は各列上部に縱書きで表示。機 = ガソリン機動車(三等)<br>屏東發の行: 太字の箱入り數字(170,172,174,178,180,182,184,186,188,160)は高雄で接續する屏東線列車番號。時刻が直接印刷されている列(354,356,358,360,362,366)は屏東線からの直通運轉<br>臺中著の行の( )時刻と箱入り數字(152,154,156,158,160)は彰化からの臺中方面接續列車<br>列車2に(食堂)、列車4に(各等寢臺、食堂)の縱書き注記<br>列車350の列中に(外車埕著8.45)、列車358の列中に(外車埕發3.48)の縱書き注記(二水接續の集集線列車)<br>列車330は列車352の列の空欄部分に(330)として掲載; 臺中著1.24の下に(后里著2.10)<br>列車362に(潮州發4.15)、列車366に(溪州發9.20)の縱書き注記(屏東線からの直通元)</div>
+<h2 id="line-1-5" data-line="縱貫線" data-dir="up" data-ends="彰化→新竹">縱貫線 上り 彰化→新竹</h2>
+<p class="pg" data-pages="p.10・p.11">原本 p.10・p.11（<a href="https://archive.org/details/taiwan-train-times-1936">Internet Archive</a>）</p><div class="tw"><table>
 <tr class="hd"><th>粁程</th><th>驛名</th><th></th><th>4</th><th>B3</th><th>54</th><th>20</th><th>320</th><th>150</th><th>322</th><th>40</th><th>22</th><th>324</th><th>326</th><th>B51</th><th>10</th><th>152</th><th>328</th><th>B11</th><th>30</th><th>2</th><th>154</th><th>26</th><th>21</th><th>B1</th><th>330</th><th>12</th><th>156</th><th>332</th><th>B13</th><th>14</th><th>158</th><th>334</th><th>B15</th><th>24</th><th>32</th><th>23</th><th>144</th><th>56</th><th>160</th><th>338</th><th>B43</th><th>34</th><th>340</th><th>25</th><th>162</th></tr>
 <tr class="hd"><th></th><th>等級</th><th></th><th>1.2.3急</th><th>1.2.3急</th><th>2.3</th><th>2.3</th><th>機</th><th>2.3</th><th>機</th><th>2.3</th><th>2.3</th><th>機</th><th>機</th><th>1.2.3</th><th>2.3</th><th>2.3</th><th>機</th><th>2.3</th><th>2.3</th><th>1.2.3急</th><th>2.3</th><th>2.3</th><th>2.3</th><th>1.2.3</th><th>機</th><th>2.3</th><th>2.3</th><th>2.3</th><th>1.2.3</th><th>1.2.3</th><th>2.3</th><th>機</th><th>2.3</th><th>2.3</th><th>2.3</th><th>2.3</th><th>2.3</th><th>2.3</th><th>2.3</th><th>機</th><th>2.3</th><th>2.3</th><th>機</th><th>2.3</th><th>2.3</th></tr>
 <tr class="hd"><th></th><th>行先</th><th></th><th>基隆</th><th>高雄</th><th>基隆</th><th>基隆</th><th>后里</th><th>后里</th><th>臺中</th><th>臺中</th><th>基隆</th><th>后里</th><th>臺中</th><th>臺中</th><th>基隆</th><th>后里</th><th>臺中</th><th>臺中</th><th>臺中</th><th>基隆</th><th>后里</th><th>基隆</th><th>臺中</th><th>臺中</th><th>后里</th><th>基隆</th><th>后里</th><th>后里</th><th>臺中</th><th>基隆</th><th>后里</th><th>臺中</th><th>后里</th><th>基隆</th><th>臺中</th><th>臺中</th><th>竹南</th><th>新竹</th><th>后里</th><th>后里</th><th>臺中</th><th>臺中</th><th>大甲</th><th>臺中</th><th>臺中</th></tr>
@@ -283,9 +296,9 @@ background:#fbf6ea;border:1px dashed #caa;padding:8px 12px;margin:8px 0 0;max-wi
 <tr><td>186.4</td><td>臺北</td><td>著</td><td>07:06</td><td></td><td>09:19</td><td>10:31</td><td></td><td></td><td></td><td></td><td>12:56</td><td></td><td></td><td></td><td>14:12</td><td></td><td></td><td></td><td></td><td>14:56</td><td></td><td>16:43</td><td></td><td></td><td></td><td>18:49</td><td></td><td></td><td></td><td>20:43</td><td></td><td></td><td></td><td>22:57</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
 <tr><td>215.0</td><td>基隆</td><td>著</td><td>07:50</td><td></td><td>10:13</td><td>11:25</td><td></td><td></td><td></td><td></td><td>13:54</td><td></td><td></td><td></td><td>15:10</td><td></td><td></td><td></td><td></td><td>15:35</td><td></td><td>17:41</td><td></td><td></td><td></td><td>19:44</td><td></td><td></td><td></td><td>21:38</td><td></td><td></td><td></td><td>23:50</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
 </table></div>
-<div class="notes">×印アルハ追分ニテ下記列車ト接續ス(頁11上部の凡例、頁10・11の兩方に適用)<br>頁10の見出しは「(箱囲みの小記號)上リ  彰化——」、頁11は「——→新竹」。頁11には駅名欄がなく頁10の駅名欄を共用する<br>駅欄は彰化から臺中線(王田〜造橋)と海岸線(追分〜淡文湖)の二段構えで、竹南で合流する。列車は片方のみ走行し、他方は……(空欄)<br>臺中線の后里と十六份の間(大安の行)は全列車空欄で、上下に太罫が引かれる(昭和10年新竹臺中地震による山線不通區間)。南側の列車は后里止り(驛名欄に「著」)、北側の列車は十六份始發(「發」)<br>急行・直行列車はすべて海岸線經由。臺中へは追分(王田聯絡線)經由で立寄り、または連絡列車で接續する<br>「B」附きの列車番號(B1・B3・B11・B13・B15・B43・B51)は追分→王田→臺中の聯絡運轉。彰化著の欄に×印を置き、追分の欄に時刻・↑・箱囲みの接續元列車番號(51・11・13・15・43等)を印刷する。表の行順では臺中線が海岸線より上にあるため、追分の時刻が王田・臺中より下の行に印刷される<br>箱囲みの數字(130・132・134・136・138・140・142)は、同じ欄の下段に印刷された山線區間列車(十六份→竹南)の列車番號で、左隣の欄に鉤括弧「⌐」と矢印を添えて印刷される<br>圈(楕圓)囲みの注記は本區間外の始發驛と時刻(二水發・田中發・基隆發)、または終着(高雄著)<br>列車4=夜行急行「(各等寢臺、食堂)」、列車3(B3)=夜行急行「(各等寢臺、食堂)」、列車2=晝行急行「(食堂)」、列車1(B1)=晝行急行、列車14「(食堂)」<br>「(外車埕發 8.45)」(列車30)・「(外車埕發 3.48)」(列車32)は二水接續の集集線列車<br>粁程欄:上部の參照行(臺南46.5・嘉義108.0・彰化189.0)は高雄からの粁程、王田以下は彰化からの粁程、最下部の臺北186.4・基隆215.0も彰化からの通算</div>
-<h2 id="line-1-6">縱貫線 上り 新竹→基隆</h2>
-<p class="pg">原本 p.12・p.13（<a href="https://archive.org/details/taiwan-train-times-1936">Internet Archive</a>）</p><div class="tw"><table>
+<p class="notes-head" data-i18n="notes"></p><div class="notes">×印アルハ追分ニテ下記列車ト接續ス(頁11上部の凡例、頁10・11の兩方に適用)<br>頁10の見出しは「(箱囲みの小記號)上リ  彰化——」、頁11は「——→新竹」。頁11には駅名欄がなく頁10の駅名欄を共用する<br>駅欄は彰化から臺中線(王田〜造橋)と海岸線(追分〜淡文湖)の二段構えで、竹南で合流する。列車は片方のみ走行し、他方は……(空欄)<br>臺中線の后里と十六份の間(大安の行)は全列車空欄で、上下に太罫が引かれる(昭和10年新竹臺中地震による山線不通區間)。南側の列車は后里止り(驛名欄に「著」)、北側の列車は十六份始發(「發」)<br>急行・直行列車はすべて海岸線經由。臺中へは追分(王田聯絡線)經由で立寄り、または連絡列車で接續する<br>「B」附きの列車番號(B1・B3・B11・B13・B15・B43・B51)は追分→王田→臺中の聯絡運轉。彰化著の欄に×印を置き、追分の欄に時刻・↑・箱囲みの接續元列車番號(51・11・13・15・43等)を印刷する。表の行順では臺中線が海岸線より上にあるため、追分の時刻が王田・臺中より下の行に印刷される<br>箱囲みの數字(130・132・134・136・138・140・142)は、同じ欄の下段に印刷された山線區間列車(十六份→竹南)の列車番號で、左隣の欄に鉤括弧「⌐」と矢印を添えて印刷される<br>圈(楕圓)囲みの注記は本區間外の始發驛と時刻(二水發・田中發・基隆發)、または終着(高雄著)<br>列車4=夜行急行「(各等寢臺、食堂)」、列車3(B3)=夜行急行「(各等寢臺、食堂)」、列車2=晝行急行「(食堂)」、列車1(B1)=晝行急行、列車14「(食堂)」<br>「(外車埕發 8.45)」(列車30)・「(外車埕發 3.48)」(列車32)は二水接續の集集線列車<br>粁程欄:上部の參照行(臺南46.5・嘉義108.0・彰化189.0)は高雄からの粁程、王田以下は彰化からの粁程、最下部の臺北186.4・基隆215.0も彰化からの通算</div>
+<h2 id="line-1-6" data-line="縱貫線" data-dir="up" data-ends="新竹→基隆">縱貫線 上り 新竹→基隆</h2>
+<p class="pg" data-pages="p.12・p.13">原本 p.12・p.13（<a href="https://archive.org/details/taiwan-train-times-1936">Internet Archive</a>）</p><div class="tw"><table>
 <tr class="hd"><th>粁程</th><th>驛名</th><th></th><th>60</th><th>50</th><th>300</th><th>4</th><th>62</th><th>52</th><th>101</th><th>B101</th><th>302</th><th>54</th><th>B100</th><th>20</th><th>304</th><th>64</th><th>103</th><th>B103</th><th>22</th><th>306</th><th>10</th><th>2</th><th>66</th><th>308</th><th>B102</th><th>26</th><th>68</th><th>310</th><th>12</th><th>312</th><th>14</th><th>314</th><th>24</th></tr>
 <tr class="hd"><th></th><th>等級</th><th></th><th>1.2.3</th><th>2.3</th><th>機</th><th>1.2.3急</th><th>2.3</th><th>2.3</th><th>2.3</th><th>機</th><th>機</th><th>2.3</th><th>機</th><th>2.3</th><th>機</th><th>2.3</th><th>2.3</th><th>2.3</th><th>2.3</th><th>機</th><th>2.3</th><th>1.2.3急</th><th>1.2.3</th><th>機</th><th>機</th><th>2.3</th><th>1.2.3</th><th>機</th><th>2.3</th><th>機</th><th>1.2.3</th><th>機</th><th>2.3</th></tr>
 <tr class="hd"><th></th><th>行先</th><th></th><th>基隆</th><th>臺北</th><th>基隆</th><th>基隆</th><th>基隆</th><th>基隆</th><th>蘇澳</th><th>基隆</th><th>基隆</th><th>基隆</th><th>基隆</th><th>基隆</th><th>基隆</th><th>基隆</th><th>蘇澳</th><th>基隆</th><th>基隆</th><th>基隆</th><th>基隆</th><th>基隆</th><th>基隆</th><th>基隆</th><th>基隆</th><th>基隆</th><th>基隆</th><th>基隆</th><th>基隆</th><th>基隆</th><th>基隆</th><th>基隆</th><th>基隆</th></tr>
@@ -327,9 +340,9 @@ background:#fbf6ea;border:1px dashed #caa;padding:8px 12px;margin:8px 0 0;max-wi
 <tr><td>103.0</td><td>八堵</td><td>發</td><td>06:34</td><td></td><td>07:24</td><td>07:44</td><td>08:25</td><td>09:07</td><td>09:21</td><td>09:25</td><td>09:39</td><td>10:07</td><td>10:55</td><td>11:19</td><td>11:59</td><td>12:54</td><td>13:35</td><td>13:37</td><td>13:48</td><td>14:20</td><td>03:04</td><td>15:29</td><td>15:54</td><td>04:46</td><td>04:57</td><td>05:35</td><td>06:22</td><td>06:55</td><td>07:38</td><td>08:47</td><td>09:32</td><td>10:45</td><td>11:44</td></tr>
 <tr><td>106.7</td><td>基隆</td><td>著</td><td>06:40</td><td></td><td>07:29</td><td>07:50</td><td>08:31</td><td>09:13</td><td></td><td>09:30</td><td>09:44</td><td>10:13</td><td>11:00</td><td>11:25</td><td>12:01</td><td>13:00</td><td></td><td>13:43</td><td>13:54</td><td>14:25</td><td>03:10</td><td>15:35</td><td>16:00</td><td>04:51</td><td>05:02</td><td>05:41</td><td>06:28</td><td>07:00</td><td>07:44</td><td>08:52</td><td>09:38</td><td>10:50</td><td>11:50</td></tr>
 </table></div>
-<div class="notes">頁見出し: 囲み數字「七」 上リ  新竹———基隆 (見開き頁12-13)。頁13の右半分は急行列車料金表・案内記事で、時刻表は左半分のみ<br>駅名欄は頁12にのみ印刷され、頁13の欄はそれを共用する<br>上部の參照行(高雄發・臺南・嘉義・彰化・臺中發)は本區間より南の驛。粁程欄も參照行は高雄からの粁程(臺南46.5・嘉義108.0・彰化189.0・臺中206.6・新竹297.3)、竹北以下は新竹からの粁程<br>細字ハ午前、太字ハ午後。レ印ハ通過<br>機ハガソリン機動車(3等)<br>「B」附きの機動車番號(B100・B101・B102・B103)は宜蘭線から八堵で縱貫線に入り基隆へ向かう列車。逆に101・103は八堵から宜蘭線に入り蘇澳へ向かう<br>海岸線經由の列車(2・10・12・14・26)は臺中に立寄らないため、臺中發の欄には接續列車の時刻が入り、隣の空欄に箱囲みの接續列車番號(A2・A10・A12・A14・327)と鉤括弧が印刷される。そのため臺中の時刻が彰化より早く印刷される<br>括弧書きの縱書注記: 列車4「(各等寢臺、食堂)」、列車2・14「(食堂)」、列車54「(苗栗發 6.17)」、列車101「(蘇澳著 0.03)」、列車103「(蘇澳著 4.42)」</div>
-<h2 id="line-2-1">淡水線 下り 臺北→新北投・淡水</h2>
-<p class="pg">原本 p.14・p.15（<a href="https://archive.org/details/taiwan-train-times-1936">Internet Archive</a>）</p><div class="tw"><table>
+<p class="notes-head" data-i18n="notes"></p><div class="notes">頁見出し: 囲み數字「七」 上リ  新竹———基隆 (見開き頁12-13)。頁13の右半分は急行列車料金表・案内記事で、時刻表は左半分のみ<br>駅名欄は頁12にのみ印刷され、頁13の欄はそれを共用する<br>上部の參照行(高雄發・臺南・嘉義・彰化・臺中發)は本區間より南の驛。粁程欄も參照行は高雄からの粁程(臺南46.5・嘉義108.0・彰化189.0・臺中206.6・新竹297.3)、竹北以下は新竹からの粁程<br>細字ハ午前、太字ハ午後。レ印ハ通過<br>機ハガソリン機動車(3等)<br>「B」附きの機動車番號(B100・B101・B102・B103)は宜蘭線から八堵で縱貫線に入り基隆へ向かう列車。逆に101・103は八堵から宜蘭線に入り蘇澳へ向かう<br>海岸線經由の列車(2・10・12・14・26)は臺中に立寄らないため、臺中發の欄には接續列車の時刻が入り、隣の空欄に箱囲みの接續列車番號(A2・A10・A12・A14・327)と鉤括弧が印刷される。そのため臺中の時刻が彰化より早く印刷される<br>括弧書きの縱書注記: 列車4「(各等寢臺、食堂)」、列車2・14「(食堂)」、列車54「(苗栗發 6.17)」、列車101「(蘇澳著 0.03)」、列車103「(蘇澳著 4.42)」</div>
+<h2 id="line-2-1" data-line="淡水線" data-dir="down" data-ends="臺北→新北投・淡水">淡水線 下り 臺北→新北投・淡水</h2>
+<p class="pg" data-pages="p.14・p.15">原本 p.14・p.15（<a href="https://archive.org/details/taiwan-train-times-1936">Internet Archive</a>）</p><div class="tw"><table>
 <tr class="hd"><th>粁程</th><th>驛名</th><th></th><th>501</th><th>401</th><th>503</th><th>453</th><th>403</th><th>505</th><th>405</th><th>507</th><th>407</th><th>509</th><th>409</th><th>511</th><th>411</th><th>513</th><th>413</th><th>515</th><th>415</th><th>517</th><th>417</th><th>519</th><th>419</th><th>521</th><th>421</th><th>523</th><th>423</th><th>525</th><th>425</th><th>527</th><th>427</th><th>529</th><th>429</th><th>531</th><th>431</th><th>533</th><th>433</th><th>535</th><th>485</th><th>435</th><th>537</th></tr>
 <tr class="hd"><th></th><th>等級</th><th></th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th></tr>
 <tr class="hd"><th></th><th>行先</th><th></th><th>淡水</th><th>新北投</th><th>淡水</th><th>新北投</th><th>新北投</th><th>淡水</th><th>新北投</th><th>淡水</th><th>新北投</th><th>淡水</th><th>新北投</th><th>淡水</th><th>新北投</th><th>淡水</th><th>新北投</th><th>淡水</th><th>新北投</th><th>淡水</th><th>新北投</th><th>淡水</th><th>新北投</th><th>淡水</th><th>新北投</th><th>淡水</th><th>新北投</th><th>淡水</th><th>新北投</th><th>淡水</th><th>新北投</th><th>淡水</th><th>新北投</th><th>淡水</th><th>新北投</th><th>淡水</th><th>新北投</th><th>淡水</th><th>新北投</th><th>新北投</th><th>淡水</th></tr>
@@ -347,9 +360,9 @@ background:#fbf6ea;border:1px dashed #caa;padding:8px 12px;margin:8px 0 0;max-wi
 <tr><td>17.0</td><td>竹圍</td><td>發</td><td>05:33</td><td></td><td>06:33</td><td></td><td></td><td>07:33</td><td></td><td>08:33</td><td></td><td>09:33</td><td></td><td>10:33</td><td></td><td>11:33</td><td></td><td>12:33</td><td></td><td>13:33</td><td></td><td>14:33</td><td></td><td>15:33</td><td></td><td>16:33</td><td></td><td>17:33</td><td></td><td>18:33</td><td></td><td>19:33</td><td></td><td>20:33</td><td></td><td>21:33</td><td></td><td>22:33</td><td></td><td></td><td>23:33</td></tr>
 <tr><td>21.2</td><td>淡水</td><td>著</td><td>05:38</td><td></td><td>06:38</td><td></td><td></td><td>07:38</td><td></td><td>08:38</td><td></td><td>09:38</td><td></td><td>10:38</td><td></td><td>11:38</td><td></td><td>12:38</td><td></td><td>13:38</td><td></td><td>14:38</td><td></td><td>15:38</td><td></td><td>16:38</td><td></td><td>17:38</td><td></td><td>18:38</td><td></td><td><span class="unc">19:33?</span></td><td></td><td>20:38</td><td></td><td>21:38</td><td></td><td>22:38</td><td></td><td></td><td>23:38</td></tr>
 </table></div>
-<div class="notes">（淡水線）ガソリン機動車3等ダケ、（｜）印其驛ヲ經由セズ<br>●印ハ北投ニテ新北投行ニ接續アリ（10年10月1日改正）<br>臺北──→新北投・淡水<br>453列車欄内注記「北投新北投間毎一時間運轉」</div>
-<h2 id="line-2-2">淡水線 上り 淡水・新北投→臺北</h2>
-<p class="pg">原本 p.14・p.15（<a href="https://archive.org/details/taiwan-train-times-1936">Internet Archive</a>）</p><div class="tw"><table>
+<p class="notes-head" data-i18n="notes"></p><div class="notes">（淡水線）ガソリン機動車3等ダケ、（｜）印其驛ヲ經由セズ<br>●印ハ北投ニテ新北投行ニ接續アリ（10年10月1日改正）<br>臺北──→新北投・淡水<br>453列車欄内注記「北投新北投間毎一時間運轉」</div>
+<h2 id="line-2-2" data-line="淡水線" data-dir="up" data-ends="淡水・新北投→臺北">淡水線 上り 淡水・新北投→臺北</h2>
+<p class="pg" data-pages="p.14・p.15">原本 p.14・p.15（<a href="https://archive.org/details/taiwan-train-times-1936">Internet Archive</a>）</p><div class="tw"><table>
 <tr class="hd"><th>粁程</th><th>驛名</th><th></th><th>452</th><th>502</th><th>402</th><th>504</th><th>404</th><th>506</th><th>406</th><th>508</th><th>408</th><th>510</th><th>410</th><th>512</th><th>412</th><th>514</th><th>414</th><th>516</th><th>416</th><th>518</th><th>418</th><th>520</th><th>420</th><th>522</th><th>422</th><th>524</th><th>424</th><th>526</th><th>426</th><th>528</th><th>428</th><th>530</th><th>430</th><th>532</th><th>432</th><th>484</th><th>534</th><th>434</th><th>536</th><th>436</th></tr>
 <tr class="hd"><th></th><th>等級</th><th></th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th><th>機</th></tr>
 <tr class="hd"><th></th><th>行先</th><th></th><th>北投</th><th>臺北</th><th>臺北</th><th>臺北</th><th>臺北</th><th>臺北</th><th>臺北</th><th>臺北</th><th>臺北</th><th>臺北</th><th>臺北</th><th>臺北</th><th>臺北</th><th>臺北</th><th>臺北</th><th>臺北</th><th>臺北</th><th>臺北</th><th>臺北</th><th>臺北</th><th>臺北</th><th>臺北</th><th>臺北</th><th>臺北</th><th>臺北</th><th>臺北</th><th>臺北</th><th>臺北</th><th>臺北</th><th>臺北</th><th>臺北</th><th>臺北</th><th>臺北</th><th>北投</th><th>臺北</th><th>臺北</th><th>臺北</th><th>臺北</th></tr>
@@ -367,9 +380,9 @@ background:#fbf6ea;border:1px dashed #caa;padding:8px 12px;margin:8px 0 0;max-wi
 <tr><td>0.6</td><td>大正街</td><td>發</td><td></td><td>06:26</td><td>06:56</td><td>07:26</td><td>07:56</td><td>08:26</td><td>08:56</td><td>09:26</td><td>09:56</td><td>10:26</td><td>10:56</td><td>11:26</td><td>11:56</td><td>12:26</td><td>12:56</td><td>13:26</td><td>13:56</td><td>14:26</td><td>14:56</td><td>15:26</td><td>15:56</td><td>16:26</td><td>16:56</td><td>17:26</td><td>17:56</td><td>18:26</td><td>18:56</td><td>19:26</td><td>19:56</td><td>20:26</td><td>20:56</td><td>21:26</td><td>21:56</td><td></td><td>22:26</td><td>22:56</td><td>23:26</td><td>23:46</td></tr>
 <tr><td>0.0</td><td>臺北</td><td>著</td><td></td><td>06:27</td><td>06:57</td><td>07:27</td><td>07:57</td><td>08:27</td><td>08:57</td><td>09:27</td><td>09:57</td><td>10:27</td><td>10:57</td><td>11:27</td><td>11:57</td><td>12:27</td><td>12:57</td><td>13:27</td><td>13:57</td><td>14:27</td><td>14:57</td><td>15:27</td><td>15:57</td><td>16:27</td><td>16:57</td><td>17:27</td><td>17:57</td><td>18:27</td><td>18:57</td><td>19:27</td><td>19:57</td><td>20:27</td><td>20:57</td><td>21:27</td><td>21:57</td><td></td><td>22:27</td><td>22:57</td><td>23:27</td><td>23:47</td></tr>
 </table></div>
-<div class="notes">●印ハ北投ニテ新北投發ノモノト接續ス<br>淡水・新北投──→臺北<br>御注意　本表には省略しましたが北投・新北投間運轉のガソリン車は上下とも臺北・淡水間各直通車に接續致します。從つて臺北新北投間は三〇分毎に發車致します。<br>452列車欄内注記「新北投北投間毎一時間運轉」<br>484列車欄内注記「新北投行ニ接續 10.10著」</div>
-<h2 id="line-3-1">宜蘭線 下り 基隆→蘇澳</h2>
-<p class="pg">原本 p.16・p.17（<a href="https://archive.org/details/taiwan-train-times-1936">Internet Archive</a>）</p><div class="tw"><table>
+<p class="notes-head" data-i18n="notes"></p><div class="notes">●印ハ北投ニテ新北投發ノモノト接續ス<br>淡水・新北投──→臺北<br>御注意　本表には省略しましたが北投・新北投間運轉のガソリン車は上下とも臺北・淡水間各直通車に接續致します。從つて臺北新北投間は三〇分毎に發車致します。<br>452列車欄内注記「新北投北投間毎一時間運轉」<br>484列車欄内注記「新北投行ニ接續 10.10著」</div>
+<h2 id="line-3-1" data-line="宜蘭線" data-dir="down" data-ends="基隆→蘇澳">宜蘭線 下り 基隆→蘇澳</h2>
+<p class="pg" data-pages="p.16・p.17">原本 p.16・p.17（<a href="https://archive.org/details/taiwan-train-times-1936">Internet Archive</a>）</p><div class="tw"><table>
 <tr class="hd"><th>粁程</th><th>驛名</th><th></th><th>121</th><th>111</th><th>251</th><th>113</th><th>101</th><th>115</th><th>103</th><th>117</th><th>253</th><th>119</th><th>255</th><th>123</th></tr>
 <tr class="hd"><th></th><th>等級</th><th></th><th>2.3</th><th>2.3</th><th>機</th><th>2.3</th><th>2.3</th><th>2.3</th><th>2.3</th><th>2.3</th><th>機</th><th>2.3</th><th>機</th><th>2.3</th></tr>
 <tr class="hd"><th></th><th>行先</th><th></th><th>蘇澳</th><th>蘇澳</th><th>猴硐</th><th>蘇澳</th><th>蘇澳</th><th>蘇澳</th><th>蘇澳</th><th>蘇澳</th><th>猴硐</th><th>蘇澳</th><th>猴硐</th><th>頂雙溪</th></tr>
@@ -402,9 +415,9 @@ background:#fbf6ea;border:1px dashed #caa;padding:8px 12px;margin:8px 0 0;max-wi
 <tr><td>98.7</td><td>蘇澳</td><td>著</td><td>07:10</td><td>08:30</td><td></td><td>11:00</td><td>12:03</td><td>14:33</td><td>16:42</td><td>18:53</td><td></td><td>21:33</td><td></td><td></td></tr>
 <tr><td></td><td>臺北</td><td>發</td><td></td><td></td><td></td><td></td><td>08:43</td><td></td><td>12:50</td><td></td><td></td><td></td><td></td><td></td></tr>
 </table></div>
-<div class="notes">表頭：［木］下リ　基隆→蘇澳（宜蘭線）<br>列車番號 101・103 の基隆發欄には「臺北發」と註記があり、臺北發の時刻を掲げる<br>251・253・255 は等級欄「機」＝ガソリン機動車（三等）で猴硐止り<br>123 は頂雙溪止り、121 は宜蘭發蘇澳行</div>
-<h2 id="line-3-2">宜蘭線 上り 蘇澳→基隆</h2>
-<p class="pg">原本 p.16・p.17（<a href="https://archive.org/details/taiwan-train-times-1936">Internet Archive</a>）</p><div class="tw"><table>
+<p class="notes-head" data-i18n="notes"></p><div class="notes">表頭：［木］下リ　基隆→蘇澳（宜蘭線）<br>列車番號 101・103 の基隆發欄には「臺北發」と註記があり、臺北發の時刻を掲げる<br>251・253・255 は等級欄「機」＝ガソリン機動車（三等）で猴硐止り<br>123 は頂雙溪止り、121 は宜蘭發蘇澳行</div>
+<h2 id="line-3-2" data-line="宜蘭線" data-dir="up" data-ends="蘇澳→基隆">宜蘭線 上り 蘇澳→基隆</h2>
+<p class="pg" data-pages="p.16・p.17">原本 p.16・p.17（<a href="https://archive.org/details/taiwan-train-times-1936">Internet Archive</a>）</p><div class="tw"><table>
 <tr class="hd"><th>粁程</th><th>驛名</th><th></th><th>120</th><th>252</th><th>110</th><th>100</th><th>112</th><th>114</th><th>102</th><th>254</th><th>116</th><th>256</th><th>118</th><th>122</th></tr>
 <tr class="hd"><th></th><th>等級</th><th></th><th>2.3</th><th>機</th><th>2.3</th><th>2.3</th><th>2.3</th><th>2.3</th><th>2.3</th><th>機</th><th>2.3</th><th>機</th><th>2.3</th><th>2.3</th></tr>
 <tr class="hd"><th></th><th>行先</th><th></th><th>基隆</th><th>基隆</th><th>基隆</th><th>臺北</th><th>基隆</th><th>基隆</th><th>臺北</th><th>基隆</th><th>基隆</th><th>基隆</th><th>基隆</th><th>宜蘭</th></tr>
@@ -437,9 +450,9 @@ background:#fbf6ea;border:1px dashed #caa;padding:8px 12px;margin:8px 0 0;max-wi
 <tr><td>98.7</td><td>基隆</td><td>著</td><td>07:11</td><td>07:40</td><td>08:38</td><td></td><td>12:32</td><td>14:43</td><td></td><td>18:44</td><td>19:18</td><td>21:15</td><td>21:50</td><td></td></tr>
 <tr><td></td><td>臺北</td><td>著</td><td></td><td></td><td></td><td>11:32</td><td></td><td></td><td>17:25</td><td></td><td></td><td></td><td></td><td></td></tr>
 </table></div>
-<div class="notes">表頭：［木］上リ　蘇澳→基隆<br>列車番號 100・102 は行先「臺北」。八堵發の欄に「臺北著」と註記し、基隆著の欄に臺北着時刻を掲げる（八堵發の時刻は印刷されていない）<br>252・254・256 は等級欄「機」＝ガソリン機動車（三等）で猴硐發<br>120 は頂雙溪發、122 は宜蘭止り</div>
-<h2 id="line-4-1">平溪線 下り 三貂嶺→菁桐坑</h2>
-<p class="pg">原本 p.16・p.17（<a href="https://archive.org/details/taiwan-train-times-1936">Internet Archive</a>）</p><div class="tw"><table>
+<p class="notes-head" data-i18n="notes"></p><div class="notes">表頭：［木］上リ　蘇澳→基隆<br>列車番號 100・102 は行先「臺北」。八堵發の欄に「臺北著」と註記し、基隆著の欄に臺北着時刻を掲げる（八堵發の時刻は印刷されていない）<br>252・254・256 は等級欄「機」＝ガソリン機動車（三等）で猴硐發<br>120 は頂雙溪發、122 は宜蘭止り</div>
+<h2 id="line-4-1" data-line="平溪線" data-dir="down" data-ends="三貂嶺→菁桐坑">平溪線 下り 三貂嶺→菁桐坑</h2>
+<p class="pg" data-pages="p.16・p.17">原本 p.16・p.17（<a href="https://archive.org/details/taiwan-train-times-1936">Internet Archive</a>）</p><div class="tw"><table>
 <tr class="hd"><th>粁程</th><th>驛名</th><th></th><th>221</th><th>223</th><th>225</th><th>227</th><th>229</th><th>231</th></tr>
 <tr class="hd"><th></th><th>等級</th><th></th><th>2.3</th><th>2.3</th><th>2.3</th><th>2.3</th><th>2.3</th><th>2.3</th></tr>
 <tr class="hd"><th></th><th>行先</th><th></th><th>菁桐坑</th><th>菁桐坑</th><th>菁桐坑</th><th>菁桐坑</th><th>菁桐坑</th><th>菁桐坑</th></tr>
@@ -449,9 +462,9 @@ background:#fbf6ea;border:1px dashed #caa;padding:8px 12px;margin:8px 0 0;max-wi
 <tr><td>11.1</td><td>石底</td><td>發</td><td>06:39</td><td>09:11</td><td>12:45</td><td>14:56</td><td>17:11</td><td>19:51</td></tr>
 <tr><td>12.9</td><td>菁桐坑</td><td>著</td><td>06:47</td><td>09:19</td><td>12:53</td><td>15:04</td><td>17:19</td><td>19:59</td></tr>
 </table></div>
-<div class="notes">表頭：囲み「ヘ」 下り 三貂嶺→菁桐坑（平溪線）<br>この表の下・脇に脚註の印刷なし</div>
-<h2 id="line-4-2">平溪線 上り 菁桐坑→三貂嶺</h2>
-<p class="pg">原本 p.16・p.17（<a href="https://archive.org/details/taiwan-train-times-1936">Internet Archive</a>）</p><div class="tw"><table>
+<p class="notes-head" data-i18n="notes"></p><div class="notes">表頭：囲み「ヘ」 下り 三貂嶺→菁桐坑（平溪線）<br>この表の下・脇に脚註の印刷なし</div>
+<h2 id="line-4-2" data-line="平溪線" data-dir="up" data-ends="菁桐坑→三貂嶺">平溪線 上り 菁桐坑→三貂嶺</h2>
+<p class="pg" data-pages="p.16・p.17">原本 p.16・p.17（<a href="https://archive.org/details/taiwan-train-times-1936">Internet Archive</a>）</p><div class="tw"><table>
 <tr class="hd"><th>粁程</th><th>驛名</th><th></th><th>220</th><th>224</th><th>226</th><th>228</th><th>230</th><th>232</th></tr>
 <tr class="hd"><th></th><th>等級</th><th></th><th>2.3</th><th>2.3</th><th>2.3</th><th>2.3</th><th>2.3</th><th>2.3</th></tr>
 <tr class="hd"><th></th><th>行先</th><th></th><th>三貂嶺</th><th>三貂嶺</th><th>三貂嶺</th><th>三貂嶺</th><th>三貂嶺</th><th>三貂嶺</th></tr>
@@ -461,9 +474,9 @@ background:#fbf6ea;border:1px dashed #caa;padding:8px 12px;margin:8px 0 0;max-wi
 <tr><td>6.5</td><td>十分寮</td><td>發</td><td>07:29</td><td>11:14</td><td>13:36</td><td>15:45</td><td>18:06</td><td>20:44</td></tr>
 <tr><td>12.9</td><td>三貂嶺</td><td>著</td><td>07:45</td><td>11:30</td><td>13:52</td><td>16:01</td><td>18:22</td><td>21:00</td></tr>
 </table></div>
-<div class="notes">表頭：囲み「ヘ」 上り 菁桐坑→三貂嶺<br>列車番號は 220・224・226・228・230・232 の六本。222 は印刷されていない（欠番）<br>この表の下・脇に脚註の印刷なし</div>
-<h2 id="line-5-1">集集線 下り 二水→外車埕</h2>
-<p class="pg">原本 p.16・p.17（<a href="https://archive.org/details/taiwan-train-times-1936">Internet Archive</a>）</p><div class="tw"><table>
+<p class="notes-head" data-i18n="notes"></p><div class="notes">表頭：囲み「ヘ」 上り 菁桐坑→三貂嶺<br>列車番號は 220・224・226・228・230・232 の六本。222 は印刷されていない（欠番）<br>この表の下・脇に脚註の印刷なし</div>
+<h2 id="line-5-1" data-line="集集線" data-dir="down" data-ends="二水→外車埕">集集線 下り 二水→外車埕</h2>
+<p class="pg" data-pages="p.16・p.17">原本 p.16・p.17（<a href="https://archive.org/details/taiwan-train-times-1936">Internet Archive</a>）</p><div class="tw"><table>
 <tr class="hd"><th>粁程</th><th>驛名</th><th></th><th>211</th><th>201</th><th>213</th><th>215</th><th>203</th><th>217</th><th>219</th></tr>
 <tr class="hd"><th></th><th>等級</th><th></th><th>2.3</th><th>2.3</th><th>2.3</th><th>2.3</th><th>2.3</th><th>2.3</th><th>2.3</th></tr>
 <tr class="hd"><th></th><th>行先</th><th></th><th>外車埕</th><th>外車埕</th><th>外車埕</th><th>外車埕</th><th>外車埕</th><th>外車埕</th><th>外車埕</th></tr>
@@ -476,9 +489,9 @@ background:#fbf6ea;border:1px dashed #caa;padding:8px 12px;margin:8px 0 0;max-wi
 <tr><td>27.4</td><td>水裡坑</td><td>發</td><td>07:37</td><td>09:24</td><td>11:44</td><td>13:01</td><td>15:15</td><td>17:13</td><td>19:58</td></tr>
 <tr><td>29.7</td><td>外車埕</td><td>著</td><td>07:44</td><td>09:31</td><td>11:51</td><td>13:08</td><td>15:22</td><td>17:20</td><td>20:05</td></tr>
 </table></div>
-<div class="notes">表頭：囲み「ト」 下り 二 水→外車埕（集集線）<br>驛名欄は 二 水發／鼻子頭〃／濁 水〃／隘 寮〃／集 集著・發／水裡坑發／外車埕著<br>この表の下・脇に脚註の印刷なし</div>
-<h2 id="line-5-2">集集線 上り 外車埕→二水</h2>
-<p class="pg">原本 p.16・p.17（<a href="https://archive.org/details/taiwan-train-times-1936">Internet Archive</a>）</p><div class="tw"><table>
+<p class="notes-head" data-i18n="notes"></p><div class="notes">表頭：囲み「ト」 下り 二 水→外車埕（集集線）<br>驛名欄は 二 水發／鼻子頭〃／濁 水〃／隘 寮〃／集 集著・發／水裡坑發／外車埕著<br>この表の下・脇に脚註の印刷なし</div>
+<h2 id="line-5-2" data-line="集集線" data-dir="up" data-ends="外車埕→二水">集集線 上り 外車埕→二水</h2>
+<p class="pg" data-pages="p.16・p.17">原本 p.16・p.17（<a href="https://archive.org/details/taiwan-train-times-1936">Internet Archive</a>）</p><div class="tw"><table>
 <tr class="hd"><th>粁程</th><th>驛名</th><th></th><th>212</th><th>202</th><th>214</th><th>216</th><th>218</th><th>204</th><th>220</th></tr>
 <tr class="hd"><th></th><th>等級</th><th></th><th>2.3</th><th>2.3</th><th>2.3</th><th>2.3</th><th>2.3</th><th>2.3</th><th>2.3</th></tr>
 <tr class="hd"><th></th><th>行先</th><th></th><th>二水</th><th>臺中</th><th>二水</th><th>二水</th><th>二水</th><th>臺中</th><th>二水</th></tr>
@@ -491,9 +504,9 @@ background:#fbf6ea;border:1px dashed #caa;padding:8px 12px;margin:8px 0 0;max-wi
 <tr><td>26.8</td><td>鼻子頭</td><td>發</td><td>07:57</td><td>09:42</td><td>11:14</td><td>13:19</td><td>14:52</td><td>16:42</td><td>19:29</td></tr>
 <tr><td>29.7</td><td>二水</td><td>著</td><td>08:03</td><td>09:48</td><td>11:20</td><td>13:25</td><td>14:58</td><td>16:48</td><td>19:35</td></tr>
 </table></div>
-<div class="notes">表頭：囲み「ト」 上り 外車埕→二 水<br>行先欄：212＝二水、202＝臺中、214＝二水、216＝二水、218＝二水、204＝臺中、220＝二水（202・204 は縱貫線直通で臺中行）<br>驛名欄は 外車埕發／水裡坑〃／集 集著・發／隘 寮發／濁 水〃／鼻子頭〃／二 水著。隘寮のみ「〃」でなく「發」と印刷<br>この表の下・脇に脚註の印刷なし</div>
-<h2 id="line-6-1">潮州線 下り 高雄→溪州</h2>
-<p class="pg">原本 p.18（<a href="https://archive.org/details/taiwan-train-times-1936">Internet Archive</a>）</p><div class="tw"><table>
+<p class="notes-head" data-i18n="notes"></p><div class="notes">表頭：囲み「ト」 上り 外車埕→二 水<br>行先欄：212＝二水、202＝臺中、214＝二水、216＝二水、218＝二水、204＝臺中、220＝二水（202・204 は縱貫線直通で臺中行）<br>驛名欄は 外車埕發／水裡坑〃／集 集著・發／隘 寮發／濁 水〃／鼻子頭〃／二 水著。隘寮のみ「〃」でなく「發」と印刷<br>この表の下・脇に脚註の印刷なし</div>
+<h2 id="line-6-1" data-line="潮州線" data-dir="down" data-ends="高雄→溪州">潮州線 下り 高雄→溪州</h2>
+<p class="pg" data-pages="p.18">原本 p.18（<a href="https://archive.org/details/taiwan-train-times-1936">Internet Archive</a>）</p><div class="tw"><table>
 <tr class="hd"><th>粁程</th><th>驛名</th><th></th><th>171</th><th>173</th><th>351</th><th>175</th><th>177</th><th>353</th><th>179</th><th>355</th><th>181</th><th>357</th><th>183</th><th>359</th><th>185</th><th>187</th><th>361</th><th>189</th><th>369</th><th>191</th><th>193</th></tr>
 <tr class="hd"><th></th><th>等級</th><th></th><th>2.3</th><th>2.3</th><th>機</th><th>2.3</th><th>2.3</th><th>機</th><th>2.3</th><th>機</th><th>2.3</th><th>機</th><th>2.3</th><th>機</th><th>2.3</th><th>2.3</th><th>機</th><th>2.3</th><th>機</th><th>2.3</th><th>2.3</th></tr>
 <tr class="hd"><th></th><th>行先</th><th></th><th>溪州</th><th>溪州</th><th>屏東</th><th>溪州</th><th>屏東</th><th>屏東</th><th>溪州</th><th>屏東</th><th>溪州</th><th>屏東</th><th>溪州</th><th>潮州</th><th>屏東</th><th>溪州</th><th>屏東</th><th>屏東</th><th>溪州</th><th>溪州</th><th>屏東</th></tr>
@@ -514,8 +527,8 @@ background:#fbf6ea;border:1px dashed #caa;padding:8px 12px;margin:8px 0 0;max-wi
 <tr><td>39.7</td><td>潮州</td><td>著</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>16:00</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
 <tr><td>47.0</td><td>溪州</td><td>著</td><td>06:42</td><td>07:49</td><td></td><td>09:47</td><td></td><td></td><td>12:07</td><td></td><td>14:06</td><td></td><td>15:48</td><td></td><td></td><td>18:10</td><td></td><td></td><td>20:05</td><td>21:43</td><td></td></tr>
 </table></div>
-<h2 id="line-6-2">潮州線 上り 溪州→高雄</h2>
-<p class="pg">原本 p.18（<a href="https://archive.org/details/taiwan-train-times-1936">Internet Archive</a>）</p><div class="tw"><table>
+<h2 id="line-6-2" data-line="潮州線" data-dir="up" data-ends="溪州→高雄">潮州線 上り 溪州→高雄</h2>
+<p class="pg" data-pages="p.18">原本 p.18（<a href="https://archive.org/details/taiwan-train-times-1936">Internet Archive</a>）</p><div class="tw"><table>
 <tr class="hd"><th>粁程</th><th>驛名</th><th></th><th>170</th><th>172</th><th>354</th><th>174</th><th>176</th><th>356</th><th>178</th><th>358</th><th>180</th><th>360</th><th>182</th><th>362</th><th>184</th><th>186</th><th>188</th><th>190</th><th>366</th></tr>
 <tr class="hd"><th></th><th>等級</th><th></th><th>2.3</th><th>2.3</th><th>機</th><th>2.3</th><th>2.3</th><th>機</th><th>2.3</th><th>機</th><th>2.3</th><th>機</th><th>2.3</th><th>機</th><th>2.3</th><th>2.3</th><th>2.3</th><th>2.3</th><th>機</th></tr>
 <tr class="hd"><th></th><th>行先</th><th></th><th>高雄</th><th>高雄</th><th>臺南</th><th>高雄</th><th>高雄</th><th>臺南</th><th>高雄</th><th>臺南</th><th>高雄</th><th>臺南</th><th>高雄</th><th>臺南</th><th>高雄</th><th>臺南</th><th>高雄</th><th>高雄</th><th>臺南</th></tr>
@@ -535,8 +548,8 @@ background:#fbf6ea;border:1px dashed #caa;padding:8px 12px;margin:8px 0 0;max-wi
 <tr><td>47.0</td><td>高雄</td><td>發</td><td>(7.30)</td><td>(8.35)</td><td>09:27</td><td>(10.40)</td><td></td><td>11:35</td><td>(0.40)</td><td>13:20</td><td>(2.23)</td><td>15:18</td><td>(4.35)</td><td>17:25</td><td>(6.40)</td><td></td><td>(8.25)</td><td>(9.30)</td><td>22:33</td></tr>
 <tr><td>93.5</td><td>臺南</td><td>著</td><td>2</td><td>12</td><td>10:33</td><td>14</td><td></td><td>12:42</td><td>32</td><td>14:26</td><td>56</td><td>16:24</td><td>34</td><td>18:32</td><td>36</td><td></td><td>42</td><td>4</td><td>23:38</td></tr>
 </table></div>
-<h2 id="line-7-1">臺東線 下リ 花蓮港→臺東</h2>
-<p class="pg">原本 p.19（<a href="https://archive.org/details/taiwan-train-times-1936">Internet Archive</a>）</p><div class="tw"><table>
+<h2 id="line-7-1" data-line="臺東線" data-dir="down" data-ends="花蓮港→臺東">臺東線 下リ 花蓮港→臺東</h2>
+<p class="pg" data-pages="p.19">原本 p.19（<a href="https://archive.org/details/taiwan-train-times-1936">Internet Archive</a>）</p><div class="tw"><table>
 <tr class="hd"><th>粁程</th><th>驛名</th><th></th><th>(3)</th><th>(1)</th><th>(7)</th><th>(5)</th><th>機(101)</th><th>(9)</th><th>(11)</th><th>(13)</th><th>機(103)</th></tr>
 <tr class="hd"><th></th><th>等級</th><th></th><th>二、三等</th><th>二、三等</th><th>二、三等</th><th>二、三等</th><th>三等</th><th>二、三等</th><th>二、三等</th><th>二、三等</th><th>三等</th></tr>
 <tr class="hd"><th></th><th>行先</th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr>
@@ -583,9 +596,9 @@ background:#fbf6ea;border:1px dashed #caa;padding:8px 12px;margin:8px 0 0;max-wi
 <tr><td>168.3</td><td>馬蘭</td><td>發</td><td>14:48</td><td>17:23</td><td></td><td>10:19</td><td>19:47</td><td></td><td></td><td></td><td>…</td></tr>
 <tr><td>170.7</td><td>臺東</td><td>著</td><td>14:54</td><td>17:29</td><td></td><td>10:25</td><td>19:53</td><td></td><td></td><td></td><td>05:00</td></tr>
 </table></div>
-<div class="notes">表題（枠内は片假名「リ」）: 「リ 下リ 花蓮港→臺東」/「リ 上リ 臺東→花蓮港」<br>欄見出し: 粁程 / 三等運賃 / 驛名 / 各列車欄は (列車番號) と等級(二、三等・三等)<br>機＝ガソリン機動車。「急行」と併記の欄は急行列車<br>各列車欄の最上部に「午前」「午後」の別を掲げる。正午を越えると活字が太字に変わる（太字＝午後）<br>12時臺は「12.00」または「0.xx」と印刷される（例: (1)列車 瑞穗 12.00、三笠 0.25）<br>驛名右の「ヶ」は上の行と同じ（發）を示す繰返し記號。主要驛は著・發の二行<br>終着驛の時刻には下線が引かれている<br>列車欄の途中で括弧書きの列車番號（下リ (5)・}(11)、上リ (10)）が現れる欄は、その位置から別列車に切り替わる<br>「…」（点線）はその驛に停車しないことを示す<br>本頁（19頁）には表の下・周圍に註記の印刷はない</div>
-<h2 id="line-7-2">臺東線 上リ 臺東→花蓮港</h2>
-<p class="pg">原本 p.19（<a href="https://archive.org/details/taiwan-train-times-1936">Internet Archive</a>）</p><div class="tw"><table>
+<p class="notes-head" data-i18n="notes"></p><div class="notes">表題（枠内は片假名「リ」）: 「リ 下リ 花蓮港→臺東」/「リ 上リ 臺東→花蓮港」<br>欄見出し: 粁程 / 三等運賃 / 驛名 / 各列車欄は (列車番號) と等級(二、三等・三等)<br>機＝ガソリン機動車。「急行」と併記の欄は急行列車<br>各列車欄の最上部に「午前」「午後」の別を掲げる。正午を越えると活字が太字に変わる（太字＝午後）<br>12時臺は「12.00」または「0.xx」と印刷される（例: (1)列車 瑞穗 12.00、三笠 0.25）<br>驛名右の「ヶ」は上の行と同じ（發）を示す繰返し記號。主要驛は著・發の二行<br>終着驛の時刻には下線が引かれている<br>列車欄の途中で括弧書きの列車番號（下リ (5)・}(11)、上リ (10)）が現れる欄は、その位置から別列車に切り替わる<br>「…」（点線）はその驛に停車しないことを示す<br>本頁（19頁）には表の下・周圍に註記の印刷はない</div>
+<h2 id="line-7-2" data-line="臺東線" data-dir="up" data-ends="臺東→花蓮港">臺東線 上リ 臺東→花蓮港</h2>
+<p class="pg" data-pages="p.19">原本 p.19（<a href="https://archive.org/details/taiwan-train-times-1936">Internet Archive</a>）</p><div class="tw"><table>
 <tr class="hd"><th>粁程</th><th>驛名</th><th></th><th>(4)</th><th>(6)</th><th>機(102)</th><th>(2)</th><th>(8)</th><th>(12)</th><th>(10)</th><th>(14)</th><th>機(104)</th></tr>
 <tr class="hd"><th></th><th>等級</th><th></th><th>二、三等</th><th>二、三等</th><th>三等</th><th>二、三等</th><th>二、三等</th><th>二、三等</th><th>二、三等</th><th>二、三等</th><th>三等</th></tr>
 <tr class="hd"><th></th><th>行先</th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr>
@@ -632,5 +645,135 @@ background:#fbf6ea;border:1px dashed #caa;padding:8px 12px;margin:8px 0 0;max-wi
 <tr><td>168.4</td><td>荳蘭</td><td>發</td><td>07:24</td><td>10:34</td><td>…</td><td>16:10</td><td>21:34</td><td></td><td>17:54</td><td></td><td>…</td></tr>
 <tr><td>170.7</td><td>花蓮港</td><td>著</td><td>07:30</td><td>10:40</td><td>12:00</td><td>16:15</td><td>21:40</td><td></td><td>18:00</td><td></td><td>05:00</td></tr>
 </table></div>
-<div class="notes">表題（枠内は片假名「リ」）: 「リ 下リ 花蓮港→臺東」/「リ 上リ 臺東→花蓮港」<br>欄見出し: 粁程 / 三等運賃 / 驛名 / 各列車欄は (列車番號) と等級(二、三等・三等)<br>機＝ガソリン機動車。「急行」と併記の欄は急行列車<br>各列車欄の最上部に「午前」「午後」の別を掲げる。正午を越えると活字が太字に変わる（太字＝午後）<br>12時臺は「12.00」または「0.xx」と印刷される（例: (1)列車 瑞穗 12.00、三笠 0.25）<br>驛名右の「ヶ」は上の行と同じ（發）を示す繰返し記號。主要驛は著・發の二行<br>終着驛の時刻には下線が引かれている<br>列車欄の途中で括弧書きの列車番號（下リ (5)・}(11)、上リ (10)）が現れる欄は、その位置から別列車に切り替わる<br>「…」（点線）はその驛に停車しないことを示す<br>本頁（19頁）には表の下・周圍に註記の印刷はない</div>
-<p class="legend">この頁は kmlawson.github.io/taiwan-1936-timetable の転記をそのまま収めたものです。 &mdash; This page is the transcription published at <a href="https://kmlawson.github.io/taiwan-1936-timetable/">kmlawson.github.io/taiwan-1936-timetable</a>, reproduced here so the map can link to it offline.</p></main></body></html>
+<p class="notes-head" data-i18n="notes"></p><div class="notes">表題（枠内は片假名「リ」）: 「リ 下リ 花蓮港→臺東」/「リ 上リ 臺東→花蓮港」<br>欄見出し: 粁程 / 三等運賃 / 驛名 / 各列車欄は (列車番號) と等級(二、三等・三等)<br>機＝ガソリン機動車。「急行」と併記の欄は急行列車<br>各列車欄の最上部に「午前」「午後」の別を掲げる。正午を越えると活字が太字に変わる（太字＝午後）<br>12時臺は「12.00」または「0.xx」と印刷される（例: (1)列車 瑞穗 12.00、三笠 0.25）<br>驛名右の「ヶ」は上の行と同じ（發）を示す繰返し記號。主要驛は著・發の二行<br>終着驛の時刻には下線が引かれている<br>列車欄の途中で括弧書きの列車番號（下リ (5)・}(11)、上リ (10)）が現れる欄は、その位置から別列車に切り替わる<br>「…」（点線）はその驛に停車しないことを示す<br>本頁（19頁）には表の下・周圍に註記の印刷はない</div>
+<p class="legend" data-i18n="from"></p></main>
+<script>
+(function(){
+var UI={"title": ["臺灣鐵道時刻表（昭和11年・1936）— 転記", "臺灣鐵道時刻表（昭和11年・1936）— 轉記", "Taiwan Railway Timetable, February 1936 — transcription"], "map": ["地圖", "地圖", "Map"], "orig": ["原本（Internet Archive）", "原本（Internet Archive）", "The original (Internet Archive)"], "legend": ["時刻は24時間表記（原本: 細字=午前・太字=午後）。レ=通過、×=追分接續、赤?=判読不確実。", "時刻採 24 小時制（原本：細字為上午、粗體為下午）。レ＝通過、×＝追分接續、紅色?＝判讀不確定。", "Times are on the 24-hour clock — in the original, light type is morning and bold is afternoon. レ means the train passes without stopping, × a connection at Oiwake, and a red ? that the print could not be read with certainty."], "check": ["原本は{a}で照合できます。", "原本可在{a}核對。", "The original can be checked against {a}."], "archive": ["Internet Archive の『列車時刻表』（1936年2月）", "Internet Archive 的《列車時刻表》（1936年2月）", "『列車時刻表』 (February 1936) at the Internet Archive"], "page": ["原本", "原本", "Original"], "notes": ["原本の註記", "原本的註記", "Notes on the original page, as transcribed"], "readings": ["讀み", "讀音", "Readings"], "down": ["下り", "下行", "down"], "up": ["上り", "上行", "up"], "from": ["この頁は kmlawson.github.io/taiwan-1936-timetable の転記をそのまま収めたものです。", "本頁為 kmlawson.github.io/taiwan-1936-timetable 轉記之原樣收錄。", "This page is the transcription published at kmlawson.github.io/taiwan-1936-timetable, reproduced here so the map can link to it offline."]};
+var RD={"屏東": ["Píngdōng", ""], "西勢": ["Xīshì", "せいせい"], "竹田": ["Zhútián", ""], "潮州": ["Cháozhōu", "ちょうしゅう"], "溪州": ["Xīzhōu", ""], "高雄": ["Gāoxióng", "たかお"], "鳳山": ["Fèngshān", "ほうざん"], "後庄": ["Hòuzhuāng", "こうしょう"], "九曲堂": ["Jiǔqǔtáng", "きゅうきょくどう"], "六塊厝": ["Liùkuàicuò", "ろくかいせき"], "臺南": ["Táinán", "たいなん"], "宜蘭": ["Yílán", "ぎらん"], "二結": ["Èrjié", "にけつ"], "羅東": ["Luódōng", "らとう"], "冬山": ["Dōngshān", "とうざん"], "新城": ["Xīnchéng", ""], "蘇澳": ["Sū'ào", "そおう"], "基隆": ["Jīlóng", "きいるん"], "八堵": ["Bādǔ", "はっと"], "暖暖": ["Nuǎnnuǎn", "だんだん"], "四腳亭": ["Sìjiǎotíng", "しきゃくてい"], "瑞芳": ["Ruìfāng", ""], "猴硐": ["Hóudòng", "こうどう"], "三貂嶺": ["Sāndiāolǐng", "さんちょうれい"], "武丹坑": ["Wǔdānkēng", "ぶたんこう"], "頂雙溪": ["Dǐngshuāngxī", "ちょうそうけい"], "貢寮庄": ["Gòngliáozhuāng", "こうりょうしょう"], "澳底": ["Àodǐ", "あおぞこ"], "大里": ["Dàlǐ", ""], "大溪": ["Dàxī", "だいけい"], "龜山": ["Guīshān", ""], "外澳": ["Wài'ào", "がいおう"], "頭圍": ["Tóuwéi", ""], "礁溪": ["Jiāoxī", "しょうけい"], "四結": ["Sìjié", ""], "臺北": ["Táiběi", "たいほく"], "十分寮": ["Shífēnliáo", ""], "嶺腳寮": ["Lǐngjiǎoliáo", ""], "石底": ["Shídǐ", ""], "菁桐坑": ["Jīngtóngkēng", ""], "二水": ["Èrshuǐ", "にすい"], "鼻子頭": ["Bízitóu", ""], "濁水": ["Zhuóshuǐ", ""], "隘寮": ["Àiliáo", ""], "集集": ["Jíjí", ""], "水裡坑": ["Shuǐlǐkēng", ""], "外車埕": ["Wàichēchéng", ""], "萬華": ["Wànhuá", "ー"], "板橋": ["Bǎnqiáo", ""], "樹林": ["Shùlín", "しゅりん"], "山子腳": ["Shānzǐjiǎo", ""], "鶯歌": ["Yīnggē", ""], "桃園": ["Táoyuán", ""], "崁子腳": ["Kànzǐjiǎo", ""], "中壢": ["Zhōnglì", ""], "平鎮": ["Píngzhèn", "へいちん"], "楊梅": ["Yángméi", "ようばい"], "湖口": ["Húkǒu", "ここう"], "竹北": ["Zhúběi", ""], "新竹": ["Xīnzhú", "しんちく"], "香山": ["Xiāngshān", "こうざん"], "竹南": ["Zhúnán", "ちくなん"], "淡文湖": ["Dànwénhú", ""], "大山腳": ["Dàshānjiǎo", ""], "後龍": ["Hòulóng", "こうりょう"], "公司寮": ["Gōngsīliáo", ""], "白沙屯": ["Báishātún", "はくさとん"], "新埔": ["Xīnpǔ", "しんぽ"], "通霄": ["Tōngxiāo", "つうしょう"], "苑裡": ["Yuànlǐ", "えんり"], "日南": ["Rìnán", ""], "大甲": ["Dàjiǎ", "だいこう"], "甲南": ["Jiǎnán", ""], "清水": ["Qīngshuǐ", ""], "沙鹿": ["Shālù", "しゃろく"], "龍井": ["Lóngjǐng", "りゅうせい"], "大肚": ["Dàdù", "だいと"], "臺中": ["Táizhōng", "たいちゅう"], "追分": ["Zhuīfēn", "おいわけ"], "彰化": ["Zhānghuà", "しょうか"], "花壇": ["Huātán", "かだん"], "員林": ["Yuánlín", "いんりん"], "社頭": ["Shètóu", "しゃとう"], "田中": ["Tiánzhōng", ""], "林內": ["Línnèi", "りんない"], "斗六": ["Dǒuliù", "とろく"], "斗南": ["Dǒunán", "となん"], "大林": ["Dàlín", "だいりん"], "民雄": ["Mínxióng", "たみお"], "嘉義": ["Jiāyì", "かぎ"], "水上": ["Shuǐshàng", ""], "後壁": ["Hòubì", "こうへき"], "新營": ["Xīnyíng", "しんえい"], "林鳳營": ["Línfèngyíng", "りんほうえい"], "番子田": ["Fānzǐtián", ""], "善化": ["Shànhuà", "ぜんか"], "新市": ["Xīnshì", ""], "永康": ["Yǒngkāng", "えいこう"], "車路墘": ["Chēlùqián", ""], "中洲": ["Zhōngzhōu", ""], "大湖": ["Dàhú", "だいこ"], "路竹": ["Lùzhú", "ろちく"], "岡山": ["Gāngshān", ""], "橋子頭": ["Qiáozǐtóu", ""], "楠梓": ["Nánzǐ", "なんし"], "舊城": ["Jiùchéng", ""], "七堵": ["Qīdǔ", "しちと"], "汐止": ["Xīzhǐ", ""], "南港": ["Nángǎng", "なんこう"], "松山": ["Sōngshān", "まつやま"], "王田": ["Wángtián", ""], "烏日": ["Wūrì", "うじつ"], "造橋": ["Zàoqiáo", "ぞうきょう"], "北勢": ["Běishì", "ほくせい"], "苗栗": ["Miáolì", ""], "后里": ["Hòulǐ", ""], "豐原": ["Fēngyuán", ""], "潭子": ["Tánzǐ", ""], "南勢": ["Nánshì", ""], "銅鑼": ["Tóngluó", "どうら"], "三叉": ["Sānchā", ""], "花蓮港": ["Huāliángǎng", ""], "荳蘭": ["Dòulán", ""], "吉野": ["Jíyě", ""], "初音": ["Chūyīn", ""], "賀田": ["Hètián", ""], "池南": ["Chínán", ""], "壽": ["Shòu", ""], "豐田": ["Fēngtián", ""], "溪口": ["Xīkǒu", ""], "平林": ["Pínglín", ""], "林田": ["Líntián", ""], "鳳林": ["Fènglín", ""], "萬里橋": ["Wànlǐqiáo", ""], "馬太鞍": ["Mǎtài'ān", ""], "大和": ["Dàhé", ""], "拔子": ["Bázǐ", ""], "瑞穗": ["Ruìsuì", ""], "三笠": ["Sānlì", ""], "末廣": ["Mòguǎng", ""], "玉里": ["Yùlǐ", ""], "安通": ["Āntōng", ""], "大庄": ["Dàzhuāng", ""], "頭人埔": ["Tóurénpǔ", ""], "公埔": ["Gōngpǔ", ""], "池上": ["Chíshàng", ""], "新武呂": ["Xīnwǔlǚ", ""], "里壠": ["Lǐlǒng", ""], "月野": ["Yuèyě", ""], "大埔": ["Dàpǔ", ""], "大原": ["Dàyuán", ""], "鹿野": ["Lùyě", ""], "稻葉": ["Dàoyè", ""], "初鹿尾": ["Chūlùwěi", ""], "日奈敷": ["Rìnàifū", ""], "馬蘭": ["Mǎlán", ""], "臺東": ["Táidōng", ""], "大正街": ["Dàzhèngjiē", ""], "雙連": ["Shuānglián", "そうれん"], "圓山": ["Yuánshān", "まるやま"], "宮ノ下": ["", "みやのした"], "士林": ["Shìlín", "しりん"], "唭里岸": ["Qílǐàn", ""], "北投": ["Běitóu", "ほくとう"], "新北投": ["Xīnběitóu", "しんほくとう"], "江頭": ["Jiāngtóu", ""], "淡水": ["Dànshuǐ", "たんすい"]};
+var COLS={"粁程": "km", "驛名": "Station", "等級": "Class", "行先": "To", "三等運賃": "3rd-class fare", "著": "arr", "發": "dep"};
+
+var IX = {ja:0, zh:1, en:2};
+var lang = 'ja';
+try { lang = localStorage.getItem('tt-lang') || 'ja'; } catch (e) {}
+if (!(lang in IX)) lang = 'ja';
+
+/* Every station name in the tables gets its reading on a second line: the
+   kana in Japanese, the Mandarin with its tones otherwise. Matched on the
+   whole text of a cell, so it catches the station column whichever column that
+   is -- the Taitung tables have a fare column the others do not -- and the
+   destination row at the head of each table as well. */
+function annotate() {
+  var cells = document.querySelectorAll('td, th');
+  for (var i = 0; i < cells.length; i++) {
+    var c = cells[i];
+    if (c.querySelector('.rd')) continue;
+    var t = (c.textContent || '').trim();
+    if (!t || !RD[t]) continue;
+    var rd = document.createElement('span');
+    rd.className = 'rd';
+    c.appendChild(rd);
+    c.setAttribute('data-stn', t);
+  }
+}
+
+function words(key) { return (UI[key] || ['', '', ''])[IX[lang]]; }
+
+function apply() {
+  document.documentElement.lang = lang === 'zh' ? 'zh-Hant' : lang;
+  document.querySelectorAll('[data-i18n]').forEach(function (el) {
+    var k = el.getAttribute('data-i18n');
+    if (UI[k]) el.textContent = words(k);
+  });
+  /* The check-the-original sentence has a link inside it, so it is built
+     rather than assigned: the words round the link differ by language and the
+     link itself does not. */
+  var chk = document.getElementById('check');
+  if (chk) {
+    var parts = words('check').split('{a}');
+    chk.textContent = '';
+    chk.appendChild(document.createTextNode(parts[0]));
+    var a = document.createElement('a');
+    a.href = 'https://archive.org/details/taiwan-train-times-1936';
+    a.textContent = words('archive');
+    chk.appendChild(a);
+    chk.appendChild(document.createTextNode(parts[1] || ''));
+  }
+  /* A table's heading is its line, its direction and its two ends. Only the
+     direction word is translated; the line and the stations keep the
+     characters the table prints, which is what they are called. */
+  document.querySelectorAll('h2[data-dir]').forEach(function (h) {
+    var dir = h.getAttribute('data-dir') === 'up' ? words('up') : words('down');
+    h.textContent = h.getAttribute('data-line') + ' ' + dir + ' '
+      + h.getAttribute('data-ends');
+  });
+  document.querySelectorAll('p.pg').forEach(function (p) {
+    var pages = p.getAttribute('data-pages') || '';
+    p.textContent = '';
+    // full-width brackets in the two languages that use them, ASCII in English
+    var open = lang === 'en' ? ' (' : '（', shut = lang === 'en' ? ')' : '）';
+    p.appendChild(document.createTextNode(words('page') + ' ' + pages + open));
+    var a = document.createElement('a');
+    a.href = 'https://archive.org/details/taiwan-train-times-1936';
+    a.textContent = 'Internet Archive';
+    p.appendChild(a);
+    p.appendChild(document.createTextNode(shut));
+  });
+  /* The column headings, in English only. The original is kept on the cell so
+     that a reader who wants the printed word has it one hover away. */
+  document.querySelectorAll('tr.hd th').forEach(function (th) {
+    var was = th.getAttribute('data-was');
+    if (was === null) { was = (th.textContent || '').trim(); th.setAttribute('data-was', was); }
+    if (!COLS[was]) return;
+    th.textContent = lang === 'en' ? COLS[was] : was;
+    th.title = lang === 'en' ? was : '';
+  });
+  document.querySelectorAll('td').forEach(function (td) {
+    var was = td.getAttribute('data-was');
+    if (was === null) {
+      was = (td.textContent || '').trim();
+      if (was !== '著' && was !== '發') return;
+      td.setAttribute('data-was', was);
+    }
+    if (!COLS[was]) return;
+    td.textContent = lang === 'en' ? COLS[was] : was;
+  });
+  document.querySelectorAll('[data-stn]').forEach(function (c) {
+    var r = RD[c.getAttribute('data-stn')] || ['', ''];
+    var rd = c.querySelector('.rd');
+    if (rd) rd.textContent = lang === 'ja' ? r[1] : r[0];
+  });
+  document.querySelectorAll('#langbar button').forEach(function (b) {
+    b.setAttribute('aria-pressed', b.getAttribute('data-lang') === lang
+                                   ? 'true' : 'false');
+  });
+  document.title = words('title');
+}
+
+function boot() {
+  annotate();
+  var bar = document.getElementById('langbar');
+  bar.addEventListener('click', function (e) {
+    var b = e.target.closest ? e.target.closest('button[data-lang]') : null;
+    if (!b) return;
+    lang = b.getAttribute('data-lang');
+    try { localStorage.setItem('tt-lang', lang); } catch (err) {}
+    apply();
+  });
+  var box = document.getElementById('rd-on');
+  var on = true;
+  try { on = localStorage.getItem('tt-rd') !== '0'; } catch (err) {}
+  box.checked = on;
+  document.body.classList.toggle('no-rd', !on);
+  box.addEventListener('change', function () {
+    document.body.classList.toggle('no-rd', !box.checked);
+    try { localStorage.setItem('tt-rd', box.checked ? '1' : '0'); } catch (err) {}
+  });
+  apply();
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', boot);
+} else { boot(); }
+})();
+</script></body></html>

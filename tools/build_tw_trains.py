@@ -325,51 +325,357 @@ def build_js(anchors=None):
     return doc
 
 
-def build_html():
-    """The printed tables, as published, with an anchor per table.
+# ---------------------------------------------------------------------------
+# THE PRINTED TABLES, IN THREE LANGUAGES.
+#
+# The page furniture is translated and the tables are not. That distinction is
+# the whole design: the eighteen tables are a transcription of a printed
+# document and changing what they say would make them a different document, so
+# the only thing that happens inside one is that a station name gains its
+# reading on a second line -- an addition, not a substitution. Everything
+# round them -- the title, the links, the legend, the headings, the caption on
+# the notes -- is the page talking to the reader and is said in whichever
+# language they choose.
+#
+# The one exception is the column headings, and only in English: 粁程 and 驛名
+# are Chinese characters and stay themselves in Chinese and Japanese, but a
+# reader of neither cannot tell the distance column from the station column.
+# They are translated in English mode with the original kept on the cell as a
+# `title`, so nothing is lost and it is one hover away.
+UI = {
+    'title': ('\u81fa\u7063\u9435\u9053\u6642\u523b\u8868\uff08\u662d\u548c11\u5e74\u30fb1936\uff09\u2014 \u8ee2\u8a18',
+              '\u81fa\u7063\u9435\u9053\u6642\u523b\u8868\uff08\u662d\u548c11\u5e74\u30fb1936\uff09\u2014 \u8f49\u8a18',
+              'Taiwan Railway Timetable, February 1936 \u2014 transcription'),
+    'map': ('\u5730\u5716', '\u5730\u5716', 'Map'),
+    'orig': ('\u539f\u672c\uff08Internet Archive\uff09',
+             '\u539f\u672c\uff08Internet Archive\uff09',
+             'The original (Internet Archive)'),
+    'legend': (
+        '\u6642\u523b\u306f24\u6642\u9593\u8868\u8a18\uff08\u539f\u672c: '
+        '\u7d30\u5b57=\u5348\u524d\u30fb\u592a\u5b57=\u5348\u5f8c\uff09\u3002'
+        '\u30ec=\u901a\u904e\u3001\u00d7=\u8ffd\u5206\u63a5\u7e8c\u3001'
+        '\u8d64?=\u5224\u8aad\u4e0d\u78ba\u5b9f\u3002',
+        '\u6642\u523b\u63a1 24 \u5c0f\u6642\u5236\uff08\u539f\u672c\uff1a'
+        '\u7d30\u5b57\u70ba\u4e0a\u5348\u3001\u7c97\u9ad4\u70ba\u4e0b\u5348\uff09\u3002'
+        '\u30ec\uff1d\u901a\u904e\u3001\u00d7\uff1d\u8ffd\u5206\u63a5\u7e8c\u3001'
+        '\u7d05\u8272?\uff1d\u5224\u8b80\u4e0d\u78ba\u5b9a\u3002',
+        'Times are on the 24-hour clock \u2014 in the original, light type is '
+        'morning and bold is afternoon. \u30ec means the train passes without '
+        'stopping, \u00d7 a connection at Oiwake, and a red ? that the print '
+        'could not be read with certainty.'),
+    'check': ('\u539f\u672c\u306f{a}\u3067\u7167\u5408\u3067\u304d\u307e\u3059\u3002',
+              '\u539f\u672c\u53ef\u5728{a}\u6838\u5c0d\u3002',
+              'The original can be checked against {a}.'),
+    'archive': ('Internet Archive \u306e\u300e\u5217\u8eca\u6642\u523b\u8868\u300f\uff081936\u5e742\u6708\uff09',
+                'Internet Archive \u7684\u300a\u5217\u8eca\u6642\u523b\u8868\u300b\uff081936\u5e742\u6708\uff09',
+                '\u300e\u5217\u8eca\u6642\u523b\u8868\u300f (February 1936) at the Internet Archive'),
+    'page': ('\u539f\u672c', '\u539f\u672c', 'Original'),
+    'notes': ('\u539f\u672c\u306e\u8a3b\u8a18',
+              '\u539f\u672c\u7684\u8a3b\u8a18',
+              'Notes on the original page, as transcribed'),
+    'readings': ('\u8b80\u307f', '\u8b80\u97f3', 'Readings'),
+    'down': ('\u4e0b\u308a', '\u4e0b\u884c', 'down'),
+    'up': ('\u4e0a\u308a', '\u4e0a\u884c', 'up'),
+    'from': ('\u3053\u306e\u9801\u306f kmlawson.github.io/taiwan-1936-timetable '
+             '\u306e\u8ee2\u8a18\u3092\u305d\u306e\u307e\u307e\u53ce\u3081\u305f\u3082\u306e\u3067\u3059\u3002',
+             '\u672c\u9801\u70ba kmlawson.github.io/taiwan-1936-timetable '
+             '\u8f49\u8a18\u4e4b\u539f\u6a23\u6536\u9304\u3002',
+             'This page is the transcription published at '
+             'kmlawson.github.io/taiwan-1936-timetable, reproduced here so the '
+             'map can link to it offline.'),
+}
 
-    Only three things change: the link back points at our own map rather than
-    at the one it was built for, each heading gets an id so a card can link to
-    a line, and a line is added saying where the page came from.
+# The column headings, translated in English only. Anything not in this table
+# is left exactly as the transcription has it.
+COLS_EN = {
+    '\u7c81\u7a0b': 'km',
+    '\u9a5b\u540d': 'Station',
+    '\u7b49\u7d1a': 'Class',
+    '\u884c\u5148': 'To',
+    '\u4e09\u7b49\u904b\u8cc3': '3rd-class fare',
+    '\u8457': 'arr',
+    '\u767c': 'dep',
+}
+
+
+def page_extras(stations):
+    """The language bar, the styles and the script the page is given.
+
+    Written out here rather than kept in a file of its own because it exists
+    only for this page and is built from the same station table the map uses:
+    the readings come out of `tw-stations.js`, so a station that gains a
+    sourced reading there gains it here on the next build and nothing has to be
+    kept in step by hand.
+    """
+    reads = {}
+    for st in stations:
+        if st.get('py') or st.get('kana'):
+            reads[st['n']] = [st.get('py', ''), st.get('kana', '')]
+    css = """
+#langbar{display:flex;gap:6px;align-items:center;margin-left:auto;font-size:12px}
+#langbar button{font:inherit;padding:3px 9px;border:1px solid #8a7a5c;border-radius:5px;
+background:transparent;color:#e8c988;cursor:pointer}
+#langbar button:hover{border-color:#e8c988}
+/* Pressed is the pale one. The bar sits on the dark brown header, so a dark
+   fill for the current language made it the one you could not see. */
+#langbar button[aria-pressed=true]{background:#f5f0e6;color:#3a2b1e;border-color:#f5f0e6}
+#langbar label{color:#e8c988;display:flex;gap:4px;align-items:center;cursor:pointer}
+.rd{display:block;font-size:10px;line-height:1.25;color:#7a6a52;font-weight:400;
+white-space:nowrap}
+body.no-rd .rd{display:none}
+.notes-head{margin:18px 0 4px;font-size:13px;color:#666}
+"""
+    js = ("(function(){\n"
+          "var UI=" + json.dumps({k: list(v) for k, v in UI.items()},
+                                 ensure_ascii=False) + ";\n"
+          "var RD=" + json.dumps(reads, ensure_ascii=False) + ";\n"
+          "var COLS=" + json.dumps(COLS_EN, ensure_ascii=False) + ";\n"
+          + PAGE_JS + "})();")
+    return css, js
+
+
+# The page's own script. Kept as one string so the dictionaries above can be
+# poured into it, and written plainly because a reader who views source on a
+# transcription of a printed timetable deserves to be able to follow it.
+PAGE_JS = r"""
+var IX = {ja:0, zh:1, en:2};
+var lang = 'ja';
+try { lang = localStorage.getItem('tt-lang') || 'ja'; } catch (e) {}
+if (!(lang in IX)) lang = 'ja';
+
+/* Every station name in the tables gets its reading on a second line: the
+   kana in Japanese, the Mandarin with its tones otherwise. Matched on the
+   whole text of a cell, so it catches the station column whichever column that
+   is -- the Taitung tables have a fare column the others do not -- and the
+   destination row at the head of each table as well. */
+function annotate() {
+  var cells = document.querySelectorAll('td, th');
+  for (var i = 0; i < cells.length; i++) {
+    var c = cells[i];
+    if (c.querySelector('.rd')) continue;
+    var t = (c.textContent || '').trim();
+    if (!t || !RD[t]) continue;
+    var rd = document.createElement('span');
+    rd.className = 'rd';
+    c.appendChild(rd);
+    c.setAttribute('data-stn', t);
+  }
+}
+
+function words(key) { return (UI[key] || ['', '', ''])[IX[lang]]; }
+
+function apply() {
+  document.documentElement.lang = lang === 'zh' ? 'zh-Hant' : lang;
+  document.querySelectorAll('[data-i18n]').forEach(function (el) {
+    var k = el.getAttribute('data-i18n');
+    if (UI[k]) el.textContent = words(k);
+  });
+  /* The check-the-original sentence has a link inside it, so it is built
+     rather than assigned: the words round the link differ by language and the
+     link itself does not. */
+  var chk = document.getElementById('check');
+  if (chk) {
+    var parts = words('check').split('{a}');
+    chk.textContent = '';
+    chk.appendChild(document.createTextNode(parts[0]));
+    var a = document.createElement('a');
+    a.href = 'https://archive.org/details/taiwan-train-times-1936';
+    a.textContent = words('archive');
+    chk.appendChild(a);
+    chk.appendChild(document.createTextNode(parts[1] || ''));
+  }
+  /* A table's heading is its line, its direction and its two ends. Only the
+     direction word is translated; the line and the stations keep the
+     characters the table prints, which is what they are called. */
+  document.querySelectorAll('h2[data-dir]').forEach(function (h) {
+    var dir = h.getAttribute('data-dir') === 'up' ? words('up') : words('down');
+    h.textContent = h.getAttribute('data-line') + ' ' + dir + ' '
+      + h.getAttribute('data-ends');
+  });
+  document.querySelectorAll('p.pg').forEach(function (p) {
+    var pages = p.getAttribute('data-pages') || '';
+    p.textContent = '';
+    // full-width brackets in the two languages that use them, ASCII in English
+    var open = lang === 'en' ? ' (' : '（', shut = lang === 'en' ? ')' : '）';
+    p.appendChild(document.createTextNode(words('page') + ' ' + pages + open));
+    var a = document.createElement('a');
+    a.href = 'https://archive.org/details/taiwan-train-times-1936';
+    a.textContent = 'Internet Archive';
+    p.appendChild(a);
+    p.appendChild(document.createTextNode(shut));
+  });
+  /* The column headings, in English only. The original is kept on the cell so
+     that a reader who wants the printed word has it one hover away. */
+  document.querySelectorAll('tr.hd th').forEach(function (th) {
+    var was = th.getAttribute('data-was');
+    if (was === null) { was = (th.textContent || '').trim(); th.setAttribute('data-was', was); }
+    if (!COLS[was]) return;
+    th.textContent = lang === 'en' ? COLS[was] : was;
+    th.title = lang === 'en' ? was : '';
+  });
+  document.querySelectorAll('td').forEach(function (td) {
+    var was = td.getAttribute('data-was');
+    if (was === null) {
+      was = (td.textContent || '').trim();
+      if (was !== '著' && was !== '發') return;
+      td.setAttribute('data-was', was);
+    }
+    if (!COLS[was]) return;
+    td.textContent = lang === 'en' ? COLS[was] : was;
+  });
+  document.querySelectorAll('[data-stn]').forEach(function (c) {
+    var r = RD[c.getAttribute('data-stn')] || ['', ''];
+    var rd = c.querySelector('.rd');
+    if (rd) rd.textContent = lang === 'ja' ? r[1] : r[0];
+  });
+  document.querySelectorAll('#langbar button').forEach(function (b) {
+    b.setAttribute('aria-pressed', b.getAttribute('data-lang') === lang
+                                   ? 'true' : 'false');
+  });
+  document.title = words('title');
+}
+
+function boot() {
+  annotate();
+  var bar = document.getElementById('langbar');
+  bar.addEventListener('click', function (e) {
+    var b = e.target.closest ? e.target.closest('button[data-lang]') : null;
+    if (!b) return;
+    lang = b.getAttribute('data-lang');
+    try { localStorage.setItem('tt-lang', lang); } catch (err) {}
+    apply();
+  });
+  var box = document.getElementById('rd-on');
+  var on = true;
+  try { on = localStorage.getItem('tt-rd') !== '0'; } catch (err) {}
+  box.checked = on;
+  document.body.classList.toggle('no-rd', !on);
+  box.addEventListener('change', function () {
+    document.body.classList.toggle('no-rd', !box.checked);
+    try { localStorage.setItem('tt-rd', box.checked ? '1' : '0'); } catch (err) {}
+  });
+  apply();
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', boot);
+} else { boot(); }
+"""
+
+
+def build_html(stations):
+    """The printed tables, as published, made readable in three languages.
+
+    Only three things are changed inside a table: an anchor on each heading so
+    a card can link to a line, a `data-` attribute on each heading and page
+    reference so the script can rewrite the words round the numbers, and the
+    station readings the script adds. The times, the train numbers and the
+    station names are the transcription untouched.
     """
     html = open(os.path.join(SRC, 'tables.html'), encoding='utf-8').read()
     seen = {}
     order = []
     first = {}
+
     def anchor(m):
         head = m.group(1)
-        line = head.split(' ')[0]
+        bits = head.split(' ')
+        line = bits[0]
+        # the Taitung tables print the direction with a katakana ri
+        raw = bits[1] if len(bits) > 1 else ''
+        direction = 'up' if raw.startswith('\u4e0a') else 'down'
+        ends = ' '.join(bits[2:])
         if line not in seen:
             order.append(line)
         seen[line] = seen.get(line, 0) + 1
         slug = 'line-%d-%d' % (order.index(line) + 1, seen[line])
         first.setdefault(line, slug)
-        return '<h2 id="%s">%s</h2>' % (slug, head)
+        return ('<h2 id="%s" data-line="%s" data-dir="%s" data-ends="%s">%s</h2>'
+                % (slug, line, direction, ends, head))
+
     html, n = re.subn(r'<h2>([^<]*)</h2>', anchor, html)
-    html = html.replace('<a href="index.html">', '<a href="../index.html">')
+
+    # The page reference under each heading: the page numbers are kept and the
+    # word in front of them is not, because that word is the one that has to be
+    # able to change language.
+    def pages(m):
+        nums = m.group(1)
+        return ('<p class="pg" data-pages="%s">\u539f\u672c %s\uff08'
+                '<a href="https://archive.org/details/taiwan-train-times-1936">'
+                'Internet Archive</a>\uff09</p>' % (nums, nums))
+    html, npg = re.subn(
+        r'<p class="pg">\u539f\u672c ([^\uff08<]*)\uff08'
+        r'<a href="https://archive\.org/details/taiwan-train-times-1936">'
+        r'Internet Archive</a>\uff09</p>', pages, html)
+
+    # The furniture: title, links, legend, and the caption over the notes.
+    html = html.replace(
+        '<h1>\u81fa\u7063\u9435\u9053\u6642\u523b\u8868\uff08\u662d\u548c11'
+        '\u5e74\u30fb1936\uff09\u2014 \u8ee2\u8a18</h1>',
+        '<h1 data-i18n="title">\u81fa\u7063\u9435\u9053\u6642\u523b\u8868'
+        '\uff08\u662d\u548c11\u5e74\u30fb1936\uff09\u2014 \u8ee2\u8a18</h1>')
+    html = html.replace('<a href="index.html">\u5730\u5716</a>',
+                        '<a href="../index.html" data-i18n="map">\u5730\u5716</a>')
+    html = html.replace(
+        '<a href="https://archive.org/details/taiwan-train-times-1936">'
+        '\u539f\u672c\uff08Internet Archive\uff09</a>',
+        '<a href="https://archive.org/details/taiwan-train-times-1936" '
+        'data-i18n="orig">\u539f\u672c\uff08Internet Archive\uff09</a>'
+        + LANG_BAR, 1)
+
+    # The legend is one paragraph with a link in the middle of it. Split in two:
+    # the part that is only words, and the sentence built round the link.
+    old_legend = html[html.index('<p class="legend">'):
+                      html.index('</p>', html.index('<p class="legend">')) + 4]
+    html = html.replace(old_legend,
+                        '<p class="legend"><span data-i18n="legend"></span> '
+                        '<span id="check"></span></p>', 1)
+
+    html = html.replace('<div class="notes">',
+                        '<p class="notes-head" data-i18n="notes"></p>'
+                        '<div class="notes">')
+
+    css, js = page_extras(stations)
+    html = html.replace('</style>', css + '</style>', 1)
     html = html.replace(
         '</main>',
-        '<p class="legend">この頁は '
-        'kmlawson.github.io/taiwan-1936-timetable '
-        'の転記をそのまま収めたものです。'
-        ' &mdash; This page is the transcription published at '
-        '<a href="https://kmlawson.github.io/taiwan-1936-timetable/">'
-        'kmlawson.github.io/taiwan-1936-timetable</a>, reproduced here so the '
-        'map can link to it offline.</p></main>')
+        '<p class="legend" data-i18n="from"></p></main>\n<script>\n'
+        + js + '\n</script>')
+
     os.makedirs(os.path.dirname(OUT_HTML), exist_ok=True)
     with open(OUT_HTML, 'w', encoding='utf-8') as f:
         f.write(html)
-    print('tables     %d headings anchored -> %s (%d KB)'
-          % (n, os.path.relpath(OUT_HTML, ROOT),
+    print('tables     %d headings anchored, %d page references, three '
+          'languages -> %s (%d KB)'
+          % (n, npg, os.path.relpath(OUT_HTML, ROOT),
              os.path.getsize(OUT_HTML) // 1024))
+    if n != 18 or npg != 18:
+        print('WARNING: expected 18 headings and 18 page references',
+              file=sys.stderr)
     return first
+
+
+LANG_BAR = (
+    '<span id="langbar">'
+    '<button type="button" data-lang="ja" aria-pressed="true">\u65e5\u672c\u8a9e</button>'
+    '<button type="button" data-lang="zh" aria-pressed="false">\u4e2d\u6587</button>'
+    '<button type="button" data-lang="en" aria-pressed="false">English</button>'
+    '<label><input type="checkbox" id="rd-on" checked>'
+    '<span data-i18n="readings">\u8b80\u307f</span></label>'
+    '</span>')
 
 
 if __name__ == '__main__':
     # The tables first: they are what says where in the printed timetable each
     # line begins, and a card links to that anchor rather than to the top of a
     # two-hundred-kilobyte page.
-    anchors = build_html()
+    # The tables first: they say where in the printed timetable each line
+    # begins, and a card links to that anchor rather than to the top of a
+    # two-hundred-kilobyte page. They also want the station readings, which
+    # come out of the same join `build_js` makes, so that runs first and hands
+    # its stations over.
+    doc = build_js()
+    anchors = build_html(doc['stations'])
     doc = build_js(anchors)
     missing = [l['n'] for l in doc['lines'] if not l['a']]
     if missing:

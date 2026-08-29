@@ -12041,6 +12041,49 @@ instead of pushing the times out. **283 in 283.**
 
 ---
 
+## The printed tables, in three languages
+
+**Asked for:** language buttons on the timetable page for English, Chinese and
+Japanese, and kana and pinyin for the station names there too.
+
+**The furniture is translated and the tables are not.** That distinction is the
+whole design. The eighteen tables are a transcription of a printed document,
+and changing what they say would make them a different document — so the only
+thing that happens inside one is that a station name gains its reading on a
+second line, which is an addition and not a substitution. Everything round them
+— the title, the two links, the legend, the eighteen headings, the page
+references, the caption over the notes — is the page talking to the reader and
+is said in whichever language they choose.
+
+**One exception, and only in English.** 粁程 and 驛名 are Chinese characters
+and stay themselves in Chinese and Japanese, but a reader of neither cannot
+tell the distance column from the station column. In English they read *km* and
+*Station*, with the printed word kept on the cell as a `title` so nothing is
+lost and it is one hover away. Checked: `th.title` is 粁程 in English mode.
+
+The readings come out of `tw-stations.js`, the same table the map uses, so a
+station that gains a sourced reading there gains it here on the next build and
+there is nothing to keep in step by hand. **811 cells are annotated** — the
+station column of every table, whichever column that is, since the Taitung
+tables carry a fare column the others do not, and the destination row at the
+head of each table as well. Matched on the whole text of a cell rather than by
+counting columns, which is why the two layouts need no special case. Kana in
+Japanese, Mandarin with its tones otherwise, and a checkbox to put them away
+for anyone comparing against the original.
+
+The transcription's own bottom notes are left in Japanese. They describe the
+typography of the printed page — which characters are bold, what the repetition
+mark means — and translating them would be writing new claims about a document
+rather than translating the page's own words. The caption over them says what
+they are in all three languages.
+
+Ten checks in `tools/test/trains.js`, which is **86** now: eighteen tables and
+eighteen anchors, the page opening in Japanese with kana under the names, the
+Chinese and English switches, the printed heading kept on the cell, the
+readings toggle, and no page errors.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible
