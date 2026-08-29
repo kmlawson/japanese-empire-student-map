@@ -71,9 +71,16 @@ check('the phone is a coarse pointer',
 const mw=await deepest(m), mpx=await width(m);
 const mScale=mw/mpx;
 const times=dScale/mScale;
-check('it reaches at least three times the desktop magnification', times>=3,
+/* Twice, not four times. The desktop limit was 100x and the boost was 4, so a
+   phone went four times further; the desktop is 250x now — the fine coastlines
+   and the survey-drawn Korea and Taiwan carry it — and the boost is halved to
+   match. A phone still goes further, for the two reasons it always did: its
+   pixels are physically smaller, and a finger needs a bigger target than a
+   mouse. It no longer goes four times further than a desktop that has caught
+   up. */
+check('it reaches at least twice the desktop magnification', times>=2,
   times.toFixed(2)+'x');
-check('and not absurdly more than the four it is set to', times<=5, times.toFixed(2)+'x');
+check('and not absurdly more than the two it is set to', times<=3, times.toFixed(2)+'x');
 
 console.log('\n— and a link written down there comes back to it —');
 {

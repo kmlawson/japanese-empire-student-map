@@ -665,23 +665,35 @@ PRINCELY_NAMES = {
     40: "Rajputana, Central India & the Gujarat States",
 }
 
-# Colonial Korea comes from tools/fetch_korea_1930.py, which builds the
-# thirteen provinces and the coast that goes with them. It used to be
-# assembled from the modern provinces of the two republics, which cannot be
-# made to give the period map however they are grouped: Hwanghae was one
-# province until 1954, Ryanggang and Jagang did not exist, and Kaesong was in
-# Keiki-do rather than in Hwanghae.
-# KOREA IS DRAWN FROM NATURAL EARTH, NOT FROM THIS FILE. Set KOREA_FROM_NE
-# False and the traced provinces come back, geometry and all.
+# COLONIAL KOREA IS THE NIKH HISTORICAL DISTRICTS, at two resolutions.
 #
-# The tracing was the finer source once and is not. Measured against Natural
-# Earth 1:10m: it carries 3,839 vertices over 8,075 km of coast against 4,842
-# over 8,427 km — Natural Earth samples 21% more finely, resolves 4% more line,
-# and knows 62 islands over a square kilometre to the tracing's 38. What the
-# tracing had that Natural Earth has not is the thirteen 1930 provinces, and
-# those are being redrawn; until they are, Korea has no divisions and the coast
-# is the modern one, in its own place, with no shift needed.
-KOREA_FROM_NE = True
+# Three sources have drawn this country on this map. It was assembled from the
+# modern provinces of the two republics, which cannot give the period map
+# however they are grouped — Hwanghae was one province until 1954, Ryanggang
+# and Jagang did not exist, and Kaesong was in Keiki-do. Then it was a tracing,
+# which had the thirteen provinces and was 2.7 km out and needed shifting. Then
+# it was Natural Earth, which was in the right place and had no provinces at
+# all, and that is what has been drawn since.
+#
+# It is now the National Institute of Korean History's historical
+# administrative districts: the thirteen 道 as the Government-General had them,
+# compiled from the Government-General Gazette and the 1912 and 1917 name
+# registers, 1.66 million vertices of them. tools/build_korea_provinces.py cuts
+# that to the two files this build reads and prints what it threw away.
+#
+# THE COARSE FILE COSTS WHAT THE OUTLINE IT REPLACES COST. That was the
+# constraint: the base sheet is what every pan and every zoom pays for, and
+# Natural Earth's Korea was 4,689 vertices there. The thirteen provinces at
+# 0.010 degrees come to 4,771 — two per cent more, for thirteen provinces
+# instead of one outline. The fine file is nine times that and is fetched only
+# when a reader zooms into Korea.
+#
+# Checked the way the last two changes of source were checked: 840 of the 850
+# colonial railway stations fall inside the new coast, against 845 for Natural
+# Earth. The ten outside are quaysides and two stops on the Tumen — 木浦,
+# 麗水港, 墨湖港, 新義州 — which at a kilometre of tolerance is where a station
+# built on a pier lands.
+KOREA_FROM_NE = False
 # The Liancourt Rocks. `japan-empire-map-fine.svg` already draws them, so the
 # ring here would be a second copy of the same two hundred metres of rock.
 # Ulleungdo, west of this, is kept: the traced file carried it too, so the fine
@@ -5280,17 +5292,14 @@ def main():
         sys.stderr.write("legacy build: no index, no cache, no probe bound, "
                          "no name index, one process\n")
 
-    _kt = os.path.join(CACHE, KOREA_TRACED_FILE)
+    # The shift the old tracing needed is gone with the tracing: the NIKH
+    # districts are georeferenced and land where they belong, which is what the
+    # station check above says. `korea_13_provinces_traced.json` and
+    # tools/shift_korea.py are kept as the record of that episode and are read
+    # by nothing.
     _kf = os.path.join(CACHE, KOREA_FILE)
-    if not KOREA_FROM_NE and os.path.exists(_kt) and os.path.exists(_kf):
-        if os.path.getsize(_kt) == os.path.getsize(_kf):
-            with open(_kt) as _a, open(_kf) as _b:
-                if _a.read() == _b.read():
-                    sys.stderr.write(
-                        "WARNING: %s is the untouched tracing. Korea's coast is "
-                        "about 2.7 km\n         from where it belongs and the "
-                        "railways will run in the sea.\n         Run: python3 "
-                        "tools/shift_korea.py --write\n" % KOREA_FILE)
+    if not KOREA_FROM_NE and not os.path.exists(_kf):
+        sys.exit("missing %s -- run tools/build_korea_provinces.py" % KOREA_FILE)
 
     a0 = load("admin0", args.download)
 

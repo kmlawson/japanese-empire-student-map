@@ -90,3 +90,8 @@ tools/test/shots/
 tools/cache/rel-*.tif
 tools/cache/rel-*.vrt
 tools/cache/station_wiki_check.json
+
+# The NIKH historical administrative districts: 39 MB of 1:5,000 province
+# boundaries, of which the map draws two derived files. tools/build_korea_provinces.py
+# makes them and those are what is committed.
+tools/cache/provinces_1930_1942.geojson

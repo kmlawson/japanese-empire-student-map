@@ -3825,7 +3825,14 @@
      be pointed at. At 100x it is twenty-two. Away from the fine layer the base
      map does go visibly polygonal down here, which it did not before; that is
      the price of being able to look at the small islands at all. */
-  var MAX_ZOOM = 100;
+  /* Raised from 100 to 250. The reason it was 100 was that the base map goes
+     visibly polygonal past what its sources can carry — but two of the three
+     things that made that true have changed. The fine coastlines carry the
+     islands, and Korea and Taiwan are now drawn from survey sources rather
+     than from a 1:10m outline. At 250x a desktop reader sees what a phone has
+     had since the touch boost went in, and the boost is halved to match so
+     that a phone still goes further and no longer goes four times further. */
+  var MAX_ZOOM = 250;
 
   /* And the same magnification on every screen. The limit above is a view
      *width* in map units, which is the same number of degrees whatever the
@@ -3859,7 +3866,7 @@
      The base map is visibly polygonal this far in — it already was at 100x,
      and this is four times past that. The fine coastlines carry it, the
      Natural Earth outline does not, and that is the trade being made. */
-  var TOUCH_ZOOM_BOOST = 4;
+  var TOUCH_ZOOM_BOOST = 2;
 
   function maxZoom() {
     return MAX_ZOOM * (coarse ? TOUCH_ZOOM_BOOST : 1);

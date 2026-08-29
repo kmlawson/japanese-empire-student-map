@@ -12130,6 +12130,85 @@ is **91**; the map suite **541**, all passing.
 
 ---
 
+## Korea from the NIKH districts, and a deeper zoom
+
+**Asked for:** swap Natural Earth's Korea for `provinces_1930_1942.geojson` in
+two resolutions — a coarse one for the zoomed-out view and a `_fine` one loaded
+on a deep zoom into Korea — at about the panning cost of what it replaces;
+restore administrative access to Korea; deeper zoom on desktop; and a new
+sources entry.
+
+### The source, and the two files cut from it
+
+The National Institute of Korean History's historical administrative
+districts: the thirteen 道 as the Government-General had them, **1,661,256
+vertices**. `tools/build_korea_provinces.py` cuts two files from it and prints
+what it threw away on every run.
+
+| | tolerance | islands dropped | vertices out |
+|---|---|---|---|
+| coarse | 0.010° (~1.1 km) | 4,405 under 6 km² | **5,393** (0.32%) |
+| fine | 0.0004° | 2,975 under 0.05 km² | **95,400** (5.74%) |
+
+**The coarse tolerance was measured, not chosen.** The base sheet is what every
+pan and every zoom pays for, and the Natural Earth outline it replaces was
+4,689 vertices there. What went in is **2,961** — the dissolved outline of the
+thirteen provinces is *cheaper* than the outline it replaces, and the thirteen
+provinces themselves (4,890 vertices) are in the admin sheet, which is fetched
+only when the reader asks for divisions.
+
+### A shared boundary has to be simplified once
+
+The first cut thinned every ring on its own, which is wrong and looks wrong:
+Kōgen and Keiki run along the same line, Douglas–Peucker keeps a different
+subset for each, and the two drawn edges no longer meet. The map showed a
+scatter of white gashes through the middle of the country — ocean between two
+provinces that share a border.
+
+The source is topologically clean, which is what made the fix possible:
+**42,625 of its 1.6 million points are shared by exactly two provinces** (eleven
+by three), with identical coordinates. So each ring is cut into runs where
+sharing starts and stops, each run is thinned once, and a run two provinces
+walk — one forwards, one backwards — is thinned on its first appearance and
+reused on its second. **423 shared runs** in the coarse file, 438 in the fine.
+
+### Checked the way the last two changes of source were checked
+
+**840 of the 850 colonial railway stations fall inside the new coast**, against
+845 for Natural Earth. The ten outside are quaysides and two stops on the
+Tumen — 木浦, 麗水港, 墨湖港, 新義州 — which at a kilometre of tolerance is
+where a station built on a pier lands.
+
+Korea has its divisions back: fourteen shapes answer the pointer (the thirteen
+provinces and Cheju, which is its own block), and the two checks in `names.js`
+that were parked behind a `drawn` guard when the provinces came out have
+unparked themselves — that suite is 16 now instead of 14.
+
+### Deeper zoom
+
+100× to **250×** on a desktop. The reason it was 100 was that the base map goes
+polygonal past what its sources carry, and two of the three things that made
+that true have changed: the fine coastlines carry the islands, and Korea and
+Taiwan are drawn from survey sources rather than a 1:10m outline. The touch
+boost is halved from 4 to 2 to match, so a phone reaches 500× and still goes
+further than a desktop — for the two reasons it always did, physically smaller
+pixels and a finger being a coarse instrument — without going four times
+further than a desktop that has caught up.
+
+### What is not done
+
+**The fine file is built and not yet wired.** 95,400 vertices, 2.4 MB as JSON,
+which is well inside the 5 MB the download has to stay under — but nothing
+fetches it yet, so a reader at 250× over Korea is looking at the coarse
+outline. That is the next piece: a sheet of its own, grafted over the coarse
+provinces the way the admin sheet grafts over the atom, when the view is deep
+and inside Korea.
+
+A few hairline slivers also survive the shared-run fix, far smaller than the
+gashes before it and not yet chased down.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible
