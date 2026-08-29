@@ -13,8 +13,8 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '215';
-  var JEM_ASSETS = {"admin.js": "9f99c96627", "annotate.js": "761fbd5949", "japan-empire-map-admin.svg": "8f23cf49df", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "0257e44d78", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0"};
+  var JEM_VERSION = '216';
+  var JEM_ASSETS = {"admin.js": "9f99c96627", "annotate.js": "761fbd5949", "japan-empire-map-admin.svg": "8f23cf49df", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "382143b5f7", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0"};
 
   /* Every file this one fetches, with the version on it.
 
@@ -1542,8 +1542,38 @@
      viewport is about fifteen degrees wide, which puts Taiwan at a fifth of
      the screen and its dots comfortably apart; by `mapW / 4` it is thirty-five
      degrees and they have merged. Between the two it ramps. */
-  var RAIL_FULL_W = 9;        // view.w <= mapW / 9: drawn in full
-  var RAIL_GONE_W = 4;        // view.w >= mapW / 4: not drawn at all
+  /* When the layer itself appears. Widened once: it used to want the island
+     nearly filling the frame before anything showed, so a reader who ticked
+     Taiwan Railways while looking at the empire saw nothing happen and untied
+     it again. It comes in a third of the way further out now.
+
+     These are view widths in map units, which is the same number on a phone as
+     on a desktop — the two differ in how much screen that width is spread
+     across, not in how much ground is in it — so there is one pair of numbers
+     here and not two. */
+  var RAIL_FULL_W = 6;        // view.w <= mapW / 6: drawn in full
+  var RAIL_GONE_W = 3;        // view.w >= mapW / 3: not drawn at all
+  /* AND THE TIES COME IN LATER THAN THE LINE.
+   *
+   * A railway is a line with the ground showing through it at intervals, and
+   * that is the right symbol — close in. Far out it is the wrong one, and no
+   * choice of dash fixes it: the network is a great many lines within a few
+   * pixels of each other, and any texture at all turns into a grey stipple
+   * over the country. Dots did it, and so does a tie every six pixels.
+   *
+   * The answer is not a better pattern but a second one, which is what an
+   * atlas does: at a small scale a railway is a plain line, and the ties
+   * appear as the reader closes in and there is room for them. So the ties get
+   * a fade of their own, later than the layer's, and between the two the line
+   * is solid — firm, readable, and quiet where several of them run together.
+   */
+  /* Chosen against the views a reader actually stops at, not by feel: the
+     whole of Taiwan is about three degrees across, which is 60 map units, and
+     that is the view the ties have to be out of. A region — a prefecture, a
+     stretch of coast — is under a degree and a half, and that is where they
+     belong. Rendered at four views and looked at. */
+  var RAIL_TIE_ON = 120;      // view.w <= mapW / 120 (~1.2 deg): ties in full
+  var RAIL_TIE_OFF = 45;      // view.w >= mapW / 45 (~3.1 deg): a plain line
 
   function railFade() {
     railFadeOne(twRailGroup, state.twRail);
@@ -1559,6 +1589,14 @@
           : (gone - view.w) / (gone - full);
     group.style.opacity = String(a);
     group.style.display = a > 0.02 ? '' : 'none';
+    if (a <= 0.02) return;
+    var tieOn = mapW / RAIL_TIE_ON, tieOff = mapW / RAIL_TIE_OFF;
+    var t = view.w <= tieOn ? 1
+          : view.w >= tieOff ? 0
+          : (tieOff - view.w) / (tieOff - tieOn);
+    $$('path.rail-tie', group).forEach(function (el) {
+      el.style.opacity = String(t);
+    });
   }
 
   function drawRelief() {

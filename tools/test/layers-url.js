@@ -166,6 +166,40 @@ console.log('\n— the railway layer travels in the address —');
       const n = (d || '').split(',').map(v => parseFloat(v));
       return n.length === 2 && n[0] > 0 && n[1] >= n[0] * 3;
     })(inked.tie.dash), inked.tie && inked.tie.dash);
+
+  /* AND THE TIES COME IN LATER THAN THE LINE. Far out, a network is a great
+     many lines within a few pixels of each other and any texture at all turns
+     into a grey stipple — dots did it and so did a tie every six pixels. No
+     choice of pattern fixes that, because the fault is having a pattern at
+     all at that scale. So the ties fade in as the reader closes, and between
+     the layer appearing and the ties appearing a railway is a plain line,
+     which is what an atlas draws at a small scale. */
+  {
+    const tieAt = async box => {
+      const z = await open(b, href.replace(/bbox=[^&]*/, 'bbox=' + box)
+                           + '&nocache=' + Math.random());
+      await sleep(1200);
+      const v = await z.evaluate(() => {
+        const g = document.getElementById('tw-rail');
+        const t = [...g.querySelectorAll('.rail-tie')].find(e => e.style.display !== 'none');
+        return { layer: +getComputedStyle(g).opacity,
+                 tie: t ? +t.style.opacity : null };
+      });
+      await z.close();
+      return v;
+    };
+    const wide = await tieAt('118.5,20.5,123.5,26.5');   // the island and then some
+    const near = await tieAt('120.4,23.9,121.1,24.5');   // a stretch of coast
+    check('the line itself is drawn at the island view', wide.layer > 0.9,
+      String(wide.layer));
+    check('but with no ties on it there', wide.tie === 0, String(wide.tie));
+    /* Not exactly 1: the test window is 1500px wide, so a bbox fits to a view
+       a little wider than the same box would on the map's own page, and the
+       ramp is still a hair short of the top. What matters is that it is
+       nearly all the way in, and nowhere near the island view's nothing. */
+    check('and the ties are all but in full once the reader is close',
+      near.tie > 0.85, String(near.tie));
+  }
   await s3.close();
 
   const s4 = await open(b, href + '&nocache=' + Math.random());

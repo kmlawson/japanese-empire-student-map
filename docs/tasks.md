@@ -11290,6 +11290,70 @@ with 22 of them.
 
 ---
 
+## The railway symbol, and 614 km of Korea drawn twice
+
+### Yes, the Korean lines are doubled in places
+
+Measured on the source. **32 groups of identical geometry covering 71 pieces —
+341 km drawn twice exactly — and 629 km doubled once near-matches are counted**,
+out of 6,710 km. Two separate causes, both in the sheet:
+
+* **Shared track, entered per line.** 경부본선 and 경의선 both carry the three
+  kilometres out of Seoul, because each is a line and the track is on both.
+* **Plain duplication.** 43 line-and-interval pairs appear more than once, one
+  of them three times: 호남본선 대전–서대전, 서대전–가수원, 가수원–흑석리 and
+  the rest of that run are each in the file twice.
+
+With an opaque stroke this was invisible and had never mattered. It matters now
+that the symbol has ties in it: the second copy's ties fall in their own phase,
+fill the first copy's gaps, and the line comes out solid, thicker, or moiréd
+depending on the zoom.
+
+`_rail_signature` in `build_map.py` samples twelve points along a piece,
+rounds them to 55 m, and refuses to draw ground already drawn — forwards or
+backwards, since the two copies are often entered in opposite directions.
+**40 pieces and 614 km dropped on each date.** Taiwan, through the same code:
+**0 dropped**, which is the check that it fires on real duplication and leaves
+clean data alone. The map is showing where the railways ran, not who had
+running rights over them.
+
+### The symbol: a pattern is the wrong thing at a small scale
+
+The dots were replaced by a line with ties, and zoomed out that was still not
+right. It is worth writing down why, because it is not about the pattern: at a
+small scale a network is a great many lines within a few pixels of each other,
+and **any** texture becomes a grey stipple over the country. A different dash
+does not fix it. Sparser dots make it worse — they come apart into specks.
+
+So the answer is a second symbol rather than a better one, which is what an
+atlas does: at a small scale a railway is a plain line, and the ties appear as
+the reader closes in and there is room for them. The ties now have a fade of
+their own, later than the layer's, and between the two a railway is a solid
+line.
+
+The thresholds are set against the views a reader actually stops at, not by
+feel: the whole of Taiwan is about three degrees, which is 60 map units, and
+that is the view the ties have to be out of; a stretch of coast is under a
+degree and a half, and that is where they belong. **Ties nil at and above
+3.1°, in full at and below 1.2°.** Rendered at four views and looked at.
+
+### And the layer comes in sooner
+
+At the author's asking. It wanted the island nearly filling the frame before
+anything showed, so a reader who ticked Taiwan Railways while looking at the
+empire saw nothing happen. `RAIL_FULL_W` 9 → 6 and `RAIL_GONE_W` 4 → 3: it
+starts appearing a third of the way further out and is in full at half again
+the view width. Measured at four widths on a 1,200px desktop and a 390px phone
+— at 26° across the layer is at 0.89 on both, and full by 18°.
+
+One pair of numbers covers both screens because they are view widths in map
+units: a phone and a desktop showing the same ground have the same `view.w`
+and differ only in how much screen it is spread across.
+
+Whole suite: 796 checks across 33 scripts, all passing.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible
