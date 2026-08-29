@@ -34,7 +34,7 @@ const look=p=>p.evaluate(()=>{
   const layer=document.querySelector('#train-layer');
   const bar=document.querySelector('#train-bar');
   const lines=document.querySelectorAll('#train-layer .train-line');
-  const marks=[...document.querySelectorAll('#train-layer .train-mark')]
+  const marks=[...document.querySelectorAll('#train-marks .train-mark')]
     .filter(m=>m.style.display!=='none');
   const cols={};
   lines.forEach(l=>{const c=l.getAttribute('stroke');cols[c]=(cols[c]||0)+1;});
@@ -57,7 +57,7 @@ const look=p=>p.evaluate(()=>{
 
 /* One train's radius as the reader sees it, in screen pixels. */
 const trainPx=p=>p.evaluate(()=>{
-  const m=[...document.querySelectorAll('#train-layer .train-mark')]
+  const m=[...document.querySelectorAll('#train-marks .train-mark')]
     .find(m=>m.style.display!=='none');
   if(!m) return 0;
   return m.getBoundingClientRect().width;});
@@ -87,6 +87,37 @@ const shutDialogs=p=>p.evaluate(()=>{
     let v=await look(p);
     check('off: no layer, no bar', !v.layer && !v.bar, JSON.stringify(v));
     check('off: neither file fetched', fetched.length===0, fetched.join());
+
+    /* The station button, without any train tools at all — which is the
+       ordinary case: a reader who has switched a railway on and come close
+       enough to see it should be able to mark its stops from the map rather
+       than from a dialog. */
+    const btn=()=>p.evaluate(()=>{
+      const b=document.querySelector('#btn-stations');
+      return {hidden:b.hidden, pressed:b.getAttribute('aria-pressed'), title:b.title,
+        shown:[...document.querySelectorAll('#tw-stations .sta-mark')]
+          .filter(m=>m.getBoundingClientRect().width>0).length};});
+    check('with no railway on, no station button', (await btn()).hidden, '');
+    await p.evaluate(()=>{
+      const r=document.querySelector('#opt-tw-rail');
+      r.checked=true; r.dispatchEvent(new Event('change',{bubbles:true}));});
+    await sleep(500);
+    let sb=await btn();
+    check('a railway on and in view offers it',
+      !sb.hidden && sb.pressed==='false' && /Show/.test(sb.title), JSON.stringify(sb));
+    await p.click('#btn-stations');
+    await sleep(500);
+    sb=await btn();
+    check('and pressing it marks the stops', sb.pressed==='true' && sb.shown>150,
+      JSON.stringify(sb));
+    check('the Layers panel agrees',
+      await p.evaluate(()=>document.querySelector('#opt-tw-stations').checked), '');
+    // and it goes when the reader leaves the island
+    await p.evaluate(()=>{
+      for(let i=0;i<10;i++) document.querySelector('#zoom-out').click();});
+    await sleep(800);
+    check('and it goes when the railway is no longer drawn', (await btn()).hidden, '');
+    check('still nothing fetched by any of that', fetched.length===0, fetched.join());
 
     /* ---- 2. the switch alone is not enough -------------------------- */
     await p.goto(WHOLE,{waitUntil:'networkidle0'});
@@ -198,6 +229,156 @@ const shutDialogs=p=>p.evaluate(()=>{
     check('with no second fetch of either file',
       fetched.filter(f=>f==='trains.js').length===1, fetched.join());
 
+    /* ---- 7a. tapping a train, and tapping a line -------------------- */
+    /* Neither layer takes pointer events — a hover must still name the country
+       under the pointer — so the tap is measured against the trains and the
+       track by `hitAt` and routed by `handleTap`. Driven here as the map's own
+       pointer path sees it: a pointerdown and a pointerup on the container. */
+    const tapAt=async(x,y)=>{
+      await p.evaluate((x,y)=>{
+        const c=document.querySelector('#map-container');
+        const o={bubbles:true,clientX:x,clientY:y,pointerId:1,pointerType:'mouse',isPrimary:true,button:0};
+        c.dispatchEvent(new PointerEvent('pointerdown',o));
+        c.dispatchEvent(new PointerEvent('pointerup',o));
+      },x,y);
+      await sleep(260);
+    };
+    const readCard=()=>p.evaluate(()=>({
+      chip:(document.querySelector('#info .chip')||{}).textContent||'',
+      primary:(document.querySelector('#info .primary')||{}).textContent||'',
+      alt:(document.querySelector('#info .alt')||{}).textContent||'',
+      prov:(document.querySelector('#info .prov')||{}).textContent||'',
+      note:(document.querySelector('#info .note-own')||{}).textContent||'',
+      rows:document.querySelectorAll('#info-trains .trains-table tr').length,
+      href:(document.querySelector('#info-trains a')||{}).getAttribute
+        ? document.querySelector('#info-trains a').getAttribute('href') : '',
+      hidden:document.querySelector('#info').hidden}));
+    // a moment when plenty are running, then aim at one
+    await p.evaluate(()=>{
+      const s=document.querySelector('#train-time');
+      s.value='540'; s.dispatchEvent(new Event('input',{bubbles:true}));});
+    await sleep(300);
+    const tPos=await p.evaluate(()=>{
+      const m=[...document.querySelectorAll('#train-marks .train-mark')]
+        .find(m=>m.style.display!=='none');
+      if(!m) return null;
+      const b=m.getBoundingClientRect();
+      return {x:b.x+b.width/2,y:b.y+b.height/2};});
+    if(tPos){
+      await tapAt(tPos.x,tPos.y);
+      const c=await readCard();
+      check('a tap on a train names the train', !c.hidden && /^Train/.test(c.chip)
+        && /^Train \S+/.test(c.primary), JSON.stringify(c).slice(0,220));
+      check('and says where it came from and where it is going',
+        /^Left .+ at \d\d:\d\d, due .+ at \d\d:\d\d\./.test(c.note), c.note);
+      check('with its calling list under it', c.rows>2, 'rows='+c.rows);
+      check('and a link to the printed table',
+        /timetable\/taiwan-1936\.html.*#line-/.test(c.href), c.href);
+    } else {
+      ['a tap on a train names the train','and says where it came from and where it is going',
+       'with its calling list under it','and a link to the printed table']
+        .forEach(n=>check(n,false,'no train on screen'));
+    }
+    /* A point on the track, away from any station square and any train. */
+    const lPos=await p.evaluate(()=>{
+      const stas=[...document.querySelectorAll('#tw-stations .sta-mark')]
+        .map(e=>e.getBoundingClientRect()).filter(b=>b.width);
+      const trains=[...document.querySelectorAll('#train-marks .train-mark')]
+        .filter(m=>m.style.display!=='none').map(e=>e.getBoundingClientRect());
+      const clear=(x,y)=>stas.every(b=>Math.hypot(x-(b.x+b.width/2),y-(b.y+b.height/2))>26)
+        && trains.every(b=>Math.hypot(x-(b.x+b.width/2),y-(b.y+b.height/2))>26);
+      for (const l of document.querySelectorAll('#train-layer .train-line')) {
+        const len=l.getTotalLength ? l.getTotalLength() : 0;
+        if (!len) continue;
+        const svg=l.ownerSVGElement, m=l.getScreenCTM();
+        for (let f=0.2; f<=0.8; f+=0.1) {
+          const q=l.getPointAtLength(len*f);
+          const pt=svg.createSVGPoint(); pt.x=q.x; pt.y=q.y;
+          const s=pt.matrixTransform(m);
+          if (s.x>60 && s.y>150 && s.x<1100 && s.y<800 && clear(s.x,s.y))
+            return {x:s.x,y:s.y,stroke:l.getAttribute('stroke')};
+        }
+      }
+      return null;});
+    if(lPos){
+      await tapAt(lPos.x,lPos.y);
+      const c=await readCard();
+      check('a tap on the track names the line', !c.hidden && /Railway line/i.test(c.chip)
+        && /Line$/.test(c.primary), JSON.stringify(c).slice(0,200));
+      check('with the day on it counted', c.rows>=6, 'rows='+c.rows);
+      check('and a link to its printed tables',
+        /timetable\/taiwan-1936\.html.*#line-/.test(c.href), c.href);
+    } else {
+      ['a tap on the track names the line','with the day on it counted',
+       'and a link to its printed tables'].forEach(n=>check(n,false,'no clear track found'));
+    }
+    /* And a tap away from all three still names the ground, which is the whole
+       reason the layer takes no pointer events. */
+    const sea=await p.evaluate(()=>{
+      const el=document.querySelector('[data-id="tws029"]');
+      const b=el?el.getBoundingClientRect():{x:400,y:400};
+      return {x:b.x+150,y:b.y};});
+    await tapAt(sea.x,sea.y);
+    const after=await readCard();
+    check('a tap beside the track still names the ground',
+      after.hidden || !/Railway line|^Train/.test(after.chip),
+      JSON.stringify(after).slice(0,160));
+
+    /* ---- 7c. the two buttons beside the zoom controls ---------------- */
+    const btns=()=>p.evaluate(()=>{
+      const R=s=>{const b=document.querySelector(s);return b?{hidden:b.hidden,
+        pressed:b.getAttribute('aria-pressed'),title:b.title,
+        w:Math.round(b.getBoundingClientRect().width),
+        h:Math.round(b.getBoundingClientRect().height)}:null;};
+      return {sta:R('#btn-stations'), trn:R('#btn-trains'),
+              squares:document.querySelectorAll('#tw-stations .sta-mark').length,
+              /* The layer is hidden as a group, not mark by mark, so a mark's
+                 own style says nothing about whether it is on screen. */
+              shown:[...document.querySelectorAll('#tw-stations .sta-mark')]
+                .filter(m=>m.getBoundingClientRect().width>0).length};});
+    let bv=await btns();
+    check('the station button is offered over a drawn railway',
+      bv.sta && !bv.sta.hidden && bv.sta.pressed==='true', JSON.stringify(bv.sta));
+    check('and the train tools button with it',
+      bv.trn && !bv.trn.hidden && bv.trn.pressed==='true', JSON.stringify(bv.trn));
+    check('both are finger sized', bv.sta.w>=40 && bv.sta.h>=40, JSON.stringify(bv.sta));
+    await p.click('#btn-stations');
+    await sleep(400);
+    bv=await btns();
+    check('pressing it hides the squares',
+      bv.sta.pressed==='false' && bv.shown===0, JSON.stringify(bv));
+    await p.click('#btn-stations');
+    await sleep(400);
+    bv=await btns();
+    check('and pressing it again brings them back',
+      bv.sta.pressed==='true' && bv.shown>150, JSON.stringify(bv));
+    await p.click('#btn-trains');
+    await sleep(600);
+    const off=await look(p);
+    bv=await btns();
+    check('the train button puts the tools away', !off.bar && !off.layer,
+      JSON.stringify(off));
+    check('and the plain railway comes back',
+      await p.evaluate(()=>{
+        const g=document.querySelector('#tw-rail');
+        return !!g && getComputedStyle(g).display!=='none'
+          && +getComputedStyle(g).opacity>0.5;}), '');
+    check('the button stays, now unpressed', !bv.trn.hidden && bv.trn.pressed==='false',
+      JSON.stringify(bv.trn));
+    await p.click('#btn-trains');
+    await sleep(900);
+    const again=await look(p);
+    check('and brings them back', again.bar && again.layer, JSON.stringify(again));
+
+    /* ---- 7d. the squares sit between the track and the trains -------- */
+    const stack=await p.evaluate(()=>{
+      const svg=document.querySelector('#map-svg svg');
+      const ix=id=>[...svg.children].findIndex(c=>c.id===id);
+      return {track:ix('train-layer'), squares:ix('tw-stations'), trains:ix('train-marks')};});
+    check('the squares are above the track and below the trains',
+      stack.track>=0 && stack.track<stack.squares && stack.squares<stack.trains,
+      JSON.stringify(stack));
+
     /* ---- 7b. and it survives a change of projection ----------------- */
     /* The track is reprojected by the map, along with every other path in the
        document. The trains are not: their positions are worked out from points
@@ -206,7 +387,7 @@ const shutDialogs=p=>p.evaluate(()=>{
        measuring how far a train sits from the nearest coloured line, which is
        the thing that would come apart. */
     const gap=()=>p.evaluate(()=>{
-      const m=[...document.querySelectorAll('#train-layer .train-mark')]
+      const m=[...document.querySelectorAll('#train-marks .train-mark')]
         .find(m=>m.style.display!=='none');
       if(!m) return -1;
       const b=m.getBoundingClientRect();

@@ -2472,14 +2472,21 @@ dialog h3 {
    map.js and exist only while the reader is zoomed in to a railway that has a
    timetable, so nothing here is on screen the rest of the time.
 
-   The coloured track and the trains take no pointer events at all. They lie
-   over the island, and anything on this layer that answered the pointer would
-   be answering it instead of the province underneath — hovering Taichū-shū
-   along the trunk line would name nothing, and on a touch screen a tap that
-   landed on a moving dot would clear the card. The `<title>` on each train is
-   for the accessibility tree, not a tooltip; a four-pixel target that moves is
-   not a thing to ask anybody to point at. */
-#train-layer { pointer-events: none; }
+   THE COLOURED TRACK AND THE TRAINS TAKE NO POINTER EVENTS, AND ARE STILL
+   CLICKABLE. The two are not in tension. Nothing on these layers answers the
+   browser's hit test, because the whole map answers the pointer by naming what
+   is under it and a transparent ribbon along every railway would stop the
+   country being named whenever the mouse crossed one. Instead `hitAt` in
+   trains.js measures the tap against the trains and the track and hands back
+   the nearer, and `handleTap` in map.js puts that ahead of the ground. A hover
+   is untouched: it never reaches this code at all. The `<title>` on each train
+   is for the accessibility tree rather than a tooltip.
+
+   Two layers, not one, with the station squares between them: the track below
+   the squares, because a station is a stop on a line and not a dot under a
+   five-pixel stroke, and the trains above them, because a train arriving at a
+   station is the thing being watched. */
+#train-layer, #train-marks { pointer-events: none; }
 
 #train-bar {
   position: absolute;
@@ -2718,3 +2725,23 @@ dialog h3 {
    this: a time the original print left ambiguous is not a time to plan by. */
 .trains-table .unc { color: var(--accent); }
 .trains-table .unc::after { content: '?'; }
+
+/* The two map-side switches beside the zoom buttons: stations, and the train
+   tools. They are icons rather than words because they sit in a column 40 px
+   wide, and each carries its name in `title` and `aria-label`. Pressed reads
+   as pressed — the same fill the header toggles use, which in dark mode goes
+   the other way round, a light fill under dark ink. */
+#zoom-controls button svg {
+  width: 21px;
+  height: 21px;
+  display: block;
+  margin: 0 auto;
+}
+
+#zoom-controls button[aria-pressed="true"] {
+  background: var(--on-fill);
+  color: var(--on-ink);
+  border-color: var(--on-fill);
+}
+
+#zoom-controls button[aria-pressed="true"]:hover { background: var(--on-fill); }

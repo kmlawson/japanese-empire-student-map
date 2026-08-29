@@ -11762,6 +11762,94 @@ is 34 px, a tap plays the day, and a tap on a station opens its trains.
 
 ---
 
+## Train Tools, second pass: two buttons beside the map, and three things to tap
+
+**Asked for:** a station toggle beside the zoom controls, shown where a railway
+is actually drawn; taps on a train and on a line as well as on a station, with
+stations drawn above the track and below the trains; a card per line with a
+link to its own printed table and some figures; and a button to put the train
+tools away, after which the railway goes back to a plain single-colour line.
+
+### The layer is two layers now
+
+The squares belong on top of the track — under a five-pixel stroke a station is
+a dot half hidden — and under the trains, which are the thing moving and have
+to be seen arriving. So the module puts a `#train-layer` in below the station
+group and a `#train-marks` above it, and the squares themselves are not moved.
+Document order: `tw-rail`, `train-layer`, `tw-stations`, `train-marks`,
+`markers`.
+
+### Why the clickable things take no pointer events
+
+The obvious way to make a line clickable is a wide transparent stroke along it.
+That would have broken hovering. The whole map answers the pointer by naming
+what is under it, and a transparent ribbon twelve pixels wide laid along every
+railway would mean the country stopped being named every time the mouse crossed
+one — a fault nobody would connect to a feature about clicking.
+
+So neither layer takes pointer events, exactly as before, and `hitAt` in
+trains.js measures the tap instead: distances in map units, reported in screen
+pixels through `k`. `handleTap` puts the answer ahead of the ground. **A hover
+never reaches any of this.** The order is a train within 11 px, then the
+station — which outranks a train unless the train is genuinely nearer, measured
+from both centres — then the line within 9 px, then the country. Checked by
+tapping beside the track and confirming the ground still answers.
+
+### The three cards
+
+One renderer, three callers: a heading, column names, rows, and a link to the
+printed table. The station block was already this shape; the train and line
+blocks were made to match rather than growing a second table.
+
+* **A train** — `Train 175`, its line in both scripts, `Down · 2nd & 3rd class
+  · for 溪州`, then *Left 高雄 at 08:15, due 溪州 at 09:47*, then its twelve
+  calls with arrival and departure.
+* **A line** — `Yilan Line 宜蘭線`, where its workings start and end, and a day
+  on it counted from the transcription: **24 trains, 12 down and 12 up, 24
+  stations, 99 km of track drawn, first away 05:08 and last 22:41**. The
+  kilometres are added up from the traced geometry, not from the distance
+  column of the printed table, which is a running total from the head of each
+  table and does not survive being cut into stretches.
+
+Both link to the anchor for their own line rather than the top of a 199 KB
+page. Neither is a record: putting a working or a line into `byId` would let
+the quiz ask about them and a shared link select one, so the card is filled
+straight from the module and the selection is dropped rather than moved.
+
+### Two buttons, each shown only where it means something
+
+* **Stations** appears when a railway layer is on, is *not faded out at this
+  width*, and the frame meets the ground that system covers — the same three
+  facts the drawing uses, so the button cannot offer to mark stops the reader
+  cannot see. It goes when they zoom away.
+* **Train tools** appears wherever a timetable could be opened, whether or not
+  the switch is on, because a button that could only be pressed to turn
+  something off would be no way to turn it on.
+
+**Switching the tools off leaves the railway drawn.** That is the difference
+between the two ways they can end: a reader who zooms out has asked for
+nothing, so the borrowed switches go back exactly as found; a reader who
+presses the button has asked for something, and it is not a blank island — they
+were looking at a railway a moment ago. So the borrow is released rather than
+undone, the layer stays on, and the plain single-colour line reappears, having
+been stood down only while the coloured one was up.
+
+**And the borrow stays out of the address bar.** While the tools are open, bits
+25–28 are written from what was there *before* the borrow: a link shared from
+here carries the train tools and not somebody else's railway layer, and the
+tools borrow again at the other end.
+
+### Tested
+
+`tools/test/trains.js` is **64 checks** now. New: the station button with no
+train tools at all — hidden with no railway, offered with one in view, marking
+199 stops when pressed, agreeing with the Layers panel, and gone when the
+reader zooms away, with nothing fetched by any of it; a tap on a train, on the
+track, and beside the track; the two buttons' pressed states; the plain railway
+coming back; and the document order of the three layers.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

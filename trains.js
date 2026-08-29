@@ -63,7 +63,16 @@ window.JMAP_TRAINS = function (host) {
 
   var cfg = null;                      // the system being shown, or null
   var data = null;
-  var group = null;                    // the SVG layer
+  /* TWO LAYERS, NOT ONE, and the station squares go between them.
+   *
+   * A station belongs on top of the line it stands on — under the line it is a
+   * dot half-hidden by a stroke five pixels wide — and under the trains, which
+   * are the thing moving and have to be seen to arrive at it. The squares are
+   * the railway layer's and sit where they always have, so the track goes
+   * below them and the trains above, and this layer is two groups rather than
+   * one for that reason alone. */
+  var lineLayer = null;                // the coloured track, below the squares
+  var markLayer = null;                // the trains, above them
   var trainGroup = null;
   var bar = null;                      // the control strip
   var els = {};
@@ -76,6 +85,8 @@ window.JMAP_TRAINS = function (host) {
   var caseInk = '#fff';                // which way round the halo goes
   var chips = [];                      // the swatch in the bar, likewise
   var groundNow = '';                  // the land colour the inks were fitted to
+  var lineGeom = [];                   // [{li, key, pts}] for hit testing
+  var livePos = [];                    // where each train is now, in map units
   var byStation = null;                // our station id -> timetable index
   var simMin = DEFAULT_MIN;
   var playing = false;
@@ -318,6 +329,7 @@ window.JMAP_TRAINS = function (host) {
         if (counts[li] > bestN) { bestN = counts[li]; best = +li; }
       });
       if (n > 1) shared++;
+      lineOwns[k] = best;
       var pair = k.split('|');
       var traced = !!data.paths[k];
       var seg = segment(+pair[0], +pair[1]);
@@ -344,10 +356,16 @@ window.JMAP_TRAINS = function (host) {
       });
       lineGroup.appendChild(path);
       linePaths.push({ el: path, li: best });
+      /* Kept for the pointer, not for drawing. The track answers a tap by a
+         distance test in this module rather than by taking pointer events —
+         see `hitAt` — so the points have to be somewhere they can be measured
+         against, and reading them back out of a `d` string on every tap is
+         not that place. */
+      lineGeom.push({ li: best, key: k, pts: seg.p });
       drawn++;
     });
-    group.appendChild(caseGroup);
-    group.appendChild(lineGroup);
+    lineLayer.appendChild(caseGroup);
+    lineLayer.appendChild(lineGroup);
     return { drawn: drawn, shared: shared, straight: straight,
              refused: refused };
   }
@@ -463,10 +481,12 @@ window.JMAP_TRAINS = function (host) {
       }
       var m = marks[i];
       if (!pos) {
+        livePos[i] = null;
         if (m) m.style.display = 'none';
         continue;
       }
       m = markFor(i);
+      livePos[i] = pos;
       m.style.display = '';
       m.setAttribute('transform',
         'translate(' + pos.x.toFixed(1) + ' ' + pos.y.toFixed(1) + ') scale(' + k + ')');
@@ -506,6 +526,199 @@ window.JMAP_TRAINS = function (host) {
     if (on && !raf) raf = requestAnimationFrame(tick);
     if (!on && raf) { cancelAnimationFrame(raf); raf = 0; }
   }
+
+  /* --------------------------------------------------------- the pointer --
+
+     WHY THIS IS A DISTANCE TEST AND NOT A POINTER-EVENTS LAYER.
+
+     The obvious way to make a line clickable is to give it a wide transparent
+     stroke and let the browser hit-test it. That would break hovering: the
+     whole map answers the pointer by naming what is under it, and a transparent
+     ribbon twelve pixels wide laid along every railway would mean the country
+     stopped being named every time the mouse crossed one. The layer takes no
+     pointer events at all, as it always has, and the map hands a tap here to
+     be measured instead. Nothing hovers over a railway that did not before.
+
+     It also puts the order of precedence in one place and makes it plain: a
+     train first, because it is drawn on top and is the smaller target; then
+     the station, which the map answers for itself; then the line. */
+  var TRAIN_HIT_PX = 11;      // a train dot is 3.4 px; this is a finger's worth
+  var LINE_HIT_PX = 9;        // wider than the 3.8 px line, as asked for
+
+  function distToSeg(px, py, ax, ay, bx, by) {
+    var dx = bx - ax, dy = by - ay;
+    var len = dx * dx + dy * dy;
+    var t = len > 0 ? ((px - ax) * dx + (py - ay) * dy) / len : 0;
+    t = t < 0 ? 0 : (t > 1 ? 1 : t);
+    return Math.hypot(px - (ax + dx * t), py - (ay + dy * t));
+  }
+
+  /* What is under this point on the screen, or null. Distances are worked out
+     in map units and reported in screen pixels, because a hit target is a
+     thing the reader aims a finger at and `k` is the only bridge between the
+     two — the same rule the rest of this file keeps. */
+  function hitAt(cx, cy) {
+    if (!cfg) return null;
+    var p = host.clientToSvg(cx, cy);
+    if (!p) return null;
+    var k = lastK > 0 ? lastK : 1;
+    var best = null, bestD = TRAIN_HIT_PX;
+    for (var i = 0; i < livePos.length; i++) {
+      var q = livePos[i];
+      if (!q) continue;
+      var d = Math.hypot(p.x - q.x, p.y - q.y) / k;
+      if (d < bestD) { bestD = d; best = i; }
+    }
+    if (best !== null) return { kind: 'train', dist: bestD, index: best };
+    var bl = null, blD = LINE_HIT_PX;
+    for (var g = 0; g < lineGeom.length; g++) {
+      var pts = lineGeom[g].pts;
+      for (var j = 1; j < pts.length; j++) {
+        var dd = distToSeg(p.x, p.y, pts[j - 1].x, pts[j - 1].y,
+                           pts[j].x, pts[j].y) / k;
+        if (dd < blD) { blD = dd; bl = lineGeom[g].li; }
+      }
+    }
+    if (bl !== null) return { kind: 'line', dist: blD, index: bl };
+    return null;
+  }
+
+  /* ------------------------------------------------------------- cards --
+
+     Data, not markup. What a card looks like is map.js's business — it owns
+     `#info` and every other card in it — so these hand back the same shape the
+     station departures do and are drawn by the same code. */
+
+  function stationName(i) {
+    var st = data.stations[i];
+    return st ? st.n : '';
+  }
+
+  /* A train: what it is, where it came from and when, and where it is going.
+     The calling list underneath is the train's own timetable column, which is
+     what the reader has just pointed at a moving dot to ask about. */
+  function trainCard(index) {
+    var plan = plans[index];
+    if (!plan) return null;
+    var t = plan.tr;
+    var line = lineFor(t.li);
+    var stops = t.st.filter(function (s) { return !((s[3] || 0) & 1); });
+    var first = stops[0], last = stops[stops.length - 1];
+    var fromT = first && (first[2] !== null && first[2] !== undefined
+                          ? first[2] : first[1]);
+    var toT = last && (last[1] !== null && last[1] !== undefined
+                       ? last[1] : last[2]);
+    var note = '';
+    if (first && last) {
+      note = 'Left ' + stationName(first[0])
+        + (fromT !== null && fromT !== undefined ? ' at ' + fmt(fromT) : '')
+        + ', due ' + stationName(last[0])
+        + (toT !== null && toT !== undefined ? ' at ' + fmt(toT) : '') + '.';
+      if (toT >= DAY) note += ' It arrives the next morning.';
+    }
+    var rows = stops.map(function (s) {
+      var fl = s[3] || 0;
+      return {
+        cells: [stationName(s[0]),
+                (s[1] !== null && s[1] !== undefined) ? fmt(s[1]) : '',
+                (s[2] !== null && s[2] !== undefined) ? fmt(s[2]) : ''],
+        title: (fl & 2) ? 'passes without stopping' : '',
+        timeCells: 3, first: 1,
+        uncertain: !!(fl & 4),
+      };
+    });
+    return {
+      chip: 'Train', colour: inks[t.li] || '#555',
+      primary: 'Train ' + t.no,
+      alt: line ? line.en + '  ' + line.n : '',
+      prov: [t.dir ? 'Up' : 'Down', classOf(t.cls),
+             t.dest ? 'for ' + t.dest : ''].filter(Boolean).join('  \u00b7  '),
+      note: note,
+      head: rows.length + ' calls \u00b7 ' + data.year,
+      cols: ['Station', 'Arr', 'Dep'],
+      rows: rows,
+      link: line && line.a
+        ? { page: cfg.page, anchor: line.a, text: 'The printed table for this line' }
+        : null,
+    };
+  }
+
+  /* A line: what it was, and the shape of a day on it. Every figure here is
+     counted from the timetable rather than quoted from anywhere, so it says
+     what this transcription holds and not what the railway was — the two
+     differ wherever the source is short of a station or a working. */
+  function lineCard(li) {
+    var line = lineFor(li);
+    if (!line) return null;
+    var trains = data.trains.filter(function (t) { return t.li === li; });
+    var down = trains.filter(function (t) { return !t.dir; }).length;
+    var stops = {};
+    var firstT = null, lastT = null;
+    trains.forEach(function (t) {
+      t.st.forEach(function (s) {
+        if ((s[3] || 0) & 1) return;
+        stops[s[0]] = 1;
+        var d = s[2];
+        if (d === null || d === undefined) return;
+        if (firstT === null || d < firstT) firstT = d;
+        if (lastT === null || d > lastT) lastT = d;
+      });
+    });
+    /* The length of the track this line is drawn on, in kilometres, added up
+       from the traced geometry rather than from the distance column of the
+       printed table — which is a running total from the head of each table and
+       does not survive being cut into stretches. */
+    var km = 0;
+    Object.keys(data.paths).forEach(function (key) {
+      if (!lineOwns[key] || lineOwns[key] !== li) return;
+      var flat = data.paths[key];
+      for (var i = 2; i < flat.length; i += 2) {
+        km += apart({ lon: flat[i - 2], lat: flat[i - 1] },
+                    { lon: flat[i], lat: flat[i + 1] });
+      }
+    });
+    var ends = {};
+    trains.forEach(function (t) {
+      var st = t.st.filter(function (s) { return !((s[3] || 0) & 1); });
+      if (!st.length) return;
+      ends[stationName(st[0][0])] = 1;
+      ends[stationName(st[st.length - 1][0])] = 1;
+    });
+    var rows = [
+      { cells: ['Trains a day', String(trains.length)] },
+      { cells: ['Down / up', down + ' / ' + (trains.length - down)] },
+      { cells: ['Stations called at', String(Object.keys(stops).length)] },
+      { cells: ['Track drawn', km >= 1 ? Math.round(km) + ' km' : '\u2014'] },
+      { cells: ['First departure', firstT === null ? '\u2014' : fmt(firstT)] },
+      { cells: ['Last departure', lastT === null ? '\u2014' : fmt(lastT)] },
+    ];
+    return {
+      chip: 'Railway line', colour: inks[li] || '#555',
+      primary: line.en,
+      alt: line.n,
+      /* Said, rather than left as a row of names. These are where the day's
+         workings begin and end, which is not the same as the two ends of the
+         line: the Yilan line's trains start or finish at six different places,
+         and a bare list of six looked like a claim that it had six termini. */
+      prov: Object.keys(ends).length
+        ? 'Trains start or end at ' + Object.keys(ends).slice(0, 8).join('\u3001')
+          + (Object.keys(ends).length > 8 ? '\u2026' : '')
+        : '',
+      note: 'As the timetable of February ' + data.year + ' has it. Every '
+        + 'figure here is counted from that transcription, so it says what the '
+        + 'table holds rather than what the railway was.',
+      head: 'A day on the line',
+      cols: ['', ''],
+      rows: rows,
+      link: line.a
+        ? { page: cfg.page, anchor: line.a, text: 'The printed tables for this line' }
+        : null,
+    };
+  }
+
+  /* Which line owns each stretch of track, worked out once with the drawing so
+     the line card can add up its own length without walking the trains again. */
+  var lineOwns = {};
 
   /* ----------------------------------------------------------------- bar --
 
@@ -632,26 +845,42 @@ window.JMAP_TRAINS = function (host) {
         if (dep === null || dep === undefined) {
           if (arr === null || arr === undefined) return;   // passes without stopping
         }
+        var line = lineFor(t.li);
         rows.push({
           t: ((dep !== null && dep !== undefined) ? dep : arr) % DAY,
-          dep: (dep !== null && dep !== undefined) ? fmt(dep) : '',
-          arr: (arr !== null && arr !== undefined) ? fmt(arr) : '',
-          no: t.no, line: lineFor(t.li), dir: t.dir,
-          dest: t.dest, cls: classOf(t.cls),
+          key: t.no + '|' + (((dep !== null && dep !== undefined) ? dep : arr) % DAY),
+          cells: [(dep !== null && dep !== undefined) ? fmt(dep) : '',
+                  (arr !== null && arr !== undefined) ? fmt(arr) : '',
+                  t.no,
+                  line ? line.en.replace(/ Line$/, '') + ' '
+                         + (t.dir ? '\u2191' : '\u2193') : '',
+                  t.dest || ''],
+          swatchAt: 3,
+          swatch: line ? line.c : '',
+          title: line ? line.n + '  ' + (t.dir ? '\u4e0a\u308a' : '\u4e0b\u308a')
+                        + (t.cls ? '  \u00b7  ' + classOf(t.cls) : '') : '',
+          timeCells: 2,
           uncertain: !!(fl & 4),
         });
       });
     });
     var seen = {};
     rows = rows.filter(function (r) {
-      var k = r.no + '|' + r.t;
-      if (seen[k]) return false;
-      seen[k] = 1;
+      if (seen[r.key]) return false;
+      seen[r.key] = 1;
       return true;
     }).sort(function (a, b) { return a.t - b.t; });
-    return { name: st.n, romaji: st.ro || '', rows: rows,
-             lines: (st.li || []).map(lineFor).filter(Boolean),
-             page: cfg.page, year: data.year };
+    var lines = (st.li || []).map(lineFor).filter(Boolean);
+    return {
+      name: st.n, romaji: st.ro || '',
+      head: rows.length + ' trains called here \u00b7 ' + data.year,
+      cols: ['Dep', 'Arr', 'Train', 'Line', 'To'],
+      rows: rows,
+      link: lines[0] && lines[0].a
+        ? { page: cfg.page, anchor: lines[0].a,
+            text: 'The printed table for this line' }
+        : null,
+    };
   }
 
   /* ---------------------------------------------------------------- api --- */
@@ -674,13 +903,17 @@ window.JMAP_TRAINS = function (host) {
       linePaths = [];
       casePaths = [];
       chips = [];
+      lineGeom = [];
+      livePos = [];
+      lineOwns = {};
       groundNow = '';
       recolour(true);
-      group = host.svgEl('g', { id: 'train-layer' });
-      host.insertLayer(group);
+      lineLayer = host.svgEl('g', { id: 'train-layer' });
+      markLayer = host.svgEl('g', { id: 'train-marks' });
+      host.insertLayer(lineLayer, markLayer);
       var lineStats = buildLines();
       trainGroup = host.svgEl('g', { 'class': 'train-marks' });
-      group.appendChild(trainGroup);
+      markLayer.appendChild(trainGroup);
       var planStats = buildPlans();
       buildBar();
       lastK = host.scale();
@@ -702,8 +935,12 @@ window.JMAP_TRAINS = function (host) {
         host.obstacle(bar, false);
         if (bar.parentNode) bar.parentNode.removeChild(bar);
       }
-      if (group && group.parentNode) group.parentNode.removeChild(group);
-      cfg = null; data = null; group = null; trainGroup = null; bar = null;
+      [lineLayer, markLayer].forEach(function (g) {
+        if (g && g.parentNode) g.parentNode.removeChild(g);
+      });
+      cfg = null; data = null; trainGroup = null; bar = null;
+      lineLayer = null; markLayer = null; lineGeom = []; livePos = [];
+      lineOwns = {};
       els = {}; plans = []; marks = []; segCache = null; byStation = null;
       inks = []; linePaths = []; casePaths = []; chips = []; groundNow = '';
       shownClock = '';
@@ -739,8 +976,21 @@ window.JMAP_TRAINS = function (host) {
     reprojected: function () {
       if (!cfg) return;
       segCache = {};
+      /* The paths themselves are moved by `reprojectDocument`, but the points
+         kept here for the pointer are not in the document and nothing else
+         will touch them. Asked again from longitude and latitude, which have
+         not moved. */
+      lineGeom.forEach(function (g) {
+        var pair = g.key.split('|');
+        var seg = segment(+pair[0], +pair[1]);
+        if (seg) g.pts = seg.p;
+      });
       render();
     },
+
+    hitAt: hitAt,
+    trainCard: trainCard,
+    lineCard: lineCard,
 
     departures: departures,
     recolour: recolour,

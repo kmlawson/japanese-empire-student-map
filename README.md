@@ -78,8 +78,11 @@ framework. Serve the folder over HTTP, or hand out the single-file build.
   timetable gives its seven lines, with a strip at the foot of the map that
   runs the day: press play and 346 trains move at two to twenty minutes a
   second. Tap a station for the trains that called there, with their numbers,
-  their lines and where they were going, and a link to the printed table for
-  that line. It appears when you are close enough for it to mean anything and
+  their lines and where they were going; tap a moving train for what it is and
+  where it is going, or the track for the line and a day's working on it. Each
+  links to its own printed table. Two buttons beside the zoom controls mark the
+  stations on any railway that is drawn, and put the train tools away — the
+  railway stays, in one plain colour. It appears when you are close enough for it to mean anything and
   is put away when you leave, and neither the interface nor its data is fetched
   until the first time that happens.
 

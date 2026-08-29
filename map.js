@@ -13,8 +13,8 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '222';
-  var JEM_ASSETS = {"admin.js": "9f99c96627", "annotate.js": "761fbd5949", "japan-empire-map-admin.svg": "8f23cf49df", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "23439bf362", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "b09f9d37f7", "trains.js": "b6ccd17e11", "tw-trains.js": "41bcc255ed"};
+  var JEM_VERSION = '223';
+  var JEM_ASSETS = {"admin.js": "9f99c96627", "annotate.js": "761fbd5949", "japan-empire-map-admin.svg": "8f23cf49df", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "23439bf362", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "b09f9d37f7", "trains.js": "692722b747", "tw-trains.js": "41bcc255ed"};
 
   /* Every file this one fetches, with the version on it.
 
@@ -1596,6 +1596,129 @@
   function railFade() {
     railFadeOne(twRailGroup, state.twRail && !trainDraws('tw'));
     railFadeOne(krRailGroup, state.krRail && !trainDraws('kr'));
+    syncMapButtons();
+  }
+
+  /* How much of the railway layer is drawn at this width, 0 to 1. Pulled out
+     of `railFadeOne` so the station button can ask the same question the
+     drawing asks, rather than a second one that would answer differently. */
+  function railAlpha() {
+    var full = mapW / RAIL_FULL_W, gone = mapW / RAIL_GONE_W;
+    return view.w <= full ? 1
+         : view.w >= gone ? 0
+         : (gone - view.w) / (gone - full);
+  }
+
+  /* The frame, as west/south/east/north. Four corners rather than two, because
+     under a conic or an azimuthal projection the view rectangle is not a
+     rectangle in longitude and latitude and its corners are not its extremes
+     — but they are close enough to say which island is on screen, which is all
+     this is asked for. */
+  function viewLonLat() {
+    var pts = [[view.x, view.y], [view.x + view.w, view.y],
+               [view.x, view.y + view.h], [view.x + view.w, view.y + view.h]];
+    var w = Infinity, s2 = Infinity, e = -Infinity, n = -Infinity;
+    for (var i = 0; i < pts.length; i++) {
+      var q = unproject(pts[i][0], pts[i][1]);
+      if (!isFinite(q.lon) || !isFinite(q.lat)) return null;
+      if (q.lon < w) w = q.lon;
+      if (q.lon > e) e = q.lon;
+      if (q.lat < s2) s2 = q.lat;
+      if (q.lat > n) n = q.lat;
+    }
+    return [w, s2, e, n];
+  }
+
+  function viewMeets(box) {
+    var v = viewLonLat();
+    if (!v || !box) return false;
+    return v[0] <= box[2] && v[2] >= box[0] && v[1] <= box[3] && v[3] >= box[1];
+  }
+
+  /* WHICH RAILWAY THE READER IS LOOKING AT, or ''.
+   *
+   * Not which layer is switched on: a reader with Korea's railways ticked
+   * while looking at Taiwan is not looking at a railway, and a button offering
+   * to mark its stations would mark nothing they could see. So the test is the
+   * one the drawing makes — the layer is on, it is not faded out at this
+   * width, and the frame meets the ground it covers. */
+  function railUnderView() {
+    if (railAlpha() <= 0.02) return '';
+    var found = '';
+    Object.keys(STATION_SYS).forEach(function (k) {
+      var cfg = STATION_SYS[k];
+      if (found || !state[cfg.rail] || !cfg.ground) return;
+      if (viewMeets(cfg.ground)) found = k;
+    });
+    return found;
+  }
+
+  /* The system a set of train tools could be opened on, whether or not the
+     switch is on — which is what the button beside the map has to know, since
+     its whole job is to turn that switch on and off. `trainSysFor` answers a
+     narrower question: whether they should be *built*, which additionally
+     needs the reader to have asked. */
+  function trainZone() {
+    if (latSpan() > TRAIN_LAT_OFF) return '';
+    var c = unproject(view.x + view.w / 2, view.y + view.h / 2);
+    if (!isFinite(c.lon) || !isFinite(c.lat)) return '';
+    var found = '';
+    Object.keys(TRAIN_SYS).forEach(function (k) {
+      var b = TRAIN_SYS[k].box;
+      if (c.lon >= b[0] - TRAIN_BOX_PAD && c.lon <= b[2] + TRAIN_BOX_PAD
+          && c.lat >= b[1] - TRAIN_BOX_PAD && c.lat <= b[3] + TRAIN_BOX_PAD) {
+        found = k;
+      }
+    });
+    return found;
+  }
+
+  var btnStationsSys = '';
+  /* Held rather than looked up. This runs on every frame of every gesture and
+     `querySelector` on a document of eight thousand nodes is not free. */
+  var btnStaEl = null, btnTrnEl = null, btnElsFound = false;
+
+  /* Called from `railFade`, so on every frame of every gesture. Everything it
+     asks is cached or arithmetic, and it writes only when the answer has
+     changed — a `hidden` set to the value it already had is still a style
+     invalidation on a document of eight thousand nodes. */
+  function syncMapButtons() {
+    if (!btnElsFound) {
+      btnElsFound = true;
+      btnStaEl = $('#btn-stations');
+      btnTrnEl = $('#btn-trains');
+    }
+    if (!btnStaEl && !btnTrnEl) return;
+    var sys = railUnderView();
+    btnStationsSys = sys;
+    var bs = btnStaEl;
+    if (bs) {
+      var on = !!(sys && state[STATION_SYS[sys].on]);
+      var want = !sys;
+      if (bs.hidden !== want) bs.hidden = want;
+      var pressed = on ? 'true' : 'false';
+      if (bs.getAttribute('aria-pressed') !== pressed) {
+        bs.setAttribute('aria-pressed', pressed);
+        var label = (on ? 'Hide' : 'Show') + ' railway stations';
+        bs.title = label;
+        bs.setAttribute('aria-label', label);
+      }
+    }
+    var bt = btnTrnEl;
+    if (bt) {
+      var zone = trainZone();
+      var hide = !zone;
+      if (bt.hidden !== hide) bt.hidden = hide;
+      var tp = state.trainTools ? 'true' : 'false';
+      if (bt.getAttribute('aria-pressed') !== tp) {
+        bt.setAttribute('aria-pressed', tp);
+        var tl = state.trainTools
+          ? 'Put the train tools away'
+          : 'Train tools: run the timetable';
+        bt.title = tl;
+        bt.setAttribute('aria-label', tl);
+      }
+    }
   }
 
   function trainDraws(sys) {
@@ -1711,7 +1834,19 @@
     if (want === up) return;
     if (up && want !== up) {
       trainBusy = true;
-      try { trainApi.unmount(); giveBackStations(); }
+      /* WHY THE TOOLS WENT DECIDES WHAT IS LEFT BEHIND.
+       *
+       * A reader who zooms out has not asked for anything: the switches the
+       * tools borrowed go back exactly as they were found, so leaving the
+       * island does not silently turn a railway layer on.
+       *
+       * A reader who *switched the tools off* has asked for something, and it
+       * is not a blank island. They were looking at a railway a moment ago and
+       * pressing the button should leave it there, drawn plainly in one colour
+       * instead of coloured by line. So the borrow is simply released and the
+       * layer stays on — which is also what makes the plain line reappear,
+       * `railFade` having stood it down only while the tools were up. */
+      try { trainApi.unmount(); giveBackStations(!state.trainTools); }
       finally { trainBusy = false; }
       fillTrainCard(null);
       if (!want) return;
@@ -1754,16 +1889,21 @@
     railFade();
   }
 
-  function giveBackStations() {
+  function giveBackStations(keep) {
     var b = trainBorrowed;
     trainBorrowed = null;
     if (!b) return;
-    // only what is still as it was left
-    if (state[b.rail] === true) state[b.rail] = b.hadRail;
-    if (state[b.on] === true) state[b.on] = b.hadOn;
+    if (!keep) {
+      // only what is still as it was left
+      if (state[b.rail] === true) state[b.rail] = b.hadRail;
+      if (state[b.on] === true) state[b.on] = b.hadOn;
+    }
     syncTrainBoxes();
     syncStationLayers();
     railFade();
+    // the two are the reader's own now, or back to what they were; either way
+    // the address should say what the map is doing
+    scheduleUrl();
   }
 
   function syncTrainBoxes() {
@@ -1852,7 +1992,20 @@
       /* Under the markers and over the traced railway, which is where the
          stops are: a coloured line laid over the city dots would hide Taihoku
          under the trunk line it stands on. */
-      insertLayer: function (g) { svg.insertBefore(g, markersGroup || null); },
+      /* Two groups, and the station squares between them: the track under the
+         squares because a station is a stop *on* a line, and the trains over
+         them because a train arriving at a station is the thing the reader is
+         watching. The squares belong to the railway layer and are not moved. */
+      insertLayer: function (lines, marks) {
+        var sta = null;
+        Object.keys(STATION_SYS).forEach(function (k) {
+          var g = STATION_SYS[k].group;
+          if (g && g.parentNode === svg && !sta) sta = g;
+        });
+        svg.insertBefore(lines, sta || markersGroup || null);
+        svg.insertBefore(marks, markersGroup || null);
+      },
+      clientToSvg: clientToSvg,
       /* The land the network is drawn over, as it is actually painted — the
          reader's palette, their single-colour setting and their dark screen
          all included, because `getComputedStyle` is asked rather than the
@@ -2321,6 +2474,11 @@
       data: 'TW_STATIONS', gid: 'tw-stations',
       rail: 'twRail', on: 'twStations',
       row: 'row-tw-stations', box: 'opt-tw-stations',
+      /* The ground the system's lines are on, west/south/east/north. Only the
+         map-side station button uses it, to know whether the reader is
+         looking at a railway at all: the switch in the Layers panel is a
+         switch and says nothing about where the map is. */
+      ground: [119.9, 21.8, 122.1, 25.5],
       rec: function (t) {
         return { en: t.ro || t.han, local: t.py,
                  ja: t.kana ? t.han + '\uff08' + t.kana + '\uff09' : t.han,
@@ -2333,6 +2491,7 @@
       data: 'KR_STATIONS', gid: 'kr-stations',
       rail: 'krRail', on: 'krStations',
       row: 'row-kr-stations', box: 'opt-kr-stations',
+      ground: [124.0, 33.0, 131.2, 43.1],
       /* Korea's four names all come from the source. The hanja goes in the
          Japanese slot and the hangul in the Korean one, so the card's second
          line reads 釜山  부산 — the characters and then the name as it is
@@ -3323,10 +3482,25 @@
     if (!state.ccp) bits |= 4096;
     if (state.backs) bits |= 8192;
     if (state.indiaRivers) bits |= 16384;
-    if (state.twRail) bits |= 33554432;   // bit 25: Taiwan's railways
-    if (state.twStations) bits |= 67108864;  // bit 26: and their stations
-    if (state.krRail) bits |= 134217728;     // bit 27: Korea's railways
-    if (state.krStations) bits |= 268435456; // bit 28: and their stations
+    /* The railway switches, as the *reader* has them.
+     *
+     * While the train tools are open they borrow the railway and its stations
+     * — a timetable you cannot point at is a picture of a timetable — and those
+     * two flags are true whether or not anybody asked for them. Written out
+     * plainly, a link shared from the train tools would arrive at somebody
+     * else's map with a railway layer switched on that they never chose. What
+     * goes in the link is what was there before the borrow; the tools
+     * themselves are bit 29, and they will borrow again at the other end. */
+    var railOn = state.twRail, staOn = state.twStations;
+    var kRailOn = state.krRail, kStaOn = state.krStations;
+    if (trainBorrowed) {
+      if (trainBorrowed.rail === 'twRail') { railOn = trainBorrowed.hadRail; staOn = trainBorrowed.hadOn; }
+      if (trainBorrowed.rail === 'krRail') { kRailOn = trainBorrowed.hadRail; kStaOn = trainBorrowed.hadOn; }
+    }
+    if (railOn) bits |= 33554432;   // bit 25: Taiwan's railways
+    if (staOn) bits |= 67108864;    // bit 26: and their stations
+    if (kRailOn) bits |= 134217728; // bit 27: Korea's railways
+    if (kStaOn) bits |= 268435456;  // bit 28: and their stations
     if (state.trainTools) bits |= 536870912; // bit 29: the train tools
     bits |= ({ albers: 1, laea: 2 }[state.projection] || 0) << 15;
     if (state.graticule) bits |= 131072;
@@ -5202,6 +5376,18 @@
     return { rec: rec, el: el };
   }
 
+  /* How far the tap landed from the station it hit, in screen pixels, or
+     Infinity if it did not hit one. Only used to decide between a station and
+     a train sitting on it. */
+  function stationDist(hit, got, cx, cy) {
+    if (!hit || hit.rec.kind !== 'station') return Infinity;
+    var el = got && got.el;
+    if (!el || !el.getBoundingClientRect) return Infinity;
+    var b = el.getBoundingClientRect();
+    if (!b.width && !b.height) return Infinity;
+    return Math.hypot(cx - (b.left + b.width / 2), cy - (b.top + b.height / 2));
+  }
+
   /* Cmd on a Mac, Ctrl elsewhere. Ctrl is not usable on a Mac: there it is
      the secondary click, so every ctrl-press already means something else. */
   var IS_MAC = /Mac|iPhone|iPad|iPod/.test(navigator.platform || '') ||
@@ -5228,6 +5414,34 @@
       }
       return;
     }
+    /* THE TRAIN TOOLS GET THE TAP BEFORE THE COUNTRY DOES.
+     *
+     * The order is a train, then a station, then a line, then the ground —
+     * and it has to be settled here rather than by the browser, because the
+     * train layer takes no pointer events at all. It cannot: the whole map
+     * answers the pointer by naming what is under it, and a transparent
+     * ribbon along every railway would stop the country being named whenever
+     * the mouse crossed one. So `hitAt` measures instead, in map units, and
+     * reports in screen pixels.
+     *
+     * A station outranks a train because it is the fixed thing and the map
+     * already answers for it; a train outranks it when it is genuinely the
+     * nearer of the two, which is what a reader pointing at a moving dot
+     * means. The line comes after both and before the ground, so tapping the
+     * track names the line and tapping beside it names the province.
+     */
+    var tHit = (trainApi && trainApi.mounted() && state.mode !== 'quiz')
+      ? trainApi.hitAt(cx, cy) : null;
+    if (tHit && tHit.kind === 'train'
+        && tHit.dist < stationDist(hit, got, cx, cy)) {
+      var tCard = trainApi.trainCard(tHit.index);
+      if (tCard) { showTrainCard(tCard); return; }
+    }
+    if (tHit && tHit.kind === 'line' && !(hit && hit.rec.kind === 'station')) {
+      var lCard = trainApi.lineCard(tHit.index);
+      if (lCard) { showTrainCard(lCard); return; }
+    }
+
     var id = hit ? (hit.rec.rid || hit.rec.id) : null;
     /* A second tap on a station already open closes it. Everything else on
        the map is deselected by tapping the sea, which is fine when the thing
@@ -6724,64 +6938,124 @@
        or one the timetable spells differently. Those simply have no timetable
        block, which is the truth about them. */
     if (!d || !d.rows.length) return;
+    renderTrainBlock(host, d);
+  }
 
-    var head = document.createElement('p');
-    head.className = 'trains-head';
-    head.textContent = d.rows.length + ' trains called here \u00b7 ' + d.year;
-    host.appendChild(head);
+  /* One table, three cards.
 
+     A station's departures, a train's calling list and a line's figures are
+     the same shape — a heading, a row of column names, rows of cells, and a
+     link to the printed table — so they are drawn by one function rather than
+     by three that would drift apart. `trains.js` hands back the data and never
+     the markup: the cells are written with `textContent`, because the words
+     come from a transcription of a printed table and nothing in them should be
+     able to put a tag on the page. */
+  function renderTrainBlock(host, block) {
+    host.textContent = '';
+    host.hidden = true;
+    if (!block || !block.rows || !block.rows.length) return;
+    if (block.head) {
+      var head = document.createElement('p');
+      head.className = 'trains-head';
+      head.textContent = block.head;
+      host.appendChild(head);
+    }
     var scroll = document.createElement('div');
     scroll.className = 'trains-scroll';
     var table = document.createElement('table');
     table.className = 'trains-table';
-    var thead = document.createElement('tr');
-    ['Dep', 'Arr', 'Train', 'Line', 'To'].forEach(function (h) {
-      var th = document.createElement('th');
-      th.textContent = h;
-      thead.appendChild(th);
-    });
-    table.appendChild(thead);
-    d.rows.forEach(function (r) {
+    var named = (block.cols || []).some(function (c) { return c; });
+    if (named) {
+      var thead = document.createElement('tr');
+      block.cols.forEach(function (h) {
+        var th = document.createElement('th');
+        th.textContent = h;
+        thead.appendChild(th);
+      });
+      table.appendChild(thead);
+    }
+    block.rows.forEach(function (r) {
       var tr = document.createElement('tr');
-      var cells = [r.dep, r.arr, r.no, '', r.dest || ''];
-      cells.forEach(function (text, i) {
+      r.cells.forEach(function (text, i) {
         var td = document.createElement('td');
-        if (i === 3 && r.line) {
+        if (i === r.swatchAt && r.swatch) {
           var sw = document.createElement('span');
           sw.className = 'sw';
-          sw.style.background = r.line.c;
+          sw.style.background = r.swatch;
           td.appendChild(sw);
-          /* "Tamsui \u2191", not "Tamsui Line up". The card is a column on a
-             phone and the last thing in the row is where the train was going,
-             which is the part a reader is most likely to want and the first
-             part a long line name pushed off the edge. The full name and the
-             class are on the cell as a title. */
-          td.appendChild(document.createTextNode(
-            r.line.en.replace(/ Line$/, '') + ' ' + (r.dir ? '\u2191' : '\u2193')));
-          td.title = r.line.n + '  ' + (r.dir ? '\u4e0a\u308a' : '\u4e0b\u308a')
-            + (r.cls ? '  \u00b7  ' + r.cls : '');
+          td.appendChild(document.createTextNode(text));
         } else {
           td.textContent = text;
         }
+        if (i === 0 && r.first) td.className = 'first';
         // the transcription marks the times it could not read with certainty,
         // and a reader comparing this against the original should see which
-        if (r.uncertain && i < 2 && text) td.className = 'unc';
+        if (r.uncertain && text && i < (r.timeCells || 0)
+            && (!r.first || i > 0)) {
+          td.className = (td.className ? td.className + ' ' : '') + 'unc';
+        }
+        if (r.title) td.title = r.title;
         tr.appendChild(td);
       });
       table.appendChild(tr);
     });
     scroll.appendChild(table);
     host.appendChild(scroll);
-
-    var line = d.lines[0];
-    var a = document.createElement('a');
-    a.className = 'note-src';
-    a.href = asset(d.page) + (line && line.a ? '#' + line.a : '');
-    a.target = '_blank';
-    a.rel = 'noopener noreferrer';
-    a.textContent = 'The printed table for this line';
-    host.appendChild(a);
+    if (block.link) {
+      var a = document.createElement('a');
+      a.className = 'note-src';
+      a.href = asset(block.link.page)
+        + (block.link.anchor ? '#' + block.link.anchor : '');
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      a.textContent = block.link.text;
+      host.appendChild(a);
+    }
     host.hidden = false;
+  }
+
+  /* A card for something that is not a record: a train, or a line.
+
+     Everything else in `#info` is filled from `byId`, and neither of these is
+     in it — a train is a working and a line is a set of workings, and putting
+     either in the map's own table would mean the quiz could ask about them and
+     a shared link could select one. So the card is filled straight from what
+     `trains.js` hands back, and the selection is dropped rather than moved:
+     nothing on the map is outlined, because what the reader pointed at is not
+     a shape on the map. */
+  function showTrainCard(block) {
+    if (!block || !infoBox) return;
+    markSelected(selected, false);
+    selected = null;
+    selCluster = null;
+    redrawHighlight();
+    var chip = $('.chip', infoBox);
+    chip.textContent = block.chip;
+    chip.style.setProperty('--chip', block.colour || 'var(--muted)');
+    $('.primary', infoBox).textContent = block.primary || '';
+    $('.alt', infoBox).textContent = block.alt || '';
+    var prov = $('.prov', infoBox);
+    prov.textContent = block.prov || '';
+    prov.hidden = !block.prov;
+    var when = $('.when', infoBox);
+    when.textContent = '';
+    when.hidden = true;
+    var own = $('.note-own', infoBox);
+    setProse(own, block.note || '');
+    own.hidden = !block.note;
+    var grp = $('.note-group', infoBox);
+    setProse(grp, '');
+    grp.hidden = true;
+    grp.setAttribute('data-group', '');
+    var flip = $('#info-flip', infoBox);
+    if (flip) flip.hidden = true;
+    renderTrainBlock($('#info-trains'), block);
+    collapseInfo();
+    infoBox.hidden = false;
+    document.body.classList.add('panel-open');
+    hideTooltip();
+    gateLabels();
+    placeLabels();
   }
 
   /* Somewhere to read further, at the foot of what a record says. The note
@@ -6924,6 +7198,9 @@
        lines are fitted to it again. It reads the ground once and does nothing
        at all unless it has moved. */
     if (trainApi && trainApi.mounted()) trainApi.recolour();
+    // and the two switches beside the map, which follow both the layers and
+    // where the map is looking
+    syncMapButtons();
     // the epoch as a class, so the stylesheet can cut the occupied colouring
     // out of the unoccupied south of New Guinea on the 1942 map alone
     if (svg) svg.classList.toggle('e1942', state.epoch === 'e1942');
@@ -9074,6 +9351,40 @@
           applyState();
         });
       });
+
+    /* The two switches beside the map. They move the same state the Layers
+       panel does and go through `applyState`, so the panel, the address bar
+       and the map cannot disagree about what is on. */
+    var btnSta = $('#btn-stations');
+    if (btnSta) {
+      btnSta.addEventListener('click', function () {
+        var sys = btnStationsSys;
+        if (!sys) return;
+        var key = STATION_SYS[sys].on;
+        state[key] = !state[key];
+        var box = $('#' + STATION_SYS[sys].box);
+        if (box) box.checked = state[key];
+        /* While the train tools are up the squares are borrowed, and the
+           reader turning them off here is a decision of their own: it has to
+           survive the tools being put away, so what would be given back is
+           moved with it. */
+        if (trainBorrowed && trainBorrowed.on === key) {
+          trainBorrowed.hadOn = state[key];
+        }
+        applyState();
+      });
+    }
+
+    var btnTrn = $('#btn-trains');
+    if (btnTrn) {
+      btnTrn.addEventListener('click', function () {
+        state.trainTools = !state.trainTools;
+        var box = $('#opt-train-tools');
+        if (box) box.checked = state.trainTools;
+        applyState();
+        saveState();
+      });
+    }
 
     var optBacks = $('#opt-backings');
     if (optBacks) {
