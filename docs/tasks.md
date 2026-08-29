@@ -11386,6 +11386,64 @@ Whole suite: 804 checks across 33 scripts, all passing.
 
 ---
 
+## Korea's doubled track, taken out as a file rather than at build time
+
+The build was doing this with a twelve-point signature, which only ever caught
+a piece that was duplicated *whole*. It is a file now, made by a tool that can
+see a piece that is duplicated in part — and the difference is not small.
+
+    tools/cache/korea_1930_lines.geojson         the source, never edited
+    tools/cache/korea_1930_lines_dedup.geojson   what build_map.py reads
+    ...and the same pair for 1942
+    tools/dedupe_korea_lines.py                  makes the second from the first
+
+The per-line originals stay. When there is a way to pick a line and look at it
+on its own — which there is not yet — the per-line features are what that will
+be built on.
+
+### What it takes out
+
+| | pieces | drawn | dropped |
+|---|---|---|---|
+| 1930 | 611 → 293 | 6,710 km | **318 pieces, 2,828 km (42%)** |
+| 1942 | 917 → 594 | 9,451 km | **323 pieces, 2,845 km (30%)** |
+
+The build's signature had found 40 pieces and 614 km. The rest is track that is
+a *sub-section* of a longer piece rather than a copy of a whole one, which a
+whole-piece comparison cannot see at all.
+
+**And the leftovers are the right length.** 6,710 − 2,828 leaves 3,882 km for
+1930, against a network of about 3,800 km at that date; 9,451 − 2,845 leaves
+6,606 km for 1942, against about 6,400 km. Two independent numbers landing
+within a couple of per cent is a better check on this than any amount of
+staring at the map.
+
+### Why it will not cut anything unique
+
+A piece is dropped only if **every** point along it — sampled about every
+hundred metres — is already within 55 m of ground being kept. So a piece
+duplicated for most of its length and its own for a hundred metres at one end
+is kept whole. **29 pieces in 1930 and 51 in 1942 are exactly that**, and they
+are named in the run: 대구선 대구–영천 is its own for 386 of its 432 points,
+경인선 인천–노량진 for 291 of 371. A whole-piece comparison would have thrown
+all eighty away without saying so.
+
+Pieces are considered longest first, so the long one is kept and the short
+copies of parts of it go, rather than the other way about.
+
+**And it is checked, not asserted.** After the cut, every point of every
+*original* piece is looked for in what survives. `0 of the original points are
+no longer drawn`, both dates — and if it were not zero the tool writes nothing
+and says why. Separately: 848 of the 850 stations still sit within 500 m of a
+surviving line.
+
+Vertices reaching the map: Korea 1930 3,791 of 12,790 and 1942 7,048 of 22,429,
+at the same 30–31% the tolerance was giving before.
+
+Whole suite: 804 checks across 33 scripts, all passing.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

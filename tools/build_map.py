@@ -2956,39 +2956,14 @@ TW_RAIL_TOL = 0.021
 # hand trace, already filtered to each date by the year fields it carries. Not
 # traced work, so it is thinned at the ordinary tolerance and not at
 # TRACED_TOL; the survival is reported at build time like everything else.
-KR_RAIL_FILES = {"e1930": "korea_1930_lines.geojson",
-                 "e1942": "korea_1942_lines.geojson"}
+# The DEDUPED files, not the source ones beside them. See
+# tools/dedupe_korea_lines.py for what is taken out and the check that nothing
+# else went with it. The per-line originals stay in the cache: when there is a
+# way to pick a line and look at it on its own, that is what it will be built
+# from, and this is not it.
+KR_RAIL_FILES = {"e1930": "korea_1930_lines_dedup.geojson",
+                 "e1942": "korea_1942_lines_dedup.geojson"}
 KR_RAIL_TOL = 0.021
-
-# A stretch of track recorded twice is drawn twice. The NIKH sheet keeps a
-# feature per named line, so where two lines run over one railway the ground is
-# in the file twice -- 경부본선 and 경의선 share the three kilometres out of
-# Seoul, and each carries it -- and 43 line-and-interval pairs are simply
-# entered more than once, one of them three times. Measured: 341 km identical
-# and 629 km doubled all told, out of 6,710.
-#
-# With an opaque stroke that is invisible and it never mattered. It matters now
-# that the symbol has ties in it: the second copy's ties fall in their own
-# phase, fill in the first copy's gaps, and the line comes out looking solid,
-# thicker, or moired depending on the zoom.
-#
-# So a piece whose ground is already drawn is not drawn again. The map is
-# showing where the railways ran, not who had running rights over them.
-RAIL_SAME = 0.0005         # degrees, about 55m: the same track, not a parallel one
-RAIL_SAMPLE = 12           # points along a piece, enough to tell two lines apart
-
-
-def _rail_signature(pts):
-    """A piece of track as a short tuple, and the same tuple read backwards."""
-    if len(pts) < 2:
-        return None, None
-    n = RAIL_SAMPLE
-    step = (len(pts) - 1) / float(n - 1)
-    marks = [pts[int(round(i * step))] for i in range(n)]
-    q = lambda p: (round(p[0] / RAIL_SAME), round(p[1] / RAIL_SAME))
-    fwd = tuple(q(p) for p in marks)
-    return fwd, tuple(reversed(fwd))
-
 
 # Every railway layer the map draws, and the atom whose fill inks its dots.
 # One table so that the next one is a line here rather than a block of code in
@@ -6588,24 +6563,12 @@ def main():
                 sys.stderr.write("note: %s missing, that railway layer is empty\n" % _name)
                 continue
             with open(_path) as fh:
-                _kept = _raw = _dropped = _twice = 0
-                _twice_km = 0.0
-                _seen = set()
+                _kept = _raw = _dropped = 0
                 _parts = []
                 for feat in json.load(fh)["features"]:
                     if not feat.get("geometry"):
                         continue          # a row filtered out of this date
                     for line in iter_lines(feat["geometry"]):
-                        _sig, _rev = _rail_signature(line)
-                        if _sig is not None and (_sig in _seen or _rev in _seen):
-                            _twice += 1
-                            _twice_km += sum(
-                                math.hypot((line[k + 1][0] - line[k][0]) * 85.0,
-                                           (line[k + 1][1] - line[k][1]) * 110.6)
-                                for k in range(len(line) - 1))
-                            continue
-                        if _sig is not None:
-                            _seen.add(_sig)
                         _raw += len(line)
                         pts = [project(x, y) for x, y in line]
                         pts = simplify(pts, _tol) if len(pts) >= 4 else pts
@@ -6616,11 +6579,9 @@ def main():
                         _parts.append(line_to_path(pts))
                 _epochs[_ep] = "".join(_parts)
             sys.stderr.write("%s railways %s: %d of %d vertices kept (%.0f%%), "
-                             "%d lines dropped, %d pieces (%.0f km) already "
-                             "drawn\n"
+                             "%d lines dropped\n"
                              % (_label, _ep, _kept, _raw,
-                                100.0 * _kept / max(1, _raw), _dropped,
-                                _twice, _twice_km))
+                                100.0 * _kept / max(1, _raw), _dropped))
         if _epochs:
             rails[_gid] = (_over, _epochs)
 
