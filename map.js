@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '214';
+  var JEM_VERSION = '215';
   var JEM_ASSETS = {"admin.js": "9f99c96627", "annotate.js": "761fbd5949", "japan-empire-map-admin.svg": "8f23cf49df", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "0257e44d78", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0"};
 
   /* Every file this one fetches, with the version on it.
@@ -177,6 +177,11 @@
        the light scheme and a slate in the dark, and a choice made here
        replaces both. */
     monoColour: null,
+    /* id -> '#rrggbb', for the colours the reader has changed. Only the ones
+       they moved: an empty object is the map's own palette, and that is what
+       keeps the address short and a shared link honest about what was
+       actually chosen. */
+    colours: {},
     /* The whole map, or only the ground the course is about. On, everything is
        drawn as it always was; off, the frame keeps China and Tibet, Japan and
        its colonies, and the treaty ports on the China coast, and everything
@@ -881,6 +886,11 @@
     wirePointer();
 
     composeEpoch();
+    /* Before the first paint if the address carried any, so the reader who
+       followed a link never sees the map's own colours flash past on the way
+       to the ones they were sent. `applyColours` recomposes, so this is not
+       done when there is nothing to do. */
+    if (Object.keys(state.colours).length) applyColours();
     applyState();
     view = (shared && viewForBox(shared[0], shared[1], shared[2], shared[3]))
       || defaultView();
@@ -1871,6 +1881,19 @@
      yellow China is drawn in sits at 0.97 and Japan's colonial red at 0.30,
      so nothing on this map is near the line, and a mid-tone is better served
      by the darker ink. */
+  /* The ground the line runs over, as it is actually painted — which is what
+     the ties are drawn in, so that the gaps between them read as the country
+     showing through rather than as a second colour laid on top. It follows the
+     reader's own palette and mono without being told about either. */
+  function railGround(over) {
+    var atom = over && (atomEls[over] || $('#a-' + over, svg));
+    try {
+      var f = atom ? getComputedStyle(atom).fill : '';
+      if (f && f !== 'none') return f;
+    } catch (err) { /* not laid out */ }
+    return 'var(--bg)';
+  }
+
   function railInk(over) {
     var atom = over && (atomEls[over] || $('#a-' + over, svg));
     var fill = '';
@@ -3146,13 +3169,18 @@
     try {
       var rest = [];
       new URLSearchParams(window.location.search).forEach(function (v, k) {
-        if (k !== 'bbox' && k !== 'layers' && k !== 'mono') {
+        if (k !== 'bbox' && k !== 'layers' && k !== 'mono' && k !== 'colours') {
           rest.push(encodeURIComponent(k) + '=' + encodeURIComponent(v));
         }
       });
       if (state.mono && state.monoColour && HEX.test(state.monoColour)) {
         rest.unshift('mono=' + state.monoColour.slice(1));
       }
+      /* Only what was actually changed, so an untouched map carries nothing
+         and a link that does carry colours says exactly which ones were
+         chosen. */
+      var cc = colourCode();
+      if (cc) rest.unshift('colours=' + cc);
       var q = ['bbox=' + viewBox().join(','), 'layers=' + layerCode()].concat(rest);
       history.replaceState(null, '',
         window.location.pathname + '?' + q.join('&') + window.location.hash);
@@ -3168,6 +3196,8 @@
     if (code) applyLayerCode(code);
     var mc = q.get('mono');
     if (mc && HEX.test('#' + mc)) state.monoColour = '#' + mc;
+    var cc = q.get('colours');
+    if (cc) state.colours = readColourCode(cc);
     var raw = q.get('bbox');
     if (!raw) return null;
     // A comma is never a minus sign, so the box comes apart on commas and a
@@ -6619,10 +6649,38 @@
     railFade();
     [twRailGroup, krRailGroup].forEach(function (g) {
       if (!g) return;
-      // one path per date; the map shows the network as it stood
-      $$('path', g).forEach(function (el) {
-        el.style.display = el.getAttribute('data-epoch') === state.epoch ? '' : 'none';
-        el.style.setProperty('--rail-ink', railInk(el.getAttribute('data-over')));
+      /* A LINE WITH TIES, NOT A ROW OF DOTS.
+       *
+       * It was a near-zero dash under a round cap — a dot every 2.7 screen
+       * pixels — and at the opening view a network is a great many lines close
+       * together, so the dots stopped reading as railways and became a grey
+       * stipple over the country. Sparser dots are worse, not better: they
+       * come apart into unrelated specks.
+       *
+       * So the map draws the standard thing instead, which is a solid line
+       * with the ground showing through it at intervals: the same path twice,
+       * once solid in the ink and once dashed in the colour of the land it
+       * crosses. Zoomed out that is a firm continuous line, which is what a
+       * railway should look like from a distance; zoomed in the ties open up
+       * and it is unmistakably a railway. One symbol, both ends of the range,
+       * and no zoom-dependent switching.
+       *
+       * The tie path is a clone kept beside the original. It carries no
+       * data-epoch of its own — it takes its state from the path it copies —
+       * so nothing else in the file has to know it is there.
+       */
+      $$('path.rail', g).forEach(function (el) {
+        var on = el.getAttribute('data-epoch') === state.epoch;
+        el.style.display = on ? '' : 'none';
+        var over = el.getAttribute('data-over');
+        el.style.setProperty('--rail-ink', railInk(over));
+        var tie = el.nextSibling;
+        if (!tie || !tie.classList || !tie.classList.contains('rail-tie')) {
+          tie = svgEl('path', { 'class': 'rail-tie', d: el.getAttribute('d') });
+          el.parentNode.insertBefore(tie, el.nextSibling);
+        }
+        tie.style.display = on ? '' : 'none';
+        tie.style.setProperty('--rail-ground', railGround(over));
       });
     });
     if (indiaRiversGroup) {
@@ -6654,6 +6712,204 @@
   }
 
   /* ------------------------------------------------------------ legend -- */
+
+  /* ------------------------------------------------------- the palette -- */
+
+  /* Every colour the map draws with, gathered from the tables rather than
+     listed here: a category added to data.js turns up in the editor without
+     anything being written twice, and a category removed stops being offered.
+     `def` is remembered at first ask, before anything has been overridden, so
+     Reset always has the true original to go back to even after a reload with
+     colours in the address. */
+  var paletteCache = null;
+  var OCEAN_DEF = '#cadfeb';
+
+  function palette() {
+    if (paletteCache) return paletteCache;
+    var seen = {};
+    var out = [];
+    var add = function (rec, group) {
+      if (!rec || !rec.id || seen[rec.id] || !HEX.test(rec.c || '')) return;
+      seen[rec.id] = true;
+      out.push({ id: rec.id, label: rec.en || rec.id, def: rec.c, group: group });
+    };
+    Object.keys(JMAP.CATEGORIES || {}).forEach(function (ep) {
+      (JMAP.CATEGORIES[ep] || []).forEach(function (c) { add(c, 'The map'); });
+    });
+    (JMAP.SITE_CATEGORIES || []).forEach(function (c) { add(c, 'Marks'); });
+    /* The sea is not a category and has no record, so it is given one. It is
+       the colour a reader is most likely to want to change and it would be an
+       odd list that left it out. */
+    out.push({ id: 'ocean', label: 'The sea', def: OCEAN_DEF, group: 'Marks' });
+    paletteCache = out;
+    return out;
+  }
+
+  function paletteById(id) {
+    var p = palette();
+    for (var i = 0; i < p.length; i++) if (p[i].id === id) return p[i];
+    return null;
+  }
+
+  /* WHAT A LOADED FILE OR A PASTED LINK IS ALLOWED TO CONTAIN. Nothing else
+     gets past this: an unknown key is dropped, and a value that is not exactly
+     six hex digits behind a hash is dropped. Both matter — the value goes into
+     `style.setProperty`, and a string that is not a colour is a string that is
+     something else. The count is capped at the palette's own size so a file
+     cannot be made enormous by repeating what is already there. */
+  function cleanColours(raw) {
+    var out = {};
+    if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return out;
+    var n = 0;
+    var max = palette().length;
+    Object.keys(raw).forEach(function (k) {
+      if (n >= max) return;
+      if (!paletteById(k)) return;
+      var v = raw[k];
+      if (typeof v !== 'string') return;
+      v = v.trim().toLowerCase();
+      if (!/^#[0-9a-f]{6}$/.test(v)) return;
+      out[k] = v;
+      n++;
+    });
+    return out;
+  }
+
+  function colourCode() {
+    var bits = [];
+    palette().forEach(function (p) {
+      var v = state.colours[p.id];
+      if (v && v !== p.def) bits.push(p.id + '-' + v.slice(1));
+    });
+    return bits.join('.');
+  }
+
+  function readColourCode(code) {
+    var out = {};
+    if (!code) return out;
+    String(code).split('.').forEach(function (bit) {
+      var cut = bit.lastIndexOf('-');
+      if (cut < 1) return;
+      out[bit.slice(0, cut)] = '#' + bit.slice(cut + 1);
+    });
+    return cleanColours(out);
+  }
+
+  /* Put the chosen colours where the map reads them, and redraw.
+
+     The categories' own records are what everything reads — the atoms take
+     `--c` off them, the legend paints its swatches from them, the card's chip
+     takes its colour there — so the override is written onto the record and
+     the map is recomposed. That is the same path a change of date takes, so
+     nothing new has to know about this. The markers are the one thing built
+     outside that cycle and they are repainted by hand. */
+  function applyColours() {
+    var over = state.colours;
+    Object.keys(JMAP.CATEGORIES || {}).forEach(function (ep) {
+      (JMAP.CATEGORIES[ep] || []).forEach(function (c) {
+        var p = paletteById(c.id);
+        if (p) c.c = over[c.id] || p.def;
+      });
+    });
+    (JMAP.SITE_CATEGORIES || []).forEach(function (c) {
+      var p = paletteById(c.id);
+      if (p) c.c = over[c.id] || p.def;
+    });
+    var sea = over.ocean;
+    if (sea) document.documentElement.style.setProperty('--ocean', sea);
+    else document.documentElement.style.removeProperty('--ocean');
+    if (!svg) return;
+    composeEpoch();
+    (JMAP.SITES || []).forEach(function (s) {
+      var el = elById[s.id];
+      var info = catInfo(s.cat);
+      if (el && el.style && info) el.style.setProperty('--c', info.c);
+    });
+    buildLegend();
+    applyState();
+  }
+
+  /* The rows, one per colour, written once and then kept in step. */
+  var colourRowsBuilt = false;
+
+  function buildColourEditor() {
+    var host = $('#colour-rows');
+    if (!host || colourRowsBuilt) return;
+    colourRowsBuilt = true;
+    var group = null;
+    palette().forEach(function (p) {
+      if (p.group !== group) {
+        group = p.group;
+        var h = document.createElement('div');
+        h.className = 'colour-group';
+        h.style.gridColumn = '1 / -1';
+        h.textContent = group;
+        host.appendChild(h);
+      }
+      var pick = document.createElement('input');
+      pick.type = 'color';
+      pick.id = 'colour-' + p.id;
+      pick.value = state.colours[p.id] || p.def;
+      pick.title = p.label;
+      var name = document.createElement('label');
+      name.className = 'colour-name';
+      name.setAttribute('for', pick.id);
+      name.textContent = p.label;
+      var back = document.createElement('button');
+      back.type = 'button';
+      back.className = 'colour-back';
+      back.textContent = 'Reset';
+      back.title = 'Back to ' + p.def;
+
+      /* `input` fires all the way through a drag of the picker and each one
+         recomposes the map, so it is left to `change`, which fires when the
+         reader lets go. A colour is not a thing anybody needs at sixty frames
+         a second. */
+      pick.addEventListener('change', function () {
+        var v = (pick.value || '').toLowerCase();
+        if (!/^#[0-9a-f]{6}$/.test(v)) return;
+        if (v === p.def) delete state.colours[p.id];
+        else state.colours[p.id] = v;
+        syncColourRow(p, pick, back);
+        applyColours();
+        scheduleUrl();
+        saveState();
+      });
+      back.addEventListener('click', function () {
+        delete state.colours[p.id];
+        pick.value = p.def;
+        syncColourRow(p, pick, back);
+        applyColours();
+        scheduleUrl();
+        saveState();
+      });
+      host.appendChild(pick);
+      host.appendChild(name);
+      host.appendChild(back);
+      p._pick = pick;
+      p._back = back;
+      syncColourRow(p, pick, back);
+    });
+  }
+
+  function syncColourRow(p, pick, back) {
+    var moved = !!state.colours[p.id];
+    back.classList.toggle('on', moved);
+    if (pick.value.toLowerCase() !== (state.colours[p.id] || p.def)) {
+      pick.value = state.colours[p.id] || p.def;
+    }
+  }
+
+  function refreshColourRows() {
+    palette().forEach(function (p) {
+      if (p._pick) syncColourRow(p, p._pick, p._back);
+    });
+  }
+
+  function colourSay(msg) {
+    var el = $('#colour-say');
+    if (el) el.textContent = msg || '';
+  }
 
   function buildLegend() {
     var legend = $('#legend');
@@ -8057,6 +8313,85 @@
        `input` rather than `change`, so the map follows the picker while it is
        being dragged — the whole point of choosing a colour for drawing over is
        seeing it against the sea and the annotation colours as you go. */
+    /* The colour editor. Built the first time it is opened: thirty-odd rows
+       with a picker each is not something to hand a reader who never asks. */
+    var coOpen = $('#opt-colours-open');
+    var coBox = $('#colour-editor');
+    if (coOpen && coBox) {
+      coOpen.addEventListener('click', function () {
+        var on = coBox.hidden;
+        if (on) buildColourEditor();
+        coBox.hidden = !on;
+        coOpen.setAttribute('aria-expanded', on ? 'true' : 'false');
+      });
+    }
+    var coSave = $('#colour-save');
+    if (coSave) {
+      coSave.addEventListener('click', function () {
+        var body = { version: 1, colours: {} };
+        palette().forEach(function (p) {
+          body.colours[p.id] = state.colours[p.id] || p.def;
+        });
+        try {
+          var blob = new Blob([JSON.stringify(body, null, 2)],
+                              { type: 'application/json' });
+          var a = document.createElement('a');
+          a.href = URL.createObjectURL(blob);
+          a.download = 'japanese-empire-map-colours.json';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          setTimeout(function () { URL.revokeObjectURL(a.href); }, 2000);
+          colourSay('saved');
+        } catch (err) { colourSay('could not save: ' + err.message); }
+      });
+    }
+    var coLoad = $('#colour-load');
+    var coFile = $('#colour-file');
+    if (coLoad && coFile) {
+      coLoad.addEventListener('click', function () { coFile.click(); });
+      coFile.addEventListener('change', function () {
+        var f = coFile.files && coFile.files[0];
+        if (!f) return;
+        /* A colour set is a few hundred bytes. Anything larger is not one, and
+           is not read into memory to find that out. */
+        if (f.size > 64 * 1024) { colourSay('that file is not a colour set'); return; }
+        var fr = new FileReader();
+        fr.onload = function () {
+          var data;
+          try { data = JSON.parse(String(fr.result)); }
+          catch (err) { colourSay('that is not JSON'); coFile.value = ''; return; }
+          /* Either shape is read — the file this map writes, which wraps the
+             set in `colours`, or a bare object of id to colour. Neither is
+             trusted: `cleanColours` is what decides, and it keeps only keys
+             the palette knows and values that are six hex digits. */
+          var want = cleanColours((data && data.colours) || data);
+          var n = Object.keys(want).length;
+          if (!n) { colourSay('no colours in it that this map knows'); coFile.value = ''; return; }
+          state.colours = want;
+          refreshColourRows();
+          applyColours();
+          scheduleUrl();
+          saveState();
+          colourSay(n + ' colour' + (n === 1 ? '' : 's') + ' loaded');
+          coFile.value = '';
+        };
+        fr.onerror = function () { colourSay('could not read it'); coFile.value = ''; };
+        fr.readAsText(f);
+      });
+    }
+    var coReset = $('#colour-reset');
+    if (coReset) {
+      coReset.addEventListener('click', function () {
+        state.colours = {};
+        refreshColourRows();
+        applyColours();
+        scheduleUrl();
+        saveState();
+        colourSay('back to the map\u2019s own');
+      });
+    }
+
     var monoPick = $('#opt-mono-colour');
     var monoReset = $('#opt-mono-reset');
     function syncMono() {

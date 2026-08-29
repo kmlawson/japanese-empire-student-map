@@ -114,7 +114,7 @@ console.log('\n— the railway layer travels in the address —');
   const got = await s3.evaluate(() => ({
     ticked: document.querySelector('#opt-tw-rail').checked,
     display: getComputedStyle(document.getElementById('tw-rail')).display,
-    epochs: [...document.querySelectorAll('#tw-rail path')]
+    epochs: [...document.querySelectorAll('#tw-rail path.rail')]
       .filter(p => getComputedStyle(p).display !== 'none')
       .map(p => p.getAttribute('data-epoch')),
   }));
@@ -137,16 +137,35 @@ console.log('\n— the railway layer travels in the address —');
     return 0.2126 * f(v[0]) + 0.7152 * f(v[1]) + 0.0722 * f(v[2]);
   };
   const inked = await s3.evaluate(() => {
-    const el = document.querySelector('#tw-rail path[data-epoch="e1930"]');
+    const el = document.querySelector('#tw-rail path.rail[data-epoch="e1930"]');
     const atom = document.querySelector('#a-' + el.getAttribute('data-over'));
+    const tie = el.nextSibling;
     return { rail: getComputedStyle(el).stroke, ground: getComputedStyle(atom).fill,
-             dash: getComputedStyle(el).strokeDasharray };
+             dash: getComputedStyle(el).strokeDasharray,
+             tie: tie && tie.classList.contains('rail-tie')
+                  ? { stroke: getComputedStyle(tie).stroke,
+                      dash: getComputedStyle(tie).strokeDasharray } : null };
   });
-  check('the dots are inked against the ground they cross',
+  check('the line is inked against the ground it crosses',
     lum(inked.rail) !== null && lum(inked.ground) !== null
     && (lum(inked.ground) < 0.55) === (lum(inked.rail) > 0.5),
     'rail ' + inked.rail + ' on ' + inked.ground);
-  check('and they are dots, not dashes', /^0\.?0?1?px/.test(inked.dash), inked.dash);
+  /* A LINE WITH TIES, NOT A ROW OF DOTS. It was 0.01 on 2.7 under a round cap
+     — a dot every 2.7 screen pixels — and where several lines ran close
+     together, which at the opening view is most of the network, it read as a
+     grey stipple rather than as railways. The symbol is two strokes on one
+     path now: solid in the ink, and a hairline break in the colour of the
+     ground every six pixels. */
+  check('the line itself is unbroken', inked.dash === 'none', inked.dash);
+  check('and a tie path sits over it', !!inked.tie, JSON.stringify(inked.tie));
+  check('the ties are the colour of the ground, so they read as a gap',
+    !!inked.tie && inked.tie.stroke === inked.ground,
+    inked.tie && inked.tie.stroke + ' against ' + inked.ground);
+  check('and they are hairlines on a long run, not the other way about',
+    !!inked.tie && (function (d) {
+      const n = (d || '').split(',').map(v => parseFloat(v));
+      return n.length === 2 && n[0] > 0 && n[1] >= n[0] * 3;
+    })(inked.tie.dash), inked.tie && inked.tie.dash);
   await s3.close();
 
   const s4 = await open(b, href + '&nocache=' + Math.random());
@@ -155,7 +174,7 @@ console.log('\n— the railway layer travels in the address —');
   await s4.evaluate(() => document.querySelector('#opt-mono').click());
   await sleep(1200);
   const monoInk = await s4.evaluate(() => {
-    const el = document.querySelector('#tw-rail path[data-epoch="e1930"]');
+    const el = document.querySelector('#tw-rail path.rail[data-epoch="e1930"]');
     const atom = document.querySelector('#a-' + el.getAttribute('data-over'));
     return { rail: getComputedStyle(el).stroke, ground: getComputedStyle(atom).fill };
   });

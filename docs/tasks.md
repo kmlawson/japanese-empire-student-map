@@ -11219,6 +11219,77 @@ Whole suite: 768 checks across 32 scripts, all passing.
 
 ---
 
+## Adjust Colours, and a railway that is a line rather than a stipple
+
+### Every colour the map draws with, in the reader's hands
+
+A button beside the single-colour switch opens a list of every colour the map
+carries — the sea included, which is not a category and is given a record so
+that it can be. The rows are written from `JMAP.CATEGORIES` and
+`JMAP.SITE_CATEGORIES` rather than listed anywhere, so a category added to
+data.js turns up here without being written down twice, and one removed stops
+being offered. Twenty-seven rows at present.
+
+Nothing is built until the button is pressed. Changing a colour writes it onto
+the category record and recomposes — the same path a change of date takes, so
+the atoms, the legend swatches and the card's chip all follow without anything
+new being taught about colours. The markers are the one thing built outside
+that cycle and they are repainted by hand.
+
+The picker fires `input` all the way through a drag, so the redraw is on
+`change` instead: a colour is not a thing anybody needs at sixty frames a
+second.
+
+**Save** downloads the set as a small JSON file; **Load** reads one back, and
+takes either shape — the file this map writes, which wraps the set in
+`colours`, or a bare object of id to colour. **Reset all** goes back.
+
+**And it travels in the address.** Only what was actually moved, so an
+untouched map carries nothing and a link that does carry colours says exactly
+which ones were chosen: `colours=metropole-00aa55.ocean-204060`.
+
+### What a link or a file is allowed to contain
+
+This is the part that matters, because a colour out of a URL goes into
+`style.setProperty`, and a string that is not a colour is a string that is
+something else. `cleanColours` is the only way in and it keeps a pair only if
+the key is one the palette knows and the value is exactly six hex digits behind
+a hash. Everything else is dropped without comment, and the count is capped at
+the palette's own size so a payload cannot be made enormous by repetition.
+
+Tested against `ocean-zzzzzz`, `ocean-red`, `ocean-url(x)`, `city-1f3d5c99`,
+`evil-000000`, `__proto__-ffffff` and `constructor-ffffff` in one link: the sea
+kept its own colour, `--ocean` was never written, the prototype was untouched,
+and the only survivor was the one good pair. A four-hundred-entry link
+collapsed to a fifty-three character address. A file over 64 KB is refused
+without being read.
+
+### The railways
+
+They were a row of dots — `0.01 2.7` under a round cap, one dot every 2.7
+screen pixels. Non-scaling, so the spacing held at every zoom, and that was the
+trouble: at the opening view a network is a great many lines close together and
+the dots stopped reading as railways and became a grey stipple over the
+country. Sparser dots are worse, not better — they come apart into unrelated
+specks.
+
+It is the standard symbol now: a solid line with the ground showing through it
+at intervals. The same path twice, once solid in the ink and once dashed in the
+colour of the land it crosses, `1 5.5` — a hairline of ground every six pixels.
+The tie path is a clone kept beside the original, carrying no `data-epoch` of
+its own so nothing else in the file has to know it is there, and it takes its
+colour from the atom's *actual* fill, so it follows the reader's own palette
+and mono without being told about either.
+
+The first attempt had it 1.5 on 3.4, which leaves more break than line once the
+caps are counted and read as a dashed line rather than a railway. Rendered and
+looked at, at the whole island and at half a degree.
+
+Whole suite: 793 checks across 33 scripts, all passing. `colours.js` is new
+with 22 of them.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

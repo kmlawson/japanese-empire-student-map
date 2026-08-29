@@ -786,13 +786,35 @@ button.plain:hover { background: var(--hover-fill); }
   #dlg-options .row.pair .half + .half { padding-left: 1.6em; font-size: .95em; }
 }
 
+/* A railway, drawn the way a railway is drawn: a solid line with the ground
+   showing through it at intervals. Two strokes on the same path — see the
+   clone in map.js — because one stroke cannot be two colours.
+
+   It was a row of dots, 0.01 on 2.7 under a round cap, and it read as a grey
+   stipple wherever several lines ran close together, which at the opening view
+   is most of the network. A line survives being small in a way a row of dots
+   does not.
+
+   Both widths are screen pixels: non-scaling-stroke, so the ties keep their
+   spacing at every zoom and the symbol never has to be switched. */
 .rail {
   stroke: var(--rail-ink, #2b2b2b);
-  stroke-width: 1.7;
-  stroke-linecap: round;
-  /* a dot and a gap: a near-zero dash under a round cap is a dot */
-  stroke-dasharray: 0.01 2.7;
+  stroke-width: 2.2;
+  stroke-linecap: butt;
   vector-effect: non-scaling-stroke;
+}
+.rail-tie {
+  fill: none;
+  stroke: var(--rail-ground, var(--bg));
+  stroke-width: 2.2;
+  stroke-linecap: butt;
+  /* A HAIRLINE BREAK ON A LONG RUN OF INK, not the other way round. First
+     attempt was 1.5 on 3.4, which leaves more break than line once the caps
+     are counted, and it read as a dashed line rather than as a railway. One
+     pixel of ground every six is a tick on something continuous. */
+  stroke-dasharray: 1 5.5;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
 }
 
 /* The graticule. Faint on purpose: it is a frame of reference and not a thing
@@ -2375,3 +2397,50 @@ dialog h3 {
   stroke-width: 1;
   vector-effect: non-scaling-stroke;
 }
+
+
+/* The colour editor, under its button in the Layers pane. One row per colour
+   the map carries, written by map.js from the tables themselves. It is a long
+   list — thirty-odd — so it scrolls inside its own box rather than pushing the
+   projection controls off the bottom of the panel. */
+#colour-editor[hidden] { display: none; }
+#colour-editor {
+  margin: .4em 0 .9em;
+  padding: .6em .7em;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+}
+#colour-rows {
+  max-height: 15em;
+  overflow-y: auto;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: .3em .6em;
+  align-items: center;
+}
+#colour-rows input[type="color"] {
+  inline-size: 2.1em;
+  block-size: 1.5em;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: none;
+}
+#colour-rows .colour-name { font-size: .92em; min-width: 0; }
+/* Only offered once that colour has been moved, so the row is quiet until
+   there is something to undo. */
+#colour-rows .colour-back {
+  font-size: .8em;
+  padding: .05em .45em;
+  visibility: hidden;
+}
+#colour-rows .colour-back.on { visibility: visible; }
+.colour-actions {
+  display: flex;
+  gap: .5em;
+  align-items: center;
+  margin-top: .7em;
+  flex-wrap: wrap;
+}
+.colour-say { font-size: .88em; color: var(--muted); }

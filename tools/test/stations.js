@@ -342,7 +342,7 @@ console.log('\n— Korea: the same machinery, a different pair of names —');
     r.checked=true; r.dispatchEvent(new Event('change',{bubbles:true}));});
   await sleep(900);
   check('the railway draws one path for the date shown',
-    (await k.evaluate(()=>[...document.querySelectorAll('#kr-rail path')]
+    (await k.evaluate(()=>[...document.querySelectorAll('#kr-rail path.rail')]
       .filter(e=>e.style.display!=='none').length))===1);
   check('and the station row appears with it',
     (await k.evaluate(()=>document.getElementById('row-kr-stations').hidden))===false);
@@ -428,7 +428,7 @@ console.log('\n— Korea: the same machinery, a different pair of names —');
       .filter(m=>m.style.display!=='none').length);
     check('more stations stand in 1942 than in 1930', now>was, was+' then '+now);
     check('and the railway still draws one path for the date',
-      (await k.evaluate(()=>[...document.querySelectorAll('#kr-rail path')]
+      (await k.evaluate(()=>[...document.querySelectorAll('#kr-rail path.rail')]
         .filter(e=>e.style.display!=='none').length))===1);
   }
   await k.close();
