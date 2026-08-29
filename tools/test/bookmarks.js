@@ -24,7 +24,7 @@ console.log('\n— bookmarks —');
   const url=await p.evaluate(()=>location.href);
   console.log('  what the address bar holds: ' + url.replace('http://localhost:8123',''));
   check('no ?v= leaks into the address bar', url.indexOf('v=')<0, url);
-  check('the bookmark still carries the view', /bbox=/.test(url));
+  check('the bookmark still carries the view', /where=/.test(url));
   check('and the layers', /layers=/.test(url));
   // follow the bookmark in a clean profile
   const ctx2=await b.createBrowserContext(); const q=await ctx2.newPage();

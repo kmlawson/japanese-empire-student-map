@@ -3695,13 +3695,45 @@ def _korea_seam(groups, korea, mkey):
                 # bay. Which side is outward is asked at every vertex rather
                 # than once for the run: a run can turn a corner, and one
                 # answer for the whole of it collapses the half it is wrong for.
+                # AND THE STRIP MAY NOT CROSS WATER TO GET THERE.
+                #
+                # The three tests below say where the far end lands: out of
+                # Korea, inside Manchuria, and still beside the river. They say
+                # nothing about the ground in between, and at the Yalu's mouth
+                # there is a stretch where the other side of the estuary
+                # answers all three — it is Manchuria, it is not Korea, and it
+                # is within the corridor. The seam then reached across open
+                # water and drew a needle sixty kilometres long and two wide
+                # into Korea Bay: 16 points, 237 km2, in Manchuria's colour on
+                # the 1930 map and Manchukuo's on the 1942 one.
+                #
+                # It did not do this before Korea's coast was replaced. The
+                # traced coastline sat inland of the true one, so the arc that
+                # now reaches the water used to stop short of it, and the
+                # narrowing search found nothing and drew nothing. The bug was
+                # always here; the new coast is what walked into it.
+                #
+                # So the way there has to be land as well. Five points along
+                # the strip, each of which must be in Korea or in Manchuria —
+                # a seam that hugs a frontier passes, and one that jumps a
+                # channel does not.
+                def solid(a, bq):
+                    for t in (0.2, 0.4, 0.6, 0.8):
+                        mid = (a[0] + (bq[0] - a[0]) * t,
+                               a[1] + (bq[1] - a[1]) * t)
+                        if not (inside_manchuria(mid)
+                                or any(point_in_ring(mid, r) for r in korea)):
+                            return False
+                    return True
+
                 best = (0.0, p)
                 for sign in (1.0, -1.0):
                     w = w0
                     while w > FRONTIER_NIL:
                         q = (p[0] + sign * nx * w, p[1] + sign * ny * w)
                         if outside_korea(q) and inside_manchuria(q) and \
-                                near_corridor(q, FRONTIER_RADIUS + w):
+                                near_corridor(q, FRONTIER_RADIUS + w) and \
+                                solid(p, q):
                             break
                         w *= 0.5
                     if w > best[0]:

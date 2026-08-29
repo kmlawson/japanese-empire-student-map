@@ -137,8 +137,10 @@ let shared='';
   check('the address carries a colours parameter', !!m, shared.slice(-70));
   /* Only what was moved. An untouched map carries nothing, which is what keeps
      a shared link short and honest about what was actually chosen. */
+  /* Fixed-width chunks of eight — two letters of code and six hex digits —
+     so two colours is sixteen characters and there is nothing to split on. */
   check('and only the two that were moved',
-    !!m && decodeURIComponent(m[1]).split('.').length===2, m && m[1]);
+    !!m && decodeURIComponent(m[1]).length===16, m && m[1]);
   const q=await b.newPage();
   await q.setViewport({width:1300,height:950});
   q.on('pageerror',e=>errs.push(String(e)));
@@ -167,15 +169,18 @@ console.log('\n— what a link is not allowed to carry —');
     (await q.evaluate(()=>!!document.getElementById('a-evil')))===false);
   check('__proto__ does not reach the prototype',
     (await q.evaluate(()=>({}).ffffff===undefined && Object.prototype.ffffff===undefined)));
+  /* The address is written in the short form even when the link that made
+     it used the long one: two letters of code and six hex digits, no
+     separators. `metropole` is `mp`. */
   check('the one good colour in it survives',
-    /colours=metropole-00aa55/.test(await q.url()), (await q.url()).slice(-60));
+    /colours=mp00aa55/.test(await q.url()), (await q.url()).slice(-60));
   /* A colour set is a few hundred bytes; a link repeating one four hundred
      times is not one, and the cap is the palette's own size. */
   await q.goto(URL0+'?colours='+Array(400).fill('ocean-204060').join('.'),
                {waitUntil:'networkidle0'});
   await sleep(2500);
   const u=await q.url();
-  check('a four-hundred-entry link collapses to one', (u.match(/ocean-204060/g)||[]).length===1,
+  check('a four-hundred-entry link collapses to one', (u.match(/se204060/g)||[]).length===1,
     'length '+u.length);
   await q.close();
 }

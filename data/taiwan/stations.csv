@@ -124,14 +124,14 @@ tws122,二水,Èrshuǐ,Nisui,にすい,station,120.61830,23.81287,verified,wikip
 tws123,花壇,Huātán,Kadan,かだん,station,120.53706,24.02438,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E8%8A%B1%E5%A3%87%E9%A7%85,,,,,TwShoka,彰化郡,Taichū-shū,"A station in Shōka-gun (彰化郡), Taichū-shū."
 tws124,宜蘭,Yílán,Giran,ぎらん,station,121.75846,24.75462,verified,wikipedia_ja,https://ja.wikipedia.org/wiki/%E5%AE%9C%E8%98%AD%E9%A7%85,,,,"The seat of the Giran district, on the line from Hatto down the north-east coast to Suō, completed in 1924.",TwGiran,宜蘭郡,Taihoku-shū,"A station in Giran-gun (宜蘭郡), Taihoku-shū."
 tws125,水返腳,Shuǐfǎnjiǎo,,,station,121.66268,25.06942,unverified,,,,,,,TwShichisei,七星郡,Taihoku-shū,"A station in Shichisei-gun (七星郡), Taihoku-shū."
-tws126,,,Sekijōshi,,,121.95533,24.98375,verified,author,,,,,,,,,
-tws127,,,Ōtei,,,121.94485,25.01521,verified,author,,,,,,,,,
-tws128,,,Kōryosho,,,121.90703,25.02204,verified,author,,,,,,,,,
-tws129,,,Chō-sōkei,,,121.86661,25.03909,verified,author,,,,,,,,,
-tws130,,,Butankō,,,121.85054,25.05767,verified,author,,,,,,,,,
-tws131,,,Sanshōrei,,,121.82036,25.06532,verified,author,,,,,,,,,
-tws132,,,Ryūtanto,,,121.81155,25.10800,verified,author,,,,,,,,,
-tws133,,,Taikōho,,,121.76225,25.10275,verified,author,,,,,,,,,
+tws126,,,Sekijōshi,,,121.95533,24.98375,verified,author,,,,,,TwGiran,宜蘭郡,Taihoku-shū,"A station in Giran-gun (宜蘭郡), Taihoku-shū."
+tws127,,,Ōtei,,,121.94485,25.01521,verified,author,,,,,,TwKirun,基隆郡,Taihoku-shū,"A station in Kīrun-gun (基隆郡), Taihoku-shū."
+tws128,,,Kōryosho,,,121.90703,25.02204,verified,author,,,,,,TwKirun,基隆郡,Taihoku-shū,"A station in Kīrun-gun (基隆郡), Taihoku-shū."
+tws129,,,Chō-sōkei,,,121.86661,25.03909,verified,author,,,,,,TwKirun,基隆郡,Taihoku-shū,"A station in Kīrun-gun (基隆郡), Taihoku-shū."
+tws130,,,Butankō,,,121.85054,25.05767,verified,author,,,,,,TwKirun,基隆郡,Taihoku-shū,"A station in Kīrun-gun (基隆郡), Taihoku-shū."
+tws131,,,Sanshōrei,,,121.82036,25.06532,verified,author,,,,,,TwKirun,基隆郡,Taihoku-shū,"A station in Kīrun-gun (基隆郡), Taihoku-shū."
+tws132,,,Ryūtanto,,,121.81155,25.10800,verified,author,,,,,,TwKirun,基隆郡,Taihoku-shū,"A station in Kīrun-gun (基隆郡), Taihoku-shū."
+tws133,,,Taikōho,,,121.76225,25.10275,verified,author,,,,,,TwKirun,基隆郡,Taihoku-shū,"A station in Kīrun-gun (基隆郡), Taihoku-shū."
 tws134,菁桐坑,Jīngtóngkēng,Seidōkō,,,121.72320,25.02413,verified,author,,,,,,TwShichisei,七星郡,Taihoku-shū,"A station in Shichisei-gun (七星郡), Taihoku-shū."
 tws135,石底,Shídǐ,Sekitei,,,121.73876,25.02626,verified,author,,,,,,TwShichisei,七星郡,Taihoku-shū,"A station in Shichisei-gun (七星郡), Taihoku-shū."
 tws136,嶺腳寮,Lǐngjiǎoliáo,Reikyakuryō,,,121.74784,25.03002,verified,author,,,,,,TwShichisei,七星郡,Taihoku-shū,"A station in Shichisei-gun (七星郡), Taihoku-shū."

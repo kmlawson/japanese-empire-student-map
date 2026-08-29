@@ -138,13 +138,19 @@ def build():
                 # `romaji` meant a station with a note and no reading -- and
                 # most of the ones with notes have no reading -- was not held
                 # at all, so the prose went out with the rebuild.
-                if old.get("hanji"):
-                    held[old["hanji"]] = old
+                #
+                # And keyed on the id where there is no name to key on. Eight
+                # of these have a romanisation and no characters, so they all
+                # answered to the empty string, collided with each other, and
+                # came out of the rebuild with whichever one was read last --
+                # which is how they lost the line saying where they stood.
+                held[old.get("hanji") or old.get("id")] = old
     rows, missing, repaired = [], [], []
     for feat in fc["features"]:
         p = feat["properties"]
         han, kind, fixed = split_name(p.get("NOTE"))
-        was = held.get(han) or {}
+        sid = "tws%03d" % int(p.get("fid") or 0)
+        was = held.get(han) or held.get(sid) or {}
         romaji = (was.get("romaji") or p.get("ROMAJI") or "").strip()
         x, y = feat["geometry"]["coordinates"]
         lon, lat = to_lonlat(x, y)
@@ -153,7 +159,7 @@ def build():
         if fixed:
             repaired.append((p.get("NOTE"), han))
         rows.append({
-            "id": "tws%03d" % int(p.get("fid") or 0),
+            "id": sid,
             "hanji": han,
             "pinyin": py.get(han, ""),
             "romaji": romaji,
@@ -214,10 +220,20 @@ def write_js(rows):
     """
     out = []
     for r in rows:
-        if not r["hanji"]:
+        # A NAME OF ANY KIND IS ENOUGH TO BE DRAWN. Eight stations on the
+        # Giran line -- Sekijōshi, Ōtei, Kōryosho, Chō-sōkei, Butankō,
+        # Sanshōrei, Ryūtanto, Taikōho -- reach the geojson with a romanisation
+        # in ROMAJI and nothing in NOTE, so they have no characters and no
+        # pinyin. This used to skip them, and eight stops on the north-east
+        # coast simply were not on the map: no square, nothing to point at, and
+        # no way to find out they were missing except by knowing the line.
+        #
+        # A name that is only a romanisation is still a name. What is not known
+        # about them is left empty, and the map shows what there is.
+        if not (r["hanji"] or r["romaji"] or r["pinyin"]):
             continue
         o = {"id": r["id"], "han": r["hanji"], "py": r["pinyin"],
-             "ro": r["romaji"], "kind": r["kind"],
+             "ro": r["romaji"], "kind": r["kind"] or "station",
              "lon": float(r["lon"]), "lat": float(r["lat"])}
         # What the card says. `short` is the ground it stood on and every
         # station has one; `note` is prose and only the key stations do.
@@ -249,8 +265,10 @@ def write_js(rows):
                                              sort_keys=True))
         fh.write("];\n")
     sys.stderr.write("tw-stations.js: %d stations, %d with a reading, "
-                     "%d with a short line, %d with a note\n"
+                     "%d with characters, %d with a short line, %d with a "
+                     "note\n"
                      % (len(out), sum(1 for o in out if o["ro"]),
+                        sum(1 for o in out if o["han"]),
                         sum(1 for o in out if o.get("short")),
                         sum(1 for o in out if o.get("note"))))
 

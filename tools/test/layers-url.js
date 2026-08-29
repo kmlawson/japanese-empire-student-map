@@ -176,7 +176,7 @@ console.log('\n— the railway layer travels in the address —');
      which is what an atlas draws at a small scale. */
   {
     const tieAt = async box => {
-      const z = await open(b, href.replace(/bbox=[^&]*/, 'bbox=' + box)
+      const z = await open(b, href.replace(/where=[^&]*/, 'where=' + box)
                            + '&nocache=' + Math.random());
       await sleep(1200);
       const v = await z.evaluate(() => {

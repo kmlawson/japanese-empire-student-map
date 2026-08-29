@@ -83,12 +83,12 @@ console.log('\n— and a link written down there comes back to it —');
   await sleep(2200);
   const before=await box(m);
   const url=await m.url();
-  check('the deep link carries a bbox', /bbox=/.test(url), url.slice(-60));
+  check('the deep link carries the view', /where=/.test(url), url.slice(-60));
   /* Two decimal places was sized against the desktop's limit. Four times
      deeper, a hundredth of a degree is three per cent of the view — a link
      landing a tenth of a screen from what was being looked at — so the deep
      end writes a third place. */
-  const bb=/bbox=([-\d.]+),([-\d.]+),([-\d.]+),([-\d.]+)/.exec(url);
+  const bb=/where=([-\d.]+),([-\d.]+),([-\d.]+),([-\d.]+)/.exec(url);
   const span=bb?(parseFloat(bb[3])-parseFloat(bb[1])):0;
   check('and the view down there is under a degree and a half wide',
     span>0 && span<1.5, span.toFixed(3)+'°');

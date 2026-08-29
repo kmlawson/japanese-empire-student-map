@@ -11468,6 +11468,95 @@ Whole suite: 804 checks across 33 scripts, all passing.
 
 ---
 
+## A needle in Korea Bay, eight missing stations, shorter links, and the pan
+
+### The shaft off the NW Korean coast
+
+It was a **seam strip** — the filler drawn between Korea and Manchuria along
+the Yalu — striking out across the water. 16 points, 35 by 63 km, **237 km²**,
+drawn in Manchuria's colour on the 1930 map and Manchukuo's on the 1942 one,
+which is exactly what the author saw and exactly what they said it was.
+
+`_korea_seam` searches outward from Korea's coast for Manchuria and its three
+tests say where the far end *lands*: out of Korea, inside Manchuria, still
+beside the river. They say nothing about the ground in between, and at the
+Yalu's mouth the far side of the estuary answers all three.
+
+It did not do this before. The traced coastline sat inland of the true one, so
+the arc that now reaches the water used to stop short of it and the search
+found nothing. The bug was always there; the new coast walked into it.
+
+Fixed by asking the obvious fourth question: five points along the strip, each
+of which must be in Korea or in Manchuria. A seam that hugs a frontier passes;
+one that jumps a channel does not. Manchuria's seams went 5 → 4, the needle is
+gone, and the four that remain run 124.24E–130.63E along the Yalu and Tumen as
+they should.
+
+### Eight stations on the Giran line were never drawn
+
+Sekijōshi, Ōtei, Kōryosho, Chō-sōkei, Butankō, Sanshōrei, Ryūtanto and Taikōho
+reach the geojson with a romanisation in ROMAJI and **nothing in NOTE** — no
+characters, no pinyin. `write_js` skipped any row without characters, so eight
+stops on the north-east coast simply were not on the map: no square, nothing to
+point at, and no way to notice except by knowing the line.
+
+A name that is only a romanisation is still a name. The rule is now that any
+name at all is enough to be drawn, and what is not known is left empty.
+**191 stations become 199.**
+
+And a second fault behind it: `build_tw_stations.py` holds research across a
+rebuild keyed on the characters, so all eight answered to the empty string,
+collided with one another, and came out with whichever was read last — which is
+how they lost the line saying where they stood. Keyed on the id where there is
+no name to key on. 199 of 199 now carry a short line.
+
+### `where`, and a much shorter colour code
+
+`bbox` is `where` in the address. The old name is still read — every link
+already shared carries it — and never written again.
+
+The colours were carrying their own ids: `colours=metropole-00aa55.ocean-204060`
+is 36 characters for two. Each now has a **two-letter code, written down and
+never reassigned**, and the pairs run together with no separators because both
+halves are fixed width: `colours=mp00aa55se204060`, **16 characters for the
+same two**. Written down and not taken from the palette's order, because a
+positional code breaks every link ever made the moment a category is added.
+
+The long form is still read, so links made yesterday still work; a junk code is
+dropped as before.
+
+### The pan, measured
+
+I could not reproduce the slowdown headlessly — there is no real rasteriser
+there, and JS busy time is flat across zoom (27%, 25%, 23%, 26% from the world
+view to one prefecture). So this is not a claim to have fixed what the author
+sees. What the measurement does show:
+
+* Turning the transport layers on **doubles** JS busy time during a pan at any
+  zoom — 11.4% to 22.6% over Taiwan, 13.9% to 26.7% over a region.
+* The number of painted labels grows **12 → 53 → 626 → 1,299** from the world
+  view to one prefecture. That is the thing that scales with the zoom, and each
+  is an SVG text with a paint-order halo.
+* `placeLabels()` ran on **every frame of a pan** — and a pan does not need it.
+  A label lives in map units inside the SVG, so the viewBox moves it for
+  nothing. What a pan changes is only which labels are in frame and how they
+  crowd.
+
+So it runs at 10 Hz while the hand is moving and once more when it stops, and
+at once on a zoom, which really does move every label. Label work as a share of
+busy time fell **4–5×**: 2.14% → 0.50% over Taiwan, 4.56% → 0.87% over a
+region — and, not visible in a headless profile but the larger part, 1,299
+texts stop having their attributes rewritten sixty times a second.
+
+An outside review's first finding was that the tie-opacity loop runs per
+pointer event. It does, and it is four elements — two paths per railway, not
+one per tie — so it is not worth anything. Its finding on `placeLabels` was
+right and is the one acted on.
+
+Whole suite: 804 checks across 33 scripts, all passing.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

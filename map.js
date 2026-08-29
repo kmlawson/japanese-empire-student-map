@@ -13,8 +13,8 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '219';
-  var JEM_ASSETS = {"admin.js": "9f99c96627", "annotate.js": "761fbd5949", "japan-empire-map-admin.svg": "8f23cf49df", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "96b9b75ca5", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0"};
+  var JEM_VERSION = '220';
+  var JEM_ASSETS = {"admin.js": "9f99c96627", "annotate.js": "761fbd5949", "japan-empire-map-admin.svg": "8f23cf49df", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "23439bf362", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0"};
 
   /* Every file this one fetches, with the version on it.
 
@@ -3212,7 +3212,8 @@
     try {
       var rest = [];
       new URLSearchParams(window.location.search).forEach(function (v, k) {
-        if (k !== 'bbox' && k !== 'layers' && k !== 'mono' && k !== 'colours') {
+        if (k !== 'where' && k !== 'bbox' && k !== 'layers'
+            && k !== 'mono' && k !== 'colours') {
           rest.push(encodeURIComponent(k) + '=' + encodeURIComponent(v));
         }
       });
@@ -3224,7 +3225,9 @@
          chosen. */
       var cc = colourCode();
       if (cc) rest.unshift('colours=' + cc);
-      var q = ['bbox=' + viewBox().join(','), 'layers=' + layerCode()].concat(rest);
+      /* `where`, not `bbox`. The old name is still read — every link already
+         shared carries it — and never written again. */
+      var q = ['where=' + viewBox().join(','), 'layers=' + layerCode()].concat(rest);
       history.replaceState(null, '',
         window.location.pathname + '?' + q.join('&') + window.location.hash);
     } catch (err) { /* older browser; the map does not depend on this */ }
@@ -3241,7 +3244,7 @@
     if (mc && HEX.test('#' + mc)) state.monoColour = '#' + mc;
     var cc = q.get('colours');
     if (cc) state.colours = readColourCode(cc);
-    var raw = q.get('bbox');
+    var raw = q.get('where') || q.get('bbox');
     if (!raw) return null;
     // A comma is never a minus sign, so the box comes apart on commas and a
     // negative latitude needs no thinking about. Hyphens are read too, for the
@@ -3437,7 +3440,31 @@
           (!JMAP.GAZ && browseVisible()) ? '' : 'none';
         applyGazetteer();
         if (zoomed) gateLabels();
-        placeLabels();
+        /* NOT ON EVERY FRAME OF A PAN.
+         *
+         * A label lives in map units inside the SVG, so a pan moves it with
+         * the ground for nothing: the viewBox does it. What a pan changes is
+         * only *which* labels are in the frame and how they crowd — the quota
+         * and the collision test — and that does not have to be answered sixty
+         * times a second.
+         *
+         * It was answered sixty times a second, and the cost of that grows
+         * with the zoom because the number of labels does: measured over one
+         * drag, 12 labels on the world view, 53 over East Asia, 626 over
+         * Taiwan, 1,299 over one prefecture. Every one of them had its
+         * position and display rewritten every frame — which is not just the
+         * arithmetic but a fresh paint of 1,299 haloed texts.
+         *
+         * A zoom still places at once, because a zoom really does change every
+         * label's screen position. A pan places at 10 Hz while the hand is
+         * moving and once more when it stops, which is `syncFine`'s settle
+         * timer doing a second job it was already the right shape for.
+         */
+        var now = Date.now();
+        if (zoomed || !dragStart || now - lastPlaced > PLACE_MS) {
+          lastPlaced = now;
+          placeLabels();
+        }
       });
     }
     // On settle, not per frame: this fires on every wheel tick and every step
@@ -3445,10 +3472,18 @@
     if (fineTimer) clearTimeout(fineTimer);
     fineTimer = setTimeout(function () {
       fineTimer = 0;
+      // the placement the pan was allowed to skip, now that the hand is still
+      lastPlaced = 0;
+      placeLabels();
       syncFine();
     }, 220);
   }
   var fineTimer = 0;
+  /* How often labels are re-placed while a pan is under way. Ten times a
+     second is under the eye's threshold for a name arriving at the edge of the
+     frame and well over what the collision test costs. */
+  var PLACE_MS = 100;
+  var lastPlaced = 0;
 
   /* The shading patterns and the way each is turned. The base areas are ruled
      the other way from the occupation's own stripes so that where the two cross
@@ -6782,6 +6817,29 @@
   var PALETTE_GROUPS = ['On both dates', 'The 1930 map',
                         'The December 1942 map', 'Marks and the sea'];
 
+  /* A TWO-LETTER CODE PER COLOUR, WRITTEN DOWN AND NEVER CHANGED.
+     The address used to carry the ids themselves —
+     `colours=metropole-00aa55.ocean-204060` is thirty-six characters for two
+     colours, and with a dozen moved it was the longest thing in the link by
+     some way. `colours=mp00aa55se204060` is the same two in sixteen: two
+     letters and six hex digits run together, no separators, because both
+     halves are fixed width and need none.
+
+     WRITTEN DOWN, and not taken from the palette's order, because a positional
+     code breaks every link ever made the moment a category is added to
+     data.js. A code here is a promise: it may be added to and it may not be
+     reassigned. An id with no code does not travel at all, which is a smaller
+     failure than a link that quietly comes to mean something else. */
+  var PALETTE_CODE = {
+    metropole: 'mp', jpcolony: 'jc', chinese: 'ch', british: 'br',
+    french: 'fr', dutch: 'du', american: 'am', portuguese: 'pt',
+    soviet: 'sv', frontier: 'ft', independent: 'in', contested: 'ct',
+    other: 'ot', colony: 'cl', puppet: 'pp', occupied: 'oc',
+    cobelligerent: 'cb', freechina: 'fc', ccp: 'cc', pacified: 'pa',
+    unpacified: 'up', allied: 'al', neutral: 'ne', city: 'ci',
+    battle: 'ba', poi: 'po', ocean: 'se', raillight: 'rl', raildark: 'rd',
+  };
+
   function palette() {
     if (paletteCache) return paletteCache;
     var eps = Object.keys(JMAP.CATEGORIES || {}).sort();
@@ -6861,19 +6919,33 @@
     var bits = [];
     palette().forEach(function (p) {
       var v = state.colours[p.id];
-      if (v && v !== p.def) bits.push(p.id + '-' + v.slice(1));
+      var c = PALETTE_CODE[p.id];
+      if (c && v && v !== p.def) bits.push(c + v.slice(1));
     });
-    return bits.join('.');
+    return bits.join('');
   }
 
   function readColourCode(code) {
     var out = {};
     if (!code) return out;
-    String(code).split('.').forEach(function (bit) {
-      var cut = bit.lastIndexOf('-');
-      if (cut < 1) return;
-      out[bit.slice(0, cut)] = '#' + bit.slice(cut + 1);
-    });
+    code = String(code);
+    /* The long form, `id-rrggbb` joined by dots, is still read: links were
+       made with it. It is never written any more. */
+    if (code.indexOf('-') >= 0 || code.indexOf('.') >= 0) {
+      code.split('.').forEach(function (bit) {
+        var cut = bit.lastIndexOf('-');
+        if (cut < 1) return;
+        out[bit.slice(0, cut)] = '#' + bit.slice(cut + 1);
+      });
+      return cleanColours(out);
+    }
+    // fixed-width chunks: two letters of code, six hex digits, no separators
+    var by = {};
+    Object.keys(PALETTE_CODE).forEach(function (id) { by[PALETTE_CODE[id]] = id; });
+    for (var i = 0; i + 8 <= code.length; i += 8) {
+      var id = by[code.slice(i, i + 2)];
+      if (id) out[id] = '#' + code.slice(i + 2, i + 8);
+    }
     return cleanColours(out);
   }
 
