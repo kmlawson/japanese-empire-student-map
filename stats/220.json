@@ -1,0 +1,111 @@
+{
+  "version": 220,
+  "files": {
+    "index.html": 32139,
+    "map.js": 426389,
+    "styles.css": 91956,
+    "data.js": 622809,
+    "admin.js": 53767,
+    "annotate.js": 226200,
+    "cities-gaz.js": 103532,
+    "tw-stations.js": 49538,
+    "kr-stations.js": 201383,
+    "japan-empire-map.svg": 3135786,
+    "japan-empire-map-admin.svg": 1307245,
+    "japan-empire-map-fine.svg": 650929,
+    "japan-empire-map-roc.svg": 714438,
+    "japan-empire-map-ne.svg": 1770737,
+    "_first paint needs": 4412611
+  },
+  "views": {
+    "world": {
+      "bare": {
+        "busyPct": 16.3,
+        "labelSharePct": 0,
+        "labels": 0,
+        "lettered": 0,
+        "nodes": 8114,
+        "stationMarks": 0,
+        "heapMB": 5
+      },
+      "withLayers": {
+        "busyPct": 26.6,
+        "labelSharePct": 0.06,
+        "labels": 12,
+        "lettered": 12,
+        "nodes": 12555,
+        "stationMarks": 1049,
+        "heapMB": 9
+      }
+    },
+    "region": {
+      "bare": {
+        "busyPct": 14.3,
+        "labelSharePct": 0,
+        "labels": 0,
+        "lettered": 0,
+        "nodes": 8114,
+        "stationMarks": 0,
+        "heapMB": 5
+      },
+      "withLayers": {
+        "busyPct": 23.9,
+        "labelSharePct": 0.1,
+        "labels": 12,
+        "lettered": 53,
+        "nodes": 12561,
+        "stationMarks": 1049,
+        "heapMB": 9
+      }
+    },
+    "island": {
+      "bare": {
+        "busyPct": 11,
+        "labelSharePct": 0,
+        "labels": 0,
+        "lettered": 0,
+        "nodes": 8240,
+        "stationMarks": 0,
+        "heapMB": 9
+      },
+      "withLayers": {
+        "busyPct": 21.5,
+        "labelSharePct": 0.73,
+        "labels": 13,
+        "lettered": 626,
+        "nodes": 13315,
+        "stationMarks": 1049,
+        "heapMB": 15
+      }
+    },
+    "local": {
+      "bare": {
+        "busyPct": 12.9,
+        "labelSharePct": 0,
+        "labels": 0,
+        "lettered": 0,
+        "nodes": 8114,
+        "stationMarks": 0,
+        "heapMB": 5
+      },
+      "withLayers": {
+        "busyPct": 23.7,
+        "labelSharePct": 1.03,
+        "labels": 59,
+        "lettered": 1299,
+        "nodes": 13075,
+        "stationMarks": 1049,
+        "heapMB": 12
+      }
+    }
+  },
+  "opening": {
+    "labels": 0,
+    "lettered": 0,
+    "nodes": 8114,
+    "svgPaths": 1259,
+    "stationMarks": 0,
+    "heapMB": 5
+  },
+  "readyMs": 998
+}

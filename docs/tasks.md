@@ -11557,6 +11557,47 @@ Whole suite: 804 checks across 33 scripts, all passing.
 
 ---
 
+## A record of what the map costs, kept per update
+
+    stats/220.json          this update's numbers
+    stats/README.md         what each number is, and what it is not
+    tools/stats.js          measures and writes one
+    tools/stats_diff.js     puts every run in a row
+
+Performance here has twice been argued from memory — *it feels slower since the
+stations went in* — and memory is not evidence. A number written down at 220
+can be compared with the same number at 260 without anyone having to remember.
+
+**What it can and cannot see, said in the file itself.** Headless Chrome
+rasterises without a compositor or vsync, so scripting is measured faithfully
+and paint is not. That is exactly why the label counts are recorded: the thing
+that cannot be timed is counted instead, and when panning got slow it was those
+that had moved, not `busy%`. Every timing is the median of three runs — one run
+varies by about a fifth, three medians land within a couple of per cent.
+
+`busy%` is the share of profiler samples that were not idle over one fixed
+80-step drag, not milliseconds, so it survives a change of machine. The four
+views are bounding boxes, so the same call frames the same ground whatever the
+window.
+
+### What update 220 says
+
+* Opening costs **4.3 MB**, ready in **1.0 s**, 8,114 nodes.
+* The transport layers **roughly double** scripting during a pan at every zoom
+  — 16.3 → 26.6 at the world view, 11.0 → 21.5 over Taiwan. Flat with the zoom:
+  that is the price of the layers, not of being zoomed in.
+* What is not flat is the labels. **12 lettered at the world view, 53 over East
+  Asia, 626 over Taiwan, 1,299 over one prefecture.** A hundredfold, and the
+  reason a pan feels heavier the further in you are.
+* **Only 59 of those 1,299 are on screen.** Most of the placer's work is spent
+  on labels nobody can see, and that is written down as the next thing to go
+  after — it is the one number here that is plainly wrong rather than merely
+  large.
+* Label work is now **1% of scripting or less**, against 4.6% at the local view
+  before the pan placed at 10 Hz instead of every frame.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible
