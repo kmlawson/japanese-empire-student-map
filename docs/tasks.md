@@ -11100,6 +11100,65 @@ Whole suite: 770 checks across 32 scripts, all passing.
 
 ---
 
+## Korea comes off Natural Earth, and the tracing stands down
+
+The measurement that settled it: the traced sheet was never the finer source.
+
+| | rings | vertices | coast | per 100 km | islands >1 km² |
+|---|---|---|---|---|---|
+| the tracing, as drawn | 38 | 3,839 | 8,075 km | 47.5 | 38 |
+| Natural Earth 1:10m | 63 | 4,842 | 8,427 km | **57.5** | **62** |
+
+Natural Earth samples 21% more finely, resolves 4% more line, and knows two
+dozen small islands the tracing never carried. Window by window: the south-west
+archipelago 765 vertices against 1,033, the Yalu estuary 105 against 142,
+Wonsan 93 against 106. The only thing the tracing had that Natural Earth has
+not is the thirteen 1930 provinces — and those are being redrawn.
+
+So `KOREA_FROM_NE` in `build_map.py`: North and South Korea merged into one
+atom straight from admin0, and the province file not read at all. Set it False
+and the tracing comes back, geometry and all; `shift_korea.py` and the traced
+JSON are untouched beside it.
+
+**Merged, so the 1945 line is never drawn.** The frontier between the two
+halves is an interior edge of the union: the dissolve walks each shared edge
+once from either side and it cancels.
+
+**The Liancourt Rocks are not drawn twice.** `japan-empire-map-fine.svg`
+already carries them, so the ring east of 131.5E is dropped on the way in.
+Ulleungdo, west of that, is kept — the traced file carried it too, so the fine
+sheet has always drawn over a copy of it and nothing there changes.
+
+### Measured after the swap
+
+* The coast is Natural Earth's to **17 m** — path rounding, nothing else.
+* **845 of 850 stations stand on land, 99.4%** — against 799 before any of
+  this and 828 after the shift.
+* Of the five that do not, three are named 항 or 잔교 in Korean: Kunsanhang,
+  Yŏsuhang and Changhangjan'gyo are harbour and pier stations, built out over
+  the water on quays. The fourth is Sinŭiju on the Yalu and the fifth is one
+  station on the Hamgyŏng coast.
+
+No shift is needed any more and none is applied — the coast is in its own place
+because it is the coastline the railways were surveyed against.
+
+Korea's atom also stops being `deferred`: it carried that because its geometry
+lived in the administrative sheet, and it does not any more. It draws at every
+zoom without a fetch.
+
+### What is parked
+
+Two checks in `tools/test/names.js` hover a Korean province and read the
+tooltip. There is no province to hover, so they are guarded rather than
+deleted, with the note that dropping the guard is all that is needed when the
+new polygons go in. The check above them — that the name records in `texts/`
+still carry both forms — is untouched and still passes, which is the thing that
+proves the names survived the geometry going away.
+
+Whole suite: 768 checks across 32 scripts, all passing.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

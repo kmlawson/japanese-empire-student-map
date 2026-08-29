@@ -113,10 +113,22 @@ console.log('\n— and the provinces, which are keyed differently —');
   /* Kōgen-dō, not Keiki-dō: a province is hovered at the middle of its box and
      the middle of Keiki-dō is Seoul, so the pointer landed on the city's own
      marker and the tooltip named the city. Kōgen is mountain in the middle. */
-  const tip = await hover('Kogen');
-  check('and the tooltip shows the Japanese one first',
-    /Kōgen-dō/.test(tip) && tip.indexOf('Kōgen-dō') < tip.indexOf('Kangwŏn'),
-    tip.slice(0, 90));
+  /* PARKED, NOT DELETED. Korea's thirteen provinces are not drawn at the
+     moment: the traced sheet they came from turned out to be a re-digitised
+     drawing sitting kilometres off its own coastline, so the coast is Natural
+     Earth's now and the divisions are being redrawn. When the new polygons go
+     in, drop the guard and this check works again exactly as written — the
+     name records in texts/ never went away, which is what the check above
+     still proves. */
+  const drawn = await p.evaluate(() => !!document.querySelector('[data-prov="Kogen"]'));
+  if (!drawn) {
+    console.log('  ..   Korea has no provinces drawn yet — two checks parked');
+  } else {
+    const tip = await hover('Kogen');
+    check('and the tooltip shows the Japanese one first',
+      /Kōgen-dō/.test(tip) && tip.indexOf('Kōgen-dō') < tip.indexOf('Kangwŏn'),
+      tip.slice(0, 90));
+  }
   await p.close();
 
   const q = await open(BASE, '124,33,131.5,43.5');
@@ -128,12 +140,14 @@ console.log('\n— and the provinces, which are keyed differently —');
     s.x = bb.x + bb.width / 2; s.y = bb.y + bb.height / 2;
     const r = s.matrixTransform(m); return [r.x, r.y];
   });
-  if (pt) { await q.mouse.move(pt[0], pt[1]); await sleep(900); }
-  const tip2 = await q.evaluate(() => { const t = document.querySelector('#tip,#tooltip');
-    return t ? t.textContent.replace(/\s+/g, ' ') : ''; });
-  check('unticked, the Korean one leads',
-    /Kangwŏn-do/.test(tip2) && tip2.indexOf('Kangwŏn-do') < tip2.indexOf('Kōgen-dō'),
-    tip2.slice(0, 90));
+  if (pt) {
+    await q.mouse.move(pt[0], pt[1]); await sleep(900);
+    const tip2 = await q.evaluate(() => { const t = document.querySelector('#tip,#tooltip');
+      return t ? t.textContent.replace(/\s+/g, ' ') : ''; });
+    check('unticked, the Korean one leads',
+      /Kangwŏn-do/.test(tip2) && tip2.indexOf('Kangwŏn-do') < tip2.indexOf('Kōgen-dō'),
+      tip2.slice(0, 90));
+  }                               // parked with the one above
   await q.close();
 }
 

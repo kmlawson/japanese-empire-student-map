@@ -671,6 +671,22 @@ PRINCELY_NAMES = {
 # made to give the period map however they are grouped: Hwanghae was one
 # province until 1954, Ryanggang and Jagang did not exist, and Kaesong was in
 # Keiki-do rather than in Hwanghae.
+# KOREA IS DRAWN FROM NATURAL EARTH, NOT FROM THIS FILE. Set KOREA_FROM_NE
+# False and the traced provinces come back, geometry and all.
+#
+# The tracing was the finer source once and is not. Measured against Natural
+# Earth 1:10m: it carries 3,839 vertices over 8,075 km of coast against 4,842
+# over 8,427 km — Natural Earth samples 21% more finely, resolves 4% more line,
+# and knows 62 islands over a square kilometre to the tracing's 38. What the
+# tracing had that Natural Earth has not is the thirteen 1930 provinces, and
+# those are being redrawn; until they are, Korea has no divisions and the coast
+# is the modern one, in its own place, with no shift needed.
+KOREA_FROM_NE = True
+# The Liancourt Rocks. `japan-empire-map-fine.svg` already draws them, so the
+# ring here would be a second copy of the same two hundred metres of rock.
+# Ulleungdo, west of this, is kept: the traced file carried it too, so the fine
+# sheet has always drawn over a copy of it and nothing changes.
+KOREA_LIANCOURT_LON = 131.5
 KOREA_FILE = "korea_13_provinces.json"
 # ...which is the *shifted* file. `korea_13_provinces_traced.json` beside it is
 # the tracing as it comes out of fetch_korea_1930.py, and tools/shift_korea.py
@@ -5229,7 +5245,7 @@ def main():
 
     _kt = os.path.join(CACHE, KOREA_TRACED_FILE)
     _kf = os.path.join(CACHE, KOREA_FILE)
-    if os.path.exists(_kt) and os.path.exists(_kf):
+    if not KOREA_FROM_NE and os.path.exists(_kt) and os.path.exists(_kf):
         if os.path.getsize(_kt) == os.path.getsize(_kf):
             with open(_kt) as _a, open(_kf) as _b:
                 if _a.read() == _b.read():
@@ -5506,11 +5522,17 @@ def main():
                 provinces["chishima"].append((label, kurils[label]))
             continue
         if admin in ("South Korea", "North Korea"):
-            # Korea is drawn from its period provinces and nothing else. They
-            # are the finer source, they weld into a clean country outline,
-            # and a modern coastline underneath would only show through where
-            # the two disagree — which is what made a selected province stop
-            # short of the sea.
+            # The two halves are one country here and are merged into one atom:
+            # the map's date is 1930 or 1942 and the line between them did not
+            # exist. The frontier they share is an interior edge of the union,
+            # so it is never drawn — the dissolve walks each shared edge twice,
+            # once from each side, and it cancels.
+            if not KOREA_FROM_NE:
+                continue
+            for ring in iter_rings(feat["geometry"]):
+                if min(p[0] for p in ring) > KOREA_LIANCOURT_LON:
+                    continue           # the fine sheet already draws it
+                groups["korea"].append(ring)
             continue
         if admin == "Malaysia":
             for ring in iter_rings(feat["geometry"]):
@@ -5922,8 +5944,13 @@ def main():
         provinces["saharat"].append((_label, _rs))
 
     # ---- Korea, province by province ---------------------------------------
+    # ...or not: with KOREA_FROM_NE the coast comes off Natural Earth above and
+    # the colony has no divisions until the province polygons are redrawn.
     kpath = os.path.join(CACHE, KOREA_FILE)
-    if os.path.exists(kpath):
+    if KOREA_FROM_NE:
+        sys.stderr.write("korea: Natural Earth outline, no provinces "
+                         "(KOREA_FROM_NE)\n")
+    elif os.path.exists(kpath):
         with open(kpath) as fh:
             for feat in json.load(fh)["features"]:
                 pname = feat["properties"]["shapeName"]
