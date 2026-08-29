@@ -11598,6 +11598,170 @@ window.
 
 ---
 
+## Train Tools: the 1936 timetable, running on the map
+
+**Asked for:** a Train Tools switch in Transport that only becomes active when
+the reader zooms in to a unit that has a timetable — Taiwan now, Korea and
+others later; then a working interface: play the day, click a station for the
+trains going through it, link to the full schedule as a separate page, and
+colour the lines. Zooming out unloads it.
+
+### What was built
+
+`tools/build_tw_trains.py` takes the transcription of the February 1936
+timetable — vendored under `data/tw-1936-timetable/` so the build needs no
+network — and writes two things:
+
+* **`tw-trains.js`, 268 KB.** 7 lines, 187 stations, 346 trains, 5,372 stop
+  rows, and 218 stretches of track between consecutive stops. **8,263 source
+  points in, 8,263 out — 100% kept**, rounded to five decimal places, which is
+  a metre at this latitude. Nothing is simplified.
+* **`timetable/taiwan-1936.html`, 199 KB.** The eighteen printed tables as
+  published, with an `id` on each heading so a station's card can link to the
+  table for its own line rather than to the top of a 199 KB page.
+
+`trains.js` is the interface, and it is a module on the annotate.js pattern
+rather than more of `map.js`: neither it nor its data is in the page until the
+reader has asked for the tools **and** zoomed in far enough for them to mean
+anything.
+
+### The activation rule, and why it has two thresholds
+
+`TRAIN_SYS` in `map.js` is the table — one row per system, and adding Korea is
+adding a row. Taiwan's says the ground it covers and that the timetable is
+February 1936. The tools mount when the switch is on, the view is **5.0 degrees
+of latitude or less** (Taiwan is 3.6 tall, so the island is about 70% of the
+frame) and the centre of the view is inside that ground. They unmount at **5.8
+degrees**, not 5.0: at a single threshold a pinch that hovers on the line built
+and destroyed 179 paths and a control bar several times a second.
+
+Both files are fetched once. Measured: with the switch off nothing is
+requested; with it on at the whole-empire view nothing is requested; zooming in
+fetches both once, and zooming out and back in again fetches neither.
+
+### Four things that were wrong when first drawn, and what each measured
+
+* **The trunk line was invisible.** Its colour is `#c0392b` and a Japanese
+  colony on this map is `#c2463d` — a distance of 22 in a space of 255. The six
+  branch lines, being blue and green and purple, showed. So the map said the
+  busiest line on the network did not exist. A pale casing was not enough on
+  its own: it made the *line* visible and left its colour unreadable, so the
+  trunk line read as a white line and its entry in the legend was a lie. Now
+  the casing follows the ground — pale over dark land, dark over pale — and any
+  line colour within 62 of the ground is moved 45% away from the casing. The
+  trunk line comes out a dark maroon. Recomputed against the ground as the
+  reader has it, so a changed palette, the single-colour map and a dark screen
+  each get their own answer.
+* **The track broke either side of Takao.** 22 of the 187 stations have no
+  coordinate in the source, and joining only the pairs that are consecutive in
+  the printed table left a hole wherever one of them stood. Joining across them
+  closed it: **156 stretches became 181**, and 177 of those are still traced
+  rather than drawn straight.
+* **Two of those joins were fabrications.** Two trains have every intermediate
+  stop unplaceable, and the map drew their journeys as straight chords **123 km
+  and 96 km** across the central mountains. Both stretches are drawn properly
+  by other trains' stops, so nothing is lost by refusing them: a bridging join
+  longer than 15 km is not drawn and a train is simply not shown while it is on
+  that leg. **179 stretches drawn** — 177 traced, 2 short straight joins.
+* **Every railway was doubled.** The tools borrow the station squares, which
+  belong to the railway layer — a timetable the reader cannot point at is a
+  picture of a timetable — and that brought the traced network with them, a
+  pale line beside a coloured one a few pixels apart, from two sources that do
+  not agree to the metre. The traced layer now stands down for as long as the
+  tools are open and comes back when they go. The borrowed switches are
+  restored on the way out, and are *not* written to the address bar: a link
+  shared from here does not arrive with somebody else's railway layer on.
+
+### Map units and screen pixels, again
+
+The lines carry `non-scaling-stroke` so their width is already in screen
+pixels. The trains cannot: they are shapes, so each is drawn at its pixel size
+and given `scale(k)`, rewritten by `rescaled(k)` on every zoom. Measured at two
+zooms four wheel steps apart: **6.80 px and 6.79 px**. Before the hook was
+moved into `rescale()` — it had landed in `drawRelief()`, where `k` does not
+exist — the same pair read **6.80 px and 30.10 px**.
+
+### A station's card
+
+153 of the 187 timetable stations are matched to this map's 199 Taiwanese ones,
+by name, through the same kyūjitai fold `map.js` uses — without it Taihoku,
+Taichū and Tainan, the three busiest stations on the network, match nothing.
+Taihoku's card carries **127 trains**, each with its departure, its arrival, its
+number, its line in the colour actually drawn, and where it was going; a
+through working timed on two tables is one row. The times the transcription
+could not read with certainty are marked, because a time the original print
+left ambiguous is not a time to plan by.
+
+### And on a phone the bar is at the top
+
+The detail sheet is anchored to the bottom of a phone screen and so is the
+legend, and a station's card is exactly what a reader opens while the trains
+are running: a bar at the foot of the map would spend its life underneath the
+thing it was being used with. Moving it only when a card opened would be worse
+— a control that jumps when you touch something else cannot be aimed at — so on
+a small screen it sits at the top for the whole visit, clear of the zoom
+buttons. Measured at 414x840: bar 65-138, sheet 245-840, no overlap.
+
+The row also had to be made to fit. Play, clock, slider, speed, "38 running"
+and the close button came to more than 338 px, and a flex row **overflows
+visibly rather than clipping**, so the close button was being drawn outside the
+bar and landing on the zoom controls. The running count goes on a phone — the
+trains are on the map to be counted — and the close button now ends at 335
+against the zoom button's 362.
+
+### A change of projection
+
+`reprojectDocument` walks every path in the document, so the coloured track
+moves to Albers or Lambert with everything else and needed nothing. The trains
+did: where they are is worked out from `segCache`, which holds points already
+*projected*, and after a switch those are answers about a different map. The
+cache is thrown away and asked again — the source coordinates are longitude and
+latitude and have not moved. Measured as the distance from a running train to
+the nearest coloured line: **0.00 px in Mercator, 0.00 px in Albers with the
+fix and 6,185.66 px without it**, which is the negative control for the check
+that now guards it.
+
+### Made to work with a finger, measured at three sizes
+
+Asked for after the first pass, and it found three things.
+
+* **375 px portrait.** The row came to 5 px more than the strip is wide, and a
+  flex row overflows *visibly* rather than clipping, so the close button was
+  drawn outside the bar. Gap 6, clock 3.2em, slider floor 48: play 40, clock
+  48, slider 48, speed 75, close 28 and four gaps is 263 against 279 of room.
+  Close button now ends at 296 inside a bar ending at 307, with the zoom
+  buttons starting at 323.
+* **Landscape, 667x375.** A short screen puts the zoom buttons in a *row along
+  the top left*, which is where the strip was — the two were drawn on top of
+  each other. The strip starts after them now, at 160 against the row's 152.
+* **Landscape with a card open.** `#info.open` is 76% of a 375 px screen, so
+  the card reached up to 90 and the strip sits at 65–138. There is no
+  arrangement that fits both, so the strip stands down while a card is open on
+  a screen that short — which is what the legend already does — and comes back
+  when the card closes. The clock does not stop: the trains go on running
+  behind the card, which is the point of reading one while the day plays.
+
+The slider is 30 px tall on a coarse pointer. The thumb is the browser's and
+cannot be resized without taking over the whole control, but the hit area is
+the element and a drag begun anywhere on it moves the thumb.
+
+Measured at 375x667, 414x896 and 667x375: nothing spills out of the strip, the
+strip is clear of the zoom buttons, a tap on play runs the day, a tap on a
+station opens its 127 trains, and zooming out puts the whole thing away.
+
+### Tested
+
+`tools/test/trains.js`, **40 checks**, in `all.js`. Nothing fetched or built
+until both conditions hold; the track drawn in seven colours; the clock, the
+running count and pause; a train the same size on screen at two zooms; the
+borrowed squares; the card's 127 rows and its link ending `#line-1-1`; the
+whole interface gone on the way out and back on the way in with no second
+fetch; a train still on its line through a change of projection; the switch
+surviving a shared link; the coloured track answering no pointer. **And all of it again with a finger** — the bar is up, the play button
+is 34 px, a tap plays the day, and a tap on a station opens its trains.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

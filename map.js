@@ -13,8 +13,8 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '221';
-  var JEM_ASSETS = {"admin.js": "9f99c96627", "annotate.js": "761fbd5949", "japan-empire-map-admin.svg": "8f23cf49df", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "23439bf362", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0"};
+  var JEM_VERSION = '222';
+  var JEM_ASSETS = {"admin.js": "9f99c96627", "annotate.js": "761fbd5949", "japan-empire-map-admin.svg": "8f23cf49df", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "23439bf362", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "b09f9d37f7", "trains.js": "b6ccd17e11", "tw-trains.js": "41bcc255ed"};
 
   /* Every file this one fetches, with the version on it.
 
@@ -123,6 +123,12 @@
     krRail: false,
     krStations: false,
     twStations: false,
+    /* The working timetable over Taiwan: the lines in the colours the
+       timetable gives them, the day's trains running on it, and a station's
+       departures in the card. Off by default, and even switched on it draws
+       nothing until the reader is looking at an island a train ran on — see
+       TRAIN_SYS. */
+    trainTools: false,
     // the mesh of meridians and parallels; off by default
     graticule: false,
     /* Shaded relief under the political colours. Off by default and fetched
@@ -930,7 +936,9 @@
        cannot. Display none reports 0x0, so opening and closing fire too. */
     if (typeof ResizeObserver === 'function') {
       var ro = new ResizeObserver(function () { bumpLayout(); });
-      ['#legend', '#zoom-controls', '#info', '#quiz'].forEach(function (sel) {
+      // held so a panel built later — the train bar — can join the list
+      uiObserver = ro;
+      ['#legend', '#zoom-controls', '#info', '#quiz', '#train-bar'].forEach(function (sel) {
         var el = $(sel);
         if (el) ro.observe(el);
       });
@@ -1575,9 +1583,23 @@
   var RAIL_TIE_ON = 120;      // view.w <= mapW / 120 (~1.2 deg): ties in full
   var RAIL_TIE_OFF = 45;      // view.w >= mapW / 45 (~3.1 deg): a plain line
 
+  /* ONE DRAWING OF A RAILWAY AT A TIME.
+   *
+   * The train tools draw the passenger network from the timetable's own
+   * geometry, and the railway layer draws the traced network from ours. They
+   * are the same track from two sources and they do not agree to the metre, so
+   * with both up every line was doubled — a pale traced line beside a coloured
+   * one, a few pixels apart, reading as two railways where there was one. The
+   * coloured one is the more useful of the two while the tools are open: it
+   * says which line each stretch belonged to. So the traced one stands down
+   * for as long as they are, and comes back when they go. */
   function railFade() {
-    railFadeOne(twRailGroup, state.twRail);
-    railFadeOne(krRailGroup, state.krRail);
+    railFadeOne(twRailGroup, state.twRail && !trainDraws('tw'));
+    railFadeOne(krRailGroup, state.krRail && !trainDraws('kr'));
+  }
+
+  function trainDraws(sys) {
+    return !!(trainApi && trainApi.mounted() && trainApi.system() === sys);
   }
 
   function railFadeOne(group, on) {
@@ -1597,6 +1619,264 @@
     $$('path.rail-tie', group).forEach(function (el) {
       el.style.opacity = String(t);
     });
+  }
+
+  /* ------------------------------------------------------- train tools --
+
+     A timetable is a document about time and this is a map, so the join
+     between them is worth something: the network in the colours the timetable
+     gives its lines, the day's trains moving along it, and the departures from
+     whichever station the reader taps.
+
+     IT IS NOT A LAYER THAT IS SIMPLY ON OR OFF. The switch says the reader
+     wants the tools; whether they are *built* depends on where the map is
+     looking, because a train timetable is about one island and this map is
+     about an ocean. At the whole-empire view Taiwan is a few hundred pixels
+     tall and forty-six moving dots on it are a smudge — and the data is 268 KB
+     that a reader who never goes there should not be made to fetch. So the
+     interface is built when the reader zooms to a system that has one and torn
+     down when they leave, and neither the module nor its data is requested
+     until the first time that happens.
+
+     Adding the next system is a row in this table: Korea when its timetable is
+     transcribed, and whatever follows it. Nothing below knows the word Taiwan.
+
+     `box` is the ground the system covers, west/south/east/north. `note` is
+     what the bar says about the date, because a 1936 timetable belongs to
+     neither of this map's two years and saying so is better than letting a
+     reader assume it is 1930 on the 1930 map. */
+  var TRAIN_SYS = {
+    tw: {
+      sys: 'tw',
+      data: 'TW_TRAINS',
+      file: 'tw-trains.js',
+      page: 'timetable/taiwan-1936.html',
+      note: 'Timetable of February 1936',
+      box: [119.9, 21.8, 122.1, 25.5],
+      /* Whose ground the lines are drawn over. The timetable's own colours are
+         fitted against it, because the trunk line's red and this map's colonial
+         red are the same red; see the note in trains.js. */
+      atom: 'taiwan',
+    },
+  };
+
+  /* How close in the reader has to be, in degrees of latitude on screen.
+     Taiwan is 3.6 degrees tall, so at five it fills about seventy per cent of
+     the height of the frame — the view where the island is the subject rather
+     than a detail of an empire. The second number is the one it goes away at,
+     and it is deliberately not the same: at a single threshold a pinch that
+     hovers on the line builds and destroys 218 paths and a control bar several
+     times a second. */
+  var TRAIN_LAT_ON = 5.0;
+  var TRAIN_LAT_OFF = 5.8;
+  var TRAIN_BOX_PAD = 0.6;      // degrees of slack round the system's ground
+
+  var trainApi = null;          // the module, once it is here
+  var trainLoading = false;
+  var trainWanted = '';         // which system should be up, '' for none
+  /* Mounting builds the station squares for the first time, and building them
+     ends in a `rescale`, and `rescale` asks this same question again — so
+     without a latch the mount calls itself, borrows the switches it has just
+     borrowed, and remembers them as having been on all along. */
+  var trainBusy = false;
+  var trainFailed = false;      // said once, not on every re-tick
+
+  /* Which system the reader is looking at, or '' — and it depends on whether
+     one is already up, which is the hysteresis. */
+  function trainSysFor(mounted) {
+    if (!state.trainTools) return '';
+    var limit = mounted ? TRAIN_LAT_OFF : TRAIN_LAT_ON;
+    if (latSpan() > limit) return '';
+    var c = unproject(view.x + view.w / 2, view.y + view.h / 2);
+    if (!isFinite(c.lon) || !isFinite(c.lat)) return '';
+    var found = '';
+    Object.keys(TRAIN_SYS).forEach(function (k) {
+      var b = TRAIN_SYS[k].box;
+      if (c.lon >= b[0] - TRAIN_BOX_PAD && c.lon <= b[2] + TRAIN_BOX_PAD
+          && c.lat >= b[1] - TRAIN_BOX_PAD && c.lat <= b[3] + TRAIN_BOX_PAD) {
+        found = k;
+      }
+    });
+    return found;
+  }
+
+  /* Called from `rescale`, so on every frame of every gesture: it has to be
+     cheap when the answer has not changed, and it is — `latSpan` is cached
+     against the view and the rest is one unprojection and a box test. */
+  function syncTrainTools() {
+    if (trainBusy) return;
+    var up = trainApi && trainApi.mounted() ? trainApi.system() : '';
+    var want = trainSysFor(!!up);
+    trainWanted = want;
+    if (want === up) return;
+    if (up && want !== up) {
+      trainBusy = true;
+      try { trainApi.unmount(); giveBackStations(); }
+      finally { trainBusy = false; }
+      fillTrainCard(null);
+      if (!want) return;
+    }
+    if (!want) return;
+    var cfg = TRAIN_SYS[want];
+    if (!window.JMAP_TRAINS || !JMAP[cfg.data]) { loadTrainTools(cfg); return; }
+    mountTrainTools(cfg);
+  }
+
+  /* THE TOOLS BORROW THE STATION SQUARES.
+   *
+   * A timetable the reader cannot point at is a picture of a timetable: the
+   * whole of *what trains went through here* is a tap on a station, and the
+   * squares are drawn by the railway layer, not by this. So switching the
+   * tools on switches those on with them, and switching the tools off puts
+   * them back the way they were found.
+   *
+   * Not through `applyState`: these two are borrowed for the duration and are
+   * not the reader's own choice, so they do not go into the address bar or the
+   * saved state, and a link shared from here does not arrive with somebody
+   * else's railway layer on. `syncStationLayers` and `railFade` are what
+   * actually draw them, and they are called directly.
+   *
+   * And if the reader turns the railway off themselves while the tools are up,
+   * that is their decision: `giveBackStations` only puts back what it still
+   * finds as it left it. */
+  var trainBorrowed = null;
+
+  function borrowStations(cfg) {
+    var railKey = STATION_SYS[cfg.sys] && STATION_SYS[cfg.sys].rail;
+    var onKey = STATION_SYS[cfg.sys] && STATION_SYS[cfg.sys].on;
+    if (!railKey || !onKey) return;
+    trainBorrowed = { rail: railKey, on: onKey,
+                      hadRail: state[railKey], hadOn: state[onKey] };
+    state[railKey] = true;
+    state[onKey] = true;
+    syncTrainBoxes();
+    syncStationLayers();
+    railFade();
+  }
+
+  function giveBackStations() {
+    var b = trainBorrowed;
+    trainBorrowed = null;
+    if (!b) return;
+    // only what is still as it was left
+    if (state[b.rail] === true) state[b.rail] = b.hadRail;
+    if (state[b.on] === true) state[b.on] = b.hadOn;
+    syncTrainBoxes();
+    syncStationLayers();
+    railFade();
+  }
+
+  function syncTrainBoxes() {
+    [['#opt-tw-rail', 'twRail'], ['#opt-tw-stations', 'twStations'],
+     ['#opt-kr-rail', 'krRail'], ['#opt-kr-stations', 'krStations']]
+      .forEach(function (pair) {
+        var box = $(pair[0]);
+        if (box) box.checked = !!state[pair[1]];
+      });
+  }
+
+  function mountTrainTools(cfg) {
+    if (trainBusy) return;
+    if (!trainApi) trainApi = window.JMAP_TRAINS(trainHost());
+    if (trainApi.mounted()) return;
+    trainBusy = true;
+    try {
+      borrowStations(cfg);
+      trainApi.mount({ sys: cfg.sys, data: JMAP[cfg.data], page: cfg.page,
+                       note: cfg.note, ground: cfg.atom });
+    } finally { trainBusy = false; }
+    // the layer is new and has never been through a rescale of its own
+    trainApi.rescaled(view.w / containerSize().w);
+    // and a station may already be selected: its card gains a timetable
+    if (selected && byId[selected]) fillTrainCard(byId[selected]);
+  }
+
+  /* The module and its data, once, on demand. Both are fetched together and
+     the interface is built when the pair have landed — and only if the reader
+     is still where they were, because a slow connection and a fast pinch is a
+     combination that would otherwise leave a bar on screen for a view that no
+     longer shows the island. */
+  function loadTrainTools(cfg) {
+    if (trainLoading) return;
+    trainLoading = true;
+    var left = 0;
+    var failed = false;
+    var done = function () {
+      if (--left > 0) return;
+      trainLoading = false;
+      /* A dead switch with no explanation is the worst of the three outcomes.
+         The single-file build cannot fetch a neighbour and a stale cache can
+         fail as well, and in both the reader is left ticking a box that does
+         nothing. So the switch goes back off and the reason is said once —
+         `trainFailed` keeps it to once, however many times the box is
+         re-ticked. */
+      if (failed) {
+        state.trainTools = false;
+        var box = $('#opt-train-tools');
+        if (box) box.checked = false;
+        if (!trainFailed) {
+          trainFailed = true;
+          window.alert('The train tools could not be loaded. They are in '
+            + 'trains.js and ' + cfg.file + ', which have to sit beside '
+            + 'index.html.');
+        }
+        return;
+      }
+      if (trainWanted === cfg.sys) mountTrainTools(cfg);
+    };
+    var fetchOne = function (file, ready) {
+      if (ready()) return;
+      left++;
+      var el = document.createElement('script');
+      el.src = asset(file);
+      el.onload = function () { if (!ready()) failed = true; done(); };
+      el.onerror = function () { failed = true; done(); };
+      document.head.appendChild(el);
+    };
+    fetchOne('trains.js', function () { return !!window.JMAP_TRAINS; });
+    fetchOne(cfg.file, function () { return !!JMAP[cfg.data]; });
+    if (!left) { trainLoading = false; mountTrainTools(cfg); }
+  }
+
+  /* What the module is allowed to do to the map. Deliberately narrow: it
+     projects, it puts one group in the document, it asks for the current
+     scale, and it can switch itself off. It does not touch the view, the
+     state or anybody else's layer. */
+  function trainHost() {
+    return {
+      svgEl: svgEl,
+      project: function (lon, lat) { return project(lon, lat); },
+      scale: function () { return view.w / containerSize().w; },
+      stage: function () { return $('#stage') || document.body; },
+      asset: asset,
+      /* Under the markers and over the traced railway, which is where the
+         stops are: a coloured line laid over the city dots would hide Taihoku
+         under the trunk line it stands on. */
+      insertLayer: function (g) { svg.insertBefore(g, markersGroup || null); },
+      /* The land the network is drawn over, as it is actually painted — the
+         reader's palette, their single-colour setting and their dark screen
+         all included, because `getComputedStyle` is asked rather than the
+         table consulted. `railGround` is the same question the railway ink
+         already asks and the answer is the same one. */
+      ground: railGround,
+      /* The map keeps its names out from under the floating panels. The bar is
+         one, and without saying so every name along the coast it covers would
+         be lettered underneath it. */
+      obstacle: function (el, on) {
+        if (uiObserver) {
+          try { on ? uiObserver.observe(el) : uiObserver.unobserve(el); }
+          catch (err) { /* an implementation without ResizeObserver */ }
+        }
+        bumpLayout();
+      },
+      switchOff: function () {
+        state.trainTools = false;
+        var box = $('#opt-train-tools');
+        if (box) box.checked = false;
+        applyState();
+        saveState();
+      },
+    };
   }
 
   function drawRelief() {
@@ -2887,6 +3167,9 @@
      change of state, a new epoch, a reprojection, and each of the two grafts
      that put more geometry on the map. */
   var layoutGen = 0;
+  /* The ResizeObserver that watches the floating panels, held so a panel built
+     after `init` — the train bar — can be added to it and taken off again. */
+  var uiObserver = null;
   var sizeCache = null;
   var homeCache = null;
 
@@ -2979,7 +3262,9 @@
    *   17  the graticule    18  shaded relief   19,20  which relief sheet
    *   21  single-colour map    22  Japanese names inside the empire (set = on)
    *   23  the occupation hidden    24  East Asia only (inverted)
-   *   25  Taiwan's railways
+   *   25  Taiwan's railways   26  its stations
+   *   27  Korea's railways    28  its stations
+   *   29  the train tools
    *
    * Bits 7 and 10 no longer have a switch in the Layers panel — the province
    * source came out once the period sheet was redrawn, and the hairline came
@@ -3042,6 +3327,7 @@
     if (state.twStations) bits |= 67108864;  // bit 26: and their stations
     if (state.krRail) bits |= 134217728;     // bit 27: Korea's railways
     if (state.krStations) bits |= 268435456; // bit 28: and their stations
+    if (state.trainTools) bits |= 536870912; // bit 29: the train tools
     bits |= ({ albers: 1, laea: 2 }[state.projection] || 0) << 15;
     if (state.graticule) bits |= 131072;
     if (state.relief) bits |= 262144;
@@ -3081,6 +3367,7 @@
     state.twStations = !!(bits & 67108864);
     state.krRail = !!(bits & 134217728);
     state.krStations = !!(bits & 268435456);
+    state.trainTools = !!(bits & 536870912);
     state.projection = ['mercator', 'albers', 'laea'][(bits >> 15) & 3] || 'mercator';
     state.graticule = !!(bits & 131072);
     state.relief = !!(bits & 262144);
@@ -3644,6 +3931,12 @@
     setPinBlur(k);
     reliefFade();
     railFade();
+    /* The train tools come and go with the zoom, and their dots are shapes
+       rather than strokes: `k` is the only thing that keeps a train the same
+       size on screen at every scale. Both belong here, and in this order —
+       a layer mounted this frame has to be handed the scale it was built at. */
+    syncTrainTools();
+    if (trainApi && trainApi.mounted()) trainApi.rescaled(k);
     // the way-back button appears once the reader has moved off the frame the
     // annotations were meant to be seen from
     if (annApi && annApi.viewMoved) annApi.viewMoved();
@@ -3684,7 +3977,7 @@
     if (uiBoxCache && uiBoxGen === layoutGen) return uiBoxCache.slice();
     var base = container.getBoundingClientRect();
     var boxes = [];
-    ['#legend', '#zoom-controls', '#info', '#quiz'].forEach(function (sel) {
+    ['#legend', '#zoom-controls', '#info', '#quiz', '#train-bar'].forEach(function (sel) {
       var el = $(sel);
       if (!el || el.hidden || el.offsetParent === null) return;
       var r = el.getBoundingClientRect();
@@ -6267,6 +6560,7 @@
     if (!id || !byId[id]) {
       selCluster = null;
       infoBox.hidden = true;
+      fillTrainCard(null);
       document.body.classList.toggle('panel-open', !quizBox.hidden);
       redrawHighlight();
       // gate before place: one sets the words, the other only moves them, and
@@ -6393,6 +6687,8 @@
     var groupName = nameOf(host);
     grp.setAttribute('data-group',
       (groupNote && groupName !== primary) ? groupName : '');
+    // and, on a station with the train tools up, the trains that called there
+    fillTrainCard(byId[id]);
     collapseInfo();
     infoBox.hidden = false;
     document.body.classList.add('panel-open');
@@ -6400,6 +6696,92 @@
     gateLabels();
     placeLabels();
     keepClear(id);
+  }
+
+  /* ------------------------------------------------- a station's trains --
+
+     What called here, under the description, when the train tools are up.
+
+     Only when they are up. The card is the map's answer to *what is this*, and
+     a timetable is an answer to a different question; a reader who has not
+     asked for the tools should not have a hundred and twenty-seven departure
+     times unfold under Taihoku. So this block is built when the tools are
+     mounted and emptied when they go, and `select` calls it either way.
+
+     The rows are written as elements rather than as markup. The names come
+     from a transcription of a printed table and nothing in them should be able
+     to put a tag on the page — the same rule the descriptions follow. */
+  function fillTrainCard(rec) {
+    var host = $('#info-trains');
+    if (!host) return;
+    host.textContent = '';
+    host.hidden = true;
+    if (!trainApi || !trainApi.mounted()) return;
+    if (!rec || rec.kind !== 'station' || rec.sys !== trainApi.system()) return;
+    var d = trainApi.departures(rec.id);
+    /* 153 of the 187 stations in the 1936 table are on this map, and 46 of the
+       map's 199 Taiwanese stations are not in it — a station built after 1936,
+       or one the timetable spells differently. Those simply have no timetable
+       block, which is the truth about them. */
+    if (!d || !d.rows.length) return;
+
+    var head = document.createElement('p');
+    head.className = 'trains-head';
+    head.textContent = d.rows.length + ' trains called here \u00b7 ' + d.year;
+    host.appendChild(head);
+
+    var scroll = document.createElement('div');
+    scroll.className = 'trains-scroll';
+    var table = document.createElement('table');
+    table.className = 'trains-table';
+    var thead = document.createElement('tr');
+    ['Dep', 'Arr', 'Train', 'Line', 'To'].forEach(function (h) {
+      var th = document.createElement('th');
+      th.textContent = h;
+      thead.appendChild(th);
+    });
+    table.appendChild(thead);
+    d.rows.forEach(function (r) {
+      var tr = document.createElement('tr');
+      var cells = [r.dep, r.arr, r.no, '', r.dest || ''];
+      cells.forEach(function (text, i) {
+        var td = document.createElement('td');
+        if (i === 3 && r.line) {
+          var sw = document.createElement('span');
+          sw.className = 'sw';
+          sw.style.background = r.line.c;
+          td.appendChild(sw);
+          /* "Tamsui \u2191", not "Tamsui Line up". The card is a column on a
+             phone and the last thing in the row is where the train was going,
+             which is the part a reader is most likely to want and the first
+             part a long line name pushed off the edge. The full name and the
+             class are on the cell as a title. */
+          td.appendChild(document.createTextNode(
+            r.line.en.replace(/ Line$/, '') + ' ' + (r.dir ? '\u2191' : '\u2193')));
+          td.title = r.line.n + '  ' + (r.dir ? '\u4e0a\u308a' : '\u4e0b\u308a')
+            + (r.cls ? '  \u00b7  ' + r.cls : '');
+        } else {
+          td.textContent = text;
+        }
+        // the transcription marks the times it could not read with certainty,
+        // and a reader comparing this against the original should see which
+        if (r.uncertain && i < 2 && text) td.className = 'unc';
+        tr.appendChild(td);
+      });
+      table.appendChild(tr);
+    });
+    scroll.appendChild(table);
+    host.appendChild(scroll);
+
+    var line = d.lines[0];
+    var a = document.createElement('a');
+    a.className = 'note-src';
+    a.href = asset(d.page) + (line && line.a ? '#' + line.a : '');
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+    a.textContent = 'The printed table for this line';
+    host.appendChild(a);
+    host.hidden = false;
   }
 
   /* Somewhere to read further, at the foot of what a record says. The note
@@ -6533,6 +6915,15 @@
     // switch that works sometimes. Now it draws the divisions.
     if (svg) svg.classList.toggle('admin-on', !!state.cats.territory);
     syncStationLayers();
+    // and the train tools, which the switch alone does not decide: `rescale`
+    // asks the same question on every frame, but a reader who ticks the box
+    // while already zoomed in should not have to move the map to see anything
+    syncTrainTools();
+    /* And if the ground has changed colour under a network that is already
+       drawn — a different palette, the single-colour map, a dark screen — the
+       lines are fitted to it again. It reads the ground once and does nothing
+       at all unless it has moved. */
+    if (trainApi && trainApi.mounted()) trainApi.recolour();
     // the epoch as a class, so the stylesheet can cut the occupied colouring
     // out of the unoccupied south of New Guinea on the 1942 map alone
     if (svg) svg.classList.toggle('e1942', state.epoch === 'e1942');
@@ -6554,6 +6945,9 @@
       view.x = c.x - view.w / 2;
       view.y = c.y - view.h / 2;
       replaceInProjection();
+      // the coloured track moved with every other path; the trains did not,
+      // because where they are is worked out from points already projected
+      if (trainApi && trainApi.mounted()) trainApi.reprojected();
     }
     drawGraticule();
     drawRelief();
@@ -8669,7 +9063,8 @@
        and switching the lines off takes the squares with them rather than
        leaving a checkbox ticked for something invisible. */
     [['#opt-tw-rail', 'twRail'], ['#opt-kr-rail', 'krRail'],
-     ['#opt-tw-stations', 'twStations'], ['#opt-kr-stations', 'krStations']]
+     ['#opt-tw-stations', 'twStations'], ['#opt-kr-stations', 'krStations'],
+     ['#opt-train-tools', 'trainTools']]
       .forEach(function (pair) {
         var box = $(pair[0]);
         if (!box) return;

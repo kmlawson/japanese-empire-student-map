@@ -72,6 +72,17 @@ framework. Serve the folder over HTTP, or hand out the single-file build.
   floating west of the shading that says the same thing. Out at sea it marks
   how far the navy reached rather than territory held.
 
+* **Train Tools** — a timetable, on the map it ran on. Tick it under **Layers →
+  Transport** and zoom in to a railway that has one — Taiwan for now, from the
+  February 1936 working timetable — and the network is drawn in the colours the
+  timetable gives its seven lines, with a strip at the foot of the map that
+  runs the day: press play and 346 trains move at two to twenty minutes a
+  second. Tap a station for the trains that called there, with their numbers,
+  their lines and where they were going, and a link to the printed table for
+  that line. It appears when you are close enough for it to mean anything and
+  is put away when you leave, and neither the interface nor its data is fetched
+  until the first time that happens.
+
 Pan by dragging, zoom with the wheel, a pinch, the buttons, or `+` / `-`; `0`
 returns to the opening view and `Esc` closes the detail card.
 
@@ -164,6 +175,11 @@ script — `tools/build_map.py` — and neither needs the other to run.
 | `tools/shapefile.py` | a small stdlib-only shapefile reader used by the build |
 | `tools/bundle.py` | builds the single-file version |
 | `annotate.js` | the drawing tools, fetched on demand and inlined into the single-file build |
+| `trains.js` | the Train Tools: the timetable interface, fetched only when a reader zooms in to a railway that has one |
+| `tw-trains.js` | Taiwan's February 1936 timetable — 346 trains, their stops and the track between them — fetched with it |
+| `timetable/taiwan-1936.html` | the eighteen printed tables, as published, linked from a station's card |
+| `data/tw-1936-timetable/` | the transcription those two are built from, vendored so the build needs no network |
+| `tools/build_tw_trains.py` | writes `tw-trains.js` and the timetable page from it |
 | `tools/check_deploy.py` | fetches a deployed copy and checks every file against the key it was asked for |
 | `tools/compare_perf.js` | pan-and-zoom timings for two builds side by side, for checking a new version against the live one before updating it |
 

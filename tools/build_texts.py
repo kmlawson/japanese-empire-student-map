@@ -458,6 +458,11 @@ def build_pages():
     FETCHED = ("japan-empire-map.svg", "japan-empire-map-admin.svg",
                "japan-empire-map-fine.svg", "japan-empire-map-roc.svg",
                "annotate.js", "admin.js",
+               # the train tools and their timetable, both fetched only when a
+               # reader zooms in to a railway that has one
+               "trains.js", "tw-trains.js",
+               # and the printed tables, which a station's card links to
+               "timetable/taiwan-1936.html",
                # the relief is three images map.js fetches by name, one per
                # projection, and they are not .js or .css so the page's own
                # stamper below never sees them
