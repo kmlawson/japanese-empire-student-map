@@ -103,6 +103,32 @@ def romanise(kana):
     return s.capitalize()
 
 
+# What has already been asked for, so that tightening the rules below costs
+# nothing at the other end. Wikipedia is not a service to be re-scraped every
+# time a regex changes.
+CACHE_JSON = os.path.join(os.path.dirname(CSVP), "..", "..", "tools", "cache",
+                          "tw_wiki_extracts.json")
+CACHE_JSON = os.path.normpath(CACHE_JSON)
+
+
+def _cache_read():
+    try:
+        with io.open(CACHE_JSON, encoding="utf-8") as fh:
+            return {k: tuple(v) for k, v in json.load(fh).items()}
+    except Exception:
+        return {}
+
+
+def _cache_write(pages):
+    try:
+        os.makedirs(os.path.dirname(CACHE_JSON), exist_ok=True)
+        with io.open(CACHE_JSON, "w", encoding="utf-8") as fh:
+            json.dump({k: list(v) for k, v in pages.items()}, fh,
+                      ensure_ascii=False)
+    except Exception as err:
+        sys.stderr.write("  (could not cache: %s)\n" % err)
+
+
 def fetch(titles):
     """Extracts for up to fifty titles in ONE request.
 
@@ -111,7 +137,11 @@ def fetch(titles):
     and Wikipedia rate-limited it into the ground after fifteen, which was the
     right response. The API takes titles by the fifty; this asks properly.
     """
-    out = {}
+    out = _cache_read()
+    titles = [t for t in titles if t not in out]
+    if not titles:
+        sys.stderr.write("  every title already cached; nothing asked\n")
+        return out
     for i in range(0, len(titles), 40):
         chunk = titles[i:i + 40]
         q = urllib.parse.urlencode({
@@ -147,11 +177,26 @@ def fetch(titles):
         sys.stderr.write("  %d/%d titles asked\n" % (min(i + 40, len(titles)),
                                                       len(titles)))
         time.sleep(1.0)
+    # a title that answered nothing is cached as such, so it is not asked twice
+    for t in titles:
+        out.setdefault(t, ("", ""))
+    _cache_write(out)
     return out
 
 
+# One name, two ways of writing it. The right-hand form is what ja.wikipedia
+# titles the article, either because it is the Japanese shinjitai or because it
+# is the form the modern Chinese name uses — 後里 is titled 后里駅, 雙連 is
+# 双連駅, 礁溪 is 礁渓駅. These are spellings, not renamings, and the guard
+# below has to know the difference: 王田 answering under 成功駅 and 番子田 under
+# 隆田駅 are renamings, and the reading that comes back with them belongs to a
+# name this map does not use.
 VARIANTS = (("臺", "台"), ("萬", "万"), ("澤", "沢"), ("驛", "駅"),
-            ("龍", "竜"), ("廣", "広"), ("圓", "円"), ("舊", "旧"))
+            ("龍", "竜"), ("廣", "広"), ("圓", "円"), ("舊", "旧"),
+            ("溪", "渓"), ("營", "営"), ("雙", "双"), ("後", "后"),
+            ("鐵", "鉄"), ("縣", "県"), ("學", "学"), ("莊", "荘"),
+            ("壢", "𡒄"), ("裡", "裏"), ("內", "内"), ("邊", "辺"),
+            ("腳", "脚"), ("華", "华"), ("鶯", "莺"))
 
 
 def spellings(hanji):
@@ -163,6 +208,34 @@ def spellings(hanji):
 
 # 大甲駅（たいこうえき） -- and sometimes with a comma or a note inside
 LEDE = re.compile(r"[（(]\s*([ぁ-ゖー]+?)えき\s*[、,）)]")
+
+# AND THE LEDE HAS TO OFFER ONE JAPANESE READING, NOT A CHOICE. A
+# disambiguation page for a name that is a station in several countries opens
+# with all of them at once -- 竹田駅（たけだえき、たけたえき、ちくでんえき、
+# チュクチョンえき…) -- and the pattern above happily takes the first, which is
+# Kyoto.
+#
+# Counting readings is not enough on its own, because a Taiwanese station
+# article properly gives two: 台北駅（タイペイえき、たいほくえき）is the modern
+# Mandarin name and then the colonial one, and that page is exactly the page
+# wanted. The katakana one is never what this map is naming, and the hiragana
+# one always is. So the count is of HIRAGANA readings alone: one is an answer,
+# several is a page about several stations.
+BRACKET = re.compile(r"[（(]([^）)]*)[）)]")
+HIRA_READING = re.compile(r"[ぁ-ゖー]+えき")
+
+# THE ARTICLE ABOUT THE PLACE WAS TRIED AND THROWN OUT. Where a station has no
+# article of its own there is often one about the settlement, and its lede
+# carries a reading in the same shape: 湖口（ここう）. It looked like a cheap
+# way to fill the gaps and it is a trap, because most of those pages are
+# disambiguation lists and the reading at the top belongs to whichever place
+# happens to be first -- and these names are common in Japan. Audited, the pass
+# offered 竹田 as たけだ (that is Kyoto; the Taiwanese one is Chikuden), 岡山 as
+# おかやま, 日南 as にちなん (Miyazaki), and 紅毛 as こうもう off an article
+# about a word for red-haired foreigners. It is not worth writing a filter for:
+# the four it got right are names this project already holds, checked by hand,
+# in texts/territories/sub-units/taiwan.csv, and those are taken from there
+# instead. See fill_from_texts below.
 
 # MOST OF THESE NAMES ARE ALSO STATIONS IN JAPAN, and the first pass walked
 # straight into it: 桃園 came back Momozono, which is in Japan and not Tōen in
@@ -181,6 +254,10 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry", action="store_true")
     ap.add_argument("--limit", type=int, default=0)
+    ap.add_argument("--wider", action="store_true",
+                    help="also try the disambiguated station title and the "
+                         "article about the place itself; weaker, and marked "
+                         "inferred rather than verified")
     args = ap.parse_args()
 
     with io.open(CSVP, encoding="utf-8", newline="") as fh:
@@ -192,53 +269,104 @@ def main():
     sys.stderr.write("looking up %d stations on ja.wikipedia\n" % len(todo))
 
     # every spelling of every name, asked for in a handful of requests
+    def forms(hanji):
+        """Every title worth asking for, best evidence first."""
+        out = []
+        for f in spellings(hanji):
+            out.append((f + "駅", "station"))
+        if args.wider:
+            for f in spellings(hanji):
+                # the disambiguated station article, where the name is also a
+                # station in Japan and the Taiwanese one is the second entry
+                out.append((f + "駅 (台湾)", "station"))
+        seen = set()
+        keep = []
+        for t, kind in out:
+            if t not in seen:
+                seen.add(t)
+                keep.append((t, kind))
+        return keep
+
     want = []
     for r in todo:
-        for f in spellings(r["hanji"]):
-            t = f + "駅"
+        for t, _kind in forms(r["hanji"]):
             if t not in want:
                 want.append(t)
     sys.stderr.write("  %d titles to ask about\n" % len(want))
     pages = fetch(want)
 
     got, miss, rejected = 0, [], []
+    renamed = []
+    ambiguous = []
+    wider_got = 0
     for r in todo:
         hit = None
-        for f in spellings(r["hanji"]):
-            page = pages.get(f + "駅")
-            if not page:
+        for t, kind in forms(r["hanji"]):
+            page = pages.get(t)
+            if not page or not page[1]:
                 continue
             if not TAIWAN.search(page[1]):
                 rejected.append((r["hanji"], page[0]))
                 continue
-            m = LEDE.search(page[1])
-            if m:
-                hit = (page[0], m.group(1))
+            # AND IT MUST STILL BE THE SAME STATION. A redirect quietly lands
+            # on the name the place was given later -- 番子田 answers under
+            # 隆田, 公司寮 under 龍港, 淡文湖 under 談文 -- and the reading
+            # that comes back is the reading of a name this map does not use.
+            # The article's own title has to contain the characters we hold,
+            # in some spelling of them, or the answer is about something else.
+            if not any(f in page[0] for f in spellings(r["hanji"])):
+                renamed.append((r["hanji"], page[0]))
+                continue
+            b = BRACKET.search(page[1])
+            reads = sorted(set(HIRA_READING.findall(b.group(1)))) if b else []
+            if len(reads) > 1:
+                ambiguous.append((r["hanji"], page[0]))
+                continue
+            if len(reads) == 1:
+                # anywhere in the bracket, not only at its front: a Taiwanese
+                # article opens with the modern Mandarin name in katakana and
+                # the colonial reading comes second — 台北駅（タイペイえき、
+                # たいほくえき）— and a pattern anchored to the bracket's start
+                # walked straight past every one of them.
+                hit = (page[0], reads[0][:-len("えき")], "verified")
                 break
         if not hit:
             miss.append(r["hanji"])
             continue
-        title, kana = hit
+        title, kana, how = hit
         rom = romanise(kana)
         if not rom:
             miss.append(r["hanji"])
             sys.stderr.write("  %-6s kana %s did not convert\n" % (r["hanji"], kana))
             continue
         got += 1
+        if how != "verified":
+            wider_got += 1
         r["romaji"] = rom
         r["kana"] = kana
-        r["confidence"] = "verified"
+        r["confidence"] = how
         r["source_type"] = "wikipedia_ja"
         r["source_url"] = ("https://ja.wikipedia.org/wiki/"
                            + urllib.parse.quote(title.replace(" ", "_")))
-        sys.stderr.write("  %-8s %-14s %s\n" % (r["hanji"], rom, kana))
+        sys.stderr.write("  %-8s %-14s %-10s %s\n"
+                         % (r["hanji"], rom, kana, how))
 
-    sys.stderr.write("\n%d readings found, %d still without one\n"
-                     % (got, len(set(miss))))
+    sys.stderr.write("\n%d readings found (%d of them inferred from an "
+                     "article about the place, not the station), %d still "
+                     "without one\n" % (got, wider_got, len(set(miss))))
     if rejected:
         sys.stderr.write("  %d article(s) turned down as not about Taiwan: %s\n"
                          % (len(rejected),
                             ", ".join("%s->%s" % t for t in rejected)))
+    if renamed:
+        sys.stderr.write("  %d turned down as a redirect to a later name: %s\n"
+                         % (len(renamed),
+                            ", ".join("%s->%s" % t for t in renamed)))
+    if ambiguous:
+        sys.stderr.write("  %d turned down as a page about several stations "
+                         "of the name: %s\n"
+                         % (len(ambiguous),
+                            ", ".join("%s->%s" % t for t in ambiguous)))
     if miss:
         sys.stderr.write("  %s\n" % " ".join(sorted(set(miss))))
     if args.dry:

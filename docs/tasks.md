@@ -11159,6 +11159,66 @@ Whole suite: 768 checks across 32 scripts, all passing.
 
 ---
 
+## Thirty-three more Taiwanese station readings, and four ways of getting them wrong
+
+**112 with a sourced reading, now 145. 79 without, now 46.** Every one of the
+new ones is `verified` off a ja.wikipedia station article. Nothing was
+romanised from characters and nothing was guessed.
+
+One batch of requests, 202 titles in six calls, and the extracts are now cached
+in `tools/cache/tw_wiki_extracts.json` — so the four rounds of tightening below
+cost Wikipedia nothing after the first.
+
+### The four traps, in the order they were walked into
+
+**A redirect to the station's later name.** 番子田 answers under 隆田駅, 公司寮
+under 龍港駅, 淡文湖 under 談文駅, 王田 under 成功駅. The reading that comes
+back is real and belongs to a name this map does not use. Guard: the resolved
+article's own title must contain the characters we hold. 13 turned down.
+
+**...but the same name spelled two ways is not a renaming.** The first version
+of that guard threw out 後里/后里駅, 雙連/双連駅, 礁溪/礁渓駅, 新營/新営駅 —
+shinjitai and modern-Chinese forms of the same name. `VARIANTS` grew from eight
+pairs to twenty-three.
+
+**The article about the place instead of the station.** Tried, and thrown out
+whole. Most of those pages are disambiguation lists and the reading at the top
+belongs to whichever entry is first, and these names are common in Japan: it
+offered 竹田 as たけだ (Kyoto — the Taiwanese one is Chikuden), 岡山 as
+おかやま, 日南 as にちなん (Miyazaki), and 紅毛 as こうもう off an article about
+a word for red-haired foreigners. Not worth a filter.
+
+**A station article about several stations of the name.** 竹田駅 opens
+`（たけだえき、たけたえき、ちくでんえき、チュクチョンえき…）` and the pattern
+took the first. Guard: more than one *hiragana* reading in the bracket and the
+page is about more than one station. 9 turned down.
+
+**And the guard that had to count hiragana rather than readings.** A Taiwanese
+station article properly gives two — `台北駅（タイペイえき、たいほくえき）`, the
+modern Mandarin name and then the colonial one — and counting all readings
+threw away exactly the pages worth having. Counting hiragana alone keeps them.
+That fix also revealed a fifth thing quietly wrong: the reading pattern was
+anchored to the front of the bracket, so with the katakana sitting first it
+walked past 台北, 台中, 高雄, 彰化 and a dozen more without a word. Reading the
+single hiragana form wherever it sits in the bracket found eleven more.
+
+### The 46 still without one
+
+三叉 中壢 中洲 公司寮 十五份 南勢 唭里岸 大安 大山腳 大正街 大里 宮下 屏東
+山子腳 岡山 崁子腳 後里 新城 新市 日南 景尾 板橋 桃園 橋子頭 水上 水返腳 江頭
+淡文湖 清水 溪州 潭子 王田 田中 甲南 番子田 社邊 竹田 紅毛 舊城 苗栗 螢橋 豐原
+車路墘 頭圍 鶯歌 龜山
+
+They have no ja.wikipedia article under any spelling, or the article is about a
+different station of the same name. Several are certainly answerable from
+zh.wikipedia's 沿革 sections or 國家文化記憶庫, which is the next place to look.
+An empty reading with `unverified` beside it is a correct result; the map shows
+the characters and says nothing it cannot source.
+
+Whole suite: 768 checks across 32 scripts, all passing.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible
