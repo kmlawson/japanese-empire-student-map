@@ -672,6 +672,15 @@ PRINCELY_NAMES = {
 # province until 1954, Ryanggang and Jagang did not exist, and Kaesong was in
 # Keiki-do rather than in Hwanghae.
 KOREA_FILE = "korea_13_provinces.json"
+# ...which is the *shifted* file. `korea_13_provinces_traced.json` beside it is
+# the tracing as it comes out of fetch_korea_1930.py, and tools/shift_korea.py
+# makes one from the other. The shift is 4 km north and 0.9 km east, and it is
+# what puts the coast on Natural Earth's rather than a median 2.7 km inland of
+# it — without it the colonial railways run through open water. Re-running the
+# fetcher writes the traced file only, so the shift survives; but if the two
+# files ever come out identical the shift has been lost, and the build says so
+# rather than quietly drawing Korea in the wrong place again.
+KOREA_TRACED_FILE = "korea_13_provinces_traced.json"
 # The one Korean province block that is split out of its province: Cheju, in
 # the box fetch_korea_1930.py lifts it out of the land layer with. Province,
 # block name, bounding box.
@@ -5218,6 +5227,18 @@ def main():
         sys.stderr.write("legacy build: no index, no cache, no probe bound, "
                          "no name index, one process\n")
 
+    _kt = os.path.join(CACHE, KOREA_TRACED_FILE)
+    _kf = os.path.join(CACHE, KOREA_FILE)
+    if os.path.exists(_kt) and os.path.exists(_kf):
+        if os.path.getsize(_kt) == os.path.getsize(_kf):
+            with open(_kt) as _a, open(_kf) as _b:
+                if _a.read() == _b.read():
+                    sys.stderr.write(
+                        "WARNING: %s is the untouched tracing. Korea's coast is "
+                        "about 2.7 km\n         from where it belongs and the "
+                        "railways will run in the sea.\n         Run: python3 "
+                        "tools/shift_korea.py --write\n" % KOREA_FILE)
+
     a0 = load("admin0", args.download)
 
     groups = collections.defaultdict(list)
@@ -7719,6 +7740,41 @@ def main():
         with open(rdest, "w") as fh:
             fh.write("\n".join(roc) + "\n")
         sys.stderr.write(f"wrote {rdest} ({os.path.getsize(rdest) // 1024} KB)\n")
+
+    # Natural Earth's own coastline, unsimplified, stroke and no fill: a
+    # transparency for laying over the map to see where the drawn shapes sit
+    # against the source they came from. Written for the admin pane and fetched
+    # only when that asks for it, because it is the raw thing and heavy.
+    #
+    # This exists because Korea's coast turned out to be a re-digitised drawing
+    # sitting a median 2.70 km from the coastline it was traced over, and the
+    # only way anybody saw it was by putting the two side by side in QGIS. That
+    # comparison should not need QGIS.
+    ne_out = []
+    ne_pts = 0
+    for feat in a0["features"]:
+        for ring in iter_rings(feat["geometry"]):
+            r = normalise_ring(ring)
+            pts = [project(x, y) for x, y in r
+                   if LON_MIN - 1 <= x <= LON_MAX + 1 and LAT_MIN - 1 <= y <= LAT_MAX + 1]
+            if len(pts) < 3:
+                continue
+            ne_pts += len(pts)
+            ne_out.append('    <path d="%s"/>' % ring_to_path(pts, precision=(2, 0.02)))
+    if ne_out:
+        ne = ['<?xml version="1.0" encoding="utf-8"?>',
+              f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {fmt(WIDTH)} {fmt(HEIGHT)}" '
+              'id="jmap-ne">',
+              "  <title>Natural Earth 1:10m, unsimplified</title>",
+              '  <g id="ne-outline">']
+        ne.extend(ne_out)
+        ne.append("  </g>")
+        ne.append("</svg>")
+        ndest = os.path.join(ROOT, "japan-empire-map-ne.svg")
+        with open(ndest, "w") as fh:
+            fh.write("\n".join(ne) + "\n")
+        sys.stderr.write("wrote %s (%d KB, %d rings, %d vertices)\n"
+                         % (ndest, os.path.getsize(ndest) // 1024, len(ne_out), ne_pts))
 
     if fine_svg:
         fdest = os.path.join(ROOT, "japan-empire-map-fine.svg")

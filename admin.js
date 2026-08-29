@@ -216,6 +216,82 @@
 
   var TOOLS = [];
 
+  /* ---- Natural Earth's own coastline, laid over the map ---- */
+
+  /* The comparison that found the Korea fault, without needing QGIS.
+     `japan-empire-map-ne.svg` is Natural Earth 1:10m unsimplified, stroke and
+     no fill, written by build_map.py in the map's own projection — so laying
+     it over the drawing puts every shape against the source it came from.
+     1.7 MB and 120,000 vertices, so it is fetched the first time it is asked
+     for and never on a reader's behalf. */
+  TOOLS.push({
+    title: 'Natural Earth outline',
+    hint: 'Natural Earth 1:10m, unsimplified, drawn as a line over the map. ' +
+          'Where the two disagree, the drawn shape is not its source: Korea sat ' +
+          'a median of 2.7&nbsp;km from this line before it was moved, which is ' +
+          'why the railways ran through water. Heavy — 1.7&nbsp;MB, fetched once ' +
+          'when first asked for.',
+    build: function (sec) {
+      var group = null;
+      var loading = false;
+
+      var wrap = document.createElement('label');
+      wrap.className = 'sw';
+      wrap.innerHTML = '<input type="checkbox"> Show Natural Earth outline';
+      var box = $('input', wrap);
+      sec.appendChild(wrap);
+
+      var out = document.createElement('div');
+      out.className = 'readout';
+      sec.appendChild(out);
+
+      function say(m) { out.textContent = m; }
+
+      function show(on) {
+        if (group) {
+          group.style.display = on ? '' : 'none';
+          say(on ? 'over the map' : 'off');
+          return;
+        }
+        if (!on || loading) return;
+        loading = true;
+        say('fetching…');
+        var url = 'japan-empire-map-ne.svg';
+        try {
+          /* the same cache key the map stamps on its own sheets, so a rebuild
+             is not served from a stale cache */
+          if (window.JEM_ASSETS && window.JEM_ASSETS[url]) {
+            url += '?v=' + encodeURIComponent(window.JEM_ASSETS[url]);
+          }
+        } catch (err) { /* the map is not obliged to expose it */ }
+        fetch(url).then(function (r) {
+          if (!r.ok) throw new Error('HTTP ' + r.status);
+          return r.text();
+        }).then(function (text) {
+          var doc = new DOMParser().parseFromString(text, 'image/svg+xml');
+          var g = doc.getElementById('ne-outline');
+          if (!g) throw new Error('no #ne-outline in the sheet');
+          group = document.importNode(g, true);
+          svg.appendChild(group);
+          loading = false;
+          if (!box.checked) { group.style.display = 'none'; say('off'); return; }
+          say(group.childNodes.length + ' rings over the map');
+        }).catch(function (err) {
+          loading = false;
+          box.checked = false;
+          say('could not fetch it: ' + err.message);
+        });
+      }
+
+      box.addEventListener('change', function () {
+        setting('neOutline', box.checked);
+        show(box.checked);
+      });
+      if (setting('neOutline')) { box.checked = true; show(true); }
+      else say('off');
+    },
+  });
+
   /* ---- backings on and off ---- */
 
   TOOLS.push({

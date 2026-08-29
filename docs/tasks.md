@@ -11031,6 +11031,75 @@ Whole suite: 770 checks across 32 scripts, all passing.
 
 ---
 
+## Korea moved onto its own coastline
+
+4 km north and 0.9 km east, the offset fitted in the previous entry, applied to
+every ring of the province file except one.
+
+### How it is arranged, so it can be undone
+
+    tools/cache/korea_13_provinces_traced.json   the tracing, never edited
+    tools/cache/korea_13_provinces.json          what build_map.py reads
+    tools/shift_korea.py --write                 makes the second from the first
+    tools/shift_korea.py --revert                puts it back untouched
+
+The offset is two constants at the top of `shift_korea.py`. Reverting is one
+command and a rebuild; there is nothing to unpick.
+
+`build_map.py` warns if the two files come out identical, because the way to
+lose the shift is to re-run `fetch_korea_1930.py` and not know it — the message
+names the command to run. Checked by reverting and building: it fires.
+
+### What moved, and what did not
+
+72 rings moved; **one did not**. Ulleungdo is drawn a second time in
+`japan-empire-map-fine.svg` from a different source, and that copy is not ours
+to shift — moving the province file's copy alone would put the two 4 km apart.
+It is the only ring east of 130.3E, which is what the exclusion tests.
+
+### Measured, before and after
+
+| | before | after |
+|---|---|---|
+| median distance from Natural Earth's coast | 2.70 km | **1.54 km** |
+| mean | 3.00 km | 1.74 km |
+| 90th percentile | 5.67 km | 3.25 km |
+| stations standing on land | 799 of 850 | **828 of 850** |
+| of those that miss, median distance out | 1.17 km | **0.76 km** |
+| worst miss | 5.69 km | 1.86 km |
+
+And the bias is gone. The latitude residual used to grow up the peninsula —
+0.91 km at 34–36N against 2.08 at 40–43N — and now reads 0.74, 0.50, 0.74,
+0.61: flat, and inside the tracing's own floor of about a kilometre a pixel.
+The remaining misses point in every direction, coherence 0.28 against 0.50.
+
+The cost was measured and is what was predicted: Korea's overlap with Manchuria
+along the Yalu and the Tumen goes from 387 km² to 697 km² — a band from roughly
+280 m to 500 m along 1,400 km of river. Overlap and not a gap, so the frontier
+line sits a little further from the water rather than sea showing between two
+countries.
+
+### And a way to see this kind of fault without QGIS
+
+The whole thing was found by the author laying our map beside the same railway
+data over Natural Earth in QGIS. That comparison should not need QGIS, so the
+build now writes `japan-empire-map-ne.svg` — Natural Earth 1:10m, unsimplified,
+stroke and no fill, in the map's own projection. 1,392 rings, 119,986 vertices,
+1.7 MB, fetched only when asked for and never on a reader's behalf.
+
+The admin pane has a **Natural Earth outline** switch that lays it over the
+map. Any drawn shape can now be put against the source it came from in two
+clicks.
+
+One thing worth writing down from building it: `vector-effect: non-scaling-stroke`
+went on the group first, and a group does not hand it down — it is a property
+of the geometry element. The line came out a kilometre wide in map units and
+looked like a pink river across the sea. It is on `#ne-outline path` now.
+
+Whole suite: 770 checks across 32 scripts, all passing.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

@@ -2358,3 +2358,20 @@ dialog h3 {
 #map-container.space-pan,
 #map-container.space-pan.ann-drawing { cursor: grab; }
 #map-container.space-pan.dragging { cursor: grabbing; }
+
+
+/* Natural Earth's own coastline, laid over the map from the admin pane. A thin
+   magenta line over everything: it is a transparency for checking a drawn
+   shape against its source, so it has to be legible over land, over sea and
+   over the highlight, and it must never be mistaken for something the map is
+   saying. Pointer-none, because it is an overlay and not a thing to click. */
+#ne-outline { pointer-events: none; opacity: .85; }
+/* On the paths and not on the group: `vector-effect` is a property of the
+   geometry element and a group does not hand it down, so the line was a
+   kilometre wide in map units and looked like a pink river. */
+#ne-outline path {
+  fill: none;
+  stroke: #ff2bd6;
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
