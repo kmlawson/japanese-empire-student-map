@@ -11839,14 +11839,33 @@ been stood down only while the coloured one was up.
 here carries the train tools and not somebody else's railway layer, and the
 tools borrow again at the other end.
 
+### And with the timetable running, only the stations it knows
+
+**153 of the map's 199 Taiwanese stations are on a line in the February 1936
+table.** The other 46 are in the station list and not in the train list — built
+after that date, or on a stretch this transcription does not cover. Left drawn
+while the tools are open they sat on the coloured network looking exactly like
+the stops around them and opened a card with no trains in it, which reads as a
+station where nothing ever called. They stand down for as long as the tools are
+up and come back with the plain railway: **153 drawn with the tools, 199
+without**, both pinned.
+
+The test is asked in three places — the square, the pointer and the label — by
+one function, so a station cannot end up hidden and still named, or hidden and
+still clickable, which is what two of those growing apart would mean. The
+squares are borrowed before the tools mount, so the filter is applied again
+once there is something to ask, and the labels are re-gated on both
+transitions.
+
 ### Tested
 
-`tools/test/trains.js` is **64 checks** now. New: the station button with no
+`tools/test/trains.js` is **66 checks** now. New: the station button with no
 train tools at all — hidden with no railway, offered with one in view, marking
 199 stops when pressed, agreeing with the Layers panel, and gone when the
 reader zooms away, with nothing fetched by any of it; a tap on a train, on the
 track, and beside the track; the two buttons' pressed states; the plain railway
-coming back; and the document order of the three layers.
+coming back; and the document order of the three layers; and 153 squares drawn with the
+timetable running against 199 without.
 
 ---
 

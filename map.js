@@ -13,8 +13,8 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '223';
-  var JEM_ASSETS = {"admin.js": "9f99c96627", "annotate.js": "761fbd5949", "japan-empire-map-admin.svg": "8f23cf49df", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "23439bf362", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "b09f9d37f7", "trains.js": "692722b747", "tw-trains.js": "41bcc255ed"};
+  var JEM_VERSION = '224';
+  var JEM_ASSETS = {"admin.js": "9f99c96627", "annotate.js": "761fbd5949", "japan-empire-map-admin.svg": "8f23cf49df", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "23439bf362", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "b09f9d37f7", "trains.js": "364452e6f7", "tw-trains.js": "41bcc255ed"};
 
   /* Every file this one fetches, with the version on it.
 
@@ -495,7 +495,7 @@
   function siteVisible(s) {
     // a station answers for itself whenever its layer is drawn; it is not one
     // of the three site categories and has no button of its own in the bar
-    if (s.kind === 'station') return stationsOn(s.sys) && stationInEpoch(s);
+    if (s.kind === 'station') return stationsOn(s.sys) && stationShown(s);
     if (s.kind === 'gaz') return gazVisible(s);
     // the old browse dots are the same places the gazetteer draws better, so
     // they stand down while it is there rather than being hit-tested underneath
@@ -640,7 +640,7 @@
        degrees rather than map units because that is the thing being
        described: it holds whichever of the three projections is on. */
     if (rec && rec.kind === 'station') {
-      if (!stationsOn(rec.sys) || !stationInEpoch(rec)) return false;
+      if (!stationsOn(rec.sys) || !stationShown(rec)) return false;
       return !!(state.labels && state.mode !== 'quiz'
                 && latSpan() <= STATION_LABEL_LAT);
     }
@@ -1901,6 +1901,10 @@
     syncTrainBoxes();
     syncStationLayers();
     railFade();
+    // and the 46 the timetable did not know are back, so they are lettered
+    // again along with the rest
+    gateLabels();
+    placeLabels();
     // the two are the reader's own now, or back to what they were; either way
     // the address should say what the map is doing
     scheduleUrl();
@@ -1924,6 +1928,13 @@
       borrowStations(cfg);
       trainApi.mount({ sys: cfg.sys, data: JMAP[cfg.data], page: cfg.page,
                        note: cfg.note, ground: cfg.atom });
+      /* The squares were borrowed a moment ago, before there was anything to
+         ask whether the timetable knew them. Filtered now that there is — and
+         the names with them, or the 46 the timetable does not know would be
+         lettered over a network they are not on. */
+      syncStationLayers();
+      gateLabels();
+      placeLabels();
     } finally { trainBusy = false; }
     // the layer is new and has never been through a rescale of its own
     trainApi.rescaled(view.w / containerSize().w);
@@ -2538,12 +2549,10 @@
          the layer: the marks cost nothing while they are `display: none` and
          a rebuild costs the whole group on every change of date. */
       if (on) {
-        var live = state.epoch === 'e1930' ? '30' : '42';
         for (var i = 0; i < cfg.group.childNodes.length; i++) {
           var m = cfg.group.childNodes[i];
           var rec = byId[m.getAttribute('data-id')];
-          m.style.display = (!rec || !rec.epochs
-                             || rec.epochs.indexOf(live) >= 0) ? '' : 'none';
+          m.style.display = (!rec || stationShown(rec)) ? '' : 'none';
         }
       }
     });
@@ -2555,6 +2564,27 @@
   function stationInEpoch(rec) {
     if (!rec || !rec.epochs) return true;
     return rec.epochs.indexOf(state.epoch === 'e1930' ? '30' : '42') >= 0;
+  }
+
+  /* Is this square drawn at all, right now.
+   *
+   * Two questions, and the second only applies while the train tools are open.
+   * WITH THE TIMETABLE RUNNING, A STATION IT DOES NOT KNOW IS A SQUARE THAT
+   * ANSWERS NOTHING. 153 of the map's 199 Taiwanese stations are on a line in
+   * the February 1936 table; the other 46 are in the station list and not in
+   * the train list — built later, or on a stretch this transcription does not
+   * cover. Left drawn, they sit on the coloured network looking exactly like
+   * the stops around them and open a card with no trains in it, which reads as
+   * a station where nothing ever called. They stand down for as long as the
+   * tools are up and come back with the plain railway.
+   *
+   * Asked in three places — the mark, the pointer and the label — so that a
+   * station cannot be hidden and still be named, or hidden and still be
+   * clickable, which is what two of these growing apart would mean. */
+  function stationShown(rec) {
+    if (!rec || !stationInEpoch(rec)) return false;
+    if (!trainDraws(rec.sys)) return true;
+    return trainApi.serves(rec.id);
   }
 
   var yellow1938 = null;

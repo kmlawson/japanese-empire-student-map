@@ -988,6 +988,18 @@ window.JMAP_TRAINS = function (host) {
       render();
     },
 
+    /* Does this map's station stand on a line in the timetable?
+     *
+     * 153 of the map's 199 Taiwanese stations do. The other 46 are in the
+     * table of stations and not in the table of trains — built after February
+     * 1936, or on a stretch this transcription does not cover — and while the
+     * tools are open they are squares that answer no question the tools can
+     * ask. `false` for anything unknown, so the caller can use it as a filter
+     * without checking whether a system is up. */
+    serves: function (sid) {
+      return !!(byStation && sid && byStation[sid] !== undefined);
+    },
+
     hitAt: hitAt,
     trainCard: trainCard,
     lineCard: lineCard,

@@ -189,6 +189,17 @@ const shutDialogs=p=>p.evaluate(()=>{
     v=await look(p);
     check('the station squares are borrowed', v.stations>150 && v.railBox,
       JSON.stringify({stations:v.stations,railBox:v.railBox}));
+    /* And only the ones the timetable knows. 153 of the map's 199 Taiwanese
+       stations are on a line in the February 1936 table; the other 46 would
+       otherwise sit on the coloured network looking like the stops around
+       them and open a card with no trains in it. */
+    const drawn=()=>p.evaluate(()=>({
+      squares:document.querySelectorAll('#tw-stations .sta-mark').length,
+      shown:[...document.querySelectorAll('#tw-stations .sta-mark')]
+        .filter(m=>m.style.display!=='none').length}));
+    const withTools=await drawn();
+    check('and only those the timetable knows are drawn',
+      withTools.squares===199 && withTools.shown===153, JSON.stringify(withTools));
     const card=await p.evaluate(()=>{
       // Taihoku, by its id in tw-stations.js, through the map's own selection
       const el=document.querySelector('[data-id="tws029"]');
@@ -365,6 +376,9 @@ const shutDialogs=p=>p.evaluate(()=>{
           && +getComputedStyle(g).opacity>0.5;}), '');
     check('the button stays, now unpressed', !bv.trn.hidden && bv.trn.pressed==='false',
       JSON.stringify(bv.trn));
+    const noTools=await drawn();
+    check('and all 199 stations are back, not just the 153',
+      noTools.shown===199, JSON.stringify(noTools));
     await p.click('#btn-trains');
     await sleep(900);
     const again=await look(p);
