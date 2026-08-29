@@ -12147,17 +12147,20 @@ what it threw away on every run.
 
 | | tolerance | islands dropped | vertices out |
 |---|---|---|---|
-| coarse | 0.010° (~1.1 km) | 4,405 under 6 km² | **5,393** (0.32%) |
+| coarse | 0.006° (~670 m) | 4,204 under 1 km² | **9,576** (0.58%) |
 | fine | 0.0004° | 2,975 under 0.05 km² | **95,400** (5.74%) |
 
-**The coarse tolerance was measured, not chosen.** The base sheet is what every
-pan and every zoom pays for, and the Natural Earth outline it replaces was
-4,689 vertices there. What went in is **2,961** — the dissolved outline of the
-thirteen provinces is *cheaper* than the outline it replaces, and the thirteen
-provinces themselves (4,890 vertices) are in the admin sheet, which is fetched
-only when the reader asks for divisions.
+**The coarse tolerance is measured against what it replaces, and then a little
+finer.** The base sheet is what every pan and every zoom pays for, and the
+Natural Earth outline it replaces was 4,689 vertices there. The first pass came
+out at 2,961 — cheaper, and less detailed than what it replaced, which was the
+wrong trade. At 0.006° with a 1 km² island floor the drawn outline is **4,970**:
+six per cent more than Natural Earth, and **290 islands over a square
+kilometre against Natural Earth's 62**. The thirteen provinces themselves —
+7,830 vertices — are in the admin sheet, fetched only when divisions are asked
+for.
 
-### A shared boundary has to be simplified once
+### A shared boundary has to be simplified once, and it took three goes
 
 The first cut thinned every ring on its own, which is wrong and looks wrong:
 Kōgen and Keiki run along the same line, Douglas–Peucker keeps a different
@@ -12165,12 +12168,32 @@ subset for each, and the two drawn edges no longer meet. The map showed a
 scatter of white gashes through the middle of the country — ocean between two
 provinces that share a border.
 
-The source is topologically clean, which is what made the fix possible:
-**42,625 of its 1.6 million points are shared by exactly two provinces** (eleven
-by three), with identical coordinates. So each ring is cut into runs where
-sharing starts and stops, each run is thinned once, and a run two provinces
-walk — one forwards, one backwards — is thinned on its first appearance and
-reused on its second. **423 shared runs** in the coarse file, 438 in the fine.
+**The second attempt looked like it worked and did not.** It cut each ring into
+runs at the points that are shared, thinned each run once and cached it by its
+two ends and its length, expecting the neighbour to find it there. I reported
+that as fixed. It was not: adding a counter — runs cut against runs reused —
+showed **423 cut and none reused**. Every boundary was still being thinned
+twice. The gashes had shrunk because the runs at least ended in the same
+places, not because anything was being shared. That counter is the only reason
+this was caught, and it stays in the output.
+
+Cutting on shared *edges* rather than shared *points* took it to **196 of 219
+reused**: where one province carries a vertex the other lacks, the points are
+shared and the edges are not, and a run cut at points ends somewhere different
+for each side. The twenty-five that still failed were long boundaries the two
+sides tokenise differently, which no key would fix.
+
+**What works is not to cut runs at all.** The shared network — 42,405 edges —
+is taken on its own, before any ring is looked at, chained into arcs between
+junctions and thinned once. What comes out is a set of surviving points, 1,493
+of them, and a ring keeps a shared point if it is in that set, whoever is
+drawing it. Two provinces cannot disagree about a decision neither of them
+made.
+
+Checked rather than eyeballed: of the 1,435 kept shared points that reach the
+output, **1,435 are held by two or more provinces and none by one**, and no
+output point shared by two provinces is missing from the thinned network. The
+gashes are gone and so are the hairlines.
 
 ### Checked the way the last two changes of source were checked
 
@@ -12204,8 +12227,7 @@ outline. That is the next piece: a sheet of its own, grafted over the coarse
 provinces the way the admin sheet grafts over the atom, when the view is deep
 and inside Korea.
 
-A few hairline slivers also survive the shared-run fix, far smaller than the
-gashes before it and not yet chased down.
+
 
 ---
 

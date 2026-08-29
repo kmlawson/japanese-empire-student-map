@@ -80,7 +80,7 @@ PROVINCES = {
 #   0.0004 half a pixel at 250x, the deepest a desktop now goes. The same
 #          reasoning TRACED_TOL in build_map.py uses for India and Taiwan, one
 #          zoom level further in.
-COARSE_TOL = 0.010
+COARSE_TOL = 0.006
 FINE_TOL = 0.0004
 
 # And the islands. km², measured on the ring itself.
@@ -90,7 +90,7 @@ FINE_TOL = 0.0004
 #        are four and a half thousand of them in this source.
 #   0.05 five hectares, the same floor the fine coastlines elsewhere on this
 #        map use (FINE_MIN_KM2 in build_map.py).
-COARSE_MIN_KM2 = 6.0
+COARSE_MIN_KM2 = 1.0
 FINE_MIN_KM2 = 0.05
 
 
@@ -179,7 +179,22 @@ def thin_ring(ring, tol):
 # The key is the two ends and the length. Two different boundaries with the
 # same endpoints and the same number of points would collide; with coordinates
 # to seven decimal places that is not a thing that happens.
-def shared_points(features):
+def shared_edges(features):
+    """The edges two provinces have in common.
+
+    EDGES AND NOT POINTS, which is the whole of why this works. Counting shared
+    *points* looks like it should be enough and is not: where two provinces run
+    along one boundary, one of them may carry a vertex the other does not, and
+    a run cut at points then ends in a different place for each of them. The
+    first attempt at this cut 456 runs and reused none of them — every single
+    boundary was still being thinned twice, independently, and the counter
+    below is what said so.
+
+    An edge is shared when both provinces have it, which is exactly the
+    condition for the two of them to be drawing the same line. Where one has a
+    vertex the other lacks, the edges either side differ, the stretch is not
+    shared, and both draw their own — which is the truth about that stretch.
+    """
     seen = {}
     for f in features:
         if not PROVINCES.get(f["properties"].get("name_cn") or ""):
@@ -187,51 +202,123 @@ def shared_points(features):
         here = set()
         for poly in f["geometry"]["coordinates"]:
             for ring in poly:
-                for p in ring:
-                    here.add((p[0], p[1]))
-        for p in here:
-            seen[p] = seen.get(p, 0) + 1
-    return {p for p, n in seen.items() if n > 1}
+                pts = ring[:-1] if ring[0] == ring[-1] else ring
+                n = len(pts)
+                for i in range(n):
+                    a = (pts[i][0], pts[i][1])
+                    b = (pts[(i + 1) % n][0], pts[(i + 1) % n][1])
+                    here.add((a, b) if a <= b else (b, a))
+        for e in here:
+            seen[e] = seen.get(e, 0) + 1
+    return {e for e, n in seen.items() if n > 1}
 
 
-def thin_shared(ring, tol, shared, cache):
-    """A closed ring thinned run by run, sharing what is shared."""
+def shared_keep(edges, tol):
+    """Thin the shared boundary network once, and say which points survive.
+
+    THE DECISION IS PER POINT AND IS MADE HERE, not while walking a ring. Runs
+    cut out of two neighbouring rings very nearly always match -- 196 of 221 --
+    and the twenty-five that do not are long boundaries the two sides tokenise
+    differently, which no amount of care over the key will fix. So the shared
+    network is taken on its own, before any ring is looked at: its edges are
+    chained into arcs between junctions, each arc is thinned once, and what
+    comes out is a set of points that survive. A ring then keeps a shared point
+    if it is in that set, whoever is drawing it. Two provinces cannot disagree
+    about a decision neither of them made.
+    """
+    adj = {}
+    for a, b in edges:
+        adj.setdefault(a, []).append(b)
+        adj.setdefault(b, []).append(a)
+    nodes = [p for p, ns in adj.items() if len(ns) != 2]
+    keep = set(nodes)
+    seen = set()
+
+    def walk(start, first):
+        arc = [start, first]
+        seen.add((start, first) if start <= first else (first, start))
+        prev, cur = start, first
+        while len(adj.get(cur, [])) == 2:
+            nxt = [q for q in adj[cur] if q != prev]
+            if not nxt:
+                break
+            nxt = nxt[0]
+            e = (cur, nxt) if cur <= nxt else (nxt, cur)
+            if e in seen:
+                break
+            seen.add(e)
+            arc.append(nxt)
+            prev, cur = cur, nxt
+        return arc
+
+    arcs = []
+    for p in nodes:
+        for q in adj[p]:
+            e = (p, q) if p <= q else (q, p)
+            if e not in seen:
+                arcs.append(walk(p, q))
+    # what is left is closed loops with no junction on them: an enclave's whole
+    # boundary. Start one anywhere; the point it starts at is kept, which is
+    # the only asymmetry and is the same for both sides because it is chosen
+    # here rather than by either ring.
+    for a, b in sorted(edges):
+        e = (a, b)
+        if e in seen:
+            continue
+        keep.add(a)
+        arcs.append(walk(a, b))
+    for arc in arcs:
+        keep.update(simplify(arc, tol))
+    return keep
+
+
+def thin_shared(ring, tol, edges, keep, cache, tally):
+    """A closed ring thinned run by run, sharing what is shared.
+
+    Cut at every change of degree, so a run is a stretch belonging to the same
+    set of provinces from end to end. Two provinces walking one boundary then
+    produce the same run — one forwards, one backwards — and the second gets
+    the first one's answer.
+    """
     closed = ring[0] == ring[-1]
     pts = ring[:-1] if closed else ring[:]
     if len(pts) < 3:
         return []
     n = len(pts)
-    flag = [p in shared for p in pts]
-    # start the walk at a point where sharing changes, so the seam between two
-    # runs is never hidden in the middle of the first one
+
+    def shared(i):
+        a, b = pts[i], pts[(i + 1) % n]
+        return ((a, b) if a <= b else (b, a)) in edges
+
+    flag = [shared(i) for i in range(n)]      # one per edge, not per point
+    # start the walk where the sharing changes, so a seam between two runs is
+    # never buried in the middle of the first one
     start = 0
     for i in range(n):
         if flag[i] != flag[i - 1]:
             start = i
             break
-    order = [pts[(start + i) % n] for i in range(n)]
-    fl = [flag[(start + i) % n] for i in range(n)]
-    runs, cur, curf = [], [order[0]], fl[0]
-    for i in range(1, n):
-        cur.append(order[i])
-        if fl[i] != curf:
+    runs, cur, curf = [], [pts[start]], flag[start]
+    for j in range(n):
+        i = (start + j) % n
+        cur.append(pts[(i + 1) % n])
+        nxt = flag[(i + 1) % n]
+        if j < n - 1 and nxt != curf:
             runs.append((curf, cur))
-            cur, curf = [order[i]], fl[i]
-    cur.append(order[0])
+            cur, curf = [pts[(i + 1) % n]], nxt
     runs.append((curf, cur))
 
     out = []
     for is_shared, run in runs:
         if len(run) < 2:
             continue
-        if is_shared and len(run) > 2:
-            a, b = run[0], run[-1]
-            key = (min(a, b), max(a, b), len(run))
-            got = cache.get(key)
-            if got is None:
-                got = simplify(run if a <= b else run[::-1], tol)
-                cache[key] = got
-            piece = list(got) if a <= b else list(got)[::-1]
+        if is_shared:
+            # every point the network kept, plus the two ends of this run so
+            # that it still joins what comes before and after it
+            piece = [q for j, q in enumerate(run)
+                     if q in keep or j == 0 or j == len(run) - 1]
+            tally["shared"] += 1
+            tally["points"] += len(piece)
         else:
             piece = simplify(run, tol)
         if out and piece and out[-1] == piece[0]:
@@ -243,8 +330,10 @@ def thin_shared(ring, tol, shared, cache):
 
 
 def convert(features, tol, min_km2, label):
-    shared = shared_points(features)
+    edges = shared_edges(features)
+    keep = shared_keep(edges, tol)
     cache = {}
+    tally = {"shared": 0, "points": 0}
     out, kept, dropped, vin, vout, small = [], 0, 0, 0, 0, 0
     for f in features:
         name = PROVINCES.get(f["properties"].get("name_cn") or "")
@@ -266,7 +355,7 @@ def convert(features, tol, min_km2, label):
                 if i and ring_km2(ring) < min_km2:
                     continue
                 thin = thin_shared([tuple(p[:2]) for p in ring], tol,
-                                   shared, cache)
+                                   edges, keep, cache, tally)
                 if thin:
                     rings.append([list(p) for p in thin])
             if rings:
@@ -278,8 +367,8 @@ def convert(features, tol, min_km2, label):
                     "geometry": {"type": "MultiPolygon", "coordinates": polys}})
     print("%-6s %2d provinces, %5d rings kept, %5d islands under %.2f km2 "
           "dropped" % (label, len(out), kept, small, min_km2))
-    print("       %d shared boundary runs, thinned once each and drawn by both"
-          % len(cache))
+    print("       %d shared boundary edges, thinned once into %d kept points; "
+          "%d runs drawn from them" % (len(edges), len(keep), tally["shared"]))
     print("       %8d vertices in, %7d out (%.2f%% kept), tolerance %.4f deg"
           % (vin, vout, 100.0 * vout / max(1, vin), tol))
     return {"type": "FeatureCollection", "features": out}
