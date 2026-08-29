@@ -13,8 +13,8 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '230';
-  var JEM_ASSETS = {"admin.js": "9f99c96627", "annotate.js": "761fbd5949", "japan-empire-map-admin.svg": "8f23cf49df", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "23439bf362", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "2dde28f92f", "trains.js": "52ad5f72a9", "tw-trains.js": "a743d176d9"};
+  var JEM_VERSION = '231';
+  var JEM_ASSETS = {"admin.js": "9f99c96627", "annotate.js": "761fbd5949", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "3881d33c99", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "2dde28f92f", "trains.js": "52ad5f72a9", "tw-trains.js": "a743d176d9"};
 
   /* Every file this one fetches, with the version on it.
 
@@ -1580,8 +1580,14 @@
      that is the view the ties have to be out of. A region — a prefecture, a
      stretch of coast — is under a degree and a half, and that is where they
      belong. Rendered at four views and looked at. */
-  var RAIL_TIE_ON = 120;      // view.w <= mapW / 120 (~1.2 deg): ties in full
-  var RAIL_TIE_OFF = 45;      // view.w >= mapW / 45 (~3.1 deg): a plain line
+  /* Brought in earlier, by about a third. The ties used to want the view down
+     to 1.2 degrees before they were fully drawn, which is closer than a reader
+     spends much time at: the network read as a plain line for most of the zoom
+     range where there was room for the texture. 90 and 32 put full ties at
+     about 1.6 degrees and the first of them at 4.4, so the symbol changes
+     while the reader is still looking at a region rather than a suburb. */
+  var RAIL_TIE_ON = 90;       // view.w <= mapW / 90 (~1.6 deg): ties in full
+  var RAIL_TIE_OFF = 32;      // view.w >= mapW / 32 (~4.4 deg): a plain line
 
   /* ONE DRAWING OF A RAILWAY AT A TIME.
    *
@@ -4166,6 +4172,8 @@
        a layer mounted this frame has to be handed the scale it was built at. */
     syncTrainTools();
     if (trainApi && trainApi.mounted()) trainApi.rescaled(k);
+    // and Korea's finer provinces, which come and go with the zoom
+    syncKoreaFine();
     // the way-back button appears once the reader has moved off the frame the
     // annotations were meant to be seen from
     if (annApi && annApi.viewMoved) annApi.viewMoved();
@@ -7343,6 +7351,12 @@
     // and the two switches beside the map, which follow both the layers and
     // where the map is looking
     syncMapButtons();
+    /* And Korea's finer provinces. Asked here as well as in `rescale` because
+       the deciding fact is not always the zoom: a reader already deep over
+       Korea who *then* switches divisions on has not moved, so nothing would
+       have asked again, and the administrative sheet landing is exactly the
+       moment there is something to swap. */
+    syncKoreaFine();
     // the epoch as a class, so the stylesheet can cut the occupied colouring
     // out of the unoccupied south of New Guinea on the 1942 map alone
     if (svg) svg.classList.toggle('e1942', state.epoch === 'e1942');
@@ -8643,7 +8657,10 @@
      outline, the cluster, the name — would then see both sources at once and
      draw each boundary twice. Whichever set is not in use is held here, out of
      the document altogether. */
-  var provSets = { enp: {}, roc: {} };
+  /* Three sets now: the period sheet, the Republic's, and Korea's thirteen at
+     survey resolution. The first two are the reader's choice and swap by radio
+     button; the third swaps by zoom and only ever holds Korea. */
+  var provSets = { enp: {}, roc: {}, kfine: {} };
   var provSource = 'enp';
   var rocState = 'none';            // none | loading | ready | failed
 
@@ -8741,6 +8758,101 @@
         var back = $('#prov-enp');
         if (back) { back.checked = true; setProvinceSource('enp'); }
       });
+  }
+
+  /* ------------------------------------------- Korea at survey resolution --
+
+     The thirteen provinces in the administrative sheet are drawn at 0.006
+     degrees, because that sheet is fetched with the divisions and the base map
+     is what every pan pays for. `japan-empire-map-korea.svg` is the same
+     thirteen at 0.0004 — half a pixel at the deepest zoom the map allows,
+     95,315 vertices, 1.4 MB — and nothing fetches it until a reader is close
+     in and over Korea.
+
+     It arrives as a third province source. `provSets` already holds two, the
+     period sheet and the Republic's, with the swap that puts one away and
+     brings the other out; this is the same idea with the switch made by the
+     zoom rather than by a radio button. The coarse ones are not thrown away —
+     zooming out puts them back, and the fine ones are kept for the next time
+     rather than fetched again.
+
+     WHY IT IS NOT IN THE FINE-COASTLINE FILE. That file is 636 KB and is
+     fetched on a deep zoom *anywhere*. Korea at this resolution is twice its
+     size, and a reader looking closely at the Bonins should not be paying for
+     a country on the other side of the map. */
+  var KOREA_FINE_LAT = 4.0;      // degrees of latitude on screen, coming in
+  var KOREA_FINE_OFF = 5.0;      // and going out; apart, so a pinch cannot flap
+  var KOREA_BOX = [124.0, 33.0, 131.3, 43.2];
+  var koreaFineState = 'none';   // none | loading | ready | failed
+  var koreaFineOn = false;
+
+  function overKorea(limit) {
+    if (latSpan() > limit) return false;
+    var c = unproject(view.x + view.w / 2, view.y + view.h / 2);
+    return isFinite(c.lon) && isFinite(c.lat)
+      && c.lon >= KOREA_BOX[0] - 1 && c.lon <= KOREA_BOX[2] + 1
+      && c.lat >= KOREA_BOX[1] - 1 && c.lat <= KOREA_BOX[3] + 1;
+  }
+
+  /* Called from `rescale`, so on every frame of a gesture: cheap when the
+     answer has not changed, which is a cached `latSpan` and one unprojection. */
+  function syncKoreaFine() {
+    var want = overKorea(koreaFineOn ? KOREA_FINE_OFF : KOREA_FINE_LAT);
+    if (want === koreaFineOn) return;
+    /* The coarse provinces have to be there to be swapped out. Until the
+       administrative sheet has landed there is nothing to replace, and Korea
+       is drawn by its backing — which is the coarse outline, and right for the
+       zoom the reader was at when they asked for divisions. */
+    if (want && adminState !== 'ready') return;
+    if (want && koreaFineState === 'none') { loadKoreaFine(); return; }
+    if (want && koreaFineState !== 'ready') return;
+    koreaFineOn = want;
+    showKoreaFine(want);
+  }
+
+  function showKoreaFine(fine) {
+    var el = atomEls.korea;
+    if (!el) return;
+    var on = provSets.kfine.korea || [];
+    var off = provSets[provSource].korea || [];
+    if (!on.length) return;
+    var going = fine ? off : on;
+    var coming = fine ? on : off;
+    going.forEach(function (n) { if (n.parentNode) n.parentNode.removeChild(n); });
+    var before = el.querySelector('circle');
+    coming.forEach(function (n) { el.insertBefore(n, before); });
+    // the finer shapes have never been through a projection change, and the
+    // reader may have made one while they were away
+    reprojectGraft(coming);
+    bumpHi();
+    applyState();
+    if (selected) select(selected);
+  }
+
+  function loadKoreaFine() {
+    koreaFineState = 'loading';
+    fetch(asset('japan-empire-map-korea.svg'))
+      .then(function (r) {
+        if (!r.ok) throw new Error(r.status);
+        return r.text();
+      })
+      .then(function (text) {
+        var doc = new DOMParser().parseFromString(text, 'image/svg+xml');
+        var g = doc.querySelector('g[data-for="korea"]');
+        var el = atomEls.korea;
+        if (!g || !el) { koreaFineState = 'failed'; return; }
+        var mine = [];
+        while (g.firstElementChild) {
+          var node = document.importNode(g.firstElementChild, true);
+          g.removeChild(g.firstElementChild);
+          mine.push(node);
+        }
+        rememberProvinces('kfine', 'korea', mine);
+        koreaFineState = 'ready';
+        // and put them in if the reader is still where they were
+        syncKoreaFine();
+      })
+      .catch(function () { koreaFineState = 'failed'; });
   }
 
   function loadAdmin() {

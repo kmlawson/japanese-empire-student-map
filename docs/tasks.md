@@ -12218,14 +12218,41 @@ further than a desktop — for the two reasons it always did, physically smaller
 pixels and a finger being a coarse instrument — without going four times
 further than a desktop that has caught up.
 
-### What is not done
+### The fine sheet, wired
 
-**The fine file is built and not yet wired.** 95,400 vertices, 2.4 MB as JSON,
-which is well inside the 5 MB the download has to stay under — but nothing
-fetches it yet, so a reader at 250× over Korea is looking at the coarse
-outline. That is the next piece: a sheet of its own, grafted over the coarse
-provinces the way the admin sheet grafts over the atom, when the view is deep
-and inside Korea.
+`japan-empire-map-korea.svg`: the same thirteen at 0.0004°, **95,315 vertices,
+1.4 MB**, in a file nothing fetches until a reader is close in and over Korea.
+Cheju is lifted out of Zenranan there as it is in the coarse build and from the
+same box, so a reader zoomed in on the island is told Saishu rather than the
+province a hundred and fifty kilometres north that administered it.
+
+It arrives as a **third province source**. `provSets` already held two — the
+period sheet and the Republic's — with a swap that puts one away and brings the
+other out; this is that, with the switch made by the zoom instead of by a radio
+button. In at 4° of latitude, out at 5°, so a pinch on the line cannot flap.
+
+**Why not in the fine-coastline file.** That file is 636 KB and is fetched on a
+deep zoom *anywhere*. Korea at this resolution is twice its size, and a reader
+looking closely at the Bonins should not pay for a country on the other side of
+the map.
+
+One thing had to be asked twice. `syncKoreaFine` runs from `rescale`, which is
+the zoom — but a reader already deep over Korea who *then* switches divisions
+on has not moved, and the administrative sheet landing is exactly the moment
+there is something to swap. It is asked from `applyState` as well, and the
+first version silently did nothing in that case.
+
+Measured at the ria coast south-west of Mokpo, where the two differ most:
+**7,781 vertices coarse, 93,776 fine**, fetched once however many times the
+reader crosses the line, and the coarse set put back on the way out rather than
+thrown away. `tools/test/korea.js`, 11 checks.
+
+### And the railway ties come in earlier
+
+`RAIL_TIE_ON` 120 → 90 and `RAIL_TIE_OFF` 45 → 32: full ties at about 1.6
+degrees of view width instead of 1.2, and the first of them at 4.4 instead of
+3.1. The network used to read as a plain line for most of the zoom range where
+there was room for the texture.
 
 
 

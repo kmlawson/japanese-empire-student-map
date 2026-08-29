@@ -457,6 +457,9 @@ def build_pages():
     # what map.js fetches for itself
     FETCHED = ("japan-empire-map.svg", "japan-empire-map-admin.svg",
                "japan-empire-map-fine.svg", "japan-empire-map-roc.svg",
+               # Korea's provinces at survey resolution, fetched only on a
+               # deep zoom over Korea
+               "japan-empire-map-korea.svg",
                "annotate.js", "admin.js",
                # the train tools and their timetable, both fetched only when a
                # reader zooms in to a railway that has one
