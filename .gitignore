@@ -89,3 +89,4 @@ tools/test/shots/
 # nothing reads afterwards
 tools/cache/rel-*.tif
 tools/cache/rel-*.vrt
+tools/cache/station_wiki_check.json

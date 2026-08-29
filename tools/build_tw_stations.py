@@ -184,6 +184,70 @@ EXTRA = [
 ]
 
 
+# ---------------------------------------------------------------------------
+# WHAT THE SOURCE SHEET GETS WRONG, AND HOW IT WAS FOUND.
+#
+# `tools/check_station_wiki.py` resolves every station's Wikipedia link to its
+# Wikidata item and asks two questions of it: what country is it in, and where.
+# It was written to check the *links*, and the second question caught something
+# else -- four stations on the Yilan line whose points are three to six
+# kilometres out.
+#
+# Not scattered. Consecutive, and each one sitting on the *next* station down
+# the line: our 龜山 is 20 m from where 外澳 is, our 外澳 70 m from 頭圍, our
+# 頭圍 50 m from 礁溪, our 礁溪 70 m from 四城. Everything either side of that
+# run is within 40 m. Four names carried one place too far south in the
+# digitising, which is a slip you cannot see on a map and cannot miss in a
+# table of distances.
+#
+# 湖口 is a different thing and not an error in the sheet: the station moved on
+# 1 October 1929, from 大湖口 to the site it is on now. Both of this map's
+# dates are after that, so the new site is the right one for both.
+COORD_FIXES = {
+    '\u9f9c\u5c71': (121.86889, 24.90489,
+             'labelled one station south in the source sheet; this is the '
+             'point Wikidata gives for the station',
+             'https://ja.wikipedia.org/wiki/\u4e80\u5c71\u99c5_(\u5b9c\u862d\u770c)'),
+    '\u5916\u6fb3': (121.84600, 24.88380, 'labelled one station south in the source sheet',
+             'https://ja.wikipedia.org/wiki/\u5916\u6fb3\u99c5'),
+    '\u982d\u570d': (121.82200, 24.85900,
+             'labelled one station south in the source sheet; the station is '
+             '\u982d\u57ce today',
+             'https://ja.wikipedia.org/wiki/\u982d\u57ce\u99c5'),
+    '\u7901\u6eaa': (121.77532, 24.82715, 'labelled one station south in the source sheet',
+             'https://ja.wikipedia.org/wiki/\u7901\u6e13\u99c5'),
+    '\u6e56\u53e3': (121.04400, 24.90280,
+             'the station moved from \u5927\u6e56\u53e3 to this site on 1 October '
+             '1929, before either of this map\u2019s dates',
+             'https://ja.wikipedia.org/wiki/\u6e56\u53e3\u99c5'),
+}
+
+# ---------------------------------------------------------------------------
+# LINKS THAT WENT SOMEWHERE ELSE.
+#
+# A title like 松山駅 or 追分駅 is a name Japan and Taiwan both use, so seven of
+# these went to a disambiguation page listing a station in Ehime and a station
+# in Taipei and left the reader to work out which was meant. One went somewhere
+# worse: 平鎮駅 is an article about a station under construction, due to open in
+# 2030. The station this map draws was renamed 埔心 and is 30 m from our point.
+#
+# Each replacement was chosen the same way the check works -- the article's
+# Wikidata item has to be in Taiwan and within a few hundred metres of the
+# station -- and the distance is written beside it so nobody has to take it on
+# trust. 北勢 is the odd one: it is not a 北勢 article at all, because the
+# station was renamed Toyotomi in 1935.
+LINK_FIXES = {
+    '\u8ffd\u5206': ('\u8ffd\u5206\u99c5_(\u53f0\u4e2d\u5e02)', 0.11),
+    '\u677e\u5c71': ('\u677e\u5c71\u99c5_(\u53f0\u5317\u5e02)', 0.04),
+    '\u9999\u5c71': ('\u9999\u5c71\u99c5_(\u65b0\u7af9\u5e02)', 0.09),
+    '\u5317\u52e2': ('\u8c4a\u5bcc\u99c5_(\u82d7\u6817\u770c)', 0.46),
+    '\u65b0\u57d4': ('\u65b0\u57d4\u99c5_(\u82d7\u6817\u770c)', 0.08),
+    '\u65b0\u5e97': ('\u65b0\u5e97\u99c5_(\u65b0\u5317\u5e02)', 0.27),
+    '\u5927\u6797': ('\u5927\u6797\u99c5_(\u5609\u7fa9\u770c)', 0.06),
+    '\u5e73\u93ae': ('\u57d4\u5fc3\u99c5', 0.03),
+}
+
+
 def extra_rows(start_id):
     """The hand-added stops, in the same shape the geojson ones come out in."""
     out = []
@@ -226,7 +290,7 @@ def build():
                 # came out of the rebuild with whichever one was read last --
                 # which is how they lost the line saying where they stood.
                 held[old.get("hanji") or old.get("id")] = old
-    rows, missing, repaired = [], [], []
+    rows, missing, repaired, moved = [], [], [], []
     for feat in fc["features"]:
         p = feat["properties"]
         han, kind, fixed = split_name(p.get("NOTE"))
@@ -239,6 +303,13 @@ def build():
             missing.append(han)
         if fixed:
             repaired.append((p.get("NOTE"), han))
+        # the five points the source sheet has in the wrong place, and the
+        # eight links that went to a disambiguation page or another station
+        fix = COORD_FIXES.get(han)
+        if fix:
+            lon, lat = fix[0], fix[1]
+            moved.append(han)
+        link = LINK_FIXES.get(han)
         rows.append({
             "id": sid,
             "hanji": han,
@@ -257,7 +328,8 @@ def build():
                           ("verified" if romaji else "unverified"),
             "source_type": was.get("source_type") or
                            ("author" if romaji else ""),
-            "source_url": was.get("source_url", ""),
+            "source_url": ("https://ja.wikipedia.org/wiki/" + link[0])
+                          if link else was.get("source_url", ""),
             "valid_from": str(p.get("START") or ""),
             "valid_to": str(p.get("END") or ""),
             "alt_names": was.get("alt_names", ""),
@@ -285,6 +357,9 @@ def build():
         if not row["pinyin"]:
             row["pinyin"] = py.get(row["hanji"], "")
         rows.append(row)
+    if moved:
+        sys.stderr.write("  moved %d station(s) the source sheet mislabelled: %s\n"
+                         % (len(moved), ", ".join(moved)))
     rows.sort(key=lambda r: r["id"])
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     with io.open(OUT, "w", encoding="utf-8", newline="") as fh:

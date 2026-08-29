@@ -46,11 +46,15 @@ SRC = {"e1930": os.path.join(HERE, "cache", "korea_1930_stations.geojson"),
 OUT = os.path.join(ROOT, "data", "korea", "stations.csv")
 
 FIELDS = ["id", "hangul", "hanja", "mr", "romaji", "line", "lon", "lat",
-          "e1930", "e1942", "prov", "note"]
+          "e1930", "e1942", "prov", "note", "wiki"]
 
 # Columns this build does not produce and must never drop -- the same rule as
-# the Taiwan table, learned there the expensive way.
-KEPT = ["note"]
+# the Taiwan table, learned there the expensive way. `wiki` is written by
+# `tools/check_station_wiki.py`, which finds each station its own article and
+# checks that the article is a station in Korea within a few kilometres of the
+# point; none of that is in the geojson and a rebuild that forgot it would take
+# five hundred links out in one run.
+KEPT = ["note", "wiki"]
 
 BLANK = ("", "-", "<none>", "0", "None")
 
@@ -284,6 +288,7 @@ def main():
             "e1942": "1" if sid in live["e1942"] else "",
             "prov": province(r["lon"], r["lat"], pfeats, pnames),
             "note": was.get("note", ""),
+            "wiki": was.get("wiki", ""),
         })
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     with io.open(OUT, "w", encoding="utf-8", newline="") as fh:
@@ -326,6 +331,8 @@ def write_js(rows):
              "mr": r["mr"], "ro": r["romaji"],
              "lon": float(r["lon"]), "lat": float(r["lat"]),
              "e": ("30" if r["e1930"] else "") + ("42" if r["e1942"] else "")}
+        if r.get("wiki"):
+            o["wiki"] = r["wiki"]
         names = [LINES.get(k, k) for k in (r["line"] or "").split(" / ") if k]
         if r["line"]:
             o["line"] = r["line"]
