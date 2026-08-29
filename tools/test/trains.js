@@ -317,6 +317,11 @@ const shutDialogs=p=>p.evaluate(()=>{
       check('a tap on the track names the line', !c.hidden && /Railway line/i.test(c.chip)
         && /Line$/.test(c.primary), JSON.stringify(c).slice(0,200));
       check('with the day on it counted', c.rows>=6, 'rows='+c.rows);
+      /* And what the line was, not just how busy it is. The dates come from
+         the build's own table of descriptions; if one is ever missing the card
+         falls back to nothing, and this is what would notice. */
+      check('and a description of the line with a date in it',
+        c.note.length>200 && /\b(18|19)\d\d\b/.test(c.note), c.note.slice(0,120));
       check('and a link to its printed tables',
         /timetable\/taiwan-1936\.html.*#line-/.test(c.href), c.href);
     } else {

@@ -45,6 +45,86 @@ VARIANTS = {'縣': '県', '國': '国', '內': '内', '灣': '湾', '臺': '台'
             '滿': '満', '鐵': '鉄', '澤': '沢', '廣': '広', '眞': '真',
             '對': '対', '單': '単', '會': '会', '學': '学', '龍': '竜'}
 
+
+"""What each line was, in a few sentences, for the card a tap on the track
+opens.
+
+The history is from the Japanese and Chinese Wikipedia articles on each line,
+which is where the dates and the section openings come from and is said so on
+the Sources page. THE TIMINGS ARE NOT: those are measured from the
+transcription this file is built out of, so a reader can check them against the
+printed table one link away. Where the two kinds of statement sit in the same
+sentence the measured one is the one about this timetable — "in this table",
+"a through working" — and the sourced one is about the railway.
+
+Names are as the timetable writes them, which is the Japanese reading of the
+period: Kirun for Keelung, Takao for Kaohsiung, Taihoku for Taipei, Giran for
+Yilan, Karenko for Hualien.
+"""
+LINE_NOTES = {
+    '\u7e31\u8caB\u7dda': (
+        'The spine of the island, and the oldest railway on it: the Qing '
+        'government built K\u012brun to Shinchiku between 1891 and 1893, and the '
+        'Government-General rebuilt that and drove it south, opening the '
+        'through route to Takao on 20 April 1908 and celebrating it at Taich\u016b '
+        'that October. Between Chikunan and Sh\u014dka it is two railways by this '
+        'date \u2014 the original inland route, whose gradients at J\u016brokufun backed '
+        'freight up at the stations faster than it could be moved, and the '
+        'coastal route opened on 11 October 1922 to relieve it. In this table '
+        'the express runs the whole length in eight hours flat, stopping '
+        'seventeen times and passing fifty-nine stations without a call; the '
+        'ordinary train down takes eleven hours and a quarter and stops '
+        'seventy-two times.'),
+    '\u6de1\u6c34\u7dda': (
+        'Twenty-one kilometres from Taihoku down to the river mouth, opened on '
+        '25 August 1901 and laid partly with material lifted from the Qing '
+        'line. It was built when Tansui was the better port and K\u012brun\u2019s '
+        'harbour works were unfinished; as the river silted and K\u012brun was '
+        'improved the freight went elsewhere, and the line lived on passengers '
+        '\u2014 above all the hot springs at Hokut\u014d, which got a branch of their '
+        'own to Shin-Hokut\u014d in 1916. Thirty-eight minutes end to end.'),
+    '\u5b9c\u862d\u7dda': (
+        'The way round the north-east corner to the Giran plain and the port '
+        'of Su\u014d. Begun in July 1917 and built from both ends at once, it '
+        'opened in sections through 1919 and 1920 and was finished on 1 '
+        'December 1924 with the S\u014dry\u014d tunnel under the ridge that had kept '
+        'the two halves apart. It leaves the trunk line at Hatt\u014d, a few '
+        'minutes out of K\u012brun; a through working takes three hours and '
+        'twenty-two minutes.'),
+    '\u5e73\u6eaa\u7dda': (
+        'A coal railway that carries passengers. The Taiy\u014d Mining Company '
+        'built it up the K\u012brun river valley to reach its seams, opening in '
+        'July 1921 and reaching the head of the line at Kikut\u014dk\u014d on 15 '
+        'January 1923; the Government-General bought it on 10 July 1929 and '
+        'took it over that October. Thirteen kilometres, and forty-nine '
+        'minutes from end to end.'),
+    '\u96c6\u96c6\u7dda': (
+        'Built to make electricity rather than to carry anybody. The Taiwan '
+        'Electric Power Company laid it inland from Nisui from 1919 to bring '
+        'material up to the hydroelectric works at Sun Moon Lake, and opened '
+        'it to freight and passengers on 14 January 1922; the '
+        'Government-General bought it on 1 May 1927. Thirty kilometres to '
+        'Gaishatei, an hour and a quarter.'),
+    '\u6f6e\u5dde\u7dda': (
+        'South from Takao, and named after a town its trains have already '
+        'passed. Takao to Ky\u016bkyokud\u014d opened on 1 October 1907, and the '
+        'crossing of the Lower Tansui river \u2014 the longest bridge on the '
+        'island \u2014 carried it on to Ak\u014d, later Heit\u014d, from 20 December 1913. '
+        'Ch\u014dsh\u016b was reached in February 1920 and gave the line its name that '
+        'September; the rails went on to Keish\u016b on 21 October 1923, which is '
+        'where this table still ends. They reached B\u014dry\u014d on 15 December 1941, '
+        'which is why the December 1942 map draws this line further south than '
+        'the 1930 one.'),
+    '\u81fa\u6771\u7dda': (
+        'The east coast\u2019s own railway, and not part of the same system: 762 '
+        'mm gauge against the 1,067 mm of the west, a light line up the rift '
+        'valley from Karenk\u014d to Ta\u012bt\u014d, built in stages from 16 December 1910 '
+        'and finished on 25 March 1926. Nothing joined it to the trunk line '
+        '\u2014 east and west were not connected by rail until 1980 \u2014 so its 171 '
+        'kilometres were a railway reached by sea. A through working takes '
+        'nine hours and a half.'),
+}
+
 LINE_EN = {
     '縱貫線': 'Trunk Line',
     '淡水線': 'Tamsui Line',
@@ -158,7 +238,8 @@ def build_js(anchors=None):
     doc = {
         'year': 1936,
         'lines': [{'n': n, 'en': LINE_EN.get(n, n), 'c': colours[n],
-                   'a': (anchors or {}).get(n, '')}
+                   'a': (anchors or {}).get(n, ''),
+                   'd': LINE_NOTES.get(n, '')}
                   for n in line_names],
         'stations': out_st,
         'trains': out_tr,
@@ -246,4 +327,8 @@ if __name__ == '__main__':
     missing = [l['n'] for l in doc['lines'] if not l['a']]
     if missing:
         print('WARNING: no table anchor found for ' + ', '.join(missing),
+              file=sys.stderr)
+    blank = [l['n'] for l in doc['lines'] if not l['d']]
+    if blank:
+        print('WARNING: no description written for ' + ', '.join(blank),
               file=sys.stderr)

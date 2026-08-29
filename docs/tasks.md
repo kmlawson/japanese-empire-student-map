@@ -11920,6 +11920,59 @@ with the button's background across pressed, unpressed, light and dark.
 
 ---
 
+## What each of the seven Taiwanese lines was
+
+The line card counted a day on the line and said nothing about the line. Each
+now carries three or four sentences, written into `LINE_NOTES` in
+`tools/build_tw_trains.py` and shipped as a field on the line record.
+
+**Where each kind of statement comes from, kept apart on purpose.** The history
+— construction dates, section openings, gauges, who built what — is from the
+Japanese and Chinese Wikipedia articles on each line, named on the Sources page
+and *not* checked against a printed history. **The journey times are not from
+there.** They are measured from the transcription this map ships, so a reader
+can check every one of them against the printed table one link away. The
+wording marks which is which: "in this table" and "a through working" are the
+measured ones.
+
+* **Trunk line** — the Qing built Kīrun to Shinchiku 1891–93; the
+  Government-General rebuilt it and drove it south, through to Takao on 20
+  April 1908. Between Chikunan and Shōka it is **two railways** by 1936: the
+  inland route, whose gradients at Jūrokufun backed freight up at the stations,
+  and the coastal route opened 11 October 1922 to relieve it. Measured here:
+  the express runs the whole length in **eight hours flat, stopping seventeen
+  times and passing fifty-nine stations**; the ordinary train takes 11h 12m and
+  stops seventy-two times. That contrast is the kind of thing only the
+  transcription can say.
+* **Tamsui line** — opened 25 August 1901, partly with material lifted from the
+  Qing line, when Tansui was the better port and Kīrun's harbour works were
+  unfinished. As the river silted the freight went and it lived on the hot
+  springs at Hokutō, which got their own branch in 1916. 38 minutes.
+* **Yilan line** — begun July 1917 from both ends, sections through 1919–20,
+  finished 1 December 1924 with the Sōryō tunnel. 3h 22m.
+* **Pingxi line** — a coal railway that carries passengers: built by the Taiyō
+  Mining Company, opened July 1921, through to Kikutōkō 15 January 1923, bought
+  by the Government-General 10 July 1929. 49 minutes.
+* **Jiji line** — built to make electricity rather than to carry anybody: the
+  Taiwan Electric Power Company laid it from 1919 for the Sun Moon Lake works,
+  opened it to traffic 14 January 1922, and sold it on 1 May 1927. 1h 14m.
+* **Chaozhou line** — named after a town its trains have already passed. Takao
+  to Kyūkyokudō 1907, over the Lower Tansui river to Akō 1913, Chōshū February
+  1920 — which named the line that September — and Keishū 21 October 1923,
+  **where this table still ends**. It reached Bōryō on 15 December 1941, which
+  is why the December 1942 map draws it further south than the 1930 one.
+* **Taitung line** — not part of the same system: **762 mm against the 1,067 mm
+  of the west**, up the rift valley, finished 25 March 1926, and joined to
+  nothing — east and west were not connected by rail until 1980. A through
+  working takes 9h 27m.
+
+The caveat about the figures moved out of the note and onto the table's own
+caption, which now reads *A day on it, counted from the February 1936 table* —
+next to the numbers it qualifies rather than above prose it does not. A check
+pins that a line card carries a description with a date in it.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

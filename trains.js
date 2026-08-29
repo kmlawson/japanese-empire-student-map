@@ -704,10 +704,12 @@ window.JMAP_TRAINS = function (host) {
         ? 'Trains start or end at ' + Object.keys(ends).slice(0, 8).join('\u3001')
           + (Object.keys(ends).length > 8 ? '\u2026' : '')
         : '',
-      note: 'As the timetable of February ' + data.year + ' has it. Every '
-        + 'figure here is counted from that transcription, so it says what the '
-        + 'table holds rather than what the railway was.',
-      head: 'A day on the line',
+      /* What the line was. The history is sourced and the timings are
+         measured from this transcription; the caption on the table below says
+         which of the two the figures are, so the note does not have to carry
+         the caveat as well as the prose. */
+      note: line.d || '',
+      head: 'A day on it, counted from the February ' + data.year + ' table',
       cols: ['', ''],
       rows: rows,
       link: line.a
@@ -827,7 +829,7 @@ window.JMAP_TRAINS = function (host) {
   function lineFor(li) {
     var l = data.lines[li];
     if (!l) return null;
-    return { n: l.n, en: l.en, a: l.a, c: inks[li] || l.c };
+    return { n: l.n, en: l.en, a: l.a, d: l.d, c: inks[li] || l.c };
   }
 
   function departures(sid) {
