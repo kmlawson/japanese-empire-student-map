@@ -125,6 +125,36 @@ LINE_NOTES = {
         'nine hours and a half.'),
 }
 
+# Where a reader is sent to read more, one link per line, and the article in
+# whichever language is the longer of the two -- which is not always the same
+# language. Measured as raw wikitext in bytes on 29 August 2026:
+#
+#   trunk    ja 11,271  zh 10,649      Tamsui   ja 14,551  zh 19,002
+#   Yilan    ja 22,696  zh 22,708      Pingxi   ja  9,398  zh 23,674
+#   Jiji     ja 22,603  zh 16,491      Chaozhou ja 21,408  zh 22,856
+#   Taitung  ja 39,011  zh 34,173
+#
+# Yilan is a tie to within twelve bytes and could go either way; the rest are
+# not close. The lengths are recorded here rather than left implicit so that
+# somebody revisiting this knows what the choice was made on.
+LINE_WIKI = {
+    '\u7e31\u8caB\u7dda': ('ja', 'https://ja.wikipedia.org/wiki/'
+                          '%E7%B8%A6%E8%B2%AB%E7%B7%9A_(%E5%8F%B0%E6%B9%BE'
+                          '%E9%89%84%E8%B7%AF%E7%AE%A1%E7%90%86%E5%B1%80)'),
+    '\u6de1\u6c34\u7dda': ('zh', 'https://zh.wikipedia.org/wiki/'
+                          '%E6%B7%A1%E6%B0%B4%E7%B7%9A_(%E8%87%BA%E9%90%B5)'),
+    '\u5b9c\u862d\u7dda': ('zh', 'https://zh.wikipedia.org/wiki/'
+                          '%E5%AE%9C%E8%98%AD%E7%B7%9A'),
+    '\u5e73\u6eaa\u7dda': ('zh', 'https://zh.wikipedia.org/wiki/'
+                          '%E5%B9%B3%E6%BA%AA%E7%B7%9A'),
+    '\u96c6\u96c6\u7dda': ('ja', 'https://ja.wikipedia.org/wiki/'
+                          '%E9%9B%86%E9%9B%86%E7%B7%9A'),
+    '\u6f6e\u5dde\u7dda': ('zh', 'https://zh.wikipedia.org/wiki/'
+                          '%E5%B1%8F%E6%9D%B1%E7%B7%9A'),
+    '\u81fa\u6771\u7dda': ('ja', 'https://ja.wikipedia.org/wiki/'
+                          '%E5%8F%B0%E6%9D%B1%E7%B7%9A'),
+}
+
 LINE_EN = {
     '縱貫線': 'Trunk Line',
     '淡水線': 'Tamsui Line',
@@ -181,10 +211,25 @@ def build_js(anchors=None):
         if s['lon'] is None:
             coordless += 1
         rec = {'n': s['name']}
-        if s.get('romaji'):
-            rec['ro'] = s['romaji']
+        # THE TIMETABLE'S OWN ROMANISATION IS NOT CARRIED ACROSS. It gives the
+        # reading of whatever the stop was called when the romaniser met it
+        # rather than of the name as printed: three of the eight it offers for
+        # the Yilan line are readings of former names. The readings this map
+        # shows come from tw-stations.js, which sources every one of them.
         if mine:
             rec['sid'] = mine['id']
+            # The names as this map holds them, so a card can print the
+            # characters, the pinyin and the kana in one row without asking a
+            # second file at run time. Only what is there: 204 of the 213
+            # stations have a pinyin and 161 a reading, and a blank cell is the
+            # honest answer for the rest.
+            # `tw-stations.js` is what is read here, not the CSV behind it,
+            # so the keys are its short ones -- py, kana, ro -- and not the
+            # CSV's pinyin/kana/romaji. Read from the CSV's names this
+            # silently carried nothing across: 0 pinyin out of 167 matches.
+            for k in ('py', 'kana', 'ro'):
+                if mine.get(k):
+                    rec[k] = mine[k]
         if s['lon'] is not None:
             rec['lon'] = round(s['lon'], 5)
             rec['lat'] = round(s['lat'], 5)
@@ -239,7 +284,9 @@ def build_js(anchors=None):
         'year': 1936,
         'lines': [{'n': n, 'en': LINE_EN.get(n, n), 'c': colours[n],
                    'a': (anchors or {}).get(n, ''),
-                   'd': LINE_NOTES.get(n, '')}
+                   'd': LINE_NOTES.get(n, ''),
+                   'wl': LINE_WIKI.get(n, ('', ''))[0],
+                   'w': LINE_WIKI.get(n, ('', ''))[1]}
                   for n in line_names],
         'stations': out_st,
         'trains': out_tr,

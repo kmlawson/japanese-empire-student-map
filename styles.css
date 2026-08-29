@@ -2699,17 +2699,28 @@ dialog h3 {
 .trains-table {
   border-collapse: collapse;
   width: 100%;
-  font-size: 12px;
+  font-size: 11.5px;
   font-variant-numeric: tabular-nums;
 }
 
+/* Tight, because the calling list is five columns now — the characters, the
+   Mandarin, the kana and the two times — and in the sidebar layout the card is
+   283 px of usable width. At 12px and 6px of padding that table was 328 wide
+   and the departure column, which is the one a reader came for, was the one
+   off the right-hand edge. Measured after: 274. */
 .trains-table th,
 .trains-table td {
-  padding: 2px 6px;
+  padding: 2px 4px;
   text-align: left;
   border-bottom: 1px solid var(--line);
-  white-space: nowrap;
 }
+
+/* A time is never broken across two lines and a name may be. That is the whole
+   of how the five columns fit: with everything held on one line the table was
+   299 px wide in a 283 px card and the departure column — the one a reader
+   opened the card for — was the one over the edge. */
+.trains-table th,
+.trains-table td.num { white-space: nowrap; }
 
 .trains-table th {
   position: sticky;

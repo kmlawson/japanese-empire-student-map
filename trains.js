@@ -594,6 +594,17 @@ window.JMAP_TRAINS = function (host) {
     return st ? st.n : '';
   }
 
+  /* A station's three names, as the map holds them: the characters, the
+     Mandarin with its tones, and the Japanese reading in kana. Blank where
+     there is none — 166 of the 187 stops in this timetable have a pinyin and
+     79 a reading, and an empty cell is the honest answer for the rest rather
+     than a romanisation worked out from the characters, which for a great many
+     of these names would be wrong. */
+  function stationNames(i) {
+    var st = data.stations[i] || {};
+    return [st.n || '', st.py || '', st.kana || ''];
+  }
+
   /* A train: what it is, where it came from and when, and where it is going.
      The calling list underneath is the train's own timetable column, which is
      what the reader has just pointed at a moving dot to ask about. */
@@ -619,11 +630,12 @@ window.JMAP_TRAINS = function (host) {
     var rows = stops.map(function (s) {
       var fl = s[3] || 0;
       return {
-        cells: [stationName(s[0]),
-                (s[1] !== null && s[1] !== undefined) ? fmt(s[1]) : '',
-                (s[2] !== null && s[2] !== undefined) ? fmt(s[2]) : ''],
+        cells: stationNames(s[0]).concat([
+          (s[1] !== null && s[1] !== undefined) ? fmt(s[1]) : '',
+          (s[2] !== null && s[2] !== undefined) ? fmt(s[2]) : '']),
         title: (fl & 2) ? 'passes without stopping' : '',
-        timeCells: 3, first: 1,
+        nums: [3, 4],
+        timeCells: 5, first: 1,
         uncertain: !!(fl & 4),
       };
     });
@@ -635,11 +647,12 @@ window.JMAP_TRAINS = function (host) {
              t.dest ? 'for ' + t.dest : ''].filter(Boolean).join('  \u00b7  '),
       note: note,
       head: rows.length + ' calls \u00b7 ' + data.year,
-      cols: ['Station', 'Arr', 'Dep'],
+      cols: ['Station', 'Pinyin', 'Kana', 'Arr', 'Dep'],
       rows: rows,
-      link: line && line.a
-        ? { page: cfg.page, anchor: line.a, text: 'The printed table for this line' }
-        : null,
+      links: line && line.a
+        ? [{ page: cfg.page, anchor: line.a,
+             text: 'The printed table for this line' }]
+        : [],
     };
   }
 
@@ -712,9 +725,14 @@ window.JMAP_TRAINS = function (host) {
       head: 'A day on it, counted from the February ' + data.year + ' table',
       cols: ['', ''],
       rows: rows,
-      link: line.a
-        ? { page: cfg.page, anchor: line.a, text: 'The printed tables for this line' }
-        : null,
+      links: [
+        line.w ? { href: line.w,
+                   text: 'Read more on ' + (line.wl === 'ja' ? 'Japanese'
+                                                             : 'Chinese')
+                         + ' Wikipedia' } : null,
+        line.a ? { page: cfg.page, anchor: line.a,
+                   text: 'The printed tables for this line' } : null,
+      ].filter(Boolean),
     };
   }
 
@@ -829,7 +847,8 @@ window.JMAP_TRAINS = function (host) {
   function lineFor(li) {
     var l = data.lines[li];
     if (!l) return null;
-    return { n: l.n, en: l.en, a: l.a, d: l.d, c: inks[li] || l.c };
+    return { n: l.n, en: l.en, a: l.a, d: l.d, w: l.w, wl: l.wl,
+             c: inks[li] || l.c };
   }
 
   function departures(sid) {
@@ -858,6 +877,7 @@ window.JMAP_TRAINS = function (host) {
                          + (t.dir ? '\u2191' : '\u2193') : '',
                   t.dest || ''],
           swatchAt: 3,
+          nums: [0, 1],
           swatch: line ? line.c : '',
           title: line ? line.n + '  ' + (t.dir ? '\u4e0a\u308a' : '\u4e0b\u308a')
                         + (t.cls ? '  \u00b7  ' + classOf(t.cls) : '') : '',
@@ -878,10 +898,10 @@ window.JMAP_TRAINS = function (host) {
       head: rows.length + ' trains called here \u00b7 ' + data.year,
       cols: ['Dep', 'Arr', 'Train', 'Line', 'To'],
       rows: rows,
-      link: lines[0] && lines[0].a
-        ? { page: cfg.page, anchor: lines[0].a,
-            text: 'The printed table for this line' }
-        : null,
+      links: lines[0] && lines[0].a
+        ? [{ page: cfg.page, anchor: lines[0].a,
+             text: 'The printed table for this line' }]
+        : [],
     };
   }
 

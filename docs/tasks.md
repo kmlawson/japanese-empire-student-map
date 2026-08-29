@@ -11973,6 +11973,74 @@ pins that a line card carries a description with a date in it.
 
 ---
 
+## The Yilan line's missing eight, and three wrong readings in the source
+
+**Reported:** stops missing on the Yilan line, and a request for a Wikipedia
+link on each line card and for pinyin and kana in the train card.
+
+### The missing stops
+
+The station sheet has 199 stops. The February 1936 timetable calls at 34 that
+are not among them, and **eight of those were consecutive on the Yilan line** —
+四腳亭, 瑞芳, 猴硐, 三貂嶺, 武丹坑, 頂雙溪, 貢寮庄, 澳底 — so the whole
+north-east corner was a coloured line with trains stopping at nothing. 四結,
+between Shōkei and Giran, made nine.
+
+They were never in the station source: the geojson has 199 points and none of
+these. Fourteen have been added, in an `EXTRA` table in
+`tools/build_tw_stations.py` that the rebuild now merges rather than dropping —
+the nine on the Yilan line and five elsewhere the timetable can place. **The
+Yilan line is 24 of 24 now**, and the map carries **213 stations** against 199,
+of which the timetable knows **167** against 153.
+
+### Three of the eight romanisations in the source are of a different name
+
+The timetable transcription carries a `romaji` field, and the obvious thing to
+do was import it. Checked against the Japanese and Chinese Wikipedia articles
+on each station first, and it is a field of *former* names as often as of the
+name printed:
+
+| in the source | actually reads | what the source's reading is |
+|---|---|---|
+| 四腳亭 Taikōho | しきゃくてい Shikyakutei | some earlier name |
+| 澳底 Ōtei | あおぞこ Aozoko | a reading of the characters, not the name |
+| 瑞芳 Ryūtanto | — | 龍潭堵, a name this station never had: it opened as 瑞芳驛 on 5 May 1919 |
+
+**Three wrong in eight is not a rate to import at.** Every reading in the new
+rows is from the article that quotes the station's opening notice — 猴硐
+こうどう, 三貂嶺 さんちょうれい, 武丹坑 ぶたんこう, 頂雙溪 ちょうそうけい,
+貢寮庄 こうりょうしょう — and the two nobody states, 瑞芳 and 四結, are left
+blank. The map shows the characters there, which is what it does everywhere
+else a reading is unsourced. The positions are a different matter and the
+timetable's are used freely: for the 153 stations both tables already held,
+the two agree to within a metre.
+
+The ground each stood on came from the same place it does for every other
+station: `tools/station_districts.py` point-in-polygons the new coordinates
+against the 1926 districts, so all fourteen have their 郡 and 州 and the card
+opens with a sentence rather than a bare name. The station suite caught this —
+*every station has a short line, 199 of 213* — which is what that check is for.
+
+### The two smaller things
+
+* **A Wikipedia link on each line card**, to whichever language's article is
+  the longer. It is not the same language throughout: ja for the trunk, Jiji
+  and Taitung lines, zh for Tamsui, Yilan, Pingxi and Chaozhou. The byte counts
+  the choice was made on are written into `LINE_WIKI` so the next person knows
+  what it was decided on — and that Yilan is a tie to within twelve bytes.
+* **Pinyin and kana in the train card**, from this map's own table rather than
+  from the timetable: 166 of the 187 stops have a pinyin and 79 a reading, and
+  a blank cell is the answer for the rest.
+
+That took the calling list to five columns, and in the sidebar layout the card
+is 283 px wide: the table came to 328 and **the departure time — the column the
+card was opened for — was the one over the edge**. Tightened to 11.5 px and 4
+px of padding it was still 299. What fixed it was saying which cells are times:
+those never break across a line and everything else may, so a long pinyin wraps
+instead of pushing the times out. **283 in 283.**
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

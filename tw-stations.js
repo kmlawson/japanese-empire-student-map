@@ -1,5 +1,5 @@
 /* Built by tools/build_tw_stations.py -- do not edit.
- * Taiwan's colonial railway stations: 199 of them, named in
+ * Taiwan's colonial railway stations: 213 of them, named in
  * hanji, in Pinyin, and in Japanese where a source gives the
  * reading. `ro` is empty where none does, and the map shows
  * the hanji rather than a guess. */
@@ -204,4 +204,18 @@ JMAP.TW_STATIONS = [
   {"han": "初音", "id": "tws197", "kind": "station", "lat": 23.9421, "lon": 121.54533, "py": "Chūyīn", "ro": "Hatsune", "short": "A station in Karenkō-chō (花蓮港廳)."},
   {"han": "吉野", "id": "tws198", "kind": "station", "lat": 23.9611, "lon": 121.57322, "py": "Jíyě", "ro": "Yoshino", "short": "A station in Karenkō-chō (花蓮港廳)."},
   {"han": "荳蘭", "id": "tws199", "kind": "station", "lat": 23.97392, "lon": 121.59209, "py": "Dòulán", "ro": "Tōran", "short": "A station in Karenkō-chō (花蓮港廳)."},
+  {"han": "四腳亭", "id": "tws200", "kana": "しきゃくてい", "kind": "station", "lat": 25.10288, "lon": 121.76119, "py": "Sìjiǎotíng", "ro": "Shikyakutei", "short": "A station in Kīrun-gun (基隆郡), Taihoku-shū.", "wiki": "https://ja.wikipedia.org/wiki/四脚亭駅"},
+  {"han": "瑞芳", "id": "tws201", "kind": "station", "lat": 25.10875, "lon": 121.80636, "py": "Ruìfāng", "ro": "", "short": "A station in Kīrun-gun (基隆郡), Taihoku-shū.", "wiki": "https://ja.wikipedia.org/wiki/瑞芳駅"},
+  {"han": "猴硐", "id": "tws202", "kana": "こうどう", "kind": "station", "lat": 25.08722, "lon": 121.82769, "py": "Hóudòng", "ro": "Kōdō", "short": "A station in Kīrun-gun (基隆郡), Taihoku-shū.", "wiki": "https://ja.wikipedia.org/wiki/侯硐駅"},
+  {"han": "三貂嶺", "id": "tws203", "kana": "さんちょうれい", "kind": "station", "lat": 25.06592, "lon": 121.82264, "py": "Sāndiāolǐng", "ro": "Sanchōrei", "short": "A station in Kīrun-gun (基隆郡), Taihoku-shū.", "wiki": "https://ja.wikipedia.org/wiki/三貂嶺駅"},
+  {"han": "武丹坑", "id": "tws204", "kana": "ぶたんこう", "kind": "station", "lat": 25.05856, "lon": 121.85189, "py": "Wǔdānkēng", "ro": "Butankō", "short": "A station in Kīrun-gun (基隆郡), Taihoku-shū.", "wiki": "https://ja.wikipedia.org/wiki/牡丹駅_(新北市)"},
+  {"han": "頂雙溪", "id": "tws205", "kana": "ちょうそうけい", "kind": "station", "lat": 25.03878, "lon": 121.86661, "py": "Dǐngshuāngxī", "ro": "Chōsōkei", "short": "A station in Kīrun-gun (基隆郡), Taihoku-shū.", "wiki": "https://ja.wikipedia.org/wiki/双渓駅"},
+  {"han": "貢寮庄", "id": "tws206", "kana": "こうりょうしょう", "kind": "station", "lat": 25.02206, "lon": 121.90867, "py": "Gòngliáozhuāng", "ro": "Kōryōshō", "short": "A station in Kīrun-gun (基隆郡), Taihoku-shū.", "wiki": "https://ja.wikipedia.org/wiki/貢寮駅"},
+  {"han": "澳底", "id": "tws207", "kana": "あおぞこ", "kind": "station", "lat": 25.01594, "lon": 121.94486, "py": "Àodǐ", "ro": "Aozoko", "short": "A station in Kīrun-gun (基隆郡), Taihoku-shū.", "wiki": "https://ja.wikipedia.org/wiki/福隆駅"},
+  {"han": "四結", "id": "tws208", "kind": "halt", "lat": 24.78632, "lon": 121.76277, "py": "Sìjié", "ro": "", "short": "A halt in Giran-gun (宜蘭郡), Taihoku-shū.", "wiki": "https://zh.wikipedia.org/wiki/四城車站"},
+  {"han": "鼻子頭", "id": "tws209", "kind": "station", "lat": 23.83188, "lon": 120.62885, "py": "Bízitóu", "ro": "", "short": "A station in Nantō-gun (南投郡), Taichū-shū."},
+  {"han": "竹北", "id": "tws210", "kind": "station", "lat": 24.83905, "lon": 121.00437, "py": "Zhúběi", "ro": "", "short": "A station in Shinchiku-gun (新竹郡), Shinchiku-shū."},
+  {"han": "汐止", "id": "tws211", "kind": "station", "lat": 25.06429, "lon": 121.65312, "py": "Xīzhǐ", "ro": "", "short": "A station in Shichisei-gun (七星郡), Taihoku-shū."},
+  {"han": "后里", "id": "tws212", "kind": "station", "lat": 24.30935, "lon": 120.71173, "py": "Hòulǐ", "ro": "", "short": "A station in Toyohara-gun (豐原郡), Taichū-shū."},
+  {"han": "宮ノ下", "id": "tws213", "kana": "みやのした", "kind": "station", "lat": 25.11667, "lon": 121.50278, "py": "", "ro": "Miyanoshita", "short": "A station in Shichisei-gun (七星郡), Taihoku-shū."},
 ];

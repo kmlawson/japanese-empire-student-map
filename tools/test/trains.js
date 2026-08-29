@@ -189,7 +189,7 @@ const shutDialogs=p=>p.evaluate(()=>{
     v=await look(p);
     check('the station squares are borrowed', v.stations>150 && v.railBox,
       JSON.stringify({stations:v.stations,railBox:v.railBox}));
-    /* And only the ones the timetable knows. 153 of the map's 199 Taiwanese
+    /* And only the ones the timetable knows. 167 of the map's 213 Taiwanese
        stations are on a line in the February 1936 table; the other 46 would
        otherwise sit on the coloured network looking like the stops around
        them and open a card with no trains in it. */
@@ -199,7 +199,7 @@ const shutDialogs=p=>p.evaluate(()=>{
         .filter(m=>m.style.display!=='none').length}));
     const withTools=await drawn();
     check('and only those the timetable knows are drawn',
-      withTools.squares===199 && withTools.shown===153, JSON.stringify(withTools));
+      withTools.squares===213 && withTools.shown===167, JSON.stringify(withTools));
     const card=await p.evaluate(()=>{
       // Taihoku, by its id in tw-stations.js, through the map's own selection
       const el=document.querySelector('[data-id="tws029"]');
@@ -263,6 +263,10 @@ const shutDialogs=p=>p.evaluate(()=>{
       rows:document.querySelectorAll('#info-trains .trains-table tr').length,
       href:(document.querySelector('#info-trains a')||{}).getAttribute
         ? document.querySelector('#info-trains a').getAttribute('href') : '',
+      hrefs:[...document.querySelectorAll('#info-trains a')].map(a=>a.getAttribute('href')),
+      cols:[...document.querySelectorAll('#info-trains th')].map(t=>t.textContent),
+      firstRow:[...document.querySelectorAll('#info-trains .trains-table tr')]
+        .slice(1,2).flatMap(r=>[...r.children].map(td=>td.textContent)),
       hidden:document.querySelector('#info').hidden}));
     // a moment when plenty are running, then aim at one
     await p.evaluate(()=>{
@@ -283,6 +287,14 @@ const shutDialogs=p=>p.evaluate(()=>{
       check('and says where it came from and where it is going',
         /^Left .+ at \d\d:\d\d, due .+ at \d\d:\d\d\./.test(c.note), c.note);
       check('with its calling list under it', c.rows>2, 'rows='+c.rows);
+      /* And each stop named three ways where the map has three: the
+         characters, the Mandarin with its tones, and the Japanese reading. */
+      check('the calling list names each stop in three scripts',
+        c.cols.join('|')==='Station|Pinyin|Kana|Arr|Dep', c.cols.join('|'));
+      check('and fills them where the map has them',
+        c.firstRow.length===5 && /[\u4e00-\u9fff]/.test(c.firstRow[0])
+        && /[\u0100-\u017f\u01ce-\u01dc]|^[A-Z]/.test(c.firstRow[1]),
+        JSON.stringify(c.firstRow));
       check('and a link to the printed table',
         /timetable\/taiwan-1936\.html.*#line-/.test(c.href), c.href);
     } else {
@@ -322,8 +334,11 @@ const shutDialogs=p=>p.evaluate(()=>{
          falls back to nothing, and this is what would notice. */
       check('and a description of the line with a date in it',
         c.note.length>200 && /\b(18|19)\d\d\b/.test(c.note), c.note.slice(0,120));
+      check('and a link to the article it is described from',
+        /wikipedia\.org/.test(c.href), c.href);
       check('and a link to its printed tables',
-        /timetable\/taiwan-1936\.html.*#line-/.test(c.href), c.href);
+        c.hrefs.some(h=>/timetable\/taiwan-1936\.html.*#line-/.test(h)),
+        JSON.stringify(c.hrefs));
     } else {
       ['a tap on the track names the line','with the day on it counted',
        'and a link to its printed tables'].forEach(n=>check(n,false,'no clear track found'));
@@ -382,8 +397,8 @@ const shutDialogs=p=>p.evaluate(()=>{
     check('the button stays, now unpressed', !bv.trn.hidden && bv.trn.pressed==='false',
       JSON.stringify(bv.trn));
     const noTools=await drawn();
-    check('and all 199 stations are back, not just the 153',
-      noTools.shown===199, JSON.stringify(noTools));
+    check('and all 213 stations are back, not just the 167',
+      noTools.shown===213, JSON.stringify(noTools));
     await p.click('#btn-trains');
     await sleep(900);
     const again=await look(p);

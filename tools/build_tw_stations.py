@@ -121,6 +121,87 @@ def split_name(raw):
     return cleaned, "", cleaned != raw
 
 
+# ---------------------------------------------------------------------------
+# STATIONS THE GEOJSON DOES NOT HAVE.
+#
+# The source sheet has 199 stops. The February 1936 timetable calls at 34 that
+# are not among them -- the north-east corner of the Yilan line almost
+# entirely, and a scatter of halts elsewhere -- so a reader with the train
+# tools open saw trains stop at nothing. These are those, with a position and,
+# where a source states one, a reading.
+#
+# THE TIMETABLE'S OWN ROMANISATION IS NOT USED AS A READING. It is a good field
+# and it is not a field of readings: it carries the reading of whatever the
+# stop was called when the romaniser met it. 四腳亭 is given there as Taikōho
+# and reads しきゃくてい; 澳底 is given as Ōtei and reads あおぞこ; 瑞芳 is
+# given as Ryūtanto, which is 龍潭堵, a name this station never had -- it
+# opened as 瑞芳驛 on 5 May 1919. Three wrong in eight is not a rate to import
+# at. Every reading below is from the Japanese or Chinese Wikipedia article on
+# the station, which quotes the opening notice, and the two with no reading in
+# any of them are left blank: the map shows the characters, which is what it
+# does everywhere else a reading is unsourced.
+#
+# The positions are the same: from those articles where there is one, and from
+# the timetable's own geocoding otherwise. That geocoding can be trusted for a
+# position even though its romanisation cannot -- for the 153 stations it
+# shares with this table the two agree to within a metre.
+EXTRA = [
+    # hanji, pinyin, romaji, kana, kind, lon, lat, confidence, source
+    ("四腳亭", "Sìjiǎotíng", "Shikyakutei", "しきゃくてい", "station",
+     121.76119, 25.10288, "verified",
+     "https://ja.wikipedia.org/wiki/四脚亭駅"),
+    ("瑞芳", "Ruìfāng", "", "", "station",
+     121.80636, 25.10875, "unverified",
+     "https://ja.wikipedia.org/wiki/瑞芳駅"),
+    ("猴硐", "Hóudòng", "Kōdō", "こうどう", "station",
+     121.82769, 25.08722, "verified",
+     "https://ja.wikipedia.org/wiki/侯硐駅"),
+    ("三貂嶺", "Sāndiāolǐng", "Sanchōrei", "さんちょうれい", "station",
+     121.82264, 25.06592, "verified",
+     "https://ja.wikipedia.org/wiki/三貂嶺駅"),
+    ("武丹坑", "Wǔdānkēng", "Butankō", "ぶたんこう", "station",
+     121.85189, 25.05856, "verified",
+     "https://ja.wikipedia.org/wiki/牡丹駅_(新北市)"),
+    ("頂雙溪", "Dǐngshuāngxī", "Chōsōkei", "ちょうそうけい", "station",
+     121.86661, 25.03878, "verified",
+     "https://ja.wikipedia.org/wiki/双渓駅"),
+    ("貢寮庄", "Gòngliáozhuāng", "Kōryōshō", "こうりょうしょう", "station",
+     121.90867, 25.02206, "verified",
+     "https://ja.wikipedia.org/wiki/貢寮駅"),
+    ("澳底", "Àodǐ", "Aozoko", "あおぞこ", "station",
+     121.94486, 25.01594, "verified",
+     "https://ja.wikipedia.org/wiki/福隆駅"),
+    ("四結", "Sìjié", "", "", "halt",
+     121.76277, 24.78632, "unverified",
+     "https://zh.wikipedia.org/wiki/四城車站"),
+    # and the five elsewhere that the timetable can place
+    ("鼻子頭", "Bízitóu", "", "", "station", 120.62885, 23.83188, "unverified", ""),
+    ("竹北", "Zhúběi", "", "", "station", 121.00437, 24.83905, "unverified", ""),
+    ("汐止", "Xīzhǐ", "", "", "station", 121.65312, 25.06429, "unverified", ""),
+    ("后里", "Hòulǐ", "", "", "station", 120.71173, 24.30935, "unverified", ""),
+    ("宮ノ下", "", "Miyanoshita", "みやのした", "station",
+     121.50278, 25.11667, "inferred", ""),
+]
+
+
+def extra_rows(start_id):
+    """The hand-added stops, in the same shape the geojson ones come out in."""
+    out = []
+    for i, e in enumerate(EXTRA):
+        han, py, romaji, kana, kind, lon, lat, conf, url = e
+        out.append({
+            "id": "tws%03d" % (start_id + i),
+            "hanji": han, "pinyin": py, "romaji": romaji, "kana": kana,
+            "kind": kind, "lon": "%.5f" % lon, "lat": "%.5f" % lat,
+            "confidence": conf,
+            "source_type": "wikipedia" if url else "timetable",
+            "source_url": url,
+            "valid_from": "", "valid_to": "", "alt_names": "", "note": "",
+            "district": "", "district_kanji": "", "shu": "", "short": "",
+        })
+    return out
+
+
 def build():
     with io.open(SRC, encoding="utf-8") as fh:
         fc = json.load(fh)
@@ -189,6 +270,21 @@ def build():
             "shu": was.get("shu", ""),
             "short": was.get("short", ""),
         })
+    # The stops the geojson does not have. Added after the loop above rather
+    # than inside it, and merged the same way as everything else: whatever is
+    # already in the CSV for one of these names wins, so a reading looked up
+    # later is not overwritten by the table in this file on the next rebuild.
+    have = {r["hanji"] for r in rows if r["hanji"]}
+    for row in extra_rows(len(rows) + 1):
+        if row["hanji"] in have:
+            continue
+        was = held.get(row["hanji"]) or {}
+        for col in KEPT:
+            if was.get(col):
+                row[col] = was[col]
+        if not row["pinyin"]:
+            row["pinyin"] = py.get(row["hanji"], "")
+        rows.append(row)
     rows.sort(key=lambda r: r["id"])
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     with io.open(OUT, "w", encoding="utf-8", newline="") as fh:

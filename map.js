@@ -13,8 +13,8 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '226';
-  var JEM_ASSETS = {"admin.js": "9f99c96627", "annotate.js": "761fbd5949", "japan-empire-map-admin.svg": "8f23cf49df", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "23439bf362", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "b09f9d37f7", "trains.js": "dc77f85906", "tw-trains.js": "a3f7c2bdbe"};
+  var JEM_VERSION = '227';
+  var JEM_ASSETS = {"admin.js": "9f99c96627", "annotate.js": "761fbd5949", "japan-empire-map-admin.svg": "8f23cf49df", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "23439bf362", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "b09f9d37f7", "trains.js": "cc9e975a1b", "tw-trains.js": "5283f36e68"};
 
   /* Every file this one fetches, with the version on it.
 
@@ -7026,6 +7026,13 @@
           td.textContent = text;
         }
         if (i === 0 && r.first) td.className = 'first';
+        /* Which cells are times. They are the ones that must never be broken
+           across two lines — and, by saying so, the ones that let every other
+           cell wrap, which is how a five-column calling list fits a 283 px
+           card instead of pushing the departure time off the edge. */
+        if (r.nums && r.nums.indexOf(i) >= 0) {
+          td.className = (td.className ? td.className + ' ' : '') + 'num';
+        }
         // the transcription marks the times it could not read with certainty,
         // and a reader comparing this against the original should see which
         if (r.uncertain && text && i < (r.timeCells || 0)
@@ -7039,16 +7046,21 @@
     });
     scroll.appendChild(table);
     host.appendChild(scroll);
-    if (block.link) {
+    /* Somewhere to read further, at the foot of the block: the printed table
+       the times come from, and for a line the article the history is drawn
+       from. A page of this map's own is passed as `page` and goes through
+       `asset` so it carries the build's key; anything else is an absolute
+       address and is used as it stands. */
+    (block.links || []).forEach(function (l) {
       var a = document.createElement('a');
       a.className = 'note-src';
-      a.href = asset(block.link.page)
-        + (block.link.anchor ? '#' + block.link.anchor : '');
+      a.href = l.page ? asset(l.page) + (l.anchor ? '#' + l.anchor : '')
+                      : l.href;
       a.target = '_blank';
       a.rel = 'noopener noreferrer';
-      a.textContent = block.link.text;
+      a.textContent = l.text;
       host.appendChild(a);
-    }
+    });
     host.hidden = false;
   }
 
