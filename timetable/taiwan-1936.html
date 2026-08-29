@@ -654,8 +654,15 @@ var RD={"屏東": ["Píngdōng", ""], "西勢": ["Xīshì", "せいせい"], "�
 var COLS={"粁程": "km", "驛名": "Station", "等級": "Class", "行先": "To", "三等運賃": "3rd-class fare", "著": "arr", "發": "dep"};
 
 var IX = {ja:0, zh:1, en:2};
+/* The address wins over what the reader chose last time, because the map opens
+   this page in a box and passes the language its own interface is in: a reader
+   with Japanese names off is reading the map in English and should not be
+   handed a Japanese page because they once pressed 日本語 here. A visit to the
+   page directly has no `lang` and keeps their choice. */
 var lang = 'ja';
 try { lang = localStorage.getItem('tt-lang') || 'ja'; } catch (e) {}
+var asked = (location.search.match(/[?&]lang=(\w+)/) || [])[1];
+if (asked) lang = asked;
 if (!(lang in IX)) lang = 'ja';
 
 /* Every station name in the tables gets its reading on a second line: the

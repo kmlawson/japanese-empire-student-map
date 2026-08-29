@@ -2799,3 +2799,62 @@ dialog h3 {
 @media (min-width: 1000px) {
   #train-bar { left: calc(50% - 170px); }
 }
+
+/* ------------------------------------------- the printed table, in a box --
+
+   A station's card, a train's and a line's all end in a link to the page the
+   times were transcribed from. On a screen with room for it that page opens
+   over the map instead of in another tab, so the reader does not lose the
+   thing they were looking at to go and read about it. On a small screen the
+   link stays a link: eighteen tables of thirty columns in a box 380 px wide is
+   worse than the same tables with the whole screen to themselves, and map.js
+   decides which by measuring rather than by guessing at the device. */
+#dlg-table {
+  width: min(1180px, 94vw);
+  height: min(880px, 90vh);
+  max-width: none;
+  max-height: none;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--panel);
+  color: var(--ink);
+  overflow: hidden;
+}
+
+#dlg-table::backdrop { background: rgba(20, 17, 12, .45); }
+
+#dlg-table .table-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px 8px 14px;
+  border-bottom: 1px solid var(--line);
+}
+
+#dlg-table .table-title {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#dlg-table .table-open { font-size: 12px; }
+
+#dlg-table .table-close {
+  width: 34px;
+  height: 34px;
+  font-size: 20px;
+  line-height: 1;
+  padding: 0;
+}
+
+/* The iframe fills what is left. Height by calc rather than by flex, because a
+   percentage height on an iframe inside a flex column collapses to nothing in
+   more browsers than it works in. */
+#dlg-table .table-body { height: calc(100% - 51px); }
+#dlg-table iframe { display: block; width: 100%; height: 100%; border: 0; }

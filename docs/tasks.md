@@ -12084,6 +12084,52 @@ readings toggle, and no page errors.
 
 ---
 
+## Naming a place the way the rest of the map does, and six other things
+
+**The rule, stated once and applied everywhere.** The local romanisation, or
+the Japanese one if the reader has asked for Japanese names, with the
+characters in brackets after it. *Local* means Mandarin here and will mean
+McCune–Reischauer when Korea has a timetable, so the code asks for `local` and
+`en` in the sense the rest of `map.js` uses them and never for "pinyin", and it
+reads the switch from the map rather than keeping its own copy. Where a station
+has no romanisation of the kind wanted it falls back to the other, which is
+what the map itself does — 中壢 has a pinyin and no reading, and naming it
+Zhōnglì in a Japanese list is better than naming it 中壢 twice.
+
+Applied to: the terminus list on a line card, which read *Trains start or end
+at 臺北、高雄、基隆…* and now reads *Táiběi (臺北)、Gāoxióng (高雄)…*, or
+*Taihoku (臺北)、Takao (高雄)…* with the switch on; the train card's *Left
+Gāoxióng (高雄) at 08:15, due Xīzhōu (溪州) at 09:47*; and its *for …* line.
+
+**Lines are named the same way.** In English by default and in the Japanese
+reading with the switch on — Jūkansen, Tansui-sen, Giran-sen, Heikei-sen,
+Shūshū-sen, Chōshū-sen, Taitō-sen — in the card headline, in a train's line
+line, in the Line column of a station's departures, and in the seven colour
+chips on the strip. The chips are relettered in place when the switch is
+thrown; the cards are refilled by `map.js`, which owns them.
+
+**The three names in the tables.** A train's calling list is Station, Pinyin,
+Romaji, Arr, Dep — romaji rather than the kana it carried this morning — and a
+station's *To* column now gives all three in one cell, wrapping, because that
+table is already five columns in a card 283 px wide. **Arr comes before Dep**
+in the station card, which is the order the printed table uses.
+
+**The printed table opens over the map.** On a screen with room for it —
+measured at 900 × 600, not guessed at from the device — the link opens the
+transcription in a box instead of another tab, at the anchor for that line, in
+the language the map is being read in. It stays a link: a middle-click, a
+long press or a modifier still opens a tab, and below that size so does a
+plain press, because eighteen tables of thirty columns in a box 380 px wide is
+worse than the same tables with the whole screen. The iframe is emptied on
+close so a 215 KB document is not held for the rest of the visit, and the page
+takes `?lang=` from the address ahead of what the reader last chose on it.
+
+Six new checks: a line named both ways, the chips relettered, the brackets in
+the terminus list and in *Left … due …*, and the column order. The trains suite
+is **91**; the map suite **541**, all passing.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

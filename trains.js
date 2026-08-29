@@ -88,6 +88,7 @@ window.JMAP_TRAINS = function (host) {
   var lineGeom = [];                   // [{li, key, pts}] for hit testing
   var livePos = [];                    // where each train is now, in map units
   var byStation = null;                // our station id -> timetable index
+  var byName = null;                   // the characters -> the station record
   var simMin = DEFAULT_MIN;
   var playing = false;
   var raf = 0;
@@ -442,7 +443,7 @@ window.JMAP_TRAINS = function (host) {
 
   function trainTitle(t, line) {
     var bits = ['Train ' + t.no];
-    if (line) bits.push(line.en + ' ' + line.n);
+    if (line) bits.push(lineName(t.li, true));
     bits.push(t.dir ? 'up' : 'down');
     if (t.dest) bits.push('to ' + t.dest);
     if (t.cls) bits.push(classOf(t.cls));
@@ -595,14 +596,50 @@ window.JMAP_TRAINS = function (host) {
   }
 
   /* A station's three names, as the map holds them: the characters, the
-     Mandarin with its tones, and the Japanese reading in kana. Blank where
-     there is none — 166 of the 187 stops in this timetable have a pinyin and
-     79 a reading, and an empty cell is the honest answer for the rest rather
-     than a romanisation worked out from the characters, which for a great many
-     of these names would be wrong. */
+     local romanisation, and the Japanese one. Blank where there is none — 166
+     of the 187 stops in this timetable have a pinyin and 124 a reading, and an
+     empty cell is the honest answer for the rest rather than a romanisation
+     worked out from the characters, which for a great many of these names
+     would be wrong. */
   function stationNames(i) {
     var st = data.stations[i] || {};
-    return [st.n || '', st.py || '', st.kana || ''];
+    return [st.n || '', st.py || '', st.ro || ''];
+  }
+
+  /* ------------------------------------------------------ naming a place --
+
+     THE RULE, WHICH IS THE MAP'S AND NOT THIS MODULE'S.
+
+         the local romanisation, or the Japanese one if the reader has asked
+         for Japanese names, and the characters in brackets after it
+
+     Local means Mandarin here and will mean McCune-Reischauer when Korea gets
+     a timetable, so what this asks for is `local` and `en` in the sense the
+     rest of map.js uses them — never "pinyin" — and the switch is read from
+     the map rather than kept here.
+
+     A name with no romanisation of the kind wanted falls back to the
+     characters alone. That is why the brackets are conditional: 山下町 has
+     neither a pinyin nor a reading in this table, and `(山下町)` after nothing
+     would be a bracket round the whole answer. */
+  function placeName(st) {
+    if (!st) return '';
+    var want = host.jpNames() ? (st.ro || st.py) : (st.py || st.ro);
+    if (!want) return st.n || '';
+    return st.n ? want + ' (' + st.n + ')' : want;
+  }
+
+  function stationLabel(i) { return placeName(data.stations[i]); }
+
+  /* And a line is named the same way. In English by default, because that is
+     what the rest of the map calls a thing it has an English name for, and in
+     the Japanese reading when the switch is on — J\u016bkansen rather than
+     Trunk Line — with the characters after it either way. */
+  function lineName(li, withChars) {
+    var l = data.lines[li];
+    if (!l) return '';
+    var head = host.jpNames() ? (l.ja || l.en) : l.en;
+    return withChars && l.n ? head + ' ' + l.n : head;
   }
 
   /* A train: what it is, where it came from and when, and where it is going.
@@ -621,9 +658,9 @@ window.JMAP_TRAINS = function (host) {
                        ? last[1] : last[2]);
     var note = '';
     if (first && last) {
-      note = 'Left ' + stationName(first[0])
+      note = 'Left ' + stationLabel(first[0])
         + (fromT !== null && fromT !== undefined ? ' at ' + fmt(fromT) : '')
-        + ', due ' + stationName(last[0])
+        + ', due ' + stationLabel(last[0])
         + (toT !== null && toT !== undefined ? ' at ' + fmt(toT) : '') + '.';
       if (toT >= DAY) note += ' It arrives the next morning.';
     }
@@ -642,12 +679,13 @@ window.JMAP_TRAINS = function (host) {
     return {
       chip: 'Train', colour: inks[t.li] || '#555',
       primary: 'Train ' + t.no,
-      alt: line ? line.en + '  ' + line.n : '',
+      alt: lineName(t.li, true),
       prov: [t.dir ? 'Up' : 'Down', classOf(t.cls),
-             t.dest ? 'for ' + t.dest : ''].filter(Boolean).join('  \u00b7  '),
+             t.dest ? 'for ' + placeName(byName[t.dest]) : ''
+            ].filter(Boolean).join('  \u00b7  '),
       note: note,
       head: rows.length + ' calls \u00b7 ' + data.year,
-      cols: ['Station', 'Pinyin', 'Kana', 'Arr', 'Dep'],
+      cols: ['Station', 'Pinyin', 'Romaji', 'Arr', 'Dep'],
       rows: rows,
       links: line && line.a
         ? [{ page: cfg.page, anchor: line.a,
@@ -707,14 +745,17 @@ window.JMAP_TRAINS = function (host) {
     ];
     return {
       chip: 'Railway line', colour: inks[li] || '#555',
-      primary: line.en,
+      primary: lineName(li, false),
       alt: line.n,
       /* Said, rather than left as a row of names. These are where the day's
          workings begin and end, which is not the same as the two ends of the
          line: the Yilan line's trains start or finish at six different places,
          and a bare list of six looked like a claim that it had six termini. */
       prov: Object.keys(ends).length
-        ? 'Trains start or end at ' + Object.keys(ends).slice(0, 8).join('\u3001')
+        ? 'Trains start or end at '
+          + Object.keys(ends).slice(0, 8)
+              .map(function (n) { return placeName(byName[n]); })
+              .join('\u3001')
           + (Object.keys(ends).length > 8 ? '\u2026' : '')
         : '',
       /* What the line was. The history is sourced and the timings are
@@ -794,8 +835,9 @@ window.JMAP_TRAINS = function (host) {
       sw.style.background = inks[data.lines.indexOf(l)] || l.c;
       chips.push({ el: sw, li: data.lines.indexOf(l) });
       chip.appendChild(sw);
-      chip.appendChild(document.createTextNode(l.en));
-      chip.title = l.en + '   ' + l.n;
+      chip.appendChild(document.createTextNode(lineName(data.lines.indexOf(l), false)));
+      chip.title = l.en + '   ' + (l.ja ? l.ja + '   ' : '') + l.n;
+      chip.setAttribute('data-li', data.lines.indexOf(l));
       legend.appendChild(chip);
     });
 
@@ -851,6 +893,19 @@ window.JMAP_TRAINS = function (host) {
              c: inks[li] || l.c };
   }
 
+  /* Where a train was going, in all three: the characters, the Mandarin and
+     the Japanese reading. One cell rather than three columns — this table is
+     already five wide and lives in a card 283 px across — so the three are set
+     on one line and allowed to wrap. */
+  function destNames(name) {
+    var st = byName[name];
+    if (!st) return name || '';
+    var parts = [st.n];
+    if (st.py) parts.push(st.py);
+    if (st.ro && st.ro !== st.py) parts.push(st.ro);
+    return parts.join('  ');
+  }
+
   function departures(sid) {
     if (!byStation) return null;
     var idx = byStation[sid];
@@ -870,12 +925,12 @@ window.JMAP_TRAINS = function (host) {
         rows.push({
           t: ((dep !== null && dep !== undefined) ? dep : arr) % DAY,
           key: t.no + '|' + (((dep !== null && dep !== undefined) ? dep : arr) % DAY),
-          cells: [(dep !== null && dep !== undefined) ? fmt(dep) : '',
-                  (arr !== null && arr !== undefined) ? fmt(arr) : '',
+          cells: [(arr !== null && arr !== undefined) ? fmt(arr) : '',
+                  (dep !== null && dep !== undefined) ? fmt(dep) : '',
                   t.no,
-                  line ? line.en.replace(/ Line$/, '') + ' '
+                  line ? lineName(t.li, false).replace(/ Line$/, '') + ' '
                          + (t.dir ? '\u2191' : '\u2193') : '',
-                  t.dest || ''],
+                  destNames(t.dest)],
           swatchAt: 3,
           nums: [0, 1],
           swatch: line ? line.c : '',
@@ -896,7 +951,7 @@ window.JMAP_TRAINS = function (host) {
     return {
       name: st.n, romaji: st.ro || '',
       head: rows.length + ' trains called here \u00b7 ' + data.year,
-      cols: ['Dep', 'Arr', 'Train', 'Line', 'To'],
+      cols: ['Arr', 'Dep', 'Train', 'Line', 'To'],
       rows: rows,
       links: lines[0] && lines[0].a
         ? [{ page: cfg.page, anchor: lines[0].a,
@@ -918,8 +973,10 @@ window.JMAP_TRAINS = function (host) {
       data = conf.data;
       segCache = {};
       byStation = {};
+      byName = {};
       data.stations.forEach(function (s, i) {
         if (s.sid) byStation[s.sid] = i;
+        byName[s.n] = s;
       });
       inks = data.lines.map(function (l) { return l.c; });
       linePaths = [];
@@ -964,6 +1021,7 @@ window.JMAP_TRAINS = function (host) {
       lineLayer = null; markLayer = null; lineGeom = []; livePos = [];
       lineOwns = {};
       els = {}; plans = []; marks = []; segCache = null; byStation = null;
+      byName = null;
       inks = []; linePaths = []; casePaths = []; chips = []; groundNow = '';
       shownClock = '';
     },
@@ -1025,6 +1083,25 @@ window.JMAP_TRAINS = function (host) {
     hitAt: hitAt,
     trainCard: trainCard,
     lineCard: lineCard,
+
+    /* The reader turned Japanese names on or off. Every name this module puts
+       on the screen follows that switch, so the strip's line chips are
+       relettered — the cards are refilled by map.js, which owns them. */
+    renamed: function () {
+      if (!cfg || !bar) return;
+      var chips = bar.querySelectorAll('.train-chip');
+      for (var i = 0; i < chips.length; i++) {
+        var li = +chips[i].getAttribute('data-li');
+        var sw = chips[i].querySelector('.sw');
+        chips[i].textContent = '';
+        if (sw) chips[i].appendChild(sw);
+        chips[i].appendChild(document.createTextNode(lineName(li, false)));
+      }
+      marks.forEach(function (m, i) {
+        var t = m && m.querySelector('title');
+        if (t) t.textContent = trainTitle(plans[i].tr, data.lines[plans[i].tr.li]);
+      });
+    },
 
     departures: departures,
     recolour: recolour,

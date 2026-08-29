@@ -13,8 +13,8 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '229';
-  var JEM_ASSETS = {"admin.js": "9f99c96627", "annotate.js": "761fbd5949", "japan-empire-map-admin.svg": "8f23cf49df", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "23439bf362", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "b0b6919f6d", "trains.js": "cc9e975a1b", "tw-trains.js": "5283f36e68"};
+  var JEM_VERSION = '230';
+  var JEM_ASSETS = {"admin.js": "9f99c96627", "annotate.js": "761fbd5949", "japan-empire-map-admin.svg": "8f23cf49df", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "23439bf362", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "2dde28f92f", "trains.js": "52ad5f72a9", "tw-trains.js": "a743d176d9"};
 
   /* Every file this one fetches, with the version on it.
 
@@ -2031,6 +2031,11 @@
          table consulted. `railGround` is the same question the railway ink
          already asks and the answer is the same one. */
       ground: railGround,
+      /* Has the reader asked for Japanese names. The module names every place
+         and every line by it, and reads it rather than being told, so a switch
+         thrown between two frames cannot leave half the strip in one language
+         and half in the other. */
+      jpNames: function () { return !!state.jpNames; },
       /* The map keeps its names out from under the floating panels. The bar is
          one, and without saying so every name along the coast it covers would
          be lettered underneath it. */
@@ -7064,9 +7069,79 @@
       a.target = '_blank';
       a.rel = 'noopener noreferrer';
       a.textContent = l.text;
+      /* One of ours opens over the map where there is room for it. The link is
+         left a link — the href is the same and a middle-click, a long press or
+         a right-click still open a tab — and only a plain press is taken. */
+      if (l.page) {
+        a.addEventListener('click', function (e) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button) return;
+          if (!roomForTable()) return;
+          e.preventDefault();
+          /* In the language the map is being read in. The page keeps its own
+             choice when it is visited directly; opened from here it is handed
+             one, so a reader with Japanese names off does not get a Japanese
+             page because they once pressed 日本語 on it. */
+          openTable(withLang(a.href), l.text);
+        });
+      }
       host.appendChild(a);
     });
     host.hidden = false;
+  }
+
+  /* IS THERE ROOM TO READ A TIMETABLE OVER THE MAP.
+   *
+   * Measured, not guessed at from the device: the tables are thirty columns
+   * wide and the box is 94% of the viewport, so below about nine hundred
+   * pixels the reader is better off with the page to itself in another tab.
+   * The height matters as much — a landscape phone is 375 tall and would show
+   * four rows. */
+  function roomForTable() {
+    return window.innerWidth >= 900 && window.innerHeight >= 600;
+  }
+
+  /* `?lang=` goes before the fragment, which is where a query belongs and is
+     not where string concatenation puts it. */
+  function withLang(href) {
+    var hash = href.indexOf('#');
+    var head = hash < 0 ? href : href.slice(0, hash);
+    var tail = hash < 0 ? '' : href.slice(hash);
+    return head + (head.indexOf('?') < 0 ? '?' : '&')
+         + 'lang=' + (state.jpNames ? 'ja' : 'en') + tail;
+  }
+
+  var tableDlg = null;
+
+  function openTable(href, title) {
+    var dlg = $('#dlg-table');
+    if (!dlg || !dlg.showModal) { window.open(href, '_blank', 'noopener'); return; }
+    if (!tableDlg) {
+      tableDlg = dlg;
+      $('.table-close', dlg).addEventListener('click', function () { dlg.close(); });
+      /* The iframe is emptied on close. Left in place it goes on holding a
+         215 KB document and its scroll position for the rest of the visit, and
+         a reader who opens a second line would see the first one for as long
+         as the new page took to arrive. */
+      dlg.addEventListener('close', function () {
+        $('.table-body', dlg).textContent = '';
+      });
+      // a press on the backdrop closes it, which is what a box over a map
+      // should do and what `dialog` does not do by itself
+      dlg.addEventListener('click', function (e) {
+        if (e.target === dlg) dlg.close();
+      });
+    }
+    $('.table-title', dlg).textContent = title || 'The printed timetable';
+    var open = $('.table-open', dlg);
+    if (open) open.href = href;
+    var body = $('.table-body', dlg);
+    body.textContent = '';
+    var frame = document.createElement('iframe');
+    frame.src = href;
+    frame.title = title || 'The printed timetable';
+    frame.loading = 'eager';
+    body.appendChild(frame);
+    dlg.showModal();
   }
 
   /* A card for something that is not a record: a train, or a line.
@@ -7252,7 +7327,12 @@
        drawn — a different palette, the single-colour map, a dark screen — the
        lines are fitted to it again. It reads the ground once and does nothing
        at all unless it has moved. */
-    if (trainApi && trainApi.mounted()) trainApi.recolour();
+    if (trainApi && trainApi.mounted()) {
+      trainApi.recolour();
+      // and the names, which follow the Japanese-names switch
+      trainApi.renamed();
+      if (selected && byId[selected]) fillTrainCard(byId[selected]);
+    }
     // and the two switches beside the map, which follow both the layers and
     // where the map is looking
     syncMapButtons();

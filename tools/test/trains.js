@@ -287,10 +287,12 @@ const shutDialogs=p=>p.evaluate(()=>{
       check('and says where it came from and where it is going',
         /^Left .+ at \d\d:\d\d, due .+ at \d\d:\d\d\./.test(c.note), c.note);
       check('with its calling list under it', c.rows>2, 'rows='+c.rows);
+      check('and says where it came from with the characters in brackets',
+        /\(\S+\)\s+at\s+\d\d:\d\d/.test(c.note), c.note);
       /* And each stop named three ways where the map has three: the
-         characters, the Mandarin with its tones, and the Japanese reading. */
+         characters, the local romanisation and the Japanese one. */
       check('the calling list names each stop in three scripts',
-        c.cols.join('|')==='Station|Pinyin|Kana|Arr|Dep', c.cols.join('|'));
+        c.cols.join('|')==='Station|Pinyin|Romaji|Arr|Dep', c.cols.join('|'));
       check('and fills them where the map has them',
         c.firstRow.length===5 && /[\u4e00-\u9fff]/.test(c.firstRow[0])
         && /[\u0100-\u017f\u01ce-\u01dc]|^[A-Z]/.test(c.firstRow[1]),
@@ -354,6 +356,47 @@ const shutDialogs=p=>p.evaluate(()=>{
     check('a tap beside the track still names the ground',
       after.hidden || !/Railway line|^Train/.test(after.chip),
       JSON.stringify(after).slice(0,160));
+
+    /* ---- 7b2. names follow the Japanese-names switch ---------------- */
+    /* The rule the whole map keeps: the local romanisation, or the Japanese
+       one when that switch is on, with the characters in brackets. Local means
+       Mandarin here and will mean McCune-Reischauer when Korea has a
+       timetable, so what is checked is that the switch changes the answer —
+       not that any particular romanisation appears. */
+    const jp=async(on)=>{
+      await p.evaluate(v=>{
+        const b=document.querySelector('#opt-jpnames');
+        if(b.checked!==v){b.checked=v;b.dispatchEvent(new Event('change',{bubbles:true}));}
+      },on);
+      await sleep(500);
+    };
+    if(lPos){
+      await jp(false);
+      await tapAt(lPos.x,lPos.y);
+      const off=await readCard();
+      const offChips=await p.evaluate(()=>[...document.querySelectorAll('.train-chip')]
+        .map(c=>c.textContent.trim()));
+      await jp(true);
+      await tapAt(lPos.x,lPos.y);
+      const on=await readCard();
+      const onChips=await p.evaluate(()=>[...document.querySelectorAll('.train-chip')]
+        .map(c=>c.textContent.trim()));
+      check('a line is named in English by default and in the reading with the switch on',
+        /Line$/.test(off.primary) && !/Line$/.test(on.primary) && on.primary.length>3,
+        off.primary+' -> '+on.primary);
+      check('and so are the line colours in the strip',
+        offChips[0]!==onChips[0] && /Line$/.test(offChips[0]),
+        offChips[0]+' -> '+onChips[0]);
+      /* Whichever line the tap landed on — the check is the shape of the
+         list, not which stations are in it. */
+      check('the terminus list puts the characters in brackets',
+        /^Trains start or end at /.test(off.prov)
+        && /[A-Za-z\u0100-\u01ff]+\s\([\u4e00-\u9fff]+\)/.test(off.prov),
+        off.prov.slice(0,80));
+      check('and changes romanisation with the switch',
+        off.prov!==on.prov, on.prov.slice(0,80));
+      await jp(false);
+    }
 
     /* ---- 7c. the two buttons beside the zoom controls ---------------- */
     const btns=()=>p.evaluate(()=>{

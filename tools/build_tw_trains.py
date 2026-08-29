@@ -155,6 +155,21 @@ LINE_WIKI = {
                           '%E5%8F%B0%E6%9D%B1%E7%B7%9A'),
 }
 
+# The Japanese reading of each line's name, for when the reader has asked for
+# Japanese names. The rule this map follows everywhere is the local
+# romanisation first and the Japanese one when that switch is on -- pinyin here
+# and McCune-Reischauer when Korea gets a timetable -- with the characters in
+# brackets after. A line is named the same way as a place.
+LINE_JA = {
+    '\u7e31\u8caB\u7dda': 'J\u016bkansen',
+    '\u6de1\u6c34\u7dda': 'Tansui-sen',
+    '\u5b9c\u862d\u7dda': 'Giran-sen',
+    '\u5e73\u6eaa\u7dda': 'Heikei-sen',
+    '\u96c6\u96c6\u7dda': 'Sh\u016bsh\u016b-sen',
+    '\u6f6e\u5dde\u7dda': 'Ch\u014dsh\u016b-sen',
+    '\u81fa\u6771\u7dda': 'Tait\u014d-sen',
+}
+
 LINE_EN = {
     '縱貫線': 'Trunk Line',
     '淡水線': 'Tamsui Line',
@@ -285,6 +300,7 @@ def build_js(anchors=None):
         'lines': [{'n': n, 'en': LINE_EN.get(n, n), 'c': colours[n],
                    'a': (anchors or {}).get(n, ''),
                    'd': LINE_NOTES.get(n, ''),
+                   'ja': LINE_JA.get(n, ''),
                    'wl': LINE_WIKI.get(n, ('', ''))[0],
                    'w': LINE_WIKI.get(n, ('', ''))[1]}
                   for n in line_names],
@@ -439,8 +455,15 @@ body.no-rd .rd{display:none}
 # transcription of a printed timetable deserves to be able to follow it.
 PAGE_JS = r"""
 var IX = {ja:0, zh:1, en:2};
+/* The address wins over what the reader chose last time, because the map opens
+   this page in a box and passes the language its own interface is in: a reader
+   with Japanese names off is reading the map in English and should not be
+   handed a Japanese page because they once pressed 日本語 here. A visit to the
+   page directly has no `lang` and keeps their choice. */
 var lang = 'ja';
 try { lang = localStorage.getItem('tt-lang') || 'ja'; } catch (e) {}
+var asked = (location.search.match(/[?&]lang=(\w+)/) || [])[1];
+if (asked) lang = asked;
 if (!(lang in IX)) lang = 'ja';
 
 /* Every station name in the tables gets its reading on a second line: the
