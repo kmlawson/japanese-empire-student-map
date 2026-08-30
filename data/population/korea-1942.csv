@@ -1,0 +1,16 @@
+scope,key,en,population,m_per_100_f,pct_of_total,area_km2,note
+territory,chosen,Chōsen (Korea),24105906,100.4,,,
+sub-unit,Keiki,Keiki-dō (Kyŏnggi-do),2830778,101.0,11.7,12643,
+sub-unit,Zenranan,Zenranan-dō (Chŏllanam-do),2647674,97.2,11.0,13885,
+sub-unit,Keishohoku,Keishōhoku-dō (Kyŏngsangbuk-to),2391043,97.8,9.9,18986,
+sub-unit,Keishonan,Keishōnan-dō (Kyŏngsangnam-do),2145070,96.1,8.9,12269,
+sub-unit,Kankyonan,Kankyōnan-dō (Hamgyŏngnam-do),1860606,104.3,7.7,31916,
+sub-unit,Kokai,Kōkai-dō (Hwanghae-do),1841851,99.5,7.6,16583,
+sub-unit,Kogen,Kōgen-dō (Kangwŏn-do),1806504,105.7,7.5,26245,
+sub-unit,Heianhoku,Heianhoku-dō (P’yŏnganbuk-to),1728627,99.8,7.2,28298,
+sub-unit,Heiannan,Heiannan-dō (P’yŏngannam-do),1684444,99.7,7.0,14765,
+sub-unit,Chuseinan,Chūseinan-dō (Ch’ungch’ŏngnam-do),1568708,100.3,6.5,8060,
+sub-unit,Zenrahoku,Zenrahoku-dō (Chŏllabuk-to),1561479,99.6,6.5,8463,
+sub-unit,Kankyohoku,Kankyōhoku-dō (Hamgyŏngbuk-to),1110305,109.3,4.6,20321,
+sub-unit,Chuseihoku,Chūseihoku-dō (Ch’ungch’ŏngbuk-to),928817,102.5,3.9,7413,
+sub-unit,Saishu,Saishū-tō (Cheju-do),,,,,"Counted in Zenranan-dō in the 1942 returns, which do not break the island out separately."

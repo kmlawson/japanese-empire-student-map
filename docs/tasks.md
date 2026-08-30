@@ -12399,6 +12399,48 @@ other.
 
 ---
 
+## The counted numbers move to data/population/
+
+**Asked for:** keep the population figures in a lookup of their own, under
+`data/population/`, one file to a dataset. There will be more of them.
+
+**They are no longer in `texts/`.** `data/population/korea-1942.csv` holds the
+counts and `index.csv` says what the dataset is, which map it belongs to, and
+where it came from; `build_texts.py` composes the line and appends it to the
+short at build time. So the thirteen override rows that existed only to carry
+numbers are gone, and so is the `short` column added to `texts/territories/
+1942.csv` last time — the prose about a place and the count taken there are now
+edited in different files and neither can overwrite the other. Saishu's sentence
+moved too, as a `note` on a row with no figures.
+
+**A blank field is a field that is not printed.** The country carries a
+population and a sex ratio and no share, because a country is not a share of
+itself; Saishu carries a sentence and nothing else. Nothing is defaulted or
+invented, and `area_km2` is never shown — it is there to divide by.
+
+**A key that goes nowhere stops the build.** The failure this guards against is
+silent: rename a province in `texts/` and its figures would simply stop
+appearing, on a page nobody is looking at that day. Proved by putting `Keikii`
+in the file and watching the build refuse it by name.
+
+**One number was wrong and is corrected here.** The areas behind the densities
+were measured last time on a flat approximation — degrees times 111.32 km,
+times the cosine of the province's mean latitude — which overstates them by
+about four parts in a thousand, and the total it gave, 220,777 km², agreed with
+the 220,800 usually quoted for colonial Korea by luck rather than by being
+right. Measured properly, by spherical excess on a sphere of radius 6371.0088
+km, the thirteen provinces come to **219,847 km²**. The shortfall against 220,800
+is real and expected: this layer is simplified and drops the smallest islands.
+Six densities move by one — Keiki 223 → 224, Kankyōhoku 54 → 55, Keishōnan 174
+→ 175, Kōkai 110 → 111, Zenrahoku 184 → 185, Zenranan 190 → 191. The sources
+page says 219,847 now, and how it was arrived at.
+
+Two more checks in `names.js`, 22 now, and they read the CSV rather than a
+copy of its numbers: the density on Keiki's card must equal its population over
+its own `area_km2`, and Saishu must have a sentence and no figures.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

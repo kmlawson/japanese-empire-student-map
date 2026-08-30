@@ -134,6 +134,66 @@ def check_every_table_has_unique_keys():
 
 # ------------------------------------------------------------ collections
 
+# ------------------------------------------------------------- population
+# The figures on the cards — a population, a sex ratio, a share, a density —
+# are data, not prose, and they live in data/population/, one file to a
+# dataset, with index.csv saying what each one is and which map it belongs to.
+# They are composed into `short` here rather than written into texts/, so that
+# the sentence about a place and the numbers counted there can be edited
+# without either overwriting the other, and so that adding next year's table is
+# adding a file.
+#
+# Nothing is invented. A blank field is left off the line: the country carries a
+# population and a sex ratio and no share, because a country is not a share of
+# itself. `area_km2` never appears — it is there to divide by.
+
+POP = os.path.join(ROOT, "data", "population")
+
+
+def population_lines():
+    """{(epoch, scope, key): line} — one composed line per row of data."""
+    index = os.path.join(POP, "index.csv")
+    if not os.path.exists(index):
+        return {}
+    out = {}
+    for d in T.read_csv(index):
+        rows = T.read_csv(os.path.join(POP, d["file"]))
+        check_unique(rows, "key", "data/population/" + d["file"])
+        for r in rows:
+            bits = []
+            if r.get("population"):
+                bits.append("%s Estimated Population: %s"
+                            % (d["epoch"], "{:,}".format(int(r["population"]))))
+            if r.get("m_per_100_f"):
+                bits.append("Males per 100 Females: %s" % r["m_per_100_f"])
+            if r.get("pct_of_total"):
+                bits.append("%% of Total %s: %s" % (d["pct_of"], r["pct_of_total"]))
+            if r.get("population") and r.get("area_km2"):
+                bits.append("Per km²: %.0f"
+                            % (int(r["population"]) / float(r["area_km2"])))
+            line = " · ".join(bits)
+            if r.get("note"):
+                line = (line + " " + r["note"]).strip()
+            if not line:
+                continue
+            k = (d["epoch"], r["scope"], r["key"])
+            if k in out:
+                raise Problem("data/population/: %s is given twice for %s on "
+                              "%s" % (r["key"], r["scope"], d["epoch"]))
+            out[k] = line
+    return out
+
+
+def with_population(row, line, base=""):
+    """The short the card shows: the sentence about the place, then the count."""
+    text = (row.get("short") or base or "").strip()
+    if not text:
+        return line
+    if text[-1] not in ".!?…":
+        text += "."
+    return text + " " + line
+
+
 def array(rows, ns, snippets, key="id", indent=4, note_field="note"):
     """Rows as the body of a JS array literal, one record to a line-group."""
     out = []
@@ -180,6 +240,8 @@ def check_frame(rows, where):
 def build_data_js():
     snippets = T.read_snippets()
     parts = []
+    pop = population_lines()
+    pop_used = set()
 
     # ------------------------------------------------------------- epochs
     rows = load("epochs.csv")
@@ -219,6 +281,11 @@ def build_data_js():
         if bare:
             raise Problem("texts/territories/%s.md has no note for: %s"
                           % (year, ", ".join(bare)))
+        for r in rows:
+            line = pop.get((year, "territory", r["id"]))
+            if line:
+                r["short"] = with_population(r, line)
+                pop_used.add((year, "territory", r["id"]))
         inner.append("  e%s: [\n%s\n  ]," % (year, array(rows, ns, snippets)))
     parts.append("JMAP.TERRITORIES = {\n%s\n};" % "\n".join(inner))
 
@@ -286,7 +353,7 @@ def build_data_js():
     groups = sorted(n for n in os.listdir(sub)
                     if n.endswith(".csv") and not n.startswith("overrides-")
                     and n != "clusters.csv")
-    rows, ns, seen = [], {}, {}
+    rows, ns, seen, base_short = [], {}, {}, {}
     for name in groups:
         group = load("territories", "sub-units", name)
         for r in group:
@@ -299,6 +366,7 @@ def build_data_js():
                     "one of them a key of its own in tools/build_map.py, or "
                     "fold the two rows into one." % (k, seen[k], name))
             seen[k] = name
+            base_short[k] = r.get("short", "")
         rows.extend(group)
         ns.update(notes("territories", "sub-units", name[:-4] + ".md"))
     parts.append("JMAP.PROVINCES = {\n%s\n};" % keyed(rows, ns, snippets))
@@ -312,10 +380,27 @@ def build_data_js():
         rows = load("territories", "sub-units", name)
         check_unique(rows, "key", "texts/territories/sub-units/" + name)
         ns = notes("territories", "sub-units", "overrides-%s.md" % m.group(1))
+        year = m.group(1)
         for r in rows:
             if r["key"] not in sub_keys:
                 raise Problem("texts/territories/sub-units/%s overrides %r, "
                               "which no group file defines" % (name, r["key"]))
+            line = pop.get((year, "sub-unit", r["key"]))
+            if line:
+                r["short"] = with_population(r, line, base_short[r["key"]])
+                pop_used.add((year, "sub-unit", r["key"]))
+        # A province with figures and no override of its own still needs an
+        # entry, because the override is where an epoch's text lives. It gets
+        # one holding nothing but the composed short, so every other field
+        # still falls through to the group file.
+        for (ep, scope, key), line in sorted(pop.items()):
+            if ep != year or scope != "sub-unit" or (ep, scope, key) in pop_used:
+                continue
+            if key not in sub_keys:
+                continue
+            rows.append({"key": key,
+                         "short": with_population({}, line, base_short[key])})
+            pop_used.add((ep, scope, key))
         inner.append("  e%s: {\n%s\n  }," % (m.group(1),
                                              keyed(rows, ns, snippets, indent=4)))
     parts.append(
@@ -324,6 +409,16 @@ def build_data_js():
         "them silently\n   discarded the earlier, so eleven overrides never "
         "took effect at all. */\nJMAP.PROVINCE_EPOCH = {\n%s\n};"
         % "\n".join(inner))
+
+    lost = sorted(set(pop) - pop_used)
+    if lost:
+        raise Problem(
+            "data/population/ has figures for %s, and nothing on the map "
+            "carries that key on that date. A key here is the `id` in "
+            "texts/territories/<epoch>.csv or the `key` in a sub-units group "
+            "file; if a province has been renamed, rename it here too rather "
+            "than leaving the numbers pointing at nobody."
+            % ", ".join("%s %s %s" % (e, sc, k) for e, sc, k in lost))
 
     rows = load("territories", "sub-units", "clusters.csv")
     by_epoch = {}

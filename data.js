@@ -7359,12 +7359,6 @@ JMAP.PROVINCE_EPOCH = {
       en: 'Christmas Island — taken by Japan on 31 March 1942 for its phosphate',
       ja: 'クリスマス島 (Kurisumasu-tō)', wiki: 'https://en.wikipedia.org/wiki/Christmas_Island'
     },
-    Chuseihoku: {
-      short: 'The only province in Korea with no coastline. 1942 Estimated Population: 928,817 · Males per 100 Females: 102.5 · % of Total Korea: 3.9 · Per km²: 125'
-    },
-    Chuseinan: {
-      short: 'The lower Kŭm river and the tidal flats of the west coast. 1942 Estimated Population: 1,568,708 · Males per 100 Females: 100.3 · % of Total Korea: 6.5 · Per km²: 195'
-    },
     Dindings: { en: 'The Dindings — part of Perak again since 16 February 1935' },
     Funafuti: {
       en: 'Funafuti — the American base from October 1942',
@@ -7375,12 +7369,6 @@ JMAP.PROVINCE_EPOCH = {
       short: 'Shelled and bombed and then left alone',
       note: 'Shelled and bombed and then left alone. Its people were evacuated to the mainland with those of Chichijima in 1944.'
     },
-    Heianhoku: {
-      short: 'The north-western march, with the Yalu as its border: the river carried the timber trade. 1942 Estimated Population: 1,728,627 · Males per 100 Females: 99.8 · % of Total Korea: 7.2 · Per km²: 61'
-    },
-    Heiannan: {
-      short: 'P\'yŏngyang, the oldest city in Korea and the one with the largest Christian community. 1942 Estimated Population: 1,684,444 · Males per 100 Females: 99.7 · % of Total Korea: 7.0 · Per km²: 114'
-    },
     Heilongjiang: {
       en: 'Lóngjiāng (Lungkiang)', ja: '黒竜江省', zh: '龍江', ko: '헤이룽장성',
       wiki: 'https://en.wikipedia.org/wiki/Heilongjiang'
@@ -7388,27 +7376,6 @@ JMAP.PROVINCE_EPOCH = {
     'Iwo Jima (Iō-tō)': {
       short: 'Its civilians taken off in 1944, and the island made a fortress',
       note: 'The thousand civilians were taken off in July 1944 and the island was turned into a fortress of tunnels. Kuribayashi Tadamichi gave up any thought of holding the beaches and fought from underground with some 21,000 men, almost all of whom died. The landing on 19 February 1945 took five weeks and cost nearly 7,000 American lives; the airfields then served the B-29s over Tokyo.'
-    },
-    Kankyohoku: {
-      short: 'The far north-east, against the Tumen and the Soviet and Manchurian borders: mountains. 1942 Estimated Population: 1,110,305 · Males per 100 Females: 109.3 · % of Total Korea: 4.6 · Per km²: 54'
-    },
-    Kankyonan: {
-      short: 'A narrow coastal shelf under high mountains. 1942 Estimated Population: 1,860,606 · Males per 100 Females: 104.3 · % of Total Korea: 7.7 · Per km²: 58'
-    },
-    Keiki: {
-      short: 'The Han river plain around Keijō — Seoul, renamed and rebuilt as the colonial capital. 1942 Estimated Population: 2,830,778 · Males per 100 Females: 101.0 · % of Total Korea: 11.7 · Per km²: 223'
-    },
-    Keishohoku: {
-      short: 'The Naktong river\'s upper basin, hills and small plains. 1942 Estimated Population: 2,391,043 · Males per 100 Females: 97.8 · % of Total Korea: 9.9 · Per km²: 126'
-    },
-    Keishonan: {
-      short: 'The end of the peninsula facing Japan, and the province the colony was entered through. 1942 Estimated Population: 2,145,070 · Males per 100 Females: 96.1 · % of Total Korea: 8.9 · Per km²: 174'
-    },
-    Kogen: {
-      short: 'The Taebaek range down its spine, and very little flat ground. 1942 Estimated Population: 1,806,504 · Males per 100 Females: 105.7 · % of Total Korea: 7.5 · Per km²: 69'
-    },
-    Kokai: {
-      short: 'The province between the capital and P\'yŏngyang, rolling hills opening on the Yellow Sea. 1942 Estimated Population: 1,841,851 · Males per 100 Females: 99.5 · % of Total Korea: 7.6 · Per km²: 110'
     },
     Labuan: {
       en: 'Labuan — under the Japanese military administration of British Borneo',
@@ -7438,9 +7405,6 @@ JMAP.PROVINCE_EPOCH = {
       en: 'Penang — under the Japanese military administration of Malaya',
       wiki: 'https://en.wikipedia.org/wiki/Penang'
     },
-    Saishu: {
-      short: 'A volcanic island a hundred kilometres off the south coast. Counted in Zenranan-dō in the 1942 returns, which do not break the island out separately.'
-    },
     SiSaKet: { en: 'Sisaket (Khukhan until 1938)', wiki: 'https://en.wikipedia.org/wiki/Sisaket' },
     Sind: { en: 'Sind Province', wiki: 'https://en.wikipedia.org/wiki/Sindh' },
     Singapore: {
@@ -7455,11 +7419,47 @@ JMAP.PROVINCE_EPOCH = {
       en: 'United Provinces',
       wiki: 'https://en.wikipedia.org/wiki/United_Provinces_(1937%E2%80%931950)'
     },
+    Chuseihoku: {
+      short: 'The only province in Korea with no coastline. 1942 Estimated Population: 928,817 · Males per 100 Females: 102.5 · % of Total Korea: 3.9 · Per km²: 125'
+    },
+    Chuseinan: {
+      short: 'The lower Kŭm river and the tidal flats of the west coast. 1942 Estimated Population: 1,568,708 · Males per 100 Females: 100.3 · % of Total Korea: 6.5 · Per km²: 195'
+    },
+    Heianhoku: {
+      short: 'The north-western march, with the Yalu as its border: the river carried the timber trade. 1942 Estimated Population: 1,728,627 · Males per 100 Females: 99.8 · % of Total Korea: 7.2 · Per km²: 61'
+    },
+    Heiannan: {
+      short: 'P\'yŏngyang, the oldest city in Korea and the one with the largest Christian community. 1942 Estimated Population: 1,684,444 · Males per 100 Females: 99.7 · % of Total Korea: 7.0 · Per km²: 114'
+    },
+    Kankyohoku: {
+      short: 'The far north-east, against the Tumen and the Soviet and Manchurian borders: mountains. 1942 Estimated Population: 1,110,305 · Males per 100 Females: 109.3 · % of Total Korea: 4.6 · Per km²: 55'
+    },
+    Kankyonan: {
+      short: 'A narrow coastal shelf under high mountains. 1942 Estimated Population: 1,860,606 · Males per 100 Females: 104.3 · % of Total Korea: 7.7 · Per km²: 58'
+    },
+    Keiki: {
+      short: 'The Han river plain around Keijō — Seoul, renamed and rebuilt as the colonial capital. 1942 Estimated Population: 2,830,778 · Males per 100 Females: 101.0 · % of Total Korea: 11.7 · Per km²: 224'
+    },
+    Keishohoku: {
+      short: 'The Naktong river\'s upper basin, hills and small plains. 1942 Estimated Population: 2,391,043 · Males per 100 Females: 97.8 · % of Total Korea: 9.9 · Per km²: 126'
+    },
+    Keishonan: {
+      short: 'The end of the peninsula facing Japan, and the province the colony was entered through. 1942 Estimated Population: 2,145,070 · Males per 100 Females: 96.1 · % of Total Korea: 8.9 · Per km²: 175'
+    },
+    Kogen: {
+      short: 'The Taebaek range down its spine, and very little flat ground. 1942 Estimated Population: 1,806,504 · Males per 100 Females: 105.7 · % of Total Korea: 7.5 · Per km²: 69'
+    },
+    Kokai: {
+      short: 'The province between the capital and P\'yŏngyang, rolling hills opening on the Yellow Sea. 1942 Estimated Population: 1,841,851 · Males per 100 Females: 99.5 · % of Total Korea: 7.6 · Per km²: 111'
+    },
+    Saishu: {
+      short: 'A volcanic island a hundred kilometres off the south coast. Counted in Zenranan-dō in the 1942 returns, which do not break the island out separately.'
+    },
     Zenrahoku: {
-      short: 'The Honam plain, the largest stretch of paddy in Korea. 1942 Estimated Population: 1,561,479 · Males per 100 Females: 99.6 · % of Total Korea: 6.5 · Per km²: 184'
+      short: 'The Honam plain, the largest stretch of paddy in Korea. 1942 Estimated Population: 1,561,479 · Males per 100 Females: 99.6 · % of Total Korea: 6.5 · Per km²: 185'
     },
     Zenranan: {
-      short: 'The south-western corner and its archipelago — several thousand islands. 1942 Estimated Population: 2,647,674 · Males per 100 Females: 97.2 · % of Total Korea: 11.0 · Per km²: 190'
+      short: 'The south-western corner and its archipelago — several thousand islands. 1942 Estimated Population: 2,647,674 · Males per 100 Females: 97.2 · % of Total Korea: 11.0 · Per km²: 191'
     },
   },
 };

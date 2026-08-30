@@ -251,6 +251,28 @@ for (const [year, layers, want] of [['1930', '0', false], ['Dec 1942', '1', true
     && /% of Total Korea: 11\.7/.test(prov) === want
     && /Per km²: \d+/.test(prov) === want,
     prov.slice(-90));
+  /* And the card is the data file, not a copy of it. The figures live in
+     data/population/ and are composed into the short at build time, so what
+     the reader is shown has to be what that file says — including the
+     density, which is not in the source at all and is population over the
+     area of the polygon the reader is looking at. */
+  if (want) {
+    const rows = require('fs').readFileSync(
+      __dirname + '/../../data/population/korea-1942.csv', 'utf8')
+      .trim().split('\n').slice(1)
+      .map(l => l.match(/^([^,]*),([^,]*),(?:"[^"]*"|[^,]*),([^,]*),([^,]*),([^,]*),([^,]*)/))
+      .filter(Boolean);
+    const k = rows.find(r => r[2] === 'Keiki');
+    const pop = Number(k[3]), dens = Math.round(pop / Number(k[6]));
+    check('Keiki\'s density is its population over its own area',
+      new RegExp('Population: ' + pop.toLocaleString('en-US')
+                 + '\\b.*Per km²: ' + dens + '\\b').test(prov),
+      'want ' + dens + ' — ' + prov.slice(-60));
+    const saishu = rows.find(r => r[2] === 'Saishu');
+    check('Saishu carries its sentence and no figures',
+      !saishu[3] && !saishu[4],
+      JSON.stringify(saishu && saishu.slice(3, 7)));
+  }
   await p.close();
 }
 
