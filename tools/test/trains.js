@@ -189,8 +189,8 @@ const shutDialogs=p=>p.evaluate(()=>{
     v=await look(p);
     check('the station squares are borrowed', v.stations>150 && v.railBox,
       JSON.stringify({stations:v.stations,railBox:v.railBox}));
-    /* And only the ones the timetable knows. 167 of the map's 213 Taiwanese
-       stations are on a line in the February 1936 table; the other 46 would
+    /* And only the ones the timetable knows. 167 of the map's 206 Taiwanese
+       stations are on a line in the February 1936 table; the other 39 would
        otherwise sit on the coloured network looking like the stops around
        them and open a card with no trains in it. */
     const drawn=()=>p.evaluate(()=>({
@@ -199,7 +199,7 @@ const shutDialogs=p=>p.evaluate(()=>{
         .filter(m=>m.style.display!=='none').length}));
     const withTools=await drawn();
     check('and only those the timetable knows are drawn',
-      withTools.squares===213 && withTools.shown===167, JSON.stringify(withTools));
+      withTools.squares===206 && withTools.shown===167, JSON.stringify(withTools));
     const card=await p.evaluate(()=>{
       // Taihoku, by its id in tw-stations.js, through the map's own selection
       const el=document.querySelector('[data-id="tws029"]');
@@ -289,6 +289,18 @@ const shutDialogs=p=>p.evaluate(()=>{
       check('with its calling list under it', c.rows>2, 'rows='+c.rows);
       check('and says where it came from with the characters in brackets',
         /\(\S+\)\s+at\s+\d\d:\d\d/.test(c.note), c.note);
+      /* Every train is going somewhere. The Taitung line's printed tables
+         leave the 行先 row blank, so eighteen of the 346 had an empty "To"
+         until the destination was taken from the last station they are timed
+         at — which for a line joined to nothing is where they end. */
+      check('every train in the table has a destination',
+        await p.evaluate(() => JMAP.TW_TRAINS.trains.every(t => t.dest)), '');
+      check('and every stop that is written in characters has its Mandarin',
+        await p.evaluate(() => {
+          const s = JMAP.TW_TRAINS.stations.filter(
+            x => /[\u4e00-\u9fff]/.test(x.n) && !/[\u30a0-\u30ff]/.test(x.n));
+          return s.length > 180 && s.every(x => x.py);
+        }), '');
       /* And each stop named three ways where the map has three: the
          characters, the local romanisation and the Japanese one. */
       check('the calling list names each stop in three scripts',
@@ -440,8 +452,8 @@ const shutDialogs=p=>p.evaluate(()=>{
     check('the button stays, now unpressed', !bv.trn.hidden && bv.trn.pressed==='false',
       JSON.stringify(bv.trn));
     const noTools=await drawn();
-    check('and all 213 stations are back, not just the 167',
-      noTools.shown===213, JSON.stringify(noTools));
+    check('and all 206 stations are back, not just the 167',
+      noTools.shown===206, JSON.stringify(noTools));
     await p.click('#btn-trains');
     await sleep(900);
     const again=await look(p);
@@ -509,6 +521,38 @@ const shutDialogs=p=>p.evaluate(()=>{
     check('and the switch is ticked in the panel',
       await back.evaluate(()=>document.querySelector('#opt-train-tools').checked), '');
     await back.close();
+
+    /* And the railway and its stations are in the address in their own right,
+       not only as something the tools borrow. Five bits — 25 the Taiwan
+       railway, 26 its stations, 27 and 28 Korea's, 29 the tools — written by
+       hand here and read back off the switches, so a link that says stations
+       are on arrives with them on. While the tools are up, 25 and 26 carry
+       what the reader had *before* the borrow, which is why turning the
+       squares off from the map clears 26 while the tools stay on. */
+    for (const [label, code, want] of [
+      ['rail and stations, no tools', (1<<25)|(1<<26),
+       {twRail:true, twSta:true, tools:false}],
+      ['rail, stations and tools', (1<<25)|(1<<26)|(1<<29),
+       {twRail:true, twSta:true, tools:true}],
+      ['Korea\u2019s railway and its stations', (1<<27)|(1<<28),
+       {krRail:true, krSta:true, twRail:false}],
+    ]) {
+      const q = await browser.newPage();
+      await q.evaluateOnNewDocument(SHIM);
+      await q.setViewport({width:1200,height:860});
+      await q.goto(TAIWAN+'&layers='+code.toString(36),{waitUntil:'networkidle0'});
+      await shutDialogs(q);
+      await sleep(2000);
+      const got = await q.evaluate(()=>({
+        twRail:document.querySelector('#opt-tw-rail').checked,
+        twSta:document.querySelector('#opt-tw-stations').checked,
+        krRail:document.querySelector('#opt-kr-rail').checked,
+        krSta:document.querySelector('#opt-kr-stations').checked,
+        tools:document.querySelector('#opt-train-tools').checked}));
+      check('a link saying "'+label+'" arrives that way',
+        Object.keys(want).every(k=>got[k]===want[k]), JSON.stringify(got));
+      await q.close();
+    }
 
     /* ---- 9. the track does not take the pointer --------------------- */
     const overLine=await p.evaluate(()=>{
@@ -700,6 +744,13 @@ const shutDialogs=p=>p.evaluate(()=>{
       tables:document.querySelectorAll('table').length,
       anchors:document.querySelectorAll('h2[id^="line-"]').length}));
     let pv=await page();
+    check('and says the text was read by a machine, before the tables',
+      await tt.evaluate(() => {
+        const w = document.querySelector('.warn');
+        if (!w || !w.textContent.trim()) return false;
+        const t = document.querySelector('table');
+        return !!(t && (w.compareDocumentPosition(t) & Node.DOCUMENT_POSITION_FOLLOWING));
+      }), '');
     check('the timetable page carries all eighteen tables',
       pv.tables===18 && pv.anchors===18, JSON.stringify({t:pv.tables,a:pv.anchors}));
     check('it opens in Japanese, as the transcription is',

@@ -147,30 +147,12 @@ def split_name(raw):
 # shares with this table the two agree to within a metre.
 EXTRA = [
     # hanji, pinyin, romaji, kana, kind, lon, lat, confidence, source
-    ("四腳亭", "Sìjiǎotíng", "Shikyakutei", "しきゃくてい", "station",
-     121.76119, 25.10288, "verified",
-     "https://ja.wikipedia.org/wiki/四脚亭駅"),
-    ("瑞芳", "Ruìfāng", "", "", "station",
-     121.80636, 25.10875, "unverified",
-     "https://ja.wikipedia.org/wiki/瑞芳駅"),
+    # Seven of the nine that used to be here were duplicates of fid 126-133,
+    # which are named in NAMELESS above instead. 猴硐 and 四結 are not in the
+    # source at any name and stay.
     ("猴硐", "Hóudòng", "Kōdō", "こうどう", "station",
      121.82769, 25.08722, "verified",
      "https://ja.wikipedia.org/wiki/侯硐駅"),
-    ("三貂嶺", "Sāndiāolǐng", "Sanchōrei", "さんちょうれい", "station",
-     121.82264, 25.06592, "verified",
-     "https://ja.wikipedia.org/wiki/三貂嶺駅"),
-    ("武丹坑", "Wǔdānkēng", "Butankō", "ぶたんこう", "station",
-     121.85189, 25.05856, "verified",
-     "https://ja.wikipedia.org/wiki/牡丹駅_(新北市)"),
-    ("頂雙溪", "Dǐngshuāngxī", "Chōsōkei", "ちょうそうけい", "station",
-     121.86661, 25.03878, "verified",
-     "https://ja.wikipedia.org/wiki/双渓駅"),
-    ("貢寮庄", "Gòngliáozhuāng", "Kōryōshō", "こうりょうしょう", "station",
-     121.90867, 25.02206, "verified",
-     "https://ja.wikipedia.org/wiki/貢寮駅"),
-    ("澳底", "Àodǐ", "Aozoko", "あおぞこ", "station",
-     121.94486, 25.01594, "verified",
-     "https://ja.wikipedia.org/wiki/福隆駅"),
     ("四結", "Sìjié", "", "", "halt",
      121.76277, 24.78632, "unverified",
      "https://zh.wikipedia.org/wiki/四城車站"),
@@ -248,6 +230,38 @@ LINK_FIXES = {
 }
 
 
+# ---------------------------------------------------------------------------
+# THE EIGHT POINTS IN THE SOURCE THAT HAVE A ROMANISATION AND NO CHARACTERS.
+#
+# fid 126 to 133 carry a `ROMAJI` and a blank `NOTE`. They are on the Yilan
+# line, and because nothing here could match a nameless point by name they were
+# invisible to every check: the EXTRA table below was written on the belief
+# that the source had no Yilan-line stations east of Hattō at all. It has them.
+# Seven of the eight are the same stations, within 30 m to half a kilometre of
+# the ones added by hand, and the map drew each of them twice.
+#
+# Named here rather than dropped, and the hand-added duplicates taken out.
+# Which name goes on which point is decided by the coordinate — each is matched
+# to the nearest station in the February 1936 timetable — and not by the
+# romanisation, which is the field this project has already caught being the
+# reading of an *earlier* name three times over: 澳底 is given as Ōtei and
+# reads あおぞこ, 四腳亭 as Taikōho and reads しきゃくてい, and 瑞芳 as
+# Ryūtanto, which is 龍潭堵, a name that station never had.
+#
+# 石城 is the odd one: it is not a duplicate of anything, being 3.7 km from
+# 澳底, and it is simply a station this table did not know it had.
+NAMELESS = {
+    126: ("石城", "Sekijōshi", ""),
+    127: ("澳底", "Aozoko", "あおぞこ"),
+    128: ("貢寮庄", "Kōryōshō", "こうりょうしょう"),
+    129: ("頂雙溪", "Chōsōkei", "ちょうそうけい"),
+    130: ("武丹坑", "Butankō", "ぶたんこう"),
+    131: ("三貂嶺", "Sanchōrei", "さんちょうれい"),
+    132: ("瑞芳", "", ""),
+    133: ("四腳亭", "Shikyakutei", "しきゃくてい"),
+}
+
+
 def extra_rows(start_id):
     """The hand-added stops, in the same shape the geojson ones come out in."""
     out = []
@@ -294,9 +308,18 @@ def build():
     for feat in fc["features"]:
         p = feat["properties"]
         han, kind, fixed = split_name(p.get("NOTE"))
-        sid = "tws%03d" % int(p.get("fid") or 0)
+        fid = int(p.get("fid") or 0)
+        sid = "tws%03d" % fid
+        named_here = NAMELESS.get(fid)
+        if named_here and not han:
+            han, kind = named_here[0], kind or "station"
         was = held.get(han) or held.get(sid) or {}
         romaji = (was.get("romaji") or p.get("ROMAJI") or "").strip()
+        if named_here:
+            # the source's own romanisation for these eight is the reading of
+            # an earlier name as often as of this one; what goes in is what a
+            # Wikipedia article states, or nothing
+            romaji = named_here[1]
         x, y = feat["geometry"]["coordinates"]
         lon, lat = to_lonlat(x, y)
         if han and han not in py:
@@ -315,7 +338,7 @@ def build():
             "hanji": han,
             "pinyin": py.get(han, ""),
             "romaji": romaji,
-            "kana": was.get("kana", ""),
+            "kana": (named_here[2] if named_here else was.get("kana", "")),
             "kind": kind,
             "lon": "%.5f" % lon,
             "lat": "%.5f" % lat,
@@ -324,10 +347,12 @@ def build():
             # better one than most of what is on the web for these names.
             # Anything without one starts unverified and stays that way until
             # something is written beside it.
-            "confidence": was.get("confidence") or
-                          ("verified" if romaji else "unverified"),
-            "source_type": was.get("source_type") or
-                           ("author" if romaji else ""),
+            "confidence": ("verified" if named_here and named_here[1]
+                           else was.get("confidence") or
+                           ("verified" if romaji else "unverified")),
+            "source_type": ("wikipedia" if named_here and named_here[1]
+                            else was.get("source_type") or
+                            ("author" if romaji else "")),
             "source_url": ("https://ja.wikipedia.org/wiki/" + link[0])
                           if link else was.get("source_url", ""),
             "valid_from": str(p.get("START") or ""),

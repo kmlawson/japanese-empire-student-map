@@ -188,3 +188,37 @@
 鼻仔頭	Bízǎitóu
 龍井	Lóngjǐng
 龜山	Guīshān
+# Added 30 August 2026. The first eight are the stations the source
+# geojson carried with a romanisation and no characters (fid 126-133);
+# the rest are stops the February 1936 timetable calls at that this map
+# has no square for, which still appear as a train's destination.
+石城	Shíchéng
+澳底	Àodǐ
+貢寮庄	Gòngliáozhuāng
+頂雙溪	Dǐngshuāngxī
+武丹坑	Wǔdānkēng
+三貂嶺	Sāndiāolǐng
+瑞芳	Ruìfāng
+四腳亭	Sìjiǎotíng
+山下町	Shānxiàtīng
+三塊厝	Sānkuàicuò
+新起町	Xīnqǐtīng
+江子翠	Jiāngzicuì
+浮洲	Fúzhōu
+伯公岡	Bógōnggāng
+山崎	Shānqí
+崎頂	Qídǐng
+大村	Dàcūn
+永靖	Yǒngjìng
+東門町	Dōngméntīng
+試驗所前	Shìyànsuǒqián
+北五堵	Běiwǔdǔ
+五堵	Wǔdǔ
+北臺北	Běitáiběi
+遊園地前	Yóuyuándìqián
+學田	Xuétián
+老松町	Lǎosōngtīng
+十六份	Shíliùfèn
+竹圍	Zhúwéi
+猴硐	Hóudòng
+四結	Sìjié

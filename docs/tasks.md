@@ -12258,6 +12258,73 @@ there was room for the texture.
 
 ---
 
+## Seven stations drawn twice, the Taitung line's destinations, and the pinyin
+
+### Seven stations were on the map twice, and that was mine
+
+Asked why the Taitung line's cards had no destination, and why some stations
+had no pinyin. Answering the second turned up something worse: **eight rows in
+the station table had a romanisation and no characters at all**, and seven of
+them were **duplicates of stations I added yesterday**, 30 m to half a
+kilometre apart.
+
+They are fid 126–133 in the source geojson, which carry a `ROMAJI` and a blank
+`NOTE`. Because nothing here could match a nameless point by name, they were
+invisible to every check I ran — and the note I wrote saying *the geojson has
+199 points and none of these* was wrong. **It had them.** They are named now
+from their coordinates, matched to the nearest stop in the timetable, and the
+hand-added duplicates are gone: 213 rows become **206**, all 206 named.
+
+Which name goes on which point is decided by the coordinate and not by the
+romanisation, that field having already been caught three times as the reading
+of an *earlier* name — 澳底 given as Ōtei and reading あおぞこ, 四腳亭 as
+Taikōho and reading しきゃくてい, 瑞芳 as Ryūtanto, which is 龍潭堵, a name
+that station never had. 石城 is the one that was not a duplicate: 3.7 km from
+澳底, and simply a station this table did not know it had.
+
+### The Taitung line's tables print no destinations
+
+Every other line's tables carry a 行先 row with a station in it. **The Taitung
+ones carry the row and leave it blank**, and the transcription records that
+faithfully — so eighteen of the 346 trains had an empty *To*.
+
+It can be had from the times: a train's destination is the last station it is
+given one at. On the lines that print both, that rule agrees with the printed
+row for **305 of 328**. The 23 it does not agree with are all through workings
+whose printed destination is on *another line* — 潮州線 trains billed for 臺南,
+宜蘭線 trains for 臺北, 集集線 trains for 臺中 — where the printed row is the
+fuller answer and the last call is only where that table stops recording. That
+cannot arise on the Taitung line, which is 762 mm gauge and joined to nothing,
+so a train on it ends where it stops. Filled for that line and no other. **All
+346 trains now have a destination.**
+
+### And the pinyin
+
+Right that this is mechanical: a Mandarin reading follows from the characters
+where a Japanese one does not. Thirty names were missing it — the eight just
+named, and twenty-one stops the timetable calls at that this map has no square
+for and which still appear as a train's destination. They are in the same
+`tools/tw_station_pinyin.tsv` both builds read, so the station table and the
+timetable cannot drift apart. **205 of 206 stations** have their pinyin and
+**186 of 187** timetable stops; the one without is 宮ノ下, which is a Japanese
+name and has no Chinese reading to give.
+
+### Two more
+
+A warning at the head of the timetable page, in all three languages, saying
+the text was read by a machine and has not been checked by eye. Said *before*
+the tables: a caution underneath the thing it cautions about is worth nothing.
+
+And the `layers` code was asked about — it already carries all five bits, and
+this is now pinned rather than assumed: **25** the Taiwan railway, **26** its
+stations, **27** and **28** Korea's, **29** the tools. Written by hand into a
+link and read back off the switches, all three combinations arrive as sent.
+While the tools are up, 25 and 26 carry what the reader had *before* the
+borrow, which is why turning the squares off from the map clears 26 while the
+tools stay on.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

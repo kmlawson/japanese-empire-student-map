@@ -194,6 +194,27 @@ def grab(text, name):
     return json.loads(text[i:j].rstrip().rstrip(';'))
 
 
+def pinyin_table():
+    """The Mandarin readings, shared with tools/build_tw_stations.py.
+
+    Read here as well as there because the timetable calls at twenty stops this
+    map has no square for -- 山下町, 三塊厝, 五堵 and the rest -- and those
+    still appear in a card as a train's destination. A name in characters with
+    no reading beside it is a gap the reader can see, and the reading is a
+    mechanical fact about the characters.
+    """
+    path = os.path.join(HERE, "tw_station_pinyin.tsv")
+    out = {}
+    with open(path, encoding="utf-8") as fh:
+        for line in fh:
+            line = line.rstrip("\n")
+            if not line or line.startswith("#"):
+                continue
+            han, py = line.split("\t")
+            out[han] = py
+    return out
+
+
 def our_stations():
     """tw-stations.js, which is JSON with a JS wrapper and trailing commas."""
     txt = open(os.path.join(ROOT, 'tw-stations.js'), encoding='utf-8').read()
@@ -211,6 +232,7 @@ def build_js(anchors=None):
     ours = {}
     for r in our_stations():
         ours.setdefault(name_key(r['han']), r)
+    pinyin = pinyin_table()
 
     line_names = list(colours.keys())
     line_ix = {n: i for i, n in enumerate(line_names)}
@@ -245,11 +267,42 @@ def build_js(anchors=None):
             for k in ('py', 'kana', 'ro'):
                 if mine.get(k):
                     rec[k] = mine[k]
+        if not rec.get('py') and pinyin.get(s['name']):
+            rec['py'] = pinyin[s['name']]
         if s['lon'] is not None:
             rec['lon'] = round(s['lon'], 5)
             rec['lat'] = round(s['lat'], 5)
         rec['li'] = [line_ix[l] for l in s['lines'] if l in line_ix]
         out_st.append(rec)
+
+    # THE TAITUNG LINE'S TABLE PRINTS NO DESTINATIONS.
+    #
+    # Every other line's tables carry a 行先 row with a station in it; the
+    # Taitung ones carry the row and leave it blank, and the transcription
+    # records that faithfully -- so eighteen trains had an empty "To" in the
+    # card while every other train had one.
+    #
+    # It can be had from the times. A train's destination is the last station
+    # at which it is given one, and on the lines that print both, that rule
+    # agrees with the printed row for 305 of 328 trains. The 23 it does not
+    # agree with are all through workings whose printed destination is on
+    # *another* line -- 潮州線 trains billed for 臺南, 宜蘭線 trains for 臺北 --
+    # where the printed row is the fuller answer and the last call is only
+    # where this table stops recording.
+    #
+    # That cannot arise here: the Taitung line is 762 mm gauge and joined to
+    # nothing, so a train on it ends where it stops. Filled from the times, for
+    # this line and no other.
+    derived = 0
+    for t in trains:
+        if t.get('dest') or t.get('line') != '\u81fa\u6771\u7dda':
+            continue
+        timed = [x for x in t['stops']
+                 if not x.get('r') and (x.get('am') is not None
+                                        or x.get('dm') is not None)]
+        if timed:
+            t['dest'] = timed[-1]['s']
+            derived += 1
 
     out_tr = []
     for t in trains:
@@ -330,8 +383,9 @@ def build_js(anchors=None):
 
     print('stations   %d, %d matched to tw-stations.js, %d with no coordinate'
           % (len(out_st), matched, coordless))
-    print('trains     %d, %d stop rows'
-          % (len(out_tr), sum(len(t['st']) for t in out_tr)))
+    print('trains     %d, %d stop rows; %d Taitung destinations taken from '
+          'the times, that table printing none'
+          % (len(out_tr), sum(len(t['st']) for t in out_tr), derived))
     print('paths      %d segments, %d points in, %d out (%.1f%% kept)'
           % (len(out_pa), pts_in, pts_out, 100.0 * pts_out / max(1, pts_in)))
     print('           %d of %d segments start within 0.02 deg of their station'
@@ -366,6 +420,19 @@ UI = {
     'orig': ('\u539f\u672c\uff08Internet Archive\uff09',
              '\u539f\u672c\uff08Internet Archive\uff09',
              'The original (Internet Archive)'),
+    'warn': (
+        '\u6ce8\uff1a\u672c\u9801\u306e\u672c\u6587\u306f OCR '
+        '\u306b\u3088\u308b\u3082\u306e\u3067\u3001\u8aa4\u308a\u3092'
+        '\u542b\u3080\u3053\u3068\u306f\u78ba\u5b9f\u3067\u3059\u3002'
+        '2026\u5e749\u6708\u73fe\u5728\u3001\u4eba\u306e\u76ee\u306b'
+        '\u3088\u308b\u78ba\u8a8d\u306f\u307e\u3060\u884c\u308f\u308c'
+        '\u3066\u3044\u307e\u305b\u3093\u3002',
+        '\u6ce8\uff1a\u672c\u9801\u5167\u6587\u7d93 OCR '
+        '\u8f49\u9304\uff0c\u5fc5\u5b9a\u542b\u6709\u932f\u8aa4\u3002'
+        '\u622a\u81f3 2026 \u5e74 9 \u6708\uff0c\u5c1a\u672a\u7d93'
+        '\u4eba\u5de5\u6821\u5c0d\u3002',
+        'Note: OCRed text no doubt contains errors. As of September 2026 this '
+        'has not yet been manually checked for accuracy.'),
     'legend': (
         '\u6642\u523b\u306f24\u6642\u9593\u8868\u8a18\uff08\u539f\u672c: '
         '\u7d30\u5b57=\u5348\u524d\u30fb\u592a\u5b57=\u5348\u5f8c\uff09\u3002'
@@ -428,6 +495,11 @@ def page_extras(stations):
         if st.get('py') or st.get('kana'):
             reads[st['n']] = [st.get('py', ''), st.get('kana', '')]
     css = """
+/* Said before the tables and not after them: the reader is about to take a
+   time out of a hundred-year-old page that a machine read, and the warning is
+   worth nothing underneath the thing it is warning about. */
+.warn{margin:6px 0 10px;padding:7px 10px;border-left:3px solid #a33;
+background:#f7ece4;color:#5a2b1e;font-size:12.5px;max-width:70em}
 #langbar{display:flex;gap:6px;align-items:center;margin-left:auto;font-size:12px}
 #langbar button{font:inherit;padding:3px 9px;border:1px solid #8a7a5c;border-radius:5px;
 background:transparent;color:#e8c988;cursor:pointer}
@@ -651,6 +723,7 @@ def build_html(stations):
     old_legend = html[html.index('<p class="legend">'):
                       html.index('</p>', html.index('<p class="legend">')) + 4]
     html = html.replace(old_legend,
+                        '<p class="warn" data-i18n="warn"></p>'
                         '<p class="legend"><span data-i18n="legend"></span> '
                         '<span id="check"></span></p>', 1)
 
