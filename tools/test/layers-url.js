@@ -277,5 +277,41 @@ for (const [flip, keep, want] of [
   await s2.close();
 }
 
+/* ---- a link that has been through somebody else's site ------------- */
+/* Reported from Facebook: the map opened at the right place with none of the
+   layers on. `fbclid` was the suspect and is innocent — an extra parameter is
+   ignored, and the first two cases here pin that. What breaks it is `&amp;`
+   between the parameters, an HTML-escaped ampersand from a URL that has been
+   through a page and out again: the first parameter is read and the rest are
+   called `amp;layers` and `amp;fbclid`, so the view arrives and the switches
+   do not. The query is repaired before it is read, and the tracking
+   parameters come out of the address bar so what the reader copies onward is
+   the link and not somebody else's campaign. */
+console.log('\n— a link that has been through somebody else\u2019s site —');
+for (const [label, q] of [
+  ['clean', '?where=120.3,22.9,121.4,24.7&layers=9frtd4'],
+  ['fbclid appended', '?where=120.3,22.9,121.4,24.7&layers=9frtd4&fbclid=IwdGRleAUAXptw_aem_x'],
+  ['&amp; separators', '?where=120.3,22.9,121.4,24.7&amp;layers=9frtd4&amp;fbclid=abc'],
+  ['utm after a second ?', '?where=120.3,22.9,121.4,24.7&layers=9frtd4?utm_source=facebook&utm_medium=social'],
+]) {
+  const p = await b.newPage();
+  await p.evaluateOnNewDocument(SHIM);
+  await p.setViewport({ width: 1200, height: 860 });
+  await p.goto('http://localhost:8123/index.html' + q, { waitUntil: 'networkidle0' });
+  await p.evaluate(() => document.querySelectorAll('dialog[open]').forEach(d => d.close()));
+  await new Promise(r => setTimeout(r, 2200));
+  const got = await p.evaluate(() => ({
+    tools: document.querySelector('#opt-train-tools').checked,
+    rail: document.querySelector('#opt-tw-rail').checked,
+    sta: document.querySelector('#opt-tw-stations').checked,
+    search: location.search,
+  }));
+  check('the layers survive "' + label + '"',
+    got.tools && got.rail && got.sta, JSON.stringify(got));
+  check('  and no tracking is left in the address',
+    !/fbclid|utm_|amp;/.test(got.search), got.search);
+  await p.close();
+}
+
 console.log('\n  '+pass+' passed, '+fail+' failed');
 await b.close(); process.exit(fail);})();

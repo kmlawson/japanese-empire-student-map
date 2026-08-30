@@ -12325,6 +12325,41 @@ tools stay on.
 
 ---
 
+## A link that has been through somebody else's site
+
+**Reported:** links shared on Facebook open the map at the right place with
+none of the layers on.
+
+**`fbclid` is innocent.** An extra parameter is ignored by `URLSearchParams`,
+and a link carrying one loads exactly as the same link without it — measured
+before changing anything, and now pinned so nobody spends an afternoon on the
+wrong suspect again.
+
+**What breaks it is `&amp;` between the parameters.** An HTML-escaped
+ampersand, from a URL that has been through a page and out again. The query
+then reads as `where`, `amp;layers`, `amp;fbclid` — so the first parameter
+arrives and the rest are strangers, which is exactly the symptom: **the right
+ground, the wrong switches.** Reproduced by trying the seven ways a link gets
+mangled; six were harmless and that one was not.
+
+Two things are done about it:
+
+* **The query is repaired before it is read.** `&amp;`, `&#38;` and `&#x26;`
+  become `&`, and a second `?` becomes one too — the other way a link gets
+  stapled together, and the reason `...&layers=9frtd4?utm_source=...` used to
+  work only by luck, `parseInt` stopping at the `?`.
+* **The tracking parameters come out of the address bar**, once, at startup —
+  `fbclid`, `gclid`, `msclkid`, `igshid`, the `utm_` family and a dozen others
+  — and are never written back by `writeUrl`. What the reader copies onward is
+  the link, not the link plus somebody's campaign. Nothing is rewritten if
+  there is nothing to take out.
+
+Eight checks in `layers-url.js`, which is 44 now: for each of four kinds of
+mangled link, that the three railway switches arrive as sent and that the
+address is left clean.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

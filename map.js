@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '232';
+  var JEM_VERSION = '233';
   var JEM_ASSETS = {"admin.js": "9f99c96627", "annotate.js": "761fbd5949", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "3881d33c99", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
 
   /* Every file this one fetches, with the version on it.
@@ -880,7 +880,14 @@
     // Before the controls are built, so a shared link's year and layers are
     // what the map is drawn with rather than something switched on afterwards
     // in front of the reader.
+    /* Read first, tidy second. The reading repairs the query on its way past
+       and does not touch the address bar; the tidying rewrites the bar so what
+       the reader copies onward is the link rather than the link plus somebody
+       else's campaign. Doing it the other way round would work too — this way
+       nothing the map depends on is behind a `replaceState` that an old
+       browser might not have. */
     var shared = readUrl();
+    tidyUrl();
 
     buildMarkers();
     buildSiteLabels();
@@ -3721,12 +3728,73 @@
      — every map URL uses one — and a hand-built query keeps it. Anything else
      already in the query is put back through URLSearchParams as before, since
      none of it is ours to reformat. */
+  /* ------------------------------------------- reading a shared address --
+
+     A LINK THAT HAS BEEN THROUGH SOMEBODY ELSE'S SITE IS NOT THE LINK THAT WAS
+     SENT.
+
+     Reported from Facebook, where the map opened at the right place with none
+     of the layers on. `fbclid` was the suspect and is innocent: an extra
+     parameter is ignored by `URLSearchParams` and the map loads exactly as it
+     does without one, which is what the check below pins.
+
+     What breaks it is `&amp;` between the parameters — an HTML-escaped
+     ampersand, from a URL that has been through a page and out again. Then the
+     first parameter is read and the rest are called `amp;layers` and
+     `amp;fbclid`, so the *view* arrives and the *layers* do not. That is the
+     fault as described: the map goes to the right ground with the wrong
+     switches.
+
+     Two things are done about it. The query is repaired before it is read —
+     `&amp;` and `&#38;` become `&`, and a second `?` becomes one too, which is
+     the other way a link gets stapled together. And the tracking parameters
+     are taken out of the address bar on the way in, so that what the reader
+     copies onward is the link and not the link plus somebody's campaign. */
+  var JUNK = /^(fbclid|gclid|dclid|msclkid|yclid|twclid|igshid|mc_[ce]id|_ga|ref|ref_src|ref_url|si|s_kwcid|vero_id|oly_enc_id|__s|_hsenc|_hsmi|utm_[a-z_]+)$/i;
+
+  function cleanQuery(search) {
+    return String(search || '')
+      .replace(/^\?/, '')
+      .replace(/&(?:amp;|#0*38;|#x0*26;)/gi, '&')
+      .replace(/\?/g, '&');
+  }
+
+  function params() {
+    try { return new URLSearchParams(cleanQuery(window.location.search)); }
+    catch (err) { return new URLSearchParams(); }
+  }
+
+  /* Once, at startup, and only if there is something to take out — a
+     `replaceState` that changes nothing still writes a history entry's worth of
+     work and would fire on every load. */
+  function tidyUrl() {
+    if (!window.history || !history.replaceState) return;
+    var raw = String(window.location.search || '');
+    var repaired = cleanQuery(raw);
+    var q = params();
+    var junk = false;
+    var keep = [];
+    q.forEach(function (v, k) {
+      if (JUNK.test(k)) { junk = true; return; }
+      // a comma is legal and every map link has four of them: kept as it is,
+      // the same rule `writeUrl` follows
+      keep.push(encodeURIComponent(k) + '='
+                + encodeURIComponent(v).replace(/%2C/g, ','));
+    });
+    if (!junk && repaired === raw.replace(/^\?/, '')) return;
+    try {
+      history.replaceState(null, '', window.location.pathname
+        + (keep.length ? '?' + keep.join('&') : '') + window.location.hash);
+    } catch (err) { /* older browser; nothing here is load-bearing */ }
+  }
+
   function writeUrl() {
     urlTimer = 0;
     if (!proj || !view || !window.history || !history.replaceState) return;
     try {
       var rest = [];
-      new URLSearchParams(window.location.search).forEach(function (v, k) {
+      params().forEach(function (v, k) {
+        if (JUNK.test(k)) return;      // never written back out
         if (k !== 'where' && k !== 'bbox' && k !== 'layers'
             && k !== 'mono' && k !== 'colours') {
           rest.push(encodeURIComponent(k) + '=' + encodeURIComponent(v));
@@ -3751,8 +3819,7 @@
   /* Read once, before anything is composed, so the layers are right the first
      time the map is drawn rather than switched on in front of the reader. */
   function readUrl() {
-    var q;
-    try { q = new URLSearchParams(window.location.search); } catch (err) { return null; }
+    var q = params();
     var code = q.get('layers');
     if (code) applyLayerCode(code);
     var mc = q.get('mono');
@@ -10066,7 +10133,7 @@
     }
     // a shared set in the address opens itself
     var code = null;
-    try { code = new URLSearchParams(window.location.search).get('ann'); }
+    try { code = params().get('ann'); }
     catch (err) { code = null; }
     if (code) annLoad(function (api) { if (api) api.fromUrl(code); });
   }
