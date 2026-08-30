@@ -7,7 +7,7 @@
 <meta name="description" content="Interactive map for revising the geography of the Japanese Empire: colonies, occupied territories, neighbouring states, cities and battles, 1853-1945.">
 <title>The Japanese Empire</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23f4f1ea'/%3E%3Ccircle cx='16' cy='16' r='8' fill='%239a1813'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=22956e2695">
+<link rel="stylesheet" href="styles.css?v=292c330633">
 </head>
 <body>
 
@@ -139,6 +139,11 @@
          a glance which half is new. -->
     <p class="note note-own" hidden></p>
     <p class="note note-group" hidden></p>
+    <!-- What was counted here: the population figures a field to a line,
+         one block per date, and the button that shades the map by them.
+         Written by map.js from data/population/, empty where nothing has
+         been counted. -->
+    <div id="info-pop" hidden></div>
     <!-- With the train tools up, what called at this station: written by
          map.js, empty and hidden the rest of the time. -->
     <div id="info-trains" class="note" hidden></div>
@@ -237,6 +242,16 @@
   <p class="pane-note">Note: The train tools appear once you zoom in to a
      railway that has a timetable &mdash; Taiwan for now &mdash; and are put
      away again when you zoom back out.</p>
+  <hr>
+  <!-- One row per dataset in data/population/ that has densities in it,
+       written by map.js: the section hides itself when there are none. -->
+  <div id="pop-section" hidden>
+    <h3>Population Density</h3>
+    <p class="pane-note">Note: The provinces are shaded by people per square
+       kilometre, in five classes. The key at the left says where each class
+       begins and whose figures they are.</p>
+    <div id="pop-rows"></div>
+  </div>
   <hr>
   <h3>Projection</h3>
   <label class="row"><input type="radio" name="projection" id="proj-mercator" value="mercator" checked>
@@ -354,7 +369,7 @@
 
   <p>Built with Anthropic's Claude, with <a href="https://muninn.net/">Konrad M. Lawson</a> at the prompt, primarily as a tool for students in his University of St Andrews honours module, <a href="https://github.com/kmlawson/japanese-empire-mo3335/">MO3335</a>.</p>
 
-  <p>Code for the website may be found <a href="https://github.com/kmlawson/japanese-empire-student-map">here</a>.</p>  <p class="version">Version 1 update <span id="jem-version">235</span> · last updated 30 August 2026, 11:28</p>
+  <p>Code for the website may be found <a href="https://github.com/kmlawson/japanese-empire-student-map">here</a>.</p>  <p class="version">Version 1 update <span id="jem-version">236</span> · last updated 30 August 2026, 12:14</p>
 
 <!-- END about -->
 </dialog>
@@ -405,8 +420,8 @@
 <!-- END help -->
 </dialog>
 
-<script src="data.js?v=5c84abe8e8"></script>
-<script src="cities-gaz.js?v=b779a7838f"></script>
+<script src="data.js?v=230bdb8ea2"></script>
+<script src="cities-gaz.js?v=9a9b2098ba"></script>
 <script src="tw-stations.js?v=88605063d8"></script>
 <script src="kr-stations.js?v=bd9f42c9d3"></script>
 <!-- After data.js, not before it: data.js opens with `const JMAP = {}`,
@@ -415,6 +430,6 @@
      and data.js then hides it behind a fresh one. cities-gaz.js sits here for
      the same reason. -->
 <script src="relief.js?v=a584543962"></script>
-<script src="map.js?v=9fca7fc2a8"></script>
+<script src="map.js?v=9ecf151b97"></script>
 </body>
 </html>

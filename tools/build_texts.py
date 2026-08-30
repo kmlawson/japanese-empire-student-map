@@ -30,6 +30,7 @@ generator is the place they can be caught for good.
 import csv
 import hashlib
 import json
+import math
 import os
 import time
 import re
@@ -150,37 +151,148 @@ def check_every_table_has_unique_keys():
 POP = os.path.join(ROOT, "data", "population")
 
 
-def population_lines():
-    """{(epoch, scope, key): line} — one composed line per row of data."""
+# The ladder a class break is allowed to land on. A choropleth's breaks are
+# log-spaced — density is a ratio and reads as one, and equal steps on a linear
+# scale put nine of thirteen provinces in the bottom class — but a reader
+# cannot hold 72.0, 96.9, 128.7 in their head, and a pure power of ten is too
+# coarse a ladder to have more than two rungs inside one map's range. So each
+# break is snapped to the nearest rung *in log space*, which is the space it
+# was computed in: 73 → 75, 97 → 100, 129 and 171 → 150 and, because two
+# breaks cannot be one break, the second is pushed up to 200.
+#
+# The result for Korea in 1942 is under 75, 75–100, 100–150, 150–200, 200 and
+# over. One of those classes is empty, and that is the map speaking rather than
+# a fault in the ladder: nothing in Korea sat between 69 and 111 per km², the
+# mountains and the paddy being what they are.
+LADDER = [1.0, 1.5, 2.0, 2.5, 3.0, 4.0, 5.0, 7.5]
+
+
+def nice_above(v):
+    """The next rung strictly above v."""
+    e = math.floor(math.log10(v)) - 1
+    while True:
+        for m in LADDER:
+            r = m * 10 ** e
+            if r > v * 1.000001:
+                return r
+        e += 1
+
+
+def snap(v):
+    """The rung nearest v, measured the way the break was computed: in logs."""
+    e = math.floor(math.log10(v))
+    best = None
+    for de in (-1, 0, 1):
+        for m in LADDER:
+            r = m * 10 ** (e + de)
+            d = abs(math.log(r / v))
+            if best is None or d < best[0]:
+                best = (d, r)
+    return best[1]
+
+
+def density_breaks(values, classes=5):
+    """The class boundaries for a choropleth: log-spaced, snapped to LADDER.
+
+    Returns the `classes - 1` interior breaks, ascending. A value below the
+    first belongs to the lightest class, one at or above the last to the
+    darkest — so the ends are open and no reading falls outside the ramp.
+    """
+    vals = sorted(v for v in values if v > 0)
+    if len(vals) < 2:
+        return []
+    lo, hi = vals[0], vals[-1]
+    out = []
+    for i in range(1, classes):
+        raw = lo * (hi / lo) ** (i / float(classes))
+        b = snap(raw)
+        while out and b <= out[-1]:
+            b = nice_above(out[-1])
+        out.append(int(b) if float(b).is_integer() else b)
+    return out
+
+
+def population_data():
+    """The datasets in data/population/, read and composed once.
+
+    Each is {meta…, rows: {key: {…, line}}}, where `line` is the sentence the
+    tooltip and the short description carry and the rest is what the card and
+    the choropleth read. A row may say `same_as`: the place is counted inside
+    another one and has no figures of its own, so it carries that row's and
+    says so — Cheju inside Zenranan-dō, which the 1942 returns do not break out.
+    """
     index = os.path.join(POP, "index.csv")
     if not os.path.exists(index):
-        return {}
-    out = {}
+        return []
+    sets = []
     for d in T.read_csv(index):
+        where = "data/population/" + d["file"]
         rows = T.read_csv(os.path.join(POP, d["file"]))
-        check_unique(rows, "key", "data/population/" + d["file"])
+        check_unique(rows, "key", where)
+        by_key = dict((r["key"], r) for r in rows)
+        out = {}
         for r in rows:
+            src = r
+            if r.get("same_as"):
+                if r["same_as"] not in by_key:
+                    raise Problem("%s: %s is said to be counted in %s, and "
+                                  "there is no such row"
+                                  % (where, r["key"], r["same_as"]))
+                src = by_key[r["same_as"]]
+                if src.get("same_as"):
+                    raise Problem("%s: %s points at %s, which points at "
+                                  "somebody else in turn. One hop only."
+                                  % (where, r["key"], r["same_as"]))
+            rec = {"scope": r["scope"], "en": r.get("en", "")}
             bits = []
-            if r.get("population"):
+            if src.get("population"):
+                rec["pop"] = int(src["population"])
                 bits.append("%s Estimated Population: %s"
-                            % (d["epoch"], "{:,}".format(int(r["population"]))))
-            if r.get("m_per_100_f"):
-                bits.append("Males per 100 Females: %s" % r["m_per_100_f"])
-            if r.get("pct_of_total"):
-                bits.append("%% of Total %s: %s" % (d["pct_of"], r["pct_of_total"]))
-            if r.get("population") and r.get("area_km2"):
-                bits.append("Per km²: %.0f"
-                            % (int(r["population"]) / float(r["area_km2"])))
+                            % (d["epoch"], "{:,}".format(rec["pop"])))
+            if src.get("m_per_100_f"):
+                rec["mf"] = src["m_per_100_f"]
+                bits.append("Males per 100 Females: %s" % rec["mf"])
+            if src.get("pct_of_total"):
+                rec["pct"] = src["pct_of_total"]
+                bits.append("%% of Total %s: %s" % (d["pct_of"], rec["pct"]))
+            if src.get("population") and src.get("area_km2"):
+                rec["km2"] = int(round(float(src["area_km2"])))
+                rec["dens"] = int(round(rec["pop"] / float(src["area_km2"])))
+                bits.append("Per km²: %d" % rec["dens"])
             line = " · ".join(bits)
             if r.get("note"):
+                rec["note"] = r["note"]
                 line = (line + " " + r["note"]).strip()
+            if r.get("same_as"):
+                rec["sameAs"] = r["same_as"]
             if not line:
                 continue
-            k = (d["epoch"], r["scope"], r["key"])
+            rec["line"] = line
+            out[r["key"]] = rec
+        # The choropleth is over the sub-units, so the country's own density —
+        # which is not shown anywhere — has no business setting the range.
+        dens = [v["dens"] for k, v in out.items()
+                if v.get("dens") and v["scope"] == "sub-unit"
+                and not v.get("sameAs")]
+        sets.append({"id": d["file"][:-4], "epoch": d["epoch"],
+                     "label": d["label"], "pctOf": d["pct_of"],
+                     "source": d["source"],
+                     "layer": d.get("layer") or d["label"],
+                     "breaks": density_breaks(dens),
+                     "rows": out})
+    return sets
+
+
+def population_lines():
+    """{(epoch, scope, key): line} — one composed line per row of data."""
+    out = {}
+    for d in population_data():
+        for key, rec in d["rows"].items():
+            k = (d["epoch"], rec["scope"], key)
             if k in out:
                 raise Problem("data/population/: %s is given twice for %s on "
-                              "%s" % (r["key"], r["scope"], d["epoch"]))
-            out[k] = line
+                              "%s" % (key, rec["scope"], d["epoch"]))
+            out[k] = rec["line"]
     return out
 
 
@@ -409,6 +521,14 @@ def build_data_js():
         "them silently\n   discarded the earlier, so eleven overrides never "
         "took effect at all. */\nJMAP.PROVINCE_EPOCH = {\n%s\n};"
         % "\n".join(inner))
+
+    # The same figures again, as a table rather than a sentence: the card
+    # prints them a field to a line, and the choropleth needs the densities and
+    # the class breaks. Composed once in population_data() so that the line the
+    # tooltip carries and the rows the card shows cannot say different things.
+    parts.append("JMAP.POPULATION = %s;"
+                 % json.dumps(population_data(), ensure_ascii=False,
+                              indent=2, sort_keys=False))
 
     lost = sorted(set(pop) - pop_used)
     if lost:

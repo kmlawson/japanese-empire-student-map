@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '235';
+  var JEM_VERSION = '236';
   var JEM_ASSETS = {"admin.js": "9f99c96627", "annotate.js": "761fbd5949", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "3881d33c99", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
 
   /* Every file this one fetches, with the version on it.
@@ -129,6 +129,18 @@
        nothing until the reader is looking at an island a train ran on — see
        TRAIN_SYS. */
     trainTools: false,
+    /* Which population-density choropleths are on, keyed by dataset id —
+       `korea-1942` and, in time, others. A set rather than a flag because
+       every dataset in data/population/ that has densities offers one, and
+       the Layers panel is built from that table rather than from a list
+       written here.
+
+       It is not in the layers bitfield. That field has one bit left, and
+       spending it on the first of a growing family would leave the second
+       with nowhere to go; these travel as their own `pop=` parameter, a
+       comma-separated list of ids, which says in the address bar what is on
+       and can hold as many as there ever are. */
+    pop: {},
     // the mesh of meridians and parallels; off by default
     graticule: false,
     /* Shaded relief under the political colours. Off by default and fetched
@@ -504,7 +516,8 @@
   }
 
   function gazVisible(s) {
-    return state.cats.city && s.epoch === state.epoch && s.t >= gazMinTier();
+    return state.cats.city && s.epoch === state.epoch
+      && (s.a !== undefined || s.t >= gazMinTier());
   }
 
   /* Zooming in is a request for more detail, so it raises the level the map
@@ -835,6 +848,7 @@
     krRailGroup = svg.querySelector('#kr-rail');
     buildYellow1938();
     buildBrowse();
+    buildPopRows();
     buildGazetteer();
     hatchGroup = svg.querySelector('#hatching');
 
@@ -2761,7 +2775,9 @@
     Object.keys(JMAP.GAZ).forEach(function (epoch) {
       JMAP.GAZ[epoch].forEach(function (c) {
         var p = project(c.lon, c.lat);
-        var r = GAZ_R[c.t] || GAZ_R[0];
+        // the weight it is drawn at, which is its size tier unless the table
+        // pins it to one — and a pinned weight is not a claim about size
+        var r = GAZ_R[c.a !== undefined ? c.a : c.t] || GAZ_R[0];
         var g = svgEl('g', {
           'class': 'gaz t' + c.t + (c.c ? ' cap' + c.c : ''),
           'data-epoch': epoch, 'data-id': c.id,
@@ -2778,7 +2794,8 @@
         }
         g.appendChild(svgEl('circle', { 'class': 'dot', r: r }));
         gazGroup.appendChild(g);
-        gazEls.push({ el: g, epoch: epoch, tier: c.t, rec: c });
+        gazEls.push({ el: g, epoch: epoch, tier: c.t,
+                      always: c.a !== undefined, rec: c });
         scalables.push({ el: g, x: p.x, y: p.y });
         // named and hoverable on the same machinery as everything else. The id
         // is prefixed because 222 of these places are already in data.js under
@@ -2832,7 +2849,13 @@
     if (!on) return;
     var floor = gazMinTier();
     gazEls.forEach(function (g) {
-      g.el.style.display = (g.epoch === state.epoch && g.tier >= floor) ? '' : 'none';
+      /* `always` is drawn at every zoom. The fourteen 府 of colonial Korea are
+         the set this exists for: a reader looking at the peninsula should find
+         the same towns whatever the scale, rather than watching them appear
+         and disappear as they zoom. `data/cities-*.csv` says which, and at
+         what weight; see tools/build_cities.py. */
+      g.el.style.display =
+        (g.epoch === state.epoch && (g.always || g.tier >= floor)) ? '' : 'none';
     });
   }
 
@@ -3796,7 +3819,7 @@
       params().forEach(function (v, k) {
         if (JUNK.test(k)) return;      // never written back out
         if (k !== 'where' && k !== 'bbox' && k !== 'layers'
-            && k !== 'mono' && k !== 'colours') {
+            && k !== 'mono' && k !== 'colours' && k !== 'pop') {
           rest.push(encodeURIComponent(k) + '=' + encodeURIComponent(v));
         }
       });
@@ -3808,6 +3831,13 @@
          chosen. */
       var cc = colourCode();
       if (cc) rest.unshift('colours=' + cc);
+      /* The density layers, by name. Written only when one is on, so a map
+         nobody asked a population question of carries nothing, and an id that
+         no longer exists is simply not matched when it is read back. */
+      var shaded = popOn();
+      if (shaded.length) {
+        rest.unshift('pop=' + shaded.map(function (d) { return d.id; }).join(','));
+      }
       /* `where`, not `bbox`. The old name is still read — every link already
          shared carries it — and never written again. */
       var q = ['where=' + viewBox().join(','), 'layers=' + layerCode()].concat(rest);
@@ -3826,6 +3856,13 @@
     if (mc && HEX.test('#' + mc)) state.monoColour = '#' + mc;
     var cc = q.get('colours');
     if (cc) state.colours = readColourCode(cc);
+    var pp = q.get('pop');
+    if (pp) {
+      state.pop = {};
+      pp.split(',').forEach(function (id) {
+        if (popSet(id)) state.pop[id] = true;
+      });
+    }
     var raw = q.get('where') || q.get('bbox');
     if (!raw) return null;
     // A comma is never a minus sign, so the box comes apart on commas and a
@@ -5475,7 +5512,13 @@
     // should wait on a switch about provinces.
     var fine = candEl && candEl.classList
       && candEl.classList.contains('fine');
-    if (!state.cats.territory && !own && !fine &&
+    /* A province the reader has asked to see shaded by its population answers
+       for itself, whatever the Administrative switch says. The switch is about
+       showing every division of every country; this one is showing thirteen,
+       and a choropleth whose units cannot be pointed at is a picture. */
+    var shaded = candEl && candEl.classList
+      && candEl.classList.contains('pop-shaded');
+    if (!state.cats.territory && !own && !fine && !shaded &&
         !(atom && atom.getAttribute('data-islands'))) {
       return null;
     }
@@ -6904,6 +6947,7 @@
     if (!id || !byId[id]) {
       selCluster = null;
       infoBox.hidden = true;
+      fillPopCard(null);
       fillTrainCard(null);
       document.body.classList.toggle('panel-open', !quizBox.hidden);
       redrawHighlight();
@@ -7031,6 +7075,8 @@
     var groupName = nameOf(host);
     grp.setAttribute('data-group',
       (groupNote && groupName !== primary) ? groupName : '');
+    // what was counted here, if anything was
+    fillPopCard(sub ? (lastProv && lastProv.key) : id);
     // and, on a station with the train tools up, the trains that called there
     fillTrainCard(byId[id]);
     collapseInfo();
@@ -7302,7 +7348,8 @@
       b.textContent = 'More';
       b.setAttribute('aria-expanded', 'false');
       // nothing to open is nothing to offer
-      var some = ['.prov', '.when', '.note-own', '.note-group'].some(function (s) {
+      var some = ['.prov', '.when', '.note-own', '.note-group',
+                  '#info-pop'].some(function (s) {
         var el = $(s, infoBox);
         return el && !el.hidden && el.textContent;
       });
@@ -7676,6 +7723,7 @@
     // the two 1942 controls in the bar come and go with the date, so they are
     // settled here rather than only when a layer button is pressed
     syncBarExtras();
+    applyPop();
     buildLegend();
     // and the station names bring the placer with them, since they are not
     // under the "Show names" button that used to be the only thing that ran it
@@ -7959,6 +8007,246 @@
     if (el) el.textContent = msg || '';
   }
 
+  /* ------------------------------------------- population by density --
+
+     A choropleth over administrative units, built from data/population/ and
+     from nothing written here: a dataset in that folder with densities in it
+     earns a row in the Layers panel, a button at the foot of the card of every
+     place it covers, and a block in the key. Adding next year's table is
+     adding a file.
+
+     **The classes are log-spaced and then nudged onto round numbers.** Density
+     is a ratio and reads as one — a province at 200 per km² is to one at 100
+     as that one is to 50 — and equal steps on a linear scale put nine of
+     Korea's thirteen provinces in the bottom class and leave three of the five
+     colours unused. Equal steps on a log scale spread them, but they land on
+     73.0, 96.9, 128.7, 170.9, which nobody can hold in their head; pure powers
+     of ten would be legible and give one break inside the whole range. So each
+     break is snapped, in the space it was computed in, to the nearest rung of
+     1, 1.5, 2, 2.5, 3, 4, 5, 7.5 × 10ⁿ, and where two land on the same rung the
+     second is pushed up. Korea 1942 comes out under 75, 75–100, 100–150,
+     150–200, 200 and over. `density_breaks` in tools/build_texts.py does it,
+     once, at build; this file only reads the answer, so the key and the map
+     cannot disagree about where a class begins.
+
+     The ramp is cool and the map is warm, which is the point: shaded ground
+     should not be mistaken for a country's own colour. It is a sequential
+     five-step blue — pale for empty, deep for crowded — and it is set as `--c`
+     on the province rather than as a fill, so the hover lift still mixes with
+     it and the shape still darkens under the pointer. */
+  var POP_RAMP = ['#eef3f8', '#c3d6e8', '#8fb4d4', '#5286b4', '#1f5b8f'];
+
+  function popSets() { return JMAP.POPULATION || []; }
+
+  function popSet(id) {
+    return popSets().filter(function (d) { return d.id === id; })[0] || null;
+  }
+
+  /* The datasets that have a choropleth in them. A table of one row, or one
+     with no areas, has figures worth printing and no map to draw. */
+  function popShaded() {
+    return popSets().filter(function (d) {
+      return d.breaks && d.breaks.length;
+    });
+  }
+
+  function popOn() {
+    return popShaded().filter(function (d) { return !!state.pop[d.id]; });
+  }
+
+  /* Which class a density falls in: 0 is the lightest. The ends are open, so
+     nothing falls off either end of the ramp. */
+  function popClass(dens, breaks) {
+    var i = 0;
+    while (i < breaks.length && dens >= breaks[i]) i++;
+    return Math.min(POP_RAMP.length - 1, i);
+  }
+
+  /* How the key words the classes: the ends are open, so the first reads
+     "under" and the last "and over" rather than inventing a floor and a
+     ceiling the data does not have. */
+  function popClassLabels(breaks) {
+    var out = [];
+    for (var i = 0; i <= breaks.length; i++) {
+      if (i === 0) out.push('under ' + breaks[0]);
+      else if (i === breaks.length) out.push(breaks[i - 1] + ' and over');
+      else out.push(breaks[i - 1] + '–' + breaks[i]);
+    }
+    return out;
+  }
+
+  /* Every dataset that says something about this place, in date order — the
+     card stacks them, so when 1930 arrives it will sit above 1942 without
+     anything here changing. */
+  function popFor(key) {
+    if (!key) return [];
+    return popSets().filter(function (d) { return d.rows && d.rows[key]; })
+      .sort(function (a, b) { return String(a.epoch).localeCompare(b.epoch); });
+  }
+
+  /* The dataset a card's button offers, which is the first one covering this
+     place that has a map to draw. */
+  function popShadeFor(key) {
+    return popFor(key).filter(function (d) {
+      return d.breaks && d.breaks.length;
+    })[0] || null;
+  }
+
+  var popPainted = [];
+
+  function setPop(id, on) {
+    if (!popSet(id)) return;
+    if (on) state.pop[id] = true; else delete state.pop[id];
+    /* And open the key. On a phone it is folded to a pill by default, which is
+       right for a list of political colours the reader already understands and
+       wrong the moment the map is shaded by numbers: five blues mean nothing
+       at all without the classes beside them. Folding it again is still the
+       reader's to do. */
+    if (on) state.legend = true;
+    syncPopBoxes();
+    applyState();
+    if (selected) select(selected);
+  }
+
+  function syncPopBoxes() {
+    popShaded().forEach(function (d) {
+      var box = $('#opt-pop-' + d.id);
+      if (box) box.checked = !!state.pop[d.id];
+    });
+  }
+
+  /* One row per dataset, written from the table rather than from markup, so a
+     new file in data/population/ appears here on its own. */
+  function buildPopRows() {
+    var host = $('#pop-rows');
+    if (!host) return;
+    host.innerHTML = '';
+    var sets = popShaded();
+    var section = $('#pop-section');
+    if (section) section.hidden = !sets.length;
+    sets.forEach(function (d) {
+      var label = document.createElement('label');
+      label.className = 'row';
+      label.title = d.label + '. Source: ' + d.source;
+      var box = document.createElement('input');
+      box.type = 'checkbox';
+      box.id = 'opt-pop-' + d.id;
+      box.checked = !!state.pop[d.id];
+      box.addEventListener('change', function () { setPop(d.id, box.checked); });
+      label.appendChild(box);
+      label.appendChild(document.createTextNode(' ' + d.layer));
+      host.appendChild(label);
+    });
+  }
+
+  /* The colour each unit earns, gathered across whatever is switched on. A
+     place counted inside another one — Cheju inside Zenranan-dō — carries that
+     province's density and so is shaded with it, which is what the returns
+     say and what its card explains. */
+  function popFills() {
+    var out = {};
+    popOn().forEach(function (d) {
+      Object.keys(d.rows).forEach(function (k) {
+        var r = d.rows[k];
+        if (!r.dens) return;
+        out[k] = POP_RAMP[popClass(r.dens, d.breaks)];
+      });
+    });
+    return out;
+  }
+
+  function applyPop() {
+    var want = popFills();
+    var any = false;
+    for (var k in want) { if (want.hasOwnProperty(k)) { any = true; break; } }
+    /* The provinces are in the administrative sheet, which is fetched only
+       when something asks for it. This asks: a reader who ticks a density
+       layer with Administrative off should see the map shaded, not wait for a
+       switch nobody told them about. */
+    if (any && adminState !== 'ready') loadAdmin();
+    popPainted.forEach(function (el) {
+      el.style.removeProperty('--c');
+      el.classList.remove('pop-shaded');
+    });
+    popPainted = [];
+    if (svg) svg.classList.toggle('pop-on', any);
+    if (!any || !svg) return;
+    $$('#land [data-prov]', svg).forEach(function (el) {
+      var c = want[el.getAttribute('data-prov')];
+      if (!c) return;
+      el.style.setProperty('--c', c);
+      el.classList.add('pop-shaded');
+      popPainted.push(el);
+    });
+  }
+
+  /* --------------------------------------------- and in the info card -- */
+
+  function popRow(host, label, value) {
+    var row = document.createElement('div');
+    row.className = 'pop-row';
+    var k = document.createElement('span');
+    k.className = 'pop-k';
+    k.textContent = label;
+    var v = document.createElement('span');
+    v.className = 'pop-v';
+    v.textContent = value;
+    row.appendChild(k);
+    row.appendChild(v);
+    host.appendChild(row);
+  }
+
+  /* What was counted here, a field to a line, under the description. The
+     tooltip says the same thing in one sentence; this is the same numbers
+     with room to read them, and it stacks one block per date. */
+  function fillPopCard(key) {
+    var host = $('#info-pop');
+    if (!host) return;
+    host.innerHTML = '';
+    var sets = popFor(key);
+    if (!sets.length) { host.hidden = true; return; }
+    sets.forEach(function (d) {
+      var r = d.rows[key];
+      var block = document.createElement('div');
+      block.className = 'pop-block';
+      var head = document.createElement('p');
+      head.className = 'pop-head';
+      head.textContent = d.label;
+      block.appendChild(head);
+      if (r.pop) popRow(block, 'Population', r.pop.toLocaleString('en-US'));
+      if (r.mf) popRow(block, 'Males per 100 females', r.mf);
+      if (r.pct) popRow(block, '% of total ' + d.pctOf, r.pct);
+      if (r.dens) popRow(block, 'Per km²', r.dens + '  (' + r.km2.toLocaleString('en-US') + ' km²)');
+      if (r.note) {
+        var note = document.createElement('p');
+        note.className = 'pop-note';
+        note.textContent = r.note;
+        block.appendChild(note);
+      }
+      var src = document.createElement('p');
+      src.className = 'pop-src';
+      src.textContent = d.source;
+      block.appendChild(src);
+      host.appendChild(block);
+    });
+    /* And the way to see it as a map. It is the same switch as the one in the
+       Layers panel — pressed here or there, one thing is on — so the label
+       says which way it is about to go. */
+    var shade = popShadeFor(key);
+    if (shade) {
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'plain pop-btn';
+      btn.textContent = state.pop[shade.id]
+        ? 'Hide the density map' : 'Provinces by Population Density';
+      btn.addEventListener('click', function () {
+        setPop(shade.id, !state.pop[shade.id]);
+      });
+      host.appendChild(btn);
+    }
+    host.hidden = false;
+  }
+
   function buildLegend() {
     var legend = $('#legend');
     if (!legend) return;
@@ -8047,6 +8335,30 @@
           : 'Yangzi and Yellow rivers'));
       legend.appendChild(rrow);
     }
+
+    /* The density ramp, when one is on. It carries its own source line: the
+       key is where a reader is looking when they ask what the colours mean,
+       and "whose figures are these" is the same question. */
+    popOn().forEach(function (d) {
+      var head = document.createElement('div');
+      head.className = 'item pop-key-head';
+      head.textContent = d.layer + ' — people per km²';
+      legend.appendChild(head);
+      popClassLabels(d.breaks).forEach(function (txt, i) {
+        var row = document.createElement('div');
+        row.className = 'item pop-key-row';
+        var sw = document.createElement('span');
+        sw.className = 'sw';
+        sw.style.background = POP_RAMP[i];
+        row.appendChild(sw);
+        row.appendChild(document.createTextNode(txt));
+        legend.appendChild(row);
+      });
+      var psrc = document.createElement('p');
+      psrc.className = 'legend-src';
+      psrc.textContent = d.source;
+      legend.appendChild(psrc);
+    });
 
     JMAP.SITE_CATEGORIES.forEach(function (c) {
       if (!state.cats[c.id]) return;
@@ -9032,6 +9344,10 @@
        here rather than only at startup. */
     var rc = $('#opt-relief');
     if (rc) rc.checked = !!state.relief;
+    /* And the density rows, for the same reason twice over: they can be
+       switched from the card as well as from the panel, and a link arriving
+       with `pop=` in it sets them before the panel has been written. */
+    syncPopBoxes();
     syncBarExtras();
   }
 

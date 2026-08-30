@@ -7453,7 +7453,7 @@ JMAP.PROVINCE_EPOCH = {
       short: 'The province between the capital and P\'yŏngyang, rolling hills opening on the Yellow Sea. 1942 Estimated Population: 1,841,851 · Males per 100 Females: 99.5 · % of Total Korea: 7.6 · Per km²: 111'
     },
     Saishu: {
-      short: 'A volcanic island a hundred kilometres off the south coast. Counted in Zenranan-dō in the 1942 returns, which do not break the island out separately.'
+      short: 'A volcanic island a hundred kilometres off the south coast. 1942 Estimated Population: 2,647,674 · Males per 100 Females: 97.2 · % of Total Korea: 11.0 · Per km²: 191 The 1942 returns count Cheju inside Zenranan-dō and do not break the island out, so these are that province’s figures.'
     },
     Zenrahoku: {
       short: 'The Honam plain, the largest stretch of paddy in Korea. 1942 Estimated Population: 1,561,479 · Males per 100 Females: 99.6 · % of Total Korea: 6.5 · Per km²: 185'
@@ -7463,6 +7463,174 @@ JMAP.PROVINCE_EPOCH = {
     },
   },
 };
+
+JMAP.POPULATION = [
+  {
+    "id": "korea-1942",
+    "epoch": "1942",
+    "label": "Korea, estimated population at 1 October 1942",
+    "pctOf": "Korea",
+    "source": "朝鮮總督府『昭和十七年 朝鮮人口動態統計』附録 p24",
+    "layer": "Korea Population Density 1942",
+    "breaks": [
+      75,
+      100,
+      150,
+      200
+    ],
+    "rows": {
+      "chosen": {
+        "scope": "territory",
+        "en": "Chōsen (Korea)",
+        "pop": 24105906,
+        "mf": "100.4",
+        "line": "1942 Estimated Population: 24,105,906 · Males per 100 Females: 100.4"
+      },
+      "Keiki": {
+        "scope": "sub-unit",
+        "en": "Keiki-dō (Kyŏnggi-do)",
+        "pop": 2830778,
+        "mf": "101.0",
+        "pct": "11.7",
+        "km2": 12643,
+        "dens": 224,
+        "line": "1942 Estimated Population: 2,830,778 · Males per 100 Females: 101.0 · % of Total Korea: 11.7 · Per km²: 224"
+      },
+      "Zenranan": {
+        "scope": "sub-unit",
+        "en": "Zenranan-dō (Chŏllanam-do)",
+        "pop": 2647674,
+        "mf": "97.2",
+        "pct": "11.0",
+        "km2": 13885,
+        "dens": 191,
+        "line": "1942 Estimated Population: 2,647,674 · Males per 100 Females: 97.2 · % of Total Korea: 11.0 · Per km²: 191"
+      },
+      "Keishohoku": {
+        "scope": "sub-unit",
+        "en": "Keishōhoku-dō (Kyŏngsangbuk-to)",
+        "pop": 2391043,
+        "mf": "97.8",
+        "pct": "9.9",
+        "km2": 18986,
+        "dens": 126,
+        "line": "1942 Estimated Population: 2,391,043 · Males per 100 Females: 97.8 · % of Total Korea: 9.9 · Per km²: 126"
+      },
+      "Keishonan": {
+        "scope": "sub-unit",
+        "en": "Keishōnan-dō (Kyŏngsangnam-do)",
+        "pop": 2145070,
+        "mf": "96.1",
+        "pct": "8.9",
+        "km2": 12269,
+        "dens": 175,
+        "line": "1942 Estimated Population: 2,145,070 · Males per 100 Females: 96.1 · % of Total Korea: 8.9 · Per km²: 175"
+      },
+      "Kankyonan": {
+        "scope": "sub-unit",
+        "en": "Kankyōnan-dō (Hamgyŏngnam-do)",
+        "pop": 1860606,
+        "mf": "104.3",
+        "pct": "7.7",
+        "km2": 31916,
+        "dens": 58,
+        "line": "1942 Estimated Population: 1,860,606 · Males per 100 Females: 104.3 · % of Total Korea: 7.7 · Per km²: 58"
+      },
+      "Kokai": {
+        "scope": "sub-unit",
+        "en": "Kōkai-dō (Hwanghae-do)",
+        "pop": 1841851,
+        "mf": "99.5",
+        "pct": "7.6",
+        "km2": 16583,
+        "dens": 111,
+        "line": "1942 Estimated Population: 1,841,851 · Males per 100 Females: 99.5 · % of Total Korea: 7.6 · Per km²: 111"
+      },
+      "Kogen": {
+        "scope": "sub-unit",
+        "en": "Kōgen-dō (Kangwŏn-do)",
+        "pop": 1806504,
+        "mf": "105.7",
+        "pct": "7.5",
+        "km2": 26245,
+        "dens": 69,
+        "line": "1942 Estimated Population: 1,806,504 · Males per 100 Females: 105.7 · % of Total Korea: 7.5 · Per km²: 69"
+      },
+      "Heianhoku": {
+        "scope": "sub-unit",
+        "en": "Heianhoku-dō (P’yŏnganbuk-to)",
+        "pop": 1728627,
+        "mf": "99.8",
+        "pct": "7.2",
+        "km2": 28298,
+        "dens": 61,
+        "line": "1942 Estimated Population: 1,728,627 · Males per 100 Females: 99.8 · % of Total Korea: 7.2 · Per km²: 61"
+      },
+      "Heiannan": {
+        "scope": "sub-unit",
+        "en": "Heiannan-dō (P’yŏngannam-do)",
+        "pop": 1684444,
+        "mf": "99.7",
+        "pct": "7.0",
+        "km2": 14765,
+        "dens": 114,
+        "line": "1942 Estimated Population: 1,684,444 · Males per 100 Females: 99.7 · % of Total Korea: 7.0 · Per km²: 114"
+      },
+      "Chuseinan": {
+        "scope": "sub-unit",
+        "en": "Chūseinan-dō (Ch’ungch’ŏngnam-do)",
+        "pop": 1568708,
+        "mf": "100.3",
+        "pct": "6.5",
+        "km2": 8060,
+        "dens": 195,
+        "line": "1942 Estimated Population: 1,568,708 · Males per 100 Females: 100.3 · % of Total Korea: 6.5 · Per km²: 195"
+      },
+      "Zenrahoku": {
+        "scope": "sub-unit",
+        "en": "Zenrahoku-dō (Chŏllabuk-to)",
+        "pop": 1561479,
+        "mf": "99.6",
+        "pct": "6.5",
+        "km2": 8463,
+        "dens": 185,
+        "line": "1942 Estimated Population: 1,561,479 · Males per 100 Females: 99.6 · % of Total Korea: 6.5 · Per km²: 185"
+      },
+      "Kankyohoku": {
+        "scope": "sub-unit",
+        "en": "Kankyōhoku-dō (Hamgyŏngbuk-to)",
+        "pop": 1110305,
+        "mf": "109.3",
+        "pct": "4.6",
+        "km2": 20321,
+        "dens": 55,
+        "line": "1942 Estimated Population: 1,110,305 · Males per 100 Females: 109.3 · % of Total Korea: 4.6 · Per km²: 55"
+      },
+      "Chuseihoku": {
+        "scope": "sub-unit",
+        "en": "Chūseihoku-dō (Ch’ungch’ŏngbuk-to)",
+        "pop": 928817,
+        "mf": "102.5",
+        "pct": "3.9",
+        "km2": 7413,
+        "dens": 125,
+        "line": "1942 Estimated Population: 928,817 · Males per 100 Females: 102.5 · % of Total Korea: 3.9 · Per km²: 125"
+      },
+      "Saishu": {
+        "scope": "sub-unit",
+        "en": "Saishū-tō (Cheju-do)",
+        "pop": 2647674,
+        "mf": "97.2",
+        "pct": "11.0",
+        "km2": 13885,
+        "dens": 191,
+        "note": "The 1942 returns count Cheju inside Zenranan-dō and do not break the island out, so these are that province’s figures.",
+        "sameAs": "Zenranan",
+        "line": "1942 Estimated Population: 2,647,674 · Males per 100 Females: 97.2 · % of Total Korea: 11.0 · Per km²: 191 The 1942 returns count Cheju inside Zenranan-dō and do not break the island out, so these are that province’s figures."
+      }
+    }
+  }
+];
 
 JMAP.CLUSTER_EPOCH = {
   e1942: {

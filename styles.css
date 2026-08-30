@@ -1759,6 +1759,14 @@ dialog h3 {
     gap: 2px 12px;
   }
 
+  /* The density key is a ramp and reads as one only if it starts on its own
+     line: flowed in with the political colours, its caption ended up beside
+     the first class and "people per km²" read as the name of a swatch. The
+     head and the source line take the full width; the five classes still flow
+     across as columns. */
+  #legend .pop-key-head,
+  #legend .legend-src { flex: 0 0 100%; }
+
   /* the legend and the detail sheet both live at the bottom on a phone;
      the sheet wins whenever one is open */
   body.panel-open #legend { display: none; }
@@ -1802,6 +1810,7 @@ dialog h3 {
 
   #info:not(.open) .prov,
   #info:not(.open) .when,
+  #info:not(.open) #info-pop,
   #info:not(.open) .note { display: none; }
 
   #info:not(.open) { max-height: none; overflow: visible; }
@@ -2858,3 +2867,84 @@ dialog h3 {
    more browsers than it works in. */
 #dlg-table .table-body { height: calc(100% - 51px); }
 #dlg-table iframe { display: block; width: 100%; height: 100%; border: 0; }
+
+/* ---------------------------------------------- population by density --
+
+   The card block first: a caption, one line per field with the number set
+   right so a column of them reads down, and under it the note and the source.
+   `.pop-btn` is the way from the figures to the map of them. */
+#info-pop { margin-top: 10px; }
+#info-pop[hidden] { display: none; }
+
+.pop-block + .pop-block { margin-top: 10px; }
+
+.pop-head {
+  margin: 0 0 4px;
+  font-size: 11.5px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.pop-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 12.5px;
+  padding: 2px 0;
+  border-bottom: 1px dotted var(--line);
+}
+.pop-row:last-of-type { border-bottom: 0; }
+.pop-k { color: var(--muted); }
+.pop-v { font-variant-numeric: tabular-nums; text-align: right; }
+
+.pop-note, .pop-src {
+  margin: 5px 0 0;
+  font-size: 11.5px;
+  line-height: 1.45;
+  color: var(--muted);
+}
+.pop-src { opacity: .82; }
+
+.pop-btn {
+  margin-top: 8px;
+  font-size: 12px;
+}
+
+/* The key. The head names the layer and its unit; the rows are the ramp. */
+#legend .pop-key-head {
+  margin-top: 6px;
+  font-size: 11.5px;
+  color: var(--muted);
+}
+#legend .pop-key-row { padding-left: 2px; }
+
+/* And on the map. The colour arrives as `--c` on the province — see applyPop —
+   so the fill rule on `.atom` reads it and the hover lift still mixes with it.
+   The line between two provinces is drawn here rather than left to the
+   Administrative layer: a reader can ask for the shading without asking for
+   every division of every country, and five classes over thirteen units with
+   no boundary between them is a wash rather than a map. */
+#jmap .atom > path.pop-shaded {
+  /* The declaration has to be *here*, on the province, not only on the group.
+     `fill` inherits as a finished colour: the `var(--c)` on `.atom` is resolved
+     against the group's own variables and the children inherit the answer, so
+     setting `--c` on a province changed nothing at all and thirteen of them
+     stayed the colour of Korea. Declaring the same expression on the path
+     makes it read its own variable.
+
+     And it reads `--c`, never `--lit`. The lift a hovered country gets is
+     `--lit` set on the *group*, already resolved to that country's colour, and
+     a custom property inherits: with `--lit` first in this expression, putting
+     the pointer anywhere on Korea turned all thirteen classes back to the red
+     of Korea, which is the whole map going out at once. The province under the
+     pointer still lifts — the rule below does it, mixed with the class colour
+     rather than the country's — and the country's own lift now leaves the
+     shading alone, which is right. Data on the map is not a hover state. */
+  fill: var(--c, var(--inactive));
+  stroke: rgba(18, 15, 10, .5);
+  stroke-width: .8;
+}
+#jmap .atom > path.pop-shaded.prov-hot {
+  fill: color-mix(in srgb, var(--c, var(--inactive)) 83%, #fff);
+}

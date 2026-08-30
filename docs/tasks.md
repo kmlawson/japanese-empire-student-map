@@ -12441,6 +12441,115 @@ its own `area_km2`, and Saishu must have a sentence and no figures.
 
 ---
 
+## Korea by population density, and the fourteen 府
+
+**Asked for:** the 1942 figures in the card as well as the tooltip, laid out so
+that 1930 can sit beside them later; a button at the foot of a Korean
+province's card that shades the provinces by density; the same as a switch in
+the Layers panel; a documented rule for the class breaks, so the next density
+map can use it; Cheju to carry Zenranan-dō's figures; and the fourteen 府 drawn
+at every zoom.
+
+### The classes
+
+Log-spaced, then nudged onto round numbers, and written down in
+`data/population/README.md` because the next dataset will want the same rule.
+Density is a ratio: equal steps on a linear scale put nine of the thirteen
+provinces in the bottom class and leave three of the five colours unused. Equal
+steps in logs spread them and land on 73.0, 96.9, 128.7, 170.9, which no reader
+can hold in their head; powers of ten are legible and give one rung inside the
+whole range. So each break is snapped — in log space, where it was computed —
+to the nearest rung of 1, 1.5, 2, 2.5, 3, 4, 5, 7.5 × 10ⁿ, and two breaks
+landing on one rung push the second up. Korea 1942: **under 75, 75–100,
+100–150, 150–200, 200 and over.**
+
+The 75–100 class comes out empty and is left in the key. That is the map
+speaking: nothing in Korea sat between 69 and 111 per km², which is the
+mountains against the paddy, and closing the gap would make the ramp lie about
+its own spacing.
+
+`density_breaks` in `build_texts.py` does it once, at build, and ships the
+answer in `data.js` — so the key and the map cannot come to different views
+about where a class begins.
+
+### Two things about the colour that were wrong before they were right
+
+**A fill inherits as a finished colour.** The ramp is set as `--c` on each
+province, and `.atom` declares `fill: var(--lit, var(--c, …))` — but that
+`var()` resolves against the *group's* variables and the children inherit the
+answer, so setting `--c` on a province changed nothing at all and thirteen of
+them stayed the colour of Korea. The declaration has to be on the province.
+
+**And it must read `--c`, never `--lit`.** The lift a hovered country gets is
+`--lit` on the group, already resolved to that country's red, and a custom
+property inherits: with `--lit` first, putting the pointer anywhere on Korea
+turned all five classes back to red — the whole map going out at once. The
+province under the pointer still lifts, mixed with its class colour instead;
+the country's lift now leaves the data alone, which is right. Data on a map is
+not a hover state. Both are pinned in `population.js`, measured at rest and
+under the pointer.
+
+### What it takes to be pointed at
+
+A shaded province answers for itself with Administrative off. That switch is
+about every division of every country; this is thirteen units the reader asked
+for by name, and a choropleth whose units cannot be pointed at is a picture.
+The administrative sheet is fetched when the layer goes on, so nobody has to be
+told about a second switch. Checked with a mouse and with a finger — on a
+finger it is the two-tap rule, country then province, and the figures arrive on
+the second tap.
+
+### The card, and the address
+
+`#info-pop` holds one block per dataset, each headed by the table it came from,
+a field to a line, with the note and the source under it and the button at the
+foot. It stacks, so 1930 will sit above 1942 without anything changing. On a
+phone it folds into **More** with the rest of the description.
+
+The layers bitfield has one bit left and there will be more than one of these,
+so the density layers travel as their own `pop=` parameter — a comma-separated
+list of dataset ids, which says in the address bar what is on and can hold as
+many as there ever are.
+
+### Cheju
+
+`same_as` in the dataset: the place has no figures of its own because the
+source counts it inside another, so it carries that row's and says why. Cheju
+is shaded with Zenranan-dō and its card explains that the 1942 returns do not
+break the island out. One hop only — a row pointing at a row that points
+elsewhere is refused at build.
+
+### The fourteen 府
+
+`always` in `data/cities-*.csv`: drawn at every zoom, at the weight named there
+rather than at the size tier. No new radii — the three weights are the three
+the gazetteer already draws.
+
+**Which weight is the population on that date**, at two round thresholds,
+300,000 and 100,000, put where the figures come apart rather than at even
+intervals. In the 1930 census (府 table, pp. 10–11) Keijō stands alone at
+394,240; Pusan and P'yŏngyang make a pair at 146,098 and 140,703, four per cent
+apart; then there is a fall to Taegu at 93,319 and a tail down to Kunsan at
+26,321. So 1930 is one large dot, two medium, eleven small.
+
+By 1940 six of the fourteen are over 100,000 — P'yŏngyang 286,000, Pusan
+250,000, Ch'ŏngjin 197,000, Taegu 179,000, Inch'ŏn 171,000 — and Keijō is at
+935,000. So the December 1942 map carries one large dot, five medium and eight
+small. **The two dates disagree because the cities grew**, which is what a map
+drawn per date should show; it is also why the rule is a threshold rather than
+a ranking written down once.
+
+The `size_tier` column is untouched: it is a coarser statement about the whole
+480-place table, and these fourteen are being drawn to a rule of their own.
+
+`population.js`, 32 checks: the shading and its five classes, the key, the
+tooltip, the card both ways round — the card turning the layer on and the layer
+putting the card's button the other way — the finger, and the fourteen cities
+at three zooms on both dates, each at the weight its own date's figures earn
+it.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible
