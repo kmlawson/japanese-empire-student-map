@@ -12650,6 +12650,91 @@ shading, the date with no figures saying so, and a `pop=` link still opening.
 
 ---
 
+## The 1930 census: provinces, cities, and what it counted
+
+**Asked for:** the 1930 provincial figures on the map and in the cards; the
+household register and nationality table and the occupation table on the cards
+but not in the short description; the fourteen 府 with all three on their own
+cards and a table of their own; a table for 1930 beside the one for 1942, a way
+between them, and the two compared at the foot; and a sentence on the 1942
+table saying what kind of number it holds.
+
+### What was checked before anything was drawn
+
+Every figure was read from the transcriptions in
+`data/population/sources/` and verified against its own totals first:
+
+* the thirteen provinces sum to **21,058,305**, which is the all-Korea row
+  exactly;
+* the fourteen 府 sum to **1,189,791**, which is the 府部 row exactly;
+* register and nationality — Japanese, Korean, Taiwanese, Karafuto and
+  foreigners — sum to the population in every row of both tables;
+* the nine occupational categories plus those with no occupation sum to the
+  population in every row of both tables.
+
+The one inconsistency in the source is reproduced rather than quietly mended:
+North Ch'ungch'ŏng's male occupational categories sum to 285,463 against a
+printed 285,457. The printed total is the one consistent with the province's
+male population, so the error is in a category cell and the cells are given as
+printed.
+
+### The folder grew a shape
+
+`data/population/` now holds three datasets and two tables about them.
+`fields.csv` names every column beyond the core four — what to call it and
+which group it belongs to — and a dataset carries whichever of them its source
+has. Ages, register and nationality, occupation: a group is a headed run of
+lines on a card and a table of its own in the box, because twenty-one columns
+in one table is a wall and each group answers a different question anyway.
+
+`scope` grew two values. `city` is a place in the gazetteer and is checked
+against `data/cities-<epoch>.csv`, so a city the map does not draw stops the
+build; `summary` is a row about no place at all — *all fourteen 府 together* —
+which is pinned to the top of its table and appears on no card.
+
+**None of the new columns reach the short description**, which was the
+instruction and is also right: that is a sentence, and a sentence has room for
+a population and a density and not for a census.
+
+### One ladder, not one per date
+
+The classes are now computed from **both dates at once**. Fitted to each
+separately, 1930 came out 50/75/100/150 and 1942 75/100/150/200 — the same
+colour meaning two different things on two maps a reader flips between, which
+is the one thing a choropleth with a date switch must not do. Pooled, the
+ladder is under 50, 50–75, 75–100, 100–150, 150 and over, and Kankyŏngbuk-to
+being palest in 1930 and a class up in 1942 is now a fact about Korea rather
+than about the ramp.
+
+### The census is a census
+
+The short line took its wording from the dataset: *1930 Census Population*
+against *1942 Estimated Population*. It had been printing "Estimated
+Population" for both, which is wrong on the face of it about a census, and the
+1942 table now says so in a sentence of its own under its heading — these are
+Government-General estimates built on data collected since the 1940 census.
+
+### The box holds one date at a time
+
+A census is a date, and two dates in one table would be two tables anyway. So
+the box shows one dataset — the one for the map the reader is on — with the
+others offered at its foot: the other date, and the fourteen cities. Under
+them the two dates are set against each other on **the figures they both
+carry**, with the change and the percentage change worked out: population,
+density and sex ratio, and nothing else, because a comparison is worth no more
+than its narrowest column.
+
+### And the cities
+
+A gazetteer record's id carries its date — `g_e1930_kaesong` — because the same
+city is two records, one per map. The figures are the city's, so the date comes
+off before they are looked up, and both the curated marker and the gazetteer
+dot find them.
+
+`population.js`, 82 checks.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

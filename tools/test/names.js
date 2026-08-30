@@ -208,8 +208,12 @@ console.log('\n— the switch travels, and comes back —');
    province, hovered on both maps, carries the line on one and not on the
    other. The country carries the total and the sex ratio; a province carries
    those and its share and its density as well. */
-console.log('\n— the 1942 population figures —');
-for (const [year, layers, want] of [['1930', '0', false], ['Dec 1942', '1', true]]) {
+/* Each date carries its own figures now, and says which kind of number it is:
+   1930 is a census and 1942 an estimate. What is checked here is that the
+   sentence follows the map — the tooltip on one date must not be quoting the
+   other's numbers, which is the way this would go wrong and would look right. */
+console.log('\n— the population figures, per date —');
+for (const [year, layers, want] of [['1930', '0', 'c30'], ['Dec 1942', '1', 'e42']]) {
   const p = await b.newPage();
   await p.evaluateOnNewDocument(SHIM);
   await p.setViewport({ width: 1200, height: 860 });
@@ -237,26 +241,37 @@ for (const [year, layers, want] of [['1930', '0', false], ['Dec 1942', '1', true
     return tip();
   };
   const country = await hover('path[data-for="korea"]');
-  check(year + ': the country ' + (want ? 'gives its population' : 'gives none'),
-    /24,105,906/.test(country) === want && /100\.4/.test(country) === want,
-    country.slice(-70));
+  const is30 = want === 'c30';
+  check(year + ': the country gives that date\'s population',
+    is30 ? (/1930 Census Population: 21,058,305/.test(country)
+            && /104\.56/.test(country))
+         : (/1942 Estimated Population: 24,105,906/.test(country)
+            && /100\.4/.test(country)),
+    country.slice(-80));
   await p.evaluate(() => {
     const x = [...document.querySelectorAll('#layer-seg button')].find(y => /Admin/.test(y.textContent));
     if (x) x.click();
   });
   await new Promise(r => setTimeout(r, 2600));
   const prov = await hover('#a-korea path[data-prov="Keiki"]');
-  check(year + ': Keiki ' + (want ? 'gives population, share and density' : 'gives none'),
-    /2,830,778/.test(prov) === want
-    && /% of Total Korea: 11\.7/.test(prov) === want
-    && /Per km²: \d+/.test(prov) === want,
-    prov.slice(-90));
+  check(year + ': Keiki gives that date\'s population, share and density',
+    is30 ? (/2,157,413/.test(prov) && /% of Total Korea: 10\.2/.test(prov)
+            && /Per km²: 171/.test(prov))
+         : (/2,830,778/.test(prov) && /% of Total Korea: 11\.7/.test(prov)
+            && /Per km²: 224/.test(prov)),
+    prov.slice(-100));
+  /* And says which kind of number it is. Printing "Estimated Population" over
+     a census is wrong on the face of it, and was. */
+  check(year + ': and calls it what it is',
+    is30 ? (/Census Population/.test(prov) && !/Estimated/.test(prov))
+         : (/Estimated Population/.test(prov) && !/Census/.test(prov)),
+    prov.slice(-100));
   /* And the card is the data file, not a copy of it. The figures live in
      data/population/ and are composed into the short at build time, so what
      the reader is shown has to be what that file says — including the
      density, which is not in the source at all and is population over the
      area of the polygon the reader is looking at. */
-  if (want) {
+  if (!is30) {
     const rows = require('fs').readFileSync(
       __dirname + '/../../data/population/korea-1942.csv', 'utf8')
       .trim().split('\n').slice(1)

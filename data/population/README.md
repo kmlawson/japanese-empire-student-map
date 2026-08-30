@@ -18,6 +18,9 @@ about the place; this folder holds what was counted there.
 | `pct_of` | the whole that `pct_of_total` is a share of, as it should read: `Korea` gives *% of Total Korea* |
 | `group` | the **layer** this file is one date of. Every file sharing a group is one switch in the Layers panel, and the map draws whichever of them matches the date the reader is on; a date with no file leaves the switch on and says so. Each group needs a bit in `POP_BITS` in `map.js` |
 | `layer` | the name of that switch, and the heading over its key. The year is added to the key from the file's own `epoch`, so the label itself should not carry one |
+| `label` | what the dataset is, in the table's heading and on the button that switches to it. Left blank it is built from `pct_of` and `caption` |
+| `line_label` | what kind of number this is, in the short description: *Census Population* for 1930, *Estimated Population* for 1942. A sentence that called the census an estimate would be wrong on the face of it |
+| `note` | a sentence under the table's heading, about the figures as a whole — that the 1942 columns are Government-General estimates, for instance |
 | `caption` | what was counted, without the place: *estimated population at 1 October 1942*. A card puts the name of the place it is about in front of this, so a province's figures are headed with the province; the whole-territory card is headed `pct_of` + this |
 | `source` | where the numbers come from. The same citation belongs on `texts/pages/sources.md`, which is what the reader sees |
 
@@ -34,6 +37,19 @@ about the place; this folder holds what was counted there.
 | `area_km2` | see below |
 | `same_as` | this place has no figures of its own because the source counts it inside another one. It carries that row's, and its `note` should say so. Cheju is the case: the 1942 returns fold it into Zenranan-dō. One hop only — a row that points at a row that points elsewhere is refused |
 | `note` | a sentence after the figures, or instead of them |
+
+**And as many more columns as the source counted.** `fields.csv` names them:
+
+| column | |
+|---|---|
+| `column` | the column as it is spelled in a dataset file |
+| `label` | what to call it on a card and at the head of a table |
+| `group` | which block it belongs to — *Ages*, *Register and nationality*, *Occupation*. A group is a table of its own in the box and a headed run of lines on a card |
+
+A dataset carries whichever of these its source has; a column no file fills is
+simply not shown. **None of it reaches the short description.** That is a
+sentence, and a sentence has room for a population and a density and not for
+twenty-one columns of a census.
 
 **Every field is optional and none is invented.** A field that is blank is left
 off the card: the country line carries a population and a sex ratio and no
@@ -85,3 +101,32 @@ Five classes, and the ends are open: nothing falls off either end of the ramp.
 The colours are a cool five-step blue, in `POP_RAMP` in `map.js` — cool because
 the map is warm, and shaded ground should never be mistaken for a country's own
 colour.
+
+
+## Scopes
+
+`scope` says what kind of thing a row is about, and what is checked:
+
+| scope | |
+|---|---|
+| `territory` | a country card — the `id` in `texts/territories/<epoch>.csv` |
+| `sub-unit` | a province — the `key` in a `texts/territories/sub-units/` group file |
+| `city` | a place in the gazetteer — the `id` in `data/cities-<epoch>.csv`. The build fails on a city that map does not draw |
+| `summary` | a row with no place at all: *all fourteen 府 together*. It is pinned to the top of its table and appears on no card |
+
+## One ladder for a layer, not one per date
+
+The class breaks are computed from **every date in a group at once**. A
+choropleth that switches by date exists to be compared across those dates, and
+breaks fitted to each separately would give one colour two meanings: Korea runs
+from 37 per km² in 1930 to 224 in 1942, and split per date the pale end of the
+1942 ramp would be the deep end of the 1930 one. Pooled, the ladder is under
+50, 50–75, 75–100, 100–150, 150 and over, and a province that is pale on one
+map and deep on the other has actually changed.
+
+## sources/
+
+The transcriptions the figures were read from, as they were handed over. They
+are not read by any build step — the CSVs beside them are — and they are here
+so that a figure on a card can be traced to the table it came from without
+leaving the repository.

@@ -212,6 +212,30 @@ def density_breaks(values, classes=5):
     return out
 
 
+def population_fields():
+    """The columns beyond the core four, in the order they should be shown.
+
+    A dataset file may carry as many as the source has — ages, register and
+    nationality, occupation — and `fields.csv` says what each column is called
+    and which group it belongs in. Nothing here reaches the short description:
+    that is a sentence, and a sentence has room for a population and a density
+    and not for twenty-one columns of a census.
+    """
+    path = os.path.join(POP, "fields.csv")
+    if not os.path.exists(path):
+        return []
+    return [{"c": r["column"], "label": r["label"], "group": r["group"]}
+            for r in T.read_csv(path)]
+
+
+def gazetteer_ids(epoch):
+    """The city ids the map draws on that date, for checking a city row."""
+    path = os.path.join(ROOT, "data", "cities-%s.csv" % epoch)
+    if not os.path.exists(path):
+        return set()
+    return set(r["id"] for r in T.read_csv(path))
+
+
 def population_data():
     """The datasets in data/population/, read and composed once.
 
@@ -224,11 +248,26 @@ def population_data():
     index = os.path.join(POP, "index.csv")
     if not os.path.exists(index):
         return []
+    fields = population_fields()
     sets = []
     for d in T.read_csv(index):
         where = "data/population/" + d["file"]
         rows = T.read_csv(os.path.join(POP, d["file"]))
         check_unique(rows, "key", where)
+        cities = gazetteer_ids(d["epoch"])
+        for r in rows:
+            if r["scope"] == "city" and cities and r["key"] not in cities:
+                raise Problem("%s has a row for the city %r, and no city of that "
+                              "id is on the %s map. The key is the `id` in "
+                              "data/cities-%s.csv."
+                              % (where, r["key"], d["epoch"], d["epoch"]))
+        # which of the extra columns this file actually carries a figure in
+        used = [f for f in fields
+                if any((r.get(f["c"]) or "").strip() for r in rows)]
+        # the whole that a share is a share of. A table of cities is a list of
+        # places rather than the parts of something, so it has none and prints
+        # no share column.
+        whole = (d.get("pct_of") or "").strip()
         by_key = dict((r["key"], r) for r in rows)
         out = {}
         for r in rows:
@@ -247,14 +286,18 @@ def population_data():
             bits = []
             if src.get("population"):
                 rec["pop"] = int(src["population"])
-                bits.append("%s Estimated Population: %s"
-                            % (d["epoch"], "{:,}".format(rec["pop"])))
+                # what kind of number this is, in the dataset's own words: 1930
+                # is a census and 1942 an estimate, and a sentence that called
+                # the census an estimate would be wrong on the face of it
+                bits.append("%s %s: %s"
+                            % (d["epoch"], d.get("line_label") or "Estimated Population",
+                               "{:,}".format(rec["pop"])))
             if src.get("m_per_100_f"):
                 rec["mf"] = src["m_per_100_f"]
                 bits.append("Males per 100 Females: %s" % rec["mf"])
-            if src.get("pct_of_total"):
+            if src.get("pct_of_total") and whole:
                 rec["pct"] = src["pct_of_total"]
-                bits.append("%% of Total %s: %s" % (d["pct_of"], rec["pct"]))
+                bits.append("%% of Total %s: %s" % (whole, rec["pct"]))
             if src.get("population") and src.get("area_km2"):
                 rec["km2"] = int(round(float(src["area_km2"])))
                 rec["dens"] = int(round(rec["pop"] / float(src["area_km2"])))
@@ -265,9 +308,19 @@ def population_data():
                 line = (line + " " + r["note"]).strip()
             if r.get("same_as"):
                 rec["sameAs"] = r["same_as"]
-            if not line:
+            # and everything else the source counted, kept as it was read: the
+            # card and the tables lay it out, and neither invents a total
+            extra = {}
+            for f in used:
+                v = (src.get(f["c"]) or "").strip()
+                if v:
+                    extra[f["c"]] = float(v) if "." in v else int(v)
+            if extra:
+                rec["x"] = extra
+            if not line and not extra:
                 continue
-            rec["line"] = line
+            if line:
+                rec["line"] = line
             out[r["key"]] = rec
         # The choropleth is over the sub-units, so the country's own density —
         # which is not shown anywhere — has no business setting the range.
@@ -286,15 +339,31 @@ def population_data():
         # whole-colony card keeps `label`, which is that caption under the name
         # of the whole.
         caption = d.get("caption") or d.get("label") or ""
-        label = d.get("label") or ("%s, %s" % (d["pct_of"], caption))
+        label = d.get("label") or (("%s, %s" % (whole, caption)) if whole
+                                   else caption[:1].upper() + caption[1:])
         sets.append({"id": d["file"][:-4], "epoch": d["epoch"],
                      "group": d.get("group") or d["file"][:-4],
                      "caption": caption,
-                     "label": label, "pctOf": d["pct_of"],
+                     "note": d.get("note") or "",
+                     "fields": used,
+                     "label": label, "pctOf": whole,
                      "source": d["source"],
-                     "layer": d.get("layer") or d["label"],
-                     "breaks": density_breaks(dens),
+                     "layer": d.get("layer") or label,
+                     "dens": dens,
                      "rows": out})
+
+    # The classes are the layer's, not each date's. A choropleth that switches
+    # by date exists to be compared across the dates, and breaks fitted to each
+    # one separately would give the same colour two meanings: Korea's densities
+    # run from 37 in 1930 to 224 in 1942, and split per date the pale end of
+    # 1942 would be the deep end of 1930. So every file sharing a `group` is
+    # measured against the pooled range and gets the same ladder.
+    pooled = {}
+    for d in sets:
+        pooled.setdefault(d["group"], []).extend(d.pop("dens"))
+    breaks = dict((g, density_breaks(v)) for g, v in pooled.items())
+    for d in sets:
+        d["breaks"] = breaks.get(d["group"], [])
     return sets
 
 
@@ -303,6 +372,10 @@ def population_lines():
     out = {}
     for d in population_data():
         for key, rec in d["rows"].items():
+            # only what the map itself carries a description for: a city's
+            # figures live on its card, not in a sentence about a province
+            if rec["scope"] not in ("territory", "sub-unit") or not rec.get("line"):
+                continue
             k = (d["epoch"], rec["scope"], key)
             if k in out:
                 raise Problem("data/population/: %s is given twice for %s on "

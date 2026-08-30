@@ -241,6 +241,7 @@ JMAP.TERRITORIES = {
       id: 'chosen', en: 'Chōsen (Korea)', ja: '朝鮮 (Chōsen)', orig: '조선 (Chosŏn)', zh: '朝鮮',
       ko: '조선 (Chosŏn)', when: 'Protectorate 1905, annexed 1910', cat: 'jpcolony', lvl: 1,
       atoms: ['korea'], wiki: 'https://en.wikipedia.org/wiki/Korea_under_Japanese_rule',
+      short: '1930 Census Population: 21,058,305 · Males per 100 Females: 104.56 · % of Total Korea: 100.0',
       note: 'Opened by the Kanghwa Treaty of 1876, made a protectorate after the Russo-Japanese War and annexed outright in August 1910. The March First Movement of 1919 was met with mass repression.'
     },
     {
@@ -7348,6 +7349,48 @@ JMAP.PROVINCE_EPOCH = {
       en: 'The Dindings — Straits Settlement: Lumut, Sitiawan and Pangkor, ceded by Perak in 1874 and ruled from Singapore',
       short: 'Straits Settlement: Lumut, Sitiawan and Pangkor'
     },
+    Chuseihoku: {
+      short: 'The only province in Korea with no coastline. 1930 Census Population: 900,226 · Males per 100 Females: 106.05 · % of Total Korea: 4.3 · Per km²: 121'
+    },
+    Chuseinan: {
+      short: 'The lower Kŭm river and the tidal flats of the west coast. 1930 Census Population: 1,382,888 · Males per 100 Females: 105.55 · % of Total Korea: 6.6 · Per km²: 172'
+    },
+    Heianhoku: {
+      short: 'The north-western march, with the Yalu as its border: the river carried the timber trade. 1930 Census Population: 1,562,791 · Males per 100 Females: 104.91 · % of Total Korea: 7.4 · Per km²: 55'
+    },
+    Heiannan: {
+      short: 'P\'yŏngyang, the oldest city in Korea and the one with the largest Christian community. 1930 Census Population: 1,331,705 · Males per 100 Females: 102.24 · % of Total Korea: 6.3 · Per km²: 90'
+    },
+    Kankyohoku: {
+      short: 'The far north-east, against the Tumen and the Soviet and Manchurian borders: mountains. 1930 Census Population: 745,124 · Males per 100 Females: 110.11 · % of Total Korea: 3.5 · Per km²: 37'
+    },
+    Kankyonan: {
+      short: 'A narrow coastal shelf under high mountains. 1930 Census Population: 1,578,491 · Males per 100 Females: 107.62 · % of Total Korea: 7.5 · Per km²: 49'
+    },
+    Keiki: {
+      short: 'The Han river plain around Keijō — Seoul, renamed and rebuilt as the colonial capital. 1930 Census Population: 2,157,413 · Males per 100 Females: 106.64 · % of Total Korea: 10.2 · Per km²: 171'
+    },
+    Keishohoku: {
+      short: 'The Naktong river\'s upper basin, hills and small plains. 1930 Census Population: 2,416,762 · Males per 100 Females: 102.15 · % of Total Korea: 11.5 · Per km²: 127'
+    },
+    Keishonan: {
+      short: 'The end of the peninsula facing Japan, and the province the colony was entered through. 1930 Census Population: 2,135,716 · Males per 100 Females: 101.57 · % of Total Korea: 10.1 · Per km²: 174'
+    },
+    Kogen: {
+      short: 'The Taebaek range down its spine, and very little flat ground. 1930 Census Population: 1,487,715 · Males per 100 Females: 109.82 · % of Total Korea: 7.1 · Per km²: 57'
+    },
+    Kokai: {
+      short: 'The province between the capital and P\'yŏngyang, rolling hills opening on the Yellow Sea. 1930 Census Population: 1,523,523 · Males per 100 Females: 102.11 · % of Total Korea: 7.2 · Per km²: 92'
+    },
+    Saishu: {
+      short: 'A volcanic island a hundred kilometres off the south coast. 1930 Census Population: 2,332,256 · Males per 100 Females: 100.96 · % of Total Korea: 11.1 · Per km²: 168 The 1930 census counts Cheju inside Chŏllanam-do and does not break the island out, so these are that province’s figures.'
+    },
+    Zenrahoku: {
+      short: 'The Honam plain, the largest stretch of paddy in Korea. 1930 Census Population: 1,503,695 · Males per 100 Females: 106.99 · % of Total Korea: 7.1 · Per km²: 178'
+    },
+    Zenranan: {
+      short: 'The south-western corner and its archipelago — several thousand islands. 1930 Census Population: 2,332,256 · Males per 100 Females: 100.96 · % of Total Korea: 11.1 · Per km²: 168'
+    },
   },
   e1942: {
     Bihar: { en: 'Bihar Province', wiki: 'https://en.wikipedia.org/wiki/Bihar_Province' },
@@ -7470,16 +7513,12 @@ JMAP.POPULATION = [
     "epoch": "1942",
     "group": "korea-density",
     "caption": "estimated population at 1 October 1942",
+    "note": "These are Government-General estimates of population which build on data collected since the 1940 census.",
+    "fields": [],
     "label": "Korea, estimated population at 1 October 1942",
     "pctOf": "Korea",
     "source": "朝鮮總督府『昭和十七年 朝鮮人口動態統計』附録 p24",
     "layer": "Korea Population Density",
-    "breaks": [
-      75,
-      100,
-      150,
-      200
-    ],
     "rows": {
       "chosen": {
         "scope": "territory",
@@ -7630,7 +7669,1151 @@ JMAP.POPULATION = [
         "sameAs": "Zenranan",
         "line": "1942 Estimated Population: 2,647,674 · Males per 100 Females: 97.2 · % of Total Korea: 11.0 · Per km²: 191 The 1942 returns count Cheju inside Zenranan-dō and do not break the island out, so these are that province’s figures."
       }
-    }
+    },
+    "breaks": [
+      50,
+      75,
+      100,
+      150
+    ]
+  },
+  {
+    "id": "korea-1930",
+    "epoch": "1930",
+    "group": "korea-density",
+    "caption": "census of 1 October 1930",
+    "note": "",
+    "fields": [
+      {
+        "c": "age_0_14",
+        "label": "0–14",
+        "group": "Ages"
+      },
+      {
+        "c": "age_15_59",
+        "label": "15–59",
+        "group": "Ages"
+      },
+      {
+        "c": "age_60p",
+        "label": "60 and over",
+        "group": "Ages"
+      },
+      {
+        "c": "reg_jp",
+        "label": "Japanese (naichijin)",
+        "group": "Register and nationality"
+      },
+      {
+        "c": "reg_ko",
+        "label": "Koreans",
+        "group": "Register and nationality"
+      },
+      {
+        "c": "reg_tw",
+        "label": "Taiwanese",
+        "group": "Register and nationality"
+      },
+      {
+        "c": "reg_karafuto",
+        "label": "Karafuto",
+        "group": "Register and nationality"
+      },
+      {
+        "c": "for_total",
+        "label": "Foreigners",
+        "group": "Register and nationality"
+      },
+      {
+        "c": "for_cn",
+        "label": "— Chinese",
+        "group": "Register and nationality"
+      },
+      {
+        "c": "for_other",
+        "label": "— other foreign",
+        "group": "Register and nationality"
+      },
+      {
+        "c": "occ_total",
+        "label": "In gainful occupation",
+        "group": "Occupation"
+      },
+      {
+        "c": "occ_agri",
+        "label": "Agriculture",
+        "group": "Occupation"
+      },
+      {
+        "c": "occ_fish",
+        "label": "Fisheries",
+        "group": "Occupation"
+      },
+      {
+        "c": "occ_mine",
+        "label": "Mining",
+        "group": "Occupation"
+      },
+      {
+        "c": "occ_ind",
+        "label": "Industry",
+        "group": "Occupation"
+      },
+      {
+        "c": "occ_comm",
+        "label": "Commerce",
+        "group": "Occupation"
+      },
+      {
+        "c": "occ_trans",
+        "label": "Transport",
+        "group": "Occupation"
+      },
+      {
+        "c": "occ_public",
+        "label": "Public service and professions",
+        "group": "Occupation"
+      },
+      {
+        "c": "occ_domestic",
+        "label": "Domestic service",
+        "group": "Occupation"
+      },
+      {
+        "c": "occ_other",
+        "label": "Other gainful occupation",
+        "group": "Occupation"
+      },
+      {
+        "c": "occ_none",
+        "label": "No occupation",
+        "group": "Occupation"
+      }
+    ],
+    "label": "Korea, census of 1 October 1930",
+    "pctOf": "Korea",
+    "source": "1930 Census of Korea, 朝鮮總督府『昭和五年 朝鮮國勢調査報告』 — ages pp. 10–11, register and nationality Tables 19–20, occupation Table 40",
+    "layer": "Korea Population Density",
+    "rows": {
+      "chosen": {
+        "scope": "territory",
+        "en": "Chōsen (Korea)",
+        "pop": 21058305,
+        "mf": "104.56",
+        "pct": "100.0",
+        "x": {
+          "age_0_14": 8345582,
+          "age_15_59": 11426473,
+          "age_60p": 1286250,
+          "reg_jp": 527016,
+          "reg_ko": 20438108,
+          "reg_tw": 19,
+          "reg_karafuto": 15,
+          "for_total": 93147,
+          "for_cn": 91783,
+          "for_other": 1364,
+          "occ_total": 9765514,
+          "occ_agri": 7664564,
+          "occ_fish": 121730,
+          "occ_mine": 34185,
+          "occ_ind": 585765,
+          "occ_comm": 562099,
+          "occ_trans": 107541,
+          "occ_public": 182684,
+          "occ_domestic": 120877,
+          "occ_other": 386069,
+          "occ_none": 11292791
+        },
+        "line": "1930 Census Population: 21,058,305 · Males per 100 Females: 104.56 · % of Total Korea: 100.0"
+      },
+      "Keishohoku": {
+        "scope": "sub-unit",
+        "en": "Keishōhoku-dō (Kyŏngsangbuk-to)",
+        "pop": 2416762,
+        "mf": "102.15",
+        "pct": "11.5",
+        "km2": 18986,
+        "dens": 127,
+        "x": {
+          "age_0_14": 985995,
+          "age_15_59": 1277755,
+          "age_60p": 153012,
+          "reg_jp": 40389,
+          "reg_ko": 2373856,
+          "reg_karafuto": 5,
+          "for_total": 2512,
+          "for_cn": 2452,
+          "for_other": 60,
+          "occ_total": 1052464,
+          "occ_agri": 877716,
+          "occ_fish": 6274,
+          "occ_mine": 711,
+          "occ_ind": 48935,
+          "occ_comm": 55650,
+          "occ_trans": 5163,
+          "occ_public": 14879,
+          "occ_domestic": 13548,
+          "occ_other": 29588,
+          "occ_none": 1364298
+        },
+        "line": "1930 Census Population: 2,416,762 · Males per 100 Females: 102.15 · % of Total Korea: 11.5 · Per km²: 127"
+      },
+      "Zenranan": {
+        "scope": "sub-unit",
+        "en": "Zenranan-dō (Chŏllanam-do)",
+        "pop": 2332256,
+        "mf": "100.96",
+        "pct": "11.1",
+        "km2": 13885,
+        "dens": 168,
+        "x": {
+          "age_0_14": 936160,
+          "age_15_59": 1248301,
+          "age_60p": 147795,
+          "reg_jp": 40986,
+          "reg_ko": 2288429,
+          "reg_tw": 1,
+          "for_total": 2840,
+          "for_cn": 2774,
+          "for_other": 66,
+          "occ_total": 1265246,
+          "occ_agri": 1059576,
+          "occ_fish": 18756,
+          "occ_mine": 1243,
+          "occ_ind": 53519,
+          "occ_comm": 46240,
+          "occ_trans": 6000,
+          "occ_public": 13008,
+          "occ_domestic": 16425,
+          "occ_other": 50479,
+          "occ_none": 1067010
+        },
+        "line": "1930 Census Population: 2,332,256 · Males per 100 Females: 100.96 · % of Total Korea: 11.1 · Per km²: 168"
+      },
+      "Keiki": {
+        "scope": "sub-unit",
+        "en": "Keiki-dō (Kyŏnggi-do)",
+        "pop": 2157413,
+        "mf": "106.64",
+        "pct": "10.2",
+        "km2": 12643,
+        "dens": 171,
+        "x": {
+          "age_0_14": 801943,
+          "age_15_59": 1227264,
+          "age_60p": 128206,
+          "reg_jp": 135863,
+          "reg_ko": 2004012,
+          "reg_tw": 9,
+          "reg_karafuto": 8,
+          "for_total": 17521,
+          "for_cn": 16968,
+          "for_other": 553,
+          "occ_total": 875870,
+          "occ_agri": 545687,
+          "occ_fish": 6026,
+          "occ_mine": 2063,
+          "occ_ind": 84334,
+          "occ_comm": 94287,
+          "occ_trans": 22832,
+          "occ_public": 39925,
+          "occ_domestic": 22201,
+          "occ_other": 58515,
+          "occ_none": 1281543
+        },
+        "line": "1930 Census Population: 2,157,413 · Males per 100 Females: 106.64 · % of Total Korea: 10.2 · Per km²: 171"
+      },
+      "Keishonan": {
+        "scope": "sub-unit",
+        "en": "Keishōnan-dō (Kyŏngsangnam-do)",
+        "pop": 2135716,
+        "mf": "101.57",
+        "pct": "10.1",
+        "km2": 12269,
+        "dens": 174,
+        "x": {
+          "age_0_14": 863129,
+          "age_15_59": 1124872,
+          "age_60p": 147715,
+          "reg_jp": 88560,
+          "reg_ko": 2045113,
+          "reg_tw": 5,
+          "reg_karafuto": 1,
+          "for_total": 2037,
+          "for_cn": 1973,
+          "for_other": 64,
+          "occ_total": 892367,
+          "occ_agri": 651208,
+          "occ_fish": 26329,
+          "occ_mine": 525,
+          "occ_ind": 56532,
+          "occ_comm": 64268,
+          "occ_trans": 11916,
+          "occ_public": 17082,
+          "occ_domestic": 15320,
+          "occ_other": 49187,
+          "occ_none": 1243349
+        },
+        "line": "1930 Census Population: 2,135,716 · Males per 100 Females: 101.57 · % of Total Korea: 10.1 · Per km²: 174"
+      },
+      "Kankyonan": {
+        "scope": "sub-unit",
+        "en": "Kankyōnan-dō (Hamgyŏngnam-do)",
+        "pop": 1578491,
+        "mf": "107.62",
+        "pct": "7.5",
+        "km2": 31916,
+        "dens": 49,
+        "x": {
+          "age_0_14": 636852,
+          "age_15_59": 850188,
+          "age_60p": 91451,
+          "reg_jp": 39247,
+          "reg_ko": 1527975,
+          "reg_tw": 1,
+          "for_total": 11268,
+          "for_cn": 11181,
+          "for_other": 87,
+          "occ_total": 655169,
+          "occ_agri": 457652,
+          "occ_fish": 16978,
+          "occ_mine": 3619,
+          "occ_ind": 69377,
+          "occ_comm": 46986,
+          "occ_trans": 10296,
+          "occ_public": 13043,
+          "occ_domestic": 4025,
+          "occ_other": 33193,
+          "occ_none": 923322
+        },
+        "line": "1930 Census Population: 1,578,491 · Males per 100 Females: 107.62 · % of Total Korea: 7.5 · Per km²: 49"
+      },
+      "Heianhoku": {
+        "scope": "sub-unit",
+        "en": "Heianhoku-dō (P’yŏnganbuk-to)",
+        "pop": 1562791,
+        "mf": "104.91",
+        "pct": "7.4",
+        "km2": 28298,
+        "dens": 55,
+        "x": {
+          "age_0_14": 618142,
+          "age_15_59": 845911,
+          "age_60p": 98738,
+          "reg_jp": 20063,
+          "reg_ko": 1519037,
+          "for_total": 23691,
+          "for_cn": 23580,
+          "for_other": 111,
+          "occ_total": 840115,
+          "occ_agri": 710649,
+          "occ_fish": 3211,
+          "occ_mine": 7737,
+          "occ_ind": 24132,
+          "occ_comm": 37426,
+          "occ_trans": 12792,
+          "occ_public": 13547,
+          "occ_domestic": 4193,
+          "occ_other": 26428,
+          "occ_none": 722676
+        },
+        "line": "1930 Census Population: 1,562,791 · Males per 100 Females: 104.91 · % of Total Korea: 7.4 · Per km²: 55"
+      },
+      "Kokai": {
+        "scope": "sub-unit",
+        "en": "Kōkai-dō (Hwanghae-do)",
+        "pop": 1523523,
+        "mf": "102.11",
+        "pct": "7.2",
+        "km2": 16583,
+        "dens": 92,
+        "x": {
+          "age_0_14": 595627,
+          "age_15_59": 831895,
+          "age_60p": 96001,
+          "reg_jp": 17669,
+          "reg_ko": 1499643,
+          "for_total": 6211,
+          "for_cn": 6185,
+          "for_other": 26,
+          "occ_total": 826542,
+          "occ_agri": 713549,
+          "occ_fish": 8990,
+          "occ_mine": 5152,
+          "occ_ind": 20635,
+          "occ_comm": 34893,
+          "occ_trans": 5716,
+          "occ_public": 10137,
+          "occ_domestic": 6899,
+          "occ_other": 20571,
+          "occ_none": 696981
+        },
+        "line": "1930 Census Population: 1,523,523 · Males per 100 Females: 102.11 · % of Total Korea: 7.2 · Per km²: 92"
+      },
+      "Zenrahoku": {
+        "scope": "sub-unit",
+        "en": "Zenrahoku-dō (Chŏllabuk-to)",
+        "pop": 1503695,
+        "mf": "106.99",
+        "pct": "7.1",
+        "km2": 8463,
+        "dens": 178,
+        "x": {
+          "age_0_14": 600144,
+          "age_15_59": 822411,
+          "age_60p": 81140,
+          "reg_jp": 32747,
+          "reg_ko": 1467604,
+          "reg_tw": 1,
+          "reg_karafuto": 1,
+          "for_total": 3342,
+          "for_cn": 3297,
+          "for_other": 45,
+          "occ_total": 723468,
+          "occ_agri": 583711,
+          "occ_fish": 2168,
+          "occ_mine": 349,
+          "occ_ind": 50462,
+          "occ_comm": 34768,
+          "occ_trans": 4979,
+          "occ_public": 9607,
+          "occ_domestic": 14137,
+          "occ_other": 23287,
+          "occ_none": 780227
+        },
+        "line": "1930 Census Population: 1,503,695 · Males per 100 Females: 106.99 · % of Total Korea: 7.1 · Per km²: 178"
+      },
+      "Kogen": {
+        "scope": "sub-unit",
+        "en": "Kōgen-dō (Kangwŏn-do)",
+        "pop": 1487715,
+        "mf": "109.82",
+        "pct": "7.1",
+        "km2": 26245,
+        "dens": 57,
+        "x": {
+          "age_0_14": 578329,
+          "age_15_59": 820921,
+          "age_60p": 88465,
+          "reg_jp": 11112,
+          "reg_ko": 1473972,
+          "for_total": 2631,
+          "for_cn": 2587,
+          "for_other": 44,
+          "occ_total": 713082,
+          "occ_agri": 598385,
+          "occ_fish": 6906,
+          "occ_mine": 2410,
+          "occ_ind": 34385,
+          "occ_comm": 33482,
+          "occ_trans": 4273,
+          "occ_public": 9084,
+          "occ_domestic": 7094,
+          "occ_other": 17063,
+          "occ_none": 774633
+        },
+        "line": "1930 Census Population: 1,487,715 · Males per 100 Females: 109.82 · % of Total Korea: 7.1 · Per km²: 57"
+      },
+      "Chuseinan": {
+        "scope": "sub-unit",
+        "en": "Chūseinan-dō (Ch’ungch’ŏngnam-do)",
+        "pop": 1382888,
+        "mf": "105.55",
+        "pct": "6.6",
+        "km2": 8060,
+        "dens": 172,
+        "x": {
+          "age_0_14": 554116,
+          "age_15_59": 758462,
+          "age_60p": 70310,
+          "reg_jp": 23180,
+          "reg_ko": 1356942,
+          "for_total": 2766,
+          "for_cn": 2760,
+          "for_other": 6,
+          "occ_total": 561144,
+          "occ_agri": 425760,
+          "occ_fish": 4504,
+          "occ_mine": 572,
+          "occ_ind": 56063,
+          "occ_comm": 30781,
+          "occ_trans": 4044,
+          "occ_public": 8581,
+          "occ_domestic": 8772,
+          "occ_other": 22067,
+          "occ_none": 821744
+        },
+        "line": "1930 Census Population: 1,382,888 · Males per 100 Females: 105.55 · % of Total Korea: 6.6 · Per km²: 172"
+      },
+      "Heiannan": {
+        "scope": "sub-unit",
+        "en": "Heiannan-dō (P’yŏngannam-do)",
+        "pop": 1331705,
+        "mf": "102.24",
+        "pct": "6.3",
+        "km2": 14765,
+        "dens": 90,
+        "x": {
+          "age_0_14": 527815,
+          "age_15_59": 714891,
+          "age_60p": 88999,
+          "reg_jp": 33891,
+          "reg_ko": 1288804,
+          "for_total": 9010,
+          "for_cn": 8775,
+          "for_other": 235,
+          "occ_total": 698303,
+          "occ_agri": 546354,
+          "occ_fish": 3764,
+          "occ_mine": 6512,
+          "occ_ind": 44377,
+          "occ_comm": 42759,
+          "occ_trans": 10712,
+          "occ_public": 14891,
+          "occ_domestic": 3490,
+          "occ_other": 25444,
+          "occ_none": 633402
+        },
+        "line": "1930 Census Population: 1,331,705 · Males per 100 Females: 102.24 · % of Total Korea: 6.3 · Per km²: 90"
+      },
+      "Chuseihoku": {
+        "scope": "sub-unit",
+        "en": "Chūseihoku-dō (Ch’ungch’ŏngbuk-to)",
+        "pop": 900226,
+        "mf": "106.05",
+        "pct": "4.3",
+        "km2": 7413,
+        "dens": 121,
+        "x": {
+          "age_0_14": 352924,
+          "age_15_59": 494100,
+          "age_60p": 53202,
+          "reg_jp": 8030,
+          "reg_ko": 890877,
+          "reg_tw": 2,
+          "for_total": 1317,
+          "for_cn": 1295,
+          "for_other": 22,
+          "occ_total": 373103,
+          "occ_agri": 320050,
+          "occ_fish": 73,
+          "occ_mine": 361,
+          "occ_ind": 11935,
+          "occ_comm": 17903,
+          "occ_trans": 1539,
+          "occ_public": 5211,
+          "occ_domestic": 3982,
+          "occ_other": 12055,
+          "occ_none": 527123
+        },
+        "line": "1930 Census Population: 900,226 · Males per 100 Females: 106.05 · % of Total Korea: 4.3 · Per km²: 121"
+      },
+      "Kankyohoku": {
+        "scope": "sub-unit",
+        "en": "Kankyōhoku-dō (Hamgyŏngbuk-to)",
+        "pop": 745124,
+        "mf": "110.11",
+        "pct": "3.5",
+        "km2": 20321,
+        "dens": 37,
+        "x": {
+          "age_0_14": 294406,
+          "age_15_59": 409502,
+          "age_60p": 41216,
+          "reg_jp": 35279,
+          "reg_ko": 701844,
+          "for_total": 8001,
+          "for_cn": 7956,
+          "for_other": 45,
+          "occ_total": 288641,
+          "occ_agri": 174273,
+          "occ_fish": 17751,
+          "occ_mine": 2931,
+          "occ_ind": 31079,
+          "occ_comm": 22656,
+          "occ_trans": 7279,
+          "occ_public": 13689,
+          "occ_domestic": 791,
+          "occ_other": 18192,
+          "occ_none": 456483
+        },
+        "line": "1930 Census Population: 745,124 · Males per 100 Females: 110.11 · % of Total Korea: 3.5 · Per km²: 37"
+      },
+      "Saishu": {
+        "scope": "sub-unit",
+        "en": "Saishū-tō (Cheju-do)",
+        "pop": 2332256,
+        "mf": "100.96",
+        "pct": "11.1",
+        "km2": 13885,
+        "dens": 168,
+        "note": "The 1930 census counts Cheju inside Chŏllanam-do and does not break the island out, so these are that province’s figures.",
+        "sameAs": "Zenranan",
+        "x": {
+          "age_0_14": 936160,
+          "age_15_59": 1248301,
+          "age_60p": 147795,
+          "reg_jp": 40986,
+          "reg_ko": 2288429,
+          "reg_tw": 1,
+          "for_total": 2840,
+          "for_cn": 2774,
+          "for_other": 66,
+          "occ_total": 1265246,
+          "occ_agri": 1059576,
+          "occ_fish": 18756,
+          "occ_mine": 1243,
+          "occ_ind": 53519,
+          "occ_comm": 46240,
+          "occ_trans": 6000,
+          "occ_public": 13008,
+          "occ_domestic": 16425,
+          "occ_other": 50479,
+          "occ_none": 1067010
+        },
+        "line": "1930 Census Population: 2,332,256 · Males per 100 Females: 100.96 · % of Total Korea: 11.1 · Per km²: 168 The 1930 census counts Cheju inside Chŏllanam-do and does not break the island out, so these are that province’s figures."
+      }
+    },
+    "breaks": [
+      50,
+      75,
+      100,
+      150
+    ]
+  },
+  {
+    "id": "korea-cities-1930",
+    "epoch": "1930",
+    "group": "korea-cities-1930",
+    "caption": "census of 1 October 1930",
+    "note": "",
+    "fields": [
+      {
+        "c": "age_0_14",
+        "label": "0–14",
+        "group": "Ages"
+      },
+      {
+        "c": "age_15_59",
+        "label": "15–59",
+        "group": "Ages"
+      },
+      {
+        "c": "age_60p",
+        "label": "60 and over",
+        "group": "Ages"
+      },
+      {
+        "c": "reg_jp",
+        "label": "Japanese (naichijin)",
+        "group": "Register and nationality"
+      },
+      {
+        "c": "reg_ko",
+        "label": "Koreans",
+        "group": "Register and nationality"
+      },
+      {
+        "c": "reg_tw",
+        "label": "Taiwanese",
+        "group": "Register and nationality"
+      },
+      {
+        "c": "reg_karafuto",
+        "label": "Karafuto",
+        "group": "Register and nationality"
+      },
+      {
+        "c": "for_total",
+        "label": "Foreigners",
+        "group": "Register and nationality"
+      },
+      {
+        "c": "for_cn",
+        "label": "— Chinese",
+        "group": "Register and nationality"
+      },
+      {
+        "c": "for_other",
+        "label": "— other foreign",
+        "group": "Register and nationality"
+      },
+      {
+        "c": "occ_total",
+        "label": "In gainful occupation",
+        "group": "Occupation"
+      },
+      {
+        "c": "occ_agri",
+        "label": "Agriculture",
+        "group": "Occupation"
+      },
+      {
+        "c": "occ_fish",
+        "label": "Fisheries",
+        "group": "Occupation"
+      },
+      {
+        "c": "occ_mine",
+        "label": "Mining",
+        "group": "Occupation"
+      },
+      {
+        "c": "occ_ind",
+        "label": "Industry",
+        "group": "Occupation"
+      },
+      {
+        "c": "occ_comm",
+        "label": "Commerce",
+        "group": "Occupation"
+      },
+      {
+        "c": "occ_trans",
+        "label": "Transport",
+        "group": "Occupation"
+      },
+      {
+        "c": "occ_public",
+        "label": "Public service and professions",
+        "group": "Occupation"
+      },
+      {
+        "c": "occ_domestic",
+        "label": "Domestic service",
+        "group": "Occupation"
+      },
+      {
+        "c": "occ_other",
+        "label": "Other gainful occupation",
+        "group": "Occupation"
+      },
+      {
+        "c": "occ_none",
+        "label": "No occupation",
+        "group": "Occupation"
+      }
+    ],
+    "label": "The fourteen 府 at the census of 1 October 1930",
+    "pctOf": "",
+    "source": "1930 Census of Korea, 朝鮮總督府『昭和五年 朝鮮國勢調査報告』 — ages pp. 10–11, register and nationality Tables 19–20, occupation Table 40",
+    "layer": "The fourteen 府 at the census of 1 October 1930",
+    "rows": {
+      "allcities": {
+        "scope": "summary",
+        "en": "All fourteen 府 together",
+        "pop": 1189791,
+        "mf": "111.04",
+        "x": {
+          "age_0_14": 408399,
+          "age_15_59": 727131,
+          "age_60p": 54261
+        },
+        "line": "1930 Census Population: 1,189,791 · Males per 100 Females: 111.04"
+      },
+      "seoul": {
+        "scope": "city",
+        "en": "Keijō (Kyŏngsŏng, Seoul)",
+        "pop": 394240,
+        "mf": "110.07",
+        "x": {
+          "age_0_14": 125643,
+          "age_15_59": 249299,
+          "age_60p": 19298,
+          "reg_jp": 105639,
+          "reg_ko": 279865,
+          "reg_tw": 1,
+          "reg_karafuto": 5,
+          "for_total": 8730,
+          "for_cn": 8275,
+          "for_other": 455,
+          "occ_total": 136728,
+          "occ_agri": 2492,
+          "occ_fish": 23,
+          "occ_mine": 435,
+          "occ_ind": 31872,
+          "occ_comm": 41451,
+          "occ_trans": 8703,
+          "occ_public": 24916,
+          "occ_domestic": 12307,
+          "occ_other": 14529,
+          "occ_none": 257512
+        },
+        "line": "1930 Census Population: 394,240 · Males per 100 Females: 110.07"
+      },
+      "pusan": {
+        "scope": "city",
+        "en": "Fusan (Pusan)",
+        "pop": 146098,
+        "mf": "109.27",
+        "x": {
+          "age_0_14": 52389,
+          "age_15_59": 87777,
+          "age_60p": 5932,
+          "reg_jp": 47761,
+          "reg_ko": 97558,
+          "reg_tw": 5,
+          "reg_karafuto": 1,
+          "for_total": 773,
+          "for_cn": 737,
+          "for_other": 36,
+          "occ_total": 56037,
+          "occ_agri": 2461,
+          "occ_fish": 3033,
+          "occ_mine": 52,
+          "occ_ind": 11805,
+          "occ_comm": 15882,
+          "occ_trans": 5702,
+          "occ_public": 4241,
+          "occ_domestic": 2262,
+          "occ_other": 10599,
+          "occ_none": 90061
+        },
+        "line": "1930 Census Population: 146,098 · Males per 100 Females: 109.27"
+      },
+      "pyongyang": {
+        "scope": "city",
+        "en": "Heijō (P’yŏngyang)",
+        "pop": 140703,
+        "mf": "111.88",
+        "x": {
+          "age_0_14": 50194,
+          "age_15_59": 83835,
+          "age_60p": 6674,
+          "reg_jp": 20073,
+          "reg_ko": 116899,
+          "for_total": 3731,
+          "for_cn": 3534,
+          "for_other": 197,
+          "occ_total": 51816,
+          "occ_agri": 3220,
+          "occ_fish": 40,
+          "occ_mine": 213,
+          "occ_ind": 16067,
+          "occ_comm": 15190,
+          "occ_trans": 3634,
+          "occ_public": 5838,
+          "occ_domestic": 1044,
+          "occ_other": 6570,
+          "occ_none": 88887
+        },
+        "line": "1930 Census Population: 140,703 · Males per 100 Females: 111.88"
+      },
+      "taegu": {
+        "scope": "city",
+        "en": "Taikyū (Taegu)",
+        "pop": 93319,
+        "mf": "100.14",
+        "x": {
+          "age_0_14": 35505,
+          "age_15_59": 54033,
+          "age_60p": 3781,
+          "reg_jp": 19426,
+          "reg_ko": 73060,
+          "reg_karafuto": 5,
+          "for_total": 828,
+          "for_cn": 792,
+          "for_other": 36,
+          "occ_total": 35024,
+          "occ_agri": 3016,
+          "occ_fish": 19,
+          "occ_mine": 17,
+          "occ_ind": 9519,
+          "occ_comm": 10276,
+          "occ_trans": 1698,
+          "occ_public": 4320,
+          "occ_domestic": 3307,
+          "occ_other": 2852,
+          "occ_none": 58295
+        },
+        "line": "1930 Census Population: 93,319 · Males per 100 Females: 100.14"
+      },
+      "incheon": {
+        "scope": "city",
+        "en": "Jinsen (Inch’ŏn)",
+        "pop": 68137,
+        "mf": "115.93",
+        "x": {
+          "age_0_14": 22891,
+          "age_15_59": 41890,
+          "age_60p": 3356,
+          "reg_jp": 11758,
+          "reg_ko": 52971,
+          "reg_tw": 8,
+          "reg_karafuto": 3,
+          "for_total": 3397,
+          "for_cn": 3372,
+          "for_other": 25,
+          "occ_total": 25031,
+          "occ_agri": 878,
+          "occ_fish": 417,
+          "occ_mine": 36,
+          "occ_ind": 4701,
+          "occ_comm": 7569,
+          "occ_trans": 3593,
+          "occ_public": 1634,
+          "occ_domestic": 840,
+          "occ_other": 5363,
+          "occ_none": 43106
+        },
+        "line": "1930 Census Population: 68,137 · Males per 100 Females: 115.93"
+      },
+      "kaesong": {
+        "scope": "city",
+        "en": "Kaijō (Kaesŏng)",
+        "pop": 49520,
+        "mf": "86.81",
+        "x": {
+          "age_0_14": 17834,
+          "age_15_59": 27933,
+          "age_60p": 3753,
+          "reg_jp": 1531,
+          "reg_ko": 47722,
+          "for_total": 267,
+          "for_cn": 242,
+          "for_other": 25,
+          "occ_total": 14321,
+          "occ_agri": 1563,
+          "occ_fish": 3,
+          "occ_mine": 40,
+          "occ_ind": 3180,
+          "occ_comm": 4269,
+          "occ_trans": 305,
+          "occ_public": 972,
+          "occ_domestic": 841,
+          "occ_other": 3148,
+          "occ_none": 35199
+        },
+        "line": "1930 Census Population: 49,520 · Males per 100 Females: 86.81"
+      },
+      "sinuiju": {
+        "scope": "city",
+        "en": "Shingishū (Sinŭiju)",
+        "pop": 48047,
+        "mf": "137.61",
+        "x": {
+          "age_0_14": 15670,
+          "age_15_59": 30825,
+          "age_60p": 1552,
+          "reg_jp": 7526,
+          "reg_ko": 31445,
+          "for_total": 9076,
+          "for_cn": 9071,
+          "for_other": 5,
+          "occ_total": 19856,
+          "occ_agri": 1078,
+          "occ_fish": 39,
+          "occ_mine": 32,
+          "occ_ind": 4905,
+          "occ_comm": 5103,
+          "occ_trans": 3062,
+          "occ_public": 1869,
+          "occ_domestic": 600,
+          "occ_other": 3168,
+          "occ_none": 28191
+        },
+        "line": "1930 Census Population: 48,047 · Males per 100 Females: 137.61"
+      },
+      "hamhung": {
+        "scope": "city",
+        "en": "Kankō (Hamhŭng)",
+        "pop": 43851,
+        "mf": "109.02",
+        "x": {
+          "age_0_14": 16008,
+          "age_15_59": 26166,
+          "age_60p": 1677,
+          "reg_jp": 8984,
+          "reg_ko": 34191,
+          "for_total": 676,
+          "for_cn": 667,
+          "for_other": 9,
+          "occ_total": 15908,
+          "occ_agri": 1066,
+          "occ_fish": 9,
+          "occ_mine": 43,
+          "occ_ind": 3929,
+          "occ_comm": 4537,
+          "occ_trans": 841,
+          "occ_public": 3246,
+          "occ_domestic": 331,
+          "occ_other": 1906,
+          "occ_none": 27943
+        },
+        "line": "1930 Census Population: 43,851 · Males per 100 Females: 109.02"
+      },
+      "wonsan": {
+        "scope": "city",
+        "en": "Genzan (Wŏnsan)",
+        "pop": 42760,
+        "mf": "111.46",
+        "x": {
+          "age_0_14": 15178,
+          "age_15_59": 25788,
+          "age_60p": 1794,
+          "reg_jp": 9260,
+          "reg_ko": 32241,
+          "for_total": 1259,
+          "for_cn": 1218,
+          "for_other": 41,
+          "occ_total": 15223,
+          "occ_agri": 560,
+          "occ_fish": 686,
+          "occ_mine": 7,
+          "occ_ind": 2631,
+          "occ_comm": 5890,
+          "occ_trans": 1732,
+          "occ_public": 1215,
+          "occ_domestic": 391,
+          "occ_other": 2111,
+          "occ_none": 27537
+        },
+        "line": "1930 Census Population: 42,760 · Males per 100 Females: 111.46"
+      },
+      "nampo": {
+        "scope": "city",
+        "en": "Chinnanpo (Chinnamp’o)",
+        "pop": 38296,
+        "mf": "118.51",
+        "x": {
+          "age_0_14": 13608,
+          "age_15_59": 22786,
+          "age_60p": 1902,
+          "reg_jp": 5333,
+          "reg_ko": 32073,
+          "for_total": 890,
+          "for_cn": 887,
+          "for_other": 3,
+          "occ_total": 13835,
+          "occ_agri": 530,
+          "occ_fish": 906,
+          "occ_mine": 21,
+          "occ_ind": 2218,
+          "occ_comm": 3658,
+          "occ_trans": 2627,
+          "occ_public": 829,
+          "occ_domestic": 203,
+          "occ_other": 2843,
+          "occ_none": 24461
+        },
+        "line": "1930 Census Population: 38,296 · Males per 100 Females: 118.51"
+      },
+      "chongjin": {
+        "scope": "city",
+        "en": "Seishin (Ch’ŏngjin)",
+        "pop": 35925,
+        "mf": "137.96",
+        "x": {
+          "age_0_14": 11795,
+          "age_15_59": 23092,
+          "age_60p": 1038,
+          "reg_jp": 8873,
+          "reg_ko": 25639,
+          "for_total": 1413,
+          "for_cn": 1402,
+          "for_other": 11,
+          "occ_total": 15021,
+          "occ_agri": 531,
+          "occ_fish": 2123,
+          "occ_mine": 27,
+          "occ_ind": 2340,
+          "occ_comm": 3606,
+          "occ_trans": 2614,
+          "occ_public": 979,
+          "occ_domestic": 157,
+          "occ_other": 2644,
+          "occ_none": 20904
+        },
+        "line": "1930 Census Population: 35,925 · Males per 100 Females: 137.96"
+      },
+      "mokpo": {
+        "scope": "city",
+        "en": "Moppo (Mokp’o)",
+        "pop": 34689,
+        "mf": "118.83",
+        "x": {
+          "age_0_14": 12243,
+          "age_15_59": 21254,
+          "age_60p": 1192,
+          "reg_jp": 7922,
+          "reg_ko": 26335,
+          "reg_tw": 1,
+          "for_total": 431,
+          "for_cn": 416,
+          "for_other": 15,
+          "occ_total": 14206,
+          "occ_agri": 819,
+          "occ_fish": 866,
+          "occ_mine": 13,
+          "occ_ind": 2284,
+          "occ_comm": 5400,
+          "occ_trans": 1616,
+          "occ_public": 1024,
+          "occ_domestic": 741,
+          "occ_other": 1443,
+          "occ_none": 20483
+        },
+        "line": "1930 Census Population: 34,689 · Males per 100 Females: 118.83"
+      },
+      "masan": {
+        "scope": "city",
+        "en": "Masan",
+        "pop": 27885,
+        "mf": "101.35",
+        "x": {
+          "age_0_14": 10794,
+          "age_15_59": 15595,
+          "age_60p": 1496,
+          "reg_jp": 5587,
+          "reg_ko": 22189,
+          "for_total": 109,
+          "for_cn": 102,
+          "for_other": 7,
+          "occ_total": 9710,
+          "occ_agri": 1063,
+          "occ_fish": 182,
+          "occ_mine": 7,
+          "occ_ind": 1445,
+          "occ_comm": 3042,
+          "occ_trans": 529,
+          "occ_public": 1084,
+          "occ_domestic": 611,
+          "occ_other": 1747,
+          "occ_none": 18175
+        },
+        "line": "1930 Census Population: 27,885 · Males per 100 Females: 101.35"
+      },
+      "kunsan": {
+        "scope": "city",
+        "en": "Gunzan (Kunsan)",
+        "pop": 26321,
+        "mf": "130.02",
+        "x": {
+          "age_0_14": 8647,
+          "age_15_59": 16858,
+          "age_60p": 816,
+          "reg_jp": 8707,
+          "reg_ko": 16894,
+          "reg_tw": 1,
+          "for_total": 719,
+          "for_cn": 718,
+          "for_other": 1,
+          "occ_total": 11359,
+          "occ_agri": 361,
+          "occ_fish": 450,
+          "occ_mine": 28,
+          "occ_ind": 2110,
+          "occ_comm": 4210,
+          "occ_trans": 1851,
+          "occ_public": 937,
+          "occ_domestic": 603,
+          "occ_other": 809,
+          "occ_none": 14962
+        },
+        "line": "1930 Census Population: 26,321 · Males per 100 Females: 130.02"
+      }
+    },
+    "breaks": []
   }
 ];
 

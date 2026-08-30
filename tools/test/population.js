@@ -80,24 +80,26 @@ const spot = (p, sel, fx, fy) => p.evaluate((s, ax, ay) => {
   check('a link shades fourteen units', shaded.n === 14, String(shaded.n));
   check('and does it with Administrative off', !shaded.admin);
   check('the panel row agrees with the link', shaded.checked === true);
-  /* Four, not five. The ladder gives 75–100 and nothing in Korea sat there:
-     the gap between 69 and 111 per km² is the mountains and the paddy, and the
-     empty class stays in the key so the ramp does not lie about its spacing. */
-  check('four of the five classes are used, and each is its own colour',
-    new Set(Object.values(shaded.fill)).size === 4,
+  /* Three, on this date. The ladder is the *layer's* — pooled across 1930 and
+     1942 — so that the same colour means the same thing on both maps, and no
+     province in 1942 was under 50 or between 75 and 100. Fitted to 1942 alone
+     the classes would spread better and mean something different on each map,
+     which is the one thing a reader flipping between the dates must not meet. */
+  check('the classes this date uses are its own colours',
+    new Set(Object.values(shaded.fill)).size === 3,
     JSON.stringify(Object.values(shaded.fill).slice(0, 3)));
   check('the densest province is the deepest colour',
     shaded.fill.Keiki === 'rgb(31, 91, 143)', shaded.fill.Keiki);
-  check('the emptiest is the palest',
-    shaded.fill.Kankyohoku === 'rgb(238, 243, 248)', shaded.fill.Kankyohoku);
+  check('the emptiest is the palest this date reaches',
+    shaded.fill.Kankyohoku === 'rgb(195, 214, 232)', shaded.fill.Kankyohoku);
   check('Cheju is shaded as the province it is counted in',
     shaded.fill.Saishu === shaded.fill.Zenranan,
     shaded.fill.Saishu + ' vs ' + shaded.fill.Zenranan);
 
   const key = await p.evaluate(() => (document.querySelector('#legend') || {}).textContent || '');
   check('the key gives the five classes and where they begin',
-    /under 75/.test(key) && /75–100/.test(key) && /100–150/.test(key)
-    && /150–200/.test(key) && /200 and over/.test(key), key.slice(-90));
+    /under 50/.test(key) && /50–75/.test(key) && /75–100/.test(key)
+    && /100–150/.test(key) && /150 and over/.test(key), key.slice(-90));
   check('and whose figures they are', /朝鮮總督府/.test(key));
 
   /* The pointer must not repaint the data. */
@@ -130,26 +132,51 @@ const spot = (p, sel, fx, fy) => p.evaluate((s, ax, ay) => {
   await sleep(600);
   const card = await p.evaluate(() => {
     const h = document.querySelector('#info-pop');
-    const rows = [...h.querySelectorAll('.pop-row')].map(r => r.textContent.trim());
-    return { hidden: h.hidden, rows: rows,
+    const blocks = [...h.querySelectorAll('.pop-block')].map(b => ({
+      head: (b.querySelector('.pop-head') || {}).textContent || '',
+      rows: [...b.querySelectorAll('.pop-row')].map(r => r.textContent.trim()),
+      groups: [...b.querySelectorAll('.pop-group-head')].map(g => g.textContent),
+    }));
+    return { hidden: h.hidden, blocks: blocks,
              order: [...document.querySelector('#info').children]
                .map(e => e.id || e.className),
              head: (h.querySelector('.pop-head') || {}).textContent || '',
              src: (h.querySelector('.pop-src') || {}).textContent || '',
              btn: (h.querySelector('.pop-btn') || {}).textContent || '' };
   });
-  check('a province card carries the four figures', card.rows.length === 4,
-        JSON.stringify(card.rows));
+  /* One block per date, oldest first, so the card reads down the way time
+     runs. The 1942 estimate is four figures; the 1930 census counted the ages,
+     the registers and the occupations as well. */
+  check('a province card carries a block per date, in date order',
+    card.blocks.length === 2 && /1930/.test(card.blocks[0].head)
+    && /1942/.test(card.blocks[1].head),
+    card.blocks.map(b => b.head).join(' | '));
+  const y42 = card.blocks[1];
   check('population, sex ratio, share and density, in that order',
-    /^Population2,830,778$/.test(card.rows[0].replace(/\s+/g, ''))
-    && /100females101\.0$/.test(card.rows[1].replace(/\s+/g, ''))
-    && /Korea11\.7$/.test(card.rows[2].replace(/\s+/g, ''))
-    && /^Perkm²224/.test(card.rows[3].replace(/\s+/g, '')),
-    JSON.stringify(card.rows));
+    y42.rows.length === 4
+    && /^Population2,830,778$/.test(y42.rows[0].replace(/\s+/g, ''))
+    && /100females101\.0$/.test(y42.rows[1].replace(/\s+/g, ''))
+    && /Korea11\.7$/.test(y42.rows[2].replace(/\s+/g, ''))
+    && /^Perkm²224/.test(y42.rows[3].replace(/\s+/g, '')),
+    JSON.stringify(y42.rows));
+  /* Everything else the census counted, a group to a heading, and none of it
+     in the short description — that is a sentence. */
+  check('the 1930 block groups the ages, the registers and the occupations',
+    card.blocks[0].groups.join(' | ')
+      === 'Ages | Register and nationality | Occupation',
+    card.blocks[0].groups.join(' | '));
+  const flat = card.blocks[0].rows.map(r => r.replace(/\s+/g, ''));
+  check('with the figures under them',
+    flat.indexOf('Japanese(naichijin)135,863') > -1
+    && flat.indexOf('Agriculture545,687') > -1
+    && flat.indexOf('0–14801,943') > -1,
+    flat.slice(4, 9).join(' | '));
   /* Headed with the place, not with the table: every province card used to
      say "Korea" over figures that were the province's. */
   check('headed with the province and what was counted',
-    card.head === 'Kyŏnggi-do (Keiki-dō), estimated population at 1 October 1942',
+    card.blocks[0].head === 'Kyŏnggi-do (Keiki-dō), census of 1 October 1930'
+    && card.blocks[1].head
+       === 'Kyŏnggi-do (Keiki-dō), estimated population at 1 October 1942',
     card.head);
   /* And above the block about Chōsen. What the reader asked about comes first
      and what it belongs to comes after — the order the rest of the card is
@@ -206,7 +233,7 @@ const spot = (p, sel, fx, fy) => p.evaluate((s, ax, ay) => {
   check('with nothing on, the card offers the map', /Provinces by Population/.test(before.btn),
         before.btn);
   check('and the colony-wide card is headed with the colony',
-    before.head === 'Korea, estimated population at 1 October 1942', before.head);
+    before.head === 'Korea, census of 1 October 1930', before.head);
   check('and nothing is shaded yet', before.shaded === 0, String(before.shaded));
   await p.evaluate(() => document.querySelector('.pop-btn').click());
   await sleep(1600);
@@ -215,7 +242,7 @@ const spot = (p, sel, fx, fy) => p.evaluate((s, ax, ay) => {
     checked: (document.querySelector('#opt-pop-korea-density') || {}).checked,
     url: location.search,
     code: (/[?&]layers=([^&#]+)/.exec(location.search) || [])[1],
-    key: /under 75/.test((document.querySelector('#legend') || {}).textContent || '') }));
+    key: /under 50/.test((document.querySelector('#legend') || {}).textContent || '') }));
   check('pressing it shades the map', after.shaded === 14, String(after.shaded));
   check('ticks the row in the Layers panel', after.checked === true);
   check('writes itself into the layers code, with no parameter of its own',
@@ -292,7 +319,9 @@ const spot = (p, sel, fx, fy) => p.evaluate((s, ax, ay) => {
   const tbl = await p.evaluate(() => {
     document.querySelector('.pop-more').click();
     const d = document.querySelector('#dlg-table');
-    const rows = [...d.querySelectorAll('.pop-table tbody tr')];
+    // the first table in the box: the box also holds the group tables and,
+    // under them, the two dates compared
+    const rows = [...d.querySelectorAll('.pop-table')[0].querySelectorAll('tbody tr')];
     return { open: d.open, title: d.querySelector('.table-title').textContent,
              tab: d.querySelector('.table-open').hidden,
              head: (d.querySelector('.pop-head') || {}).textContent,
@@ -300,7 +329,8 @@ const spot = (p, sel, fx, fy) => p.evaluate((s, ax, ay) => {
              first: rows[0].textContent.replace(/\s+/g, ' ').trim(),
              order: rows.map(r => r.querySelector('th').textContent),
              here: (d.querySelector('tr.here th') || {}).textContent,
-             note: (d.querySelector('.pop-note') || {}).textContent || '',
+             note: [...d.querySelectorAll('.pop-note')]
+               .map(n => n.textContent).filter(t => /^\*/.test(t)).join(' ') || '',
              src: (d.querySelector('.pop-src') || {}).textContent || '' };
   });
   check('the link opens the box', tbl.open === true && tbl.title === 'Population');
@@ -405,12 +435,23 @@ const spot = (p, sel, fx, fy) => p.evaluate((s, ax, ay) => {
     shaded: document.querySelectorAll('path.pop-shaded').length,
     checked: (document.querySelector('#opt-pop-korea-density') || {}).checked,
     note: (document.querySelector('#note-pop-korea-density') || {}).textContent,
+    fill: (document.querySelector('#a-korea path[data-prov="Kankyohoku"]') || {})
+            .style && getComputedStyle(
+              document.querySelector('#a-korea path[data-prov="Kankyohoku"]')).fill,
     key: (document.querySelector('#legend') || {}).textContent || '' }));
-  check('on a date with no figures nothing is shaded', on30.shaded === 0, String(on30.shaded));
-  check('but the switch stays where it was put', on30.checked === true);
-  check('and both the switch and the key say why',
-    /no figures for this date yet/.test(on30.note)
-    && /no figures for this date yet/.test(on30.key), on30.note);
+  check('the other date shades from its own census', on30.shaded === 14, String(on30.shaded));
+  check('the switch stays where it was put and says the date',
+    on30.checked === true && on30.note === '1930', on30.note);
+  check('the key names that date and its source',
+    /Korea Population Density 1930/.test(on30.key.replace(/\s+/g, ' '))
+    && /朝鮮國勢調査報告/.test(on30.key), on30.key.slice(-80));
+  /* The same ladder, so a province that is pale on one map and deep on the
+     other has actually changed. Kankyŏngbuk-to is 37 per km² in 1930 and 55 in
+     1942 — the palest class and then the one above it. */
+  check('and the ladder is the layer\'s, not the date\'s',
+    on30.fill === 'rgb(238, 243, 248)', on30.fill);
+  check('the classes read the same on both maps',
+    /under 50/.test(on30.key) && /150 and over/.test(on30.key), on30.key.slice(-60));
   await p.close();
 
   /* The parameter this travelled as for one update still opens a link. */
@@ -421,6 +462,112 @@ const spot = (p, sel, fx, fy) => p.evaluate((s, ax, ay) => {
   check('a link written with pop= still opens shaded', legacy.shaded === 14,
         String(legacy.shaded));
   check('and the address is rewritten without it', !/pop=/.test(legacy.url), legacy.url);
+  await p.close();
+
+  /* ---- the census beside the estimate, and the cities --------------- */
+  console.log('\n— two dates, and the fourteen 府 —');
+  p = await open(b, KOREA + '&layers=hra0ht');
+  const at42 = await spot(p, '#a-korea path[data-prov="Keiki"]');
+  await p.mouse.move(at42.x - 40, at42.y); await sleep(150);
+  await p.mouse.move(at42.x, at42.y); await sleep(400);
+  await p.mouse.click(at42.x, at42.y); await sleep(600);
+  const box = await p.evaluate(() => {
+    document.querySelector('.pop-more').click();
+    const d = document.querySelector('#dlg-table');
+    return { head: d.querySelector('.pop-head').textContent,
+             note: (d.querySelector('.pop-note') || {}).textContent || '',
+             tables: d.querySelectorAll('.pop-table').length,
+             groups: [...d.querySelectorAll('.pop-group-head')].map(g => g.textContent),
+             switches: [...d.querySelectorAll('.pop-switch button')].map(x => x.textContent),
+             cmp: (d.querySelector('.pop-compare .pop-head') || {}).textContent || '',
+             cmpRow: (d.querySelector('.pop-compare tbody tr') || {}).textContent || '' };
+  });
+  /* Asked for: the reader should be told what kind of number the 1942 column
+     is before they read it against a census. */
+  check('the 1942 table says what its figures are',
+    /Government-General estimates/.test(box.note), box.note.slice(0, 60));
+  check('the estimate has no groups to show, being four figures',
+    box.groups.length === 0, box.groups.join(' | '));
+  check('the other tables are offered at the foot',
+    box.switches.length === 2 && box.switches.some(t => /1930/.test(t))
+    && box.switches.some(t => /府/.test(t)), box.switches.join(' | '));
+  /* And under them the two dates on what they share. Only what they share: a
+     comparison is worth no more than its narrowest column. */
+  check('and the two dates are compared below', /1930 and 1942 compared/.test(box.cmp),
+        box.cmp);
+  check('with the change worked out',
+    /21,058,305/.test(box.cmpRow) && /24,105,906/.test(box.cmpRow)
+    && /\+3,047,601/.test(box.cmpRow) && /\+14\.5%/.test(box.cmpRow),
+    box.cmpRow.replace(/\s+/g, ' ').slice(0, 90));
+
+  // and the switch at the foot moves to the census, which has its groups
+  const to30 = await p.evaluate(() => {
+    [...document.querySelectorAll('.pop-switch button')]
+      .filter(x => /census of 1 October 1930/.test(x.textContent))[0].click();
+    const d = document.querySelector('#dlg-table');
+    return { head: d.querySelector('.pop-head').textContent,
+             tables: d.querySelectorAll('.pop-table').length,
+             groups: [...d.querySelectorAll('.pop-group-head')].map(g => g.textContent) };
+  });
+  check('the foot switches the table to the other date',
+    /census of 1 October 1930/.test(to30.head), to30.head);
+  check('and the census brings a table for each thing it counted',
+    to30.tables === 5
+    && to30.groups.join(' | ') === 'Ages | Register and nationality | Occupation',
+    to30.tables + ' — ' + to30.groups.join(' | '));
+  await p.close();
+
+  /* A city carries the same three groups, and its own table of the fourteen. */
+  p = await open(b, KOREA + '&layers=2');
+  const city = await p.evaluate(() => {
+    const g = [...document.querySelectorAll('#gaz .gaz')]
+      .find(e => (e.getAttribute('data-id') || '').endsWith('_kaesong')
+                 && e.style.display !== 'none');
+    const r = g.getBoundingClientRect();
+    return { x: Math.round(r.x + r.width / 2), y: Math.round(r.y + r.height / 2) };
+  });
+  await p.mouse.move(city.x - 30, city.y); await sleep(150);
+  await p.mouse.move(city.x, city.y); await sleep(350);
+  await p.mouse.click(city.x, city.y); await sleep(600);
+  const cityCard = await p.evaluate(() => {
+    const h = document.querySelector('#info-pop');
+    return { name: document.querySelector('#info .primary').textContent,
+             head: (h.querySelector('.pop-head') || {}).textContent,
+             groups: [...h.querySelectorAll('.pop-group-head')].map(g => g.textContent),
+             rows: [...h.querySelectorAll('.pop-row')].map(r => r.textContent.replace(/\s+/g, '')),
+             shade: !!h.querySelector('.pop-btn') };
+  });
+  /* The gazetteer's id carries the date — g_e1930_kaesong — and the figures are
+     the city's, so the date comes off before they are looked up. */
+  check('a city card finds its census figures',
+    /Kaes.ng/.test(cityCard.head) && cityCard.rows.indexOf('Population49,520') > -1,
+    cityCard.head);
+  check('with the register and the occupations under it',
+    cityCard.groups.join(' | ') === 'Ages | Register and nationality | Occupation',
+    cityCard.groups.join(' | '));
+  check('and no offer to shade the map: a city is not a province',
+    cityCard.shade === false);
+  const cityTbl = await p.evaluate(() => {
+    document.querySelector('.pop-more').click();
+    const d = document.querySelector('#dlg-table');
+    const rows = [...d.querySelectorAll('.pop-table')[0].querySelectorAll('tbody tr')];
+    return { head: d.querySelector('.pop-head').textContent,
+             tables: d.querySelectorAll('.pop-table').length,
+             n: rows.length,
+             first: rows[0].textContent.replace(/\s+/g, ' '),
+             here: (d.querySelector('tr.here th') || {}).textContent,
+             cmp: !!d.querySelector('.pop-compare') };
+  });
+  check('the fourteen 府 have a table of their own',
+    /fourteen 府/.test(cityTbl.head) && cityTbl.n === 15 && cityTbl.tables === 4,
+    cityTbl.head + ' — ' + cityTbl.n + ' rows, ' + cityTbl.tables + ' tables');
+  check('with the fourteen together at the top',
+    /All fourteen/.test(cityTbl.first) && /1,189,791/.test(cityTbl.first),
+    cityTbl.first.slice(0, 60));
+  check('the city the card was about picked out',
+    /Kaes.ng/.test(cityTbl.here), cityTbl.here);
+  check('and nothing compared, there being one date',
+    cityTbl.cmp === false);
   await p.close();
 
   /* ---- and the marker drawn over the dot ---------------------------- */

@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '240';
+  var JEM_VERSION = '241';
   var JEM_ASSETS = {"admin.js": "9f99c96627", "annotate.js": "761fbd5949", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "3881d33c99", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
 
   /* Every file this one fetches, with the version on it.
@@ -7295,39 +7295,68 @@
     return dlg;
   }
 
-  /* Everything counted, in a table the reader can read down. The card answers
-     "what about this province"; this answers "and how does it sit against the
+  /* Everything counted, in tables the reader can read down. The card answers
+     "what about this province"; these answer "and how does it sit against the
      others", which is a different question and needs the whole column at once.
-     One section per date, so a second year is another block rather than
-     another box, and the source under each. */
-  function openPopTable(key) {
+
+     One dataset at a time — a census is a date, and two dates in one table
+     would be two tables anyway — with the other dates of the same layer offered
+     at the foot, and under them the two compared on the figures they share. */
+  var popTableAt = null;          // which dataset the box is showing
+
+  function openPopTable(key, want) {
     var dlg = tableBox();
     var sets = popSets().filter(function (d) { return d.rows; });
     if (!dlg || !sets.length) return;
+    /* The date on screen, unless the reader asked for another. A card opened on
+       the 1930 map offers the 1930 census first, which is the map they are
+       looking at. */
+    var year = String(state.epoch).replace(/^e/, '');
+    var d = want
+      || sets.filter(function (x) { return x.rows[key] && x.epoch === year; })[0]
+      || sets.filter(function (x) { return x.rows[key]; })[0]
+      || sets[0];
+    popTableAt = d;
     $('.table-title', dlg).textContent = 'Population';
     var open = $('.table-open', dlg);
     if (open) open.hidden = true;          // nothing to open: this is not a page
     var body = $('.table-body', dlg);
     body.textContent = '';
-    sets.slice().sort(function (a, b) { return String(a.epoch).localeCompare(b.epoch); })
-      .forEach(function (d) {
-        body.appendChild(popTable(d, key));
-      });
-    dlg.showModal();
+    body.appendChild(popTableFor(d, key));
+    body.appendChild(popOtherTables(d, key));
+    var cmp = popCompare(d, key);
+    if (cmp) body.appendChild(cmp);
+    if (!dlg.open) dlg.showModal();
+    body.scrollTop = 0;
   }
 
-  /* The characters, without whatever reading the record hangs off them:
-     `京畿道 (Keiki-dō)` is one field in data.js and only the first half of it
-     belongs in a column of names. */
+  /* The other dates of the same layer, and the cities beside the provinces:
+     everything else in the folder that is about the same ground. */
+  function popOtherTables(d, key) {
+    var wrap = document.createElement('div');
+    wrap.className = 'pop-switch';
+    popSets().forEach(function (x) {
+      if (x === d || !x.rows) return;
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'plain';
+      btn.textContent = x.label;
+      btn.addEventListener('click', function () { openPopTable(key, x); });
+      wrap.appendChild(btn);
+    });
+    return wrap;
+  }
+
+  /* The name this map would use for the place, so a table and a card cannot
+     call the same province — or the same city — two different things. */
   function popKanji(rec) {
     var raw = (rec && (rec.ja || rec.zh)) || '';
     return raw.replace(/\s*[（(].*$/, '').trim();
   }
 
-  /* The name this map would use for the place, so the table and the card
-     cannot call the same province two different things. */
   function popRowName(k, row) {
-    var rec = (JMAP.PROVINCES || {})[k] || byId[k];
+    var rec = (JMAP.PROVINCES || {})[k] || byId[k]
+      || (gazByKey && gazByKey[state.epoch + '|' + k]);
     if (!rec) return row.en || k;
     var per = JMAP.PROVINCE_EPOCH && JMAP.PROVINCE_EPOCH[state.epoch];
     var over = per && per[k];
@@ -7348,31 +7377,37 @@
                             : name + ' (' + kanji + ')';
   }
 
-  function popTable(d, key) {
-    var wrap = document.createElement('section');
-    wrap.className = 'pop-table-block';
-    var h = document.createElement('p');
-    h.className = 'pop-head';
-    h.textContent = d.label;
-    wrap.appendChild(h);
+  /* The rows of a dataset in the order a table wants them: the whole first and
+     pinned there, then the parts, and nothing for a place the source counts
+     inside another one — it has no figures of its own, so a row for it is the
+     same numbers twice and reads as one more province. */
+  function popTableRows(d) {
+    var keys = Object.keys(d.rows);
+    var top = keys.filter(function (k) {
+      return d.rows[k].scope === 'territory' || d.rows[k].scope === 'summary';
+    });
+    var parts = keys.filter(function (k) {
+      var r = d.rows[k];
+      return r.scope !== 'territory' && r.scope !== 'summary' && !r.sameAs;
+    });
+    return { top: top, parts: parts };
+  }
 
+  var POP_NUM = function (v) {
+    return (v === undefined || v === null || v === '') ? null : Number(v);
+  };
+
+  /* A sortable table. Every column is a question — which province was the
+     biggest, which the emptiest, where were there most men to a hundred women —
+     and the answer is that column in order, so every head is a button. The
+     whole is not one of the answers and stays at the top however it is
+     sorted. */
+  function popSortable(cols, rows, here) {
     var scroll = document.createElement('div');
     scroll.className = 'pop-table-scroll';
     var table = document.createElement('table');
     table.className = 'pop-table';
-    /* Each column is a question — which province was biggest, which was
-       emptiest, where were there most men — and the answer is a sort. The
-       whole is not one of the answers: it stays at the top whatever is sorted,
-       because Korea is not in the running against its own provinces. */
-    var cols = [
-      { head: '', key: 'name', dir: 1 },
-      { head: 'Population', key: 'pop', dir: -1 },
-      { head: 'Males per 100 females', key: 'mf', dir: -1 },
-      { head: '% of total ' + d.pctOf, key: 'pct', dir: -1 },
-      { head: 'Area km²', key: 'km2', dir: -1 },
-      { head: 'Per km²', key: 'dens', dir: -1 },
-    ];
-    var sortKey = 'pop', sortDir = -1;
+    var sortAt = 1, sortDir = -1;
     var thead = document.createElement('thead');
     var hr = document.createElement('tr');
     cols.forEach(function (c, i) {
@@ -7382,7 +7417,7 @@
       var btn = document.createElement('button');
       btn.type = 'button';
       btn.className = 'pop-sort';
-      btn.appendChild(document.createTextNode(c.head || 'Province'));
+      btn.appendChild(document.createTextNode(c.head || 'Name'));
       var arrow = document.createElement('span');
       arrow.className = 'arrow';
       arrow.setAttribute('aria-hidden', 'true');
@@ -7390,8 +7425,8 @@
       btn.addEventListener('click', function () {
         // the same column again turns it over; a new one starts the way that
         // column is usually read — names up, numbers down
-        if (sortKey === c.key) sortDir = -sortDir;
-        else { sortKey = c.key; sortDir = c.dir; }
+        if (sortAt === i) sortDir = -sortDir;
+        else { sortAt = i; sortDir = i ? -1 : 1; }
         draw();
       });
       th.appendChild(btn);
@@ -7399,73 +7434,122 @@
     });
     thead.appendChild(hr);
     table.appendChild(thead);
-
-    /* The whole first, then its parts by size, and the places the returns do
-       not break out at the bottom — they carry another row's figures, and
-       sorted in among the rest they would read as a fourteenth province. */
-    var keys = Object.keys(d.rows);
-    var whole = keys.filter(function (k) { return d.rows[k].scope === 'territory'; });
-    var parts = keys.filter(function (k) {
-      return d.rows[k].scope !== 'territory' && !d.rows[k].sameAs;
-    }).sort(function (a, b) { return (d.rows[b].pop || 0) - (d.rows[a].pop || 0); });
-    /* A place the source counts inside another one has no row here. It has no
-       figures of its own — Cheju carried Zenranan-dō's — so a row for it is
-       the same numbers twice, and in a column of provinces it reads as a
-       fourteenth. Its card is where that belongs, and says so there. */
-
     var tbody = document.createElement('tbody');
-    var notes = [];
-    var named = {};
-    parts.concat(whole).forEach(function (k) { named[k] = popRowName(k, d.rows[k]); });
 
     function draw() {
       tbody.textContent = '';
       cols.forEach(function (c, i) {
         var th = hr.children[i];
-        var on = c.key === sortKey;
+        var on = i === sortAt;
         th.setAttribute('aria-sort',
           on ? (sortDir < 0 ? 'descending' : 'ascending') : 'none');
         $('.arrow', th).textContent = on ? (sortDir < 0 ? ' ↓' : ' ↑') : '';
         $('.pop-sort', th).classList.toggle('on', on);
       });
-      var order = parts.slice().sort(function (a, b) {
-        var x = d.rows[a], y = d.rows[b];
-        if (sortKey === 'name') {
-          return named[a].localeCompare(named[b]) * sortDir;
-        }
-        var av = parseFloat(x[sortKey]), bv = parseFloat(y[sortKey]);
-        if (!isFinite(av) && !isFinite(bv)) return 0;
-        if (!isFinite(av)) return 1;           // nothing counted sinks, either way
-        if (!isFinite(bv)) return -1;
-        return (av - bv) * sortDir;
-      });
-      whole.concat(order).forEach(function (k) {
-        var r = d.rows[k];
-        var tr = document.createElement('tr');
-        if (r.scope === 'territory') tr.className = 'whole';
-        if (k === key) tr.classList.add('here');   // the card that opened this
-        [named[k] + (r.note ? ' *' : ''),
-         r.pop ? r.pop.toLocaleString('en-US') : '—',
-         r.mf || '—', r.pct || '—',
-         r.km2 ? r.km2.toLocaleString('en-US') : '—',
-         r.dens || '—'].forEach(function (v, i) {
-          var td = document.createElement(i ? 'td' : 'th');
-          td.textContent = v;
-          td.className = i ? 'num' : 'name';
-          tr.appendChild(td);
+      var order = rows.filter(function (r) { return !r.pinned; }).slice()
+        .sort(function (a, b) {
+          var x = a.cells[sortAt], y = b.cells[sortAt];
+          if (sortAt === 0) return String(x.t).localeCompare(String(y.t)) * sortDir;
+          if (x.n === null && y.n === null) return 0;
+          if (x.n === null) return 1;      // nothing counted sinks, either way
+          if (y.n === null) return -1;
+          return (x.n - y.n) * sortDir;
         });
-        tbody.appendChild(tr);
-      });
+      rows.filter(function (r) { return r.pinned; }).concat(order)
+        .forEach(function (r) {
+          var tr = document.createElement('tr');
+          if (r.pinned) tr.className = 'whole';
+          if (here && r.key === here) tr.classList.add('here');
+          r.cells.forEach(function (cell, i) {
+            var td = document.createElement(i ? 'td' : 'th');
+            td.textContent = cell.t;
+            td.className = i ? 'num' : 'name';
+            tr.appendChild(td);
+          });
+          tbody.appendChild(tr);
+        });
     }
     draw();
-    whole.concat(parts).forEach(function (k) {
-      var r = d.rows[k];
-      if (r.note) notes.push(named[k] + ' — ' + r.note);
-    });
     table.appendChild(tbody);
     scroll.appendChild(table);
-    wrap.appendChild(scroll);
+    return scroll;
+  }
 
+  var POP_INT = function (v) {
+    return (v === undefined || v === null || v === '') ? '—'
+      : Number(v).toLocaleString('en-US');
+  };
+
+  /* One dataset: what it is, what it says, and where it came from. The figures
+     first, then a table for each group the source counted — ages, register and
+     nationality, occupation — because twenty-one columns in one table is a
+     wall, and each group is a different question anyway. */
+  function popTableFor(d, key) {
+    var wrap = document.createElement('section');
+    wrap.className = 'pop-table-block';
+    var h = document.createElement('p');
+    h.className = 'pop-head';
+    h.textContent = d.label;
+    wrap.appendChild(h);
+    if (d.note) {
+      var note = document.createElement('p');
+      note.className = 'pop-note';
+      note.textContent = d.note;
+      wrap.appendChild(note);
+    }
+
+    var set = popTableRows(d);
+    var order = set.top.concat(set.parts);
+    var named = {};
+    order.forEach(function (k) { named[k] = popRowName(k, d.rows[k]); });
+
+    // the figures every dataset has
+    var cols = [{ head: '' }, { head: 'Population' },
+                { head: 'Males per 100 females' }];
+    if (d.pctOf) cols.push({ head: '% of total ' + d.pctOf });
+    var hasArea = order.some(function (k) { return d.rows[k].km2; });
+    if (hasArea) { cols.push({ head: 'Area km²' }); cols.push({ head: 'Per km²' }); }
+    wrap.appendChild(popSortable(cols, order.map(function (k) {
+      var r = d.rows[k];
+      var cells = [{ n: null, t: named[k] },
+                   { n: POP_NUM(r.pop), t: POP_INT(r.pop) },
+                   { n: POP_NUM(r.mf), t: r.mf || '—' }];
+      if (d.pctOf) cells.push({ n: POP_NUM(r.pct), t: r.pct || '—' });
+      if (hasArea) {
+        cells.push({ n: POP_NUM(r.km2), t: POP_INT(r.km2) });
+        cells.push({ n: POP_NUM(r.dens), t: r.dens || '—' });
+      }
+      return { key: k, cells: cells,
+               pinned: r.scope === 'territory' || r.scope === 'summary' };
+    }), key));
+
+    // and one for each group the file carries
+    var groups = [];
+    (d.fields || []).forEach(function (f) {
+      if (groups.indexOf(f.group) < 0) groups.push(f.group);
+    });
+    groups.forEach(function (g) {
+      var fs = d.fields.filter(function (f) { return f.group === g; });
+      var gh = document.createElement('p');
+      gh.className = 'pop-group-head';
+      gh.textContent = g;
+      wrap.appendChild(gh);
+      var gcols = [{ head: '' }].concat(fs.map(function (f) { return { head: f.label }; }));
+      wrap.appendChild(popSortable(gcols, order.map(function (k) {
+        var x = d.rows[k].x || {};
+        return { key: k,
+                 cells: [{ n: null, t: named[k] }].concat(fs.map(function (f) {
+                   return { n: POP_NUM(x[f.c]), t: POP_INT(x[f.c]) };
+                 })),
+                 pinned: d.rows[k].scope === 'territory'
+                         || d.rows[k].scope === 'summary' };
+      }), key));
+    });
+
+    var notes = [];
+    order.forEach(function (k) {
+      if (d.rows[k].note) notes.push(named[k] + ' — ' + d.rows[k].note);
+    });
     notes.forEach(function (n) {
       var p = document.createElement('p');
       p.className = 'pop-note';
@@ -7476,6 +7560,60 @@
     src.className = 'pop-src';
     src.textContent = d.source;
     wrap.appendChild(src);
+    return wrap;
+  }
+
+  /* The two dates against each other, on the figures they both carry. Only
+     those: a comparison is worth no more than its narrowest column, and the
+     1930 census counted things the 1942 estimate never asked about. */
+  function popCompare(d, key) {
+    var family = popSets().filter(function (x) {
+      return x.rows && x.group === d.group && x.pctOf;
+    }).sort(function (a, b) { return String(a.epoch).localeCompare(b.epoch); });
+    if (family.length < 2) return null;
+    var a = family[0], b = family[family.length - 1];
+
+    var wrap = document.createElement('section');
+    wrap.className = 'pop-table-block pop-compare';
+    var h = document.createElement('p');
+    h.className = 'pop-head';
+    h.textContent = a.epoch + ' and ' + b.epoch + ' compared';
+    wrap.appendChild(h);
+    var note = document.createElement('p');
+    note.className = 'pop-note';
+    note.textContent = 'The figures both tables carry. ' + a.epoch + ' is a census '
+      + 'and ' + b.epoch + ' an estimate, and the change is between those two '
+      + 'kinds of number rather than between two counts.';
+    wrap.appendChild(note);
+
+    var keys = Object.keys(b.rows).filter(function (k) {
+      var r = b.rows[k];
+      return a.rows[k] && !r.sameAs && (r.scope === 'territory' || r.scope === 'sub-unit');
+    });
+    var named = {};
+    keys.forEach(function (k) { named[k] = popRowName(k, b.rows[k]); });
+    var cols = [{ head: '' },
+                { head: a.epoch + ' population' }, { head: b.epoch + ' population' },
+                { head: 'Change' }, { head: '% change' },
+                { head: a.epoch + ' per km²' }, { head: b.epoch + ' per km²' },
+                { head: a.epoch + ' M/100F' }, { head: b.epoch + ' M/100F' }];
+    wrap.appendChild(popSortable(cols, keys.map(function (k) {
+      var x = a.rows[k], y = b.rows[k];
+      var diff = (y.pop || 0) - (x.pop || 0);
+      var pct = x.pop ? (diff / x.pop) * 100 : null;
+      return { key: k, pinned: y.scope === 'territory',
+               cells: [
+        { n: null, t: named[k] },
+        { n: POP_NUM(x.pop), t: POP_INT(x.pop) },
+        { n: POP_NUM(y.pop), t: POP_INT(y.pop) },
+        { n: diff, t: (diff > 0 ? '+' : '') + diff.toLocaleString('en-US') },
+        { n: pct, t: pct === null ? '—'
+                     : (pct > 0 ? '+' : '') + pct.toFixed(1) + '%' },
+        { n: POP_NUM(x.dens), t: x.dens || '—' },
+        { n: POP_NUM(y.dens), t: y.dens || '—' },
+        { n: POP_NUM(x.mf), t: x.mf || '—' },
+        { n: POP_NUM(y.mf), t: y.mf || '—' }] };
+    }), key));
     return wrap;
   }
 
@@ -8348,9 +8486,17 @@
   /* Every dataset that says something about this place, in date order — the
      card stacks them, so when 1930 arrives it will sit above 1942 without
      anything here changing. */
+  /* A gazetteer record's id carries its date — `g_e1930_seoul` — because the
+     same city is two records, one per map. The figures are the city's, so the
+     date comes off before they are looked up. */
+  function popKey(key) {
+    return String(key || '').replace(/^g_e\d+_/, '');
+  }
+
   function popFor(key) {
-    if (!key) return [];
-    return popSets().filter(function (d) { return d.rows && d.rows[key]; })
+    var k = popKey(key);
+    if (!k) return [];
+    return popSets().filter(function (d) { return d.rows && d.rows[k]; })
       .sort(function (a, b) { return String(a.epoch).localeCompare(b.epoch); });
   }
 
@@ -8358,8 +8504,9 @@
      Asked of every date the layer has, not only the date on screen, so the
      button is there on the 1930 map too and switching to 1942 shades it. */
   function popGroupFor(key) {
+    var k = popKey(key);
     return popGroups().filter(function (g) {
-      return g.sets.some(function (d) { return d.rows && d.rows[key]; });
+      return g.sets.some(function (d) { return d.rows && d.rows[k]; });
     })[0] || null;
   }
 
@@ -8499,11 +8646,12 @@
     if (!host) return;
     host.innerHTML = '';
     var sets = popFor(key);
+    var k = popKey(key);
     popCardKey = sets.length ? key : null;
     popCardName = name || '';
     if (!sets.length) { host.hidden = true; return; }
     sets.forEach(function (d) {
-      var r = d.rows[key];
+      var r = d.rows[k];
       var block = document.createElement('div');
       block.className = 'pop-block';
       var head = document.createElement('p');
@@ -8512,13 +8660,34 @@
          1 October 1942*. Headed with the dataset's own label instead, every
          province card said "Korea" over figures that were the province's.
          The whole colony keeps the label, being the thing that label names. */
-      head.textContent = (r.scope === 'sub-unit' && name)
+      head.textContent = ((r.scope === 'sub-unit' || r.scope === 'city') && name)
         ? name + ', ' + d.caption : d.label;
       block.appendChild(head);
       if (r.pop) popRow(block, 'Population', r.pop.toLocaleString('en-US'));
       if (r.mf) popRow(block, 'Males per 100 females', r.mf);
       if (r.pct) popRow(block, '% of total ' + d.pctOf, r.pct);
       if (r.dens) popRow(block, 'Per km²', r.dens + '  (' + r.km2.toLocaleString('en-US') + ' km²)');
+      /* And everything else the source counted, a group to a heading. None of
+         this is in the short description: that is a sentence, and a sentence
+         has room for a population and a density and not for the ages, the
+         registers and the nine occupations. */
+      var groups = [];
+      (d.fields || []).forEach(function (f) {
+        if (groups.indexOf(f.group) < 0) groups.push(f.group);
+      });
+      groups.forEach(function (g) {
+        var some = d.fields.filter(function (f) {
+          return f.group === g && r.x && r.x[f.c] !== undefined;
+        });
+        if (!some.length) return;
+        var gh = document.createElement('p');
+        gh.className = 'pop-group-head';
+        gh.textContent = g;
+        block.appendChild(gh);
+        some.forEach(function (f) {
+          popRow(block, f.label, Number(r.x[f.c]).toLocaleString('en-US'));
+        });
+      });
       if (r.note) {
         var note = document.createElement('p');
         note.className = 'pop-note';
@@ -8541,7 +8710,7 @@
     more.type = 'button';
     more.className = 'plain pop-more';
     more.textContent = 'Population Table';
-    more.addEventListener('click', function () { openPopTable(key); });
+    more.addEventListener('click', function () { openPopTable(popKey(key)); });
     host.appendChild(more);
 
     var group = popGroupFor(key);

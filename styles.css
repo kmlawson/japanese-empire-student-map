@@ -3035,3 +3035,28 @@ dialog h3 {
 .pop-sort:hover { color: var(--ink); }
 .pop-sort.on { color: var(--ink); font-weight: 700; }
 .pop-sort .arrow { font-weight: 400; }
+
+/* A group inside a card block or a table: the ages, the registers, the nine
+   occupations. The source counted them separately and they answer separate
+   questions, so they are set apart rather than run together into one column of
+   twenty-one lines. */
+.pop-group-head {
+  margin: 9px 0 3px;
+  font-size: 11px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.pop-table-block .pop-group-head { margin-top: 16px; }
+
+/* The other dates of the same layer, at the foot of a table. */
+.pop-switch {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+  padding: 4px 18px 10px;
+  border-top: 1px solid var(--line);
+}
+.pop-switch button { font-size: 12.5px; }
+
+.pop-compare { border-top: 1px solid var(--line); padding-top: 12px; }

@@ -1,0 +1,22 @@
+column,label,group
+age_0_14,0–14,Ages
+age_15_59,15–59,Ages
+age_60p,60 and over,Ages
+reg_jp,Japanese (naichijin),Register and nationality
+reg_ko,Koreans,Register and nationality
+reg_tw,Taiwanese,Register and nationality
+reg_karafuto,Karafuto,Register and nationality
+for_total,Foreigners,Register and nationality
+for_cn,— Chinese,Register and nationality
+for_other,— other foreign,Register and nationality
+occ_total,In gainful occupation,Occupation
+occ_agri,Agriculture,Occupation
+occ_fish,Fisheries,Occupation
+occ_mine,Mining,Occupation
+occ_ind,Industry,Occupation
+occ_comm,Commerce,Occupation
+occ_trans,Transport,Occupation
+occ_public,Public service and professions,Occupation
+occ_domestic,Domestic service,Occupation
+occ_other,Other gainful occupation,Occupation
+occ_none,No occupation,Occupation
