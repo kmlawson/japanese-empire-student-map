@@ -307,17 +307,56 @@ const spot = (p, sel, fx, fy) => p.evaluate((s, ax, ay) => {
   check('with no "open in a tab": it is a table, not a page', tbl.tab === true);
   check('the whole first, then the provinces by size',
     /Ch.sen/.test(tbl.first) && /24,105,906/.test(tbl.first)
-    && tbl.order[1] === 'Kyŏnggi-do (Keiki-dō)'
-    && tbl.order[13] === 'Ch\u2019ungch\u2019ŏngbuk-to (Chūseihoku-dō)',
+    && /^Kyŏnggi-do \(Keiki-dō/.test(tbl.order[1])
+    && /Chūseihoku-dō/.test(tbl.order[13]),
     tbl.order.slice(0, 3).join(' | '));
-  check('fifteen rows: the country, the thirteen, and Cheju', tbl.n === 15, String(tbl.n));
-  /* Cheju sits at the bottom rather than sorted in among the rest: it carries
-     Zenranan-dō's figures, and in among them it would read as a fourteenth
-     province with the same population as one of the others. */
-  check('Cheju is last, marked, and its note is under the table',
-    /Cheju/.test(tbl.order[14]) && /\*/.test(tbl.order[14])
-    && /count Cheju inside Zenranan/.test(tbl.note), tbl.order[14] + ' | ' + tbl.note.slice(0, 60));
+  check('fourteen rows: the country and the thirteen', tbl.n === 14, String(tbl.n));
+  /* The characters belong in a table, where there is room for them, and they
+     go inside the bracket the reading is already in rather than opening a
+     second one. */
+  check('each name carries its characters in the same bracket',
+    tbl.order.every(n => /[\u4e00-\u9fff]\)$/.test(n)),
+    tbl.order.filter(n => !/[\u4e00-\u9fff]\)$/.test(n)).join(' | '));
+  /* Cheju has no row. It has no figures of its own — it carried Zenranan-dō's
+     — so a row for it is the same numbers twice, and in a column of provinces
+     it reads as a fourteenth. Its card is where that belongs. */
+  check('a place counted inside another has no row of its own',
+    !tbl.order.some(n => /Cheju|Saish/.test(n)) && !tbl.note, tbl.note || tbl.order.join(' | '));
   check('the province the card was about is picked out', /Ky.nggi/.test(tbl.here), tbl.here);
+
+  /* Each column is a question — which was biggest, which emptiest, where were
+     there most men — and the answer is a sort. The whole is not one of the
+     answers: Korea stays at the top, not in the running against its own
+     provinces. */
+  const sorted = await p.evaluate(async () => {
+    const names = () => [...document.querySelectorAll('#dlg-table .pop-table tbody tr')]
+      .map(r => r.querySelector('th').textContent.replace(/\s*\(.*/, ''));
+    const heads = () => [...document.querySelectorAll('#dlg-table .pop-table thead th')]
+      .map(t => t.getAttribute('aria-sort'));
+    const press = async i => {
+      document.querySelectorAll('#dlg-table .pop-sort')[i].click();
+      await new Promise(r => setTimeout(r, 60));
+    };
+    const out = { start: names().slice(0, 2), startHeads: heads() };
+    await press(5); out.dense = names().slice(0, 2); out.denseHeads = heads();
+    await press(5); out.empty = names().slice(0, 2); out.emptyHeads = heads();
+    await press(0); out.alpha = names().slice(0, 3);
+    return out;
+  });
+  check('it opens sorted by population, biggest first',
+    sorted.start[1] === 'Kyŏnggi-do' && sorted.startHeads[1] === 'descending',
+    JSON.stringify(sorted.start));
+  check('a column head sorts by it, and again turns it over',
+    sorted.dense[1] === 'Kyŏnggi-do' && sorted.denseHeads[5] === 'descending'
+    && sorted.empty[1] === 'Hamgyŏngbuk-to' && sorted.emptyHeads[5] === 'ascending',
+    JSON.stringify([sorted.dense[1], sorted.empty[1]]));
+  check('the whole stays at the top however it is sorted',
+    sorted.start[0] === 'Chōsen' && sorted.dense[0] === 'Chōsen'
+    && sorted.empty[0] === 'Chōsen' && sorted.alpha[0] === 'Chōsen',
+    JSON.stringify([sorted.start[0], sorted.dense[0], sorted.empty[0], sorted.alpha[0]]));
+  check('and the names sort as names',
+    sorted.alpha[1] === 'Ch’ungch’ŏngbuk-to' && sorted.alpha[2] === 'Ch’ungch’ŏngnam-do',
+    JSON.stringify(sorted.alpha));
   check('and the source is at the foot', /朝鮮總督府/.test(tbl.src), tbl.src);
   await p.close();
 

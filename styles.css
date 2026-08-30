@@ -2963,6 +2963,10 @@ dialog h3 {
    down. It borrows the box the printed timetable opens in — same close, same
    backdrop, same escape — and fills it with a table built here rather than
    with a page in an iframe. */
+/* Room down each side. The box was built to hold a page in an iframe, which
+   brings its own margins; a table built here has none, and ran to both edges
+   of the box with the first and last columns touching the frame. */
+.pop-table-block { padding: 4px 18px 14px; }
 .pop-table-block + .pop-table-block { margin-top: 18px; }
 .pop-table-block .pop-head { margin-bottom: 6px; }
 
@@ -2997,8 +3001,6 @@ dialog h3 {
   font-weight: 600;
   border-bottom: 1px solid var(--line);
 }
-/* a place the returns do not break out: it carries another row's figures */
-.pop-table tr.counted-in th, .pop-table tr.counted-in td { color: var(--muted); }
 /* the row the card that opened this was about */
 .pop-table tr.here th, .pop-table tr.here td { background: var(--hi, rgba(122, 23, 48, .07)); }
 
@@ -3007,3 +3009,29 @@ dialog h3 {
   margin-top: 8px;
   font-size: 12px;
 }
+
+/* The head of each column is the way to sort by it: a button, so it answers a
+   keyboard as well as a pointer, and `aria-sort` on the cell so a screen
+   reader is told which way the table is ordered. */
+.pop-table thead th { padding: 0; }
+.pop-sort {
+  appearance: none;
+  background: none;
+  border: 0;
+  /* `font: inherit` resets the shorthand and takes the head's size with it, so
+     the three that make a column head read as one are said again here. */
+  font: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .03em;
+  text-transform: uppercase;
+  color: inherit;
+  cursor: pointer;
+  padding: 5px 8px;
+  width: 100%;
+  text-align: inherit;
+  white-space: nowrap;
+}
+.pop-sort:hover { color: var(--ink); }
+.pop-sort.on { color: var(--ink); font-weight: 700; }
+.pop-sort .arrow { font-weight: 400; }

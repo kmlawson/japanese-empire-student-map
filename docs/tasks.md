@@ -12558,12 +12558,28 @@ names.
 ### The whole column, in a box
 
 **Population Table** under the figures opens the lot: the country, then the
-thirteen by size, then Cheju at the bottom marked with its note — sorted in
-among the rest it would read as a fourteenth province with the same population
-as one of the others. The row the card was about is picked out, so a reader who
+thirteen by size. The row the card was about is picked out, so a reader who
 came from Kyŏnggi-do can see where it sits without hunting for it. The source
 is at the foot of each table, and a second date will be a second block in the
 same box.
+
+**Every column sorts**, because every column is a question — which province was
+the biggest, which the emptiest, where were there most men to a hundred women —
+and the answer is that column in order. The head is a button, so it answers a
+keyboard as well as a pointer, and carries `aria-sort` so a screen reader is
+told which way the table is ordered. Pressing the same head again turns it
+over; a new one starts the way that column is normally read, names up and
+numbers down. **Korea stays at the top whatever is sorted**: it is the total,
+not a competitor of its own provinces.
+
+**Cheju has no row.** It has no figures of its own — it carries Zenranan-dō's —
+so a row for it is the same numbers printed twice, and in a column of provinces
+it reads as a fourteenth. The card is where that belongs, and it says so there.
+
+**The names carry their characters.** In the card there is room for a name and
+a reading; in a table there is room for the characters too, and they go inside
+the bracket the reading is already in rather than opening a second one:
+*Kyŏnggi-do (Keiki-dō, 京畿道)*.
 
 It borrows the box the printed timetable opens in — same close, same backdrop,
 same Escape — but fills it with a table built here rather than a page in an
@@ -12624,7 +12640,7 @@ weight the marker on top now takes it. Nothing else moves: Tokyo and the other
 fifty curated cities the gazetteer has not pinned are the size they have always
 been.
 
-`population.js`, 59 checks: the shading and its five classes, the key, the
+`population.js`, 64 checks: the shading and its five classes, the key, the
 tooltip, the card both ways round — the card turning the layer on and the layer
 putting the card's button the other way — the finger, and the fourteen cities
 at three zooms on both dates, each at the weight its own date's figures earn

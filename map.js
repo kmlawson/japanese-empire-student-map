@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '239';
+  var JEM_VERSION = '240';
   var JEM_ASSETS = {"admin.js": "9f99c96627", "annotate.js": "761fbd5949", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "3881d33c99", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
 
   /* Every file this one fetches, with the version on it.
@@ -7316,6 +7316,14 @@
     dlg.showModal();
   }
 
+  /* The characters, without whatever reading the record hangs off them:
+     `京畿道 (Keiki-dō)` is one field in data.js and only the first half of it
+     belongs in a column of names. */
+  function popKanji(rec) {
+    var raw = (rec && (rec.ja || rec.zh)) || '';
+    return raw.replace(/\s*[（(].*$/, '').trim();
+  }
+
   /* The name this map would use for the place, so the table and the card
      cannot call the same province two different things. */
   function popRowName(k, row) {
@@ -7329,7 +7337,15 @@
       Object.keys(rec).forEach(function (x) { merged[x] = rec[x]; });
       merged.en = over.en;
     }
-    return splitGloss(nameOf(shown(merged))).name;
+    var name = splitGloss(nameOf(shown(merged))).name;
+    /* And the characters with it. The map's own rule is a romanisation with
+       the other reading in brackets after it; in a table there is room for the
+       characters too, and they go inside the same bracket rather than opening
+       a second one — `Kyŏnggi-do (Keiki-dō, 京畿道)`. */
+    var kanji = popKanji(merged);
+    if (!kanji || name.indexOf(kanji) > -1) return name;
+    return /\)$/.test(name) ? name.slice(0, -1) + ', ' + kanji + ')'
+                            : name + ' (' + kanji + ')';
   }
 
   function popTable(d, key) {
@@ -7344,14 +7360,41 @@
     scroll.className = 'pop-table-scroll';
     var table = document.createElement('table');
     table.className = 'pop-table';
-    var cols = ['', 'Population', 'Males per 100 females',
-                '% of total ' + d.pctOf, 'Area km²', 'Per km²'];
+    /* Each column is a question — which province was biggest, which was
+       emptiest, where were there most men — and the answer is a sort. The
+       whole is not one of the answers: it stays at the top whatever is sorted,
+       because Korea is not in the running against its own provinces. */
+    var cols = [
+      { head: '', key: 'name', dir: 1 },
+      { head: 'Population', key: 'pop', dir: -1 },
+      { head: 'Males per 100 females', key: 'mf', dir: -1 },
+      { head: '% of total ' + d.pctOf, key: 'pct', dir: -1 },
+      { head: 'Area km²', key: 'km2', dir: -1 },
+      { head: 'Per km²', key: 'dens', dir: -1 },
+    ];
+    var sortKey = 'pop', sortDir = -1;
     var thead = document.createElement('thead');
     var hr = document.createElement('tr');
     cols.forEach(function (c, i) {
       var th = document.createElement('th');
-      th.textContent = c;
       if (i) th.className = 'num';
+      th.scope = 'col';
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'pop-sort';
+      btn.appendChild(document.createTextNode(c.head || 'Province'));
+      var arrow = document.createElement('span');
+      arrow.className = 'arrow';
+      arrow.setAttribute('aria-hidden', 'true');
+      btn.appendChild(arrow);
+      btn.addEventListener('click', function () {
+        // the same column again turns it over; a new one starts the way that
+        // column is usually read — names up, numbers down
+        if (sortKey === c.key) sortDir = -sortDir;
+        else { sortKey = c.key; sortDir = c.dir; }
+        draw();
+      });
+      th.appendChild(btn);
       hr.appendChild(th);
     });
     thead.appendChild(hr);
@@ -7365,28 +7408,59 @@
     var parts = keys.filter(function (k) {
       return d.rows[k].scope !== 'territory' && !d.rows[k].sameAs;
     }).sort(function (a, b) { return (d.rows[b].pop || 0) - (d.rows[a].pop || 0); });
-    var counted = keys.filter(function (k) { return d.rows[k].sameAs; });
+    /* A place the source counts inside another one has no row here. It has no
+       figures of its own — Cheju carried Zenranan-dō's — so a row for it is
+       the same numbers twice, and in a column of provinces it reads as a
+       fourteenth. Its card is where that belongs, and says so there. */
 
     var tbody = document.createElement('tbody');
     var notes = [];
-    whole.concat(parts, counted).forEach(function (k) {
-      var r = d.rows[k];
-      var tr = document.createElement('tr');
-      if (r.scope === 'territory') tr.className = 'whole';
-      if (r.sameAs) tr.className = 'counted-in';
-      if (k === key) tr.classList.add('here');   // the card that opened this
-      [popRowName(k, r) + (r.note ? ' *' : ''),
-       r.pop ? r.pop.toLocaleString('en-US') : '—',
-       r.mf || '—', r.pct || '—',
-       r.km2 ? r.km2.toLocaleString('en-US') : '—',
-       r.dens || '—'].forEach(function (v, i) {
-        var td = document.createElement(i ? 'td' : 'th');
-        td.textContent = v;
-        td.className = i ? 'num' : 'name';
-        tr.appendChild(td);
+    var named = {};
+    parts.concat(whole).forEach(function (k) { named[k] = popRowName(k, d.rows[k]); });
+
+    function draw() {
+      tbody.textContent = '';
+      cols.forEach(function (c, i) {
+        var th = hr.children[i];
+        var on = c.key === sortKey;
+        th.setAttribute('aria-sort',
+          on ? (sortDir < 0 ? 'descending' : 'ascending') : 'none');
+        $('.arrow', th).textContent = on ? (sortDir < 0 ? ' ↓' : ' ↑') : '';
+        $('.pop-sort', th).classList.toggle('on', on);
       });
-      if (r.note) notes.push(popRowName(k, r) + ' — ' + r.note);
-      tbody.appendChild(tr);
+      var order = parts.slice().sort(function (a, b) {
+        var x = d.rows[a], y = d.rows[b];
+        if (sortKey === 'name') {
+          return named[a].localeCompare(named[b]) * sortDir;
+        }
+        var av = parseFloat(x[sortKey]), bv = parseFloat(y[sortKey]);
+        if (!isFinite(av) && !isFinite(bv)) return 0;
+        if (!isFinite(av)) return 1;           // nothing counted sinks, either way
+        if (!isFinite(bv)) return -1;
+        return (av - bv) * sortDir;
+      });
+      whole.concat(order).forEach(function (k) {
+        var r = d.rows[k];
+        var tr = document.createElement('tr');
+        if (r.scope === 'territory') tr.className = 'whole';
+        if (k === key) tr.classList.add('here');   // the card that opened this
+        [named[k] + (r.note ? ' *' : ''),
+         r.pop ? r.pop.toLocaleString('en-US') : '—',
+         r.mf || '—', r.pct || '—',
+         r.km2 ? r.km2.toLocaleString('en-US') : '—',
+         r.dens || '—'].forEach(function (v, i) {
+          var td = document.createElement(i ? 'td' : 'th');
+          td.textContent = v;
+          td.className = i ? 'num' : 'name';
+          tr.appendChild(td);
+        });
+        tbody.appendChild(tr);
+      });
+    }
+    draw();
+    whole.concat(parts).forEach(function (k) {
+      var r = d.rows[k];
+      if (r.note) notes.push(named[k] + ' — ' + r.note);
     });
     table.appendChild(tbody);
     scroll.appendChild(table);
