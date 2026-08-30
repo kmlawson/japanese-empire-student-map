@@ -12534,6 +12534,13 @@ the map.
 **The key always names the year.** Shading carries a date; drawn over a map of
 another one it must never be readable as belonging to it.
 
+**And the card is left alone when the switch is pressed.** `setPop` was
+re-running `select`, which rebuilds the card and collapses it: on a phone the
+sheet snapped shut the moment the reader pressed Hide, and the province they
+had open was gone, so putting the shading back meant finding it again. Only the
+population block is redrawn now — nothing else in the card depends on the
+switch, and it is the button that has to change its mind.
+
 ### Cheju
 
 `same_as` in the dataset: the place has no figures of its own because the
@@ -12587,7 +12594,7 @@ weight the marker on top now takes it. Nothing else moves: Tokyo and the other
 fifty curated cities the gazetteer has not pinned are the size they have always
 been.
 
-`population.js`, 46 checks: the shading and its five classes, the key, the
+`population.js`, 48 checks: the shading and its five classes, the key, the
 tooltip, the card both ways round — the card turning the layer on and the layer
 putting the card's button the other way — the finger, and the fourteen cities
 at three zooms on both dates, each at the weight its own date's figures earn

@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '237';
+  var JEM_VERSION = '238';
   var JEM_ASSETS = {"admin.js": "9f99c96627", "annotate.js": "761fbd5949", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "3881d33c99", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
 
   /* Every file this one fetches, with the version on it.
@@ -8160,6 +8160,10 @@
 
   var popPainted = [];
 
+  /* What the open card is about, so that switching the shading can relabel its
+     button without rebuilding the card. */
+  var popCardKey = null;
+
   function setPop(id, on) {
     if (!POP_BITS[id] && !popGroups().some(function (g) { return g.id === id; })) return;
     if (on) state.pop[id] = true; else delete state.pop[id];
@@ -8171,7 +8175,13 @@
     if (on) state.legend = true;
     syncPopBoxes();
     applyState();
-    if (selected) select(selected);
+    /* Only the block, never the whole card. `select` rebuilds it and collapses
+       it, which on a phone snapped the sheet shut on the reader the moment
+       they pressed Hide — the province they had open was gone and turning the
+       shading back on meant finding it again. Nothing else in the card depends
+       on this switch: the figures are the same figures, and it is the button
+       that has to change its mind. */
+    if (popCardKey !== null) fillPopCard(popCardKey);
   }
 
   function syncPopBoxes() {
@@ -8283,6 +8293,7 @@
     if (!host) return;
     host.innerHTML = '';
     var sets = popFor(key);
+    popCardKey = sets.length ? key : null;
     if (!sets.length) { host.hidden = true; return; }
     sets.forEach(function (d) {
       var r = d.rows[key];

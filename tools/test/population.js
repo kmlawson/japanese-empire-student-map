@@ -148,6 +148,29 @@ const spot = (p, sel, fx, fy) => p.evaluate((s, ax, ay) => {
   check('and the source', /朝鮮總督府/.test(card.src));
   check('the button offers to put the map away, the shading being on',
     /Hide/.test(card.btn), card.btn);
+  /* Pressing it must not disturb the card. `select` was being re-run, which
+     rebuilds and collapses it — on a phone the sheet snapped shut on the
+     reader and the province they had open was gone, so turning the shading
+     back on meant finding it again. Only the block is redrawn now. */
+  const kept = await p.evaluate(async () => {
+    const b = document.querySelector('.pop-btn');
+    b.click();
+    await new Promise(r => setTimeout(r, 900));
+    const after = {
+      name: (document.querySelector('#info .primary') || {}).textContent,
+      shaded: document.querySelectorAll('path.pop-shaded').length,
+      btn: (document.querySelector('.pop-btn') || {}).textContent };
+    document.querySelector('.pop-btn').click();
+    await new Promise(r => setTimeout(r, 900));
+    after.backOn = document.querySelectorAll('path.pop-shaded').length;
+    after.backName = (document.querySelector('#info .primary') || {}).textContent;
+    return after;
+  });
+  check('hiding it leaves the province selected and the card as it was',
+    /Ky.nggi|Keiki/.test(kept.name) && kept.shaded === 0
+    && /Provinces by/.test(kept.btn), JSON.stringify(kept));
+  check('so the same button puts it straight back',
+    kept.backOn === 14 && /Ky.nggi|Keiki/.test(kept.backName), JSON.stringify(kept));
   await p.close();
 
   /* ---- and the other way round: the card turns it on --------------- */
