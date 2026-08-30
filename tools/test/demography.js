@@ -73,7 +73,7 @@ const st = p => p.evaluate(() => ({
   check('and nothing drawn', s.pies === 0 && s.shaded === 0);
 
   console.log('\n— the three maps —');
-  for (const [mode, want] of [['citizenship', 4], ['occupation', 9]]) {
+  for (const [mode, want] of [['citizenship', 6], ['occupation', 9]]) {
     await p.evaluate(m => document.querySelector('#opt-pop-korea-density-' + m).click(), mode);
     await sleep(1600);
     s = await st(p);
@@ -161,6 +161,62 @@ const st = p => p.evaluate(() => ({
   check('a pie is the same size six wheel steps in',
     Math.abs(wide - close) <= 2 && wide > 20 && wide < 40,
     wide + ' px then ' + close + ' px');
+  await p.close();
+
+  /* ---- and the pie the pointer is on ------------------------------- */
+  /* A pie on the map is a shape at a glance; the number is what a reader wants
+     next, and the tooltip is where they are already looking. It takes the
+     description's place on those provinces — the reader asked about the
+     register or the trade, not about the ground. */
+  console.log('\n— the pie in the tooltip —');
+  p = await open(b, KOREA + '&layers=zik0zk');           // citizenship
+  const at = await p.evaluate(() => {
+    const e = document.querySelector('#a-korea path[data-prov="Keiki"]');
+    const r = e.getBoundingClientRect();
+    return { x: Math.round(r.x + r.width / 2), y: Math.round(r.y + r.height / 2) };
+  });
+  await p.mouse.move(at.x - 40, at.y); await sleep(200);
+  await p.mouse.move(at.x, at.y); await sleep(600);
+  let tip = await p.evaluate(() => {
+    const t = document.querySelector('#tooltip');
+    return { name: t.firstChild ? t.firstChild.textContent : '',
+             pie: !!t.querySelector('.tip-pie svg path'),
+             slices: t.querySelectorAll('.tip-pie svg path').length,
+             rows: [...t.querySelectorAll('.tip-pie-row')].map(r => r.textContent),
+             of: (t.querySelector('.tip-pie-of') || {}).textContent || '',
+             note: !!t.querySelector('.prov-note') };
+  });
+  /* The province has to answer the pointer at all, which is the gate this went
+     wrong on: only `pop-shaded` was allowed through it, so with a pie map up
+     the provinces went back to not answering and the pie never appeared. */
+  check('hovering a province names it', /Ky.nggi/.test(tip.name), tip.name);
+  check('and draws its pie, big, in the tooltip', tip.pie && tip.slices >= 3,
+        tip.slices + ' slices');
+  /* Every register and nationality, none folded away: a share too small to
+     round to a tenth is said as that rather than as nought. */
+  check('with every share named, down to the smallest',
+    tip.rows.length === 6 && /Koreans92\.9%/.test(tip.rows[0])
+    && tip.rows.some(r => /<0\.1%/.test(r)), tip.rows.join(' | '));
+  check('and what the shares are of', /share of the population, 1930/.test(tip.of),
+        tip.of);
+  check('the description stands aside for it', tip.note === false);
+  await p.evaluate(() => document.querySelector('#opt-pop-korea-density-occupation').click());
+  await sleep(1600);
+  await p.mouse.move(at.x - 40, at.y); await sleep(200);
+  await p.mouse.move(at.x, at.y); await sleep(600);
+  tip = await p.evaluate(() => {
+    const t = document.querySelector('#tooltip');
+    return { rows: [...t.querySelectorAll('.tip-pie-row')].map(r => r.textContent),
+             of: (t.querySelector('.tip-pie-of') || {}).textContent || '' };
+  });
+  /* The same province under the other map says a different thing, and the
+     tooltip's cache has to know that: keyed on the record alone it handed back
+     the citizenship pie. */
+  check('switching the map switches the pie under the pointer',
+    tip.rows.length === 9 && /Agriculture62\.3%/.test(tip.rows[0]),
+    tip.rows.slice(0, 2).join(' | '));
+  check('and says it is a share of those in work',
+    /gainful occupation/.test(tip.of), tip.of);
   await p.close();
 
   console.log('\n  ' + pass + ' passed, ' + fail + ' failed');

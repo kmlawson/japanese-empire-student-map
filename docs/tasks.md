@@ -12905,6 +12905,101 @@ it keeps its name and loses its figures, and gets them back on the way home.
 
 ---
 
+## Taiwan in 1941, one wide table, and the pie under the pointer
+
+### The box would not scroll
+
+Reported as "the comparison table may well have all the rows, but I can't
+scroll down to see them", and that is exactly what it was: `.table-body` was
+written for an iframe, which brings its own scrollbar, and the population
+tables are DOM inside it. The box simply ended where its height ran out and
+everything below the switch buttons was unreachable. One line of CSS.
+
+### One table, as wide as the source is
+
+It was a stack — the figures, then the ages, then the registers, then the
+occupations, each its own table with the names repeated down the side — so a
+reader comparing a province's Japanese population against its industry had to
+hold one table in their head while scrolling to another. One table now, scrolled
+sideways, with the name column stuck to the left and each column's group named
+over its own head. `table_skip` still takes a group out entirely, which is a
+different thing and is what the fourteen cities' ages get.
+
+**And every nationality the source names is in it**: Britain, the United
+States, the USSR, France, Germany, Austria, Czechoslovakia, Sweden,
+Switzerland, Norway, Belgium, Turkey, Persia, Canada, Australia and the rest,
+seventeen columns where there had been *other foreign*. They check: China plus
+the named nationalities equals the foreigners' total in every row of both
+tables.
+
+### The pie the pointer is on
+
+A pie on the map is a shape at a glance — thirteen of them say which province
+is which without a number anywhere — and the number is what a reader wants
+next. Hovering one now draws it large in the tooltip with every share named,
+down to *<0.1%* for a register of nine people. It takes the description's place
+on those shapes: the reader turned that layer on to ask about the register or
+the trade, not about the ground.
+
+Two things had to be fixed to make it work, and both are the same kind of
+mistake — a condition that named one case where there were two:
+
+* **the hover gate allowed `pop-shaded` and not `pop-edged`**, so with a pie map
+  up the provinces stopped answering the pointer altogether and there was
+  nothing to hang a tooltip on;
+* **the tooltip's cache was keyed without the mode**, so the same province under
+  the occupation map handed back the citizenship pie.
+
+The citizenship pie also stopped folding: Taiwanese and Karafuto registers get
+their own slices now rather than being swept into *everyone else*, which is
+what "all citizenships" asks for.
+
+### The key folds when a card opens
+
+On the wide layout the key and the card share a column and a reader had to
+scroll past the whole key to reach the card; between 621 and 999 pixels they
+float over the same corner and the card's top ran up over the key's own
+heading. It folds as a card opens — once, not on every selection, so a reader
+who unfolds it while reading keeps it — and the card gives up that strip while
+one is open.
+
+### Taiwan, 1941
+
+Sixty-four second-tier divisions — eleven 市, fifty-one 郡, two 支廳 — against
+the units this map draws, which are not the same set, and the difference is
+the interesting part:
+
+* **three cities were cut out of their districts after these boundaries**:
+  宜蘭市 in 1940, 彰化市 and 屏東市 in 1933. Each is added back into the district
+  it came from and the card says so, because the shape on the map is the
+  district-with-the-city-in-it;
+* **the two eastern prefectures and the Pescadores are drawn whole**, so their
+  districts are summed into them;
+* **and every district carries the prefecture it sat in, with that
+  prefecture's own population**, because a 郡 is read against its 州: Shichisei
+  is one part in thirteen of Taihoku-shū.
+
+Checked three ways before it was drawn: the eight prefectures sum to
+6,249,468, the units the map draws sum to the same, and the five registers sum
+to every row's own total.
+
+**It stays off the short description.** Sixty-four districts is sixty-four
+sentences nobody asked for on hover, so `in_short` in the index says the
+figures belong on the card. That is a per-dataset decision now rather than a
+rule.
+
+**One transcription trap, worth writing down.** The source repeats *M* and *F*
+as column headings for every one of its five groups, so reading the rows into a
+dictionary keeps only the last pair — and every district silently took the sex
+ratio of its foreigners. Read by position instead. The JS test hit the mirror
+image of the same thing: Python's csv writer ends lines with CRLF, so splitting
+on `\n` alone left a carriage return on the last column and twenty-two rows
+looked as though they did not sum.
+
+`taiwanpop.js`, 14 checks; `population.js` 83, `demography.js` 33.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

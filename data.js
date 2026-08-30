@@ -7515,6 +7515,7 @@ JMAP.POPULATION = [
     "country": "Korea",
     "caption": "estimated population at 1 October 1942",
     "note": "These are Government-General estimates of population which build on data collected since the 1940 census.",
+    "inShort": true,
     "tableSkip": [],
     "fields": [],
     "label": "Korea, estimated population at 1 October 1942",
@@ -7686,6 +7687,7 @@ JMAP.POPULATION = [
     "country": "Korea",
     "caption": "census of 1 October 1930",
     "note": "",
+    "inShort": true,
     "tableSkip": [],
     "fields": [
       {
@@ -7730,13 +7732,93 @@ JMAP.POPULATION = [
       },
       {
         "c": "for_cn",
-        "label": "— Chinese",
+        "label": "Chinese",
         "group": "Register and nationality"
       },
       {
         "c": "for_other",
-        "label": "— other foreign",
+        "label": "Other foreign",
         "group": "Register and nationality"
+      },
+      {
+        "c": "for_gb",
+        "label": "Britain",
+        "group": "Foreign nationality"
+      },
+      {
+        "c": "for_us",
+        "label": "United States",
+        "group": "Foreign nationality"
+      },
+      {
+        "c": "for_su",
+        "label": "USSR",
+        "group": "Foreign nationality"
+      },
+      {
+        "c": "for_fr",
+        "label": "France",
+        "group": "Foreign nationality"
+      },
+      {
+        "c": "for_de",
+        "label": "Germany",
+        "group": "Foreign nationality"
+      },
+      {
+        "c": "for_at",
+        "label": "Austria",
+        "group": "Foreign nationality"
+      },
+      {
+        "c": "for_cz",
+        "label": "Czechoslovakia",
+        "group": "Foreign nationality"
+      },
+      {
+        "c": "for_se",
+        "label": "Sweden",
+        "group": "Foreign nationality"
+      },
+      {
+        "c": "for_ch",
+        "label": "Switzerland",
+        "group": "Foreign nationality"
+      },
+      {
+        "c": "for_no",
+        "label": "Norway",
+        "group": "Foreign nationality"
+      },
+      {
+        "c": "for_be",
+        "label": "Belgium",
+        "group": "Foreign nationality"
+      },
+      {
+        "c": "for_tr",
+        "label": "Turkey",
+        "group": "Foreign nationality"
+      },
+      {
+        "c": "for_ir",
+        "label": "Persia",
+        "group": "Foreign nationality"
+      },
+      {
+        "c": "for_ca",
+        "label": "Canada",
+        "group": "Foreign nationality"
+      },
+      {
+        "c": "for_au",
+        "label": "Australia",
+        "group": "Foreign nationality"
+      },
+      {
+        "c": "for_etc",
+        "label": "Other foreign nationality",
+        "group": "Foreign nationality"
       },
       {
         "c": "occ_total",
@@ -7816,6 +7898,22 @@ JMAP.POPULATION = [
           "for_total": 93147,
           "for_cn": 91783,
           "for_other": 1364,
+          "for_gb": 216,
+          "for_us": 738,
+          "for_su": 214,
+          "for_fr": 62,
+          "for_de": 55,
+          "for_at": 1,
+          "for_cz": 2,
+          "for_se": 10,
+          "for_ch": 3,
+          "for_no": 7,
+          "for_be": 1,
+          "for_tr": 29,
+          "for_ir": 2,
+          "for_ca": 17,
+          "for_au": 2,
+          "for_etc": 5,
           "occ_total": 9765514,
           "occ_agri": 7664564,
           "occ_fish": 121730,
@@ -7848,6 +7946,12 @@ JMAP.POPULATION = [
           "for_total": 2512,
           "for_cn": 2452,
           "for_other": 60,
+          "for_gb": 5,
+          "for_us": 29,
+          "for_su": 2,
+          "for_fr": 12,
+          "for_de": 8,
+          "for_tr": 4,
           "occ_total": 1052464,
           "occ_agri": 877716,
           "occ_fish": 6274,
@@ -7880,6 +7984,10 @@ JMAP.POPULATION = [
           "for_total": 2840,
           "for_cn": 2774,
           "for_other": 66,
+          "for_gb": 2,
+          "for_us": 60,
+          "for_su": 2,
+          "for_tr": 2,
           "occ_total": 1265246,
           "occ_agri": 1059576,
           "occ_fish": 18756,
@@ -7913,6 +8021,18 @@ JMAP.POPULATION = [
           "for_total": 17521,
           "for_cn": 16968,
           "for_other": 553,
+          "for_gb": 105,
+          "for_us": 246,
+          "for_su": 115,
+          "for_fr": 36,
+          "for_de": 18,
+          "for_cz": 2,
+          "for_se": 3,
+          "for_ch": 2,
+          "for_no": 1,
+          "for_tr": 13,
+          "for_ca": 10,
+          "for_etc": 2,
           "occ_total": 875870,
           "occ_agri": 545687,
           "occ_fish": 6026,
@@ -7946,6 +8066,15 @@ JMAP.POPULATION = [
           "for_total": 2037,
           "for_cn": 1973,
           "for_other": 64,
+          "for_gb": 34,
+          "for_us": 4,
+          "for_su": 15,
+          "for_fr": 3,
+          "for_de": 3,
+          "for_no": 1,
+          "for_tr": 1,
+          "for_au": 2,
+          "for_etc": 1,
           "occ_total": 892367,
           "occ_agri": 651208,
           "occ_fish": 26329,
@@ -7978,6 +8107,15 @@ JMAP.POPULATION = [
           "for_total": 11268,
           "for_cn": 11181,
           "for_other": 87,
+          "for_gb": 11,
+          "for_us": 20,
+          "for_su": 30,
+          "for_fr": 1,
+          "for_de": 17,
+          "for_at": 1,
+          "for_ch": 1,
+          "for_tr": 3,
+          "for_ca": 3,
           "occ_total": 655169,
           "occ_agri": 457652,
           "occ_fish": 16978,
@@ -8009,6 +8147,12 @@ JMAP.POPULATION = [
           "for_total": 23691,
           "for_cn": 23580,
           "for_other": 111,
+          "for_gb": 14,
+          "for_us": 82,
+          "for_su": 8,
+          "for_fr": 1,
+          "for_no": 4,
+          "for_tr": 2,
           "occ_total": 840115,
           "occ_agri": 710649,
           "occ_fish": 3211,
@@ -8040,6 +8184,11 @@ JMAP.POPULATION = [
           "for_total": 6211,
           "for_cn": 6185,
           "for_other": 26,
+          "for_gb": 8,
+          "for_us": 9,
+          "for_su": 1,
+          "for_fr": 1,
+          "for_se": 7,
           "occ_total": 826542,
           "occ_agri": 713549,
           "occ_fish": 8990,
@@ -8073,6 +8222,12 @@ JMAP.POPULATION = [
           "for_total": 3342,
           "for_cn": 3297,
           "for_other": 45,
+          "for_us": 37,
+          "for_su": 1,
+          "for_fr": 1,
+          "for_tr": 1,
+          "for_ir": 2,
+          "for_ca": 3,
           "occ_total": 723468,
           "occ_agri": 583711,
           "occ_fish": 2168,
@@ -8104,6 +8259,14 @@ JMAP.POPULATION = [
           "for_total": 2631,
           "for_cn": 2587,
           "for_other": 44,
+          "for_gb": 4,
+          "for_us": 25,
+          "for_su": 4,
+          "for_de": 6,
+          "for_no": 1,
+          "for_tr": 1,
+          "for_ca": 1,
+          "for_etc": 2,
           "occ_total": 713082,
           "occ_agri": 598385,
           "occ_fish": 6906,
@@ -8135,6 +8298,8 @@ JMAP.POPULATION = [
           "for_total": 2766,
           "for_cn": 2760,
           "for_other": 6,
+          "for_su": 1,
+          "for_fr": 5,
           "occ_total": 561144,
           "occ_agri": 425760,
           "occ_fish": 4504,
@@ -8166,6 +8331,10 @@ JMAP.POPULATION = [
           "for_total": 9010,
           "for_cn": 8775,
           "for_other": 235,
+          "for_gb": 16,
+          "for_us": 212,
+          "for_su": 6,
+          "for_be": 1,
           "occ_total": 698303,
           "occ_agri": 546354,
           "occ_fish": 3764,
@@ -8198,6 +8367,9 @@ JMAP.POPULATION = [
           "for_total": 1317,
           "for_cn": 1295,
           "for_other": 22,
+          "for_gb": 7,
+          "for_us": 13,
+          "for_fr": 2,
           "occ_total": 373103,
           "occ_agri": 320050,
           "occ_fish": 73,
@@ -8229,6 +8401,11 @@ JMAP.POPULATION = [
           "for_total": 8001,
           "for_cn": 7956,
           "for_other": 45,
+          "for_gb": 10,
+          "for_us": 1,
+          "for_su": 29,
+          "for_de": 3,
+          "for_tr": 2,
           "occ_total": 288641,
           "occ_agri": 174273,
           "occ_fish": 17751,
@@ -8263,6 +8440,10 @@ JMAP.POPULATION = [
           "for_total": 2840,
           "for_cn": 2774,
           "for_other": 66,
+          "for_gb": 2,
+          "for_us": 60,
+          "for_su": 2,
+          "for_tr": 2,
           "occ_total": 1265246,
           "occ_agri": 1059576,
           "occ_fish": 18756,
@@ -8292,6 +8473,7 @@ JMAP.POPULATION = [
     "country": "",
     "caption": "census of 1 October 1930",
     "note": "",
+    "inShort": true,
     "tableSkip": [
       "Ages"
     ],
@@ -8338,13 +8520,83 @@ JMAP.POPULATION = [
       },
       {
         "c": "for_cn",
-        "label": "— Chinese",
+        "label": "Chinese",
         "group": "Register and nationality"
       },
       {
         "c": "for_other",
-        "label": "— other foreign",
+        "label": "Other foreign",
         "group": "Register and nationality"
+      },
+      {
+        "c": "for_gb",
+        "label": "Britain",
+        "group": "Foreign nationality"
+      },
+      {
+        "c": "for_us",
+        "label": "United States",
+        "group": "Foreign nationality"
+      },
+      {
+        "c": "for_su",
+        "label": "USSR",
+        "group": "Foreign nationality"
+      },
+      {
+        "c": "for_fr",
+        "label": "France",
+        "group": "Foreign nationality"
+      },
+      {
+        "c": "for_de",
+        "label": "Germany",
+        "group": "Foreign nationality"
+      },
+      {
+        "c": "for_at",
+        "label": "Austria",
+        "group": "Foreign nationality"
+      },
+      {
+        "c": "for_cz",
+        "label": "Czechoslovakia",
+        "group": "Foreign nationality"
+      },
+      {
+        "c": "for_se",
+        "label": "Sweden",
+        "group": "Foreign nationality"
+      },
+      {
+        "c": "for_ch",
+        "label": "Switzerland",
+        "group": "Foreign nationality"
+      },
+      {
+        "c": "for_no",
+        "label": "Norway",
+        "group": "Foreign nationality"
+      },
+      {
+        "c": "for_tr",
+        "label": "Turkey",
+        "group": "Foreign nationality"
+      },
+      {
+        "c": "for_ca",
+        "label": "Canada",
+        "group": "Foreign nationality"
+      },
+      {
+        "c": "for_au",
+        "label": "Australia",
+        "group": "Foreign nationality"
+      },
+      {
+        "c": "for_etc",
+        "label": "Other foreign nationality",
+        "group": "Foreign nationality"
       },
       {
         "c": "occ_total",
@@ -8423,6 +8675,20 @@ JMAP.POPULATION = [
           "for_total": 32299,
           "for_cn": 31433,
           "for_other": 866,
+          "for_gb": 142,
+          "for_us": 441,
+          "for_su": 150,
+          "for_fr": 45,
+          "for_de": 40,
+          "for_at": 1,
+          "for_cz": 2,
+          "for_se": 3,
+          "for_ch": 3,
+          "for_no": 3,
+          "for_tr": 18,
+          "for_ca": 13,
+          "for_au": 2,
+          "for_etc": 3,
           "occ_total": 434075,
           "occ_agri": 19638,
           "occ_fish": 8796,
@@ -8453,6 +8719,18 @@ JMAP.POPULATION = [
           "for_total": 8730,
           "for_cn": 8275,
           "for_other": 455,
+          "for_gb": 98,
+          "for_us": 175,
+          "for_su": 113,
+          "for_fr": 27,
+          "for_de": 9,
+          "for_cz": 2,
+          "for_se": 3,
+          "for_ch": 2,
+          "for_no": 1,
+          "for_tr": 13,
+          "for_ca": 10,
+          "for_etc": 2,
           "occ_total": 136728,
           "occ_agri": 2492,
           "occ_fish": 23,
@@ -8483,6 +8761,14 @@ JMAP.POPULATION = [
           "for_total": 773,
           "for_cn": 737,
           "for_other": 36,
+          "for_gb": 9,
+          "for_us": 4,
+          "for_su": 15,
+          "for_de": 3,
+          "for_no": 1,
+          "for_tr": 1,
+          "for_au": 2,
+          "for_etc": 1,
           "occ_total": 56037,
           "occ_agri": 2461,
           "occ_fish": 3033,
@@ -8511,6 +8797,10 @@ JMAP.POPULATION = [
           "for_total": 3731,
           "for_cn": 3534,
           "for_other": 197,
+          "for_gb": 14,
+          "for_us": 176,
+          "for_su": 6,
+          "for_no": 1,
           "occ_total": 51816,
           "occ_agri": 3220,
           "occ_fish": 40,
@@ -8540,6 +8830,11 @@ JMAP.POPULATION = [
           "for_total": 828,
           "for_cn": 792,
           "for_other": 36,
+          "for_gb": 5,
+          "for_us": 17,
+          "for_su": 1,
+          "for_fr": 10,
+          "for_tr": 3,
           "occ_total": 35024,
           "occ_agri": 3016,
           "occ_fish": 19,
@@ -8570,6 +8865,11 @@ JMAP.POPULATION = [
           "for_total": 3397,
           "for_cn": 3372,
           "for_other": 25,
+          "for_gb": 1,
+          "for_us": 7,
+          "for_su": 2,
+          "for_fr": 6,
+          "for_de": 9,
           "occ_total": 25031,
           "occ_agri": 878,
           "occ_fish": 417,
@@ -8598,6 +8898,7 @@ JMAP.POPULATION = [
           "for_total": 267,
           "for_cn": 242,
           "for_other": 25,
+          "for_us": 25,
           "occ_total": 14321,
           "occ_agri": 1563,
           "occ_fish": 3,
@@ -8626,6 +8927,7 @@ JMAP.POPULATION = [
           "for_total": 9076,
           "for_cn": 9071,
           "for_other": 5,
+          "for_us": 5,
           "occ_total": 19856,
           "occ_agri": 1078,
           "occ_fish": 39,
@@ -8654,6 +8956,9 @@ JMAP.POPULATION = [
           "for_total": 676,
           "for_cn": 667,
           "for_other": 9,
+          "for_gb": 7,
+          "for_de": 1,
+          "for_tr": 1,
           "occ_total": 15908,
           "occ_agri": 1066,
           "occ_fish": 9,
@@ -8682,6 +8987,14 @@ JMAP.POPULATION = [
           "for_total": 1259,
           "for_cn": 1218,
           "for_other": 41,
+          "for_gb": 2,
+          "for_us": 16,
+          "for_su": 1,
+          "for_fr": 1,
+          "for_de": 16,
+          "for_at": 1,
+          "for_ch": 1,
+          "for_ca": 3,
           "occ_total": 15223,
           "occ_agri": 560,
           "occ_fish": 686,
@@ -8710,6 +9023,7 @@ JMAP.POPULATION = [
           "for_total": 890,
           "for_cn": 887,
           "for_other": 3,
+          "for_us": 3,
           "occ_total": 13835,
           "occ_agri": 530,
           "occ_fish": 906,
@@ -8738,6 +9052,8 @@ JMAP.POPULATION = [
           "for_total": 1413,
           "for_cn": 1402,
           "for_other": 11,
+          "for_su": 9,
+          "for_de": 2,
           "occ_total": 15021,
           "occ_agri": 531,
           "occ_fish": 2123,
@@ -8767,6 +9083,8 @@ JMAP.POPULATION = [
           "for_total": 431,
           "for_cn": 416,
           "for_other": 15,
+          "for_us": 13,
+          "for_su": 2,
           "occ_total": 14206,
           "occ_agri": 819,
           "occ_fish": 866,
@@ -8795,6 +9113,8 @@ JMAP.POPULATION = [
           "for_total": 109,
           "for_cn": 102,
           "for_other": 7,
+          "for_gb": 6,
+          "for_fr": 1,
           "occ_total": 9710,
           "occ_agri": 1063,
           "occ_fish": 182,
@@ -8824,6 +9144,7 @@ JMAP.POPULATION = [
           "for_total": 719,
           "for_cn": 718,
           "for_other": 1,
+          "for_su": 1,
           "occ_total": 11359,
           "occ_agri": 361,
           "occ_fish": 450,
@@ -8837,6 +9158,1052 @@ JMAP.POPULATION = [
           "occ_none": 14962
         },
         "line": "1930 Census Population: 26,321 · Males per 100 Females: 130.02"
+      }
+    },
+    "breaks": []
+  },
+  {
+    "id": "taiwan-1941",
+    "epoch": "1942",
+    "group": "taiwan-1941",
+    "country": "",
+    "caption": "resident population at the end of 1941",
+    "note": "The census counted residents (常住) from the household and alien registers. The map draws the districts as they stood before 1933, so where a city was later cut out of one the row says so.",
+    "inShort": false,
+    "tableSkip": [],
+    "fields": [
+      {
+        "c": "reg_jp",
+        "label": "Japanese (naichijin)",
+        "group": "Register and nationality"
+      },
+      {
+        "c": "reg_ko",
+        "label": "Koreans",
+        "group": "Register and nationality"
+      },
+      {
+        "c": "reg_tw",
+        "label": "Taiwanese",
+        "group": "Register and nationality"
+      },
+      {
+        "c": "for_cn",
+        "label": "Chinese",
+        "group": "Register and nationality"
+      },
+      {
+        "c": "for_other",
+        "label": "Other foreign",
+        "group": "Register and nationality"
+      }
+    ],
+    "label": "Taiwan by district, the resident population at the end of 1941",
+    "pctOf": "",
+    "source": "臺灣總督府第四十五統計書 (昭和16年), Table 16 市街庄別常住戸口 pp. 20–33, with the colony and prefecture totals from Table 15",
+    "layer": "Taiwan by district, the resident population at the end of 1941",
+    "rows": {
+      "formosa": {
+        "scope": "territory",
+        "en": "Taiwan (Formosa)",
+        "pop": 6249468,
+        "mf": "103.54",
+        "x": {
+          "reg_jp": 365682,
+          "reg_ko": 2539,
+          "reg_tw": 5832682,
+          "for_cn": 48483,
+          "for_other": 82
+        },
+        "line": "1942 Resident Population: 6,249,468 · Males per 100 Females: 103.54"
+      },
+      "TwShuTaihoku": {
+        "scope": "sub-unit",
+        "en": "Taihoku-shū (Táiběi, Taipei)",
+        "pop": 1233882,
+        "mf": "107.52",
+        "x": {
+          "reg_jp": 153928,
+          "reg_ko": 1051,
+          "reg_tw": 1053372,
+          "for_cn": 25474,
+          "for_other": 57
+        },
+        "line": "1942 Resident Population: 1,233,882 · Males per 100 Females: 107.52"
+      },
+      "TwShuShinchiku": {
+        "scope": "sub-unit",
+        "en": "Shinchiku-shū (Xīnzhú, Hsinchu)",
+        "pop": 838011,
+        "mf": "102.52",
+        "x": {
+          "reg_jp": 20693,
+          "reg_ko": 150,
+          "reg_tw": 815274,
+          "for_cn": 1894
+        },
+        "line": "1942 Resident Population: 838,011 · Males per 100 Females: 102.52"
+      },
+      "TwShuTaichu": {
+        "scope": "sub-unit",
+        "en": "Taichū-shū (Táizhōng, Taichung)",
+        "pop": 1380187,
+        "mf": "102.09",
+        "x": {
+          "reg_jp": 46371,
+          "reg_ko": 333,
+          "reg_tw": 1329620,
+          "for_cn": 3856,
+          "for_other": 7
+        },
+        "line": "1942 Resident Population: 1,380,187 · Males per 100 Females: 102.09"
+      },
+      "TwShuTainan": {
+        "scope": "sub-unit",
+        "en": "Tainan-shū",
+        "pop": 1550695,
+        "mf": "100.90",
+        "x": {
+          "reg_jp": 53446,
+          "reg_ko": 253,
+          "reg_tw": 1489621,
+          "for_cn": 7361,
+          "for_other": 14
+        },
+        "line": "1942 Resident Population: 1,550,695 · Males per 100 Females: 100.90"
+      },
+      "TwShuTakao": {
+        "scope": "sub-unit",
+        "en": "Takao-shū (Gāoxióng, Kaohsiung)",
+        "pop": 930383,
+        "mf": "105.19",
+        "x": {
+          "reg_jp": 59633,
+          "reg_ko": 598,
+          "reg_tw": 863313,
+          "for_cn": 6836,
+          "for_other": 3
+        },
+        "line": "1942 Resident Population: 930,383 · Males per 100 Females: 105.19"
+      },
+      "TwShuKarenko": {
+        "scope": "sub-unit",
+        "en": "Karenkō-chō (Huāliángǎng, Hualien)",
+        "pop": 153785,
+        "mf": "110.60",
+        "x": {
+          "reg_jp": 20914,
+          "reg_ko": 119,
+          "reg_tw": 130720,
+          "for_cn": 2032
+        },
+        "line": "1942 Resident Population: 153,785 · Males per 100 Females: 110.60"
+      },
+      "TwShuTaito": {
+        "scope": "sub-unit",
+        "en": "Taitō-chō (Táidōng, Taitung)",
+        "pop": 93138,
+        "mf": "109.96",
+        "x": {
+          "reg_jp": 7078,
+          "reg_ko": 35,
+          "reg_tw": 85068,
+          "for_cn": 956,
+          "for_other": 1
+        },
+        "line": "1942 Resident Population: 93,138 · Males per 100 Females: 109.96"
+      },
+      "TwShuHoko": {
+        "scope": "sub-unit",
+        "en": "Hōko-chō (Pénghú, the Pescadores)",
+        "pop": 69387,
+        "mf": "90.66",
+        "x": {
+          "reg_jp": 3619,
+          "reg_tw": 65694,
+          "for_cn": 74
+        },
+        "line": "1942 Resident Population: 69,387 · Males per 100 Females: 90.66"
+      },
+      "TwTaihoku": {
+        "scope": "sub-unit",
+        "en": "Taihoku-shi (Táiběi, Taipei)",
+        "pop": 367213,
+        "mf": "104.92",
+        "parent": "Taihoku-shū (Táiběi, Taipei)",
+        "parentPop": 1233882,
+        "x": {
+          "reg_jp": 106784,
+          "reg_ko": 343,
+          "reg_tw": 246654,
+          "for_cn": 13403,
+          "for_other": 29
+        },
+        "line": "1942 Resident Population: 367,213 · Males per 100 Females: 104.92"
+      },
+      "TwKirunShi": {
+        "scope": "sub-unit",
+        "en": "Kīrun-shi (Jīlóng, Keelung)",
+        "pop": 106523,
+        "mf": "107.87",
+        "parent": "Taihoku-shū (Táiběi, Taipei)",
+        "parentPop": 1233882,
+        "x": {
+          "reg_jp": 25438,
+          "reg_ko": 521,
+          "reg_tw": 75927,
+          "for_cn": 4635,
+          "for_other": 2
+        },
+        "line": "1942 Resident Population: 106,523 · Males per 100 Females: 107.87"
+      },
+      "TwGiran": {
+        "scope": "sub-unit",
+        "en": "Giran-gun (Yílán)",
+        "pop": 109364,
+        "mf": "107.55",
+        "note": "Includes 宜蘭市, which the source counts apart: the city was cut out of the district in 1940, after the boundaries this map draws.",
+        "parent": "Taihoku-shū (Táiběi, Taipei)",
+        "parentPop": 1233882,
+        "x": {
+          "reg_jp": 3321,
+          "reg_ko": 24,
+          "reg_tw": 105524,
+          "for_cn": 495,
+          "for_other": 0
+        },
+        "line": "1942 Resident Population: 109,364 · Males per 100 Females: 107.55 Includes 宜蘭市, which the source counts apart: the city was cut out of the district in 1940, after the boundaries this map draws."
+      },
+      "TwShichisei": {
+        "scope": "sub-unit",
+        "en": "Shichisei-gun (Qīxīng)",
+        "pop": 91341,
+        "mf": "105.11",
+        "parent": "Taihoku-shū (Táiběi, Taipei)",
+        "parentPop": 1233882,
+        "x": {
+          "reg_jp": 2387,
+          "reg_ko": 2,
+          "reg_tw": 88521,
+          "for_cn": 431,
+          "for_other": 0
+        },
+        "line": "1942 Resident Population: 91,341 · Males per 100 Females: 105.11"
+      },
+      "TwTansui": {
+        "scope": "sub-unit",
+        "en": "Tansui-gun (Dànshuǐ, Tamsui)",
+        "pop": 55094,
+        "mf": "109.03",
+        "parent": "Taihoku-shū (Táiběi, Taipei)",
+        "parentPop": 1233882,
+        "x": {
+          "reg_jp": 1321,
+          "reg_ko": 11,
+          "reg_tw": 53311,
+          "for_cn": 436,
+          "for_other": 15
+        },
+        "line": "1942 Resident Population: 55,094 · Males per 100 Females: 109.03"
+      },
+      "TwKirun": {
+        "scope": "sub-unit",
+        "en": "Kīrun-gun (Jīlóng, Keelung)",
+        "pop": 148753,
+        "mf": "118.03",
+        "parent": "Taihoku-shū (Táiběi, Taipei)",
+        "parentPop": 1233882,
+        "x": {
+          "reg_jp": 4532,
+          "reg_ko": 24,
+          "reg_tw": 139415,
+          "for_cn": 4773,
+          "for_other": 9
+        },
+        "line": "1942 Resident Population: 148,753 · Males per 100 Females: 118.03"
+      },
+      "TwRato": {
+        "scope": "sub-unit",
+        "en": "Ratō-gun (Luódōng)",
+        "pop": 87863,
+        "mf": "108.24",
+        "parent": "Taihoku-shū (Táiběi, Taipei)",
+        "parentPop": 1233882,
+        "x": {
+          "reg_jp": 3902,
+          "reg_ko": 27,
+          "reg_tw": 83574,
+          "for_cn": 358,
+          "for_other": 2
+        },
+        "line": "1942 Resident Population: 87,863 · Males per 100 Females: 108.24"
+      },
+      "TwSuo": {
+        "scope": "sub-unit",
+        "en": "Suō-gun (Sū’ào)",
+        "pop": 25264,
+        "mf": "109.62",
+        "parent": "Taihoku-shū (Táiběi, Taipei)",
+        "parentPop": 1233882,
+        "x": {
+          "reg_jp": 2500,
+          "reg_ko": 15,
+          "reg_tw": 22670,
+          "for_cn": 79,
+          "for_other": 0
+        },
+        "line": "1942 Resident Population: 25,264 · Males per 100 Females: 109.62"
+      },
+      "TwBunzan": {
+        "scope": "sub-unit",
+        "en": "Bunzan-gun (Wénshān)",
+        "pop": 63975,
+        "mf": "109.26",
+        "parent": "Taihoku-shū (Táiběi, Taipei)",
+        "parentPop": 1233882,
+        "x": {
+          "reg_jp": 1016,
+          "reg_ko": 77,
+          "reg_tw": 62706,
+          "for_cn": 176,
+          "for_other": 0
+        },
+        "line": "1942 Resident Population: 63,975 · Males per 100 Females: 109.26"
+      },
+      "TwKaizan": {
+        "scope": "sub-unit",
+        "en": "Kaizan-gun (Hǎishān)",
+        "pop": 110171,
+        "mf": "102.69",
+        "parent": "Taihoku-shū (Táiběi, Taipei)",
+        "parentPop": 1233882,
+        "x": {
+          "reg_jp": 1845,
+          "reg_ko": 0,
+          "reg_tw": 107992,
+          "for_cn": 334,
+          "for_other": 0
+        },
+        "line": "1942 Resident Population: 110,171 · Males per 100 Females: 102.69"
+      },
+      "TwShinsho": {
+        "scope": "sub-unit",
+        "en": "Shinshō-gun (Xīnzhuāng)",
+        "pop": 68321,
+        "mf": "106.03",
+        "parent": "Taihoku-shū (Táiběi, Taipei)",
+        "parentPop": 1233882,
+        "x": {
+          "reg_jp": 882,
+          "reg_ko": 7,
+          "reg_tw": 67078,
+          "for_cn": 354,
+          "for_other": 0
+        },
+        "line": "1942 Resident Population: 68,321 · Males per 100 Females: 106.03"
+      },
+      "TwShinchikuShi": {
+        "scope": "sub-unit",
+        "en": "Shinchiku-shi (Xīnzhú, Hsinchu)",
+        "pop": 90800,
+        "mf": "103.38",
+        "parent": "Shinchiku-shū (Xīnzhú, Hsinchu)",
+        "parentPop": 838011,
+        "x": {
+          "reg_jp": 9639,
+          "reg_ko": 74,
+          "reg_tw": 80597,
+          "for_cn": 490,
+          "for_other": 0
+        },
+        "line": "1942 Resident Population: 90,800 · Males per 100 Females: 103.38"
+      },
+      "TwShinchiku": {
+        "scope": "sub-unit",
+        "en": "Shinchiku-gun (Xīnzhú, Hsinchu)",
+        "pop": 104534,
+        "mf": "103.76",
+        "parent": "Shinchiku-shū (Xīnzhú, Hsinchu)",
+        "parentPop": 838011,
+        "x": {
+          "reg_jp": 571,
+          "reg_ko": 0,
+          "reg_tw": 103833,
+          "for_cn": 130,
+          "for_other": 0
+        },
+        "line": "1942 Resident Population: 104,534 · Males per 100 Females: 103.76"
+      },
+      "TwChureki": {
+        "scope": "sub-unit",
+        "en": "Chūreki-gun (Zhōnglì)",
+        "pop": 121515,
+        "mf": "104.31",
+        "parent": "Shinchiku-shū (Xīnzhú, Hsinchu)",
+        "parentPop": 838011,
+        "x": {
+          "reg_jp": 1477,
+          "reg_ko": 14,
+          "reg_tw": 119867,
+          "for_cn": 157,
+          "for_other": 0
+        },
+        "line": "1942 Resident Population: 121,515 · Males per 100 Females: 104.31"
+      },
+      "TwToen": {
+        "scope": "sub-unit",
+        "en": "Tōen-gun (Táoyuán)",
+        "pop": 100025,
+        "mf": "103.32",
+        "parent": "Shinchiku-shū (Xīnzhú, Hsinchu)",
+        "parentPop": 838011,
+        "x": {
+          "reg_jp": 1543,
+          "reg_ko": 24,
+          "reg_tw": 98251,
+          "for_cn": 207,
+          "for_other": 0
+        },
+        "line": "1942 Resident Population: 100,025 · Males per 100 Females: 103.32"
+      },
+      "TwDaikei": {
+        "scope": "sub-unit",
+        "en": "Daikei-gun (Dàxī)",
+        "pop": 61120,
+        "mf": "101.92",
+        "parent": "Shinchiku-shū (Xīnzhú, Hsinchu)",
+        "parentPop": 838011,
+        "x": {
+          "reg_jp": 818,
+          "reg_ko": 0,
+          "reg_tw": 60248,
+          "for_cn": 54,
+          "for_other": 0
+        },
+        "line": "1942 Resident Population: 61,120 · Males per 100 Females: 101.92"
+      },
+      "TwChikuto": {
+        "scope": "sub-unit",
+        "en": "Chikutō-gun (Zhúdōng)",
+        "pop": 82738,
+        "mf": "103.51",
+        "parent": "Shinchiku-shū (Xīnzhú, Hsinchu)",
+        "parentPop": 838011,
+        "x": {
+          "reg_jp": 1932,
+          "reg_ko": 10,
+          "reg_tw": 80654,
+          "for_cn": 142,
+          "for_other": 0
+        },
+        "line": "1942 Resident Population: 82,738 · Males per 100 Females: 103.51"
+      },
+      "TwChikunan": {
+        "scope": "sub-unit",
+        "en": "Chikunan-gun (Zhúnán)",
+        "pop": 101288,
+        "mf": "100.49",
+        "parent": "Shinchiku-shū (Xīnzhú, Hsinchu)",
+        "parentPop": 838011,
+        "x": {
+          "reg_jp": 1737,
+          "reg_ko": 14,
+          "reg_tw": 99364,
+          "for_cn": 173,
+          "for_other": 0
+        },
+        "line": "1942 Resident Population: 101,288 · Males per 100 Females: 100.49"
+      },
+      "TwByoritsu": {
+        "scope": "sub-unit",
+        "en": "Byōritsu-gun (Miáolì)",
+        "pop": 141122,
+        "mf": "99.15",
+        "parent": "Shinchiku-shū (Xīnzhú, Hsinchu)",
+        "parentPop": 838011,
+        "x": {
+          "reg_jp": 2243,
+          "reg_ko": 14,
+          "reg_tw": 138365,
+          "for_cn": 500,
+          "for_other": 0
+        },
+        "line": "1942 Resident Population: 141,122 · Males per 100 Females: 99.15"
+      },
+      "TwTaiko": {
+        "scope": "sub-unit",
+        "en": "Taiko-gun (Dàhú)",
+        "pop": 34869,
+        "mf": "106.74",
+        "parent": "Shinchiku-shū (Xīnzhú, Hsinchu)",
+        "parentPop": 838011,
+        "x": {
+          "reg_jp": 733,
+          "reg_ko": 0,
+          "reg_tw": 34095,
+          "for_cn": 41,
+          "for_other": 0
+        },
+        "line": "1942 Resident Population: 34,869 · Males per 100 Females: 106.74"
+      },
+      "TwTaichu": {
+        "scope": "sub-unit",
+        "en": "Taichū-shi (Táizhōng, Taichung)",
+        "pop": 97590,
+        "mf": "105.03",
+        "parent": "Taichū-shū (Táizhōng, Taichung)",
+        "parentPop": 1380187,
+        "x": {
+          "reg_jp": 19658,
+          "reg_ko": 130,
+          "reg_tw": 76751,
+          "for_cn": 1049,
+          "for_other": 2
+        },
+        "line": "1942 Resident Population: 97,590 · Males per 100 Females: 105.03"
+      },
+      "TwShoka": {
+        "scope": "sub-unit",
+        "en": "Shōka-gun (Zhānghuà, Changhua)",
+        "pop": 230766,
+        "mf": "100.90",
+        "note": "Includes 彰化市, which the source counts apart: the city was cut out of the district in 1933, after the boundaries this map draws.",
+        "parent": "Taichū-shū (Táizhōng, Taichung)",
+        "parentPop": 1380187,
+        "x": {
+          "reg_jp": 4989,
+          "reg_ko": 49,
+          "reg_tw": 225018,
+          "for_cn": 710,
+          "for_other": 0
+        },
+        "line": "1942 Resident Population: 230,766 · Males per 100 Females: 100.90 Includes 彰化市, which the source counts apart: the city was cut out of the district in 1933, after the boundaries this map draws."
+      },
+      "TwDaiton": {
+        "scope": "sub-unit",
+        "en": "Daiton-gun (Dàtún)",
+        "pop": 106208,
+        "mf": "101.92",
+        "parent": "Taichū-shū (Táizhōng, Taichung)",
+        "parentPop": 1380187,
+        "x": {
+          "reg_jp": 1235,
+          "reg_ko": 0,
+          "reg_tw": 104854,
+          "for_cn": 119,
+          "for_other": 0
+        },
+        "line": "1942 Resident Population: 106,208 · Males per 100 Females: 101.92"
+      },
+      "TwToyohara": {
+        "scope": "sub-unit",
+        "en": "Toyohara-gun (Fēngyuán)",
+        "pop": 105245,
+        "mf": "99.96",
+        "parent": "Taichū-shū (Táizhōng, Taichung)",
+        "parentPop": 1380187,
+        "x": {
+          "reg_jp": 2305,
+          "reg_ko": 20,
+          "reg_tw": 102622,
+          "for_cn": 296,
+          "for_other": 2
+        },
+        "line": "1942 Resident Population: 105,245 · Males per 100 Females: 99.96"
+      },
+      "TwTosei": {
+        "scope": "sub-unit",
+        "en": "Tōsei-gun (Dōngshì)",
+        "pop": 49525,
+        "mf": "104.92",
+        "parent": "Taichū-shū (Táizhōng, Taichung)",
+        "parentPop": 1380187,
+        "x": {
+          "reg_jp": 2032,
+          "reg_ko": 36,
+          "reg_tw": 47394,
+          "for_cn": 63,
+          "for_other": 0
+        },
+        "line": "1942 Resident Population: 49,525 · Males per 100 Females: 104.92"
+      },
+      "TwTaikou": {
+        "scope": "sub-unit",
+        "en": "Taikō-gun (Dàjiǎ)",
+        "pop": 166033,
+        "mf": "100.34",
+        "parent": "Taichū-shū (Táizhōng, Taichung)",
+        "parentPop": 1380187,
+        "x": {
+          "reg_jp": 3063,
+          "reg_ko": 21,
+          "reg_tw": 162646,
+          "for_cn": 303,
+          "for_other": 0
+        },
+        "line": "1942 Resident Population: 166,033 · Males per 100 Females: 100.34"
+      },
+      "TwInrin": {
+        "scope": "sub-unit",
+        "en": "Inrin-gun (Yuánlín)",
+        "pop": 203147,
+        "mf": "103.60",
+        "parent": "Taichū-shū (Táizhōng, Taichung)",
+        "parentPop": 1380187,
+        "x": {
+          "reg_jp": 2703,
+          "reg_ko": 26,
+          "reg_tw": 199915,
+          "for_cn": 500,
+          "for_other": 3
+        },
+        "line": "1942 Resident Population: 203,147 · Males per 100 Females: 103.60"
+      },
+      "TwHokuto": {
+        "scope": "sub-unit",
+        "en": "Hokuto-gun (Běidǒu)",
+        "pop": 166962,
+        "mf": "99.50",
+        "parent": "Taichū-shū (Táizhōng, Taichung)",
+        "parentPop": 1380187,
+        "x": {
+          "reg_jp": 4709,
+          "reg_ko": 1,
+          "reg_tw": 161990,
+          "for_cn": 262,
+          "for_other": 0
+        },
+        "line": "1942 Resident Population: 166,962 · Males per 100 Females: 99.50"
+      },
+      "TwNanto": {
+        "scope": "sub-unit",
+        "en": "Nantō-gun (Nántóu)",
+        "pop": 106150,
+        "mf": "102.40",
+        "parent": "Taichū-shū (Táizhōng, Taichung)",
+        "parentPop": 1380187,
+        "x": {
+          "reg_jp": 1729,
+          "reg_ko": 15,
+          "reg_tw": 104247,
+          "for_cn": 159,
+          "for_other": 0
+        },
+        "line": "1942 Resident Population: 106,150 · Males per 100 Females: 102.40"
+      },
+      "TwNiitaka": {
+        "scope": "sub-unit",
+        "en": "Niitaka-gun (Xīngāo)",
+        "pop": 43768,
+        "mf": "108.99",
+        "parent": "Taichū-shū (Táizhōng, Taichung)",
+        "parentPop": 1380187,
+        "x": {
+          "reg_jp": 1463,
+          "reg_ko": 11,
+          "reg_tw": 42157,
+          "for_cn": 137,
+          "for_other": 0
+        },
+        "line": "1942 Resident Population: 43,768 · Males per 100 Females: 108.99"
+      },
+      "TwNoko": {
+        "scope": "sub-unit",
+        "en": "Nōkō-gun (Nénggāo)",
+        "pop": 56354,
+        "mf": "105.41",
+        "parent": "Taichū-shū (Táizhōng, Taichung)",
+        "parentPop": 1380187,
+        "x": {
+          "reg_jp": 1761,
+          "reg_ko": 13,
+          "reg_tw": 54424,
+          "for_cn": 156,
+          "for_other": 0
+        },
+        "line": "1942 Resident Population: 56,354 · Males per 100 Females: 105.41"
+      },
+      "TwTakeyama": {
+        "scope": "sub-unit",
+        "en": "Takeyama-gun (Zhúshān)",
+        "pop": 48439,
+        "mf": "102.42",
+        "parent": "Taichū-shū (Táizhōng, Taichung)",
+        "parentPop": 1380187,
+        "x": {
+          "reg_jp": 724,
+          "reg_ko": 11,
+          "reg_tw": 47602,
+          "for_cn": 102,
+          "for_other": 0
+        },
+        "line": "1942 Resident Population: 48,439 · Males per 100 Females: 102.42"
+      },
+      "TwTainan": {
+        "scope": "sub-unit",
+        "en": "Tainan-shi",
+        "pop": 153879,
+        "mf": "104.74",
+        "parent": "Tainan-shū",
+        "parentPop": 1550695,
+        "x": {
+          "reg_jp": 18811,
+          "reg_ko": 101,
+          "reg_tw": 131485,
+          "for_cn": 3477,
+          "for_other": 5
+        },
+        "line": "1942 Resident Population: 153,879 · Males per 100 Females: 104.74"
+      },
+      "TwKagiShi": {
+        "scope": "sub-unit",
+        "en": "Kagi-shi (Jiāyì, Chiayi)",
+        "pop": 98298,
+        "mf": "106.70",
+        "parent": "Tainan-shū",
+        "parentPop": 1550695,
+        "x": {
+          "reg_jp": 10987,
+          "reg_ko": 65,
+          "reg_tw": 85605,
+          "for_cn": 1637,
+          "for_other": 4
+        },
+        "line": "1942 Resident Population: 98,298 · Males per 100 Females: 106.70"
+      },
+      "TwNiitoyo": {
+        "scope": "sub-unit",
+        "en": "Niitoyo-gun (Xīnfēng)",
+        "pop": 104010,
+        "mf": "98.98",
+        "parent": "Tainan-shū",
+        "parentPop": 1550695,
+        "x": {
+          "reg_jp": 1301,
+          "reg_ko": 0,
+          "reg_tw": 102656,
+          "for_cn": 52,
+          "for_other": 1
+        },
+        "line": "1942 Resident Population: 104,010 · Males per 100 Females: 98.98"
+      },
+      "TwShinka": {
+        "scope": "sub-unit",
+        "en": "Shinka-gun (Xīnhuà)",
+        "pop": 100867,
+        "mf": "100.45",
+        "parent": "Tainan-shū",
+        "parentPop": 1550695,
+        "x": {
+          "reg_jp": 1573,
+          "reg_ko": 1,
+          "reg_tw": 99128,
+          "for_cn": 165,
+          "for_other": 0
+        },
+        "line": "1942 Resident Population: 100,867 · Males per 100 Females: 100.45"
+      },
+      "TwSobun": {
+        "scope": "sub-unit",
+        "en": "Sobun-gun (Zēngwén)",
+        "pop": 83105,
+        "mf": "97.96",
+        "parent": "Tainan-shū",
+        "parentPop": 1550695,
+        "x": {
+          "reg_jp": 1449,
+          "reg_ko": 5,
+          "reg_tw": 81552,
+          "for_cn": 99,
+          "for_other": 0
+        },
+        "line": "1942 Resident Population: 83,105 · Males per 100 Females: 97.96"
+      },
+      "TwHokumon": {
+        "scope": "sub-unit",
+        "en": "Hokumon-gun (Běimén)",
+        "pop": 130270,
+        "mf": "95.99",
+        "parent": "Tainan-shū",
+        "parentPop": 1550695,
+        "x": {
+          "reg_jp": 1307,
+          "reg_ko": 1,
+          "reg_tw": 128912,
+          "for_cn": 50,
+          "for_other": 0
+        },
+        "line": "1942 Resident Population: 130,270 · Males per 100 Females: 95.99"
+      },
+      "TwShinei": {
+        "scope": "sub-unit",
+        "en": "Shin'ei-gun (Xīnyíng)",
+        "pop": 130496,
+        "mf": "99.61",
+        "parent": "Tainan-shū",
+        "parentPop": 1550695,
+        "x": {
+          "reg_jp": 4982,
+          "reg_ko": 20,
+          "reg_tw": 125128,
+          "for_cn": 366,
+          "for_other": 0
+        },
+        "line": "1942 Resident Population: 130,496 · Males per 100 Females: 99.61"
+      },
+      "TwKagi": {
+        "scope": "sub-unit",
+        "en": "Kagi-gun (Jiāyì, Chiayi)",
+        "pop": 171430,
+        "mf": "104.34",
+        "parent": "Tainan-shū",
+        "parentPop": 1550695,
+        "x": {
+          "reg_jp": 2934,
+          "reg_ko": 1,
+          "reg_tw": 168288,
+          "for_cn": 207,
+          "for_other": 0
+        },
+        "line": "1942 Resident Population: 171,430 · Males per 100 Females: 104.34"
+      },
+      "TwToroku": {
+        "scope": "sub-unit",
+        "en": "Toroku-gun (Dǒuliù)",
+        "pop": 120919,
+        "mf": "100.69",
+        "parent": "Tainan-shū",
+        "parentPop": 1550695,
+        "x": {
+          "reg_jp": 2038,
+          "reg_ko": 20,
+          "reg_tw": 118520,
+          "for_cn": 337,
+          "for_other": 4
+        },
+        "line": "1942 Resident Population: 120,919 · Males per 100 Females: 100.69"
+      },
+      "TwKobi": {
+        "scope": "sub-unit",
+        "en": "Kobi-gun (Hǔwěi)",
+        "pop": 168505,
+        "mf": "99.46",
+        "parent": "Tainan-shū",
+        "parentPop": 1550695,
+        "x": {
+          "reg_jp": 4379,
+          "reg_ko": 23,
+          "reg_tw": 163549,
+          "for_cn": 554,
+          "for_other": 0
+        },
+        "line": "1942 Resident Population: 168,505 · Males per 100 Females: 99.46"
+      },
+      "TwHokuko": {
+        "scope": "sub-unit",
+        "en": "Hokukō-gun (Běigǎng)",
+        "pop": 122749,
+        "mf": "101.66",
+        "parent": "Tainan-shū",
+        "parentPop": 1550695,
+        "x": {
+          "reg_jp": 1819,
+          "reg_ko": 16,
+          "reg_tw": 120661,
+          "for_cn": 253,
+          "for_other": 0
+        },
+        "line": "1942 Resident Population: 122,749 · Males per 100 Females: 101.66"
+      },
+      "TwToseki": {
+        "scope": "sub-unit",
+        "en": "Tōseki-gun (Dōngshí)",
+        "pop": 166167,
+        "mf": "99.57",
+        "parent": "Tainan-shū",
+        "parentPop": 1550695,
+        "x": {
+          "reg_jp": 1866,
+          "reg_ko": 0,
+          "reg_tw": 164137,
+          "for_cn": 164,
+          "for_other": 0
+        },
+        "line": "1942 Resident Population: 166,167 · Males per 100 Females: 99.57"
+      },
+      "TwTakaoShi": {
+        "scope": "sub-unit",
+        "en": "Takao-shi (Gāoxióng, Kaohsiung)",
+        "pop": 183185,
+        "mf": "114.92",
+        "parent": "Takao-shū (Gāoxióng, Kaohsiung)",
+        "parentPop": 930383,
+        "x": {
+          "reg_jp": 36749,
+          "reg_ko": 388,
+          "reg_tw": 144067,
+          "for_cn": 1980,
+          "for_other": 1
+        },
+        "line": "1942 Resident Population: 183,185 · Males per 100 Females: 114.92"
+      },
+      "TwHeito": {
+        "scope": "sub-unit",
+        "en": "Heitō-gun (Píngdōng, Pingtung)",
+        "pop": 133226,
+        "mf": "104.82",
+        "note": "Includes 屏東市, which the source counts apart: the city was cut out of the district in 1933, after the boundaries this map draws.",
+        "parent": "Takao-shū (Gāoxióng, Kaohsiung)",
+        "parentPop": 930383,
+        "x": {
+          "reg_jp": 9816,
+          "reg_ko": 65,
+          "reg_tw": 122070,
+          "for_cn": 1275,
+          "for_other": 0
+        },
+        "line": "1942 Resident Population: 133,226 · Males per 100 Females: 104.82 Includes 屏東市, which the source counts apart: the city was cut out of the district in 1933, after the boundaries this map draws."
+      },
+      "TwOkayama": {
+        "scope": "sub-unit",
+        "en": "Okayama-gun (Gāngshān)",
+        "pop": 152027,
+        "mf": "103.78",
+        "parent": "Takao-shū (Gāoxióng, Kaohsiung)",
+        "parentPop": 930383,
+        "x": {
+          "reg_jp": 3423,
+          "reg_ko": 24,
+          "reg_tw": 148173,
+          "for_cn": 406,
+          "for_other": 1
+        },
+        "line": "1942 Resident Population: 152,027 · Males per 100 Females: 103.78"
+      },
+      "TwHozan": {
+        "scope": "sub-unit",
+        "en": "Hōzan-gun (Fèngshān)",
+        "pop": 117469,
+        "mf": "103.18",
+        "parent": "Takao-shū (Gāoxióng, Kaohsiung)",
+        "parentPop": 930383,
+        "x": {
+          "reg_jp": 3047,
+          "reg_ko": 24,
+          "reg_tw": 113661,
+          "for_cn": 737,
+          "for_other": 0
+        },
+        "line": "1942 Resident Population: 117,469 · Males per 100 Females: 103.18"
+      },
+      "TwKizan": {
+        "scope": "sub-unit",
+        "en": "Kizan-gun (Qíshān)",
+        "pop": 91816,
+        "mf": "100.16",
+        "parent": "Takao-shū (Gāoxióng, Kaohsiung)",
+        "parentPop": 930383,
+        "x": {
+          "reg_jp": 1962,
+          "reg_ko": 20,
+          "reg_tw": 89291,
+          "for_cn": 542,
+          "for_other": 1
+        },
+        "line": "1942 Resident Population: 91,816 · Males per 100 Females: 100.16"
+      },
+      "TwChoshu": {
+        "scope": "sub-unit",
+        "en": "Chōshū-gun (Cháozhōu)",
+        "pop": 112369,
+        "mf": "100.90",
+        "parent": "Takao-shū (Gāoxióng, Kaohsiung)",
+        "parentPop": 930383,
+        "x": {
+          "reg_jp": 1811,
+          "reg_ko": 33,
+          "reg_tw": 109698,
+          "for_cn": 827,
+          "for_other": 0
+        },
+        "line": "1942 Resident Population: 112,369 · Males per 100 Females: 100.90"
+      },
+      "TwToko": {
+        "scope": "sub-unit",
+        "en": "Tōkō-gun (Dōnggǎng)",
+        "pop": 106502,
+        "mf": "103.43",
+        "parent": "Takao-shū (Gāoxióng, Kaohsiung)",
+        "parentPop": 930383,
+        "x": {
+          "reg_jp": 1937,
+          "reg_ko": 28,
+          "reg_tw": 103928,
+          "for_cn": 609,
+          "for_other": 0
+        },
+        "line": "1942 Resident Population: 106,502 · Males per 100 Females: 103.43"
+      },
+      "TwKoshun": {
+        "scope": "sub-unit",
+        "en": "Kōshun-gun (Héngchūn)",
+        "pop": 33789,
+        "mf": "104.03",
+        "parent": "Takao-shū (Gāoxióng, Kaohsiung)",
+        "parentPop": 930383,
+        "x": {
+          "reg_jp": 888,
+          "reg_ko": 16,
+          "reg_tw": 32425,
+          "for_cn": 460,
+          "for_other": 0
+        },
+        "line": "1942 Resident Population: 33,789 · Males per 100 Females: 104.03"
+      },
+      "TwTaito": {
+        "scope": "sub-unit",
+        "en": "Taitō-chō (Táidōng, Taitung)",
+        "pop": 93138,
+        "mf": "109.96",
+        "note": "The three districts of the prefecture together, the map drawing it whole.",
+        "x": {
+          "reg_jp": 7078,
+          "reg_ko": 35,
+          "reg_tw": 85068,
+          "for_cn": 956,
+          "for_other": 1
+        },
+        "line": "1942 Resident Population: 93,138 · Males per 100 Females: 109.96 The three districts of the prefecture together, the map drawing it whole."
+      },
+      "TwKarenko": {
+        "scope": "sub-unit",
+        "en": "Karenkō-chō (Huāliángǎng, Hualien)",
+        "pop": 153785,
+        "mf": "110.60",
+        "note": "The city and three districts of the prefecture together, the map drawing it whole.",
+        "x": {
+          "reg_jp": 20914,
+          "reg_ko": 119,
+          "reg_tw": 130720,
+          "for_cn": 2032,
+          "for_other": 0
+        },
+        "line": "1942 Resident Population: 153,785 · Males per 100 Females: 110.60 The city and three districts of the prefecture together, the map drawing it whole."
+      },
+      "TwHoko": {
+        "scope": "sub-unit",
+        "en": "Hōko-chō (Pénghú, the Pescadores)",
+        "pop": 69387,
+        "mf": "90.66",
+        "note": "Both sub-prefectures together, the map drawing the islands whole.",
+        "x": {
+          "reg_jp": 3619,
+          "reg_ko": 0,
+          "reg_tw": 65694,
+          "for_cn": 74,
+          "for_other": 0
+        },
+        "line": "1942 Resident Population: 69,387 · Males per 100 Females: 90.66 Both sub-prefectures together, the map drawing the islands whole."
       }
     },
     "breaks": []

@@ -7,8 +7,24 @@ reg_ko,Koreans,Register and nationality
 reg_tw,Taiwanese,Register and nationality
 reg_karafuto,Karafuto,Register and nationality
 for_total,Foreigners,Register and nationality
-for_cn,— Chinese,Register and nationality
-for_other,— other foreign,Register and nationality
+for_cn,Chinese,Register and nationality
+for_other,Other foreign,Register and nationality
+for_gb,Britain,Foreign nationality
+for_us,United States,Foreign nationality
+for_su,USSR,Foreign nationality
+for_fr,France,Foreign nationality
+for_de,Germany,Foreign nationality
+for_at,Austria,Foreign nationality
+for_cz,Czechoslovakia,Foreign nationality
+for_se,Sweden,Foreign nationality
+for_ch,Switzerland,Foreign nationality
+for_no,Norway,Foreign nationality
+for_be,Belgium,Foreign nationality
+for_tr,Turkey,Foreign nationality
+for_ir,Persia,Foreign nationality
+for_ca,Canada,Foreign nationality
+for_au,Australia,Foreign nationality
+for_etc,Other foreign nationality,Foreign nationality
 occ_total,In gainful occupation,Occupation
 occ_agri,Agriculture,Occupation
 occ_fish,Fisheries,Occupation

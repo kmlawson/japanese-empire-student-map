@@ -308,6 +308,12 @@ def population_data():
                 line = (line + " " + r["note"]).strip()
             if r.get("same_as"):
                 rec["sameAs"] = r["same_as"]
+            # the unit this one sits inside, where the source counts both: a
+            # 郡 is read against its 州, and the card says so in a line
+            if r.get("parent"):
+                rec["parent"] = r["parent"]
+                if r.get("parent_pop"):
+                    rec["parentPop"] = int(r["parent_pop"])
             # and everything else the source counted, kept as it was read: the
             # card and the tables lay it out, and neither invents a total
             extra = {}
@@ -348,6 +354,8 @@ def population_data():
                      "country": d.get("country") or "",
                      "caption": caption,
                      "note": d.get("note") or "",
+                     "inShort": (d.get("in_short") or "").strip().lower()
+                                not in ("no", "false", "0"),
                      # groups the box does not print. The figures stay on the
                      # card and in the data; what this says is that a table of
                      # them is not worth the room — the fourteen cities by age
@@ -382,6 +390,11 @@ def population_lines():
     """{(epoch, scope, key): line} — one composed line per row of data."""
     out = {}
     for d in population_data():
+        # a dataset can say its figures belong on the card and not in the
+        # sentence. Taiwan's districts are the case: sixty-four of them, and
+        # the hover already carries what the district was
+        if not d.get("inShort", True):
+            continue
         for key, rec in d["rows"].items():
             # only what the map itself carries a description for: a city's
             # figures live on its card, not in a sentence about a province

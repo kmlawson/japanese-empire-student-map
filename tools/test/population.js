@@ -187,7 +187,8 @@ const spot = (p, sel, fx, fy) => p.evaluate((s, ax, ay) => {
   });
   check('the 1930 card is the census, with its three groups',
     /census of 1 October 1930/.test(c30.head)
-    && c30.groups.join(' | ') === 'Ages | Register and nationality | Occupation',
+    && c30.groups.join(' | ')
+       === 'Ages | Register and nationality | Foreign nationality | Occupation',
     c30.head + ' — ' + c30.groups.join(' | '));
   check('with the figures under them',
     c30.rows.indexOf('Japanese(naichijin)135,863') > -1
@@ -490,7 +491,7 @@ const spot = (p, sel, fx, fy) => p.evaluate((s, ax, ay) => {
     const d = document.querySelector('#dlg-table');
     return { head: d.querySelector('.pop-head').textContent,
              note: (d.querySelector('.pop-note') || {}).textContent || '',
-             tables: d.querySelectorAll('.pop-table').length,
+             tables: d.querySelectorAll('.pop-table-block:not(.pop-compare) .pop-table').length,
              groups: [...d.querySelectorAll('.pop-group-head')].map(g => g.textContent),
              switches: [...d.querySelectorAll('.pop-switch button')].map(x => x.textContent),
              cmp: (d.querySelector('.pop-compare .pop-head') || {}).textContent || '',
@@ -502,9 +503,14 @@ const spot = (p, sel, fx, fy) => p.evaluate((s, ax, ay) => {
     /Government-General estimates/.test(box.note), box.note.slice(0, 60));
   check('the estimate has no groups to show, being four figures',
     box.groups.length === 0, box.groups.join(' | '));
+  /* One table, however many columns the source has: a stack of them meant a
+     reader comparing a province's Japanese population against its industry
+     had to hold one table in their head while scrolling to another. */
+  check('and it is one table, not a stack', box.tables === 1, String(box.tables));
   check('the other tables are offered at the foot',
-    box.switches.length === 2 && box.switches.some(t => /1930/.test(t))
-    && box.switches.some(t => /府/.test(t)), box.switches.join(' | '));
+    box.switches.length === 3 && box.switches.some(t => /1930/.test(t))
+    && box.switches.some(t => /府/.test(t))
+    && box.switches.some(t => /Taiwan/.test(t)), box.switches.join(' | '));
   /* And under them the two dates on what they share. Only what they share: a
      comparison is worth no more than its narrowest column. */
   check('and the two dates are compared below', /1930 and 1942 compared/.test(box.cmp),
@@ -520,15 +526,24 @@ const spot = (p, sel, fx, fy) => p.evaluate((s, ax, ay) => {
       .filter(x => /census of 1 October 1930/.test(x.textContent))[0].click();
     const d = document.querySelector('#dlg-table');
     return { head: d.querySelector('.pop-head').textContent,
-             tables: d.querySelectorAll('.pop-table').length,
+             tables: d.querySelectorAll('.pop-table-block:not(.pop-compare) .pop-table').length,
+             cols: d.querySelectorAll('.pop-table-block:not(.pop-compare) thead th').length,
+             heads: [...d.querySelectorAll('.pop-table-block:not(.pop-compare) thead th')]
+               .map(t => t.textContent).join(' | '),
              groups: [...d.querySelectorAll('.pop-group-head')].map(g => g.textContent) };
   });
   check('the foot switches the table to the other date',
     /census of 1 October 1930/.test(to30.head), to30.head);
-  check('and the census brings a table for each thing it counted',
-    to30.tables === 5
-    && to30.groups.join(' | ') === 'Ages | Register and nationality | Occupation',
-    to30.tables + ' — ' + to30.groups.join(' | '));
+  /* Still one table on the census, which counted four times as much: the
+     ages, every register and nationality it named, and the nine trades, all in
+     the same row as the population and reachable by scrolling sideways. */
+  check('and the census is one table too, as wide as it counted',
+    to30.tables === 1 && to30.cols > 30,
+    to30.tables + ' table, ' + to30.cols + ' columns');
+  check('with every nationality the source names in it',
+    /Czechoslovakia/.test(to30.heads) && /Persia/.test(to30.heads)
+    && /Agriculture/.test(to30.heads) && /0–14/.test(to30.heads),
+    to30.heads.slice(0, 90));
   await p.close();
 
   /* A city carries the same three groups, and its own table of the fourteen. */
@@ -557,7 +572,8 @@ const spot = (p, sel, fx, fy) => p.evaluate((s, ax, ay) => {
     /Kaes.ng/.test(cityCard.head) && cityCard.rows.indexOf('Population49,520') > -1,
     cityCard.head);
   check('with the register and the occupations under it',
-    cityCard.groups.join(' | ') === 'Ages | Register and nationality | Occupation',
+    cityCard.groups.join(' | ')
+      === 'Ages | Register and nationality | Foreign nationality | Occupation',
     cityCard.groups.join(' | '));
   check('and no offer to shade the map: a city is not a province',
     cityCard.shade === false);
@@ -566,8 +582,9 @@ const spot = (p, sel, fx, fy) => p.evaluate((s, ax, ay) => {
     const d = document.querySelector('#dlg-table');
     const rows = [...d.querySelectorAll('.pop-table')[0].querySelectorAll('tbody tr')];
     return { head: d.querySelector('.pop-head').textContent,
-             tables: d.querySelectorAll('.pop-table').length,
-             groups: [...d.querySelectorAll('.pop-group-head')].map(g => g.textContent),
+             tables: d.querySelectorAll('.pop-table-block:not(.pop-compare) .pop-table').length,
+             heads: [...d.querySelectorAll('.pop-table-block:not(.pop-compare) thead th')]
+               .map(t => t.textContent).join(' | '),
              n: rows.length,
              first: rows[0].textContent.replace(/\s+/g, ' '),
              here: (d.querySelector('tr.here th') || {}).textContent,
@@ -578,9 +595,9 @@ const spot = (p, sel, fx, fy) => p.evaluate((s, ax, ay) => {
      them is not worth the room, which half a screen of columns nobody had
      asked a question of was not. */
   check('the fourteen 府 have a table of their own, without the ages',
-    /fourteen 府/.test(cityTbl.head) && cityTbl.n === 15 && cityTbl.tables === 3
-    && cityTbl.groups.indexOf('Ages') < 0,
-    cityTbl.head + ' — ' + cityTbl.tables + ' tables: ' + cityTbl.groups.join(', '));
+    /fourteen 府/.test(cityTbl.head) && cityTbl.n === 15 && cityTbl.tables === 1
+    && !/0–14/.test(cityTbl.heads),
+    cityTbl.head + ' — ' + cityTbl.tables + ' table: ' + cityTbl.heads.slice(0, 80));
   check('with the fourteen together at the top',
     /All fourteen/.test(cityTbl.first) && /1,189,791/.test(cityTbl.first),
     cityTbl.first.slice(0, 60));

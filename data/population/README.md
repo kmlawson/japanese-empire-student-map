@@ -22,6 +22,7 @@ about the place; this folder holds what was counted there.
 | `label` | what the dataset is, in the table's heading and on the button that switches to it. Left blank it is built from `pct_of` and `caption` |
 | `line_label` | what kind of number this is, in the short description: *Census Population* for 1930, *Estimated Population* for 1942. A sentence that called the census an estimate would be wrong on the face of it |
 | `note` | a sentence under the table's heading, about the figures as a whole — that the 1942 columns are Government-General estimates, for instance |
+| `in_short` | `no` keeps the dataset out of the short description altogether — its figures are on the card and in the table only. Taiwan's sixty-four districts are the case: sixty-four sentences nobody asked for on hover |
 | `table_skip` | groups the box does not print, comma-separated. The figures stay on the card and in the data; this says a table of them is not worth the room — the fourteen cities by age was half a screen of columns nobody had asked a question of |
 | `caption` | what was counted, without the place: *estimated population at 1 October 1942*. A card puts the name of the place it is about in front of this, so a province's figures are headed with the province; the whole-territory card is headed `pct_of` + this |
 | `source` | where the numbers come from. The same citation belongs on `texts/pages/sources.md`, which is what the reader sees |
@@ -38,6 +39,8 @@ about the place; this folder holds what was counted there.
 | `pct_of_total` | share of the whole, as printed |
 | `area_km2` | see below |
 | `same_as` | this place has no figures of its own because the source counts it inside another one. It carries that row's, and its `note` should say so. Cheju is the case: the 1942 returns fold it into Zenranan-dō. One hop only — a row that points at a row that points elsewhere is refused |
+| `parent` | the unit this row sits inside, where the source counts both — a 郡 is read against its 州 |
+| `parent_pop` | and how big that unit was |
 | `note` | a sentence after the figures, or instead of them |
 
 **And as many more columns as the source counted.** `fields.csv` names them:

@@ -1,0 +1,65 @@
+scope,key,en,population,m_per_100_f,pct_of_total,area_km2,same_as,note,parent,parent_pop,reg_jp,reg_tw,reg_ko,for_cn,for_other
+territory,formosa,Taiwan (Formosa),6249468,103.54,,,,,,,365682,5832682,2539,48483,82
+sub-unit,TwShuTaihoku,"Taihoku-shū (Táiběi, Taipei)",1233882,107.52,,,,,,,153928,1053372,1051,25474,57
+sub-unit,TwShuShinchiku,"Shinchiku-shū (Xīnzhú, Hsinchu)",838011,102.52,,,,,,,20693,815274,150,1894,
+sub-unit,TwShuTaichu,"Taichū-shū (Táizhōng, Taichung)",1380187,102.09,,,,,,,46371,1329620,333,3856,7
+sub-unit,TwShuTainan,Tainan-shū,1550695,100.90,,,,,,,53446,1489621,253,7361,14
+sub-unit,TwShuTakao,"Takao-shū (Gāoxióng, Kaohsiung)",930383,105.19,,,,,,,59633,863313,598,6836,3
+sub-unit,TwShuKarenko,"Karenkō-chō (Huāliángǎng, Hualien)",153785,110.60,,,,,,,20914,130720,119,2032,
+sub-unit,TwShuTaito,"Taitō-chō (Táidōng, Taitung)",93138,109.96,,,,,,,7078,85068,35,956,1
+sub-unit,TwShuHoko,"Hōko-chō (Pénghú, the Pescadores)",69387,90.66,,,,,,,3619,65694,,74,
+sub-unit,TwTaihoku,"Taihoku-shi (Táiběi, Taipei)",367213,104.92,,,,,"Taihoku-shū (Táiběi, Taipei)",1233882,106784,246654,343,13403,29
+sub-unit,TwKirunShi,"Kīrun-shi (Jīlóng, Keelung)",106523,107.87,,,,,"Taihoku-shū (Táiběi, Taipei)",1233882,25438,75927,521,4635,2
+sub-unit,TwGiran,Giran-gun (Yílán),109364,107.55,,,,"Includes 宜蘭市, which the source counts apart: the city was cut out of the district in 1940, after the boundaries this map draws.","Taihoku-shū (Táiběi, Taipei)",1233882,3321,105524,24,495,0
+sub-unit,TwShichisei,Shichisei-gun (Qīxīng),91341,105.11,,,,,"Taihoku-shū (Táiběi, Taipei)",1233882,2387,88521,2,431,0
+sub-unit,TwTansui,"Tansui-gun (Dànshuǐ, Tamsui)",55094,109.03,,,,,"Taihoku-shū (Táiběi, Taipei)",1233882,1321,53311,11,436,15
+sub-unit,TwKirun,"Kīrun-gun (Jīlóng, Keelung)",148753,118.03,,,,,"Taihoku-shū (Táiběi, Taipei)",1233882,4532,139415,24,4773,9
+sub-unit,TwRato,Ratō-gun (Luódōng),87863,108.24,,,,,"Taihoku-shū (Táiběi, Taipei)",1233882,3902,83574,27,358,2
+sub-unit,TwSuo,Suō-gun (Sū’ào),25264,109.62,,,,,"Taihoku-shū (Táiběi, Taipei)",1233882,2500,22670,15,79,0
+sub-unit,TwBunzan,Bunzan-gun (Wénshān),63975,109.26,,,,,"Taihoku-shū (Táiběi, Taipei)",1233882,1016,62706,77,176,0
+sub-unit,TwKaizan,Kaizan-gun (Hǎishān),110171,102.69,,,,,"Taihoku-shū (Táiběi, Taipei)",1233882,1845,107992,0,334,0
+sub-unit,TwShinsho,Shinshō-gun (Xīnzhuāng),68321,106.03,,,,,"Taihoku-shū (Táiběi, Taipei)",1233882,882,67078,7,354,0
+sub-unit,TwShinchikuShi,"Shinchiku-shi (Xīnzhú, Hsinchu)",90800,103.38,,,,,"Shinchiku-shū (Xīnzhú, Hsinchu)",838011,9639,80597,74,490,0
+sub-unit,TwShinchiku,"Shinchiku-gun (Xīnzhú, Hsinchu)",104534,103.76,,,,,"Shinchiku-shū (Xīnzhú, Hsinchu)",838011,571,103833,0,130,0
+sub-unit,TwChureki,Chūreki-gun (Zhōnglì),121515,104.31,,,,,"Shinchiku-shū (Xīnzhú, Hsinchu)",838011,1477,119867,14,157,0
+sub-unit,TwToen,Tōen-gun (Táoyuán),100025,103.32,,,,,"Shinchiku-shū (Xīnzhú, Hsinchu)",838011,1543,98251,24,207,0
+sub-unit,TwDaikei,Daikei-gun (Dàxī),61120,101.92,,,,,"Shinchiku-shū (Xīnzhú, Hsinchu)",838011,818,60248,0,54,0
+sub-unit,TwChikuto,Chikutō-gun (Zhúdōng),82738,103.51,,,,,"Shinchiku-shū (Xīnzhú, Hsinchu)",838011,1932,80654,10,142,0
+sub-unit,TwChikunan,Chikunan-gun (Zhúnán),101288,100.49,,,,,"Shinchiku-shū (Xīnzhú, Hsinchu)",838011,1737,99364,14,173,0
+sub-unit,TwByoritsu,Byōritsu-gun (Miáolì),141122,99.15,,,,,"Shinchiku-shū (Xīnzhú, Hsinchu)",838011,2243,138365,14,500,0
+sub-unit,TwTaiko,Taiko-gun (Dàhú),34869,106.74,,,,,"Shinchiku-shū (Xīnzhú, Hsinchu)",838011,733,34095,0,41,0
+sub-unit,TwTaichu,"Taichū-shi (Táizhōng, Taichung)",97590,105.03,,,,,"Taichū-shū (Táizhōng, Taichung)",1380187,19658,76751,130,1049,2
+sub-unit,TwShoka,"Shōka-gun (Zhānghuà, Changhua)",230766,100.90,,,,"Includes 彰化市, which the source counts apart: the city was cut out of the district in 1933, after the boundaries this map draws.","Taichū-shū (Táizhōng, Taichung)",1380187,4989,225018,49,710,0
+sub-unit,TwDaiton,Daiton-gun (Dàtún),106208,101.92,,,,,"Taichū-shū (Táizhōng, Taichung)",1380187,1235,104854,0,119,0
+sub-unit,TwToyohara,Toyohara-gun (Fēngyuán),105245,99.96,,,,,"Taichū-shū (Táizhōng, Taichung)",1380187,2305,102622,20,296,2
+sub-unit,TwTosei,Tōsei-gun (Dōngshì),49525,104.92,,,,,"Taichū-shū (Táizhōng, Taichung)",1380187,2032,47394,36,63,0
+sub-unit,TwTaikou,Taikō-gun (Dàjiǎ),166033,100.34,,,,,"Taichū-shū (Táizhōng, Taichung)",1380187,3063,162646,21,303,0
+sub-unit,TwInrin,Inrin-gun (Yuánlín),203147,103.60,,,,,"Taichū-shū (Táizhōng, Taichung)",1380187,2703,199915,26,500,3
+sub-unit,TwHokuto,Hokuto-gun (Běidǒu),166962,99.50,,,,,"Taichū-shū (Táizhōng, Taichung)",1380187,4709,161990,1,262,0
+sub-unit,TwNanto,Nantō-gun (Nántóu),106150,102.40,,,,,"Taichū-shū (Táizhōng, Taichung)",1380187,1729,104247,15,159,0
+sub-unit,TwNiitaka,Niitaka-gun (Xīngāo),43768,108.99,,,,,"Taichū-shū (Táizhōng, Taichung)",1380187,1463,42157,11,137,0
+sub-unit,TwNoko,Nōkō-gun (Nénggāo),56354,105.41,,,,,"Taichū-shū (Táizhōng, Taichung)",1380187,1761,54424,13,156,0
+sub-unit,TwTakeyama,Takeyama-gun (Zhúshān),48439,102.42,,,,,"Taichū-shū (Táizhōng, Taichung)",1380187,724,47602,11,102,0
+sub-unit,TwTainan,Tainan-shi,153879,104.74,,,,,Tainan-shū,1550695,18811,131485,101,3477,5
+sub-unit,TwKagiShi,"Kagi-shi (Jiāyì, Chiayi)",98298,106.70,,,,,Tainan-shū,1550695,10987,85605,65,1637,4
+sub-unit,TwNiitoyo,Niitoyo-gun (Xīnfēng),104010,98.98,,,,,Tainan-shū,1550695,1301,102656,0,52,1
+sub-unit,TwShinka,Shinka-gun (Xīnhuà),100867,100.45,,,,,Tainan-shū,1550695,1573,99128,1,165,0
+sub-unit,TwSobun,Sobun-gun (Zēngwén),83105,97.96,,,,,Tainan-shū,1550695,1449,81552,5,99,0
+sub-unit,TwHokumon,Hokumon-gun (Běimén),130270,95.99,,,,,Tainan-shū,1550695,1307,128912,1,50,0
+sub-unit,TwShinei,Shin'ei-gun (Xīnyíng),130496,99.61,,,,,Tainan-shū,1550695,4982,125128,20,366,0
+sub-unit,TwKagi,"Kagi-gun (Jiāyì, Chiayi)",171430,104.34,,,,,Tainan-shū,1550695,2934,168288,1,207,0
+sub-unit,TwToroku,Toroku-gun (Dǒuliù),120919,100.69,,,,,Tainan-shū,1550695,2038,118520,20,337,4
+sub-unit,TwKobi,Kobi-gun (Hǔwěi),168505,99.46,,,,,Tainan-shū,1550695,4379,163549,23,554,0
+sub-unit,TwHokuko,Hokukō-gun (Běigǎng),122749,101.66,,,,,Tainan-shū,1550695,1819,120661,16,253,0
+sub-unit,TwToseki,Tōseki-gun (Dōngshí),166167,99.57,,,,,Tainan-shū,1550695,1866,164137,0,164,0
+sub-unit,TwTakaoShi,"Takao-shi (Gāoxióng, Kaohsiung)",183185,114.92,,,,,"Takao-shū (Gāoxióng, Kaohsiung)",930383,36749,144067,388,1980,1
+sub-unit,TwHeito,"Heitō-gun (Píngdōng, Pingtung)",133226,104.82,,,,"Includes 屏東市, which the source counts apart: the city was cut out of the district in 1933, after the boundaries this map draws.","Takao-shū (Gāoxióng, Kaohsiung)",930383,9816,122070,65,1275,0
+sub-unit,TwOkayama,Okayama-gun (Gāngshān),152027,103.78,,,,,"Takao-shū (Gāoxióng, Kaohsiung)",930383,3423,148173,24,406,1
+sub-unit,TwHozan,Hōzan-gun (Fèngshān),117469,103.18,,,,,"Takao-shū (Gāoxióng, Kaohsiung)",930383,3047,113661,24,737,0
+sub-unit,TwKizan,Kizan-gun (Qíshān),91816,100.16,,,,,"Takao-shū (Gāoxióng, Kaohsiung)",930383,1962,89291,20,542,1
+sub-unit,TwChoshu,Chōshū-gun (Cháozhōu),112369,100.90,,,,,"Takao-shū (Gāoxióng, Kaohsiung)",930383,1811,109698,33,827,0
+sub-unit,TwToko,Tōkō-gun (Dōnggǎng),106502,103.43,,,,,"Takao-shū (Gāoxióng, Kaohsiung)",930383,1937,103928,28,609,0
+sub-unit,TwKoshun,Kōshun-gun (Héngchūn),33789,104.03,,,,,"Takao-shū (Gāoxióng, Kaohsiung)",930383,888,32425,16,460,0
+sub-unit,TwTaito,"Taitō-chō (Táidōng, Taitung)",93138,109.96,,,,"The three districts of the prefecture together, the map drawing it whole.",,,7078,85068,35,956,1
+sub-unit,TwKarenko,"Karenkō-chō (Huāliángǎng, Hualien)",153785,110.60,,,,"The city and three districts of the prefecture together, the map drawing it whole.",,,20914,130720,119,2032,0
+sub-unit,TwHoko,"Hōko-chō (Pénghú, the Pescadores)",69387,90.66,,,,"Both sub-prefectures together, the map drawing the islands whole.",,,3619,65694,0,74,0

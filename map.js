@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '244';
+  var JEM_VERSION = '245';
   var JEM_ASSETS = {"admin.js": "9f99c96627", "annotate.js": "761fbd5949", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "3881d33c99", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
 
   /* Every file this one fetches, with the version on it.
@@ -5695,8 +5695,14 @@
        for itself, whatever the Administrative switch says. The switch is about
        showing every division of every country; this one is showing thirteen,
        and a choropleth whose units cannot be pointed at is a picture. */
+    /* Either mark: `pop-shaded` is a unit the choropleth has coloured and
+       `pop-edged` one a pie map has outlined. Only the first was listed, so
+       with the citizenship or the occupation map up the provinces went back to
+       not answering the pointer at all — and the pie in the tooltip, which is
+       the whole point of hovering one, never appeared. */
     var shaded = candEl && candEl.classList
-      && candEl.classList.contains('pop-shaded');
+      && (candEl.classList.contains('pop-shaded')
+          || candEl.classList.contains('pop-edged'));
     if (!state.cats.territory && !own && !fine && !shaded &&
         !(atom && atom.getAttribute('data-islands'))) {
       return null;
@@ -6431,7 +6437,11 @@
     // the epoch and the language are in it because both change what the same
     // record says without changing which record it is
     var key = (rec && (rec.rid || rec.id)) + '|' + (head && (head.rid || head.id || head.en)) +
-              '|' + (host && (host.rid || host.id)) + '|' + state.epoch + '|' + state.lang;
+              '|' + (host && (host.rid || host.id)) + '|' + state.epoch + '|' + state.lang
+              // which pie is being drawn, if any: the same province says a
+              // different thing under the citizenship map and the occupation
+              // one, and the cache would have handed back the first
+              + '|' + (popPieOn()[0] ? popPieOn()[0].mode : '');
     if (key === tipKey && !tooltip.hidden) {
       if (!tipFrame) tipFrame = requestAnimationFrame(placeTooltip);
       return;
@@ -6515,12 +6525,20 @@
        name does the job for most sub-units — it is the one sentence anybody
        wrote about them — but only when it is short enough to be a phrase;
        past that it is prose and belongs in the card with the rest. */
-    var brief = shortOf(head);
-    if (brief) {
-      var pn = document.createElement('span');
-      pn.className = 'sub prov-note';
-      pn.textContent = brief;
-      tooltip.appendChild(pn);
+    /* Where a pie is being drawn on this shape, it takes the description's
+       place: the reader turned that layer on to ask about the register or the
+       trade, and the sentence about the ground is a click away in the card. */
+    var pie = prov ? popTipBlock(prov.key) : null;
+    if (pie) {
+      tooltip.appendChild(pie);
+    } else {
+      var brief = shortOf(head);
+      if (brief) {
+        var pn = document.createElement('span');
+        pn.className = 'sub prov-note';
+        pn.textContent = brief;
+        tooltip.appendChild(pn);
+      }
     }
     tooltip.hidden = false;
     if (!tipFrame) tipFrame = requestAnimationFrame(placeTooltip);
@@ -7260,6 +7278,16 @@
     // and, on a station with the train tools up, the trains that called there
     fillTrainCard(byId[id]);
     collapseInfo();
+    /* A card arriving folds the key. On the wide layout the two share a
+       column and a reader would have to scroll past the whole key to reach the
+       card; on the middle widths they float over the same corner and the card
+       covered the key's own heading. Folded once, as the card opens — not on
+       every selection, so a reader who unfolds it while reading keeps it. */
+    if (infoBox.hidden && state.legend && !isPhone()) {
+      state.legend = false;
+      buildLegend();
+      saveState();
+    }
     infoBox.hidden = false;
     document.body.classList.add('panel-open');
     hideTooltip();
@@ -7562,6 +7590,15 @@
       var btn = document.createElement('button');
       btn.type = 'button';
       btn.className = 'pop-sort';
+      /* Which group a column belongs to, over its own head: with the tables
+         merged there is no heading above it to say, and *Agriculture* on its
+         own does not tell a reader they are looking at occupations. */
+      if (c.group) {
+        var tag = document.createElement('span');
+        tag.className = 'col-group';
+        tag.textContent = c.group;
+        btn.appendChild(tag);
+      }
       btn.appendChild(document.createTextNode(c.head || 'Name'));
       var arrow = document.createElement('span');
       arrow.className = 'arrow';
@@ -7648,14 +7685,28 @@
     var named = {};
     order.forEach(function (k) { named[k] = popRowName(k, d.rows[k]); });
 
-    // the figures every dataset has
+    /* ONE TABLE, AS WIDE AS THE SOURCE IS. It was a stack — the figures, then
+       ages, then registers, then occupations, each its own table with the
+       names repeated down the side — and a reader comparing a province's
+       Japanese population against its industry had to hold one table in their
+       head while scrolling to another. One table scrolls sideways instead, and
+       the name column stays put while it does.
+
+       A group can still be left out with `table_skip`, which is not the same
+       thing: that says a set of columns is not worth the room at all. */
     var cols = [{ head: '' }, { head: 'Population' },
                 { head: 'Males per 100 females' }];
     if (d.pctOf) cols.push({ head: '% of total ' + d.pctOf });
     var hasArea = order.some(function (k) { return d.rows[k].km2; });
     if (hasArea) { cols.push({ head: 'Area km²' }); cols.push({ head: 'Per km²' }); }
+    var extra = (d.fields || []).filter(function (f) {
+      return (d.tableSkip || []).indexOf(f.group) < 0;
+    });
+    extra.forEach(function (f) { cols.push({ head: f.label, group: f.group }); });
+
     wrap.appendChild(popSortable(cols, order.map(function (k) {
       var r = d.rows[k];
+      var x = r.x || {};
       var cells = [{ n: null, t: named[k] },
                    { n: POP_NUM(r.pop), t: POP_INT(r.pop) },
                    { n: POP_NUM(r.mf), t: r.mf || '—' }];
@@ -7664,33 +7715,12 @@
         cells.push({ n: POP_NUM(r.km2), t: POP_INT(r.km2) });
         cells.push({ n: POP_NUM(r.dens), t: r.dens || '—' });
       }
+      extra.forEach(function (f) {
+        cells.push({ n: POP_NUM(x[f.c]), t: POP_INT(x[f.c]) });
+      });
       return { key: k, cells: cells,
                pinned: r.scope === 'territory' || r.scope === 'summary' };
     }), key));
-
-    // and one for each group the file carries
-    var groups = [];
-    (d.fields || []).forEach(function (f) {
-      if (groups.indexOf(f.group) < 0) groups.push(f.group);
-    });
-    groups.forEach(function (g) {
-      if ((d.tableSkip || []).indexOf(g) > -1) return;
-      var fs = d.fields.filter(function (f) { return f.group === g; });
-      var gh = document.createElement('p');
-      gh.className = 'pop-group-head';
-      gh.textContent = g;
-      wrap.appendChild(gh);
-      var gcols = [{ head: '' }].concat(fs.map(function (f) { return { head: f.label }; }));
-      wrap.appendChild(popSortable(gcols, order.map(function (k) {
-        var x = d.rows[k].x || {};
-        return { key: k,
-                 cells: [{ n: null, t: named[k] }].concat(fs.map(function (f) {
-                   return { n: POP_NUM(x[f.c]), t: POP_INT(x[f.c]) };
-                 })),
-                 pinned: d.rows[k].scope === 'territory'
-                         || d.rows[k].scope === 'summary' };
-      }), key));
-    });
 
     var notes = [];
     order.forEach(function (k) {
@@ -8630,8 +8660,9 @@
       { label: 'Koreans', c: '#e8d9b8', cols: ['reg_ko'] },
       { label: 'Japanese (naichijin)', c: '#c2463d', cols: ['reg_jp'] },
       { label: 'Chinese', c: '#e2b23a', cols: ['for_cn'] },
-      { label: 'Everyone else', c: '#4a7ba7',
-        cols: ['reg_tw', 'reg_karafuto', 'for_other'] },
+      { label: 'Taiwanese', c: '#7a9a5b', cols: ['reg_tw'] },
+      { label: 'Karafuto', c: '#7b6aa0', cols: ['reg_karafuto'] },
+      { label: 'Other foreign', c: '#4a7ba7', cols: ['for_other'] },
     ],
     occupation: [
       { label: 'Agriculture', c: '#7a9a5b', cols: ['occ_agri'] },
@@ -8871,6 +8902,88 @@
     return { total: total, vals: vals, defs: defs };
   }
 
+  /* The pie the pointer is on, drawn large enough to read, with every slice
+     named and its share beside it. A pie on the map is a shape at a glance:
+     thirteen of them say which province is which without a number anywhere.
+     The number is what a reader wants next, and the tooltip is where they are
+     already looking.
+
+     It takes the place of the description on those provinces, which is the
+     trade the reader has already made by turning the layer on: they asked
+     about the register or the trade, not about the ground. */
+  var TIP_R = 34;
+
+  function popTipBlock(key) {
+    var on = popPieOn()[0];
+    if (!on || !key) return null;
+    var r = on.set.rows[popKey(key)];
+    if (!r || !r.x || r.scope !== 'sub-unit') return null;
+    var cut = pieSlices(on.mode, r.x);
+    if (!cut.total) return null;
+
+    var wrap = document.createElement('span');
+    wrap.className = 'sub tip-pie';
+    var svgEl2 = function (n, a) {
+      var el = document.createElementNS('http://www.w3.org/2000/svg', n);
+      Object.keys(a).forEach(function (k) { el.setAttribute(k, a[k]); });
+      return el;
+    };
+    var box = svgEl2('svg', { viewBox: [-TIP_R - 2, -TIP_R - 2,
+                                        (TIP_R + 2) * 2, (TIP_R + 2) * 2].join(' '),
+                              width: (TIP_R + 2) * 2, height: (TIP_R + 2) * 2,
+                              'aria-hidden': 'true' });
+    var a0 = -Math.PI / 2;
+    cut.vals.forEach(function (v, i) {
+      if (!v) return;
+      var a1 = a0 + (v / cut.total) * Math.PI * 2;
+      var big = (a1 - a0) > Math.PI ? 1 : 0;
+      box.appendChild(svgEl2('path', {
+        fill: cut.defs[i].c, stroke: 'rgba(18,15,10,.35)', 'stroke-width': .6,
+        d: v >= cut.total
+          ? 'M0 ' + (-TIP_R) + 'A' + TIP_R + ' ' + TIP_R + ' 0 1 1 0 ' + TIP_R
+            + 'A' + TIP_R + ' ' + TIP_R + ' 0 1 1 0 ' + (-TIP_R) + 'Z'
+          : 'M0 0L' + (TIP_R * Math.cos(a0)).toFixed(2) + ' '
+            + (TIP_R * Math.sin(a0)).toFixed(2) + 'A' + TIP_R + ' ' + TIP_R
+            + ' 0 ' + big + ' 1 ' + (TIP_R * Math.cos(a1)).toFixed(2) + ' '
+            + (TIP_R * Math.sin(a1)).toFixed(2) + 'Z',
+      }));
+      a0 = a1;
+    });
+    wrap.appendChild(box);
+
+    var list = document.createElement('span');
+    list.className = 'tip-pie-key';
+    cut.defs.forEach(function (def, i) {
+      var v = cut.vals[i];
+      if (!v) return;                       // a slice of nobody is not a line
+      var pct = (v / cut.total) * 100;
+      var row = document.createElement('span');
+      row.className = 'tip-pie-row';
+      var sw = document.createElement('span');
+      sw.className = 'sw';
+      sw.style.background = def.c;
+      row.appendChild(sw);
+      var nm = document.createElement('span');
+      nm.className = 'nm';
+      nm.textContent = def.label;
+      row.appendChild(nm);
+      var vv = document.createElement('span');
+      vv.className = 'vv';
+      // a share too small to round to a tenth is said as that, not as 0.0
+      vv.textContent = (pct < 0.05 ? '<0.1' : pct.toFixed(1)) + '%';
+      row.appendChild(vv);
+      list.appendChild(row);
+    });
+    wrap.appendChild(list);
+    var what = document.createElement('span');
+    what.className = 'tip-pie-of';
+    what.textContent = on.mode === 'occupation'
+      ? 'share of those in gainful occupation, ' + on.set.epoch
+      : 'share of the population, ' + on.set.epoch;
+    wrap.appendChild(what);
+    return wrap;
+  }
+
   function drawPies() {
     var on = popPieOn();
     if (!pieGroup && svg && on.length) {
@@ -9028,6 +9141,13 @@
       if (r.mf) popRow(block, 'Males per 100 females', r.mf);
       if (r.pct) popRow(block, '% of total ' + d.pctOf, r.pct);
       if (r.dens) popRow(block, 'Per km²', r.dens + '  (' + r.km2.toLocaleString('en-US') + ' km²)');
+      /* And the unit it sits inside, where the source counts both: a 郡 is
+         read against its 州, and a reader looking at Shichisei wants to know
+         it is one part in thirteen of Taihoku-shū. */
+      if (r.parent) {
+        popRow(block, 'In ' + r.parent,
+               r.parentPop ? Number(r.parentPop).toLocaleString('en-US') : '—');
+      }
       /* And everything else the source counted, a group to a heading. None of
          this is in the short description: that is a sentence, and a sentence
          has room for a population and a density and not for the ages, the
