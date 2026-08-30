@@ -67,17 +67,17 @@ const spot = (p, sel, fx, fy) => p.evaluate((s, ax, ay) => {
 
   /* ---- the shading, from a link that asks for it ------------------- */
   console.log('\n— the choropleth —');
-  let p = await open(b, KOREA + '&layers=1&pop=korea-1942');
+  let p = await open(b, KOREA + '&layers=hra0ht');
   const shaded = await p.evaluate(() => {
     const els = [...document.querySelectorAll('path.pop-shaded')];
     const fill = {};
     els.forEach(e => { fill[e.getAttribute('data-prov')] = getComputedStyle(e).fill; });
     return { n: els.length, fill,
              admin: !!document.querySelector('#jmap.admin-on'),
-             checked: (document.querySelector('#opt-pop-korea-1942') || {}).checked };
+             checked: (document.querySelector('#opt-pop-korea-density') || {}).checked };
   });
   // thirteen provinces and Cheju, which carries Zenranan-dō's figures
-  check('a link with pop= shades fourteen units', shaded.n === 14, String(shaded.n));
+  check('a link shades fourteen units', shaded.n === 14, String(shaded.n));
   check('and does it with Administrative off', !shaded.admin);
   check('the panel row agrees with the link', shaded.checked === true);
   /* Four, not five. The ladder gives 75–100 and nothing in Korea sat there:
@@ -164,27 +164,29 @@ const spot = (p, sel, fx, fy) => p.evaluate((s, ax, ay) => {
   const before = await p.evaluate(() => ({
     shaded: document.querySelectorAll('path.pop-shaded').length,
     btn: (document.querySelector('.pop-btn') || {}).textContent || '',
-    url: location.search }));
+    url: location.search,
+    code: (/[?&]layers=([^&#]+)/.exec(location.search) || [])[1] }));
   check('with nothing on, the card offers the map', /Provinces by Population/.test(before.btn),
         before.btn);
-  check('and nothing is shaded yet', before.shaded === 0 && !/pop=/.test(before.url),
-        before.url);
+  check('and nothing is shaded yet', before.shaded === 0, String(before.shaded));
   await p.evaluate(() => document.querySelector('.pop-btn').click());
   await sleep(1600);
   const after = await p.evaluate(() => ({
     shaded: document.querySelectorAll('path.pop-shaded').length,
-    checked: (document.querySelector('#opt-pop-korea-1942') || {}).checked,
+    checked: (document.querySelector('#opt-pop-korea-density') || {}).checked,
     url: location.search,
+    code: (/[?&]layers=([^&#]+)/.exec(location.search) || [])[1],
     key: /under 75/.test((document.querySelector('#legend') || {}).textContent || '') }));
   check('pressing it shades the map', after.shaded === 14, String(after.shaded));
   check('ticks the row in the Layers panel', after.checked === true);
-  check('writes itself into the address', /pop=korea-1942/.test(after.url), after.url);
+  check('writes itself into the layers code, with no parameter of its own',
+    !/pop=/.test(after.url) && after.code !== before.code, after.url);
   check('and opens the key, which is what the colours mean', after.key);
   await p.close();
 
   /* ---- a finger --------------------------------------------------- */
   console.log('\n— with a finger —');
-  p = await open(b, KOREA + '&layers=1&pop=korea-1942', { touch: true });
+  p = await open(b, KOREA + '&layers=hra0ht', { touch: true });
   const at3 = await spot(p, '#a-korea path[data-prov="Heianhoku"]', 0.5, 0.45);
   await p.touchscreen.tap(at3.x, at3.y);
   await sleep(800);
@@ -236,6 +238,86 @@ const spot = (p, sel, fx, fy) => p.evaluate((s, ax, ay) => {
     check(what + ': each is drawn at the weight its figures earn',
       !wrong.length,
       wrong.map(c => c + ' ' + got[c] + ' want ' + (want[c] || R.small)).join(', '));
+    await q.close();
+  }
+
+  /* ---- one layer, whichever date the reader is on ------------------- */
+  /* The switch is the *layer* and a file in data/population/ is one date of
+     it, so the panel offers "Korea Population Density" once. Switching to a
+     date with no figures leaves the switch where the reader put it and says
+     why nothing is shaded — a layer that silently draws nothing reads as
+     broken. */
+  console.log('\n— one switch, both dates —');
+  p = await open(b, KOREA + '&layers=hra0ht');
+  const on42 = await p.evaluate(() => ({
+    shaded: document.querySelectorAll('path.pop-shaded').length,
+    note: (document.querySelector('#note-pop-korea-density') || {}).textContent,
+    key: (document.querySelector('#legend') || {}).textContent || '' }));
+  check('the layers code alone brings the shading', on42.shaded === 14, String(on42.shaded));
+  check('the switch says which date it is drawing', on42.note === '1942', on42.note);
+  check('and the key names the year with the classes',
+    /Korea Population Density 1942 — people per km²/.test(on42.key.replace(/\s+/g, ' ')),
+    on42.key.slice(-80));
+  await p.evaluate(() => {
+    const b = [...document.querySelectorAll('button')].find(x => x.textContent.trim() === '1930');
+    if (b) b.click();
+  });
+  await sleep(2500);
+  const on30 = await p.evaluate(() => ({
+    shaded: document.querySelectorAll('path.pop-shaded').length,
+    checked: (document.querySelector('#opt-pop-korea-density') || {}).checked,
+    note: (document.querySelector('#note-pop-korea-density') || {}).textContent,
+    key: (document.querySelector('#legend') || {}).textContent || '' }));
+  check('on a date with no figures nothing is shaded', on30.shaded === 0, String(on30.shaded));
+  check('but the switch stays where it was put', on30.checked === true);
+  check('and both the switch and the key say why',
+    /no figures for this date yet/.test(on30.note)
+    && /no figures for this date yet/.test(on30.key), on30.note);
+  await p.close();
+
+  /* The parameter this travelled as for one update still opens a link. */
+  p = await open(b, KOREA + '&layers=1&pop=korea-1942');
+  const legacy = await p.evaluate(() => ({
+    shaded: document.querySelectorAll('path.pop-shaded').length,
+    url: location.search }));
+  check('a link written with pop= still opens shaded', legacy.shaded === 14,
+        String(legacy.shaded));
+  check('and the address is rewritten without it', !/pop=/.test(legacy.url), legacy.url);
+  await p.close();
+
+  /* ---- and the marker drawn over the dot ---------------------------- */
+  /* Four of the fourteen are also curated sites with prose of their own, and
+     the curated marker is drawn over the gazetteer dot. At a flat 5.5 it
+     covered the weights up: Keijō, Pusan, Inch'ŏn and P'yŏngyang came out as
+     four identical circles. */
+  console.log('\n— the marker over the dot —');
+  for (const [what, url, want] of [
+        ['1942', '?where=124.5,33.2,131.5,43.2&layers=3',
+         { seoul: '4.4', pusan: '3.4', incheon: '3.4', pyongyang: '3.4' }],
+        ['1930', '?where=124.5,33.2,131.5,43.2&layers=2',
+         { seoul: '4.4', pusan: '3.4', incheon: '2.5', pyongyang: '3.4' }]]) {
+    const q = await open(b, 'http://localhost:8123/index.html' + url);
+    const got = await q.evaluate(ids => {
+      const out = {};
+      ids.forEach(id => {
+        const d = document.querySelector('#s-' + id + ' circle.dot');
+        out[id] = d ? d.getAttribute('r') : null;
+      });
+      out.tokyo = (document.querySelector('#s-tokyo circle.dot') || {}).getAttribute('r');
+      out.dam = (function () {
+        const g = document.querySelector('#s-supung');
+        const m = g && g.querySelector('.dot');
+        return m ? m.tagName + ':' + (m.getAttribute('width') || m.getAttribute('r')) : null;
+      })();
+      return out;
+    }, Object.keys(want));
+    check(what + ': the curated marker takes the pinned weight',
+      Object.keys(want).every(k => got[k] === want[k]), JSON.stringify(got));
+    check(what + ': a curated city with no pin is untouched', got.tokyo === '5.5', got.tokyo);
+    /* The Suihō dam was filed as a city, so it drew the 5.5 city circle and
+       was the largest thing on the peninsula — a dam outranking Keijō. */
+    check(what + ': the Suihō dam is a place of interest, not a city',
+      got.dam === 'rect:5', got.dam);
     await q.close();
   }
 

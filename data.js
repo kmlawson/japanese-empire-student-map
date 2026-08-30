@@ -1747,7 +1747,7 @@ JMAP.SITES = [
   },
   {
     id: 'supung', en: 'Suihō (Sup’ung) Dam', ja: '水豊ダム (Suihō damu)', zh: '水豐',
-    ko: '수풍 (Sup’ung)', date: 'Generating from 1941', cat: 'city', lvl: 3, lat: 40.46,
+    ko: '수풍 (Sup’ung)', date: 'Generating from 1941', cat: 'poi', lvl: 3, lat: 40.46,
     lon: 124.96, year: 1941,
     note: 'Finished on the Yalu in 1941 and the largest dam in Asia, built with conscript labour and the clearance of whole villages. Its power ran the chemical works at Hŭngnam and much of Manchurian industry.'
   },
@@ -7468,10 +7468,11 @@ JMAP.POPULATION = [
   {
     "id": "korea-1942",
     "epoch": "1942",
+    "group": "korea-density",
     "label": "Korea, estimated population at 1 October 1942",
     "pctOf": "Korea",
     "source": "朝鮮總督府『昭和十七年 朝鮮人口動態統計』附録 p24",
-    "layer": "Korea Population Density 1942",
+    "layer": "Korea Population Density",
     "breaks": [
       75,
       100,

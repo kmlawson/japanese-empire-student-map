@@ -2910,6 +2910,13 @@ dialog h3 {
   margin-top: 8px;
   font-size: 12px;
 }
+/* Pressed: the shading is on, and the button is the way to put it away. It is
+   the same switch as the tick in the Layers panel, so it has to say which way
+   it is set rather than only what pressing it would do. */
+.pop-btn.on {
+  color: var(--accent);
+  border-bottom-color: currentColor;
+}
 
 /* The key. The head names the layer and its unit; the rows are the ramp. */
 #legend .pop-key-head {

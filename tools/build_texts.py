@@ -274,7 +274,13 @@ def population_data():
         dens = [v["dens"] for k, v in out.items()
                 if v.get("dens") and v["scope"] == "sub-unit"
                 and not v.get("sameAs")]
+        # `group` is the *layer*, and a dataset is one date of it: the panel
+        # offers "Korea Population Density" once and the map draws whichever
+        # file belongs to the date the reader is on. Without it every year of
+        # every country would be its own switch, and the reader would have to
+        # know which of them matched the map in front of them.
         sets.append({"id": d["file"][:-4], "epoch": d["epoch"],
+                     "group": d.get("group") or d["file"][:-4],
                      "label": d["label"], "pctOf": d["pct_of"],
                      "source": d["source"],
                      "layer": d.get("layer") or d["label"],

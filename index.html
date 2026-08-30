@@ -7,7 +7,7 @@
 <meta name="description" content="Interactive map for revising the geography of the Japanese Empire: colonies, occupied territories, neighbouring states, cities and battles, 1853-1945.">
 <title>The Japanese Empire</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23f4f1ea'/%3E%3Ccircle cx='16' cy='16' r='8' fill='%239a1813'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=292c330633">
+<link rel="stylesheet" href="styles.css?v=b7ad55d37f">
 </head>
 <body>
 
@@ -369,7 +369,7 @@
 
   <p>Built with Anthropic's Claude, with <a href="https://muninn.net/">Konrad M. Lawson</a> at the prompt, primarily as a tool for students in his University of St Andrews honours module, <a href="https://github.com/kmlawson/japanese-empire-mo3335/">MO3335</a>.</p>
 
-  <p>Code for the website may be found <a href="https://github.com/kmlawson/japanese-empire-student-map">here</a>.</p>  <p class="version">Version 1 update <span id="jem-version">236</span> · last updated 30 August 2026, 12:14</p>
+  <p>Code for the website may be found <a href="https://github.com/kmlawson/japanese-empire-student-map">here</a>.</p>  <p class="version">Version 1 update <span id="jem-version">237</span> · last updated 30 August 2026, 12:39</p>
 
 <!-- END about -->
 </dialog>
@@ -391,6 +391,7 @@
     <li><strong>Other Layers</strong> - See the Layers pane for options to add or swap out layers to display.</li>
     <li><strong>Island Details</strong> - Some islands will get swapped out with a more detailed one as you zoom in closer to them. </li>
     <li><strong>Train Tools</strong> - Open <strong>Layers</strong> and tick <strong>Train Tools</strong> under Transport, then zoom in to a railway that has a timetable — Taiwan for now. The lines are drawn in the colours the timetable gives them, and a bar at the foot of the map runs the day: press play and the trains move at the rate you choose, from two minutes a second to twenty. Tap a station for the trains that called there, a moving train for what it is and where it is going, or the track itself for the line and a day's working on it — each with a link to its own printed table. On a large screen that table opens over the map rather than in another tab. It reads in English, Chinese or Japanese at the press of a button, and gives each station's reading under its name. Station and line names in the cards follow <strong>Use Japanese names</strong>: Mandarin with the characters after it by default, the Japanese reading when that is ticked. The timetable is February 1936, which is neither of this map's two dates. Zooming back out puts the tools away, and so does the train button beside the zoom controls; the railway stays, drawn plainly in one colour. The button above it marks the stations on any railway you have switched on.</li>
+    <li><strong>Population density</strong> - Open <strong>Layers</strong> and tick <strong>Korea Population Density</strong> under Population Density, or press <strong>Provinces by Population Density</strong> at the foot of any Korean province's card — they are the same switch. The thirteen provinces are shaded by people per square kilometre in five classes. Which year is drawn follows the map you are on, and the key at the left names it, says where each class begins and gives the source. Point at a province — or, on a phone, tap the country and then the province — for its population, the sex ratio, its share of Korea and its density; the same figures are in the card. Cheju carries Zenranan-dō's, because the 1942 returns count it there and do not break the island out.</li>
     <li><strong>Annotations</strong> - Draw your own marks over the map, name them, describe them and share them. See <strong>Drawing your own annotations</strong> below.</li>
     <li><strong>Links</strong> - If you pan or zoom to a location, and copy the URL, it will keep the bounding box information in the link allowing the person you are sharing the link with to view roughly the same location you are looking at. Useful if you want to share a specific view. Click on the page title in the top left to load the default view.</li>
   </ul>
@@ -420,7 +421,7 @@
 <!-- END help -->
 </dialog>
 
-<script src="data.js?v=230bdb8ea2"></script>
+<script src="data.js?v=9f89183ab2"></script>
 <script src="cities-gaz.js?v=9a9b2098ba"></script>
 <script src="tw-stations.js?v=88605063d8"></script>
 <script src="kr-stations.js?v=bd9f42c9d3"></script>
@@ -430,6 +431,6 @@
      and data.js then hides it behind a fresh one. cities-gaz.js sits here for
      the same reason. -->
 <script src="relief.js?v=a584543962"></script>
-<script src="map.js?v=9ecf151b97"></script>
+<script src="map.js?v=6798f8d0eb"></script>
 </body>
 </html>

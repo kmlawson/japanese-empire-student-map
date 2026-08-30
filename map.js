@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '236';
+  var JEM_VERSION = '237';
   var JEM_ASSETS = {"admin.js": "9f99c96627", "annotate.js": "761fbd5949", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "3881d33c99", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
 
   /* Every file this one fetches, with the version on it.
@@ -129,17 +129,16 @@
        nothing until the reader is looking at an island a train ran on — see
        TRAIN_SYS. */
     trainTools: false,
-    /* Which population-density choropleths are on, keyed by dataset id —
-       `korea-1942` and, in time, others. A set rather than a flag because
-       every dataset in data/population/ that has densities offers one, and
-       the Layers panel is built from that table rather than from a list
-       written here.
+    /* Which population-density layers are on, keyed by the *group* in
+       data/population/index.csv — `korea-density`, and in time others. A
+       group is the layer and a file in that folder is one date of it: the
+       panel offers "Korea Population Density" once and the map draws whichever
+       file matches the date the reader is on, so nobody has to know which
+       years exist to find the switch, and adding 1930 adds no switch.
 
-       It is not in the layers bitfield. That field has one bit left, and
-       spending it on the first of a growing family would leave the second
-       with nowhere to go; these travel as their own `pop=` parameter, a
-       comma-separated list of ids, which says in the address bar what is on
-       and can hold as many as there ever are. */
+       A set rather than a flag because the panel is built from that table
+       rather than from a list written here. Each group is one bit in the
+       layers code — see POP_BITS. */
     pop: {},
     // the mesh of meridians and parallels; off by default
     graticule: false,
@@ -2783,11 +2782,17 @@
           'data-epoch': epoch, 'data-id': c.id,
         });
         g.appendChild(svgEl('circle', { 'class': 'hit', r: Math.max(HIT_R * 0.6, r + 3) }));
-        // the capital's ring or box goes first, so the dot sits inside it
+        /* The capital's ring or box goes first, so the dot sits inside it —
+           and it is measured *from* the dot rather than set a fixed distance
+           outside it. At `r + 2.6` the mark was very nearly the same size on
+           every dot, 5.1 across on the smallest and 7.0 on the largest, so a
+           small provincial capital read as big as a large one and the three
+           weights the fourteen 府 are drawn at disappeared under their own
+           rings. Proportional, the mark grows with what it is marking. */
         if (c.c === 1) {
-          g.appendChild(svgEl('circle', { 'class': 'ring', r: r + 2.6 }));
+          g.appendChild(svgEl('circle', { 'class': 'ring', r: r * 1.35 + 1 }));
         } else if (c.c === 2) {
-          var s = r + 2.4;
+          var s = r * 1.35 + 0.9;
           g.appendChild(svgEl('rect', {
             'class': 'box', x: -s, y: -s, width: s * 2, height: s * 2,
           }));
@@ -2842,11 +2847,30 @@
     return 0;
   }
 
+  /* A place can be in both tables — 222 of the gazetteer's are also in
+     data.js, with prose of their own — and where it is, the curated marker is
+     drawn over the gazetteer dot. That is fine until the gazetteer pins a
+     weight: Keijō, Pusan, Inch'ŏn and P'yŏngyang are all four curated, so all
+     four came out as the same 5.5 circle and the large-medium-medium the
+     fourteen 府 are drawn at was covered up by it. Where a weight is pinned,
+     the marker on top takes it. Nothing else moves: a curated city the
+     gazetteer has not pinned is the size it has always been. */
+  function sizePinnedMarkers() {
+    if (!JMAP.GAZ) return;
+    (JMAP.GAZ[state.epoch] || []).forEach(function (c) {
+      if (c.a === undefined || !siteById[c.id]) return;
+      var el = elById[c.id];
+      var dot = el && el.querySelector ? el.querySelector('circle.dot') : null;
+      if (dot) dot.setAttribute('r', GAZ_R[c.a] || GAZ_R[0]);
+    });
+  }
+
   function applyGazetteer() {
     if (!gazGroup) return;
     var on = state.cats.city && !!JMAP.GAZ;
     gazGroup.style.display = on ? '' : 'none';
     if (!on) return;
+    sizePinnedMarkers();
     var floor = gazMinTier();
     gazEls.forEach(function (g) {
       /* `always` is drawn at every zoom. The fourteen 府 of colonial Korea are
@@ -3586,6 +3610,14 @@
     if (kRailOn) bits |= 134217728; // bit 27: Korea's railways
     if (kStaOn) bits |= 268435456;  // bit 28: and their stations
     if (state.trainTools) bits |= 536870912; // bit 29: the train tools
+    /* Bit 30, and the last one this field can safely hold: `|=` is a 32-bit
+       signed operation, so bit 31 would come back negative. A second density
+       layer therefore cannot simply take the next bit — when one arrives the
+       code grows a second base-36 field after a separator, and a link written
+       before that still reads as the first field alone. */
+    popGroups().forEach(function (g) {
+      if (state.pop[g.id] && POP_BITS[g.id]) bits |= POP_BITS[g.id];
+    });
     bits |= ({ albers: 1, laea: 2 }[state.projection] || 0) << 15;
     if (state.graticule) bits |= 131072;
     if (state.relief) bits |= 262144;
@@ -3626,6 +3658,11 @@
     state.krRail = !!(bits & 134217728);
     state.krStations = !!(bits & 268435456);
     state.trainTools = !!(bits & 536870912);
+    popGroups().forEach(function (g) {
+      if (!POP_BITS[g.id]) return;
+      if (bits & POP_BITS[g.id]) state.pop[g.id] = true;
+      else delete state.pop[g.id];
+    });
     state.projection = ['mercator', 'albers', 'laea'][(bits >> 15) & 3] || 'mercator';
     state.graticule = !!(bits & 131072);
     state.relief = !!(bits & 262144);
@@ -3831,13 +3868,6 @@
          chosen. */
       var cc = colourCode();
       if (cc) rest.unshift('colours=' + cc);
-      /* The density layers, by name. Written only when one is on, so a map
-         nobody asked a population question of carries nothing, and an id that
-         no longer exists is simply not matched when it is read back. */
-      var shaded = popOn();
-      if (shaded.length) {
-        rest.unshift('pop=' + shaded.map(function (d) { return d.id; }).join(','));
-      }
       /* `where`, not `bbox`. The old name is still read — every link already
          shared carries it — and never written again. */
       var q = ['where=' + viewBox().join(','), 'layers=' + layerCode()].concat(rest);
@@ -3856,11 +3886,15 @@
     if (mc && HEX.test('#' + mc)) state.monoColour = '#' + mc;
     var cc = q.get('colours');
     if (cc) state.colours = readColourCode(cc);
+    /* `pop=korea-1942` was how these travelled for one update, before they
+       became a bit in the layers code. Still read, so a link written in that
+       hour still opens shaded; never written again, and a dataset id resolves
+       to the layer it is one date of. */
     var pp = q.get('pop');
     if (pp) {
-      state.pop = {};
       pp.split(',').forEach(function (id) {
-        if (popSet(id)) state.pop[id] = true;
+        var d = popSet(id);
+        if (d) state.pop[d.group] = true;
       });
     }
     var raw = q.get('where') || q.get('bbox');
@@ -8036,6 +8070,12 @@
      it and the shape still darkens under the pointer. */
   var POP_RAMP = ['#eef3f8', '#c3d6e8', '#8fb4d4', '#5286b4', '#1f5b8f'];
 
+  /* One bit per *layer*, not per dataset — a group covers every date of itself,
+     so adding 1930 to Korea costs nothing here. A new country's density layer
+     needs a line in this table and the next free bit; see `layerCode` for why
+     bit 30 is the last one that fits and what happens after it. */
+  var POP_BITS = { 'korea-density': 1073741824 };
+
   function popSets() { return JMAP.POPULATION || []; }
 
   function popSet(id) {
@@ -8050,8 +8090,33 @@
     });
   }
 
+  /* The layers, one to a group, each holding whichever dates it has. The panel
+     is built from this, so a reader is offered "Korea Population Density" and
+     not a list of years they would have to match against the map themselves. */
+  function popGroups() {
+    var seen = {}, out = [];
+    popShaded().forEach(function (d) {
+      var g = seen[d.group];
+      if (!g) {
+        g = seen[d.group] = { id: d.group, label: d.layer, sets: [] };
+        out.push(g);
+      }
+      g.sets.push(d);
+    });
+    return out;
+  }
+
+  /* The date of a layer that this map is: the file whose epoch matches the one
+     the reader is on. Nothing, if that date has no figures yet — the switch
+     stays where it was put, and the key says why the map is not shaded. */
+  function popForEpoch(g) {
+    var year = String(state.epoch).replace(/^e/, '');
+    return g.sets.filter(function (d) { return String(d.epoch) === year; })[0] || null;
+  }
+
   function popOn() {
-    return popShaded().filter(function (d) { return !!state.pop[d.id]; });
+    return popGroups().filter(function (g) { return !!state.pop[g.id]; })
+      .map(popForEpoch).filter(Boolean);
   }
 
   /* Which class a density falls in: 0 is the lightest. The ends are open, so
@@ -8084,18 +8149,19 @@
       .sort(function (a, b) { return String(a.epoch).localeCompare(b.epoch); });
   }
 
-  /* The dataset a card's button offers, which is the first one covering this
-     place that has a map to draw. */
-  function popShadeFor(key) {
-    return popFor(key).filter(function (d) {
-      return d.breaks && d.breaks.length;
+  /* The layer a card's button offers: the one whose figures cover this place.
+     Asked of every date the layer has, not only the date on screen, so the
+     button is there on the 1930 map too and switching to 1942 shades it. */
+  function popGroupFor(key) {
+    return popGroups().filter(function (g) {
+      return g.sets.some(function (d) { return d.rows && d.rows[key]; });
     })[0] || null;
   }
 
   var popPainted = [];
 
   function setPop(id, on) {
-    if (!popSet(id)) return;
+    if (!POP_BITS[id] && !popGroups().some(function (g) { return g.id === id; })) return;
     if (on) state.pop[id] = true; else delete state.pop[id];
     /* And open the key. On a phone it is folded to a pill by default, which is
        right for a list of political colours the reader already understands and
@@ -8109,9 +8175,17 @@
   }
 
   function syncPopBoxes() {
-    popShaded().forEach(function (d) {
-      var box = $('#opt-pop-' + d.id);
-      if (box) box.checked = !!state.pop[d.id];
+    popGroups().forEach(function (g) {
+      var box = $('#opt-pop-' + g.id);
+      if (box) box.checked = !!state.pop[g.id];
+      /* And say, on the switch itself, which date is being drawn — or that
+         this one has no figures yet, so a layer that is on and showing nothing
+         reads as a gap in the tables rather than as a broken switch. */
+      var note = $('#note-pop-' + g.id);
+      if (note) {
+        var d = popForEpoch(g);
+        note.textContent = d ? d.epoch : 'no figures for this date yet';
+      }
     });
   }
 
@@ -8121,22 +8195,27 @@
     var host = $('#pop-rows');
     if (!host) return;
     host.innerHTML = '';
-    var sets = popShaded();
+    var groups = popGroups();
     var section = $('#pop-section');
-    if (section) section.hidden = !sets.length;
-    sets.forEach(function (d) {
+    if (section) section.hidden = !groups.length;
+    groups.forEach(function (g) {
       var label = document.createElement('label');
       label.className = 'row';
-      label.title = d.label + '. Source: ' + d.source;
+      label.title = g.sets.map(function (d) { return d.label; }).join(' · ');
       var box = document.createElement('input');
       box.type = 'checkbox';
-      box.id = 'opt-pop-' + d.id;
-      box.checked = !!state.pop[d.id];
-      box.addEventListener('change', function () { setPop(d.id, box.checked); });
+      box.id = 'opt-pop-' + g.id;
+      box.checked = !!state.pop[g.id];
+      box.addEventListener('change', function () { setPop(g.id, box.checked); });
       label.appendChild(box);
-      label.appendChild(document.createTextNode(' ' + d.layer));
+      label.appendChild(document.createTextNode(' ' + g.label + ' '));
+      var note = document.createElement('span');
+      note.className = 'row-note';
+      note.id = 'note-pop-' + g.id;
+      label.appendChild(note);
       host.appendChild(label);
     });
+    syncPopBoxes();
   }
 
   /* The colour each unit earns, gathered across whatever is switched on. A
@@ -8232,15 +8311,19 @@
     /* And the way to see it as a map. It is the same switch as the one in the
        Layers panel — pressed here or there, one thing is on — so the label
        says which way it is about to go. */
-    var shade = popShadeFor(key);
-    if (shade) {
+    var group = popGroupFor(key);
+    if (group) {
+      var on = !!state.pop[group.id];
       var btn = document.createElement('button');
       btn.type = 'button';
-      btn.className = 'plain pop-btn';
-      btn.textContent = state.pop[shade.id]
-        ? 'Hide the density map' : 'Provinces by Population Density';
+      btn.className = 'plain pop-btn' + (on ? ' on' : '');
+      btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+      // It says what it is about to do, and the state it is in says what is
+      // on: pressed here or ticked in the panel, it is the same switch.
+      btn.textContent = on ? 'Hide the population density map'
+                           : 'Provinces by Population Density';
       btn.addEventListener('click', function () {
-        setPop(shade.id, !state.pop[shade.id]);
+        setPop(group.id, !state.pop[group.id]);
       });
       host.appendChild(btn);
     }
@@ -8339,10 +8422,22 @@
     /* The density ramp, when one is on. It carries its own source line: the
        key is where a reader is looking when they ask what the colours mean,
        and "whose figures are these" is the same question. */
+    /* A layer that is on and has no figures for this date says so, rather
+       than leaving the reader to wonder whether the switch worked. */
+    popGroups().forEach(function (g) {
+      if (!state.pop[g.id] || popForEpoch(g)) return;
+      var none = document.createElement('div');
+      none.className = 'item pop-key-head';
+      none.textContent = g.label + ' — no figures for this date yet';
+      legend.appendChild(none);
+    });
+
     popOn().forEach(function (d) {
       var head = document.createElement('div');
       head.className = 'item pop-key-head';
-      head.textContent = d.layer + ' — people per km²';
+      // the year, always: shading carries a date and must never be read as
+      // belonging to whichever map it happens to be drawn over
+      head.textContent = d.layer + ' ' + d.epoch + ' — people per km²';
       legend.appendChild(head);
       popClassLabels(d.breaks).forEach(function (txt, i) {
         var row = document.createElement('div');

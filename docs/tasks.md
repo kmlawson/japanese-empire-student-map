@@ -12506,10 +12506,33 @@ a field to a line, with the note and the source under it and the button at the
 foot. It stacks, so 1930 will sit above 1942 without anything changing. On a
 phone it folds into **More** with the rest of the description.
 
-The layers bitfield has one bit left and there will be more than one of these,
-so the density layers travel as their own `pop=` parameter — a comma-separated
-list of dataset ids, which says in the address bar what is on and can hold as
-many as there ever are.
+### One switch per country, not per year, and it rides in `layers`
+
+The first cut gave every dataset its own switch and its own `pop=` parameter,
+on the grounds that the bitfield had one bit left and a growing family needs
+more than one. That was solving the wrong problem. **A reader does not want a
+switch per year** — they want *Korea Population Density*, and the map should
+draw whichever year matches the date they are on.
+
+So `index.csv` gains a `group`: the group is the layer and a file is one date
+of it. One switch, one bit — bit 30 — and adding 1930 to Korea adds no switch
+and costs no bit. `pop=` is gone from the address; it is still *read*, so links
+written during the hour it existed still open shaded, and never written again.
+
+Bit 30 is the last one this field can hold: `|=` is a 32-bit signed operation
+and bit 31 comes back negative. `POP_BITS` in map.js is where a second
+country's layer would take its bit, and the note there says what has to happen
+after that — a second base-36 field after a separator, with old links still
+reading as the first field alone.
+
+**A date with no figures says so.** Switch the layer on and go to 1930 and the
+switch stays where it was put, nothing is shaded, and both the row in the panel
+and the key say *no figures for this date yet*. A layer that silently draws
+nothing reads as a broken switch, and the reader cannot tell the two apart from
+the map.
+
+**The key always names the year.** Shading carries a date; drawn over a map of
+another one it must never be readable as belonging to it.
 
 ### Cheju
 
@@ -12542,11 +12565,35 @@ a ranking written down once.
 The `size_tier` column is untouched: it is a coarser statement about the whole
 480-place table, and these fourteen are being drawn to a rule of their own.
 
-`population.js`, 32 checks: the shading and its five classes, the key, the
+### Two marks that were the wrong size, reported from the map
+
+**The Suihō dam was filed as a city.** `texts/sites/sites.csv` gave it
+`cat: city`, so it drew the 5.5 city circle and was the largest mark on the
+peninsula — a hydroelectric dam outranking Keijō. It is a `poi` now: the 2.5
+square the category was made for. It was the only row of the 54 cities whose
+name says it is not a settlement.
+
+**The capital's ring was very nearly one size.** Drawn at a fixed `r + 2.6` it
+came out 5.1 across on the smallest dot and 7.0 on the largest, so a small
+provincial capital read as big as a large one and the ring swallowed the three
+weights underneath it. Measured from the dot instead — `r * 1.35 + 1` — it
+grows with what it marks: 4.4, 5.6, 6.9.
+
+**And four of the fourteen are curated sites as well.** Keijō, Pusan, Inch'ŏn
+and P'yŏngyang have prose of their own in `texts/`, and a curated marker is
+drawn *over* the gazetteer dot at a flat 5.5 — which is why those four came out
+as four identical circles whatever the table said. Where the gazetteer pins a
+weight the marker on top now takes it. Nothing else moves: Tokyo and the other
+fifty curated cities the gazetteer has not pinned are the size they have always
+been.
+
+`population.js`, 46 checks: the shading and its five classes, the key, the
 tooltip, the card both ways round — the card turning the layer on and the layer
 putting the card's button the other way — the finger, and the fourteen cities
 at three zooms on both dates, each at the weight its own date's figures earn
-it.
+it — including the four whose curated marker is drawn over the dot, and the
+dam. And the one switch across both dates: the layers code alone bringing the
+shading, the date with no figures saying so, and a `pop=` link still opening.
 
 ---
 
