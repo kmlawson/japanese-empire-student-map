@@ -70,9 +70,11 @@ const st = p => p.evaluate(() => ({
   check('the section is headed with the place', s.sub === 'Korea', s.sub);
   /* Two places now, each with the same four choices under it: a group is a
      country and the panel is written from the folder. */
-  check('and offers the three maps and none, per place',
+  /* Korea has an occupation table and Taiwan has none, so Taiwan is offered
+     the two it could draw and Korea all three. */
+  check('and offers each place the maps it could draw',
     s.radios.join(' ') === 'density japanese occupation none '
-                         + 'density japanese occupation none', s.radios.join(' '));
+                         + 'density japanese none', s.radios.join(' '));
   check('none of them to begin with',
     s.on.join(' ') === 'none none', s.on.join(' '));
   check('and nothing drawn', s.pies === 0 && s.shaded === 0);
@@ -122,6 +124,41 @@ const st = p => p.evaluate(() => ({
   check('none: nothing at all', s.shaded === 0 && s.pies === 0 && s.edged === 0);
   await p.close();
 
+  console.log('\n— a unit the table has nothing for —');
+  /* Left alone it showed the country's own colour and the relief through the
+     middle of a shaded island, which reads as a fault in the drawing rather
+     than as a gap in the table. */
+  p = await open(b, 'http://localhost:8123/index.html?where=119.5,21.5,122.5,25.5&layers=1');
+  await p.evaluate(() => document.querySelector('#opt-pop-taiwan-density-density').click());
+  await sleep(2200);
+  const na = await p.evaluate(() => {
+    const e = document.querySelector('#a-taiwan path[data-prov="TwBanchi"]');
+    return { shaded: e && e.classList.contains('pop-shaded'),
+             fill: e && getComputedStyle(e).fill,
+             key: /no data/.test((document.querySelector('#legend') || {}).textContent || ''),
+             box: (function () {
+               const r = e.getBoundingClientRect();
+               return { x: Math.round(r.x + r.width / 2), y: Math.round(r.y + r.height / 2) };
+             })() };
+  });
+  check('the demarcated territory is greyed rather than left showing the map',
+    na.shaded === true && na.fill === 'rgb(207, 202, 194)', na.fill);
+  check('and the grey is in the key', na.key === true);
+  await p.mouse.move(na.box.x - 30, na.box.y); await sleep(200);
+  await p.mouse.move(na.box.x, na.box.y); await sleep(600);
+  const naTip = await p.evaluate(() =>
+    document.querySelector('#tooltip').textContent.replace(/\s+/g, ' '));
+  check('and the pointer says so', /N\/A — no data available/.test(naTip),
+        naTip.slice(-60));
+  /* Taiwan has no occupation table on any date, so that map is not offered at
+     all — greying is for a mode another date can answer. */
+  const offered = await p.evaluate(() =>
+    [...document.querySelectorAll('#pop-rows input')]
+      .filter(i => /taiwan/.test(i.id)).map(i => i.value));
+  check('and a map this place never had is not offered',
+    offered.join(' ') === 'density japanese none', offered.join(' '));
+  await p.close();
+
   console.log('\n— what the date can answer —');
   p = await open(b, KOREA + '&layers=1');              // Dec 1942
   s = await st(p);
@@ -129,16 +166,15 @@ const st = p => p.evaluate(() => ({
      Japanese share, and nobody's trade. Taiwan's occupation has no figures on
      either date. */
   check('a date that cannot draw a map says so by greying it',
-    s.off.join(' ') === 'japanese occupation occupation', s.off.join(' '));
+    s.off.join(' ') === 'japanese occupation', s.off.join(' '));
   /* And says which date can. A greyed switch with nothing beside it reads as a
      switch that is broken, which is how it was reported: "I can't select any
      of these". */
   const why = await p.evaluate(() =>
     [...document.querySelectorAll('#pop-rows input')]
       .filter(i => i.disabled).map(i => i.parentNode.title));
-  check('with the date that can, on the row itself, where there is one',
-    why.length === 3 && why.filter(t => /1930/.test(t)).length === 2
-    && why.some(t => /No figures/.test(t)), why.join(' | '));
+  check('with the date that can, on the row itself',
+    why.length === 2 && why.every(t => /On the 1930 map/.test(t)), why.join(' | '));
   check('the density map is still offered', s.off.indexOf('density') < 0);
   await p.close();
 

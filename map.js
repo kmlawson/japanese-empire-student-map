@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '246';
+  var JEM_VERSION = '247';
   var JEM_ASSETS = {"admin.js": "9f99c96627", "annotate.js": "761fbd5949", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "3881d33c99", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
 
   /* Every file this one fetches, with the version on it.
@@ -6528,6 +6528,14 @@
        place: the reader turned that layer on to ask about the register or the
        trade, and the sentence about the ground is a click away in the card. */
     var pie = prov ? popTipBlock(prov.key) : null;
+    /* A unit the shaded map has nothing for says so, in the place the figures
+       would be: grey on the map and told plainly here, rather than left to be
+       read as a shape the layer forgot. */
+    if (!pie && prov && popBlankAt(prov.key)) {
+      pie = document.createElement('span');
+      pie.className = 'sub tip-pie-of';
+      pie.textContent = 'N/A — no data available';
+    }
     if (pie) {
       tooltip.appendChild(pie);
     } else {
@@ -8838,6 +8846,7 @@
     popGroups().forEach(function (g) {
       var d = popForEpoch(g);
       POP_MODES.concat(['none']).forEach(function (mode) {
+        // a mode this place never offers has no row to sync
         var el = $('#opt-pop-' + g.id + '-' + mode);
         if (!el) return;
         el.checked = mode === 'none' ? !state.pop[g.id]
@@ -8882,7 +8891,15 @@
       head.className = 'pane-sub';
       head.textContent = g.country || g.label;
       host.appendChild(head);
-      POP_MODES.concat(['none']).forEach(function (mode) {
+      /* Only the maps this place could ever draw. Greying is for a mode that
+         another date can answer — Korea's occupations are on the 1930 census
+         and not on the 1942 estimate — and Taiwan has no occupation table at
+         all, so offering it there greyed would be offering something that does
+         not exist rather than something not on this map. */
+      var offer = POP_MODES.filter(function (mode) {
+        return g.sets.some(function (d) { return popModeReady(d, mode); });
+      });
+      offer.concat(['none']).forEach(function (mode) {
         var label = document.createElement('label');
         label.className = 'row';
         var el = document.createElement('input');
@@ -8906,18 +8923,37 @@
      place counted inside another one — Cheju inside Zenranan-dō — carries that
      province's density and so is shaded with it, which is what the returns
      say and what its card explains. */
+  /* A unit the source has no figure for, on a map that is shading the ones it
+     does. Left alone it showed the country's own colour and the relief through
+     the middle of a shaded island, which reads as a fault in the drawing
+     rather than as a gap in the table — the demarcated 「蕃地」 is the case, with
+     no area to divide by and no register to count. */
+  var POP_BLANK = '#cfcac2';
+
   function popFills() {
     var out = {};
     popOn().forEach(function (job) {
       var shade = POP_SHADES[job.mode];
       var breaks = shade.breaks(job.set);
       Object.keys(job.set.rows).forEach(function (k) {
-        var v = shade.value(job.set.rows[k]);
-        if (!v && v !== 0) return;
-        out[k] = POP_RAMP[popClass(v, breaks)];
+        var r = job.set.rows[k];
+        if (r.scope !== 'sub-unit') return;
+        var v = shade.value(r);
+        out[k] = (v || v === 0) ? POP_RAMP[popClass(v, breaks)] : POP_BLANK;
       });
     });
     return out;
+  }
+
+  /* And which of them are that blank, so the pointer can say so. */
+  function popBlankAt(key) {
+    var k = popKey(key);
+    var job = popOn()[0];
+    if (!job || !k) return false;
+    var r = job.set.rows[k];
+    if (!r || r.scope !== 'sub-unit') return false;
+    var v = POP_SHADES[job.mode].value(r);
+    return !(v || v === 0);
   }
 
   /* ------------------------------------------------ the pies --------- */
@@ -9399,6 +9435,24 @@
         row.appendChild(document.createTextNode(txt));
         legend.appendChild(row);
       });
+      /* And the grey, where anything is wearing it: a colour on the map that
+         is not in the key is a colour the reader has to guess at. */
+      var blank = Object.keys(d.rows).some(function (k) {
+        var r = d.rows[k];
+        if (r.scope !== 'sub-unit') return false;
+        var v = shade.value(r);
+        return !(v || v === 0);
+      });
+      if (blank) {
+        var brow = document.createElement('div');
+        brow.className = 'item pop-key-row';
+        var bsw = document.createElement('span');
+        bsw.className = 'sw';
+        bsw.style.background = POP_BLANK;
+        brow.appendChild(bsw);
+        brow.appendChild(document.createTextNode('no data'));
+        legend.appendChild(brow);
+      }
       var psrc = document.createElement('p');
       psrc.className = 'legend-src';
       psrc.textContent = d.source;

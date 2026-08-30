@@ -13077,7 +13077,20 @@ at the bottom of what the reader is looking at rather than at the foot of a
 sixty-four-row table they have to scroll past to find. And the sources page had
 its commentary cut back to sources, as asked.
 
-`keys.js`, 13 checks; `taiwanpop.js` still 14.
+`keys.js`, 13 checks; `taiwanpop.js` 17.
+
+### And two follow-ups the map asked for as soon as it was looked at
+
+**A map a place never had is not offered at all.** Greying is for a mode
+another date can answer — Korea's occupations are on the 1930 census and not on
+the 1942 estimate — and Taiwan has no occupation table on either date, so
+offering it there greyed was offering something that does not exist rather than
+something not on this map.
+
+**And a unit with no figure is drawn as having none.** Left alone the
+demarcated 「蕃地」 kept the country's own red and the relief showed through the
+middle of a shaded island, which reads as a fault in the drawing. It is grey
+now, the grey is in the key, and the pointer says *N/A — no data available*.
 
 ---
 
