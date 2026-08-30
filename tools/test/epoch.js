@@ -101,12 +101,17 @@ const card = p => p.evaluate(() => ({
   await flip(p, 'Dec 1942');
   c = await card(p);
   check('the same city on the other date', /Kaes.ng/.test(c.name), c.name);
-  /* The card carries a block per date whatever map is under it — the census is
-     labelled as the census — so what is checked is that the figures are still
-     the ones for this place and are still headed with their own year. */
-  check('with its figures, still headed with the year they were counted',
-    c.pop.length === 1 && /Kaes.ng/.test(c.pop[0]) && /1930/.test(c.pop[0]),
-    c.pop.join(' | '));
+  /* The card carries the date the reader is on and no other, so a city on the
+     1942 map has no block: nothing was counted for a city on that date. What
+     is kept across the switch is the place — the figures are a date away, and
+     in the table with both compared. */
+  check('and its 1930 figures do not follow it there',
+    !c.pop.length, c.pop.join(' | '));
+  await flip(p, '1930');
+  c = await card(p);
+  check('going back brings them again',
+    /Kaes.ng/.test(c.name) && c.pop.some(h => /1930/.test(h)),
+    c.name + ' — ' + c.pop.join(' | '));
   await p.close();
 
   console.log('\n— a territory that is on one date only —');

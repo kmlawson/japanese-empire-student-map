@@ -12856,6 +12856,55 @@ the figures for whatever had been open sat underneath it: a card headed *Dec
 
 ---
 
+## Ten small things, three of which were already right
+
+**Reported:** the comparison table holds two provinces; there is no way from
+the 1930 table to the 1942 one; the comparison is on the 1942 table only.
+**Measured on the deployed build before touching anything: all three were
+already right** — fourteen rows, the button there, the comparison under both.
+The reader was on a cached build. Recorded because the temptation was to
+"fix" three things that were not broken, and the check cost two minutes.
+
+The seven that were real:
+
+* **The sugar button was a stalk of cane** and said only *sugar*. It is the
+  mill and the line that fed it now — a shed with a chimney and track curving
+  in — drawn solid, because at 22 px a stroked shed over stroked track is a
+  scribble.
+* **A railway switch beside the map**, under the reset and before the station
+  one: the railway of whatever ground the reader has zoomed to. It went wrong
+  once in a way worth keeping: gated on `railUnderView`, which asks whether a
+  railway is *being drawn*, the switch appeared only once the line it switches
+  was already on. `railZone` asks the wider question — is there a railway for
+  this ground at this zoom — and the station button keeps the narrower one,
+  because a station with no line under it is a dot in a field.
+* **The ages come out of the city box.** `table_skip` in `index.csv` says a
+  group is not worth a table; the figures stay on the card and in the data.
+  Half a screen of columns nobody had asked a question of.
+* **A greyed radio says which date can answer it.** "I can't select any of
+  these" is what a disabled switch with no reason beside it looks like. The
+  row's title now reads *On the 1930 map*.
+* **The card is this date's figures only.** Stacking every date made a card
+  that scrolled past the description it was supposed to be beside; the other
+  date is a switch away, and the table has both with them compared.
+* **The source line leaves the pane** for the sources page, where it was
+  anyway.
+* **And the sugar layer has its citation**: the Center for GIS at Academia
+  Sinica's 〈日治時期糖鐵分布圖〉, deposited at depositar.
+
+**One thing followed from cutting the ages table.** The 府部 row went blank in
+the two tables that were left, because the source prints a 府部 row for the
+population and the ages and none for the registers or the occupations. It is
+summed from the fourteen now — and the sum is checkable: Japanese + Koreans +
+Taiwanese + Karafuto + foreigners comes to 1,189,791, which is the population
+total the source itself prints.
+
+`sugar.js`, 19 checks now; `population.js`, 81; `demography.js`, 26; and
+`epoch.js` gained one — a city carried across to a date that counted none for
+it keeps its name and loses its figures, and gets them back on the way home.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

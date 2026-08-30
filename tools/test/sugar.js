@@ -116,6 +116,50 @@ const st = p => p.evaluate(() => {
   check('and the code is a positive number', !/^-/.test(code), code);
   await p.close();
 
+  /* The switch next to it, which is the same kind of thing: a railway control
+     beside the map rather than in a dialog. It is here rather than in
+     stations.js because the two share a gate and that gate is where this went
+     wrong — `railUnderView` asks whether a railway is *being drawn*, which is
+     right for the station button and wrong for the one whose job is to draw
+     it, so gated on that it appeared only once the line it switches was
+     already on. */
+  console.log('\n— the railway switch beside it —');
+  p = await open(b, 'http://localhost:8123/index.html?where=126.0,36.5,128.5,38.5&layers=1');
+  let r = await p.evaluate(() => {
+    const b = document.querySelector('#btn-rail');
+    return { shown: !b.hidden, pressed: b.getAttribute('aria-pressed'),
+             order: [...document.querySelectorAll('#zoom-controls button')].map(x => x.id),
+             railOn: document.querySelector('#opt-kr-rail').checked };
+  });
+  check('over Korea with no railway drawn, the switch is still offered',
+    r.shown === true && r.railOn === false);
+  check('and it sits under the reset, before the stations',
+    r.order.join(' ') === 'zoom-in zoom-out zoom-reset btn-rail btn-stations btn-trains',
+    r.order.join(' '));
+  const pressed = await p.evaluate(() => {
+    document.querySelector('#btn-rail').click();
+    return new Promise(res => setTimeout(() => res({
+      pressed: document.querySelector('#btn-rail').getAttribute('aria-pressed'),
+      box: document.querySelector('#opt-kr-rail').checked,
+      station: !document.querySelector('#btn-stations').hidden,
+      bg: getComputedStyle(document.querySelector('#btn-rail')).backgroundColor,
+      plain: getComputedStyle(document.querySelector('#zoom-in')).backgroundColor,
+    }), 1200));
+  });
+  check('pressing it draws that ground\'s railway',
+    pressed.pressed === 'true' && pressed.box === true);
+  check('and the station switch follows it out', pressed.station === true);
+  /* Pressed, it takes the same filled background the station button does:
+     asked for, because a switch that looks the same on and off is not one. */
+  check('a switched-on button is filled, not plain',
+    pressed.bg !== pressed.plain, pressed.bg + ' vs ' + pressed.plain);
+  await p.close();
+
+  p = await open(b, 'http://localhost:8123/index.html?layers=1');
+  check('and at the whole map there is no railway to offer',
+    (await p.evaluate(() => document.querySelector('#btn-rail').hidden)) === true);
+  await p.close();
+
   console.log('\n  ' + pass + ' passed, ' + fail + ' failed');
   await b.close();
   process.exit(fail ? 1 : 0);

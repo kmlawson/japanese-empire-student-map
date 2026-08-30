@@ -22,6 +22,7 @@ about the place; this folder holds what was counted there.
 | `label` | what the dataset is, in the table's heading and on the button that switches to it. Left blank it is built from `pct_of` and `caption` |
 | `line_label` | what kind of number this is, in the short description: *Census Population* for 1930, *Estimated Population* for 1942. A sentence that called the census an estimate would be wrong on the face of it |
 | `note` | a sentence under the table's heading, about the figures as a whole — that the 1942 columns are Government-General estimates, for instance |
+| `table_skip` | groups the box does not print, comma-separated. The figures stay on the card and in the data; this says a table of them is not worth the room — the fourteen cities by age was half a screen of columns nobody had asked a question of |
 | `caption` | what was counted, without the place: *estimated population at 1 October 1942*. A card puts the name of the place it is about in front of this, so a province's figures are headed with the province; the whole-territory card is headed `pct_of` + this |
 | `source` | where the numbers come from. The same citation belongs on `texts/pages/sources.md`, which is what the reader sees |
 
@@ -113,7 +114,7 @@ colour.
 | `territory` | a country card — the `id` in `texts/territories/<epoch>.csv` |
 | `sub-unit` | a province — the `key` in a `texts/territories/sub-units/` group file |
 | `city` | a place in the gazetteer — the `id` in `data/cities-<epoch>.csv`. The build fails on a city that map does not draw |
-| `summary` | a row with no place at all: *all fourteen 府 together*. It is pinned to the top of its table and appears on no card |
+| `summary` | a row with no place at all: *all fourteen 府 together*. It is pinned to the top of its table and appears on no card. The source prints a 府部 row for the population and the ages and none for the registers or the occupations, so those cells are summed from the fourteen — exact by construction, and the same sum the source itself prints where it prints one |
 
 ## One ladder for a layer, not one per date
 

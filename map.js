@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '243';
+  var JEM_VERSION = '244';
   var JEM_ASSETS = {"admin.js": "9f99c96627", "annotate.js": "761fbd5949", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "3881d33c99", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
 
   /* Every file this one fetches, with the version on it.
@@ -1749,6 +1749,23 @@
     return found;
   }
 
+  /* The ground a railway *could* be drawn on at this zoom, switched on or not.
+     `railUnderView` asks the narrower question — is one being drawn — which is
+     right for the station button, since a station with no line under it is a
+     dot in a field, and wrong for the button whose whole job is to turn that
+     line on: gated on it, the switch appeared only once the thing it switches
+     was already showing. */
+  function railZone() {
+    if (railAlpha() <= 0.02) return '';
+    var found = '';
+    Object.keys(STATION_SYS).forEach(function (k) {
+      var cfg = STATION_SYS[k];
+      if (found || !cfg.ground) return;
+      if (viewMeets(cfg.ground)) found = k;
+    });
+    return found;
+  }
+
   /* The system a set of train tools could be opened on, whether or not the
      switch is on — which is what the button beside the map has to know, since
      its whole job is to turn that switch on and off. `trainSysFor` answers a
@@ -1772,7 +1789,8 @@
   var btnStationsSys = '';
   /* Held rather than looked up. This runs on every frame of every gesture and
      `querySelector` on a document of eight thousand nodes is not free. */
-  var btnStaEl = null, btnTrnEl = null, btnSugarEl = null, btnElsFound = false;
+  var btnStaEl = null, btnTrnEl = null, btnSugarEl = null, btnRailEl = null;
+  var btnElsFound = false;
 
   /* Called from `railFade`, so on every frame of every gesture. Everything it
      asks is cached or arithmetic, and it writes only when the answer has
@@ -1784,6 +1802,27 @@
       btnStaEl = $('#btn-stations');
       btnTrnEl = $('#btn-trains');
       btnSugarEl = $('#btn-sugar');
+      btnRailEl = $('#btn-rail');
+    }
+    /* The railway of the ground under the view, whichever that is. Same switch
+       as the one in the Layers panel, and pressed the same way it is: a reader
+       who has zoomed to Korea should not have to open a dialog to draw the
+       line they are looking at the country for. */
+    var railSys = railZone();
+    if (btnRailEl) {
+      var railWant = !railSys;
+      if (btnRailEl.hidden !== railWant) btnRailEl.hidden = railWant;
+      if (railSys) {
+        var railOn = !!state[STATION_SYS[railSys].rail];
+        var rp = railOn ? 'true' : 'false';
+        if (btnRailEl.getAttribute('aria-pressed') !== rp) {
+          btnRailEl.setAttribute('aria-pressed', rp);
+          var rl = (railOn ? 'Hide ' : 'Show ')
+            + (railSys === 'tw' ? 'Taiwan\u2019s railways' : 'Korea\u2019s railways');
+          btnRailEl.title = rl;
+          btnRailEl.setAttribute('aria-label', rl);
+        }
+      }
     }
     /* The sugar lines belong to Taiwan's railway and are offered where it is
        drawn — with the train tools away, because the tools recolour the
@@ -7635,6 +7674,7 @@
       if (groups.indexOf(f.group) < 0) groups.push(f.group);
     });
     groups.forEach(function (g) {
+      if ((d.tableSkip || []).indexOf(g) > -1) return;
       var fs = d.fields.filter(function (f) { return f.group === g; });
       var gh = document.createElement('p');
       gh.className = 'pop-group-head';
@@ -8674,6 +8714,16 @@
       .sort(function (a, b) { return String(a.epoch).localeCompare(b.epoch); });
   }
 
+  /* And what the *card* shows: this date and no other. A card is the map's
+     answer about what is under the pointer now, so the 1942 map answers with
+     the 1942 figures; the other date is a switch away, and both are in the
+     table with the two compared under them. Stacking every date made a card
+     that scrolled past the description it was supposed to be beside. */
+  function popForCard(key) {
+    var year = String(state.epoch).replace(/^e/, '');
+    return popFor(key).filter(function (d) { return String(d.epoch) === year; });
+  }
+
   /* The layer a card's button offers: the one whose figures cover this place.
      Asked of every date the layer has, not only the date on screen, so the
      button is there on the 1930 map too and switching to 1942 shades it. */
@@ -8724,8 +8774,22 @@
                                      : state.pop[g.id] === mode;
         /* A map this date cannot draw is offered greyed rather than left to
            be pressed and do nothing: the 1942 estimate counted a population
-           and a sex ratio and asked nobody their trade. */
-        if (mode !== 'none') el.disabled = !popModeReady(d, mode);
+           and a sex ratio and asked nobody their trade. The label says which
+           date can, because a greyed switch with no reason beside it reads as
+           a switch that is broken — which is how it was reported. */
+        if (mode !== 'none') {
+          var can = popModeReady(d, mode);
+          el.disabled = !can;
+          var say = g.sets.filter(function (x) { return popModeReady(x, mode); })
+            .map(function (x) { return x.epoch; });
+          var row = el.parentNode;
+          if (row) {
+            row.title = can ? '' : (say.length
+              ? 'On the ' + say.join(' and ') + ' map' + (say.length > 1 ? 's' : '')
+              : 'No figures for this yet');
+            row.classList.toggle('row-off', !can);
+          }
+        }
       });
     });
   }
@@ -8942,7 +9006,7 @@
     var host = $('#info-pop');
     if (!host) return;
     host.innerHTML = '';
-    var sets = popFor(key);
+    var sets = popForCard(key);
     var k = popKey(key);
     popCardKey = sets.length ? key : null;
     popCardName = name || '';
@@ -8991,10 +9055,6 @@
         note.textContent = r.note;
         block.appendChild(note);
       }
-      var src = document.createElement('p');
-      src.className = 'pop-src';
-      src.textContent = d.source;
-      block.appendChild(src);
       host.appendChild(block);
     });
     /* And the way to see it as a map. It is the same switch as the one in the
@@ -10889,6 +10949,26 @@
         state.trainTools = !state.trainTools;
         var box = $('#opt-train-tools');
         if (box) box.checked = state.trainTools;
+        applyState();
+        saveState();
+      });
+    }
+
+    var btnRail = $('#btn-rail');
+    if (btnRail) {
+      btnRail.addEventListener('click', function () {
+        var sys = railZone();
+        if (!sys) return;
+        var key = STATION_SYS[sys].rail;
+        state[key] = !state[key];
+        var box = $('#opt-' + (sys === 'tw' ? 'tw-rail' : 'kr-rail'));
+        if (box) box.checked = state[key];
+        /* While the train tools are up the railway is borrowed, and the reader
+           turning it off here is a decision of their own — the same rule the
+           station button follows. */
+        if (trainBorrowed && trainBorrowed.rail === key) {
+          trainBorrowed.hadRail = state[key];
+        }
         applyState();
         saveState();
       });

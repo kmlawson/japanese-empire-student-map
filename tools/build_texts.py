@@ -348,6 +348,14 @@ def population_data():
                      "country": d.get("country") or "",
                      "caption": caption,
                      "note": d.get("note") or "",
+                     # groups the box does not print. The figures stay on the
+                     # card and in the data; what this says is that a table of
+                     # them is not worth the room — the fourteen cities by age
+                     # was half a screen of columns nobody had asked a question
+                     # of.
+                     "tableSkip": [g.strip() for g in
+                                   (d.get("table_skip") or "").split(",")
+                                   if g.strip()],
                      "fields": used,
                      "label": label, "pctOf": whole,
                      "source": d["source"],

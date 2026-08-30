@@ -1,5 +1,5 @@
 scope,key,en,population,m_per_100_f,pct_of_total,area_km2,same_as,note,age_0_14,age_15_59,age_60p,reg_jp,reg_ko,reg_tw,reg_karafuto,for_total,for_cn,for_other,occ_total,occ_agri,occ_fish,occ_mine,occ_ind,occ_comm,occ_trans,occ_public,occ_domestic,occ_other,occ_none
-summary,allcities,All fourteen 府 together,1189791,111.04,,,,,408399,727131,54261,,,,,,,,,,,,,,,,,,
+summary,allcities,All fourteen 府 together,1189791,111.04,,,,,408399,727131,54261,268380,889082,16,14,32299,31433,866,434075,19638,8796,971,99006,130083,38507,53104,24238,59732,755716
 city,seoul,"Keijō (Kyŏngsŏng, Seoul)",394240,110.07,,,,,125643,249299,19298,105639,279865,1,5,8730,8275,455,136728,2492,23,435,31872,41451,8703,24916,12307,14529,257512
 city,pusan,Fusan (Pusan),146098,109.27,,,,,52389,87777,5932,47761,97558,5,1,773,737,36,56037,2461,3033,52,11805,15882,5702,4241,2262,10599,90061
 city,pyongyang,Heijō (P’yŏngyang),140703,111.88,,,,,50194,83835,6674,20073,116899,,,3731,3534,197,51816,3220,40,213,16067,15190,3634,5838,1044,6570,88887

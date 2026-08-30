@@ -109,6 +109,14 @@ const st = p => p.evaluate(() => ({
   s = await st(p);
   check('the estimate cannot draw a register or a trade, and says so by greying',
     s.off.join(' ') === 'citizenship occupation', s.off.join(' '));
+  /* And says which date can. A greyed switch with nothing beside it reads as a
+     switch that is broken, which is how it was reported: "I can't select any
+     of these". */
+  const why = await p.evaluate(() =>
+    [...document.querySelectorAll('#pop-rows input')]
+      .filter(i => i.disabled).map(i => i.parentNode.title));
+  check('with the date that can, on the row itself',
+    why.length === 2 && why.every(t => /1930/.test(t)), why.join(' | '));
   check('the density map is still offered', s.off.indexOf('density') < 0);
   await p.close();
 

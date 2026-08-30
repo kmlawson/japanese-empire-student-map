@@ -138,20 +138,27 @@ const spot = (p, sel, fx, fy) => p.evaluate((s, ax, ay) => {
       groups: [...b.querySelectorAll('.pop-group-head')].map(g => g.textContent),
     }));
     return { hidden: h.hidden, blocks: blocks,
+             srcInCard: h.querySelectorAll('.pop-src').length,
              order: [...document.querySelector('#info').children]
                .map(e => e.id || e.className),
              head: (h.querySelector('.pop-head') || {}).textContent || '',
-             src: (h.querySelector('.pop-src') || {}).textContent || '',
              btn: (h.querySelector('.pop-btn') || {}).textContent || '' };
   });
   /* One block per date, oldest first, so the card reads down the way time
      runs. The 1942 estimate is four figures; the 1930 census counted the ages,
      the registers and the occupations as well. */
-  check('a province card carries a block per date, in date order',
-    card.blocks.length === 2 && /1930/.test(card.blocks[0].head)
-    && /1942/.test(card.blocks[1].head),
+  /* One block: the date the reader is on. The card is the map's answer about
+     what is under the pointer *now*, and stacking every date made a card that
+     scrolled past the description it was supposed to be beside. The other date
+     is a switch away, and both are in the table with the two compared. */
+  check('a province card carries this date and no other',
+    card.blocks.length === 1 && /1942/.test(card.blocks[0].head),
     card.blocks.map(b => b.head).join(' | '));
-  const y42 = card.blocks[1];
+  /* And no source line: that belongs on the sources page and in the table, not
+     in a pane that is already long. */
+  check('and no source line in the pane', card.srcInCard === 0,
+        String(card.srcInCard));
+  const y42 = card.blocks[0];
   check('population, sex ratio, share and density, in that order',
     y42.rows.length === 4
     && /^Population2,830,778$/.test(y42.rows[0].replace(/\s+/g, ''))
@@ -159,25 +166,35 @@ const spot = (p, sel, fx, fy) => p.evaluate((s, ax, ay) => {
     && /Korea11\.7$/.test(y42.rows[2].replace(/\s+/g, ''))
     && /^Perkm²224/.test(y42.rows[3].replace(/\s+/g, '')),
     JSON.stringify(y42.rows));
-  /* Everything else the census counted, a group to a heading, and none of it
-     in the short description — that is a sentence. */
-  check('the 1930 block groups the ages, the registers and the occupations',
-    card.blocks[0].groups.join(' | ')
-      === 'Ages | Register and nationality | Occupation',
-    card.blocks[0].groups.join(' | '));
-  const flat = card.blocks[0].rows.map(r => r.replace(/\s+/g, ''));
-  check('with the figures under them',
-    flat.indexOf('Japanese(naichijin)135,863') > -1
-    && flat.indexOf('Agriculture545,687') > -1
-    && flat.indexOf('0–14801,943') > -1,
-    flat.slice(4, 9).join(' | '));
   /* Headed with the place, not with the table: every province card used to
      say "Korea" over figures that were the province's. */
   check('headed with the province and what was counted',
-    card.blocks[0].head === 'Kyŏnggi-do (Keiki-dō), census of 1 October 1930'
-    && card.blocks[1].head
-       === 'Kyŏnggi-do (Keiki-dō), estimated population at 1 October 1942',
+    card.blocks[0].head
+      === 'Kyŏnggi-do (Keiki-dō), estimated population at 1 October 1942',
     card.head);
+  /* The census, on the map it belongs to: everything else it counted, a group
+     to a heading, and none of it in the short description — that is a
+     sentence. */
+  const c30 = await p.evaluate(async () => {
+    const b = [...document.querySelectorAll('#epoch-seg button')]
+      .find(x => x.textContent.trim() === '1930');
+    if (b) b.click();
+    await new Promise(r => setTimeout(r, 2600));
+    const h = document.querySelector('#info-pop');
+    return { head: (h.querySelector('.pop-head') || {}).textContent || '',
+             groups: [...h.querySelectorAll('.pop-group-head')].map(g => g.textContent),
+             rows: [...h.querySelectorAll('.pop-row')].map(r => r.textContent.replace(/\s+/g, '')) };
+  });
+  check('the 1930 card is the census, with its three groups',
+    /census of 1 October 1930/.test(c30.head)
+    && c30.groups.join(' | ') === 'Ages | Register and nationality | Occupation',
+    c30.head + ' — ' + c30.groups.join(' | '));
+  check('with the figures under them',
+    c30.rows.indexOf('Japanese(naichijin)135,863') > -1
+    && c30.rows.indexOf('Agriculture545,687') > -1
+    && c30.rows.indexOf('0–14801,943') > -1,
+    c30.rows.slice(4, 8).join(' | '));
+
   /* And above the block about Chōsen. What the reader asked about comes first
      and what it belongs to comes after — the order the rest of the card is
      in. */
@@ -185,7 +202,7 @@ const spot = (p, sel, fx, fy) => p.evaluate((s, ax, ay) => {
     card.order.indexOf('info-pop') > -1
     && card.order.indexOf('info-pop') < card.order.indexOf('note note-group'),
     card.order.join(' → '));
-  check('and the source', /朝鮮總督府/.test(card.src));
+
   check('the button offers to put the map away, the shading being on',
     /Hide/.test(card.btn), card.btn);
   /* Pressing it must not disturb the card. `select` was being re-run, which
@@ -232,8 +249,8 @@ const spot = (p, sel, fx, fy) => p.evaluate((s, ax, ay) => {
     code: (/[?&]layers=([^&#]+)/.exec(location.search) || [])[1] }));
   check('with nothing on, the card offers the map', /Provinces by Population/.test(before.btn),
         before.btn);
-  check('and the colony-wide card is headed with the colony',
-    before.head === 'Korea, census of 1 October 1930', before.head);
+  check('and the colony-wide card is headed with the colony and this date',
+    before.head === 'Korea, estimated population at 1 October 1942', before.head);
   check('and nothing is shaded yet', before.shaded === 0, String(before.shaded));
   await p.evaluate(() => document.querySelector('.pop-btn').click());
   await sleep(1600);
@@ -550,14 +567,20 @@ const spot = (p, sel, fx, fy) => p.evaluate((s, ax, ay) => {
     const rows = [...d.querySelectorAll('.pop-table')[0].querySelectorAll('tbody tr')];
     return { head: d.querySelector('.pop-head').textContent,
              tables: d.querySelectorAll('.pop-table').length,
+             groups: [...d.querySelectorAll('.pop-group-head')].map(g => g.textContent),
              n: rows.length,
              first: rows[0].textContent.replace(/\s+/g, ' '),
              here: (d.querySelector('tr.here th') || {}).textContent,
              cmp: !!d.querySelector('.pop-compare') };
   });
-  check('the fourteen 府 have a table of their own',
-    /fourteen 府/.test(cityTbl.head) && cityTbl.n === 15 && cityTbl.tables === 4,
-    cityTbl.head + ' — ' + cityTbl.n + ' rows, ' + cityTbl.tables + ' tables');
+  /* Three tables, not four: the ages come out of the box. The figures are
+     still on the card and in the data — `table_skip` says only that a table of
+     them is not worth the room, which half a screen of columns nobody had
+     asked a question of was not. */
+  check('the fourteen 府 have a table of their own, without the ages',
+    /fourteen 府/.test(cityTbl.head) && cityTbl.n === 15 && cityTbl.tables === 3
+    && cityTbl.groups.indexOf('Ages') < 0,
+    cityTbl.head + ' — ' + cityTbl.tables + ' tables: ' + cityTbl.groups.join(', '));
   check('with the fourteen together at the top',
     /All fourteen/.test(cityTbl.first) && /1,189,791/.test(cityTbl.first),
     cityTbl.first.slice(0, 60));

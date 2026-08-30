@@ -3163,7 +3163,9 @@ dialog h3 {
   text-transform: uppercase;
   color: var(--muted);
 }
-#side .row input:disabled + * , #side .row:has(input:disabled) { color: var(--muted); }
+/* A switch this date cannot answer. Greyed, and its title says which date
+   can — hover or long-press. */
+#side .row.row-off { color: var(--muted); cursor: help; }
 #side .row input:disabled { opacity: .5; }
 
 /* The pies. Drawn once at a fixed radius and scaled by `k` on every rescale —

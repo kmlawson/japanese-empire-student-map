@@ -7,7 +7,7 @@
 <meta name="description" content="Interactive map for revising the geography of the Japanese Empire: colonies, occupied territories, neighbouring states, cities and battles, 1853-1945.">
 <title>The Japanese Empire</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23f4f1ea'/%3E%3Ccircle cx='16' cy='16' r='8' fill='%239a1813'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=bd2fb4977a">
+<link rel="stylesheet" href="styles.css?v=5d0b654ce5">
 </head>
 <body>
 
@@ -88,6 +88,20 @@
            is drawn, the train tools where there is a timetable to run. map.js
            shows and hides them; they are hidden here so that a build with no
            script does not offer buttons that do nothing. -->
+      <!-- The railway of wherever the reader has zoomed to: Korea's over
+           Korea, Taiwan's over Taiwan. It is in the Layers panel as well, and
+           this is the same switch — a reader looking at the ground the line
+           crosses should not have to go and find a dialog to draw it. -->
+      <button type="button" id="btn-rail" hidden aria-pressed="false"
+              aria-label="Show the railways" title="Show the railways">
+        <!-- Track: two rails and the sleepers under them. -->
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M8.6 2.5 6.2 21.5M15.4 2.5l2.4 19" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <path d="M5.2 6.4h13.6M4.7 11.9h14.6M4.2 17.4h15.6" fill="none"
+                stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </button>
       <button type="button" id="btn-stations" hidden aria-pressed="false"
               aria-label="Show railway stations" title="Show railway stations">
         <!-- The mark the button puts on the map, and nothing else: a square
@@ -125,17 +139,26 @@
     <div id="map-extras">
       <button type="button" id="btn-sugar" hidden aria-pressed="false"
               aria-label="Sugar railways" title="The sugar company railways, 1929">
-        <!-- A stalk of cane: the jointed stem the plantation lines were laid
-             to carry, with a leaf either side. -->
+        <!-- The mill and the line that fed it: a shed with a chimney, and
+             track curving in from the field. That is what this layer is —
+             plantation track laid to bring cane to a factory — where a stalk
+             of cane alone said only "sugar". -->
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <path d="M12 21.5V6.2" fill="none" stroke="currentColor"
-                stroke-width="2.1" stroke-linecap="round"/>
-          <path d="M9.6 17.4h4.8M9.6 13.2h4.8M9.6 9h4.8" fill="none"
+          <!-- Solid, not drawn in line: at 22 px a stroked shed with a stroked
+               chimney over stroked track is a scribble, and the button is read
+               at a glance rather than examined. -->
+          <!-- the shed and its chimney, standing on one sill -->
+          <path d="M4.4 15.2V10.9L10.3 7.3l5.9 3.6v4.3z" fill="currentColor"/>
+          <rect x="17.4" y="4.6" width="2.8" height="10.6" fill="currentColor"/>
+          <rect x="3.4" y="15.2" width="17.6" height="1.9" fill="currentColor"/>
+          <!-- and the line that fed it, curving away towards the reader -->
+          <path d="M2 22.4c2.2-2.6 5-4.6 8.4-6" fill="none"
                 stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-          <path d="M12 7.4C9.6 6.6 8 4.8 7.6 2.5c2.3.2 4 1.5 4.4 3.6"
-                fill="currentColor"/>
-          <path d="M12 8.6c2.4-.8 4-2.6 4.4-4.9-2.3.2-4 1.5-4.4 3.6"
-                fill="currentColor"/>
+          <path d="M5.6 23c1.9-2.2 4.4-4 7.4-5.2" fill="none"
+                stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M3.2 20.6l2.6 1M5.6 18.5l2.6 1M8.4 16.9l2.6 1"
+                fill="none" stroke="currentColor" stroke-width="1.3"
+                stroke-linecap="round"/>
         </svg>
       </button>
     </div>
@@ -395,7 +418,7 @@
 
   <p>Built with Anthropic's Claude, with <a href="https://muninn.net/">Konrad M. Lawson</a> at the prompt, primarily as a tool for students in his University of St Andrews honours module, <a href="https://github.com/kmlawson/japanese-empire-mo3335/">MO3335</a>.</p>
 
-  <p>Code for the website may be found <a href="https://github.com/kmlawson/japanese-empire-student-map">here</a>.</p>  <p class="version">Version 1 update <span id="jem-version">243</span> · last updated 30 August 2026, 17:10</p>
+  <p>Code for the website may be found <a href="https://github.com/kmlawson/japanese-empire-student-map">here</a>.</p>  <p class="version">Version 1 update <span id="jem-version">244</span> · last updated 30 August 2026, 17:51</p>
 
 <!-- END about -->
 </dialog>
@@ -418,6 +441,7 @@
     <li><strong>Island Details</strong> - Some islands will get swapped out with a more detailed one as you zoom in closer to them. </li>
     <li><strong>Train Tools</strong> - Open <strong>Layers</strong> and tick <strong>Train Tools</strong> under Transport, then zoom in to a railway that has a timetable — Taiwan for now. The lines are drawn in the colours the timetable gives them, and a bar at the foot of the map runs the day: press play and the trains move at the rate you choose, from two minutes a second to twenty. Tap a station for the trains that called there, a moving train for what it is and where it is going, or the track itself for the line and a day's working on it — each with a link to its own printed table. On a large screen that table opens over the map rather than in another tab. It reads in English, Chinese or Japanese at the press of a button, and gives each station's reading under its name. Station and line names in the cards follow <strong>Use Japanese names</strong>: Mandarin with the characters after it by default, the Japanese reading when that is ticked. The timetable is February 1936, which is neither of this map's two dates. Zooming back out puts the tools away, and so does the train button beside the zoom controls; the railway stays, drawn plainly in one colour. The button above it marks the stations on any railway you have switched on.</li>
     <li><strong>Demography</strong> - Open <strong>Layers</strong> and choose one of the maps under <strong>Demography</strong> — Korea has three: population density, citizenship, occupation — or press <strong>Provinces by Population Density</strong> at the foot of any Korean province's card — they are the same switch. The thirteen provinces are shaded by people per square kilometre in five classes. Which year is drawn follows the map you are on, and the key at the left names it, says where each class begins and gives the source. Point at a province — or, on a phone, tap the country and then the province — for its population, the sex ratio, its share of Korea and its density; the same figures are in the card. Cheju carries Zenranan-dō's, because the 1942 returns count it there and do not break the island out. On the 1930 map the card also carries what the census counted: the ages, the household registers and nationalities, and the nine categories of occupation — for the colony, for each province, and for each of the fourteen 府. <strong>Population Table</strong> under the figures opens the whole column — the colony, then the provinces by size — with the source at the foot. Press any column head to sort by it, and again to turn it over; Korea stays at the top, being the total rather than one of the thirteen. At the foot of each table are the other tables — the other date, and the fourteen cities — and under them the two dates set against each other on the figures they share.</li>
+    <li><strong>Railways beside the map</strong> - Zoom in to ground a railway crossed and a track button appears under the reset, with the station button beside it: Korea's railways over Korea, Taiwan's over Taiwan. It is the same switch as the one in <strong>Layers</strong>, and it is filled when the line is drawn.</li>
     <li><strong>Sugar railways</strong> - With Taiwan's railways on and the train tools away, zoom in to the island and a cane-stalk button appears beside the zoom controls. It draws the sugar company lines of 1929: 762 mm plantation track, thousands of kilometres of it across the western plain, under the government railway and much quieter than it.</li>
     <li><strong>Annotations</strong> - Draw your own marks over the map, name them, describe them and share them. See <strong>Drawing your own annotations</strong> below.</li>
     <li><strong>Links</strong> - If you pan or zoom to a location, and copy the URL, it will keep the bounding box information in the link allowing the person you are sharing the link with to view roughly the same location you are looking at. Useful if you want to share a specific view. Click on the page title in the top left to load the default view.</li>
@@ -448,7 +472,7 @@
 <!-- END help -->
 </dialog>
 
-<script src="data.js?v=aa6a4abde0"></script>
+<script src="data.js?v=aef806bedb"></script>
 <script src="cities-gaz.js?v=9a9b2098ba"></script>
 <script src="tw-stations.js?v=88605063d8"></script>
 <script src="kr-stations.js?v=bd9f42c9d3"></script>
@@ -458,6 +482,6 @@
      and data.js then hides it behind a fresh one. cities-gaz.js sits here for
      the same reason. -->
 <script src="relief.js?v=a584543962"></script>
-<script src="map.js?v=0e817463f7"></script>
+<script src="map.js?v=f1ada72710"></script>
 </body>
 </html>

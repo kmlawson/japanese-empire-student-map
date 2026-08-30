@@ -7515,6 +7515,7 @@ JMAP.POPULATION = [
     "country": "Korea",
     "caption": "estimated population at 1 October 1942",
     "note": "These are Government-General estimates of population which build on data collected since the 1940 census.",
+    "tableSkip": [],
     "fields": [],
     "label": "Korea, estimated population at 1 October 1942",
     "pctOf": "Korea",
@@ -7685,6 +7686,7 @@ JMAP.POPULATION = [
     "country": "Korea",
     "caption": "census of 1 October 1930",
     "note": "",
+    "tableSkip": [],
     "fields": [
       {
         "c": "age_0_14",
@@ -8290,6 +8292,9 @@ JMAP.POPULATION = [
     "country": "",
     "caption": "census of 1 October 1930",
     "note": "",
+    "tableSkip": [
+      "Ages"
+    ],
     "fields": [
       {
         "c": "age_0_14",
@@ -8410,7 +8415,25 @@ JMAP.POPULATION = [
         "x": {
           "age_0_14": 408399,
           "age_15_59": 727131,
-          "age_60p": 54261
+          "age_60p": 54261,
+          "reg_jp": 268380,
+          "reg_ko": 889082,
+          "reg_tw": 16,
+          "reg_karafuto": 14,
+          "for_total": 32299,
+          "for_cn": 31433,
+          "for_other": 866,
+          "occ_total": 434075,
+          "occ_agri": 19638,
+          "occ_fish": 8796,
+          "occ_mine": 971,
+          "occ_ind": 99006,
+          "occ_comm": 130083,
+          "occ_trans": 38507,
+          "occ_public": 53104,
+          "occ_domestic": 24238,
+          "occ_other": 59732,
+          "occ_none": 755716
         },
         "line": "1930 Census Population: 1,189,791 · Males per 100 Females: 111.04"
       },
