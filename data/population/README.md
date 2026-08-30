@@ -16,6 +16,7 @@ about the place; this folder holds what was counted there.
 | `epoch` | which map it appears on — `1930` or `1942`, and nothing is shown on the other |
 | `label` | what the dataset is, for a human reading this folder |
 | `pct_of` | the whole that `pct_of_total` is a share of, as it should read: `Korea` gives *% of Total Korea* |
+| `country` | the place the group is about. It is the sub-heading in the Layers panel, with the maps of that place as radios under it |
 | `group` | the **layer** this file is one date of. Every file sharing a group is one switch in the Layers panel, and the map draws whichever of them matches the date the reader is on; a date with no file leaves the switch on and says so. Each group needs a bit in `POP_BITS` in `map.js` |
 | `layer` | the name of that switch, and the heading over its key. The year is added to the key from the file's own `epoch`, so the label itself should not carry one |
 | `label` | what the dataset is, in the table's heading and on the button that switches to it. Left blank it is built from `pct_of` and `caption` |
@@ -130,3 +131,20 @@ The transcriptions the figures were read from, as they were handed over. They
 are not read by any build step — the CSVs beside them are — and they are here
 so that a figure on a card can be traced to the table it came from without
 leaving the repository.
+
+
+## Three maps, one at a time
+
+A group offers as many maps as its data can draw, and the panel gives them as
+radios because they are answers to different questions about the same shapes:
+
+| mode | drawn from | how |
+|---|---|---|
+| `density` | `population` and `area_km2` | the choropleth, five classes |
+| `citizenship` | the *Register and nationality* group | a pie at each unit |
+| `occupation` | the *Occupation* group | a pie at each unit, as a share of those in gainful occupation |
+
+A mode whose group has no columns in a dataset is greyed out on that date
+rather than offered. The slices, their colours and their folding are
+`POP_SLICES` in `map.js`; the modes are `POP_MODES`, and each group takes two
+bits of the layers code's high field — see `POP_BITS` and `layerCode`.

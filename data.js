@@ -7512,6 +7512,7 @@ JMAP.POPULATION = [
     "id": "korea-1942",
     "epoch": "1942",
     "group": "korea-density",
+    "country": "Korea",
     "caption": "estimated population at 1 October 1942",
     "note": "These are Government-General estimates of population which build on data collected since the 1940 census.",
     "fields": [],
@@ -7681,6 +7682,7 @@ JMAP.POPULATION = [
     "id": "korea-1930",
     "epoch": "1930",
     "group": "korea-density",
+    "country": "Korea",
     "caption": "census of 1 October 1930",
     "note": "",
     "fields": [
@@ -8285,6 +8287,7 @@ JMAP.POPULATION = [
     "id": "korea-cities-1930",
     "epoch": "1930",
     "group": "korea-cities-1930",
+    "country": "",
     "caption": "census of 1 October 1930",
     "note": "",
     "fields": [

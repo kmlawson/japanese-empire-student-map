@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '241';
+  var JEM_VERSION = '242';
   var JEM_ASSETS = {"admin.js": "9f99c96627", "annotate.js": "761fbd5949", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "3881d33c99", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
 
   /* Every file this one fetches, with the version on it.
@@ -129,16 +129,21 @@
        nothing until the reader is looking at an island a train ran on — see
        TRAIN_SYS. */
     trainTools: false,
-    /* Which population-density layers are on, keyed by the *group* in
-       data/population/index.csv — `korea-density`, and in time others. A
-       group is the layer and a file in that folder is one date of it: the
-       panel offers "Korea Population Density" once and the map draws whichever
-       file matches the date the reader is on, so nobody has to know which
-       years exist to find the switch, and adding 1930 adds no switch.
+    /* The sugar company railways of Taiwan, 1929 — 762 mm plantation track
+       laid to bring cane to the mills, and thousands of kilometres of it. Off
+       by default and fetched only when asked for: it is the densest layer on
+       the map and it is about one industry on one island. */
+    twSugar: false,
+    /* Which demographic map each group is showing, keyed by the *group* in
+       data/population/index.csv — `korea-density`, and in time others. The
+       value is a mode: `density`, `citizenship`, `occupation`, or absent for
+       none. One at a time, because they are three answers to three questions
+       about the same thirteen shapes and two of them at once is neither.
 
-       A set rather than a flag because the panel is built from that table
-       rather than from a list written here. Each group is one bit in the
-       layers code — see POP_BITS. */
+       A group is a place and a file in that folder is one date of it: the
+       panel offers Korea once and the map draws whichever file matches the
+       date the reader is on, so nobody has to know which years exist to find
+       the switch. The mode travels in the layers code — see POP_BITS. */
     pop: {},
     // the mesh of meridians and parallels; off by default
     graticule: false,
@@ -1619,7 +1624,72 @@
    * coloured one is the more useful of the two while the tools are open: it
    * says which line each stretch belonged to. So the traced one stands down
    * for as long as they are, and comes back when they go. */
+  /* --------------------------------------------- the sugar railways -- */
+
+  /* 531 lines and ten thousand vertices, fetched the first time somebody asks
+     for them and never again. They are drawn *under* the trunk line and much
+     quieter than it: the government railway is the argument and these are the
+     ground it ran through. Solid, not dashed — a dash is how this map says a
+     line is approximate, and these are surveyed. */
+  var sugarGroup = null, sugarState = 'none';
+
+  function loadSugar() {
+    if (sugarState === 'loading' || sugarState === 'ready') return;
+    sugarState = 'loading';
+    fetch(asset('japan-empire-map-tw-sugar.svg'))
+      .then(function (r) {
+        if (!r.ok) throw new Error(r.status);
+        return r.text();
+      })
+      .then(function (text) {
+        var doc = new DOMParser().parseFromString(text, 'image/svg+xml');
+        var g = doc.querySelector('#tw-sugar');
+        if (!g || !svg) { sugarState = 'failed'; return; }
+        sugarGroup = document.importNode(g, true);
+        // under the railway it belongs to, so the trunk line stays on top
+        svg.insertBefore(sugarGroup, twRailGroup || null);
+        reprojectGraft([sugarGroup]);
+        sugarState = 'ready';
+        railFade();
+      })
+      .catch(function () { sugarState = 'failed'; });
+  }
+
+  function setSugar(on) {
+    state.twSugar = !!on;
+    if (state.twSugar) loadSugar();
+    railFade();
+    scheduleUrl();
+    saveState();
+  }
+
   function railFade() {
+    /* A link can arrive with the sugar lines switched on, and nothing will
+       have fetched them: the button is the only other way in. Asked for here,
+       and only once Taiwan is actually in view — 182 KB for a layer the reader
+       is nowhere near is a fetch for nothing. */
+    if (state.twSugar && sugarState === 'none' && railUnderView() === 'tw') {
+      loadSugar();
+    }
+    if (sugarGroup) {
+      /* The railway's own ink — white over Taiwan's red, near-black over a pale
+         ground — because these are the same kind of line and a colour of their
+         own would say they were not. Set here rather than in `applyState`,
+         which runs long before the fetch that makes this group: set there it
+         reached nothing, the paths fell back to the stylesheet's grey, and the
+         network came out dark against a white trunk line.
+
+         And it follows that railway: the same fade, so the two go together,
+         and away entirely when the tools are up or the reader has not asked
+         for it. */
+      // the *atom*, which is what `data-over` carries on the railway's own
+      // paths — the territory id `formosa` matches no group and quietly
+      // returns the ink for a pale ground, which is how these came out dark
+      // against a white trunk line
+      sugarGroup.style.setProperty('--rail-ink', railInk('taiwan'));
+      railFadeOne(sugarGroup,
+        state.twSugar && state.twRail && !trainDraws('tw'));
+    }
     railFadeOne(twRailGroup, state.twRail && !trainDraws('tw'));
     railFadeOne(krRailGroup, state.krRail && !trainDraws('kr'));
     syncMapButtons();
@@ -1702,7 +1772,7 @@
   var btnStationsSys = '';
   /* Held rather than looked up. This runs on every frame of every gesture and
      `querySelector` on a document of eight thousand nodes is not free. */
-  var btnStaEl = null, btnTrnEl = null, btnElsFound = false;
+  var btnStaEl = null, btnTrnEl = null, btnSugarEl = null, btnElsFound = false;
 
   /* Called from `railFade`, so on every frame of every gesture. Everything it
      asks is cached or arithmetic, and it writes only when the answer has
@@ -1713,6 +1783,24 @@
       btnElsFound = true;
       btnStaEl = $('#btn-stations');
       btnTrnEl = $('#btn-trains');
+      btnSugarEl = $('#btn-sugar');
+    }
+    /* The sugar lines belong to Taiwan's railway and are offered where it is
+       drawn — with the train tools away, because the tools recolour the
+       network by line and a second network under them is noise rather than
+       context. */
+    if (btnSugarEl) {
+      var sugarHere = railUnderView() === 'tw' && state.twRail
+        && !trainDraws('tw');
+      if (btnSugarEl.hidden !== !sugarHere) btnSugarEl.hidden = !sugarHere;
+      var sp = state.twSugar ? 'true' : 'false';
+      if (btnSugarEl.getAttribute('aria-pressed') !== sp) {
+        btnSugarEl.setAttribute('aria-pressed', sp);
+        var sl = state.twSugar ? 'Hide the sugar railways'
+                               : 'The sugar company railways, 1929';
+        btnSugarEl.title = sl;
+        btnSugarEl.setAttribute('aria-label', sl);
+      }
     }
     if (!btnStaEl && !btnTrnEl) return;
     var sys = railUnderView();
@@ -3610,25 +3698,40 @@
     if (kRailOn) bits |= 134217728; // bit 27: Korea's railways
     if (kStaOn) bits |= 268435456;  // bit 28: and their stations
     if (state.trainTools) bits |= 536870912; // bit 29: the train tools
-    /* Bit 30, and the last one this field can safely hold: `|=` is a 32-bit
-       signed operation, so bit 31 would come back negative. A second density
-       layer therefore cannot simply take the next bit — when one arrives the
-       code grows a second base-36 field after a separator, and a link written
-       before that still reads as the first field alone. */
-    popGroups().forEach(function (g) {
-      if (state.pop[g.id] && POP_BITS[g.id]) bits |= POP_BITS[g.id];
-    });
+    /* Bits 0 to 29 are the field above; `|=` is a 32-bit *signed* operation,
+       so bit 31 would come back negative and bit 30 is the last one that can
+       be set that way. Everything past it is carried as a small number
+       multiplied by 2³⁰ instead — plain arithmetic, exact to 2⁵³, and read
+       back the same way. A link written when Korea's density was bit 30 still
+       opens with it on, because mode 1 is that map.
+     
+       The high field, low digit first: two bits of demography mode per group
+       in POP_BITS order, then one for the sugar railways. */
+
     bits |= ({ albers: 1, laea: 2 }[state.projection] || 0) << 15;
     if (state.graticule) bits |= 131072;
     if (state.relief) bits |= 262144;
     bits |= (state.reliefDetail & 3) << 19;
     if (state.jpNames) bits |= 4194304;    // set = Japanese names on (off is the default)
-    return bits.toString(36);
+    /* LAST, AFTER EVERY BITWISE OPERATION. `|=` coerces to a 32-bit signed
+       integer, so a number carrying the high field through one of them comes
+       back wrapped and negative — `layers=-zik0zk`, which parses to something
+       else entirely. Added here, nothing touches it again. */
+    var hi = 0, place = 1;
+    popGroups().forEach(function (g) {
+      hi += place * (POP_MODES.indexOf(state.pop[g.id]) + 1 || 0);
+      place *= 4;
+    });
+    if (state.twSugar) hi += place;
+    return (bits + hi * HI_BASE).toString(36);
   }
 
   function applyLayerCode(code) {
-    var bits = parseInt(code, 36);
-    if (!isFinite(bits) || bits < 0) return;
+    var whole = parseInt(code, 36);
+    if (!isFinite(whole) || whole < 0) return;
+    // the bitwise field, and above it the arithmetic one — see `layerCode`
+    var bits = whole % HI_BASE;
+    var hi = Math.floor(whole / HI_BASE);
     var epochs = JMAP.EPOCHS ? JMAP.EPOCHS.map(function (e) { return e.id; }) : [];
     var other = epochs.filter(function (id) { return id !== JMAP.DEFAULT_EPOCH; })[0];
     if ((bits & 1) && other) state.epoch = other;
@@ -3658,11 +3761,13 @@
     state.krRail = !!(bits & 134217728);
     state.krStations = !!(bits & 268435456);
     state.trainTools = !!(bits & 536870912);
+    var place = 1;
     popGroups().forEach(function (g) {
-      if (!POP_BITS[g.id]) return;
-      if (bits & POP_BITS[g.id]) state.pop[g.id] = true;
-      else delete state.pop[g.id];
+      var mode = POP_MODES[(Math.floor(hi / place) % 4) - 1];
+      if (mode) state.pop[g.id] = mode; else delete state.pop[g.id];
+      place *= 4;
     });
+    state.twSugar = !!(Math.floor(hi / place) % 2);
     state.projection = ['mercator', 'albers', 'laea'][(bits >> 15) & 3] || 'mercator';
     state.graticule = !!(bits & 131072);
     state.relief = !!(bits & 262144);
@@ -3894,7 +3999,8 @@
     if (pp) {
       pp.split(',').forEach(function (id) {
         var d = popSet(id);
-        if (d) state.pop[d.group] = true;
+        // the only map there was when that parameter existed
+        if (d) state.pop[d.group] = 'density';
       });
     }
     var raw = q.get('where') || q.get('bbox');
@@ -8079,6 +8185,7 @@
         tie.style.setProperty('--rail-ground', railGround(over));
       });
     });
+
     if (indiaRiversGroup) {
       indiaRiversGroup.style.display = state.indiaRivers ? '' : 'none';
     }
@@ -8413,11 +8520,15 @@
      it and the shape still darkens under the pointer. */
   var POP_RAMP = ['#eef3f8', '#c3d6e8', '#8fb4d4', '#5286b4', '#1f5b8f'];
 
-  /* One bit per *layer*, not per dataset — a group covers every date of itself,
-     so adding 1930 to Korea costs nothing here. A new country's density layer
-     needs a line in this table and the next free bit; see `layerCode` for why
-     bit 30 is the last one that fits and what happens after it. */
-  var POP_BITS = { 'korea-density': 1073741824 };
+  /* The three maps a group offers, in the order the panel lists them and the
+     order the layers code numbers them: 1, 2, 3, with 0 for none. Adding a
+     fourth means adding a value here and widening the field in `layerCode`. */
+  var POP_MODES = ['density', 'citizenship', 'occupation'];
+  var HI_BASE = 1073741824;      // 2³⁰: where the bitwise field ends
+  /* Which groups have a place in the code, and in what order. A new country's
+     demography needs a line here — two bits of the high field — and nothing
+     else. */
+  var POP_BITS = { 'korea-density': 1 };
 
   function popSets() { return JMAP.POPULATION || []; }
 
@@ -8441,7 +8552,8 @@
     popShaded().forEach(function (d) {
       var g = seen[d.group];
       if (!g) {
-        g = seen[d.group] = { id: d.group, label: d.layer, sets: [] };
+        g = seen[d.group] = { id: d.group, label: d.layer,
+                              country: d.country || '', sets: [] };
         out.push(g);
       }
       g.sets.push(d);
@@ -8457,9 +8569,71 @@
     return g.sets.filter(function (d) { return String(d.epoch) === year; })[0] || null;
   }
 
+  /* Which field group each map is drawn from, and so what a dataset must
+     carry for that map to have anything to say on that date. */
+  var POP_MODE_FIELDS = {
+    citizenship: 'Register and nationality',
+    occupation: 'Occupation',
+  };
+  var POP_MODE_LABEL = {
+    density: 'Population Density',
+    citizenship: 'Citizenship Density',
+    occupation: 'Occupation Density',
+  };
+
+  /* The slices, in the order they are drawn and listed. Folded where the
+     source's own categories are too small to see: Taiwanese and Karafuto
+     registers are nineteen and fifteen people in all Korea, and a wedge of a
+     millionth of a circle is a line. */
+  var POP_SLICES = {
+    citizenship: [
+      { label: 'Koreans', c: '#e8d9b8', cols: ['reg_ko'] },
+      { label: 'Japanese (naichijin)', c: '#c2463d', cols: ['reg_jp'] },
+      { label: 'Chinese', c: '#e2b23a', cols: ['for_cn'] },
+      { label: 'Everyone else', c: '#4a7ba7',
+        cols: ['reg_tw', 'reg_karafuto', 'for_other'] },
+    ],
+    occupation: [
+      { label: 'Agriculture', c: '#7a9a5b', cols: ['occ_agri'] },
+      { label: 'Fisheries', c: '#4a7ba7', cols: ['occ_fish'] },
+      { label: 'Mining', c: '#6b5b4a', cols: ['occ_mine'] },
+      { label: 'Industry', c: '#b0553f', cols: ['occ_ind'] },
+      { label: 'Commerce', c: '#e2b23a', cols: ['occ_comm'] },
+      { label: 'Transport', c: '#7b6aa0', cols: ['occ_trans'] },
+      { label: 'Public service and professions', c: '#3f7d70', cols: ['occ_public'] },
+      { label: 'Domestic service', c: '#c98b9a', cols: ['occ_domestic'] },
+      { label: 'Other gainful occupation', c: '#9a9187', cols: ['occ_other'] },
+    ],
+  };
+
+  /* Can this date answer that question? A mode with no columns in the file
+     draws nothing, and the panel greys it out rather than offering a switch
+     that does nothing when it is pressed. */
+  function popModeReady(d, mode) {
+    if (!d) return false;
+    if (mode === 'density') return !!(d.breaks && d.breaks.length);
+    var want = POP_MODE_FIELDS[mode];
+    return !!(d.fields || []).some(function (f) { return f.group === want; });
+  }
+
+  /* The datasets drawing a choropleth: the group is in density mode and this
+     date has densities. */
   function popOn() {
-    return popGroups().filter(function (g) { return !!state.pop[g.id]; })
-      .map(popForEpoch).filter(Boolean);
+    return popGroups().filter(function (g) { return state.pop[g.id] === 'density'; })
+      .map(popForEpoch)
+      .filter(function (d) { return popModeReady(d, 'density'); });
+  }
+
+  /* And the ones drawing pies, with the mode they are drawing. */
+  function popPieOn() {
+    var out = [];
+    popGroups().forEach(function (g) {
+      var mode = state.pop[g.id];
+      if (mode !== 'citizenship' && mode !== 'occupation') return;
+      var d = popForEpoch(g);
+      if (popModeReady(d, mode)) out.push({ set: d, mode: mode });
+    });
+    return out;
   }
 
   /* Which class a density falls in: 0 is the lightest. The ends are open, so
@@ -8519,13 +8693,16 @@
 
   function setPop(id, on) {
     if (!POP_BITS[id] && !popGroups().some(function (g) { return g.id === id; })) return;
-    if (on) state.pop[id] = true; else delete state.pop[id];
+    // `true` is the density map, for the card's button and for an old link
+    var mode = on === true ? 'density' : on;
+    if (mode && POP_MODES.indexOf(mode) > -1) state.pop[id] = mode;
+    else delete state.pop[id];
     /* And open the key. On a phone it is folded to a pill by default, which is
        right for a list of political colours the reader already understands and
        wrong the moment the map is shaded by numbers: five blues mean nothing
        at all without the classes beside them. Folding it again is still the
        reader's to do. */
-    if (on) state.legend = true;
+    if (mode) state.legend = true;
     syncPopBoxes();
     applyState();
     /* Only the block, never the whole card. `select` rebuilds it and collapses
@@ -8539,16 +8716,17 @@
 
   function syncPopBoxes() {
     popGroups().forEach(function (g) {
-      var box = $('#opt-pop-' + g.id);
-      if (box) box.checked = !!state.pop[g.id];
-      /* And say, on the switch itself, which date is being drawn — or that
-         this one has no figures yet, so a layer that is on and showing nothing
-         reads as a gap in the tables rather than as a broken switch. */
-      var note = $('#note-pop-' + g.id);
-      if (note) {
-        var d = popForEpoch(g);
-        note.textContent = d ? d.epoch : 'no figures for this date yet';
-      }
+      var d = popForEpoch(g);
+      POP_MODES.concat(['none']).forEach(function (mode) {
+        var el = $('#opt-pop-' + g.id + '-' + mode);
+        if (!el) return;
+        el.checked = mode === 'none' ? !state.pop[g.id]
+                                     : state.pop[g.id] === mode;
+        /* A map this date cannot draw is offered greyed rather than left to
+           be pressed and do nothing: the 1942 estimate counted a population
+           and a sex ratio and asked nobody their trade. */
+        if (mode !== 'none') el.disabled = !popModeReady(d, mode);
+      });
     });
   }
 
@@ -8561,22 +8739,31 @@
     var groups = popGroups();
     var section = $('#pop-section');
     if (section) section.hidden = !groups.length;
+    /* A sub-heading per place, and under it the maps of it — one at a time,
+       because they are three answers to three questions about the same
+       thirteen shapes. Written from the table rather than from markup, so a
+       second country appears here on its own. */
     groups.forEach(function (g) {
-      var label = document.createElement('label');
-      label.className = 'row';
-      label.title = g.sets.map(function (d) { return d.label; }).join(' · ');
-      var box = document.createElement('input');
-      box.type = 'checkbox';
-      box.id = 'opt-pop-' + g.id;
-      box.checked = !!state.pop[g.id];
-      box.addEventListener('change', function () { setPop(g.id, box.checked); });
-      label.appendChild(box);
-      label.appendChild(document.createTextNode(' ' + g.label + ' '));
-      var note = document.createElement('span');
-      note.className = 'row-note';
-      note.id = 'note-pop-' + g.id;
-      label.appendChild(note);
-      host.appendChild(label);
+      var head = document.createElement('p');
+      head.className = 'pane-sub';
+      head.textContent = g.country || g.label;
+      host.appendChild(head);
+      POP_MODES.concat(['none']).forEach(function (mode) {
+        var label = document.createElement('label');
+        label.className = 'row';
+        var el = document.createElement('input');
+        el.type = 'radio';
+        el.name = 'pop-' + g.id;
+        el.id = 'opt-pop-' + g.id + '-' + mode;
+        el.value = mode;
+        el.addEventListener('change', function () {
+          if (el.checked) setPop(g.id, mode === 'none' ? null : mode);
+        });
+        label.appendChild(el);
+        label.appendChild(document.createTextNode(
+          ' ' + (mode === 'none' ? 'None' : POP_MODE_LABEL[mode])));
+        host.appendChild(label);
+      });
     });
     syncPopBoxes();
   }
@@ -8597,21 +8784,131 @@
     return out;
   }
 
+  /* ------------------------------------------------ the pies --------- */
+
+  /* A pie over each province, at the anchor the build put on its largest
+     block — the same point the province's own name is hung from, so the two
+     never disagree about where a province "is".
+
+     THE SIZE IS SCREEN PIXELS. The circle is drawn once at PIE_R and the group
+     is scaled by `k` — SVG units per screen pixel — on every rescale, which is
+     the only way a mark keeps its size while the map moves under it. Drawn in
+     map units it would be a dot at the island view and a continent when
+     somebody zoomed in. */
+  var PIE_R = 15;
+  var pieGroup = null;
+
+  function pieSlices(mode, x) {
+    var defs = POP_SLICES[mode] || [];
+    var vals = defs.map(function (s) {
+      return s.cols.reduce(function (a, c) { return a + (Number(x[c]) || 0); }, 0);
+    });
+    var total = vals.reduce(function (a, b) { return a + b; }, 0);
+    return { total: total, vals: vals, defs: defs };
+  }
+
+  function drawPies() {
+    var on = popPieOn();
+    if (!pieGroup && svg && on.length) {
+      pieGroup = svgEl('g', { id: 'pop-pies' });
+      // above the land and its divisions, under the labels and the markers
+      svg.insertBefore(pieGroup, markersGroup || null);
+    }
+    if (!pieGroup) return;
+    pieGroup.textContent = '';
+    pieGroup.style.display = on.length ? '' : 'none';
+    if (!on.length) return;
+    on.forEach(function (job) {
+      var d = job.set;
+      Object.keys(d.rows).forEach(function (k) {
+        var r = d.rows[k];
+        if (r.scope !== 'sub-unit' || r.sameAs || !r.x) return;
+        // the block of this province that carries the label anchor, which is
+        // its largest: a province drawn in three pieces gets one pie
+        var best = null, area = -1;
+        $$('#land [data-prov="' + k + '"]', svg).forEach(function (el) {
+          var a = parseFloat(el.getAttribute('data-area') || '0');
+          if (a > area) { area = a; best = el; }
+        });
+        if (!best) return;
+        var cx = parseFloat(best.getAttribute('data-cx'));
+        var cy = parseFloat(best.getAttribute('data-cy'));
+        if (!isFinite(cx) || !isFinite(cy)) return;
+        var cut = pieSlices(job.mode, r.x);
+        if (!cut.total) return;
+        var g = svgEl('g', { 'class': 'pop-pie', 'data-prov': k });
+        g.appendChild(svgEl('circle', { 'class': 'pie-back', r: PIE_R + 1.2 }));
+        var a0 = -Math.PI / 2;
+        cut.vals.forEach(function (v, i) {
+          if (!v) return;
+          var a1 = a0 + (v / cut.total) * Math.PI * 2;
+          var big = (a1 - a0) > Math.PI ? 1 : 0;
+          var p = svgEl('path', {
+            'class': 'pie-slice',
+            fill: cut.defs[i].c,
+            d: v >= cut.total
+              // one slice of everything is a circle, and an arc of 360° is a
+              // point: the province where nobody was anything else
+              ? 'M0 ' + (-PIE_R) + 'A' + PIE_R + ' ' + PIE_R + ' 0 1 1 0 '
+                + PIE_R + 'A' + PIE_R + ' ' + PIE_R + ' 0 1 1 0 ' + (-PIE_R) + 'Z'
+              : 'M0 0L' + (PIE_R * Math.cos(a0)).toFixed(2) + ' '
+                + (PIE_R * Math.sin(a0)).toFixed(2)
+                + 'A' + PIE_R + ' ' + PIE_R + ' 0 ' + big + ' 1 '
+                + (PIE_R * Math.cos(a1)).toFixed(2) + ' '
+                + (PIE_R * Math.sin(a1)).toFixed(2) + 'Z',
+          });
+          g.appendChild(p);
+          a0 = a1;
+        });
+        pieGroup.appendChild(g);
+        scalables.push({ el: g, x: cx, y: cy, pie: true });
+      });
+    });
+    // and put them where the zoom says, straight away rather than at the next
+    // gesture: `rescale` is what knows `k`
+    rescale();
+  }
+
   function applyPop() {
     var want = popFills();
     var any = false;
     for (var k in want) { if (want.hasOwnProperty(k)) { any = true; break; } }
     /* The provinces are in the administrative sheet, which is fetched only
-       when something asks for it. This asks: a reader who ticks a density
-       layer with Administrative off should see the map shaded, not wait for a
-       switch nobody told them about. */
-    if (any && adminState !== 'ready') loadAdmin();
+       when something asks for it. This asks — for the shading and for the pies
+       alike, since a pie is hung off the province's own label anchor: a reader
+       who chooses a map with Administrative off should see it drawn, not wait
+       for a switch nobody told them about. */
+    if ((any || popPieOn().length) && adminState !== 'ready') loadAdmin();
     popPainted.forEach(function (el) {
       el.style.removeProperty('--c');
       el.classList.remove('pop-shaded');
+      el.classList.remove('pop-edged');
     });
     popPainted = [];
+    /* A pie belongs to a shape, and with Administrative off there is no shape
+       to see: thirteen pies floating on one red country say nothing about
+       which province is which. The boundaries come with the layer — the line
+       only, no fill, since the pie is what carries the reading. */
+    var edges = {};
+    popPieOn().forEach(function (job) {
+      Object.keys(job.set.rows).forEach(function (k) {
+        if (job.set.rows[k].scope === 'sub-unit') edges[k] = true;
+      });
+    });
+    if (svg) {
+      $$('#land [data-prov]', svg).forEach(function (el) {
+        if (!edges[el.getAttribute('data-prov')]) return;
+        el.classList.add('pop-edged');
+        popPainted.push(el);
+      });
+    }
     if (svg) svg.classList.toggle('pop-on', any);
+    /* The pies come off the scalable list with the layer, or every pie ever
+       drawn would be moved on every zoom for the rest of the visit. */
+    for (var i = scalables.length - 1; i >= 0; i--) {
+      if (scalables[i].pie) scalables.splice(i, 1);
+    }
+    drawPies();
     if (!any || !svg) return;
     $$('#land [data-prov]', svg).forEach(function (el) {
       var c = want[el.getAttribute('data-prov')];
@@ -8715,17 +9012,17 @@
 
     var group = popGroupFor(key);
     if (group) {
-      var on = !!state.pop[group.id];
+      var on = state.pop[group.id] === 'density';
       var btn = document.createElement('button');
       btn.type = 'button';
       btn.className = 'plain pop-btn' + (on ? ' on' : '');
       btn.setAttribute('aria-pressed', on ? 'true' : 'false');
       // It says what it is about to do, and the state it is in says what is
-      // on: pressed here or ticked in the panel, it is the same switch.
+      // on: pressed here or chosen in the panel, it is the same switch.
       btn.textContent = on ? 'Hide the population density map'
                            : 'Provinces by Population Density';
       btn.addEventListener('click', function () {
-        setPop(group.id, !state.pop[group.id]);
+        setPop(group.id, on ? null : 'density');
       });
       host.appendChild(btn);
     }
@@ -8832,6 +9129,33 @@
       none.className = 'item pop-key-head';
       none.textContent = g.label + ' — no figures for this date yet';
       legend.appendChild(none);
+    });
+
+    /* The pies: what the slices are, and what they are a share of — a pie of
+       occupations is a share of those in work and not of everybody, and a key
+       that did not say so would be inviting the wrong reading. */
+    popPieOn().forEach(function (job) {
+      var head = document.createElement('div');
+      head.className = 'item pop-key-head';
+      head.textContent = (job.set.country || '') + ' ' + POP_MODE_LABEL[job.mode]
+        + ' ' + job.set.epoch + ' — '
+        + (job.mode === 'occupation'
+           ? 'share of those in gainful occupation' : 'share of the population');
+      legend.appendChild(head);
+      (POP_SLICES[job.mode] || []).forEach(function (sl) {
+        var row = document.createElement('div');
+        row.className = 'item pop-key-row';
+        var sw = document.createElement('span');
+        sw.className = 'sw';
+        sw.style.background = sl.c;
+        row.appendChild(sw);
+        row.appendChild(document.createTextNode(sl.label));
+        legend.appendChild(row);
+      });
+      var psrc = document.createElement('p');
+      psrc.className = 'legend-src';
+      psrc.textContent = job.set.source;
+      legend.appendChild(psrc);
     });
 
     popOn().forEach(function (d) {
@@ -10518,6 +10842,11 @@
         applyState();
         saveState();
       });
+    }
+
+    var btnSugar = $('#btn-sugar');
+    if (btnSugar) {
+      btnSugar.addEventListener('click', function () { setSugar(!state.twSugar); });
     }
 
     var optBacks = $('#opt-backings');

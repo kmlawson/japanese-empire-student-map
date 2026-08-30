@@ -1,4 +1,4 @@
-file,epoch,group,layer,label,caption,line_label,note,pct_of,source
-korea-1942.csv,1942,korea-density,Korea Population Density,,estimated population at 1 October 1942,Estimated Population,These are Government-General estimates of population which build on data collected since the 1940 census.,Korea,朝鮮總督府『昭和十七年 朝鮮人口動態統計』附録 p24
-korea-1930.csv,1930,korea-density,Korea Population Density,,census of 1 October 1930,Census Population,,Korea,"1930 Census of Korea, 朝鮮總督府『昭和五年 朝鮮國勢調査報告』 — ages pp. 10–11, register and nationality Tables 19–20, occupation Table 40"
-korea-cities-1930.csv,1930,,,The fourteen 府 at the census of 1 October 1930,census of 1 October 1930,Census Population,,,"1930 Census of Korea, 朝鮮總督府『昭和五年 朝鮮國勢調査報告』 — ages pp. 10–11, register and nationality Tables 19–20, occupation Table 40"
+file,epoch,group,country,layer,label,caption,line_label,note,pct_of,source
+korea-1942.csv,1942,korea-density,Korea,Korea Population Density,,estimated population at 1 October 1942,Estimated Population,These are Government-General estimates of population which build on data collected since the 1940 census.,Korea,朝鮮總督府『昭和十七年 朝鮮人口動態統計』附録 p24
+korea-1930.csv,1930,korea-density,Korea,Korea Population Density,,census of 1 October 1930,Census Population,,Korea,"1930 Census of Korea, 朝鮮總督府『昭和五年 朝鮮國勢調査報告』 — ages pp. 10–11, register and nationality Tables 19–20, occupation Table 40"
+korea-cities-1930.csv,1930,,,,The fourteen 府 at the census of 1 October 1930,census of 1 October 1930,Census Population,,,"1930 Census of Korea, 朝鮮總督府『昭和五年 朝鮮國勢調査報告』 — ages pp. 10–11, register and nationality Tables 19–20, occupation Table 40"

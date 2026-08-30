@@ -343,6 +343,9 @@ def population_data():
                                    else caption[:1].upper() + caption[1:])
         sets.append({"id": d["file"][:-4], "epoch": d["epoch"],
                      "group": d.get("group") or d["file"][:-4],
+                     # the sub-heading the Layers panel gives this group: the
+                     # place, because the radios under it are the maps
+                     "country": d.get("country") or "",
                      "caption": caption,
                      "note": d.get("note") or "",
                      "fields": used,

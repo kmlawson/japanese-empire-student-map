@@ -12735,6 +12735,92 @@ dot find them.
 
 ---
 
+## Demography: three maps of the same thirteen shapes, and the sugar lines
+
+**Asked for:** the Layers section renamed *Demography* and its notes taken
+out; under it a place — Korea — with radio buttons for Population Density,
+Citizenship Density, Occupation Density and None; pies over each province for
+the last two; and a button beside the zoom controls, over Taiwan, for the sugar
+company railways of 1929.
+
+### One switch, three answers
+
+They are three answers to three questions about the same thirteen shapes, so
+they are radios rather than ticks: two at once is neither. **A map the date
+cannot draw is greyed rather than offered** — the 1942 estimate counted a
+population and a sex ratio and asked nobody their trade, and a live switch that
+does nothing when it is pressed reads as a fault in the map. That replaces the
+*no figures for this date yet* line, which is now gone along with the note
+about the shading.
+
+### The pies
+
+A pie at each province's own label anchor — the point the build already chose
+for its name, so the two can never disagree about where a province is. Slices
+are the source's own categories, folded only where a category is too small to
+be a wedge: Taiwanese and Karafuto registers are nineteen and fifteen people in
+all Korea, so they sit in *everyone else*. The occupation pie is a share of
+those **in gainful occupation** and the key says so — a share of everybody
+would be a different claim, and mostly a claim about children.
+
+**The size is screen pixels.** The pie is drawn once at a fixed radius and the
+group is scaled by `k` on every rescale, which is the only way a mark keeps its
+size while the map moves under it; the test measures one six wheel steps in and
+requires it not to have moved. And the province boundaries come with the layer:
+thirteen pies floating on one red country say nothing about which province is
+which.
+
+### The layers code grew a second storey
+
+Three modes and a None need two bits per place, and bit 30 was the last one
+`|=` can set — bit 31 comes back negative. So everything above bit 29 is
+carried as a small number multiplied by 2³⁰, in plain arithmetic, exact to
+2⁵³: two bits of mode per group, then one for the sugar railways.
+
+It went wrong once first, and instructively. The high field was added in the
+middle of `layerCode`, before the last few `|=` lines — and each of those
+coerces to a 32-bit **signed** integer, so the number came back wrapped and
+negative: `layers=-zik0zk`, which parses to something else entirely. It is
+added last now, after every bitwise operation, and nothing touches it again. A
+link written when Korea's density was bit 30 still opens with it on, because
+mode 1 is that map.
+
+### The sugar railways
+
+531 lines in EPSG:3826 — TWD97 / TM2 zone 121, which is metres — so
+`tools/build_tw_sugar.py` puts them back on the globe with an inverse
+transverse Mercator before projecting them into the map's own units. 95.3% of
+the vertices survive; the rest are points that coincide once rounded to the
+precision every other path in the file carries. The result is 182 KB and is
+fetched the first time somebody asks for it, or when a link arrives with it on
+*and Taiwan is in view* — 182 KB for a layer the reader is nowhere near is a
+fetch for nothing.
+
+The button is beside the zoom column rather than under it, and appears only
+over Taiwan, with its railways drawn, and the train tools away: the tools
+recolour the network line by line and a second network under them is noise.
+
+**And it made this project's oldest mistake again, within the hour.**
+`vector-effect: non-scaling-stroke` was set on the group — but it is **not an
+inherited property**, so it applied to nothing, the width went back to map
+units, and at Tainan the network was a field of brown sausages a kilometre
+wide. It is on the paths now, and `sugar.js` measures the stroke at two zooms.
+
+**The colour took two goes as well**, and both are the same shape of error:
+saying a thing in a place that is not looked at. The lines are drawn in the
+railway's own ink — `--rail-ink`, which map.js sets from the computed fill of
+the ground a line crosses, white over Taiwan's red — and it was set first in
+`applyState`, which runs long before the fetch that makes this group, so it
+reached nothing; then in `railFade`, which does, but asking for the *territory*
+`formosa` where `railInk` wants the *atom* `taiwan`, and an unknown name
+answers with the ink for a pale ground rather than failing. Both came out as a
+dark network under a white trunk line. The test now requires the sugar stroke
+and the railway stroke to be the same computed colour.
+
+`demography.js`, 25 checks; `sugar.js`, 13.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

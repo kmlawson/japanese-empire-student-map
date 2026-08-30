@@ -2952,6 +2952,13 @@ dialog h3 {
   stroke: rgba(18, 15, 10, .5);
   stroke-width: .8;
 }
+/* The units a pie map is about, with the pies over them: the boundary and
+   nothing else, because the pie is what carries the reading and a fill would
+   be a second one. */
+#jmap .atom > path.pop-edged {
+  stroke: rgba(18, 15, 10, .45);
+  stroke-width: .8;
+}
 #jmap .atom > path.pop-shaded.prov-hot {
   fill: color-mix(in srgb, var(--c, var(--inactive)) 83%, #fff);
 }
@@ -3060,3 +3067,118 @@ dialog h3 {
 .pop-switch button { font-size: 12.5px; }
 
 .pop-compare { border-top: 1px solid var(--line); padding-top: 12px; }
+
+/* ------------------------------------------------ the sugar railways --
+
+   A switch that belongs beside the map rather than in a dialog, and beside the
+   zoom column rather than under it: that stack is three deep already, and this
+   one is about the ground rather than about the view. Same size and the same
+   four states as the buttons it sits next to. */
+/* Left of the zoom column, and following it: same top, same tokens, the same
+   width plus a gap across. Written from the zoom column's own values so the
+   two cannot drift apart. */
+#map-extras {
+  position: absolute;
+  top: 10px;
+  right: calc(max(10px, var(--safe-r)) + 46px);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  z-index: 9;
+}
+#map-extras button[hidden] { display: none; }
+#map-extras button {
+  appearance: none;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--panel) 94%, transparent);
+  color: var(--ink);
+  cursor: pointer;
+}
+#map-extras button svg { width: 22px; height: 22px; }
+#map-extras button:hover { border-color: var(--accent); color: var(--accent); }
+#map-extras button[aria-pressed="true"] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fffdf8;
+}
+
+/* The two moves the zoom column makes, made again here. A short screen puts
+   the column in the free corner as a row; a phone widens its buttons. */
+@media (max-height: 520px) {
+  #map-extras {
+    left: max(8px, var(--safe-l));
+    right: auto;
+    top: 58px;
+    flex-direction: row;
+  }
+}
+@media (max-width: 620px), (max-height: 520px) {
+  #map-extras button { width: 44px; height: 44px; }
+}
+@media (max-width: 620px) and (min-height: 521px) {
+  #map-extras { top: 8px; right: calc(max(8px, var(--safe-r)) + 52px); }
+}
+
+/* On the map: under the trunk line and quieter than it. The government railway
+   is the argument and these are the ground it ran through — thousands of
+   kilometres of 762 mm plantation track, which drawn at the weight of the main
+   line would bury it. Solid, because a dash is how this map says a line is
+   approximate and these were surveyed. */
+/* ON THE PATHS, NOT ON THE GROUP. `vector-effect` is not an inherited
+   property: set on the group it applies to nothing, the width goes back to
+   being map units, and eight wheel steps in each line is a kilometre wide.
+   That is exactly the mistake this project keeps making — a stroke is
+   something the reader sees the size of, so it is screen pixels — and the
+   first cut of this layer made it again: at the island view the network read
+   as a stain and at Tainan it was a field of brown sausages. */
+#tw-sugar { pointer-events: none; }
+#tw-sugar path {
+  fill: none;
+  /* The railway's own ink, which map.js sets on the group from the computed
+     fill of the ground it crosses: these are the same kind of line and a
+     colour of their own would say they were not. Thinner and fainter is the
+     whole of the difference — three thousand kilometres of plantation track in
+     a plain a hundred wide is dense however it is drawn, and the trunk line
+     has to stay legible through it. */
+  stroke: var(--rail-ink, #2b2b2b);
+  stroke-width: 0.85;
+  stroke-opacity: .55;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+
+/* A place inside a Layers section, with the maps of it under it. */
+#side .pane-sub {
+  margin: 10px 0 2px;
+  font-size: 12px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+#side .row input:disabled + * , #side .row:has(input:disabled) { color: var(--muted); }
+#side .row input:disabled { opacity: .5; }
+
+/* The pies. Drawn once at a fixed radius and scaled by `k` on every rescale —
+   see drawPies — so what the reader sees is the same size at every zoom. The
+   ring is the map's own ink at low weight, enough to lift a pale slice off a
+   pale province without ringing it in black. */
+#pop-pies { pointer-events: none; }
+#pop-pies .pie-back {
+  fill: rgba(255, 253, 248, .82);
+  stroke: rgba(18, 15, 10, .45);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+#pop-pies .pie-slice {
+  stroke: rgba(18, 15, 10, .35);
+  stroke-width: .6;
+  vector-effect: non-scaling-stroke;
+}
