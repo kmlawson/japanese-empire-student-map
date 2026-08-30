@@ -49,6 +49,7 @@ const open = async (b, url) => {
 };
 const st = p => p.evaluate(() => ({
   sub: (document.querySelector('#pop-rows .pane-sub') || {}).textContent,
+  subs: [...document.querySelectorAll('#pop-rows .pane-sub')].map(e => e.textContent),
   radios: [...document.querySelectorAll('#pop-rows input')].map(i => i.value),
   on: [...document.querySelectorAll('#pop-rows input')].filter(i => i.checked).map(i => i.value),
   off: [...document.querySelectorAll('#pop-rows input')].filter(i => i.disabled).map(i => i.value),
@@ -67,13 +68,30 @@ const st = p => p.evaluate(() => ({
   let p = await open(b, KOREA + '&layers=0');          // 1930, nothing on
   let s = await st(p);
   check('the section is headed with the place', s.sub === 'Korea', s.sub);
-  check('and offers the three maps and none',
-    s.radios.join(' ') === 'density citizenship occupation none', s.radios.join(' '));
-  check('none of them to begin with', s.on.join('') === 'none', s.on.join(' '));
+  /* Two places now, each with the same four choices under it: a group is a
+     country and the panel is written from the folder. */
+  check('and offers the three maps and none, per place',
+    s.radios.join(' ') === 'density japanese occupation none '
+                         + 'density japanese occupation none', s.radios.join(' '));
+  check('none of them to begin with',
+    s.on.join(' ') === 'none none', s.on.join(' '));
   check('and nothing drawn', s.pies === 0 && s.shaded === 0);
 
   console.log('\n— the three maps —');
-  for (const [mode, want] of [['citizenship', 6], ['occupation', 9]]) {
+  /* Two of them shade and one draws pies. Proportion Japanese is a share and
+     has its own ladder: a pie whose largest slice is 93% was a shape with a
+     sliver in it, which is why it stopped being a pie. */
+  await p.evaluate(() => document.querySelector('#opt-pop-korea-density-japanese').click());
+  await sleep(1600);
+  s = await st(p);
+  check('japanese: it shades rather than drawing pies',
+    s.shaded === 14 && s.pies === 0, s.shaded + ' shaded, ' + s.pies + ' pies');
+  /* The key's rows run together once the whitespace is collapsed, so what is
+     looked for is the wording, not the spacing. */
+  check('and the key says what the share is of',
+    /Proportion Japanese/.test(s.key) && /naichijin\) register/.test(s.key)
+    && /under 1/.test(s.key), s.key.slice(-120));
+  for (const [mode, want] of [['occupation', 9]]) {
     await p.evaluate(m => document.querySelector('#opt-pop-korea-density-' + m).click(), mode);
     await sleep(1600);
     s = await st(p);
@@ -107,23 +125,27 @@ const st = p => p.evaluate(() => ({
   console.log('\n— what the date can answer —');
   p = await open(b, KOREA + '&layers=1');              // Dec 1942
   s = await st(p);
-  check('the estimate cannot draw a register or a trade, and says so by greying',
-    s.off.join(' ') === 'citizenship occupation', s.off.join(' '));
+  /* Korea's estimate counted a population and a sex ratio: no registers, so no
+     Japanese share, and nobody's trade. Taiwan's occupation has no figures on
+     either date. */
+  check('a date that cannot draw a map says so by greying it',
+    s.off.join(' ') === 'japanese occupation occupation', s.off.join(' '));
   /* And says which date can. A greyed switch with nothing beside it reads as a
      switch that is broken, which is how it was reported: "I can't select any
      of these". */
   const why = await p.evaluate(() =>
     [...document.querySelectorAll('#pop-rows input')]
       .filter(i => i.disabled).map(i => i.parentNode.title));
-  check('with the date that can, on the row itself',
-    why.length === 2 && why.every(t => /1930/.test(t)), why.join(' | '));
+  check('with the date that can, on the row itself, where there is one',
+    why.length === 3 && why.filter(t => /1930/.test(t)).length === 2
+    && why.some(t => /No figures/.test(t)), why.join(' | '));
   check('the density map is still offered', s.off.indexOf('density') < 0);
   await p.close();
 
   console.log('\n— through a link —');
   /* Every mode, out and back. The high field is arithmetic and the low one is
      bitwise, and mixing them is how this went wrong the first time. */
-  for (const mode of ['citizenship', 'occupation', 'density']) {
+  for (const mode of ['japanese', 'occupation', 'density']) {
     p = await open(b, KOREA + '&layers=0');
     await p.evaluate(m => document.querySelector('#opt-pop-korea-density-' + m).click(), mode);
     await sleep(1500);
@@ -133,7 +155,8 @@ const st = p => p.evaluate(() => ({
     p = await open(b, KOREA + '&layers=' + wrote);
     s = await st(p);
     check(mode + ': and opens the same map again',
-      s.on.join('') === mode && (mode === 'density' ? s.shaded === 14 : s.pies === 13),
+      s.on.join(' ') === mode + ' none'
+      && (mode === 'occupation' ? s.pies === 13 : s.shaded === 14),
       s.on.join(' ') + ' — ' + s.shaded + ' shaded, ' + s.pies + ' pies');
     await p.close();
   }
@@ -142,7 +165,9 @@ const st = p => p.evaluate(() => ({
   /* Measured at two zooms, because one zoom proves nothing about a scale: at
      the opening view `k` is about 1 and map units and screen pixels are
      interchangeable, which is why this bug always passes the first test. */
-  p = await open(b, KOREA + '&layers=zik0zk');
+  // the occupation map, which is the one that draws pies
+  p = await open(b, KOREA + '&layers=1h9u1hc');
+  await p.waitForSelector('#pop-pies .pop-pie', { timeout: 15000 });
   const wide = await p.evaluate(() => {
     const g = document.querySelector('#pop-pies .pop-pie');
     const r = g.getBoundingClientRect();
@@ -169,7 +194,11 @@ const st = p => p.evaluate(() => ({
      description's place on those provinces — the reader asked about the
      register or the trade, not about the ground. */
   console.log('\n— the pie in the tooltip —');
-  p = await open(b, KOREA + '&layers=zik0zk');           // citizenship
+  p = await open(b, KOREA + '&layers=1h9u1hc');          // the occupation pies
+  // the provinces arrive with the administrative sheet, which is fetched only
+  // because this layer asked for it: wait for the shape rather than for a clock
+  await p.waitForSelector('#a-korea path[data-prov="Keiki"]', { timeout: 15000 });
+  await sleep(600);
   const at = await p.evaluate(() => {
     const e = document.querySelector('#a-korea path[data-prov="Keiki"]');
     const r = e.getBoundingClientRect();
@@ -194,29 +223,25 @@ const st = p => p.evaluate(() => ({
         tip.slices + ' slices');
   /* Every register and nationality, none folded away: a share too small to
      round to a tenth is said as that rather than as nought. */
-  check('with every share named, down to the smallest',
-    tip.rows.length === 6 && /Koreans92\.9%/.test(tip.rows[0])
-    && tip.rows.some(r => /<0\.1%/.test(r)), tip.rows.join(' | '));
-  check('and what the shares are of', /share of the population, 1930/.test(tip.of),
-        tip.of);
+  check('with every share named',
+    tip.rows.length === 9 && /Agriculture62\.3%/.test(tip.rows[0]),
+    tip.rows.join(' | '));
+  check('and what the shares are of',
+    /share of those in gainful occupation, 1930/.test(tip.of), tip.of);
   check('the description stands aside for it', tip.note === false);
-  await p.evaluate(() => document.querySelector('#opt-pop-korea-density-occupation').click());
+  /* And the shaded map has no pie to show under the pointer: the province is
+     still named and still says its figures, but the tooltip does not invent a
+     pie for a single share. */
+  await p.evaluate(() => document.querySelector('#opt-pop-korea-density-japanese').click());
   await sleep(1600);
   await p.mouse.move(at.x - 40, at.y); await sleep(200);
   await p.mouse.move(at.x, at.y); await sleep(600);
-  tip = await p.evaluate(() => {
+  const shadeTip = await p.evaluate(() => {
     const t = document.querySelector('#tooltip');
-    return { rows: [...t.querySelectorAll('.tip-pie-row')].map(r => r.textContent),
-             of: (t.querySelector('.tip-pie-of') || {}).textContent || '' };
+    return { pie: !!t.querySelector('.tip-pie'), note: !!t.querySelector('.prov-note') };
   });
-  /* The same province under the other map says a different thing, and the
-     tooltip's cache has to know that: keyed on the record alone it handed back
-     the citizenship pie. */
-  check('switching the map switches the pie under the pointer',
-    tip.rows.length === 9 && /Agriculture62\.3%/.test(tip.rows[0]),
-    tip.rows.slice(0, 2).join(' | '));
-  check('and says it is a share of those in work',
-    /gainful occupation/.test(tip.of), tip.of);
+  check('a shaded map puts no pie in the tooltip', shadeTip.pie === false);
+  check('and gives the description back', shadeTip.note === true);
   await p.close();
 
   console.log('\n  ' + pass + ' passed, ' + fail + ' failed');

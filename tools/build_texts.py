@@ -310,6 +310,11 @@ def population_data():
                 rec["sameAs"] = r["same_as"]
             # the unit this one sits inside, where the source counts both: a
             # 郡 is read against its 州, and the card says so in a line
+            # a row that is counted *inside* the others rather than beside
+            # them: the 高砂族 of the demarcated territory are also in the
+            # district their ground lies in, so nothing may sum it with them
+            if (r.get("apart") or "").strip().lower() in ("yes", "true", "1"):
+                rec["apart"] = True
             if r.get("parent"):
                 rec["parent"] = r["parent"]
                 if r.get("parent_pop"):
@@ -332,7 +337,16 @@ def population_data():
         # which is not shown anywhere — has no business setting the range.
         dens = [v["dens"] for k, v in out.items()
                 if v.get("dens") and v["scope"] == "sub-unit"
-                and not v.get("sameAs")]
+                and not v.get("sameAs") and not v.get("apart")]
+        # and the share of the population on the Japanese register, which is a
+        # different quantity and gets a ladder of its own
+        jp = []
+        for k, v in out.items():
+            if v["scope"] != "sub-unit" or v.get("sameAs") or v.get("apart"):
+                continue
+            n = (v.get("x") or {}).get("reg_jp")
+            if n and v.get("pop"):
+                jp.append(100.0 * n / v["pop"])
         # `group` is the *layer*, and a dataset is one date of it: the panel
         # offers "Korea Population Density" once and the map draws whichever
         # file belongs to the date the reader is on. Without it every year of
@@ -369,6 +383,7 @@ def population_data():
                      "source": d["source"],
                      "layer": d.get("layer") or label,
                      "dens": dens,
+                     "jp": jp,
                      "rows": out})
 
     # The classes are the layer's, not each date's. A choropleth that switches
@@ -377,12 +392,17 @@ def population_data():
     # run from 37 in 1930 to 224 in 1942, and split per date the pale end of
     # 1942 would be the deep end of 1930. So every file sharing a `group` is
     # measured against the pooled range and gets the same ladder.
-    pooled = {}
+    pooled, pooled_jp = {}, {}
     for d in sets:
         pooled.setdefault(d["group"], []).extend(d.pop("dens"))
+        pooled_jp.setdefault(d["group"], []).extend(d.pop("jp"))
     breaks = dict((g, density_breaks(v)) for g, v in pooled.items())
+    # the Japanese share runs from a fraction of a per cent to a quarter of a
+    # city, so it wants the same log ladder and its own rungs
+    jpb = dict((g, density_breaks(v)) for g, v in pooled_jp.items())
     for d in sets:
         d["breaks"] = breaks.get(d["group"], [])
+        d["jpBreaks"] = jpb.get(d["group"], [])
     return sets
 
 

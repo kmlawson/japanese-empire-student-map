@@ -194,12 +194,16 @@ console.log('\n— the 蕃地 is one shape, and points at no prefecture —');
   check('and it is named for the demarcation, not for the people in it',
     /Government-General's demarcated "Aborigine Territory"/.test(tip),
     tip.slice(0, 70));
-  /* And the administration's own word for it is *not* in the tooltip. 蕃 is
-     "savage", and the tooltip is where a reader meets a place with no context
-     round it — the term belongs in the card, once, in the sentence that says
-     whose demarcation it was, and nowhere a name would go. */
-  check('and the colonial term is not used as its name', !/蕃/.test(tip),
-    tip.slice(0,90));
+  /* The administration's own word appears, and only inside the frame that
+     says whose word it is. 蕃 is "savage": bare, it would be the map calling
+     the place that, which is why it was kept out of the tooltip altogether at
+     first. 所謂「蕃地」 — *the so-called 蕃地* — is the form asked for, and it is
+     the better one: the gloss now names the demarcation rather than the people
+     inside it, which is what the shape actually is. What is checked is that
+     the term never appears without that frame. */
+  check('the colonial term appears only as the term it was',
+    /所謂「蕃地」/.test(tip) && tip.split('蕃').length - 1 === 1,
+    tip.slice(0, 90));
   const one=await p.evaluate(()=>document.querySelectorAll('[data-prov="TwBanchi"]').length);
   check('the seven blocks are drawn as one shape, not seven', one===1, String(one));
   /* Pointing at it must not light a prefecture: it was one territory under one

@@ -7277,8 +7277,7 @@ JMAP.PROVINCES = {
     short: 'The administered coast of Karenkō-chō, a thin shelf between the mountains and the Pacific, settled late and largely by Japanese immigrants'
   },
   TwBanchi: {
-    en: 'Taiwan Government-General\'s demarcated "Aborigine Territory"',
-    ja: '台湾原住民族 (Taiwan genjūminzoku)', zh: '臺灣原住民族',
+    en: 'Taiwan Government-General\'s demarcated "Aborigine Territory"', ja: '所謂「蕃地」',
     wiki: 'https://en.wikipedia.org/wiki/Taiwanese_indigenous_peoples',
     short: 'The highlands and the east: country the colonial state claimed and policed but never governed as it did the plains',
     note: 'This territory is the Taiwan Government-General\'s demarcated "Aborigine Territory" (蕃地) for around 1930. It is drawn from the administration\'s own demarcation, not from any account of where people actually lived. Please see *Outcasts of Empire: Japan\'s Rule on Taiwan\'s "Savage Border," 1874–1945* by Paul Barclay for more discussion on representations of this territory and its peoples.'
@@ -7678,6 +7677,12 @@ JMAP.POPULATION = [
       75,
       100,
       150
+    ],
+    "jpBreaks": [
+      1,
+      2,
+      2.5,
+      4
     ]
   },
   {
@@ -8464,6 +8469,12 @@ JMAP.POPULATION = [
       75,
       100,
       150
+    ],
+    "jpBreaks": [
+      1,
+      2,
+      2.5,
+      4
     ]
   },
   {
@@ -9160,15 +9171,16 @@ JMAP.POPULATION = [
         "line": "1930 Census Population: 26,321 · Males per 100 Females: 130.02"
       }
     },
-    "breaks": []
+    "breaks": [],
+    "jpBreaks": []
   },
   {
     "id": "taiwan-1941",
     "epoch": "1942",
-    "group": "taiwan-1941",
-    "country": "",
+    "group": "taiwan-density",
+    "country": "Taiwan",
     "caption": "resident population at the end of 1941",
-    "note": "The census counted residents (常住) from the household and alien registers. The map draws the districts as they stood before 1933, so where a city was later cut out of one the row says so.",
+    "note": "The census counted residents (常住) from the household and alien registers. The map draws the districts as they stood before 1933, so where a city was later cut out of one the row says so. The demarcated 「蕃地」 is drawn as a shape of its own, and a district’s people include those counted in the part of it that lies inside that shape — so a density here is over the ground the map gives the district, not over every square kilometre its people were counted on.",
     "inShort": false,
     "tableSkip": [],
     "fields": [
@@ -9201,13 +9213,15 @@ JMAP.POPULATION = [
     "label": "Taiwan by district, the resident population at the end of 1941",
     "pctOf": "",
     "source": "臺灣總督府第四十五統計書 (昭和16年), Table 16 市街庄別常住戸口 pp. 20–33, with the colony and prefecture totals from Table 15",
-    "layer": "Taiwan by district, the resident population at the end of 1941",
+    "layer": "Taiwan",
     "rows": {
       "formosa": {
         "scope": "territory",
         "en": "Taiwan (Formosa)",
         "pop": 6249468,
         "mf": "103.54",
+        "km2": 36206,
+        "dens": 173,
         "x": {
           "reg_jp": 365682,
           "reg_ko": 2539,
@@ -9215,7 +9229,7 @@ JMAP.POPULATION = [
           "for_cn": 48483,
           "for_other": 82
         },
-        "line": "1942 Resident Population: 6,249,468 · Males per 100 Females: 103.54"
+        "line": "1942 Resident Population: 6,249,468 · Males per 100 Females: 103.54 · Per km²: 173"
       },
       "TwShuTaihoku": {
         "scope": "sub-unit",
@@ -9286,50 +9300,13 @@ JMAP.POPULATION = [
         },
         "line": "1942 Resident Population: 930,383 · Males per 100 Females: 105.19"
       },
-      "TwShuKarenko": {
-        "scope": "sub-unit",
-        "en": "Karenkō-chō (Huāliángǎng, Hualien)",
-        "pop": 153785,
-        "mf": "110.60",
-        "x": {
-          "reg_jp": 20914,
-          "reg_ko": 119,
-          "reg_tw": 130720,
-          "for_cn": 2032
-        },
-        "line": "1942 Resident Population: 153,785 · Males per 100 Females: 110.60"
-      },
-      "TwShuTaito": {
-        "scope": "sub-unit",
-        "en": "Taitō-chō (Táidōng, Taitung)",
-        "pop": 93138,
-        "mf": "109.96",
-        "x": {
-          "reg_jp": 7078,
-          "reg_ko": 35,
-          "reg_tw": 85068,
-          "for_cn": 956,
-          "for_other": 1
-        },
-        "line": "1942 Resident Population: 93,138 · Males per 100 Females: 109.96"
-      },
-      "TwShuHoko": {
-        "scope": "sub-unit",
-        "en": "Hōko-chō (Pénghú, the Pescadores)",
-        "pop": 69387,
-        "mf": "90.66",
-        "x": {
-          "reg_jp": 3619,
-          "reg_tw": 65694,
-          "for_cn": 74
-        },
-        "line": "1942 Resident Population: 69,387 · Males per 100 Females: 90.66"
-      },
       "TwTaihoku": {
         "scope": "sub-unit",
         "en": "Taihoku-shi (Táiběi, Taipei)",
         "pop": 367213,
         "mf": "104.92",
+        "km2": 47,
+        "dens": 7813,
         "parent": "Taihoku-shū (Táiběi, Taipei)",
         "parentPop": 1233882,
         "x": {
@@ -9339,13 +9316,15 @@ JMAP.POPULATION = [
           "for_cn": 13403,
           "for_other": 29
         },
-        "line": "1942 Resident Population: 367,213 · Males per 100 Females: 104.92"
+        "line": "1942 Resident Population: 367,213 · Males per 100 Females: 104.92 · Per km²: 7813"
       },
       "TwKirunShi": {
         "scope": "sub-unit",
         "en": "Kīrun-shi (Jīlóng, Keelung)",
         "pop": 106523,
         "mf": "107.87",
+        "km2": 53,
+        "dens": 2010,
         "parent": "Taihoku-shū (Táiběi, Taipei)",
         "parentPop": 1233882,
         "x": {
@@ -9355,13 +9334,15 @@ JMAP.POPULATION = [
           "for_cn": 4635,
           "for_other": 2
         },
-        "line": "1942 Resident Population: 106,523 · Males per 100 Females: 107.87"
+        "line": "1942 Resident Population: 106,523 · Males per 100 Females: 107.87 · Per km²: 2010"
       },
       "TwGiran": {
         "scope": "sub-unit",
         "en": "Giran-gun (Yílán)",
         "pop": 109364,
         "mf": "107.55",
+        "km2": 355,
+        "dens": 308,
         "note": "Includes 宜蘭市, which the source counts apart: the city was cut out of the district in 1940, after the boundaries this map draws.",
         "parent": "Taihoku-shū (Táiběi, Taipei)",
         "parentPop": 1233882,
@@ -9372,13 +9353,15 @@ JMAP.POPULATION = [
           "for_cn": 495,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 109,364 · Males per 100 Females: 107.55 Includes 宜蘭市, which the source counts apart: the city was cut out of the district in 1940, after the boundaries this map draws."
+        "line": "1942 Resident Population: 109,364 · Males per 100 Females: 107.55 · Per km²: 308 Includes 宜蘭市, which the source counts apart: the city was cut out of the district in 1940, after the boundaries this map draws."
       },
       "TwShichisei": {
         "scope": "sub-unit",
         "en": "Shichisei-gun (Qīxīng)",
         "pop": 91341,
         "mf": "105.11",
+        "km2": 335,
+        "dens": 273,
         "parent": "Taihoku-shū (Táiběi, Taipei)",
         "parentPop": 1233882,
         "x": {
@@ -9388,13 +9371,15 @@ JMAP.POPULATION = [
           "for_cn": 431,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 91,341 · Males per 100 Females: 105.11"
+        "line": "1942 Resident Population: 91,341 · Males per 100 Females: 105.11 · Per km²: 273"
       },
       "TwTansui": {
         "scope": "sub-unit",
         "en": "Tansui-gun (Dànshuǐ, Tamsui)",
         "pop": 55094,
         "mf": "109.03",
+        "km2": 226,
+        "dens": 244,
         "parent": "Taihoku-shū (Táiběi, Taipei)",
         "parentPop": 1233882,
         "x": {
@@ -9404,13 +9389,15 @@ JMAP.POPULATION = [
           "for_cn": 436,
           "for_other": 15
         },
-        "line": "1942 Resident Population: 55,094 · Males per 100 Females: 109.03"
+        "line": "1942 Resident Population: 55,094 · Males per 100 Females: 109.03 · Per km²: 244"
       },
       "TwKirun": {
         "scope": "sub-unit",
         "en": "Kīrun-gun (Jīlóng, Keelung)",
         "pop": 148753,
         "mf": "118.03",
+        "km2": 509,
+        "dens": 292,
         "parent": "Taihoku-shū (Táiběi, Taipei)",
         "parentPop": 1233882,
         "x": {
@@ -9420,13 +9407,15 @@ JMAP.POPULATION = [
           "for_cn": 4773,
           "for_other": 9
         },
-        "line": "1942 Resident Population: 148,753 · Males per 100 Females: 118.03"
+        "line": "1942 Resident Population: 148,753 · Males per 100 Females: 118.03 · Per km²: 292"
       },
       "TwRato": {
         "scope": "sub-unit",
         "en": "Ratō-gun (Luódōng)",
         "pop": 87863,
         "mf": "108.24",
+        "km2": 279,
+        "dens": 315,
         "parent": "Taihoku-shū (Táiběi, Taipei)",
         "parentPop": 1233882,
         "x": {
@@ -9436,13 +9425,15 @@ JMAP.POPULATION = [
           "for_cn": 358,
           "for_other": 2
         },
-        "line": "1942 Resident Population: 87,863 · Males per 100 Females: 108.24"
+        "line": "1942 Resident Population: 87,863 · Males per 100 Females: 108.24 · Per km²: 315"
       },
       "TwSuo": {
         "scope": "sub-unit",
         "en": "Suō-gun (Sū’ào)",
         "pop": 25264,
         "mf": "109.62",
+        "km2": 45,
+        "dens": 561,
         "parent": "Taihoku-shū (Táiběi, Taipei)",
         "parentPop": 1233882,
         "x": {
@@ -9452,13 +9443,15 @@ JMAP.POPULATION = [
           "for_cn": 79,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 25,264 · Males per 100 Females: 109.62"
+        "line": "1942 Resident Population: 25,264 · Males per 100 Females: 109.62 · Per km²: 561"
       },
       "TwBunzan": {
         "scope": "sub-unit",
         "en": "Bunzan-gun (Wénshān)",
         "pop": 63975,
         "mf": "109.26",
+        "km2": 485,
+        "dens": 132,
         "parent": "Taihoku-shū (Táiběi, Taipei)",
         "parentPop": 1233882,
         "x": {
@@ -9468,13 +9461,15 @@ JMAP.POPULATION = [
           "for_cn": 176,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 63,975 · Males per 100 Females: 109.26"
+        "line": "1942 Resident Population: 63,975 · Males per 100 Females: 109.26 · Per km²: 132"
       },
       "TwKaizan": {
         "scope": "sub-unit",
         "en": "Kaizan-gun (Hǎishān)",
         "pop": 110171,
         "mf": "102.69",
+        "km2": 226,
+        "dens": 487,
         "parent": "Taihoku-shū (Táiběi, Taipei)",
         "parentPop": 1233882,
         "x": {
@@ -9484,13 +9479,15 @@ JMAP.POPULATION = [
           "for_cn": 334,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 110,171 · Males per 100 Females: 102.69"
+        "line": "1942 Resident Population: 110,171 · Males per 100 Females: 102.69 · Per km²: 487"
       },
       "TwShinsho": {
         "scope": "sub-unit",
         "en": "Shinshō-gun (Xīnzhuāng)",
         "pop": 68321,
         "mf": "106.03",
+        "km2": 150,
+        "dens": 455,
         "parent": "Taihoku-shū (Táiběi, Taipei)",
         "parentPop": 1233882,
         "x": {
@@ -9500,13 +9497,15 @@ JMAP.POPULATION = [
           "for_cn": 354,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 68,321 · Males per 100 Females: 106.03"
+        "line": "1942 Resident Population: 68,321 · Males per 100 Females: 106.03 · Per km²: 455"
       },
       "TwShinchikuShi": {
         "scope": "sub-unit",
         "en": "Shinchiku-shi (Xīnzhú, Hsinchu)",
         "pop": 90800,
         "mf": "103.38",
+        "km2": 35,
+        "dens": 2594,
         "parent": "Shinchiku-shū (Xīnzhú, Hsinchu)",
         "parentPop": 838011,
         "x": {
@@ -9516,13 +9515,15 @@ JMAP.POPULATION = [
           "for_cn": 490,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 90,800 · Males per 100 Females: 103.38"
+        "line": "1942 Resident Population: 90,800 · Males per 100 Females: 103.38 · Per km²: 2594"
       },
       "TwShinchiku": {
         "scope": "sub-unit",
         "en": "Shinchiku-gun (Xīnzhú, Hsinchu)",
         "pop": 104534,
         "mf": "103.76",
+        "km2": 375,
+        "dens": 279,
         "parent": "Shinchiku-shū (Xīnzhú, Hsinchu)",
         "parentPop": 838011,
         "x": {
@@ -9532,13 +9533,15 @@ JMAP.POPULATION = [
           "for_cn": 130,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 104,534 · Males per 100 Females: 103.76"
+        "line": "1942 Resident Population: 104,534 · Males per 100 Females: 103.76 · Per km²: 279"
       },
       "TwChureki": {
         "scope": "sub-unit",
         "en": "Chūreki-gun (Zhōnglì)",
         "pop": 121515,
         "mf": "104.31",
+        "km2": 382,
+        "dens": 318,
         "parent": "Shinchiku-shū (Xīnzhú, Hsinchu)",
         "parentPop": 838011,
         "x": {
@@ -9548,13 +9551,15 @@ JMAP.POPULATION = [
           "for_cn": 157,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 121,515 · Males per 100 Females: 104.31"
+        "line": "1942 Resident Population: 121,515 · Males per 100 Females: 104.31 · Per km²: 318"
       },
       "TwToen": {
         "scope": "sub-unit",
         "en": "Tōen-gun (Táoyuán)",
         "pop": 100025,
         "mf": "103.32",
+        "km2": 302,
+        "dens": 331,
         "parent": "Shinchiku-shū (Xīnzhú, Hsinchu)",
         "parentPop": 838011,
         "x": {
@@ -9564,13 +9569,15 @@ JMAP.POPULATION = [
           "for_cn": 207,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 100,025 · Males per 100 Females: 103.32"
+        "line": "1942 Resident Population: 100,025 · Males per 100 Females: 103.32 · Per km²: 331"
       },
       "TwDaikei": {
         "scope": "sub-unit",
         "en": "Daikei-gun (Dàxī)",
         "pop": 61120,
         "mf": "101.92",
+        "km2": 155,
+        "dens": 394,
         "parent": "Shinchiku-shū (Xīnzhú, Hsinchu)",
         "parentPop": 838011,
         "x": {
@@ -9580,13 +9587,15 @@ JMAP.POPULATION = [
           "for_cn": 54,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 61,120 · Males per 100 Females: 101.92"
+        "line": "1942 Resident Population: 61,120 · Males per 100 Females: 101.92 · Per km²: 394"
       },
       "TwChikuto": {
         "scope": "sub-unit",
         "en": "Chikutō-gun (Zhúdōng)",
         "pop": 82738,
         "mf": "103.51",
+        "km2": 307,
+        "dens": 270,
         "parent": "Shinchiku-shū (Xīnzhú, Hsinchu)",
         "parentPop": 838011,
         "x": {
@@ -9596,13 +9605,15 @@ JMAP.POPULATION = [
           "for_cn": 142,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 82,738 · Males per 100 Females: 103.51"
+        "line": "1942 Resident Population: 82,738 · Males per 100 Females: 103.51 · Per km²: 270"
       },
       "TwChikunan": {
         "scope": "sub-unit",
         "en": "Chikunan-gun (Zhúnán)",
         "pop": 101288,
         "mf": "100.49",
+        "km2": 333,
+        "dens": 304,
         "parent": "Shinchiku-shū (Xīnzhú, Hsinchu)",
         "parentPop": 838011,
         "x": {
@@ -9612,13 +9623,15 @@ JMAP.POPULATION = [
           "for_cn": 173,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 101,288 · Males per 100 Females: 100.49"
+        "line": "1942 Resident Population: 101,288 · Males per 100 Females: 100.49 · Per km²: 304"
       },
       "TwByoritsu": {
         "scope": "sub-unit",
         "en": "Byōritsu-gun (Miáolì)",
         "pop": 141122,
         "mf": "99.15",
+        "km2": 520,
+        "dens": 271,
         "parent": "Shinchiku-shū (Xīnzhú, Hsinchu)",
         "parentPop": 838011,
         "x": {
@@ -9628,13 +9641,15 @@ JMAP.POPULATION = [
           "for_cn": 500,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 141,122 · Males per 100 Females: 99.15"
+        "line": "1942 Resident Population: 141,122 · Males per 100 Females: 99.15 · Per km²: 271"
       },
       "TwTaiko": {
         "scope": "sub-unit",
         "en": "Taiko-gun (Dàhú)",
         "pop": 34869,
         "mf": "106.74",
+        "km2": 227,
+        "dens": 154,
         "parent": "Shinchiku-shū (Xīnzhú, Hsinchu)",
         "parentPop": 838011,
         "x": {
@@ -9644,13 +9659,15 @@ JMAP.POPULATION = [
           "for_cn": 41,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 34,869 · Males per 100 Females: 106.74"
+        "line": "1942 Resident Population: 34,869 · Males per 100 Females: 106.74 · Per km²: 154"
       },
       "TwTaichu": {
         "scope": "sub-unit",
         "en": "Taichū-shi (Táizhōng, Taichung)",
         "pop": 97590,
         "mf": "105.03",
+        "km2": 20,
+        "dens": 4880,
         "parent": "Taichū-shū (Táizhōng, Taichung)",
         "parentPop": 1380187,
         "x": {
@@ -9660,13 +9677,15 @@ JMAP.POPULATION = [
           "for_cn": 1049,
           "for_other": 2
         },
-        "line": "1942 Resident Population: 97,590 · Males per 100 Females: 105.03"
+        "line": "1942 Resident Population: 97,590 · Males per 100 Females: 105.03 · Per km²: 4880"
       },
       "TwShoka": {
         "scope": "sub-unit",
         "en": "Shōka-gun (Zhānghuà, Changhua)",
         "pop": 230766,
         "mf": "100.90",
+        "km2": 329,
+        "dens": 701,
         "note": "Includes 彰化市, which the source counts apart: the city was cut out of the district in 1933, after the boundaries this map draws.",
         "parent": "Taichū-shū (Táizhōng, Taichung)",
         "parentPop": 1380187,
@@ -9677,13 +9696,15 @@ JMAP.POPULATION = [
           "for_cn": 710,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 230,766 · Males per 100 Females: 100.90 Includes 彰化市, which the source counts apart: the city was cut out of the district in 1933, after the boundaries this map draws."
+        "line": "1942 Resident Population: 230,766 · Males per 100 Females: 100.90 · Per km²: 701 Includes 彰化市, which the source counts apart: the city was cut out of the district in 1933, after the boundaries this map draws."
       },
       "TwDaiton": {
         "scope": "sub-unit",
         "en": "Daiton-gun (Dàtún)",
         "pop": 106208,
         "mf": "101.92",
+        "km2": 493,
+        "dens": 215,
         "parent": "Taichū-shū (Táizhōng, Taichung)",
         "parentPop": 1380187,
         "x": {
@@ -9693,13 +9714,15 @@ JMAP.POPULATION = [
           "for_cn": 119,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 106,208 · Males per 100 Females: 101.92"
+        "line": "1942 Resident Population: 106,208 · Males per 100 Females: 101.92 · Per km²: 215"
       },
       "TwToyohara": {
         "scope": "sub-unit",
         "en": "Toyohara-gun (Fēngyuán)",
         "pop": 105245,
         "mf": "99.96",
+        "km2": 194,
+        "dens": 542,
         "parent": "Taichū-shū (Táizhōng, Taichung)",
         "parentPop": 1380187,
         "x": {
@@ -9709,13 +9732,15 @@ JMAP.POPULATION = [
           "for_cn": 296,
           "for_other": 2
         },
-        "line": "1942 Resident Population: 105,245 · Males per 100 Females: 99.96"
+        "line": "1942 Resident Population: 105,245 · Males per 100 Females: 99.96 · Per km²: 542"
       },
       "TwTosei": {
         "scope": "sub-unit",
         "en": "Tōsei-gun (Dōngshì)",
         "pop": 49525,
         "mf": "104.92",
+        "km2": 201,
+        "dens": 246,
         "parent": "Taichū-shū (Táizhōng, Taichung)",
         "parentPop": 1380187,
         "x": {
@@ -9725,13 +9750,15 @@ JMAP.POPULATION = [
           "for_cn": 63,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 49,525 · Males per 100 Females: 104.92"
+        "line": "1942 Resident Population: 49,525 · Males per 100 Females: 104.92 · Per km²: 246"
       },
       "TwTaikou": {
         "scope": "sub-unit",
         "en": "Taikō-gun (Dàjiǎ)",
         "pop": 166033,
         "mf": "100.34",
+        "km2": 324,
+        "dens": 512,
         "parent": "Taichū-shū (Táizhōng, Taichung)",
         "parentPop": 1380187,
         "x": {
@@ -9741,13 +9768,15 @@ JMAP.POPULATION = [
           "for_cn": 303,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 166,033 · Males per 100 Females: 100.34"
+        "line": "1942 Resident Population: 166,033 · Males per 100 Females: 100.34 · Per km²: 512"
       },
       "TwInrin": {
         "scope": "sub-unit",
         "en": "Inrin-gun (Yuánlín)",
         "pop": 203147,
         "mf": "103.60",
+        "km2": 283,
+        "dens": 718,
         "parent": "Taichū-shū (Táizhōng, Taichung)",
         "parentPop": 1380187,
         "x": {
@@ -9757,13 +9786,15 @@ JMAP.POPULATION = [
           "for_cn": 500,
           "for_other": 3
         },
-        "line": "1942 Resident Population: 203,147 · Males per 100 Females: 103.60"
+        "line": "1942 Resident Population: 203,147 · Males per 100 Females: 103.60 · Per km²: 718"
       },
       "TwHokuto": {
         "scope": "sub-unit",
         "en": "Hokuto-gun (Běidǒu)",
         "pop": 166962,
         "mf": "99.50",
+        "km2": 450,
+        "dens": 371,
         "parent": "Taichū-shū (Táizhōng, Taichung)",
         "parentPop": 1380187,
         "x": {
@@ -9773,13 +9804,15 @@ JMAP.POPULATION = [
           "for_cn": 262,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 166,962 · Males per 100 Females: 99.50"
+        "line": "1942 Resident Population: 166,962 · Males per 100 Females: 99.50 · Per km²: 371"
       },
       "TwNanto": {
         "scope": "sub-unit",
         "en": "Nantō-gun (Nántóu)",
         "pop": 106150,
         "mf": "102.40",
+        "km2": 398,
+        "dens": 267,
         "parent": "Taichū-shū (Táizhōng, Taichung)",
         "parentPop": 1380187,
         "x": {
@@ -9789,13 +9822,15 @@ JMAP.POPULATION = [
           "for_cn": 159,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 106,150 · Males per 100 Females: 102.40"
+        "line": "1942 Resident Population: 106,150 · Males per 100 Females: 102.40 · Per km²: 267"
       },
       "TwNiitaka": {
         "scope": "sub-unit",
         "en": "Niitaka-gun (Xīngāo)",
         "pop": 43768,
         "mf": "108.99",
+        "km2": 194,
+        "dens": 226,
         "parent": "Taichū-shū (Táizhōng, Taichung)",
         "parentPop": 1380187,
         "x": {
@@ -9805,13 +9840,15 @@ JMAP.POPULATION = [
           "for_cn": 137,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 43,768 · Males per 100 Females: 108.99"
+        "line": "1942 Resident Population: 43,768 · Males per 100 Females: 108.99 · Per km²: 226"
       },
       "TwNoko": {
         "scope": "sub-unit",
         "en": "Nōkō-gun (Nénggāo)",
         "pop": 56354,
         "mf": "105.41",
+        "km2": 250,
+        "dens": 225,
         "parent": "Taichū-shū (Táizhōng, Taichung)",
         "parentPop": 1380187,
         "x": {
@@ -9821,13 +9858,15 @@ JMAP.POPULATION = [
           "for_cn": 156,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 56,354 · Males per 100 Females: 105.41"
+        "line": "1942 Resident Population: 56,354 · Males per 100 Females: 105.41 · Per km²: 225"
       },
       "TwTakeyama": {
         "scope": "sub-unit",
         "en": "Takeyama-gun (Zhúshān)",
         "pop": 48439,
         "mf": "102.42",
+        "km2": 435,
+        "dens": 111,
         "parent": "Taichū-shū (Táizhōng, Taichung)",
         "parentPop": 1380187,
         "x": {
@@ -9837,13 +9876,15 @@ JMAP.POPULATION = [
           "for_cn": 102,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 48,439 · Males per 100 Females: 102.42"
+        "line": "1942 Resident Population: 48,439 · Males per 100 Females: 102.42 · Per km²: 111"
       },
       "TwTainan": {
         "scope": "sub-unit",
         "en": "Tainan-shi",
         "pop": 153879,
         "mf": "104.74",
+        "km2": 49,
+        "dens": 3140,
         "parent": "Tainan-shū",
         "parentPop": 1550695,
         "x": {
@@ -9853,13 +9894,15 @@ JMAP.POPULATION = [
           "for_cn": 3477,
           "for_other": 5
         },
-        "line": "1942 Resident Population: 153,879 · Males per 100 Females: 104.74"
+        "line": "1942 Resident Population: 153,879 · Males per 100 Females: 104.74 · Per km²: 3140"
       },
       "TwKagiShi": {
         "scope": "sub-unit",
         "en": "Kagi-shi (Jiāyì, Chiayi)",
         "pop": 98298,
         "mf": "106.70",
+        "km2": 56,
+        "dens": 1755,
         "parent": "Tainan-shū",
         "parentPop": 1550695,
         "x": {
@@ -9869,13 +9912,15 @@ JMAP.POPULATION = [
           "for_cn": 1637,
           "for_other": 4
         },
-        "line": "1942 Resident Population: 98,298 · Males per 100 Females: 106.70"
+        "line": "1942 Resident Population: 98,298 · Males per 100 Females: 106.70 · Per km²: 1755"
       },
       "TwNiitoyo": {
         "scope": "sub-unit",
         "en": "Niitoyo-gun (Xīnfēng)",
         "pop": 104010,
         "mf": "98.98",
+        "km2": 363,
+        "dens": 287,
         "parent": "Tainan-shū",
         "parentPop": 1550695,
         "x": {
@@ -9885,13 +9930,15 @@ JMAP.POPULATION = [
           "for_cn": 52,
           "for_other": 1
         },
-        "line": "1942 Resident Population: 104,010 · Males per 100 Females: 98.98"
+        "line": "1942 Resident Population: 104,010 · Males per 100 Females: 98.98 · Per km²: 287"
       },
       "TwShinka": {
         "scope": "sub-unit",
         "en": "Shinka-gun (Xīnhuà)",
         "pop": 100867,
         "mf": "100.45",
+        "km2": 652,
+        "dens": 155,
         "parent": "Tainan-shū",
         "parentPop": 1550695,
         "x": {
@@ -9901,13 +9948,15 @@ JMAP.POPULATION = [
           "for_cn": 165,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 100,867 · Males per 100 Females: 100.45"
+        "line": "1942 Resident Population: 100,867 · Males per 100 Females: 100.45 · Per km²: 155"
       },
       "TwSobun": {
         "scope": "sub-unit",
         "en": "Sobun-gun (Zēngwén)",
         "pop": 83105,
         "mf": "97.96",
+        "km2": 299,
+        "dens": 278,
         "parent": "Tainan-shū",
         "parentPop": 1550695,
         "x": {
@@ -9917,13 +9966,15 @@ JMAP.POPULATION = [
           "for_cn": 99,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 83,105 · Males per 100 Females: 97.96"
+        "line": "1942 Resident Population: 83,105 · Males per 100 Females: 97.96 · Per km²: 278"
       },
       "TwHokumon": {
         "scope": "sub-unit",
         "en": "Hokumon-gun (Běimén)",
         "pop": 130270,
         "mf": "95.99",
+        "km2": 413,
+        "dens": 315,
         "parent": "Tainan-shū",
         "parentPop": 1550695,
         "x": {
@@ -9933,13 +9984,15 @@ JMAP.POPULATION = [
           "for_cn": 50,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 130,270 · Males per 100 Females: 95.99"
+        "line": "1942 Resident Population: 130,270 · Males per 100 Females: 95.99 · Per km²: 315"
       },
       "TwShinei": {
         "scope": "sub-unit",
         "en": "Shin'ei-gun (Xīnyíng)",
         "pop": 130496,
         "mf": "99.61",
+        "km2": 476,
+        "dens": 274,
         "parent": "Tainan-shū",
         "parentPop": 1550695,
         "x": {
@@ -9949,13 +10002,15 @@ JMAP.POPULATION = [
           "for_cn": 366,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 130,496 · Males per 100 Females: 99.61"
+        "line": "1942 Resident Population: 130,496 · Males per 100 Females: 99.61 · Per km²: 274"
       },
       "TwKagi": {
         "scope": "sub-unit",
         "en": "Kagi-gun (Jiāyì, Chiayi)",
         "pop": 171430,
         "mf": "104.34",
+        "km2": 1010,
+        "dens": 170,
         "parent": "Tainan-shū",
         "parentPop": 1550695,
         "x": {
@@ -9965,13 +10020,15 @@ JMAP.POPULATION = [
           "for_cn": 207,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 171,430 · Males per 100 Females: 104.34"
+        "line": "1942 Resident Population: 171,430 · Males per 100 Females: 104.34 · Per km²: 170"
       },
       "TwToroku": {
         "scope": "sub-unit",
         "en": "Toroku-gun (Dǒuliù)",
         "pop": 120919,
         "mf": "100.69",
+        "km2": 455,
+        "dens": 266,
         "parent": "Tainan-shū",
         "parentPop": 1550695,
         "x": {
@@ -9981,13 +10038,15 @@ JMAP.POPULATION = [
           "for_cn": 337,
           "for_other": 4
         },
-        "line": "1942 Resident Population: 120,919 · Males per 100 Females: 100.69"
+        "line": "1942 Resident Population: 120,919 · Males per 100 Females: 100.69 · Per km²: 266"
       },
       "TwKobi": {
         "scope": "sub-unit",
         "en": "Kobi-gun (Hǔwěi)",
         "pop": 168505,
         "mf": "99.46",
+        "km2": 482,
+        "dens": 350,
         "parent": "Tainan-shū",
         "parentPop": 1550695,
         "x": {
@@ -9997,13 +10056,15 @@ JMAP.POPULATION = [
           "for_cn": 554,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 168,505 · Males per 100 Females: 99.46"
+        "line": "1942 Resident Population: 168,505 · Males per 100 Females: 99.46 · Per km²: 350"
       },
       "TwHokuko": {
         "scope": "sub-unit",
         "en": "Hokukō-gun (Běigǎng)",
         "pop": 122749,
         "mf": "101.66",
+        "km2": 335,
+        "dens": 366,
         "parent": "Tainan-shū",
         "parentPop": 1550695,
         "x": {
@@ -10013,13 +10074,15 @@ JMAP.POPULATION = [
           "for_cn": 253,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 122,749 · Males per 100 Females: 101.66"
+        "line": "1942 Resident Population: 122,749 · Males per 100 Females: 101.66 · Per km²: 366"
       },
       "TwToseki": {
         "scope": "sub-unit",
         "en": "Tōseki-gun (Dōngshí)",
         "pop": 166167,
         "mf": "99.57",
+        "km2": 466,
+        "dens": 357,
         "parent": "Tainan-shū",
         "parentPop": 1550695,
         "x": {
@@ -10029,13 +10092,15 @@ JMAP.POPULATION = [
           "for_cn": 164,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 166,167 · Males per 100 Females: 99.57"
+        "line": "1942 Resident Population: 166,167 · Males per 100 Females: 99.57 · Per km²: 357"
       },
       "TwTakaoShi": {
         "scope": "sub-unit",
         "en": "Takao-shi (Gāoxióng, Kaohsiung)",
         "pop": 183185,
         "mf": "114.92",
+        "km2": 80,
+        "dens": 2290,
         "parent": "Takao-shū (Gāoxióng, Kaohsiung)",
         "parentPop": 930383,
         "x": {
@@ -10045,13 +10110,15 @@ JMAP.POPULATION = [
           "for_cn": 1980,
           "for_other": 1
         },
-        "line": "1942 Resident Population: 183,185 · Males per 100 Females: 114.92"
+        "line": "1942 Resident Population: 183,185 · Males per 100 Females: 114.92 · Per km²: 2290"
       },
       "TwHeito": {
         "scope": "sub-unit",
         "en": "Heitō-gun (Píngdōng, Pingtung)",
         "pop": 133226,
         "mf": "104.82",
+        "km2": 568,
+        "dens": 235,
         "note": "Includes 屏東市, which the source counts apart: the city was cut out of the district in 1933, after the boundaries this map draws.",
         "parent": "Takao-shū (Gāoxióng, Kaohsiung)",
         "parentPop": 930383,
@@ -10062,13 +10129,15 @@ JMAP.POPULATION = [
           "for_cn": 1275,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 133,226 · Males per 100 Females: 104.82 Includes 屏東市, which the source counts apart: the city was cut out of the district in 1933, after the boundaries this map draws."
+        "line": "1942 Resident Population: 133,226 · Males per 100 Females: 104.82 · Per km²: 235 Includes 屏東市, which the source counts apart: the city was cut out of the district in 1933, after the boundaries this map draws."
       },
       "TwOkayama": {
         "scope": "sub-unit",
         "en": "Okayama-gun (Gāngshān)",
         "pop": 152027,
         "mf": "103.78",
+        "km2": 357,
+        "dens": 426,
         "parent": "Takao-shū (Gāoxióng, Kaohsiung)",
         "parentPop": 930383,
         "x": {
@@ -10078,13 +10147,15 @@ JMAP.POPULATION = [
           "for_cn": 406,
           "for_other": 1
         },
-        "line": "1942 Resident Population: 152,027 · Males per 100 Females: 103.78"
+        "line": "1942 Resident Population: 152,027 · Males per 100 Females: 103.78 · Per km²: 426"
       },
       "TwHozan": {
         "scope": "sub-unit",
         "en": "Hōzan-gun (Fèngshān)",
         "pop": 117469,
         "mf": "103.18",
+        "km2": 332,
+        "dens": 354,
         "parent": "Takao-shū (Gāoxióng, Kaohsiung)",
         "parentPop": 930383,
         "x": {
@@ -10094,13 +10165,15 @@ JMAP.POPULATION = [
           "for_cn": 737,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 117,469 · Males per 100 Females: 103.18"
+        "line": "1942 Resident Population: 117,469 · Males per 100 Females: 103.18 · Per km²: 354"
       },
       "TwKizan": {
         "scope": "sub-unit",
         "en": "Kizan-gun (Qíshān)",
         "pop": 91816,
         "mf": "100.16",
+        "km2": 635,
+        "dens": 145,
         "parent": "Takao-shū (Gāoxióng, Kaohsiung)",
         "parentPop": 930383,
         "x": {
@@ -10110,13 +10183,15 @@ JMAP.POPULATION = [
           "for_cn": 542,
           "for_other": 1
         },
-        "line": "1942 Resident Population: 91,816 · Males per 100 Females: 100.16"
+        "line": "1942 Resident Population: 91,816 · Males per 100 Females: 100.16 · Per km²: 145"
       },
       "TwChoshu": {
         "scope": "sub-unit",
         "en": "Chōshū-gun (Cháozhōu)",
         "pop": 112369,
         "mf": "100.90",
+        "km2": 351,
+        "dens": 320,
         "parent": "Takao-shū (Gāoxióng, Kaohsiung)",
         "parentPop": 930383,
         "x": {
@@ -10126,13 +10201,15 @@ JMAP.POPULATION = [
           "for_cn": 827,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 112,369 · Males per 100 Females: 100.90"
+        "line": "1942 Resident Population: 112,369 · Males per 100 Females: 100.90 · Per km²: 320"
       },
       "TwToko": {
         "scope": "sub-unit",
         "en": "Tōkō-gun (Dōnggǎng)",
         "pop": 106502,
         "mf": "103.43",
+        "km2": 231,
+        "dens": 461,
         "parent": "Takao-shū (Gāoxióng, Kaohsiung)",
         "parentPop": 930383,
         "x": {
@@ -10142,13 +10219,15 @@ JMAP.POPULATION = [
           "for_cn": 609,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 106,502 · Males per 100 Females: 103.43"
+        "line": "1942 Resident Population: 106,502 · Males per 100 Females: 103.43 · Per km²: 461"
       },
       "TwKoshun": {
         "scope": "sub-unit",
         "en": "Kōshun-gun (Héngchūn)",
         "pop": 33789,
         "mf": "104.03",
+        "km2": 347,
+        "dens": 97,
         "parent": "Takao-shū (Gāoxióng, Kaohsiung)",
         "parentPop": 930383,
         "x": {
@@ -10158,13 +10237,15 @@ JMAP.POPULATION = [
           "for_cn": 460,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 33,789 · Males per 100 Females: 104.03"
+        "line": "1942 Resident Population: 33,789 · Males per 100 Females: 104.03 · Per km²: 97"
       },
       "TwTaito": {
         "scope": "sub-unit",
         "en": "Taitō-chō (Táidōng, Taitung)",
         "pop": 93138,
         "mf": "109.96",
+        "km2": 1458,
+        "dens": 64,
         "note": "The three districts of the prefecture together, the map drawing it whole.",
         "x": {
           "reg_jp": 7078,
@@ -10173,13 +10254,15 @@ JMAP.POPULATION = [
           "for_cn": 956,
           "for_other": 1
         },
-        "line": "1942 Resident Population: 93,138 · Males per 100 Females: 109.96 The three districts of the prefecture together, the map drawing it whole."
+        "line": "1942 Resident Population: 93,138 · Males per 100 Females: 109.96 · Per km²: 64 The three districts of the prefecture together, the map drawing it whole."
       },
       "TwKarenko": {
         "scope": "sub-unit",
         "en": "Karenkō-chō (Huāliángǎng, Hualien)",
         "pop": 153785,
         "mf": "110.60",
+        "km2": 1304,
+        "dens": 118,
         "note": "The city and three districts of the prefecture together, the map drawing it whole.",
         "x": {
           "reg_jp": 20914,
@@ -10188,13 +10271,15 @@ JMAP.POPULATION = [
           "for_cn": 2032,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 153,785 · Males per 100 Females: 110.60 The city and three districts of the prefecture together, the map drawing it whole."
+        "line": "1942 Resident Population: 153,785 · Males per 100 Females: 110.60 · Per km²: 118 The city and three districts of the prefecture together, the map drawing it whole."
       },
       "TwHoko": {
         "scope": "sub-unit",
         "en": "Hōko-chō (Pénghú, the Pescadores)",
         "pop": 69387,
         "mf": "90.66",
+        "km2": 126,
+        "dens": 551,
         "note": "Both sub-prefectures together, the map drawing the islands whole.",
         "x": {
           "reg_jp": 3619,
@@ -10203,10 +10288,30 @@ JMAP.POPULATION = [
           "for_cn": 74,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 69,387 · Males per 100 Females: 90.66 Both sub-prefectures together, the map drawing the islands whole."
+        "line": "1942 Resident Population: 69,387 · Males per 100 Females: 90.66 · Per km²: 551 Both sub-prefectures together, the map drawing the islands whole."
+      },
+      "TwBanchi": {
+        "scope": "sub-unit",
+        "en": "Taiwan Government-General’s demarcated 「蕃地」",
+        "pop": 159594,
+        "mf": "100.39",
+        "note": "Note: Does not include Japanese and others living in the Taiwan Government-General’s demarcated \"Aborigine Territory\". The count is of 高砂族 people; those living here are also counted in the district their ground lies in.",
+        "apart": true,
+        "line": "1942 Resident Population: 159,594 · Males per 100 Females: 100.39 Note: Does not include Japanese and others living in the Taiwan Government-General’s demarcated \"Aborigine Territory\". The count is of 高砂族 people; those living here are also counted in the district their ground lies in."
       }
     },
-    "breaks": []
+    "breaks": [
+      150,
+      400,
+      1000,
+      3000
+    ],
+    "jpBreaks": [
+      1,
+      2.5,
+      5,
+      15
+    ]
   }
 ];
 

@@ -13000,6 +13000,87 @@ looked as though they did not sum.
 
 ---
 
+## Proportion Japanese, Taiwan in the panel, and the keyboard
+
+### The second map is a choropleth now
+
+*Citizenship Density* drew a pie of every register at every province, and a pie
+whose largest slice is 93% is a shape with a sliver in it. It is **Proportion
+Japanese** now — the share of the population on the naichijin register, shaded
+in the same five classes as the density map but on a ladder of its own, because
+a share is not a density. Korea comes out under 1, 1–2, 2–2.5, 2.5–4, 4 and
+over; Taiwan under 1, 1–2.5, 2.5–5, 5–15, 15 and over, Taihoku city being a
+quarter Japanese. The occupation pie stays: nine categories with no dominant
+slice is what a pie is for.
+
+The mode kept its slot in the layers code, so a link asking for "the second
+map" gets the second map. That is the most an id-less numbering can promise,
+and it is written down where the numbering is.
+
+### Taiwan in the panel
+
+A second place under Demography, offering the same two shaded maps. That needed
+areas, which the source has none of, so they are measured from the polygons the
+map itself draws — 19,762 km² over the 55 districts and 16,444 for the
+demarcated 「蕃地」, together 36,206 against the 35,808 usually given for the
+island, which is a simplified coastline being 1% generous.
+
+**A density there means something narrower than in Korea, and the dataset says
+so.** The 蕃地 is drawn as a shape of its own, but a district's people include
+those counted in the part of it that lies inside that shape — so the figure is
+people per square kilometre *of the ground the map gives the district*.
+
+**And the sugar flag stopped being counted.** The high field's places were
+assigned by walking the groups in order, so adding Taiwan would have moved the
+sugar railways from place 4 to place 16 and every link carrying them would have
+started meaning "Taiwan, population density". The places are written out now —
+Korea 1, sugar 4, Taiwan 16 — and adding a country cannot shift anything that
+already exists.
+
+### Hōko twice, and the 蕃地 at last
+
+The prefecture table and the district table both carried 臺東廳, 花蓮港廳 and
+澎湖廳, because the map draws those three whole and they are their own
+second-tier unit. The prefecture rows for them are gone; the district row is
+the prefecture.
+
+The demarcated territory now has a figure — the 159,594 高砂族 of 1941, with the
+note that it does not include the Japanese and others living there. It is
+marked `apart`: its people are also counted in the districts whose ground it
+lies inside, so nothing may sum it with them, and the checks that add the
+districts up exclude it by that flag rather than by name.
+
+Its gloss is 所謂「蕃地」 now rather than 台湾原住民族: the shape is a demarcation,
+not a people.
+
+### The keyboard
+
+**c** cities, **a** administrative, **e** events, **t** topography, **o** other
+labels, **r** the railway of wherever the reader has zoomed to; **0** and **2**
+the two dates, **l** Layers, **n** an annotation, **?** the help, **+** and
+**−** the zoom. Each presses the *button* rather than setting the state, so the
+button, the panel and the map cannot come apart, and **r** does nothing exactly
+where the button is not offered.
+
+Two collisions had to be settled. `c` was asked for both Cities and Create;
+Cities has it and Create takes **n**. And Escape was asked to reset the view
+where it already cleared the selection: it does the nearer thing first — closes
+an open card, and resets only when there is nothing to close.
+
+Nothing fires while somebody is typing or while a dialog is open, which the
+test checks by pressing `c` inside the Layers panel.
+
+### And two smaller things
+
+The wide table scrolls inside its own bounded box, so the horizontal bar sits
+at the bottom of what the reader is looking at rather than at the foot of a
+sixty-four-row table they have to scroll past to find. And the sources page had
+its commentary cut back to sources, as asked.
+
+`keys.js`, 13 checks; `taiwanpop.js` still 14.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

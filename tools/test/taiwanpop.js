@@ -73,15 +73,27 @@ const rows = (function () {
 })();
 const n = k => Number(k || 0);
 const shu = rows.filter(r => /^TwShu/.test(r.key));
-const dist = rows.filter(r => r.scope === 'sub-unit' && !/^TwShu/.test(r.key));
+/* `apart` is a row counted *inside* the others rather than beside them: the
+   高砂族 of the demarcated territory are also in the district whose ground it
+   lies in, so nothing may sum it with them. */
+const dist = rows.filter(r => r.scope === 'sub-unit' && !/^TwShu/.test(r.key)
+                              && r.apart !== 'yes');
 const whole = rows.filter(r => r.scope === 'territory')[0];
-check('the eight prefectures sum to the whole island',
-  shu.reduce((a, r) => a + n(r.population), 0) === n(whole.population),
-  shu.reduce((a, r) => a + n(r.population), 0) + ' vs ' + whole.population);
+/* Five of them: the three the map draws whole — 臺東廳, 花蓮港廳, 澎湖廳 — are in
+   the district set instead, because there the prefecture *is* the unit. Both
+   halves together are the island. */
+check('the prefectures and the three drawn whole sum to the island',
+  shu.reduce((a, r) => a + n(r.population), 0)
+  + ['TwTaito', 'TwKarenko', 'TwHoko']
+      .reduce((a, k) => a + n(rows.filter(r => r.key === k)[0].population), 0)
+    === n(whole.population),
+  shu.length + ' prefecture rows');
 check('and so do the units the map draws',
   dist.reduce((a, r) => a + n(r.population), 0) === n(whole.population),
   dist.reduce((a, r) => a + n(r.population), 0) + ' vs ' + whole.population);
-const bad = rows.filter(r => r.population &&
+/* The demarcated territory is a count of 高砂族 people and not a five-way
+   register, so it is left out of this one and says so on its card. */
+const bad = rows.filter(r => r.population && r.apart !== 'yes' &&
   n(r.reg_jp) + n(r.reg_tw) + n(r.reg_ko) + n(r.for_cn) + n(r.for_other)
     !== n(r.population));
 check('the five registers sum to every row\'s own total', !bad.length,
@@ -92,6 +104,16 @@ check('a city cut out after these boundaries is added back',
   n(giran.population) === 109364 && /宜蘭市/.test(giran.note), giran.population);
 check('the eastern prefectures are given whole',
   n(rows.filter(r => r.key === 'TwTaito')[0].population) === 93138);
+/* And the demarcated 「蕃地」, which had no figure at all: the 高砂族 count of
+   1941, with the note that it leaves out the Japanese and others living
+   there. */
+const banchi = rows.filter(r => r.key === 'TwBanchi')[0];
+check('the demarcated territory has its own count',
+  n(banchi.population) === 159594 && banchi.m_per_100_f === '100.39',
+  banchi.population + ' / ' + banchi.m_per_100_f);
+check('and says what it leaves out',
+  /Does not include Japanese and others/.test(banchi.note), banchi.note.slice(0, 60));
+check('and is marked as counted inside the districts', banchi.apart === 'yes');
 
 (async () => {
   const b = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox'] });
@@ -159,8 +181,8 @@ check('the eastern prefectures are given whole',
                here: (d.querySelector('tr.here th') || {}).textContent || '',
                note: (d.querySelector('.pop-note') || {}).textContent || '' };
     });
-    check('the table holds every unit the map draws and the eight above them',
-      box.n === 64, String(box.n));
+    check('the table holds every unit the map draws and the five above them',
+      box.n === 62, String(box.n));
     check('with the district the card was about picked out',
       /Shichisei/.test(box.here), box.here);
     check('and says what kind of count it was', /常住/.test(box.note),

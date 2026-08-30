@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '245';
+  var JEM_VERSION = '246';
   var JEM_ASSETS = {"admin.js": "9f99c96627", "annotate.js": "761fbd5949", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "3881d33c99", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
 
   /* Every file this one fetches, with the version on it.
@@ -3756,12 +3756,12 @@
        integer, so a number carrying the high field through one of them comes
        back wrapped and negative — `layers=-zik0zk`, which parses to something
        else entirely. Added here, nothing touches it again. */
-    var hi = 0, place = 1;
+    var hi = 0;
     popGroups().forEach(function (g) {
-      hi += place * (POP_MODES.indexOf(state.pop[g.id]) + 1 || 0);
-      place *= 4;
+      var place = POP_BITS[g.id];
+      if (place) hi += place * (POP_MODES.indexOf(state.pop[g.id]) + 1 || 0);
     });
-    if (state.twSugar) hi += place;
+    if (state.twSugar) hi += SUGAR_PLACE;
     return (bits + hi * HI_BASE).toString(36);
   }
 
@@ -3800,13 +3800,12 @@
     state.krRail = !!(bits & 134217728);
     state.krStations = !!(bits & 268435456);
     state.trainTools = !!(bits & 536870912);
-    var place = 1;
     popGroups().forEach(function (g) {
-      var mode = POP_MODES[(Math.floor(hi / place) % 4) - 1];
+      var place = POP_BITS[g.id];
+      var mode = place ? POP_MODES[(Math.floor(hi / place) % 4) - 1] : null;
       if (mode) state.pop[g.id] = mode; else delete state.pop[g.id];
-      place *= 4;
     });
-    state.twSugar = !!(Math.floor(hi / place) % 2);
+    state.twSugar = !!(Math.floor(hi / SUGAR_PLACE) % 2);
     state.projection = ['mercator', 'albers', 'laea'][(bits >> 15) & 3] || 'mercator';
     state.graticule = !!(bits & 131072);
     state.relief = !!(bits & 262144);
@@ -8593,12 +8592,19 @@
   /* The three maps a group offers, in the order the panel lists them and the
      order the layers code numbers them: 1, 2, 3, with 0 for none. Adding a
      fourth means adding a value here and widening the field in `layerCode`. */
-  var POP_MODES = ['density', 'citizenship', 'occupation'];
+  /* The order is the order the panel lists them and the order the layers code
+     numbers them: 1, 2, 3, with 0 for none. Slot 2 was the citizenship pies
+     and is the Japanese share now — an old link asking for "the second map"
+     gets the second map, which is the most an id-less numbering can promise. */
+  var POP_MODES = ['density', 'japanese', 'occupation'];
   var HI_BASE = 1073741824;      // 2³⁰: where the bitwise field ends
-  /* Which groups have a place in the code, and in what order. A new country's
-     demography needs a line here — two bits of the high field — and nothing
-     else. */
-  var POP_BITS = { 'korea-density': 1 };
+  /* Where each group's two bits sit in the high field, and where the sugar
+     railways sit above them. Written out rather than counted, because counting
+     moved the sugar flag when a second group arrived and every link carrying
+     it would have started meaning something else. Places go 1, 16, 64, … and
+     4 is spoken for. */
+  var POP_BITS = { 'korea-density': 1, 'taiwan-density': 16 };
+  var SUGAR_PLACE = 4;
 
   function popSets() { return JMAP.POPULATION || []; }
 
@@ -8641,14 +8647,28 @@
 
   /* Which field group each map is drawn from, and so what a dataset must
      carry for that map to have anything to say on that date. */
-  var POP_MODE_FIELDS = {
-    citizenship: 'Register and nationality',
-    occupation: 'Occupation',
-  };
+  var POP_MODE_FIELDS = { occupation: 'Occupation' };
   var POP_MODE_LABEL = {
     density: 'Population Density',
-    citizenship: 'Citizenship Density',
+    japanese: 'Proportion Japanese',
     occupation: 'Occupation Density',
+  };
+  /* The two that shade rather than draw pies, and what each one measures. A
+     share is not a density and gets a ladder of its own — see `jpBreaks`. */
+  var POP_SHADES = {
+    density: {
+      breaks: function (d) { return d.breaks || []; },
+      value: function (r) { return r.dens; },
+      unit: 'people per km²',
+    },
+    japanese: {
+      breaks: function (d) { return d.jpBreaks || []; },
+      value: function (r) {
+        var n = r.x && r.x.reg_jp;
+        return (n && r.pop) ? (100 * n / r.pop) : null;
+      },
+      unit: '% of the population on the Japanese (naichijin) register',
+    },
   };
 
   /* The slices, in the order they are drawn and listed. Folded where the
@@ -8682,17 +8702,36 @@
      that does nothing when it is pressed. */
   function popModeReady(d, mode) {
     if (!d) return false;
-    if (mode === 'density') return !!(d.breaks && d.breaks.length);
+    var shade = POP_SHADES[mode];
+    if (shade) {
+      /* The ladder is the group's, pooled across its dates, so having one
+         proves nothing about *this* date: Korea's 1942 estimate counted a
+         population and a sex ratio and no registers at all, and it inherited
+         the Japanese-share ladder from the 1930 census beside it. So the
+         dataset has to carry a value of its own as well, or the reader is
+         offered a map that shades nothing. */
+      if (!shade.breaks(d).length) return false;
+      return Object.keys(d.rows || {}).some(function (k) {
+        var v = shade.value(d.rows[k]);
+        return v || v === 0;
+      });
+    }
     var want = POP_MODE_FIELDS[mode];
     return !!(d.fields || []).some(function (f) { return f.group === want; });
   }
 
   /* The datasets drawing a choropleth: the group is in density mode and this
      date has densities. */
+  /* The datasets shading the map, each with the mode it is shading in. */
   function popOn() {
-    return popGroups().filter(function (g) { return state.pop[g.id] === 'density'; })
-      .map(popForEpoch)
-      .filter(function (d) { return popModeReady(d, 'density'); });
+    var out = [];
+    popGroups().forEach(function (g) {
+      var mode = state.pop[g.id];
+      if (!POP_SHADES[mode]) return;
+      var d = popForEpoch(g);
+      if (popModeReady(d, mode)) out.push({ set: d, mode: mode });
+    });
+    return out;
   }
 
   /* And the ones drawing pies, with the mode they are drawing. */
@@ -8700,7 +8739,7 @@
     var out = [];
     popGroups().forEach(function (g) {
       var mode = state.pop[g.id];
-      if (mode !== 'citizenship' && mode !== 'occupation') return;
+      if (POP_SHADES[mode] || !mode) return;      // the shaded maps are not pies
       var d = popForEpoch(g);
       if (popModeReady(d, mode)) out.push({ set: d, mode: mode });
     });
@@ -8869,11 +8908,13 @@
      say and what its card explains. */
   function popFills() {
     var out = {};
-    popOn().forEach(function (d) {
-      Object.keys(d.rows).forEach(function (k) {
-        var r = d.rows[k];
-        if (!r.dens) return;
-        out[k] = POP_RAMP[popClass(r.dens, d.breaks)];
+    popOn().forEach(function (job) {
+      var shade = POP_SHADES[job.mode];
+      var breaks = shade.breaks(job.set);
+      Object.keys(job.set.rows).forEach(function (k) {
+        var v = shade.value(job.set.rows[k]);
+        if (!v && v !== 0) return;
+        out[k] = POP_RAMP[popClass(v, breaks)];
       });
     });
     return out;
@@ -9338,14 +9379,17 @@
       legend.appendChild(psrc);
     });
 
-    popOn().forEach(function (d) {
+    popOn().forEach(function (job) {
+      var d = job.set, shade = POP_SHADES[job.mode];
       var head = document.createElement('div');
       head.className = 'item pop-key-head';
       // the year, always: shading carries a date and must never be read as
-      // belonging to whichever map it happens to be drawn over
-      head.textContent = d.layer + ' ' + d.epoch + ' — people per km²';
+      // belonging to whichever map it happens to be drawn over; and what is
+      // being measured, since two of these are shaded the same way
+      head.textContent = (d.country || d.layer) + ' ' + POP_MODE_LABEL[job.mode]
+        + ' ' + d.epoch + ' — ' + shade.unit;
       legend.appendChild(head);
-      popClassLabels(d.breaks).forEach(function (txt, i) {
+      popClassLabels(shade.breaks(d)).forEach(function (txt, i) {
         var row = document.createElement('div');
         row.className = 'item pop-key-row';
         var sw = document.createElement('span');
@@ -11179,13 +11223,61 @@
     $('#zoom-out').addEventListener('click', function () { zoomCentre(1 / 1.5); });
     $('#zoom-reset').addEventListener('click', function () { view = defaultView(); applyView(true); });
 
+    /* ------------------------------------------------- the keyboard --
+
+       One press for each of the things a reader reaches for while looking at
+       the map, so a class can be driven from the keyboard rather than the
+       mouse. Nothing fires while somebody is typing or while a dialog is
+       open — the layers panel is a dialog, and `l` inside it would be a
+       letter somebody meant to type.
+
+       Two notes on the assignment. `c` is Cities, which leaves the Create
+       button without the letter it would want, so that takes `n` — new. And
+       Escape does the nearer thing first: it closes an open card, and only
+       resets the view when there is nothing to close, because a reader with a
+       card open who presses Escape means the card. */
+    var pressLayer = function (sel) {
+      var b = $(sel);
+      if (b && !b.hidden && !b.disabled) b.click();
+    };
     document.addEventListener('keydown', function (e) {
       var t = e.target;
-      if (t && t.closest && t.closest('input, textarea, dialog')) return;
-      if (e.key === 'Escape') { select(null); hideTooltip(); }
-      if (e.key === '+' || e.key === '=') zoomCentre(1.4);
-      if (e.key === '-' || e.key === '_') zoomCentre(1 / 1.4);
-      if (e.key === '0') { view = defaultView(); applyView(true); }
+      if (t && t.closest && t.closest('input, textarea, select, dialog')) return;
+      if (t && t.isContentEditable) return;
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      var k = e.key;
+      if (k === 'Escape') {
+        if (!infoBox.hidden) { select(null); hideTooltip(); }
+        else { view = defaultView(); applyView(true); }
+        return;
+      }
+      if (k === '+' || k === '=') { zoomCentre(1.4); return; }
+      if (k === '-' || k === '_') { zoomCentre(1 / 1.4); return; }
+      if (k === '?') { pressLayer('#btn-help'); return; }
+      if (k === '0') { setEpoch(JMAP.DEFAULT_EPOCH); return; }
+      if (k === '2') {
+        var other = otherEpoch();
+        if (other) setEpoch(other);
+        return;
+      }
+      var low = String(k).toLowerCase();
+      if (low === 'l') { pressLayer('#btn-options'); return; }
+      if (low === 'n') { pressLayer('#bar-ann-create'); return; }
+      /* The five switches in the bar, by the letter each one starts with. They
+         are pressed rather than set, so the button, the panel and the state
+         cannot come apart. */
+      var seg = { c: '[data-cat="city"]', a: '[data-cat="territory"]',
+                  e: '[data-cat="battle"]', t: '[data-opt="relief"]',
+                  o: '[data-opt="labels"]' }[low];
+      if (seg) {
+        var b = $('#layer-seg ' + seg);
+        if (b) b.click();
+        return;
+      }
+      /* And the railway of the ground under the view, where there is one —
+         the same rule the button beside the map follows, so the key does
+         nothing exactly where the button is not offered. */
+      if (low === 'r') { pressLayer('#btn-rail'); return; }
     });
 
     $$('#level-seg button').forEach(function (b) {
