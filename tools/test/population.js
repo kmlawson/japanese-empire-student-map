@@ -132,6 +132,8 @@ const spot = (p, sel, fx, fy) => p.evaluate((s, ax, ay) => {
     const h = document.querySelector('#info-pop');
     const rows = [...h.querySelectorAll('.pop-row')].map(r => r.textContent.trim());
     return { hidden: h.hidden, rows: rows,
+             order: [...document.querySelector('#info').children]
+               .map(e => e.id || e.className),
              head: (h.querySelector('.pop-head') || {}).textContent || '',
              src: (h.querySelector('.pop-src') || {}).textContent || '',
              btn: (h.querySelector('.pop-btn') || {}).textContent || '' };
@@ -144,7 +146,18 @@ const spot = (p, sel, fx, fy) => p.evaluate((s, ax, ay) => {
     && /Korea11\.7$/.test(card.rows[2].replace(/\s+/g, ''))
     && /^Perkm²224/.test(card.rows[3].replace(/\s+/g, '')),
     JSON.stringify(card.rows));
-  check('under the name of the table it came from', /1 October 1942/.test(card.head));
+  /* Headed with the place, not with the table: every province card used to
+     say "Korea" over figures that were the province's. */
+  check('headed with the province and what was counted',
+    card.head === 'Kyŏnggi-do (Keiki-dō), estimated population at 1 October 1942',
+    card.head);
+  /* And above the block about Chōsen. What the reader asked about comes first
+     and what it belongs to comes after — the order the rest of the card is
+     in. */
+  check('the figures sit above the country block',
+    card.order.indexOf('info-pop') > -1
+    && card.order.indexOf('info-pop') < card.order.indexOf('note note-group'),
+    card.order.join(' → '));
   check('and the source', /朝鮮總督府/.test(card.src));
   check('the button offers to put the map away, the shading being on',
     /Hide/.test(card.btn), card.btn);
@@ -188,9 +201,12 @@ const spot = (p, sel, fx, fy) => p.evaluate((s, ax, ay) => {
     shaded: document.querySelectorAll('path.pop-shaded').length,
     btn: (document.querySelector('.pop-btn') || {}).textContent || '',
     url: location.search,
+    head: (document.querySelector('.pop-head') || {}).textContent,
     code: (/[?&]layers=([^&#]+)/.exec(location.search) || [])[1] }));
   check('with nothing on, the card offers the map', /Provinces by Population/.test(before.btn),
         before.btn);
+  check('and the colony-wide card is headed with the colony',
+    before.head === 'Korea, estimated population at 1 October 1942', before.head);
   check('and nothing is shaded yet', before.shaded === 0, String(before.shaded));
   await p.evaluate(() => document.querySelector('.pop-btn').click());
   await sleep(1600);
@@ -263,6 +279,66 @@ const spot = (p, sel, fx, fy) => p.evaluate((s, ax, ay) => {
       wrong.map(c => c + ' ' + got[c] + ' want ' + (want[c] || R.small)).join(', '));
     await q.close();
   }
+
+  /* ---- the whole column, in a box ---------------------------------- */
+  /* The card answers "what about this province"; the table answers "and how
+     does it sit against the others", which needs the column at once. */
+  console.log('\n— the population table —');
+  p = await open(b, KOREA + '&layers=hra0ht');
+  const spot2 = await spot(p, '#a-korea path[data-prov="Keiki"]');
+  await p.mouse.move(spot2.x - 40, spot2.y); await sleep(150);
+  await p.mouse.move(spot2.x, spot2.y); await sleep(400);
+  await p.mouse.click(spot2.x, spot2.y); await sleep(600);
+  const tbl = await p.evaluate(() => {
+    document.querySelector('.pop-more').click();
+    const d = document.querySelector('#dlg-table');
+    const rows = [...d.querySelectorAll('.pop-table tbody tr')];
+    return { open: d.open, title: d.querySelector('.table-title').textContent,
+             tab: d.querySelector('.table-open').hidden,
+             head: (d.querySelector('.pop-head') || {}).textContent,
+             n: rows.length,
+             first: rows[0].textContent.replace(/\s+/g, ' ').trim(),
+             order: rows.map(r => r.querySelector('th').textContent),
+             here: (d.querySelector('tr.here th') || {}).textContent,
+             note: (d.querySelector('.pop-note') || {}).textContent || '',
+             src: (d.querySelector('.pop-src') || {}).textContent || '' };
+  });
+  check('the link opens the box', tbl.open === true && tbl.title === 'Population');
+  check('with no "open in a tab": it is a table, not a page', tbl.tab === true);
+  check('the whole first, then the provinces by size',
+    /Ch.sen/.test(tbl.first) && /24,105,906/.test(tbl.first)
+    && tbl.order[1] === 'Kyŏnggi-do (Keiki-dō)'
+    && tbl.order[13] === 'Ch\u2019ungch\u2019ŏngbuk-to (Chūseihoku-dō)',
+    tbl.order.slice(0, 3).join(' | '));
+  check('fifteen rows: the country, the thirteen, and Cheju', tbl.n === 15, String(tbl.n));
+  /* Cheju sits at the bottom rather than sorted in among the rest: it carries
+     Zenranan-dō's figures, and in among them it would read as a fourteenth
+     province with the same population as one of the others. */
+  check('Cheju is last, marked, and its note is under the table',
+    /Cheju/.test(tbl.order[14]) && /\*/.test(tbl.order[14])
+    && /count Cheju inside Zenranan/.test(tbl.note), tbl.order[14] + ' | ' + tbl.note.slice(0, 60));
+  check('the province the card was about is picked out', /Ky.nggi/.test(tbl.here), tbl.here);
+  check('and the source is at the foot', /朝鮮總督府/.test(tbl.src), tbl.src);
+  await p.close();
+
+  /* On a phone the table is wider than the screen, and it has to scroll inside
+     its own box: a table that pushes the page sideways takes the map with it. */
+  p = await open(b, KOREA + '&layers=hra0ht', { touch: true });
+  const atP = await spot(p, '#a-korea path[data-prov="Heianhoku"]', 0.5, 0.45);
+  await p.touchscreen.tap(atP.x, atP.y); await sleep(700);
+  await p.touchscreen.tap(atP.x, atP.y); await sleep(700);
+  const phone = await p.evaluate(() => {
+    const m = document.querySelector('#info .more'); if (m) m.click();
+    document.querySelector('.pop-more').click();
+    const d = document.querySelector('#dlg-table');
+    const sc = d.querySelector('.pop-table-scroll');
+    return { open: d.open, scrolls: sc.scrollWidth > sc.clientWidth,
+             pageWide: document.documentElement.scrollWidth > window.innerWidth };
+  });
+  check('a finger opens it too', phone.open === true);
+  check('the table scrolls inside its own box, not the page',
+    phone.scrolls === true && phone.pageWide === false, JSON.stringify(phone));
+  await p.close();
 
   /* ---- one layer, whichever date the reader is on ------------------- */
   /* The switch is the *layer* and a file in data/population/ is one date of

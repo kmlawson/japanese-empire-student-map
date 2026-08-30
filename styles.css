@@ -2955,3 +2955,55 @@ dialog h3 {
 #jmap .atom > path.pop-shaded.prov-hot {
   fill: color-mix(in srgb, var(--c, var(--inactive)) 83%, #fff);
 }
+
+/* ------------------------------------------- the population table box --
+
+   The card answers "what about this province"; this answers "and how does it
+   sit against the others", so it is a column the reader can run their eye
+   down. It borrows the box the printed timetable opens in — same close, same
+   backdrop, same escape — and fills it with a table built here rather than
+   with a page in an iframe. */
+.pop-table-block + .pop-table-block { margin-top: 18px; }
+.pop-table-block .pop-head { margin-bottom: 6px; }
+
+.pop-table-scroll { overflow-x: auto; }
+
+.pop-table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+.pop-table th, .pop-table td { padding: 4px 8px; text-align: left; }
+.pop-table .num { text-align: right; }
+.pop-table thead th {
+  font-size: 11px;
+  letter-spacing: .03em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 600;
+  border-bottom: 1px solid var(--line);
+  /* the head stays while the column is read down */
+  position: sticky;
+  top: 0;
+  background: var(--paper, #fbf7ef);
+}
+.pop-table tbody th.name { font-weight: 500; }
+.pop-table tbody tr + tr th, .pop-table tbody tr + tr td {
+  border-top: 1px dotted var(--line);
+}
+/* the whole, above its parts */
+.pop-table tr.whole th, .pop-table tr.whole td {
+  font-weight: 600;
+  border-bottom: 1px solid var(--line);
+}
+/* a place the returns do not break out: it carries another row's figures */
+.pop-table tr.counted-in th, .pop-table tr.counted-in td { color: var(--muted); }
+/* the row the card that opened this was about */
+.pop-table tr.here th, .pop-table tr.here td { background: var(--hi, rgba(122, 23, 48, .07)); }
+
+.pop-more {
+  display: block;
+  margin-top: 8px;
+  font-size: 12px;
+}

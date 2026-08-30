@@ -18,6 +18,7 @@ about the place; this folder holds what was counted there.
 | `pct_of` | the whole that `pct_of_total` is a share of, as it should read: `Korea` gives *% of Total Korea* |
 | `group` | the **layer** this file is one date of. Every file sharing a group is one switch in the Layers panel, and the map draws whichever of them matches the date the reader is on; a date with no file leaves the switch on and says so. Each group needs a bit in `POP_BITS` in `map.js` |
 | `layer` | the name of that switch, and the heading over its key. The year is added to the key from the file's own `epoch`, so the label itself should not carry one |
+| `caption` | what was counted, without the place: *estimated population at 1 October 1942*. A card puts the name of the place it is about in front of this, so a province's figures are headed with the province; the whole-territory card is headed `pct_of` + this |
 | `source` | where the numbers come from. The same citation belongs on `texts/pages/sources.md`, which is what the reader sees |
 
 ## A dataset file

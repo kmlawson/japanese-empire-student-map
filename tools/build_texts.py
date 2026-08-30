@@ -279,9 +279,18 @@ def population_data():
         # file belongs to the date the reader is on. Without it every year of
         # every country would be its own switch, and the reader would have to
         # know which of them matched the map in front of them.
+        # The caption is the half of the heading that is about the table
+        # rather than about the place — "estimated population at 1 October
+        # 1942" — because the card puts the place's own name in front of it: a
+        # province's figures are headed with the province, not with Korea. The
+        # whole-colony card keeps `label`, which is that caption under the name
+        # of the whole.
+        caption = d.get("caption") or d.get("label") or ""
+        label = d.get("label") or ("%s, %s" % (d["pct_of"], caption))
         sets.append({"id": d["file"][:-4], "epoch": d["epoch"],
                      "group": d.get("group") or d["file"][:-4],
-                     "label": d["label"], "pctOf": d["pct_of"],
+                     "caption": caption,
+                     "label": label, "pctOf": d["pct_of"],
                      "source": d["source"],
                      "layer": d.get("layer") or d["label"],
                      "breaks": density_breaks(dens),

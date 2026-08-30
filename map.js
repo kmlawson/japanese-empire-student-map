@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '238';
+  var JEM_VERSION = '239';
   var JEM_ASSETS = {"admin.js": "9f99c96627", "annotate.js": "761fbd5949", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "3881d33c99", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
 
   /* Every file this one fetches, with the version on it.
@@ -7109,8 +7109,9 @@
     var groupName = nameOf(host);
     grp.setAttribute('data-group',
       (groupNote && groupName !== primary) ? groupName : '');
-    // what was counted here, if anything was
-    fillPopCard(sub ? (lastProv && lastProv.key) : id);
+    // what was counted here, if anything was — headed with the name the card
+    // is headed with, which is the place the reader asked about
+    fillPopCard(sub ? (lastProv && lastProv.key) : id, primary);
     // and, on a station with the train tools up, the trains that called there
     fillTrainCard(byId[id]);
     collapseInfo();
@@ -7274,6 +7275,136 @@
 
   var tableDlg = null;
 
+  /* The box over the map, wired once. It was built for the printed timetable
+     and holds an iframe for that; the population table is DOM built here, so
+     the only difference is what goes in `.table-body` and whether there is
+     anything to open in a tab. */
+  function tableBox() {
+    var dlg = $('#dlg-table');
+    if (!dlg || !dlg.showModal) return null;
+    if (!tableDlg) {
+      tableDlg = dlg;
+      $('.table-close', dlg).addEventListener('click', function () { dlg.close(); });
+      dlg.addEventListener('close', function () {
+        $('.table-body', dlg).textContent = '';
+      });
+      dlg.addEventListener('click', function (e) {
+        if (e.target === dlg) dlg.close();
+      });
+    }
+    return dlg;
+  }
+
+  /* Everything counted, in a table the reader can read down. The card answers
+     "what about this province"; this answers "and how does it sit against the
+     others", which is a different question and needs the whole column at once.
+     One section per date, so a second year is another block rather than
+     another box, and the source under each. */
+  function openPopTable(key) {
+    var dlg = tableBox();
+    var sets = popSets().filter(function (d) { return d.rows; });
+    if (!dlg || !sets.length) return;
+    $('.table-title', dlg).textContent = 'Population';
+    var open = $('.table-open', dlg);
+    if (open) open.hidden = true;          // nothing to open: this is not a page
+    var body = $('.table-body', dlg);
+    body.textContent = '';
+    sets.slice().sort(function (a, b) { return String(a.epoch).localeCompare(b.epoch); })
+      .forEach(function (d) {
+        body.appendChild(popTable(d, key));
+      });
+    dlg.showModal();
+  }
+
+  /* The name this map would use for the place, so the table and the card
+     cannot call the same province two different things. */
+  function popRowName(k, row) {
+    var rec = (JMAP.PROVINCES || {})[k] || byId[k];
+    if (!rec) return row.en || k;
+    var per = JMAP.PROVINCE_EPOCH && JMAP.PROVINCE_EPOCH[state.epoch];
+    var over = per && per[k];
+    var merged = rec;
+    if (over && over.en) {
+      merged = {};
+      Object.keys(rec).forEach(function (x) { merged[x] = rec[x]; });
+      merged.en = over.en;
+    }
+    return splitGloss(nameOf(shown(merged))).name;
+  }
+
+  function popTable(d, key) {
+    var wrap = document.createElement('section');
+    wrap.className = 'pop-table-block';
+    var h = document.createElement('p');
+    h.className = 'pop-head';
+    h.textContent = d.label;
+    wrap.appendChild(h);
+
+    var scroll = document.createElement('div');
+    scroll.className = 'pop-table-scroll';
+    var table = document.createElement('table');
+    table.className = 'pop-table';
+    var cols = ['', 'Population', 'Males per 100 females',
+                '% of total ' + d.pctOf, 'Area km²', 'Per km²'];
+    var thead = document.createElement('thead');
+    var hr = document.createElement('tr');
+    cols.forEach(function (c, i) {
+      var th = document.createElement('th');
+      th.textContent = c;
+      if (i) th.className = 'num';
+      hr.appendChild(th);
+    });
+    thead.appendChild(hr);
+    table.appendChild(thead);
+
+    /* The whole first, then its parts by size, and the places the returns do
+       not break out at the bottom — they carry another row's figures, and
+       sorted in among the rest they would read as a fourteenth province. */
+    var keys = Object.keys(d.rows);
+    var whole = keys.filter(function (k) { return d.rows[k].scope === 'territory'; });
+    var parts = keys.filter(function (k) {
+      return d.rows[k].scope !== 'territory' && !d.rows[k].sameAs;
+    }).sort(function (a, b) { return (d.rows[b].pop || 0) - (d.rows[a].pop || 0); });
+    var counted = keys.filter(function (k) { return d.rows[k].sameAs; });
+
+    var tbody = document.createElement('tbody');
+    var notes = [];
+    whole.concat(parts, counted).forEach(function (k) {
+      var r = d.rows[k];
+      var tr = document.createElement('tr');
+      if (r.scope === 'territory') tr.className = 'whole';
+      if (r.sameAs) tr.className = 'counted-in';
+      if (k === key) tr.classList.add('here');   // the card that opened this
+      [popRowName(k, r) + (r.note ? ' *' : ''),
+       r.pop ? r.pop.toLocaleString('en-US') : '—',
+       r.mf || '—', r.pct || '—',
+       r.km2 ? r.km2.toLocaleString('en-US') : '—',
+       r.dens || '—'].forEach(function (v, i) {
+        var td = document.createElement(i ? 'td' : 'th');
+        td.textContent = v;
+        td.className = i ? 'num' : 'name';
+        tr.appendChild(td);
+      });
+      if (r.note) notes.push(popRowName(k, r) + ' — ' + r.note);
+      tbody.appendChild(tr);
+    });
+    table.appendChild(tbody);
+    scroll.appendChild(table);
+    wrap.appendChild(scroll);
+
+    notes.forEach(function (n) {
+      var p = document.createElement('p');
+      p.className = 'pop-note';
+      p.textContent = '* ' + n;
+      wrap.appendChild(p);
+    });
+    var src = document.createElement('p');
+    src.className = 'pop-src';
+    src.textContent = d.source;
+    wrap.appendChild(src);
+    return wrap;
+  }
+
   function openTable(href, title) {
     var dlg = $('#dlg-table');
     if (!dlg || !dlg.showModal) { window.open(href, '_blank', 'noopener'); return; }
@@ -7295,7 +7426,7 @@
     }
     $('.table-title', dlg).textContent = title || 'The printed timetable';
     var open = $('.table-open', dlg);
-    if (open) open.href = href;
+    if (open) { open.href = href; open.hidden = false; }
     var body = $('.table-body', dlg);
     body.textContent = '';
     var frame = document.createElement('iframe');
@@ -8163,6 +8294,7 @@
   /* What the open card is about, so that switching the shading can relabel its
      button without rebuilding the card. */
   var popCardKey = null;
+  var popCardName = '';
 
   function setPop(id, on) {
     if (!POP_BITS[id] && !popGroups().some(function (g) { return g.id === id; })) return;
@@ -8181,7 +8313,7 @@
        shading back on meant finding it again. Nothing else in the card depends
        on this switch: the figures are the same figures, and it is the button
        that has to change its mind. */
-    if (popCardKey !== null) fillPopCard(popCardKey);
+    if (popCardKey !== null) fillPopCard(popCardKey, popCardName);
   }
 
   function syncPopBoxes() {
@@ -8288,12 +8420,13 @@
   /* What was counted here, a field to a line, under the description. The
      tooltip says the same thing in one sentence; this is the same numbers
      with room to read them, and it stacks one block per date. */
-  function fillPopCard(key) {
+  function fillPopCard(key, name) {
     var host = $('#info-pop');
     if (!host) return;
     host.innerHTML = '';
     var sets = popFor(key);
     popCardKey = sets.length ? key : null;
+    popCardName = name || '';
     if (!sets.length) { host.hidden = true; return; }
     sets.forEach(function (d) {
       var r = d.rows[key];
@@ -8301,7 +8434,12 @@
       block.className = 'pop-block';
       var head = document.createElement('p');
       head.className = 'pop-head';
-      head.textContent = d.label;
+      /* The place, then what was counted: *Kyŏnggi-do, estimated population at
+         1 October 1942*. Headed with the dataset's own label instead, every
+         province card said "Korea" over figures that were the province's.
+         The whole colony keeps the label, being the thing that label names. */
+      head.textContent = (r.scope === 'sub-unit' && name)
+        ? name + ', ' + d.caption : d.label;
       block.appendChild(head);
       if (r.pop) popRow(block, 'Population', r.pop.toLocaleString('en-US'));
       if (r.mf) popRow(block, 'Males per 100 females', r.mf);
@@ -8322,6 +8460,16 @@
     /* And the way to see it as a map. It is the same switch as the one in the
        Layers panel — pressed here or there, one thing is on — so the label
        says which way it is about to go. */
+    /* And the whole column, for the reader who wants to see this province
+       against the others. A link rather than a button: it opens something to
+       read, and the button beside it changes the map. */
+    var more = document.createElement('button');
+    more.type = 'button';
+    more.className = 'plain pop-more';
+    more.textContent = 'Population Table';
+    more.addEventListener('click', function () { openPopTable(key); });
+    host.appendChild(more);
+
     var group = popGroupFor(key);
     if (group) {
       var on = !!state.pop[group.id];

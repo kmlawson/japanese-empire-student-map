@@ -12541,6 +12541,36 @@ had open was gone, so putting the shading back meant finding it again. Only the
 population block is redrawn now — nothing else in the card depends on the
 switch, and it is the button that has to change its mind.
 
+### Where the block sits, and what heads it
+
+The figures go **above** the block about Chōsen and not below it. On a province
+card the block underneath is the country's, and the figures are the province's:
+what the reader asked about comes first and what it belongs to comes after,
+which is the order the rest of the card is already in.
+
+And the heading is the place, not the table. Every province card was headed
+*Korea, estimated population at 1 October 1942* over figures that were
+Kyŏnggi-do's. The dataset now carries a `caption` — the half of that sentence
+which is about the table — and the card puts the name it is already headed with
+in front of it. The whole-colony card keeps the label, being the thing the label
+names.
+
+### The whole column, in a box
+
+**Population Table** under the figures opens the lot: the country, then the
+thirteen by size, then Cheju at the bottom marked with its note — sorted in
+among the rest it would read as a fourteenth province with the same population
+as one of the others. The row the card was about is picked out, so a reader who
+came from Kyŏnggi-do can see where it sits without hunting for it. The source
+is at the foot of each table, and a second date will be a second block in the
+same box.
+
+It borrows the box the printed timetable opens in — same close, same backdrop,
+same Escape — but fills it with a table built here rather than a page in an
+iframe, so *Open in a new tab* is hidden: there is no page to open. On a phone
+the table is wider than the screen and scrolls inside its own box; a table that
+pushes the page sideways takes the map with it.
+
 ### Cheju
 
 `same_as` in the dataset: the place has no figures of its own because the
@@ -12594,7 +12624,7 @@ weight the marker on top now takes it. Nothing else moves: Tokyo and the other
 fifty curated cities the gazetteer has not pinned are the size they have always
 been.
 
-`population.js`, 48 checks: the shading and its five classes, the key, the
+`population.js`, 59 checks: the shading and its five classes, the key, the
 tooltip, the card both ways round — the card turning the layer on and the layer
 putting the card's button the other way — the finger, and the fourteen cities
 at three zooms on both dates, each at the weight its own date's figures earn

@@ -7469,6 +7469,7 @@ JMAP.POPULATION = [
     "id": "korea-1942",
     "epoch": "1942",
     "group": "korea-density",
+    "caption": "estimated population at 1 October 1942",
     "label": "Korea, estimated population at 1 October 1942",
     "pctOf": "Korea",
     "source": "朝鮮總督府『昭和十七年 朝鮮人口動態統計』附録 p24",

@@ -1,2 +1,2 @@
-file,epoch,group,layer,label,pct_of,source
-korea-1942.csv,1942,korea-density,Korea Population Density,"Korea, estimated population at 1 October 1942",Korea,朝鮮總督府『昭和十七年 朝鮮人口動態統計』附録 p24
+file,epoch,group,layer,caption,pct_of,source
+korea-1942.csv,1942,korea-density,Korea Population Density,estimated population at 1 October 1942,Korea,朝鮮總督府『昭和十七年 朝鮮人口動態統計』附録 p24
