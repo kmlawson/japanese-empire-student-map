@@ -12360,6 +12360,45 @@ address is left clean.
 
 ---
 
+## The 1942 population of Korea, and what could be checked about it
+
+**Asked for:** the estimated population and the sex ratio on the Chōsen card,
+and on each province the same plus its share of the peninsula and its density —
+on the December 1942 snapshot only.
+
+**The percentages were checked rather than trusted.** The thirteen provincial
+totals sum to **24,105,906**, which is the peninsula figure exactly, not near
+it. Every share given is within 0.05 of the share computed from those numbers,
+and they add to 100.0. Nothing needed correcting, and this is worth saying
+because the alternative — quietly recomputing them — would have hidden the
+agreement.
+
+**The densities are computed here, not supplied.** There is no area column in
+the source, so each province's area is measured from the polygons the map
+itself draws, `korea_13_provinces_fine.json`. They total **220,777 km²** against
+the 220,800 usually given for the peninsula — 0.01% out, which is the level a
+traced boundary can be expected to agree at, and is the check that the areas
+are the right ones. The range is Kankyōhoku at 54/km² to Keiki at 223/km²,
+which is the expected shape: the empty north-east against the province holding
+Keijō.
+
+**Where it lives.** Fourteen rows in
+`texts/territories/sub-units/overrides-1942.csv` — the thirteen provinces, each
+appending its four figures to the base short, and Saishu, which gets a sentence
+instead: it is counted in Zenranan-dō in the 1942 returns, which do not break
+the island out. `texts/territories/1942.csv` gains a `short` column carrying the
+country total and the sex ratio, filled for `chosen` and nobody else. Because
+both files are per-epoch, **1930 carries none of it**, which is what was asked.
+
+**The source is now on the sources page:** 朝鮮總督府『昭和十七年 朝鮮人口動態
+統計』附録 p24, an estimate for 1 October 1942.
+
+Four checks in `names.js`, which is 20 now: the same country and the same
+province hovered on both maps, carrying the figures on one date and not the
+other.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

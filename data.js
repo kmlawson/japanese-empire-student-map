@@ -662,6 +662,7 @@ JMAP.TERRITORIES = {
       id: 'chosen', en: 'Chōsen (Korea)', ja: '朝鮮 (Chōsen)', orig: '조선 (Chosŏn)', zh: '朝鮮',
       ko: '조선 (Chosŏn)', when: 'Annexed 1910–1945', cat: 'colony', lvl: 1, atoms: ['korea'],
       wiki: 'https://en.wikipedia.org/wiki/Korea_under_Japanese_rule',
+      short: '1942 Estimated Population: 24,105,906 · Males per 100 Females: 100.4',
       note: 'By 1942 under the assimilation drive: Korean-language teaching suppressed, Japanese names imposed from 1940, and mobilisation of labour and, from 1944, conscription.'
     },
     {
@@ -7349,74 +7350,116 @@ JMAP.PROVINCE_EPOCH = {
     },
   },
   e1942: {
+    Bihar: { en: 'Bihar Province', wiki: 'https://en.wikipedia.org/wiki/Bihar_Province' },
+    Chichijima: {
+      short: 'A fortified naval base, bombed from 1944 but never invaded',
+      note: 'A fortified naval base, bombed from 1944 but never invaded, and the garrison held out to the surrender. George H. W. Bush was shot down off it in September 1944. Officers on the island killed several captured American airmen and ate part of them, and were tried and hanged for it in 1946.'
+    },
+    'Christmas Island': {
+      en: 'Christmas Island — taken by Japan on 31 March 1942 for its phosphate',
+      ja: 'クリスマス島 (Kurisumasu-tō)', wiki: 'https://en.wikipedia.org/wiki/Christmas_Island'
+    },
+    Chuseihoku: {
+      short: 'The only province in Korea with no coastline. 1942 Estimated Population: 928,817 · Males per 100 Females: 102.5 · % of Total Korea: 3.9 · Per km²: 125'
+    },
+    Chuseinan: {
+      short: 'The lower Kŭm river and the tidal flats of the west coast. 1942 Estimated Population: 1,568,708 · Males per 100 Females: 100.3 · % of Total Korea: 6.5 · Per km²: 195'
+    },
+    Dindings: { en: 'The Dindings — part of Perak again since 16 February 1935' },
     Funafuti: {
       en: 'Funafuti — the American base from October 1942',
       wiki: 'https://en.wikipedia.org/wiki/Funafuti',
       note: 'The lagoon and the airstrip the assault on Tarawa and Makin was mounted from in November 1943. Marines landed on 2 October 1942 and the islanders of the main islet were moved to make room for the runway.'
     },
-    Nukufetau: {
-      en: 'Nukufetau — an American airfield from 1943',
-      wiki: 'https://en.wikipedia.org/wiki/Nukufetau'
+    Hahajima: {
+      short: 'Shelled and bombed and then left alone',
+      note: 'Shelled and bombed and then left alone. Its people were evacuated to the mainland with those of Chichijima in 1944.'
     },
-    Nanumea: {
-      en: 'Nanumea — an American airfield from 1943',
-      wiki: 'https://en.wikipedia.org/wiki/Nanumea'
+    Heianhoku: {
+      short: 'The north-western march, with the Yalu as its border: the river carried the timber trade. 1942 Estimated Population: 1,728,627 · Males per 100 Females: 99.8 · % of Total Korea: 7.2 · Per km²: 61'
     },
-    Sind: { en: 'Sind Province', wiki: 'https://en.wikipedia.org/wiki/Sindh' },
-    Orissa: {
-      en: 'Orissa Province — the Orissa States are drawn inside it',
-      wiki: 'https://en.wikipedia.org/wiki/Orissa_Province'
-    },
-    Bihar: { en: 'Bihar Province', wiki: 'https://en.wikipedia.org/wiki/Bihar_Province' },
-    UnitedProvinces: {
-      en: 'United Provinces',
-      wiki: 'https://en.wikipedia.org/wiki/United_Provinces_(1937%E2%80%931950)'
-    },
-    Liaoning: {
-      en: 'Fèngtiān (Fengtien)', ja: '奉天 (Hōten)', zh: '奉天', ko: '봉천 (Pongch’ŏn)',
-      wiki: 'https://en.wikipedia.org/wiki/Liaoning'
+    Heiannan: {
+      short: 'P\'yŏngyang, the oldest city in Korea and the one with the largest Christian community. 1942 Estimated Population: 1,684,444 · Males per 100 Females: 99.7 · % of Total Korea: 7.0 · Per km²: 114'
     },
     Heilongjiang: {
       en: 'Lóngjiāng (Lungkiang)', ja: '黒竜江省', zh: '龍江', ko: '헤이룽장성',
       wiki: 'https://en.wikipedia.org/wiki/Heilongjiang'
     },
-    SiSaKet: { en: 'Sisaket (Khukhan until 1938)', wiki: 'https://en.wikipedia.org/wiki/Sisaket' },
-    Sukhothai: {
-      en: 'Sukhothai (Sawankhalok until 1939)',
-      wiki: 'https://en.wikipedia.org/wiki/Sukhothai_province'
+    'Iwo Jima (Iō-tō)': {
+      short: 'Its civilians taken off in 1944, and the island made a fortress',
+      note: 'The thousand civilians were taken off in July 1944 and the island was turned into a fortress of tunnels. Kuribayashi Tadamichi gave up any thought of holding the beaches and fought from underground with some 21,000 men, almost all of whom died. The landing on 19 February 1945 took five weeks and cost nearly 7,000 American lives; the airfields then served the B-29s over Tokyo.'
+    },
+    Kankyohoku: {
+      short: 'The far north-east, against the Tumen and the Soviet and Manchurian borders: mountains. 1942 Estimated Population: 1,110,305 · Males per 100 Females: 109.3 · % of Total Korea: 4.6 · Per km²: 54'
+    },
+    Kankyonan: {
+      short: 'A narrow coastal shelf under high mountains. 1942 Estimated Population: 1,860,606 · Males per 100 Females: 104.3 · % of Total Korea: 7.7 · Per km²: 58'
+    },
+    Keiki: {
+      short: 'The Han river plain around Keijō — Seoul, renamed and rebuilt as the colonial capital. 1942 Estimated Population: 2,830,778 · Males per 100 Females: 101.0 · % of Total Korea: 11.7 · Per km²: 223'
+    },
+    Keishohoku: {
+      short: 'The Naktong river\'s upper basin, hills and small plains. 1942 Estimated Population: 2,391,043 · Males per 100 Females: 97.8 · % of Total Korea: 9.9 · Per km²: 126'
+    },
+    Keishonan: {
+      short: 'The end of the peninsula facing Japan, and the province the colony was entered through. 1942 Estimated Population: 2,145,070 · Males per 100 Females: 96.1 · % of Total Korea: 8.9 · Per km²: 174'
+    },
+    Kogen: {
+      short: 'The Taebaek range down its spine, and very little flat ground. 1942 Estimated Population: 1,806,504 · Males per 100 Females: 105.7 · % of Total Korea: 7.5 · Per km²: 69'
+    },
+    Kokai: {
+      short: 'The province between the capital and P\'yŏngyang, rolling hills opening on the Yellow Sea. 1942 Estimated Population: 1,841,851 · Males per 100 Females: 99.5 · % of Total Korea: 7.6 · Per km²: 110'
     },
     Labuan: {
       en: 'Labuan — under the Japanese military administration of British Borneo',
       wiki: 'https://en.wikipedia.org/wiki/Labuan'
     },
-    Dindings: { en: 'The Dindings — part of Perak again since 16 February 1935' },
-    'Christmas Island': {
-      en: 'Christmas Island — taken by Japan on 31 March 1942 for its phosphate',
-      ja: 'クリスマス島 (Kurisumasu-tō)', wiki: 'https://en.wikipedia.org/wiki/Christmas_Island'
-    },
-    Singapore: {
-      en: 'Singapore — Shōnantō under Japanese military administration',
-      wiki: 'https://en.wikipedia.org/wiki/Singapore'
-    },
-    Penang: {
-      en: 'Penang — under the Japanese military administration of Malaya',
-      wiki: 'https://en.wikipedia.org/wiki/Penang'
+    Liaoning: {
+      en: 'Fèngtiān (Fengtien)', ja: '奉天 (Hōten)', zh: '奉天', ko: '봉천 (Pongch’ŏn)',
+      wiki: 'https://en.wikipedia.org/wiki/Liaoning'
     },
     Malacca: {
       en: 'Malacca — under the Japanese military administration of Malaya',
       wiki: 'https://en.wikipedia.org/wiki/Malacca'
     },
-    'Iwo Jima (Iō-tō)': {
-      short: 'Its civilians taken off in 1944, and the island made a fortress',
-      note: 'The thousand civilians were taken off in July 1944 and the island was turned into a fortress of tunnels. Kuribayashi Tadamichi gave up any thought of holding the beaches and fought from underground with some 21,000 men, almost all of whom died. The landing on 19 February 1945 took five weeks and cost nearly 7,000 American lives; the airfields then served the B-29s over Tokyo.'
+    Nanumea: {
+      en: 'Nanumea — an American airfield from 1943',
+      wiki: 'https://en.wikipedia.org/wiki/Nanumea'
     },
-    Chichijima: {
-      short: 'A fortified naval base, bombed from 1944 but never invaded',
-      note: 'A fortified naval base, bombed from 1944 but never invaded, and the garrison held out to the surrender. George H. W. Bush was shot down off it in September 1944. Officers on the island killed several captured American airmen and ate part of them, and were tried and hanged for it in 1946.'
+    Nukufetau: {
+      en: 'Nukufetau — an American airfield from 1943',
+      wiki: 'https://en.wikipedia.org/wiki/Nukufetau'
     },
-    Hahajima: {
-      short: 'Shelled and bombed and then left alone',
-      note: 'Shelled and bombed and then left alone. Its people were evacuated to the mainland with those of Chichijima in 1944.'
+    Orissa: {
+      en: 'Orissa Province — the Orissa States are drawn inside it',
+      wiki: 'https://en.wikipedia.org/wiki/Orissa_Province'
+    },
+    Penang: {
+      en: 'Penang — under the Japanese military administration of Malaya',
+      wiki: 'https://en.wikipedia.org/wiki/Penang'
+    },
+    Saishu: {
+      short: 'A volcanic island a hundred kilometres off the south coast. Counted in Zenranan-dō in the 1942 returns, which do not break the island out separately.'
+    },
+    SiSaKet: { en: 'Sisaket (Khukhan until 1938)', wiki: 'https://en.wikipedia.org/wiki/Sisaket' },
+    Sind: { en: 'Sind Province', wiki: 'https://en.wikipedia.org/wiki/Sindh' },
+    Singapore: {
+      en: 'Singapore — Shōnantō under Japanese military administration',
+      wiki: 'https://en.wikipedia.org/wiki/Singapore'
+    },
+    Sukhothai: {
+      en: 'Sukhothai (Sawankhalok until 1939)',
+      wiki: 'https://en.wikipedia.org/wiki/Sukhothai_province'
+    },
+    UnitedProvinces: {
+      en: 'United Provinces',
+      wiki: 'https://en.wikipedia.org/wiki/United_Provinces_(1937%E2%80%931950)'
+    },
+    Zenrahoku: {
+      short: 'The Honam plain, the largest stretch of paddy in Korea. 1942 Estimated Population: 1,561,479 · Males per 100 Females: 99.6 · % of Total Korea: 6.5 · Per km²: 184'
+    },
+    Zenranan: {
+      short: 'The south-western corner and its archipelago — several thousand islands. 1942 Estimated Population: 2,647,674 · Males per 100 Females: 97.2 · % of Total Korea: 11.0 · Per km²: 190'
     },
   },
 };

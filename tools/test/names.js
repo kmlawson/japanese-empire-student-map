@@ -202,6 +202,58 @@ console.log('\n— the switch travels, and comes back —');
   await p.close();
 }
 
+/* ---- the 1942 population, on that date and no other ---------------- */
+/* Asked for on the December 1942 snapshot only. The figures live in the
+   per-epoch override, so what is checked is that the date decides it: the same
+   province, hovered on both maps, carries the line on one and not on the
+   other. The country carries the total and the sex ratio; a province carries
+   those and its share and its density as well. */
+console.log('\n— the 1942 population figures —');
+for (const [year, layers, want] of [['1930', '0', false], ['Dec 1942', '1', true]]) {
+  const p = await b.newPage();
+  await p.evaluateOnNewDocument(SHIM);
+  await p.setViewport({ width: 1200, height: 860 });
+  await p.goto('http://localhost:8123/index.html?where=123.5,32.8,132.5,43.5&layers=' + layers,
+               { waitUntil: 'networkidle0' });
+  await p.evaluate(() => document.querySelectorAll('dialog[open]').forEach(d => d.close()));
+  await new Promise(r => setTimeout(r, 1500));
+  const spot = async sel => p.evaluate(s => {
+    const e = document.querySelector(s);
+    if (!e) return null;
+    const r = e.getBoundingClientRect();
+    return { x: Math.round(r.x + r.width / 2), y: Math.round(r.y + r.height / 2) };
+  }, sel);
+  const tip = () => p.evaluate(() => {
+    const t = document.querySelector('#tooltip');
+    return t && !t.hidden ? t.textContent.trim() : '';
+  });
+  const hover = async sel => {
+    const s = await spot(sel);
+    if (!s) return '';
+    await p.mouse.move(s.x - 40, s.y);
+    await new Promise(r => setTimeout(r, 120));
+    await p.mouse.move(s.x, s.y);
+    await new Promise(r => setTimeout(r, 420));
+    return tip();
+  };
+  const country = await hover('path[data-for="korea"]');
+  check(year + ': the country ' + (want ? 'gives its population' : 'gives none'),
+    /24,105,906/.test(country) === want && /100\.4/.test(country) === want,
+    country.slice(-70));
+  await p.evaluate(() => {
+    const x = [...document.querySelectorAll('#layer-seg button')].find(y => /Admin/.test(y.textContent));
+    if (x) x.click();
+  });
+  await new Promise(r => setTimeout(r, 2600));
+  const prov = await hover('#a-korea path[data-prov="Keiki"]');
+  check(year + ': Keiki ' + (want ? 'gives population, share and density' : 'gives none'),
+    /2,830,778/.test(prov) === want
+    && /% of Total Korea: 11\.7/.test(prov) === want
+    && /Per km²: \d+/.test(prov) === want,
+    prov.slice(-90));
+  await p.close();
+}
+
 console.log('\n  ' + pass + ' passed, ' + fail + ' failed');
 await b.close();
 process.exit(fail);
