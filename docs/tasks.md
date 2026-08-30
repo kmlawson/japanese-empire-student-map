@@ -12821,6 +12821,41 @@ and the railway stroke to be the same computed colour.
 
 ---
 
+## The card survives a change of date
+
+**Asked for:** open Kangwŏn-do, press Dec 1942, and still be reading Kangwŏn-do.
+
+Changing the date rebuilds the map — `byId` becomes the new epoch's records and
+the shapes under the pointer are new shapes — so the selection cannot be
+carried across as an element. It is dropped and made again from what it was
+*about*: a place. Three cases are not simply "the same again", and each is
+handled rather than assumed.
+
+* **A territory that belongs to one date** — the Nanking government, Manchuria
+  before 1932 — is let go, because there is nothing on this map for the card to
+  be about. The blurb about the new date takes its place, which is what a
+  reader with nothing open gets anyway.
+* **A province drawn on one date only**, which is most of Manchukuo's, leaves
+  the country selected and the province dropped: one step up rather than a card
+  for a shape that is not there.
+* **A city is one record per date under two ids.** `g_e1930_seoul` and
+  `g_e1942_seoul` are the same place, so the id is rewritten to this date's
+  before it is looked up.
+
+**And the blurb only speaks when nothing was restored.** It was called
+unconditionally at the end of `setEpoch`, so it overwrote the card that had
+just been put back — the reader pressed a date and got a card about the date,
+which is the map talking over them.
+
+**One thing was already wrong and is fixed with it.** That blurb card rewrote
+the headline and the notes and left `#info-pop` and `#info-trains` alone, so
+the figures for whatever had been open sat underneath it: a card headed *Dec
+1942* with Kangwŏn-do's 1930 census under it. Both blocks are emptied now.
+
+`epoch.js`, 11 checks.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

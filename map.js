@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '242';
+  var JEM_VERSION = '243';
   var JEM_ASSETS = {"admin.js": "9f99c96627", "annotate.js": "761fbd5949", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "3881d33c99", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
 
   /* Every file this one fetches, with the version on it.
@@ -9223,8 +9223,49 @@
 
   /* One way in and out of a date, so the header control and the shortcut in
      the Layers panel cannot drift apart. */
+  /* What the reader had open, put back on the other date.
+
+     Changing the date rebuilds the map — `byId` is the new epoch's records and
+     the shapes under the pointer are new shapes — so the selection has to be
+     dropped and then made again rather than carried across. Made again from
+     what it *was about*: a place, not an element. Kangwŏn is on both maps, so
+     a reader who opens its card and presses Dec 1942 should be reading the
+     same province a moment later, with whatever that date has to say about it.
+
+     Three things are not on both dates and are handled rather than assumed:
+
+       * a territory that belongs to one of them — the Nanking government, or
+         Manchuria before 1932 — is simply let go, because there is nothing on
+         this map for the card to be about;
+       * a province drawn on one date only, which is most of Manchukuo's: the
+         country stays selected and the province is dropped, so the reader is
+         left one step up rather than looking at a card for a shape that is
+         not there;
+       * a city, which is one record per date under two different ids —
+         `g_e1930_seoul` and `g_e1942_seoul` are the same place — so the id is
+         rewritten to this date's before it is looked up. */
+  function restoreSelection(id, provKey, cluster) {
+    if (!id) return false;
+    var m = /^g_e\d+_(.+)$/.exec(id);
+    if (m) id = 'g_' + state.epoch + '_' + m[1];
+    if (!byId[id]) return false;
+    lastProv = null;
+    if (provKey && svg) {
+      var el = $$('#land [data-prov="' + provKey + '"]', svg).filter(function (x) {
+        var atom = x.closest ? x.closest('.atom') : null;
+        return atom && atom.style.display !== 'none';
+      })[0];
+      if (el) lastProv = provinceOf(el);
+    }
+    select(id, lastProv ? cluster : null);
+    return true;
+  }
+
   function setEpoch(id) {
     if (!id || state.epoch === id) return;
+    var wasId = selected;
+    var wasProv = lastProv && lastProv.key ? lastProv.key : null;
+    var wasCluster = selCluster;
     state.epoch = id;
     $$('#epoch-seg button').forEach(function (x) {
       x.classList.toggle('on', x.getAttribute('data-epoch') === id);
@@ -9232,7 +9273,10 @@
     select(null);
     composeEpoch();
     applyState();
-    showEpochBlurb();
+    /* The blurb about the new date, unless the reader had something open —
+       in which case they asked to see *that* on this date, and an unasked-for
+       card about the date on top of it is the map talking over them. */
+    if (!restoreSelection(wasId, wasProv, wasCluster)) showEpochBlurb();
   }
 
   /* Two readings of the occupation of China, and only one is drawn at a time.
@@ -9357,6 +9401,12 @@
     $('.note-own', infoBox).hidden = false;
     $('.note-group', infoBox).textContent = '';
     $('.note-group', infoBox).hidden = true;
+    /* And nothing left over from the place that was open. This card is about
+       a date; the figures and the departures under it belonged to whatever the
+       reader had been reading, and they sat there under the blurb saying
+       Kangwŏn-do while the headline said Dec 1942. */
+    fillPopCard(null);
+    fillTrainCard(null);
     collapseInfo();
     infoBox.hidden = false;
     document.body.classList.add('panel-open');
