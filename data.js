@@ -215,7 +215,7 @@ JMAP.TERRITORIES = {
       id: 'japan', en: 'Japan', ja: '内地 (Naichi)', orig: '日本 (Nihon)', zh: '日本內地',
       when: 'The metropole', cat: 'metropole', lvl: 1, atoms: ['japan'],
       wiki: 'https://en.wikipedia.org/wiki/Empire_of_Japan',
-      short: '1930 Census Population: 64,450,005 · Per km²: 173',
+      short: '1930 Census Population: 64,450,005 · Males per 100 Females: 101.03 · Per km²: 173',
       note: 'Honshū, Kyūshū, Shikoku and Hokkaidō. Hokkaidō was itself a settler frontier, colonised from 1869 at the expense of the Ainu.'
     },
     {
@@ -7350,16 +7350,16 @@ JMAP.PROVINCE_EPOCH = {
       short: 'Straits Settlement: Lumut, Sitiawan and Pangkor'
     },
     Aichi: {
-      short: 'Nagoya was the third city of Japan and its most important arms centre. 1930 Census Population: 2,567,413 · % of Total Japan: 3.98 · Per km²: 497'
+      short: 'Nagoya was the third city of Japan and its most important arms centre. 1930 Census Population: 2,567,413 · Males per 100 Females: 99.07 · % of Total Japan: 3.98 · Per km²: 497'
     },
     Akita: {
-      short: 'Rice on the Yokote basin and the Ōdate country. 1930 Census Population: 987,706 · % of Total Japan: 1.53 · Per km²: 85'
+      short: 'Rice on the Yokote basin and the Ōdate country. 1930 Census Population: 987,706 · Males per 100 Females: 100.47 · % of Total Japan: 1.53 · Per km²: 85'
     },
     Aomori: {
-      short: 'The northern end of Honshū, made out of the Tsugaru and Nanbu country. 1930 Census Population: 879,914 · % of Total Japan: 1.37 · Per km²: 91'
+      short: 'The northern end of Honshū, made out of the Tsugaru and Nanbu country. 1930 Census Population: 879,914 · Males per 100 Females: 100.68 · % of Total Japan: 1.37 · Per km²: 91'
     },
     Chiba: {
-      short: 'The Bōsō peninsula, farming and fishing, and the soy-sauce towns: Noda and Chōshi. 1930 Census Population: 1,470,121 · % of Total Japan: 2.28 · Per km²: 285'
+      short: 'The Bōsō peninsula, farming and fishing, and the soy-sauce towns: Noda and Chōshi. 1930 Census Population: 1,470,121 · Males per 100 Females: 98.48 · % of Total Japan: 2.28 · Per km²: 285'
     },
     Chuseihoku: {
       short: 'The only province in Korea with no coastline. 1930 Census Population: 900,226 · Males per 100 Females: 106.05 · % of Total Korea: 4.3 · Per km²: 121'
@@ -7371,19 +7371,19 @@ JMAP.PROVINCE_EPOCH = {
       short: 'Matsuyama and its castle, with the Dōgo hot spring beside it. 1930 Census Population: 1,142,122 · % of Total Japan: 1.77 · Per km²: 202'
     },
     Fukui: {
-      short: 'Habutae, a plain smooth silk. 1930 Census Population: 618,144 · % of Total Japan: 0.96 · Per km²: 148'
+      short: 'Habutae, a plain smooth silk. 1930 Census Population: 618,144 · Males per 100 Females: 97.10 · % of Total Japan: 0.96 · Per km²: 148'
     },
     Fukuoka: {
       short: 'The industrial heart of Kyūshū and the point where Japan touches the continent. 1930 Census Population: 2,527,119 · % of Total Japan: 3.92 · Per km²: 507'
     },
     Fukushima: {
-      short: 'The largest prefecture in Tōhoku and three countries in one: the Hamadōri coast. 1930 Census Population: 1,508,150 · % of Total Japan: 2.34 · Per km²: 110'
+      short: 'The largest prefecture in Tōhoku and three countries in one: the Hamadōri coast. 1930 Census Population: 1,508,150 · Males per 100 Females: 96.94 · % of Total Japan: 2.34 · Per km²: 110'
     },
     Gifu: {
-      short: 'Two prefectures in one: the Nōbi plain in the south. 1930 Census Population: 1,178,405 · % of Total Japan: 1.83 · Per km²: 111'
+      short: 'Two prefectures in one: the Nōbi plain in the south. 1930 Census Population: 1,178,405 · Males per 100 Females: 100.63 · % of Total Japan: 1.83 · Per km²: 111'
     },
     Gunma: {
-      short: 'The centre of the raw silk that paid for Japan\'s industrialisation: Tomioka. 1930 Census Population: 1,186,080 · % of Total Japan: 1.84 · Per km²: 186'
+      short: 'The centre of the raw silk that paid for Japan\'s industrialisation: Tomioka. 1930 Census Population: 1,186,080 · Males per 100 Females: 96.02 · % of Total Japan: 1.84 · Per km²: 186'
     },
     Heianhoku: {
       short: 'The north-western march, with the Yalu as its border: the river carried the timber trade. 1930 Census Population: 1,562,791 · Males per 100 Females: 104.91 · % of Total Korea: 7.4 · Per km²: 55'
@@ -7395,19 +7395,19 @@ JMAP.PROVINCE_EPOCH = {
       short: 'The army\'s western capital: the 5th Division was raised here. 1930 Census Population: 1,692,136 · % of Total Japan: 2.63 · Per km²: 200'
     },
     Hokkaido: {
-      short: 'Not a prefecture but the Hokkaidō-chō, an agency of the central government. 1930 Census Population: 2,812,335 · % of Total Japan: 4.36 · Per km²: 36 Chishima (the Kuriles) is counted in the census figure and is drawn on this map as a territory of its own, so the area here is Hokkaidō without it.'
+      short: 'Not a prefecture but the Hokkaidō-chō, an agency of the central government. 1930 Census Population: 2,812,335 · Males per 100 Females: 109.28 · % of Total Japan: 4.36 · Per km²: 36 Chishima (the Kuriles) is counted in the census figure and is drawn on this map as a territory of its own, so the area here is Hokkaidō without it.'
     },
     Hyogo: {
       short: 'Reaches from the Inland Sea to the Japan Sea. 1930 Census Population: 2,646,301 · % of Total Japan: 4.11 · Per km²: 315'
     },
     Ibaraki: {
-      short: 'Mito, the castle town, was the seat of a Tokugawa branch house and of the Mito school. 1930 Census Population: 1,487,097 · % of Total Japan: 2.31 · Per km²: 244'
+      short: 'Mito, the castle town, was the seat of a Tokugawa branch house and of the Mito school. 1930 Census Population: 1,487,097 · Males per 100 Females: 97.48 · % of Total Japan: 2.31 · Per km²: 244'
     },
     Ishikawa: {
-      short: 'Kanazawa was the castle town of the Maeda. 1930 Census Population: 756,835 · % of Total Japan: 1.17 · Per km²: 181'
+      short: 'Kanazawa was the castle town of the Maeda. 1930 Census Population: 756,835 · Males per 100 Females: 94.84 · % of Total Japan: 1.17 · Per km²: 181'
     },
     Iwate: {
-      short: 'The largest prefecture on Honshū and the poorest. 1930 Census Population: 975,771 · % of Total Japan: 1.51 · Per km²: 64'
+      short: 'The largest prefecture on Honshū and the poorest. 1930 Census Population: 975,771 · Males per 100 Females: 99.61 · % of Total Japan: 1.51 · Per km²: 64'
     },
     Kagawa: {
       short: 'The smallest prefecture in Japan, on the sheltered Inland Sea side of Shikoku. 1930 Census Population: 732,816 · % of Total Japan: 1.14 · Per km²: 394'
@@ -7416,7 +7416,7 @@ JMAP.PROVINCE_EPOCH = {
       short: 'Satsuma: the domain that fought the British at Kagoshima in 1863. 1930 Census Population: 1,556,690 · % of Total Japan: 2.42 · Per km²: 169'
     },
     Kanagawa: {
-      short: 'Yokohama was opened to foreign trade in 1859 and became the country\'s gate. 1930 Census Population: 1,619,606 · % of Total Japan: 2.51 · Per km²: 669'
+      short: 'Yokohama was opened to foreign trade in 1859 and became the country\'s gate. 1930 Census Population: 1,619,606 · Males per 100 Females: 107.56 · % of Total Japan: 2.51 · Per km²: 669'
     },
     Kankyohoku: {
       short: 'The far north-east, against the Tumen and the Soviet and Manchurian borders: mountains. 1930 Census Population: 745,124 · Males per 100 Females: 110.11 · % of Total Korea: 3.5 · Per km²: 37'
@@ -7452,13 +7452,13 @@ JMAP.PROVINCE_EPOCH = {
       short: 'The Ise Shrine is here. 1930 Census Population: 1,157,407 · % of Total Japan: 1.80 · Per km²: 201'
     },
     Miyagi: {
-      short: 'The old Date domain. 1930 Census Population: 1,142,784 · % of Total Japan: 1.77 · Per km²: 157'
+      short: 'The old Date domain. 1930 Census Population: 1,142,784 · Males per 100 Females: 101.39 · % of Total Japan: 1.77 · Per km²: 157'
     },
     Miyazaki: {
       short: 'Hyūga, the coast facing the Pacific, poor. 1930 Census Population: 760,467 · % of Total Japan: 1.18 · Per km²: 98'
     },
     Nagano: {
-      short: 'The silk prefecture. 1930 Census Population: 1,717,118 · % of Total Japan: 2.66 · Per km²: 127'
+      short: 'The silk prefecture. 1930 Census Population: 1,717,118 · Males per 100 Females: 94.07 · % of Total Japan: 2.66 · Per km²: 127'
     },
     Nagasaki: {
       short: 'For two centuries the only place in Japan where Europeans could trade at all. 1930 Census Population: 1,233,362 · % of Total Japan: 1.91 · Per km²: 303'
@@ -7467,7 +7467,7 @@ JMAP.PROVINCE_EPOCH = {
       short: 'The capital in the eighth century, and what is left of it is the reason people come. 1930 Census Population: 596,225 · % of Total Japan: 0.93 · Per km²: 161'
     },
     Niigata: {
-      short: 'The country\'s rice prefecture, the long Echigo plain behind sand dunes. 1930 Census Population: 1,933,326 · % of Total Japan: 3.00 · Per km²: 154'
+      short: 'The country\'s rice prefecture, the long Echigo plain behind sand dunes. 1930 Census Population: 1,933,326 · Males per 100 Females: 97.74 · % of Total Japan: 3.00 · Per km²: 154'
     },
     Oita: {
       short: 'Beppu, and more hot spring water than anywhere else in Japan. 1930 Census Population: 945,771 · % of Total Japan: 1.47 · Per km²: 149'
@@ -7488,7 +7488,7 @@ JMAP.PROVINCE_EPOCH = {
       short: 'A volcanic island a hundred kilometres off the south coast. 1930 Census Population: 2,332,256 · Males per 100 Females: 100.96 · % of Total Korea: 11.1 · Per km²: 168 The 1930 census counts Cheju inside Chŏllanam-do and does not break the island out, so these are that province’s figures.'
     },
     Saitama: {
-      short: 'Market gardens, wheat and mulberry on the plain immediately north of Tokyo. 1930 Census Population: 1,459,172 · % of Total Japan: 2.26 · Per km²: 384'
+      short: 'Market gardens, wheat and mulberry on the plain immediately north of Tokyo. 1930 Census Population: 1,459,172 · Males per 100 Females: 97.08 · % of Total Japan: 2.26 · Per km²: 384'
     },
     Shiga: {
       short: 'Lake Biwa, the largest lake in Japan. 1930 Census Population: 691,631 · % of Total Japan: 1.07 · Per km²: 172'
@@ -7497,34 +7497,34 @@ JMAP.PROVINCE_EPOCH = {
       short: 'The old Izumo, which is where the myths that were not about the sun goddess came from. 1930 Census Population: 739,507 · % of Total Japan: 1.15 · Per km²: 110'
     },
     Shizuoka: {
-      short: 'Tea and mandarins above the Tōkaidō, and the largest tea crop in the country. 1930 Census Population: 1,797,805 · % of Total Japan: 2.79 · Per km²: 231'
+      short: 'Tea and mandarins above the Tōkaidō, and the largest tea crop in the country. 1930 Census Population: 1,797,805 · Males per 100 Females: 100.39 · % of Total Japan: 2.79 · Per km²: 231'
     },
     Tochigi: {
-      short: 'Nikkō is here — the mausoleum of Ieyasu. 1930 Census Population: 1,141,737 · % of Total Japan: 1.77 · Per km²: 178'
+      short: 'Nikkō is here — the mausoleum of Ieyasu. 1930 Census Population: 1,141,737 · Males per 100 Females: 97.23 · % of Total Japan: 1.77 · Per km²: 178'
     },
     Tokushima: {
       short: 'Awa, the eastern corner of Shikoku, whose crop was indigo. 1930 Census Population: 716,544 · % of Total Japan: 1.11 · Per km²: 173'
     },
     Tokyo: {
-      short: 'Tokyo-fu: the prefecture. 1930 Census Population: 5,408,678 · % of Total Japan: 8.39 · Per km²: 2471'
+      short: 'Tokyo-fu: the prefecture. 1930 Census Population: 5,408,678 · Males per 100 Females: 111.83 · % of Total Japan: 8.39 · Per km²: 2471'
     },
     Tottori: {
       short: 'The least populous prefecture in Japan, on the Japan Sea behind the Chūgoku mountains. 1930 Census Population: 489,266 · % of Total Japan: 0.76 · Per km²: 140'
     },
     Toyama: {
-      short: 'Water is what this prefecture sold. 1930 Census Population: 778,953 · % of Total Japan: 1.21 · Per km²: 183'
+      short: 'Water is what this prefecture sold. 1930 Census Population: 778,953 · Males per 100 Females: 96.14 · % of Total Japan: 1.21 · Per km²: 183'
     },
     Wakayama: {
       short: 'Kii: the Kii peninsula\'s steep forested spine. 1930 Census Population: 830,748 · % of Total Japan: 1.29 · Per km²: 176'
     },
     Yamagata: {
-      short: 'The Mogami valley behind the Dewa mountains, opening on the Japan Sea at Sakata. 1930 Census Population: 1,080,034 · % of Total Japan: 1.68 · Per km²: 116'
+      short: 'The Mogami valley behind the Dewa mountains, opening on the Japan Sea at Sakata. 1930 Census Population: 1,080,034 · Males per 100 Females: 97.21 · % of Total Japan: 1.68 · Per km²: 116'
     },
     Yamaguchi: {
       short: 'Chōshū, the domain that with Satsuma overthrew the shogunate. 1930 Census Population: 1,135,637 · % of Total Japan: 1.76 · Per km²: 186'
     },
     Yamanashi: {
-      short: 'A basin ringed by mountains with Kōfu in the middle, the old Kai of Takeda Shingen. 1930 Census Population: 631,042 · % of Total Japan: 0.98 · Per km²: 141'
+      short: 'A basin ringed by mountains with Kōfu in the middle, the old Kai of Takeda Shingen. 1930 Census Population: 631,042 · Males per 100 Females: 99.88 · % of Total Japan: 0.98 · Per km²: 141'
     },
     Zenrahoku: {
       short: 'The Honam plain, the largest stretch of paddy in Korea. 1930 Census Population: 1,503,695 · Males per 100 Females: 106.99 · % of Total Korea: 7.1 · Per km²: 178'
@@ -10461,7 +10461,7 @@ JMAP.POPULATION = [
     "group": "japan-density",
     "country": "Japan",
     "caption": "census of 1 October 1930",
-    "note": "",
+    "note": "The age groups are the source’s own 人口千中 — each group per thousand of that prefecture’s people, not a count. The sex ratio is transcribed as far as 愛知 so far.",
     "inShort": true,
     "tableSkip": [],
     "fields": [
@@ -10474,324 +10474,477 @@ JMAP.POPULATION = [
         "c": "pop_1920",
         "label": "1920 (Taishō 9)",
         "group": "Earlier censuses"
+      },
+      {
+        "c": "age_0_14_pm",
+        "label": "0–14",
+        "group": "Ages per 1,000"
+      },
+      {
+        "c": "age_15_59_pm",
+        "label": "15–59",
+        "group": "Ages per 1,000"
+      },
+      {
+        "c": "age_60p_pm",
+        "label": "60 and over",
+        "group": "Ages per 1,000"
+      },
+      {
+        "c": "born_chosen",
+        "label": "Chōsen (Korea)",
+        "group": "Born outside Japan proper"
+      },
+      {
+        "c": "born_taiwan",
+        "label": "Taiwan (Formosa)",
+        "group": "Born outside Japan proper"
+      },
+      {
+        "c": "born_karafuto",
+        "label": "Karafuto",
+        "group": "Born outside Japan proper"
+      },
+      {
+        "c": "born_kwantung",
+        "label": "Kwantung Leased Territory",
+        "group": "Born outside Japan proper"
+      },
+      {
+        "c": "born_nanyo",
+        "label": "South Seas Mandate",
+        "group": "Born outside Japan proper"
+      },
+      {
+        "c": "born_gaichi",
+        "label": "All of the 外地",
+        "group": "Born outside Japan proper"
+      },
+      {
+        "c": "born_foreign",
+        "label": "A foreign country",
+        "group": "Born outside Japan proper"
       }
     ],
     "label": "Japan, census of 1 October 1930",
     "pctOf": "Japan",
-    "source": "内閣統計局『昭和五年国勢調査最終報告書』第四表 人口ノ府縣分布, p. 10",
+    "source": "内閣統計局『昭和五年国勢調査最終報告書』— 人口ノ府縣分布 p10, 男女別 p25, 年齢別 pp40–41, 出生地 pp68–69",
     "layer": "Japan Population Density",
     "rows": {
       "japan": {
         "scope": "territory",
         "en": "Japan (内地)",
         "pop": 64450005,
+        "mf": "101.03",
         "km2": 372593,
         "dens": 173,
         "x": {
           "pop_1925": 59736822,
-          "pop_1920": 55963053
+          "pop_1920": 55963053,
+          "age_0_14_pm": 366,
+          "age_15_59_pm": 560,
+          "age_60p_pm": 74,
+          "born_chosen": 434934,
+          "born_taiwan": 30264,
+          "born_karafuto": 7419,
+          "born_kwantung": 12445,
+          "born_nanyo": 735,
+          "born_gaichi": 485797,
+          "born_foreign": 114862
         },
-        "line": "1930 Census Population: 64,450,005 · Per km²: 173"
+        "line": "1930 Census Population: 64,450,005 · Males per 100 Females: 101.03 · Per km²: 173"
       },
       "Hokkaido": {
         "scope": "sub-unit",
         "en": "Hokkaidō-chō",
         "pop": 2812335,
+        "mf": "109.28",
         "pct": "4.36",
         "km2": 78290,
         "dens": 36,
         "note": "Chishima (the Kuriles) is counted in the census figure and is drawn on this map as a territory of its own, so the area here is Hokkaidō without it.",
         "x": {
           "pop_1925": 2498679,
-          "pop_1920": 2359183
+          "pop_1920": 2359183,
+          "age_0_14_pm": 412,
+          "age_15_59_pm": 539,
+          "age_60p_pm": 49
         },
-        "line": "1930 Census Population: 2,812,335 · % of Total Japan: 4.36 · Per km²: 36 Chishima (the Kuriles) is counted in the census figure and is drawn on this map as a territory of its own, so the area here is Hokkaidō without it."
+        "line": "1930 Census Population: 2,812,335 · Males per 100 Females: 109.28 · % of Total Japan: 4.36 · Per km²: 36 Chishima (the Kuriles) is counted in the census figure and is drawn on this map as a territory of its own, so the area here is Hokkaidō without it."
       },
       "Aomori": {
         "scope": "sub-unit",
         "en": "Aomori-ken",
         "pop": 879914,
+        "mf": "100.68",
         "pct": "1.37",
         "km2": 9631,
         "dens": 91,
         "x": {
           "pop_1925": 812977,
-          "pop_1920": 756454
+          "pop_1920": 756454,
+          "age_0_14_pm": 410,
+          "age_15_59_pm": 530,
+          "age_60p_pm": 60
         },
-        "line": "1930 Census Population: 879,914 · % of Total Japan: 1.37 · Per km²: 91"
+        "line": "1930 Census Population: 879,914 · Males per 100 Females: 100.68 · % of Total Japan: 1.37 · Per km²: 91"
       },
       "Iwate": {
         "scope": "sub-unit",
         "en": "Iwate-ken",
         "pop": 975771,
+        "mf": "99.61",
         "pct": "1.51",
         "km2": 15263,
         "dens": 64,
         "x": {
           "pop_1925": 900984,
-          "pop_1920": 845540
+          "pop_1920": 845540,
+          "age_0_14_pm": 399,
+          "age_15_59_pm": 526,
+          "age_60p_pm": 75
         },
-        "line": "1930 Census Population: 975,771 · % of Total Japan: 1.51 · Per km²: 64"
+        "line": "1930 Census Population: 975,771 · Males per 100 Females: 99.61 · % of Total Japan: 1.51 · Per km²: 64"
       },
       "Miyagi": {
         "scope": "sub-unit",
         "en": "Miyagi-ken",
         "pop": 1142784,
+        "mf": "101.39",
         "pct": "1.77",
         "km2": 7275,
         "dens": 157,
         "x": {
           "pop_1925": 1044036,
-          "pop_1920": 961768
+          "pop_1920": 961768,
+          "age_0_14_pm": 408,
+          "age_15_59_pm": 527,
+          "age_60p_pm": 65
         },
-        "line": "1930 Census Population: 1,142,784 · % of Total Japan: 1.77 · Per km²: 157"
+        "line": "1930 Census Population: 1,142,784 · Males per 100 Females: 101.39 · % of Total Japan: 1.77 · Per km²: 157"
       },
       "Akita": {
         "scope": "sub-unit",
         "en": "Akita-ken",
         "pop": 987706,
+        "mf": "100.47",
         "pct": "1.53",
         "km2": 11629,
         "dens": 85,
         "x": {
           "pop_1925": 936408,
-          "pop_1920": 898537
+          "pop_1920": 898537,
+          "age_0_14_pm": 414,
+          "age_15_59_pm": 528,
+          "age_60p_pm": 58
         },
-        "line": "1930 Census Population: 987,706 · % of Total Japan: 1.53 · Per km²: 85"
+        "line": "1930 Census Population: 987,706 · Males per 100 Females: 100.47 · % of Total Japan: 1.53 · Per km²: 85"
       },
       "Yamagata": {
         "scope": "sub-unit",
         "en": "Yamagata-ken",
         "pop": 1080034,
+        "mf": "97.21",
         "pct": "1.68",
         "km2": 9321,
         "dens": 116,
         "x": {
           "pop_1925": 1027297,
-          "pop_1920": 968925
+          "pop_1920": 968925,
+          "age_0_14_pm": 397,
+          "age_15_59_pm": 537,
+          "age_60p_pm": 66
         },
-        "line": "1930 Census Population: 1,080,034 · % of Total Japan: 1.68 · Per km²: 116"
+        "line": "1930 Census Population: 1,080,034 · Males per 100 Females: 97.21 · % of Total Japan: 1.68 · Per km²: 116"
       },
       "Fukushima": {
         "scope": "sub-unit",
         "en": "Fukushima-ken",
         "pop": 1508150,
+        "mf": "96.94",
         "pct": "2.34",
         "km2": 13771,
         "dens": 110,
         "x": {
           "pop_1925": 1437596,
-          "pop_1920": 1362750
+          "pop_1920": 1362750,
+          "age_0_14_pm": 407,
+          "age_15_59_pm": 522,
+          "age_60p_pm": 71
         },
-        "line": "1930 Census Population: 1,508,150 · % of Total Japan: 2.34 · Per km²: 110"
+        "line": "1930 Census Population: 1,508,150 · Males per 100 Females: 96.94 · % of Total Japan: 2.34 · Per km²: 110"
       },
       "Ibaraki": {
         "scope": "sub-unit",
         "en": "Ibaraki-ken",
         "pop": 1487097,
+        "mf": "97.48",
         "pct": "2.31",
         "km2": 6097,
         "dens": 244,
         "x": {
           "pop_1925": 1408948,
-          "pop_1920": 1350261
+          "pop_1920": 1350261,
+          "age_0_14_pm": 386,
+          "age_15_59_pm": 526,
+          "age_60p_pm": 89
         },
-        "line": "1930 Census Population: 1,487,097 · % of Total Japan: 2.31 · Per km²: 244"
+        "line": "1930 Census Population: 1,487,097 · Males per 100 Females: 97.48 · % of Total Japan: 2.31 · Per km²: 244"
       },
       "Tochigi": {
         "scope": "sub-unit",
         "en": "Tochigi-ken",
         "pop": 1141737,
+        "mf": "97.23",
         "pct": "1.77",
         "km2": 6406,
         "dens": 178,
         "x": {
           "pop_1925": 1090428,
-          "pop_1920": 1046479
+          "pop_1920": 1046479,
+          "age_0_14_pm": 408,
+          "age_15_59_pm": 520,
+          "age_60p_pm": 72
         },
-        "line": "1930 Census Population: 1,141,737 · % of Total Japan: 1.77 · Per km²: 178"
+        "line": "1930 Census Population: 1,141,737 · Males per 100 Females: 97.23 · % of Total Japan: 1.77 · Per km²: 178"
       },
       "Gunma": {
         "scope": "sub-unit",
         "en": "Gunma-ken",
         "pop": 1186080,
+        "mf": "96.02",
         "pct": "1.84",
         "km2": 6361,
         "dens": 186,
         "x": {
           "pop_1925": 1118858,
-          "pop_1920": 1052610
+          "pop_1920": 1052610,
+          "age_0_14_pm": 384,
+          "age_15_59_pm": 548,
+          "age_60p_pm": 67
         },
-        "line": "1930 Census Population: 1,186,080 · % of Total Japan: 1.84 · Per km²: 186"
+        "line": "1930 Census Population: 1,186,080 · Males per 100 Females: 96.02 · % of Total Japan: 1.84 · Per km²: 186"
       },
       "Saitama": {
         "scope": "sub-unit",
         "en": "Saitama-ken",
         "pop": 1459172,
+        "mf": "97.08",
         "pct": "2.26",
         "km2": 3797,
         "dens": 384,
         "x": {
           "pop_1925": 1394193,
-          "pop_1920": 1319261
+          "pop_1920": 1319261,
+          "age_0_14_pm": 381,
+          "age_15_59_pm": 540,
+          "age_60p_pm": 79
         },
-        "line": "1930 Census Population: 1,459,172 · % of Total Japan: 2.26 · Per km²: 384"
+        "line": "1930 Census Population: 1,459,172 · Males per 100 Females: 97.08 · % of Total Japan: 2.26 · Per km²: 384"
       },
       "Chiba": {
         "scope": "sub-unit",
         "en": "Chiba-ken",
         "pop": 1470121,
+        "mf": "98.48",
         "pct": "2.28",
         "km2": 5162,
         "dens": 285,
         "x": {
           "pop_1925": 1399257,
-          "pop_1920": 1336155
+          "pop_1920": 1336155,
+          "age_0_14_pm": 361,
+          "age_15_59_pm": 544,
+          "age_60p_pm": 94
         },
-        "line": "1930 Census Population: 1,470,121 · % of Total Japan: 2.28 · Per km²: 285"
+        "line": "1930 Census Population: 1,470,121 · Males per 100 Females: 98.48 · % of Total Japan: 2.28 · Per km²: 285"
       },
       "Tokyo": {
         "scope": "sub-unit",
         "en": "Tōkyō-fu",
         "pop": 5408678,
+        "mf": "111.83",
         "pct": "8.39",
         "km2": 2189,
         "dens": 2471,
         "x": {
           "pop_1925": 4485556,
-          "pop_1920": 3699839
+          "pop_1920": 3699839,
+          "age_0_14_pm": 318,
+          "age_15_59_pm": 639,
+          "age_60p_pm": 43
         },
-        "line": "1930 Census Population: 5,408,678 · % of Total Japan: 8.39 · Per km²: 2471"
+        "line": "1930 Census Population: 5,408,678 · Males per 100 Females: 111.83 · % of Total Japan: 8.39 · Per km²: 2471"
       },
       "Kanagawa": {
         "scope": "sub-unit",
         "en": "Kanagawa-ken",
         "pop": 1619606,
+        "mf": "107.56",
         "pct": "2.51",
         "km2": 2420,
         "dens": 669,
         "x": {
           "pop_1925": 1416792,
-          "pop_1920": 1323390
+          "pop_1920": 1323390,
+          "age_0_14_pm": 359,
+          "age_15_59_pm": 582,
+          "age_60p_pm": 59
         },
-        "line": "1930 Census Population: 1,619,606 · % of Total Japan: 2.51 · Per km²: 669"
+        "line": "1930 Census Population: 1,619,606 · Males per 100 Females: 107.56 · % of Total Japan: 2.51 · Per km²: 669"
       },
       "Niigata": {
         "scope": "sub-unit",
         "en": "Niigata-ken",
         "pop": 1933326,
+        "mf": "97.74",
         "pct": "3.00",
         "km2": 12575,
         "dens": 154,
         "x": {
           "pop_1925": 1849807,
-          "pop_1920": 1776474
+          "pop_1920": 1776474,
+          "age_0_14_pm": 388,
+          "age_15_59_pm": 535,
+          "age_60p_pm": 78
         },
-        "line": "1930 Census Population: 1,933,326 · % of Total Japan: 3.00 · Per km²: 154"
+        "line": "1930 Census Population: 1,933,326 · Males per 100 Females: 97.74 · % of Total Japan: 3.00 · Per km²: 154"
       },
       "Toyama": {
         "scope": "sub-unit",
         "en": "Toyama-ken",
         "pop": 778953,
+        "mf": "96.14",
         "pct": "1.21",
         "km2": 4252,
         "dens": 183,
         "x": {
           "pop_1925": 749243,
-          "pop_1920": 724276
+          "pop_1920": 724276,
+          "age_0_14_pm": 376,
+          "age_15_59_pm": 548,
+          "age_60p_pm": 76
         },
-        "line": "1930 Census Population: 778,953 · % of Total Japan: 1.21 · Per km²: 183"
+        "line": "1930 Census Population: 778,953 · Males per 100 Females: 96.14 · % of Total Japan: 1.21 · Per km²: 183"
       },
       "Ishikawa": {
         "scope": "sub-unit",
         "en": "Ishikawa-ken",
         "pop": 756835,
+        "mf": "94.84",
         "pct": "1.17",
         "km2": 4186,
         "dens": 181,
         "x": {
           "pop_1925": 750854,
-          "pop_1920": 747360
+          "pop_1920": 747360,
+          "age_0_14_pm": 356,
+          "age_15_59_pm": 556,
+          "age_60p_pm": 88
         },
-        "line": "1930 Census Population: 756,835 · % of Total Japan: 1.17 · Per km²: 181"
+        "line": "1930 Census Population: 756,835 · Males per 100 Females: 94.84 · % of Total Japan: 1.17 · Per km²: 181"
       },
       "Fukui": {
         "scope": "sub-unit",
         "en": "Fukui-ken",
         "pop": 618144,
+        "mf": "97.10",
         "pct": "0.96",
         "km2": 4190,
         "dens": 148,
         "x": {
           "pop_1925": 597899,
-          "pop_1920": 599155
+          "pop_1920": 599155,
+          "age_0_14_pm": 361,
+          "age_15_59_pm": 544,
+          "age_60p_pm": 95
         },
-        "line": "1930 Census Population: 618,144 · % of Total Japan: 0.96 · Per km²: 148"
+        "line": "1930 Census Population: 618,144 · Males per 100 Females: 97.10 · % of Total Japan: 0.96 · Per km²: 148"
       },
       "Yamanashi": {
         "scope": "sub-unit",
         "en": "Yamanashi-ken",
         "pop": 631042,
+        "mf": "99.88",
         "pct": "0.98",
         "km2": 4470,
         "dens": 141,
         "x": {
           "pop_1925": 600675,
-          "pop_1920": 583453
+          "pop_1920": 583453,
+          "age_0_14_pm": 393,
+          "age_15_59_pm": 527,
+          "age_60p_pm": 80
         },
-        "line": "1930 Census Population: 631,042 · % of Total Japan: 0.98 · Per km²: 141"
+        "line": "1930 Census Population: 631,042 · Males per 100 Females: 99.88 · % of Total Japan: 0.98 · Per km²: 141"
       },
       "Nagano": {
         "scope": "sub-unit",
         "en": "Nagano-ken",
         "pop": 1717118,
+        "mf": "94.07",
         "pct": "2.66",
         "km2": 13552,
         "dens": 127,
         "x": {
           "pop_1925": 1629217,
-          "pop_1920": 1562722
+          "pop_1920": 1562722,
+          "age_0_14_pm": 372,
+          "age_15_59_pm": 551,
+          "age_60p_pm": 77
         },
-        "line": "1930 Census Population: 1,717,118 · % of Total Japan: 2.66 · Per km²: 127"
+        "line": "1930 Census Population: 1,717,118 · Males per 100 Females: 94.07 · % of Total Japan: 2.66 · Per km²: 127"
       },
       "Gifu": {
         "scope": "sub-unit",
         "en": "Gifu-ken",
         "pop": 1178405,
+        "mf": "100.63",
         "pct": "1.83",
         "km2": 10621,
         "dens": 111,
         "x": {
           "pop_1925": 1132557,
-          "pop_1920": 1070407
+          "pop_1920": 1070407,
+          "age_0_14_pm": 379,
+          "age_15_59_pm": 536,
+          "age_60p_pm": 85
         },
-        "line": "1930 Census Population: 1,178,405 · % of Total Japan: 1.83 · Per km²: 111"
+        "line": "1930 Census Population: 1,178,405 · Males per 100 Females: 100.63 · % of Total Japan: 1.83 · Per km²: 111"
       },
       "Shizuoka": {
         "scope": "sub-unit",
         "en": "Shizuoka-ken",
         "pop": 1797805,
+        "mf": "100.39",
         "pct": "2.79",
         "km2": 7776,
         "dens": 231,
         "x": {
           "pop_1925": 1671217,
-          "pop_1920": 1550387
+          "pop_1920": 1550387,
+          "age_0_14_pm": 390,
+          "age_15_59_pm": 533,
+          "age_60p_pm": 77
         },
-        "line": "1930 Census Population: 1,797,805 · % of Total Japan: 2.79 · Per km²: 231"
+        "line": "1930 Census Population: 1,797,805 · Males per 100 Females: 100.39 · % of Total Japan: 2.79 · Per km²: 231"
       },
       "Aichi": {
         "scope": "sub-unit",
         "en": "Aichi-ken",
         "pop": 2567413,
+        "mf": "99.07",
         "pct": "3.98",
         "km2": 5171,
         "dens": 497,
         "x": {
           "pop_1925": 2319494,
-          "pop_1920": 2089762
+          "pop_1920": 2089762,
+          "age_0_14_pm": 354,
+          "age_15_59_pm": 574,
+          "age_60p_pm": 72
         },
-        "line": "1930 Census Population: 2,567,413 · % of Total Japan: 3.98 · Per km²: 497"
+        "line": "1930 Census Population: 2,567,413 · Males per 100 Females: 99.07 · % of Total Japan: 3.98 · Per km²: 497"
       },
       "Mie": {
         "scope": "sub-unit",
@@ -10802,7 +10955,10 @@ JMAP.POPULATION = [
         "dens": 201,
         "x": {
           "pop_1925": 1107692,
-          "pop_1920": 1069270
+          "pop_1920": 1069270,
+          "age_0_14_pm": 363,
+          "age_15_59_pm": 549,
+          "age_60p_pm": 89
         },
         "line": "1930 Census Population: 1,157,407 · % of Total Japan: 1.80 · Per km²: 201"
       },
@@ -10815,7 +10971,10 @@ JMAP.POPULATION = [
         "dens": 172,
         "x": {
           "pop_1925": 662412,
-          "pop_1920": 651050
+          "pop_1920": 651050,
+          "age_0_14_pm": 351,
+          "age_15_59_pm": 554,
+          "age_60p_pm": 95
         },
         "line": "1930 Census Population: 691,631 · % of Total Japan: 1.07 · Per km²: 172"
       },
@@ -10828,7 +10987,10 @@ JMAP.POPULATION = [
         "dens": 338,
         "x": {
           "pop_1925": 1406382,
-          "pop_1920": 1287147
+          "pop_1920": 1287147,
+          "age_0_14_pm": 314,
+          "age_15_59_pm": 617,
+          "age_60p_pm": 70
         },
         "line": "1930 Census Population: 1,552,832 · % of Total Japan: 2.41 · Per km²: 338"
       },
@@ -10841,7 +11003,10 @@ JMAP.POPULATION = [
         "dens": 1851,
         "x": {
           "pop_1925": 3059502,
-          "pop_1920": 2587847
+          "pop_1920": 2587847,
+          "age_0_14_pm": 307,
+          "age_15_59_pm": 643,
+          "age_60p_pm": 50
         },
         "line": "1930 Census Population: 3,540,017 · % of Total Japan: 5.49 · Per km²: 1851"
       },
@@ -10854,7 +11019,10 @@ JMAP.POPULATION = [
         "dens": 315,
         "x": {
           "pop_1925": 2454679,
-          "pop_1920": 2301799
+          "pop_1920": 2301799,
+          "age_0_14_pm": 343,
+          "age_15_59_pm": 584,
+          "age_60p_pm": 74
         },
         "line": "1930 Census Population: 2,646,301 · % of Total Japan: 4.11 · Per km²: 315"
       },
@@ -10867,7 +11035,10 @@ JMAP.POPULATION = [
         "dens": 161,
         "x": {
           "pop_1925": 583828,
-          "pop_1920": 564607
+          "pop_1920": 564607,
+          "age_0_14_pm": 358,
+          "age_15_59_pm": 562,
+          "age_60p_pm": 80
         },
         "line": "1930 Census Population: 596,225 · % of Total Japan: 0.93 · Per km²: 161"
       },
@@ -10880,7 +11051,10 @@ JMAP.POPULATION = [
         "dens": 176,
         "x": {
           "pop_1925": 787511,
-          "pop_1920": 750411
+          "pop_1920": 750411,
+          "age_0_14_pm": 365,
+          "age_15_59_pm": 551,
+          "age_60p_pm": 84
         },
         "line": "1930 Census Population: 830,748 · % of Total Japan: 1.29 · Per km²: 176"
       },
@@ -10893,7 +11067,10 @@ JMAP.POPULATION = [
         "dens": 140,
         "x": {
           "pop_1925": 472230,
-          "pop_1920": 454675
+          "pop_1920": 454675,
+          "age_0_14_pm": 362,
+          "age_15_59_pm": 533,
+          "age_60p_pm": 105
         },
         "line": "1930 Census Population: 489,266 · % of Total Japan: 0.76 · Per km²: 140"
       },
@@ -10906,7 +11083,10 @@ JMAP.POPULATION = [
         "dens": 110,
         "x": {
           "pop_1925": 722402,
-          "pop_1920": 714712
+          "pop_1920": 714712,
+          "age_0_14_pm": 345,
+          "age_15_59_pm": 544,
+          "age_60p_pm": 111
         },
         "line": "1930 Census Population: 739,507 · % of Total Japan: 1.15 · Per km²: 110"
       },
@@ -10919,7 +11099,10 @@ JMAP.POPULATION = [
         "dens": 181,
         "x": {
           "pop_1925": 1238447,
-          "pop_1920": 1217698
+          "pop_1920": 1217698,
+          "age_0_14_pm": 338,
+          "age_15_59_pm": 561,
+          "age_60p_pm": 101
         },
         "line": "1930 Census Population: 1,283,962 · % of Total Japan: 1.99 · Per km²: 181"
       },
@@ -10932,7 +11115,10 @@ JMAP.POPULATION = [
         "dens": 200,
         "x": {
           "pop_1925": 1617680,
-          "pop_1920": 1541905
+          "pop_1920": 1541905,
+          "age_0_14_pm": 361,
+          "age_15_59_pm": 549,
+          "age_60p_pm": 90
         },
         "line": "1930 Census Population: 1,692,136 · % of Total Japan: 2.63 · Per km²: 200"
       },
@@ -10945,7 +11131,10 @@ JMAP.POPULATION = [
         "dens": 186,
         "x": {
           "pop_1925": 1094544,
-          "pop_1920": 1041013
+          "pop_1920": 1041013,
+          "age_0_14_pm": 352,
+          "age_15_59_pm": 552,
+          "age_60p_pm": 96
         },
         "line": "1930 Census Population: 1,135,637 · % of Total Japan: 1.76 · Per km²: 186"
       },
@@ -10958,7 +11147,10 @@ JMAP.POPULATION = [
         "dens": 173,
         "x": {
           "pop_1925": 689814,
-          "pop_1920": 670212
+          "pop_1920": 670212,
+          "age_0_14_pm": 373,
+          "age_15_59_pm": 522,
+          "age_60p_pm": 104
         },
         "line": "1930 Census Population: 716,544 · % of Total Japan: 1.11 · Per km²: 173"
       },
@@ -10971,7 +11163,10 @@ JMAP.POPULATION = [
         "dens": 394,
         "x": {
           "pop_1925": 700308,
-          "pop_1920": 677852
+          "pop_1920": 677852,
+          "age_0_14_pm": 377,
+          "age_15_59_pm": 534,
+          "age_60p_pm": 89
         },
         "line": "1930 Census Population: 732,816 · % of Total Japan: 1.14 · Per km²: 394"
       },
@@ -10984,7 +11179,10 @@ JMAP.POPULATION = [
         "dens": 202,
         "x": {
           "pop_1925": 1096366,
-          "pop_1920": 1046720
+          "pop_1920": 1046720,
+          "age_0_14_pm": 380,
+          "age_15_59_pm": 527,
+          "age_60p_pm": 94
         },
         "line": "1930 Census Population: 1,142,122 · % of Total Japan: 1.77 · Per km²: 202"
       },
@@ -10997,7 +11195,10 @@ JMAP.POPULATION = [
         "dens": 101,
         "x": {
           "pop_1925": 687478,
-          "pop_1920": 670895
+          "pop_1920": 670895,
+          "age_0_14_pm": 350,
+          "age_15_59_pm": 546,
+          "age_60p_pm": 103
         },
         "line": "1930 Census Population: 718,152 · % of Total Japan: 1.11 · Per km²: 101"
       },
@@ -11010,7 +11211,10 @@ JMAP.POPULATION = [
         "dens": 507,
         "x": {
           "pop_1925": 2301668,
-          "pop_1920": 2188249
+          "pop_1920": 2188249,
+          "age_0_14_pm": 360,
+          "age_15_59_pm": 574,
+          "age_60p_pm": 66
         },
         "line": "1930 Census Population: 2,527,119 · % of Total Japan: 3.92 · Per km²: 507"
       },
@@ -11023,7 +11227,10 @@ JMAP.POPULATION = [
         "dens": 283,
         "x": {
           "pop_1925": 684831,
-          "pop_1920": 673895
+          "pop_1920": 673895,
+          "age_0_14_pm": 378,
+          "age_15_59_pm": 541,
+          "age_60p_pm": 81
         },
         "line": "1930 Census Population: 691,565 · % of Total Japan: 1.07 · Per km²: 283"
       },
@@ -11036,7 +11243,10 @@ JMAP.POPULATION = [
         "dens": 303,
         "x": {
           "pop_1925": 1163945,
-          "pop_1920": 1136182
+          "pop_1920": 1136182,
+          "age_0_14_pm": 371,
+          "age_15_59_pm": 547,
+          "age_60p_pm": 83
         },
         "line": "1930 Census Population: 1,233,362 · % of Total Japan: 1.91 · Per km²: 303"
       },
@@ -11049,7 +11259,10 @@ JMAP.POPULATION = [
         "dens": 183,
         "x": {
           "pop_1925": 1296086,
-          "pop_1920": 1233233
+          "pop_1920": 1233233,
+          "age_0_14_pm": 374,
+          "age_15_59_pm": 534,
+          "age_60p_pm": 93
         },
         "line": "1930 Census Population: 1,353,993 · % of Total Japan: 2.10 · Per km²: 183"
       },
@@ -11062,7 +11275,10 @@ JMAP.POPULATION = [
         "dens": 149,
         "x": {
           "pop_1925": 915136,
-          "pop_1920": 860282
+          "pop_1920": 860282,
+          "age_0_14_pm": 367,
+          "age_15_59_pm": 539,
+          "age_60p_pm": 94
         },
         "line": "1930 Census Population: 945,771 · % of Total Japan: 1.47 · Per km²: 149"
       },
@@ -11075,7 +11291,10 @@ JMAP.POPULATION = [
         "dens": 98,
         "x": {
           "pop_1925": 691094,
-          "pop_1920": 651097
+          "pop_1920": 651097,
+          "age_0_14_pm": 386,
+          "age_15_59_pm": 532,
+          "age_60p_pm": 83
         },
         "line": "1930 Census Population: 760,467 · % of Total Japan: 1.18 · Per km²: 98"
       },
@@ -11088,7 +11307,10 @@ JMAP.POPULATION = [
         "dens": 169,
         "x": {
           "pop_1925": 1472193,
-          "pop_1920": 1415582
+          "pop_1920": 1415582,
+          "age_0_14_pm": 401,
+          "age_15_59_pm": 515,
+          "age_60p_pm": 84
         },
         "line": "1930 Census Population: 1,556,690 · % of Total Japan: 2.42 · Per km²: 169"
       },
@@ -11101,7 +11323,10 @@ JMAP.POPULATION = [
         "dens": 255,
         "x": {
           "pop_1925": 557622,
-          "pop_1920": 571572
+          "pop_1920": 571572,
+          "age_0_14_pm": 397,
+          "age_15_59_pm": 516,
+          "age_60p_pm": 87
         },
         "line": "1930 Census Population: 577,509 · % of Total Japan: 0.90 · Per km²: 255"
       }

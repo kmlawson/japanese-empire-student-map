@@ -156,6 +156,89 @@ const open = async (b, url) => {
     back.on.join(' '));
   await p.close();
 
+  console.log('\n— the other four tables of the report —');
+  /* The sex ratio (p25), the age groups (pp40–41), and where those born outside
+     内地 were born (pp68–69). Each was checked against the source's own
+     arithmetic before it was used; these check that the arithmetic survived
+     the trip into the map. */
+  p = await open(b, JAPAN);
+  const more = await p.evaluate(() => {
+    const d = (JMAP.POPULATION || []).filter(x => x.id === 'japan-1930')[0];
+    const subs = Object.keys(d.rows).filter(k => d.rows[k].scope === 'sub-unit');
+    const j = d.rows.japan;
+    return {
+      mf: j.mf, tokyoMF: d.rows.Tokyo.mf, naganoMF: d.rows.Nagano.mf,
+      withMF: subs.filter(k => d.rows[k].mf).length,
+      ages: [j.x.age_0_14_pm, j.x.age_15_59_pm, j.x.age_60p_pm],
+      // every row's three shares, to be summed
+      sums: subs.concat(['japan']).map(k => {
+        const x = d.rows[k].x;
+        return (x.age_0_14_pm || 0) + (x.age_15_59_pm || 0) + (x.age_60p_pm || 0);
+      }),
+      shimane: [d.rows.Shimane.x.age_0_14_pm, d.rows.Shimane.x.age_60p_pm],
+      born: j.x,
+    };
+  });
+  check('Japan proper is 101.03 men to a hundred women', more.mf === '101.03', more.mf);
+  /* The spread is the reading: Tōkyō pulling men in, Nagano sending them out. */
+  check('and the spread is there — Tōkyō 111.83, Nagano 94.07',
+    more.tokyoMF === '111.83' && more.naganoMF === '94.07',
+    more.tokyoMF + ' / ' + more.naganoMF);
+  /* Transcribed as far as 愛知; the rest of p25 has not been read yet, and a
+     blank field is simply left off a card. When the page arrives this number
+     goes to 47 and the check should be changed with it. */
+  check('twenty-three prefectures have it so far', more.withMF === 23,
+    String(more.withMF));
+
+  check('the age groups are the source\'s per-thousand shares',
+    more.ages.join(' ') === '366 560 74', more.ages.join(' '));
+  /* Forty-eight rows of three rounded shares. All of them within one of a
+     thousand is what says the reading is right — it cannot happen by accident,
+     and it is the same check that was made before anything was drawn. */
+  check('and all forty-eight rows sum to 1,000 within the rounding',
+    more.sums.length === 48 && more.sums.every(v => v >= 999 && v <= 1001),
+    more.sums.filter(v => v < 999 || v > 1001).join(' ') || 'none out');
+  check('Shimane is the oldest and Tōkyō the youngest',
+    more.shimane[1] === 111 && more.ages[2] === 74, more.shimane.join('/'));
+
+  check('the five 外地 sum to the printed 485,797',
+    more.born.born_chosen + more.born.born_taiwan + more.born.born_karafuto
+    + more.born.born_kwantung + more.born.born_nanyo === 485797
+    && more.born.born_gaichi === 485797, String(more.born.born_gaichi));
+  check('nine in ten of them were born in Korea',
+    more.born.born_chosen === 434934, String(more.born.born_chosen));
+  check('and 114,862 were born abroad',
+    more.born.born_foreign === 114862, String(more.born.born_foreign));
+  await p.close();
+
+  console.log('\n— the cities —');
+  /* Four dot sizes on the 1930 map, decided by p16. The two largest cities are
+     Ōsaka and Tōkyō *in that order*: the fifteen wards were still the whole of
+     Tōkyō in 1930 and the amalgamation came in 1932. */
+  p = await open(b, 'http://localhost:8123/index.html?layers=2&where=128,30,146,46');
+  const dots = await p.evaluate(() => {
+    const g = (JMAP.GAZ && JMAP.GAZ.e1930) || [];
+    const out = {};
+    g.forEach(c => { out[c.id] = { t: c.t }; });
+    return out;
+  });
+  const tier = id => (dots[id] || {}).t;
+  check('Ōsaka and Tōkyō are the largest weight',
+    tier('osaka') === 3 && tier('tokyo') === 3,
+    tier('osaka') + '/' + tier('tokyo'));
+  check('Nagoya, Kobe, Kyōto and Yokohama the one below',
+    ['nagoya', 'kobe', 'kyoto', 'yokohama'].every(id => tier(id) === 2),
+    ['nagoya', 'kobe', 'kyoto', 'yokohama'].map(tier).join(' '));
+  /* Hiroshima was `large` and is `medium`: at 270,417 it is a third of
+     Yokohama and was being drawn the same size. */
+  check('the rest of the page is medium, Hiroshima included',
+    ['hiroshima', 'fukuoka', 'kagoshima', 'kawasaki', 'moji'].every(id => tier(id) === 1),
+    ['hiroshima', 'fukuoka', 'kagoshima', 'kawasaki', 'moji'].map(tier).join(' '));
+  check('and a city not on the page is small',
+    ['gifu', 'nagano', 'aomori', 'shimonoseki'].every(id => tier(id) === 0),
+    ['gifu', 'nagano', 'aomori', 'shimonoseki'].map(tier).join(' '));
+  await p.close();
+
   console.log('\n— what a reader is told —');
   p = await open(b, JAPAN);
   await p.evaluate(() => document.querySelector('#opt-pop-japan-density-density').click());
@@ -190,10 +273,15 @@ const open = async (b, url) => {
   check('the table carries the two earlier censuses',
     /1925 \(Taishō 14\)/.test(table) && /1920 \(Taishō 9\)/.test(table),
     table.slice(0, 120));
-  /* This source counted heads and did not count a sex, so the column that
-     would have held it is left out rather than printed as forty-eight dashes. */
-  check('and leaves out the column its source never counted',
-    !/Males per 100 females/.test(table), table.slice(0, 160));
+  /* And the sex ratio, which was read off p25 a page later. The column is
+     conditional now — the table box asks whether any row fills it before
+     offering it, the way it always did for the area pair — because for the
+     hour between the two transcriptions this table printed forty-eight em
+     dashes under a heading, which reads as a fault rather than as an absence. */
+  check('and the sex ratio, once its own page was read',
+    /Males per 100 females/.test(table), table.slice(0, 200));
+  check('with the shares of age under their own heading',
+    /Ages per 1,000/.test(table), table.slice(0, 240));
   await p.close();
 
   await b.close();

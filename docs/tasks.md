@@ -13502,6 +13502,94 @@ Suite: **1,218 checks across 45 scripts, all passing.**
 
 ---
 
+## Four more tables of the 1930 census, and four sizes of Japanese city
+
+All from 内閣統計局『昭和五年国勢調査最終報告書』, the same volume as the
+prefecture populations: **p16** the cities, **p25** the sex ratio, **pp40–41**
+the age groups, **pp68–69** where those born outside 内地 were born. Each was
+put to the source's own arithmetic before any of it was used.
+
+| table | the check | result |
+|---|---|---|
+| pp40–41 ages | all 48 rows sum to 1,000 within the rounding | every one lands at 999–1001 |
+| p68 外地 births | the five sum to the printed 總數 | 485,797 exactly |
+| p69 births abroad | the parts sum to the total, and each continent to its own subtotal | 114,862 exactly, and all four subtotals |
+| p16 cities | the list is monotone by population | it is, 2,453,573 down to 104,351 |
+
+Forty-eight rows of three rounded shares all landing within one of a thousand
+cannot happen by accident, which is what makes that the strongest of the four.
+All of them are in `tools/test/japanpop.js` as well as in the notes, because a
+transcription checked once is checked before the next edit rather than after.
+
+### The cities, and the fourth dot size
+
+The four sizes already existed — 2.5, 3.4, 4.4 and 5.8 screen pixels, named
+`small`, `medium`, `large`, `largest` — so nothing had to be added; what
+changed is which Japanese city gets which, from p16 rather than from rounded
+figures:
+
+| icon | cities |
+|---|---|
+| largest | Ōsaka 2,453,573, Tōkyō 2,070,913 |
+| large | Nagoya 907,404, Kobe 787,616, Kyōto 765,142, Yokohama 620,306 |
+| medium | the other twenty-two on the page, Hiroshima 270,417 down to Kawasaki 104,351 |
+| small | every other Japanese city the map carries |
+
+Twenty-one dots changed weight. Hiroshima is the only demotion from `large`,
+and it is a plain one: at 270,417 it is a third of Yokohama and was drawn the
+same size. Twenty went from `medium` to `small` — Gifu, Hamamatsu, Toyohashi,
+Toyama, Ōmuta, Tokushima, Matsuyama, Kōchi, Kōfu, Maizuru, Aomori, Shimonoseki,
+Fukui, Chiba, Kokura, Utsunomiya, Maebashi, Morioka, Ōita, Nagano — none of
+them being on the page. The twenty-eight that are now carry the exact census
+figure instead of one rounded to the thousand.
+
+**東京市 is not 東京府, and it matters here.** The city is 2,070,913 against the
+prefecture's 5,408,678: the fifteen wards were still the whole of Tōkyō in 1930
+and the amalgamation that took in the surrounding twenty came in 1932. So
+**Ōsaka is the larger city on this map**, which is the sort of thing a reader
+should be able to see and which the 1940 figures reverse.
+
+### A share is not a count, and the column says so
+
+The 1930 census printed its age structure as 人口千中 — each group per thousand
+of that prefecture's own people. Those go in as `age_0_14_pm` and its two
+neighbours under a heading of their own, *Ages per 1,000*, and **not** into
+Korea's `age_0_14`, which is a count of children. Turning the rounded share
+into a count by multiplying it out was the alternative and is worse: it invents
+four figures of precision the census did not print. `data/population/README.md`
+now says which convention is which.
+
+### And the sex ratio is half a table
+
+p25 is transcribed as far as 愛知 — 全國 and twenty-three prefectures. The
+twenty-three from 三重 to 沖縄 are not in the scan and carry no figure; a blank
+field is left off a card, so nothing looks broken. `japanpop.js` pins the count
+at 23 so that finishing the page is a change the tests notice.
+
+That gap did surface a real fault while it was the whole column: the table box
+asked whether any row had an area before offering the area columns, and did not
+ask the same about the sex ratio, so for an hour Japan's table printed
+forty-eight em dashes under a heading. It asks now.
+
+### On the cards
+
+A prefecture card carries its population, its share of Japan, its density, the
+two earlier censuses and its three age shares. Japan's own card carries all of
+that plus **Born outside Japan proper**: the five 外地 one by one, their
+485,797 total, and the 114,862 born in a foreign country. The p69 breakdown of
+those 114,862 is in the transcription rather than on the card — thirty-one
+lines is a page, not a card — and it carries a warning the numbers need: these
+are *birthplaces, not nationalities*, and the two largest entries after China
+are the United States at 27,288 and Hawaii at 13,504, who are overwhelmingly
+the children of Japanese emigrants coming back.
+
+Four new files in `data/population/sources/`: the cities, the sex ratio, the
+ages, the birthplaces.
+
+Suite: **1,232 checks across 45 scripts, all passing** — `japanpop.js` up to 35.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

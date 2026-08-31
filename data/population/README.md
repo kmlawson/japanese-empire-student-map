@@ -60,6 +60,23 @@ twenty-one columns of a census.
 off the card: the country line carries a population and a sex ratio and no
 share, because a country is not a share of itself.
 
+## A figure that is a share, not a count
+
+`fields.csv` names the columns and the block each belongs to, and a block is a
+run of lines on a card and a table of its own in the box. Two conventions have
+to be kept apart there.
+
+**A column of counts is a column of people.** Korea's ages and occupations are.
+
+**A column of shares says so in its label.** Japan's 1930 census printed its
+age structure as 人口千中 — each group per thousand of that prefecture's own
+people — and the columns are `age_0_14_pm` and its two neighbours, under the
+heading *Ages per 1,000*. They are not the same column as Korea's `age_0_14`
+and must not be, because a reader who takes 366 for a number of children has
+misread the map. Multiplying the rounded share by the population to make a
+count was the alternative and is worse: it invents four figures of precision
+the census did not print.
+
 ## The areas are measured here, not taken from the source
 
 There is no area column in the 1942 returns, so `area_km2` is measured from the

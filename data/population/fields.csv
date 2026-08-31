@@ -38,3 +38,13 @@ occ_other,Other gainful occupation,Occupation
 occ_none,No occupation,Occupation
 pop_1925,1925 (Taishō 14),Earlier censuses
 pop_1920,1920 (Taishō 9),Earlier censuses
+age_0_14_pm,0–14,"Ages per 1,000"
+age_15_59_pm,15–59,"Ages per 1,000"
+age_60p_pm,60 and over,"Ages per 1,000"
+born_chosen,Chōsen (Korea),Born outside Japan proper
+born_taiwan,Taiwan (Formosa),Born outside Japan proper
+born_karafuto,Karafuto,Born outside Japan proper
+born_kwantung,Kwantung Leased Territory,Born outside Japan proper
+born_nanyo,South Seas Mandate,Born outside Japan proper
+born_gaichi,All of the 外地,Born outside Japan proper
+born_foreign,A foreign country,Born outside Japan proper
