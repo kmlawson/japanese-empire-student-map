@@ -224,7 +224,12 @@ def population_fields():
     path = os.path.join(POP, "fields.csv")
     if not os.path.exists(path):
         return []
-    return [{"c": r["column"], "label": r["label"], "group": r["group"]}
+    # `role` marks a column that is a *total* of the ones under it rather than
+    # one of them — 滿洲人 over its Manchu, Han, Mongolian and Hui — so a card
+    # can set it apart from its own parts instead of listing eight things at
+    # one weight and leaving the reader to work out which contains which.
+    return [{"c": r["column"], "label": r["label"], "group": r["group"],
+             "role": (r.get("role") or "").strip()}
             for r in T.read_csv(path)]
 
 

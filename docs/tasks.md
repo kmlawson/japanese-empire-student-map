@@ -14054,9 +14054,142 @@ in `tools/test/manchupop.js`.
 nineteen provinces. Until it does, this layer is a set of 1943 figures over
 1935 outlines, said plainly everywhere it appears but still true.
 
+### Three corrections on the cards, straight after
+
+**Six provinces lost ground, not eight.** The first pass warned everything but
+the four 興安, 黑河 and 熱河 — a guess, and wrong in both directions. Traced
+properly: 通化 came out of 安東 and 奉天, 北安 out of 龍江 and 濱江, 東安 out of
+濱江 and 三江, 四平 out of 奉天 and 吉林, and 牡丹江 out of 東安 and 濱江 in turn,
+which comes back through 東安 to 濱江 and 三江 again. So it is 奉天, 安東, 濱江,
+龍江, 三江 and 吉林, and 間島 and 錦州 kept every acre they had.
+
+**And then the warning changed shape entirely.** What every province card
+actually needs to say is one thing — its *outline* is georeferenced from a 1935
+map, which is true of all fourteen whether or not that province later lost
+ground — in one sentence. The long paragraph naming five provinces and their
+parents is on the table instead, where there is room to read it. A caution
+nobody reads is not a caution.
+
+**新京特別市 is added into 吉林省.** The capital was a special municipality
+outside every province by 1943 and the report counts it apart, but the ground it
+stands on is inside the 吉林 this map draws — so the row is 5,608,922 and 555,009
+together over 83,206.977 and 437.650 km² together: **6,163,931 at 73.7 to the
+square kilometre and 124.3 men to a hundred women**, and the shape and the figure
+now cover the same ground. The dot on 新京 keeps the city's own 555,009 and is
+marked `apart`, which is what keeps it out of the chart: the bars are nineteen
+now rather than twenty and still come to 43,202,880 exactly.
+
+### And then the map itself: six provinces left blank
+
+Shading all fourteen was still wrong, and the reason is the one above rather
+than a new one. 奉天, 安東, 濱江, 龍江, 三江 and 吉林 are the six the later
+provinces were cut from, so a 1943 density drawn on any of them spreads its
+people over ground that had stopped being theirs — a picture, in the one place
+on the map where the picture is the argument.
+
+Those six carry no `area_km2` now, so they have no density on the card and take
+the key's blank on the map. The eight that kept every acre — 間島, 錦州, 黑河,
+熱河 and the four 興安 — are shaded on the report's own densities over the
+report's own areas. All five classes are still used between them, and the key
+grew a "no data" row under them.
+
+The six keep their population and their sex ratio, which are the province's own
+figures and are not about ground at all.
+
+### Two corrections on the card, straight after
+
+**The state's card was headed "Manchukuo by province, the population of 1943".**
+It is the card for the whole state, and "by province" is the half of the
+dataset's name that belongs to the table rather than to it. `label` is
+**Manchukuo population, May 1943** now — the month as well, the count being of
+May — and the captions with it, so a province card reads *population at the
+count of May 1943*.
+
+**And the eight nationality lines were all one weight.** Four of them contain
+the other four: 滿洲人 over Manchu, Han, Mongolian, Hui and other, and 日本人
+over Japanese, Korean and other. A reader adding the block up got twice the
+population of Manchuria. `role: total` in `fields.csv` marks a column that is
+the sum of the ones under it, and a card sets those in bold with the body ink
+rather than the muted one — a heading in `--muted` at 700 reads as half
+switched off. It is a general column, not a Manchukuo one: any source with a
+total over its own parts can say so now.
+
 **Also not done:** 第二表's *province* rows. The crop covers the head of the
 table and its 總數 block only — twice — so Manchukuo's nationalities are known
 for the whole state and not by province.
+
+
+---
+
+## Japan at the 1940 census, on the December 1942 map
+
+昭和15年国勢調査人口 全国・道府県, printed pp. 17–19, from the 1940 statistical
+yearbook scanned by the Program for Constructing Data Infrastructure for the
+Humanities and Social Sciences at Hitotsubashi University's Institute of
+Economic Research.
+
+Three tables of the same shape — 総数, 男, 女 — and every identity they can be
+held to holds. The forty-seven prefectures sum to the printed 73,114,308 and to
+its 36,566,010 men and 36,548,298 women exactly. Male plus female is the total
+in every row of all three tables. **Inlanders + Oversea's landers + Foreigners =
+Total** everywhere, and **銃後人口 + 軍人軍属 = 全人口** everywhere.
+
+### Three things the 1940 census counts that 1930 did not
+
+**Where a resident was registered.** 內地人 on the household registers of Japan
+proper, 外地人 on those of Korea, Taiwan, Karafuto or the leased territory, and
+foreign nationals. 1,265,049 people in Japan proper were registered in the
+外地 in 1940, most of them Koreans — a figure the 1930 tables have no column
+for, and one of the more useful numbers in the whole folder.
+
+The map's cards say *Registered in Japan proper* and *Registered in the 外地*
+rather than reproducing the source's own English, which is "Inlanders" and
+"Oversea's landers". The 1940 wording is in the transcription, where a reader
+who wants the original can find it; on a card in 2026 it would be read as
+something else or as nothing at all.
+
+**Service personnel, and where they sit.** 1,694,428 of them, and they are
+counted *inside* each total rather than beside it — which is why the three
+registers add to the whole and the military column does not join them. It has a
+heading of its own on the card and the label says so.
+
+**Okinawa, twice.** The report prints 全国 both with and without it, Okinawa
+having been surveyed on a different footing. This map draws Okinawa, so it uses
+the 73,114,308 that includes it; the other is 72,539,729.
+
+### What it does to the 1930 map
+
+The ladder is pooled over a layer's dates, so Japan's moved from **under 75 /
+75–200 / 200–500 / 500–1000 / 1000 and over** to **under 100 / 100–200 /
+200–500 / 500–1500 / 1500 and over**, and the 1930 map's colours moved with it.
+That is the rule working: a colour has to mean the same thing on both dates or
+the comparison the switch exists for is a lie. It is the second time this has
+happened in a fortnight — Taiwan was the first — and both are in the entries
+above.
+
+And Japan gets a comparison table for free, 1930 against 1940, on the figures
+they share. Both are censuses, so the note names them and says nothing about
+different kinds of number.
+
+### And a test whose premise had expired
+
+`demography.js` checked that the December 1942 map greys three switches, with a
+comment saying why: Korea's estimate counted a population and a sex ratio and
+so can draw neither the Japanese share nor the trades, "and Japan's only dataset
+is the 1930 census, so its density is greyed there too". It is not any more.
+Two greyed now, and a third check that Japan's is among the offered — the same
+rule read the other way round.
+
+The first attempt at that check used `/japan/` on the switch ids, which also
+matches `korea-density-japanese`: a switch of a different place, and one of the
+two that *should* be greyed. It matches the group now.
+
+### Measured
+
+47 prefectures shaded on the December 1942 map, each carrying its figure, the
+key headed *Japan Population Density 1940*. Tōkyō-fu 7,354,971 at 3,360 to the
+square kilometre, up from 5,408,678 at 2,471. The table holds 48 rows and the
+chart 47 bars coming to 73,114,308. `japanpop.js` gains 10 checks, at 58.
 
 
 ---

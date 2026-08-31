@@ -1,4 +1,4 @@
-# 新京特別市及省別人口 — Manchukuo by province, 1943
+# 新京特別市及省別人口 — Manchukuo by province, May 1943
 
 **第一表 新京特別市及省別人口**, from 滿洲國『臨時國勢調査報告』p. 5 —
 <https://dl.ndl.go.jp/pid/3459064/1/15>. The plate reproduced beside it,
@@ -8,7 +8,7 @@ report.
 The images are kept here: `images/1943-Manchukuo-table1-population.png` and
 `images/1943-Manchukuo-fig1-density-map.png`.
 
-The figures are of **1943**, for 新京特別市 and the nineteen provinces. The
+The figures are of **May 1943**, for 新京特別市 and the nineteen provinces. The
 areas are the report's own — 暫定面積, *provisional area*, in 方粁 (square
 kilometres) to three decimal places — and so are the two derived columns,
 女100對男數 (males per hundred females) and 人口密度 (people per square
@@ -38,18 +38,33 @@ report — 通化, 北安, 東安, 四平 and 牡丹江 — and none of them was
 single parent, so there is no way to add them back into the fourteen from these
 figures.
 
-What follows from that:
+Which six of the fourteen actually lost ground can be traced: 通化 came out of
+安東 and 奉天, 北安 out of 龍江 and 濱江, 東安 out of 濱江 and 三江, 四平 out of
+奉天 and 吉林, and 牡丹江 out of 東安 and 濱江 in turn — which comes back through
+東安 to 濱江 and 三江 again. **奉天, 安東, 濱江, 龍江, 三江 and 吉林**, and no
+others: 間島, 錦州, 黑河, 熱河 and the four 興安 have every acre in 1943 that they
+had in 1935.
 
-* the **fourteen the map draws** hold 35,140,793 of the 43,202,880 — 81.3 per
-  cent. The other 8,062,087 were in the five it does not draw and in 新京特別市;
-* a province's figure here is the population of the **1943** province, and the
-  shape the map gives it is the **1935** one, which for most of the southern and
-  central provinces is the larger. The card says so;
-* so the density is the report's own, worked out from the report's own area. It
-  is not over the polygon, which would be the wrong ground.
+What follows:
 
-The five the map does not draw are in the table as rows without a place, and say
-so.
+* the **fourteen shapes the map draws** hold 35,695,802 of the 43,202,880, the
+  capital among them. The other 7,507,078 were in the five provinces it has no
+  shape for, and those five are in the table as rows without a place;
+* **the six are left blank on the choropleth.** A 1943 density drawn on 奉天,
+  安東, 濱江, 龍江, 三江 or 吉林 would spread its people over ground that had
+  stopped being theirs, so those six carry a population and a sex ratio and no
+  density at all. The other eight are shaded on the densities the report itself
+  prints, over the areas it itself prints and not over the polygons;
+* **新京特別市 is added into 吉林省.** The capital was a special municipality
+  outside every province by 1943 and the report counts it apart, but the ground
+  it stands on is inside the 吉林 this map draws. So the row is 5,608,922 and
+  555,009 together over 83,206.977 and 437.650 km² together — 6,163,931 at 73.7
+  to the square kilometre, 124.3 men to a hundred women — and the shape and the
+  number then cover the same ground. The dot on 新京 keeps the city's own
+  555,009 and is marked as counted inside 吉林, so nothing adds it twice;
+* every province card says, in one sentence, that its outline is georeferenced
+  from a 1935 map and that a few later provinces are therefore missing. One
+  sentence and no more: a caution nobody reads is not a caution.
 
 ## 第一表
 
@@ -94,6 +109,7 @@ choropleth over a source that drew one is to draw the source's:
 
 The sixth is one city, and this map draws 新京 as a point rather than as an
 area, so five classes cover every shape it shades. All five are used: 黑河
-(1.3), 興安北 (0.8) and 興安東 (1.8) in the first; 興安西, 興安南 and 三江 in the
-second; 間島 and 龍江 in the third; 熱河, 濱江, 吉林 and 安東 in the fourth;
-錦州 (107.5) and 奉天 (152.4) in the fifth.
+(1.3), 興安北 (0.8) and 興安東 (1.8) in the first; 興安西 (10.3) and 興安南
+(13.4) in the second; 間島 (28.1) in the third; 熱河 (44.2) in the fourth; and
+錦州 (107.5) in the fifth. All five are used by the eight that are shaded; the
+other six are blank, for the reason above.

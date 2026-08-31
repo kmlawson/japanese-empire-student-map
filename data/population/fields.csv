@@ -1,63 +1,67 @@
-column,label,group
-age_0_14,0–14,Ages
-age_15_59,15–59,Ages
-age_60p,60 and over,Ages
-reg_jp,Japanese (naichijin),Register and nationality
-reg_ko,Koreans,Register and nationality
-reg_tw,Taiwanese,Register and nationality
-reg_indig,Indigenous Peoples 「蕃人」,Register and nationality
-reg_karafuto,Karafuto,Register and nationality
-for_total,Foreigners,Register and nationality
-for_cn,Chinese,Register and nationality
-for_other,Other foreign,Register and nationality
-for_gb,Britain,Foreign nationality
-for_us,United States,Foreign nationality
-for_su,USSR,Foreign nationality
-for_fr,France,Foreign nationality
-for_de,Germany,Foreign nationality
-for_at,Austria,Foreign nationality
-for_cz,Czechoslovakia,Foreign nationality
-for_se,Sweden,Foreign nationality
-for_ch,Switzerland,Foreign nationality
-for_no,Norway,Foreign nationality
-for_be,Belgium,Foreign nationality
-for_tr,Turkey,Foreign nationality
-for_ir,Persia,Foreign nationality
-for_ca,Canada,Foreign nationality
-for_au,Australia,Foreign nationality
-for_etc,Other foreign nationality,Foreign nationality
-occ_total,In gainful occupation,Occupation
-occ_agri,Agriculture,Occupation
-occ_fish,Fisheries,Occupation
-occ_mine,Mining,Occupation
-occ_ind,Industry,Occupation
-occ_comm,Commerce,Occupation
-occ_trans,Transport,Occupation
-occ_public,Public service and professions,Occupation
-occ_domestic,Domestic service,Occupation
-occ_other,Other gainful occupation,Occupation
-occ_none,No occupation,Occupation
-pop_1925,1925 (Taishō 14),Earlier censuses
-pop_1920,1920 (Taishō 9),Earlier censuses
-age_0_14_pct,0–14,"Ages, % of the population"
-age_15_59_pct,15–59,"Ages, % of the population"
-age_60p_pct,60 and over,"Ages, % of the population"
-born_chosen,Chōsen (Korea),Born outside Japan proper
-born_taiwan,Taiwan (Formosa),Born outside Japan proper
-born_karafuto,Karafuto,Born outside Japan proper
-born_kwantung,Kwantung Leased Territory,Born outside Japan proper
-born_nanyo,South Seas Mandate,Born outside Japan proper
-born_gaichi,All of the 外地,Born outside Japan proper
-born_foreign,A foreign country,Born outside Japan proper
-nat_total,Manchurian nationals (滿洲人),Nationality and ethnic group
-nat_manchu,Manchu (滿洲族人),Nationality and ethnic group
-nat_han,Han Chinese (漢人),Nationality and ethnic group
-nat_mongol,Mongolian (蒙古人),Nationality and ethnic group
-nat_hui,Hui Muslim (回教人),Nationality and ethnic group
-nat_other,Other Manchurian,Nationality and ethnic group
-nat_jp_total,Japanese nationals (日本人),Nationality and ethnic group
-nat_jp,Japanese (內地人),Nationality and ethnic group
-nat_ko,Koreans (朝鮮人),Nationality and ethnic group
-nat_jp_other,Other Japanese national,Nationality and ethnic group
-nat_third,Third-country nationals (第三國人),Nationality and ethnic group
-nat_stateless,Stateless (無國籍人),Nationality and ethnic group
+column,label,group,role
+age_0_14,0–14,Ages,
+age_15_59,15–59,Ages,
+age_60p,60 and over,Ages,
+reg_jp,Japanese (naichijin),Register and nationality,
+reg_ko,Koreans,Register and nationality,
+reg_tw,Taiwanese,Register and nationality,
+reg_indig,Indigenous Peoples 「蕃人」,Register and nationality,
+reg_karafuto,Karafuto,Register and nationality,
+for_total,Foreigners,Register and nationality,
+for_cn,Chinese,Register and nationality,
+for_other,Other foreign,Register and nationality,
+for_gb,Britain,Foreign nationality,
+for_us,United States,Foreign nationality,
+for_su,USSR,Foreign nationality,
+for_fr,France,Foreign nationality,
+for_de,Germany,Foreign nationality,
+for_at,Austria,Foreign nationality,
+for_cz,Czechoslovakia,Foreign nationality,
+for_se,Sweden,Foreign nationality,
+for_ch,Switzerland,Foreign nationality,
+for_no,Norway,Foreign nationality,
+for_be,Belgium,Foreign nationality,
+for_tr,Turkey,Foreign nationality,
+for_ir,Persia,Foreign nationality,
+for_ca,Canada,Foreign nationality,
+for_au,Australia,Foreign nationality,
+for_etc,Other foreign nationality,Foreign nationality,
+occ_total,In gainful occupation,Occupation,
+occ_agri,Agriculture,Occupation,
+occ_fish,Fisheries,Occupation,
+occ_mine,Mining,Occupation,
+occ_ind,Industry,Occupation,
+occ_comm,Commerce,Occupation,
+occ_trans,Transport,Occupation,
+occ_public,Public service and professions,Occupation,
+occ_domestic,Domestic service,Occupation,
+occ_other,Other gainful occupation,Occupation,
+occ_none,No occupation,Occupation,
+pop_1925,1925 (Taishō 14),Earlier censuses,
+pop_1920,1920 (Taishō 9),Earlier censuses,
+age_0_14_pct,0–14,"Ages, % of the population",
+age_15_59_pct,15–59,"Ages, % of the population",
+age_60p_pct,60 and over,"Ages, % of the population",
+born_chosen,Chōsen (Korea),Born outside Japan proper,
+born_taiwan,Taiwan (Formosa),Born outside Japan proper,
+born_karafuto,Karafuto,Born outside Japan proper,
+born_kwantung,Kwantung Leased Territory,Born outside Japan proper,
+born_nanyo,South Seas Mandate,Born outside Japan proper,
+born_gaichi,All of the 外地,Born outside Japan proper,
+born_foreign,A foreign country,Born outside Japan proper,
+nat_total,Manchurian nationals (滿洲人),Nationality and ethnic group,total
+nat_manchu,Manchu (滿洲族人),Nationality and ethnic group,
+nat_han,Han Chinese (漢人),Nationality and ethnic group,
+nat_mongol,Mongolian (蒙古人),Nationality and ethnic group,
+nat_hui,Hui Muslim (回教人),Nationality and ethnic group,
+nat_other,Other Manchurian,Nationality and ethnic group,
+nat_jp_total,Japanese nationals (日本人),Nationality and ethnic group,total
+nat_jp,Japanese (內地人),Nationality and ethnic group,
+nat_ko,Koreans (朝鮮人),Nationality and ethnic group,
+nat_jp_other,Other Japanese national,Nationality and ethnic group,
+nat_third,Third-country nationals (第三國人),Nationality and ethnic group,total
+nat_stateless,Stateless (無國籍人),Nationality and ethnic group,total
+res_naichi,Registered in Japan proper (內地人),Where residents were registered,
+res_gaichi,Registered in the 外地 (外地人),Where residents were registered,
+res_foreign,Foreign nationals,Where residents were registered,
+mil_total,"Service personnel (軍人軍属), counted in the total above",Service personnel,

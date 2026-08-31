@@ -314,6 +314,67 @@ const open = async (b, url) => {
     /28 of them/.test(cBars.cap) && /11,030,724/.test(cBars.cap), cBars.cap);
   await p.close();
 
+  console.log('\n— and 1940 beside it —');
+  {
+    /* The 1940 census, on the December 1942 map. Its figures were checked
+       against the report's own arithmetic before they were drawn, and those
+       checks re-run here: the forty-seven sum to the printed total and to its
+       two sexes, and each of the two identities the report can be held to —
+       the three registers adding to the total, and the civilians plus the
+       service personnel adding to it as well — holds in every row. */
+    const q = await open(b, 'http://localhost:8123/index.html?layers=1&where=126,29,148,47');
+    const y = await q.evaluate(() => {
+      const s = (JMAP.POPULATION || []).filter(x => x.id === 'japan-1940')[0];
+      if (!s) return null;
+      const keys = Object.keys(s.rows);
+      const subs = keys.filter(k => s.rows[k].scope === 'sub-unit');
+      const j = s.rows.japan;
+      const adds = k => {
+        const x = s.rows[k].x;
+        return x.res_naichi + x.res_gaichi + x.res_foreign === s.rows[k].pop;
+      };
+      return { subs: subs.length, whole: j.pop, mf: j.mf, dens: j.dens,
+               sum: subs.reduce((a, k) => a + s.rows[k].pop, 0),
+               unbalanced: subs.concat(['japan']).filter(k => !adds(k)),
+               gaichi: j.x.res_gaichi, mil: j.x.mil_total,
+               tokyo: s.rows.Tokyo, okinawa: s.rows.Okinawa,
+               when: s.when, breaks: s.breaks, line: j.line,
+               b30: ((JMAP.POPULATION || []).filter(x => x.id === 'japan-1930')[0] || {}).breaks,
+               source: s.source };
+    });
+    check('the 1940 dataset is there with its forty-seven', !!y && y.subs === 47,
+      y && String(y.subs));
+    /* Okinawa was surveyed on a different footing and the report prints the
+       country both ways. This map draws Okinawa, so it uses the larger. */
+    check('the whole is 73,114,308 — the figure that includes Okinawa',
+      y.whole === 73114308, String(y.whole));
+    check('and the forty-seven sum to it exactly', y.sum === 73114308, String(y.sum));
+    check('the three registers add to the total in every row',
+      !y.unbalanced.length, y.unbalanced.join(', '));
+    check('1,265,049 people were registered in the 外地', y.gaichi === 1265049,
+      String(y.gaichi));
+    /* Service personnel are counted *inside* each total, which is why the
+       registers add up and this column does not join them. */
+    check('and 1,694,428 were service personnel, inside the total',
+      y.mil === 1694428 && y.mil + 71419880 === y.whole, String(y.mil));
+    check('Tōkyō-fu is 7,354,971 and still the densest',
+      y.tokyo.pop === 7354971 && y.tokyo.dens === 3360,
+      y.tokyo.pop + ' at ' + y.tokyo.dens);
+    check('the figures are named for 1940, not for the map they are drawn on',
+      y.when === '1940' && /^1940 Census Population: 73,114,308/.test(y.line),
+      y.line.slice(0, 50));
+    /* Pooled over the layer, so a colour means the same on both maps. Putting
+       1940 in moved the ladder, and the 1930 map moved with it — which is the
+       rule working rather than a regression. */
+    check('both dates read one ladder, and it is 100/200/500/1500',
+      y.breaks.join(',') === '100,200,500,1500'
+      && y.breaks.join(',') === (y.b30 || []).join(','),
+      y.breaks + ' vs ' + y.b30);
+    check('the key credits the Hitotsubashi scan',
+      /一橋大学経済研究所/.test(y.source), y.source.slice(-40));
+    await q.close();
+  }
+
   console.log('\n— what a reader is told —');
   p = await open(b, JAPAN);
   await p.evaluate(() => document.querySelector('#opt-pop-japan-density-density').click());

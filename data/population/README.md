@@ -57,6 +57,7 @@ about the place; this folder holds what was counted there.
 | `column` | the column as it is spelled in a dataset file |
 | `label` | what to call it on a card and at the head of a table |
 | `group` | which block it belongs to — *Ages*, *Register and nationality*, *Occupation*. A group is a table of its own in the box and a headed run of lines on a card |
+| `role` | `total` marks a column that is the **sum of the ones under it** rather than one of them. It is set in bold on a card, so that a block does not read as a flat list of things of the same kind. Manchukuo's nationalities are why: 滿洲人 over Manchu, Han, Mongolian, Hui and other, and 日本人 over Japanese, Korean and other — eight lines at one weight, and a reader adding them up gets twice the population of Manchuria |
 
 A dataset carries whichever of these its source has; a column no file fills is
 simply not shown. **None of it reaches the short description.** That is a

@@ -3016,6 +3016,15 @@ dialog h3 {
 .pop-k { color: var(--muted); }
 .pop-v { font-variant-numeric: tabular-nums; text-align: right; }
 
+/* A line that is the sum of the lines under it. Manchukuo's nationalities are
+   the case the block was needed for: 滿洲人 over Manchu, Han, Mongolian, Hui
+   and other, and 日本人 over Japanese, Korean and other. Set at one weight the
+   eight read as eight kinds of person, and a reader adding them up gets twice
+   the population of Manchuria. The label takes the body ink as well as the
+   weight — `--muted` on bold is a heading that has been half switched off. */
+.pop-row.pop-sum .pop-k { font-weight: 700; color: var(--ink); }
+.pop-row.pop-sum .pop-v { font-weight: 700; }
+
 .pop-note, .pop-src {
   margin: 5px 0 0;
   font-size: 11.5px;

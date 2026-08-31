@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '257';
+  var JEM_VERSION = '258';
   var JEM_ASSETS = {"admin.js": "9f99c96627", "annotate.js": "db393723f6", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "3881d33c99", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
 
   /* Every file this one fetches, with the version on it.
@@ -10031,9 +10031,9 @@
 
   /* --------------------------------------------- and in the info card -- */
 
-  function popRow(host, label, value) {
+  function popRow(host, label, value, cls) {
     var row = document.createElement('div');
-    row.className = 'pop-row';
+    row.className = 'pop-row' + (cls ? ' ' + cls : '');
     var k = document.createElement('span');
     k.className = 'pop-k';
     k.textContent = label;
@@ -10099,7 +10099,13 @@
         gh.textContent = g;
         block.appendChild(gh);
         some.forEach(function (f) {
-          popRow(block, f.label, POP_FIG(r.x[f.c], f.dp));
+          /* A column that is the sum of the ones under it is set in bold, so
+             that eight lines in one block read as a total and its parts rather
+             than as eight things of the same kind. Manchukuo's nationalities
+             are the case: 滿洲人 over Manchu, Han, Mongolian, Hui and other,
+             and 日本人 over Japanese, Korean and other. */
+          popRow(block, f.label, POP_FIG(r.x[f.c], f.dp),
+                 f.role === 'total' ? 'pop-sum' : '');
         });
       });
       if (r.note) {

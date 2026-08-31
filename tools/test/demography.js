@@ -198,10 +198,13 @@ const st = p => p.evaluate(() => ({
   /* Korea's estimate counted a population and a sex ratio: no registers, so no
      Japanese share, and nobody's trade. Taiwan's occupation has no figures on
      either date. */
-  /* On the December 1942 map: Korea's estimate greys its two, and Japan's
-     only dataset is the 1930 census, so its density is greyed there too. */
+  /* On the December 1942 map, Korea's estimate greys its two: it counted a
+     population and a sex ratio and nothing else, so no Japanese share and
+     nobody's trade. Japan's density used to be greyed here beside them,
+     Japan's only dataset being the 1930 census — the 1940 census is in now,
+     so it is offered, which is the same rule reading the other way. */
   check('a date that cannot draw a map says so by greying it',
-    s.off.join(' ') === 'japanese occupation density', s.off.join(' '));
+    s.off.join(' ') === 'japanese occupation', s.off.join(' '));
   /* And says which date can. A greyed switch with nothing beside it reads as a
      switch that is broken, which is how it was reported: "I can't select any
      of these". */
@@ -209,7 +212,16 @@ const st = p => p.evaluate(() => ({
     [...document.querySelectorAll('#pop-rows input')]
       .filter(i => i.disabled).map(i => i.parentNode.title));
   check('with the date that can, on the row itself',
-    why.length === 3 && why.every(t => /On the 1930 map/.test(t)), why.join(' | '));
+    why.length === 2 && why.every(t => /On the 1930 map/.test(t)), why.join(' | '));
+  /* `/japan/` also matches `korea-density-japanese`, which is a switch of a
+     different place and one of the two that *should* be greyed here. The group
+     is what this is asking about. */
+  const japanOff = await p.evaluate(() =>
+    [...document.querySelectorAll('#pop-rows input')]
+      .filter(i => i.disabled
+        && /^japan-density-/.test(i.id.replace(/^opt-pop-/, ''))).map(i => i.value));
+  check('and Japan\'s density is no longer among them, 1940 having arrived',
+    !japanOff.length, japanOff.join(' '));
   /* Korea's own density *is* still offered on this date — its 1942 estimate
      counted a population — which is the point being made: greying is per
      dataset and not per place. Japan's is greyed beside it because Japan has

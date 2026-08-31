@@ -1,4 +1,4 @@
-# 民族省別人口 — Manchukuo by nationality, 1943
+# 民族省別人口 — Manchukuo by nationality, May 1943
 
 **第二表 年齡民族省別人口**, from 滿洲國『臨時國勢調査報告』pp. 6–7 —
 <https://dl.ndl.go.jp/pid/3459064/1/15>. The image is at
@@ -33,7 +33,7 @@ source's own words beside them.
 | 無國籍人 | Stateless |
 
 The last is worth a sentence. 69,180 people in Manchukuo held no nationality at
-all in 1943, and it is the one category with **more women than men** —
+all in May 1943, and it is the one category with **more women than men** —
 35,125 to 34,055, in a country running 123.9 men to a hundred women overall.
 Most of them were White Russians, stateless since 1921 and concentrated in
 Harbin and along the eastern line.
