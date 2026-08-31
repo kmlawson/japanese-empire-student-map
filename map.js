@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '250';
+  var JEM_VERSION = '251';
   var JEM_ASSETS = {"admin.js": "9f99c96627", "annotate.js": "761fbd5949", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "3881d33c99", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
 
   /* Every file this one fetches, with the version on it.
@@ -3848,9 +3848,9 @@
        opens with it on, because mode 1 is that map.
      
        The high field, low digit first: two bits of demography mode per group
-       in POP_BITS order (1 and 2 for Korea, 16 and 32 for Taiwan), 4 for the
-       sugar railways, and 64 upwards one per kind of name — inverted, so that
-       an absent bit means the default and the default is on. 8 is free. */
+       in POP_BITS order — the table there says which — 4 for the sugar
+       railways, and 64 upwards one per kind of name, inverted so that an
+       absent bit means the default and the default is on. */
 
     bits |= ({ albers: 1, laea: 2 }[state.projection] || 0) << 15;
     if (state.graticule) bits |= 131072;
@@ -7994,8 +7994,14 @@
 
        A group can still be left out with `table_skip`, which is not the same
        thing: that says a set of columns is not worth the room at all. */
-    var cols = [{ head: '' }, { head: 'Population' },
-                { head: 'Males per 100 females' }];
+    /* A column no row in this dataset fills is a column of em dashes, and a
+       reader has to run their eye down it to find that out. The area pair was
+       already asked for; the sex ratio is the same question and was not — the
+       1930 Japanese census table counts a population and not a sex, so every
+       one of its forty-eight rows had a dash in that column. */
+    var cols = [{ head: '' }, { head: 'Population' }];
+    var hasMF = order.some(function (k) { return d.rows[k].mf; });
+    if (hasMF) cols.push({ head: 'Males per 100 females' });
     if (d.pctOf) cols.push({ head: '% of total ' + d.pctOf });
     var hasArea = order.some(function (k) { return d.rows[k].km2; });
     if (hasArea) { cols.push({ head: 'Area km²' }); cols.push({ head: 'Per km²' }); }
@@ -8008,8 +8014,8 @@
       var r = d.rows[k];
       var x = r.x || {};
       var cells = [{ n: null, t: named[k] },
-                   { n: POP_NUM(r.pop), t: POP_INT(r.pop) },
-                   { n: POP_NUM(r.mf), t: r.mf || '—' }];
+                   { n: POP_NUM(r.pop), t: POP_INT(r.pop) }];
+      if (hasMF) cells.push({ n: POP_NUM(r.mf), t: r.mf || '—' });
       if (d.pctOf) cells.push({ n: POP_NUM(r.pct), t: r.pct || '—' });
       if (hasArea) {
         cells.push({ n: POP_NUM(r.km2), t: POP_INT(r.km2) });
@@ -8925,9 +8931,14 @@
   /* Where each group's two bits sit in the high field, and where the sugar
      railways sit above them. Written out rather than counted, because counting
      moved the sugar flag when a second group arrived and every link carrying
-     it would have started meaning something else. Places go 1, 16, 64, … and
-     4 is spoken for. */
-  var POP_BITS = { 'korea-density': 1, 'taiwan-density': 16 };
+     it would have started meaning something else.
+
+     The field, low bit first: 1 and 2 Korea, 4 the sugar railways, 8 free,
+     16 and 32 Taiwan, 64 to 1024 the five kinds of name, 2048 and 4096 Japan.
+     Japan is up there rather than in the gap at 8 because a mode needs *two*
+     adjacent bits and 8 has Taiwan's low bit for a neighbour. */
+  var POP_BITS = { 'korea-density': 1, 'taiwan-density': 16,
+                   'japan-density': 2048 };
   var SUGAR_PLACE = 4;
 
   function popSets() { return JMAP.POPULATION || []; }

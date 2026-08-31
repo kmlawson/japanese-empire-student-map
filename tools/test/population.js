@@ -507,10 +507,15 @@ const spot = (p, sel, fx, fy) => p.evaluate((s, ax, ay) => {
      reader comparing a province's Japanese population against its industry
      had to hold one table in their head while scrolling to another. */
   check('and it is one table, not a stack', box.tables === 1, String(box.tables));
+  /* Every other table the folder holds, whichever place it is about. Counted
+     rather than listed by name: a dataset added to data/population/ turns up
+     here by itself, and a test that named three would fail on the fourth for
+     no reason but its existence. */
   check('the other tables are offered at the foot',
-    box.switches.length === 3 && box.switches.some(t => /1930/.test(t))
+    box.switches.length >= 3 && box.switches.some(t => /1930/.test(t))
     && box.switches.some(t => /府/.test(t))
-    && box.switches.some(t => /Taiwan/.test(t)), box.switches.join(' | '));
+    && box.switches.some(t => /Taiwan/.test(t))
+    && box.switches.some(t => /Japan/.test(t)), box.switches.join(' | '));
   /* And under them the two dates on what they share. Only what they share: a
      comparison is worth no more than its narrowest column. */
   check('and the two dates are compared below', /1930 and 1942 compared/.test(box.cmp),

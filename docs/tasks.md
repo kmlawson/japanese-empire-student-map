@@ -13403,6 +13403,105 @@ Suite: **1,191 checks across 44 scripts, all passing.**
 
 ---
 
+## Japan by prefecture, 1930, and a density map of it
+
+### The transcription, and how it is known to be right
+
+第四表 人口ノ府縣分布 from 内閣統計局『昭和五年国勢調査最終報告書』p10 —
+one line to each of the 1 道 3 府 43 縣, with the censuses of 1930, 1925 and
+1920 side by side and the source's own 人口千中 beside them. The page came in as
+a photograph of a two-page spread; it was rendered at the embedded image's own
+6,592 × 4,585 and read in five overlapping bands, which is what made the
+0/9 confusions (福島 1,508,150 rather than 1,598,159) decidable.
+
+**Checked against the source's own arithmetic, three times over.** The
+forty-seven prefectures sum to the printed 全國 total exactly in each year:
+
+| year | sum of the 47 | printed 全國 |
+|---|---|---|
+| 昭和五年 1930 | 64,450,005 | 64,450,005 |
+| 大正十四年 1925 | 59,736,822 | 59,736,822 |
+| 大正九年 1920 | 55,963,053 | 55,963,053 |
+
+Nothing was drawn until that held. The check is in the running map too —
+`tools/test/japanpop.js` sums the rows the browser has — because a transcription
+that is only checked once is checked before the next edit rather than after it.
+
+The table's own note says the 1920 and 1925 figures are recast onto the
+municipal boundaries of 1930, so the three columns are comparable with each
+other; that is why both earlier years are carried and appear in the table box
+under *Earlier censuses*.
+
+The whole transcription is
+`data/population/sources/1930-Population-Japan-Prefectures.md`, in the same
+folder as Korea's and Taiwan's.
+
+### The areas are measured, and one of them needs saying out loud
+
+The table has no areas, so `area_km2` is measured from
+`tools/cache/adm1_JPN.json` — the file the map's own prefecture outlines are
+drawn from — by spherical excess on a sphere of 6371.0088 km. That is the rule
+this folder already follows for Korea, and it is now a tool rather than a
+one-off: `tools/measure_areas.py`.
+
+It is close. Tottori 3,507 km² against a received 3,507, Saitama 3,797 against
+3,798, Aichi 5,171 against 5,173, Nagano 13,552 against 13,562, Iwate 15,263
+against 15,275 — inside half a percent for everything inland. The island
+prefectures run a little under, the outlines being simplified: Nagasaki 4,066
+against 4,131, Kagawa 1,862 against 1,877, Okinawa 2,265 against 2,281.
+
+**Hokkaidō measures 78,290 km² against the 83,424 usually given, and that is
+right rather than wrong.** The difference is the Northern Territories — about
+5,000 km², which Japan counts in Hokkaidō and which *this map draws inside the
+Kurile Islands (Chishima)*, a territory of its own. So the area belongs to the
+shape a reader is pointing at, which is the whole reason these are measured.
+The population is the census's and includes Chishima's few thousand people;
+against 2.8 million that does not move the density. The row's note says so on
+the card.
+
+Measured against received: 372,593 km² for the forty-seven, against 377,970 for
+modern Japan less the 5,003 of the Northern Territories — a tenth of a percent.
+
+### On the map
+
+A third demography group, `japan-density`, on the 1930 map: density alone,
+because this table counted heads and nothing else. Its two bits sit at 2048 and
+4096 in the high field of the layers code, above the five kinds of name. Not in
+the gap at 8, which looks free and is not: a mode needs two *adjacent* bits and
+8 has Taiwan's low bit for a neighbour.
+
+The classes come out 75 / 200 / 500 / 1000, off the same log-spaced ladder every
+other group uses. Tōkyō-fu is 2,471 to the square kilometre and Hokkaidō 36 —
+seventy times, on one map, which is the reading the layer is for.
+
+Two things found while wiring it:
+
+* **Okinawa's polygon is not in the administrative sheet.** `build_map.py` puts
+  it in the `ryukyu` bucket, so it is drawn inside the Ryūkyū atom and in two
+  pieces. Both take the shading, and the test says so, because half a shaded
+  island group is exactly the sort of thing that looks deliberate;
+* **a column its source never counted was printed as forty-eight dashes.** The
+  table box asked whether any row had an area before offering the area columns
+  and did not ask the same about the sex ratio. It does now.
+
+### Tests
+
+`tools/test/japanpop.js` is new — 21 checks: the three sums against the printed
+totals, Tōkyō and Hokkaidō by name, Hokkaidō's area and its note, all
+forty-seven shaded with Okinawa in both pieces, all forty-seven lettered, the
+link out and back switching on Japan's layer and nobody else's, the hover line,
+and the table with the two earlier censuses and without the column the source
+never had.
+
+Three checks in `demography.js` and one in `population.js` were pinning the
+*number* of groups or the list of tables by name, and would have failed on any
+fourth dataset for no better reason than that it existed. They ask per place
+now.
+
+Suite: **1,218 checks across 45 scripts, all passing.**
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

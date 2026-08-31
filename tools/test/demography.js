@@ -71,12 +71,27 @@ const st = p => p.evaluate(() => ({
   /* Two places now, each with the same four choices under it: a group is a
      country and the panel is written from the folder. */
   /* Korea has an occupation table and Taiwan has none, so Taiwan is offered
-     the two it could draw and Korea all three. */
+     the two it could draw and Korea all three; Japan's census counted heads
+     and nothing else, so it is offered density alone. Written per place rather
+     than as one string, or adding a fourth country would fail this line for
+     saying nothing more than that a fourth country was added. */
+  const rowsFor = p2 => p2.evaluate(() => {
+    const out = {};
+    document.querySelectorAll('#pop-rows input').forEach(i => {
+      const g = i.id.replace(/^opt-pop-/, '').replace(/-[a-z]+$/, '');
+      (out[g] = out[g] || []).push(i.value);
+    });
+    return out;
+  });
+  const offers = await rowsFor(p);
   check('and offers each place the maps it could draw',
-    s.radios.join(' ') === 'density japanese occupation none '
-                         + 'density japanese none', s.radios.join(' '));
+    (offers['korea-density'] || []).join(' ') === 'density japanese occupation none'
+    && (offers['taiwan-density'] || []).join(' ') === 'density japanese none'
+    && (offers['japan-density'] || []).join(' ') === 'density none',
+    JSON.stringify(offers));
   check('none of them to begin with',
-    s.on.join(' ') === 'none none', s.on.join(' '));
+    s.on.every(v => v === 'none') && s.on.length === Object.keys(offers).length,
+    s.on.join(' '));
   check('and nothing drawn', s.pies === 0 && s.shaded === 0);
 
   console.log('\n— the three maps —');
@@ -183,8 +198,10 @@ const st = p => p.evaluate(() => ({
   /* Korea's estimate counted a population and a sex ratio: no registers, so no
      Japanese share, and nobody's trade. Taiwan's occupation has no figures on
      either date. */
+  /* On the December 1942 map: Korea's estimate greys its two, and Japan's
+     only dataset is the 1930 census, so its density is greyed there too. */
   check('a date that cannot draw a map says so by greying it',
-    s.off.join(' ') === 'japanese occupation', s.off.join(' '));
+    s.off.join(' ') === 'japanese occupation density', s.off.join(' '));
   /* And says which date can. A greyed switch with nothing beside it reads as a
      switch that is broken, which is how it was reported: "I can't select any
      of these". */
@@ -192,8 +209,16 @@ const st = p => p.evaluate(() => ({
     [...document.querySelectorAll('#pop-rows input')]
       .filter(i => i.disabled).map(i => i.parentNode.title));
   check('with the date that can, on the row itself',
-    why.length === 2 && why.every(t => /On the 1930 map/.test(t)), why.join(' | '));
-  check('the density map is still offered', s.off.indexOf('density') < 0);
+    why.length === 3 && why.every(t => /On the 1930 map/.test(t)), why.join(' | '));
+  /* Korea's own density *is* still offered on this date — its 1942 estimate
+     counted a population — which is the point being made: greying is per
+     dataset and not per place. Japan's is greyed beside it because Japan has
+     only the 1930 census, and that is the same rule reading the other way. */
+  const koreaOff = await p.evaluate(() =>
+    [...document.querySelectorAll('#pop-rows input')]
+      .filter(i => i.disabled && /korea/.test(i.id)).map(i => i.value));
+  check('the density map is still offered where the date has one',
+    koreaOff.indexOf('density') < 0, koreaOff.join(' '));
   await p.close();
 
   console.log('\n— through a link —');
@@ -208,8 +233,11 @@ const st = p => p.evaluate(() => ({
     await p.close();
     p = await open(b, KOREA + '&layers=' + wrote);
     s = await st(p);
+    /* Korea's row is the mode that was written and every other place is
+       still None — the high field is one number and a group reading its
+       neighbour's bits is exactly the fault this checks for. */
     check(mode + ': and opens the same map again',
-      s.on.join(' ') === mode + ' none'
+      s.on[0] === mode && s.on.slice(1).every(v => v === 'none')
       && (mode === 'occupation' ? s.pies === 13 : s.shaded === 14),
       s.on.join(' ') + ' — ' + s.shaded + ' shaded, ' + s.pies + ' pies');
     await p.close();
