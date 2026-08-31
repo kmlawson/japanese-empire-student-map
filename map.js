@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '249';
+  var JEM_VERSION = '250';
   var JEM_ASSETS = {"admin.js": "9f99c96627", "annotate.js": "761fbd5949", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "3881d33c99", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
 
   /* Every file this one fetches, with the version on it.
@@ -103,8 +103,15 @@
        tick here with Other off therefore turns Other on as well, since the
        alternative is a tick that draws nothing. */
     labelCats: { territory: true, city: true, sub: true, poi: true, feature: true },
-    /* Which colours of the key have been taken off the map, by category id,
-       and whether the key is showing its tick boxes at all.
+    /* Which territories have been taken off the map, by id, and whether the
+       key is showing its tick boxes at all.
+
+       By territory and not by category, even though the key is a list of
+       categories: a category *is* its members, so unticking "Colonies & leased
+       territory" is unticking each of the six, and the six can then be opened
+       out and worked one at a time — Kwantung off, Korea left on. Two pieces
+       of state, one for the category and one for the member, would have had to
+       agree about what a half-open category means, and they would not have.
 
        Neither is in the layers code and neither travels in a link. It is a
        gesture made while talking over a map — take the colonies off and ask
@@ -114,7 +121,7 @@
        something nobody would share. What the boxes *do* travel is the rows
        that already had a switch: Cities, Events, the rivers, the line of
        control. Those are the same state as the panel's and go where it goes. */
-    hideCat: {},
+    hideTerr: {},
     legendPick: false,
     extent: true,
     rivers: true,
@@ -522,13 +529,12 @@
     return !rec.srcOnly || rec.srcOnly === state.occSource;
   }
 
-  /* A category the reader has unticked in the key. Asked by the rule that
+  /* A territory the reader has unticked in the key. Asked by the rule that
      decides which territories are on the map at all — the same rule the East
-     Asia switch goes through, so a hidden category loses its filler, its
-     seams, its outline ring and its hatching along with its fill, which is
-     five separate layers and was five separate bugs when that switch was
-     written. */
-  function catHidden(cat) { return !!(cat && state.hideCat[cat]); }
+     Asia switch goes through, so a hidden one loses its filler, its seams, its
+     outline ring and its hatching along with its fill, which is five separate
+     layers and was five separate bugs when that switch was written. */
+  function terrHidden(id) { return !!(id && state.hideTerr[id]); }
 
   function inQuiz(rec) {
     if (!srcOK(rec)) return false;
@@ -764,8 +770,8 @@
     // named while it is not there.
     if (rec.kind === 'territory') {
       if (!labelsOn('territory') || !srcOK(rec)) return false;
-      // and a colour taken off the key is taken off the map, name included
-      if (catHidden(rec.cat)) return false;
+      // and a place taken off in the key is taken off the map, name included
+      if (terrHidden(rec.id)) return false;
       // A province drawn as a territory of its own so that it can be named —
       // Manchuria, Jehol, Chahar and Suiyuan, Sinkiang — is not a country and
       // must not be labelled as one while the Administrative layer is off. On
@@ -8406,8 +8412,8 @@
        hidden when the switch went back on, because the first version could
        only hide and never show. */
     territories().forEach(function (t) {
-      // the frame the reader asked for, and then the colours they left ticked
-      var keep = (state.world || !!EAST_ASIA[t.id]) && !catHidden(t.cat);
+      // the frame the reader asked for, and then what they left ticked in the key
+      var keep = (state.world || !!EAST_ASIA[t.id]) && !terrHidden(t.id);
       var els = (atomsOf[t.id] || []).slice();
       /* And the finger-sized disc a small territory gets at its centroid.
          `atomsOf` does not carry them, so Hong Kong and Macao were still
@@ -9900,8 +9906,14 @@
 
      Two kinds of row are switchable and they behave differently underneath:
 
-       * a **category of territory** answers to `state.hideCat`, which lives
-         only in this session — see the note on the state;
+       * a **category of territory** is a row that stands for its members. Its
+         tick takes all of them off or puts all of them back, and the caret
+         beside it opens the list so that one can be worked on its own —
+         Kwantung Leased Territory off, Chōsen and Taiwan left on. Where some
+         of a category is showing and some is not, its own box is drawn
+         indeterminate, which is the only honest thing a single box can say
+         about six places in two states. All of it lives in `state.hideTerr`
+         and only in this session — see the note on the state;
        * a row that **already had a switch** — Cities, Events, Places of
          interest, the rivers, the line of control — is that switch. Ticking it
          here is ticking it in the Layers panel, and the panel is rewritten
@@ -9914,6 +9926,14 @@
      mark means, not a thing that can be taken away. */
   function legendPickable() { return !!state.legendPick && state.mode !== 'quiz'; }
 
+  /* Which categories have been opened out into their places. Not in `state`
+     and not in a link: it is which part of a list somebody is looking at, not
+     anything about the map. */
+  var legendOpen = {};
+  /* Set when a press on the key's head has been held long enough to mean the
+     boxes, and cleared by the click it swallows. */
+  var headPressLong = false;
+
   /* One row. `tick` is null for a row that only explains a mark. */
   function legendRow(host, swClass, swColour, text, tick) {
     var row = document.createElement('div');
@@ -9924,6 +9944,7 @@
       box.type = 'checkbox';
       box.className = 'legend-tick';
       box.checked = tick.on;
+      box.indeterminate = !!tick.mixed;
       box.setAttribute('aria-label', text);
       box.addEventListener('change', function () { tick.set(box.checked); });
       row.appendChild(box);
@@ -9948,12 +9969,12 @@
      the line of control switched off. The three that start off are left alone
      — they are one tick away in the same list. */
   function legendResetNeeded() {
-    for (var k in state.hideCat) { if (state.hideCat[k]) return true; }
+    for (var k in state.hideTerr) { if (state.hideTerr[k]) return true; }
     return !state.rivers || (state.epoch === 'e1942' && !state.extent);
   }
 
   function legendReset() {
-    state.hideCat = {};
+    state.hideTerr = {};
     state.rivers = true;
     state.extent = true;
     syncLayerButtons();
@@ -9972,10 +9993,16 @@
     // taken off the map. With the frame cut back to East Asia the key still
     // listed British, French, Dutch, American, Portuguese, Soviet and Thai,
     // seven colours that appeared nowhere on it.
+    /* Which categories put a colour on the map, and — for the key used as a
+       set of switches — which places are in each. Gathered in the same pass,
+       and *not* filtered by what the key has already hidden: a row that
+       disappears when you untick it cannot be ticked again. */
+    var inCat = {};
     territories().forEach(function (t) {
       if (t.unseen || !srcOK(t)) return;
       if (!state.world && !EAST_ASIA[t.id]) return;
       used[t.cat] = true;
+      (inCat[t.cat] = inCat[t.cat] || []).push(t);
     });
 
     var epoch = JMAP.EPOCHS.filter(function (e) { return e.id === state.epoch; })[0];
@@ -9993,13 +10020,41 @@
     // its own reference: the local below is repointed at the body in a moment,
     // and a closure over it would fold the wrong element
     var root = legend;
-    head.addEventListener('click', function () {
+    /* The head does two things. A plain press folds the key, which is what it
+       has always done. **Option-click it, or hold it for half a second, and
+       the key becomes a set of switches** — the same two doors the Other
+       button opens its menu with, and for the same reason: a phone has no
+       option key and a desktop has no press-and-hold.
+
+       The hold acts on the hold, not on the release — a button held for half a
+       second with nothing to show for it is a button that feels broken — and
+       swallows the click it still sends afterwards. Written as one shared
+       toggle, the hold turned the boxes on and its own click turned them
+       straight back off. */
+    head.addEventListener('click', function (ev) {
+      if (headPressLong) { headPressLong = false; return; }
+      if (ev.altKey) { setLegendPick(!state.legendPick); return; }
       state.legend = !state.legend;
       root.classList.toggle('folded', !state.legend);
       head.setAttribute('aria-expanded', state.legend ? 'true' : 'false');
       saveState();
       placeLabels();
     });
+    var headHold = 0;
+    var stopHead = function () { if (headHold) { clearTimeout(headHold); headHold = 0; } };
+    head.addEventListener('pointerdown', function () {
+      headPressLong = false;
+      stopHead();
+      headHold = setTimeout(function () {
+        headHold = 0;
+        headPressLong = true;
+        setLegendPick(!state.legendPick);
+      }, LABEL_HOLD_MS);
+    });
+    ['pointerup', 'pointercancel', 'pointerleave'].forEach(function (evn) {
+      head.addEventListener(evn, stopHead);
+    });
+    head.addEventListener('contextmenu', function (ev) { ev.preventDefault(); });
     legend.appendChild(head);
     legend.classList.toggle('folded', !state.legend);
 
@@ -10013,12 +10068,45 @@
     var pick = legendPickable();
     catList().forEach(function (c) {
       if (!used[c.id]) return;
-      legendRow(legend, '', c.c, nameOf(c), pick && {
-        on: !state.hideCat[c.id],
+      var mine = inCat[c.id] || [];
+      var off = mine.filter(function (t) { return terrHidden(t.id); }).length;
+      var row = legendRow(legend, '', c.c, nameOf(c), pick && {
+        on: off < mine.length,
+        // some on and some off: a single box cannot say that any other way
+        mixed: off > 0 && off < mine.length,
         set: function (on) {
-          if (on) delete state.hideCat[c.id]; else state.hideCat[c.id] = true;
+          mine.forEach(function (t) {
+            if (on) delete state.hideTerr[t.id]; else state.hideTerr[t.id] = true;
+          });
           applyState();
         },
+      });
+      /* And the members under it, when the reader opens them. Only where there
+         is more than one: a caret on a category of one is a caret that shows
+         the row again, indented. */
+      if (!pick || mine.length < 2) return;
+      var open = !!legendOpen[c.id];
+      var caret = document.createElement('button');
+      caret.type = 'button';
+      caret.className = 'legend-open' + (open ? ' open' : '');
+      caret.setAttribute('aria-expanded', open ? 'true' : 'false');
+      caret.setAttribute('aria-label',
+        (open ? 'Hide' : 'Show') + ' the places under ' + nameOf(c));
+      caret.addEventListener('click', function () {
+        legendOpen[c.id] = !legendOpen[c.id];
+        buildLegend();
+      });
+      row.appendChild(caret);
+      if (!open) return;
+      mine.forEach(function (t) {
+        var sub = legendRow(legend, '', c.c, nameOf(t), {
+          on: !terrHidden(t.id),
+          set: function (on) {
+            if (on) delete state.hideTerr[t.id]; else state.hideTerr[t.id] = true;
+            applyState();
+          },
+        });
+        sub.classList.add('legend-sub');
       });
     });
 
@@ -10348,39 +10436,10 @@
         ? 'December 1942: the empire at its widest, and how Japan held it'
         : '1930: whose empire each place belonged to, on the eve of the Manchurian Incident';
       b.classList.toggle('on', e.id === state.epoch);
-      /* Option-click, or a press held for half a second, turns the key into a
-         set of switches instead of changing the date — the same two doors the
-         Other button opens its menu with, and for the same reason: a phone has
-         no option key and a desktop has no press-and-hold.
-
-         The hold opens on the hold and swallows the click it still sends; the
-         option-click toggles. Written as one shared toggle, the hold turned
-         the boxes on and its own click turned them straight off again. */
-      b.addEventListener('click', function (ev) {
-        if (epochPressLong) { epochPressLong = false; return; }
-        if (ev.altKey) { setLegendPick(!state.legendPick); return; }
-        setEpoch(e.id);
-      });
-      var hold = 0;
-      var stop = function () { if (hold) { clearTimeout(hold); hold = 0; } };
-      b.addEventListener('pointerdown', function () {
-        epochPressLong = false;
-        stop();
-        hold = setTimeout(function () {
-          hold = 0;
-          epochPressLong = true;
-          setLegendPick(!state.legendPick);
-        }, LABEL_HOLD_MS);
-      });
-      ['pointerup', 'pointercancel', 'pointerleave'].forEach(function (evn) {
-        b.addEventListener(evn, stop);
-      });
-      b.addEventListener('contextmenu', function (ev) { ev.preventDefault(); });
+      b.addEventListener('click', function () { setEpoch(e.id); });
       seg.appendChild(b);
     });
   }
-
-  var epochPressLong = false;
 
   /* The boxes come on, and the key is unfolded to show them: turning them on
      under a folded key is a press that does nothing you can see. */

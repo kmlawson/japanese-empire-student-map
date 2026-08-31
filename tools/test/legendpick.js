@@ -2,11 +2,12 @@
  *
  *     node tools/test/legendpick.js       # with a server on 8123
  *
- * Option-click the year — or hold it, which is the touch half of the same
- * gesture — and every row of the key that stands for something on the map
- * grows a tick box. Untick *Client states* and Manchukuo and Mengchiang come
- * off; untick *Cities* and the dots go and the button in the bar goes out with
- * them.
+ * Option-click the year at the head of the key — or hold it, which is the
+ * touch half of the same gesture — and every row that stands for something on
+ * the map grows a tick box. Untick *Client states* and Manchukuo and
+ * Mengchiang come off; open *Colonies & leased territory* and untick Kwantung
+ * alone, and Chōsen and Taiwan stay; untick *Cities* and the dots go and the
+ * button in the bar goes out with them.
  *
  * What is checked, and why each would go wrong quietly:
  *
@@ -69,6 +70,16 @@ const st = p => p.evaluate(() => {
       .filter(e => e.style.display !== 'none').length,
     // a reading rather than a layer: the four sizes of city dot take no tick
     townTick: tick(/^\s*Town/),
+    carets: document.querySelectorAll('#legend .legend-open').length,
+    subs: [...document.querySelectorAll('#legend .item.legend-sub')]
+      .map(e => e.textContent.trim()),
+    subTicks: [...document.querySelectorAll('#legend .item.legend-sub input')]
+      .map(i => i.checked),
+    colony: (function () {
+      const r = row(/Colonies & leased territory/);
+      const i = r && r.querySelector('input');
+      return i ? (i.indeterminate ? 'mixed' : String(i.checked)) : 'absent';
+    })(),
   };
 });
 
@@ -99,14 +110,15 @@ const open = async (b, vp) => {
   check('and no Reset', s.reset === false);
   const atoms0 = s.atoms;
 
-  console.log('\n— option-click the year —');
+  console.log('\n— option-click the year at the head of the key —');
   await p.keyboard.down('Alt');
-  await p.click('#epoch-seg button[data-epoch="e1930"]');
+  await p.click('#legend .legend-head');
   await p.keyboard.up('Alt');
   await sleep(900);
   s = await st(p);
   check('the rows grow ticks', s.ticks > 12, String(s.ticks));
   check('and the year does not change', s.epoch === 'Dec 1942', s.epoch);
+  // a plain press on the head folds the key, so it must not have folded
   check('the key unfolds to show them', s.folded === false);
   check('nothing is off yet, so no Reset', s.reset === false);
   /* The three that start off are listed and unticked, which is the only way
@@ -133,6 +145,51 @@ const open = async (b, vp) => {
   check('and the button in the bar goes out with them',
     s.citiesBtn === 'false', s.citiesBtn);
 
+  console.log('\n— a category opened out into the places in it —');
+  /* Six colonies under one colour, and the reader wants Kwantung off with
+     Chōsen left on. The category row is what stands for them, so its own box
+     has to be able to say "some of these". */
+  const opened = await p.evaluate(() => {
+    const r = [...document.querySelectorAll('#legend .item')]
+      .find(x => /Colonies & leased territory/.test(x.textContent));
+    const c = r && r.querySelector('.legend-open');
+    if (!c) return false;
+    c.click();
+    return true;
+  });
+  check('the category has a caret to open', opened === true);
+  await sleep(700);
+  s = await st(p);
+  check('and the places under it are listed',
+    s.subs.length === 6 && s.subs.some(x => /Kwantung/.test(x))
+    && s.subs.some(x => /Ch.sen/.test(x)), s.subs.join(' | '));
+  const atomsBefore = s.atoms;
+  await p.evaluate(() => {
+    const r = [...document.querySelectorAll('#legend .item.legend-sub')]
+      .find(x => /Kwantung/.test(x.textContent));
+    r.querySelector('input').click();
+  });
+  await sleep(1400);
+  s = await st(p);
+  check('unticking one takes that one off', s.atoms === atomsBefore - 1,
+    s.atoms + ' of ' + atomsBefore);
+  check('and leaves the rest of the category on',
+    s.subTicks.filter(Boolean).length === 5, JSON.stringify(s.subTicks));
+  /* Some on and some off. A box reading plainly true or false would be saying
+     something untrue about six places in two states. */
+  check('the category\'s own box goes indeterminate', s.colony === 'mixed',
+    s.colony);
+  await p.evaluate(() => {
+    const r = [...document.querySelectorAll('#legend .item')]
+      .find(x => /Colonies & leased territory/.test(x.textContent));
+    r.querySelector('input').click();
+  });
+  await sleep(1400);
+  s = await st(p);
+  check('and the category box takes the whole category off',
+    s.subTicks.every(function (x) { return x === false; })
+    && s.atoms < atomsBefore - 1, s.atoms + ', ' + JSON.stringify(s.subTicks));
+
   console.log('\n— the panel writes back to the key —');
   await p.evaluate(() => document.querySelector('#opt-rivers').click());
   await sleep(1400);
@@ -158,8 +215,7 @@ const open = async (b, vp) => {
   console.log('\n— and with a finger —');
   p = await open(b, { width: 430, height: 900, isMobile: true, hasTouch: true });
   const at = await p.evaluate(() => {
-    const r = document.querySelector('#epoch-seg button[data-epoch="e1930"]')
-      .getBoundingClientRect();
+    const r = document.querySelector('#legend .legend-head').getBoundingClientRect();
     return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
   });
   await p.mouse.move(at.x, at.y);
@@ -169,14 +225,19 @@ const open = async (b, vp) => {
   await sleep(900);
   s = await st(p);
   check('a long press opens the boxes', s.ticks > 12, String(s.ticks));
-  check('and does not change the year', s.epoch === 'Dec 1942', s.epoch);
-  // and a short press is still the date switch, with the boxes left showing
+  check('and unfolds the key rather than folding it', s.folded === false);
+  /* And a short press is still the fold, with the boxes left showing: the hold
+     swallows its own click and nothing else. */
   await p.mouse.move(at.x, at.y);
   await p.mouse.down(); await sleep(60); await p.mouse.up();
-  await sleep(1600);
+  await sleep(1000);
+  check('a short press still folds the key', (await st(p)).folded === true);
+  await p.mouse.move(at.x, at.y);
+  await p.mouse.down(); await sleep(60); await p.mouse.up();
+  await sleep(1000);
   s = await st(p);
-  check('a short press still changes the year', s.epoch === '1930', s.epoch);
-  check('and the boxes stay', s.ticks > 12, String(s.ticks));
+  check('and unfolds it again, with the boxes still there',
+    s.folded === false && s.ticks > 12, s.ticks + ' ticks');
   await p.close();
 
   await b.close();

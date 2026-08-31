@@ -13324,19 +13324,23 @@ now rebuilds them itself when they are dirty, before placing.
 
 ### The key as a set of switches
 
-Option-click the year, or hold it for half a second, and every row of the key
-that stands for something on the map grows a tick box. It is the same two doors
-the Other button uses, and the same two shapes of bug were waiting: the hold
-opens on the hold and its click is swallowed, while the option-click toggles.
-Written as one shared toggle, the hold turned the boxes on and its own click
-turned them straight off.
+Option-click **the year at the head of the key**, or hold it for half a second,
+and every row that stands for something on the map grows a tick box. It is the
+same two doors the Other button uses, and the same two shapes of bug were
+waiting: the hold acts on the hold and its click is swallowed, while the
+option-click toggles. Written as one shared toggle, the hold turned the boxes
+on and its own click turned them straight off. A plain press on the head still
+folds the key, which is what it has always done.
+
+(It was wired to the date buttons in the bar first, which was a
+misreading — "the year" is the one at the top of the key.)
 
 Two kinds of row, and they work differently underneath:
 
 * a **category of territory** goes through the *same rule the East Asia switch
-  goes through* — `keep = (state.world || EAST_ASIA[t.id]) && !catHidden(t.cat)`
-  — so a hidden category loses its fill, its filler, its seam strips, its ring
-  in the outline layer and its hatching together. Those five were five separate
+  goes through* — `keep = (state.world || EAST_ASIA[t.id]) && !terrHidden(t.id)`
+  — so a hidden place loses its fill, its filler, its seam strips, its ring in
+  the outline layer and its hatching together. Those five were five separate
   bugs when that switch was written and there was no reason to find them again.
   The finger-sized hit discs small territories carry were added to the same
   list while doing it: Hong Kong and Macao were still hoverable with the land
@@ -13349,18 +13353,34 @@ Two kinds of row, and they work differently underneath:
 A row that is a reading rather than a layer takes no box: the five bands of a
 density ramp, the four sizes of city dot, "no data".
 
+### A colour is a list of places, and opens out into one
+
+Six colonies wear one red. A reader who wants Kwantung off with Chōsen left on
+needs the row to open, so a category with more than one member carries a caret;
+pressing it lists the members under it, indented and quieter, each with its own
+tick. Categories run from one member to twenty-two — British India's colour
+covers eighteen in 1930 and the occupation's covers twenty-two in 1942 — which
+is why they are closed until asked for rather than listed outright.
+
+**The state is by territory, not by category.** `state.hideTerr` is the whole of
+it: a category's tick takes all its members off or puts all of them back, and
+where some are off and some are on its own box is drawn `indeterminate`, which
+is the only true thing one box can say about six places in two states. Kept as
+two maps — one for the category, one for the member — they would have had to
+agree about what a half-open category means, and they would not have.
+
 **Reset map** appears under the list only when there is something to put back —
-a colour taken off, or the rivers or the line of control switched off. Not "any
+a place taken off, or the rivers or the line of control switched off. Not "any
 box is clear": Cities and Events start off, so that rule would have offered
 Reset on an untouched map and pressing it would have switched on two layers
 nobody asked for.
 
-`hideCat` and the pick mode itself are **not in the layers code and do not
+`hideTerr` and the pick mode itself are **not in the layers code and do not
 travel in a link**. It is a gesture made while talking over a map, with Reset
-sitting under the list; twenty-three categories of bitfield would not fit under
-2⁵³ beside the fields already in the high word, and would be characters in
-every address anybody ever shared for something nobody would share. The rows
-that already had a switch travel as they always did.
+sitting under the list; a bitfield of every territory would not fit under 2⁵³
+beside the fields already in the high word, and would be characters in every
+address anybody ever shared for something nobody would share. The rows that
+already had a switch travel as they always did.
 
 One thing the panel needed on the way: `syncLayerButtons` now writes every
 simple tick in it from `state`, not only Topography. Reset put the rivers back
@@ -13372,9 +13392,11 @@ was set at startup and never again.
 Two new scripts. `subnames.js` — 15 checks: nothing named on the whole map,
 China's provinces at 32° with Korea's still absent, Korea's on Korea and
 Taiwan's on Taiwan, and five deep views each naming their province with every
-name proved to be inside the shape it names. `legendpick.js` — 23 checks over
-both doors, the ticks, a category leaving the map, the write-through to the bar
-and the panel, what Reset does and does not do, and the finger.
+name proved to be inside the shape it names. `legendpick.js` — 29 checks over
+both doors on the key's head, the ticks, a category leaving the map, a category
+opened out with one member unticked and the parent box going indeterminate, the
+write-through to the bar and the panel, what Reset does and does not do, and the
+finger.
 `demography.js` gained the card-then-switch case.
 
 Suite: **1,191 checks across 44 scripts, all passing.**
