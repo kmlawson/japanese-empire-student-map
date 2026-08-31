@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '258';
+  var JEM_VERSION = '259';
   var JEM_ASSETS = {"admin.js": "9f99c96627", "annotate.js": "db393723f6", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "3881d33c99", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
 
   /* Every file this one fetches, with the version on it.
@@ -8120,7 +8120,12 @@
     var cols = [{ head: '' }, { head: 'Population' }];
     var hasMF = order.some(function (k) { return d.rows[k].mf; });
     if (hasMF) cols.push({ head: 'Males per 100 females' });
-    if (d.pctOf) cols.push({ head: '% of total ' + d.pctOf });
+    /* `pctOf` is the *name* of the whole, and a dataset can have one and print
+       no shares: Japan's 1940 census gives none, so the column came out as
+       forty-eight em dashes under a heading. Asked of the rows, like the sex
+       ratio beside it. */
+    var hasPct = d.pctOf && order.some(function (k) { return d.rows[k].pct; });
+    if (hasPct) cols.push({ head: '% of total ' + d.pctOf });
     var hasArea = order.some(function (k) { return d.rows[k].km2; });
     if (hasArea) { cols.push({ head: 'Area km²' }); cols.push({ head: 'Per km²' }); }
     var extra = (d.fields || []).filter(function (f) {
@@ -8134,7 +8139,7 @@
       var cells = [{ n: null, t: named[k] },
                    { n: POP_NUM(r.pop), t: POP_INT(r.pop) }];
       if (hasMF) cells.push({ n: POP_NUM(r.mf), t: r.mf || '—' });
-      if (d.pctOf) cells.push({ n: POP_NUM(r.pct), t: r.pct || '—' });
+      if (hasPct) cells.push({ n: POP_NUM(r.pct), t: r.pct || '—' });
       if (hasArea) {
         cells.push({ n: POP_NUM(r.km2), t: POP_INT(r.km2) });
         cells.push({ n: POP_NUM(r.dens), t: r.dens || '—' });

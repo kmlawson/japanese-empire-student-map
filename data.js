@@ -13664,7 +13664,10 @@ JMAP.POPULATION = [
     "caption": "census of 1 October 1940",
     "note": "Okinawa included: the report prints the country both ways — 72,539,729 without it and 73,114,308 with — and this map draws Okinawa. The service personnel are counted inside each total rather than beside it, which is why the three registers add to the whole and the military column does not.",
     "inShort": true,
-    "tableSkip": [],
+    "tableSkip": [
+      "Registered in the 外地",
+      "Foreign nationals in Japan proper"
+    ],
     "fields": [
       {
         "c": "res_naichi",
@@ -13677,13 +13680,223 @@ JMAP.POPULATION = [
         "c": "res_gaichi",
         "label": "Registered in the 外地 (外地人)",
         "group": "Where residents were registered",
-        "role": "",
+        "role": "total",
         "dp": 0
       },
       {
         "c": "res_foreign",
         "label": "Foreign nationals",
         "group": "Where residents were registered",
+        "role": "total",
+        "dp": 0
+      },
+      {
+        "c": "n40_korea",
+        "label": "Koreans (朝鮮人)",
+        "group": "Registered in the 外地",
+        "role": "",
+        "dp": 0
+      },
+      {
+        "c": "n40_taiwan",
+        "label": "Taiwanese (台湾人)",
+        "group": "Registered in the 外地",
+        "role": "",
+        "dp": 0
+      },
+      {
+        "c": "n40_karafuto",
+        "label": "Karafuto (樺太人)",
+        "group": "Registered in the 外地",
+        "role": "",
+        "dp": 0
+      },
+      {
+        "c": "n40_nanyo",
+        "label": "South Seas Mandate (南洋人)",
+        "group": "Registered in the 外地",
+        "role": "",
+        "dp": 0
+      },
+      {
+        "c": "n40_cn",
+        "label": "China",
+        "group": "Foreign nationals in Japan proper",
+        "role": "",
+        "dp": 0
+      },
+      {
+        "c": "n40_us",
+        "label": "United States",
+        "group": "Foreign nationals in Japan proper",
+        "role": "",
+        "dp": 0
+      },
+      {
+        "c": "n40_mk",
+        "label": "Manchukuo",
+        "group": "Foreign nationals in Japan proper",
+        "role": "",
+        "dp": 0
+      },
+      {
+        "c": "n40_de",
+        "label": "Germany",
+        "group": "Foreign nationals in Japan proper",
+        "role": "",
+        "dp": 0
+      },
+      {
+        "c": "n40_gb",
+        "label": "United Kingdom",
+        "group": "Foreign nationals in Japan proper",
+        "role": "",
+        "dp": 0
+      },
+      {
+        "c": "n40_su",
+        "label": "USSR",
+        "group": "Foreign nationals in Japan proper",
+        "role": "",
+        "dp": 0
+      },
+      {
+        "c": "n40_in",
+        "label": "India",
+        "group": "Foreign nationals in Japan proper",
+        "role": "",
+        "dp": 0
+      },
+      {
+        "c": "n40_whiterus",
+        "label": "White Russians (白系露人), stateless",
+        "group": "Foreign nationals in Japan proper",
+        "role": "",
+        "dp": 0
+      },
+      {
+        "c": "n40_fr",
+        "label": "France",
+        "group": "Foreign nationals in Japan proper",
+        "role": "",
+        "dp": 0
+      },
+      {
+        "c": "n40_gr",
+        "label": "Greece",
+        "group": "Foreign nationals in Japan proper",
+        "role": "",
+        "dp": 0
+      },
+      {
+        "c": "n40_ca",
+        "label": "Canada",
+        "group": "Foreign nationals in Japan proper",
+        "role": "",
+        "dp": 0
+      },
+      {
+        "c": "n40_it",
+        "label": "Italy",
+        "group": "Foreign nationals in Japan proper",
+        "role": "",
+        "dp": 0
+      },
+      {
+        "c": "n40_nl",
+        "label": "Netherlands",
+        "group": "Foreign nationals in Japan proper",
+        "role": "",
+        "dp": 0
+      },
+      {
+        "c": "n40_ch",
+        "label": "Switzerland",
+        "group": "Foreign nationals in Japan proper",
+        "role": "",
+        "dp": 0
+      },
+      {
+        "c": "n40_tr",
+        "label": "Turkey",
+        "group": "Foreign nationals in Japan proper",
+        "role": "",
+        "dp": 0
+      },
+      {
+        "c": "n40_no",
+        "label": "Norway",
+        "group": "Foreign nationals in Japan proper",
+        "role": "",
+        "dp": 0
+      },
+      {
+        "c": "n40_pt",
+        "label": "Portugal",
+        "group": "Foreign nationals in Japan proper",
+        "role": "",
+        "dp": 0
+      },
+      {
+        "c": "n40_th",
+        "label": "Thailand",
+        "group": "Foreign nationals in Japan proper",
+        "role": "",
+        "dp": 0
+      },
+      {
+        "c": "n40_pl",
+        "label": "Poland",
+        "group": "Foreign nationals in Japan proper",
+        "role": "",
+        "dp": 0
+      },
+      {
+        "c": "n40_yu",
+        "label": "Yugoslavia",
+        "group": "Foreign nationals in Japan proper",
+        "role": "",
+        "dp": 0
+      },
+      {
+        "c": "n40_se",
+        "label": "Sweden",
+        "group": "Foreign nationals in Japan proper",
+        "role": "",
+        "dp": 0
+      },
+      {
+        "c": "n40_es",
+        "label": "Spain",
+        "group": "Foreign nationals in Japan proper",
+        "role": "",
+        "dp": 0
+      },
+      {
+        "c": "n40_dk",
+        "label": "Denmark",
+        "group": "Foreign nationals in Japan proper",
+        "role": "",
+        "dp": 0
+      },
+      {
+        "c": "n40_jewish",
+        "label": "Jewish (ユダヤ人)",
+        "group": "Foreign nationals in Japan proper",
+        "role": "",
+        "dp": 0
+      },
+      {
+        "c": "n40_etc",
+        "label": "Other or unstated (その他)",
+        "group": "Foreign nationals in Japan proper",
+        "role": "",
+        "dp": 0
+      },
+      {
+        "c": "n40_small",
+        "label": "The other 50 countries, none of them a hundred",
+        "group": "Foreign nationals in Japan proper",
         "role": "",
         "dp": 0
       },
@@ -13715,6 +13928,36 @@ JMAP.POPULATION = [
           "res_naichi": 71810022,
           "res_gaichi": 1265049,
           "res_foreign": 39237,
+          "n40_korea": 1241315,
+          "n40_taiwan": 22499,
+          "n40_karafuto": 986,
+          "n40_nanyo": 249,
+          "n40_cn": 19453,
+          "n40_us": 4755,
+          "n40_mk": 3787,
+          "n40_de": 2713,
+          "n40_gb": 1693,
+          "n40_su": 731,
+          "n40_in": 596,
+          "n40_whiterus": 537,
+          "n40_fr": 515,
+          "n40_gr": 376,
+          "n40_ca": 362,
+          "n40_it": 333,
+          "n40_nl": 295,
+          "n40_ch": 258,
+          "n40_tr": 239,
+          "n40_no": 239,
+          "n40_pt": 222,
+          "n40_th": 169,
+          "n40_pl": 149,
+          "n40_yu": 138,
+          "n40_se": 128,
+          "n40_es": 120,
+          "n40_dk": 103,
+          "n40_jewish": 9,
+          "n40_etc": 311,
+          "n40_small": 1006,
           "mil_total": 1694428
         },
         "line": "1940 Census Population: 73,114,308 · Males per 100 Females: 100.05 · Per km²: 196 The census of 1 October 1940, Okinawa included — the report prints the country both ways and the map draws Okinawa, so this is its 73,114,308 rather than the 72,539,729 without it. 1,265,049 of these people were registered in the 外地, chiefly Koreans, and 1,694,428 were service personnel, who are inside the total rather than beside it."

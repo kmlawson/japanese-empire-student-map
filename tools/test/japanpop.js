@@ -372,6 +372,70 @@ const open = async (b, url) => {
       y.breaks + ' vs ' + y.b30);
     check('the key credits the Hitotsubashi scan',
       /一橋大学経済研究所/.test(y.source), y.source.slice(-40));
+
+    /* 第5表, the country by race or nationality. Whole-country only — the
+       table has no prefecture rows — so it lives on Japan's own card. */
+    const nat = await q.evaluate(() => {
+      const s = (JMAP.POPULATION || []).filter(x => x.id === 'japan-1940')[0];
+      const x = s.rows.japan.x;
+      const named = (s.fields || []).filter(f => /^n40_/.test(f.c));
+      return { x: x, cols: named.map(f => f.c),
+               groups: named.map(f => f.group).filter((g, i, a) => a.indexOf(g) === i),
+               skip: s.tableSkip,
+               roles: (s.fields || []).filter(f => f.role === 'total').map(f => f.c) };
+    });
+    const x = nat.x;
+    check('the four 外地 registers add to the 1,265,049 above them',
+      x.n40_korea + x.n40_taiwan + x.n40_karafuto + x.n40_nanyo === x.res_gaichi
+      && x.n40_korea === 1241315, String(x.n40_korea));
+    /* Every foreign nationality reaches the card in some form: the
+       twenty-four of a hundred or more by name, ユダヤ人 whatever its size,
+       the source's own その他, and the remaining fifty in one line. They must
+       come to the 39,237 or somebody has been dropped. */
+    const foreign = nat.cols.filter(c => !/korea|taiwan|karafuto|nanyo/.test(c))
+      .reduce((a, c) => a + (x[c] || 0), 0);
+    check('and every foreign nationality is accounted for, to 39,237',
+      foreign === x.res_foreign && foreign === 39237, String(foreign));
+    check('with China the largest at 19,453 and the fifty small ones at 1,006',
+      x.n40_cn === 19453 && x.n40_small === 1006 && x.n40_etc === 311,
+      [x.n40_cn, x.n40_small, x.n40_etc].join('/'));
+    check('the White Russians are a nationality of their own', x.n40_whiterus === 537);
+    check('and ユダヤ人 is named though it is nine people', x.n40_jewish === 9);
+    check('the two blocks are card-only, the table having one row that fills them',
+      nat.skip.join(',') === 'Registered in the 外地,Foreign nationals in Japan proper',
+      nat.skip.join(','));
+    /* The two lines the blocks hang under are sums of them, so they are bold
+       and the four and the seventy-five below are not. */
+    check('and the two lines above them are marked as totals',
+      nat.roles.indexOf('res_gaichi') >= 0 && nat.roles.indexOf('res_foreign') >= 0,
+      nat.roles.join(','));
+    /* The 1940 census prints no shares, and `pctOf` is only the name of the
+       whole — so the column used to come out as forty-eight em dashes under a
+       heading. It is asked of the rows now, like the sex ratio beside it. */
+    const heads = await q.evaluate(() => {
+      const e = document.querySelector('[data-id="japan"]');
+      const r = e.getBoundingClientRect();
+      for (let i = 0; i < 400; i++) {
+        const px = r.left + r.width * Math.random(), py = r.top + r.height * Math.random();
+        if (document.elementFromPoint(px, py) === e) return { x: px, y: py };
+      }
+      return null;
+    });
+    await q.mouse.click(heads.x, heads.y);
+    await sleep(1500);
+    await q.evaluate(() => {
+      const t = [...document.querySelectorAll('#info button')]
+        .find(y => /Population Table/i.test(y.textContent));
+      t.click();
+    });
+    await sleep(1800);
+    const cols40 = await q.evaluate(() =>
+      [...document.querySelectorAll('.pop-table-block:not(.pop-compare) thead th')]
+        .map(h => h.textContent.trim()));
+    check('the table prints no empty share column',
+      cols40.every(h => !/% of total/.test(h)), cols40.join(' | '));
+    check('and stays narrow, the two wide blocks being card-only',
+      cols40.length === 9, cols40.length + ': ' + cols40.join(' | '));
     await q.close();
   }
 

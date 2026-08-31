@@ -6,6 +6,7 @@
  *     node tools/test/all.js taiwan labels   # only these
  *     node tools/test/all.js map             # only the map suites
  *     node tools/test/all.js ann             # only the annotation suites
+ *     node tools/test/all.js data            # only what reads data/population/
  *     JOBS=2 node tools/test/all.js          # narrower, on a small machine
  *
  * `annotations/all.js` has done this for its own half since the scripts there
@@ -39,11 +40,23 @@ const fileFor = n => /^run/.test(n)
   ? path.join(__dirname, 'annotations', n + '.js')
   : path.join(__dirname, n + '.js');
 
+/* The scripts that read `data/population/` — the figures, the cards, the
+   tables, the choropleths and the sentences built from them. A dataset added
+   or edited touches these and nothing else, and there is no reason to spend
+   six minutes on the whole map suite to find that out: `node tools/test/all.js
+   data` is about two.
+
+   It is a *first* check, not the only one. Run `map` before a push: a CSV in
+   that folder reaches `data.js`, which every script on the map reads. */
+const DATA = ['population', 'demography', 'japanpop', 'twpop1930', 'manchupop',
+              'taiwanpop', 'korea', 'names'];
+
 const pick = process.argv.slice(2);
 let list;
 if (!pick.length) list = MAP.concat(ANN);
 else if (pick.length === 1 && pick[0] === 'map') list = MAP;
 else if (pick.length === 1 && pick[0] === 'ann') list = ANN;
+else if (pick.length === 1 && pick[0] === 'data') list = DATA;
 else list = pick.map(a => (/^\d+$/.test(a) ? 'run' + (a === '1' ? '' : a) : a));
 
 /* Longest first, so the tail of the run is short jobs filling the gaps rather

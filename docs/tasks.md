@@ -14171,6 +14171,48 @@ And Japan gets a comparison table for free, 1930 against 1940, on the figures
 they share. Both are censuses, so the note names them and says nothing about
 different kinds of number.
 
+### 第5表: the country by race or nationality
+
+pp. 362–363 of the same yearbook, whole-country only — the table has no
+prefecture rows — so it goes on Japan's own card. Every identity holds in all
+three columns: the three registers to 73,114,308, the four 外地 to 1,265,049,
+and the seventy-five nationalities to 39,237, with male plus female the total in
+all eighty-three rows.
+
+**What reaches the card.** The four 外地 registers whole; of the seventy-five
+foreign nationalities, the twenty-four with a hundred people or more by name,
+the source's own その他 as a line of its own, and the remaining fifty in one
+line of 1,006. ユダヤ人 is named whatever its size — nine people — because it is
+a category the census chose to count and not a small country. Eighty lines,
+most of them a handful of people, is a list rather than a fact; the fifty are
+named in the transcription and nowhere else, and the line says how many they
+are.
+
+**And the card, not the table.** The forty-eight-row table has one row that
+fills these columns and forty-seven that would show thirty em dashes each, so
+both blocks go in `table_skip`, which exists for this.
+
+Two things it turned up. `res_gaichi` and `res_foreign` are totals of the
+blocks below them and are bold, which is what `role: total` was added for a
+push ago. And **`% of total Japan` was printing as forty-eight em dashes under
+a heading**: `pctOf` is only the *name* of the whole, and the 1940 census
+prints no shares. The column is asked of the rows now, like the sex ratio
+beside it.
+
+### A test group for data changes
+
+The map suite is 33 scripts and about six minutes, and a dataset added to
+`data/population/` cannot break most of them. `node tools/test/all.js data`
+runs the eight that read that folder — population, demography, japanpop,
+twpop1930, manchupop, taiwanpop, korea and names — **366 checks in 109
+seconds**. It is a first check and not the only one: a CSV there reaches
+`data.js`, which every script on the map reads, so `map` still runs before a
+push.
+
+The annotation half has not run since update 255, which is right: it last ran
+against the `themeable` change in `annotate.js` that was part of that push —
+the 1,318-check run — and `annotate.js` has not been touched since.
+
 ### And a test whose premise had expired
 
 `demography.js` checked that the December 1942 map greys three switches, with a
