@@ -2305,7 +2305,7 @@ JMAP.BROWSE = [
   },
   {
     id: 'niigata', en: 'Niigata', ja: '新潟 (Niigata)', zh: '新潟', lat: 37.92, lon: 139.04,
-    wiki: 'https://en.wikipedia.org/wiki/Ch%C5%AB%C5%8D-ku,_Niigata',
+    wiki: 'https://en.wikipedia.org/wiki/Niigata_(city)',
     note: 'The Japan Sea port for Korea and Manchuria. It was kept on the atomic target list and so was left largely unbombed.'
   },
   {
@@ -2908,7 +2908,7 @@ JMAP.BROWSE = [
     note: 'The Gaekwad\'s capital, and one of the best-administered of the princely states: free primary schooling from 1906 and a state bank of its own.'
   },
   {
-    id: 'chiba', en: 'Chiba', ja: '千葉中央駅', zh: '千葉', ko: '지바추오역', lat: 35.61, lon: 140.12,
+    id: 'chiba', en: 'Chiba', ja: '千葉 (Chiba)', zh: '千葉', ko: '지바추오역', lat: 35.61, lon: 140.12,
     wiki: 'https://en.wikipedia.org/wiki/Chiba_(city)',
     note: 'The bay city east of Tokyo, with the army\'s railway and engineer schools and, by the war, steelworks on the reclaimed shore.'
   },
@@ -2923,7 +2923,7 @@ JMAP.BROWSE = [
     note: 'The battle of November–December 1943, and one of the confirmed targets of Unit 731’s plague attacks in 1941.'
   },
   {
-    id: 'fukui', en: 'Fukui', zh: '福井', lat: 36.06, lon: 136.22,
+    id: 'fukui', en: 'Fukui', ja: '福井 (Fukui)', zh: '福井', lat: 36.06, lon: 136.22,
     wiki: 'https://en.wikipedia.org/wiki/Fukui_(city)',
     note: 'A textile town on the Japan Sea side, known for habutae silk.'
   },
@@ -2970,8 +2970,8 @@ JMAP.BROWSE = [
     note: 'The capital of an independent state the map already draws, and the source of the Gurkha regiments.'
   },
   {
-    id: 'kawasaki', en: 'Kawasaki', ja: '川崎区', zh: '川崎區', ko: '가와사키구', lat: 35.53, lon: 139.7,
-    wiki: 'https://en.wikipedia.org/wiki/Kawasaki-ku,_Kawasaki',
+    id: 'kawasaki', en: 'Kawasaki', ja: '川崎 (Kawasaki)', zh: '川崎區', ko: '가와사키구', lat: 35.53,
+    lon: 139.7, wiki: 'https://en.wikipedia.org/wiki/Kawasaki,_Kanagawa',
     note: 'Steel and shipbuilding between Tokyo and Yokohama, some 300,000 people by 1940, and among the most heavily firebombed places in Japan.'
   },
   {
@@ -3010,7 +3010,7 @@ JMAP.BROWSE = [
     note: 'The silk-reeling town of Gunma, at the centre of the trade that paid for Japan\'s industrialisation.'
   },
   {
-    id: 'moji', en: 'Moji', ja: '門司区', zh: '門司區', ko: '모지구', lat: 33.94, lon: 130.96,
+    id: 'moji', en: 'Moji', ja: '門司 (Moji)', zh: '門司區', ko: '모지구', lat: 33.94, lon: 130.96,
     wiki: 'https://en.wikipedia.org/wiki/Moji-ku,_Kitaky%C5%ABsh%C5%AB',
     note: 'The Kanmon Strait coaling and transhipment port; the embarkation point for the continent.'
   },
@@ -3020,8 +3020,8 @@ JMAP.BROWSE = [
     note: 'The seat of northern Iwate, and iron-casting since the Nanbu domain.'
   },
   {
-    id: 'nagano', en: 'Nagano', ja: '長野聖救主教会', lat: 36.65, lon: 138.18,
-    wiki: 'https://en.wikipedia.org/wiki/Nagano_Holy_Saviour_Church',
+    id: 'nagano', en: 'Nagano', ja: '長野 (Nagano)', lat: 36.65, lon: 138.18,
+    wiki: 'https://en.wikipedia.org/wiki/Nagano_(city)',
     note: 'The temple town of Zenkōji, and the silk country of the Shinano valleys.'
   },
   {
@@ -3045,13 +3045,13 @@ JMAP.BROWSE = [
     note: 'The seat of Bihar on the Ganges, and the old Mauryan capital of Pataliputra beneath it.'
   },
   {
-    id: 'sakai', en: 'Sakai', ja: '堺市', zh: '堺市', lat: 34.57, lon: 135.48,
+    id: 'sakai', en: 'Sakai', ja: '堺 (Sakai)', zh: '堺市', lat: 34.57, lon: 135.48,
     wiki: 'https://en.wikipedia.org/wiki/Sakai',
     note: 'The free port that armed the sixteenth-century wars and, by the 1930s, an industrial suburb of Osaka.'
   },
   {
-    id: 'shizuoka', en: 'Shizuoka', ja: '静岡市中央体育館', lat: 34.98, lon: 138.38,
-    wiki: 'https://en.wikipedia.org/wiki/Shizuoka_City_Central_Gymnasium',
+    id: 'shizuoka', en: 'Shizuoka', ja: '静岡 (Shizuoka)', lat: 34.98, lon: 138.38,
+    wiki: 'https://en.wikipedia.org/wiki/Shizuoka_(city)',
     note: 'Tea and mandarins, and the port of Shimizu that shipped both.'
   },
   {
@@ -3080,7 +3080,7 @@ JMAP.BROWSE = [
     note: 'Indigo, the crop that made the old Awa domain rich, on the Shikoku side of the Naruto strait.'
   },
   {
-    id: 'toyama', en: 'Toyama', ja: '富山駅', zh: '富山', ko: '도야마역', lat: 36.7, lon: 137.21,
+    id: 'toyama', en: 'Toyama', ja: '富山 (Toyama)', zh: '富山', ko: '도야마역', lat: 36.7, lon: 137.21,
     wiki: 'https://en.wikipedia.org/wiki/Toyama_(city)',
     note: 'The 1–2 August 1945 firebombing destroyed about 99% of the built-up area, the highest destruction rate of any Japanese city.'
   },
@@ -3100,7 +3100,7 @@ JMAP.BROWSE = [
     note: 'The old Kii domain south of Osaka, with cotton mills and the mikan orchards behind it.'
   },
   {
-    id: 'yawata', en: 'Yawata (Yahata)', ko: '야하타', lat: 33.86, lon: 130.81,
+    id: 'yawata', en: 'Yawata (Yahata)', ja: '八幡 (Yahata)', ko: '야하타', lat: 33.86, lon: 130.81,
     wiki: 'https://en.wikipedia.org/wiki/Yahata,_Fukuoka',
     note: 'Imperial Steel Works, the centre of Japanese heavy industry, and the target of the first B-29 raid on the home islands, 15 June 1944.'
   },
@@ -3120,8 +3120,8 @@ JMAP.BROWSE = [
     note: 'The salt wells that supplied wartime free China after the coastal salt was lost.'
   },
   {
-    id: 'oita', en: 'Ōita', ja: '大分県', zh: '大分縣', ko: '오이타현', lat: 33.24, lon: 131.61,
-    wiki: 'https://en.wikipedia.org/wiki/%C5%8Cita_Prefecture',
+    id: 'oita', en: 'Ōita', ja: '大分 (Ōita)', zh: '大分縣', ko: '오이타현', lat: 33.24, lon: 131.61,
+    wiki: 'https://en.wikipedia.org/wiki/Ōita_(city)',
     note: 'The hot-spring country of eastern Kyūshū, and a port facing the Inland Sea.'
   },
   {
@@ -3130,8 +3130,8 @@ JMAP.BROWSE = [
     note: 'The Miike coal mines: Mitsui’s largest pit, worked by Korean, Chinese and Allied prisoner labour.'
   },
   {
-    id: 'akita', en: 'Akita', ja: '秋田市八橋運動公園球技場', zh: '八橋球技場', lat: 39.72, lon: 140.1,
-    wiki: 'https://en.wikipedia.org/wiki/Akita_Sports_Plus_ASP_Stadium',
+    id: 'akita', en: 'Akita', ja: '秋田 (Akita)', zh: '八橋球技場', lat: 39.72, lon: 140.1,
+    wiki: 'https://en.wikipedia.org/wiki/Akita_(city)',
     note: 'Rice, sake and the Kosaka copper mines behind it, on the Japan Sea coast.'
   },
   {
@@ -3436,8 +3436,8 @@ JMAP.BROWSE = [
     note: 'Noguchi Jun’s chemical combine, the largest industrial complex in the empire outside Japan, built on Korean and later forced labour.'
   },
   {
-    id: 'ise', en: 'Ise (Uji-Yamada)', ja: '伊勢国', zh: '伊勢國', ko: '이세국', lat: 34.49, lon: 136.71,
-    wiki: 'https://en.wikipedia.org/wiki/Ise_Province',
+    id: 'ise', en: 'Ise (Uji-Yamada)', ja: '宇治山田 (Uji-Yamada)', zh: '伊勢國', ko: '이세국',
+    lat: 34.49, lon: 136.71, wiki: 'https://en.wikipedia.org/wiki/Ise,_Mie',
     note: 'The Ise Grand Shrine, the ritual centre of the state cult.'
   },
   {
@@ -3622,8 +3622,8 @@ JMAP.BROWSE = [
     note: 'The Sarawak oilfields and refinery, seized on 16 December 1941 — the first objective in Borneo.'
   },
   {
-    id: 'mito', en: 'Mito', ja: '水戸東照宮', zh: '水戶東照宮', lat: 36.37, lon: 140.47,
-    wiki: 'https://en.wikipedia.org/wiki/Mito_T%C5%8Dsh%C5%8D-g%C5%AB',
+    id: 'mito', en: 'Mito', ja: '水戸 (Mito)', zh: '水戶東照宮', lat: 36.37, lon: 140.47,
+    wiki: 'https://en.wikipedia.org/wiki/Mito,_Ibaraki',
     note: 'The seat of a senior Tokugawa house, and of the school of thought that supplied the slogans of the Restoration.'
   },
   {
@@ -3742,7 +3742,8 @@ JMAP.BROWSE = [
     note: 'A Doolittle raid recovery airfield, and the reason for the Chekiang–Kiangsi campaign of 1942 and the biological attacks that accompanied it.'
   },
   {
-    id: 'saga', en: 'Saga', lat: 33.26, lon: 130.3,
+    id: 'saga', en: 'Saga', ja: '佐賀 (Saga)', lat: 33.26, lon: 130.3,
+    wiki: 'https://en.wikipedia.org/wiki/Saga_(city)',
     note: 'The old Hizen domain, an early adopter of Western guns and shipbuilding, and the porcelain kilns at Arita behind it.'
   },
   {
@@ -3858,8 +3859,8 @@ JMAP.BROWSE = [
     note: 'Java’s only south-coast port and the evacuation channel in March 1942; the ships leaving it were hunted down.'
   },
   {
-    id: 'tottori', en: 'Tottori', ja: '鳥取市歴史博物館', lat: 35.5, lon: 134.24,
-    wiki: 'https://en.wikipedia.org/wiki/Tottori_City_Historical_Museum',
+    id: 'tottori', en: 'Tottori', ja: '鳥取 (Tottori)', lat: 35.5, lon: 134.24,
+    wiki: 'https://en.wikipedia.org/wiki/Tottori_(city)',
     note: 'Sand dunes, pears and a small castle town on the Japan Sea.'
   },
   {
@@ -3878,8 +3879,8 @@ JMAP.BROWSE = [
     note: 'The forward base for the New Guinea campaign, and bombed in July 1942.'
   },
   {
-    id: 'tsu', en: 'Tsu', ja: '摂津国', zh: '攝津國', ko: '셋쓰국', lat: 34.72, lon: 136.51,
-    wiki: 'https://en.wikipedia.org/wiki/Settsu_Province',
+    id: 'tsu', en: 'Tsu', ja: '津 (Tsu)', zh: '攝津國', ko: '셋쓰국', lat: 34.72, lon: 136.51,
+    wiki: 'https://en.wikipedia.org/wiki/Tsu,_Mie',
     note: 'The seat of Mie, on the bay road to the Ise shrines.'
   },
   {
@@ -3904,8 +3905,8 @@ JMAP.BROWSE = [
     note: 'Coal and chemicals; undersea pits worked by conscripted Korean labour.'
   },
   {
-    id: 'urawa', en: 'Urawa', ja: '浦和宿', lat: 35.86, lon: 139.65,
-    wiki: 'https://en.wikipedia.org/wiki/Urawa-shuku',
+    id: 'urawa', en: 'Urawa', ja: '浦和 (Urawa)', lat: 35.86, lon: 139.65,
+    wiki: 'https://en.wikipedia.org/wiki/Urawa-ku,_Saitama',
     note: 'A commuter town on the Nakasendō north of Tokyo, and the seat of Saitama.'
   },
   {
@@ -3938,7 +3939,8 @@ JMAP.BROWSE = [
     note: 'The double city on the Han river, the classic gate between the north China plain and the middle Yangtze.'
   },
   {
-    id: 'yamagata', en: 'Yamagata', lat: 38.24, lon: 140.36,
+    id: 'yamagata', en: 'Yamagata', ja: '山形 (Yamagata)', lat: 38.24, lon: 140.36,
+    wiki: 'https://en.wikipedia.org/wiki/Yamagata_(city)',
     note: 'Safflower and silk in the Mogami basin, behind the Ōu mountains.'
   },
   {
@@ -3973,8 +3975,8 @@ JMAP.BROWSE = [
     note: 'Hubei\'s wartime capital in the western gorges after Wuhan fell, and out of reach of the Japanese army for the rest of the war.'
   },
   {
-    id: 'ominato', en: 'Ōminato', ja: 'むつ', zh: '陸奧', ko: '무쓰', lat: 41.29, lon: 141.12,
-    wiki: 'https://en.wikipedia.org/wiki/Mutsu,_Aomori',
+    id: 'ominato', en: 'Ōminato', ja: '大湊 (Ōminato)', zh: '陸奧', ko: '무쓰', lat: 41.29,
+    lon: 141.12, wiki: 'https://en.wikipedia.org/wiki/Mutsu,_Aomori',
     note: 'The naval district guarding the Tsugaru Strait between Honshū and Hokkaidō.'
   },
   {

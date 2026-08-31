@@ -292,6 +292,26 @@ const open = async (b, url) => {
     /2,453,573/.test(cCard) && /3\.81/.test(cCard), cCard.slice(0, 120));
   check('and offers the whole column of cities',
     /Population Table/.test(cCard), cCard.slice(-40));
+  await p.evaluate(() => {
+    const b2 = [...document.querySelectorAll('#info button')]
+      .find(x => /Population Table/i.test(x.textContent));
+    b2.click();
+  });
+  await sleep(1700);
+  const cBars = await p.evaluate(() => {
+    const bl = [...document.querySelectorAll('.pop-table-block')]
+      .find(x => /twenty-eight/.test(x.textContent));
+    if (!bl) return null;
+    const rows = [...bl.querySelectorAll('.pop-bar')];
+    return { n: rows.length,
+             cap: (bl.querySelector('.pop-bars-cap') || {}).textContent || '',
+             first: rows.length ? rows[0].textContent.replace(/\s+/g, ' ') : '' };
+  });
+  check('the cities have their own chart, Ōsaka first',
+    cBars && cBars.n === 28 && /Osaka|Ōsaka/.test(cBars.first)
+    && /2,453,573/.test(cBars.first), cBars ? cBars.first : 'no block');
+  check('and its caption counts them and their total',
+    /28 of them/.test(cBars.cap) && /11,030,724/.test(cBars.cap), cBars.cap);
   await p.close();
 
   console.log('\n— what a reader is told —');
@@ -340,6 +360,22 @@ const open = async (b, url) => {
   /* 56.0 with its zero, in the table as on the card. */
   check('and a whole-numbered share keeps its decimal',
     /56\.0/.test(table), table.slice(0, 400));
+  /* And the chart over it: forty-seven bars, longest first, with the total in
+     the caption rather than in a bar of its own. */
+  const bars = await p.evaluate(() => {
+    const bl = document.querySelector('.pop-table-block');
+    const rows = [...bl.querySelectorAll('.pop-bar')];
+    return { n: rows.length,
+             cap: (bl.querySelector('.pop-bars-cap') || {}).textContent || '',
+             first: rows.length ? rows[0].textContent.replace(/\s+/g, ' ') : '',
+             firstW: rows.length ? rows[0].querySelector('.track i').style.width : '' };
+  });
+  check('a bar to each prefecture', bars.n === 47, String(bars.n));
+  check('Tōkyō-fu is the longest of them',
+    /T.ky.-fu/.test(bars.first) && /5,408,678/.test(bars.first)
+    && bars.firstW === '100%', bars.first);
+  check('and the caption carries the whole, which is not a bar',
+    /47 of them/.test(bars.cap) && /64,450,005/.test(bars.cap), bars.cap);
   await p.close();
 
   await b.close();

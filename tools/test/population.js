@@ -507,6 +507,38 @@ const spot = (p, sel, fx, fy) => p.evaluate((s, ax, ay) => {
      reader comparing a province's Japanese population against its industry
      had to hold one table in their head while scrolling to another. */
   check('and it is one table, not a stack', box.tables === 1, String(box.tables));
+  /* And a chart over it. A column of numbers answers "how big was Kyŏnggi-do";
+     the bars answer "how are these people distributed", which is the question
+     somebody opens a table of thirteen provinces to ask. The whole is not one
+     of the bars — Korea against Kyŏnggi-do would press every other province
+     into the left margin — so it is said in the caption instead. */
+  const bars = await p.evaluate(() => {
+    const bl = document.querySelector('.pop-table-block');
+    const rows = [...bl.querySelectorAll('.pop-bar')];
+    return { n: rows.length,
+             cap: (bl.querySelector('.pop-bars-cap') || {}).textContent || '',
+             first: rows.length ? rows[0].textContent.replace(/\s+/g, ' ') : '',
+             firstW: rows.length ? rows[0].querySelector('.track i').style.width : '',
+             lastW: rows.length ? rows[rows.length - 1].querySelector('.track i').style.width : '',
+             before: !!(bl.querySelector('.pop-bars')
+                        && bl.querySelector('table')
+                        && bl.querySelector('.pop-bars').compareDocumentPosition(
+                             bl.querySelector('table')) & Node.DOCUMENT_POSITION_FOLLOWING) };
+  });
+  check('a bar to each province, over the table', bars.n === 13 && bars.before,
+    bars.n + ' bars');
+  check('the longest is the longest', bars.firstW === '100%',
+    bars.first + ' at ' + bars.firstW);
+  check('and the shortest is shorter',
+    parseFloat(bars.lastW) > 0 && parseFloat(bars.lastW) < 100, bars.lastW);
+  /* The total belongs over them in words, not in a bar twelve times the
+     length of the next one. */
+  /* This is the 1942 estimate's table — 24,105,906 — and the 1930 census's is
+     21,058,305; the caption carries whichever date's whole it is about, which
+     is the point of taking it from the dataset rather than naming a number. */
+  check('with the whole said in the caption',
+    /13 of them/.test(bars.cap) && /24,105,906/.test(bars.cap)
+    && /Ch.sen/.test(bars.cap), bars.cap);
   /* Every other table the folder holds, whichever place it is about. Counted
      rather than listed by name: a dataset added to data/population/ turns up
      here by itself, and a test that named three would fail on the fourth for

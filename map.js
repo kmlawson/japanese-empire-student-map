@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '253';
+  var JEM_VERSION = '254';
   var JEM_ASSETS = {"admin.js": "9f99c96627", "annotate.js": "761fbd5949", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "3881d33c99", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
 
   /* Every file this one fetches, with the version on it.
@@ -7978,6 +7978,73 @@
                                        maximumFractionDigits: dp || 0 });
   };
 
+  /* The shape of the thing, before the figures for it.
+
+     A column of numbers answers "how big was Kyŏnggi-do"; it does not answer
+     "how are these people distributed", which is the question somebody opens a
+     table of forty-seven provinces to ask. One bar to a row, longest first,
+     and the answer is the outline of the whole set — Tōkyō and Ōsaka standing
+     off the top of Japan, Korea's thirteen in a much flatter fan.
+
+     **The whole is not one of the bars.** Japan proper is 64,450,005 against
+     Tōkyō-fu's 5,408,678, so a bar for it would be twelve times the longest of
+     the others and press every one of them into the left margin. It is said
+     once, in words, over the top of them, which is where a total belongs.
+
+     Built from divs rather than as an SVG: the bar is a percentage width and
+     the browser does the arithmetic, so nothing here has to know how wide the
+     box is or be told again when it changes. */
+  function popBars(d, set, named) {
+    var box = document.createElement('div');
+    box.className = 'pop-bars';
+    var parts = set.parts.filter(function (k) { return d.rows[k].pop; });
+    if (parts.length < 2) return box;
+    var max = 0;
+    parts.forEach(function (k) { max = Math.max(max, d.rows[k].pop); });
+    if (!max) return box;
+
+    /* The caption: how many of them, and the whole they make up. `set.top` is
+       the pinned row — a country, or a summary of the cities — and where a
+       dataset has none the parts are summed instead, because "47 provinces"
+       with no total is half a sentence. */
+    var whole = set.top.length ? d.rows[set.top[0]] : null;
+    var total = whole && whole.pop
+      ? whole.pop
+      : parts.reduce(function (a, k) { return a + d.rows[k].pop; }, 0);
+    var cap = document.createElement('p');
+    cap.className = 'pop-bars-cap';
+    cap.textContent = parts.length + ' of them, '
+      + POP_INT(total) + ' in all'
+      + (whole && whole.pop ? ' — ' + splitGloss(named[set.top[0]]).name : '');
+    box.appendChild(cap);
+
+    var sorted = parts.slice().sort(function (a, b2) {
+      return d.rows[b2].pop - d.rows[a].pop;
+    });
+    sorted.forEach(function (k) {
+      var row = document.createElement('div');
+      row.className = 'pop-bar';
+      var nm = document.createElement('span');
+      nm.className = 'nm';
+      // the name only: the characters and the readings are in the table below,
+      // and a chart is read down its left edge rather than across it
+      nm.textContent = splitGloss(named[k]).name.replace(/\s*\([^()]*\)$/, '');
+      row.appendChild(nm);
+      var track = document.createElement('span');
+      track.className = 'track';
+      var fill = document.createElement('i');
+      fill.style.width = (100 * d.rows[k].pop / max).toFixed(2) + '%';
+      track.appendChild(fill);
+      row.appendChild(track);
+      var vv = document.createElement('span');
+      vv.className = 'vv';
+      vv.textContent = POP_INT(d.rows[k].pop);
+      row.appendChild(vv);
+      box.appendChild(row);
+    });
+    return box;
+  }
+
   /* One dataset: what it is, what it says, and where it came from. The figures
      first, then a table for each group the source counted — ages, register and
      nationality, occupation — because twenty-one columns in one table is a
@@ -8000,6 +8067,8 @@
     var order = set.top.concat(set.parts);
     var named = {};
     order.forEach(function (k) { named[k] = popRowName(k, d.rows[k]); });
+
+    wrap.appendChild(popBars(d, set, named));
 
     /* ONE TABLE, AS WIDE AS THE SOURCE IS. It was a stack — the figures, then
        ages, then registers, then occupations, each its own table with the

@@ -13562,7 +13562,7 @@ now says which convention is which.
 ### And the sex ratio is half a table
 
 p25 is transcribed as far as 愛知 — 全國 and twenty-three prefectures. The
-twenty-three from 三重 to 沖縄 are not in the scan and carry no figure; a blank
+twenty-four from 三重 to 沖縄 are not in the scan and carry no figure; a blank
 field is left off a card, so nothing looks broken. `japanpop.js` pins the count
 at 23 so that finishing the page is a change the tests notice.
 
@@ -13645,6 +13645,69 @@ prefectures; the scan reaches 愛知 and stops, and 三重 to 沖縄 have no fig
 tests notice.
 
 Suite: **1,240 checks across 45 scripts, all passing** — `japanpop.js` up to 43.
+
+---
+
+## A chart over each table, and twenty Japanese cities named after a gymnasium
+
+### The shape of the set, before the figures for it
+
+A column of numbers answers *how big was Kyŏnggi-do*. It does not answer *how
+are these people distributed*, which is the question somebody opens a table of
+forty-seven provinces to ask. Every population table now opens with a bar to
+each part, longest first, and the answer is the outline of the whole set —
+Tōkyō and Ōsaka standing off the top of Japan, Korea's thirteen in a much
+flatter fan.
+
+**The whole is not one of the bars.** Japan proper is 64,450,005 against
+Tōkyō-fu's 5,408,678, so a bar for it would be twelve times the longest of the
+others and press every one of them into the left margin. It is said once, in
+words, over the top: *47 of them, 64,450,005 in all — Japan (内地)*. Where a
+dataset has no pinned whole — a table of cities is a list of places rather than
+the parts of something — the parts are summed instead, because "28 of them"
+with no total is half a sentence.
+
+Divs rather than an SVG: the bar is a percentage width and the browser does the
+arithmetic, so nothing here has to know how wide the box is or be told again
+when it changes.
+
+### Twenty Japanese cities were named after something else in them
+
+Reported as two — Yawata had no characters at all, and Shizuoka's were
+静岡市中央体育館, the Shizuoka City Central Gymnasium, with a Wikipedia link to
+match. It is one fault with twenty instances, from a name lookup that took the
+first article it could find near the coordinates:
+
+| city | was | now |
+|---|---|---|
+| Nagano | 長野聖救主教会, Nagano Holy Saviour Church | 長野 (Nagano) |
+| Shizuoka | 静岡市中央体育館, Shizuoka City Central Gymnasium | 静岡 (Shizuoka) |
+| Akita | 秋田市八橋運動公園球技場, a football ground | 秋田 (Akita) |
+| Tottori | 鳥取市歴史博物館, the city museum | 鳥取 (Tottori) |
+| Mito | 水戸東照宮, the shrine | 水戸 (Mito) |
+| Tsu | 摂津国 — Settsu Province, and Tsu is in Mie | 津 (Tsu) |
+| Ise | 伊勢国, the province | 宇治山田 (Uji-Yamada), which is what the city was called in 1930 |
+| Ōita | 大分県, the prefecture | 大分 (Ōita) |
+| Chiba | 千葉中央駅, the station | 千葉 (Chiba) |
+| Toyama | 富山駅, the station | 富山 (Toyama) |
+| Urawa | 浦和宿, the post town | 浦和 (Urawa) |
+| Kawasaki | 川崎区, a ward of the modern city | 川崎 (Kawasaki) |
+| Moji | 門司区, a ward of modern Kitakyūshū | 門司 (Moji) |
+| Ōminato | むつ, the city that absorbed it | 大湊 (Ōminato) |
+| Sakai | 堺市 | 堺 (Sakai) |
+| Niigata | *(name right; link was to one ward)* | link to the city |
+| Yawata, Fukui, Saga, Yamagata | no Japanese name at all | 八幡, 福井, 佐賀, 山形 |
+
+Sixteen Wikipedia links were repointed with them, and all twenty were fetched
+and checked for a 200 before being written. Ise is the one worth noticing: the
+city was **宇治山田市** until 1955, so the period name is the right one to carry
+even though the article is at *Ise, Mie*.
+
+That is what put no characters beside Yawata in the population table:
+`popRowName` takes them from the browse record in `data.js`, which is built
+from `texts/browse.csv`, and the row had none.
+
+Suite: **1,249 checks across 45 scripts, all passing.**
 
 ---
 

@@ -4,7 +4,7 @@ From 内閣統計局『昭和五年国勢調査最終報告書』p. 25 —
 <https://dl.ndl.go.jp/pid/1281995/1/30>.
 
 **This transcription is not complete.** The scan reaches 愛知 and stops; the
-twenty-three prefectures from 三重 to 沖縄 are not here and their rows carry no
+twenty-four prefectures from 三重 to 沖縄 are not here and their rows carry no
 sex ratio on the map. A blank field is simply left off a card, so nothing looks
 broken — but the column is half a table until the rest of the page arrives.
 
