@@ -30,7 +30,7 @@ const MAP = ['taiwan', 'labels', 'provsource', 'backings', 'mapstrip',
              'projclip', 'extent', 'layers-url', 'bookmarks', 'cache-keys',
              'relief', 'mono', 'names', 'labuan', 'pin', 'stations', 'zoom', 'colours',
              'trains', 'korea', 'population', 'demography', 'sugar', 'epoch', 'taiwanpop', 'keys',
-             'labelcats'];
+             'labelcats', 'legendpick', 'subnames'];
 const ANN = ['run', 'run2', 'run3', 'run4', 'run5', 'run6', 'run7',
              'run8', 'run9', 'run10', 'run11', 'run12', 'run13', 'run14',
              'run15'];

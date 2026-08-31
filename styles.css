@@ -3335,3 +3335,34 @@ dialog h3 {
 }
 #label-menu label:hover { background: var(--hover-fill); }
 #label-menu input { margin-top: 2px; flex: none; }
+
+/* ------------------------------------- the key used as a set of switches ---
+
+   Option-click the year, or hold it, and every row that stands for something
+   on the map grows a tick. The rows keep their spacing either way: the box
+   sits in the same place the swatch would have been pushed to, so turning the
+   boxes on does not reflow the whole key. */
+#legend .item.pickable { gap: 6px; }
+#legend .legend-tick {
+  flex: 0 0 auto;
+  width: 13px;
+  height: 13px;
+  margin: 0;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+/* The way back, under the list and only there when something is off. */
+#legend .legend-reset {
+  display: block;
+  margin: 8px 0 2px;
+  padding: 4px 10px;
+  font: inherit;
+  font-size: 12px;
+  color: var(--ink);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  cursor: pointer;
+}
+#legend .legend-reset:hover { background: var(--hover-fill); }

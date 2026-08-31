@@ -357,6 +357,23 @@ const st = p => p.evaluate(() => ({
   await sleep(1800);
   v = await vals(p);
   check('a pie map writes no figures', v.made === 0, String(v.made));
+
+  /* And the figures follow the switch **on the press**, not at the next zoom.
+     They are built by the gate, the gate runs on a zoom, and `applyState`
+     ran it *before* `applyPop` marked them dirty — so the rebuild waited for
+     whatever gated next. Any interaction that gates in between eats the mark:
+     open a province card and then change the map, and the old numbers stay on
+     it until the reader touches the wheel, which is how it was reported. */
+  await p.evaluate(() => document.querySelector('#opt-pop-korea-density-density').click());
+  await sleep(1800);
+  const before = (await vals(p)).txt.join(' ');
+  await p.mouse.click(640, 470); await sleep(1000);      // a card, which gates
+  await p.mouse.click(640, 470); await sleep(1000);
+  await p.evaluate(() => document.querySelector('#opt-pop-korea-density-japanese').click());
+  await sleep(1600);                                      // no zoom, no pan
+  const after = (await vals(p)).txt.join(' ');
+  check('the figures follow the switch without a zoom',
+    /%/.test(after) && after !== before, after.slice(0, 40));
   await p.close();
 
   /* Taiwan, at two zooms. The prefectures and the larger districts answer at

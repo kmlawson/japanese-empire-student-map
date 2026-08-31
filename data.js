@@ -1343,7 +1343,7 @@ JMAP.SITES = [
   },
   {
     id: 'jinan', en: 'Jǐnán (Tsinan)', ja: '済南 (Sainan)', orig: '濟南 (Jǐnán)', zh: '濟南',
-    ko: '지난', date: 'May 1928', cat: 'city', lvl: 3, lat: 36.67, lon: 116.99,
+    ko: '지난', date: 'May 1928', cat: 'city', lvl: 2, lat: 36.67, lon: 116.99,
     wiki: 'https://en.wikipedia.org/wiki/Jinan', year: 1928,
     note: 'Japanese troops sent to "protect residents" clashed with the Nationalist Northern Expedition; thousands of Chinese were killed, and a Chinese diplomat mutilated and executed.'
   },

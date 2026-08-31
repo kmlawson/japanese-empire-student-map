@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '248';
+  var JEM_VERSION = '249';
   var JEM_ASSETS = {"admin.js": "9f99c96627", "annotate.js": "761fbd5949", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "3881d33c99", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
 
   /* Every file this one fetches, with the version on it.
@@ -103,6 +103,19 @@
        tick here with Other off therefore turns Other on as well, since the
        alternative is a tick that draws nothing. */
     labelCats: { territory: true, city: true, sub: true, poi: true, feature: true },
+    /* Which colours of the key have been taken off the map, by category id,
+       and whether the key is showing its tick boxes at all.
+
+       Neither is in the layers code and neither travels in a link. It is a
+       gesture made while talking over a map — take the colonies off and ask
+       which ones they were, put them back — with **Reset map** sitting under
+       the list to undo the whole of it; a bitfield of twenty-three categories
+       would be four more characters in every address anybody ever shared for
+       something nobody would share. What the boxes *do* travel is the rows
+       that already had a switch: Cities, Events, the rivers, the line of
+       control. Those are the same state as the panel's and go where it goes. */
+    hideCat: {},
+    legendPick: false,
     extent: true,
     rivers: true,
     // The 1.3px stroke round every filled shape. It is a repair — it closes the
@@ -509,6 +522,14 @@
     return !rec.srcOnly || rec.srcOnly === state.occSource;
   }
 
+  /* A category the reader has unticked in the key. Asked by the rule that
+     decides which territories are on the map at all — the same rule the East
+     Asia switch goes through, so a hidden category loses its filler, its
+     seams, its outline ring and its hatching along with its fill, which is
+     five separate layers and was five separate bugs when that switch was
+     written. */
+  function catHidden(cat) { return !!(cat && state.hideCat[cat]); }
+
   function inQuiz(rec) {
     if (!srcOK(rec)) return false;
     if (rec.kind === 'site') return rec.lvl <= state.level && state.cats[rec.cat] && siteInEpoch(rec);
@@ -549,8 +570,15 @@
      label however small it is. It waits for the same zoom the islands wait
      for now. Nothing else is level 4, and nothing below it is affected: a
      level-3 name still appears the moment the level reaches 3. */
+  /* The top rung of the ladder, which used to be spelled `SUB_LABEL_ZOOM`
+     because the two happened to want the same number. They do not any more —
+     the province names come in earlier now — and sharing the constant meant
+     lowering that threshold also brought out every level-4 speck on the map,
+     which is a different decision and was not the one being made. */
+  var LEVEL_4_ZOOM = 12;
+
   function labelLevel() {
-    var bonus = view.w < mapW / SUB_LABEL_ZOOM ? 3
+    var bonus = view.w < mapW / LEVEL_4_ZOOM ? 3
       : (view.w < mapW / 10 ? 2 : (view.w < mapW / 3 ? 1 : 0));
     return Math.min(4, state.level + bonus);
   }
@@ -715,7 +743,7 @@
     }
     // a province or an island: shown only once the reader is close in, and
     // never mind the Administrative switch — see ensureSubLabels
-    if (rec && rec.kind === 'sub') return subLabelsWanted();
+    if (rec && rec.kind === 'sub') return subLabelsWanted() && subFits(rec);
     /* The figure a shaded province has earned, which is the layer itself and
        not a name: it is drawn whether or not Other is on, because a reader
        who asked for a density map asked to be able to read it. What gates it
@@ -736,6 +764,8 @@
     // named while it is not there.
     if (rec.kind === 'territory') {
       if (!labelsOn('territory') || !srcOK(rec)) return false;
+      // and a colour taken off the key is taken off the map, name included
+      if (catHidden(rec.cat)) return false;
       // A province drawn as a territory of its own so that it can be named —
       // Manchuria, Jehol, Chahar and Suiyuan, Sinkiang — is not a country and
       // must not be labelled as one while the Administrative layer is off. On
@@ -4605,7 +4635,32 @@
      it is Kwangtung whether or not there is a line round it. The geometry is
      fetched if it is not already here, which is all the switch was ever
      guarding; nothing is stroked, because nothing asks for `.subs`. */
+  /* Two thresholds and a size, where there used to be one threshold.
+
+     **When the entries are made** — and so when the administrative geometry is
+     fetched, which is the expensive half. Wide, because whether a *particular*
+     division is worth naming is settled per division below, and nothing can be
+     named that has not been built.
+
+     **How big a division has to be on screen to be named.** The old single
+     threshold asked one question of Sìchuān and of Taihoku-shi, which are four
+     hundred times apart in area: the number that keeps fifty-five Taiwanese
+     districts off the island view is the number that kept China's provinces
+     off until the reader was inside one of them, which is the fault reported.
+     A shape's equivalent square side is √(data-area) in map units; divided by
+     `k` — map units per screen pixel — it is that side on screen, and the rule
+     is the same rule at every zoom. Measured sides: China's provinces 65–316,
+     Korea's 도 19–42, Japan's prefectures ~16, Taiwan's 郡 and 市 under 10. At
+     90 screen pixels China comes in around 46° of longitude in view, Korea
+     between 26° and 13°, Japan at 11°, Taiwan's districts deeper still — each
+     at about the zoom somebody is looking at that country.
+
+     **And the old threshold is still here** for a label with no area to go on:
+     an island named off its own fine ring, which is placed by the island quota
+     and the offset rather than by this. */
+  var SUB_BUILD_ZOOM = 4;
   var SUB_LABEL_ZOOM = 12;
+  var SUB_MIN_SIDE = 90;
   var subLabels = [];
   var subLabelled = null;
 
@@ -4629,7 +4684,17 @@
   }
 
   function subLabelsWanted() {
-    return labelsOn('sub') && view.w < mapW / SUB_LABEL_ZOOM;
+    return labelsOn('sub') && view.w < mapW / SUB_BUILD_ZOOM;
+  }
+
+  /* Map units per screen pixel — `k` everywhere else in this file. Anything a
+     reader sees the size of has to come through it. */
+  function viewK() { return view.w / containerSize().w; }
+
+  /* Is this division large enough on screen to carry its own name? */
+  function subFits(rec) {
+    if (!(rec.side > 0)) return view.w < mapW / SUB_LABEL_ZOOM;
+    return (rec.side / viewK()) >= SUB_MIN_SIDE;
   }
 
   /* A sub-unit's name, from data.js where there is a record and off the shape
@@ -4648,8 +4713,14 @@
        correctly beside it. */
     var local = (rec && rec.local) || '';
     var lcut = local.indexOf(' — ');
+    /* The shape's equivalent square side, in map units, off the area the build
+       wrote onto the path. Nought where there is none — a fine coastline ring
+       carries no area — and `subFits` falls back to the old zoom threshold
+       there. A group of districts overwrites this with its own box. */
+    var area = parseFloat(el.getAttribute('data-area') || '0');
     return {
       kind: 'sub',
+      side: area > 0 ? Math.sqrt(area) : 0,
       en: cut > 0 ? en.slice(0, cut) : en,
       local: lcut > 0 ? local.slice(0, lcut) : local,
       jpfrom: (rec && rec.jpfrom) || '',
@@ -4747,6 +4818,11 @@
                     size: SUB_PX, w: 0, h: SUB_PX * 1.2, half: 0, key: pkey,
                     area: Infinity,
                     owner: els[0], atom: els[0].closest ? els[0].closest('.atom') : null };
+      /* A prefecture is the size of all its districts, not of whichever one
+         came first. `subRec` took its area off `els[0]` — one 郡 of a few
+         square kilometres — so Taihoku-shū would have waited for the zoom a
+         single district earns, which is deeper than the island itself. */
+      entry.rec.side = Math.sqrt(Math.max(1, (x1 - x0) * (y1 - y0)));
       labels.push(entry);
       subLabels.push(entry);
       entry.sc = { el: text, x: entry.x, y: entry.y };
@@ -4973,6 +5049,97 @@
     });
   }
 
+  /* --------------------------------- a name that has left the frame ---
+
+     A division's name hangs from its anchor, which is the centre of its
+     largest block. Zoom in far enough and that centre leaves the screen — and
+     `free()` requires a label's whole box to be inside the frame, so the name
+     goes out. A reader looking at one corner of Sichuan or Suiyuan is then
+     looking at an unnamed shape the size of the window, which is the one zoom
+     at which they most need to be told what it is.
+
+     So a label whose box has left the frame is offered a second place: inside
+     whatever of its own shape is still on screen.
+
+     **The point has to be in the shape, not in its box.** The intersection of
+     a bounding box and the window is a rectangle, and the middle of that
+     rectangle is very often in the neighbouring province — a name moved there
+     is worse than a name missing, because it is wrong rather than absent. Each
+     candidate is put to `isPointInFill`, which asks the browser about the path
+     itself.
+
+     **And the search is pre-filtered by how far the shape can reach.**
+     `getBBox` is a layout flush and there are thirteen hundred divisions; at a
+     deep zoom nearly all of them are off frame, so testing each would be that
+     flush thirteen hundred times a frame. A polygon of area A lies within
+     roughly √A of its own anchor, and `data-area` is already on the element:
+     anything whose anchor is further from the window than √A × 2.5 plus the
+     window's own reach cannot be showing, and is dropped on arithmetic alone.
+     The boxes of the few that survive are cached on the label for good — a
+     shape does not change size. */
+  var REACH_K = 2.5;
+
+  function labelReach(L) {
+    if (L.reach === undefined) {
+      var a = L.owner ? parseFloat(L.owner.getAttribute('data-area') || '0') : 0;
+      L.reach = (a > 0) ? Math.sqrt(a) * REACH_K : -1;   // -1: never relocated
+    }
+    return L.reach;
+  }
+
+  function labelBox(L) {
+    if (L.bb === undefined) {
+      L.bb = null;
+      try {
+        var b = L.owner.getBBox();
+        if (b && b.width && b.height) L.bb = b;
+      } catch (err) { /* not in the document, or no box */ }
+    }
+    return L.bb;
+  }
+
+  /* Which labels are allowed to move to their shape: the divisions and the
+     figures on them. A country keeps its own place — its name at a deep zoom
+     would be over whichever province the reader is reading — and an island's
+     name is already moved off its coast by `isleOffset`. */
+  function canRelocate(L) {
+    return !!(L.owner && !L.half
+              && (L.rec.kind === 'sub' || L.rec.kind === 'popval'));
+  }
+
+  /* Where in the visible part of the shape the name can go, in screen pixels,
+     or null if none of the tried points is in the shape at all. The middle
+     first, then inwards from it, so the name lands as near the centre of what
+     the reader can see as the shape allows. */
+  var RELOC_AT = [0.5, 0.38, 0.62, 0.26, 0.74];
+
+  function relocate(L, sx, sy) {
+    if (labelReach(L) < 0) return null;
+    // does the shape reach the window at all? arithmetic, no layout
+    var vx = view.x + view.w / 2, vy = view.y + view.h / 2;
+    var far = labelReach(L) + Math.max(view.w, view.h) / 2;
+    if (Math.abs(L.x - vx) > far || Math.abs(L.y - vy) > far) return null;
+    var bb = labelBox(L);
+    if (!bb) return null;
+    var x0 = Math.max(bb.x, view.x), x1 = Math.min(bb.x + bb.width, view.x + view.w);
+    var y0 = Math.max(bb.y, view.y), y1 = Math.min(bb.y + bb.height, view.y + view.h);
+    if (x1 <= x0 || y1 <= y0) return null;
+    if (!svg || !svg.createSVGPoint) return null;
+    var pt = svg.createSVGPoint();
+    for (var i = 0; i < RELOC_AT.length; i++) {
+      for (var j = 0; j < RELOC_AT.length; j++) {
+        pt.x = x0 + (x1 - x0) * RELOC_AT[i];
+        pt.y = y0 + (y1 - y0) * RELOC_AT[j];
+        var hit;
+        try { hit = L.owner.isPointInFill(pt); } catch (err) { return null; }
+        if (hit) {
+          return { x: (pt.x - view.x) * sx, y: (pt.y - view.y) * sy + L.dy };
+        }
+      }
+    }
+    return null;
+  }
+
   function placeLabels() {
     if (state.mode === 'quiz') return;
     // Not `!state.labels` alone: the density figures are placed by the same
@@ -5031,10 +5198,31 @@
 
       var x = (L.x - view.x) * sx;
       var y = (L.y - view.y) * sy + L.dy;
-      var box = {
-        l: x - L.w / 2, r: x + L.w / 2,
-        t: y - L.h * 0.85 - (L.extra || 0), b: y + L.h * 0.25 + (L.extra || 0),
+      var mkBox = function (px, py) {
+        return { l: px - L.w / 2, r: px + L.w / 2,
+                 t: py - L.h * 0.85 - (L.extra || 0),
+                 b: py + L.h * 0.25 + (L.extra || 0) };
       };
+      var box = mkBox(x, y);
+      /* The anchor has left the window. For a division — or the figure on one
+         — that is not a reason to drop the name: the shape is still under the
+         reader, and it is at exactly this zoom that they need telling which
+         one it is. Try again inside whatever of the shape is on screen.
+
+         Tested against the *frame* only, which is the bounds half of `free`.
+         A label that is on screen and merely crowded is left where it is and
+         nudged as before; moving it into the middle of the window because a
+         neighbour got there first would be a name that jumps about. */
+      var rx = 0, ry = 0;
+      if ((box.l < 2 || box.r > c.w - 2 || box.t < 2 || box.b > c.h - 2)
+          && canRelocate(L)) {
+        var to = relocate(L, sx, sy);
+        if (to) {
+          rx = to.x - x; ry = to.y - y;
+          x = to.x; y = to.y;
+          box = mkBox(x, y);
+        }
+      }
 
       /* A name that will not fit where it belongs is moved a little before it
          is given up on. Nepal, Sikkim and Bhutan are the case that asked for
@@ -5071,9 +5259,13 @@
 
          In screen pixels, and `placeScalable` is where they are turned back
          into map units. Nothing else may write `nx`/`ny`. */
-      if (L.sc && (L.sc.nx !== nx || L.sc.ny !== ny)) {
-        L.sc.nx = nx;
-        L.sc.ny = ny;
+      /* The move into the shape and the nudge off a neighbour are the same
+         kind of quantity and go through the same field: both are screen
+         pixels, and `placeScalable` is the one place that turns them back into
+         map units. */
+      if (L.sc && (L.sc.nx !== nx + rx || L.sc.ny !== ny + ry)) {
+        L.sc.nx = nx + rx;
+        L.sc.ny = ny + ry;
         placeScalable(L.sc, k);
       }
 
@@ -8214,8 +8406,16 @@
        hidden when the switch went back on, because the first version could
        only hide and never show. */
     territories().forEach(function (t) {
-      var keep = state.world || !!EAST_ASIA[t.id];
+      // the frame the reader asked for, and then the colours they left ticked
+      var keep = (state.world || !!EAST_ASIA[t.id]) && !catHidden(t.cat);
       var els = (atomsOf[t.id] || []).slice();
+      /* And the finger-sized disc a small territory gets at its centroid.
+         `atomsOf` does not carry them, so Hong Kong and Macao were still
+         hoverable and still nameable with the land taken off — under the East
+         Asia switch too, which is where this came from. */
+      (t.atoms || []).forEach(function (a) {
+        (atomHits[a] || []).forEach(function (h) { els.push(h); });
+      });
       $$('[data-edge-for="' + (t.atoms || [])[0] + '"]', svg).forEach(function (e) {
         els.push(e);
       });
@@ -8381,6 +8581,15 @@
     syncBarExtras();
     applyPop();
     buildLegend();
+    /* The figures on a shaded map are built by the gate, and the gate runs on
+       a *zoom*: pressing a radio in the Layers panel is not one. So switching
+       from Population Density to Proportion Japanese left the old numbers on
+       the map — or, coming from None, left none at all — until the reader
+       happened to touch the wheel, which reads as a switch that half works.
+       `applyPop` marks the figures dirty and this is where they are rebuilt.
+
+       Only when they are dirty: `gateLabels` walks every label the map has. */
+    if (popValuesDirty) gateLabels();
     // and the station names bring the placer with them, since they are not
     // under the "Show names" button that used to be the only thing that ran it
     if (showLabels || popValues.length) placeLabels();
@@ -9018,6 +9227,11 @@
 
   /* The menu itself: opened at the button, closed by the next press anywhere
      else, by Escape, or by a scroll that would leave it behind. */
+  /* How long a press has to be held to mean "the other thing" — the Other
+     button's menu, and the key's tick boxes. One number, because they are the
+     same gesture and a reader who learns it on one should find it on the
+     other. */
+  var LABEL_HOLD_MS = 500;
   var labelMenuOn = false;
   /* Set when a press on Other has been held long enough to mean the menu, and
      cleared by the click it swallows — see the wiring in `init`. */
@@ -9675,6 +9889,77 @@
     host.hidden = false;
   }
 
+  /* --------------------------------------- the key as a set of switches ---
+
+     Option-click the year — or hold it down, which is the same door the Other
+     button opens its menu with — and every row of the key that stands for
+     something on the map grows a tick box. Untick *Japanese colonies* and the
+     colonies come off; untick *Cities* and the dots go. It is the map's own
+     legend used as a control, which is where a reader is already looking when
+     they are thinking about a colour.
+
+     Two kinds of row are switchable and they behave differently underneath:
+
+       * a **category of territory** answers to `state.hideCat`, which lives
+         only in this session — see the note on the state;
+       * a row that **already had a switch** — Cities, Events, Places of
+         interest, the rivers, the line of control — is that switch. Ticking it
+         here is ticking it in the Layers panel, and the panel is rewritten
+         from the same state on the next `applyState`, so the two cannot
+         disagree. This is why those rows are listed even when they are off:
+         a row that vanishes when you untick it cannot be ticked again.
+
+     A row that is a *reading* rather than a layer takes no box: the five bands
+     of a density ramp, the four sizes of city dot, "no data". They are what a
+     mark means, not a thing that can be taken away. */
+  function legendPickable() { return !!state.legendPick && state.mode !== 'quiz'; }
+
+  /* One row. `tick` is null for a row that only explains a mark. */
+  function legendRow(host, swClass, swColour, text, tick) {
+    var row = document.createElement('div');
+    row.className = 'item';
+    if (tick) {
+      row.classList.add('pickable');
+      var box = document.createElement('input');
+      box.type = 'checkbox';
+      box.className = 'legend-tick';
+      box.checked = tick.on;
+      box.setAttribute('aria-label', text);
+      box.addEventListener('change', function () { tick.set(box.checked); });
+      row.appendChild(box);
+    }
+    var sw = document.createElement('span');
+    sw.className = 'sw' + (swClass ? ' ' + swClass : '');
+    if (swColour) sw.style.background = swColour;
+    row.appendChild(sw);
+    row.appendChild(document.createTextNode(text));
+    host.appendChild(row);
+    return row;
+  }
+
+  /* Reset puts back what the key has *taken away*, and it offers itself only
+     when there is something to put back.
+
+     Which is not the same as "some box is unticked". Cities and Events start
+     off, so a key that offered Reset whenever a box was clear would offer it
+     the moment the boxes appeared, on an untouched map, and pressing it would
+     switch on two layers the reader had never asked for. What Reset undoes is
+     a departure from the map's own footing: a colour taken off, the rivers or
+     the line of control switched off. The three that start off are left alone
+     — they are one tick away in the same list. */
+  function legendResetNeeded() {
+    for (var k in state.hideCat) { if (state.hideCat[k]) return true; }
+    return !state.rivers || (state.epoch === 'e1942' && !state.extent);
+  }
+
+  function legendReset() {
+    state.hideCat = {};
+    state.rivers = true;
+    state.extent = true;
+    syncLayerButtons();
+    applyState();
+  }
+
   function buildLegend() {
     var legend = $('#legend');
     if (!legend) return;
@@ -9725,43 +10010,42 @@
     var appendTo = legend;
     legend = body;                   // rows go inside the folding part
 
+    var pick = legendPickable();
     catList().forEach(function (c) {
       if (!used[c.id]) return;
-      var row = document.createElement('div');
-      row.className = 'item';
-      var sw = document.createElement('span');
-      sw.className = 'sw';
-      sw.style.background = c.c;
-      row.appendChild(sw);
-      row.appendChild(document.createTextNode(nameOf(c)));
-      legend.appendChild(row);
+      legendRow(legend, '', c.c, nameOf(c), pick && {
+        on: !state.hideCat[c.id],
+        set: function (on) {
+          if (on) delete state.hideCat[c.id]; else state.hideCat[c.id] = true;
+          applyState();
+        },
+      });
     });
 
-    if (state.epoch === 'e1942' && state.extent && JMAP.EXTENT_1942) {
-      var row = document.createElement('div');
-      row.className = 'item';
-      var sw = document.createElement('span');
-      sw.className = 'sw line';
-      row.appendChild(sw);
-      row.appendChild(document.createTextNode(nameOf(JMAP.EXTENT_1942)));
-      legend.appendChild(row);
-      var src = document.createElement('p');
-      src.className = 'legend-src';
-      src.textContent = JMAP.EXTENT_1942.source;
-      legend.appendChild(src);
+    // Listed while it is off as well, but only with the boxes showing: off
+    // and unlisted is the normal key, off and unticked is a switch.
+    if (state.epoch === 'e1942' && (state.extent || pick) && JMAP.EXTENT_1942) {
+      legendRow(legend, 'line', '', nameOf(JMAP.EXTENT_1942), pick && {
+        on: state.extent,
+        set: function (on) { state.extent = on; syncLayerButtons(); applyState(); },
+      });
+      if (state.extent) {
+        var src = document.createElement('p');
+        src.className = 'legend-src';
+        src.textContent = JMAP.EXTENT_1942.source;
+        legend.appendChild(src);
+      }
     }
 
-    if (state.rivers) {
-      var rrow = document.createElement('div');
-      rrow.className = 'item';
-      var rsw = document.createElement('span');
-      rsw.className = 'sw river';
-      rrow.appendChild(rsw);
-      rrow.appendChild(document.createTextNode(
+    if (state.rivers || pick) {
+      legendRow(legend, 'river', '',
         state.epoch === 'e1942'
           ? 'Yangzi and Yellow rivers (Yellow River in its 1938–47 course)'
-          : 'Yangzi and Yellow rivers'));
-      legend.appendChild(rrow);
+          : 'Yangzi and Yellow rivers',
+        pick && {
+          on: state.rivers,
+          set: function (on) { state.rivers = on; syncLayerButtons(); applyState(); },
+        });
     }
 
     /* The density ramp, when one is on. It carries its own source line: the
@@ -9850,15 +10134,20 @@
     });
 
     JMAP.SITE_CATEGORIES.forEach(function (c) {
-      if (!state.cats[c.id]) return;
-      var row = document.createElement('div');
-      row.className = 'item';
-      var sw = document.createElement('span');
-      sw.className = 'sw ' + (c.id === 'city' ? 'round' : c.id === 'poi' ? 'square' : 'diamond');
-      sw.style.background = c.c;
-      row.appendChild(sw);
-      row.appendChild(document.createTextNode(nameOf(c)));
-      legend.appendChild(row);
+      if (!state.cats[c.id] && !pick) return;
+      legendRow(legend,
+        c.id === 'city' ? 'round' : c.id === 'poi' ? 'square' : 'diamond',
+        c.c, nameOf(c), pick && {
+          on: !!state.cats[c.id],
+          set: function (on) {
+            state.cats[c.id] = on;
+            // the Cities button carries both, in the bar and in the address
+            if (c.id === 'city') state.cats.poi = on;
+            if (c.id === 'poi' && on) state.cats.city = true;
+            syncLayerButtons();
+            applyState();
+          },
+        });
     });
 
     if (JMAP.GAZ && state.cats.city) {
@@ -9884,6 +10173,17 @@
       brow.appendChild(bsw);
       brow.appendChild(document.createTextNode('Other major cities (not examined)'));
       legend.appendChild(brow);
+    }
+
+    /* And the way back. It appears only when something is off, because a
+       button that resets nothing is a button a reader has to think about. */
+    if (pick && legendResetNeeded()) {
+      var reset = document.createElement('button');
+      reset.type = 'button';
+      reset.className = 'legend-reset';
+      reset.textContent = 'Reset map';
+      reset.addEventListener('click', legendReset);
+      legend.appendChild(reset);
     }
 
     appendTo.hidden = false;
@@ -10048,9 +10348,47 @@
         ? 'December 1942: the empire at its widest, and how Japan held it'
         : '1930: whose empire each place belonged to, on the eve of the Manchurian Incident';
       b.classList.toggle('on', e.id === state.epoch);
-      b.addEventListener('click', function () { setEpoch(e.id); });
+      /* Option-click, or a press held for half a second, turns the key into a
+         set of switches instead of changing the date — the same two doors the
+         Other button opens its menu with, and for the same reason: a phone has
+         no option key and a desktop has no press-and-hold.
+
+         The hold opens on the hold and swallows the click it still sends; the
+         option-click toggles. Written as one shared toggle, the hold turned
+         the boxes on and its own click turned them straight off again. */
+      b.addEventListener('click', function (ev) {
+        if (epochPressLong) { epochPressLong = false; return; }
+        if (ev.altKey) { setLegendPick(!state.legendPick); return; }
+        setEpoch(e.id);
+      });
+      var hold = 0;
+      var stop = function () { if (hold) { clearTimeout(hold); hold = 0; } };
+      b.addEventListener('pointerdown', function () {
+        epochPressLong = false;
+        stop();
+        hold = setTimeout(function () {
+          hold = 0;
+          epochPressLong = true;
+          setLegendPick(!state.legendPick);
+        }, LABEL_HOLD_MS);
+      });
+      ['pointerup', 'pointercancel', 'pointerleave'].forEach(function (evn) {
+        b.addEventListener(evn, stop);
+      });
+      b.addEventListener('contextmenu', function (ev) { ev.preventDefault(); });
       seg.appendChild(b);
     });
+  }
+
+  var epochPressLong = false;
+
+  /* The boxes come on, and the key is unfolded to show them: turning them on
+     under a folded key is a press that does nothing you can see. */
+  function setLegendPick(on) {
+    state.legendPick = on;
+    if (on && !state.legend) state.legend = true;
+    buildLegend();
+    placeLabels();
   }
 
   function showEpochBlurb() {
@@ -10883,6 +11221,20 @@
        here rather than only at startup. */
     var rc = $('#opt-relief');
     if (rc) rc.checked = !!state.relief;
+    /* And every other tick in the panel that something outside it can now
+       move. The key's own boxes are the reason: a reader who unticks the
+       rivers in the key and then opens Layers must not find the panel saying
+       they are on. Written from `state` here rather than only at startup,
+       which is what Topography above already had to learn. */
+    [['#opt-rivers', 'rivers'], ['#opt-extent', 'extent'],
+     ['#opt-india-rivers', 'indiaRivers'], ['#opt-graticule', 'graticule'],
+     ['#opt-mono', 'mono'], ['#opt-world', 'world'],
+     ['#opt-jpnames', 'jpNames'], ['#opt-ccp', 'ccp'],
+     ['#opt-manchukuo', 'manchukuo'], ['#opt-mengjiang', 'mengjiang']]
+      .forEach(function (pair) {
+        var el = $(pair[0]);
+        if (el) el.checked = !!state[pair[1]];
+      });
     /* And the density rows, for the same reason twice over: they can be
        switched from the card as well as from the panel, and a link arriving
        with `pop=` in it sets them before the panel has been written. */
@@ -11249,7 +11601,6 @@
      * `pointercancel` matters as much as `pointerup`: on a touch screen the
      * gesture becomes a scroll or a pan the moment the finger moves, and the
      * timer has to die with it or the menu opens in the middle of a drag. */
-    var LABEL_HOLD_MS = 500;
     var labelHold = 0;
     var otherBtn = $('#layer-seg button[data-opt="labels"]');
     if (otherBtn) {

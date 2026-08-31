@@ -13224,6 +13224,163 @@ Suite: **1,152 checks across 42 scripts, all passing.**
 
 ---
 
+## Province names at the right zoom, a name that follows the reader in, and the
+## key as a set of switches
+
+### A division is named when its own shape is big enough to hold the name
+
+There was one threshold for every division on the map — `view.w < mapW / 12`,
+about 11.7° of longitude — and it asked the same question of Sìchuān and of
+Taihoku-shi, which are four hundred times apart in area. The number that keeps
+fifty-five Taiwanese districts off the island view is the number that kept
+China's provinces off until the reader was already inside one. Measured before:
+at a 19° view over central China, **no province was named at all**.
+
+The rule is now the shape's own size on screen. `data-area` is already on every
+path, so √A is its equivalent square side in map units; divided by `k` it is
+that side in screen pixels, and the threshold is 90 of them. Measured sides:
+China's provinces 65–316 map units, Korea's 도 19–42, Japan's prefectures ~16,
+Taiwan's 郡 and 市 under 10. What that gives, counting names actually written:
+
+| view width | China | Korea | Taiwan | Japan |
+|---|---|---|---|---|
+| 48° | 0 | 0 | 0 | 0 |
+| 32° | 28 | 19 (Chinese and Manchurian) | 19 | 6 |
+| 20° | 23 | 10 | 10 | 4 |
+| 11° | 14 | 16 (its own 도 now) | 7 | 24 |
+| 5° | 5 | 8 | 10 | 28 |
+
+Each country's divisions arrive at about the zoom somebody is looking at that
+country, which is what a single constant could not express.
+
+Two constants were separated to do it. `SUB_BUILD_ZOOM` (mapW/4) decides when
+the entries are made and so when the administrative file is fetched;
+`LEVEL_4_ZOOM` keeps the old number for the top rung of the *site* ladder,
+which used to share `SUB_LABEL_ZOOM` by coincidence — lowering one would have
+brought out every level-4 speck on the map, a different decision. A prefecture
+group takes its side from its own box rather than from whichever district came
+first, or Taihoku-shū would have waited for the zoom one 郡 earns.
+
+`SUB_LABEL_ZOOM` survives for a label with no area to go on: an island named
+off its own fine coastline ring, which the island quota and the offset place.
+
+### And the province you are inside is named, wherever its anchor has gone
+
+A division's name hangs from the centre of its largest block, and `free()`
+wants a label's whole box inside the window. Zoom into one corner of Sichuan and
+the anchor leaves the screen and the name goes with it — at exactly the zoom
+where a reader most needs telling what they are looking at. Measured over five
+deep views (1.2°–2° wide, each well inside a large province): **four of the five
+had no province name at all.**
+
+A label whose box has left the frame is now offered a second place inside
+whatever of its own shape is still on screen. Three things make it safe:
+
+* **the point is tested against the path, not against a box.** The intersection
+  of a bounding box and the window is a rectangle and its middle is very often
+  in the neighbouring province; `isPointInFill` asks the shape itself. Twenty-
+  five candidates are tried, from the middle outwards;
+* **the search is pre-filtered on arithmetic.** `getBBox` is a layout flush and
+  there are ~1,300 divisions, nearly all of them off frame at a deep zoom. A
+  polygon of area A lies within about √A of its anchor, so anything whose
+  anchor is further from the window than √A × 2.5 plus the window's own reach
+  is dropped without touching the document. The boxes of the few survivors are
+  cached on the label for good;
+* **only divisions and their figures move.** A country keeps its own place — its
+  name at a deep zoom would be over whichever province is being read — and an
+  island's name is already moved off its coast by `isleOffset`.
+
+The move goes through `nx`/`ny`, the same screen-pixel field the collision nudge
+uses, so `placeScalable` remains the one place that turns screen pixels back
+into map units.
+
+After: all five deep views name their province, and every name written sits
+inside the shape it names and inside the window — checked by asking the browser
+which path is under the middle of each label.
+
+### Why Jinan waited
+
+Because it was level 3 in `texts/sites/sites.csv`, and the map opens at detail
+level 1 with the level control hidden, so its name needed the zoom bonus to
+reach +2 — under 14° of longitude in view. Measured: the name first appeared at
+12°. Qingdao, the other Shandong city, is level 2; so are Tianjin, Wuhan and
+Changchun. Jinan is a provincial capital of 440,000 in 1936 on the Tianjin–
+Pukou line and the site of the 1928 incident, and it is level 2 now. Measured
+after: it appears from 40° in.
+
+Four more sit at level 3 on the same yardstick — **Nagoya**, **Kobe**,
+**Pyongyang** and **Xi'an**, against Kagoshima and Shimonoseki at level 2. Not
+moved, because only Jinan was asked about; worth a decision.
+
+### The figures followed the switch one press late
+
+`applyState` runs `gateLabels(true)` near its top and `applyPop` near its
+bottom, and it is `applyPop` that marks the figures dirty. So the rebuild
+always waited for whatever gated *next*. Usually something did, which is why it
+looked fine; but any interaction that gates in between eats the mark. Opening a
+province card and then changing the map left the old numbers on it until the
+wheel was touched — reproduced, and that is the reported fault. `applyState`
+now rebuilds them itself when they are dirty, before placing.
+
+### The key as a set of switches
+
+Option-click the year, or hold it for half a second, and every row of the key
+that stands for something on the map grows a tick box. It is the same two doors
+the Other button uses, and the same two shapes of bug were waiting: the hold
+opens on the hold and its click is swallowed, while the option-click toggles.
+Written as one shared toggle, the hold turned the boxes on and its own click
+turned them straight off.
+
+Two kinds of row, and they work differently underneath:
+
+* a **category of territory** goes through the *same rule the East Asia switch
+  goes through* — `keep = (state.world || EAST_ASIA[t.id]) && !catHidden(t.cat)`
+  — so a hidden category loses its fill, its filler, its seam strips, its ring
+  in the outline layer and its hatching together. Those five were five separate
+  bugs when that switch was written and there was no reason to find them again.
+  The finger-sized hit discs small territories carry were added to the same
+  list while doing it: Hong Kong and Macao were still hoverable with the land
+  taken off, under the East Asia switch too;
+* a row that **already had a switch** — Cities, Events, Places of interest, the
+  rivers, the line of control — *is* that switch. Which is also why those rows
+  are listed while they are off, but only with the boxes showing: a row that
+  vanishes when you untick it cannot be ticked again.
+
+A row that is a reading rather than a layer takes no box: the five bands of a
+density ramp, the four sizes of city dot, "no data".
+
+**Reset map** appears under the list only when there is something to put back —
+a colour taken off, or the rivers or the line of control switched off. Not "any
+box is clear": Cities and Events start off, so that rule would have offered
+Reset on an untouched map and pressing it would have switched on two layers
+nobody asked for.
+
+`hideCat` and the pick mode itself are **not in the layers code and do not
+travel in a link**. It is a gesture made while talking over a map, with Reset
+sitting under the list; twenty-three categories of bitfield would not fit under
+2⁵³ beside the fields already in the high word, and would be characters in
+every address anybody ever shared for something nobody would share. The rows
+that already had a switch travel as they always did.
+
+One thing the panel needed on the way: `syncLayerButtons` now writes every
+simple tick in it from `state`, not only Topography. Reset put the rivers back
+on the map and the panel went on saying they were off, because `#opt-rivers`
+was set at startup and never again.
+
+### Tests
+
+Two new scripts. `subnames.js` — 15 checks: nothing named on the whole map,
+China's provinces at 32° with Korea's still absent, Korea's on Korea and
+Taiwan's on Taiwan, and five deep views each naming their province with every
+name proved to be inside the shape it names. `legendpick.js` — 23 checks over
+both doors, the ticks, a category leaving the map, the write-through to the bar
+and the panel, what Reset does and does not do, and the finger.
+`demography.js` gained the card-then-switch case.
+
+Suite: **1,191 checks across 44 scripts, all passing.**
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible
