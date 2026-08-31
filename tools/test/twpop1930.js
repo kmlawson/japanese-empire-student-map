@@ -248,6 +248,67 @@ const CHO = ['TwTaito', 'TwKarenko', 'TwHoko'];
      against its prefecture — and only the chart leaves them out. */
   check('the prefectures are still in the table below', chart.shu && chart.rows === 62,
     String(chart.rows));
+
+  console.log('\n— the two dates set against each other —');
+  /* `popCompare` used to require `pctOf` as well as a shared group, and
+     Taiwan prints no share — the source gives none — so the island had two
+     tables and nothing setting them against one another. The group alone says
+     these are two dates of one thing, which is all it needs to know. */
+  const cmp = await p.evaluate(() => {
+    const c = document.querySelector('.pop-compare');
+    if (!c) return null;
+    const rows = [...c.querySelectorAll('tbody tr')]
+      .map(t => [...t.children].map(td => td.textContent.trim()));
+    return { head: (c.querySelector('.pop-head') || {}).textContent,
+             cols: [...c.querySelectorAll('thead th')].map(h => h.textContent.trim()),
+             notes: [...c.querySelectorAll('.pop-note')].map(n => n.textContent),
+             n: rows.length,
+             banchi: rows.some(r => /蕃地|Aborigine/.test(r[0])),
+             taito: rows.filter(r => /臺東廳/.test(r[0]))[0],
+             taihoku: rows.filter(r => /臺北市/.test(r[0]))[0],
+             whole: rows.filter(r => /^Taiwan \(Formosa/.test(r[0]))[0] };
+  });
+  check('the province table carries a comparison', !!cmp);
+  /* Named for the years the *figures* are of. The later Taiwan return is the
+     register at the end of 1941 and is drawn on the December 1942 map; a
+     column headed 1942 over it would be wrong by a year in a table whose
+     whole subject is the difference between two years. */
+  check('headed 1930 and 1941, not 1930 and 1942',
+    cmp.head === '1930 and 1941 compared', cmp.head);
+  check('and its columns say the same', cmp.cols[1] === '1930 population ↓'
+    && cmp.cols[2] === '1941 population', cmp.cols.join(' | '));
+  check('the note names both returns rather than calling one a census',
+    /resident population at the end of 1930 against the resident population at the end of 1941/
+      .test(cmp.notes[0]) && !/is a census/.test(cmp.notes[0]), cmp.notes[0]);
+  check('and warns that the two count the 蕃地 differently',
+    cmp.notes.some(n => /do not count the Government-General’s demarcated 「蕃地」 the same way/.test(n)),
+    cmp.notes.join(' // ').slice(0, 120));
+  /* 蕃地 is out of it: 86,154 in 1930 is the people of that ground and 159,594
+     in 1941 is every 高砂族 in the colony, and subtracting one from the other
+     would be a number about nothing. */
+  check('sixty-one rows, the 蕃地 not among them', cmp.n === 61 && !cmp.banchi,
+    cmp.n + ' / ' + cmp.banchi);
+  check('the colony grows 4,679,066 to 6,249,468, +33.6%',
+    cmp.whole[1] === '4,679,066' && cmp.whole[2] === '6,249,468'
+    && cmp.whole[4] === '+33.6%', cmp.whole.join(' | '));
+  check('Taihoku-shi 240,435 to 367,213', cmp.taihoku[1] === '240,435'
+    && cmp.taihoku[2] === '367,213', cmp.taihoku.join(' | '));
+  /* The row this needed fixing for. Printed as they stand the two figures make
+     Taitō grow 96%, nearly all of it the demarcated ground changing sides:
+     1930's row is the coastal shelf the map draws and 1941's the whole
+     prefecture. The dataset gives the figure that compares, and the sex ratio
+     of that same population, and the row says so with a dagger. */
+  check('Taitō is compared whole-prefecture to whole-prefecture, not 47,542 to 93,138',
+    cmp.taito[1] === '59,335' && cmp.taito[2] === '93,138' && cmp.taito[4] === '+57.0%',
+    cmp.taito.join(' | '));
+  check('with the sex ratio of that population, not of the drawn ground',
+    cmp.taito[7] === '107.23', cmp.taito[7]);
+  check('and no density, which would be over ground these figures are not of',
+    cmp.taito[5] === '—' && cmp.taito[6] === '—', cmp.taito[5] + ' / ' + cmp.taito[6]);
+  check('the row is marked and the mark is explained',
+    /†/.test(cmp.taito[0])
+    && cmp.notes.some(n => /^† .*臺東廳.*whole prefecture, 59,335/.test(n)),
+    cmp.taito[0]);
   await p.close();
 
   console.log('\n— the seven 市 as places —');
@@ -269,6 +330,81 @@ const CHO = ['TwTaito', 'TwKarenko', 'TwHoko'];
     c.taipei.pop === 240435 && c.kaohsiung.pop === 62633,
     c.taipei.pop + ' / ' + c.kaohsiung.pop);
   check('together 638,886', c.sum === 638886, String(c.sum));
+  /* And the same figures on the dots. A card is where a reader meets a city,
+     and Taiwan's carried nothing at all before this. */
+  await p.close();
+
+  p = await open(b, TAIWAN + '&layers=2');
+  const at30 = await p.evaluate(() => {
+    for (const e of document.querySelectorAll('#gaz g')) {
+      const id = (e.getAttribute('data-gid') || e.getAttribute('data-id') || '');
+      if (id.split('_').pop() !== 'taipei') continue;
+      const r = e.getBoundingClientRect();
+      if (r.width) return { x: Math.round(r.left + r.width / 2),
+                            y: Math.round(r.top + r.height / 2) };
+    }
+    return null;
+  });
+  check('Taihoku has a dot on the 1930 map', !!at30);
+  await p.mouse.click(at30.x, at30.y);
+  await sleep(1400);
+  const card30 = await p.evaluate(() =>
+    (document.querySelector('#info-pop') || { textContent: '' })
+      .textContent.replace(/\s+/g, ' '));
+  check('and its card carries the 1930 register figure and the categories',
+    /240,435/.test(card30) && /108\.50/.test(card30) && /Taiwanese154,694/.test(card30),
+    card30.slice(0, 140));
+  await p.close();
+
+  console.log('\n— and the eleven 市 of 1941 —');
+  /* The 1942 map had no city figures at all for Taiwan. Eleven now, four of
+     them raised to 市 after the boundaries this map draws — so the *shape*
+     under those dots is still the district with the city inside it, and the
+     card has to say so or the dot and the polygon under it disagree by tens of
+     thousands. */
+  p = await open(b, TAIWAN + '&layers=3');
+  const c41 = await p.evaluate(() => {
+    const s = (JMAP.POPULATION || []).filter(x => x.id === 'taiwan-cities-1941')[0];
+    if (!s) return null;
+    const keys = Object.keys(s.rows);
+    return { n: keys.length, keys: keys.sort(),
+             sum: keys.reduce((a, k) => a + s.rows[k].pop, 0),
+             taipei: s.rows.taipei, hualien: s.rows.hualien,
+             group: s.group, when: s.when };
+  });
+  check('eleven of them', c41 && c41.n === 11, c41 && c41.keys.join(','));
+  check('the four later 市 among them',
+    ['yilan', 'changhua', 'pingtung', 'hualien'].every(k => c41.keys.indexOf(k) >= 0),
+    c41.keys.join(','));
+  check('together 1,294,943', c41.sum === 1294943, String(c41.sum));
+  check('and they share a layer with 1930, so the two are compared',
+    c41.group === 'taiwan-cities' && c41.when === '1941',
+    c41.group + ' / ' + c41.when);
+  check('Taihoku 367,213 with its five registers',
+    c41.taipei.pop === 367213 && c41.taipei.x.reg_ko === 343
+    && c41.taipei.x.for_cn === 13403, String(c41.taipei.pop));
+  check('and Karenkō says its shape still holds the district',
+    c41.hualien.pop === 36984 && /cut out of Karenkō-chō in 1940/.test(c41.hualien.note || ''),
+    (c41.hualien.note || '').slice(0, 60));
+  const at41 = await p.evaluate(() => {
+    for (const e of document.querySelectorAll('#gaz g')) {
+      const id = (e.getAttribute('data-gid') || e.getAttribute('data-id') || '');
+      if (id.split('_').pop() !== 'hualien') continue;
+      const r = e.getBoundingClientRect();
+      if (r.width) return { x: Math.round(r.left + r.width / 2),
+                            y: Math.round(r.top + r.height / 2) };
+    }
+    return null;
+  });
+  check('Karenkō has a dot on the 1942 map', !!at41);
+  await p.mouse.click(at41.x, at41.y);
+  await sleep(1400);
+  const card41 = await p.evaluate(() =>
+    (document.querySelector('#info-pop') || { textContent: '' })
+      .textContent.replace(/\s+/g, ' '));
+  check('and its card carries the 1941 figure, the registers and the warning',
+    /36,984/.test(card41) && /Koreans96/.test(card41)
+    && /cut out of Karenkō-chō in 1940/.test(card41), card41.slice(0, 160));
   await p.close();
 
   await b.close();

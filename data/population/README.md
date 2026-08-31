@@ -25,6 +25,8 @@ about the place; this folder holds what was counted there.
 | `in_short` | `no` keeps the dataset out of the short description altogether — its figures are on the card and in the table only. Taiwan's sixty-four districts are the case: sixty-four sentences nobody asked for on hover |
 | `table_skip` | groups the box does not print, comma-separated. The figures stay on the card and in the data; this says a table of them is not worth the room — the fourteen cities by age was half a screen of columns nobody had asked a question of |
 | `caption` | what was counted, without the place: *estimated population at 1 October 1942*. A card puts the name of the place it is about in front of this, so a province's figures are headed with the province; the whole-territory card is headed `pct_of` + this |
+| `when` | the year the **figures** are of, which is not always the map they appear on: Taiwan's later return is the register at the end of 1941 and is drawn on the December 1942 map. The comparison table names its columns from this, and orders the dates by it. Left blank it is the epoch |
+| `compare_note` | a caution under the comparison table, where the two dates do not count the same thing the same way |
 | `source` | where the numbers come from. The same citation belongs on `texts/pages/sources.md`, which is what the reader sees |
 
 ## A dataset file
@@ -40,6 +42,9 @@ about the place; this folder holds what was counted there.
 | `area_km2` | see below |
 | `same_as` | this place has no figures of its own because the source counts it inside another one. It carries that row's, and its `note` should say so. Cheju is the case: the 1942 returns fold it into Zenranan-dō. One hop only — a row that points at a row that points elsewhere is refused |
 | `apart` | this row is counted **inside** the others rather than beside them, so nothing may add it to them. The 1941 高砂族 of the demarcated 「蕃地」 are the case: they are also counted in the district their ground lies in. It keeps the row out of the choropleth's range and out of the bar chart. The *1930* 蕃地 row is not marked, because that return counts those people once and in a column of their own |
+| `compare_pop` | the figure to set against another date, where the row's own is over different ground. Taiwan's two eastern 廳 are the case: the 1930 row is the coastal shelf the map draws, because that is what its density is over, and the 1941 row is the whole prefecture. Printed as they stand, Taitō grows 96% and nearly all of it is the demarcated 「蕃地」 changing sides |
+| `compare_m_per_100_f` | and the sex ratio of *that* population, a ratio being a property of the people counted rather than of the row |
+| `compare_why` | why, as a footnote under the comparison. A row that uses one is marked with a dagger and shows no density there, the density being over ground those figures are not of |
 | `parent` | the unit this row sits inside, where the source counts both — a 郡 is read against its 州 |
 | `parent_pop` | and how big that unit was |
 | `note` | a sentence after the figures, or instead of them |
@@ -122,6 +127,32 @@ What is left sums to the whole, and the whole is `pct_of`'s row where there is
 one and the parts added up where there is not. Taiwan 1930 comes to 56 bars and
 4,679,066; 1941 to 55 and 6,249,468; Japan to 47 and Korea to 13, neither
 having any containers in it.
+
+## Two dates against each other
+
+Any layer with more than one date gets a comparison at the foot of its table:
+the rows both dates carry, with the change and the percentage worked out. It
+needs nothing but a shared `group` — it used to want `pct_of` as well, which
+kept Taiwan out, the source printing no shares.
+
+Three things it will not do.
+
+**It will not call a date something it is not.** The columns are named from
+`when`, the year the figures are of, so Taiwan reads *1930 and 1941 compared*
+and not *1930 and 1942*. The sentence under the heading is built from the two
+`caption`s — "the census of 1 October 1930 against the estimated population at
+1 October 1942" — and only says they are different kinds of number when
+`line_label` says they are.
+
+**It will not subtract two rows that mean different things.** A row marked
+`apart` on either date is left out. Taiwan's demarcated 「蕃地」 is the case: it
+holds the people of that ground in 1930 and every 高砂族 in the colony in 1941.
+
+**And where a row's own figure is over different ground from the other date's,
+it uses `compare_pop` instead**, with `compare_m_per_100_f` beside it, marks
+the row, drops its density and prints `compare_why` underneath. Two rows use
+one — 臺東廳 and 花蓮港廳 — and without it Taitō reads +96% where the honest
+figure is +57%.
 
 ## The choropleth, and where its classes begin
 

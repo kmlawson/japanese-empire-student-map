@@ -13866,6 +13866,106 @@ key's "no data" white says what is true of it either way.
 
 ---
 
+## Taiwan's two dates set against each other, and the 市 on the dots
+
+### The comparison Taiwan could not have
+
+Every layer with more than one date has had a comparison at the foot of its
+table since Korea got one — the rows both dates carry, with the change worked
+out. Taiwan never showed one, and the reason was a single clause: `popCompare`
+required a shared `group` **and** a `pct_of`. Taiwan's two datasets print no
+share, the source giving none, so the island had two tables and nothing
+between them. `group` already says these are two dates of one thing, which is
+all the function needs to know.
+
+Three things had to be true before the table was worth having.
+
+**It must not call a date something it is not.** The columns were named from
+`epoch`, the map a dataset is drawn on. Taiwan's later return is the register
+at the **end of 1941** and is drawn on the December 1942 map, so the column
+would have been headed 1942 over 1941 figures — wrong by a year in a table
+whose whole subject is the difference between two years. `when` in `index.csv`
+is the year the figures are of, and the heading now reads *1930 and 1941
+compared*.
+
+**It must not describe them wrongly either.** The note under the heading said
+"1930 is a census and 1942 an estimate" whatever the two tables actually were.
+True of Korea, and of nothing else: Taiwan's are both household registers. It
+is built from the two `caption`s now, and only says they are different kinds of
+number when `line_label` says they are.
+
+**And it must not subtract two rows that mean different things.** A row marked
+`apart` on either date is out. The 蕃地 is the case: 86,154 in 1930 is the
+people of that ground and 159,594 in 1941 is every 高砂族 in the colony.
+
+### The row that made this worth doing carefully
+
+With all of that in place the table still said **臺東廳 +95.9%**, and almost
+none of it was people.
+
+The 1930 row is 47,542, the coastal shelf the map draws, because that is the
+ground its density is over. The 1941 row is 93,138, the whole prefecture,
+because the 1941 return counts the 高砂族 of the 蕃地 in the district their
+ground lies in. Subtracting the first from the second is a measurement of a
+change in bookkeeping.
+
+The fix is data, not prose. `compare_pop` is the figure that compares —
+臺東廳's whole prefecture, 59,335, which the source prints and which the row's
+own note already carried — with `compare_m_per_100_f` beside it, a ratio being
+a property of the people counted rather than of the row. The row is marked
+with a dagger, its density is dropped (a density is over the ground the map
+draws, which is not the ground these figures are of), and `compare_why` prints
+underneath. Taitō now reads **59,335 → 93,138, +57.0%**, and 花蓮港廳
+**85,458 → 153,785, +80.0%**.
+
+What could not be fixed is said instead. Every 郡 with mountain ground behind
+it has some of the same drift — 1941 counts its 高砂族 and 1930 does not — and
+the 1930 source prints 蕃人 by 州 only, so there is no per-郡 figure to swap
+in. `compare_note` on the 1941 dataset says exactly that, and says which rows
+*are* like for like: the colony, the five 州 and the seven 市, none of which
+gains or loses by the change.
+
+Measured: the colony 4,679,066 → 6,249,468, +33.6%. Taihoku-shi 240,435 →
+367,213, +52.7%. 61 rows, the 蕃地 not among them.
+
+### The 市 on the dots, on both maps
+
+Taiwan's city points carried no population at all on the December 1942 map and
+seven figures on the 1930 one. `taiwan-cities-1941.csv` is the eleven 市 of
+Table 16 — every row balancing on male plus female and on its five registers,
+1,294,943 between them — and the two city files share a group, so the city
+table gets a comparison of its own on the seven both dates have.
+
+Four of the eleven are the interesting ones. 彰化 and 屏東 became 市 in 1933
+and 宜蘭 and 花蓮港 in 1940, all after the boundaries this map draws — so the
+*shape* under those dots is still the district with the city inside it while
+the *dot* is the city alone. Karenkō's card says 36,984 and then says why the
+polygon under it says 153,785. Without that the two disagree by a factor of
+four and neither is wrong.
+
+`data/cities-1942.csv` carries the same figures as `pop_ref` with
+`tw_stats1941_t16` registered in `data/sources.csv`. Those columns are
+bookkeeping — nothing in the build reads them — but a gazetteer that quotes a
+rounded 1940 estimate beside a card showing an exact 1941 register is a
+gazetteer somebody will one day believe.
+
+### One test was counting the new table
+
+`taiwanpop.js` counted `.pop-table tbody tr` across the whole dialog to check
+that the 1941 table holds 62 rows. Taiwan has a second date now, so the box
+also holds the comparison, and the count came to 123. Scoped to the main block
+the way `population.js` already scopes its own, and given a check that the
+comparison is there and headed 1930 and 1941 while it was open.
+
+**Left alone, and worth a look some day:** `popOtherTables` offers *every*
+dataset in the folder at the foot of every table, so Taiwan's now lists Korea's
+and Japan's. Its comment claims it offers "everything else in the folder that
+is about the same ground", which it does not do and never did. Eight buttons is
+still usable and every table stays reachable, so it is left as it is.
+
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '255';
+  var JEM_VERSION = '256';
   var JEM_ASSETS = {"admin.js": "9f99c96627", "annotate.js": "db393723f6", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "3881d33c99", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
 
   /* Every file this one fetches, with the version on it.
@@ -8167,9 +8167,14 @@
      those: a comparison is worth no more than its narrowest column, and the
      1930 census counted things the 1942 estimate never asked about. */
   function popCompare(d, key) {
+    /* Every date of this layer. `pctOf` used to be required here as well, and
+       it kept Taiwan out: its two datasets print no share, the source giving
+       none, so the island had two tables and nothing setting them against each
+       other. `group` already says these are dates of one thing, which is the
+       whole of what this needs to know. */
     var family = popSets().filter(function (x) {
-      return x.rows && x.group === d.group && x.pctOf;
-    }).sort(function (a, b) { return String(a.epoch).localeCompare(b.epoch); });
+      return x.rows && x.group === d.group;
+    }).sort(function (a, b) { return String(a.when).localeCompare(b.when); });
     if (family.length < 2) return null;
     var a = family[0], b = family[family.length - 1];
 
@@ -8177,43 +8182,95 @@
     wrap.className = 'pop-table-block pop-compare';
     var h = document.createElement('p');
     h.className = 'pop-head';
-    h.textContent = a.epoch + ' and ' + b.epoch + ' compared';
+    /* The year the *figures* are of, not the map they are drawn on. Taiwan's
+       later return is the register at the end of 1941 and appears on the
+       December 1942 map, and a column headed 1942 over it would be wrong by a
+       year in a table whose whole subject is the difference between two
+       years. */
+    h.textContent = a.when + ' and ' + b.when + ' compared';
     wrap.appendChild(h);
     var note = document.createElement('p');
     note.className = 'pop-note';
-    note.textContent = 'The figures both tables carry. ' + a.epoch + ' is a census '
-      + 'and ' + b.epoch + ' an estimate, and the change is between those two '
-      + 'kinds of number rather than between two counts.';
+    /* Said from the datasets rather than asserted: this read "1930 is a census
+       and 1942 an estimate" whatever the two tables actually were, which was
+       true of Korea and of nothing else. */
+    note.textContent = 'The figures both tables carry — the ' + a.caption
+      + ' against the ' + b.caption + '.'
+      + (a.lineLabel !== b.lineLabel
+         ? ' They are not the same kind of number, so the change is between'
+           + ' two kinds of count as much as between two counts.' : '');
     wrap.appendChild(note);
+    if (b.compareNote || a.compareNote) {
+      var caution = document.createElement('p');
+      caution.className = 'pop-note';
+      caution.textContent = b.compareNote || a.compareNote;
+      wrap.appendChild(caution);
+    }
 
     var keys = Object.keys(b.rows).filter(function (k) {
-      var r = b.rows[k];
-      return a.rows[k] && !r.sameAs && (r.scope === 'territory' || r.scope === 'sub-unit');
+      var r = b.rows[k], x = a.rows[k];
+      /* `apart` says a row is counted inside the others, and a row that is
+         apart on one date and not on the other is not one row measured twice:
+         Taiwan's demarcated 「蕃地」 holds the people of that ground in 1930 and
+         every 高砂族 in the colony in 1941, and subtracting one from the other
+         would be a number about nothing. */
+      if (!x || r.sameAs || x.sameAs || r.apart || x.apart) return false;
+      return r.scope === 'territory' || r.scope === 'sub-unit' || r.scope === 'city';
+    });
+    /* A row may say that its own figure is over different ground from the
+       other date's, and give the one that is not. Taiwan's two eastern 廳: the
+       1930 row is the coastal shelf the map draws, because that is the ground
+       its density is over, and the 1941 row is the whole prefecture. Worked
+       out from the two as printed, Taitō grows by 96 per cent, and nearly all
+       of that is the demarcated 「蕃地」 changing sides. `cmpPop` is the figure
+       that compares, and every row that uses one is marked and says so
+       underneath. */
+    function cmpOf(r) { return r.cmpPop || r.pop; }
+    var swapped = keys.filter(function (k) {
+      return a.rows[k].cmpPop || b.rows[k].cmpPop;
     });
     var named = {};
-    keys.forEach(function (k) { named[k] = popRowName(k, b.rows[k]); });
+    keys.forEach(function (k) {
+      named[k] = popRowName(k, b.rows[k]) + (swapped.indexOf(k) >= 0 ? ' †' : '');
+    });
     var cols = [{ head: '' },
-                { head: a.epoch + ' population' }, { head: b.epoch + ' population' },
+                { head: a.when + ' population' }, { head: b.when + ' population' },
                 { head: 'Change' }, { head: '% change' },
-                { head: a.epoch + ' per km²' }, { head: b.epoch + ' per km²' },
-                { head: a.epoch + ' M/100F' }, { head: b.epoch + ' M/100F' }];
+                { head: a.when + ' per km²' }, { head: b.when + ' per km²' },
+                { head: a.when + ' M/100F' }, { head: b.when + ' M/100F' }];
     wrap.appendChild(popSortable(cols, keys.map(function (k) {
       var x = a.rows[k], y = b.rows[k];
-      var diff = (y.pop || 0) - (x.pop || 0);
-      var pct = x.pop ? (diff / x.pop) * 100 : null;
+      var xp = cmpOf(x), yp = cmpOf(y);
+      var diff = (yp || 0) - (xp || 0);
+      var pct = xp ? (diff / xp) * 100 : null;
       return { key: k, pinned: y.scope === 'territory',
                cells: [
         { n: null, t: named[k] },
-        { n: POP_NUM(x.pop), t: POP_INT(x.pop) },
-        { n: POP_NUM(y.pop), t: POP_INT(y.pop) },
+        { n: POP_NUM(xp), t: POP_INT(xp) },
+        { n: POP_NUM(yp), t: POP_INT(yp) },
         { n: diff, t: (diff > 0 ? '+' : '') + diff.toLocaleString('en-US') },
         { n: pct, t: pct === null ? '—'
                      : (pct > 0 ? '+' : '') + pct.toFixed(1) + '%' },
-        { n: POP_NUM(x.dens), t: x.dens || '—' },
-        { n: POP_NUM(y.dens), t: y.dens || '—' },
-        { n: POP_NUM(x.mf), t: x.mf || '—' },
-        { n: POP_NUM(y.mf), t: y.mf || '—' }] };
+        /* A density is over the ground the map draws, and on a row that has
+           swapped in a wider figure the two no longer belong to each other.
+           Left out rather than printed beside a population it is not of. */
+        { n: swapped.indexOf(k) >= 0 ? null : POP_NUM(x.dens),
+          t: swapped.indexOf(k) >= 0 ? '—' : (x.dens || '—') },
+        { n: swapped.indexOf(k) >= 0 ? null : POP_NUM(y.dens),
+          t: swapped.indexOf(k) >= 0 ? '—' : (y.dens || '—') },
+        { n: POP_NUM(x.cmpMf || x.mf), t: (x.cmpMf || x.mf) || '—' },
+        { n: POP_NUM(y.cmpMf || y.mf), t: (y.cmpMf || y.mf) || '—' }] };
     }), key));
+    swapped.forEach(function (k) {
+      var why = a.rows[k].cmpWhy || b.rows[k].cmpWhy;
+      if (!why) return;
+      var p = document.createElement('p');
+      p.className = 'pop-note';
+      p.textContent = '† ' + splitGloss(named[k]).name.replace(/ †$/, '')
+        + ' — ' + why + '. No density is given in this row: that is over the '
+        + 'ground the map draws, which is not the ground these figures are of.';
+      wrap.appendChild(p);
+    });
     return wrap;
   }
 

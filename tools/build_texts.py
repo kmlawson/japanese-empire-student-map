@@ -318,6 +318,20 @@ def population_data():
                 line = (line + " " + r["note"]).strip()
             if r.get("same_as"):
                 rec["sameAs"] = r["same_as"]
+            # The figure to set against another date where this row's own is
+            # over different ground. Taiwan's two eastern 廳 are the case: the
+            # 1930 row is the coastal shelf the map draws and the 1941 one is
+            # the whole prefecture, so a change worked out from the two as
+            # printed is mostly a change of definition. `compare_why` says
+            # which figure was used and why, as a footnote under the table.
+            if r.get("compare_pop"):
+                rec["cmpPop"] = int(r["compare_pop"])
+                # and the sex ratio of *that* population, which is a property
+                # of the people counted and not of the row
+                if r.get("compare_m_per_100_f"):
+                    rec["cmpMf"] = r["compare_m_per_100_f"]
+                if r.get("compare_why"):
+                    rec["cmpWhy"] = r["compare_why"]
             # the unit this one sits inside, where the source counts both: a
             # 郡 is read against its 州, and the card says so in a line
             # a row that is counted *inside* the others rather than beside
@@ -389,6 +403,17 @@ def population_data():
                                    (d.get("table_skip") or "").split(",")
                                    if g.strip()],
                      "fields": used,
+                     # The year the *figures* are of, which is not always the
+                     # map they appear on: Taiwan's later return is the
+                     # register at the end of 1941 and is drawn on the December
+                     # 1942 map. The comparison table sets two dates side by
+                     # side and must name them for what they are.
+                     "when": (d.get("when") or "").strip() or d["epoch"],
+                     # what kind of number it is, in the dataset's own words
+                     "lineLabel": d.get("line_label") or "",
+                     # a caution shown under the comparison, where the two
+                     # dates do not count the same thing the same way
+                     "compareNote": d.get("compare_note") or "",
                      "label": label, "pctOf": whole,
                      "source": d["source"],
                      "layer": d.get("layer") or label,

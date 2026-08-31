@@ -7661,6 +7661,9 @@ JMAP.POPULATION = [
     "inShort": true,
     "tableSkip": [],
     "fields": [],
+    "when": "1942",
+    "lineLabel": "Estimated Population",
+    "compareNote": "",
     "label": "Korea, estimated population at 1 October 1942",
     "pctOf": "Korea",
     "source": "朝鮮總督府『昭和十七年 朝鮮人口動態統計』附録 p24",
@@ -8062,6 +8065,9 @@ JMAP.POPULATION = [
         "dp": 0
       }
     ],
+    "when": "1930",
+    "lineLabel": "Census Population",
+    "compareNote": "",
     "label": "Korea, census of 1 October 1930",
     "pctOf": "Korea",
     "source": "1930 Census of Korea, 朝鮮總督府『昭和五年 朝鮮國勢調査報告』 — ages pp. 10–11, register and nationality Tables 19–20, occupation Table 40",
@@ -8881,6 +8887,9 @@ JMAP.POPULATION = [
         "dp": 0
       }
     ],
+    "when": "1930",
+    "lineLabel": "Census Population",
+    "compareNote": "",
     "label": "The fourteen 府 at the census of 1 October 1930",
     "pctOf": "",
     "source": "1930 Census of Korea, 朝鮮總督府『昭和五年 朝鮮國勢調査報告』 — ages pp. 10–11, register and nationality Tables 19–20, occupation Table 40",
@@ -9431,6 +9440,9 @@ JMAP.POPULATION = [
         "dp": 0
       }
     ],
+    "when": "1941",
+    "lineLabel": "Resident Population",
+    "compareNote": "The two returns do not count the Government-General’s demarcated 「蕃地」 the same way, and it shows in this table. In 1930 the Indigenous Peoples 「蕃人」 of that ground are in a column of their own and the 市 and 郡 figures leave them out; in 1941 they are counted again in the district their ground lies in. So the colony, the five 州 and the seven 市 are like for like — none of them gains or loses by the change — while a 郡 or 廳 with mountain ground behind it is not, and the more of that ground it has the more of its growth here is a change of definition. 臺東廳 and 花蓮港廳 are the extreme case: their 1930 figure is the coastal shelf the map draws and their 1941 one the whole prefecture. The demarcated territory itself is left out of this table altogether, its two figures not being the same quantity.",
     "label": "Taiwan by district, the resident population at the end of 1941",
     "pctOf": "",
     "source": "臺灣總督府第四十五統計書 (昭和16年), Table 16 市街庄別常住戸口 pp. 20–33, with the colony and prefecture totals from Table 15",
@@ -10617,6 +10629,9 @@ JMAP.POPULATION = [
         "dp": 0
       }
     ],
+    "when": "1930",
+    "lineLabel": "Census Population",
+    "compareNote": "",
     "label": "Japan, census of 1 October 1930",
     "pctOf": "Japan",
     "source": "内閣統計局『昭和五年国勢調査最終報告書』— 人口ノ府縣分布 p10, 男女別 p25, 年齢別 pp40–41, 出生地 pp68–69",
@@ -11440,6 +11455,9 @@ JMAP.POPULATION = [
     "inShort": true,
     "tableSkip": [],
     "fields": [],
+    "when": "1930",
+    "lineLabel": "Census Population",
+    "compareNote": "",
     "label": "The twenty-eight 市 at the census of 1 October 1930",
     "pctOf": "Japan",
     "source": "内閣統計局『昭和五年国勢調査最終報告書』市ノ人口 p16",
@@ -11689,6 +11707,9 @@ JMAP.POPULATION = [
         "dp": 0
       }
     ],
+    "when": "1930",
+    "lineLabel": "Resident Population",
+    "compareNote": "",
     "label": "Taiwan by district, the resident population at the end of 1930",
     "pctOf": "",
     "source": "昭和五年 臺灣總督府統計書 (published 1932; the figures are for 1930) — 第35表 戶口靜態總表 and 第37表 地方別現住人口, pp. 28–37",
@@ -11788,6 +11809,9 @@ JMAP.POPULATION = [
         "km2": 1458,
         "dens": 33,
         "note": "The prefecture outside the demarcated 「蕃地」, which the map draws as a shape of its own. With the 11,793 Indigenous Peoples 「蕃人」 counted there the whole prefecture came to 59,335.",
+        "cmpPop": 59335,
+        "cmpMf": "107.23",
+        "cmpWhy": "the whole prefecture, 59,335 — the row above is the coastal ground the map draws, and the 1941 return counts 臺東廳 whole, so this is the figure that compares with it",
         "x": {
           "reg_jp": 4406,
           "reg_tw": 42398,
@@ -11803,6 +11827,9 @@ JMAP.POPULATION = [
         "km2": 1304,
         "dens": 58,
         "note": "The prefecture outside the demarcated 「蕃地」, which the map draws as a shape of its own. With the 10,158 Indigenous Peoples 「蕃人」 counted there the whole prefecture came to 85,458.",
+        "cmpPop": 85458,
+        "cmpMf": "113.85",
+        "cmpWhy": "the whole prefecture, 85,458 — the row above is the coastal ground the map draws, and the 1941 return counts 花蓮港廳 whole, so this is the figure that compares with it",
         "x": {
           "reg_jp": 12686,
           "reg_tw": 60588,
@@ -12685,7 +12712,7 @@ JMAP.POPULATION = [
   {
     "id": "taiwan-cities-1930",
     "epoch": "1930",
-    "group": "taiwan-cities-1930",
+    "group": "taiwan-cities",
     "country": "",
     "caption": "resident population at the end of 1930",
     "note": "",
@@ -12711,6 +12738,9 @@ JMAP.POPULATION = [
         "dp": 0
       }
     ],
+    "when": "1930",
+    "lineLabel": "Resident Population",
+    "compareNote": "",
     "label": "The seven 市 at the end of 1930",
     "pctOf": "",
     "source": "昭和五年 臺灣總督府統計書 (published 1932; the figures are for 1930) — 第35表 戶口靜態總表 and 第37表 地方別現住人口, pp. 28–37",
@@ -12799,6 +12829,217 @@ JMAP.POPULATION = [
           "for_total": 568
         },
         "line": "1930 Resident Population: 45,867 · Males per 100 Females: 100.27"
+      }
+    },
+    "breaks": [],
+    "jpBreaks": []
+  },
+  {
+    "id": "taiwan-cities-1941",
+    "epoch": "1942",
+    "group": "taiwan-cities",
+    "country": "",
+    "caption": "resident population at the end of 1941",
+    "note": "Four of the eleven — 宜蘭, 彰化, 屏東 and 花蓮港 — were raised to 市 after the boundaries this map draws, so the shape under those dots is still the district with the city inside it. The figure on the dot is the city alone, which is why it is smaller than the district it stands in.",
+    "inShort": true,
+    "tableSkip": [],
+    "fields": [
+      {
+        "c": "reg_jp",
+        "label": "Japanese (naichijin)",
+        "group": "Register and nationality",
+        "dp": 0
+      },
+      {
+        "c": "reg_ko",
+        "label": "Koreans",
+        "group": "Register and nationality",
+        "dp": 0
+      },
+      {
+        "c": "reg_tw",
+        "label": "Taiwanese",
+        "group": "Register and nationality",
+        "dp": 0
+      },
+      {
+        "c": "for_cn",
+        "label": "Chinese",
+        "group": "Register and nationality",
+        "dp": 0
+      },
+      {
+        "c": "for_other",
+        "label": "Other foreign",
+        "group": "Register and nationality",
+        "dp": 0
+      }
+    ],
+    "when": "1941",
+    "lineLabel": "Resident Population",
+    "compareNote": "",
+    "label": "The eleven 市 at the end of 1941",
+    "pctOf": "",
+    "source": "臺灣總督府第四十五統計書 (昭和16年), Table 16 市街庄別常住戸口 pp. 20–33",
+    "layer": "The eleven 市 at the end of 1941",
+    "rows": {
+      "taipei": {
+        "scope": "city",
+        "en": "Taihoku (Taibei, Taipei)",
+        "pop": 367213,
+        "mf": "104.92",
+        "x": {
+          "reg_jp": 106784,
+          "reg_ko": 343,
+          "reg_tw": 246654,
+          "for_cn": 13403,
+          "for_other": 29
+        },
+        "line": "1942 Resident Population: 367,213 · Males per 100 Females: 104.92"
+      },
+      "kaohsiung": {
+        "scope": "city",
+        "en": "Takao (Gaoxiong, Kaohsiung)",
+        "pop": 183185,
+        "mf": "114.92",
+        "x": {
+          "reg_jp": 36749,
+          "reg_ko": 388,
+          "reg_tw": 144067,
+          "for_cn": 1980,
+          "for_other": 1
+        },
+        "line": "1942 Resident Population: 183,185 · Males per 100 Females: 114.92"
+      },
+      "tainan": {
+        "scope": "city",
+        "en": "Tainan",
+        "pop": 153879,
+        "mf": "104.74",
+        "x": {
+          "reg_jp": 18811,
+          "reg_ko": 101,
+          "reg_tw": 131485,
+          "for_cn": 3477,
+          "for_other": 5
+        },
+        "line": "1942 Resident Population: 153,879 · Males per 100 Females: 104.74"
+      },
+      "keelung": {
+        "scope": "city",
+        "en": "Kīrun (Jilong, Keelung)",
+        "pop": 106523,
+        "mf": "107.87",
+        "x": {
+          "reg_jp": 25438,
+          "reg_ko": 521,
+          "reg_tw": 75927,
+          "for_cn": 4635,
+          "for_other": 2
+        },
+        "line": "1942 Resident Population: 106,523 · Males per 100 Females: 107.87"
+      },
+      "chiayi": {
+        "scope": "city",
+        "en": "Kagi (Jiayi, Chiayi)",
+        "pop": 98298,
+        "mf": "106.70",
+        "x": {
+          "reg_jp": 10987,
+          "reg_ko": 65,
+          "reg_tw": 85605,
+          "for_cn": 1637,
+          "for_other": 4
+        },
+        "line": "1942 Resident Population: 98,298 · Males per 100 Females: 106.70"
+      },
+      "taichung": {
+        "scope": "city",
+        "en": "Taichū (Taizhong, Taichung)",
+        "pop": 97590,
+        "mf": "105.03",
+        "x": {
+          "reg_jp": 19658,
+          "reg_ko": 130,
+          "reg_tw": 76751,
+          "for_cn": 1049,
+          "for_other": 2
+        },
+        "line": "1942 Resident Population: 97,590 · Males per 100 Females: 105.03"
+      },
+      "hsinchu": {
+        "scope": "city",
+        "en": "Shinchiku (Xinzhu, Hsinchu)",
+        "pop": 90800,
+        "mf": "103.38",
+        "x": {
+          "reg_jp": 9639,
+          "reg_ko": 74,
+          "reg_tw": 80597,
+          "for_cn": 490,
+          "for_other": 0
+        },
+        "line": "1942 Resident Population: 90,800 · Males per 100 Females: 103.38"
+      },
+      "changhua": {
+        "scope": "city",
+        "en": "Shōka (Zhanghua, Changhua)",
+        "pop": 61632,
+        "mf": "101.70",
+        "note": "The city was cut out of Shōka-gun in 1933, after the boundaries this map draws — so the shape under this dot still carries the district with the city inside it, and this figure is the city alone.",
+        "x": {
+          "reg_jp": 3687,
+          "reg_ko": 49,
+          "reg_tw": 57388,
+          "for_cn": 508,
+          "for_other": 0
+        },
+        "line": "1942 Resident Population: 61,632 · Males per 100 Females: 101.70 The city was cut out of Shōka-gun in 1933, after the boundaries this map draws — so the shape under this dot still carries the district with the city inside it, and this figure is the city alone."
+      },
+      "pingtung": {
+        "scope": "city",
+        "en": "Heitō (Pingdong, Pingtung)",
+        "pop": 59917,
+        "mf": "109.12",
+        "note": "The city was cut out of Heitō-gun in 1933, after the boundaries this map draws — so the shape under this dot still carries the district with the city inside it, and this figure is the city alone.",
+        "x": {
+          "reg_jp": 8096,
+          "reg_ko": 65,
+          "reg_tw": 50730,
+          "for_cn": 1026,
+          "for_other": 0
+        },
+        "line": "1942 Resident Population: 59,917 · Males per 100 Females: 109.12 The city was cut out of Heitō-gun in 1933, after the boundaries this map draws — so the shape under this dot still carries the district with the city inside it, and this figure is the city alone."
+      },
+      "yilan": {
+        "scope": "city",
+        "en": "Giran (Yilan)",
+        "pop": 38922,
+        "mf": "102.66",
+        "note": "The city was cut out of Giran-gun in 1940, after the boundaries this map draws — so the shape under this dot still carries the district with the city inside it, and this figure is the city alone.",
+        "x": {
+          "reg_jp": 2830,
+          "reg_ko": 24,
+          "reg_tw": 35719,
+          "for_cn": 349,
+          "for_other": 0
+        },
+        "line": "1942 Resident Population: 38,922 · Males per 100 Females: 102.66 The city was cut out of Giran-gun in 1940, after the boundaries this map draws — so the shape under this dot still carries the district with the city inside it, and this figure is the city alone."
+      },
+      "hualien": {
+        "scope": "city",
+        "en": "Karenkō (Hualiangang, Hualien)",
+        "pop": 36984,
+        "mf": "113.78",
+        "note": "The city was cut out of Karenkō-chō in 1940, after the boundaries this map draws — so the shape under this dot still carries the district with the city inside it, and this figure is the city alone.",
+        "x": {
+          "reg_jp": 10957,
+          "reg_ko": 96,
+          "reg_tw": 25081,
+          "for_cn": 850,
+          "for_other": 0
+        },
+        "line": "1942 Resident Population: 36,984 · Males per 100 Females: 113.78 The city was cut out of Karenkō-chō in 1940, after the boundaries this map draws — so the shape under this dot still carries the district with the city inside it, and this figure is the city alone."
       }
     },
     "breaks": [],

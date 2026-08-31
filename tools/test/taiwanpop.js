@@ -173,16 +173,26 @@ check('and is marked as counted inside the districts', banchi.apart === 'yes');
     check('and the hover is not made to carry them',
       !/Resident Population/.test(words), words.slice(0, 80));
 
+    /* The main table only. Taiwan has a 1930 dataset now, so the box also
+       holds the two dates compared, and counting every `tbody tr` in the
+       dialog was counting that as well — 123 where the table has 62. Scoped
+       the way `population.js` scopes its own count. */
     const box = await p.evaluate(() => {
       document.querySelector('.pop-more').click();
       const d = document.querySelector('#dlg-table');
+      const main = d.querySelector('.pop-table-block:not(.pop-compare)');
       return { head: d.querySelector('.pop-head').textContent,
-               n: d.querySelectorAll('.pop-table tbody tr').length,
+               n: main.querySelectorAll('.pop-table tbody tr').length,
+               cmp: (d.querySelector('.pop-compare .pop-head') || {}).textContent || '',
                here: (d.querySelector('tr.here th') || {}).textContent || '',
-               note: (d.querySelector('.pop-note') || {}).textContent || '' };
+               note: (main.querySelector('.pop-note') || {}).textContent || '' };
     });
     check('the table holds every unit the map draws and the five above them',
       box.n === 62, String(box.n));
+    /* And the 1930 register is set against it underneath, named for the years
+       the figures are of rather than the maps they are drawn on. */
+    check('with the two dates compared under it',
+      box.cmp === '1930 and 1941 compared', box.cmp);
     check('with the district the card was about picked out',
       /Shichisei/.test(box.here), box.here);
     check('and says what kind of count it was', /常住/.test(box.note),
