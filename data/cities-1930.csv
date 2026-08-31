@@ -49,7 +49,7 @@ wuxi,Wúxī (Wusih),,31.57,120.3,Republic of China,on map (browse layer),large,,
 amritsar,Amritsar,,31.63,74.87,British India,on map (browse layer),large,,,,,264000,391000,325000,264000,1931,contemporary (1931),census (rounded),in_census,
 kowloon,Kowloon,九龍 (Kūron),22.32,114.17,Hong Kong,proposed,large,,,,,264000,581000,,264000,1931,contemporary (1931),estimate,hk_census,"Optional: the mainland half of the city, and where the December 1941 fighting was decided."
 poona,Poona (Pune),,18.52,73.86,British India,on map (browse layer),large,,,,,250000,258000,481000,250000,1931,contemporary (1931),census (rounded),in_census,
-taipei,"Taihoku (Taibei, Taipei)",,25.03,121.57,Formosa,on map (quiz site),medium,,capital-territory,Formosa,176000,248000,353000,503000,248000,1930,contemporary (1930),census (rounded),tw_51yr;tw_sotokufu,
+taipei,"Taihoku (Taibei, Taipei)",,25.03,121.57,Formosa,on map (quiz site),medium,,capital-territory,Formosa,176000,240435,353000,503000,240435,1930,contemporary (1930),register,tw_stats1930_t37;tw_51yr;tw_sotokufu,
 cawnpore,Cawnpore (Kanpur),,26.45,80.33,British India,on map (browse layer),medium,,,,,244000,487000,705000,244000,1931,contemporary (1931),census (rounded),in_census,
 agra,Agra,,27.18,78.01,British India,on map (browse layer),medium,,,,,230000,284000,376000,230000,1931,contemporary (1931),census (rounded),in_census,
 fukuoka,Fukuoka,,33.59,130.4,Japan,on map (browse layer),medium,,capital-province,Fukuoka Prefecture,95000,228289,307000,393000,228289,1930,contemporary (1930),census,jp_census1930_p16;jp_census,
@@ -89,7 +89,7 @@ xuzhou,Xúzhōu (Hsuchow),,34.26,117.19,Republic of China,on map (browse layer),
 nantong,Nántōng (Nantung),南通 (Nantsū),32.01,120.86,Republic of China,proposed,medium,,,,,,150000,260000,150000,1936,contemporary (1936),estimate,cn_statistical;cn_census1953,
 thonburi,Thonburi,ธนบุรี,13.72,100.49,Siam,proposed,medium,,capital-province,Thonburi,,,150000,350000,150000,1937,inferred from 1937,estimate,th_census,"Bangkok’s twin across the river, a separate province and separately enumerated until 1971."
 hanoi,Hanoi,,21.03,105.85,French Indochina,on map (quiz site),medium,,capital-territory,French Indochina,,149000,200000,297000,149000,1936,contemporary (1936),estimate,fr_annuaire;un_dyb,
-tainan,Tainan,,22.99,120.2,Formosa,on map (browse layer),medium,,capital-province,Tainan Prefecture,,,149000,232000,149000,1940,inferred from 1940,census (rounded),tw_51yr,
+tainan,Tainan,,22.99,120.2,Formosa,on map (browse layer),medium,,capital-province,Tainan Prefecture,,98114,149000,232000,98114,1930,contemporary (1930),register,tw_stats1930_t37;tw_51yr,
 kanazawa,Kanazawa,,36.56,136.66,Japan,on map (browse layer),medium,,capital-province,Ishikawa Prefecture,129000,157311,186000,252000,157311,1930,contemporary (1930),census,jp_census1930_p16;jp_census,
 penang,Penang (Georgetown),,5.41,100.34,Straits Settlements,on map (browse layer),medium,,,,,149000,,190000,149000,1931,contemporary (1931),census (rounded),my_census1931;my_census1947,
 mandalay,Mandalay,,21.98,96.08,British India,on map (browse layer),medium,,capital-province,Mandalay Division,,147000,,182000,147000,1931,contemporary (1931),census (rounded),bur_census,
@@ -101,7 +101,7 @@ kunming,Kūnmíng (Kunming),,25.04,102.72,Republic of China,on map (browse layer
 jaipur,Jaipur,,26.92,75.79,Princely states,on map (browse layer),medium,,capital-province,Jaipur,,145000,175000,291000,145000,1931,contemporary (1931),census (rounded),in_census,
 otaru,Otaru,小樽 (Otaru),43.19,140.99,Japan,proposed,medium,,,,,144887,164000,179000,144887,1930,contemporary (1930),census,jp_census1930_p16;jp_census,Hokkaidō’s main port and the terminal for the Karafuto and Japan Sea trade.
 toyohashi,Toyohashi,豊橋 (Toyohashi),34.77,137.39,Japan,proposed,small,,,,,,143000,123000,143000,1940,inferred from 1940,census (rounded),jp_census,
-kaohsiung,"Takao (Gaoxiong, Kaohsiung)",,22.63,120.3,Formosa,on map (quiz site),medium,,capital-province,Takao Prefecture,,,141000,213000,141000,1940,inferred from 1940,census (rounded),tw_51yr,
+kaohsiung,"Takao (Gaoxiong, Kaohsiung)",,22.63,120.3,Formosa,on map (quiz site),medium,,capital-province,Takao Prefecture,,62633,141000,213000,62633,1930,contemporary (1930),register,tw_stats1930_t37;tw_51yr,
 kumamoto,Kumamoto,,32.8,130.71,Japan,on map (browse layer),medium,,capital-province,Kumamoto Prefecture,70000,164460,194000,268000,164460,1930,contemporary (1930),census,jp_census1930_p16;jp_census,
 pyongyang,Heijō (P’yŏngyang),,39.02,125.75,Chōsen,on map (quiz site),medium,medium,capital-province,South P’yŏngan,,140000,286000,,140000,1930,contemporary (1930),census (rounded),kr_census,
 dacca,Dacca (Dhaka),,23.81,90.41,British India,on map (browse layer),medium,,,,,139000,213000,336000,139000,1931,contemporary (1931),census (rounded),in_census,
@@ -158,7 +158,7 @@ kawasaki,Kawasaki,川崎 (Kawasaki),35.53,139.7,Japan,proposed,medium,,,,,104351
 aomori,Aomori,,40.82,140.75,Japan,on map (browse layer),small,,capital-province,Aomori Prefecture,,,99000,108000,99000,1940,inferred from 1940,census (rounded),jp_census,
 shimonoseki,Shimonoseki,,33.96,130.94,Japan,on map (quiz site),small,,,,,98000,196000,194000,98000,1930,contemporary (1930),census (rounded),jp_census,
 fukui,Fukui,福井 (Fukui),36.06,136.22,Japan,proposed,small,,capital-province,Fukui Prefecture,,,98000,101000,98000,1940,inferred from 1940,census (rounded),jp_census,
-keelung,"Kīrun (Jilong, Keelung)",,25.13,121.74,Formosa,on map (browse layer),medium,,,,,,96000,105000,96000,1940,inferred from 1940,census (rounded),tw_51yr,
+keelung,"Kīrun (Jilong, Keelung)",,25.13,121.74,Formosa,on map (browse layer),medium,,,,,78214,96000,105000,78214,1930,contemporary (1930),register,tw_stats1930_t37;tw_51yr,
 davao,Davao,,7.07,125.61,Philippine Islands (US),on map (browse layer),medium,,capital-province,Davao,,,96000,111000,96000,1939,inferred from 1939,census (rounded),ph_census,
 trivandrum,Trivandrum (Thiruvananthapuram),,8.52,76.94,Princely states,on map (browse layer),medium,,capital-province,Travancore,,96000,128000,186000,96000,1931,contemporary (1931),estimate,in_census,
 chiba,Chiba,千葉 (Chiba),35.61,140.12,Japan,proposed,small,,capital-province,Chiba Prefecture,,,92000,134000,92000,1940,inferred from 1940,census (rounded),jp_census,
@@ -175,7 +175,7 @@ kokura,Kokura,小倉 (Kokura),33.88,130.88,Japan,proposed,small,,,,,90000,174000
 sakai,Sakai,堺 (Sakai),34.57,135.48,Japan,proposed,medium,,,,,120348,182000,239000,120348,1930,contemporary (1930),census,jp_census1930_p16;jp_census,Historic port and Osaka industrial suburb.
 changde,Chángdé (Changteh),常德 (Jōtoku),29.03,111.7,Republic of China,proposed,medium,,,,,,90000,100000,90000,1936,contemporary (1936),estimate,cn_statistical;cn_census1953,"The battle of November–December 1943, and one of the confirmed targets of Unit 731’s plague attacks in 1941."
 liuzhou,Liǔzhōu (Liuchow),柳州 (Ryūshū),24.31,109.42,Republic of China,proposed,medium,,,,,,90000,110000,90000,1936,contemporary (1936),estimate,cn_statistical;cn_census1953,"A principal Fourteenth Air Force base, and with Kweilin the objective of the Ichi-gō offensive of 1944."
-taichung,"Taichū (Taizhong, Taichung)",,24.15,120.67,Formosa,on map (browse layer),medium,,capital-province,Taichū Prefecture,,,89000,139000,89000,1940,inferred from 1940,census (rounded),tw_51yr,
+taichung,"Taichū (Taizhong, Taichung)",,24.15,120.67,Formosa,on map (browse layer),medium,,capital-province,Taichū Prefecture,,55347,89000,139000,55347,1930,contemporary (1930),register,tw_stats1930_t37;tw_51yr,
 malang,Malang,,-7.98,112.63,Netherlands East Indies,on map (browse layer),medium,,,,,87000,,150000,87000,1930,contemporary (1930),census (rounded),id_volkstelling,
 utsunomiya,Utsunomiya,宇都宮 (Utsunomiya),36.56,139.88,Japan,proposed,small,,capital-province,Tochigi Prefecture,,,87000,127000,87000,1940,inferred from 1940,estimate,jp_census,
 maebashi,Maebashi,前橋 (Maebashi),36.39,139.06,Japan,proposed,small,,capital-province,Gunma Prefecture,,,87000,107000,87000,1940,inferred from 1940,estimate,jp_census,
@@ -190,7 +190,7 @@ hamhung,Kankō (Hamhŭng),,39.92,127.54,Chōsen,on map (browse layer),medium,sma
 medan,Medan,,3.59,98.67,Netherlands East Indies,on map (browse layer),medium,,capital-province,East Sumatra,,76000,,150000,76000,1930,contemporary (1930),census (rounded),id_volkstelling,
 nagano,Nagano,長野 (Nagano),36.65,138.18,Japan,proposed,small,,capital-province,Nagano Prefecture,,,76000,97000,76000,1940,inferred from 1940,estimate,jp_census,
 qiqihar,Qíqíhā’ěr (Tsitsihar),,47.35,123.92,Republic of China,on map (browse layer),medium,,capital-province,Heilungkiang,,75000,106000,345000,75000,1930,contemporary (1930),census (rounded),mk_census1940;cn_census1953,
-chiayi,"Kagi (Jiayi, Chiayi)",,23.48,120.45,Formosa,on map (browse layer),small,,,,,,74000,123000,74000,1940,inferred from 1940,census (rounded),tw_51yr,
+chiayi,"Kagi (Jiayi, Chiayi)",,23.48,120.45,Formosa,on map (browse layer),small,,,,,58276,74000,123000,58276,1930,contemporary (1930),register,tw_stats1930_t37;tw_51yr,
 kaesong,Kaijō (Kaesŏng),,37.97,126.55,Chōsen,on map (browse layer),small,small,,,,,72000,,72000,1940,inferred from 1940,estimate,kr_census,
 ussuriysk,Voroshilov (Ussuriysk/Nikolsk),Ворошилов,43.8,131.95,USSR,proposed,small,,,,,,72000,104000,72000,1939,inferred from 1939,census (rounded),ussr_census,The rail junction behind Vladivostok and the Soviet Far Eastern army’s main base.
 hefei,Héféi (Hofei),,31.86,117.28,Republic of China,on map (browse layer),small,,,,,,70000,184000,70000,1936,contemporary (1936),estimate,cn_statistical;cn_census1953,
@@ -204,7 +204,7 @@ tsu,Tsu,津 (Tsu),34.72,136.51,Japan,proposed,small,,capital-province,Mie Prefec
 miyazaki,Miyazaki,宮崎 (Miyazaki),31.91,131.42,Japan,proposed,small,,capital-province,Miyazaki Prefecture,,,68000,85000,68000,1940,inferred from 1940,estimate,jp_census,
 yamagata,Yamagata,山形 (Yamagata),38.24,140.36,Japan,proposed,small,,capital-province,Yamagata Prefecture,,,68000,92000,68000,1940,inferred from 1940,estimate,jp_census,
 naha,Naha (Okinawa),,26.21,127.68,Japan,on map (quiz site),small,,capital-province,Okinawa Prefecture,,66000,65000,90000,66000,1930,contemporary (1930),estimate,jp_census,
-hsinchu,"Shinchiku (Xinzhu, Hsinchu)",,24.81,120.97,Formosa,on map (browse layer),small,,capital-province,Shinchiku Prefecture,,,66000,97000,66000,1940,inferred from 1940,census (rounded),tw_51yr,
+hsinchu,"Shinchiku (Xinzhu, Hsinchu)",,24.81,120.97,Formosa,on map (browse layer),small,,capital-province,Shinchiku Prefecture,,45867,66000,97000,45867,1930,contemporary (1930),register,tw_stats1930_t37;tw_51yr,
 bandjermasin,Bandjermasin (Banjarmasin),,-3.32,114.59,Netherlands East Indies,on map (browse layer),small,,capital-province,South & East Borneo,,66000,,,66000,1930,contemporary (1930),census (rounded),id_volkstelling,
 mito,Mito,水戸 (Mito),36.37,140.47,Japan,proposed,small,,capital-province,Ibaraki Prefecture,,,66000,75000,66000,1940,inferred from 1940,estimate,jp_census,
 kwangju,Kōshū (Kwangju),,35.16,126.85,Chōsen,on map (browse layer),small,,capital-province,South Chŏlla,,,65000,139000,65000,1940,inferred from 1940,census (rounded),kr_census;kr_kosis,

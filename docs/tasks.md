@@ -13711,6 +13711,161 @@ Suite: **1,249 checks across 45 scripts, all passing.**
 
 ---
 
+## A colour scheme the reader can choose, and Taiwan at the end of 1930
+
+### The scheme was the system's to decide and now it is not
+
+The page has followed `prefers-color-scheme` since it shipped, with no way
+past it. There is now **Auto / Light / Dark** at the foot of the Layers pane.
+
+Getting there meant undoing something the stylesheet's own note complains
+about. The comment over the dark block says the scheme should move *tokens*
+rather than patch rules one at a time — and then seven scattered
+`@media (prefers-color-scheme: dark)` blocks did exactly that, for the station
+squares, the graticule and its labels, the province names, the two kinds of
+feature name, the 1942 perimeter, a stale version number and a bad field. A
+toggle cannot reach a media query, so those seven would have stayed on the
+system's setting while everything else followed the reader: a half-dark map.
+
+They are fifteen tokens now — `--sta-fill`, `--grat-ink`, `--sub-ink`,
+`--f-sea-halo`, `--extent-op`, `--warn-ink` and the rest — declared light in
+`:root` and dark in the one block. Two rules came out of it as unnecessary:
+the selected station square is the same brown outline in both schemes, and
+`html.app`'s background is now unconditional, because in the light scheme it
+paints what `body` paints anyway.
+
+The one thing CSS cannot do is say *this media query or this attribute* in a
+single rule, so the dark list is written twice — `:root:not([data-theme=
+"light"])` inside the query, `:root[data-theme="dark"]` outside it. Two copies
+drift, so `tools/test/theme.js` parses `styles.css` and compares them
+declaration for declaration, and checks that there is **one** dark block in the
+file rather than eight.
+
+Nothing is redrawn when the scheme changes: every colour that moves is a custom
+property, so the browser repaints and the SVG is untouched.
+
+### And the annotation panel, which brings its own stylesheet
+
+`annotate.js` injects its CSS when the panel is first opened — the point being
+that a reader who never annotates should not download it — and it had **six
+more `prefers-color-scheme` blocks** in there. Left alone, forcing the scheme
+would have given a light panel over a dark map and a dark one over a light
+page: the half-dark failure, on the one part of the map you would be looking
+at closely.
+
+Six blocks and thirty-odd declarations is too much to keep in step by hand, so
+`addCss` rewrites the sheet as it goes in. Each dark block's rules are scoped
+to the automatic case inside the query and repeated outside it under the
+attribute — the same two selectors `styles.css` uses, written by a loop rather
+than by a person, so a dark block added there later is carried through without
+anybody having to remember this.
+
+**The first version of that was wrong, and the measurement caught it.**
+Prefixing with `:root[data-theme="dark"] #annotate` is (0,2,0) where the rule
+it replaces was (0,1,0), and the extra point beat a later rule that clears the
+panel's background once the rail is opaque at desktop width. Forced dark drew
+an opaque slab that automatic dark never had. `:where()` fixes it exactly:
+zero specificity, so every rule keeps the weight it had inside the media query
+and source order decides as before. Checked at 1400px across all six
+combinations of system setting and toggle, against what the panel did before
+any of this.
+
+### What was measured
+
+The choice travels in the layers code, at 8192 in the high field — 0 auto, 1
+light, 2 dark — like every other switch and for the same reason: this map
+stores nothing, and a bare URL opens on Auto. A link made in dark opens dark.
+
+On a light system, forcing dark moves `--ocean` from `#cadfeb` to `#1d3d4f`,
+`--panel` to `#1b232b`, `--grat-ink` to `#93a6b6` and `--sub-ink` to `#b9bfc6`;
+on a dark system, forcing light moves all four back. The annotation panel's
+buttons go `#fffdf8` ↔ `#1b232b` with them, both ways round, on both systems.
+Tapped with a finger as well as clicked. 31 checks in `tools/test/theme.js`.
+
+Suite: **1,318 checks across 47 scripts, all passing** — `theme.js` and
+`twpop1930.js` are the two new ones, at 31 and 38.
+
+### Taiwan at the end of 1930
+
+昭和五年 臺灣總督府統計書, tables 35 and 37, pp. 28–37 — the household registers
+at the end of 1930, so the map calls it a *resident population* and not a
+census. Sixty-two rows: the colony, the five 州, the three 廳, the seven 市 and
+forty-five 郡, and the demarcated 「蕃地」.
+
+**The 1930 return counts the 蕃地 the opposite way from the 1941 one, and that
+is the whole interest of the dataset.** In 1941 the 高砂族 of the demarcated
+territory are counted *again* in the district their ground lies in, so a
+district's figure is over more ground than the map gives it — the note on
+`taiwan-1941.csv` says so. In 1930 the Indigenous Peoples — 「蕃人」 in the
+source's own word — are in a column of their own and table 37's districts leave
+them out. So each 市 and 郡 here is the population of exactly the ground the
+map draws for it, and the fifty-five districts plus the 蕃地 come to the colony
+with nothing counted twice:
+
+    52 市/郡  4,407,349
+     3 廳       185,563     (the coastal shelves, outside the demarcated ground)
+       蕃地       86,154
+              ─────────
+              4,679,066     the printed 總數
+
+Checked before anything was drawn, and the checks re-run in
+`tools/test/twpop1930.js`: the four categories add to 4,679,066; every one of
+the sixty-two rows balances its own four; and each of the five 州 is larger
+than its own districts added up **by its 蕃人 column exactly** — 臺北 5,538,
+新竹 12,170, 臺中 15,494, 臺南 1,564, 高雄 29,437. The 廳 carry the figure for
+the ground drawn (臺東 47,542, not the prefecture's 59,335) with the whole in
+the note.
+
+One row the source does not balance is left as printed: 員林郡's 外國人男 405 +
+外國人女 125 = 530 against a printed 外國人總數 of 531. Its own total and its
+four categories are consistent, so nothing turns on it.
+
+Males per 100 females is computed from the printed 男 and 女. Where the source
+prints the ratio itself the two agree — 105.01 for the colony, 102.10 for the
+蕃人.
+
+**The density map.** The same fifty-five polygons the 1941 map shades, so the
+areas are the same measurement. The 蕃地 has people and no area — the source
+gives the ground none — so it takes the key's "no data" white on both dates
+rather than a band it has not earned. Breaks are pooled over a layer's dates by
+design, so putting 1930 in moved the Taiwan ladder from **150 / 400 / 1000 /
+3000** to **100 / 300 / 1000 / 2500**. The 1941 map's colours shift with it,
+which is the intended behaviour and not a regression: a colour has to mean the
+same thing on both dates or the comparison the switch exists for is a lie.
+
+**A fault in the chart, found by adding it up.** The bar chart over each table
+took every part row, and Taiwan's table carries the five 州 *and* the 市 and 郡
+inside them. So the 1941 chart drew 63 bars in which Tainan-shū stood beside its
+own districts, captioned with a total the bars did not come to. `popBars` now
+drops a row another row names as its `parent`, and a row marked `apart`. Taiwan
+1930 is 56 bars summing to 4,679,066 and 1941 is 55 summing to 6,249,468 —
+both exactly the captioned whole, checked by adding the drawn bars. Japan's 47
+and Korea's 13 are unchanged, having no containers among them.
+
+`apart` came off the 1930 蕃地 row with it. It means *counted inside the
+others*, which is true of 1941 and false here, and it was doing no other work:
+a row with no area is out of the density ladder whether it is marked or not.
+
+**The seven 市 as places.** `taiwan-cities-1930.csv` puts the same figures on
+the city points — Taihoku 240,435 down to Shinchiku 45,867, 638,886 between
+them — and `data/cities-1930.csv` carries them too, so the gazetteer no longer
+has Taihoku at a rounded 248,000 beside Tainan's 1940 estimate. Sizes were left
+alone; nobody asked.
+
+Two source ids were registered in `data/sources.csv` while there:
+`tw_stats1930_t37`, and `jp_census1930_p16`, which last session's city figures
+had cited without adding.
+
+**Left as it is, and worth saying.** The 蕃地 could be shaded on the 1930 map:
+the figure is clean there, and its ground is the 16,444 km² the fifty-five
+district polygons leave over. It is not, because that number is a residual of
+this map's own drawing rather than anything the source measured, and putting it
+in the pool would move the ladder a second time for the sake of one shape. The
+key's "no data" white says what is true of it either way.
+
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

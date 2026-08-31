@@ -32,6 +32,34 @@
   --mono-line: #a9a08b;
   --mono-sub: #c7bfa9;   /* the sub-unit rings: softer, and there are many */
 
+  /* The pieces of the map that are not the argument but still have to hold on
+     both grounds: the station squares, the graticule, the province and feature
+     names, and the 1942 perimeter. They were seven scattered
+     `prefers-color-scheme` blocks patching rules one at a time — the pattern
+     the note under `dark mode` says is the wrong one, and the reason the
+     annotation buttons once came out black on black. They are tokens now, so
+     the whole of the difference between the two schemes is one list. */
+  --sta-fill: #fffdf8;      /* a station square */
+  --sta-line: #4a3b2a;
+  --sta-ink: #4a453c;       /* and its name */
+  --grat-line: rgba(40, 60, 80, .20);
+  --grat-halo: #fffdf8;
+  --grat-ink: #6a7a88;
+  --sub-ink: #4a453c;       /* a province name */
+  /* A feature name has to hold over two very different grounds — the sea and
+     the pale yellow of China — so the halo goes the opposite way from the
+     fill, and in dark it has to be heavier as well as darker. Reported
+     against the Taklamakan, which is written across the palest ground on the
+     map. */
+  --f-sea-ink: #4a6b83;
+  --f-sea-halo: rgba(255, 255, 255, .55);
+  --f-land-ink: #6b5a45;
+  --f-land-halo: rgba(255, 255, 255, .5);
+  --f-halo-w: 2.4px;
+  --extent-ink: #8c3a44;    /* Gordon's 1942 perimeter */
+  --extent-op: .55;
+  --warn-ink: #8c2f39;      /* a stale version, a bad field */
+
   --c-metropole: #9a1813;
   --c-colony: #c2463d;
   --c-occupied: #fb8072;
@@ -59,8 +87,17 @@
    rather than by patching rules one at a time — which is what the scattered
    dark blocks in this file were doing, and why the annotation buttons ended up
    black on black. */
+/* Three settings, not two. The reader's system is asked first and followed by
+   default; the toggle at the foot of the Layers pane overrules it either way,
+   and writes `data-theme` on the root element to say so. Absent, the media
+   query decides — which is also what a reader with no JavaScript gets.
+
+   The same declarations are written twice because CSS cannot say "this media
+   query *or* this attribute" in one rule. The automatic case has to exclude a
+   reader who asked for light, hence the `:not`. `tools/test/theme.js` compares
+   the two lists character for character and fails if they drift. */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     --bg: #11161c;
     --ink: #e6e9ec;
     --muted: #9aa4ae;
@@ -87,10 +124,76 @@
     --on-fill: #e6e9ec;
     --on-ink: #12181e;
     --hover-fill: #2a343f;
+
+    /* and the map's own furniture, which the light list above sets out */
+    --sta-fill: #20242a;
+    --sta-line: #c6ccd3;
+    --sta-ink: #c6ccd3;
+    --grat-line: rgba(210, 225, 240, .22);
+    --grat-halo: #10161c;
+    --grat-ink: #93a6b6;
+    --sub-ink: #b9bfc6;
+    --f-sea-ink: #a8c6dc;
+    --f-sea-halo: rgba(6, 12, 18, .78);
+    --f-land-ink: #d8c49f;
+    --f-land-halo: rgba(6, 12, 18, .78);
+    --f-halo-w: 3.4px;
+    --extent-ink: #e0808a;
+    --extent-op: .85;
+    --warn-ink: #e08b95;
   }
-  /* the page behind the map, and the bands above and below a letterboxed one */
-  html.app, html.app body, #stage { background: var(--bg); }
 }
+:root[data-theme="dark"] {
+  --bg: #11161c;
+  --ink: #e6e9ec;
+  --muted: #9aa4ae;
+  --line: #333c46;
+  --panel: #1b232b;
+  --accent: #d9564e;
+  --accent-soft: #3a2320;
+
+  --ocean: #1d3d4f;
+  --inactive: #2c3540;
+  --inactive-line: #47525f;
+
+  --mono-land: #2b333c;
+  --mono-line: #55606c;
+  --mono-sub: #3d4954;
+
+  --shadow: 0 2px 12px rgba(0, 0, 0, .55);
+
+  /* The pressed and hovered states. On a light page a button turns pale grey
+     when it is on and the dark text still reads; inverted, a pale grey fill
+     under near-white text is the "too little contrast" that was reported.
+     These two are what the toggles and the hover use, and in dark they go
+     the other way — a lighter fill with *dark* text. */
+  --on-fill: #e6e9ec;
+  --on-ink: #12181e;
+  --hover-fill: #2a343f;
+
+  /* and the map's own furniture, which the light list above sets out */
+  --sta-fill: #20242a;
+  --sta-line: #c6ccd3;
+  --sta-ink: #c6ccd3;
+  --grat-line: rgba(210, 225, 240, .22);
+  --grat-halo: #10161c;
+  --grat-ink: #93a6b6;
+  --sub-ink: #b9bfc6;
+  --f-sea-ink: #a8c6dc;
+  --f-sea-halo: rgba(6, 12, 18, .78);
+  --f-land-ink: #d8c49f;
+  --f-land-halo: rgba(6, 12, 18, .78);
+  --f-halo-w: 3.4px;
+  --extent-ink: #e0808a;
+  --extent-op: .85;
+  --warn-ink: #e08b95;
+}
+
+/* The page behind the map, and the bands above and below a letterboxed one.
+   `body` and `#stage` already take `--bg`; the root element did not, and on a
+   dark page that showed as a white margin. Unconditional now — in the light
+   scheme it paints the colour body paints anyway. */
+html.app { background: var(--bg); }
 
 * { box-sizing: border-box; }
 
@@ -711,8 +814,8 @@ button.plain:hover { background: var(--hover-fill); }
    twice its size and invisible: five pixels is not a thing anybody can put a
    finger on. */
 .sta-layer .sta-sq {
-  fill: #fffdf8;
-  stroke: #4a3b2a;
+  fill: var(--sta-fill);
+  stroke: var(--sta-line);
   stroke-width: 1.1;
   vector-effect: non-scaling-stroke;
   pointer-events: none;
@@ -724,21 +827,19 @@ button.plain:hover { background: var(--hover-fill); }
    squares does not say it either. */
 .sta-layer .sta-mark.sel .sta-sq {
   fill: #ffd200;
+  /* The brown outline both schemes give it: the selected square is yellow in
+     each, and the pale stroke the other squares take in dark would be lost on
+     it. Written out rather than inherited, because in dark `--sta-line` is
+     the pale one. */
+  stroke: #4a3b2a;
   stroke-width: 2;
-}
-@media (prefers-color-scheme: dark) {
-  .sta-layer .sta-sq { fill: #20242a; stroke: #c6ccd3; }
-  .sta-layer .sta-mark.sel .sta-sq { fill: #ffd200; stroke: #4a3b2a; }
 }
 
 #labels .sta {
   font-weight: 600;
-  fill: #4a453c;
+  fill: var(--sta-ink);
   letter-spacing: 0;
   stroke-width: 3px;
-}
-@media (prefers-color-scheme: dark) {
-  #labels .sta { fill: #c6ccd3; }
 }
 
 /* The Layers pane is `#dlg-options` in the markup, not `#dlg-layers`. Every
@@ -821,7 +922,7 @@ button.plain:hover { background: var(--hover-fill); }
    to read, so it should be legible when looked for and invisible otherwise. */
 #graticule .grat-line {
   fill: none;
-  stroke: rgba(40, 60, 80, .20);
+  stroke: var(--grat-line);
   stroke-width: 0.8;
   vector-effect: non-scaling-stroke;
   pointer-events: none;
@@ -836,29 +937,24 @@ button.plain:hover { background: var(--hover-fill); }
   font-weight: 600;
   letter-spacing: .02em;
   paint-order: stroke;
-  stroke: #fffdf8;
+  stroke: var(--grat-halo);
   stroke-width: 3px;
   stroke-linejoin: round;
-  fill: #6a7a88;
+  fill: var(--grat-ink);
   dominant-baseline: middle;
-}
-
-@media (prefers-color-scheme: dark) {
-  #graticule .grat-line { stroke: rgba(210, 225, 240, .22); }
-  #grat-labels .grat-label { stroke: #10161c; fill: #93a6b6; }
 }
 
 /* Gordon's greatest-extent perimeter */
 #extent-1942 {
   fill: none;
-  stroke: #8c3a44;
+  stroke: var(--extent-ink);
   vector-effect: non-scaling-stroke;
   stroke-width: 1.8;
   stroke-dasharray: 9 6;
   stroke-linejoin: round;
   stroke-linecap: round;
   pointer-events: none;
-  opacity: .55;
+  opacity: var(--extent-op);
 }
 
 /* The edge of the drawing. Drawn last so it sits over everything, and never
@@ -1144,10 +1240,7 @@ button.plain:hover { background: var(--hover-fill); }
    the country it sits inside. Without it Suiyuan, Chahar, Jehol and Sinkiang
    were set in the same weight as China beside them and read as four more
    countries. */
-.tlabel.sub { font-weight: 600; fill: #4a453c; letter-spacing: 0; }
-@media (prefers-color-scheme: dark) {
-  .tlabel.sub { fill: #b9bfc6; }
-}
+.tlabel.sub { font-weight: 600; fill: var(--sub-ink); letter-spacing: 0; }
 
 .slabel { fill: #14304a; font-weight: 600; }
 
@@ -2169,29 +2262,17 @@ dialog h3 {
 }
 
 .flabel.f-sea {
-  fill: #4a6b83;
-  stroke: rgba(255, 255, 255, .55);
-  stroke-width: 2.4;
+  fill: var(--f-sea-ink);
+  stroke: var(--f-sea-halo);
+  stroke-width: var(--f-halo-w);
   opacity: .82;
 }
 
 .flabel.f-land {
-  fill: #6b5a45;
-  stroke: rgba(255, 255, 255, .5);
-  stroke-width: 2.4;
+  fill: var(--f-land-ink);
+  stroke: var(--f-land-halo);
+  stroke-width: var(--f-halo-w);
   opacity: .72;
-}
-
-@media (prefers-color-scheme: dark) {
-  /* A feature name has to hold over two very different grounds — the dark sea
-     and the pale yellow of China — so it is given a dark halo heavy enough to
-     carry it over the light one and a fill light enough to carry it over the
-     dark. Reported against the Taklamakan, which is written across the palest
-     ground on the map. */
-  .flabel.f-sea { fill: #a8c6dc; stroke: rgba(6, 12, 18, .78); stroke-width: 3.4px; }
-  .flabel.f-land { fill: #d8c49f; stroke: rgba(6, 12, 18, .78); stroke-width: 3.4px; }
-  /* and the 1942 perimeter, which is a dark red dash over a dark sea */
-  #extent-1942 { stroke: #e0808a; opacity: .85; }
 }
 
 
@@ -2228,11 +2309,7 @@ dialog h3 {
 
 /* When the page and the script disagree about the version, the reader is told
    rather than left with a number that is quietly wrong. */
-.version-stale { color: #8c2f39; font-weight: 600; }
-
-@media (prefers-color-scheme: dark) {
-  .version-stale { color: #e08b95; }
-}
+.version-stale { color: var(--warn-ink); font-weight: 600; }
 
 
 /* ------------------------------------------------- the map at one colour --
@@ -2427,10 +2504,7 @@ dialog h3 {
   font-variant-numeric: tabular-nums;
 }
 #options .row-note[hidden] { display: none; }
-#options .row-note.bad { color: #8c2f39; }
-@media (prefers-color-scheme: dark) {
-  #options .row-note.bad { color: #e08b95; }
-}
+#options .row-note.bad { color: var(--warn-ink); }
 
 /* The space bar held down: the pointer is a hand until it is let go, whatever
    tool is out. It beats `.ann-drawing`'s crosshair, which is the point. */

@@ -13,8 +13,8 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '254';
-  var JEM_ASSETS = {"admin.js": "9f99c96627", "annotate.js": "761fbd5949", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "3881d33c99", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
+  var JEM_VERSION = '255';
+  var JEM_ASSETS = {"admin.js": "9f99c96627", "annotate.js": "db393723f6", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "3881d33c99", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
 
   /* Every file this one fetches, with the version on it.
 
@@ -177,6 +177,14 @@
        date the reader is on, so nobody has to know which years exist to find
        the switch. The mode travels in the layers code — see POP_BITS. */
     pop: {},
+    /* Which colour scheme the chrome is drawn in: 'auto', 'light' or 'dark'.
+       Auto is the default and means the reader's system decides, which is what
+       the map did and all it did — `prefers-color-scheme` in styles.css and no
+       way to overrule it. A reader on a dark desktop who wants the map light
+       to project it, or the other way about at night, now has one. The two
+       explicit settings write `data-theme` on the root element; auto takes it
+       off again and hands the question back to the media query. */
+    theme: 'auto',
     // the mesh of meridians and parallels; off by default
     graticule: false,
     /* Shaded relief under the political colours. Off by default and fetched
@@ -3867,6 +3875,7 @@
       if (place) hi += place * (POP_MODES.indexOf(state.pop[g.id]) + 1 || 0);
     });
     if (state.twSugar) hi += SUGAR_PLACE;
+    hi += THEME_PLACE * (THEME_MODES.indexOf(state.theme) + 1 || 0);
     // set when the row is OFF — an old link carries zeroes here and must open
     // with every name switched on, which is what it showed its sender
     LABEL_CATS.forEach(function (c) {
@@ -3916,6 +3925,7 @@
       if (mode) state.pop[g.id] = mode; else delete state.pop[g.id];
     });
     state.twSugar = !!(Math.floor(hi / SUGAR_PLACE) % 2);
+    state.theme = THEME_MODES[(Math.floor(hi / THEME_PLACE) % 4) - 1] || 'auto';
     LABEL_CATS.forEach(function (c) {          // inverted; see layerCode
       state.labelCats[c.id] = !(Math.floor(hi / c.place) % 2);
     });
@@ -7997,7 +8007,30 @@
   function popBars(d, set, named) {
     var box = document.createElement('div');
     box.className = 'pop-bars';
-    var parts = set.parts.filter(function (k) { return d.rows[k].pop; });
+    /* The parts, and only the parts. Two kinds of row in `set.parts` are not
+       one of them and would be counted twice if they were drawn as bars.
+
+       **A container.** Taiwan's table carries the five 州 *and* the 市 and 郡
+       inside them, which is right for a table — a reader looks up a district
+       and reads it against its prefecture — and wrong for a chart, where a bar
+       is a share of the whole and Tainan-shū would stand beside its own
+       districts. A row another row names as its `parent` is a container.
+
+       **A row counted inside the others.** `apart` says so outright: the 1941
+       高砂族 of the demarcated 「蕃地」 are also in the district their ground
+       lies in. (The 1930 return counts them once, in a column of their own, so
+       that row is not marked and does take a bar — and the fifty-five districts
+       and the 蕃地 then come to the colony exactly.)
+
+       What is left sums to the whole, which is what makes the caption true. */
+    var holds = {};
+    set.parts.forEach(function (k) {
+      if (d.rows[k].parent) holds[d.rows[k].parent] = true;
+    });
+    var parts = set.parts.filter(function (k) {
+      var r = d.rows[k];
+      return r.pop && !r.apart && !holds[r.en];
+    });
     if (parts.length < 2) return box;
     var max = 0;
     parts.forEach(function (k) { max = Math.max(max, d.rows[k].pop); });
@@ -8379,6 +8412,11 @@
   }
 
   function applyState() {
+    /* Before anything is measured. The scheme moves `--ocean` and the neutral
+       land tokens, and `bumpLayout` below reads the bar's height off the page
+       — so the attribute goes on first and the rest of this runs against the
+       colours it will actually be drawn in. */
+    applyTheme();
     // an epoch, a layer or a projection can all change which shapes are on
     // the map, and so what the opening view frames
     bumpLayout();
@@ -9025,6 +9063,57 @@
   var POP_BITS = { 'korea-density': 1, 'taiwan-density': 16,
                    'japan-density': 2048 };
   var SUGAR_PLACE = 4;
+  /* And the colour scheme above them, at 8192 and 16384 — the next pair free
+     after Japan's. Two bits for three settings, numbered the way a mode is:
+     0 auto, 1 light, 2 dark. Auto is zero, so every link written before this
+     existed still opens on the reader's own system setting, which is what it
+     showed its sender. */
+  var THEME_PLACE = 8192;
+  var THEME_MODES = ['light', 'dark'];
+
+  /* The whole of the switch. `data-theme` on the root element is what
+     styles.css looks for: absent, the media query decides; `light` blocks the
+     dark rules; `dark` turns them on whatever the system says. Nothing is
+     redrawn — every colour that changes is a custom property, so the browser
+     repaints and the SVG is untouched. */
+  function applyTheme() {
+    var root = document.documentElement;
+    if (!root) return;
+    if (state.theme === 'light' || state.theme === 'dark') {
+      root.setAttribute('data-theme', state.theme);
+    } else {
+      root.removeAttribute('data-theme');
+    }
+  }
+
+  /* The three buttons in the Layers pane, written from `state` — because a
+     link arriving with a scheme in it sets one before the panel is opened,
+     and the panel must not then say Auto. */
+  function syncThemeSeg() {
+    var seg = $('#theme-seg');
+    if (!seg) return;
+    $$('button', seg).forEach(function (b) {
+      var on = b.getAttribute('data-theme') === state.theme;
+      b.classList.toggle('on', on);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+  }
+
+  function wireThemeSeg() {
+    var seg = $('#theme-seg');
+    if (!seg) return;
+    $$('button', seg).forEach(function (b) {
+      b.addEventListener('click', function () {
+        var want = b.getAttribute('data-theme') || 'auto';
+        if (state.theme === want) return;
+        state.theme = want;
+        syncThemeSeg();
+        applyState();
+        saveState();
+      });
+    });
+    syncThemeSeg();
+  }
 
   function popSets() { return JMAP.POPULATION || []; }
 
@@ -11397,6 +11486,7 @@
     // and the five kinds of name, which have three places to disagree from:
     // the bar's Other button, the panel's rows and the button's own menu
     syncLabelBoxes();
+    syncThemeSeg();
     syncBarExtras();
   }
 
@@ -12049,6 +12139,7 @@
       });
       syncReliefSeg();
     }
+    wireThemeSeg();
 
     var optGrat = $('#opt-graticule');
     if (optGrat) {

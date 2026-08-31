@@ -10522,10 +10522,10 @@ JMAP.POPULATION = [
       }
     },
     "breaks": [
-      150,
-      400,
+      100,
+      300,
       1000,
-      3000
+      2500
     ],
     "jpBreaks": [
       1,
@@ -11649,6 +11649,1156 @@ JMAP.POPULATION = [
         "pop": 104351,
         "pct": "0.16",
         "line": "1930 Census Population: 104,351 · % of Total Japan: 0.16"
+      }
+    },
+    "breaks": [],
+    "jpBreaks": []
+  },
+  {
+    "id": "taiwan-1930",
+    "epoch": "1930",
+    "group": "taiwan-density",
+    "country": "Taiwan",
+    "caption": "resident population at the end of 1930",
+    "note": "The household registers at the end of 1930, not a census. The demarcated 「蕃地」 is a shape of its own on this map, and in this year the figures agree with it: the source counts the Indigenous Peoples 「蕃人」 of that ground in a column apart, so the 市 and 郡 here are the people of exactly the ground the map gives them. A prefecture, being the whole jurisdiction, is larger than its own districts added up by just that column. The 1941 return does it the other way and is noted there.",
+    "inShort": false,
+    "tableSkip": [],
+    "fields": [
+      {
+        "c": "reg_jp",
+        "label": "Japanese (naichijin)",
+        "group": "Register and nationality",
+        "dp": 0
+      },
+      {
+        "c": "reg_tw",
+        "label": "Taiwanese",
+        "group": "Register and nationality",
+        "dp": 0
+      },
+      {
+        "c": "reg_indig",
+        "label": "Indigenous Peoples 「蕃人」",
+        "group": "Register and nationality",
+        "dp": 0
+      },
+      {
+        "c": "for_total",
+        "label": "Foreigners",
+        "group": "Register and nationality",
+        "dp": 0
+      }
+    ],
+    "label": "Taiwan by district, the resident population at the end of 1930",
+    "pctOf": "",
+    "source": "昭和五年 臺灣總督府統計書 (published 1932; the figures are for 1930) — 第35表 戶口靜態總表 and 第37表 地方別現住人口, pp. 28–37",
+    "layer": "Taiwan",
+    "rows": {
+      "formosa": {
+        "scope": "territory",
+        "en": "Taiwan (Formosa)",
+        "pop": 4679066,
+        "mf": "105.01",
+        "km2": 36206,
+        "dens": 129,
+        "note": "The colony whole: the ordinary districts and the Government-General’s demarcated 「蕃地」 together. The seven 市 and forty-five 郡 below are the first of those; the second is a shape of its own on this map.",
+        "x": {
+          "reg_jp": 232299,
+          "reg_tw": 4313922,
+          "reg_indig": 86154,
+          "for_total": 46691
+        },
+        "line": "1930 Resident Population: 4,679,066 · Males per 100 Females: 105.01 · Per km²: 129 The colony whole: the ordinary districts and the Government-General’s demarcated 「蕃地」 together. The seven 市 and forty-five 郡 below are the first of those; the second is a shape of its own on this map."
+      },
+      "TwShuTaihoku": {
+        "scope": "sub-unit",
+        "en": "Taihoku-shū (Táiběi, Taipei)",
+        "pop": 939021,
+        "mf": "108.87",
+        "note": "The whole prefecture. Its 市 and 郡 below come to 933,483 between them; the other 5,538 were the Indigenous Peoples 「蕃人」 of the demarcated 「蕃地」, which the map draws apart.",
+        "x": {
+          "reg_jp": 103218,
+          "reg_tw": 807808,
+          "reg_indig": 5538,
+          "for_total": 22457
+        },
+        "line": "1930 Resident Population: 939,021 · Males per 100 Females: 108.87 The whole prefecture. Its 市 and 郡 below come to 933,483 between them; the other 5,538 were the Indigenous Peoples 「蕃人」 of the demarcated 「蕃地」, which the map draws apart."
+      },
+      "TwShuShinchiku": {
+        "scope": "sub-unit",
+        "en": "Shinchiku-shū (Xīnzhú, Hsinchu)",
+        "pop": 681552,
+        "mf": "103.23",
+        "note": "The whole prefecture. Its 市 and 郡 below come to 669,382 between them; the other 12,170 were the Indigenous Peoples 「蕃人」 of the demarcated 「蕃地」, which the map draws apart.",
+        "x": {
+          "reg_jp": 12395,
+          "reg_tw": 655015,
+          "reg_indig": 12170,
+          "for_total": 1972
+        },
+        "line": "1930 Resident Population: 681,552 · Males per 100 Females: 103.23 The whole prefecture. Its 市 and 郡 below come to 669,382 between them; the other 12,170 were the Indigenous Peoples 「蕃人」 of the demarcated 「蕃地」, which the map draws apart."
+      },
+      "TwShuTaichu": {
+        "scope": "sub-unit",
+        "en": "Taichū-shū (Táizhōng, Taichung)",
+        "pop": 1031508,
+        "mf": "103.96",
+        "note": "The whole prefecture. Its 市 and 郡 below come to 1,016,014 between them; the other 15,494 were the Indigenous Peoples 「蕃人」 of the demarcated 「蕃地」, which the map draws apart.",
+        "x": {
+          "reg_jp": 27980,
+          "reg_tw": 983188,
+          "reg_indig": 15494,
+          "for_total": 4846
+        },
+        "line": "1930 Resident Population: 1,031,508 · Males per 100 Females: 103.96 The whole prefecture. Its 市 and 郡 below come to 1,016,014 between them; the other 15,494 were the Indigenous Peoples 「蕃人」 of the demarcated 「蕃地」, which the map draws apart."
+      },
+      "TwShuTainan": {
+        "scope": "sub-unit",
+        "en": "Tainan-shū",
+        "pop": 1181569,
+        "mf": "104.10",
+        "note": "The whole prefecture. Its 市 and 郡 below come to 1,180,005 between them; the other 1,564 were the Indigenous Peoples 「蕃人」 of the demarcated 「蕃地」, which the map draws apart.",
+        "x": {
+          "reg_jp": 39967,
+          "reg_tw": 1132134,
+          "reg_indig": 1564,
+          "for_total": 7904
+        },
+        "line": "1930 Resident Population: 1,181,569 · Males per 100 Females: 104.10 The whole prefecture. Its 市 and 郡 below come to 1,180,005 between them; the other 1,564 were the Indigenous Peoples 「蕃人」 of the demarcated 「蕃地」, which the map draws apart."
+      },
+      "TwShuTakao": {
+        "scope": "sub-unit",
+        "en": "Takao-shū (Gāoxióng, Kaohsiung)",
+        "pop": 637902,
+        "mf": "104.51",
+        "note": "The whole prefecture. Its 市 and 郡 below come to 608,465 between them; the other 29,437 were the Indigenous Peoples 「蕃人」 of the demarcated 「蕃地」, which the map draws apart.",
+        "x": {
+          "reg_jp": 28512,
+          "reg_tw": 573255,
+          "reg_indig": 29437,
+          "for_total": 6698
+        },
+        "line": "1930 Resident Population: 637,902 · Males per 100 Females: 104.51 The whole prefecture. Its 市 and 郡 below come to 608,465 between them; the other 29,437 were the Indigenous Peoples 「蕃人」 of the demarcated 「蕃地」, which the map draws apart."
+      },
+      "TwTaito": {
+        "scope": "sub-unit",
+        "en": "Taitō-chō (Táidōng, Taitung)",
+        "pop": 47542,
+        "mf": "107.82",
+        "km2": 1458,
+        "dens": 33,
+        "note": "The prefecture outside the demarcated 「蕃地」, which the map draws as a shape of its own. With the 11,793 Indigenous Peoples 「蕃人」 counted there the whole prefecture came to 59,335.",
+        "x": {
+          "reg_jp": 4406,
+          "reg_tw": 42398,
+          "for_total": 738
+        },
+        "line": "1930 Resident Population: 47,542 · Males per 100 Females: 107.82 · Per km²: 33 The prefecture outside the demarcated 「蕃地」, which the map draws as a shape of its own. With the 11,793 Indigenous Peoples 「蕃人」 counted there the whole prefecture came to 59,335."
+      },
+      "TwKarenko": {
+        "scope": "sub-unit",
+        "en": "Karenkō-chō (Huāliángǎng, Hualien)",
+        "pop": 75300,
+        "mf": "116.01",
+        "km2": 1304,
+        "dens": 58,
+        "note": "The prefecture outside the demarcated 「蕃地」, which the map draws as a shape of its own. With the 10,158 Indigenous Peoples 「蕃人」 counted there the whole prefecture came to 85,458.",
+        "x": {
+          "reg_jp": 12686,
+          "reg_tw": 60588,
+          "for_total": 2026
+        },
+        "line": "1930 Resident Population: 75,300 · Males per 100 Females: 116.01 · Per km²: 58 The prefecture outside the demarcated 「蕃地」, which the map draws as a shape of its own. With the 10,158 Indigenous Peoples 「蕃人」 counted there the whole prefecture came to 85,458."
+      },
+      "TwHoko": {
+        "scope": "sub-unit",
+        "en": "Hōko-chō (Pénghú, the Pescadores)",
+        "pop": 62721,
+        "mf": "94.47",
+        "km2": 126,
+        "dens": 498,
+        "note": "The islands whole. The source counts no 「蕃人」 here.",
+        "x": {
+          "reg_jp": 3135,
+          "reg_tw": 59536,
+          "for_total": 50
+        },
+        "line": "1930 Resident Population: 62,721 · Males per 100 Females: 94.47 · Per km²: 498 The islands whole. The source counts no 「蕃人」 here."
+      },
+      "TwTaihoku": {
+        "scope": "sub-unit",
+        "en": "Taihoku-shi (Táiběi, Taipei)",
+        "pop": 240435,
+        "mf": "108.50",
+        "km2": 47,
+        "dens": 5116,
+        "parent": "Taihoku-shū (Táiběi, Taipei)",
+        "parentPop": 939021,
+        "x": {
+          "reg_jp": 70369,
+          "reg_tw": 154694,
+          "for_total": 15372
+        },
+        "line": "1930 Resident Population: 240,435 · Males per 100 Females: 108.50 · Per km²: 5116"
+      },
+      "TwKirunShi": {
+        "scope": "sub-unit",
+        "en": "Kīrun-shi (Jīlóng, Keelung)",
+        "pop": 78214,
+        "mf": "108.55",
+        "km2": 53,
+        "dens": 1476,
+        "parent": "Taihoku-shū (Táiběi, Taipei)",
+        "parentPop": 939021,
+        "x": {
+          "reg_jp": 19254,
+          "reg_tw": 54669,
+          "for_total": 4291
+        },
+        "line": "1930 Resident Population: 78,214 · Males per 100 Females: 108.55 · Per km²: 1476"
+      },
+      "TwShichisei": {
+        "scope": "sub-unit",
+        "en": "Shichisei-gun (Qīxīng)",
+        "pop": 99969,
+        "mf": "105.77",
+        "km2": 335,
+        "dens": 298,
+        "parent": "Taihoku-shū (Táiběi, Taipei)",
+        "parentPop": 939021,
+        "x": {
+          "reg_jp": 1663,
+          "reg_tw": 97876,
+          "for_total": 430
+        },
+        "line": "1930 Resident Population: 99,969 · Males per 100 Females: 105.77 · Per km²: 298"
+      },
+      "TwTansui": {
+        "scope": "sub-unit",
+        "en": "Tansui-gun (Dànshuǐ, Tamsui)",
+        "pop": 48459,
+        "mf": "110.31",
+        "km2": 226,
+        "dens": 214,
+        "parent": "Taihoku-shū (Táiběi, Taipei)",
+        "parentPop": 939021,
+        "x": {
+          "reg_jp": 845,
+          "reg_tw": 47207,
+          "for_total": 407
+        },
+        "line": "1930 Resident Population: 48,459 · Males per 100 Females: 110.31 · Per km²: 214"
+      },
+      "TwKirun": {
+        "scope": "sub-unit",
+        "en": "Kīrun-gun (Jīlóng, Keelung)",
+        "pop": 87726,
+        "mf": "114.39",
+        "km2": 509,
+        "dens": 172,
+        "parent": "Taihoku-shū (Táiběi, Taipei)",
+        "parentPop": 939021,
+        "x": {
+          "reg_jp": 1566,
+          "reg_tw": 85450,
+          "for_total": 710
+        },
+        "line": "1930 Resident Population: 87,726 · Males per 100 Females: 114.39 · Per km²: 172"
+      },
+      "TwGiran": {
+        "scope": "sub-unit",
+        "en": "Giran-gun (Yílán)",
+        "pop": 93047,
+        "mf": "111.59",
+        "km2": 355,
+        "dens": 262,
+        "parent": "Taihoku-shū (Táiběi, Taipei)",
+        "parentPop": 939021,
+        "x": {
+          "reg_jp": 2789,
+          "reg_tw": 89862,
+          "for_total": 396
+        },
+        "line": "1930 Resident Population: 93,047 · Males per 100 Females: 111.59 · Per km²: 262"
+      },
+      "TwRato": {
+        "scope": "sub-unit",
+        "en": "Ratō-gun (Luódōng)",
+        "pop": 63753,
+        "mf": "107.50",
+        "km2": 279,
+        "dens": 229,
+        "parent": "Taihoku-shū (Táiběi, Taipei)",
+        "parentPop": 939021,
+        "x": {
+          "reg_jp": 2939,
+          "reg_tw": 60542,
+          "for_total": 272
+        },
+        "line": "1930 Resident Population: 63,753 · Males per 100 Females: 107.50 · Per km²: 229"
+      },
+      "TwSuo": {
+        "scope": "sub-unit",
+        "en": "Suō-gun (Sū’ào)",
+        "pop": 15359,
+        "mf": "113.14",
+        "km2": 45,
+        "dens": 341,
+        "parent": "Taihoku-shū (Táiběi, Taipei)",
+        "parentPop": 939021,
+        "x": {
+          "reg_jp": 1640,
+          "reg_tw": 13653,
+          "for_total": 66
+        },
+        "line": "1930 Resident Population: 15,359 · Males per 100 Females: 113.14 · Per km²: 341"
+      },
+      "TwBunzan": {
+        "scope": "sub-unit",
+        "en": "Bunzan-gun (Wénshān)",
+        "pop": 58529,
+        "mf": "110.65",
+        "km2": 485,
+        "dens": 121,
+        "parent": "Taihoku-shū (Táiběi, Taipei)",
+        "parentPop": 939021,
+        "x": {
+          "reg_jp": 817,
+          "reg_tw": 57574,
+          "for_total": 138
+        },
+        "line": "1930 Resident Population: 58,529 · Males per 100 Females: 110.65 · Per km²: 121"
+      },
+      "TwKaizan": {
+        "scope": "sub-unit",
+        "en": "Kaizan-gun (Hǎishān)",
+        "pop": 92116,
+        "mf": "105.98",
+        "km2": 226,
+        "dens": 408,
+        "parent": "Taihoku-shū (Táiběi, Taipei)",
+        "parentPop": 939021,
+        "x": {
+          "reg_jp": 977,
+          "reg_tw": 90928,
+          "for_total": 211
+        },
+        "line": "1930 Resident Population: 92,116 · Males per 100 Females: 105.98 · Per km²: 408"
+      },
+      "TwShinsho": {
+        "scope": "sub-unit",
+        "en": "Shinshō-gun (Xīnzhuāng)",
+        "pop": 55876,
+        "mf": "106.99",
+        "km2": 150,
+        "dens": 373,
+        "parent": "Taihoku-shū (Táiběi, Taipei)",
+        "parentPop": 939021,
+        "x": {
+          "reg_jp": 359,
+          "reg_tw": 55353,
+          "for_total": 164
+        },
+        "line": "1930 Resident Population: 55,876 · Males per 100 Females: 106.99 · Per km²: 373"
+      },
+      "TwShinchikuShi": {
+        "scope": "sub-unit",
+        "en": "Shinchiku-shi (Xīnzhú, Hsinchu)",
+        "pop": 45867,
+        "mf": "100.27",
+        "km2": 35,
+        "dens": 1310,
+        "parent": "Shinchiku-shū (Xīnzhú, Hsinchu)",
+        "parentPop": 681552,
+        "x": {
+          "reg_jp": 5328,
+          "reg_tw": 39971,
+          "for_total": 568
+        },
+        "line": "1930 Resident Population: 45,867 · Males per 100 Females: 100.27 · Per km²: 1310"
+      },
+      "TwShinchiku": {
+        "scope": "sub-unit",
+        "en": "Shinchiku-gun (Xīnzhú, Hsinchu)",
+        "pop": 106331,
+        "mf": "103.76",
+        "km2": 375,
+        "dens": 284,
+        "parent": "Shinchiku-shū (Xīnzhú, Hsinchu)",
+        "parentPop": 681552,
+        "x": {
+          "reg_jp": 451,
+          "reg_tw": 105721,
+          "for_total": 159
+        },
+        "line": "1930 Resident Population: 106,331 · Males per 100 Females: 103.76 · Per km²: 284"
+      },
+      "TwChureki": {
+        "scope": "sub-unit",
+        "en": "Chūreki-gun (Zhōnglì)",
+        "pop": 96005,
+        "mf": "109.49",
+        "km2": 382,
+        "dens": 251,
+        "parent": "Shinchiku-shū (Xīnzhú, Hsinchu)",
+        "parentPop": 681552,
+        "x": {
+          "reg_jp": 653,
+          "reg_tw": 95171,
+          "for_total": 181
+        },
+        "line": "1930 Resident Population: 96,005 · Males per 100 Females: 109.49 · Per km²: 251"
+      },
+      "TwToen": {
+        "scope": "sub-unit",
+        "en": "Tōen-gun (Táoyuán)",
+        "pop": 80711,
+        "mf": "106.27",
+        "km2": 302,
+        "dens": 267,
+        "parent": "Shinchiku-shū (Xīnzhú, Hsinchu)",
+        "parentPop": 681552,
+        "x": {
+          "reg_jp": 941,
+          "reg_tw": 79598,
+          "for_total": 172
+        },
+        "line": "1930 Resident Population: 80,711 · Males per 100 Females: 106.27 · Per km²: 267"
+      },
+      "TwDaikei": {
+        "scope": "sub-unit",
+        "en": "Daikei-gun (Dàxī)",
+        "pop": 50228,
+        "mf": "103.69",
+        "km2": 155,
+        "dens": 324,
+        "parent": "Shinchiku-shū (Xīnzhú, Hsinchu)",
+        "parentPop": 681552,
+        "x": {
+          "reg_jp": 936,
+          "reg_tw": 49212,
+          "for_total": 80
+        },
+        "line": "1930 Resident Population: 50,228 · Males per 100 Females: 103.69 · Per km²: 324"
+      },
+      "TwChikuto": {
+        "scope": "sub-unit",
+        "en": "Chikutō-gun (Zhúdōng)",
+        "pop": 65704,
+        "mf": "102.22",
+        "km2": 307,
+        "dens": 214,
+        "parent": "Shinchiku-shū (Xīnzhú, Hsinchu)",
+        "parentPop": 681552,
+        "x": {
+          "reg_jp": 753,
+          "reg_tw": 64844,
+          "for_total": 107
+        },
+        "line": "1930 Resident Population: 65,704 · Males per 100 Females: 102.22 · Per km²: 214"
+      },
+      "TwChikunan": {
+        "scope": "sub-unit",
+        "en": "Chikunan-gun (Zhúnán)",
+        "pop": 82683,
+        "mf": "100.53",
+        "km2": 333,
+        "dens": 248,
+        "parent": "Shinchiku-shū (Xīnzhú, Hsinchu)",
+        "parentPop": 681552,
+        "x": {
+          "reg_jp": 1007,
+          "reg_tw": 81467,
+          "for_total": 209
+        },
+        "line": "1930 Resident Population: 82,683 · Males per 100 Females: 100.53 · Per km²: 248"
+      },
+      "TwByoritsu": {
+        "scope": "sub-unit",
+        "en": "Byōritsu-gun (Miáolì)",
+        "pop": 114234,
+        "mf": "98.60",
+        "km2": 520,
+        "dens": 220,
+        "parent": "Shinchiku-shū (Xīnzhú, Hsinchu)",
+        "parentPop": 681552,
+        "x": {
+          "reg_jp": 1679,
+          "reg_tw": 112091,
+          "for_total": 464
+        },
+        "line": "1930 Resident Population: 114,234 · Males per 100 Females: 98.60 · Per km²: 220"
+      },
+      "TwTaiko": {
+        "scope": "sub-unit",
+        "en": "Taiko-gun (Dàhú)",
+        "pop": 27619,
+        "mf": "108.40",
+        "km2": 227,
+        "dens": 122,
+        "parent": "Shinchiku-shū (Xīnzhú, Hsinchu)",
+        "parentPop": 681552,
+        "x": {
+          "reg_jp": 647,
+          "reg_tw": 26940,
+          "for_total": 32
+        },
+        "line": "1930 Resident Population: 27,619 · Males per 100 Females: 108.40 · Per km²: 122"
+      },
+      "TwTaichu": {
+        "scope": "sub-unit",
+        "en": "Taichū-shi (Táizhōng, Taichung)",
+        "pop": 55347,
+        "mf": "115.17",
+        "km2": 20,
+        "dens": 2767,
+        "parent": "Taichū-shū (Táizhōng, Taichung)",
+        "parentPop": 1031508,
+        "x": {
+          "reg_jp": 13445,
+          "reg_tw": 40402,
+          "for_total": 1500
+        },
+        "line": "1930 Resident Population: 55,347 · Males per 100 Females: 115.17 · Per km²: 2767"
+      },
+      "TwDaiton": {
+        "scope": "sub-unit",
+        "en": "Daiton-gun (Dàtún)",
+        "pop": 89742,
+        "mf": "104.43",
+        "km2": 493,
+        "dens": 182,
+        "parent": "Taichū-shū (Táizhōng, Taichung)",
+        "parentPop": 1031508,
+        "x": {
+          "reg_jp": 794,
+          "reg_tw": 88765,
+          "for_total": 183
+        },
+        "line": "1930 Resident Population: 89,742 · Males per 100 Females: 104.43 · Per km²: 182"
+      },
+      "TwToyohara": {
+        "scope": "sub-unit",
+        "en": "Toyohara-gun (Fēngyuán)",
+        "pop": 81823,
+        "mf": "100.70",
+        "km2": 194,
+        "dens": 422,
+        "parent": "Taichū-shū (Táizhōng, Taichung)",
+        "parentPop": 1031508,
+        "x": {
+          "reg_jp": 1654,
+          "reg_tw": 79860,
+          "for_total": 309
+        },
+        "line": "1930 Resident Population: 81,823 · Males per 100 Females: 100.70 · Per km²: 422"
+      },
+      "TwTosei": {
+        "scope": "sub-unit",
+        "en": "Tōsei-gun (Dōngshì)",
+        "pop": 39606,
+        "mf": "102.94",
+        "km2": 201,
+        "dens": 197,
+        "parent": "Taichū-shū (Táizhōng, Taichung)",
+        "parentPop": 1031508,
+        "x": {
+          "reg_jp": 1244,
+          "reg_tw": 38284,
+          "for_total": 78
+        },
+        "line": "1930 Resident Population: 39,606 · Males per 100 Females: 102.94 · Per km²: 197"
+      },
+      "TwTaikou": {
+        "scope": "sub-unit",
+        "en": "Taikō-gun (Dàjiǎ)",
+        "pop": 126455,
+        "mf": "101.29",
+        "km2": 324,
+        "dens": 390,
+        "parent": "Taichū-shū (Táizhōng, Taichung)",
+        "parentPop": 1031508,
+        "x": {
+          "reg_jp": 1111,
+          "reg_tw": 124984,
+          "for_total": 360
+        },
+        "line": "1930 Resident Population: 126,455 · Males per 100 Females: 101.29 · Per km²: 390"
+      },
+      "TwShoka": {
+        "scope": "sub-unit",
+        "en": "Shōka-gun (Zhānghuà, Changhua)",
+        "pop": 172889,
+        "mf": "101.20",
+        "km2": 329,
+        "dens": 525,
+        "parent": "Taichū-shū (Táizhōng, Taichung)",
+        "parentPop": 1031508,
+        "x": {
+          "reg_jp": 2900,
+          "reg_tw": 168915,
+          "for_total": 1074
+        },
+        "line": "1930 Resident Population: 172,889 · Males per 100 Females: 101.20 · Per km²: 525"
+      },
+      "TwInrin": {
+        "scope": "sub-unit",
+        "en": "Inrin-gun (Yuánlín)",
+        "pop": 155136,
+        "mf": "105.56",
+        "km2": 283,
+        "dens": 548,
+        "parent": "Taichū-shū (Táizhōng, Taichung)",
+        "parentPop": 1031508,
+        "x": {
+          "reg_jp": 1531,
+          "reg_tw": 153074,
+          "for_total": 531
+        },
+        "line": "1930 Resident Population: 155,136 · Males per 100 Females: 105.56 · Per km²: 548"
+      },
+      "TwHokuto": {
+        "scope": "sub-unit",
+        "en": "Hokuto-gun (Běidǒu)",
+        "pop": 114824,
+        "mf": "101.54",
+        "km2": 450,
+        "dens": 255,
+        "parent": "Taichū-shū (Táizhōng, Taichung)",
+        "parentPop": 1031508,
+        "x": {
+          "reg_jp": 1109,
+          "reg_tw": 113490,
+          "for_total": 225
+        },
+        "line": "1930 Resident Population: 114,824 · Males per 100 Females: 101.54 · Per km²: 255"
+      },
+      "TwNanto": {
+        "scope": "sub-unit",
+        "en": "Nantō-gun (Nántóu)",
+        "pop": 80130,
+        "mf": "104.59",
+        "km2": 398,
+        "dens": 201,
+        "parent": "Taichū-shū (Táizhōng, Taichung)",
+        "parentPop": 1031508,
+        "x": {
+          "reg_jp": 1112,
+          "reg_tw": 78842,
+          "for_total": 176
+        },
+        "line": "1930 Resident Population: 80,130 · Males per 100 Females: 104.59 · Per km²: 201"
+      },
+      "TwNiitaka": {
+        "scope": "sub-unit",
+        "en": "Niitaka-gun (Xīngāo)",
+        "pop": 25343,
+        "mf": "112.75",
+        "km2": 194,
+        "dens": 131,
+        "parent": "Taichū-shū (Táizhōng, Taichung)",
+        "parentPop": 1031508,
+        "x": {
+          "reg_jp": 1273,
+          "reg_tw": 24000,
+          "for_total": 70
+        },
+        "line": "1930 Resident Population: 25,343 · Males per 100 Females: 112.75 · Per km²: 131"
+      },
+      "TwNoko": {
+        "scope": "sub-unit",
+        "en": "Nōkō-gun (Nénggāo)",
+        "pop": 37113,
+        "mf": "110.52",
+        "km2": 250,
+        "dens": 148,
+        "parent": "Taichū-shū (Táizhōng, Taichung)",
+        "parentPop": 1031508,
+        "x": {
+          "reg_jp": 1336,
+          "reg_tw": 35524,
+          "for_total": 253
+        },
+        "line": "1930 Resident Population: 37,113 · Males per 100 Females: 110.52 · Per km²: 148"
+      },
+      "TwTakeyama": {
+        "scope": "sub-unit",
+        "en": "Takeyama-gun (Zhúshān)",
+        "pop": 37606,
+        "mf": "105.97",
+        "km2": 435,
+        "dens": 86,
+        "parent": "Taichū-shū (Táizhōng, Taichung)",
+        "parentPop": 1031508,
+        "x": {
+          "reg_jp": 471,
+          "reg_tw": 37048,
+          "for_total": 87
+        },
+        "line": "1930 Resident Population: 37,606 · Males per 100 Females: 105.97 · Per km²: 86"
+      },
+      "TwTainan": {
+        "scope": "sub-unit",
+        "en": "Tainan-shi",
+        "pop": 98114,
+        "mf": "109.25",
+        "km2": 49,
+        "dens": 2002,
+        "parent": "Tainan-shū",
+        "parentPop": 1181569,
+        "x": {
+          "reg_jp": 15496,
+          "reg_tw": 78744,
+          "for_total": 3874
+        },
+        "line": "1930 Resident Population: 98,114 · Males per 100 Females: 109.25 · Per km²: 2002"
+      },
+      "TwKagiShi": {
+        "scope": "sub-unit",
+        "en": "Kagi-shi (Jiāyì, Chiayi)",
+        "pop": 58276,
+        "mf": "107.59",
+        "km2": 56,
+        "dens": 1041,
+        "parent": "Tainan-shū",
+        "parentPop": 1181569,
+        "x": {
+          "reg_jp": 8883,
+          "reg_tw": 47649,
+          "for_total": 1744
+        },
+        "line": "1930 Resident Population: 58,276 · Males per 100 Females: 107.59 · Per km²: 1041"
+      },
+      "TwNiitoyo": {
+        "scope": "sub-unit",
+        "en": "Niitoyo-gun (Xīnfēng)",
+        "pop": 92476,
+        "mf": "101.42",
+        "km2": 363,
+        "dens": 255,
+        "parent": "Tainan-shū",
+        "parentPop": 1181569,
+        "x": {
+          "reg_jp": 914,
+          "reg_tw": 91508,
+          "for_total": 54
+        },
+        "line": "1930 Resident Population: 92,476 · Males per 100 Females: 101.42 · Per km²: 255"
+      },
+      "TwShinka": {
+        "scope": "sub-unit",
+        "en": "Shinka-gun (Xīnhuà)",
+        "pop": 79424,
+        "mf": "101.68",
+        "km2": 652,
+        "dens": 122,
+        "parent": "Tainan-shū",
+        "parentPop": 1181569,
+        "x": {
+          "reg_jp": 1368,
+          "reg_tw": 77860,
+          "for_total": 196
+        },
+        "line": "1930 Resident Population: 79,424 · Males per 100 Females: 101.68 · Per km²: 122"
+      },
+      "TwSobun": {
+        "scope": "sub-unit",
+        "en": "Sobun-gun (Zēngwén)",
+        "pop": 68267,
+        "mf": "101.50",
+        "km2": 299,
+        "dens": 228,
+        "parent": "Tainan-shū",
+        "parentPop": 1181569,
+        "x": {
+          "reg_jp": 1290,
+          "reg_tw": 66816,
+          "for_total": 161
+        },
+        "line": "1930 Resident Population: 68,267 · Males per 100 Females: 101.50 · Per km²: 228"
+      },
+      "TwHokumon": {
+        "scope": "sub-unit",
+        "en": "Hokumon-gun (Běimén)",
+        "pop": 115931,
+        "mf": "101.56",
+        "km2": 413,
+        "dens": 281,
+        "parent": "Tainan-shū",
+        "parentPop": 1181569,
+        "x": {
+          "reg_jp": 781,
+          "reg_tw": 115089,
+          "for_total": 61
+        },
+        "line": "1930 Resident Population: 115,931 · Males per 100 Females: 101.56 · Per km²: 281"
+      },
+      "TwShinei": {
+        "scope": "sub-unit",
+        "en": "Shin'ei-gun (Xīnyíng)",
+        "pop": 97718,
+        "mf": "102.65",
+        "km2": 476,
+        "dens": 205,
+        "parent": "Tainan-shū",
+        "parentPop": 1181569,
+        "x": {
+          "reg_jp": 2226,
+          "reg_tw": 95122,
+          "for_total": 370
+        },
+        "line": "1930 Resident Population: 97,718 · Males per 100 Females: 102.65 · Per km²: 205"
+      },
+      "TwKagi": {
+        "scope": "sub-unit",
+        "en": "Kagi-gun (Jiāyì, Chiayi)",
+        "pop": 136131,
+        "mf": "107.33",
+        "km2": 1010,
+        "dens": 135,
+        "parent": "Tainan-shū",
+        "parentPop": 1181569,
+        "x": {
+          "reg_jp": 2664,
+          "reg_tw": 133234,
+          "for_total": 233
+        },
+        "line": "1930 Resident Population: 136,131 · Males per 100 Females: 107.33 · Per km²: 135"
+      },
+      "TwToroku": {
+        "scope": "sub-unit",
+        "en": "Toroku-gun (Dǒuliù)",
+        "pop": 91429,
+        "mf": "103.87",
+        "km2": 455,
+        "dens": 201,
+        "parent": "Tainan-shū",
+        "parentPop": 1181569,
+        "x": {
+          "reg_jp": 1427,
+          "reg_tw": 89584,
+          "for_total": 418
+        },
+        "line": "1930 Resident Population: 91,429 · Males per 100 Females: 103.87 · Per km²: 201"
+      },
+      "TwKobi": {
+        "scope": "sub-unit",
+        "en": "Kobi-gun (Hǔwěi)",
+        "pop": 116077,
+        "mf": "101.44",
+        "km2": 482,
+        "dens": 241,
+        "parent": "Tainan-shū",
+        "parentPop": 1181569,
+        "x": {
+          "reg_jp": 2313,
+          "reg_tw": 113340,
+          "for_total": 424
+        },
+        "line": "1930 Resident Population: 116,077 · Males per 100 Females: 101.44 · Per km²: 241"
+      },
+      "TwHokuko": {
+        "scope": "sub-unit",
+        "en": "Hokukō-gun (Běigǎng)",
+        "pop": 91418,
+        "mf": "106.06",
+        "km2": 335,
+        "dens": 273,
+        "parent": "Tainan-shū",
+        "parentPop": 1181569,
+        "x": {
+          "reg_jp": 1279,
+          "reg_tw": 89874,
+          "for_total": 265
+        },
+        "line": "1930 Resident Population: 91,418 · Males per 100 Females: 106.06 · Per km²: 273"
+      },
+      "TwToseki": {
+        "scope": "sub-unit",
+        "en": "Tōseki-gun (Dōngshí)",
+        "pop": 134744,
+        "mf": "104.76",
+        "km2": 466,
+        "dens": 289,
+        "parent": "Tainan-shū",
+        "parentPop": 1181569,
+        "x": {
+          "reg_jp": 1326,
+          "reg_tw": 133314,
+          "for_total": 104
+        },
+        "line": "1930 Resident Population: 134,744 · Males per 100 Females: 104.76 · Per km²: 289"
+      },
+      "TwTakaoShi": {
+        "scope": "sub-unit",
+        "en": "Takao-shi (Gāoxióng, Kaohsiung)",
+        "pop": 62633,
+        "mf": "112.52",
+        "km2": 80,
+        "dens": 783,
+        "parent": "Takao-shū (Gāoxióng, Kaohsiung)",
+        "parentPop": 637902,
+        "x": {
+          "reg_jp": 15878,
+          "reg_tw": 44893,
+          "for_total": 1862
+        },
+        "line": "1930 Resident Population: 62,633 · Males per 100 Females: 112.52 · Per km²: 783"
+      },
+      "TwOkayama": {
+        "scope": "sub-unit",
+        "en": "Okayama-gun (Gāngshān)",
+        "pop": 121825,
+        "mf": "104.55",
+        "km2": 357,
+        "dens": 341,
+        "parent": "Takao-shū (Gāoxióng, Kaohsiung)",
+        "parentPop": 637902,
+        "x": {
+          "reg_jp": 1277,
+          "reg_tw": 119996,
+          "for_total": 552
+        },
+        "line": "1930 Resident Population: 121,825 · Males per 100 Females: 104.55 · Per km²: 341"
+      },
+      "TwHozan": {
+        "scope": "sub-unit",
+        "en": "Hōzan-gun (Fèngshān)",
+        "pop": 87355,
+        "mf": "104.79",
+        "km2": 332,
+        "dens": 263,
+        "parent": "Takao-shū (Gāoxióng, Kaohsiung)",
+        "parentPop": 637902,
+        "x": {
+          "reg_jp": 1865,
+          "reg_tw": 84761,
+          "for_total": 729
+        },
+        "line": "1930 Resident Population: 87,355 · Males per 100 Females: 104.79 · Per km²: 263"
+      },
+      "TwKizan": {
+        "scope": "sub-unit",
+        "en": "Kizan-gun (Qíshān)",
+        "pop": 66402,
+        "mf": "101.51",
+        "km2": 635,
+        "dens": 105,
+        "parent": "Takao-shū (Gāoxióng, Kaohsiung)",
+        "parentPop": 637902,
+        "x": {
+          "reg_jp": 1196,
+          "reg_tw": 64693,
+          "for_total": 513
+        },
+        "line": "1930 Resident Population: 66,402 · Males per 100 Females: 101.51 · Per km²: 105"
+      },
+      "TwHeito": {
+        "scope": "sub-unit",
+        "en": "Heitō-gun (Píngdōng, Pingtung)",
+        "pop": 92190,
+        "mf": "104.93",
+        "km2": 568,
+        "dens": 162,
+        "parent": "Takao-shū (Gāoxióng, Kaohsiung)",
+        "parentPop": 637902,
+        "x": {
+          "reg_jp": 5562,
+          "reg_tw": 85221,
+          "for_total": 1407
+        },
+        "line": "1930 Resident Population: 92,190 · Males per 100 Females: 104.93 · Per km²: 162"
+      },
+      "TwChoshu": {
+        "scope": "sub-unit",
+        "en": "Chōshū-gun (Cháozhōu)",
+        "pop": 71695,
+        "mf": "100.13",
+        "km2": 351,
+        "dens": 204,
+        "parent": "Takao-shū (Gāoxióng, Kaohsiung)",
+        "parentPop": 637902,
+        "x": {
+          "reg_jp": 1018,
+          "reg_tw": 69991,
+          "for_total": 686
+        },
+        "line": "1930 Resident Population: 71,695 · Males per 100 Females: 100.13 · Per km²: 204"
+      },
+      "TwToko": {
+        "scope": "sub-unit",
+        "en": "Tōkō-gun (Dōnggǎng)",
+        "pop": 79727,
+        "mf": "104.61",
+        "km2": 231,
+        "dens": 345,
+        "parent": "Takao-shū (Gāoxióng, Kaohsiung)",
+        "parentPop": 637902,
+        "x": {
+          "reg_jp": 839,
+          "reg_tw": 78418,
+          "for_total": 470
+        },
+        "line": "1930 Resident Population: 79,727 · Males per 100 Females: 104.61 · Per km²: 345"
+      },
+      "TwKoshun": {
+        "scope": "sub-unit",
+        "en": "Kōshun-gun (Héngchūn)",
+        "pop": 26638,
+        "mf": "103.50",
+        "km2": 347,
+        "dens": 77,
+        "parent": "Takao-shū (Gāoxióng, Kaohsiung)",
+        "parentPop": 637902,
+        "x": {
+          "reg_jp": 877,
+          "reg_tw": 25282,
+          "for_total": 479
+        },
+        "line": "1930 Resident Population: 26,638 · Males per 100 Females: 103.50 · Per km²: 77"
+      },
+      "TwBanchi": {
+        "scope": "sub-unit",
+        "en": "Taiwan Government-General’s demarcated 「蕃地」",
+        "pop": 86154,
+        "mf": "102.10",
+        "note": "The Indigenous Peoples — 「蕃人」 in the source’s own word — living outside the ordinary districts. The 1930 return counts them here and nowhere else, which the 1941 one does not: the 市 and 郡 figures below exclude them, and the colony’s four categories add up with them once. No density is drawn, the source giving this ground no area of its own.",
+        "x": {
+          "reg_indig": 86154
+        },
+        "line": "1930 Resident Population: 86,154 · Males per 100 Females: 102.10 The Indigenous Peoples — 「蕃人」 in the source’s own word — living outside the ordinary districts. The 1930 return counts them here and nowhere else, which the 1941 one does not: the 市 and 郡 figures below exclude them, and the colony’s four categories add up with them once. No density is drawn, the source giving this ground no area of its own."
+      }
+    },
+    "breaks": [
+      100,
+      300,
+      1000,
+      2500
+    ],
+    "jpBreaks": [
+      1,
+      2.5,
+      5,
+      15
+    ]
+  },
+  {
+    "id": "taiwan-cities-1930",
+    "epoch": "1930",
+    "group": "taiwan-cities-1930",
+    "country": "",
+    "caption": "resident population at the end of 1930",
+    "note": "",
+    "inShort": true,
+    "tableSkip": [],
+    "fields": [
+      {
+        "c": "reg_jp",
+        "label": "Japanese (naichijin)",
+        "group": "Register and nationality",
+        "dp": 0
+      },
+      {
+        "c": "reg_tw",
+        "label": "Taiwanese",
+        "group": "Register and nationality",
+        "dp": 0
+      },
+      {
+        "c": "for_total",
+        "label": "Foreigners",
+        "group": "Register and nationality",
+        "dp": 0
+      }
+    ],
+    "label": "The seven 市 at the end of 1930",
+    "pctOf": "",
+    "source": "昭和五年 臺灣總督府統計書 (published 1932; the figures are for 1930) — 第35表 戶口靜態總表 and 第37表 地方別現住人口, pp. 28–37",
+    "layer": "The seven 市 at the end of 1930",
+    "rows": {
+      "taipei": {
+        "scope": "city",
+        "en": "Taihoku (Taibei, Taipei)",
+        "pop": 240435,
+        "mf": "108.50",
+        "x": {
+          "reg_jp": 70369,
+          "reg_tw": 154694,
+          "for_total": 15372
+        },
+        "line": "1930 Resident Population: 240,435 · Males per 100 Females: 108.50"
+      },
+      "tainan": {
+        "scope": "city",
+        "en": "Tainan",
+        "pop": 98114,
+        "mf": "109.25",
+        "x": {
+          "reg_jp": 15496,
+          "reg_tw": 78744,
+          "for_total": 3874
+        },
+        "line": "1930 Resident Population: 98,114 · Males per 100 Females: 109.25"
+      },
+      "keelung": {
+        "scope": "city",
+        "en": "Kīrun (Jilong, Keelung)",
+        "pop": 78214,
+        "mf": "108.55",
+        "x": {
+          "reg_jp": 19254,
+          "reg_tw": 54669,
+          "for_total": 4291
+        },
+        "line": "1930 Resident Population: 78,214 · Males per 100 Females: 108.55"
+      },
+      "kaohsiung": {
+        "scope": "city",
+        "en": "Takao (Gaoxiong, Kaohsiung)",
+        "pop": 62633,
+        "mf": "112.52",
+        "x": {
+          "reg_jp": 15878,
+          "reg_tw": 44893,
+          "for_total": 1862
+        },
+        "line": "1930 Resident Population: 62,633 · Males per 100 Females: 112.52"
+      },
+      "chiayi": {
+        "scope": "city",
+        "en": "Kagi (Jiayi, Chiayi)",
+        "pop": 58276,
+        "mf": "107.59",
+        "x": {
+          "reg_jp": 8883,
+          "reg_tw": 47649,
+          "for_total": 1744
+        },
+        "line": "1930 Resident Population: 58,276 · Males per 100 Females: 107.59"
+      },
+      "taichung": {
+        "scope": "city",
+        "en": "Taichū (Taizhong, Taichung)",
+        "pop": 55347,
+        "mf": "115.17",
+        "x": {
+          "reg_jp": 13445,
+          "reg_tw": 40402,
+          "for_total": 1500
+        },
+        "line": "1930 Resident Population: 55,347 · Males per 100 Females: 115.17"
+      },
+      "hsinchu": {
+        "scope": "city",
+        "en": "Shinchiku (Xinzhu, Hsinchu)",
+        "pop": 45867,
+        "mf": "100.27",
+        "x": {
+          "reg_jp": 5328,
+          "reg_tw": 39971,
+          "for_total": 568
+        },
+        "line": "1930 Resident Population: 45,867 · Males per 100 Females: 100.27"
       }
     },
     "breaks": [],

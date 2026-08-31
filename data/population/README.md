@@ -39,6 +39,7 @@ about the place; this folder holds what was counted there.
 | `pct_of_total` | share of the whole, as printed |
 | `area_km2` | see below |
 | `same_as` | this place has no figures of its own because the source counts it inside another one. It carries that row's, and its `note` should say so. Cheju is the case: the 1942 returns fold it into Zenranan-dō. One hop only — a row that points at a row that points elsewhere is refused |
+| `apart` | this row is counted **inside** the others rather than beside them, so nothing may add it to them. The 1941 高砂族 of the demarcated 「蕃地」 are the case: they are also counted in the district their ground lies in. It keeps the row out of the choropleth's range and out of the bar chart. The *1930* 蕃地 row is not marked, because that return counts those people once and in a column of their own |
 | `parent` | the unit this row sits inside, where the source counts both — a 郡 is read against its 州 |
 | `parent_pop` | and how big that unit was |
 | `note` | a sentence after the figures, or instead of them |
@@ -101,6 +102,26 @@ little under the received figures — 219,847 km² for the thirteen provinces
 against the ~220,800 usually given for the peninsula, four parts in a thousand.
 At the printed precision that moves a density by one at most.
 
+
+## The chart over a table is of parts, and only parts
+
+Every table opens with one bar to each part, longest first, and a caption
+saying how many there are and what they come to. Two kinds of row in a table
+are not a part and are left out of the chart, or the bars would not add up to
+the caption:
+
+* **a container.** Taiwan's table carries the five 州 *and* the 市 and 郡
+  inside them, which is right for a table — a reader looks up a district and
+  reads it against its prefecture — and wrong for a chart, where Tainan-shū
+  would stand beside its own districts. A row another row names as its `parent`
+  is a container.
+* **a row marked `apart`**, which says outright that it is counted inside the
+  others.
+
+What is left sums to the whole, and the whole is `pct_of`'s row where there is
+one and the parts added up where there is not. Taiwan 1930 comes to 56 bars and
+4,679,066; 1941 to 55 and 6,249,468; Japan to 47 and Korea to 13, neither
+having any containers in it.
 
 ## The choropleth, and where its classes begin
 

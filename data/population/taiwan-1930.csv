@@ -1,0 +1,63 @@
+scope,key,en,population,m_per_100_f,pct_of_total,area_km2,same_as,apart,note,parent,parent_pop,reg_jp,reg_tw,reg_indig,for_total
+territory,formosa,Taiwan (Formosa),4679066,105.01,,36206,,,The colony whole: the ordinary districts and the Government-General’s demarcated 「蕃地」 together. The seven 市 and forty-five 郡 below are the first of those; the second is a shape of its own on this map.,,,232299,4313922,86154,46691
+sub-unit,TwShuTaihoku,"Taihoku-shū (Táiběi, Taipei)",939021,108.87,,,,,"The whole prefecture. Its 市 and 郡 below come to 933,483 between them; the other 5,538 were the Indigenous Peoples 「蕃人」 of the demarcated 「蕃地」, which the map draws apart.",,,103218,807808,5538,22457
+sub-unit,TwShuShinchiku,"Shinchiku-shū (Xīnzhú, Hsinchu)",681552,103.23,,,,,"The whole prefecture. Its 市 and 郡 below come to 669,382 between them; the other 12,170 were the Indigenous Peoples 「蕃人」 of the demarcated 「蕃地」, which the map draws apart.",,,12395,655015,12170,1972
+sub-unit,TwShuTaichu,"Taichū-shū (Táizhōng, Taichung)",1031508,103.96,,,,,"The whole prefecture. Its 市 and 郡 below come to 1,016,014 between them; the other 15,494 were the Indigenous Peoples 「蕃人」 of the demarcated 「蕃地」, which the map draws apart.",,,27980,983188,15494,4846
+sub-unit,TwShuTainan,Tainan-shū,1181569,104.10,,,,,"The whole prefecture. Its 市 and 郡 below come to 1,180,005 between them; the other 1,564 were the Indigenous Peoples 「蕃人」 of the demarcated 「蕃地」, which the map draws apart.",,,39967,1132134,1564,7904
+sub-unit,TwShuTakao,"Takao-shū (Gāoxióng, Kaohsiung)",637902,104.51,,,,,"The whole prefecture. Its 市 and 郡 below come to 608,465 between them; the other 29,437 were the Indigenous Peoples 「蕃人」 of the demarcated 「蕃地」, which the map draws apart.",,,28512,573255,29437,6698
+sub-unit,TwTaito,"Taitō-chō (Táidōng, Taitung)",47542,107.82,,1458,,,"The prefecture outside the demarcated 「蕃地」, which the map draws as a shape of its own. With the 11,793 Indigenous Peoples 「蕃人」 counted there the whole prefecture came to 59,335.",,,4406,42398,,738
+sub-unit,TwKarenko,"Karenkō-chō (Huāliángǎng, Hualien)",75300,116.01,,1304,,,"The prefecture outside the demarcated 「蕃地」, which the map draws as a shape of its own. With the 10,158 Indigenous Peoples 「蕃人」 counted there the whole prefecture came to 85,458.",,,12686,60588,,2026
+sub-unit,TwHoko,"Hōko-chō (Pénghú, the Pescadores)",62721,94.47,,126,,,The islands whole. The source counts no 「蕃人」 here.,,,3135,59536,,50
+sub-unit,TwTaihoku,"Taihoku-shi (Táiběi, Taipei)",240435,108.50,,47,,,,"Taihoku-shū (Táiběi, Taipei)",939021,70369,154694,,15372
+sub-unit,TwKirunShi,"Kīrun-shi (Jīlóng, Keelung)",78214,108.55,,53,,,,"Taihoku-shū (Táiběi, Taipei)",939021,19254,54669,,4291
+sub-unit,TwShichisei,Shichisei-gun (Qīxīng),99969,105.77,,335,,,,"Taihoku-shū (Táiběi, Taipei)",939021,1663,97876,,430
+sub-unit,TwTansui,"Tansui-gun (Dànshuǐ, Tamsui)",48459,110.31,,226,,,,"Taihoku-shū (Táiběi, Taipei)",939021,845,47207,,407
+sub-unit,TwKirun,"Kīrun-gun (Jīlóng, Keelung)",87726,114.39,,509,,,,"Taihoku-shū (Táiběi, Taipei)",939021,1566,85450,,710
+sub-unit,TwGiran,Giran-gun (Yílán),93047,111.59,,355,,,,"Taihoku-shū (Táiběi, Taipei)",939021,2789,89862,,396
+sub-unit,TwRato,Ratō-gun (Luódōng),63753,107.50,,279,,,,"Taihoku-shū (Táiběi, Taipei)",939021,2939,60542,,272
+sub-unit,TwSuo,Suō-gun (Sū’ào),15359,113.14,,45,,,,"Taihoku-shū (Táiběi, Taipei)",939021,1640,13653,,66
+sub-unit,TwBunzan,Bunzan-gun (Wénshān),58529,110.65,,485,,,,"Taihoku-shū (Táiběi, Taipei)",939021,817,57574,,138
+sub-unit,TwKaizan,Kaizan-gun (Hǎishān),92116,105.98,,226,,,,"Taihoku-shū (Táiběi, Taipei)",939021,977,90928,,211
+sub-unit,TwShinsho,Shinshō-gun (Xīnzhuāng),55876,106.99,,150,,,,"Taihoku-shū (Táiběi, Taipei)",939021,359,55353,,164
+sub-unit,TwShinchikuShi,"Shinchiku-shi (Xīnzhú, Hsinchu)",45867,100.27,,35,,,,"Shinchiku-shū (Xīnzhú, Hsinchu)",681552,5328,39971,,568
+sub-unit,TwShinchiku,"Shinchiku-gun (Xīnzhú, Hsinchu)",106331,103.76,,375,,,,"Shinchiku-shū (Xīnzhú, Hsinchu)",681552,451,105721,,159
+sub-unit,TwChureki,Chūreki-gun (Zhōnglì),96005,109.49,,382,,,,"Shinchiku-shū (Xīnzhú, Hsinchu)",681552,653,95171,,181
+sub-unit,TwToen,Tōen-gun (Táoyuán),80711,106.27,,302,,,,"Shinchiku-shū (Xīnzhú, Hsinchu)",681552,941,79598,,172
+sub-unit,TwDaikei,Daikei-gun (Dàxī),50228,103.69,,155,,,,"Shinchiku-shū (Xīnzhú, Hsinchu)",681552,936,49212,,80
+sub-unit,TwChikuto,Chikutō-gun (Zhúdōng),65704,102.22,,307,,,,"Shinchiku-shū (Xīnzhú, Hsinchu)",681552,753,64844,,107
+sub-unit,TwChikunan,Chikunan-gun (Zhúnán),82683,100.53,,333,,,,"Shinchiku-shū (Xīnzhú, Hsinchu)",681552,1007,81467,,209
+sub-unit,TwByoritsu,Byōritsu-gun (Miáolì),114234,98.60,,520,,,,"Shinchiku-shū (Xīnzhú, Hsinchu)",681552,1679,112091,,464
+sub-unit,TwTaiko,Taiko-gun (Dàhú),27619,108.40,,227,,,,"Shinchiku-shū (Xīnzhú, Hsinchu)",681552,647,26940,,32
+sub-unit,TwTaichu,"Taichū-shi (Táizhōng, Taichung)",55347,115.17,,20,,,,"Taichū-shū (Táizhōng, Taichung)",1031508,13445,40402,,1500
+sub-unit,TwDaiton,Daiton-gun (Dàtún),89742,104.43,,493,,,,"Taichū-shū (Táizhōng, Taichung)",1031508,794,88765,,183
+sub-unit,TwToyohara,Toyohara-gun (Fēngyuán),81823,100.70,,194,,,,"Taichū-shū (Táizhōng, Taichung)",1031508,1654,79860,,309
+sub-unit,TwTosei,Tōsei-gun (Dōngshì),39606,102.94,,201,,,,"Taichū-shū (Táizhōng, Taichung)",1031508,1244,38284,,78
+sub-unit,TwTaikou,Taikō-gun (Dàjiǎ),126455,101.29,,324,,,,"Taichū-shū (Táizhōng, Taichung)",1031508,1111,124984,,360
+sub-unit,TwShoka,"Shōka-gun (Zhānghuà, Changhua)",172889,101.20,,329,,,,"Taichū-shū (Táizhōng, Taichung)",1031508,2900,168915,,1074
+sub-unit,TwInrin,Inrin-gun (Yuánlín),155136,105.56,,283,,,,"Taichū-shū (Táizhōng, Taichung)",1031508,1531,153074,,531
+sub-unit,TwHokuto,Hokuto-gun (Běidǒu),114824,101.54,,450,,,,"Taichū-shū (Táizhōng, Taichung)",1031508,1109,113490,,225
+sub-unit,TwNanto,Nantō-gun (Nántóu),80130,104.59,,398,,,,"Taichū-shū (Táizhōng, Taichung)",1031508,1112,78842,,176
+sub-unit,TwNiitaka,Niitaka-gun (Xīngāo),25343,112.75,,194,,,,"Taichū-shū (Táizhōng, Taichung)",1031508,1273,24000,,70
+sub-unit,TwNoko,Nōkō-gun (Nénggāo),37113,110.52,,250,,,,"Taichū-shū (Táizhōng, Taichung)",1031508,1336,35524,,253
+sub-unit,TwTakeyama,Takeyama-gun (Zhúshān),37606,105.97,,435,,,,"Taichū-shū (Táizhōng, Taichung)",1031508,471,37048,,87
+sub-unit,TwTainan,Tainan-shi,98114,109.25,,49,,,,Tainan-shū,1181569,15496,78744,,3874
+sub-unit,TwKagiShi,"Kagi-shi (Jiāyì, Chiayi)",58276,107.59,,56,,,,Tainan-shū,1181569,8883,47649,,1744
+sub-unit,TwNiitoyo,Niitoyo-gun (Xīnfēng),92476,101.42,,363,,,,Tainan-shū,1181569,914,91508,,54
+sub-unit,TwShinka,Shinka-gun (Xīnhuà),79424,101.68,,652,,,,Tainan-shū,1181569,1368,77860,,196
+sub-unit,TwSobun,Sobun-gun (Zēngwén),68267,101.50,,299,,,,Tainan-shū,1181569,1290,66816,,161
+sub-unit,TwHokumon,Hokumon-gun (Běimén),115931,101.56,,413,,,,Tainan-shū,1181569,781,115089,,61
+sub-unit,TwShinei,Shin'ei-gun (Xīnyíng),97718,102.65,,476,,,,Tainan-shū,1181569,2226,95122,,370
+sub-unit,TwKagi,"Kagi-gun (Jiāyì, Chiayi)",136131,107.33,,1010,,,,Tainan-shū,1181569,2664,133234,,233
+sub-unit,TwToroku,Toroku-gun (Dǒuliù),91429,103.87,,455,,,,Tainan-shū,1181569,1427,89584,,418
+sub-unit,TwKobi,Kobi-gun (Hǔwěi),116077,101.44,,482,,,,Tainan-shū,1181569,2313,113340,,424
+sub-unit,TwHokuko,Hokukō-gun (Běigǎng),91418,106.06,,335,,,,Tainan-shū,1181569,1279,89874,,265
+sub-unit,TwToseki,Tōseki-gun (Dōngshí),134744,104.76,,466,,,,Tainan-shū,1181569,1326,133314,,104
+sub-unit,TwTakaoShi,"Takao-shi (Gāoxióng, Kaohsiung)",62633,112.52,,80,,,,"Takao-shū (Gāoxióng, Kaohsiung)",637902,15878,44893,,1862
+sub-unit,TwOkayama,Okayama-gun (Gāngshān),121825,104.55,,357,,,,"Takao-shū (Gāoxióng, Kaohsiung)",637902,1277,119996,,552
+sub-unit,TwHozan,Hōzan-gun (Fèngshān),87355,104.79,,332,,,,"Takao-shū (Gāoxióng, Kaohsiung)",637902,1865,84761,,729
+sub-unit,TwKizan,Kizan-gun (Qíshān),66402,101.51,,635,,,,"Takao-shū (Gāoxióng, Kaohsiung)",637902,1196,64693,,513
+sub-unit,TwHeito,"Heitō-gun (Píngdōng, Pingtung)",92190,104.93,,568,,,,"Takao-shū (Gāoxióng, Kaohsiung)",637902,5562,85221,,1407
+sub-unit,TwChoshu,Chōshū-gun (Cháozhōu),71695,100.13,,351,,,,"Takao-shū (Gāoxióng, Kaohsiung)",637902,1018,69991,,686
+sub-unit,TwToko,Tōkō-gun (Dōnggǎng),79727,104.61,,231,,,,"Takao-shū (Gāoxióng, Kaohsiung)",637902,839,78418,,470
+sub-unit,TwKoshun,Kōshun-gun (Héngchūn),26638,103.50,,347,,,,"Takao-shū (Gāoxióng, Kaohsiung)",637902,877,25282,,479
+sub-unit,TwBanchi,Taiwan Government-General’s demarcated 「蕃地」,86154,102.10,,,,,"The Indigenous Peoples — 「蕃人」 in the source’s own word — living outside the ordinary districts. The 1930 return counts them here and nowhere else, which the 1941 one does not: the 市 and 郡 figures below exclude them, and the colony’s four categories add up with them once. No density is drawn, the source giving this ground no area of its own.",,,,,86154,
