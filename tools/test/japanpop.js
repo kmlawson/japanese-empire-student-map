@@ -169,13 +169,15 @@ const open = async (b, url) => {
     return {
       mf: j.mf, tokyoMF: d.rows.Tokyo.mf, naganoMF: d.rows.Nagano.mf,
       withMF: subs.filter(k => d.rows[k].mf).length,
-      ages: [j.x.age_0_14_pm, j.x.age_15_59_pm, j.x.age_60p_pm],
+      ages: [j.x.age_0_14_pct, j.x.age_15_59_pct, j.x.age_60p_pct],
       // every row's three shares, to be summed
       sums: subs.concat(['japan']).map(k => {
         const x = d.rows[k].x;
-        return (x.age_0_14_pm || 0) + (x.age_15_59_pm || 0) + (x.age_60p_pm || 0);
+        return Math.round(10 * ((x.age_0_14_pct || 0) + (x.age_15_59_pct || 0)
+                                + (x.age_60p_pct || 0)));
       }),
-      shimane: [d.rows.Shimane.x.age_0_14_pm, d.rows.Shimane.x.age_60p_pm],
+      shimane: [d.rows.Shimane.x.age_0_14_pct, d.rows.Shimane.x.age_60p_pct],
+      dp: (d.fields || []).filter(f => f.c === 'age_15_59_pct')[0],
       born: j.x,
     };
   });
@@ -190,8 +192,14 @@ const open = async (b, url) => {
   check('twenty-three prefectures have it so far', more.withMF === 23,
     String(more.withMF));
 
-  check('the age groups are the source\'s per-thousand shares',
-    more.ages.join(' ') === '366 560 74', more.ages.join(' '));
+  /* The source prints 366 / 560 / 74 per thousand; the map says the same
+     figure in the unit a reader has. */
+  check('the age groups are shown as percentages',
+    more.ages.join(' ') === '36.6 56 7.4', more.ages.join(' '));
+  /* And a share keeps the places its column was written to, or 56.0 prints as
+     "56" beside 36.6 and 7.4 and reads as a different quantity. */
+  check('with the decimal place the column was written to',
+    more.dp && more.dp.dp === 1, JSON.stringify(more.dp));
   /* Forty-eight rows of three rounded shares. All of them within one of a
      thousand is what says the reading is right — it cannot happen by accident,
      and it is the same check that was made before anything was drawn. */
@@ -199,7 +207,7 @@ const open = async (b, url) => {
     more.sums.length === 48 && more.sums.every(v => v >= 999 && v <= 1001),
     more.sums.filter(v => v < 999 || v > 1001).join(' ') || 'none out');
   check('Shimane is the oldest and Tōkyō the youngest',
-    more.shimane[1] === 111 && more.ages[2] === 74, more.shimane.join('/'));
+    more.shimane[1] === 11.1 && more.ages[2] === 7.4, more.shimane.join('/'));
 
   check('the five 外地 sum to the printed 485,797',
     more.born.born_chosen + more.born.born_taiwan + more.born.born_karafuto
@@ -237,6 +245,53 @@ const open = async (b, url) => {
   check('and a city not on the page is small',
     ['gifu', 'nagano', 'aomori', 'shimonoseki'].every(id => tier(id) === 0),
     ['gifu', 'nagano', 'aomori', 'shimonoseki'].map(tier).join(' '));
+
+  /* And the figures behind those weights, as a dataset of their own — which is
+     what puts them on a city's card and gives it a table. Keyed by the
+     gazetteer's own ids, so a city renamed in `data/cities-1930.csv` fails the
+     build rather than quietly losing its population. */
+  const cty = await p.evaluate(() => {
+    const d = (JMAP.POPULATION || []).filter(x => x.id === 'japan-cities-1930')[0];
+    if (!d) return null;
+    const keys = Object.keys(d.rows).filter(k => d.rows[k].scope === 'city');
+    return { n: keys.length,
+             sum: keys.reduce((a, k) => a + d.rows[k].pop, 0),
+             all: d.rows.allcities && d.rows.allcities.pop,
+             osaka: d.rows.osaka && d.rows.osaka.pop,
+             tokyo: d.rows.tokyo && d.rows.tokyo.pop,
+             tokyoNote: d.rows.tokyo && d.rows.tokyo.note };
+  });
+  check('twenty-eight cities have their census figures', cty && cty.n === 28,
+    cty ? String(cty.n) : 'no dataset');
+  check('and they sum to the summary row',
+    cty.sum === cty.all && cty.all === 11030724, cty.sum + ' / ' + cty.all);
+  /* The one that will look like a mistake to anybody who knows the later
+     figures, so the row says why. */
+  check('Ōsaka is the larger city, and Tōkyō\'s row says why',
+    cty.osaka === 2453573 && cty.tokyo === 2070913
+    && /fifteen wards/.test(cty.tokyoNote || ''), cty.osaka + ' / ' + cty.tokyo);
+  await p.close();
+
+  console.log('\n— a city card —');
+  p = await open(b, 'http://localhost:8123/index.html?layers=2&where=133,32,142,38');
+  const cAt = await p.evaluate(() => {
+    const g = [...document.querySelectorAll('#gaz g')]
+      .find(e => (e.getAttribute('data-gid') || e.getAttribute('data-id') || '')
+        .split('_').pop() === 'osaka');
+    if (!g) return null;
+    const r = g.getBoundingClientRect();
+    return { x: Math.round(r.left + r.width / 2), y: Math.round(r.top + r.height / 2) };
+  });
+  check('Ōsaka has a dot to press', !!cAt);
+  await p.mouse.click(cAt.x, cAt.y);
+  await sleep(1400);
+  const cCard = await p.evaluate(() =>
+    (document.querySelector('#info-pop') || { textContent: '' })
+      .textContent.replace(/\s+/g, ' '));
+  check('its card carries the census figure and its share',
+    /2,453,573/.test(cCard) && /3\.81/.test(cCard), cCard.slice(0, 120));
+  check('and offers the whole column of cities',
+    /Population Table/.test(cCard), cCard.slice(-40));
   await p.close();
 
   console.log('\n— what a reader is told —');
@@ -281,7 +336,10 @@ const open = async (b, url) => {
   check('and the sex ratio, once its own page was read',
     /Males per 100 females/.test(table), table.slice(0, 200));
   check('with the shares of age under their own heading',
-    /Ages per 1,000/.test(table), table.slice(0, 240));
+    /Ages, % of the population/.test(table), table.slice(0, 300));
+  /* 56.0 with its zero, in the table as on the card. */
+  check('and a whole-numbered share keeps its decimal',
+    /56\.0/.test(table), table.slice(0, 400));
   await p.close();
 
   await b.close();

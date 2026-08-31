@@ -38,9 +38,9 @@ occ_other,Other gainful occupation,Occupation
 occ_none,No occupation,Occupation
 pop_1925,1925 (Taishō 14),Earlier censuses
 pop_1920,1920 (Taishō 9),Earlier censuses
-age_0_14_pm,0–14,"Ages per 1,000"
-age_15_59_pm,15–59,"Ages per 1,000"
-age_60p_pm,60 and over,"Ages per 1,000"
+age_0_14_pct,0–14,"Ages, % of the population"
+age_15_59_pct,15–59,"Ages, % of the population"
+age_60p_pct,60 and over,"Ages, % of the population"
 born_chosen,Chōsen (Korea),Born outside Japan proper
 born_taiwan,Taiwan (Formosa),Born outside Japan proper
 born_karafuto,Karafuto,Born outside Japan proper

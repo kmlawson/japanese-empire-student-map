@@ -1743,7 +1743,7 @@ JMAP.SITES = [
   },
   {
     id: 'okunoshima', en: 'Ōkunoshima', ja: '大久野島 (Ōkunoshima)', zh: '大久野島', ko: '오쿠노시마섬',
-    date: 'Army gas plant from 1929', cat: 'city', lvl: 3, lat: 34.31, lon: 133.0,
+    date: 'Army gas plant from 1929', cat: 'poi', lvl: 3, lat: 34.31, lon: 133.0,
     wiki: 'https://en.wikipedia.org/wiki/%C5%8Ckunoshima', year: 1929,
     note: 'The army\'s poison gas plant from 1929, making mustard and lewisite for use in China. The island was taken off published maps while it worked, and the labourers were not told what they were handling.'
   },
@@ -1766,7 +1766,7 @@ JMAP.SITES = [
   },
   {
     id: 'ashio', en: 'Ashio', ja: '足尾 (Ashio)', zh: '足尾', ko: '아시오정',
-    date: 'Copper, and the pollution case', cat: 'city', lvl: 3, lat: 36.65, lon: 139.45,
+    date: 'Copper, and the pollution case', cat: 'poi', lvl: 3, lat: 36.65, lon: 139.45,
     wiki: 'https://en.wikipedia.org/wiki/Ashio,_Tochigi', year: 1890,
     note: 'Furukawa\'s copper mine, and the pollution that poisoned the Watarase valley below it. Tanaka Shōzō\'s campaign on behalf of the ruined villages was the first environmental protest in Japan, and the state answered it by drowning one of them under a reservoir.'
   },
@@ -7840,187 +7840,224 @@ JMAP.POPULATION = [
       {
         "c": "age_0_14",
         "label": "0–14",
-        "group": "Ages"
+        "group": "Ages",
+        "dp": 0
       },
       {
         "c": "age_15_59",
         "label": "15–59",
-        "group": "Ages"
+        "group": "Ages",
+        "dp": 0
       },
       {
         "c": "age_60p",
         "label": "60 and over",
-        "group": "Ages"
+        "group": "Ages",
+        "dp": 0
       },
       {
         "c": "reg_jp",
         "label": "Japanese (naichijin)",
-        "group": "Register and nationality"
+        "group": "Register and nationality",
+        "dp": 0
       },
       {
         "c": "reg_ko",
         "label": "Koreans",
-        "group": "Register and nationality"
+        "group": "Register and nationality",
+        "dp": 0
       },
       {
         "c": "reg_tw",
         "label": "Taiwanese",
-        "group": "Register and nationality"
+        "group": "Register and nationality",
+        "dp": 0
       },
       {
         "c": "reg_karafuto",
         "label": "Karafuto",
-        "group": "Register and nationality"
+        "group": "Register and nationality",
+        "dp": 0
       },
       {
         "c": "for_total",
         "label": "Foreigners",
-        "group": "Register and nationality"
+        "group": "Register and nationality",
+        "dp": 0
       },
       {
         "c": "for_cn",
         "label": "Chinese",
-        "group": "Register and nationality"
+        "group": "Register and nationality",
+        "dp": 0
       },
       {
         "c": "for_other",
         "label": "Other foreign",
-        "group": "Register and nationality"
+        "group": "Register and nationality",
+        "dp": 0
       },
       {
         "c": "for_gb",
         "label": "Britain",
-        "group": "Foreign nationality"
+        "group": "Foreign nationality",
+        "dp": 0
       },
       {
         "c": "for_us",
         "label": "United States",
-        "group": "Foreign nationality"
+        "group": "Foreign nationality",
+        "dp": 0
       },
       {
         "c": "for_su",
         "label": "USSR",
-        "group": "Foreign nationality"
+        "group": "Foreign nationality",
+        "dp": 0
       },
       {
         "c": "for_fr",
         "label": "France",
-        "group": "Foreign nationality"
+        "group": "Foreign nationality",
+        "dp": 0
       },
       {
         "c": "for_de",
         "label": "Germany",
-        "group": "Foreign nationality"
+        "group": "Foreign nationality",
+        "dp": 0
       },
       {
         "c": "for_at",
         "label": "Austria",
-        "group": "Foreign nationality"
+        "group": "Foreign nationality",
+        "dp": 0
       },
       {
         "c": "for_cz",
         "label": "Czechoslovakia",
-        "group": "Foreign nationality"
+        "group": "Foreign nationality",
+        "dp": 0
       },
       {
         "c": "for_se",
         "label": "Sweden",
-        "group": "Foreign nationality"
+        "group": "Foreign nationality",
+        "dp": 0
       },
       {
         "c": "for_ch",
         "label": "Switzerland",
-        "group": "Foreign nationality"
+        "group": "Foreign nationality",
+        "dp": 0
       },
       {
         "c": "for_no",
         "label": "Norway",
-        "group": "Foreign nationality"
+        "group": "Foreign nationality",
+        "dp": 0
       },
       {
         "c": "for_be",
         "label": "Belgium",
-        "group": "Foreign nationality"
+        "group": "Foreign nationality",
+        "dp": 0
       },
       {
         "c": "for_tr",
         "label": "Turkey",
-        "group": "Foreign nationality"
+        "group": "Foreign nationality",
+        "dp": 0
       },
       {
         "c": "for_ir",
         "label": "Persia",
-        "group": "Foreign nationality"
+        "group": "Foreign nationality",
+        "dp": 0
       },
       {
         "c": "for_ca",
         "label": "Canada",
-        "group": "Foreign nationality"
+        "group": "Foreign nationality",
+        "dp": 0
       },
       {
         "c": "for_au",
         "label": "Australia",
-        "group": "Foreign nationality"
+        "group": "Foreign nationality",
+        "dp": 0
       },
       {
         "c": "for_etc",
         "label": "Other foreign nationality",
-        "group": "Foreign nationality"
+        "group": "Foreign nationality",
+        "dp": 0
       },
       {
         "c": "occ_total",
         "label": "In gainful occupation",
-        "group": "Occupation"
+        "group": "Occupation",
+        "dp": 0
       },
       {
         "c": "occ_agri",
         "label": "Agriculture",
-        "group": "Occupation"
+        "group": "Occupation",
+        "dp": 0
       },
       {
         "c": "occ_fish",
         "label": "Fisheries",
-        "group": "Occupation"
+        "group": "Occupation",
+        "dp": 0
       },
       {
         "c": "occ_mine",
         "label": "Mining",
-        "group": "Occupation"
+        "group": "Occupation",
+        "dp": 0
       },
       {
         "c": "occ_ind",
         "label": "Industry",
-        "group": "Occupation"
+        "group": "Occupation",
+        "dp": 0
       },
       {
         "c": "occ_comm",
         "label": "Commerce",
-        "group": "Occupation"
+        "group": "Occupation",
+        "dp": 0
       },
       {
         "c": "occ_trans",
         "label": "Transport",
-        "group": "Occupation"
+        "group": "Occupation",
+        "dp": 0
       },
       {
         "c": "occ_public",
         "label": "Public service and professions",
-        "group": "Occupation"
+        "group": "Occupation",
+        "dp": 0
       },
       {
         "c": "occ_domestic",
         "label": "Domestic service",
-        "group": "Occupation"
+        "group": "Occupation",
+        "dp": 0
       },
       {
         "c": "occ_other",
         "label": "Other gainful occupation",
-        "group": "Occupation"
+        "group": "Occupation",
+        "dp": 0
       },
       {
         "c": "occ_none",
         "label": "No occupation",
-        "group": "Occupation"
+        "group": "Occupation",
+        "dp": 0
       }
     ],
     "label": "Korea, census of 1 October 1930",
@@ -8634,177 +8671,212 @@ JMAP.POPULATION = [
       {
         "c": "age_0_14",
         "label": "0–14",
-        "group": "Ages"
+        "group": "Ages",
+        "dp": 0
       },
       {
         "c": "age_15_59",
         "label": "15–59",
-        "group": "Ages"
+        "group": "Ages",
+        "dp": 0
       },
       {
         "c": "age_60p",
         "label": "60 and over",
-        "group": "Ages"
+        "group": "Ages",
+        "dp": 0
       },
       {
         "c": "reg_jp",
         "label": "Japanese (naichijin)",
-        "group": "Register and nationality"
+        "group": "Register and nationality",
+        "dp": 0
       },
       {
         "c": "reg_ko",
         "label": "Koreans",
-        "group": "Register and nationality"
+        "group": "Register and nationality",
+        "dp": 0
       },
       {
         "c": "reg_tw",
         "label": "Taiwanese",
-        "group": "Register and nationality"
+        "group": "Register and nationality",
+        "dp": 0
       },
       {
         "c": "reg_karafuto",
         "label": "Karafuto",
-        "group": "Register and nationality"
+        "group": "Register and nationality",
+        "dp": 0
       },
       {
         "c": "for_total",
         "label": "Foreigners",
-        "group": "Register and nationality"
+        "group": "Register and nationality",
+        "dp": 0
       },
       {
         "c": "for_cn",
         "label": "Chinese",
-        "group": "Register and nationality"
+        "group": "Register and nationality",
+        "dp": 0
       },
       {
         "c": "for_other",
         "label": "Other foreign",
-        "group": "Register and nationality"
+        "group": "Register and nationality",
+        "dp": 0
       },
       {
         "c": "for_gb",
         "label": "Britain",
-        "group": "Foreign nationality"
+        "group": "Foreign nationality",
+        "dp": 0
       },
       {
         "c": "for_us",
         "label": "United States",
-        "group": "Foreign nationality"
+        "group": "Foreign nationality",
+        "dp": 0
       },
       {
         "c": "for_su",
         "label": "USSR",
-        "group": "Foreign nationality"
+        "group": "Foreign nationality",
+        "dp": 0
       },
       {
         "c": "for_fr",
         "label": "France",
-        "group": "Foreign nationality"
+        "group": "Foreign nationality",
+        "dp": 0
       },
       {
         "c": "for_de",
         "label": "Germany",
-        "group": "Foreign nationality"
+        "group": "Foreign nationality",
+        "dp": 0
       },
       {
         "c": "for_at",
         "label": "Austria",
-        "group": "Foreign nationality"
+        "group": "Foreign nationality",
+        "dp": 0
       },
       {
         "c": "for_cz",
         "label": "Czechoslovakia",
-        "group": "Foreign nationality"
+        "group": "Foreign nationality",
+        "dp": 0
       },
       {
         "c": "for_se",
         "label": "Sweden",
-        "group": "Foreign nationality"
+        "group": "Foreign nationality",
+        "dp": 0
       },
       {
         "c": "for_ch",
         "label": "Switzerland",
-        "group": "Foreign nationality"
+        "group": "Foreign nationality",
+        "dp": 0
       },
       {
         "c": "for_no",
         "label": "Norway",
-        "group": "Foreign nationality"
+        "group": "Foreign nationality",
+        "dp": 0
       },
       {
         "c": "for_tr",
         "label": "Turkey",
-        "group": "Foreign nationality"
+        "group": "Foreign nationality",
+        "dp": 0
       },
       {
         "c": "for_ca",
         "label": "Canada",
-        "group": "Foreign nationality"
+        "group": "Foreign nationality",
+        "dp": 0
       },
       {
         "c": "for_au",
         "label": "Australia",
-        "group": "Foreign nationality"
+        "group": "Foreign nationality",
+        "dp": 0
       },
       {
         "c": "for_etc",
         "label": "Other foreign nationality",
-        "group": "Foreign nationality"
+        "group": "Foreign nationality",
+        "dp": 0
       },
       {
         "c": "occ_total",
         "label": "In gainful occupation",
-        "group": "Occupation"
+        "group": "Occupation",
+        "dp": 0
       },
       {
         "c": "occ_agri",
         "label": "Agriculture",
-        "group": "Occupation"
+        "group": "Occupation",
+        "dp": 0
       },
       {
         "c": "occ_fish",
         "label": "Fisheries",
-        "group": "Occupation"
+        "group": "Occupation",
+        "dp": 0
       },
       {
         "c": "occ_mine",
         "label": "Mining",
-        "group": "Occupation"
+        "group": "Occupation",
+        "dp": 0
       },
       {
         "c": "occ_ind",
         "label": "Industry",
-        "group": "Occupation"
+        "group": "Occupation",
+        "dp": 0
       },
       {
         "c": "occ_comm",
         "label": "Commerce",
-        "group": "Occupation"
+        "group": "Occupation",
+        "dp": 0
       },
       {
         "c": "occ_trans",
         "label": "Transport",
-        "group": "Occupation"
+        "group": "Occupation",
+        "dp": 0
       },
       {
         "c": "occ_public",
         "label": "Public service and professions",
-        "group": "Occupation"
+        "group": "Occupation",
+        "dp": 0
       },
       {
         "c": "occ_domestic",
         "label": "Domestic service",
-        "group": "Occupation"
+        "group": "Occupation",
+        "dp": 0
       },
       {
         "c": "occ_other",
         "label": "Other gainful occupation",
-        "group": "Occupation"
+        "group": "Occupation",
+        "dp": 0
       },
       {
         "c": "occ_none",
         "label": "No occupation",
-        "group": "Occupation"
+        "group": "Occupation",
+        "dp": 0
       }
     ],
     "label": "The fourteen 府 at the census of 1 October 1930",
@@ -9329,27 +9401,32 @@ JMAP.POPULATION = [
       {
         "c": "reg_jp",
         "label": "Japanese (naichijin)",
-        "group": "Register and nationality"
+        "group": "Register and nationality",
+        "dp": 0
       },
       {
         "c": "reg_ko",
         "label": "Koreans",
-        "group": "Register and nationality"
+        "group": "Register and nationality",
+        "dp": 0
       },
       {
         "c": "reg_tw",
         "label": "Taiwanese",
-        "group": "Register and nationality"
+        "group": "Register and nationality",
+        "dp": 0
       },
       {
         "c": "for_cn",
         "label": "Chinese",
-        "group": "Register and nationality"
+        "group": "Register and nationality",
+        "dp": 0
       },
       {
         "c": "for_other",
         "label": "Other foreign",
-        "group": "Register and nationality"
+        "group": "Register and nationality",
+        "dp": 0
       }
     ],
     "label": "Taiwan by district, the resident population at the end of 1941",
@@ -10461,69 +10538,81 @@ JMAP.POPULATION = [
     "group": "japan-density",
     "country": "Japan",
     "caption": "census of 1 October 1930",
-    "note": "The age groups are the source’s own 人口千中 — each group per thousand of that prefecture’s people, not a count. The sex ratio is transcribed as far as 愛知 so far.",
+    "note": "The source prints the age groups as 人口千中 — each group per thousand of that prefecture’s people — and they are shown here as the same figure in percent. They are shares, not counts. The sex ratio is transcribed as far as 愛知 so far.",
     "inShort": true,
     "tableSkip": [],
     "fields": [
       {
         "c": "pop_1925",
         "label": "1925 (Taishō 14)",
-        "group": "Earlier censuses"
+        "group": "Earlier censuses",
+        "dp": 0
       },
       {
         "c": "pop_1920",
         "label": "1920 (Taishō 9)",
-        "group": "Earlier censuses"
+        "group": "Earlier censuses",
+        "dp": 0
       },
       {
-        "c": "age_0_14_pm",
+        "c": "age_0_14_pct",
         "label": "0–14",
-        "group": "Ages per 1,000"
+        "group": "Ages, % of the population",
+        "dp": 1
       },
       {
-        "c": "age_15_59_pm",
+        "c": "age_15_59_pct",
         "label": "15–59",
-        "group": "Ages per 1,000"
+        "group": "Ages, % of the population",
+        "dp": 1
       },
       {
-        "c": "age_60p_pm",
+        "c": "age_60p_pct",
         "label": "60 and over",
-        "group": "Ages per 1,000"
+        "group": "Ages, % of the population",
+        "dp": 1
       },
       {
         "c": "born_chosen",
         "label": "Chōsen (Korea)",
-        "group": "Born outside Japan proper"
+        "group": "Born outside Japan proper",
+        "dp": 0
       },
       {
         "c": "born_taiwan",
         "label": "Taiwan (Formosa)",
-        "group": "Born outside Japan proper"
+        "group": "Born outside Japan proper",
+        "dp": 0
       },
       {
         "c": "born_karafuto",
         "label": "Karafuto",
-        "group": "Born outside Japan proper"
+        "group": "Born outside Japan proper",
+        "dp": 0
       },
       {
         "c": "born_kwantung",
         "label": "Kwantung Leased Territory",
-        "group": "Born outside Japan proper"
+        "group": "Born outside Japan proper",
+        "dp": 0
       },
       {
         "c": "born_nanyo",
         "label": "South Seas Mandate",
-        "group": "Born outside Japan proper"
+        "group": "Born outside Japan proper",
+        "dp": 0
       },
       {
         "c": "born_gaichi",
         "label": "All of the 外地",
-        "group": "Born outside Japan proper"
+        "group": "Born outside Japan proper",
+        "dp": 0
       },
       {
         "c": "born_foreign",
         "label": "A foreign country",
-        "group": "Born outside Japan proper"
+        "group": "Born outside Japan proper",
+        "dp": 0
       }
     ],
     "label": "Japan, census of 1 October 1930",
@@ -10541,9 +10630,9 @@ JMAP.POPULATION = [
         "x": {
           "pop_1925": 59736822,
           "pop_1920": 55963053,
-          "age_0_14_pm": 366,
-          "age_15_59_pm": 560,
-          "age_60p_pm": 74,
+          "age_0_14_pct": 36.6,
+          "age_15_59_pct": 56.0,
+          "age_60p_pct": 7.4,
           "born_chosen": 434934,
           "born_taiwan": 30264,
           "born_karafuto": 7419,
@@ -10566,9 +10655,9 @@ JMAP.POPULATION = [
         "x": {
           "pop_1925": 2498679,
           "pop_1920": 2359183,
-          "age_0_14_pm": 412,
-          "age_15_59_pm": 539,
-          "age_60p_pm": 49
+          "age_0_14_pct": 41.2,
+          "age_15_59_pct": 53.9,
+          "age_60p_pct": 4.9
         },
         "line": "1930 Census Population: 2,812,335 · Males per 100 Females: 109.28 · % of Total Japan: 4.36 · Per km²: 36 Chishima (the Kuriles) is counted in the census figure and is drawn on this map as a territory of its own, so the area here is Hokkaidō without it."
       },
@@ -10583,9 +10672,9 @@ JMAP.POPULATION = [
         "x": {
           "pop_1925": 812977,
           "pop_1920": 756454,
-          "age_0_14_pm": 410,
-          "age_15_59_pm": 530,
-          "age_60p_pm": 60
+          "age_0_14_pct": 41.0,
+          "age_15_59_pct": 53.0,
+          "age_60p_pct": 6.0
         },
         "line": "1930 Census Population: 879,914 · Males per 100 Females: 100.68 · % of Total Japan: 1.37 · Per km²: 91"
       },
@@ -10600,9 +10689,9 @@ JMAP.POPULATION = [
         "x": {
           "pop_1925": 900984,
           "pop_1920": 845540,
-          "age_0_14_pm": 399,
-          "age_15_59_pm": 526,
-          "age_60p_pm": 75
+          "age_0_14_pct": 39.9,
+          "age_15_59_pct": 52.6,
+          "age_60p_pct": 7.5
         },
         "line": "1930 Census Population: 975,771 · Males per 100 Females: 99.61 · % of Total Japan: 1.51 · Per km²: 64"
       },
@@ -10617,9 +10706,9 @@ JMAP.POPULATION = [
         "x": {
           "pop_1925": 1044036,
           "pop_1920": 961768,
-          "age_0_14_pm": 408,
-          "age_15_59_pm": 527,
-          "age_60p_pm": 65
+          "age_0_14_pct": 40.8,
+          "age_15_59_pct": 52.7,
+          "age_60p_pct": 6.5
         },
         "line": "1930 Census Population: 1,142,784 · Males per 100 Females: 101.39 · % of Total Japan: 1.77 · Per km²: 157"
       },
@@ -10634,9 +10723,9 @@ JMAP.POPULATION = [
         "x": {
           "pop_1925": 936408,
           "pop_1920": 898537,
-          "age_0_14_pm": 414,
-          "age_15_59_pm": 528,
-          "age_60p_pm": 58
+          "age_0_14_pct": 41.4,
+          "age_15_59_pct": 52.8,
+          "age_60p_pct": 5.8
         },
         "line": "1930 Census Population: 987,706 · Males per 100 Females: 100.47 · % of Total Japan: 1.53 · Per km²: 85"
       },
@@ -10651,9 +10740,9 @@ JMAP.POPULATION = [
         "x": {
           "pop_1925": 1027297,
           "pop_1920": 968925,
-          "age_0_14_pm": 397,
-          "age_15_59_pm": 537,
-          "age_60p_pm": 66
+          "age_0_14_pct": 39.7,
+          "age_15_59_pct": 53.7,
+          "age_60p_pct": 6.6
         },
         "line": "1930 Census Population: 1,080,034 · Males per 100 Females: 97.21 · % of Total Japan: 1.68 · Per km²: 116"
       },
@@ -10668,9 +10757,9 @@ JMAP.POPULATION = [
         "x": {
           "pop_1925": 1437596,
           "pop_1920": 1362750,
-          "age_0_14_pm": 407,
-          "age_15_59_pm": 522,
-          "age_60p_pm": 71
+          "age_0_14_pct": 40.7,
+          "age_15_59_pct": 52.2,
+          "age_60p_pct": 7.1
         },
         "line": "1930 Census Population: 1,508,150 · Males per 100 Females: 96.94 · % of Total Japan: 2.34 · Per km²: 110"
       },
@@ -10685,9 +10774,9 @@ JMAP.POPULATION = [
         "x": {
           "pop_1925": 1408948,
           "pop_1920": 1350261,
-          "age_0_14_pm": 386,
-          "age_15_59_pm": 526,
-          "age_60p_pm": 89
+          "age_0_14_pct": 38.6,
+          "age_15_59_pct": 52.6,
+          "age_60p_pct": 8.9
         },
         "line": "1930 Census Population: 1,487,097 · Males per 100 Females: 97.48 · % of Total Japan: 2.31 · Per km²: 244"
       },
@@ -10702,9 +10791,9 @@ JMAP.POPULATION = [
         "x": {
           "pop_1925": 1090428,
           "pop_1920": 1046479,
-          "age_0_14_pm": 408,
-          "age_15_59_pm": 520,
-          "age_60p_pm": 72
+          "age_0_14_pct": 40.8,
+          "age_15_59_pct": 52.0,
+          "age_60p_pct": 7.2
         },
         "line": "1930 Census Population: 1,141,737 · Males per 100 Females: 97.23 · % of Total Japan: 1.77 · Per km²: 178"
       },
@@ -10719,9 +10808,9 @@ JMAP.POPULATION = [
         "x": {
           "pop_1925": 1118858,
           "pop_1920": 1052610,
-          "age_0_14_pm": 384,
-          "age_15_59_pm": 548,
-          "age_60p_pm": 67
+          "age_0_14_pct": 38.4,
+          "age_15_59_pct": 54.8,
+          "age_60p_pct": 6.7
         },
         "line": "1930 Census Population: 1,186,080 · Males per 100 Females: 96.02 · % of Total Japan: 1.84 · Per km²: 186"
       },
@@ -10736,9 +10825,9 @@ JMAP.POPULATION = [
         "x": {
           "pop_1925": 1394193,
           "pop_1920": 1319261,
-          "age_0_14_pm": 381,
-          "age_15_59_pm": 540,
-          "age_60p_pm": 79
+          "age_0_14_pct": 38.1,
+          "age_15_59_pct": 54.0,
+          "age_60p_pct": 7.9
         },
         "line": "1930 Census Population: 1,459,172 · Males per 100 Females: 97.08 · % of Total Japan: 2.26 · Per km²: 384"
       },
@@ -10753,9 +10842,9 @@ JMAP.POPULATION = [
         "x": {
           "pop_1925": 1399257,
           "pop_1920": 1336155,
-          "age_0_14_pm": 361,
-          "age_15_59_pm": 544,
-          "age_60p_pm": 94
+          "age_0_14_pct": 36.1,
+          "age_15_59_pct": 54.4,
+          "age_60p_pct": 9.4
         },
         "line": "1930 Census Population: 1,470,121 · Males per 100 Females: 98.48 · % of Total Japan: 2.28 · Per km²: 285"
       },
@@ -10770,9 +10859,9 @@ JMAP.POPULATION = [
         "x": {
           "pop_1925": 4485556,
           "pop_1920": 3699839,
-          "age_0_14_pm": 318,
-          "age_15_59_pm": 639,
-          "age_60p_pm": 43
+          "age_0_14_pct": 31.8,
+          "age_15_59_pct": 63.9,
+          "age_60p_pct": 4.3
         },
         "line": "1930 Census Population: 5,408,678 · Males per 100 Females: 111.83 · % of Total Japan: 8.39 · Per km²: 2471"
       },
@@ -10787,9 +10876,9 @@ JMAP.POPULATION = [
         "x": {
           "pop_1925": 1416792,
           "pop_1920": 1323390,
-          "age_0_14_pm": 359,
-          "age_15_59_pm": 582,
-          "age_60p_pm": 59
+          "age_0_14_pct": 35.9,
+          "age_15_59_pct": 58.2,
+          "age_60p_pct": 5.9
         },
         "line": "1930 Census Population: 1,619,606 · Males per 100 Females: 107.56 · % of Total Japan: 2.51 · Per km²: 669"
       },
@@ -10804,9 +10893,9 @@ JMAP.POPULATION = [
         "x": {
           "pop_1925": 1849807,
           "pop_1920": 1776474,
-          "age_0_14_pm": 388,
-          "age_15_59_pm": 535,
-          "age_60p_pm": 78
+          "age_0_14_pct": 38.8,
+          "age_15_59_pct": 53.5,
+          "age_60p_pct": 7.8
         },
         "line": "1930 Census Population: 1,933,326 · Males per 100 Females: 97.74 · % of Total Japan: 3.00 · Per km²: 154"
       },
@@ -10821,9 +10910,9 @@ JMAP.POPULATION = [
         "x": {
           "pop_1925": 749243,
           "pop_1920": 724276,
-          "age_0_14_pm": 376,
-          "age_15_59_pm": 548,
-          "age_60p_pm": 76
+          "age_0_14_pct": 37.6,
+          "age_15_59_pct": 54.8,
+          "age_60p_pct": 7.6
         },
         "line": "1930 Census Population: 778,953 · Males per 100 Females: 96.14 · % of Total Japan: 1.21 · Per km²: 183"
       },
@@ -10838,9 +10927,9 @@ JMAP.POPULATION = [
         "x": {
           "pop_1925": 750854,
           "pop_1920": 747360,
-          "age_0_14_pm": 356,
-          "age_15_59_pm": 556,
-          "age_60p_pm": 88
+          "age_0_14_pct": 35.6,
+          "age_15_59_pct": 55.6,
+          "age_60p_pct": 8.8
         },
         "line": "1930 Census Population: 756,835 · Males per 100 Females: 94.84 · % of Total Japan: 1.17 · Per km²: 181"
       },
@@ -10855,9 +10944,9 @@ JMAP.POPULATION = [
         "x": {
           "pop_1925": 597899,
           "pop_1920": 599155,
-          "age_0_14_pm": 361,
-          "age_15_59_pm": 544,
-          "age_60p_pm": 95
+          "age_0_14_pct": 36.1,
+          "age_15_59_pct": 54.4,
+          "age_60p_pct": 9.5
         },
         "line": "1930 Census Population: 618,144 · Males per 100 Females: 97.10 · % of Total Japan: 0.96 · Per km²: 148"
       },
@@ -10872,9 +10961,9 @@ JMAP.POPULATION = [
         "x": {
           "pop_1925": 600675,
           "pop_1920": 583453,
-          "age_0_14_pm": 393,
-          "age_15_59_pm": 527,
-          "age_60p_pm": 80
+          "age_0_14_pct": 39.3,
+          "age_15_59_pct": 52.7,
+          "age_60p_pct": 8.0
         },
         "line": "1930 Census Population: 631,042 · Males per 100 Females: 99.88 · % of Total Japan: 0.98 · Per km²: 141"
       },
@@ -10889,9 +10978,9 @@ JMAP.POPULATION = [
         "x": {
           "pop_1925": 1629217,
           "pop_1920": 1562722,
-          "age_0_14_pm": 372,
-          "age_15_59_pm": 551,
-          "age_60p_pm": 77
+          "age_0_14_pct": 37.2,
+          "age_15_59_pct": 55.1,
+          "age_60p_pct": 7.7
         },
         "line": "1930 Census Population: 1,717,118 · Males per 100 Females: 94.07 · % of Total Japan: 2.66 · Per km²: 127"
       },
@@ -10906,9 +10995,9 @@ JMAP.POPULATION = [
         "x": {
           "pop_1925": 1132557,
           "pop_1920": 1070407,
-          "age_0_14_pm": 379,
-          "age_15_59_pm": 536,
-          "age_60p_pm": 85
+          "age_0_14_pct": 37.9,
+          "age_15_59_pct": 53.6,
+          "age_60p_pct": 8.5
         },
         "line": "1930 Census Population: 1,178,405 · Males per 100 Females: 100.63 · % of Total Japan: 1.83 · Per km²: 111"
       },
@@ -10923,9 +11012,9 @@ JMAP.POPULATION = [
         "x": {
           "pop_1925": 1671217,
           "pop_1920": 1550387,
-          "age_0_14_pm": 390,
-          "age_15_59_pm": 533,
-          "age_60p_pm": 77
+          "age_0_14_pct": 39.0,
+          "age_15_59_pct": 53.3,
+          "age_60p_pct": 7.7
         },
         "line": "1930 Census Population: 1,797,805 · Males per 100 Females: 100.39 · % of Total Japan: 2.79 · Per km²: 231"
       },
@@ -10940,9 +11029,9 @@ JMAP.POPULATION = [
         "x": {
           "pop_1925": 2319494,
           "pop_1920": 2089762,
-          "age_0_14_pm": 354,
-          "age_15_59_pm": 574,
-          "age_60p_pm": 72
+          "age_0_14_pct": 35.4,
+          "age_15_59_pct": 57.4,
+          "age_60p_pct": 7.2
         },
         "line": "1930 Census Population: 2,567,413 · Males per 100 Females: 99.07 · % of Total Japan: 3.98 · Per km²: 497"
       },
@@ -10956,9 +11045,9 @@ JMAP.POPULATION = [
         "x": {
           "pop_1925": 1107692,
           "pop_1920": 1069270,
-          "age_0_14_pm": 363,
-          "age_15_59_pm": 549,
-          "age_60p_pm": 89
+          "age_0_14_pct": 36.3,
+          "age_15_59_pct": 54.9,
+          "age_60p_pct": 8.9
         },
         "line": "1930 Census Population: 1,157,407 · % of Total Japan: 1.80 · Per km²: 201"
       },
@@ -10972,9 +11061,9 @@ JMAP.POPULATION = [
         "x": {
           "pop_1925": 662412,
           "pop_1920": 651050,
-          "age_0_14_pm": 351,
-          "age_15_59_pm": 554,
-          "age_60p_pm": 95
+          "age_0_14_pct": 35.1,
+          "age_15_59_pct": 55.4,
+          "age_60p_pct": 9.5
         },
         "line": "1930 Census Population: 691,631 · % of Total Japan: 1.07 · Per km²: 172"
       },
@@ -10988,9 +11077,9 @@ JMAP.POPULATION = [
         "x": {
           "pop_1925": 1406382,
           "pop_1920": 1287147,
-          "age_0_14_pm": 314,
-          "age_15_59_pm": 617,
-          "age_60p_pm": 70
+          "age_0_14_pct": 31.4,
+          "age_15_59_pct": 61.7,
+          "age_60p_pct": 7.0
         },
         "line": "1930 Census Population: 1,552,832 · % of Total Japan: 2.41 · Per km²: 338"
       },
@@ -11004,9 +11093,9 @@ JMAP.POPULATION = [
         "x": {
           "pop_1925": 3059502,
           "pop_1920": 2587847,
-          "age_0_14_pm": 307,
-          "age_15_59_pm": 643,
-          "age_60p_pm": 50
+          "age_0_14_pct": 30.7,
+          "age_15_59_pct": 64.3,
+          "age_60p_pct": 5.0
         },
         "line": "1930 Census Population: 3,540,017 · % of Total Japan: 5.49 · Per km²: 1851"
       },
@@ -11020,9 +11109,9 @@ JMAP.POPULATION = [
         "x": {
           "pop_1925": 2454679,
           "pop_1920": 2301799,
-          "age_0_14_pm": 343,
-          "age_15_59_pm": 584,
-          "age_60p_pm": 74
+          "age_0_14_pct": 34.3,
+          "age_15_59_pct": 58.4,
+          "age_60p_pct": 7.4
         },
         "line": "1930 Census Population: 2,646,301 · % of Total Japan: 4.11 · Per km²: 315"
       },
@@ -11036,9 +11125,9 @@ JMAP.POPULATION = [
         "x": {
           "pop_1925": 583828,
           "pop_1920": 564607,
-          "age_0_14_pm": 358,
-          "age_15_59_pm": 562,
-          "age_60p_pm": 80
+          "age_0_14_pct": 35.8,
+          "age_15_59_pct": 56.2,
+          "age_60p_pct": 8.0
         },
         "line": "1930 Census Population: 596,225 · % of Total Japan: 0.93 · Per km²: 161"
       },
@@ -11052,9 +11141,9 @@ JMAP.POPULATION = [
         "x": {
           "pop_1925": 787511,
           "pop_1920": 750411,
-          "age_0_14_pm": 365,
-          "age_15_59_pm": 551,
-          "age_60p_pm": 84
+          "age_0_14_pct": 36.5,
+          "age_15_59_pct": 55.1,
+          "age_60p_pct": 8.4
         },
         "line": "1930 Census Population: 830,748 · % of Total Japan: 1.29 · Per km²: 176"
       },
@@ -11068,9 +11157,9 @@ JMAP.POPULATION = [
         "x": {
           "pop_1925": 472230,
           "pop_1920": 454675,
-          "age_0_14_pm": 362,
-          "age_15_59_pm": 533,
-          "age_60p_pm": 105
+          "age_0_14_pct": 36.2,
+          "age_15_59_pct": 53.3,
+          "age_60p_pct": 10.5
         },
         "line": "1930 Census Population: 489,266 · % of Total Japan: 0.76 · Per km²: 140"
       },
@@ -11084,9 +11173,9 @@ JMAP.POPULATION = [
         "x": {
           "pop_1925": 722402,
           "pop_1920": 714712,
-          "age_0_14_pm": 345,
-          "age_15_59_pm": 544,
-          "age_60p_pm": 111
+          "age_0_14_pct": 34.5,
+          "age_15_59_pct": 54.4,
+          "age_60p_pct": 11.1
         },
         "line": "1930 Census Population: 739,507 · % of Total Japan: 1.15 · Per km²: 110"
       },
@@ -11100,9 +11189,9 @@ JMAP.POPULATION = [
         "x": {
           "pop_1925": 1238447,
           "pop_1920": 1217698,
-          "age_0_14_pm": 338,
-          "age_15_59_pm": 561,
-          "age_60p_pm": 101
+          "age_0_14_pct": 33.8,
+          "age_15_59_pct": 56.1,
+          "age_60p_pct": 10.1
         },
         "line": "1930 Census Population: 1,283,962 · % of Total Japan: 1.99 · Per km²: 181"
       },
@@ -11116,9 +11205,9 @@ JMAP.POPULATION = [
         "x": {
           "pop_1925": 1617680,
           "pop_1920": 1541905,
-          "age_0_14_pm": 361,
-          "age_15_59_pm": 549,
-          "age_60p_pm": 90
+          "age_0_14_pct": 36.1,
+          "age_15_59_pct": 54.9,
+          "age_60p_pct": 9.0
         },
         "line": "1930 Census Population: 1,692,136 · % of Total Japan: 2.63 · Per km²: 200"
       },
@@ -11132,9 +11221,9 @@ JMAP.POPULATION = [
         "x": {
           "pop_1925": 1094544,
           "pop_1920": 1041013,
-          "age_0_14_pm": 352,
-          "age_15_59_pm": 552,
-          "age_60p_pm": 96
+          "age_0_14_pct": 35.2,
+          "age_15_59_pct": 55.2,
+          "age_60p_pct": 9.6
         },
         "line": "1930 Census Population: 1,135,637 · % of Total Japan: 1.76 · Per km²: 186"
       },
@@ -11148,9 +11237,9 @@ JMAP.POPULATION = [
         "x": {
           "pop_1925": 689814,
           "pop_1920": 670212,
-          "age_0_14_pm": 373,
-          "age_15_59_pm": 522,
-          "age_60p_pm": 104
+          "age_0_14_pct": 37.3,
+          "age_15_59_pct": 52.2,
+          "age_60p_pct": 10.4
         },
         "line": "1930 Census Population: 716,544 · % of Total Japan: 1.11 · Per km²: 173"
       },
@@ -11164,9 +11253,9 @@ JMAP.POPULATION = [
         "x": {
           "pop_1925": 700308,
           "pop_1920": 677852,
-          "age_0_14_pm": 377,
-          "age_15_59_pm": 534,
-          "age_60p_pm": 89
+          "age_0_14_pct": 37.7,
+          "age_15_59_pct": 53.4,
+          "age_60p_pct": 8.9
         },
         "line": "1930 Census Population: 732,816 · % of Total Japan: 1.14 · Per km²: 394"
       },
@@ -11180,9 +11269,9 @@ JMAP.POPULATION = [
         "x": {
           "pop_1925": 1096366,
           "pop_1920": 1046720,
-          "age_0_14_pm": 380,
-          "age_15_59_pm": 527,
-          "age_60p_pm": 94
+          "age_0_14_pct": 38.0,
+          "age_15_59_pct": 52.7,
+          "age_60p_pct": 9.4
         },
         "line": "1930 Census Population: 1,142,122 · % of Total Japan: 1.77 · Per km²: 202"
       },
@@ -11196,9 +11285,9 @@ JMAP.POPULATION = [
         "x": {
           "pop_1925": 687478,
           "pop_1920": 670895,
-          "age_0_14_pm": 350,
-          "age_15_59_pm": 546,
-          "age_60p_pm": 103
+          "age_0_14_pct": 35.0,
+          "age_15_59_pct": 54.6,
+          "age_60p_pct": 10.3
         },
         "line": "1930 Census Population: 718,152 · % of Total Japan: 1.11 · Per km²: 101"
       },
@@ -11212,9 +11301,9 @@ JMAP.POPULATION = [
         "x": {
           "pop_1925": 2301668,
           "pop_1920": 2188249,
-          "age_0_14_pm": 360,
-          "age_15_59_pm": 574,
-          "age_60p_pm": 66
+          "age_0_14_pct": 36.0,
+          "age_15_59_pct": 57.4,
+          "age_60p_pct": 6.6
         },
         "line": "1930 Census Population: 2,527,119 · % of Total Japan: 3.92 · Per km²: 507"
       },
@@ -11228,9 +11317,9 @@ JMAP.POPULATION = [
         "x": {
           "pop_1925": 684831,
           "pop_1920": 673895,
-          "age_0_14_pm": 378,
-          "age_15_59_pm": 541,
-          "age_60p_pm": 81
+          "age_0_14_pct": 37.8,
+          "age_15_59_pct": 54.1,
+          "age_60p_pct": 8.1
         },
         "line": "1930 Census Population: 691,565 · % of Total Japan: 1.07 · Per km²: 283"
       },
@@ -11244,9 +11333,9 @@ JMAP.POPULATION = [
         "x": {
           "pop_1925": 1163945,
           "pop_1920": 1136182,
-          "age_0_14_pm": 371,
-          "age_15_59_pm": 547,
-          "age_60p_pm": 83
+          "age_0_14_pct": 37.1,
+          "age_15_59_pct": 54.7,
+          "age_60p_pct": 8.3
         },
         "line": "1930 Census Population: 1,233,362 · % of Total Japan: 1.91 · Per km²: 303"
       },
@@ -11260,9 +11349,9 @@ JMAP.POPULATION = [
         "x": {
           "pop_1925": 1296086,
           "pop_1920": 1233233,
-          "age_0_14_pm": 374,
-          "age_15_59_pm": 534,
-          "age_60p_pm": 93
+          "age_0_14_pct": 37.4,
+          "age_15_59_pct": 53.4,
+          "age_60p_pct": 9.3
         },
         "line": "1930 Census Population: 1,353,993 · % of Total Japan: 2.10 · Per km²: 183"
       },
@@ -11276,9 +11365,9 @@ JMAP.POPULATION = [
         "x": {
           "pop_1925": 915136,
           "pop_1920": 860282,
-          "age_0_14_pm": 367,
-          "age_15_59_pm": 539,
-          "age_60p_pm": 94
+          "age_0_14_pct": 36.7,
+          "age_15_59_pct": 53.9,
+          "age_60p_pct": 9.4
         },
         "line": "1930 Census Population: 945,771 · % of Total Japan: 1.47 · Per km²: 149"
       },
@@ -11292,9 +11381,9 @@ JMAP.POPULATION = [
         "x": {
           "pop_1925": 691094,
           "pop_1920": 651097,
-          "age_0_14_pm": 386,
-          "age_15_59_pm": 532,
-          "age_60p_pm": 83
+          "age_0_14_pct": 38.6,
+          "age_15_59_pct": 53.2,
+          "age_60p_pct": 8.3
         },
         "line": "1930 Census Population: 760,467 · % of Total Japan: 1.18 · Per km²: 98"
       },
@@ -11308,9 +11397,9 @@ JMAP.POPULATION = [
         "x": {
           "pop_1925": 1472193,
           "pop_1920": 1415582,
-          "age_0_14_pm": 401,
-          "age_15_59_pm": 515,
-          "age_60p_pm": 84
+          "age_0_14_pct": 40.1,
+          "age_15_59_pct": 51.5,
+          "age_60p_pct": 8.4
         },
         "line": "1930 Census Population: 1,556,690 · % of Total Japan: 2.42 · Per km²: 169"
       },
@@ -11324,9 +11413,9 @@ JMAP.POPULATION = [
         "x": {
           "pop_1925": 557622,
           "pop_1920": 571572,
-          "age_0_14_pm": 397,
-          "age_15_59_pm": 516,
-          "age_60p_pm": 87
+          "age_0_14_pct": 39.7,
+          "age_15_59_pct": 51.6,
+          "age_60p_pct": 8.7
         },
         "line": "1930 Census Population: 577,509 · % of Total Japan: 0.90 · Per km²: 255"
       }
@@ -11337,6 +11426,230 @@ JMAP.POPULATION = [
       500,
       1000
     ],
+    "jpBreaks": []
+  },
+  {
+    "id": "japan-cities-1930",
+    "epoch": "1930",
+    "group": "japan-cities-1930",
+    "country": "",
+    "caption": "census of 1 October 1930",
+    "note": "",
+    "inShort": true,
+    "tableSkip": [],
+    "fields": [],
+    "label": "The twenty-eight 市 at the census of 1 October 1930",
+    "pctOf": "Japan",
+    "source": "内閣統計局『昭和五年国勢調査最終報告書』市ノ人口 p16",
+    "layer": "The twenty-eight 市 at the census of 1 October 1930",
+    "rows": {
+      "allcities": {
+        "scope": "summary",
+        "en": "All twenty-eight together",
+        "pop": 11030724,
+        "pct": "17.12",
+        "note": "The 市 the report lists down to Kawasaki at 104,351. There were more 市 than these; the page stops where it stops.",
+        "line": "1930 Census Population: 11,030,724 · % of Total Japan: 17.12 The 市 the report lists down to Kawasaki at 104,351. There were more 市 than these; the page stops where it stops."
+      },
+      "osaka": {
+        "scope": "city",
+        "en": "Osaka",
+        "pop": 2453573,
+        "pct": "3.81",
+        "line": "1930 Census Population: 2,453,573 · % of Total Japan: 3.81"
+      },
+      "tokyo": {
+        "scope": "city",
+        "en": "Tokyo",
+        "pop": 2070913,
+        "pct": "3.21",
+        "note": "東京市 is the fifteen wards, not 東京府 — the amalgamation that took in the surrounding twenty came in 1932, which is why Ōsaka is the larger city here.",
+        "line": "1930 Census Population: 2,070,913 · % of Total Japan: 3.21 東京市 is the fifteen wards, not 東京府 — the amalgamation that took in the surrounding twenty came in 1932, which is why Ōsaka is the larger city here."
+      },
+      "nagoya": {
+        "scope": "city",
+        "en": "Nagoya",
+        "pop": 907404,
+        "pct": "1.41",
+        "line": "1930 Census Population: 907,404 · % of Total Japan: 1.41"
+      },
+      "kobe": {
+        "scope": "city",
+        "en": "Kobe",
+        "pop": 787616,
+        "pct": "1.22",
+        "line": "1930 Census Population: 787,616 · % of Total Japan: 1.22"
+      },
+      "kyoto": {
+        "scope": "city",
+        "en": "Kyoto",
+        "pop": 765142,
+        "pct": "1.19",
+        "line": "1930 Census Population: 765,142 · % of Total Japan: 1.19"
+      },
+      "yokohama": {
+        "scope": "city",
+        "en": "Yokohama",
+        "pop": 620306,
+        "pct": "0.96",
+        "line": "1930 Census Population: 620,306 · % of Total Japan: 0.96"
+      },
+      "hiroshima": {
+        "scope": "city",
+        "en": "Hiroshima",
+        "pop": 270417,
+        "pct": "0.42",
+        "line": "1930 Census Population: 270,417 · % of Total Japan: 0.42"
+      },
+      "fukuoka": {
+        "scope": "city",
+        "en": "Fukuoka",
+        "pop": 228289,
+        "pct": "0.35",
+        "line": "1930 Census Population: 228,289 · % of Total Japan: 0.35"
+      },
+      "nagasaki": {
+        "scope": "city",
+        "en": "Nagasaki",
+        "pop": 204626,
+        "pct": "0.32",
+        "line": "1930 Census Population: 204,626 · % of Total Japan: 0.32"
+      },
+      "hakodate": {
+        "scope": "city",
+        "en": "Hakodate",
+        "pop": 197252,
+        "pct": "0.31",
+        "line": "1930 Census Population: 197,252 · % of Total Japan: 0.31"
+      },
+      "kure": {
+        "scope": "city",
+        "en": "Kure",
+        "pop": 190282,
+        "pct": "0.30",
+        "line": "1930 Census Population: 190,282 · % of Total Japan: 0.30"
+      },
+      "sendai": {
+        "scope": "city",
+        "en": "Sendai",
+        "pop": 190180,
+        "pct": "0.30",
+        "line": "1930 Census Population: 190,180 · % of Total Japan: 0.30"
+      },
+      "sapporo": {
+        "scope": "city",
+        "en": "Sapporo",
+        "pop": 168576,
+        "pct": "0.26",
+        "line": "1930 Census Population: 168,576 · % of Total Japan: 0.26"
+      },
+      "yawata": {
+        "scope": "city",
+        "en": "Yahata",
+        "pop": 168217,
+        "pct": "0.26",
+        "line": "1930 Census Population: 168,217 · % of Total Japan: 0.26"
+      },
+      "kumamoto": {
+        "scope": "city",
+        "en": "Kumamoto",
+        "pop": 164460,
+        "pct": "0.26",
+        "line": "1930 Census Population: 164,460 · % of Total Japan: 0.26"
+      },
+      "kanazawa": {
+        "scope": "city",
+        "en": "Kanazawa",
+        "pop": 157311,
+        "pct": "0.24",
+        "line": "1930 Census Population: 157,311 · % of Total Japan: 0.24"
+      },
+      "otaru": {
+        "scope": "city",
+        "en": "Otaru",
+        "pop": 144887,
+        "pct": "0.22",
+        "line": "1930 Census Population: 144,887 · % of Total Japan: 0.22"
+      },
+      "okayama": {
+        "scope": "city",
+        "en": "Okayama",
+        "pop": 139222,
+        "pct": "0.22",
+        "line": "1930 Census Population: 139,222 · % of Total Japan: 0.22"
+      },
+      "kagoshima": {
+        "scope": "city",
+        "en": "Kagoshima",
+        "pop": 137236,
+        "pct": "0.21",
+        "line": "1930 Census Population: 137,236 · % of Total Japan: 0.21"
+      },
+      "shizuoka": {
+        "scope": "city",
+        "en": "Shizuoka",
+        "pop": 136481,
+        "pct": "0.21",
+        "line": "1930 Census Population: 136,481 · % of Total Japan: 0.21"
+      },
+      "sasebo": {
+        "scope": "city",
+        "en": "Sasebo",
+        "pop": 133174,
+        "pct": "0.21",
+        "line": "1930 Census Population: 133,174 · % of Total Japan: 0.21"
+      },
+      "niigata": {
+        "scope": "city",
+        "en": "Niigata",
+        "pop": 125108,
+        "pct": "0.19",
+        "line": "1930 Census Population: 125,108 · % of Total Japan: 0.19"
+      },
+      "sakai": {
+        "scope": "city",
+        "en": "Sakai",
+        "pop": 120348,
+        "pct": "0.19",
+        "line": "1930 Census Population: 120,348 · % of Total Japan: 0.19"
+      },
+      "wakayama": {
+        "scope": "city",
+        "en": "Wakayama",
+        "pop": 117444,
+        "pct": "0.18",
+        "line": "1930 Census Population: 117,444 · % of Total Japan: 0.18"
+      },
+      "yokosuka": {
+        "scope": "city",
+        "en": "Yokosuka",
+        "pop": 110301,
+        "pct": "0.17",
+        "line": "1930 Census Population: 110,301 · % of Total Japan: 0.17"
+      },
+      "takamatsu": {
+        "scope": "city",
+        "en": "Takamatsu",
+        "pop": 109478,
+        "pct": "0.17",
+        "line": "1930 Census Population: 109,478 · % of Total Japan: 0.17"
+      },
+      "moji": {
+        "scope": "city",
+        "en": "Moji",
+        "pop": 108130,
+        "pct": "0.17",
+        "line": "1930 Census Population: 108,130 · % of Total Japan: 0.17"
+      },
+      "kawasaki": {
+        "scope": "city",
+        "en": "Kawasaki",
+        "pop": 104351,
+        "pct": "0.16",
+        "line": "1930 Census Population: 104,351 · % of Total Japan: 0.16"
+      }
+    },
+    "breaks": [],
     "jpBreaks": []
   }
 ];

@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '252';
+  var JEM_VERSION = '253';
   var JEM_ASSETS = {"admin.js": "9f99c96627", "annotate.js": "761fbd5949", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "3881d33c99", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
 
   /* Every file this one fetches, with the version on it.
@@ -7962,6 +7962,22 @@
       : Number(v).toLocaleString('en-US');
   };
 
+  /* A figure from one of the source's own extra columns, at the precision that
+     column was written to. `dp` is counted at build from the file itself.
+
+     A count has none and prints as a count. A share has one, and needs it:
+     `toLocaleString` drops a trailing zero, so 35.0 in a column of 39.3 and
+     30.7 came out as "35" and read as a different quantity from its
+     neighbours. The places belong to the *column*, not to the value — that is
+     what makes it a column rather than a list of numbers. */
+  var POP_FIG = function (v, dp) {
+    if (v === undefined || v === null || v === '') return '—';
+    var n = Number(v);
+    if (!isFinite(n)) return String(v);
+    return n.toLocaleString('en-US', { minimumFractionDigits: dp || 0,
+                                       maximumFractionDigits: dp || 0 });
+  };
+
   /* One dataset: what it is, what it says, and where it came from. The figures
      first, then a table for each group the source counted — ages, register and
      nationality, occupation — because twenty-one columns in one table is a
@@ -8022,7 +8038,7 @@
         cells.push({ n: POP_NUM(r.dens), t: r.dens || '—' });
       }
       extra.forEach(function (f) {
-        cells.push({ n: POP_NUM(x[f.c]), t: POP_INT(x[f.c]) });
+        cells.push({ n: POP_NUM(x[f.c]), t: POP_FIG(x[f.c], f.dp) });
       });
       return { key: k, cells: cells,
                pinned: r.scope === 'territory' || r.scope === 'summary' };
@@ -9863,7 +9879,7 @@
         gh.textContent = g;
         block.appendChild(gh);
         some.forEach(function (f) {
-          popRow(block, f.label, Number(r.x[f.c]).toLocaleString('en-US'));
+          popRow(block, f.label, POP_FIG(r.x[f.c], f.dp));
         });
       });
       if (r.note) {

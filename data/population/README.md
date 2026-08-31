@@ -69,13 +69,23 @@ to be kept apart there.
 **A column of counts is a column of people.** Korea's ages and occupations are.
 
 **A column of shares says so in its label.** Japan's 1930 census printed its
-age structure as 人口千中 — each group per thousand of that prefecture's own
-people — and the columns are `age_0_14_pm` and its two neighbours, under the
-heading *Ages per 1,000*. They are not the same column as Korea's `age_0_14`
-and must not be, because a reader who takes 366 for a number of children has
-misread the map. Multiplying the rounded share by the population to make a
-count was the alternative and is worse: it invents four figures of precision
-the census did not print.
+age structure as 人口千中 — each group per thousand — and the columns are
+`age_0_14_pct` and its two neighbours, under the heading *Ages, % of the
+population*, holding the same figure with the decimal point moved: 366 per
+thousand is 36.6 per cent. Per cent because that is the unit a reader already
+has; the printed per-thousand is in the transcription beside it, so the two can
+be checked against each other.
+
+They are not the same column as Korea's `age_0_14` and must not be, because a
+reader who takes 36.6 for a number of children has misread the map.
+Multiplying the share by the population to make a count was the other
+possibility and is worse: it invents four figures of precision the census did
+not print.
+
+**A share keeps its decimal places.** `build_texts.py` counts them per column
+and writes `dp` on the field; `POP_FIG` in `map.js` formats to it. Without
+that, `toLocaleString` drops a trailing zero and 56.0 prints as "56" in a
+column of 36.6 and 7.4, which reads as a different quantity.
 
 ## The areas are measured here, not taken from the source
 

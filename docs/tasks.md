@@ -13590,6 +13590,64 @@ Suite: **1,232 checks across 45 scripts, all passing** — `japanpop.js` up to 3
 
 ---
 
+## Shares as percentages, the cities' own figures, and two places that are not
+## cities
+
+### 人口千中 is shown as per cent
+
+The 1930 census printed its age structure per thousand and that is what the
+transcription holds, because it is what the page says. The card and the table
+move the decimal point: 366 per thousand is **36.6%**, which is the same figure
+in the unit a reader already has. The printed column is still in
+`1930-Ages-Japan.md`, with the derived one beside it so the two can be checked
+against each other. The columns are `age_0_14_pct` and its neighbours under
+*Ages, % of the population*.
+
+That surfaced a formatting fault worth keeping fixed. `toLocaleString` drops a
+trailing zero, so Japan's 56.0 printed as "56" in a column of 36.6 and 7.4 and
+read as a different quantity. Decimal places belong to the **column**, not to
+the value — that is what makes it a column — so `build_texts.py` counts them
+per column from the file and writes `dp` on the field, and `POP_FIG` in
+`map.js` formats to it. Any future share column gets it for nothing.
+
+### The cities carry their own figures now
+
+The dot sizes came from p16 in the last update but the numbers did not: a
+Japanese city's card said nothing about how big it was. `japan-cities-1930.csv`
+is the dataset — twenty-eight `city` rows keyed by the gazetteer's own ids,
+under a `summary` row of all of them together, 11,030,724, which is 17.1% of
+Japan proper. It is the same shape as `korea-cities-1930.csv`: no group and no
+layer, so it shades nothing and is a card and a table.
+
+Ōsaka's card now reads 2,453,573 and 3.81% of Japan, with **Population Table**
+under it. Tōkyō's carries the note that has to go with it — the city is the
+fifteen wards and not 東京府, the amalgamation came in 1932, which is why Ōsaka
+is the larger of the two here.
+
+A city's figures stay off the hover line, which is the convention this folder
+already had — `population_lines()` passes over anything that is not a territory
+or a sub-unit, because a city's numbers belong on its card rather than in a
+sentence about the province it sits in. Korea's fourteen 府 behave the same way.
+
+### Two places that were filed as cities
+
+**Ashio** and **Ōkunoshima** are `poi` rather than `city` in
+`texts/sites/sites.csv`. Neither is a city: Ashio is the copper mine and the
+pollution case that came out of it, and Ōkunoshima is the island the army made
+poison gas on. They answer to Places of interest now — the square mark, not the
+round one — and are named by that row of the key rather than by City names.
+
+### Still open
+
+**The sex ratio is half a table.** p25 is transcribed for 全國 and twenty-three
+prefectures; the scan reaches 愛知 and stops, and 三重 to 沖縄 have no figure.
+`japanpop.js` pins the count at 23 so that finishing the page is a change the
+tests notice.
+
+Suite: **1,240 checks across 45 scripts, all passing** — `japanpop.js` up to 43.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

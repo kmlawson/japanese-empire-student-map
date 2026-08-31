@@ -264,6 +264,16 @@ def population_data():
         # which of the extra columns this file actually carries a figure in
         used = [f for f in fields
                 if any((r.get(f["c"]) or "").strip() for r in rows)]
+        # And how many decimal places each of them was written with. A share
+        # needs it: 35.0 in a column of 39.3 and 30.7 must not print as "35",
+        # and `toLocaleString` drops a trailing zero unless it is told not to.
+        # Taken from the column rather than from the value, so the whole column
+        # is written to one precision — which is what makes it a column.
+        used = [dict(f, dp=max([0] + [len((r.get(f["c"]) or "").strip()
+                                          .split(".", 1)[1])
+                                      for r in rows
+                                      if "." in (r.get(f["c"]) or "")]))
+                for f in used]
         # the whole that a share is a share of. A table of cities is a list of
         # places rather than the parts of something, so it has none and prints
         # no share column.
