@@ -13094,6 +13094,136 @@ now, the grey is in the key, and the pointer says *N/A — no data available*.
 
 ---
 
+## The figure on each shaded unit, and five kinds of name behind one button
+
+### The value is written on the ground it is about
+
+A five-step ramp says more, less and about the same. It does not say 128 people
+to the square kilometre, and a reader comparing two provinces had to go to the
+key, read a band off it and come back. Every shaded unit now carries its own
+figure — a whole number of people per km² on the density maps, a share to a
+tenth on Proportion Japanese — dark on the three pale bands and white on the two
+deep ones, with the halo turned over the same way.
+
+**Which ones fit is a question in screen pixels, and that is the whole of how
+Taiwan's small districts behave.** Each figure carries the bounding box of the
+block it sits on, in map units, and asks on every gate pass whether that box is
+larger on screen than the word: `bw / k >= needW`, with `k` the map units per
+screen pixel. Nothing is a rule about Taiwan; the prefectures answer yes at the
+island view and the districts answer yes as the reader comes in.
+
+Measured, Taiwan 1941 density, 1280×950:
+
+| view | in the frame | lettered |
+|---|---|---|
+| the whole map | 55 | 0 |
+| the empire | 55 | 1 |
+| the island (3.8° wide) | 55 | 47 |
+| the north (1.6° wide) | 55 | 25 of the 25 in frame, Kīrun 2010 and Taihoku city 7813 among them |
+
+Korea's thirteen are all lettered at the peninsula view. The height of a figure
+is 13 px at both zooms measured, which is the point of scaling the group by `k`
+rather than drawing in map units.
+
+They are **not names**, and are written with Other off: a reader who asked for a
+density map asked to be able to read it. That needed the master switch moved
+out of `gateLabels` and into `labelVisible`, one kind at a time — see below.
+They sort above a province's own name and below a country's, so where the two
+collide the *name* is nudged rather than the figure.
+
+### Five kinds of name behind the Other button
+
+Other was one switch. It still is — a plain press writes all five kinds, which
+is what most readers will ever want — with the sorts of name behind it:
+
+* Country and colony names (`territory`)
+* City names (`site`/`city` and the gazetteer's `browse` dots)
+* Province names (`sub`)
+* Places of interest (`site`/`poi`)
+* Seas, mountains and other natural features (`feature`)
+
+A battle is on none of these lists: Events is its switch, and a diamond with a
+date is not a name. Stations keep their own switch beside their railway.
+
+Two places to work them: a **Labels** section in the Layers pane, and a menu the
+button itself opens on a **long press (500 ms) or an option-click** — a phone
+has no option key and a desktop has no press-and-hold, so it needs both doors.
+Both were tested, mouse and finger.
+
+**A tick is what is written, not what is remembered.** With Other off every row
+reads unticked, because nothing is on the map; the choice is kept underneath and
+comes back when Other is pressed again. Ticking a row with Other off turns Other
+on — a tick that draws nothing is not a tick — and unticking the last row turns
+Other off and puts all five back, so the next press writes names rather than
+nothing.
+
+In the layers code they are five bits of the high field, 64 to 1024, **set when
+the row is off**. An address written before they existed carries zeroes there;
+read the obvious way round, an old link would have opened with every name
+switched off, which is the opposite of what its sender saw. `ccp` and `world`
+are inverted for the same reason.
+
+Two bugs found and fixed while wiring it:
+
+* the long press and the option-click were given one shared toggle. The hold
+  opens the menu on the *hold*, not on the release, and still sends a click —
+  so the shared toggle closed what the hold had just opened, every time, on
+  both platforms. The hold's click is swallowed and nothing else;
+* `placeLabels` began `if (!state.labels) return`, which with Other off left
+  the density figures written on top of one another.
+
+### Do province names show in China?
+
+Asked and measured rather than assumed: **yes**, and never mind the
+Administrative switch. Opened at 108.5–118.5°E, 26.5–33.5°N with Other on and
+nothing else, the map writes Húběi, Ānhuī, Jiāngxī and Húnán, plus the Dabie
+Mountains. They come in below `mapW / SUB_LABEL_ZOOM` — the same threshold as
+every other province in the map — and they now answer to the Province names row.
+
+### The unit with no figure is white, and blocks the hillshade
+
+Grey was wrong twice over. It is a colour, so it sat on the ramp as if it were
+a sixth band; and being mid-toned it took the relief's `overlay` blend at full
+strength, so the demarcated 「蕃地」 was the one shape on a shaded island with
+mountains showing through it.
+
+The relief is not under the land — it is an `overlay` across the whole frame,
+above the political colours and below the names, which is how it shades a
+country without being masked to any coastline. So a fill alone cannot stop it.
+The blank unit is drawn a second time, in flat white, in a `#pop-void` group
+inserted immediately above `#relief`; `pointer-events: none` keeps the copy in
+the land reachable, so the hover and the card are unchanged.
+
+Measured: 4,935 interior points of the 蕃地 polygon, eroded 3 px clear of its own
+stroke, sampled with Topography off and on. **Nought of them changed**, and the
+eleven that are not pure white are the glyphs of a neighbour's figure lying over
+it. Before, the same test showed the hillshade at full strength.
+
+The palest band went from `#eef3f8` to `#dfeaf4` in the same change. Against a
+white blank the old value was 17 points away and the two read as one thing with
+a line through it; it is 32 now.
+
+### Left alone
+
+With Topography on, the relief still blends over the shaded units themselves —
+that is unchanged behaviour and it is most visible on the palest band. Worth a
+decision separately: a data surface arguably should not be blended with a
+hillshade at all.
+
+### Tests
+
+`tools/test/labelcats.js` is new — 32 checks over the five rows, the panel, the
+menu, both doors, the inverted bits and an older link. `demography.js` gained 11
+for the figures: that they are values and not bands, that the ink turns over
+with the band, that they are written with Other off, that a pie map writes none,
+that a city district is lettered once there is room, and that a figure is the
+same size on screen at two zooms. It also proves the white copy is above the
+relief rather than only white.
+
+Suite: **1,152 checks across 42 scripts, all passing.**
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

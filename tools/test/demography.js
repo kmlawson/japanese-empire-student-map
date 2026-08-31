@@ -130,20 +130,38 @@ const st = p => p.evaluate(() => ({
      than as a gap in the table. */
   p = await open(b, 'http://localhost:8123/index.html?where=119.5,21.5,122.5,25.5&layers=1');
   await p.evaluate(() => document.querySelector('#opt-pop-taiwan-density-density').click());
-  await sleep(2200);
+  // and the relief, because the fault reported was the hillshade coming
+  // through the blank — with Topography off there is no `#relief` to be above
+  await p.evaluate(() => document.querySelector('#opt-relief').click());
+  await sleep(5000);
   const na = await p.evaluate(() => {
     const e = document.querySelector('#a-taiwan path[data-prov="TwBanchi"]');
     return { shaded: e && e.classList.contains('pop-shaded'),
              fill: e && getComputedStyle(e).fill,
              key: /no data/.test((document.querySelector('#legend') || {}).textContent || ''),
+             voids: document.querySelectorAll('#pop-void path').length,
+             voidAbove: (function () {
+               const kids = [...document.querySelector('#jmap').children];
+               const r = kids.findIndex(x => x.id === 'relief');
+               const v = kids.findIndex(x => x.id === 'pop-void');
+               return r >= 0 && v > r;
+             })(),
              box: (function () {
                const r = e.getBoundingClientRect();
                return { x: Math.round(r.x + r.width / 2), y: Math.round(r.y + r.height / 2) };
              })() };
   });
-  check('the demarcated territory is greyed rather than left showing the map',
-    na.shaded === true && na.fill === 'rgb(207, 202, 194)', na.fill);
-  check('and the grey is in the key', na.key === true);
+  check('the demarcated territory is blanked rather than left showing the map',
+    na.shaded === true && na.fill === 'rgb(255, 255, 255)', na.fill);
+  check('and the blank is in the key', na.key === true);
+  /* And it is drawn a *second* time, above the relief. The hillshade is an
+     `overlay` blend across the whole frame rather than something under the
+     land, so a fill alone left the mountains showing through the one hole in
+     the table — the fault as reported. Grey took the blend at full strength
+     besides, being mid-toned, which is why it is white now. */
+  check('and a white copy of it is drawn above the relief',
+    na.voids === 1 && na.voidAbove === true,
+    na.voids + ' void(s), above relief: ' + na.voidAbove);
   await p.mouse.move(na.box.x - 30, na.box.y); await sleep(200);
   await p.mouse.move(na.box.x, na.box.y); await sleep(600);
   const naTip = await p.evaluate(() =>
@@ -278,6 +296,99 @@ const st = p => p.evaluate(() => ({
   });
   check('a shaded map puts no pie in the tooltip', shadeTip.pie === false);
   check('and gives the description back', shadeTip.note === true);
+  await p.close();
+
+  /* ---------------------------------------- the figure on each unit --- */
+
+  /* A five-step ramp says more, less and about the same. The number is the
+     reading itself, so it goes on the shape — and *which* shapes can hold one
+     is a question in screen pixels, which is the thing this project keeps
+     getting wrong. Taiwan is the case: fifty-five districts, most of them too
+     small to letter at the island view and all of them big enough somewhere
+     further in. */
+  console.log('\n— the figure on each unit —');
+  const vals = p2 => p2.evaluate(() => {
+    const v = [...document.querySelectorAll('#labels text.popval')];
+    const on = v.filter(t => t.style.display !== 'none');
+    return { made: v.length, shown: on.length,
+             txt: on.map(t => t.textContent),
+             inks: [...new Set(on.map(t => t.style.fill))],
+             box: on.length ? (function () { const r = on[0].getBoundingClientRect();
+               return Math.round(r.height); })() : 0 };
+  });
+
+  p = await open(b, KOREA);
+  await p.evaluate(() => document.querySelector('#opt-pop-korea-density-density').click());
+  await sleep(2200);
+  let v = await vals(p);
+  check('a figure on each of the thirteen', v.made === 13 && v.shown === 13,
+        v.made + ' made, ' + v.shown + ' shown');
+  check('and it is the density, not the band',
+    v.txt.every(t => /^\d+$/.test(t)) && v.txt.indexOf('37') >= 0,
+    v.txt.join(' '));
+  /* The ink turns over with the band: dark type on the three pale classes and
+     white on the two dark ones, which is the only way one figure is legible on
+     a five-step ramp. */
+  check('dark type where the ground is pale',
+    v.inks.indexOf('rgb(22, 35, 46)') >= 0, v.inks.join(' '));
+
+  /* And with Other off, because a density figure is not a name. The master
+     switch used to be asked once for the whole gate pass, which would have
+     taken these with it. */
+  await p.evaluate(() => {
+    const btn = document.querySelector('#layer-seg button[data-opt="labels"]');
+    if (btn.getAttribute('aria-pressed') === 'true') btn.click();
+  });
+  await sleep(1600);
+  v = await vals(p);
+  check('written with Other off — a figure is not a name', v.shown === 13,
+        String(v.shown));
+
+  /* A share is said as a share, to a tenth, and always to a tenth: 3.0 beside
+     2.6 and 4.4 must not come out as "3". */
+  await p.evaluate(() => document.querySelector('#opt-pop-korea-density-japanese').click());
+  await sleep(1800);
+  v = await vals(p);
+  check('the share map says percentages',
+    v.txt.every(t => /^\d+(\.\d)?%$/.test(t)) && v.txt.some(t => /\.\d%$/.test(t)),
+    v.txt.join(' '));
+  // and a pie map has none: the pie is the reading there
+  await p.evaluate(() => document.querySelector('#opt-pop-korea-density-occupation').click());
+  await sleep(1800);
+  v = await vals(p);
+  check('a pie map writes no figures', v.made === 0, String(v.made));
+  await p.close();
+
+  /* Taiwan, at two zooms. The prefectures and the larger districts answer at
+     the island view; the rest come in as the reader does. The unit with no
+     figure never gets one at either. */
+  const TW_WIDE = 'http://localhost:8123/index.html?layers=1&where=118.8,21.4,122.6,25.8';
+  const TW_NEAR = 'http://localhost:8123/index.html?layers=1&where=120.4,24.2,122.0,25.4';
+  p = await open(b, TW_WIDE);
+  await p.evaluate(() => document.querySelector('#opt-pop-taiwan-density-density').click());
+  await sleep(2400);
+  const twWide = await vals(p);
+  check('fifty-five districts have a figure, the blank one has none',
+    twWide.made === 55, String(twWide.made));
+  check('and not all of them fit at the island view',
+    twWide.shown < twWide.made && twWide.shown > 20,
+    twWide.shown + ' of ' + twWide.made);
+  await p.close();
+
+  p = await open(b, TW_NEAR);
+  await p.evaluate(() => document.querySelector('#opt-pop-taiwan-density-density').click());
+  await sleep(2400);
+  const twNear = await vals(p);
+  /* The city districts are the point of the test: Kīrun and Taihoku city are a
+     few pixels wide at the island view and are lettered once the reader is in.
+     They are also the two deepest bands, so this is where the white ink is. */
+  check('a city district is lettered once there is room',
+    twNear.txt.indexOf('7813') >= 0 && twNear.txt.indexOf('2010') >= 0,
+    twNear.txt.join(' '));
+  check('and the ink turns white on the deep bands',
+    twNear.inks.indexOf('rgb(255, 255, 255)') >= 0, twNear.inks.join(' '));
+  check('the figures are the same size on screen at both zooms',
+    Math.abs(twNear.box - twWide.box) <= 1, twWide.box + 'px then ' + twNear.box + 'px');
   await p.close();
 
   console.log('\n  ' + pass + ' passed, ' + fail + ' failed');

@@ -464,7 +464,7 @@ const spot = (p, sel, fx, fy) => p.evaluate((s, ax, ay) => {
      other has actually changed. Kankyŏngbuk-to is 37 per km² in 1930 and 55 in
      1942 — the palest class and then the one above it. */
   check('and the ladder is the layer\'s, not the date\'s',
-    on30.fill === 'rgb(238, 243, 248)', on30.fill);
+    on30.fill === 'rgb(223, 234, 244)', on30.fill);
   check('the classes read the same on both maps',
     /under 50/.test(on30.key) && /150 and over/.test(on30.key), on30.key.slice(-60));
   await p.close();

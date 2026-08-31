@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '247';
+  var JEM_VERSION = '248';
   var JEM_ASSETS = {"admin.js": "9f99c96627", "annotate.js": "761fbd5949", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "3881d33c99", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
 
   /* Every file this one fetches, with the version on it.
@@ -91,6 +91,18 @@
     // city bit carries both — a place of interest is a place.
     cats: { city: false, battle: false, territory: false, poi: false },
     labels: false,
+    /* And which *kinds* of name that button writes. It is one button on the
+       bar — a reader who wants names wants names — with the five sorts behind
+       it, in the Layers panel and in a menu the button itself opens on a long
+       press or an option-click. All five start on, so pressing Other alone
+       does what it has always done.
+
+       They are remembered *through* the master switch rather than cleared by
+       it: turning Other off shows all five unticked, because nothing is
+       written, and turning it back on restores whatever the reader chose. A
+       tick here with Other off therefore turns Other on as well, since the
+       alternative is a tick that draws nothing. */
+    labelCats: { territory: true, city: true, sub: true, poi: true, feature: true },
     extent: true,
     rivers: true,
     // The 1.3px stroke round every filled shape. It is a repair — it closes the
@@ -599,6 +611,8 @@
      * would not be. Korea's table carries all four names from the source, so
      * nothing there falls back. */
     if (rec && rec.kind === 'station') return stationLabel(rec);
+    // A figure off the shaded map, already formatted: see `ensurePopValues`.
+    if (rec && rec.kind === 'popval') return rec.txt;
     var r = shown(rec);
     if (r && r.label && state.lang === 'en') {
       return r.label === '-' ? '' : r.label;
@@ -636,6 +650,45 @@
     return 0;
   }
 
+  /* The five kinds of name behind the Other button, in the order the menu and
+     the panel list them.
+
+     `place` is where each sits in the *high* field of the layers code — see
+     `layerCode` — and it is set when the category is **off**, not on. A
+     bitfield cannot tell "the sender had it off" from "the sender's build had
+     no such bit", so a link written before this existed carries a zero there;
+     read the obvious way round that would open with every name switched off,
+     which is the opposite of what the sender saw. Inverted, an absent bit
+     means the default, and the default is on. `ccp` and `world` go the same
+     way and for the same reason.
+
+     `kinds` is what a label record's `kind` has to be to belong here. Cities
+     are two kinds — the `site` records the map carries and the `browse` dots
+     the gazetteer draws — and both are cities to a reader. Stations are on
+     none of these lists: they have a switch of their own beside their railway,
+     which is where somebody who has just drawn a railway will look for it. */
+  var LABEL_CATS = [
+    { id: 'territory', place: 64,   label: 'Country and colony names',
+      kinds: ['territory'] },
+    { id: 'city',      place: 128,  label: 'City names',
+      kinds: ['browse'], cat: 'city' },
+    { id: 'sub',       place: 256,  label: 'Province names',
+      kinds: ['sub'] },
+    { id: 'poi',       place: 512,  label: 'Places of interest',
+      kinds: [], cat: 'poi' },
+    { id: 'feature',   place: 1024, label: 'Seas, mountains and other natural features',
+      kinds: ['feature'] },
+  ];
+
+  /* Names are written at all, and this kind of name is one the reader asked
+     for. Both questions in one place, because every gate below has to ask
+     both and asking only the first is how the categories would quietly stop
+     meaning anything. */
+  function labelsOn(cat) {
+    return !!(state.labels && state.mode !== 'quiz'
+              && (!cat || state.labelCats[cat] !== false));
+  }
+
   function labelVisible(rec) {
     /* A station is named only when its own switch is on — and the switch is
        only offered while the railways are drawn, because a station name with
@@ -658,17 +711,23 @@
        described: it holds whichever of the three projections is on. */
     if (rec && rec.kind === 'station') {
       if (!stationsOn(rec.sys) || !stationShown(rec)) return false;
-      return !!(state.labels && state.mode !== 'quiz'
-                && latSpan() <= STATION_LABEL_LAT);
+      return !!(labelsOn() && latSpan() <= STATION_LABEL_LAT);
     }
     // a province or an island: shown only once the reader is close in, and
     // never mind the Administrative switch — see ensureSubLabels
     if (rec && rec.kind === 'sub') return subLabelsWanted();
+    /* The figure a shaded province has earned, which is the layer itself and
+       not a name: it is drawn whether or not Other is on, because a reader
+       who asked for a density map asked to be able to read it. What gates it
+       is whether there is room — see `popValueFits`. */
+    if (rec && rec.kind === 'popval') return popValueFits(rec);
     // The physical map. `lvl` is the zoom a feature earns: the Bay of Bengal
     // frames the whole picture, the Hexi Corridor is worth naming only once
     // somebody is looking at Gansu. Nothing else gates them — they are not a
     // layer, they are the ground the layers sit on.
-    if (rec && rec.kind === 'feature') return rec.lvl <= featureLevel();
+    if (rec && rec.kind === 'feature') {
+      return labelsOn('feature') && rec.lvl <= featureLevel();
+    }
     // A country's name has nothing to do with the Administrative layer, which
     // is about its divisions. Gating it on that switch meant "Show names on
     // the map" showed no country names at all until a second, unrelated button
@@ -676,7 +735,7 @@
     // — except one that is only drawn when that layer is on, which cannot be
     // named while it is not there.
     if (rec.kind === 'territory') {
-      if (!srcOK(rec)) return false;
+      if (!labelsOn('territory') || !srcOK(rec)) return false;
       // A province drawn as a territory of its own so that it can be named —
       // Manchuria, Jehol, Chahar and Suiyuan, Sinkiang — is not a country and
       // must not be labelled as one while the Administrative layer is off. On
@@ -689,7 +748,7 @@
     // moment Cities is switched on; their names wait until the reader has
     // closed in on somewhere, which is when a name is any use to them.
     if (rec.kind === 'browse') {
-      if (!browseVisible() || labelLevel() < 2) return false;
+      if (!labelsOn('city') || !browseVisible() || labelLevel() < 2) return false;
       /* Where the gazetteer is loaded it is what draws the dots — `#browse`'s
          own are hidden the moment `JMAP.GAZ` exists — and these names are the
          names of *those* dots. So a name must not outlast the dot it belongs
@@ -704,7 +763,14 @@
       }
       return true;
     }
-    return state.cats[rec.cat] && rec.lvl <= labelLevel() && siteInEpoch(rec);
+    /* Everything else is a site, and its own category decides which switch
+       writes its name: a city under City names, a mine or a shrine under
+       Places of interest. A battle is neither — Events is its switch, and it
+       is a diamond with a date, so it answers to the master alone rather than
+       disappearing under a row that does not name it. */
+    var lc = rec.cat === 'city' ? 'city' : rec.cat === 'poi' ? 'poi' : '';
+    return labelsOn(lc)
+      && state.cats[rec.cat] && rec.lvl <= labelLevel() && siteInEpoch(rec);
   }
 
   function quizPool() {
@@ -853,6 +919,7 @@
     buildYellow1938();
     buildBrowse();
     buildPopRows();
+    buildLabelRows();
     buildGazetteer();
     hatchGroup = svg.querySelector('#hatching');
 
@@ -3745,7 +3812,9 @@
        opens with it on, because mode 1 is that map.
      
        The high field, low digit first: two bits of demography mode per group
-       in POP_BITS order, then one for the sugar railways. */
+       in POP_BITS order (1 and 2 for Korea, 16 and 32 for Taiwan), 4 for the
+       sugar railways, and 64 upwards one per kind of name — inverted, so that
+       an absent bit means the default and the default is on. 8 is free. */
 
     bits |= ({ albers: 1, laea: 2 }[state.projection] || 0) << 15;
     if (state.graticule) bits |= 131072;
@@ -3762,6 +3831,11 @@
       if (place) hi += place * (POP_MODES.indexOf(state.pop[g.id]) + 1 || 0);
     });
     if (state.twSugar) hi += SUGAR_PLACE;
+    // set when the row is OFF — an old link carries zeroes here and must open
+    // with every name switched on, which is what it showed its sender
+    LABEL_CATS.forEach(function (c) {
+      if (!state.labelCats[c.id]) hi += c.place;
+    });
     return (bits + hi * HI_BASE).toString(36);
   }
 
@@ -3806,6 +3880,9 @@
       if (mode) state.pop[g.id] = mode; else delete state.pop[g.id];
     });
     state.twSugar = !!(Math.floor(hi / SUGAR_PLACE) % 2);
+    LABEL_CATS.forEach(function (c) {          // inverted; see layerCode
+      state.labelCats[c.id] = !(Math.floor(hi / c.place) % 2);
+    });
     state.projection = ['mercator', 'albers', 'laea'][(bits >> 15) & 3] || 'mercator';
     state.graticule = !!(bits & 131072);
     state.relief = !!(bits & 262144);
@@ -4552,8 +4629,7 @@
   }
 
   function subLabelsWanted() {
-    return state.labels && state.mode !== 'quiz'
-      && view.w < mapW / SUB_LABEL_ZOOM;
+    return labelsOn('sub') && view.w < mapW / SUB_LABEL_ZOOM;
   }
 
   /* A sub-unit's name, from data.js where there is a record and off the shape
@@ -4696,20 +4772,32 @@
        cost — so it sorts as `Infinity` and keeps its place ahead of the
        islets, which is what the rank above already intends. Sorting is stable,
        so divisions keep their document order among themselves. */
-    if (made) {
-      var rank = { territory: 0, feature: 1, sub: 2, site: 3, browse: 4 };
-      labels.sort(function (a, b) {
-        var d = (rank[a.rec.kind] || 2) - (rank[b.rec.kind] || 2);
-        if (d) return d;
-        return (b.area || 0) - (a.area || 0);
-      });
-      rescale();
-    }
+    if (made) { sortLabels(); rescale(); }
+  }
+
+  /* The order the placer takes them in, and so which name survives a crowd:
+     it is greedy and first-come-first-served.
+
+     A density figure comes above the province's own name and below the
+     country's. It is the layer the reader has just switched on and the name is
+     decoration beside it — and the name is not lost when they collide, it is
+     nudged, which `placeLabels` does for whichever of the two arrives second.
+     A battle or a city sorts as before. */
+  var LABEL_RANK = { territory: 0, feature: 1, popval: 2, sub: 3,
+                     site: 4, browse: 5 };
+
+  function sortLabels() {
+    labels.sort(function (a, b) {
+      var d = (LABEL_RANK[a.rec.kind] === undefined ? 3 : LABEL_RANK[a.rec.kind])
+            - (LABEL_RANK[b.rec.kind] === undefined ? 3 : LABEL_RANK[b.rec.kind]);
+      if (d) return d;
+      return (b.area || 0) - (a.area || 0);
+    });
   }
 
   function gateLabels() {
     ensureSubLabels();
-    var showLabels = state.labels && state.mode !== 'quiz';
+    ensurePopValues();
     var measure = [];
     /* An island can be named twice: once by the base map, from the centroid
        written into its shape, and again by the fine coastline layer, off the
@@ -4746,7 +4834,11 @@
          and not by "Show names" — the reader who switches the railways on
          wants the stations named whether or not the country names are up.
          Everything else still waits on that button. */
-      if (gone || !(showLabels && labelVisible(L.rec))) {
+      /* The master switch is asked *inside* `labelVisible`, one kind at a
+         time, rather than once for the whole pass. A density figure is not a
+         name and is written with Other off; every other kind still waits on
+         it, and now on its own row in the Labels section besides. */
+      if (gone || !labelVisible(L.rec)) {
         L.el.textContent = '';
         L.el.style.display = 'none';
         L.shown = false;
@@ -4883,7 +4975,10 @@
 
   function placeLabels() {
     if (state.mode === 'quiz') return;
-    if (!state.labels) return;
+    // Not `!state.labels` alone: the density figures are placed by the same
+    // collision pass and are drawn with Other off, so bailing here left them
+    // written on top of one another until somebody pressed Other.
+    if (!state.labels && !popValues.length) return;
     var c = containerSize();
     var sx = c.w / view.w;
     var sy = c.h / view.h;
@@ -8288,7 +8383,7 @@
     buildLegend();
     // and the station names bring the placer with them, since they are not
     // under the "Show names" button that used to be the only thing that ran it
-    if (showLabels) placeLabels();
+    if (showLabels || popValues.length) placeLabels();
     saveState();
   }
 
@@ -8595,7 +8690,13 @@
      five-step blue — pale for empty, deep for crowded — and it is set as `--c`
      on the province rather than as a fill, so the hover lift still mixes with
      it and the shape still darkens under the pointer. */
-  var POP_RAMP = ['#eef3f8', '#c3d6e8', '#8fb4d4', '#5286b4', '#1f5b8f'];
+  /* The palest step was `#eef3f8` and is a shade deeper now. That was fine
+     while a unit with no figure was grey; with the blank drawn white — see
+     POP_BLANK — the two were within four values of each other across the
+     lower island, and the demarcated 「蕃地」 and the two least crowded districts
+     beside it read as one thing with a line through it. The band has to start
+     visibly above the paper. */
+  var POP_RAMP = ['#dfeaf4', '#c3d6e8', '#8fb4d4', '#5286b4', '#1f5b8f'];
 
   /* The three maps a group offers, in the order the panel lists them and the
      order the layers code numbers them: 1, 2, 3, with 0 for none. Adding a
@@ -8842,6 +8943,117 @@
     if (popCardKey !== null) fillPopCard(popCardKey, popCardName);
   }
 
+  /* ------------------------------------------- the label categories --- */
+
+  /* One row per kind of name, in the Layers panel and again in the little
+     menu the Other button opens. Both are written from LABEL_CATS: two hand-
+     kept lists of the same five things is how one of them ends up naming a
+     category that no longer exists. */
+  function labelRow(c, host, idPrefix) {
+    var label = document.createElement('label');
+    label.className = 'row';
+    var el = document.createElement('input');
+    el.type = 'checkbox';
+    el.id = idPrefix + c.id;
+    el.setAttribute('data-lcat', c.id);
+    el.addEventListener('change', function () { setLabelCat(c.id, el.checked); });
+    label.appendChild(el);
+    label.appendChild(document.createTextNode(' ' + c.label));
+    host.appendChild(label);
+  }
+
+  function buildLabelRows() {
+    var host = $('#label-rows');
+    if (host) {
+      host.innerHTML = '';
+      LABEL_CATS.forEach(function (c) { labelRow(c, host, 'opt-lcat-'); });
+    }
+    var menu = $('#label-menu');
+    if (menu) {
+      menu.innerHTML = '';
+      var head = document.createElement('p');
+      head.className = 'menu-head';
+      head.textContent = 'Which names to show';
+      menu.appendChild(head);
+      LABEL_CATS.forEach(function (c) { labelRow(c, menu, 'menu-lcat-'); });
+    }
+    syncLabelBoxes();
+  }
+
+  /* A tick is what is *written*, not what is remembered.
+
+     With Other off nothing is written, so every row shows unticked — which is
+     the honest answer to "are city names on the map". What each row was set to
+     is kept underneath and comes back when Other is pressed again, so a reader
+     who turned four of them off does not have to turn them off a second time.
+     The two would be the same thing if the master switch cleared them, and
+     then Other would be a sixth tick rather than the switch it is. */
+  function syncLabelBoxes() {
+    LABEL_CATS.forEach(function (c) {
+      var on = !!(state.labels && state.labelCats[c.id]);
+      ['opt-lcat-', 'menu-lcat-'].forEach(function (pre) {
+        var el = $('#' + pre + c.id);
+        if (el) el.checked = on;
+      });
+    });
+  }
+
+  function setLabelCat(id, on) {
+    state.labelCats[id] = on;
+    // a tick that draws nothing is not a tick: turning a kind of name on with
+    // the master switch off turns the master switch on too
+    if (on) state.labels = true;
+    /* And turning the last one off is the reader saying they want no names,
+       which is the master switch again. The five are put back on as they go,
+       so pressing Other next writes names rather than nothing — which is what
+       "all five are on when it is" has to mean the second time as well. */
+    if (!on && !LABEL_CATS.some(function (c) { return state.labelCats[c.id]; })) {
+      state.labels = false;
+      LABEL_CATS.forEach(function (c) { state.labelCats[c.id] = true; });
+    }
+    if (state.labelCats.sub && state.labels) loadAdmin();
+    syncLayerButtons();
+    applyState();
+  }
+
+  /* The menu itself: opened at the button, closed by the next press anywhere
+     else, by Escape, or by a scroll that would leave it behind. */
+  var labelMenuOn = false;
+  /* Set when a press on Other has been held long enough to mean the menu, and
+     cleared by the click it swallows — see the wiring in `init`. */
+  var labelPressLong = false;
+
+  function placeLabelMenu() {
+    var menu = $('#label-menu');
+    var btn = $('#layer-seg button[data-opt="labels"]');
+    if (!menu || !btn) return;
+    var b = btn.getBoundingClientRect();
+    // measured after it is displayed, or the box is zero and it lands top-left
+    var w = menu.offsetWidth, h = menu.offsetHeight;
+    var left = Math.max(6, Math.min(b.left, window.innerWidth - w - 6));
+    // under the button, or over it where there is no room below
+    var top = (b.bottom + h + 6 <= window.innerHeight) ? b.bottom + 4
+                                                       : Math.max(6, b.top - h - 4);
+    menu.style.left = left + 'px';
+    menu.style.top = top + 'px';
+  }
+
+  function openLabelMenu() {
+    var menu = $('#label-menu');
+    if (!menu) return;
+    syncLabelBoxes();
+    menu.hidden = false;
+    labelMenuOn = true;
+    placeLabelMenu();
+  }
+
+  function closeLabelMenu() {
+    var menu = $('#label-menu');
+    if (!menu || !labelMenuOn) return;
+    menu.hidden = true;
+    labelMenuOn = false;
+  }
+
   function syncPopBoxes() {
     popGroups().forEach(function (g) {
       var d = popForEpoch(g);
@@ -8927,8 +9139,15 @@
      does. Left alone it showed the country's own colour and the relief through
      the middle of a shaded island, which reads as a fault in the drawing
      rather than as a gap in the table — the demarcated 「蕃地」 is the case, with
-     no area to divide by and no register to count. */
-  var POP_BLANK = '#cfcac2';
+     no area to divide by and no register to count.
+
+     White, and drawn a second time above the hillshade — see `drawPopVoid`.
+     Grey was tried first and is worse than it sounds: it is a colour, so it
+     sits on the ramp as if it were the lowest band, and being mid-toned it
+     takes the `overlay` blend at full strength, so the mountains came through
+     it and it was the one shape on the island with relief in it. White is not
+     on the ramp and cannot be read as a value. */
+  var POP_BLANK = '#ffffff';
 
   function popFills() {
     var out = {};
@@ -9163,14 +9382,184 @@
       if (scalables[i].pie) scalables.splice(i, 1);
     }
     drawPies();
-    if (!any || !svg) return;
+    // the figures are rebuilt from whatever is shaded now, on the next gate
+    popValuesDirty = true;
+    if (!any || !svg) { drawPopVoid([]); return; }
+    var blanks = [];
     $$('#land [data-prov]', svg).forEach(function (el) {
       var c = want[el.getAttribute('data-prov')];
       if (!c) return;
       el.style.setProperty('--c', c);
       el.classList.add('pop-shaded');
       popPainted.push(el);
+      if (c === POP_BLANK) blanks.push(el);
     });
+    drawPopVoid(blanks);
+  }
+
+  /* ------------------------------------- the units with no figure ----- */
+
+  /* A white copy of every blank unit, drawn *over* the relief.
+
+     The relief is not under the land — it is an `overlay` blend laid across
+     the whole frame, above the political colours and below the names, which is
+     why it shades a country without having to be masked to any coastline. That
+     is right for a country and wrong for a hole in a table: the demarcated
+     「蕃地」 came out as the one shape on a shaded island with mountains showing
+     through it, which reads as a fault in the drawing rather than as ground
+     nobody counted. Flat white says the second thing.
+
+     So the shape is drawn twice: once in the land, where it takes the pointer
+     and the hover like any other unit, and once here in plain white above the
+     relief, which cannot take the pointer at all. `pointer-events: none` is
+     the whole of what keeps the first copy reachable. */
+  var popVoidGroup = null;
+
+  function drawPopVoid(els) {
+    if (!svg) return;
+    if (!popVoidGroup) {
+      if (!els.length) return;
+      popVoidGroup = svgEl('g', { id: 'pop-void' });
+      popVoidGroup.style.pointerEvents = 'none';
+    }
+    // above the relief and under the names, which is where the relief itself
+    // stops: `labelLayer` is the first thing the hillshade must not cover
+    if (labelLayer && labelLayer.parentNode === svg
+        && popVoidGroup.nextSibling !== labelLayer) {
+      svg.insertBefore(popVoidGroup, labelLayer);
+    } else if (!popVoidGroup.parentNode) {
+      svg.appendChild(popVoidGroup);
+    }
+    popVoidGroup.textContent = '';
+    popVoidGroup.style.display = els.length ? '' : 'none';
+    els.forEach(function (el) {
+      var d = el.getAttribute('d');
+      if (!d) return;
+      popVoidGroup.appendChild(svgEl('path', { d: d, 'class': 'pop-void' }));
+    });
+  }
+
+  /* ---------------------------------------- the figure on each unit --- */
+
+  /* The number the colour stands for, written on the ground it is about.
+
+     A five-step ramp says more, less and about the same; it does not say 128
+     people to the square kilometre, and a reader who wants to compare two
+     provinces has to go to the key, read a band off it and come back. The
+     figure is the reading itself, so it goes on the shape.
+
+     **Which ones fit is a question in screen pixels.** Taiwan is fifty-five
+     districts, several of them a few pixels wide at the island view, and a
+     number written on one of those is a smudge over its neighbours. So each
+     figure carries the box of the block it sits on, in map units, and asks on
+     every zoom whether that box is bigger on screen than the word — `k` is
+     map units per screen pixel and is the only thing that relates the two.
+     The prefectures answer yes at the island view; the districts answer yes as
+     the reader comes in, which is exactly the behaviour asked for and falls
+     out of the test rather than being a second rule. */
+  var POPVAL_PX = 10.5;
+  var popValues = [];
+  var popValuesDirty = false;
+
+  /* Ink for a figure on each of the five bands. The first three are pale
+     enough to take dark type and the last two are not; the halo goes the
+     other way, so the word has a rim of its own ground whichever it is. */
+  function popValInk(cls) {
+    return cls >= 3 ? { fill: '#fff', halo: 'rgba(10,22,34,.65)' }
+                    : { fill: '#16232e', halo: 'rgba(255,255,255,.75)' };
+  }
+
+  /* How a value is said. A density is a whole number of people to the square
+     kilometre — the tenths of one are below what the areas are good for — and
+     a share is a share, to a tenth while it is small enough for a tenth to
+     matter and whole once it is not. */
+  function popValText(mode, v) {
+    // `toFixed`, not a rounded division: 3.0 comes back from the second as "3"
+    // and sits in a column of 2.6 and 4.4 looking like a different quantity
+    if (mode === 'japanese') {
+      return (v >= 10 ? String(Math.round(v)) : v.toFixed(1)) + '%';
+    }
+    return String(Math.round(v));
+  }
+
+  function popValueFits(rec) {
+    if (!rec || !isFinite(rec.bw)) return false;
+    var c = containerSize();
+    var k = view.w / c.w;                     // map units per screen pixel
+    return (rec.bw / k) >= rec.needW && (rec.bh / k) >= rec.needH;
+  }
+
+  function clearPopValues() {
+    if (!popValues.length) return;
+    popValues.forEach(function (L) {
+      if (L.el && L.el.parentNode) L.el.parentNode.removeChild(L.el);
+    });
+    popValues = [];
+    labels = labels.filter(function (L) { return !L.popval; });
+    scalables = scalables.filter(function (s) { return !s.popval; });
+  }
+
+  function ensurePopValues() {
+    if (!popValuesDirty) return;
+    popValuesDirty = false;
+    clearPopValues();
+    var jobs = popOn().filter(function (j) { return POP_SHADES[j.mode]; });
+    if (!jobs.length || !svg || !labelLayer) return;
+    /* One figure per unit, on the block that carries its label anchor — the
+       largest, the same one the pies use, so a province drawn in three pieces
+       is numbered once and in the piece there is room to number. */
+    var blocks = {};
+    $$('#land [data-prov]', svg).forEach(function (el) {
+      var key = el.getAttribute('data-prov');
+      if (!key) return;
+      var a = parseFloat(el.getAttribute('data-area') || '0');
+      if (!blocks[key] || a > blocks[key].a) blocks[key] = { a: a, el: el };
+    });
+    jobs.forEach(function (job) {
+      var shade = POP_SHADES[job.mode];
+      var breaks = shade.breaks(job.set);
+      Object.keys(job.set.rows).forEach(function (key) {
+        var r = job.set.rows[key];
+        if (r.scope !== 'sub-unit' || r.sameAs) return;
+        var v = shade.value(r);
+        if (!(v || v === 0)) return;          // a blank unit has no figure
+        var blk = blocks[key];
+        if (!blk) return;
+        var x = parseFloat(blk.el.getAttribute('data-cx'));
+        var y = parseFloat(blk.el.getAttribute('data-cy'));
+        if (!isFinite(x) || !isFinite(y)) return;
+        var bb;
+        try { bb = blk.el.getBBox(); } catch (err) { return; }
+        if (!bb || !bb.width) return;
+        var txt = popValText(job.mode, v);
+        var ink = popValInk(popClass(v, breaks));
+        var el = svgEl('text', { 'class': 'tlabel popval',
+                                 'font-size': POPVAL_PX });
+        el.style.fill = ink.fill;
+        el.style.stroke = ink.halo;
+        labelLayer.appendChild(el);
+        /* The width wanted is an estimate and stays one. `gateLabels`
+           measures a label the first time it writes it, but that measurement
+           is what decides whether it *fits*, and asking for it before the
+           thing is on screen is the layout flush this file spends its
+           performance notes avoiding. Digits are narrow and even: 0.58 em
+           each is within a pixel of the measured width of "1,234" at this
+           size, and the margin below is the slack. */
+        var rec = { kind: 'popval', txt: txt,
+                    bw: bb.width, bh: bb.height,
+                    needW: txt.length * POPVAL_PX * 0.58 + 3,
+                    needH: POPVAL_PX * 1.9 };
+        var entry = { rec: rec, el: el, x: x, y: y, dy: 0, size: POPVAL_PX,
+                      w: 0, h: POPVAL_PX * 1.2, half: 0, key: key,
+                      area: Infinity, popval: true, owner: blk.el,
+                      atom: blk.el.closest ? blk.el.closest('.atom') : null };
+        entry.sc = { el: el, x: x, y: y, popval: true };
+        labels.push(entry);
+        scalables.push(entry.sc);
+        popValues.push(entry);
+      });
+    });
+    if (popValues.length) sortLabels();
   }
 
   /* --------------------------------------------- and in the info card -- */
@@ -9435,8 +9824,9 @@
         row.appendChild(document.createTextNode(txt));
         legend.appendChild(row);
       });
-      /* And the grey, where anything is wearing it: a colour on the map that
-         is not in the key is a colour the reader has to guess at. */
+      /* And the blank, where anything is wearing it: a colour on the map
+         that is not in the key is a colour the reader has to guess at. White
+         needs an outline in the key or it is a gap in the list. */
       var blank = Object.keys(d.rows).some(function (k) {
         var r = d.rows[k];
         if (r.scope !== 'sub-unit') return false;
@@ -9447,7 +9837,7 @@
         var brow = document.createElement('div');
         brow.className = 'item pop-key-row';
         var bsw = document.createElement('span');
-        bsw.className = 'sw';
+        bsw.className = 'sw pop-blank-sw';
         bsw.style.background = POP_BLANK;
         brow.appendChild(bsw);
         brow.appendChild(document.createTextNode('no data'));
@@ -10497,6 +10887,9 @@
        switched from the card as well as from the panel, and a link arriving
        with `pop=` in it sets them before the panel has been written. */
     syncPopBoxes();
+    // and the five kinds of name, which have three places to disagree from:
+    // the bar's Other button, the panel's rows and the button's own menu
+    syncLabelBoxes();
     syncBarExtras();
   }
 
@@ -10810,10 +11203,29 @@
     // the three kinds of place, on and off. They are switches rather than a
     // one-of-three group, so they carry aria-pressed and not aria-checked
     $$('#layer-seg button').forEach(function (b) {
-      b.addEventListener('click', function () {
+      b.addEventListener('click', function (e) {
         var opt = b.getAttribute('data-opt');
+        /* Two doors to the menu, because a phone has no option key and a
+           desktop has no press-and-hold.
+
+           They arrive here differently and must be handled differently. The
+           long press has *already* opened the menu — it opens on the hold, not
+           on the release, or the reader holds a button for half a second with
+           nothing to show for it — so the click it still sends is swallowed
+           and nothing else. Toggling here instead closed the menu the hold had
+           just opened, every time, on both platforms. */
+        if (opt === 'labels' && labelPressLong) {
+          labelPressLong = false;
+          return;
+        }
+        if (opt === 'labels' && e.altKey) {
+          if (labelMenuOn) closeLabelMenu(); else openLabelMenu();
+          return;
+        }
+        closeLabelMenu();
         if (opt) {
           state[opt] = !state[opt];
+          if (opt === 'labels') syncLabelBoxes();
         } else {
           var cat = b.getAttribute('data-cat');
           state.cats[cat] = !state.cats[cat];
@@ -10823,6 +11235,57 @@
         syncLayerButtons();
         applyState();
       });
+    });
+
+    /* The long press on Other, which is the touch half of option-click.
+     *
+     * A finger has no modifier key, so the second door has to be time: hold
+     * the button for LABEL_HOLD_MS and the menu opens under it. The press that
+     * opened it must not then also toggle the layer, and a long press *does*
+     * still send a click on both platforms — so the click is swallowed once,
+     * by a flag the next press clears rather than by preventDefault, which a
+     * synthesised click ignores.
+     *
+     * `pointercancel` matters as much as `pointerup`: on a touch screen the
+     * gesture becomes a scroll or a pan the moment the finger moves, and the
+     * timer has to die with it or the menu opens in the middle of a drag. */
+    var LABEL_HOLD_MS = 500;
+    var labelHold = 0;
+    var otherBtn = $('#layer-seg button[data-opt="labels"]');
+    if (otherBtn) {
+      var stopHold = function () {
+        if (labelHold) { clearTimeout(labelHold); labelHold = 0; }
+      };
+      otherBtn.addEventListener('pointerdown', function () {
+        labelPressLong = false;
+        stopHold();
+        labelHold = setTimeout(function () {
+          labelHold = 0;
+          labelPressLong = true;      // swallowed by the click handler above
+          if (labelMenuOn) closeLabelMenu(); else openLabelMenu();
+        }, LABEL_HOLD_MS);
+      });
+      ['pointerup', 'pointercancel', 'pointerleave'].forEach(function (ev) {
+        otherBtn.addEventListener(ev, stopHold);
+      });
+      // a long press on a touch screen otherwise offers to copy the button
+      otherBtn.addEventListener('contextmenu', function (e) { e.preventDefault(); });
+    }
+
+    /* And the ways out of it. A menu that stays open while the reader works
+       the map is a panel, and this is not one. */
+    document.addEventListener('pointerdown', function (e) {
+      if (!labelMenuOn) return;
+      var menu = $('#label-menu');
+      if (menu && menu.contains(e.target)) return;
+      if (otherBtn && otherBtn.contains(e.target)) return;
+      closeLabelMenu();
+    }, true);
+    document.addEventListener('keydown', function (e) {
+      if (labelMenuOn && e.key === 'Escape') closeLabelMenu();
+    });
+    window.addEventListener('resize', function () {
+      if (labelMenuOn) placeLabelMenu();
     });
 
     $$('#level-seg button').forEach(function (b) {
