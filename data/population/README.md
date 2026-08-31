@@ -25,6 +25,7 @@ about the place; this folder holds what was counted there.
 | `in_short` | `no` keeps the dataset out of the short description altogether — its figures are on the card and in the table only. Taiwan's sixty-four districts are the case: sixty-four sentences nobody asked for on hover |
 | `table_skip` | groups the box does not print, comma-separated. The figures stay on the card and in the data; this says a table of them is not worth the room — the fourteen cities by age was half a screen of columns nobody had asked a question of |
 | `caption` | what was counted, without the place: *estimated population at 1 October 1942*. A card puts the name of the place it is about in front of this, so a province's figures are headed with the province; the whole-territory card is headed `pct_of` + this |
+| `breaks` | the class breaks, comma-separated, where the source drew its own choropleth and the map should reproduce it rather than fit a ladder. Manchukuo's report shades at 5, 20, 40 and 100 to the square kilometre and the map uses those four. Left blank the ladder is computed as below |
 | `when` | the year the **figures** are of, which is not always the map they appear on: Taiwan's later return is the register at the end of 1941 and is drawn on the December 1942 map. The comparison table names its columns from this, and orders the dates by it. Left blank it is the epoch |
 | `compare_note` | a caution under the comparison table, where the two dates do not count the same thing the same way |
 | `source` | where the numbers come from. The same citation belongs on `texts/pages/sources.md`, which is what the reader sees |
@@ -98,7 +99,16 @@ column of 36.6 and 7.4, which reads as a different quantity.
 There is no area column in the 1942 returns, so `area_km2` is measured from the
 polygons this map draws — `tools/cache/korea_13_provinces_fine.json`, by
 spherical excess on a sphere of radius 6371.0088 km. The density on the card is
-`population / area_km2`, computed at build.
+`population / area_km2`, computed at build. **Where the source prints its own areas,
+use them** — Manchukuo's report gives 暫定面積 for every province, and its
+provinces are not the shapes this map draws, so a density over the polygon would
+be the 1943 population over the 1935 ground.
+
+A density under ten keeps one decimal place. Kōan-hoku is 0.8 to the square
+kilometre and Kokka 1.3, and rounded to whole numbers both print 1 — the map
+then says the emptiest province in Manchuria is the same as one three times as
+full. Nothing already on the map is under ten, so no figure a reader has seen
+moved when this came in.
 
 Two things follow, and both are on purpose. The density belongs to *the shape
 the reader is looking at*, so a hover cannot disagree with the map under it. And
@@ -196,6 +206,7 @@ colour.
 | `territory` | a country card — the `id` in `texts/territories/<epoch>.csv` |
 | `sub-unit` | a province — the `key` in a `texts/territories/sub-units/` group file |
 | `city` | a place in the gazetteer — the `id` in `data/cities-<epoch>.csv`. The build fails on a city that map does not draw |
+| `unmapped` | a real place with real figures and **no shape on this map**. Manchukuo's five post-1935 provinces are the case: the map's Manchukuo is traced from a 1935 sheet and 通化, 北安, 東安, 四平 and 牡丹江 were made out of those fourteen afterwards, none from a single parent, so they cannot be added back. It has no key to check, appears in the table and the chart — without it the parts would not sum to the whole and the chart's caption would be a lie — and never on a card, there being nothing to point at. Its `note` should say so |
 | `summary` | a row with no place at all: *all fourteen 府 together*. It is pinned to the top of its table and appears on no card. The source prints a 府部 row for the population and the ages and none for the registers or the occupations, so those cells are summed from the fourteen — exact by construction, and the same sum the source itself prints where it prints one |
 
 ## One ladder for a layer, not one per date

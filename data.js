@@ -699,6 +699,7 @@ JMAP.TERRITORIES = {
       zh: '滿洲國', ko: '만주국', when: 'Japanese-occupied; nominally independent from March 1932',
       cat: 'puppet', lvl: 1, atoms: ['manchukuo'], under: '滿洲國',
       wiki: 'https://en.wikipedia.org/wiki/Manchukuo',
+      short: '1943 Census Population: 43,202,880 · Males per 100 Females: 123.9 · Per km²: 33 The whole state at the 1943 count: 新京特別市 and nineteen provinces. The map draws fourteen of those provinces, being traced from a 1935 sheet, and they hold 35,140,793 of these people; the other 8,062,087 were in the five it does not draw and in the capital.',
       note: 'Invaded from September 1931 and proclaimed independent under the last Qing emperor Puyi. Rehe was added in 1933; the eastern Inner Mongolian leagues had been part of the three provinces all along and became its Hinggan provinces. Real power lay with the Kwantung Army and Japanese vice-ministers.'
     },
     {
@@ -7605,17 +7606,47 @@ JMAP.PROVINCE_EPOCH = {
       en: 'United Provinces',
       wiki: 'https://en.wikipedia.org/wiki/United_Provinces_(1937%E2%80%931950)'
     },
+    'An Tung': {
+      short: 'The Yalu frontier, timber floated down from the interior and milled at Antung, and the bridge across to Sinuiju that carried the traffic between Manchuria and Korea. 1943 Census Population: 2,231,507 · Males per 100 Females: 110.4 · Per km²: 84 The shape the map gives this province is its 1935 one and this figure is the province of 1943: five provinces — 通化, 北安, 東安, 四平 and 牡丹江 — were made out of the fourteen the map draws in between, and none of them from a single parent, so they cannot be added back. The density is the report’s own, over the report’s own area, and not over the polygon.'
+    },
+    'Chien Tao': {
+      short: 'The Tumen frontier with Korea, mountainous and mostly Korean-settled; the ground on which the anti-Japanese partisan bands of the 1930s formed, and were hunted through. 1943 Census Population: 848,197 · Males per 100 Females: 122.6 · Per km²: 28 The shape the map gives this province is its 1935 one and this figure is the province of 1943: five provinces — 通化, 北安, 東安, 四平 and 牡丹江 — were made out of the fourteen the map draws in between, and none of them from a single parent, so they cannot be added back. The density is the report’s own, over the report’s own area, and not over the polygon.'
+    },
+    Chinchow: {
+      short: 'The corridor between the Gulf of Chihli and the mountains — the road and railway into China proper, taken in January 1932, which is how the fighting passed south of the Wall. 1943 Census Population: 4,317,822 · Males per 100 Females: 107.8 · Per km²: 108 The shape the map gives this province is its 1935 one and this figure is the province of 1943: five provinces — 通化, 北安, 東安, 四平 and 牡丹江 — were made out of the fourteen the map draws in between, and none of them from a single parent, so they cannot be added back. The density is the report’s own, over the report’s own area, and not over the polygon.'
+    },
     Chuseihoku: {
       short: 'The only province in Korea with no coastline. 1942 Estimated Population: 928,817 · Males per 100 Females: 102.5 · % of Total Korea: 3.9 · Per km²: 125'
     },
     Chuseinan: {
       short: 'The lower Kŭm river and the tidal flats of the west coast. 1942 Estimated Population: 1,568,708 · Males per 100 Females: 100.3 · % of Total Korea: 6.5 · Per km²: 195'
     },
+    'Feng Tien': {
+      short: 'The Liao plain and Mukden — headquarters of the South Manchuria Railway, the region’s arsenal and heavy industry, and the place where the line was blown up on 18 September 1931. 1943 Census Population: 7,565,599 · Males per 100 Females: 118.9 · Per km²: 152 The shape the map gives this province is its 1935 one and this figure is the province of 1943: five provinces — 通化, 北安, 東安, 四平 and 牡丹江 — were made out of the fourteen the map draws in between, and none of them from a single parent, so they cannot be added back. The density is the report’s own, over the report’s own area, and not over the polygon.'
+    },
     Heianhoku: {
       short: 'The north-western march, with the Yalu as its border: the river carried the timber trade. 1942 Estimated Population: 1,728,627 · Males per 100 Females: 99.8 · % of Total Korea: 7.2 · Per km²: 61'
     },
     Heiannan: {
       short: 'P\'yŏngyang, the oldest city in Korea and the one with the largest Christian community. 1942 Estimated Population: 1,684,444 · Males per 100 Females: 99.7 · % of Total Korea: 7.0 · Per km²: 114'
+    },
+    Heiho: {
+      short: 'Taiga and the Amur, facing Blagoveshchensk across the water — gold along the tributaries, and after 1932 a garrison frontier watched from both banks. 1943 Census Population: 149,887 · Males per 100 Females: 327.0 · Per km²: 1.3'
+    },
+    'Hsing An Nan': {
+      short: 'The southern tail of the Khingan where the steppe meets the farmed land — Mongol banners losing ground to Chinese settlement, a frontier of tillage that had been moving north for a century. 1943 Census Population: 1,026,635 · Males per 100 Females: 130.3 · Per km²: 13'
+    },
+    'Hsing An Peh': {
+      short: 'The Hulun Buir grasslands west of the Greater Khingan — Mongol banners, horses and sheep, and the Trans-Manchurian line running out to the Soviet frontier at Manchouli. 1943 Census Population: 132,426 · Males per 100 Females: 223.2 · Per km²: 0.8'
+    },
+    'Hsing An Si': {
+      short: 'Dry steppe between the Khingan and the Mongolian plateau, too thin to plough: pasture, and the caravan roads that carried wool south before the railways took the traffic. 1943 Census Population: 763,701 · Males per 100 Females: 127.6 · Per km²: 10'
+    },
+    'Hsing An Tung': {
+      short: 'The eastern slope of the Greater Khingan falling to the Nen — larch and birch forest above, Daur and Mongol grazing below, and logging camps worked for the railway. 1943 Census Population: 199,530 · Males per 100 Females: 151.9 · Per km²: 1.8'
+    },
+    'Je Hol': {
+      short: 'Mountain country north of the Great Wall, thin farming and opium; invaded in the spring of 1933 and attached to Manchukuo, which carried the frontier down to the Wall itself. 1943 Census Population: 4,553,228 · Males per 100 Females: 116.4 · Per km²: 44'
     },
     Kankyohoku: {
       short: 'The far north-east, against the Tumen and the Soviet and Manchurian borders: mountains. 1942 Estimated Population: 1,110,305 · Males per 100 Females: 109.3 · % of Total Korea: 4.6 · Per km²: 55'
@@ -7632,14 +7663,26 @@ JMAP.PROVINCE_EPOCH = {
     Keishonan: {
       short: 'The end of the peninsula facing Japan, and the province the colony was entered through. 1942 Estimated Population: 2,145,070 · Males per 100 Females: 96.1 · % of Total Korea: 8.9 · Per km²: 175'
     },
+    Kirin: {
+      short: 'The upper Sungari in forested hills — lumber, and the Fengman dam begun in 1937, one of the largest hydroelectric works in Asia, built with conscripted labour. 1943 Census Population: 5,608,922 · Males per 100 Females: 120.8 · Per km²: 67 The shape the map gives this province is its 1935 one and this figure is the province of 1943: five provinces — 通化, 北安, 東安, 四平 and 牡丹江 — were made out of the fourteen the map draws in between, and none of them from a single parent, so they cannot be added back. The density is the report’s own, over the report’s own area, and not over the polygon.'
+    },
     Kogen: {
       short: 'The Taebaek range down its spine, and very little flat ground. 1942 Estimated Population: 1,806,504 · Males per 100 Females: 105.7 · % of Total Korea: 7.5 · Per km²: 69'
     },
     Kokai: {
       short: 'The province between the capital and P\'yŏngyang, rolling hills opening on the Yellow Sea. 1942 Estimated Population: 1,841,851 · Males per 100 Females: 99.5 · % of Total Korea: 7.6 · Per km²: 111'
     },
+    Lungkiang: {
+      short: 'The Nonni plain, black earth and the great soya and wheat country of the north; Tsitsihar its capital, and the first serious fighting of the Manchurian Incident fought at the Nonni bridges in November 1931. 1943 Census Population: 2,093,500 · Males per 100 Females: 125.0 · Per km²: 31 The shape the map gives this province is its 1935 one and this figure is the province of 1943: five provinces — 通化, 北安, 東安, 四平 and 牡丹江 — were made out of the fourteen the map draws in between, and none of them from a single parent, so they cannot be added back. The density is the report’s own, over the report’s own area, and not over the polygon.'
+    },
+    'Pin Kiang': {
+      short: 'Harbin and the Sungari: the junction of the Chinese Eastern Railway, a city of Russian émigrés, grain and distilling — and, at Pingfang on its southern edge, the Kwantung Army’s biological warfare establishment, Unit 731. 1943 Census Population: 4,234,206 · Males per 100 Females: 127.1 · Per km²: 66 The shape the map gives this province is its 1935 one and this figure is the province of 1943: five provinces — 通化, 北安, 東安, 四平 and 牡丹江 — were made out of the fourteen the map draws in between, and none of them from a single parent, so they cannot be added back. The density is the report’s own, over the report’s own area, and not over the polygon.'
+    },
     Saishu: {
       short: 'A volcanic island a hundred kilometres off the south coast. 1942 Estimated Population: 2,647,674 · Males per 100 Females: 97.2 · % of Total Korea: 11.0 · Per km²: 191 The 1942 returns count Cheju inside Zenranan-dō and do not break the island out, so these are that province’s figures.'
+    },
+    Sankiang: {
+      short: 'The marshy confluence of the Sungari and the Amur — the Sanjiang plain, drained and broken in the 1930s for the Japanese agricultural colonies, the largest settlement scheme of the empire. 1943 Census Population: 1,415,633 · Males per 100 Females: 151.1 · Per km²: 16 The shape the map gives this province is its 1935 one and this figure is the province of 1943: five provinces — 通化, 北安, 東安, 四平 and 牡丹江 — were made out of the fourteen the map draws in between, and none of them from a single parent, so they cannot be added back. The density is the report’s own, over the report’s own area, and not over the polygon.'
     },
     Zenrahoku: {
       short: 'The Honam plain, the largest stretch of paddy in Korea. 1942 Estimated Population: 1,561,479 · Males per 100 Females: 99.6 · % of Total Korea: 6.5 · Per km²: 185'
@@ -9462,7 +9505,7 @@ JMAP.POPULATION = [
           "for_cn": 48483,
           "for_other": 82
         },
-        "line": "1942 Resident Population: 6,249,468 · Males per 100 Females: 103.54 · Per km²: 173"
+        "line": "1941 Resident Population: 6,249,468 · Males per 100 Females: 103.54 · Per km²: 173"
       },
       "TwShuTaihoku": {
         "scope": "sub-unit",
@@ -9476,7 +9519,7 @@ JMAP.POPULATION = [
           "for_cn": 25474,
           "for_other": 57
         },
-        "line": "1942 Resident Population: 1,233,882 · Males per 100 Females: 107.52"
+        "line": "1941 Resident Population: 1,233,882 · Males per 100 Females: 107.52"
       },
       "TwShuShinchiku": {
         "scope": "sub-unit",
@@ -9489,7 +9532,7 @@ JMAP.POPULATION = [
           "reg_tw": 815274,
           "for_cn": 1894
         },
-        "line": "1942 Resident Population: 838,011 · Males per 100 Females: 102.52"
+        "line": "1941 Resident Population: 838,011 · Males per 100 Females: 102.52"
       },
       "TwShuTaichu": {
         "scope": "sub-unit",
@@ -9503,7 +9546,7 @@ JMAP.POPULATION = [
           "for_cn": 3856,
           "for_other": 7
         },
-        "line": "1942 Resident Population: 1,380,187 · Males per 100 Females: 102.09"
+        "line": "1941 Resident Population: 1,380,187 · Males per 100 Females: 102.09"
       },
       "TwShuTainan": {
         "scope": "sub-unit",
@@ -9517,7 +9560,7 @@ JMAP.POPULATION = [
           "for_cn": 7361,
           "for_other": 14
         },
-        "line": "1942 Resident Population: 1,550,695 · Males per 100 Females: 100.90"
+        "line": "1941 Resident Population: 1,550,695 · Males per 100 Females: 100.90"
       },
       "TwShuTakao": {
         "scope": "sub-unit",
@@ -9531,7 +9574,7 @@ JMAP.POPULATION = [
           "for_cn": 6836,
           "for_other": 3
         },
-        "line": "1942 Resident Population: 930,383 · Males per 100 Females: 105.19"
+        "line": "1941 Resident Population: 930,383 · Males per 100 Females: 105.19"
       },
       "TwTaihoku": {
         "scope": "sub-unit",
@@ -9549,7 +9592,7 @@ JMAP.POPULATION = [
           "for_cn": 13403,
           "for_other": 29
         },
-        "line": "1942 Resident Population: 367,213 · Males per 100 Females: 104.92 · Per km²: 7813"
+        "line": "1941 Resident Population: 367,213 · Males per 100 Females: 104.92 · Per km²: 7813"
       },
       "TwKirunShi": {
         "scope": "sub-unit",
@@ -9567,7 +9610,7 @@ JMAP.POPULATION = [
           "for_cn": 4635,
           "for_other": 2
         },
-        "line": "1942 Resident Population: 106,523 · Males per 100 Females: 107.87 · Per km²: 2010"
+        "line": "1941 Resident Population: 106,523 · Males per 100 Females: 107.87 · Per km²: 2010"
       },
       "TwGiran": {
         "scope": "sub-unit",
@@ -9586,7 +9629,7 @@ JMAP.POPULATION = [
           "for_cn": 495,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 109,364 · Males per 100 Females: 107.55 · Per km²: 308 Includes 宜蘭市, which the source counts apart: the city was cut out of the district in 1940, after the boundaries this map draws."
+        "line": "1941 Resident Population: 109,364 · Males per 100 Females: 107.55 · Per km²: 308 Includes 宜蘭市, which the source counts apart: the city was cut out of the district in 1940, after the boundaries this map draws."
       },
       "TwShichisei": {
         "scope": "sub-unit",
@@ -9604,7 +9647,7 @@ JMAP.POPULATION = [
           "for_cn": 431,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 91,341 · Males per 100 Females: 105.11 · Per km²: 273"
+        "line": "1941 Resident Population: 91,341 · Males per 100 Females: 105.11 · Per km²: 273"
       },
       "TwTansui": {
         "scope": "sub-unit",
@@ -9622,7 +9665,7 @@ JMAP.POPULATION = [
           "for_cn": 436,
           "for_other": 15
         },
-        "line": "1942 Resident Population: 55,094 · Males per 100 Females: 109.03 · Per km²: 244"
+        "line": "1941 Resident Population: 55,094 · Males per 100 Females: 109.03 · Per km²: 244"
       },
       "TwKirun": {
         "scope": "sub-unit",
@@ -9640,7 +9683,7 @@ JMAP.POPULATION = [
           "for_cn": 4773,
           "for_other": 9
         },
-        "line": "1942 Resident Population: 148,753 · Males per 100 Females: 118.03 · Per km²: 292"
+        "line": "1941 Resident Population: 148,753 · Males per 100 Females: 118.03 · Per km²: 292"
       },
       "TwRato": {
         "scope": "sub-unit",
@@ -9658,7 +9701,7 @@ JMAP.POPULATION = [
           "for_cn": 358,
           "for_other": 2
         },
-        "line": "1942 Resident Population: 87,863 · Males per 100 Females: 108.24 · Per km²: 315"
+        "line": "1941 Resident Population: 87,863 · Males per 100 Females: 108.24 · Per km²: 315"
       },
       "TwSuo": {
         "scope": "sub-unit",
@@ -9676,7 +9719,7 @@ JMAP.POPULATION = [
           "for_cn": 79,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 25,264 · Males per 100 Females: 109.62 · Per km²: 561"
+        "line": "1941 Resident Population: 25,264 · Males per 100 Females: 109.62 · Per km²: 561"
       },
       "TwBunzan": {
         "scope": "sub-unit",
@@ -9694,7 +9737,7 @@ JMAP.POPULATION = [
           "for_cn": 176,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 63,975 · Males per 100 Females: 109.26 · Per km²: 132"
+        "line": "1941 Resident Population: 63,975 · Males per 100 Females: 109.26 · Per km²: 132"
       },
       "TwKaizan": {
         "scope": "sub-unit",
@@ -9712,7 +9755,7 @@ JMAP.POPULATION = [
           "for_cn": 334,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 110,171 · Males per 100 Females: 102.69 · Per km²: 487"
+        "line": "1941 Resident Population: 110,171 · Males per 100 Females: 102.69 · Per km²: 487"
       },
       "TwShinsho": {
         "scope": "sub-unit",
@@ -9730,7 +9773,7 @@ JMAP.POPULATION = [
           "for_cn": 354,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 68,321 · Males per 100 Females: 106.03 · Per km²: 455"
+        "line": "1941 Resident Population: 68,321 · Males per 100 Females: 106.03 · Per km²: 455"
       },
       "TwShinchikuShi": {
         "scope": "sub-unit",
@@ -9748,7 +9791,7 @@ JMAP.POPULATION = [
           "for_cn": 490,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 90,800 · Males per 100 Females: 103.38 · Per km²: 2594"
+        "line": "1941 Resident Population: 90,800 · Males per 100 Females: 103.38 · Per km²: 2594"
       },
       "TwShinchiku": {
         "scope": "sub-unit",
@@ -9766,7 +9809,7 @@ JMAP.POPULATION = [
           "for_cn": 130,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 104,534 · Males per 100 Females: 103.76 · Per km²: 279"
+        "line": "1941 Resident Population: 104,534 · Males per 100 Females: 103.76 · Per km²: 279"
       },
       "TwChureki": {
         "scope": "sub-unit",
@@ -9784,7 +9827,7 @@ JMAP.POPULATION = [
           "for_cn": 157,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 121,515 · Males per 100 Females: 104.31 · Per km²: 318"
+        "line": "1941 Resident Population: 121,515 · Males per 100 Females: 104.31 · Per km²: 318"
       },
       "TwToen": {
         "scope": "sub-unit",
@@ -9802,7 +9845,7 @@ JMAP.POPULATION = [
           "for_cn": 207,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 100,025 · Males per 100 Females: 103.32 · Per km²: 331"
+        "line": "1941 Resident Population: 100,025 · Males per 100 Females: 103.32 · Per km²: 331"
       },
       "TwDaikei": {
         "scope": "sub-unit",
@@ -9820,7 +9863,7 @@ JMAP.POPULATION = [
           "for_cn": 54,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 61,120 · Males per 100 Females: 101.92 · Per km²: 394"
+        "line": "1941 Resident Population: 61,120 · Males per 100 Females: 101.92 · Per km²: 394"
       },
       "TwChikuto": {
         "scope": "sub-unit",
@@ -9838,7 +9881,7 @@ JMAP.POPULATION = [
           "for_cn": 142,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 82,738 · Males per 100 Females: 103.51 · Per km²: 270"
+        "line": "1941 Resident Population: 82,738 · Males per 100 Females: 103.51 · Per km²: 270"
       },
       "TwChikunan": {
         "scope": "sub-unit",
@@ -9856,7 +9899,7 @@ JMAP.POPULATION = [
           "for_cn": 173,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 101,288 · Males per 100 Females: 100.49 · Per km²: 304"
+        "line": "1941 Resident Population: 101,288 · Males per 100 Females: 100.49 · Per km²: 304"
       },
       "TwByoritsu": {
         "scope": "sub-unit",
@@ -9874,7 +9917,7 @@ JMAP.POPULATION = [
           "for_cn": 500,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 141,122 · Males per 100 Females: 99.15 · Per km²: 271"
+        "line": "1941 Resident Population: 141,122 · Males per 100 Females: 99.15 · Per km²: 271"
       },
       "TwTaiko": {
         "scope": "sub-unit",
@@ -9892,7 +9935,7 @@ JMAP.POPULATION = [
           "for_cn": 41,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 34,869 · Males per 100 Females: 106.74 · Per km²: 154"
+        "line": "1941 Resident Population: 34,869 · Males per 100 Females: 106.74 · Per km²: 154"
       },
       "TwTaichu": {
         "scope": "sub-unit",
@@ -9910,7 +9953,7 @@ JMAP.POPULATION = [
           "for_cn": 1049,
           "for_other": 2
         },
-        "line": "1942 Resident Population: 97,590 · Males per 100 Females: 105.03 · Per km²: 4880"
+        "line": "1941 Resident Population: 97,590 · Males per 100 Females: 105.03 · Per km²: 4880"
       },
       "TwShoka": {
         "scope": "sub-unit",
@@ -9929,7 +9972,7 @@ JMAP.POPULATION = [
           "for_cn": 710,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 230,766 · Males per 100 Females: 100.90 · Per km²: 701 Includes 彰化市, which the source counts apart: the city was cut out of the district in 1933, after the boundaries this map draws."
+        "line": "1941 Resident Population: 230,766 · Males per 100 Females: 100.90 · Per km²: 701 Includes 彰化市, which the source counts apart: the city was cut out of the district in 1933, after the boundaries this map draws."
       },
       "TwDaiton": {
         "scope": "sub-unit",
@@ -9947,7 +9990,7 @@ JMAP.POPULATION = [
           "for_cn": 119,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 106,208 · Males per 100 Females: 101.92 · Per km²: 215"
+        "line": "1941 Resident Population: 106,208 · Males per 100 Females: 101.92 · Per km²: 215"
       },
       "TwToyohara": {
         "scope": "sub-unit",
@@ -9965,7 +10008,7 @@ JMAP.POPULATION = [
           "for_cn": 296,
           "for_other": 2
         },
-        "line": "1942 Resident Population: 105,245 · Males per 100 Females: 99.96 · Per km²: 542"
+        "line": "1941 Resident Population: 105,245 · Males per 100 Females: 99.96 · Per km²: 542"
       },
       "TwTosei": {
         "scope": "sub-unit",
@@ -9983,7 +10026,7 @@ JMAP.POPULATION = [
           "for_cn": 63,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 49,525 · Males per 100 Females: 104.92 · Per km²: 246"
+        "line": "1941 Resident Population: 49,525 · Males per 100 Females: 104.92 · Per km²: 246"
       },
       "TwTaikou": {
         "scope": "sub-unit",
@@ -10001,7 +10044,7 @@ JMAP.POPULATION = [
           "for_cn": 303,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 166,033 · Males per 100 Females: 100.34 · Per km²: 512"
+        "line": "1941 Resident Population: 166,033 · Males per 100 Females: 100.34 · Per km²: 512"
       },
       "TwInrin": {
         "scope": "sub-unit",
@@ -10019,7 +10062,7 @@ JMAP.POPULATION = [
           "for_cn": 500,
           "for_other": 3
         },
-        "line": "1942 Resident Population: 203,147 · Males per 100 Females: 103.60 · Per km²: 718"
+        "line": "1941 Resident Population: 203,147 · Males per 100 Females: 103.60 · Per km²: 718"
       },
       "TwHokuto": {
         "scope": "sub-unit",
@@ -10037,7 +10080,7 @@ JMAP.POPULATION = [
           "for_cn": 262,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 166,962 · Males per 100 Females: 99.50 · Per km²: 371"
+        "line": "1941 Resident Population: 166,962 · Males per 100 Females: 99.50 · Per km²: 371"
       },
       "TwNanto": {
         "scope": "sub-unit",
@@ -10055,7 +10098,7 @@ JMAP.POPULATION = [
           "for_cn": 159,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 106,150 · Males per 100 Females: 102.40 · Per km²: 267"
+        "line": "1941 Resident Population: 106,150 · Males per 100 Females: 102.40 · Per km²: 267"
       },
       "TwNiitaka": {
         "scope": "sub-unit",
@@ -10073,7 +10116,7 @@ JMAP.POPULATION = [
           "for_cn": 137,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 43,768 · Males per 100 Females: 108.99 · Per km²: 226"
+        "line": "1941 Resident Population: 43,768 · Males per 100 Females: 108.99 · Per km²: 226"
       },
       "TwNoko": {
         "scope": "sub-unit",
@@ -10091,7 +10134,7 @@ JMAP.POPULATION = [
           "for_cn": 156,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 56,354 · Males per 100 Females: 105.41 · Per km²: 225"
+        "line": "1941 Resident Population: 56,354 · Males per 100 Females: 105.41 · Per km²: 225"
       },
       "TwTakeyama": {
         "scope": "sub-unit",
@@ -10109,7 +10152,7 @@ JMAP.POPULATION = [
           "for_cn": 102,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 48,439 · Males per 100 Females: 102.42 · Per km²: 111"
+        "line": "1941 Resident Population: 48,439 · Males per 100 Females: 102.42 · Per km²: 111"
       },
       "TwTainan": {
         "scope": "sub-unit",
@@ -10127,7 +10170,7 @@ JMAP.POPULATION = [
           "for_cn": 3477,
           "for_other": 5
         },
-        "line": "1942 Resident Population: 153,879 · Males per 100 Females: 104.74 · Per km²: 3140"
+        "line": "1941 Resident Population: 153,879 · Males per 100 Females: 104.74 · Per km²: 3140"
       },
       "TwKagiShi": {
         "scope": "sub-unit",
@@ -10145,7 +10188,7 @@ JMAP.POPULATION = [
           "for_cn": 1637,
           "for_other": 4
         },
-        "line": "1942 Resident Population: 98,298 · Males per 100 Females: 106.70 · Per km²: 1755"
+        "line": "1941 Resident Population: 98,298 · Males per 100 Females: 106.70 · Per km²: 1755"
       },
       "TwNiitoyo": {
         "scope": "sub-unit",
@@ -10163,7 +10206,7 @@ JMAP.POPULATION = [
           "for_cn": 52,
           "for_other": 1
         },
-        "line": "1942 Resident Population: 104,010 · Males per 100 Females: 98.98 · Per km²: 287"
+        "line": "1941 Resident Population: 104,010 · Males per 100 Females: 98.98 · Per km²: 287"
       },
       "TwShinka": {
         "scope": "sub-unit",
@@ -10181,7 +10224,7 @@ JMAP.POPULATION = [
           "for_cn": 165,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 100,867 · Males per 100 Females: 100.45 · Per km²: 155"
+        "line": "1941 Resident Population: 100,867 · Males per 100 Females: 100.45 · Per km²: 155"
       },
       "TwSobun": {
         "scope": "sub-unit",
@@ -10199,7 +10242,7 @@ JMAP.POPULATION = [
           "for_cn": 99,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 83,105 · Males per 100 Females: 97.96 · Per km²: 278"
+        "line": "1941 Resident Population: 83,105 · Males per 100 Females: 97.96 · Per km²: 278"
       },
       "TwHokumon": {
         "scope": "sub-unit",
@@ -10217,7 +10260,7 @@ JMAP.POPULATION = [
           "for_cn": 50,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 130,270 · Males per 100 Females: 95.99 · Per km²: 315"
+        "line": "1941 Resident Population: 130,270 · Males per 100 Females: 95.99 · Per km²: 315"
       },
       "TwShinei": {
         "scope": "sub-unit",
@@ -10235,7 +10278,7 @@ JMAP.POPULATION = [
           "for_cn": 366,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 130,496 · Males per 100 Females: 99.61 · Per km²: 274"
+        "line": "1941 Resident Population: 130,496 · Males per 100 Females: 99.61 · Per km²: 274"
       },
       "TwKagi": {
         "scope": "sub-unit",
@@ -10253,7 +10296,7 @@ JMAP.POPULATION = [
           "for_cn": 207,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 171,430 · Males per 100 Females: 104.34 · Per km²: 170"
+        "line": "1941 Resident Population: 171,430 · Males per 100 Females: 104.34 · Per km²: 170"
       },
       "TwToroku": {
         "scope": "sub-unit",
@@ -10271,7 +10314,7 @@ JMAP.POPULATION = [
           "for_cn": 337,
           "for_other": 4
         },
-        "line": "1942 Resident Population: 120,919 · Males per 100 Females: 100.69 · Per km²: 266"
+        "line": "1941 Resident Population: 120,919 · Males per 100 Females: 100.69 · Per km²: 266"
       },
       "TwKobi": {
         "scope": "sub-unit",
@@ -10289,7 +10332,7 @@ JMAP.POPULATION = [
           "for_cn": 554,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 168,505 · Males per 100 Females: 99.46 · Per km²: 350"
+        "line": "1941 Resident Population: 168,505 · Males per 100 Females: 99.46 · Per km²: 350"
       },
       "TwHokuko": {
         "scope": "sub-unit",
@@ -10307,7 +10350,7 @@ JMAP.POPULATION = [
           "for_cn": 253,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 122,749 · Males per 100 Females: 101.66 · Per km²: 366"
+        "line": "1941 Resident Population: 122,749 · Males per 100 Females: 101.66 · Per km²: 366"
       },
       "TwToseki": {
         "scope": "sub-unit",
@@ -10325,7 +10368,7 @@ JMAP.POPULATION = [
           "for_cn": 164,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 166,167 · Males per 100 Females: 99.57 · Per km²: 357"
+        "line": "1941 Resident Population: 166,167 · Males per 100 Females: 99.57 · Per km²: 357"
       },
       "TwTakaoShi": {
         "scope": "sub-unit",
@@ -10343,7 +10386,7 @@ JMAP.POPULATION = [
           "for_cn": 1980,
           "for_other": 1
         },
-        "line": "1942 Resident Population: 183,185 · Males per 100 Females: 114.92 · Per km²: 2290"
+        "line": "1941 Resident Population: 183,185 · Males per 100 Females: 114.92 · Per km²: 2290"
       },
       "TwHeito": {
         "scope": "sub-unit",
@@ -10362,7 +10405,7 @@ JMAP.POPULATION = [
           "for_cn": 1275,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 133,226 · Males per 100 Females: 104.82 · Per km²: 235 Includes 屏東市, which the source counts apart: the city was cut out of the district in 1933, after the boundaries this map draws."
+        "line": "1941 Resident Population: 133,226 · Males per 100 Females: 104.82 · Per km²: 235 Includes 屏東市, which the source counts apart: the city was cut out of the district in 1933, after the boundaries this map draws."
       },
       "TwOkayama": {
         "scope": "sub-unit",
@@ -10380,7 +10423,7 @@ JMAP.POPULATION = [
           "for_cn": 406,
           "for_other": 1
         },
-        "line": "1942 Resident Population: 152,027 · Males per 100 Females: 103.78 · Per km²: 426"
+        "line": "1941 Resident Population: 152,027 · Males per 100 Females: 103.78 · Per km²: 426"
       },
       "TwHozan": {
         "scope": "sub-unit",
@@ -10398,7 +10441,7 @@ JMAP.POPULATION = [
           "for_cn": 737,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 117,469 · Males per 100 Females: 103.18 · Per km²: 354"
+        "line": "1941 Resident Population: 117,469 · Males per 100 Females: 103.18 · Per km²: 354"
       },
       "TwKizan": {
         "scope": "sub-unit",
@@ -10416,7 +10459,7 @@ JMAP.POPULATION = [
           "for_cn": 542,
           "for_other": 1
         },
-        "line": "1942 Resident Population: 91,816 · Males per 100 Females: 100.16 · Per km²: 145"
+        "line": "1941 Resident Population: 91,816 · Males per 100 Females: 100.16 · Per km²: 145"
       },
       "TwChoshu": {
         "scope": "sub-unit",
@@ -10434,7 +10477,7 @@ JMAP.POPULATION = [
           "for_cn": 827,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 112,369 · Males per 100 Females: 100.90 · Per km²: 320"
+        "line": "1941 Resident Population: 112,369 · Males per 100 Females: 100.90 · Per km²: 320"
       },
       "TwToko": {
         "scope": "sub-unit",
@@ -10452,7 +10495,7 @@ JMAP.POPULATION = [
           "for_cn": 609,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 106,502 · Males per 100 Females: 103.43 · Per km²: 461"
+        "line": "1941 Resident Population: 106,502 · Males per 100 Females: 103.43 · Per km²: 461"
       },
       "TwKoshun": {
         "scope": "sub-unit",
@@ -10470,7 +10513,7 @@ JMAP.POPULATION = [
           "for_cn": 460,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 33,789 · Males per 100 Females: 104.03 · Per km²: 97"
+        "line": "1941 Resident Population: 33,789 · Males per 100 Females: 104.03 · Per km²: 97"
       },
       "TwTaito": {
         "scope": "sub-unit",
@@ -10487,7 +10530,7 @@ JMAP.POPULATION = [
           "for_cn": 956,
           "for_other": 1
         },
-        "line": "1942 Resident Population: 93,138 · Males per 100 Females: 109.96 · Per km²: 64 The three districts of the prefecture together, the map drawing it whole."
+        "line": "1941 Resident Population: 93,138 · Males per 100 Females: 109.96 · Per km²: 64 The three districts of the prefecture together, the map drawing it whole."
       },
       "TwKarenko": {
         "scope": "sub-unit",
@@ -10504,7 +10547,7 @@ JMAP.POPULATION = [
           "for_cn": 2032,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 153,785 · Males per 100 Females: 110.60 · Per km²: 118 The city and three districts of the prefecture together, the map drawing it whole."
+        "line": "1941 Resident Population: 153,785 · Males per 100 Females: 110.60 · Per km²: 118 The city and three districts of the prefecture together, the map drawing it whole."
       },
       "TwHoko": {
         "scope": "sub-unit",
@@ -10521,7 +10564,7 @@ JMAP.POPULATION = [
           "for_cn": 74,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 69,387 · Males per 100 Females: 90.66 · Per km²: 551 Both sub-prefectures together, the map drawing the islands whole."
+        "line": "1941 Resident Population: 69,387 · Males per 100 Females: 90.66 · Per km²: 551 Both sub-prefectures together, the map drawing the islands whole."
       },
       "TwBanchi": {
         "scope": "sub-unit",
@@ -10530,7 +10573,7 @@ JMAP.POPULATION = [
         "mf": "100.39",
         "note": "Note: Does not include Japanese and others living in the Taiwan Government-General’s demarcated \"Aborigine Territory\". The count is of 高砂族 people; those living here are also counted in the district their ground lies in.",
         "apart": true,
-        "line": "1942 Resident Population: 159,594 · Males per 100 Females: 100.39 Note: Does not include Japanese and others living in the Taiwan Government-General’s demarcated \"Aborigine Territory\". The count is of 高砂族 people; those living here are also counted in the district their ground lies in."
+        "line": "1941 Resident Population: 159,594 · Males per 100 Females: 100.39 Note: Does not include Japanese and others living in the Taiwan Government-General’s demarcated \"Aborigine Territory\". The count is of 高砂族 people; those living here are also counted in the district their ground lies in."
       }
     },
     "breaks": [
@@ -12895,7 +12938,7 @@ JMAP.POPULATION = [
           "for_cn": 13403,
           "for_other": 29
         },
-        "line": "1942 Resident Population: 367,213 · Males per 100 Females: 104.92"
+        "line": "1941 Resident Population: 367,213 · Males per 100 Females: 104.92"
       },
       "kaohsiung": {
         "scope": "city",
@@ -12909,7 +12952,7 @@ JMAP.POPULATION = [
           "for_cn": 1980,
           "for_other": 1
         },
-        "line": "1942 Resident Population: 183,185 · Males per 100 Females: 114.92"
+        "line": "1941 Resident Population: 183,185 · Males per 100 Females: 114.92"
       },
       "tainan": {
         "scope": "city",
@@ -12923,7 +12966,7 @@ JMAP.POPULATION = [
           "for_cn": 3477,
           "for_other": 5
         },
-        "line": "1942 Resident Population: 153,879 · Males per 100 Females: 104.74"
+        "line": "1941 Resident Population: 153,879 · Males per 100 Females: 104.74"
       },
       "keelung": {
         "scope": "city",
@@ -12937,7 +12980,7 @@ JMAP.POPULATION = [
           "for_cn": 4635,
           "for_other": 2
         },
-        "line": "1942 Resident Population: 106,523 · Males per 100 Females: 107.87"
+        "line": "1941 Resident Population: 106,523 · Males per 100 Females: 107.87"
       },
       "chiayi": {
         "scope": "city",
@@ -12951,7 +12994,7 @@ JMAP.POPULATION = [
           "for_cn": 1637,
           "for_other": 4
         },
-        "line": "1942 Resident Population: 98,298 · Males per 100 Females: 106.70"
+        "line": "1941 Resident Population: 98,298 · Males per 100 Females: 106.70"
       },
       "taichung": {
         "scope": "city",
@@ -12965,7 +13008,7 @@ JMAP.POPULATION = [
           "for_cn": 1049,
           "for_other": 2
         },
-        "line": "1942 Resident Population: 97,590 · Males per 100 Females: 105.03"
+        "line": "1941 Resident Population: 97,590 · Males per 100 Females: 105.03"
       },
       "hsinchu": {
         "scope": "city",
@@ -12979,7 +13022,7 @@ JMAP.POPULATION = [
           "for_cn": 490,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 90,800 · Males per 100 Females: 103.38"
+        "line": "1941 Resident Population: 90,800 · Males per 100 Females: 103.38"
       },
       "changhua": {
         "scope": "city",
@@ -12994,7 +13037,7 @@ JMAP.POPULATION = [
           "for_cn": 508,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 61,632 · Males per 100 Females: 101.70 The city was cut out of Shōka-gun in 1933, after the boundaries this map draws — so the shape under this dot still carries the district with the city inside it, and this figure is the city alone."
+        "line": "1941 Resident Population: 61,632 · Males per 100 Females: 101.70 The city was cut out of Shōka-gun in 1933, after the boundaries this map draws — so the shape under this dot still carries the district with the city inside it, and this figure is the city alone."
       },
       "pingtung": {
         "scope": "city",
@@ -13009,7 +13052,7 @@ JMAP.POPULATION = [
           "for_cn": 1026,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 59,917 · Males per 100 Females: 109.12 The city was cut out of Heitō-gun in 1933, after the boundaries this map draws — so the shape under this dot still carries the district with the city inside it, and this figure is the city alone."
+        "line": "1941 Resident Population: 59,917 · Males per 100 Females: 109.12 The city was cut out of Heitō-gun in 1933, after the boundaries this map draws — so the shape under this dot still carries the district with the city inside it, and this figure is the city alone."
       },
       "yilan": {
         "scope": "city",
@@ -13024,7 +13067,7 @@ JMAP.POPULATION = [
           "for_cn": 349,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 38,922 · Males per 100 Females: 102.66 The city was cut out of Giran-gun in 1940, after the boundaries this map draws — so the shape under this dot still carries the district with the city inside it, and this figure is the city alone."
+        "line": "1941 Resident Population: 38,922 · Males per 100 Females: 102.66 The city was cut out of Giran-gun in 1940, after the boundaries this map draws — so the shape under this dot still carries the district with the city inside it, and this figure is the city alone."
       },
       "hualien": {
         "scope": "city",
@@ -13039,10 +13082,328 @@ JMAP.POPULATION = [
           "for_cn": 850,
           "for_other": 0
         },
-        "line": "1942 Resident Population: 36,984 · Males per 100 Females: 113.78 The city was cut out of Karenkō-chō in 1940, after the boundaries this map draws — so the shape under this dot still carries the district with the city inside it, and this figure is the city alone."
+        "line": "1941 Resident Population: 36,984 · Males per 100 Females: 113.78 The city was cut out of Karenkō-chō in 1940, after the boundaries this map draws — so the shape under this dot still carries the district with the city inside it, and this figure is the city alone."
       }
     },
     "breaks": [],
+    "jpBreaks": []
+  },
+  {
+    "id": "manchukuo-1943",
+    "epoch": "1942",
+    "group": "manchukuo-density",
+    "country": "Manchukuo",
+    "caption": "population at the 1943 count",
+    "note": "The report’s own figures, and its own ladder: the plate at the front of it shades the provinces at 5, 20, 40 and 100 to the square kilometre, and the map shades them at the same four rather than fitting a ladder of its own. The plate has a sixth class for 新京特別市 alone at 1,268.2, which this map draws as a point. Two things to hold in mind. The provinces here are the nineteen of 1943 and the map draws the fourteen of 1935, five having been made out of them in between and none from a single parent — so a shape is the older one and its figure the newer, the five without a shape are in the table and on no card, and every density is the report’s own, over the report’s own area rather than over the polygon.",
+    "inShort": true,
+    "tableSkip": [],
+    "fields": [
+      {
+        "c": "nat_total",
+        "label": "Manchurian nationals (滿洲人)",
+        "group": "Nationality and ethnic group",
+        "dp": 0
+      },
+      {
+        "c": "nat_manchu",
+        "label": "Manchu (滿洲族人)",
+        "group": "Nationality and ethnic group",
+        "dp": 0
+      },
+      {
+        "c": "nat_han",
+        "label": "Han Chinese (漢人)",
+        "group": "Nationality and ethnic group",
+        "dp": 0
+      },
+      {
+        "c": "nat_mongol",
+        "label": "Mongolian (蒙古人)",
+        "group": "Nationality and ethnic group",
+        "dp": 0
+      },
+      {
+        "c": "nat_hui",
+        "label": "Hui Muslim (回教人)",
+        "group": "Nationality and ethnic group",
+        "dp": 0
+      },
+      {
+        "c": "nat_other",
+        "label": "Other Manchurian",
+        "group": "Nationality and ethnic group",
+        "dp": 0
+      },
+      {
+        "c": "nat_jp_total",
+        "label": "Japanese nationals (日本人)",
+        "group": "Nationality and ethnic group",
+        "dp": 0
+      },
+      {
+        "c": "nat_jp",
+        "label": "Japanese (內地人)",
+        "group": "Nationality and ethnic group",
+        "dp": 0
+      },
+      {
+        "c": "nat_ko",
+        "label": "Koreans (朝鮮人)",
+        "group": "Nationality and ethnic group",
+        "dp": 0
+      },
+      {
+        "c": "nat_jp_other",
+        "label": "Other Japanese national",
+        "group": "Nationality and ethnic group",
+        "dp": 0
+      },
+      {
+        "c": "nat_third",
+        "label": "Third-country nationals (第三國人)",
+        "group": "Nationality and ethnic group",
+        "dp": 0
+      },
+      {
+        "c": "nat_stateless",
+        "label": "Stateless (無國籍人)",
+        "group": "Nationality and ethnic group",
+        "dp": 0
+      }
+    ],
+    "when": "1943",
+    "lineLabel": "Census Population",
+    "compareNote": "",
+    "label": "Manchukuo by province, the population of 1943",
+    "pctOf": "Manchukuo",
+    "source": "滿洲國『臨時國勢調査報告』— 第一表 新京特別市及省別人口 p5, 第一圖 新京特別市及省別人口密度 (the plate at the front), 第二表 民族省別人口 pp6–7",
+    "layer": "Manchukuo",
+    "rows": {
+      "manchukuo": {
+        "scope": "territory",
+        "en": "Manchukuo (Manchuria)",
+        "pop": 43202880,
+        "mf": "123.9",
+        "km2": 1303143,
+        "dens": 33,
+        "note": "The whole state at the 1943 count: 新京特別市 and nineteen provinces. The map draws fourteen of those provinces, being traced from a 1935 sheet, and they hold 35,140,793 of these people; the other 8,062,087 were in the five it does not draw and in the capital.",
+        "x": {
+          "nat_total": 40858473,
+          "nat_manchu": 2677288,
+          "nat_han": 36870978,
+          "nat_mongol": 1065792,
+          "nat_hui": 194473,
+          "nat_other": 49942,
+          "nat_jp_total": 2271495,
+          "nat_jp": 819614,
+          "nat_ko": 1450384,
+          "nat_jp_other": 1497,
+          "nat_third": 3732,
+          "nat_stateless": 69180
+        },
+        "line": "1943 Census Population: 43,202,880 · Males per 100 Females: 123.9 · Per km²: 33 The whole state at the 1943 count: 新京特別市 and nineteen provinces. The map draws fourteen of those provinces, being traced from a 1935 sheet, and they hold 35,140,793 of these people; the other 8,062,087 were in the five it does not draw and in the capital."
+      },
+      "changchun": {
+        "scope": "city",
+        "en": "Shinkyō (Hsinking, Changchun)",
+        "pop": 555009,
+        "mf": "166.9",
+        "km2": 438,
+        "dens": 1268,
+        "note": "The capital, a special municipality outside any province. The report shades it as a class of its own on its density plate — 1,268.2 to the square kilometre against 33.2 for the country — and this map draws it as a point, so the choropleth has the five classes below it.",
+        "line": "1943 Census Population: 555,009 · Males per 100 Females: 166.9 · Per km²: 1268 The capital, a special municipality outside any province. The report shades it as a class of its own on its density plate — 1,268.2 to the square kilometre against 33.2 for the country — and this map draws it as a point, so the choropleth has the five classes below it."
+      },
+      "Kirin": {
+        "scope": "sub-unit",
+        "en": "Kirin-shō (Jílín, Kirin)",
+        "pop": 5608922,
+        "mf": "120.8",
+        "km2": 83207,
+        "dens": 67,
+        "note": "The shape the map gives this province is its 1935 one and this figure is the province of 1943: five provinces — 通化, 北安, 東安, 四平 and 牡丹江 — were made out of the fourteen the map draws in between, and none of them from a single parent, so they cannot be added back. The density is the report’s own, over the report’s own area, and not over the polygon.",
+        "line": "1943 Census Population: 5,608,922 · Males per 100 Females: 120.8 · Per km²: 67 The shape the map gives this province is its 1935 one and this figure is the province of 1943: five provinces — 通化, 北安, 東安, 四平 and 牡丹江 — were made out of the fourteen the map draws in between, and none of them from a single parent, so they cannot be added back. The density is the report’s own, over the report’s own area, and not over the polygon."
+      },
+      "Lungkiang": {
+        "scope": "sub-unit",
+        "en": "Ryūkō-shō (Lóngjiāng, Lungkiang)",
+        "pop": 2093500,
+        "mf": "125.0",
+        "km2": 68028,
+        "dens": 31,
+        "note": "The shape the map gives this province is its 1935 one and this figure is the province of 1943: five provinces — 通化, 北安, 東安, 四平 and 牡丹江 — were made out of the fourteen the map draws in between, and none of them from a single parent, so they cannot be added back. The density is the report’s own, over the report’s own area, and not over the polygon.",
+        "line": "1943 Census Population: 2,093,500 · Males per 100 Females: 125.0 · Per km²: 31 The shape the map gives this province is its 1935 one and this figure is the province of 1943: five provinces — 通化, 北安, 東安, 四平 and 牡丹江 — were made out of the fourteen the map draws in between, and none of them from a single parent, so they cannot be added back. The density is the report’s own, over the report’s own area, and not over the polygon."
+      },
+      "Peian": {
+        "scope": "unmapped",
+        "en": "Hokuan-shō (Běi’ān, Peian)",
+        "pop": 2318957,
+        "mf": "131.7",
+        "km2": 76183,
+        "dens": 30,
+        "note": "北安省 was made out of the provinces the map draws after 1935, and the map has no shape for it. Its people are in this table and on no card.",
+        "line": "1943 Census Population: 2,318,957 · Males per 100 Females: 131.7 · Per km²: 30 北安省 was made out of the provinces the map draws after 1935, and the map has no shape for it. Its people are in this table and on no card."
+      },
+      "Heiho": {
+        "scope": "sub-unit",
+        "en": "Kokka-shō (Hēihé, Heiho)",
+        "pop": 149887,
+        "mf": "327.0",
+        "km2": 118899,
+        "dens": 1.3,
+        "line": "1943 Census Population: 149,887 · Males per 100 Females: 327.0 · Per km²: 1.3"
+      },
+      "Sankiang": {
+        "scope": "sub-unit",
+        "en": "Sankō-shō (Sānjiāng, Sankiang)",
+        "pop": 1415633,
+        "mf": "151.1",
+        "km2": 90418,
+        "dens": 16,
+        "note": "The shape the map gives this province is its 1935 one and this figure is the province of 1943: five provinces — 通化, 北安, 東安, 四平 and 牡丹江 — were made out of the fourteen the map draws in between, and none of them from a single parent, so they cannot be added back. The density is the report’s own, over the report’s own area, and not over the polygon.",
+        "line": "1943 Census Population: 1,415,633 · Males per 100 Females: 151.1 · Per km²: 16 The shape the map gives this province is its 1935 one and this figure is the province of 1943: five provinces — 通化, 北安, 東安, 四平 and 牡丹江 — were made out of the fourteen the map draws in between, and none of them from a single parent, so they cannot be added back. The density is the report’s own, over the report’s own area, and not over the polygon."
+      },
+      "Tungan": {
+        "scope": "unmapped",
+        "en": "Tōan-shō (Dōng’ān, Tungan)",
+        "pop": 512240,
+        "mf": "190.7",
+        "km2": 41397,
+        "dens": 12,
+        "note": "東安省 was made out of the provinces the map draws after 1935, and the map has no shape for it. Its people are in this table and on no card.",
+        "line": "1943 Census Population: 512,240 · Males per 100 Females: 190.7 · Per km²: 12 東安省 was made out of the provinces the map draws after 1935, and the map has no shape for it. Its people are in this table and on no card."
+      },
+      "Mutankiang": {
+        "scope": "unmapped",
+        "en": "Botankō-shō (Mǔdānjiāng, Mutankiang)",
+        "pop": 688424,
+        "mf": "185.0",
+        "km2": 32975,
+        "dens": 21,
+        "note": "牡丹江省 was made out of the provinces the map draws after 1935, and the map has no shape for it. Its people are in this table and on no card.",
+        "line": "1943 Census Population: 688,424 · Males per 100 Females: 185.0 · Per km²: 21 牡丹江省 was made out of the provinces the map draws after 1935, and the map has no shape for it. Its people are in this table and on no card."
+      },
+      "Pin Kiang": {
+        "scope": "sub-unit",
+        "en": "Hinkō-shō (Bīnjiāng, Pinkiang)",
+        "pop": 4234206,
+        "mf": "127.1",
+        "km2": 63860,
+        "dens": 66,
+        "note": "The shape the map gives this province is its 1935 one and this figure is the province of 1943: five provinces — 通化, 北安, 東安, 四平 and 牡丹江 — were made out of the fourteen the map draws in between, and none of them from a single parent, so they cannot be added back. The density is the report’s own, over the report’s own area, and not over the polygon.",
+        "line": "1943 Census Population: 4,234,206 · Males per 100 Females: 127.1 · Per km²: 66 The shape the map gives this province is its 1935 one and this figure is the province of 1943: five provinces — 通化, 北安, 東安, 四平 and 牡丹江 — were made out of the fourteen the map draws in between, and none of them from a single parent, so they cannot be added back. The density is the report’s own, over the report’s own area, and not over the polygon."
+      },
+      "Chien Tao": {
+        "scope": "sub-unit",
+        "en": "Kantō-shō (Jiāndǎo, Chientao)",
+        "pop": 848197,
+        "mf": "122.6",
+        "km2": 30134,
+        "dens": 28,
+        "note": "The shape the map gives this province is its 1935 one and this figure is the province of 1943: five provinces — 通化, 北安, 東安, 四平 and 牡丹江 — were made out of the fourteen the map draws in between, and none of them from a single parent, so they cannot be added back. The density is the report’s own, over the report’s own area, and not over the polygon.",
+        "line": "1943 Census Population: 848,197 · Males per 100 Females: 122.6 · Per km²: 28 The shape the map gives this province is its 1935 one and this figure is the province of 1943: five provinces — 通化, 北安, 東安, 四平 and 牡丹江 — were made out of the fourteen the map draws in between, and none of them from a single parent, so they cannot be added back. The density is the report’s own, over the report’s own area, and not over the polygon."
+      },
+      "Tunghua": {
+        "scope": "unmapped",
+        "en": "Tsūka-shō (Tōnghuà, Tunghua)",
+        "pop": 982387,
+        "mf": "159.2",
+        "km2": 31705,
+        "dens": 31,
+        "note": "通化省 was made out of the provinces the map draws after 1935, and the map has no shape for it. Its people are in this table and on no card.",
+        "line": "1943 Census Population: 982,387 · Males per 100 Females: 159.2 · Per km²: 31 通化省 was made out of the provinces the map draws after 1935, and the map has no shape for it. Its people are in this table and on no card."
+      },
+      "An Tung": {
+        "scope": "sub-unit",
+        "en": "Antō-shō (Āndōng, Antung)",
+        "pop": 2231507,
+        "mf": "110.4",
+        "km2": 26506,
+        "dens": 84,
+        "note": "The shape the map gives this province is its 1935 one and this figure is the province of 1943: five provinces — 通化, 北安, 東安, 四平 and 牡丹江 — were made out of the fourteen the map draws in between, and none of them from a single parent, so they cannot be added back. The density is the report’s own, over the report’s own area, and not over the polygon.",
+        "line": "1943 Census Population: 2,231,507 · Males per 100 Females: 110.4 · Per km²: 84 The shape the map gives this province is its 1935 one and this figure is the province of 1943: five provinces — 通化, 北安, 東安, 四平 and 牡丹江 — were made out of the fourteen the map draws in between, and none of them from a single parent, so they cannot be added back. The density is the report’s own, over the report’s own area, and not over the polygon."
+      },
+      "Szeping": {
+        "scope": "unmapped",
+        "en": "Shihei-shō (Sìpíng, Szeping)",
+        "pop": 3005070,
+        "mf": "118.8",
+        "km2": 30401,
+        "dens": 99,
+        "note": "四平省 was made out of the provinces the map draws after 1935, and the map has no shape for it. Its people are in this table and on no card.",
+        "line": "1943 Census Population: 3,005,070 · Males per 100 Females: 118.8 · Per km²: 99 四平省 was made out of the provinces the map draws after 1935, and the map has no shape for it. Its people are in this table and on no card."
+      },
+      "Feng Tien": {
+        "scope": "sub-unit",
+        "en": "Hōten-shō (Fèngtiān, Fengtien)",
+        "pop": 7565599,
+        "mf": "118.9",
+        "km2": 49632,
+        "dens": 152,
+        "note": "The shape the map gives this province is its 1935 one and this figure is the province of 1943: five provinces — 通化, 北安, 東安, 四平 and 牡丹江 — were made out of the fourteen the map draws in between, and none of them from a single parent, so they cannot be added back. The density is the report’s own, over the report’s own area, and not over the polygon.",
+        "line": "1943 Census Population: 7,565,599 · Males per 100 Females: 118.9 · Per km²: 152 The shape the map gives this province is its 1935 one and this figure is the province of 1943: five provinces — 通化, 北安, 東安, 四平 and 牡丹江 — were made out of the fourteen the map draws in between, and none of them from a single parent, so they cannot be added back. The density is the report’s own, over the report’s own area, and not over the polygon."
+      },
+      "Chinchow": {
+        "scope": "sub-unit",
+        "en": "Kinshū-shō (Jǐnzhōu, Chinchow)",
+        "pop": 4317822,
+        "mf": "107.8",
+        "km2": 40162,
+        "dens": 108,
+        "note": "The shape the map gives this province is its 1935 one and this figure is the province of 1943: five provinces — 通化, 北安, 東安, 四平 and 牡丹江 — were made out of the fourteen the map draws in between, and none of them from a single parent, so they cannot be added back. The density is the report’s own, over the report’s own area, and not over the polygon.",
+        "line": "1943 Census Population: 4,317,822 · Males per 100 Females: 107.8 · Per km²: 108 The shape the map gives this province is its 1935 one and this figure is the province of 1943: five provinces — 通化, 北安, 東安, 四平 and 牡丹江 — were made out of the fourteen the map draws in between, and none of them from a single parent, so they cannot be added back. The density is the report’s own, over the report’s own area, and not over the polygon."
+      },
+      "Je Hol": {
+        "scope": "sub-unit",
+        "en": "Nekka-shō (Rèhé, Jehol)",
+        "pop": 4553228,
+        "mf": "116.4",
+        "km2": 103062,
+        "dens": 44,
+        "line": "1943 Census Population: 4,553,228 · Males per 100 Females: 116.4 · Per km²: 44"
+      },
+      "Hsing An Si": {
+        "scope": "sub-unit",
+        "en": "Kōan-sei-shō (Xīng’ānxī, Hsingan West)",
+        "pop": 763701,
+        "mf": "127.6",
+        "km2": 73934,
+        "dens": 10,
+        "line": "1943 Census Population: 763,701 · Males per 100 Females: 127.6 · Per km²: 10"
+      },
+      "Hsing An Nan": {
+        "scope": "sub-unit",
+        "en": "Kōan-nan-shō (Xīng’ānnán, Hsingan South)",
+        "pop": 1026635,
+        "mf": "130.3",
+        "km2": 76866,
+        "dens": 13,
+        "line": "1943 Census Population: 1,026,635 · Males per 100 Females: 130.3 · Per km²: 13"
+      },
+      "Hsing An Tung": {
+        "scope": "sub-unit",
+        "en": "Kōan-tō-shō (Xīng’āndōng, Hsingan East)",
+        "pop": 199530,
+        "mf": "151.9",
+        "km2": 109107,
+        "dens": 1.8,
+        "line": "1943 Census Population: 199,530 · Males per 100 Females: 151.9 · Per km²: 1.8"
+      },
+      "Hsing An Peh": {
+        "scope": "sub-unit",
+        "en": "Kōan-hoku-shō (Xīng’ānběi, Hsingan North)",
+        "pop": 132426,
+        "mf": "223.2",
+        "km2": 156230,
+        "dens": 0.8,
+        "line": "1943 Census Population: 132,426 · Males per 100 Females: 223.2 · Per km²: 0.8"
+      }
+    },
+    "breaks": [
+      5,
+      20,
+      40,
+      100
+    ],
     "jpBreaks": []
   }
 ];

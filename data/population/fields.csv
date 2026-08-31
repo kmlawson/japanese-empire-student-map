@@ -49,3 +49,15 @@ born_kwantung,Kwantung Leased Territory,Born outside Japan proper
 born_nanyo,South Seas Mandate,Born outside Japan proper
 born_gaichi,All of the 外地,Born outside Japan proper
 born_foreign,A foreign country,Born outside Japan proper
+nat_total,Manchurian nationals (滿洲人),Nationality and ethnic group
+nat_manchu,Manchu (滿洲族人),Nationality and ethnic group
+nat_han,Han Chinese (漢人),Nationality and ethnic group
+nat_mongol,Mongolian (蒙古人),Nationality and ethnic group
+nat_hui,Hui Muslim (回教人),Nationality and ethnic group
+nat_other,Other Manchurian,Nationality and ethnic group
+nat_jp_total,Japanese nationals (日本人),Nationality and ethnic group
+nat_jp,Japanese (內地人),Nationality and ethnic group
+nat_ko,Koreans (朝鮮人),Nationality and ethnic group
+nat_jp_other,Other Japanese national,Nationality and ethnic group
+nat_third,Third-country nationals (第三國人),Nationality and ethnic group
+nat_stateless,Stateless (無國籍人),Nationality and ethnic group

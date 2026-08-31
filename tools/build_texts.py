@@ -256,6 +256,11 @@ def population_data():
         check_unique(rows, "key", where)
         cities = gazetteer_ids(d["epoch"])
         for r in rows:
+            # `unmapped` names a place the source counts and this map does not
+            # draw — Manchukuo's five post-1935 provinces. It has no key to
+            # check, appears in the table and the chart so the parts still sum
+            # to the whole, and never on a card, there being nothing to point
+            # at. Its `note` should say so.
             if r["scope"] == "city" and cities and r["key"] not in cities:
                 raise Problem("%s has a row for the city %r, and no city of that "
                               "id is on the %s map. The key is the `id` in "
@@ -299,8 +304,16 @@ def population_data():
                 # what kind of number this is, in the dataset's own words: 1930
                 # is a census and 1942 an estimate, and a sentence that called
                 # the census an estimate would be wrong on the face of it
+                # The year the *figures* are of, not the map they are drawn
+                # on. Taiwan's later return is the register at the end of 1941
+                # and Manchukuo's count is of 1943, and both are on the
+                # December 1942 sheet — so the sentence a reader hovers said
+                # "1942 Resident Population" over figures that were not of
+                # 1942. Korea's and Japan's `when` is their epoch, so nothing
+                # already on the map moves.
                 bits.append("%s %s: %s"
-                            % (d["epoch"], d.get("line_label") or "Estimated Population",
+                            % ((d.get("when") or "").strip() or d["epoch"],
+                               d.get("line_label") or "Estimated Population",
                                "{:,}".format(rec["pop"])))
             if src.get("m_per_100_f"):
                 rec["mf"] = src["m_per_100_f"]
@@ -310,8 +323,15 @@ def population_data():
                 bits.append("%% of Total %s: %s" % (whole, rec["pct"]))
             if src.get("population") and src.get("area_km2"):
                 rec["km2"] = int(round(float(src["area_km2"])))
-                rec["dens"] = int(round(rec["pop"] / float(src["area_km2"])))
-                bits.append("Per km²: %d" % rec["dens"])
+                raw = rec["pop"] / float(src["area_km2"])
+                # A whole number is right for a province of Korea and wrong for
+                # one of Manchuria: Kōan-hoku is 0.8 to the square kilometre and
+                # Kokka 1.3, and rounded to integers both print 1 and the map
+                # says two very different places are the same. Ten is where the
+                # first decimal stops carrying anything — nothing already on the
+                # map is under it, so no figure a reader has seen moves.
+                rec["dens"] = int(round(raw)) if raw >= 10 else round(raw, 1)
+                bits.append("Per km²: %s" % rec["dens"])
             line = " · ".join(bits)
             if r.get("note"):
                 rec["note"] = r["note"]
@@ -359,6 +379,8 @@ def population_data():
             out[r["key"]] = rec
         # The choropleth is over the sub-units, so the country's own density —
         # which is not shown anywhere — has no business setting the range.
+        # `unmapped` is out of it too: it is a real place with real figures and
+        # no shape on this map, so there is nothing to shade.
         dens = [v["dens"] for k, v in out.items()
                 if v.get("dens") and v["scope"] == "sub-unit"
                 and not v.get("sameAs") and not v.get("apart")]
@@ -409,6 +431,8 @@ def population_data():
                      # 1942 map. The comparison table sets two dates side by
                      # side and must name them for what they are.
                      "when": (d.get("when") or "").strip() or d["epoch"],
+                     # popped below, once the group's ladder is settled
+                     "breaks_want": d.get("breaks") or "",
                      # what kind of number it is, in the dataset's own words
                      "lineLabel": d.get("line_label") or "",
                      # a caution shown under the comparison, where the two
@@ -431,11 +455,24 @@ def population_data():
     for d in sets:
         pooled.setdefault(d["group"], []).extend(d.pop("dens"))
         pooled_jp.setdefault(d["group"], []).extend(d.pop("jp"))
-    breaks = dict((g, density_breaks(v)) for g, v in pooled.items())
+    # A source that drew its own choropleth gets its own ladder rather than a
+    # fitted one: the point of shading Manchukuo is to reproduce the plate at
+    # the front of the report, whose classes are 5, 20, 40 and 100. `breaks` in
+    # index.csv is those numbers, comma-separated; without it the ladder is
+    # computed as before.
+    fixed = {}
+    for d in sets:
+        want = (d.get("breaks_want") or "").strip()
+        if want:
+            fixed[d["group"]] = [float(x) if "." in x else int(x)
+                                 for x in want.split(",") if x.strip()]
+    breaks = dict((g, fixed.get(g) or density_breaks(v))
+                  for g, v in pooled.items())
     # the Japanese share runs from a fraction of a per cent to a quarter of a
     # city, so it wants the same log ladder and its own rungs
     jpb = dict((g, density_breaks(v)) for g, v in pooled_jp.items())
     for d in sets:
+        d.pop("breaks_want", None)
         d["breaks"] = breaks.get(d["group"], [])
         d["jpBreaks"] = jpb.get(d["group"], [])
     return sets

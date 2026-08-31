@@ -13966,6 +13966,101 @@ still usable and every table stays reachable, so it is left as it is.
 
 ---
 
+## Manchukuo at the 1943 count, and a map whose provinces are eight years older
+## than its figures
+
+滿洲國『臨時國勢調査報告』— 第一表 新京特別市及省別人口 p5, the density plate
+第一圖 at the front of it, and 第二表 民族省別人口 pp6–7. All three images are in
+`data/population/sources/images/`.
+
+Everything the report can be asked to check itself against, it passes. The
+twenty rows sum to the printed 43,202,880, to 23,908,082 men and 19,294,798
+women, and to 1,303,143.252 km² — to the last of three decimal places. Male
+plus female is the total in every row. Both derived columns, 女100對男數 and
+人口密度, recompute from the printed figures to within 0.05 everywhere. The
+nationality block balances three ways: the five 滿洲人 parts to 40,858,473, the
+three 日本人 parts to 2,271,495, and the four top-level categories to the whole
+state — in the total row, the men's row and the women's row alike.
+
+### The thing to know before using any of it
+
+**The map draws fourteen Manchukuo provinces and this report has nineteen.**
+The provinces are traced from 滿洲國地圖 1935, and Manchukuo had fourteen then.
+通化, 北安, 東安, 四平 and 牡丹江 were made out of those fourteen afterwards, and
+**not one of them came from a single parent**, so there is no arithmetic that
+puts them back.
+
+The fourteen the map draws hold **35,140,793 of the 43,202,880** — 81.3 per
+cent. The other 8,062,087 were in the five it cannot draw and in 新京特別市.
+
+Three consequences, and each is handled rather than hoped past.
+
+**A province's shape is 1935 and its figure 1943**, and the eight that lost
+ground say so on their cards, in those words. The six that did not — the four
+興安, 黑河 and 熱河 — say nothing, there being nothing to say.
+
+**The density is the report's own, over the report's own area.** The report
+prints 暫定面積 for every province, so nothing has to be derived: a density
+worked out over the polygon would be the 1943 population over the 1935 ground,
+which is a number about neither year. `data/population/README.md` now says
+this is the rule wherever a source prints its own areas.
+
+**The five with no shape are still in the table.** A new scope, `unmapped`: a
+real place with real figures and nowhere on the map to put them. It has no key
+to validate, appears in the table and in the chart, and never on a card. This
+is not tidiness — dropped, the bars would come to 35,140,793 under a caption
+saying 43,202,880, which is exactly the kind of quiet lie the chart was fixed
+for a fortnight ago.
+
+### The report drew this map itself, so the map draws its classes
+
+第一圖 shades the provinces in six steps — under 5, 5, 20, 40, 100, and
+1,268.2 for 新京特別市 alone — and the point of shading a source that made its
+own choropleth is to reproduce it rather than to fit a ladder over it. `breaks`
+in `index.csv` pins them: `5,20,40,100`. The sixth class is one city and this
+map draws 新京 as a point, so five cover every shape it shades, and all five are
+used.
+
+**A density under ten needed a decimal.** Kōan-hoku is 0.8 to the square
+kilometre and Kokka 1.3; rounded to whole numbers, as every density on this map
+was, both print 1 and the map says the emptiest province in Manchuria is the
+same as one three times as full. Ten is the threshold, chosen because nothing
+already drawn is under it — so no figure a reader had seen moved.
+
+### Two years that were being named wrong, and not only here
+
+The count is of 1943 and the map is December 1942, and both the sentence a
+reader hovers and the heading over the key took their year from the **epoch**,
+the map a dataset is drawn on. So the hover read *1942 Census Population:
+43,202,880* over figures that are not of 1942.
+
+**Taiwan had the same fault and it had shipped.** Its later return is the
+register at the end of 1941, drawn on the December 1942 map, so the hover said
+*1942 Resident Population* and the key said *Taiwan Population Density 1942*.
+Both now take `when` — the year the figures are of — which is what the
+comparison table was already using. Korea's and Japan's `when` is their epoch,
+so nothing already on the map moved, and the three tests that pin those strings
+still pass unchanged.
+
+### Measured
+
+Fourteen provinces shaded, all five classes used, each carrying its figure and
+the sparse ones keeping their decimal on the map as well as on the card.
+新京特別市 on the Changchun dot at 555,009 and 1,268 to the km². The table holds
+all twenty-one rows and the chart twenty bars summing to 43,202,880. 36 checks
+in `tools/test/manchupop.js`.
+
+**Not done, and it is the real fix:** the 1942 map should draw Manchukuo's
+nineteen provinces. Until it does, this layer is a set of 1943 figures over
+1935 outlines, said plainly everywhere it appears but still true.
+
+**Also not done:** 第二表's *province* rows. The crop covers the head of the
+table and its 總數 block only — twice — so Manchukuo's nationalities are known
+for the whole state and not by province.
+
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

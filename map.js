@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '256';
+  var JEM_VERSION = '257';
   var JEM_ASSETS = {"admin.js": "9f99c96627", "annotate.js": "db393723f6", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "3881d33c99", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
 
   /* Every file this one fetches, with the version on it.
@@ -9114,11 +9114,12 @@
      it would have started meaning something else.
 
      The field, low bit first: 1 and 2 Korea, 4 the sugar railways, 8 free,
-     16 and 32 Taiwan, 64 to 1024 the five kinds of name, 2048 and 4096 Japan.
+     16 and 32 Taiwan, 64 to 1024 the five kinds of name, 2048 and 4096 Japan,
+     8192 and 16384 the colour scheme, 32768 and 65536 Manchukuo.
      Japan is up there rather than in the gap at 8 because a mode needs *two*
      adjacent bits and 8 has Taiwan's low bit for a neighbour. */
   var POP_BITS = { 'korea-density': 1, 'taiwan-density': 16,
-                   'japan-density': 2048 };
+                   'japan-density': 2048, 'manchukuo-density': 32768 };
   var SUGAR_PLACE = 4;
   /* And the colour scheme above them, at 8192 and 16384 — the next pair free
      after Japan's. Two bits for three settings, numbered the way a mode is:
@@ -9941,7 +9942,11 @@
     if (mode === 'japanese') {
       return (v >= 10 ? String(Math.round(v)) : v.toFixed(1)) + '%';
     }
-    return String(Math.round(v));
+    /* And the same rule for a density, for the same reason. Korea's provinces
+       run from 37 to 224 and a whole number says everything; Manchuria's run
+       from 0.8 in Kōan-hoku to 152.4 in Hōten, and rounded to integers the
+       three emptiest provinces all print 1 and the map says they are alike. */
+    return v >= 10 ? String(Math.round(v)) : v.toFixed(1);
   }
 
   function popValueFits(rec) {
@@ -10397,8 +10402,13 @@
     popPieOn().forEach(function (job) {
       var head = document.createElement('div');
       head.className = 'item pop-key-head';
+      /* `when`, not `epoch`: the year the figures are of rather than the map
+         they are drawn on. Manchukuo's count is of 1943 and Taiwan's later
+         register of the end of 1941, and both are on the December 1942 sheet,
+         so a key headed 1942 was naming the wrong year over both. Korea's and
+         Japan's `when` is their epoch and neither moves. */
       head.textContent = (job.set.country || '') + ' ' + POP_MODE_LABEL[job.mode]
-        + ' ' + job.set.epoch + ' — '
+        + ' ' + (job.set.when || job.set.epoch) + ' — '
         + (job.mode === 'occupation'
            ? 'share of those in gainful occupation' : 'share of the population');
       legend.appendChild(head);
@@ -10426,7 +10436,7 @@
       // belonging to whichever map it happens to be drawn over; and what is
       // being measured, since two of these are shaded the same way
       head.textContent = (d.country || d.layer) + ' ' + POP_MODE_LABEL[job.mode]
-        + ' ' + d.epoch + ' — ' + shade.unit;
+        + ' ' + (d.when || d.epoch) + ' — ' + shade.unit;
       legend.appendChild(head);
       popClassLabels(shade.breaks(d)).forEach(function (txt, i) {
         var row = document.createElement('div');
