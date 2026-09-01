@@ -14430,7 +14430,7 @@ out with the coordinates it would have had in Mercator. `map.js` exposes
 there is one projection on the page. The old arithmetic stays as a fallback for
 a page where the script has not loaded.
 
-### The Korea seam: found, measured, still open
+### The Korea seam: the guard was blocking the crack it was meant to bridge
 
 Reported with a picture: white slivers along the frontier where Korea meets
 China and Manchuria. It is real, and this is what it is.
@@ -14447,8 +14447,10 @@ that turn out to be **enclosed by land**, the frontier carries:
 
 So it is one stretch, and it is the Paektu one.
 
-**Three guesses, all wrong, and each disproved rather than argued with.** They
-are written down because the next person will have the same three.
+**Three guesses, all wrong, and each disproved by a probe rather than argued
+with.** They are written down because the next person will have the same three,
+and the probes are left in behind environment variables because each of them
+settled a plausible story in a single run.
 
 *That the far bank is drawn as the Republic and never had a strip built against
 it*, `_korea_seams` knowing only `manchuria` and `manchukuo`. No: adding
@@ -14461,20 +14463,48 @@ prints which group holds a given point, and north of the bare stretch it is
 *That the corridor trace is too coarse through the Paektu bulge, so Korea's
 vertices fall outside `FRONTIER_RADIUS` and never get marked.* No:
 `JEM_SEAM_TRACE=1` walks Korea's own vertices, keeps those with a Manchurian
-vertex within 3 km, and reports any that the corridor misses. There are
-**two**, both at the Tumen mouth, and neither is at Paektu.
+vertex within 3 km, and reports any the corridor misses. There are **two**,
+both at the Tumen mouth.
 
-What is known: the seam produces twelve rings against each of `manchuria` and
-`manchukuo`, and their spans leave a hole — one ring reaches 127.18E, the next
-begins at 127.89E, and nothing covers between. So the strip is not being built
-across that stretch even though the neighbour is right and the corridor
-reaches it. The remaining question is which of `outside_korea`,
-`inside_manchuria` and `near_corridor` fails vertex by vertex along it, or
-whether the run is broken before it gets that far by the `len(run) >= 4` floor.
+### What it actually was
 
-Both probes are left in, behind environment variables, because each of them
-disproved a plausible guess in a single run and the next attempt will want
-them.
+`JEM_SEAM_WHY=1` prints, for every vertex where the strip collapsed, which of
+the four gates turned it away. **179 vertices along that frontier, and the
+answer on nearly all of them was `crossesWater`.**
+
+That gate is `solid()`, and it was added to stop the needle: five points along
+the strip, each of which must be in Korea or in Manchuria, so that a seam
+hugging a frontier passes and one jumping a channel does not. But **the
+midpoints of a seam that is bridging a hairline gap fall in the gap**, which is
+in neither country — that is what a gap *is*. So the test refused precisely the
+seams it exists to allow. The guard against reaching across water was blocking
+the crack it was written to close.
+
+Width tells the two apart and nothing else has to. The needle reached the far
+side of an estuary, so the nearest Manchurian vertex was a long way off and the
+strip opened to `FRONTIER_MAX` to get there; a crack between two outlines that
+ought to touch is a kilometre or two. `FRONTIER_CRACK = 0.18°`: a strip
+narrower than that may cross ground in neither country, a wider one must find
+land the whole way as before.
+
+### Measured, before and after
+
+| stretch | 1930 before | after | 1942 before | after |
+|---|---:|---:|---:|---:|
+| **Paektu** | 91.7 km² | **1.7** | 104.6 km² | **2.3** |
+| Tumen | 7.9 | 5.1 | 7.9 | 5.0 |
+| middle Yalu | 0.5 | 0.5 | 0.5 | 0.5 |
+| Yalu mouth | ~0 | 0.3 | ~0 | 0.2 |
+
+98 per cent of the Paektu gap is gone and the frontier there now reads as one
+line. The rings went from twelve to seven on each neighbour — fewer because
+they are no longer broken into pieces wherever the width collapsed.
+
+**And the needle has not come back.** The estuary ring is 124.40–124.75E,
+39.72–40.30N and twelve points, exactly what it was before; the widest rings
+are the two long frontier runs. The 0.3 km² that appears at the Yalu mouth is
+the delta itself — water between the red fingers of the estuary, enclosed by
+land because that is what a delta looks like.
 
 
 ---

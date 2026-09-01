@@ -2909,6 +2909,11 @@ FRONTIER_RADIUS = 0.40     # degrees; how far off the trace a vertex may lie
 FRONTIER_MIN = 0.14        # degrees; the thinnest the seam is ever drawn,
                            # wide enough to survive the filler's own thinning
 FRONTIER_MAX = 0.60        # degrees; wider than this and it is not a seam
+FRONTIER_CRACK = 0.18      # degrees; a strip this narrow is bridging a crack
+                           # between two outlines that ought to touch, and may
+                           # cross ground that is in neither country to do it.
+                           # A wider one is reaching somewhere and must find
+                           # land the whole way — see `solid`.
 FRONTIER_NIL = 0.02        # degrees; below this the seam is not drawn at all
 
 
@@ -3635,30 +3640,17 @@ def add_frontier_seam(groups):
             _in = [k for k, v in groups.items()
                    if v and any(point_in_ring((_lon, _lat), r) for r in v)]
             sys.stderr.write("  probe %-22s %s\n" % (_lab, ", ".join(_in) or "NOTHING"))
-    # `manchuria` is the ENP sheet's and carries the 1930 map, `manchukuo` is
-    # the traced 1935 sheet and carries 1942: different lines along the same
-    # rivers, each needing its own strip.
+    # Both of them: `manchuria` is the ENP sheet's and carries the 1930 map,
+    # `manchukuo` is the traced 1935 sheet and carries 1942. They are different
+    # lines along the same rivers and each needs its own strip, or whichever is
+    # drawn on the epoch you are looking at has a bare gap beside Korea.
     #
-    # `china` is here and yields **nothing**, which is worth leaving in place
-    # with this note rather than quietly deleting.
-    #
-    # THE GAP IS STILL OPEN. A pale blue sliver — the sea, showing between
-    # Korea's red and its neighbour's yellow — runs the length of the frontier
-    # on the Paektu stretch, on both maps. Measured by flooding a screenshot
-    # from its border and counting the sea-coloured patches that turn out to be
-    # enclosed by land: **91.7 km² in that frame on the 1930 map and 104.6 on
-    # the 1942 one**, against 7.9 along the Tumen and 0.5 along the middle
-    # Yalu. Reported on 01-09 with a picture.
-    #
-    # The first guess was that the far bank there is drawn as the Republic and
-    # so had no strip built against it. Adding `china` to this loop produced
-    # nought rings and did not move a pixel of the SVG, so that is not it: the
-    # ground the strip has to reach is not in `groups["china"]` at this point
-    # in the build. What remains to be found is which key does hold it, or
-    # whether the strip is being built and then shrinking to nothing along that
-    # stretch because none of `outside_korea`, `inside_manchuria` and
-    # `near_corridor` can be satisfied together there.
-    for _mkey in ("manchuria", "manchukuo", "china"):
+    # Not `china`. Korea's northern neighbour looks like the Republic on the
+    # 1930 map, so it was the obvious third key to add here — and it yields
+    # nought rings and moves not a pixel, because the ground the strip has to
+    # reach is in `manchuria` and `manchukuo` all along. `JEM_SEAM_PROBE=1`
+    # says which group holds a given point, and that is how it was settled.
+    for _mkey in ("manchuria", "manchukuo"):
         _seams = _korea_seam(groups, korea, _mkey)
         for k, v in _seams.items():
             seams[k].extend(v)
@@ -3724,6 +3716,14 @@ def _korea_seam(groups, korea, mkey):
             runs = [mark]
 
         for run in runs:
+            if os.environ.get("JEM_SEAM_RUNS"):
+                _a = [ring[i] for i in run]
+                _lo = min(q[0] for q in _a); _hi = max(q[0] for q in _a)
+                if _hi > 126.9 and _lo < 128.2:
+                    sys.stderr.write("    run %6.2f–%6.2fE  %5.2f–%5.2fN  %d pts%s\n"
+                                     % (_lo, _hi, min(q[1] for q in _a),
+                                        max(q[1] for q in _a), len(run),
+                                        "  DROPPED (<4)" if len(run) < 4 else ""))
             if len(run) < 4:
                 continue
             arc = [ring[i] for i in run]
@@ -3792,12 +3792,34 @@ def _korea_seam(groups, korea, mkey):
                 # the strip, each of which must be in Korea or in Manchuria —
                 # a seam that hugs a frontier passes, and one that jumps a
                 # channel does not.
-                def solid(a, bq):
+                # ...but a crack is not a channel, and this guard could not
+                # tell them apart.
+                #
+                # The midpoints of a seam that is bridging a hairline gap fall
+                # *in the gap*, which is in neither country by definition —
+                # that is what a gap is. So the test refused precisely the
+                # seams it exists to allow, and the frontier at Paektu stayed
+                # bare: 179 vertices along it came back `crossesWater` at the
+                # widest strip they were ever going to get, and the strip
+                # collapsed to nothing at every one of them.
+                #
+                # Width tells the two apart, and nothing else has to. The
+                # needle reached the far side of an estuary, so the nearest
+                # Manchurian vertex was a long way off and `w0` opened to
+                # FRONTIER_MAX to get there. A crack between two outlines that
+                # ought to touch is a kilometre or two. So a strip narrow
+                # enough to be a crack may cross ground that is in neither
+                # country; a wide one may not, and must find land the whole
+                # way as before.
+                def solid(a, bq, w):
+                    forgive = w <= FRONTIER_CRACK
                     for t in (0.2, 0.4, 0.6, 0.8):
                         mid = (a[0] + (bq[0] - a[0]) * t,
                                a[1] + (bq[1] - a[1]) * t)
                         if not (inside_manchuria(mid)
                                 or any(point_in_ring(mid, r) for r in korea)):
+                            if forgive:
+                                continue
                             return False
                     return True
 
@@ -3808,12 +3830,26 @@ def _korea_seam(groups, korea, mkey):
                         q = (p[0] + sign * nx * w, p[1] + sign * ny * w)
                         if outside_korea(q) and inside_manchuria(q) and \
                                 near_corridor(q, FRONTIER_RADIUS + w) and \
-                                solid(p, q):
+                                solid(p, q, w):
                             break
                         w *= 0.5
                     if w > best[0]:
                         best = (w, (p[0] + sign * nx * w, p[1] + sign * ny * w))
                 widths.append((p, best[1], best[0]))
+                if os.environ.get("JEM_SEAM_WHY") and best[0] <= FRONTIER_NIL \
+                        and 127.1 <= p[0] <= 128.0:
+                    # which of the four gates turned this vertex away, at the
+                    # widest the strip was ever going to be
+                    q0 = (p[0] + nx * w0, p[1] + ny * w0)
+                    q1 = (p[0] - nx * w0, p[1] - ny * w0)
+                    def why(q):
+                        return "%s%s%s%s" % (
+                            "" if outside_korea(q) else "inKorea ",
+                            "" if inside_manchuria(q) else "notManchuria ",
+                            "" if near_corridor(q, FRONTIER_RADIUS + w0) else "farFromRiver ",
+                            "" if solid(p, q, w0) else "crossesWater ")
+                    sys.stderr.write("      bare %7.3f %7.3f w0=%.3f  +:[%s] -:[%s]\n"
+                                     % (p[0], p[1], w0, why(q0).strip(), why(q1).strip()))
 
             # A run can be part frontier and part coastline. Break it where the
             # strip has shrunk to nothing rather than carrying a hairline
