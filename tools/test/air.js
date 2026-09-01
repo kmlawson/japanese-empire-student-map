@@ -420,6 +420,40 @@ const card_=p=>p.evaluate(()=>{
       .every((v,i,a)=>i===0||a[i-1]<=v), JSON.stringify(times));
   check('and a twelve-hour afternoon was resolved, not printed as it stood',
     times.indexOf('13:00')>=0 && times.indexOf('1:00')<0, JSON.stringify(times));
+  /* **Two names, and the short one has to stay unique.** None of the nineteen
+     shares a pair of ends today, so the numbering has nothing to do — which is
+     exactly why it is worth driving: a rule that has never once fired is a
+     rule nobody has tested. A pair is planted here and the names recomputed. */
+  const names=await page.evaluate(()=>{
+    const real=(JMAP.AIR||[]).map(r=>r.shortName);
+    const dup=new Set(), clash=[];
+    real.forEach(n=>{ if(dup.has(n)) clash.push(n); dup.add(n); });
+    return {n:real.length, sample:real.slice(0,3), clash,
+            long:(JMAP.AIR||[])[0].name};
+  });
+  check('every route carries a short name as well as its full one',
+    names.n===19 && /–/.test(names.sample[0]) && names.long.length>names.sample[0].length,
+    JSON.stringify(names.sample));
+  check('and the trunk is named by its two ends',
+    names.sample[0]==='Tokyo – Dairen', names.sample[0]);
+  check('no two of the nineteen collide as things stand',
+    names.clash.length===0, JSON.stringify(names.clash));
+  const planted=await page.evaluate(()=>{
+    /* Two lines from Tokyo to Dairen by different roads is a thing the file
+       could hold tomorrow; today it does not, so one is made. */
+    const a=JMAP.AIR[0];
+    const twin=Object.assign({}, a, {id:'twin', stops:a.stops.slice()});
+    JMAP.AIR.push(twin);
+    JMAP.__airShortNames();
+    const out=JMAP.AIR.filter(r=>r.shortName.indexOf('Tokyo – Dairen')===0)
+      .map(r=>r.shortName);
+    JMAP.AIR.pop(); JMAP.__airShortNames();
+    return out;
+  });
+  check('and a clash is numbered rather than left to collide',
+    planted.length===2 && planted[0]==='Tokyo – Dairen (1)'
+    && planted[1]==='Tokyo – Dairen (2)', JSON.stringify(planted));
+
   const tky=await port('tokyo');
   check('a corridor flown twice a day shows both services',
     /morning/.test(tky.body) && /afternoon/.test(tky.body), tky.head);

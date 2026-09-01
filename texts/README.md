@@ -66,7 +66,7 @@ they *are* rendered, by `tools/md.py`, into the HTML those two places expect.
 | `categories.csv` | the legend: one row per category per epoch, with its colour |
 | `site-categories.csv` | the two marker kinds, cities and events |
 | `extent-1942.csv` | the label on the 1942 line of control |
-| `browse.csv` + `.md` | the context cities, never asked about in the quiz |
+| `city-names.csv` + `.md` | curated names and notes for the gazetteer's cities — never asked about in the quiz. Was the browse layer's own table; the layer is retired and the names it carried are not. |
 | `snippets.md` | sentences reused in more than one note |
 | `territories/1930.csv`, `1942.csv` + `.md` | one row per territory per epoch |
 | `territories/sub-units/*.csv` + `.md` | the provinces, prefectures, residencies, states, divisions and islands — one file per group |

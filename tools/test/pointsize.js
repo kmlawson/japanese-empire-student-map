@@ -203,6 +203,65 @@ const zoomIn=async (p,n)=>{
   check('the Suihō dam is a dam', subs.supung==='dam');
   check('Côn Sơn is a prison', subs.consan==='prison');
 
+  /* ---- the browse layer is retired, and stays retired ----------------
+   *
+   * It was 170 places drawn in one undifferentiated grey, and the gazetteer
+   * replaced it with the same places drawn better. What was left behind was a
+   * layer that never drew: `#browse` carried `display: none` from the moment
+   * `JMAP.GAZ` existed, and its 429 dot groups — 1,287 nodes — sat in the DOM
+   * and in `scalables`, counter-scaled on every zoom and pan, for nothing.
+   *
+   * The 429 *records* are not gone and must not be: 428 of the notes, 416 of
+   * the wiki links and 232 of the Japanese readings on gazetteer cities live
+   * there and nowhere else. They are `JMAP.CITY_NAMES` now, which is what they
+   * are — curated names, not a layer — and `gazEnrich` reads them. */
+  console.log('\n— the browse layer is gone, its names are not —');
+  const gone=await page.evaluate(()=>({
+    group:!!document.getElementById('browse'),
+    dots:document.querySelectorAll('.browse').length,
+    oldKey:typeof JMAP.BROWSE,
+    names:(JMAP.CITY_NAMES||[]).length,
+    enriched:(JMAP.GAZ ? JMAP.GAZ.e1942 : []).filter(c=>c.wiki).length,
+    noted:(JMAP.GAZ ? JMAP.GAZ.e1942 : []).filter(c=>c.extra).length,
+  }));
+  check('no #browse group is built at all', !gone.group && gone.dots===0,
+    JSON.stringify(gone));
+  check('and nothing answers to the old key', gone.oldKey==='undefined',
+    gone.oldKey);
+  check('the curated names survived the move', gone.names===429,
+    String(gone.names));
+  check('and reached the gazetteer: wiki links',
+    gone.enriched>400, String(gone.enriched));
+  check('and the notes with them', gone.noted>400, String(gone.noted));
+
+  /* The names are the gazetteer's own now rather than a second layer's kept in
+     step by hand — one label per city, and a name must never outlast the dot
+     it belongs to. */
+  console.log('\n— a city name belongs to the dot under it —');
+  const lab=await page.evaluate(()=>{
+    const vis=e=>{const s=getComputedStyle(e);
+      return s.display!=='none'&&s.visibility!=='hidden'&&+s.opacity>0.05;};
+    const ids=new Set(); Object.keys(JMAP.GAZ).forEach(e=>
+      JMAP.GAZ[e].forEach(c=>ids.add(c.id)));
+    const named=new Set([...document.querySelectorAll('.blabel')]
+      .filter(e=>vis(e)&&e.textContent.trim()).map(e=>e.textContent.trim()));
+    const drawn=[...document.querySelectorAll('#gaz > g')].filter(vis);
+    const shownIds=new Set(drawn.map(g=>g.getAttribute('data-id')));
+    const orphan=[...document.querySelectorAll('.blabel')]
+      .filter(e=>vis(e)&&e.textContent.trim())
+      .filter(e=>{
+        const rec=(JMAP.GAZ[JMAP.__epoch||'e1930']||[])
+          .find(c=>(c.n||'').trim()===e.textContent.trim());
+        return rec && !shownIds.has(rec.rid);
+      }).length;
+    return {cities:ids.size, labels:document.querySelectorAll('.blabel').length,
+            visibleNames:named.size, orphan:orphan};
+  });
+  check('one label per city, not one per epoch-record',
+    lab.labels===lab.cities, lab.labels+' labels for '+lab.cities+' cities');
+  check('and not one name is left over a dot that is not drawn',
+    lab.orphan===0, String(lab.orphan));
+
   check('no page errors', errs.length===0, errs.join(' | '));
   await browser.close();
   console.log('\n  '+pass+' passed, '+fail+' failed');

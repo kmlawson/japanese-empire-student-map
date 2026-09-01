@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '275';
+  var JEM_VERSION = '276';
   var JEM_ASSETS = {"admin.js": "3414697d04", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "58132ef9c2", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
 
   /* Every file this one fetches, with the version on it.
@@ -511,7 +511,7 @@
   function pointType(rec) {
     if (!rec) return null;
     if (rec.kind === 'station') return 'city';   // a station is a place to stop
-    if (rec.kind === 'gaz' || rec.kind === 'browse') return 'city';
+    if (rec.kind === 'gaz') return 'city';
     return rec.cat || null;
   }
 
@@ -671,9 +671,6 @@
     // of the three site categories and has no button of its own in the bar
     if (s.kind === 'station') return stationsOn(s.sys) && stationShown(s);
     if (s.kind === 'gaz') return gazVisible(s);
-    // the old browse dots are the same places the gazetteer draws better, so
-    // they stand down while it is there rather than being hit-tested underneath
-    if (s.kind === 'browse') return !JMAP.GAZ && browseVisible();
     /* `pointType`, not `s.cat`: the three types are the switches, and asking
        the type rather than the field means a record that gets its type some
        other way — a station, a gazetteer place — answers the same question the
@@ -819,15 +816,15 @@
      way and for the same reason.
 
      `kinds` is what a label record's `kind` has to be to belong here. Cities
-     are two kinds — the `site` records the map carries and the `browse` dots
-     the gazetteer draws — and both are cities to a reader. Stations are on
+     are two kinds — the `site` records the map carries and the gazetteer's own
+     dots — and both are cities to a reader. Stations are on
      none of these lists: they have a switch of their own beside their railway,
      which is where somebody who has just drawn a railway will look for it. */
   var LABEL_CATS = [
     { id: 'territory', place: 64,   label: 'Country and colony names',
       kinds: ['territory'] },
     { id: 'city',      place: 128,  label: 'City names',
-      kinds: ['browse'], cat: 'city' },
+      kinds: ['gaz'], cat: 'city' },
     { id: 'sub',       place: 256,  label: 'Province names',
       kinds: ['sub'] },
     { id: 'poi',       place: 512,  label: 'Places of interest',
@@ -905,21 +902,24 @@
     // are a grey mat across the whole map. Their dots are there from the
     // moment Cities is switched on; their names wait until the reader has
     // closed in on somewhere, which is when a name is any use to them.
-    if (rec.kind === 'browse') {
-      if (!labelsOn('city') || !browseVisible() || labelLevel() < 2) return false;
-      /* Where the gazetteer is loaded it is what draws the dots — `#browse`'s
-         own are hidden the moment `JMAP.GAZ` exists — and these names are the
-         names of *those* dots. So a name must not outlast the dot it belongs
-         to, and the gazetteer thins its dots by tier as the reader pulls back.
-         It did not ask, and the result was a screen of city names over western
-         China with nothing under them: Wūlǔmùqí, Hami, Éjìnà, Yínchuān, Xīníng
-         and thirty more, floating, because their dots were below the tier
-         floor at that zoom while their names were not gated at all. */
-      if (JMAP.GAZ) {
-        var dot = gazFor(rec.id);
-        return !!dot && gazVisible(dot);
-      }
-      return true;
+    /* A city's name waits until the reader has closed in on somewhere, which
+       is when a name is any use to them: four hundred at the opening view is a
+       grey mat across the map, and the dots alone say where the places are.
+
+       And a name must not outlast the dot it belongs to. The gazetteer thins
+       its dots by tier as the reader pulls back; before this asked, the result
+       was a screen of city names over western China with nothing under them —
+       Wūlǔmùqí, Hami, Éjìnà, Yínchuān, Xīníng and thirty more, floating,
+       because their dots were below the tier floor at that zoom while their
+       names were not gated at all.
+
+       `gazFor` and not `rec`: one label is built per city and the record it
+       carries is whichever epoch was composed first, so the dot to ask about
+       is the one for the date now showing. */
+    if (rec.kind === 'gaz') {
+      if (!labelsOn('city') || labelLevel() < 2) return false;
+      var dot = gazFor(rec.id);
+      return !!dot && gazVisible(dot);
     }
     /* Everything else is a site, and its own category decides which switch
        writes its name: a city under City names, a mine or a shrine under
@@ -1062,7 +1062,7 @@
        Not above the highlight, and not above the labels: a selection outline a
        row of city dots can rub out is not much of an outline, and that was a
        deliberate choice made here before. Only the lines that belong to the
-       land go under. `#browse`, `#gaz` and `#atom-hits` follow on their own:
+       land go under. `#gaz` and `#atom-hits` follow on their own:
        each is built later and inserted *before* `#markers`, so moving the one
        carries the other three. */
     if (markersGroup) svg.appendChild(markersGroup);
@@ -1076,7 +1076,6 @@
     krRailGroup = svg.querySelector('#kr-rail');
     buildYellow1938();
     buildAir();
-    buildBrowse();
     buildPopRows();
     buildLabelRows();
     buildGazetteer();
@@ -3016,7 +3015,6 @@
   }
 
   var yellow1938 = null;
-  var browseGroup = null;
 
   /* The Yellow River as it ran from 1938 to 1947, after the dikes were cut. */
   function buildYellow1938() {
@@ -3043,25 +3041,6 @@
     });
   }
 
-  /* Context cities: smaller, greyer, under the markers that are examinable. */
-  function buildBrowse() {
-    if (!JMAP.BROWSE) return;
-    browseGroup = svgEl('g', { id: 'browse' });
-    svg.insertBefore(browseGroup, markersGroup);
-    JMAP.BROWSE.forEach(function (b) {
-      b.kind = 'browse';
-      b.rid = 'b_' + b.id;
-      var p = project(b.lon, b.lat);
-      var g = svgEl('g', { 'class': 'browse', id: 'b-' + b.id, 'data-id': b.rid });
-      g.appendChild(svgEl('circle', { 'class': 'hit', r: HIT_R * 0.72 }));
-      g.appendChild(svgEl('circle', { 'class': 'dot', r: DOT_R * 0.62 }));
-      browseGroup.appendChild(g);
-      elById[b.rid] = g;
-      sitePos[b.rid] = p;
-      scalables.push({ el: g, x: p.x, y: p.y });
-    });
-  }
-
   /* The gazetteer: four hundred and forty places from data/cities-*.csv, drawn
      as plain black dots at four sizes with two kinds of capital marked.
      Cartographic convention rather than invention — a filled dot for a town, a
@@ -3069,7 +3048,7 @@
      capital of a country or a territory — so the symbol says what kind of place
      it is and the size says how big, and the two can be read separately.
 
-     It replaces the browse dots, which are the same hundred and seventy places
+     It replaced the browse dots, which were the same places drawn worse
      in one undifferentiated grey. Those are left in the code and in data.js,
      drawn only when the gazetteer is switched off, so nothing has been thrown
      away. The quiz markers stay on top of it: where a gazetteer city is also a
@@ -3088,16 +3067,16 @@
   }
   var GAZ_R = SIZE_R;   // the gazetteer's old name for it
 
-  /* What the browse layer knew and the gazetteer does not. The CSVs carry a
+  /* What the names table knows and the gazetteer does not. The CSVs carry a
      name, a position, a size and a capital mark; the 170 context cities in
      data.js carry a Japanese reading for 131 of them, a Chinese form for 102,
      and nine notes — Trincomalee's fleet base, the Burma Road railhead at
      Lashio, the oil at Tarakan. Every one of those 170 ids is in the gazetteer
      under the same id, so the two are merged rather than one replacing the
      other: the dot is the gazetteer's and everything said about the place is
-     both. Without this, standing the browse layer down lost all of it. */
+     both. Without this, retiring the dots would have lost all of it. */
   function gazEnrich(c) {
-    var b = browseById[c.id];
+    var b = cityNameById[c.id];
     if (b) {
       ['ja', 'zh', 'ko', 'orig', 'wiki'].forEach(function (k) {
         if (!c[k] && b[k]) c[k] = b[k];
@@ -3106,8 +3085,8 @@
          the gazetteer's own `n` a moment ago, and without `local` and
          `jpfrom` beside it `shown()` had nothing to switch: a Taiwanese
          city's card read Japanese-first whatever the names switch said,
-         while the label over the same dot — drawn from the browse record —
-         switched correctly beside it. The browse row is the curated one;
+         while the label over the same dot — drawn from the names row —
+         switched correctly beside it. That row is the curated one;
          its names win. */
       ['en', 'local', 'jpfrom'].forEach(function (k) {
         if (b[k]) c[k] = b[k];
@@ -3115,7 +3094,7 @@
       if (b.note) c.extra = b.note;
     }
     /* And the examinable sites, 52 of which are the same place under the same
-       id. Names, and the note as well where the browse layer had none.
+       id. Names, and the note as well where the names table had none.
 
        Taking only the names was right for a battle and wrong for a city, and
        `siteById` holds only the cities — `cat: 'city'`, 56 of the 127; the
@@ -3137,7 +3116,7 @@
       ['ja', 'zh', 'ko', 'orig', 'wiki'].forEach(function (k) {
         if (!c[k] && s[k]) c[k] = s[k];
       });
-      // same again, and the site's names beat the browse row's: the site
+      // same again, and the site's names beat the names row's: the site
       // records carry the epoch-aware `jpfrom` (Mukden, Kalgan)
       ['en', 'local', 'jpfrom'].forEach(function (k) {
         if (s[k]) c[k] = s[k];
@@ -3146,12 +3125,12 @@
     }
   }
 
-  var browseById = {};
+  var cityNameById = {};
   var siteById = {};
 
   function buildGazetteer() {
     if (!JMAP.GAZ) return;
-    (JMAP.BROWSE || []).forEach(function (b) { browseById[b.id] = b; });
+    (JMAP.CITY_NAMES || []).forEach(function (b) { cityNameById[b.id] = b; });
     (JMAP.SITES || []).forEach(function (s) { if (s.cat === 'city') siteById[s.id] = s; });
     gazGroup = svgEl('g', { id: 'gaz' });
     svg.insertBefore(gazGroup, markersGroup);
@@ -3445,15 +3424,31 @@
       scalables.push(fEntry.sc);
     });
 
-    (JMAP.BROWSE || []).forEach(function (b) {
-      var p = sitePos[b.rid];
-      var text = svgEl('text', { 'class': 'blabel', 'font-size': SITE_PX - 1.5, y: SITE_PX + 4 });
+    /* **The city names belong to the dots that are drawn.**
+       They used to be built from the browse records and then gated on whether
+       the gazetteer dot underneath was visible — a name from one layer over a
+       mark from another, kept in step by hand. The dots are the gazetteer's,
+       so the names are too.
+
+       One label per city rather than one per epoch-record: no city in the two
+       sets moves between 1930 and 1942 — measured, none of the 477 in both —
+       and none of them changes any of its names, so a second copy would be a
+       second node to place and hide for nothing. Which epoch's dot a name
+       belongs to is asked at label time, in `labelFor`. */
+    var namedCity = {};
+    gazRecs.forEach(function (c) {
+      if (namedCity[c.id]) return;
+      var p = sitePos[c.rid];
+      if (!p) return;
+      namedCity[c.id] = true;
+      var text = svgEl('text', { 'class': 'blabel', 'font-size': SITE_PX - 1.5,
+                                 y: SITE_PX + 4 });
       labelLayer.appendChild(text);
-      var bEntry = { rec: b, el: text, x: p.x, y: p.y, dy: SITE_PX + 4,
+      var cEntry = { rec: c, el: text, x: p.x, y: p.y, dy: SITE_PX + 4,
                      size: SITE_PX - 1.5, w: 0, h: SITE_PX * 1.1 };
-      labels.push(bEntry);
-      bEntry.sc = { el: text, x: p.x, y: p.y };
-      scalables.push(bEntry.sc);
+      labels.push(cEntry);
+      cEntry.sc = { el: text, x: p.x, y: p.y };
+      scalables.push(cEntry.sc);
     });
   }
 
@@ -3553,7 +3548,6 @@
 
     var subUnits = [];
     JMAP.SITES.forEach(function (s) { byId[s.id] = s; });
-    if (JMAP.BROWSE) JMAP.BROWSE.forEach(function (b) { byId[b.rid] = b; });
     gazRecs.forEach(function (c) { byId[c.rid] = c; });
     staRecs.forEach(function (r) { byId[r.id] = r; });
 
@@ -3669,7 +3663,7 @@
       el.classList.toggle('foreign-sub', foreignSub(el));
     });
 
-    var rank = { territory: 0, feature: 1, site: 2, browse: 3 };
+    var rank = { territory: 0, feature: 1, site: 2, gaz: 3 };
     labels.sort(function (a, b) {
       var ra = rank[a.rec.kind] || 1, rb = rank[b.rec.kind] || 1;
       if (ra !== rb) return ra - rb;
@@ -4557,8 +4551,6 @@
         var zoomed = rafZoomed;
         rafZoomed = false;
         if (zoomed) rescale();
-        if (browseGroup) browseGroup.style.display =
-          (!JMAP.GAZ && browseVisible()) ? '' : 'none';
         applyGazetteer();
         if (zoomed) applySizedSites();
         if (zoomed) gateLabels();
@@ -4633,20 +4625,6 @@
   var spaceHeld = false;
   var pendingTap = 0;
 
-  /* The context cities come in with the Cities button, which is the button a
-     reader would press to see cities. They had a switch of their own in the
-     Layers panel, which asked the reader to know that this map has two kinds
-     of city and to decide about each — a distinction that is about how the map
-     was built and not about anything they came here to find out.
-
-     The zoom guard that used to hold them back is gone with it, and it was the
-     other half of the same problem: the map opens fitted to its full width, so
-     the guard was never satisfied at the opening view and pressing the switch
-     appeared to do nothing at all. It survives on a touch screen, where two
-     hundred dots at arm's length cannot be picked out from one another. */
-  function browseVisible() {
-    return state.cats.city && (!coarse || view.w < mapW / 2.2);
-  }
 
   /* An event that happened in a city sits on exactly the same point as the
      city: the atomic bombs on Hiroshima and Nagasaki, the battle of Shanghai
@@ -5071,7 +5049,7 @@
      nudged, which `placeLabels` does for whichever of the two arrives second.
      A battle or a city sorts as before. */
   var LABEL_RANK = { territory: 0, feature: 1, popval: 2, sub: 3,
-                     site: 4, browse: 5 };
+                     site: 4, gaz: 5 };
 
   function sortLabels() {
     labels.sort(function (a, b) {
@@ -5364,7 +5342,6 @@
     var placed = uiBoxes();
     islandQuota();
     var isles = 0;
-    var browseOn = browseVisible();     // once, not once per browse label
 
     /* One closure for the whole pass, not one per label per frame; and a
        display write only when the value changes, because every write dirties
@@ -5395,8 +5372,6 @@
         show(L, false);
         continue;
       }
-      // a browse name with no dot under it is just a word floating in the sea
-      if (L.rec.kind === 'browse' && !browseOn) { show(L, false); continue; }
       /* And neither is a country's name when the country has been taken off
          the map. The label entries are built once, when the map is coloured,
          so nothing downstream knew the frame had been cut back: with the East
@@ -5546,7 +5521,7 @@
    * projected position is the truth. */
   function focusOn(rec, spread) {
     var cx, cy, want;
-    if (rec.kind === 'site' || rec.kind === 'browse') {
+    if (rec.kind === 'site') {
       var p = sitePos[rec.rid || rec.id];
       cx = p.x; cy = p.y; want = 420 * (spread || 1);
     } else {
@@ -6076,7 +6051,7 @@
     var ids = Object.keys(sitePos);
     for (var i = 0; i < ids.length; i++) {
       var rec = byId[ids[i]];
-      if (!rec || (rec.kind !== 'site' && rec.kind !== 'browse'
+      if (!rec || (rec.kind !== 'site'
                    && rec.kind !== 'gaz')) continue;
       if (!siteVisible(rec)) continue;
       var p = sitePos[ids[i]];
@@ -6089,7 +6064,7 @@
   }
 
   function pick(target, cx, cy) {
-    if (target && target.closest && target.closest('.site, .browse')) {
+    if (target && target.closest && target.closest('.site')) {
       var near = nearestMarker(cx, cy);
       if (near) return { hit: { rec: near, el: elById[near.rid || near.id] || target }, el: target };
     }
@@ -6226,7 +6201,7 @@
 
   function recordFor(target) {
     if (!target || !target.closest) return null;
-    var el = target.closest('.site, .browse, .gaz, .atom, .sta-mark');
+    var el = target.closest('.site, .gaz, .atom, .sta-mark');
     // a backing is no longer inside its atom, so it answers for itself — which
     // it only ever gets the chance to do while its sub-units are in the other
     // file and it is the only thing there
@@ -6235,7 +6210,7 @@
     var id = el.getAttribute('data-id');
     var rec = id && byId[id];
     if (!rec) return null;
-    if ((rec.kind === 'site' || rec.kind === 'browse' || rec.kind === 'gaz')
+    if ((rec.kind === 'site' || rec.kind === 'gaz')
         && !siteVisible(rec)) return null;
     // Unless the Administrative layer is on, the whole of China is one unit.
     // Manchuria, Jehol, Chahar and Suiyuan and Sinkiang are drawn as
@@ -8394,8 +8369,45 @@
     return d;
   }
 
+  /* **Two names for a route: the whole chain, and its two ends.**
+   *
+   * "Tokyo – Osaka – Fukuoka – Ulsan – Keijō – Heijō – Dairen" is the right
+   * name for the card that is about that route, and the wrong one for a column
+   * in a table about somewhere else: on a phone it wrapped seven lines deep in
+   * the airport card, beside a reader who is standing at one of the stops in
+   * the middle of it. The short name is the first stop and the last.
+   *
+   * Two lines can share a pair of ends — none of the nineteen does today, and
+   * one more route through a different set of towns would be enough — so the
+   * clashes are numbered in the order the file gives them rather than left to
+   * collide silently. Computed once, when the layer is built. */
+  function airShortNames() {
+    var seen = {};
+    (JMAP.AIR || []).forEach(function (r) {
+      var ss = r.stops || [];
+      if (!ss.length) { r.shortName = r.name; return; }
+      var end = function (x) { return String(x.name || '').split(' (')[0]; };
+      var k = ss.length === 1 ? end(ss[0])
+                              : end(ss[0]) + ' – ' + end(ss[ss.length - 1]);
+      seen[k] = (seen[k] || 0) + 1;
+      r.shortName = k;
+      r.shortKey = k;
+    });
+    var n = {};
+    (JMAP.AIR || []).forEach(function (r) {
+      if (!r.shortKey || seen[r.shortKey] < 2) return;
+      n[r.shortKey] = (n[r.shortKey] || 0) + 1;
+      r.shortName = r.shortKey + ' (' + n[r.shortKey] + ')';
+    });
+  }
+
   function buildAir() {
     if (!svg || !JMAP.AIR || airGroup) return;
+    airShortNames();
+    // so a test can plant a clash and ask for the names again: the rule has
+    // never fired against the real nineteen, and one nobody has driven is one
+    // nobody has tested
+    JMAP.__airShortNames = airShortNames;
     airGroup = svgEl('g', { id: 'air' });
     airGroup.style.display = 'none';
     // above the land and the railways, below the markers a reader clicks
@@ -8915,7 +8927,7 @@
         var sp = r.stops[j];
         return sp ? String(sp.name || '').split(' (')[0] : '';
       };
-      var ends = short(0) + ' – ' + short(r.stops.length - 1);
+      var ends = r.shortName || (short(0) + ' – ' + short(r.stops.length - 1));
       airServices(r).forEach(function (svc) {
         AIR_DIRS.forEach(function (d) {
           var calls = airJourney(r, svc, d.k);
@@ -8979,9 +8991,7 @@
                other: e.other ? ((e.what === 'Arrives' ? 'from ' : 'to ') + e.other)
                               : (e.what ? '' : 'not timed here'),
                route: e.route + (e.svc ? ' — ' + e.svc : ''),
-               // wrapped seven lines deep in a phone's column otherwise, and
-               // the reader is standing at one of the stops in the middle of
-               // it: the two ends name the line well enough here
+               // the route's short name — see airShortNames
                short: e.ends + (e.svc ? ' — ' + e.svc : ''),
                freq: e.freq };
     });
@@ -10173,8 +10183,6 @@
       var el = elById[s.id];
       if (el) el.style.display = siteVisible(s) ? '' : 'none';
     });
-    if (browseGroup) browseGroup.style.display =
-      (!JMAP.GAZ && browseVisible()) ? '' : 'none';
     applyGazetteer();
 
     // forced: a state change can flip switches the gate signature does not
@@ -12405,14 +12413,6 @@
         row.appendChild(document.createTextNode(r[1]));
         legend.appendChild(row);
       });
-    } else if (browseVisible()) {
-      var brow = document.createElement('div');
-      brow.className = 'item';
-      var bsw = document.createElement('span');
-      bsw.className = 'sw round browse-sw';
-      brow.appendChild(bsw);
-      brow.appendChild(document.createTextNode('Other major cities (not examined)'));
-      legend.appendChild(brow);
     }
 
     /* And the way back. It appears only when something is off, because a

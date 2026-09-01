@@ -228,9 +228,9 @@ def main():
         if args.write:
             save(path, rows, fields, crlf)
 
-    # ---- the cities, in browse.csv and in sites.csv ------------------------
+    # ---- the cities, in city-names.csv and in sites.csv --------------------
     pol = polity_of()
-    for rel, idcol in (("texts/browse.csv", "id"), ("texts/sites/sites.csv", "id")):
+    for rel, idcol in (("texts/city-names.csv", "id"), ("texts/sites/sites.csv", "id")):
         path = os.path.join(ROOT, rel)
         rows, fields, crlf = load(path)
         for extra in ("local", "jpfrom"):

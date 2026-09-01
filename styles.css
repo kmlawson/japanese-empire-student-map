@@ -1010,14 +1010,6 @@ button.plain:hover { background: var(--hover-fill); }
   align-self: center;
 }
 
-/* browse cities: context, drawn under everything examinable */
-.browse { pointer-events: auto; cursor: pointer; }
-.browse .hit { fill: transparent; stroke: none; }
-.browse .dot { fill: #6f6a60; stroke: #f2efe7; stroke-width: 1.1; }
-.browse:hover .dot { fill: #3c382f; stroke: #14110c; stroke-width: 1.6; }
-.browse.sel .dot { stroke: #14110c; stroke-width: 2.2; paint-order: stroke; }
-
-#legend .sw.browse-sw { background: #6f6a60; }
 
 .blabel {
   pointer-events: none;

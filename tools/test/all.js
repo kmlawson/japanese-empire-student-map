@@ -136,6 +136,12 @@ const TRIGGERS = [
   [/^\.gitignore$/,                  []],
   [/^texts\/version\.csv$/,         []],        // the update number
   [/^tools\/(?!test\/|build_)/,     []],        // the other build tools
+  /* A generator, not a build step: it writes into `texts/` when somebody runs
+     it, and editing it changes nothing the page loads until that happens and
+     the output is committed — at which point the `texts/` rules apply. The
+     `build_` prefix is held out of the line above so `build_texts` and
+     `build_map` can have rules of their own, and this one needs saying. */
+  [/^tools\/build_localnames\.py$/, []],
   [/^data\/(gazetteer|nikh-korea|ignored)\//, []],
   [/^stale\//,                       []],
 
@@ -146,6 +152,10 @@ const TRIGGERS = [
   [/^texts\/(territories|pages)\//, ['data', 'core']],
   [/^texts\/sites/,                 ['points', 'core']],
   [/^texts\/sources-short\.csv$/,  ['points']],
+  /* The gazetteer's names, notes and wiki links. It was the browse layer's own
+     table and the catch-all below would have called it prose; the dots it
+     feeds are `points`. */
+  [/^texts\/city-names\.(csv|md)$/, ['points', 'data', 'core']],
   [/^texts\/.*\.csv$/,             ['data', 'core']],
 
   [/^cities-gaz\.js$/,              ['points']],

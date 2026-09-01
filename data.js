@@ -2013,7 +2013,7 @@ JMAP.EXTENT_1942 = {
   source: 'one of several maps used; see Sources'
 };
 
-JMAP.BROWSE = [
+JMAP.CITY_NAMES = [
   {
     id: 'paoting', en: 'Bǎodìng (Paoting)', ja: '保定 (Hotei)', zh: '保定', ko: '바오딩', lat: 38.87,
     lon: 115.47, wiki: 'https://en.wikipedia.org/wiki/Baoding',

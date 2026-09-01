@@ -276,7 +276,7 @@ console.log('\n— and the names layer writes prefectures, not districts —');
  * Four of them were the other way round — `Pingtung (Heitō)`, `Changhua
  * (Shōka)`, `Yilan (Giran)`, `Taitung (Taitō)` — which put the modern name
  * where every other place on the map puts the contemporary one. They are drawn
- * from `texts/browse.csv`, which is a third list beside `texts/sites/sites.csv`
+ * from `texts/city-names.csv`, a third list beside `texts/sites/sites.csv`
  * and `data/cities-*.csv`; the first pass at this changed the other two and
  * the map went on drawing the old names, so all three are checked here.
  *
@@ -292,7 +292,7 @@ console.log('\n— and the cities are named the same way —');
     + ((1<<1)|(1<<4)|(1<<5)|(1<<6)|(2<<8)|(1<<22)).toString(36)
     + '&bbox=118.5,21.3,123,25.8', {waitUntil:'networkidle0'});
   await sleep(3200);
-  const drawn = await p.evaluate(()=>[...document.querySelectorAll('#browse text, text.blabel')]
+  const drawn = await p.evaluate(()=>[...document.querySelectorAll('text.blabel')]
     .filter(e=>e.textContent.trim() && e.getBoundingClientRect().width>0)
     .map(e=>e.textContent));
   const WANT = ['Kīrun','Taichū','Shinchiku','Kagi','Karenkō','Shōka','Heitō','Taitō','Giran'];
@@ -309,7 +309,7 @@ console.log('\n— and the cities are named the same way —');
      read — so a reader who points at Kīrun is told it is Jilong and Keelung. */
   const recs = await p.evaluate(()=>{
     const out={}; ['keelung','pingtung','makung','taipei'].forEach(id=>{
-      const all=[].concat(JMAP.BROWSE||[], JMAP.SITES||[]);
+      const all=[].concat(JMAP.CITY_NAMES||[], JMAP.SITES||[]);
       const r=all.filter(x=>x.id===id).map(x=>x.en);
       if(r.length) out[id]=r;});
     return out;});
@@ -324,20 +324,20 @@ console.log('\n— and the cities are named the same way —');
 /* Every place on the map says something about itself.
  *
  * A city is two records — a dot in `data/cities-19xx.csv` and a name in
- * `texts/browse.csv` — and its note is a third thing again, a `## id` section
- * in `texts/browse.md`. Nothing enforces the third: a place with no note is
+ * `texts/city-names.csv` — and its note is a third thing again, a `## id` section
+ * in `texts/city-names.md`. Nothing enforces the third: a place with no note is
  * drawn, named and clickable, and opens a card with a heading and nothing
  * under it. Nine of the Taiwanese places went in that way and were only
  * noticed by looking. This is a whole-file check rather than a Taiwanese one,
  * because the next gap will not be in Taiwan. */
-console.log('\n— and every place in the browse layer says something —');
+console.log('\n— and every curated city name says something —');
 {
   const bare = await p.evaluate(() =>
-    (JMAP.BROWSE || []).filter(r => !(r.note || '').trim())
+    (JMAP.CITY_NAMES || []).filter(r => !(r.note || '').trim())
       .map(r => r.id + ' (' + r.en + ')'));
   check('not one of them is left without a note', bare.length === 0,
     bare.length + ' bare: ' + bare.slice(0, 6).join(', '));
-  const tw = await p.evaluate(() => (JMAP.BROWSE || [])
+  const tw = await p.evaluate(() => (JMAP.CITY_NAMES || [])
     .filter(r => r.lat > 21.3 && r.lat < 25.9 && r.lon > 118.5 && r.lon < 122.6));
   check('and the Taiwanese ones are all there', tw.length >= 20, tw.length + ' of them');
 }

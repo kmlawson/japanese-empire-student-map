@@ -15524,6 +15524,104 @@ returns to the one.
 
 ---
 
+## The browse layer is retired, and its names are not (#156 part B, #107)
+
+**What was there.** 170 context cities drawn in one undifferentiated grey.
+The gazetteer replaced them with the same places drawn better — four sizes,
+two kinds of capital mark — and the old layer was left in place, standing down
+behind `!JMAP.GAZ && browseVisible()` so that deleting `cities-gaz.js` would
+restore exactly what had been there before. That was right at the time. It has
+now been right for long enough that nobody is going to delete `cities-gaz.js`.
+
+**What it cost, measured before touching it.** 429 dot groups of three nodes
+each and 429 label texts: **1,716 of the map's 8,102 SVG nodes, 21% of it, for
+a layer whose parent carried `display: none`.** All 858 of those elements were
+in `scalables`, counter-scaled on every zoom and every pan.
+
+    before   8,102 nodes
+      − 1,287  #browse dot groups, never drawn
+      −   429  browse label texts
+      +   479  gazetteer label texts
+    after    6,864 nodes
+
+**The 429 records stayed.** They are not the layer; they are where the curated
+names live, and the gazetteer has no others. Measured against the 479 cities of
+1942, the table is the only source of **428 notes, 416 wiki links, 232 Japanese
+readings, 202 Chinese, 158 Korean, 65 local forms and 26 period names**. So the
+file is renamed to what it is — `texts/city-names.csv`, `JMAP.CITY_NAMES` — and
+`gazEnrich` goes on reading it. Naming a table for a retired layer is how the
+next person comes to delete the wrong thing.
+
+### The names moved onto the dots that draw them
+
+This is the part that was load-bearing. City labels were built from browse
+records and then gated on whether the gazetteer dot underneath happened to be
+visible: a name from one layer over a mark from another, kept in step by hand.
+They are built from the gazetteer's own records now, and `labelFor` asks
+`gazFor(rec.id)` — the dot for the date now showing.
+
+**One label per city, not one per epoch-record.** Checked first, because it is
+only safe if a place does not change between the two sheets: of the 477 cities
+in both, **none moves** (max displacement 0.0000°) and **none changes any of
+its names** — `n`, `en`, `local`, `jpfrom`, `ja`, `zh`, `ko` are identical
+throughout. 229 differ, and only in `t`, `c`, `of`, `a` and `p`: tier, capital
+mark, and which polity they sat in. So 479 labels rather than 956.
+
+### #107 was already delivered, and this says so with numbers
+
+"Show small-city labels when zoomed in" predates the gazetteer. Measured across
+four views, before and after this change and identical in both:
+
+    China, Hunan/Hubei (~7°)   15 dots  25 labels  0 tier-0 dots unnamed
+    Kansai (~3°)               17 dots  44 labels  0 tier-0 dots unnamed
+    Korea south (~4°)          15 dots  31 labels  0 tier-0 dots unnamed
+    whole map                  22 dots  21 labels  0 tier-0 dots unnamed
+
+Every drawn dot at every tier carries a name, the smallest included, and one
+gazetteer city in each epoch has no curated row at all. The gate that remains
+is deliberate: no city names until `labelLevel() >= 2`, because four hundred
+names at the opening view is a grey mat over the map and the dots alone say
+where the places are.
+
+### What went with it
+
+`browseVisible`, `buildBrowse`, `browseGroup`, the `browse` kind in `shown`,
+`labelFor`, `pickCat`, both label orderings and four hit-test selectors; the
+legend's "Other major cities (not examined)" row, which only ever appeared when
+the gazetteer was absent; and the `.browse` rules in `styles.css`. **75 map.js
+references down to none.**
+
+Two rules added to `TRIGGERS` while renaming: `texts/city-names.csv` implicates
+`points` and not only prose, and `tools/build_localnames.py` is a generator that
+implicates nothing until its output is committed.
+
+Measured: the whole suite, **1,637 checks across 53 scripts in 577.9s, all
+passing**. Two Taiwan checks failed first and were reading `JMAP.BROWSE`.
+`tools/test/pointsize.js` gained 7 checks that hold the retirement down — no
+`#browse` group, nothing answering the old key, the 429 names still reaching
+the gazetteer, one label per city, and no name left over a dot that is not
+drawn.
+
+---
+
+## Air routes have two names now
+
+A long one — the whole chain of stops — and a short one, the first stop and the
+last: "Tokyo – Dairen" for "Tokyo – Osaka – Fukuoka – Ulsan – Keijō – Heijō –
+Dairen". The long name is right on the card that is about that route and wrong
+in a column of a table about somewhere else, where on a phone it wrapped seven
+lines deep beside a reader standing at one of the stops in the middle of it.
+
+Two lines can share a pair of ends. **None of the nineteen does today**, so the
+numbering has nothing to do — which is exactly why the test plants a clash and
+drives it: a rule that has never once fired is a rule nobody has tested. A
+second Tokyo–Dairen comes out as "Tokyo – Dairen (1)" and "(2)", numbered in
+the order the file gives them.
+
+`tools/test/air.js`, 65 checks.
+
+---
+
 ## The air times, read down instead of across
 
 The timetable was a grid: a station list with four columns of times beside it,

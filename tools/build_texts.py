@@ -700,11 +700,15 @@ def build_data_js():
     parts.append("JMAP.EXTENT_1942 = %s;"
                  % T.record_to_js(rows[0], None, 0))
 
-    # ------------------------------------------------------------- browse
-    rows = load("browse.csv")
-    check_unique(rows, "id", "texts/browse.csv")
-    ns = notes("browse.md")
-    parts.append("JMAP.BROWSE = [\n%s\n];" % array(rows, ns, snippets, indent=2))
+    # -------------------------------------------------- curated city names
+    # Not a layer. These were the browse dots' own records; the dots are gone
+    # and the table stayed, because it is where 428 of the notes, 416 of the
+    # wiki links and 232 of the Japanese readings on the gazetteer's cities
+    # live, and nothing else in the project has them.
+    rows = load("city-names.csv")
+    check_unique(rows, "id", "texts/city-names.csv")
+    ns = notes("city-names.md")
+    parts.append("JMAP.CITY_NAMES = [\n%s\n];" % array(rows, ns, snippets, indent=2))
 
     # ----------------------------------------------------------- features
     # The physical map: seas, gulfs and straits, deserts, plateaus and ranges.
