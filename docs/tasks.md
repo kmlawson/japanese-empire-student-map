@@ -15524,6 +15524,91 @@ returns to the one.
 
 ---
 
+## Plane tools: the air timetable, flown
+
+The cards say when an aeroplane left and when it landed. This says where it was
+at ten past two, which is what a network map is actually for: the reader
+watches the morning fill out of Tokyo, the trunk cross the Yellow Sea, and
+Fukuoka take four machines within twenty minutes of noon.
+
+`air-play.js`, 348 lines, on the same terms as `trains.js` — fetched when the
+reader asks for it, thrown away when they put it down. The button appears with
+the routes and goes with them, because a control that plays a timetable is
+meaningless without the network it plays over. Switching the routes on does not
+start it: drawing a network and flying it are two different asks.
+
+### Forty-eight hours, and both reasons come from the sources
+
+Not a wish for a longer film.
+
+* **The lay-over.** The 1938–39 trunk leaves Tokyo at 07:00, reaches Dairen at
+  15:10 and does not start back until 09:30 the next morning. On a one-day
+  clock that aeroplane vanishes at Dairen and a different one appears there at
+  half past nine, which is not what happened.
+* **The alternate-day service.** Taihoku–Makō ran 偶数日. On a one-day clock it
+  either flies daily, which is false, or never, which is worse. Two days lets it
+  fly once, and the second day is measurably fuller than the first — which is
+  one of the checks.
+
+Out and back are **two aeroplanes, not one**, and the map does not pretend
+otherwise: a service leaving Keijō at 10:40 and one arriving there at 12:50
+cannot be the same machine turning round, and drawing them as one would have it
+teleport. Nothing is said about this on screen; it is simply not drawn wrong.
+
+An aeroplane on the ground is not drawn at all. A stop is a gap between two
+legs: a dot parked on an airport ring hides the ring, and where the aeroplane
+is sitting is not the fact this is for.
+
+### What it measures
+
+    06:00 day 1     0 in the air        07:30      2
+    10:00 day 1    11                   13:00     10
+    10:00 day 2    12                   03:00      0
+    1930 sheet      1
+
+The empty small hours are worth more than they look: **nothing in this network
+flew at three in the morning**, and that is the reading the whole twenty-four
+hour normalisation rests on. Anything airborne there would mean a time still on
+a twelve-hour clock.
+
+### Two bugs, one of them only a finger could find
+
+* **The strip was drawn under the info card.** `#info` is z-index 8 and
+  bottom-right, and on a narrow window it reaches across the whole foot of the
+  map: the play button was visible and pressable by nothing at all. Found by
+  the phone check, which tapped it and watched the clock not move; the element
+  stack at that point was `BUTTON.more, SECTION#info, BUTTON.air-play`. The
+  strip is z-index 9 now, and below 820px it stands down while a card is open —
+  the same answer the train tools' strip gives. The clock does not stop.
+* **A new test file was not run by anything.** `tools/test/all.js` has a master
+  list, `MAP`, and a script absent from it is skipped by the full sweep in
+  silence. Both `airplay` and `clipping` were written, passing, and missing from
+  it: the sweep reported *53 scripts, all passing* while running neither. Both
+  are in it now, with their measured seconds, and the list carries a note saying
+  what it is for.
+
+### Measured
+
+The whole suite: **1,677 checks across 55 scripts in 463.7s, all passing.**
+`tools/test/airplay.js` is 25 of them, and includes the two-zoom check this
+project's most-repeated bug requires — the aeroplane is a shape and not a
+stroke, so it carries `scale(k)` and `rescaled(k)` has to rewrite it.
+
+---
+
+## A 1938 guidebook on the Fukuoka – Naha – Taihoku service
+
+Added to that route's card: flown by a Douglas carrying fourteen passengers,
+100 yen Fukuoka to Taihoku and 50 from Naha, and a warning that the Tainan–Makō
+line was carrying mail only for the time being and taking no passengers.
+旅程と費用概算, p893.
+
+The Makō warning sits on this card because that is where the guidebook says it.
+It is **not** on the Taihoku–Taichū–Tainan–Makō card, which is the route it is
+about.
+
+---
+
 ## The air cards again: circuits, arrows, and every clock on 24 hours
 
 Twelve changes asked for after reading the first version on a real screen.

@@ -1131,6 +1131,8 @@ def build_pages():
                # the train tools and their timetable, both fetched only when a
                # reader zooms in to a railway that has one
                "trains.js", "tw-trains.js",
+               # the air player, fetched when a reader asks for the plane tools
+               "air-play.js",
                # and the printed tables, which a station's card links to
                "timetable/taiwan-1936.html",
                # the relief is three images map.js fetches by name, one per

@@ -13,8 +13,8 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '277';
-  var JEM_ASSETS = {"admin.js": "3414697d04", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "58132ef9c2", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
+  var JEM_VERSION = '278';
+  var JEM_ASSETS = {"admin.js": "3414697d04", "air-play.js": "abb3f92acc", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "58132ef9c2", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
 
   /* Every file this one fetches, with the version on it.
 
@@ -4750,6 +4750,9 @@
        a layer mounted this frame has to be handed the scale it was built at. */
     syncTrainTools();
     if (trainApi && trainApi.mounted()) trainApi.rescaled(k);
+    /* Map units to screen pixels, handed on: the aeroplane is a shape and not
+       a stroke, so its size is written as a scale and has to be rewritten. */
+    if (airApi && airApi.mounted()) airApi.rescaled(k);
     // and Korea's finer provinces, which come and go with the zoom
     syncKoreaFine();
     // the way-back button appears once the reader has moved off the frame the
@@ -9083,10 +9086,94 @@
     return !eps || !eps.length || eps.indexOf(state.epoch) >= 0;
   }
 
+
+  /* ------------------------------------------------------------ the air --
+   *                        plane tools
+   *
+   * The cards say when an aeroplane left and when it landed; this says where
+   * it was at ten past two. It is `air-play.js`, fetched when the reader asks
+   * for it and thrown away when they put it down, on the same terms as the
+   * train tools: the code is of no use to somebody who has not switched the
+   * routes on, and a layer kept alive off screen is a layer being rescaled for
+   * nobody.
+   *
+   * **The button appears with the routes and goes with them.** A control that
+   * plays a timetable is meaningless without the network it plays over. */
+  var airApi = null;
+  var airPlayWanted = false;
+
+  function airHost() {
+    return {
+      svgEl: svgEl,
+      project: function (lon, lat) { return project(lon, lat); },
+      stage: function () { return $('#stage') || document.body; },
+      /* Above the routes and their airports, and below the markers a reader
+         clicks: an aeroplane is the thing moving and has to be seen to arrive
+         somewhere, but it must not take a press meant for a city. */
+      insertLayer: function (g) {
+        svg.insertBefore(g, markersGroup || null);
+      },
+      obstacle: function (el, on) {
+        if (uiObserver) {
+          try { on ? uiObserver.observe(el) : uiObserver.unobserve(el); }
+          catch (e) { /* an observer that will not take it is not fatal */ }
+        }
+      },
+    };
+  }
+
+  /* The routes this date draws, which is what the player flies. */
+  function airPlayRoutes() {
+    return (JMAP.AIR || []).filter(airShown);
+  }
+
+  function mountAirPlay() {
+    if (!window.JMAP_AIRPLAY || !airGroup) return;
+    if (!airApi) airApi = window.JMAP_AIRPLAY(airHost());
+    if (airApi.mounted()) return;
+    airApi.mount(airPlayRoutes(), view.w / containerSize().w);
+  }
+
+  function unmountAirPlay() {
+    if (airApi && airApi.mounted()) airApi.unmount();
+  }
+
+  function loadAirPlay() {
+    if (window.JMAP_AIRPLAY) { mountAirPlay(); return; }
+    var el = document.createElement('script');
+    el.src = asset('air-play.js');
+    el.onload = function () {
+      if (window.JMAP_AIRPLAY && airPlayWanted) mountAirPlay();
+      syncAirPlayButton();
+    };
+    el.onerror = function () {
+      airPlayWanted = false;
+      syncAirPlayButton();
+    };
+    document.head.appendChild(el);
+  }
+
+  function syncAirPlayButton() {
+    var b = $('#btn-planes');
+    if (!b) return;
+    // with the routes, and only with them
+    b.hidden = !state.air;
+    b.setAttribute('aria-pressed', airPlayWanted ? 'true' : 'false');
+    b.classList.toggle('on', !!airPlayWanted);
+  }
+
+  function setAirPlay(on) {
+    airPlayWanted = !!on && !!state.air;
+    if (airPlayWanted) { buildAir(); loadAirPlay(); }
+    else unmountAirPlay();
+    syncAirPlayButton();
+  }
+
   function applyAir() {
     if (!airGroup) return;
     airGroup.style.display = state.air ? '' : 'none';
-    if (!state.air) return;
+    if (!state.air) { setAirPlay(false); return; }
+    syncAirPlayButton();
     /* The rings live in one group of their own now, so which of them belong to
        this date has to be worked out rather than following their route's own
        display. A stop is drawn if any route that calls there is. */
@@ -12551,6 +12638,20 @@
     select(null);
     composeEpoch();
     applyState();
+    /* **The player is rebuilt, not filtered.** The 1930 sheet flies one
+       service and the 1942 sheet nineteen, and the plans carry the geometry of
+       each leg — so a date change is a different set of aeroplanes, not the
+       same set with some hidden. The clock is kept, because the reader was
+       looking at a time of day and asked about a different year. */
+    if (airPlayWanted && airApi && airApi.mounted()) {
+      var was = airApi.time(), wasPlaying = airApi.playing();
+      airApi.unmount();
+      mountAirPlay();
+      if (airApi.mounted()) {
+        airApi.setTime(was);
+        if (wasPlaying) airApi.play(true);
+      }
+    }
     /* The blurb about the new date, unless the reader had something open —
        in which case they asked to see *that* on this date, and an unasked-for
        card about the date on top of it is the map talking over them. */
@@ -14284,6 +14385,17 @@
         applyState();
         saveState();
         scheduleUrl();
+      });
+    }
+
+    /* Plane tools. It appears with the routes and is a toggle of its own:
+       switching the routes off puts the player away, and switching them on
+       does not start it — a reader who wants the network drawn has not asked
+       for it to be flown. */
+    var btnPlanes = $('#btn-planes');
+    if (btnPlanes) {
+      btnPlanes.addEventListener('click', function () {
+        setAirPlay(!airPlayWanted);
       });
     }
 

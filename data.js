@@ -7428,7 +7428,7 @@ JMAP.AIR = [
   {
     id: 'taiwan', name: 'Fukuoka – Naha – Taipei', operator: 'Japan Air Transport (日本航空輸送株式會社)', opened: '1935',
     season: '', epochs: ['e1942'], source: '', srcUrl: '',
-    note: 'Kyūshū to the colony by way of Okinawa, the two long sea legs the Ryukyus break in half.',
+    note: 'Kyūshū to the colony by way of Okinawa, the two long sea legs the Ryukyus break in half. A 1938 guidebook has it flown by a Douglas carrying fourteen passengers: 100 yen from Fukuoka to Taihoku and 50 from Naha. It also warns that the Tainan–Makō line was carrying mail only for the time being and taking no passengers. 旅程と費用概算, p893.',
     stops: [
       { id: 'fukuoka', name: 'Fukuoka', lon: 130.4, lat: 33.59 },
       { id: 'naha', name: 'Naha', lon: 127.68, lat: 26.21 },

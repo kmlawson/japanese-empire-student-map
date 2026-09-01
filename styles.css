@@ -3755,3 +3755,62 @@ dialog h3 {
 .air-t .air-arrow { font-style: normal; opacity: 0.8; }
 .air-t .air-next { display: block; font-size: 0.68rem; opacity: 0.85;
                    font-style: normal; }
+
+/* The plane tools' control strip: a clock, a play button, a scrubber and how
+   fast the clock runs. It sits over the map's foot the way the train tools'
+   strip does, and tells the label placer it is there so no city name is
+   lettered underneath it. */
+.air-bar {
+  position: absolute;
+  left: 50%; transform: translateX(-50%);
+  bottom: calc(12px + var(--safe-b));
+  /* **Above the card, not under it.** `#info` is z-index 8 and bottom-right,
+     and on a narrow window it reaches across the whole foot of the map: the
+     strip was drawn underneath it, present and pressable by nothing. A control
+     a reader can see and cannot press is worse than one that is not there. */
+  z-index: 9;
+  display: flex; align-items: center; gap: 8px;
+  padding: 6px 10px;
+  max-width: min(560px, calc(100% - 24px));
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  box-shadow: var(--shadow);
+}
+.air-bar .air-play {
+  width: 34px; height: 34px; flex: 0 0 auto;
+  padding: 0; font-size: 13px; line-height: 1;
+}
+.air-clock {
+  font-variant-numeric: tabular-nums;
+  font-size: 12.5px; font-weight: 600; white-space: nowrap;
+  min-width: 7.4em;
+}
+.air-slider { flex: 1 1 auto; min-width: 90px; }
+.air-speed { font-size: 12px; padding: 3px 4px; flex: 0 0 auto; }
+.air-count {
+  font-size: 11.5px; color: var(--muted); white-space: nowrap;
+  flex: 0 0 auto;
+}
+/* The aeroplane. Filled rather than stroked, because a 4 px outline at this
+   size fills in, and given a pale casing for the same reason the railway lines
+   have one: it crosses land of every colour the reader can choose. */
+#planes { pointer-events: none; }
+.plane-body {
+  fill: var(--ink);
+  stroke: var(--panel);
+  stroke-width: 1.1;
+  paint-order: stroke;
+}
+@media (max-width: 620px) {
+  .air-count { display: none; }
+  .air-clock { min-width: 6.6em; font-size: 12px; }
+}
+/* And where an open card and the strip cannot both fit across the foot of the
+   map, the strip stands down — the same answer the train tools' strip gives,
+   and for the same reason. The clock does not stop: the aeroplanes go on
+   flying behind the card, which is the point of reading one while the day
+   plays. It comes back the moment the card is closed. */
+@media (max-width: 820px) {
+  body.panel-open .air-bar { display: none; }
+}
