@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '272';
+  var JEM_VERSION = '273';
   var JEM_ASSETS = {"admin.js": "3414697d04", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "58132ef9c2", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
 
   /* Every file this one fetches, with the version on it.
@@ -163,6 +163,7 @@
     // on a map of an empire, and a reader who wants it asks for it.
     twRail: false,
     krRail: false,
+    air: false,
     krStations: false,
     twStations: false,
     /* The working timetable over Taiwan: the lines in the colours the
@@ -1074,6 +1075,7 @@
     twRailGroup = svg.querySelector('#tw-rail');
     krRailGroup = svg.querySelector('#kr-rail');
     buildYellow1938();
+    buildAir();
     buildBrowse();
     buildPopRows();
     buildLabelRows();
@@ -1916,6 +1918,10 @@
     }
     railFadeOne(twRailGroup, state.twRail && !trainDraws('tw'));
     railFadeOne(krRailGroup, state.krRail && !trainDraws('kr'));
+    /* Not faded by the zoom, unlike the railways. A railway is local ground
+       and only means anything once the reader is over it; these five services
+       cross the whole map and are most legible at the widest view. */
+    applyAir();
     syncMapButtons();
   }
 
@@ -2014,6 +2020,7 @@
   /* Held rather than looked up. This runs on every frame of every gesture and
      `querySelector` on a document of eight thousand nodes is not free. */
   var btnStaEl = null, btnTrnEl = null, btnSugarEl = null, btnRailEl = null;
+  var btnAirEl = null;
   var btnElsFound = false;
 
   /* Called from `railFade`, so on every frame of every gesture. Everything it
@@ -2027,6 +2034,14 @@
       btnTrnEl = $('#btn-trains');
       btnSugarEl = $('#btn-sugar');
       btnRailEl = $('#btn-rail');
+      btnAirEl = $('#btn-air');
+    }
+    /* Always offered, and filled when the layer is drawn. Unlike the railway
+       button there is no zone to be over: these five services cross the whole
+       map, so the button never has to appear and disappear. */
+    if (btnAirEl) {
+      btnAirEl.setAttribute('aria-pressed', state.air ? 'true' : 'false');
+      btnAirEl.classList.toggle('on', !!state.air);
     }
     /* The railway of the ground under the view, whichever that is. Same switch
        as the one in the Layers panel, and pressed the same way it is: a reader
@@ -2291,7 +2306,7 @@
   }
 
   function syncTrainBoxes() {
-    [['#opt-tw-rail', 'twRail'], ['#opt-tw-stations', 'twStations'],
+    [['#opt-air', 'air'], ['#opt-tw-rail', 'twRail'], ['#opt-tw-stations', 'twStations'],
      ['#opt-kr-rail', 'krRail'], ['#opt-kr-stations', 'krStations']]
       .forEach(function (pair) {
         var box = $(pair[0]);
@@ -2835,7 +2850,13 @@
 
   function buildAtomHits() {
     var layer = svgEl('g', { id: 'atom-hits' });
-    svg.insertBefore(layer, markersGroup);
+    /* **Under the air layer, not merely under the markers.** Both this and
+       `#air` were inserted before `markersGroup`, so the order between them
+       was whichever had been built last — and this one is rebuilt on every
+       date switch. A reader who moved 1930→1942 and then pressed an air line
+       crossing Kwantung got Kwantung: an invisible fallback disc, sized for a
+       territory too small to hit, sitting over a line they had aimed at. */
+    svg.insertBefore(layer, airGroup || markersGroup);
     Object.keys(atomEls).forEach(function (a) {
       var el = atomEls[a];
       var area = parseFloat(el.getAttribute('data-area'));
@@ -3978,6 +3999,7 @@
     if (!state.manchukuo) bits |= 524288;
     if (!state.mengjiang) bits |= 1048576;
     if (state.mono) bits |= 2097152;
+    if (state.air) bits |= 65536;
     /* Bit 24, not 22. This wrote 4194304 — the bit the name switch below
        has carried since it shipped (tools/test/names.js pins it) — so a link
        made with Japanese names off forced East Asia on whoever opened it,
@@ -4085,6 +4107,12 @@
     state.krRail = !!(bits & 134217728);
     state.krStations = !!(bits & 268435456);
     state.trainTools = !!(bits & 536870912);
+    /* Bit 16 of the bitwise field. `POP_BITS` also has a 65536, and it is
+       not this: that one is a *multiplier* in the high field above 2³⁰,
+       a different namespace entirely. Only two bits were left free down
+       here and the history of this field is collisions, so it is said
+       plainly rather than left to be worked out. */
+    state.air = !!(bits & 65536);
     popGroups().forEach(function (g) {
       var place = POP_BITS[g.id];
       var mode = place ? POP_MODES[(Math.floor(hi / place) % 4) - 1] : null;
@@ -6240,7 +6268,35 @@
     return !!(e && (e.metaKey || (e.ctrlKey && !IS_MAC)));
   }
 
+  /* **A press on the air layer, answered where every other press is.**
+   *
+   * These had `click` listeners on the SVG groups, and a real press never
+   * reached them: `onPointerDown` calls `container.setPointerCapture`, which
+   * retargets the pointer events *and the click* to the container, so the
+   * listener on a path inside it is never called. Dispatching a synthetic
+   * click straight at the element worked perfectly and proved nothing, which
+   * is how the first version of this passed its tests and failed on the map.
+   *
+   * `downTarget` is `e.target` from pointerdown — taken before the capture —
+   * so it is the element actually under the finger, and this is the same path
+   * the markers and the provinces are chosen by. */
+  function airTap(target) {
+    if (!state.air || !target || !target.closest) return false;
+    var ring = target.closest('#air [data-air-stop]');
+    if (ring) {
+      var st = airStopAt[ring.getAttribute('data-air-stop')];
+      if (st) { selectAirport(st); return true; }
+    }
+    var line = target.closest('#air .air-route');
+    if (line) {
+      var r = airById[line.getAttribute('data-air')];
+      if (r) { selectAir(r); return true; }
+    }
+    return false;
+  }
+
   function handleTap(target, cx, cy, sticky) {
+    if (airTap(target)) return;
     var got = pick(target, cx, cy);
     var hit = got && got.hit;
     // on a touch screen the tap is the pointer, so it is what decides whose
@@ -7652,6 +7708,8 @@
     // last thing the pointer was over.
     selCluster = (cluster !== undefined ? cluster
                   : (lastProv && lastProv.el ? clusterOf(lastProv.el) : null)) || null;
+    var airHost = infoBox && infoBox.querySelector('#info-air');
+    if (airHost) airHost.innerHTML = '';
     if (!id || !byId[id]) {
       selCluster = null;
       selProv = null;
@@ -8255,6 +8313,441 @@
   function slug(s2) {
     return String(s2 || 'table').toLowerCase()
       .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 60) || 'table';
+  }
+
+  /* ===================== the air routes =================================
+   *
+   * Five scheduled services, drawn as they were flown rather than as they
+   * would look ruled on a flat sheet.
+   *
+   * **A leg is a great circle, not a straight line.** Yokohama to Saipan is
+   * 2,300 km and Saipan to Palau 1,600, and on this map's projections the
+   * shortest course between two such points is a curve. The same maths the
+   * shipping tool uses: interpolate on the sphere, *then* project, so the line
+   * bends because the map does. A leg is cut into steps by its own length —
+   * a hop down the Inland Sea needs two and the Pacific crossings need forty —
+   * because a fixed count would leave the short ones over-drawn and the long
+   * ones visibly faceted.
+   *
+   * **The white halo is what makes it readable.** These lines cross Japan's
+   * red, Korea's, Manchukuo's and open sea, and a single stroke that reads
+   * against one of those reads against none of the others. So each route is
+   * drawn twice from the same `d`: a wide white stroke under a narrow dark
+   * one. Both are `non-scaling-stroke`, so the pair keeps its proportions at
+   * every zoom — the halo is a *screen* width, like every other width a reader
+   * perceives, and would otherwise swell into a white band on the way in. */
+  var airGroup = null;
+  var airById = {};              // route id -> record
+  var airStopAt = {};            // the key on a ring -> its stop record
+
+  // two places is finer than the map can draw: the whole frame is 2,800 units
+  // across and a hundredth of one is well under a pixel at any zoom offered
+  function fmt2(n) { return (Math.round(n * 100) / 100); }
+
+  function gcStep(a, b) {
+    /* Points along the great circle from a to b, spherical interpolation
+       before projection. The number of steps follows the angular distance:
+       roughly one every 60 km, never fewer than two and never more than 96. */
+    var R = Math.PI / 180;
+    var la1 = a.lat * R, lo1 = a.lon * R, la2 = b.lat * R, lo2 = b.lon * R;
+    var d = 2 * Math.asin(Math.sqrt(
+      Math.pow(Math.sin((la2 - la1) / 2), 2)
+      + Math.cos(la1) * Math.cos(la2) * Math.pow(Math.sin((lo2 - lo1) / 2), 2)));
+    if (!isFinite(d) || d === 0) return [a];
+    var n = Math.max(2, Math.min(96, Math.round(d * 6371 / 60)));
+    var out = [];
+    for (var i = 0; i <= n; i++) {
+      var f = i / n;
+      var A = Math.sin((1 - f) * d) / Math.sin(d);
+      var B = Math.sin(f * d) / Math.sin(d);
+      var x = A * Math.cos(la1) * Math.cos(lo1) + B * Math.cos(la2) * Math.cos(lo2);
+      var y = A * Math.cos(la1) * Math.sin(lo1) + B * Math.cos(la2) * Math.sin(lo2);
+      var z = A * Math.sin(la1) + B * Math.sin(la2);
+      out.push({ lat: Math.atan2(z, Math.sqrt(x * x + y * y)) / R,
+                 lon: Math.atan2(y, x) / R });
+    }
+    return out;
+  }
+
+  function airPath(stops) {
+    var d = '';
+    for (var i = 0; i + 1 < stops.length; i++) {
+      var seg = gcStep(stops[i], stops[i + 1]);
+      for (var j = (i ? 1 : 0); j < seg.length; j++) {
+        var p = project(seg[j].lon, seg[j].lat);
+        d += (d ? 'L' : 'M') + fmt2(p.x) + ' ' + fmt2(p.y);
+      }
+    }
+    return d;
+  }
+
+  function buildAir() {
+    if (!svg || !JMAP.AIR || airGroup) return;
+    airGroup = svgEl('g', { id: 'air' });
+    airGroup.style.display = 'none';
+    // above the land and the railways, below the markers a reader clicks
+    svg.insertBefore(airGroup, markersGroup || null);
+    JMAP.AIR.forEach(function (r) {
+      var d = airPath(r.stops);
+      if (!d) return;
+      var g = svgEl('g', { 'class': 'air-route', 'data-air': r.id });
+      airById[r.id] = r;
+      g.setAttribute('data-epochs', (r.epochs || []).join(' '));
+      /* What the pointer says before anything is pressed. `showTooltip` takes
+         one of the map's own records and an air service is not one, so this
+         uses the `<title>` the browser reads — the same idiom the map uses for
+         its own hover string — rather than a second tooltip machine.
+
+         The times are on it because that is what a reader hovering a line
+         wants first: not that a route existed, but when it went. */
+      var tip = [r.name];
+      if (r.operator) tip.push(r.operator);
+      if (r.opened) tip.push('from ' + r.opened);
+      if (r.season) tip.push(r.season + ' timetable');
+      var freq = (r.times || []).map(function (t) { return t.freq; })
+        .filter(Boolean);
+      var uniq = freq.filter(function (v, i) { return freq.indexOf(v) === i; });
+      if (uniq.length === 1) tip.push(uniq[0]);
+      else if (uniq.length > 1) tip.push(uniq.join('; '));
+      /* The first stop's own two times: when it left and when it was back.
+         Not the *last* stop's arrival, which was the first try and reads as
+         the end of the journey when it is the turn-round — Taihoku–Makō said
+         "in 11:05", the arrival at Makō, while the aeroplane was back at
+         Taihoku at 2:55. */
+      var first = (r.times || [])[0];
+      if (first && (first.dd || first.ua)) {
+        tip.push([first.dd && ('out ' + first.dd),
+                  first.ua && ('back ' + first.ua)].filter(Boolean).join(', '));
+      }
+      var ttl = svgEl('title', {});
+      ttl.textContent = tip.join(' · ');
+      g.appendChild(ttl);
+      g.appendChild(svgEl('path', { 'class': 'air-halo', d: d }));
+      g.appendChild(svgEl('path', { 'class': 'air-line', d: d }));
+      // a wider invisible stroke to press: the drawn line is 1.6 px and a
+      // finger is not
+      g.appendChild(svgEl('path', { 'class': 'air-hit', d: d }));
+      /* Every stop gets a ring, so a reader can see where it called as well
+         as where it went.
+
+         **In a counter-scaled group, not at a radius in map units.** Written
+         as `r: 2.6` on a plain circle it came out at *one screen pixel* at the
+         opening view — the whole frame is 2,800 units across a thousand-odd
+         pixels, so a map unit is about a third of a pixel. That is this
+         project's most-repeated bug and this is the fix it already has:
+         `scalables` holds the group at its place and `rescale()` writes the
+         inverse scale, so the radius below is in screen pixels like every
+         other size a reader perceives. */
+      r.stops.forEach(function (st) {
+        var p = project(st.lon, st.lat);
+        var ring = svgEl('g', { 'class': 'air-stop-at' });
+        /* The press target first and under the ring: a 3.4 px circle is not
+           something a finger can find, and the ring itself stays the size the
+           reader sees. */
+        ring.appendChild(svgEl('circle', { 'class': 'air-stop-hit', r: 11 }));
+        ring.appendChild(svgEl('circle', { 'class': 'air-stop', r: 3.4 }));
+        ring.setAttribute('data-air-stop', st.id || st.name);
+        airStopAt[st.id || st.name] = st;
+        var ttl2 = svgEl('title', {});
+        ttl2.textContent = st.name + ' — every flight that called here';
+        ring.appendChild(ttl2);
+        g.appendChild(ring);
+        scalables.push({ el: ring, x: p.x, y: p.y });
+      });
+      airGroup.appendChild(g);
+    });
+  }
+
+  /* The card for a route. It is not one of the map's records — an air service
+     is not a place — so it fills the card directly rather than going through
+     `select()`, and clears the blocks that belong to places. */
+  function selectAir(r) {
+    select(null);
+    if (!infoBox) return;
+    var chip = infoBox.querySelector('.chip');
+    var prim = infoBox.querySelector('.primary');
+    var alt = infoBox.querySelector('.alt');
+    var when = infoBox.querySelector('.when');
+    var note = infoBox.querySelector('.note-own');
+    if (chip) chip.textContent = 'Air route';
+    if (prim) prim.textContent = r.name;
+    if (alt) {
+      alt.textContent = r.stops.map(function (s2) { return s2.name; }).join(' → ');
+    }
+    if (when) {
+      /* Two different claims, and they must not be confused. `opened` is when
+         the service began; `season` is the timetable this row was read off,
+         which says the route was being flown then and nothing about when it
+         started. The fourteen added from the 1938–39 schedule have the second
+         and not the first, and the card says so in those words. */
+      when.textContent = [r.operator,
+                          r.opened && ('from ' + r.opened),
+                          r.season && ('in the ' + r.season + ' timetable')]
+        .filter(Boolean).join(' · ');
+    }
+    if (note) {
+      note.textContent = r.note || '';
+      note.hidden = !r.note;
+    }
+    var prov = infoBox.querySelector('.prov');
+    if (prov) prov.hidden = true;
+
+    /* The timetable and the fares, where the route has them. Both are tables
+       this map draws, so both carry their own CSV with the source on it —
+       that is the rule for any table here, not a courtesy of the population
+       ones. */
+    var host = airCardHost();
+    host.innerHTML = '';
+    var src = r.source
+      ? (r.source + (r.opened ? '' : ''))
+      : '';
+    if (r.times && r.times.length) {
+      var cols = [{ k: 'station', h: 'Station' }, { k: 'da', h: 'Arr.' },
+                  { k: 'dd', h: 'Dep.' }, { k: 'ua', h: 'Arr.' },
+                  { k: 'ud', h: 'Dep.' }];
+      /* Only where a route says one. The 1931 trunk has no frequency column in
+         its source and would get an empty one. */
+      if (r.times.some(function (t) { return t.freq; })) {
+        cols.push({ k: 'freq', h: 'Runs' });
+      }
+      var notes = ['The first pair of columns is the outward journey, the '
+                   + 'second the return.'];
+      if (r.id === 'korea') {
+        notes.push('The aeroplane lay over at Keijō: out, it arrived 17:20 and '
+                   + 'left 7:30 the next morning; back, it arrived 16:40 and '
+                   + 'left at 7:00.');
+      }
+      /* **One table per service, not one per route.** A corridor could be
+         flown more than once a day — Tokyo–Nagoya has a morning and an
+         afternoon — and merging them into a single station list would put two
+         departures in one cell and say a thing that never happened. `service`
+         names them; a route with one unnamed service still gets one table. */
+      var svcs = r.times.map(function (t) { return t.svc || ''; })
+        .filter(function (v, i, a) { return a.indexOf(v) === i; });
+      var base = r.season ? ('Timetable, ' + r.season)
+                          : 'Summer timetable, June–August 1931';
+      svcs.forEach(function (svc) {
+        var mine = r.times.filter(function (t) { return (t.svc || '') === svc; });
+        airTable(host, base + (svc ? ' — ' + svc + ' service' : ''),
+          cols, mine, notes, r.source, r.srcUrl);
+      });
+    }
+    if (r.fares && r.fares.length) {
+      var legs = [];
+      for (var i = 0; i + 1 < r.stops.length; i++) {
+        var a = r.stops[i].name.split(' (')[0];
+        var b = r.stops[i + 1].name.split(' (')[0];
+        var f = r.fares.filter(function (x) { return x.from === a && x.to === b; })[0];
+        if (f) legs.push(f);
+      }
+      var whole = r.fares.filter(function (x) {
+        return x.from === r.stops[0].name.split(' (')[0]
+            && x.to === r.stops[r.stops.length - 1].name.split(' (')[0];
+      })[0];
+      airTable(host, 'Fares, 1931',
+        [{ k: 'from', h: 'From' }, { k: 'to', h: 'To' },
+         { k: 'yen', h: 'Yen', num: true }],
+        legs.concat(whole ? [whole] : []),
+        ['The legs, and the whole line at the foot.',
+         'Every through fare in the source is the sum of its legs — all '
+         + 'twenty-one of them — and so is every distance. The full table is '
+         + 'in data/air/fares.csv.'],
+        r.source, r.srcUrl);
+    }
+
+    infoBox.hidden = false;
+    document.body.classList.add('panel-open');
+  }
+
+  /* Where the route's tables go: a block of its own inside the card, made once
+     and emptied on each open. */
+  function airCardHost() {
+    var host = infoBox.querySelector('#info-air');
+    if (!host) {
+      host = document.createElement('div');
+      host.id = 'info-air';
+      var note = infoBox.querySelector('.note-own');
+      if (note && note.parentNode) note.parentNode.insertBefore(host, note.nextSibling);
+      else infoBox.appendChild(host);
+    }
+    return host;
+  }
+
+  /* One small table, with the notes and the source under it and a CSV beside
+     them. `tableSpec` is what `addCsvButton` reads, so the file carries the
+     figures rather than whatever the screen last showed. */
+  function airTable(host, title, cols, rows, notes, source, srcUrl) {
+    if (!rows.length) return;
+    var wrap = document.createElement('div');
+    wrap.className = 'pop-table-block';
+    var h = document.createElement('p');
+    h.className = 'pop-head';
+    h.textContent = title;
+    wrap.appendChild(h);
+    var scroll = document.createElement('div');
+    scroll.className = 'pop-scroll';
+    var t = document.createElement('table');
+    t.className = 'pop-table';
+    var thead = document.createElement('thead');
+    var tr = document.createElement('tr');
+    cols.forEach(function (c) {
+      var th = document.createElement('th');
+      th.textContent = c.h;
+      tr.appendChild(th);
+    });
+    thead.appendChild(tr);
+    t.appendChild(thead);
+    var tb = document.createElement('tbody');
+    rows.forEach(function (r) {
+      var row = document.createElement('tr');
+      cols.forEach(function (c) {
+        var td = document.createElement('td');
+        td.textContent = r[c.k] === undefined || r[c.k] === null ? '' : r[c.k];
+        if (c.num) td.className = 'num';
+        row.appendChild(td);
+      });
+      tb.appendChild(row);
+    });
+    t.appendChild(tb);
+    t.tableSpec = {
+      cols: cols.map(function (c) { return { key: c.k, label: c.h }; }),
+      rows: rows.map(function (r) {
+        var o = {};
+        cols.forEach(function (c) { o[c.k] = { text: r[c.k] === undefined ? '' : String(r[c.k]),
+                                               value: c.num ? r[c.k] : undefined }; });
+        return o;
+      }),
+    };
+    scroll.appendChild(t);
+    wrap.appendChild(scroll);
+    (notes || []).forEach(function (n) {
+      var p2 = document.createElement('p');
+      p2.className = 'pop-note';
+      p2.textContent = n;
+      wrap.appendChild(p2);
+    });
+    if (source) {
+      var sp = document.createElement('p');
+      sp.className = 'pop-src';
+      if (srcUrl) {
+        var a2 = document.createElement('a');
+        a2.href = srcUrl; a2.target = '_blank'; a2.rel = 'noopener';
+        a2.textContent = source;
+        sp.appendChild(a2);
+      } else sp.textContent = source;
+      wrap.appendChild(sp);
+    }
+    addCsvButton(wrap, t, title, notes || [], source || '');
+    host.appendChild(wrap);
+  }
+
+  /* **Every service that called at one airport.**
+   *
+   * A line answers "where did this go"; a dot has to answer "what came through
+   * here", which is the other half of a network and the question a reader
+   * standing on Keijō or Fukuoka actually has. Fukuoka is on five of these
+   * nineteen routes and Keijō on four, and until the rings took the pointer
+   * there was no way to find that out but to press each line in turn.
+   *
+   * A stop is matched by its `id` where it has one — the map's own city — and
+   * by name where it has not, which is Ulsan and nothing else. */
+  function airportRoutes(st) {
+    var key = st.id || st.name;
+    return (JMAP.AIR || []).filter(function (r) {
+      return airShown(r)
+        && r.stops.some(function (s2) { return (s2.id || s2.name) === key; });
+    });
+  }
+
+  /* The times that route gives *at this stop*. The timetable names a station
+     as `漢字 Romaji` and the stop as `Romaji` or `Romaji (Other)`, so the
+     romanised head of the stop's name is what they are matched on; where a
+     route has several services, each is answered separately. */
+  function airTimesAt(r, st) {
+    var base = String(st.name || '').split(' (')[0];
+    return (r.times || []).filter(function (t) {
+      return t.station && t.station.indexOf(base) >= 0;
+    });
+  }
+
+  function selectAirport(st) {
+    select(null);
+    if (!infoBox) return;
+    var mine = airportRoutes(st);
+    var chip = infoBox.querySelector('.chip');
+    var prim = infoBox.querySelector('.primary');
+    var alt = infoBox.querySelector('.alt');
+    var when = infoBox.querySelector('.when');
+    var note = infoBox.querySelector('.note-own');
+    if (chip) chip.textContent = 'Airport';
+    if (prim) prim.textContent = st.name;
+    if (alt) {
+      alt.textContent = mine.length === 1 ? 'On one of the scheduled routes'
+        : ('On ' + mine.length + ' of the scheduled routes');
+    }
+    if (when) when.textContent = '';
+    if (note) { note.textContent = ''; note.hidden = true; }
+    var prov = infoBox.querySelector('.prov');
+    if (prov) prov.hidden = true;
+
+    var host = airCardHost();
+    host.innerHTML = '';
+    var rows = [];
+    mine.forEach(function (r) {
+      var hits = airTimesAt(r, st);
+      if (!hits.length) {
+        rows.push({ route: r.name, svc: '', arr: '', dep: '', freq: '' });
+        return;
+      }
+      hits.forEach(function (t) {
+        /* Both directions on one line: what came in and what went out, which
+           is what an airport is asked about. A blank is a call the source
+           does not time, not a flight that did not happen. */
+        rows.push({ route: r.name, svc: t.svc || '',
+                    arr: [t.da, t.ua].filter(Boolean).join(' / '),
+                    dep: [t.dd, t.ud].filter(Boolean).join(' / '),
+                    freq: t.freq || '' });
+      });
+    });
+    var cols = [{ k: 'route', h: 'Route' }, { k: 'arr', h: 'Arrives' },
+                { k: 'dep', h: 'Departs' }];
+    if (rows.some(function (x) { return x.svc; })) {
+      cols.splice(1, 0, { k: 'svc', h: 'Service' });
+    }
+    if (rows.some(function (x) { return x.freq; })) {
+      cols.push({ k: 'freq', h: 'Runs' });
+    }
+    var srcs = mine.map(function (r) { return r.source; }).filter(Boolean);
+    airTable(host, 'Flights through ' + String(st.name).split(' (')[0],
+      cols, rows,
+      ['Arrivals and departures are given as outward / return where the '
+       + 'source times both.',
+       'A blank is a call the timetable does not time, not a flight that did '
+       + 'not happen.'],
+      srcs[0] || '', (mine[0] || {}).srcUrl || '');
+
+    infoBox.hidden = false;
+    document.body.classList.add('panel-open');
+  }
+
+  /* **A route belongs to the dates it was flown**, and the 1930 sheet has only
+     one: the Tokyo–Dairen trunk, the only service already running and the only
+     one timed here from a 1931 table. Everything else is read off the 1938–39
+     timetable or opened after 1930, so drawing it over a 1930 map would put
+     aeroplanes in the sky eight years early. */
+  function airShown(r) {
+    var eps = r && r.epochs;
+    return !eps || !eps.length || eps.indexOf(state.epoch) >= 0;
+  }
+
+  function applyAir() {
+    if (!airGroup) return;
+    airGroup.style.display = state.air ? '' : 'none';
+    if (!state.air) return;
+    (JMAP.AIR || []).forEach(function (r) {
+      var g = airGroup.querySelector('[data-air="' + cssEsc(r.id) + '"]');
+      if (g) g.style.display = airShown(r) ? '' : 'none';
+    });
   }
 
   /* ============== a choropleth, taken away whole ========================
@@ -13388,7 +13881,7 @@
        nothing to mark when the lines are not drawn, so the row is not offered,
        and switching the lines off takes the squares with them rather than
        leaving a checkbox ticked for something invisible. */
-    [['#opt-tw-rail', 'twRail'], ['#opt-kr-rail', 'krRail'],
+    [['#opt-air', 'air'], ['#opt-tw-rail', 'twRail'], ['#opt-kr-rail', 'krRail'],
      ['#opt-tw-stations', 'twStations'], ['#opt-kr-stations', 'krStations'],
      ['#opt-train-tools', 'trainTools']]
       .forEach(function (pair) {
@@ -13432,6 +13925,19 @@
         if (box) box.checked = state.trainTools;
         applyState();
         saveState();
+      });
+    }
+
+    /* The air routes: one switch, no zone to work out and no zoom gate. */
+    var btnAir = $('#btn-air');
+    if (btnAir) {
+      btnAir.addEventListener('click', function () {
+        state.air = !state.air;
+        var box = $('#opt-air');
+        if (box) box.checked = state.air;
+        applyState();
+        saveState();
+        scheduleUrl();
       });
     }
 

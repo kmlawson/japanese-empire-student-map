@@ -15315,6 +15315,215 @@ raising again.
 
 ---
 
+## The air routes
+
+Four scheduled services of the empire's own airline network, on a layer of
+their own with a switch in the bar and a row in the Layers pane. Asked for as
+five; the first two are one line, because they were — the Korean service was
+the Tokyo–Fukuoka trunk carried on across the strait.
+
+| route | from |
+|---|---|
+| Tokyo – Osaka – Fukuoka – Ulsan – Keijō – Heijō – Dairen | September 1929 |
+| Sinŭiju – Mukden – Xinjing – Harbin – Tsitsihar | 1932 |
+| Fukuoka – Naha – Taipei | 1935 |
+| Yokohama – Saipan – Palau | April 1939 |
+
+Seventeen of the eighteen stops are the map's own city dots, so a line lands on
+a place the reader can already click. Ulsan is the exception and carries only a
+coordinate, which is why the `id` column is allowed to be blank.
+
+### A leg is a great circle
+
+The same maths the shipping tool uses: interpolate on the sphere, *then*
+project, so a line bends because the map does. The step count follows the leg's
+own length — one point every 60 km — because a fixed count leaves short legs
+over-drawn and long ones faceted. Measured, each leg departs from its own
+straight chord:
+
+| | steps | bulge |
+|---|---:|---:|
+| Yokohama → Saipan | 40 | 0.58% of the chord |
+| Naha → Taihoku | 11 | 0.58% |
+| Harbin → Tsitsihar | 5 | 0.41% |
+
+Modest, and correctly so: these run mostly north–south, where a great circle is
+close to straight on this projection. **The bend of a whole route is its dogleg
+and says nothing about the projection** — measuring end to end gave 24–31% and
+would have "passed" a test of nothing at all, so the check is per leg.
+
+### The map units bug, made again
+
+The stop rings went in as `r: 2.6` on a plain circle — **map units**, which at
+the opening view is about *one screen pixel*, the frame being 2,800 units
+across a thousand-odd. It is the fault `CLAUDE.md` calls this project's
+most-repeated, and it was caught by looking at a screenshot rather than by any
+reasoning. They are in counter-scaled groups now, as every other marker is, and
+the test measures a ring at two zooms and requires the same screen width.
+
+The white halo is a screen width too — `non-scaling-stroke`, 5 px under a 1.7
+px line — so the pair keeps its proportions instead of swelling into a band on
+the way in.
+
+### The 1931 timetable and fares
+
+From 酒井正子「変容する世界の航空界・その4 日本の航空100年」. The card carries the
+summer schedule, June–August 1931, both directions, and the fares; both tables
+offer their own CSV with the source on it, which is this project's rule for any
+table it draws.
+
+**The fare table proves its own reading.** It is printed as a triangle whose
+rows and columns are implied only by position, so a row read one column across
+would be silently wrong. Every one of the twenty-one through fares is the sum
+of the legs it is made of — Tokyo to Dairen is 145 yen and the six legs come to
+145 — and every distance chains the same way. `build_texts.py` asserts it, and
+refuses to build otherwise: setting Tokyo–Dairen to 144 gives *"data/air/fares.csv:
+Tokyo–Dairen is 144 yen, but its legs come to 145. One of them is misread."*
+
+The reading that falls out of it: **two days each way**, with the aeroplane
+laid over at Keijō — down, in at 17:20 and away at 7:30 next morning; up, in at
+16:40 and away at 7:00.
+
+### The layer bit
+
+65536, and only two bits were free in the bitwise field. `POP_BITS` also has a
+65536 and **it is not this one**: that is a multiplier in the high field above
+2³⁰, a different namespace. Said plainly in the code, because the history of
+this field is collisions that broke old links.
+
+### Fourteen more, from the 1938–39 timetable
+
+The winter schedule of October 1938 – March 1939, all under
+**日本航空輸送株式會社線**: the Shanghai and north China services, the two
+Taiwan circuits (down the west coast to the Pescadores, and round the east
+under the mountains), three more Korea and Manchukuo runs, and the domestic
+network — Nagoya, Shikoku, the Tōhoku line to Sapporo, the Japan Sea coast, and
+the San'in.
+
+**Every one of the twenty-seven new stops was already a dot on this map**, so
+no coordinate had to be invented for them.
+
+`opened` and `season` are kept apart because they are different claims: one is
+when a service began, the other is the timetable a route was read off, which
+says it was being flown then and nothing about when it started. The fourteen
+have the second and not the first, and the card says *"in the October 1938 –
+March 1939 timetable"* rather than pretending to a start date.
+
+### Two things the tests caught
+
+**A short leg does not bend, and must not be asked to.** The first check
+demanded that every leg depart from its own chord; Taihoku–Giran is 40 km and
+Kanazawa–Toyama 50, over which a great circle *is* a straight line to any
+precision this map writes. A fixed threshold on the short ones was tried next
+and was no better — it failed a 65-unit hop bending 0.21. What is actually true
+is that the bend grows with the distance, so that is what is asserted: the six
+longest legs bend more than three times as far as the six shortest.
+
+**The dark halo colour broke the one-block rule.** `styles.css` may hold
+exactly one `@media (prefers-color-scheme: dark)` block, because every
+difference between the schemes has to be a custom property inside it — a second
+block is a rule the `data-theme` attribute cannot reach, so forcing the scheme
+would leave it behind. The air halo went in as a second block and `theme.js`
+said so. It is `--air-halo` now, defined once light and in both dark lists.
+
+### The Taiwan times
+
+The colony's three services timed stop by stop: Taihoku–Taichū–Tainan–Makō,
+the eastern circuit round to Tainan, and Fukuoka–Naha–Taihoku. All **毎日**
+daily except the Pescadores leg, which is **偶数日** — even-numbered days.
+
+They are out-and-back services rather than a down journey and an up one, so the
+two pairs of columns are the outward leg and the return of the same aeroplane,
+and the card says so. `frequency` is a column of its own and the table only
+grows it where a route has one: the 1931 trunk's source prints none, and an
+empty column would be a question the source never answered.
+
+**On hover, the line says when it went**, not merely that it existed —
+`<title>` on the group, the idiom the map already uses for a hover string that
+is not one of its own records, since `showTooltip` takes a map record and an
+air service is not one.
+
+Two things were wrong first and both are pinned now. The hover took the *last*
+stop's arrival as the end of the journey, so Taihoku–Makō read "in 11:05" — the
+arrival at Makō — while the aeroplane was back at Taihoku at 2:55; it is the
+first stop's own two times now. And a route where every leg is daily said 毎日
+five times, once per stop; identical frequencies are collapsed to one.
+
+### An airport answers the other half
+
+A line says where it went; a dot has to say what came through it, which is the
+question a reader standing on Fukuoka actually has — and **Fukuoka is on five
+of the nineteen routes**, Keijō on five, Tokyo on four. Until the rings took
+the pointer there was no way to find that out but to press each line in turn.
+
+The rings carry an invisible 11-unit circle under the 3.4 the reader sees,
+because a ring that small is not something a finger can find. A stop is matched
+by its `id` where it has one — the map's own city — and by name where it has
+not, which is Ulsan and nothing else.
+
+### One table per service
+
+A corridor could be flown more than once a day: Tokyo–Nagoya has a morning and
+an afternoon. Merging them into one station list would put two departures in a
+cell and describe a flight that never happened, so `service` names them and the
+card draws one table each.
+
+### And one route the list did not have
+
+The Korea diagram carries **Keijō – Kankō – Seishin**, up the eastern side of
+the peninsula, which was not among the fourteen but has a timetable in the same
+source. It is drawn, making nineteen.
+
+### What is left untranscribed, and why
+
+The diagrams give these plainly and I could not assign them a direction with
+enough confidence to publish:
+
+* **Nagano – Tokyo** — 10:00 / 11:20 one way, 4:00 / 2:40 the other.
+* **Nagano – Niigata** — 11:30 / 0:40 and 2:40 / 1:30.
+* **Osaka – Fukuoka and Tokyo – Osaka in the 1938–39 form** — the corridor
+  carries six or more services, some 毎日 and some 隔日, and one marked
+  郵便貨物 (mail and freight). Sorting which times belong to which service
+  wants a closer look at the sheet than the screenshot allows.
+
+They are left blank rather than guessed. A blank is a call the timetable does
+not time here; a wrong time would be a flight that never flew.
+
+### Pressing a line, and two bugs the first tests could not see
+
+The lines and the rings answer a real press now, which they did not when the
+tests said they did. Two separate faults:
+
+* **The listeners never ran.** `container.setPointerCapture()` on pointerdown
+  retargets the click to the container, so a handler bound to an SVG child is
+  not called on a genuine press — only on a synthetic event dispatched at the
+  element, which is exactly what the tests were doing. They passed against a
+  feature that did nothing on a real server, which is how the author found it
+  and not the suite. The air layer goes through `handleTap` now, first, before
+  `pick()`; the tests use `page.mouse.click(x, y)` and `touchscreen.tap()` so
+  the browser does the hit-testing.
+* **`#atom-hits` climbed above `#air` on every date switch.** Both layers are
+  inserted before `markersGroup`, so their order was whichever had been built
+  most recently — and the hit discs are rebuilt when the reader moves between
+  1930 and 1942. After one switch, a press on the Korea trunk where it crosses
+  the Yellow Sea opened Kwantung: an invisible disc, there because the leased
+  territory is too small to hit, sitting over a line the reader had aimed at.
+  The discs are inserted below `airGroup` now, and a check reads the two
+  indices out of the SVG's children after a switch.
+
+The finding is not "air needs a special case" so much as **two lazily built
+layers cannot both anchor on the same sibling** and expect a stable order.
+
+Measured: 51 checks, 0 failing, 26.5s inside the suite (1,126 checks
+across 33 scripts in 310.5s, four at a time, all passing). The epoch rule is checked by probe —
+1930 draws `korea` alone, 1942 draws all nineteen, and going back to 1930
+returns to the one.
+
+`tools/test/air.js`, 51 checks.
+
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

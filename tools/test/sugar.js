@@ -133,8 +133,19 @@ const st = p => p.evaluate(() => {
   });
   check('over Korea with no railway drawn, the switch is still offered',
     r.shown === true && r.railOn === false);
-  check('and it sits under the reset, before the stations',
-    r.order.join(' ') === 'zoom-in zoom-out zoom-reset btn-rail btn-stations btn-trains',
+  /* The relationships, not the literal sequence. This pinned the whole string
+     and so broke the day a button was added between two it named — which is a
+     test failing on a change rather than on a fault. What has to hold is that
+     the railway switch is under the zoom controls and ahead of the stations
+     that hang off it; the air-route button sits between them, under the track
+     button, which is where it was asked to go. */
+  const at = id => r.order.indexOf(id);
+  check('it sits under the zoom controls', at('btn-rail') > at('zoom-reset'),
+    r.order.join(' '));
+  check('and ahead of the stations that hang off it',
+    at('btn-rail') < at('btn-stations') && at('btn-stations') < at('btn-trains'),
+    r.order.join(' '));
+  check('with the air routes under it', at('btn-air') === at('btn-rail') + 1,
     r.order.join(' '));
   const pressed = await p.evaluate(() => {
     document.querySelector('#btn-rail').click();

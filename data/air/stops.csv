@@ -1,0 +1,68 @@
+route,seq,id,name,lon,lat
+korea,1,tokyo,Tokyo,139.76,35.68
+korea,2,osaka,Osaka,135.5,34.69
+korea,3,fukuoka,Fukuoka,130.4,33.59
+korea,4,,Ulsan (Urusan),129.31,35.54
+korea,5,seoul,Keijō (Seoul),126.98,37.57
+korea,6,pyongyang,Heijō (P’yŏngyang),125.75,39.02
+korea,7,dairen,Dairen (Dalian),121.61,38.91
+manchuria,1,sinuiju,Shingishū (Sinŭiju),124.39,40.1
+manchuria,2,mukden,Mukden (Shenyang),123.43,41.8
+manchuria,3,changchun,Xinjing (Changchun),125.32,43.88
+manchuria,4,harbin,Harbin,126.53,45.8
+manchuria,5,qiqihar,Tsitsihar (Qiqihar),123.92,47.35
+taiwan,1,fukuoka,Fukuoka,130.4,33.59
+taiwan,2,naha,Naha,127.68,26.21
+taiwan,3,taipei,Taihoku (Taipei),121.57,25.03
+nanyo,1,yokohama,Yokohama,139.64,35.44
+nanyo,2,saipan,Saipan,145.75,15.19
+nanyo,3,koror,Koror (Palau),134.48,7.34
+shanghai,1,fukuoka,Fukuoka,130.4,33.59
+shanghai,2,shanghai,Shanghai,121.47,31.23
+shanghai,3,nanjing,Nanking (Nanjing),118.8,32.06
+nagoya-tokyo,1,tokyo,Tokyo,139.76,35.68
+nagoya-tokyo,2,nagoya,Nagoya,136.91,35.18
+nagoya-osaka,1,osaka,Osaka,135.5,34.69
+nagoya-osaka,2,nagoya,Nagoya,136.91,35.18
+shikoku,1,osaka,Osaka,135.5,34.69
+shikoku,2,tokushima,Tokushima,134.55,34.07
+shikoku,3,kochi,Kōchi,133.53,33.56
+taiwan-west,1,taipei,Taihoku (Taipei),121.57,25.03
+taiwan-west,2,taichung,Taichū (Taichung),120.67,24.15
+taiwan-west,3,tainan,Tainan,120.2,22.99
+taiwan-west,4,makung,Makō (Magong),119.57,23.57
+taiwan-east,1,taipei,Taihoku (Taipei),121.57,25.03
+taiwan-east,2,yilan,Giran (Yilan),121.75,24.76
+taiwan-east,3,hualien,Karenkō (Hualien),121.6,23.98
+taiwan-east,4,taitung,Taitō (Taitung),121.14,22.76
+taiwan-east,5,pingtung,Heitō (Pingtung),120.49,22.68
+taiwan-east,6,tainan,Tainan,120.2,22.99
+northchina,1,fukuoka,Fukuoka,130.4,33.59
+northchina,2,qingdao,Tsingtao (Qingdao),120.38,36.07
+northchina,3,tianjin,Tientsin (Tianjin),117.2,39.13
+northchina,4,beijing,Peking (Beijing),116.4,39.9
+keijo-dairen,1,seoul,Keijō (Seoul),126.98,37.57
+keijo-dairen,2,dairen,Dairen (Dalian),121.61,38.91
+keijo-shinkyo,1,seoul,Keijō (Seoul),126.98,37.57
+keijo-shinkyo,2,mukden,Hōten (Mukden),123.43,41.8
+keijo-shinkyo,3,changchun,Shinkyō (Xinjing),125.32,43.88
+fukuoka-keijo,1,fukuoka,Fukuoka,130.4,33.59
+fukuoka-keijo,2,taegu,Taikyū (Taegu),128.6,35.87
+fukuoka-keijo,3,seoul,Keijō (Seoul),126.98,37.57
+tohoku,1,tokyo,Tokyo,139.76,35.68
+tohoku,2,sendai,Sendai,140.87,38.27
+tohoku,3,aomori,Aomori,140.75,40.82
+tohoku,4,sapporo,Sapporo,141.35,43.06
+hokuriku,1,osaka,Osaka,135.5,34.69
+hokuriku,2,kanazawa,Kanazawa,136.66,36.56
+hokuriku,3,toyama,Toyama,137.21,36.7
+hokuriku,4,nagano,Nagano,138.18,36.65
+hokuriku,5,tokyo,Tokyo,139.76,35.68
+niigata,1,nagano,Nagano,138.18,36.65
+niigata,2,niigata,Niigata,139.04,37.92
+sanin,1,osaka,Osaka,135.5,34.69
+sanin,2,tottori,Tottori,134.24,35.5
+sanin,3,matsue,Matsue,133.05,35.47
+keijo-seishin,1,seoul,Keijō (Seoul),126.98,37.57
+keijo-seishin,2,hamhung,Kankō (Hamhŭng),127.54,39.92
+keijo-seishin,3,chongjin,Seishin (Ch’ŏngjin),129.78,41.8

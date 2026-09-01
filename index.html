@@ -7,7 +7,7 @@
 <meta name="description" content="Interactive map for revising the geography of the Japanese Empire: colonies, occupied territories, neighbouring states, cities and battles, 1853-1945.">
 <title>The Japanese Empire</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23f4f1ea'/%3E%3Ccircle cx='16' cy='16' r='8' fill='%239a1813'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=ce41674067">
+<link rel="stylesheet" href="styles.css?v=5cfb157937">
 </head>
 <body>
 
@@ -108,6 +108,23 @@
                 stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
           <path d="M5.2 6.4h13.6M4.7 11.9h14.6M4.2 17.4h15.6" fill="none"
                 stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <!-- The air routes. Under the track button because it is the same kind
+           of thing — a network laid over the ground — and unlike the railways
+           it is offered at every zoom, so it does not come and go. -->
+      <button type="button" id="btn-air" aria-pressed="false"
+              aria-label="Show the air routes" title="The scheduled air routes, 1929–1939">
+        <!-- A high-wing monoplane seen from above, which is what a Fokker
+             F.VII is: one long wing across the top, three engines on it, a
+             slim fuselage under it and a tailplane at the back. Drawn solid
+             rather than stroked — at 21 px a stroked airframe fills in. -->
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="currentColor"
+                d="M11.25 2.4h1.5c.35 0 .62.28.62.62v6.02h7.9c.35 0 .63.28.63.63v1.2c0 .34-.28.62-.63.62h-7.9v6.1l2.6 1.5c.2.12.3.32.3.55v1.1c0 .3-.28.5-.56.42l-3.2-.86-3.2.86a.43.43 0 0 1-.56-.42v-1.1c0-.23.1-.43.3-.55l2.6-1.5v-6.1H3.1a.62.62 0 0 1-.62-.62v-1.2c0-.35.28-.63.62-.63h7.53V3.02c0-.34.28-.62.62-.62Z"/>
+          <!-- the three engines, the mark of the F.VII/3m -->
+          <rect x="5.6" y="7.5" width="2.4" height="1.7" rx="0.5" fill="currentColor"/>
+          <rect x="16" y="7.5" width="2.4" height="1.7" rx="0.5" fill="currentColor"/>
         </svg>
       </button>
       <button type="button" id="btn-stations" hidden aria-pressed="false"
@@ -306,6 +323,10 @@
     <label class="half" title="The colonial railway network of Korea, drawn per date: the network of 1930 on the 1930 map and of 1942 on the December 1942 map. From the NIKH historical GIS."><input type="checkbox" id="opt-kr-rail"> Korea Railways</label>
     <label class="half" id="row-kr-stations" hidden title="A small square at every station on those lines — 636 in 1930 and 918 in 1942. Point at one for its name and the line it stood on: McCune–Reischauer, or with Japanese names on the Japanese reading, with the hanja under it."><input type="checkbox" id="opt-kr-stations"> Show Korea Stations</label>
   </div>
+  <!-- The scheduled air services, which are not railways and are not faded by
+       the zoom: they cross the whole map, and the widest view is where they
+       read best. -->
+  <label class="row" title="The scheduled air services of the Japanese empire, drawn as great-circle courses: five routes between 1929 and 1939. Press a line for what it was and when it opened."><input type="checkbox" id="opt-air"> Air Routes</label>
   <label class="row" title="The 1936 working timetable over the island it ran on: the lines in the colours the timetable gives them, the day's trains moving along them at a rate you choose, and the trains that called at a station in its card."><input type="checkbox" id="opt-train-tools"> Train Tools</label>
   <!-- Said here rather than found out: a reader who ticks this at the
        whole-empire view sees nothing happen, and without a word about why,
@@ -457,7 +478,7 @@
 
   <p>Built with Anthropic's Claude, with <a href="https://muninn.net/">Konrad M. Lawson</a> at the prompt, primarily as a tool for students in his University of St Andrews honours module, <a href="https://github.com/kmlawson/japanese-empire-mo3335/">MO3335</a>.</p>
 
-  <p>Code for the website may be found <a href="https://github.com/kmlawson/japanese-empire-student-map">here</a>.</p>  <p class="version">Version 1 update <span id="jem-version">272</span> · last updated 01 September 2026, 13:15</p>
+  <p>Code for the website may be found <a href="https://github.com/kmlawson/japanese-empire-student-map">here</a>.</p>  <p class="version">Version 1 update <span id="jem-version">273</span> · last updated 01 September 2026, 15:17</p>
 
 <!-- END about -->
 </dialog>
@@ -513,7 +534,7 @@
 <!-- END help -->
 </dialog>
 
-<script src="data.js?v=5ddba59a95"></script>
+<script src="data.js?v=63d9c23797"></script>
 <script src="cities-gaz.js?v=c87d993474"></script>
 <script src="tw-stations.js?v=88605063d8"></script>
 <script src="kr-stations.js?v=bd9f42c9d3"></script>
@@ -523,6 +544,6 @@
      and data.js then hides it behind a fresh one. cities-gaz.js sits here for
      the same reason. -->
 <script src="relief.js?v=a584543962"></script>
-<script src="map.js?v=13c4c2d2e2"></script>
+<script src="map.js?v=31f10a52ce"></script>
 </body>
 </html>

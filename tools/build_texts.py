@@ -149,6 +149,19 @@ def check_every_table_has_unique_keys():
 # itself. `area_km2` never appears — it is there to divide by.
 
 POP = os.path.join(ROOT, "data", "population")
+AIR = os.path.join(ROOT, "data", "air")
+
+
+def read_data_csv(*parts):
+    """A CSV under data/, with the same parser everything else here uses.
+
+    `texts/` has `load()`; this is its opposite number for the files that are
+    data rather than prose. Same reason for existing: a field-split would shift
+    every column after a quoted comma, and these notes have them.
+    """
+    path = os.path.join(ROOT, "data", *parts)
+    with open(path, encoding="utf-8", newline="") as fh:
+        return [dict(r) for r in csv.DictReader(fh)]
 
 
 # The ladder a class break is allowed to land on. A choropleth's breaks are
@@ -732,6 +745,117 @@ def build_data_js():
         rows.extend(group)
         ns.update(notes("territories", "sub-units", name[:-4] + ".md"))
     parts.append("JMAP.PROVINCES = {\n%s\n};" % keyed(rows, ns, snippets))
+
+    # ------------------------------------------------- the air routes
+    # Two files because a route and its stops are two shapes of thing: one row
+    # per service, and one row per place it called at, in order. `id` on a stop
+    # is the map's own city where there is one, so the line lands on the dot
+    # the reader can already click; Ulsan has none and carries only a
+    # coordinate, which is why the column is allowed to be blank.
+    air = read_data_csv("air", "routes.csv")
+    stops = read_data_csv("air", "stops.csv")
+    known = set(r["id"] for r in air)
+    for st in stops:
+        if st["route"] not in known:
+            raise Problem("data/air/stops.csv has a stop on route %r, which is "
+                          "not in routes.csv" % st["route"])
+    times = read_data_csv("air", "timetable.csv")
+    fares = read_data_csv("air", "fares.csv")
+
+    # **The fare table checks itself.** Every through fare in the source is the
+    # sum of the legs it is made of — Tokyo to Dairen is 145 yen and the six
+    # legs come to 145 — and so is every distance. That is what proves the
+    # reading of a printed triangle whose rows and columns are only implied by
+    # position: if a row had been read one column across, nothing would add up.
+    # It is asserted here so that a later correction to one figure cannot
+    # quietly break the agreement.
+    for r in air:
+        legs = [f for f in fares if f["route"] == r["id"]]
+        if not legs:
+            continue
+        order = [st["name"].split(" ")[0] for st in
+                 sorted((x for x in stops if x["route"] == r["id"]),
+                        key=lambda x: int(x["seq"]))]
+        short = {}
+        for f in legs:
+            short[(f["from"], f["to"])] = f
+        seq = [f["from"] for f in legs if (f["from"], f["to"]) in short][:0]
+        # the leg fares, in the order the stops are flown
+        names = []
+        for st in sorted((x for x in stops if x["route"] == r["id"]),
+                         key=lambda x: int(x["seq"])):
+            n = st["name"].split(" (")[0]
+            names.append(n.replace("Heijō", "Heijō"))
+        step = {}
+        for i in range(len(names) - 1):
+            k = (names[i], names[i + 1])
+            if k in short:
+                step[k] = short[k]
+        if len(step) != len(names) - 1:
+            continue                       # a route with no fares of its own
+        for f in legs:
+            a, b = f["from"], f["to"]
+            if a not in names or b not in names:
+                raise Problem("data/air/fares.csv: %s–%s is not on route %r"
+                              % (a, b, r["id"]))
+            i, j = names.index(a), names.index(b)
+            for col, cast in (("yen", int), ("km", int)):
+                if not f.get(col):
+                    continue
+                want = sum(cast(step[(names[k], names[k + 1])][col])
+                           for k in range(i, j))
+                if cast(f[col]) != want:
+                    raise Problem(
+                        "data/air/fares.csv: %s–%s is %s %s, but its legs come "
+                        "to %s. One of them is misread."
+                        % (a, b, f[col], col, want))
+
+    inner = []
+    for r in air:
+        mine = [st for st in stops if st["route"] == r["id"]]
+        mine.sort(key=lambda x: int(x["seq"]))
+        if len(mine) < 2:
+            raise Problem("data/air/routes.csv: %r has fewer than two stops, "
+                          "so there is no line to draw" % r["id"])
+        pts = ",\n".join(
+            "      { %s }" % ", ".join(
+                "%s: %s" % (k, T.js_string(v) if k in ("id", "name") else v)
+                for k, v in (("id", st["id"]), ("name", st["name"]),
+                             ("lon", st["lon"]), ("lat", st["lat"]))
+                if v != "")
+            for st in mine)
+        tt = [t for t in times if t["route"] == r["id"]]
+        tt.sort(key=lambda x: int(x["seq"]))
+        tt_js = ",\n".join(
+            "      { %s }" % ", ".join(
+                "%s: %s" % (k, T.js_string(v))
+                for k, v in (("svc", t.get("service", "")),
+                             ("station", t["station"]), ("da", t["down_arrive"]),
+                             ("dd", t["down_depart"]), ("ua", t["up_arrive"]),
+                             ("ud", t["up_depart"]), ("freq", t.get("frequency", "")))
+                if v != "")
+            for t in tt)
+        fr = [f for f in fares if f["route"] == r["id"]]
+        fr_js = ",\n".join(
+            "      { from: %s, to: %s, yen: %s, km: %s }"
+            % (T.js_string(f["from"]), T.js_string(f["to"]), f["yen"], f["km"])
+            for f in fr)
+        inner.append("  {\n    id: %s, name: %s, operator: %s, opened: %s,\n"
+                     "    season: %s, epochs: %s, source: %s, srcUrl: %s,\n"
+                     "    note: %s,\n    stops: [\n%s\n    ]%s%s\n  }"
+                     % (T.js_string(r["id"]), T.js_string(r["name"]),
+                        T.js_string(r.get("operator") or ""),
+                        T.js_string(r.get("opened") or ""),
+                        T.js_string(r.get("season") or ""),
+                        "[%s]" % ", ".join(
+                            T.js_string(e) for e in
+                            (r.get("epochs") or "e1930 e1942").split()),
+                        T.js_string(r.get("source") or ""),
+                        T.js_string(r.get("source_url") or ""),
+                        T.js_string(r.get("note") or ""), pts,
+                        (",\n    times: [\n%s\n    ]" % tt_js) if tt else "",
+                        (",\n    fares: [\n%s\n    ]" % fr_js) if fr else ""))
+    parts.append("JMAP.AIR = [\n%s\n];" % ",\n".join(inner))
 
     # ---------------------------------------------- the short sources
     # What to say when a reader asks where a shape came from, as against the
