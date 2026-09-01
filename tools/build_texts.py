@@ -728,6 +728,20 @@ def build_data_js():
         rows.extend(group)
         ns.update(notes("territories", "sub-units", name[:-4] + ".md"))
     parts.append("JMAP.PROVINCES = {\n%s\n};" % keyed(rows, ns, snippets))
+
+    # ------------------------------------------------- the island groups
+    # Which prefecture governed a group of islands. It is a *group* table and
+    # not a sub-unit one: these are not units the reader can select, they are
+    # the answer to "whose figures does this island belong in" for the two
+    # hundred rings the fine coastlines draw and no table names one by one.
+    # Only the groups that are wholly one prefecture's are in it; see
+    # docs/tasks.md for the two that straddle a boundary and are left out.
+    igroups = load("territories", "island-groups.csv")
+    check_unique(igroups, "key", "texts/territories/island-groups.csv")
+    parts.append("JMAP.ISLAND_GROUPS = {\n%s\n};"
+                 % "\n".join("  %s: %s," % (T.js_key(r["key"]),
+                                            T.js_string(r["part_of"]))
+                              for r in igroups))
     sub_keys = set(seen)
 
     inner = []

@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '267';
+  var JEM_VERSION = '268';
   var JEM_ASSETS = {"admin.js": "3414697d04", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "58132ef9c2", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
 
   /* Every file this one fetches, with the version on it.
@@ -10133,7 +10133,7 @@
     if (svg) {
       $$('#land [data-prov]', svg).forEach(function (el) {
         var k = el.getAttribute('data-prov');
-        if (!edges[k] && !edges[partOf(k)]) return;
+        if (!edges[k] && !edges[partOf(k)] && !edges[groupPartOf(el)]) return;
         el.classList.add('pop-edged');
         popPainted.push(el);
       });
@@ -10149,16 +10149,59 @@
     popValuesDirty = true;
     if (!any || !svg) { drawPopVoid([]); return; }
     var blanks = [];
+    var litAtom = {};
     $$('#land [data-prov]', svg).forEach(function (el) {
       var k = el.getAttribute('data-prov');
       // an island takes the colour of the province that governed it
-      var c = want[k] || want[partOf(k)];
+      var c = want[k] || want[partOf(k)] || want[groupPartOf(el)];
       if (!c) return;
       el.style.setProperty('--c', c);
       el.classList.add('pop-shaded');
       popPainted.push(el);
+      if (el.parentNode && el.parentNode.id) litAtom[el.parentNode.id] = true;
       if (c === POP_BLANK) blanks.push(el);
     });
+
+    /* What the group table still cannot place.
+     *
+     * Two of the eighteen groups are a window on the map rather than a
+     * jurisdiction, and both windows reach past the prefecture they are named
+     * for. The Shōdoshima box holds Inujima, which is Okayama and not Kagawa,
+     * and the Amakusa box reaches islands off the neighbouring coast in the
+     * same way. Naming one prefecture for either box would be false for part
+     * of it, so both are left out of the table rather than filled in with the
+     * likelier answer — five or six islands drawn honestly blank against one
+     * drawn confidently wrong.
+     *
+     * What is left takes the colour the map already keeps for ground it cannot
+     * put a figure on: the blank. It is the same choice made for the six
+     * Manchurian provinces whose boundaries the layer cannot honestly follow —
+     * where the attribution is not known, white rather than a guess — and it
+     * is the reason this pass is a remainder and not the rule. Filling
+     * `part_of` for one of those islands, or its group once somebody has
+     * checked island by island which side of the line each falls, colours it
+     * properly with no change here.
+     *
+     * The rule is not limited to rings that carry a name — an unnamed ring in
+     * the national colour is the same falsehood as a named one — and it does
+     * not need a size limit: the largest shape in the whole fine layer is
+     * Tsushima, the mainland is not in it, so there is nothing here that
+     * blanking could swallow. */
+    if (any) {
+      $$('#land .atom > path.fine', svg).forEach(function (el) {
+        if (el.classList.contains('pop-shaded')) return;
+        if (!el.parentNode || !litAtom[el.parentNode.id]) return;
+        /* The group first, and here as well as above: a ring with no
+           `data-prov` was never visited by the pass over named units, so an
+           unnamed island of a group the table *does* know — one of Awaji's —
+           would have been blanked with the rest for want of a name. */
+        var c = want[groupPartOf(el)] || POP_BLANK;
+        el.style.setProperty('--c', c);
+        el.classList.add('pop-shaded');
+        popPainted.push(el);
+        if (c === POP_BLANK) blanks.push(el);
+      });
+    }
     drawPopVoid(blanks);
   }
 
@@ -10181,6 +10224,35 @@
   function partOf(key) {
     var rec = key && JMAP.PROVINCES ? JMAP.PROVINCES[key] : null;
     return (rec && rec.part_of) || null;
+  }
+
+  /* And for the islands no table names one by one.
+   *
+   * `part_of` answers for the twenty-eight islands that have a record of their
+   * own. It cannot answer for the other two hundred rings the fine coastlines
+   * draw — Ieshima, Ogijima, Kakeroma, Tokunoshima, 牧島 — which carry a name
+   * and nothing else. What happens to them is one line of the stylesheet, and
+   * it is the whole bug: *the fine coastlines carry no colour of their own,
+   * they are their atom's shapes drawn better.* Their atom is Japan, so on the
+   * density map they came out in **Japan proper's red**, scattered bright
+   * across a blue Inland Sea, reading as though a dozen specks belonged to
+   * some other country.
+   *
+   * They cannot be attributed by geometry, and that was tried first: the
+   * obvious rule — the province whose polygon contains the island — resolves
+   * *nothing*, because the prefecture shapes stop at the mainland coast and do
+   * not carry their offshore islands at all. Sado is outside Niigata's polygon
+   * and Ogijima outside Kagawa's; 0 of 34 resolved.
+   *
+   * What does answer is the group. Every one of these rings is stamped with
+   * the archipelago it belongs to, and an archipelago has a prefecture: the
+   * Oki Islands are Shimane, the Amami Islands Kagoshima, the Yaeyamas
+   * Okinawa. That is a fact about the islands rather than a guess from their
+   * position, and it lives in `texts/territories/island-groups.csv` where it
+   * can be read and corrected. */
+  function groupPartOf(el) {
+    var g = el && el.getAttribute ? el.getAttribute('data-group') : null;
+    return (g && JMAP.ISLAND_GROUPS && JMAP.ISLAND_GROUPS[g]) || null;
   }
 
   /* ------------------------------------- the units with no figure ----- */

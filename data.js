@@ -7298,6 +7298,25 @@ JMAP.PROVINCES = {
   },
 };
 
+JMAP.ISLAND_GROUPS = {
+  'Izu Islands': 'Tokyo',
+  Sado: 'Niigata',
+  Tsushima: 'Nagasaki',
+  Iki: 'Nagasaki',
+  'Oki Islands': 'Shimane',
+  'Rishiri and Rebun': 'Hokkaido',
+  Okushiri: 'Hokkaido',
+  'Awaji Island': 'Hyogo',
+  'Ōsumi Islands': 'Kagoshima',
+  'Tokara Islands': 'Kagoshima',
+  'Amami Islands': 'Kagoshima',
+  'Okinawa Islands': 'Okinawa',
+  'Daitō Islands': 'Okinawa',
+  'Miyako Islands': 'Okinawa',
+  'Yaeyama Islands': 'Okinawa',
+  'Senkaku Islands': 'Okinawa',
+};
+
 /* One block per epoch, and the generator holds it to that: this object
    carried two `e1942` keys for a long time and the later of them silently
    discarded the earlier, so eleven overrides never took effect at all. */

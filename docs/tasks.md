@@ -14723,6 +14723,89 @@ Stage three retires `sizePinnedMarkers` and the browse dots.
 
 ---
 
+## The islands take their prefecture's colour, not their country's
+
+Reported against the population density map with a picture: islands sitting
+apart from the prefectures they belong to. `part_of` fixed the twenty-eight
+that have a record of their own. This is the rest of them, and there are about
+two hundred.
+
+### What was actually wrong
+
+One line of the stylesheet, and it is the whole bug: *the fine coastlines carry
+no colour of their own — they are their atom's shapes, drawn better.* Their
+atom is Japan. So on a map that shades Japan's prefectures, every island the
+fine layer draws and no table names took **Japan proper's red**, and the Inland
+Sea came out with a dozen bright specks in it, reading as though they belonged
+to another country. Not white specks — red ones. The screenshot is what settled
+it; three passes of reasoning about the wide view had it wrong.
+
+### Two attempts, and why the first was worse than useless
+
+**Containment failed, and could never have worked.** The obvious rule is: the
+island belongs to the province whose polygon contains it. It resolved **0 of
+34**. The prefecture shapes stop at the mainland coast and do not carry their
+offshore islands at all — Sado is outside Niigata's polygon, Ogijima outside
+Kagawa's — so `isPointInFill` answers no for every island on the map. The code
+was written, measured, and taken out again; it had been about to ship as a fix
+that fixed nothing, which is worse than no fix, because the next person would
+have believed it.
+
+An earlier reading — that the wide view was already correct — was a one-pixel
+artefact: `elementFromPoint` at Sado's coordinates returned Niigata because at
+that scale Sado is a pixel and a half and the stroke covers it.
+
+**The group answers.** Every one of these rings is stamped with the archipelago
+it belongs to, and an archipelago has a prefecture: the Oki Islands are
+Shimane, the Amami Islands Kagoshima, the Yaeyamas Okinawa. That is a fact
+about the islands rather than a guess from their position, and it now lives in
+`texts/territories/island-groups.csv` — sixteen groups, eight prefectures —
+where it can be read and corrected.
+
+| | before | after |
+|---|---|---|
+| Ryukyus and Amami, 126 islands | Japan proper's red | Okinawa's band and Kagoshima's, split at the prefecture line |
+| Inland Sea and the northern islands | red specks | their prefecture's colour |
+| Shōdoshima group, 6 islands | red | blank |
+
+### Two groups are deliberately left blank
+
+`FINE_GROUPS` are windows on the map, not jurisdictions, and two of the eighteen
+reach past the prefecture they are named for. The Shōdoshima box holds
+**Inujima, which is Okayama and not Kagawa**; the Amakusa box reaches islands
+off the neighbouring coast the same way. Naming one prefecture for either box
+would be false for part of it, so both are out of the table and their islands
+take the blank the map already keeps for ground it cannot put a figure on —
+the same choice made for the six Manchurian provinces. Five or six islands
+drawn honestly blank against one drawn confidently wrong.
+
+Filling `part_of` for any of those islands, or the group once somebody has
+checked island by island which side of the line each falls, colours them with
+no change to the code.
+
+### Measured
+
+* The Ryukyu chain: **126 of 126** shaded, in two bands, on the Japan density
+  layer at 26.3 N.
+* The Inland Sea at 34.4 N: no red left; the only white is the six of the
+  Shōdoshima group.
+* Korea and Taiwan: **no fine paths in those atoms at all**, checked by zooming
+  to Cheju and to the Penghu Islands with each density layer on. Nothing there
+  changed, which is why nothing there could regress.
+* An unnamed ring of a *known* group was blanked at first — the group colour
+  was being applied only in the pass over named units, and a ring with no
+  `data-prov` is never visited by it. Fixed, and the remainder pass tries the
+  group before the blank.
+
+`tools/test/islands.js`, 17 checks. It tests the **hue**, not the class: a
+reddish island inside a shaded atom is the fault whatever it is called and
+however it got there. It also requires the Ryukyus to come out in *two* bands,
+because a rule that painted the whole chain one colour would look right and be
+wrong.
+
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible
