@@ -46,10 +46,34 @@
   };
   P.yTop = P.R * Math.log(Math.tan(Math.PI / 4 + P.latMax * Math.PI / 360));
 
+  /* The map's own projection where it will hand it over, and the Mercator
+     worked out from `#proj` where it will not.
+     
+     The fallback is what this always did, and it is only right on the map's
+     own projection: switch to Albers or Lambert and every coordinate a tool
+     reported was the one the point would have had in Mercator. `map.js`
+     exposes both directions now — see `JMAP_GEO` there — so a tool gets the
+     projection the reader is actually looking at. */
   function toLonLat(x, y) {
+    if (window.JMAP_GEO && window.JMAP_GEO.unproject) {
+      var q = window.JMAP_GEO.unproject(x, y);
+      if (q && isFinite(q.lon) && isFinite(q.lat)) return q;
+    }
     return {
       lon: P.lonMin + x / P.pxPerDeg,
       lat: (Math.atan(Math.exp((P.yTop - y) / P.R)) - Math.PI / 4) * 360 / Math.PI,
+    };
+  }
+
+  function fromLonLat(lon, lat) {
+    if (window.JMAP_GEO && window.JMAP_GEO.project) {
+      var q = window.JMAP_GEO.project(lon, lat);
+      if (q && isFinite(q.x) && isFinite(q.y)) return q;
+    }
+    var rad = lat * Math.PI / 180;
+    return {
+      x: (lon - P.lonMin) * P.pxPerDeg,
+      y: P.yTop - P.R * Math.log(Math.tan(Math.PI / 4 + rad / 2)),
     };
   }
 
@@ -216,6 +240,7 @@
     svg: svg,
     container: container,
     toLonLat: toLonLat,
+    fromLonLat: fromLonLat,
     clientToUser: clientToUser,
     unitsPerPixel: unitsPerPixel,
     setting: setting,
@@ -862,9 +887,69 @@
         var d = Math.hypot(b.x - a.x, b.y - a.y);
         return Math.pow(d, ALPHA) || 1e-6;
       }
+
+      /* **A leg is a great circle, and it bends because the projection bends
+       * it.** Interpolated straight in projected units it was a straight line
+       * on the screen, which is a course no ship ever steered and which
+       * changes meaning with every projection the map offers: the shortest way
+       * from Yokohama to Seattle runs up past the Aleutians and looks like an
+       * arc on Mercator and nearly a straight line on the azimuthal.
+       *
+       * So the span is walked on the sphere — spherical interpolation between
+       * the two ends, which is the great circle — and every point on it is
+       * projected. What is drawn then follows whatever projection is on, with
+       * no special case for any of them.
+       *
+       * One sample every two degrees of arc, between two and sixty-four of
+       * them. Two degrees is about 220 km, which at any zoom this map reaches
+       * is well under a pixel of departure from the true curve. */
+      function gcPoints(a, b) {
+        var d2r = Math.PI / 180;
+        var la1 = a.lat * d2r, lo1 = a.lon * d2r;
+        var la2 = b.lat * d2r, lo2 = b.lon * d2r;
+        var v1 = [Math.cos(la1) * Math.cos(lo1), Math.cos(la1) * Math.sin(lo1), Math.sin(la1)];
+        var v2 = [Math.cos(la2) * Math.cos(lo2), Math.cos(la2) * Math.sin(lo2), Math.sin(la2)];
+        var dot = Math.max(-1, Math.min(1, v1[0] * v2[0] + v1[1] * v2[1] + v1[2] * v2[2]));
+        var w = Math.acos(dot);
+        var out = [];
+        var n = Math.max(2, Math.min(64, Math.ceil(w / d2r / 2)));
+        /* Two ports on top of each other, or antipodal: there is no unique
+           great circle through the second and no distance in the first, so the
+           straight line between them is the honest answer. */
+        if (!isFinite(w) || w < 1e-9 || Math.abs(Math.PI - w) < 1e-9) return out;
+        var sw = Math.sin(w);
+        for (var i = 1; i < n; i++) {
+          var t = i / n;
+          var s1 = Math.sin((1 - t) * w) / sw, s2 = Math.sin(t * w) / sw;
+          var x = s1 * v1[0] + s2 * v2[0];
+          var y = s1 * v1[1] + s2 * v2[1];
+          var z = s1 * v1[2] + s2 * v2[2];
+          var lat = Math.atan2(z, Math.hypot(x, y)) / d2r;
+          var lon = Math.atan2(y, x) / d2r;
+          var u = api.fromLonLat(lon, lat);
+          out.push({ x: u.x, y: u.y });
+        }
+        return out;
+      }
+
+      /* The nodes with the great circle between each pair filled in. The
+         spline below runs through all of it, so it hugs the true course
+         between the ports and is still smooth where a bend turns it. */
+      function coursepoints() {
+        var out = [];
+        for (var i = 0; i < nodes.length; i++) {
+          out.push({ x: nodes[i].x, y: nodes[i].y });
+          if (i < nodes.length - 1) {
+            var mid = gcPoints(nodes[i], nodes[i + 1]);
+            for (var j = 0; j < mid.length; j++) out.push(mid[j]);
+          }
+        }
+        return out;
+      }
+
       function pathD() {
         if (nodes.length < 2) return '';
-        var p = nodes, n = p.length;
+        var p = coursepoints(), n = p.length;
         var d = 'M' + p[0].x.toFixed(2) + ' ' + p[0].y.toFixed(2);
         for (var i = 0; i < n - 1; i++) {
           var p0 = p[i > 0 ? i - 1 : 0], p1 = p[i], p2 = p[i + 1];

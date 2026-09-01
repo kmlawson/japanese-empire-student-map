@@ -136,10 +136,17 @@ const onCourse = (p, frac) => p.evaluate(f => {
   await tap(p, nag.x, nag.y);
   s = await state(p);
   check('two stops', s.stops === 2 && /2 stops/.test(s.read), s.read);
-  /* With no bends the leg is the straight line between the ports: one cubic,
-     and the spline's controls collapse onto the chord. */
-  check('and one leg, drawn as a single curve command',
-    (s.d.match(/C/g) || []).length === 1, s.d.slice(0, 60));
+  /* A leg is a great circle walked on the sphere and projected, so it is many
+     short cubics rather than one span — the count is what says it is an arc
+     and not a chord. */
+  /* Kōbe to Nagasaki is five and a half degrees of arc, so at one sample every
+     two degrees it is three spans — few, because the leg is short and the
+     sampling is proportional to it. What matters is that it is more than the
+     one span a chord would be; the four-thousand-mile leg checked at the foot
+     of this file comes out at twenty-four. */
+  const legCurves = (s.d.match(/C/g) || []).length;
+  check('and the leg is drawn as a sampled arc, not a chord',
+    legCurves > 1, String(legCurves));
   /* The tool steps aside after a leg exists, so a stray tap on the sea does
      not add a port the reader did not mean. */
   check('and it stops picking, so the next tap is not a third port',
@@ -150,8 +157,9 @@ const onCourse = (p, frac) => p.evaluate(f => {
   await tap(p, mid.x, mid.y, true);
   s = await state(p);
   check('a bend goes in where the line was pressed', s.bends === 1 && /1 bend/.test(s.read), s.read);
-  check('and the course is two curves now', (s.d.match(/C/g) || []).length === 2,
-    s.d.slice(0, 80));
+  check('and the course is longer for it, the bend adding a span of its own',
+    (s.d.match(/C/g) || []).length > legCurves,
+    (s.d.match(/C/g) || []).length + ' vs ' + legCurves);
   check('the stops are untouched', s.stops === 2, String(s.stops));
 
   console.log('\n— and the bend can be dragged —');
@@ -237,6 +245,96 @@ const onCourse = (p, frac) => p.evaluate(f => {
     JSON.stringify(out.course));
 
   check('no page errors', !errs.length, errs.join(' | '));
+  await p.close();
+
+  console.log('\n— a leg is a great circle, so it bends as the projection bends —');
+  /* Interpolated straight in projected units a leg was a straight line on the
+     screen, which is a course no ship steered and which means something
+     different in every projection the map offers. The span is walked on the
+     sphere now and every point on it projected, so what is drawn follows
+     whatever projection is on with no special case for any of them.
+     
+     Measured as the greatest departure from the straight line between the two
+     ends, in screen pixels: zero for a straight line, and a different number
+     in each projection for a great circle. */
+  const BASE = 32 | 64;                      // the opening state: extent, rivers
+  const code = bits => (bits >>> 0).toString(36);
+  const bow = pg => pg.evaluate(() => {
+    const el = document.querySelector('#jmap-route .leg');
+    const d = el.getAttribute('d') || '';
+    if (!d) return null;
+    const L = el.getTotalLength(), S = el.ownerSVGElement;
+    const at = f => {
+      const q = el.getPointAtLength(L * f);
+      const s = S.createSVGPoint(); s.x = q.x; s.y = q.y;
+      const c = s.matrixTransform(el.getScreenCTM());
+      return { x: c.x, y: c.y };
+    };
+    const a = at(0), b2 = at(1);
+    let best = 0;
+    for (let i = 1; i < 200; i++) {
+      const q = at(i / 200);
+      const den = Math.pow(b2.x - a.x, 2) + Math.pow(b2.y - a.y, 2) || 1;
+      const t = ((q.x - a.x) * (b2.x - a.x) + (q.y - a.y) * (b2.y - a.y)) / den;
+      best = Math.max(best, Math.hypot(a.x + (b2.x - a.x) * t - q.x,
+                                       a.y + (b2.y - a.y) * t - q.y));
+    }
+    return { bow: Math.round(best * 10) / 10, cubics: (d.match(/C/g) || []).length };
+  });
+  const seen = {};
+  for (const [bits, want, label] of [[BASE, 'mercator', 'Web Mercator'],
+                                     [BASE | (1 << 15), 'albers', 'Albers conic'],
+                                     [BASE | (2 << 15), 'laea', 'Lambert azimuthal']]) {
+    const q = await b.newPage();
+    await q.setViewport({ width: 1500, height: 950 });
+    await q.evaluateOnNewDocument(() => {
+      try { localStorage.setItem('jmap-admin', '1'); } catch (e) { /* private */ }
+    });
+    await q.goto('http://localhost:8123/index.html?layers=' + code(bits),
+                 { waitUntil: 'networkidle0' });
+    await sleep(3800);
+    const mode = await q.evaluate(() =>
+      window.JMAP_GEO ? window.JMAP_GEO.mode() : null);
+    check(label + ': the map is in it, and admin.js can read that',
+      mode === want, String(mode));
+    await pressBtn(q, 'Add route');
+    await sleep(1400);
+    const vis = id => q.evaluate(id => {
+      for (const e of document.querySelectorAll(
+        '#markers g.site[data-cat="city"], #gaz g[data-id]')) {
+        if ((e.getAttribute('data-id') || '').split('_').pop() !== id) continue;
+        const r = e.getBoundingClientRect();
+        if (r.width && r.left > 0 && r.top > 60 && r.right < 1490 && r.bottom < 940) {
+          return { x: Math.round(r.left + r.width / 2),
+                   y: Math.round(r.top + r.height / 2) };
+        }
+      }
+      return null;
+    }, id);
+    const t1 = await vis('tokyo'), t2 = await vis('singapore');
+    if (t1 && t2) {
+      await tap(q, t1.x, t1.y);
+      await tap(q, t2.x, t2.y);
+      const m = await bow(q);
+      seen[want] = m;
+      /* Tōkyō to Singapore is four thousand miles. A straight line would be
+         zero; anything a reader would call bent is several pixels. */
+      check(label + ': the course leaves the straight line', m && m.bow > 2,
+        JSON.stringify(m));
+      check(label + ': and is drawn as the sampled arc, not one span',
+        m && m.cubics > 8, JSON.stringify(m));
+    } else {
+      check(label + ': both ports are on screen', false, JSON.stringify([t1, t2]));
+    }
+    await q.close();
+  }
+  /* The point of doing it on the sphere: the same two ports, a different
+     picture, because the projection is what decides how a great circle looks.
+     Mercator throws it much further off the chord than the azimuthal does. */
+  check('and the same two ports bow differently in different projections',
+    seen.mercator && seen.laea && Math.abs(seen.mercator.bow - seen.laea.bow) > 1,
+    JSON.stringify(seen));
+
   await b.close();
   console.log('\n' + pass + ' passed, ' + fail + ' failed\n');
   process.exit(fail ? 1 : 0);

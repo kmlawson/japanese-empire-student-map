@@ -3604,14 +3604,77 @@ def add_frontier_seam(groups):
     korea = groups.get("korea")
     if not korea:
         return seams
-    # Both of them: `manchuria` is the ENP sheet's and carries the 1930 map,
-    # `manchukuo` is the traced 1935 sheet and carries 1942. They are different
-    # lines along the same rivers and each needs its own strip, or whichever is
-    # drawn on the epoch you are looking at has a bare gap beside Korea.
-    for _mkey in ("manchuria", "manchukuo"):
+    if os.environ.get("JEM_SEAM_TRACE"):
+        # Korea's own vertices that sit on a shared boundary with Manchuria but
+        # are *not* within FRONTIER_RADIUS of the trace: that is precisely the
+        # stretch the seam never hears about, and it names itself.
+        _m = groups.get("manchuria") or []
+        _mv = [q for r in _m for q in r]
+        _miss = []
+        for _r in korea:
+            for _p in _r:
+                _d = min(math.hypot(_p[0] - q[0], _p[1] - q[1]) for q in _mv)
+                if _d > 0.03:
+                    continue
+                _near = min(_seg_dist(_p, YALU_TUMEN[j], YALU_TUMEN[j + 1])
+                            for j in range(len(YALU_TUMEN) - 1))
+                if _near > FRONTIER_RADIUS:
+                    _miss.append((_p[0], _p[1], _near))
+        _miss.sort()
+        sys.stderr.write("  %d Korean vertices on the Manchurian boundary are "
+                         "outside the corridor\n" % len(_miss))
+        for _i in range(0, len(_miss), max(1, len(_miss) // 24)):
+            sys.stderr.write("    %7.3f %7.3f   %.2f deg off the trace\n" % _miss[_i])
+    if os.environ.get("JEM_SEAM_PROBE"):
+        # which group holds the ground the strip has to reach, at the stretch
+        # that is still bare. Set the variable and the build says.
+        for _lon, _lat, _lab in ((127.50, 41.90, "N of Paektu"),
+                                 (127.90, 41.95, "on the sliver"),
+                                 (126.20, 41.20, "N of the middle Yalu"),
+                                 (129.90, 42.90, "N of the Tumen")):
+            _in = [k for k, v in groups.items()
+                   if v and any(point_in_ring((_lon, _lat), r) for r in v)]
+            sys.stderr.write("  probe %-22s %s\n" % (_lab, ", ".join(_in) or "NOTHING"))
+    # `manchuria` is the ENP sheet's and carries the 1930 map, `manchukuo` is
+    # the traced 1935 sheet and carries 1942: different lines along the same
+    # rivers, each needing its own strip.
+    #
+    # `china` is here and yields **nothing**, which is worth leaving in place
+    # with this note rather than quietly deleting.
+    #
+    # THE GAP IS STILL OPEN. A pale blue sliver — the sea, showing between
+    # Korea's red and its neighbour's yellow — runs the length of the frontier
+    # on the Paektu stretch, on both maps. Measured by flooding a screenshot
+    # from its border and counting the sea-coloured patches that turn out to be
+    # enclosed by land: **91.7 km² in that frame on the 1930 map and 104.6 on
+    # the 1942 one**, against 7.9 along the Tumen and 0.5 along the middle
+    # Yalu. Reported on 01-09 with a picture.
+    #
+    # The first guess was that the far bank there is drawn as the Republic and
+    # so had no strip built against it. Adding `china` to this loop produced
+    # nought rings and did not move a pixel of the SVG, so that is not it: the
+    # ground the strip has to reach is not in `groups["china"]` at this point
+    # in the build. What remains to be found is which key does hold it, or
+    # whether the strip is being built and then shrinking to nothing along that
+    # stretch because none of `outside_korea`, `inside_manchuria` and
+    # `near_corridor` can be satisfied together there.
+    for _mkey in ("manchuria", "manchukuo", "china"):
         _seams = _korea_seam(groups, korea, _mkey)
         for k, v in _seams.items():
             seams[k].extend(v)
+        # Said out loud, per neighbour, because a key that yields nothing looks
+        # exactly like a key that is doing its job unless the count is printed.
+        # This is what showed that adding `china` above was a no-op.
+        _n = sum(len(v) for v in _seams.values())
+        sys.stderr.write("korea seam vs %s: %d ring%s\n"
+                         % (_mkey, _n, "" if _n == 1 else "s"))
+        if os.environ.get("JEM_SEAM_PROBE"):
+            for _k, _v in _seams.items():
+                for _r in _v:
+                    _lo = min(p2[0] for p2 in _r); _hi = max(p2[0] for p2 in _r)
+                    _la = min(p2[1] for p2 in _r); _lb = max(p2[1] for p2 in _r)
+                    sys.stderr.write("    %-10s %6.2f–%6.2fE  %5.2f–%5.2fN  %d pts\n"
+                                     % (_k, _lo, _hi, _la, _lb, len(_r)))
     if not seams:
         sys.stderr.write("note: no Korea frontier found, seam skipped\n")
     return seams

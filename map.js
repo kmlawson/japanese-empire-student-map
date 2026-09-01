@@ -13,8 +13,8 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '261';
-  var JEM_ASSETS = {"admin.js": "73a2b1ec1e", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "3881d33c99", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
+  var JEM_VERSION = '262';
+  var JEM_ASSETS = {"admin.js": "3414697d04", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "3881d33c99", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
 
   /* Every file this one fetches, with the version on it.
 
@@ -12795,6 +12795,22 @@
     el.textContent = v ? '1.' + v : '';
     syncBarExtras();
   }
+
+  /* The projection, for anything outside this file that needs it.
+   *
+   * `admin.js` had written its own Mercator inverse off the `#proj` metadata,
+   * which is right on the map's own projection and quietly wrong on the other
+   * two — a polygon drawn in Albers came out with the coordinates it would
+   * have had in Mercator. And it had no forward at all, which the shipping
+   * routes need: a course between two ports is a great circle, and drawing one
+   * means projecting a string of points along it.
+   *
+   * Exposed rather than duplicated, so there is one projection on the page. */
+  window.JMAP_GEO = {
+    project: function (lon, lat) { return project(lon, lat); },
+    unproject: function (x, y) { return unproject(x, y); },
+    mode: function () { return projMode; },
+  };
 
   function annWire() {
     stampVersion();

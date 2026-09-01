@@ -14397,6 +14397,88 @@ the width goes, being the least important thing on it.
 
 ---
 
+## A leg is a great circle now, and the Korea seam is measured but not closed
+
+### The course follows the projection
+
+A leg between two ports was interpolated in *projected* units, so it was a
+straight line on the screen. That is a course no ship steered, and worse, it is
+a different claim in every projection the map offers: the shortest way from
+Yokohama to Seattle runs past the Aleutians and looks like an arc on Mercator
+and nearly a straight line on the azimuthal.
+
+The span is walked on the sphere now — spherical interpolation between the two
+ends, which is the great circle — and every point on it is projected, so what
+is drawn follows whatever projection is on with no special case for any of
+them. One sample every two degrees of arc, between two and sixty-four of them;
+two degrees is about 220 km, which is well under a pixel of departure at any
+zoom this map reaches. Two ports on top of each other or antipodal fall back to
+the straight line, there being no unique great circle through the second and no
+distance in the first.
+
+Measured on Tōkyō–Singapore, as the greatest departure from the chord:
+**9.2 px in Web Mercator and 3.5 px in the Lambert azimuthal**, from the same
+two ports. A short leg gets few samples and a long one many — Kōbe to Nagasaki
+is three spans, Tōkyō to Singapore twenty-four — which is the sampling being
+proportional to the arc rather than a fixed count.
+
+**And `admin.js` stopped writing its own projection.** It had a Mercator
+inverse worked out from the `#proj` metadata, which is right on the map's own
+projection and quietly wrong on the other two: a polygon drawn in Albers came
+out with the coordinates it would have had in Mercator. `map.js` exposes
+`JMAP_GEO` — forward, inverse and which mode — and every tool takes it, so
+there is one projection on the page. The old arithmetic stays as a fallback for
+a page where the script has not loaded.
+
+### The Korea seam: found, measured, still open
+
+Reported with a picture: white slivers along the frontier where Korea meets
+China and Manchuria. It is real, and this is what it is.
+
+Flooding a screenshot from its border and counting the sea-coloured patches
+that turn out to be **enclosed by land**, the frontier carries:
+
+| stretch | 1930 | Dec 1942 |
+|---|---:|---:|
+| Paektu | **91.7 km²** | **104.6 km²** |
+| Tumen | 7.9 km² | 7.9 km² |
+| middle Yalu | 0.5 km² | 0.5 km² |
+| Yalu mouth | ~0 | ~0 |
+
+So it is one stretch, and it is the Paektu one.
+
+**Three guesses, all wrong, and each disproved rather than argued with.** They
+are written down because the next person will have the same three.
+
+*That the far bank is drawn as the Republic and never had a strip built against
+it*, `_korea_seams` knowing only `manchuria` and `manchukuo`. No: adding
+`china` to the loop yields nought rings and does not move a pixel of the SVG.
+
+*That the ground there belongs to some third key.* No: `JEM_SEAM_PROBE=1`
+prints which group holds a given point, and north of the bare stretch it is
+`manchuria, manchukuo` — the neighbour the seam already runs against.
+
+*That the corridor trace is too coarse through the Paektu bulge, so Korea's
+vertices fall outside `FRONTIER_RADIUS` and never get marked.* No:
+`JEM_SEAM_TRACE=1` walks Korea's own vertices, keeps those with a Manchurian
+vertex within 3 km, and reports any that the corridor misses. There are
+**two**, both at the Tumen mouth, and neither is at Paektu.
+
+What is known: the seam produces twelve rings against each of `manchuria` and
+`manchukuo`, and their spans leave a hole — one ring reaches 127.18E, the next
+begins at 127.89E, and nothing covers between. So the strip is not being built
+across that stretch even though the neighbour is right and the corridor
+reaches it. The remaining question is which of `outside_korea`,
+`inside_manchuria` and `near_corridor` fails vertex by vertex along it, or
+whether the run is broken before it gets that far by the `len(run) >= 4` floor.
+
+Both probes are left in, behind environment variables, because each of them
+disproved a plausible guess in a single run and the next attempt will want
+them.
+
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible
