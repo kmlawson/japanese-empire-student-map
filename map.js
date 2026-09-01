@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '270';
+  var JEM_VERSION = '271';
   var JEM_ASSETS = {"admin.js": "3414697d04", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "58132ef9c2", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
 
   /* Every file this one fetches, with the version on it.
@@ -8380,12 +8380,69 @@
     return b;
   }
 
+  /* **An atom is not one shape of one kind, and assuming it was is why half
+     the map offered nothing.**
+
+     Four arrangements, all of them on the map at once:
+
+       * `<path class="atom" id="a-india">` — the whole country in one `d`, and
+         76 KB of it. Most atoms are this, and the first version of this menu
+         looked for paths *inside* it, which a path does not have. India,
+         Nepal, Karafuto, Tuva, Weihaiwei and the mandates all came up empty.
+       * `<g class="atom" id="a-goa">` with child paths — Goa, Pondicherry, and
+         the Nanyō with twenty paths and seventy-four islet circles.
+       * a hit circle in `#atom-hits`, which is what the pointer actually meets
+         over a place too small to click. It carries `data-atom`, and that is
+         the only thread back to the shape.
+       * `class="atom deferred"` and empty — Japan, until the Administrative
+         sheet grafts. What is drawn meanwhile is `path.whole[data-for=…]` in
+         the base sheet.
+
+     `atomShapes` answers for all four, and returns nothing only when there is
+     genuinely nothing drawn. */
+  function atomKeyOf(target) {
+    if (!target || !target.closest) return '';
+    var hit = target.closest('[data-atom]');
+    if (hit) return hit.getAttribute('data-atom') || '';
+    var a = target.closest('.atom');
+    if (a) return String(a.id || '').replace(/^a-/, '');
+    /* The deferred outline itself. With Administrative off, Japan's atom is an
+       empty `g` and what the pointer meets is the base sheet's `path.whole`,
+       which carries neither the class nor the id — only `data-for`. Without
+       this the largest country on the map offered nothing. */
+    var w = target.closest('path.whole[data-for], [data-for]');
+    return w ? (w.getAttribute('data-for') || '') : '';
+  }
+
+  function drawnPaths(root) {
+    return $$('path', root).filter(function (n) {
+      return n.getAttribute('d') && !n.classList.contains('superseded')
+        && !n.classList.contains('fine');
+    });
+  }
+
+  function atomShapes(key) {
+    if (!key) return [];
+    var host = document.getElementById('a-' + key);
+    if (host) {
+      if (host.tagName === 'path') return host.getAttribute('d') ? [host] : [];
+      var inside = drawnPaths(host);
+      if (inside.length) return inside;
+    }
+    /* Deferred, so what is drawn is the base sheet's own outline — which
+       lives in `#backings` and not in `#land`, so this asks the sheet rather
+       than one group of it. Japan with Administrative off is the case: the
+       atom is empty and the country is plainly on the map. */
+    return $$('path.whole[data-for="' + cssEsc(key) + '"]', svg)
+      .filter(function (n) { return n.getAttribute('d'); });
+  }
+
   function openMenu(x, y, target) {
     closeMenu();
     var el = target && target.closest ? target.closest('#land [data-prov]') : null;
-    var atomEl = target && target.closest ? target.closest('.atom') : null;
-    if (!el && !atomEl) return false;
-    var atomKey = atomEl ? String(atomEl.id || '').replace(/^a-/, '') : '';
+    var atomKey = atomKeyOf(target);
+    var atomEl = atomKey ? document.getElementById('a-' + atomKey) : null;
+    if (!el && !atomKey) return false;
     var name = el ? (el.getAttribute('data-prov') || '') : '';
     var group = el ? el.getAttribute('data-group') : '';
 
@@ -8395,7 +8452,7 @@
 
     var head = document.createElement('p');
     head.className = 'menu-head';
-    head.textContent = name || atomName(atomKey) || atomKey;
+    head.textContent = name || atomName(atomKey) || atomKey || 'This shape';
     menuEl.appendChild(head);
 
     /* Unit, then group, then layer — narrowest first, because the reader
@@ -8414,22 +8471,42 @@
           function () { saveGeoJSON(kin, group); }));
       }
     }
-    if (atomEl) {
-      var layer = $$('[data-prov]', atomEl).filter(function (n) {
-        return n.tagName === 'path';
-      });
+    if (atomKey) {
       var label = atomName(atomKey) || atomKey;
+      /* The divisions, where the map is drawing them, and the country itself
+         either way. Both are offered when both exist: a reader wanting British
+         India whole should not have to take it province by province, and a
+         reader wanting the provinces should not have to cut them out of one
+         shape. */
+      var layer = atomEl ? $$('path[data-prov]:not(.fine)', atomEl) : [];
       if (layer.length > 1) {
         menuEl.appendChild(menuItem('Download GeoJSON — all of ' + label
           + ' (' + layer.length + ')',
           function () { saveGeoJSON(layer, label + '-units'); }));
-      } else {
-        var whole = $$('path', atomEl).filter(function (n) {
-          return !n.classList.contains('superseded') && n.getAttribute('d');
+      }
+      var whole = atomShapes(atomKey);
+      if (whole.length && !(layer.length > 1 && whole.length === layer.length)) {
+        menuEl.appendChild(menuItem('Download GeoJSON — ' + label
+          + (whole.length > 1 ? ' (' + whole.length + ' shapes)' : ''),
+          function () { saveGeoJSON(whole, label); }));
+      }
+
+      /* And the country the map draws it as part of. Only where that is more
+         than this atom: offering "all of Japan proper" beside Japan would be
+         the same file twice. */
+      var terr = territoryOf(atomKey);
+      var cat = terr && terr.cat;
+      var kin = cat ? catAtoms(cat) : [];
+      if (kin.length > 1) {
+        var big = [];
+        kin.forEach(function (k) {
+          atomShapes(k).forEach(function (n) { if (big.indexOf(n) < 0) big.push(n); });
         });
-        if (whole.length) {
-          menuEl.appendChild(menuItem('Download GeoJSON — ' + label,
-            function () { saveGeoJSON(whole, label); }));
+        var cl = catLabel(cat) || cat;
+        if (big.length > whole.length) {
+          menuEl.appendChild(menuItem('Download GeoJSON — all of ' + cl
+            + ' (' + kin.length + ' territories)',
+            function () { saveGeoJSON(big, cl); }));
         }
       }
     }
@@ -8456,6 +8533,12 @@
       h.className = 'menu-src-head';
       h.textContent = 'Source';
       sec.appendChild(h);
+      /* The source, and then what was done to it. Naming a dataset is only
+         half of provenance when the shape drawn is not the shape distributed:
+         China's coastline is ENP-China's but its provinces are not, the
+         Philippine units began as modern ones, and Taiwan's were rebuilt from
+         a different sheet and reprojected. The note carries that in a phrase.
+         A source used as it came has one too, saying so. */
       var line = function (rec, what) {
         var p2 = document.createElement('p');
         var lab = document.createElement('span');
@@ -8469,6 +8552,12 @@
           p2.appendChild(a);
         } else {
           p2.appendChild(document.createTextNode(rec.short));
+        }
+        if (rec.note) {
+          var n = document.createElement('span');
+          n.className = 'menu-src-note';
+          n.textContent = ' — ' + rec.note;
+          p2.appendChild(n);
         }
         sec.appendChild(p2);
       };
@@ -8508,10 +8597,56 @@
 
   function cssEsc(v) { return String(v).replace(/"/g, '\\"'); }
 
-  function atomName(key) {
+  /* An atom key is not a territory id, and for a third of the map it is not
+     even close: British India is drawn as four atoms — `india`, `andaman`,
+     `burma`, `saharat` — and the territory that owns them is `britishindia`.
+     The record says which atoms are its own, so that is what is asked. The
+     menu was headed a bare lowercase `india` until it was. */
+  /* The territory that owns an atom, and the legend category that territory
+     sits in. On the 1930 map China is not one atom: Xinjiang, Jehol, Chahar,
+     Suiyuan and Manchuria are territories of their own, drawn separately and
+     coloured alike because they share the category `chinese` — "Republic of
+     China" in the legend. A reader right-clicking Xinjiang and asking for
+     "the whole layer it is part of" means that, and got only Xinjiang. */
+  function territoryOf(key) {
     var list = (JMAP.TERRITORIES && JMAP.TERRITORIES[state.epoch]) || [];
     for (var i = 0; i < list.length; i++) {
+      var own = list[i].atoms;
+      if (list[i].id === key) return list[i];
+      if (own && own.indexOf && own.indexOf(key) >= 0) return list[i];
+    }
+    return null;
+  }
+
+  /* Every atom the same category gathers, in the order the map lists them. */
+  function catAtoms(cat) {
+    var list = (JMAP.TERRITORIES && JMAP.TERRITORIES[state.epoch]) || [];
+    var out = [];
+    list.forEach(function (t) {
+      if (t.cat !== cat) return;
+      (t.atoms || [t.id]).forEach(function (a) {
+        if (out.indexOf(a) < 0) out.push(a);
+      });
+    });
+    return out;
+  }
+
+  function catLabel(cat) {
+    var list = catList() || [];
+    for (var i = 0; i < list.length; i++) if (list[i].id === cat) return list[i].en;
+    return '';
+  }
+
+  function atomName(key) {
+    if (!key) return '';
+    var list = (JMAP.TERRITORIES && JMAP.TERRITORIES[state.epoch]) || [];
+    var i;
+    for (i = 0; i < list.length; i++) {
       if (list[i].id === key) return list[i].en;
+    }
+    for (i = 0; i < list.length; i++) {
+      var own = list[i].atoms;
+      if (own && own.indexOf && own.indexOf(key) >= 0) return list[i].en;
     }
     return '';
   }
@@ -9950,7 +10085,7 @@
        wants and what "both prefecture info and island info" asked for. */
     var got = popSets().filter(function (d) { return d.rows && d.rows[k]; });
     if (!got.length) {
-      var up = partOf(k);
+      var up = figuresFrom(k);
       if (up) got = popSets().filter(function (d) { return d.rows && d.rows[up]; });
     }
     return got.sort(function (a, b) { return String(a.epoch).localeCompare(b.epoch); });
@@ -9971,8 +10106,11 @@
      button is there on the 1930 map too and switching to 1942 shades it. */
   function popGroupFor(key) {
     var k = popKey(key);
+    var up = figuresFrom(k);
     return popGroups().filter(function (g) {
-      return g.sets.some(function (d) { return d.rows && d.rows[k]; });
+      return g.sets.some(function (d) {
+        return d.rows && (d.rows[k] || (up && d.rows[up]));
+      });
     })[0] || null;
   }
 
@@ -10561,6 +10699,28 @@
     return (g && JMAP.ISLAND_GROUPS && JMAP.ISLAND_GROUPS[g]) || null;
   }
 
+  /* The same answer, asked by name rather than by element — which is what the
+     card needs, having a key and no shape in hand. The fine sheet is where the
+     group is written, and it is loaded by the time a reader can click one of
+     these islands, so the shape is there to ask.
+
+     This is what makes an Okinawa island answer with Okinawa's census. Amami
+     Ōshima, Tokunoshima, Kakeroma and the rest are drawn apart from the
+     prefecture that counted them, exactly as Sado is drawn apart from
+     Niigata — and unlike Sado they have no record of their own to carry
+     `part_of`, so the group is the only thing that knows. */
+  function groupPartOfKey(key) {
+    if (!key || !svg) return null;
+    var el = svg.querySelector('path.fine[data-prov="' + cssEsc(key) + '"]');
+    return el ? groupPartOf(el) : null;
+  }
+
+  /* The province whose figures an island borrows: its own record first, the
+     archipelago it belongs to second. */
+  function figuresFrom(key) {
+    return partOf(key) || groupPartOfKey(key);
+  }
+
   /* ------------------------------------- the units with no figure ----- */
 
   /* A white copy of every blank unit, drawn *over* the relief.
@@ -10762,7 +10922,7 @@
        block says whose numbers these are. */
     var borrowed = null;
     if (sets.length && !(sets[0].rows || {})[k]) {
-      var up = partOf(k);
+      var up = figuresFrom(k);
       if (up) { borrowed = up; k = up; }
     }
     popCardKey = sets.length ? key : null;

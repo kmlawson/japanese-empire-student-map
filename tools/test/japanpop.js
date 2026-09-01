@@ -179,6 +179,12 @@ const open = async (b, url) => {
       shimane: [d.rows.Shimane.x.age_0_14_pct, d.rows.Shimane.x.age_60p_pct],
       dp: (d.fields || []).filter(f => f.c === 'age_15_59_pct')[0],
       born: j.x,
+      okiMF: d.rows.Okinawa.mf,
+      oki25: d.rows.Okinawa.x.mf_1925,
+      oki20: d.rows.Okinawa.x.mf_1920,
+      lowest: Object.keys(d.rows)
+        .filter(k => k !== 'japan' && d.rows[k].mf)
+        .sort((a, b) => parseFloat(d.rows[a].mf) - parseFloat(d.rows[b].mf))[0],
     };
   });
   check('Japan proper is 101.03 men to a hundred women', more.mf === '101.03', more.mf);
@@ -186,11 +192,22 @@ const open = async (b, url) => {
   check('and the spread is there — Tōkyō 111.83, Nagano 94.07',
     more.tokyoMF === '111.83' && more.naganoMF === '94.07',
     more.tokyoMF + ' / ' + more.naganoMF);
-  /* Transcribed as far as 愛知; the rest of p25 has not been read yet, and a
-     blank field is simply left off a card. When the page arrives this number
-     goes to 47 and the check should be changed with it. */
-  check('twenty-three prefectures have it so far', more.withMF === 23,
+  /* The page arrived, and the number went to 47 as this note said it would.
+     p25 is transcribed whole — the table is printed in two halves across the
+     page, 全國 down to 愛知 on the left and 三重 to 沖縄 on the right, and the
+     left half was all that had been read. */
+  check('every one of the forty-seven prefectures has it', more.withMF === 47,
     String(more.withMF));
+  /* And the two earlier censuses the same table prints. A ratio has no total
+     to sum to, so what stands in for an additive check is that the
+     twenty-four figures read before the page was photographed match it
+     exactly — Okinawa is the reading, lowest in the country in all three
+     years and falling. */
+  check('Okinawa is 89.53 in 1930, 92.49 in 1925 and 92.62 in 1920',
+    more.okiMF === '89.53' && more.oki25 === 92.49 && more.oki20 === 92.62,
+    more.okiMF + ' / ' + more.oki25 + ' / ' + more.oki20);
+  check('and it is the lowest in the country in 1930',
+    more.lowest === 'Okinawa', more.lowest);
 
   /* The source prints 366 / 560 / 74 per thousand; the map says the same
      figure in the unit a reader has. */

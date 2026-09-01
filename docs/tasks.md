@@ -15102,6 +15102,121 @@ rather than the tail of a long session.
 
 ---
 
+## Every shape offers a download, and the source says what was done to it
+
+Reported as: the browser's own menu over China, Japan, Siam and Korea; a menu
+with no download over the mandate, Taiwan and Ceylon; and Xinjiang, Jehol and
+Manchuria not knowing China as their parent.
+
+### An atom is not one kind of element
+
+Four arrangements are on the map at once, and the first version of the menu
+handled the second of them:
+
+| | example | was |
+|---|---|---|
+| `<path class="atom">`, the whole country in one `d` | British India (76 KB of it), Nepal, Karafuto, Tuva, Weihaiwei, the mandates | **nothing** — it looked for paths *inside*, and a path has no children |
+| `<g class="atom">` of paths | Goa, Pondicherry, the Nanyō | worked |
+| a hit circle in `#atom-hits` carrying `data-atom` | any place too small to click | **nothing** |
+| `class="atom deferred"` and empty | Japan with Administrative off | **nothing** — its outline is `path.whole[data-for]` in `#backings`, which is neither `.atom` nor in `#land` |
+
+The last of those is why China, Japan, Siam and Korea gave the operating
+system's menu rather than the map's: nothing under the pointer answered to
+`.atom` at all, so the map declined the event and the browser took it.
+
+### The country a shape is drawn as part of
+
+On the 1930 map **China is not one atom.** Xinjiang, Jehol, Chahar, Suiyuan and
+Manchuria are territories of their own, drawn separately and coloured alike
+because they share the legend's `chinese` — "Republic of China". A reader
+asking for "the whole layer it is part of" means that, and was given Xinjiang.
+The menu now offers the category as a third scope: **all of Republic of China
+(8 territories)**, gathering every atom the legend gathers.
+
+### And the names
+
+British India's atom key is `india`; its territory is `britishindia`, which
+claims four atoms — `india andaman burma saharat`. The menu was headed a bare
+lowercase `india` until `atomName` learned to ask which territory *claims* an
+atom rather than which shares its id.
+
+Macau is the one place still answering as its neighbour, and it is not the
+menu: at the wide view Hong Kong's hit circle covers it, exactly as it does for
+clicking. Zoom in and Macau answers as Macau.
+
+### Sources say what was done to them
+
+Naming a dataset is half of provenance when the shape drawn is not the shape
+distributed. `texts/sources-short.csv` gains a `note`, and rows are split so
+each note is true of everything it covers. China carries four:
+
+> **ENP-China (2021)** — the coastline only; the provinces it carried were set aside and re-traced
+> **最新世界大地図 (1940)** — the Republican provinces re-traced by hand from it
+> **中華民國新地圖 (1936)** — consulted while adjusting the provinces
+> **中華民國新地圖 (1947)** — consulted while adjusting the provinces
+
+geoBoundaries says "further modified: modern first-level units taken back to
+the divisions of the period"; Taiwan's says it was reprojected TWD67→TWD97 and
+rebuilt from the 1920 街庄 sheet; OSM's says over nine tenths of the source
+vertices were dropped. A source used as it came says that too.
+
+`tools/test/menu.js`, 50 checks — including the eight places that offered
+nothing, each by name.
+
+
+---
+
+## The Okinawa islands answer with the census that counted them
+
+Asked for as: every Okinawa island should show the 1930 and the 1942-map census
+when it is clicked. They are drawn apart from the prefecture that counted their
+people, exactly as Sado is drawn apart from Niigata — and **unlike Sado they
+carry no record of their own**, so `part_of` had nothing to read and the card
+came up with no figures at all.
+
+The group knows. `figuresFrom(key)` is the island's own `part_of` first and the
+archipelago's prefecture second, and `popFor`, `popGroupFor` and the card all
+ask it. Measured, six islands on both maps:
+
+| | 1930 | on the 1942 map |
+|---|---|---|
+| Okinawa Hontō, Miyakojima, Ishigakijima, Kumejima | Okinawa-ken, 577,509 at 89.53 | 574,579 at 89.07 |
+| Amami Ōshima, Tokunoshima | Kagoshima-ken, 1,556,690 at 93.85 | 1,589,467 at 92.93 |
+
+**The split is the point.** A rule that gave the whole chain one prefecture
+would look right on half of it: the Amami group was Kagoshima and the Okinawa
+group Okinawa, and the test requires the two to differ rather than merely to
+exist.
+
+The card is headed with the *prefecture* and carries a note saying whose
+numbers these are — heading Okinawa-ken's 577,509 with "Miyakojima" would be a
+claim about Miyakojima.
+
+The second date is the census of **1 October 1940**, not 1941: 1941 is Taiwan's
+return, and Japan's is 1940.
+
+## The sex ratio, all forty-eight rows and all three censuses
+
+第四表 府縣人口ノ男女比例, p. 25 of the 1930 census report, photographed whole —
+both halves, 全國 down to 愛知 on the left and 三重 to 沖縄 on the right. It was
+transcribed as far as 愛知 before; the rest is filled, and the two earlier
+censuses the table prints come with it.
+
+**The check.** A table of ratios has no total to sum to, so the twenty-four
+figures already in the file stood in for one: every one of them matches this
+reading of the image exactly. `mf_1925` and `mf_1920` are new beside
+`m_per_100_f`, and the transcription in
+`data/population/sources/japan-1930-sex-ratio.md` is what the CSV was filled
+from, so the two cannot drift.
+
+Okinawa is the lowest in the country in all three years and falling — **89.53**
+men to 100 women in 1930 against a national 101.03, where Tōkyō is 111.83 and
+Hokkaidō 109.28. Kagoshima is next lowest at 93.85. Those two figures are now
+what an Okinawa or Amami island shows when it is clicked.
+
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

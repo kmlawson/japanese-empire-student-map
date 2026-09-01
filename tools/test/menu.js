@@ -101,9 +101,17 @@ const admin=async p=>{ await p.evaluate(()=>{
   check('a source section', gifu.src.some(t=>/^Source$/.test(t)), gifu.src.join(' | '));
   check('it names the shape’s source, short', gifu.src.some(t=>/^Shape: /.test(t)),
         gifu.src.join(' | '));
-  check('the short source is a line, not a paragraph',
-        gifu.src.filter(t=>/^Shape: /.test(t)).every(t=>t.length<120),
-        gifu.src.join(' | '));
+  /* The *name* stays short — a book and its year, or a dataset and its
+     version — and the note is extra. Measuring the whole line stopped being
+     the check the moment notes were added, so the two halves are measured
+     apart. */
+  const halves=t=>{const i=t.indexOf(' — '); return i<0?[t,'']:[t.slice(0,i),t.slice(i+3)];};
+  check('the source name is short, whatever the note says',
+        gifu.src.filter(t=>/^Shape: /.test(t)).every(t=>halves(t)[0].length<90),
+        gifu.src.filter(t=>/^Shape: /.test(t)).map(t=>halves(t)[0]).join(' | '));
+  check('and the note is a phrase, not a paragraph',
+        gifu.src.filter(t=>/^Shape: /.test(t)).every(t=>halves(t)[1].length<160),
+        gifu.src.filter(t=>/^Shape: /.test(t)).map(t=>halves(t)[1]).join(' | '));
   check('and it links out to the original',
         gifu.links.some(h=>/^https?:/.test(h)), gifu.links.join(' | '));
   check('with the full page a click away',
@@ -155,6 +163,37 @@ const admin=async p=>{ await p.evaluate(()=>{
         geo.box[0]>135 && geo.box[2]<138.5 && geo.box[1]>34.5 && geo.box[3]<37.5,
         geo.box.join(', '));
 
+  /* Naming a dataset is half of provenance. The shape drawn is often not the
+     shape distributed, and where it is not, the menu has to say so — otherwise
+     a reader takes China's provinces for ENP-China's, which they are not. */
+  console.log('\n— what was done to the source, not only its name —');
+  check('the shape source carries a note', gifu.src.some(t=>/^Shape: .+ — .+/.test(t)),
+        gifu.src.join(' | '));
+  check('and the note says these units were modified',
+        gifu.src.some(t=>/^Shape: /.test(t) && /modified|taken back|traced|rebuilt|thinned|consulted|only/.test(t)),
+        gifu.src.filter(t=>/^Shape: /.test(t)).join(' | '));
+
+  /* China is the case the registry exists for: the coastline is one dataset,
+     the provinces were re-traced from a second, and two more were consulted.
+     One line would have to leave three of them out. */
+  const cn=await menuAt(page,113.0,30.5);
+  const shapes=(cn.src||[]).filter(t=>/^Shape: /.test(t));
+  check('a shape built from several sources names them all', shapes.length>=3,
+        shapes.length + ': ' + shapes.join(' | '));
+  check('and each says what it contributed',
+        shapes.length>=3 && shapes.every(t=>/ — /.test(t)), shapes.join(' | '));
+  check('the coastline source says it is the coastline only',
+        shapes.some(t=>/ENP-China/.test(t) && /coastline only/.test(t)),
+        shapes.join(' | '));
+  check('and the provinces say they were re-traced',
+        shapes.some(t=>/re-traced/.test(t)), shapes.join(' | '));
+
+  /* Escape first. An open menu sits over the map and swallows the wheel, so
+     the zoom below simply did not happen and the next press landed on the
+     province still under the pointer. */
+  await page.keyboard.press('Escape');
+  await sleep(200);
+
   console.log('\n— an island, which has an archipelago —');
   // Amami Ōshima: a fine island, in a group, on the 1942 sheet as on 1930
   const screenOf=(lon,lat)=>page.evaluate((lo,la)=>{
@@ -181,6 +220,53 @@ const admin=async p=>{ await p.evaluate(()=>{
   } else {
     check('an island is offered its archipelago as well', false,
           'menu: ' + JSON.stringify(isl).slice(0,200));
+  }
+
+  /* **Every shape offers something.** An atom is not one kind of element:
+     most are a single `<path class="atom">` with the whole country in one `d`,
+     some are a `<g>` of paths, a small place is met as a hit circle carrying
+     `data-atom`, and a deferred atom is empty with its outline drawn by the
+     base sheet as `path.whole[data-for]`. The first version handled the second
+     of those four, so British India, Nepal, Karafuto, Tuva, Weihaiwei, the
+     mandates and Japan-without-Administrative all offered nothing. */
+  console.log('\n— every shape offers a download, whatever kind it is —');
+  await page.keyboard.press('Escape');
+  await page.goto(URL,{waitUntil:'networkidle0'});
+  await sleep(1600);
+  const PLACES=[['British India',78.5,23.0],['Nepal',84.0,28.3],
+                ['Karafuto',142.5,49.5],['Weihaiwei',122.1,37.5],
+                ['Tannu Tuva',94.5,51.5],['Goa',73.9,15.4],
+                ['the mandate',168.0,7.1],['Japan',136.5,35.4]];
+  for (const [n,lo,la] of PLACES) {
+    const r=await menuAt(page,lo,la);
+    const dl=(r.items||[]).filter(t=>/^Download GeoJSON/.test(t));
+    check(n + ' offers a download', r.opened && dl.length>0,
+          r.opened ? 'menu but no download' : (r.why||'no menu'));
+    /* And headed with a name a reader would recognise, not the atom key: the
+       key for British India is `india` and its territory is `britishindia`,
+       which claims four atoms of its own. */
+    check(n + ' is headed with a name, not a key',
+          !!r.head && r.head !== r.head.toLowerCase(), r.head);
+    await page.keyboard.press('Escape');
+    await sleep(120);
+  }
+
+  /* **The country a shape is drawn as part of.** On the 1930 map China is not
+     one atom: Xinjiang, Jehol, Chahar, Suiyuan and Manchuria are territories
+     of their own, drawn separately and coloured alike because they share the
+     legend's `chinese`. Right-clicking Xinjiang and asking for "the whole
+     layer it is part of" means the Republic of China, and used to mean
+     Xinjiang. */
+  console.log('\n— and the country it is drawn as part of —');
+  for (const [n,lo,la] of [['Xinjiang',85.0,41.0],['Jehol',118.0,42.0],
+                           ['Manchuria',125.0,45.0]]) {
+    const r=await menuAt(page,lo,la);
+    const dl=(r.items||[]).filter(t=>/^Download GeoJSON/.test(t));
+    check(n + ' offers itself and the Republic of China',
+          dl.length>=2 && dl.some(t=>/all of Republic of China/.test(t)),
+          dl.join(' | '));
+    await page.keyboard.press('Escape');
+    await sleep(120);
   }
 
   console.log('\n— and a finger opens the same menu —');

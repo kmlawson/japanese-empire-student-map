@@ -1,12 +1,24 @@
-id,short,url,atoms
-ne,"Natural Earth, 1:10m cultural vectors",https://github.com/nvkelso/natural-earth-vector,*
-rumsey-china,"最新世界大地図 (1940), Rumsey list 13462.003",https://www.davidrumsey.com/,china chahar jehol suiyuan xinjiang mongolia tibet manchuria mengjiang
-enp-china,"ENP-China, Administrative map of Republican China (2021)",https://doi.org/10.58079/o8ls,china
-geoboundaries,"geoBoundaries ADM1–ADM2 (2020)",https://github.com/wmgeolab/geoBoundaries,japan india burma malaya malaya_thai philippines siam siamgain saharat
-academia-taiwan,"《日治時期臺灣行政區域沿革》1926年郡(市)界, Academia Sinica RCHSS",https://data.depositar.io/dataset/rd09-10,taiwan
-nikh-korea,"National Institute of Korean History, 역사지리정보DB (1910–1945)",https://hgis.history.go.kr/pro_g1/dataset.do,korea
-gazetteer-india,"Imperial Gazetteer of India, atlas volume (1931)",https://dsal.uchicago.edu/cgi-bin/reference/gaz_atlas_1931/query.py?object=28,princely india sikkim nepal bhutan
-osm-coast,"OpenStreetMap coastlines (ODbL)",https://osmdata.openstreetmap.de/data/coast.html,ryukyu ogasawara nanyo mandate_jp gilberts solomons_br newguinea_au papua_free chishima
-pelet-1889,"Pelet, Nouvel atlas des colonies Françaises (1889), no. 14",,pondicherry
-goa-1892,"Districto de Goa (1892)",https://delagoabayworld.wordpress.com/2022/10/07/mapas-da-india-portuguesa-goa-diu-e-damao-1892/,goa
-traced,"Traced by hand from period maps; approximate",,occupiedzone contested contested_burma weihaiwei guangzhouwan nca_pacified nca_unpacified
+id,short,url,note,atoms
+ne,"Natural Earth, 1:10m cultural vectors",https://github.com/nvkelso/natural-earth-vector,"as distributed, clipped to the frame",*
+ne-himalaya,"Natural Earth, 1:10m",https://github.com/nvkelso/natural-earth-vector,further modified: the 1931 frontiers checked against the Imperial Gazetteer sheet,nepal bhutan sikkim
+enp-china,"ENP-China, Administrative map of Republican China (2021)",https://doi.org/10.58079/o8ls,the coastline only; the provinces it carried were set aside and re-traced,china
+rumsey-china,"最新世界大地図 (1940), Rumsey list 13462.003",https://www.davidrumsey.com/,the Republican provinces re-traced by hand from it,china chahar jehol suiyuan xinjiang mongolia tibet manchuria mengjiang
+roc-1936,中華民國新地圖 (1936),https://lbezone.hkust.edu.hk/bib/b933765,consulted while adjusting the provinces,china chahar jehol suiyuan
+roc-1947,中華民國新地圖 (1947),https://gis.sinica.edu.tw/showwmts/index.php?s=ccts&l=China_Map_1947,consulted while adjusting the provinces,china
+geoboundaries,geoBoundaries ADM1–ADM2 (2020),https://github.com/wmgeolab/geoBoundaries,further modified: modern first-level units taken back to the divisions of the period,japan india burma malaya malaya_thai philippines siam saharat siamgain
+academia-taiwan,"《日治時期臺灣行政區域沿革》, Academia Sinica RCHSS",https://data.depositar.io/dataset/rd09-10,"heavily modified: reprojected TWD67→TWD97 and rebuilt from the 1920 街庄 sheet, with the administrative changes to 1930 applied",taiwan
+nikh-korea,"National Institute of Korean History, 역사지리정보DB (1910–1945)",https://hgis.history.go.kr/pro_g1/dataset.do,"the thirteen colonial provinces, thinned to a coarse and a fine set for drawing",korea
+gazetteer-india,"Imperial Gazetteer of India, atlas volume (1931)",https://dsal.uchicago.edu/cgi-bin/reference/gaz_atlas_1931/query.py?object=28,georeferenced and traced by hand,princely india sikkim
+osm-coast,OpenStreetMap coastlines (ODbL),https://osmdata.openstreetmap.de/data/coast.html,thinned for drawing: over nine tenths of the source vertices dropped,ryukyu ogasawara nanyo mandate_jp gilberts solomons_br newguinea_au papua_free chishima
+pelet-1889,"Pelet, Nouvel atlas des colonies Françaises (1889), no. 14",,traced by hand,pondicherry
+karikal-1920s,"Survey of India 1:126,720, Karikal, sheet 58N/NE (1920s)",https://upload.wikimedia.org/wikipedia/commons/1/1a/Karikal_1-126720_58N-NE_1920s.jpg,consulted for Karikal,pondicherry
+yanaon-1932,Territoire de Yanaon (1932),https://upload.wikimedia.org/wikipedia/commons/d/d6/Yanaon_1932.jpg,consulted for Yanaon,pondicherry
+chandernagore-1872,"French Settlement of Chandernagore, surveyed 1870–71 (1872)",https://raremaps.com/gallery/detail/63527/french-settlement-of-chandernagore-surveyed-season-1870-71-with-a-portion-of-the-river-hoogly-and-of-the-country-on-its-left-bank,consulted for Chandernagore,pondicherry
+goa-1892,Districto de Goa (1892),https://delagoabayworld.wordpress.com/2022/10/07/mapas-da-india-portuguesa-goa-diu-e-damao-1892/,Goa traced by hand from it,goa
+damao-dadra,"Damão, Dadra & Nagar Haveli sheet",https://new.wikipedia.org/wiki/%E0%A4%A6%E0%A4%BE%E0%A4%A6%E0%A4%B0%E0%A4%BE_%E0%A4%B5_%E0%A4%A8%E0%A4%97%E0%A4%B0_%E0%A4%B9%E0%A4%B5%E0%A5%87%E0%A4%B2%E0%A5%80,"Damão, Dadra and Nagar Haveli drawn in consultation with it",goa
+smr-1935,"滿洲國地圖 (1935), 南滿洲鐡道株式會社資料課; Nichibunken 004863874",https://lapis.nichibun.ac.jp/chizu/map_detail.php?id=004863874,"traced by hand; the fourteen provinces of 1935, not the nineteen of 1943",manchukuo
+smr-1935-kwantung,"滿洲國地圖 (1935), 南滿洲鐡道株式會社資料課",https://lapis.nichibun.ac.jp/chizu/map_detail.php?id=004863874,the leasehold traced by hand from the Manchukuo sheet,kwantung
+usn-1927,"Outline Chart of the World, U.S. Navy Hydrographic Office; Princeton G3201.A1.1927.H9",https://maps.princeton.edu/catalog/princeton-mp48sf61n,the mandate boundaries traced from it; the coastlines are OSM,nanyo mandate_jp mandate_au mandate_br mandate_ex_guam
+wu-atlas,"武月星主編《中國抗日戰爭史地圖集：1931–1945》, sheet 199",,"traced and adjusted to December 1942; approximate, as the map says",occupiedzone
+nca-1942,"北支那方面軍占拠地域内治安概況 (September 1942), 戦史叢書 50",https://www.nids.mod.go.jp/military_history_search/SoshoView?kanno=050,traced from the army’s own security map; the semi-pacified third category is left blank,nca_pacified nca_unpacified
+traced-leaseholds,Several period maps,,"traced by hand, in consultation with more than one sheet",weihaiwei guangzhouwan contested contested_burma
