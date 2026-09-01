@@ -2311,6 +2311,20 @@ dialog h3 {
    rather than left with a number that is quietly wrong. */
 .version-stale { color: var(--warn-ink); font-weight: 600; }
 
+/* The update number in the bar. Small and quiet: it is a label on the build,
+   not a control, and it sits next to two buttons it must not be mistaken for.
+   Tabular figures so it does not jiggle as the number grows. */
+.bar-version {
+  align-self: center;
+  color: var(--muted);
+  font-size: 11px;
+  letter-spacing: .04em;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  padding: 0 2px;
+}
+.bar-version[hidden] { display: none; }
+
 
 /* ------------------------------------------------- the map at one colour --
 

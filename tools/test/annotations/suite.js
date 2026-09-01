@@ -33,8 +33,12 @@ async function page(b, opts={}) {
      seconds a script, and it only started happening when unsaved work began
      warning properly. `opts.accept` is about the confirms the panel asks
      (Clear, restore), which is a different question. */
+  // what each confirm actually said, for the scripts that care what the
+  // reader was told before they answered
+  p.__asked = [];
   p.on('dialog', async d=>{
     if (d.type()==='beforeunload') { await d.accept(); return; }
+    p.__asked.push(d.message());
     await (opts.accept? d.accept(): d.dismiss());
   });
   p.__errs=[]; p.on('pageerror',e=>p.__errs.push(String(e)));

@@ -39,15 +39,30 @@ console.log('\n— it survives a reload —');
   await p.evaluate(()=>document.querySelector('#ann-create').click()); await sleep(1600);
   check('declining leaves nothing on the map',
     await p.evaluate(()=>document.querySelectorAll('#ann-list li').length)===0);
-  /* And leaves them in the browser. This used to assert the opposite — that
-     declining removed the store — which is what the code did and what it
-     should never have done: Cancel meant "not now" to the reader and "delete
-     the only copy" to the map, with nothing on screen to say so. The prompt
-     says which it is now, and the offer is simply not made again this
-     session. */
-  check('but keeps them in the browser, because Cancel is not Delete',
-    await p.evaluate(()=>{const raw=window.localStorage.getItem('jem-annotations-v1');
-      return !!raw && JSON.parse(raw).f.length===1;}));
+  /* And takes them out of the browser.
+   *
+   * This check has now asserted both answers, and the history is the point.
+   * It first asserted the deletion, because that is what the code did — and
+   * silently, which is how a reader who did not want them back that minute
+   * lost them for good. It was changed to assert the opposite: Cancel means
+   * "not now", the store is left alone, the offer simply is not made again
+   * this session. That left a browser holding a set nobody had wanted for
+   * weeks and offering it afresh every time, and it was asked for the other
+   * way round on 01-09.
+   *
+   * So it deletes again — and the difference from the first time, which is the
+   * whole of what was wrong then, is that the prompt says so before it is
+   * pressed. The wording is checked below. */
+  check('and takes them out of the browser, Cancel being Delete now',
+    await p.evaluate(()=>!window.localStorage.getItem('jem-annotations-v1')));
+  /* And said so *before* it was pressed. This is the whole difference from
+     the first time the code deleted here: it deleted silently, and a reader
+     who meant "not now" lost the only copy. The warning is the fix, so it is
+     the thing worth pinning. */
+  check('and the prompt warned that Cancel would, before it was pressed',
+    (p.__asked||[]).some(m=>/Cancel discards them/.test(m)
+                            && /cannot be brought back/.test(m)),
+    JSON.stringify(p.__asked||[]));
   check('and does not ask again in the same session', await (async()=>{
     await p.evaluate(()=>{const c=document.querySelector('#ann-close'); if(c) c.click();});
     await sleep(400);

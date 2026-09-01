@@ -834,8 +834,34 @@
 
       /* ---- the shape ---- */
 
-      /* Catmull–Rom through every node, as cubic Béziers. Two points give a
-         straight line; three or more bend through the middle ones. */
+      /* Catmull–Rom through every node, as cubic Béziers — **centripetal**,
+       * which is the whole difference between a course and a cat's cradle.
+       *
+       * The uniform form is the one everybody writes first: the tangent at a
+       * point is (next − previous)/6, and it is fine while the points are
+       * evenly spaced. Ports are not evenly spaced. Put a bend a few miles off
+       * a harbour mouth with the next port two hundred miles away and that
+       * tangent is enormous next to the span it belongs to — so the curve
+       * shoots past the bend, turns round and comes back. Reported with a
+       * picture of the line looping out to sea and back over the land: "it
+       * becomes impossible to guide the shipping route out of a port".
+       *
+       * Centripetal parameterisation — the knots spaced by the *square root*
+       * of the distance between points, α = 0.5 — is the standard cure, and it
+       * is a theorem rather than a tuning: it can produce neither a cusp nor a
+       * self-intersection within a segment, whatever the spacing. It also does
+       * what was asked for directly. The tangent at a port is dominated by the
+       * near neighbour rather than shared evenly with the far one, so a bend
+       * dropped just outside the harbour is what decides the direction the
+       * line leaves by — which is how you take a route out through the channel
+       * instead of across the headland.
+       *
+       * Two points and no bends still give the straight line between them. */
+      var ALPHA = 0.5;
+      function knot(a, b) {
+        var d = Math.hypot(b.x - a.x, b.y - a.y);
+        return Math.pow(d, ALPHA) || 1e-6;
+      }
       function pathD() {
         if (nodes.length < 2) return '';
         var p = nodes, n = p.length;
@@ -843,8 +869,28 @@
         for (var i = 0; i < n - 1; i++) {
           var p0 = p[i > 0 ? i - 1 : 0], p1 = p[i], p2 = p[i + 1];
           var p3 = p[i + 2 < n ? i + 2 : n - 1];
-          var c1x = p1.x + (p2.x - p0.x) / 6, c1y = p1.y + (p2.y - p0.y) / 6;
-          var c2x = p2.x - (p3.x - p1.x) / 6, c2y = p2.y - (p3.y - p1.y) / 6;
+          var d1 = knot(p0, p1), d2 = knot(p1, p2), d3 = knot(p2, p3);
+          var c1x, c1y, c2x, c2y;
+          if (i === 0) {                       // clamped: leave along the span
+            c1x = p1.x + (p2.x - p1.x) / 3;
+            c1y = p1.y + (p2.y - p1.y) / 3;
+          } else {
+            var k1 = 3 * d1 * (d1 + d2);
+            c1x = (d1 * d1 * p2.x - d2 * d2 * p0.x
+                   + (2 * d1 * d1 + 3 * d1 * d2 + d2 * d2) * p1.x) / k1;
+            c1y = (d1 * d1 * p2.y - d2 * d2 * p0.y
+                   + (2 * d1 * d1 + 3 * d1 * d2 + d2 * d2) * p1.y) / k1;
+          }
+          if (i === n - 2) {                   // and arrive along it
+            c2x = p2.x + (p1.x - p2.x) / 3;
+            c2y = p2.y + (p1.y - p2.y) / 3;
+          } else {
+            var k2 = 3 * d3 * (d3 + d2);
+            c2x = (d3 * d3 * p1.x - d2 * d2 * p3.x
+                   + (2 * d3 * d3 + 3 * d3 * d2 + d2 * d2) * p2.x) / k2;
+            c2y = (d3 * d3 * p1.y - d2 * d2 * p3.y
+                   + (2 * d3 * d3 + 3 * d3 * d2 + d2 * d2) * p2.y) / k2;
+          }
           d += 'C' + c1x.toFixed(2) + ' ' + c1y.toFixed(2)
              + ' ' + c2x.toFixed(2) + ' ' + c2y.toFixed(2)
              + ' ' + p2.x.toFixed(2) + ' ' + p2.y.toFixed(2);

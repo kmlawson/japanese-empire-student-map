@@ -14316,6 +14316,87 @@ held; the handles are rebuilt when it is let go.
 
 ---
 
+## The selection that changed province on the way to the button
+
+### A random different unit, and why it was random
+
+Reported as "when I switch the map after having selected a polygon I get a
+random different unit — it seems to work sometimes". Both halves are the
+symptom of one thing.
+
+`setEpoch` remembered the province to put back by reading `lastProv`. That is
+the **hover's** province — set by the mousemove handler, and by a tap too,
+because a touch screen has no hover to have set it already. A reader picks
+Kyŏnggi-do and then moves the pointer up to the epoch buttons, crossing
+Hwanghae, South P'yŏngan and North P'yŏngan on the way, and by the time the
+button is pressed `lastProv` is North P'yŏngan. Hence a stranger. And hence
+"sometimes": a pointer that leaves the map over open sea, or straight up off
+the top, crosses nothing and the right answer survives.
+
+**This is the Labuan lesson in the other direction.** That was the selection
+borrowing the hover's *cluster* to know what to draw round; this is it
+borrowing the hover's *province* to know what it was of. Anything that has to
+outlive the pointer's present position must be written down when the choice is
+made. `selProv` is written in `select()` and read by `setEpoch`, and `lastProv`
+goes back to meaning only what is under the pointer now.
+
+Measured both ways: with the pointer swept across three other provinces before
+the date is switched, the old code came back with Korea and the new one comes
+back with Kyŏnggi-do and its 1942 estimate.
+
+### Cancel now discards the saved annotations, and says so first
+
+This has been both ways round. It used to delete them **silently**, which is
+how a reader who did not want them back that minute lost them for good; so it
+was changed to keep them and simply not ask again, and the prompt said "they
+stay in the browser either way". That leaves a browser holding a set nobody has
+wanted for weeks and offering it afresh every session.
+
+Asked for the other way on 01-09, and the fault the first time was not the
+deleting — it was deleting without saying. Cancel deletes now, and the sentence
+under the question says so in those words with the count in front of it, and
+the panel reports what it threw away.
+
+A test had to be turned round with it, and the history is worth keeping.
+`run3.js`'s check first asserted the deletion, because that is what the code
+did; then asserted the opposite when Cancel was made to mean "not now"; and
+asserts the deletion again now. What it pins the third time is different: the
+deleting was never the fault, the silence was, so the check that matters is on
+the **prompt** — `suite.js` records what each confirm said, and the test reads
+back that the reader was told "Cancel discards them" and "cannot be brought
+back" before they answered.
+
+### A route that looped out to sea and back over the land
+
+The course was a uniform Catmull–Rom, where the tangent at a point is
+(next − previous)/6. That is fine while the points are evenly spaced, and ports
+are not: put a bend a few miles off a harbour mouth with the next port two
+hundred miles away and the tangent is enormous next to the span it belongs to,
+so the curve shoots past the bend, turns round and comes back. Reported with a
+picture, and with the thing that actually matters about it — "it becomes
+impossible to guide the shipping route out of a port into the sea".
+
+**Centripetal** parameterisation is the cure and it is a theorem rather than a
+tuning: knots spaced by the square root of the distance between points, α =
+0.5, and a segment can then produce neither a cusp nor a self-intersection
+whatever the spacing. It also does what was asked for directly — the tangent at
+a port is dominated by the near neighbour rather than shared evenly with the
+far one, so a bend dropped just outside the harbour decides the direction the
+line leaves by, which is how a route goes out through the channel instead of
+across the headland.
+
+### The update number in the bar
+
+Small and grey, just before Layers, reading `1.260`. It is the one thing a
+reader has to quote to say which map they are looking at, and it was three
+presses deep in About. It takes `JEM_VERSION` where there is one — the page and
+the script are cached for very different lengths of time and the running code
+is the one worth naming — and it is the first thing to come off the bar when
+the width goes, being the least important thing on it.
+
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

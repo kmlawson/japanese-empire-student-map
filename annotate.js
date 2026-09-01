@@ -4364,15 +4364,30 @@
       if (!was || feats.length) return;
       var when = was.t ? new Date(was.t) : null;
       var ago = when ? when.toLocaleString() : 'earlier';
-      /* Cancel means "not now", not "delete them". It used to remove the only
-         copy the browser had, without saying so — a reader who did not want
-         them back *this minute* lost them for good. They are left where they
-         are; the offer simply is not made again this session. */
+      /* Cancel throws them away, and the prompt says so before it is pressed.
+       *
+       * This has been both ways round. It used to delete them *silently*,
+       * which is how a reader who did not want them back this minute lost them
+       * for good — so it was changed to keep them and simply not ask again.
+       * That left a browser holding a set nobody had wanted for weeks, offered
+       * afresh every session, and asked for the other way on 01-09.
+       *
+       * The fault the first time was not the deleting; it was deleting without
+       * saying. So Cancel deletes and the sentence under the question says
+       * that, in those words, with the count in front of it. A reader who
+       * wants them kept has the third answer every browser dialog has: close
+       * it, or press Escape, which is neither button — but Escape resolves as
+       * Cancel here, so the only honest thing is to warn. */
       if (!window.confirm('You have ' + was.f.length + ' annotation'
           + (was.f.length === 1 ? '' : 's') + ' from ' + ago
           + ' still in this browser. Bring them back?\n\n'
-          + 'They stay in the browser either way — Cancel just leaves them there.')) {
+          + 'Cancel discards them: they will be deleted from this browser and '
+          + 'cannot be brought back.')) {
         declined = true;
+        try { window.localStorage.removeItem(ANN_STORE); } catch (err) { /* private mode */ }
+        say('The ' + was.f.length + ' saved annotation'
+          + (was.f.length === 1 ? '' : 's') + ' in this browser '
+          + (was.f.length === 1 ? 'was' : 'were') + ' discarded.');
         return;
       }
       feats = was.f;

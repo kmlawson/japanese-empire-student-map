@@ -13,8 +13,8 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '260';
-  var JEM_ASSETS = {"admin.js": "9065fac971", "annotate.js": "317173eee3", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "3881d33c99", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
+  var JEM_VERSION = '261';
+  var JEM_ASSETS = {"admin.js": "73a2b1ec1e", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "3881d33c99", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
 
   /* Every file this one fetches, with the version on it.
 
@@ -6371,7 +6371,24 @@
 
   var hotProv = [];
   var hotProvEl = null;
+  /* The province the pointer is over *now*. Hover sets it, and so does a tap,
+     because a touch screen has no hover to have set it already. */
   var lastProv = null;
+  /* And the province the *selection* is of, which is a different thing and has
+     to be kept apart from it.
+     
+     `lastProv` is the hover's, and a reader who picks a province and then
+     moves the pointer up to the epoch buttons crosses three more on the way —
+     so by the time anything asks, `lastProv` is one of those. Switching the
+     date then restored "the province that was selected" and put up a stranger:
+     reported as "usually I get a random different unit", and sometimes right,
+     which is the pointer having left the map over open sea.
+     
+     This is the Labuan lesson in the other direction. That was the selection
+     borrowing the hover's *cluster*; this is it borrowing the hover's
+     province. Anything that outlives the pointer's present position has to
+     have been written down when the choice was made. */
+  var selProv = null;
 
   /* The cluster the *selection* belongs to, which is not always the atom the
      selection is drawn inside. Labuan is a sub-unit of the North Borneo atom
@@ -7461,6 +7478,7 @@
                   : (lastProv && lastProv.el ? clusterOf(lastProv.el) : null)) || null;
     if (!id || !byId[id]) {
       selCluster = null;
+      selProv = null;
       infoBox.hidden = true;
       fillPopCard(null);
       fillTrainCard(null);
@@ -7482,6 +7500,9 @@
     // settlement under the pointer is what was asked about, and the country it
     // belongs to is the line under it.
     var sub = lastProv && lastProv.rec ? shown(lastProv.rec) : null;
+    /* Written down here, at the moment of choosing, and not read off the
+       pointer later. See `selProv` above. */
+    selProv = lastProv || null;
     // Whose it was. For all but a handful of sub-units this is the territory
     // of the atom they are drawn in; for a Straits Settlement drawn off
     // somebody else's coast it is the colony it was governed as.
@@ -10577,6 +10598,7 @@
     if (m) id = 'g_' + state.epoch + '_' + m[1];
     if (!byId[id]) return false;
     lastProv = null;
+    selProv = null;
     if (provKey && svg) {
       var el = $$('#land [data-prov="' + provKey + '"]', svg).filter(function (x) {
         var atom = x.closest ? x.closest('.atom') : null;
@@ -10591,7 +10613,7 @@
   function setEpoch(id) {
     if (!id || state.epoch === id) return;
     var wasId = selected;
-    var wasProv = lastProv && lastProv.key ? lastProv.key : null;
+    var wasProv = selProv && selProv.key ? selProv.key : null;
     var wasCluster = selCluster;
     state.epoch = id;
     $$('#epoch-seg button').forEach(function (x) {
@@ -11588,6 +11610,11 @@
   var BAR_EXTRAS_MIN = 1120;
 
   function syncBarExtras() {
+    /* The update number goes first and comes off first: it is the least
+       important thing in the bar, and the bar wraps before it truncates. */
+    var ver = $('#bar-version');
+    if (ver) ver.hidden = !ver.textContent
+      || (window.innerWidth || 0) < BAR_EXTRAS_MIN;
     var ext = $('#extent-seg'), occ = $('#occ-seg');
     if (!ext || !occ) return;
     var room = (window.innerWidth || 0) >= BAR_EXTRAS_MIN;
@@ -12754,8 +12781,24 @@
     el.parentNode.appendChild(note);
   }
 
+  /* And the same number in the bar, small, beside Layers. It is the one thing
+     a reader has to quote to say *which* map they are looking at, and until
+     now it was three presses deep in About. It takes `JEM_VERSION` where there
+     is one, for the reason `stampVersion` sets out at length: the page and the
+     script are cached for very different lengths of time, and the running code
+     is the one worth naming. */
+  function barVersion() {
+    var el = $('#bar-version');
+    if (!el) return;
+    var page = ($('#jem-version') || {}).textContent || '';
+    var v = (typeof JEM_VERSION !== 'undefined' ? JEM_VERSION : page).trim();
+    el.textContent = v ? '1.' + v : '';
+    syncBarExtras();
+  }
+
   function annWire() {
     stampVersion();
+    barVersion();
     /* The drawing tools need a panel with room for four tools, eight style
        controls, four fields and a list, and a map big enough to draw on beside
        it. Below the rail's own breakpoint there is neither: the panel becomes a
