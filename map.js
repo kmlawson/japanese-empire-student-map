@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '274';
+  var JEM_VERSION = '275';
   var JEM_ASSETS = {"admin.js": "3414697d04", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "58132ef9c2", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
 
   /* Every file this one fetches, with the version on it.
@@ -8474,6 +8474,219 @@
   /* The card for a route. It is not one of the map's records — an air service
      is not a place — so it fills the card directly rather than going through
      `select()`, and clears the blocks that belong to places. */
+
+  /* ---------------------------------------------------- reading a clock --
+   *
+   * **The sources do not agree on how to write an afternoon.** The 1931 Korea
+   * diagram is on a twenty-four hour clock — Keijō at 17:20 — and the Taiwan
+   * sheets are not: the eastern line leaves Tainan at 12:30 and reaches Taitō
+   * at "1:25", which is twenty-five past one in the afternoon. Sorting those
+   * as printed puts the afternoon before the morning and makes nonsense of an
+   * airport's day.
+   *
+   * A journey settles it, because an aeroplane's calls run forwards. Walking
+   * the stops in the order they were flown and taking, at each call, the
+   * earliest reading not before the one behind it, resolves every twelve-hour
+   * time in the file — forty of the hundred and thirty-nine — without a guess
+   * about any of them.
+   *
+   * The one thing a walk cannot see is a night on the ground: out, the Korea
+   * trunk reached Keijō at 17:20 and left at 7:30 the next morning, and the
+   * rule above reads that 7:30 as 19:30 and carries the error the rest of the
+   * way to Dairen. So the lay-over is marked in `timetable.csv` rather than
+   * inferred, and `ov` names the directions it applies to.
+   *
+   * **What is displayed is always the source's own string.** This value is
+   * for ordering, and nothing else. */
+  function airMins(v) {
+    var m = /^(\d{1,2}):(\d{2})$/.exec(String(v || '').trim());
+    return m ? (+m[1]) * 60 + (+m[2]) : null;
+  }
+
+  /* Every call one aeroplane made, in order, with a sortable minute on each.
+     `dir` is 'down' for the outward journey and 'up' for the return, which is
+     the same stops read the other way. */
+  function airJourney(r, svc, dir) {
+    var up = dir === 'up';
+    var rows = (r.times || []).filter(function (t) { return (t.svc || '') === svc; });
+    var seq = rows.slice();
+    if (up) seq.reverse();
+    var out = [], prev = null;
+    seq.forEach(function (t) {
+      var pair = up ? [t.ua, t.ud] : [t.da, t.dd];
+      var call = { station: t.station, freq: t.freq || '', rec: t,
+                   arrive: pair[0] || '', depart: pair[1] || '' };
+      ['arrive', 'depart'].forEach(function (k) {
+        var raw = call[k];
+        if (!raw) return;
+        var t0 = airMins(raw);
+        if (t0 === null) return;
+        var night = k === 'depart'
+          && String(t.ov || '').split(/\s+/).indexOf(dir) >= 0;
+        var v;
+        if (night) {
+          // the next morning: the same clock time on the following day
+          v = prev === null ? t0 : t0 + 1440 * (Math.floor(prev / 1440) + 1);
+        } else {
+          v = t0;
+          while (prev !== null && v < prev) v += 720;
+        }
+        call[k + 'At'] = v;
+        prev = v;
+      });
+      if (call.arrive || call.depart) out.push(call);
+    });
+    return out;
+  }
+
+  /* The services a route was flown as, in the order the file gives them. */
+  function airServices(r) {
+    return (r.times || []).map(function (t) { return t.svc || ''; })
+      .filter(function (v, i, a) { return a.indexOf(v) === i; });
+  }
+
+  var AIR_DIRS = [{ k: 'down', label: 'Outward' }, { k: 'up', label: 'Return' }];
+
+  /* **The journey down the column, not the timetable across the page.**
+   *
+   * Four columns of times beside a list of stations is how a timetable is
+   * printed and not how one is read: a reader following one aeroplane had to
+   * take the first and second columns down, then the third and fourth back up,
+   * and hold the direction in their head while doing it. Here each column is
+   * one aeroplane — its stops in the order it called at them, the time it
+   * arrived and the time it left under each — so the eye goes down the page
+   * the way the flight went down the line, and the return is the column
+   * beside it rather than the same one read backwards. */
+  function airJourneyStrip(host, r) {
+    var svcs = airServices(r);
+    var cols = [];
+    svcs.forEach(function (svc) {
+      AIR_DIRS.forEach(function (d) {
+        var calls = airJourney(r, svc, d.k);
+        if (calls.length) cols.push({ svc: svc, dir: d, calls: calls });
+      });
+    });
+    if (!cols.length) return;
+
+    var wrap = document.createElement('div');
+    wrap.className = 'pop-table-block';
+    var h = document.createElement('p');
+    h.className = 'pop-head';
+    h.textContent = r.season ? ('Timetable, ' + r.season)
+                             : 'Summer timetable, June–August 1931';
+    wrap.appendChild(h);
+
+    var strip = document.createElement('div');
+    strip.className = 'air-strip';
+    cols.forEach(function (c) {
+      var col = document.createElement('div');
+      col.className = 'air-jrn';
+      var ch = document.createElement('p');
+      ch.className = 'air-jrn-head';
+      /* Which aeroplane this is: the direction, the service where a corridor
+         was flown more than once a day, and how often it ran. */
+      var freqs = c.calls.map(function (x) { return x.freq; })
+        .filter(function (v, i, a) { return v && a.indexOf(v) === i; });
+      ch.textContent = [c.dir.label, c.svc, freqs.join(', ')]
+        .filter(Boolean).join(' · ');
+      col.appendChild(ch);
+      var ol = document.createElement('ol');
+      ol.className = 'air-calls';
+      c.calls.forEach(function (call) {
+        var li = document.createElement('li');
+        var pl = document.createElement('span');
+        pl.className = 'air-place';
+        pl.textContent = call.station;
+        li.appendChild(pl);
+        [['arrive', 'in'], ['depart', 'out']].forEach(function (pair) {
+          if (!call[pair[0]]) return;
+          var sp = document.createElement('span');
+          sp.className = 'air-t air-' + pair[0];
+          var w = document.createElement('em');
+          w.textContent = pair[1];
+          sp.appendChild(w);
+          sp.appendChild(document.createTextNode(' ' + call[pair[0]]));
+          /* A departure the next morning is the one thing a column of times
+             cannot show by itself. */
+          if (pair[0] === 'depart' && call.departAt !== undefined
+              && call.arriveAt !== undefined && call.departAt - call.arriveAt > 720) {
+            var n = document.createElement('em');
+            n.className = 'air-next';
+            n.textContent = ' next day';
+            sp.appendChild(n);
+          }
+          li.appendChild(sp);
+        });
+        ol.appendChild(li);
+      });
+      col.appendChild(ol);
+      strip.appendChild(col);
+    });
+    wrap.appendChild(strip);
+
+    /* The rule of this project: a table a reader can read is a table they can
+       take away, with its source on it. The strip is a table however it is
+       drawn, so it carries the same spec the old grid did. */
+    var csvCols = [{ key: 'svc', label: 'Service' }, { key: 'dir', label: 'Direction' },
+                   { key: 'seq', label: 'Call' }, { key: 'station', label: 'Station' },
+                   { key: 'arrive', label: 'Arrives' }, { key: 'depart', label: 'Departs' },
+                   { key: 'freq', label: 'Runs' }];
+    var csvRows = [];
+    cols.forEach(function (c) {
+      c.calls.forEach(function (call, i) {
+        var o = {};
+        var vals = { svc: c.svc, dir: c.dir.label, seq: String(i + 1),
+                     station: call.station, arrive: call.arrive,
+                     depart: call.depart, freq: call.freq };
+        csvCols.forEach(function (cc) {
+          o[cc.key] = { text: vals[cc.key] || '',
+                        value: cc.key === 'seq' ? +vals.seq : undefined };
+        });
+        csvRows.push(o);
+      });
+    });
+    var spec = document.createElement('div');
+    spec.tableSpec = { cols: csvCols, rows: csvRows };
+
+    var notes = ['Each column is one aeroplane, read downwards: where it '
+                 + 'called, when it arrived and when it left.'];
+    /* Whether *this* line was printed on a twelve-hour clock, which is only
+       true where a resolved time differs from the one on the page. Testing
+       the resolved value alone said yes for the Korea trunk, whose second
+       day is past 720 minutes without a twelve-hour time anywhere in it. */
+    var shifted = cols.some(function (c) {
+      return c.calls.some(function (x) {
+        return ['arrive', 'depart'].some(function (k) {
+          var v = x[k + 'At'];
+          return x[k] && v !== undefined && (v % 1440) !== airMins(x[k]);
+        });
+      });
+    });
+    if (shifted) {
+      notes.push('The source prints afternoon times on this line in twelve-hour '
+                 + 'form without a marker. They are shown as printed.');
+    }
+    notes.forEach(function (n) {
+      var p2 = document.createElement('p');
+      p2.className = 'pop-note';
+      p2.textContent = n;
+      wrap.appendChild(p2);
+    });
+    if (r.source) {
+      var sp2 = document.createElement('p');
+      sp2.className = 'pop-src';
+      if (r.srcUrl) {
+        var a2 = document.createElement('a');
+        a2.href = r.srcUrl; a2.target = '_blank'; a2.rel = 'noopener';
+        a2.textContent = r.source;
+        sp2.appendChild(a2);
+      } else sp2.textContent = r.source;
+      wrap.appendChild(sp2);
+    }
+    addCsvButton(wrap, spec, h.textContent, notes, r.source || '');
+    host.appendChild(wrap);
+  }
+
   function selectAir(r) {
     select(null);
     if (!infoBox) return;
@@ -8515,35 +8728,7 @@
       ? (r.source + (r.opened ? '' : ''))
       : '';
     if (r.times && r.times.length) {
-      var cols = [{ k: 'station', h: 'Station' }, { k: 'da', h: 'Arr.' },
-                  { k: 'dd', h: 'Dep.' }, { k: 'ua', h: 'Arr.' },
-                  { k: 'ud', h: 'Dep.' }];
-      /* Only where a route says one. The 1931 trunk has no frequency column in
-         its source and would get an empty one. */
-      if (r.times.some(function (t) { return t.freq; })) {
-        cols.push({ k: 'freq', h: 'Runs' });
-      }
-      var notes = ['The first pair of columns is the outward journey, the '
-                   + 'second the return.'];
-      if (r.id === 'korea') {
-        notes.push('The aeroplane lay over at Keijō: out, it arrived 17:20 and '
-                   + 'left 7:30 the next morning; back, it arrived 16:40 and '
-                   + 'left at 7:00.');
-      }
-      /* **One table per service, not one per route.** A corridor could be
-         flown more than once a day — Tokyo–Nagoya has a morning and an
-         afternoon — and merging them into a single station list would put two
-         departures in one cell and say a thing that never happened. `service`
-         names them; a route with one unnamed service still gets one table. */
-      var svcs = r.times.map(function (t) { return t.svc || ''; })
-        .filter(function (v, i, a) { return a.indexOf(v) === i; });
-      var base = r.season ? ('Timetable, ' + r.season)
-                          : 'Summer timetable, June–August 1931';
-      svcs.forEach(function (svc) {
-        var mine = r.times.filter(function (t) { return (t.svc || '') === svc; });
-        airTable(host, base + (svc ? ' — ' + svc + ' service' : ''),
-          cols, mine, notes, r.source, r.srcUrl);
-      });
+      airJourneyStrip(host, r);
     }
     if (r.fares && r.fares.length) {
       var legs = [];
@@ -8703,40 +8888,119 @@
     var prov = infoBox.querySelector('.prov');
     if (prov) prov.hidden = true;
 
+    /* **An airport's day, in the order it happened.**
+     *
+     * A line answers "where did this go"; a dot has to answer "what came
+     * through here, and when". The old card gave one row per route with the
+     * two directions folded into a cell as "13:10 / 11:00", which is two
+     * different aeroplanes on different errands written as though they were
+     * one fact. Here every call is its own row — the time, whether it was an
+     * arrival or a departure, and the place at the other end of that leg —
+     * and the rows are in clock order, so the reader sees the airport's day
+     * rather than a list of the routes that touched it. */
     var host = airCardHost();
     host.innerHTML = '';
-    var rows = [];
+    var key = st.id || st.name;
+    var base = String(st.name || '').split(' (')[0];
+    var evs = [];
     mine.forEach(function (r) {
-      var hits = airTimesAt(r, st);
-      if (!hits.length) {
-        rows.push({ route: r.name, svc: '', arr: '', dep: '', freq: '' });
-        return;
+      /* Which stop this is on that route, so the far end of each leg can be
+         named: an arrival came from the call before it in the direction it
+         was flying, and a departure goes to the one after. */
+      var at = -1;
+      for (var i = 0; i < r.stops.length; i++) {
+        if ((r.stops[i].id || r.stops[i].name) === key) { at = i; break; }
       }
-      hits.forEach(function (t) {
-        /* Both directions on one line: what came in and what went out, which
-           is what an airport is asked about. A blank is a call the source
-           does not time, not a flight that did not happen. */
-        rows.push({ route: r.name, svc: t.svc || '',
-                    arr: [t.da, t.ua].filter(Boolean).join(' / '),
-                    dep: [t.dd, t.ud].filter(Boolean).join(' / '),
-                    freq: t.freq || '' });
+      var short = function (j) {
+        var sp = r.stops[j];
+        return sp ? String(sp.name || '').split(' (')[0] : '';
+      };
+      var ends = short(0) + ' – ' + short(r.stops.length - 1);
+      airServices(r).forEach(function (svc) {
+        AIR_DIRS.forEach(function (d) {
+          var calls = airJourney(r, svc, d.k);
+          calls.forEach(function (call) {
+            if (!call.station || call.station.indexOf(base) < 0) return;
+            var up = d.k === 'up';
+            if (call.arrive) {
+              evs.push({ at: call.arriveAt, time: call.arrive, what: 'Arrives',
+                         other: at < 0 ? '' : short(up ? at + 1 : at - 1),
+                         route: r.name, ends: ends, svc: svc, dir: d.label,
+                         freq: call.freq, src: r.source, srcUrl: r.srcUrl });
+            }
+            if (call.depart) {
+              evs.push({ at: call.departAt, time: call.depart, what: 'Departs',
+                         other: at < 0 ? '' : short(up ? at - 1 : at + 1),
+                         route: r.name, ends: ends, svc: svc, dir: d.label,
+                         freq: call.freq, src: r.source, srcUrl: r.srcUrl });
+            }
+          });
+        });
       });
+      // a route that calls here and which the source does not time at all
+      if (!airTimesAt(r, st).length) {
+        evs.push({ at: null, time: '', what: '', other: '', route: r.name,
+                   ends: ends, svc: '', dir: '', freq: '',
+                   src: r.source, srcUrl: r.srcUrl });
+      }
     });
-    var cols = [{ k: 'route', h: 'Route' }, { k: 'arr', h: 'Arrives' },
-                { k: 'dep', h: 'Departs' }];
-    if (rows.some(function (x) { return x.svc; })) {
-      cols.splice(1, 0, { k: 'svc', h: 'Service' });
-    }
+    /* **The airport's day, not the aeroplane's.** `airJourney` counts forward
+       across a lay-over, so the Korea trunk's return reaches Fukuoka on its
+       second day and sorts at 35 hours; on the line that is right, and here it
+       is not. These are daily services, and what a reader standing at Fukuoka
+       wants is the order of the clock: 11:00 in, 11:10 out, then 13:10 and
+       13:20 — two aeroplanes going opposite ways, at the times of day they
+       came. So the ordering is the time of day and the day is dropped.
+
+       The untimed routes go to the foot: a blank is a call the timetable does
+       not time, not a flight that did not happen, and it must not sort in
+       among the times as though it were midnight. */
+    evs.sort(function (a, b) {
+      if (a.at === null) return b.at === null ? 0 : 1;
+      if (b.at === null) return -1;
+      return (a.at % 1440) - (b.at % 1440);
+    });
+    /* **Here the clock is printed, not the page.** The strip shows the
+       source's own string, and can: a column read downwards says by itself
+       that 1:25 comes after 12:50. A list ordered by the clock cannot — the
+       Taiwan service reaching Fukuoka at "1:00" sat between 11:10 and 13:10
+       and read as a misprint. So this list gives the twenty-four hour time it
+       was sorted by, and says as much underneath. Nothing is guessed: the
+       reading comes from the order of the flight's own calls. */
+    var hhmm = function (m) {
+      var v = ((m % 1440) + 1440) % 1440;
+      return Math.floor(v / 60) + ':' + ('0' + (v % 60)).slice(-2);
+    };
+    var recast = evs.some(function (e) {
+      return e.at !== null && hhmm(e.at) !== e.time;
+    });
+    var rows = evs.map(function (e) {
+      return { time: e.at === null ? '' : hhmm(e.at), what: e.what,
+               other: e.other ? ((e.what === 'Arrives' ? 'from ' : 'to ') + e.other)
+                              : (e.what ? '' : 'not timed here'),
+               route: e.route + (e.svc ? ' — ' + e.svc : ''),
+               // wrapped seven lines deep in a phone's column otherwise, and
+               // the reader is standing at one of the stops in the middle of
+               // it: the two ends name the line well enough here
+               short: e.ends + (e.svc ? ' — ' + e.svc : ''),
+               freq: e.freq };
+    });
+    var cols = [{ k: 'time', h: 'Time' }, { k: 'what', h: '' },
+                { k: 'other', h: 'From / to' }, { k: 'short', h: 'Route' }];
     if (rows.some(function (x) { return x.freq; })) {
       cols.push({ k: 'freq', h: 'Runs' });
     }
     var srcs = mine.map(function (r) { return r.source; }).filter(Boolean);
-    airTable(host, 'Flights through ' + String(st.name).split(' (')[0],
-      cols, rows,
-      ['Arrivals and departures are given as outward / return where the '
-       + 'source times both.',
+    airTable(host, 'Flights through ' + base, cols, rows,
+      ['Every call at this airport in the order of the clock, with the place '
+       + 'at the other end of that leg.',
        'A blank is a call the timetable does not time, not a flight that did '
-       + 'not happen.'],
+       + 'not happen.'].concat(recast
+        ? ['Some of these sources print an afternoon in twelve-hour form '
+           + 'without a marker. The times here are on a twenty-four hour '
+           + 'clock, read from the order of each flight\'s own calls; the '
+           + 'route\'s own card shows them as the source prints them.']
+        : []),
       srcs[0] || '', (mine[0] || {}).srcUrl || '');
 
     infoBox.hidden = false;

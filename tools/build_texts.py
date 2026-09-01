@@ -832,7 +832,10 @@ def build_data_js():
                 for k, v in (("svc", t.get("service", "")),
                              ("station", t["station"]), ("da", t["down_arrive"]),
                              ("dd", t["down_depart"]), ("ua", t["up_arrive"]),
-                             ("ud", t["up_depart"]), ("freq", t.get("frequency", "")))
+                             ("ud", t["up_depart"]), ("freq", t.get("frequency", "")),
+                             # the one lay-over the sources record: which
+                             # departures from this stop are the next morning
+                             ("ov", t.get("overnight", "")))
                 if v != "")
             for t in tt)
         fr = [f for f in fares if f["route"] == r["id"]]

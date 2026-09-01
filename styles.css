@@ -9,6 +9,7 @@
   --line: #cec7b8;
   --panel: #fffdf8;
   --air-halo: #ffffff;
+  --air-time: #4d7086;
   --accent: #9a1813;
   --accent-soft: #f6e2df;
   /* Checkboxes and radios take the map's own red rather than the browser's
@@ -105,6 +106,7 @@
     --line: #333c46;
     --panel: #1b232b;
   --air-halo: #f2f4f7;
+  --air-time: #8fb6cd;
     --accent: #d9564e;
     --accent-soft: #3a2320;
 
@@ -152,6 +154,7 @@
   --line: #333c46;
   --panel: #1b232b;
   --air-halo: #f2f4f7;
+  --air-time: #8fb6cd;
   --accent: #d9564e;
   --accent-soft: #3a2320;
 
@@ -3700,3 +3703,38 @@ dialog h3 {
 #air .air-stop-at { pointer-events: auto; cursor: pointer; }
 #air .air-stop-hit { fill: transparent; stroke: none; }
 #air .air-stop-at:hover .air-stop { stroke-width: 2.2; }
+
+/* The air card's journey strip: one column per aeroplane, read downwards.
+   The times are set smaller and in their own colour so the eye can run down
+   either the places or the clock without reading both at once. */
+.air-strip {
+  display: flex; gap: 1.1rem; overflow-x: auto;
+  padding-bottom: 0.2rem; align-items: flex-start;
+}
+.air-jrn { min-width: 8.5rem; flex: 0 0 auto; }
+.air-jrn-head {
+  margin: 0 0 0.35rem; font-size: 0.74rem; font-weight: 600;
+  letter-spacing: 0.02em; color: var(--muted);
+}
+.air-calls { list-style: none; margin: 0; padding: 0; }
+/* The line of flight: a rule down the left of the calls, so a column reads as
+   one journey rather than a stack of separate stops. */
+.air-calls li {
+  position: relative; padding: 0 0 0.5rem 0.7rem;
+  border-left: 1px solid var(--line);
+}
+.air-calls li:last-child { border-left-color: transparent; padding-bottom: 0; }
+.air-calls li::before {
+  content: ''; position: absolute; left: -3.5px; top: 0.34em;
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--ink);
+}
+.air-place { display: block; font-size: 0.86rem; line-height: 1.25; }
+.air-t {
+  display: block; font-size: 0.74rem; color: var(--air-time);
+  font-variant-numeric: tabular-nums;
+}
+.air-t em { font-style: normal; opacity: 0.75; }
+/* Its own line: at 0.68rem beside a time it was clipped to "next d" in the
+   card's column, which reads as a typing error rather than a night's sleep. */
+.air-t .air-next { display: block; font-size: 0.68rem; opacity: 0.85; }

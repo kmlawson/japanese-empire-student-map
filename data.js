@@ -7366,7 +7366,7 @@ JMAP.AIR = [
       { station: '大阪 Osaka', da: '10:00', dd: '10:20', ua: '14:00', ud: '14:20' },
       { station: '福岡 Fukuoka', da: '13:10', dd: '13:20', ua: '11:00', ud: '11:10' },
       { station: '蔚山 Ulsan', da: '15:10', dd: '15:20', ua: '9:00', ud: '9:10' },
-      { station: '京城 Keijō', da: '17:20', dd: '7:30', ua: '16:40', ud: '7:00' },
+      { station: '京城 Keijō', da: '17:20', dd: '7:30', ua: '16:40', ud: '7:00', ov: 'down up' },
       { station: '平壌 Heijō', da: '8:40', dd: '9:00', ua: '15:10', ud: '15:30' },
       { station: '大連 Dairen', da: '10:30', ud: '11:50' }
     ],

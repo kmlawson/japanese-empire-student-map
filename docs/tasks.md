@@ -15524,6 +15524,77 @@ returns to the one.
 
 ---
 
+## The air times, read down instead of across
+
+The timetable was a grid: a station list with four columns of times beside it,
+arrival and departure out, arrival and departure back. That is how the source
+prints it, and it is not how anybody reads it — following one aeroplane meant
+taking the first two columns downwards and the last two back up, holding the
+direction in your head while doing it, and a route flown twice a day put two of
+those grids on the page.
+
+**Each column is now one aeroplane.** Its stops in the order it called at them,
+the time it arrived and the time it left under each, so the eye runs down the
+page the way the flight ran down the line; the return is the column beside it
+rather than the same one read backwards. Times are set smaller and in a colour
+of their own (`--air-time`), so a reader can follow the places or the clock
+without reading both at once.
+
+### The sources do not agree on how to write an afternoon
+
+This surfaced only once the times had to be *ordered*. The 1931 Korea diagram
+is on a twenty-four hour clock — Keijō at 17:20. The Taiwan sheets are not: the
+eastern line leaves Tainan at 12:30 and reaches Taitō at "1:25", meaning twenty
+past one in the afternoon. Sorted as printed, the afternoon comes before the
+morning.
+
+A journey settles it, because an aeroplane's calls run forwards: walking the
+stops in the order flown and taking, at each call, the earliest reading not
+before the one behind it resolves **forty of the hundred and thirty-nine times
+in the file** without a guess about any of them.
+
+The one thing that walk cannot see is a night on the ground. Out, the trunk
+reached Keijō at 17:20 and left at 7:30 the next morning; the rule above reads
+that as 19:30 and carries the error to Dairen. So the lay-over is **marked in
+the data** — a new `overnight` column in `timetable.csv`, naming the directions
+it applies to — rather than inferred. It is the only one in the file.
+
+### Where each form is shown, and why they differ
+
+* **The route card prints the source's own string.** A column read downwards
+  says by itself that 1:25 follows 12:50, so nothing needs resolving on the
+  page, and a note says the source uses the twelve-hour form on that line.
+* **The airport card prints the resolved time**, because a list ordered by the
+  clock cannot show its own working: the Taiwan service reaching Fukuoka at
+  "1:00", sorted correctly between 11:10 and 13:10, read as a misprint. The
+  card says it has done this and points at the route's own card for the
+  printed form.
+
+### An airport's day is not an aeroplane's
+
+The old airport card gave one row per route with both directions folded into a
+cell — "13:10 / 11:00" — which is two aeroplanes on different errands written
+as though they were one fact. Every call is now its own row: the time, whether
+it was an arrival or a departure, and the place at the other end of that leg.
+
+Ordering them needed a second correction. `airJourney` counts forward across
+the lay-over, so the trunk's return reaches Fukuoka on its second day and sorts
+at thirty-five hours; on the line that is right and here it is not. These are
+daily services, so the sort is `at % 1440` — the time of day — and Fukuoka now
+reads 11:00 in, 11:00 out, 11:10 out, 13:00 in, 13:10 in, 13:20 out. Six
+aeroplanes, three routes, in the order they came.
+
+Routes are named by their two ends here — "Tokyo – Dairen" rather than the full
+seven-stop chain — because on a phone the full name wrapped seven lines deep in
+its column, and the reader is standing at a stop in the middle of it.
+
+Measured: `tools/test/air.js` 61 checks, 0 failing.
+
+`data/air/timetable.csv` gained `overnight`; `tools/build_texts.py` passes it
+through as `ov`.
+
+---
+
 ## Excel read our CSVs as Windows-1252
 
 Reported from a downloaded copy of the Korea 1930 table: the names came out as

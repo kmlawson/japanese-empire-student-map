@@ -105,6 +105,11 @@ const card_=p=>p.evaluate(()=>{
     alt:(i.querySelector('.alt')||{}).textContent,
     when:(i.querySelector('.when')||{}).textContent,
     tables:document.querySelectorAll('#info-air .pop-table').length,
+    strips:document.querySelectorAll('#info-air .air-jrn').length,
+    heads:[...document.querySelectorAll('#info-air .air-jrn-head')].map(x=>x.textContent),
+    calls:[...document.querySelectorAll('#info-air .air-jrn')].map(c=>
+      [...c.querySelectorAll('.air-calls li')].map(li=>li.textContent.replace(/\s+/g,' ').trim())),
+    nextday:document.querySelectorAll('#info-air .air-next').length,
     csv:document.querySelectorAll('#info-air .pop-csv').length,
     src:(document.querySelector('#info-air .pop-src a')||{}).href||'',
     head:[...document.querySelectorAll('#info-air .pop-table th')].map(x=>x.textContent).join(' '),
@@ -332,7 +337,33 @@ const card_=p=>p.evaluate(()=>{
   check('headed as an air route', card.chip==='Air route', card.chip);
   check('with the operator and the year it opened',
     /Japan Air Transport/.test(card.when) && /1929/.test(card.when), card.when);
-  check('the timetable and the fares are both drawn', card.tables===2,
+  /* **The journey down the column, not the timetable across the page.** Four
+     columns of times beside a station list is how the source prints it and not
+     how anybody reads it: following one aeroplane meant taking columns one and
+     two downwards and three and four back up. Each column here is one
+     aeroplane. */
+  check('the outward and the return are separate columns', card.strips===2,
+    String(card.strips) + ' — ' + JSON.stringify(card.heads));
+  check('headed Outward and Return',
+    /Outward/.test(card.heads[0]||'') && /Return/.test(card.heads[1]||''),
+    JSON.stringify(card.heads));
+  check('the outward runs Tokyo to Dairen, in that order',
+    /Tokyo/.test((card.calls[0]||[])[0]||'')
+    && /Dairen/.test((card.calls[0]||[]).slice(-1)[0]||''),
+    JSON.stringify((card.calls[0]||[]).slice(0,2)));
+  check('and the return is the same stops the other way',
+    /Dairen/.test((card.calls[1]||[])[0]||'')
+    && /Tokyo/.test((card.calls[1]||[]).slice(-1)[0]||''),
+    JSON.stringify((card.calls[1]||[]).slice(0,2)));
+  check('each call carries the time in and the time out',
+    /in 10:00/.test((card.calls[0]||[])[1]||'')
+    && /out 10:20/.test((card.calls[0]||[])[1]||''), (card.calls[0]||[])[1]||'');
+  /* The lay-over at Keijō is the one thing a column of times cannot show by
+     itself: out it arrived 17:20 and left at 7:30 the following morning, and
+     without the mark that reads as leaving ten hours before it landed. */
+  check('a night on the ground is marked as one, both ways', card.nextday===2,
+    String(card.nextday));
+  check('the fares are still a table beside it', card.tables===1,
     String(card.tables));
   check('the timetable has no empty frequency column where the source gave none',
     !/Runs/.test(card.head||''), card.head||'');
@@ -362,8 +393,33 @@ const card_=p=>p.evaluate(()=>{
   check('Fukuoka is on five of the routes', /5 of the scheduled/.test(fuk.alt),
     fuk.alt);
   check('and every one of them is listed', fuk.rows>=5, String(fuk.rows));
-  check('with arrivals and departures', /Arrives/.test(fuk.head) && /Departs/.test(fuk.head),
-    fuk.head);
+  /* One row per call, in the order of the clock: the time, whether it was an
+     arrival or a departure, and the place at the other end of that leg. The
+     old card gave one row per route with both directions folded into a cell
+     as "13:10 / 11:00" — two aeroplanes on different errands written as one
+     fact. */
+  check('the columns are the time, the event and the far end',
+    /Time/.test(fuk.head) && /From \/ to/.test(fuk.head), fuk.head);
+  check('with arrivals and departures in the rows',
+    /Arrives/.test(fuk.body) && /Departs/.test(fuk.body),
+    (fuk.body||'').slice(0,90));
+  check('and each says where the leg went',
+    /from Ulsan/.test(fuk.body) && /to Osaka/.test(fuk.body),
+    (fuk.body||'').slice(0,90));
+  /* **The airport's day, not the aeroplane's.** `airJourney` counts forward
+     across the lay-over, so the trunk's return reaches Fukuoka on its second
+     day; sorted by that, 11:00 came after 13:20. And the Taiwan sheets print
+     an afternoon in twelve-hour form, so "1:00" had to be read as 13:00 from
+     the order of the flight's own calls before it could be sorted at all. */
+  const times=await page.evaluate(()=>
+    [...document.querySelectorAll('#info-air tbody tr')]
+      .map(tr=>tr.children[0].textContent.trim()).filter(Boolean));
+  const mins=t=>{const m=/^(\d{1,2}):(\d{2})$/.exec(t); return m?+m[1]*60+ +m[2]:null;};
+  check('the calls are in clock order',
+    times.map(mins).filter(v=>v!==null)
+      .every((v,i,a)=>i===0||a[i-1]<=v), JSON.stringify(times));
+  check('and a twelve-hour afternoon was resolved, not printed as it stood',
+    times.indexOf('13:00')>=0 && times.indexOf('1:00')<0, JSON.stringify(times));
   const tky=await port('tokyo');
   check('a corridor flown twice a day shows both services',
     /morning/.test(tky.body) && /afternoon/.test(tky.body), tky.head);
