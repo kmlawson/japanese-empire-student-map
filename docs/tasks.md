@@ -15524,6 +15524,47 @@ returns to the one.
 
 ---
 
+## Excel read our CSVs as Windows-1252
+
+Reported from a downloaded copy of the Korea 1930 table: the names came out as
+`äº¬ç•¿é"`. That is not a bug in the file. It is 京畿道's own UTF-8 bytes —
+E4 BA AC E7 95 BF E9 81 93 — read one byte at a time as Windows-1252, and it
+reproduces character for character.
+
+The bytes were always UTF-8, and the blob always carried
+`text/csv;charset=utf-8`. That declaration is worth nothing here: it lives in
+a MIME type, and nothing consults a MIME type once the file is sitting in a
+downloads folder. Excel opens a bare `.csv` with the system codepage and there
+is no in-band signal to tell it otherwise — except a byte-order mark, which is
+the one thing it does honour.
+
+So `downloadText` prepends `\uFEFF`, **for CSV only**. Keyed on the type
+rather than added to everything that leaves the page, because a BOM in front
+of a GeoJSON breaks `JSON.parse` and most strict parsers with it — and this
+map hands out both from the same helper.
+
+Measured on a real captured export: the file now begins `EF BB BF`, and
+`朝鮮` survives the round trip.
+
+    utf-8-sig   'Korea, estimated population at 1 October 1942'
+    utf-8       '\ufeff"Korea, ...'
+
+The second line is the cost, and it is worth stating: a reader who opens the
+file in Python with plain `utf-8` finds the mark on the front of the first
+header cell. `utf-8-sig` is the right answer there, and pandas, R, Numbers,
+LibreOffice and `csv` with that encoding all skip it without being asked.
+Excel is the reader a teaching map actually meets, and it cannot be told any
+other way.
+
+Checked both directions: `population.js` requires the mark on the CSV,
+`menu.js` requires its absence on the GeoJSON — the second because the two
+files leave through the same function and a change there could quietly put a
+mark on the wrong one.
+
+`tools/test/population.js` 97 checks, `tools/test/menu.js` 51 checks.
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

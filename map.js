@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '273';
+  var JEM_VERSION = '274';
   var JEM_ASSETS = {"admin.js": "3414697d04", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "58132ef9c2", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
 
   /* Every file this one fetches, with the version on it.
@@ -8297,7 +8297,20 @@
 
   function downloadText(text, name, mime) {
     try {
-      var blob = new Blob([text], { type: (mime || 'text/csv') + ';charset=utf-8' });
+      var type = mime || 'text/csv';
+      /* **A byte-order mark, or Excel reads it as Windows-1252.**
+         The bytes were always UTF-8 and the blob always said `charset=utf-8`,
+         but that lives in a MIME type nobody consults once the file is on
+         disk: Excel opens a bare .csv with a legacy 8-bit codepage and every
+         name in the file comes out as mojibake — 朝鮮 as `æœé®`. A BOM is
+         the only in-band signal it honours, and every other reader of ours
+         (Numbers, LibreOffice, pandas, csv.DictReader) skips it.
+
+         CSV only. A BOM in front of a GeoJSON breaks `JSON.parse` and most
+         strict parsers, which is why this is keyed on the type rather than
+         added to everything that leaves the page. */
+      var body = /csv/.test(type) ? '\uFEFF' + text : text;
+      var blob = new Blob([body], { type: type + ';charset=utf-8' });
       var a = document.createElement('a');
       a.href = URL.createObjectURL(blob);
       a.download = name;

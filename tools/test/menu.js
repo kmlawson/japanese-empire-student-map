@@ -140,12 +140,18 @@ const admin=async p=>{ await p.evaluate(()=>{
     (ring||[]).forEach(([x,y])=>{ x0=Math.min(x0,x); x1=Math.max(x1,x);
                                   y0=Math.min(y0,y); y1=Math.max(y1,y); });
     return {ok:true, type:j.type, n:j.features.length, gtype:f&&f.geometry.type,
+            bom: caught.charCodeAt(0)===0xFEFF,
             props:f&&f.properties, closed: ring && ring.length>3
               && ring[0][0]===ring[ring.length-1][0]
               && ring[0][1]===ring[ring.length-1][1],
             box:[+x0.toFixed(2),+y0.toFixed(2),+x1.toFixed(2),+y1.toFixed(2)]};
   });
   check('a file came out of it', geo.ok, JSON.stringify(geo).slice(0,160));
+  /* The CSVs carry a byte-order mark so Excel does not read them as
+     Windows-1252. This must not: `JSON.parse` rejects a leading BOM, and so
+     do most strict parsers a reader would put the file through. */
+  check('and no byte-order mark, which the CSVs need and JSON cannot take',
+        geo.bom===false, String(geo.bom));
   check('it is a FeatureCollection of MultiPolygon',
         geo.type==='FeatureCollection' && geo.gtype==='MultiPolygon',
         geo.type+' / '+geo.gtype);

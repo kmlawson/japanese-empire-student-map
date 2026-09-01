@@ -564,6 +564,15 @@ const spot = (p, sel, fx, fy) => p.evaluate((s, ax, ay) => {
     await sleep(400);
     const csv = await p.evaluate(() => window.__csv || '');
     const lines = csv.split('\n');
+    /* **Excel reads a bare .csv as Windows-1252.** The bytes were always
+       UTF-8 and the blob always said so in its MIME type, but that is not
+       consulted once the file is on disk, and every name in it came out as
+       mojibake — 朝鮮 as `æœé®`. A byte-order mark is the only in-band
+       signal Excel honours; every other reader of ours skips it. */
+    check('it opens as UTF-8 in Excel, which wants a byte-order mark',
+      csv.charCodeAt(0) === 0xFEFF, 'first code unit ' + csv.charCodeAt(0));
+    check('and the mark is the only thing before the title',
+      /^\uFEFF[^\n,]/.test(csv), JSON.stringify(csv.slice(0, 24)));
     check('the file has a header row and a row per place',
       lines.length > 10 && /Population/.test(lines[1]), String(lines.length));
     check('and the figures rather than the screen\'s wording',
