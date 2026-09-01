@@ -15524,6 +15524,104 @@ returns to the one.
 
 ---
 
+## The air cards again: circuits, arrows, and every clock on 24 hours
+
+Twelve changes asked for after reading the first version on a real screen.
+
+### The data
+
+* **Every clock is a twenty-four hour clock now, in the file.** The map used to
+  resolve this at run time by walking each journey and adding twelve hours
+  wherever a call came before the one behind it. It worked and it was a silent
+  inference between a source and a reader. 28 times were rewritten by that walk
+  and **28 more were lifted out of the small hours** — every one an afternoon on
+  the return half of a day trip, printed on a twelve-hour clock: nothing in this
+  network flew before dawn, with no lighting and no instruments.
+  `build_texts.py` now **refuses to build** a journey whose calls run backwards,
+  naming the route, the station and the time, and saying which of the two things
+  it could be. Driven by putting `1:25` back: it stops the build.
+* **The 1942 trunk is the 1938–39 one.** `korea` keeps the 1931 timetable and
+  the 1930 sheet; `korea-1938` is a route of its own on the 1942 sheet, running
+  Tokyo–Osaka–Fukuoka–Keijō–Dairen in a day and turning at Dairen the next
+  morning. Ulsan and Heijō are not stops on it. Twenty routes, nineteen drawn
+  on any one date.
+* **Fukuoka–Taikyū–Keijō is timed**, both ways, and Keijō–Hōten–Shinkyō's
+  outward times were the twelve-hour form and are now 13:10, 15:10, 15:20,
+  16:20.
+* **毎日 is gone from the interface.** The file carried "毎日 daily" and the card
+  printed both, which is not a translation — it is the same fact twice in a
+  column narrow enough to wrap. English in the interface; the Japanese is in
+  the source.
+* **One airline, named once.** Every route now carries `Japan Air Transport
+  (日本航空輸送株式會社)`; four rows had `日本航空輸送株式會社線` and one had a
+  shorter form.
+
+### The cards
+
+* **One column is one circuit.** It was a grid, then two columns — outward and
+  return — which still asked the reader to start again halfway. An aeroplane
+  does not: it goes out, turns round and comes back. The column runs the whole
+  way and the next column is the next circuit.
+* **↓ is landing and ↑ is taking off.** No key needed, and shorter than either
+  word in any language this map is read in. It replaced "in"/"out" on the route
+  card and a whole column of the words Arrives and Departs on the airport one.
+* **Three lines where there was one phrase**: the service, how often it ran, and
+  which half of the circuit this is, each on its own.
+* **A place is named the way the map names a city** — the characters, then the
+  romanisation the names switch asks for. The timetable prints "京城 Keijō",
+  which is one reading fixed at the source; with Japanese names off it now reads
+  京城 Kyŏngsŏng, 臺北 Táiběi, 大連 Dàlián.
+* **The airport card lost two of its five columns.** The route, even shortened
+  to its two ends, wrapped four lines deep on a phone while naming something the
+  reader had usually just come from. What survives is the time with its arrow,
+  and the far end of the leg. The service is named beside it **only where a
+  route was flown more than once a day** — Tokyo–Nagoya had a morning and an
+  afternoon, and without that the two were four rows differing by nothing but
+  the clock.
+* **The card no longer names the route twice.** `primary` is already the chain
+  of stops; the line under it repeated the chain with arrows instead of dashes.
+
+### Two bugs found while doing it
+
+* **An airport under a line could not be pressed.** The rings hung inside their
+  own route's group, so a route drawn later put its line over an airport drawn
+  earlier — and at Fukuoka, where five services meet, the press always found a
+  line. Every ring is in one group above every line now, and which of them are
+  drawn is worked out from the routes that call there rather than inherited.
+* **The clash rule numbered two routes that are never drawn together.** Both
+  trunks are "Tokyo – Dairen"; numbering them put a "(2)" on the 1942 sheet with
+  no "(1)" anywhere on it. Two routes clash only if they share a pair of ends
+  *and* a date.
+
+### The margin, and a guard for the class of fault
+
+The dots down the left of the strip were sliced in half: each sits 3.5px left of
+its own rule, the strip scrolls sideways, and **a scroll container cannot be
+scrolled left of its own origin**. Anything drawn there is not hidden, it is
+gone. Fixed with padding, and `#info` gives back four pixels a side — 380 of
+400 rather than 372 — which is the difference between two journey columns and
+three.
+
+`tools/test/clipping.js` is new and generalises it: it walks every scroll
+container on the page at two viewport widths, in three states, and fails on
+anything whose box begins left of or above its container's. **It found nothing
+else** — including in the annotation pane, which was checked with the pane open
+and a point drawn, on both widths.
+
+Two things it needed: skip SVG (7,000 nodes, and a computed style for each timed
+the debugging protocol out — they are drawn, not laid out) and answer dialogs
+(the annotation pane confirms before replacing work, and an unanswered
+`confirm()` blocks the page's JavaScript, so the run died on a timeout rather
+than a failed check).
+
+Measured: `tools/test/air.js` 69 checks, `tools/test/clipping.js` 11.
+
+**Not done in this batch:** the 48-hour animation of the network. It wants what
+`trains.js` has — plans, `positionAt`, a clock, a slider and a speed — and that
+is a feature rather than an adjustment.
+
+---
+
 ## The browse layer is retired, and its names are not (#156 part B, #107)
 
 **What was there.** 170 context cities drawn in one undifferentiated grey.

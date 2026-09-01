@@ -56,8 +56,22 @@ const onLine=(p,id)=>p.evaluate(i=>{
   const svg=document.getElementById('jmap'), m=svg.getScreenCTM();
   const d=document.querySelector('.air-route[data-air="'+i+'"] .air-line').getAttribute('d');
   const pts=d.slice(1).split('L').map(s=>s.trim().split(/\s+/).map(Number));
-  const rings=[...document.querySelectorAll('#air [data-air-stop]')]
-    .map(g=>g.getBoundingClientRect());
+  /* **Clear of every other line as well as every ring.** Nineteen services
+     over one sea overlap: the point farthest from the airports on the trunk
+     ran along beside Keijō–Dairen for most of its length, and the press
+     opened that instead — a card for the wrong route, which the checks then
+     read as the right one saying the wrong things. */
+  const rings=[
+    // every airport, this route's own included — a point beside Koror is a
+    // press on Koror however the line got there
+    ...document.querySelectorAll('#air [data-air-stop]'),
+    // and every *other* route: nineteen services over one sea overlap, and
+    // the clearest stretch of the trunk ran alongside Keijō–Dairen for most
+    // of its length, so the press opened that instead
+    ...[...document.querySelectorAll('#air .air-route')]
+      .filter(g=>g.getAttribute('data-air')!==i)]
+    .map(g=>g.getBoundingClientRect())
+    .filter(b=>b.width||b.height);
   const scr=q=>{const t=svg.createSVGPoint(); t.x=q[0]; t.y=q[1];
                 return t.matrixTransform(m);};
   /* The point on the line *farthest* from any airport, rather than any point
@@ -106,9 +120,11 @@ const card_=p=>p.evaluate(()=>{
     when:(i.querySelector('.when')||{}).textContent,
     tables:document.querySelectorAll('#info-air .pop-table').length,
     strips:document.querySelectorAll('#info-air .air-jrn').length,
-    heads:[...document.querySelectorAll('#info-air .air-jrn-head')].map(x=>x.textContent),
-    calls:[...document.querySelectorAll('#info-air .air-jrn')].map(c=>
-      [...c.querySelectorAll('.air-calls li')].map(li=>li.textContent.replace(/\s+/g,' ').trim())),
+    heads:[...document.querySelectorAll('#info-air .air-leg-head')].map(x=>x.textContent),
+    freq:[...document.querySelectorAll('#info-air .air-jrn-freq')].map(x=>x.textContent),
+    // one entry per leg, in the order they are drawn down the column
+    legs:[...document.querySelectorAll('#info-air .air-calls')].map(c=>
+      [...c.querySelectorAll('li')].map(li=>li.textContent.replace(/\s+/g,' ').trim())),
     nextday:document.querySelectorAll('#info-air .air-next').length,
     csv:document.querySelectorAll('#info-air .pop-csv').length,
     src:(document.querySelector('#info-air .pop-src a')||{}).href||'',
@@ -137,14 +153,16 @@ const card_=p=>p.evaluate(()=>{
     opWithSeason:(JMAP.AIR||[]).filter(r=>r.season&&r.operator).length,
     noLine:(JMAP.AIR||[]).filter(r=>r.stops.length<2).map(r=>r.id),
   }));
-  /* Nineteen: the four dated services, the fourteen listed off the 1938–39
-     timetable, and Keijō–Kankō–Seishin, which the diagram carries and the list
-     did not. */
-  check('nineteen routes', data.n===19, String(data.n));
-  check('fifteen of them are read off the 1938–39 timetable',
-    data.seasoned===15, String(data.seasoned));
+  /* Twenty: the four dated services, the fourteen listed off the 1938–39
+     timetable, Keijō–Kankō–Seishin which the diagram carries and the list did
+     not, and the 1938–39 Tokyo–Dairen trunk. That last is the 1931 trunk's
+     replacement rather than an addition — it flies the same line without
+     Ulsan or Heijō, and the two are one route each on their own date. */
+  check('twenty routes', data.n===20, String(data.n));
+  check('sixteen are read off the 1938–39 timetable',
+    data.seasoned===16, String(data.seasoned));
   check('each of those names the airline',
-    data.opWithSeason===15, String(data.opWithSeason));
+    data.opWithSeason===16, String(data.opWithSeason));
   check('the trunk runs Tokyo to Dairen in seven stops',
     data.trunk && data.trunk.stops.length===7
       && data.trunk.stops[0].name==='Tokyo'
@@ -193,13 +211,13 @@ const card_=p=>p.evaluate(()=>{
     haloW:getComputedStyle(document.querySelector('#air .air-halo')).strokeWidth,
     lineW:getComputedStyle(document.querySelector('#air .air-line')).strokeWidth,
   }));
-  check('the button builds them all', on.shown && on.routes===19, JSON.stringify(on));
+  check('the button builds them all', on.shown && on.routes===20, JSON.stringify(on));
   check('the pane box and the button agree',
     on.pressed==='true' && on.box===true, on.pressed+' / '+on.box);
-  check('every route has a white halo under it', on.halo===19, String(on.halo));
+  check('every route has a white halo under it', on.halo===20, String(on.halo));
   check('and the halo is wider than the line it backs',
     parseFloat(on.haloW)>parseFloat(on.lineW), on.haloW+' vs '+on.lineW);
-  check('every stop is ringed', on.rings===67, String(on.rings));
+  check('every stop is ringed', on.rings===72, String(on.rings));
 
   /* **A route belongs to the dates it was flown.** The 1930 sheet has one:
      the Tokyo–Dairen trunk, the only service already running and the only one
@@ -211,16 +229,27 @@ const card_=p=>p.evaluate(()=>{
     on1930.length===1 && on1930[0]==='korea', on1930.join(', '));
   await toEpoch(page,'1942');
   const on1942=await drawn(page);
-  check('the 1942 sheet draws them all', on1942.length===19, String(on1942.length));
-  check('the trunk is on both', on1942.indexOf('korea')>=0, on1942.join(', '));
+  check('the 1942 sheet draws the other nineteen', on1942.length===19,
+    String(on1942.length));
+  /* **The trunk is not on both — it is a different aeroplane.** In 1931 it
+     called at Ulsan and Heijō and slept at Keijō; by the 1938–39 timetable it
+     ran Tokyo–Osaka–Fukuoka–Keijō–Dairen in a day and turned round the next
+     morning at Dairen. One route each, and each on its own date. */
+  check('the 1931 trunk is not drawn on the 1942 sheet',
+    on1942.indexOf('korea')<0, on1942.join(', '));
+  check('and its 1938–39 replacement is',
+    on1942.indexOf('korea-1938')>=0, on1942.join(', '));
   await toEpoch(page,'1930');
   check('and switching back puts the rest away again',
     (await drawn(page)).length===1);
   await toEpoch(page,'1942');
 
   console.log('\n— a ring is a size on screen, not in map units —');
+  /* A ring that is *drawn*. The first `.air-stop` in the document belongs to
+     the 1931 trunk, which the 1942 sheet does not draw, so it measured zero. */
   const ringAt=async()=>page.evaluate(()=>{
-    const c=document.querySelector('#air .air-stop');
+    const c=[...document.querySelectorAll('#air .air-stop')]
+      .find(e=>e.getBoundingClientRect().width>0);
     const b=c.getBoundingClientRect();
     return Math.round(b.width*10)/10;
   });
@@ -299,17 +328,22 @@ const card_=p=>p.evaluate(()=>{
   check('a line says what it is on hover', /Taihoku/.test(tips['taiwan-west']),
     tips['taiwan-west']);
   check('with the times on it, not only the name',
-    /out 9:00, back 2:55/.test(tips['taiwan-west']), tips['taiwan-west']);
+    /out 9:00, back 14:55/.test(tips['taiwan-west']), tips['taiwan-west']);
   /* The first stop's own two times. Using the *last* stop's arrival read as
      the end of the journey when it is the turn-round: Taihoku–Makō said "in
      11:05", the arrival at Makō, while the aeroplane was back at Taihoku at
      2:55. */
   check('and the return is the first stop’s, not the far end’s',
     !/11:05/.test(tips['taiwan-west']), tips['taiwan-west']);
+  /* In English. The Japanese was in the file beside it — "偶数日 even-numbered
+     days" — and saying it twice in a tooltip is not a translation, it is the
+     same fact taking two lines on a phone. */
   check('the Pescadores leg says it ran every other day',
-    /偶数日/.test(tips['taiwan-west']), tips['taiwan-west']);
+    /even-numbered days/.test(tips['taiwan-west'])
+    && !/偶数日/.test(tips['taiwan-west']), tips['taiwan-west']);
   check('where every leg is daily, it is said once and not five times',
-    (tips['taiwan-east'].match(/毎日/g)||[]).length===1, tips['taiwan-east']);
+    (tips['taiwan-east'].match(/daily/g)||[]).length===1
+    && !/毎日/.test(tips['taiwan-east']), tips['taiwan-east']);
   /* Fukuoka–Shanghai–Nanking is one the source does not time here. */
   check('a route with no times still says what it is',
     /Shanghai/.test(tips['shanghai']) && !/out /.test(tips['shanghai']),
@@ -326,7 +360,7 @@ const card_=p=>p.evaluate(()=>{
     order.air>-1 && order.hits>-1 && order.air>order.hits, JSON.stringify(order));
 
   console.log('\n— the card —');
-  const spot=await lineSpot(page,'korea');
+  const spot=await lineSpot(page,'korea-1938');
   check('there is a stretch of that line clear of every airport',
     !!spot && spot.clearOf >= 8,
     spot ? ('the best is only ' + spot.clearOf + ' px clear') : 'no point at all');
@@ -337,39 +371,44 @@ const card_=p=>p.evaluate(()=>{
   check('headed as an air route', card.chip==='Air route', card.chip);
   check('with the operator and the year it opened',
     /Japan Air Transport/.test(card.when) && /1929/.test(card.when), card.when);
-  /* **The journey down the column, not the timetable across the page.** Four
-     columns of times beside a station list is how the source prints it and not
-     how anybody reads it: following one aeroplane meant taking columns one and
-     two downwards and three and four back up. Each column here is one
-     aeroplane. */
-  check('the outward and the return are separate columns', card.strips===2,
+  /* **One column is one circuit, read straight down.**
+   *
+   * It was a grid first, then two columns — outward and return — which still
+   * asked the reader to start again halfway. An aeroplane does not: it goes
+   * out, turns round and comes back, and that is one thing to follow. */
+  check('the whole circuit is one column', card.strips===1,
     String(card.strips) + ' — ' + JSON.stringify(card.heads));
-  check('headed Outward and Return',
-    /Outward/.test(card.heads[0]||'') && /Return/.test(card.heads[1]||''),
-    JSON.stringify(card.heads));
+  check('with the outward and the return as two legs down it',
+    card.legs.length===2 && /Outward/.test(card.heads[0]||'')
+    && /Return/.test(card.heads[1]||''), JSON.stringify(card.heads));
+  check('how often it ran is on a line of its own',
+    card.freq.length===1 && /daily/.test(card.freq[0]),
+    JSON.stringify(card.freq));
   check('the outward runs Tokyo to Dairen, in that order',
-    /Tokyo/.test((card.calls[0]||[])[0]||'')
-    && /Dairen/.test((card.calls[0]||[]).slice(-1)[0]||''),
-    JSON.stringify((card.calls[0]||[]).slice(0,2)));
+    /Tokyo/.test((card.legs[0]||[])[0]||'')
+    && /Dairen|Dàlián/.test((card.legs[0]||[]).slice(-1)[0]||''),
+    JSON.stringify((card.legs[0]||[]).slice(0,2)));
   check('and the return is the same stops the other way',
-    /Dairen/.test((card.calls[1]||[])[0]||'')
-    && /Tokyo/.test((card.calls[1]||[]).slice(-1)[0]||''),
-    JSON.stringify((card.calls[1]||[]).slice(0,2)));
-  check('each call carries the time in and the time out',
-    /in 10:00/.test((card.calls[0]||[])[1]||'')
-    && /out 10:20/.test((card.calls[0]||[])[1]||''), (card.calls[0]||[])[1]||'');
-  /* The lay-over at Keijō is the one thing a column of times cannot show by
-     itself: out it arrived 17:20 and left at 7:30 the following morning, and
-     without the mark that reads as leaving ten hours before it landed. */
-  check('a night on the ground is marked as one, both ways', card.nextday===2,
+    /Dairen|Dàlián/.test((card.legs[1]||[])[0]||'')
+    && /Tokyo/.test((card.legs[1]||[]).slice(-1)[0]||''),
+    JSON.stringify((card.legs[1]||[]).slice(0,2)));
+  /* ↓ is landing and ↑ is taking off: no key needed, and shorter than either
+     word in any language this map is read in. */
+  check('each call carries an arrival and a departure, by arrow',
+    /\u2193 8:30/.test((card.legs[0]||[])[1]||'')
+    && /\u2191 8:50/.test((card.legs[0]||[])[1]||''), (card.legs[0]||[])[1]||'');
+  /* The 1938–39 trunk turned round at Dairen and came back the next morning,
+     which is the one thing a column of times cannot say by itself. */
+  check('a night on the ground is marked as one', card.nextday===1,
     String(card.nextday));
-  check('the fares are still a table beside it', card.tables===1,
+  /* The 1931 fares belong to the 1931 trunk; this one is a timetable only. */
+  check('the strip is the only table on this card', card.tables===0,
     String(card.tables));
   check('the timetable has no empty frequency column where the source gave none',
     !/Runs/.test(card.head||''), card.head||'');
   /* The project's rule: a table this map draws can be taken away, with its
      source on it. Two tables, two buttons. */
-  check('and each carries its own CSV', card.csv===2, String(card.csv));
+  check('and it carries its own CSV', card.csv===1, String(card.csv));
   check('with the source linked', /teikyo-u\.ac\.jp/.test(card.src), card.src);
 
   /* **A dot answers the other half of the network.** A line says where it
@@ -400,12 +439,20 @@ const card_=p=>p.evaluate(()=>{
      fact. */
   check('the columns are the time, the event and the far end',
     /Time/.test(fuk.head) && /From \/ to/.test(fuk.head), fuk.head);
-  check('with arrivals and departures in the rows',
-    /Arrives/.test(fuk.body) && /Departs/.test(fuk.body),
+  /* An arrow against the clock rather than a column of the words Arrives and
+     Departs: ↓ is landing and ↑ is taking off, it needs no key, and it gave
+     the far end of the leg the room its name wants. */
+  check('an arrow against the clock says which it was',
+    /\u2193/.test(fuk.body) && /\u2191/.test(fuk.body),
     (fuk.body||'').slice(0,90));
-  check('and each says where the leg went',
-    /from Ulsan/.test(fuk.body) && /to Osaka/.test(fuk.body),
+  check('and the words are gone with the column they filled',
+    !/Arrives/.test(fuk.body) && !/Departs/.test(fuk.body),
     (fuk.body||'').slice(0,90));
+  /* The far end of each leg, named the way the map names a city: characters,
+     then the romanisation the names switch asks for. */
+  check('each says where the leg went, in the reader\u2019s own names',
+    /from 大阪 Osaka/.test(fuk.body) && /to 大邱 Taegu/.test(fuk.body),
+    (fuk.body||'').slice(0,120));
   /* **The airport's day, not the aeroplane's.** `airJourney` counts forward
      across the lay-over, so the trunk's return reaches Fukuoka on its second
      day; sorted by that, 11:00 came after 13:20. And the Taiwan sheets print
@@ -418,8 +465,14 @@ const card_=p=>p.evaluate(()=>{
   check('the calls are in clock order',
     times.map(mins).filter(v=>v!==null)
       .every((v,i,a)=>i===0||a[i-1]<=v), JSON.stringify(times));
-  check('and a twelve-hour afternoon was resolved, not printed as it stood',
-    times.indexOf('13:00')>=0 && times.indexOf('1:00')<0, JSON.stringify(times));
+  /* **Every clock is a twenty-four hour clock**, and the file is what makes it
+     so: `build_texts.py` refuses a journey whose calls run backwards, which is
+     what a twelve-hour afternoon looks like from the next call along. Nothing
+     in this network flew before dawn, so a time under 05:00 is the signature
+     of the mistake. */
+  const raw=times.map(t=>t.replace(/[^0-9:]/g,''));
+  check('nothing is printed on a twelve-hour clock',
+    raw.every(t=>!/^[0-4]:/.test(t)), JSON.stringify(times));
   /* **Two names, and the short one has to stay unique.** None of the nineteen
      shares a pair of ends today, so the numbering has nothing to do — which is
      exactly why it is worth driving: a rule that has never once fired is a
@@ -432,12 +485,30 @@ const card_=p=>p.evaluate(()=>{
             long:(JMAP.AIR||[])[0].name};
   });
   check('every route carries a short name as well as its full one',
-    names.n===19 && /–/.test(names.sample[0]) && names.long.length>names.sample[0].length,
+    names.n===20 && /–/.test(names.sample[0]) && names.long.length>names.sample[0].length,
     JSON.stringify(names.sample));
   check('and the trunk is named by its two ends',
     names.sample[0]==='Tokyo – Dairen', names.sample[0]);
-  check('no two of the nineteen collide as things stand',
-    names.clash.length===0, JSON.stringify(names.clash));
+  /* **Only a clash a reader could see.** "Tokyo – Dairen" is the short name of
+     both trunks — the 1931 one and the 1938–39 one that replaced it — and they
+     are never drawn together, so neither is numbered. Numbering them would put
+     a "(2)" on the 1942 sheet with no "(1)" anywhere on it. */
+  const perEpoch=await page.evaluate(()=>{
+    const out={};
+    ['e1930','e1942'].forEach(e=>{
+      const n=(JMAP.AIR||[]).filter(r=>!r.epochs||!r.epochs.length
+                                       ||r.epochs.indexOf(e)>=0)
+        .map(r=>r.shortName);
+      out[e]=n.filter((v,i)=>n.indexOf(v)!==i);
+    });
+    return out;
+  });
+  check('no two routes drawn on the same date collide',
+    perEpoch.e1930.length===0 && perEpoch.e1942.length===0,
+    JSON.stringify(perEpoch));
+  check('and the two trunks share a short name without being numbered',
+    names.clash.length===1 && names.clash[0]==='Tokyo – Dairen',
+    JSON.stringify(names.clash));
   const planted=await page.evaluate(()=>{
     /* Two lines from Tokyo to Dairen by different roads is a thing the file
        could hold tomorrow; today it does not, so one is made. */
@@ -445,7 +516,9 @@ const card_=p=>p.evaluate(()=>{
     const twin=Object.assign({}, a, {id:'twin', stops:a.stops.slice()});
     JMAP.AIR.push(twin);
     JMAP.__airShortNames();
-    const out=JMAP.AIR.filter(r=>r.shortName.indexOf('Tokyo – Dairen')===0)
+    // the twin shares the 1931 trunk's dates, so those two are the clash
+    const out=JMAP.AIR.filter(r=>r.epochs&&r.epochs.indexOf('e1930')>=0
+                                 &&r.shortName.indexOf('Tokyo – Dairen')===0)
       .map(r=>r.shortName);
     JMAP.AIR.pop(); JMAP.__airShortNames();
     return out;
@@ -455,10 +528,19 @@ const card_=p=>p.evaluate(()=>{
     && planted[1]==='Tokyo – Dairen (2)', JSON.stringify(planted));
 
   const tky=await port('tokyo');
-  check('a corridor flown twice a day shows both services',
-    /morning/.test(tky.body) && /afternoon/.test(tky.body), tky.head);
+  /* **Which aeroplane, where it matters.** Dropping the route column dropped
+     the service with it, and Tokyo–Nagoya was flown twice a day: the two came
+     out as four rows differing by nothing a reader could see but the clock.
+     The service is named beside the far end, and only on a route that had
+     more than one — otherwise seventeen routes carry an empty phrase. */
+  check('a corridor flown twice a day says which service each call was',
+    /morning/.test(tky.body) && /afternoon/.test(tky.body),
+    (tky.body||'').slice(0,140));
+  /* A *drawn* one: the first `.air-stop-hit` in the document belongs to the
+     1931 trunk, which the 1942 sheet does not draw, and measured zero. */
   check('the ring is a press target a finger can find', await page.evaluate(()=>{
-    const h=document.querySelector('#air .air-stop-hit');
+    const h=[...document.querySelectorAll('#air .air-stop-hit')]
+      .find(e=>e.getBoundingClientRect().width>0);
     return h ? h.getBoundingClientRect().width >= 14 : false;
   }), 'the drawn ring is 3.4 px across');
 
@@ -491,8 +573,16 @@ const card_=p=>p.evaluate(()=>{
   check('and a finger on an airport opens that',
     tport.open && tport.chip==='Airport', JSON.stringify(tport).slice(0,140));
   check('the press targets are wider than what is drawn', await phone.evaluate(()=>{
-    const l=parseFloat(getComputedStyle(document.querySelector('#air .air-hit')).strokeWidth);
-    const r=document.querySelector('#air .air-stop-hit').getBoundingClientRect().width;
+    // drawn ones: the first of each belongs to the 1931 trunk, which this
+    // sheet does not draw
+    const hit=[...document.querySelectorAll('#air .air-hit')]
+      .find(e=>e.getBoundingClientRect().width>0
+             || e.getBoundingClientRect().height>0);
+    const ring=[...document.querySelectorAll('#air .air-stop-hit')]
+      .find(e=>e.getBoundingClientRect().width>0);
+    if (!hit || !ring) return false;
+    const l=parseFloat(getComputedStyle(hit).strokeWidth);
+    const r=ring.getBoundingClientRect().width;
     return l>=12 && r>=14;
   }), 'a 1.7 px line and a 3.4 px ring are not finger-sized');
 

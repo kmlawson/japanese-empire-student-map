@@ -1425,7 +1425,14 @@ button.plain:hover { background: var(--hover-fill); }
   width: min(400px, calc(100% - 20px));
   max-height: calc(100% - 20px);
   overflow-y: auto;
-  padding: 12px 14px;
+  /* **Nine pixels back from each side.** The card carries tables now — the
+     population figures, an air service's circuit — and 14px of padding either
+     side of a 400px box left 372 for them. A journey column is about 118px
+     wide, so three of them and their gaps did not fit and the third was cut;
+     at 10px there are 380, which is the difference between two columns and
+     three on the widest cards. It is a margin, not a rule: the text inside
+     still stands clear of the border. */
+  padding: 12px 10px;
   background: var(--panel);
   border: 1px solid var(--line);
   border-radius: 10px;
@@ -3696,23 +3703,40 @@ dialog h3 {
 #air .air-stop-hit { fill: transparent; stroke: none; }
 #air .air-stop-at:hover .air-stop { stroke-width: 2.2; }
 
-/* The air card's journey strip: one column per aeroplane, read downwards.
-   The times are set smaller and in their own colour so the eye can run down
-   either the places or the clock without reading both at once. */
+/* The air card's journey strip: one column per circuit, read downwards.
+   The times are set smaller and in their own colour so the eye can follow the
+   places or the clock without reading both at once. */
 .air-strip {
-  display: flex; gap: 1.1rem; overflow-x: auto;
-  padding-bottom: 0.2rem; align-items: flex-start;
+  display: flex; gap: 0.55rem; overflow-x: auto;
+  /* **Room for the bullet.** Each call is marked by a dot sitting 3.5px left
+     of its own rule, and with `overflow-x` on the strip that is outside the
+     scroll box: the first column's dots were sliced in half down their left
+     edge. The padding is the space the marks stand in. */
+  padding: 0 0.25rem 0.2rem 0.5rem;
+  margin-left: -0.5rem;
+  align-items: flex-start;
 }
-.air-jrn { min-width: 8.5rem; flex: 0 0 auto; }
+.air-jrn { min-width: 7.4rem; flex: 0 0 auto; }
+/* The service, how often it ran, and which half of the circuit this is: three
+   different facts, so three lines. Run together they read as one phrase and
+   none of them could be found. */
 .air-jrn-head {
-  margin: 0 0 0.35rem; font-size: 0.74rem; font-weight: 600;
+  margin: 0; font-size: 0.74rem; font-weight: 600;
   letter-spacing: 0.02em; color: var(--muted);
 }
+.air-jrn-freq {
+  margin: 0 0 0.3rem; font-size: 0.72rem; color: var(--muted);
+}
+.air-leg-head {
+  margin: 0.45rem 0 0.3rem; font-size: 0.7rem; font-weight: 600;
+  letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted);
+}
+.air-jrn > .air-leg-head:first-child { margin-top: 0; }
 .air-calls { list-style: none; margin: 0; padding: 0; }
 /* The line of flight: a rule down the left of the calls, so a column reads as
    one journey rather than a stack of separate stops. */
 .air-calls li {
-  position: relative; padding: 0 0 0.5rem 0.7rem;
+  position: relative; padding: 0 0 0.4rem 0.65rem;
   border-left: 1px solid var(--line);
 }
 .air-calls li:last-child { border-left-color: transparent; padding-bottom: 0; }
@@ -3721,12 +3745,13 @@ dialog h3 {
   width: 6px; height: 6px; border-radius: 50%;
   background: var(--ink);
 }
-.air-place { display: block; font-size: 0.86rem; line-height: 1.25; }
+.air-place { display: block; font-size: 0.84rem; line-height: 1.25; }
 .air-t {
   display: block; font-size: 0.74rem; color: var(--air-time);
   font-variant-numeric: tabular-nums;
 }
-.air-t em { font-style: normal; opacity: 0.75; }
-/* Its own line: at 0.68rem beside a time it was clipped to "next d" in the
-   card's column, which reads as a typing error rather than a night's sleep. */
-.air-t .air-next { display: block; font-size: 0.68rem; opacity: 0.85; }
+/* ↓ is landing and ↑ is taking off. No key needed, and shorter than either
+   word in every language this map is read in. */
+.air-t .air-arrow { font-style: normal; opacity: 0.8; }
+.air-t .air-next { display: block; font-size: 0.68rem; opacity: 0.85;
+                   font-style: normal; }

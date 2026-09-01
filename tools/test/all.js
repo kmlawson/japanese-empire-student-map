@@ -97,7 +97,7 @@ const GROUPS = {
      is what `map.js` changes touch, and `map.js` changes hourly. */
   core: ['labels', 'labelcats', 'legendpick', 'subnames', 'mapstrip', 'keys',
          'theme', 'zoom', 'pin', 'labuan', 'epoch', 'mono', 'colours', 'extent',
-         'names'],
+         'names', 'clipping'],
 
   /* Everything drawn as a dot or read off one: the markers, the gazetteer,
      the sites table and the menu that hangs off a shape. */
@@ -145,7 +145,8 @@ const TRIGGERS = [
   [/^data\/(gazetteer|nikh-korea|ignored)\//, []],
   [/^stale\//,                       []],
 
-  [/^annotate\.js$/,                ['ann']],
+  // the clipping guard walks its panes, so a pane's own code implicates it
+  [/^annotate\.js$/,                ['ann', 'core']],
   [/^admin\.js$/,                   ['ann']],
 
   [/^data\/population\//,          ['data']],

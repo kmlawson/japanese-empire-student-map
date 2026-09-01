@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '276';
+  var JEM_VERSION = '277';
   var JEM_ASSETS = {"admin.js": "3414697d04", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "58132ef9c2", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
 
   /* Every file this one fetches, with the version on it.
@@ -8325,6 +8325,7 @@
    * every zoom — the halo is a *screen* width, like every other width a reader
    * perceives, and would otherwise swell into a white band on the way in. */
   var airGroup = null;
+  var airRings = null;
   var airById = {};              // route id -> record
   var airStopAt = {};            // the key on a ring -> its stop record
 
@@ -8382,28 +8383,45 @@
    * clashes are numbered in the order the file gives them rather than left to
    * collide silently. Computed once, when the layer is built. */
   function airShortNames() {
-    var seen = {};
-    (JMAP.AIR || []).forEach(function (r) {
+    var routes = JMAP.AIR || [];
+    var ends = function (r) {
       var ss = r.stops || [];
-      if (!ss.length) { r.shortName = r.name; return; }
-      var end = function (x) { return String(x.name || '').split(' (')[0]; };
-      var k = ss.length === 1 ? end(ss[0])
-                              : end(ss[0]) + ' – ' + end(ss[ss.length - 1]);
-      seen[k] = (seen[k] || 0) + 1;
-      r.shortName = k;
-      r.shortKey = k;
-    });
-    var n = {};
-    (JMAP.AIR || []).forEach(function (r) {
-      if (!r.shortKey || seen[r.shortKey] < 2) return;
-      n[r.shortKey] = (n[r.shortKey] || 0) + 1;
-      r.shortName = r.shortKey + ' (' + n[r.shortKey] + ')';
+      if (!ss.length) return r.name;
+      var e = function (x) { return String(x.name || '').split(' (')[0]; };
+      return ss.length === 1 ? e(ss[0]) : e(ss[0]) + ' \u2013 ' + e(ss[ss.length - 1]);
+    };
+    /* **Only a clash a reader could actually see.** Two routes collide if they
+       share a pair of ends *and* a date: the 1931 trunk and the one that
+       replaced it in the 1938–39 timetable are both Tokyo – Dairen, and
+       numbering them would put a "(2)" on the 1942 map with no "(1)" anywhere
+       on it. They are never drawn together, so they are not a clash. */
+    var over = function (a, b) {
+      var x = a.epochs || [], y = b.epochs || [];
+      if (!x.length || !y.length) return true;      // no dates means every date
+      return x.some(function (e) { return y.indexOf(e) >= 0; });
+    };
+    routes.forEach(function (r) { r.shortKey = ends(r); r.shortName = r.shortKey; });
+    routes.forEach(function (r, i) {
+      var same = routes.filter(function (o, j) {
+        return j !== i && o.shortKey === r.shortKey && over(o, r);
+      });
+      if (!same.length) return;
+      var mine = routes.filter(function (o) {
+        return o.shortKey === r.shortKey && over(o, r);
+      });
+      r.shortName = r.shortKey + ' (' + (mine.indexOf(r) + 1) + ')';
     });
   }
 
   function buildAir() {
     if (!svg || !JMAP.AIR || airGroup) return;
     airShortNames();
+    /* **Every airport above every line.** The rings used to hang inside their
+       own route's group, so a route drawn later put its line over an airport
+       drawn earlier — and at Fukuoka, where five services meet, the press
+       always found a line. A dot is a smaller and more deliberate target than
+       a line through it; it goes on top. */
+    airRings = svgEl('g', { id: 'air-stops' });
     // so a test can plant a clash and ask for the names again: the rule has
     // never fired against the real nineteen, and one nobody has driven is one
     // nobody has tested
@@ -8476,11 +8494,12 @@
         var ttl2 = svgEl('title', {});
         ttl2.textContent = st.name + ' — every flight that called here';
         ring.appendChild(ttl2);
-        g.appendChild(ring);
+        airRings.appendChild(ring);
         scalables.push({ el: ring, x: p.x, y: p.y });
       });
       airGroup.appendChild(g);
     });
+    airGroup.appendChild(airRings);
   }
 
   /* The card for a route. It is not one of the map's records — an air service
@@ -8489,30 +8508,46 @@
 
   /* ---------------------------------------------------- reading a clock --
    *
-   * **The sources do not agree on how to write an afternoon.** The 1931 Korea
-   * diagram is on a twenty-four hour clock — Keijō at 17:20 — and the Taiwan
-   * sheets are not: the eastern line leaves Tainan at 12:30 and reaches Taitō
-   * at "1:25", which is twenty-five past one in the afternoon. Sorting those
-   * as printed puts the afternoon before the morning and makes nonsense of an
-   * airport's day.
+   * Every time in `data/air/timetable.csv` is on a twenty-four hour clock, and
+   * `build_texts.py` refuses to build a journey whose calls run backwards. The
+   * sources are not consistent — the 1931 Korea diagram gives 17:20 and the
+   * Taiwan sheets printed an afternoon as "1:25" — and this used to be
+   * resolved here, at run time, by walking each journey and adding twelve
+   * hours wherever a call came before the one behind it. It worked, and it was
+   * a silent inference sitting between a source and a reader. The file is
+   * normalised now and the guard is at the build, where a wrong time stops the
+   * release instead of being quietly corrected in front of somebody.
    *
-   * A journey settles it, because an aeroplane's calls run forwards. Walking
-   * the stops in the order they were flown and taking, at each call, the
-   * earliest reading not before the one behind it, resolves every twelve-hour
-   * time in the file — forty of the hundred and thirty-nine — without a guess
-   * about any of them.
-   *
-   * The one thing a walk cannot see is a night on the ground: out, the Korea
-   * trunk reached Keijō at 17:20 and left at 7:30 the next morning, and the
-   * rule above reads that 7:30 as 19:30 and carries the error the rest of the
-   * way to Dairen. So the lay-over is marked in `timetable.csv` rather than
-   * inferred, and `ov` names the directions it applies to.
-   *
-   * **What is displayed is always the source's own string.** This value is
-   * for ordering, and nothing else. */
+   * What is left is arithmetic for ordering, and the one thing a clock cannot
+   * say by itself: a night on the ground. That is marked in `overnight`. */
   function airMins(v) {
     var m = /^(\d{1,2}):(\d{2})$/.exec(String(v || '').trim());
     return m ? (+m[1]) * 60 + (+m[2]) : null;
+  }
+
+  /* **The place, in the reader's own names.** The timetable prints "京城
+     Keijō" and that is one reading of two, fixed at the source. Where the stop
+     is one of the map's own cities the record answers instead: the characters,
+     and then the romanisation the names switch asks for — Keijō with Japanese
+     names on, Kyŏngsŏng without, Táiběi rather than Taihoku in Taiwan. */
+  function airStopName(st) {
+    var rec = st && st.id && (gazFor(st.id) || byId[st.id]);
+    if (!rec) return String((st && st.name) || '').split(' (')[0];
+    var v = shown(rec);
+    var han = String(v.ja || '').split(' (')[0].trim();
+    var ro = String(v.en || v.n || '').split(' (')[0].trim();
+    return han && ro ? han + ' ' + ro : (ro || han);
+  }
+
+  function airPlace(r, t) {
+    var st = r && r.stops && t && t.seq ? r.stops[(+t.seq) - 1] : null;
+    if (st) return airStopName(st);
+    var rec = null;
+    if (!rec) return String((t && t.station) || '');
+    var v = shown(rec);
+    var han = String(v.ja || '').split(' (')[0].trim();
+    var ro = String(v.en || v.n || '').split(' (')[0].trim();
+    return han && ro ? han + ' ' + ro : (ro || han);
   }
 
   /* Every call one aeroplane made, in order, with a sortable minute on each.
@@ -8526,7 +8561,7 @@
     var out = [], prev = null;
     seq.forEach(function (t) {
       var pair = up ? [t.ua, t.ud] : [t.da, t.dd];
-      var call = { station: t.station, freq: t.freq || '', rec: t,
+      var call = { station: airPlace(r, t), freq: t.freq || '', rec: t,
                    arrive: pair[0] || '', depart: pair[1] || '' };
       ['arrive', 'depart'].forEach(function (k) {
         var raw = call[k];
@@ -8535,15 +8570,11 @@
         if (t0 === null) return;
         var night = k === 'depart'
           && String(t.ov || '').split(/\s+/).indexOf(dir) >= 0;
-        var v;
-        if (night) {
-          // the next morning: the same clock time on the following day
-          v = prev === null ? t0 : t0 + 1440 * (Math.floor(prev / 1440) + 1);
-        } else {
-          v = t0;
-          while (prev !== null && v < prev) v += 720;
-        }
+        // the next morning, so the ordering does not read it as going back
+        var v = night && prev !== null
+          ? t0 + 1440 * (Math.floor(prev / 1440) + 1) : t0;
         call[k + 'At'] = v;
+        call[k + 'Night'] = !!night;
         prev = v;
       });
       if (call.arrive || call.depart) out.push(call);
@@ -8559,24 +8590,27 @@
 
   var AIR_DIRS = [{ k: 'down', label: 'Outward' }, { k: 'up', label: 'Return' }];
 
-  /* **The journey down the column, not the timetable across the page.**
+  /* **One column is one circuit, read straight down.**
    *
-   * Four columns of times beside a list of stations is how a timetable is
-   * printed and not how one is read: a reader following one aeroplane had to
-   * take the first and second columns down, then the third and fourth back up,
-   * and hold the direction in their head while doing it. Here each column is
-   * one aeroplane — its stops in the order it called at them, the time it
-   * arrived and the time it left under each — so the eye goes down the page
-   * the way the flight went down the line, and the return is the column
-   * beside it rather than the same one read backwards. */
+   * It was a grid first — a station list with four columns of times beside it,
+   * which is how the source prints it and not how anybody reads it. Then it
+   * was two columns, outward and return, which was better and still asked the
+   * reader to start again halfway. An aeroplane does not: it goes out, it
+   * turns round, it comes back, and that is one thing to follow. So the column
+   * runs the whole way — down the line, through the turn, and back up it —
+   * and the next column is the next circuit rather than the other half of this
+   * one.
+   *
+   * ↓ is landing and ↑ is taking off, which needs no key and is shorter than
+   * either word in every language this map is read in. */
   function airJourneyStrip(host, r) {
     var svcs = airServices(r);
     var cols = [];
     svcs.forEach(function (svc) {
-      AIR_DIRS.forEach(function (d) {
-        var calls = airJourney(r, svc, d.k);
-        if (calls.length) cols.push({ svc: svc, dir: d, calls: calls });
-      });
+      var legs = AIR_DIRS.map(function (d) {
+        return { dir: d, calls: airJourney(r, svc, d.k) };
+      }).filter(function (x) { return x.calls.length; });
+      if (legs.length) cols.push({ svc: svc, legs: legs });
     });
     if (!cols.length) return;
 
@@ -8593,91 +8627,93 @@
     cols.forEach(function (c) {
       var col = document.createElement('div');
       col.className = 'air-jrn';
-      var ch = document.createElement('p');
-      ch.className = 'air-jrn-head';
-      /* Which aeroplane this is: the direction, the service where a corridor
-         was flown more than once a day, and how often it ran. */
-      var freqs = c.calls.map(function (x) { return x.freq; })
-        .filter(function (v, i, a) { return v && a.indexOf(v) === i; });
-      ch.textContent = [c.dir.label, c.svc, freqs.join(', ')]
-        .filter(Boolean).join(' · ');
-      col.appendChild(ch);
-      var ol = document.createElement('ol');
-      ol.className = 'air-calls';
-      c.calls.forEach(function (call) {
-        var li = document.createElement('li');
-        var pl = document.createElement('span');
-        pl.className = 'air-place';
-        pl.textContent = call.station;
-        li.appendChild(pl);
-        [['arrive', 'in'], ['depart', 'out']].forEach(function (pair) {
-          if (!call[pair[0]]) return;
-          var sp = document.createElement('span');
-          sp.className = 'air-t air-' + pair[0];
-          var w = document.createElement('em');
-          w.textContent = pair[1];
-          sp.appendChild(w);
-          sp.appendChild(document.createTextNode(' ' + call[pair[0]]));
-          /* A departure the next morning is the one thing a column of times
-             cannot show by itself. */
-          if (pair[0] === 'depart' && call.departAt !== undefined
-              && call.arriveAt !== undefined && call.departAt - call.arriveAt > 720) {
-            var n = document.createElement('em');
-            n.className = 'air-next';
-            n.textContent = ' next day';
-            sp.appendChild(n);
-          }
-          li.appendChild(sp);
+      /* The service, and how often it ran, each on a line of its own: run
+         together they read as one phrase and neither could be found. */
+      var freqs = [];
+      c.legs.forEach(function (l) {
+        l.calls.forEach(function (x) {
+          if (x.freq && freqs.indexOf(x.freq) < 0) freqs.push(x.freq);
         });
-        ol.appendChild(li);
       });
-      col.appendChild(ol);
+      if (c.svc) {
+        var sh = document.createElement('p');
+        sh.className = 'air-jrn-head';
+        sh.textContent = c.svc;
+        col.appendChild(sh);
+      }
+      if (freqs.length) {
+        var fh = document.createElement('p');
+        fh.className = 'air-jrn-freq';
+        fh.textContent = freqs.join(', ');
+        col.appendChild(fh);
+      }
+      c.legs.forEach(function (l) {
+        var dh = document.createElement('p');
+        dh.className = 'air-leg-head';
+        dh.textContent = l.dir.label;
+        col.appendChild(dh);
+        var ol = document.createElement('ol');
+        ol.className = 'air-calls';
+        l.calls.forEach(function (call) {
+          var li = document.createElement('li');
+          var pl = document.createElement('span');
+          pl.className = 'air-place';
+          pl.textContent = call.station;
+          li.appendChild(pl);
+          [['arrive', '\u2193'], ['depart', '\u2191']].forEach(function (pair) {
+            if (!call[pair[0]]) return;
+            var sp = document.createElement('span');
+            sp.className = 'air-t air-' + pair[0];
+            var w = document.createElement('em');
+            w.className = 'air-arrow';
+            w.textContent = pair[1];
+            sp.appendChild(w);
+            sp.appendChild(document.createTextNode(' ' + call[pair[0]]));
+            if (call[pair[0] + 'Night']) {
+              var n = document.createElement('em');
+              n.className = 'air-next';
+              n.textContent = 'next day';
+              sp.appendChild(n);
+            }
+            li.appendChild(sp);
+          });
+          ol.appendChild(li);
+        });
+        col.appendChild(ol);
+      });
       strip.appendChild(col);
     });
     wrap.appendChild(strip);
 
     /* The rule of this project: a table a reader can read is a table they can
        take away, with its source on it. The strip is a table however it is
-       drawn, so it carries the same spec the old grid did. */
+       drawn, so it carries the same spec a grid would. */
     var csvCols = [{ key: 'svc', label: 'Service' }, { key: 'dir', label: 'Direction' },
                    { key: 'seq', label: 'Call' }, { key: 'station', label: 'Station' },
                    { key: 'arrive', label: 'Arrives' }, { key: 'depart', label: 'Departs' },
                    { key: 'freq', label: 'Runs' }];
     var csvRows = [];
     cols.forEach(function (c) {
-      c.calls.forEach(function (call, i) {
-        var o = {};
-        var vals = { svc: c.svc, dir: c.dir.label, seq: String(i + 1),
-                     station: call.station, arrive: call.arrive,
-                     depart: call.depart, freq: call.freq };
-        csvCols.forEach(function (cc) {
-          o[cc.key] = { text: vals[cc.key] || '',
-                        value: cc.key === 'seq' ? +vals.seq : undefined };
+      c.legs.forEach(function (l) {
+        l.calls.forEach(function (call, i) {
+          var vals = { svc: c.svc, dir: l.dir.label, seq: String(i + 1),
+                       station: call.station, arrive: call.arrive,
+                       depart: call.depart, freq: call.freq };
+          var o = {};
+          csvCols.forEach(function (cc) {
+            o[cc.key] = { text: vals[cc.key] || '',
+                          value: cc.key === 'seq' ? +vals.seq : undefined };
+          });
+          csvRows.push(o);
         });
-        csvRows.push(o);
       });
     });
     var spec = document.createElement('div');
     spec.tableSpec = { cols: csvCols, rows: csvRows };
 
-    var notes = ['Each column is one aeroplane, read downwards: where it '
-                 + 'called, when it arrived and when it left.'];
-    /* Whether *this* line was printed on a twelve-hour clock, which is only
-       true where a resolved time differs from the one on the page. Testing
-       the resolved value alone said yes for the Korea trunk, whose second
-       day is past 720 minutes without a twelve-hour time anywhere in it. */
-    var shifted = cols.some(function (c) {
-      return c.calls.some(function (x) {
-        return ['arrive', 'depart'].some(function (k) {
-          var v = x[k + 'At'];
-          return x[k] && v !== undefined && (v % 1440) !== airMins(x[k]);
-        });
-      });
-    });
-    if (shifted) {
-      notes.push('The source prints afternoon times on this line in twelve-hour '
-                 + 'form without a marker. They are shown as printed.');
-    }
+    var notes = ['Each column is one aeroplane\u2019s circuit, read downwards: '
+                 + 'out along the line, round, and back. \u2193 is an arrival '
+                 + 'and \u2191 a departure.'];
     notes.forEach(function (n) {
       var p2 = document.createElement('p');
       p2.className = 'pop-note';
@@ -8709,9 +8745,12 @@
     var note = infoBox.querySelector('.note-own');
     if (chip) chip.textContent = 'Air route';
     if (prim) prim.textContent = r.name;
-    if (alt) {
-      alt.textContent = r.stops.map(function (s2) { return s2.name; }).join(' → ');
-    }
+    /* **Not the same list twice.** `primary` is already the chain of stops —
+       "Tokyo – Osaka – Fukuoka – Keijō – Dairen" — and this line repeated it
+       with arrows between instead of dashes. A second line earns its place by
+       saying something the first does not: a romanisation, a set of
+       characters, a date. Restating is not that. */
+    if (alt) { alt.textContent = ''; alt.hidden = true; }
     if (when) {
       /* Two different claims, and they must not be confused. `opened` is when
          the service began; `season` is the timetable this row was read off,
@@ -8923,11 +8962,9 @@
       for (var i = 0; i < r.stops.length; i++) {
         if ((r.stops[i].id || r.stops[i].name) === key) { at = i; break; }
       }
-      var short = function (j) {
-        var sp = r.stops[j];
-        return sp ? String(sp.name || '').split(' (')[0] : '';
-      };
+      var short = function (j) { return airStopName(r.stops[j]); };
       var ends = r.shortName || (short(0) + ' – ' + short(r.stops.length - 1));
+      var many = airServices(r).length > 1;
       airServices(r).forEach(function (svc) {
         AIR_DIRS.forEach(function (d) {
           var calls = airJourney(r, svc, d.k);
@@ -8937,14 +8974,16 @@
             if (call.arrive) {
               evs.push({ at: call.arriveAt, time: call.arrive, what: 'Arrives',
                          other: at < 0 ? '' : short(up ? at + 1 : at - 1),
-                         route: r.name, ends: ends, svc: svc, dir: d.label,
-                         freq: call.freq, src: r.source, srcUrl: r.srcUrl });
+                         route: r.name, ends: ends, svc: svc, manySvc: many,
+                         dir: d.label, freq: call.freq,
+                         src: r.source, srcUrl: r.srcUrl });
             }
             if (call.depart) {
               evs.push({ at: call.departAt, time: call.depart, what: 'Departs',
                          other: at < 0 ? '' : short(up ? at - 1 : at + 1),
-                         route: r.name, ends: ends, svc: svc, dir: d.label,
-                         freq: call.freq, src: r.source, srcUrl: r.srcUrl });
+                         route: r.name, ends: ends, svc: svc, manySvc: many,
+                         dir: d.label, freq: call.freq,
+                         src: r.source, srcUrl: r.srcUrl });
             }
           });
         });
@@ -8987,16 +9026,33 @@
       return e.at !== null && hhmm(e.at) !== e.time;
     });
     var rows = evs.map(function (e) {
-      return { time: e.at === null ? '' : hhmm(e.at), what: e.what,
-               other: e.other ? ((e.what === 'Arrives' ? 'from ' : 'to ') + e.other)
-                              : (e.what ? '' : 'not timed here'),
+      return { time: (e.at === null ? '' : hhmm(e.at))
+                     + (e.what === 'Arrives' ? ' \u2193'
+                        : e.what === 'Departs' ? ' \u2191' : ''),
+               what: e.what,
+               /* The service only where a route was flown more than once a
+                  day. Tokyo–Nagoya had a morning and an afternoon, and with
+                  the route column gone the two were four rows that differed
+                  by nothing a reader could see but the clock. Adding it to
+                  every row instead would put an empty phrase on the other
+                  seventeen. */
+               other: (e.other ? ((e.what === 'Arrives' ? 'from ' : 'to ') + e.other)
+                               : (e.what ? '' : 'not timed here'))
+                      + (e.svc && e.manySvc ? ' \u00b7 ' + e.svc : ''),
                route: e.route + (e.svc ? ' — ' + e.svc : ''),
                // the route's short name — see airShortNames
                short: e.ends + (e.svc ? ' — ' + e.svc : ''),
                freq: e.freq };
     });
-    var cols = [{ k: 'time', h: 'Time' }, { k: 'what', h: '' },
-                { k: 'other', h: 'From / to' }, { k: 'short', h: 'Route' }];
+    /* **Three columns, and one of them is a glyph.** It had five: a time, the
+       word Arrives or Departs, the far end of the leg, the route and how often
+       it ran — and the route's name, even shortened to its two ends, wrapped
+       four lines deep in a column of its own on a phone while saying something
+       the reader had usually just come from. ↓ against the clock is the whole
+       of the second column, and the far end names the leg well enough that the
+       line it belonged to can be found by pressing it on the map. */
+    var cols = [{ k: 'time', h: 'Time' },
+                { k: 'other', h: 'From / to' }];
     if (rows.some(function (x) { return x.freq; })) {
       cols.push({ k: 'freq', h: 'Runs' });
     }
@@ -9031,6 +9087,19 @@
     if (!airGroup) return;
     airGroup.style.display = state.air ? '' : 'none';
     if (!state.air) return;
+    /* The rings live in one group of their own now, so which of them belong to
+       this date has to be worked out rather than following their route's own
+       display. A stop is drawn if any route that calls there is. */
+    var live = {};
+    (JMAP.AIR || []).forEach(function (r) {
+      if (!airShown(r)) return;
+      (r.stops || []).forEach(function (st) { live[st.id || st.name] = true; });
+    });
+    if (airRings) {
+      Array.prototype.forEach.call(airRings.children, function (g) {
+        g.style.display = live[g.getAttribute('data-air-stop')] ? '' : 'none';
+      });
+    }
     (JMAP.AIR || []).forEach(function (r) {
       var g = airGroup.querySelector('[data-air="' + cssEsc(r.id) + '"]');
       if (g) g.style.display = airShown(r) ? '' : 'none';

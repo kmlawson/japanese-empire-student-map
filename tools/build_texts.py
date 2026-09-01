@@ -766,6 +766,47 @@ def build_data_js():
     times = read_data_csv("air", "timetable.csv")
     fares = read_data_csv("air", "fares.csv")
 
+    # **Every clock in the file is a twenty-four hour clock, and the build
+    # says so rather than the browser working it out.** The sources are not
+    # consistent: the 1931 Korea diagram gives 17:20 and the Taiwan sheets
+    # print an afternoon as "1:25". The map used to resolve that at run time by
+    # walking each journey — which worked, and was a silent inference sitting
+    # between a source and a reader. The file is normalised instead, and this
+    # refuses to build if a journey ever runs backwards.
+    #
+    # A night on the ground is the one legitimate step backwards, and it is
+    # marked in `overnight` rather than guessed at: the Dairen turn-round on
+    # the 1938–39 trunk is the only one.
+    for r in air:
+        rid = r["id"]
+        svcs = sorted({t.get("service", "") for t in times if t["route"] == rid})
+        for svc in svcs:
+            calls = [t for t in times
+                     if t["route"] == rid and t.get("service", "") == svc]
+            for rev in (False, True):
+                a, d = (("up_arrive", "up_depart") if rev
+                        else ("down_arrive", "down_depart"))
+                dirn = "up" if rev else "down"
+                prev = prevlab = None
+                for t in sorted(calls, key=lambda x: int(x["seq"]), reverse=rev):
+                    for k in (a, d):
+                        if not t[k]:
+                            continue
+                        h, m = t[k].split(":")
+                        v = int(h) * 60 + int(m)
+                        if k == d and dirn in (t.get("overnight") or "").split():
+                            prev = prevlab = None      # slept here; a new day
+                            continue
+                        if prev is not None and v < prev:
+                            raise Problem(
+                                "data/air/timetable.csv: on %s %s, %s at %s "
+                                "comes before %s. Either the time is on a "
+                                "twelve-hour clock and wants twelve hours "
+                                "adding, or the aeroplane stayed the night and "
+                                "the stop wants marking in `overnight`."
+                                % (rid, dirn, t["station"], t[k], prevlab))
+                        prev, prevlab = v, t[k]
+
     # **The fare table checks itself.** Every through fare in the source is the
     # sum of the legs it is made of — Tokyo to Dairen is 145 yen and the six
     # legs come to 145 — and so is every distance. That is what proves the
@@ -834,6 +875,10 @@ def build_data_js():
             "      { %s }" % ", ".join(
                 "%s: %s" % (k, T.js_string(v))
                 for k, v in (("svc", t.get("service", "")),
+                             # which stop this is, so the card can name the
+                             # place from the map's own record rather than the
+                             # string the timetable prints
+                             ("seq", t["seq"]),
                              ("station", t["station"]), ("da", t["down_arrive"]),
                              ("dd", t["down_depart"]), ("ua", t["up_arrive"]),
                              ("ud", t["up_depart"]), ("freq", t.get("frequency", "")),
