@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '264';
+  var JEM_VERSION = '265';
   var JEM_ASSETS = {"admin.js": "3414697d04", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "58132ef9c2", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
 
   /* Every file this one fetches, with the version on it.
@@ -7866,10 +7866,10 @@
     return raw.replace(/\s*[（(].*$/, '').trim();
   }
 
-  function popRowName(k, row) {
+  function popRowNameParts(k, row) {
     var rec = (JMAP.PROVINCES || {})[k] || byId[k]
       || (gazByKey && gazByKey[state.epoch + '|' + k]);
-    if (!rec) return row.en || k;
+    if (!rec) return { name: row.en || k, kanji: '' };
     var per = JMAP.PROVINCE_EPOCH && JMAP.PROVINCE_EPOCH[state.epoch];
     var over = per && per[k];
     var merged = rec;
@@ -7879,14 +7879,25 @@
       merged.en = over.en;
     }
     var name = splitGloss(nameOf(shown(merged))).name;
-    /* And the characters with it. The map's own rule is a romanisation with
-       the other reading in brackets after it; in a table there is room for the
-       characters too, and they go inside the same bracket rather than opening
-       a second one — `Kyŏnggi-do (Keiki-dō, 京畿道)`. */
     var kanji = popKanji(merged);
-    if (!kanji || name.indexOf(kanji) > -1) return name;
-    return /\)$/.test(name) ? name.slice(0, -1) + ', ' + kanji + ')'
-                            : name + ' (' + kanji + ')';
+    if (kanji && name.indexOf(kanji) > -1) kanji = '';
+    return { name: name, kanji: kanji || '' };
+  }
+
+  /* The two together, which is what a table cell shows. The map's own rule is
+     a romanisation with the other reading in brackets after it; in a table
+     there is room for the characters too, and they go inside the same bracket
+     rather than opening a second one — `Kyŏnggi-do (Keiki-dō, 京畿道)`.
+     
+     The parts are kept apart above because a *file* wants them apart: a
+     spreadsheet with `Kyŏnggi-do (Keiki-dō, 京畿道)` in one cell cannot sort by
+     name, match against another table, or print the characters on their own.
+     The screen glues them; the CSV does not. */
+  function popRowName(k, row) {
+    var q = popRowNameParts(k, row);
+    if (!q.kanji) return q.name;
+    return /\)$/.test(q.name) ? q.name.slice(0, -1) + ', ' + q.kanji + ')'
+                               : q.name + ' (' + q.kanji + ')';
   }
 
   /* The rows of a dataset in the order a table wants them: the whole first and
@@ -7993,7 +8004,101 @@
     draw();
     table.appendChild(tbody);
     scroll.appendChild(table);
+    /* What the table is made of, kept on the node so it can be written out
+       without reading it back off the screen. Scraping the DOM would give
+       whatever the reader last sorted it into, with the em dashes and the
+       thousands separators baked in; this is the figures. */
+    scroll.tableSpec = { cols: cols, rows: rows };
     return scroll;
+  }
+
+  /* ------------------------------------------------- taking a table away -- */
+
+  /* Every table this map draws can be downloaded, and the file carries the
+     source and the notes with it.
+     
+     A table of figures with nothing saying where they came from is a table
+     somebody will quote. So the CSV is the columns, then the rows, then a
+     blank line, then `Source` and one `Note` line for each note the table
+     shows — the same words the reader can see, in the same file. It is a
+     standing rule for this project rather than a feature of this table: see
+     CLAUDE.md. */
+  function csvCell(v) {
+    var t = (v === undefined || v === null) ? '' : String(v);
+    return /[",\n]/.test(t) ? '"' + t.replace(/"/g, '""') + '"' : t;
+  }
+
+  function csvFrom(spec, notes, source, title) {
+    var out = [];
+    if (title) out.push([csvCell(title)].join(','));
+    /* The name goes out as two columns, romanisation and characters, because
+       a spreadsheet with `Kyŏnggi-do (Keiki-dō, 京畿道)` in one cell cannot sort
+       by name, match against another table, or print the characters alone. The
+       screen glues them; the file keeps them apart. */
+    var split = spec.rows.some(function (r) { return r.cells[0] && r.cells[0].name; });
+    out.push(spec.cols.map(function (c, i) {
+      if (i === 0 && split) return 'Name,Characters';
+      return csvCell(c.group ? c.group + ' — ' + c.head : c.head);
+    }).join(','));
+    spec.rows.forEach(function (r) {
+      out.push(r.cells.map(function (cell, i) {
+        if (i === 0) {
+          return split
+            ? csvCell(cell.name || cell.t) + ',' + csvCell(cell.kanji || '')
+            : csvCell(cell.t === '—' ? '' : cell.t);
+        }
+        /* The number where there is one, so a spreadsheet gets a number: the
+           screen's "1,933,326" and "—" are for reading, not for adding up. */
+        if (cell.n === null || cell.n === undefined) {
+          return csvCell(cell.t === '—' ? '' : cell.t);
+        }
+        return csvCell(cell.n);
+      }).join(','));
+    });
+    out.push('');
+    (notes || []).forEach(function (n) { out.push('Note,' + csvCell(n)); });
+    if (source) out.push('Source,' + csvCell(source));
+    return out.join('\n') + '\n';
+  }
+
+  function downloadText(text, name, mime) {
+    try {
+      var blob = new Blob([text], { type: (mime || 'text/csv') + ';charset=utf-8' });
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = name;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(function () { URL.revokeObjectURL(a.href); }, 2000);
+      return true;
+    } catch (err) { return false; }
+  }
+
+  /* A file name a reader will still understand in their downloads folder. */
+  function slug(s2) {
+    return String(s2 || 'table').toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 60) || 'table';
+  }
+
+  function addCsvButton(wrap, tableEl, title, notes, source) {
+    if (!tableEl || !tableEl.tableSpec) return;
+    var row = document.createElement('p');
+    row.className = 'pop-actions';
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'plain pop-csv';
+    b.textContent = 'Download CSV';
+    b.title = 'The figures as a spreadsheet, with the source and the notes at '
+            + 'the foot of the file';
+    b.addEventListener('click', function () {
+      var ok = downloadText(csvFrom(tableEl.tableSpec, notes, source, title),
+                            slug(title) + '.csv');
+      b.textContent = ok ? 'Downloaded' : 'Could not save';
+      window.setTimeout(function () { b.textContent = 'Download CSV'; }, 1400);
+    });
+    row.appendChild(b);
+    wrap.appendChild(row);
   }
 
   var POP_INT = function (v) {
@@ -8162,10 +8267,11 @@
     });
     extra.forEach(function (f) { cols.push({ head: f.label, group: f.group }); });
 
-    wrap.appendChild(popSortable(cols, order.map(function (k) {
+    var tableEl = popSortable(cols, order.map(function (k) {
       var r = d.rows[k];
       var x = r.x || {};
-      var cells = [{ n: null, t: named[k] },
+      var np = popRowNameParts(k, r);
+      var cells = [{ n: null, t: named[k], name: np.name, kanji: np.kanji },
                    { n: POP_NUM(r.pop), t: POP_INT(r.pop) }];
       if (hasMF) cells.push({ n: POP_NUM(r.mf), t: r.mf || '—' });
       if (hasPct) cells.push({ n: POP_NUM(r.pct), t: r.pct || '—' });
@@ -8178,13 +8284,15 @@
       });
       return { key: k, cells: cells,
                pinned: r.scope === 'territory' || r.scope === 'summary' };
-    }), key));
+    }), key);
+    wrap.appendChild(tableEl);
 
     var notes = [];
+    if (d.note) notes.push(d.note);
     order.forEach(function (k) {
       if (d.rows[k].note) notes.push(named[k] + ' — ' + d.rows[k].note);
     });
-    notes.forEach(function (n) {
+    notes.slice(d.note ? 1 : 0).forEach(function (n) {
       var p = document.createElement('p');
       p.className = 'pop-note';
       p.textContent = '* ' + n;
@@ -8194,6 +8302,7 @@
     src.className = 'pop-src';
     src.textContent = d.source;
     wrap.appendChild(src);
+    addCsvButton(wrap, tableEl, d.label, notes, d.source);
     return wrap;
   }
 
@@ -8272,14 +8381,15 @@
                 { head: 'Change' }, { head: '% change' },
                 { head: a.when + ' per km²' }, { head: b.when + ' per km²' },
                 { head: a.when + ' M/100F' }, { head: b.when + ' M/100F' }];
-    wrap.appendChild(popSortable(cols, keys.map(function (k) {
+    var cmpEl = popSortable(cols, keys.map(function (k) {
       var x = a.rows[k], y = b.rows[k];
       var xp = cmpOf(x), yp = cmpOf(y);
       var diff = (yp || 0) - (xp || 0);
       var pct = xp ? (diff / xp) * 100 : null;
+      var np2 = popRowNameParts(k, y);
       return { key: k, pinned: y.scope === 'territory',
                cells: [
-        { n: null, t: named[k] },
+        { n: null, t: named[k], name: np2.name, kanji: np2.kanji },
         { n: POP_NUM(xp), t: POP_INT(xp) },
         { n: POP_NUM(yp), t: POP_INT(yp) },
         { n: diff, t: (diff > 0 ? '+' : '') + diff.toLocaleString('en-US') },
@@ -8294,7 +8404,10 @@
           t: swapped.indexOf(k) >= 0 ? '—' : (y.dens || '—') },
         { n: POP_NUM(x.cmpMf || x.mf), t: (x.cmpMf || x.mf) || '—' },
         { n: POP_NUM(y.cmpMf || y.mf), t: (y.cmpMf || y.mf) || '—' }] };
-    }), key));
+    }), key);
+    wrap.appendChild(cmpEl);
+    var cmpNotes = [note.textContent];
+    if (b.compareNote || a.compareNote) cmpNotes.push(b.compareNote || a.compareNote);
     swapped.forEach(function (k) {
       var why = a.rows[k].cmpWhy || b.rows[k].cmpWhy;
       if (!why) return;
@@ -8304,7 +8417,10 @@
         + ' — ' + why + '. No density is given in this row: that is over the '
         + 'ground the map draws, which is not the ground these figures are of.';
       wrap.appendChild(p);
+      cmpNotes.push(p.textContent);
     });
+    addCsvButton(wrap, cmpEl, a.when + ' and ' + b.when + ' compared', cmpNotes,
+                 a.source === b.source ? a.source : a.source + '  |  ' + b.source);
     return wrap;
   }
 

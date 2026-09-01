@@ -543,6 +543,51 @@ const spot = (p, sel, fx, fy) => p.evaluate((s, ax, ay) => {
      rather than listed by name: a dataset added to data/population/ turns up
      here by itself, and a test that named three would fail on the fourth for
      no reason but its existence. */
+  /* A table somebody can read is a table somebody will quote, so it can be
+     taken away and the source goes with it. The CSV is built from the spec the
+     table was made from rather than scraped off the screen: the cells carry
+     `1,933,326` and `—` for reading, and the file has to carry the number and
+     an empty cell or it cannot be added up. */
+  {
+    await p.evaluate(() => {
+      window.__csv = null;
+      const B = window.Blob;
+      window.Blob = function (parts, opts) {
+        window.__csv = String(parts[0]);
+        return new B(parts, opts);
+      };
+    });
+    const btns = await p.evaluate(() =>
+      [...document.querySelectorAll('#dlg-table .pop-csv')].length);
+    check('every table in the box offers a CSV', btns >= 2, String(btns));
+    await p.evaluate(() => document.querySelector('#dlg-table .pop-csv').click());
+    await sleep(400);
+    const csv = await p.evaluate(() => window.__csv || '');
+    const lines = csv.split('\n');
+    check('the file has a header row and a row per place',
+      lines.length > 10 && /Population/.test(lines[1]), String(lines.length));
+    check('and the figures rather than the screen\'s wording',
+      /,\d{4,}/.test(csv) && !/1,933,326|—/.test(csv), lines[2] || '');
+    /* The name goes out as two columns. A spreadsheet with
+       `Kyŏnggi-do (Keiki-dō, 京畿道)` in one cell cannot sort by name, match
+       against another table, or print the characters on their own. */
+    check('the name is split into romanisation and characters',
+      /^Name,Characters,/.test(lines[1]), lines[1].slice(0, 60));
+    const first = (lines[2] || '').replace(/^("(?:[^"]|"")*"|[^,]*),/, '');
+    check('and the characters are in the second column',
+      /^[^\x00-\x7F]/.test(first), lines[2] || '');
+    check('while the screen still glues them together',
+      /\(.*[^\x00-\x7F].*\)/.test(await p.evaluate(() =>
+        (document.querySelector('#dlg-table .pop-table tbody tr th') || {}).textContent || '')),
+      await p.evaluate(() =>
+        (document.querySelector('#dlg-table .pop-table tbody tr th') || {}).textContent || ''));
+    check('with a Source row at the foot', /\nSource,/.test(csv),
+      lines.slice(-2).join(' | '));
+    check('and the notes carried with it',
+      (csv.match(/^Note,/gm) || []).length >= 1,
+      String((csv.match(/^Note,/gm) || []).length));
+  }
+
   check('the other tables are offered at the foot',
     box.switches.length >= 3 && box.switches.some(t => /1930/.test(t))
     && box.switches.some(t => /府/.test(t))

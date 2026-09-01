@@ -3039,6 +3039,11 @@ dialog h3 {
 .pop-row.pop-sum .pop-k { font-weight: 700; color: var(--ink); }
 .pop-row.pop-sum .pop-v { font-weight: 700; }
 
+/* The row that takes a table away with you. Under the source, because the
+   source is part of what is taken. */
+.pop-actions { margin: 10px 0 0; }
+.pop-csv { font-size: 12px; }
+
 .pop-note, .pop-src {
   margin: 5px 0 0;
   font-size: 11.5px;

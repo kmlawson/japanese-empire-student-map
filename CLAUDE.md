@@ -99,6 +99,34 @@ It has now bitten three times:
    nothing about any of this. `run10` measures the arrow tip and the blur at
    several zooms for that reason.
 
+## Every table we draw can be taken away, with its source attached
+
+A table of figures offers **Download CSV**, and the file carries the table's own
+title, its columns and its rows, then a blank line, then a `Note` row for each
+note the table shows and a `Source` row at the foot.
+
+This is not a feature of the population tables; it is the rule for any table
+this project draws. A table somebody can read is a table somebody will quote,
+and a spreadsheet that has left the site with no source on it is a figure with
+no provenance — which is the one thing a history map must never produce.
+
+Two details that are easy to get wrong:
+
+* **Write the figures, not the screen.** The cells carry a formatted string for
+  reading — `1,933,326`, and `—` for nothing counted — and a number beside it.
+  The CSV takes the number, and an empty cell where there is none, or the file
+  cannot be added up.
+* **Give the name its own columns.** The screen glues a place's romanisation
+  and its characters into one string — `Kyŏnggi-do (Keiki-dō, 京畿道)` — because
+  a cell is read at a glance. A file is not: one column of that cannot be
+  sorted by name, matched against another table, or printed as characters
+  alone. The first cell carries `name` and `kanji` beside its display string
+  and the CSV writes `Name` and `Characters`.
+* **Go through `popSortable`.** It keeps the columns and rows on the node as
+  `tableSpec`, and `addCsvButton` reads that. A table built some other way has
+  to hand the same spec over, or it will be exported by scraping the DOM —
+  which gives whatever the reader last sorted it into.
+
 ## Record what changed in docs/tasks.md before marking it done
 
 An entry says what was actually changed and what was measured, not what was

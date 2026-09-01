@@ -14564,6 +14564,46 @@ them at runtime. That is a build change of its own and is not attempted here.
 
 ---
 
+## Every table can be taken away, with its source attached
+
+A **Download CSV** under each table. The file carries the table's title, its
+columns, its rows, then a blank line, a `Note` row for each note the table
+shows, and a `Source` row at the foot. Taiwan's 1930 table comes out at 78
+lines with eleven notes and its citation.
+
+Two things it does that scraping the screen would not.
+
+**It writes the figures, not the wording.** Every cell already carries both — a
+string for reading (`1,933,326`, and `—` where nothing was counted) and the
+number beside it, which is what the sortable table sorts on. The CSV takes the
+number and leaves an empty cell where there is none, so the file can be added
+up. Scraping would have exported thousands separators and em dashes.
+
+**And it takes the table as built, not as sorted.** `popSortable` keeps the
+columns and rows on the node as `tableSpec` and `addCsvButton` reads that, so
+the file is the same whatever the reader last clicked a column head for.
+
+**And the name goes out as two columns.** The screen glues a place's
+romanisation and its characters into one string — `Kyŏnggi-do (Keiki-dō,
+京畿道)` — because a cell is read at a glance. A file is not: one column of that
+cannot be sorted by name, matched against another table, or printed as
+characters alone. `popRowNameParts` is where the two were already being made
+before being glued, so the cell now carries both beside its display string and
+the file writes `Name` and `Characters`. The screen is unchanged.
+
+It is written into `CLAUDE.md` as a standing rule rather than left as a feature
+of these tables: a table somebody can read is a table somebody will quote, and
+a spreadsheet that has left the site with no source on it is a figure with no
+provenance, which is the one thing a history map must never make.
+
+The comparison table has one too, and its notes are the ones it prints —
+including the dagger lines about 臺東廳 and 花蓮港廳 being compared on their
+whole-prefecture figures, which is exactly the caveat that must not be lost
+when the numbers go into somebody's spreadsheet.
+
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible
