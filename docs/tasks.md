@@ -14654,11 +14654,71 @@ The places of interest are classified from the four that exist rather than from
 a list somebody imagined: **Ashio a mine, Ōkunoshima a works, the Suihō dam a
 dam, Côn Sơn a prison.** It grows from there.
 
+### Stage two: one ladder, one zoom rule, and Rabaul
+
+Asked for as "Rabaul is not a huge city, make it a medium icon and not visible
+at max zoom. Port Moresby, however, should be a larger icon and visible at max
+zoom" — and it could not be answered before, because a curated point had no
+size to set and no zoom rule to be gated by. `DOT_R` was 5.5 for all of them,
+at every width.
+
+**One ladder.** `SIZE_R = [2.5, 3.4, 4.4, 5.8]` — small, medium, large,
+largest — is now the map's, not the gazetteer's. `GAZ_R` is a second name for
+the same array. The promise it buys is that a curated point and a gazetteer
+point of the same size *are* the same size, rather than being 5.5 and 5.8 and
+looking it. All four are screen pixels: the marker group is counter-scaled, so
+the radius stands still as the reader zooms.
+
+**One zoom rule**, `zoomShows()`, asked of both tables. `pointTier()` reads a
+curated `size` or a gazetteer `t`, and `pointAlways()` reads a curated `always`
+or a gazetteer `a`. `gazVisible` and `siteVisible` both call it now instead of
+each having its own arithmetic.
+
+**The rule that had to survive is `always`**, and it does. It is what the
+fourteen 府 of colonial Korea are on — a reader looking at the peninsula should
+find the same towns at every scale rather than watching them appear and
+disappear — and `pointAlways` answers true for `a` before the zoom is
+consulted at all. The test opens 1942 at the widest view and checks all
+fourteen are drawn; it read 4 of 14 for a while, which turned out to be the
+test looking up `seoul` when the gazetteer namespaces its elements by epoch as
+`g_e1942_seoul`. The four it did find were the four that are curated as well.
+
+**And the default had to survive too.** 125 of the 126 curated points say
+nothing about their size, and every one of them was drawn at every zoom before
+there was a ladder to put them on. A blank `size` still means exactly that:
+filling the column is what opts a point into thinning. The test takes the set
+of unsized points drawn at the widest view, zooms in, and requires the same set
+— not a count, the same ids.
+
+| point | was | is |
+|---|---|---|
+| Rabaul | 5.5, drawn at every width | medium 3.4, gone at the widest view |
+| Port Moresby | 5.5, drawn at every width | large 4.4, `always`, drawn at every width |
+
+Port Moresby is an event, not a settlement, and the size worked on it without
+that having to be settled: `size` is an axis of any point, and the diamond
+takes its half-diagonal from the same ladder the circle takes its radius from.
+
+`sizePinnedMarkers` now stands down where a curated point states a size of its
+own — the more particular statement, made about this point rather than about
+the place in general, wins.
+
+**A build refuses a misspelling.** `size` must be on the ladder and `subtype`
+in its type's vocabulary, checked in `build_texts.py`. Both columns are silent
+when misspelled — the marker simply keeps its default — so the error had to be
+raised where somebody would see it. Proved by setting Ashio's subtype to
+`quarry`: *texts/sites/sites.csv: ashio has subtype 'quarry'; a poi may be one
+of mine, works, dam, prison.*
+
+No pointer handling changed, so there is no second behaviour to check with a
+finger here: the change decides what is drawn and how big, not what a tap
+means.
+
+`tools/test/pointsize.js`, 19 checks.
+
 ### Still to come
 
-Stage two is one weight and one zoom rule for every settlement, curated or not,
-which is what makes Rabaul answerable at all. Stage three retires
-`sizePinnedMarkers` and the browse dots.
+Stage three retires `sizePinnedMarkers` and the browse dots.
 
 
 ---

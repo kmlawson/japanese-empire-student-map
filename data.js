@@ -1581,7 +1581,8 @@ JMAP.SITES = [
   },
   {
     id: 'rabaul', en: 'Rabaul', ja: 'ラバウル (Rabauru)', orig: 'Rabaul', zh: '拉包爾',
-    date: 'Captured January 1942', cat: 'city', lvl: 2, lat: -4.2, lon: 152.16, year: 1942,
+    date: 'Captured January 1942', cat: 'city', size: 'medium', lvl: 2, lat: -4.2, lon: 152.16,
+    year: 1942,
     note: 'Built into the great forward base of the South Pacific, with five airfields and over 100,000 troops. Bypassed from 1944 and left isolated until the surrender.'
   },
   {
@@ -1593,9 +1594,9 @@ JMAP.SITES = [
   },
   {
     id: 'portmoresby', en: 'Port Moresby', ja: 'ポートモレスビー (Pōto Moresubī)', orig: 'Port Moresby',
-    zh: '莫爾茲比港', date: 'Coral Sea May 1942; Kokoda July–November 1942', cat: 'battle', lvl: 3,
-    lat: -9.44, lon: 147.18, wiki: 'https://en.wikipedia.org/wiki/Kokoda_Track_campaign',
-    year: 1942,
+    zh: '莫爾茲比港', date: 'Coral Sea May 1942; Kokoda July–November 1942', cat: 'battle',
+    size: 'large', always: true, lvl: 3, lat: -9.44, lon: 147.18,
+    wiki: 'https://en.wikipedia.org/wiki/Kokoda_Track_campaign', year: 1942,
     note: 'The objective Japan never reached. The seaborne attempt was turned back at the Coral Sea and the overland push failed on the Kokoda Track, within sight of its goal.'
   },
   {
@@ -1746,14 +1747,14 @@ JMAP.SITES = [
   },
   {
     id: 'okunoshima', en: 'Ōkunoshima', ja: '大久野島 (Ōkunoshima)', zh: '大久野島', ko: '오쿠노시마섬',
-    date: 'Army gas plant from 1929', cat: 'poi', lvl: 3, lat: 34.31, lon: 133.0,
-    wiki: 'https://en.wikipedia.org/wiki/%C5%8Ckunoshima', subtype: 'works', year: 1929,
+    date: 'Army gas plant from 1929', cat: 'poi', subtype: 'works', lvl: 3, lat: 34.31,
+    lon: 133.0, wiki: 'https://en.wikipedia.org/wiki/%C5%8Ckunoshima', year: 1929,
     note: 'The army\'s poison gas plant from 1929, making mustard and lewisite for use in China. The island was taken off published maps while it worked, and the labourers were not told what they were handling.'
   },
   {
     id: 'supung', en: 'Suihō (Sup’ung) Dam', ja: '水豊ダム (Suihō damu)', zh: '水豐',
-    ko: '수풍 (Sup’ung)', date: 'Generating from 1941', cat: 'poi', lvl: 3, lat: 40.46,
-    lon: 124.96, subtype: 'dam', year: 1941,
+    ko: '수풍 (Sup’ung)', date: 'Generating from 1941', cat: 'poi', subtype: 'dam', lvl: 3,
+    lat: 40.46, lon: 124.96, year: 1941,
     note: 'Finished on the Yalu in 1941 and the largest dam in Asia, built with conscript labour and the clearance of whole villages. Its power ran the chemical works at Hŭngnam and much of Manchurian industry.'
   },
   {
@@ -1763,15 +1764,14 @@ JMAP.SITES = [
   },
   {
     id: 'consan', en: 'Côn Sơn (Poulo Condore)', ja: 'コンソン島 (Konson-tō)', orig: 'Côn Sơn',
-    zh: '崑崙島', date: 'Penal island from 1862', cat: 'poi', lvl: 3, lat: 8.69, lon: 106.61,
-    wiki: 'https://en.wikipedia.org/wiki/C%C3%B4n_S%C6%A1n_Island', subtype: 'prison',
-    year: 1862,
+    zh: '崑崙島', date: 'Penal island from 1862', cat: 'poi', subtype: 'prison', lvl: 3, lat: 8.69,
+    lon: 106.61, wiki: 'https://en.wikipedia.org/wiki/C%C3%B4n_S%C6%A1n_Island', year: 1862,
     note: 'The French penal islands, in use from 1862. Most of the leadership of the Vietnamese communist party passed through them, which is how a prison became a political school.'
   },
   {
     id: 'ashio', en: 'Ashio', ja: '足尾 (Ashio)', zh: '足尾', ko: '아시오정',
-    date: 'Copper, and the pollution case', cat: 'poi', lvl: 3, lat: 36.65, lon: 139.45,
-    wiki: 'https://en.wikipedia.org/wiki/Ashio,_Tochigi', subtype: 'mine', year: 1890,
+    date: 'Copper, and the pollution case', cat: 'poi', subtype: 'mine', lvl: 3, lat: 36.65,
+    lon: 139.45, wiki: 'https://en.wikipedia.org/wiki/Ashio,_Tochigi', year: 1890,
     note: 'Furukawa\'s copper mine, and the pollution that poisoned the Watarase valley below it. Tanaka Shōzō\'s campaign on behalf of the ruined villages was the first environmental protest in Japan, and the state answered it by drowning one of them under a reservoir.'
   },
   {

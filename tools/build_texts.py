@@ -558,6 +558,40 @@ def check_frame(rows, where):
                              % (where, r.get("id") or r.get("key") or "?", lat, lon))
 
 
+# The four weights a point can be drawn at, smallest first, so that the index
+# is also the tier the zoom rule compares against. They are the gazetteer's own
+# four, deliberately: a curated point and a gazetteer point that are the same
+# size should be the same size, and one ladder is the only way to promise that.
+SIZES = ("small", "medium", "large", "largest")
+
+
+def check_vocabulary(rows, subtypes, where):
+    """A size must be on the ladder and a subtype in its type's vocabulary.
+
+    Both columns mean nothing to the drawing code when they are misspelled —
+    the marker keeps its default and no error is raised — so the spelling is
+    checked here, where a build can refuse, rather than being discovered by
+    somebody wondering why a change did nothing.
+    """
+    for r in rows:
+        size = (r.get("size") or "").strip()
+        if size and size not in SIZES:
+            raise Problem("%s: %s has size %r; it must be one of %s"
+                          % (where, r["id"], size, ", ".join(SIZES)))
+        sub = (r.get("subtype") or "").strip()
+        if not sub:
+            continue
+        allowed = subtypes.get(r.get("cat") or "")
+        if not allowed:
+            raise Problem("%s: %s is a %s, which has no subtypes; it cannot "
+                          "have subtype %r"
+                          % (where, r["id"], r.get("cat"), sub))
+        if sub not in allowed:
+            raise Problem("%s: %s has subtype %r; a %s may be one of %s"
+                          % (where, r["id"], sub, r.get("cat"),
+                             ", ".join(allowed)))
+
+
 def build_data_js():
     snippets = T.read_snippets()
     parts = []
@@ -590,6 +624,8 @@ def build_data_js():
     check_unique(rows, "id", "texts/site-categories.csv")
     parts.append("JMAP.SITE_CATEGORIES = [\n%s\n];"
                  % array(rows, {}, snippets, indent=2))
+    subtypes = {r["id"]: [w for w in (r.get("subtypes") or "").split(";") if w]
+                for r in rows}
 
     # -------------------------------------------------------- territories
     inner = []
@@ -615,6 +651,7 @@ def build_data_js():
     check_unique(rows, "id", "texts/sites/sites.csv")
     check_frame(rows, "texts/sites/sites.csv")
     ns = notes("sites", "sites.md")
+    check_vocabulary(rows, subtypes, "texts/sites/sites.csv")
     parts.append("JMAP.SITES = [\n%s\n];" % array(rows, ns, snippets, indent=2))
     known = set(r["id"] for r in rows)
 

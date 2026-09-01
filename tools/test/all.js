@@ -31,7 +31,7 @@ const MAP = ['taiwan', 'labels', 'provsource', 'backings', 'mapstrip',
              'projclip', 'extent', 'layers-url', 'bookmarks', 'cache-keys',
              'relief', 'mono', 'names', 'labuan', 'pin', 'stations', 'zoom', 'colours',
              'trains', 'korea', 'population', 'demography', 'sugar', 'epoch', 'taiwanpop', 'keys',
-             'labelcats', 'legendpick', 'subnames', 'japanpop', 'theme', 'twpop1930', 'manchupop', 'routes'];
+             'labelcats', 'legendpick', 'subnames', 'japanpop', 'theme', 'twpop1930', 'manchupop', 'routes', 'pointsize'];
 const ANN = ['run', 'run2', 'run3', 'run4', 'run5', 'run6', 'run7',
              'run8', 'run9', 'run10', 'run11', 'run12', 'run13', 'run14',
              'run15'];
@@ -69,7 +69,7 @@ const SECS = { mapstrip: 45, run2: 41, labels: 32, run5: 35, run14: 32, run9: 30
                bookmarks: 16, 'cache-keys': 15, backings: 15, run6: 12,
                projclip: 11, taiwan: 15, relief: 60, mono: 30, names: 53, run7: 5,
                run15: 40, labuan: 35, pin: 44, stations: 65, zoom: 11, colours: 30, trains: 28, korea: 30,
-               population: 75, demography: 60, sugar: 40, epoch: 45, taiwanpop: 35, keys: 40, theme: 25, twpop1930: 40, manchupop: 40, routes: 30 };
+               population: 75, demography: 60, sugar: 40, epoch: 45, taiwanpop: 35, keys: 40, theme: 25, twpop1930: 40, manchupop: 40, routes: 30, pointsize: 22 };
 list = list.slice().sort((a, b) => (SECS[b] || 0) - (SECS[a] || 0));
 
 /* Each script drives a browser, and a browser is several processes. Half the

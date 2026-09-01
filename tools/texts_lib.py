@@ -51,7 +51,7 @@ LIST_COLS = {"atoms", "lights", "edgeAtoms"}      # space-separated ids
 NUM_LIST_COLS = {"edgeClip"}                      # space-separated numbers
 NUM_COLS = {"lvl", "lat", "lon", "year", "edgeWidth", "lon0", "lat0",
             "lon1", "lat1"}
-BOOL_COLS = {"adminOnly", "unseen", "outline", "both"}
+BOOL_COLS = {"adminOnly", "unseen", "outline", "both", "always"}
 
 # The order fields are written in, for CSV columns and for the emitted objects.
 # Identity first, then names, then the short phrases, then everything
@@ -60,7 +60,7 @@ FIELD_ORDER = [
     "epoch", "id", "key", "site", "cluster",
     "en", "ja", "orig", "zh", "ko",
     "when", "date", "rule", "source", "blurb",
-    "cat", "lvl", "both", "c", "atoms", "lights", "within", "under",
+    "cat", "size", "subtype", "always", "lvl", "both", "c", "atoms", "lights", "within", "under",
     "hatch", "edge", "edgeAtoms", "edgeClip", "edgeWidth",
     "outline", "outlineColor", "adminOnly", "unseen", "srcOnly",
     "lat", "lon", "lon0", "lat0", "lon1", "lat1", "wiki", "note",

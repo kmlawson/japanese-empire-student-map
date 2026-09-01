@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '266';
+  var JEM_VERSION = '267';
   var JEM_ASSETS = {"admin.js": "3414697d04", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "58132ef9c2", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
 
   /* Every file this one fetches, with the version on it.
@@ -48,6 +48,16 @@
   var $$ = function (sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); };
 
   var DOT_R = 5.5;        // marker radius, in screen pixels
+
+  /* **The four weights a point may be drawn at**, smallest first, so the index
+     is also the tier the zoom rule compares against. One ladder for the whole
+     map: a curated point and a gazetteer point of the same size should be the
+     same size, and sharing the numbers is the only way to promise that rather
+     than hope for it. Screen pixels, all four — they are what the reader sees
+     the size of, so the marker group is counter-scaled and the radius stands
+     still. */
+  var SIZES = ['small', 'medium', 'large', 'largest'];
+  var SIZE_R = [2.5, 3.4, 4.4, 5.8];
   var HIT_R_TOUCH = 22;   // finger-sized tap target
   var HIT_R_MOUSE = 13;
   var TAP_SLOP = 9;       // px of movement still counted as a tap
@@ -531,6 +541,50 @@
       .map(function (t) { return t.trim(); }).filter(Boolean);
   }
 
+  /* **How big a point is drawn, and therefore when it is drawn at all.**
+
+     One tier for both tables. A curated point says `size` in `sites.csv`; a
+     gazetteer place says `t` — its size tier — in `data/cities-*.csv`; and the
+     two are the same four rungs, so one number answers for either. `null`
+     means the point never said, and a point that never said keeps the fixed
+     weight it has always had. */
+  function pointTier(rec) {
+    if (!rec) return null;
+    if (rec.size) {
+      var i = SIZES.indexOf(String(rec.size).trim());
+      if (i >= 0) return i;
+    }
+    return rec.t !== undefined ? rec.t : null;
+  }
+
+  /* **Drawn at every zoom, whatever its size.**
+
+     This is the rule the fourteen 府 of colonial Korea are on and it has to
+     survive: a reader looking at the peninsula should find the same towns at
+     every scale rather than watching them appear and disappear. The gazetteer
+     spells it `a` — the weight to pin the dot at, `always` in
+     `data/cities-*.csv` — and a curated point spells it `always`, a plain yes.
+     Either way the answer is the same, and it is asked before the zoom. */
+  function pointAlways(rec) {
+    return !!(rec && (rec.always || rec.a !== undefined));
+  }
+
+  /* The one zoom rule. A point with no tier of its own is drawn at every zoom,
+     which is what every curated point did before there was a ladder to put it
+     on — so filling `size` is what opts a point into thinning, and leaving it
+     blank leaves that point exactly as it was. */
+  function zoomShows(rec) {
+    if (pointAlways(rec)) return true;
+    var t = pointTier(rec);
+    return t === null || t >= gazMinTier();
+  }
+
+  /* The radius its tier earns it, in screen pixels, or the old fixed weight. */
+  function pointR(rec) {
+    var t = pointTier(rec);
+    return t === null ? DOT_R : (SIZE_R[t] || SIZE_R[0]);
+  }
+
   function catList() { return JMAP.CATEGORIES[state.epoch]; }
 
   /* Stations are not one of the map's categories — there is no button for
@@ -623,12 +677,11 @@
        the type rather than the field means a record that gets its type some
        other way — a station, a gazetteer place — answers the same question the
        same way. */
-    return state.cats[pointType(s)] && siteInEpoch(s);
+    return state.cats[pointType(s)] && siteInEpoch(s) && zoomShows(s);
   }
 
   function gazVisible(s) {
-    return state.cats[pointType(s)] && s.epoch === state.epoch
-      && (s.a !== undefined || s.t >= gazMinTier());
+    return state.cats[pointType(s)] && s.epoch === state.epoch && zoomShows(s);
   }
 
   /* Zooming in is a request for more detail, so it raises the level the map
@@ -2734,21 +2787,33 @@
       : (state.colours.raildark || RAIL_DARK_DEF);
   }
 
+  /* The curated points that thin out with the zoom — the ones that named a
+     size and did not ask to be always drawn. Kept as a list because the zoom
+     path should not walk all 126 to find the two or three that move. */
+  var sizedSites = [];
+
   function buildMarkers() {
     JMAP.SITES.forEach(function (s) {
       var p = project(s.lon, s.lat);
       var g = svgEl('g', { 'class': 'site', id: 's-' + s.id, 'data-id': s.id, 'data-cat': s.cat });
+      if (pointSubtype(s)) g.setAttribute('data-subtype', pointSubtype(s));
+      if (s.size) g.setAttribute('data-size', s.size);
+      if (pointTier(s) !== null && !pointAlways(s)) sizedSites.push(s);
       g.appendChild(svgEl('circle', { 'class': 'hit', r: HIT_R }));
+      // the shapes differ by type but the weight is one ladder for all three
+      var r = pointR(s);
       if (s.cat === 'battle') {
-        var d = DOT_R + 1.2;
+        var d = r + 1.2;
         g.appendChild(svgEl('path', { 'class': 'dot', d: 'M0 ' + -d + 'L' + d + ' 0L0 ' + d + 'L' + -d + ' 0Z' }));
       } else if (s.cat === 'poi') {
-        // a place of interest: a square, no bigger than the smallest town
-        var pr = 2.5;
+        /* a place of interest: a square, and unless it says otherwise no
+           bigger than the smallest town — half-width, not radius, so the
+           square reads as the same weight as the dot beside it */
+        var pr = pointTier(s) === null ? SIZE_R[0] : r;
         g.appendChild(svgEl('rect', { 'class': 'dot', x: -pr, y: -pr,
                                       width: pr * 2, height: pr * 2 }));
       } else {
-        g.appendChild(svgEl('circle', { 'class': 'dot', r: DOT_R }));
+        g.appendChild(svgEl('circle', { 'class': 'dot', r: r }));
       }
       var colour = catInfo(s.cat);
       if (colour) g.style.setProperty('--c', colour.c);
@@ -3000,7 +3065,7 @@
   function gazFor(id) {
     return gazByKey[state.epoch + '|' + id];
   }
-  var GAZ_R = [2.5, 3.4, 4.4, 5.8];      // small, medium, large, largest
+  var GAZ_R = SIZE_R;   // the gazetteer's old name for it
 
   /* What the browse layer knew and the gazetteer does not. The CSVs carry a
      name, a position, a size and a capital mark; the 170 context cities in
@@ -3157,9 +3222,23 @@
     if (!JMAP.GAZ) return;
     (JMAP.GAZ[state.epoch] || []).forEach(function (c) {
       if (c.a === undefined || !siteById[c.id]) return;
+      // ... unless the curated point has one of its own, which wins: it is the
+      // more particular statement, made about this point rather than about the
+      // place in general
+      if (siteById[c.id].size) return;
       var el = elById[c.id];
       var dot = el && el.querySelector ? el.querySelector('circle.dot') : null;
       if (dot) dot.setAttribute('r', GAZ_R[c.a] || GAZ_R[0]);
+    });
+  }
+
+  /* Curated points thin out with the zoom the same way the gazetteer's do, so
+     they have to be asked again when it changes. Only the sized ones: every
+     other curated point is drawn at every zoom and cannot change its answer. */
+  function applySizedSites() {
+    sizedSites.forEach(function (s) {
+      var el = elById[s.id];
+      if (el) el.style.display = siteVisible(s) ? '' : 'none';
     });
   }
 
@@ -4426,6 +4505,7 @@
         if (browseGroup) browseGroup.style.display =
           (!JMAP.GAZ && browseVisible()) ? '' : 'none';
         applyGazetteer();
+        if (zoomed) applySizedSites();
         if (zoomed) gateLabels();
         /* NOT ON EVERY FRAME OF A PAN.
          *
