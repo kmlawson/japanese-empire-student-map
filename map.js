@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '265';
+  var JEM_VERSION = '266';
   var JEM_ASSETS = {"admin.js": "3414697d04", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "58132ef9c2", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
 
   /* Every file this one fetches, with the version on it.
@@ -475,6 +475,62 @@
   }
 
   function territories() { return JMAP.TERRITORIES[state.epoch]; }
+  /* ------------------------------------------- what kind of point is it -- */
+
+  /* **Three types, and every point on the map is one of them.**
+   *
+   *   `city`    a settlement — a city, a town, a village, a port
+   *   `poi`     a place of interest — a mine, a works, a dam, a prison
+   *   `battle`  an event — a battle, an incident, a treaty, a landing
+   *
+   * They are the ids in `texts/site-categories.csv`, which also names the
+   * subtypes each one allows, and they are what the three buttons in the bar
+   * switch. The ids are the old ones on purpose: `city` and `battle` are in
+   * the layers code, in every saved link, in the bar's markup and in the CSS,
+   * and renaming them to `settlement` and `event` would buy a better word at
+   * the price of every link anybody has shared. The *labels* are what a reader
+   * sees and those can be changed freely.
+   *
+   * The point of naming the types is that until now they were not the whole
+   * story: `sites.csv`'s 126 records carried a `cat` and the gazetteer's 480
+   * carried nothing at all, being cities by assumption — which is why they
+   * needed a visibility rule of their own, a size rule of their own, and
+   * `sizePinnedMarkers` to stop the two disagreeing. A gazetteer place is a
+   * settlement; it says so now, and one rule can serve both. */
+  function pointType(rec) {
+    if (!rec) return null;
+    if (rec.kind === 'station') return 'city';   // a station is a place to stop
+    if (rec.kind === 'gaz' || rec.kind === 'browse') return 'city';
+    return rec.cat || null;
+  }
+
+  /* And what kind of one — `subtype` in `sites.csv`, against the vocabulary
+     its category names in `site-categories.csv`. A blank means "unqualified"
+     rather than an error, so the vocabulary can grow without a migration.
+     
+     **A subtype is not a size.** A settlement is a city, a town or a village —
+     what it *was* — and how big it is drawn is `size`, the gazetteer's own
+     largest/large/medium/small, which is a separate axis and always was. A
+     village can be drawn large because it matters to the argument and a city
+     small because the map is showing something else, and neither changes what
+     the place is. The two were tangled while a curated point had no size at
+     all and took whatever `sizePinnedMarkers` could borrow from the gazetteer;
+     `size` on the curated table is where that ends. */
+  function pointSubtype(rec) {
+    if (!rec) return '';
+    if (rec.subtype) return rec.subtype;
+    if (rec.kind === 'station') return 'station';
+    return '';
+  }
+
+  function subtypesFor(type) {
+    var c = (JMAP.SITE_CATEGORIES || []).filter(function (x) {
+      return x.id === type;
+    })[0];
+    return (c && c.subtypes ? String(c.subtypes).split(';') : [])
+      .map(function (t) { return t.trim(); }).filter(Boolean);
+  }
+
   function catList() { return JMAP.CATEGORIES[state.epoch]; }
 
   /* Stations are not one of the map's categories — there is no button for
@@ -563,11 +619,15 @@
     // the old browse dots are the same places the gazetteer draws better, so
     // they stand down while it is there rather than being hit-tested underneath
     if (s.kind === 'browse') return !JMAP.GAZ && browseVisible();
-    return state.cats[s.cat] && siteInEpoch(s);
+    /* `pointType`, not `s.cat`: the three types are the switches, and asking
+       the type rather than the field means a record that gets its type some
+       other way — a station, a gazetteer place — answers the same question the
+       same way. */
+    return state.cats[pointType(s)] && siteInEpoch(s);
   }
 
   function gazVisible(s) {
-    return state.cats.city && s.epoch === state.epoch
+    return state.cats[pointType(s)] && s.epoch === state.epoch
       && (s.a !== undefined || s.t >= gazMinTier());
   }
 

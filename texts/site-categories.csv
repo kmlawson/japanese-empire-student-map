@@ -1,4 +1,4 @@
-id,en,ja,orig,zh,ko,c
-city,Cities & ports,都市・港,Cities & ports,城市・港口,도시·항구,#1f3d5c
-battle,Battles & incidents,戦闘・事件,Battles & incidents,戰役・事件,전투·사건,#8e1f57
-poi,Places of interest,名所・旧跡,Places of interest,重要地點,주요 장소,#5b5142
+id,en,ja,orig,zh,ko,c,subtypes
+city,Cities & ports,都市・港,Cities & ports,城市・港口,도시·항구,#1f3d5c,city;town;village
+battle,Battles & incidents,戦闘・事件,Battles & incidents,戰役・事件,전투·사건,#8e1f57,battle;incident;treaty;landing;raid;siege;uprising
+poi,Places of interest,名所・旧跡,Places of interest,重要地點,주요 장소,#5b5142,mine;works;dam;prison

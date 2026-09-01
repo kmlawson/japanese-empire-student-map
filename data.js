@@ -197,15 +197,16 @@ JMAP.CATEGORIES = {
 JMAP.SITE_CATEGORIES = [
   {
     id: 'city', en: 'Cities & ports', ja: '都市・港', orig: 'Cities & ports', zh: '城市・港口',
-    ko: '도시·항구', c: '#1f3d5c'
+    ko: '도시·항구', c: '#1f3d5c', subtypes: 'city;town;village'
   },
   {
     id: 'battle', en: 'Battles & incidents', ja: '戦闘・事件', orig: 'Battles & incidents',
-    zh: '戰役・事件', ko: '전투·사건', c: '#8e1f57'
+    zh: '戰役・事件', ko: '전투·사건', c: '#8e1f57',
+    subtypes: 'battle;incident;treaty;landing;raid;siege;uprising'
   },
   {
     id: 'poi', en: 'Places of interest', ja: '名所・旧跡', orig: 'Places of interest', zh: '重要地點',
-    ko: '주요 장소', c: '#5b5142'
+    ko: '주요 장소', c: '#5b5142', subtypes: 'mine;works;dam;prison'
   },
 ];
 
@@ -1746,13 +1747,13 @@ JMAP.SITES = [
   {
     id: 'okunoshima', en: 'Ōkunoshima', ja: '大久野島 (Ōkunoshima)', zh: '大久野島', ko: '오쿠노시마섬',
     date: 'Army gas plant from 1929', cat: 'poi', lvl: 3, lat: 34.31, lon: 133.0,
-    wiki: 'https://en.wikipedia.org/wiki/%C5%8Ckunoshima', year: 1929,
+    wiki: 'https://en.wikipedia.org/wiki/%C5%8Ckunoshima', subtype: 'works', year: 1929,
     note: 'The army\'s poison gas plant from 1929, making mustard and lewisite for use in China. The island was taken off published maps while it worked, and the labourers were not told what they were handling.'
   },
   {
     id: 'supung', en: 'Suihō (Sup’ung) Dam', ja: '水豊ダム (Suihō damu)', zh: '水豐',
     ko: '수풍 (Sup’ung)', date: 'Generating from 1941', cat: 'poi', lvl: 3, lat: 40.46,
-    lon: 124.96, year: 1941,
+    lon: 124.96, subtype: 'dam', year: 1941,
     note: 'Finished on the Yalu in 1941 and the largest dam in Asia, built with conscript labour and the clearance of whole villages. Its power ran the chemical works at Hŭngnam and much of Manchurian industry.'
   },
   {
@@ -1763,13 +1764,14 @@ JMAP.SITES = [
   {
     id: 'consan', en: 'Côn Sơn (Poulo Condore)', ja: 'コンソン島 (Konson-tō)', orig: 'Côn Sơn',
     zh: '崑崙島', date: 'Penal island from 1862', cat: 'poi', lvl: 3, lat: 8.69, lon: 106.61,
-    wiki: 'https://en.wikipedia.org/wiki/C%C3%B4n_S%C6%A1n_Island', year: 1862,
+    wiki: 'https://en.wikipedia.org/wiki/C%C3%B4n_S%C6%A1n_Island', subtype: 'prison',
+    year: 1862,
     note: 'The French penal islands, in use from 1862. Most of the leadership of the Vietnamese communist party passed through them, which is how a prison became a political school.'
   },
   {
     id: 'ashio', en: 'Ashio', ja: '足尾 (Ashio)', zh: '足尾', ko: '아시오정',
     date: 'Copper, and the pollution case', cat: 'poi', lvl: 3, lat: 36.65, lon: 139.45,
-    wiki: 'https://en.wikipedia.org/wiki/Ashio,_Tochigi', year: 1890,
+    wiki: 'https://en.wikipedia.org/wiki/Ashio,_Tochigi', subtype: 'mine', year: 1890,
     note: 'Furukawa\'s copper mine, and the pollution that poisoned the Watarase valley below it. Tanaka Shōzō\'s campaign on behalf of the ruined villages was the first environmental protest in Japan, and the state answered it by drowning one of them under a reservoir.'
   },
   {

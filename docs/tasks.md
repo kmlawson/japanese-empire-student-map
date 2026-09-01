@@ -14604,6 +14604,65 @@ when the numbers go into somebody's spreadsheet.
 
 ---
 
+## One type per point, and a size that is not a subtype
+
+### Stage one: the vocabulary, and the gazetteer joining it
+
+Asked for as "cities/towns/villages vs points of interest vs events — they can
+have different subtypes but they need that overarching type". Surveyed before
+building, because the shape of what was there decided the design:
+
+| system | rows | what it carried |
+|---|---:|---|
+| `sites.csv` | 126 — 51 city, 71 battle, 4 poi | prose, dates, wiki, `lvl` |
+| `cities-1930/1942.csv` | 477 / 479 | `size_tier`, `always`, `capital_of`, populations |
+| `browse.csv` | 429 | names; its dots stand down when the gazetteer is there |
+
+**"Curated city" is not a kind of place.** 52 ids are in both tables and **50
+of the 51 curated cities are already gazetteer entries** — a curated city is a
+gazetteer city that also has prose. That redundancy is the whole reason
+`sizePinnedMarkers` exists, and the reason a curated marker has no zoom rule at
+all: `lvl` gates the quiz and the labels, never the dot, so Rabaul shows at
+every width.
+
+The three types were already there as `cat` — `city`, `poi`, `battle` — and
+what was missing is that the gazetteer's 480 sat outside them, cities by
+assumption, needing a visibility rule and a size rule of their own.
+`pointType()` answers for any record whatever table it came from, and
+`siteVisible` and `gazVisible` both ask it now instead of asking which file the
+record is from.
+
+**The ids stay `city` and `battle`.** They are in the layers code, in every
+saved link, in the bar's markup and in the CSS, and renaming them to
+`settlement` and `event` would buy a better word at the price of every link
+anybody has shared. The labels are what a reader sees and can change freely.
+
+### A subtype is not a size
+
+`site-categories.csv` names the vocabulary each type allows, and `sites.csv`
+gains `subtype` — blank meaning unqualified, so the vocabulary can grow without
+a migration. Settlements are **city, town, village**: what the place *was*.
+
+How big it is drawn is **`size`**, a separate column and a separate axis —
+largest, large, medium, small, the gazetteer's own four. A village can be drawn
+large because it matters to the argument and a city small because the map is
+showing something else, and neither changes what the place is. The two were
+tangled only because a curated point had no size of its own and took whatever
+`sizePinnedMarkers` could borrow.
+
+The places of interest are classified from the four that exist rather than from
+a list somebody imagined: **Ashio a mine, Ōkunoshima a works, the Suihō dam a
+dam, Côn Sơn a prison.** It grows from there.
+
+### Still to come
+
+Stage two is one weight and one zoom rule for every settlement, curated or not,
+which is what makes Rabaul answerable at all. Stage three retires
+`sizePinnedMarkers` and the browse dots.
+
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible
