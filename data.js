@@ -4850,166 +4850,167 @@ JMAP.PROVINCES = {
   Laos: { en: 'Laos (protectorate)', zh: '寮國', wiki: 'https://en.wikipedia.org/wiki/Laos' },
   'Sado Island': {
     en: 'Sado (Sadogashima)', ja: '佐渡島 (Sadogashima)', zh: '佐渡島', ko: '사도가섬',
-    wiki: 'https://en.wikipedia.org/wiki/Sado_Island',
+    wiki: 'https://en.wikipedia.org/wiki/Sado_Island', part_of: 'Niigata',
     short: 'Gold and silver, worked from 1601',
     note: 'The gold and silver of Sado were worked from 1601 and paid for a good deal of the Tokugawa state; before that it was where the court sent people it wanted out of the way, Emperor Juntoku and the priest Nichiren among them. Korean and Chinese conscripts were worked in the mines during the war.'
   },
   'Tsushima Island': {
     en: 'Tsushima', ja: '対馬 (Tsushima)', zh: '對馬', ko: '쓰시마섬',
-    wiki: 'https://en.wikipedia.org/wiki/Tsushima_Island',
+    wiki: 'https://en.wikipedia.org/wiki/Tsushima_Island', part_of: 'Nagasaki',
     short: 'Halfway between Kyūshū and Korea',
     note: 'Halfway between Kyūshū and Korea, and for three centuries the Sō family held the Korea trade from it under the shogunate\'s licence. Fortified from the 1880s as the gate to the strait, and the Russian fleet was destroyed off it in May 1905.'
   },
   'Iki Island': {
     en: 'Iki', ja: '壱岐島 (Ikinoshima)', zh: '壹岐島', ko: '이키섬',
-    wiki: 'https://en.wikipedia.org/wiki/Iki_Island',
+    wiki: 'https://en.wikipedia.org/wiki/Iki_Island', part_of: 'Nagasaki',
     short: 'On the same road to Korea, and where the Mongol fleets landed in 1274 and again in 1281',
     note: 'On the same road to Korea, and where the Mongol fleets landed in 1274 and again in 1281, killing most of the population both times.'
   },
   'Awaji Island': {
     en: 'Awajishima', ja: '淡路島 (Awajishima)', zh: '淡路島', ko: '아와지섬',
-    wiki: 'https://en.wikipedia.org/wiki/Awaji_Island',
+    wiki: 'https://en.wikipedia.org/wiki/Awaji_Island', part_of: 'Hyogo',
     short: 'In the Inland Sea between Kōbe and Shikoku, and known for its onions',
     note: 'In the Inland Sea between Kōbe and Shikoku, and known for its onions, its roof tiles and a puppet theatre older than Bunraku.'
   },
   Shodoshima: {
     en: 'Shōdoshima', ja: '小豆島 (Shōdoshima)', zh: '小豆島', ko: '쇼도섬',
-    wiki: 'https://en.wikipedia.org/wiki/Sh%C5%8Ddoshima',
+    wiki: 'https://en.wikipedia.org/wiki/Sh%C5%8Ddoshima', part_of: 'Kagawa',
     short: 'Where olives were first grown in Japan, from 1908',
     note: 'Where olives were first grown in Japan, from 1908, on land the government thought might suit them. Soy sauce and stone for Osaka Castle came from it too.'
   },
   Dōgo: {
     en: 'Dōgo — the main island of the Oki group', ja: '隠岐島後 (Oki Dōgo)', zh: '隱岐島後',
-    wiki: 'https://en.wikipedia.org/wiki/Oki_Islands',
+    wiki: 'https://en.wikipedia.org/wiki/Oki_Islands', part_of: 'Shimane',
     note: 'The largest of the Oki islands, and the court\'s furthest place of exile: the emperors Go-Toba and Go-Daigo were both sent here, and Go-Daigo got away again.'
   },
   Shimoshima: {
     en: 'Shimoshima — the larger of the Amakusa islands', ja: '天草下島 (Amakusa Shimoshima)',
-    zh: '天草下島', wiki: 'https://en.wikipedia.org/wiki/Amakusa',
+    zh: '天草下島', wiki: 'https://en.wikipedia.org/wiki/Amakusa', part_of: 'Kumamoto',
     note: 'The larger of the Amakusa islands, and Christian country until the rebellion of 1637 was put down and the survivors went underground for two centuries.'
   },
   'Rishiri Island': {
     en: 'Rishiri', ja: '利尻島 (Rishiritō)', zh: '利尻島', ko: '리시리섬',
-    wiki: 'https://en.wikipedia.org/wiki/Rishiri_Island',
+    wiki: 'https://en.wikipedia.org/wiki/Rishiri_Island', part_of: 'Hokkaido',
     short: 'A single volcanic cone off north-west Hokkaidō, and a herring station',
     note: 'A single volcanic cone off the north-west of Hokkaidō, and a herring station in the years when the herring still came.'
   },
   'Rebun Island': {
     en: 'Rebun', ja: '礼文島 (Rebuntō)', zh: '禮文島', ko: '레분섬',
-    wiki: 'https://en.wikipedia.org/wiki/Rebun_Island',
+    wiki: 'https://en.wikipedia.org/wiki/Rebun_Island', part_of: 'Hokkaido',
     short: 'The northernmost island of Hokkaidō\'s coast, treeless and flowered',
     note: 'The northernmost island of Hokkaidō\'s coast, treeless and flowered, and a herring and kelp fishery.'
   },
   'Okushiri-to': {
     en: 'Okushiri', ja: '奥尻島 (Okushiritō)', zh: '奧尻島', ko: '오쿠시리섬',
-    wiki: 'https://en.wikipedia.org/wiki/Okushiri_Island',
+    wiki: 'https://en.wikipedia.org/wiki/Okushiri_Island', part_of: 'Hokkaido',
     short: 'A herring island off south-west Hokkaidō',
     note: 'Off the south-west of Hokkaidō, a herring island whose catch collapsed with the rest of the fishery between the wars.'
   },
   Izuoshima: {
     en: 'Izu Ōshima', ja: '伊豆大島 (Izu Ōshima)', zh: '伊豆大島', ko: '이즈오섬',
-    wiki: 'https://en.wikipedia.org/wiki/Izu_%C5%8Cshima',
+    wiki: 'https://en.wikipedia.org/wiki/Izu_%C5%8Cshima', part_of: 'Tokyo',
     short: 'The nearest of the Izu islands to Tokyo',
     note: 'The nearest of the Izu islands to Tokyo, and its volcano Mihara was close enough to the capital to be a day\'s outing — and, in the 1930s, notorious as a place people went to jump into it.'
   },
   Kamishima: {
     en: 'Kamishima', ja: '天草上島 (Amakusa Kamishima)', zh: '天草上島',
-    wiki: 'https://en.wikipedia.org/wiki/Kamishima_Island,_Amakusa',
+    wiki: 'https://en.wikipedia.org/wiki/Kamishima_Island,_Amakusa', part_of: 'Kumamoto',
     short: 'The eastern of the two Amakusa islands',
     note: 'The eastern of the two Amakusa islands. Amakusa was Christian ground in the sixteenth century and rose with Shimabara in 1637; after the rising it was held directly by the shogunate, and lived on fish, salt and a little coal.'
   },
   Nagashima: {
     en: 'Nagashima', ja: '長島 (Nagashima)', zh: '長島',
-    wiki: 'https://en.wikipedia.org/wiki/Nagashima_Island,_Kagoshima',
+    wiki: 'https://en.wikipedia.org/wiki/Nagashima_Island,_Kagoshima', part_of: 'Kagoshima',
     short: 'Off the northern tip of Kagoshima across the narrow Kuronoseto strait',
     note: 'Off the northern tip of Kagoshima across the narrow Kuronoseto strait, and Satsuma\'s outpost on that side. Terraced fields and yellowtail fishing; no bridge until 1974.'
   },
   'Ōyanojima': {
     en: 'Ōyanojima', ja: '大矢野島 (Ōyanojima)', zh: '大矢野島',
-    wiki: 'https://en.wikipedia.org/wiki/%C5%8Cyano-jima',
+    wiki: 'https://en.wikipedia.org/wiki/%C5%8Cyano-jima', part_of: 'Kumamoto',
     short: 'The Amakusa island nearest the Kyūshū shore',
     note: 'The Amakusa island nearest the Kyūshū shore, and where Amakusa Shirō, the boy who led the Shimabara rising of 1637, is said to have been born.'
   },
   Nishinoshima: {
     en: 'Nishinoshima', ja: '西ノ島 (Nishinoshima)', zh: '西之島', ko: '니시노시마정',
-    wiki: 'https://en.wikipedia.org/wiki/Nishinoshima,_Shimane',
+    wiki: 'https://en.wikipedia.org/wiki/Nishinoshima,_Shimane', part_of: 'Shimane',
     short: 'One of the three Dōzen islands of Oki, the rim of a drowned crater',
     note: 'One of the three Dōzen islands of Oki, the rim of a drowned crater. The retired emperor Go-Toba was exiled here after the Jōkyū war of 1221 and died on the island in 1239.'
   },
   'Chiburi-jima': {
     en: 'Chiburijima', ja: '知夫里島 (Chiburijima)', zh: '知夫里島', ko: '지부리섬',
-    wiki: 'https://en.wikipedia.org/wiki/Chiburijima',
+    wiki: 'https://en.wikipedia.org/wiki/Chiburijima', part_of: 'Shimane',
     short: 'The smallest and southernmost of the Oki Dōzen',
     note: 'The smallest and southernmost of the Oki Dōzen, cliffs down its western side and common grazing on top. Go-Daigo was held somewhere in these islands from 1332 and escaped in 1333; by one account it was from here.'
   },
   Hachijojima: {
     en: 'Hachijōjima', ja: '八丈島 (Hachijōjima)', zh: '八丈島', ko: '하치조섬',
-    wiki: 'https://en.wikipedia.org/wiki/Hachij%C5%8D-jima',
+    wiki: 'https://en.wikipedia.org/wiki/Hachij%C5%8D-jima', part_of: 'Tokyo',
     short: 'Two volcanoes joined at the waist, 290 km south of Tokyo',
     note: 'Two volcanoes joined at the waist, 290 km south of Tokyo, and an exile island under the Tokugawa: Ukita Hideie, on the losing side at Sekigahara, was sent here and lived on it fifty years. Its export was kihachijō, a yellow silk pongee woven by the island\'s women.'
   },
   Miyakejima: {
     en: 'Miyakejima', ja: '三宅島 (Miyakejima)', zh: '三宅島', ko: '미야케섬',
-    wiki: 'https://en.wikipedia.org/wiki/Miyake-jima',
+    wiki: 'https://en.wikipedia.org/wiki/Miyake-jima', part_of: 'Tokyo',
     short: 'A volcano that erupts about every twenty years — 1874, 1940, 1962',
     note: 'A volcano that erupts about every twenty years — 1874, 1940, 1962 — and an exile island before that. The eruption of 1940 killed eleven people.'
   },
   Niijima: {
     en: 'Niijima', ja: '新島 (Niijima)', zh: '新島', ko: '니지마섬',
-    wiki: 'https://en.wikipedia.org/wiki/Nii-jima',
+    wiki: 'https://en.wikipedia.org/wiki/Nii-jima', part_of: 'Tokyo',
     short: 'Quarried for kōga stone, a pale volcanic rock carried to Tokyo for building',
     note: 'Quarried for kōga stone, a pale volcanic rock carried to Tokyo for building, and one of the Izu exile islands.'
   },
   Kozushima: {
     en: 'Kōzushima', ja: '神津島 (Kōzushima)', zh: '神津島', ko: '고즈섬',
-    wiki: 'https://en.wikipedia.org/wiki/K%C5%8Dzu-shima',
+    wiki: 'https://en.wikipedia.org/wiki/K%C5%8Dzu-shima', part_of: 'Tokyo',
     short: 'Obsidian was carried from here to the mainland in the Jōmon period',
     note: 'Obsidian was carried from here to the mainland in the Jōmon period, across forty kilometres of open sea — the earliest evidence of sea crossing in Japan. Christians were exiled to the island after 1614.'
   },
   Mikurajima: {
     en: 'Mikurajima', ja: '御蔵島 (Mikurajima)', zh: '御藏島', ko: '미쿠라섬',
-    wiki: 'https://en.wikipedia.org/wiki/Mikura-jima',
+    wiki: 'https://en.wikipedia.org/wiki/Mikura-jima', part_of: 'Tokyo',
     short: 'Steep on every side, one village of a few hundred people',
     note: 'Steep on every side, one village of a few hundred people, and a ferry that lands only when the sea allows. Old-growth forest on the slopes above it.'
   },
   Toshima: {
     en: 'Toshima', ja: '利島 (Toshima)', zh: '利島',
-    wiki: 'https://en.wikipedia.org/wiki/To-shima,_Tokyo',
+    wiki: 'https://en.wikipedia.org/wiki/To-shima,_Tokyo', part_of: 'Tokyo',
     short: 'A single cone with no harbour and about three hundred people, living by the camellias',
     note: 'A single cone with no harbour and about three hundred people, living by the camellias — the oil pressed from their seed is what the island sells.'
   },
   'Shikine-jima': {
     en: 'Shikinejima', ja: '式根島 (Shikinejima)', zh: '式根島', ko: '시키네섬',
-    wiki: 'https://en.wikipedia.org/wiki/Shikine-jima',
+    wiki: 'https://en.wikipedia.org/wiki/Shikine-jima', part_of: 'Tokyo',
     short: 'Split from Niijima by an earthquake, the islanders say',
     note: 'Split from Niijima by an earthquake, the islanders say, and left with hot springs among the rocks at the water\'s edge.'
   },
   Aogashima: {
     en: 'Aogashima', ja: '青ヶ島 (Aogashima)', zh: '青島', ko: '아오가섬',
-    wiki: 'https://en.wikipedia.org/wiki/Aogashima', short: 'A crater within a crater',
+    wiki: 'https://en.wikipedia.org/wiki/Aogashima', part_of: 'Tokyo',
+    short: 'A crater within a crater',
     note: 'A crater within a crater, 360 km south of Tokyo and the remotest inhabited island of the Izu chain. The eruption of 1785 killed about half the islanders; the rest fled to Hachijōjima and did not return for fifty years.'
   },
   Torishima: {
     en: 'Torishima', ja: '鳥島 (Torishima)', zh: '鳥島',
-    wiki: 'https://en.wikipedia.org/wiki/Tori-shima_(Izu_Islands)',
+    wiki: 'https://en.wikipedia.org/wiki/Tori-shima_(Izu_Islands)', part_of: 'Tokyo',
     short: 'Albatross were killed here for their feathers from 1887, millions of them',
     note: 'Albatross were killed here for their feathers from 1887, millions of them, until the eruption of 1902 killed all 125 people on the island. It is uninhabited now, and the last breeding ground of the short-tailed albatross.'
   },
   Naoshima: {
     en: 'Naoshima', ja: '直島 (Naoshima)', zh: '直島', ko: '나오시마정',
-    wiki: 'https://en.wikipedia.org/wiki/Naoshima',
+    wiki: 'https://en.wikipedia.org/wiki/Naoshima', part_of: 'Kagawa',
     short: 'A Mitsubishi copper smelter opened here in 1917 and the island lived by it',
     note: 'A Mitsubishi copper smelter opened here in 1917 and the island lived by it; the fumes stripped the hills. The art museums came in the 1990s.'
   },
   Teshima: {
     en: 'Teshima', ja: '豊島 (Teshima)', zh: '豐島', ko: '데시마섬',
-    wiki: 'https://en.wikipedia.org/wiki/Teshima',
+    wiki: 'https://en.wikipedia.org/wiki/Teshima', part_of: 'Kagawa',
     short: 'Spring water and terraced rice, which most Inland Sea islands lack, and granite quarries',
     note: 'Spring water and terraced rice, which most Inland Sea islands lack, and granite quarries. Half a million tonnes of industrial waste were dumped on it from 1975 and took until 2017 to clear away.'
   },
   Inujima: {
     en: 'Inujima', ja: '犬島 (Inujima)', zh: '犬島', wiki: 'https://en.wikipedia.org/wiki/Inujima',
-    short: 'Quarried for the granite of Osaka Castle',
+    part_of: 'Okayama', short: 'Quarried for the granite of Osaka Castle',
     note: 'Quarried for the granite of Osaka Castle, and a copper refinery worked here from 1909 to 1919; its brick chimneys are still standing.'
   },
   Hokkaido: {

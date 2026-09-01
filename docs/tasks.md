@@ -14509,6 +14509,61 @@ land because that is what a delta looks like.
 
 ---
 
+## An island is not severed from the province that governed it
+
+Sado is a shape of its own on this map, with a card of its own, and it is
+Niigata: the census counted its people there and the measured area includes it.
+So a layer that shades Niigata and leaves Sado white says something false about
+Sado — and about a dozen more with it. Reported with a picture of the
+population density map, the islands sitting white in a shaded sea of
+prefectures.
+
+**Declared once, in the data, and read by everything.** `part_of` in
+`texts/territories/sub-units/japan-islands.csv` names the parent for all
+twenty-eight: Sado to Niigata, Awaji to Hyōgo, Shōdoshima, Naoshima and Teshima
+to Kagawa, the three Oki islands to Shimane, the three Amakusa ones to
+Kumamoto, Rishiri, Rebun and Okushiri to Hokkaidō, Tsushima and Iki to
+Nagasaki, Nagashima to Kagoshima, Inujima to Okayama — and the ten Izu islands,
+from Ōshima out to Aogashima and Torishima, to **Tōkyō**, which is what governed
+them on both maps. Every parent was checked against the prefecture keys.
+
+`map.js` reads it in three places and no layer has to know: the choropleth
+takes `want[key] || want[partOf(key)]`, the outline that marks a shaded unit
+does the same, and a card with no figures of its own falls back to its
+province's. So this is true of the population density maps today and of
+whatever is added later.
+
+**And the card says whose figures they are.** The headline stays the island's,
+with the island's own prose under it; the figures block is headed *Niigata-ken
+(新潟県), census of 1 October 1930* and carries a line saying the island was
+governed as part of it and the census counted its people there. Heading
+Niigata's 1,933,326 with "Sado" would have been a claim about Sado.
+
+**Not the Kuriles.** Chishima is drawn as a territory of its own here, and the
+1930 dataset measures Hokkaidō's area *without* it and says so; shading it at
+Hokkaidō's density would put 36 people on every square kilometre of an empty
+archipelago. Okinawa needs nothing — the Ryūkyū atom already carries the
+prefecture's key and has been shaded in both its pieces since the layer shipped.
+
+### What is done and what is not
+
+Measured at a zoom where Sado is drawn: it takes fill `rgb(195, 214, 232)`,
+which is Niigata's exactly, and its card carries Niigata's figures under Sado's
+name.
+
+**It does not work at the wide view yet, and this is why.** The islands are
+named only in `japan-empire-map-fine.svg`, which is fetched once and grafted
+*per window* as the view reaches it. Zoomed out to the whole of Japan there is
+no element carrying `data-prov="Sado Island"` at all — the coarse copy is an
+anonymous ring inside Japan's atom — so there is nothing for the choropleth to
+colour, and the picture in the report is at exactly that zoom. Closing it means
+`build_map.py` emitting the coarse island rings as paths of their own with
+their keys on them, matched to the fine ones the way `reprune` already matches
+them at runtime. That is a build change of its own and is not attempted here.
+
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

@@ -1,29 +1,29 @@
-key,en,short,ko,ja,zh,wiki
-Sado Island,Sado (Sadogashima),"Gold and silver, worked from 1601",사도가섬,佐渡島 (Sadogashima),佐渡島,https://en.wikipedia.org/wiki/Sado_Island
-Tsushima Island,Tsushima,Halfway between Kyūshū and Korea,쓰시마섬,対馬 (Tsushima),對馬,https://en.wikipedia.org/wiki/Tsushima_Island
-Iki Island,Iki,"On the same road to Korea, and where the Mongol fleets landed in 1274 and again in 1281",이키섬,壱岐島 (Ikinoshima),壹岐島,https://en.wikipedia.org/wiki/Iki_Island
-Awaji Island,Awajishima,"In the Inland Sea between Kōbe and Shikoku, and known for its onions",아와지섬,淡路島 (Awajishima),淡路島,https://en.wikipedia.org/wiki/Awaji_Island
-Shodoshima,Shōdoshima,"Where olives were first grown in Japan, from 1908",쇼도섬,小豆島 (Shōdoshima),小豆島,https://en.wikipedia.org/wiki/Sh%C5%8Ddoshima
-Dōgo,Dōgo — the main island of the Oki group,,,隠岐島後 (Oki Dōgo),隱岐島後,https://en.wikipedia.org/wiki/Oki_Islands
-Shimoshima,Shimoshima — the larger of the Amakusa islands,,,天草下島 (Amakusa Shimoshima),天草下島,https://en.wikipedia.org/wiki/Amakusa
-Rishiri Island,Rishiri,"A single volcanic cone off north-west Hokkaidō, and a herring station",리시리섬,利尻島 (Rishiritō),利尻島,https://en.wikipedia.org/wiki/Rishiri_Island
-Rebun Island,Rebun,"The northernmost island of Hokkaidō's coast, treeless and flowered",레분섬,礼文島 (Rebuntō),禮文島,https://en.wikipedia.org/wiki/Rebun_Island
-Okushiri-to,Okushiri,A herring island off south-west Hokkaidō,오쿠시리섬,奥尻島 (Okushiritō),奧尻島,https://en.wikipedia.org/wiki/Okushiri_Island
-Izuoshima,Izu Ōshima,The nearest of the Izu islands to Tokyo,이즈오섬,伊豆大島 (Izu Ōshima),伊豆大島,https://en.wikipedia.org/wiki/Izu_%C5%8Cshima
-Kamishima,Kamishima,The eastern of the two Amakusa islands,,天草上島 (Amakusa Kamishima),天草上島,"https://en.wikipedia.org/wiki/Kamishima_Island,_Amakusa"
-Nagashima,Nagashima,Off the northern tip of Kagoshima across the narrow Kuronoseto strait,,長島 (Nagashima),長島,"https://en.wikipedia.org/wiki/Nagashima_Island,_Kagoshima"
-Ōyanojima,Ōyanojima,The Amakusa island nearest the Kyūshū shore,,大矢野島 (Ōyanojima),大矢野島,https://en.wikipedia.org/wiki/%C5%8Cyano-jima
-Nishinoshima,Nishinoshima,"One of the three Dōzen islands of Oki, the rim of a drowned crater",니시노시마정,西ノ島 (Nishinoshima),西之島,"https://en.wikipedia.org/wiki/Nishinoshima,_Shimane"
-Chiburi-jima,Chiburijima,The smallest and southernmost of the Oki Dōzen,지부리섬,知夫里島 (Chiburijima),知夫里島,https://en.wikipedia.org/wiki/Chiburijima
-Hachijojima,Hachijōjima,"Two volcanoes joined at the waist, 290 km south of Tokyo",하치조섬,八丈島 (Hachijōjima),八丈島,https://en.wikipedia.org/wiki/Hachij%C5%8D-jima
-Miyakejima,Miyakejima,"A volcano that erupts about every twenty years — 1874, 1940, 1962",미야케섬,三宅島 (Miyakejima),三宅島,https://en.wikipedia.org/wiki/Miyake-jima
-Niijima,Niijima,"Quarried for kōga stone, a pale volcanic rock carried to Tokyo for building",니지마섬,新島 (Niijima),新島,https://en.wikipedia.org/wiki/Nii-jima
-Kozushima,Kōzushima,Obsidian was carried from here to the mainland in the Jōmon period,고즈섬,神津島 (Kōzushima),神津島,https://en.wikipedia.org/wiki/K%C5%8Dzu-shima
-Mikurajima,Mikurajima,"Steep on every side, one village of a few hundred people",미쿠라섬,御蔵島 (Mikurajima),御藏島,https://en.wikipedia.org/wiki/Mikura-jima
-Toshima,Toshima,"A single cone with no harbour and about three hundred people, living by the camellias",,利島 (Toshima),利島,"https://en.wikipedia.org/wiki/To-shima,_Tokyo"
-Shikine-jima,Shikinejima,"Split from Niijima by an earthquake, the islanders say",시키네섬,式根島 (Shikinejima),式根島,https://en.wikipedia.org/wiki/Shikine-jima
-Aogashima,Aogashima,A crater within a crater,아오가섬,青ヶ島 (Aogashima),青島,https://en.wikipedia.org/wiki/Aogashima
-Torishima,Torishima,"Albatross were killed here for their feathers from 1887, millions of them",,鳥島 (Torishima),鳥島,https://en.wikipedia.org/wiki/Tori-shima_(Izu_Islands)
-Naoshima,Naoshima,A Mitsubishi copper smelter opened here in 1917 and the island lived by it,나오시마정,直島 (Naoshima),直島,https://en.wikipedia.org/wiki/Naoshima
-Teshima,Teshima,"Spring water and terraced rice, which most Inland Sea islands lack, and granite quarries",데시마섬,豊島 (Teshima),豐島,https://en.wikipedia.org/wiki/Teshima
-Inujima,Inujima,Quarried for the granite of Osaka Castle,,犬島 (Inujima),犬島,https://en.wikipedia.org/wiki/Inujima
+key,en,part_of,short,ko,ja,zh,wiki
+Sado Island,Sado (Sadogashima),Niigata,"Gold and silver, worked from 1601",사도가섬,佐渡島 (Sadogashima),佐渡島,https://en.wikipedia.org/wiki/Sado_Island
+Tsushima Island,Tsushima,Nagasaki,Halfway between Kyūshū and Korea,쓰시마섬,対馬 (Tsushima),對馬,https://en.wikipedia.org/wiki/Tsushima_Island
+Iki Island,Iki,Nagasaki,"On the same road to Korea, and where the Mongol fleets landed in 1274 and again in 1281",이키섬,壱岐島 (Ikinoshima),壹岐島,https://en.wikipedia.org/wiki/Iki_Island
+Awaji Island,Awajishima,Hyogo,"In the Inland Sea between Kōbe and Shikoku, and known for its onions",아와지섬,淡路島 (Awajishima),淡路島,https://en.wikipedia.org/wiki/Awaji_Island
+Shodoshima,Shōdoshima,Kagawa,"Where olives were first grown in Japan, from 1908",쇼도섬,小豆島 (Shōdoshima),小豆島,https://en.wikipedia.org/wiki/Sh%C5%8Ddoshima
+Dōgo,Dōgo — the main island of the Oki group,Shimane,,,隠岐島後 (Oki Dōgo),隱岐島後,https://en.wikipedia.org/wiki/Oki_Islands
+Shimoshima,Shimoshima — the larger of the Amakusa islands,Kumamoto,,,天草下島 (Amakusa Shimoshima),天草下島,https://en.wikipedia.org/wiki/Amakusa
+Rishiri Island,Rishiri,Hokkaido,"A single volcanic cone off north-west Hokkaidō, and a herring station",리시리섬,利尻島 (Rishiritō),利尻島,https://en.wikipedia.org/wiki/Rishiri_Island
+Rebun Island,Rebun,Hokkaido,"The northernmost island of Hokkaidō's coast, treeless and flowered",레분섬,礼文島 (Rebuntō),禮文島,https://en.wikipedia.org/wiki/Rebun_Island
+Okushiri-to,Okushiri,Hokkaido,A herring island off south-west Hokkaidō,오쿠시리섬,奥尻島 (Okushiritō),奧尻島,https://en.wikipedia.org/wiki/Okushiri_Island
+Izuoshima,Izu Ōshima,Tokyo,The nearest of the Izu islands to Tokyo,이즈오섬,伊豆大島 (Izu Ōshima),伊豆大島,https://en.wikipedia.org/wiki/Izu_%C5%8Cshima
+Kamishima,Kamishima,Kumamoto,The eastern of the two Amakusa islands,,天草上島 (Amakusa Kamishima),天草上島,"https://en.wikipedia.org/wiki/Kamishima_Island,_Amakusa"
+Nagashima,Nagashima,Kagoshima,Off the northern tip of Kagoshima across the narrow Kuronoseto strait,,長島 (Nagashima),長島,"https://en.wikipedia.org/wiki/Nagashima_Island,_Kagoshima"
+Ōyanojima,Ōyanojima,Kumamoto,The Amakusa island nearest the Kyūshū shore,,大矢野島 (Ōyanojima),大矢野島,https://en.wikipedia.org/wiki/%C5%8Cyano-jima
+Nishinoshima,Nishinoshima,Shimane,"One of the three Dōzen islands of Oki, the rim of a drowned crater",니시노시마정,西ノ島 (Nishinoshima),西之島,"https://en.wikipedia.org/wiki/Nishinoshima,_Shimane"
+Chiburi-jima,Chiburijima,Shimane,The smallest and southernmost of the Oki Dōzen,지부리섬,知夫里島 (Chiburijima),知夫里島,https://en.wikipedia.org/wiki/Chiburijima
+Hachijojima,Hachijōjima,Tokyo,"Two volcanoes joined at the waist, 290 km south of Tokyo",하치조섬,八丈島 (Hachijōjima),八丈島,https://en.wikipedia.org/wiki/Hachij%C5%8D-jima
+Miyakejima,Miyakejima,Tokyo,"A volcano that erupts about every twenty years — 1874, 1940, 1962",미야케섬,三宅島 (Miyakejima),三宅島,https://en.wikipedia.org/wiki/Miyake-jima
+Niijima,Niijima,Tokyo,"Quarried for kōga stone, a pale volcanic rock carried to Tokyo for building",니지마섬,新島 (Niijima),新島,https://en.wikipedia.org/wiki/Nii-jima
+Kozushima,Kōzushima,Tokyo,Obsidian was carried from here to the mainland in the Jōmon period,고즈섬,神津島 (Kōzushima),神津島,https://en.wikipedia.org/wiki/K%C5%8Dzu-shima
+Mikurajima,Mikurajima,Tokyo,"Steep on every side, one village of a few hundred people",미쿠라섬,御蔵島 (Mikurajima),御藏島,https://en.wikipedia.org/wiki/Mikura-jima
+Toshima,Toshima,Tokyo,"A single cone with no harbour and about three hundred people, living by the camellias",,利島 (Toshima),利島,"https://en.wikipedia.org/wiki/To-shima,_Tokyo"
+Shikine-jima,Shikinejima,Tokyo,"Split from Niijima by an earthquake, the islanders say",시키네섬,式根島 (Shikinejima),式根島,https://en.wikipedia.org/wiki/Shikine-jima
+Aogashima,Aogashima,Tokyo,A crater within a crater,아오가섬,青ヶ島 (Aogashima),青島,https://en.wikipedia.org/wiki/Aogashima
+Torishima,Torishima,Tokyo,"Albatross were killed here for their feathers from 1887, millions of them",,鳥島 (Torishima),鳥島,https://en.wikipedia.org/wiki/Tori-shima_(Izu_Islands)
+Naoshima,Naoshima,Kagawa,A Mitsubishi copper smelter opened here in 1917 and the island lived by it,나오시마정,直島 (Naoshima),直島,https://en.wikipedia.org/wiki/Naoshima
+Teshima,Teshima,Kagawa,"Spring water and terraced rice, which most Inland Sea islands lack, and granite quarries",데시마섬,豊島 (Teshima),豐島,https://en.wikipedia.org/wiki/Teshima
+Inujima,Inujima,Okayama,Quarried for the granite of Osaka Castle,,犬島 (Inujima),犬島,https://en.wikipedia.org/wiki/Inujima

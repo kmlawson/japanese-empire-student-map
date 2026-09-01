@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '263';
+  var JEM_VERSION = '264';
   var JEM_ASSETS = {"admin.js": "3414697d04", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "58132ef9c2", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
 
   /* Every file this one fetches, with the version on it.
@@ -9381,8 +9381,17 @@
   function popFor(key) {
     var k = popKey(key);
     if (!k) return [];
-    return popSets().filter(function (d) { return d.rows && d.rows[k]; })
-      .sort(function (a, b) { return String(a.epoch).localeCompare(b.epoch); });
+    /* An island the map draws apart from the province that governed it has no
+       figures of its own — the census counted its people in the province — so
+       the card falls back to the province's. Sado's card is Sado's, and the
+       numbers under it are Niigata's, which is what a reader clicking Sado
+       wants and what "both prefecture info and island info" asked for. */
+    var got = popSets().filter(function (d) { return d.rows && d.rows[k]; });
+    if (!got.length) {
+      var up = partOf(k);
+      if (up) got = popSets().filter(function (d) { return d.rows && d.rows[up]; });
+    }
+    return got.sort(function (a, b) { return String(a.epoch).localeCompare(b.epoch); });
   }
 
   /* And what the *card* shows: this date and no other. A card is the map's
@@ -9867,7 +9876,8 @@
     });
     if (svg) {
       $$('#land [data-prov]', svg).forEach(function (el) {
-        if (!edges[el.getAttribute('data-prov')]) return;
+        var k = el.getAttribute('data-prov');
+        if (!edges[k] && !edges[partOf(k)]) return;
         el.classList.add('pop-edged');
         popPainted.push(el);
       });
@@ -9884,7 +9894,9 @@
     if (!any || !svg) { drawPopVoid([]); return; }
     var blanks = [];
     $$('#land [data-prov]', svg).forEach(function (el) {
-      var c = want[el.getAttribute('data-prov')];
+      var k = el.getAttribute('data-prov');
+      // an island takes the colour of the province that governed it
+      var c = want[k] || want[partOf(k)];
       if (!c) return;
       el.style.setProperty('--c', c);
       el.classList.add('pop-shaded');
@@ -9892,6 +9904,27 @@
       if (c === POP_BLANK) blanks.push(el);
     });
     drawPopVoid(blanks);
+  }
+
+  /* An island drawn apart from the province that governed it.
+   *
+   * Sado is a shape of its own on this map, with a card of its own, and it is
+   * Niigata — the census counted its people in Niigata and the measured area
+   * includes it. So a layer that shades Niigata and leaves Sado white is
+   * saying something false about Sado, and about a dozen other islands with
+   * it: Awaji, Shōdoshima, Dōgo, Shimoshima, Okushiri, the ten Izu islands
+   * that Tokyo governed. Reported against the population density map with a
+   * picture of them sitting white in a shaded sea of prefectures.
+   *
+   * `part_of` in the sub-unit table names the parent once, in the data, and
+   * everything below reads it — so this is true of every layer the map has now
+   * and every one it gets later, without the layer having to know. It is not
+   * for the Kuriles: the 1930 dataset measures Hokkaidō's area *without* them
+   * and says so, and shading Chishima at Hokkaidō's density would put 36
+   * people on every square kilometre of an empty archipelago. */
+  function partOf(key) {
+    var rec = key && JMAP.PROVINCES ? JMAP.PROVINCES[key] : null;
+    return (rec && rec.part_of) || null;
   }
 
   /* ------------------------------------- the units with no figure ----- */
@@ -10088,6 +10121,16 @@
     host.innerHTML = '';
     var sets = popForCard(key);
     var k = popKey(key);
+    /* An island reads its province's row — see `popFor`. When it does, the
+       figures are named for the *province*, because heading Niigata's
+       1,933,326 with "Sado" would be a claim about Sado. The island's own name
+       is the card's headline above this, and its own prose is under that; this
+       block says whose numbers these are. */
+    var borrowed = null;
+    if (sets.length && !(sets[0].rows || {})[k]) {
+      var up = partOf(k);
+      if (up) { borrowed = up; k = up; }
+    }
     popCardKey = sets.length ? key : null;
     popCardName = name || '';
     if (!sets.length) { host.hidden = true; return; }
@@ -10101,9 +10144,22 @@
          1 October 1942*. Headed with the dataset's own label instead, every
          province card said "Korea" over figures that were the province's.
          The whole colony keeps the label, being the thing that label names. */
-      head.textContent = ((r.scope === 'sub-unit' || r.scope === 'city') && name)
-        ? name + ', ' + d.caption : d.label;
+      var whose = borrowed
+        ? splitGloss(popRowName(borrowed, r)).name
+        : name;
+      head.textContent = ((r.scope === 'sub-unit' || r.scope === 'city') && whose)
+        ? whose + ', ' + d.caption : d.label;
       block.appendChild(head);
+      if (borrowed) {
+        var lend = document.createElement('p');
+        lend.className = 'pop-note';
+        lend.textContent = 'The island was governed as part of '
+          + splitGloss(popRowName(borrowed, r)).name
+          + ', and the census counted its people there. These are that '
+          + 'province\'s figures, and the shading on the island is its '
+          + 'province\'s too.';
+        block.appendChild(lend);
+      }
       if (r.pop) popRow(block, 'Population', r.pop.toLocaleString('en-US'));
       if (r.mf) popRow(block, 'Males per 100 females', r.mf);
       if (r.pct) popRow(block, '% of total ' + d.pctOf, r.pct);
