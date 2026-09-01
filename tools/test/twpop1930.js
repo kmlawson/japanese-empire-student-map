@@ -20,9 +20,12 @@
  *
  *   * **a prefecture read as the sum of its districts.** It is not: the
  *     difference is its 蕃人 column, and the five 州 are checked one at a time;
- *   * **the 蕃地 shaded.** It has a population and deliberately no area — the
- *     source gives the ground none — so a density over it would be over a
- *     figure this project measured for a different purpose;
+ *   * **the 蕃地's density taken from the wrong area.** The source gives that
+ *     ground no area of its own, so the figure is a remainder — and a
+ *     remainder is only worth drawing if the two partitions agree. Both are
+ *     checked: the fifty-five districts and the 蕃地 must come to the colony
+ *     in people *and* in square kilometres. If a district's area is ever
+ *     corrected and the remainder is not, this is what says so;
  *   * **the ladder.** The classes are pooled over a group's dates, so putting
  *     1930 in moved 1941's. Both dates must be reading the same four breaks or
  *     a colour means two things.
@@ -93,8 +96,17 @@ const CHO = ['TwTaito', 'TwKarenko', 'TwHoko'];
       taipei: s.rows.TwTaihoku,
       taito: s.rows.TwTaito,
       withArea: subs.filter(k => s.rows[k].km2).length,
+      /* The area partition, which is what earns the 蕃地 its density: the
+         districts plus that ground have to measure the colony, exactly as
+         their people have to count it. */
+      tileKm2: gun.reduce((a, k) => a + (s.rows[k].km2 || 0), 0)
+               + CHO.reduce((a, k) => a + (s.rows[k].km2 || 0), 0)
+               + (s.rows.TwBanchi.km2 || 0),
+      colonyKm2: s.rows.formosa.km2,
       breaks: s.breaks,
       breaks41: ((JMAP.POPULATION || []).filter(x => x.id === 'taiwan-1941')[0] || {}).breaks,
+      banchi41: (((JMAP.POPULATION || []).filter(x => x.id === 'taiwan-1941')[0]
+                  || {}).rows || {}).TwBanchi,
       indigLabel: (s.fields || []).filter(f => f.c === 'reg_indig').map(f => f.label)[0],
       source: s.source,
       line: s.rows.formosa.line,
@@ -121,13 +133,27 @@ const CHO = ['TwTaito', 'TwKarenko', 'TwHoko'];
       s.kids + ' vs ' + (s.pop - s.indig));
   });
   /* It has people and no ground of its own — the source gives the demarcated
-     territory no area — so there is no density and it is drawn blank. It is
+     territory no area of its own — but the return's own arithmetic does, and
+     it is checked below in both columns before the density is believed. It is
      *not* marked `apart`, which the 1941 row is: in 1930 these people are
      counted here and in no district, so the row is a part of the colony and
-     takes a bar in the chart below. */
-  check('the 蕃地 carries 86,154, no density, and is a part rather than apart',
-    d.banchi.pop === 86154 && !d.banchi.dens && !d.banchi.apart,
-    d.banchi.pop + ' / ' + d.banchi.dens + ' / ' + d.banchi.apart);
+     takes a bar in the chart below.
+
+     The 1941 row cannot have this and must not be given it. That figure is a
+     count of 高砂族 people wherever they lived, already inside the districts
+     and excluding the Japanese and others living on the same ground — neither
+     the whole of who was there nor exclusive of anywhere else, so there is
+     nothing to divide by an area. */
+  check('the 蕃地 carries 86,154 at 5.2 per km², and is a part rather than apart',
+    d.banchi.pop === 86154 && d.banchi.dens === 5.2 && d.banchi.km2 === 16444
+      && !d.banchi.apart,
+    d.banchi.pop + ' / ' + d.banchi.dens + ' / ' + d.banchi.km2 + ' / ' + d.banchi.apart);
+  check('its area is the remainder: the districts and it measure the colony',
+    d.tileKm2 === d.colonyKm2, d.tileKm2 + ' vs ' + d.colonyKm2);
+  check('and the 1941 row is still given no density, being a count of people '
+        + 'rather than of ground',
+    !!d.banchi41 && !d.banchi41.dens && d.banchi41.apart === true,
+    d.banchi41 ? (d.banchi41.dens + ' / apart ' + d.banchi41.apart) : 'absent');
   check('and says the 1930 return counts them once',
     /counts them here and nowhere else/.test(d.banchi.note || ''), d.banchi.note);
   check('Taihoku-shi is 240,435 at 5,116 per km²',
@@ -138,7 +164,8 @@ const CHO = ['TwTaito', 'TwKarenko', 'TwHoko'];
   check('Taitō-chō is the 47,542 of the ground drawn, with 59,335 in the note',
     d.taito.pop === 47542 && /59,335/.test(d.taito.note || ''),
     d.taito.pop + ' — ' + (d.taito.note || '').slice(0, 60));
-  check('fifty-five units carry an area', d.withArea === 55, String(d.withArea));
+  /* Fifty-six now, the 蕃地 having gained the remainder. */
+  check('fifty-six units carry an area', d.withArea === 56, String(d.withArea));
   /* Pooled over the group, so the two dates are comparable. Putting 1930 in
      moved 1941's ladder, which is the intended behaviour and not a regression:
      what must never happen is the two disagreeing. */
@@ -170,20 +197,29 @@ const CHO = ['TwTaito', 'TwKarenko', 'TwHoko'];
   });
   check('fifty-six shapes take the layer — the fifty-five districts and the 蕃地',
     drawn.shaded === 56, String(drawn.shaded));
-  /* The 蕃地 takes the *blank*, which is the whole of the point: it has 86,154
-     people and no ground of its own to divide them by, so it is drawn as the
-     key's "no data" white rather than given a band it has not earned. */
-  check('and the 蕃地 is the white one, not a band',
-    drawn.banchi === 'rgb(255, 255, 255)' && drawn.taipei !== drawn.banchi,
+  /* The 蕃地 takes a band now, and the lowest one. It was the blank for as
+     long as the source's silence about its area was taken for the last word;
+     the return's own arithmetic gives the figure, so the ground that holds
+     45 per cent of Taiwan and 5 people to the square kilometre is drawn
+     rather than left out of its own map. */
+  check('the 蕃地 is drawn in a band, not the blank',
+    drawn.banchi !== 'rgb(255, 255, 255)' && drawn.taipei !== drawn.banchi,
     drawn.banchi + ' vs ' + drawn.taipei);
-  check('fifty-five figures, one to each district that has a density',
-    drawn.figures === 55, String(drawn.figures));
+  check('fifty-six figures, one to each unit that has a density',
+    drawn.figures === 56, String(drawn.figures));
   check('the key is headed with the place, the map and the year',
     /Taiwan Population Density 1930 — people per km²/.test(drawn.key),
     drawn.key.slice(0, 200));
+  /* The ladder moved when the 蕃地 came in, and moved for both dates together,
+     which is the pooling working rather than failing. It was
+     100/300/1,000/2,500 while the lowest figure on the island was a district's;
+     the lowest is now 5, and a log-spaced ladder over that range starts lower
+     and ends lower. Both dates read these four or a colour means two things. */
   check('and gives the four breaks the two dates share',
-    /under 100100–300300–10001000–25002500 and over/.test(drawn.key),
+    /under 2525–100100–400400–20002000 and over/.test(drawn.key),
     drawn.key.slice(0, 260));
+  check('the ladder is the one both dates were built with',
+    d.breaks.join(',') === '25,100,400,2000', d.breaks.join(','));
   check('the code is a positive number', !/^-/.test(drawn.code), drawn.code);
   await p.close();
 

@@ -14806,6 +14806,59 @@ wrong.
 
 ---
 
+## The 蕃地 takes a colour on the 1930 density map
+
+It was drawn blank because the source gives that ground no area of its own and
+a density needs one. The return's own arithmetic gives it, and in both columns
+at once:
+
+| | the fifty-five 市 and 郡 | the colony | the remainder |
+|---|---:|---:|---:|
+| people | 4,592,912 | 4,679,066 | **86,154** |
+| km² | 19,762 | 36,206 | **16,444** |
+
+The remainder in the population column is *exactly* the 86,154 the return
+counts on that ground and nowhere else. The districts and the 蕃地 partition
+the island once, so the area remainder is that ground's area — 16,444 km², 45
+per cent of Taiwan — and the density is **5.2 people to the square kilometre**.
+Both partitions are now checked in `twpop1930.js`, so a district's area
+corrected without the remainder being corrected is a failing test rather than a
+silently wrong figure.
+
+### The ladder moved, for both dates together
+
+Pooled classes respond to the data, and the lowest figure on the island was a
+district's until now:
+
+| | before | after |
+|---|---|---|
+| breaks | 100 · 300 · 1,000 · 2,500 | **25 · 100 · 400 · 2,000** |
+
+That is the log-spacing working rather than failing — the range now runs from 5
+to about 5,000 — and both dates still read the one ladder, which is the thing
+that must never break. It does mean a colour on the Taiwan density map stands
+for a different number than it did. `breaks` in `data/population/index.csv`
+pins them explicitly if the old ladder is wanted back.
+
+### 1942 cannot have this, and must not be given it
+
+The 1941 row is a different kind of figure and the file already says so: it is
+marked `apart`, and its note reads *"Does not include Japanese and others
+living in the ... demarcated 'Aborigine Territory'. The count is of 高砂族
+people; those living here are also counted in the district their ground lies
+in."* Its 159,594 is a count of **people wherever they lived**, not of who was
+on that ground — already inside the district totals, and excluding everyone
+else on the same ground. The check confirms it: the 1941 districts sum to the
+colony exactly, with nothing left over.
+
+So there is nothing to divide by an area, and the 1942 map keeps the blank. What
+would unblock it is one figure: **the total population of the 蕃地 in the 1941
+return, all registers, not only 高砂族.** With that the same remainder method
+applies.
+
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

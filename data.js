@@ -10818,10 +10818,10 @@ JMAP.POPULATION = [
       }
     },
     "breaks": [
+      25,
       100,
-      300,
-      1000,
-      2500
+      400,
+      2000
     ],
     "jpBreaks": [
       1,
@@ -12989,18 +12989,20 @@ JMAP.POPULATION = [
         "en": "Taiwan Government-General’s demarcated 「蕃地」",
         "pop": 86154,
         "mf": "102.10",
-        "note": "The Indigenous Peoples — 「蕃人」 in the source’s own word — living outside the ordinary districts. The 1930 return counts them here and nowhere else, which the 1941 one does not: the 市 and 郡 figures below exclude them, and the colony’s four categories add up with them once. No density is drawn, the source giving this ground no area of its own.",
+        "km2": 16444,
+        "dens": 5.2,
+        "note": "The Indigenous Peoples — 「蕃人」 in the source’s own word — living outside the ordinary districts. The 1930 return counts them here and nowhere else, which the 1941 one does not: the 市 and 郡 figures below exclude them, and the colony’s four categories add up with them once. The source gives this ground no area of its own, but the return's own arithmetic does: the fifty-five 市 and 郡 measure 19,762 km² of the colony's 36,206, leaving 16,444 km² — 45 per cent of Taiwan — and the same fifty-five count 4,592,912 people of the colony's 4,679,066, leaving exactly the 86,154 counted here. The districts and this ground partition the island once, in both columns, so the area is the remainder and the density is 5 people to the square kilometre.",
         "x": {
           "reg_indig": 86154
         },
-        "line": "1930 Resident Population: 86,154 · Males per 100 Females: 102.10 The Indigenous Peoples — 「蕃人」 in the source’s own word — living outside the ordinary districts. The 1930 return counts them here and nowhere else, which the 1941 one does not: the 市 and 郡 figures below exclude them, and the colony’s four categories add up with them once. No density is drawn, the source giving this ground no area of its own."
+        "line": "1930 Resident Population: 86,154 · Males per 100 Females: 102.10 · Per km²: 5.2 The Indigenous Peoples — 「蕃人」 in the source’s own word — living outside the ordinary districts. The 1930 return counts them here and nowhere else, which the 1941 one does not: the 市 and 郡 figures below exclude them, and the colony’s four categories add up with them once. The source gives this ground no area of its own, but the return's own arithmetic does: the fifty-five 市 and 郡 measure 19,762 km² of the colony's 36,206, leaving 16,444 km² — 45 per cent of Taiwan — and the same fifty-five count 4,592,912 people of the colony's 4,679,066, leaving exactly the 86,154 counted here. The districts and this ground partition the island once, in both columns, so the area is the remainder and the density is 5 people to the square kilometre."
       }
     },
     "breaks": [
+      25,
       100,
-      300,
-      1000,
-      2500
+      400,
+      2000
     ],
     "jpBreaks": [
       1,
