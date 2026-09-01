@@ -21,9 +21,14 @@ tools/cache/*.qmd
 # whenever either changes — so there is nothing here worth a place in history.
 tools/cache/seams-*.json
 
-# GeoJSON written by `python3 tools/build_map.py --export exports` — the map's
-# own geometry in lon/lat, for opening in QGIS. Regenerated on demand, and far
-# too heavy to keep in the history.
+# GeoJSON written by `python3 tools/build_map.py --export exports` — an ad-hoc
+# local dump, regenerated on demand and not worth a place in the history.
+#
+# `gis/` is not this. It is the same six files written to a fixed name and
+# *published*: sources.html links them and the licence note beside them names
+# what each shape came from. Twenty megabytes, and they only change when the
+# geometry does, which is seldom — the cost is a few large blobs rather than
+# churn. Rewrite them with `python3 tools/build_map.py --export gis`.
 exports/
 
 # The GeoNames bulk, 588 MB of it, all in one place so that what is ignored

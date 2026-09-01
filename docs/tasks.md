@@ -14859,6 +14859,249 @@ applies.
 
 ---
 
+## Right-click a shape: take it away, or ask where it came from
+
+Three things on one menu, and it replaces the browser's own.
+
+### Download GeoJSON, narrowest offer first
+
+A province offers **itself** and **the whole layer it belongs to**; an island
+offers itself, **its archipelago**, and the layer. A group is only offered
+where there is one — a province has no archipelago — so the menu is as long as
+the shape deserves and no longer.
+
+The rings are read back off the SVG and unprojected. `pathToRings` is the whole
+grammar rather than a subset: the map is written with **3,562 `M`, 3,562 `L`
+and 3,552 `Z` and nothing else**, so there is no curve to meet later and
+silently drop. SVG closes a ring with `Z` and GeoJSON wants the first point
+repeated, which the exporter does.
+
+**Every file says what it is.** These are the drawn shapes, carrying the
+thinning the map draws at — not the survey they were built from. The `note` in
+every feature says so and points at `build_map.py --export`, which writes the
+unthinned lon/lat. A shape that leaves here and is measured somewhere else must
+not be mistaken for its source.
+
+### Copy coordinates
+
+Latitude first, five places, of the point pressed.
+
+**One pixel is worth a twentieth of a degree at the opening view**, and that
+nearly went down as a projection bug. The test aimed at 136.50 E and the menu
+answered 136.44, which looks like a broken inverse — and `project`/`unproject`
+round-trip *exactly*, which made it look worse. The cause is `MouseEvent`:
+`clientX` is a long, so a press dispatched at 501.39 arrives at 501, and 0.39
+px is 1.16 map units is 0.058°. A real mouse only ever delivers whole pixels
+either. The test now unprojects the *rounded* point and demands an exact match,
+with a second check that it is still the right part of the world so an exact
+match against a wrongly-derived expectation cannot pass quietly.
+
+### Where it came from, in a line
+
+`texts/sources-short.csv` — eleven entries, each the book and its year or the
+dataset and its version, with a link to the original. The `atoms` column says
+which shapes each backs and `*` is the fallback, deliberately coarse because
+**provenance here is per dataset, not per province**.
+
+The menu separates two questions that have different answers:
+
+* **Shape** — where the outline came from (geoBoundaries, the Rumsey sheet, the
+  NIKH database, Natural Earth).
+* **Figures** — where the numbers shaded over it came from, taken from the
+  population dataset's own `source`, which was already written in exactly this
+  form. `source_url` is new beside it.
+
+Then "All sources in full", to `sources.html`, for the paragraph.
+
+### It works with a finger
+
+`contextmenu` is what a touch screen raises after a long hold, and the map was
+**already swallowing that event on a coarse pointer** to keep the browser's
+menu away. Had it gone on swallowing it, the whole feature would have been
+desktop-only and every mouse test would still have passed. The test drives a
+390×844 phone with `hasTouch`, and also checks the menu fits on the screen it
+opened on — a menu off the edge of a phone is no menu.
+
+`tools/test/menu.js`, 24 checks, including the produced file: caught on its way
+to the download, parsed, and checked for closed rings, its properties, and a
+bounding box over Gifu rather than over the sea.
+
+
+---
+
+## The geometry, offered whole at the foot of sources.html
+
+Six files, written by `build_map.py --export gis` and published:
+
+| file | what | size |
+|---|---|---:|
+| `sub-units.geojson` | 550 units across 46 countries and colonies | 13 MB |
+| `land.geojson` | 84 atom outlines, whole shapes without divisions | 7 MB |
+| `occupied-zone-1942.geojson` | the five traced blocks | 12 KB |
+| `yellow-river-before-1938.geojson` | the 1855 bed, to the Gulf of Chihli | 43 KB |
+| `yellow-river-1938-1947.geojson` | after Huayuankou | 39 KB |
+| `yangzi.geojson` | | 35 KB |
+
+These are written **before projection and before any thinning** — what the map
+means rather than what it looks like at one scale — and carry the atom key and
+the unit name so they join to the tables on the page above them.
+
+**`gis/` is committed and `exports/` stays ignored**, and the note in
+`.gitignore` now says why the two are different rather than leaving the next
+person to wonder. `exports/` is an ad-hoc local dump; `gis/` is published, is
+linked, and changes only when the geometry does — which is seldom, so the cost
+is a few large blobs rather than churn. Twenty megabytes is the price, and it
+is worth flagging as a decision rather than a detail.
+
+The section also points at the right-click menu for a *single* shape, and says
+plainly that those files are the drawn geometry and these are not. That is the
+whole reason both exist.
+
+
+---
+
+## Stage three: the borrowed weight becomes a stated one
+
+`sizePinnedMarkers` is gone. It existed because a curated point had no size of
+its own: where the gazetteer pinned a weight and the same place was also
+curated, the marker drawn on top borrowed the pin, or Keijō, Pusan, Inch'ŏn and
+P'yŏngyang all came out as the same 5.5 circle over the large-medium-medium the
+fourteen 府 are drawn at.
+
+The four now say it themselves — `size` **large, medium, medium, medium**, and
+`always` beside it, which is the other half of what a gazetteer pin means.
+`applySizes()` reads the record instead of the other table. **Nothing changed on
+screen**; what changed is that the map can be asked why those four are that
+size and has an answer that does not depend on a second file.
+
+**Inch'ŏn is why this could not be one column.** The gazetteer pinned it at the
+smallest weight in 1930 and a step up in 1942, so the size is date-dependent —
+and `applySizes` goes through `shown()`, which is where every other
+date-dependent thing about a site already lives. `overrides-1930.csv` gains a
+`size` column and carries the difference. Both dates are checked: 3.4 on the
+1942 sheet, 2.5 on the 1930 one.
+
+`applySizes` is the radius and `applySizedSites` is the display, and they stay
+separate on purpose — a zoom changes what is drawn, an epoch changes how big,
+and folding them together would run the expensive half on every wheel step.
+
+### Still to come: the browse dots
+
+Not done, and not started at the end of a long session on purpose. The old
+browse layer stands down whenever the gazetteer is present, which is always, so
+it is dead weight — 429 records in `data.js`, a table and a notes file in
+`texts/`, and **75 references in `map.js`**. Some of those are name lookups
+that other things read through `browseById`, so it is a careful removal rather
+than a delete, and it deserves its own pass.
+
+
+---
+
+## Which tests to run, decided rather than assumed
+
+A survey of the suite: 37 map scripts, 15 annotation scripts, ~1,390 checks,
+six minutes. The finding underneath everything else is that **the suite's
+runtime is, to first order, the sum of its hardcoded sleeps** — a browser
+launch is 0.6 s and a page load 0.8 s, and evaluation is nearly free.
+
+### The timings were badly wrong, and that alone was costing a minute
+
+`SECS` schedules longest-first so a run ends on short jobs. It had drifted so
+far that it was doing the opposite:
+
+| script | was listed | actually takes |
+|---|---:|---:|
+| `stations` | 65 s | **147 s** |
+| `relief` | 60 s | **140 s** |
+| `layers-url` | 18 s | **70 s** |
+| `trains` | 28 s | 54 s |
+| `demography` | 60 s | 95 s |
+
+The three worst were being sorted towards the *back*, so a run finished with
+its longest scripts and three idle workers. Now measured from a full run's own
+per-script line, with a note saying to re-measure when it drifts.
+
+### The tree
+
+Scripts grouped by **what they guard** — `core`, `points`, `data`, `geometry`,
+`transport`, `links`, `ann` — and `node tools/test/all.js changed` picks from
+what git says moved, printing one line per file so the choice can be read:
+
+```
+map.js                    → core, points, links, data
+data/population/index.csv → data
+texts/sites/sites.csv     → points, core
+groups: core, data, links, points
+would run 29
+```
+
+**Anything unrecognised runs everything.** That is the rule that keeps it
+honest — a new file or a rename does not get a shrug — and it fired the first
+time it was tried, on `.gitignore`, which has since been taught.
+
+The saving is not subtle: the two most expensive scripts guard the two
+least-changed things, and neither is reached by an edit to `map.js`. `stations`
+and `relief` are 287 seconds between them, a fifth of the suite, and a `map.js`
+change cannot touch the relief raster or the railway data.
+
+Two refinements the first version wanted:
+
+* **An edited test runs itself.** `tools/test/` is marked as touching no
+  product code, which is true and is not the whole answer — an edited check
+  that has never been run is exactly as useful as no check. A file matching a
+  known script name is added by name.
+* **`--dry` on any selection**, printing the list and an estimate. It began as
+  a flag only `changed` read, which is how `all.js data --dry` came to report
+  two scripts named `data` and `--dry` that "never started". Flags are stripped
+  before names are read now.
+
+The policy is in `CLAUDE.md`: `changed` for the everyday loop, the whole suite
+before a release and whenever the tree's answer surprises you.
+
+### Two checks that were reporting green for nothing
+
+Both had the same shape — an assertion that passes when the thing it is about
+is absent.
+
+* **`bookmarks.js`** — "an outdated version is served, not refused" was
+  `fetched.every(f => /200/.test(f))`. `every` on an empty array is true, so it
+  passed when nothing had been fetched at all, which is the failure it exists
+  to catch. The count is the check now.
+* **`stations.js`** — "the whole island in view names nothing" was
+  `names.length === 0`, which passed just as well when the station layer had
+  failed to build. It could not tell *the labels are held back at this width*
+  from *there are nothing here to label*. It now asserts stations are **drawn**
+  and none is **named** — two checks, and the first one failed while I had the
+  selector wrong, which is how I know it is doing something.
+
+`islands.js` had a third, written earlier the same day: `!e || …`, passing when
+the island was missing. Fixed when the survey pointed at it.
+
+`theme.js`'s `length > 10` was also flagged, and it stays: it is arbitrary, but
+it is the guard that stops the *next* check — `auto.join('|') === forced.join('|')`
+— from passing on two empty lists.
+
+### Four page loads that made one point
+
+`relief.js` asked for the coarse, fine and finest sheets in turn, a load and
+3.4 s of settle apiece, to prove each time that the pin gives you the finest.
+What the pin has to survive is a link asking for *something else*, and
+`finest` asks for what it would get anyway. One link, with the chooser and the
+manifest checked on the same page instead of a fourth: **four loads became
+one.**
+
+### Not done: the blind settle
+
+The largest saving is still on the table. Every map script opens a page and
+then sleeps 2.5–3.4 seconds; `annotations/suite.js` already measured that the
+atoms and labels are there after **730 ms** and waits on the condition instead.
+Across ~210 page loads that is around 400 seconds of sleep, or 95–105 seconds
+of wall clock. It is a change to every map script and deserves its own pass
+rather than the tail of a long session.
+
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

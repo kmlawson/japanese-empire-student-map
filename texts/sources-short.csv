@@ -1,0 +1,12 @@
+id,short,url,atoms
+ne,"Natural Earth, 1:10m cultural vectors",https://github.com/nvkelso/natural-earth-vector,*
+rumsey-china,"最新世界大地図 (1940), Rumsey list 13462.003",https://www.davidrumsey.com/,china chahar jehol suiyuan xinjiang mongolia tibet manchuria mengjiang
+enp-china,"ENP-China, Administrative map of Republican China (2021)",https://doi.org/10.58079/o8ls,china
+geoboundaries,"geoBoundaries ADM1–ADM2 (2020)",https://github.com/wmgeolab/geoBoundaries,japan india burma malaya malaya_thai philippines siam siamgain saharat
+academia-taiwan,"《日治時期臺灣行政區域沿革》1926年郡(市)界, Academia Sinica RCHSS",https://data.depositar.io/dataset/rd09-10,taiwan
+nikh-korea,"National Institute of Korean History, 역사지리정보DB (1910–1945)",https://hgis.history.go.kr/pro_g1/dataset.do,korea
+gazetteer-india,"Imperial Gazetteer of India, atlas volume (1931)",https://dsal.uchicago.edu/cgi-bin/reference/gaz_atlas_1931/query.py?object=28,princely india sikkim nepal bhutan
+osm-coast,"OpenStreetMap coastlines (ODbL)",https://osmdata.openstreetmap.de/data/coast.html,ryukyu ogasawara nanyo mandate_jp gilberts solomons_br newguinea_au papua_free chishima
+pelet-1889,"Pelet, Nouvel atlas des colonies Françaises (1889), no. 14",,pondicherry
+goa-1892,"Districto de Goa (1892)",https://delagoabayworld.wordpress.com/2022/10/07/mapas-da-india-portuguesa-goa-diu-e-damao-1892/,goa
+traced,"Traced by hand from period maps; approximate",,occupiedzone contested contested_burma weihaiwei guangzhouwan nca_pacified nca_unpacified

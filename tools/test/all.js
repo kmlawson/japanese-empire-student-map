@@ -31,7 +31,7 @@ const MAP = ['taiwan', 'labels', 'provsource', 'backings', 'mapstrip',
              'projclip', 'extent', 'layers-url', 'bookmarks', 'cache-keys',
              'relief', 'mono', 'names', 'labuan', 'pin', 'stations', 'zoom', 'colours',
              'trains', 'korea', 'population', 'demography', 'sugar', 'epoch', 'taiwanpop', 'keys',
-             'labelcats', 'legendpick', 'subnames', 'japanpop', 'theme', 'twpop1930', 'manchupop', 'routes', 'pointsize', 'islands'];
+             'labelcats', 'legendpick', 'subnames', 'japanpop', 'theme', 'twpop1930', 'manchupop', 'routes', 'pointsize', 'islands', 'menu'];
 const ANN = ['run', 'run2', 'run3', 'run4', 'run5', 'run6', 'run7',
              'run8', 'run9', 'run10', 'run11', 'run12', 'run13', 'run14',
              'run15'];
@@ -40,37 +40,203 @@ const fileFor = n => /^run/.test(n)
   ? path.join(__dirname, 'annotations', n + '.js')
   : path.join(__dirname, n + '.js');
 
-/* The scripts that read `data/population/` — the figures, the cards, the
-   tables, the choropleths and the sentences built from them. A dataset added
-   or edited touches these and nothing else, and there is no reason to spend
-   six minutes on the whole map suite to find that out: `node tools/test/all.js
-   data` is about two.
+/* ---------------------------------------------------------------------
+ * WHICH TESTS TO RUN, AND WHEN
+ *
+ * Six minutes is too long to spend on every change, and running everything
+ * every time is a way of not deciding rather than a way of being careful. So
+ * the scripts are grouped by *what they guard*, and `changed` picks the groups
+ * from what git says has actually moved:
+ *
+ *     node tools/test/all.js changed     # the groups the diff implicates
+ *     node tools/test/all.js core        # one group by name
+ *     node tools/test/all.js map         # every map script
+ *     node tools/test/all.js             # everything, map and annotations
+ *
+ * **The rule that keeps this honest: anything unrecognised runs everything.**
+ * A new file, a rename, a tool nobody thought about — the tree does not get to
+ * shrug. It only ever narrows on paths it has been taught, and the teaching is
+ * in TRIGGERS below where it can be read and argued with.
+ *
+ * And `changed` is for the everyday loop. Before a release, run the lot.
+ */
 
-   It is a *first* check, not the only one. Run `map` before a push: a CSV in
-   that folder reaches `data.js`, which every script on the map reads. */
-const DATA = ['population', 'demography', 'japanpop', 'twpop1930', 'manchupop',
-              'taiwanpop', 'korea', 'names'];
+const GROUPS = {
+  /* The map's own interaction — what a pointer, a key or a switch does. This
+     is what `map.js` changes touch, and `map.js` changes hourly. */
+  core: ['labels', 'labelcats', 'legendpick', 'subnames', 'mapstrip', 'keys',
+         'theme', 'zoom', 'pin', 'labuan', 'epoch', 'mono', 'colours', 'extent',
+         'names'],
 
-const pick = process.argv.slice(2);
+  /* Everything drawn as a dot or read off one: the markers, the gazetteer,
+     the sites table and the menu that hangs off a shape. */
+  points: ['pointsize', 'islands', 'menu', 'routes'],
+
+  /* The figures — `data/population/` and the cards, tables, choropleths and
+     sentences built from them. A dataset added or edited touches these and
+     little else, and there is no reason to spend six minutes finding out. */
+  data: ['population', 'demography', 'japanpop', 'twpop1930', 'manchupop',
+         'taiwanpop', 'korea', 'names'],
+
+  /* The shapes themselves, and the sheets they are written to. These move when
+     `build_map.py` runs, not when somebody edits behaviour. */
+  geometry: ['backings', 'projclip', 'provsource', 'taiwan', 'korea', 'relief',
+             'islands', 'mapstrip'],
+
+  /* Railways, stations and the sugar lines. Four data files that change in
+     bursts and then sit still for weeks. */
+  transport: ['trains', 'stations', 'sugar'],
+
+  /* What a link carries and what a reload remembers. */
+  links: ['layers-url', 'bookmarks', 'cache-keys'],
+
+  ann: ANN,
+};
+
+/* Path → groups. First match wins; `null` means "this cannot break a test"
+   and anything not matched at all means "run everything". Ordered most
+   specific first. */
+const TRIGGERS = [
+  [/^tools\/test\//,               []],            // the tests themselves
+  [/^docs\//,                       []],
+  [/^reports\//,                    []],
+  [/^gis\//,                        []],            // published exports
+  [/^README|\.md$/,                 []],
+  [/^\.gitignore$/,                  []],
+  [/^texts\/version\.csv$/,         []],        // the update number
+  [/^tools\/(?!test\/|build_)/,     []],        // the other build tools
+  [/^data\/(gazetteer|nikh-korea|ignored)\//, []],
+  [/^stale\//,                       []],
+
+  [/^annotate\.js$/,                ['ann']],
+  [/^admin\.js$/,                   ['ann']],
+
+  [/^data\/population\//,          ['data']],
+  [/^texts\/(territories|pages)\//, ['data', 'core']],
+  [/^texts\/sites/,                 ['points', 'core']],
+  [/^texts\/sources-short\.csv$/,  ['points']],
+  [/^texts\/.*\.csv$/,             ['data', 'core']],
+
+  [/^cities-gaz\.js$/,              ['points']],
+  [/^data\/cities/,                 ['points']],
+  [/^(tw|kr)-(stations|trains)\.js$/, ['transport']],
+  [/^trains\.js$/,                  ['transport']],
+  [/^relief\.js$/,                  ['geometry']],
+
+  [/\.svg$/,                        ['geometry', 'core']],
+  [/^tools\/build_map\.py$/,       ['geometry', 'core']],
+  [/^tools\/build_texts\.py$/,     ['data', 'core', 'points']],
+  [/^tools\/texts_lib\.py$/,       ['data', 'core', 'points']],
+  [/^tools\/build_cities\.py$/,    ['points']],
+
+  /* `map.js` is the map. It cannot be narrowed to one group and it is not
+     pretended otherwise — but it does not touch the relief raster, the railway
+     data or the annotation pane, and those are the three most expensive things
+     in the suite. */
+  [/^map\.js$/,                     ['core', 'points', 'links', 'data']],
+  [/^styles\.css$/,                 ['core', 'points']],
+  [/^data\.js$/,                    ['core', 'points', 'data']],
+  [/^index\.html$/,                 ['core', 'links']],
+  [/^sources\.html$/,               []],
+];
+
+function changedFiles() {
+  const { execSync } = require('child_process');
+  const run = c => { try { return execSync(c, { encoding: 'utf8' }); }
+                     catch (e) { return ''; } };
+  const out = run('git diff --name-only HEAD')
+            + run('git ls-files --others --exclude-standard');
+  return [...new Set(out.split('\n').map(s => s.trim()).filter(Boolean))];
+}
+
+/* The tree itself. Returns the scripts to run and the reasoning, so the run
+   can print why it chose them — a decision nobody can see is a decision
+   nobody will trust. */
+function chooseFor(files) {
+  if (!files.length) return { list: [], why: ['nothing has changed'] };
+  const want = new Set(), why = [];
+  const ALL = MAP.concat(ANN);
+  for (const f of files) {
+    /* A test that has itself been edited is run, whatever it guards. The
+       trigger table says `tools/test/` touches no product code, which is true
+       and is not the whole answer: an edited check that has never been run is
+       exactly as useful as no check. */
+    const own = /^tools\/test\/(?:annotations\/)?([a-z0-9-]+)\.js$/.exec(f);
+    if (own && ALL.indexOf(own[1]) >= 0) {
+      want.add('#' + own[1]);
+      why.push(f + ' → itself');
+      continue;
+    }
+    const hit = TRIGGERS.find(([re]) => re.test(f));
+    if (!hit) {
+      why.push(f + ' → not recognised, so everything runs');
+      return { list: MAP.concat(ANN), why };
+    }
+    if (!hit[1].length) continue;
+    hit[1].forEach(g => want.add(g));
+    why.push(f + ' → ' + hit[1].join(', '));
+  }
+  if (!want.size) return { list: [], why: why.concat(['nothing a test can see']) };
+  const list = [];
+  want.forEach(g => {
+    if (g.charAt(0) === '#') {                      // one named script
+      if (list.indexOf(g.slice(1)) < 0) list.push(g.slice(1));
+      return;
+    }
+    (GROUPS[g] || []).forEach(n => { if (list.indexOf(n) < 0) list.push(n); });
+  });
+  return { list, why, groups: [...want].filter(g => g.charAt(0) !== '#') };
+}
+
+const DATA = GROUPS.data;
+
+/* Flags are taken out before the names are read, so `--dry` works with any
+   selection and a stray flag is never mistaken for a script. That is how
+   `all.js data --dry` came to report two scripts named `data` and `--dry`
+   which "never started". */
+const argv = process.argv.slice(2);
+const dry = argv.some(a => a === '--dry' || a === '-n');
+const pick = argv.filter(a => a.charAt(0) !== '-');
 let list;
 if (!pick.length) list = MAP.concat(ANN);
 else if (pick.length === 1 && pick[0] === 'map') list = MAP;
 else if (pick.length === 1 && pick[0] === 'ann') list = ANN;
-else if (pick.length === 1 && pick[0] === 'data') list = DATA;
+else if (pick.length === 1 && pick[0] === 'changed') {
+  const files = changedFiles();
+  const got = chooseFor(files);
+  console.log('\n  ' + files.length + ' file(s) changed:');
+  got.why.forEach(w => console.log('    ' + w));
+  if (got.groups) console.log('  groups: ' + got.groups.sort().join(', '));
+  if (!got.list.length) {
+    console.log('\n  nothing to run.\n');
+    process.exit(0);
+  }
+  list = got.list;
+} else if (pick.length === 1 && GROUPS[pick[0]]) list = GROUPS[pick[0]];
 else list = pick.map(a => (/^\d+$/.test(a) ? 'run' + (a === '1' ? '' : a) : a));
 
 /* Longest first, so the tail of the run is short jobs filling the gaps rather
    than one 45-second script the other three workers wait out. Names not in the
    table go last: an unknown script is usually a new one, and a new one is
    usually quick. */
-const SECS = { mapstrip: 45, run2: 41, labels: 32, run5: 35, run14: 32, run9: 30,
-               run3: 28, extent: 26, run10: 25, run11: 24, run12: 19, run: 19,
-               run8: 19, provsource: 18, run13: 18, 'layers-url': 18, run4: 17,
-               bookmarks: 16, 'cache-keys': 15, backings: 15, run6: 12,
-               projclip: 11, taiwan: 15, relief: 60, mono: 30, names: 53, run7: 5,
-               run15: 40, labuan: 35, pin: 44, stations: 65, zoom: 11, colours: 30, trains: 28, korea: 30,
-               population: 75, demography: 60, sugar: 40, epoch: 45, taiwanpop: 35, keys: 40, theme: 25, twpop1930: 40, manchupop: 40, routes: 30, pointsize: 22, islands: 60 };
+/* Measured, not guessed, and re-measured when it drifts. The runner sorts
+   longest-first so the tail of a run is short jobs rather than long ones —
+   which only works if the numbers are true. They had gone badly stale:
+   `stations` was down as 65 seconds and takes 147, `relief` as 60 and takes
+   140, `layers-url` as 18 and takes 70. All three were being scheduled near
+   the *back*, so a run ended with its longest scripts and three idle
+   workers. Regenerate from a full run's own per-script line. */
+const SECS = { stations: 147, relief: 140, demography: 95, population: 71, 'layers-url': 70, names: 62, mapstrip: 56, trains: 54, japanpop: 44, theme: 40, labels: 40, subnames: 37, labelcats: 35, routes: 34, sugar: 33, twpop1930: 33, pin: 31, epoch: 29, mono: 27, colours: 26, extent: 26, islands: 25, manchupop: 25, keys: 24, legendpick: 22, labuan: 22, provsource: 19, bookmarks: 16, 'cache-keys': 15, backings: 15, taiwan: 15, korea: 14, zoom: 13, menu: 13, pointsize: 11, projclip: 11, taiwanpop: 7,
+               run2: 41, run15: 40, run5: 35, run14: 32, run: 19, run3: 28, run9: 30, run10: 25, run11: 24, run12: 19, run8: 19, run13: 18, run4: 17, run6: 12, run7: 5 };
 list = list.slice().sort((a, b) => (SECS[b] || 0) - (SECS[a] || 0));
+
+if (dry) {
+  const secs = list.reduce((a, n) => a + (SECS[n] || 0), 0);
+  console.log('\n  would run ' + list.length + ' script(s), about '
+              + Math.round(secs / 4) + 's at four at a time:');
+  console.log('    ' + list.join(' ') + '\n');
+  process.exit(0);
+}
 
 /* Each script drives a browser, and a browser is several processes. Half the
    cores, never fewer than two and never more than four: past that they queue

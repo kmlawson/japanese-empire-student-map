@@ -127,6 +127,36 @@ Two details that are easy to get wrong:
   to hand the same spec over, or it will be exported by scraping the DOM —
   which gives whatever the reader last sorted it into.
 
+## Run the tests the change can reach, not all of them
+
+Six minutes is too long to spend on every edit, and running everything every
+time is a way of *not deciding* rather than a way of being careful. The scripts
+are grouped by what they guard, and the runner picks from what git says moved:
+
+```
+node tools/test/all.js changed --dry   # what it would run, and why
+node tools/test/all.js changed         # run that
+node tools/test/all.js core            # one group by name
+node tools/test/all.js                 # everything: before a release
+```
+
+`changed` prints its reasoning — one line per file, naming the groups it
+implicates — because a decision nobody can see is a decision nobody will trust.
+
+**Anything unrecognised runs everything.** A new file, a rename, a tool nobody
+thought about: the tree does not get to shrug. It narrows only on paths it has
+been taught, and the teaching is `TRIGGERS` in `tools/test/all.js`, where it
+can be read and argued with. When you add a file that tests care about, add the
+rule.
+
+The two most expensive scripts guard the two least-changed things — `stations`
+takes 147 seconds and `relief` 140, and between them they are a fifth of the
+suite. Neither is reached by an edit to `map.js`, which is what changes hourly.
+That is the whole saving, and it is why the groups are drawn where they are.
+
+**Still run the whole suite before a release**, and whenever the tree's answer
+surprises you.
+
 ## Record what changed in docs/tasks.md before marking it done
 
 An entry says what was actually changed and what was measured, not what was

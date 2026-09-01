@@ -1228,22 +1228,24 @@ JMAP.SITES = [
   },
   {
     id: 'seoul', en: 'Keijō (Kyŏngsŏng, Seoul)', ja: '京城 (Keijō)', zh: '京城（漢城）',
-    ko: '서울 / 한성 (Sŏul / Hansŏng)', date: 'Renamed Keijō in 1910', cat: 'city', lvl: 1,
-    lat: 37.57, lon: 126.98, wiki: 'https://en.wikipedia.org/wiki/Keij%C5%8D',
-    local: 'Kyŏngsŏng (Keijō, Seoul)', year: 1876,
+    ko: '서울 / 한성 (Sŏul / Hansŏng)', date: 'Renamed Keijō in 1910', cat: 'city', size: 'large',
+    always: true, lvl: 1, lat: 37.57, lon: 126.98,
+    wiki: 'https://en.wikipedia.org/wiki/Keij%C5%8D', local: 'Kyŏngsŏng (Keijō, Seoul)',
+    year: 1876,
     note: 'Capital of Chosŏn Korea as Hansŏng, and of the colony as Keijō. The Kapsin Coup of 1884 and the March First Movement of 1919 both began here; Queen Min was murdered in the palace in 1895.'
   },
   {
     id: 'pusan', en: 'Fusan (Pusan)', ja: '釜山 (Fusan)', zh: '釜山', ko: '부산 (Pusan)',
-    date: 'Opened by treaty 1876', cat: 'city', lvl: 2, lat: 35.18, lon: 129.08,
-    wiki: 'https://en.wikipedia.org/wiki/Busan', local: 'Pusan (Fusan)', year: 1876,
+    date: 'Opened by treaty 1876', cat: 'city', size: 'medium', always: true, lvl: 2,
+    lat: 35.18, lon: 129.08, wiki: 'https://en.wikipedia.org/wiki/Busan',
+    local: 'Pusan (Fusan)', year: 1876,
     note: 'The port closest to Japan, long the site of a Japanese trading enclave, and the southern end of the ferry and rail link that tied Korea into the Japanese economy.'
   },
   {
     id: 'incheon', en: 'Jinsen (Inch’ŏn)', ja: '仁川 (Jinsen)', zh: '仁川',
     ko: '인천 / 제물포 (Inch’ŏn / Chemulp’o)', date: 'Naval action 9 February 1904', cat: 'city',
-    lvl: 3, lat: 37.46, lon: 126.71, wiki: 'https://en.wikipedia.org/wiki/Incheon',
-    local: 'Inch’ŏn (Jinsen)', year: 1883,
+    size: 'medium', always: true, lvl: 3, lat: 37.46, lon: 126.71,
+    wiki: 'https://en.wikipedia.org/wiki/Incheon', local: 'Inch’ŏn (Jinsen)', year: 1883,
     note: 'Seoul’s port, known to foreigners as Chemulpo. The Japanese attack on Russian ships here opened the Russo-Japanese War.'
   },
   {
@@ -1255,9 +1257,9 @@ JMAP.SITES = [
   },
   {
     id: 'pyongyang', en: 'Heijō (P’yŏngyang)', ja: '平壌 (Heijō)', zh: '平壤',
-    ko: '평양 (P’yŏngyang)', date: 'Battle, 15 September 1894', cat: 'city', lvl: 3, lat: 39.02,
-    lon: 125.75, wiki: 'https://en.wikipedia.org/wiki/Pyongyang', local: 'P’yŏngyang (Heijō)',
-    year: 1894,
+    ko: '평양 (P’yŏngyang)', date: 'Battle, 15 September 1894', cat: 'city', size: 'medium',
+    always: true, lvl: 3, lat: 39.02, lon: 125.75,
+    wiki: 'https://en.wikipedia.org/wiki/Pyongyang', local: 'P’yŏngyang (Heijō)', year: 1894,
     note: 'Site of a decisive Japanese victory over Qing forces in the First Sino-Japanese War, and later a centre of colonial industry and of Korean Christianity.'
   },
   {
@@ -2000,6 +2002,7 @@ JMAP.EPOCH_OVERRIDES = {
       date: 'Treaty port from 1842',
       note: 'One of the first five treaty ports, and a main point of departure for Chinese emigration to Southeast Asia.'
     } },
+  incheon: { e1930: { size: 'small' } },
 };
 
 JMAP.EXTENT_1942 = {
@@ -7298,6 +7301,62 @@ JMAP.PROVINCES = {
   },
 };
 
+JMAP.SOURCES_SHORT = [
+  {
+    id: 'ne', atoms: ['*'], short: 'Natural Earth, 1:10m cultural vectors',
+    url: 'https://github.com/nvkelso/natural-earth-vector'
+  },
+  {
+    id: 'rumsey-china',
+    atoms: ['china', 'chahar', 'jehol', 'suiyuan', 'xinjiang', 'mongolia', 'tibet', 'manchuria', 'mengjiang'],
+    short: '最新世界大地図 (1940), Rumsey list 13462.003', url: 'https://www.davidrumsey.com/'
+  },
+  {
+    id: 'enp-china', atoms: ['china'],
+    short: 'ENP-China, Administrative map of Republican China (2021)',
+    url: 'https://doi.org/10.58079/o8ls'
+  },
+  {
+    id: 'geoboundaries',
+    atoms: ['japan', 'india', 'burma', 'malaya', 'malaya_thai', 'philippines', 'siam', 'siamgain', 'saharat'],
+    short: 'geoBoundaries ADM1–ADM2 (2020)', url: 'https://github.com/wmgeolab/geoBoundaries'
+  },
+  {
+    id: 'academia-taiwan', atoms: ['taiwan'],
+    short: '《日治時期臺灣行政區域沿革》1926年郡(市)界, Academia Sinica RCHSS',
+    url: 'https://data.depositar.io/dataset/rd09-10'
+  },
+  {
+    id: 'nikh-korea', atoms: ['korea'],
+    short: 'National Institute of Korean History, 역사지리정보DB (1910–1945)',
+    url: 'https://hgis.history.go.kr/pro_g1/dataset.do'
+  },
+  {
+    id: 'gazetteer-india', atoms: ['princely', 'india', 'sikkim', 'nepal', 'bhutan'],
+    short: 'Imperial Gazetteer of India, atlas volume (1931)',
+    url: 'https://dsal.uchicago.edu/cgi-bin/reference/gaz_atlas_1931/query.py?object=28'
+  },
+  {
+    id: 'osm-coast',
+    atoms: ['ryukyu', 'ogasawara', 'nanyo', 'mandate_jp', 'gilberts', 'solomons_br', 'newguinea_au', 'papua_free', 'chishima'],
+    short: 'OpenStreetMap coastlines (ODbL)',
+    url: 'https://osmdata.openstreetmap.de/data/coast.html'
+  },
+  {
+    id: 'pelet-1889', atoms: ['pondicherry'],
+    short: 'Pelet, Nouvel atlas des colonies Françaises (1889), no. 14'
+  },
+  {
+    id: 'goa-1892', atoms: ['goa'], short: 'Districto de Goa (1892)',
+    url: 'https://delagoabayworld.wordpress.com/2022/10/07/mapas-da-india-portuguesa-goa-diu-e-damao-1892/'
+  },
+  {
+    id: 'traced',
+    atoms: ['occupiedzone', 'contested', 'contested_burma', 'weihaiwei', 'guangzhouwan', 'nca_pacified', 'nca_unpacified'],
+    short: 'Traced by hand from period maps; approximate'
+  },
+];
+
 JMAP.ISLAND_GROUPS = {
   'Izu Islands': 'Tokyo',
   Sado: 'Niigata',
@@ -7874,6 +7933,7 @@ JMAP.POPULATION = [
     "label": "Korea, estimated population at 1 October 1942",
     "pctOf": "Korea",
     "source": "朝鮮總督府『昭和十七年 朝鮮人口動態統計』附録 p24",
+    "srcUrl": "",
     "layer": "Korea Population Density",
     "rows": {
       "chosen": {
@@ -8315,6 +8375,7 @@ JMAP.POPULATION = [
     "label": "Korea, census of 1 October 1930",
     "pctOf": "Korea",
     "source": "1930 Census of Korea, 朝鮮總督府『昭和五年 朝鮮國勢調査報告』 — ages pp. 10–11, register and nationality Tables 19–20, occupation Table 40",
+    "srcUrl": "",
     "layer": "Korea Population Density",
     "rows": {
       "chosen": {
@@ -9172,6 +9233,7 @@ JMAP.POPULATION = [
     "label": "The fourteen 府 at the census of 1 October 1930",
     "pctOf": "",
     "source": "1930 Census of Korea, 朝鮮總督府『昭和五年 朝鮮國勢調査報告』 — ages pp. 10–11, register and nationality Tables 19–20, occupation Table 40",
+    "srcUrl": "",
     "layer": "The fourteen 府 at the census of 1 October 1930",
     "rows": {
       "allcities": {
@@ -9730,6 +9792,7 @@ JMAP.POPULATION = [
     "label": "Taiwan by district, the resident population at the end of 1941",
     "pctOf": "",
     "source": "臺灣總督府第四十五統計書 (昭和16年), Table 16 市街庄別常住戸口 pp. 20–33, with the colony and prefecture totals from Table 15",
+    "srcUrl": "",
     "layer": "Taiwan",
     "rows": {
       "formosa": {
@@ -10931,6 +10994,7 @@ JMAP.POPULATION = [
     "label": "Japan, census of 1 October 1930",
     "pctOf": "Japan",
     "source": "内閣統計局『昭和五年国勢調査最終報告書』— 人口ノ府縣分布 p10, 男女別 p25, 年齢別 pp40–41, 出生地 pp68–69",
+    "srcUrl": "https://dl.ndl.go.jp/pid/1281995",
     "layer": "Japan Population Density",
     "rows": {
       "japan": {
@@ -11757,6 +11821,7 @@ JMAP.POPULATION = [
     "label": "The twenty-eight 市 at the census of 1 October 1930",
     "pctOf": "Japan",
     "source": "内閣統計局『昭和五年国勢調査最終報告書』市ノ人口 p16",
+    "srcUrl": "",
     "layer": "The twenty-eight 市 at the census of 1 October 1930",
     "rows": {
       "allcities": {
@@ -12013,6 +12078,7 @@ JMAP.POPULATION = [
     "label": "Taiwan by district, the resident population at the end of 1930",
     "pctOf": "",
     "source": "昭和五年 臺灣總督府統計書 (published 1932; the figures are for 1930) — 第35表 戶口靜態總表 and 第37表 地方別現住人口, pp. 28–37",
+    "srcUrl": "https://dl.ndl.go.jp/pid/1445212",
     "layer": "Taiwan",
     "rows": {
       "formosa": {
@@ -13049,6 +13115,7 @@ JMAP.POPULATION = [
     "label": "The seven 市 at the end of 1930",
     "pctOf": "",
     "source": "昭和五年 臺灣總督府統計書 (published 1932; the figures are for 1930) — 第35表 戶口靜態總表 and 第37表 地方別現住人口, pp. 28–37",
+    "srcUrl": "",
     "layer": "The seven 市 at the end of 1930",
     "rows": {
       "taipei": {
@@ -13191,6 +13258,7 @@ JMAP.POPULATION = [
     "label": "The eleven 市 at the end of 1941",
     "pctOf": "",
     "source": "臺灣總督府第四十五統計書 (昭和16年), Table 16 市街庄別常住戸口 pp. 20–33",
+    "srcUrl": "",
     "layer": "The eleven 市 at the end of 1941",
     "rows": {
       "taipei": {
@@ -13456,6 +13524,7 @@ JMAP.POPULATION = [
     "label": "Manchukuo population, May 1943",
     "pctOf": "Manchukuo",
     "source": "滿洲國『臨時國勢調査報告』— 第一表 新京特別市及省別人口 p5, 第一圖 新京特別市及省別人口密度 (the plate at the front), 第二表 民族省別人口 pp6–7",
+    "srcUrl": "",
     "layer": "Manchukuo",
     "rows": {
       "manchukuo": {
@@ -13938,6 +14007,7 @@ JMAP.POPULATION = [
     "label": "Japan, census of 1 October 1940",
     "pctOf": "Japan",
     "source": "内閣統計局『昭和十五年国勢調査』— 全国・道府県人口, printed pp17–19, scanned and hosted by 一橋大学経済研究所 人文学・社会科学データインフラストラクチャー構築推進事業",
+    "srcUrl": "",
     "layer": "Japan Population Density",
     "rows": {
       "japan": {

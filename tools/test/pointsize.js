@@ -152,6 +152,44 @@ const zoomIn=async (p,n)=>{
   check('not one of them changed with the zoom', wideBlanks===deepBlanks,
         'wide '+wideBlanks.split(',').length+' vs deep '+deepBlanks.split(',').length);
 
+  /* The four the gazetteer used to lend a weight to. `sizePinnedMarkers` read
+     it off the other table; the records say it themselves now, so the sizes
+     must be unchanged — and Inch'ŏn must still differ by date, which is the
+     part a single column could not have carried. */
+  console.log('\n— the four that used to borrow their weight —');
+  const four=await page.evaluate(()=>{
+    const out={};
+    ['seoul','pusan','pyongyang','incheon'].forEach(id=>{
+      const g=document.getElementById('s-'+id);
+      const c=g&&g.querySelector('circle.dot');
+      out[id]=c?+c.getAttribute('r'):null;
+    });
+    return out;
+  });
+  check('Keijō is drawn large, as the gazetteer pinned it', four.seoul===4.4, String(four.seoul));
+  check('Pusan medium', four.pusan===3.4, String(four.pusan));
+  check('P’yŏngyang medium', four.pyongyang===3.4, String(four.pyongyang));
+  check('Inch’ŏn medium on the 1942 sheet', four.incheon===3.4, String(four.incheon));
+  check('and none of the four is the old fixed 5.5',
+        Object.keys(four).every(k=>four[k]!==5.5), JSON.stringify(four));
+
+  await page.evaluate(()=>{
+    const b=[...document.querySelectorAll('#epoch-seg button')].find(x=>/1930/.test(x.textContent));
+    if(b) b.click();
+  });
+  await sleep(2600);
+  const i30=await page.evaluate(()=>{
+    const c=document.querySelector('#s-incheon circle.dot');
+    return c?+c.getAttribute('r'):null;
+  });
+  check('Inch’ŏn is a step smaller on the 1930 sheet, as it was pinned there',
+        i30===2.5, String(i30));
+  await page.evaluate(()=>{
+    const b=[...document.querySelectorAll('#epoch-seg button')].find(x=>/1942/.test(x.textContent));
+    if(b) b.click();
+  });
+  await sleep(2600);
+
   console.log('\n— the subtypes reached the markers —');
   const subs=await page.evaluate(()=>{
     const out={};

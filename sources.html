@@ -6,7 +6,7 @@
 <meta name="color-scheme" content="light">
 <title>Sources — The Japanese Empire</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23f4f1ea'/%3E%3Ccircle cx='16' cy='16' r='8' fill='%239a1813'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=bfdb731c62">
+<link rel="stylesheet" href="styles.css?v=66f24e9878">
 <style>
   /* Nothing to undo here any more: the map's scroll lock is scoped to
      `html.app` in styles.css and this page does not carry that class. */
@@ -101,6 +101,23 @@
 <p><strong>Korea Railways</strong> The Korean railways make use of the <a href="https://www.hisgeo.info/wiki/%EA%B7%BC%EB%8C%80_%EC%B2%A0%EB%8F%84_DB">근대 철도 DB</a> dataset by 김종혁. 「근대 철도 DB」, 2027년 8월. The lines were filtered for those created before 1931 for the 1930 map and those created before 1943 for the 1942 map. The stations were clipped as needed for each. The dataset has not yet been closely checked with contemporary maps for accuracy. Japanese names were romanized through a combination of best-guess automated romanization and looking for entries online through Japanese Wikipedia etc. This work needs to be done more methodically from scratch for better accuracy. Hangul names were romanized for McCune-Reischauer.</p>
 
 <p><strong>Train Tools, Taiwan 1936</strong> The working timetable behind the Train Tools is the transcription published at <a href="https://kmlawson.github.io/taiwan-1936-timetable/">kmlawson.github.io/taiwan-1936-timetable</a>, taken from the February 1936 timetable of the Railway Department of the Governor-General of Taiwan (臺灣總督府交通局鐵道部), which can be read at the <a href="https://archive.org/details/taiwan-train-times-1936">Internet Archive</a>. It carries 346 trains over the seven passenger lines, with 5,372 calls between them, and the track between consecutive stops. The eighteen printed tables are reproduced whole at <a href="timetable/taiwan-1936.html">the timetable page</a>, and a station's card links to the table for its line. That page reads in English, Chinese or Japanese at the press of a button — the title, the links, the legend and the headings, but never the tables, which are a transcription and are left as printed; the column headings are translated in English only, with the printed word kept on the cell. Station names there carry their reading on a second line, kana in Japanese and Mandarin with tone marks otherwise, from the same station table the map uses.</p>
+
+<h2>Download the geometry</h2>
+
+<p>The map's own shapes, in lon/lat as GeoJSON, for opening in QGIS or anything else. These are written <strong>before projection and before any thinning</strong> — they are what the map means rather than what it happens to look like at one scale — and they carry the atom key and the unit name, so a file can be joined to the tables above.</p>
+
+<ul>
+  <li><strong><a href="gis/sub-units.geojson">Administrative units</a></strong> — 550 units across 46 countries and colonies: the provinces, prefectures, 州廳, districts and states the Administrative layer draws. 13 MB.</li>
+  <li><strong><a href="gis/land.geojson">Land</a></strong> — 84 outlines, one per atom: the countries, colonies and island groups as whole shapes, without their internal divisions. 7 MB.</li>
+  <li><strong><a href="gis/occupied-zone-1942.geojson">The occupied zone, December 1942</a></strong> — five blocks, traced from a period map and adjusted. Approximate, and generous: Japanese control ran along the railways and around the cities. Clip it to the land to get what the map draws.</li>
+  <li><strong><a href="gis/yellow-river-before-1938.geojson">The Yellow River before 1938</a></strong> — the bed it held from 1855, reaching the sea through the Gulf of Chihli.</li>
+  <li><strong><a href="gis/yellow-river-1938-1947.geojson">The Yellow River, 1938–1947</a></strong> — after the dikes were cut at Huayuankou in June 1938: down the Chia-lu into the Ying, the Ying into the Huai, and through Hungtse Lake and the Grand Canal into the Yangtze.</li>
+  <li><strong><a href="gis/yangzi.geojson">The Yangtze</a></strong></li>
+</ul>
+
+<p>Licences follow the sources each shape came from — most are Natural Earth (public domain), geoBoundaries (CC BY), OpenStreetMap (ODbL) or the datasets named above; the traced layers are this project's own. Check the entry for the shape you are using.</p>
+
+<p><strong>For a single shape, ask the map.</strong> Right-click any polygon (or press and hold on a touch screen) and it offers that unit, its group where it has one, and the whole layer it belongs to — along with the coordinates under the pointer and a short note on where the shape came from. Those files are the <em>drawn</em> geometry and carry the thinning the map draws at; the files above do not, which is why both exist.</p>
 
 <h2>Software</h2>
 

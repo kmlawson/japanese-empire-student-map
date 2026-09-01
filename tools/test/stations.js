@@ -285,7 +285,13 @@ console.log('\n— with Other on, the names wait for the zoom —');
   await sleep(3000);
   await turnOn(far);
   await otherOn(far);
-  check('the whole island in view names nothing', (await names(far)).length===0);
+  /* Named nothing — but *drawn* something, which is the half that was missing.
+     `length===0` passed just as well when the station layer had failed to
+     build at all, so the check could not tell "the labels are held back at
+     this width" from "there are no stations here to label". */
+  const wideDots=await far.evaluate(()=>document.querySelectorAll('#tw-stations .sta-mark').length);
+  check('the whole island in view draws stations', wideDots>0, wideDots+' drawn');
+  check('and names none of them', (await names(far)).length===0);
   await far.goto('http://localhost:8123/index.html?bbox=120.8,24.3,121.3,24.7',{waitUntil:'networkidle0'});
   await sleep(3000);
   await turnOn(far);

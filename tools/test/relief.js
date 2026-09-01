@@ -364,21 +364,20 @@ console.log('\n— one warp per projection, and only the one in use —');
  */
 console.log('\n— one sheet is offered, and it is the finest —');
 {
-  for (const [n, name] of [[0, 'coarse'], [1, 'fine'], [2, 'finest']]) {
-    const p = await b.newPage();
-    await p.setViewport({ width: 1300, height: 900 });
-    const got = [];
-    p.on('request', r => { if (/relief-/.test(r.url())) got.push(r.url().split('/').pop().split('?')[0]); });
-    await p.goto(url(BASE | RELIEF | (n << 19)), { waitUntil: 'networkidle0' });
-    await sleep(3400);
-    check('a link asking for ' + name + ' still gets the finest',
-      got.length === 1 && got[0] === 'relief-finest-mercator.webp', got.join(','));
-    await p.close();
-  }
+  /* One link, not three. This asked for coarse, fine and finest in turn — a
+     page load and 3.4 seconds of settle apiece — to make the same point three
+     times. What the pin has to survive is *a link asking for something else*,
+     and `coarse` is that; `finest` asks for what it would get anyway, so it
+     proves nothing at all. The chooser and the manifest are checked on the
+     same page rather than on a fourth. Four loads became one. */
   const p = await b.newPage();
   await p.setViewport({ width: 1300, height: 900 });
-  await p.goto(url(BASE | RELIEF), { waitUntil: 'networkidle0' });
-  await sleep(3200);
+  const got = [];
+  p.on('request', r => { if (/relief-/.test(r.url())) got.push(r.url().split('/').pop().split('?')[0]); });
+  await p.goto(url(BASE | RELIEF | (0 << 19)), { waitUntil: 'networkidle0' });
+  await sleep(3400);
+  check('a link asking for coarse still gets the finest',
+    got.length === 1 && got[0] === 'relief-finest-mercator.webp', got.join(','));
   check('and the reader is not shown a chooser',
     await p.evaluate(() => document.querySelector('#relief-seg').hidden));
   /* The build still makes all three, so bringing the choice back is one

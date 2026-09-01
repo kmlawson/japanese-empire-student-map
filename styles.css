@@ -3560,3 +3560,53 @@ dialog h3 {
   .pop-bar .nm { flex-basis: 7em; }
   .pop-bar .vv { flex-basis: 4.6em; font-size: 11px; }
 }
+
+/* The right-click menu: what a reader can take away from a shape, and where
+   the shape came from. Positioned in client coordinates on the body rather
+   than inside the map, so it is never clipped by the map's own overflow and
+   never scaled by the zoom — it is a piece of interface, not of the drawing. */
+#jmap-menu {
+  position: fixed;
+  z-index: 60;
+  min-width: 15rem;
+  max-width: min(24rem, 92vw);
+  padding: 0.3rem 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  color: var(--ink);
+  box-shadow: 0 6px 24px rgb(0 0 0 / 22%);
+  font-size: 0.86rem;
+}
+#jmap-menu .menu-head {
+  margin: 0.15rem 0.75rem 0.35rem;
+  font-weight: 600;
+}
+#jmap-menu button {
+  display: block;
+  width: 100%;
+  padding: 0.4rem 0.75rem;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+#jmap-menu button:hover,
+#jmap-menu button:focus-visible { background: var(--hover, rgb(0 0 0 / 7%)); }
+#jmap-menu .menu-src {
+  margin-top: 0.3rem;
+  padding: 0.4rem 0.75rem 0.15rem;
+  border-top: 1px solid var(--line);
+}
+#jmap-menu .menu-src p { margin: 0 0 0.3rem; line-height: 1.35; }
+#jmap-menu .menu-src-head {
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 0.72rem;
+  opacity: 0.75;
+}
+#jmap-menu .menu-src-what { opacity: 0.7; }
+#jmap-menu .menu-src-more { font-size: 0.78rem; }

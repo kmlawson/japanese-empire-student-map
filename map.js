@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '269';
+  var JEM_VERSION = '270';
   var JEM_ASSETS = {"admin.js": "3414697d04", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "58132ef9c2", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
 
   /* Every file this one fetches, with the version on it.
@@ -524,7 +524,7 @@
      village can be drawn large because it matters to the argument and a city
      small because the map is showing something else, and neither changes what
      the place is. The two were tangled while a curated point had no size at
-     all and took whatever `sizePinnedMarkers` could borrow from the gazetteer;
+     all and took whatever could be borrowed from the gazetteer;
      `size` on the curated table is where that ends. */
   function pointSubtype(rec) {
     if (!rec) return '';
@@ -3210,31 +3210,59 @@
     return 0;
   }
 
-  /* A place can be in both tables — 222 of the gazetteer's are also in
-     data.js, with prose of their own — and where it is, the curated marker is
-     drawn over the gazetteer dot. That is fine until the gazetteer pins a
-     weight: Keijō, Pusan, Inch'ŏn and P'yŏngyang are all four curated, so all
-     four came out as the same 5.5 circle and the large-medium-medium the
-     fourteen 府 are drawn at was covered up by it. Where a weight is pinned,
-     the marker on top takes it. Nothing else moves: a curated city the
-     gazetteer has not pinned is the size it has always been. */
-  function sizePinnedMarkers() {
-    if (!JMAP.GAZ) return;
-    (JMAP.GAZ[state.epoch] || []).forEach(function (c) {
-      if (c.a === undefined || !siteById[c.id]) return;
-      // ... unless the curated point has one of its own, which wins: it is the
-      // more particular statement, made about this point rather than about the
-      // place in general
-      if (siteById[c.id].size) return;
-      var el = elById[c.id];
-      var dot = el && el.querySelector ? el.querySelector('circle.dot') : null;
-      if (dot) dot.setAttribute('r', GAZ_R[c.a] || GAZ_R[0]);
+  /* **A curated marker is the size its own record says, on this date.**
+   *
+   * This replaces `sizePinnedMarkers`, which read the weight off the other
+   * table. A place can be in both — 222 of the gazetteer's are also in
+   * data.js — and where it is, the curated marker is drawn over the gazetteer
+   * dot. That was fine until the gazetteer pinned a weight: Keijō, Pusan,
+   * Inch'ŏn and P'yŏngyang are all four curated, so all four came out as the
+   * same 5.5 circle and the large-medium-medium the fourteen 府 are drawn at
+   * was covered up by it. The marker on top borrowed the pin to stop the two
+   * disagreeing.
+   *
+   * The borrow was only ever there because a curated point had no size of its
+   * own. It has one now, so those four say outright what they were being lent
+   * — large, medium, medium, medium — and `always` beside it, which is the
+   * other half of what a gazetteer pin means. Nothing about them changed on
+   * screen; what changed is that the map can be asked why they are that size
+   * and has an answer that does not depend on a second table.
+   *
+   * It goes through `shown()`, so the size is the one **for this date**:
+   * Inch'ŏn was pinned at the smallest weight in 1930 and a step up in 1942,
+   * and `overrides-1930.csv` carries that the way every other date-dependent
+   * thing about a site does. */
+  function applySizes() {
+    JMAP.SITES.forEach(function (s) {
+      var el = elById[s.id];
+      if (!el || !el.querySelector) return;
+      var rec = shown(s);
+      var r = pointR(rec);
+      var dot = el.querySelector('circle.dot');
+      if (dot) { dot.setAttribute('r', r); return; }
+      var dia = el.querySelector('path.dot');
+      if (dia) {
+        var d = r + 1.2;
+        dia.setAttribute('d', 'M0 ' + -d + 'L' + d + ' 0L0 ' + d + 'L' + -d + ' 0Z');
+        return;
+      }
+      var sq = el.querySelector('rect.dot');
+      if (sq) {
+        var pr = pointTier(rec) === null ? SIZE_R[0] : r;
+        sq.setAttribute('x', -pr); sq.setAttribute('y', -pr);
+        sq.setAttribute('width', pr * 2); sq.setAttribute('height', pr * 2);
+      }
     });
   }
 
   /* Curated points thin out with the zoom the same way the gazetteer's do, so
      they have to be asked again when it changes. Only the sized ones: every
-     other curated point is drawn at every zoom and cannot change its answer. */
+     other curated point is drawn at every zoom and cannot change its answer.
+
+     This is the *display*; `applySizes` above is the radius. They are separate
+     because they answer to different things — a zoom changes what is drawn, an
+     epoch changes how big — and folding them into one pass would run the
+     expensive half on every wheel step. */
   function applySizedSites() {
     sizedSites.forEach(function (s) {
       var el = elById[s.id];
@@ -3247,7 +3275,6 @@
     var on = state.cats.city && !!JMAP.GAZ;
     gazGroup.style.display = on ? '' : 'none';
     if (!on) return;
-    sizePinnedMarkers();
     var floor = gazMinTier();
     gazEls.forEach(function (g) {
       /* `always` is drawn at every zoom. The fourteen 府 of colonial Korea are
@@ -5563,7 +5590,13 @@
        takes a point out of a shape or a mark off the map. Only over one of the
        reader's own marks: everywhere else the ordinary menu is theirs. */
     container.addEventListener('contextmenu', function (e) {
-      if (annApi && annApi.rightClick(e.target)) e.preventDefault();
+      /* The reader's own marks answer first: a right click on an annotation
+         point takes it out, and that has to keep working where a mark sits
+         over a country. Only when it is not one of theirs does the map offer
+         its own menu — and that menu replaces the browser's, on a mouse and
+         on the long press a touch screen turns into this same event. */
+      if (annApi && annApi.rightClick(e.target)) { e.preventDefault(); return; }
+      if (openMenu(e.clientX, e.clientY, e.target)) e.preventDefault();
     });
     container.addEventListener('pointerdown', onPointerDown);
     container.addEventListener('pointermove', onPointerMove);
@@ -5604,6 +5637,9 @@
     });
     // a reader who alt-tabs away with it down is not still panning on return
     window.addEventListener('blur', releaseSpace);
+    /* On a coarse pointer the browser's own menu is never wanted — a long
+       press over the map is a press on the map. The handler above has already
+       opened ours if there was a shape under it. */
     container.addEventListener('contextmenu', function (e) { if (coarse) e.preventDefault(); });
     if (hoverCapable) {
       container.addEventListener('mousemove', onHover);
@@ -8221,6 +8257,272 @@
       .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 60) || 'table';
   }
 
+  /* ===================== the right-click menu ==========================
+   *
+   * What a reader can take away from a shape, and where the shape came from.
+   *
+   * **The geometry is the drawn one, and the file says so.** These rings are
+   * read back off the SVG and unprojected, so they are the map's shape at the
+   * thinning the map draws it at — not the survey it was built from.
+   * `tools/build_map.py --export` writes the unthinned lon/lat for that, and
+   * the note in every file points at it. Saying which is which matters: a
+   * shape that leaves here and is measured somewhere else must not be mistaken
+   * for the source.
+   *
+   * **Long press is the same menu.** `contextmenu` is what a touch screen
+   * raises after a hold, and the map was already swallowing it on a coarse
+   * pointer to keep the browser's own menu away; it opens this instead. */
+
+  var menuEl = null;
+
+  function closeMenu() {
+    if (menuEl && menuEl.parentNode) menuEl.parentNode.removeChild(menuEl);
+    menuEl = null;
+  }
+
+  /* A path's `d` back into rings of map units. The whole map is written with
+     three commands — 3,562 `M`, 3,562 `L` and 3,552 `Z`, and nothing else — so
+     this is the whole grammar rather than a subset that will meet a curve one
+     day and quietly drop it. A ring under three points is not a ring. */
+  function pathToRings(d) {
+    var rings = [], cur = null, re = /([MLZ])([^MLZ]*)/g, m;
+    while ((m = re.exec(String(d || '')))) {
+      if (m[1] === 'Z') { if (cur && cur.length > 2) rings.push(cur); cur = null; continue; }
+      if (m[1] === 'M') { if (cur && cur.length > 2) rings.push(cur); cur = []; }
+      if (!cur) cur = [];
+      var n = m[2].split(/[\s,]+/).filter(function (x) { return x !== ''; }).map(Number);
+      for (var i = 0; i + 1 < n.length; i += 2) {
+        if (isFinite(n[i]) && isFinite(n[i + 1])) cur.push([n[i], n[i + 1]]);
+      }
+    }
+    if (cur && cur.length > 2) rings.push(cur);
+    return rings;
+  }
+
+  function ringsToLonLat(rings) {
+    return rings.map(function (r) {
+      var out = r.map(function (p) {
+        var q = unproject(p[0], p[1]);
+        return [Math.round(q.lon * 1e5) / 1e5, Math.round(q.lat * 1e5) / 1e5];
+      });
+      // GeoJSON wants the ring closed; the SVG closes it with Z instead
+      if (out.length && (out[0][0] !== out[out.length - 1][0]
+                         || out[0][1] !== out[out.length - 1][1])) out.push(out[0]);
+      return out;
+    }).filter(function (r) { return r.length > 3; });
+  }
+
+  var GEO_NOTE = 'The shape as this map draws it: read from the drawn geometry '
+    + 'and unprojected, so it carries the thinning the map draws at. For the '
+    + 'unthinned source geometry run tools/build_map.py --export.';
+
+  function featureFor(el) {
+    var polys = ringsToLonLat(pathToRings(el.getAttribute('d')));
+    if (!polys.length) return null;
+    var atom = el.closest ? el.closest('.atom') : null;
+    var props = { name: el.getAttribute('data-prov') || null,
+                  atom: atom ? String(atom.id || '').replace(/^a-/, '') : null,
+                  epoch: state.epoch, note: GEO_NOTE };
+    var g = el.getAttribute('data-group');
+    if (g) props.group = g;
+    var parent = partOf(props.name) || groupPartOf(el);
+    if (parent) props.part_of = parent;
+    return { type: 'Feature',
+             geometry: { type: 'MultiPolygon',
+                         coordinates: polys.map(function (r) { return [r]; }) },
+             properties: props };
+  }
+
+  function saveGeoJSON(els, name) {
+    var feats = [];
+    els.forEach(function (el) { var f = featureFor(el); if (f) feats.push(f); });
+    if (!feats.length) return false;
+    return downloadText(JSON.stringify({ type: 'FeatureCollection',
+                                         features: feats }, null, 1),
+                        slug(name) + '.geojson', 'application/geo+json');
+  }
+
+  /* Where a shape came from, in a line rather than a paragraph. The registry
+     is coarse on purpose — provenance here is per dataset, not per province —
+     so an atom picks up every source that names it, and everything unnamed
+     falls back to the one marked `*`. */
+  function sourcesFor(atomKey) {
+    var all = JMAP.SOURCES_SHORT || [];
+    var hit = all.filter(function (r) {
+      return (r.atoms || []).indexOf(atomKey) >= 0;
+    });
+    if (!hit.length) hit = all.filter(function (r) {
+      return (r.atoms || []).indexOf('*') >= 0;
+    });
+    return hit;
+  }
+
+  /* And where the *figures* came from, which is a different question with a
+     different answer: the shape is one dataset and the number shaded over it
+     is another. Only the layers actually shading this unit are named. */
+  function figureSourcesFor(key) {
+    var out = [];
+    popOn().forEach(function (job) {
+      var set = job.set;
+      if (!set || !set.rows) return;
+      if (!set.rows[key] && !set.rows[partOf(key)]) return;
+      if (set.source) out.push({ short: set.source, url: set.srcUrl || '' });
+    });
+    return out;
+  }
+
+  function menuItem(label, fn) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'plain';
+    b.textContent = label;
+    b.addEventListener('click', function () { closeMenu(); fn(); });
+    return b;
+  }
+
+  function openMenu(x, y, target) {
+    closeMenu();
+    var el = target && target.closest ? target.closest('#land [data-prov]') : null;
+    var atomEl = target && target.closest ? target.closest('.atom') : null;
+    if (!el && !atomEl) return false;
+    var atomKey = atomEl ? String(atomEl.id || '').replace(/^a-/, '') : '';
+    var name = el ? (el.getAttribute('data-prov') || '') : '';
+    var group = el ? el.getAttribute('data-group') : '';
+
+    menuEl = document.createElement('div');
+    menuEl.id = 'jmap-menu';
+    menuEl.setAttribute('role', 'menu');
+
+    var head = document.createElement('p');
+    head.className = 'menu-head';
+    head.textContent = name || atomName(atomKey) || atomKey;
+    menuEl.appendChild(head);
+
+    /* Unit, then group, then layer — narrowest first, because the reader
+       right-clicked one shape and the wider offers are the afterthought. A
+       group is only offered where there is one: an island belongs to an
+       archipelago, a province does not. */
+    if (el) {
+      menuEl.appendChild(menuItem('Download GeoJSON — ' + (name || 'this shape'),
+        function () { saveGeoJSON([el], name || atomKey); }));
+    }
+    if (el && group) {
+      var kin = $$('#land [data-group="' + cssEsc(group) + '"]', svg);
+      if (kin.length > 1) {
+        menuEl.appendChild(menuItem('Download GeoJSON — ' + group
+          + ' (' + kin.length + ')',
+          function () { saveGeoJSON(kin, group); }));
+      }
+    }
+    if (atomEl) {
+      var layer = $$('[data-prov]', atomEl).filter(function (n) {
+        return n.tagName === 'path';
+      });
+      var label = atomName(atomKey) || atomKey;
+      if (layer.length > 1) {
+        menuEl.appendChild(menuItem('Download GeoJSON — all of ' + label
+          + ' (' + layer.length + ')',
+          function () { saveGeoJSON(layer, label + '-units'); }));
+      } else {
+        var whole = $$('path', atomEl).filter(function (n) {
+          return !n.classList.contains('superseded') && n.getAttribute('d');
+        });
+        if (whole.length) {
+          menuEl.appendChild(menuItem('Download GeoJSON — ' + label,
+            function () { saveGeoJSON(whole, label); }));
+        }
+      }
+    }
+
+    /* The coordinates of the point the reader pressed, which is the question
+       a right click on a map is most often asking. Latitude first, as it is
+       written and as every other tool expects to be given it. */
+    var pt = clientToSvg(x, y);
+    var ll = unproject(pt.x, pt.y);
+    var coords = ll.lat.toFixed(5) + ', ' + ll.lon.toFixed(5);
+    menuEl.appendChild(menuItem('Copy coordinates — ' + coords, function () {
+      var t = coords;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(t)['catch'](function () { copyFallback(t); });
+      } else copyFallback(t);
+    }));
+
+    var srcs = sourcesFor(atomKey);
+    var figs = el ? figureSourcesFor(name) : [];
+    if (srcs.length || figs.length) {
+      var sec = document.createElement('div');
+      sec.className = 'menu-src';
+      var h = document.createElement('p');
+      h.className = 'menu-src-head';
+      h.textContent = 'Source';
+      sec.appendChild(h);
+      var line = function (rec, what) {
+        var p2 = document.createElement('p');
+        var lab = document.createElement('span');
+        lab.className = 'menu-src-what';
+        lab.textContent = what;
+        p2.appendChild(lab);
+        if (rec.url) {
+          var a = document.createElement('a');
+          a.href = rec.url; a.target = '_blank'; a.rel = 'noopener';
+          a.textContent = rec.short;
+          p2.appendChild(a);
+        } else {
+          p2.appendChild(document.createTextNode(rec.short));
+        }
+        sec.appendChild(p2);
+      };
+      srcs.forEach(function (r) { line(r, 'Shape: '); });
+      figs.forEach(function (r) { line(r, 'Figures: '); });
+      var more = document.createElement('p');
+      more.className = 'menu-src-more';
+      var a2 = document.createElement('a');
+      a2.href = 'sources.html'; a2.target = '_blank'; a2.rel = 'noopener';
+      a2.textContent = 'All sources in full';
+      more.appendChild(a2);
+      sec.appendChild(more);
+      menuEl.appendChild(sec);
+    }
+
+    document.body.appendChild(menuEl);
+    // kept inside the window: a shape near the right edge would otherwise put
+    // its menu off the screen, which on a phone is most of them
+    var b = menuEl.getBoundingClientRect();
+    var left = Math.min(x, window.innerWidth - b.width - 8);
+    var top = Math.min(y, window.innerHeight - b.height - 8);
+    menuEl.style.left = Math.max(4, left) + 'px';
+    menuEl.style.top = Math.max(4, top) + 'px';
+    return true;
+  }
+
+  function copyFallback(t) {
+    var ta = document.createElement('textarea');
+    ta.value = t;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); } catch (e) { /* nothing else to try */ }
+    document.body.removeChild(ta);
+  }
+
+  function cssEsc(v) { return String(v).replace(/"/g, '\\"'); }
+
+  function atomName(key) {
+    var list = (JMAP.TERRITORIES && JMAP.TERRITORIES[state.epoch]) || [];
+    for (var i = 0; i < list.length; i++) {
+      if (list[i].id === key) return list[i].en;
+    }
+    return '';
+  }
+
+  document.addEventListener('pointerdown', function (e) {
+    if (menuEl && !menuEl.contains(e.target)) closeMenu();
+  }, true);
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeMenu();
+  });
+
   function addCsvButton(wrap, tableEl, title, notes, source) {
     if (!tableEl || !tableEl.tableSpec) return;
     var row = document.createElement('p');
@@ -8838,6 +9140,10 @@
     // they copy arrives with it, so they are rebuilt whenever it changes
     liftSubs(subsAtom);
 
+    /* Before the visibility, and on every state change rather than only on a
+       zoom: an epoch switch is what changes a size, and the markers are built
+       once for both dates. */
+    applySizes();
     JMAP.SITES.forEach(function (s) {
       var el = elById[s.id];
       if (el) el.style.display = siteVisible(s) ? '' : 'none';

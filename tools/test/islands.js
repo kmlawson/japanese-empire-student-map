@@ -130,9 +130,17 @@ const fineIn=p=>p.evaluate(()=>{
   check('islands are drawn there', jp.length>40, jp.length+' islands');
   check('not one of them is red', jp.every(i=>!i.red),
         jp.filter(i=>i.red).map(i=>i.n).slice(0,6).join(', '));
-  check('Sado, Awaji and Tsushima are coloured',
-        ['Sado Island','Awaji Island','Tsushima Island']
-          .every(n=>{const e=jp.filter(i=>i.n===n)[0]; return !e || (!e.red && !e.white);}));
+  /* Present *and* coloured. This read `!e || …` at first, which passes when
+     the island is not there at all — a check that reports green for the very
+     failure it exists to catch. */
+  const named=['Sado Island','Awaji Island','Tsushima Island']
+    .map(n=>jp.filter(i=>i.n===n)[0]);
+  check('Sado, Awaji and Tsushima are all three drawn',
+        named.every(Boolean),
+        named.map((e,i)=>e?'ok':['Sado','Awaji','Tsushima'][i]+' missing').join(', '));
+  check('and all three are coloured, neither red nor blank',
+        named.every(e=>e && !e.red && !e.white),
+        named.map(e=>e?(e.red?'red':e.white?'blank':'ok'):'missing').join(', '));
   const shodo=jp.filter(i=>i.g==='Shōdoshima');
   /* Blank unless the island names its own parent. Shōdoshima itself does —
      it is one of the twenty-eight — and an island-level `part_of` is meant to

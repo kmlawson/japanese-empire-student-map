@@ -445,6 +445,10 @@ def population_data():
                      "compareNote": d.get("compare_note") or "",
                      "label": label, "pctOf": whole,
                      "source": d["source"],
+                     # a link to the original where there is one, so the
+                     # right-click menu can point at the book rather than
+                     # only naming it
+                     "srcUrl": d.get("source_url") or "",
                      "layer": d.get("layer") or label,
                      "dens": dens,
                      "jp": jp,
@@ -728,6 +732,18 @@ def build_data_js():
         rows.extend(group)
         ns.update(notes("territories", "sub-units", name[:-4] + ".md"))
     parts.append("JMAP.PROVINCES = {\n%s\n};" % keyed(rows, ns, snippets))
+
+    # ---------------------------------------------- the short sources
+    # What to say when a reader asks where a shape came from, as against the
+    # paragraph sources.html gives them: the book and its year, or the dataset
+    # and its version, with a link to the original where there is one. The
+    # `atoms` column is which shapes each backs — `*` is the one everything
+    # falls back to — and it is deliberately coarse, because provenance here is
+    # per dataset and not per province.
+    shorts = load("sources-short.csv")
+    check_unique(shorts, "id", "texts/sources-short.csv")
+    parts.append("JMAP.SOURCES_SHORT = [\n%s\n];"
+                 % array(shorts, {}, snippets, indent=2))
 
     # ------------------------------------------------- the island groups
     # Which prefecture governed a group of islands. It is a *group* table and

@@ -72,6 +72,44 @@ Most of the coastlines and national outlines are originally Natural Earth, excep
 
 **Train Tools, Taiwan 1936** The working timetable behind the Train Tools is the transcription published at [kmlawson.github.io/taiwan-1936-timetable](https://kmlawson.github.io/taiwan-1936-timetable/), taken from the February 1936 timetable of the Railway Department of the Governor-General of Taiwan (臺灣總督府交通局鐵道部), which can be read at the [Internet Archive](https://archive.org/details/taiwan-train-times-1936). It carries 346 trains over the seven passenger lines, with 5,372 calls between them, and the track between consecutive stops. The eighteen printed tables are reproduced whole at [the timetable page](timetable/taiwan-1936.html), and a station's card links to the table for its line. That page reads in English, Chinese or Japanese at the press of a button — the title, the links, the legend and the headings, but never the tables, which are a transcription and are left as printed; the column headings are translated in English only, with the printed word kept on the cell. Station names there carry their reading on a second line, kana in Japanese and Mandarin with tone marks otherwise, from the same station table the map uses.
 
+## Download the geometry
+
+The map's own shapes, in lon/lat as GeoJSON, for opening in QGIS or anything
+else. These are written **before projection and before any thinning** — they
+are what the map means rather than what it happens to look like at one scale —
+and they carry the atom key and the unit name, so a file can be joined to the
+tables above.
+
+* **[Administrative units](gis/sub-units.geojson)** — 550 units across 46
+  countries and colonies: the provinces, prefectures, 州廳, districts and
+  states the Administrative layer draws. 13 MB.
+* **[Land](gis/land.geojson)** — 84 outlines, one per atom: the countries,
+  colonies and island groups as whole shapes, without their internal
+  divisions. 7 MB.
+* **[The occupied zone, December 1942](gis/occupied-zone-1942.geojson)** — five
+  blocks, traced from a period map and adjusted. Approximate, and generous:
+  Japanese control ran along the railways and around the cities. Clip it to the
+  land to get what the map draws.
+* **[The Yellow River before 1938](gis/yellow-river-before-1938.geojson)** — the
+  bed it held from 1855, reaching the sea through the Gulf of Chihli.
+* **[The Yellow River, 1938–1947](gis/yellow-river-1938-1947.geojson)** — after
+  the dikes were cut at Huayuankou in June 1938: down the Chia-lu into the
+  Ying, the Ying into the Huai, and through Hungtse Lake and the Grand Canal
+  into the Yangtze.
+* **[The Yangtze](gis/yangzi.geojson)**
+
+Licences follow the sources each shape came from — most are Natural Earth
+(public domain), geoBoundaries (CC BY), OpenStreetMap (ODbL) or the datasets
+named above; the traced layers are this project's own. Check the entry for the
+shape you are using.
+
+**For a single shape, ask the map.** Right-click any polygon (or press and hold
+on a touch screen) and it offers that unit, its group where it has one, and the
+whole layer it belongs to — along with the coordinates under the pointer and a
+short note on where the shape came from. Those files are the *drawn* geometry
+and carry the thinning the map draws at; the files above do not, which is why
+both exist.
+
 ## Software
 
 Georeferencing of various historical maps done with QGIS. Website code created with Anthropic's Claude, with Konrad Lawson at the prompt. No third-party JavaScript libraries: the page is plain HTML, CSS and JavaScript, and the build scripts use only the Python standard library.
