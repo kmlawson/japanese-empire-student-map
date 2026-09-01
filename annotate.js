@@ -582,13 +582,37 @@
       // the perpendicular, which is what "one way or the other" means
       var px = -dy / len, py = dx / len;
       var apex = { x: fx + px * bend * len, y: fy + py * bend * len };
-      /* The control point that makes the quadratic pass through the apex at
-         parameter t: B(t) = (1-t)^2 a + 2t(1-t) c + t^2 b, solved for c. At
-         t = 0.5 that is (4·apex - a - b) / 2, which is what this was. */
-      var w = 2 * t * (1 - t) || 1e-6;
-      var ctrl = { x: (apex.x - (1 - t) * (1 - t) * a.x - t * t * b2.x) / w,
-                   y: (apex.y - (1 - t) * (1 - t) * a.y - t * t * b2.y) / w };
-      return { a: a, b: b2, ctrl: ctrl, apex: apex, len: len, bend: bend, t: t };
+      /* **Two quadratics, not one, and this is the whole of the bend fix.**
+       *
+       * A single quadratic was solved to *pass through* the apex at parameter
+       * t, and it did. It still looked wrong, and the reason is a property of
+       * the curve rather than of the arithmetic: subtract the chord from
+       * B(t) = (1-t)²a + 2t(1-t)c + t²b and what is left is 2t(1-t)·(c − mid),
+       * a fixed direction times a bump that peaks at t = 0.5 whatever c is. So
+       * the curve went through the dragged point and *bulged in the middle
+       * anyway* — reported as "I can move the middle point but it doesn't
+       * change the shape of the arrow". A quadratic cannot hump off-centre.
+       *
+       * Two of them can. The path runs a → apex → b, and both control points
+       * sit at the apex's own distance from the chord, at the midpoints of the
+       * two half-chords. In the chord's frame — u along, v across, the apex at
+       * (t·len, H) — the first segment's height is H·s(2−s), climbing to H, and
+       * the second's is H(1−s²), falling from it. The maximum is *at the apex*,
+       * exactly, for every t.
+       *
+       * And it costs nothing already drawn. At t = 0.5 the two segments
+       * reproduce the old single quadratic point for point — the height works
+       * out to 4H·u(1−u) either way, and u runs evenly along the chord in both
+       * — so every arrow saved before this bends exactly as it did. */
+      var half = bend * len;
+      var c1 = { x: a.x + dx * (t / 2) + px * half,
+                 y: a.y + dy * (t / 2) + py * half };
+      var c2 = { x: a.x + dx * ((1 + t) / 2) + px * half,
+                 y: a.y + dy * ((1 + t) / 2) + py * half };
+      /* `ctrl` is the control point of the segment that *ends* at b, which is
+         what the head takes its angle from and what the trim shortens. */
+      return { a: a, b: b2, c1: c1, ctrl: c2, apex: apex,
+               len: len, bend: bend, t: t };
     }
 
     /* The head, drawn at the end and turned along the tangent there. It is a
@@ -719,24 +743,37 @@
     }
 
     function shaftPath(g, trim) {
-      var a = g.a, c = g.ctrl, b = g.b;
+      var a = g.a, m0 = g.apex, c1 = g.c1, c = g.ctrl, b = g.b;
       trim = trim * unitsPerPx();
       if (trim > 0) {
-        var net = Math.hypot(c.x - a.x, c.y - a.y) + Math.hypot(b.x - c.x, b.y - c.y);
-        var arc = (g.len + net) / 2 || 1;
+        /* Arc length over both segments now, not one. Each is approximated as
+           the mean of its chord and its control net, which is the same
+           estimate as before and is why this is still cheap enough to run
+           twice per arrow per redraw. */
+        var seg = function (p0, pc, p1) {
+          return (Math.hypot(p1.x - p0.x, p1.y - p0.y)
+                  + Math.hypot(pc.x - p0.x, pc.y - p0.y)
+                  + Math.hypot(p1.x - pc.x, p1.y - pc.y)) / 2;
+        };
+        var arc = (seg(a, c1, m0) + seg(m0, c, b)) || 1;
         /* And never more than a third of the arrow. A short arrow with a heavy
            head would otherwise be trimmed away to nothing and leave the head
-           standing alone — the same symptom by a different route. */
-        var t = Math.max(0.67, Math.min(1, 1 - trim / arc));
-        if (t < 1) {
-          var q1 = { x: a.x + (c.x - a.x) * t, y: a.y + (c.y - a.y) * t };
-          var m = { x: c.x + (b.x - c.x) * t, y: c.y + (b.y - c.y) * t };
+           standing alone — the same symptom by a different route.
+
+           The trim comes off the *second* segment only: it is the end that
+           runs into the head, and shortening the whole path would move the
+           bend the reader placed. */
+        var k = Math.max(0.67, Math.min(1, 1 - trim / arc));
+        if (k < 1) {
+          var q1 = { x: m0.x + (c.x - m0.x) * k, y: m0.y + (c.y - m0.y) * k };
+          var mm = { x: c.x + (b.x - c.x) * k, y: c.y + (b.y - c.y) * k };
           c = q1;
-          b = { x: q1.x + (m.x - q1.x) * t, y: q1.y + (m.y - q1.y) * t };
+          b = { x: q1.x + (mm.x - q1.x) * k, y: q1.y + (mm.y - q1.y) * k };
         }
       }
-      return 'M' + r2(a.x) + ' ' + r2(a.y) + 'Q' + r2(c.x) + ' ' + r2(c.y)
-             + ' ' + r2(b.x) + ' ' + r2(b.y);
+      return 'M' + r2(a.x) + ' ' + r2(a.y)
+             + 'Q' + r2(c1.x) + ' ' + r2(c1.y) + ' ' + r2(m0.x) + ' ' + r2(m0.y)
+             + 'Q' + r2(c.x) + ' ' + r2(c.y) + ' ' + r2(b.x) + ' ' + r2(b.y);
     }
 
     /* How round a smoothed corner is, per step of the Smooth slider. Four

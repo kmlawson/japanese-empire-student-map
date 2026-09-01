@@ -13,8 +13,8 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '259';
-  var JEM_ASSETS = {"admin.js": "9f99c96627", "annotate.js": "db393723f6", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "3881d33c99", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
+  var JEM_VERSION = '260';
+  var JEM_ASSETS = {"admin.js": "9065fac971", "annotate.js": "317173eee3", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "3881d33c99", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
 
   /* Every file this one fetches, with the version on it.
 
@@ -5513,7 +5513,15 @@
         hideTooltip();
         return;
       }
-      if (e.shiftKey && e.pointerType !== 'touch') {
+      /* And an admin tool may want shift for itself. The route tool does: a
+         shift-press on a drawn course is how a bend is put in it, and the
+         marquee below took every one of them and returned — so the press was
+         never a tap and the tool never heard of it. The same shape as the
+         annotation box above, and asked of `admin.js` rather than decided
+         here, because the marquee and the route tool are both its. */
+      if (e.shiftKey && window.JMAP_SHIFT && window.JMAP_SHIFT(e)) {
+        // falls through: the tap hook gets it on the way up
+      } else if (e.shiftKey && e.pointerType !== 'touch') {
         marquee = { x0: e.clientX, y0: e.clientY, x1: e.clientX, y1: e.clientY };
         dragStart = null;
         movedFar = true;                     // never a tap, whatever it does

@@ -113,6 +113,20 @@
     '#jmap-extent-edit .vtx.gone{fill:none;stroke:#c2542e;stroke-width:1.6;',
     ' stroke-dasharray:2 2;cursor:pointer}',
     'body.jmap-drawing #map-container{cursor:crosshair}',
+    /* the shipping-route tool. A route is drawn over the sea, so it is a
+       colour the sea has none of, and heavy enough to shift-click on. */
+    '#jmap-route .leg{fill:none;stroke:#1d9bd1;stroke-width:2.4;',
+    ' vector-effect:non-scaling-stroke;stroke-linecap:round;stroke-linejoin:round}',
+    '#jmap-route .grab{fill:none;stroke:transparent;stroke-width:14;',
+    ' vector-effect:non-scaling-stroke;pointer-events:stroke;cursor:copy}',
+    '#jmap-route .stop{fill:#fff;stroke:#1d9bd1;stroke-width:2.2;',
+    ' vector-effect:non-scaling-stroke}',
+    '#jmap-route .stop.first{fill:#1d9bd1}',
+    '#jmap-route .bend{fill:#ffd200;stroke:#1d9bd1;stroke-width:1.4;',
+    ' vector-effect:non-scaling-stroke;pointer-events:all;cursor:grab}',
+    '#jmap-route .bend.sel{stroke:#c2542e;stroke-width:3}',
+    '#jmap-admin input.txt{font:inherit;background:#0f0c0a;color:#f2ece4;',
+    ' border:1px solid #3a322b;border-radius:6px;padding:5px 7px;min-width:0;flex:1 1 90px}',
   ].join('');
 
   var panel, bodyEl, tapTools = [];
@@ -185,6 +199,19 @@
     return true;
   };
 
+  /* Shift-press belongs to the marquee unless a tool says otherwise. The route
+     tool says otherwise: a shift-press on a course is how a bend goes into it,
+     and the marquee was taking every one of them and returning before the tap
+     hook was ever reached — so the gesture did nothing at all and left no sign
+     of why. A tool registers here to claim shift while it is armed. */
+  var shiftTools = [];
+  window.JMAP_SHIFT = function (e) {
+    for (var i = 0; i < shiftTools.length; i++) {
+      if (shiftTools[i](e)) return true;
+    }
+    return false;
+  };
+
   var api = {
     svg: svg,
     container: container,
@@ -193,6 +220,7 @@
     unitsPerPixel: unitsPerPixel,
     setting: setting,
     onTap: function (fn) { tapTools.push(fn); },
+    onShift: function (fn) { shiftTools.push(fn); },
     copy: copyText,
   };
 
@@ -704,6 +732,454 @@
         redraw();
         return false;                     // the map does not also select here
       });
+
+      redraw();
+      setOn(false);
+    },
+  });
+
+  /* ---- shipping routes between cities ---- */
+
+  /* A route is a chain of ports with a *drawn* course between them, because a
+     shipping lane is not a straight line: it rounds Shandong, threads the
+     Inland Sea, keeps off the Ryūkyūs. So a leg is a city, then as many bends
+     as it takes, then the next city, and the line is drawn smoothly through
+     every one of them.
+
+     Through, not near. The curve is a Catmull–Rom spline written out as cubic
+     Béziers — for each span the two controls are `P + (next − prev)/6` and
+     `Q − (after − P)/6`, with the ends clamped — which passes through every
+     point it is given and has a continuous tangent at each. With two points
+     and no bends it collapses to the straight line between them, which is what
+     a leg across open water should be.
+
+     This is the same lesson the annotation arrow had to learn and the reason
+     the arrow is mentioned in the hint: a single quadratic can be made to pass
+     through a dragged point, and it will still bulge in its own middle. A
+     spline through the points bends where the points are.
+
+     Nothing here is saved to the map. The textarea is the output — the tool
+     exists to produce the coordinates for a routes file somebody writes
+     later — so `Clear` really does throw the work away. */
+  var routingOn = false;
+
+  TOOLS.push({
+    title: 'Shipping routes',
+    hint: 'Press <b>Add route</b> and the city dots come on. Tap a city to ' +
+          'start, tap the next to run a leg to it. <b>Shift-click the line</b> ' +
+          'to put a bend in it and drag the bend to place it; the course is ' +
+          'drawn through the bends, so a leg can round a headland. ' +
+          '<b>Add another stop</b> goes back to picking cities, ' +
+          '<b>Finish line</b> puts the tool away and leaves the readout to copy.',
+    build: function (sec, api) {
+      /* One list, in order along the route. A `stop` is a city and carries its
+         id; a `bend` is a point in the sea and carries none. Both keep map
+         units beside their lon/lat so a zoom does not have to reproject —
+         the same bargain the polygon tool makes, and with the same limit: a
+         change of projection while the tool is open would strand them. */
+      var nodes = [];                  // {kind, id, name, lon, lat, x, y}
+      var freq = '';
+      var picking = true;              // a tap on a city adds a stop
+      var layer = null, legs = null, grab = null, dots = null;
+      var dragging = null, sel = -1;
+
+      var row = document.createElement('div');
+      row.className = 'row';
+      sec.appendChild(row);
+      function btn(label, fn, host) {
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.textContent = label;
+        b.addEventListener('click', function () { fn(b); });
+        (host || row).appendChild(b);
+        return b;
+      }
+      var onBtn = btn('Add route', function () { setOn(!routingOn); });
+      var moreBtn = btn('Add another stop', function () { setPicking(true); });
+      var doneBtn = btn('Finish line', function () { finish(); });
+
+      var row2 = document.createElement('div');
+      row2.className = 'row';
+      sec.appendChild(row2);
+      var undoBtn = btn('Undo', function () { nodes.pop(); sel = -1; redraw(); }, row2);
+      var clearBtn = btn('Clear', function () { nodes = []; sel = -1; redraw(); }, row2);
+      var copyBtn = btn('Copy route', function (b) { api.copy(ta.value, b); }, row2);
+
+      /* Whatever the reader wants to say about how often it ran — "weekly",
+         "3 sailings a month", a company name. It is their field and this tool
+         does not read it; it only carries it into the output. */
+      var row3 = document.createElement('div');
+      row3.className = 'row';
+      sec.appendChild(row3);
+      var lab = document.createElement('label');
+      lab.className = 'sw';
+      lab.textContent = 'Frequency';
+      row3.appendChild(lab);
+      var freqEl = document.createElement('input');
+      freqEl.type = 'text';
+      freqEl.className = 'txt';
+      freqEl.placeholder = 'weekly, 2 a month, …';
+      freqEl.addEventListener('input', function () { freq = freqEl.value; write(); });
+      row3.appendChild(freqEl);
+
+      var out = document.createElement('div');
+      out.className = 'readout';
+      sec.appendChild(out);
+
+      var ta = document.createElement('textarea');
+      ta.readOnly = true;
+      ta.spellcheck = false;
+      ta.style.height = '150px';
+      sec.appendChild(ta);
+
+      /* ---- the shape ---- */
+
+      /* Catmull–Rom through every node, as cubic Béziers. Two points give a
+         straight line; three or more bend through the middle ones. */
+      function pathD() {
+        if (nodes.length < 2) return '';
+        var p = nodes, n = p.length;
+        var d = 'M' + p[0].x.toFixed(2) + ' ' + p[0].y.toFixed(2);
+        for (var i = 0; i < n - 1; i++) {
+          var p0 = p[i > 0 ? i - 1 : 0], p1 = p[i], p2 = p[i + 1];
+          var p3 = p[i + 2 < n ? i + 2 : n - 1];
+          var c1x = p1.x + (p2.x - p0.x) / 6, c1y = p1.y + (p2.y - p0.y) / 6;
+          var c2x = p2.x - (p3.x - p1.x) / 6, c2y = p2.y - (p3.y - p1.y) / 6;
+          d += 'C' + c1x.toFixed(2) + ' ' + c1y.toFixed(2)
+             + ' ' + c2x.toFixed(2) + ' ' + c2y.toFixed(2)
+             + ' ' + p2.x.toFixed(2) + ' ' + p2.y.toFixed(2);
+        }
+        return d;
+      }
+
+      function ensureLayer() {
+        if (layer) return;
+        var NS = 'http://www.w3.org/2000/svg';
+        layer = document.createElementNS(NS, 'g');
+        layer.setAttribute('id', 'jmap-route');
+        legs = document.createElementNS(NS, 'path');
+        legs.setAttribute('class', 'leg');
+        legs.setAttribute('pointer-events', 'none');
+        /* A second copy of the same course, invisible and fat, is what a
+           shift-click actually lands on: a 2.4px line is not a thing anybody
+           can hit, and widening the drawn one to be hittable would draw a
+           shipping lane the width of the Tsushima Strait. */
+        grab = document.createElementNS(NS, 'path');
+        grab.setAttribute('class', 'grab');
+        dots = document.createElementNS(NS, 'g');
+        layer.appendChild(grab);
+        layer.appendChild(legs);
+        layer.appendChild(dots);
+        api.svg.appendChild(layer);
+      }
+
+      function redraw() {
+        ensureLayer();
+        var d = pathD();
+        legs.setAttribute('d', d);
+        grab.setAttribute('d', d);
+        var r = api.unitsPerPixel() * 4;
+        dots.textContent = '';
+        nodes.forEach(function (p, i) {
+          var c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+          c.setAttribute('class', p.kind === 'bend'
+            ? 'bend' + (i === sel ? ' sel' : '')
+            : 'stop' + (i === 0 ? ' first' : ''));
+          c.setAttribute('cx', p.x);
+          c.setAttribute('cy', p.y);
+          c.setAttribute('r', p.kind === 'bend' ? r * 0.8 : r);
+          c.setAttribute('data-i', i);
+          dots.appendChild(c);
+        });
+        say();
+        write();
+        var any = nodes.length > 0;
+        undoBtn.disabled = !any;
+        clearBtn.disabled = !any;
+        copyBtn.disabled = !any;
+      }
+
+      function stops() {
+        return nodes.filter(function (p) { return p.kind === 'stop'; });
+      }
+
+      function say() {
+        if (!routingOn && !nodes.length) { out.textContent = ''; return; }
+        var st = stops().length;
+        var bd = nodes.length - st;
+        out.textContent = st + ' stop' + (st === 1 ? '' : 's')
+          + ', ' + bd + ' bend' + (bd === 1 ? '' : 's')
+          + (routingOn
+             ? ' · ' + (picking ? 'tap a city for the next stop'
+                                : 'shift-click the line to bend it')
+             : ' · finished');
+      }
+
+      /* ---- what comes out ---- */
+
+      /* Both readings, because they answer different questions. `stops` is the
+         route as a timetable would give it; `legs` is what has to be drawn,
+         city to city with the bends between. And `course` is the whole thing
+         as one line, for anything that only wants to draw it. */
+      function asJSON() {
+        var st = stops();
+        var legsOut = [], cur = null;
+        nodes.forEach(function (p) {
+          if (p.kind === 'stop') {
+            if (cur) { cur.to = p.id; legsOut.push(cur); }
+            cur = { from: p.id, to: null, bends: [] };
+          } else if (cur) {
+            cur.bends.push([+p.lon.toFixed(5), +p.lat.toFixed(5)]);
+          }
+        });
+        return JSON.stringify({
+          frequency: freq,
+          epoch: epochNow(),
+          stops: st.map(function (p) { return p.id; }),
+          names: st.map(function (p) { return p.name; }),
+          legs: legsOut,
+          course: nodes.map(function (p) {
+            return [+p.lon.toFixed(5), +p.lat.toFixed(5)];
+          }),
+        }, null, 1);
+      }
+
+      function write() { ta.value = nodes.length ? asJSON() : ''; }
+
+      /* ---- the cities ---- */
+
+      function epochNow() {
+        var on = document.querySelector('#epoch-seg button.on');
+        return (on && on.getAttribute('data-epoch')) || '';
+      }
+
+      /* The dots have to be on to be tapped, and a reader who pressed Add
+         route has said they want them. Put back on the way out only if this
+         tool was what turned them on. */
+      var citiesWere = null;
+      function cities(on) {
+        var b = document.querySelector('[data-cat="city"]');
+        if (!b) return;
+        var isOn = b.getAttribute('aria-pressed') === 'true';
+        if (on && !isOn) { citiesWere = false; b.click(); }
+        else if (!on && citiesWere === false) { if (isOn) b.click(); citiesWere = null; }
+      }
+
+      /* The city under a press, whatever part of its marker was hit.
+       *
+       * **There are two kinds of city dot and this needs both.** The curated
+       * places are `#markers g.site[data-cat="city"]`, keyed by a plain id;
+       * the gazetteer's four hundred are `#gaz g`, keyed `g_e1930_kobe`
+       * because the same port is a separate record on each map. Looking only
+       * in `#gaz` found nothing at Kobe — Kobe is curated — and the tool
+       * silently did nothing when tapped.
+       *
+       * `elementsFromPoint`, not `elementFromPoint`: the dots overlap at this
+       * scale, and the topmost thing under the pointer at Kobe is Ōsaka's hit
+       * circle as often as not. The first ancestor that is a city wins, which
+       * is the same rule the map's own picking uses. */
+      function cityAt(cx, cy) {
+        var stack = document.elementsFromPoint
+          ? document.elementsFromPoint(cx, cy)
+          : [document.elementFromPoint(cx, cy)];
+        for (var i = 0; i < stack.length; i++) {
+          var el = stack[i];
+          if (!el || !el.closest) continue;
+          var g = el.closest('#gaz g[data-id], #markers g.site[data-cat="city"]');
+          if (!g) continue;
+          var got = cityOf(g);
+          if (got) return got;
+        }
+        return null;
+      }
+
+      function cityOf(g) {
+        var raw = g.getAttribute('data-id') || '';
+        var m = /^g_(e\d+)_(.+)$/.exec(raw);
+        var id = m ? m[2] : raw;
+        var rec = null;
+        if (m && window.JMAP && JMAP.GAZ && JMAP.GAZ[m[1]]) {
+          var list = JMAP.GAZ[m[1]];
+          for (var i = 0; i < list.length; i++) {
+            if (list[i].id === id) { rec = list[i]; break; }
+          }
+        } else if (window.JMAP && JMAP.SITES) {
+          for (var j = 0; j < JMAP.SITES.length; j++) {
+            if (JMAP.SITES[j].id === id) { rec = JMAP.SITES[j]; break; }
+          }
+        }
+        /* The marker's own place on screen, not the record's, so a stop lands
+           exactly on the dot the reader pressed. The lon/lat comes from the
+           record where there is one — it is the figure a routes file should
+           carry — and off the screen only if there is not. */
+        var box = g.getBoundingClientRect();
+        var u = api.clientToUser(box.left + box.width / 2, box.top + box.height / 2);
+        if (!u) return null;
+        var ll = api.toLonLat(u.x, u.y);
+        return { kind: 'stop', id: id,
+                 name: (rec && (rec.n || rec.en)) || id,
+                 lon: (rec && isFinite(rec.lon)) ? rec.lon : ll.lon,
+                 lat: (rec && isFinite(rec.lat)) ? rec.lat : ll.lat,
+                 x: u.x, y: u.y };
+      }
+
+      /* ---- putting a bend in ---- */
+
+      /* Which span a press belongs to: the nearest one, measured to the
+         straight line between consecutive nodes rather than to the drawn
+         curve. The curve never strays far from that chord, and the chord can
+         be solved in closed form — no sampling, and no arguing with a spline
+         about where its nearest point is. */
+      function spanAt(u) {
+        var best = -1, bestD = Infinity;
+        for (var i = 0; i < nodes.length - 1; i++) {
+          var a = nodes[i], b = nodes[i + 1];
+          var dx = b.x - a.x, dy = b.y - a.y;
+          var L2 = dx * dx + dy * dy || 1;
+          var t = ((u.x - a.x) * dx + (u.y - a.y) * dy) / L2;
+          t = Math.max(0, Math.min(1, t));
+          var px = a.x + dx * t - u.x, py = a.y + dy * t - u.y;
+          var d = px * px + py * py;
+          if (d < bestD) { bestD = d; best = i; }
+        }
+        return best;
+      }
+
+      function addBend(u) {
+        if (nodes.length < 2) return false;
+        var i = spanAt(u);
+        if (i < 0) return false;
+        var ll = api.toLonLat(u.x, u.y);
+        nodes.splice(i + 1, 0,
+          { kind: 'bend', id: null, name: '', lon: ll.lon, lat: ll.lat, x: u.x, y: u.y });
+        sel = i + 1;
+        setPicking(false);
+        redraw();
+        return true;
+      }
+
+      /* ---- the pointer ---- */
+
+      function onDown(e) {
+        if (!routingOn) return;
+        var t = e.target;
+        if (!t || !t.classList || !t.classList.contains('bend')) return;
+        e.stopPropagation();
+        e.preventDefault();
+        sel = +t.getAttribute('data-i');
+        dragging = { i: sel, el: t };
+        try { t.setPointerCapture(e.pointerId); } catch (err) { /* older engine */ }
+      }
+
+      function onMove(e) {
+        if (!dragging) return;
+        e.stopPropagation();
+        e.preventDefault();
+        var u = api.clientToUser(e.clientX, e.clientY);
+        if (!u) return;
+        var p = nodes[dragging.i];
+        if (!p) return;
+        var ll = api.toLonLat(u.x, u.y);
+        p.x = u.x; p.y = u.y; p.lon = ll.lon; p.lat = ll.lat;
+        dragging.el.setAttribute('cx', u.x);
+        dragging.el.setAttribute('cy', u.y);
+        /* The line follows the handle while it is held, but the handles are
+           not rebuilt — `redraw()` empties the group and would take away the
+           circle the press is captured on, which is the trap the extent editor
+           left a note about. */
+        var d = pathD();
+        legs.setAttribute('d', d);
+        grab.setAttribute('d', d);
+        out.textContent = 'bend → ' + ll.lon.toFixed(4) + ', ' + ll.lat.toFixed(4);
+      }
+
+      function onUp() {
+        if (!dragging) return;
+        dragging = null;
+        redraw();
+      }
+
+      // while the tool is armed, shift is the bend rather than the marquee
+      api.onShift(function () { return routingOn; });
+
+      api.onTap(function (e) {
+        if (!routingOn) return true;
+        var u = api.clientToUser(e.clientX, e.clientY);
+        if (!u) return true;
+        /* Shift is the bend. It is checked before the city, so a shift-press
+           that happens to land on a port still puts a bend in rather than
+           adding the same stop twice. */
+        if (e.shiftKey) return addBend(u) ? false : true;
+        if (!picking) return true;
+        var c = cityAt(e.clientX, e.clientY);
+        if (!c) return true;
+        var last = stops()[stops().length - 1];
+        if (last && last.id === c.id) return false;   // the same port twice is not a leg
+        nodes.push(c);
+        sel = -1;
+        /* The first stop leaves the tool picking, because a route of one port
+           is not a route. After a leg exists the reader is most likely to want
+           to shape it, so the tool steps aside and `Add another stop` brings
+           it back. */
+        if (stops().length > 1) setPicking(false);
+        redraw();
+        return false;
+      });
+
+      function setPicking(on) {
+        picking = on;
+        moreBtn.classList.toggle('on', on);
+        say();
+      }
+
+      function finish() {
+        if (!routingOn) return;
+        setOn(false, true);
+      }
+
+      /* The handles are drawn in map units, so a zoom would leave them the
+         wrong size. Watched only while the tool is on. */
+      var pending = false;
+      var obs = new MutationObserver(function () {
+        if (pending || !nodes.length || !routingOn) return;
+        pending = true;
+        window.requestAnimationFrame(function () { pending = false; redraw(); });
+      });
+
+      function setOn(on, keep) {
+        routingOn = on;
+        onBtn.classList.toggle('on', on);
+        onBtn.textContent = on ? 'Routing…' : 'Add route';
+        moreBtn.disabled = !on;
+        doneBtn.disabled = !on;
+        document.body.classList.toggle('jmap-drawing', on);
+        if (on) {
+          cities(true);
+          setPicking(true);
+          obs.observe(api.svg, { attributes: true, attributeFilter: ['viewBox'] });
+          api.svg.addEventListener('pointerdown', onDown, true);
+          window.addEventListener('pointermove', onMove, true);
+          window.addEventListener('pointerup', onUp, true);
+          redraw();
+          return;
+        }
+        obs.disconnect();
+        api.svg.removeEventListener('pointerdown', onDown, true);
+        window.removeEventListener('pointermove', onMove, true);
+        window.removeEventListener('pointerup', onUp, true);
+        cities(false);
+        dragging = null;
+        /* Finishing keeps the course on screen and the JSON in the box —
+           that is the whole product of the tool, and taking it away at the
+           moment the reader says "finished" would be the tool throwing the
+           work out. Switching the tool off with the button clears it. */
+        if (keep) { say(); return; }
+        nodes = [];
+        sel = -1;
+        if (layer) { layer.parentNode.removeChild(layer); layer = null; }
+        out.textContent = '';
+        ta.value = '';
+      }
 
       redraw();
       setOn(false);

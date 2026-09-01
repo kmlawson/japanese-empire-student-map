@@ -14236,6 +14236,86 @@ chart 47 bars coming to 73,114,308. `japanpop.js` gains 10 checks, at 58.
 
 ---
 
+## The arrow that would only bend in the middle, and a tool for shipping routes
+
+### A quadratic cannot hump off-centre
+
+Reported as "I can move the middle point but it doesn't change the shape of the
+arrow, which always bends exactly at the middle". Both halves of that are true,
+and the second is not a bug in the dragging.
+
+The apex handle was already storing both numbers — `jem-curve` for how far off
+the chord and `jem-curve-t` for how far along it — and the control point was
+already solved so that the curve **passed through** the apex at parameter t. It
+did. Subtract the chord from a quadratic and what is left is
+
+    B(t) − chord(t) = 2t(1−t) · (c − mid)
+
+— a *fixed direction* times a bump that peaks at t = 0.5 whatever the control
+point is. So the curve went through the dragged point and bulged in the middle
+anyway. No control point can move that hump. The arithmetic was right and the
+shape was wrong, which is why it survived a fix.
+
+**Two quadratics can.** The shaft runs a → apex → b, and both control points
+sit at the apex's own distance from the chord, at the midpoints of the two
+half-chords. In the chord's frame — u along, v across, the apex at (t·len, H) —
+the first segment's height is H·s(2−s), climbing to H, and the second's is
+H(1−s²), falling from it. The maximum is **at the apex, exactly, for every t**.
+
+And it costs nothing already drawn. At t = 0.5 the two segments reproduce the
+old single quadratic point for point: the height works out to 4H·u(1−u) either
+way and u runs evenly along the chord in both. Checked numerically over 1,001
+samples — the greatest difference is **1.14 × 10⁻¹³ units**, which is
+floating-point noise. Every arrow saved before this bends exactly as it did.
+
+Measured on the drawn path rather than on the stored numbers, the stored
+numbers having been right while the drawing was wrong: on a 500 px arrow the
+hump lands within a few pixels of the handle at 400, at 700 and at the middle.
+`run10.js` gains 4 checks.
+
+### A tool for shipping routes
+
+`admin.js` has a **Shipping routes** section. Press *Add route* — the city dots
+come on if they were off — tap a port to start, tap the next to run a leg to it.
+**Shift-click the course** puts a bend in it; drag the bend to place it. *Add
+another stop* goes back to picking ports, *Finish line* puts the tool away and
+leaves the readout to copy. A *Frequency* field rides along. Nothing is saved to
+the map: the textarea is the whole product, which is why finishing leaves it
+standing.
+
+The course is a **Catmull–Rom spline written out as cubic Béziers** — for each
+span the controls are `P + (next − prev)/6` and `Q − (after − P)/6`, ends
+clamped — so it passes through every port and every bend, and with two ports and
+no bends it collapses to the straight line between them, which is what open
+water should be. The output carries the route three ways: `stops` as a timetable
+would give it, `legs` as it has to be drawn with the bends between each pair,
+and `course` as one line.
+
+**Three things went wrong building it, and each is now a check.**
+
+**There are two kinds of city dot.** The curated places are
+`#markers g.site[data-cat="city"]`; the gazetteer's four hundred are `#gaz g`,
+keyed `g_e1930_kobe` because the same port is a separate record on each map.
+Looking only in `#gaz` found nothing at Kobe — Kobe is curated — and the tool
+did nothing at all when tapped, with no sign of why. And it takes
+`elementsFromPoint`, plural: the dots overlap at this scale and the topmost
+thing at Kobe is as often as not Ōsaka's hit circle.
+
+**Shift already belonged to something.** A shift-press on the map starts the
+admin marquee, which sets `movedFar` and *returns* — so the press was never a
+tap and the tap hook never heard of it. `window.JMAP_SHIFT` is how a tool claims
+shift while it is armed, asked in `map.js` immediately before the marquee, in
+the same shape as the annotation box above it.
+
+**And a redraw takes away the circle a drag is captured on**, which the extent
+editor had already left a note about. The course follows the handle while it is
+held; the handles are rebuilt when it is let go.
+
+28 checks in `tools/test/routes.js`.
+
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

@@ -108,6 +108,74 @@ if (handle) {
   check('and the ends did not move',
     JSON.stringify((await p.evaluate(STORE))[0].geometry.coordinates)===JSON.stringify(f[0].geometry.coordinates));
 }
+
+/* Where the drawn shaft actually humps.
+ *
+ * The bend used to be one quadratic solved to *pass through* the dragged
+ * point, and it did — and still bulged in its own middle, because subtracting
+ * the chord from a quadratic leaves 2t(1-t) times a fixed direction, which
+ * peaks at t = 0.5 whatever the control point is. Reported as "I can move the
+ * middle point but it doesn't change the shape of the arrow". It is two
+ * quadratics meeting at the apex now, and the maximum is at the apex exactly.
+ *
+ * Measured off the path itself rather than off the stored numbers: the stored
+ * numbers were right before and the drawing was wrong. */
+{
+  const peak = async () => p.evaluate(() => {
+    // the arrow drawn for this block, which is the last one — the first is
+    // still on the map from the head and trim checks above
+    const all = document.querySelectorAll('#annotations .ann-arrow');
+    const el = all[all.length - 1];
+    const L = el.getTotalLength();
+    let best = null;
+    for (let i = 0; i <= 400; i++) {
+      const q = el.getPointAtLength(L * i / 400);
+      const s = el.ownerSVGElement.createSVGPoint();
+      s.x = q.x; s.y = q.y;
+      const sc = s.matrixTransform(el.getScreenCTM());
+      if (!best || sc.y < best.y) best = { x: sc.x, y: sc.y };
+    }
+    return { x: Math.round(best.x), y: Math.round(best.y) };
+  });
+  const drag = async (tx, ty) => {
+    const h = await p.evaluate(() => { const g = document.querySelector('#annotations .ann-bend');
+      const r = g.getBoundingClientRect();
+      return { x: Math.round((r.left + r.right) / 2), y: Math.round((r.top + r.bottom) / 2) }; });
+    await p.mouse.move(h.x, h.y); await p.mouse.down(); await sleep(80);
+    await p.mouse.move(tx, ty, { steps: 12 }); await sleep(140); await p.mouse.up(); await sleep(500);
+  };
+  // a clean horizontal arrow of its own to measure on
+  await arm(p,'arrow'); await sleep(250);
+  await tap(p,300,700); await tap(p,800,700);
+  await p.evaluate(()=>{const b2=document.querySelector('.ann-tool[aria-pressed="true"]'); if(b2) b2.click();});
+  await sleep(400);
+  await p.evaluate(()=>{const s=document.querySelectorAll('#annotations .ann-arrow');
+    s[s.length-1].dispatchEvent(new MouseEvent('click',{bubbles:true}));});
+  await sleep(400);
+
+  await drag(400, 620);                       // well towards the tail
+  let pk = await peak();
+  check('a bend dragged towards the tail humps towards the tail',
+    Math.abs(pk.x - 400) < 40 && Math.abs(pk.x - 550) > 100,
+    'peaks at x=' + pk.x + ', dragged to 400, the middle is 550');
+
+  await drag(700, 620);                       // and towards the head
+  pk = await peak();
+  check('and dragged towards the head, humps there',
+    Math.abs(pk.x - 700) < 40 && Math.abs(pk.x - 550) > 100,
+    'peaks at x=' + pk.x + ', dragged to 700');
+
+  /* And the middle still behaves. At t = 0.5 the two quadratics reproduce the
+     old single one point for point — the height works out to 4H·u(1−u) either
+     way and u runs evenly along the chord in both — so nothing drawn before
+     this changed shape. */
+  await drag(550, 620);
+  pk = await peak();
+  check('and back in the middle it peaks in the middle',
+    Math.abs(pk.x - 550) < 30, 'peaks at x=' + pk.x);
+  const t = (await p.evaluate(STORE)).slice(-1)[0].properties['jem-curve-t'];
+  check('with the position stored beside the depth', Math.abs(t - 0.5) < 0.06, String(t));
+}
 check('it measures in km', /km$/.test(await p.evaluate(()=>document.querySelector('#ann-list .ann-meas').textContent)),
   await p.evaluate(()=>document.querySelector('#ann-list .ann-meas').textContent));
 
