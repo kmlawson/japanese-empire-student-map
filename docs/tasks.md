@@ -15217,6 +15217,104 @@ what an Okinawa or Amami island shows when it is clicked.
 
 ---
 
+## A choropleth can be taken away, and a colour changed from the key
+
+### The map as data, from two places
+
+An arrow beside each choropleth in the Layers pane, and an offer in the
+right-click menu when one is drawn. Both call the same exporter, because they
+are the same request asked in two places.
+
+**One feature per row, not per shape.** This is the whole care in it. Several
+shapes can carry one row's figures — Miyakojima and Amami Ōshima draw Okinawa's
+and Kagoshima's, Cheju draws Chŏlla-namdo's — so a file with a feature apiece
+would repeat a prefecture's numbers once per island it happens to have loaded,
+and anyone summing it would over-count. The shapes are gathered onto the row
+they belong to and the geometry is their union; `shapes` says how many outlines
+went in. Japan 1930 comes out as **47 features whose populations sum to
+64,450,005** — the printed national total, which is the proof there is no
+duplication.
+
+The file carries the row's own figures rather than only the shaded number — a
+reader who wanted just that could read it off the key — and the dataset's
+source, its URL, the class breaks and the unit travel with it as GeoJSON
+foreign members, so the file can be restyled back into the map it came from.
+
+The pane arrow **switches the map to that layer first.** The shapes have to be
+on the page to be exported, and a reader asking for this file is asking for
+this map, so showing it is the honest side effect rather than a surprise.
+
+### Option-click a swatch to change that colour
+
+Or hold it, which is the same gesture where there is no option key. It writes
+`state.colours` — the one place a colour lives — so the editor in the Layers
+pane, "Save colours" and the link all see it, which is what "sync it with
+adjust colours" asked for. `syncColourEditor` brings an already-built editor
+back into line rather than leaving it disagreeing with the map.
+
+**Option, not a plain click.** The swatch is already a switch that shows and
+hides that colour's countries, and taking that away to make room for a picker
+would trade a thing readers use for a thing they use once.
+
+Measured both ways: option-click opens the picker, the map's Japan goes to
+`#123456`, the rebuilt legend swatch shows it, and one of the 29 pickers in the
+Layers pane shows it too. On a touch screen the hold opens it and **a hold that
+turns into a drag does not** — otherwise every scroll past the key would open a
+colour picker.
+
+## Fifty-four Wikipedia links, each one checked before it was written
+
+Reported as Akita and Rehe having none. The audit found **101 of 906 rows**
+without a link, across twenty-six files.
+
+Nothing was written from a guess. Candidates were built per table and then
+asked of the Wikipedia API, and only a title the API confirms — after
+normalisation and redirects — was kept. That still leaves judgement, and three
+confirmed titles were **rejected** for being about the wrong thing:
+
+* **Sanjiang** is a disambiguation page about rivers in Guangxi, not
+  Manchukuo's 三江省.
+* **State of East Sumatra** is the 1947 puppet state, not the residency this
+  map draws.
+* **Travancore–Cochin** is the state made in 1949, and the row is the two
+  princely states as they stood.
+
+Two more were kept with their eyes open: *Rat Island* resolves to **Hawadax
+Island**, which is the same island renamed in 2012, and *Saigon* to **Ho Chi
+Minh City**, which is where the article lives.
+
+**47 rows still have none**, and most of them cannot have one: eighteen
+Communist base areas, eleven princely-state groupings that are several states
+in one shape — "The Punjab states — Patiala, Jind, Nabha and Kapurthala" — and
+the map's own categories, like *Border is contested or not fixed*. Those are
+map units rather than places, and no article is about them.
+
+
+---
+
+## Four things settled, so they stop being asked about
+
+Decided by the author on 1 September 2026. None of these is open; none needs
+raising again.
+
+* **The pan.** Reported as broken on a click-drag over most polygons, and not
+  reproducible here in any configuration — long, short and tiny drags, zoomed
+  in and out, with Administrative on and off, over an atom path and over a
+  province, and after opening the menu. Left as it is. The likeliest
+  explanation was the near-empty menu of update 270 sitting under the cursor
+  and swallowing the next press, which the full menus of 271 should have ended.
+* **Taiwan's 蕃地 on the 1942 map stays blank.** The 1941 figure is a count of
+  高砂族 people wherever they lived, already inside the district totals; there
+  is no territorial figure to divide by an area, and none is being sought.
+* **The Taiwan colour ladder keeps its new classes** — 25 / 100 / 400 / 2,000,
+  re-spread when the 蕃地's density came in. The old 100 / 300 / 1,000 / 2,500
+  is not being pinned back.
+* **`gis/` stays in the repository**, twenty megabytes and all. The files are
+  published, linked from sources.html, and change only when the geometry does.
+
+
+---
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

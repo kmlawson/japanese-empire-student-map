@@ -67,7 +67,7 @@ page, author and licence.
 | Manchukuo and its fourteen provinces | 滿洲國地圖 1935, South Manchuria Railway Company research section |
 | Mengchiang and Outer Mongolia | 支那全土並附近大地圖・欧洲現勢大地圖, a Japanese sheet of the period |
 | The Kwantung Leased Territory, mainland and nineteen islands | a 1935 sheet |
-| The Communist base areas and guerrilla zones, 1941–42 | sheet 199 of 武月星主編，《中國抗日戰爭史地圖集：1931–1945》 (Wu Yuexing, ed.) |
+| The Communist base areas and guerrilla zones, 1941–42 | p199 of 武月星主編，《中國抗日戰爭史地圖集：1931–1945》 (Wu Yuexing, ed.) |
 | The princely states of India; British India in 1931 and the French and Portuguese enclaves in it; Nepal, Afghanistan, Sikkim and Bhutan | the 1931 Imperial Gazetteer of India sheets |
 | The Pacific mandates — Japan's, Australia's and the British mandate over Nauru | a period sheet of the mandate boundaries |
 | The thirteen provinces of colonial Korea, with their coastline | a map of the period |

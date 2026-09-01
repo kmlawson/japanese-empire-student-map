@@ -26,6 +26,37 @@
 const { spawn } = require('child_process');
 const path = require('path');
 const os = require('os');
+const fs = require('fs');
+
+/* ---------------------------------------------------------------------
+ * HOW LONG THIS TAKES, REMEMBERED
+ *
+ * Every run appends what it was and how long it took to `runs.jsonl`, and
+ * every run prints what the last one of the same shape cost before it starts.
+ * The point is that nobody — reader, author or assistant — should have to
+ * guess whether a check is thirty seconds or six minutes away, and a guess is
+ * what it was: the SECS table had drifted so far that `stations` was listed at
+ * 65 seconds and took 147.
+ *
+ * Keyed by the *scripts*, sorted, not by the words typed: `changed` means a
+ * different run every day, and two selections that come to the same list
+ * should share a memory. The label is kept beside it for reading.
+ */
+const RUNS = path.join(__dirname, 'runs.jsonl');
+
+function runKey(list) { return list.slice().sort().join(','); }
+
+function pastRuns(key) {
+  try {
+    return fs.readFileSync(RUNS, 'utf8').split('\n')
+      .filter(Boolean).map(l => { try { return JSON.parse(l); } catch (e) { return null; } })
+      .filter(r => r && r.key === key);
+  } catch (e) { return []; }
+}
+
+function noteRun(rec) {
+  try { fs.appendFileSync(RUNS, JSON.stringify(rec) + '\n'); } catch (e) { /* a log is not the job */ }
+}
 
 const MAP = ['taiwan', 'labels', 'provsource', 'backings', 'mapstrip',
              'projclip', 'extent', 'layers-url', 'bookmarks', 'cache-keys',
@@ -230,6 +261,16 @@ const SECS = { stations: 147, relief: 140, demography: 95, population: 71, 'laye
                run2: 41, run15: 40, run5: 35, run14: 32, run: 19, run3: 28, run9: 30, run10: 25, run11: 24, run12: 19, run8: 19, run13: 18, run4: 17, run6: 12, run7: 5 };
 list = list.slice().sort((a, b) => (SECS[b] || 0) - (SECS[a] || 0));
 
+const KEY = runKey(list);
+const PAST = pastRuns(KEY);
+if (PAST.length) {
+  const last = PAST[PAST.length - 1];
+  const avg = Math.round(PAST.reduce((a, r) => a + r.secs, 0) / PAST.length);
+  console.log('\n  last time this set ran it took ' + last.secs + 's'
+    + (PAST.length > 1 ? ' (' + PAST.length + ' runs, average ' + avg + 's)' : '')
+    + (last.failed ? ' and something failed' : ''));
+}
+
 if (dry) {
   const secs = list.reduce((a, n) => a + (SECS[n] || 0), 0);
   console.log('\n  would run ' + list.length + ' script(s), about '
@@ -314,6 +355,16 @@ function done() {
     + (late ? '  (* ' + late + ' retried after failing to start)' : '')
     + (bad.length ? '  —  ' + bad.length + ' SCRIPT(S) FAILED' : '  —  all passing'));
   console.log('═'.repeat(64));
+  noteRun({
+    at: new Date().toISOString(),
+    label: pick.length ? pick.join(' ') : 'all',
+    key: KEY,
+    scripts: results.length,
+    checks: checks,
+    secs: Number(secs),
+    jobs: JOBS,
+    failed: bad.length,
+  });
   process.exit(bad.length);
 }
 

@@ -4462,7 +4462,7 @@ def island_name(key, ring):
 # and not the rounded blob it was first given. Traced clockwise from the west
 # tip of Wilkes: the ocean shore east and north to Peale's tip, then back along
 # the lagoon.
-# The Communist base areas and guerrilla zones, 1941–42, traced from sheet 199
+# The Communist base areas and guerrilla zones, 1941–42, traced from p199
 # of 武月星主編《中國抗日戰爭史地圖集：1931–1945》. Seventy-five separate areas
 # from the Shaan-Gan-Ning border region round Yenan to the coastal pockets of
 # Shantung and the Yangtze delta. They are drawn over the occupied shading and

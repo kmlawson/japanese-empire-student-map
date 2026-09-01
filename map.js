@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '271';
+  var JEM_VERSION = '272';
   var JEM_ASSETS = {"admin.js": "3414697d04", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "58132ef9c2", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
 
   /* Every file this one fetches, with the version on it.
@@ -8257,6 +8257,106 @@
       .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 60) || 'table';
   }
 
+  /* ============== a choropleth, taken away whole ========================
+   *
+   * The shapes with the figures on them: what the map is drawing, as a file
+   * somebody can restyle, join or check. A picture of a choropleth is an
+   * argument; the same thing as data is an argument somebody can audit.
+   *
+   * The properties are the row's own — the population, the density, the sex
+   * ratio, the share, the area — and not merely the one number being shaded,
+   * because a reader who wanted only that number could read it off the key.
+   * The dataset's source travels with it, as it does on every table this
+   * project draws.
+   *
+   * **An island that borrows says so.** Miyakojima carries Okinawa-ken's
+   * figures and its own outline, and the file records both, so nobody adds
+   * Okinawa's people up twice by counting the islands as well as the
+   * prefecture. */
+  function popLayerFeatures(set, mode) {
+    if (!set || !set.rows || !svg) return [];
+    var shade = POP_SHADES[mode];
+    /* **One feature per row, not per shape.** Several shapes can carry one
+       row's figures — Miyakojima and Amami Ōshima both draw Okinawa's and
+       Kagoshima's, Cheju draws Chŏlla-namdo's — and a file with a feature
+       apiece would repeat those numbers as many times as the map happened to
+       have islands loaded. Summing such a file would over-count a prefecture
+       once per island, which is exactly the fault the cards take care to
+       avoid. So the shapes are gathered onto the row they belong to and the
+       geometry is their union.
+
+       It also makes the file deterministic in the only way that matters: the
+       *figures* are the dataset's, whole, however much of the fine coastline
+       the reader has happened to load. `shapes` says how many outlines went
+       into the geometry. */
+    var byKey = {};
+    var order = [];
+    $$('#land [data-prov]', svg).forEach(function (el) {
+      var drawn = el.getAttribute('data-prov');
+      var key = set.rows[drawn] ? drawn
+        : (set.rows[partOf(drawn)] ? partOf(drawn)
+          : (set.rows[groupPartOf(el)] ? groupPartOf(el) : null));
+      if (!key) return;
+      var polys = ringsToLonLat(pathToRings(el.getAttribute('d')));
+      if (!polys.length) return;
+      if (!byKey[key]) { byKey[key] = { polys: [], shapes: 0 }; order.push(key); }
+      byKey[key].polys = byKey[key].polys.concat(polys);
+      byKey[key].shapes += 1;
+    });
+    return order.map(function (key) {
+      var r = set.rows[key];
+      var np = popRowNameParts(key, r);
+      var props = {
+        name: np.name || null, kanji: np.kanji || null,
+        key: key, scope: r.scope || null,
+        population: r.pop === undefined ? null : r.pop,
+        per_km2: r.dens === undefined ? null : r.dens,
+        km2: r.km2 === undefined ? null : r.km2,
+        m_per_100_f: r.mf === undefined ? null : r.mf,
+        pct_of_total: r.pct === undefined ? null : r.pct,
+        shapes: byKey[key].shapes,
+      };
+      if (shade) {
+        var v = shade.value(r);
+        props.shaded_value = (v === null || v === undefined) ? null : v;
+        props.shaded_unit = shade.unit;
+      }
+      if (byKey[key].shapes > 1) {
+        props.note = 'Drawn as ' + byKey[key].shapes + ' shapes — the unit and '
+          + 'the islands the census counted in it — gathered here into one '
+          + 'feature so the figures are not repeated.';
+      }
+      return { type: 'Feature', properties: props,
+               geometry: { type: 'MultiPolygon',
+                           coordinates: byKey[key].polys.map(function (q) { return [q]; }) } };
+    });
+  }
+
+  function savePopLayer(set, mode, label) {
+    var feats = popLayerFeatures(set, mode);
+    if (!feats.length) return false;
+    var fc = {
+      type: 'FeatureCollection',
+      /* Foreign members, which GeoJSON allows: what this is, where the
+         figures came from, and the ladder the map coloured them on, so the
+         file can be restyled to look like the map it came from. */
+      layer: {
+        title: label,
+        caption: set.caption || '',
+        epoch: set.epoch,
+        source: set.source || '',
+        source_url: set.srcUrl || '',
+        breaks: (POP_SHADES[mode] && POP_SHADES[mode].breaks(set)) || [],
+        unit: (POP_SHADES[mode] && POP_SHADES[mode].unit) || '',
+        geometry_note: GEO_NOTE,
+      },
+      features: feats,
+    };
+    return downloadText(JSON.stringify(fc, null, 1),
+                        slug(label + '-' + set.epoch) + '.geojson',
+                        'application/geo+json');
+  }
+
   /* ===================== the right-click menu ==========================
    *
    * What a reader can take away from a shape, and where the shape came from.
@@ -8510,6 +8610,26 @@
         }
       }
     }
+
+    /* And the choropleth this shape is part of, where one is drawn. The offer
+       is the *layer*, not the unit: a reader right-clicking a shaded province
+       and asking for the data wants the map, and the unit is already the first
+       item above. */
+    popOn().forEach(function (job) {
+      var d = job.set;
+      if (!d || !d.rows) return;
+      var n = popLayerFeatures(d, job.mode).length;
+      if (!n) return;
+      /* Named for the *mode*, not the dataset. `d.layer` is the file's own
+         title — "Korea Population Density" — and it was heading the
+         proportion-Japanese map with it, which is a different map off the same
+         rows. */
+      var lab = (d.country || d.layer || d.label || 'this layer')
+        + ' ' + (POP_MODE_LABEL[job.mode] || job.mode);
+      menuEl.appendChild(menuItem('Download GeoJSON — ' + lab + ', '
+        + d.epoch + ' (' + n + ' units with figures)',
+        function () { savePopLayer(d, job.mode, lab); }));
+    });
 
     /* The coordinates of the point the reader pressed, which is the question
        a right click on a map is most often asking. Latitude first, as it is
@@ -10331,6 +10451,37 @@
         label.appendChild(el);
         label.appendChild(document.createTextNode(
           ' ' + (mode === 'none' ? 'None' : POP_MODE_LABEL[mode])));
+        /* And a way to take the map away. Not on "None", which draws nothing.
+           Pressing it *switches the map to that layer first* — the shapes have
+           to be on the page to be exported, and a reader asking for this file
+           is asking for this map, so showing it is the honest side effect
+           rather than a surprise. */
+        if (mode !== 'none' && POP_SHADES[mode]) {
+          var dl = document.createElement('button');
+          dl.type = 'button';
+          dl.className = 'plain pop-dl';
+          dl.textContent = '\u2193';
+          dl.title = 'Download this layer as GeoJSON — the shapes with their figures';
+          dl.setAttribute('aria-label',
+            'Download ' + (g.country || g.label) + ' ' + POP_MODE_LABEL[mode]
+            + ' as GeoJSON');
+          dl.addEventListener('click', function (ev) {
+            ev.preventDefault();
+            ev.stopPropagation();          // the label would toggle the radio
+            var want = popForEpoch(g);
+            if (!want || !popModeReady(want, mode)) return;
+            if (state.pop[g.id] !== mode) {
+              setPop(g.id, mode);
+              syncPopBoxes();
+            }
+            // one frame for the shading to reach the shapes
+            requestAnimationFrame(function () {
+              savePopLayer(want, mode,
+                (g.country || g.label) + ' ' + POP_MODE_LABEL[mode]);
+            });
+          });
+          label.appendChild(dl);
+        }
         host.appendChild(label);
       });
     });
@@ -11071,8 +11222,73 @@
      boxes, and cleared by the click it swallows. */
   var headPressLong = false;
 
+  /* **Option-click a swatch to change that colour**, or hold it on a touch
+     screen, which is the same gesture where there is no option key.
+     
+     It writes `state.colours`, which is the one place a colour lives: the
+     editor in the Layers pane reads it, "Save colours" writes it out, and a
+     link carries it. So a colour chosen here is the same colour the reader can
+     go and adjust or save afterwards — the point of the request, and the
+     reason this does not keep a palette of its own.
+     
+     Option, not plain click: a swatch in this key is already a switch that
+     shows and hides that colour's countries, and taking that away to make room
+     for a colour picker would trade a thing readers use for a thing they use
+     once. */
+  var swPicker = null;
+
+  function pickColourFor(id, sw) {
+    var p = paletteById(id);
+    if (!p) return false;
+    if (!swPicker) {
+      swPicker = document.createElement('input');
+      swPicker.type = 'color';
+      swPicker.className = 'sw-picker';
+      swPicker.setAttribute('aria-label', 'Colour');
+      document.body.appendChild(swPicker);
+    }
+    swPicker.value = state.colours[id] || p.def;
+    swPicker.oncancel = null;
+    swPicker.onchange = function () {
+      var v = (swPicker.value || '').toLowerCase();
+      if (!/^#[0-9a-f]{6}$/.test(v)) return;
+      if (v === p.def) delete state.colours[id];
+      else state.colours[id] = v;
+      if (sw) sw.style.background = v;
+      applyColours();
+      /* The editor may already be built and showing the old colour, so it is
+         brought up to date rather than left disagreeing with the map. */
+      syncColourEditor();
+      scheduleUrl();
+      saveState();
+    };
+    /* Put it under the swatch so the system picker opens beside the colour it
+       is about rather than in the corner of the screen. */
+    if (sw && sw.getBoundingClientRect) {
+      var b = sw.getBoundingClientRect();
+      swPicker.style.left = Math.round(b.left) + 'px';
+      swPicker.style.top = Math.round(b.bottom) + 'px';
+    }
+    swPicker.click();
+    return true;
+  }
+
+  /* Bring every built row of the Layers-pane editor back into line with
+     `state.colours`. Cheap, and only does anything once the editor exists. */
+  function syncColourEditor() {
+    if (!colourRowsBuilt) return;
+    palette().forEach(function (p) {
+      var pick = document.getElementById('colour-' + p.id);
+      if (!pick) return;
+      pick.value = state.colours[p.id] || p.def;
+      var back = pick.parentNode
+        && pick.parentNode.querySelector('.colour-back');
+      if (back) syncColourRow(p, pick, back);
+    });
+  }
+
   /* One row. `tick` is null for a row that only explains a mark. */
-  function legendRow(host, swClass, swColour, text, tick) {
+  function legendRow(host, swClass, swColour, text, tick, colourId) {
     var row = document.createElement('div');
     row.className = 'item';
     if (tick) {
@@ -11089,6 +11305,30 @@
     var sw = document.createElement('span');
     sw.className = 'sw' + (swClass ? ' ' + swClass : '');
     if (swColour) sw.style.background = swColour;
+    if (colourId && paletteById(colourId)) {
+      sw.classList.add('sw-editable');
+      sw.title = (coarse ? 'Hold' : 'Option-click') + ' to change this colour';
+      sw.addEventListener('click', function (e) {
+        if (!e.altKey) return;              // a plain click is the switch
+        e.preventDefault();
+        e.stopPropagation();
+        pickColourFor(colourId, sw);
+      });
+      /* And the long hold, which is what a finger has instead of a modifier.
+         Cancelled by a move, so a hold that turns into a scroll is a scroll. */
+      var held = null;
+      var drop = function () { if (held) { clearTimeout(held); held = null; } };
+      sw.addEventListener('pointerdown', function (e) {
+        if (e.pointerType === 'mouse') return;
+        drop();
+        held = setTimeout(function () {
+          held = null;
+          pickColourFor(colourId, sw);
+        }, 550);
+      });
+      ['pointerup', 'pointercancel', 'pointermove', 'pointerleave']
+        .forEach(function (n) { sw.addEventListener(n, drop); });
+    }
     row.appendChild(sw);
     row.appendChild(document.createTextNode(text));
     host.appendChild(row);
@@ -11217,7 +11457,7 @@
           });
           applyState();
         },
-      });
+      }, c.id);
       /* And the members under it, when the reader opens them. Only where there
          is more than one: a caret on a category of one is a caret that shows
          the row again, indented. */

@@ -3611,3 +3611,43 @@ dialog h3 {
 #jmap-menu .menu-src-what { opacity: 0.7; }
 #jmap-menu .menu-src-more { font-size: 0.78rem; }
 #jmap-menu .menu-src-note { opacity: 0.72; }
+
+/* The little arrow beside a choropleth in the Layers pane: take this map away
+   as data. It sits at the end of the row, quiet until the row is hovered,
+   because the row's job is choosing a map and this is the afterthought. */
+#pop-rows .row { display: flex; align-items: center; gap: 0.35rem; }
+#pop-rows .pop-dl {
+  margin-left: auto;
+  padding: 0 0.35rem;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  line-height: 1.1;
+  opacity: 0.45;
+  cursor: pointer;
+}
+#pop-rows .row:hover .pop-dl,
+#pop-rows .pop-dl:focus-visible { opacity: 1; }
+
+/* A legend swatch whose colour can be changed: option-click, or hold on a
+   touch screen. The cue is deliberately faint — the swatch's first job is the
+   switch beside it, and this is the second. */
+#legend .sw-editable { cursor: pointer; }
+#legend .sw-editable:hover {
+  outline: 1px solid var(--line);
+  outline-offset: 1px;
+}
+/* The picker itself is never seen: it is opened by script and positioned under
+   the swatch so the system's colour panel appears beside the colour it is
+   about. It has to be in the layout to be clickable, so it is one pixel rather
+   than `display: none`. */
+.sw-picker {
+  position: fixed;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  border: 0;
+  opacity: 0;
+  pointer-events: none;
+}

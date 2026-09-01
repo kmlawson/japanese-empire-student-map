@@ -50,7 +50,7 @@ kaohsiung,"Takao (Gāoxióng, Kaohsiung)",,"Gāoxióng (Takao, Kaohsiung)",高�
 vladivostok,Vladivostok,,,浦潮 (Urajio),Владивосток,海參崴,,"Japanese landing, August 1918",city,,,,2,,43.12,131.89,1918,https://en.wikipedia.org/wiki/Vladivostok
 nikolaevsk,Nikolaevsk-on-Amur,,,尼港事件 (Nikō jiken),Николаевск-на-Амуре,廟街（尼港）,,March – May 1920,battle,,,,3,,53.14,140.73,1920,https://en.wikipedia.org/wiki/Nikolayevsk_incident
 hanoi,Hanoi,,,ハノイ (Hanoi),Hà Nội,河內,,Japanese troops enter September 1940,city,,,,2,,21.03,105.85,1902,https://en.wikipedia.org/wiki/Hanoi
-saigon,Saigon,,,サイゴン (Saigon),Sài Gòn,西貢,,Occupied July 1941,city,,,,2,,10.82,106.63,1859,
+saigon,Saigon,,,サイゴン (Saigon),Sài Gòn,西貢,,Occupied July 1941,city,,,,2,,10.82,106.63,1859,https://en.wikipedia.org/wiki/Ho_Chi_Minh_City
 bangkok,Bangkok,,,,กรุงเทพฯ (Krung Thep),,,Alliance signed 21 December 1941,city,,,,2,,13.75,100.5,1782,https://en.wikipedia.org/wiki/Bangkok
 singapore,Shōnantō (Singapore),,,昭南島 (Shōnantō),Singapura,新加坡,,Surrendered 15 February 1942,city,,,,1,yes,1.29,103.85,1819,https://en.wikipedia.org/wiki/Japanese_occupation_of_Singapore
 kotabharu,Kota Bharu,,,,Kota Bharu,,,8 December 1941,battle,,,,3,,6.13,102.24,1941,https://en.wikipedia.org/wiki/Battle_of_Kota_Bharu
@@ -71,7 +71,7 @@ peleliu,Peleliu (Beliliou),,,ペリリュー (Peririyū),Beliliou,貝里琉,,Sep
 wake,Wake Island,,,大鳥島 (Ōtorishima),Wake Island,威克島,,Fell 23 December 1941,battle,,,,2,,19.28,166.65,1941,https://en.wikipedia.org/wiki/Battle_of_Wake_Island
 kwajalein,Kwajalein,,,クェゼリン (Kuezerin),Kuwajleen,瓜加林,,January – February 1944,battle,,,,3,,9.19,167.47,1944,https://en.wikipedia.org/wiki/Battle_of_Kwajalein
 tarawa,Tarawa,,,タラワ (Tarawa),Tarawa,塔拉瓦,,20–23 November 1943,battle,,,,3,,1.33,172.98,1943,https://en.wikipedia.org/wiki/Battle_of_Tarawa
-rabaul,Rabaul,,,ラバウル (Rabauru),Rabaul,拉包爾,,Captured January 1942,city,medium,,,2,,-4.2,152.16,1942,
+rabaul,Rabaul,,,ラバウル (Rabauru),Rabaul,拉包爾,,Captured January 1942,city,medium,,,2,,-4.2,152.16,1942,https://en.wikipedia.org/wiki/Rabaul
 guadalcanal,Guadalcanal,,,ガダルカナル (Gadarukanaru),Guadalcanal,瓜達爾卡納爾,,August 1942 – February 1943,battle,,,,2,yes,-9.58,160.15,1942,https://en.wikipedia.org/wiki/Guadalcanal_campaign
 portmoresby,Port Moresby,,,ポートモレスビー (Pōto Moresubī),Port Moresby,莫爾茲比港,,Coral Sea May 1942; Kokoda July–November 1942,battle,large,,yes,3,,-9.44,147.18,1942,https://en.wikipedia.org/wiki/Kokoda_Track_campaign
 darwin,Darwin,,,ダーウィン (Dāwin),Darwin,達爾文,,19 February 1942,battle,,,,3,,-12.46,130.84,1942,https://en.wikipedia.org/wiki/Bombing_of_Darwin
@@ -99,8 +99,8 @@ pingdingshan,Píngdǐngshān (Pingtingshan),,,平頂山事件 (Heichōzan jiken)
 pochonbo,Poch’ŏnbo,,,普天堡 (Futenpo),,普天堡,보천보 (Poch’ŏnbo),4 June 1937,battle,,,,3,,41.4,128.29,1937,https://en.wikipedia.org/wiki/Battle_of_Pochonbo
 savo,Savo Island,,,サボ島沖海戦 (Sabo-tō oki kaisen),Savo,薩沃島,,9 August 1942,battle,,,,3,,-9.13,159.85,1942,https://en.wikipedia.org/wiki/Battle_of_Savo_Island
 okunoshima,Ōkunoshima,,,大久野島 (Ōkunoshima),,大久野島,오쿠노시마섬,Army gas plant from 1929,poi,,works,,3,,34.31,133.0,1929,https://en.wikipedia.org/wiki/%C5%8Ckunoshima
-supung,Suihō (Sup’ung) Dam,,,水豊ダム (Suihō damu),,水豐,수풍 (Sup’ung),Generating from 1941,poi,,dam,,3,,40.46,124.96,1941,
-ruijin,Ruìjīn (Juichin),,,瑞金 (Zuikin),,瑞金,,Soviet capital 1931–34,city,,,,3,,25.89,116.03,1931,
+supung,Suihō (Sup’ung) Dam,,,水豊ダム (Suihō damu),,水豐,수풍 (Sup’ung),Generating from 1941,poi,,dam,,3,,40.46,124.96,1941,https://en.wikipedia.org/wiki/Sup'ung_Dam
+ruijin,Ruìjīn (Juichin),,,瑞金 (Zuikin),,瑞金,,Soviet capital 1931–34,city,,,,3,,25.89,116.03,1931,https://en.wikipedia.org/wiki/Ruijin
 consan,Côn Sơn (Poulo Condore),,,コンソン島 (Konson-tō),Côn Sơn,崑崙島,,Penal island from 1862,poi,,prison,,3,,8.69,106.61,1862,https://en.wikipedia.org/wiki/C%C3%B4n_S%C6%A1n_Island
 ashio,Ashio,,,足尾 (Ashio),,足尾,아시오정,"Copper, and the pollution case",poi,,mine,,3,,36.65,139.45,1890,"https://en.wikipedia.org/wiki/Ashio,_Tochigi"
 taiwanexped,The Taiwan Expedition,,,台湾出兵 (Taiwan shuppei),,牡丹社事件,,May – December 1874,battle,,,,3,yes,22.05,120.75,1874,https://en.wikipedia.org/wiki/1874_Japanese_expedition_to_Taiwan

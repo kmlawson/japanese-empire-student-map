@@ -157,6 +157,30 @@ That is the whole saving, and it is why the groups are drawn where they are.
 **Still run the whole suite before a release**, and whenever the tree's answer
 surprises you.
 
+### Say how long it will take, from what it took
+
+**Every time you tell the author something is done, say what the tests will
+cost** — the number, not "a few minutes". They are deciding whether to wait for
+it or go and do something else, and they cannot decide that without it.
+
+The runner keeps the record so nobody has to remember. Each run appends what it
+was and how long it took to `tools/test/runs.jsonl`, and each run prints what
+the last run of the same set cost before it starts:
+
+```
+  last time this set ran it took 265s (4 runs, average 288s)
+```
+
+Keyed by the sorted list of scripts rather than by the words typed, because
+`changed` means a different run every day and two selections that come to the
+same list should share a memory. `--dry` gives the same estimate without paying
+for it.
+
+Quote the *measured* figure, and say when there is none — a first run of a new
+set has nothing behind it, and a guess offered as a measurement is worse than
+an admission. This exists because the guesses had rotted: `SECS` had `stations`
+at 65 seconds when it took 147.
+
 ## Record what changed in docs/tasks.md before marking it done
 
 An entry says what was actually changed and what was measured, not what was

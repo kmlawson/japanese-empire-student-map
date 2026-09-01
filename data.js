@@ -1455,7 +1455,8 @@ JMAP.SITES = [
   },
   {
     id: 'saigon', en: 'Saigon', ja: 'サイゴン (Saigon)', orig: 'Sài Gòn', zh: '西貢',
-    date: 'Occupied July 1941', cat: 'city', lvl: 2, lat: 10.82, lon: 106.63, year: 1859,
+    date: 'Occupied July 1941', cat: 'city', lvl: 2, lat: 10.82, lon: 106.63,
+    wiki: 'https://en.wikipedia.org/wiki/Ho_Chi_Minh_City', year: 1859,
     note: 'The move into southern Indochina put Japanese bombers within range of Malaya and the Indies, and brought the American oil embargo and asset freeze that made war all but certain.'
   },
   {
@@ -1584,7 +1585,7 @@ JMAP.SITES = [
   {
     id: 'rabaul', en: 'Rabaul', ja: 'ラバウル (Rabauru)', orig: 'Rabaul', zh: '拉包爾',
     date: 'Captured January 1942', cat: 'city', size: 'medium', lvl: 2, lat: -4.2, lon: 152.16,
-    year: 1942,
+    wiki: 'https://en.wikipedia.org/wiki/Rabaul', year: 1942,
     note: 'Built into the great forward base of the South Pacific, with five airfields and over 100,000 troops. Bypassed from 1944 and left isolated until the surrender.'
   },
   {
@@ -1756,12 +1757,13 @@ JMAP.SITES = [
   {
     id: 'supung', en: 'Suihō (Sup’ung) Dam', ja: '水豊ダム (Suihō damu)', zh: '水豐',
     ko: '수풍 (Sup’ung)', date: 'Generating from 1941', cat: 'poi', subtype: 'dam', lvl: 3,
-    lat: 40.46, lon: 124.96, year: 1941,
+    lat: 40.46, lon: 124.96, wiki: 'https://en.wikipedia.org/wiki/Sup\'ung_Dam', year: 1941,
     note: 'Finished on the Yalu in 1941 and the largest dam in Asia, built with conscript labour and the clearance of whole villages. Its power ran the chemical works at Hŭngnam and much of Manchurian industry.'
   },
   {
     id: 'ruijin', en: 'Ruìjīn (Juichin)', ja: '瑞金 (Zuikin)', zh: '瑞金',
-    date: 'Soviet capital 1931–34', cat: 'city', lvl: 3, lat: 25.89, lon: 116.03, year: 1931,
+    date: 'Soviet capital 1931–34', cat: 'city', lvl: 3, lat: 25.89, lon: 116.03,
+    wiki: 'https://en.wikipedia.org/wiki/Ruijin', year: 1931,
     note: 'Capital of the Chinese Soviet Republic from November 1931 until the fifth encirclement campaign forced the party out in October 1934 and the Long March began.'
   },
   {
@@ -4335,11 +4337,17 @@ JMAP.PROVINCES = {
   Attu: { en: 'Attu', zh: '阿圖島', wiki: 'https://en.wikipedia.org/wiki/Attu_Island' },
   Kiska: { en: 'Kiska', zh: '基斯卡島', wiki: 'https://en.wikipedia.org/wiki/Kiska' },
   Agattu: { en: 'Agattu — uninhabited', zh: '阿加圖島', wiki: 'https://en.wikipedia.org/wiki/Agattu' },
-  'Shemya & the Semichi Islands': { en: 'Shemya & the Semichi Islands — American airfield from May 1943', zh: '謝米亞島' },
+  'Shemya & the Semichi Islands': {
+    en: 'Shemya & the Semichi Islands — American airfield from May 1943', zh: '謝米亞島',
+    wiki: 'https://en.wikipedia.org/wiki/Shemya'
+  },
   Buldir: {
     en: 'Buldir — uninhabited', zh: '布爾迪爾島', wiki: 'https://en.wikipedia.org/wiki/Buldir_Island'
   },
-  'Rat Island': { en: 'Rat Island — uninhabited', zh: '鼠島' },
+  'Rat Island': {
+    en: 'Rat Island — uninhabited', zh: '鼠島',
+    wiki: 'https://en.wikipedia.org/wiki/Hawadax_Island'
+  },
   'Little Sitkin': {
     en: 'Little Sitkin — uninhabited', zh: '小錫特金島',
     wiki: 'https://en.wikipedia.org/wiki/Little_Sitkin_Island'
@@ -4357,7 +4365,10 @@ JMAP.PROVINCES = {
     wiki: 'https://en.wikipedia.org/wiki/Amatignak_Island'
   },
   Ulak: { en: 'Ulak — uninhabited', zh: '烏拉克島', wiki: 'https://en.wikipedia.org/wiki/Ulak_Island' },
-  Gareloi: { en: 'Gareloi — uninhabited', zh: '加雷洛伊島' },
+  Gareloi: {
+    en: 'Gareloi — uninhabited', zh: '加雷洛伊島',
+    wiki: 'https://en.wikipedia.org/wiki/Gareloi_Island'
+  },
   Tanaga: {
     en: 'Tanaga — uninhabited', zh: '塔納加島', wiki: 'https://en.wikipedia.org/wiki/Tanaga_Island'
   },
@@ -4368,7 +4379,10 @@ JMAP.PROVINCES = {
     en: 'Adak — American base from August 1942', zh: '阿達克島',
     wiki: 'https://en.wikipedia.org/wiki/Adak,_Alaska'
   },
-  Kagalaska: { en: 'Kagalaska — uninhabited', zh: '卡加拉斯卡島' },
+  Kagalaska: {
+    en: 'Kagalaska — uninhabited', zh: '卡加拉斯卡島',
+    wiki: 'https://en.wikipedia.org/wiki/Kagalaska_Island'
+  },
   'Great Sitkin': {
     en: 'Great Sitkin — uninhabited', zh: '大錫特金島',
     wiki: 'https://en.wikipedia.org/wiki/Great_Sitkin_Island'
@@ -4388,7 +4402,10 @@ JMAP.PROVINCES = {
     en: 'Yunaska — uninhabited', zh: '尤納斯卡島',
     wiki: 'https://en.wikipedia.org/wiki/Yunaska_Island'
   },
-  'Islands of Four Mountains': { en: 'The Islands of Four Mountains — uninhabited', zh: '四山群島' },
+  'Islands of Four Mountains': {
+    en: 'The Islands of Four Mountains — uninhabited', zh: '四山群島',
+    wiki: 'https://en.wikipedia.org/wiki/Islands_of_Four_Mountains'
+  },
   Umnak: {
     en: 'Umnak — Fort Glenn, the secret airfield of 1942', zh: '烏姆納克島',
     wiki: 'https://en.wikipedia.org/wiki/Umnak'
@@ -4401,7 +4418,7 @@ JMAP.PROVINCES = {
     en: 'Akutan — where the intact Zero was recovered in July 1942', zh: '阿庫坦島',
     wiki: 'https://en.wikipedia.org/wiki/Akutan_Island'
   },
-  Akun: { en: 'Akun', zh: '阿昆島' },
+  Akun: { en: 'Akun', zh: '阿昆島', wiki: 'https://en.wikipedia.org/wiki/Akun_Island' },
   Chichijima: {
     en: 'Chichijima', ja: '父島 (Chichijima)', zh: '父島', ko: '지치지마섬',
     wiki: 'https://en.wikipedia.org/wiki/Chichijima',
@@ -4676,7 +4693,8 @@ JMAP.PROVINCES = {
   },
   Jehol: {
     en: 'Rèhé (Jehol) — forest, grassland and dry hills beyond the Wall, the old Qing hunting country with the summer palace at Chengde, thinly populated and poor, its cash crop opium. Made a province in 1928 out of one of the frontier special districts. Japan took it in a three-week campaign in February and March 1933 and attached it to Manchukuo, which brought the frontier to the Great Wall and produced the Tanggu Truce; the province was the first ground beyond Manchuria that Japan annexed outright. Abolished in 1955 and divided between Hebei, Liaoning and Inner Mongolia.',
-    ja: '熱河 (Nekka)', zh: '熱河', short: 'Forest, grassland and dry hills beyond the Wall'
+    ja: '熱河 (Nekka)', zh: '熱河', wiki: 'https://en.wikipedia.org/wiki/Rehe_Province',
+    short: 'Forest, grassland and dry hills beyond the Wall'
   },
   Jiangsu: {
     en: 'Jiāngsū (Kiangsu) — the Yangtze delta, flat, wet, and the richest farmland in China: rice, wheat, cotton and silk, canals instead of roads, and the greatest concentration of industry in the country round Shanghai, which sat inside the province but was governed apart from it. Nanjing became the national capital in 1928. Japan landed on the Shanghai front in August 1937; the battle lasted three months and cost the Nationalists their best divisions, and Nanjing fell on 13 December, when the Japanese army massacred somewhere between tens of thousands and 300,000 people in the city and around it. The province was occupied for the rest of the war, and the collaborationist government under Wang Jingwei sat in the same capital from 1940.',
@@ -5020,6 +5038,7 @@ JMAP.PROVINCES = {
   },
   Hokkaido: {
     en: 'Hokkaidō-chō', ja: '北海道庁 (Hokkaidō-chō)', zh: '北海道廳',
+    wiki: 'https://en.wikipedia.org/wiki/Hokkaido',
     short: 'Not a prefecture but the Hokkaidō-chō, an agency of the central government',
     note: 'Not a prefecture but the Hokkaidō-chō, an agency of the central government, and the one part of Japan settled as a frontier: the Colonisation Commission began in 1869, farm households were brought in from the poorer parts of Tōhoku, and the Ainu were dispossessed of the land and then of the right to hunt on it. The island was worth taking for coal — the Ishikari field and Yūbari above all, which fed the navy and the railways — and for herring, timber and the only large arable frontier the country had. Sapporo was laid out on an American grid by the Commission and is the youngest large city in Japan.'
   },
@@ -5042,6 +5061,7 @@ JMAP.PROVINCES = {
   },
   Akita: {
     en: 'Akita-ken', ja: '秋田県 (Akita)', zh: '秋田縣',
+    wiki: 'https://en.wikipedia.org/wiki/Akita_Prefecture',
     short: 'Rice on the Yokote basin and the Ōdate country',
     note: 'Rice on the Yokote basin and the Ōdate country, cedar forests that supplied timber to the whole north, and two things scarce in Japan: metal and oil. The Kosaka and Osarizawa mines were among the country\'s largest copper producers, and the Yabase field at Akita city was one of the very few domestic oilfields, which mattered a great deal to a state whose fuel came by sea from somewhere else. The prefecture is also snow country, cut off for months, and lost people steadily to Tokyo and to Hokkaidō.'
   },
@@ -5077,6 +5097,7 @@ JMAP.PROVINCES = {
   },
   Saitama: {
     en: 'Saitama-ken', ja: '埼玉県 (Saitama)', zh: '埼玉縣',
+    wiki: 'https://en.wikipedia.org/wiki/Saitama_Prefecture',
     short: 'Market gardens, wheat and mulberry on the plain immediately north of Tokyo',
     note: 'Market gardens, wheat and mulberry on the plain immediately north of Tokyo, close enough to feed the capital and to lose its young people to it. Kawagoe kept a street of fireproof warehouse-fronted merchant houses from the years when it was the river port for that trade. In the hills at Chichibu, in 1884, a debt-ridden peasant army of several thousand took over the county for a week and had to be put down by troops — the largest armed rising against the Meiji state after Satsuma.'
   },
@@ -5230,6 +5251,7 @@ JMAP.PROVINCES = {
   },
   Kagawa: {
     en: 'Kagawa-ken', ja: '香川県 (Kagawa)', zh: '香川縣',
+    wiki: 'https://en.wikipedia.org/wiki/Kagawa_Prefecture',
     short: 'The smallest prefecture in Japan, on the sheltered Inland Sea side of Shikoku',
     note: 'The smallest prefecture in Japan, on the sheltered Inland Sea side of Shikoku, and one of the driest places in the country — the ponds that dot it are irrigation reservoirs, some of them fourteen centuries old. Sakaide and the flats along the coast were the country\'s principal salt fields, evaporating sea water in graded pans. Kotohira\'s shrine, sacred to sailors, drew pilgrims from every port in Japan, and Takamatsu was the ferry head for the Honshū crossing.'
   },
@@ -5252,7 +5274,8 @@ JMAP.PROVINCES = {
     note: 'The industrial heart of Kyūshū and the point where Japan touches the continent. The Chikuhō basin was the largest coalfield in the empire, and in 1901 the state put the Yawata Iron and Steel Works beside it at the mouth of the Dōkai bay, which made the rails, plate and armour the country had been importing. Hakata and Moji were the ports for Korea and China, and Fukuoka was where the ferry and later the aeroplane left from; the industrial belt was bombed hard in 1945, and Kokura was the first target on 9 August, saved by cloud.'
   },
   Saga: {
-    en: 'Saga-ken', ja: '佐賀県 (Saga)', zh: '佐賀縣', short: 'The Nabeshima domain',
+    en: 'Saga-ken', ja: '佐賀県 (Saga)', zh: '佐賀縣',
+    wiki: 'https://en.wikipedia.org/wiki/Saga_Prefecture', short: 'The Nabeshima domain',
     note: 'The Nabeshima domain, which had been given charge of the Nagasaki defences and used the position to buy Western guns and build the first reverberatory furnace in Japan, so that in 1868 it had the best-armed force of any han. Its lasting export is porcelain: Arita has made it since Korean potters were brought back in the 1590s and found kaolin nearby, and it went to Europe through the port of Imari, whose name stuck to it. The Saga plain, reclaimed from the Ariake sea, is some of the best rice land in Kyūshū.'
   },
   Nagasaki: {
@@ -5296,7 +5319,10 @@ JMAP.PROVINCES = {
     ko: '울릉도 (Ullŭngdo)', wiki: 'https://en.wikipedia.org/wiki/Ulleungdo',
     note: 'The largest island off the east coast of Korea, and the base from which Korean and Japanese fishermen worked the Liancourt Rocks 87 km to the south-east.'
   },
-  Jukdo: { en: 'Chukto (Chikuyo) — off Ullŭngdo', ja: '竹嶼 (Chikuyo)', ko: '죽도 (Chukto)' },
+  Jukdo: {
+    en: 'Chukto (Chikuyo) — off Ullŭngdo', ja: '竹嶼 (Chikuyo)', ko: '죽도 (Chukto)',
+    wiki: 'https://en.wikipedia.org/wiki/Jukdo_(island)'
+  },
   Gwaneumdo: { en: 'Kwanŭmdo (Kannondō) — off Ullŭngdo', ja: '觀音島 (Kannondō)', ko: '관음도 (Kwanŭmdo)' },
   'Seodo, the west islet of the Liancourt Rocks': {
     en: 'Sŏdo (Nishijima) — the west islet of the Liancourt Rocks', ja: '西島 (Nishijima)',
@@ -5305,7 +5331,7 @@ JMAP.PROVINCES = {
   },
   'Dongdo, the east islet of the Liancourt Rocks': {
     en: 'Tongdo (Higashijima) — the east islet of the Liancourt Rocks', ja: '東島 (Higashijima)',
-    ko: '동도 (Tongdo)',
+    ko: '동도 (Tongdo)', wiki: 'https://en.wikipedia.org/wiki/Liancourt_Rocks',
     note: 'Dokdo to Korea, Takeshima to Japan, and also known the Liancourt Rocks on some maps. Japan incorporated them into Shimane prefecture in 1905, five years before it annexed Korea, so on both of this map’s dates they were inside the same empire as Ullŭngdo and nothing turned on the difference. South Korea has held them with a police detachment since 1954; Japan claims them still.'
   },
   Keiki: {
@@ -5380,7 +5406,8 @@ JMAP.PROVINCES = {
   },
   Heiannan: {
     en: 'Heiannan-dō (P’yŏngannam-do)', ja: '平安南道 (Heiannan-dō)', zh: '平安南道',
-    ko: '평안남도 (P’yŏngannam-do)', local: 'P’yŏngannam-do (Heiannan-dō)',
+    ko: '평안남도 (P’yŏngannam-do)', wiki: 'https://en.wikipedia.org/wiki/South_Pyongan_Province',
+    local: 'P’yŏngannam-do (Heiannan-dō)',
     short: 'P\'yŏngyang, the oldest city in Korea and the one with the largest Christian community',
     note: 'P\'yŏngyang, the oldest city in Korea and the one with the largest Christian community, sat here on the Taedong; it had been a mission and printing centre since the 1890s and became an industrial one under the colonial state. The province holds Korea\'s principal anthracite, in the Anju and P\'yŏngyang fields, and the smelter and port of Chinnamp\'o at the river mouth handled the ore of the north-west. The hills grow apples, chestnuts and millet on ground too dry for much rice, and the province was one of the chief sources of the labour conscripted to Japan after 1939.'
   },
@@ -5456,8 +5483,8 @@ JMAP.PROVINCES = {
     note: 'An airfield in the middle of the chain, bombed from the Aleutians and bypassed.'
   },
   'Rasshua (Rasuwa)': {
-    en: 'Rasshua (Rasuwa)', ja: '羅処和島 (Rasuwa-tō)', zh: '羅處和島', short: 'Uninhabited',
-    note: 'Uninhabited.'
+    en: 'Rasshua (Rasuwa)', ja: '羅処和島 (Rasuwa-tō)', zh: '羅處和島',
+    wiki: 'https://en.wikipedia.org/wiki/Rasshua', short: 'Uninhabited', note: 'Uninhabited.'
   },
   'Ketoy (Ketoi)': {
     en: 'Ketoy (Ketoi)', ja: '計吐夷島 (Ketoi-tō)', zh: '計吐夷島', ko: '케토이섬',
@@ -5496,6 +5523,7 @@ JMAP.PROVINCES = {
   },
   'the Habomai Islands': {
     en: 'The Habomai Islands', ja: '歯舞群島 (Habomai Guntō)', zh: '齒舞群島',
+    wiki: 'https://en.wikipedia.org/wiki/Habomai_Islands',
     short: 'A scatter of islets in sight of Hokkaidō, taken between 1 and 5 September 1945',
     note: 'A scatter of islets in sight of Hokkaidō, taken between 1 and 5 September 1945 — after the surrender — and claimed by Japan ever since.'
   },
@@ -5520,7 +5548,7 @@ JMAP.PROVINCES = {
     note: 'What remained of a sultanate that had once claimed the whole of northern Borneo and the Sulu islands, whittled down over sixty years by cessions to the Brookes and the Chartered Company until it was two separate pieces of coast with a few thousand square kilometres between them. A British Resident was accepted in 1906, and until the end of the 1920s the state was so poor that its administration ran at a loss. Oil was struck at Seria in 1929 and the field proved to be one of the largest in the region, which reversed the position entirely; the Japanese landed at Kuala Belait on 16 December 1941 and the retreating British fired the wells.'
   },
   Johor: {
-    en: 'Johore — Unfederated Malay State',
+    en: 'Johore — Unfederated Malay State', wiki: 'https://en.wikipedia.org/wiki/Johor',
     note: 'The southern tip of the peninsula, facing Singapore across a strait a kilometre wide, and the state that modernised on its own terms: Abu Bakar built an administration, a constitution and a capital at Johor Bahru, and Johor was the last state to accept a British General Adviser, in 1914. Its interior was opened in the nineteenth century by the kangchu system, under which Chinese headmen took river concessions and planted gambier and pepper, and after 1900 the same ground went over to rubber, with pineapple canning beside it. The causeway carrying the railway and road to Singapore opened in 1923, and in January 1942 it carried the Japanese army the other way.'
   },
   Pahang: {
@@ -5557,6 +5585,7 @@ JMAP.PROVINCES = {
   },
   Dindings: {
     en: 'The Dindings — Straits Settlement until 1935',
+    wiki: 'https://en.wikipedia.org/wiki/Manjung_District',
     note: 'A strip of the Perak coast with the island of Pangkor off it, ceded to Britain by the Pangkor Engagement of 1874 to suppress piracy and keep the approaches to the tin rivers open, and administered as part of the Straits Settlements. It never justified itself: the population was a few thousand, the revenue was negligible, and the settlement at Lumut existed mainly because the flag was there. Britain handed it back to Perak on 16 February 1935, which is why the 1930 map lights it with Singapore and Penang and the 1942 map does not.'
   },
   'Christmas Island': {
@@ -5583,21 +5612,24 @@ JMAP.PROVINCES = {
   },
   'Hsing An Peh': {
     en: 'Kōan-hoku-shō (Xīng’ānběi, Hsingan North)', ja: '興安北省 (Kōan-hoku)', zh: '興安北省',
+    wiki: 'https://en.wikipedia.org/wiki/Xing\'an_Province',
     local: 'Xīng’ānběi (Hsingan North)',
     short: 'The Hulun Buir grasslands west of the Greater Khingan — Mongol banners, horses and sheep, and the Trans-Manchurian line running out to the Soviet frontier at Manchouli'
   },
   'Hsing An Tung': {
     en: 'Kōan-tō-shō (Xīng’āndōng, Hsingan East)', ja: '興安東省 (Kōan-tō)', zh: '興安東省',
+    wiki: 'https://en.wikipedia.org/wiki/Xing\'an_Province',
     local: 'Xīng’āndōng (Hsingan East)',
     short: 'The eastern slope of the Greater Khingan falling to the Nen — larch and birch forest above, Daur and Mongol grazing below, and logging camps worked for the railway'
   },
   'Hsing An Si': {
     en: 'Kōan-sei-shō (Xīng’ānxī, Hsingan West)', ja: '興安西省 (Kōan-sei)', zh: '興安西省',
-    local: 'Xīng’ānxī (Hsingan West)',
+    wiki: 'https://en.wikipedia.org/wiki/Xing\'an_Province', local: 'Xīng’ānxī (Hsingan West)',
     short: 'Dry steppe between the Khingan and the Mongolian plateau, too thin to plough: pasture, and the caravan roads that carried wool south before the railways took the traffic'
   },
   'Hsing An Nan': {
     en: 'Kōan-nan-shō (Xīng’ānnán, Hsingan South)', ja: '興安南省 (Kōan-nan)', zh: '興安南省',
+    wiki: 'https://en.wikipedia.org/wiki/Xing\'an_Province',
     local: 'Xīng’ānnán (Hsingan South)',
     short: 'The southern tail of the Khingan where the steppe meets the farmed land — Mongol banners losing ground to Chinese settlement, a frontier of tillage that had been moving north for a century'
   },
@@ -5648,7 +5680,8 @@ JMAP.PROVINCES = {
     note: 'The corridor between the Gulf of Chihli and the mountains: the road and the railway into China proper, and so the ground the Kwantung Army had to hold if the fighting was to pass south of the Wall. It is also where the war in the air began. Chang Hsüeh-liang had withdrawn his government here after Mukden, and on **8 October 1931** eleven Japanese aircraft bombed the city — one of the first aerial bombardments of an undefended town, and the first anywhere to be reported live to the League of Nations, whose observers were in China at the time. The raid did more than any other single act to turn foreign opinion, and it is what prompted Stimson to begin drafting the non-recognition doctrine that bears his name. Chinchow itself was occupied on **3 January 1932**, and with it the last Chinese administration in Manchuria went.'
   },
   'Je Hol': {
-    en: 'Nekka-shō (Rèhé, Jehol)', ja: '熱河省 (Nekka)', zh: '熱河省', local: 'Rèhé (Jehol)',
+    en: 'Nekka-shō (Rèhé, Jehol)', ja: '熱河省 (Nekka)', zh: '熱河省',
+    wiki: 'https://en.wikipedia.org/wiki/Rehe_Province', local: 'Rèhé (Jehol)',
     short: 'Mountain country north of the Great Wall, thin farming and opium; invaded in the spring of 1933 and attached to Manchukuo, which carried the frontier down to the Wall itself',
     note: 'A province of the Republic until February 1933, when the Kwantung Army took it and attached it to Manchukuo.'
   },
@@ -5786,17 +5819,22 @@ JMAP.PROVINCES = {
   },
   'The Mongol leagues': {
     en: 'Mōko renmei (the Mongol leagues)', ja: '蒙古聯盟 (Mōko renmei)', zh: '蒙古各盟',
+    wiki: 'https://en.wikipedia.org/wiki/Mongol_United_Autonomous_Government',
     local: 'The Mongol leagues',
     short: 'The Ulanchab and Silingol leagues on the plateau north of the Wall — grazing land, Mongol banners, and the constituency for the autonomy Prince Demchugdongrub was offered and Japan supervised'
   },
   'North Shansi (Jinbei) Administration': {
     en: 'Shinpoku seichō (Jìnběi) — the North Shansi Administration',
-    ja: '晉北政廳 (Shinpoku seichō)', zh: '晉北政廳', local: 'Jìnběi — the North Shansi Administration',
+    ja: '晉北政廳 (Shinpoku seichō)', zh: '晉北政廳',
+    wiki: 'https://en.wikipedia.org/wiki/North_Shanxi_Autonomous_Government',
+    local: 'Jìnběi — the North Shansi Administration',
     short: 'The loess uplands of northern Shansi around Tatung, coal country — the mines worked hard through the occupation, and the ground the Eighth Route Army contested from the hills'
   },
   'South Chahar (Chanan) Administration': {
     en: 'Satsunan seichō (Chánán) — the South Chahar Administration',
-    ja: '察南政廳 (Satsunan seichō)', zh: '察南政廳', local: 'Chánán — the South Chahar Administration',
+    ja: '察南政廳 (Satsunan seichō)', zh: '察南政廳',
+    wiki: 'https://en.wikipedia.org/wiki/South_Chahar_Autonomous_Government',
+    local: 'Chánán — the South Chahar Administration',
     short: 'The Chahar basin around Kalgan, the old gate on the caravan road to Urga; the administrative seat of the federation and the junction of its railways'
   },
   Sumatra: {
@@ -5805,7 +5843,7 @@ JMAP.PROVINCES = {
     note: 'Rubber, tobacco and above all the oil of Palembang, which was taken by parachute assault on 14 February 1942 before the refineries could be destroyed.'
   },
   Java: {
-    en: 'Java', ja: 'ジャワ (Jawa)',
+    en: 'Java', ja: 'ジャワ (Jawa)', wiki: 'https://en.wikipedia.org/wiki/Java',
     short: 'The centre of the colony and of its population: two thirds of the Indies lived here',
     note: 'The centre of the colony and of its population: two thirds of the Indies lived here. The Dutch surrendered on 8 March 1942, and the Japanese levied the rōmusha labour drafts from it.'
   },
@@ -6029,11 +6067,11 @@ JMAP.PROVINCES = {
   },
   Atjeh: { en: 'Atjeh and Dependencies (Sumatra)', wiki: 'https://en.wikipedia.org/wiki/Aceh' },
   SumatraEastCoast: { en: 'Sumatra’s East Coast and Tapanoeli' },
-  SumatraWestCoast: { en: 'Sumatra’s West Coast' },
-  Riouw: { en: 'Riouw and Dependencies' },
+  SumatraWestCoast: { en: 'Sumatra’s West Coast', wiki: 'https://en.wikipedia.org/wiki/West_Sumatra' },
+  Riouw: { en: 'Riouw and Dependencies', wiki: 'https://en.wikipedia.org/wiki/Riau_Residency' },
   Djambi: { en: 'Djambi (Sumatra)', wiki: 'https://en.wikipedia.org/wiki/Jambi' },
   Palembang: { en: 'Palembang (Sumatra)', wiki: 'https://en.wikipedia.org/wiki/Palembang' },
-  BankaBilliton: { en: 'Banka and Billiton' },
+  BankaBilliton: { en: 'Banka and Billiton', wiki: 'https://en.wikipedia.org/wiki/Bangka_Belitung_Islands' },
   Benkoelen: { en: 'Benkoelen (Sumatra)', wiki: 'https://en.wikipedia.org/wiki/Bengkulu' },
   Lampongs: { en: 'The Lampongs (Sumatra)', wiki: 'https://en.wikipedia.org/wiki/Sumatra' },
   WestJava: {
@@ -6043,12 +6081,14 @@ JMAP.PROVINCES = {
     en: 'Central Java — with the princely land of Soerakarta',
     wiki: 'https://en.wikipedia.org/wiki/Central_Java'
   },
-  Jogjakarta: { en: 'Jogjakarta (princely land)' },
+  Jogjakarta: {
+    en: 'Jogjakarta (princely land)', wiki: 'https://en.wikipedia.org/wiki/Yogyakarta_Sultanate'
+  },
   EastJava: { en: 'East Java — with Madura', wiki: 'https://en.wikipedia.org/wiki/East_Java' },
   WestBorneo: { en: 'West Borneo', wiki: 'https://en.wikipedia.org/wiki/West_Kalimantan' },
-  SouthEastBorneo: { en: 'South and East Borneo' },
+  SouthEastBorneo: { en: 'South and East Borneo', wiki: 'https://en.wikipedia.org/wiki/South_Kalimantan' },
   Menado: { en: 'Menado — northern and central Celebes', wiki: 'https://en.wikipedia.org/wiki/Manado' },
-  Celebes: { en: 'Celebes and Dependencies' },
+  Celebes: { en: 'Celebes and Dependencies', wiki: 'https://en.wikipedia.org/wiki/Sulawesi' },
   Papua: {
     en: 'Territory of Papua', zh: '巴布亞',
     wiki: 'https://en.wikipedia.org/wiki/Territory_of_Papua',
@@ -6318,11 +6358,13 @@ JMAP.PROVINCES = {
     note: 'The plain behind the Lingayen Gulf, whose name means the place where salt is made — the coastal flats have produced salt and bagoong fish paste for centuries, alongside rice on the plain, fishponds in the delta and the milkfish fry trade. Dagupan was the terminus of the first railway in the islands, opened from Manila in 1892, which made the province the capital\'s granary. The gulf is a natural landing beach and both armies used it: the Japanese Fourteenth Army came ashore there on 22 December 1941 and the American Sixth Army did the same on 9 January 1945. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   Rizal: {
-    en: 'Rizal (Luzon)', short: 'The ring of towns round Manila to the east and south',
+    en: 'Rizal (Luzon)', wiki: 'https://en.wikipedia.org/wiki/Rizal_(province)',
+    short: 'The ring of towns round Manila to the east and south',
     note: 'The ring of towns round Manila to the east and south — created in 1901 out of parts of the old province of Manila and Morong, and named for José Rizal. It is the Marikina valley and the hills up to the Sierra Madre: rice and vegetables for the capital\'s markets, quarries and the Wawa dam in the Montalban gorge that supplied Manila\'s water, and a shoemaking industry at Marikina that clothed most of the country\'s feet. Antipolo, up in the hills, holds the shrine of the Virgin of Peace and Good Voyage, brought from Mexico on the galleons, and the May pilgrimage to it was one of the great annual movements of people in Luzon. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   Romblon: {
-    en: 'Romblon', short: 'Islands in mid-archipelago, between Mindoro and Panay',
+    en: 'Romblon', wiki: 'https://en.wikipedia.org/wiki/Romblon',
+    short: 'Islands in mid-archipelago, between Mindoro and Panay',
     note: 'Three main islands and a scatter of smaller ones in the middle of the archipelago between Mindoro and Panay, hilly, with narrow coastal strips and no large town. Coconut, maize and fishing were the ordinary living, and the province\'s one distinctive export was marble: Romblon island is largely crystalline limestone, quarried and cut here since the Spanish period and used for church floors, altars and monuments all over the country. Its position in the middle of the sea lanes made it a place ships passed rather than called at. Provinces are a 1930 approximation, not the revised 1942 occupation period provinces.'
   },
   Sorsogon: {
@@ -6443,7 +6485,8 @@ JMAP.PROVINCES = {
     note: 'The Garhwal Himalaya: the upper Bhagirathi and Bhilangna valleys, with Gangotri and the source of the Ganges inside the state and Yamunotri on its edge, so that its main visitors were pilgrims. The living was terraced millet, barley and potatoes on steep slopes, transhumant grazing on the high meadows, and above all forest — deodar and chir pine felled on the hills and floated down the rivers to the timber depots of the plains. That trade was the state\'s principal revenue and the reason for its principal grievance: the reservation of forests and the restriction of grazing and lopping rights produced repeated protest, and in 1930 the state\'s troops fired on a gathering of villagers at Tilari and killed a number of them.'
   },
   Rampur: {
-    en: 'Rampur', short: 'A small Rohilla state on the Ganges plain of the United Provinces',
+    en: 'Rampur', wiki: 'https://en.wikipedia.org/wiki/Rampur_State',
+    short: 'A small Rohilla state on the Ganges plain of the United Provinces',
     note: 'A small Rohilla state on the Ganges plain of the United Provinces, all of it canal-irrigated alluvium growing sugarcane, wheat and rice, with sugar mills and a good deal of orchard. What made it notable was not its size but its patronage: the Nawabs collected manuscripts on a scale that made the Raza Library one of the great repositories of Persian, Arabic, Turkish and Sanskrit texts in Asia, including a Qur\'an attributed to Ali. The court kept musicians as a matter of policy — the Rampur–Sahaswan gharana of khyal singing came out of it, and so did much of the surviving tradition of the been — and Urdu poets went there when Delhi and Lucknow could no longer pay.'
   },
   Benares: {
@@ -6560,7 +6603,7 @@ JMAP.PROVINCES = {
   },
   'the Kerama Islands': {
     en: 'The Kerama Islands — taken first, 26 March 1945', ja: '慶良間諸島 (Kerama Shotō)',
-    zh: '慶良間群島'
+    zh: '慶良間群島', wiki: 'https://en.wikipedia.org/wiki/Kerama_Islands'
   },
   Kumejima: {
     en: 'Kumejima', ja: '久米島 (Kumejima)', zh: '久米島', ko: '구메지마정',
@@ -6576,6 +6619,7 @@ JMAP.PROVINCES = {
   },
   Taramajima: {
     en: 'Taramajima', ja: '多良間島 (Taramajima)', zh: '多良間島',
+    wiki: 'https://en.wikipedia.org/wiki/Tarama,_Okinawa',
     short: 'A flat coral island between Miyako and Ishigaki',
     note: 'A flat coral island between Miyako and Ishigaki, bypassed with them and blockaded to the surrender.'
   },
@@ -6592,21 +6636,22 @@ JMAP.PROVINCES = {
   },
   Haterumajima: {
     en: 'Haterumajima — the southernmost inhabited island of Japan proper',
-    ja: '波照間島 (Haterumajima)', zh: '波照間島',
+    ja: '波照間島 (Haterumajima)', zh: '波照間島', wiki: 'https://en.wikipedia.org/wiki/Hateruma',
     note: 'The southernmost inhabited island of Japan proper. Its people were driven to Iriomote in 1945 by an army order and a third of them died of malaria there.'
   },
   Yonagunijima: {
     en: 'Yonagunijima — 110 km from Taiwan', ja: '与那国島 (Yonagunijima)', zh: '與那國島',
+    wiki: 'https://en.wikipedia.org/wiki/Yonaguni',
     note: 'The westernmost point of Japan, in sight of Taiwan on a clear day, and a smuggling route to it after the war.'
   },
   'the Daitō Islands': {
     en: 'The Daitō Islands', ja: '大東諸島 (Daitō Shotō)', zh: '大東群島',
-    short: 'Uninhabited until 1900',
+    wiki: 'https://en.wikipedia.org/wiki/Dait%C5%8D_Islands', short: 'Uninhabited until 1900',
     note: 'Uninhabited until 1900, then settled from Hachijōjima and worked for sugar by a single company that owned the whole of them.'
   },
   'the Senkaku / Diaoyu Islands': {
     en: 'The Senkaku / Diaoyu Islands — administered from Okinawa', ja: '尖閣諸島 (Senkaku Shotō)',
-    zh: '釣魚臺列嶼',
+    zh: '釣魚臺列嶼', wiki: 'https://en.wikipedia.org/wiki/Senkaku_Islands',
     note: 'Five islets and three rocks off the north-east of Taiwan, incorporated into Okinawa Prefecture in 1895. A settlement on Uotsurijima worked albatross feathers and dried bonito until the 1940s. Claimed today by Japan, by the People’s Republic of China and by Taiwan; uninhabited, and administered by Japan.'
   },
   'Uotsuri Shima': {
@@ -6751,7 +6796,7 @@ JMAP.PROVINCES = {
     note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
   },
   Pattani: {
-    en: 'Patani',
+    en: 'Patani', wiki: 'https://en.wikipedia.org/wiki/Pattani_province',
     note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
   },
   Phangnga: {
@@ -6767,7 +6812,7 @@ JMAP.PROVINCES = {
     note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
   },
   Phetchaburi: {
-    en: 'Petchaburi',
+    en: 'Petchaburi', wiki: 'https://en.wikipedia.org/wiki/Phetchaburi_province',
     note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
   },
   Phichit: {
@@ -6804,19 +6849,19 @@ JMAP.PROVINCES = {
     note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
   },
   Ranong: {
-    en: 'Ranong',
+    en: 'Ranong', wiki: 'https://en.wikipedia.org/wiki/Ranong_province',
     note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
   },
   Ratchaburi: {
-    en: 'Rajburi (Ratchaburi)',
+    en: 'Rajburi (Ratchaburi)', wiki: 'https://en.wikipedia.org/wiki/Ratchaburi_province',
     note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
   },
   Rayong: {
-    en: 'Rayong',
+    en: 'Rayong', wiki: 'https://en.wikipedia.org/wiki/Rayong_province',
     note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
   },
   RoiEt: {
-    en: 'Roi Et',
+    en: 'Roi Et', wiki: 'https://en.wikipedia.org/wiki/Roi_Et_province',
     note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
   },
   SakonNakhon: {
@@ -6845,6 +6890,7 @@ JMAP.PROVINCES = {
   },
   SiSaKet: {
     en: 'Khukhan (renamed Sisaket in 1938)',
+    wiki: 'https://en.wikipedia.org/wiki/Sisaket_province',
     note: 'These are the changwat as they stood from 1933 to 1947. On the 1930 map they are an approximation twice over: the changwat then sat inside the monthon, the circles abolished in 1933 and not drawn here, and nine provinces that existed in 1930 — Sukhothai, Lom Sak, Thanyaburi, Kalasin, Lang Suan, Takua Pa, Sai Buri, Phra Pradaeng and Min Buri — were abolished on 1 April 1932 into the provinces around them, whose boundaries are the ones drawn.'
   },
   SingBuri: {
@@ -7415,9 +7461,9 @@ JMAP.SOURCES_SHORT = [
     url: 'https://maps.princeton.edu/catalog/princeton-mp48sf61n'
   },
   {
-    id: 'wu-atlas', atoms: ['occupiedzone'],
+    id: 'wu-atlas', atoms: ['occupiedzone', 'ccp'],
     note: 'traced and adjusted to December 1942; approximate, as the map says',
-    short: '武月星主編《中國抗日戰爭史地圖集：1931–1945》, sheet 199'
+    short: '武月星主編《中國抗日戰爭史地圖集：1931–1945》, p199'
   },
   {
     id: 'nca-1942', atoms: ['nca_pacified', 'nca_unpacified'],
