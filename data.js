@@ -7984,7 +7984,7 @@ JMAP.AIR = [
     id: 'knilm30-java', name: 'Batavia – Semarang – Soerabaia', operator: 'KNILM (Koninklijke Nederlandsch-Indische Luchtvaart Maatschappij)', opened: '',
     season: 'May–November 1931', epochs: ['e1930'], source: 'N.V. Kon. Ned. Ind. Luchtvaart Mij, timetable May–November 1931, pp9–13', srcUrl: 'https://www.timetableimages.com/ttimages/kni31.htm',
     ink: '#a9560d', days: [],
-    note: 'From the company’s own timetable for May to November 1931 — the network as it stood on the 1930 sheet, eleven years before the one the 1942 map shows. The trunk across Java. Out every day but Sunday; home on a Wednesday by one timing and on the other five days by another.',
+    note: 'From the company’s own timetable for May to November 1931. The trunk across Java. Out every day but Sunday; home on a Wednesday by one timing and on the other five days by another.',
     stops: [
       { id: 'batavia', name: 'Batavia (Jakarta)', lon: 106.85, lat: -6.21 },
       { id: 'semarang', name: 'Semarang', lon: 110.42, lat: -6.97 },
@@ -8003,7 +8003,7 @@ JMAP.AIR = [
     id: 'knilm30-bandoeng', name: 'Batavia – Bandoeng', operator: 'KNILM (Koninklijke Nederlandsch-Indische Luchtvaart Maatschappij)', opened: '',
     season: 'May–November 1931', epochs: ['e1930'], source: 'N.V. Kon. Ned. Ind. Luchtvaart Mij, timetable May–November 1931, pp9–13', srcUrl: 'https://www.timetableimages.com/ttimages/kni31.htm',
     ink: '#a9560d', days: [],
-    note: 'From the company’s own timetable for May to November 1931 — the network as it stood on the 1930 sheet, eleven years before the one the 1942 map shows. Four times a day between the capital and the hill station, every day but Sunday: out at 7:45 and 16:15, back at 6:30 and 15:00.',
+    note: 'From the company’s own timetable for May to November 1931. Four times a day between the capital and the hill station, every day but Sunday: out at 7:45 and 16:15, back at 6:30 and 15:00.',
     stops: [
       { id: 'batavia', name: 'Batavia (Jakarta)', lon: 106.85, lat: -6.21 },
       { id: 'bandung', name: 'Bandoeng (Bandung)', lon: 107.61, lat: -6.91 }
@@ -8019,7 +8019,7 @@ JMAP.AIR = [
     id: 'knilm30-singapore', name: 'Batavia – Palembang – Singapore', operator: 'KNILM (Koninklijke Nederlandsch-Indische Luchtvaart Maatschappij)', opened: '',
     season: 'May–November 1931', epochs: ['e1930'], source: 'N.V. Kon. Ned. Ind. Luchtvaart Mij, timetable May–November 1931, pp9–13', srcUrl: 'https://www.timetableimages.com/ttimages/kni31.htm',
     ink: '#a9560d', days: [],
-    note: 'From the company’s own timetable for May to November 1931 — the network as it stood on the 1930 sheet, eleven years before the one the 1942 map shows. Once a week each way: out on the Monday, home on the Thursday.',
+    note: 'From the company’s own timetable for May to November 1931. Once a week each way: out on the Monday, home on the Thursday.',
     stops: [
       { id: 'batavia', name: 'Batavia (Jakarta)', lon: 106.85, lat: -6.21 },
       { id: 'palembang', name: 'Palembang', lon: 104.76, lat: -2.99 },
@@ -8035,7 +8035,7 @@ JMAP.AIR = [
     id: 'knilm30-medan', name: 'Batavia – Palembang – Pakan Baroe – Medan', operator: 'KNILM (Koninklijke Nederlandsch-Indische Luchtvaart Maatschappij)', opened: '',
     season: 'May–November 1931', epochs: ['e1930'], source: 'N.V. Kon. Ned. Ind. Luchtvaart Mij, timetable May–November 1931, pp9–13', srcUrl: 'https://www.timetableimages.com/ttimages/kni31.htm',
     ink: '#a9560d', days: [],
-    note: 'From the company’s own timetable for May to November 1931 — the network as it stood on the 1930 sheet, eleven years before the one the 1942 map shows. Once a week, and the return waited on the sea: the timetable gives it as leaving Medan “after scheduled arrival at Belawan of the Dutch mail boats from Holland”, so the aeroplane went when the ship did. Drawn here as the following day, which is what the connection amounted to and is not what the timetable says.',
+    note: 'From the company’s own timetable for May to November 1931. Once a week, and the return waited on the sea: the timetable gives it as leaving Medan “after scheduled arrival at Belawan of the Dutch mail boats from Holland”, so the aeroplane went when the ship did. Drawn here as flying out the following day for simplicity’s sake.',
     stops: [
       { id: 'batavia', name: 'Batavia (Jakarta)', lon: 106.85, lat: -6.21 },
       { id: 'palembang', name: 'Palembang', lon: 104.76, lat: -2.99 },
