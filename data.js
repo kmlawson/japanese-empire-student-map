@@ -8185,7 +8185,7 @@ JMAP.AIR = [
     id: 'cnac-shanghai-peiping', name: 'Shanghai – Haichow – Tsingtao – Tientsin – Peiping', operator: 'China National Aviation Corporation (中國航空公司)', opened: '1929',
     season: 'c. 1933', epochs: ['e1930'], source: 'China National Aviation Corporation, Shanghai–Chungking and Shanghai–Peiping routes, c. 1933', srcUrl: 'https://www.timetableimages.com/ttimages/cn33c.htm',
     ink: '#5b3a8c', days: [],
-    note: 'North up the coast to the capital — which in 1933 was Nanking, so Peking had been renamed Peiping, the northern *peace*, and that is the name the timetable prints. Out on Tuesdays, Thursdays and Saturdays and home on the days between, nine hours each way with a stop at Haichow on the Kiangsu coast, at Tsingtao and at Tientsin.',
+    note: 'North up the coast to the capital — which in 1933 was Nanking, so Peking had been renamed Peiping, the northern *peace*, and that is the name the timetable prints. Out on Tuesdays, Thursdays and Saturdays and home on the days between, nine hours each way with a stop at Haichow on the Kiangsu coast, at Tsingtao and at Tientsin.\n\nThe same sheet lists two more services as later additions, flown from Chungking: one to Chengtu and one to Kweiyang. The Chengtu line is on the 1942 map here, from CNAC\'s October 1940 timetable; no times have been found for Kweiyang, so it is named and not drawn.',
     stops: [
       { id: 'shanghai', name: 'Shanghai', lon: 121.47, lat: 31.23 },
       { name: 'Haichow (Haizhou)', lon: 119.13, lat: 34.57 },
@@ -8251,6 +8251,28 @@ JMAP.AIR = [
       { seq: '2', station: '瀘州 Luchow', da: '13:00', dd: '13:15', ua: '10:15', ud: '10:30', freq: 'Mondays and Thursdays, both ways', dw: '1 4', uw: '1 4' },
       { seq: '3', station: '宜賓 Suifu', da: '14:00', dd: '14:30', ua: '9:00', ud: '9:30', freq: 'Mondays and Thursdays, both ways', dw: '1 4', uw: '1 4' },
       { seq: '4', station: '樂山 Kiating', da: '15:30', ud: '8:00', freq: 'Mondays and Thursdays, both ways', dw: '1 4', uw: '1 4' }
+    ]
+  },
+  {
+    id: 'cnac-shanghai-canton', name: 'Shanghai – Wenchow – Foochow – Amoy – Swatow – Canton', operator: 'China National Aviation Corporation (中國航空公司)', opened: 'October 1933',
+    season: '1935', epochs: ['e1930'], source: 'China National Aviation Corporation timetable, 1935', srcUrl: '',
+    ink: '#5b3a8c', days: [],
+    note: 'Down the whole China coast, calling at every treaty port on the way: Wenchow, Foochow, Amoy and Swatow, Shanghai to Canton between breakfast and mid-afternoon. It opened in October 1933; **the times drawn here are from 1935**, which is the schedule found, so the line is two years older than its own timetable. Southbound on Tuesdays and Fridays, northbound on Thursdays and Sundays — two aeroplanes a week each way over a coast that had no through railway at all.',
+    stops: [
+      { id: 'shanghai', name: 'Shanghai', lon: 121.47, lat: 31.23 },
+      { id: 'wenzhou', name: 'Wenchow (Wenzhou)', lon: 120.7, lat: 28.0 },
+      { id: 'fuzhou', name: 'Foochow (Fuzhou)', lon: 119.3, lat: 26.07 },
+      { id: 'xiamen', name: 'Amoy (Xiamen)', lon: 118.09, lat: 24.48 },
+      { id: 'shantou', name: 'Swatow (Shantou)', lon: 116.68, lat: 23.35 },
+      { id: 'guangzhou', name: 'Canton (Guangzhou)', lon: 113.26, lat: 23.13 }
+    ],
+    times: [
+      { seq: '1', station: '上海 Shanghai', dd: '6:30', ua: '15:00', freq: 'south on Tuesdays and Fridays; north on Thursdays and Sundays', dw: '2 5', uw: '4 7' },
+      { seq: '2', station: '溫州 Wenchow', da: '8:25', dd: '8:45', ua: '12:45', ud: '13:05', freq: 'south on Tuesdays and Fridays; north on Thursdays and Sundays', dw: '2 5', uw: '4 7' },
+      { seq: '3', station: '福州 Foochow', da: '10:05', dd: '10:25', ua: '11:05', ud: '11:25', freq: 'south on Tuesdays and Fridays; north on Thursdays and Sundays', dw: '2 5', uw: '4 7' },
+      { seq: '4', station: '廈門 Amoy', da: '11:35', dd: '11:55', ua: '9:35', ud: '9:55', freq: 'south on Tuesdays and Fridays; north on Thursdays and Sundays', dw: '2 5', uw: '4 7' },
+      { seq: '5', station: '汕頭 Swatow', da: '12:55', dd: '13:15', ua: '8:15', ud: '8:35', freq: 'south on Tuesdays and Fridays; north on Thursdays and Sundays', dw: '2 5', uw: '4 7' },
+      { seq: '6', station: '廣州 Canton', da: '15:00', ud: '6:30', freq: 'south on Tuesdays and Fridays; north on Thursdays and Sundays', dw: '2 5', uw: '4 7' }
     ]
   }
 ];

@@ -16794,6 +16794,31 @@ Worth tidying when the ring layer is next touched; not worth a restructure
 inside this batch.
 
 
+## CNAC's coast line, and two services named rather than drawn
+
+`cnac-shanghai-canton` — Shanghai to Canton by Wenchow, Foochow, Amoy and
+Swatow, on the 1930 map in CNAC's ink. Every treaty port down a coast that had
+no through railway, which is the point of the service.
+
+**Opened October 1933, timed from 1935.** The line is two years older than the
+schedule drawn for it and the card says so, the same way the other CNAC lines
+say they are read off a sheet later than the map. Southbound Tuesdays and
+Fridays, northbound Thursdays and Sundays; measured on the animation as days
+2, 4, 5, 7.
+
+`source_url` blank again — the times were supplied rather than read off a scan
+here.
+
+The Shanghai–Peiping card now also names the two services the same sheet lists
+as later additions from Chungking: Chengtu, which *is* drawn, on the 1942 map
+from the October 1940 timetable, and Kweiyang, for which no times have been
+found — named and not drawn, so the card is not silent about a gap the reader
+would otherwise have no way to know about.
+
+The 1930 sheet is now nine services: the Japanese trunk, four KNILM lines and
+CNAC's four.
+
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

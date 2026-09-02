@@ -229,3 +229,35 @@ Mondays and Thursdays, both ways.
 Suifu is Yibin and Kiating is Leshan; neither is on the map's city list, so
 their stops carry a coordinate of their own — Suifu 28.77 N, 104.62 E; Kiating
 29.56 N, 103.76 E.
+
+---
+
+## CNAC's coast line, 1935 times — on the 1930 map
+
+Source: the company's 1935 timetable. `source_url` is blank: the times were
+supplied and the sheet has not been re-read here.
+
+### Shanghai – Canton → `cnac-shanghai-canton`
+
+**In operation from October 1933; these times are from 1935**, so the line is
+two years older than the schedule drawn for it. Said on the card.
+Southbound Tuesdays and Fridays; northbound Thursdays and Sundays.
+
+| stop | south 着 / 發 | north 着 / 發 |
+|---|---|---|
+| 上海 Shanghai | — / 6.30 | 15.00 / — |
+| 溫州 Wenchow | 8.25 / 8.45 | 12.45 / 13.05 |
+| 福州 Foochow | 10.05 / 10.25 | 11.05 / 11.25 |
+| 廈門 Amoy | 11.35 / 11.55 | 9.35 / 9.55 |
+| 汕頭 Swatow | 12.55 / 13.15 | 8.15 / 8.35 |
+| 廣州 Canton | 15.00 / — | — / 6.30 |
+
+Every treaty port down a coast that had no through railway, which is the point
+of the service.
+
+### Named and not drawn
+
+The Shanghai–Peiping sheet lists two later additions flown from Chungking:
+**Chungking–Chengtu**, which is on the 1942 map here from the October 1940
+timetable, and **Chungking–Kweiyang**, for which no times have been found. The
+Peiping card says both.
