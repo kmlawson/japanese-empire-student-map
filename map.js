@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '296';
+  var JEM_VERSION = '297';
   var JEM_ASSETS = {"admin.js": "3414697d04", "air-play.js": "25c3b085f0", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "58132ef9c2", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
 
   /* Every file this one fetches, with the version on it.
@@ -6416,7 +6416,7 @@
     return selectPlane(+g.getAttribute('data-plan'));
   }
 
-  function airTap(target) {
+  function airTap(target, cx, cy) {
     if (!state.air || !target || !target.closest) return false;
     var ring = target.closest('#air [data-air-stop]');
     if (ring) {
@@ -6426,14 +6426,98 @@
     var line = target.closest('#air .air-route');
     if (line) {
       var r = airById[line.getAttribute('data-air')];
-      if (r) { selectAir(r); return true; }
+      if (r) { return airPressed(r, cx, cy); }
     }
     return false;
   }
 
+  /* **A press on a line several airlines fly has to ask which one.**
+   *
+   * A shared leg is drawn once, by whichever route owns it — so a press there
+   * reaches the owner and would silently open the owner's card, which for the
+   * Shinkyō–Mukden stretch is one answer out of four and no way to reach the
+   * other three. Where the leg under the press is shared, a small menu offers
+   * them by name; where it is not, the card opens as it always did.
+   *
+   * Which leg was pressed is found by walking the route's own points for the
+   * nearest one, in screen terms, because that is where the reader aimed. */
+  function airLegAt(r, cx, cy) {
+    var geom = airGeoms[r && r.id];
+    if (!geom || cx == null || cy == null) return -1;
+    var m = svg.getScreenCTM();
+    if (!m) return -1;
+    var best = -1, bd = Infinity;
+    for (var i = 0; i < geom.length; i++) {
+      if (!airDrawsLeg(r.id, i)) continue;
+      var pts = geom[i];
+      for (var j = 0; j < pts.length; j++) {
+        var x = pts[j].x * m.a + pts[j].y * m.c + m.e;
+        var y = pts[j].x * m.b + pts[j].y * m.d + m.f;
+        var d = (x - cx) * (x - cx) + (y - cy) * (y - cy);
+        if (d < bd) { bd = d; best = i; }
+      }
+    }
+    return best;
+  }
+
+  function airPressed(r, cx, cy) {
+    var leg = airLegAt(r, cx, cy);
+    var on = leg >= 0 ? airAtLeg(r, leg) : [];
+    if (on.length < 2) { selectAir(r); return true; }
+    openAirChooser(on, cx, cy);
+    return true;
+  }
+
+  /* The same menu the right click uses, with one row per airline over this
+     pair of cities. Each row is the company and the route, because two
+     services of one company can share a leg and "Japan Airways" twice would
+     be a menu that cannot be chosen from. */
+  function openAirChooser(routes, cx, cy) {
+    closeMenu();
+    menuEl = document.createElement('div');
+    menuEl.id = 'jmap-menu';
+    menuEl.className = 'air-chooser';
+    menuEl.setAttribute('role', 'menu');
+    var head = document.createElement('p');
+    head.className = 'menu-head';
+    head.textContent = routes.length + ' services fly this stretch';
+    menuEl.appendChild(head);
+    routes.forEach(function (r) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'plain';
+      b.setAttribute('data-air-pick', r.id);
+      var dot = document.createElement('span');
+      dot.className = 'air-swatch';
+      dot.style.background = r.ink || 'var(--air-ink, #23405c)';
+      b.appendChild(dot);
+      var t = document.createElement('span');
+      t.className = 'air-pick-text';
+      var one = document.createElement('span');
+      one.className = 'air-pick-name';
+      one.textContent = r.shortName || r.name;
+      t.appendChild(one);
+      if (r.operator) {
+        var two = document.createElement('span');
+        two.className = 'air-pick-op';
+        two.textContent = r.operator;
+        t.appendChild(two);
+      }
+      b.appendChild(t);
+      b.addEventListener('click', function () { closeMenu(); selectAir(r); });
+      menuEl.appendChild(b);
+    });
+    document.body.appendChild(menuEl);
+    var b2 = menuEl.getBoundingClientRect();
+    var left = Math.min(cx || 0, window.innerWidth - b2.width - 8);
+    var top = Math.min(cy || 0, window.innerHeight - b2.height - 8);
+    menuEl.style.left = Math.max(4, left) + 'px';
+    menuEl.style.top = Math.max(4, top) + 'px';
+  }
+
   function handleTap(target, cx, cy, sticky) {
     if (planeTap(target)) return;
-    if (airTap(target)) return;
+    if (airTap(target, cx, cy)) return;
     var got = pick(target, cx, cy);
     var hit = got && got.hit;
     // on a touch screen the tap is the pointer, so it is what decides whose
@@ -8529,123 +8613,165 @@
    * screen* — so it changes with every zoom and the points have to be nudged
    * again each time. Re-projecting for that would be work; adding a vector is
    * not. */
-  function airGeom(stops) {
+  /* **A service that overflies a stop needs a line of its own.**
+   *
+   * The drawn chain is the route's stops in order; a service that skips one
+   * flies straight between the two it does call at, and `air-play.js` puts the
+   * aeroplane on that chord. Two of them do it. China Airways' Shanghai–Hankow
+   * express passes over Anking and Kiukiang — 460 km direct against 566 along
+   * the river — and the Siamese short working overflies Roi Et, 181 km against
+   * 303, which is a dogleg well off the straight line. So there was an
+   * aeroplane crossing ground with no line under it.
+   *
+   * The chords are appended after the chain, so leg 0 to n−2 are still the
+   * consecutive pairs and everything that indexes by leg goes on working;
+   * `pairs` says which two stops each leg joins, and everything else asks
+   * that rather than assuming `i` and `i+1`. */
+  function airGeom(stops, chords) {
     var legs = [];
-    for (var i = 0; i + 1 < stops.length; i++) {
-      var seg = gcStep(stops[i], stops[i + 1]);
+    var pairs = [];
+    var add = function (a, b) {
+      var seg = gcStep(stops[a], stops[b]);
       var pts = [];
       for (var j = 0; j < seg.length; j++) {
         var p = project(seg[j].lon, seg[j].lat);
         pts.push({ x: p.x, y: p.y });
       }
       legs.push(pts);
-    }
+      pairs.push([a, b]);
+    };
+    for (var i = 0; i + 1 < stops.length; i++) add(i, i + 1);
+    (chords || []).forEach(function (c) { add(c[0], c[1]); });
+    legs.pairs = pairs;
     return legs;
   }
 
-  /* **Two airlines over one pair of cities are two lines, not one on top of
-   * another.**
-   *
-   * Fifteen routes on the 1942 sheet share a leg with at least one other —
-   * four of them run Shinkyō to Mukden — and drawn on the same line the
-   * reader sees one service where the sources give four, in whichever colour
-   * happened to be painted last. They are given lanes instead: shifted
-   * sideways by a couple of pixels each so they run alongside, each in its
-   * own ink.
-   *
-   * **The shift is in screen pixels**, which is this project's most-repeated
-   * mistake and the reason the offset is applied here rather than baked into
-   * the path at build time. Two pixels of separation is two pixels at every
-   * zoom; written into the geometry once it would be a fixed distance on the
-   * *ground*, invisible at the widest view and a mile wide eight wheel steps
-   * in. `k` — map units per screen pixel — is the conversion, and `applyAir`
-   * runs on every rescale, which is where it comes from.
-   *
-   * The offset tapers to nothing at each end, so the lines meet exactly on the
-   * airport they both call at and separate in between. Held apart all the way
-   * they would end beside the dot rather than on it, which reads as a line
-   * that does not go where it says.
-   */
-  var AIR_LANE_PX = 2.4;          // screen pixels between neighbouring lines
-  var airLanes = {};              // route id -> lane number per leg
-
-  function airLaneFor(id, leg) {
-    var byRoute = airLanes[id];
-    return byRoute ? (byRoute[leg] || 0) : 0;
+  /* Every pair of stops a service actually flies between, where they are not
+     next to each other on the route. Read off the timetable, in both
+     directions, and deduplicated. */
+  function airChordsOf(r) {
+    var rows = (r && r.times) || [];
+    var out = [], seen = {};
+    var svcs = rows.map(function (t) { return t.svc || ''; })
+      .filter(function (v, i, a) { return a.indexOf(v) === i; });
+    svcs.forEach(function (svc) {
+      var mine = rows.filter(function (t) { return (t.svc || '') === svc; });
+      ['d', 'u'].forEach(function (pre) {
+        var seq = mine.filter(function (t) { return t[pre + 'a'] || t[pre + 'd']; })
+          .map(function (t) { return (+t.seq) - 1; })
+          .sort(function (a, b) { return a - b; });
+        for (var k = 0; k + 1 < seq.length; k++) {
+          var a = seq[k], b = seq[k + 1];
+          if (b - a < 2) continue;
+          var key = a + ':' + b;
+          if (seen[key]) continue;
+          seen[key] = true;
+          out.push([a, b]);
+        }
+      });
+    });
+    return out;
   }
 
-  /* Worked out over the routes *this date draws*, so a 1930-only service does
-     not reserve a lane on the 1942 sheet and leave a gap where nothing is. */
+  /* **Two airlines over one pair of cities are one line, and a menu.**
+   *
+   * Fifteen routes on the 1942 sheet share a leg with at least one other, and
+   * four of them run Shinkyō to Mukden. Drawn on top of one another the reader
+   * sees one line in whichever ink was painted last and cannot tell there are
+   * four; drawn *beside* one another — which is what this did first — they are
+   * four two-pixel lines a couple of pixels apart, which looks like a mistake
+   * and is impossible to aim at.
+   *
+   * So the segment is drawn **once**, and the press asks which one. The
+   * copies are not drawn at all: whichever route comes first in a stable
+   * order owns the shared leg, the rest leave a gap there, and `airAtLeg`
+   * knows who else was on it. Where the press lands on a leg only one route
+   * flies, its card opens as before; where several share it, a small menu
+   * offers them by name.
+   *
+   * **Whose colour.** A leg two services of the same company fly is that
+   * company's, plainly. A leg four companies share belongs to none of them and
+   * is drawn in the map's default ink rather than in a colour that would say
+   * it was somebody's.
+   */
+  var airLanes = {};              // route id -> which of its legs it must not draw
+  var airShare = {};              // leg key -> the routes on it, in order
+
+  function airLegKey(a, b) {
+    return a < b ? a + '\u0000' + b : b + '\u0000' + a;
+  }
+
+  /* Worked out over the routes *this date draws*, so a service on the other
+     sheet neither takes a leg nor appears in its menu. */
   function buildAirLanes() {
     airLanes = {};
-    var byLeg = {};
+    airShare = {};
     (JMAP.AIR || []).forEach(function (r) {
       if (!airShown(r)) return;
       var ss = r.stops || [];
-      for (var i = 0; i + 1 < ss.length; i++) {
-        var a = ss[i].id || ss[i].name, b = ss[i + 1].id || ss[i + 1].name;
-        var fwd = a < b;
-        var key = fwd ? a + '\u0000' + b : b + '\u0000' + a;
-        /* **Which way this route walks the pair.** The offset is taken along
-           the normal to the direction of travel, so a route drawn Mukden to
-           Shinkyō has its normal pointing the opposite way from one drawn
-           Shinkyō to Mukden — and the two, given neighbouring lanes, came out
-           on the same side of the line and exactly on top of each other. Four
-           services over that pair drew as two. The sign is recorded against a
-           canonical ordering of the two cities and multiplied in below, so a
-           lane is a place on the ground rather than a place relative to
-           whichever way the aeroplane happened to be pointing. */
-        (byLeg[key] || (byLeg[key] = [])).push({ id: r.id, leg: i, sign: fwd ? 1 : -1 });
-      }
+      var pairs = (airGeoms[r.id] && airGeoms[r.id].pairs) || [];
+      pairs.forEach(function (pr, i) {
+        var a = ss[pr[0]], b = ss[pr[1]];
+        if (!a || !b) return;
+        var key = airLegKey(a.id || a.name, b.id || b.name);
+        (airShare[key] || (airShare[key] = [])).push({ id: r.id, leg: i });
+      });
     });
-    Object.keys(byLeg).forEach(function (key) {
-      var mine = byLeg[key];
-      if (mine.length < 2) return;
-      // a stable order, so the lanes do not swap about between builds
+    Object.keys(airShare).forEach(function (key) {
+      var mine = airShare[key];
+      // a stable order, so the same route owns the leg from one build to the next
       mine.sort(function (p, q) { return p.id < q.id ? -1 : p.id > q.id ? 1 : 0; });
-      var mid = (mine.length - 1) / 2;
-      mine.forEach(function (m, i) {
-        (airLanes[m.id] || (airLanes[m.id] = {}))[m.leg] = (i - mid) * m.sign;
+      // everyone but the first leaves a gap where the shared leg is
+      mine.slice(1).forEach(function (m) {
+        (airLanes[m.id] || (airLanes[m.id] = {}))[m.leg] = true;
       });
     });
   }
 
-  /* `flown`, when given, is asked about each leg in turn and a leg it refuses
-     is left out — the next one drawn starts a subpath of its own with `M`
-     rather than being joined to the last with `L`. One path with two runs in
-     it, which is what a route with a gap in the middle of it is.
+  function airDrawsLeg(id, leg) {
+    var mine = airLanes[id];
+    return !(mine && mine[leg]);
+  }
 
-     `id` and `k` are for the lane: which line of the several over this pair of
-     cities this is, and how many map units a screen pixel is worth. */
-  function airPathOf(legs, id, k, flown) {
+  /* Everyone who flies the leg of `r` numbered `leg`, the owner included. */
+  function airAtLeg(r, leg) {
+    var ss = (r && r.stops) || [];
+    var pairs = (airGeoms[r && r.id] && airGeoms[r.id].pairs) || [];
+    var pr = pairs[leg];
+    if (!pr || !ss[pr[0]] || !ss[pr[1]]) return [];
+    var mine = airShare[airLegKey(ss[pr[0]].id || ss[pr[0]].name,
+                                  ss[pr[1]].id || ss[pr[1]].name)] || [];
+    return mine.map(function (m) { return airById[m.id]; }).filter(Boolean);
+  }
+
+  /* `pick` is asked about each leg in turn and a leg it refuses is left out —
+     the next one drawn starts a subpath of its own with `M` rather than being
+     joined to the last with `L`. One path with several runs in it, which is
+     what a route drawn with gaps in it is. */
+  function airPathOf(legs, pick) {
     var d = '';
     var open = false;                    // is a subpath in progress?
     for (var i = 0; i < legs.length; i++) {
-      if (flown && !flown(i)) { open = false; continue; }
+      if (pick && !pick(i)) { open = false; continue; }
       var pts = legs[i];
-      var lane = airLaneFor(id, i);
-      var off = lane * AIR_LANE_PX * (k || 1);
       for (var j = (open ? 1 : 0); j < pts.length; j++) {
-        var x = pts[j].x, y = pts[j].y;
-        if (off) {
-          /* The normal to the line here, and a taper so the two ends sit on
-             their airports. `t` runs 0..1 along the leg and the ramp reaches
-             full offset a fifth of the way in. */
-          var a = pts[Math.max(0, j - 1)], b = pts[Math.min(pts.length - 1, j + 1)];
-          var dx = b.x - a.x, dy = b.y - a.y;
-          var len = Math.sqrt(dx * dx + dy * dy);
-          if (len > 1e-9) {
-            var t = pts.length > 1 ? j / (pts.length - 1) : 0;
-            var ramp = Math.min(1, Math.min(t, 1 - t) * 5);
-            x += (-dy / len) * off * ramp;
-            y += (dx / len) * off * ramp;
-          }
-        }
-        d += (j === 0 && !open ? 'M' : 'L') + fmt2(x) + ' ' + fmt2(y);
+        d += (j === 0 && !open ? 'M' : 'L') + fmt2(pts[j].x) + ' ' + fmt2(pts[j].y);
       }
       open = true;
     }
     return d;
+  }
+
+  /* **Whose colour a shared leg is drawn in.** One that two services of the
+     same company fly is that company's, plainly. One that four companies share
+     belongs to none of them, and drawing it in the owner's ink would say it
+     was theirs — so it goes in the map's default ink instead. */
+  function airLegMixed(r, leg) {
+    var on = airAtLeg(r, leg);
+    if (on.length < 2) return false;
+    var ink = on[0].ink || '';
+    for (var i = 1; i < on.length; i++) if ((on[i].ink || '') !== ink) return true;
+    return false;
   }
 
   /* **Which of a route's drawn legs an aeroplane actually flew.**
@@ -8679,10 +8805,9 @@
    *
    * `grounded_from` on the route names the stop it is grounded from: that leg
    * and every one after it, in the route's own order. */
-  function airGroundedLegs(r) {
+  function airGroundedLegs(r, pairs) {
     var stops = (r && r.stops) || [];
-    var out = [];
-    for (var i = 0; i + 1 < stops.length; i++) out.push(false);
+    var out = pairs.map(function () { return false; });
     var from = r && r.groundedFrom;
     if (!from) return out;
     var at = -1;
@@ -8690,17 +8815,28 @@
       if ((stops[j].id || stops[j].name) === from) { at = j; break; }
     }
     if (at < 0) return out;
-    for (var m = at; m < out.length; m++) out[m] = true;
+    // a leg is grounded if the earlier of the two stops it joins is at or past
+    // the one the route is grounded from — chords included
+    pairs.forEach(function (pr, i) {
+      if (Math.min(pr[0], pr[1]) >= at) out[i] = true;
+    });
     return out;
   }
 
-  function airFlownLegs(r) {
-    var stops = (r && r.stops) || [];
-    var out = [];
-    for (var i = 0; i + 1 < stops.length; i++) out.push(false);
+  /* **The leg a service actually uses, not the ground between its calls.**
+     A pair of calls two stops apart is one flight over the chord, not two
+     flights along the chain, and it is drawn that way — so this marks the
+     chord and leaves the legs it passes over unflown unless something else
+     works them. */
+  function airFlownLegs(r, pairs) {
+    var out = pairs.map(function () { return false; });
     var rows = (r && r.times) || [];
     if (!rows.length) return out;
-    var dead = airGroundedLegs(r);
+    var dead = airGroundedLegs(r, pairs);
+    var index = {};
+    pairs.forEach(function (pr, i) {
+      index[Math.min(pr[0], pr[1]) + ':' + Math.max(pr[0], pr[1])] = i;
+    });
     var svcs = rows.map(function (t) { return t.svc || ''; })
       .filter(function (v, i, a) { return a.indexOf(v) === i; });
     svcs.forEach(function (svc) {
@@ -8710,15 +8846,15 @@
           .map(function (t) { return (+t.seq) - 1; })
           .sort(function (a, b) { return a - b; });
         for (var k = 0; k + 1 < seq.length; k++) {
-          for (var j = seq[k]; j < seq[k + 1]; j++) {
-            // a grounded leg is never flown, whatever the timetable says
-            if (j >= 0 && j < out.length && !dead[j]) out[j] = true;
-          }
+          var at = index[seq[k] + ':' + seq[k + 1]];
+          // a grounded leg is never flown, whatever the timetable says
+          if (at != null && !dead[at]) out[at] = true;
         }
       });
     });
     return out;
   }
+
 
   /* Both readings of every route, worked out once when the layer is built:
      `all` is the line as drawn, `flown` is the same line with the legs no
@@ -8729,7 +8865,6 @@
   var airPaths = {};
   var airGeoms = {};              // route id -> the projected legs
   var airLaneEpoch = null;        // the sheet the lanes were worked out for
-  var airLaneK = 0;               // and the scale the paths were built at
   var airFlown = {};              // route id -> which legs something flies
   var airDead = {};               // route id -> which legs could not be flown
 
@@ -8738,21 +8873,37 @@
      — which is every zoom — and not only when the layer is built. Cheap: it
      is vector arithmetic over points that are already projected, and only the
      routes with a lane to sit in move at all. */
-  function airRepath(k) {
+  /* Every path string a route needs, in both states.
+   *
+   *   own      the legs this route draws at all — the ones no other route has
+   *            taken, plus the shared ones it owns. The press target.
+   *   all      of those, the ones that could have been flown on this date
+   *   allDim   and the ones that could not
+   *   flown    with the week running: what an aeroplane actually works
+   *   idle     and everything else it draws
+   *   mixed    the shared legs whose companies disagree, drawn separately so
+   *            they can go in a neutral ink
+   *
+   * None of this depends on the zoom any more, so it is built when the sheet
+   * changes and not on every rescale. */
+  function airRepath() {
     Object.keys(airGeoms).forEach(function (id) {
       var geom = airGeoms[id];
+      var r = airById[id];
       var legs = airFlown[id] || [];
       var dead = airDead[id] || [];
       var pp = airPaths[id];
       if (!pp) return;
-      /* Four strings, two states. **Stopped**, everything is bright except the
-         legs that could not have been flown on this date. **Running**, only
-         what an aeroplane actually works is bright and the rest — the
-         grounded legs and the ones nobody has a timetable for — is faint. */
-      pp.all = airPathOf(geom, id, k, function (i) { return !dead[i]; });
-      pp.allDim = airPathOf(geom, id, k, function (i) { return !!dead[i]; });
-      pp.flown = airPathOf(geom, id, k, function (i) { return legs[i]; });
-      pp.idle = airPathOf(geom, id, k, function (i) { return !legs[i]; });
+      var mine = function (i) { return airDrawsLeg(id, i); };
+      var mixed = function (i) { return mine(i) && airLegMixed(r, i); };
+      var solo = function (i) { return mine(i) && !airLegMixed(r, i); };
+      pp.own = airPathOf(geom, mine);
+      pp.all = airPathOf(geom, function (i) { return solo(i) && !dead[i]; });
+      pp.mixed = airPathOf(geom, function (i) { return mixed(i) && !dead[i]; });
+      pp.allDim = airPathOf(geom, function (i) { return mine(i) && !!dead[i]; });
+      pp.flown = airPathOf(geom, function (i) { return solo(i) && legs[i]; });
+      pp.flownMixed = airPathOf(geom, function (i) { return mixed(i) && legs[i]; });
+      pp.idle = airPathOf(geom, function (i) { return mine(i) && !legs[i]; });
     });
   }
 
@@ -8817,33 +8968,34 @@
     // above the land and the railways, below the markers a reader clicks
     svg.insertBefore(airGroup, markersGroup || null);
     JMAP.AIR.forEach(function (r) {
-      var geom = airGeom(r.stops);
+      var geom = airGeom(r.stops, airChordsOf(r));
       if (!geom.length) return;
       airGeoms[r.id] = geom;
       /* Which legs an aeroplane actually works, and the airports left standing
          on them. Worked out here, where the geometry is; the path strings
          themselves are built by `airRepath`, which runs again on every zoom
          because the lane offset is a distance on screen. */
-      var legs = airFlownLegs(r);
-      var dead = airGroundedLegs(r);
+      var legs = airFlownLegs(r, geom.pairs);
+      var dead = airGroundedLegs(r, geom.pairs);
       /* Which airports are still lit, in each of the two states. Stopped, that
          is every stop a leg the aeroplanes *could* have flown reaches; running,
          only the ones something actually flies to. */
       var reach = function (pick) {
         var keep = {};
-        for (var i = 0; i < pick.length; i++) {
-          if (!pick[i]) continue;
-          keep[r.stops[i].id || r.stops[i].name] = true;
-          keep[r.stops[i + 1].id || r.stops[i + 1].name] = true;
-        }
+        geom.pairs.forEach(function (pr, i) {
+          if (!pick[i]) return;
+          keep[r.stops[pr[0]].id || r.stops[pr[0]].name] = true;
+          keep[r.stops[pr[1]].id || r.stops[pr[1]].name] = true;
+        });
         return keep;
       };
       var alive = dead.map(function (x) { return !x; });
       airFlown[r.id] = legs;
       airDead[r.id] = dead;
-      airPaths[r.id] = { all: '', allDim: '', flown: '', idle: '',
+      airPaths[r.id] = { own: '', all: '', mixed: '', allDim: '', flown: '',
+                         flownMixed: '', idle: '',
                          stops: reach(legs), stopsPaused: reach(alive) };
-      var d = airPathOf(geom, r.id, 1, null);
+      var d = airPathOf(geom, null);
       var g = svgEl('g', { 'class': 'air-route', 'data-air': r.id });
       /* **A line may carry its own colour.** The Japanese network is one ink
          and the Dutch one another — a darker cousin of the Indies' own orange,
@@ -8890,6 +9042,9 @@
          nothing else, and it is empty and invisible except while the week is
          actually running. */
       g.appendChild(svgEl('path', { 'class': 'air-line-idle', d: '' }));
+      /* The legs several companies share, drawn apart from the rest so they
+         can take the map's default ink rather than this route's. */
+      g.appendChild(svgEl('path', { 'class': 'air-line-shared', d: '' }));
       g.appendChild(svgEl('path', { 'class': 'air-line', d: d }));
       // a wider invisible stroke to press: the drawn line is 1.6 px and a
       // finger is not
@@ -10106,16 +10261,10 @@
      * from its neighbour is a distance on screen, so the paths are rebuilt
      * when `k` changes — this runs on every rescale, and a zoom that has not
      * moved the scale does no work. */
-    var cs = containerSize();
-    var kNow = cs.w ? view.w / cs.w : 1;
     if (airLaneEpoch !== state.epoch) {
       airLaneEpoch = state.epoch;
       buildAirLanes();
-      airLaneK = 0;                       // force the rebuild below
-    }
-    if (!airLaneK || Math.abs(kNow - airLaneK) / Math.max(kNow, airLaneK) > 0.002) {
-      airLaneK = kNow;
-      airRepath(kNow);
+      airRepath();
     }
 
     /* **With the week running, only the network that is actually flown.**
@@ -10145,14 +10294,18 @@
            target keeps the whole route either way — a line a reader can see
            is a line they can ask about, however faint it is. */
         var lit = playing ? pp.flown : pp.all;
+        var mix = playing ? pp.flownMixed : pp.mixed;
         var dim = playing ? pp.idle : pp.allDim;
         var set = function (sel, v) {
           var el = g.querySelector(sel);
           if (el && el.getAttribute('d') !== v) el.setAttribute('d', v);
         };
-        set('.air-halo', lit);
+        set('.air-halo', lit + mix);
         set('.air-line', lit);
+        set('.air-line-shared', mix);
         set('.air-line-idle', dim);
+        // the press target is every leg this route draws, faint ones included
+        set('.air-hit', pp.own);
       });
     }
     /* The rings live in one group of their own now, so which of them belong to

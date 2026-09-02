@@ -8063,7 +8063,7 @@ JMAP.AIR = [
     id: 'china-shanghai', name: 'Peking – Tientsin – Tsinan – Hsuchow – Nanking – Shanghai', operator: 'China Airways Co. (中華航空株式會社)', opened: '',
     season: '1940', epochs: ['e1942'], source: '中華航空株式會社 時刻表 (1940)', srcUrl: 'https://www.timetableimages.com/ttimages/ckkk/ckkk40c/ckkk3.jpg',
     ink: '#2c6e63', days: [], groundedFrom: '',
-    note: 'China Airways was set up in December 1938, a joint concern of 大日本航空 and the Japanese-sponsored governments at Peking and Nanking, and it flew the occupied corridor — the railway cities, in a day, at the point when the railways between them were being cut. This is its longest line: Peking to Shanghai between breakfast and mid-afternoon, daily in both directions.\n\n**Tientsin\'s times are inferred.** The brochure marks it as a stop on this line and prints no clock against it. The times drawn here — 10.00/10.10 southbound and 14.20/14.30 northbound — are what the printed ends and the printed distances require: they make Peking–Tientsin thirty minutes and Tientsin–Tsinan an hour, and they close exactly on 11.10 at Tsinan and 15.00 at Peking. The line\'s own figures are 120 km to Tientsin, then 280, 280, 290 and 270, at 15, 45, 40, 45 and 25 圓.',
+    note: 'China Airways\' longest line, Peking to Shanghai in a day, daily each way. The company was set up in December 1938 by 大日本航空 and the Japanese-sponsored governments at Peking and Nanking. **Tientsin\'s times are inferred**: the sheet marks the stop and gives no clock.',
     stops: [
       { id: 'beijing', name: 'Peking (Beijing)', lon: 116.4, lat: 39.9 },
       { id: 'tianjin', name: 'Tientsin (Tianjin)', lon: 117.2, lat: 39.13 },
@@ -8085,7 +8085,7 @@ JMAP.AIR = [
     id: 'china-baotou', name: 'Peking – Kalgan – Tatung – Kōwa – Paotow', operator: 'China Airways Co. (中華航空株式會社)', opened: '',
     season: '1940', epochs: ['e1942'], source: '中華航空株式會社 時刻表 (1940)', srcUrl: 'https://www.timetableimages.com/ttimages/ckkk/ckkk40c/ckkk3.jpg',
     ink: '#2c6e63', days: [], groundedFrom: '',
-    note: 'The line west into Mengchiang, out from Peking on Mondays, Wednesdays and Fridays and home on Tuesdays, Thursdays and Saturdays, flown by a Nakajima AT-2 (中島式A.T.機). Kōwa is Hohhot — the city the Chinese republic called Kweisui (歸綏) and the Mengchiang régime renamed 厚和豪特 in 1937, which is the name the brochure prints. Distances and fares: 170 km to Kalgan, then 150, 170 and 135, at 25, 22, 25 and 19 圓.',
+    note: 'The line west into Mengchiang, three days a week each way, flown by a Nakajima AT-2. Kōwa is Hohhot, renamed 厚和豪特 in 1937.',
     stops: [
       { id: 'beijing', name: 'Peking (Beijing)', lon: 116.4, lat: 39.9 },
       { id: 'kalgan', name: 'Kalgan (Zhangjiakou)', lon: 114.88, lat: 40.81 },
@@ -8105,7 +8105,7 @@ JMAP.AIR = [
     id: 'china-dairen', name: 'Peking – Tientsin – Dairen', operator: 'China Airways Co. (中華航空株式會社)', opened: '',
     season: '1940', epochs: ['e1942'], source: '中華航空株式會社 時刻表 (1940)', srcUrl: 'https://www.timetableimages.com/ttimages/ckkk/ckkk40c/ckkk3.jpg',
     ink: '#2c6e63', days: [], groundedFrom: '',
-    note: 'Two hours from Peking to the Kwantung Leased Territory, daily, on a Douglas DC-3 (ダグラス機 D.C.3) — the fastest machine on the network. The brochure\'s diagram carries the line on past Dairen with arrows to Mukden, Hsinking and Keijō, which is where the Japanese trunk services took it up.\n\n**Tientsin\'s times are inferred.** As on the Shanghai line the brochure marks the stop and gives it no clock; 8.55/9.05 outward and 15.25/15.35 back are what the printed ends allow, apportioned by the printed distances — 120 km to Tientsin and 380 on to Dairen, at 15 and 50 圓. They are tighter than the Shanghai line\'s, because 500 km in 110 minutes needs very nearly all a DC-3 had.',
+    note: 'Two hours from Peking to the Kwantung Leased Territory, daily, on a Douglas DC-3. **Tientsin\'s times are inferred**: the sheet marks the stop and gives no clock.',
     stops: [
       { id: 'beijing', name: 'Peking (Beijing)', lon: 116.4, lat: 39.9 },
       { id: 'tianjin', name: 'Tientsin (Tianjin)', lon: 117.2, lat: 39.13 },
@@ -8121,7 +8121,7 @@ JMAP.AIR = [
     id: 'china-hankou', name: 'Shanghai – Nanking – Anking – Kiukiang – Hankow', operator: 'China Airways Co. (中華航空株式會社)', opened: '',
     season: '1940', epochs: ['e1942'], source: '中華航空株式會社 時刻表 (1940)', srcUrl: 'https://www.timetableimages.com/ttimages/ckkk/ckkk40c/ckkk3.jpg',
     ink: '#2c6e63', days: [], groundedFrom: '',
-    note: 'Three services up the Yangtze on one line, daily, flown by Lockheeds (ロッキード機). One works its way upriver calling at Anking and Kiukiang; one runs Shanghai to Hankow over Nanking without stopping between, and so is drawn flying straight where the other follows the river; and a shuttle does Nanking–Shanghai and back. Each is its own column on the card.\n\nAnking is 安慶, which the brochure prints in characters and does not romanise. The distances settle it: 250 km from Nanking, 130 on to Kiukiang and 180 to Hankow, which is the Yangtze in order and matches the real spacing within five per cent. Those three also sum to the 560 km the brochure gives for the through Nanking–Hankow leg, and their fares — 40, 25 and 35 圓 — sum to its 100.',
+    note: 'Three services up the Yangtze on one line — one calling at Anking and Kiukiang, one running Shanghai to Hankow over Nanking without stopping, and a Nanking–Shanghai shuttle. Each is its own column on the card.',
     stops: [
       { id: 'shanghai', name: 'Shanghai', lon: 121.47, lat: 31.23 },
       { id: 'nanjing', name: 'Nanking (Nanjing)', lon: 118.8, lat: 32.06 },
@@ -8145,7 +8145,7 @@ JMAP.AIR = [
     id: 'cnac-shanghai-hankou', name: 'Shanghai – Nanking – Anking – Kiukiang – Hankow', operator: 'China National Aviation Corporation (中國航空公司)', opened: '1929',
     season: 'c. 1933', epochs: ['e1930'], source: 'China National Aviation Corporation timetable, c. 1933', srcUrl: 'https://www.timetableimages.com/ttimages/cnaca.htm',
     ink: '#5b3a8c', days: [], groundedFrom: '',
-    note: 'CNAC was a joint concern of the Nationalist government\'s Ministry of Communications and Pan American Airways, and this was its main line: the lower Yangtze from the sea to Hankow in a day, every day but Monday, in both directions. It is the same river the Japanese-run 中華航空 would be flying seven years later, calling at the same four towns — this is the network that one replaced.',
+    note: 'CNAC\'s main line, the lower Yangtze from the sea to Hankow every day but Monday. The same four towns the Japanese-run 中華航空 would fly seven years later — this is the network that one replaced.',
     stops: [
       { id: 'shanghai', name: 'Shanghai', lon: 121.47, lat: 31.23 },
       { id: 'nanjing', name: 'Nanking (Nanjing)', lon: 118.8, lat: 32.06 },
@@ -8165,7 +8165,7 @@ JMAP.AIR = [
     id: 'cnac-hankou-chungking', name: 'Hankow – Shasi – Ichang – Wanhsien – Chungking', operator: 'China National Aviation Corporation (中國航空公司)', opened: '1929',
     season: 'c. 1933', epochs: ['e1930'], source: 'China National Aviation Corporation timetable, c. 1933', srcUrl: 'https://www.timetableimages.com/ttimages/cnaca.htm',
     ink: '#5b3a8c', days: [], groundedFrom: '',
-    note: 'On up the Yangtze through the gorges to Szechwan, which is the stretch no railway reached and the reason an air service mattered here more than anywhere else in China: Hankow to Chungking is four days by river steamer against seven hours in the air. Out on Wednesdays and Saturdays.\n\n**The days it came home are uncertain.** The reading gives Tuesday, Thursday and Saturday, and the drawing follows those names — but two returns a week going out and three coming back does not balance, and one of the three may be a Sunday.',
+    note: 'On up the Yangtze through the gorges to Szechwan, the stretch no railway reached. **The days it came home are uncertain** — the reading gives Tuesday, Thursday and Saturday, and two departures against three returns does not balance.',
     stops: [
       { id: 'wuhan', name: 'Hankow (Wuhan)', lon: 114.28, lat: 30.58 },
       { name: 'Shasi (Shashi)', lon: 112.24, lat: 30.32 },
@@ -8185,7 +8185,7 @@ JMAP.AIR = [
     id: 'cnac-shanghai-peiping', name: 'Shanghai – Haichow – Tsingtao – Tientsin – Peiping', operator: 'China National Aviation Corporation (中國航空公司)', opened: '1929',
     season: 'c. 1933', epochs: ['e1930'], source: 'China National Aviation Corporation, Shanghai–Chungking and Shanghai–Peiping routes, c. 1933', srcUrl: 'https://www.timetableimages.com/ttimages/cn35pea.htm',
     ink: '#5b3a8c', days: [], groundedFrom: '',
-    note: 'North up the coast to the capital — which in 1933 was Nanking, so Peking had been renamed Peiping, the northern *peace*, and that is the name the timetable prints. Out on Tuesdays, Thursdays and Saturdays and home on the days between, nine hours each way with a stop at Haichow on the Kiangsu coast, at Tsingtao and at Tientsin.\n\nThe same sheet lists two more services as later additions, flown from Chungking: one to Chengtu and one to Kweiyang. The Chengtu line is on the 1942 map here, from CNAC\'s October 1940 timetable; no times have been found for Kweiyang, so it is named and not drawn.',
+    note: 'North up the coast to the capital — Peking had been renamed Peiping in 1928, which is what the timetable prints. The same sheet lists two later additions from Chungking, to Chengtu and to Kweiyang; no times have been found for Kweiyang, so it is named and not drawn.',
     stops: [
       { id: 'shanghai', name: 'Shanghai', lon: 121.47, lat: 31.23 },
       { name: 'Haichow (Haizhou)', lon: 119.13, lat: 34.57 },
@@ -8205,7 +8205,7 @@ JMAP.AIR = [
     id: 'cnac-chungking-rangoon', name: 'Chungking – Kunming – Lashio – Rangoon', operator: 'China National Aviation Corporation (中國航空公司)', opened: '1939',
     season: 'October 1940', epochs: ['e1942'], source: 'China National Aviation Corporation timetable, October 1940', srcUrl: '',
     ink: '#5b3a8c', days: [], groundedFrom: '',
-    note: 'The way out. By October 1940 the coast was gone and the Burma Road was the one land route into free China; this is its air equivalent, Chungking to Rangoon by way of Kunming and Lashio in a day, on a Douglas. Once a week each way — out on Mondays, home on Tuesdays.',
+    note: 'The way out. By October 1940 the coast was gone and this was the air equivalent of the Burma Road, once a week each way.',
     stops: [
       { id: 'chongqing', name: 'Chungking (Chongqing)', lon: 106.55, lat: 29.56 },
       { id: 'kunming', name: 'Kunming', lon: 102.72, lat: 25.04 },
@@ -8223,7 +8223,7 @@ JMAP.AIR = [
     id: 'cnac-chungking-chengtu', name: 'Chungking – Chengtu', operator: 'China National Aviation Corporation (中國航空公司)', opened: '',
     season: 'October 1940', epochs: ['e1942'], source: 'China National Aviation Corporation timetable, October 1940', srcUrl: '',
     ink: '#5b3a8c', days: [], groundedFrom: '',
-    note: 'The provincial shuttle, twice a day between the wartime capital and the Szechwan plain, and the timetable gives it two schedules: an hour and a half on five days of the week and twenty minutes quicker on Thursdays and Sundays. Both are drawn, as separate circuits on the card.',
+    note: 'The provincial shuttle between the wartime capital and the Szechwan plain. The timetable gives it two schedules, and both are drawn.',
     stops: [
       { id: 'chongqing', name: 'Chungking (Chongqing)', lon: 106.55, lat: 29.56 },
       { id: 'chengdu', name: 'Chengtu (Chengdu)', lon: 104.07, lat: 30.66 }
@@ -8239,7 +8239,7 @@ JMAP.AIR = [
     id: 'cnac-chungking-kiating', name: 'Chungking – Luchow – Suifu – Kiating', operator: 'China National Aviation Corporation (中國航空公司)', opened: '',
     season: 'October 1940', epochs: ['e1942'], source: 'China National Aviation Corporation timetable, October 1940', srcUrl: '',
     ink: '#5b3a8c', days: [], groundedFrom: '',
-    note: 'Up the Min and the Yangtze into the Szechwan basin, calling at Luchow and Suifu, on Mondays and Thursdays. Kiating is Leshan; Suifu is Yibin. Neither is on the map\'s city list, so their stops carry a coordinate of their own.',
+    note: 'Up the Min and the Yangtze into the Szechwan basin, on Mondays and Thursdays. Neither Suifu nor Kiating is on the map\'s city list.',
     stops: [
       { id: 'chongqing', name: 'Chungking (Chongqing)', lon: 106.55, lat: 29.56 },
       { id: 'luzhou', name: 'Luchow (Luzhou)', lon: 105.44, lat: 28.87 },
@@ -8257,7 +8257,7 @@ JMAP.AIR = [
     id: 'cnac-shanghai-canton', name: 'Shanghai – Wenchow – Foochow – Amoy – Swatow – Canton', operator: 'China National Aviation Corporation (中國航空公司)', opened: 'October 1933',
     season: '1935', epochs: ['e1930'], source: 'China National Aviation Corporation, Shanghai–Canton route, 1935', srcUrl: 'https://www.timetableimages.com/ttimages/cn35caa.htm',
     ink: '#5b3a8c', days: [], groundedFrom: '',
-    note: 'Down the whole China coast, calling at every treaty port on the way: Wenchow, Foochow, Amoy and Swatow, Shanghai to Canton between breakfast and mid-afternoon. It opened in October 1933; **the times drawn here are from 1935**, which is the schedule found, so the line is two years older than its own timetable. Southbound on Tuesdays and Fridays, northbound on Thursdays and Sundays — two aeroplanes a week each way over a coast that had no through railway at all.',
+    note: 'Every treaty port down a coast that had no through railway. In operation from October 1933; **these times are from 1935**, which is the schedule found.',
     stops: [
       { id: 'shanghai', name: 'Shanghai', lon: 121.47, lat: 31.23 },
       { id: 'wenzhou', name: 'Wenchow (Wenzhou)', lon: 120.7, lat: 28.0 },
@@ -8279,7 +8279,7 @@ JMAP.AIR = [
     id: 'mkkk-manchouli-hsinking', name: 'Manchouli – Hailar – Tsitsihar – Harbin – Shinkyō', operator: 'Manchuria Aviation Company (満洲航空株式会社)', opened: '',
     season: 'winter 1935', epochs: ['e1942'], source: 'Manchuria Aviation Company timetable, winter 1935', srcUrl: 'https://www.timetableimages.com/ttimages/mkkk35.htm',
     ink: '#8c2f39', days: [], groundedFrom: '',
-    note: 'The west line, out along the Chinese Eastern Railway to the Soviet frontier at Manchouli. It is really two services: Tsitsihar to Hsinking by Harbin every day, and the long haul beyond Tsitsihar to Hailar and Manchouli twice a week — southbound Tuesdays and Fridays, northbound Mondays and Thursdays. Both are drawn, as separate circuits on the card, so that the outer leg is in the air on the days the timetable gives it and not on the others.\n\n**These are 1935 times on a map of December 1942.** The line was still flown then; the schedule is the one that has been found.',
+    note: 'The west line out along the Chinese Eastern Railway to the Soviet frontier. Two services: Tsitsihar to Shinkyō daily, and the long haul beyond Tsitsihar twice a week. These are 1935 times on a map of December 1942.',
     stops: [
       { id: 'manzhouli', name: 'Manchouli (Manzhouli)', lon: 117.45, lat: 49.6 },
       { id: 'hailar', name: 'Hailar', lon: 119.7, lat: 49.2 },
@@ -8302,7 +8302,7 @@ JMAP.AIR = [
     id: 'mkkk-harbin-dairen', name: 'Harbin – Shinkyō – Mukden – Dairen', operator: 'Manchuria Aviation Company (満洲航空株式会社)', opened: '',
     season: 'winter 1935', epochs: ['e1942'], source: 'Manchuria Aviation Company timetable, winter 1935', srcUrl: 'https://www.timetableimages.com/ttimages/mkkk35.htm',
     ink: '#8c2f39', days: [], groundedFrom: '',
-    note: 'The trunk of Manchukuo, daily each way: Harbin down through the capital and Mukden to the sea at Dairen, in under five hours against a night and a day by rail.\n\n**These are 1935 times on a map of December 1942.**',
+    note: 'The trunk of Manchukuo, daily each way: Harbin through the capital and Mukden to the sea at Dairen. These are 1935 times on a map of December 1942.',
     stops: [
       { id: 'harbin', name: 'Harbin', lon: 126.53, lat: 45.8 },
       { id: 'changchun', name: 'Xinjing (Changchun)', lon: 125.32, lat: 43.88 },
@@ -8320,7 +8320,7 @@ JMAP.AIR = [
     id: 'mkkk-hsinking-shingishu', name: 'Shinkyō – Mukden – Shingishū, for Tokyo', operator: 'Manchuria Aviation Company (満洲航空株式会社)', opened: '',
     season: 'winter 1935', epochs: ['e1942'], source: 'Manchuria Aviation Company timetable, winter 1935', srcUrl: 'https://www.timetableimages.com/ttimages/mkkk35.htm',
     ink: '#8c2f39', days: [], groundedFrom: '',
-    note: 'The Manchurian end of the through service to Tokyo, and the reason for the four o\'clock departure: Hsinking before dawn, Mukden at half past five, and Shingishū on the Korean border by a quarter past seven, where the Japanese carrier took the aeroplane on down the peninsula and across to the home islands. Daily except Mondays.\n\n**Only the southbound times are recorded here.** The service ran both ways and the sheet read for this gives one direction, so the map flies it one way rather than inventing the other.\n\n**These are 1935 times on a map of December 1942**, and this corridor is also drawn as an untimed line from the 1938–39 Japanese timetable — the two lie on top of one another.',
+    note: 'The Manchurian end of the through service to Tokyo, away before dawn and at the Korean border by a quarter past seven. **Southbound only**: the source gives one direction. These are 1935 times on a map of December 1942, and this corridor is also drawn as an untimed line from the 1938–39 timetable.',
     stops: [
       { id: 'changchun', name: 'Xinjing (Changchun)', lon: 125.32, lat: 43.88 },
       { id: 'mukden', name: 'Mukden (Shenyang)', lon: 123.43, lat: 41.8 },
@@ -8336,7 +8336,7 @@ JMAP.AIR = [
     id: 'knilm-tarakan-manila', name: 'Tarakan – Manila', operator: 'KNILM (Koninklijke Nederlandsch-Indische Luchtvaart Maatschappij)', opened: '',
     season: 'c. 1935', epochs: ['e1942'], source: 'Complete Map of the Airlines of K.N.I.L.M., c. 1935', srcUrl: 'https://www.davidrumsey.com/luna/servlet/detail/RUMSEY~8~1~356322~90123241:Complete-Map-of-the-Airlines-of-K-N',
     ink: '#a9560d', days: [], groundedFrom: '',
-    note: 'The one line of the KNILM network that left the Indies for the north, from the oilfield at Tarakan across the Sulu Sea to the American Philippines. **No times: the source is a route map, not a timetable**, so the line is drawn and nothing is claimed about when it flew. The map is December 1942, by which date the Japanese held both ends of it — Tarakan went in January 1942 and Manila in the same month — and this network had gone; it is drawn to show what had been there.',
+    note: 'The one KNILM line that left the Indies, from the oilfield at Tarakan across the Sulu Sea. **No times: the source is a route map, not a timetable.** Both ends were Japanese by the end of January 1942.',
     stops: [
       { id: 'tarakan', name: 'Tarakan', lon: 117.59, lat: 3.3 },
       { id: 'manila', name: 'Manila', lon: 120.98, lat: 14.6 }
@@ -8346,7 +8346,7 @@ JMAP.AIR = [
     id: 'patco-manila-baguio', name: 'Manila – Baguio', operator: 'Philippine Aerial Taxi Company (PATCO)', opened: '',
     season: 'c. mid-1930s', epochs: ['e1930'], source: 'PATCO, undated brochure, c. mid-1930s', srcUrl: 'https://www.timetableimages.com/ttimages/patco.htm',
     ink: '#0f7b8a', days: [], groundedFrom: '',
-    note: 'An hour from the capital to the hill station, twice a day and back, flown by the Philippine Aerial Taxi Company. Baguio is five thousand feet up in the Cordillera and the government moved there for the hot season; by road it was the best part of a day.\n\n**This is the network at its beginning.** By 1937 the timetables add Manila to Paracale, on the gold coast of Camarines Norte. By 1939 INAEC — the Iloilo–Negros Air Express Company — is flying Manila–Iloilo, Manila–Iloilo–Davao and Iloilo–Bacolod. By 1941 Philippine Air Lines, Inc. has added Paracale to Legaspi. None of those is drawn: the times here are the mid-1930s brochure\'s, and the rest are named so that the single line on the map is not mistaken for the whole of Philippine aviation.',
+    note: 'An hour from the capital to the hill station, twice a day. Not drawn, but on the timetables by then: Manila–Paracale from 1937; INAEC\'s Manila–Iloilo, Manila–Iloilo–Davao and Iloilo–Bacolod from 1939; Paracale–Legaspi on Philippine Air Lines from 1941.',
     stops: [
       { id: 'manila', name: 'Manila', lon: 120.98, lat: 14.6 },
       { id: 'baguio', name: 'Baguio', lon: 120.6, lat: 16.41 }
@@ -8360,7 +8360,7 @@ JMAP.AIR = [
     id: 'siam-korat-nakhonphanom', name: 'Korat – Roi Et – Khon Kaen – Udon Thani – Nakhon Phanom', operator: 'Aerial Transport Company of Siam', opened: '',
     season: '1933', epochs: ['e1930'], source: 'Aerial Transport Company of Siam timetable, 1933', srcUrl: 'https://www.timetableimages.com/ttimages/siam.htm',
     ink: '#3f6b1f', days: [], groundedFrom: '',
-    note: 'The mail up the Khorat plateau, from the railhead at Korat out to the Mekong at Nakhon Phanom. **Two services on one line, and the card shows them as two circuits.** The long one goes out on Wednesdays, lies up overnight at Nakhon Phanom and comes back on Thursdays; the short one runs to Udon Thani and back on Mondays with an hour and forty minutes on the ground there, and it overflies Roi Et, so it is drawn flying straight where the long one bends.\n\n**The source gives one time at each intermediate stop, not two.** How long the aeroplane stood at Roi Et or Khon Kaen is not recorded, so it is drawn arriving and leaving at the same minute rather than having a dwell invented for it.',
+    note: 'The mail up the Khorat plateau to the Mekong. Two services on one line: the long one out on Wednesdays and back on Thursdays, the short one to Udon Thani and back on Mondays. The source gives one clock at each stop, so no time on the ground is shown.',
     stops: [
       { id: 'korat', name: 'Korat (Nakhon Ratchasima)', lon: 102.1, lat: 14.97 },
       { name: 'Roi Et', lon: 103.65, lat: 16.05 },
@@ -8383,7 +8383,7 @@ JMAP.AIR = [
     id: 'ina-calcutta-rangoon', name: 'Calcutta – Chittagong – Akyab – Bassein – Rangoon', operator: 'Indian National Airways', opened: '',
     season: '10 December 1933', epochs: ['e1930'], source: 'Indian National Airways timetable, 10 December 1933', srcUrl: 'https://www.timetableimages.com/ttimages/id.htm',
     ink: '#a03a7a', days: [], groundedFrom: '',
-    note: 'Down the Bay of Bengal to Burma, hugging the Arakan coast: Calcutta to Rangoon in ten hours with the aeroplane on the ground four times, against three days by steamer. Eastbound on Tuesdays, westbound on Fridays — one machine, out and back.\n\n**The clock is Indian standard time.** Every line on this map runs on the local time of the country that flew it, so a seven o\'clock here and a seven o\'clock in Japan are three and a half hours apart. The animation puts them all on one dial, which is right for reading a single service and wrong for timing a connection between two networks.',
+    note: 'Down the Bay of Bengal to Burma, hugging the Arakan coast: ten hours against three days by steamer. The clock is Indian standard time.',
     stops: [
       { id: 'calcutta', name: 'Calcutta', lon: 88.36, lat: 22.57 },
       { id: 'chittagong', name: 'Chittagong', lon: 91.78, lat: 22.36 },
@@ -8403,7 +8403,7 @@ JMAP.AIR = [
     id: 'ina-calcutta-dacca', name: 'Calcutta – Dacca', operator: 'Indian National Airways', opened: '',
     season: '10 December 1933', epochs: ['e1930'], source: 'Indian National Airways timetable, 10 December 1933', srcUrl: 'https://www.timetableimages.com/ttimages/id.htm',
     ink: '#a03a7a', days: [], groundedFrom: '',
-    note: 'Across the delta to Dacca and back, the short working of the network. **Two schedules, drawn as two circuits:** on weekdays it goes out in the morning and returns before two; on Sundays there is only the return, leaving Dacca at four in the afternoon.\n\n**The clock is Indian standard time.** Every line on this map runs on the local time of the country that flew it, so a seven o\'clock here and a seven o\'clock in Japan are three and a half hours apart. The animation puts them all on one dial, which is right for reading a single service and wrong for timing a connection between two networks.',
+    note: 'Across the delta to Dacca and back. Two schedules, drawn as two circuits: out and back on weekdays, and on Sundays the return only. The clock is Indian standard time.',
     stops: [
       { id: 'calcutta', name: 'Calcutta', lon: 88.36, lat: 22.57 },
       { id: 'dacca', name: 'Dacca (Dhaka)', lon: 90.41, lat: 23.81 }
@@ -8419,7 +8419,7 @@ JMAP.AIR = [
     id: 'ina-delhi-karachi', name: 'Delhi – Lahore – Multan – Jacobabad – Karachi', operator: 'Indian National Airways', opened: '',
     season: 'November 1938', epochs: ['e1942'], source: 'Indian National Airways timetable, November 1938', srcUrl: 'https://www.timetableimages.com/ttimages/id.htm',
     ink: '#a03a7a', days: [], groundedFrom: '',
-    note: 'The north-western trunk, down the Indus from the imperial capital to the sea. **Two services, and neither is simply the other reversed:** the through working runs Delhi to Karachi on Sundays, Tuesdays and Thursdays and back on Mondays, Wednesdays and Thursdays; the short one starts and ends at Lahore, going down on Wednesdays and Saturdays and coming up on Sundays and Tuesdays. Both are on the card.\\n\\n**These are November 1938 times on a map of December 1942.** The service was still flown then — India was not occupied — but this is the schedule found, not one from the month the map shows.\n\n**The clock is Indian standard time.** Every line on this map runs on the local time of the country that flew it, so a seven o\'clock here and a seven o\'clock in Japan are three and a half hours apart. The animation puts them all on one dial, which is right for reading a single service and wrong for timing a connection between two networks.',
+    note: 'The north-western trunk, down the Indus from Delhi to the sea. Two services, and neither is the other reversed: the short one starts and ends at Lahore. **These are November 1938 times on a map of December 1942**, and the clock is Indian standard time.',
     stops: [
       { id: 'delhi', name: 'Delhi', lon: 77.21, lat: 28.61 },
       { id: 'lahore', name: 'Lahore', lon: 74.34, lat: 31.55 },
@@ -8443,7 +8443,7 @@ JMAP.AIR = [
     id: 'airorient-jask-saigon', name: 'Jask – Karachi – Allahabad – Calcutta – Rangoon – Bangkok – Saigon', operator: 'Air Orient', opened: '1931',
     season: 'summer 1931', epochs: ['e1930'], source: 'Air Orient, summer 1931', srcUrl: 'https://www.timetableimages.com/ttimages/airori.htm',
     ink: '#a32222', days: [], groundedFrom: '',
-    note: 'The French line to Indochina, and the eastern half of the Marseilles–Saigon service: one stage a day up the Gulf, across India and down to Cochinchina, a week each way. Westbound it leaves Saigon on Fridays and eastbound it is at Jask on Mondays.\n\n**The times drawn here are not in the source.** It gives a day of the week at each stop and no clock at all. So that the line can be flown with the rest of the network, every stage is drawn leaving at 08:00 and taking as long as its distance needs at 180 km/h — which is the median block speed of the services on this map that *do* have times, and right for the aeroplanes of 1931. Treat the clock on this line as an illustration of the shape of the journey and not as a schedule.\n\nTwo things the drawing cannot do. Jask is off the western edge of the frame, so the line runs to the edge and the marker there is where it leaves rather than a place. And the source puts the eastbound arrival at Saigon on the Sunday, one day later than a stage-a-day schedule reaches it; every other day on the sheet is matched exactly.',
+    note: 'The French line to Indochina, a week each way, one stage a day. **The times are not in the source**, which gives only a day at each stop: they are drawn leaving at 08:00 and flying at 180 km/h. Jask is off the western edge of the frame, so the line stops at the edge.',
     stops: [
       { name: 'Towards Jask and Marseilles', lon: 66.2, lat: 25.2 },
       { id: 'karachi', name: 'Karachi', lon: 67.01, lat: 24.86 },
@@ -8466,7 +8466,7 @@ JMAP.AIR = [
     id: 'iaw-karachi-delhi', name: 'Jask – Gwadar – Karachi – Jodhpur – Delhi', operator: 'Imperial Airways', opened: '',
     season: '16 May 1931', epochs: ['e1930'], source: 'Imperial Airways timetable, 16 May 1931', srcUrl: 'https://www.timetableimages.com/ttimages/iaw.htm',
     ink: '#7a6410', days: [], groundedFrom: '',
-    note: 'The India end of Imperial Airways\' route to the east, on the timetable of 16 May 1931. Eastbound it comes up the Makran coast and lies overnight at Karachi, going on to Delhi the next morning; westbound it leaves Delhi on Wednesdays, reaches Karachi that afternoon and goes on down the coast the day after.\n\n**Two of its stops are off the western edge of the map.** Jask is on the Persian coast at 57°E and Gwadar at 62°E, and this frame begins at 66°. The line is drawn to the edge and the marker there is where it leaves rather than a place; the Karachi times on the card are the real ones — arriving from Gwadar at 15:35 on the Thursday and leaving for it at 08:30 — so what the stops say is true even where the drawing has to stop.\n\nAll times are local, as the source gives them.',
+    note: 'The India end of Imperial Airways\' route east, overnighting at Karachi. Jask and Gwadar are off the western edge of the frame, so the line stops at the edge — the Karachi times on the card are the real ones.',
     stops: [
       { name: 'Towards Gwadar and Jask', lon: 66.2, lat: 25.2 },
       { id: 'karachi', name: 'Karachi (Drigh Road)', lon: 67.01, lat: 24.86 },
@@ -8483,7 +8483,7 @@ JMAP.AIR = [
     id: 'airfrance-karachi-hongkong', name: 'Karachi – Calcutta – Rangoon – Bangkok – Saigon – Hanoi – Hong Kong', operator: 'Air France', opened: '',
     season: '1938', epochs: ['e1942'], source: 'Air France, Extrême-Orient timetable, 1938', srcUrl: '',
     ink: '#a32222', days: [], groundedFrom: 'bangkok',
-    note: 'Air France\'s line to Indochina and on to Hong Kong, as the 1938 timetable stages it: Karachi across India in a day, Calcutta to Bangkok the next, Bangkok to Saigon and up to Hanoi, and Hanoi to Hong Kong by Yunnanfou.\n\n**These are 1938 stages on a map of December 1942, and by then the line could not have been flown.** France fell in June 1940 and Japanese forces entered Indochina that September; Saigon and Hanoi were Japanese-run by the date this map shows, and Rangoon and Bangkok with them. Everything from Bangkok eastward is drawn faint and no aeroplane is put on it — the line is here to show what had been there, not to say it was still flying.\n\n**And the clock is assumed, not given.** The source stages the journey by day and not by hour. Each stage is drawn leaving at 08:00 and taking as long as its distance needs at 320 km/h, which is the cruising speed of the Dewoitine 338 that flew it. Times on this line are an illustration of the shape of the journey and not a schedule.',
+    note: 'Air France to Indochina and on to Hong Kong. Given the war, nothing from Bangkok eastward could have been flown in December 1942: that stretch is drawn faint and no aeroplane is put on it. **The times are not in the source** — 08:00 departures at the Dewoitine 338\'s 320 km/h.',
     stops: [
       { id: 'karachi', name: 'Karachi', lon: 67.01, lat: 24.86 },
       { id: 'jodhpur', name: 'Jodhpur', lon: 73.02, lat: 26.29 },
@@ -8515,7 +8515,7 @@ JMAP.AIR = [
     id: 'iaw39-karachi-darwin', name: 'Karachi – Calcutta – Rangoon – Singapore – Soerabaja – Darwin', operator: 'Imperial Airways', opened: '',
     season: 'August 1939', epochs: ['e1942'], source: 'Imperial Airways timetable, August 1939', srcUrl: 'https://www.timetableimages.com/ttimages/iaw.htm',
     ink: '#7a6410', days: [], groundedFrom: 'akyab',
-    note: 'The England–Australia service, from Karachi onward: five days from the Indus to Darwin, a night on the ground at Calcutta, Bangkok, Singapore and Soerabaja.\n\n**From Akyab eastward this could not have been flown on the date this map shows.** Rangoon fell in March 1942, Singapore in February, the Indies that spring; by December the whole of that stretch was Japanese-held. The faint stretch begins one stop west of Rangoon rather than at it, because a leg that *lands* at Rangoon is as impossible as one that leaves it, and Akyab had gone the same way. It is drawn faint and no aeroplane is put on it — the line is here because the source runs that way and leaving it off would say the service stopped where in fact only the sheet stops. The lines and the dots still answer a press.\n\n**The Calcutta arrival is estimated.** The sheet marks the night stop and gives no hour for it; 17:10 is Allahabad\'s 13:05 departure plus the time the leg needs at the speed the day\'s other stages imply, about 190 km/h. Every other time on this card is the source\'s own, and local as it prints them.',
+    note: 'The England–Australia service, Karachi to Darwin in five days. Given the war, the stretch from Akyab eastward could not have been flown in December 1942: it is drawn faint, still answers a press, and no aeroplane is put on it. The Calcutta arrival is estimated, as it was not in the source.',
     stops: [
       { id: 'karachi', name: 'Karachi', lon: 67.01, lat: 24.86 },
       { name: 'Raj Samand', lon: 73.88, lat: 25.07 },
@@ -8553,7 +8553,7 @@ JMAP.AIR = [
     id: 'iaw39-karachi-calcutta', name: 'Karachi – Jodhpur – Delhi – Cawnpore – Allahabad – Calcutta', operator: 'Imperial Airways', opened: '',
     season: 'August 1939', epochs: ['e1942'], source: 'Imperial Airways timetable, August 1939', srcUrl: 'https://www.timetableimages.com/ttimages/iaw.htm',
     ink: '#7a6410', days: [], groundedFrom: '',
-    note: 'The India service, Karachi to Calcutta in a day: away at two in the morning and into Calcutta at five in the afternoon, with Jodhpur, Delhi, Cawnpore and Allahabad between. Twice a week, Thursdays and Sundays.\n\n**These are August 1939 times on a map of December 1942.** India was not occupied and the service was still being flown, but this is the sheet that has been read, not one from the month the map shows. All times are local.',
+    note: 'Karachi to Calcutta in a day, twice a week, away at two in the morning. These are August 1939 times on a map of December 1942; all times are local.',
     stops: [
       { id: 'karachi', name: 'Karachi', lon: 67.01, lat: 24.86 },
       { id: 'jodhpur', name: 'Jodhpur', lon: 73.02, lat: 26.24 },
@@ -8575,7 +8575,7 @@ JMAP.AIR = [
     id: 'airfrance-bangkok-hanoi', name: 'Bangkok – Vientiane – Hanoi', operator: 'Air France', opened: '',
     season: '1938', epochs: ['e1942'], source: 'Air France, Extrême-Orient timetable, 1938', srcUrl: '',
     ink: '#a32222', days: [], groundedFrom: 'bangkok',
-    note: 'The inland branch of Air France\'s Indochina service: where the main line runs Bangkok to Hanoi round the coast by Saigon, this one cuts across Laos through Vientiane. The 1938 timetable stages it on the same days — out on the Tuesday, home on the Saturday.\n\n**It is drawn faint end to end and no aeroplane is put on it.** All three of its stops were under Japanese control by the date this map shows: Japanese forces entered Indochina in September 1940 and Thailand in December 1941, and Air France was not flying here. The line is here to show what the network had been, which is why it is drawn at all, and faint because it was not being flown, which is why it does not move.\n\n**The clock is assumed, not given** — 08:00 away and as long as the distance needs at 320 km/h, the Dewoitine 338\'s cruise, the same as the main line.',
+    note: 'The inland branch, cutting across Laos where the main line goes round by Saigon. Given the war, it could not have been flown in December 1942: it is drawn faint end to end and no aeroplane is put on it. **The times are not in the source.**',
     stops: [
       { id: 'bangkok', name: 'Bangkok', lon: 100.5, lat: 13.75 },
       { id: 'vientiane', name: 'Vientiane', lon: 102.6, lat: 17.97 },

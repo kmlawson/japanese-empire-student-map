@@ -1288,6 +1288,18 @@ button.plain:hover { background: var(--hover-fill); }
 
 #zoom-controls button {
   appearance: none;
+  /* **Centre the icon here rather than leaving it to the button.**
+     A `<button>` with `appearance: none` centres its content by the UA's own
+     rules, and those are not the same everywhere: with a block child the
+     position can come off the text baseline, which moves with the font's
+     ascent and descent — so an icon sits true in one browser and a pixel or
+     two high in another, and on iPad it was visible. Reported there and not on
+     iPhone or on either desktop browser; measured in Chrome at five viewports
+     and three root font sizes, every offset was 0.00 px, which is what
+     "cannot reproduce it, but here is the thing it depends on" looks like.
+     Grid centring depends on nothing. */
+  display: grid;
+  place-items: center;
   width: 40px;
   height: 40px;
   border: 1px solid var(--line);
@@ -3014,7 +3026,6 @@ dialog h3 {
   width: 21px;
   height: 21px;
   display: block;
-  margin: 0 auto;
 }
 
 #zoom-controls button[aria-pressed="true"] {
@@ -3805,6 +3816,42 @@ dialog h3 {
 #air .air-halo { stroke: var(--air-halo); stroke-width: 5; opacity: 0.9; }
 /* The map's own air ink, unless the route says otherwise — see `r.ink`. */
 #air .air-line { stroke: var(--air-ink, #23405c); stroke-width: 1.7; }
+
+/* **A leg several companies share is drawn once, and in nobody's colour.**
+   Two services of one airline over the same pair of cities are that airline's
+   and keep its ink; four companies over one stretch belong to none of them, so
+   that stretch takes the map's default. Which of the several it is comes from
+   pressing it — see the chooser. */
+#air .air-line-shared {
+  stroke: var(--air-ink-shared, #23405c);
+  stroke-width: 1.7;
+  fill: none;
+}
+
+/* **The chooser.** One row per airline over the pressed stretch, each with its
+   own ink beside it so the menu and the map agree. It borrows the right-click
+   menu's box; only the rows are its own. */
+#jmap-menu.air-chooser button {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  text-align: left;
+}
+#jmap-menu.air-chooser .air-swatch {
+  flex: 0 0 auto;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  margin-top: 4px;
+  border: 1px solid rgb(0 0 0 / 25%);
+}
+#jmap-menu.air-chooser .air-pick-text { display: block; }
+#jmap-menu.air-chooser .air-pick-name { display: block; }
+#jmap-menu.air-chooser .air-pick-op {
+  display: block;
+  font-size: 11.5px;
+  color: var(--muted);
+}
 
 /* **The legs nobody has the times for, while the week is running.**
    Same ink and the same width as the line it continues — it *is* the same

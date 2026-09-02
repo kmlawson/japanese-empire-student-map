@@ -53,10 +53,25 @@ const lineSpot=async(p,id)=>{
   return onLine(p,id);
 };
 
+/* **A line's points, and it may be several subpaths.**
+ *
+ * `d.slice(1).split('L')` assumed one `M` at the front, which was true when
+ * every route was drawn as one unbroken chain. It is not now: a route leaves a
+ * gap where another owns the shared leg, and a grounded stretch is drawn
+ * separately — so the string is `M…L…M…L…` and splitting on L alone yields
+ * "4M5" and a NaN that reaches `createSVGPoint` as a non-finite y. */
+const dPoints = d => String(d || '').split(/(?=[ML])/)
+  .map(s => s.replace(/^[ML]/, '').trim())
+  .filter(Boolean)
+  .map(s => s.split(/[\s,]+/).map(Number))
+  .filter(a => a.length >= 2 && isFinite(a[0]) && isFinite(a[1]));
+
 const onLine=(p,id)=>p.evaluate(i=>{
   const svg=document.getElementById('jmap'), m=svg.getScreenCTM();
   const d=document.querySelector('.air-route[data-air="'+i+'"] .air-line').getAttribute('d');
-  const pts=d.slice(1).split('L').map(s=>s.trim().split(/\s+/).map(Number));
+  const pts=String(d||'').split(/(?=[ML])/).map(s=>s.replace(/^[ML]/,'').trim())
+    .filter(Boolean).map(s=>s.split(/[\s,]+/).map(Number))
+    .filter(a=>a.length>=2&&isFinite(a[0])&&isFinite(a[1]));
   /* **Clear of every other line as well as every ring.** Nineteen services
      over one sea overlap: the point farthest from the airports on the trunk
      ran along beside Keijō–Dairen for most of its length, and the press
@@ -122,8 +137,10 @@ const openRoute=async(p,id,want)=>{
       const svg=document.getElementById('jmap'), m=svg.getScreenCTM();
       const el=document.querySelector('.air-route[data-air="'+i+'"] .air-line');
       if(!el) return [];
-      const raw=el.getAttribute('d').slice(1).split('L')
-        .map(s=>s.trim().split(/\s+/).map(Number));
+      const raw=String(el.getAttribute('d')||'').split(/(?=[ML])/)
+        .map(s=>s.replace(/^[ML]/,'').trim()).filter(Boolean)
+        .map(s=>s.split(/[\s,]+/).map(Number))
+        .filter(a=>a.length>=2&&isFinite(a[0])&&isFinite(a[1]));
       const pts=[];
       for(let j=0;j<raw.length;j++){
         pts.push(raw[j]);
@@ -146,6 +163,16 @@ const openRoute=async(p,id,want)=>{
     }, id);
     for(const c of cs){
       await p.mouse.click(c.x,c.y); await sleep(400);
+      /* **A press on a stretch several services share opens the chooser, not a
+         card.** That is the point of the chooser; for a helper that wants one
+         named route it is one more step, and taking it exercises the menu as
+         well as the card. */
+      const picked=await p.evaluate(i=>{
+        const b=document.querySelector('#jmap-menu.air-chooser [data-air-pick="'+i+'"]');
+        if(!b) return false;
+        b.click(); return true;
+      }, id);
+      if(picked) await sleep(400);
       const r=await card_(p);
       if(r.open && r.chip==='Air route' && new RegExp(want).test(r.name||'')) return r;
       await p.keyboard.press('Escape'); await sleep(120);
@@ -371,7 +398,9 @@ const card_=p=>p.evaluate(()=>{
     });
     (JMAP.AIR||[]).forEach(r=>{
       const d=document.querySelector('.air-route[data-air="'+r.id+'"] .air-line').getAttribute('d');
-      const pts=d.slice(1).split('L').map(s=>s.trim().split(/\s+/).map(Number));
+      const pts=String(d||'').split(/(?=[ML])/).map(s=>s.replace(/^[ML]/,'').trim())
+    .filter(Boolean).map(s=>s.split(/[\s,]+/).map(Number))
+    .filter(a=>a.length>=2&&isFinite(a[0])&&isFinite(a[1]));
       for(let i=0;i+1<r.stops.length;i++){
         const ia=r.stops[i].id||r.stops[i].name, ib=r.stops[i+1].id||r.stops[i+1].name;
         const kk=ia<ib?ia+'\u0000'+ib:ib+'\u0000'+ia;
@@ -811,153 +840,145 @@ const card_=p=>p.evaluate(()=>{
     return l>=12 && r>=14;
   }), 'a 1.7 px line and a 3.4 px ring are not finger-sized');
 
-  /* ============ one pair of cities, several airlines, several lines ======
+  /* ====== one pair of cities, several airlines, one line and a menu ======
    *
-   * Fifteen routes on the 1942 sheet share a leg with at least one other, and
-   * four of them run Shinkyō to Mukden. Drawn on the same line the reader sees
-   * one service where the sources give four, in whichever ink was painted
-   * last. Each is given a lane and shifted sideways.
+   * Fifteen routes on the 1942 sheet share a leg with at least one other and
+   * four of them run Shinkyō to Mukden. Drawn on top of one another the reader
+   * sees one line in whichever ink was painted last; drawn *beside* one another
+   * — which this did first — they are four two-pixel lines a couple of pixels
+   * apart, which looks like a mistake and cannot be aimed at.
    *
-   * **The shift is in screen pixels**, which is what this measures: the same
-   * four lines at the opening view and six wheel steps in, and the spacing has
-   * to be the same both times. Written into the geometry instead it would be a
-   * fixed distance on the *ground* — invisible at the widest view and a mile
-   * across when zoomed in, which is this project's most-repeated mistake.
-   *
-   * The lines meet on the airports at either end by design and separate in
-   * between, so the spread is measured at the middle of the leg. The minimum
-   * distance between two of them is zero wherever they touch down, which is
-   * the answer to a different question.
-   *
-   * The lane also has to be a place on the *ground* rather than a place
-   * relative to the heading: `manchuria` runs Shingishū to Shinkyō and
-   * `mkkk-harbin-dairen` runs Shinkyō to Mukden, so their normals point
-   * opposite ways, and neighbouring lanes put them on the same side and
-   * exactly on top of one another. Four lines drew as two. */
-  /* ====== every airport with times shows them ======
-   *
-   * The card matched the head of the stop's name against the timetable's
-   * printed station, and the two are written by different hands: `stops.csv`
-   * says "Xinjing (Changchun)", the card names the place from the map's own
-   * record — Chángchūn — and the timetable prints 新京 Xinjing. Nothing in
-   * that chain has to agree, and mostly it did not: **twenty-two of the
-   * seventy-five airports on the 1942 sheet showed no times at all**, and six
-   * more showed a fraction — Nanking one entry of twelve, Harbin none of ten.
-   *
-   * It is matched by the call's own stop number now. This walks every airport
-   * on both sheets, counts the times the data says it has, opens its card and
-   * counts what is in it — because the fault was invisible from inside the
-   * code and plain the moment somebody pressed a dot. */
-  console.log('\n— every airport with times shows them —');
-  for (const ep of ['1930', '1942']) {
-    await toEpoch(page, ep);
-    await page.evaluate(() => { const a = document.getElementById('air');
-      if (!a || getComputedStyle(a).display === 'none')
-        document.getElementById('btn-air').click(); });
-    await sleep(1500);
-    const want = await page.evaluate(() => {
-      const vis = r => { const g = document.querySelector('.air-route[data-air="' + r.id + '"]');
-        return g && g.style.display !== 'none'; };
-      const out = {};
-      (JMAP.AIR || []).filter(vis).forEach(r => {
-        (r.stops || []).forEach((s2, i) => {
-          const k = s2.id || s2.name;
-          (r.times || []).filter(t => (+t.seq - 1) === i).forEach(t => {
-            const n = ['da', 'dd', 'ua', 'ud'].filter(f => t[f]).length;
-            if (n) out[k] = (out[k] || 0) + n;
-          });
-        });
-      });
-      return out;
-    });
-    const empty = [], thin = [];
-    for (const k of Object.keys(want)) {
-      const box = await page.evaluate(id => {
-        const g = document.querySelector('#air [data-air-stop="' + id + '"]');
-        if (!g || g.style.display === 'none') return null;
-        const r = g.getBoundingClientRect();
-        if (!r.width) return null;
-        return [Math.round(r.left + r.width / 2), Math.round(r.top + r.height / 2)];
-      }, k);
-      if (!box) continue;        // not on screen at this view: a different question
-      await page.mouse.click(box[0], box[1]); await sleep(200);
-      const got = await page.evaluate(() => {
-        const i = document.getElementById('info');
-        if (i.hidden) return null;
-        if ((i.querySelector('.chip') || {}).textContent !== 'Airport') return null;
-        return document.querySelectorAll('#info-air .pop-table tbody tr').length;
-      });
-      await page.keyboard.press('Escape'); await sleep(70);
-      if (got === null) continue;
-      if (got === 0) empty.push(k + ' (wants ~' + want[k] + ')');
-      else if (got < want[k] / 2) thin.push(k + ' ' + got + ' of ~' + want[k]);
-    }
-    check(ep + ': no airport with times shows an empty table',
-      empty.length === 0, empty.slice(0, 12).join(', '));
-    check('  and none shows a fraction of what it has',
-      thin.length === 0, thin.slice(0, 12).join(', '));
-  }
-  await toEpoch(page, '1942');
-
+   * So the stretch is drawn once, by whichever route owns it, and the press
+   * asks which service the reader meant. A stretch only one service flies opens
+   * its card straight away, as before. */
   console.log('\n— several airlines over one pair of cities —');
   {
     const SHARED = ['manchuria', 'keijo-shinkyo',
                     'mkkk-harbin-dairen', 'mkkk-hsinking-shingishu'];
-    const atMid = (ids, ka, kb) => page.evaluate((ids, ka, kb) => {
+    await toEpoch(page, '1942');
+    const over = await page.evaluate(ids => {
+      const svg = document.getElementById('jmap'), m = svg.getScreenCTM();
+      const ring = k => { const g = document.querySelector('#air [data-air-stop="' + k + '"]');
+        const r = g.getBoundingClientRect();
+        return { x: r.left + r.width / 2, y: r.top + r.height / 2 }; };
+      const A = ring('changchun'), B = ring('mukden');
+      const mid = { x: (A.x + B.x) / 2, y: (A.y + B.y) / 2 };
+      const near = [];
+      ids.forEach(id => {
+        const g = document.querySelector('.air-route[data-air="' + id + '"]');
+        ['.air-line', '.air-line-shared', '.air-line-idle'].forEach(sel => {
+          const l = g.querySelector(sel);
+          if (!l || !l.getAttribute('d')) return;
+          const L = l.getTotalLength();
+          for (let i = 0; i <= 400; i++) {
+            const q = l.getPointAtLength(L * i / 400).matrixTransform(m);
+            if (Math.hypot(q.x - mid.x, q.y - mid.y) < 3) {
+              if (near.indexOf(id) < 0) near.push(id);
+              return;
+            }
+          }
+        });
+      });
+      return { near, mid: [Math.round(mid.x), Math.round(mid.y)] };
+    }, SHARED);
+    check('the stretch four services fly is drawn once', over.near.length === 1,
+      JSON.stringify(over.near));
+    check('  and in nobody’s ink', await page.evaluate(() => {
+      const l = document.querySelector('.air-route[data-air="keijo-shinkyo"] .air-line-shared');
+      return !!(l && l.getAttribute('d'));
+    }));
+    await page.mouse.click(over.mid[0], over.mid[1]);
+    await sleep(500);
+    const menu = await page.evaluate(() => {
+      const m = document.getElementById('jmap-menu');
+      return m ? { chooser: m.classList.contains('air-chooser'),
+        picks: [...m.querySelectorAll('[data-air-pick]')]
+          .map(b => b.getAttribute('data-air-pick')) } : null;
+    });
+    check('pressing it asks which service', !!menu && menu.chooser, JSON.stringify(menu));
+    check('  with all four on the menu', menu && menu.picks.length === 4,
+      menu ? JSON.stringify(menu.picks) : 'none');
+    const want = menu && menu.picks[2];
+    await page.evaluate(id =>
+      document.querySelector('[data-air-pick="' + id + '"]').click(), want);
+    await sleep(450);
+    const card = await page.evaluate(() => ({
+      chip: (document.querySelector('#info .chip') || {}).textContent,
+      gone: !document.getElementById('jmap-menu') }));
+    check('  and choosing one opens that card', card.chip === 'Air route' && card.gone,
+      JSON.stringify(card));
+    await page.keyboard.press('Escape'); await sleep(200);
+    const solo = await page.evaluate(() => {
+      const l = document.querySelector('.air-route[data-air="nanyo"] .air-line');
+      const svg = document.getElementById('jmap'), m = svg.getScreenCTM();
+      const q = l.getPointAtLength(l.getTotalLength() * 0.5).matrixTransform(m);
+      return [Math.round(q.x), Math.round(q.y)];
+    });
+    await page.mouse.click(solo[0], solo[1]); await sleep(450);
+    const c2 = await page.evaluate(() => ({
+      chip: (document.querySelector('#info .chip') || {}).textContent,
+      menu: !!document.getElementById('jmap-menu') }));
+    check('a stretch one service flies opens its card with no menu',
+      c2.chip === 'Air route' && !c2.menu, JSON.stringify(c2));
+  }
+
+  /* ====== a service that overflies a stop has a line under it ======
+   *
+   * The drawn chain is the route's stops in order, and a service that skips one
+   * flies straight between the two it does call at — so there was an aeroplane
+   * crossing ground with no line beneath it. Two do it: China Airways'
+   * Shanghai–Hankow express passes over Anking and Kiukiang, and the Siamese
+   * short working overflies Roi Et, which is 181 km direct against 303 along
+   * the chain and so cannot simply be drawn as the chain. */
+  console.log('\n— a service that overflies a stop has a line under it —');
+  {
+    const chord = (id, ka, kb) => page.evaluate((id, ka, kb) => {
       const svg = document.getElementById('jmap'), m = svg.getScreenCTM();
       const ring = k => { const g = document.querySelector('#air [data-air-stop="' + k + '"]');
         if (!g) return null; const r = g.getBoundingClientRect();
         return { x: r.left + r.width / 2, y: r.top + r.height / 2 }; };
       const A = ring(ka), B = ring(kb);
       if (!A || !B) return null;
-      const mid = { x: (A.x + B.x) / 2, y: (A.y + B.y) / 2 };
-      const out = {};
-      ids.forEach(id => {
-        const l = document.querySelector('.air-route[data-air="' + id + '"] .air-line');
-        if (!l || getComputedStyle(l.parentNode).display === 'none') { out[id] = null; return; }
+      const g = document.querySelector('.air-route[data-air="' + id + '"]');
+      const pts = [];
+      ['.air-line', '.air-line-shared', '.air-line-idle'].forEach(sel => {
+        const l = g.querySelector(sel);
+        if (!l || !l.getAttribute('d')) return;
         const L = l.getTotalLength();
-        let best = null, bd = 1e18;
-        for (let i = 0; i <= 1200; i++) {
-          const q = l.getPointAtLength(L * i / 1200).matrixTransform(m);
-          const d = Math.hypot(q.x - mid.x, q.y - mid.y);
-          if (d < bd) { bd = d; best = q; }
-        }
-        out[id] = { x: best.x, y: best.y };
+        for (let i = 0; i <= 800; i++) pts.push(l.getPointAtLength(L * i / 800).matrixTransform(m));
       });
-      return out;
-    }, ids, ka, kb);
-    const spread = r => {
-      const pts = Object.keys(r).map(k => r[k]).filter(Boolean);
-      let mn = 1e18, mx = 0;
-      for (let i = 0; i < pts.length; i++) for (let j = i + 1; j < pts.length; j++) {
-        const d = Math.hypot(pts[i].x - pts[j].x, pts[i].y - pts[j].y);
-        mn = Math.min(mn, d); mx = Math.max(mx, d);
+      let on = 0, tried = 0;
+      for (let t = 0.15; t <= 0.85; t += 0.05) {
+        const q = { x: A.x + (B.x - A.x) * t, y: A.y + (B.y - A.y) * t };
+        tried++;
+        if (pts.some(r => Math.hypot(r.x - q.x, r.y - q.y) < 4)) on++;
       }
-      return { n: pts.length, min: Math.round(mn * 100) / 100, max: Math.round(mx * 100) / 100 };
-    };
-    await toEpoch(page, '1942');
-    const wideR = await atMid(SHARED, 'changchun', 'mukden');
-    const wide = wideR ? spread(wideR) : null;
-    check('all four Shinkyō–Mukden services are drawn separately',
-      !!wide && wide.n === 4 && wide.min > 1.2, JSON.stringify(wide));
-    for (let i = 0; i < 6; i++) {
+      return { on, tried };
+    }, id, ka, kb);
+    for (let i = 0; i < 3; i++) {
       await page.evaluate(() => document.getElementById('zoom-in').click());
-      await sleep(120);
+      await sleep(300);
     }
-    await sleep(1600);
-    const deepR = await atMid(SHARED, 'changchun', 'mukden');
-    const deep = deepR ? spread(deepR) : null;
-    check('and still separately six wheel steps in',
-      !!deep && deep.n === 4 && deep.min > 1.2, JSON.stringify(deep));
-    /* The point of the whole thing: the gap is a distance on screen, so it is
-       the same at both zooms. A gap written into the geometry would have grown
-       by the ratio of the two views, which is more than tenfold. */
-    check('  and the gap is the same on screen at both',
-      !!wide && !!deep && Math.abs(wide.max - deep.max) < 1.2,
-      (wide && wide.max) + ' px out, ' + (deep && deep.max) + ' px in');
+    await sleep(1000);
+    const c1 = await chord('china-hankou', 'nanjing', 'wuhan');
+    check('the Nanking–Hankow express has a line on its chord',
+      c1 && c1.on >= c1.tried * 0.7, JSON.stringify(c1));
     await page.evaluate(() => document.getElementById('zoom-reset').click());
-    await sleep(1200);
+    await sleep(1100);
+    await toEpoch(page, '1930');
+    for (let i = 0; i < 4; i++) {
+      await page.evaluate(() => document.getElementById('zoom-in').click());
+      await sleep(300);
+    }
+    await sleep(1000);
+    const c2b = await chord('siam-korat-nakhonphanom', 'korat', 'Khon Kaen');
+    check('and the Siamese short working has one over Roi Et',
+      c2b && c2b.on >= c2b.tried * 0.7, JSON.stringify(c2b));
+    await page.evaluate(() => document.getElementById('zoom-reset').click());
+    await sleep(1100);
+    await toEpoch(page, '1942');
   }
+
 
   console.log('\n\u2014 the note a route carries \u2014');
 
@@ -978,7 +999,11 @@ const card_=p=>p.evaluate(()=>{
     .filter(r=>/\*\*/.test(r.note||'')).map(r=>r.id));
   check('some route notes carry emphasis to render', marked.length>0,
     String(marked.length));
-  const klm=await openRoute(page,'klm-batavia','Karachi');
+  /* Matched on **Bandoeng**, not on Karachi: seven services now call at
+     Karachi, they overlap on the screen, and a press meant for the KLM trunk
+     landed on one of the others whose note has no emphasis in it — so the
+     check read a card it had not asked for and reported the renderer broken. */
+  const klm=await openRoute(page,'klm-batavia','Bandoeng');
   check('a marked note opens its card', !!klm,
     'no press along the KLM trunk opened it');
   if (klm) {

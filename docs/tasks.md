@@ -17151,6 +17151,67 @@ drawing has no trouble with that, and the idle path is written unconditionally
 rather than being skipped when the lit one is blank.
 
 
+## The parallel lines come out; the shared stretch is one line and a menu
+
+The lanes were wrong in use: four two-pixel lines two pixels apart look like a
+mistake and cannot be aimed at. A stretch several services fly is drawn **once**
+now, by whichever route owns it in a stable order, and the press asks which
+service the reader meant — a small menu, one row per airline with its own ink
+beside it. A stretch only one service flies opens its card as before.
+
+Where the sharers are one company the line keeps that company's ink; where they
+are several it belongs to none of them and takes the map's default. A route
+whose every leg is shared draws nothing of its own and is reached from the
+menu, which is the collapse working rather than a route going missing.
+
+Checked with a mouse and with a finger: the chooser opens to a tap, its rows
+are 51 px tall, it stays on the screen, and choosing one opens that card.
+
+## A service that overflies a stop now has a line under it
+
+Reported: a Nanking–Hankow route with no line between Nanking and Hankow. True,
+and two services did it — the drawn chain is the route's stops in order, and a
+service that skips one flies straight between the two it calls at, so there was
+an aeroplane crossing ground with nothing beneath it.
+
+    china-hankou             Nanking -> Hankow     460 km direct, 566 along the chain
+    siam-korat-nakhonphanom  Korat -> Khon Kaen    181 km direct, 303 along the chain
+
+The Siam figure settles how to fix it: drawing the aeroplane along the chain
+instead would send it 67% further round a dogleg it did not fly. So the chord
+is drawn. Geometry now carries the chain and the chords together, with a
+`pairs` list saying which two stops each leg joins; everything that indexes by
+leg asks that rather than assuming `i` and `i+1`.
+
+A knock-on in the tests: three helpers parsed a line's `d` as `d.slice(1)
+.split('L')`, which assumed one `M` at the front. Routes are drawn with gaps
+now, so the string is `M…L…M…L…`, and that parser produced "4M5" and a NaN that
+reached `createSVGPoint`.
+
+And `openRoute` matched the KLM trunk on "Karachi" — seven services call there
+now, they overlap on the screen, and it kept opening somebody else's card and
+reporting the note renderer broken. It matches on Bandoeng, and it can answer
+the chooser when one opens.
+
+## Icon buttons that looked off-centre on an iPad
+
+Reported on iPad, not on iPhone or either desktop browser. **Not reproduced**:
+measured in Chrome at five viewports — desktop, iPad portrait and landscape —
+and at root font sizes of 13, 16 and 20 px, every icon's offset from its
+button's centre was 0.00 px in both axes.
+
+But the mechanism is visible in the CSS. `#zoom-controls button` had
+`appearance: none` and no centring of its own, so where the icon sat was the
+UA's business, and a button's content box can be placed off the text baseline —
+which moves with the font's ascent and descent, and so with the platform. The
+buttons centre their own content now (`display: grid; place-items: center`),
+which depends on nothing. `#corner-controls` already did.
+
+Worth saying plainly: this is a fix for a plausible cause, not a confirmed one.
+If it still looks off on the iPad, the next thing to check is Safari's text
+autosizing, which Chrome has no equivalent of.
+
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

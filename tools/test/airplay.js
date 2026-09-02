@@ -564,6 +564,19 @@ const toEpoch=async(p,y)=>{
     await fp.evaluate(() => document.querySelector('.air-play').click());
     await sleep(1200);
     const again = await shotDim(fp);
+    /* **Found, not named.** This asked about `knilm-kupang-darwin`, whose one
+       leg Imperial Airways' 1939 service also flies — so once shared stretches
+       were collapsed to a single line that route drew nothing at all and the
+       check read it as the dimming being broken. Any service with no timetable
+       that draws something of its own will do; which those are is a fact about
+       the data, and whether it goes faint is read off the running snapshot. */
+    const noTimes = await fp.evaluate(() => (JMAP.AIR || [])
+      .filter(r => !(r.times || []).length)
+      .map(r => r.id)
+      .filter(id => {
+        const g = document.querySelector('.air-route[data-air="' + id + '"]');
+        return !!g && g.style.display !== 'none';
+      }));
     await fp.close();
 
     /* Nothing *changes*, which is not the same as nothing being faint: a
@@ -579,9 +592,13 @@ const toEpoch=async(p,y)=>{
     check('pressing play drops no route at all',
       running.visible === paused.visible,
       paused.visible + ' \u2192 ' + running.visible);
+    const drawn_ = noTimes.filter(id => (running.idle[id] || 0) > 0);
+    check('  there is a service with no timetable to look at', drawn_.length > 0,
+      noTimes.length + ' have no timetable, none of which draws a line of its own');
+    const one = drawn_[0];
     check('  a service with no timetable goes over to the faint line',
-      running.idle['knilm-kupang-darwin'] === 1 && running.lit['knilm-kupang-darwin'] === 0,
-      'idle=' + running.idle['knilm-kupang-darwin'] + ' lit=' + running.lit['knilm-kupang-darwin']);
+      running.idle[one] > 0 && running.lit[one] === 0,
+      one + ': idle=' + running.idle[one] + ' lit=' + running.lit[one]);
     check('  one flown in part is lit in part and faint in part',
       running.lit['hokuriku'] === 2 && running.idle['hokuriku'] === 1,
       'lit=' + running.lit['hokuriku'] + ' idle=' + running.idle['hokuriku']);

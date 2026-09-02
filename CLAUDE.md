@@ -181,6 +181,31 @@ set has nothing behind it, and a guess offered as a measurement is worse than
 an admission. This exists because the guesses had rotted: `SECS` had `stations`
 at 65 seconds when it took 147.
 
+## Prose the reader sees is one or two sentences, not a paragraph
+
+Comments in the code argue at length on purpose — the next person editing this
+needs the reasoning. **Everything a reader of the map sees is the opposite.**
+Route notes, layer descriptions, card text, tooltips: say the thing and stop.
+
+A caveat is one sentence. "Given the war, this prewar route could not have
+existed in 1942." Not five sentences on when Rangoon fell, which stop the faint
+stretch begins at and why, and what the lines still do when pressed. "Calcutta
+arrival is estimated, as it was not in the original source." Not a derivation
+of the estimate.
+
+The reasoning is not lost — it goes in `docs/tasks.md` and in `data/air/`'s
+README, where somebody checking the work will look for it. What reaches the
+card is the conclusion.
+
+Two tests before shipping a note:
+
+* **Would a student read it?** A paragraph under a map is a paragraph nobody
+  reads, and a caveat nobody reads is a caveat that did not happen.
+* **Is any sentence there to show the work?** Dates, arithmetic and the names
+  of places the reader can already see are the usual offenders. Cut them.
+
+Written after a route note ran to five sentences where one would have done.
+
 ## Record what changed in docs/tasks.md before marking it done
 
 An entry says what was actually changed and what was measured, not what was
