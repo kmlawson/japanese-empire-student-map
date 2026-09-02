@@ -7349,9 +7349,9 @@ JMAP.PROVINCES = {
 
 JMAP.AIR = [
   {
-    id: 'korea', name: 'Tokyo – Osaka – Fukuoka – Ulsan – Keijō – Heijō – Dairen', operator: 'Japan Air Transport (日本航空輸送株式會社)', opened: 'September 1929',
+    id: 'korea', name: 'Tokyo – Osaka – Fukuoka – Ulsan – Keijō – Heijō – Dairen', operator: 'Japan Air Transport (日本航空輸送株式会社)', opened: 'September 1929',
     season: 'June–August 1931', epochs: ['e1930'], source: '酒井正子「変容する世界の航空界・その4 日本の航空100年」', srcUrl: 'https://appsv.main.teikyo-u.ac.jp/tosho/keizaigaku44-1-09.pdf',
-    note: 'The trunk line of the empire\'s air network: down the home islands, across to the peninsula and on to the Kwantung Leased Territory. Two days each way in 1931 — the aeroplane laid over at Keijō, and every other route here hung off this one.',
+    note: 'The trunk line of the empire\'s air network: down the home islands, across to the peninsula and on to the Kwantung Leased Territory.',
     stops: [
       { id: 'tokyo', name: 'Tokyo', lon: 139.76, lat: 35.68 },
       { id: 'osaka', name: 'Osaka', lon: 135.5, lat: 34.69 },
@@ -7395,7 +7395,7 @@ JMAP.AIR = [
     ]
   },
   {
-    id: 'korea-1938', name: 'Tokyo – Osaka – Fukuoka – Keijō – Dairen', operator: 'Japan Air Transport (日本航空輸送株式會社)', opened: 'September 1929',
+    id: 'korea-1938', name: 'Tokyo – Osaka – Fukuoka – Keijō – Dairen', operator: 'Japan Airways Co. Ltd (大日本航空株式会社)', opened: 'September 1929',
     season: 'October 1938 – March 1939', epochs: ['e1942'], source: '酒井正子「変容する世界の航空界・その4 日本の航空100年」', srcUrl: 'https://appsv.main.teikyo-u.ac.jp/tosho/keizaigaku44-1-09.pdf',
     note: 'The trunk line of the empire\'s air network, as it stood in the 1938–39 timetable: down the home islands, across to the peninsula and on to the Kwantung Leased Territory. A day each way by then — Tokyo at seven, Dairen by mid-afternoon, and back the next morning — where the 1931 service had taken two, calling at Ulsan and Heijō and sleeping at Keijō. Neither of those is a stop here any longer.',
     stops: [
@@ -7414,19 +7414,17 @@ JMAP.AIR = [
     ]
   },
   {
-    id: 'manchuria', name: 'Sinŭiju – Mukden – Xinjing – Harbin – Tsitsihar', operator: 'Japan Air Transport (日本航空輸送株式會社)', opened: '1932',
+    id: 'manchuria', name: 'Shingishū – Hōten – Shinkyō', operator: 'Japan Airways Co. Ltd (大日本航空株式会社)', opened: '1932',
     season: '', epochs: ['e1942'], source: '', srcUrl: '',
-    note: 'Up the Manchurian trunk from the Korean border to the north, the year Manchukuo was declared.',
+    note: 'Up the Manchurian trunk from the Korean border to the north, the year Manchukuo was declared. Drawn as far as Shinkyō. The line ran on to Harbin and Tsitsihar, and no timetable for those legs under Japan Air Transport has been found, so they are not drawn rather than drawn without times.',
     stops: [
       { id: 'sinuiju', name: 'Shingishū (Sinŭiju)', lon: 124.39, lat: 40.1 },
       { id: 'mukden', name: 'Mukden (Shenyang)', lon: 123.43, lat: 41.8 },
-      { id: 'changchun', name: 'Xinjing (Changchun)', lon: 125.32, lat: 43.88 },
-      { id: 'harbin', name: 'Harbin', lon: 126.53, lat: 45.8 },
-      { id: 'qiqihar', name: 'Tsitsihar (Qiqihar)', lon: 123.92, lat: 47.35 }
+      { id: 'changchun', name: 'Xinjing (Changchun)', lon: 125.32, lat: 43.88 }
     ]
   },
   {
-    id: 'taiwan', name: 'Fukuoka – Naha – Taipei', operator: 'Japan Air Transport (日本航空輸送株式會社)', opened: '1935',
+    id: 'taiwan', name: 'Fukuoka – Naha – Taipei', operator: 'Japan Airways Co. Ltd (大日本航空株式会社)', opened: '1935',
     season: 'October 1938 – March 1939', epochs: ['e1942'], source: '酒井正子「変容する世界の航空界・その4 日本の航空100年」p101, citing 『航空輸送の歩み』大日本航空社史刊行会編, 1975, p65', srcUrl: 'https://appsv.main.teikyo-u.ac.jp/tosho/keizaigaku44-1-09.pdf',
     note: 'Kyūshū to the colony by way of Okinawa, the two long sea legs the Ryukyus break in half. A 1938 guidebook has it flown by a Douglas carrying fourteen passengers: 100 yen from Fukuoka to Taihoku and 50 from Naha. It also warns that the Tainan–Makō line was carrying mail only for the time being and taking no passengers. 旅程と費用概算, p893. The line opened in October 1935 and ran three days a week to begin with: out from Fukuoka on the Wednesday at 7:00, into Naha at 12:10 and away again at 13:00 for Taihoku by 17:00; back from Taihoku on the Friday at 10:00 for Naha at 17:00; and on to Fukuoka on the Saturday, 7:00 to 13:20. JACAR C05034292500 海軍省-公文備考-S10-78-4892 (1935).',
     stops: [
@@ -7441,7 +7439,7 @@ JMAP.AIR = [
     ]
   },
   {
-    id: 'nanyo', name: 'Yokohama – Saipan – Palau', operator: 'Japan Air Transport (日本航空輸送株式會社)', opened: 'April 1939',
+    id: 'nanyo', name: 'Yokohama – Saipan – Palau', operator: 'Japan Airways Co. Ltd (大日本航空株式会社)', opened: 'April 1939',
     season: 'April 1939', epochs: ['e1942'], source: 'JACAR C01007343400 陸軍省-大日記乙輯-S14-13-41', srcUrl: 'https://www.jacar.archives.go.jp/das/meta-en/C01007343400',
     note: 'Out to the South Seas Mandate: the longest of these by far, and over open ocean the whole way.',
     stops: [
@@ -7456,7 +7454,7 @@ JMAP.AIR = [
     ]
   },
   {
-    id: 'shanghai', name: 'Fukuoka – Shanghai – Nanking', operator: 'Japan Air Transport (日本航空輸送株式會社)', opened: '',
+    id: 'shanghai', name: 'Fukuoka – Shanghai – Nanking', operator: 'Japan Airways Co. Ltd (大日本航空株式会社)', opened: '',
     season: 'October 1938 – March 1939', epochs: ['e1942'], source: '酒井正子「変容する世界の航空界・その4 日本の航空100年」p101, citing 『航空輸送の歩み』大日本航空社史刊行会編 (1975) p65', srcUrl: 'https://appsv.main.teikyo-u.ac.jp/tosho/keizaigaku44-1-09.pdf',
     note: 'The Yangtze delta, by the winter of 1938 under Japanese occupation.',
     stops: [
@@ -7466,7 +7464,7 @@ JMAP.AIR = [
     ]
   },
   {
-    id: 'nagoya-tokyo', name: 'Tokyo – Nagoya', operator: 'Japan Air Transport (日本航空輸送株式會社)', opened: '',
+    id: 'nagoya-tokyo', name: 'Tokyo – Nagoya', operator: 'Japan Airways Co. Ltd (大日本航空株式会社)', opened: '',
     season: 'October 1938 – March 1939', epochs: ['e1942'], source: '酒井正子「変容する世界の航空界・その4 日本の航空100年」p101, citing 『航空輸送の歩み』大日本航空社史刊行会編 (1975) p65', srcUrl: 'https://appsv.main.teikyo-u.ac.jp/tosho/keizaigaku44-1-09.pdf',
     note: '',
     stops: [
@@ -7481,7 +7479,7 @@ JMAP.AIR = [
     ]
   },
   {
-    id: 'nagoya-osaka', name: 'Osaka – Nagoya', operator: 'Japan Air Transport (日本航空輸送株式會社)', opened: '',
+    id: 'nagoya-osaka', name: 'Osaka – Nagoya', operator: 'Japan Airways Co. Ltd (大日本航空株式会社)', opened: '',
     season: 'October 1938 – March 1939', epochs: ['e1942'], source: '酒井正子「変容する世界の航空界・その4 日本の航空100年」p101, citing 『航空輸送の歩み』大日本航空社史刊行会編 (1975) p65', srcUrl: 'https://appsv.main.teikyo-u.ac.jp/tosho/keizaigaku44-1-09.pdf',
     note: '',
     stops: [
@@ -7496,7 +7494,7 @@ JMAP.AIR = [
     ]
   },
   {
-    id: 'shikoku', name: 'Osaka – Tokushima – Kōchi', operator: 'Japan Air Transport (日本航空輸送株式會社)', opened: '',
+    id: 'shikoku', name: 'Osaka – Tokushima – Kōchi', operator: 'Japan Airways Co. Ltd (大日本航空株式会社)', opened: '',
     season: 'October 1938 – March 1939', epochs: ['e1942'], source: '酒井正子「変容する世界の航空界・その4 日本の航空100年」p101, citing 『航空輸送の歩み』大日本航空社史刊行会編 (1975) p65', srcUrl: 'https://appsv.main.teikyo-u.ac.jp/tosho/keizaigaku44-1-09.pdf',
     note: 'Across the Inland Sea to Shikoku, which the railways reached only by ferry.',
     stops: [
@@ -7511,7 +7509,7 @@ JMAP.AIR = [
     ]
   },
   {
-    id: 'taiwan-west', name: 'Taihoku – Taichū – Tainan – Makō', operator: 'Japan Air Transport (日本航空輸送株式會社)', opened: '',
+    id: 'taiwan-west', name: 'Taihoku – Taichū – Tainan – Makō', operator: 'Japan Airways Co. Ltd (大日本航空株式会社)', opened: '',
     season: 'October 1938 – March 1939', epochs: ['e1942'], source: '酒井正子「変容する世界の航空界・その4 日本の航空100年」p101, citing 『航空輸送の歩み』大日本航空社史刊行会編 (1975) p65', srcUrl: 'https://appsv.main.teikyo-u.ac.jp/tosho/keizaigaku44-1-09.pdf',
     note: 'Down the colony’s western plain and out to the Pescadores.',
     stops: [
@@ -7528,7 +7526,7 @@ JMAP.AIR = [
     ]
   },
   {
-    id: 'taiwan-east', name: 'Taihoku – Giran – Karenkō – Taitō – Heitō – Tainan', operator: 'Japan Air Transport (日本航空輸送株式會社)', opened: '',
+    id: 'taiwan-east', name: 'Taihoku – Giran – Karenkō – Taitō – Heitō – Tainan', operator: 'Japan Airways Co. Ltd (大日本航空株式会社)', opened: '',
     season: 'October 1938 – March 1939', epochs: ['e1942'], source: '酒井正子「変容する世界の航空界・その4 日本の航空100年」p101, citing 『航空輸送の歩み』大日本航空社史刊行会編 (1975) p65', srcUrl: 'https://appsv.main.teikyo-u.ac.jp/tosho/keizaigaku44-1-09.pdf',
     note: 'Round the eastern seaboard, which the mountains cut off from the west.',
     stops: [
@@ -7549,7 +7547,7 @@ JMAP.AIR = [
     ]
   },
   {
-    id: 'northchina', name: 'Fukuoka – Tsingtao – Tientsin – Peking', operator: 'Japan Air Transport (日本航空輸送株式會社)', opened: '',
+    id: 'northchina', name: 'Fukuoka – Tsingtao – Tientsin – Peking', operator: 'Japan Airways Co. Ltd (大日本航空株式会社)', opened: '',
     season: 'October 1938 – March 1939', epochs: ['e1942'], source: '酒井正子「変容する世界の航空界・その4 日本の航空100年」p101, citing 『航空輸送の歩み』大日本航空社史刊行会編 (1975) p65', srcUrl: 'https://appsv.main.teikyo-u.ac.jp/tosho/keizaigaku44-1-09.pdf',
     note: 'Into occupied north China.',
     stops: [
@@ -7560,7 +7558,7 @@ JMAP.AIR = [
     ]
   },
   {
-    id: 'keijo-dairen', name: 'Keijō – Dairen', operator: 'Japan Air Transport (日本航空輸送株式會社)', opened: '',
+    id: 'keijo-dairen', name: 'Keijō – Dairen', operator: 'Japan Airways Co. Ltd (大日本航空株式会社)', opened: '',
     season: 'October 1938 – March 1939', epochs: ['e1942'], source: '酒井正子「変容する世界の航空界・その4 日本の航空100年」p101, citing 『航空輸送の歩み』大日本航空社史刊行会編 (1975) p65', srcUrl: 'https://appsv.main.teikyo-u.ac.jp/tosho/keizaigaku44-1-09.pdf',
     note: 'Direct across the Yellow Sea, without the coastal legs the 1929 trunk flew.',
     stops: [
@@ -7569,7 +7567,7 @@ JMAP.AIR = [
     ]
   },
   {
-    id: 'keijo-shinkyo', name: 'Keijō – Hōten – Shinkyō', operator: 'Japan Air Transport (日本航空輸送株式會社)', opened: '',
+    id: 'keijo-shinkyo', name: 'Keijō – Hōten – Shinkyō', operator: 'Japan Airways Co. Ltd (大日本航空株式会社)', opened: '',
     season: 'October 1938 – March 1939', epochs: ['e1942'], source: '酒井正子「変容する世界の航空界・その4 日本の航空100年」p101, citing 『航空輸送の歩み』大日本航空社史刊行会編 (1975) p65', srcUrl: 'https://appsv.main.teikyo-u.ac.jp/tosho/keizaigaku44-1-09.pdf',
     note: 'From the Korean capital to Manchukuo’s.',
     stops: [
@@ -7584,7 +7582,7 @@ JMAP.AIR = [
     ]
   },
   {
-    id: 'fukuoka-keijo', name: 'Fukuoka – Taikyū – Keijō', operator: 'Japan Air Transport (日本航空輸送株式會社)', opened: '',
+    id: 'fukuoka-keijo', name: 'Fukuoka – Taikyū – Keijō', operator: 'Japan Airways Co. Ltd (大日本航空株式会社)', opened: '',
     season: 'October 1938 – March 1939', epochs: ['e1942'], source: '酒井正子「変容する世界の航空界・その4 日本の航空100年」p101, citing 『航空輸送の歩み』大日本航空社史刊行会編 (1975) p65', srcUrl: 'https://appsv.main.teikyo-u.ac.jp/tosho/keizaigaku44-1-09.pdf',
     note: '',
     stops: [
@@ -7599,7 +7597,7 @@ JMAP.AIR = [
     ]
   },
   {
-    id: 'tohoku', name: 'Tokyo – Sendai – Aomori – Sapporo', operator: 'Japan Air Transport (日本航空輸送株式會社)', opened: '',
+    id: 'tohoku', name: 'Tokyo – Sendai – Aomori – Sapporo', operator: 'Japan Airways Co. Ltd (大日本航空株式会社)', opened: '',
     season: 'October 1938 – March 1939', epochs: ['e1942'], source: '酒井正子「変容する世界の航空界・その4 日本の航空100年」p101, citing 『航空輸送の歩み』大日本航空社史刊行会編 (1975) p65', srcUrl: 'https://appsv.main.teikyo-u.ac.jp/tosho/keizaigaku44-1-09.pdf',
     note: 'Up the north-east and over the strait to Hokkaidō.',
     stops: [
@@ -7616,7 +7614,7 @@ JMAP.AIR = [
     ]
   },
   {
-    id: 'hokuriku', name: 'Osaka – Kanazawa – Toyama – Nagano – Tokyo', operator: 'Japan Air Transport (日本航空輸送株式會社)', opened: '',
+    id: 'hokuriku', name: 'Osaka – Kanazawa – Toyama – Nagano – Tokyo', operator: 'Japan Airways Co. Ltd (大日本航空株式会社)', opened: '',
     season: 'October 1938 – March 1939', epochs: ['e1942'], source: '酒井正子「変容する世界の航空界・その4 日本の航空100年」p101, citing 『航空輸送の歩み』大日本航空社史刊行会編 (1975) p65', srcUrl: 'https://appsv.main.teikyo-u.ac.jp/tosho/keizaigaku44-1-09.pdf',
     note: 'The Japan Sea coast and back over the mountains.',
     stops: [
@@ -7628,14 +7626,14 @@ JMAP.AIR = [
     ],
     times: [
       { svc: 'Osaka – Toyama', seq: '1', station: '大阪 Osaka', dd: '8:00', ua: '15:55', freq: 'daily' },
-      { svc: 'Tokyo – Nagano', seq: '1', station: '東京 Tokyo', dd: '10:00', ua: '16:00', freq: 'daily' },
       { svc: 'Osaka – Toyama', seq: '2', station: '金澤 Kanazawa', da: '9:35', dd: '9:45', ua: '14:10', ud: '14:20', freq: 'daily' },
-      { svc: 'Tokyo – Nagano', seq: '2', station: '長野 Nagano', da: '11:20', ud: '14:40', freq: 'daily' },
-      { svc: 'Osaka – Toyama', seq: '3', station: '富山 Toyama', da: '10:05', ud: '13:55', freq: 'daily' }
+      { svc: 'Osaka – Toyama', seq: '3', station: '富山 Toyama', da: '10:05', ud: '13:55', freq: 'daily' },
+      { svc: 'Tokyo – Nagano', seq: '4', station: '長野 Nagano', dd: '14:40', ua: '11:20', freq: 'daily' },
+      { svc: 'Tokyo – Nagano', seq: '5', station: '東京 Tokyo', da: '16:00', ud: '10:00', freq: 'daily' }
     ]
   },
   {
-    id: 'niigata', name: 'Nagano – Niigata', operator: 'Japan Air Transport (日本航空輸送株式會社)', opened: '',
+    id: 'niigata', name: 'Nagano – Niigata', operator: 'Japan Airways Co. Ltd (大日本航空株式会社)', opened: '',
     season: 'October 1938 – March 1939', epochs: ['e1942'], source: '酒井正子「変容する世界の航空界・その4 日本の航空100年」p101, citing 『航空輸送の歩み』大日本航空社史刊行会編 (1975) p65', srcUrl: 'https://appsv.main.teikyo-u.ac.jp/tosho/keizaigaku44-1-09.pdf',
     note: '',
     stops: [
@@ -7648,7 +7646,7 @@ JMAP.AIR = [
     ]
   },
   {
-    id: 'sanin', name: 'Osaka – Tottori – Matsue', operator: 'Japan Air Transport (日本航空輸送株式會社)', opened: '',
+    id: 'sanin', name: 'Osaka – Tottori – Matsue', operator: 'Japan Airways Co. Ltd (大日本航空株式会社)', opened: '',
     season: 'October 1938 – March 1939', epochs: ['e1942'], source: '酒井正子「変容する世界の航空界・その4 日本の航空100年」p101, citing 『航空輸送の歩み』大日本航空社史刊行会編 (1975) p65', srcUrl: 'https://appsv.main.teikyo-u.ac.jp/tosho/keizaigaku44-1-09.pdf',
     note: 'The San’in coast.',
     stops: [
@@ -7663,7 +7661,7 @@ JMAP.AIR = [
     ]
   },
   {
-    id: 'keijo-seishin', name: 'Keijō – Kankō – Seishin', operator: 'Japan Air Transport (日本航空輸送株式會社)', opened: '',
+    id: 'keijo-seishin', name: 'Keijō – Kankō – Seishin', operator: 'Japan Airways Co. Ltd (大日本航空株式会社)', opened: '',
     season: 'October 1938 – March 1939', epochs: ['e1942'], source: '酒井正子「変容する世界の航空界・その4 日本の航空100年」p101, citing 『航空輸送の歩み』大日本航空社史刊行会編 (1975) p65', srcUrl: 'https://appsv.main.teikyo-u.ac.jp/tosho/keizaigaku44-1-09.pdf',
     note: 'Up the eastern side of the peninsula to the Japan Sea ports.',
     stops: [

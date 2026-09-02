@@ -163,18 +163,37 @@ window.JMAP_AIRPLAY = function (host) {
                         from: from.st, to: to.st });
           }
           if (!legs.length) return;
-          plans.push({
-            route: r, svc: svc, dir: dir[0], legs: legs, freq: freq,
-            /* **Which days of the week this one flew.** A daily service leaves
-               every morning, so on any given day the reader sees both the one
-               that left today and the one that left yesterday and is coming
-               back — which is what a daily service looks like from the ground.
-               An alternate-day service leaves on three of the seven. And the
-               Yokohama flying boat went twice a month, so it makes one circuit
-               in the week and its seven days are the seven days of the film. */
-            days: /twice a month|month/.test(freq) ? [0]
-                : /even-numbered|other day/.test(freq) ? [1, 3, 5]
-                : [0, 1, 2, 3, 4, 5, 6],
+          /* **One plan is one aeroplane on one day, not a service.**
+           *
+           * A daily service that takes two days each way has two machines in
+           * the air at once — yesterday's still coming home while today's goes
+           * out — and they are in different places. Held as a single plan with
+           * a list of days, it had a single mark, and `positionAt` returned
+           * whichever instance it found first: the mark jumped between two
+           * aeroplanes and the other vanished. On the 1930 sheet that showed
+           * as a machine appearing over the Yellow Sea for part of an
+           * afternoon and going again, which is not what the 1931 timetable
+           * says and was the fault, not the reading of it.
+           *
+           * The legs are shared by reference — the geometry is the same
+           * journey — and only the day it left differs.
+           *
+           * Which days: a daily service leaves every morning; an
+           * alternate-day one on three of the seven; and the Yokohama flying
+           * boat went twice a month, so it makes one circuit and its seven
+           * days are the seven days of the film. */
+          /* **And one that left the day before the film starts.** A journey
+             that takes two days is half over when the week opens, so without
+             it the first day was visibly thinner than the six after it — one
+             aeroplane in the sky all morning where every other day has two or
+             three. The instance at −1 flies the part of its journey that falls
+             inside the window and is ignored by everything outside it. */
+          var offs = /twice a month|month/.test(freq) ? [0]
+                   : /even-numbered|other day/.test(freq) ? [-1, 1, 3, 5]
+                   : [-1, 0, 1, 2, 3, 4, 5, 6];
+          offs.forEach(function (o) {
+            plans.push({ route: r, svc: svc, dir: dir[0], legs: legs,
+                         freq: freq, dayOff: o });
           });
         });
       });
@@ -202,14 +221,12 @@ window.JMAP_AIRPLAY = function (host) {
     for (var d = 0; d < 7; d++) {
       var lo = Infinity, hi = -Infinity;
       plans.forEach(function (p) {
-        p.days.forEach(function (o) {
-          p.legs.forEach(function (lg) {
-            var a = lg.off + o * DAY, b = lg.on + o * DAY;
-            // the part of this leg that falls on day d
-            if (b < d * DAY || a > (d + 1) * DAY) return;
-            lo = Math.min(lo, Math.max(a - d * DAY, 0));
-            hi = Math.max(hi, Math.min(b - d * DAY, DAY));
-          });
+        p.legs.forEach(function (lg) {
+          var a = lg.off + p.dayOff * DAY, b = lg.on + p.dayOff * DAY;
+          // the part of this leg that falls on day d
+          if (b < d * DAY || a > (d + 1) * DAY) return;
+          lo = Math.min(lo, Math.max(a - d * DAY, 0));
+          hi = Math.max(hi, Math.min(b - d * DAY, DAY));
         });
       });
       if (!isFinite(lo)) continue;     // a day with nothing in the air
@@ -246,15 +263,13 @@ window.JMAP_AIRPLAY = function (host) {
      not drawn: an aeroplane sitting on an apron is not a fact this is trying
      to show, and a dot parked on a ring hides the ring. */
   function positionAt(plan, T) {
-    for (var d = 0; d < plan.days.length; d++) {
-      var base = plan.days[d] * DAY;
-      for (var i = 0; i < plan.legs.length; i++) {
-        var lg = plan.legs[i];
-        var off = lg.off + base, on = lg.on + base;
-        if (T >= off && T <= on) {
-          var f = on > off ? (T - off) / (on - off) : 0;
-          return along(lg.seg, f);
-        }
+    var base = plan.dayOff * DAY;
+    for (var i = 0; i < plan.legs.length; i++) {
+      var lg = plan.legs[i];
+      var off = lg.off + base, on = lg.on + base;
+      if (T >= off && T <= on) {
+        var f = on > off ? (T - off) / (on - off) : 0;
+        return along(lg.seg, f);
       }
     }
     return null;
@@ -291,19 +306,33 @@ window.JMAP_AIRPLAY = function (host) {
     ['circle', { cx: 31.924, cy: 7.275, r: 2.4 }],
   ];
 
+  /* **One silhouette, not thirteen outlined parts.**
+   *
+   * The drawing is thirteen shapes — wing, fuselage, tailplane, four struts,
+   * three nacelles, three propeller discs — and giving each of them the ink
+   * outline it needs to be seen drew every seam *inside* the aeroplane as
+   * well: at twenty-four pixels it read as a tangle rather than as a shape.
+   *
+   * The fix is the usual one for outlining a compound shape without a union:
+   * draw the set twice. The layer underneath is the same shapes filled *and*
+   * stroked in ink, which fuses them into one fat blob; the layer on top is
+   * the same shapes filled in the panel colour with no stroke at all, so
+   * neighbouring parts meet without a line between them. What is left showing
+   * of the blob is a rim round the outside — the silhouette, and nothing else.
+   */
   function drawnPlane() {
     var g = host.svgEl('g', { 'class': 'plane-art' });
-    /* Nose along +x, centred on the point it is placed at, and about twenty
-       pixels long: `rotate(90)` turns north to east, and the 56 units of
-       artwork come down to 20. Fourteen was the first try and a trimotor at
-       fourteen pixels over a dark red Korea was a smudge — the wing struts and
-       the three engines are the whole reason for drawing it rather than an
-       arrowhead, and they need the room. Twenty-four is where the wing struts
-       and the nacelles stop running into one another. */
+    /* Nose along +x, centred on the point it is placed at, and about
+       twenty-four pixels long: `rotate(90)` turns north to east, and the 56
+       units of artwork come down to 24. */
     g.setAttribute('transform', 'rotate(90) scale(0.44) translate(-32,-30)');
-    FOKKER.forEach(function (sh) {
-      if (sh[0] === 'path') g.appendChild(host.svgEl('path', { d: sh[1] }));
-      else g.appendChild(host.svgEl(sh[0], sh[1]));
+    ['plane-case', 'plane-body-fill'].forEach(function (cls) {
+      var layer = host.svgEl('g', { 'class': cls });
+      FOKKER.forEach(function (sh) {
+        if (sh[0] === 'path') layer.appendChild(host.svgEl('path', { d: sh[1] }));
+        else layer.appendChild(host.svgEl(sh[0], sh[1]));
+      });
+      g.appendChild(layer);
     });
     return g;
   }
@@ -514,8 +543,8 @@ window.JMAP_AIRPLAY = function (host) {
     planAt: function (i) {
       var p = plans[i];
       if (!p) return null;
-      for (var d = 0; d < p.days.length; d++) {
-        var base = p.days[d] * DAY;
+      {
+        var base = p.dayOff * DAY;
         for (var k = 0; k < p.legs.length; k++) {
           var lg = p.legs[k];
           if (simMin < lg.off + base || simMin > lg.on + base) continue;

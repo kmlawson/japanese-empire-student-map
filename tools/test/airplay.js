@@ -204,12 +204,16 @@ const toEpoch=async(p,y)=>{
   await sleep(400);
   const w30=await walk(page, 20);
   const up30=Math.max.apply(null, w30.map(x=>x.flying));
-  /* **One service is two aeroplanes.** The 1931 trunk ran daily and took two
-     days each way, so on any morning one is going out and another is coming
-     back — which is what a daily service looks like from the ground, and what
-     the two-day window could not show. */
-  check('the 1930 sheet flies its one service, out and back',
-    up30===2, 'most in the air at once: '+up30);
+  /* **One service is three aeroplanes at its busiest.** The 1931 trunk ran
+     daily and took two days each way, so at the middle of a day there is one
+     going out, one that left yesterday and is still going out, and one coming
+     back. Held as a single plan with a list of days it had a single mark and
+     `positionAt` returned whichever it found first — the mark jumped between
+     machines and the others vanished, which is what the reader saw as an
+     aeroplane appearing over the Yellow Sea for part of an afternoon. One
+     plan is one aeroplane on one day now. */
+  check('the 1930 sheet has three of its one service aloft at the busiest',
+    up30===3, 'most in the air at once: '+up30);
   check('and the strip survived the date change',
     (await at(page)).bar, '');
   await toEpoch(page,'1942');
@@ -302,7 +306,10 @@ const toEpoch=async(p,y)=>{
   await setTick(page, Math.round((await maxTick(page))*0.15)); await sleep(300);
   const art=await page.evaluate(()=>({
     drawn:document.querySelectorAll('#planes .plane-art').length,
-    parts:document.querySelectorAll('#planes .plane-art > *').length,
+    // two layers per aeroplane — a fused ink blob and a flat body over it —
+    // so the shapes are counted at the leaves, not at the group
+    layers:document.querySelectorAll('#planes .plane-art > g').length,
+    parts:document.querySelectorAll('#planes .plane-case > *').length,
     arrow:document.querySelectorAll('#planes .plane-body').length}));
   /* One service, room on the map, and the type that flew it: a Fokker F.VII
      from above, the high wing and its three engines. The 1942 sheet has a
@@ -311,6 +318,10 @@ const toEpoch=async(p,y)=>{
   check('a drawn Fokker on the 1930 map, not an arrowhead',
     art.drawn>0 && art.arrow===0 && art.parts>=10*art.drawn,
     JSON.stringify(art));
+  /* Drawn as one silhouette: a fused ink layer under a flat body layer, so
+     the thirteen parts do not each draw their own seam inside the aeroplane. */
+  check('and drawn as one silhouette rather than thirteen outlined parts',
+    art.layers===2*art.drawn, JSON.stringify(art));
   await toEpoch(page,'1942');
   await sleep(500);
   await setTick(page, Math.round((await maxTick(page))*0.15)); await sleep(300);

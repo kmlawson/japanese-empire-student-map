@@ -7,7 +7,7 @@
 <meta name="description" content="Interactive map for revising the geography of the Japanese Empire: colonies, occupied territories, neighbouring states, cities and battles, 1853-1945.">
 <title>The Japanese Empire</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23f4f1ea'/%3E%3Ccircle cx='16' cy='16' r='8' fill='%239a1813'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css?v=d23b85a94e">
+<link rel="stylesheet" href="styles.css?v=94ac160802">
 </head>
 <body>
 
@@ -115,16 +115,25 @@
            it is offered at every zoom, so it does not come and go. -->
       <button type="button" id="btn-air" aria-pressed="false"
               aria-label="Show the air routes" title="The scheduled air routes, 1929–1939">
-        <!-- A high-wing monoplane seen from above, which is what a Fokker
-             F.VII is: one long wing across the top, three engines on it, a
-             slim fuselage under it and a tailplane at the back. Drawn solid
-             rather than stroked — at 21 px a stroked airframe fills in. -->
+        <!-- The Fokker F.VII from above: the high wing across the top, three
+             engines on it, the slim fuselage and the tailplane. The type that
+             flew this network, and the same drawing the animation puts on the
+             map, so the button and the thing it switches on are one mark. The
+             artwork is 64 units and the button is 24: placed by its own centre
+             rather than by the box, because the box has air round the wing. -->
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <path fill="currentColor"
-                d="M11.25 2.4h1.5c.35 0 .62.28.62.62v6.02h7.9c.35 0 .63.28.63.63v1.2c0 .34-.28.62-.63.62h-7.9v6.1l2.6 1.5c.2.12.3.32.3.55v1.1c0 .3-.28.5-.56.42l-3.2-.86-3.2.86a.43.43 0 0 1-.56-.42v-1.1c0-.23.1-.43.3-.55l2.6-1.5v-6.1H3.1a.62.62 0 0 1-.62-.62v-1.2c0-.35.28-.63.62-.63h7.53V3.02c0-.34.28-.62.62-.62Z"/>
-          <!-- the three engines, the mark of the F.VII/3m -->
-          <rect x="5.6" y="7.5" width="2.4" height="1.7" rx="0.5" fill="currentColor"/>
-          <rect x="16" y="7.5" width="2.4" height="1.7" rx="0.5" fill="currentColor"/>
+          <g transform="translate(12,12) scale(0.4) translate(-31.9,-29.9)">
+          <path fill="currentColor" d="M 3.924 19.775 C 3.924 17.775 4.924 16.608 6.924 16.275 L 29.924 12.775 L 33.924 12.775 L 56.924 16.275 C 58.924 16.608 59.924 17.775 59.924 19.775 L 59.924 23.775 C 59.924 25.442 58.924 26.275 56.924 26.275 L 6.924 26.275 C 4.924 26.275 3.924 25.442 3.924 23.775 Z"/>
+          <path fill="currentColor" d="M 27.424 10.275 C 27.757 6.275 29.257 3.608 31.924 2.275 C 34.591 3.608 36.091 6.275 36.424 10.275 L 36.308 26.539 L 32.861 57.459 L 30.842 57.434 L 27.741 26.641 Z"/>
+          <path fill="currentColor" d="M 19.424 50.775 C 19.424 49.442 20.091 48.608 21.424 48.275 L 29.424 45.775 L 34.424 45.775 L 42.424 48.275 C 43.757 48.608 44.424 49.442 44.424 50.775 L 44.424 53.275 L 19.424 53.275 Z"/>
+          <path fill="currentColor" d="M 15.22 13.39 L 17.417 13.39 L 17.732 25.602 C 17.732 27.823 17.261 28.933 16.319 28.933 C 15.377 28.933 14.906 27.823 14.906 25.602 Z"/>
+          <path fill="currentColor" d="M 47.221 13.446 L 49.418 13.446 L 49.733 25.658 C 49.733 27.879 49.262 28.989 48.32 28.989 C 47.378 28.989 46.907 27.879 46.907 25.658 Z"/>
+          <rect x="7.924" y="20.275" width="16" height="2" rx="1" fill="currentColor"/>
+          <rect x="39.924" y="17.275" width="16" height="2" rx="1" fill="currentColor"/>
+          <circle cx="15.924" cy="21.275" r="2.2" fill="currentColor"/>
+          <circle cx="47.924" cy="21.275" r="2.2" fill="currentColor"/>
+          <circle cx="31.924" cy="7.275" r="2.4" fill="currentColor"/>
+          </g>
         </svg>
       </button>
       <!-- Plane tools. Hidden until the air routes are on, the way the train
@@ -132,13 +141,27 @@
            timetable is meaningless without the network it plays over. -->
       <button type="button" id="btn-planes" hidden aria-pressed="false"
               aria-label="Plane tools" title="Plane tools: fly the timetable">
-        <!-- The same monoplane, turned to fly across the button, with two
-             motion lines behind it: the mark says this one moves. -->
+        <!-- The same aeroplane, climbing away from a runway: the tools are
+             about the network in motion rather than the network. Turned
+             thirty-five degrees and lifted clear of the ground line, which is
+             what a take-off looks like from the side of the field. It was a
+             generic airliner glyph with two speed lines before this, drawn by
+             hand and to a different eye from everything else here. -->
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <path fill="currentColor"
-                d="M21.1 11.3 14 9.4 9.9 3.3a.62.62 0 0 0-.53-.28h-1.2c-.4 0-.68.38-.58.76l1.5 5.9-3.6-.96-1.2-1.9a.62.62 0 0 0-.53-.29h-.8c-.4 0-.69.4-.57.78l.86 2.9-.86 2.9c-.12.39.17.78.57.78h.8c.22 0 .42-.11.53-.29l1.2-1.9 3.6-.96-1.5 5.9c-.1.38.18.76.58.76h1.2c.21 0 .4-.1.53-.28L14 14.6l7.1-1.9a.7.7 0 0 0 0-1.4Z"/>
-          <path d="M2.6 19.4h6M5.4 22h5.4" fill="none" stroke="currentColor"
-                stroke-width="1.9" stroke-linecap="round" opacity="0.7"/>
+          <g transform="translate(13.8,9.4) rotate(35) scale(0.29) translate(-31.9,-29.9)">
+          <path fill="currentColor" d="M 3.924 19.775 C 3.924 17.775 4.924 16.608 6.924 16.275 L 29.924 12.775 L 33.924 12.775 L 56.924 16.275 C 58.924 16.608 59.924 17.775 59.924 19.775 L 59.924 23.775 C 59.924 25.442 58.924 26.275 56.924 26.275 L 6.924 26.275 C 4.924 26.275 3.924 25.442 3.924 23.775 Z"/>
+          <path fill="currentColor" d="M 27.424 10.275 C 27.757 6.275 29.257 3.608 31.924 2.275 C 34.591 3.608 36.091 6.275 36.424 10.275 L 36.308 26.539 L 32.861 57.459 L 30.842 57.434 L 27.741 26.641 Z"/>
+          <path fill="currentColor" d="M 19.424 50.775 C 19.424 49.442 20.091 48.608 21.424 48.275 L 29.424 45.775 L 34.424 45.775 L 42.424 48.275 C 43.757 48.608 44.424 49.442 44.424 50.775 L 44.424 53.275 L 19.424 53.275 Z"/>
+          <path fill="currentColor" d="M 15.22 13.39 L 17.417 13.39 L 17.732 25.602 C 17.732 27.823 17.261 28.933 16.319 28.933 C 15.377 28.933 14.906 27.823 14.906 25.602 Z"/>
+          <path fill="currentColor" d="M 47.221 13.446 L 49.418 13.446 L 49.733 25.658 C 49.733 27.879 49.262 28.989 48.32 28.989 C 47.378 28.989 46.907 27.879 46.907 25.658 Z"/>
+          <rect x="7.924" y="20.275" width="16" height="2" rx="1" fill="currentColor"/>
+          <rect x="39.924" y="17.275" width="16" height="2" rx="1" fill="currentColor"/>
+          <circle cx="15.924" cy="21.275" r="2.2" fill="currentColor"/>
+          <circle cx="47.924" cy="21.275" r="2.2" fill="currentColor"/>
+          <circle cx="31.924" cy="7.275" r="2.4" fill="currentColor"/>
+          </g>
+          <path d="M3 21h12" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" opacity="0.75"/>
         </svg>
       </button>
       <button type="button" id="btn-stations" hidden aria-pressed="false"
@@ -484,7 +507,7 @@
 
   <p>Built with Anthropic's Claude, with <a href="https://muninn.net/">Konrad M. Lawson</a> at the prompt, primarily as a tool for students in his University of St Andrews honours module, <a href="https://github.com/kmlawson/japanese-empire-mo3335/">MO3335</a>.</p>
 
-  <p>Code for the website may be found <a href="https://github.com/kmlawson/japanese-empire-student-map">here</a>.</p>  <p class="version">Version 1 update <span id="jem-version">281</span> · last updated 02 September 2026, 05:23</p>
+  <p>Code for the website may be found <a href="https://github.com/kmlawson/japanese-empire-student-map">here</a>.</p>  <p class="version">Version 1 update <span id="jem-version">282</span> · last updated 02 September 2026, 06:17</p>
 
 <!-- END about -->
 </dialog>
@@ -540,7 +563,7 @@
 <!-- END help -->
 </dialog>
 
-<script src="data.js?v=c69159892d"></script>
+<script src="data.js?v=20dd84e6d0"></script>
 <script src="cities-gaz.js?v=c87d993474"></script>
 <script src="tw-stations.js?v=88605063d8"></script>
 <script src="kr-stations.js?v=bd9f42c9d3"></script>
@@ -550,6 +573,6 @@
      and data.js then hides it behind a fresh one. cities-gaz.js sits here for
      the same reason. -->
 <script src="relief.js?v=a584543962"></script>
-<script src="map.js?v=c2c6aefbca"></script>
+<script src="map.js?v=d19831a792"></script>
 </body>
 </html>

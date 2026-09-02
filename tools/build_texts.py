@@ -766,6 +766,39 @@ def build_data_js():
     times = read_data_csv("air", "timetable.csv")
     fares = read_data_csv("air", "fares.csv")
 
+    # **A timetable row names the stop its `seq` points at.**
+    #
+    # The card and the animation both take a call's place from `stops[seq-1]`,
+    # not from the printed station name — the file gives "東京 Tokyo" and the
+    # map wants its own city record. So a `seq` that points somewhere else is
+    # not a typo, it is an aeroplane flying the wrong leg: the Hokuriku line's
+    # Tokyo–Nagano service carried 1 and 2 while its route's stops run
+    # Osaka(1), Kanazawa(2), Toyama(3), Nagano(4), Tokyo(5), and the map drew
+    # that service as Osaka–Kanazawa and named it so on the card.
+    #
+    # The names are matched leniently: the timetable prints characters and a
+    # romanisation, the stop is romanised and may carry an alias — Koror
+    # (Palau) against パラオ Palau — so any word of the stop's name appearing
+    # in the station string will do. The `seq` bound is not lenient.
+    stops_by = {}
+    for st in stops:
+        stops_by.setdefault(st["route"], {})[int(st["seq"])] = st["name"]
+    for t in times:
+        mine = stops_by.get(t["route"], {})
+        n = int(t["seq"])
+        if n not in mine:
+            raise Problem(
+                "data/air/timetable.csv: %s has a call at seq %d and the route "
+                "has %d stops. The place is taken from the stop at that "
+                "number, so this would be drawn somewhere else entirely."
+                % (t["route"], n, len(mine)))
+        words = [w for w in re.split(r"[ ()]+", mine[n]) if len(w) > 2]
+        if words and not any(w in t["station"] for w in words):
+            raise Problem(
+                "data/air/timetable.csv: %s seq %d is %r in the timetable and "
+                "%r in stops.csv. The place is taken from the stop, so the two "
+                "must be the same one." % (t["route"], n, t["station"], mine[n]))
+
     # **Every clock is a twenty-four hour clock, and every call says which
     # day it is on.** The sources are not consistent about the first — the
     # 1931 Korea diagram gives 17:20 and the Taiwan sheets printed an afternoon

@@ -15524,6 +15524,84 @@ returns to the one.
 
 ---
 
+## An aeroplane that blinked, and the seq that pointed at another city
+
+### The blink was one mark doing the work of three
+
+Reported twice: an aeroplane appearing over the Yellow Sea for part of an
+afternoon and going again, and the Fokker blinking between Tokyo and Osaka from
+day 2 onward. **Not performance** — measured at 16.7 ms median frame, a solid
+60 fps, with 239 marks in the DOM and 15 aloft, a clock step costing 0.08 ms.
+
+A plan was a *service* with a list of days, and it had one mark. A daily service
+that takes two days each way has two or three machines in the air at once —
+yesterday's still coming home while today's goes out — so `positionAt` returned
+whichever instance it found first and the mark jumped between them. **One plan
+is one aeroplane on one day now**, sharing its legs by reference.
+
+At 14:00 on day 2 of the 1930 sheet the map showed two aeroplanes and should
+have shown three; the missing one was Dairen 11:50 → Heijō 15:10, which is the
+first leg of the 1931 return. It is there now.
+
+And the first day was visibly thinner than the six after it, because the
+machines that would have left "yesterday" did not exist. An instance seeded at
+day −1 flies the part of its journey inside the window, and every day of the
+film now looks alike.
+
+### A timetable row that named another city
+
+The Hokuriku line's **Tokyo–Nagano service carried `seq` 1 and 2** while its
+route's stops run Osaka(1), Kanazawa(2), Toyama(3), Nagano(4), Tokyo(5). The
+card and the animation both take a call's place from `stops[seq-1]`, not from
+the printed station name — so the map drew that service as **Osaka–Kanazawa**
+and named it so. That is why the Tokyo–Nagano leg looked missing.
+
+`build_texts.py` now refuses a row whose `seq` is out of range or whose station
+does not name the stop it points at. Names are matched leniently — the
+timetable prints characters and a romanisation, the stop may carry an alias, so
+Koror (Palau) against パラオ Palau passes — and the `seq` bound is not lenient.
+Driven by putting the fault back: it stops the build and names the row.
+
+### One silhouette, not thirteen outlined parts
+
+The drawn Fokker is thirteen shapes, and giving each the outline it needs to be
+seen drew every seam *inside* the aeroplane. Two layers now: the same shapes
+filled and stroked in ink, which fuses them into one blob, and the same shapes
+filled flat on top with no stroke, so neighbours meet without a line. What
+shows of the blob is the rim.
+
+Both buttons carry the same drawing — the air routes from above, the plane
+tools climbing away from a runway.
+
+### And the rest
+
+* **No link falls back to the browser's blue.** `dialog a` covered the dialogs
+  and nothing else, so every table's source link in the info card — the JACAR
+  citations, the population sources — came out at `rgb(0,0,238)` on a dark
+  panel. Stated once for every link the app draws.
+* **The operator is the one that date flew under**: Japan Air Transport
+  (日本航空輸送株式会社) on the 1930 sheet, Japan Airways Co. Ltd
+  (大日本航空株式会社) on the 1942 one, the 1938 merger having made the second
+  out of the first.
+* **Shinkyō–Harbin and Harbin–Tsitsihar are not drawn.** No timetable for those
+  legs under Japan Air Transport has been found, and the route says so rather
+  than showing a line with nothing behind it. 72 rings down to 70.
+* **The railway button switches every network on**, not whichever one the
+  reader happens to be over.
+* **The rails are 1.9px rather than 2.2 and their joins are round.** A mitred
+  join on a traced alignment spikes wherever two surveyed points meet at an
+  angle, which read as a jagged edge. **No geometry changed** — the alignment
+  is the source's and stays the source's. The sugar railways keep their 0.85.
+* **Switching the air routes on puts the train tools away.** Two clocks running
+  different days over each other is not a thing anybody asked to read; the
+  railway itself stays drawn.
+* Two notes removed from the cards, and the 1931 trunk's lay-over sentence.
+
+Measured: `air.js` 71 checks, `airplay.js` 41; the changed set 1,218 across 35
+scripts in 334.6s.
+
+---
+
 ## The aeroplane, the strip, and pressing one in flight
 
 ### A drawn Fokker on the 1930 sheet

@@ -906,15 +906,26 @@ button.plain:hover { background: var(--hover-fill); }
    spacing at every zoom and the symbol never has to be switched. */
 .rail {
   stroke: var(--rail-ink, #2b2b2b);
-  stroke-width: 2.2;
+  /* **A little narrower, and the corners rounded.** At 2.2 the network read as
+     heavier than the coastline it runs beside, and a mitred join on a traced
+     alignment spikes wherever two surveyed points meet at an angle — which on
+     a hand-traced line is often, and read as a jagged edge. 1.9 with a round
+     join is the same line without the barbs, and **nothing about the geometry
+     changes**: the alignment is the source's and stays the source's. The sugar
+     railways keep their own width, being a different kind of line. */
+  stroke-width: 1.9;
   stroke-linecap: butt;
+  stroke-linejoin: round;
   vector-effect: non-scaling-stroke;
 }
 .rail-tie {
   fill: none;
   stroke: var(--rail-ground, var(--bg));
-  stroke-width: 2.2;
+  /* The ties are the ground showing through the line above, so they follow its
+     width exactly: any wider and they eat the rail's edge. */
+  stroke-width: 1.9;
   stroke-linecap: butt;
+  stroke-linejoin: round;
   /* A HAIRLINE BREAK ON A LONG RUN OF INK, not the other way round. First
      attempt was 1.5 on 3.4, which leaves more break than line once the caps
      are counted, and it read as a dashed line rather than as a railway. One
@@ -1654,6 +1665,14 @@ dialog::backdrop { background: rgba(35, 32, 27, .45); }
 dialog h2 { margin: 0 0 10px; font-size: 20px; }
 dialog h3 { margin: 18px 0 6px; font-size: 15px; }
 dialog p, dialog li { font-size: 14px; }
+/* **No link falls back to the browser's own blue.** `dialog a` covered the
+   About and Layers panes and nothing else, so a source link in the info card —
+   the air routes' JACAR citations, the population tables' sources — came out
+   at rgb(0,0,238) on a dark panel, which is the one colour on the page that
+   belongs to no palette here and is unreadable against it. Stated once, for
+   every link the app draws; `.note-src` keeps its muted grey, being a class
+   and so more specific. */
+a { color: var(--accent); }
 dialog a { color: var(--accent); }
 
 /* The dialogs scroll, and an absolutely positioned × scrolls away with the
@@ -3832,21 +3851,26 @@ dialog h3 {
   stroke-width: 1.1;
   paint-order: stroke;
 }
-/* **The drawn Fokker, the other way round from the arrowhead.**
-   It arrives filled white, which is invisible over half the palettes this map
-   offers — and inked dark it disappeared into Japan and Korea, which are the
-   two countries its one route crosses. So it keeps a pale body and takes a
-   dark outline: a light shape with a line round it reads over dark land and
-   over pale sea both, which is what a silhouette on a map has to do. The
-   stroke is in the artwork's own units and those are scaled down by about
-   three, so 3 here is roughly one pixel on the screen. */
-.plane-art > * {
-  fill: var(--panel);
+/* **The drawn Fokker: one silhouette, drawn twice to get it.**
+   It arrives filled white, which is invisible over half the palettes here —
+   and inked dark it disappeared into Japan and Korea, the two countries its
+   one route crosses. So it keeps a pale body and takes a dark rim.
+
+   Two layers, because thirteen separate parts each carrying their own outline
+   drew every seam inside the aeroplane: `.plane-case` is the same shapes
+   filled *and* stroked in ink, which fuses them into one fat blob, and
+   `.plane-body-fill` is the same shapes filled flat on top with no stroke, so
+   neighbours meet without a line. All that shows of the blob is the rim. The
+   stroke is in the artwork's own units, scaled down by about two, so 5 here is
+   roughly two pixels on the screen. */
+.plane-case > * {
+  fill: var(--ink);
   stroke: var(--ink);
-  stroke-width: 2.2;
-  paint-order: fill stroke;
+  stroke-width: 5;
   stroke-linejoin: round;
 }
+.plane-body-fill > * { fill: var(--panel); stroke: none; }
+
 @media (max-width: 620px) {
   .air-count { display: none; }
   .air-clock { width: 6.8em; font-size: 12px; }

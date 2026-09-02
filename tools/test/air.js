@@ -226,7 +226,7 @@ const card_=p=>p.evaluate(()=>{
   check('every route has a white halo under it', on.halo===20, String(on.halo));
   check('and the halo is wider than the line it backs',
     parseFloat(on.haloW)>parseFloat(on.lineW), on.haloW+' vs '+on.lineW);
-  check('every stop is ringed', on.rings===72, String(on.rings));
+  check('every stop is ringed', on.rings===70, String(on.rings));
 
   /* **A route belongs to the dates it was flown.** The 1930 sheet has one:
      the Tokyo–Dairen trunk, the only service already running and the only one
@@ -378,8 +378,13 @@ const card_=p=>p.evaluate(()=>{
   const card=await card_(page);
   check('pressing a line opens its card', card.open, JSON.stringify(card));
   check('headed as an air route', card.chip==='Air route', card.chip);
+  /* **The operator each date flew under.** Japan Air Transport ran the 1930
+     network; the 1938 merger made 大日本航空 and it is that company's name on
+     every route the 1942 sheet draws, this trunk included — the line opened in
+     1929 and the company that was flying it by the timetable this card is read
+     from is not the one that opened it. */
   check('with the operator and the year it opened',
-    /Japan Air Transport/.test(card.when) && /1929/.test(card.when), card.when);
+    /大日本航空/.test(card.when) && /1929/.test(card.when), card.when);
   /* **One column is one circuit, read straight down.**
    *
    * It was a grid first, then two columns — outward and return — which still

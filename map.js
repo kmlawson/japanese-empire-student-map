@@ -13,8 +13,8 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '281';
-  var JEM_ASSETS = {"admin.js": "3414697d04", "air-play.js": "48eed33972", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "58132ef9c2", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
+  var JEM_VERSION = '282';
+  var JEM_ASSETS = {"admin.js": "3414697d04", "air-play.js": "b0d1f23da0", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "58132ef9c2", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
 
   /* Every file this one fetches, with the version on it.
 
@@ -6328,11 +6328,6 @@
       ol.appendChild(li);
     });
     wrap.appendChild(ol);
-    var n2 = document.createElement('p');
-    n2.className = 'pop-note';
-    n2.textContent = 'The leg it is flying now is marked; the ones above it are '
-      + 'behind it. Press the line itself for the whole timetable.';
-    wrap.appendChild(n2);
     host.appendChild(wrap);
 
     infoBox.hidden = false;
@@ -8817,9 +8812,7 @@
     var spec = document.createElement('div');
     spec.tableSpec = { cols: csvCols, rows: csvRows };
 
-    var notes = ['Each column is one aeroplane\u2019s circuit, read downwards: '
-                 + 'out along the line, round, and back. \u2193 is an arrival '
-                 + 'and \u2191 a departure.'];
+    var notes = ['\u2193 is an arrival and \u2191 a departure.'];
     notes.forEach(function (n) {
       var p2 = document.createElement('p');
       p2.className = 'pop-note';
@@ -14698,6 +14691,16 @@
     if (btnAir) {
       btnAir.addEventListener('click', function () {
         state.air = !state.air;
+        /* **One network in motion at a time.** The train tools carry their own
+           control strip across the foot of the map and the plane tools carry
+           another; two clocks running different days over each other is not a
+           thing anybody asked to read. Switching the air routes on puts the
+           trains' tools away — the railway itself stays drawn. */
+        if (state.air && trainApi && trainApi.mounted()) {
+          trainWanted = '';
+          trainApi.unmount();
+          syncLayerButtons();
+        }
         var box = $('#opt-air');
         if (box) box.checked = state.air;
         applyState();
@@ -14720,18 +14723,26 @@
     var btnRail = $('#btn-rail');
     if (btnRail) {
       btnRail.addEventListener('click', function () {
-        var sys = railZone();
-        if (!sys) return;
-        var key = STATION_SYS[sys].rail;
-        state[key] = !state[key];
-        var box = $('#opt-' + (sys === 'tw' ? 'tw-rail' : 'kr-rail'));
-        if (box) box.checked = state[key];
-        /* While the train tools are up the railway is borrowed, and the reader
-           turning it off here is a decision of their own — the same rule the
-           station button follows. */
-        if (trainBorrowed && trainBorrowed.rail === key) {
-          trainBorrowed.hadRail = state[key];
-        }
+        /* **One press, every network.** The button used to switch on whichever
+           railway the reader happened to be over, so a reader in Korea turned
+           on Korea's and found Taiwan's still missing when they went to look
+           at it — and there is no reason a reader who has asked for railways
+           wants them in one country only. Off if any is on, on if none is. */
+        var keys = Object.keys(STATION_SYS).map(function (k) {
+          return STATION_SYS[k].rail;
+        });
+        var anyOn = keys.some(function (k) { return !!state[k]; });
+        keys.forEach(function (k) {
+          state[k] = !anyOn;
+          var box = $('#opt-' + (k === STATION_SYS.tw.rail ? 'tw-rail' : 'kr-rail'));
+          if (box) box.checked = state[k];
+          /* While the train tools are up the railway is borrowed, and the
+             reader turning it off here is a decision of their own — the same
+             rule the station button follows. */
+          if (trainBorrowed && trainBorrowed.rail === k) {
+            trainBorrowed.hadRail = state[k];
+          }
+        });
         applyState();
         saveState();
       });
