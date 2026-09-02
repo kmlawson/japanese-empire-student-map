@@ -3713,7 +3713,8 @@ dialog h3 {
   stroke-linejoin: round;
 }
 #air .air-halo { stroke: var(--air-halo); stroke-width: 5; opacity: 0.9; }
-#air .air-line { stroke: #23405c; stroke-width: 1.7; }
+/* The map's own air ink, unless the route says otherwise — see `r.ink`. */
+#air .air-line { stroke: var(--air-ink, #23405c); stroke-width: 1.7; }
 /* The press target: invisible, wide enough for a finger, and the only part of
    the layer that takes the pointer. */
 #air .air-hit {
@@ -3730,7 +3731,11 @@ dialog h3 {
   stroke: #23405c;
   stroke-width: 1.3;
 }
-#air .air-route:hover .air-line { stroke: #0f2740; stroke-width: 2.4; }
+#air .air-route:hover .air-line {
+  stroke: var(--air-ink, #0f2740);
+  stroke-width: 2.4;
+  filter: brightness(0.8);
+}
 
 /* The airport rings take the pointer; the lines' own hit stroke is separate.
    The ring a reader sees is 3.4 px and a finger is not, so an invisible circle

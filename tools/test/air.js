@@ -154,25 +154,25 @@ const card_=p=>p.evaluate(()=>{
     opWithSeason:(JMAP.AIR||[]).filter(r=>r.season&&r.operator).length,
     noLine:(JMAP.AIR||[]).filter(r=>r.stops.length<2).map(r=>r.id),
   }));
-  /* Twenty: the four dated services, the fourteen listed off the 1938–39
-     timetable, Keijō–Kankō–Seishin which the diagram carries and the list did
-     not, and the 1938–39 Tokyo–Dairen trunk. That last is the 1931 trunk's
-     replacement rather than an addition — it flies the same line without
-     Ulsan or Heijō, and the two are one route each on their own date. */
-  check('twenty routes', data.n===20, String(data.n));
+  /* Fifty across three companies: twenty Japanese, the KLM trunk from
+     Amsterdam, twenty-five KNILM lines across the Indies from a 1935 route
+     map, and four more KNILM lines with times from the company's own 1931
+     timetable — those four on the 1930 sheet, where the rest of the Dutch
+     network is not. */
+  check('fifty routes', data.n===50, String(data.n));
   /* **Every route with a timetable says which sheet it was read from.** The
      card's heading used to fall back to "Summer timetable, June–August 1931"
      for any route with no season of its own, which put the 1931 trunk's
      diagram at the head of the Fukuoka–Naha–Taihoku table — a citation for a
      document those times were never in. `build_texts.py` refuses that now. */
-  check('nineteen of the twenty name the sheet they were read from',
-    data.seasoned===19, String(data.seasoned));
+  check('forty-nine of the fifty name the sheet they were read from',
+    data.seasoned===49, String(data.seasoned));
   const unsourced=await page.evaluate(()=>(JMAP.AIR||[])
     .filter(r=>(r.times||[]).length && !r.season).map(r=>r.id));
   check('and not one route with a timetable is missing it',
     unsourced.length===0, JSON.stringify(unsourced));
   check('each of those names the airline',
-    data.opWithSeason===19, String(data.opWithSeason));
+    data.opWithSeason===49, String(data.opWithSeason));
   check('the trunk runs Tokyo to Dairen in seven stops',
     data.trunk && data.trunk.stops.length===7
       && data.trunk.stops[0].name==='Tokyo'
@@ -221,13 +221,13 @@ const card_=p=>p.evaluate(()=>{
     haloW:getComputedStyle(document.querySelector('#air .air-halo')).strokeWidth,
     lineW:getComputedStyle(document.querySelector('#air .air-line')).strokeWidth,
   }));
-  check('the button builds them all', on.shown && on.routes===20, JSON.stringify(on));
+  check('the button builds them all', on.shown && on.routes===50, JSON.stringify(on));
   check('the pane box and the button agree',
     on.pressed==='true' && on.box===true, on.pressed+' / '+on.box);
-  check('every route has a white halo under it', on.halo===20, String(on.halo));
+  check('every route has a white halo under it', on.halo===50, String(on.halo));
   check('and the halo is wider than the line it backs',
     parseFloat(on.haloW)>parseFloat(on.lineW), on.haloW+' vs '+on.lineW);
-  check('every stop is ringed', on.rings===70, String(on.rings));
+  check('every stop is ringed', on.rings===145, String(on.rings));
 
   /* **A route belongs to the dates it was flown.** The 1930 sheet has one:
      the Tokyo–Dairen trunk, the only service already running and the only one
@@ -235,11 +235,16 @@ const card_=p=>p.evaluate(()=>{
      aeroplanes in the sky eight years early. */
   console.log('\n— and only the routes that date belongs to —');
   const on1930=await drawn(page);
-  check('the 1930 sheet draws the trunk and nothing else',
-    on1930.length===1 && on1930[0]==='korea', on1930.join(', '));
+  /* Five: the Japanese trunk, and the four KNILM lines the company's own 1931
+     timetable gives — Java, Bandoeng, Singapore and Medan. The rest of the
+     Dutch network belongs to the 1942 sheet, from later documents. */
+  check('the 1930 sheet draws the trunk and the four Dutch lines of 1931',
+    on1930.length===5 && on1930.indexOf('korea')>=0
+    && on1930.filter(function(x){return /^knilm30-/.test(x);}).length===4,
+    on1930.join(', '));
   await toEpoch(page,'1942');
   const on1942=await drawn(page);
-  check('the 1942 sheet draws the other nineteen', on1942.length===19,
+  check('the 1942 sheet draws the other forty-five', on1942.length===45,
     String(on1942.length));
   /* **The trunk is not on both — it is a different aeroplane.** In 1931 it
      called at Ulsan and Heijō and slept at Keijō; by the 1938–39 timetable it
@@ -251,7 +256,7 @@ const card_=p=>p.evaluate(()=>{
     on1942.indexOf('korea-1938')>=0, on1942.join(', '));
   await toEpoch(page,'1930');
   check('and switching back puts the rest away again',
-    (await drawn(page)).length===1);
+    (await drawn(page)).length===5);
   await toEpoch(page,'1942');
 
   console.log('\n— a ring is a size on screen, not in map units —');
@@ -368,6 +373,63 @@ const card_=p=>p.evaluate(()=>{
   });
   check('the airport layer stays above the small-territory hit discs',
     order.air>-1 && order.hits>-1 && order.air>order.hits, JSON.stringify(order));
+
+
+  /* ---- the Dutch networks ------------------------------------------
+   *
+   * Two more systems on the 1942 sheet, in an ink of their own: the KLM trunk
+   * from Amsterdam, which the frame catches from Karachi eastward, and the
+   * KNILM lines across the Indies. Both are drawn from documents that predate
+   * the occupation the map shows — a 1938 brochure and a map of about 1935 —
+   * and both cards say so, because a line drawn on a December 1942 sheet that
+   * had stopped flying by then is a claim that needs its date attached.
+   */
+  console.log('\n— the Dutch networks, in an ink of their own —');
+  const nl=await page.evaluate(()=>{
+    const air=JMAP.AIR||[];
+    const klm=air.filter(r=>r.id==='klm-batavia')[0];
+    const knilm=air.filter(r=>/^knilm-/.test(r.id));
+    const on=[...document.querySelectorAll('#air .air-route')]
+      .filter(g=>g.style.display!=='none');
+    const inkOf=id=>{const g=document.querySelector('.air-route[data-air="'+id+'"] .air-line');
+      return g?getComputedStyle(g).stroke:'';};
+    return {
+      klmStops:(klm&&klm.stops||[]).length,
+      klmDays:(klm&&klm.days)||[],
+      klmEpochs:(klm&&klm.epochs)||[],
+      knilm:knilm.length,
+      dutchDrawn:on.filter(g=>/^(klm|knilm)/.test(g.getAttribute('data-air'))).length,
+      japaneseDrawn:on.filter(g=>!/^(klm|knilm)/.test(g.getAttribute('data-air'))).length,
+      dutchInk:inkOf('klm-batavia'), japInk:inkOf('korea-1938'),
+      klmNote:(klm&&klm.note)||'', knilmNote:(knilm[0]&&knilm[0].note)||'',
+      klmOp:(klm&&klm.operator)||'', knilmOp:(knilm[0]&&knilm[0].operator)||'',
+      edge:((klm&&klm.stops||[])[0]||{}).name||'',
+    };
+  });
+  check('the KLM trunk runs Karachi to Bandoeng, with the frame\u2019s edge first',
+    nl.klmStops===13 && /Jask/.test(nl.edge), nl.klmStops+' stops, first '+nl.edge);
+  check('and leaves on Mondays, Thursdays and Saturdays',
+    JSON.stringify(nl.klmDays)==='[1,4,6]', JSON.stringify(nl.klmDays));
+  check('twenty-five KNILM lines beside it', nl.knilm===25, String(nl.knilm));
+  check('all of them on the 1942 sheet and none on the 1930 one',
+    nl.klmEpochs.length===1 && nl.klmEpochs[0]==='e1942',
+    JSON.stringify(nl.klmEpochs));
+  check('drawn in an ink of their own, not the Japanese network\u2019s',
+    nl.dutchInk && nl.japInk && nl.dutchInk!==nl.japInk,
+    nl.dutchInk+' vs '+nl.japInk);
+  check('twenty-six Dutch lines and nineteen Japanese, together',
+    nl.dutchDrawn===26 && nl.japaneseDrawn===19,
+    nl.dutchDrawn+' Dutch, '+nl.japaneseDrawn+' Japanese');
+  /* **The date on the document, not the date on the map.** */
+  check('the KLM card says its times are from before the occupation',
+    /1938/.test(nl.klmNote) && /occupation|stopped running/.test(nl.klmNote),
+    nl.klmNote.slice(0,90));
+  check('and the KNILM cards say theirs is a 1935 route map with no times',
+    /1935/.test(nl.knilmNote) && /No times/.test(nl.knilmNote),
+    nl.knilmNote.slice(0,90));
+  check('each names the company that flew it',
+    /KLM/.test(nl.klmOp) && /KNILM/.test(nl.knilmOp),
+    nl.klmOp+' / '+nl.knilmOp);
 
   console.log('\n— the card —');
   const spot=await lineSpot(page,'korea-1938');
@@ -506,7 +568,7 @@ const card_=p=>p.evaluate(()=>{
             long:(JMAP.AIR||[])[0].name};
   });
   check('every route carries a short name as well as its full one',
-    names.n===20 && /–/.test(names.sample[0]) && names.long.length>names.sample[0].length,
+    names.n===50 && /–/.test(names.sample[0]) && names.long.length>names.sample[0].length,
     JSON.stringify(names.sample));
   check('and the trunk is named by its two ends',
     names.sample[0]==='Tokyo – Dairen', names.sample[0]);
@@ -527,8 +589,14 @@ const card_=p=>p.evaluate(()=>{
   check('no two routes drawn on the same date collide',
     perEpoch.e1930.length===0 && perEpoch.e1942.length===0,
     JSON.stringify(perEpoch));
-  check('and the two trunks share a short name without being numbered',
-    names.clash.length===1 && names.clash[0]==='Tokyo – Dairen',
+  /* Two pairs share a short name across the two dates and neither is
+     numbered, because neither pair is ever drawn together: the 1931 Tokyo–
+     Dairen trunk and its 1938–39 replacement, and KNILM's Batavia–Bandoeng as
+     the 1931 timetable gives it and as the 1935 route map does. */
+  check('names shared across the two dates are not numbered',
+    names.clash.length===2
+    && names.clash.indexOf('Tokyo – Dairen')>=0
+    && names.clash.indexOf('Batavia – Bandoeng')>=0,
     JSON.stringify(names.clash));
   const planted=await page.evaluate(()=>{
     /* Two lines from Tokyo to Dairen by different roads is a thing the file

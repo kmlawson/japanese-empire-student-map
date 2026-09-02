@@ -118,12 +118,30 @@ const toEpoch=async(p,y)=>{
     (days[d]=days[d]||[]).push({min:+m[2]*60+ +m[3], flying:w.flying});});
   check('all seven days are reachable on it',
     Object.keys(days).length===7, Object.keys(days).join(','));
-  /* **Nothing here flew after dark**, which is the reading the whole 24-hour
-     normalisation rests on — so no part of the slider should land there. */
+  /* **The slider covers the flying and little else.** It used to assert a
+     bound of 05:00 to 20:00, which was the Japanese network's day; the KLM
+     trunk leaves Jodhpur at 5:00 and Rangoon at 5:30, and the window's own
+     margin then reaches 04:40 — so the check was measuring an assumption
+     rather than the file. The bound is taken from the timetable now: nothing
+     on the slider may fall more than half an hour outside the earliest
+     departure and the latest arrival of anything drawn on this date. */
+  const bounds=await page.evaluate(()=>{
+    let lo=1e9, hi=-1e9;
+    (JMAP.AIR||[]).filter(r=>!r.epochs||!r.epochs.length
+                             ||r.epochs.indexOf('e1942')>=0)
+      .forEach(r=>(r.times||[]).forEach(t=>{
+        ['da','dd','ua','ud'].forEach(k=>{
+          const m=/^(\d{1,2}):(\d{2})$/.exec(t[k]||'');
+          if(!m) return; const v=+m[1]*60+ +m[2];
+          lo=Math.min(lo,v); hi=Math.max(hi,v);});}));
+    return {lo, hi};
+  });
   const allMin=[].concat.apply([], Object.keys(days).map(d=>days[d].map(x=>x.min)));
-  check('and not one tick of it falls in the small hours',
-    Math.min.apply(null, allMin) >= 5*60 && Math.max.apply(null, allMin) <= 20*60,
-    'from ' + Math.min.apply(null,allMin) + ' to ' + Math.max.apply(null,allMin) + ' minutes');
+  check('and no tick of it falls outside the hours anything flew',
+    Math.min.apply(null, allMin) >= bounds.lo - 30
+    && Math.max.apply(null, allMin) <= bounds.hi + 30,
+    'slider ' + Math.min.apply(null,allMin) + '–' + Math.max.apply(null,allMin)
+    + ' vs timetable ' + bounds.lo + '–' + bounds.hi + ' minutes');
   check('the day opens before the first departure',
     days[1][0].flying===0, JSON.stringify(days[1][0]));
   const busiest=d=>Math.max.apply(null, days[d].map(x=>x.flying));
@@ -205,16 +223,18 @@ const toEpoch=async(p,y)=>{
   await sleep(400);
   const w30=await walk(page, 20);
   const up30=Math.max.apply(null, w30.map(x=>x.flying));
-  /* **One service is three aeroplanes at its busiest.** The 1931 trunk ran
-     daily and took two days each way, so at the middle of a day there is one
-     going out, one that left yesterday and is still going out, and one coming
-     back. Held as a single plan with a list of days it had a single mark and
-     `positionAt` returned whichever it found first — the mark jumped between
-     machines and the others vanished, which is what the reader saw as an
-     aeroplane appearing over the Yellow Sea for part of an afternoon. One
-     plan is one aeroplane on one day now. */
-  check('the 1930 sheet has three of its one service aloft at the busiest',
-    up30===3, 'most in the air at once: '+up30);
+  /* **Every aeroplane gets its own mark.** A plan was a *service* with a list
+     of days and had one mark, so a daily service taking two days each way —
+     which has two or three machines up at once — had them sharing it, and the
+     mark jumped between them while the others vanished. One plan is one
+     aeroplane on one day now.
+
+     The 1930 sheet carries five routes: the Japanese trunk and the four KNILM
+     lines the company's own 1931 timetable gives. Half a dozen aloft at the
+     busiest moment, and fewest on the Sunday, when the Java and Bandoeng lines
+     did not run. */
+  check('the 1930 sheet has several aeroplanes aloft at once',
+    up30>=5, 'most in the air at once: '+up30);
   check('and the strip survived the date change',
     (await at(page)).bar, '');
   await toEpoch(page,'1942');

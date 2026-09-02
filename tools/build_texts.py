@@ -939,7 +939,13 @@ def build_data_js():
                              ("dad", t.get("down_arrive_day", "")),
                              ("ddd", t.get("down_depart_day", "")),
                              ("uad", t.get("up_arrive_day", "")),
-                             ("udd", t.get("up_depart_day", "")))
+                             ("udd", t.get("up_depart_day", "")),
+                             # the days of the week this service left on, each
+                             # direction its own: the 1931 Java line came home
+                             # on a Wednesday by one timing and on the other
+                             # five days by another
+                             ("dw", t.get("down_days", "")),
+                             ("uw", t.get("up_days", "")))
                 if v != "")
             for t in tt)
         fr = [f for f in fares if f["route"] == r["id"]]
@@ -949,6 +955,7 @@ def build_data_js():
             for f in fr)
         inner.append("  {\n    id: %s, name: %s, operator: %s, opened: %s,\n"
                      "    season: %s, epochs: %s, source: %s, srcUrl: %s,\n"
+                     "    ink: %s, days: %s,\n"
                      "    note: %s,\n    stops: [\n%s\n    ]%s%s\n  }"
                      % (T.js_string(r["id"]), T.js_string(r["name"]),
                         T.js_string(r.get("operator") or ""),
@@ -959,6 +966,10 @@ def build_data_js():
                             (r.get("epochs") or "e1930 e1942").split()),
                         T.js_string(r.get("source") or ""),
                         T.js_string(r.get("source_url") or ""),
+                        # the line's own colour, where it is not the map's
+                        # default, and the days of the week it flew
+                        T.js_string(r.get("ink") or ""),
+                        "[%s]" % ", ".join((r.get("days") or "").split()),
                         T.js_string(r.get("note") or ""), pts,
                         (",\n    times: [\n%s\n    ]" % tt_js) if tt else "",
                         (",\n    fares: [\n%s\n    ]" % fr_js) if fr else ""))

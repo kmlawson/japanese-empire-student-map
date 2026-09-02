@@ -69,3 +69,78 @@ korea-1938,2,osaka,Osaka,135.5,34.69
 korea-1938,3,fukuoka,Fukuoka,130.4,33.59
 korea-1938,4,seoul,Keijō (Seoul),126.98,37.57
 korea-1938,5,dairen,Dairen (Dalian),121.61,38.91
+klm-batavia,1,,Towards Jask and Amsterdam,66.2,25.2
+klm-batavia,2,karachi,Karachi,67.01,24.86
+klm-batavia,3,jodhpur,Jodhpur,73.02,26.24
+klm-batavia,4,allahabad,Allahabad (Prayagraj),81.85,25.44
+klm-batavia,5,calcutta,Calcutta,88.36,22.57
+klm-batavia,6,rangoon,Rangoon (Yangon),96.2,16.87
+klm-batavia,7,bangkok,Bangkok,100.5,13.75
+klm-batavia,8,penang,Penang (Georgetown),100.34,5.41
+klm-batavia,9,medan,Medan,98.67,3.59
+klm-batavia,10,singapore,Singapore (Shōnantō),103.85,1.29
+klm-batavia,11,palembang,Palembang,104.76,-2.99
+klm-batavia,12,batavia,Batavia (Jakarta),106.85,-6.21
+klm-batavia,13,bandung,Bandoeng (Bandung),107.61,-6.91
+knilm-medan-pekanbaru,1,medan,Medan,98.67,3.59
+knilm-medan-pekanbaru,2,pekanbaru,Pakanbaroe (Pekanbaru),101.45,0.51
+knilm-pekanbaru-palembang,1,pekanbaru,Pakanbaroe (Pekanbaru),101.45,0.51
+knilm-pekanbaru-palembang,2,palembang,Palembang,104.76,-2.99
+knilm-pekanbaru-singapore,1,pekanbaru,Pakanbaroe (Pekanbaru),101.45,0.51
+knilm-pekanbaru-singapore,2,singapore,Singapore (Shōnantō),103.85,1.29
+knilm-singapore-saigon,1,singapore,Singapore (Shōnantō),103.85,1.29
+knilm-singapore-saigon,2,saigon,Saigon,106.63,10.82
+knilm-palembang-batavia,1,palembang,Palembang,104.76,-2.99
+knilm-palembang-batavia,2,batavia,Batavia (Jakarta),106.85,-6.21
+knilm-batavia-bandung,1,batavia,Batavia (Jakarta),106.85,-6.21
+knilm-batavia-bandung,2,bandung,Bandoeng (Bandung),107.61,-6.91
+knilm-batavia-semarang,1,batavia,Batavia (Jakarta),106.85,-6.21
+knilm-batavia-semarang,2,semarang,Semarang,110.42,-6.97
+knilm-semarang-surabaya,1,semarang,Semarang,110.42,-6.97
+knilm-semarang-surabaya,2,surabaya,Soerabaja (Surabaya),112.75,-7.25
+knilm-surabaya-bandjermasin,1,surabaya,Soerabaja (Surabaya),112.75,-7.25
+knilm-surabaya-bandjermasin,2,bandjermasin,Bandjermasin (Banjarmasin),114.59,-3.32
+knilm-bandjermasin-balikpapan,1,bandjermasin,Bandjermasin (Banjarmasin),114.59,-3.32
+knilm-bandjermasin-balikpapan,2,balikpapan,Balikpapan,116.85,-1.24
+knilm-balikpapan-tarakan,1,balikpapan,Balikpapan,116.85,-1.24
+knilm-balikpapan-tarakan,2,tarakan,Tarakan,117.59,3.3
+knilm-surabaya-denpasar,1,surabaya,Soerabaja (Surabaya),112.75,-7.25
+knilm-surabaya-denpasar,2,denpasar,Bali (Denpasar),115.22,-8.65
+knilm-denpasar-makassar,1,denpasar,Bali (Denpasar),115.22,-8.65
+knilm-denpasar-makassar,2,makassar,Makassar,119.43,-5.15
+knilm-surabaya-makassar,1,surabaya,Soerabaja (Surabaya),112.75,-7.25
+knilm-surabaya-makassar,2,makassar,Makassar,119.43,-5.15
+knilm-denpasar-kupang,1,denpasar,Bali (Denpasar),115.22,-8.65
+knilm-denpasar-kupang,2,kupang,Koepang (Kupang),123.61,-10.17
+knilm-kupang-darwin,1,kupang,Koepang (Kupang),123.61,-10.17
+knilm-kupang-darwin,2,darwin,Darwin,130.84,-12.46
+knilm-makassar-gorontalo,1,makassar,Makassar,119.43,-5.15
+knilm-makassar-gorontalo,2,gorontalo,Gorontalo,123.06,0.54
+knilm-gorontalo-manado,1,gorontalo,Gorontalo,123.06,0.54
+knilm-gorontalo-manado,2,manado,Menado (Manado),124.84,1.49
+knilm-manado-ternate,1,manado,Menado (Manado),124.84,1.49
+knilm-manado-ternate,2,ternate,Ternate,127.38,0.79
+knilm-ternate-ambon,1,ternate,Ternate,127.38,0.79
+knilm-ternate-ambon,2,ambon,Ambon (Amboina),128.18,-3.7
+knilm-makassar-ambon,1,makassar,Makassar,119.43,-5.15
+knilm-makassar-ambon,2,ambon,Ambon (Amboina),128.18,-3.7
+knilm-ambon-bandaneira,1,ambon,Ambon (Amboina),128.18,-3.7
+knilm-ambon-bandaneira,2,bandaneira,Banda (Banda Neira),129.90,-4.53
+knilm-ambon-babo,1,ambon,Ambon (Amboina),128.18,-3.7
+knilm-ambon-babo,2,babo,Babo,133.44,-2.55
+knilm-babo-manokwari,1,babo,Babo,133.44,-2.55
+knilm-babo-manokwari,2,manokwari,Manokwari,134.08,-0.86
+knilm-babo-wisselmeren,1,babo,Babo,133.44,-2.55
+knilm-babo-wisselmeren,2,wisselmeren,Wisselmeren (Paniai Lakes),136.38,-3.93
+knilm30-java,1,batavia,Batavia (Jakarta),106.85,-6.21
+knilm30-java,2,semarang,Semarang,110.42,-6.97
+knilm30-java,3,surabaya,Soerabaia (Surabaya),112.75,-7.25
+knilm30-bandoeng,1,batavia,Batavia (Jakarta),106.85,-6.21
+knilm30-bandoeng,2,bandung,Bandoeng (Bandung),107.61,-6.91
+knilm30-singapore,1,batavia,Batavia (Jakarta),106.85,-6.21
+knilm30-singapore,2,palembang,Palembang,104.76,-2.99
+knilm30-singapore,3,singapore,Singapore (Shōnantō),103.85,1.29
+knilm30-medan,1,batavia,Batavia (Jakarta),106.85,-6.21
+knilm30-medan,2,palembang,Palembang,104.76,-2.99
+knilm30-medan,3,pekanbaru,Pakan Baroe (Pekanbaru),101.45,0.51
+knilm30-medan,4,medan,Medan,98.67,3.59

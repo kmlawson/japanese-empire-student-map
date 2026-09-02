@@ -15524,6 +15524,77 @@ returns to the one.
 
 ---
 
+## Two Dutch networks, and a line that leaves the frame
+
+Fifty air routes now, across three companies: twenty Japanese, the KLM trunk
+from Amsterdam, twenty-five KNILM lines across the Indies from a 1935 route
+map, and four more KNILM lines with times from the company's own timetable for
+May–November 1931 — those four on the **1930** sheet, where the rest of the
+Dutch network is not.
+
+The Dutch lines are drawn in `#a9560d`, a darker cousin of the Indies' own
+`#fdb462`, so they read as a different system rather than as a gap in the
+Japanese one. Routes carry an `ink` now, set as a custom property on the group,
+so the line and its hover take the colour from one place.
+
+**Six places were missing and are now on both sheets**: Gorontalo, Manokwari,
+Wisselmeren, Banda Neira, Darwin and Allahabad. Everything else on the list was
+already there under a modern spelling — Menado is `manado`, Soerabaja
+`surabaya`, Pakanbaroe `pekanbaru`, Koepang `kupang`, Bali `denpasar` — and the
+Dutch stops now carry the period spelling first.
+
+Darwin is at 12.46 S and the frame reaches 13 S, so it is a real point.
+**Jask is not**: at 57.8 E it is eight degrees west of the frame, so the KLM
+line's first stop is the edge itself, named *Towards Jask and Amsterdam*, and
+the card says the next stop was Jask and then home. A dot at 66.2 E labelled
+Jask would have been a false position.
+
+### The date on the document, not the date on the map
+
+The 1942 sheet's Dutch lines come from documents that predate the occupation it
+shows — a 1938 brochure and a 1935 route map — and by that December neither was
+flying. Each card says so. A line drawn on a dated map that had stopped running
+by that date is a claim that needs its date attached.
+
+The twenty-five 1935 lines carry **no times at all**, because the source is a
+route map: they are drawn and nothing is said about when they flew.
+
+### Days belong to the service, not to the route
+
+The KLM trunk leaves Karachi on Mondays, Thursdays and Saturdays and starts back
+from Bandoeng on Tuesdays, Thursdays and Saturdays — two different lists for one
+route. And the 1931 Java line came home **on a Wednesday by one timing and on
+the other five days by another**, which is two services on one line. So the days
+are on the timetable row, per direction (`down_days`, `up_days`), with the
+route's own list and then the frequency prose as fallbacks.
+
+Measured on the 1930 sheet: 7, 6, 6, 7, 6, 7 and **4** aloft at the busiest
+moment of each day — Sunday last, because the Java and Bandoeng lines did not
+run and only the Medan return was up.
+
+### The Naha departure that was not there
+
+Reported: the Taihoku–Naha aeroplane arrives at 9:00 and no aeroplane leaves for
+Fukuoka. It was a hole in the transcription — Naha's `up_depart` was blank, so
+the leg had no start and the machine simply stopped existing there. 9:30 is in
+now, and **a sweep of the whole file found no other case**: no other call has an
+arrival, no departure, and more of its journey still to come.
+
+### Two more things the guards caught
+
+* The `seq` check refused the first draft, which had the timetable naming
+  Bandoeng where `stops.csv` said Bandung.
+* `airplay.js` asserted that no tick of the slider falls before 05:00 — true of
+  the Japanese network and **not** of the KLM trunk, which leaves Jodhpur at
+  5:00 and Rangoon at 5:30. The bound is taken from the timetable now rather
+  than from an assumption about what aeroplanes do.
+
+Measured: `air.js` 80 checks, `airplay.js` 43.
+
+---
+
+---
+
 ## Waiting for the thing instead of for a number of seconds
 
 Every script opened the map and then slept — 1,800 ms, 2,400, 3,200, whatever

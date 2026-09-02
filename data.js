@@ -7351,6 +7351,7 @@ JMAP.AIR = [
   {
     id: 'korea', name: 'Tokyo – Osaka – Fukuoka – Ulsan – Keijō – Heijō – Dairen', operator: 'Japan Air Transport (日本航空輸送株式会社)', opened: 'September 1929',
     season: 'June–August 1931', epochs: ['e1930'], source: '酒井正子「変容する世界の航空界・その4 日本の航空100年」', srcUrl: 'https://appsv.main.teikyo-u.ac.jp/tosho/keizaigaku44-1-09.pdf',
+    ink: '', days: [],
     note: 'The trunk line of the empire\'s air network: down the home islands, across to the peninsula and on to the Kwantung Leased Territory.',
     stops: [
       { id: 'tokyo', name: 'Tokyo', lon: 139.76, lat: 35.68 },
@@ -7397,6 +7398,7 @@ JMAP.AIR = [
   {
     id: 'korea-1938', name: 'Tokyo – Osaka – Fukuoka – Keijō – Dairen', operator: 'Japan Airways Co. Ltd (大日本航空株式会社)', opened: 'September 1929',
     season: 'October 1938 – March 1939', epochs: ['e1942'], source: '酒井正子「変容する世界の航空界・その4 日本の航空100年」', srcUrl: 'https://appsv.main.teikyo-u.ac.jp/tosho/keizaigaku44-1-09.pdf',
+    ink: '', days: [],
     note: 'The trunk line of the empire\'s air network, as it stood in the 1938–39 timetable: down the home islands, across to the peninsula and on to the Kwantung Leased Territory. A day each way by then — Tokyo at seven, Dairen by mid-afternoon, and back the next morning — where the 1931 service had taken two, calling at Ulsan and Heijō and sleeping at Keijō. Neither of those is a stop here any longer.',
     stops: [
       { id: 'tokyo', name: 'Tokyo', lon: 139.76, lat: 35.68 },
@@ -7416,6 +7418,7 @@ JMAP.AIR = [
   {
     id: 'manchuria', name: 'Shingishū – Hōten – Shinkyō', operator: 'Japan Airways Co. Ltd (大日本航空株式会社)', opened: '1932',
     season: '', epochs: ['e1942'], source: '', srcUrl: '',
+    ink: '', days: [],
     note: 'Up the Manchurian trunk from the Korean border to the north, the year Manchukuo was declared. Drawn as far as Shinkyō. The line ran on to Harbin and Tsitsihar, and no timetable for those legs under Japan Air Transport has been found, so they are not drawn rather than drawn without times.',
     stops: [
       { id: 'sinuiju', name: 'Shingishū (Sinŭiju)', lon: 124.39, lat: 40.1 },
@@ -7426,6 +7429,7 @@ JMAP.AIR = [
   {
     id: 'taiwan', name: 'Fukuoka – Naha – Taipei', operator: 'Japan Airways Co. Ltd (大日本航空株式会社)', opened: '1935',
     season: 'October 1938 – March 1939', epochs: ['e1942'], source: '酒井正子「変容する世界の航空界・その4 日本の航空100年」p101, citing 『航空輸送の歩み』大日本航空社史刊行会編, 1975, p65', srcUrl: 'https://appsv.main.teikyo-u.ac.jp/tosho/keizaigaku44-1-09.pdf',
+    ink: '', days: [],
     note: 'Kyūshū to the colony by way of Okinawa, the two long sea legs the Ryukyus break in half. A 1938 guidebook has it flown by a Douglas carrying fourteen passengers: 100 yen from Fukuoka to Taihoku and 50 from Naha. It also warns that the Tainan–Makō line was carrying mail only for the time being and taking no passengers. 旅程と費用概算, p893. The line opened in October 1935 and ran three days a week to begin with: out from Fukuoka on the Wednesday at 7:00, into Naha at 12:10 and away again at 13:00 for Taihoku by 17:00; back from Taihoku on the Friday at 10:00 for Naha at 17:00; and on to Fukuoka on the Saturday, 7:00 to 13:20. JACAR C05034292500 海軍省-公文備考-S10-78-4892 (1935).',
     stops: [
       { id: 'fukuoka', name: 'Fukuoka', lon: 130.4, lat: 33.59 },
@@ -7434,13 +7438,14 @@ JMAP.AIR = [
     ],
     times: [
       { seq: '1', station: '福岡 Fukuoka', dd: '11:00', ua: '13:00', freq: 'daily' },
-      { seq: '2', station: '那覇 Naha', da: '14:00', dd: '14:30', ua: '9:00', freq: 'daily' },
+      { seq: '2', station: '那覇 Naha', da: '14:00', dd: '14:30', ua: '9:00', ud: '9:30', freq: 'daily' },
       { seq: '3', station: '臺北 Taihoku', da: '16:50', ud: '6:30', freq: 'daily' }
     ]
   },
   {
     id: 'nanyo', name: 'Yokohama – Saipan – Palau', operator: 'Japan Airways Co. Ltd (大日本航空株式会社)', opened: 'April 1939',
     season: 'April 1939', epochs: ['e1942'], source: 'JACAR C01007343400 陸軍省-大日記乙輯-S14-13-41', srcUrl: 'https://www.jacar.archives.go.jp/das/meta-en/C01007343400',
+    ink: '', days: [],
     note: 'Out to the South Seas Mandate: the longest of these by far, and over open ocean the whole way.',
     stops: [
       { id: 'yokohama', name: 'Yokohama', lon: 139.64, lat: 35.44 },
@@ -7456,6 +7461,7 @@ JMAP.AIR = [
   {
     id: 'shanghai', name: 'Fukuoka – Shanghai – Nanking', operator: 'Japan Airways Co. Ltd (大日本航空株式会社)', opened: '',
     season: 'October 1938 – March 1939', epochs: ['e1942'], source: '酒井正子「変容する世界の航空界・その4 日本の航空100年」p101, citing 『航空輸送の歩み』大日本航空社史刊行会編 (1975) p65', srcUrl: 'https://appsv.main.teikyo-u.ac.jp/tosho/keizaigaku44-1-09.pdf',
+    ink: '', days: [],
     note: 'The Yangtze delta, by the winter of 1938 under Japanese occupation.',
     stops: [
       { id: 'fukuoka', name: 'Fukuoka', lon: 130.4, lat: 33.59 },
@@ -7466,6 +7472,7 @@ JMAP.AIR = [
   {
     id: 'nagoya-tokyo', name: 'Tokyo – Nagoya', operator: 'Japan Airways Co. Ltd (大日本航空株式会社)', opened: '',
     season: 'October 1938 – March 1939', epochs: ['e1942'], source: '酒井正子「変容する世界の航空界・その4 日本の航空100年」p101, citing 『航空輸送の歩み』大日本航空社史刊行会編 (1975) p65', srcUrl: 'https://appsv.main.teikyo-u.ac.jp/tosho/keizaigaku44-1-09.pdf',
+    ink: '', days: [],
     note: '',
     stops: [
       { id: 'tokyo', name: 'Tokyo', lon: 139.76, lat: 35.68 },
@@ -7481,6 +7488,7 @@ JMAP.AIR = [
   {
     id: 'nagoya-osaka', name: 'Osaka – Nagoya', operator: 'Japan Airways Co. Ltd (大日本航空株式会社)', opened: '',
     season: 'October 1938 – March 1939', epochs: ['e1942'], source: '酒井正子「変容する世界の航空界・その4 日本の航空100年」p101, citing 『航空輸送の歩み』大日本航空社史刊行会編 (1975) p65', srcUrl: 'https://appsv.main.teikyo-u.ac.jp/tosho/keizaigaku44-1-09.pdf',
+    ink: '', days: [],
     note: '',
     stops: [
       { id: 'osaka', name: 'Osaka', lon: 135.5, lat: 34.69 },
@@ -7496,6 +7504,7 @@ JMAP.AIR = [
   {
     id: 'shikoku', name: 'Osaka – Tokushima – Kōchi', operator: 'Japan Airways Co. Ltd (大日本航空株式会社)', opened: '',
     season: 'October 1938 – March 1939', epochs: ['e1942'], source: '酒井正子「変容する世界の航空界・その4 日本の航空100年」p101, citing 『航空輸送の歩み』大日本航空社史刊行会編 (1975) p65', srcUrl: 'https://appsv.main.teikyo-u.ac.jp/tosho/keizaigaku44-1-09.pdf',
+    ink: '', days: [],
     note: 'Across the Inland Sea to Shikoku, which the railways reached only by ferry.',
     stops: [
       { id: 'osaka', name: 'Osaka', lon: 135.5, lat: 34.69 },
@@ -7511,6 +7520,7 @@ JMAP.AIR = [
   {
     id: 'taiwan-west', name: 'Taihoku – Taichū – Tainan – Makō', operator: 'Japan Airways Co. Ltd (大日本航空株式会社)', opened: '',
     season: 'October 1938 – March 1939', epochs: ['e1942'], source: '酒井正子「変容する世界の航空界・その4 日本の航空100年」p101, citing 『航空輸送の歩み』大日本航空社史刊行会編 (1975) p65', srcUrl: 'https://appsv.main.teikyo-u.ac.jp/tosho/keizaigaku44-1-09.pdf',
+    ink: '', days: [],
     note: 'Down the colony’s western plain and out to the Pescadores. A 1938 guidebook warns that the Tainan–Makō leg was carrying mail only for the time being and taking no passengers — which is the leg the timetable marks 偶数日, flown on alternate days. 旅程と費用概算, p893.',
     stops: [
       { id: 'taipei', name: 'Taihoku (Taipei)', lon: 121.57, lat: 25.03 },
@@ -7528,6 +7538,7 @@ JMAP.AIR = [
   {
     id: 'taiwan-east', name: 'Taihoku – Giran – Karenkō – Taitō – Heitō – Tainan', operator: 'Japan Airways Co. Ltd (大日本航空株式会社)', opened: '',
     season: 'October 1938 – March 1939', epochs: ['e1942'], source: '酒井正子「変容する世界の航空界・その4 日本の航空100年」p101, citing 『航空輸送の歩み』大日本航空社史刊行会編 (1975) p65', srcUrl: 'https://appsv.main.teikyo-u.ac.jp/tosho/keizaigaku44-1-09.pdf',
+    ink: '', days: [],
     note: 'Round the eastern seaboard, which the mountains cut off from the west.',
     stops: [
       { id: 'taipei', name: 'Taihoku (Taipei)', lon: 121.57, lat: 25.03 },
@@ -7549,6 +7560,7 @@ JMAP.AIR = [
   {
     id: 'northchina', name: 'Fukuoka – Tsingtao – Tientsin – Peking', operator: 'Japan Airways Co. Ltd (大日本航空株式会社)', opened: '',
     season: 'October 1938 – March 1939', epochs: ['e1942'], source: '酒井正子「変容する世界の航空界・その4 日本の航空100年」p101, citing 『航空輸送の歩み』大日本航空社史刊行会編 (1975) p65', srcUrl: 'https://appsv.main.teikyo-u.ac.jp/tosho/keizaigaku44-1-09.pdf',
+    ink: '', days: [],
     note: 'Into occupied north China.',
     stops: [
       { id: 'fukuoka', name: 'Fukuoka', lon: 130.4, lat: 33.59 },
@@ -7560,6 +7572,7 @@ JMAP.AIR = [
   {
     id: 'keijo-dairen', name: 'Keijō – Dairen', operator: 'Japan Airways Co. Ltd (大日本航空株式会社)', opened: '',
     season: 'October 1938 – March 1939', epochs: ['e1942'], source: '酒井正子「変容する世界の航空界・その4 日本の航空100年」p101, citing 『航空輸送の歩み』大日本航空社史刊行会編 (1975) p65', srcUrl: 'https://appsv.main.teikyo-u.ac.jp/tosho/keizaigaku44-1-09.pdf',
+    ink: '', days: [],
     note: 'Direct across the Yellow Sea, without the coastal legs the 1929 trunk flew.',
     stops: [
       { id: 'seoul', name: 'Keijō (Seoul)', lon: 126.98, lat: 37.57 },
@@ -7569,6 +7582,7 @@ JMAP.AIR = [
   {
     id: 'keijo-shinkyo', name: 'Keijō – Hōten – Shinkyō', operator: 'Japan Airways Co. Ltd (大日本航空株式会社)', opened: '',
     season: 'October 1938 – March 1939', epochs: ['e1942'], source: '酒井正子「変容する世界の航空界・その4 日本の航空100年」p101, citing 『航空輸送の歩み』大日本航空社史刊行会編 (1975) p65', srcUrl: 'https://appsv.main.teikyo-u.ac.jp/tosho/keizaigaku44-1-09.pdf',
+    ink: '', days: [],
     note: 'From the Korean capital to Manchukuo’s.',
     stops: [
       { id: 'seoul', name: 'Keijō (Seoul)', lon: 126.98, lat: 37.57 },
@@ -7584,6 +7598,7 @@ JMAP.AIR = [
   {
     id: 'fukuoka-keijo', name: 'Fukuoka – Taikyū – Keijō', operator: 'Japan Airways Co. Ltd (大日本航空株式会社)', opened: '',
     season: 'October 1938 – March 1939', epochs: ['e1942'], source: '酒井正子「変容する世界の航空界・その4 日本の航空100年」p101, citing 『航空輸送の歩み』大日本航空社史刊行会編 (1975) p65', srcUrl: 'https://appsv.main.teikyo-u.ac.jp/tosho/keizaigaku44-1-09.pdf',
+    ink: '', days: [],
     note: '',
     stops: [
       { id: 'fukuoka', name: 'Fukuoka', lon: 130.4, lat: 33.59 },
@@ -7599,6 +7614,7 @@ JMAP.AIR = [
   {
     id: 'tohoku', name: 'Tokyo – Sendai – Aomori – Sapporo', operator: 'Japan Airways Co. Ltd (大日本航空株式会社)', opened: '',
     season: 'October 1938 – March 1939', epochs: ['e1942'], source: '酒井正子「変容する世界の航空界・その4 日本の航空100年」p101, citing 『航空輸送の歩み』大日本航空社史刊行会編 (1975) p65', srcUrl: 'https://appsv.main.teikyo-u.ac.jp/tosho/keizaigaku44-1-09.pdf',
+    ink: '', days: [],
     note: 'Up the north-east and over the strait to Hokkaidō.',
     stops: [
       { id: 'tokyo', name: 'Tokyo', lon: 139.76, lat: 35.68 },
@@ -7616,6 +7632,7 @@ JMAP.AIR = [
   {
     id: 'hokuriku', name: 'Osaka – Kanazawa – Toyama – Nagano – Tokyo', operator: 'Japan Airways Co. Ltd (大日本航空株式会社)', opened: '',
     season: 'October 1938 – March 1939', epochs: ['e1942'], source: '酒井正子「変容する世界の航空界・その4 日本の航空100年」p101, citing 『航空輸送の歩み』大日本航空社史刊行会編 (1975) p65', srcUrl: 'https://appsv.main.teikyo-u.ac.jp/tosho/keizaigaku44-1-09.pdf',
+    ink: '', days: [],
     note: 'The Japan Sea coast and back over the mountains.',
     stops: [
       { id: 'osaka', name: 'Osaka', lon: 135.5, lat: 34.69 },
@@ -7635,6 +7652,7 @@ JMAP.AIR = [
   {
     id: 'niigata', name: 'Nagano – Niigata', operator: 'Japan Airways Co. Ltd (大日本航空株式会社)', opened: '',
     season: 'October 1938 – March 1939', epochs: ['e1942'], source: '酒井正子「変容する世界の航空界・その4 日本の航空100年」p101, citing 『航空輸送の歩み』大日本航空社史刊行会編 (1975) p65', srcUrl: 'https://appsv.main.teikyo-u.ac.jp/tosho/keizaigaku44-1-09.pdf',
+    ink: '', days: [],
     note: '',
     stops: [
       { id: 'nagano', name: 'Nagano', lon: 138.18, lat: 36.65 },
@@ -7648,6 +7666,7 @@ JMAP.AIR = [
   {
     id: 'sanin', name: 'Osaka – Tottori – Matsue', operator: 'Japan Airways Co. Ltd (大日本航空株式会社)', opened: '',
     season: 'October 1938 – March 1939', epochs: ['e1942'], source: '酒井正子「変容する世界の航空界・その4 日本の航空100年」p101, citing 『航空輸送の歩み』大日本航空社史刊行会編 (1975) p65', srcUrl: 'https://appsv.main.teikyo-u.ac.jp/tosho/keizaigaku44-1-09.pdf',
+    ink: '', days: [],
     note: 'The San’in coast.',
     stops: [
       { id: 'osaka', name: 'Osaka', lon: 135.5, lat: 34.69 },
@@ -7663,6 +7682,7 @@ JMAP.AIR = [
   {
     id: 'keijo-seishin', name: 'Keijō – Kankō – Seishin', operator: 'Japan Airways Co. Ltd (大日本航空株式会社)', opened: '',
     season: 'October 1938 – March 1939', epochs: ['e1942'], source: '酒井正子「変容する世界の航空界・その4 日本の航空100年」p101, citing 『航空輸送の歩み』大日本航空社史刊行会編 (1975) p65', srcUrl: 'https://appsv.main.teikyo-u.ac.jp/tosho/keizaigaku44-1-09.pdf',
+    ink: '', days: [],
     note: 'Up the eastern side of the peninsula to the Japan Sea ports.',
     stops: [
       { id: 'seoul', name: 'Keijō (Seoul)', lon: 126.98, lat: 37.57 },
@@ -7673,6 +7693,360 @@ JMAP.AIR = [
       { seq: '1', station: '京城 Keijō', dd: '9:00', ua: '15:20', freq: 'daily' },
       { seq: '2', station: '咸興 Kankō', da: '10:15', dd: '10:25', ua: '13:55', ud: '14:05', freq: 'daily' },
       { seq: '3', station: '清津 Seishin', da: '11:50', ud: '12:30', freq: 'daily' }
+    ]
+  },
+  {
+    id: 'klm-batavia', name: 'Karachi – Jodhpur – Allahabad – Calcutta – Rangoon – Bangkok – Penang – Medan – Singapore – Palembang – Batavia – Bandoeng', operator: 'KLM (Koninklijke Luchtvaart Maatschappij)', opened: '1929',
+    season: 'summer 1938', epochs: ['e1942'], source: 'KLM, Amsterdam–Batavia summer service, 29 March 1938', srcUrl: 'https://northwestairlineshistory.org/wp-content/uploads/2020/04/KLM-schedule-1938-03-29-AMS-JKT-route.pdf',
+    ink: '#a9560d', days: [1, 4, 6],
+    note: 'The eastern end of the Amsterdam–Batavia trunk, the longest scheduled air route in the world when it opened. Four days from Karachi to Bandoeng, night stops at Jodhpur, Rangoon and Singapore, leaving Karachi on Mondays, Thursdays and Saturdays. **These are 1938 times, from a brochure printed before the occupation** — the map is December 1942, by which date the Japanese held every field east of Calcutta and this service had long stopped running. It is drawn to show what the network had been. West of Karachi the line runs off the frame: the dot at the edge marks where it leaves, and the next stop was Jask on the Persian coast, then on to Amsterdam.',
+    stops: [
+      { name: 'Towards Jask and Amsterdam', lon: 66.2, lat: 25.2 },
+      { id: 'karachi', name: 'Karachi', lon: 67.01, lat: 24.86 },
+      { id: 'jodhpur', name: 'Jodhpur', lon: 73.02, lat: 26.24 },
+      { id: 'allahabad', name: 'Allahabad (Prayagraj)', lon: 81.85, lat: 25.44 },
+      { id: 'calcutta', name: 'Calcutta', lon: 88.36, lat: 22.57 },
+      { id: 'rangoon', name: 'Rangoon (Yangon)', lon: 96.2, lat: 16.87 },
+      { id: 'bangkok', name: 'Bangkok', lon: 100.5, lat: 13.75 },
+      { id: 'penang', name: 'Penang (Georgetown)', lon: 100.34, lat: 5.41 },
+      { id: 'medan', name: 'Medan', lon: 98.67, lat: 3.59 },
+      { id: 'singapore', name: 'Singapore (Shōnantō)', lon: 103.85, lat: 1.29 },
+      { id: 'palembang', name: 'Palembang', lon: 104.76, lat: -2.99 },
+      { id: 'batavia', name: 'Batavia (Jakarta)', lon: 106.85, lat: -6.21 },
+      { id: 'bandung', name: 'Bandoeng (Bandung)', lon: 107.61, lat: -6.91 }
+    ],
+    times: [
+      { seq: '2', station: 'Karachi', da: '16:15', dd: '17:15', ua: '9:30', ud: '10:15', freq: 'Mondays, Thursdays and Saturdays', dad: '1', ddd: '1', uad: '4', udd: '4', dw: '1 4 6', uw: '2 4 6' },
+      { seq: '3', station: 'Jodhpur', da: '19:15', dd: '5:00', ua: '17:00', ud: '7:00', freq: 'Mondays, Thursdays and Saturdays', dad: '1', ddd: '2', uad: '3', udd: '4', dw: '1 4 6', uw: '2 4 6' },
+      { seq: '4', station: 'Allahabad', da: '8:15', dd: '8:45', ua: '12:45', ud: '13:30', freq: 'Mondays, Thursdays and Saturdays', dad: '2', ddd: '2', uad: '3', udd: '3', dw: '1 4 6', uw: '2 4 6' },
+      { seq: '5', station: 'Calcutta', da: '12:00', dd: '12:45', ua: '9:30', ud: '10:15', freq: 'Mondays, Thursdays and Saturdays', dad: '2', ddd: '2', uad: '3', udd: '3', dw: '1 4 6', uw: '2 4 6' },
+      { seq: '6', station: 'Rangoon', da: '17:30', dd: '5:30', ua: '14:45', ud: '6:00', freq: 'Mondays, Thursdays and Saturdays', dad: '2', ddd: '3', uad: '2', udd: '3', dw: '1 4 6', uw: '2 4 6' },
+      { seq: '7', station: 'Bangkok', da: '8:15', dd: '8:45', ua: '12:00', ud: '12:45', freq: 'Mondays, Thursdays and Saturdays', dad: '3', ddd: '3', uad: '2', udd: '2', dw: '1 4 6', uw: '2 4 6' },
+      { seq: '8', station: 'Penang', da: '12:45', dd: '13:15', ua: '8:00', ud: '8:30', freq: 'Mondays, Thursdays and Saturdays', dad: '3', ddd: '3', uad: '2', udd: '2', dw: '1 4 6', uw: '2 4 6' },
+      { seq: '9', station: 'Medan', da: '13:30', dd: '14:30', ua: '16:45', ud: '6:00', freq: 'Mondays, Thursdays and Saturdays', dad: '3', ddd: '3', uad: '1', udd: '2', dw: '1 4 6', uw: '2 4 6' },
+      { seq: '10', station: 'Singapore', da: '17:45', dd: '6:00', ua: '14:30', ud: '15:00', freq: 'Mondays, Thursdays and Saturdays', dad: '3', ddd: '4', uad: '1', udd: '1', dw: '1 4 6', uw: '2 4 6' },
+      { seq: '11', station: 'Palembang', da: '7:45', dd: '8:15', ua: '11:45', ud: '12:15', freq: 'Mondays, Thursdays and Saturdays', dad: '4', ddd: '4', uad: '1', udd: '1', dw: '1 4 6', uw: '2 4 6' },
+      { seq: '12', station: 'Batavia', da: '10:30', dd: '11:15', ua: '9:30', ud: '10:30', freq: 'Mondays, Thursdays and Saturdays', dad: '4', ddd: '4', uad: '1', udd: '1', dw: '1 4 6', uw: '2 4 6' },
+      { seq: '13', station: 'Bandoeng', da: '11:45', ud: '9:00', freq: 'Mondays, Thursdays and Saturdays', dad: '4', udd: '1', dw: '1 4 6', uw: '2 4 6' }
+    ]
+  },
+  {
+    id: 'knilm-medan-pekanbaru', name: 'Medan – Pakanbaroe', operator: 'KNILM (Koninklijke Nederlandsch-Indische Luchtvaart Maatschappij)', opened: '',
+    season: 'c. 1935', epochs: ['e1942'], source: 'Complete Map of the Airlines of K.N.I.L.M., c. 1935', srcUrl: 'https://www.davidrumsey.com/luna/servlet/detail/RUMSEY~8~1~356322~90123241:Complete-Map-of-the-Airlines-of-K-N',
+    ink: '#a9560d', days: [],
+    note: 'One line of the KNILM network as its own map showed it about 1935. **No times: the source is a route map, not a timetable**, so the line is drawn and nothing is claimed about when it flew. The map is December 1942, by which date the Japanese had taken the Indies and this network had gone; it is drawn to show what had been there.',
+    stops: [
+      { id: 'medan', name: 'Medan', lon: 98.67, lat: 3.59 },
+      { id: 'pekanbaru', name: 'Pakanbaroe (Pekanbaru)', lon: 101.45, lat: 0.51 }
+    ]
+  },
+  {
+    id: 'knilm-pekanbaru-palembang', name: 'Pakanbaroe – Palembang', operator: 'KNILM (Koninklijke Nederlandsch-Indische Luchtvaart Maatschappij)', opened: '',
+    season: 'c. 1935', epochs: ['e1942'], source: 'Complete Map of the Airlines of K.N.I.L.M., c. 1935', srcUrl: 'https://www.davidrumsey.com/luna/servlet/detail/RUMSEY~8~1~356322~90123241:Complete-Map-of-the-Airlines-of-K-N',
+    ink: '#a9560d', days: [],
+    note: 'One line of the KNILM network as its own map showed it about 1935. **No times: the source is a route map, not a timetable**, so the line is drawn and nothing is claimed about when it flew. The map is December 1942, by which date the Japanese had taken the Indies and this network had gone; it is drawn to show what had been there.',
+    stops: [
+      { id: 'pekanbaru', name: 'Pakanbaroe (Pekanbaru)', lon: 101.45, lat: 0.51 },
+      { id: 'palembang', name: 'Palembang', lon: 104.76, lat: -2.99 }
+    ]
+  },
+  {
+    id: 'knilm-pekanbaru-singapore', name: 'Pakanbaroe – Singapore', operator: 'KNILM (Koninklijke Nederlandsch-Indische Luchtvaart Maatschappij)', opened: '',
+    season: 'c. 1935', epochs: ['e1942'], source: 'Complete Map of the Airlines of K.N.I.L.M., c. 1935', srcUrl: 'https://www.davidrumsey.com/luna/servlet/detail/RUMSEY~8~1~356322~90123241:Complete-Map-of-the-Airlines-of-K-N',
+    ink: '#a9560d', days: [],
+    note: 'One line of the KNILM network as its own map showed it about 1935. **No times: the source is a route map, not a timetable**, so the line is drawn and nothing is claimed about when it flew. The map is December 1942, by which date the Japanese had taken the Indies and this network had gone; it is drawn to show what had been there.',
+    stops: [
+      { id: 'pekanbaru', name: 'Pakanbaroe (Pekanbaru)', lon: 101.45, lat: 0.51 },
+      { id: 'singapore', name: 'Singapore (Shōnantō)', lon: 103.85, lat: 1.29 }
+    ]
+  },
+  {
+    id: 'knilm-singapore-saigon', name: 'Singapore – Saigon', operator: 'KNILM (Koninklijke Nederlandsch-Indische Luchtvaart Maatschappij)', opened: '',
+    season: 'c. 1935', epochs: ['e1942'], source: 'Complete Map of the Airlines of K.N.I.L.M., c. 1935', srcUrl: 'https://www.davidrumsey.com/luna/servlet/detail/RUMSEY~8~1~356322~90123241:Complete-Map-of-the-Airlines-of-K-N',
+    ink: '#a9560d', days: [],
+    note: 'One line of the KNILM network as its own map showed it about 1935. **No times: the source is a route map, not a timetable**, so the line is drawn and nothing is claimed about when it flew. The map is December 1942, by which date the Japanese had taken the Indies and this network had gone; it is drawn to show what had been there.',
+    stops: [
+      { id: 'singapore', name: 'Singapore (Shōnantō)', lon: 103.85, lat: 1.29 },
+      { id: 'saigon', name: 'Saigon', lon: 106.63, lat: 10.82 }
+    ]
+  },
+  {
+    id: 'knilm-palembang-batavia', name: 'Palembang – Batavia', operator: 'KNILM (Koninklijke Nederlandsch-Indische Luchtvaart Maatschappij)', opened: '',
+    season: 'c. 1935', epochs: ['e1942'], source: 'Complete Map of the Airlines of K.N.I.L.M., c. 1935', srcUrl: 'https://www.davidrumsey.com/luna/servlet/detail/RUMSEY~8~1~356322~90123241:Complete-Map-of-the-Airlines-of-K-N',
+    ink: '#a9560d', days: [],
+    note: 'One line of the KNILM network as its own map showed it about 1935. **No times: the source is a route map, not a timetable**, so the line is drawn and nothing is claimed about when it flew. The map is December 1942, by which date the Japanese had taken the Indies and this network had gone; it is drawn to show what had been there.',
+    stops: [
+      { id: 'palembang', name: 'Palembang', lon: 104.76, lat: -2.99 },
+      { id: 'batavia', name: 'Batavia (Jakarta)', lon: 106.85, lat: -6.21 }
+    ]
+  },
+  {
+    id: 'knilm-batavia-bandung', name: 'Batavia – Bandoeng', operator: 'KNILM (Koninklijke Nederlandsch-Indische Luchtvaart Maatschappij)', opened: '',
+    season: 'c. 1935', epochs: ['e1942'], source: 'Complete Map of the Airlines of K.N.I.L.M., c. 1935', srcUrl: 'https://www.davidrumsey.com/luna/servlet/detail/RUMSEY~8~1~356322~90123241:Complete-Map-of-the-Airlines-of-K-N',
+    ink: '#a9560d', days: [],
+    note: 'One line of the KNILM network as its own map showed it about 1935. **No times: the source is a route map, not a timetable**, so the line is drawn and nothing is claimed about when it flew. The map is December 1942, by which date the Japanese had taken the Indies and this network had gone; it is drawn to show what had been there.',
+    stops: [
+      { id: 'batavia', name: 'Batavia (Jakarta)', lon: 106.85, lat: -6.21 },
+      { id: 'bandung', name: 'Bandoeng (Bandung)', lon: 107.61, lat: -6.91 }
+    ]
+  },
+  {
+    id: 'knilm-batavia-semarang', name: 'Batavia – Semarang', operator: 'KNILM (Koninklijke Nederlandsch-Indische Luchtvaart Maatschappij)', opened: '',
+    season: 'c. 1935', epochs: ['e1942'], source: 'Complete Map of the Airlines of K.N.I.L.M., c. 1935', srcUrl: 'https://www.davidrumsey.com/luna/servlet/detail/RUMSEY~8~1~356322~90123241:Complete-Map-of-the-Airlines-of-K-N',
+    ink: '#a9560d', days: [],
+    note: 'One line of the KNILM network as its own map showed it about 1935. **No times: the source is a route map, not a timetable**, so the line is drawn and nothing is claimed about when it flew. The map is December 1942, by which date the Japanese had taken the Indies and this network had gone; it is drawn to show what had been there.',
+    stops: [
+      { id: 'batavia', name: 'Batavia (Jakarta)', lon: 106.85, lat: -6.21 },
+      { id: 'semarang', name: 'Semarang', lon: 110.42, lat: -6.97 }
+    ]
+  },
+  {
+    id: 'knilm-semarang-surabaya', name: 'Semarang – Soerabaja', operator: 'KNILM (Koninklijke Nederlandsch-Indische Luchtvaart Maatschappij)', opened: '',
+    season: 'c. 1935', epochs: ['e1942'], source: 'Complete Map of the Airlines of K.N.I.L.M., c. 1935', srcUrl: 'https://www.davidrumsey.com/luna/servlet/detail/RUMSEY~8~1~356322~90123241:Complete-Map-of-the-Airlines-of-K-N',
+    ink: '#a9560d', days: [],
+    note: 'One line of the KNILM network as its own map showed it about 1935. **No times: the source is a route map, not a timetable**, so the line is drawn and nothing is claimed about when it flew. The map is December 1942, by which date the Japanese had taken the Indies and this network had gone; it is drawn to show what had been there.',
+    stops: [
+      { id: 'semarang', name: 'Semarang', lon: 110.42, lat: -6.97 },
+      { id: 'surabaya', name: 'Soerabaja (Surabaya)', lon: 112.75, lat: -7.25 }
+    ]
+  },
+  {
+    id: 'knilm-surabaya-bandjermasin', name: 'Soerabaja – Bandjermasin', operator: 'KNILM (Koninklijke Nederlandsch-Indische Luchtvaart Maatschappij)', opened: '',
+    season: 'c. 1935', epochs: ['e1942'], source: 'Complete Map of the Airlines of K.N.I.L.M., c. 1935', srcUrl: 'https://www.davidrumsey.com/luna/servlet/detail/RUMSEY~8~1~356322~90123241:Complete-Map-of-the-Airlines-of-K-N',
+    ink: '#a9560d', days: [],
+    note: 'One line of the KNILM network as its own map showed it about 1935. **No times: the source is a route map, not a timetable**, so the line is drawn and nothing is claimed about when it flew. The map is December 1942, by which date the Japanese had taken the Indies and this network had gone; it is drawn to show what had been there.',
+    stops: [
+      { id: 'surabaya', name: 'Soerabaja (Surabaya)', lon: 112.75, lat: -7.25 },
+      { id: 'bandjermasin', name: 'Bandjermasin (Banjarmasin)', lon: 114.59, lat: -3.32 }
+    ]
+  },
+  {
+    id: 'knilm-bandjermasin-balikpapan', name: 'Bandjermasin – Balik Papan', operator: 'KNILM (Koninklijke Nederlandsch-Indische Luchtvaart Maatschappij)', opened: '',
+    season: 'c. 1935', epochs: ['e1942'], source: 'Complete Map of the Airlines of K.N.I.L.M., c. 1935', srcUrl: 'https://www.davidrumsey.com/luna/servlet/detail/RUMSEY~8~1~356322~90123241:Complete-Map-of-the-Airlines-of-K-N',
+    ink: '#a9560d', days: [],
+    note: 'One line of the KNILM network as its own map showed it about 1935. **No times: the source is a route map, not a timetable**, so the line is drawn and nothing is claimed about when it flew. The map is December 1942, by which date the Japanese had taken the Indies and this network had gone; it is drawn to show what had been there.',
+    stops: [
+      { id: 'bandjermasin', name: 'Bandjermasin (Banjarmasin)', lon: 114.59, lat: -3.32 },
+      { id: 'balikpapan', name: 'Balikpapan', lon: 116.85, lat: -1.24 }
+    ]
+  },
+  {
+    id: 'knilm-balikpapan-tarakan', name: 'Balik Papan – Tarakan', operator: 'KNILM (Koninklijke Nederlandsch-Indische Luchtvaart Maatschappij)', opened: '',
+    season: 'c. 1935', epochs: ['e1942'], source: 'Complete Map of the Airlines of K.N.I.L.M., c. 1935', srcUrl: 'https://www.davidrumsey.com/luna/servlet/detail/RUMSEY~8~1~356322~90123241:Complete-Map-of-the-Airlines-of-K-N',
+    ink: '#a9560d', days: [],
+    note: 'One line of the KNILM network as its own map showed it about 1935. **No times: the source is a route map, not a timetable**, so the line is drawn and nothing is claimed about when it flew. The map is December 1942, by which date the Japanese had taken the Indies and this network had gone; it is drawn to show what had been there.',
+    stops: [
+      { id: 'balikpapan', name: 'Balikpapan', lon: 116.85, lat: -1.24 },
+      { id: 'tarakan', name: 'Tarakan', lon: 117.59, lat: 3.3 }
+    ]
+  },
+  {
+    id: 'knilm-surabaya-denpasar', name: 'Soerabaja – Bali', operator: 'KNILM (Koninklijke Nederlandsch-Indische Luchtvaart Maatschappij)', opened: '',
+    season: 'c. 1935', epochs: ['e1942'], source: 'Complete Map of the Airlines of K.N.I.L.M., c. 1935', srcUrl: 'https://www.davidrumsey.com/luna/servlet/detail/RUMSEY~8~1~356322~90123241:Complete-Map-of-the-Airlines-of-K-N',
+    ink: '#a9560d', days: [],
+    note: 'One line of the KNILM network as its own map showed it about 1935. **No times: the source is a route map, not a timetable**, so the line is drawn and nothing is claimed about when it flew. The map is December 1942, by which date the Japanese had taken the Indies and this network had gone; it is drawn to show what had been there.',
+    stops: [
+      { id: 'surabaya', name: 'Soerabaja (Surabaya)', lon: 112.75, lat: -7.25 },
+      { id: 'denpasar', name: 'Bali (Denpasar)', lon: 115.22, lat: -8.65 }
+    ]
+  },
+  {
+    id: 'knilm-denpasar-makassar', name: 'Bali – Makassar', operator: 'KNILM (Koninklijke Nederlandsch-Indische Luchtvaart Maatschappij)', opened: '',
+    season: 'c. 1935', epochs: ['e1942'], source: 'Complete Map of the Airlines of K.N.I.L.M., c. 1935', srcUrl: 'https://www.davidrumsey.com/luna/servlet/detail/RUMSEY~8~1~356322~90123241:Complete-Map-of-the-Airlines-of-K-N',
+    ink: '#a9560d', days: [],
+    note: 'One line of the KNILM network as its own map showed it about 1935. **No times: the source is a route map, not a timetable**, so the line is drawn and nothing is claimed about when it flew. The map is December 1942, by which date the Japanese had taken the Indies and this network had gone; it is drawn to show what had been there.',
+    stops: [
+      { id: 'denpasar', name: 'Bali (Denpasar)', lon: 115.22, lat: -8.65 },
+      { id: 'makassar', name: 'Makassar', lon: 119.43, lat: -5.15 }
+    ]
+  },
+  {
+    id: 'knilm-surabaya-makassar', name: 'Soerabaja – Makassar', operator: 'KNILM (Koninklijke Nederlandsch-Indische Luchtvaart Maatschappij)', opened: '',
+    season: 'c. 1935', epochs: ['e1942'], source: 'Complete Map of the Airlines of K.N.I.L.M., c. 1935', srcUrl: 'https://www.davidrumsey.com/luna/servlet/detail/RUMSEY~8~1~356322~90123241:Complete-Map-of-the-Airlines-of-K-N',
+    ink: '#a9560d', days: [],
+    note: 'One line of the KNILM network as its own map showed it about 1935. **No times: the source is a route map, not a timetable**, so the line is drawn and nothing is claimed about when it flew. The map is December 1942, by which date the Japanese had taken the Indies and this network had gone; it is drawn to show what had been there.',
+    stops: [
+      { id: 'surabaya', name: 'Soerabaja (Surabaya)', lon: 112.75, lat: -7.25 },
+      { id: 'makassar', name: 'Makassar', lon: 119.43, lat: -5.15 }
+    ]
+  },
+  {
+    id: 'knilm-denpasar-kupang', name: 'Bali – Koepang', operator: 'KNILM (Koninklijke Nederlandsch-Indische Luchtvaart Maatschappij)', opened: '',
+    season: 'c. 1935', epochs: ['e1942'], source: 'Complete Map of the Airlines of K.N.I.L.M., c. 1935', srcUrl: 'https://www.davidrumsey.com/luna/servlet/detail/RUMSEY~8~1~356322~90123241:Complete-Map-of-the-Airlines-of-K-N',
+    ink: '#a9560d', days: [],
+    note: 'One line of the KNILM network as its own map showed it about 1935. **No times: the source is a route map, not a timetable**, so the line is drawn and nothing is claimed about when it flew. The map is December 1942, by which date the Japanese had taken the Indies and this network had gone; it is drawn to show what had been there.',
+    stops: [
+      { id: 'denpasar', name: 'Bali (Denpasar)', lon: 115.22, lat: -8.65 },
+      { id: 'kupang', name: 'Koepang (Kupang)', lon: 123.61, lat: -10.17 }
+    ]
+  },
+  {
+    id: 'knilm-kupang-darwin', name: 'Koepang – Darwin', operator: 'KNILM (Koninklijke Nederlandsch-Indische Luchtvaart Maatschappij)', opened: '',
+    season: 'c. 1935', epochs: ['e1942'], source: 'Complete Map of the Airlines of K.N.I.L.M., c. 1935', srcUrl: 'https://www.davidrumsey.com/luna/servlet/detail/RUMSEY~8~1~356322~90123241:Complete-Map-of-the-Airlines-of-K-N',
+    ink: '#a9560d', days: [],
+    note: 'One line of the KNILM network as its own map showed it about 1935. **No times: the source is a route map, not a timetable**, so the line is drawn and nothing is claimed about when it flew. The map is December 1942, by which date the Japanese had taken the Indies and this network had gone; it is drawn to show what had been there.',
+    stops: [
+      { id: 'kupang', name: 'Koepang (Kupang)', lon: 123.61, lat: -10.17 },
+      { id: 'darwin', name: 'Darwin', lon: 130.84, lat: -12.46 }
+    ]
+  },
+  {
+    id: 'knilm-makassar-gorontalo', name: 'Makassar – Gorontalo', operator: 'KNILM (Koninklijke Nederlandsch-Indische Luchtvaart Maatschappij)', opened: '',
+    season: 'c. 1935', epochs: ['e1942'], source: 'Complete Map of the Airlines of K.N.I.L.M., c. 1935', srcUrl: 'https://www.davidrumsey.com/luna/servlet/detail/RUMSEY~8~1~356322~90123241:Complete-Map-of-the-Airlines-of-K-N',
+    ink: '#a9560d', days: [],
+    note: 'One line of the KNILM network as its own map showed it about 1935. **No times: the source is a route map, not a timetable**, so the line is drawn and nothing is claimed about when it flew. The map is December 1942, by which date the Japanese had taken the Indies and this network had gone; it is drawn to show what had been there.',
+    stops: [
+      { id: 'makassar', name: 'Makassar', lon: 119.43, lat: -5.15 },
+      { id: 'gorontalo', name: 'Gorontalo', lon: 123.06, lat: 0.54 }
+    ]
+  },
+  {
+    id: 'knilm-gorontalo-manado', name: 'Gorontalo – Menado', operator: 'KNILM (Koninklijke Nederlandsch-Indische Luchtvaart Maatschappij)', opened: '',
+    season: 'c. 1935', epochs: ['e1942'], source: 'Complete Map of the Airlines of K.N.I.L.M., c. 1935', srcUrl: 'https://www.davidrumsey.com/luna/servlet/detail/RUMSEY~8~1~356322~90123241:Complete-Map-of-the-Airlines-of-K-N',
+    ink: '#a9560d', days: [],
+    note: 'One line of the KNILM network as its own map showed it about 1935. **No times: the source is a route map, not a timetable**, so the line is drawn and nothing is claimed about when it flew. The map is December 1942, by which date the Japanese had taken the Indies and this network had gone; it is drawn to show what had been there.',
+    stops: [
+      { id: 'gorontalo', name: 'Gorontalo', lon: 123.06, lat: 0.54 },
+      { id: 'manado', name: 'Menado (Manado)', lon: 124.84, lat: 1.49 }
+    ]
+  },
+  {
+    id: 'knilm-manado-ternate', name: 'Menado – Ternate', operator: 'KNILM (Koninklijke Nederlandsch-Indische Luchtvaart Maatschappij)', opened: '',
+    season: 'c. 1935', epochs: ['e1942'], source: 'Complete Map of the Airlines of K.N.I.L.M., c. 1935', srcUrl: 'https://www.davidrumsey.com/luna/servlet/detail/RUMSEY~8~1~356322~90123241:Complete-Map-of-the-Airlines-of-K-N',
+    ink: '#a9560d', days: [],
+    note: 'One line of the KNILM network as its own map showed it about 1935. **No times: the source is a route map, not a timetable**, so the line is drawn and nothing is claimed about when it flew. The map is December 1942, by which date the Japanese had taken the Indies and this network had gone; it is drawn to show what had been there.',
+    stops: [
+      { id: 'manado', name: 'Menado (Manado)', lon: 124.84, lat: 1.49 },
+      { id: 'ternate', name: 'Ternate', lon: 127.38, lat: 0.79 }
+    ]
+  },
+  {
+    id: 'knilm-ternate-ambon', name: 'Ternate – Ambon', operator: 'KNILM (Koninklijke Nederlandsch-Indische Luchtvaart Maatschappij)', opened: '',
+    season: 'c. 1935', epochs: ['e1942'], source: 'Complete Map of the Airlines of K.N.I.L.M., c. 1935', srcUrl: 'https://www.davidrumsey.com/luna/servlet/detail/RUMSEY~8~1~356322~90123241:Complete-Map-of-the-Airlines-of-K-N',
+    ink: '#a9560d', days: [],
+    note: 'One line of the KNILM network as its own map showed it about 1935. **No times: the source is a route map, not a timetable**, so the line is drawn and nothing is claimed about when it flew. The map is December 1942, by which date the Japanese had taken the Indies and this network had gone; it is drawn to show what had been there.',
+    stops: [
+      { id: 'ternate', name: 'Ternate', lon: 127.38, lat: 0.79 },
+      { id: 'ambon', name: 'Ambon (Amboina)', lon: 128.18, lat: -3.7 }
+    ]
+  },
+  {
+    id: 'knilm-makassar-ambon', name: 'Makassar – Ambon', operator: 'KNILM (Koninklijke Nederlandsch-Indische Luchtvaart Maatschappij)', opened: '',
+    season: 'c. 1935', epochs: ['e1942'], source: 'Complete Map of the Airlines of K.N.I.L.M., c. 1935', srcUrl: 'https://www.davidrumsey.com/luna/servlet/detail/RUMSEY~8~1~356322~90123241:Complete-Map-of-the-Airlines-of-K-N',
+    ink: '#a9560d', days: [],
+    note: 'One line of the KNILM network as its own map showed it about 1935. **No times: the source is a route map, not a timetable**, so the line is drawn and nothing is claimed about when it flew. The map is December 1942, by which date the Japanese had taken the Indies and this network had gone; it is drawn to show what had been there.',
+    stops: [
+      { id: 'makassar', name: 'Makassar', lon: 119.43, lat: -5.15 },
+      { id: 'ambon', name: 'Ambon (Amboina)', lon: 128.18, lat: -3.7 }
+    ]
+  },
+  {
+    id: 'knilm-ambon-bandaneira', name: 'Ambon – Banda', operator: 'KNILM (Koninklijke Nederlandsch-Indische Luchtvaart Maatschappij)', opened: '',
+    season: 'c. 1935', epochs: ['e1942'], source: 'Complete Map of the Airlines of K.N.I.L.M., c. 1935', srcUrl: 'https://www.davidrumsey.com/luna/servlet/detail/RUMSEY~8~1~356322~90123241:Complete-Map-of-the-Airlines-of-K-N',
+    ink: '#a9560d', days: [],
+    note: 'One line of the KNILM network as its own map showed it about 1935. **No times: the source is a route map, not a timetable**, so the line is drawn and nothing is claimed about when it flew. The map is December 1942, by which date the Japanese had taken the Indies and this network had gone; it is drawn to show what had been there.',
+    stops: [
+      { id: 'ambon', name: 'Ambon (Amboina)', lon: 128.18, lat: -3.7 },
+      { id: 'bandaneira', name: 'Banda (Banda Neira)', lon: 129.90, lat: -4.53 }
+    ]
+  },
+  {
+    id: 'knilm-ambon-babo', name: 'Ambon – Babo', operator: 'KNILM (Koninklijke Nederlandsch-Indische Luchtvaart Maatschappij)', opened: '',
+    season: 'c. 1935', epochs: ['e1942'], source: 'Complete Map of the Airlines of K.N.I.L.M., c. 1935', srcUrl: 'https://www.davidrumsey.com/luna/servlet/detail/RUMSEY~8~1~356322~90123241:Complete-Map-of-the-Airlines-of-K-N',
+    ink: '#a9560d', days: [],
+    note: 'One line of the KNILM network as its own map showed it about 1935. **No times: the source is a route map, not a timetable**, so the line is drawn and nothing is claimed about when it flew. The map is December 1942, by which date the Japanese had taken the Indies and this network had gone; it is drawn to show what had been there.',
+    stops: [
+      { id: 'ambon', name: 'Ambon (Amboina)', lon: 128.18, lat: -3.7 },
+      { id: 'babo', name: 'Babo', lon: 133.44, lat: -2.55 }
+    ]
+  },
+  {
+    id: 'knilm-babo-manokwari', name: 'Babo – Manokwari', operator: 'KNILM (Koninklijke Nederlandsch-Indische Luchtvaart Maatschappij)', opened: '',
+    season: 'c. 1935', epochs: ['e1942'], source: 'Complete Map of the Airlines of K.N.I.L.M., c. 1935', srcUrl: 'https://www.davidrumsey.com/luna/servlet/detail/RUMSEY~8~1~356322~90123241:Complete-Map-of-the-Airlines-of-K-N',
+    ink: '#a9560d', days: [],
+    note: 'One line of the KNILM network as its own map showed it about 1935. **No times: the source is a route map, not a timetable**, so the line is drawn and nothing is claimed about when it flew. The map is December 1942, by which date the Japanese had taken the Indies and this network had gone; it is drawn to show what had been there.',
+    stops: [
+      { id: 'babo', name: 'Babo', lon: 133.44, lat: -2.55 },
+      { id: 'manokwari', name: 'Manokwari', lon: 134.08, lat: -0.86 }
+    ]
+  },
+  {
+    id: 'knilm-babo-wisselmeren', name: 'Babo – Wisselmeren', operator: 'KNILM (Koninklijke Nederlandsch-Indische Luchtvaart Maatschappij)', opened: '',
+    season: 'c. 1935', epochs: ['e1942'], source: 'Complete Map of the Airlines of K.N.I.L.M., c. 1935', srcUrl: 'https://www.davidrumsey.com/luna/servlet/detail/RUMSEY~8~1~356322~90123241:Complete-Map-of-the-Airlines-of-K-N',
+    ink: '#a9560d', days: [],
+    note: 'One line of the KNILM network as its own map showed it about 1935. **No times: the source is a route map, not a timetable**, so the line is drawn and nothing is claimed about when it flew. The map is December 1942, by which date the Japanese had taken the Indies and this network had gone; it is drawn to show what had been there.',
+    stops: [
+      { id: 'babo', name: 'Babo', lon: 133.44, lat: -2.55 },
+      { id: 'wisselmeren', name: 'Wisselmeren (Paniai Lakes)', lon: 136.38, lat: -3.93 }
+    ]
+  },
+  {
+    id: 'knilm30-java', name: 'Batavia – Semarang – Soerabaia', operator: 'KNILM (Koninklijke Nederlandsch-Indische Luchtvaart Maatschappij)', opened: '',
+    season: 'May–November 1931', epochs: ['e1930'], source: 'N.V. Kon. Ned. Ind. Luchtvaart Mij, timetable May–November 1931, pp9–13', srcUrl: 'https://www.timetableimages.com/ttimages/kni31.htm',
+    ink: '#a9560d', days: [],
+    note: 'From the company’s own timetable for May to November 1931 — the network as it stood on the 1930 sheet, eleven years before the one the 1942 map shows. The trunk across Java. Out every day but Sunday; home on a Wednesday by one timing and on the other five days by another.',
+    stops: [
+      { id: 'batavia', name: 'Batavia (Jakarta)', lon: 106.85, lat: -6.21 },
+      { id: 'semarang', name: 'Semarang', lon: 110.42, lat: -6.97 },
+      { id: 'surabaya', name: 'Soerabaia (Surabaya)', lon: 112.75, lat: -7.25 }
+    ],
+    times: [
+      { svc: 'Wednesday return', seq: '1', station: 'Batavia', dd: '7:30', ua: '10:10', freq: 'Mondays to Saturdays out; Wednesdays home', dw: '1 2 3 4 5 6', uw: '3' },
+      { svc: 'other days', seq: '1', station: 'Batavia', ua: '11:35', freq: 'home on the other five days', uw: '1 2 4 5 6' },
+      { svc: 'Wednesday return', seq: '2', station: 'Semarang', da: '10:20', dd: '10:40', ua: '7:25', ud: '7:40' },
+      { svc: 'other days', seq: '2', station: 'Semarang', ua: '8:45', ud: '9:05' },
+      { svc: 'Wednesday return', seq: '3', station: 'Soerabaia', da: '12:30', ud: '5:40' },
+      { svc: 'other days', seq: '3', station: 'Soerabaia', ud: '7:00' }
+    ]
+  },
+  {
+    id: 'knilm30-bandoeng', name: 'Batavia – Bandoeng', operator: 'KNILM (Koninklijke Nederlandsch-Indische Luchtvaart Maatschappij)', opened: '',
+    season: 'May–November 1931', epochs: ['e1930'], source: 'N.V. Kon. Ned. Ind. Luchtvaart Mij, timetable May–November 1931, pp9–13', srcUrl: 'https://www.timetableimages.com/ttimages/kni31.htm',
+    ink: '#a9560d', days: [],
+    note: 'From the company’s own timetable for May to November 1931 — the network as it stood on the 1930 sheet, eleven years before the one the 1942 map shows. Four times a day between the capital and the hill station, every day but Sunday: out at 7:45 and 16:15, back at 6:30 and 15:00.',
+    stops: [
+      { id: 'batavia', name: 'Batavia (Jakarta)', lon: 106.85, lat: -6.21 },
+      { id: 'bandung', name: 'Bandoeng (Bandung)', lon: 107.61, lat: -6.91 }
+    ],
+    times: [
+      { svc: 'afternoon', seq: '1', station: 'Batavia', dd: '16:15', ua: '15:45', freq: 'Mondays to Saturdays', dw: '1 2 3 4 5 6', uw: '1 2 3 4 5 6' },
+      { svc: 'morning', seq: '1', station: 'Batavia', dd: '7:45', ua: '7:15', freq: 'Mondays to Saturdays', dw: '1 2 3 4 5 6', uw: '1 2 3 4 5 6' },
+      { svc: 'afternoon', seq: '2', station: 'Bandoeng', da: '17:00', ud: '15:00' },
+      { svc: 'morning', seq: '2', station: 'Bandoeng', da: '8:30', ud: '6:30' }
+    ]
+  },
+  {
+    id: 'knilm30-singapore', name: 'Batavia – Palembang – Singapore', operator: 'KNILM (Koninklijke Nederlandsch-Indische Luchtvaart Maatschappij)', opened: '',
+    season: 'May–November 1931', epochs: ['e1930'], source: 'N.V. Kon. Ned. Ind. Luchtvaart Mij, timetable May–November 1931, pp9–13', srcUrl: 'https://www.timetableimages.com/ttimages/kni31.htm',
+    ink: '#a9560d', days: [],
+    note: 'From the company’s own timetable for May to November 1931 — the network as it stood on the 1930 sheet, eleven years before the one the 1942 map shows. Once a week each way: out on the Monday, home on the Thursday.',
+    stops: [
+      { id: 'batavia', name: 'Batavia (Jakarta)', lon: 106.85, lat: -6.21 },
+      { id: 'palembang', name: 'Palembang', lon: 104.76, lat: -2.99 },
+      { id: 'singapore', name: 'Singapore (Shōnantō)', lon: 103.85, lat: 1.29 }
+    ],
+    times: [
+      { seq: '1', station: 'Batavia', dd: '7:30', ua: '14:30', freq: 'out on Mondays, home on Thursdays', dw: '1', uw: '4' },
+      { seq: '2', station: 'Palembang', da: '10:20', dd: '10:50', ua: '10:45', ud: '11:15' },
+      { seq: '3', station: 'Singapore', da: '13:30', ud: '7:00' }
+    ]
+  },
+  {
+    id: 'knilm30-medan', name: 'Batavia – Palembang – Pakan Baroe – Medan', operator: 'KNILM (Koninklijke Nederlandsch-Indische Luchtvaart Maatschappij)', opened: '',
+    season: 'May–November 1931', epochs: ['e1930'], source: 'N.V. Kon. Ned. Ind. Luchtvaart Mij, timetable May–November 1931, pp9–13', srcUrl: 'https://www.timetableimages.com/ttimages/kni31.htm',
+    ink: '#a9560d', days: [],
+    note: 'From the company’s own timetable for May to November 1931 — the network as it stood on the 1930 sheet, eleven years before the one the 1942 map shows. Once a week, and the return waited on the sea: the timetable gives it as leaving Medan “after scheduled arrival at Belawan of the Dutch mail boats from Holland”, so the aeroplane went when the ship did. Drawn here as the following day, which is what the connection amounted to and is not what the timetable says.',
+    stops: [
+      { id: 'batavia', name: 'Batavia (Jakarta)', lon: 106.85, lat: -6.21 },
+      { id: 'palembang', name: 'Palembang', lon: 104.76, lat: -2.99 },
+      { id: 'pekanbaru', name: 'Pakan Baroe (Pekanbaru)', lon: 101.45, lat: 0.51 },
+      { id: 'medan', name: 'Medan', lon: 98.67, lat: 3.59 }
+    ],
+    times: [
+      { seq: '1', station: 'Batavia', dd: '6:00', ua: '17:15', freq: 'once a week; the return waited on the mail boat at Belawan', dw: '6', uw: '7' },
+      { seq: '2', station: 'Palembang', da: '9:00', dd: '9:30', ua: '13:30', ud: '14:00' },
+      { seq: '3', station: 'Pakan Baroe', da: '13:00', dd: '13:30', ua: '9:35', ud: '10:05' },
+      { seq: '4', station: 'Medan', da: '16:00', ud: '5:45' }
     ]
   }
 ];

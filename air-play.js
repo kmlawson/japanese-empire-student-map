@@ -188,7 +188,25 @@ window.JMAP_AIRPLAY = function (host) {
              aeroplane in the sky all morning where every other day has two or
              three. The instance at −1 flies the part of its journey that falls
              inside the window and is ignored by everything outside it. */
-          var offs = /twice a month|month/.test(freq) ? [0]
+          /* **The days the route says, where it says them.** `days` on the
+             route is a list of days of the week it left on — the KLM trunk
+             left Karachi on Mondays, Thursdays and Saturdays — and it beats
+             reading the frequency as prose. Where there is no list the
+             frequency is read: an alternate-day service on three of the seven,
+             a twice-monthly one once, and everything else every morning. */
+          /* **The days this service left on**, taken from the service itself
+             where it says — the 1931 Java line came home on a Wednesday by one
+             timing and on the other five days by another, so the answer cannot
+             live on the route. Then the route's own list, then the frequency
+             read as prose. */
+          var wk = rows.map(function (t) {
+            return dir[0] === 'up' ? (t.uw || '') : (t.dw || '');
+          }).filter(Boolean)[0] || '';
+          var said = wk
+            ? String(wk).split(/\s+/).map(Number).filter(function (d) { return d >= 1 && d <= 7; })
+            : (r.days || []).filter(function (d) { return d >= 1 && d <= 7; });
+          var offs = said.length ? said.map(function (d) { return d - 1; })
+                   : /twice a month|month/.test(freq) ? [0]
                    : /even-numbered|other day/.test(freq) ? [-1, 1, 3, 5]
                    : [-1, 0, 1, 2, 3, 4, 5, 6];
           offs.forEach(function (o) {
