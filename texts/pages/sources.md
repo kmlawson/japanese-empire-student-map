@@ -90,7 +90,7 @@ company's own timetable of about 1933 —
 [the Chungking and Peiping routes](https://www.timetableimages.com/ttimages/cn33c.htm)
 — so they are three years later than the sheet they are drawn on, which is the
 nearest schedule found. On the Chungking line the source gives two departures a
-week and three returns, and the card says so. The four **China Airways** lines on the 1942 sheet — Peking to Shanghai, to
+week and three returns, and the card says so. Three more CNAC lines are on the **1942** sheet, from the company's October 1940 timetable: Chungking to Rangoon by Kunming and Lashio — the air equivalent of the Burma Road, and the one route out of free China once the coast had gone — and two provincial services, the Chengtu shuttle and the line up to Kiating. The four **China Airways** lines on the 1942 sheet — Peking to Shanghai, to
 Dairen, west to Paotow, and the Yangtze services to Hankow — are read from the
 company's own [1940 timetable](https://www.timetableimages.com/ttimages/ckkk/ckkk40c/ckkk3.jpg).
 中華航空株式會社 was set up in December 1938, a joint concern of 大日本航空 and the

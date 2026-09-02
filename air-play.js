@@ -470,7 +470,17 @@ window.JMAP_AIRPLAY = function (host) {
   }
 
   function setPlaying(on) {
+    var was = playing;
     playing = on;
+    /* **The map draws itself differently while the week is running**, and only
+       while it is running: the lines nobody has the times for are dimmed back
+       so that what is left is the network actually being flown, and they come
+       back to full strength the moment the reader pauses. The host is told
+       here because this is the one place the answer changes — the button, the
+       end of the week, and `unmount` all come through it. */
+    if (was !== on && host && host.playChanged) {
+      try { host.playChanged(on); } catch (e) { /* the drawing is not load-bearing */ }
+    }
     /* A moving aeroplane is not a target — the reader would be chasing it, and
        every press would land on the map behind. Stopped, it answers. */
     if (layer) layer.style.pointerEvents = on ? 'none' : 'auto';

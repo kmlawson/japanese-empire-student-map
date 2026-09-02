@@ -13,8 +13,8 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '290';
-  var JEM_ASSETS = {"admin.js": "3414697d04", "air-play.js": "e5a71f6f9a", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "58132ef9c2", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
+  var JEM_VERSION = '291';
+  var JEM_ASSETS = {"admin.js": "3414697d04", "air-play.js": "90ab85e239", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "58132ef9c2", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
 
   /* Every file this one fetches, with the version on it.
 
@@ -8665,6 +8665,7 @@
       airPaths[r.id] = {
         all: d,
         flown: airPath(r.stops, function (i) { return legs[i]; }),
+        idle: airPath(r.stops, function (i) { return !legs[i]; }),
         stops: keep,
       };
       var g = svgEl('g', { 'class': 'air-route', 'data-air': r.id });
@@ -8707,6 +8708,12 @@
       ttl.textContent = tip.join(' · ');
       g.appendChild(ttl);
       g.appendChild(svgEl('path', { 'class': 'air-halo', d: d }));
+      /* **The legs nobody has the times for, drawn separately so they can be
+         dimmed.** Opacity is a property of an element, so a single path cannot
+         be half bright and half faint; this carries the unflown subpaths and
+         nothing else, and it is empty and invisible except while the week is
+         actually running. */
+      g.appendChild(svgEl('path', { 'class': 'air-line-idle', d: '' }));
       g.appendChild(svgEl('path', { 'class': 'air-line', d: d }));
       // a wider invisible stroke to press: the drawn line is 1.6 px and a
       // finger is not
@@ -8771,11 +8778,33 @@
      is one of the map's own cities the record answers instead: the characters,
      and then the romanisation the names switch asks for — Keijō with Japanese
      names on, Kyŏngsŏng without, Táiběi rather than Taihoku in Taiwan. */
+  /* **A name written in katakana is not a second name.**
+   *
+   * The `ja` field carries the Japanese form, and for most of this network
+   * that is a name in its own right: 京城 Keijō and Kyŏngsŏng are two ways of
+   * saying a place, and a reader wants both. In the Indies it is not — アンボン
+   * is *Ambon*, spelt out in the syllabary a Japanese timetable would have used
+   * for a foreign word, and printing "アンボン Ambon" beside "バリクパパン Balik
+   * Papan" down a column tells the reader nothing they cannot already read and
+   * takes the width to say it.
+   *
+   * Six of the forty-two air stops are like this, and all six are on the KNILM
+   * lines across the Dutch East Indies. Tested for what it is — characters
+   * that are only kana — rather than by which country the place is in, because
+   * the rule is about the writing rather than the geography, and a Chinese or
+   * Korean stop's name is never bare katakana. */
+  var KANA_ONLY = /^[゠-ヿ　・ー\s-]+$/;
+
+  function airHan(v) {
+    var han = String((v && v.ja) || '').split(' (')[0].trim();
+    return han && !KANA_ONLY.test(han) ? han : '';
+  }
+
   function airStopName(st) {
     var rec = st && st.id && (gazFor(st.id) || byId[st.id]);
     if (!rec) return String((st && st.name) || '').split(' (')[0];
     var v = shown(rec);
-    var han = String(v.ja || '').split(' (')[0].trim();
+    var han = airHan(v);
     var ro = String(v.en || v.n || '').split(' (')[0].trim();
     return han && ro ? han + ' ' + ro : (ro || han);
   }
@@ -8786,7 +8815,7 @@
     var rec = null;
     if (!rec) return String((t && t.station) || '');
     var v = shown(rec);
-    var han = String(v.ja || '').split(' (')[0].trim();
+    var han = airHan(v);
     var ro = String(v.en || v.n || '').split(' (')[0].trim();
     return han && ro ? han + ' ' + ro : (ro || han);
   }
@@ -9381,6 +9410,9 @@
          drawn aeroplane; the 1942 map has a dozen in the air at once and wants
          a mark rather than a picture. */
       epoch: function () { return state.epoch; },
+      /* Play and pause change what the *map* draws, not only what the layer
+         above it does: see `applyAir`. */
+      playChanged: function () { applyAir(); },
     };
   }
 
@@ -9878,20 +9910,32 @@
      * network nobody has the times for. So pressing play drops them, and
      * stopping puts them back: the line as its source draws it is the honest
      * answer when nothing is claiming to fly it. */
-    var playing = !!airPlayWanted;
+    /* **While the week is actually running**, and not merely while the tools
+       are open. Pausing is a reader asking to look at the thing rather than
+       watch it, and at that point the network as its sources draw it is the
+       honest answer again — so everything comes back to full strength, tools
+       up or not. */
+    var playing = !!(airPlayWanted && airApi && airApi.mounted() && airApi.playing());
     if (airGroup) {
       Array.prototype.forEach.call(airGroup.children, function (g) {
         var id = g.getAttribute && g.getAttribute('data-air');
         var pp = id && airPaths[id];
         if (!pp) return;
-        var d = playing ? pp.flown : pp.all;
-        // a route with nothing flown on it at all is hidden below, where the
-        // date decides the rest of the displays — set here it would be undone
-        if (!d) return;
-        ['.air-halo', '.air-line', '.air-hit'].forEach(function (sel) {
+        /* Two paths, not one, because opacity belongs to an element: the
+           drawn line takes the legs that are flown and the idle line takes
+           the rest, and together they are still the whole route. Paused, the
+           drawn line takes all of it and the idle line is empty. The press
+           target keeps the whole route either way — a line a reader can see
+           is a line they can ask about, however faint it is. */
+        var lit = playing ? pp.flown : pp.all;
+        var dim = playing ? pp.idle : '';
+        var set = function (sel, v) {
           var el = g.querySelector(sel);
-          if (el && el.getAttribute('d') !== d) el.setAttribute('d', d);
-        });
+          if (el && el.getAttribute('d') !== v) el.setAttribute('d', v);
+        };
+        set('.air-halo', lit);
+        set('.air-line', lit);
+        set('.air-line-idle', dim);
       });
     }
     /* The rings live in one group of their own now, so which of them belong to
@@ -9899,31 +9943,32 @@
        display. A stop is drawn if any route that calls there is — and with the
        week running, only if a leg that is still drawn reaches it, or the map
        keeps a ring floating in open water with no line under it. */
-    var live = {};
+    var live = {};          // reached by a leg something actually flies
+    var onDate = {};        // on a route this date draws at all
     (JMAP.AIR || []).forEach(function (r) {
       if (!airShown(r)) return;
+      (r.stops || []).forEach(function (st) { onDate[st.id || st.name] = true; });
       var pp = airPaths[r.id];
-      if (playing && pp) {
-        Object.keys(pp.stops).forEach(function (k) { live[k] = true; });
-        return;
-      }
-      (r.stops || []).forEach(function (st) { live[st.id || st.name] = true; });
+      if (pp) Object.keys(pp.stops).forEach(function (k) { live[k] = true; });
     });
     if (airRings) {
       Array.prototype.forEach.call(airRings.children, function (g) {
-        g.style.display = live[g.getAttribute('data-air-stop')] ? '' : 'none';
+        var k = g.getAttribute('data-air-stop');
+        /* On this date at all, and — while the week runs — on a leg something
+           flies. The second is a dimming, like the lines. */
+        g.style.display = onDate[k] ? '' : 'none';
+        g.classList.toggle('air-idle', !!(playing && !live[k]));
       });
     }
     (JMAP.AIR || []).forEach(function (r) {
       var g = airGroup.querySelector('[data-air="' + cssEsc(r.id) + '"]');
       if (!g) return;
-      /* The date decides most of it; the week running decides the rest. A
-         route with no times at all has nothing to draw while the aeroplanes
-         move, and this is the one place a route's display is set, so it is
-         decided here rather than above where it would be overwritten. */
-      var pp = airPaths[r.id];
-      var nothingFlown = playing && pp && !pp.flown;
-      g.style.display = (airShown(r) && !nothingFlown) ? '' : 'none';
+      /* The date decides whether a route is drawn at all. Whether it is drawn
+         *brightly* is the week's business, and it is a dimming rather than a
+         disappearance: a line that vanishes when the reader presses play looks
+         like a fault, and the point is to say "nobody has the times for this
+         one", which a faint line says and an absent one does not. */
+      g.style.display = airShown(r) ? '' : 'none';
     });
   }
 

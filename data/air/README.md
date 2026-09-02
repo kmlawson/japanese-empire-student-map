@@ -186,3 +186,46 @@ Sundays (3, 5, 7).
 
 Peiping, not Peking: the capital had moved to Nanking in 1928 and the city was
 renamed 北平, which is what the timetable prints.
+
+---
+
+## CNAC again, October 1940 — on the 1942 map
+
+Source: the company's own timetable of October 1940. No scan is linked: the
+times were supplied by the author and the sheet has not been re-read here, so
+`source_url` is left blank rather than pointed at something that has not been
+checked.
+
+### Chungking – Rangoon → `cnac-chungking-rangoon`
+
+Out Mondays, home Tuesdays. Douglas.
+
+| stop | out 着 / 發 | back 着 / 發 |
+|---|---|---|
+| 重慶 Chungking | — / 7.30 | 15.10 / — |
+| 昆明 Kunming | 10.10 / 10.40 | 12.00 / 12.30 |
+| 臘戌 Lashio | 13.10 / 13.40 | 9.00 / 9.30 |
+| 仰光 Rangoon | 16.40 / — | — / 6.00 |
+
+### Chungking – Chengtu → `cnac-chungking-chengtu`
+
+**Two schedules on one line**, carried as two services so both animate:
+
+* Mondays, Tuesdays, Wednesdays, Fridays and Saturdays — out 10.00, in 11.30;
+  back 12.00, in 13.30.
+* Thursdays and Sundays — out 10.00, in 11.20; back 12.00, in 13.20.
+
+### Chungking – Kiating → `cnac-chungking-kiating`
+
+Mondays and Thursdays, both ways.
+
+| stop | out 着 / 發 | back 着 / 發 |
+|---|---|---|
+| 重慶 Chungking | — / 12.00 | 11.30 / — |
+| 瀘州 Luchow | 13.00 / 13.15 | 10.15 / 10.30 |
+| 宜賓 Suifu | 14.00 / 14.30 | 9.00 / 9.30 |
+| 樂山 Kiating | 15.30 / — | — / 8.00 |
+
+Suifu is Yibin and Kiating is Leshan; neither is on the map's city list, so
+their stops carry a coordinate of their own — Suifu 28.77 N, 104.62 E; Kiating
+29.56 N, 103.76 E.

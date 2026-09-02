@@ -215,20 +215,20 @@ const card_=p=>p.evaluate(()=>{
      map, and four more KNILM lines with times from the company's own 1931
      timetable — those four on the 1930 sheet, where the rest of the Dutch
      network is not. */
-  check('fifty-seven routes', data.n===57, String(data.n));
+  check('sixty routes', data.n===60, String(data.n));
   /* **Every route with a timetable says which sheet it was read from.** The
      card's heading used to fall back to "Summer timetable, June–August 1931"
      for any route with no season of its own, which put the 1931 trunk's
      diagram at the head of the Fukuoka–Naha–Taihoku table — a citation for a
      document those times were never in. `build_texts.py` refuses that now. */
-  check('fifty-six of the fifty-seven name the sheet they were read from',
-    data.seasoned===56, String(data.seasoned));
+  check('fifty-nine of the sixty name the sheet they were read from',
+    data.seasoned===59, String(data.seasoned));
   const unsourced=await page.evaluate(()=>(JMAP.AIR||[])
     .filter(r=>(r.times||[]).length && !r.season).map(r=>r.id));
   check('and not one route with a timetable is missing it',
     unsourced.length===0, JSON.stringify(unsourced));
   check('each of those names the airline',
-    data.opWithSeason===56, String(data.opWithSeason));
+    data.opWithSeason===59, String(data.opWithSeason));
   check('the trunk runs Tokyo to Dairen in seven stops',
     data.trunk && data.trunk.stops.length===7
       && data.trunk.stops[0].name==='Tokyo'
@@ -277,13 +277,13 @@ const card_=p=>p.evaluate(()=>{
     haloW:getComputedStyle(document.querySelector('#air .air-halo')).strokeWidth,
     lineW:getComputedStyle(document.querySelector('#air .air-line')).strokeWidth,
   }));
-  check('the button builds them all', on.shown && on.routes===57, JSON.stringify(on));
+  check('the button builds them all', on.shown && on.routes===60, JSON.stringify(on));
   check('the pane box and the button agree',
     on.pressed==='true' && on.box===true, on.pressed+' / '+on.box);
-  check('every route has a white halo under it', on.halo===57, String(on.halo));
+  check('every route has a white halo under it', on.halo===60, String(on.halo));
   check('and the halo is wider than the line it backs',
     parseFloat(on.haloW)>parseFloat(on.lineW), on.haloW+' vs '+on.lineW);
-  check('every stop is ringed', on.rings===179, String(on.rings));
+  check('every stop is ringed', on.rings===189, String(on.rings));
 
   /* **A route belongs to the dates it was flown.** The 1930 sheet has one:
      the Tokyo–Dairen trunk, the only service already running and the only one
@@ -302,7 +302,7 @@ const card_=p=>p.evaluate(()=>{
     on1930.join(', '));
   await toEpoch(page,'1942');
   const on1942=await drawn(page);
-  check('the 1942 sheet draws the other forty-nine', on1942.length===49,
+  check('the 1942 sheet draws the other fifty-two', on1942.length===52,
     String(on1942.length));
   /* **The trunk is not on both — it is a different aeroplane.** In 1931 it
      called at Ulsan and Heijō and slept at Keijō; by the 1938–39 timetable it
@@ -457,7 +457,8 @@ const card_=p=>p.evaluate(()=>{
       klmEpochs:(klm&&klm.epochs)||[],
       knilm:knilm.length,
       dutchDrawn:on.filter(g=>/^(klm|knilm)/.test(g.getAttribute('data-air'))).length,
-      japaneseDrawn:on.filter(g=>!/^(klm|knilm)/.test(g.getAttribute('data-air'))).length,
+      chineseDrawn:on.filter(g=>/^cnac/.test(g.getAttribute('data-air'))).length,
+      japaneseDrawn:on.filter(g=>!/^(klm|knilm|cnac)/.test(g.getAttribute('data-air'))).length,
       dutchInk:inkOf('klm-batavia'), japInk:inkOf('korea-1938'),
       klmNote:(klm&&klm.note)||'', knilmNote:(knilm[0]&&knilm[0].note)||'',
       klmOp:(klm&&klm.operator)||'', knilmOp:(knilm[0]&&knilm[0].operator)||'',
@@ -475,11 +476,13 @@ const card_=p=>p.evaluate(()=>{
   check('drawn in an ink of their own, not the Japanese network\u2019s',
     nl.dutchInk && nl.japInk && nl.dutchInk!==nl.japInk,
     nl.dutchInk+' vs '+nl.japInk);
-  /* Japanese here means flown under a Japanese company: the nineteen 大日本航空
-     services and the four China Airways lines added from the 1940 brochure. */
-  check('twenty-six Dutch lines and twenty-three Japanese, together',
-    nl.dutchDrawn===26 && nl.japaneseDrawn===23,
-    nl.dutchDrawn+' Dutch, '+nl.japaneseDrawn+' Japanese');
+  /* Three companies on the 1942 sheet, and the count says which is which:
+     the Dutch lines, CNAC's three from the October 1940 timetable, and the
+     rest flown under a Japanese company — the nineteen 大日本航空 services and
+     the four 中華航空 lines from the 1940 brochure. */
+  check('twenty-six Dutch, three CNAC and twenty-three Japanese, together',
+    nl.dutchDrawn===26 && nl.chineseDrawn===3 && nl.japaneseDrawn===23,
+    nl.dutchDrawn+' Dutch, '+nl.chineseDrawn+' CNAC, '+nl.japaneseDrawn+' Japanese');
   /* **The date on the document, not the date on the map.** */
   check('the KLM card says its times are from before the occupation',
     /1938/.test(nl.klmNote) && /occupation|stopped running/.test(nl.klmNote),
@@ -628,7 +631,7 @@ const card_=p=>p.evaluate(()=>{
             long:(JMAP.AIR||[])[0].name};
   });
   check('every route carries a short name as well as its full one',
-    names.n===57 && /–/.test(names.sample[0]) && names.long.length>names.sample[0].length,
+    names.n===60 && /–/.test(names.sample[0]) && names.long.length>names.sample[0].length,
     JSON.stringify(names.sample));
   check('and the trunk is named by its two ends',
     names.sample[0]==='Tokyo – Dairen', names.sample[0]);

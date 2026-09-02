@@ -8200,6 +8200,58 @@ JMAP.AIR = [
       { seq: '4', station: '天津 Tientsin', da: '15:00', dd: '15:15', ua: '7:45', ud: '8:00', freq: 'out Tuesdays, Thursdays and Saturdays; home Wednesdays, Fridays and Sundays', dw: '2 4 6', uw: '3 5 7' },
       { seq: '5', station: '北平 Peiping', da: '16:00', ud: '7:00', freq: 'out Tuesdays, Thursdays and Saturdays; home Wednesdays, Fridays and Sundays', dw: '2 4 6', uw: '3 5 7' }
     ]
+  },
+  {
+    id: 'cnac-chungking-rangoon', name: 'Chungking – Kunming – Lashio – Rangoon', operator: 'China National Aviation Corporation (中國航空公司)', opened: '1939',
+    season: 'October 1940', epochs: ['e1942'], source: 'China National Aviation Corporation timetable, October 1940', srcUrl: '',
+    ink: '#5b3a8c', days: [],
+    note: 'The way out. By October 1940 the coast was gone and the Burma Road was the one land route into free China; this is its air equivalent, Chungking to Rangoon by way of Kunming and Lashio in a day, on a Douglas. Once a week each way — out on Mondays, home on Tuesdays. CNAC flew it under Japanese attack, at night and without lights for much of the war, and it is the service that became the Hump.',
+    stops: [
+      { id: 'chongqing', name: 'Chungking (Chongqing)', lon: 106.55, lat: 29.56 },
+      { id: 'kunming', name: 'Kunming', lon: 102.72, lat: 25.04 },
+      { id: 'lashio', name: 'Lashio', lon: 97.75, lat: 22.94 },
+      { id: 'rangoon', name: 'Rangoon (Yangon)', lon: 96.2, lat: 16.87 }
+    ],
+    times: [
+      { seq: '1', station: '重慶 Chungking', dd: '7:30', ua: '15:10', freq: 'out Mondays, home Tuesdays', dw: '1', uw: '2' },
+      { seq: '2', station: '昆明 Kunming', da: '10:10', dd: '10:40', ua: '12:00', ud: '12:30', freq: 'out Mondays, home Tuesdays', dw: '1', uw: '2' },
+      { seq: '3', station: '臘戌 Lashio', da: '13:10', dd: '13:40', ua: '9:00', ud: '9:30', freq: 'out Mondays, home Tuesdays', dw: '1', uw: '2' },
+      { seq: '4', station: '仰光 Rangoon', da: '16:40', ud: '6:00', freq: 'out Mondays, home Tuesdays', dw: '1', uw: '2' }
+    ]
+  },
+  {
+    id: 'cnac-chungking-chengtu', name: 'Chungking – Chengtu', operator: 'China National Aviation Corporation (中國航空公司)', opened: '',
+    season: 'October 1940', epochs: ['e1942'], source: 'China National Aviation Corporation timetable, October 1940', srcUrl: '',
+    ink: '#5b3a8c', days: [],
+    note: 'The provincial shuttle, twice a day between the wartime capital and the Szechwan plain, and the timetable gives it two schedules: an hour and a half on five days of the week and twenty minutes quicker on Thursdays and Sundays. Both are drawn, as separate circuits on the card.',
+    stops: [
+      { id: 'chongqing', name: 'Chungking (Chongqing)', lon: 106.55, lat: 29.56 },
+      { id: 'chengdu', name: 'Chengtu (Chengdu)', lon: 104.07, lat: 30.66 }
+    ],
+    times: [
+      { svc: 'Mondays to Saturdays, less Thursdays', seq: '1', station: '重慶 Chungking', dd: '10:00', ua: '13:30', freq: 'Mondays, Tuesdays, Wednesdays, Fridays and Saturdays', dw: '1 2 3 5 6', uw: '1 2 3 5 6' },
+      { svc: 'Thursdays and Sundays', seq: '1', station: '重慶 Chungking', dd: '10:00', ua: '13:20', freq: 'Thursdays and Sundays', dw: '4 7', uw: '4 7' },
+      { svc: 'Mondays to Saturdays, less Thursdays', seq: '2', station: '成都 Chengtu', da: '11:30', ud: '12:00', freq: 'Mondays, Tuesdays, Wednesdays, Fridays and Saturdays', dw: '1 2 3 5 6', uw: '1 2 3 5 6' },
+      { svc: 'Thursdays and Sundays', seq: '2', station: '成都 Chengtu', da: '11:20', ud: '12:00', freq: 'Thursdays and Sundays', dw: '4 7', uw: '4 7' }
+    ]
+  },
+  {
+    id: 'cnac-chungking-kiating', name: 'Chungking – Luchow – Suifu – Kiating', operator: 'China National Aviation Corporation (中國航空公司)', opened: '',
+    season: 'October 1940', epochs: ['e1942'], source: 'China National Aviation Corporation timetable, October 1940', srcUrl: '',
+    ink: '#5b3a8c', days: [],
+    note: 'Up the Min and the Yangtze into the Szechwan basin, calling at Luchow and Suifu, on Mondays and Thursdays. Kiating is Leshan; Suifu is Yibin. Neither is on the map\'s city list, so their stops carry a coordinate of their own.',
+    stops: [
+      { id: 'chongqing', name: 'Chungking (Chongqing)', lon: 106.55, lat: 29.56 },
+      { id: 'luzhou', name: 'Luchow (Luzhou)', lon: 105.44, lat: 28.87 },
+      { name: 'Suifu (Yibin)', lon: 104.62, lat: 28.77 },
+      { name: 'Kiating (Leshan)', lon: 103.76, lat: 29.56 }
+    ],
+    times: [
+      { seq: '1', station: '重慶 Chungking', dd: '12:00', ua: '11:30', freq: 'Mondays and Thursdays, both ways', dw: '1 4', uw: '1 4' },
+      { seq: '2', station: '瀘州 Luchow', da: '13:00', dd: '13:15', ua: '10:15', ud: '10:30', freq: 'Mondays and Thursdays, both ways', dw: '1 4', uw: '1 4' },
+      { seq: '3', station: '宜賓 Suifu', da: '14:00', dd: '14:30', ua: '9:00', ud: '9:30', freq: 'Mondays and Thursdays, both ways', dw: '1 4', uw: '1 4' },
+      { seq: '4', station: '樂山 Kiating', da: '15:30', ud: '8:00', freq: 'Mondays and Thursdays, both ways', dw: '1 4', uw: '1 4' }
+    ]
   }
 ];
 

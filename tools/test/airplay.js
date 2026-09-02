@@ -427,32 +427,44 @@ const toEpoch=async(p,y)=>{
   await sleep(1200);
   check('which a tap starts', (await at(phone)).clock!==pon.clock,
     pon.clock+' -> '+(await at(phone)).clock);
-  /* ============ only the network that is actually flown ============
+  /* ====== dimmed while it flies, whole again the moment it stops ======
    *
    * A line on this map is the route as its source draws it; the timetable is a
    * separate thing, and the two do not cover the same ground. Twenty-nine of
-   * the fifty-four services have no times at all — the KNILM lines are traced
-   * off a route map that gives none — and two more are drawn across a leg no
-   * service works: the Hokuriku line joins Osaka to Tokyo through Toyama and
-   * Nagano while its two services run Osaka–Toyama and Tokyo–Nagano, and the
-   * KLM trunk's first leg is a stub to the edge of the frame towards Jask.
+   * the sixty services have no times at all — the KNILM lines are traced off a
+   * route map that gives none — and two more are drawn across a leg no service
+   * works: the Hokuriku line joins Osaka to Tokyo through Toyama and Nagano
+   * while its two services run Osaka–Toyama and Tokyo–Nagano, and the KLM
+   * trunk's first leg is a stub to the edge of the frame towards Jask.
    *
-   * Left on the screen while the aeroplanes move they read as a network
-   * standing still rather than as one nobody has the times for. So pressing
-   * play drops them and stopping puts them back — and a route flown in two
-   * halves is drawn in two, which is what the subpath count measures. */
-  console.log('\n\u2014 with the week running, only what is flown \u2014');
+   * While the week is *running* those fade back, so that what is moving reads
+   * as the network being flown. They are dimmed rather than dropped: a line
+   * that vanishes when the reader presses play looks like a fault, and this has
+   * something to say. And the moment the reader pauses — tools still up — the
+   * whole network comes back to full strength, because a paused map is a
+   * reader looking at the thing rather than watching it.
+   *
+   * Two paths per route, because opacity belongs to an element: `.air-line`
+   * takes the legs that are flown and `.air-line-idle` takes the rest. The
+   * subpath counts below are how a route flown in halves is measured. */
+  console.log('\n\u2014 dimmed while it flies, whole again when it stops \u2014');
   {
-    const shotFlown = fp => fp.evaluate(() => {
-      const out = { drawn: [], hidden: [], rings: 0, subpaths: {} };
+    const shotDim = fp => fp.evaluate(() => {
+      const out = { visible: 0, idle: {}, lit: {}, rings: 0, dimRings: 0, play: null };
       [...document.querySelectorAll('#air .air-route')].forEach(g => {
+        if (g.style.display === 'none') return;
         const id = g.getAttribute('data-air');
-        (g.style.display === 'none' ? out.hidden : out.drawn).push(id);
-        const l = g.querySelector('.air-line');
-        if (l) out.subpaths[id] = (l.getAttribute('d').match(/M/g) || []).length;
+        out.visible++;
+        const l = g.querySelector('.air-line'), i = g.querySelector('.air-line-idle');
+        out.lit[id] = (((l && l.getAttribute('d')) || '').match(/M/g) || []).length;
+        out.idle[id] = (((i && i.getAttribute('d')) || '').match(/M/g) || []).length;
       });
-      out.rings = [...document.querySelectorAll('#air [data-air-stop]')]
-        .filter(g => g.style.display !== 'none').length;
+      const rs = [...document.querySelectorAll('#air [data-air-stop]')]
+        .filter(g => g.style.display !== 'none');
+      out.rings = rs.length;
+      out.dimRings = rs.filter(g => g.classList.contains('air-idle')).length;
+      const b = document.querySelector('.air-play');
+      out.play = b ? b.textContent : null;
       return out;
     });
     const fp = await browser.newPage();
@@ -465,43 +477,43 @@ const toEpoch=async(p,y)=>{
     await sleep(2500);
     await fp.evaluate(() => document.getElementById('btn-air').click());
     await sleep(1800);
-    const still = await shotFlown(fp);
+    const bare = await shotDim(fp);
     await fp.evaluate(() => document.getElementById('btn-planes').click());
-    await sleep(2500);
-    const flying = await shotFlown(fp);
-    await fp.evaluate(() => document.getElementById('btn-planes').click());
-    await sleep(1800);
-    const back = await shotFlown(fp);
+    await sleep(2200);
+    const paused = await shotDim(fp);
+    await fp.evaluate(() => document.querySelector('.air-play').click());
+    await sleep(1500);
+    const running = await shotDim(fp);
+    await fp.evaluate(() => document.querySelector('.air-play').click());
+    await sleep(1200);
+    const again = await shotDim(fp);
     await fp.close();
 
-    const dropped = still.drawn.filter(x => !flying.drawn.includes(x));
-    check('the services with no timetable are dropped', dropped.length === 29,
-      String(dropped.length) + ' dropped');
-    check('  all twenty-five KNILM lines among them',
-      dropped.filter(x => /^knilm/.test(x)).length === 25,
-      String(dropped.filter(x => /^knilm/.test(x)).length));
-    check('  and the four Japanese ones with no times',
-      ['manchuria', 'shanghai', 'northchina', 'keijo-dairen']
-        .every(x => dropped.includes(x)),
-      JSON.stringify(dropped.filter(x => !/^knilm/.test(x))));
-    check('the ones that are flown stay drawn',
-      flying.drawn.includes('korea-1938') && flying.drawn.includes('china-shanghai'),
-      JSON.stringify(flying.drawn.slice(0, 5)));
-    check('the Hokuriku line breaks at the leg nothing works',
-      still.subpaths['hokuriku'] === 1 && flying.subpaths['hokuriku'] === 2,
-      still.subpaths['hokuriku'] + ' \u2192 ' + flying.subpaths['hokuriku']);
-    check('and the KLM stub towards Jask goes with it',
-      flying.subpaths['klm-batavia'] === 1, String(flying.subpaths['klm-batavia']));
-    check('fewer airports stand while the week runs', flying.rings < still.rings,
-      still.rings + ' \u2192 ' + flying.rings);
-    check('stopping puts every route back',
-      back.drawn.length === still.drawn.length,
-      still.drawn.length + ' \u2192 ' + back.drawn.length);
-    check('  every airport with them', back.rings === still.rings,
-      still.rings + ' \u2192 ' + back.rings);
-    check('  and the lines are whole again',
-      JSON.stringify(back.subpaths) === JSON.stringify(still.subpaths),
-      'hokuriku ' + back.subpaths['hokuriku'] + ' vs ' + still.subpaths['hokuriku']);
+    check('opening the tools changes nothing on the map',
+      paused.visible === bare.visible && paused.dimRings === 0
+      && Object.keys(paused.idle).every(k => paused.idle[k] === 0),
+      bare.visible + ' \u2192 ' + paused.visible + ', dim rings ' + paused.dimRings);
+    check('  and it opens stopped', paused.play === '\u25b6', paused.play);
+    check('pressing play drops no route at all',
+      running.visible === paused.visible,
+      paused.visible + ' \u2192 ' + running.visible);
+    check('  a service with no timetable goes over to the faint line',
+      running.idle['knilm-kupang-darwin'] === 1 && running.lit['knilm-kupang-darwin'] === 0,
+      'idle=' + running.idle['knilm-kupang-darwin'] + ' lit=' + running.lit['knilm-kupang-darwin']);
+    check('  one flown in part is lit in part and faint in part',
+      running.lit['hokuriku'] === 2 && running.idle['hokuriku'] === 1,
+      'lit=' + running.lit['hokuriku'] + ' idle=' + running.idle['hokuriku']);
+    check('  one flown end to end has nothing faint on it',
+      running.idle['korea-1938'] === 0 && running.lit['korea-1938'] === 1,
+      'idle=' + running.idle['korea-1938']);
+    check('  the airports on the faint legs go with them',
+      running.dimRings > 0 && running.rings === paused.rings,
+      running.dimRings + ' dimmed of ' + running.rings);
+    check('pausing puts the whole network back',
+      Object.keys(again.idle).every(k => again.idle[k] === 0)
+      && again.dimRings === 0
+      && JSON.stringify(again.lit) === JSON.stringify(paused.lit),
+      'dim rings ' + again.dimRings);
   }
 
   check('no page errors', errs.length===0 && perrs.length===0,

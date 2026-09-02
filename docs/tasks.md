@@ -16718,6 +16718,82 @@ CNAC's, so the whole route was masked. The comparison is now against the routes
 actually drawn on the sheet.
 
 
+## Dimmed rather than dropped, and CNAC's 1940 lines
+
+**The unflown legs fade instead of vanishing**, and only while the week is
+actually running. The first cut hid them whenever the tools were open, which is
+two things wrong: a line that disappears when the reader presses play reads as
+a fault rather than as a statement, and a reader who *pauses* is looking at the
+thing rather than watching it, at which point the network as its sources draw
+it is the honest answer again.
+
+So: `.air-line` takes the legs something flies and a new `.air-line-idle`
+takes the rest at three-tenths opacity — two paths because opacity belongs to
+an element and one path cannot be half bright. Paused, the drawn line takes the
+whole route and the idle line is emptied. The press target keeps the whole
+route either way: a line a reader can see is a line they can ask about, however
+faint.
+
+`setPlaying` in `air-play.js` now tells the host when the answer changes, which
+is the one place it can — the button, the end of the week and `unmount` all
+come through it. Measured on the 1942 sheet: 49 routes drawn and 49 still drawn
+with the week running, 48 of the 172 airport rings dimmed, and everything back
+at full strength on pause.
+
+## CNAC on the 1942 sheet too: the October 1940 lines
+
+    cnac-chungking-rangoon   Chungking – Kunming – Lashio – Rangoon
+    cnac-chungking-chengtu   Chungking – Chengtu
+    cnac-chungking-kiating   Chungking – Luchow – Suifu – Kiating
+
+The Rangoon line is the air equivalent of the Burma Road — by October 1940 the
+coast was gone and this was the way out — once a week each way, out Mondays and
+home Tuesdays. The Chengtu shuttle carries **two schedules on one line**, an
+hour and a half on five days and twenty minutes quicker on Thursdays and
+Sundays; they are two services so that both animate, and they show as two
+circuits on the card. Kiating is Leshan and Suifu is Yibin; neither is on the
+city list, so those stops carry their own coordinate.
+
+`source_url` is blank on all three: the times were supplied rather than read
+off a scan here, and pointing at a page nobody has checked would be worse than
+saying nothing.
+
+Measured: Rangoon flies days 1 and 2, Chengtu all seven, Kiating 1 and 4.
+
+## No katakana in the air cards
+
+`アンボン Ambon` is not two names, it is one name written twice — the syllabary
+a Japanese timetable would have used for a foreign word. Where the Japanese
+form is kanji it *is* a second name and worth showing (京城 Keijō beside
+Kyŏngsŏng); where it is bare kana it tells the reader nothing they cannot
+already read, and takes the width of a column to do it.
+
+Tested for what it is rather than for where the place is — characters that are
+only kana — because the rule is about the writing. Measured: it changes six of
+the forty-two named air stops and no others, and all six are KNILM calls in the
+Dutch East Indies:
+
+    アンボン Ambon         -> Ambon
+    バリクパパン Balikpapan  -> Balikpapan
+    クーパン Koepang       -> Koepang
+    メナド Menado         -> Menado
+    タラカン Tarakan       -> Tarakan
+    バンジェルマシン Bandjermasin -> Bandjermasin
+
+Nothing in Korea, Taiwan, China or the mandate is touched: サイパン島 keeps its
+島 and so is not bare kana.
+
+## A duplicate noted rather than fixed
+
+The airport rings are one per row in `stops.csv`, not one per airport, so a
+stop on two routes gets two rings at the same coordinates. CNAC sharing
+Shanghai, Nanking and Hankow with 中華航空 took the 1942 count from 162 to 172.
+They coincide exactly and are the same size, so nothing is visible, and the
+dimming keys off the stop rather than the row so a stacked pair always agrees.
+Worth tidying when the ring layer is next touched; not worth a restructure
+inside this batch.
+
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

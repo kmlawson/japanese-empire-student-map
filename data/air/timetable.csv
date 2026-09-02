@@ -128,3 +128,15 @@ cnac-shanghai-peiping,,2,海州 Haichow,10:00,,10:15,,12:45,,13:00,,"out Tuesday
 cnac-shanghai-peiping,,3,青島 Tsingtao,11:35,,11:50,,11:10,,11:25,,"out Tuesdays, Thursdays and Saturdays; home Wednesdays, Fridays and Sundays",2 4 6,3 5 7
 cnac-shanghai-peiping,,4,天津 Tientsin,15:00,,15:15,,7:45,,8:00,,"out Tuesdays, Thursdays and Saturdays; home Wednesdays, Fridays and Sundays",2 4 6,3 5 7
 cnac-shanghai-peiping,,5,北平 Peiping,16:00,,,,,,7:00,,"out Tuesdays, Thursdays and Saturdays; home Wednesdays, Fridays and Sundays",2 4 6,3 5 7
+cnac-chungking-rangoon,,1,重慶 Chungking,,,7:30,,15:10,,,,"out Mondays, home Tuesdays",1,2
+cnac-chungking-rangoon,,2,昆明 Kunming,10:10,,10:40,,12:00,,12:30,,"out Mondays, home Tuesdays",1,2
+cnac-chungking-rangoon,,3,臘戌 Lashio,13:10,,13:40,,9:00,,9:30,,"out Mondays, home Tuesdays",1,2
+cnac-chungking-rangoon,,4,仰光 Rangoon,16:40,,,,,,6:00,,"out Mondays, home Tuesdays",1,2
+cnac-chungking-chengtu,"Mondays to Saturdays, less Thursdays",1,重慶 Chungking,,,10:00,,13:30,,,,"Mondays, Tuesdays, Wednesdays, Fridays and Saturdays",1 2 3 5 6,1 2 3 5 6
+cnac-chungking-chengtu,"Mondays to Saturdays, less Thursdays",2,成都 Chengtu,11:30,,,,,,12:00,,"Mondays, Tuesdays, Wednesdays, Fridays and Saturdays",1 2 3 5 6,1 2 3 5 6
+cnac-chungking-chengtu,Thursdays and Sundays,1,重慶 Chungking,,,10:00,,13:20,,,,Thursdays and Sundays,4 7,4 7
+cnac-chungking-chengtu,Thursdays and Sundays,2,成都 Chengtu,11:20,,,,,,12:00,,Thursdays and Sundays,4 7,4 7
+cnac-chungking-kiating,,1,重慶 Chungking,,,12:00,,11:30,,,,"Mondays and Thursdays, both ways",1 4,1 4
+cnac-chungking-kiating,,2,瀘州 Luchow,13:00,,13:15,,10:15,,10:30,,"Mondays and Thursdays, both ways",1 4,1 4
+cnac-chungking-kiating,,3,宜賓 Suifu,14:00,,14:30,,9:00,,9:30,,"Mondays and Thursdays, both ways",1 4,1 4
+cnac-chungking-kiating,,4,樂山 Kiating,15:30,,,,,,8:00,,"Mondays and Thursdays, both ways",1 4,1 4

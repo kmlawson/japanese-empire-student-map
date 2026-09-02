@@ -3805,6 +3805,24 @@ dialog h3 {
 #air .air-halo { stroke: var(--air-halo); stroke-width: 5; opacity: 0.9; }
 /* The map's own air ink, unless the route says otherwise — see `r.ink`. */
 #air .air-line { stroke: var(--air-ink, #23405c); stroke-width: 1.7; }
+
+/* **The legs nobody has the times for, while the week is running.**
+   Same ink and the same width as the line it continues — it *is* the same
+   line — at a third of the strength, so the network being flown reads as the
+   thing in front and the rest as what the sources do not cover. Faded rather
+   than removed: a line that vanishes when the reader presses play looks like a
+   fault, and this has something to say. Empty and therefore invisible whenever
+   the week is not running. */
+#air .air-line-idle {
+  stroke: var(--air-ink, #23405c);
+  stroke-width: 1.7;
+  fill: none;
+  opacity: .3;
+}
+
+/* And the airports on them go the same way, so a ring does not sit at full
+   strength on a line that has faded out from under it. */
+#air [data-air-stop].air-idle { opacity: .3; }
 /* The press target: invisible, wide enough for a finger, and the only part of
    the layer that takes the pointer. */
 #air .air-hit {
