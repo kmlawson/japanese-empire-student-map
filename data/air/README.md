@@ -118,3 +118,71 @@ is nonstop; the stopping service follows the river through Anking and Kiukiang.
 `fares.csv`: the card's fare table is headed "Yen", which these are not, so
 recording them there would mislabel them. They are kept here and in each
 route's note instead.
+
+---
+
+## China National Aviation Corporation (中國航空公司), c. 1933
+
+Sources: the company's own timetable —
+<https://www.timetableimages.com/ttimages/cnaca.htm> for the Yangtze services,
+and <https://www.timetableimages.com/ttimages/cn33c.htm> for the Chungking and
+Peiping routes.
+
+CNAC was a joint concern of the Nationalist government's Ministry of
+Communications and Pan American Airways. Three lines, drawn on the **1930**
+map — the schedule is about 1933, which is the nearest one found, and three
+years later than the sheet.
+
+Shasi and Haichow are not on the map's city list and their stops carry a
+coordinate and no `id`, which the file allows (Ulsan is the precedent).
+Shasi 沙市 is 30.32 N, 112.24 E; Haichow 海州 is 34.57 N, 119.13 E, today
+Lianyungang.
+
+### Shanghai – Hankow → `cnac-shanghai-hankou`
+
+Daily except Mondays (days 2–7), both ways.
+
+| stop | down 着 / 發 | up 着 / 發 |
+|---|---|---|
+| 上海 Shanghai | — / 8.00 | 15.05 / — |
+| 南京 Nanking | 10.15 / 10.30 | 12.35 / 12.50 |
+| 安慶 Anking | 12.15 / 12.20 | 10.45 / 10.50 |
+| 九江 Kiukiang | 13.20 / 13.35 | 9.30 / 9.45 |
+| 漢口 Hankow | 15.05 / — | — / 8.00 |
+
+The same four towns 中華航空 would be flying seven years later on the 1942
+sheet — this is the network that one replaced.
+
+### Hankow – Chungking → `cnac-hankou-chungking`
+
+Out Wednesdays and Saturdays (3, 6).
+
+| stop | out 着 / 發 | back 着 / 發 |
+|---|---|---|
+| 漢口 Hankow | — / 7.50 | 15.50 / — |
+| 沙市 Shasi | 9.20 / 9.25 | 14.15 / 14.20 |
+| 宜昌 Ichang | 10.10 / 10.25 | 13.15 / 13.30 |
+| 萬縣 Wanhsien | 12.35 / 12.50 | 10.50 / 11.05 |
+| 重慶 Chungking | 14.40 / — | — / 9.00 |
+
+**The days it came home are unresolved.** The reading gives "Tuesday, Thursday
+and Saturday (Day 2, 4, 7)", and those disagree: Saturday is day 6 and day 7 is
+Sunday. Drawn on 2, 4, 6 — the spelled-out names — and it is worth revisiting,
+because two departures a week against three returns does not balance either
+way.
+
+### Shanghai – Peiping → `cnac-shanghai-peiping`
+
+Out Tuesdays, Thursdays and Saturdays (2, 4, 6); home Wednesdays, Fridays and
+Sundays (3, 5, 7).
+
+| stop | out 着 / 發 | back 着 / 發 |
+|---|---|---|
+| 上海 Shanghai | — / 7.00 | 16.00 / — |
+| 海州 Haichow | 10.00 / 10.15 | 12.45 / 13.00 |
+| 青島 Tsingtao | 11.35 / 11.50 | 11.10 / 11.25 |
+| 天津 Tientsin | 15.00 / 15.15 | 7.45 / 8.00 |
+| 北平 Peiping | 16.00 / — | — / 7.00 |
+
+Peiping, not Peking: the capital had moved to Nanking in 1928 and the city was
+renamed 北平, which is what the timetable prints.

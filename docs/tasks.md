@@ -16513,6 +16513,211 @@ Now escaped, along with U+2028 and U+2029 — legal inside a JS string since
 ES2019 and not before, and invisible either way.
 
 
+## Two settings on one bit, twice — and the layers code was two flags from silently rounding
+
+Reported as "the `layers=` variable doesn't save the airlines or the airline
+tools". It saved neither, and the reason it did not was worse than that.
+
+**`state.air` and the projection were writing to the same bit.** Air went to
+65536, which is bit 16, which is the projection's high bit. Measured:
+
+    air on,  Mercator  ->  layers=1en4
+    air off, Lambert   ->  layers=1en4      byte for byte
+
+Opening either gave you both. So a link shared with the airlines on silently
+reprojected the recipient's map to Lambert azimuthal, and a Lambert link
+silently switched the airlines on.
+
+**And the relief sheet was sharing bits 19 and 20 with the two client states.**
+Choosing the finest relief and following the link hid Mengjiang at the other
+end. Measured the same way.
+
+This is the third and fourth time. The file's own comments already record
+`world` and `jpNames` both on 4194304, and the occupation and the relief both
+on 262144. Settled the way those were: the documented table at the head of the
+block is right, and whatever arrived later moves. Bit 16 is the projection,
+19/20 are the relief sheet, and `state.air`, `state.manchukuo` and
+`state.mengjiang` go up into the arithmetic field at 131072, 524288 and
+1048576. An old link carrying a stolen bit now reads as the documented
+meaning; it never round-tripped its own setting anyway.
+
+**The plane tools were in no field at all.** `airPlayWanted` is a variable of
+the module rather than an entry in `state`, and the button that sets it never
+called `scheduleUrl` — so a link shared with the week running arrived stopped.
+It has a place now (262144), the button writes the address, and `applyAir`
+mounts the tools when a link asks for them.
+
+### The field had two bits left
+
+Asked whether there was room to grow. There was almost none:
+
+    high field, most it can currently say : 2097143   (2^21)
+    most it could say before 2^53         : 8388607   (2^22)
+    bits of headroom                      : 2
+
+The two fields were multiplied into one number — `bits + hi * 2^30` — and a
+JavaScript number is an exact integer only to 2^53. Two more layers and the
+third would have pushed it over, where `toString(36)` and `parseInt` go on
+working and start **rounding**: every setting in the high field quietly wrong,
+no error anywhere. Given that this field's last four faults were all silent
+ones, that was the more serious finding.
+
+They are written apart now — `2o.2t4w`, low field, stop, high field — so each
+half is a number in its own right and the high field has the whole of 2^53 to
+grow into, about thirty more flags. A code with an empty high field is written
+as the low half alone, which is exactly the old form, so short links are
+unchanged; long old ones are read by the arithmetic they were written with.
+Four of them are pinned in the test. New settings go in the high field: `|=` is
+32-bit signed, so bit 30 is the last that can be set that way and 0–29 are all
+spoken for.
+
+Codes got shorter as a side effect: `1dvxwqtyzk` -> `2o.2t4w`.
+
+`tools/test/layers-url.js` gains a section that drives **one setting at a time
+and reads the other half of the pair back with it**. The whole-round-trip that
+was already there sets every switch at once, which is exactly what cannot see a
+collision: both settings travel, both come back, and each looks fine. 56 checks,
+all passing.
+
+## Only the network that is actually flown
+
+Pressing play now drops the lines nobody has the times for. A line on this map
+is the route as its source draws it; the timetable is a separate thing, and
+they do not cover the same ground.
+
+Measured on the 1942 sheet:
+
+    standing still   49 routes, 162 airports
+    week running     20 routes, 115 airports
+
+Twenty-nine services have no timetable at all — the twenty-five KNILM lines are
+traced off a route map that gives none, and `manchuria`, `shanghai`,
+`northchina` and `keijo-dairen` are still untranscribed. Two more are drawn
+across a leg no service works, and those are the reason this is per-segment
+rather than per-route: the Hokuriku line joins Osaka to Tokyo through Toyama
+and Nagano while its two services run Osaka–Toyama and Tokyo–Nagano, so it now
+draws as **two subpaths** with the middle gone; and the KLM trunk's stub to the
+edge of the frame towards Jask is a direction rather than a flight, so it goes.
+
+Done as subpaths in the one path — `M ... L ... M ... L ...` — rather than a
+path per leg, so nothing in the DOM changes shape and `getPointAtLength` still
+works on the whole line. A service that overflies a stop still counts for the
+ground under it: the Shanghai–Hankow express passes over Anking and Kiukiang
+without landing and there are aeroplanes over that stretch.
+
+Airports with no drawn leg reaching them are stood down with the lines, which
+the request did not ask for and a ring floating in open water with nothing
+under it would have made necessary anyway.
+
+## An "i" that says what a layer is, and what it is not
+
+A card on this map answers *what is this thing*. Nothing answered *what is this
+whole layer* — how complete it is, which sources it mixes, what it cannot be
+used for — which for a layer still being built is the more important question
+and the one a reader had no way to ask.
+
+`texts/layer-info.csv` and `texts/layer-info.md`, one row and one section per
+layer, with `flag` naming the `state` entry that says whether the layer is
+drawn. That is data rather than a table inside `map.js` so the two cannot
+drift, and the build refuses a row without it. A layer with no row has no
+button and nothing happens.
+
+The button sits in a new bottom-right cluster, appears when a layer that has
+something to say goes on, and **flashes once two seconds later** — straight
+away it is lost in whatever the layer just drew. Pressing it opens a lightbox
+with the newest layer at the top and the earlier ones pushed down and still
+readable; switching a layer off takes its block out of wherever it had got to
+rather than rebuilding the stack. Empty, the button hides and closes the box.
+
+The prose goes through `setProse`, so the emphasis renders and nothing in a
+data file can inject into the page. `_join` in `texts_lib.py` gains
+`keep_paras`, used by this file alone: the default joins paragraphs with a
+space on purpose, because a record's note also goes into a `<title>` tooltip
+and a tooltip is one line — 111 of the 1,201 notes in `texts/` have a blank
+line in them, so changing it globally was not on.
+
+Airline Routes is the first entry, with its limitations in the author's own
+words and all four sources on it.
+
+## Full screen, and why it is safe
+
+On `document.documentElement`, not on the map container. Everything this map
+puts in front of a reader — the info pane, the Layers dialog, the annotation
+tools — is a fixed-position child of `body`, and fullscreening the container
+alone would leave every one of them outside the fullscreen element and so
+invisible. At the root they all come along, and nothing else has to be done
+about the size: a fullscreen change is a resize, and `init` already listens for
+those three ways over.
+
+Offered only where the API exists and the pointer is fine. **The cost worth
+knowing**: the address bar goes with it, and this map's sharing model lives in
+the URL — a reader in full screen cannot see or copy the link that encodes what
+they are looking at. A "Copy link" button beside it would answer that and is
+not here yet.
+
+## The air button wears the aeroplane the sheet flies
+
+A Fokker F.VII on 1930 and a Nakajima Ki-34 on 1942, which is what the
+animation puts in the air on each. Both drawings are in the markup and
+`data-epoch` on the button chooses; `tools/test/layerinfo.js` compares each
+against the arrays in `air-play.js` **character for character**, because two
+copies of a drawing drift and a guard is cheaper than noticing.
+
+`tools/test/layerinfo.js` is new — 21 checks, and it is in `MAP`, in the
+`transport` and `links` groups and in `TRIGGERS`, because a script absent from
+that list is silently never run.
+
+
+## CNAC on the 1930 map: three Chinese lines, c. 1933
+
+The China National Aviation Corporation (中國航空公司), the Nationalist
+government's joint venture with Pan American, read off the company's own
+timetable of about 1933 — three years later than the sheet they are drawn on,
+which is the nearest schedule found and is said on the cards.
+
+    cnac-shanghai-hankou    Shanghai – Nanking – Anking – Kiukiang – Hankow
+    cnac-hankou-chungking   Hankow – Shasi – Ichang – Wanhsien – Chungking
+    cnac-shanghai-peiping   Shanghai – Haichow – Tsingtao – Tientsin – Peiping
+
+15 timetable rows, 15 stops, in an ink of their own (`#5b3a8c`). The 1930 sheet
+goes from five drawn services to eight. Full transcription in
+`data/air/README.md`.
+
+Two of the stops are not on the map's city list — Shasi 沙市 and Haichow 海州,
+today Lianyungang — and carry a coordinate with no `id`, which the file allows
+and Ulsan is the precedent for.
+
+The Yangtze line is deliberately the same four towns the Japanese-run 中華航空
+flies on the 1942 sheet: one network replaced the other, and the two dates now
+show that directly. It makes a third pair of routes sharing a short name across
+the dates, which the numbering leaves alone because they are never drawn
+together.
+
+**Unresolved, and drawn under a stated assumption.** The Chungking line's
+return days were given as "Tuesday, Thursday and Saturday (Day 2, 4, 7)" and
+those disagree — Saturday is day 6, day 7 is Sunday. Drawn on 2, 4, 6, the
+spelled-out names, and said on the card and in the README. Two departures a
+week against three returns does not balance either way, so it wants another
+look at the sheet.
+
+### Measured
+
+Walking the week and counting marks on the stretch of each line no other line
+runs along:
+
+    cnac-shanghai-hankou    days 2–7        (never a Monday)
+    cnac-hankou-chungking   days 2, 3, 4, 6 (out 3 and 6, home 2, 4, 6)
+    cnac-shanghai-peiping   days 2–7        (out 2, 4, 6, home 3, 5, 7)
+
+One measurement error worth recording, because it looked like a fault in the
+map and was not. The Yangtze line first read as flying on *no* day at all. The
+check samples each line where no other line runs, and it was comparing against
+every `.air-line` in the document — including the hidden 1942 routes, which
+still answer `getPointAtLength`. 中華航空's Yangtze line lies exactly along
+CNAC's, so the whole route was masked. The comparison is now against the routes
+actually drawn on the sheet.
+
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

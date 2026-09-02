@@ -163,3 +163,18 @@ china-hankou,2,nanjing,Nanking (Nanjing),118.8,32.06
 china-hankou,3,anqing,Anking (Anqing),117.05,30.51
 china-hankou,4,jiujiang,Kiukiang (Jiujiang),116.0,29.71
 china-hankou,5,wuhan,Hankow (Wuhan),114.28,30.58
+cnac-shanghai-hankou,1,shanghai,Shanghai,121.47,31.23
+cnac-shanghai-hankou,2,nanjing,Nanking (Nanjing),118.8,32.06
+cnac-shanghai-hankou,3,anqing,Anking (Anqing),117.05,30.51
+cnac-shanghai-hankou,4,jiujiang,Kiukiang (Jiujiang),116.0,29.71
+cnac-shanghai-hankou,5,wuhan,Hankow (Wuhan),114.28,30.58
+cnac-hankou-chungking,1,wuhan,Hankow (Wuhan),114.28,30.58
+cnac-hankou-chungking,2,,Shasi (Shashi),112.24,30.32
+cnac-hankou-chungking,3,yichang,Ichang (Yichang),111.29,30.69
+cnac-hankou-chungking,4,wanxian,Wanhsien (Wanxian),108.41,30.81
+cnac-hankou-chungking,5,chongqing,Chungking (Chongqing),106.55,29.56
+cnac-shanghai-peiping,1,shanghai,Shanghai,121.47,31.23
+cnac-shanghai-peiping,2,,Haichow (Haizhou),119.13,34.57
+cnac-shanghai-peiping,3,qingdao,Tsingtao (Qingdao),120.38,36.07
+cnac-shanghai-peiping,4,tianjin,Tientsin (Tianjin),117.2,39.13
+cnac-shanghai-peiping,5,beijing,Peiping (Beijing),116.4,39.9

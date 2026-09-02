@@ -60,8 +60,8 @@ def load(*parts):
     return T.read_csv(os.path.join(TEXTS, *parts))
 
 
-def notes(*parts):
-    return T.read_notes(os.path.join(TEXTS, *parts))
+def notes(*parts, **kw):
+    return T.read_notes(os.path.join(TEXTS, *parts), **kw)
 
 
 class Problem(Exception):
@@ -624,6 +624,40 @@ def build_data_js():
             raise Problem("texts/epochs.md has no '## %s'" % r["id"])
     parts.append("JMAP.EPOCHS = [\n%s\n];"
                  % array(rows, ns, snippets, indent=2, note_field="blurb"))
+
+    # -------------------------------------------------------- layer info
+    # What a *layer* is, as against what any one thing on it is. The cards on
+    # the map answer "what is this line"; this answers "what is this whole
+    # layer, and what is it not" — which for a layer still being built is the
+    # more important question, and the one a reader has no other way to ask.
+    #
+    # A layer with no row here has no "i" button and nothing happens. That is
+    # the design: nothing to say is best said by saying nothing.
+    rows = load("layer-info.csv")
+    check_unique(rows, "id", "texts/layer-info.csv")
+    # read in paragraphs: this is panel prose, never a tooltip
+    ns = notes("layer-info.md", keep_paras=True)
+    # `flag` names the entry in map.js's `state` that says whether the layer
+    # is drawn. It is here rather than in a table inside map.js so that the two
+    # cannot drift: a row is the whole of what this layer's "i" needs.
+    noflag = [r["id"] for r in rows if not r.get("flag")]
+    if noflag:
+        raise Problem(
+            "texts/layer-info.csv: %s has no `flag`. It names the state entry "
+            "that says whether the layer is drawn, and without one the info "
+            "would never appear or never go away."
+            % ", ".join(map(repr, noflag)))
+    missing = [r["id"] for r in rows if r["id"] not in ns]
+    if missing:
+        raise Problem(
+            "texts/layer-info.csv names %s, and texts/layer-info.md has no "
+            "section for %s. The row is the title and the source; the prose is "
+            "the whole of what the reader came to read, and a row without it "
+            "would open an empty box."
+            % (", ".join(map(repr, missing)),
+               "it" if len(missing) == 1 else "them"))
+    parts.append("JMAP.LAYER_INFO = [\n%s\n];"
+                 % array(rows, ns, snippets, indent=2))
 
     # --------------------------------------------------------- categories
     rows = load("categories.csv")

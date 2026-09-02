@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '289';
+  var JEM_VERSION = '290';
   var JEM_ASSETS = {"admin.js": "3414697d04", "air-play.js": "e5a71f6f9a", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "58132ef9c2", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
 
   /* Every file this one fetches, with the version on it.
@@ -1189,11 +1189,13 @@
       var ro = new ResizeObserver(function () { bumpLayout(); });
       // held so a panel built later — the train bar — can join the list
       uiObserver = ro;
-      ['#legend', '#zoom-controls', '#info', '#quiz', '#train-bar'].forEach(function (sel) {
+      ['#legend', '#zoom-controls', '#corner-controls', '#info', '#quiz',
+       '#train-bar'].forEach(function (sel) {
         var el = $(sel);
         if (el) ro.observe(el);
       });
     }
+    initCornerControls();
   }
 
   /* admin.js, once, on demand. It is a tool for working on the map and not
@@ -1923,6 +1925,10 @@
        cross the whole map and are most legible at the widest view. */
     applyAir();
     syncMapButtons();
+    /* Which layers have something to say about themselves, and whether the
+       reader has just switched one on. Here because this is the one place
+       every layer change comes through. */
+    syncLayerInfo();
   }
 
   /* How much of the railway layer is drawn at this width, 0 to 1. Pulled out
@@ -2042,6 +2048,10 @@
     if (btnAirEl) {
       btnAirEl.setAttribute('aria-pressed', state.air ? 'true' : 'false');
       btnAirEl.classList.toggle('on', !!state.air);
+      /* And the aeroplane on it is the one this date flies — a Fokker F.VII
+         for 1930, a Nakajima Ki-34 for 1942, which is what the animation puts
+         in the air. styles.css shows one of the two drawings in the button. */
+      btnAirEl.setAttribute('data-epoch', state.epoch || '');
     }
     /* The railway of the ground under the view, whichever that is. Same switch
        as the one in the Layers panel, and pressed the same way it is: a reader
@@ -3953,6 +3963,15 @@
    *   27  Korea's railways    28  its stations
    *   29  the train tools
    *
+   * Above bit 30 is a second, *arithmetic* field — `hi`, multiplied by 2³⁰ —
+   * because `|=` is a 32-bit signed operation and bit 31 would come back
+   * negative. The population maps, the colour scheme and the name switches
+   * live there, and so, now, do the air routes, the plane tools and the two
+   * client states: see `POP_BITS` and the places beside it. Three of those
+   * four were moved up because they had been written over bits 16, 19 and 20,
+   * which this table has always said belong to the projection and the relief
+   * sheet.
+   *
    * Bits 7 and 10 no longer have a switch in the Layers panel — the province
    * source came out once the period sheet was redrawn, and the hairline came
    * out with the rest of the panel's explanatory weight. Both still work from
@@ -3991,10 +4010,22 @@
        bit 18 set now read as what the documented table always said bit 18
        was: the relief. */
     if (state.occSource === 'none') bits |= 8388608;
-    if (!state.manchukuo) bits |= 524288;
-    if (!state.mengjiang) bits |= 1048576;
+    /* **The two client states and the air layer are in the high field**, and
+       this is the third time this file has had two settings on one bit.
+       `state.air` was written to 65536 — bit 16, which is the projection's
+       high bit, so `?layers=1en4` meant *both* "airlines on, Mercator" and
+       "airlines off, Lambert azimuthal", byte for byte. Hiding Manchukuo wrote
+       524288 and Mengjiang 1048576, which are bits 19 and 20, the relief
+       sheet: choosing the finest relief and sharing it hid Mengjiang at the
+       other end.
+     
+       Both are settled the way the last two were — the documented table above
+       is right, and whatever arrived later moves. So bit 16 is the projection
+       and 19/20 are the relief sheet, as they always said, and these three go
+       up into the arithmetic field, which has room and does not have to be
+       hunted for. An old link carrying one of the stolen bits now reads as the
+       documented meaning; it never round-tripped its own setting anyway. */
     if (state.mono) bits |= 2097152;
-    if (state.air) bits |= 65536;
     /* Bit 24, not 22. This wrote 4194304 — the bit the name switch below
        has carried since it shipped (tools/test/names.js pins it) — so a link
        made with Japanese names off forced East Asia on whoever opened it,
@@ -4058,21 +4089,68 @@
       if (place) hi += place * (POP_MODES.indexOf(state.pop[g.id]) + 1 || 0);
     });
     if (state.twSugar) hi += SUGAR_PLACE;
+    if (state.air) hi += AIR_PLACE;
+    /* The plane tools, which were in no field at all: `airPlayWanted` is a
+       variable of this module and was never written, so a link shared with the
+       week running arrived stopped. */
+    if (airPlayWanted) hi += AIRPLAY_PLACE;
+    // set when HIDDEN, like `ccp` and `world` below: both start on, and an
+    // absent place in an old link has to mean the default
+    if (!state.manchukuo) hi += MANCHUKUO_PLACE;
+    if (!state.mengjiang) hi += MENGJIANG_PLACE;
     hi += THEME_PLACE * (THEME_MODES.indexOf(state.theme) + 1 || 0);
     // set when the row is OFF — an old link carries zeroes here and must open
     // with every name switched on, which is what it showed its sender
     LABEL_CATS.forEach(function (c) {
       if (!state.labelCats[c.id]) hi += c.place;
     });
-    return (bits + hi * HI_BASE).toString(36);
+    /* **Two numbers with a stop between them, not one number.**
+     *
+     * The two fields used to be multiplied into one — `bits + hi * 2³⁰` — and
+     * that has a cliff in it. A JavaScript number is an exact integer only to
+     * 2⁵³, so the high field could reach 2²³ and no further, and the moment it
+     * passed that, `toString(36)` and `parseInt` would go on working and start
+     * *rounding*: every setting up there quietly wrong, no error anywhere. The
+     * measurement when this was written: the high field stood at 2²¹ and had
+     * **two bits left**. Two more layers and the third would have gone over.
+     *
+     * Written apart, each half is a number in its own right and the high field
+     * has the whole of 2⁵³ to grow into — about thirty more flags — which is
+     * more than this map is going to need. New settings go **up there**, not
+     * in the bitwise half: `|=` is a 32-bit signed operation, so bit 30 is the
+     * last one that can be set that way and bits 0–29 are all spoken for.
+     *
+     * A code with nothing in the high field is written as the low half alone,
+     * which is exactly what it used to be — so the short codes in every link
+     * already shared are unchanged, and the long ones are read below by the
+     * arithmetic they were written with. */
+    /* Loud rather than silent. Nothing can reach this today — the point is
+       that the day something does, it says so here instead of writing a link
+       that reads back as a different map. */
+    if (hi > HI_MAX) {
+      try { console.error('layerCode: the high field has outgrown 2^53 — ' + hi
+        + '. Settings above it will be rounded. Give it its own field.'); }
+      catch (e) { /* no console */ }
+    }
+    return hi ? (bits.toString(36) + '.' + hi.toString(36)) : bits.toString(36);
   }
 
   function applyLayerCode(code) {
-    var whole = parseInt(code, 36);
-    if (!isFinite(whole) || whole < 0) return;
-    // the bitwise field, and above it the arithmetic one — see `layerCode`
-    var bits = whole % HI_BASE;
-    var hi = Math.floor(whole / HI_BASE);
+    var bits, hi;
+    var dot = String(code || '').indexOf('.');
+    if (dot >= 0) {
+      bits = parseInt(String(code).slice(0, dot), 36);
+      hi = parseInt(String(code).slice(dot + 1), 36);
+      if (!isFinite(bits) || bits < 0 || !isFinite(hi) || hi < 0) return;
+    } else {
+      /* The old single number: the low field, and above it the high one
+         multiplied by 2³⁰. Every link shared before the two were written apart
+         carries this form and goes on meaning what it meant. */
+      var whole = parseInt(code, 36);
+      if (!isFinite(whole) || whole < 0) return;
+      bits = whole % HI_BASE;
+      hi = Math.floor(whole / HI_BASE);
+    }
     var epochs = JMAP.EPOCHS ? JMAP.EPOCHS.map(function (e) { return e.id; }) : [];
     var other = epochs.filter(function (id) { return id !== JMAP.DEFAULT_EPOCH; })[0];
     if ((bits & 1) && other) state.epoch = other;
@@ -4090,8 +4168,6 @@
     state.level = Math.min(3, ((bits >> 8) & 3) + 1);
     state.hairline = !!(bits & 1024);
     state.occSource = (bits & 8388608) ? 'none' : ((bits & 2048) ? 'nca' : 'traced');
-    state.manchukuo = !(bits & 524288);
-    state.mengjiang = !(bits & 1048576);
     state.mono = !!(bits & 2097152);
     state.world = !(bits & 16777216);
     state.ccp = !(bits & 4096);          // inverted; see layerCode
@@ -4102,18 +4178,16 @@
     state.krRail = !!(bits & 134217728);
     state.krStations = !!(bits & 268435456);
     state.trainTools = !!(bits & 536870912);
-    /* Bit 16 of the bitwise field. `POP_BITS` also has a 65536, and it is
-       not this: that one is a *multiplier* in the high field above 2³⁰,
-       a different namespace entirely. Only two bits were left free down
-       here and the history of this field is collisions, so it is said
-       plainly rather than left to be worked out. */
-    state.air = !!(bits & 65536);
     popGroups().forEach(function (g) {
       var place = POP_BITS[g.id];
       var mode = place ? POP_MODES[(Math.floor(hi / place) % 4) - 1] : null;
       if (mode) state.pop[g.id] = mode; else delete state.pop[g.id];
     });
     state.twSugar = !!(Math.floor(hi / SUGAR_PLACE) % 2);
+    state.air = !!(Math.floor(hi / AIR_PLACE) % 2);
+    airPlayWanted = !!(Math.floor(hi / AIRPLAY_PLACE) % 2);
+    state.manchukuo = !(Math.floor(hi / MANCHUKUO_PLACE) % 2);   // inverted
+    state.mengjiang = !(Math.floor(hi / MENGJIANG_PLACE) % 2);   // inverted
     state.theme = THEME_MODES[(Math.floor(hi / THEME_PLACE) % 4) - 1] || 'auto';
     LABEL_CATS.forEach(function (c) {          // inverted; see layerCode
       state.labelCats[c.id] = !(Math.floor(hi / c.place) % 2);
@@ -8446,17 +8520,73 @@
     return out;
   }
 
-  function airPath(stops) {
+  /* `flown`, when given, is asked about each leg in turn and a leg it refuses
+     is left out — the next one drawn starts a subpath of its own with `M`
+     rather than being joined to the last with `L`. One path with two runs in
+     it, which is what a route with a gap in the middle of it is. */
+  function airPath(stops, flown) {
     var d = '';
+    var open = false;                    // is a subpath in progress?
     for (var i = 0; i + 1 < stops.length; i++) {
+      if (flown && !flown(i)) { open = false; continue; }
       var seg = gcStep(stops[i], stops[i + 1]);
-      for (var j = (i ? 1 : 0); j < seg.length; j++) {
+      for (var j = (open ? 1 : 0); j < seg.length; j++) {
         var p = project(seg[j].lon, seg[j].lat);
-        d += (d ? 'L' : 'M') + fmt2(p.x) + ' ' + fmt2(p.y);
+        d += (j === 0 && !open ? 'M' : 'L') + fmt2(p.x) + ' ' + fmt2(p.y);
       }
+      open = true;
     }
     return d;
   }
+
+  /* **Which of a route's drawn legs an aeroplane actually flew.**
+   *
+   * A line on this map is the route as its source draws it; the timetable is a
+   * separate thing, and the two do not always cover the same ground. Twenty-
+   * nine of the fifty-four services have no times at all — the KNILM lines come
+   * off a route map with no schedule on it — and two more are drawn across a
+   * leg no service works: the Hokuriku line joins Osaka to Tokyo through
+   * Toyama and Nagano, but its two services run Osaka–Toyama and Tokyo–Nagano
+   * and nothing crosses the middle, and the KLM trunk's first leg is the stub
+   * out to the edge of the frame towards Jask, which is a direction rather
+   * than a flight.
+   *
+   * With the week running, those are drawn and empty: a network that looks
+   * flown and is not. This says which legs to keep.
+   *
+   * A service that overflies a stop still counts for the ground under it — the
+   * Shanghai–Hankow express passes over Anking and Kiukiang without landing,
+   * and there are aeroplanes over that stretch — so the legs between two calls
+   * are filled in rather than only the pair that touch. */
+  function airFlownLegs(r) {
+    var stops = (r && r.stops) || [];
+    var out = [];
+    for (var i = 0; i + 1 < stops.length; i++) out.push(false);
+    var rows = (r && r.times) || [];
+    if (!rows.length) return out;
+    var svcs = rows.map(function (t) { return t.svc || ''; })
+      .filter(function (v, i, a) { return a.indexOf(v) === i; });
+    svcs.forEach(function (svc) {
+      var mine = rows.filter(function (t) { return (t.svc || '') === svc; });
+      ['d', 'u'].forEach(function (pre) {
+        var seq = mine.filter(function (t) { return t[pre + 'a'] || t[pre + 'd']; })
+          .map(function (t) { return (+t.seq) - 1; })
+          .sort(function (a, b) { return a - b; });
+        for (var k = 0; k + 1 < seq.length; k++) {
+          for (var j = seq[k]; j < seq[k + 1]; j++) if (j >= 0 && j < out.length) out[j] = true;
+        }
+      });
+    });
+    return out;
+  }
+
+  /* Both readings of every route, worked out once when the layer is built:
+     `all` is the line as drawn, `flown` is the same line with the legs no
+     aeroplane works left out, and `stops` says which airports are still on it.
+     Held here rather than as attributes on the group — a second copy of every
+     path in the DOM is a lot of string for something only one of which is ever
+     shown. */
+  var airPaths = {};
 
   /* **Two names for a route: the whole chain, and its two ends.**
    *
@@ -8521,6 +8651,22 @@
     JMAP.AIR.forEach(function (r) {
       var d = airPath(r.stops);
       if (!d) return;
+      /* The same line with the unflown legs left out, and the airports left
+         standing on it — both worked out here, where the geometry is, so that
+         switching the week on and off is two attribute writes rather than a
+         rebuild. */
+      var legs = airFlownLegs(r);
+      var keep = {};
+      legs.forEach(function (on, i) {
+        if (!on) return;
+        keep[r.stops[i].id || r.stops[i].name] = true;
+        keep[r.stops[i + 1].id || r.stops[i + 1].name] = true;
+      });
+      airPaths[r.id] = {
+        all: d,
+        flown: airPath(r.stops, function (i) { return legs[i]; }),
+        stops: keep,
+      };
       var g = svgEl('g', { 'class': 'air-route', 'data-air': r.id });
       /* **A line may carry its own colour.** The Japanese network is one ink
          and the Dutch one another — a darker cousin of the Indies' own orange,
@@ -9278,11 +9424,26 @@
     b.classList.toggle('on', !!airPlayWanted);
   }
 
+  /* `applyAir` answers `setAirPlay(false)` when the routes are off, and
+     `setAirPlay` asks `applyAir` to redraw — so the two would call each other
+     for ever without this. The flag lets the outer call do the drawing and the
+     inner one skip it, which is the right division: the outer one knows what
+     just changed. */
+  var airPlaySyncing = false;
+
   function setAirPlay(on) {
     airPlayWanted = !!on && !!state.air;
     if (airPlayWanted) { buildAir(); loadAirPlay(); }
     else unmountAirPlay();
     syncAirPlayButton();
+    /* **The network is drawn differently while it is being flown**, so the
+       lines have to be redrawn on the way in and on the way out — not only
+       when the date or the view changes, which is the only thing that used to
+       reach `applyAir`. */
+    if (!airPlaySyncing) {
+      airPlaySyncing = true;
+      try { applyAir(); } finally { airPlaySyncing = false; }
+    }
   }
 
 
@@ -9524,17 +9685,228 @@
     });
   }
 
+  /* ================= what a layer is, and what it is not ================
+   *
+   * A card on this map answers *what is this thing* — a country, a city, an
+   * air route. Nothing answered *what is this whole layer*, which for a layer
+   * still being built is the more important question and the one a reader has
+   * no other way to ask: how complete it is, which sources it mixes, what it
+   * cannot be used for. The air routes are the case that forced it — twenty-
+   * nine of the fifty-four services have no times, the 1942 sheet draws a 1938
+   * Japanese timetable beside a 1935 Dutch route map, and a reader who takes
+   * that for one network at one moment has been misled by the drawing.
+   *
+   * The prose is in `texts/layer-info.md` and the row beside it in
+   * `texts/layer-info.csv` — including `flag`, which names the `state` entry
+   * that says whether the layer is drawn. That is data rather than a table in
+   * here, so the two cannot drift.
+   *
+   * A layer with no row has no button and nothing happens, which is the point:
+   * nothing to say is best said by saying nothing.
+   */
+  var layerInfoStack = [];        // ids, newest first
+  var layerInfoFlash = 0;
+
+  function layerInfoOn(row) {
+    return !!(row && row.flag && state[row.flag]);
+  }
+
+  /* Called wherever the layers change. Newly-on layers go on the top of the
+     stack and push the rest down; a layer switched off is taken out of
+     wherever it had got to, rather than the stack being rebuilt — a reader who
+     turns on A then B then off A should still find B where they left it. */
+  function syncLayerInfo() {
+    var rows = JMAP.LAYER_INFO || [];
+    if (!rows.length) return;
+    var fresh = [];
+    rows.forEach(function (row) {
+      var i = layerInfoStack.indexOf(row.id);
+      if (layerInfoOn(row)) { if (i < 0) fresh.push(row.id); }
+      else if (i >= 0) layerInfoStack.splice(i, 1);
+    });
+    // newest first, and several turned on at once keep the file's order
+    if (fresh.length) layerInfoStack = fresh.concat(layerInfoStack);
+    var b = $('#btn-layer-info');
+    if (!b) return;
+    b.hidden = !layerInfoStack.length;
+    if (!layerInfoStack.length) {
+      var dlg = $('#dlg-layer-info');
+      if (dlg && dlg.open) dlg.close();
+      return;
+    }
+    if (!fresh.length) return;
+    /* **Two seconds, then a flash.** Straight away it is lost in whatever the
+       layer just drew; the pause is long enough for the reader to have looked
+       at the map and be ready to be told there is something else. */
+    if (layerInfoFlash) window.clearTimeout(layerInfoFlash);
+    layerInfoFlash = window.setTimeout(function () {
+      layerInfoFlash = 0;
+      if (!b || b.hidden) return;
+      b.classList.remove('flash');
+      void b.offsetWidth;              // restart the animation
+      b.classList.add('flash');
+    }, 2000);
+  }
+
+  function fillLayerInfo() {
+    var host = $('#layer-info-body');
+    if (!host) return;
+    while (host.firstChild) host.removeChild(host.firstChild);
+    var by = {};
+    (JMAP.LAYER_INFO || []).forEach(function (r) { by[r.id] = r; });
+    layerInfoStack.forEach(function (id) {
+      var row = by[id];
+      if (!row) return;
+      var wrap = document.createElement('section');
+      wrap.className = 'layer-info-item';
+      wrap.setAttribute('data-layer-info', id);
+      var h = document.createElement('h3');
+      h.textContent = row.title || id;
+      wrap.appendChild(h);
+      if (row.note) {
+        var p = document.createElement('p');
+        p.className = 'layer-info-note';
+        /* The same renderer the route notes use: the emphasis the author wrote
+           becomes emphasis, and it is built with createElement rather than
+           markup so nothing in a data file can inject into the page. */
+        setProse(p, row.note);
+        wrap.appendChild(p);
+      }
+      if (row.source) {
+        var src = document.createElement('p');
+        src.className = 'layer-info-src';
+        src.appendChild(document.createTextNode('Source: '));
+        if (row.source_url) {
+          var a = document.createElement('a');
+          a.href = row.source_url;
+          a.target = '_blank';
+          a.rel = 'noopener';
+          a.textContent = row.source;
+          src.appendChild(a);
+        } else {
+          src.appendChild(document.createTextNode(row.source));
+        }
+        wrap.appendChild(src);
+      }
+      host.appendChild(wrap);
+    });
+  }
+
+  /* ---------------------------------------------------------- full screen --
+   *
+   * On the root element, not on the map container. Everything this map puts in
+   * front of a reader — the info pane, the Layers dialog, the annotation
+   * tools, this dialog — is a fixed-position child of `body`, and fullscreening
+   * the container alone would leave every one of them outside the fullscreen
+   * element and therefore invisible. At the root they all come along.
+   *
+   * Nothing else has to be done about the size: a fullscreen change is a
+   * resize, and `init` already listens for those three ways over.
+   *
+   * Not offered where the API is absent, and not on a coarse pointer: a phone
+   * browser is already the whole screen, and what it hands back is often
+   * something the reader cannot leave.
+   */
+  function fullscreenOn() {
+    return !!(document.fullscreenElement || document.webkitFullscreenElement);
+  }
+
+  function syncFullscreen() {
+    var b = $('#btn-fullscreen');
+    if (!b) return;
+    var on = fullscreenOn();
+    b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    b.setAttribute('aria-label', on ? 'Leave full screen' : 'Full screen');
+    b.title = on ? 'Leave full screen' : 'Full screen';
+  }
+
+  function toggleFullscreen() {
+    var root = document.documentElement;
+    try {
+      if (fullscreenOn()) {
+        (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+      } else {
+        (root.requestFullscreen || root.webkitRequestFullscreen).call(root);
+      }
+    } catch (err) { /* refused: the button simply does nothing */ }
+  }
+
+  function initCornerControls() {
+    var fs = $('#btn-fullscreen');
+    var root = document.documentElement;
+    var can = !!(root.requestFullscreen || root.webkitRequestFullscreen);
+    if (fs && can && !coarse) {
+      fs.hidden = false;
+      fs.addEventListener('click', toggleFullscreen);
+      document.addEventListener('fullscreenchange', syncFullscreen);
+      document.addEventListener('webkitfullscreenchange', syncFullscreen);
+      syncFullscreen();
+    }
+    var info = $('#btn-layer-info');
+    var dlg = $('#dlg-layer-info');
+    if (info && dlg) {
+      info.addEventListener('click', function () {
+        info.classList.remove('flash');
+        fillLayerInfo();
+        if (!dlg.open) dlg.showModal();
+      });
+    }
+    syncLayerInfo();
+  }
+
   function applyAir() {
     if (!airGroup) return;
     airGroup.style.display = state.air ? '' : 'none';
-    if (!state.air) { setAirPlay(false); return; }
+    if (!state.air) { if (!airPlaySyncing) setAirPlay(false); return; }
+    /* **A link that was shared with the week running opens with it running.**
+       `airPlayWanted` is set by `applyLayerCode` before there is an air layer
+       to mount anything on, so the flag arrives true with nothing behind it.
+       This is where the layer exists, so this is where the tools are asked
+       for — once, and only if they are not already up, because `applyAir` runs
+       on every rescale. */
+    if (airPlayWanted && !(airApi && airApi.mounted())) {
+      buildAir();
+      loadAirPlay();
+    }
     syncAirPlayButton();
+    /* **With the week running, only the network that is actually flown.**
+     *
+     * Twenty-nine of the fifty-four services have no timetable — the KNILM
+     * lines are traced off a route map that gives none — and two more are
+     * drawn across a leg no service works. Left on the screen while the
+     * aeroplanes move, they read as a network standing still rather than as a
+     * network nobody has the times for. So pressing play drops them, and
+     * stopping puts them back: the line as its source draws it is the honest
+     * answer when nothing is claiming to fly it. */
+    var playing = !!airPlayWanted;
+    if (airGroup) {
+      Array.prototype.forEach.call(airGroup.children, function (g) {
+        var id = g.getAttribute && g.getAttribute('data-air');
+        var pp = id && airPaths[id];
+        if (!pp) return;
+        var d = playing ? pp.flown : pp.all;
+        // a route with nothing flown on it at all is hidden below, where the
+        // date decides the rest of the displays — set here it would be undone
+        if (!d) return;
+        ['.air-halo', '.air-line', '.air-hit'].forEach(function (sel) {
+          var el = g.querySelector(sel);
+          if (el && el.getAttribute('d') !== d) el.setAttribute('d', d);
+        });
+      });
+    }
     /* The rings live in one group of their own now, so which of them belong to
        this date has to be worked out rather than following their route's own
-       display. A stop is drawn if any route that calls there is. */
+       display. A stop is drawn if any route that calls there is — and with the
+       week running, only if a leg that is still drawn reaches it, or the map
+       keeps a ring floating in open water with no line under it. */
     var live = {};
     (JMAP.AIR || []).forEach(function (r) {
       if (!airShown(r)) return;
+      var pp = airPaths[r.id];
+      if (playing && pp) {
+        Object.keys(pp.stops).forEach(function (k) { live[k] = true; });
+        return;
+      }
       (r.stops || []).forEach(function (st) { live[st.id || st.name] = true; });
     });
     if (airRings) {
@@ -9544,7 +9916,14 @@
     }
     (JMAP.AIR || []).forEach(function (r) {
       var g = airGroup.querySelector('[data-air="' + cssEsc(r.id) + '"]');
-      if (g) g.style.display = airShown(r) ? '' : 'none';
+      if (!g) return;
+      /* The date decides most of it; the week running decides the rest. A
+         route with no times at all has nothing to draw while the aeroplanes
+         move, and this is the one place a route's display is set, so it is
+         decided here rather than above where it would be overwritten. */
+      var pp = airPaths[r.id];
+      var nothingFlown = playing && pp && !pp.flown;
+      g.style.display = (airShown(r) && !nothingFlown) ? '' : 'none';
     });
   }
 
@@ -11248,6 +11627,10 @@
      gets the second map, which is the most an id-less numbering can promise. */
   var POP_MODES = ['density', 'japanese', 'occupation'];
   var HI_BASE = 1073741824;      // 2³⁰: where the bitwise field ends
+  /* The most the high field can say and still be an exact integer. Nothing
+     here approaches it; it is checked rather than trusted, because the failure
+     is silent and every fault this field has had has been a silent one. */
+  var HI_MAX = 9007199254740991;      // 2⁵³ − 1
   /* Where each group's two bits sit in the high field, and where the sugar
      railways sit above them. Written out rather than counted, because counting
      moved the sugar flag when a second group arrived and every link carrying
@@ -11267,6 +11650,19 @@
      existed still opens on the reader's own system setting, which is what it
      showed its sender. */
   var THEME_PLACE = 8192;
+  /* And above Manchukuo's density, the four that had been sharing bits with
+     something else down in the bitwise field, plus one that was in no field at
+     all. 131072 the air routes, 262144 the plane tools, 524288 Manchukuo
+     hidden and 1048576 Mengjiang hidden — the last two inverted, because both
+     start on and an absent place in an older link must mean the default.
+
+     There is room here in a way there is not below: `hi` is added, not
+     or-ed, and it is multiplied by 2³⁰ at the end, so the whole number stays
+     exact while `hi` is under 2²³ or so. It is at 2²¹ now. */
+  var AIR_PLACE = 131072;
+  var AIRPLAY_PLACE = 262144;
+  var MANCHUKUO_PLACE = 524288;
+  var MENGJIANG_PLACE = 1048576;
   var THEME_MODES = ['light', 'dark'];
 
   /* The whole of the switch. `data-theme` on the root element is what
@@ -14761,6 +15157,11 @@
     if (btnPlanes) {
       btnPlanes.addEventListener('click', function () {
         setAirPlay(!airPlayWanted);
+        /* **And say so in the address.** The air button beside this one has
+           always written the URL and this one never did, so a link shared with
+           the week running arrived stopped — the one half of the air layer a
+           reader is most likely to want to show somebody. */
+        scheduleUrl();
       });
     }
 

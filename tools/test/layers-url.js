@@ -313,5 +313,115 @@ for (const [label, q] of [
   await p.close();
 }
 
+/* ------------------------------------------------ one bit, one setting --
+ *
+ * The round-trip above sets every switch at once, which is exactly what
+ * cannot see a *collision*: two settings on the same bit both go out and both
+ * come back, and each looks fine. Three of these have now shipped. The last
+ * two were found by a reader:
+ *
+ *   * `state.air` was written to 65536 — bit 16, the projection's high bit. So
+ *     "airlines on, Mercator" and "airlines off, Lambert azimuthal" wrote the
+ *     SAME code, `1en4`, and opening either gave you both.
+ *   * Hiding Manchukuo wrote 524288 and Mengjiang 1048576 — bits 19 and 20,
+ *     which are the relief sheet. Choosing the finest relief and sharing it
+ *     hid Mengjiang at the other end.
+ *
+ * So each pair is driven one at a time and the *other* half of the pair is
+ * read back with it. A setting that travels is not enough; it has to travel
+ * alone. */
+console.log('\n— one setting at a time, and nothing rides along with it —');
+{
+  const read = p => p.evaluate(() => ({
+    air: getComputedStyle(document.getElementById('air')).display,
+    planes: document.getElementById('btn-planes')
+      ? { on: document.getElementById('btn-planes').classList.contains('on'),
+          bar: !!document.querySelector('.air-slider') } : null,
+    proj: ['mercator', 'albers', 'laea']
+      .find(k => { const e = document.querySelector('#proj-' + k); return e && e.checked; }),
+    relief: document.querySelector('#opt-relief').checked,
+    detail: [...document.querySelectorAll('#relief-seg button')]
+      .map(x => x.classList.contains('on')),
+    manchukuo: document.querySelector('#opt-manchukuo').checked,
+    mengjiang: document.querySelector('#opt-mengjiang').checked,
+  }));
+  const trip = async (name, setup, keys) => {
+    const p = await open(b); await setup(p); await sleep(1600);
+    const before = await read(p);
+    const url = await p.evaluate(() => location.href);
+    const code = (/[?&]layers=([^&#]+)/.exec(url) || [])[1];
+    await p.close();
+    const q = await open(b, url); await sleep(1400);
+    const after = await read(q); await q.close();
+    check(name + ' (layers=' + code + ')',
+      keys.every(k => JSON.stringify(before[k]) === JSON.stringify(after[k])),
+      keys.map(k => k + ': ' + JSON.stringify(before[k]) + ' → ' + JSON.stringify(after[k])).join(', '));
+    return code;
+  };
+  const cAir = await trip('the air routes, and the projection is untouched',
+    p => p.evaluate(() => document.getElementById('btn-air').click()),
+    ['air', 'proj', 'relief', 'manchukuo', 'mengjiang']);
+  const cProj = await trip('Lambert azimuthal, and the air routes stay off',
+    p => p.evaluate(() => { const e = document.querySelector('#proj-laea');
+      e.checked = true; e.dispatchEvent(new Event('change', { bubbles: true })); }),
+    ['air', 'proj', 'manchukuo', 'mengjiang']);
+  check('  and the two no longer write the same code', cAir !== cProj, cAir + ' vs ' + cProj);
+
+  /* The plane tools were in no field at all — `airPlayWanted` is a variable of
+     the module, and the button that sets it never wrote the address. A link
+     shared with the week running arrived stopped. */
+  await trip('the plane tools, running', async p => {
+    await p.evaluate(() => document.getElementById('btn-air').click()); await sleep(1500);
+    await p.evaluate(() => document.getElementById('btn-planes').click()); await sleep(2200);
+  }, ['air', 'planes', 'proj']);
+
+  await trip('the finest relief sheet, and the client states stay drawn', async p => {
+    await p.evaluate(() => { const e = document.querySelector('#opt-relief');
+      e.checked = true; e.dispatchEvent(new Event('change', { bubbles: true })); });
+    await sleep(1500);
+    await p.evaluate(() => { const bs = [...document.querySelectorAll('#relief-seg button')];
+      if (bs.length) bs[bs.length - 1].click(); });
+    await sleep(1200);
+  }, ['relief', 'detail', 'manchukuo', 'mengjiang', 'air']);
+
+  await trip('Manchukuo hidden, and the relief sheet is untouched',
+    p => p.evaluate(() => { const e = document.querySelector('#opt-manchukuo');
+      e.checked = false; e.dispatchEvent(new Event('change', { bubbles: true })); }),
+    ['manchukuo', 'mengjiang', 'relief', 'detail', 'air']);
+  await trip('Mengjiang hidden, and the relief sheet is untouched',
+    p => p.evaluate(() => { const e = document.querySelector('#opt-mengjiang');
+      e.checked = false; e.dispatchEvent(new Event('change', { bubbles: true })); }),
+    ['manchukuo', 'mengjiang', 'relief', 'detail', 'air']);
+
+  /* **The two fields are written apart now, and the old form still reads.**
+     They used to be multiplied into one number — `bits + hi * 2³⁰` — which is
+     exact only to 2⁵³, so the high field had room for two more flags and the
+     third would have started rounding silently. Every code below was written
+     by the build before the split. */
+  console.log('\n— an address written before the two fields were split —');
+  for (const [code, want] of [['1dvxwqtyzk', { air: 'inline' }],
+                              ['1en4', { proj: 'laea' }],
+                              ['1f', { manchukuo: true, mengjiang: true }],
+                              ['s3fk', { relief: true }]]) {
+    const o = await open(b, 'http://localhost:8123/index.html?layers=' + code);
+    const got = await read(o); await o.close();
+    check('  layers=' + code + ' still means what it meant',
+      Object.keys(want).every(k => JSON.stringify(got[k]) === JSON.stringify(want[k])),
+      Object.keys(want).map(k => k + ': want ' + JSON.stringify(want[k])
+        + ' got ' + JSON.stringify(got[k])).join(', '));
+  }
+  /* And the room to grow, pinned as a number rather than left to be trusted:
+     a code with anything in the high field is two parts with a stop between
+     them, and each part is a number in its own right. */
+  const shape = await (async () => {
+    const p = await open(b);
+    await p.evaluate(() => document.getElementById('btn-air').click());
+    await sleep(1500);
+    const c = (/[?&]layers=([^&#]+)/.exec(await p.evaluate(() => location.href)) || [])[1];
+    await p.close(); return c;
+  })();
+  check('a code with a high field is written as two parts', /^[0-9a-z]+\.[0-9a-z]+$/.test(shape || ''), shape);
+}
+
 console.log('\n  '+pass+' passed, '+fail+' failed');
 await b.close(); process.exit(fail);})();

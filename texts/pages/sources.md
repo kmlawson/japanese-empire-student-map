@@ -81,7 +81,16 @@ the Indies are from the [Complete Map of the Airlines of K.N.I.L.M.](https://www
 of about 1935, which is a route map and not a timetable: the lines are drawn
 and nothing is said about when they flew. **By December 1942 neither network
 was running** — the Japanese had taken the Indies that spring — and each card
-says so. They are drawn to show what had been there. The four **China Airways** lines on the 1942 sheet — Peking to Shanghai, to
+says so. They are drawn to show what had been there. The 1930 sheet carries three lines of the **China National Aviation
+Corporation** (中國航空公司), the Nationalist government's joint venture with
+Pan American: the lower Yangtze from Shanghai to Hankow, on up through the
+gorges to Chungking, and north up the coast to Peiping. They are read from the
+company's own timetable of about 1933 —
+[the Yangtze services](https://www.timetableimages.com/ttimages/cnaca.htm) and
+[the Chungking and Peiping routes](https://www.timetableimages.com/ttimages/cn33c.htm)
+— so they are three years later than the sheet they are drawn on, which is the
+nearest schedule found. On the Chungking line the source gives two departures a
+week and three returns, and the card says so. The four **China Airways** lines on the 1942 sheet — Peking to Shanghai, to
 Dairen, west to Paotow, and the Yangtze services to Hankow — are read from the
 company's own [1940 timetable](https://www.timetableimages.com/ttimages/ckkk/ckkk40c/ckkk3.jpg).
 中華航空株式會社 was set up in December 1938, a joint concern of 大日本航空 and the

@@ -427,6 +427,83 @@ const toEpoch=async(p,y)=>{
   await sleep(1200);
   check('which a tap starts', (await at(phone)).clock!==pon.clock,
     pon.clock+' -> '+(await at(phone)).clock);
+  /* ============ only the network that is actually flown ============
+   *
+   * A line on this map is the route as its source draws it; the timetable is a
+   * separate thing, and the two do not cover the same ground. Twenty-nine of
+   * the fifty-four services have no times at all — the KNILM lines are traced
+   * off a route map that gives none — and two more are drawn across a leg no
+   * service works: the Hokuriku line joins Osaka to Tokyo through Toyama and
+   * Nagano while its two services run Osaka–Toyama and Tokyo–Nagano, and the
+   * KLM trunk's first leg is a stub to the edge of the frame towards Jask.
+   *
+   * Left on the screen while the aeroplanes move they read as a network
+   * standing still rather than as one nobody has the times for. So pressing
+   * play drops them and stopping puts them back — and a route flown in two
+   * halves is drawn in two, which is what the subpath count measures. */
+  console.log('\n\u2014 with the week running, only what is flown \u2014');
+  {
+    const shotFlown = fp => fp.evaluate(() => {
+      const out = { drawn: [], hidden: [], rings: 0, subpaths: {} };
+      [...document.querySelectorAll('#air .air-route')].forEach(g => {
+        const id = g.getAttribute('data-air');
+        (g.style.display === 'none' ? out.hidden : out.drawn).push(id);
+        const l = g.querySelector('.air-line');
+        if (l) out.subpaths[id] = (l.getAttribute('d').match(/M/g) || []).length;
+      });
+      out.rings = [...document.querySelectorAll('#air [data-air-stop]')]
+        .filter(g => g.style.display !== 'none').length;
+      return out;
+    });
+    const fp = await browser.newPage();
+    await fp.setViewport({ width: 1400, height: 900 });
+    await fp.evaluateOnNewDocument(SHIM);
+    await fp.goto(URL, { waitUntil: 'networkidle2' });
+    await ready(fp);
+    await fp.evaluate(() => { const x = [...document.querySelectorAll('#epoch-seg button')]
+      .find(y => /1942/.test(y.textContent)); if (x) x.click(); });
+    await sleep(2500);
+    await fp.evaluate(() => document.getElementById('btn-air').click());
+    await sleep(1800);
+    const still = await shotFlown(fp);
+    await fp.evaluate(() => document.getElementById('btn-planes').click());
+    await sleep(2500);
+    const flying = await shotFlown(fp);
+    await fp.evaluate(() => document.getElementById('btn-planes').click());
+    await sleep(1800);
+    const back = await shotFlown(fp);
+    await fp.close();
+
+    const dropped = still.drawn.filter(x => !flying.drawn.includes(x));
+    check('the services with no timetable are dropped', dropped.length === 29,
+      String(dropped.length) + ' dropped');
+    check('  all twenty-five KNILM lines among them',
+      dropped.filter(x => /^knilm/.test(x)).length === 25,
+      String(dropped.filter(x => /^knilm/.test(x)).length));
+    check('  and the four Japanese ones with no times',
+      ['manchuria', 'shanghai', 'northchina', 'keijo-dairen']
+        .every(x => dropped.includes(x)),
+      JSON.stringify(dropped.filter(x => !/^knilm/.test(x))));
+    check('the ones that are flown stay drawn',
+      flying.drawn.includes('korea-1938') && flying.drawn.includes('china-shanghai'),
+      JSON.stringify(flying.drawn.slice(0, 5)));
+    check('the Hokuriku line breaks at the leg nothing works',
+      still.subpaths['hokuriku'] === 1 && flying.subpaths['hokuriku'] === 2,
+      still.subpaths['hokuriku'] + ' \u2192 ' + flying.subpaths['hokuriku']);
+    check('and the KLM stub towards Jask goes with it',
+      flying.subpaths['klm-batavia'] === 1, String(flying.subpaths['klm-batavia']));
+    check('fewer airports stand while the week runs', flying.rings < still.rings,
+      still.rings + ' \u2192 ' + flying.rings);
+    check('stopping puts every route back',
+      back.drawn.length === still.drawn.length,
+      still.drawn.length + ' \u2192 ' + back.drawn.length);
+    check('  every airport with them', back.rings === still.rings,
+      still.rings + ' \u2192 ' + back.rings);
+    check('  and the lines are whole again',
+      JSON.stringify(back.subpaths) === JSON.stringify(still.subpaths),
+      'hokuriku ' + back.subpaths['hokuriku'] + ' vs ' + still.subpaths['hokuriku']);
+  }
+
   check('no page errors', errs.length===0 && perrs.length===0,
     errs.concat(perrs).join(' | '));
   await browser.close();

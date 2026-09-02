@@ -157,10 +157,11 @@ _KEY_RE = re.compile(r"^##\s+(.+?)\s*$")
 _DIVIDER_RE = re.compile(r"^#\s+(.+?)\s*$")
 
 
-def read_notes(path):
+def read_notes(path, keep_paras=False):
     """Sections of a notes file as {key: {'note', 'commentary', 'group'}}.
 
     Missing files are empty, so a collection can start out with no prose.
+    `keep_paras` is passed to `_join`; see there.
     """
     out = {}
     if not os.path.exists(path):
@@ -173,7 +174,7 @@ def read_notes(path):
     def flush():
         if key is None:
             return
-        text = _join(body)
+        text = _join(body, keep_paras)
         out[key] = {"note": text, "commentary": list(commentary),
                     "group": group}
 
@@ -198,12 +199,18 @@ def read_notes(path):
     return out
 
 
-def _join(lines):
+def _join(lines, keep_paras=False):
     """Soft-wrapped lines back into one string, blank lines as paragraph breaks.
 
-    Nothing in the records is more than one paragraph long today, but a note
-    that grows one keeps it: the paragraphs are joined with a space rather than
-    silently run together, which is what the tooltips and the info panel want.
+    The paragraphs are joined with a *space* by default, and that is deliberate
+    rather than lazy: a record's note goes into a `<title>` tooltip as well as
+    into the info pane, and a tooltip is one line. A hundred and eleven of the
+    twelve hundred notes in `texts/` have a blank line in them, so this is not
+    a hypothetical.
+
+    `keep_paras` joins them with a blank line instead, for the prose that is
+    only ever read in a panel — a layer's description, which is argued in
+    paragraphs and would run together into a wall without them.
     """
     paras = []
     cur = []
@@ -216,7 +223,8 @@ def _join(lines):
             cur.append(line.strip())
     if cur:
         paras.append(" ".join(cur))
-    return " ".join(p for p in paras if p)
+    sep = "\n\n" if keep_paras else " "
+    return sep.join(p for p in paras if p)
 
 
 def write_notes(path, sections, header=None, width=78):

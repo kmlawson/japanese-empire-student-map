@@ -75,6 +75,16 @@ JMAP.EPOCHS = [
   },
 ];
 
+JMAP.LAYER_INFO = [
+  {
+    id: 'air',
+    source: 'Japanese network: 酒井正子「変容する世界の航空界・その4 日本の航空100年」and 昭和五年四月改正 定期航空発着時刻及賃金表 (1930). Occupied China: 中華航空株式會社 時刻表 (1940). Dutch East Indies: KLM Amsterdam–Batavia summer service (1938) and the K.N.I.L.M. route map (c. 1935).',
+    flag: 'air', source_url: 'https://www.timetableimages.com/ttimages/ckkk/ckkk40c/ckkk3.jpg',
+    title: 'Airline Routes',
+    note: '**Note**: This layer is incomplete and is under active development. More data incoming.\n\n**Limitations:** This layer visualizes some of the commercial airline routes in operation, mostly in the 1930s. It does not exactly replicate the network in 1930 or 1942, and in fact, much of what you see in the 1942 snapshot will be from before December, 1941. It is also important to note that the sources used are often from different moments. The 1942 map routes, for example, show mostly data from a 1938 Japanese source with mainland China routes from a brochure that may be from around 1940, while the Dutch East Indies data combines a 1938 KLM brochure, with a KNILM airline network map from 1935. That means it is not possible to plot a journey that crosses networks, given the different times and origins of the information about them. Finally, some of the lines have times attached to them which permit animation using the tools, and others are present only on network maps without any schedules included.'
+  },
+];
+
 JMAP.CATEGORIES = {
   e1930: [
     {
@@ -8129,6 +8139,66 @@ JMAP.AIR = [
       { svc: 'Nanking – Hankow, calling at Anking and Kiukiang', seq: '4', station: '九江 Kiukiang', da: '10:40', dd: '10:50', ua: '13:00', ud: '13:10', freq: 'daily' },
       { svc: 'Nanking – Hankow, calling at Anking and Kiukiang', seq: '5', station: '漢口 Hankow', da: '11:40', ud: '12:10', freq: 'daily' },
       { svc: 'Shanghai – Hankow, over Nanking', seq: '5', station: '漢口 Hankow', da: '12:50', ud: '13:20', freq: 'daily' }
+    ]
+  },
+  {
+    id: 'cnac-shanghai-hankou', name: 'Shanghai – Nanking – Anking – Kiukiang – Hankow', operator: 'China National Aviation Corporation (中國航空公司)', opened: '1929',
+    season: 'c. 1933', epochs: ['e1930'], source: 'China National Aviation Corporation timetable, c. 1933', srcUrl: 'https://www.timetableimages.com/ttimages/cnaca.htm',
+    ink: '#5b3a8c', days: [],
+    note: 'CNAC was a joint concern of the Nationalist government\'s Ministry of Communications and Pan American Airways, and this was its main line: the lower Yangtze from the sea to Hankow in a day, every day but Monday, in both directions. It is the same river the Japanese-run 中華航空 would be flying seven years later, calling at the same four towns — this is the network that one replaced.',
+    stops: [
+      { id: 'shanghai', name: 'Shanghai', lon: 121.47, lat: 31.23 },
+      { id: 'nanjing', name: 'Nanking (Nanjing)', lon: 118.8, lat: 32.06 },
+      { id: 'anqing', name: 'Anking (Anqing)', lon: 117.05, lat: 30.51 },
+      { id: 'jiujiang', name: 'Kiukiang (Jiujiang)', lon: 116.0, lat: 29.71 },
+      { id: 'wuhan', name: 'Hankow (Wuhan)', lon: 114.28, lat: 30.58 }
+    ],
+    times: [
+      { seq: '1', station: '上海 Shanghai', dd: '8:00', ua: '15:05', freq: 'daily except Mondays', dw: '2 3 4 5 6 7', uw: '2 3 4 5 6 7' },
+      { seq: '2', station: '南京 Nanking', da: '10:15', dd: '10:30', ua: '12:35', ud: '12:50', freq: 'daily except Mondays', dw: '2 3 4 5 6 7', uw: '2 3 4 5 6 7' },
+      { seq: '3', station: '安慶 Anking', da: '12:15', dd: '12:20', ua: '10:45', ud: '10:50', freq: 'daily except Mondays', dw: '2 3 4 5 6 7', uw: '2 3 4 5 6 7' },
+      { seq: '4', station: '九江 Kiukiang', da: '13:20', dd: '13:35', ua: '9:30', ud: '9:45', freq: 'daily except Mondays', dw: '2 3 4 5 6 7', uw: '2 3 4 5 6 7' },
+      { seq: '5', station: '漢口 Hankow', da: '15:05', ud: '8:00', freq: 'daily except Mondays', dw: '2 3 4 5 6 7', uw: '2 3 4 5 6 7' }
+    ]
+  },
+  {
+    id: 'cnac-hankou-chungking', name: 'Hankow – Shasi – Ichang – Wanhsien – Chungking', operator: 'China National Aviation Corporation (中國航空公司)', opened: '1929',
+    season: 'c. 1933', epochs: ['e1930'], source: 'China National Aviation Corporation timetable, c. 1933', srcUrl: 'https://www.timetableimages.com/ttimages/cnaca.htm',
+    ink: '#5b3a8c', days: [],
+    note: 'On up the Yangtze through the gorges to Szechwan, which is the stretch no railway reached and the reason an air service mattered here more than anywhere else in China: Hankow to Chungking is four days by river steamer against seven hours in the air. Out on Wednesdays and Saturdays.\n\n**The days it came home are uncertain.** The reading gives Tuesday, Thursday and Saturday, and the drawing follows those names — but two returns a week going out and three coming back does not balance, and one of the three may be a Sunday.',
+    stops: [
+      { id: 'wuhan', name: 'Hankow (Wuhan)', lon: 114.28, lat: 30.58 },
+      { name: 'Shasi (Shashi)', lon: 112.24, lat: 30.32 },
+      { id: 'yichang', name: 'Ichang (Yichang)', lon: 111.29, lat: 30.69 },
+      { id: 'wanxian', name: 'Wanhsien (Wanxian)', lon: 108.41, lat: 30.81 },
+      { id: 'chongqing', name: 'Chungking (Chongqing)', lon: 106.55, lat: 29.56 }
+    ],
+    times: [
+      { seq: '1', station: '漢口 Hankow', dd: '7:50', ua: '15:50', freq: 'out Wednesdays and Saturdays; home Tuesdays, Thursdays and Saturdays', dw: '3 6', uw: '2 4 6' },
+      { seq: '2', station: '沙市 Shasi', da: '9:20', dd: '9:25', ua: '14:15', ud: '14:20', freq: 'out Wednesdays and Saturdays; home Tuesdays, Thursdays and Saturdays', dw: '3 6', uw: '2 4 6' },
+      { seq: '3', station: '宜昌 Ichang', da: '10:10', dd: '10:25', ua: '13:15', ud: '13:30', freq: 'out Wednesdays and Saturdays; home Tuesdays, Thursdays and Saturdays', dw: '3 6', uw: '2 4 6' },
+      { seq: '4', station: '萬縣 Wanhsien', da: '12:35', dd: '12:50', ua: '10:50', ud: '11:05', freq: 'out Wednesdays and Saturdays; home Tuesdays, Thursdays and Saturdays', dw: '3 6', uw: '2 4 6' },
+      { seq: '5', station: '重慶 Chungking', da: '14:40', ud: '9:00', freq: 'out Wednesdays and Saturdays; home Tuesdays, Thursdays and Saturdays', dw: '3 6', uw: '2 4 6' }
+    ]
+  },
+  {
+    id: 'cnac-shanghai-peiping', name: 'Shanghai – Haichow – Tsingtao – Tientsin – Peiping', operator: 'China National Aviation Corporation (中國航空公司)', opened: '1929',
+    season: 'c. 1933', epochs: ['e1930'], source: 'China National Aviation Corporation, Shanghai–Chungking and Shanghai–Peiping routes, c. 1933', srcUrl: 'https://www.timetableimages.com/ttimages/cn33c.htm',
+    ink: '#5b3a8c', days: [],
+    note: 'North up the coast to the capital — which in 1933 was Nanking, so Peking had been renamed Peiping, the northern *peace*, and that is the name the timetable prints. Out on Tuesdays, Thursdays and Saturdays and home on the days between, nine hours each way with a stop at Haichow on the Kiangsu coast, at Tsingtao and at Tientsin.',
+    stops: [
+      { id: 'shanghai', name: 'Shanghai', lon: 121.47, lat: 31.23 },
+      { name: 'Haichow (Haizhou)', lon: 119.13, lat: 34.57 },
+      { id: 'qingdao', name: 'Tsingtao (Qingdao)', lon: 120.38, lat: 36.07 },
+      { id: 'tianjin', name: 'Tientsin (Tianjin)', lon: 117.2, lat: 39.13 },
+      { id: 'beijing', name: 'Peiping (Beijing)', lon: 116.4, lat: 39.9 }
+    ],
+    times: [
+      { seq: '1', station: '上海 Shanghai', dd: '7:00', ua: '16:00', freq: 'out Tuesdays, Thursdays and Saturdays; home Wednesdays, Fridays and Sundays', dw: '2 4 6', uw: '3 5 7' },
+      { seq: '2', station: '海州 Haichow', da: '10:00', dd: '10:15', ua: '12:45', ud: '13:00', freq: 'out Tuesdays, Thursdays and Saturdays; home Wednesdays, Fridays and Sundays', dw: '2 4 6', uw: '3 5 7' },
+      { seq: '3', station: '青島 Tsingtao', da: '11:35', dd: '11:50', ua: '11:10', ud: '11:25', freq: 'out Tuesdays, Thursdays and Saturdays; home Wednesdays, Fridays and Sundays', dw: '2 4 6', uw: '3 5 7' },
+      { seq: '4', station: '天津 Tientsin', da: '15:00', dd: '15:15', ua: '7:45', ud: '8:00', freq: 'out Tuesdays, Thursdays and Saturdays; home Wednesdays, Fridays and Sundays', dw: '2 4 6', uw: '3 5 7' },
+      { seq: '5', station: '北平 Peiping', da: '16:00', ud: '7:00', freq: 'out Tuesdays, Thursdays and Saturdays; home Wednesdays, Fridays and Sundays', dw: '2 4 6', uw: '3 5 7' }
     ]
   }
 ];

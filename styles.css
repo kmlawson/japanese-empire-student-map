@@ -1305,6 +1305,90 @@ button.plain:hover { background: var(--hover-fill); }
 
 #zoom-controls button:hover { background: var(--panel); }
 
+/* **The air button shows the aeroplane that flies the sheet.** Both drawings
+   are in the markup and one is shown; `map.js` writes `data-epoch` on the
+   button. The 1930 Fokker is the default so that a build whose script has not
+   run yet shows an aeroplane rather than an empty square. */
+/* **The other corner.** The zoom stack is top right and is about the view;
+   these two are about the map itself, and full screen belongs in the corner a
+   reader reaches for. Same tile as the zoom buttons so the map has one kind of
+   control rather than two. */
+#corner-controls {
+  position: absolute;
+  right: max(10px, var(--safe-r));
+  bottom: max(10px, var(--safe-b, 10px));
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  z-index: 9;
+}
+
+#corner-controls button {
+  appearance: none;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--panel) 94%, transparent);
+  color: var(--ink);
+  font-size: 19px;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  display: grid;
+  place-items: center;
+}
+
+#corner-controls button:hover { background: var(--panel); }
+#corner-controls svg { width: 22px; height: 22px; }
+
+/* The "i" is a letter, not a glyph from a font nobody chose: serif so it reads
+   as an italic i rather than as a stray stroke at 19 px. */
+#btn-layer-info {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-style: italic;
+  font-weight: 700;
+}
+
+/* **One flash, two seconds after the layer goes on.** A reader who has just
+   switched something on is looking at the map, not at the corner; the button
+   appearing silently is a button nobody finds. It pulses twice and stops —
+   an animation that keeps going is a thing to be got rid of rather than
+   read. */
+@keyframes layer-info-flash {
+  0%, 100% { box-shadow: var(--shadow); transform: scale(1); }
+  50%      { box-shadow: 0 0 0 6px color-mix(in srgb, var(--accent, #9a1813) 45%, transparent);
+             transform: scale(1.12); }
+}
+#btn-layer-info.flash { animation: layer-info-flash 620ms ease-in-out 2; }
+@media (prefers-reduced-motion: reduce) {
+  #btn-layer-info.flash { animation: none; outline: 3px solid var(--accent, #9a1813); }
+}
+
+/* Which half of the corner glyph shows: arrows out to go full screen, arrows
+   in to come back. */
+#btn-fullscreen .fs-in { display: none; }
+#btn-fullscreen[aria-pressed="true"] .fs-out { display: none; }
+#btn-fullscreen[aria-pressed="true"] .fs-in { display: inline; }
+
+/* One block per layer in the "i", newest first, with a rule between them so
+   the second and third read as further entries rather than as more of the
+   first. */
+#layer-info-body .layer-info-item + .layer-info-item {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+#layer-info-body h3 { margin: 0 0 6px; }
+#layer-info-body .layer-info-note { white-space: pre-line; margin: 0 0 8px; }
+#layer-info-body .layer-info-src { font-size: 12.5px; color: var(--muted); }
+#dlg-layer-info { max-width: 640px; }
+#layer-info-body { max-height: 60vh; overflow-y: auto; }
+
+#btn-air .air-icon-e1942 { display: none; }
+#btn-air[data-epoch="e1942"] .air-icon-e1930 { display: none; }
+#btn-air[data-epoch="e1942"] .air-icon-e1942 { display: inline; }
+
 #legend {
   position: absolute;
   left: max(10px, var(--safe-l));
