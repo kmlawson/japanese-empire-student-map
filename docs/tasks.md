@@ -17130,6 +17130,27 @@ times stay local and the layer's "i" says what that means, with the Bangkok
 figure in it.
 
 
+## Air France's inland branch, faint end to end
+
+`airfrance-bangkok-hanoi` — Bangkok, Vientiane, Hanoi. Where the main line runs
+round the coast by Saigon, this one cuts across Laos, and the 1938 timetable
+stages it on the same days.
+
+**Grounded from its first stop**, so nothing on it is ever bright and no
+aeroplane is ever on it: all three of its stops were under Japanese control by
+December 1942. It is drawn because the network had been there and faint because
+it was not being flown, and it still answers a press. Times assumed at 320 km/h
+like the rest of the Air France line, and said so on every call.
+
+Measured: 0 length of lit path, 244 of faint, 244 of press target, opacity 0.3,
+and **0 marks belonging to it in the whole week**.
+
+This is the first route that is grounded end to end rather than from a stop in
+the middle, which is worth noting because it leaves `.air-line` empty — the
+drawing has no trouble with that, and the idle path is written unconditionally
+rather than being skipped when the lit one is blank.
+
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

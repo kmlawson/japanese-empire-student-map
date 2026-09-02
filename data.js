@@ -8570,6 +8570,22 @@ JMAP.AIR = [
       { seq: '5', station: 'Allahabad', da: '14:15', dd: '14:25', freq: 'Thursdays and Sundays', dad: '1', ddd: '1', dw: '4 7' },
       { seq: '6', station: 'Calcutta', da: '17:00', freq: 'Thursdays and Sundays', dad: '1', dw: '4 7' }
     ]
+  },
+  {
+    id: 'airfrance-bangkok-hanoi', name: 'Bangkok – Vientiane – Hanoi', operator: 'Air France', opened: '',
+    season: '1938', epochs: ['e1942'], source: 'Air France, Extrême-Orient timetable, 1938', srcUrl: '',
+    ink: '#a32222', days: [], groundedFrom: 'bangkok',
+    note: 'The inland branch of Air France\'s Indochina service: where the main line runs Bangkok to Hanoi round the coast by Saigon, this one cuts across Laos through Vientiane. The 1938 timetable stages it on the same days — out on the Tuesday, home on the Saturday.\n\n**It is drawn faint end to end and no aeroplane is put on it.** All three of its stops were under Japanese control by the date this map shows: Japanese forces entered Indochina in September 1940 and Thailand in December 1941, and Air France was not flying here. The line is here to show what the network had been, which is why it is drawn at all, and faint because it was not being flown, which is why it does not move.\n\n**The clock is assumed, not given** — 08:00 away and as long as the distance needs at 320 km/h, the Dewoitine 338\'s cruise, the same as the main line.',
+    stops: [
+      { id: 'bangkok', name: 'Bangkok', lon: 100.5, lat: 13.75 },
+      { id: 'vientiane', name: 'Vientiane', lon: 102.6, lat: 17.97 },
+      { id: 'hanoi', name: 'Hanoi', lon: 105.85, lat: 21.03 }
+    ],
+    times: [
+      { seq: '1', station: 'Bangkok', dd: '8:00', ua: '11:30', freq: 'weekly; the times are assumed, not in the source', ddd: '1', uad: '1', dw: '3', uw: '7' },
+      { seq: '2', station: 'Vientiane', da: '9:40', dd: '10:00', ua: '9:30', ud: '9:50', freq: 'weekly; the times are assumed, not in the source', dad: '1', ddd: '1', uad: '1', udd: '1', dw: '3', uw: '7' },
+      { seq: '3', station: 'Hanoi', da: '11:30', ud: '8:00', freq: 'weekly; the times are assumed, not in the source', dad: '1', udd: '1', dw: '3', uw: '7' }
+    ]
   }
 ];
 

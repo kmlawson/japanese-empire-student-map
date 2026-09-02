@@ -411,3 +411,81 @@ two services between them give.
 
 Multan and Jacobabad are not on the map's city list and carry their own
 coordinates.
+
+---
+
+## The European lines
+
+### Air Orient, summer 1931 — on the 1930 map
+
+`airorient-jask-saigon`, from
+<https://www.timetableimages.com/ttimages/airori.htm>. The eastern half of the
+Marseilles–Saigon service: Jask, Karachi, Allahabad, Calcutta, Rangoon,
+Bangkok, Saigon, one stage a day.
+
+**The times are not in the source**, which gives a day of the week at each stop
+and no clock. Drawn leaving at 08:00 and taking as long as the distance needs
+at **180 km/h** — the median block speed of the 266 timed legs already on this
+map, and right for the aeroplanes of 1931. Every call says so in its
+`frequency`, so the caveat reaches the aeroplane card too.
+
+Westbound the source's days are matched exactly. Eastbound it puts the Saigon
+arrival on the Sunday, one day later than a stage-a-day schedule reaches it.
+
+Jask is at 57°E and the frame begins at 66°, so the line runs to the edge and
+the marker there is where it leaves rather than a place — the same treatment
+the KLM trunk already had.
+
+### Imperial Airways, 16 May 1931 — on the 1930 map
+
+`iaw-karachi-delhi`. Real times throughout. Jask (57°E) and Gwadar (62°E) are
+both off the western edge, so only Karachi–Jodhpur–Delhi is drawn; the Karachi
+card still carries the true arrival from Gwadar at 15:35 and the departure for
+it at 08:30.
+
+### Air France, 1938 — on the 1942 map
+
+`airfrance-karachi-hongkong` and the inland branch
+`airfrance-bangkok-hanoi`. Times assumed the same way, at **320 km/h**, the
+Dewoitine 338's cruise. A day is a stage with several hops in it: inside a day
+the aeroplane flies on after a twenty-minute turn-round rather than starting
+again at eight.
+
+**Grounded from Bangkok** on the main line and **end to end** on the branch:
+Japanese forces entered Indochina in September 1940 and Thailand in December
+1941, and Air France was not flying there by the date the map shows.
+
+### Imperial Airways, August 1939 — on the 1942 map
+
+`iaw39-karachi-darwin` and `iaw39-karachi-calcutta`. Real times, except the
+Calcutta arrival on the first, which the sheet marks only as a night stop:
+17:10 is Allahabad's 13:05 departure plus what the leg needs at the speed the
+day's other stages imply, about 190 km/h.
+
+**Grounded from Akyab** — one stop west of Rangoon, not at it, because a leg
+that *lands* at Rangoon is as impossible as one that leaves it.
+
+## `grounded_from`, and what it does
+
+A route names the stop it is grounded at. From there on:
+
+* the line is drawn **faint whether the week is running or not**;
+* it still answers a press, and its airports still open their cards;
+* **no aeroplane is ever put on it** — decided in `air-play.js`'s `buildPlans`,
+  not in the drawing, because those are two different files and the first cut
+  dimmed the stretch while the aeroplanes went on flying down it.
+
+## The clock
+
+Every timetable here keeps the local time of the place it was printed for. The
+animation puts them all on one dial, which costs two things, both documented in
+the layer's "i":
+
+* across networks the dial is meaningless — 07:00 at Calcutta and 07:00 at
+  Tokyo are three and a half hours apart;
+* within a line, a stage that crosses a zone has its drawn duration stretched
+  or squeezed. **49 of the 322 timed legs cross one**, by 23 to 90 minutes.
+  Bangkok–Penang reads as 4h00 and was 5h30.
+
+Converting to one reference time would fix the animation and break every card
+against its own source. The times stay local.

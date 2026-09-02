@@ -229,3 +229,6 @@ iaw39-karachi-calcutta,,3,Delhi,8:35,1,8:45,1,,,,,Thursdays and Sundays,4 7,
 iaw39-karachi-calcutta,,4,Cawnpore,11:45,1,11:55,1,,,,,Thursdays and Sundays,4 7,
 iaw39-karachi-calcutta,,5,Allahabad,14:15,1,14:25,1,,,,,Thursdays and Sundays,4 7,
 iaw39-karachi-calcutta,,6,Calcutta,17:00,1,,,,,,,Thursdays and Sundays,4 7,
+airfrance-bangkok-hanoi,,1,Bangkok,,,8:00,1,11:30,1,,,"weekly; the times are assumed, not in the source",3,7
+airfrance-bangkok-hanoi,,2,Vientiane,9:40,1,10:00,1,9:30,1,9:50,1,"weekly; the times are assumed, not in the source",3,7
+airfrance-bangkok-hanoi,,3,Hanoi,11:30,1,,,,,8:00,1,"weekly; the times are assumed, not in the source",3,7
