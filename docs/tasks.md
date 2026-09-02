@@ -17042,6 +17042,94 @@ sweep is now a check, because this was invisible from inside the code and plain
 the moment somebody pressed a dot.
 
 
+## Four European lines, and a state for a leg that could be drawn but not flown
+
+    airorient-jask-saigon        1930 map, summer 1931
+    iaw-karachi-delhi            1930 map, 16 May 1931
+    airfrance-karachi-hongkong   1942 map, 1938
+    iaw39-karachi-darwin         1942 map, August 1939
+    iaw39-karachi-calcutta       1942 map, August 1939
+
+### Times that are not in the source
+
+Air Orient stages its week by day and gives no clock at all; Air France the
+same. Both are drawn leaving at 08:00 and taking as long as the distance needs
+— Air Orient at **180 km/h**, which is the median block speed of the 266 timed
+legs already on this map, and Air France at **320 km/h**, the Dewoitine 338's
+cruise. Every call on those two lines carries "the times are assumed, not in
+the source" in its frequency, so the caveat reaches the aeroplane card as well
+as the line card.
+
+A day is a stage and a stage has several hops in it: inside a day the aeroplane
+flies on after a twenty-minute turn-round rather than starting again at eight
+the next morning. Written the other way round, Jodhpur left at 08:00 having
+arrived at 09:55 and the build refused it — which is what that guard is for.
+
+Air Orient's own days are matched exactly westbound; eastbound the source puts
+the Saigon arrival on the Sunday, one day later than a stage-a-day schedule
+reaches it, and the card says so.
+
+Jask is at 57°E and Gwadar at 62°E; this frame begins at 66°. Both lines are
+drawn to the edge with a marker there, the way the KLM trunk already was.
+
+### Drawn, pressable, and never flown
+
+`grounded_from` on a route names the stop it is grounded at: from there on the
+line is faint whether the week is running or not, it still answers a press, and
+no aeroplane is put on it. Imperial's 1939 service runs through Rangoon to
+Darwin and Air France's through Saigon to Hong Kong; by December 1942 the whole
+of both stretches was Japanese-held. Leaving them off would say the network
+stopped where in fact only the *sheet* stops.
+
+Two things this took to get right.
+
+**The drawing and the flying are decided in different files.** `map.js` says
+what is drawn; `buildPlans` in `air-play.js` says what flies, and it builds
+from the timetable without consulting any of it. The first cut dimmed the
+stretch and left the aeroplanes running down it.
+
+**Counting marks by where they are counts other airlines' marks too.** Six
+lines run Bangkok–Penang–Singapore–Batavia, and the first measurement found
+806 aeroplanes on the grounded stretch, not one of them this route's. Each mark
+now carries `data-route`; after the fix, **0 of this route's 579 marks** are on
+it all week.
+
+**And the boundary moved by one leg.** Grounded from Rangoon, the leg *into*
+Rangoon was still live and an aeroplane still landed there — which is the thing
+the grounding exists to prevent. It is grounded from Akyab, and the card says
+why.
+
+## What the animation's single clock does to the times
+
+Every timetable here keeps the local time of the place it was printed for, and
+that stays: a card has to agree with the source a reader can go and check. The
+animation puts all of them on one dial, and there are two costs.
+
+Across networks the dial is meaningless: 07:00 at Calcutta and 07:00 at Tokyo
+are three and a half hours apart, so the tools cannot time a connection from
+one airline to another.
+
+Within a line the *durations* are distorted wherever a stage crosses a zone.
+Measured over the whole file:
+
+    timed legs                     322
+    legs crossing a time zone       49
+      by 23 min                      8
+      by 30 min                     14
+      by 37 min                      9
+      by 60 min                     12
+      by 90 min                      6
+
+    worst: Bangkok -> Penang   drawn 4h00, actually 5h30
+           Kunming -> Lashio   drawn 2h30, actually 1h00
+           Yokohama -> Saipan  drawn 10h00, actually 11h00
+
+Converting to one reference time would fix the animation and break every card
+against its own source, which is the wrong trade for a teaching map. So the
+times stay local and the layer's "i" says what that means, with the Bangkok
+figure in it.
+
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

@@ -215,20 +215,20 @@ const card_=p=>p.evaluate(()=>{
      map, and four more KNILM lines with times from the company's own 1931
      timetable — those four on the 1930 sheet, where the rest of the Dutch
      network is not. */
-  check('seventy routes', data.n===70, String(data.n));
+  check('seventy-five routes', data.n===75, String(data.n));
   /* **Every route with a timetable says which sheet it was read from.** The
      card's heading used to fall back to "Summer timetable, June–August 1931"
      for any route with no season of its own, which put the 1931 trunk's
      diagram at the head of the Fukuoka–Naha–Taihoku table — a citation for a
      document those times were never in. `build_texts.py` refuses that now. */
-  check('sixty-nine of the seventy name the sheet they were read from',
-    data.seasoned===69, String(data.seasoned));
+  check('seventy-four of the seventy-five name the sheet they were read from',
+    data.seasoned===74, String(data.seasoned));
   const unsourced=await page.evaluate(()=>(JMAP.AIR||[])
     .filter(r=>(r.times||[]).length && !r.season).map(r=>r.id));
   check('and not one route with a timetable is missing it',
     unsourced.length===0, JSON.stringify(unsourced));
   check('each of those names the airline',
-    data.opWithSeason===69, String(data.opWithSeason));
+    data.opWithSeason===74, String(data.opWithSeason));
   check('the trunk runs Tokyo to Dairen in seven stops',
     data.trunk && data.trunk.stops.length===7
       && data.trunk.stops[0].name==='Tokyo'
@@ -277,13 +277,13 @@ const card_=p=>p.evaluate(()=>{
     haloW:getComputedStyle(document.querySelector('#air .air-halo')).strokeWidth,
     lineW:getComputedStyle(document.querySelector('#air .air-line')).strokeWidth,
   }));
-  check('the button builds them all', on.shown && on.routes===70, JSON.stringify(on));
+  check('the button builds them all', on.shown && on.routes===75, JSON.stringify(on));
   check('the pane box and the button agree',
     on.pressed==='true' && on.box===true, on.pressed+' / '+on.box);
-  check('every route has a white halo under it', on.halo===70, String(on.halo));
+  check('every route has a white halo under it', on.halo===75, String(on.halo));
   check('and the halo is wider than the line it backs',
     parseFloat(on.haloW)>parseFloat(on.lineW), on.haloW+' vs '+on.lineW);
-  check('every stop is ringed', on.rings===228, String(on.rings));
+  check('every stop is ringed', on.rings===270, String(on.rings));
 
   /* **A route belongs to the dates it was flown.** The 1930 sheet has one:
      the Tokyo–Dairen trunk, the only service already running and the only one
@@ -296,17 +296,19 @@ const card_=p=>p.evaluate(()=>{
      off a c. 1933 sheet and the coast line timed from 1935; PATCO's hop to
      Baguio; and the Siamese mail line up the Khorat plateau. The rest of the
      Dutch network belongs to the 1942 sheet, from later documents. */
-  check('the 1930 sheet draws the trunk, the Dutch lines, CNAC, PATCO, Siam and India',
-    on1930.length===13 && on1930.indexOf('korea')>=0
+  check('the 1930 sheet draws the trunk, the Dutch lines, CNAC, PATCO, Siam, India, Air Orient and Imperial',
+    on1930.length===15 && on1930.indexOf('korea')>=0
     && on1930.filter(function(x){return /^knilm30-/.test(x);}).length===4
     && on1930.filter(function(x){return /^cnac-/.test(x);}).length===4
     && on1930.indexOf('patco-manila-baguio')>=0
     && on1930.indexOf('siam-korat-nakhonphanom')>=0
-    && on1930.filter(function(x){return /^ina-/.test(x);}).length===2,
+    && on1930.filter(function(x){return /^ina-/.test(x);}).length===2
+    && on1930.indexOf('airorient-jask-saigon')>=0
+    && on1930.indexOf('iaw-karachi-delhi')>=0,
     on1930.join(', '));
   await toEpoch(page,'1942');
   const on1942=await drawn(page);
-  check('the 1942 sheet draws the other fifty-seven', on1942.length===57,
+  check('the 1942 sheet draws the other sixty', on1942.length===60,
     String(on1942.length));
   /* **The trunk is not on both — it is a different aeroplane.** In 1931 it
      called at Ulsan and Heijō and slept at Keijō; by the 1938–39 timetable it
@@ -318,7 +320,7 @@ const card_=p=>p.evaluate(()=>{
     on1942.indexOf('korea-1938')>=0, on1942.join(', '));
   await toEpoch(page,'1930');
   check('and switching back puts the rest away again',
-    (await drawn(page)).length===13);
+    (await drawn(page)).length===15);
   await toEpoch(page,'1942');
 
   console.log('\n— a ring is a size on screen, not in map units —');
@@ -412,9 +414,15 @@ const card_=p=>p.evaluate(()=>{
   check('and the bend grows with the length of the leg', biggest > shortest * 3,
     'six shortest average ' + shortest.toFixed(3)
     + ', six longest ' + biggest.toFixed(3));
+  /* **The leg that bends most is one of the longest**, which is the claim —
+     rather than a list of four leg names, which was true of the nineteen
+     services this was written for and stopped being true the moment a longer
+     one arrived. Air Orient's Karachi–Allahabad is 1,494 km and bends 4.11. */
   const longest=legs.slice().sort((a,b)=>b.bulge-a.bulge)[0];
-  check('the longest leg bends most', /Saipan|Naha|Ulsan|Dairen/.test(longest.leg),
-    longest.leg+' by '+longest.bulge);
+  const top5=legs.slice().sort((a,b)=>b.chord-a.chord).slice(0,5).map(l=>l.leg);
+  check('the leg that bends most is among the longest',
+    top5.indexOf(longest.leg)>=0,
+    longest.leg+' bends '+longest.bulge+'; the five longest are '+top5.join(', '));
 
   console.log('\n— the times, on hover and in the card —');
   const tips=await page.evaluate(()=>{
@@ -529,6 +537,8 @@ const card_=p=>p.evaluate(()=>{
       'KLM (Koninklijke Luchtvaart Maatschappij)': 1,
       'KNILM (Koninklijke Nederlandsch-Indische Luchtvaart Maatschappij)': 26,
       'Indian National Airways': 1,
+      'Air France': 1,
+      'Imperial Airways': 2,
     };
     const got = nl.byOperator;
     const same = Object.keys(want).length === Object.keys(got).length
@@ -684,7 +694,7 @@ const card_=p=>p.evaluate(()=>{
             long:(JMAP.AIR||[])[0].name};
   });
   check('every route carries a short name as well as its full one',
-    names.n===70 && /–/.test(names.sample[0]) && names.long.length>names.sample[0].length,
+    names.n===75 && /–/.test(names.sample[0]) && names.long.length>names.sample[0].length,
     JSON.stringify(names.sample));
   check('and the trunk is named by its two ends',
     names.sample[0]==='Tokyo – Dairen', names.sample[0]);

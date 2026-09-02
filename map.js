@@ -13,8 +13,8 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '294';
-  var JEM_ASSETS = {"admin.js": "3414697d04", "air-play.js": "90ab85e239", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "58132ef9c2", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
+  var JEM_VERSION = '295';
+  var JEM_ASSETS = {"admin.js": "3414697d04", "air-play.js": "25c3b085f0", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "58132ef9c2", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
 
   /* Every file this one fetches, with the version on it.
 
@@ -8667,12 +8667,40 @@
    * Shanghai–Hankow express passes over Anking and Kiukiang without landing,
    * and there are aeroplanes over that stretch — so the legs between two calls
    * are filled in rather than only the pair that touch. */
+  /* **Legs that are drawn but could not have been flown on this date.**
+   *
+   * Some of these lines come off sheets printed before the war and run on
+   * across ground that was Japanese-held by the date the map shows — Imperial
+   * Airways' 1939 service through Rangoon to Singapore and Darwin, Air
+   * France's through Saigon and Hanoi. Leaving them off would say the network
+   * stopped where in fact the *source* stops; flying them would say they were
+   * still being flown. So they are drawn and faint, they answer a press like
+   * any other line, and no aeroplane is ever put on them.
+   *
+   * `grounded_from` on the route names the stop it is grounded from: that leg
+   * and every one after it, in the route's own order. */
+  function airGroundedLegs(r) {
+    var stops = (r && r.stops) || [];
+    var out = [];
+    for (var i = 0; i + 1 < stops.length; i++) out.push(false);
+    var from = r && r.groundedFrom;
+    if (!from) return out;
+    var at = -1;
+    for (var j = 0; j < stops.length; j++) {
+      if ((stops[j].id || stops[j].name) === from) { at = j; break; }
+    }
+    if (at < 0) return out;
+    for (var m = at; m < out.length; m++) out[m] = true;
+    return out;
+  }
+
   function airFlownLegs(r) {
     var stops = (r && r.stops) || [];
     var out = [];
     for (var i = 0; i + 1 < stops.length; i++) out.push(false);
     var rows = (r && r.times) || [];
     if (!rows.length) return out;
+    var dead = airGroundedLegs(r);
     var svcs = rows.map(function (t) { return t.svc || ''; })
       .filter(function (v, i, a) { return a.indexOf(v) === i; });
     svcs.forEach(function (svc) {
@@ -8682,7 +8710,10 @@
           .map(function (t) { return (+t.seq) - 1; })
           .sort(function (a, b) { return a - b; });
         for (var k = 0; k + 1 < seq.length; k++) {
-          for (var j = seq[k]; j < seq[k + 1]; j++) if (j >= 0 && j < out.length) out[j] = true;
+          for (var j = seq[k]; j < seq[k + 1]; j++) {
+            // a grounded leg is never flown, whatever the timetable says
+            if (j >= 0 && j < out.length && !dead[j]) out[j] = true;
+          }
         }
       });
     });
@@ -8700,6 +8731,7 @@
   var airLaneEpoch = null;        // the sheet the lanes were worked out for
   var airLaneK = 0;               // and the scale the paths were built at
   var airFlown = {};              // route id -> which legs something flies
+  var airDead = {};               // route id -> which legs could not be flown
 
   /* Rebuild every route's three path strings for the scale now in force. The
      lane offset is in screen pixels, so this has to run whenever `k` changes
@@ -8710,9 +8742,15 @@
     Object.keys(airGeoms).forEach(function (id) {
       var geom = airGeoms[id];
       var legs = airFlown[id] || [];
+      var dead = airDead[id] || [];
       var pp = airPaths[id];
       if (!pp) return;
-      pp.all = airPathOf(geom, id, k, null);
+      /* Four strings, two states. **Stopped**, everything is bright except the
+         legs that could not have been flown on this date. **Running**, only
+         what an aeroplane actually works is bright and the rest — the
+         grounded legs and the ones nobody has a timetable for — is faint. */
+      pp.all = airPathOf(geom, id, k, function (i) { return !dead[i]; });
+      pp.allDim = airPathOf(geom, id, k, function (i) { return !!dead[i]; });
       pp.flown = airPathOf(geom, id, k, function (i) { return legs[i]; });
       pp.idle = airPathOf(geom, id, k, function (i) { return !legs[i]; });
     });
@@ -8787,14 +8825,24 @@
          themselves are built by `airRepath`, which runs again on every zoom
          because the lane offset is a distance on screen. */
       var legs = airFlownLegs(r);
-      var keep = {};
-      legs.forEach(function (on, i) {
-        if (!on) return;
-        keep[r.stops[i].id || r.stops[i].name] = true;
-        keep[r.stops[i + 1].id || r.stops[i + 1].name] = true;
-      });
+      var dead = airGroundedLegs(r);
+      /* Which airports are still lit, in each of the two states. Stopped, that
+         is every stop a leg the aeroplanes *could* have flown reaches; running,
+         only the ones something actually flies to. */
+      var reach = function (pick) {
+        var keep = {};
+        for (var i = 0; i < pick.length; i++) {
+          if (!pick[i]) continue;
+          keep[r.stops[i].id || r.stops[i].name] = true;
+          keep[r.stops[i + 1].id || r.stops[i + 1].name] = true;
+        }
+        return keep;
+      };
+      var alive = dead.map(function (x) { return !x; });
       airFlown[r.id] = legs;
-      airPaths[r.id] = { all: '', flown: '', idle: '', stops: keep };
+      airDead[r.id] = dead;
+      airPaths[r.id] = { all: '', allDim: '', flown: '', idle: '',
+                         stops: reach(legs), stopsPaused: reach(alive) };
       var d = airPathOf(geom, r.id, 1, null);
       var g = svgEl('g', { 'class': 'air-route', 'data-air': r.id });
       /* **A line may carry its own colour.** The Japanese network is one ink
@@ -10097,7 +10145,7 @@
            target keeps the whole route either way — a line a reader can see
            is a line they can ask about, however faint it is. */
         var lit = playing ? pp.flown : pp.all;
-        var dim = playing ? pp.idle : '';
+        var dim = playing ? pp.idle : pp.allDim;
         var set = function (sel, v) {
           var el = g.querySelector(sel);
           if (el && el.getAttribute('d') !== v) el.setAttribute('d', v);
@@ -10118,7 +10166,8 @@
       if (!airShown(r)) return;
       (r.stops || []).forEach(function (st) { onDate[st.id || st.name] = true; });
       var pp = airPaths[r.id];
-      if (pp) Object.keys(pp.stops).forEach(function (k) { live[k] = true; });
+      var set = pp && (playing ? pp.stops : pp.stopsPaused);
+      if (set) Object.keys(set).forEach(function (k) { live[k] = true; });
     });
     if (airRings) {
       Array.prototype.forEach.call(airRings.children, function (g) {
@@ -10126,7 +10175,10 @@
         /* On this date at all, and — while the week runs — on a leg something
            flies. The second is a dimming, like the lines. */
         g.style.display = onDate[k] ? '' : 'none';
-        g.classList.toggle('air-idle', !!(playing && !live[k]));
+        /* Faint whenever the line under it is faint, which is now two
+           different things: a leg nobody has times for while the week runs,
+           and a leg that could not have been flown on this date at all. */
+        g.classList.toggle('air-idle', !live[k]);
       });
     }
     (JMAP.AIR || []).forEach(function (r) {

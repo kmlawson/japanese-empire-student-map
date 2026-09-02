@@ -881,6 +881,32 @@ def build_data_js():
                                 % (rid, dirn, t["station"], v, day, prevlab))
                         prev, prevlab = at, "%s (day %d)" % (v, day)
 
+    # **A leg that is drawn but could not be flown.**
+    #
+    # Some of these lines are read off sheets from before the war and cross
+    # ground that was Japanese-held by the date the map shows: Imperial
+    # Airways' 1939 service runs on through Rangoon to Singapore and Darwin,
+    # and Air France's through Saigon and Hanoi. Those stretches are drawn,
+    # because leaving them off would say the network stopped where in fact the
+    # sources stop; they are dimmed and kept out of the animation, because
+    # flying them would say they were still being flown.
+    #
+    # `grounded_from` names the stop the route is grounded from, in its own
+    # `stops.csv` order — that leg and every leg after it. It must name a stop
+    # the route actually calls at, or it would silently ground nothing.
+    for r in air:
+        g = (r.get("grounded_from") or "").strip()
+        if not g:
+            continue
+        mine = [st for st in stops if st["route"] == r["id"]]
+        keys = set(st["id"] or st["name"] for st in mine)
+        if g not in keys:
+            raise Problem(
+                "data/air/routes.csv: %r is grounded from %r and does not call "
+                "there. The stop is named by its `id` in data/air/stops.csv, or "
+                "by its `name` where it has none; this route calls at %s."
+                % (r["id"], g, ", ".join(sorted(keys))))
+
     # **A card must not claim a timetable it was not read from.** The heading
     # used to fall back to "Summer timetable, June–August 1931" for any route
     # with no season of its own, which put the 1931 trunk's sheet at the head of
@@ -989,7 +1015,7 @@ def build_data_js():
             for f in fr)
         inner.append("  {\n    id: %s, name: %s, operator: %s, opened: %s,\n"
                      "    season: %s, epochs: %s, source: %s, srcUrl: %s,\n"
-                     "    ink: %s, days: %s,\n"
+                     "    ink: %s, days: %s, groundedFrom: %s,\n"
                      "    note: %s,\n    stops: [\n%s\n    ]%s%s\n  }"
                      % (T.js_string(r["id"]), T.js_string(r["name"]),
                         T.js_string(r.get("operator") or ""),
@@ -1004,6 +1030,9 @@ def build_data_js():
                         # default, and the days of the week it flew
                         T.js_string(r.get("ink") or ""),
                         "[%s]" % ", ".join((r.get("days") or "").split()),
+                        # the stop a route is grounded from: drawn and
+                        # pressable from there on, and never flown
+                        T.js_string(r.get("grounded_from") or ""),
                         T.js_string(r.get("note") or ""), pts,
                         (",\n    times: [\n%s\n    ]" % tt_js) if tt else "",
                         (",\n    fares: [\n%s\n    ]" % fr_js) if fr else ""))

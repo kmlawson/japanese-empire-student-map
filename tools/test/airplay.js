@@ -566,10 +566,15 @@ const toEpoch=async(p,y)=>{
     const again = await shotDim(fp);
     await fp.close();
 
+    /* Nothing *changes*, which is not the same as nothing being faint: a
+       route grounded from some stop is faint whether the tools are open or
+       not, so the comparison is against the map with the tools shut rather
+       than against zero. */
     check('opening the tools changes nothing on the map',
-      paused.visible === bare.visible && paused.dimRings === 0
-      && Object.keys(paused.idle).every(k => paused.idle[k] === 0),
-      bare.visible + ' \u2192 ' + paused.visible + ', dim rings ' + paused.dimRings);
+      paused.visible === bare.visible && paused.dimRings === bare.dimRings
+      && JSON.stringify(paused.idle) === JSON.stringify(bare.idle),
+      bare.visible + ' \u2192 ' + paused.visible
+      + ', dim rings ' + bare.dimRings + ' \u2192 ' + paused.dimRings);
     check('  and it opens stopped', paused.play === '\u25b6', paused.play);
     check('pressing play drops no route at all',
       running.visible === paused.visible,
@@ -587,10 +592,98 @@ const toEpoch=async(p,y)=>{
       running.dimRings > 0 && running.rings === paused.rings,
       running.dimRings + ' dimmed of ' + running.rings);
     check('pausing puts the whole network back',
-      Object.keys(again.idle).every(k => again.idle[k] === 0)
-      && again.dimRings === 0
+      JSON.stringify(again.idle) === JSON.stringify(paused.idle)
+      && again.dimRings === paused.dimRings
       && JSON.stringify(again.lit) === JSON.stringify(paused.lit),
-      'dim rings ' + again.dimRings);
+      'dim rings ' + paused.dimRings + ' \u2192 ' + again.dimRings);
+  }
+
+  /* ========= drawn, pressable, and never flown =========
+   *
+   * Some of these lines come off sheets printed before the war and run on
+   * across ground that was Japanese-held by the date the map shows — Imperial
+   * Airways' 1939 service through Rangoon to Darwin, Air France's through
+   * Saigon and Hanoi. Leaving them off would say the network stopped where in
+   * fact only the *source* stops; flying them would say they were still being
+   * flown. So `grounded_from` marks the stop a route is grounded at: from
+   * there on it is drawn faint whether the week is running or not, it still
+   * answers a press, and no aeroplane is ever put on it.
+   *
+   * The aeroplanes are kept off in `air-play.js`, not here: `map.js` decides
+   * what is *drawn* and `buildPlans` decides what *flies*, and the first cut
+   * did only the former — the stretch went faint and the aeroplanes went on
+   * flying down it.
+   *
+   * Counting marks by where they are counts other airlines' too: six lines run
+   * Bangkok–Penang–Singapore–Batavia, and the first measurement found 806
+   * aeroplanes on the grounded stretch, none of them this route's. The mark
+   * carries `data-route` for that reason. */
+  console.log('\n— drawn, pressable, and never flown —');
+  {
+    const gp = await browser.newPage();
+    await gp.setViewport({ width: 1400, height: 900 });
+    await gp.evaluateOnNewDocument(SHIM);
+    await gp.goto(URL, { waitUntil: 'networkidle2' });
+    await ready(gp);
+    await gp.evaluate(() => { const x = [...document.querySelectorAll('#epoch-seg button')]
+      .find(y => /1942/.test(y.textContent)); if (x) x.click(); });
+    await sleep(2500);
+    await gp.evaluate(() => document.getElementById('btn-air').click());
+    await sleep(1800);
+    const shotG = fp => fp.evaluate(() => {
+      const out = {};
+      ['iaw39-karachi-darwin', 'airfrance-karachi-hongkong',
+       'iaw39-karachi-calcutta'].forEach(id => {
+        const g = document.querySelector('.air-route[data-air="' + id + '"]');
+        if (!g || g.style.display === 'none') { out[id] = null; return; }
+        const n = e => ((e && e.getAttribute('d')) || '').length;
+        out[id] = { lit: n(g.querySelector('.air-line')),
+                    dim: n(g.querySelector('.air-line-idle')),
+                    hit: n(g.querySelector('.air-hit')) };
+      });
+      return out;
+    });
+    const paused = await shotG(gp);
+    check('a grounded stretch is faint even with the week stopped',
+      paused['iaw39-karachi-darwin'] && paused['iaw39-karachi-darwin'].dim > 0,
+      JSON.stringify(paused['iaw39-karachi-darwin']));
+    check('  and Air France east of Bangkok with it',
+      paused['airfrance-karachi-hongkong'] && paused['airfrance-karachi-hongkong'].dim > 0,
+      JSON.stringify(paused['airfrance-karachi-hongkong']));
+    check('  while a line that was flyable has none',
+      paused['iaw39-karachi-calcutta'] && paused['iaw39-karachi-calcutta'].dim === 0,
+      JSON.stringify(paused['iaw39-karachi-calcutta']));
+    check('  and every one keeps its whole press target',
+      Object.keys(paused).every(k => paused[k] && paused[k].hit > 0),
+      JSON.stringify(paused));
+    await gp.evaluate(() => document.getElementById('btn-planes').click());
+    await sleep(2400);
+    const flew = await gp.evaluate(async () => {
+      const sl = document.querySelector('.air-slider'), max = +sl.max;
+      const l = document.querySelector(
+        '.air-route[data-air="iaw39-karachi-darwin"] .air-line-idle');
+      const L = l.getTotalLength(); const pts = [];
+      // from 5% in: the faint stretch starts at the last stop still flown, and
+      // an aeroplane landing there is standing on the junction, not flying on
+      for (let k = 25; k <= 500; k++) pts.push(l.getPointAtLength(L * k / 500));
+      let hits = 0, mine = 0;
+      for (let t = 0; t <= max; t += 5) {
+        sl.value = String(t); sl.dispatchEvent(new Event('input', { bubbles: true }));
+        const marks = [...document.querySelectorAll('#planes > g')]
+          .filter(g => g.style.display !== 'none')
+          .filter(g => g.getAttribute('data-route') === 'iaw39-karachi-darwin')
+          .map(g => { const m = /translate\(([-\d.]+),\s*([-\d.]+)\)/
+            .exec(g.getAttribute('transform') || '');
+            return m ? { x: +m[1], y: +m[2] } : null; }).filter(Boolean);
+        mine += marks.length;
+        hits += marks.filter(q => pts.some(r => Math.hypot(r.x - q.x, r.y - q.y) < 2)).length;
+      }
+      return { hits, mine };
+    });
+    await gp.close();
+    check('the route does fly its live half', flew.mine > 0, String(flew.mine));
+    check('  and nothing of it is ever on the grounded stretch',
+      flew.hits === 0, flew.hits + ' of ' + flew.mine + ' marks');
   }
 
   check('no page errors', errs.length===0 && perrs.length===0,

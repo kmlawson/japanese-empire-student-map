@@ -152,12 +152,33 @@ window.JMAP_AIRPLAY = function (host) {
               var d = parseInt(t[p + (half === 'arrive' ? 'ad' : 'dd')], 10);
               return ((isFinite(d) && d > 0 ? d : 1) - 1) * DAY + m;
             };
-            calls.push({ st: st, arrive: at('arrive'), depart: at('depart') });
+            calls.push({ st: st, at: idx, arrive: at('arrive'), depart: at('depart') });
           });
+          /* **A leg the map has grounded carries no aeroplane.**
+           *
+           * Some of these lines come off sheets printed before the war and run
+           * on across ground that was Japanese-held by the date the sheet
+           * shows — Imperial Airways through Rangoon to Darwin, Air France
+           * through Saigon. `map.js` draws those faint; the aeroplanes have to
+           * be kept off them too, and that is decided here, because this is
+           * where a leg becomes something that flies. Leaving the leg out
+           * simply means nothing is in the air over it, which is the whole of
+           * what is wanted.
+           *
+           * `groundedFrom` names the stop it starts at, in the route's own
+           * order; a leg is grounded if the earlier of its two stops is at or
+           * past that one, whichever way round the aeroplane is going. */
+          var gi = -1;
+          if (r.groundedFrom) {
+            for (var gx = 0; gx < stops.length; gx++) {
+              if ((stops[gx].id || stops[gx].name) === r.groundedFrom) { gi = gx; break; }
+            }
+          }
           var legs = [];
           for (var i = 0; i + 1 < calls.length; i++) {
             var from = calls[i], to = calls[i + 1];
             if (from.depart === null || to.arrive === null) continue;
+            if (gi >= 0 && Math.min(from.at, to.at) >= gi) continue;
             legs.push({ off: from.depart, on: to.arrive,
                         seg: gcPoints(from.st, to.st),
                         from: from.st, to: to.st });
@@ -394,6 +415,12 @@ window.JMAP_AIRPLAY = function (host) {
        a target. The disc under them is, and it is inside the counter-scaled
        group so it stays a finger's width at every zoom. */
     g.setAttribute('data-plan', String(i));
+    /* Which service this aeroplane belongs to. Nothing in the drawing needs
+       it — the mark is placed from the plan — but without it a mark can only
+       be told apart from another by where it happens to be, and half a dozen
+       lines share the same ground. A check that asks "is anything of *this*
+       route in the air" could not be written otherwise. */
+    if (plans[i] && plans[i].route) g.setAttribute('data-route', plans[i].route.id);
     g.appendChild(host.svgEl('circle', { 'class': 'plane-hit', r: 11 }));
     /* Each sheet flies the type that flew it: a Fokker F.VII on the 1930 map
        and a Nakajima Ki-34 on the 1942 one. The arrowhead this replaced said

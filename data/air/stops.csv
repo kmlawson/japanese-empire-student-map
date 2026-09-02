@@ -227,3 +227,45 @@ ina-delhi-karachi,2,lahore,Lahore,74.34,31.55
 ina-delhi-karachi,3,,Multan,71.47,30.2
 ina-delhi-karachi,4,,Jacobabad,68.44,28.28
 ina-delhi-karachi,5,karachi,Karachi,67.01,24.86
+airorient-jask-saigon,1,,Towards Jask and Marseilles,66.2,25.2
+airorient-jask-saigon,2,karachi,Karachi,67.01,24.86
+airorient-jask-saigon,3,allahabad,Allahabad,81.85,25.44
+airorient-jask-saigon,4,calcutta,Calcutta,88.36,22.57
+airorient-jask-saigon,5,rangoon,Rangoon (Yangon),96.2,16.87
+airorient-jask-saigon,6,bangkok,Bangkok,100.5,13.75
+airorient-jask-saigon,7,saigon,Saigon (Ho Chi Minh City),106.7,10.78
+iaw-karachi-delhi,1,,Towards Gwadar and Jask,66.2,25.2
+iaw-karachi-delhi,2,karachi,Karachi (Drigh Road),67.01,24.86
+iaw-karachi-delhi,3,jodhpur,Jodhpur,73.02,26.29
+iaw-karachi-delhi,4,delhi,Delhi (New Delhi),77.21,28.61
+airfrance-karachi-hongkong,1,karachi,Karachi,67.01,24.86
+airfrance-karachi-hongkong,2,jodhpur,Jodhpur,73.02,26.29
+airfrance-karachi-hongkong,3,allahabad,Allahabad,81.85,25.44
+airfrance-karachi-hongkong,4,calcutta,Calcutta,88.36,22.57
+airfrance-karachi-hongkong,5,akyab,Akyab (Sittwe),92.9,20.15
+airfrance-karachi-hongkong,6,rangoon,Rangoon (Yangon),96.2,16.87
+airfrance-karachi-hongkong,7,bangkok,Bangkok,100.5,13.75
+airfrance-karachi-hongkong,8,saigon,Saigon,106.63,10.82
+airfrance-karachi-hongkong,9,hanoi,Hanoi,105.85,21.03
+airfrance-karachi-hongkong,10,kunming,Kunming,102.72,25.04
+airfrance-karachi-hongkong,11,hongkong,Hong Kong (Victoria),114.16,22.28
+iaw39-karachi-darwin,1,karachi,Karachi,67.01,24.86
+iaw39-karachi-darwin,2,,Raj Samand,73.88,25.07
+iaw39-karachi-darwin,3,gwalior,Gwalior,78.18,26.22
+iaw39-karachi-darwin,4,allahabad,Allahabad (Prayagraj),81.85,25.44
+iaw39-karachi-darwin,5,calcutta,Calcutta,88.36,22.57
+iaw39-karachi-darwin,6,akyab,Akyab (Sittwe),92.9,20.15
+iaw39-karachi-darwin,7,rangoon,Rangoon (Yangon),96.2,16.87
+iaw39-karachi-darwin,8,bangkok,Bangkok,100.5,13.75
+iaw39-karachi-darwin,9,penang,Penang (Georgetown),100.34,5.41
+iaw39-karachi-darwin,10,singapore,Singapore (Shōnantō),103.85,1.29
+iaw39-karachi-darwin,11,batavia,Batavia (Jakarta),106.85,-6.21
+iaw39-karachi-darwin,12,surabaya,Soerabaja (Surabaya),112.75,-7.25
+iaw39-karachi-darwin,13,kupang,Koepang (Kupang),123.61,-10.17
+iaw39-karachi-darwin,14,darwin,Darwin,130.84,-12.46
+iaw39-karachi-calcutta,1,karachi,Karachi,67.01,24.86
+iaw39-karachi-calcutta,2,jodhpur,Jodhpur,73.02,26.24
+iaw39-karachi-calcutta,3,delhi,Delhi,77.21,28.61
+iaw39-karachi-calcutta,4,cawnpore,Cawnpore (Kanpur),80.33,26.45
+iaw39-karachi-calcutta,5,allahabad,Allahabad (Prayagraj),81.85,25.44
+iaw39-karachi-calcutta,6,calcutta,Calcutta,88.36,22.57

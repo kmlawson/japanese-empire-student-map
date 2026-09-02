@@ -25,3 +25,15 @@ possible to plot a journey that crosses networks, given the different times and
 origins of the information about them. Finally, some of the lines have times
 attached to them which permit animation using the tools, and others are present
 only on network maps without any schedules included.
+
+**On the clock:** every timetable here keeps the local time of the place it was
+printed for, which is what its own source gives and what a reader checking it
+against that source needs. The animation puts all of them on one dial, and that
+has two consequences worth knowing. Across networks, a seven o'clock departure
+from Calcutta and a seven o'clock departure from Tokyo are not the same moment —
+they are three and a half hours apart — so the tools cannot be used to time a
+connection from one airline to another. And within a single line, a stage that
+crosses a zone has its drawn duration stretched or squeezed by the difference:
+forty-nine of the three hundred and twenty-two timed stages on this map cross
+one, by between twenty-three and ninety minutes. Imperial Airways' Bangkok to
+Penang reads as four hours and was in fact five and a half.
