@@ -7429,7 +7429,7 @@ JMAP.AIR = [
     id: 'manchuria', name: 'Shingishū – Hōten – Shinkyō', operator: 'Japan Airways Co. Ltd (大日本航空株式会社)', opened: '1932',
     season: '', epochs: ['e1942'], source: '', srcUrl: '',
     ink: '', days: [],
-    note: 'Up the Manchurian trunk from the Korean border to the north, the year Manchukuo was declared. Drawn as far as Shinkyō. The line ran on to Harbin and Tsitsihar, and no timetable for those legs under Japan Air Transport has been found, so they are not drawn rather than drawn without times.',
+    note: 'Up the Manchurian trunk from the Korean border to the north, the year Manchukuo was declared. Drawn as far as Shinkyō. The line ran on to Harbin and Tsitsihar, and no timetable for those legs under Japan Air Transport has been found, so they are not drawn rather than drawn without times.\n\n**The 1935 timetable now draws this corridor as well.** 満洲航空\'s Shinkyō–Hōten–Shingishū service is on the map with times, and the two lines lie on top of one another. This one is the same ground from a later sheet and no schedule, and it is a candidate for retiring.',
     stops: [
       { id: 'sinuiju', name: 'Shingishū (Sinŭiju)', lon: 124.39, lat: 40.1 },
       { id: 'mukden', name: 'Mukden (Shenyang)', lon: 123.43, lat: 41.8 },
@@ -8183,7 +8183,7 @@ JMAP.AIR = [
   },
   {
     id: 'cnac-shanghai-peiping', name: 'Shanghai – Haichow – Tsingtao – Tientsin – Peiping', operator: 'China National Aviation Corporation (中國航空公司)', opened: '1929',
-    season: 'c. 1933', epochs: ['e1930'], source: 'China National Aviation Corporation, Shanghai–Chungking and Shanghai–Peiping routes, c. 1933', srcUrl: 'https://www.timetableimages.com/ttimages/cn33c.htm',
+    season: 'c. 1933', epochs: ['e1930'], source: 'China National Aviation Corporation, Shanghai–Chungking and Shanghai–Peiping routes, c. 1933', srcUrl: 'https://www.timetableimages.com/ttimages/cn35pea.htm',
     ink: '#5b3a8c', days: [],
     note: 'North up the coast to the capital — which in 1933 was Nanking, so Peking had been renamed Peiping, the northern *peace*, and that is the name the timetable prints. Out on Tuesdays, Thursdays and Saturdays and home on the days between, nine hours each way with a stop at Haichow on the Kiangsu coast, at Tsingtao and at Tientsin.\n\nThe same sheet lists two more services as later additions, flown from Chungking: one to Chengtu and one to Kweiyang. The Chengtu line is on the 1942 map here, from CNAC\'s October 1940 timetable; no times have been found for Kweiyang, so it is named and not drawn.',
     stops: [
@@ -8255,7 +8255,7 @@ JMAP.AIR = [
   },
   {
     id: 'cnac-shanghai-canton', name: 'Shanghai – Wenchow – Foochow – Amoy – Swatow – Canton', operator: 'China National Aviation Corporation (中國航空公司)', opened: 'October 1933',
-    season: '1935', epochs: ['e1930'], source: 'China National Aviation Corporation timetable, 1935', srcUrl: '',
+    season: '1935', epochs: ['e1930'], source: 'China National Aviation Corporation, Shanghai–Canton route, 1935', srcUrl: 'https://www.timetableimages.com/ttimages/cn35caa.htm',
     ink: '#5b3a8c', days: [],
     note: 'Down the whole China coast, calling at every treaty port on the way: Wenchow, Foochow, Amoy and Swatow, Shanghai to Canton between breakfast and mid-afternoon. It opened in October 1933; **the times drawn here are from 1935**, which is the schedule found, so the line is two years older than its own timetable. Southbound on Tuesdays and Fridays, northbound on Thursdays and Sundays — two aeroplanes a week each way over a coast that had no through railway at all.',
     stops: [
@@ -8273,6 +8273,170 @@ JMAP.AIR = [
       { seq: '4', station: '廈門 Amoy', da: '11:35', dd: '11:55', ua: '9:35', ud: '9:55', freq: 'south on Tuesdays and Fridays; north on Thursdays and Sundays', dw: '2 5', uw: '4 7' },
       { seq: '5', station: '汕頭 Swatow', da: '12:55', dd: '13:15', ua: '8:15', ud: '8:35', freq: 'south on Tuesdays and Fridays; north on Thursdays and Sundays', dw: '2 5', uw: '4 7' },
       { seq: '6', station: '廣州 Canton', da: '15:00', ud: '6:30', freq: 'south on Tuesdays and Fridays; north on Thursdays and Sundays', dw: '2 5', uw: '4 7' }
+    ]
+  },
+  {
+    id: 'mkkk-manchouli-hsinking', name: 'Manchouli – Hailar – Tsitsihar – Harbin – Shinkyō', operator: 'Manchuria Aviation Company (満洲航空株式会社)', opened: '',
+    season: 'winter 1935', epochs: ['e1942'], source: 'Manchuria Aviation Company timetable, winter 1935', srcUrl: 'https://www.timetableimages.com/ttimages/mkkk35.htm',
+    ink: '#8c2f39', days: [],
+    note: 'The west line, out along the Chinese Eastern Railway to the Soviet frontier at Manchouli. It is really two services: Tsitsihar to Hsinking by Harbin every day, and the long haul beyond Tsitsihar to Hailar and Manchouli twice a week — southbound Tuesdays and Fridays, northbound Mondays and Thursdays. Both are drawn, as separate circuits on the card, so that the outer leg is in the air on the days the timetable gives it and not on the others.\n\n**These are 1935 times on a map of December 1942.** The line was still flown then; the schedule is the one that has been found.',
+    stops: [
+      { id: 'manzhouli', name: 'Manchouli (Manzhouli)', lon: 117.45, lat: 49.6 },
+      { id: 'hailar', name: 'Hailar', lon: 119.7, lat: 49.2 },
+      { id: 'qiqihar', name: 'Tsitsihar (Qiqihar)', lon: 123.92, lat: 47.35 },
+      { id: 'harbin', name: 'Harbin', lon: 126.53, lat: 45.8 },
+      { id: 'changchun', name: 'Xinjing (Changchun)', lon: 125.32, lat: 43.88 }
+    ],
+    times: [
+      { svc: 'Manchouli – Shinkyō, the whole line', seq: '1', station: '満洲里 Manchouli', dd: '9:30', ua: '14:50', freq: 'south Tuesdays and Fridays; north Mondays and Thursdays', dw: '2 5', uw: '1 4' },
+      { svc: 'Manchouli – Shinkyō, the whole line', seq: '2', station: '海拉爾 Hailar', da: '10:25', dd: '10:35', ua: '13:40', ud: '13:50', freq: 'south Tuesdays and Fridays; north Mondays and Thursdays', dw: '2 5', uw: '1 4' },
+      { svc: 'Manchouli – Shinkyō, the whole line', seq: '3', station: '斉斉哈爾 Tsitsihar', da: '12:50', dd: '13:00', ua: '11:00', ud: '11:10', freq: 'south Tuesdays and Fridays; north Mondays and Thursdays', dw: '2 5', uw: '1 4' },
+      { svc: 'Tsitsihar – Shinkyō', seq: '3', station: '斉斉哈爾 Tsitsihar', dd: '13:00', ua: '11:00', freq: 'daily; the days the through service does not run beyond Tsitsihar', dw: '1 3 4 6 7', uw: '2 3 5 6 7' },
+      { svc: 'Manchouli – Shinkyō, the whole line', seq: '4', station: '哈爾濱 Harbin', da: '14:20', dd: '14:30', ua: '9:10', ud: '9:20', freq: 'south Tuesdays and Fridays; north Mondays and Thursdays', dw: '2 5', uw: '1 4' },
+      { svc: 'Tsitsihar – Shinkyō', seq: '4', station: '哈爾濱 Harbin', da: '14:20', dd: '14:30', ua: '9:10', ud: '9:20', freq: 'daily; the days the through service does not run beyond Tsitsihar', dw: '1 3 4 6 7', uw: '2 3 5 6 7' },
+      { svc: 'Manchouli – Shinkyō, the whole line', seq: '5', station: '新京 Xinjing', da: '15:35', ud: '8:00', freq: 'south Tuesdays and Fridays; north Mondays and Thursdays', dw: '2 5', uw: '1 4' },
+      { svc: 'Tsitsihar – Shinkyō', seq: '5', station: '新京 Xinjing', da: '15:35', ud: '8:00', freq: 'daily; the days the through service does not run beyond Tsitsihar', dw: '1 3 4 6 7', uw: '2 3 5 6 7' }
+    ]
+  },
+  {
+    id: 'mkkk-harbin-dairen', name: 'Harbin – Shinkyō – Mukden – Dairen', operator: 'Manchuria Aviation Company (満洲航空株式会社)', opened: '',
+    season: 'winter 1935', epochs: ['e1942'], source: 'Manchuria Aviation Company timetable, winter 1935', srcUrl: 'https://www.timetableimages.com/ttimages/mkkk35.htm',
+    ink: '#8c2f39', days: [],
+    note: 'The trunk of Manchukuo, daily each way: Harbin down through the capital and Mukden to the sea at Dairen, in under five hours against a night and a day by rail.\n\n**These are 1935 times on a map of December 1942.**',
+    stops: [
+      { id: 'harbin', name: 'Harbin', lon: 126.53, lat: 45.8 },
+      { id: 'changchun', name: 'Xinjing (Changchun)', lon: 125.32, lat: 43.88 },
+      { id: 'mukden', name: 'Mukden (Shenyang)', lon: 123.43, lat: 41.8 },
+      { id: 'dairen', name: 'Dairen (Dalian)', lon: 121.61, lat: 38.91 }
+    ],
+    times: [
+      { seq: '1', station: '哈爾濱 Harbin', dd: '10:00', ua: '14:50', freq: 'daily', dw: '1 2 3 4 5 6 7', uw: '1 2 3 4 5 6 7' },
+      { seq: '2', station: '新京 Xinjing', da: '11:15', dd: '11:25', ua: '13:30', ud: '13:40', freq: 'daily', dw: '1 2 3 4 5 6 7', uw: '1 2 3 4 5 6 7' },
+      { seq: '3', station: '奉天 Mukden', da: '12:55', dd: '13:05', ua: '11:55', ud: '12:05', freq: 'daily', dw: '1 2 3 4 5 6 7', uw: '1 2 3 4 5 6 7' },
+      { seq: '4', station: '大連 Dairen', da: '14:50', ud: '10:00', freq: 'daily', dw: '1 2 3 4 5 6 7', uw: '1 2 3 4 5 6 7' }
+    ]
+  },
+  {
+    id: 'mkkk-hsinking-shingishu', name: 'Shinkyō – Mukden – Shingishū, for Tokyo', operator: 'Manchuria Aviation Company (満洲航空株式会社)', opened: '',
+    season: 'winter 1935', epochs: ['e1942'], source: 'Manchuria Aviation Company timetable, winter 1935', srcUrl: 'https://www.timetableimages.com/ttimages/mkkk35.htm',
+    ink: '#8c2f39', days: [],
+    note: 'The Manchurian end of the through service to Tokyo, and the reason for the four o\'clock departure: Hsinking before dawn, Mukden at half past five, and Shingishū on the Korean border by a quarter past seven, where the Japanese carrier took the aeroplane on down the peninsula and across to the home islands. Daily except Mondays.\n\n**Only the southbound times are recorded here.** The service ran both ways and the sheet read for this gives one direction, so the map flies it one way rather than inventing the other.\n\n**These are 1935 times on a map of December 1942**, and this corridor is also drawn as an untimed line from the 1938–39 Japanese timetable — the two lie on top of one another.',
+    stops: [
+      { id: 'changchun', name: 'Xinjing (Changchun)', lon: 125.32, lat: 43.88 },
+      { id: 'mukden', name: 'Mukden (Shenyang)', lon: 123.43, lat: 41.8 },
+      { id: 'sinuiju', name: 'Shingishū (Sinŭiju)', lon: 124.39, lat: 40.1 }
+    ],
+    times: [
+      { seq: '1', station: '新京 Xinjing', dd: '4:00', freq: 'daily except Mondays', dw: '2 3 4 5 6 7' },
+      { seq: '2', station: '奉天 Mukden', da: '5:40', dd: '6:00', freq: 'daily except Mondays', dw: '2 3 4 5 6 7' },
+      { seq: '3', station: '新義州 Shingishū', da: '7:15', freq: 'daily except Mondays', dw: '2 3 4 5 6 7' }
+    ]
+  },
+  {
+    id: 'knilm-tarakan-manila', name: 'Tarakan – Manila', operator: 'KNILM (Koninklijke Nederlandsch-Indische Luchtvaart Maatschappij)', opened: '',
+    season: 'c. 1935', epochs: ['e1942'], source: 'Complete Map of the Airlines of K.N.I.L.M., c. 1935', srcUrl: 'https://www.davidrumsey.com/luna/servlet/detail/RUMSEY~8~1~356322~90123241:Complete-Map-of-the-Airlines-of-K-N',
+    ink: '#a9560d', days: [],
+    note: 'The one line of the KNILM network that left the Indies for the north, from the oilfield at Tarakan across the Sulu Sea to the American Philippines. **No times: the source is a route map, not a timetable**, so the line is drawn and nothing is claimed about when it flew. The map is December 1942, by which date the Japanese held both ends of it — Tarakan went in January 1942 and Manila in the same month — and this network had gone; it is drawn to show what had been there.',
+    stops: [
+      { id: 'tarakan', name: 'Tarakan', lon: 117.59, lat: 3.3 },
+      { id: 'manila', name: 'Manila', lon: 120.98, lat: 14.6 }
+    ]
+  },
+  {
+    id: 'patco-manila-baguio', name: 'Manila – Baguio', operator: 'Philippine Aerial Taxi Company (PATCO)', opened: '',
+    season: 'c. mid-1930s', epochs: ['e1930'], source: 'PATCO, undated brochure, c. mid-1930s', srcUrl: 'https://www.timetableimages.com/ttimages/patco.htm',
+    ink: '#0f7b8a', days: [],
+    note: 'An hour from the capital to the hill station, twice a day and back, flown by the Philippine Aerial Taxi Company. Baguio is five thousand feet up in the Cordillera and the government moved there for the hot season; by road it was the best part of a day.\n\n**This is the network at its beginning.** By 1937 the timetables add Manila to Paracale, on the gold coast of Camarines Norte. By 1939 INAEC — the Iloilo–Negros Air Express Company — is flying Manila–Iloilo, Manila–Iloilo–Davao and Iloilo–Bacolod. By 1941 Philippine Air Lines, Inc. has added Paracale to Legaspi. None of those is drawn: the times here are the mid-1930s brochure\'s, and the rest are named so that the single line on the map is not mistaken for the whole of Philippine aviation.',
+    stops: [
+      { id: 'manila', name: 'Manila', lon: 120.98, lat: 14.6 },
+      { id: 'baguio', name: 'Baguio', lon: 120.6, lat: 16.41 }
+    ],
+    times: [
+      { seq: '1', station: 'Manila', dd: '6:30', ua: '8:40', freq: 'daily', dw: '1 2 3 4 5 6 7', uw: '1 2 3 4 5 6 7' },
+      { seq: '2', station: 'Baguio', da: '7:30', ud: '7:40', freq: 'daily', dw: '1 2 3 4 5 6 7', uw: '1 2 3 4 5 6 7' }
+    ]
+  },
+  {
+    id: 'siam-korat-nakhonphanom', name: 'Korat – Roi Et – Khon Kaen – Udon Thani – Nakhon Phanom', operator: 'Aerial Transport Company of Siam', opened: '',
+    season: '1933', epochs: ['e1930'], source: 'Aerial Transport Company of Siam timetable, 1933', srcUrl: 'https://www.timetableimages.com/ttimages/siam.htm',
+    ink: '#3f6b1f', days: [],
+    note: 'The mail up the Khorat plateau, from the railhead at Korat out to the Mekong at Nakhon Phanom. **Two services on one line, and the card shows them as two circuits.** The long one goes out on Wednesdays, lies up overnight at Nakhon Phanom and comes back on Thursdays; the short one runs to Udon Thani and back on Mondays with an hour and forty minutes on the ground there, and it overflies Roi Et, so it is drawn flying straight where the long one bends.\n\n**The source gives one time at each intermediate stop, not two.** How long the aeroplane stood at Roi Et or Khon Kaen is not recorded, so it is drawn arriving and leaving at the same minute rather than having a dwell invented for it.',
+    stops: [
+      { id: 'korat', name: 'Korat (Nakhon Ratchasima)', lon: 102.1, lat: 14.97 },
+      { name: 'Roi Et', lon: 103.65, lat: 16.05 },
+      { name: 'Khon Kaen', lon: 102.83, lat: 16.44 },
+      { name: 'Udon Thani', lon: 102.79, lat: 17.41 },
+      { name: 'Nakhon Phanom', lon: 104.78, lat: 17.41 }
+    ],
+    times: [
+      { svc: 'Korat – Nakhon Phanom', seq: '1', station: 'Korat', dd: '7:00', ua: '12:40', freq: 'out Wednesdays, home Thursdays', dw: '3', uw: '4' },
+      { svc: 'Korat – Udon Thani', seq: '1', station: 'Korat', dd: '7:00', ua: '13:15', freq: 'out and back on Mondays', dw: '1', uw: '1' },
+      { svc: 'Korat – Nakhon Phanom', seq: '2', station: 'Roi Et', da: '8:40', dd: '8:40', ua: '11:20', ud: '11:20', freq: 'out Wednesdays, home Thursdays', dw: '3', uw: '4' },
+      { svc: 'Korat – Nakhon Phanom', seq: '3', station: 'Khon Kaen', da: '9:40', dd: '9:40', ua: '10:20', ud: '10:20', freq: 'out Wednesdays, home Thursdays', dw: '3', uw: '4' },
+      { svc: 'Korat – Udon Thani', seq: '3', station: 'Khon Kaen', da: '8:35', dd: '8:35', ua: '12:00', ud: '12:00', freq: 'out and back on Mondays', dw: '1', uw: '1' },
+      { svc: 'Korat – Nakhon Phanom', seq: '4', station: 'Udon Thani', da: '10:50', dd: '10:50', ua: '9:15', ud: '9:15', freq: 'out Wednesdays, home Thursdays', dw: '3', uw: '4' },
+      { svc: 'Korat – Udon Thani', seq: '4', station: 'Udon Thani', da: '9:20', ud: '11:00', freq: 'out and back on Mondays', dw: '1', uw: '1' },
+      { svc: 'Korat – Nakhon Phanom', seq: '5', station: 'Nakhon Phanom', da: '12:40', ud: '7:00', freq: 'out Wednesdays, home Thursdays', dw: '3', uw: '4' }
+    ]
+  },
+  {
+    id: 'ina-calcutta-rangoon', name: 'Calcutta – Chittagong – Akyab – Bassein – Rangoon', operator: 'Indian National Airways', opened: '',
+    season: '10 December 1933', epochs: ['e1930'], source: 'Indian National Airways timetable, 10 December 1933', srcUrl: 'https://www.timetableimages.com/ttimages/id.htm',
+    ink: '#a03a7a', days: [],
+    note: 'Down the Bay of Bengal to Burma, hugging the Arakan coast: Calcutta to Rangoon in ten hours with the aeroplane on the ground four times, against three days by steamer. Eastbound on Tuesdays, westbound on Fridays — one machine, out and back.\n\n**The clock is Indian standard time.** Every line on this map runs on the local time of the country that flew it, so a seven o\'clock here and a seven o\'clock in Japan are three and a half hours apart. The animation puts them all on one dial, which is right for reading a single service and wrong for timing a connection between two networks.',
+    stops: [
+      { id: 'calcutta', name: 'Calcutta', lon: 88.36, lat: 22.57 },
+      { id: 'chittagong', name: 'Chittagong', lon: 91.78, lat: 22.36 },
+      { id: 'akyab', name: 'Akyab (Sittwe)', lon: 92.9, lat: 20.15 },
+      { id: 'bassein', name: 'Bassein (Pathein)', lon: 94.73, lat: 16.78 },
+      { id: 'rangoon', name: 'Rangoon (Yangon)', lon: 96.2, lat: 16.87 }
+    ],
+    times: [
+      { seq: '1', station: 'Calcutta', dd: '7:00', ua: '16:15', freq: 'east on Tuesdays, west on Fridays', dw: '2', uw: '5' },
+      { seq: '2', station: 'Chittagong', da: '9:30', dd: '9:50', ua: '13:39', ud: '13:59', freq: 'east on Tuesdays, west on Fridays', dw: '2', uw: '5' },
+      { seq: '3', station: 'Akyab', da: '12:00', dd: '12:45', ua: '11:20', ud: '12:05', freq: 'east on Tuesdays, west on Fridays', dw: '2', uw: '5' },
+      { seq: '4', station: 'Bassein', da: '15:45', dd: '16:10', ua: '8:00', ud: '8:20', freq: 'east on Tuesdays, west on Fridays', dw: '2', uw: '5' },
+      { seq: '5', station: 'Rangoon', da: '17:15', ud: '7:00', freq: 'east on Tuesdays, west on Fridays', dw: '2', uw: '5' }
+    ]
+  },
+  {
+    id: 'ina-calcutta-dacca', name: 'Calcutta – Dacca', operator: 'Indian National Airways', opened: '',
+    season: '10 December 1933', epochs: ['e1930'], source: 'Indian National Airways timetable, 10 December 1933', srcUrl: 'https://www.timetableimages.com/ttimages/id.htm',
+    ink: '#a03a7a', days: [],
+    note: 'Across the delta to Dacca and back, the short working of the network. **Two schedules, drawn as two circuits:** on weekdays it goes out in the morning and returns before two; on Sundays there is only the return, leaving Dacca at four in the afternoon.\n\n**The clock is Indian standard time.** Every line on this map runs on the local time of the country that flew it, so a seven o\'clock here and a seven o\'clock in Japan are three and a half hours apart. The animation puts them all on one dial, which is right for reading a single service and wrong for timing a connection between two networks.',
+    stops: [
+      { id: 'calcutta', name: 'Calcutta', lon: 88.36, lat: 22.57 },
+      { id: 'dacca', name: 'Dacca (Dhaka)', lon: 90.41, lat: 23.81 }
+    ],
+    times: [
+      { svc: 'Weekdays', seq: '1', station: 'Calcutta', dd: '7:00', ua: '13:03', freq: 'Mondays to Saturdays', dw: '1 2 3 4 5 6', uw: '1 2 3 4 5 6' },
+      { svc: 'Sundays, homeward only', seq: '1', station: 'Calcutta', ua: '17:31', freq: 'Sundays', uw: '7' },
+      { svc: 'Weekdays', seq: '2', station: 'Dacca', da: '8:52', ud: '11:32', freq: 'Mondays to Saturdays', dw: '1 2 3 4 5 6', uw: '1 2 3 4 5 6' },
+      { svc: 'Sundays, homeward only', seq: '2', station: 'Dacca', ud: '16:00', freq: 'Sundays', uw: '7' }
+    ]
+  },
+  {
+    id: 'ina-delhi-karachi', name: 'Delhi – Lahore – Multan – Jacobabad – Karachi', operator: 'Indian National Airways', opened: '',
+    season: 'November 1938', epochs: ['e1942'], source: 'Indian National Airways timetable, November 1938', srcUrl: 'https://www.timetableimages.com/ttimages/id.htm',
+    ink: '#a03a7a', days: [],
+    note: 'The north-western trunk, down the Indus from the imperial capital to the sea. **Two services, and neither is simply the other reversed:** the through working runs Delhi to Karachi on Sundays, Tuesdays and Thursdays and back on Mondays, Wednesdays and Thursdays; the short one starts and ends at Lahore, going down on Wednesdays and Saturdays and coming up on Sundays and Tuesdays. Both are on the card.\\n\\n**These are November 1938 times on a map of December 1942.** The service was still flown then — India was not occupied — but this is the schedule found, not one from the month the map shows.\n\n**The clock is Indian standard time.** Every line on this map runs on the local time of the country that flew it, so a seven o\'clock here and a seven o\'clock in Japan are three and a half hours apart. The animation puts them all on one dial, which is right for reading a single service and wrong for timing a connection between two networks.',
+    stops: [
+      { id: 'delhi', name: 'Delhi', lon: 77.21, lat: 28.61 },
+      { id: 'lahore', name: 'Lahore', lon: 74.34, lat: 31.55 },
+      { name: 'Multan', lon: 71.47, lat: 30.2 },
+      { name: 'Jacobabad', lon: 68.44, lat: 28.28 },
+      { id: 'karachi', name: 'Karachi', lon: 67.01, lat: 24.86 }
+    ],
+    times: [
+      { svc: 'Delhi – Karachi', seq: '1', station: 'Delhi', dd: '11:45', ua: '13:05', freq: 'down Sundays, Tuesdays and Thursdays; up Mondays, Wednesdays and Thursdays', dw: '2 4 7', uw: '1 3 4' },
+      { svc: 'Delhi – Karachi', seq: '2', station: 'Lahore', da: '13:20', dd: '14:00', ua: '11:00', ud: '11:30', freq: 'down Sundays, Tuesdays and Thursdays; up Mondays, Wednesdays and Thursdays', dw: '2 4 7', uw: '1 3 4' },
+      { svc: 'Lahore – Karachi', seq: '2', station: 'Lahore', dd: '11:00', ua: '13:30', freq: 'down Wednesdays and Saturdays; up Sundays and Tuesdays', dw: '3 6', uw: '2 7' },
+      { svc: 'Delhi – Karachi', seq: '3', station: 'Multan', da: '15:15', dd: '15:30', ua: '9:30', ud: '9:45', freq: 'down Sundays, Tuesdays and Thursdays; up Mondays, Wednesdays and Thursdays', dw: '2 4 7', uw: '1 3 4' },
+      { svc: 'Lahore – Karachi', seq: '3', station: 'Multan', da: '13:00', dd: '13:15', ua: '11:15', ud: '11:30', freq: 'down Wednesdays and Saturdays; up Sundays and Tuesdays', dw: '3 6', uw: '2 7' },
+      { svc: 'Delhi – Karachi', seq: '4', station: 'Jacobabad', da: '17:00', dd: '17:30', ua: '7:25', ud: '8:00', freq: 'down Sundays, Tuesdays and Thursdays; up Mondays, Wednesdays and Thursdays', dw: '2 4 7', uw: '1 3 4' },
+      { svc: 'Lahore – Karachi', seq: '4', station: 'Jacobabad', da: '15:45', dd: '16:00', ua: '8:30', ud: '8:45', freq: 'down Wednesdays and Saturdays; up Sundays and Tuesdays', dw: '3 6', uw: '2 7' },
+      { svc: 'Delhi – Karachi', seq: '5', station: 'Karachi', da: '19:10', ud: '5:45', freq: 'down Sundays, Tuesdays and Thursdays; up Mondays, Wednesdays and Thursdays', dw: '2 4 7', uw: '1 3 4' },
+      { svc: 'Lahore – Karachi', seq: '5', station: 'Karachi', da: '19:00', ud: '5:30', freq: 'down Wednesdays and Saturdays; up Sundays and Tuesdays', dw: '3 6', uw: '2 7' }
     ]
   }
 ];

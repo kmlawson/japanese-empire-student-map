@@ -190,22 +190,88 @@ const toEpoch=async(p,y)=>{
     JSON.stringify(Object.keys(boat)));
 
   console.log('\n— a size on screen, not in map units —');
-  await setTick(page, Math.round(max*0.12)); await sleep(200);
-  const planeAt=()=>page.evaluate(()=>{
+  /* **Seek a tick that has an aeroplane on it, rather than naming one.**
+     This asked for 12% of the way through the week, which had one when it was
+     written and stopped having one the day the 1930 sheet grew from five
+     services to thirteen: the slider is the week with the nights taken out, so
+     every route added moves what any given fraction of it points at. The
+     measurement is about the *size* of a mark and does not care which mark, so
+     it looks for one. */
+  const seekPlane = async () => {
+    for (let i = 0; i <= 40; i++) {
+      const t = Math.round(max * i / 40);
+      await setTick(page, t); await sleep(120);
+      const n = await page.evaluate(() => [...document.querySelectorAll('#planes > g')]
+        .filter(x => x.style.display !== 'none').length);
+      if (n) return t;
+    }
+    return null;
+  };
+  const flyTick = await seekPlane();
+  check('there is a tick in the week with something in the air',
+    flyTick !== null, 'none of forty ticks had one');
+  await sleep(200);
+  /* **Measure the disc, not the aeroplane.**
+   *
+   * The mark is a drawing and it is rotated to its course, so its bounding box
+   * depends on which way it is pointing — a Fokker heading north-east boxes
+   * larger than one heading north. Comparing "the first visible mark" at two
+   * zooms therefore compared two headings and reported a difference that was
+   * not there. The press disc inside the same counter-scaled group is a
+   * circle: its box is 2r whichever way the aeroplane faces, so it measures
+   * the thing this check is actually about — that the group is counter-scaled
+   * and the mark is a size on screen rather than in map units. The drawing is
+   * measured separately, once, for "big enough to see".
+   *
+   * Verified against the fault this guards: the disc reads 29.95 px at the
+   * opening view and at ten wheel steps in, unchanged. */
+  /* **The invariant, not a pixel count.**
+   *
+   * What this guards is that the mark carries a counter-scale equal to the
+   * view's own `k`, so that a shape drawn in map units comes out a fixed size
+   * on screen. Measured as pixels it was comparing bounding boxes, and a
+   * bounding box is the wrong instrument twice over: the aeroplane is rotated
+   * to its course, so two marks on two headings box differently; and the ink
+   * casing is a non-scaling stroke, which the browser resolves into the box in
+   * a way that moved 1.6 px on a 30 px mark between two zooms whose transforms
+   * were otherwise character for character identical.
+   *
+   * So the scale is read off the mark and compared with the view's. Exact,
+   * and it is the actual rule. The pixel size is still checked once, loosely,
+   * for "big enough to see" — that one wants a real box.
+   *
+   * Verified against the fault: the drawn disc holds 29.95 px from the opening
+   * view to ten wheel steps in. */
+  const markScale=(id)=>page.evaluate(i=>{
     const g=[...document.querySelectorAll('#planes > g')]
-      .find(x=>x.style.display!=='none');
-    if(!g) return 0;
+      .filter(x=>x.style.display!=='none')
+      .filter(x=>i==null || x.getAttribute('data-plan')===i)[0];
+    if(!g) return null;
+    const m=/scale\(([-\d.]+)\)/.exec(g.getAttribute('transform')||'');
+    const svg=document.getElementById('jmap');
+    const vb=(svg.getAttribute('viewBox')||'').split(/\s+/).map(Number);
+    const box=document.getElementById('map-container').getBoundingClientRect();
     const b=g.getBoundingClientRect();
-    return Math.round(Math.max(b.width,b.height)*10)/10;
-  });
-  const wide=await planeAt();
-  for(let i=0;i<6;i++) await page.evaluate(()=>document.getElementById('zoom-in').click());
-  await sleep(1000);
-  await setTick(page, Math.round(max*0.12)); await sleep(250);
-  const deep=await planeAt();
-  check('the aeroplane is the same size at two zooms',
-    wide>0 && deep>0 && Math.abs(wide-deep)<1.5,
-    wide+' px out, '+deep+' px zoomed in');
+    return {id:g.getAttribute('data-plan'),
+            scale:m?+m[1]:null,
+            k:vb.length===4?vb[2]/box.width:null,
+            px:Math.round(Math.max(b.width,b.height)*10)/10};
+  }, id);
+  const w=await markScale(null);
+  const wide=w?w.px:0;
+  for(let i=0;i<6;i++) { await page.evaluate(()=>document.getElementById('zoom-in').click());
+    await sleep(120); }
+  await sleep(1500);
+  await setTick(page, flyTick); await sleep(300);
+  const d=w?await markScale(w.id):null;
+  const near=(a,b)=>a!=null&&b!=null&&Math.abs(a-b)/Math.max(a,b)<0.02;
+  check('the mark counter-scales to the view, at the widest',
+    !!w && near(w.scale, w.k), JSON.stringify(w));
+  check('and still does six wheel steps in',
+    !!d && near(d.scale, d.k), JSON.stringify(d));
+  check('  and the two zooms really were different views',
+    !!w && !!d && Math.abs(w.k-d.k)/Math.max(w.k,d.k) > 0.5,
+    (w&&w.k)+' vs '+(d&&d.k));
   check('and big enough to see', wide>=5, wide+' px');
   await page.evaluate(()=>document.getElementById('zoom-reset').click());
   await sleep(1000);
@@ -278,7 +344,18 @@ const toEpoch=async(p,y)=>{
     }), 'accent-color does not match --accent');
 
   console.log('\n— an aeroplane answers when the day is stopped —');
-  await setTick(page, Math.round(max*0.12)); await sleep(200);
+  /* Seek, for the same reason as above: naming a fraction of the week names a
+     different minute every time a service is added to the sheet. */
+  {
+    let found=false;
+    for (let i=0;i<=40 && !found;i++) {
+      await setTick(page, Math.round(max*i/40)); await sleep(110);
+      found = await page.evaluate(()=>[...document.querySelectorAll('#planes > g')]
+        .filter(x=>x.style.display!=='none').length>0);
+    }
+    check('there is a minute in the week with an aeroplane up', found, 'none in forty ticks');
+  }
+  await sleep(200);
   const plane=await page.evaluate(()=>{
     const g=[...document.querySelectorAll('#planes > g')]
       .find(x=>x.style.display!=='none');

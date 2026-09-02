@@ -16819,6 +16819,172 @@ The 1930 sheet is now nine services: the Japanese trunk, four KNILM lines and
 CNAC's four.
 
 
+## Manchuria Aviation's three lines, winter 1935, on the 1942 map
+
+    mkkk-manchouli-hsinking  Manchouli – Hailar – Tsitsihar – Harbin – Shinkyō
+    mkkk-harbin-dairen       Harbin – Shinkyō – Mukden – Dairen
+    mkkk-hsinking-shingishu  Shinkyō – Mukden – Shingishū, for Tokyo
+
+満洲航空株式会社, in an ink of its own (`#8c2f39`) — the fourth company on the
+1942 sheet, beside 大日本航空, 中華航空 and CNAC. Seven years earlier than the
+map, and each card says so.
+
+**The west line is two services, not one**, and that is the interesting part.
+The timetable is daily to Tsitsihar and twice a week beyond it — southbound
+Tuesdays and Fridays, northbound Mondays and Thursdays. Modelled as two
+services with *non-overlapping* days: the whole line on 2/5 south and 1/4
+north, and the Tsitsihar–Shinkyō portion on the other five days each way. The
+overlap matters: written as "the whole line twice a week" plus "the inner
+portion daily" there would have been two aeroplanes on the inner stretch on
+Tuesdays and Fridays, where the timetable means one that has come through from
+Manchouli.
+
+Measured by sampling the outer and inner halves of the drawn line separately:
+
+    beyond Tsitsihar      days 1, 2, 4, 5
+    Tsitsihar to Shinkyō  all seven
+
+**The Tokyo trunk is southbound only.** The service ran both ways; the reading
+gives one direction, so it flies one way rather than having the return
+invented. Said on the card.
+
+### Two lines on one corridor, flagged not fixed
+
+`mkkk-hsinking-shingishu` is exactly the three cities of the existing untimed
+`manchuria` route — Shingishū–Hōten–Shinkyō, from the 1938–39 Japanese
+timetable — so the two are drawn on top of one another, and with the play
+dimming in place one of them now fades while the other stays lit. Both notes
+say so; the untimed one is a candidate for retiring, which is the author's call
+and not something to do to their data unasked.
+
+Also added: the two source links for CNAC's Shanghai–Canton and
+Shanghai–Peiping sheets.
+
+
+## A KNILM line out of the Indies
+
+`knilm-tarakan-manila` — Tarakan across the Sulu Sea to Manila, from the same
+c. 1935 route map as the other twenty-five and, like them, with no times: the
+source is a route map, not a timetable, so it is drawn and dimmed while the
+week runs. The only KNILM line on this map that ends outside the Dutch East
+Indies and the only one touching American territory; both ends were Japanese by
+the end of January 1942, eleven months before the sheet it is drawn on.
+
+The Indies network is twenty-six lines now, and `air.js` says which is which
+rather than carrying a bare number.
+
+
+## The Philippines and Siam on the 1930 map
+
+`patco-manila-baguio` — the Philippine Aerial Taxi Company's hour from the
+capital up to the hill station, daily each way, from an undated brochure of
+about the mid-1930s. In an ink of its own (`#0f7b8a`).
+
+Its card carries what the map does **not** draw, because one line on a map of
+the Philippines invites the reader to think that was the whole of it:
+Manila–Paracale by 1937; INAEC's Manila–Iloilo, Manila–Iloilo–Davao and
+Iloilo–Bacolod by 1939; Paracale–Legaspi on Philippine Air Lines, Inc. by 1941.
+
+*The reading gave "INEAC"; written as **INAEC**, the Iloilo–Negros Air Express
+Company, which is the company's name. Flagged rather than silently corrected.*
+
+`siam-korat-nakhonphanom` — the Aerial Transport Company of Siam's mail line up
+the Khorat plateau from the railhead to the Mekong, 1933, in `#3f6b1f`.
+
+**One route with two services, not two routes**, and the reason is geometric.
+The long working runs Korat–Roi Et–Khon Kaen–Udon Thani–Nakhon Phanom, out on
+Wednesdays and home on Thursdays with a night at the far end. The short one
+runs Korat–Khon Kaen–Udon Thani and back on Mondays — it *overflies* Roi Et. As
+two routes they would have shared the Khon Kaen–Udon Thani leg and drawn it
+twice, one line exactly over the other. As two services on one route the short
+one flies straight where the long one bends, which is what it did.
+
+**One time per intermediate stop, not two.** The source gives a single clock at
+Roi Et, Khon Kaen and Udon Thani and does not say how long the aeroplane stood
+there, so each is drawn arriving and leaving at the same minute rather than
+having a dwell invented. The animation needs a departure to fly a leg at all,
+so the alternative was a made-up number.
+
+Measured: Manila–Baguio all seven days; the Siam line days 1, 3 and 4 — Monday
+for the short circuit, Wednesday out and Thursday back for the long one.
+
+The 1930 sheet is now eleven services.
+
+
+## Indian National Airways, on both sheets
+
+    ina-calcutta-rangoon   1930 map, 10 December 1933
+    ina-calcutta-dacca     1930 map, 10 December 1933
+    ina-delhi-karachi      1942 map, November 1938
+
+In an ink of their own (`#a03a7a`), and the first operator on this map that
+appears on both dates from different sheets.
+
+**Neither direction of the Delhi–Karachi trunk is the other reversed.** The
+through working runs Delhi–Karachi on Sundays, Tuesdays and Thursdays and back
+on Mondays, Wednesdays and Thursdays; the short one starts and ends at Lahore,
+down on Wednesdays and Saturdays and up on Sundays and Tuesdays. Two services
+on one route, each with its own days per direction, which is what the columns
+`down_days` and `up_days` are for. Measured: something is aloft on every day
+but Friday, which is exactly what the two give between them.
+
+Dacca is two schedules too — weekdays out and back, Sundays the homeward leg
+alone — so the Sunday service has `up_days` and no down times at all, and
+`buildPlans` flies the one direction rather than inventing the other.
+
+**The clocks are Indian standard time**, and the cards say so. Every line on
+this map keeps the local time of the country that flew it, so the animation's
+single dial is right for reading one service and wrong for timing a connection
+across networks. Worth saying once here: it is now seven companies over two
+sheets and the point will come up again.
+
+### The company tally, by company
+
+`air.js` counted the 1942 routes into four buckets keyed on **id prefixes**,
+and every airline that arrived after those buckets fell into the last one and
+was counted as Japanese. CNAC did it, then 満洲航空, then Indian National
+Airways — three times, each caught only because the number moved. It asks the
+`operator` field now and asserts a named tally:
+
+    大日本航空 19 · 中華航空 4 · CNAC 3 · 満洲航空 3 · KLM 1 · KNILM 26 · INA 1
+
+which is a thing a reader can check against the sources, and which fails loudly
+when a new airline arrives instead of quietly filing it under the wrong flag.
+
+
+## Two tests that named a minute, and a measurement that used the wrong instrument
+
+Adding the Indian lines took the 1930 sheet from eleven services to thirteen
+and `airplay` fell over. Nothing was wrong with the map.
+
+**Naming a fraction of the week names a different minute every time a service
+is added.** Two checks asked for `max*0.12` — twelve per cent of the way along
+the slider — which had an aeroplane on it when they were written and stopped
+having one. The slider is the week with the nights taken out, so every route
+added redraws what any fraction of it points at. Both seek a tick with
+something in the air now, and say so if forty tries find none.
+
+**And the size check was using a bounding box, which is the wrong instrument
+twice over.** The mark is rotated to its course, so two aeroplanes on two
+headings box differently — it was comparing "the first visible mark" at each
+zoom, which was often two different marks. Pinning it to one `data-plan` left a
+residue: 29.2 px against 30.8 px with the two transforms character for
+character identical apart from the expected `scale`. That is the ink casing's
+non-scaling stroke being resolved into the box differently, not the geometry.
+
+Measured directly to settle it — the same mark, one plan, ten wheel steps:
+
+    zoom  0   29.95 px      zoom  6   29.95 px
+    zoom  2   29.95 px      zoom  8   29.96 px
+    zoom  4   29.95 px      zoom 10   29.94 px
+
+So the check now reads the counter-scale off the mark and compares it with the
+view's own `k`, which is the rule this project's most-repeated bug breaks, and
+is exact. The pixel size is still measured once, loosely, for "big enough to
+see" — that one does want a real box. A third check asserts the two zooms were
+actually different views, so the pair cannot pass by both being the same.
+
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

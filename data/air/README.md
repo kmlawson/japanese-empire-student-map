@@ -261,3 +261,153 @@ The Shanghai–Peiping sheet lists two later additions flown from Chungking:
 **Chungking–Chengtu**, which is on the 1942 map here from the October 1940
 timetable, and **Chungking–Kweiyang**, for which no times have been found. The
 Peiping card says both.
+
+---
+
+## Manchuria Aviation Company (満洲航空株式会社), winter 1935 — on the 1942 map
+
+Source: <https://www.timetableimages.com/ttimages/mkkk35.htm>. Seven years
+earlier than the sheet they are drawn on; each card says so.
+
+### Manchouli – Shinkyō → `mkkk-manchouli-hsinking`
+
+| stop | south 着 / 發 | north 着 / 發 | 粁 |
+|---|---|---|---|
+| 満洲里 Manchouli | — / 9.30 | 14.50 / — | |
+| 海拉爾 Hailar | 10.25 / 10.35 | 13.40 / 13.50 | |
+| 斉斉哈爾 Tsitsihar | 12.50 / 13.00 | 11.00 / 11.10 | |
+| 哈爾濱 Harbin | 14.20 / 14.30 | 9.10 / 9.20 | |
+| 新京 Shinkyō | 15.35 / — | — / 8.00 | |
+
+**Two services, not one.** Tsitsihar–Harbin–Shinkyō runs daily; beyond
+Tsitsihar to Hailar and Manchouli it is twice a week — southbound Tuesdays and
+Fridays, northbound Mondays and Thursdays. Carried as two services with
+non-overlapping days (the whole line on 2/5 south and 1/4 north; the inner
+portion on the other five days each way) so that exactly one aeroplane works
+the Tsitsihar–Shinkyō stretch on any given day, which is what "daily" means.
+
+Measured: beyond Tsitsihar days 1, 2, 4, 5; inner portion all seven.
+
+### Harbin – Dairen → `mkkk-harbin-dairen`
+
+Daily both ways.
+
+| stop | south 着 / 發 | north 着 / 發 |
+|---|---|---|
+| 哈爾濱 Harbin | — / 10.00 | 14.50 / — |
+| 新京 Shinkyō | 11.15 / 11.25 | 13.30 / 13.40 |
+| 奉天 Mukden | 12.55 / 13.05 | 11.55 / 12.05 |
+| 大連 Dairen | 14.50 / — | — / 10.00 |
+
+### Shinkyō – Shingishū, for Tokyo → `mkkk-hsinking-shingishu`
+
+Daily except Mondays. Shinkyō 4.00 → Mukden 5.40 / 6.00 → Shingishū 7.15,
+where the Japanese carrier took the aeroplane on down the peninsula.
+
+**Southbound only.** The service ran both ways; the reading gives one
+direction, so the map flies it one way rather than inventing the other.
+
+**And it lies on top of an existing line.** The untimed `manchuria` route —
+Shingishū–Hōten–Shinkyō, from the 1938–39 Japanese timetable — is the same
+three cities. Both are drawn and both notes now say so. Worth a decision: the
+untimed one is a candidate for retiring now that this corridor has times.
+
+---
+
+## One KNILM line that leaves the Indies
+
+`knilm-tarakan-manila` — Tarakan across the Sulu Sea to Manila, from the same
+c. 1935 route map as the other twenty-five, and like them **no times**: the
+source is a route map, not a timetable. The only KNILM line on this map that
+ends outside the Dutch East Indies, and the only one that touches American
+territory. Both ends were Japanese by the end of January 1942, eleven months
+before the sheet it is drawn on.
+
+---
+
+## Two more on the 1930 map: the Philippines and Siam
+
+### PATCO, Manila – Baguio → `patco-manila-baguio`
+
+Source: <https://www.timetableimages.com/ttimages/patco.htm>, an undated
+brochure of about the mid-1930s. Daily. Manila 6.30 → Baguio 7.30; Baguio 7.40
+→ Manila 8.40.
+
+The card also names what the map does **not** draw, so that one line is not
+mistaken for the whole of Philippine aviation: Manila–Paracale by 1937;
+INAEC's Manila–Iloilo, Manila–Iloilo–Davao and Iloilo–Bacolod by 1939;
+Paracale–Legaspi on Philippine Air Lines, Inc. by 1941. (The reading gave
+"INEAC"; written here as **INAEC**, the Iloilo–Negros Air Express Company.)
+
+### Aerial Transport Company of Siam → `siam-korat-nakhonphanom`
+
+Source: <https://www.timetableimages.com/ttimages/siam.htm>, 1933.
+**One route, two services**, rather than two routes: the short working
+overflies Roi Et, so a second route would have drawn the Khon Kaen–Udon Thani
+leg twice, one line on top of the other. As services, the short one is drawn
+flying straight where the long one bends — which is what it did.
+
+| stop | out 着/發 | back 着/發 |
+|---|---|---|
+| Korat | — / 7.00 | 12.40 / — |
+| Roi Et | 8.40 | 11.20 |
+| Khon Kaen | 9.40 | 10.20 |
+| Udon Thani | 10.50 | 9.15 |
+| Nakhon Phanom | 12.40 / — | — / 7.00 |
+
+Out Wednesdays, home Thursdays, overnighting at Nakhon Phanom.
+
+The short circuit, Mondays both ways: Korat 7.00 → Khon Kaen 8.35 → Udon Thani
+9.20; back 11.00 → 12.00 → 13.15, an hour and forty on the ground.
+
+**One time per intermediate stop, not two.** The source does not record how
+long the aeroplane stood at Roi Et or Khon Kaen, so it is drawn arriving and
+leaving at the same minute rather than having a dwell invented for it.
+
+Roi Et, Khon Kaen, Udon Thani and Nakhon Phanom are not on the map's city list
+and carry their own coordinates.
+
+---
+
+## Indian National Airways
+
+Source for all three: <https://www.timetableimages.com/ttimages/id.htm>.
+**All times are Indian standard time.** Every line on this map keeps the local
+time of the country that flew it, so the animation's single dial is right for
+reading one service and wrong for timing a connection between two networks.
+
+### 10 December 1933, on the 1930 map
+
+**Calcutta – Rangoon** → `ina-calcutta-rangoon`. East on Tuesdays, west on
+Fridays; one machine out and back.
+
+| stop | east 着 / 發 | west 着 / 發 |
+|---|---|---|
+| Calcutta | — / 7.00 | 16.15 / — |
+| Chittagong | 9.30 / 9.50 | 13.39 / 13.59 |
+| Akyab | 12.00 / 12.45 | 11.20 / 12.05 |
+| Bassein | 15.45 / 16.10 | 8.00 / 8.20 |
+| Rangoon | 17.15 / — | — / 7.00 |
+
+**Calcutta – Dacca** → `ina-calcutta-dacca`. Two schedules, two circuits:
+weekdays out 7.00 arriving 8.52 and back 11.32 arriving 13.03; Sundays the
+homeward leg only, Dacca 16.00 arriving 17.31.
+
+### November 1938, on the 1942 map
+
+**Delhi – Karachi** → `ina-delhi-karachi`, and neither service is the other
+reversed:
+
+* *Delhi – Karachi.* Down Sundays, Tuesdays and Thursdays: Delhi 11.45, Lahore
+  13.20/14.00, Multan 15.15/15.30, Jacobabad 17.00/17.30, Karachi 19.10. Up
+  Mondays, Wednesdays and Thursdays: Karachi 5.45, Jacobabad 7.25/8.00, Multan
+  9.30/9.45, Lahore 11.00/11.30, Delhi 13.05.
+* *Lahore – Karachi.* Down Wednesdays and Saturdays: Lahore 11.00, Multan
+  13.00/13.15, Jacobabad 15.45/16.00, Karachi 19.00. Up Sundays and Tuesdays:
+  Karachi 5.30, Jacobabad 8.30/8.45, Multan 11.15/11.30, Lahore 13.30.
+
+Measured: something is in the air on every day but Friday, which is what the
+two services between them give.
+
+Multan and Jacobabad are not on the map's city list and carry their own
+coordinates.

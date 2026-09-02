@@ -194,3 +194,36 @@ cnac-shanghai-canton,3,fuzhou,Foochow (Fuzhou),119.3,26.07
 cnac-shanghai-canton,4,xiamen,Amoy (Xiamen),118.09,24.48
 cnac-shanghai-canton,5,shantou,Swatow (Shantou),116.68,23.35
 cnac-shanghai-canton,6,guangzhou,Canton (Guangzhou),113.26,23.13
+mkkk-manchouli-hsinking,1,manzhouli,Manchouli (Manzhouli),117.45,49.6
+mkkk-manchouli-hsinking,2,hailar,Hailar,119.7,49.2
+mkkk-manchouli-hsinking,3,qiqihar,Tsitsihar (Qiqihar),123.92,47.35
+mkkk-manchouli-hsinking,4,harbin,Harbin,126.53,45.8
+mkkk-manchouli-hsinking,5,changchun,Xinjing (Changchun),125.32,43.88
+mkkk-harbin-dairen,1,harbin,Harbin,126.53,45.8
+mkkk-harbin-dairen,2,changchun,Xinjing (Changchun),125.32,43.88
+mkkk-harbin-dairen,3,mukden,Mukden (Shenyang),123.43,41.8
+mkkk-harbin-dairen,4,dairen,Dairen (Dalian),121.61,38.91
+mkkk-hsinking-shingishu,1,changchun,Xinjing (Changchun),125.32,43.88
+mkkk-hsinking-shingishu,2,mukden,Mukden (Shenyang),123.43,41.8
+mkkk-hsinking-shingishu,3,sinuiju,Shingishū (Sinŭiju),124.39,40.1
+knilm-tarakan-manila,1,tarakan,Tarakan,117.59,3.3
+knilm-tarakan-manila,2,manila,Manila,120.98,14.6
+patco-manila-baguio,1,manila,Manila,120.98,14.6
+patco-manila-baguio,2,baguio,Baguio,120.6,16.41
+siam-korat-nakhonphanom,1,korat,Korat (Nakhon Ratchasima),102.1,14.97
+siam-korat-nakhonphanom,2,,Roi Et,103.65,16.05
+siam-korat-nakhonphanom,3,,Khon Kaen,102.83,16.44
+siam-korat-nakhonphanom,4,,Udon Thani,102.79,17.41
+siam-korat-nakhonphanom,5,,Nakhon Phanom,104.78,17.41
+ina-calcutta-rangoon,1,calcutta,Calcutta,88.36,22.57
+ina-calcutta-rangoon,2,chittagong,Chittagong,91.78,22.36
+ina-calcutta-rangoon,3,akyab,Akyab (Sittwe),92.9,20.15
+ina-calcutta-rangoon,4,bassein,Bassein (Pathein),94.73,16.78
+ina-calcutta-rangoon,5,rangoon,Rangoon (Yangon),96.2,16.87
+ina-calcutta-dacca,1,calcutta,Calcutta,88.36,22.57
+ina-calcutta-dacca,2,dacca,Dacca (Dhaka),90.41,23.81
+ina-delhi-karachi,1,delhi,Delhi,77.21,28.61
+ina-delhi-karachi,2,lahore,Lahore,74.34,31.55
+ina-delhi-karachi,3,,Multan,71.47,30.2
+ina-delhi-karachi,4,,Jacobabad,68.44,28.28
+ina-delhi-karachi,5,karachi,Karachi,67.01,24.86

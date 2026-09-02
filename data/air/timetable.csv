@@ -146,3 +146,46 @@ cnac-shanghai-canton,,3,福州 Foochow,10:05,,10:25,,11:05,,11:25,,south on Tues
 cnac-shanghai-canton,,4,廈門 Amoy,11:35,,11:55,,9:35,,9:55,,south on Tuesdays and Fridays; north on Thursdays and Sundays,2 5,4 7
 cnac-shanghai-canton,,5,汕頭 Swatow,12:55,,13:15,,8:15,,8:35,,south on Tuesdays and Fridays; north on Thursdays and Sundays,2 5,4 7
 cnac-shanghai-canton,,6,廣州 Canton,15:00,,,,,,6:30,,south on Tuesdays and Fridays; north on Thursdays and Sundays,2 5,4 7
+mkkk-manchouli-hsinking,"Manchouli – Shinkyō, the whole line",1,満洲里 Manchouli,,,9:30,,14:50,,,,south Tuesdays and Fridays; north Mondays and Thursdays,2 5,1 4
+mkkk-manchouli-hsinking,"Manchouli – Shinkyō, the whole line",2,海拉爾 Hailar,10:25,,10:35,,13:40,,13:50,,south Tuesdays and Fridays; north Mondays and Thursdays,2 5,1 4
+mkkk-manchouli-hsinking,"Manchouli – Shinkyō, the whole line",3,斉斉哈爾 Tsitsihar,12:50,,13:00,,11:00,,11:10,,south Tuesdays and Fridays; north Mondays and Thursdays,2 5,1 4
+mkkk-manchouli-hsinking,"Manchouli – Shinkyō, the whole line",4,哈爾濱 Harbin,14:20,,14:30,,9:10,,9:20,,south Tuesdays and Fridays; north Mondays and Thursdays,2 5,1 4
+mkkk-manchouli-hsinking,"Manchouli – Shinkyō, the whole line",5,新京 Xinjing,15:35,,,,,,8:00,,south Tuesdays and Fridays; north Mondays and Thursdays,2 5,1 4
+mkkk-manchouli-hsinking,Tsitsihar – Shinkyō,3,斉斉哈爾 Tsitsihar,,,13:00,,11:00,,,,daily; the days the through service does not run beyond Tsitsihar,1 3 4 6 7,2 3 5 6 7
+mkkk-manchouli-hsinking,Tsitsihar – Shinkyō,4,哈爾濱 Harbin,14:20,,14:30,,9:10,,9:20,,daily; the days the through service does not run beyond Tsitsihar,1 3 4 6 7,2 3 5 6 7
+mkkk-manchouli-hsinking,Tsitsihar – Shinkyō,5,新京 Xinjing,15:35,,,,,,8:00,,daily; the days the through service does not run beyond Tsitsihar,1 3 4 6 7,2 3 5 6 7
+mkkk-harbin-dairen,,1,哈爾濱 Harbin,,,10:00,,14:50,,,,daily,1 2 3 4 5 6 7,1 2 3 4 5 6 7
+mkkk-harbin-dairen,,2,新京 Xinjing,11:15,,11:25,,13:30,,13:40,,daily,1 2 3 4 5 6 7,1 2 3 4 5 6 7
+mkkk-harbin-dairen,,3,奉天 Mukden,12:55,,13:05,,11:55,,12:05,,daily,1 2 3 4 5 6 7,1 2 3 4 5 6 7
+mkkk-harbin-dairen,,4,大連 Dairen,14:50,,,,,,10:00,,daily,1 2 3 4 5 6 7,1 2 3 4 5 6 7
+mkkk-hsinking-shingishu,,1,新京 Xinjing,,,4:00,,,,,,daily except Mondays,2 3 4 5 6 7,
+mkkk-hsinking-shingishu,,2,奉天 Mukden,5:40,,6:00,,,,,,daily except Mondays,2 3 4 5 6 7,
+mkkk-hsinking-shingishu,,3,新義州 Shingishū,7:15,,,,,,,,daily except Mondays,2 3 4 5 6 7,
+patco-manila-baguio,,1,Manila,,,6:30,,8:40,,,,daily,1 2 3 4 5 6 7,1 2 3 4 5 6 7
+patco-manila-baguio,,2,Baguio,7:30,,,,,,7:40,,daily,1 2 3 4 5 6 7,1 2 3 4 5 6 7
+siam-korat-nakhonphanom,Korat – Nakhon Phanom,1,Korat,,,7:00,,12:40,,,,"out Wednesdays, home Thursdays",3,4
+siam-korat-nakhonphanom,Korat – Nakhon Phanom,2,Roi Et,8:40,,8:40,,11:20,,11:20,,"out Wednesdays, home Thursdays",3,4
+siam-korat-nakhonphanom,Korat – Nakhon Phanom,3,Khon Kaen,9:40,,9:40,,10:20,,10:20,,"out Wednesdays, home Thursdays",3,4
+siam-korat-nakhonphanom,Korat – Nakhon Phanom,4,Udon Thani,10:50,,10:50,,9:15,,9:15,,"out Wednesdays, home Thursdays",3,4
+siam-korat-nakhonphanom,Korat – Nakhon Phanom,5,Nakhon Phanom,12:40,,,,,,7:00,,"out Wednesdays, home Thursdays",3,4
+siam-korat-nakhonphanom,Korat – Udon Thani,1,Korat,,,7:00,,13:15,,,,out and back on Mondays,1,1
+siam-korat-nakhonphanom,Korat – Udon Thani,3,Khon Kaen,8:35,,8:35,,12:00,,12:00,,out and back on Mondays,1,1
+siam-korat-nakhonphanom,Korat – Udon Thani,4,Udon Thani,9:20,,,,,,11:00,,out and back on Mondays,1,1
+ina-calcutta-rangoon,,1,Calcutta,,,7:00,,16:15,,,,"east on Tuesdays, west on Fridays",2,5
+ina-calcutta-rangoon,,2,Chittagong,9:30,,9:50,,13:39,,13:59,,"east on Tuesdays, west on Fridays",2,5
+ina-calcutta-rangoon,,3,Akyab,12:00,,12:45,,11:20,,12:05,,"east on Tuesdays, west on Fridays",2,5
+ina-calcutta-rangoon,,4,Bassein,15:45,,16:10,,8:00,,8:20,,"east on Tuesdays, west on Fridays",2,5
+ina-calcutta-rangoon,,5,Rangoon,17:15,,,,,,7:00,,"east on Tuesdays, west on Fridays",2,5
+ina-calcutta-dacca,Weekdays,1,Calcutta,,,7:00,,13:03,,,,Mondays to Saturdays,1 2 3 4 5 6,1 2 3 4 5 6
+ina-calcutta-dacca,Weekdays,2,Dacca,8:52,,,,,,11:32,,Mondays to Saturdays,1 2 3 4 5 6,1 2 3 4 5 6
+ina-calcutta-dacca,"Sundays, homeward only",1,Calcutta,,,,,17:31,,,,Sundays,,7
+ina-calcutta-dacca,"Sundays, homeward only",2,Dacca,,,,,,,16:00,,Sundays,,7
+ina-delhi-karachi,Delhi – Karachi,1,Delhi,,,11:45,,13:05,,,,"down Sundays, Tuesdays and Thursdays; up Mondays, Wednesdays and Thursdays",2 4 7,1 3 4
+ina-delhi-karachi,Delhi – Karachi,2,Lahore,13:20,,14:00,,11:00,,11:30,,"down Sundays, Tuesdays and Thursdays; up Mondays, Wednesdays and Thursdays",2 4 7,1 3 4
+ina-delhi-karachi,Delhi – Karachi,3,Multan,15:15,,15:30,,9:30,,9:45,,"down Sundays, Tuesdays and Thursdays; up Mondays, Wednesdays and Thursdays",2 4 7,1 3 4
+ina-delhi-karachi,Delhi – Karachi,4,Jacobabad,17:00,,17:30,,7:25,,8:00,,"down Sundays, Tuesdays and Thursdays; up Mondays, Wednesdays and Thursdays",2 4 7,1 3 4
+ina-delhi-karachi,Delhi – Karachi,5,Karachi,19:10,,,,,,5:45,,"down Sundays, Tuesdays and Thursdays; up Mondays, Wednesdays and Thursdays",2 4 7,1 3 4
+ina-delhi-karachi,Lahore – Karachi,2,Lahore,,,11:00,,13:30,,,,down Wednesdays and Saturdays; up Sundays and Tuesdays,3 6,2 7
+ina-delhi-karachi,Lahore – Karachi,3,Multan,13:00,,13:15,,11:15,,11:30,,down Wednesdays and Saturdays; up Sundays and Tuesdays,3 6,2 7
+ina-delhi-karachi,Lahore – Karachi,4,Jacobabad,15:45,,16:00,,8:30,,8:45,,down Wednesdays and Saturdays; up Sundays and Tuesdays,3 6,2 7
+ina-delhi-karachi,Lahore – Karachi,5,Karachi,19:00,,,,,,5:30,,down Wednesdays and Saturdays; up Sundays and Tuesdays,3 6,2 7
