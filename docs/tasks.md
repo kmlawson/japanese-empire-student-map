@@ -15524,6 +15524,50 @@ returns to the one.
 
 ---
 
+## Waiting for the thing instead of for a number of seconds
+
+Every script opened the map and then slept — 1,800 ms, 2,400, 3,200, whatever
+had been enough on the machine it was written on. Measured across the suite:
+**725 seconds of literal `sleep`**. Every one of those numbers is a guess in two
+directions — dead time on a fast machine, a flake that looks like a bug in the
+map on a slow one.
+
+`tools/test/settle.js` is new. `ready(page)` waits for `#land .atom` to exist,
+which is the condition the sleep was standing in for, plus two animation frames
+for the first `rescale`; it returns the moment that is true. Twenty scripts had
+their post-load sleep converted — 47 of them.
+
+    literal sleep      725s  →  608s
+    the whole suite  463.7s  →  413.7s   (and 30 more checks than before)
+    zoom              13.4s  →   5.6s
+    labuan            22.0s  →   9.8s
+
+**It found its own trap immediately.** `trains.js` also loads the printed
+timetable, which is not the map and has no land to wait for, so the converted
+call hung for twenty-five seconds and died with a stack trace and no hint.
+`ready` now checks for `#jmap` first and throws one line naming the mistake, so
+the next person to make it is told rather than left guessing; the timetable page
+keeps its sleep, with a comment saying why.
+
+**What is left is not the same job.** The other 608 seconds are mid-script
+waits after a click, and each needs its own condition — what this press was
+supposed to change — rather than one shared answer. Worth doing, script by
+script, and not worth doing blind.
+
+### And the relief has direct links now
+
+Nine images, three levels of detail in each of three projections. `sources.html`
+lists them all with sizes, and the Topo row's arrow hands over the sheet for the
+projection now showing. It takes the name from `JMAP.RELIEF` rather than off the
+drawn `<image>`: the layer is off until somebody asks for it and the sheet
+arrives a moment after the switch, so reading the DOM handed over nothing at all
+the first time.
+
+The 1938 guidebook's mail-only warning is now on the Taihoku–Taichū–Tainan–Makō
+card as well, which is the route it is about.
+
+---
+
 ## The Ki-34 was live and the mirror had never heard of it
 
 Reported as still showing the arrowhead on the 1942 map. It was not: a cold

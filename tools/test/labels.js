@@ -29,6 +29,7 @@ const puppeteer=(function(){const t=[];if(process.env.PUPPETEER_PATH)t.push(proc
   for(const x of t){try{return require(x);}catch(e){}}
   console.error('labels test: puppeteer not found.');process.exit(1);})();
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const { ready } = require('./settle.js');
 let pass=0,fail=0; const check=(n,c,d)=>{ if(c){pass++;console.log('  ok   '+n);} else {fail++;console.log('  FAIL '+n+(d?' — '+d:''));} };
 
 /* Every name that is actually drawn, and every pair of them that overlap.
@@ -200,7 +201,7 @@ console.log('\n— a long name is broken across lines —');
 {
   await p.goto('http://localhost:8123/index.html?bbox=119.5,21.5,122.6,25.6',
                {waitUntil:'networkidle0'});
-  await sleep(2600);
+  await ready(p);
   await p.evaluate(()=>{document.querySelector('header button[data-cat="territory"]').click();});
   await sleep(1400);
   await p.evaluate(()=>{const b=[...document.querySelectorAll('header button')]

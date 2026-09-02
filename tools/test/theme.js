@@ -33,6 +33,7 @@ const puppeteer = (function () {
   process.exit(1);
 })();
 const sleep = ms => new Promise(r => setTimeout(r, ms));
+const { ready } = require('./settle.js');
 let pass = 0, fail = 0;
 const check = (n, c, d) => { if (c) { pass++; console.log('  ok   ' + n); }
                              else { fail++; console.log('  FAIL ' + n + (d ? ' — ' + d : '')); } };
@@ -116,7 +117,7 @@ const open = async (u, dark) => {
   await p.emulateMediaFeatures([{ name: 'prefers-color-scheme',
                                   value: dark ? 'dark' : 'light' }]);
   await p.goto(u, { waitUntil: 'networkidle0' });
-  await sleep(2600);
+  await ready(p);
   return p;
 };
 const press = async (p, which) => {
@@ -252,7 +253,7 @@ console.log('\n— and with a finger —');
   await p.setViewport({ width: 420, height: 900, isMobile: true, hasTouch: true,
                         deviceScaleFactor: 2 });
   await p.goto('http://localhost:8123/index.html', { waitUntil: 'networkidle0' });
-  await sleep(2600);
+  await ready(p);
   await p.evaluate(() => {
     const d = document.querySelector('#dlg-options');
     if (d && !d.open) d.showModal();

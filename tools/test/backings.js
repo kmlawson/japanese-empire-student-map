@@ -18,6 +18,7 @@ const puppeteer = (function () {
   process.exit(1);
 })();
 const sleep = ms => new Promise(r => setTimeout(r, ms));
+const { ready } = require('./settle.js');
 const BASE = process.env.MAP_URL || 'http://localhost:8123/index.html';
 
 /* How much of a country is actually painted: its atom's live paths plus its
@@ -48,7 +49,7 @@ function check(name, cond, detail) {
   const errs = [];
   p.on('pageerror', e => errs.push(String(e)));
   await p.goto(BASE, { waitUntil: 'networkidle0' });
-  await sleep(3500);
+  await ready(p);
 
   const home = await p.evaluate(PAINTED, 'japan');
   check('Japan is drawn at the opening view', home > 100000, home + ' units²');

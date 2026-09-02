@@ -20,6 +20,7 @@ const puppeteer=(function(){const t=[];if(process.env.PUPPETEER_PATH)t.push(proc
   for(const x of t){try{return require(x);}catch(e){}}
   console.error('menu test: puppeteer not found.');process.exit(1);})();
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const { ready } = require('./settle.js');
 let pass=0,fail=0; const check=(n,c,d)=>{ if(c){pass++;console.log('  ok   '+n);} else {fail++;console.log('  FAIL '+n+(d?' — '+d:''));} };
 const SHIM=()=>{const o=window.matchMedia;window.matchMedia=q=>(/hover:\s*hover|pointer:\s*fine/.test(q)?{matches:true,media:q,addListener(){},removeListener(){},addEventListener(){},removeEventListener(){}}:o.call(window,q));};
 const URL='http://localhost:8123/index.html';
@@ -71,7 +72,7 @@ const admin=async p=>{ await p.evaluate(()=>{
   await page.evaluateOnNewDocument(SHIM);
   const errs=[]; page.on('pageerror',e=>errs.push(String(e)));
   await page.goto(URL,{waitUntil:'networkidle0'});
-  await sleep(1500);
+  await ready(page);
   await admin(page);
 
   console.log('\n— a province —');
@@ -238,7 +239,7 @@ const admin=async p=>{ await p.evaluate(()=>{
   console.log('\n— every shape offers a download, whatever kind it is —');
   await page.keyboard.press('Escape');
   await page.goto(URL,{waitUntil:'networkidle0'});
-  await sleep(1600);
+  await ready(page);
   const PLACES=[['British India',78.5,23.0],['Nepal',84.0,28.3],
                 ['Karafuto',142.5,49.5],['Weihaiwei',122.1,37.5],
                 ['Tannu Tuva',94.5,51.5],['Goa',73.9,15.4],
@@ -280,7 +281,7 @@ const admin=async p=>{ await p.evaluate(()=>{
   await phone.setViewport({width:390,height:844,isMobile:true,hasTouch:true});
   const perrs=[]; phone.on('pageerror',e=>perrs.push(String(e)));
   await phone.goto(URL,{waitUntil:'networkidle0'});
-  await sleep(1600);
+  await ready(phone);
   await admin(phone);
   const tap=await menuAt(phone,136.5,35.4);
   check('the long press opens it on a touch screen', tap.opened,

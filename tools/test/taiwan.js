@@ -22,6 +22,7 @@ const puppeteer=(function(){const t=[];if(process.env.PUPPETEER_PATH)t.push(proc
   for(const x of t){try{return require(x);}catch(e){}}
   console.error('taiwan test: puppeteer not found.');process.exit(1);})();
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const { ready } = require('./settle.js');
 let pass=0,fail=0; const check=(n,c,d)=>{ if(c){pass++;console.log('  ok   '+n);} else {fail++;console.log('  FAIL '+n+(d?' — '+d:''));} };
 const SHIM=()=>{const o=window.matchMedia;window.matchMedia=q=>(/hover:\s*hover|pointer:\s*fine/.test(q)?{matches:true,media:q,addListener(){},removeListener(){},addEventListener(){},removeEventListener(){}}:o.call(window,q));};
 
@@ -291,7 +292,7 @@ console.log('\n— and the cities are named the same way —');
   await p.goto('http://localhost:8123/index.html?layers='
     + ((1<<1)|(1<<4)|(1<<5)|(1<<6)|(2<<8)|(1<<22)).toString(36)
     + '&bbox=118.5,21.3,123,25.8', {waitUntil:'networkidle0'});
-  await sleep(3200);
+  await ready(p);
   const drawn = await p.evaluate(()=>[...document.querySelectorAll('text.blabel')]
     .filter(e=>e.textContent.trim() && e.getBoundingClientRect().width>0)
     .map(e=>e.textContent));

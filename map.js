@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '284';
+  var JEM_VERSION = '285';
   var JEM_ASSETS = {"admin.js": "3414697d04", "air-play.js": "c6bf58f1db", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "58132ef9c2", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
 
   /* Every file this one fetches, with the version on it.
@@ -9404,6 +9404,22 @@
     'opt-extent': { label: 'Extent of Japanese control, December 1942',
                     kind: 'line',
                     get: function () { return extentPath ? [extentPath] : []; } },
+    /* **The relief is a picture, not a shape.** Nine images — three levels of
+       detail in each of three projections — and there is no geometry to write,
+       so the arrow hands over the file itself.
+
+       Taken from `JMAP.RELIEF` rather than off the drawn `<image>`: the layer
+       is off until somebody asks for it, and the sheet is fetched a moment
+       after the switch is thrown, so reading the DOM handed over nothing at
+       all the first time. The table knows the answer without the layer being
+       on. It is the sheet for the projection now showing — the others are in
+       `sources.html`, all nine of them. */
+    'opt-relief': { label: 'Shaded relief', kind: 'image',
+                    get: function () {
+                      var lv = reliefLevel && reliefLevel();
+                      var src = lv && lv.src && lv.src[state.projection];
+                      return src ? [asset(src)] : [];
+                    } },
     'opt-graticule': { label: 'Graticule', kind: 'line',
                        get: function () {
                          return gratGroup ? drawnPaths(gratGroup) : [];
@@ -9417,6 +9433,18 @@
     if (!spec) return false;
     var els = spec.get() || [];
     if (!els.length) return false;
+    if (spec.kind === 'image') {
+      /* A link rather than a blob: the file is already on the server and
+         already in the reader's cache, and re-encoding a megabyte of WebP to
+         hand back the same bytes would be work for nothing. */
+      var a = document.createElement('a');
+      a.href = els[0];
+      a.download = String(els[0]).split('/').pop().split('?')[0];
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      return true;
+    }
     return spec.kind === 'line'
       ? saveLayerLines(els, spec.label, spec.props)
       : saveLayerPolys(els, spec.label, spec.props);

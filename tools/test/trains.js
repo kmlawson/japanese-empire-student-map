@@ -22,6 +22,7 @@ const puppeteer=(function(){const t=[];if(process.env.PUPPETEER_PATH)t.push(proc
   for(const x of t){try{return require(x);}catch(e){}}
   console.error('trains test: puppeteer not found.');process.exit(1);})();
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const { ready } = require('./settle.js');
 let pass=0,fail=0; const check=(n,c,d)=>{ if(c){pass++;console.log('  ok   '+n);} else {fail++;console.log('  FAIL '+n+(d?' — '+d:''));} };
 const SHIM=()=>{const o=window.matchMedia;window.matchMedia=q=>(/hover:\s*hover|pointer:\s*fine/.test(q)?{matches:true,media:q,addListener(){},removeListener(){},addEventListener(){},removeEventListener(){}}:o.call(window,q));};
 
@@ -730,7 +731,9 @@ const shutDialogs=p=>p.evaluate(()=>{
     await tt.setViewport({width:1200,height:900});
     await tt.goto('http://localhost:8123/timetable/taiwan-1936.html',
                   {waitUntil:'networkidle0'});
-    await sleep(500);
+    /* The printed tables, which are not the map: `ready` waits for `#land`
+       and this page has none. `networkidle0` is the whole of the wait here. */
+    await sleep(400);
     const page=()=>tt.evaluate(()=>({
       lang:document.documentElement.lang,
       h1:document.querySelector('h1').textContent,

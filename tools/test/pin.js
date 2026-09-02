@@ -30,6 +30,7 @@ const puppeteer = (function () {
   process.exit(1);
 })();
 const sleep = ms => new Promise(r => setTimeout(r, ms));
+const { ready } = require('./settle.js');
 let pass = 0, fail = 0;
 const check = (n, c, d) => { if (c) { pass++; console.log('  ok   ' + n); }
                              else { fail++; console.log('  FAIL ' + n + (d ? ' — ' + d : '')); } };
@@ -64,7 +65,7 @@ const open = async (bbox, touch) => {
                             : { width: 1300, height: 900 });
   if (!touch) await p.evaluateOnNewDocument(SHIM);
   await p.goto('http://localhost:8123/index.html?bbox=' + bbox, { waitUntil: 'networkidle0' });
-  await sleep(3000);
+  await ready(p);
   p.__ctx = ctx;
   return p;
 };

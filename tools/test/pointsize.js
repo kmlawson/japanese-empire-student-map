@@ -17,6 +17,7 @@ const puppeteer=(function(){const t=[];if(process.env.PUPPETEER_PATH)t.push(proc
   for(const x of t){try{return require(x);}catch(e){}}
   console.error('pointsize test: puppeteer not found.');process.exit(1);})();
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const { ready } = require('./settle.js');
 let pass=0,fail=0; const check=(n,c,d)=>{ if(c){pass++;console.log('  ok   '+n);} else {fail++;console.log('  FAIL '+n+(d?' — '+d:''));} };
 const URL='http://localhost:8123/index.html';
 
@@ -55,7 +56,7 @@ const zoomIn=async (p,n)=>{
   await page.setViewport({width:1280,height:900});
   const errs=[]; page.on('pageerror',e=>errs.push(String(e)));
   await page.goto(URL,{waitUntil:'networkidle0'});
-  await sleep(1200);
+  await ready(page);
   /* Rabaul and Port Moresby are points of the 1942 sheet and the map opens on
      1930, so the epoch is switched by pressing the reader's own button. The
      first version of this test set an `#e=1942` hash that means nothing to the

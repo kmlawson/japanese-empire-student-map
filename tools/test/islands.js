@@ -20,6 +20,7 @@ const puppeteer=(function(){const t=[];if(process.env.PUPPETEER_PATH)t.push(proc
   for(const x of t){try{return require(x);}catch(e){}}
   console.error('islands test: puppeteer not found.');process.exit(1);})();
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const { ready } = require('./settle.js');
 let pass=0,fail=0; const check=(n,c,d)=>{ if(c){pass++;console.log('  ok   '+n);} else {fail++;console.log('  FAIL '+n+(d?' — '+d:''));} };
 const URL='http://localhost:8123/index.html';
 
@@ -66,7 +67,7 @@ const fineIn=p=>p.evaluate(()=>{
   await page.setViewport({width:1280,height:900});
   const errs=[]; page.on('pageerror',e=>errs.push(String(e)));
   await page.goto(URL,{waitUntil:'networkidle0'});
-  await sleep(1400);
+  await ready(page);
   await page.evaluate(()=>{
     const b=[...document.querySelectorAll('#epoch-seg button')].find(x=>/1942/.test(x.textContent));
     if(b) b.click();
@@ -111,7 +112,7 @@ const fineIn=p=>p.evaluate(()=>{
 
   console.log('\n— the Inland Sea, where the red specks were —');
   await page.goto(URL,{waitUntil:'networkidle0'});
-  await sleep(1400);
+  await ready(page);
   await page.evaluate(()=>{
     const b=[...document.querySelectorAll('#epoch-seg button')].find(x=>/1942/.test(x.textContent));
     if(b) b.click();

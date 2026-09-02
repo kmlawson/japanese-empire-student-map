@@ -36,6 +36,7 @@ const puppeteer = (function () {
   process.exit(1);
 })();
 const sleep = ms => new Promise(r => setTimeout(r, ms));
+const { ready } = require('./settle.js');
 let pass = 0, fail = 0;
 const check = (n, c, d) => { if (c) { pass++; console.log('  ok   ' + n); }
                              else { fail++; console.log('  FAIL ' + n + (d ? ' — ' + d : '')); } };
@@ -106,7 +107,7 @@ const onCourse = (p, frac) => p.evaluate(f => {
   });
   await p.goto('http://localhost:8123/index.html?where=118,26,146,44',
                { waitUntil: 'networkidle0' });
-  await sleep(3600);
+  await ready(p);
 
   console.log('\n— the tool is there and asleep —');
   let s = await state(p);
@@ -292,7 +293,7 @@ const onCourse = (p, frac) => p.evaluate(f => {
     });
     await q.goto('http://localhost:8123/index.html?layers=' + code(bits),
                  { waitUntil: 'networkidle0' });
-    await sleep(3800);
+    await ready(q);
     const mode = await q.evaluate(() =>
       window.JMAP_GEO ? window.JMAP_GEO.mode() : null);
     check(label + ': the map is in it, and admin.js can read that',

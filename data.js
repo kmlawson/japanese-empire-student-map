@@ -7511,7 +7511,7 @@ JMAP.AIR = [
   {
     id: 'taiwan-west', name: 'Taihoku – Taichū – Tainan – Makō', operator: 'Japan Airways Co. Ltd (大日本航空株式会社)', opened: '',
     season: 'October 1938 – March 1939', epochs: ['e1942'], source: '酒井正子「変容する世界の航空界・その4 日本の航空100年」p101, citing 『航空輸送の歩み』大日本航空社史刊行会編 (1975) p65', srcUrl: 'https://appsv.main.teikyo-u.ac.jp/tosho/keizaigaku44-1-09.pdf',
-    note: 'Down the colony’s western plain and out to the Pescadores.',
+    note: 'Down the colony’s western plain and out to the Pescadores. A 1938 guidebook warns that the Tainan–Makō leg was carrying mail only for the time being and taking no passengers — which is the leg the timetable marks 偶数日, flown on alternate days. 旅程と費用概算, p893.',
     stops: [
       { id: 'taipei', name: 'Taihoku (Taipei)', lon: 121.57, lat: 25.03 },
       { id: 'taichung', name: 'Taichū (Taichung)', lon: 120.67, lat: 24.15 },

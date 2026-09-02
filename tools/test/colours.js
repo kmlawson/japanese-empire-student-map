@@ -14,6 +14,7 @@ const puppeteer=(function(){const t=[];if(process.env.PUPPETEER_PATH)t.push(proc
   for(const x of t){try{return require(x);}catch(e){}}
   console.error('colours test: puppeteer not found.');process.exit(1);})();
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const { ready } = require('./settle.js');
 let pass=0,fail=0; const check=(n,c,d)=>{ if(c){pass++;console.log('  ok   '+n);} else {fail++;console.log('  FAIL '+n+(d?' — '+d:''));} };
 const URL0='http://localhost:8123/index.html';
 const sea=p=>p.evaluate(()=>getComputedStyle(document.getElementById('ocean')).fill);
@@ -31,7 +32,7 @@ await p.setViewport({width:1300,height:950});
 await p.emulateMediaFeatures([{name:'prefers-color-scheme',value:'light'}]);
 p.on('pageerror',e=>errs.push(String(e)));
 await p.goto(URL0,{waitUntil:'networkidle0'});
-await sleep(2800);
+await ready(p);
 
 console.log('\n— the button, and what it opens —');
 {
@@ -152,7 +153,7 @@ let shared='';
   await q.emulateMediaFeatures([{name:'prefers-color-scheme',value:'light'}]);
   q.on('pageerror',e=>errs.push(String(e)));
   await q.goto(shared,{waitUntil:'networkidle0'});
-  await sleep(3000);
+  await ready(q);
   check('following the link paints the same sea',
     (await sea(q))==='rgb(32, 64, 96)', await sea(q));
   await q.close();
@@ -168,7 +169,7 @@ console.log('\n— what a link is not allowed to carry —');
   await q.emulateMediaFeatures([{name:'prefers-color-scheme',value:'light'}]);
   q.on('pageerror',e=>errs.push(String(e)));
   await q.goto(URL0+'?colours='+encodeURIComponent(nasty),{waitUntil:'networkidle0'});
-  await sleep(2800);
+  await ready(q);
   check('a value that is not six hex digits is dropped',
     (await sea(q))==='rgb(202, 223, 235)', await sea(q));
   check('and nothing was written into the document either',
@@ -186,7 +187,7 @@ console.log('\n— what a link is not allowed to carry —');
      times is not one, and the cap is the palette's own size. */
   await q.goto(URL0+'?colours='+Array(400).fill('ocean-204060').join('.'),
                {waitUntil:'networkidle0'});
-  await sleep(2500);
+  await ready(q);
   const u=await q.url();
   check('a four-hundred-entry link collapses to one', (u.match(/se204060/g)||[]).length===1,
     'length '+u.length);

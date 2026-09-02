@@ -20,6 +20,7 @@ const puppeteer=(function(){const t=[];if(process.env.PUPPETEER_PATH)t.push(proc
   for(const x of t){try{return require(x);}catch(e){}}
   console.error('zoom test: puppeteer not found.');process.exit(1);})();
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const { ready } = require('./settle.js');
 let pass=0,fail=0; const check=(n,c,d)=>{ if(c){pass++;console.log('  ok   '+n);} else {fail++;console.log('  FAIL '+n+(d?' — '+d:''));} };
 const SHIM=()=>{const o=window.matchMedia;window.matchMedia=q=>(/hover:\s*hover|pointer:\s*fine/.test(q)?{matches:true,media:q,addListener(){},removeListener(){},addEventListener(){},removeEventListener(){}}:o.call(window,q));};
 
@@ -53,7 +54,7 @@ await d.setViewport({width:1200,height:900});
 await d.evaluateOnNewDocument(SHIM);
 d.on('pageerror',e=>errs.push(String(e)));
 await d.goto(URL,{waitUntil:'networkidle0'});
-await sleep(2600);
+await ready(d);
 check('the desktop is not a coarse pointer',
   (await d.evaluate(()=>matchMedia('(pointer: coarse)').matches))===false);
 const dw=await deepest(d), dpx=await width(d);
@@ -65,7 +66,7 @@ const m=await b.newPage();
 await m.setViewport({width:390,height:844,isMobile:true,hasTouch:true,deviceScaleFactor:3});
 m.on('pageerror',e=>errs.push(String(e)));
 await m.goto(URL,{waitUntil:'networkidle0'});
-await sleep(2600);
+await ready(m);
 check('the phone is a coarse pointer',
   (await m.evaluate(()=>matchMedia('(pointer: coarse)').matches))===true);
 const mw=await deepest(m), mpx=await width(m);
@@ -106,7 +107,7 @@ console.log('\n— and a link written down there comes back to it —');
   await again.setViewport({width:390,height:844,isMobile:true,hasTouch:true,deviceScaleFactor:3});
   again.on('pageerror',e=>errs.push(String(e)));
   await again.goto(url,{waitUntil:'networkidle0'});
-  await sleep(2600);
+  await ready(again);
   const after=await box(again);
   const off=Math.max(Math.abs(after[0]-before[0]),Math.abs(after[1]-before[1]));
   check('and it opens on the same ground', off<=0.05,

@@ -25,6 +25,7 @@ const puppeteer = (function () {
   process.exit(1);
 })();
 const sleep = ms => new Promise(r => setTimeout(r, ms));
+const { ready } = require('./settle.js');
 let pass = 0, fail = 0;
 const check = (n, c, d) => { if (c) { pass++; console.log('  ok   ' + n); }
                              else { fail++; console.log('  FAIL ' + n + (d ? ' — ' + d : '')); } };
@@ -64,7 +65,7 @@ const open = async (u, dark) => {
   await p.emulateMediaFeatures([{ name: 'prefers-color-scheme',
                                   value: dark ? 'dark' : 'light' }]);
   await p.goto(u, { waitUntil: 'networkidle0' });
-  await sleep(2800);
+  await ready(p);
   return p;
 };
 

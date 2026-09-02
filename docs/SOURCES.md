@@ -102,6 +102,23 @@ tables above.
   into the Yangtze.
 * **[The Yangtze](gis/yangzi.geojson)**
 
+### The shaded relief
+
+Not geometry — nine images, one for each of three levels of detail in each of
+the map's three projections, and the map fetches whichever pair the reader's
+zoom and projection ask for. They are here as direct downloads because there is
+nothing else to hand over: a raster has no shapes to write.
+
+They are already projected, so each is only true of the projection in its name;
+the extent is the map's own frame. Derived from public-domain elevation data —
+see the note above on the relief.
+
+| | Mercator | Albers | Lambert azimuthal |
+| --- | --- | --- | --- |
+| coarse | [364 KB](relief/relief-coarse-mercator.webp) | [252 KB](relief/relief-coarse-albers.webp) | [312 KB](relief/relief-coarse-laea.webp) |
+| fine | [968 KB](relief/relief-fine-mercator.webp) | [580 KB](relief/relief-fine-albers.webp) | [812 KB](relief/relief-fine-laea.webp) |
+| finest | [1.4 MB](relief/relief-finest-mercator.webp) | [976 KB](relief/relief-finest-albers.webp) | [1.2 MB](relief/relief-finest-laea.webp) |
+
 Licences follow the sources each shape came from — most are Natural Earth
 (public domain), geoBoundaries (CC BY), OpenStreetMap (ODbL) or the datasets
 named above; the traced layers are this project's own. Check the entry for the

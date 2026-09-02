@@ -26,6 +26,7 @@ const puppeteer=(function(){const t=[];if(process.env.PUPPETEER_PATH)t.push(proc
   for(const x of t){try{return require(x);}catch(e){}}
   console.error('stations test: puppeteer not found.');process.exit(1);})();
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const { ready } = require('./settle.js');
 let pass=0,fail=0; const check=(n,c,d)=>{ if(c){pass++;console.log('  ok   '+n);} else {fail++;console.log('  FAIL '+n+(d?' — '+d:''));} };
 const SHIM=()=>{const o=window.matchMedia;window.matchMedia=q=>(/hover:\s*hover|pointer:\s*fine/.test(q)?{matches:true,media:q,addListener(){},removeListener(){},addEventListener(){},removeEventListener(){}}:o.call(window,q));};
 
@@ -92,7 +93,7 @@ await p.setViewport({width:900,height:1000});
 await p.evaluateOnNewDocument(SHIM);
 p.on('pageerror',e=>errs.push(String(e)));
 await p.goto(URL,{waitUntil:'networkidle0'});
-await sleep(3200);
+await ready(p);
 
 console.log('\n— the toggle only exists once the railways are drawn —');
 {
@@ -179,7 +180,7 @@ const q=await b.newPage();
 await q.setViewport({width:900,height:1000,isMobile:true,hasTouch:true});
 q.on('pageerror',e=>errs.push(String(e)));
 await q.goto(URL,{waitUntil:'networkidle0'});
-await sleep(3200);
+await ready(q);
 await turnOn(q);
 {
   const t=await aSquare(q);
@@ -282,7 +283,7 @@ console.log('\n— with Other on, the names wait for the zoom —');
   await far.evaluateOnNewDocument(SHIM);
   far.on('pageerror',e=>errs.push(String(e)));
   await far.goto('http://localhost:8123/index.html?bbox=119.5,21.5,122.5,25.6',{waitUntil:'networkidle0'});
-  await sleep(3000);
+  await ready(far);
   await turnOn(far);
   await otherOn(far);
   /* Named nothing — but *drawn* something, which is the half that was missing.
@@ -293,7 +294,7 @@ console.log('\n— with Other on, the names wait for the zoom —');
   check('the whole island in view draws stations', wideDots>0, wideDots+' drawn');
   check('and names none of them', (await names(far)).length===0);
   await far.goto('http://localhost:8123/index.html?bbox=120.8,24.3,121.3,24.7',{waitUntil:'networkidle0'});
-  await sleep(3000);
+  await ready(far);
   await turnOn(far);
   check('and still nothing before Other is pressed', (await names(far)).length===0);
   await otherOn(far);
@@ -335,7 +336,7 @@ console.log('\n— Korea: the same machinery, a different pair of names —');
   await k.evaluateOnNewDocument(SHIM);
   k.on('pageerror',e=>errs.push(String(e)));
   await k.goto('http://localhost:8123/index.html?bbox=125.0,34.5,130.0,38.5',{waitUntil:'networkidle0'});
-  await sleep(3000);
+  await ready(k);
 
   check('the row is hidden until the railways are on',
     (await k.evaluate(()=>document.getElementById('row-kr-stations').hidden))===true);

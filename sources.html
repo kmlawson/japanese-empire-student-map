@@ -117,6 +117,19 @@
   <li><strong><a href="gis/yangzi.geojson">The Yangtze</a></strong></li>
 </ul>
 
+<h3>The shaded relief</h3>
+
+<p>Not geometry — nine images, one for each of three levels of detail in each of the map's three projections, and the map fetches whichever pair the reader's zoom and projection ask for. They are here as direct downloads because there is nothing else to hand over: a raster has no shapes to write.</p>
+
+<p>They are already projected, so each is only true of the projection in its name; the extent is the map's own frame. Derived from public-domain elevation data — see the note above on the relief.</p>
+
+<div class="scroll"><table>
+  <tr><th></th><th>Mercator</th><th>Albers</th><th>Lambert azimuthal</th></tr>
+  <tr><td>coarse</td><td><a href="relief/relief-coarse-mercator.webp">364 KB</a></td><td><a href="relief/relief-coarse-albers.webp">252 KB</a></td><td><a href="relief/relief-coarse-laea.webp">312 KB</a></td></tr>
+  <tr><td>fine</td><td><a href="relief/relief-fine-mercator.webp">968 KB</a></td><td><a href="relief/relief-fine-albers.webp">580 KB</a></td><td><a href="relief/relief-fine-laea.webp">812 KB</a></td></tr>
+  <tr><td>finest</td><td><a href="relief/relief-finest-mercator.webp">1.4 MB</a></td><td><a href="relief/relief-finest-albers.webp">976 KB</a></td><td><a href="relief/relief-finest-laea.webp">1.2 MB</a></td></tr>
+</table></div>
+
 <p>Licences follow the sources each shape came from — most are Natural Earth (public domain), geoBoundaries (CC BY), OpenStreetMap (ODbL) or the datasets named above; the traced layers are this project's own. Check the entry for the shape you are using.</p>
 
 <p><strong>For a single shape, ask the map.</strong> Right-click any polygon (or press and hold on a touch screen) and it offers that unit, its group where it has one, and the whole layer it belongs to — along with the coordinates under the pointer and a short note on where the shape came from. Those files are the <em>drawn</em> geometry and carry the thinning the map draws at; the files above do not, which is why both exist.</p>
