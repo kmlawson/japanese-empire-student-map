@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '293';
+  var JEM_VERSION = '294';
   var JEM_ASSETS = {"admin.js": "3414697d04", "air-play.js": "90ab85e239", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "58132ef9c2", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
 
   /* Every file this one fetches, with the version on it.
@@ -8520,19 +8520,128 @@
     return out;
   }
 
+  /* **A route's geometry, projected once and kept.**
+   *
+   * One entry per drawn leg, each a list of projected points along the great
+   * circle. The path string is built from this rather than from the stops,
+   * because it has to be built more than once: a leg two airlines both fly is
+   * drawn twice, side by side, and how far apart they sit is a distance *on
+   * screen* — so it changes with every zoom and the points have to be nudged
+   * again each time. Re-projecting for that would be work; adding a vector is
+   * not. */
+  function airGeom(stops) {
+    var legs = [];
+    for (var i = 0; i + 1 < stops.length; i++) {
+      var seg = gcStep(stops[i], stops[i + 1]);
+      var pts = [];
+      for (var j = 0; j < seg.length; j++) {
+        var p = project(seg[j].lon, seg[j].lat);
+        pts.push({ x: p.x, y: p.y });
+      }
+      legs.push(pts);
+    }
+    return legs;
+  }
+
+  /* **Two airlines over one pair of cities are two lines, not one on top of
+   * another.**
+   *
+   * Fifteen routes on the 1942 sheet share a leg with at least one other —
+   * four of them run Shinkyō to Mukden — and drawn on the same line the
+   * reader sees one service where the sources give four, in whichever colour
+   * happened to be painted last. They are given lanes instead: shifted
+   * sideways by a couple of pixels each so they run alongside, each in its
+   * own ink.
+   *
+   * **The shift is in screen pixels**, which is this project's most-repeated
+   * mistake and the reason the offset is applied here rather than baked into
+   * the path at build time. Two pixels of separation is two pixels at every
+   * zoom; written into the geometry once it would be a fixed distance on the
+   * *ground*, invisible at the widest view and a mile wide eight wheel steps
+   * in. `k` — map units per screen pixel — is the conversion, and `applyAir`
+   * runs on every rescale, which is where it comes from.
+   *
+   * The offset tapers to nothing at each end, so the lines meet exactly on the
+   * airport they both call at and separate in between. Held apart all the way
+   * they would end beside the dot rather than on it, which reads as a line
+   * that does not go where it says.
+   */
+  var AIR_LANE_PX = 2.4;          // screen pixels between neighbouring lines
+  var airLanes = {};              // route id -> lane number per leg
+
+  function airLaneFor(id, leg) {
+    var byRoute = airLanes[id];
+    return byRoute ? (byRoute[leg] || 0) : 0;
+  }
+
+  /* Worked out over the routes *this date draws*, so a 1930-only service does
+     not reserve a lane on the 1942 sheet and leave a gap where nothing is. */
+  function buildAirLanes() {
+    airLanes = {};
+    var byLeg = {};
+    (JMAP.AIR || []).forEach(function (r) {
+      if (!airShown(r)) return;
+      var ss = r.stops || [];
+      for (var i = 0; i + 1 < ss.length; i++) {
+        var a = ss[i].id || ss[i].name, b = ss[i + 1].id || ss[i + 1].name;
+        var fwd = a < b;
+        var key = fwd ? a + '\u0000' + b : b + '\u0000' + a;
+        /* **Which way this route walks the pair.** The offset is taken along
+           the normal to the direction of travel, so a route drawn Mukden to
+           Shinkyō has its normal pointing the opposite way from one drawn
+           Shinkyō to Mukden — and the two, given neighbouring lanes, came out
+           on the same side of the line and exactly on top of each other. Four
+           services over that pair drew as two. The sign is recorded against a
+           canonical ordering of the two cities and multiplied in below, so a
+           lane is a place on the ground rather than a place relative to
+           whichever way the aeroplane happened to be pointing. */
+        (byLeg[key] || (byLeg[key] = [])).push({ id: r.id, leg: i, sign: fwd ? 1 : -1 });
+      }
+    });
+    Object.keys(byLeg).forEach(function (key) {
+      var mine = byLeg[key];
+      if (mine.length < 2) return;
+      // a stable order, so the lanes do not swap about between builds
+      mine.sort(function (p, q) { return p.id < q.id ? -1 : p.id > q.id ? 1 : 0; });
+      var mid = (mine.length - 1) / 2;
+      mine.forEach(function (m, i) {
+        (airLanes[m.id] || (airLanes[m.id] = {}))[m.leg] = (i - mid) * m.sign;
+      });
+    });
+  }
+
   /* `flown`, when given, is asked about each leg in turn and a leg it refuses
      is left out — the next one drawn starts a subpath of its own with `M`
      rather than being joined to the last with `L`. One path with two runs in
-     it, which is what a route with a gap in the middle of it is. */
-  function airPath(stops, flown) {
+     it, which is what a route with a gap in the middle of it is.
+
+     `id` and `k` are for the lane: which line of the several over this pair of
+     cities this is, and how many map units a screen pixel is worth. */
+  function airPathOf(legs, id, k, flown) {
     var d = '';
     var open = false;                    // is a subpath in progress?
-    for (var i = 0; i + 1 < stops.length; i++) {
+    for (var i = 0; i < legs.length; i++) {
       if (flown && !flown(i)) { open = false; continue; }
-      var seg = gcStep(stops[i], stops[i + 1]);
-      for (var j = (open ? 1 : 0); j < seg.length; j++) {
-        var p = project(seg[j].lon, seg[j].lat);
-        d += (j === 0 && !open ? 'M' : 'L') + fmt2(p.x) + ' ' + fmt2(p.y);
+      var pts = legs[i];
+      var lane = airLaneFor(id, i);
+      var off = lane * AIR_LANE_PX * (k || 1);
+      for (var j = (open ? 1 : 0); j < pts.length; j++) {
+        var x = pts[j].x, y = pts[j].y;
+        if (off) {
+          /* The normal to the line here, and a taper so the two ends sit on
+             their airports. `t` runs 0..1 along the leg and the ramp reaches
+             full offset a fifth of the way in. */
+          var a = pts[Math.max(0, j - 1)], b = pts[Math.min(pts.length - 1, j + 1)];
+          var dx = b.x - a.x, dy = b.y - a.y;
+          var len = Math.sqrt(dx * dx + dy * dy);
+          if (len > 1e-9) {
+            var t = pts.length > 1 ? j / (pts.length - 1) : 0;
+            var ramp = Math.min(1, Math.min(t, 1 - t) * 5);
+            x += (-dy / len) * off * ramp;
+            y += (dx / len) * off * ramp;
+          }
+        }
+        d += (j === 0 && !open ? 'M' : 'L') + fmt2(x) + ' ' + fmt2(y);
       }
       open = true;
     }
@@ -8587,6 +8696,27 @@
      path in the DOM is a lot of string for something only one of which is ever
      shown. */
   var airPaths = {};
+  var airGeoms = {};              // route id -> the projected legs
+  var airLaneEpoch = null;        // the sheet the lanes were worked out for
+  var airLaneK = 0;               // and the scale the paths were built at
+  var airFlown = {};              // route id -> which legs something flies
+
+  /* Rebuild every route's three path strings for the scale now in force. The
+     lane offset is in screen pixels, so this has to run whenever `k` changes
+     — which is every zoom — and not only when the layer is built. Cheap: it
+     is vector arithmetic over points that are already projected, and only the
+     routes with a lane to sit in move at all. */
+  function airRepath(k) {
+    Object.keys(airGeoms).forEach(function (id) {
+      var geom = airGeoms[id];
+      var legs = airFlown[id] || [];
+      var pp = airPaths[id];
+      if (!pp) return;
+      pp.all = airPathOf(geom, id, k, null);
+      pp.flown = airPathOf(geom, id, k, function (i) { return legs[i]; });
+      pp.idle = airPathOf(geom, id, k, function (i) { return !legs[i]; });
+    });
+  }
 
   /* **Two names for a route: the whole chain, and its two ends.**
    *
@@ -8649,12 +8779,13 @@
     // above the land and the railways, below the markers a reader clicks
     svg.insertBefore(airGroup, markersGroup || null);
     JMAP.AIR.forEach(function (r) {
-      var d = airPath(r.stops);
-      if (!d) return;
-      /* The same line with the unflown legs left out, and the airports left
-         standing on it — both worked out here, where the geometry is, so that
-         switching the week on and off is two attribute writes rather than a
-         rebuild. */
+      var geom = airGeom(r.stops);
+      if (!geom.length) return;
+      airGeoms[r.id] = geom;
+      /* Which legs an aeroplane actually works, and the airports left standing
+         on them. Worked out here, where the geometry is; the path strings
+         themselves are built by `airRepath`, which runs again on every zoom
+         because the lane offset is a distance on screen. */
       var legs = airFlownLegs(r);
       var keep = {};
       legs.forEach(function (on, i) {
@@ -8662,12 +8793,9 @@
         keep[r.stops[i].id || r.stops[i].name] = true;
         keep[r.stops[i + 1].id || r.stops[i + 1].name] = true;
       });
-      airPaths[r.id] = {
-        all: d,
-        flown: airPath(r.stops, function (i) { return legs[i]; }),
-        idle: airPath(r.stops, function (i) { return !legs[i]; }),
-        stops: keep,
-      };
+      airFlown[r.id] = legs;
+      airPaths[r.id] = { all: '', flown: '', idle: '', stops: keep };
+      var d = airPathOf(geom, r.id, 1, null);
       var g = svgEl('g', { 'class': 'air-route', 'data-air': r.id });
       /* **A line may carry its own colour.** The Japanese network is one ink
          and the Dutch one another — a darker cousin of the Indies' own orange,
@@ -9198,14 +9326,34 @@
     });
   }
 
-  /* The times that route gives *at this stop*. The timetable names a station
-     as `漢字 Romaji` and the stop as `Romaji` or `Romaji (Other)`, so the
-     romanised head of the stop's name is what they are matched on; where a
-     route has several services, each is answered separately. */
+  /* **Which stop a call is at, by its number and not by its name.**
+   *
+   * This matched the head of the stop's name against the timetable's printed
+   * station — and the two are written by different hands. `stops.csv` calls
+   * Changchun "Xinjing (Changchun)"; the card names it from the map's own
+   * record, which says Chángchūn; the timetable prints 新京 Xinjing. Nothing
+   * in that chain has to agree, and mostly it did not: **twenty-two of the
+   * seventy-five airports on the 1942 sheet showed no times at all** — Harbin,
+   * Chungking, Taihoku, every stop on the Chinese and Manchurian lines — and
+   * six more showed a fraction, Nanking one entry of twelve.
+   *
+   * A timetable row already says which stop it is at: `seq`, counted from one,
+   * into the route's own list. That is exact, it is what the drawing uses to
+   * place the call, and it cannot be broken by a romanisation. */
+  function airStopIndex(r, st) {
+    var key = st && (st.id || st.name);
+    var ss = (r && r.stops) || [];
+    for (var i = 0; i < ss.length; i++) {
+      if ((ss[i].id || ss[i].name) === key) return i;
+    }
+    return -1;
+  }
+
   function airTimesAt(r, st) {
-    var base = String(st.name || '').split(' (')[0];
+    var at = airStopIndex(r, st);
+    if (at < 0) return [];
     return (r.times || []).filter(function (t) {
-      return t.station && t.station.indexOf(base) >= 0;
+      return (+t.seq - 1) === at;
     });
   }
 
@@ -9242,6 +9390,7 @@
     var host = airCardHost();
     host.innerHTML = '';
     var key = st.id || st.name;
+    // the plain name, for the table's heading
     var base = String(st.name || '').split(' (')[0];
     var evs = [];
     mine.forEach(function (r) {
@@ -9259,7 +9408,8 @@
         AIR_DIRS.forEach(function (d) {
           var calls = airJourney(r, svc, d.k);
           calls.forEach(function (call) {
-            if (!call.station || call.station.indexOf(base) < 0) return;
+            // by the call's own stop number, not by matching romanisations
+            if (!call.rec || (+call.rec.seq - 1) !== at) return;
             var up = d.k === 'up';
             if (call.arrive) {
               evs.push({ at: call.arriveAt, time: call.arrive, what: 'Arrives',
@@ -9901,6 +10051,25 @@
       loadAirPlay();
     }
     syncAirPlayButton();
+    /* **The lanes, and the scale they are drawn at.**
+     *
+     * Which lane a route sits in depends on what else this date draws, so the
+     * lanes are worked out again when the sheet changes. How far a lane is
+     * from its neighbour is a distance on screen, so the paths are rebuilt
+     * when `k` changes — this runs on every rescale, and a zoom that has not
+     * moved the scale does no work. */
+    var cs = containerSize();
+    var kNow = cs.w ? view.w / cs.w : 1;
+    if (airLaneEpoch !== state.epoch) {
+      airLaneEpoch = state.epoch;
+      buildAirLanes();
+      airLaneK = 0;                       // force the rebuild below
+    }
+    if (!airLaneK || Math.abs(kNow - airLaneK) / Math.max(kNow, airLaneK) > 0.002) {
+      airLaneK = kNow;
+      airRepath(kNow);
+    }
+
     /* **With the week running, only the network that is actually flown.**
      *
      * Twenty-nine of the fifty-four services have no timetable — the KNILM

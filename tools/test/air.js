@@ -345,12 +345,35 @@ const card_=p=>p.evaluate(()=>{
   await sleep(1200);
 
   console.log('\n— a leg is a great circle —');
+  /* **Measured on the legs no other airline flies.**
+   *
+   * A leg two or more services share is drawn once per service, shifted
+   * sideways into its own lane — so it *does* depart from its chord, on
+   * purpose and by a couple of screen pixels, and mixing those in measures the
+   * lane rather than the projection. Shinkyō–Mukden, which four services fly,
+   * came out bending 9.69 and beating every genuinely long leg on the map.
+   * The lanes are checked on their own further down. */
   const legs=await page.evaluate(()=>{
     const G=window.JMAP_GEO, out=[];
+    const drawn=(JMAP.AIR||[]).filter(r=>{
+      const g=document.querySelector('.air-route[data-air="'+r.id+'"]');
+      return g && g.style.display!=='none';
+    });
+    const seen={};
+    drawn.forEach(r=>{
+      for(let i=0;i+1<r.stops.length;i++){
+        const a=r.stops[i].id||r.stops[i].name, b=r.stops[i+1].id||r.stops[i+1].name;
+        const k=a<b?a+'\u0000'+b:b+'\u0000'+a;
+        seen[k]=(seen[k]||0)+1;
+      }
+    });
     (JMAP.AIR||[]).forEach(r=>{
       const d=document.querySelector('.air-route[data-air="'+r.id+'"] .air-line').getAttribute('d');
       const pts=d.slice(1).split('L').map(s=>s.trim().split(/\s+/).map(Number));
       for(let i=0;i+1<r.stops.length;i++){
+        const ia=r.stops[i].id||r.stops[i].name, ib=r.stops[i+1].id||r.stops[i+1].name;
+        const kk=ia<ib?ia+'\u0000'+ib:ib+'\u0000'+ia;
+        if((seen[kk]||0)>1) continue;         // in a lane; see above
         const a=G.project(r.stops[i].lon,r.stops[i].lat);
         const z=G.project(r.stops[i+1].lon,r.stops[i+1].lat);
         const near=(q,t)=>Math.hypot(q[0]-t.x,q[1]-t.y)<0.6;
@@ -777,6 +800,154 @@ const card_=p=>p.evaluate(()=>{
     const r=ring.getBoundingClientRect().width;
     return l>=12 && r>=14;
   }), 'a 1.7 px line and a 3.4 px ring are not finger-sized');
+
+  /* ============ one pair of cities, several airlines, several lines ======
+   *
+   * Fifteen routes on the 1942 sheet share a leg with at least one other, and
+   * four of them run Shinkyō to Mukden. Drawn on the same line the reader sees
+   * one service where the sources give four, in whichever ink was painted
+   * last. Each is given a lane and shifted sideways.
+   *
+   * **The shift is in screen pixels**, which is what this measures: the same
+   * four lines at the opening view and six wheel steps in, and the spacing has
+   * to be the same both times. Written into the geometry instead it would be a
+   * fixed distance on the *ground* — invisible at the widest view and a mile
+   * across when zoomed in, which is this project's most-repeated mistake.
+   *
+   * The lines meet on the airports at either end by design and separate in
+   * between, so the spread is measured at the middle of the leg. The minimum
+   * distance between two of them is zero wherever they touch down, which is
+   * the answer to a different question.
+   *
+   * The lane also has to be a place on the *ground* rather than a place
+   * relative to the heading: `manchuria` runs Shingishū to Shinkyō and
+   * `mkkk-harbin-dairen` runs Shinkyō to Mukden, so their normals point
+   * opposite ways, and neighbouring lanes put them on the same side and
+   * exactly on top of one another. Four lines drew as two. */
+  /* ====== every airport with times shows them ======
+   *
+   * The card matched the head of the stop's name against the timetable's
+   * printed station, and the two are written by different hands: `stops.csv`
+   * says "Xinjing (Changchun)", the card names the place from the map's own
+   * record — Chángchūn — and the timetable prints 新京 Xinjing. Nothing in
+   * that chain has to agree, and mostly it did not: **twenty-two of the
+   * seventy-five airports on the 1942 sheet showed no times at all**, and six
+   * more showed a fraction — Nanking one entry of twelve, Harbin none of ten.
+   *
+   * It is matched by the call's own stop number now. This walks every airport
+   * on both sheets, counts the times the data says it has, opens its card and
+   * counts what is in it — because the fault was invisible from inside the
+   * code and plain the moment somebody pressed a dot. */
+  console.log('\n— every airport with times shows them —');
+  for (const ep of ['1930', '1942']) {
+    await toEpoch(page, ep);
+    await page.evaluate(() => { const a = document.getElementById('air');
+      if (!a || getComputedStyle(a).display === 'none')
+        document.getElementById('btn-air').click(); });
+    await sleep(1500);
+    const want = await page.evaluate(() => {
+      const vis = r => { const g = document.querySelector('.air-route[data-air="' + r.id + '"]');
+        return g && g.style.display !== 'none'; };
+      const out = {};
+      (JMAP.AIR || []).filter(vis).forEach(r => {
+        (r.stops || []).forEach((s2, i) => {
+          const k = s2.id || s2.name;
+          (r.times || []).filter(t => (+t.seq - 1) === i).forEach(t => {
+            const n = ['da', 'dd', 'ua', 'ud'].filter(f => t[f]).length;
+            if (n) out[k] = (out[k] || 0) + n;
+          });
+        });
+      });
+      return out;
+    });
+    const empty = [], thin = [];
+    for (const k of Object.keys(want)) {
+      const box = await page.evaluate(id => {
+        const g = document.querySelector('#air [data-air-stop="' + id + '"]');
+        if (!g || g.style.display === 'none') return null;
+        const r = g.getBoundingClientRect();
+        if (!r.width) return null;
+        return [Math.round(r.left + r.width / 2), Math.round(r.top + r.height / 2)];
+      }, k);
+      if (!box) continue;        // not on screen at this view: a different question
+      await page.mouse.click(box[0], box[1]); await sleep(200);
+      const got = await page.evaluate(() => {
+        const i = document.getElementById('info');
+        if (i.hidden) return null;
+        if ((i.querySelector('.chip') || {}).textContent !== 'Airport') return null;
+        return document.querySelectorAll('#info-air .pop-table tbody tr').length;
+      });
+      await page.keyboard.press('Escape'); await sleep(70);
+      if (got === null) continue;
+      if (got === 0) empty.push(k + ' (wants ~' + want[k] + ')');
+      else if (got < want[k] / 2) thin.push(k + ' ' + got + ' of ~' + want[k]);
+    }
+    check(ep + ': no airport with times shows an empty table',
+      empty.length === 0, empty.slice(0, 12).join(', '));
+    check('  and none shows a fraction of what it has',
+      thin.length === 0, thin.slice(0, 12).join(', '));
+  }
+  await toEpoch(page, '1942');
+
+  console.log('\n— several airlines over one pair of cities —');
+  {
+    const SHARED = ['manchuria', 'keijo-shinkyo',
+                    'mkkk-harbin-dairen', 'mkkk-hsinking-shingishu'];
+    const atMid = (ids, ka, kb) => page.evaluate((ids, ka, kb) => {
+      const svg = document.getElementById('jmap'), m = svg.getScreenCTM();
+      const ring = k => { const g = document.querySelector('#air [data-air-stop="' + k + '"]');
+        if (!g) return null; const r = g.getBoundingClientRect();
+        return { x: r.left + r.width / 2, y: r.top + r.height / 2 }; };
+      const A = ring(ka), B = ring(kb);
+      if (!A || !B) return null;
+      const mid = { x: (A.x + B.x) / 2, y: (A.y + B.y) / 2 };
+      const out = {};
+      ids.forEach(id => {
+        const l = document.querySelector('.air-route[data-air="' + id + '"] .air-line');
+        if (!l || getComputedStyle(l.parentNode).display === 'none') { out[id] = null; return; }
+        const L = l.getTotalLength();
+        let best = null, bd = 1e18;
+        for (let i = 0; i <= 1200; i++) {
+          const q = l.getPointAtLength(L * i / 1200).matrixTransform(m);
+          const d = Math.hypot(q.x - mid.x, q.y - mid.y);
+          if (d < bd) { bd = d; best = q; }
+        }
+        out[id] = { x: best.x, y: best.y };
+      });
+      return out;
+    }, ids, ka, kb);
+    const spread = r => {
+      const pts = Object.keys(r).map(k => r[k]).filter(Boolean);
+      let mn = 1e18, mx = 0;
+      for (let i = 0; i < pts.length; i++) for (let j = i + 1; j < pts.length; j++) {
+        const d = Math.hypot(pts[i].x - pts[j].x, pts[i].y - pts[j].y);
+        mn = Math.min(mn, d); mx = Math.max(mx, d);
+      }
+      return { n: pts.length, min: Math.round(mn * 100) / 100, max: Math.round(mx * 100) / 100 };
+    };
+    await toEpoch(page, '1942');
+    const wideR = await atMid(SHARED, 'changchun', 'mukden');
+    const wide = wideR ? spread(wideR) : null;
+    check('all four Shinkyō–Mukden services are drawn separately',
+      !!wide && wide.n === 4 && wide.min > 1.2, JSON.stringify(wide));
+    for (let i = 0; i < 6; i++) {
+      await page.evaluate(() => document.getElementById('zoom-in').click());
+      await sleep(120);
+    }
+    await sleep(1600);
+    const deepR = await atMid(SHARED, 'changchun', 'mukden');
+    const deep = deepR ? spread(deepR) : null;
+    check('and still separately six wheel steps in',
+      !!deep && deep.n === 4 && deep.min > 1.2, JSON.stringify(deep));
+    /* The point of the whole thing: the gap is a distance on screen, so it is
+       the same at both zooms. A gap written into the geometry would have grown
+       by the ratio of the two views, which is more than tenfold. */
+    check('  and the gap is the same on screen at both',
+      !!wide && !!deep && Math.abs(wide.max - deep.max) < 1.2,
+      (wide && wide.max) + ' px out, ' + (deep && deep.max) + ' px in');
+    await page.evaluate(() => document.getElementById('zoom-reset').click());
+    await sleep(1200);
+  }
 
   console.log('\n\u2014 the note a route carries \u2014');
 

@@ -14,9 +14,9 @@
 incoming.
 
 **Limitations:** This layer visualizes some of the commercial airline routes in
-operation, mostly in the 1930s. It does not exactly replicate the network in
-1930 or 1942, and in fact, much of what you see in the 1942 snapshot will be
-from before December, 1941. It is also important to note that the sources used
+operation, mostly in the 1930s. **IMPORTANT:** It does not accurately replicate
+the network in 1930 or 1942, and in fact, much of what you see in the 1942
+snapshot will be from before December, 1941. It is also important to note that the sources used
 are often from different moments. The 1942 map routes, for example, show mostly
 data from a 1938 Japanese source with mainland China routes from a brochure
 that may be from around 1940, while the Dutch East Indies data combines a 1938

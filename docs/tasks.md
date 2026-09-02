@@ -16985,6 +16985,63 @@ see" — that one does want a real box. A third check asserts the two zooms were
 actually different views, so the pair cannot pass by both being the same.
 
 
+## Several airlines over one pair of cities are several lines
+
+Fifteen routes on the 1942 sheet share a leg with at least one other and four
+of them run Shinkyō to Mukden; drawn on the same line the reader saw one
+service where the sources give four, in whichever ink was painted last. Each
+now gets a lane and is shifted sideways into it.
+
+**The shift is in screen pixels**, which is why it is applied on every rescale
+rather than baked into the path at build time. Written into the geometry it
+would be a fixed distance on the *ground* — invisible at the widest view and
+miles wide when zoomed in, which is this project's most-repeated mistake.
+Measured on the four Shinkyō–Mukden lines:
+
+    opening view        2.27 px between neighbours, 6.81 px across all four
+    six wheel steps in  2.43 px between neighbours, 7.21 px across all four
+
+The offset tapers to nothing at each end, so the lines meet on the airport they
+both call at and separate in between. Held apart all the way they would end
+beside the dot rather than on it.
+
+**A lane is a place on the ground, not a place relative to the heading.** The
+first cut took the normal to the direction of travel, so `manchuria` running
+Shingishū→Shinkyō and `mkkk-harbin-dairen` running Shinkyō→Mukden had normals
+pointing opposite ways: given neighbouring lanes they came out on the *same*
+side, exactly on top of each other, and four lines drew as two. The traversal
+sign is recorded against a canonical ordering of the pair and multiplied in.
+
+This also answers the two doubled lines flagged earlier — CNAC over 中華航空 on
+the Yangtze, and `mkkk-hsinking-shingishu` over the untimed `manchuria`.
+
+`air.js`'s great-circle bend check had to be told to skip laned legs: a lane
+*is* a departure from the chord, on purpose, and Shinkyō–Mukden came out
+bending 9.69 and beating every genuinely long leg on the map.
+
+## Twenty-two airports were showing no times at all
+
+Reported: airports with timed flights through them whose cards showed none.
+Measured by opening every airport card on both sheets and counting rows against
+what the data says it has:
+
+    1942   22 of 75 airports showed an empty table
+           6 more showed a fraction — Nanking 1 of ~12, Harbin 0 of ~10
+    1930   7 showed an empty table
+
+The card matched the head of the stop's name against the timetable's printed
+station, and the two are written by different hands. `stops.csv` calls
+Changchun "Xinjing (Changchun)"; the card names the place from the map's own
+record, which says Chángchūn; the timetable prints 新京 Xinjing. Nothing in that
+chain has to agree, and for every Chinese and Manchurian stop it did not.
+
+A timetable row already says which stop it is at — `seq`, into the route's own
+list — which is exact, is what the drawing uses to place the call, and cannot
+be broken by a romanisation. After: **nought on both sheets**, and the same
+sweep is now a check, because this was invisible from inside the code and plain
+the moment somebody pressed a dot.
+
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible
