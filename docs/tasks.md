@@ -15524,6 +15524,81 @@ returns to the one.
 
 ---
 
+## A seven-day week, and two services the file could not hold
+
+### The day is said outright now
+
+`overnight` meant "this departure is the next morning" and could mean nothing
+else. The Yokohama flying boat lies up two nights at Saipan, flies on to Palau,
+lies up two more and comes home on the seventh day: that is a schedule, not a
+night. Every time in `timetable.csv` now carries its own day —
+`down_arrive_day`, `down_depart_day`, `up_arrive_day`, `up_depart_day`, blank
+meaning the first — and `build_texts.py` checks each journey on (day, time)
+together, saying which of the two things a backwards step is.
+
+It earned its keep immediately: the first version of the flying boat's rows put
+Yokohama's 16:00 homecoming in the *outward* column, and the build refused it by
+name.
+
+### Yokohama – Saipan – Palau, April 1939
+
+Twice a month, on the first and third Tuesdays. Day 1 Yokohama 6:00 – Saipan
+16:00; day 3 Saipan 7:00 – Palau 14:00; day 5 Palau 7:00 – Saipan 14:30; day 7
+Saipan 6:00 – Yokohama 16:00. JACAR
+[C01007343400](https://www.jacar.archives.go.jp/das/meta-en/C01007343400).
+
+### Fukuoka – Naha – Taihoku, and a citation that was not true
+
+The card said its times came from the **Summer timetable, June–August 1931**.
+They did not: that is the Tokyo–Dairen trunk's diagram, and the heading was a
+fallback for any route with no season of its own. Three routes were wearing it.
+The heading is now the route's own season and `build_texts.py` refuses a route
+that has a timetable and does not say which sheet it was read from — so the
+fallback cannot be reached by anything that has a table to head.
+
+The line's own history went into its note: opened October 1935, three days a
+week to begin with — out from Fukuoka on the Wednesday, back from Taihoku on the
+Friday, on to Fukuoka on the Saturday. JACAR
+[C05034292500](https://www.jacar.archives.go.jp/das/meta-en/C05034292500).
+
+`sources.md` gained an **Air routes** paragraph gathering all of it, including
+Mizusawa Hikari's JACAR column on the civilian network.
+
+### The animation is a week with the nights taken out
+
+Seven days, not two. Laid out minute by minute a week is two-thirds empty —
+nothing here flew after dark — and the reader drags across it looking for the
+next departure. So the slider runs over **only the hours that have flying in
+them**: 5,220 ticks instead of 10,080 minutes, six notches where one day gives
+way to the next, and a 90-tick pause at each, held at the last minute of the day
+just flown and reading as a night rather than as a jump.
+
+A daily service is now instantiated on every one of the seven days, so on any
+morning the reader sees both the aeroplane that left today and the one that left
+yesterday and is coming back. That is what a daily service looks like from the
+ground, and the two-day window could not show it: the 1930 sheet's single
+service is **two aeroplanes in the air at once**, which the old test asserted was
+one.
+
+Measured, walking the whole slider: the flying boat is up on days 1, 3, 5 and 7
+and on the ground on 2, 4 and 6; no tick of the week falls before 05:00 or after
+20:00; every pause has nothing in the air.
+
+### Two test fixes worth naming
+
+* A phone tap on Saipan opened the wrong card because the *previous* check's
+  card was still covering the foot of a 390px screen. Not a bug — a card over
+  the map is what a card does — but the check has to close it, as a reader
+  would. Confirmed by `elementsFromPoint`: with the card closed the ring is the
+  topmost element at that point.
+* `air.js` now asserts the invariant rather than a count: **no route with a
+  timetable may lack a season.**
+
+Measured: `air.js` 71 checks, `airplay.js` 28; the changed set 1,205 checks
+across 35 scripts in 454.3s, all passing.
+
+---
+
 ## The Layers pane: shorter, plainer, and it hands over its layers
 
 ### Four passages out, one rewritten

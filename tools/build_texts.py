@@ -766,17 +766,18 @@ def build_data_js():
     times = read_data_csv("air", "timetable.csv")
     fares = read_data_csv("air", "fares.csv")
 
-    # **Every clock in the file is a twenty-four hour clock, and the build
-    # says so rather than the browser working it out.** The sources are not
-    # consistent: the 1931 Korea diagram gives 17:20 and the Taiwan sheets
-    # print an afternoon as "1:25". The map used to resolve that at run time by
-    # walking each journey — which worked, and was a silent inference sitting
-    # between a source and a reader. The file is normalised instead, and this
-    # refuses to build if a journey ever runs backwards.
+    # **Every clock is a twenty-four hour clock, and every call says which
+    # day it is on.** The sources are not consistent about the first — the
+    # 1931 Korea diagram gives 17:20 and the Taiwan sheets printed an afternoon
+    # as "1:25" — and the file is normalised rather than the browser guessing.
     #
-    # A night on the ground is the one legitimate step backwards, and it is
-    # marked in `overnight` rather than guessed at: the Dairen turn-round on
-    # the 1938–39 trunk is the only one.
+    # The day is said outright because a flag could not say enough. `overnight`
+    # meant "this departure is the next morning" and nothing else; the Yokohama
+    # flying boat lies up two nights at Saipan, flies on to Palau, lies up two
+    # more and comes home on the seventh day. That is a schedule, not a night.
+    #
+    # A journey is checked on (day, time) together. Backwards means one of two
+    # things and the message says which.
     for r in air:
         rid = r["id"]
         svcs = sorted({t.get("service", "") for t in times if t["route"] == rid})
@@ -784,28 +785,45 @@ def build_data_js():
             calls = [t for t in times
                      if t["route"] == rid and t.get("service", "") == svc]
             for rev in (False, True):
-                a, d = (("up_arrive", "up_depart") if rev
-                        else ("down_arrive", "down_depart"))
-                dirn = "up" if rev else "down"
+                pre = "up" if rev else "down"
+                dirn = pre
+                for t in calls:
+                    for half in ("arrive", "depart"):
+                        d = t.get("%s_%s_day" % (pre, half)) or ""
+                        if d and not d.isdigit():
+                            raise Problem(
+                                "data/air/timetable.csv: %s %s at %s has day "
+                                "%r, which is not a number" % (rid, dirn,
+                                                               t["station"], d))
                 prev = prevlab = None
                 for t in sorted(calls, key=lambda x: int(x["seq"]), reverse=rev):
-                    for k in (a, d):
-                        if not t[k]:
+                    for half in ("arrive", "depart"):
+                        v = t["%s_%s" % (pre, half)]
+                        if not v:
                             continue
-                        h, m = t[k].split(":")
-                        v = int(h) * 60 + int(m)
-                        if k == d and dirn in (t.get("overnight") or "").split():
-                            prev = prevlab = None      # slept here; a new day
-                            continue
-                        if prev is not None and v < prev:
+                        h, m = v.split(":")
+                        day = int(t.get("%s_%s_day" % (pre, half)) or 1)
+                        at = (day - 1) * 1440 + int(h) * 60 + int(m)
+                        if prev is not None and at < prev:
                             raise Problem(
-                                "data/air/timetable.csv: on %s %s, %s at %s "
-                                "comes before %s. Either the time is on a "
-                                "twelve-hour clock and wants twelve hours "
-                                "adding, or the aeroplane stayed the night and "
-                                "the stop wants marking in `overnight`."
-                                % (rid, dirn, t["station"], t[k], prevlab))
-                        prev, prevlab = v, t[k]
+                                "data/air/timetable.csv: on %s %s, %s at %s on "
+                                "day %d comes before %s. Either the time is on "
+                                "a twelve-hour clock and wants twelve hours "
+                                "adding, or the aeroplane was still on the "
+                                "ground and the call wants a later day."
+                                % (rid, dirn, t["station"], v, day, prevlab))
+                        prev, prevlab = at, "%s (day %d)" % (v, day)
+
+    # **A card must not claim a timetable it was not read from.** The heading
+    # used to fall back to "Summer timetable, June–August 1931" for any route
+    # with no season of its own, which put the 1931 trunk's sheet at the head of
+    # the Fukuoka–Naha–Taihoku table. A route with times says where they came
+    # from or it does not build.
+    for r in air:
+        if any(t["route"] == r["id"] for t in times) and not (r.get("season") or "").strip():
+            raise Problem("data/air/routes.csv: %r has a timetable and no "
+                          "`season` saying which sheet it was read from."
+                          % r["id"])
 
     # **The fare table checks itself.** Every through fare in the source is the
     # sum of the legs it is made of — Tokyo to Dairen is 145 yen and the six
@@ -882,9 +900,13 @@ def build_data_js():
                              ("station", t["station"]), ("da", t["down_arrive"]),
                              ("dd", t["down_depart"]), ("ua", t["up_arrive"]),
                              ("ud", t["up_depart"]), ("freq", t.get("frequency", "")),
-                             # the one lay-over the sources record: which
-                             # departures from this stop are the next morning
-                             ("ov", t.get("overnight", "")))
+                             # which day of the circuit each call is on, where
+                             # it is not the first: the Yokohama boat is seven
+                             # days out and back
+                             ("dad", t.get("down_arrive_day", "")),
+                             ("ddd", t.get("down_depart_day", "")),
+                             ("uad", t.get("up_arrive_day", "")),
+                             ("udd", t.get("up_depart_day", "")))
                 if v != "")
             for t in tt)
         fr = [f for f in fares if f["route"] == r["id"]]

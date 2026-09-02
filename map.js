@@ -13,8 +13,8 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '279';
-  var JEM_ASSETS = {"admin.js": "3414697d04", "air-play.js": "abb3f92acc", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "58132ef9c2", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
+  var JEM_VERSION = '280';
+  var JEM_ASSETS = {"admin.js": "3414697d04", "air-play.js": "e39c3dfc3f", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "58132ef9c2", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
 
   /* Every file this one fetches, with the version on it.
 
@@ -8559,27 +8559,30 @@
      the same stops read the other way. */
   function airJourney(r, svc, dir) {
     var up = dir === 'up';
+    var pre = up ? 'u' : 'd';
     var rows = (r.times || []).filter(function (t) { return (t.svc || '') === svc; });
     var seq = rows.slice();
     if (up) seq.reverse();
-    var out = [], prev = null;
+    var out = [];
     seq.forEach(function (t) {
-      var pair = up ? [t.ua, t.ud] : [t.da, t.dd];
       var call = { station: airPlace(r, t), freq: t.freq || '', rec: t,
-                   arrive: pair[0] || '', depart: pair[1] || '' };
-      ['arrive', 'depart'].forEach(function (k) {
-        var raw = call[k];
-        if (!raw) return;
-        var t0 = airMins(raw);
-        if (t0 === null) return;
-        var night = k === 'depart'
-          && String(t.ov || '').split(/\s+/).indexOf(dir) >= 0;
-        // the next morning, so the ordering does not read it as going back
-        var v = night && prev !== null
-          ? t0 + 1440 * (Math.floor(prev / 1440) + 1) : t0;
-        call[k + 'At'] = v;
-        call[k + 'Night'] = !!night;
-        prev = v;
+                   arrive: t[pre + 'a'] || '', depart: t[pre + 'd'] || '' };
+      /* **The day is read, not counted.** It used to be inferred — a
+         departure earlier than the arrival behind it meant the next morning —
+         which cannot say that the Yokohama boat lies up two nights at Saipan,
+         flies on to Palau, lies up two more and comes home on the seventh day.
+         The file says which day each call is on and this reads it. */
+      var dayOf = function (half) {
+        var k = pre + (half === 'arrive' ? 'ad' : 'dd');
+        var v = parseInt(t[k], 10);
+        return isFinite(v) && v > 0 ? v : 1;
+      };
+      ['arrive', 'depart'].forEach(function (half) {
+        if (!call[half]) return;
+        var m = airMins(call[half]);
+        if (m === null) return;
+        call[half + 'Day'] = dayOf(half);
+        call[half + 'At'] = (call[half + 'Day'] - 1) * 1440 + m;
       });
       if (call.arrive || call.depart) out.push(call);
     });
@@ -8622,8 +8625,14 @@
     wrap.className = 'pop-table-block';
     var h = document.createElement('p');
     h.className = 'pop-head';
-    h.textContent = r.season ? ('Timetable, ' + r.season)
-                             : 'Summer timetable, June–August 1931';
+    /* **The route's own sheet, never a fallback.** This used to print
+       "Summer timetable, June–August 1931" for any route with no season of its
+       own, which put the 1931 trunk's diagram at the head of the
+       Fukuoka–Naha–Taihoku table — a citation for a document those times were
+       never in. `build_texts.py` refuses a route that has times and no season,
+       so the second half of this cannot be reached by any route that has a
+       table to head. */
+    h.textContent = 'Timetable, ' + (r.season || 'source unstated');
     wrap.appendChild(h);
 
     var strip = document.createElement('div');
@@ -8673,10 +8682,14 @@
             w.textContent = pair[1];
             sp.appendChild(w);
             sp.appendChild(document.createTextNode(' ' + call[pair[0]]));
-            if (call[pair[0] + 'Night']) {
+            /* Which day of the circuit, where it is not the first. A column
+               of times cannot say by itself that the boat left Saipan two days
+               after it landed there. */
+            var dy = call[pair[0] + 'Day'] || 1;
+            if (dy > 1) {
               var n = document.createElement('em');
               n.className = 'air-next';
-              n.textContent = 'next day';
+              n.textContent = 'day ' + dy;
               sp.appendChild(n);
             }
             li.appendChild(sp);

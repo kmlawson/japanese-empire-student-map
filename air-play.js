@@ -26,15 +26,17 @@ window.JMAP_AIRPLAY = function (host) {
   'use strict';
 
   var DAY = 1440;
-  var SPAN = 2 * DAY;                  // the window: two days
+  var SPAN = 7 * DAY;                  // the window: a week
   var PLANE_R = 4.2;                   // screen px: the aeroplane's half-length
-  var OPEN_AT = 6 * 60;                // 06:00 on the first day, before the
-                                       // earliest departure (07:00), so the
-                                       // reader sees the network fill
+  var PAUSE = 90;                      // ticks of dead time at a day boundary
+  var EDGE = 20;                       // minutes of empty air kept either side
+                                       // of a day's flying, so the first
+                                       // aeroplane is seen to take off
 
   var layer = null, bar = null, els = {};
   var plans = [], marks = [];
-  var simMin = OPEN_AT, playing = false, raf = 0, lastTs = 0;
+  var simMin = 0, simTick = 0, nightNow = false;
+  var playing = false, raf = 0, lastTs = 0;
   var shownClock = '', mounted = false;
 
   function el(tag, cls, text) {
@@ -127,53 +129,112 @@ window.JMAP_AIRPLAY = function (host) {
       svcs.forEach(function (svc) {
         var rows = (r.times || []).filter(function (t) { return (t.svc || '') === svc; });
         if (!rows.length) return;
-        [['down', false], ['up', true]].forEach(function (dir) {
+        var freq = rows.map(function (t) { return t.freq || ''; })
+          .filter(Boolean)[0] || '';
+        [['down', false, 'd'], ['up', true, 'u']].forEach(function (dir) {
           var seq = rows.slice();
           if (dir[1]) seq.reverse();
-          var calls = [], dayOff = 0, prev = null;
+          var calls = [];
           seq.forEach(function (t) {
             var idx = (+t.seq) - 1;
             var st = stops[idx];
             if (!st) return;
-            var pair = dir[1] ? [t.ua, t.ud] : [t.da, t.dd];
-            var a = mins(pair[0]), d = mins(pair[1]);
-            var night = String(t.ov || '').split(/\s+/).indexOf(dir[0]) >= 0;
-            if (a !== null) {
-              if (prev !== null && a + dayOff * DAY < prev) dayOff++;
-              a += dayOff * DAY; prev = a;
-            }
-            if (d !== null) {
-              if (night) { dayOff++; }
-              else if (prev !== null && d + dayOff * DAY < prev) dayOff++;
-              d += dayOff * DAY; prev = d;
-            }
-            calls.push({ st: st, arrive: a, depart: d,
-                         freq: t.freq || '' });
+            var p = dir[2];
+            var at = function (half) {
+              var v = t[p + (half === 'arrive' ? 'a' : 'd')];
+              if (!v) return null;
+              var m = mins(v);
+              if (m === null) return null;
+              var d = parseInt(t[p + (half === 'arrive' ? 'ad' : 'dd')], 10);
+              return ((isFinite(d) && d > 0 ? d : 1) - 1) * DAY + m;
+            };
+            calls.push({ st: st, arrive: at('arrive'), depart: at('depart') });
           });
           var legs = [];
           for (var i = 0; i + 1 < calls.length; i++) {
             var from = calls[i], to = calls[i + 1];
-            if (from.depart === null || from.depart === undefined) continue;
-            if (to.arrive === null || to.arrive === undefined) continue;
+            if (from.depart === null || to.arrive === null) continue;
             legs.push({ off: from.depart, on: to.arrive,
                         seg: gcPoints(from.st, to.st),
                         from: from.st, to: to.st });
           }
           if (!legs.length) return;
-          var freq = calls.map(function (c) { return c.freq; })
-            .filter(Boolean)[0] || '';
           plans.push({
             route: r, svc: svc, dir: dir[0], legs: legs, freq: freq,
-            /* Which of the two days it flies. A daily service flies both; one
-               that ran every other day flies once, and on the second, so the
-               reader who presses play sees the first day as the ordinary one
-               and the second as the fuller. */
-            days: /even-numbered/.test(freq) ? [1] : [0, 1],
+            /* **Which days of the week this one flew.** A daily service leaves
+               every morning, so on any given day the reader sees both the one
+               that left today and the one that left yesterday and is coming
+               back — which is what a daily service looks like from the ground.
+               An alternate-day service leaves on three of the seven. And the
+               Yokohama flying boat went twice a month, so it makes one circuit
+               in the week and its seven days are the seven days of the film. */
+            days: /twice a month|month/.test(freq) ? [0]
+                : /even-numbered|other day/.test(freq) ? [1, 3, 5]
+                : [0, 1, 2, 3, 4, 5, 6],
           });
         });
       });
     });
+    buildWindows();
     return plans;
+  }
+
+  /* ------------------------------------------------------- the timeline --
+   *
+   * **Six nights of nothing is not worth scrubbing through.** Nothing in this
+   * network flew after dark, so a week laid out minute by minute is two-thirds
+   * empty and the reader drags across it looking for the next departure. The
+   * slider runs over the hours that have flying in them and nothing else, with
+   * a short pause where one day gives way to the next — long enough to read as
+   * a night rather than as a jump — and a notch on the track at each.
+   *
+   * The map is piecewise: `spanOf` turns a slider tick into a minute of the
+   * week, and the pauses are the ticks that fall between two windows. */
+  var wins = [];                       // [{day, from, to, at}] in ticks
+  var ticks = 0;
+
+  function buildWindows() {
+    wins = []; ticks = 0;
+    for (var d = 0; d < 7; d++) {
+      var lo = Infinity, hi = -Infinity;
+      plans.forEach(function (p) {
+        p.days.forEach(function (o) {
+          p.legs.forEach(function (lg) {
+            var a = lg.off + o * DAY, b = lg.on + o * DAY;
+            // the part of this leg that falls on day d
+            if (b < d * DAY || a > (d + 1) * DAY) return;
+            lo = Math.min(lo, Math.max(a - d * DAY, 0));
+            hi = Math.max(hi, Math.min(b - d * DAY, DAY));
+          });
+        });
+      });
+      if (!isFinite(lo)) continue;     // a day with nothing in the air
+      lo = Math.max(0, Math.floor((lo - EDGE) / 5) * 5);
+      hi = Math.min(DAY, Math.ceil((hi + EDGE) / 5) * 5);
+      wins.push({ day: d, from: lo, to: hi, at: ticks });
+      ticks += (hi - lo);
+      ticks += PAUSE;                  // the night, in the time it takes to read
+    }
+    if (wins.length) ticks -= PAUSE;   // no pause after the last day
+    ticks = Math.max(1, ticks);
+  }
+
+  /* A slider tick to a minute of the week, and whether we are in a night. */
+  function spanOf(tick) {
+    for (var i = 0; i < wins.length; i++) {
+      var w = wins[i], len = w.to - w.from;
+      if (tick <= w.at + len) {
+        return { min: w.day * DAY + w.from + Math.max(0, tick - w.at),
+                 day: w.day, night: false };
+      }
+      if (tick < w.at + len + PAUSE) {
+        // between two days: hold the clock at the end of the one just flown
+        return { min: w.day * DAY + w.to, day: w.day, night: true };
+      }
+    }
+    var last = wins[wins.length - 1];
+    return last ? { min: last.day * DAY + last.to, day: last.day, night: true }
+                : { min: 0, day: 0, night: false };
   }
 
   /* Where a plan's aeroplane is at T, or null if it is on the ground or has
@@ -228,26 +289,51 @@ window.JMAP_AIRPLAY = function (host) {
         + at.a.toFixed(1) + ')');
       flying++;
     }
-    var c = clockOf(simMin);
+    var c = nightNow ? ('Day ' + (Math.floor(simMin / DAY) + 1) + '  night')
+                     : clockOf(simMin);
     if (c !== shownClock) {
       els.clock.textContent = c;
-      els.count.textContent = flying + (flying === 1 ? ' in the air' : ' in the air');
+      els.count.textContent = flying + ' in the air';
       shownClock = c;
     }
     return flying;
   }
 
-  function setTime(mn, fromSlider) {
-    simMin = ((mn % SPAN) + SPAN) % SPAN;
-    if (!fromSlider && els.slider) els.slider.value = String(Math.round(simMin));
+  /* `simTick` is where the slider is; `simMin` is the minute of the week it
+     stands for. The two are not proportional — see `buildWindows`. */
+  function setTick(t, fromSlider) {
+    simTick = Math.max(0, Math.min(ticks, t));
+    var at = spanOf(simTick);
+    simMin = at.min;
+    nightNow = at.night;
+    if (!fromSlider && els.slider) els.slider.value = String(Math.round(simTick));
     render();
+  }
+
+  // kept for the outside: a minute of the week, mapped back onto the slider
+  function setTime(mn, fromSlider) {
+    var want = ((mn % SPAN) + SPAN) % SPAN;
+    var best = 0, bd = Infinity;
+    for (var i = 0; i < wins.length; i++) {
+      var w = wins[i];
+      var d = w.day * DAY;
+      if (want >= d + w.from && want <= d + w.to) { best = w.at + (want - d - w.from); bd = 0; break; }
+      var near = Math.min(Math.abs(want - (d + w.from)), Math.abs(want - (d + w.to)));
+      if (near < bd) { bd = near; best = w.at + (want < d + w.from ? 0 : w.to - w.from); }
+    }
+    setTick(best, fromSlider);
   }
 
   function tick(ts) {
     if (!playing) { raf = 0; return; }
     var dt = lastTs ? Math.min(250, ts - lastTs) : 16;
     lastTs = ts;
-    setTime(simMin + dt / 1000 * (+els.speed.value));
+    /* The slider advances, not the clock: a night is a fixed number of ticks
+       and passes at the same rate whatever speed the flying is played at, so
+       the pause reads as a beat rather than as a stall. */
+    var next = simTick + dt / 1000 * (+els.speed.value);
+    if (next >= ticks) next = 0;       // round again at the end of the week
+    setTick(next);
     raf = requestAnimationFrame(tick);
   }
 
@@ -271,13 +357,27 @@ window.JMAP_AIRPLAY = function (host) {
     els.clock = el('span', 'air-clock', clockOf(simMin));
     els.slider = document.createElement('input');
     els.slider.type = 'range';
-    els.slider.min = '0'; els.slider.max = String(SPAN - 1); els.slider.step = '1';
-    els.slider.value = String(simMin);
+    els.slider.min = '0'; els.slider.max = String(ticks); els.slider.step = '1';
+    els.slider.value = String(simTick);
+    /* **A notch where each day ends.** The slider is a week with the nights
+       taken out, so without them the reader has no way to see that the run
+       from 16:00 to 06:00 is a night rather than a gap in the sources. A
+       `datalist` is the browser's own tick mark and needs no drawing. */
+    els.marks = document.createElement('datalist');
+    els.marks.id = 'air-day-marks';
+    wins.forEach(function (w, i) {
+      if (!i) return;
+      var o = document.createElement('option');
+      o.value = String(w.at);
+      o.label = 'Day ' + (w.day + 1);
+      els.marks.appendChild(o);
+    });
+    els.slider.setAttribute('list', els.marks.id);
     els.slider.className = 'air-slider';
     els.slider.setAttribute('aria-label', 'Time of day');
     els.slider.addEventListener('input', function () {
       setPlaying(false);
-      setTime(+els.slider.value, true);
+      setTick(+els.slider.value, true);
     });
     els.speed = document.createElement('select');
     els.speed.className = 'air-speed';
@@ -296,6 +396,7 @@ window.JMAP_AIRPLAY = function (host) {
     bar.appendChild(els.slider);
     bar.appendChild(els.speed);
     bar.appendChild(els.count);
+    bar.appendChild(els.marks);
     host.stage().appendChild(bar);
     if (host.obstacle) host.obstacle(bar, true);
   }
@@ -315,8 +416,9 @@ window.JMAP_AIRPLAY = function (host) {
       marks = [];
       buildBar();
       mounted = true;
-      simMin = OPEN_AT;
-      if (els.slider) els.slider.value = String(simMin);
+      simTick = 0;
+      simMin = wins.length ? wins[0].day * DAY + wins[0].from : 0;
+      if (els.slider) els.slider.value = '0';
       shownClock = '';
       render();
       return api.stats();
@@ -335,12 +437,17 @@ window.JMAP_AIRPLAY = function (host) {
     },
     rescaled: function (k) { lastK = k; if (mounted) render(); },
     setTime: function (mn) { if (mounted) setTime(mn); },
+    setTick: function (t) { if (mounted) setTick(t); },
     time: function () { return simMin; },
+    tick: function () { return simTick; },
+    ticks: function () { return ticks; },
+    windows: function () { return wins.map(function (w) {
+      return { day: w.day, from: w.from, to: w.to, at: w.at }; }); },
     playing: function () { return playing; },
     play: function (on) { if (mounted) setPlaying(!!on); },
     flying: function () { return mounted ? render() : 0; },
     stats: function () {
-      return { plans: plans.length,
+      return { plans: plans.length, days: wins.length, ticks: ticks,
                legs: plans.reduce(function (n, p) { return n + p.legs.length; }, 0) };
     },
   };

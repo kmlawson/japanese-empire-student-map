@@ -159,10 +159,19 @@ const card_=p=>p.evaluate(()=>{
      replacement rather than an addition — it flies the same line without
      Ulsan or Heijō, and the two are one route each on their own date. */
   check('twenty routes', data.n===20, String(data.n));
-  check('sixteen are read off the 1938–39 timetable',
-    data.seasoned===16, String(data.seasoned));
+  /* **Every route with a timetable says which sheet it was read from.** The
+     card's heading used to fall back to "Summer timetable, June–August 1931"
+     for any route with no season of its own, which put the 1931 trunk's
+     diagram at the head of the Fukuoka–Naha–Taihoku table — a citation for a
+     document those times were never in. `build_texts.py` refuses that now. */
+  check('nineteen of the twenty name the sheet they were read from',
+    data.seasoned===19, String(data.seasoned));
+  const unsourced=await page.evaluate(()=>(JMAP.AIR||[])
+    .filter(r=>(r.times||[]).length && !r.season).map(r=>r.id));
+  check('and not one route with a timetable is missing it',
+    unsourced.length===0, JSON.stringify(unsourced));
   check('each of those names the airline',
-    data.opWithSeason===16, String(data.opWithSeason));
+    data.opWithSeason===19, String(data.opWithSeason));
   check('the trunk runs Tokyo to Dairen in seven stops',
     data.trunk && data.trunk.stops.length===7
       && data.trunk.stops[0].name==='Tokyo'
@@ -397,10 +406,16 @@ const card_=p=>p.evaluate(()=>{
   check('each call carries an arrival and a departure, by arrow',
     /\u2193 8:30/.test((card.legs[0]||[])[1]||'')
     && /\u2191 8:50/.test((card.legs[0]||[])[1]||''), (card.legs[0]||[])[1]||'');
-  /* The 1938–39 trunk turned round at Dairen and came back the next morning,
-     which is the one thing a column of times cannot say by itself. */
-  check('a night on the ground is marked as one', card.nextday===1,
-    String(card.nextday));
+  /* **The day is on the call, not counted from the one before.** The 1938–39
+     trunk turns round at Dairen and comes back the next morning, so every call
+     on the way home is marked day 2 — and the Yokohama flying boat, which lies
+     up two nights at a time, needs days 3, 5 and 7 said outright. A column of
+     times cannot say either by itself. */
+  check('every call after the first day says which day it is on',
+    card.nextday===8, String(card.nextday));
+  check('and they read as days rather than as a vague "next"',
+    (card.legs[1]||[]).some(x=>/day 2/.test(x)),
+    JSON.stringify((card.legs[1]||[]).slice(0,2)));
   /* The 1931 fares belong to the 1931 trunk; this one is a timetable only. */
   check('the strip is the only table on this card', card.tables===0,
     String(card.tables));
@@ -562,8 +577,13 @@ const card_=p=>p.evaluate(()=>{
   const tap=await card_(phone);
   check('a finger on a line opens its card', tap.open && tap.chip==='Air route',
     JSON.stringify(tap).slice(0,140));
-  /* Back to the whole sheet: the tap above zoomed in to find a stretch of
-     line, and Saipan is not on the screen it left behind. */
+  /* Back to the whole sheet, and put the card away first. The tap above
+     zoomed in to find a stretch of line, so Saipan is not on the screen it
+     left behind; and the card it opened covers the foot of a 390px screen,
+     which is where Saipan is. A reader closes it before pressing what is
+     under it, and so does this. */
+  await phone.evaluate(()=>{const c=document.getElementById('info-close');
+    if (c) c.click();});
   await phone.evaluate(()=>document.getElementById('zoom-reset').click());
   await sleep(1200);
   const tring=await onRing(phone,'saipan');

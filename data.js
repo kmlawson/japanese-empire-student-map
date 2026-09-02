@@ -7350,7 +7350,7 @@ JMAP.PROVINCES = {
 JMAP.AIR = [
   {
     id: 'korea', name: 'Tokyo – Osaka – Fukuoka – Ulsan – Keijō – Heijō – Dairen', operator: 'Japan Air Transport (日本航空輸送株式會社)', opened: 'September 1929',
-    season: '', epochs: ['e1930'], source: '酒井正子「変容する世界の航空界・その4 日本の航空100年」', srcUrl: 'https://appsv.main.teikyo-u.ac.jp/tosho/keizaigaku44-1-09.pdf',
+    season: 'June–August 1931', epochs: ['e1930'], source: '酒井正子「変容する世界の航空界・その4 日本の航空100年」', srcUrl: 'https://appsv.main.teikyo-u.ac.jp/tosho/keizaigaku44-1-09.pdf',
     note: 'The trunk line of the empire\'s air network: down the home islands, across to the peninsula and on to the Kwantung Leased Territory. Two days each way in 1931 — the aeroplane laid over at Keijō, and every other route here hung off this one.',
     stops: [
       { id: 'tokyo', name: 'Tokyo', lon: 139.76, lat: 35.68 },
@@ -7362,13 +7362,13 @@ JMAP.AIR = [
       { id: 'dairen', name: 'Dairen (Dalian)', lon: 121.61, lat: 38.91 }
     ],
     times: [
-      { seq: '1', station: '東京 Tokyo', dd: '7:00', ua: '17:00' },
-      { seq: '2', station: '大阪 Osaka', da: '10:00', dd: '10:20', ua: '14:00', ud: '14:20' },
-      { seq: '3', station: '福岡 Fukuoka', da: '13:10', dd: '13:20', ua: '11:00', ud: '11:10' },
-      { seq: '4', station: '蔚山 Ulsan', da: '15:10', dd: '15:20', ua: '9:00', ud: '9:10' },
-      { seq: '5', station: '京城 Keijō', da: '17:20', dd: '7:30', ua: '16:40', ud: '7:00', ov: 'down up' },
-      { seq: '6', station: '平壌 Heijō', da: '8:40', dd: '9:00', ua: '15:10', ud: '15:30' },
-      { seq: '7', station: '大連 Dairen', da: '10:30', ud: '11:50' }
+      { seq: '1', station: '東京 Tokyo', dd: '7:00', ua: '17:00', uad: '2' },
+      { seq: '2', station: '大阪 Osaka', da: '10:00', dd: '10:20', ua: '14:00', ud: '14:20', uad: '2', udd: '2' },
+      { seq: '3', station: '福岡 Fukuoka', da: '13:10', dd: '13:20', ua: '11:00', ud: '11:10', uad: '2', udd: '2' },
+      { seq: '4', station: '蔚山 Ulsan', da: '15:10', dd: '15:20', ua: '9:00', ud: '9:10', uad: '2', udd: '2' },
+      { seq: '5', station: '京城 Keijō', da: '17:20', dd: '7:30', ua: '16:40', ud: '7:00', ddd: '2', udd: '2' },
+      { seq: '6', station: '平壌 Heijō', da: '8:40', dd: '9:00', ua: '15:10', ud: '15:30', dad: '2', ddd: '2' },
+      { seq: '7', station: '大連 Dairen', da: '10:30', ud: '11:50', dad: '2' }
     ],
     fares: [
       { from: 'Tokyo', to: 'Osaka', yen: 30, km: 425 },
@@ -7406,11 +7406,11 @@ JMAP.AIR = [
       { id: 'dairen', name: 'Dairen (Dalian)', lon: 121.61, lat: 38.91 }
     ],
     times: [
-      { seq: '1', station: '東京 Tokyo', dd: '7:00', ua: '16:30', freq: 'daily' },
-      { seq: '2', station: '大阪 Osaka', da: '8:30', dd: '8:50', ua: '14:50', ud: '15:10', freq: 'daily' },
-      { seq: '3', station: '福岡 Fukuoka', da: '10:30', dd: '10:50', ua: '13:00', ud: '13:20', freq: 'daily' },
-      { seq: '4', station: '京城 Keijō', da: '12:50', dd: '13:10', ua: '11:05', ud: '11:25', freq: 'daily' },
-      { seq: '5', station: '大連 Dairen', da: '15:10', ud: '9:30', freq: 'daily', ov: 'up' }
+      { seq: '1', station: '東京 Tokyo', dd: '7:00', ua: '16:30', freq: 'daily', uad: '2' },
+      { seq: '2', station: '大阪 Osaka', da: '8:30', dd: '8:50', ua: '14:50', ud: '15:10', freq: 'daily', uad: '2', udd: '2' },
+      { seq: '3', station: '福岡 Fukuoka', da: '10:30', dd: '10:50', ua: '13:00', ud: '13:20', freq: 'daily', uad: '2', udd: '2' },
+      { seq: '4', station: '京城 Keijō', da: '12:50', dd: '13:10', ua: '11:05', ud: '11:25', freq: 'daily', uad: '2', udd: '2' },
+      { seq: '5', station: '大連 Dairen', da: '15:10', ud: '9:30', freq: 'daily', udd: '2' }
     ]
   },
   {
@@ -7427,8 +7427,8 @@ JMAP.AIR = [
   },
   {
     id: 'taiwan', name: 'Fukuoka – Naha – Taipei', operator: 'Japan Air Transport (日本航空輸送株式會社)', opened: '1935',
-    season: '', epochs: ['e1942'], source: '', srcUrl: '',
-    note: 'Kyūshū to the colony by way of Okinawa, the two long sea legs the Ryukyus break in half. A 1938 guidebook has it flown by a Douglas carrying fourteen passengers: 100 yen from Fukuoka to Taihoku and 50 from Naha. It also warns that the Tainan–Makō line was carrying mail only for the time being and taking no passengers. 旅程と費用概算, p893.',
+    season: 'October 1938 – March 1939', epochs: ['e1942'], source: '酒井正子「変容する世界の航空界・その4 日本の航空100年」p101, citing 『航空輸送の歩み』大日本航空社史刊行会編, 1975, p65', srcUrl: 'https://appsv.main.teikyo-u.ac.jp/tosho/keizaigaku44-1-09.pdf',
+    note: 'Kyūshū to the colony by way of Okinawa, the two long sea legs the Ryukyus break in half. A 1938 guidebook has it flown by a Douglas carrying fourteen passengers: 100 yen from Fukuoka to Taihoku and 50 from Naha. It also warns that the Tainan–Makō line was carrying mail only for the time being and taking no passengers. 旅程と費用概算, p893. The line opened in October 1935 and ran three days a week to begin with: out from Fukuoka on the Wednesday at 7:00, into Naha at 12:10 and away again at 13:00 for Taihoku by 17:00; back from Taihoku on the Friday at 10:00 for Naha at 17:00; and on to Fukuoka on the Saturday, 7:00 to 13:20. JACAR C05034292500 海軍省-公文備考-S10-78-4892 (1935).',
     stops: [
       { id: 'fukuoka', name: 'Fukuoka', lon: 130.4, lat: 33.59 },
       { id: 'naha', name: 'Naha', lon: 127.68, lat: 26.21 },
@@ -7442,12 +7442,17 @@ JMAP.AIR = [
   },
   {
     id: 'nanyo', name: 'Yokohama – Saipan – Palau', operator: 'Japan Air Transport (日本航空輸送株式會社)', opened: 'April 1939',
-    season: '', epochs: ['e1942'], source: '', srcUrl: '',
+    season: 'April 1939', epochs: ['e1942'], source: 'JACAR C01007343400 陸軍省-大日記乙輯-S14-13-41', srcUrl: 'https://www.jacar.archives.go.jp/das/meta-en/C01007343400',
     note: 'Out to the South Seas Mandate: the longest of these by far, and over open ocean the whole way.',
     stops: [
       { id: 'yokohama', name: 'Yokohama', lon: 139.64, lat: 35.44 },
       { id: 'saipan', name: 'Saipan', lon: 145.75, lat: 15.19 },
       { id: 'koror', name: 'Koror (Palau)', lon: 134.48, lat: 7.34 }
+    ],
+    times: [
+      { seq: '1', station: '横濱 Yokohama', dd: '6:00', ua: '16:00', freq: 'twice a month (1st and 3rd Tuesday)', ddd: '1', uad: '7' },
+      { seq: '2', station: 'サイパン Saipan', da: '16:00', dd: '7:00', ua: '14:30', ud: '6:00', freq: 'twice a month (1st and 3rd Tuesday)', dad: '1', ddd: '3', uad: '5', udd: '7' },
+      { seq: '3', station: 'パラオ Palau', da: '14:00', ud: '7:00', freq: 'twice a month (1st and 3rd Tuesday)', dad: '3', udd: '5' }
     ]
   },
   {
