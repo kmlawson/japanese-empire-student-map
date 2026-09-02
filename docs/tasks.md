@@ -15524,6 +15524,45 @@ returns to the one.
 
 ---
 
+## The 1930 trunk is timed from an April 1930 sheet
+
+Closer to the date than the summer 1931 diagram it replaces:
+[昭和五年四月改正 定期航空発着時刻及賃金表](https://www.timetableimages.com/ttimages/jat3004.htm).
+Transcribed from the scan and corrected by the author on three readings —
+Fukuoka departs 13:30 not 13:40, Keijō is reached at 17:30 not 17:40, and
+Dairen at 10:40 not 10:50 — plus two on the way home, Dairen leaving at 11:50
+and Fukuoka at 11:10.
+
+**The fares are the same twenty-one figures the map already carried**, Tokyo–
+Dairen 145 yen down to Keijō–Heijō 13. Two independent readings of the same
+tariff agreeing all the way through is worth more than either alone, and the
+build's own fare arithmetic still passes.
+
+### 日曜日休 — and the aeroplanes now keep Sundays
+
+The sheet says the line did not fly on Sundays and the animation had it flying
+every day. `down_days` and `up_days` are 1–6 on both directions now, which is
+the same mechanism the Dutch lines use.
+
+The Sunday sky is not empty, and should not be: a Saturday departure sleeps at
+Keijō and reaches Dairen on the Sunday morning. What stops is the *departure*.
+Measured across the week, most aloft at once: 5, 6, 6, 7, 6, 7 and **3**.
+
+### What the sheet says that the map now says too
+
+Two days each way with a night at Keijō in both directions; the Osaka and
+Fukuoka calls made by **seaplane** — Kizugawajiri and Najima, marked on the
+sheet with an asterisk — and the rest by landplane; and the promise that a
+through service between Tokyo and Keijō arrives the same day, which is the one
+part of the line flown in daylight end to end.
+
+**Not transcribed**: a second row on the same sheet giving a short-section
+service — Tokyo 14:00 to Osaka 16:20, and Osaka 13:00 to Fukuoka 16:00. Those
+were the two readings I was least sure of and the author has not confirmed
+them, so they are left out rather than guessed.
+
+---
+
 ## Two Dutch networks, and a line that leaves the frame
 
 Fifty air routes now, across three companies: twenty Japanese, the KLM trunk

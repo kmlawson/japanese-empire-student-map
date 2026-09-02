@@ -7350,9 +7350,9 @@ JMAP.PROVINCES = {
 JMAP.AIR = [
   {
     id: 'korea', name: 'Tokyo – Osaka – Fukuoka – Ulsan – Keijō – Heijō – Dairen', operator: 'Japan Air Transport (日本航空輸送株式会社)', opened: 'September 1929',
-    season: 'June–August 1931', epochs: ['e1930'], source: '酒井正子「変容する世界の航空界・その4 日本の航空100年」', srcUrl: 'https://appsv.main.teikyo-u.ac.jp/tosho/keizaigaku44-1-09.pdf',
+    season: 'April 1930', epochs: ['e1930'], source: '昭和五年四月改正 定期航空発着時刻及賃金表 (Japan Air Transport, April 1930)', srcUrl: 'https://www.timetableimages.com/ttimages/jat3004.htm',
     ink: '', days: [],
-    note: 'The trunk line of the empire\'s air network: down the home islands, across to the peninsula and on to the Kwantung Leased Territory.',
+    note: 'The trunk line of the empire\'s air network: down the home islands, across to the peninsula and on to the Kwantung Leased Territory. Two days each way, with a night at Keijō in both directions, and no service on Sundays. The Osaka and Fukuoka calls were made by seaplane — Kizugawajiri and Najima — and the rest by landplane; the sheet marks the water legs with an asterisk. It also promises that a through service between Tokyo and Keijō arrives the same day, which is the one part of the line flown in daylight end to end.',
     stops: [
       { id: 'tokyo', name: 'Tokyo', lon: 139.76, lat: 35.68 },
       { id: 'osaka', name: 'Osaka', lon: 135.5, lat: 34.69 },
@@ -7363,13 +7363,13 @@ JMAP.AIR = [
       { id: 'dairen', name: 'Dairen (Dalian)', lon: 121.61, lat: 38.91 }
     ],
     times: [
-      { seq: '1', station: '東京 Tokyo', dd: '7:00', ua: '17:00', uad: '2' },
-      { seq: '2', station: '大阪 Osaka', da: '10:00', dd: '10:20', ua: '14:00', ud: '14:20', uad: '2', udd: '2' },
-      { seq: '3', station: '福岡 Fukuoka', da: '13:10', dd: '13:20', ua: '11:00', ud: '11:10', uad: '2', udd: '2' },
-      { seq: '4', station: '蔚山 Ulsan', da: '15:10', dd: '15:20', ua: '9:00', ud: '9:10', uad: '2', udd: '2' },
-      { seq: '5', station: '京城 Keijō', da: '17:20', dd: '7:30', ua: '16:40', ud: '7:00', ddd: '2', udd: '2' },
-      { seq: '6', station: '平壌 Heijō', da: '8:40', dd: '9:00', ua: '15:10', ud: '15:30', dad: '2', ddd: '2' },
-      { seq: '7', station: '大連 Dairen', da: '10:30', ud: '11:50', dad: '2' }
+      { seq: '1', station: '東京 Tokyo', dd: '7:30', ua: '17:00', freq: 'daily except Sundays', ddd: '1', uad: '2', dw: '1 2 3 4 5 6', uw: '1 2 3 4 5 6' },
+      { seq: '2', station: '大阪 Osaka', da: '10:00', dd: '10:20', ua: '14:10', ud: '14:30', freq: 'daily except Sundays', dad: '1', ddd: '1', uad: '2', udd: '2', dw: '1 2 3 4 5 6', uw: '1 2 3 4 5 6' },
+      { seq: '3', station: '福岡 Fukuoka', da: '13:20', dd: '13:30', ua: '11:00', ud: '11:10', freq: 'daily except Sundays', dad: '1', ddd: '1', uad: '2', udd: '2', dw: '1 2 3 4 5 6', uw: '1 2 3 4 5 6' },
+      { seq: '4', station: '蔚山 Ulsan', da: '15:20', dd: '15:40', ua: '8:50', ud: '9:10', freq: 'daily except Sundays', dad: '1', ddd: '1', uad: '2', udd: '2', dw: '1 2 3 4 5 6', uw: '1 2 3 4 5 6' },
+      { seq: '5', station: '京城 Keijō', da: '17:30', dd: '7:30', ua: '17:00', ud: '7:00', freq: 'daily except Sundays', dad: '1', ddd: '2', uad: '1', udd: '2', dw: '1 2 3 4 5 6', uw: '1 2 3 4 5 6' },
+      { seq: '6', station: '平壌 Heijō', da: '8:40', dd: '9:10', ua: '15:20', ud: '15:50', freq: 'daily except Sundays', dad: '2', ddd: '2', uad: '1', udd: '1', dw: '1 2 3 4 5 6', uw: '1 2 3 4 5 6' },
+      { seq: '7', station: '大連 Dairen', da: '10:40', ud: '11:50', freq: 'daily except Sundays', dad: '2', udd: '1', dw: '1 2 3 4 5 6', uw: '1 2 3 4 5 6' }
     ],
     fares: [
       { from: 'Tokyo', to: 'Osaka', yen: 30, km: 425 },
