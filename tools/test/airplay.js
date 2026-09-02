@@ -219,6 +219,107 @@ const toEpoch=async(p,y)=>{
     Math.max.apply(null, wBack.map(x=>x.flying))>=8,
     'most in the air at once: '+Math.max.apply(null, wBack.map(x=>x.flying)));
 
+
+  console.log('\n— the strip keeps its width while the day plays —');
+  /* The clock goes from "Day 6 11:02" to "Day 6 night" and the count from 1 to
+     13, and with the bar sized to its contents every one of those changed its
+     width: the strip breathed in and out under the reader's hand and the
+     slider they were dragging moved with it. */
+  const shapes=[];
+  for (const f of [0.05, 0.2, 0.45, 0.7, 0.95]) {
+    await setTick(page, Math.round(max*f)); await sleep(120);
+    shapes.push(await page.evaluate(()=>{
+      const b=document.getElementById('air-bar').getBoundingClientRect();
+      return {w:Math.round(b.width), x:Math.round(b.x),
+              clock:document.querySelector('.air-clock').textContent,
+              count:document.querySelector('.air-count').textContent};
+    }));
+  }
+  check('the bar is the same width at every hour of the week',
+    new Set(shapes.map(x=>x.w)).size===1 && new Set(shapes.map(x=>x.x)).size===1,
+    JSON.stringify(shapes.map(x=>x.w+'@'+x.x)));
+  check('though the readings inside it change',
+    new Set(shapes.map(x=>x.clock+x.count)).size>1,
+    JSON.stringify(shapes.map(x=>x.clock+' / '+x.count)));
+  /* The map's own red, as the train tools' scrubber has. A browser left to
+     itself paints this green and the Layers pane's boxes blue. */
+  check('and the scrubber is the map\u2019s red, not the browser\u2019s green',
+    await page.evaluate(()=>{
+      const a=getComputedStyle(document.querySelector('.air-slider')).accentColor;
+      const b=getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
+      const hex=c=>{const m=/(\d+),\s*(\d+),\s*(\d+)/.exec(c);
+        return m?('#'+[1,2,3].map(i=>(+m[i]).toString(16).padStart(2,'0')).join('')):c;};
+      return hex(a).toLowerCase()===b.toLowerCase();
+    }), 'accent-color does not match --accent');
+
+  console.log('\n— an aeroplane answers when the day is stopped —');
+  await setTick(page, Math.round(max*0.12)); await sleep(200);
+  const plane=await page.evaluate(()=>{
+    const g=[...document.querySelectorAll('#planes > g')]
+      .find(x=>x.style.display!=='none');
+    if(!g) return null; const r=g.getBoundingClientRect();
+    return {x:Math.round(r.x+r.width/2), y:Math.round(r.y+r.height/2),
+            w:Math.round(r.width), hit:!!g.querySelector('.plane-hit')};});
+  check('there is one in the air to press', !!plane, JSON.stringify(plane));
+  check('with a disc under it a finger can find',
+    plane.hit && plane.w>=18, JSON.stringify(plane));
+  await page.mouse.click(plane.x, plane.y); await sleep(700);
+  const pc=await page.evaluate(()=>({
+    chip:(document.querySelector('#info .chip')||{}).textContent,
+    name:(document.querySelector('#info .primary')||{}).textContent,
+    when:(document.querySelector('#info .when')||{}).textContent,
+    legs:[...document.querySelectorAll('.air-legs li')].map(li=>li.className||'-'),
+    text:[...document.querySelectorAll('.air-legs li')]
+      .map(li=>li.textContent.replace(/\s+/g,' ').trim())}));
+  check('pressing it opens a card for that aeroplane',
+    pc.chip==='In the air', pc.chip);
+  check('naming the leg it is on', /\u2192/.test(pc.name||''), pc.name);
+  check('with where it left and when it is due',
+    /Left .* at \d/.test(pc.when||'') && /due .* at \d/.test(pc.when||''), pc.when);
+  /* Where it came from and where it is going: the whole circuit, with the leg
+     it is flying marked and the ones behind it faded. */
+  check('and the whole circuit, marked where it has got to',
+    pc.legs.length>1 && pc.legs.filter(c=>c==='now').length===1,
+    JSON.stringify(pc.legs));
+  check('the legs behind it are the ones above it',
+    pc.legs.indexOf('now') === pc.legs.lastIndexOf('done') + 1
+    || pc.legs.indexOf('now') === 0,
+    JSON.stringify(pc.legs));
+  /* Moving, it is not a target: the reader would be chasing it and every press
+     would land on the map behind. */
+  await page.evaluate(()=>{const c=document.getElementById('info-close'); if(c)c.click();});
+  await page.evaluate(()=>document.querySelector('.air-play').click());
+  await sleep(400);
+  check('and while the day is playing it is not a target',
+    await page.evaluate(()=>getComputedStyle(document.getElementById('planes')).pointerEvents==='none'),
+    'the planes still take the pointer while moving');
+  await page.evaluate(()=>document.querySelector('.air-play').click());
+  await sleep(300);
+
+  console.log('\n— the 1930 sheet draws the aeroplane it flew —');
+  await toEpoch(page,'1930');
+  await sleep(500);
+  await setTick(page, Math.round((await maxTick(page))*0.15)); await sleep(300);
+  const art=await page.evaluate(()=>({
+    drawn:document.querySelectorAll('#planes .plane-art').length,
+    parts:document.querySelectorAll('#planes .plane-art > *').length,
+    arrow:document.querySelectorAll('#planes .plane-body').length}));
+  /* One service, room on the map, and the type that flew it: a Fokker F.VII
+     from above, the high wing and its three engines. The 1942 sheet has a
+     dozen up at once and a picture at that size is a smudge, so it keeps the
+     arrowhead. */
+  check('a drawn Fokker on the 1930 map, not an arrowhead',
+    art.drawn>0 && art.arrow===0 && art.parts>=10*art.drawn,
+    JSON.stringify(art));
+  await toEpoch(page,'1942');
+  await sleep(500);
+  await setTick(page, Math.round((await maxTick(page))*0.15)); await sleep(300);
+  const arrow=await page.evaluate(()=>({
+    drawn:document.querySelectorAll('#planes .plane-art').length,
+    arrow:document.querySelectorAll('#planes .plane-body').length}));
+  check('and an arrowhead on the 1942 map, where a dozen are up at once',
+    arrow.arrow>0 && arrow.drawn===0, JSON.stringify(arrow));
+
   console.log('\n— and it goes away when the network does —');
   await page.evaluate(()=>document.getElementById('btn-air').click());
   await sleep(900);

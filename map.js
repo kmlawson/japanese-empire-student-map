@@ -13,8 +13,8 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '280';
-  var JEM_ASSETS = {"admin.js": "3414697d04", "air-play.js": "e39c3dfc3f", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "58132ef9c2", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
+  var JEM_VERSION = '281';
+  var JEM_ASSETS = {"admin.js": "3414697d04", "air-play.js": "48eed33972", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "58132ef9c2", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
 
   /* Every file this one fetches, with the version on it.
 
@@ -6259,6 +6259,94 @@
    * `downTarget` is `e.target` from pointerdown — taken before the capture —
    * so it is the element actually under the finger, and this is the same path
    * the markers and the provinces are chosen by. */
+
+  /* **The card for one aeroplane in the air.**
+   *
+   * The route's card says what the service was; this says what *this* machine
+   * is doing at the minute the clock is stopped at — the leg it is on, when it
+   * left and when it is due, and the rest of the circuit either side of it,
+   * with the calls it has already made marked off. It is not one of the map's
+   * records, so it fills the card directly, as the route's does. */
+  function selectPlane(idx) {
+    if (!airApi || !airApi.mounted() || airApi.playing()) return false;
+    var d = airApi.planAt(idx);
+    if (!d) return false;
+    select(null);
+    if (!infoBox) return false;
+    var chip = infoBox.querySelector('.chip');
+    var prim = infoBox.querySelector('.primary');
+    var alt = infoBox.querySelector('.alt');
+    var when = infoBox.querySelector('.when');
+    var note = infoBox.querySelector('.note-own');
+    if (chip) chip.textContent = 'In the air';
+    if (prim) prim.textContent = d.from + ' \u2192 ' + d.to;
+    if (alt) {
+      alt.textContent = d.routeName + (d.svc ? ' \u00b7 ' + d.svc : '');
+      alt.hidden = false;
+    }
+    if (when) {
+      when.textContent = 'Left ' + d.from + ' at ' + d.off
+        + (d.offDay > 1 ? ' on day ' + d.offDay : '')
+        + ' \u00b7 due ' + d.to + ' at ' + d.on
+        + (d.onDay > d.offDay ? ' on day ' + d.onDay : '')
+        + (d.freq ? ' \u00b7 ' + d.freq : '');
+    }
+    if (note) {
+      note.textContent = 'Leg ' + d.leg + ' of ' + d.legs + ' on the '
+        + (d.dir === 'up' ? 'return' : 'outward') + ' journey.';
+      note.hidden = false;
+    }
+    var prov = infoBox.querySelector('.prov');
+    if (prov) prov.hidden = true;
+
+    /* The whole circuit, with where it has got to. A reader who presses an
+       aeroplane over the Yellow Sea is asking where it came from and where it
+       is going, and the answer to both is the list. */
+    var host = airCardHost();
+    host.innerHTML = '';
+    var wrap = document.createElement('div');
+    wrap.className = 'pop-table-block';
+    var h = document.createElement('p');
+    h.className = 'pop-head';
+    h.textContent = 'This aeroplane\u2019s circuit';
+    wrap.appendChild(h);
+    var ol = document.createElement('ol');
+    ol.className = 'air-calls air-legs';
+    d.calls.forEach(function (c) {
+      var li = document.createElement('li');
+      if (c.now) li.className = 'now';
+      else if (c.done) li.className = 'done';
+      var pl = document.createElement('span');
+      pl.className = 'air-place';
+      pl.textContent = c.from + ' \u2192 ' + c.to;
+      li.appendChild(pl);
+      var sp = document.createElement('span');
+      sp.className = 'air-t';
+      sp.textContent = c.off + ' \u2013 ' + c.on
+        + (c.offDay > 1 ? '  day ' + c.offDay : '');
+      li.appendChild(sp);
+      ol.appendChild(li);
+    });
+    wrap.appendChild(ol);
+    var n2 = document.createElement('p');
+    n2.className = 'pop-note';
+    n2.textContent = 'The leg it is flying now is marked; the ones above it are '
+      + 'behind it. Press the line itself for the whole timetable.';
+    wrap.appendChild(n2);
+    host.appendChild(wrap);
+
+    infoBox.hidden = false;
+    document.body.classList.add('panel-open');
+    return true;
+  }
+
+  function planeTap(target) {
+    if (!target || !target.closest) return false;
+    var g = target.closest('#planes [data-plan]');
+    if (!g) return false;
+    return selectPlane(+g.getAttribute('data-plan'));
+  }
+
   function airTap(target) {
     if (!state.air || !target || !target.closest) return false;
     var ring = target.closest('#air [data-air-stop]');
@@ -6275,6 +6363,7 @@
   }
 
   function handleTap(target, cx, cy, sticky) {
+    if (planeTap(target)) return;
     if (airTap(target)) return;
     var got = pick(target, cx, cy);
     var hit = got && got.hit;
@@ -9133,6 +9222,10 @@
           catch (e) { /* an observer that will not take it is not fatal */ }
         }
       },
+      /* Which sheet is showing. The 1930 map flies one service and can carry a
+         drawn aeroplane; the 1942 map has a dozen in the air at once and wants
+         a mark rather than a picture. */
+      epoch: function () { return state.epoch; },
     };
   }
 

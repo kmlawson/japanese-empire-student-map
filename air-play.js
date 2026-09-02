@@ -46,6 +46,10 @@ window.JMAP_AIRPLAY = function (host) {
     return e;
   }
   function two(n) { return (n < 10 ? '0' : '') + n; }
+  function fmtMin(m) {
+    var v = ((m % DAY) + DAY) % DAY;
+    return two(Math.floor(v / 60)) + ':' + two(Math.floor(v % 60));
+  }
   function clockOf(mn) {
     var m = ((mn % SPAN) + SPAN) % SPAN;
     return 'Day ' + (Math.floor(m / DAY) + 1) + '  ' + two(Math.floor((m % DAY) / 60))
@@ -256,17 +260,71 @@ window.JMAP_AIRPLAY = function (host) {
     return null;
   }
 
+  /* **The aeroplane itself.**
+   *
+   * On the 1930 sheet there is one service and at most two machines in the air,
+   * so it is drawn: a Fokker F.VII from above, the high wing across the top,
+   * three engines on it, the slim fuselage and the tailplane. That is the type
+   * that flew this trunk line, and with room on the map it is worth seeing.
+   *
+   * On the 1942 sheet a dozen are up at once and a picture at that size is a
+   * smudge, so it is an arrowhead: the same information — where, and which
+   * way — with nothing to lose at eight pixels.
+   *
+   * The drawing arrives pointing north in a 64-unit box whose artwork centres
+   * near (32, 30). Both marks are put nose-along +x here so that `rotate(a)`,
+   * which takes the course straight from `atan2`, needs no special case for
+   * one of them. And it arrives filled white, which is invisible over half the
+   * palettes this map offers: it takes the ink and a casing of the panel
+   * colour, the same treatment the railway lines have and for the same reason.
+   */
+  var FOKKER = [
+    ['path', 'M 3.924 19.775 C 3.924 17.775 4.924 16.608 6.924 16.275 L 29.924 12.775 L 33.924 12.775 L 56.924 16.275 C 58.924 16.608 59.924 17.775 59.924 19.775 L 59.924 23.775 C 59.924 25.442 58.924 26.275 56.924 26.275 L 6.924 26.275 C 4.924 26.275 3.924 25.442 3.924 23.775 L 3.924 19.775 Z'],
+    ['path', 'M 27.424 10.275 C 27.757 6.275 29.257 3.608 31.924 2.275 C 34.591 3.608 36.091 6.275 36.424 10.275 L 36.308 26.539 L 32.861 57.459 L 30.842 57.434 L 27.741 26.641 L 27.424 10.275 Z'],
+    ['path', 'M 19.424 50.775 C 19.424 49.442 20.091 48.608 21.424 48.275 L 29.424 45.775 L 34.424 45.775 L 42.424 48.275 C 43.757 48.608 44.424 49.442 44.424 50.775 L 44.424 53.275 L 19.424 53.275 L 19.424 50.775 Z'],
+    ['path', 'M 15.22 13.39 L 17.417 13.39 L 17.732 25.602 C 17.732 27.823 17.261 28.933 16.319 28.933 C 15.377 28.933 14.906 27.823 14.906 25.602 L 15.22 13.39 Z'],
+    ['path', 'M 47.221 13.446 L 49.418 13.446 L 49.733 25.658 C 49.733 27.879 49.262 28.989 48.32 28.989 C 47.378 28.989 46.907 27.879 46.907 25.658 L 47.221 13.446 Z'],
+    ['rect', { x: 7.924, y: 20.275, width: 16, height: 2, rx: 1 }],
+    ['rect', { x: 39.924, y: 17.275, width: 16, height: 2, rx: 1 }],
+    ['circle', { cx: 15.924, cy: 21.275, r: 2.2 }],
+    ['circle', { cx: 47.924, cy: 21.275, r: 2.2 }],
+    ['circle', { cx: 31.924, cy: 7.275, r: 2.4 }],
+  ];
+
+  function drawnPlane() {
+    var g = host.svgEl('g', { 'class': 'plane-art' });
+    /* Nose along +x, centred on the point it is placed at, and about twenty
+       pixels long: `rotate(90)` turns north to east, and the 56 units of
+       artwork come down to 20. Fourteen was the first try and a trimotor at
+       fourteen pixels over a dark red Korea was a smudge — the wing struts and
+       the three engines are the whole reason for drawing it rather than an
+       arrowhead, and they need the room. Twenty-four is where the wing struts
+       and the nacelles stop running into one another. */
+    g.setAttribute('transform', 'rotate(90) scale(0.44) translate(-32,-30)');
+    FOKKER.forEach(function (sh) {
+      if (sh[0] === 'path') g.appendChild(host.svgEl('path', { d: sh[1] }));
+      else g.appendChild(host.svgEl(sh[0], sh[1]));
+    });
+    return g;
+  }
+
   function markFor(i) {
     if (marks[i]) return marks[i];
     var g = host.svgEl('g', { 'class': 'plane' });
-    /* A shape pointed the way it is going, not a dot: on a map with sixty-odd
-       rings already on it, one more circle says nothing about which way the
-       aeroplane is flying, and that is half of what a network in motion is
-       for. */
-    g.appendChild(host.svgEl('path', {
-      'class': 'plane-body',
-      d: 'M 6 0 L -4 3.4 L -2 0 L -4 -3.4 Z',
-    }));
+    /* **Something to press, while the day is stopped.** The drawn aeroplane is
+       fourteen pixels of thin silhouette and the arrowhead is ten; neither is
+       a target. The disc under them is, and it is inside the counter-scaled
+       group so it stays a finger's width at every zoom. */
+    g.setAttribute('data-plan', String(i));
+    g.appendChild(host.svgEl('circle', { 'class': 'plane-hit', r: 11 }));
+    if (host.epoch && host.epoch() === 'e1930') {
+      g.appendChild(drawnPlane());
+    } else {
+      g.appendChild(host.svgEl('path', {
+        'class': 'plane-body',
+        d: 'M 6 0 L -4 3.4 L -2 0 L -4 -3.4 Z',
+      }));
+    }
     layer.appendChild(g);
     marks[i] = g;
     return g;
@@ -339,6 +397,9 @@ window.JMAP_AIRPLAY = function (host) {
 
   function setPlaying(on) {
     playing = on;
+    /* A moving aeroplane is not a target — the reader would be chasing it, and
+       every press would land on the map behind. Stopped, it answers. */
+    if (layer) layer.style.pointerEvents = on ? 'none' : 'auto';
     els.play.textContent = on ? '❙❙' : '▶';
     els.play.setAttribute('aria-label', on ? 'Pause' : 'Play the two days');
     els.play.title = on ? 'Pause' : 'Play the two days';
@@ -411,6 +472,7 @@ window.JMAP_AIRPLAY = function (host) {
       if (mounted) return api.stats;
       lastK = k || 1;
       layer = host.svgEl('g', { id: 'planes' });
+      layer.style.pointerEvents = 'auto';   // it opens stopped
       host.insertLayer(layer);
       buildPlans(routes || []);
       marks = [];
@@ -446,6 +508,38 @@ window.JMAP_AIRPLAY = function (host) {
     playing: function () { return playing; },
     play: function (on) { if (mounted) setPlaying(!!on); },
     flying: function () { return mounted ? render() : 0; },
+    /* Where this aeroplane has come from and where it is going, at the minute
+       the clock is stopped at. `leg` is the one it is on; `done` and `left`
+       are the calls behind and ahead of it on the same circuit. */
+    planAt: function (i) {
+      var p = plans[i];
+      if (!p) return null;
+      for (var d = 0; d < p.days.length; d++) {
+        var base = p.days[d] * DAY;
+        for (var k = 0; k < p.legs.length; k++) {
+          var lg = p.legs[k];
+          if (simMin < lg.off + base || simMin > lg.on + base) continue;
+          var name = function (st) { return String(st.name || '').split(' (')[0]; };
+          return {
+            route: p.route.id, routeName: p.route.shortName || p.route.name,
+            svc: p.svc, dir: p.dir, freq: p.freq,
+            from: name(lg.from), to: name(lg.to),
+            off: fmtMin(lg.off + base), on: fmtMin(lg.on + base),
+            offDay: Math.floor((lg.off + base) / DAY) + 1,
+            onDay: Math.floor((lg.on + base) / DAY) + 1,
+            leg: k + 1, legs: p.legs.length,
+            calls: p.legs.map(function (x, j) {
+              return { from: name(x.from), to: name(x.to),
+                       off: fmtMin(x.off + base), on: fmtMin(x.on + base),
+                       offDay: Math.floor((x.off + base) / DAY) + 1,
+                       onDay: Math.floor((x.on + base) / DAY) + 1,
+                       done: simMin > x.on + base, now: j === k };
+            }),
+          };
+        }
+      }
+      return null;
+    },
     stats: function () {
       return { plans: plans.length, days: wins.length, ticks: ticks,
                legs: plans.reduce(function (n, p) { return n + p.legs.length; }, 0) };

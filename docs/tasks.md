@@ -15524,6 +15524,60 @@ returns to the one.
 
 ---
 
+## The aeroplane, the strip, and pressing one in flight
+
+### A drawn Fokker on the 1930 sheet
+
+The author's own SVG — a Fokker F.VII from above, the high wing across the top,
+three engines on it, the fuselage and tailplane. It flies on the 1930 map,
+which has one service and at most two machines in the air, and the 1942 map
+keeps the arrowhead: a dozen are up at once there and a picture at that size is
+a smudge.
+
+Three things had to change about the drawing:
+
+* **It points north; the marks are placed nose-along +x**, so `rotate(a)` can
+  take the course straight from `atan2` with no special case for one of them.
+  `rotate(90)` before the scale does it.
+* **It arrives filled white**, which is invisible over half the palettes here.
+  Inked dark it then disappeared into Japan and Korea — the two countries its
+  one route crosses. It ended up the other way round from the arrowhead: a pale
+  body with a dark outline, which reads over dark land and pale sea both.
+* **Fourteen pixels was too small.** The struts and the nacelles ran into one
+  another, and they are the whole reason for drawing a trimotor rather than a
+  triangle. Twenty-four is where they separate.
+
+### The strip stopped breathing
+
+It was sized to its contents, and its contents change every second: the clock
+goes from "Day 6 11:02" to "Day 6 night", the count from "1 in the air" to
+"13". Every one of those changed the width of the whole bar — so it grew and
+shrank under the reader's hand and took the slider they were dragging with it.
+The width is stated now and the readouts have the room their longest reading
+needs; measured at five points across the week, **560px at x=420 every time**.
+
+The scrubber is the map's red rather than the browser's green, which is what
+the train tools' scrubber already does. Checked against `--accent` rather than
+against a hex string, so a change to the palette cannot leave this behind.
+
+### Press an aeroplane and it says where it has come from
+
+Stopped, each aeroplane answers: the leg it is on, when it left and when it is
+due, and the whole circuit either side of it with the calls behind it faded and
+the one it is flying marked. A reader who presses a machine over the Yellow Sea
+is asking both questions and the list answers both.
+
+**Moving, it is not a target.** The reader would be chasing it and every press
+would land on the map behind, so the layer takes the pointer only while the
+clock is stopped. The press target is a disc inside the counter-scaled group,
+so it stays a finger's width at every zoom — the drawn Fokker is thin
+silhouette and the arrowhead is ten pixels; neither is something to aim at.
+
+Measured: `airplay.js` 41 checks; the changed set 1,218 across 35 scripts in
+333.8s, all passing.
+
+---
+
 ## A seven-day week, and two services the file could not hold
 
 ### The day is said outright now
