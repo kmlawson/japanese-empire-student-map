@@ -296,6 +296,91 @@ const admin=async p=>{ await p.evaluate(()=>{
         && b.bottom<=window.innerHeight+1;
   }), 'a menu off the edge of a phone is no menu');
 
+  /* ---- the Layers pane hands over its layers too --------------------
+   *
+   * The right-click menu gives a reader a territory; these give a *layer* —
+   * the occupation as traced and as the North China Area Army reported it, the
+   * rivers, the graticule, the line of control. Each is a ↓ on the row that
+   * switches it on.
+   *
+   * **Mengchiang is the one that could do real harm.** It claimed 603,888 km²
+   * and held 441,459; the map draws the held ground as a fill through a clip,
+   * so that path's own `d` is the *claim*. Reading it back out and calling it
+   * the territory would publish a claim as a fact. What leaves here is the two
+   * shapes that are exact — the whole claim, and the part never held — each
+   * saying how to get the third.
+   */
+  console.log('\n— and the Layers pane hands over its layers —');
+  const WANT = ['occ-traced', 'occ-nca', 'opt-ccp', 'opt-manchukuo',
+                'opt-mengjiang', 'opt-mengjiang-claim', 'opt-rivers',
+                'opt-india-rivers', 'opt-extent', 'opt-graticule'];
+  await page.evaluate(()=>{const e=[...document.querySelectorAll('#epoch-seg button')]
+    .find(x=>/1942/.test(x.textContent)); if(e)e.click();});
+  await sleep(2400);
+  await page.evaluate(()=>document.getElementById('btn-options').click());
+  await sleep(700);
+  const arrows=await page.evaluate(()=>[...document.querySelectorAll('#dlg-options .pop-dl')]
+    .map(x=>x.getAttribute('data-geo')).filter(Boolean));
+  check('every layer asked for has an arrow',
+    WANT.every(k=>arrows.indexOf(k)>=0),
+    'missing ' + WANT.filter(k=>arrows.indexOf(k)<0).join(', '));
+
+  const grab = k => page.evaluate(key=>{
+    let caught=null; const B=window.Blob, U=URL.createObjectURL;
+    window.Blob=function(parts,o){caught=String(parts[0]);return new B(parts,o);};
+    URL.createObjectURL=function(){return 'blob:stub';};
+    document.querySelector('.pop-dl[data-geo="'+key+'"]').click();
+    window.Blob=B; URL.createObjectURL=U;
+    if(!caught) return {ok:false};
+    let j=null; try{ j=JSON.parse(caught); }catch(e){ return {ok:false,parse:String(e)}; }
+    const flat=[]; const walk=v=>Array.isArray(v[0])?v.forEach(walk):flat.push(v);
+    j.features.forEach(f=>walk(f.geometry.coordinates));
+    const lon=flat.map(q=>q[0]), lat=flat.map(q=>q[1]);
+    return {ok:true, n:j.features.length, type:j.features[0].geometry.type,
+            pts:flat.length, props:j.features[0].properties,
+            box:[Math.min(...lon),Math.min(...lat),Math.max(...lon),Math.max(...lat)]};
+  }, k);
+
+  const got={};
+  for (const k of WANT) { got[k]=await grab(k); await sleep(120); }
+  check('and every one of them yields a FeatureCollection with shapes in it',
+    WANT.every(k=>got[k].ok && got[k].pts>50),
+    WANT.filter(k=>!(got[k].ok&&got[k].pts>50)).join(', '));
+  /* A river is not a polygon. `pathToRings` closes every subpath, which would
+     bring the Yangzi back as a sliver running to Sichuan and home again. */
+  check('the areas come back as polygons',
+    ['occ-traced','occ-nca','opt-ccp','opt-manchukuo','opt-mengjiang']
+      .every(k=>got[k].type==='MultiPolygon'),
+    WANT.map(k=>k+':'+got[k].type).join(' '));
+  check('and the rivers, the graticule and the line of control as lines',
+    ['opt-rivers','opt-india-rivers','opt-extent','opt-graticule']
+      .every(k=>got[k].type==='MultiLineString'),
+    ['opt-rivers','opt-india-rivers','opt-extent','opt-graticule']
+      .map(k=>k+':'+got[k].type).join(' '));
+  /* Each over its own ground, so a mislabelled row shows up as a shape in the
+     wrong part of the world rather than as a file nobody opens. */
+  const over=(k,w,e,s2,n)=>{const b=got[k].box;
+    return b[0]>=w&&b[2]<=e&&b[1]>=s2&&b[3]<=n;};
+  check('the traced occupation lies over eastern China',
+    over('occ-traced',105,125,17,42), JSON.stringify(got['occ-traced'].box));
+  check('Manchukuo over the north-east',
+    over('opt-manchukuo',114,137,38,55), JSON.stringify(got['opt-manchukuo'].box));
+  check('and the rivers of India over India',
+    over('opt-india-rivers',66,100,8,38), JSON.stringify(got['opt-india-rivers'].box));
+
+  /* **The claim is bigger than the part of it never held, and says so.** */
+  const claim=got['opt-mengjiang'].box, unheld=got['opt-mengjiang-claim'].box;
+  check('Mengjiang\u2019s claim encloses the part never held',
+    unheld[0]>=claim[0]-0.01 && unheld[2]<=claim[2]+0.01
+    && unheld[1]>=claim[1]-0.01 && unheld[3]<=claim[3]+0.01,
+    JSON.stringify(claim)+' vs '+JSON.stringify(unheld));
+  check('and the never-held part is the western end of it',
+    unheld[2] < claim[2] - 5, JSON.stringify(unheld)+' inside '+JSON.stringify(claim));
+  check('each says in its own properties what it is and is not',
+    /441,459|never held/.test(JSON.stringify(got['opt-mengjiang'].props))
+    && /never under Japanese control/.test(JSON.stringify(got['opt-mengjiang-claim'].props)),
+    JSON.stringify(got['opt-mengjiang'].props).slice(0,140));
+
   check('no page errors', errs.concat(perrs).length===0, errs.concat(perrs).join(' | '));
   await browser.close();
   console.log('\n  '+pass+' passed, '+fail+' failed');

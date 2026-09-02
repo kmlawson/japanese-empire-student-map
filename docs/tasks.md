@@ -15524,6 +15524,85 @@ returns to the one.
 
 ---
 
+## The Layers pane: shorter, plainer, and it hands over its layers
+
+### Four passages out, one rewritten
+
+Gone: the paragraph under the colour scheme about the map's own colours being
+the argument; the one under Manchukuo and Mengjiang about the land staying and
+being drawn as the rest of China; and the note that railways fade in as you
+zoom. The line about the two occupation readings now reads: *The North China
+Area military report better shows that fragmented occupation, but includes only
+the area the map covered in the north.*
+
+### And it is a list of switches again, not prose
+
+Seven pixels above and below every row, a paragraph's default margin on every
+hint, sixteen either side of every rule. Measured: the pane was **2,555px on a
+laptop and is 2,156** — a sixth shorter — and a row 36px instead of 28. Scoped
+to `#dlg-options`; the other dialogs are reading matter and keep the air.
+
+**The touch target is untouched.** `@media (pointer: coarse)` still gives every
+row a 44px minimum, measured at 44 on a phone before and after.
+
+### Ten layers now leave by the arrow beside them
+
+The traced occupation and the North China Area Army's report, the resistance
+base areas, Manchukuo, Mengjiang twice, the Yangzi and Yellow rivers, the rivers
+of India, the 1942 line of control, and the graticule.
+
+**A river is not a polygon.** `pathToRings` closes every subpath, which is right
+for a country and wrong for a line — the Yangzi would come back as a sliver
+running to Sichuan and home again. Open paths go through a new `pathToLines` and
+come out as MultiLineString. Checked both ways round, and each layer's bounding
+box is checked to be over its own ground, so a mislabelled row shows up as a
+shape in the wrong part of the world.
+
+The graticule is off by default and had nothing to hand over; its arrow now
+switches the layer on first, which is what the population arrow beside it
+already did.
+
+### Mengchiang: the one that could have published a claim as a fact
+
+It claimed 603,888 km² on its 1940 sheet and held 441,459 — the west, beyond
+Paotow, never was. The map draws both at once, and the two SVG paths are **not**
+"held" and "claimed":
+
+* `#mengjiang-whole` is the claim entire, drawn with no fill and no stroke so
+  the hover has the whole state to trace.
+* `#mengjiang-claim` is only the part **never held**, which is what the dotted
+  line goes round.
+* The held ground is a fill drawn through `clip-meng-held` — its path data is
+  the claim, and the clip does the work.
+
+My first attempt exported `#mengjiang-claim` as "the area claimed", which would
+have handed a reader the *unheld remainder* under the name of the claim, and
+`atomShapes('mengjiang')` as "the area held", which would have handed them the
+claim under the name of the territory. Caught by the bounding boxes not making
+sense — the claim came out smaller than the ground held — and settled by reading
+`tools/build_map.py`, which says which file each shape is cut from.
+
+What leaves now is the two shapes that are exact, named for what they are, each
+carrying in its properties how to get the third: the held ground is the claim
+minus the part never held.
+
+### Three tests were inheriting the machine's colour scheme
+
+`theme`, `mono` and `colours` began failing after dark, reporting `#1d3d4f` —
+the dark ocean — where the light one was expected. Not a bug in the page: they
+emulated `prefers-color-scheme` only for the dark case and let the light one
+take whatever the host reported, which is fine on a machine that is light and
+this one is until sunset. All three now say which scheme they want. **A test
+that does not say what it wants is not measuring.**
+
+Measured: 922 checks across 30 scripts in 272.8s, all passing; `menu.js` gained
+11 checks for the new arrows.
+
+**Not done: topography.** It is a raster relief image, three of them, one per
+projection — there is no geometry to write, so it has no arrow.
+
+---
+
 ## Plane tools: the air timetable, flown
 
 The cards say when an aeroplane left and when it landed. This says where it was

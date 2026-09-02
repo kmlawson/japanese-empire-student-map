@@ -1680,6 +1680,23 @@ dialog .x {
 dialog .hint { color: var(--muted); font-size: 13px; }
 dialog hr { border: 0; border-top: 1px solid var(--line); margin: 16px 0; }
 
+/* **The Layers pane is a list of switches, and it was set like prose.**
+   Seven pixels above and below every row, a paragraph's default margin on
+   every hint and sixteen either side of every rule: the pane ran to two and a
+   half screens on a laptop and a reader looking for one switch scrolled past
+   the rest twice. Tightened here and nowhere else — the other dialogs are
+   reading matter and want the air.
+
+   **The touch target is not touched.** `@media (pointer: coarse)` gives every
+   row a 44px minimum height and that still holds; this takes the padding off
+   the space between rows on a pointer that does not need it. */
+#dlg-options label.row { padding: 3px 0; }
+#dlg-options .hint { margin: .25em 0 .7em; }
+#dlg-options .row + .hint { margin-top: .1em; }
+#dlg-options hr { margin: 11px 0; }
+#dlg-options h3 { margin: 14px 0 5px; }
+#dlg-options h3:first-of-type { margin-top: 4px; }
+
 /* The jump to the other date, under the occupation settings that only apply to
    one of them. Set apart from the switches above it so it reads as an action
    rather than another thing to turn on. */

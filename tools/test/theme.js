@@ -107,7 +107,14 @@ const b = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox'] });
 const open = async (u, dark) => {
   const p = await b.newPage();
   await p.setViewport({ width: 1300, height: 900 });
-  if (dark) await p.emulateMediaFeatures([{ name: 'prefers-color-scheme', value: 'dark' }]);
+  /* **Say which, always.** This used to emulate only the dark case and let
+     the light one inherit whatever the host reported — which is fine on a
+     machine that is light, and this one is until the sun goes down. Three
+     checks that had passed all day began failing after dark, reporting the
+     dark ocean where the light one was expected: not a bug in the page, a
+     test that had never said what it wanted. */
+  await p.emulateMediaFeatures([{ name: 'prefers-color-scheme',
+                                  value: dark ? 'dark' : 'light' }]);
   await p.goto(u, { waitUntil: 'networkidle0' });
   await sleep(2600);
   return p;

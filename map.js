@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '278';
+  var JEM_VERSION = '279';
   var JEM_ASSETS = {"admin.js": "3414697d04", "air-play.js": "abb3f92acc", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "58132ef9c2", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
 
   /* Every file this one fetches, with the version on it.
@@ -1077,6 +1077,7 @@
     buildYellow1938();
     buildAir();
     buildPopRows();
+    buildLayerDls();
     buildLabelRows();
     buildGazetteer();
     hatchGroup = svg.querySelector('#hatching');
@@ -9167,6 +9168,217 @@
     if (airPlayWanted) { buildAir(); loadAirPlay(); }
     else unmountAirPlay();
     syncAirPlayButton();
+  }
+
+
+  /* ------------------------------------------------ layers as GeoJSON --
+   *
+   * The right-click menu hands over a territory's shape; this hands over a
+   * *layer* — the traced occupation, the rivers, the graticule — from the row
+   * that switches it on. Same rule as everywhere else here: what a reader can
+   * see, they can take away, and it carries a note saying it is the drawn
+   * geometry rather than the survey it was traced from.
+   *
+   * **A river is not a polygon.** `pathToRings` closes every subpath, which is
+   * right for a country and wrong for a line: the Yangzi would come back as a
+   * sliver running from the sea to Sichuan and back again. Open paths go
+   * through `pathToLines` and come out as a MultiLineString.
+   */
+  function pathToLines(d) {
+    var lines = [], cur = null, re = /([MLZ])([^MLZ]*)/g, m;
+    while ((m = re.exec(String(d || '')))) {
+      if (m[1] === 'Z') { if (cur && cur.length > 1) lines.push(cur); cur = null; continue; }
+      if (m[1] === 'M') { if (cur && cur.length > 1) lines.push(cur); cur = []; }
+      if (!cur) cur = [];
+      var n = m[2].split(/[\s,]+/).filter(function (x) { return x !== ''; }).map(Number);
+      for (var i = 0; i + 1 < n.length; i += 2) {
+        if (isFinite(n[i]) && isFinite(n[i + 1])) cur.push([n[i], n[i + 1]]);
+      }
+    }
+    if (cur && cur.length > 1) lines.push(cur);
+    return lines.map(function (r) {
+      return r.map(function (q) {
+        var u = unproject(q[0], q[1]);
+        return [Math.round(u.lon * 1e5) / 1e5, Math.round(u.lat * 1e5) / 1e5];
+      });
+    });
+  }
+
+  /* The same as `saveGeoJSON`, with a place for what the layer needs to say
+     about itself — the size of a claim, which course of a river. */
+  function saveLayerPolys(els, name, props) {
+    var feats = [];
+    els.forEach(function (el) {
+      var f = featureFor(el);
+      if (!f) return;
+      Object.keys(props || {}).forEach(function (k) { f.properties[k] = props[k]; });
+      if (!f.properties.name) f.properties.name = name;
+      feats.push(f);
+    });
+    if (!feats.length) return false;
+    return downloadText(JSON.stringify({ type: 'FeatureCollection',
+                                         features: feats }, null, 1),
+                        slug(name) + '.geojson', 'application/geo+json');
+  }
+
+  function saveLayerLines(els, name, props) {
+    var feats = [];
+    els.forEach(function (el) {
+      var ls = pathToLines(el.getAttribute('d'));
+      if (!ls.length) return;
+      var pr = { name: el.getAttribute('data-name') || el.id || name,
+                 epoch: state.epoch, note: GEO_NOTE };
+      Object.keys(props || {}).forEach(function (k) { pr[k] = props[k]; });
+      feats.push({ type: 'Feature', properties: pr,
+                   geometry: { type: 'MultiLineString', coordinates: ls } });
+    });
+    if (!feats.length) return false;
+    return downloadText(JSON.stringify({ type: 'FeatureCollection',
+                                         features: feats }, null, 1),
+                        slug(name) + '.geojson', 'application/geo+json');
+  }
+
+  /* What each row in the Layers pane hands over. `poly` goes through the same
+     path the right-click menu uses; `line` through the one above.
+
+     **The graticule and the 1938 course of the Yellow River are built by this
+     file, not traced**, and say so in what they hand over: a reader who opens
+     one in QGIS beside a survey should be told which is which. */
+  var LAYER_GEO = {
+    'occ-traced': { label: 'Japanese occupation of China, traced', kind: 'poly',
+                 get: function () { return atomShapes('occupiedzone'); } },
+    'occ-nca': { label: 'North China Area Army, September 1942', kind: 'poly',
+                 get: function () {
+                   return atomShapes('nca_pacified')
+                     .concat(atomShapes('nca_unpacified'));
+                 } },
+    'opt-ccp': { label: 'Resistance base areas', kind: 'poly',
+                 get: function () { return atomShapes('ccp'); } },
+    'opt-manchukuo': { label: 'Manchukuo', kind: 'poly',
+                       get: function () { return atomShapes('manchukuo'); } },
+    /* **Two shapes, and neither of them is the one you would guess.**
+       Mengchiang claimed 603,888 km² on its 1940 sheet and held 441,459 of it;
+       the west, beyond Paotow, never was. The map says both at once — the held
+       ground filled, the rest of the claim ringed in a dotted line — and the
+       two SVG paths are not "held" and "claimed":
+
+         `#mengjiang-whole`  the claim entire, drawn with no fill and no
+                             stroke so the hover has the whole state to trace
+         `#mengjiang-claim`  only the part *never held*, which is what the
+                             dotted line goes round
+
+       The held ground is a fill drawn through `clip-meng-held`, so its path
+       data is the claim and the clip does the work — reading it back out would
+       hand a reader the claim under the name of the territory, which is the
+       one thing this map must not do. So what leaves here is the two shapes
+       that are exact, named for what they are, and each says in its properties
+       how to get the third: the held ground is the first minus the second. */
+    'opt-mengjiang': { label: 'Mengjiang, the claim of 1940', kind: 'poly',
+                       get: function () {
+                         var e = svg && svg.querySelector('#mengjiang-whole');
+                         return e ? [e] : [];
+                       },
+                       props: { area_km2: 603888,
+                         note_claim: 'The whole of what Mengjiang claimed. '
+                           + '441,459 km² of it was under Japanese control; the '
+                           + 'rest is the companion file, "never held".' } },
+    'opt-mengjiang-claim': { label: 'Mengjiang, the claim never held',
+                             kind: 'poly',
+                             get: function () {
+                               var e = svg && svg.querySelector('#mengjiang-claim');
+                               return e ? [e] : [];
+                             },
+                             props: { note_claim: 'The part of the 1940 claim '
+                               + 'never under Japanese control — the west, '
+                               + 'beyond Paotow. Subtract this from the claim '
+                               + 'for the ground actually held.' } },
+    'opt-rivers': { label: 'Yangzi and Yellow rivers', kind: 'line',
+                    get: function () {
+                      return riversGroup ? drawnPaths(riversGroup) : [];
+                    },
+                    props: { note_course: 'The Yellow River is drawn in its '
+                      + '1938–47 course as well as its earlier one.' } },
+    'opt-india-rivers': { label: 'Rivers of India', kind: 'line',
+                          get: function () {
+                            return indiaRiversGroup ? drawnPaths(indiaRiversGroup) : [];
+                          } },
+    'opt-extent': { label: 'Extent of Japanese control, December 1942',
+                    kind: 'line',
+                    get: function () { return extentPath ? [extentPath] : []; } },
+    'opt-graticule': { label: 'Graticule', kind: 'line',
+                       get: function () {
+                         return gratGroup ? drawnPaths(gratGroup) : [];
+                       },
+                       props: { note_drawn: 'Drawn by this map at the spacing '
+                         + 'the current zoom asks for, not traced from a sheet.' } },
+  };
+
+  function saveLayerGeo(key) {
+    var spec = LAYER_GEO[key];
+    if (!spec) return false;
+    var els = spec.get() || [];
+    if (!els.length) return false;
+    return spec.kind === 'line'
+      ? saveLayerLines(els, spec.label, spec.props)
+      : saveLayerPolys(els, spec.label, spec.props);
+  }
+
+  /* The arrow itself, on the row that switches the layer on. It is a button
+     inside a `<label>`, so the press has to be stopped from reaching the
+     control the label is for — otherwise downloading the rivers switches them
+     off. */
+  function addLayerDl(row, key) {
+    var spec = LAYER_GEO[key];
+    if (!row || !spec) return;
+    if (row.querySelector('.pop-dl[data-geo="' + key + '"]')) return;
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'plain pop-dl';
+    b.textContent = '\u2193';
+    b.title = 'Download ' + spec.label + ' as GeoJSON';
+    b.setAttribute('aria-label', 'Download ' + spec.label + ' as GeoJSON');
+    b.setAttribute('data-geo', key);
+    b.addEventListener('click', function (ev) {
+      ev.preventDefault();
+      ev.stopPropagation();
+      /* **Switch it on first if it is off.** The graticule is drawn only when
+         asked for, so its arrow had nothing to hand over on a page that had
+         never shown it — an arrow that does nothing is worse than no arrow.
+         This is what the population arrow beside it already does. */
+      var box = document.getElementById(key === 'opt-mengjiang-claim'
+                                        ? 'opt-mengjiang' : key);
+      if (box && box.type === 'checkbox' && !box.checked) {
+        box.checked = true;
+        box.dispatchEvent(new Event('change', { bubbles: true }));
+      } else if (box && box.type === 'radio' && !box.checked) {
+        box.checked = true;
+        box.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+      var ok = saveLayerGeo(key);
+      b.textContent = ok ? '\u2713' : '\u2717';
+      b.title = ok ? 'Downloaded' : 'Nothing to download — the layer is not drawn';
+      window.setTimeout(function () {
+        b.textContent = '\u2193';
+        b.title = 'Download ' + spec.label + ' as GeoJSON';
+      }, 1400);
+    });
+    row.appendChild(b);
+  }
+
+  /* Every row the table knows about, once the pane exists. A row whose layer
+     is not drawn on this date keeps its arrow: pressing it says so rather than
+     the arrow appearing and disappearing as the reader moves between dates. */
+  function buildLayerDls() {
+    Object.keys(LAYER_GEO).forEach(function (key) {
+      /* The claim has no switch of its own — it is drawn with the territory
+         it belongs to — so its arrow sits on Mengjiang's row beside the one
+         for the ground actually held. Two arrows, two files, because a reader
+         who merged them would be publishing the claim as the territory. */
+      var id = key === 'opt-mengjiang-claim' ? 'opt-mengjiang' : key;
+      var input = document.getElementById(id);
+      var row = input && input.closest ? input.closest('label.row') : null;
+      if (row) addLayerDl(row, key);
+    });
   }
 
   function applyAir() {

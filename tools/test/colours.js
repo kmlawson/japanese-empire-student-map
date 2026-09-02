@@ -23,6 +23,12 @@ const b=await puppeteer.launch({headless:'new',args:['--no-sandbox'],protocolTim
 const errs=[];
 const p=await b.newPage();
 await p.setViewport({width:1300,height:950});
+/* **Say which scheme.** Without this the page inherits whatever the host
+   reports, and the sea colours these checks compare against are the light
+   scheme's: two of them began failing after this machine went dark for the
+   night, having passed all day, and reported the dark ocean as a wrong
+   answer. A test that does not say what it wants is not measuring. */
+await p.emulateMediaFeatures([{name:'prefers-color-scheme',value:'light'}]);
 p.on('pageerror',e=>errs.push(String(e)));
 await p.goto(URL0,{waitUntil:'networkidle0'});
 await sleep(2800);
@@ -143,6 +149,7 @@ let shared='';
     !!m && decodeURIComponent(m[1]).length===16, m && m[1]);
   const q=await b.newPage();
   await q.setViewport({width:1300,height:950});
+  await q.emulateMediaFeatures([{name:'prefers-color-scheme',value:'light'}]);
   q.on('pageerror',e=>errs.push(String(e)));
   await q.goto(shared,{waitUntil:'networkidle0'});
   await sleep(3000);
@@ -158,6 +165,7 @@ console.log('\n— what a link is not allowed to carry —');
                'metropole-00aa55'].join('.');
   const q=await b.newPage();
   await q.setViewport({width:1200,height:900});
+  await q.emulateMediaFeatures([{name:'prefers-color-scheme',value:'light'}]);
   q.on('pageerror',e=>errs.push(String(e)));
   await q.goto(URL0+'?colours='+encodeURIComponent(nasty),{waitUntil:'networkidle0'});
   await sleep(2800);
