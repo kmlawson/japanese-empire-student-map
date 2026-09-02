@@ -320,15 +320,46 @@ window.JMAP_AIRPLAY = function (host) {
    * neighbouring parts meet without a line between them. What is left showing
    * of the blob is a rim round the outside — the silhouette, and nothing else.
    */
-  function drawnPlane() {
-    var g = host.svgEl('g', { 'class': 'plane-art' });
-    /* Nose along +x, centred on the point it is placed at, and about
-       twenty-four pixels long: `rotate(90)` turns north to east, and the 56
-       units of artwork come down to 24. */
-    g.setAttribute('transform', 'rotate(90) scale(0.44) translate(-32,-30)');
+
+  /* **The 1942 aeroplane: a Nakajima Ki-34.**
+   *
+   * The twin-engine transport that the network was flying by the 1938–39
+   * timetable, as the Fokker is the type that flew the 1930 trunk. Traced
+   * plan view: wing, two nacelles reaching ahead of it so the twin engines
+   * read in silhouette, propeller bars, tailplane and fuselage.
+   *
+   * It arrives in a 400×280 box pointing north, with the artwork centred near
+   * (199, 137) and 325 units across the wing. Twenty pixels of wingspan is
+   * what a sheet with a dozen aloft will take without the machines running
+   * into one another. */
+  var NAKAJIMA = [
+    ['path', 'M 190.2,75.1 C 161.6,78.8 131.1,84.0 99.6,90.8 C 77.8,95.5 59.3,98.5 45.2,100.3 C 39.6,101.0 36.4,104.4 36.7,108.8 C 37.0,113.2 40.5,116.1 46.5,117.9 C 83.4,122.6 125.5,126.7 185.9,132.0 C 189.6,132.3 192.2,129.5 192.2,125.8 L 192.2,82.7 C 192.2,78.9 191.7,76.5 190.2,75.1 Z M 207.9,75.4 C 236.6,79.0 267.0,84.5 299.0,91.2 C 320.5,95.7 339.1,98.5 353.2,100.2 C 358.7,100.9 362.1,104.3 361.8,108.8 C 361.5,113.3 357.9,116.2 352.0,118.0 C 315.0,122.7 272.8,126.8 212.5,132.0 C 208.8,132.3 206.2,129.6 206.2,125.9 L 206.2,82.9 C 206.2,79.1 206.7,76.7 207.9,75.4 Z'],
+    ['path', 'M 160.8,45.7 C 155.2,45.7 151.6,49.0 151.3,54.1 L 152.4,77.2 C 152.8,89.5 155.7,100.4 160.9,108.4 C 166.0,100.4 169.0,89.5 169.4,77.2 L 170.4,54.1 C 170.2,49.0 166.5,45.7 160.8,45.7 Z M 238.7,45.8 C 233.0,45.8 229.4,49.1 229.2,54.2 L 230.2,77.4 C 230.7,89.6 233.6,100.5 238.8,108.5 C 243.9,100.5 246.8,89.6 247.3,77.4 L 248.3,54.2 C 248.0,49.1 244.4,45.8 238.7,45.8 Z'],
+    ['rect', { x: 139.0, y: 47.5, width: 43.8, height: 2.4, rx: 1.2 }],
+    ['rect', { x: 216.9, y: 47.6, width: 43.8, height: 2.4, rx: 1.2 }],
+    ['path', 'M 196.2,223.3 C 180.5,225.4 166.2,229.4 155.5,234.5 C 150.4,236.9 148.7,240.6 150.5,244.7 C 152.5,249.2 158.0,251.3 165.0,251.4 C 176.5,251.4 187.7,249.9 198.2,247.2 L 200.1,247.2 C 210.6,249.9 221.8,251.4 233.3,251.4 C 240.3,251.3 245.8,249.2 247.8,244.7 C 249.6,240.6 247.9,236.9 242.8,234.5 C 232.1,229.4 217.8,225.4 202.1,223.3 Z'],
+    ['path', 'M 199.2,9.4 C 195.5,11.2 193.2,17.1 192.0,25.9 C 190.1,39.4 188.9,55.1 188.2,71.6 C 187.3,91.3 187.0,109.1 187.2,126.0 C 187.5,146.8 188.5,165.4 190.0,181.9 C 191.7,200.7 193.6,217.9 195.8,233.7 L 198.3,258.3 C 198.5,261.0 198.8,263.3 199.2,265.1 C 199.7,263.3 200.0,261.0 200.2,258.3 L 202.7,233.7 C 204.9,217.9 206.8,200.7 208.5,181.9 C 210.0,165.4 211.0,146.8 211.2,126.0 C 211.5,109.1 211.2,91.3 210.3,71.6 C 209.6,55.1 208.3,39.4 206.4,25.9 C 205.2,17.1 202.9,11.2 199.2,9.4 Z'],
+  ];
+
+  /* Which type each sheet flies, and how it is placed: the artwork points
+     north, the marks go nose-along +x so `rotate(a)` can take the course
+     straight from `atan2`, and each is scaled to about the length a reader can
+     tell apart at that sheet's density. */
+  var TYPES = {
+    e1930: { shapes: null,      // filled in below: the Fokker
+             tf: 'rotate(90) scale(0.44) translate(-32,-30)' },
+    e1942: { shapes: null,      // the Nakajima
+             tf: 'rotate(90) scale(0.062) translate(-199.2,-137)' },
+  };
+
+  function drawnPlane(kind) {
+    var spec = TYPES[kind] || TYPES.e1930;
+    var shapes = kind === 'e1942' ? NAKAJIMA : FOKKER;
+    var g = host.svgEl('g', { 'class': 'plane-art plane-' + kind });
+    g.setAttribute('transform', spec.tf);
     ['plane-case', 'plane-body-fill'].forEach(function (cls) {
       var layer = host.svgEl('g', { 'class': cls });
-      FOKKER.forEach(function (sh) {
+      shapes.forEach(function (sh) {
         if (sh[0] === 'path') layer.appendChild(host.svgEl('path', { d: sh[1] }));
         else layer.appendChild(host.svgEl(sh[0], sh[1]));
       });
@@ -346,14 +377,10 @@ window.JMAP_AIRPLAY = function (host) {
        group so it stays a finger's width at every zoom. */
     g.setAttribute('data-plan', String(i));
     g.appendChild(host.svgEl('circle', { 'class': 'plane-hit', r: 11 }));
-    if (host.epoch && host.epoch() === 'e1930') {
-      g.appendChild(drawnPlane());
-    } else {
-      g.appendChild(host.svgEl('path', {
-        'class': 'plane-body',
-        d: 'M 6 0 L -4 3.4 L -2 0 L -4 -3.4 Z',
-      }));
-    }
+    /* Each sheet flies the type that flew it: a Fokker F.VII on the 1930 map
+       and a Nakajima Ki-34 on the 1942 one. The arrowhead this replaced said
+       where and which way and nothing else. */
+    g.appendChild(drawnPlane((host.epoch && host.epoch()) || 'e1930'));
     layer.appendChild(g);
     marks[i] = g;
     return g;

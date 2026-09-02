@@ -300,23 +300,25 @@ const toEpoch=async(p,y)=>{
   await page.evaluate(()=>document.querySelector('.air-play').click());
   await sleep(300);
 
-  console.log('\n— the 1930 sheet draws the aeroplane it flew —');
+  console.log('\n— each sheet draws the aeroplane that flew it —');
   await toEpoch(page,'1930');
   await sleep(500);
   await setTick(page, Math.round((await maxTick(page))*0.15)); await sleep(300);
   const art=await page.evaluate(()=>({
+    kind:[...document.querySelectorAll('#planes .plane-art')]
+      .map(e=>e.getAttribute('class')).join(' '),
     drawn:document.querySelectorAll('#planes .plane-art').length,
     // two layers per aeroplane — a fused ink blob and a flat body over it —
     // so the shapes are counted at the leaves, not at the group
     layers:document.querySelectorAll('#planes .plane-art > g').length,
     parts:document.querySelectorAll('#planes .plane-case > *').length,
     arrow:document.querySelectorAll('#planes .plane-body').length}));
-  /* One service, room on the map, and the type that flew it: a Fokker F.VII
-     from above, the high wing and its three engines. The 1942 sheet has a
-     dozen up at once and a picture at that size is a smudge, so it keeps the
-     arrowhead. */
+  /* The type that flew each: a Fokker F.VII trimotor on the 1930 trunk, and a
+     Nakajima Ki-34 on the network of the 1938–39 timetable. Both traced plan
+     views, both drawn as one silhouette. */
   check('a drawn Fokker on the 1930 map, not an arrowhead',
-    art.drawn>0 && art.arrow===0 && art.parts>=10*art.drawn,
+    art.drawn>0 && art.arrow===0 && art.parts>=10*art.drawn
+    && art.kind.indexOf('plane-e1930')>=0,
     JSON.stringify(art));
   /* Drawn as one silhouette: a fused ink layer under a flat body layer, so
      the thirteen parts do not each draw their own seam inside the aeroplane. */
@@ -325,11 +327,35 @@ const toEpoch=async(p,y)=>{
   await toEpoch(page,'1942');
   await sleep(500);
   await setTick(page, Math.round((await maxTick(page))*0.15)); await sleep(300);
-  const arrow=await page.evaluate(()=>({
+  const nak=await page.evaluate(()=>({
     drawn:document.querySelectorAll('#planes .plane-art').length,
-    arrow:document.querySelectorAll('#planes .plane-body').length}));
-  check('and an arrowhead on the 1942 map, where a dozen are up at once',
-    arrow.arrow>0 && arrow.drawn===0, JSON.stringify(arrow));
+    ki34:document.querySelectorAll('#planes .plane-e1942').length,
+    fokker:document.querySelectorAll('#planes .plane-e1930').length,
+    arrow:document.querySelectorAll('#planes .plane-body').length,
+    parts:document.querySelectorAll('#planes .plane-e1942 .plane-case > *').length}));
+  check('and a Nakajima Ki-34 on the 1942 map',
+    nak.ki34>0 && nak.fokker===0 && nak.arrow===0
+    && nak.parts>=6*nak.ki34, JSON.stringify(nak));
+  /* Both are placed nose-along +x so the course can come straight from
+     `atan2`, and both are the size a reader can tell apart at their own
+     sheet's density — the 1942 one on a map with a dozen aloft. */
+  /* At a tick with something in the air. Fifteen per cent of the week is late
+     on the first day, when most of the network has landed — measuring an empty
+     sky and calling it a size was the first version of this. */
+  const sizes=await page.evaluate(()=>{
+    const s=document.querySelector('.air-slider'), max=+s.max;
+    for (let t=0;t<=max;t+=Math.round(max/60)) {
+      s.value=String(t); s.dispatchEvent(new Event('input',{bubbles:true}));
+      const up=[...document.querySelectorAll('#planes > g')]
+        .filter(g=>g.style.display!=='none');
+      if (up.length>=3) return up.map(g=>{const r=g.getBoundingClientRect();
+        return Math.round(Math.max(r.width,r.height));});
+    }
+    return [];
+  });
+  check('drawn big enough to tell apart and small enough not to collide',
+    sizes.length>0 && Math.max.apply(null,sizes)<=40 && Math.min.apply(null,sizes)>=14,
+    JSON.stringify(sizes.slice(0,8)));
 
   console.log('\n— and it goes away when the network does —');
   await page.evaluate(()=>document.getElementById('btn-air').click());

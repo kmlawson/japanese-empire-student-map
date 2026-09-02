@@ -3863,12 +3863,15 @@ dialog h3 {
    neighbours meet without a line. All that shows of the blob is the rim. The
    stroke is in the artwork's own units, scaled down by about two, so 5 here is
    roughly two pixels on the screen. */
+/* The rim, in the artwork's own units — which differ by type, the Fokker
+   being 64 units across and the Nakajima 400, so each says its own. */
 .plane-case > * {
   fill: var(--ink);
   stroke: var(--ink);
-  stroke-width: 5;
   stroke-linejoin: round;
 }
+.plane-e1930 .plane-case > * { stroke-width: 5; }
+.plane-e1942 .plane-case > * { stroke-width: 32; }
 .plane-body-fill > * { fill: var(--panel); stroke: none; }
 
 @media (max-width: 620px) {

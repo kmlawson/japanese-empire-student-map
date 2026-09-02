@@ -15524,6 +15524,30 @@ returns to the one.
 
 ---
 
+## Each sheet flies the type that flew it
+
+A Nakajima Ki-34 on the 1942 map, where an arrowhead was: the twin-engine
+transport the network was running by the 1938–39 timetable, as the Fokker F.VII
+is the type that flew the 1930 trunk. Both the author's own traced plan views,
+both drawn by the two-layer silhouette — a fused ink blob under a flat body —
+so neither shows the seams between its parts.
+
+Two things differ per type and are said per type rather than assumed: the
+artwork's box (the Fokker is 64 units across and the Ki-34 is 400, so the rim's
+stroke is 5 on one and 32 on the other) and the scale, each set so the machine
+is legible at its own sheet's density. Measured in flight: 14 aloft over the
+Japan Sea at once, none of them running into another.
+
+The arrowhead is gone. It said where and which way and nothing else, and the
+1942 sheet turned out to have room for the aeroplane after all.
+
+Measured: `airplay.js` 43 checks. One of them was measuring an empty sky —
+fifteen per cent of the week is late on the first day, when most of the network
+has landed — and now looks for a tick with three in the air before it measures
+anything.
+
+---
+
 ## An aeroplane that blinked, and the seq that pointed at another city
 
 ### The blink was one mark doing the work of three
