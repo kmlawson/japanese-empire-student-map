@@ -1203,6 +1203,31 @@ def build_pages():
         if os.path.exists(apath):
             assets[name] = digest(apath)
 
+    # **Everything the site can fetch has to be in docs/UPLOAD.md.**
+    #
+    # The mirror is updated by hand from that list, so a runtime file missing
+    # from it is a file that never reaches the mirror — and the reader gets the
+    # button with nothing behind it. That is not a guess: the plane tools
+    # shipped, `air-play.js` was not on the list, and the mirror served a 404
+    # for it while the button sat there waiting.
+    #
+    # Checked against the same tuple the cache keys come from, so the two
+    # cannot disagree, plus every script in the root: a new module is exactly
+    # the thing that gets forgotten.
+    upath = os.path.join(ROOT, "docs", "UPLOAD.md")
+    if os.path.exists(upath):
+        listed = open(upath, encoding="utf-8").read()
+        want = set(n for n in FETCHED if not n.startswith("relief/")
+                   and not n.startswith("timetable/"))
+        want |= set(n for n in os.listdir(ROOT) if n.endswith(".js"))
+        missing = sorted(n for n in want if "`%s`" % n not in listed)
+        if missing:
+            raise Problem(
+                "docs/UPLOAD.md does not name %s. Every file the site can "
+                "fetch at run time belongs on that list — the mirror is put "
+                "up from it by hand, and a file missing there is a button "
+                "with nothing behind it." % ", ".join(missing))
+
     mpath = os.path.join(ROOT, "map.js")
     if os.path.exists(mpath):
         mjs = open(mpath, encoding="utf-8").read()

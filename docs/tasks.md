@@ -15524,6 +15524,41 @@ returns to the one.
 
 ---
 
+## The Ki-34 was live and the mirror had never heard of it
+
+Reported as still showing the arrowhead on the 1942 map. It was not: a cold
+browser on GitHub Pages draws **fourteen Ki-34s over the Japan Sea**, and the
+deployed `air-play.js` carries the artwork. The mirror is the other story.
+
+    kmlawson.github.io   update 283   air-play.js  200, Ki-34 drawn
+    froginawell.net      update 259   air-play.js  404
+
+The mirror is twenty-four updates behind *and* has never had the file at all —
+so the plane-tools button is there with nothing behind it. That is not a
+staleness problem, it is a list problem: **`docs/UPLOAD.md` never named
+`air-play.js`**, and the mirror is put up by hand from that list.
+
+It had drifted further than that. The list said "eleven files" and named
+eleven; the site fetches nineteen. Missing: `air-play.js`, `trains.js`,
+`tw-trains.js`, `tw-stations.js`, `kr-stations.js`, `relief.js` and
+`japan-empire-map-korea.svg`. Six of the seven had reached the mirror anyway,
+by somebody remembering; the seventh is the one that did not, and it is the one
+that shipped this week.
+
+**So the list is checked at build now.** `build_texts.py` refuses to build if a
+file the site can fetch at run time is not named in `UPLOAD.md`, taking the set
+from the same tuple the cache keys come from plus every script in the root — a
+new module being exactly the thing that gets forgotten. It found
+`japan-empire-map-korea.svg` on its first run, which I had not noticed, and it
+was driven by renaming `air-play.js` in the list and watching the build stop.
+
+A list nobody can forget is worth more than a list somebody remembers.
+
+**The mirror still needs putting up by hand.** Nineteen files, 8.2 MB, 2.3 MB
+gzipped.
+
+---
+
 ## Each sheet flies the type that flew it
 
 A Nakajima Ki-34 on the 1942 map, where an arrowhead was: the twin-engine

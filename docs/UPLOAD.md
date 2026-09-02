@@ -1,10 +1,10 @@
 # What to upload
 
-Eleven files. Nothing else in this repository is used at runtime — `texts/`,
+Nineteen files. Nothing else in this repository is used at runtime — `texts/`,
 `tools/`, `data/` and `occupation-maps/` are how the map is *made*, and
 uploading them costs bandwidth and gives a reader nothing.
 
-Put all ten in the same directory. Every path in the site is relative, so it
+Put them all in the same directory. Every path in the site is relative, so it
 works at a domain root, in a subdirectory, or off a memory stick, with nothing
 to configure.
 
@@ -21,14 +21,27 @@ to configure.
 | `japan-empire-map-admin.svg` | 1,159 KB | 327 KB | when **Administrative** is pressed |
 | `japan-empire-map-fine.svg` | 635 KB | 128 KB | on a deep zoom, for the fine coastlines |
 | `japan-empire-map-roc.svg` | 698 KB | 243 KB | if the reader switches China's province source |
+| `japan-empire-map-korea.svg` | 1,376 KB | 349 KB | on a deep zoom over Korea, for its provinces |
 | `sources.html` | 48 KB | 18 KB | from the link in About |
 | `annotate.js` | 61 KB | 17 KB | when **Create** or **Load annotations** is pressed |
-| **total** | **6.2 MB** | **1.8 MB** | |
+| `relief.js` | 2 KB | 1 KB | when **Topo** is pressed |
+| `trains.js` | 46 KB | 15 KB | when the train tools are asked for |
+| `tw-trains.js` | 278 KB | 67 KB | with them, over Taiwan |
+| `tw-stations.js` | 50 KB | 11 KB | when Taiwan's stations are switched on |
+| `kr-stations.js` | 229 KB | 38 KB | when Korea's are |
+| `air-play.js` | 29 KB | 11 KB | when the plane tools are asked for |
+| **total** | **8.2 MB** | **2.3 MB** | |
 
 Only the first six are fetched before the map is on screen: **3.7 MB raw,
-1.08 MB gzipped**. The other five wait until something asks for them, and a
-reader who never presses Administrative — or never draws on the map — never
-downloads those.
+1.08 MB gzipped**. The rest wait until something asks for them, and a reader
+who never presses Administrative — or never draws on the map, or never runs a
+timetable — never downloads those.
+
+**The list is checked at build.** `tools/build_texts.py` refuses to build if a
+file the site can fetch at run time is not named here. It was hand-kept before
+and it drifted: the plane tools shipped, the mirror was updated without
+`air-play.js`, and the button was there with nothing behind it. A list nobody
+can forget is worth more than a list somebody remembers.
 
 ## Two optional extras
 
