@@ -1546,6 +1546,12 @@ button.plain:hover { background: var(--hover-fill); }
    seen without reading either. */
 #info .note-own {
   color: var(--ink);
+  /* **A blank line in a note is a paragraph break.** The long route notes run
+     to two thoughts — what the service was, and then what is inferred rather
+     than printed — and with the default `normal` the two ran together into one
+     block the reader had to unpick. `pre-line` honours the newline and still
+     collapses runs of spaces, so nothing else about the wrapping changes. */
+  white-space: pre-line;
 }
 
 #info .note-group {

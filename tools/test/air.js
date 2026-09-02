@@ -110,10 +110,58 @@ const toEpoch=async(p,y)=>{
 const drawn=p=>p.evaluate(()=>[...document.querySelectorAll('#air .air-route')]
   .filter(g=>g.style.display!=='none').map(g=>g.getAttribute('data-air')));
 
+/* **Press along the line until this route answers.** `lineSpot` picks the one
+   point farthest from any airport and presses it, which is right for a route
+   with room around it and hopeless for one that shares its first leg with
+   three others — every China Airways service leaves Peking. This walks the
+   candidates in order and stops at the first press that opens the card asked
+   for, so a check can name the route it wants rather than the emptiest pixel. */
+const openRoute=async(p,id,want)=>{
+  for(let z=0;z<3;z++){
+    const cs=await p.evaluate(i=>{
+      const svg=document.getElementById('jmap'), m=svg.getScreenCTM();
+      const el=document.querySelector('.air-route[data-air="'+i+'"] .air-line');
+      if(!el) return [];
+      const raw=el.getAttribute('d').slice(1).split('L')
+        .map(s=>s.trim().split(/\s+/).map(Number));
+      const pts=[];
+      for(let j=0;j<raw.length;j++){
+        pts.push(raw[j]);
+        if(j+1<raw.length) for(const f of [0.25,0.5,0.75])
+          pts.push([raw[j][0]+(raw[j+1][0]-raw[j][0])*f,
+                    raw[j][1]+(raw[j+1][1]-raw[j][1])*f]);
+      }
+      const rings=[...document.querySelectorAll('#air [data-air-stop]')]
+        .map(g=>g.getBoundingClientRect()).filter(b=>b.width||b.height);
+      const box=document.getElementById('map-container').getBoundingClientRect();
+      const scr=q=>{const t=svg.createSVGPoint(); t.x=q[0]; t.y=q[1];
+                    return t.matrixTransform(m);};
+      const gap=r=>rings.length?Math.min.apply(null, rings.map(b=>Math.max(
+        b.left-r.x, r.x-b.right, b.top-r.y, r.y-b.bottom))):1e6;
+      return pts.map(scr)
+        .filter(r=>r.x>box.left+14 && r.x<box.right-14
+                && r.y>box.top+14 && r.y<box.bottom-14)
+        .map(r=>({x:Math.round(r.x),y:Math.round(r.y),clear:Math.round(gap(r))}))
+        .sort((a,b)=>b.clear-a.clear).slice(0,24);
+    }, id);
+    for(const c of cs){
+      await p.mouse.click(c.x,c.y); await sleep(400);
+      const r=await card_(p);
+      if(r.open && r.chip==='Air route' && new RegExp(want).test(r.name||'')) return r;
+      await p.keyboard.press('Escape'); await sleep(120);
+    }
+    if(cs.length) await p.mouse.move(cs[0].x,cs[0].y);
+    await p.evaluate(()=>{const b=document.getElementById('zoom-in');if(b)b.click();});
+    await sleep(900);
+  }
+  return null;
+};
+
 const card_=p=>p.evaluate(()=>{
   const i=document.getElementById('info');
   if(i.hidden) return {open:false};
   const t=document.querySelector('#info-air table');
+  const noteEl=i.querySelector('.note-own')||document.createElement('p');
   return {open:true,
     chip:(i.querySelector('.chip')||{}).textContent,
     name:(i.querySelector('.primary')||{}).textContent,
@@ -126,6 +174,14 @@ const card_=p=>p.evaluate(()=>{
     // one entry per leg, in the order they are drawn down the column
     legs:[...document.querySelectorAll('#info-air .air-calls')].map(c=>
       [...c.querySelectorAll('li')].map(li=>li.textContent.replace(/\s+/g,' ').trim())),
+    /* what the route's own note actually rendered as. `**emphasis**` is
+       written into `data/air/routes.csv` the way it is written everywhere else
+       in this project's prose, and for a while the pane assigned it with
+       `textContent` — which put the asterisks themselves in front of the
+       reader on twenty-six cards. */
+    noteStars:(noteEl.textContent.match(/\*\*/g)||[]).length,
+    noteStrong:[...noteEl.querySelectorAll('strong')].map(x=>x.textContent),
+    noteWrap:noteEl.isConnected?getComputedStyle(noteEl).whiteSpace:'',
     nextday:document.querySelectorAll('#info-air .air-next').length,
     csv:document.querySelectorAll('#info-air .pop-csv').length,
     src:(document.querySelector('#info-air .pop-src a')||{}).href||'',
@@ -159,20 +215,20 @@ const card_=p=>p.evaluate(()=>{
      map, and four more KNILM lines with times from the company's own 1931
      timetable — those four on the 1930 sheet, where the rest of the Dutch
      network is not. */
-  check('fifty routes', data.n===50, String(data.n));
+  check('fifty-four routes', data.n===54, String(data.n));
   /* **Every route with a timetable says which sheet it was read from.** The
      card's heading used to fall back to "Summer timetable, June–August 1931"
      for any route with no season of its own, which put the 1931 trunk's
      diagram at the head of the Fukuoka–Naha–Taihoku table — a citation for a
      document those times were never in. `build_texts.py` refuses that now. */
-  check('forty-nine of the fifty name the sheet they were read from',
-    data.seasoned===49, String(data.seasoned));
+  check('fifty-three of the fifty-four name the sheet they were read from',
+    data.seasoned===53, String(data.seasoned));
   const unsourced=await page.evaluate(()=>(JMAP.AIR||[])
     .filter(r=>(r.times||[]).length && !r.season).map(r=>r.id));
   check('and not one route with a timetable is missing it',
     unsourced.length===0, JSON.stringify(unsourced));
   check('each of those names the airline',
-    data.opWithSeason===49, String(data.opWithSeason));
+    data.opWithSeason===53, String(data.opWithSeason));
   check('the trunk runs Tokyo to Dairen in seven stops',
     data.trunk && data.trunk.stops.length===7
       && data.trunk.stops[0].name==='Tokyo'
@@ -221,13 +277,13 @@ const card_=p=>p.evaluate(()=>{
     haloW:getComputedStyle(document.querySelector('#air .air-halo')).strokeWidth,
     lineW:getComputedStyle(document.querySelector('#air .air-line')).strokeWidth,
   }));
-  check('the button builds them all', on.shown && on.routes===50, JSON.stringify(on));
+  check('the button builds them all', on.shown && on.routes===54, JSON.stringify(on));
   check('the pane box and the button agree',
     on.pressed==='true' && on.box===true, on.pressed+' / '+on.box);
-  check('every route has a white halo under it', on.halo===50, String(on.halo));
+  check('every route has a white halo under it', on.halo===54, String(on.halo));
   check('and the halo is wider than the line it backs',
     parseFloat(on.haloW)>parseFloat(on.lineW), on.haloW+' vs '+on.lineW);
-  check('every stop is ringed', on.rings===145, String(on.rings));
+  check('every stop is ringed', on.rings===164, String(on.rings));
 
   /* **A route belongs to the dates it was flown.** The 1930 sheet has one:
      the Tokyo–Dairen trunk, the only service already running and the only one
@@ -244,7 +300,7 @@ const card_=p=>p.evaluate(()=>{
     on1930.join(', '));
   await toEpoch(page,'1942');
   const on1942=await drawn(page);
-  check('the 1942 sheet draws the other forty-five', on1942.length===45,
+  check('the 1942 sheet draws the other forty-nine', on1942.length===49,
     String(on1942.length));
   /* **The trunk is not on both — it is a different aeroplane.** In 1931 it
      called at Ulsan and Heijō and slept at Keijō; by the 1938–39 timetable it
@@ -417,8 +473,10 @@ const card_=p=>p.evaluate(()=>{
   check('drawn in an ink of their own, not the Japanese network\u2019s',
     nl.dutchInk && nl.japInk && nl.dutchInk!==nl.japInk,
     nl.dutchInk+' vs '+nl.japInk);
-  check('twenty-six Dutch lines and nineteen Japanese, together',
-    nl.dutchDrawn===26 && nl.japaneseDrawn===19,
+  /* Japanese here means flown under a Japanese company: the nineteen 大日本航空
+     services and the four China Airways lines added from the 1940 brochure. */
+  check('twenty-six Dutch lines and twenty-three Japanese, together',
+    nl.dutchDrawn===26 && nl.japaneseDrawn===23,
     nl.dutchDrawn+' Dutch, '+nl.japaneseDrawn+' Japanese');
   /* **The date on the document, not the date on the map.** */
   check('the KLM card says its times are from before the occupation',
@@ -568,7 +626,7 @@ const card_=p=>p.evaluate(()=>{
             long:(JMAP.AIR||[])[0].name};
   });
   check('every route carries a short name as well as its full one',
-    names.n===50 && /–/.test(names.sample[0]) && names.long.length>names.sample[0].length,
+    names.n===54 && /–/.test(names.sample[0]) && names.long.length>names.sample[0].length,
     JSON.stringify(names.sample));
   check('and the trunk is named by its two ends',
     names.sample[0]==='Tokyo – Dairen', names.sample[0]);
@@ -679,6 +737,40 @@ const card_=p=>p.evaluate(()=>{
     const r=ring.getBoundingClientRect().width;
     return l>=12 && r>=14;
   }), 'a 1.7 px line and a 3.4 px ring are not finger-sized');
+
+  console.log('\n\u2014 the note a route carries \u2014');
+
+  /* **A route note is prose, and it is rendered as prose.**
+   *
+   * The pane assigned `r.note` with `textContent`, so the emphasis marks the
+   * author writes — the same `**…**` every other blurb on this map uses —
+   * reached the reader as literal asterisks. Twenty-six cards carried them:
+   * every KLM and KNILM line, where the marked sentence is the one that
+   * matters ("these are 1938 times, from a brochure printed before the
+   * occupation"). It goes through `setProse` now, which builds the nodes with
+   * `createElement` and `textContent` rather than markup, so nothing in a data
+   * file can inject into the pane.
+   *
+   * Checked on a card whose note *has* emphasis, because a card without any
+   * passes either way and proves nothing. */
+  const marked=await page.evaluate(()=>(JMAP.AIR||[])
+    .filter(r=>/\*\*/.test(r.note||'')).map(r=>r.id));
+  check('some route notes carry emphasis to render', marked.length>0,
+    String(marked.length));
+  const klm=await openRoute(page,'klm-batavia','Karachi');
+  check('a marked note opens its card', !!klm,
+    'no press along the KLM trunk opened it');
+  if (klm) {
+    check('the emphasis is rendered, not printed', klm.noteStars===0,
+      klm.noteStars + ' literal asterisks in the note');
+    check('and it became a <strong>', klm.noteStrong.length>=1,
+      JSON.stringify(klm.noteStrong));
+    /* And a blank line in a note is a paragraph break. Two-thought notes — what
+       the service was, then what is inferred rather than printed — ran together
+       into one block under the default `normal`. */
+    check('a blank line in a note is honoured', klm.noteWrap==='pre-line',
+      klm.noteWrap);
+  }
 
   check('no page errors', errs.concat(perrs).length===0, errs.concat(perrs).join(' | '));
   await browser.close();

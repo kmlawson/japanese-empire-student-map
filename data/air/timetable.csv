@@ -90,3 +90,26 @@ tohoku,,1,東京 Tokyo,,,9:30,,14:10,,,,daily,,
 tohoku,,2,仙台 Sendai,11:00,,11:20,,12:20,,12:30,,daily,,
 tohoku,,3,青森 Aomori,13:00,,13:10,,10:30,,10:40,,daily,,
 tohoku,,4,札幌 Sapporo,14:40,,,,,,9:00,,daily,,
+china-shanghai,,1,北京 Peking,,,9:30,,15:00,,,,daily,,
+china-shanghai,,2,天津 Tientsin,10:00,,10:10,,14:20,,14:30,,daily,,
+china-shanghai,,3,濟南 Tsinan,11:10,,11:30,,13:00,,13:20,,daily,,
+china-shanghai,,4,徐州 Hsuchow,12:30,,12:40,,11:50,,12:00,,daily,,
+china-shanghai,,5,南京 Nanking,13:40,,14:00,,10:30,,10:50,,daily,,
+china-shanghai,,6,上海 Shanghai,15:00,,,,,,9:30,,daily,,
+china-baotou,,1,北京 Peking,,,10:00,,14:55,,,,"out Mondays, Wednesdays and Fridays; home Tuesdays, Thursdays and Saturdays",1 3 5,2 4 6
+china-baotou,,2,張家口 Kalgan,11:10,,11:20,,13:35,,13:45,,"out Mondays, Wednesdays and Fridays; home Tuesdays, Thursdays and Saturdays",1 3 5,2 4 6
+china-baotou,,3,大同 Tatung,12:20,,12:40,,12:15,,12:35,,"out Mondays, Wednesdays and Fridays; home Tuesdays, Thursdays and Saturdays",1 3 5,2 4 6
+china-baotou,,4,厚和 Kōwa,13:50,,14:00,,10:55,,11:05,,"out Mondays, Wednesdays and Fridays; home Tuesdays, Thursdays and Saturdays",1 3 5,2 4 6
+china-baotou,,5,包頭 Paotow,14:55,,,,,,10:00,,"out Mondays, Wednesdays and Fridays; home Tuesdays, Thursdays and Saturdays",1 3 5,2 4 6
+china-dairen,,1,北京 Peking,,,8:30,,16:00,,,,daily,,
+china-dairen,,2,天津 Tientsin,8:55,,9:05,,15:25,,15:35,,daily,,
+china-dairen,,3,大連 Dairen,10:20,,,,,,14:00,,daily,,
+china-hankou,"Nanking – Hankow, calling at Anking and Kiukiang",2,南京 Nanking,,,9:00,,14:50,,,,daily,,
+china-hankou,"Nanking – Hankow, calling at Anking and Kiukiang",3,安慶 Anking,10:00,,10:10,,13:40,,13:50,,daily,,
+china-hankou,"Nanking – Hankow, calling at Anking and Kiukiang",4,九江 Kiukiang,10:40,,10:50,,13:00,,13:10,,daily,,
+china-hankou,"Nanking – Hankow, calling at Anking and Kiukiang",5,漢口 Hankow,11:40,,,,,,12:10,,daily,,
+china-hankou,"Shanghai – Hankow, over Nanking",1,上海 Shanghai,,,9:00,,17:10,,,,daily,,
+china-hankou,"Shanghai – Hankow, over Nanking",2,南京 Nanking,10:10,,10:25,,15:45,,16:00,,daily,,
+china-hankou,"Shanghai – Hankow, over Nanking",5,漢口 Hankow,12:50,,,,,,13:20,,daily,,
+china-hankou,Nanking – Shanghai shuttle,1,上海 Shanghai,,,14:00,,11:10,,,,daily,,
+china-hankou,Nanking – Shanghai shuttle,2,南京 Nanking,15:10,,,,,,10:00,,daily,,

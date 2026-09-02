@@ -16416,6 +16416,103 @@ mark on the wrong one.
 
 ---
 
+## China Airways, 1940: four lines into occupied China
+
+Read off the 中華航空株式會社 brochure at
+<https://www.timetableimages.com/ttimages/ckkk/ckkk40c/ckkk3.jpg>, four routes
+on the 1942 map in the company's own ink (`#2c6e63`):
+
+    china-shanghai   Peking – Tientsin – Tsinan – Hsuchow – Nanking – Shanghai
+    china-baotou     Peking – Kalgan – Tatung – Kōwa – Paotow
+    china-dairen     Peking – Tientsin – Dairen
+    china-hankou     Shanghai – Nanking – Anking – Kiukiang – Hankow
+
+23 timetable rows, 19 stops, all on cities the map already had. The whole
+transcription — every printed time, distance and fare, and every place the
+drawn timetable differs from the printed one — is in `data/air/README.md`,
+which is new and is the file to read before touching any of this.
+
+**安慶 Anking was identified from the arithmetic, not the characters.** The
+brochure gives the stop no romanisation. Great-circle distances against its own
+粁程 column: Nanking–Anqing 240 km against a printed 250, Anqing–Jiujiang 134
+against 130, Jiujiang–Hankou 191 against 180, Shanghai–Nanking 270 against 270.
+The three legs also sum to the 560 km printed for the nonstop Nanking–Hankow,
+and their fares — 40 + 25 + 35 — to its 100.
+
+That last sum is the answer to the thing that looked wrong on the first
+reading. The 560/100 row appeared to be Shanghai–Hankow, whose legs come to
+135, and a non-additive through fare would have needed the build's fare guard
+exempting. It is Nanking–Hankow: the 粁程/運賃 columns hold leg values in both
+tables, and everything adds up. No exemption needed, and no fares were written
+to `fares.csv` — the card heads that column "Yen" and these are 圓.
+
+**Tientsin is drawn from times the brochure does not print.** It marks the stop
+on two lines and gives it no clock. On 上海線, 10.00/10.10 south and 14.20/14.30
+north are what the printed ends and distances require with the ten-minute stop
+every other call gets: thirty minutes Peking–Tientsin, an hour on to Tsinan,
+closing exactly on the printed 11.10 and 15.00, symmetric both ways. On 大連線
+it is tighter — 500 km in 110 minutes — and 8.55/9.05 out, 15.25/15.35 back are
+the printed ends apportioned by the printed distances. Both say so on the card.
+
+### Measured
+
+All four draw on 1942 and none on 1930. All four fly: walking the week's slider
+and counting marks that sit on the stretch of each line no other line runs
+along —
+
+    china-shanghai   days 1–7, up to 2 aloft at once
+    china-baotou     days 1–6 only, 1 aloft
+    china-dairen     days 1–7, 1 aloft
+    china-hankou     days 1–7, up to 2 on the clear stretch (4 on the whole line)
+
+Paotow flying six days and never on the seventh is the check that matters:
+`down_days 1 3 5` / `up_days 2 4 6` reaching the animation. It first read as
+seven, which was the measurement's fault and not the data's — every China
+Airways service leaves Peking, so within a few pixels of the city the four
+lines are the same line and a Shanghai aeroplane counted as a Paotow one.
+Sampling each line clear of the others is what the check does now.
+
+## A route note was rendered as text, so its emphasis reached the reader as asterisks
+
+Found while adding the above. `selectAirRoute` assigned `r.note` with
+`textContent`, so the `**…**` this project writes in all its prose arrived on
+the card as literal asterisks — on **twenty-six cards**: every KLM and KNILM
+line added in the last few updates, where the marked sentence is the one that
+matters ("these are 1938 times, from a brochure printed before the
+occupation"). It now goes through `setProse`, the same helper the epoch blurb
+uses, which builds `<strong>` with `createElement`/`textContent` and never
+touches `innerHTML` — so nothing in a data file can inject into the pane.
+
+`#info .note-own` also gets `white-space: pre-line`, so a blank line in a note
+is a paragraph break. Two of the new China notes need it: what the service was,
+then what is inferred rather than printed.
+
+Guarded in `tools/test/air.js`: it asserts some route note carries emphasis,
+opens that route's card and requires zero literal asterisks, at least one
+`<strong>`, and `pre-line`. A card with no emphasis passes either way and
+proves nothing, so the check picks one that has some.
+
+That needed a second helper. `lineSpot` presses the single point farthest from
+any airport, which is right for a route with room around it and hopeless for
+one sharing its first leg with three others; and with fifty-four services drawn
+nothing clears the 8 px threshold, so it zoomed four times and walked the route
+off the screen. `openRoute(page, id, want)` walks the candidate points in order
+and stops at the first press that opens the card asked for. It is at the end of
+the file because it leaves the view zoomed in.
+
+## js_string did not escape newlines, and the build reported success anyway
+
+The same change surfaced this. `tools/texts_lib.py`'s `js_string` escaped a
+backslash and an apostrophe and nothing else, on the reasoning that no field
+had a newline in it. The first route note with a paragraph break wrote a
+literal newline inside a single-quoted string; `data.js` stopped parsing, the
+map drew nothing at all, and `build_texts.py` printed its usual five lines and
+exited zero.
+
+Now escaped, along with U+2028 and U+2029 — legal inside a JS string since
+ES2019 and not before, and invisible either way.
+
+
 ## Sources worth fetching
 
 - **Suiyuan, 1942: a better boundary than a meridian.** The date is defensible

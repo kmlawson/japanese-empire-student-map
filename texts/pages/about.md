@@ -15,7 +15,17 @@ For how to work the map and how to draw on it, press the **?** button beside Abo
 
 ### A Todo List
 
-A few things planned but not yet implemented:
+A few things planned but not yet implemented.
+
+In Progress:
+
+* **Air lines** - adding major airline routes for Japan and rest of southeast Asia
+* **Rail lines** - adding major lines for Manchuria (1930 vs 1942 or nearest available dates) and rest of China
+* **Ocean liners** - major lines for east and southeast Asia (1930 vs 1942 or nearest available dates)
+* **Statistics** - Incorporating population statistics at national, colonial, provincial, and city levels.
+* **Quality Control** - Cleaning up generated descriptions and instructions
+
+Planned:
 
 * **Missing Admin Boundaries** - There are still some places that have missing administrative units at the sub-national level, or which have not been carefully checked for period accuracy. 
 * **More India Options** - While not key for a map on Japanese empire, the map could be more useful for students of European empire if the India side of the map better captured the multiple ways of depicting its complex territories.

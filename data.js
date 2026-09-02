@@ -8048,6 +8048,88 @@ JMAP.AIR = [
       { seq: '3', station: 'Pakan Baroe', da: '13:00', dd: '13:30', ua: '9:35', ud: '10:05' },
       { seq: '4', station: 'Medan', da: '16:00', ud: '5:45' }
     ]
+  },
+  {
+    id: 'china-shanghai', name: 'Peking – Tientsin – Tsinan – Hsuchow – Nanking – Shanghai', operator: 'China Airways Co. (中華航空株式會社)', opened: '',
+    season: '1940', epochs: ['e1942'], source: '中華航空株式會社 時刻表 (1940)', srcUrl: 'https://www.timetableimages.com/ttimages/ckkk/ckkk40c/ckkk3.jpg',
+    ink: '#2c6e63', days: [],
+    note: 'China Airways was set up in December 1938, a joint concern of 大日本航空 and the Japanese-sponsored governments at Peking and Nanking, and it flew the occupied corridor — the railway cities, in a day, at the point when the railways between them were being cut. This is its longest line: Peking to Shanghai between breakfast and mid-afternoon, daily in both directions.\n\n**Tientsin\'s times are inferred.** The brochure marks it as a stop on this line and prints no clock against it. The times drawn here — 10.00/10.10 southbound and 14.20/14.30 northbound — are what the printed ends and the printed distances require: they make Peking–Tientsin thirty minutes and Tientsin–Tsinan an hour, and they close exactly on 11.10 at Tsinan and 15.00 at Peking. The line\'s own figures are 120 km to Tientsin, then 280, 280, 290 and 270, at 15, 45, 40, 45 and 25 圓.',
+    stops: [
+      { id: 'beijing', name: 'Peking (Beijing)', lon: 116.4, lat: 39.9 },
+      { id: 'tianjin', name: 'Tientsin (Tianjin)', lon: 117.2, lat: 39.13 },
+      { id: 'jinan', name: 'Tsinan (Jinan)', lon: 116.99, lat: 36.67 },
+      { id: 'xuzhou', name: 'Hsuchow (Xuzhou)', lon: 117.19, lat: 34.26 },
+      { id: 'nanjing', name: 'Nanking (Nanjing)', lon: 118.8, lat: 32.06 },
+      { id: 'shanghai', name: 'Shanghai', lon: 121.47, lat: 31.23 }
+    ],
+    times: [
+      { seq: '1', station: '北京 Peking', dd: '9:30', ua: '15:00', freq: 'daily' },
+      { seq: '2', station: '天津 Tientsin', da: '10:00', dd: '10:10', ua: '14:20', ud: '14:30', freq: 'daily' },
+      { seq: '3', station: '濟南 Tsinan', da: '11:10', dd: '11:30', ua: '13:00', ud: '13:20', freq: 'daily' },
+      { seq: '4', station: '徐州 Hsuchow', da: '12:30', dd: '12:40', ua: '11:50', ud: '12:00', freq: 'daily' },
+      { seq: '5', station: '南京 Nanking', da: '13:40', dd: '14:00', ua: '10:30', ud: '10:50', freq: 'daily' },
+      { seq: '6', station: '上海 Shanghai', da: '15:00', ud: '9:30', freq: 'daily' }
+    ]
+  },
+  {
+    id: 'china-baotou', name: 'Peking – Kalgan – Tatung – Kōwa – Paotow', operator: 'China Airways Co. (中華航空株式會社)', opened: '',
+    season: '1940', epochs: ['e1942'], source: '中華航空株式會社 時刻表 (1940)', srcUrl: 'https://www.timetableimages.com/ttimages/ckkk/ckkk40c/ckkk3.jpg',
+    ink: '#2c6e63', days: [],
+    note: 'The line west into Mengchiang, out from Peking on Mondays, Wednesdays and Fridays and home on Tuesdays, Thursdays and Saturdays, flown by a Nakajima AT-2 (中島式A.T.機). Kōwa is Hohhot — the city the Chinese republic called Kweisui (歸綏) and the Mengchiang régime renamed 厚和豪特 in 1937, which is the name the brochure prints. Distances and fares: 170 km to Kalgan, then 150, 170 and 135, at 25, 22, 25 and 19 圓.',
+    stops: [
+      { id: 'beijing', name: 'Peking (Beijing)', lon: 116.4, lat: 39.9 },
+      { id: 'kalgan', name: 'Kalgan (Zhangjiakou)', lon: 114.88, lat: 40.81 },
+      { id: 'datong', name: 'Tatung (Datong)', lon: 113.3, lat: 40.09 },
+      { id: 'hohhot', name: 'Kōwa (Hohhot)', lon: 111.75, lat: 40.84 },
+      { id: 'baotou', name: 'Paotow (Baotou)', lon: 109.84, lat: 40.66 }
+    ],
+    times: [
+      { seq: '1', station: '北京 Peking', dd: '10:00', ua: '14:55', freq: 'out Mondays, Wednesdays and Fridays; home Tuesdays, Thursdays and Saturdays', dw: '1 3 5', uw: '2 4 6' },
+      { seq: '2', station: '張家口 Kalgan', da: '11:10', dd: '11:20', ua: '13:35', ud: '13:45', freq: 'out Mondays, Wednesdays and Fridays; home Tuesdays, Thursdays and Saturdays', dw: '1 3 5', uw: '2 4 6' },
+      { seq: '3', station: '大同 Tatung', da: '12:20', dd: '12:40', ua: '12:15', ud: '12:35', freq: 'out Mondays, Wednesdays and Fridays; home Tuesdays, Thursdays and Saturdays', dw: '1 3 5', uw: '2 4 6' },
+      { seq: '4', station: '厚和 Kōwa', da: '13:50', dd: '14:00', ua: '10:55', ud: '11:05', freq: 'out Mondays, Wednesdays and Fridays; home Tuesdays, Thursdays and Saturdays', dw: '1 3 5', uw: '2 4 6' },
+      { seq: '5', station: '包頭 Paotow', da: '14:55', ud: '10:00', freq: 'out Mondays, Wednesdays and Fridays; home Tuesdays, Thursdays and Saturdays', dw: '1 3 5', uw: '2 4 6' }
+    ]
+  },
+  {
+    id: 'china-dairen', name: 'Peking – Tientsin – Dairen', operator: 'China Airways Co. (中華航空株式會社)', opened: '',
+    season: '1940', epochs: ['e1942'], source: '中華航空株式會社 時刻表 (1940)', srcUrl: 'https://www.timetableimages.com/ttimages/ckkk/ckkk40c/ckkk3.jpg',
+    ink: '#2c6e63', days: [],
+    note: 'Two hours from Peking to the Kwantung Leased Territory, daily, on a Douglas DC-3 (ダグラス機 D.C.3) — the fastest machine on the network. The brochure\'s diagram carries the line on past Dairen with arrows to Mukden, Hsinking and Keijō, which is where the Japanese trunk services took it up.\n\n**Tientsin\'s times are inferred.** As on the Shanghai line the brochure marks the stop and gives it no clock; 8.55/9.05 outward and 15.25/15.35 back are what the printed ends allow, apportioned by the printed distances — 120 km to Tientsin and 380 on to Dairen, at 15 and 50 圓. They are tighter than the Shanghai line\'s, because 500 km in 110 minutes needs very nearly all a DC-3 had.',
+    stops: [
+      { id: 'beijing', name: 'Peking (Beijing)', lon: 116.4, lat: 39.9 },
+      { id: 'tianjin', name: 'Tientsin (Tianjin)', lon: 117.2, lat: 39.13 },
+      { id: 'dairen', name: 'Dairen (Dalian)', lon: 121.61, lat: 38.91 }
+    ],
+    times: [
+      { seq: '1', station: '北京 Peking', dd: '8:30', ua: '16:00', freq: 'daily' },
+      { seq: '2', station: '天津 Tientsin', da: '8:55', dd: '9:05', ua: '15:25', ud: '15:35', freq: 'daily' },
+      { seq: '3', station: '大連 Dairen', da: '10:20', ud: '14:00', freq: 'daily' }
+    ]
+  },
+  {
+    id: 'china-hankou', name: 'Shanghai – Nanking – Anking – Kiukiang – Hankow', operator: 'China Airways Co. (中華航空株式會社)', opened: '',
+    season: '1940', epochs: ['e1942'], source: '中華航空株式會社 時刻表 (1940)', srcUrl: 'https://www.timetableimages.com/ttimages/ckkk/ckkk40c/ckkk3.jpg',
+    ink: '#2c6e63', days: [],
+    note: 'Three services up the Yangtze on one line, daily, flown by Lockheeds (ロッキード機). One works its way upriver calling at Anking and Kiukiang; one runs Shanghai to Hankow over Nanking without stopping between, and so is drawn flying straight where the other follows the river; and a shuttle does Nanking–Shanghai and back. Each is its own column on the card.\n\nAnking is 安慶, which the brochure prints in characters and does not romanise. The distances settle it: 250 km from Nanking, 130 on to Kiukiang and 180 to Hankow, which is the Yangtze in order and matches the real spacing within five per cent. Those three also sum to the 560 km the brochure gives for the through Nanking–Hankow leg, and their fares — 40, 25 and 35 圓 — sum to its 100.',
+    stops: [
+      { id: 'shanghai', name: 'Shanghai', lon: 121.47, lat: 31.23 },
+      { id: 'nanjing', name: 'Nanking (Nanjing)', lon: 118.8, lat: 32.06 },
+      { id: 'anqing', name: 'Anking (Anqing)', lon: 117.05, lat: 30.51 },
+      { id: 'jiujiang', name: 'Kiukiang (Jiujiang)', lon: 116.0, lat: 29.71 },
+      { id: 'wuhan', name: 'Hankow (Wuhan)', lon: 114.28, lat: 30.58 }
+    ],
+    times: [
+      { svc: 'Shanghai – Hankow, over Nanking', seq: '1', station: '上海 Shanghai', dd: '9:00', ua: '17:10', freq: 'daily' },
+      { svc: 'Nanking – Shanghai shuttle', seq: '1', station: '上海 Shanghai', dd: '14:00', ua: '11:10', freq: 'daily' },
+      { svc: 'Nanking – Hankow, calling at Anking and Kiukiang', seq: '2', station: '南京 Nanking', dd: '9:00', ua: '14:50', freq: 'daily' },
+      { svc: 'Shanghai – Hankow, over Nanking', seq: '2', station: '南京 Nanking', da: '10:10', dd: '10:25', ua: '15:45', ud: '16:00', freq: 'daily' },
+      { svc: 'Nanking – Shanghai shuttle', seq: '2', station: '南京 Nanking', da: '15:10', ud: '10:00', freq: 'daily' },
+      { svc: 'Nanking – Hankow, calling at Anking and Kiukiang', seq: '3', station: '安慶 Anking', da: '10:00', dd: '10:10', ua: '13:40', ud: '13:50', freq: 'daily' },
+      { svc: 'Nanking – Hankow, calling at Anking and Kiukiang', seq: '4', station: '九江 Kiukiang', da: '10:40', dd: '10:50', ua: '13:00', ud: '13:10', freq: 'daily' },
+      { svc: 'Nanking – Hankow, calling at Anking and Kiukiang', seq: '5', station: '漢口 Hankow', da: '11:40', ud: '12:10', freq: 'daily' },
+      { svc: 'Shanghai – Hankow, over Nanking', seq: '5', station: '漢口 Hankow', da: '12:50', ud: '13:20', freq: 'daily' }
+    ]
   }
 ];
 

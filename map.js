@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '288';
+  var JEM_VERSION = '289';
   var JEM_ASSETS = {"admin.js": "3414697d04", "air-play.js": "e5a71f6f9a", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "58132ef9c2", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
 
   /* Every file this one fetches, with the version on it.
@@ -8868,8 +8868,17 @@
                           r.season && ('in the ' + r.season + ' timetable')]
         .filter(Boolean).join(' · ');
     }
+    /* **Through `setProse`, not `textContent`.** A route note is prose the
+       author wrote, with the same emphasis marks every other blurb on this map
+       uses, and assigning it as text put twenty-six cards' worth of literal
+       asterisks in front of the reader — every KLM and KNILM line, where the
+       marked sentence is the one that matters ("these are 1938 times, from a
+       brochure printed before the occupation"). `setProse` builds the same
+       nodes the epoch blurb gets, and it does it with `createElement` and
+       `textContent` rather than markup, so nothing in a data file can inject
+       into the pane. */
     if (note) {
-      note.textContent = r.note || '';
+      setProse(note, r.note || '');
       note.hidden = !r.note;
     }
     var prov = infoBox.querySelector('.prov');

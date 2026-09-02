@@ -280,10 +280,23 @@ _ID_RE = re.compile(r"^[A-Za-z_$][\w$]*$")
 
 
 def js_string(s):
-    """A JS single-quoted string. Only the two characters that must be escaped
-    are escaped, so the Japanese, Chinese and Korean stay readable in the
-    output and the typographic apostrophes stay as themselves."""
-    return "'" + s.replace("\\", "\\\\").replace("'", "\\'") + "'"
+    """A JS single-quoted string. Only what must be escaped is escaped, so the
+    Japanese, Chinese and Korean stay readable in the output and the
+    typographic apostrophes stay as themselves.
+
+    **A newline must be escaped too**, and for a long time this did not, on the
+    reasoning that no field had one. A route note with a paragraph break in it
+    then wrote a literal newline inside a single-quoted string; `data.js`
+    stopped parsing, the whole map failed to draw, and `build_texts.py`
+    reported success. U+2028 and U+2029 are here for the same reason — legal
+    inside a string since ES2019 and not before, and invisible either way."""
+    return "'" + (s.replace("\\", "\\\\")
+                   .replace("'", "\\'")
+                   .replace("\r\n", "\\n")
+                   .replace("\n", "\\n")
+                   .replace("\r", "\\n")
+                   .replace("\u2028", "\\u2028")
+                   .replace("\u2029", "\\u2029")) + "'"
 
 
 def js_value(v, indent=0):

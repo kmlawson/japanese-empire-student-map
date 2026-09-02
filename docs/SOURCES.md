@@ -83,7 +83,17 @@ the Indies are from the [Complete Map of the Airlines of K.N.I.L.M.](https://www
 of about 1935, which is a route map and not a timetable: the lines are drawn
 and nothing is said about when they flew. **By December 1942 neither network
 was running** — the Japanese had taken the Indies that spring — and each card
-says so. They are drawn to show what had been there. Also consulted: Mizusawa Hikari, "The Civilian Air Transportation Network that Linked Japan with Its Colonies", [JACAR](https://www.jacar.go.jp/english/exhibition/glossary_en/gaichitonaichi/column/column1.html).
+says so. They are drawn to show what had been there. The four **China Airways** lines on the 1942 sheet — Peking to Shanghai, to
+Dairen, west to Paotow, and the Yangtze services to Hankow — are read from the
+company's own [1940 timetable](https://www.timetableimages.com/ttimages/ckkk/ckkk40c/ckkk3.jpg).
+中華航空株式會社 was set up in December 1938, a joint concern of 大日本航空 and the
+Japanese-sponsored governments at Peking and Nanking. The brochure prints its
+places in characters only; 安慶 Anking is identified from the distance column,
+whose three Yangtze legs sum to the figure given for the nonstop and match the
+real spacing to within five per cent. Tientsin is marked as a call on two of
+the lines with no clock against it, and the times drawn there are inferred from
+the printed ends and distances — each card says which. The whole transcription
+is in `data/air/README.md`. Also consulted: Mizusawa Hikari, "The Civilian Air Transportation Network that Linked Japan with Its Colonies", [JACAR](https://www.jacar.go.jp/english/exhibition/glossary_en/gaichitonaichi/column/column1.html).
 
 ## Download the geometry
 
