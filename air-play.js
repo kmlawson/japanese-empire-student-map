@@ -168,10 +168,15 @@ window.JMAP_AIRPLAY = function (host) {
            * `groundedFrom` names the stop it starts at, in the route's own
            * order; a leg is grounded if the earlier of its two stops is at or
            * past that one, whichever way round the aeroplane is going. */
+          /* Asked of the host rather than read off the record: the reader can
+             switch the grounding off in the Layers panel to fly the pre-war
+             timetables, and the aeroplanes have to hear about that as well as
+             the lines do. */
+          var gfrom = host.grounded ? host.grounded(r) : r.groundedFrom;
           var gi = -1;
-          if (r.groundedFrom) {
+          if (gfrom) {
             for (var gx = 0; gx < stops.length; gx++) {
-              if ((stops[gx].id || stops[gx].name) === r.groundedFrom) { gi = gx; break; }
+              if ((stops[gx].id || stops[gx].name) === gfrom) { gi = gx; break; }
             }
           }
           var legs = [];

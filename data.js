@@ -7708,7 +7708,7 @@ JMAP.AIR = [
   {
     id: 'klm-batavia', name: 'Karachi – Jodhpur – Allahabad – Calcutta – Rangoon – Bangkok – Penang – Medan – Singapore – Palembang – Batavia – Bandoeng', operator: 'KLM (Koninklijke Luchtvaart Maatschappij)', opened: '1929',
     season: 'summer 1938', epochs: ['e1942'], source: 'KLM, Amsterdam–Batavia summer service, 29 March 1938', srcUrl: 'https://northwestairlineshistory.org/wp-content/uploads/2020/04/KLM-schedule-1938-03-29-AMS-JKT-route.pdf',
-    ink: '#a9560d', days: [1, 4, 6], groundedFrom: '',
+    ink: '#a9560d', days: [1, 4, 6], groundedFrom: 'rangoon',
     note: 'The eastern end of the Amsterdam–Batavia trunk, the longest scheduled air route in the world when it opened. Four days from Karachi to Bandoeng, night stops at Jodhpur, Rangoon and Singapore, leaving Karachi on Mondays, Thursdays and Saturdays. **These are 1938 times, from a brochure printed before the occupation** — the map is December 1942, by which date the Japanese held every field east of Calcutta and this service had long stopped running. It is drawn to show what the network had been. West of Karachi the line runs off the frame: the dot at the edge marks where it leaves, and the next stop was Jask on the Persian coast, then on to Amsterdam.',
     stops: [
       { name: 'Towards Jask and Amsterdam', lon: 66.2, lat: 25.2 },
@@ -8204,7 +8204,7 @@ JMAP.AIR = [
   {
     id: 'cnac-chungking-rangoon', name: 'Chungking – Kunming – Lashio – Rangoon', operator: 'China National Aviation Corporation (中國航空公司)', opened: '1939',
     season: 'October 1940', epochs: ['e1942'], source: 'China National Aviation Corporation timetable, October 1940', srcUrl: '',
-    ink: '#5b3a8c', days: [], groundedFrom: '',
+    ink: '#5b3a8c', days: [], groundedFrom: 'lashio',
     note: 'The way out. By October 1940 the coast was gone and this was the air equivalent of the Burma Road, once a week each way.',
     stops: [
       { id: 'chongqing', name: 'Chungking (Chongqing)', lon: 106.55, lat: 29.56 },
@@ -8482,7 +8482,7 @@ JMAP.AIR = [
   {
     id: 'airfrance-karachi-hongkong', name: 'Karachi – Calcutta – Rangoon – Bangkok – Saigon – Hanoi – Hong Kong', operator: 'Air France', opened: '',
     season: '1938', epochs: ['e1942'], source: 'Air France, Extrême-Orient timetable, 1938', srcUrl: '',
-    ink: '#a32222', days: [], groundedFrom: 'bangkok',
+    ink: '#a32222', days: [], groundedFrom: 'akyab',
     note: 'Air France to Indochina and on to Hong Kong. Given the war, nothing from Bangkok eastward could have been flown in December 1942: that stretch is drawn faint and no aeroplane is put on it. **The times are not in the source** — 08:00 departures at the Dewoitine 338\'s 320 km/h.',
     stops: [
       { id: 'karachi', name: 'Karachi', lon: 67.01, lat: 24.86 },

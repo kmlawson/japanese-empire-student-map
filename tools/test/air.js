@@ -135,7 +135,11 @@ const openRoute=async(p,id,want)=>{
   for(let z=0;z<3;z++){
     const cs=await p.evaluate(i=>{
       const svg=document.getElementById('jmap'), m=svg.getScreenCTM();
-      const el=document.querySelector('.air-route[data-air="'+i+'"] .air-line');
+      /* `.air-hit` rather than `.air-line`: the hit path is every leg the route
+         draws, faint ones included, and a route can now be faint over most of
+         its length — the KLM trunk is grounded from Rangoon, so Bandoeng is
+         not on the lit path at all. */
+      const el=document.querySelector('.air-route[data-air="'+i+'"] .air-hit');
       if(!el) return [];
       const raw=String(el.getAttribute('d')||'').split(/(?=[ML])/)
         .map(s=>s.replace(/^[ML]/,'').trim()).filter(Boolean)
@@ -1017,25 +1021,25 @@ const card_=p=>p.evaluate(()=>{
   check('and none on the 1930 one', g30.max < 30, g30.max + ' units on ' + g30.who);
   await toEpoch(page, '1942');
 
-  /* **A shared stretch is faint only when nobody on it is flying.**
+  /* **Grounded by default, and a switch that flies them anyway.**
    *
-   * Since the collapse one line stands for several services, and it is drawn
-   * by whichever owns it — so asking the owner alone whether the ground could
-   * be flown answered for everybody. Bangkok to Penang is the case: Imperial's
-   * 1939 service is grounded from Akyab and owns that stretch by name, and the
-   * line went faint although KLM flew it to a timetable. */
-  const bkkPen = await page.evaluate(() => {
+   * The lines across Burma, Siam, Malaya and the Indies come off sheets
+   * printed before the war and could not have been flown in December 1942, so
+   * they are drawn faint and carry no aeroplane. A teacher may still want to
+   * show the pre-war network in motion, so the Layers panel has a switch for
+   * it — off by default, because the honest answer is the grounded one.
+   *
+   * Read at the midpoint between two rings rather than off a leg number: the
+   * question is what the reader sees over that ground, and which leg of which
+   * service carries it is the thing that keeps changing. */
+  const overGround = (a, b) => page.evaluate((ka, kb) => {
     const svg = document.getElementById('jmap'), m = svg.getScreenCTM();
     const ring = k => { const g = document.querySelector('#air [data-air-stop="' + k + '"]');
       if (!g) return null; const r = g.getBoundingClientRect();
       return [r.left + r.width / 2, r.top + r.height / 2]; };
-    const A = ring('bangkok'), B = ring('penang');
+    const A = ring(ka), B = ring(kb);
     if (!A || !B) return null;
     const mid = [(A[0] + B[0]) / 2, (A[1] + B[1]) / 2];
-    /* Halfway between the two rings on the screen, and which of the three
-       paths passes through it. Asked in screen space and of every route,
-       because the question is what the reader sees over that ground — not
-       which leg of which service happens to carry it. */
     const near = sel => [...document.querySelectorAll('#air .air-route')]
       .filter(g => g.style.display !== 'none')
       .some(g => {
@@ -1049,11 +1053,50 @@ const card_=p=>p.evaluate(()=>{
       });
     return { drawn: near('.air-line') || near('.air-line-shared'),
              faint: near('.air-line-idle') };
+  }, a, b);
+
+  const bkkPen = await overGround('bangkok', 'penang');
+  check('Bangkok to Penang is faint on the 1942 sheet',
+    bkkPen && bkkPen.faint && !bkkPen.drawn, JSON.stringify(bkkPen));
+  const allBox = await page.evaluate(() => {
+    const b = document.getElementById('opt-air-all');
+    if (!b) return null;
+    const was = b.checked; b.click();
+    return { was: was, now: b.checked };
   });
-  check('Bangkok to Penang is drawn rather than dimmed', bkkPen && bkkPen.drawn,
-    JSON.stringify(bkkPen));
-  check('  and it is not on the faint path', bkkPen && !bkkPen.faint,
-    JSON.stringify(bkkPen));
+  check('  the Layers panel has the switch, and it starts off',
+    allBox && allBox.was === false, JSON.stringify(allBox));
+  await sleep(900);
+  const bkkPen2 = await overGround('bangkok', 'penang');
+  check('  and with it on the line comes back',
+    bkkPen2 && bkkPen2.drawn && !bkkPen2.faint, JSON.stringify(bkkPen2));
+  const codeAll = await page.evaluate(() => location.search);
+  check('  the switch travels in the address', /layers=[^&]*\./.test(codeAll)
+    && codeAll !== '', codeAll);
+  await page.evaluate(() => document.getElementById('opt-air-all').click());
+  await sleep(900);
+  const bkkPen3 = await overGround('bangkok', 'penang');
+  check('  and off again it is faint once more',
+    bkkPen3 && bkkPen3.faint && !bkkPen3.drawn, JSON.stringify(bkkPen3));
+
+  /* **A shared stretch is lit for whoever flies it, not for whoever draws it.**
+   *
+   * Since the collapse one line stands for several services and is drawn by
+   * whichever owns it in the stable order — and that is sometimes a service
+   * with no timetable at all. Keijō to Dairen is drawn by `keijo-dairen`,
+   * which has none, and flown by the Tokyo–Dairen trunk, which has. Asked with
+   * the week running, because that is when a line with nothing flying it goes
+   * faint. */
+  await page.evaluate(() => document.getElementById('btn-planes').click());
+  await sleep(900);
+  await page.evaluate(() => { const b = document.querySelector('.air-play');
+    if (b && b.textContent === '\u25b6') b.click(); });
+  await sleep(600);
+  const keijo = await overGround('seoul', 'dairen');
+  check('the Keijō–Dairen line is lit by the service that flies it',
+    keijo && keijo.drawn, JSON.stringify(keijo));
+  await page.evaluate(() => document.getElementById('btn-planes').click());
+  await sleep(600);
 
 
   console.log('\n\u2014 the note a route carries \u2014');

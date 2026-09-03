@@ -1315,6 +1315,13 @@ button.plain:hover { background: var(--hover-fill); }
   box-shadow: var(--shadow);
 }
 
+/* **`display: grid` beats `[hidden]`.** The rule above is a plain element
+   selector, so it wins over the UA's `[hidden] { display: none }` and the two
+   buttons that are meant to appear only with their layer — the plane tools and
+   the train tools — were on the screen from the first load. Introduced with
+   the grid centring above and reported straight away. */
+#zoom-controls button[hidden] { display: none; }
+
 #zoom-controls button:hover { background: var(--panel); }
 
 /* **The air button shows the aeroplane that flies the sheet.** Both drawings
@@ -1815,6 +1822,26 @@ dialog hr { border: 0; border-top: 1px solid var(--line); margin: 16px 0; }
 #dlg-options .hint { margin: .25em 0 .7em; }
 #dlg-options .row + .hint { margin-top: .1em; }
 #dlg-options hr { margin: 11px 0; }
+/* **The Layers filter.** `!important` because a row can carry `display: flex`
+   from its own rule, and this has to beat it whatever the row is; the class is
+   only ever set by the filter, so nothing else is being overridden. The rows'
+   own `hidden` attribute is untouched — see `layFilter` in map.js. */
+.lay-hide { display: none !important; }
+
+.lay-find { margin: 2px 0 8px; }
+.lay-find input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 7px 9px;
+  font: inherit;
+  font-size: 14px;
+  color: var(--ink);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+.lay-find input::placeholder { color: var(--ink); opacity: .55; }
+
 #dlg-options h3 { margin: 14px 0 5px; }
 #dlg-options h3:first-of-type { margin-top: 4px; }
 

@@ -344,6 +344,7 @@ console.log('\n— one setting at a time, and nothing rides along with it —');
       .map(x => x.classList.contains('on')),
     manchukuo: document.querySelector('#opt-manchukuo').checked,
     mengjiang: document.querySelector('#opt-mengjiang').checked,
+    airAll: document.querySelector('#opt-air-all').checked,
   }));
   const trip = async (name, setup, keys) => {
     const p = await open(b); await setup(p); await sleep(1600);
@@ -383,6 +384,15 @@ console.log('\n— one setting at a time, and nothing rides along with it —');
       if (bs.length) bs[bs.length - 1].click(); });
     await sleep(1200);
   }, ['relief', 'detail', 'manchukuo', 'mengjiang', 'air']);
+
+  /* The switch that flies the pre-war timetables over the 1942 sheet. Off by
+     default, so an address written before it existed still opens grounded. */
+  await trip('the pre-war lines flown, and the routes stay on', async p => {
+    await p.evaluate(() => document.getElementById('btn-air').click()); await sleep(1400);
+    await p.evaluate(() => { const e = document.querySelector('#opt-air-all');
+      e.checked = true; e.dispatchEvent(new Event('change', { bubbles: true })); });
+    await sleep(1200);
+  }, ['airAll', 'air', 'manchukuo', 'mengjiang', 'relief']);
 
   await trip('Manchukuo hidden, and the relief sheet is untouched',
     p => p.evaluate(() => { const e = document.querySelector('#opt-manchukuo');

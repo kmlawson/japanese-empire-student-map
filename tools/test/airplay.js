@@ -83,13 +83,25 @@ const toEpoch=async(p,y)=>{
   await ready(page);
 
   console.log('\n— the button comes with the network and goes with it —');
-  check('hidden before the routes are drawn',
-    await page.evaluate(()=>document.getElementById('btn-planes').hidden), '');
+  /* **Off the screen, not merely `hidden`.** The attribute was set all along
+     and the button was on the screen anyway: `#zoom-controls button` took a
+     `display: grid` in the iPad centring fix, and a plain element selector
+     beats the UA's `[hidden] { display: none }`. So this asks the browser what
+     it is painting rather than what the markup says. */
+  const planeBox = () => page.evaluate(() => {
+    const b = document.getElementById('btn-planes');
+    return { hidden: b.hidden, display: getComputedStyle(b).display,
+             width: b.getBoundingClientRect().width };
+  });
+  const off = await planeBox();
+  check('hidden before the routes are drawn', off.hidden, JSON.stringify(off));
+  check('  and taking up no room on the screen',
+    off.display === 'none' && off.width === 0, JSON.stringify(off));
   await toEpoch(page,'1942');
   await page.evaluate(()=>document.getElementById('btn-air').click());
   await sleep(1100);
-  check('and shown once they are',
-    !(await page.evaluate(()=>document.getElementById('btn-planes').hidden)), '');
+  const on = await planeBox();
+  check('and shown once they are', !on.hidden && on.width > 0, JSON.stringify(on));
   /* Drawing a network and flying it are two different asks. */
   check('but nothing is flying until it is pressed',
     !(await page.evaluate(()=>!!document.getElementById('air-bar'))), '');

@@ -13,8 +13,8 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '298';
-  var JEM_ASSETS = {"admin.js": "3414697d04", "air-play.js": "25c3b085f0", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "58132ef9c2", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
+  var JEM_VERSION = '299';
+  var JEM_ASSETS = {"admin.js": "3414697d04", "air-play.js": "148cb82a79", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "58132ef9c2", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
 
   /* Every file this one fetches, with the version on it.
 
@@ -231,6 +231,11 @@
        makes no claim about. */
     manchukuo: true,
     mengjiang: true,
+    /* **Fly the pre-war timetables anyway.** Off: the lines that ran across
+       ground the Japanese held by December 1942 are grounded — drawn faint and
+       carrying no aeroplane. On: everything with a timetable flies. A teaching
+       switch, not a claim about 1942. */
+    airAll: false,
     /* Japanese names foremost inside the empire — the names an official
        document or a railway timetable of the period would print — or the local
        ones. On by default because the map is a map *of* the empire, and the
@@ -2316,7 +2321,8 @@
   }
 
   function syncTrainBoxes() {
-    [['#opt-air', 'air'], ['#opt-tw-rail', 'twRail'], ['#opt-tw-stations', 'twStations'],
+    [['#opt-air', 'air'], ['#opt-air-all', 'airAll'],
+     ['#opt-tw-rail', 'twRail'], ['#opt-tw-stations', 'twStations'],
      ['#opt-kr-rail', 'krRail'], ['#opt-kr-stations', 'krStations']]
       .forEach(function (pair) {
         var box = $(pair[0]);
@@ -4098,6 +4104,7 @@
     // absent place in an old link has to mean the default
     if (!state.manchukuo) hi += MANCHUKUO_PLACE;
     if (!state.mengjiang) hi += MENGJIANG_PLACE;
+    if (state.airAll) hi += AIRALL_PLACE;
     hi += THEME_PLACE * (THEME_MODES.indexOf(state.theme) + 1 || 0);
     // set when the row is OFF — an old link carries zeroes here and must open
     // with every name switched on, which is what it showed its sender
@@ -4188,6 +4195,7 @@
     airPlayWanted = !!(Math.floor(hi / AIRPLAY_PLACE) % 2);
     state.manchukuo = !(Math.floor(hi / MANCHUKUO_PLACE) % 2);   // inverted
     state.mengjiang = !(Math.floor(hi / MENGJIANG_PLACE) % 2);   // inverted
+    state.airAll = !!(Math.floor(hi / AIRALL_PLACE) % 2);
     state.theme = THEME_MODES[(Math.floor(hi / THEME_PLACE) % 4) - 1] || 'auto';
     LABEL_CATS.forEach(function (c) {          // inverted; see layerCode
       state.labelCats[c.id] = !(Math.floor(hi / c.place) % 2);
@@ -8830,10 +8838,23 @@
    *
    * `grounded_from` on the route names the stop it is grounded from: that leg
    * and every one after it, in the route's own order. */
+  /* **Which stop a route is grounded from, after the reader has had their
+     say.** The switch in the Layers panel lets a class fly the pre-war
+     timetables over the 1942 sheet, which is a thing a teacher may want to
+     show and not a claim about December 1942 — so it is off by default and it
+     answers here, in the one place both the drawing and the aeroplanes ask.
+     Gated on the sheet because the label names it: nothing on the 1930 map is
+     grounded today, and a switch about 1942 must not start deciding for 1930
+     if something ever is. */
+  function airGrounding(r) {
+    if (state.airAll && state.epoch === 'e1942') return '';
+    return (r && r.groundedFrom) || '';
+  }
+
   function airGroundedLegs(r, pairs) {
     var stops = (r && r.stops) || [];
     var out = pairs.map(function () { return false; });
-    var from = r && r.groundedFrom;
+    var from = airGrounding(r);
     if (!from) return out;
     var at = -1;
     for (var j = 0; j < stops.length; j++) {
@@ -8911,6 +8932,39 @@
    *
    * None of this depends on the zoom any more, so it is built when the sheet
    * changes and not on every rescale. */
+  /* **Which legs are flown and which are grounded, and the airports left
+     standing on them.** Worked out apart from the geometry because it is not a
+     fact about the geometry: it depends on the timetable *and* on whether the
+     reader has asked for the pre-war lines to be flown, and the second of
+     those moves while the map is up. The path strings themselves are built by
+     `airRepath`. */
+  function airMarkLegs() {
+    (JMAP.AIR || []).forEach(function (r) {
+      var geom = airGeoms[r.id];
+      if (!geom) return;
+      var legs = airFlownLegs(r, geom.pairs);
+      var dead = airGroundedLegs(r, geom.pairs);
+      /* Stopped, every stop a leg the aeroplanes *could* have flown reaches;
+         running, only the ones something actually flies to. */
+      var reach = function (pick) {
+        var keep = {};
+        geom.pairs.forEach(function (pr, i) {
+          if (!pick[i]) return;
+          keep[r.stops[pr[0]].id || r.stops[pr[0]].name] = true;
+          keep[r.stops[pr[1]].id || r.stops[pr[1]].name] = true;
+        });
+        return keep;
+      };
+      airFlown[r.id] = legs;
+      airDead[r.id] = dead;
+      var pp = airPaths[r.id];
+      if (pp) {
+        pp.stops = reach(legs);
+        pp.stopsPaused = reach(dead.map(function (x) { return !x; }));
+      }
+    });
+  }
+
   function airRepath() {
     Object.keys(airGeoms).forEach(function (id) {
       var geom = airGeoms[id];
@@ -9024,30 +9078,8 @@
       var geom = airGeom(r.stops, airChordsOf(r));
       if (!geom.length) return;
       airGeoms[r.id] = geom;
-      /* Which legs an aeroplane actually works, and the airports left standing
-         on them. Worked out here, where the geometry is; the path strings
-         themselves are built by `airRepath`, which runs again on every zoom
-         because the lane offset is a distance on screen. */
-      var legs = airFlownLegs(r, geom.pairs);
-      var dead = airGroundedLegs(r, geom.pairs);
-      /* Which airports are still lit, in each of the two states. Stopped, that
-         is every stop a leg the aeroplanes *could* have flown reaches; running,
-         only the ones something actually flies to. */
-      var reach = function (pick) {
-        var keep = {};
-        geom.pairs.forEach(function (pr, i) {
-          if (!pick[i]) return;
-          keep[r.stops[pr[0]].id || r.stops[pr[0]].name] = true;
-          keep[r.stops[pr[1]].id || r.stops[pr[1]].name] = true;
-        });
-        return keep;
-      };
-      var alive = dead.map(function (x) { return !x; });
-      airFlown[r.id] = legs;
-      airDead[r.id] = dead;
       airPaths[r.id] = { own: '', all: '', mixed: '', allDim: '', flown: '',
-                         flownMixed: '', idle: '',
-                         stops: reach(legs), stopsPaused: reach(alive) };
+                         flownMixed: '', idle: '', stops: {}, stopsPaused: {} };
       var d = airPathOf(geom, null);
       var g = svgEl('g', { 'class': 'air-route', 'data-air': r.id });
       /* **A line may carry its own colour.** The Japanese network is one ink
@@ -9132,6 +9164,7 @@
       airGroup.appendChild(g);
     });
     airGroup.appendChild(airRings);
+    airMarkLegs();
   }
 
   /* The card for a route. It is not one of the map's records — an air service
@@ -9819,6 +9852,10 @@
       /* Play and pause change what the *map* draws, not only what the layer
          above it does: see `applyAir`. */
       playChanged: function () { applyAir(); },
+      /* The stop a route is grounded from — asked rather than read off the
+         record, because the reader can switch the grounding off and the
+         aeroplanes have to hear about it as well as the lines. */
+      grounded: function (r) { return airGrounding(r); },
     };
   }
 
@@ -10314,9 +10351,15 @@
      * from its neighbour is a distance on screen, so the paths are rebuilt
      * when `k` changes — this runs on every rescale, and a zoom that has not
      * moved the scale does no work. */
-    if (airLaneEpoch !== state.epoch) {
-      airLaneEpoch = state.epoch;
+    /* Keyed on the switch as well as the sheet: flying the pre-war timetables
+       changes which legs are grounded, which changes what is drawn faint and
+       which airports are left standing, and none of that is worked out again
+       unless the key moves. */
+    var airKey = state.epoch + (state.airAll ? '|all' : '');
+    if (airLaneEpoch !== airKey) {
+      airLaneEpoch = airKey;
       buildAirLanes();
+      airMarkLegs();
       airRepath();
     }
 
@@ -12135,6 +12178,10 @@
   var AIRPLAY_PLACE = 262144;
   var MANCHUKUO_PLACE = 524288;
   var MENGJIANG_PLACE = 1048576;
+  /* And above them, the switch that flies the pre-war timetables on the 1942
+     sheet. Off by default, so an absent place in an older link means what it
+     has always meant. */
+  var AIRALL_PLACE = 2097152;
   var THEME_MODES = ['light', 'dark'];
 
   /* The whole of the switch. `data-theme` on the root element is what
@@ -15564,6 +15611,23 @@
         });
       });
 
+    /* **Fly the pre-war timetables anyway.** Not in the list above because
+       redrawing is not enough: the aeroplanes are built from the timetables
+       when the player mounts, so a switch that changes which legs are flyable
+       has to put the player away and set it up again. Done only if it was
+       already up — ticking this is not a request to start the week. */
+    var boxAll = $('#opt-air-all');
+    if (boxAll) {
+      boxAll.checked = !!state.airAll;
+      boxAll.addEventListener('change', function () {
+        state.airAll = boxAll.checked;
+        var wasUp = !!(airApi && airApi.mounted());
+        if (wasUp) unmountAirPlay();
+        applyState();
+        if (wasUp) mountAirPlay();
+      });
+    }
+
     /* The two switches beside the map. They move the same state the Layers
        panel does and go through `applyState`, so the panel, the address bar
        and the map cannot disagree about what is on. */
@@ -15700,10 +15764,138 @@
     });
 
 
+    /* **A live filter over the Layers panel.**
+     *
+     * There are fifty-odd switches in there and a reader looking for one
+     * should not have to read all of them.
+     *
+     * Three things decide how this is written.
+     *
+     *   * **It hides with a class, not with `hidden`.** Half these rows carry
+     *     a hidden state of their own — the station rows wait for their
+     *     railway, the relief detail for Topography, the population section
+     *     for the date — and clearing the search must not switch those back
+     *     on. `.lay-hide` is this filter's and nothing else touches it.
+     *   * **A row is found by its section as well as by its own words.**
+     *     Typing "transport" should bring the railways up even though the word
+     *     is only in the heading above them, so each row is matched against
+     *     its own text, its tooltip, and the last `h3` before it.
+     *   * **The chrome follows the rows.** A heading with nothing left under
+     *     it, a rule between two empty sections, a hint explaining a row that
+     *     is no longer there: all noise. Headings are shown when something in
+     *     their section survives; the rules go while a search is running; and
+     *     a hint or a segmented control belongs to the row above it and goes
+     *     with it. */
+    var layFind = $('#layers-find');
+    if (layFind) {
+      var dlgOpts = $('#dlg-options');
+      var kids = function () {
+        return Array.prototype.filter.call(dlgOpts.children, function (el) {
+          return el.tagName !== 'FORM' && el.tagName !== 'H2'
+                 && el.id !== 'layers-find' && el.id !== 'layers-none'
+                 && !el.classList.contains('lay-find');
+        });
+      };
+      /* **The words a reader can see, not the tooltip.** Matching the `title`
+         too looked generous and was noise: the tooltips here are paragraphs,
+         so "rail" brought up the Japanese-names switch (its tooltip mentions a
+         railway timetable) and "transport" brought up the population maps.
+         `aria-label` is kept because a segmented control has no visible text
+         of its own. */
+      var wordsOf = function (el) {
+        var t = [el.textContent || '', el.getAttribute('aria-label') || ''];
+        Array.prototype.forEach.call(el.querySelectorAll('[aria-label]'),
+          function (x) { t.push(x.getAttribute('aria-label') || ''); });
+        return t.join(' ').toLowerCase();
+      };
+      /* **The heading a row sits under, found from the row.** Not carried in a
+         variable down the list of the panel's own children, because one
+         section is not one of them: the population group is a `div` with its
+         own `h3` *inside* it, so a running variable had those rows filed under
+         Transport — the heading before the div — and "transport" brought up
+         the density maps. */
+      var headOf = function (el) {
+        var n = el;
+        while (n && n !== dlgOpts) {
+          var q2 = n.previousElementSibling;
+          while (q2) {
+            if (q2.tagName === 'H3') return (q2.textContent || '').toLowerCase();
+            var deep = q2.querySelectorAll('h3');
+            if (deep.length) return (deep[deep.length - 1].textContent || '').toLowerCase();
+            q2 = q2.previousElementSibling;
+          }
+          n = n.parentElement;
+        }
+        return '';
+      };
+      var layFilter = function () {
+        var q = String(layFind.value || '').trim().toLowerCase();
+        var els = kids();
+        var hits = 0;
+        /* First pass: every row decides for itself, and the riders that
+           explain it — a hint, a segmented control — take its answer. */
+        var shown = els.map(function () { return false; });
+        var last = -1;
+        els.forEach(function (el, i) {
+          var tag = el.tagName;
+          if (tag === 'H3' || tag === 'HR') return;
+          var rider = tag === 'P'
+            || (el.classList.contains('seg') && last >= 0
+                && els[last].tagName === 'LABEL');
+          if (rider) { if (last >= 0) shown[i] = shown[last]; return; }
+          /* A container of rows — the five name switches, the population
+             group — is shown if any row inside it is, and its rows are
+             filtered one at a time. */
+          var rows = el.querySelectorAll('.row');
+          if (rows.length) {
+            var any = false;
+            Array.prototype.forEach.call(rows, function (row) {
+              var ok = !q || (wordsOf(row) + ' ' + headOf(row)).indexOf(q) >= 0;
+              row.classList.toggle('lay-hide', !ok);
+              if (ok) any = true;
+            });
+            shown[i] = any;
+          } else {
+            shown[i] = !q || (wordsOf(el) + ' ' + headOf(el)).indexOf(q) >= 0;
+          }
+          last = i;
+          if (shown[i]) hits++;
+        });
+        /* Second pass: a heading lives as long as something under it does, and
+           the rules go for the duration of a search. */
+        for (var i = els.length - 1, alive = false; i >= 0; i--) {
+          var tag = els[i].tagName;
+          if (tag === 'H3') { shown[i] = !q || alive; alive = false; continue; }
+          if (tag === 'HR') { shown[i] = !q; continue; }
+          /* A section that carries its own heading inside it does not keep the
+             heading above it alive: the population group is under Demography,
+             which is inside the group, not under Transport, which is not. */
+          if (shown[i] && !els[i].querySelector('h3')) alive = true;
+        }
+        els.forEach(function (el, i) { el.classList.toggle('lay-hide', !shown[i]); });
+        var none = $('#layers-none');
+        if (none) none.hidden = !(q && !hits);
+      };
+      layFind.addEventListener('input', layFilter);
+      /* Escape clears the box before it closes the dialog, which is what a
+         reader who has just filtered to nothing expects the key to do. */
+      layFind.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && layFind.value) {
+          e.stopPropagation(); e.preventDefault();
+          layFind.value = ''; layFilter();
+        }
+      });
+      JMAP.__layerFilter = layFilter;
+    }
+
     // Option-click opens the admin panel instead of the Layers dialogue. It is
     // a separate file and a reader never fetches it; see admin.js.
     $('#btn-options').addEventListener('click', function (e) {
       if (e.altKey) { loadAdminPanel(); return; }
+      /* Opened fresh: a search left over from last time is a panel with most
+         of itself missing and no obvious reason why. */
+      var lf = $('#layers-find');
+      if (lf && lf.value) { lf.value = ''; if (JMAP.__layerFilter) JMAP.__layerFilter(); }
       $('#dlg-options').showModal();
     });
     $('#btn-about').addEventListener('click', function () { $('#dlg-about').showModal(); });

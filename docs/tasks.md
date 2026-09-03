@@ -17280,3 +17280,73 @@ Railway to the Soviet frontier" described the ground, not the airline, and the
 sentence about the two services repeats what the timetable on the card already
 shows. What is left is the provenance the other two Manchurian cards carry:
 "These are 1935 times on a map of December 1942."
+
+
+## The plane-tools button was on the screen with the routes off
+
+Reported. A regression from the iPad centring fix one release earlier:
+`#zoom-controls button { display: grid }` is a plain element selector and beats
+the UA's `[hidden] { display: none }`, so `#btn-planes` and `#btn-rail` were
+painted whatever the attribute said. `syncAirPlayButton` had been setting
+`hidden` correctly all along, and the test that guards it read the *property*
+rather than the computed style, so it passed throughout. Both are fixed:
+`#zoom-controls button[hidden] { display: none }`, and the check now asks the
+browser what it is painting — display and width, measured at 0.
+
+## Grounded through Burma, Siam, Malaya and the Indies
+
+Three more services now stop where the Japanese line was in December 1942, on
+the convention the Imperial Airways route already used: a route is grounded
+from its first stop in occupied territory, and the flight *into* that stop is
+still drawn as flown.
+
+    klm-batavia                  from Rangoon    348 units of faint line
+    airfrance-karachi-hongkong   from Akyab      1104   (was from Bangkok)
+    cnac-chungking-rangoon       from Lashio     172
+
+With `iaw39-karachi-darwin` (1076) and `airfrance-bangkok-hanoi` (244, faint
+end to end) that is every non-Japanese service on the 1942 sheet that crosses
+held ground. Bangkok–Penang is faint again as a result, and correctly so: both
+services on it are now grounded. The KNILM lines in the Indies are untouched —
+they have no timetable, so nothing flies them in either case, and grounding
+them would make twenty-six lines permanently faint for no change in the
+animation. Say the word if they should go too.
+
+## A switch that flies the pre-war timetables anyway
+
+New row in the Layers panel, off by default, in the author's words. On, every
+line with a timetable flies on the 1942 sheet and none of them is faint.
+Measured: the faint path goes from 2944 characters to 0, the dimmed airport
+rings from 33 to 22, and plane-sightings over a sampled week from 410 to 462.
+`airfrance-bangkok-hanoi`, which is grounded end to end, is the one service
+that goes from never flying to flying.
+
+It is one flag in the high field of the layers code (2097152), so it travels in
+a shared link, and it is asked of one function — `airGrounding` — which both
+the drawing and the aeroplanes consult. Ticking it while the week is running
+puts the player away and sets it up again, because the aeroplanes are built
+from the timetables at mount.
+
+## A search box at the top of the Layers panel
+
+Fifty-odd switches, and a reader looking for one should not have to read all of
+them. It filters live, matches a row by the words a reader can see and by the
+heading above it, and takes the chrome with the rows — a heading with nothing
+left under it goes, and so do the rules while a search is running.
+
+Two things it had to get right, both measured:
+
+* **Clearing puts back exactly what was there.** It hides with a class of its
+  own, not the `hidden` attribute, because the station rows, the relief detail
+  and the population group carry a hidden state of their own. 39 rows before,
+  39 after, the same 39, with `#relief-seg` still hidden.
+* **Only the visible words.** Matching tooltips too looked generous and was
+  noise: "rail" brought up the Japanese-names switch, whose tooltip mentions a
+  railway timetable, and "transport" brought up the density maps. Now 2 rows
+  and 5.
+
+The population group is a `div` with its own `h3` inside it, so the heading a
+row sits under is found from the row rather than carried down the list of the
+panel's children — that was the second half of the "transport" fault.
+
+`tools/test/layerfind.js` is new, 19 checks, and it is in the `core` group.
