@@ -3820,21 +3820,41 @@ dialog h3 {
 
 /* The little arrow beside a choropleth in the Layers pane: take this map away
    as data. It sits at the end of the row, quiet until the row is hovered,
-   because the row's job is choosing a map and this is the afterthought. */
+   because the row's job is choosing a map and this is the afterthought.
+
+   **It carried `button.plain`, and with it a 38px minimum height.** So the two
+   rows in each group that offer a download stood a third taller than the rows
+   that do not, and the Demography section read as four lists with gaps torn in
+   them — reported with a picture. The size is stated here instead: 18px of
+   glyph, no border, no minimum. The touch target is put back below. */
 #pop-rows .row { display: flex; align-items: center; gap: 0.35rem; }
-#pop-rows .pop-dl {
+#dlg-options .pop-dl {
   margin-left: auto;
-  padding: 0 0.35rem;
+  min-height: 0;
+  height: 18px;
+  padding: 0 4px;
   border: 0;
   background: none;
   color: inherit;
   font: inherit;
-  line-height: 1.1;
+  font-size: 12px;
+  line-height: 1;
   opacity: 0.45;
   cursor: pointer;
 }
-#pop-rows .row:hover .pop-dl,
-#pop-rows .pop-dl:focus-visible { opacity: 1; }
+#dlg-options .row:hover .pop-dl,
+#dlg-options .pop-dl:focus-visible { opacity: 1; }
+/* And a finger still gets something to hit. The mark stays 18px; what grows is
+   the box round it, which is the same division the rest of this panel makes. */
+@media (pointer: coarse) {
+  #dlg-options .pop-dl { min-height: 44px; min-width: 40px; }
+}
+
+/* The Demography rows sit closer than the rest of the panel: they are four
+   short lists of alternatives rather than a column of separate switches, and
+   the sub-heading is what separates one place from the next. */
+#pop-rows .row { padding: 0; }
+#dlg-options #pop-rows .pane-sub { margin: 7px 0 1px; }
 
 /* A legend swatch whose colour can be changed: option-click, or hold on a
    touch screen. The cue is deliberately faint — the swatch's first job is the

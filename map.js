@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '300';
+  var JEM_VERSION = '301';
   var JEM_ASSETS = {"admin.js": "3414697d04", "air-play.js": "8db7ba0d73", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "58132ef9c2", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
 
   /* Every file this one fetches, with the version on it.
@@ -9962,11 +9962,36 @@
      just changed. */
   var airPlaySyncing = false;
 
+  /* **One network in motion at a time, whichever is asked for second.**
+   *
+   * The train tools carry a control strip across the foot of the map and the
+   * plane tools carry another; two clocks running different days over each
+   * other is not a thing anybody asked to read. Switching the air routes on
+   * already put the trains' tools away — this is the rest of the rule, so it
+   * holds whichever of the two the reader presses. The *layers* are untouched:
+   * the railway stays drawn and so do the air routes. */
+  function setTrainTools(on) {
+    state.trainTools = !!on;
+    var box = $('#opt-train-tools');
+    if (box) box.checked = state.trainTools;
+    if (state.trainTools) setAirPlay(false);
+    applyState();
+  }
+
   function setAirPlay(on) {
     airPlayWanted = !!on && !!state.air;
+    var tookTrains = false;
+    if (airPlayWanted && state.trainTools) {
+      state.trainTools = false;
+      var trainBox = $('#opt-train-tools');
+      if (trainBox) trainBox.checked = false;
+      tookTrains = true;
+    }
     if (airPlayWanted) { buildAir(); loadAirPlay(); }
     else unmountAirPlay();
     syncAirPlayButton();
+    // the trains' strip is torn down by `applyState`, not by anything here
+    if (tookTrains) applyState();
     /* **The network is drawn differently while it is being flown**, so the
        lines have to be redrawn on the way in and on the way out — not only
        when the date or the view changes, which is the only thing that used to
@@ -15668,8 +15693,7 @@
        and switching the lines off takes the squares with them rather than
        leaving a checkbox ticked for something invisible. */
     [['#opt-air', 'air'], ['#opt-tw-rail', 'twRail'], ['#opt-kr-rail', 'krRail'],
-     ['#opt-tw-stations', 'twStations'], ['#opt-kr-stations', 'krStations'],
-     ['#opt-train-tools', 'trainTools']]
+     ['#opt-tw-stations', 'twStations'], ['#opt-kr-stations', 'krStations']]
       .forEach(function (pair) {
         var box = $(pair[0]);
         if (!box) return;
@@ -15679,6 +15703,17 @@
           applyState();
         });
       });
+
+    /* The train tools go through `setTrainTools`, which puts the plane tools
+       away — the panel and the button beside the map have to follow the same
+       rule, or the panel would leave two strips across the foot of the map. */
+    var boxTrainTools = $('#opt-train-tools');
+    if (boxTrainTools) {
+      boxTrainTools.checked = state.trainTools;
+      boxTrainTools.addEventListener('change', function () {
+        setTrainTools(boxTrainTools.checked);
+      });
+    }
 
     /* **Fly the pre-war timetables anyway.** Not in the list above because
        redrawing is not enough: the aeroplanes are built from the timetables
@@ -15735,10 +15770,7 @@
     var btnTrn = $('#btn-trains');
     if (btnTrn) {
       btnTrn.addEventListener('click', function () {
-        state.trainTools = !state.trainTools;
-        var box = $('#opt-train-tools');
-        if (box) box.checked = state.trainTools;
-        applyState();
+        setTrainTools(!state.trainTools);
         saveState();
       });
     }

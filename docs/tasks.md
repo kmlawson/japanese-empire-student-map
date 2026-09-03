@@ -17441,3 +17441,44 @@ with a timestamp), 670 `annotations-<stamp>.geojson` — which is also what the
 map writes for a reader's own export — and a family of
 `korea-population-density-*` and table CSVs in the same position. Left for the
 author to say which may go.
+
+
+## The download arrow was a button pretending to be a glyph
+
+Reported with a picture of the Demography section: gaps torn between its rows.
+The arrow carried `button.plain`, and with it `min-height: 38px` — which
+`#pop-rows .pop-dl` never reset — so the two rows in each group that offer a
+download stood a third taller than the rows that do not.
+
+    a row with an arrow      40 px  ->  23
+    a row without one        23 px  ->  23
+    the Demography section  508 px  -> 390   (23% shorter)
+    the whole panel        2128 px -> 1840   (14%, on the 1942 sheet)
+
+The arrow is 17 x 18 px of glyph now, with no border and no minimum. A coarse
+pointer still gets 44 px to hit — the mark stays small and the box round it
+grows, which is the division the rest of this panel makes.
+
+## One set of tools at a time, whichever is asked for second
+
+The train tools carry a control strip across the foot of the map and the plane
+tools carry another. Switching the air *routes* on already put the trains' tools
+away; the rest of the rule was missing, so a reader could have both strips at
+once with two clocks running different days over each other.
+
+`setTrainTools` is the way in now — the panel row and the button beside the map
+both go through it — and `setAirPlay` does the same in reverse. The layers are
+untouched: the railway stays drawn and so do the air routes, which is checked.
+
+## The Downloads folder, cleared
+
+1007 files removed, all of them written by these tests: 337 under names only
+the tests use (`good-`, `r13-two-`, `ui2-`, `dp3-`, `dp4-`, `d6b-`,
+`audit-set-`, each with a timestamp) and 670 `annotations-<stamp>.geojson`.
+Matched on the exact pattern, regular files only, in `~/Downloads` and nowhere
+else. What is left there is thirteen GeoJSONs: the SHGIS source sheets, the
+China units file, and the `korea-population-density-*` family, which the map
+writes for a reader as well as for a test and which nobody asked to remove.
+
+Future runs cannot add to it — see the entry above; measured again after this
+change, six saving scripts run and the count in Downloads does not move.

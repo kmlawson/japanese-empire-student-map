@@ -467,6 +467,51 @@ const toEpoch=async(p,y)=>{
     sizes.length>0 && Math.max.apply(null,sizes)<=40 && Math.min.apply(null,sizes)>=14,
     JSON.stringify(sizes.slice(0,8)));
 
+  /* **One network in motion at a time, whichever is asked for second.**
+   *
+   * The train tools carry a control strip across the foot of the map and the
+   * plane tools carry another; two clocks running different days over each
+   * other is not a thing anybody asked to read. Switching the air *routes* on
+   * already put the trains' tools away; this is the rest of the rule, so it
+   * holds whichever of the two the reader presses. The layers themselves are
+   * untouched — the railway stays drawn and so do the routes. */
+  console.log('\n— the two sets of tools do not share the foot of the map —');
+  {
+    const tp = await browser.newPage();
+    await tp.setViewport({ width: 1400, height: 950 });
+    await tp.evaluateOnNewDocument(SHIM);
+    await tp.goto(URL, { waitUntil: 'networkidle2' });
+    await ready(tp);
+    await tp.evaluate(() => document.getElementById('btn-air').click());
+    await sleep(2000);
+    const read = () => tp.evaluate(() => ({
+      train: document.getElementById('opt-train-tools').checked,
+      planes: document.getElementById('btn-planes').getAttribute('aria-pressed'),
+      strip: !!document.querySelector('.air-slider'),
+      air: getComputedStyle(document.getElementById('air')).display !== 'none',
+    }));
+    const tick = () => tp.evaluate(() => { const e = document.getElementById('opt-train-tools');
+      e.checked = true; e.dispatchEvent(new Event('change', { bubbles: true })); });
+    await tick(); await sleep(1200);
+    const t1 = await read();
+    check('the train tools go on', t1.train === true && t1.strip === false,
+      JSON.stringify(t1));
+    await tp.evaluate(() => document.getElementById('btn-planes').click());
+    await sleep(1500);
+    const t2 = await read();
+    check('  and asking for the plane tools puts them away',
+      t2.train === false && t2.planes === 'true' && t2.strip === true,
+      JSON.stringify(t2));
+    check('  with the air routes still drawn', t2.air === true, JSON.stringify(t2));
+    await tick(); await sleep(1500);
+    const t3 = await read();
+    check('  and asking for the trains again puts the aeroplanes away',
+      t3.train === true && t3.planes === 'false' && t3.strip === false,
+      JSON.stringify(t3));
+    check('  the air routes surviving that too', t3.air === true, JSON.stringify(t3));
+    await tp.close();
+  }
+
   console.log('\n— and it goes away when the network does —');
   await page.evaluate(()=>document.getElementById('btn-air').click());
   await sleep(900);

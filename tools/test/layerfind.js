@@ -90,6 +90,28 @@ const heads=p=>p.evaluate(()=>[...document.querySelectorAll('#dlg-options h3')]
   check('  and leaves the cursor in it', c2.focus==='layers-find', JSON.stringify(c2));
   check('  and every row is back', (await rows(page)).length===all.length, '');
 
+  /* **The download arrow carried `button.plain`, and with it a 38 px minimum
+     height.** So the two rows in each Demography group that offer a download
+     stood a third taller than the rows that do not, and the section read as
+     four lists with gaps torn in them. Reported with a picture. */
+  console.log('\n— the rows that carry a download arrow —');
+  const dlRows=await page.evaluate(()=>{
+    const rows=[...document.querySelectorAll('#pop-rows label.row')];
+    if(!rows.length) return null;
+    const h=r=>Math.round(r.getBoundingClientRect().height*10)/10;
+    const withDl=rows.filter(r=>r.querySelector('.pop-dl'));
+    const without=rows.filter(r=>!r.querySelector('.pop-dl'));
+    const a=document.querySelector('#pop-rows .pop-dl').getBoundingClientRect();
+    return {n:rows.length, withDl:withDl.length?h(withDl[0]):null,
+            without:without.length?h(without[0]):null,
+            arrow:[Math.round(a.width),Math.round(a.height)]};});
+  check('there are rows with an arrow and rows without',
+    dlRows && dlRows.withDl && dlRows.without, JSON.stringify(dlRows));
+  check('  and they are the same height',
+    dlRows && Math.abs(dlRows.withDl-dlRows.without) < 1.5, JSON.stringify(dlRows));
+  check('  because the arrow is a glyph, not a button-sized box',
+    dlRows && dlRows.arrow[1] <= 20 && dlRows.arrow[0] <= 24, JSON.stringify(dlRows));
+
   console.log('\n— what a word finds —');
   await type(page,'graticule'); await sleep(200);
   const g=await rows(page);
