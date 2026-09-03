@@ -166,9 +166,12 @@ const st = p => p.evaluate(() => {
     pressed.bg !== pressed.plain, pressed.bg + ' vs ' + pressed.plain);
   await p.close();
 
+  /* The railway button is offered at every zoom now — see `keys.js`. What is
+     still true out here is that the *lines* are faded out, and the sugar
+     network with them. */
   p = await open(b, 'http://localhost:8123/index.html?layers=1');
-  check('and at the whole map there is no railway to offer',
-    (await p.evaluate(() => document.querySelector('#btn-rail').hidden)) === true);
+  check('and the railway is still offered at the whole map',
+    (await p.evaluate(() => document.querySelector('#btn-rail').hidden)) === false);
   await p.close();
 
   console.log('\n  ' + pass + ' passed, ' + fail + ' failed');

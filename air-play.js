@@ -391,7 +391,7 @@ window.JMAP_AIRPLAY = function (host) {
      tell apart at that sheet's density. */
   var TYPES = {
     e1930: { shapes: null,      // filled in below: the Fokker
-             tf: 'rotate(90) scale(0.44) translate(-32,-30)' },
+             tf: 'rotate(90) scale(0.395) translate(-32,-30)' },
     e1942: { shapes: null,      // the Nakajima
              tf: 'rotate(90) scale(0.062) translate(-199.2,-137)' },
   };

@@ -13,8 +13,8 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '299';
-  var JEM_ASSETS = {"admin.js": "3414697d04", "air-play.js": "148cb82a79", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "58132ef9c2", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
+  var JEM_VERSION = '300';
+  var JEM_ASSETS = {"admin.js": "3414697d04", "air-play.js": "8db7ba0d73", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "58132ef9c2", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
 
   /* Every file this one fetches, with the version on it.
 
@@ -236,6 +236,11 @@
        carrying no aeroplane. On: everything with a timetable flies. A teaching
        switch, not a claim about 1942. */
     airAll: false,
+    /* The name beside every airport ring, on its own switch. Not one of the
+       five kinds of name behind Other: those are the map's own places, and an
+       airport is a thing the air layer draws. Off by default — seventy-five
+       of them is a lot of type over one island. */
+    airNames: false,
     /* Japanese names foremost inside the empire — the names an official
        document or a railway timetable of the period would print — or the local
        ones. On by default because the map is a map *of* the empire, and the
@@ -2062,20 +2067,28 @@
        as the one in the Layers panel, and pressed the same way it is: a reader
        who has zoomed to Korea should not have to open a dialog to draw the
        line they are looking at the country for. */
-    var railSys = railZone();
+    /* **Offered at every zoom.** It used to come and go with the ground under
+       the view, which made it a control a reader had to *find* — and since one
+       press switches on every network there is nothing about the whole-empire
+       view that makes the question unaskable. It is named for the railway
+       under the view when there is one and plainly otherwise, and pressing it
+       out here flashes the lines so the press is seen to have done something.
+       */
+    var railSys = railZone() || railUnderView();
     if (btnRailEl) {
-      var railWant = !railSys;
-      if (btnRailEl.hidden !== railWant) btnRailEl.hidden = railWant;
-      if (railSys) {
-        var railOn = !!state[STATION_SYS[railSys].rail];
-        var rp = railOn ? 'true' : 'false';
-        if (btnRailEl.getAttribute('aria-pressed') !== rp) {
-          btnRailEl.setAttribute('aria-pressed', rp);
-          var rl = (railOn ? 'Hide ' : 'Show ')
-            + (railSys === 'tw' ? 'Taiwan\u2019s railways' : 'Korea\u2019s railways');
-          btnRailEl.title = rl;
-          btnRailEl.setAttribute('aria-label', rl);
-        }
+      if (btnRailEl.hidden) btnRailEl.hidden = false;
+      var railOn = Object.keys(STATION_SYS).some(function (k) {
+        return !!state[STATION_SYS[k].rail];
+      });
+      var rp = railOn ? 'true' : 'false';
+      var rl = (railOn ? 'Hide ' : 'Show ')
+        + (railSys === 'tw' ? 'Taiwan\u2019s railways'
+         : railSys === 'kr' ? 'Korea\u2019s railways' : 'the railways');
+      if (btnRailEl.getAttribute('aria-pressed') !== rp || btnRailEl.title !== rl) {
+        btnRailEl.setAttribute('aria-pressed', rp);
+        btnRailEl.classList.toggle('on', railOn);
+        btnRailEl.title = rl;
+        btnRailEl.setAttribute('aria-label', rl);
       }
     }
     /* The sugar lines belong to Taiwan's railway and are offered where it is
@@ -2132,6 +2145,30 @@
     return !!(trainApi && trainApi.mounted() && trainApi.system() === sys);
   }
 
+  /* **A railway switched on where it cannot be seen still has to answer.**
+   *
+   * The lines fade out above a certain width because at the whole-empire view
+   * Taiwan's network is a smear — but the button is offered at every zoom now,
+   * and a press that changes nothing on the screen reads as a press that did
+   * not work. So the line is shown at full strength for a moment and then let
+   * go, which says "this is on, and it is over there" without pretending the
+   * drawing is any use at this width.
+   *
+   * Held for `RAIL_FLASH_HOLD` and out over `RAIL_FLASH_FADE`. */
+  var RAIL_FLASH_HOLD = 900, RAIL_FLASH_FADE = 600;
+  var railFlashEnd = 0, railFlashTimer = 0;
+
+  function railFlash() {
+    railFlashEnd = Date.now() + RAIL_FLASH_HOLD + RAIL_FLASH_FADE;
+    if (railFlashTimer) return;
+    var step = function () {
+      railFlashTimer = 0;
+      railFade();
+      if (Date.now() < railFlashEnd) railFlashTimer = requestAnimationFrame(step);
+    };
+    railFlashTimer = requestAnimationFrame(step);
+  }
+
   function railFadeOne(group, on) {
     if (!group) return;
     if (!on) { group.style.display = 'none'; return; }
@@ -2139,6 +2176,10 @@
     var a = view.w <= full ? 1
           : view.w >= gone ? 0
           : (gone - view.w) / (gone - full);
+    var left = railFlashEnd - Date.now();
+    if (left > 0) {
+      a = Math.max(a, left > RAIL_FLASH_FADE ? 1 : left / RAIL_FLASH_FADE);
+    }
     group.style.opacity = String(a);
     group.style.display = a > 0.02 ? '' : 'none';
     if (a <= 0.02) return;
@@ -2322,6 +2363,7 @@
 
   function syncTrainBoxes() {
     [['#opt-air', 'air'], ['#opt-air-all', 'airAll'],
+     ['#opt-airport-names', 'airNames'],
      ['#opt-tw-rail', 'twRail'], ['#opt-tw-stations', 'twStations'],
      ['#opt-kr-rail', 'krRail'], ['#opt-kr-stations', 'krStations']]
       .forEach(function (pair) {
@@ -4105,6 +4147,7 @@
     if (!state.manchukuo) hi += MANCHUKUO_PLACE;
     if (!state.mengjiang) hi += MENGJIANG_PLACE;
     if (state.airAll) hi += AIRALL_PLACE;
+    if (state.airNames) hi += AIRNAMES_PLACE;
     hi += THEME_PLACE * (THEME_MODES.indexOf(state.theme) + 1 || 0);
     // set when the row is OFF — an old link carries zeroes here and must open
     // with every name switched on, which is what it showed its sender
@@ -4196,6 +4239,7 @@
     state.manchukuo = !(Math.floor(hi / MANCHUKUO_PLACE) % 2);   // inverted
     state.mengjiang = !(Math.floor(hi / MENGJIANG_PLACE) % 2);   // inverted
     state.airAll = !!(Math.floor(hi / AIRALL_PLACE) % 2);
+    state.airNames = !!(Math.floor(hi / AIRNAMES_PLACE) % 2);
     state.theme = THEME_MODES[(Math.floor(hi / THEME_PLACE) % 4) - 1] || 'auto';
     LABEL_CATS.forEach(function (c) {          // inverted; see layerCode
       state.labelCats[c.id] = !(Math.floor(hi / c.place) % 2);
@@ -9158,6 +9202,18 @@
         var ttl2 = svgEl('title', {});
         ttl2.textContent = st.name + ' — every flight that called here';
         ring.appendChild(ttl2);
+        /* **The airport's name, in screen pixels.** Inside the counter-scaled
+           group like the ring itself, so `7` is seven pixels from the ring at
+           every zoom and `font-size: 10px` is ten pixels of type — this is
+           the one place in the project where a plain CSS length means what it
+           says on the screen, and only because `rescale` has written the
+           inverse scale on the group. Its own switch decides whether it is
+           drawn and it never takes a press. Romanisation only: the ring's
+           tooltip and its card carry the rest, and "Rangoon (Yangon)" beside
+           seventy-four others is a wall of type. */
+        var nm = svgEl('text', { 'class': 'air-name', x: 7, y: 3.4 });
+        nm.textContent = String(st.name || '').split(' (')[0];
+        ring.appendChild(nm);
         airRings.appendChild(ring);
         scalables.push({ el: ring, x: p.x, y: p.y });
       });
@@ -10418,6 +10474,7 @@
       var set = pp && (playing ? pp.stops : pp.stopsPaused);
       if (set) Object.keys(set).forEach(function (k) { live[k] = true; });
     });
+    if (airGroup) airGroup.classList.toggle('air-names', !!state.airNames);
     if (airRings) {
       Array.prototype.forEach.call(airRings.children, function (g) {
         var k = g.getAttribute('data-air-stop');
@@ -12182,6 +12239,7 @@
      sheet. Off by default, so an absent place in an older link means what it
      has always meant. */
   var AIRALL_PLACE = 2097152;
+  var AIRNAMES_PLACE = 4194304;   // the names beside the airport rings
   var THEME_MODES = ['light', 'dark'];
 
   /* The whole of the switch. `data-theme` on the root element is what
@@ -12524,6 +12582,17 @@
   }
 
   function setLabelCat(id, on) {
+    /* **Ticking one kind of name with Other off asks for that kind, not all
+       five.** Reported: the first tick put every name on the map. With Other
+       off nothing is written and the five remembered settings are all true, so
+       turning the master switch on here wrote all five at once. The reader's
+       press names one of them; the rest wait until they are asked for. What
+       was remembered is only worth keeping while Other is *on* — that is the
+       reader coming back to a panel they have already set — and this is the
+       other case. */
+    if (on && !state.labels) {
+      LABEL_CATS.forEach(function (c) { state.labelCats[c.id] = false; });
+    }
     state.labelCats[id] = on;
     // a tick that draws nothing is not a tick: turning a kind of name on with
     // the master switch off turns the master switch on too
@@ -15616,6 +15685,18 @@
        when the player mounts, so a switch that changes which legs are flyable
        has to put the player away and set it up again. Done only if it was
        already up — ticking this is not a request to start the week. */
+    /* The names beside the airport rings. Nothing to rebuild — the text is
+       already in every ring group and a class on the layer decides whether it
+       is drawn — so this is a plain switch. */
+    var boxAirNm = $('#opt-airport-names');
+    if (boxAirNm) {
+      boxAirNm.checked = !!state.airNames;
+      boxAirNm.addEventListener('change', function () {
+        state.airNames = boxAirNm.checked;
+        applyState();
+      });
+    }
+
     var boxAll = $('#opt-air-all');
     if (boxAll) {
       boxAll.checked = !!state.airAll;
@@ -15725,6 +15806,9 @@
           }
         });
         applyState();
+        /* Switched on where the fade has taken the lines away: show them for a
+           moment so the press is seen to have done something. */
+        if (!anyOn && railAlpha() <= 0.02) railFlash();
         saveState();
       });
     }
@@ -15875,8 +15959,19 @@
         els.forEach(function (el, i) { el.classList.toggle('lay-hide', !shown[i]); });
         var none = $('#layers-none');
         if (none) none.hidden = !(q && !hits);
+        var clr = $('#layers-clear');
+        if (clr) clr.hidden = !layFind.value;
       };
       layFind.addEventListener('input', layFilter);
+      /* A × inside the box. The browser's own is a different mark in every
+         browser and missing in some, and on a touch screen there is no Escape
+         key to fall back on. */
+      var layClear = $('#layers-clear');
+      if (layClear) {
+        layClear.addEventListener('click', function () {
+          layFind.value = ''; layFilter(); layFind.focus();
+        });
+      }
       /* Escape clears the box before it closes the dialog, which is what a
          reader who has just filtered to nothing expects the key to do. */
       layFind.addEventListener('keydown', function (e) {

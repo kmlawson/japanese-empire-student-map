@@ -166,6 +166,16 @@ const ALL_OFF = 'territory=false city=false sub=false poi=false feature=false';
   s = await st(p);
   check('Other comes on', s.other === 'true', s.other);
   check('and the map is written', s.names.length > 0, String(s.names.length));
+  /* **And only the row that was pressed.** Reported: the first tick put every
+     name on the map. With Other off nothing is written, so all five rows show
+     unticked while all five settings are remembered as true — and turning the
+     master switch on wrote the lot. The press names one kind of name. */
+  const only = await p.evaluate(() => [...document.querySelectorAll('#label-rows input')]
+    .map(i => ({ id: i.id, on: i.checked })));
+  check('  and only the row that was pressed',
+    only.filter(x => x.on).length === 1
+    && /feature$/.test((only.find(x => x.on) || {}).id || ''),
+    JSON.stringify(only.filter(x => x.on).map(x => x.id)));
 
   console.log('\n— the menu, with a mouse —');
   check('closed to begin with', s.menuOpen === false);

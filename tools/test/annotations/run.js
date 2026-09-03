@@ -1,9 +1,10 @@
 const H=require('./suite.js');
+const { sandboxDownloads } = require('../downloads.js');
 const {puppeteer,sleep,page,tap,openPanel,pickTool,SPOT,FIX,check,report,stickTool,dropTool}=H;
 const path=require('path');
 
 (async()=>{
-const b=await puppeteer.launch({headless:'new',args:['--no-sandbox'],protocolTimeout:180000});
+const b=await puppeteer.launch({headless:'new',args:['--no-sandbox'],protocolTimeout:180000}); await sandboxDownloads(b);
 
 console.log('\n— loading, and what is not loaded —');
 { const p=await page(b);

@@ -1,3 +1,4 @@
+const { sandboxDownloads } = require('../downloads.js');
 const puppeteer=(function(){const t=[];if(process.env.PUPPETEER_PATH)t.push(process.env.PUPPETEER_PATH);t.push('puppeteer');
   for(const x of t){try{return require(x);}catch(e){}}
   console.error('annotation tests: puppeteer not found. npm install puppeteer, or set PUPPETEER_PATH.');process.exit(1);})(); const sleep=ms=>new Promise(r=>setTimeout(r,ms));
@@ -23,7 +24,7 @@ let pass=0,fail=0; const check=(n,c,d)=>{ if(c){pass++;console.log('  ok   '+n);
    anything cancels it — which is exactly what the browser tests. */
 const ASKS=()=>{const e=new Event('beforeunload',{cancelable:true});
   window.dispatchEvent(e); return e.defaultPrevented || e.returnValue==='';};
-(async()=>{const b=await puppeteer.launch({headless:'new',args:['--no-sandbox'],protocolTimeout:150000});
+(async()=>{const b=await puppeteer.launch({headless:'new',args:['--no-sandbox'],protocolTimeout:150000}); await sandboxDownloads(b);
 const p=await b.newPage(); await p.setViewport({width:1500,height:950});
 await p.evaluateOnNewDocument(SHIM);
 await p.evaluateOnNewDocument(()=>{window.__saved=null;const r=URL.createObjectURL;

@@ -1,5 +1,6 @@
 const H=require('./suite.js');
 
+const { sandboxDownloads } = require('../downloads.js');
 /* A file has been read when the panel has something to say about it — either
    a complaint or a count. Waiting for the message beats waiting for a number
    of milliseconds: the message is the thing every check below then reads. */
@@ -16,7 +17,7 @@ const {puppeteer,sleep,page,tap,openPanel,pickTool,SPOT,FIX,BIG,check,report}=H;
 const path=require('path');
 
 (async()=>{
-const b=await puppeteer.launch({headless:'new',args:['--no-sandbox'],protocolTimeout:180000});
+const b=await puppeteer.launch({headless:'new',args:['--no-sandbox'],protocolTimeout:180000}); await sandboxDownloads(b);
 
 console.log('\n— files in —');
 const CASES=[

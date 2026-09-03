@@ -1,3 +1,4 @@
+const { sandboxDownloads } = require('../downloads.js');
 /* Losing a reader's work: the three ways it could happen, and cannot now.
  *
  * These are the worst thing this feature can do, so they get a script of their
@@ -43,7 +44,7 @@ const type = async (p, id, v) => { await p.evaluate((i, val) => {
   el.dispatchEvent(new Event('input', { bubbles: true })); }, id, v); await sleep(700); };
 
 (async () => {
-const b = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox'], protocolTimeout: 150000 });
+const b = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox'], protocolTimeout: 150000 }); await sandboxDownloads(b);
 const p = await b.newPage();
 await p.setViewport({ width: 1400, height: 950 });
 await p.evaluateOnNewDocument(S.SHIM);

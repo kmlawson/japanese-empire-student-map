@@ -1,3 +1,4 @@
+const { sandboxDownloads } = require('./downloads.js');
 /* The right-click menu: what a reader can take away, and where it came from.
  *
  *     node tools/test/menu.js            # with a server on 8123
@@ -66,7 +67,7 @@ const admin=async p=>{ await p.evaluate(()=>{
   if(b && b.getAttribute('aria-pressed')!=='true') b.click(); }); await sleep(1200); };
 
 (async()=>{
-  const browser=await puppeteer.launch({headless:'new',args:['--no-sandbox']});
+  const browser=await puppeteer.launch({headless:'new',args:['--no-sandbox']}); await sandboxDownloads(browser);
   const page=await browser.newPage();
   await page.setViewport({width:1280,height:900});
   await page.evaluateOnNewDocument(SHIM);

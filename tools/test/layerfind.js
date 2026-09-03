@@ -57,8 +57,38 @@ const heads=p=>p.evaluate(()=>[...document.querySelectorAll('#dlg-options h3')]
   check('  near the top of it', box && box.top < 90, JSON.stringify(box));
   check('  and a finger-sized one', box && box.h >= 30 && box.w > 120, JSON.stringify(box));
 
+  /* The close button floats right and is sticky, so a block after it flows
+     *under* it: the search box and the × were on top of each other. Reported
+     with a picture. */
+  const clash=await page.evaluate(()=>{
+    const x=document.querySelector('#dlg-options .x').getBoundingClientRect();
+    const f=document.getElementById('layers-find').getBoundingClientRect();
+    return {over: f.right > x.left && f.top < x.bottom && f.bottom > x.top,
+            gap: Math.round(x.left - f.right)};});
+  check('  and clear of the close button', clash && !clash.over, JSON.stringify(clash));
+
   const all=await rows(page);
   check('and every row is shown until something is typed', all.length > 25, all.length+' rows');
+
+  console.log('\n— a × of its own inside the box —');
+  const c0=await page.evaluate(()=>document.getElementById('layers-clear').hidden);
+  check('nothing to clear, so no button', c0===true, String(c0));
+  await type(page,'rail'); await sleep(200);
+  const c1=await page.evaluate(()=>{const b=document.getElementById('layers-clear');
+    const r=b.getBoundingClientRect(), f=document.getElementById('layers-find').getBoundingClientRect();
+    return {hidden:b.hidden, inside: r.right <= f.right + 1 && r.left > f.left,
+            w:Math.round(r.width), h:Math.round(r.height)};});
+  check('  and it appears once something is typed', !c1.hidden, JSON.stringify(c1));
+  check('  inside the box, not beside it', c1.inside, JSON.stringify(c1));
+  check('  and big enough to press', c1.w>=22 && c1.h>=22, JSON.stringify(c1));
+  await page.evaluate(()=>document.getElementById('layers-clear').click());
+  await sleep(250);
+  const c2=await page.evaluate(()=>({v:document.getElementById('layers-find').value,
+    hidden:document.getElementById('layers-clear').hidden,
+    focus:document.activeElement && document.activeElement.id}));
+  check('  pressing it empties the box', c2.v==='' && c2.hidden===true, JSON.stringify(c2));
+  check('  and leaves the cursor in it', c2.focus==='layers-find', JSON.stringify(c2));
+  check('  and every row is back', (await rows(page)).length===all.length, '');
 
   console.log('\n— what a word finds —');
   await type(page,'graticule'); await sleep(200);

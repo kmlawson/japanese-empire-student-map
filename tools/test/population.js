@@ -1,3 +1,4 @@
+const { sandboxDownloads } = require('./downloads.js');
 /* What was counted, and the map of it.
  *
  *     node tools/test/population.js       # with a server on 8123
@@ -63,7 +64,7 @@ const spot = (p, sel, fx, fy) => p.evaluate((s, ax, ay) => {
 }, sel, fx === undefined ? 0.5 : fx, fy === undefined ? 0.5 : fy);
 
 (async () => {
-  const b = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox'] });
+  const b = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox'] }); await sandboxDownloads(b);
 
   /* ---- the shading, from a link that asks for it ------------------- */
   console.log('\n— the choropleth —');

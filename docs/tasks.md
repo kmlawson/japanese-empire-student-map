@@ -17350,3 +17350,94 @@ row sits under is found from the row rather than carried down the list of the
 panel's children — that was the second half of the "transport" fault.
 
 `tools/test/layerfind.js` is new, 19 checks, and it is in the `core` group.
+
+
+## Seven from a round of use
+
+**The plane icons.** Both are copied from `TYPES` in `air-play.js`, and the two
+were not the same weight in the button: the Fokker's trimotor wing filled it
+and the Nakajima sat small in the middle. Measured in the 24px button, the
+Fokker went from 19.3 px to 17.1 and the Nakajima from 12.8 to 14.8. The map's
+Fokker came down with it, `scale(0.44)` to `0.395`. Only the transforms moved —
+the paths are still air-play.js's character for character, which
+`layerinfo.js` checks.
+
+**The search box ran under the close ×.** The × floats right and is sticky, so
+a block that follows it flows *under* it. Reported with a picture. 50 px of
+right margin on the box rather than a `clear`, which would have put it a whole
+44 px lower for the sake of a corner.
+
+**A × of its own inside the box.** The browser's is a different mark in every
+browser, absent in some, and on a touch screen there is no Escape key to fall
+back on. 26 px square, inside the field, appears with the first character.
+
+**A more compact panel.** Ticks 18 px to 15, row padding 3 px to 1, headings
+14/5 to 10/3, rules 11 px to 7, hints and notes tightened. Measured: the panel
+is 2192 px tall where it was 2495, which is 12% shorter. The 44 px minimum a
+coarse pointer gets is untouched — the box is smaller, the target is not.
+
+**One label at a time.** Reported: ticking the first kind of name put every
+name on the map. With Other off nothing is written, so all five rows show
+unticked while all five settings are remembered as true — and turning the
+master switch on wrote the lot. The press names one kind of name now, and the
+other four wait until they are asked for.
+
+**Airport names.** Their own row in the Labels section, off by default, not one
+of the five behind Other: those are the map's own places and an airport is a
+thing the air layer draws. 273 of them, drawn in the ring's counter-scaled
+group so `font-size: 10px` is ten pixels of type — measured at the opening view
+and six zoom steps in, the same height either side. Romanisation only; the
+ring's tooltip and its card carry the rest, and "Rangoon (Yangon)" beside
+seventy-four others is a wall of type. One flag in the layers code, so it
+travels in a shared link.
+
+**The railway button at every zoom.** It used to come and go with the ground
+under the view, which made it a control a reader had to find; one press
+switches on every network, so nothing about the whole-empire view makes the
+question unaskable. Out there the fade has taken the lines away, so switching
+them on holds them at full strength for 900 ms and lets them go over 600 —
+sampled at 90 ms, the trace runs 1.00 ten times, then 0.87 0.73 0.59 0.45 0.32
+0.18 0.04 and 0. Two checks in `keys.js` were asserting the old policy and now
+assert the new one, and one in `sugar.js`.
+
+### Left unexplained
+
+Late in `air.js`'s run — after the plane tools have been mounted and put away
+twice — the airport rings stop holding their screen size: Tokyo's ring measured
+6.4 px at the opening view and 77.5 px six zoom steps in, with the ring group's
+transform still carrying the opening view's scale. `rescale` had not rewritten
+it. **Not reproduced in isolation**: the same six presses hold the ring at 6.8
+px in a fresh page, on either sheet, with the pre-war switch toggled on and off
+and with the names on. Nothing in this batch touches `scalables`, and the same
+script's own ring check passes earlier in the run, so the fault is in the
+script's accumulated state rather than in the page — but it has not been found,
+and it is written down here rather than left as a check moved out of the way.
+The name-size check now sits beside the ring check, where the zoom is
+demonstrably working.
+
+## The tests stopped writing into the reader's Downloads folder
+
+Reported: hundreds of GeoJSONs there. Six scripts press the thing a reader
+presses — Save in the annotation panel, Download GeoJSON in a shape's menu,
+Download CSV under a table — and that is a real download, which Chrome writes
+where the reader's own browser would. Nothing ever took it away.
+
+`tools/test/downloads.js` gives a run a directory of its own under the system
+temp and removes it on exit; `annotations/run.js`, `run2.js`, `run7.js`,
+`run13.js`, `run14.js`, `menu.js` and `population.js` ask for it after they
+launch. Measured: 1831 files in Downloads before the six scripts run and 1831
+after, with no temp directory left behind. Before the change, run13 and run7
+alone added three.
+
+One thing to know if this is touched again: **the CDP session has to stay
+attached.** A domain is set per session, so detaching puts the behaviour back
+and the next Save goes to Downloads again — which is what the first version of
+this did, and the count went up by three while the code looked right.
+
+Nothing in the reader's Downloads folder was deleted. The fix is to stop
+putting things there. The backlog is 337 files whose names only these tests
+write (`good-`, `r13-two-`, `ui2-`, `dp3-`, `dp4-`, `d6b-`, `audit-set-`, each
+with a timestamp), 670 `annotations-<stamp>.geojson` — which is also what the
+map writes for a reader's own export — and a family of
+`korea-population-density-*` and table CSVs in the same position. Left for the
+author to say which may go.

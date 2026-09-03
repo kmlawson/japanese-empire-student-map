@@ -345,6 +345,7 @@ console.log('\n— one setting at a time, and nothing rides along with it —');
     manchukuo: document.querySelector('#opt-manchukuo').checked,
     mengjiang: document.querySelector('#opt-mengjiang').checked,
     airAll: document.querySelector('#opt-air-all').checked,
+    airNames: document.querySelector('#opt-airport-names').checked,
   }));
   const trip = async (name, setup, keys) => {
     const p = await open(b); await setup(p); await sleep(1600);
@@ -384,6 +385,15 @@ console.log('\n— one setting at a time, and nothing rides along with it —');
       if (bs.length) bs[bs.length - 1].click(); });
     await sleep(1200);
   }, ['relief', 'detail', 'manchukuo', 'mengjiang', 'air']);
+
+  /* The names beside the airport rings — their own switch, not one of the five
+     behind Other, and off by default. */
+  await trip('the airport names, and the routes stay on', async p => {
+    await p.evaluate(() => document.getElementById('btn-air').click()); await sleep(1400);
+    await p.evaluate(() => { const e = document.querySelector('#opt-airport-names');
+      e.checked = true; e.dispatchEvent(new Event('change', { bubbles: true })); });
+    await sleep(1000);
+  }, ['airNames', 'airAll', 'air', 'manchukuo', 'mengjiang']);
 
   /* The switch that flies the pre-war timetables over the 1942 sheet. Off by
      default, so an address written before it existed still opens grounded. */

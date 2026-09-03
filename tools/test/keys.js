@@ -102,12 +102,37 @@ const open = async (b, url) => {
     (await st(p)).where !== w2);
   await p.close();
 
-  console.log('\n— where a key has nothing to do —');
+  /* **The railway is offered everywhere now.** It used to come and go with the
+     ground under the view, which made it a control a reader had to find; one
+     press switches on every network, so nothing about the whole-empire view
+     makes the question unaskable. What the fade does to the *lines* out here
+     has not changed — they are shown for a moment and let go, so the press is
+     seen to have done something. */
+  console.log('\n— the railway key at the whole map —');
   p = await open(b, 'http://localhost:8123/index.html?layers=0');   // the whole map
   s = await st(p);
-  check('at the whole map no railway is offered', s.railShown === false);
+  check('the railway is offered at the whole map too', s.railShown === true);
   await p.keyboard.press('r'); await sleep(700);
-  check('and r does nothing there', (await st(p)).rail === 'false');
+  check('and r switches it on there', (await st(p)).rail === 'true');
+  /* **A press that changes nothing on the screen reads as a press that did not
+     work.** Out here the fade has taken the lines away, so switching them on
+     shows them at full strength for a moment and then lets them go. Sampled
+     rather than asserted at one instant: the point is that it was up and then
+     came down. */
+  const flash = await p.evaluate(async () => {
+    const out = [];
+    const rails = () => [...document.querySelectorAll('svg g[id]')]
+      .filter(e => /rail/i.test(e.id));
+    for (let i = 0; i < 24; i++) {
+      await new Promise(r => setTimeout(r, 90));
+      out.push(Math.max.apply(null, rails().map(e => +getComputedStyle(e).opacity).concat([0])));
+    }
+    return out;
+  });
+  check('  and the lines are shown for a moment so the press is seen',
+    Math.max.apply(null, flash) > 0.9, flash.map(v => v.toFixed(2)).join(' '));
+  check('  and then let go again',
+    flash[flash.length - 1] <= 0.02, flash[flash.length - 1] + '');
   await p.close();
 
   console.log('\n  ' + pass + ' passed, ' + fail + ' failed');

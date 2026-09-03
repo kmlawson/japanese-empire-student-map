@@ -1,3 +1,4 @@
+const { sandboxDownloads } = require('../downloads.js');
 /* The text box, the fifteen-step sliders, and Smooth.
  *
  * A text box is a Polygon that says `jem-kind: text`, so a reader who opens the
@@ -41,7 +42,7 @@ const type = async (p, id, v) => { await p.evaluate((i, val) => {
   el.dispatchEvent(new Event('input', { bubbles: true })); }, id, v); await sleep(650); };
 
 (async () => {
-const b = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox'], protocolTimeout: 150000 });
+const b = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox'], protocolTimeout: 150000 }); await sandboxDownloads(b);
 const p = await S.page(b, { accept: true });
 const errs = p.__errs;
 await S.openPanel(p);

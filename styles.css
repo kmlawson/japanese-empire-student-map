@@ -1818,21 +1818,33 @@ dialog hr { border: 0; border-top: 1px solid var(--line); margin: 16px 0; }
    **The touch target is not touched.** `@media (pointer: coarse)` gives every
    row a 44px minimum height and that still holds; this takes the padding off
    the space between rows on a pointer that does not need it. */
-#dlg-options label.row { padding: 3px 0; }
-#dlg-options .hint { margin: .25em 0 .7em; }
-#dlg-options .row + .hint { margin-top: .1em; }
-#dlg-options hr { margin: 11px 0; }
+#dlg-options label.row { padding: 1px 0; gap: 7px; font-size: 14px; }
+#dlg-options .hint { margin: .15em 0 .45em; }
+#dlg-options .row + .hint { margin-top: .05em; }
+#dlg-options .pane-note { margin: .2em 0 .45em; }
+#dlg-options hr { margin: 7px 0; }
+/* Smaller ticks in this panel and nowhere else. Fifty rows of them at 18px
+   made a column of boxes with the words as the second thing the eye found; at
+   15 the word leads and the panel is a fifth shorter. The 44px minimum a
+   coarse pointer gets is untouched — the box is smaller, the target is not. */
+#dlg-options input[type="checkbox"],
+#dlg-options input[type="radio"] { width: 15px; height: 15px; }
 /* **The Layers filter.** `!important` because a row can carry `display: flex`
    from its own rule, and this has to beat it whatever the row is; the class is
    only ever set by the filter, so nothing else is being overridden. The rows'
    own `hidden` attribute is untouched — see `layFilter` in map.js. */
 .lay-hide { display: none !important; }
 
-.lay-find { margin: 2px 0 8px; }
+/* **Clear of the ×.** The close button floats right and is sticky, so a block
+   that follows it flows *under* it — the search box ran beneath the × and the
+   two were on top of each other. Reported. The room is reserved rather than
+   cleared, because clearing it would put the box a whole 44px lower for the
+   sake of a corner. */
+.lay-find { position: relative; margin: 2px 50px 6px 0; }
 .lay-find input {
   width: 100%;
   box-sizing: border-box;
-  padding: 7px 9px;
+  padding: 6px 30px 6px 9px;
   font: inherit;
   font-size: 14px;
   color: var(--ink);
@@ -1841,8 +1853,33 @@ dialog hr { border: 0; border-top: 1px solid var(--line); margin: 16px 0; }
   border-radius: 8px;
 }
 .lay-find input::placeholder { color: var(--ink); opacity: .55; }
+/* The browser's own clear button is a different mark in every browser and
+   absent in some, so the panel draws its own and hides that one. */
+.lay-find input::-webkit-search-cancel-button,
+.lay-find input::-webkit-search-decoration { appearance: none; display: none; }
+.lay-clear {
+  position: absolute;
+  right: 3px;
+  top: 50%;
+  transform: translateY(-50%);
+  appearance: none;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  opacity: .6;
+  font-size: 17px;
+  line-height: 1;
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.lay-clear:hover { opacity: 1; background: color-mix(in srgb, var(--ink) 10%, transparent); }
+.lay-clear[hidden] { display: none; }
 
-#dlg-options h3 { margin: 14px 0 5px; }
+#dlg-options h3 { margin: 10px 0 3px; }
 #dlg-options h3:first-of-type { margin-top: 4px; }
 
 /* The jump to the other date, under the occupation settings that only apply to
@@ -3896,6 +3933,25 @@ dialog h3 {
 
 /* And the airports on them go the same way, so a ring does not sit at full
    strength on a line that has faded out from under it. */
+/* **The airport's name, drawn in screen pixels.** The ring's group carries the
+   inverse of the view scale, so `font-size` here is pixels on the screen and
+   stays that size at every zoom — the one place a plain CSS length in this
+   project means what it says. Off unless the reader asks for it, and never a
+   press target: a name is for reading and the ring under it is the thing to
+   aim at. */
+#air .air-name {
+  display: none;
+  font-size: 10px;
+  font-weight: 600;
+  fill: var(--ink);
+  paint-order: stroke;
+  stroke: var(--paper);
+  stroke-width: 2.6px;
+  stroke-linejoin: round;
+  pointer-events: none;
+}
+#air.air-names .air-name { display: inline; }
+
 #air [data-air-stop].air-idle { opacity: .3; }
 /* The press target: invisible, wide enough for a finger, and the only part of
    the layer that takes the pointer. */

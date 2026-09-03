@@ -370,6 +370,31 @@ const card_=p=>p.evaluate(()=>{
   check('the same on screen at two zooms', Math.abs(wide-deep)<1.2,
     wide+' px wide out, ' + deep + ' px zoomed in');
   check('and it is big enough to see', wide>3, wide+' px');
+  /* **And so is the name beside it.** The label lives in the same
+     counter-scaled group as the ring — that is what makes `font-size: 10px`
+     ten pixels of type rather than ten *map units*, which at the opening view
+     would be three pixels and at the island view a name across a province.
+     Measured here because this is where the two zooms are, and switched on
+     for the measurement because it is off by default. */
+  const nameH=async()=>page.evaluate(()=>{
+    const g=[...document.querySelectorAll('#air [data-air-stop]')]
+      .find(e=>e.querySelector('.air-stop').getBoundingClientRect().width>0);
+    const t=g&&g.querySelector('.air-name');
+    return t?Math.round(t.getBoundingClientRect().height*10)/10:null;
+  });
+  await page.evaluate(()=>{const e=document.getElementById('opt-airport-names');
+    e.checked=true; e.dispatchEvent(new Event('change',{bubbles:true}));});
+  await sleep(600);
+  const nmDeep=await nameH();
+  await page.evaluate(()=>document.getElementById('zoom-reset').click());
+  await sleep(1200);
+  const nmWide=await nameH();
+  check('a name is a size on screen too', nmWide && nmDeep
+    && Math.abs(nmWide-nmDeep)<1.2, nmWide+' px wide out, '+nmDeep+' px zoomed in');
+  check('  and big enough to read', nmWide>=8, nmWide+' px');
+  await page.evaluate(()=>{const e=document.getElementById('opt-airport-names');
+    e.checked=false; e.dispatchEvent(new Event('change',{bubbles:true}));});
+  await sleep(400);
   /* Back to the opening view. This check zooms six steps in and left it there,
      so every press after it was aimed at ground no longer on the screen — the
      line and the airport cards below all failed for that and not for anything
@@ -1098,6 +1123,43 @@ const card_=p=>p.evaluate(()=>{
   await page.evaluate(() => document.getElementById('btn-planes').click());
   await sleep(600);
 
+
+  console.log('\n\u2014 the names beside the rings \u2014');
+  /* **Their own switch, and a size on the screen.** Not one of the five kinds
+     of name behind Other — those are the map's own places and an airport is a
+     thing this layer draws — so it is off until it is asked for. The text
+     lives in the ring's counter-scaled group, which is what makes ten pixels
+     of type stay ten pixels: this project's most-repeated bug is putting a
+     size a reader perceives into map units, so it is measured at two zooms. */
+  const nameBox = async () => page.evaluate(() => {
+    /* The first ring that is actually *drawn*, which is the idiom the ring
+       check above uses and for the same reason: which rings a sheet draws
+       decides what is first in the document, and a ring the date does not draw
+       measures zero. */
+    const g = [...document.querySelectorAll('#air [data-air-stop]')]
+      .find(e => e.querySelector('.air-stop').getBoundingClientRect().width > 0);
+    const t = g && g.querySelector('.air-name');
+    if (!t) return null;
+    const b = t.getBoundingClientRect();
+    return { shown: getComputedStyle(t).display !== 'none',
+             n: document.querySelectorAll('#air .air-name').length,
+             txt: t.textContent, h: +b.height.toFixed(1),
+             ring: +(g.querySelector('.air-stop').getBoundingClientRect().width).toFixed(1),
+             vb: document.getElementById('jmap').getAttribute('viewBox') };
+  });
+  const nOff = await nameBox();
+  check('every airport carries a name, undrawn until it is asked for',
+    nOff && nOff.n > 60 && !nOff.shown, JSON.stringify(nOff));
+  await page.evaluate(() => { const e = document.getElementById('opt-airport-names');
+    e.checked = true; e.dispatchEvent(new Event('change', { bubbles: true })); });
+  await sleep(700);
+  const nOn = await nameBox();
+  check('  the switch draws them', nOn && nOn.shown, JSON.stringify(nOn));
+  check('  romanisation only, without the modern name after it',
+    nOn && nOn.txt && nOn.txt.indexOf('(') < 0, JSON.stringify(nOn));
+  await page.evaluate(() => { const e = document.getElementById('opt-airport-names');
+    e.checked = false; e.dispatchEvent(new Event('change', { bubbles: true })); });
+  await sleep(500);
 
   console.log('\n\u2014 the note a route carries \u2014');
 
