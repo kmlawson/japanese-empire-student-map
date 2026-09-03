@@ -979,6 +979,82 @@ const card_=p=>p.evaluate(()=>{
     await toEpoch(page, '1942');
   }
 
+  /* **No stroke runs across ground the aeroplane never crossed.**
+   *
+   * The chords are held after the chain they short-cut, and `airPathOf` kept
+   * the pen down between one leg and the next on the strength of "the last leg
+   * was drawn" rather than "the last leg ended here". So it ran an `L` from
+   * the end of the chain to the *second* point of the chord and swallowed the
+   * first: on the Siamese line a stroke from Nakhon Phanom into empty country
+   * north-east of Korat, bending at nothing, which is how it was reported.
+   *
+   * Caught by the length of a single step. Every leg is subdivided into a
+   * great circle, so the steps are all of a size — 11.5 map units at the
+   * median and 17.4 at the very worst, over 925 of them on the 1942 sheet.
+   * The stray stroke was 63. Thirty is clear of the one and half of the
+   * other. Measured on `.air-hit`, which carries every leg the route draws. */
+  const longestStep = async () => page.evaluate(() => {
+    var mx = 0, who = '';
+    document.querySelectorAll('#air .air-route').forEach(function (g) {
+      if (g.style.display === 'none') return;
+      var d = g.querySelector('.air-hit').getAttribute('d') || '';
+      d.split('M').filter(function (x) { return x.trim(); }).forEach(function (sub) {
+        var pts = sub.trim().split('L').map(function (x) {
+          return x.trim().split(/[\s,]+/).map(Number); });
+        for (var i = 1; i < pts.length; i++) {
+          var L = Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]);
+          if (L > mx) { mx = L; who = g.getAttribute('data-air'); }
+        }
+      });
+    });
+    return { max: +mx.toFixed(1), who: who };
+  });
+  const g42 = await longestStep();
+  check('no stroke on the 1942 sheet jumps across open ground',
+    g42.max < 30, g42.max + ' units on ' + g42.who);
+  await toEpoch(page, '1930');
+  const g30 = await longestStep();
+  check('and none on the 1930 one', g30.max < 30, g30.max + ' units on ' + g30.who);
+  await toEpoch(page, '1942');
+
+  /* **A shared stretch is faint only when nobody on it is flying.**
+   *
+   * Since the collapse one line stands for several services, and it is drawn
+   * by whichever owns it — so asking the owner alone whether the ground could
+   * be flown answered for everybody. Bangkok to Penang is the case: Imperial's
+   * 1939 service is grounded from Akyab and owns that stretch by name, and the
+   * line went faint although KLM flew it to a timetable. */
+  const bkkPen = await page.evaluate(() => {
+    const svg = document.getElementById('jmap'), m = svg.getScreenCTM();
+    const ring = k => { const g = document.querySelector('#air [data-air-stop="' + k + '"]');
+      if (!g) return null; const r = g.getBoundingClientRect();
+      return [r.left + r.width / 2, r.top + r.height / 2]; };
+    const A = ring('bangkok'), B = ring('penang');
+    if (!A || !B) return null;
+    const mid = [(A[0] + B[0]) / 2, (A[1] + B[1]) / 2];
+    /* Halfway between the two rings on the screen, and which of the three
+       paths passes through it. Asked in screen space and of every route,
+       because the question is what the reader sees over that ground — not
+       which leg of which service happens to carry it. */
+    const near = sel => [...document.querySelectorAll('#air .air-route')]
+      .filter(g => g.style.display !== 'none')
+      .some(g => {
+        const d = g.querySelector(sel).getAttribute('d') || '';
+        return d.split(/(?=[ML])/).map(x => x.replace(/^[ML]/, '').trim()).filter(Boolean)
+          .map(x => x.split(/[\s,]+/).map(Number))
+          .filter(q => q.length >= 2 && isFinite(q[0]) && isFinite(q[1]))
+          .some(q => { const t = svg.createSVGPoint(); t.x = q[0]; t.y = q[1];
+            const r = t.matrixTransform(m);
+            return Math.hypot(r.x - mid[0], r.y - mid[1]) < 6; });
+      });
+    return { drawn: near('.air-line') || near('.air-line-shared'),
+             faint: near('.air-line-idle') };
+  });
+  check('Bangkok to Penang is drawn rather than dimmed', bkkPen && bkkPen.drawn,
+    JSON.stringify(bkkPen));
+  check('  and it is not on the faint path', bkkPen && !bkkPen.faint,
+    JSON.stringify(bkkPen));
+
 
   console.log('\n\u2014 the note a route carries \u2014');
 

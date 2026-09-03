@@ -8279,7 +8279,7 @@ JMAP.AIR = [
     id: 'mkkk-manchouli-hsinking', name: 'Manchouli – Hailar – Tsitsihar – Harbin – Shinkyō', operator: 'Manchuria Aviation Company (満洲航空株式会社)', opened: '',
     season: 'winter 1935', epochs: ['e1942'], source: 'Manchuria Aviation Company timetable, winter 1935', srcUrl: 'https://www.timetableimages.com/ttimages/mkkk35.htm',
     ink: '#8c2f39', days: [], groundedFrom: '',
-    note: 'The west line out along the Chinese Eastern Railway to the Soviet frontier. Two services: Tsitsihar to Shinkyō daily, and the long haul beyond Tsitsihar twice a week. These are 1935 times on a map of December 1942.',
+    note: 'These are 1935 times on a map of December 1942.',
     stops: [
       { id: 'manzhouli', name: 'Manchouli (Manzhouli)', lon: 117.45, lat: 49.6 },
       { id: 'hailar', name: 'Hailar', lon: 119.7, lat: 49.2 },

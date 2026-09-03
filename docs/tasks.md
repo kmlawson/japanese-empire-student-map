@@ -17227,3 +17227,56 @@ autosizing, which Chrome has no equivalent of.
   『北支那方面軍占拠地域治安概況』(Sept 1942), appendix 050_332, and 『北支那方面
   敵情要図』(end Sept 1942), 050_331. Better than the 1940 US Army sheet the
   occupied zone is currently traced from, for the whole zone and not just this.
+
+
+## A stroke from Nakhon Phanom into open country
+
+Reported as "one bend which doesn't have a city". It was not a bend and there
+is no city: `airPathOf` kept the pen down between one leg and the next whenever
+the previous leg had been *drawn*, which is a different question from whether
+it had *ended there*. The chords — the line a service flies when it overflies a
+stop — are held at the end of the geometry, after the chain they short-cut, so
+the pen ran an `L` from the last stop of the chain to the **second** point of
+the chord and swallowed the first.
+
+Both routes that carry a chord were doing it, and the stray stroke was the
+longest thing on either sheet:
+
+    siam-korat-nakhonphanom   Nakhon Phanom -> a point on the Korat chord   63.5 units
+    china-hankou              the same fault on the 1942 sheet              84.6 units
+
+The pen now stays down only where the next leg begins within 1e-6 of where the
+last one ended. Measured after: every leg is subdivided into a great circle, so
+the steps are all of a size — 11.5 map units at the median, 17.4 at the worst,
+over 925 of them on the 1942 sheet. The check allows 30.
+
+## A shared line is faint only when nobody on it is flying
+
+Reported: Bangkok to Penang dimmed on the 1942 sheet. Since the collapse one
+line stands for several services and is drawn by whichever route owns it in the
+stable order, so asking the owner alone whether that ground could be flown
+answered for everybody. Imperial's 1939 service is grounded from Akyab and owns
+that stretch by name; KLM flies it to a 1938 timetable and does not draw it.
+
+Both questions go to every route on the leg now, each against its own legs:
+grounded if they all are, flying if any one of them is. Measured on the 1942
+sheet, Imperial's drawn line goes from 0 to 464 characters of shared-ink path
+and its faint path from 1292 to 857 — Bangkok–Penang and Rangoon–Bangkok come
+back. Air France's Vientiane branch stays faint end to end, which is right:
+nobody else flies it.
+
+## Sittwe to Rangoon — not a fault
+
+Checked rather than changed. The stretch carries two services on the 1942
+sheet: Imperial's, grounded from Akyab, and Air France's, grounded from
+Bangkok — so Air France flies it, and it is a *weekly* service, out on day 2
+and home on day 4. Ninety-five minutes of a five-day journey, once each way,
+is very little to catch. The line is drawn and lit, and no code changed.
+
+## The Manchouli note read as a railway
+
+Removed at the author's request: "The west line out along the Chinese Eastern
+Railway to the Soviet frontier" described the ground, not the airline, and the
+sentence about the two services repeats what the timetable on the card already
+shows. What is left is the provenance the other two Manchurian cards carry:
+"These are 1935 times on a map of December 1942."

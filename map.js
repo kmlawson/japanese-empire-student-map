@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '297';
+  var JEM_VERSION = '298';
   var JEM_ASSETS = {"admin.js": "3414697d04", "air-play.js": "25c3b085f0", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "58132ef9c2", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
 
   /* Every file this one fetches, with the version on it.
@@ -8733,6 +8733,19 @@
     return !(mine && mine[leg]);
   }
 
+  /* Everyone on the leg of `r` numbered `leg`, as `{id, leg}` — the *other*
+     route's own leg number, which is rarely the same as this one's. Needed
+     because a question about a shared line ("is anything still flying it?")
+     has to be put to each sharer against its own timetable. */
+  function airShareAt(r, leg) {
+    var ss = (r && r.stops) || [];
+    var pairs = (airGeoms[r && r.id] && airGeoms[r.id].pairs) || [];
+    var pr = pairs[leg];
+    if (!pr || !ss[pr[0]] || !ss[pr[1]]) return [];
+    return airShare[airLegKey(ss[pr[0]].id || ss[pr[0]].name,
+                              ss[pr[1]].id || ss[pr[1]].name)] || [];
+  }
+
   /* Everyone who flies the leg of `r` numbered `leg`, the owner included. */
   function airAtLeg(r, leg) {
     var ss = (r && r.stops) || [];
@@ -8750,14 +8763,26 @@
      what a route drawn with gaps in it is. */
   function airPathOf(legs, pick) {
     var d = '';
-    var open = false;                    // is a subpath in progress?
+    var last = null;                     // where the pen is, if it is down
     for (var i = 0; i < legs.length; i++) {
-      if (pick && !pick(i)) { open = false; continue; }
+      if (pick && !pick(i)) { last = null; continue; }
       var pts = legs[i];
-      for (var j = (open ? 1 : 0); j < pts.length; j++) {
-        d += (j === 0 && !open ? 'M' : 'L') + fmt2(pts[j].x) + ' ' + fmt2(pts[j].y);
+      if (!pts.length) continue;
+      /* **The pen stays down only where the next leg begins where the last one
+         ended.** "The leg before this one was drawn" is a different question,
+         and answering that one drew a stroke across open ground: the chords —
+         the line a service flies when it overflies a stop — are held at the
+         end of the array, after the chain they short-cut, so the pen ran from
+         the last stop of the chain to the *second* point of the chord and
+         swallowed the first. On the Siamese line that was a stroke from Nakhon
+         Phanom into empty country north-east of Korat, bending at nothing,
+         which is how it was reported. */
+      var join = last && Math.abs(last.x - pts[0].x) < 1e-6
+                      && Math.abs(last.y - pts[0].y) < 1e-6;
+      for (var j = (join ? 1 : 0); j < pts.length; j++) {
+        d += (j === 0 && !join ? 'M' : 'L') + fmt2(pts[j].x) + ' ' + fmt2(pts[j].y);
       }
-      open = true;
+      last = pts[pts.length - 1];
     }
     return d;
   }
@@ -8897,13 +8922,41 @@
       var mine = function (i) { return airDrawsLeg(id, i); };
       var mixed = function (i) { return mine(i) && airLegMixed(r, i); };
       var solo = function (i) { return mine(i) && !airLegMixed(r, i); };
+      /* **A shared line is faint only when nobody on it is flying.**
+       *
+       * Since the collapse there is one line where there used to be four, and
+       * it is drawn by whichever route owns it — so asking the owner alone
+       * whether the ground was flyable answered for everybody. Bangkok to
+       * Penang is the case that showed it: Imperial's 1939 service is grounded
+       * from Akyab, it owns that stretch by name, and the line went faint
+       * although KLM flew it with a timetable. Both questions are put to every
+       * route on the leg now, each against its own legs: grounded if they all
+       * are, flying if any one of them is. */
+      var deadHere = function (i) {
+        var on = airShareAt(r, i);
+        if (!on.length) return !!dead[i];
+        for (var j = 0; j < on.length; j++) {
+          var dd = airDead[on[j].id];
+          if (!(dd && dd[on[j].leg])) return false;
+        }
+        return true;
+      };
+      var flownHere = function (i) {
+        var on = airShareAt(r, i);
+        if (!on.length) return !!legs[i];
+        for (var j = 0; j < on.length; j++) {
+          var ff = airFlown[on[j].id];
+          if (ff && ff[on[j].leg]) return true;
+        }
+        return false;
+      };
       pp.own = airPathOf(geom, mine);
-      pp.all = airPathOf(geom, function (i) { return solo(i) && !dead[i]; });
-      pp.mixed = airPathOf(geom, function (i) { return mixed(i) && !dead[i]; });
-      pp.allDim = airPathOf(geom, function (i) { return mine(i) && !!dead[i]; });
-      pp.flown = airPathOf(geom, function (i) { return solo(i) && legs[i]; });
-      pp.flownMixed = airPathOf(geom, function (i) { return mixed(i) && legs[i]; });
-      pp.idle = airPathOf(geom, function (i) { return mine(i) && !legs[i]; });
+      pp.all = airPathOf(geom, function (i) { return solo(i) && !deadHere(i); });
+      pp.mixed = airPathOf(geom, function (i) { return mixed(i) && !deadHere(i); });
+      pp.allDim = airPathOf(geom, function (i) { return mine(i) && deadHere(i); });
+      pp.flown = airPathOf(geom, function (i) { return solo(i) && flownHere(i); });
+      pp.flownMixed = airPathOf(geom, function (i) { return mixed(i) && flownHere(i); });
+      pp.idle = airPathOf(geom, function (i) { return mine(i) && !flownHere(i); });
     });
   }
 
