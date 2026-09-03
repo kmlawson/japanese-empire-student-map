@@ -1259,11 +1259,11 @@ def build_pages():
                "annotate.js", "admin.js",
                # the train tools and their timetable, both fetched only when a
                # reader zooms in to a railway that has one
-               "trains.js", "tw-trains.js",
+               "trains.js", "tw-trains.js", "kr-trains.js",
                # the air player, fetched when a reader asks for the plane tools
                "air-play.js",
                # and the printed tables, which a station's card links to
-               "timetable/taiwan-1936.html",
+               "timetable/taiwan-1936.html", "timetable/korea-1938.html",
                # the relief is three images map.js fetches by name, one per
                # projection, and they are not .js or .css so the page's own
                # stamper below never sees them

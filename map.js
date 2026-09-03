@@ -13,8 +13,8 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '301';
-  var JEM_ASSETS = {"admin.js": "3414697d04", "air-play.js": "8db7ba0d73", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "58132ef9c2", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "52ad5f72a9", "tw-trains.js": "1655cdb6e0"};
+  var JEM_VERSION = '302';
+  var JEM_ASSETS = {"admin.js": "3414697d04", "air-play.js": "8db7ba0d73", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "58132ef9c2", "kr-trains.js": "b28c07fcd2", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/korea-1938.html": "484d7dfdf5", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "e91ada2b09", "tw-trains.js": "1655cdb6e0"};
 
   /* Every file this one fetches, with the version on it.
 
@@ -2018,12 +2018,13 @@
      narrower question: whether they should be *built*, which additionally
      needs the reader to have asked. */
   function trainZone() {
-    if (latSpan() > TRAIN_LAT_OFF) return '';
+    var span = latSpan();
     var c = unproject(view.x + view.w / 2, view.y + view.h / 2);
     if (!isFinite(c.lon) || !isFinite(c.lat)) return '';
     var found = '';
     Object.keys(TRAIN_SYS).forEach(function (k) {
       var b = TRAIN_SYS[k].box;
+      if (span > (TRAIN_SYS[k].latOff || TRAIN_LAT_OFF)) return;
       if (c.lon >= b[0] - TRAIN_BOX_PAD && c.lon <= b[2] + TRAIN_BOX_PAD
           && c.lat >= b[1] - TRAIN_BOX_PAD && c.lat <= b[3] + TRAIN_BOX_PAD) {
         found = k;
@@ -2229,6 +2230,21 @@
          red are the same red; see the note in trains.js. */
       atom: 'taiwan',
     },
+    kr: {
+      sys: 'kr',
+      data: 'KR_TRAINS',
+      file: 'kr-trains.js',
+      page: 'timetable/korea-1938.html',
+      note: 'Timetable of early 1938',
+      box: [124.0, 33.0, 131.2, 43.1],
+      atom: 'korea',
+      /* Korea is ten degrees tall to Taiwan's three and a half, so the view at
+         which the peninsula is the subject is a wider one: the tools come up
+         when it fills about three-quarters of the frame and go at a span a
+         degree and a half larger, the same hysteresis as Taiwan's. */
+      latOn: 13.0,
+      latOff: 14.5,
+    },
   };
 
   /* How close in the reader has to be, in degrees of latitude on screen.
@@ -2256,13 +2272,18 @@
      one is already up, which is the hysteresis. */
   function trainSysFor(mounted) {
     if (!state.trainTools) return '';
-    var limit = mounted ? TRAIN_LAT_OFF : TRAIN_LAT_ON;
-    if (latSpan() > limit) return '';
+    var span = latSpan();
     var c = unproject(view.x + view.w / 2, view.y + view.h / 2);
     if (!isFinite(c.lon) || !isFinite(c.lat)) return '';
     var found = '';
     Object.keys(TRAIN_SYS).forEach(function (k) {
       var b = TRAIN_SYS[k].box;
+      /* each system has its own idea of close enough: a peninsula ten
+         degrees tall is the subject of a view that would be an ocean to an
+         island of three */
+      var limit = mounted ? (TRAIN_SYS[k].latOff || TRAIN_LAT_OFF)
+                          : (TRAIN_SYS[k].latOn || TRAIN_LAT_ON);
+      if (span > limit) return;
       if (c.lon >= b[0] - TRAIN_BOX_PAD && c.lon <= b[2] + TRAIN_BOX_PAD
           && c.lat >= b[1] - TRAIN_BOX_PAD && c.lat <= b[3] + TRAIN_BOX_PAD) {
         found = k;

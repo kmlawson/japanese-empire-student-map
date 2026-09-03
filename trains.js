@@ -459,6 +459,7 @@ window.JMAP_TRAINS = function (host) {
     var s = cls.replace(/急/, '');
     var out = s === '2.3' || s === '二、三等' ? '2nd & 3rd class'
             : s === '三等' ? '3rd class'
+            : s === '1.2' ? '1st & 2nd class'
             : s === '1.2.3' || s === '1.23' ? '1st, 2nd & 3rd class'
             : s;
     return /急/.test(cls) ? out + ', express' : out;
@@ -685,7 +686,7 @@ window.JMAP_TRAINS = function (host) {
             ].filter(Boolean).join('  \u00b7  '),
       note: note,
       head: rows.length + ' calls \u00b7 ' + data.year,
-      cols: ['Station', 'Pinyin', 'Romaji', 'Arr', 'Dep'],
+      cols: ['Station', data.local || 'Pinyin', 'Romaji', 'Arr', 'Dep'],
       rows: rows,
       links: line && line.a
         ? [{ page: cfg.page, anchor: line.a,
@@ -763,13 +764,13 @@ window.JMAP_TRAINS = function (host) {
          which of the two the figures are, so the note does not have to carry
          the caveat as well as the prose. */
       note: line.d || '',
-      head: 'A day on it, counted from the February ' + data.year + ' table',
+      head: 'A day on it, counted from the ' + (data.issued || data.year) + ' table',
       cols: ['', ''],
       rows: rows,
       links: [
         line.w ? { href: line.w,
-                   text: 'Read more on ' + (line.wl === 'ja' ? 'Japanese'
-                                                             : 'Chinese')
+                   text: 'Read more on ' + ({ ja: 'Japanese', zh: 'Chinese',
+                                                ko: 'Korean', en: 'English' }[line.wl] || '')
                          + ' Wikipedia' } : null,
         line.a ? { page: cfg.page, anchor: line.a,
                    text: 'The printed tables for this line' } : null,

@@ -73,9 +73,9 @@ framework. Serve the folder over HTTP, or hand out the single-file build.
   how far the navy reached rather than territory held.
 
 * **Train Tools** — a timetable, on the map it ran on. Tick it under **Layers →
-  Transport** and zoom in to a railway that has one — Taiwan for now, from the
-  February 1936 working timetable — and the network is drawn in the colours the
-  timetable gives its seven lines, with a strip at the foot of the map that
+  Transport** and zoom in to a railway that has one — Taiwan, from the
+  February 1936 working timetable, or Korea, from a pocket timetable of early
+  1938 — and the network is drawn in the colours the timetable gives its lines, with a strip at the foot of the map that
   runs the day: press play and 346 trains move at two to twenty minutes a
   second. Tap a station for the trains that called there, with their numbers,
   their lines and where they were going; tap a moving train for what it is and
@@ -183,6 +183,10 @@ script — `tools/build_map.py` — and neither needs the other to run.
 | `timetable/taiwan-1936.html` | the eighteen printed tables, as published, linked from a station's card |
 | `data/tw-1936-timetable/` | the transcription those two are built from, vendored so the build needs no network |
 | `tools/build_tw_trains.py` | writes `tw-trains.js` and the timetable page from it |
+| `kr-trains.js` | Korea's timetable of early 1938 — 1,089 trains over 42 lines, their stops and the track between them — fetched with the tools over Korea |
+| `timetable/korea-1938.html` | the 103 printed tables of the Korean pages, linked from a station's card |
+| `data/kr-1938-timetable/` | the transcription those two are built from, vendored from the Korea 1938 project |
+| `tools/build_kr_trains.py` | writes `kr-trains.js` and the Korea timetable page from it |
 | `tools/check_deploy.py` | fetches a deployed copy and checks every file against the key it was asked for |
 | `tools/compare_perf.js` | pan-and-zoom timings for two builds side by side, for checking a new version against the live one before updating it |
 

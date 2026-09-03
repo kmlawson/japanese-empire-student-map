@@ -17482,3 +17482,44 @@ writes for a reader as well as for a test and which nobody asked to remove.
 
 Future runs cannot add to it — see the entry above; measured again after this
 change, six saving scripts run and the count in Downloads does not move.
+
+## Korea gets a timetable
+
+The train tools' second system, exactly as the table in `map.js` promised:
+one row in `TRAIN_SYS`, and nothing below it learned the word Korea. The
+source is the 1938 朝鮮・滿洲・內地 pocket timetable transcribed in the Korea
+1938 project (201 tables over 68 pages); the Korean railway pages — 103
+tables, 1,089 trains over 42 lines, 14,546 stop rows — come across as
+`data/kr-1938-timetable/`, the same `data.js` + `tables.html` shape as the
+Taiwan bundle, and `tools/build_kr_trains.py` writes `kr-trains.js` and
+`timetable/korea-1938.html` from it.
+
+    stations      863, of which 692 are matched by name to kr-stations.js and
+                  695 have a coordinate (the rest are bus stops, private-line
+                  halts and the Manchurian ends of through trains)
+    track         846 stretches between consecutive stops, traced along the
+                  NIKH 1942 line geometry by the transcription project and
+                  carried point for point: 56,517 points in, 56,517 out
+    kr-trains.js  1,426 KB, 405 KB gzipped — five times Taiwan's, because the
+                  network is five times longer; fetched only over Korea
+
+Three things the mechanism needed:
+
+* **A per-system zoom threshold.** Korea is ten degrees of latitude to
+  Taiwan's three and a half, so the view at which it is the subject is one
+  Taiwan would call an ocean. `latOn`/`latOff` on a `TRAIN_SYS` row override
+  the global pair; Korea's are 13.0 and 14.5.
+* **The timetable's own words in the cards.** `trains.js` said *February*
+  and *Pinyin* in two places; it now reads `data.issued` and `data.local`
+  (early 1938 and M–R for Korea), and knows a `1.2` class and a Korean
+  Wikipedia link.
+* **Korean on the printed page** where Taiwan's has Chinese: 日本語・한국어・
+  English, with the Japanese reading, the hangul or the McCune–Reischauer
+  under each station name — all three from the GIS through kr-stations.js.
+
+The AM/PM of the source was settled in the transcription project from the
+關釜連絡船 sailings and the legible type of the Japanese pages, and the four
+stretches on the 北鮮線 that the GIS has no line for are straight guesses the
+map refuses, as it refuses Taiwan's two. `tools/test/krtrains.js` proves the
+system comes up over Korea and not over Taiwan, and the page reads in three
+languages.
