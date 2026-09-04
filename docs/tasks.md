@@ -17523,3 +17523,32 @@ stretches on the 北鮮線 that the GIS has no line for are straight guesses the
 map refuses, as it refuses Taiwan's two. `tools/test/krtrains.js` proves the
 system comes up over Korea and not over Taiwan, and the page reads in three
 languages.
+
+
+## Korea's timetable merged, and two scripts nobody was running
+
+`korea-trains` merged into main as a fast-forward from `ed83903`. Reviewed
+before merging: the per-system zoom thresholds in `trainZone`/`trainSysFor`
+(Korea is ten degrees tall to Taiwan's three and a half, so it comes up at a
+wider view — `latOn: 13.0`, `latOff: 14.5`, the same hysteresis), the three
+additions in `trains.js` (a `1.2` class string, the reading column named by the
+bundle rather than fixed as "Pinyin", and Korean and English Wikipedia labels),
+the build script — which reads only the vendored bundle and reaches no network
+— and the vendored data itself, which carries its provenance. No personal
+information in any of the new files. The full suite passed on the merged tree.
+
+**But `krtrains` was never in it.** It had been added to `GROUPS.transport`,
+which is what `changed` picks from, and not to `MAP`, which is what
+*everything* means — so it ran when git said the railways had moved and not in
+the full run before a release, which is the one run that is supposed to be
+complete. `layerfind`, added here two releases ago, had the same fault. The
+full suite reported 56 scripts where 58 exist.
+
+Both are in `MAP` now, and the drift cannot happen again: `all.js` reads its
+own directory at startup and stops the run if a script is in neither list,
+naming it. Verified by renaming `layerfind.js` and watching it refuse.
+
+Two checks added to `krtrains.js` for the `trains.js` changes, which nothing
+covered: a train's card names its reading column "M–R" rather than Taiwan's
+"Pinyin", and a line card is dated "early 1938" rather than "February 1938" —
+the month was Taiwan's and hard-coded.

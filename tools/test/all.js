@@ -68,10 +68,45 @@ const MAP = ['taiwan', 'labels', 'provsource', 'backings', 'mapstrip',
              'relief', 'mono', 'names', 'labuan', 'pin', 'stations', 'zoom', 'colours',
              'trains', 'korea', 'population', 'demography', 'sugar', 'epoch', 'taiwanpop', 'keys',
              'labelcats', 'legendpick', 'subnames', 'japanpop', 'theme', 'twpop1930', 'manchupop', 'routes', 'pointsize', 'islands', 'menu', 'air', 'airplay',
-             'clipping', 'layerinfo'];
+             'clipping', 'layerinfo', 'krtrains', 'layerfind'];
 const ANN = ['run', 'run2', 'run3', 'run4', 'run5', 'run6', 'run7',
              'run8', 'run9', 'run10', 'run11', 'run12', 'run13', 'run14',
              'run15'];
+
+/* **A script nobody names is a script nobody runs.**
+ *
+ * `GROUPS` decides what `changed` picks; `MAP` and `ANN` above are what
+ * *everything* means. The two are separate lists and they had drifted:
+ * `krtrains` and `layerfind` were each added to a group and not to `MAP`, so
+ * both ran when git said their subject had moved and neither ran in the full
+ * suite before a release — which is the one run that is supposed to be
+ * complete. Fifty-six scripts were reported where fifty-eight exist.
+ *
+ * So the lists are checked against the directory rather than trusted. Helpers
+ * are named here because they are not scripts; anything else on disk that no
+ * list mentions stops the run and says which. */
+const HELPERS = ['all', 'settle', 'downloads', 'suite'];
+(function orphanCheck() {
+  const seen = {};
+  MAP.concat(ANN).forEach(n => { seen[n] = true; });
+  HELPERS.forEach(n => { seen[n] = true; });
+  const orphans = [];
+  [[__dirname, ''], [path.join(__dirname, 'annotations'), 'annotations/']]
+    .forEach(([dir, pre]) => {
+      let names = [];
+      try { names = fs.readdirSync(dir); } catch (e) { return; }
+      names.filter(f => f.endsWith('.js'))
+        .map(f => f.replace(/\.js$/, ''))
+        .forEach(n => { if (!seen[n]) orphans.push(pre + n); });
+    });
+  if (orphans.length) {
+    console.error('\n  These test scripts are in neither MAP nor ANN, so "everything"'
+                  + ' would not run them:\n    ' + orphans.join('\n    ')
+                  + '\n  Add them to the lists at the top of all.js (and to a group'
+                  + ' in GROUPS), or to HELPERS if they are not scripts.\n');
+    process.exit(2);
+  }
+})();
 
 const fileFor = n => /^run/.test(n)
   ? path.join(__dirname, 'annotations', n + '.js')

@@ -111,6 +111,26 @@ const shutDialogs=p=>p.evaluate(()=>{
     check('play moves the clock', v2.clock!==t0, t0+' -> '+v2.clock);
     check('trains are on the map', v2.marks>0, 'marks='+v2.marks);
     check('the bar says how many are running', /\d+ running/.test(v2.count), v2.count);
+    /* **The reading column is named for the reading this railway uses.**
+       `trains.js` was written for Taiwan and headed that column "Pinyin"; the
+       bundle names it now — "M–R" for Korea — and a card that said Pinyin over
+       McCune–Reischauer would be wrong about what the reader is looking at.
+       Asked of a *train's* card, which is the one that lists its calls, and so
+       while something is still in the air. */
+    const trainHeads=await p.evaluate(()=>{
+      const m=[...document.querySelectorAll('#train-marks .train-mark')]
+        .find(x=>x.style.display!=='none');
+      if(!m) return null;
+      const r=m.getBoundingClientRect();
+      const ev=n=>m.dispatchEvent(new PointerEvent(n,{bubbles:true,
+        clientX:r.x+r.width/2,clientY:r.y+r.height/2,pointerType:'mouse'}));
+      ev('pointerover'); ev('pointerdown'); ev('pointerup'); ev('click');
+      return [...document.querySelectorAll('#info-trains .trains-table th')]
+        .map(t=>t.textContent.trim());
+    });
+    check('  a train\'s card names the reading column for Korea, not Taiwan',
+      trainHeads && trainHeads.indexOf('M\u2013R')>=0 && trainHeads.indexOf('Pinyin')<0,
+      trainHeads ? trainHeads.join('|') : 'no mark to press');
     await p.click('#train-bar .train-play');
 
     /* ---- 4. a station answers with its trains ------------------------ */
@@ -134,6 +154,22 @@ const shutDialogs=p=>p.evaluate(()=>{
       card.swatches+' swatches for '+card.rows+' rows');
     check('and links to the printed Korea table for that line',
       /timetable\/korea-1938\.html/.test(card.href)&&/#line-\d+-\d+$/.test(card.href), card.href);
+    /* **The line card dates itself from the bundle, not from Taiwan.** The
+       head was "counted from the February <year> table", which is Taiwan's
+       month; Korea's booklet is dated to the season and says so. */
+    const lineHead=await p.evaluate(()=>{
+      const t=document.querySelector('#train-layer .train-line');
+      if(!t) return null;
+      const r=t.getBoundingClientRect();
+      const ev=n=>t.dispatchEvent(new PointerEvent(n,{bubbles:true,
+        clientX:r.x+r.width/2,clientY:r.y+r.height/2,pointerType:'mouse'}));
+      ev('pointerover'); ev('pointerdown'); ev('pointerup'); ev('click');
+      const h=document.querySelector('#info-trains .trains-head');
+      return h?h.textContent:'';
+    });
+    check('  a line card is dated from this booklet',
+      lineHead!==null && /early 1938/.test(lineHead) && !/February/.test(lineHead),
+      String(lineHead));
 
     /* ---- 5. zooming out takes it away; Taiwan is not Korea ---------- */
     await p.evaluate(()=>{
