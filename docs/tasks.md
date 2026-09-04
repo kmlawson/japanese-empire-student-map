@@ -17595,3 +17595,36 @@ there is a badge: the rule is on `html.is-beta`, so the stable site keeps every
 pixel it had. Measured after, at 390x844, 844x390 and 620x900, folded and open:
 no overlap anywhere, a 5 px gap, and the badge inside the frame. Both checks
 fail on the old stylesheet, which is how they were verified.
+
+
+## Report: the trains that move too fast
+
+`reports/2026.09.04-fast-trains.md`. An investigation only — nothing in the map
+or its data was changed.
+
+Of 12,263 timed legs across the two timetables, 138 imply a speed no train of
+the 1930s reached, and **none of them is a misread clock**. Measured two ways:
+along the traced track, and as the crow flies, which is a hard floor no drawing
+can be blamed for.
+
+    A  a call timed on another line   21 Taiwan, 1 Korea   10 trains
+    B  impossible in a straight line   2 Taiwan, 117 Korea 63 trains
+    C  only the drawn track too long  16 Taiwan, 4 Korea   20 trains
+
+A is Taiwan's whole problem and the flag to fix it is already in the file: the
+printed tables carry a neighbouring line's times in the same column, the
+transcription marks those rows `1`, and the animation flies them anyway — train
+43 leaves the coast for Taichung and comes back twice, at 954 km/h.
+
+B is Korea's whole problem and it is one cause: station names matched by name
+alone, and Korean names repeat. 鏡城 sits on *exactly* 京城's coordinate — both
+경성, both Kyŏngsŏng in M–R — 743 km from where it belongs, and 30 legs fly the
+gap. 26 records in all, every one findable by asking how far a station is from
+its nearest neighbour on its own line.
+
+The genuinely fast trains are unremarkable: the quickest thing in either sheet
+is Korea's train 17/18 on the Gyeongbu trunk at 53 km/h straight-line, about 58
+over the ground, against an *Akatsuki* of 1936 at some 67.
+
+The report ends with five recommendations in order of what the effort buys, and
+a suggestion for a test that would keep it from coming back.
