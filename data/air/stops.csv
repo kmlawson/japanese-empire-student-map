@@ -1,274 +1,274 @@
-route,seq,id,name,lon,lat
-korea,1,tokyo,Tokyo,139.76,35.68
-korea,2,osaka,Osaka,135.5,34.69
-korea,3,fukuoka,Fukuoka,130.4,33.59
-korea,4,,Ulsan (Urusan),129.31,35.54
-korea,5,seoul,Keijō (Seoul),126.98,37.57
-korea,6,pyongyang,Heijō (P’yŏngyang),125.75,39.02
-korea,7,dairen,Dairen (Dalian),121.61,38.91
-manchuria,1,sinuiju,Shingishū (Sinŭiju),124.39,40.1
-manchuria,2,mukden,Mukden (Shenyang),123.43,41.8
-manchuria,3,changchun,Xinjing (Changchun),125.32,43.88
-taiwan,1,fukuoka,Fukuoka,130.4,33.59
-taiwan,2,naha,Naha,127.68,26.21
-taiwan,3,taipei,Taihoku (Taipei),121.57,25.03
-nanyo,1,yokohama,Yokohama,139.64,35.44
-nanyo,2,saipan,Saipan,145.75,15.19
-nanyo,3,koror,Koror (Palau),134.48,7.34
-shanghai,1,fukuoka,Fukuoka,130.4,33.59
-shanghai,2,shanghai,Shanghai,121.47,31.23
-shanghai,3,nanjing,Nanking (Nanjing),118.8,32.06
-nagoya-tokyo,1,tokyo,Tokyo,139.76,35.68
-nagoya-tokyo,2,nagoya,Nagoya,136.91,35.18
-nagoya-osaka,1,osaka,Osaka,135.5,34.69
-nagoya-osaka,2,nagoya,Nagoya,136.91,35.18
-shikoku,1,osaka,Osaka,135.5,34.69
-shikoku,2,tokushima,Tokushima,134.55,34.07
-shikoku,3,kochi,Kōchi,133.53,33.56
-taiwan-west,1,taipei,Taihoku (Taipei),121.57,25.03
-taiwan-west,2,taichung,Taichū (Taichung),120.67,24.15
-taiwan-west,3,tainan,Tainan,120.2,22.99
-taiwan-west,4,makung,Makō (Magong),119.57,23.57
-taiwan-east,1,taipei,Taihoku (Taipei),121.57,25.03
-taiwan-east,2,yilan,Giran (Yilan),121.75,24.76
-taiwan-east,3,hualien,Karenkō (Hualien),121.6,23.98
-taiwan-east,4,taitung,Taitō (Taitung),121.14,22.76
-taiwan-east,5,pingtung,Heitō (Pingtung),120.49,22.68
-taiwan-east,6,tainan,Tainan,120.2,22.99
-northchina,1,fukuoka,Fukuoka,130.4,33.59
-northchina,2,qingdao,Tsingtao (Qingdao),120.38,36.07
-northchina,3,tianjin,Tientsin (Tianjin),117.2,39.13
-northchina,4,beijing,Peking (Beijing),116.4,39.9
-keijo-dairen,1,seoul,Keijō (Seoul),126.98,37.57
-keijo-dairen,2,dairen,Dairen (Dalian),121.61,38.91
-keijo-shinkyo,1,seoul,Keijō (Seoul),126.98,37.57
-keijo-shinkyo,2,mukden,Hōten (Mukden),123.43,41.8
-keijo-shinkyo,3,changchun,Shinkyō (Xinjing),125.32,43.88
-fukuoka-keijo,1,fukuoka,Fukuoka,130.4,33.59
-fukuoka-keijo,2,taegu,Taikyū (Taegu),128.6,35.87
-fukuoka-keijo,3,seoul,Keijō (Seoul),126.98,37.57
-tohoku,1,tokyo,Tokyo,139.76,35.68
-tohoku,2,sendai,Sendai,140.87,38.27
-tohoku,3,aomori,Aomori,140.75,40.82
-tohoku,4,sapporo,Sapporo,141.35,43.06
-hokuriku,1,osaka,Osaka,135.5,34.69
-hokuriku,2,kanazawa,Kanazawa,136.66,36.56
-hokuriku,3,toyama,Toyama,137.21,36.7
-hokuriku,4,nagano,Nagano,138.18,36.65
-hokuriku,5,tokyo,Tokyo,139.76,35.68
-niigata,1,nagano,Nagano,138.18,36.65
-niigata,2,niigata,Niigata,139.04,37.92
-sanin,1,osaka,Osaka,135.5,34.69
-sanin,2,tottori,Tottori,134.24,35.5
-sanin,3,matsue,Matsue,133.05,35.47
-keijo-seishin,1,seoul,Keijō (Seoul),126.98,37.57
-keijo-seishin,2,hamhung,Kankō (Hamhŭng),127.54,39.92
-keijo-seishin,3,chongjin,Seishin (Ch’ŏngjin),129.78,41.8
-korea-1938,1,tokyo,Tokyo,139.76,35.68
-korea-1938,2,osaka,Osaka,135.5,34.69
-korea-1938,3,fukuoka,Fukuoka,130.4,33.59
-korea-1938,4,seoul,Keijō (Seoul),126.98,37.57
-korea-1938,5,dairen,Dairen (Dalian),121.61,38.91
-klm-batavia,1,,Towards Jask and Amsterdam,66.2,25.2
-klm-batavia,2,karachi,Karachi,67.01,24.86
-klm-batavia,3,jodhpur,Jodhpur,73.02,26.24
-klm-batavia,4,allahabad,Allahabad (Prayagraj),81.85,25.44
-klm-batavia,5,calcutta,Calcutta,88.36,22.57
-klm-batavia,6,rangoon,Rangoon (Yangon),96.2,16.87
-klm-batavia,7,bangkok,Bangkok,100.5,13.75
-klm-batavia,8,penang,Penang (Georgetown),100.34,5.41
-klm-batavia,9,medan,Medan,98.67,3.59
-klm-batavia,10,singapore,Singapore (Shōnantō),103.85,1.29
-klm-batavia,11,palembang,Palembang,104.76,-2.99
-klm-batavia,12,batavia,Batavia (Jakarta),106.85,-6.21
-klm-batavia,13,bandung,Bandoeng (Bandung),107.61,-6.91
-knilm-medan-pekanbaru,1,medan,Medan,98.67,3.59
-knilm-medan-pekanbaru,2,pekanbaru,Pakanbaroe (Pekanbaru),101.45,0.51
-knilm-pekanbaru-palembang,1,pekanbaru,Pakanbaroe (Pekanbaru),101.45,0.51
-knilm-pekanbaru-palembang,2,palembang,Palembang,104.76,-2.99
-knilm-pekanbaru-singapore,1,pekanbaru,Pakanbaroe (Pekanbaru),101.45,0.51
-knilm-pekanbaru-singapore,2,singapore,Singapore (Shōnantō),103.85,1.29
-knilm-singapore-saigon,1,singapore,Singapore (Shōnantō),103.85,1.29
-knilm-singapore-saigon,2,saigon,Saigon,106.63,10.82
-knilm-palembang-batavia,1,palembang,Palembang,104.76,-2.99
-knilm-palembang-batavia,2,batavia,Batavia (Jakarta),106.85,-6.21
-knilm-batavia-bandung,1,batavia,Batavia (Jakarta),106.85,-6.21
-knilm-batavia-bandung,2,bandung,Bandoeng (Bandung),107.61,-6.91
-knilm-batavia-semarang,1,batavia,Batavia (Jakarta),106.85,-6.21
-knilm-batavia-semarang,2,semarang,Semarang,110.42,-6.97
-knilm-semarang-surabaya,1,semarang,Semarang,110.42,-6.97
-knilm-semarang-surabaya,2,surabaya,Soerabaja (Surabaya),112.75,-7.25
-knilm-surabaya-bandjermasin,1,surabaya,Soerabaja (Surabaya),112.75,-7.25
-knilm-surabaya-bandjermasin,2,bandjermasin,Bandjermasin (Banjarmasin),114.59,-3.32
-knilm-bandjermasin-balikpapan,1,bandjermasin,Bandjermasin (Banjarmasin),114.59,-3.32
-knilm-bandjermasin-balikpapan,2,balikpapan,Balikpapan,116.85,-1.24
-knilm-balikpapan-tarakan,1,balikpapan,Balikpapan,116.85,-1.24
-knilm-balikpapan-tarakan,2,tarakan,Tarakan,117.59,3.3
-knilm-surabaya-denpasar,1,surabaya,Soerabaja (Surabaya),112.75,-7.25
-knilm-surabaya-denpasar,2,denpasar,Bali (Denpasar),115.22,-8.65
-knilm-denpasar-makassar,1,denpasar,Bali (Denpasar),115.22,-8.65
-knilm-denpasar-makassar,2,makassar,Makassar,119.43,-5.15
-knilm-surabaya-makassar,1,surabaya,Soerabaja (Surabaya),112.75,-7.25
-knilm-surabaya-makassar,2,makassar,Makassar,119.43,-5.15
-knilm-denpasar-kupang,1,denpasar,Bali (Denpasar),115.22,-8.65
-knilm-denpasar-kupang,2,kupang,Koepang (Kupang),123.61,-10.17
-knilm-kupang-darwin,1,kupang,Koepang (Kupang),123.61,-10.17
-knilm-kupang-darwin,2,darwin,Darwin,130.84,-12.46
-knilm-makassar-gorontalo,1,makassar,Makassar,119.43,-5.15
-knilm-makassar-gorontalo,2,gorontalo,Gorontalo,123.06,0.54
-knilm-gorontalo-manado,1,gorontalo,Gorontalo,123.06,0.54
-knilm-gorontalo-manado,2,manado,Menado (Manado),124.84,1.49
-knilm-manado-ternate,1,manado,Menado (Manado),124.84,1.49
-knilm-manado-ternate,2,ternate,Ternate,127.38,0.79
-knilm-ternate-ambon,1,ternate,Ternate,127.38,0.79
-knilm-ternate-ambon,2,ambon,Ambon (Amboina),128.18,-3.7
-knilm-makassar-ambon,1,makassar,Makassar,119.43,-5.15
-knilm-makassar-ambon,2,ambon,Ambon (Amboina),128.18,-3.7
-knilm-ambon-bandaneira,1,ambon,Ambon (Amboina),128.18,-3.7
-knilm-ambon-bandaneira,2,bandaneira,Banda (Banda Neira),129.90,-4.53
-knilm-ambon-babo,1,ambon,Ambon (Amboina),128.18,-3.7
-knilm-ambon-babo,2,babo,Babo,133.44,-2.55
-knilm-babo-manokwari,1,babo,Babo,133.44,-2.55
-knilm-babo-manokwari,2,manokwari,Manokwari,134.08,-0.86
-knilm-babo-wisselmeren,1,babo,Babo,133.44,-2.55
-knilm-babo-wisselmeren,2,wisselmeren,Wisselmeren (Paniai Lakes),136.38,-3.93
-knilm30-java,1,batavia,Batavia (Jakarta),106.85,-6.21
-knilm30-java,2,semarang,Semarang,110.42,-6.97
-knilm30-java,3,surabaya,Soerabaia (Surabaya),112.75,-7.25
-knilm30-bandoeng,1,batavia,Batavia (Jakarta),106.85,-6.21
-knilm30-bandoeng,2,bandung,Bandoeng (Bandung),107.61,-6.91
-knilm30-singapore,1,batavia,Batavia (Jakarta),106.85,-6.21
-knilm30-singapore,2,palembang,Palembang,104.76,-2.99
-knilm30-singapore,3,singapore,Singapore (Shōnantō),103.85,1.29
-knilm30-medan,1,batavia,Batavia (Jakarta),106.85,-6.21
-knilm30-medan,2,palembang,Palembang,104.76,-2.99
-knilm30-medan,3,pekanbaru,Pakan Baroe (Pekanbaru),101.45,0.51
-knilm30-medan,4,medan,Medan,98.67,3.59
-china-shanghai,1,beijing,Peking (Beijing),116.4,39.9
-china-shanghai,2,tianjin,Tientsin (Tianjin),117.2,39.13
-china-shanghai,3,jinan,Tsinan (Jinan),116.99,36.67
-china-shanghai,4,xuzhou,Hsuchow (Xuzhou),117.19,34.26
-china-shanghai,5,nanjing,Nanking (Nanjing),118.8,32.06
-china-shanghai,6,shanghai,Shanghai,121.47,31.23
-china-baotou,1,beijing,Peking (Beijing),116.4,39.9
-china-baotou,2,kalgan,Kalgan (Zhangjiakou),114.88,40.81
-china-baotou,3,datong,Tatung (Datong),113.3,40.09
-china-baotou,4,hohhot,Kōwa (Hohhot),111.75,40.84
-china-baotou,5,baotou,Paotow (Baotou),109.84,40.66
-china-dairen,1,beijing,Peking (Beijing),116.4,39.9
-china-dairen,2,tianjin,Tientsin (Tianjin),117.2,39.13
-china-dairen,3,dairen,Dairen (Dalian),121.61,38.91
-china-hankou,1,shanghai,Shanghai,121.47,31.23
-china-hankou,2,nanjing,Nanking (Nanjing),118.8,32.06
-china-hankou,3,anqing,Anking (Anqing),117.05,30.51
-china-hankou,4,jiujiang,Kiukiang (Jiujiang),116.0,29.71
-china-hankou,5,wuhan,Hankow (Wuhan),114.28,30.58
-cnac-shanghai-hankou,1,shanghai,Shanghai,121.47,31.23
-cnac-shanghai-hankou,2,nanjing,Nanking (Nanjing),118.8,32.06
-cnac-shanghai-hankou,3,anqing,Anking (Anqing),117.05,30.51
-cnac-shanghai-hankou,4,jiujiang,Kiukiang (Jiujiang),116.0,29.71
-cnac-shanghai-hankou,5,wuhan,Hankow (Wuhan),114.28,30.58
-cnac-hankou-chungking,1,wuhan,Hankow (Wuhan),114.28,30.58
-cnac-hankou-chungking,2,,Shasi (Shashi),112.24,30.32
-cnac-hankou-chungking,3,yichang,Ichang (Yichang),111.29,30.69
-cnac-hankou-chungking,4,wanxian,Wanhsien (Wanxian),108.41,30.81
-cnac-hankou-chungking,5,chongqing,Chungking (Chongqing),106.55,29.56
-cnac-shanghai-peiping,1,shanghai,Shanghai,121.47,31.23
-cnac-shanghai-peiping,2,,Haichow (Haizhou),119.13,34.57
-cnac-shanghai-peiping,3,qingdao,Tsingtao (Qingdao),120.38,36.07
-cnac-shanghai-peiping,4,tianjin,Tientsin (Tianjin),117.2,39.13
-cnac-shanghai-peiping,5,beijing,Peiping (Beijing),116.4,39.9
-cnac-chungking-rangoon,1,chongqing,Chungking (Chongqing),106.55,29.56
-cnac-chungking-rangoon,2,kunming,Kunming,102.72,25.04
-cnac-chungking-rangoon,3,lashio,Lashio,97.75,22.94
-cnac-chungking-rangoon,4,rangoon,Rangoon (Yangon),96.2,16.87
-cnac-chungking-chengtu,1,chongqing,Chungking (Chongqing),106.55,29.56
-cnac-chungking-chengtu,2,chengdu,Chengtu (Chengdu),104.07,30.66
-cnac-chungking-kiating,1,chongqing,Chungking (Chongqing),106.55,29.56
-cnac-chungking-kiating,2,luzhou,Luchow (Luzhou),105.44,28.87
-cnac-chungking-kiating,3,,Suifu (Yibin),104.62,28.77
-cnac-chungking-kiating,4,,Kiating (Leshan),103.76,29.56
-cnac-shanghai-canton,1,shanghai,Shanghai,121.47,31.23
-cnac-shanghai-canton,2,wenzhou,Wenchow (Wenzhou),120.7,28.0
-cnac-shanghai-canton,3,fuzhou,Foochow (Fuzhou),119.3,26.07
-cnac-shanghai-canton,4,xiamen,Amoy (Xiamen),118.09,24.48
-cnac-shanghai-canton,5,shantou,Swatow (Shantou),116.68,23.35
-cnac-shanghai-canton,6,guangzhou,Canton (Guangzhou),113.26,23.13
-mkkk-manchouli-hsinking,1,manzhouli,Manchouli (Manzhouli),117.45,49.6
-mkkk-manchouli-hsinking,2,hailar,Hailar,119.7,49.2
-mkkk-manchouli-hsinking,3,qiqihar,Tsitsihar (Qiqihar),123.92,47.35
-mkkk-manchouli-hsinking,4,harbin,Harbin,126.53,45.8
-mkkk-manchouli-hsinking,5,changchun,Xinjing (Changchun),125.32,43.88
-mkkk-harbin-dairen,1,harbin,Harbin,126.53,45.8
-mkkk-harbin-dairen,2,changchun,Xinjing (Changchun),125.32,43.88
-mkkk-harbin-dairen,3,mukden,Mukden (Shenyang),123.43,41.8
-mkkk-harbin-dairen,4,dairen,Dairen (Dalian),121.61,38.91
-mkkk-hsinking-shingishu,1,changchun,Xinjing (Changchun),125.32,43.88
-mkkk-hsinking-shingishu,2,mukden,Mukden (Shenyang),123.43,41.8
-mkkk-hsinking-shingishu,3,sinuiju,Shingishū (Sinŭiju),124.39,40.1
-knilm-tarakan-manila,1,tarakan,Tarakan,117.59,3.3
-knilm-tarakan-manila,2,manila,Manila,120.98,14.6
-patco-manila-baguio,1,manila,Manila,120.98,14.6
-patco-manila-baguio,2,baguio,Baguio,120.6,16.41
-siam-korat-nakhonphanom,1,korat,Korat (Nakhon Ratchasima),102.1,14.97
-siam-korat-nakhonphanom,2,,Roi Et,103.65,16.05
-siam-korat-nakhonphanom,3,,Khon Kaen,102.83,16.44
-siam-korat-nakhonphanom,4,,Udon Thani,102.79,17.41
-siam-korat-nakhonphanom,5,,Nakhon Phanom,104.78,17.41
-ina-calcutta-rangoon,1,calcutta,Calcutta,88.36,22.57
-ina-calcutta-rangoon,2,chittagong,Chittagong,91.78,22.36
-ina-calcutta-rangoon,3,akyab,Akyab (Sittwe),92.9,20.15
-ina-calcutta-rangoon,4,bassein,Bassein (Pathein),94.73,16.78
-ina-calcutta-rangoon,5,rangoon,Rangoon (Yangon),96.2,16.87
-ina-calcutta-dacca,1,calcutta,Calcutta,88.36,22.57
-ina-calcutta-dacca,2,dacca,Dacca (Dhaka),90.41,23.81
-ina-delhi-karachi,1,delhi,Delhi,77.21,28.61
-ina-delhi-karachi,2,lahore,Lahore,74.34,31.55
-ina-delhi-karachi,3,,Multan,71.47,30.2
-ina-delhi-karachi,4,,Jacobabad,68.44,28.28
-ina-delhi-karachi,5,karachi,Karachi,67.01,24.86
-airorient-jask-saigon,1,,Towards Jask and Marseilles,66.2,25.2
-airorient-jask-saigon,2,karachi,Karachi,67.01,24.86
-airorient-jask-saigon,3,allahabad,Allahabad,81.85,25.44
-airorient-jask-saigon,4,calcutta,Calcutta,88.36,22.57
-airorient-jask-saigon,5,rangoon,Rangoon (Yangon),96.2,16.87
-airorient-jask-saigon,6,bangkok,Bangkok,100.5,13.75
-airorient-jask-saigon,7,saigon,Saigon (Ho Chi Minh City),106.7,10.78
-iaw-karachi-delhi,1,,Towards Gwadar and Jask,66.2,25.2
-iaw-karachi-delhi,2,karachi,Karachi (Drigh Road),67.01,24.86
-iaw-karachi-delhi,3,jodhpur,Jodhpur,73.02,26.29
-iaw-karachi-delhi,4,delhi,Delhi (New Delhi),77.21,28.61
-airfrance-karachi-hongkong,1,karachi,Karachi,67.01,24.86
-airfrance-karachi-hongkong,2,jodhpur,Jodhpur,73.02,26.29
-airfrance-karachi-hongkong,3,allahabad,Allahabad,81.85,25.44
-airfrance-karachi-hongkong,4,calcutta,Calcutta,88.36,22.57
-airfrance-karachi-hongkong,5,akyab,Akyab (Sittwe),92.9,20.15
-airfrance-karachi-hongkong,6,rangoon,Rangoon (Yangon),96.2,16.87
-airfrance-karachi-hongkong,7,bangkok,Bangkok,100.5,13.75
-airfrance-karachi-hongkong,8,saigon,Saigon,106.63,10.82
-airfrance-karachi-hongkong,9,hanoi,Hanoi,105.85,21.03
-airfrance-karachi-hongkong,10,kunming,Kunming,102.72,25.04
-airfrance-karachi-hongkong,11,hongkong,Hong Kong (Victoria),114.16,22.28
-iaw39-karachi-darwin,1,karachi,Karachi,67.01,24.86
-iaw39-karachi-darwin,2,,Raj Samand,73.88,25.07
-iaw39-karachi-darwin,3,gwalior,Gwalior,78.18,26.22
-iaw39-karachi-darwin,4,allahabad,Allahabad (Prayagraj),81.85,25.44
-iaw39-karachi-darwin,5,calcutta,Calcutta,88.36,22.57
-iaw39-karachi-darwin,6,akyab,Akyab (Sittwe),92.9,20.15
-iaw39-karachi-darwin,7,rangoon,Rangoon (Yangon),96.2,16.87
-iaw39-karachi-darwin,8,bangkok,Bangkok,100.5,13.75
-iaw39-karachi-darwin,9,penang,Penang (Georgetown),100.34,5.41
-iaw39-karachi-darwin,10,singapore,Singapore (Shōnantō),103.85,1.29
-iaw39-karachi-darwin,11,batavia,Batavia (Jakarta),106.85,-6.21
-iaw39-karachi-darwin,12,surabaya,Soerabaja (Surabaya),112.75,-7.25
-iaw39-karachi-darwin,13,kupang,Koepang (Kupang),123.61,-10.17
-iaw39-karachi-darwin,14,darwin,Darwin,130.84,-12.46
-iaw39-karachi-calcutta,1,karachi,Karachi,67.01,24.86
-iaw39-karachi-calcutta,2,jodhpur,Jodhpur,73.02,26.24
-iaw39-karachi-calcutta,3,delhi,Delhi,77.21,28.61
-iaw39-karachi-calcutta,4,cawnpore,Cawnpore (Kanpur),80.33,26.45
-iaw39-karachi-calcutta,5,allahabad,Allahabad (Prayagraj),81.85,25.44
-iaw39-karachi-calcutta,6,calcutta,Calcutta,88.36,22.57
-airfrance-bangkok-hanoi,1,bangkok,Bangkok,100.5,13.75
-airfrance-bangkok-hanoi,2,vientiane,Vientiane,102.6,17.97
-airfrance-bangkok-hanoi,3,hanoi,Hanoi,105.85,21.03
+route,seq,id,name,lon,lat,han
+korea,1,tokyo,Tokyo,139.76,35.68,東京
+korea,2,osaka,Osaka,135.5,34.69,大阪
+korea,3,fukuoka,Fukuoka,130.4,33.59,福岡
+korea,4,,Ulsan (Urusan),129.31,35.54,蔚山
+korea,5,seoul,Keijō (Seoul),126.98,37.57,京城（漢城）
+korea,6,pyongyang,Heijō (P’yŏngyang),125.75,39.02,平壤
+korea,7,dairen,Dairen (Dalian),121.61,38.91,大連
+manchuria,1,sinuiju,Shingishū (Sinŭiju),124.39,40.1,新義州
+manchuria,2,mukden,Mukden (Shenyang),123.43,41.8,瀋陽（奉天）
+manchuria,3,changchun,Xinjing (Changchun),125.32,43.88,長春（新京）
+taiwan,1,fukuoka,Fukuoka,130.4,33.59,福岡
+taiwan,2,naha,Naha,127.68,26.21,那霸
+taiwan,3,taipei,Taihoku (Taipei),121.57,25.03,臺北
+nanyo,1,yokohama,Yokohama,139.64,35.44,橫濱
+nanyo,2,saipan,Saipan,145.75,15.19,塞班島
+nanyo,3,koror,Koror (Palau),134.48,7.34,
+shanghai,1,fukuoka,Fukuoka,130.4,33.59,福岡
+shanghai,2,shanghai,Shanghai,121.47,31.23,上海
+shanghai,3,nanjing,Nanking (Nanjing),118.8,32.06,南京
+nagoya-tokyo,1,tokyo,Tokyo,139.76,35.68,東京
+nagoya-tokyo,2,nagoya,Nagoya,136.91,35.18,名古屋
+nagoya-osaka,1,osaka,Osaka,135.5,34.69,大阪
+nagoya-osaka,2,nagoya,Nagoya,136.91,35.18,名古屋
+shikoku,1,osaka,Osaka,135.5,34.69,大阪
+shikoku,2,tokushima,Tokushima,134.55,34.07,德島
+shikoku,3,kochi,Kōchi,133.53,33.56,高知
+taiwan-west,1,taipei,Taihoku (Taipei),121.57,25.03,臺北
+taiwan-west,2,taichung,Taichū (Taichung),120.67,24.15,臺中
+taiwan-west,3,tainan,Tainan,120.2,22.99,臺南
+taiwan-west,4,makung,Makō (Magong),119.57,23.57,馬公（澎湖）
+taiwan-east,1,taipei,Taihoku (Taipei),121.57,25.03,臺北
+taiwan-east,2,yilan,Giran (Yilan),121.75,24.76,甲子蘭酒文物館
+taiwan-east,3,hualien,Karenkō (Hualien),121.6,23.98,花蓮港
+taiwan-east,4,taitung,Taitō (Taitung),121.14,22.76,臺東
+taiwan-east,5,pingtung,Heitō (Pingtung),120.49,22.68,屏東
+taiwan-east,6,tainan,Tainan,120.2,22.99,臺南
+northchina,1,fukuoka,Fukuoka,130.4,33.59,福岡
+northchina,2,qingdao,Tsingtao (Qingdao),120.38,36.07,青島
+northchina,3,tianjin,Tientsin (Tianjin),117.2,39.13,天津
+northchina,4,beijing,Peking (Beijing),116.4,39.9,北京
+keijo-dairen,1,seoul,Keijō (Seoul),126.98,37.57,京城（漢城）
+keijo-dairen,2,dairen,Dairen (Dalian),121.61,38.91,大連
+keijo-shinkyo,1,seoul,Keijō (Seoul),126.98,37.57,京城（漢城）
+keijo-shinkyo,2,mukden,Hōten (Mukden),123.43,41.8,瀋陽（奉天）
+keijo-shinkyo,3,changchun,Shinkyō (Xinjing),125.32,43.88,長春（新京）
+fukuoka-keijo,1,fukuoka,Fukuoka,130.4,33.59,福岡
+fukuoka-keijo,2,taegu,Taikyū (Taegu),128.6,35.87,大邱
+fukuoka-keijo,3,seoul,Keijō (Seoul),126.98,37.57,京城（漢城）
+tohoku,1,tokyo,Tokyo,139.76,35.68,東京
+tohoku,2,sendai,Sendai,140.87,38.27,仙台
+tohoku,3,aomori,Aomori,140.75,40.82,青森
+tohoku,4,sapporo,Sapporo,141.35,43.06,札幌
+hokuriku,1,osaka,Osaka,135.5,34.69,大阪
+hokuriku,2,kanazawa,Kanazawa,136.66,36.56,金澤
+hokuriku,3,toyama,Toyama,137.21,36.7,富山
+hokuriku,4,nagano,Nagano,138.18,36.65,長野
+hokuriku,5,tokyo,Tokyo,139.76,35.68,東京
+niigata,1,nagano,Nagano,138.18,36.65,長野
+niigata,2,niigata,Niigata,139.04,37.92,新潟
+sanin,1,osaka,Osaka,135.5,34.69,大阪
+sanin,2,tottori,Tottori,134.24,35.5,鳥取
+sanin,3,matsue,Matsue,133.05,35.47,松江
+keijo-seishin,1,seoul,Keijō (Seoul),126.98,37.57,京城（漢城）
+keijo-seishin,2,hamhung,Kankō (Hamhŭng),127.54,39.92,咸興
+keijo-seishin,3,chongjin,Seishin (Ch’ŏngjin),129.78,41.8,清津
+korea-1938,1,tokyo,Tokyo,139.76,35.68,東京
+korea-1938,2,osaka,Osaka,135.5,34.69,大阪
+korea-1938,3,fukuoka,Fukuoka,130.4,33.59,福岡
+korea-1938,4,seoul,Keijō (Seoul),126.98,37.57,京城（漢城）
+korea-1938,5,dairen,Dairen (Dalian),121.61,38.91,大連
+klm-batavia,1,,Towards Jask and Amsterdam,66.2,25.2,
+klm-batavia,2,karachi,Karachi,67.01,24.86,
+klm-batavia,3,jodhpur,Jodhpur,73.02,26.24,
+klm-batavia,4,allahabad,Allahabad (Prayagraj),81.85,25.44,
+klm-batavia,5,calcutta,Calcutta,88.36,22.57,
+klm-batavia,6,rangoon,Rangoon (Yangon),96.2,16.87,仰光
+klm-batavia,7,bangkok,Bangkok,100.5,13.75,
+klm-batavia,8,penang,Penang (Georgetown),100.34,5.41,
+klm-batavia,9,medan,Medan,98.67,3.59,
+klm-batavia,10,singapore,Singapore (Shōnantō),103.85,1.29,新加坡
+klm-batavia,11,palembang,Palembang,104.76,-2.99,
+klm-batavia,12,batavia,Batavia (Jakarta),106.85,-6.21,巴達維亞
+klm-batavia,13,bandung,Bandoeng (Bandung),107.61,-6.91,
+knilm-medan-pekanbaru,1,medan,Medan,98.67,3.59,
+knilm-medan-pekanbaru,2,pekanbaru,Pakanbaroe (Pekanbaru),101.45,0.51,
+knilm-pekanbaru-palembang,1,pekanbaru,Pakanbaroe (Pekanbaru),101.45,0.51,
+knilm-pekanbaru-palembang,2,palembang,Palembang,104.76,-2.99,
+knilm-pekanbaru-singapore,1,pekanbaru,Pakanbaroe (Pekanbaru),101.45,0.51,
+knilm-pekanbaru-singapore,2,singapore,Singapore (Shōnantō),103.85,1.29,新加坡
+knilm-singapore-saigon,1,singapore,Singapore (Shōnantō),103.85,1.29,新加坡
+knilm-singapore-saigon,2,saigon,Saigon,106.63,10.82,西貢
+knilm-palembang-batavia,1,palembang,Palembang,104.76,-2.99,
+knilm-palembang-batavia,2,batavia,Batavia (Jakarta),106.85,-6.21,巴達維亞
+knilm-batavia-bandung,1,batavia,Batavia (Jakarta),106.85,-6.21,巴達維亞
+knilm-batavia-bandung,2,bandung,Bandoeng (Bandung),107.61,-6.91,
+knilm-batavia-semarang,1,batavia,Batavia (Jakarta),106.85,-6.21,巴達維亞
+knilm-batavia-semarang,2,semarang,Semarang,110.42,-6.97,
+knilm-semarang-surabaya,1,semarang,Semarang,110.42,-6.97,
+knilm-semarang-surabaya,2,surabaya,Soerabaja (Surabaya),112.75,-7.25,
+knilm-surabaya-bandjermasin,1,surabaya,Soerabaja (Surabaya),112.75,-7.25,
+knilm-surabaya-bandjermasin,2,bandjermasin,Bandjermasin (Banjarmasin),114.59,-3.32,
+knilm-bandjermasin-balikpapan,1,bandjermasin,Bandjermasin (Banjarmasin),114.59,-3.32,
+knilm-bandjermasin-balikpapan,2,balikpapan,Balikpapan,116.85,-1.24,
+knilm-balikpapan-tarakan,1,balikpapan,Balikpapan,116.85,-1.24,
+knilm-balikpapan-tarakan,2,tarakan,Tarakan,117.59,3.3,
+knilm-surabaya-denpasar,1,surabaya,Soerabaja (Surabaya),112.75,-7.25,
+knilm-surabaya-denpasar,2,denpasar,Bali (Denpasar),115.22,-8.65,
+knilm-denpasar-makassar,1,denpasar,Bali (Denpasar),115.22,-8.65,
+knilm-denpasar-makassar,2,makassar,Makassar,119.43,-5.15,
+knilm-surabaya-makassar,1,surabaya,Soerabaja (Surabaya),112.75,-7.25,
+knilm-surabaya-makassar,2,makassar,Makassar,119.43,-5.15,
+knilm-denpasar-kupang,1,denpasar,Bali (Denpasar),115.22,-8.65,
+knilm-denpasar-kupang,2,kupang,Koepang (Kupang),123.61,-10.17,
+knilm-kupang-darwin,1,kupang,Koepang (Kupang),123.61,-10.17,
+knilm-kupang-darwin,2,darwin,Darwin,130.84,-12.46,達爾文
+knilm-makassar-gorontalo,1,makassar,Makassar,119.43,-5.15,
+knilm-makassar-gorontalo,2,gorontalo,Gorontalo,123.06,0.54,
+knilm-gorontalo-manado,1,gorontalo,Gorontalo,123.06,0.54,
+knilm-gorontalo-manado,2,manado,Menado (Manado),124.84,1.49,
+knilm-manado-ternate,1,manado,Menado (Manado),124.84,1.49,
+knilm-manado-ternate,2,ternate,Ternate,127.38,0.79,
+knilm-ternate-ambon,1,ternate,Ternate,127.38,0.79,
+knilm-ternate-ambon,2,ambon,Ambon (Amboina),128.18,-3.7,
+knilm-makassar-ambon,1,makassar,Makassar,119.43,-5.15,
+knilm-makassar-ambon,2,ambon,Ambon (Amboina),128.18,-3.7,
+knilm-ambon-bandaneira,1,ambon,Ambon (Amboina),128.18,-3.7,
+knilm-ambon-bandaneira,2,bandaneira,Banda (Banda Neira),129.90,-4.53,
+knilm-ambon-babo,1,ambon,Ambon (Amboina),128.18,-3.7,
+knilm-ambon-babo,2,babo,Babo,133.44,-2.55,
+knilm-babo-manokwari,1,babo,Babo,133.44,-2.55,
+knilm-babo-manokwari,2,manokwari,Manokwari,134.08,-0.86,
+knilm-babo-wisselmeren,1,babo,Babo,133.44,-2.55,
+knilm-babo-wisselmeren,2,wisselmeren,Wisselmeren (Paniai Lakes),136.38,-3.93,
+knilm30-java,1,batavia,Batavia (Jakarta),106.85,-6.21,巴達維亞
+knilm30-java,2,semarang,Semarang,110.42,-6.97,
+knilm30-java,3,surabaya,Soerabaia (Surabaya),112.75,-7.25,
+knilm30-bandoeng,1,batavia,Batavia (Jakarta),106.85,-6.21,巴達維亞
+knilm30-bandoeng,2,bandung,Bandoeng (Bandung),107.61,-6.91,
+knilm30-singapore,1,batavia,Batavia (Jakarta),106.85,-6.21,巴達維亞
+knilm30-singapore,2,palembang,Palembang,104.76,-2.99,
+knilm30-singapore,3,singapore,Singapore (Shōnantō),103.85,1.29,新加坡
+knilm30-medan,1,batavia,Batavia (Jakarta),106.85,-6.21,巴達維亞
+knilm30-medan,2,palembang,Palembang,104.76,-2.99,
+knilm30-medan,3,pekanbaru,Pakan Baroe (Pekanbaru),101.45,0.51,
+knilm30-medan,4,medan,Medan,98.67,3.59,
+china-shanghai,1,beijing,Peking (Beijing),116.4,39.9,北京
+china-shanghai,2,tianjin,Tientsin (Tianjin),117.2,39.13,天津
+china-shanghai,3,jinan,Tsinan (Jinan),116.99,36.67,濟南
+china-shanghai,4,xuzhou,Hsuchow (Xuzhou),117.19,34.26,徐州
+china-shanghai,5,nanjing,Nanking (Nanjing),118.8,32.06,南京
+china-shanghai,6,shanghai,Shanghai,121.47,31.23,上海
+china-baotou,1,beijing,Peking (Beijing),116.4,39.9,北京
+china-baotou,2,kalgan,Kalgan (Zhangjiakou),114.88,40.81,張家口
+china-baotou,3,datong,Tatung (Datong),113.3,40.09,大同
+china-baotou,4,hohhot,Kōwa (Hohhot),111.75,40.84,歸綏（呼和浩特）
+china-baotou,5,baotou,Paotow (Baotou),109.84,40.66,包頭
+china-dairen,1,beijing,Peking (Beijing),116.4,39.9,北京
+china-dairen,2,tianjin,Tientsin (Tianjin),117.2,39.13,天津
+china-dairen,3,dairen,Dairen (Dalian),121.61,38.91,大連
+china-hankou,1,shanghai,Shanghai,121.47,31.23,上海
+china-hankou,2,nanjing,Nanking (Nanjing),118.8,32.06,南京
+china-hankou,3,anqing,Anking (Anqing),117.05,30.51,安慶
+china-hankou,4,jiujiang,Kiukiang (Jiujiang),116.0,29.71,九江
+china-hankou,5,wuhan,Hankow (Wuhan),114.28,30.58,武漢（漢口）
+cnac-shanghai-hankou,1,shanghai,Shanghai,121.47,31.23,上海
+cnac-shanghai-hankou,2,nanjing,Nanking (Nanjing),118.8,32.06,南京
+cnac-shanghai-hankou,3,anqing,Anking (Anqing),117.05,30.51,安慶
+cnac-shanghai-hankou,4,jiujiang,Kiukiang (Jiujiang),116.0,29.71,九江
+cnac-shanghai-hankou,5,wuhan,Hankow (Wuhan),114.28,30.58,武漢（漢口）
+cnac-hankou-chungking,1,wuhan,Hankow (Wuhan),114.28,30.58,武漢（漢口）
+cnac-hankou-chungking,2,,Shasi (Shashi),112.24,30.32,沙市
+cnac-hankou-chungking,3,yichang,Ichang (Yichang),111.29,30.69,宜昌
+cnac-hankou-chungking,4,wanxian,Wanhsien (Wanxian),108.41,30.81,萬縣
+cnac-hankou-chungking,5,chongqing,Chungking (Chongqing),106.55,29.56,重慶
+cnac-shanghai-peiping,1,shanghai,Shanghai,121.47,31.23,上海
+cnac-shanghai-peiping,2,,Haichow (Haizhou),119.13,34.57,海州
+cnac-shanghai-peiping,3,qingdao,Tsingtao (Qingdao),120.38,36.07,青島
+cnac-shanghai-peiping,4,tianjin,Tientsin (Tianjin),117.2,39.13,天津
+cnac-shanghai-peiping,5,beijing,Peiping (Beijing),116.4,39.9,北京
+cnac-chungking-rangoon,1,chongqing,Chungking (Chongqing),106.55,29.56,重慶
+cnac-chungking-rangoon,2,kunming,Kunming,102.72,25.04,昆明
+cnac-chungking-rangoon,3,lashio,Lashio,97.75,22.94,
+cnac-chungking-rangoon,4,rangoon,Rangoon (Yangon),96.2,16.87,仰光
+cnac-chungking-chengtu,1,chongqing,Chungking (Chongqing),106.55,29.56,重慶
+cnac-chungking-chengtu,2,chengdu,Chengtu (Chengdu),104.07,30.66,成都
+cnac-chungking-kiating,1,chongqing,Chungking (Chongqing),106.55,29.56,重慶
+cnac-chungking-kiating,2,luzhou,Luchow (Luzhou),105.44,28.87,瀘州
+cnac-chungking-kiating,3,,Suifu (Yibin),104.62,28.77,敘府
+cnac-chungking-kiating,4,,Kiating (Leshan),103.76,29.56,
+cnac-shanghai-canton,1,shanghai,Shanghai,121.47,31.23,上海
+cnac-shanghai-canton,2,wenzhou,Wenchow (Wenzhou),120.7,28.0,溫州
+cnac-shanghai-canton,3,fuzhou,Foochow (Fuzhou),119.3,26.07,福州
+cnac-shanghai-canton,4,xiamen,Amoy (Xiamen),118.09,24.48,廈門
+cnac-shanghai-canton,5,shantou,Swatow (Shantou),116.68,23.35,汕頭
+cnac-shanghai-canton,6,guangzhou,Canton (Guangzhou),113.26,23.13,廣州
+mkkk-manchouli-hsinking,1,manzhouli,Manchouli (Manzhouli),117.45,49.6,滿洲里
+mkkk-manchouli-hsinking,2,hailar,Hailar,119.7,49.2,海拉爾
+mkkk-manchouli-hsinking,3,qiqihar,Tsitsihar (Qiqihar),123.92,47.35,齊齊哈爾
+mkkk-manchouli-hsinking,4,harbin,Harbin,126.53,45.8,哈爾濱
+mkkk-manchouli-hsinking,5,changchun,Xinjing (Changchun),125.32,43.88,長春（新京）
+mkkk-harbin-dairen,1,harbin,Harbin,126.53,45.8,哈爾濱
+mkkk-harbin-dairen,2,changchun,Xinjing (Changchun),125.32,43.88,長春（新京）
+mkkk-harbin-dairen,3,mukden,Mukden (Shenyang),123.43,41.8,瀋陽（奉天）
+mkkk-harbin-dairen,4,dairen,Dairen (Dalian),121.61,38.91,大連
+mkkk-hsinking-shingishu,1,changchun,Xinjing (Changchun),125.32,43.88,長春（新京）
+mkkk-hsinking-shingishu,2,mukden,Mukden (Shenyang),123.43,41.8,瀋陽（奉天）
+mkkk-hsinking-shingishu,3,sinuiju,Shingishū (Sinŭiju),124.39,40.1,新義州
+knilm-tarakan-manila,1,tarakan,Tarakan,117.59,3.3,
+knilm-tarakan-manila,2,manila,Manila,120.98,14.6,馬尼拉
+patco-manila-baguio,1,manila,Manila,120.98,14.6,馬尼拉
+patco-manila-baguio,2,baguio,Baguio,120.6,16.41,碧瑤
+siam-korat-nakhonphanom,1,korat,Korat (Nakhon Ratchasima),102.1,14.97,
+siam-korat-nakhonphanom,2,,Roi Et,103.65,16.05,
+siam-korat-nakhonphanom,3,,Khon Kaen,102.83,16.44,
+siam-korat-nakhonphanom,4,,Udon Thani,102.79,17.41,
+siam-korat-nakhonphanom,5,,Nakhon Phanom,104.78,17.41,
+ina-calcutta-rangoon,1,calcutta,Calcutta,88.36,22.57,
+ina-calcutta-rangoon,2,chittagong,Chittagong,91.78,22.36,
+ina-calcutta-rangoon,3,akyab,Akyab (Sittwe),92.9,20.15,
+ina-calcutta-rangoon,4,bassein,Bassein (Pathein),94.73,16.78,
+ina-calcutta-rangoon,5,rangoon,Rangoon (Yangon),96.2,16.87,仰光
+ina-calcutta-dacca,1,calcutta,Calcutta,88.36,22.57,
+ina-calcutta-dacca,2,dacca,Dacca (Dhaka),90.41,23.81,
+ina-delhi-karachi,1,delhi,Delhi,77.21,28.61,
+ina-delhi-karachi,2,lahore,Lahore,74.34,31.55,
+ina-delhi-karachi,3,,Multan,71.47,30.2,
+ina-delhi-karachi,4,,Jacobabad,68.44,28.28,
+ina-delhi-karachi,5,karachi,Karachi,67.01,24.86,
+airorient-jask-saigon,1,,Towards Jask and Marseilles,66.2,25.2,
+airorient-jask-saigon,2,karachi,Karachi,67.01,24.86,
+airorient-jask-saigon,3,allahabad,Allahabad,81.85,25.44,
+airorient-jask-saigon,4,calcutta,Calcutta,88.36,22.57,
+airorient-jask-saigon,5,rangoon,Rangoon (Yangon),96.2,16.87,仰光
+airorient-jask-saigon,6,bangkok,Bangkok,100.5,13.75,
+airorient-jask-saigon,7,saigon,Saigon (Ho Chi Minh City),106.7,10.78,
+iaw-karachi-delhi,1,,Towards Gwadar and Jask,66.2,25.2,
+iaw-karachi-delhi,2,karachi,Karachi (Drigh Road),67.01,24.86,
+iaw-karachi-delhi,3,jodhpur,Jodhpur,73.02,26.29,
+iaw-karachi-delhi,4,delhi,Delhi (New Delhi),77.21,28.61,
+airfrance-karachi-hongkong,1,karachi,Karachi,67.01,24.86,
+airfrance-karachi-hongkong,2,jodhpur,Jodhpur,73.02,26.29,
+airfrance-karachi-hongkong,3,allahabad,Allahabad,81.85,25.44,
+airfrance-karachi-hongkong,4,calcutta,Calcutta,88.36,22.57,
+airfrance-karachi-hongkong,5,akyab,Akyab (Sittwe),92.9,20.15,
+airfrance-karachi-hongkong,6,rangoon,Rangoon (Yangon),96.2,16.87,仰光
+airfrance-karachi-hongkong,7,bangkok,Bangkok,100.5,13.75,
+airfrance-karachi-hongkong,8,saigon,Saigon,106.63,10.82,西貢
+airfrance-karachi-hongkong,9,hanoi,Hanoi,105.85,21.03,河內
+airfrance-karachi-hongkong,10,kunming,Kunming,102.72,25.04,昆明
+airfrance-karachi-hongkong,11,hongkong,Hong Kong (Victoria),114.16,22.28,維多利亞城
+iaw39-karachi-darwin,1,karachi,Karachi,67.01,24.86,
+iaw39-karachi-darwin,2,,Raj Samand,73.88,25.07,
+iaw39-karachi-darwin,3,gwalior,Gwalior,78.18,26.22,
+iaw39-karachi-darwin,4,allahabad,Allahabad (Prayagraj),81.85,25.44,
+iaw39-karachi-darwin,5,calcutta,Calcutta,88.36,22.57,
+iaw39-karachi-darwin,6,akyab,Akyab (Sittwe),92.9,20.15,
+iaw39-karachi-darwin,7,rangoon,Rangoon (Yangon),96.2,16.87,仰光
+iaw39-karachi-darwin,8,bangkok,Bangkok,100.5,13.75,
+iaw39-karachi-darwin,9,penang,Penang (Georgetown),100.34,5.41,
+iaw39-karachi-darwin,10,singapore,Singapore (Shōnantō),103.85,1.29,新加坡
+iaw39-karachi-darwin,11,batavia,Batavia (Jakarta),106.85,-6.21,巴達維亞
+iaw39-karachi-darwin,12,surabaya,Soerabaja (Surabaya),112.75,-7.25,
+iaw39-karachi-darwin,13,kupang,Koepang (Kupang),123.61,-10.17,
+iaw39-karachi-darwin,14,darwin,Darwin,130.84,-12.46,達爾文
+iaw39-karachi-calcutta,1,karachi,Karachi,67.01,24.86,
+iaw39-karachi-calcutta,2,jodhpur,Jodhpur,73.02,26.24,
+iaw39-karachi-calcutta,3,delhi,Delhi,77.21,28.61,
+iaw39-karachi-calcutta,4,cawnpore,Cawnpore (Kanpur),80.33,26.45,
+iaw39-karachi-calcutta,5,allahabad,Allahabad (Prayagraj),81.85,25.44,
+iaw39-karachi-calcutta,6,calcutta,Calcutta,88.36,22.57,
+airfrance-bangkok-hanoi,1,bangkok,Bangkok,100.5,13.75,
+airfrance-bangkok-hanoi,2,vientiane,Vientiane,102.6,17.97,
+airfrance-bangkok-hanoi,3,hanoi,Hanoi,105.85,21.03,河內

@@ -52,7 +52,7 @@ keelung,"Kīrun (Jīlóng, Keelung)",,"Jīlóng (Kīrun, Keelung)",지룽,基隆
 hualien,"Karenkō (Huāliángǎng, Hualien)",,"Huāliángǎng (Karenkō, Hualien)",가렌코청,花蓮港 (Karenkō),花蓮港,23.98,121.6,https://en.wikipedia.org/wiki/Karenk%C5%8D_Prefecture
 hsinchu,"Shinchiku (Xīnzhú, Hsinchu)",,"Xīnzhú (Shinchiku, Hsinchu)",신치쿠주,新竹 (Shinchiku),新竹,24.81,120.97,https://en.wikipedia.org/wiki/Shinchiku_Prefecture
 chiayi,"Kagi (Jiāyì, Chiayi)",,"Jiāyì (Kagi, Chiayi)",자이,嘉義 (Kagi),嘉義,23.48,120.45,https://en.wikipedia.org/wiki/Chiayi
-makung,"Makō, Pescadores (Mǎgōng, Makung)",,"Mǎgōng, Pescadores (Makō, Makung)",,馬公 (Makō),馬公（澎湖）,23.57,119.57,https://en.wikipedia.org/wiki/Longgui_Park
+makung,"Makō, Pescadores (Mǎgōng, Makung)",,"Mǎgōng, Pescadores (Makō, Makung)",,馬公 (Makō),馬公（澎湖）,23.57,119.57,https://en.wikipedia.org/wiki/Magong
 fukuoka,Fukuoka,,,후쿠오카,福岡 (Fukuoka),福岡,33.59,130.4,https://en.wikipedia.org/wiki/Fukuoka
 sendai,Sendai,,,센다이,仙台 (Sendai),仙台,38.27,140.87,https://en.wikipedia.org/wiki/Sendai
 niigata,Niigata,,,,新潟 (Niigata),新潟,37.92,139.04,https://en.wikipedia.org/wiki/Niigata_(city)
@@ -94,7 +94,7 @@ iloilo,Iloilo,,,,イロイロ (Iroiro),伊洛伊洛,10.72,122.56,https://en.wiki
 baguio,Baguio,,,,バギオ (Bagio),碧瑤,16.41,120.6,https://en.wikipedia.org/wiki/Baguio
 dili,Dili (Dilly),,,,ディリ (Diri),,-8.56,125.56,https://en.wikipedia.org/wiki/Dili
 khabarovsk,Khabarovsk,,,,ハバロフスク,伯力,48.48,135.08,https://en.wikipedia.org/wiki/Khabarovsk
-ulanbator,Urga (Ulan Bator),,,,庫倫 (Kuron),庫倫（烏蘭巴托）,47.89,106.91,https://en.wikipedia.org/wiki/Zaisan_Bridge
+ulanbator,Urga (Ulan Bator),,,,庫倫 (Kuron),庫倫（烏蘭巴托）,47.89,106.91,https://en.wikipedia.org/wiki/Ulaanbaatar
 calcutta,Calcutta,,,,,,22.57,88.36,https://en.wikipedia.org/wiki/Kolkata
 madras,Madras,,,,,,13.08,80.27,https://en.wikipedia.org/wiki/Chennai
 dacca,Dacca (Dhaka),,,,,,23.81,90.41,https://en.wikipedia.org/wiki/Dhaka
@@ -218,7 +218,7 @@ wakayama,Wakayama,,,와카야마,和歌山,和歌山,34.23,135.17,https://en.wik
 yawata,Yawata (Yahata),,,야하타,八幡 (Yahata),,33.86,130.81,"https://en.wikipedia.org/wiki/Yahata,_Fukuoka"
 yangzhou,Yángzhōu (Yangchow),,,양저우,揚州,揚州,32.39,119.42,https://en.wikipedia.org/wiki/Yangzhou
 zamboanga,Zamboanga,,,,,,6.91,122.08,https://en.wikipedia.org/wiki/Zamboanga_(province)
-zigong,Zìgòng (Tzukung),,,,,,29.34,104.78,https://en.wikipedia.org/wiki/Zigong
+zigong,Zìgòng (Tzukung),,,,,自貢,29.34,104.78,https://en.wikipedia.org/wiki/Zigong
 oita,Ōita,,,오이타현,大分 (Ōita),大分縣,33.24,131.61,https://en.wikipedia.org/wiki/Ōita_(city)
 omuta,Ōmuta,,,오무타,大牟田,大牟田,33.03,130.45,"https://en.wikipedia.org/wiki/%C5%8Cmuta,_Fukuoka"
 akita,Akita,,,,秋田 (Akita),八橋球技場,39.72,140.1,https://en.wikipedia.org/wiki/Akita_(city)
@@ -231,7 +231,7 @@ apia,Apia,,,,,,-13.83,-171.77,https://en.wikipedia.org/wiki/Apia
 asahikawa,Asahikawa,,,아사히카와,旭川,旭川,43.77,142.36,https://en.wikipedia.org/wiki/Asahikawa
 ayutthaya,Ayutthaya,,,,,,14.35,100.58,https://en.wikipedia.org/wiki/Phra_Nakhon_Si_Ayutthaya_province
 bacolod,Bacolod,,,,,,10.67,122.95,https://en.wikipedia.org/wiki/Bacolod
-bassein,Bassein (Pathein),,,,,,16.78,94.73,https://en.wikipedia.org/wiki/Shwemokhtaw_Pagoda
+bassein,Bassein (Pathein),,,,,,16.78,94.73,https://en.wikipedia.org/wiki/Pathein
 battambang,Battambang,,,,,,13.1,103.2,https://en.wikipedia.org/wiki/Battambang
 bengkulu,Benkoelen (Bengkulu),,,,,,-3.79,102.26,https://en.wikipedia.org/wiki/Bengkulu
 betio,Betio (Tarawa),,,,,,1.36,172.92,https://en.wikipedia.org/wiki/Betio
@@ -248,7 +248,7 @@ canberra,Canberra,,,,,,-35.28,149.13,https://en.wikipedia.org/wiki/Canberra
 capas,Capas (Camp O’Donnell),,,,,,15.33,120.59,https://en.wikipedia.org/wiki/Capas
 changhua,"Shōka (Zhānghuà, Changhua)",,"Zhānghuà (Shōka, Changhua)",장화,彰化,彰化,24.08,120.54,https://en.wikipedia.org/wiki/Changhua
 chifeng,Chifeng (Ulanhad),e1942,"Chìfēng (Ulanhad, Chifeng)",츠펑,赤峰,赤峰,42.26,118.89,https://en.wikipedia.org/wiki/Chifeng
-chinju,Shinshū (Chinju),,Chinju (Shinshū),진주,,,35.19,128.08,https://en.wikipedia.org/wiki/Jinju
+chinju,Shinshū (Chinju),,Chinju (Shinshū),진주,晋州,,35.19,128.08,https://en.wikipedia.org/wiki/Jinju
 chita,Chita,,,,,,52.03,113.5,https://en.wikipedia.org/wiki/Chita_Oblast
 choibalsan,Choibalsan,,,,,,48.07,114.54,https://en.wikipedia.org/wiki/Choibalsan_Thermal_Power_Plant
 quanzhou,Chüanchow (Quanzhou),,,취안저우,泉州,泉州,24.87,118.68,https://en.wikipedia.org/wiki/Quanzhou
@@ -262,20 +262,20 @@ denpasar,Denpasar (Bali),,,,,,-8.65,115.22,https://en.wikipedia.org/wiki/Denpasa
 digboi,Digboi,,,,,,27.39,95.62,https://en.wikipedia.org/wiki/Digboi
 duolun,Dolonnor (Duolun),e1942,Dolonnor (Duōlún),,,多倫諾爾鎮,42.19,116.47,https://en.wikipedia.org/wiki/Dolon_Nor
 dublon,"Dublon (Tonoas), Truk",,,,,,7.36,151.87,https://en.wikipedia.org/wiki/Tonowas
-esutoru,Esutoru (Uglegorsk),,,,,,49.08,142.07,"https://en.wikipedia.org/wiki/Uglegorsk,_Sakhalin_Oblast"
+esutoru,Esutoru (Uglegorsk),,,,恵須取,,49.08,142.07,"https://en.wikipedia.org/wiki/Uglegorsk,_Sakhalin_Oblast"
 etajima,Etajima,,,에타지마섬,江田島,江田島,34.23,132.46,https://en.wikipedia.org/wiki/Etajima
-zhanjiang,Fort Bayard (Zhanjiang),,,,,,21.27,110.36,https://en.wikipedia.org/wiki/Zhanjiang
+zhanjiang,Fort Bayard (Zhanjiang),,,,,湛江,21.27,110.36,https://en.wikipedia.org/wiki/Zhanjiang
 fukushima,Fukushima,,,후쿠시마,福島,福島,37.76,140.47,https://en.wikipedia.org/wiki/Fukushima_(city)
-chichijima,Futami (Chichijima),,,,,,27.09,142.19,https://en.wikipedia.org/wiki/Chichijima_Airfield
+chichijima,Futami (Chichijima),,,,父島,,27.09,142.19,https://en.wikipedia.org/wiki/Chichijima
 fuxin,Fùxīn (Fuhsin),e1942,,푸신,阜新,阜新,42.02,121.67,https://en.wikipedia.org/wiki/Fuxin
 gangtok,Gangtok,,,,,,27.33,88.61,https://en.wikipedia.org/wiki/Gangtok
 garapan,Garapan (Saipan),,,,,,15.21,145.72,"https://en.wikipedia.org/wiki/Garapan,_Saipan"
 gyantse,Gyantse,,,,,,28.95,89.6,https://en.wikipedia.org/wiki/Gyantse
 ganzhou,Gànzhōu (Kanchow),,,간저우,贛州,贛州,25.83,114.93,https://en.wikipedia.org/wiki/Ganzhou
 haeju,Kaishū (Haeju),,Haeju (Kaishū),해주,海州,海州,38.04,125.71,https://en.wikipedia.org/wiki/Haeju
-haikou,Haikou (Kiungchow),,"Hǎikǒu (Kiungchow, Haikou)",,,,20.04,110.34,https://en.wikipedia.org/wiki/Haikou
+haikou,Haikou (Kiungchow),,"Hǎikǒu (Kiungchow, Haikou)",,,海口,20.04,110.34,https://en.wikipedia.org/wiki/Haikou
 hailar,Hailar,e1942,Hailar (Hǎilā’ěr),하이라얼구,ハイラル区,海拉爾,49.2,119.7,https://en.wikipedia.org/wiki/Hailar_District
-hami,Hami (Kumul),,,,,,42.83,93.51,https://en.wikipedia.org/wiki/Hami
+hami,Hami (Kumul),,,,,哈密,42.83,93.51,https://en.wikipedia.org/wiki/Hami
 heihe,Heihe (Sakhalyan/Aigun),e1942,"Hēihé (Sakhalyan, Aigun, Heihe)",헤이허,黒河,黑河,50.25,127.53,https://en.wikipedia.org/wiki/Heihe
 hitachi,Hitachi,,,히타치,日立,日立,36.6,140.65,"https://en.wikipedia.org/wiki/Hitachi,_Ibaraki"
 hollandia,Hollandia (Jayapura),,,,,,-2.53,140.72,https://en.wikipedia.org/wiki/Jayapura
@@ -291,7 +291,7 @@ kangar,Kangar,,,,,,6.44,100.2,https://en.wikipedia.org/wiki/Kangar
 kavieng,Kavieng,,,,,,-2.58,150.8,https://en.wikipedia.org/wiki/Kavieng
 kendari,Kendari,,,,,,-3.97,122.51,https://en.wikipedia.org/wiki/Kendari
 kengtung,Kengtung,,,,,,21.3,99.6,https://en.wikipedia.org/wiki/Kengtung
-khotan,Khotan (Hotan),,,,,,37.11,79.93,https://en.wikipedia.org/wiki/Hotan
+khotan,Khotan (Hotan),,,,,和闐,37.11,79.93,https://en.wikipedia.org/wiki/Hotan
 kolonia,Kolonia (Ponape),,,,,,6.96,158.21,https://en.wikipedia.org/wiki/Kolonia
 kongju,Kōshū (Kongju),,Kongju (Kōshū),공주,公州,公州,36.45,127.12,https://en.wikipedia.org/wiki/Gongju
 kotabharu_c,Kota Bharu,,,,,,6.13,102.24,https://en.wikipedia.org/wiki/Kota_Bharu
@@ -313,7 +313,7 @@ lorengau,Lorengau (Manus),,,,,,-2.02,147.27,https://en.wikipedia.org/wiki/Loreng
 linfen,Línfén,,,린펀,臨汾,臨汾,36.09,111.52,https://en.wikipedia.org/wiki/Linfen
 laohekou,Lǎohékǒu (Laohokow),,,라오허커우,老河口,老河口,32.39,111.67,https://en.wikipedia.org/wiki/Laohekou
 manzhouli,Manchouli (Manzhouli),e1942,Mǎnzhōulǐ (Manchouli),만저우리,満洲里,滿洲里,49.6,117.45,https://en.wikipedia.org/wiki/Manzhouli
-maoka,Maoka (Kholmsk),,,홀름스크,ホルムスク,霍爾姆斯克,47.06,142.05,https://en.wikipedia.org/wiki/Kholmsk
+maoka,Maoka (Kholmsk),,,홀름스크,真岡,霍爾姆斯克,47.06,142.05,https://en.wikipedia.org/wiki/Kholmsk
 masan,Masan,,,마산,馬山,馬山,35.2,128.57,https://en.wikipedia.org/wiki/Masan
 matsue,Matsue,,,마쓰에,松江,松江,35.47,133.05,https://en.wikipedia.org/wiki/Matsue
 meiktila,Meiktila,,,,,,20.88,95.86,https://en.wikipedia.org/wiki/Meiktila
@@ -335,31 +335,31 @@ pegu,Pegu (Bago),,,,,,17.34,96.48,"https://en.wikipedia.org/wiki/Bago,_Myanmar"
 pekanbaru,Pekanbaru,,,,,,0.51,101.45,https://en.wikipedia.org/wiki/Pekanbaru
 petropavlovsk,Petropavlovsk-Kamchatsky,,,,,,53.02,158.65,https://en.wikipedia.org/wiki/Petropavlovsk-Kamchatsky
 phuket,Phuket,,,,,,7.88,98.39,https://en.wikipedia.org/wiki/Phuket_province
-pingfang,Pingfang,e1942,Píngfáng,핑팡구,平房区,,45.61,126.63,"https://en.wikipedia.org/wiki/Pingfang,_Harbin"
+pingfang,Pingfang,e1942,Píngfáng,핑팡구,平房区,平房,45.61,126.63,"https://en.wikipedia.org/wiki/Pingfang,_Harbin"
 pingtung,"Heitō (Píngdōng, Pingtung)",,"Píngdōng (Heitō, Pingtung)",,,屏東,22.68,120.49,https://en.wikipedia.org/wiki/Pingtung_City
 pondicherrycity,Pondicherry,,,,,,11.93,79.83,https://en.wikipedia.org/wiki/Pondicherry
 portblair,Port Blair,,,,,,11.62,92.73,https://en.wikipedia.org/wiki/Port_Blair
 prachuap,Prachuap Khiri Khan,,,,,,11.81,99.8,https://en.wikipedia.org/wiki/Prachuap_Khiri_Khan
 prome,Prome (Pyay),,,,,,18.82,95.22,https://en.wikipedia.org/wiki/Pyay
 punakha,Punakha,,,,,,27.59,89.88,https://en.wikipedia.org/wiki/Punakha
-quzhou,Qúzhōu (Chuchow),,,취현,渠県,渠縣,28.94,118.87,https://en.wikipedia.org/wiki/Qu_County
+quzhou,Qúzhōu (Chuchow),,,취현,渠県,渠縣,28.94,118.87,https://en.wikipedia.org/wiki/Quzhou
 saga,Saga,,,,佐賀 (Saga),,33.26,130.3,https://en.wikipedia.org/wiki/Saga_(city)
-sanya,Samah (Sanya),,Sānyà (Samah),,,,18.25,109.51,https://en.wikipedia.org/wiki/Sanya_River
+sanya,Samah (Sanya),,Sānyà (Samah),,,三亞,18.25,109.51,https://en.wikipedia.org/wiki/Sanya
 samarinda,Samarinda,,,,,,-0.5,117.15,https://en.wikipedia.org/wiki/Samarinda
 sandakan,Sandakan,,,,,,5.84,118.12,https://en.wikipedia.org/wiki/Sandakan
 savannakhet,Savannakhet,,,,,,16.56,104.75,https://en.wikipedia.org/wiki/Savannakhet
 seremban,Seremban,,,,,,2.73,101.94,https://en.wikipedia.org/wiki/Seremban
 seria,Seria,,,,,,4.61,114.33,https://en.wikipedia.org/wiki/Seria
-shikuka,Shikuka (Poronaysk),,,포로나이스크,ポロナイスク,波羅奈斯克,49.22,143.1,https://en.wikipedia.org/wiki/Poronaysk
+shikuka,Shikuka (Poronaysk),,,포로나이스크,敷香,波羅奈斯克,49.22,143.1,https://en.wikipedia.org/wiki/Poronaysk
 shillong,Shillong,,,,,,25.58,91.89,https://en.wikipedia.org/wiki/Shillong
 songkhla,Songkhla,,,,,,7.2,100.6,https://en.wikipedia.org/wiki/Songkhla
-suifenhe,Suifenho (Pogranichnaya),e1942,"Suífēnhé (Suifenho, Pogranichnaya)",,,,44.4,131.15,https://en.wikipedia.org/wiki/Suifenhe
+suifenhe,Suifenho (Pogranichnaya),e1942,"Suífēnhé (Suifenho, Pogranichnaya)",,,綏芬河,44.4,131.15,https://en.wikipedia.org/wiki/Suifenhe
 suwon,Suigen (Suwŏn),,Suwŏn (Suigen),수원,水原,水原,37.26,127.01,https://en.wikipedia.org/wiki/Suwon
 siping,Sìpíng (Ssupingkai),e1942,,쓰핑,四平,四平,43.17,124.35,"https://en.wikipedia.org/wiki/Siping,_Jilin"
 songjin,Jōshin (Sŏngjin),,Sŏngjin (Jōshin),김책,金策,金策,40.67,129.2,https://en.wikipedia.org/wiki/Kimchaek
 tacloban,Tacloban,,,,,,11.24,125.0,https://en.wikipedia.org/wiki/Tacloban
 taiping,Taiping,,,,,,4.85,100.74,https://en.wikipedia.org/wiki/Taiping_Island
-taitung,"Taitō (Táidōng, Taitung)",,"Táidōng (Taitō, Taitung)",,,,22.76,121.14,https://en.wikipedia.org/wiki/Taitung_Performing_Art_Center
+taitung,"Taitō (Táidōng, Taitung)",,"Táidōng (Taitō, Taitung)",,,臺東,22.76,121.14,https://en.wikipedia.org/wiki/Taitung_City
 taunggyi,Taunggyi,,,,,,20.79,97.04,https://en.wikipedia.org/wiki/Taunggyi
 tavoy,Tavoy (Dawei),,,,,,14.08,98.19,"https://en.wikipedia.org/wiki/Dawei,_Myanmar"
 tawau,Tawau,,,,,,4.25,117.89,https://en.wikipedia.org/wiki/Tawau
@@ -372,7 +372,7 @@ danang,Tourane (Da Nang),,,,,,16.07,108.22,https://en.wikipedia.org/wiki/Da_Nang
 townsville,Townsville,,,,,,-19.26,146.82,https://en.wikipedia.org/wiki/Townsville
 tsu,Tsu,,,셋쓰국,津 (Tsu),攝津國,34.72,136.51,"https://en.wikipedia.org/wiki/Tsu,_Mie"
 tulagitown,Tulagi,,,,,,-9.1,160.15,https://en.wikipedia.org/wiki/Tulagi
-tongzhou,Tungchow (Tongzhou),,Tōngzhōu (Tungchow),,,,39.91,116.66,"https://en.wikipedia.org/wiki/Xinhua_Subdistrict,_Beijing"
+tongzhou,Tungchow (Tongzhou),,Tōngzhōu (Tungchow),,,通州,39.91,116.66,"https://en.wikipedia.org/wiki/Tongzhou,_Beijing"
 tonghua,Tōnghuà,e1942,,퉁화,通化,通化,41.73,125.94,https://en.wikipedia.org/wiki/Tonghua
 ube,Ube,,,우베,宇部,宇部,33.95,131.25,"https://en.wikipedia.org/wiki/Ube,_Yamaguchi"
 urawa,Urawa,,,,浦和 (Urawa),,35.86,139.65,"https://en.wikipedia.org/wiki/Urawa-ku,_Saitama"
@@ -394,7 +394,7 @@ otomari,Ōtomari (Korsakov),,,,コルサコフ管区,科爾薩科夫區,46.63,14
 otsu,Ōtsu,,,오쓰,大津,大津,35.02,135.85,https://en.wikipedia.org/wiki/%C5%8Ctsu
 komsomolsk,Komsomolsk-on-Amur,,,,,,50.55,137.01,https://en.wikipedia.org/wiki/Komsomolsk-on-Amur
 quezoncity,Quezon City,,,,,,14.68,121.04,
-beihai,Pakhoi (Beihai),,Běihǎi (Pakhoi),,,,21.48,109.12,https://en.wikipedia.org/wiki/Beihai
+beihai,Pakhoi (Beihai),,Běihǎi (Pakhoi),,,北海,21.48,109.12,https://en.wikipedia.org/wiki/Beihai
 daxi,Daikei (Dàxī),,Dàxī (Daikei),,大溪 (Daikei),大溪,24.8806,121.2871,https://en.wikipedia.org/wiki/Daxi_District
 tamsui,"Tansui (Dànshuǐ, Tamsui)",,"Dànshuǐ (Tansui, Tamsui)",,淡水 (Tansui),淡水,25.1719,121.4439,https://en.wikipedia.org/wiki/Tamsui_District
 beipu,Hoppo (Běipǔ),,Běipǔ (Hoppo),,北埔 (Hoppo),北埔,24.6639,121.0681,"https://en.wikipedia.org/wiki/Beipu,_Hsinchu"

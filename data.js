@@ -2308,7 +2308,7 @@ JMAP.CITY_NAMES = [
   },
   {
     id: 'makung', en: 'Makō, Pescadores (Mǎgōng, Makung)', ja: '馬公 (Makō)', zh: '馬公（澎湖）',
-    lat: 23.57, lon: 119.57, wiki: 'https://en.wikipedia.org/wiki/Longgui_Park',
+    lat: 23.57, lon: 119.57, wiki: 'https://en.wikipedia.org/wiki/Magong',
     local: 'Mǎgōng, Pescadores (Makō, Makung)',
     note: 'The naval anchorage in the Pescadores, which Japan took in March 1895 — a month before the treaty that gave it Taiwan.'
   },
@@ -2519,7 +2519,7 @@ JMAP.CITY_NAMES = [
   },
   {
     id: 'ulanbator', en: 'Urga (Ulan Bator)', ja: '庫倫 (Kuron)', zh: '庫倫（烏蘭巴托）', lat: 47.89,
-    lon: 106.91, wiki: 'https://en.wikipedia.org/wiki/Zaisan_Bridge',
+    lon: 106.91, wiki: 'https://en.wikipedia.org/wiki/Ulaanbaatar',
     note: 'Urga until 1924, and the capital of a republic that only the Soviet Union recognised.'
   },
   {
@@ -3134,7 +3134,7 @@ JMAP.CITY_NAMES = [
     note: 'The old Spanish fort at the tip of the Mindanao peninsula, and the seat of the Moro Province.'
   },
   {
-    id: 'zigong', en: 'Zìgòng (Tzukung)', lat: 29.34, lon: 104.78,
+    id: 'zigong', en: 'Zìgòng (Tzukung)', zh: '自貢', lat: 29.34, lon: 104.78,
     wiki: 'https://en.wikipedia.org/wiki/Zigong',
     note: 'The salt wells that supplied wartime free China after the coastal salt was lost.'
   },
@@ -3201,7 +3201,7 @@ JMAP.CITY_NAMES = [
   },
   {
     id: 'bassein', en: 'Bassein (Pathein)', lat: 16.78, lon: 94.73,
-    wiki: 'https://en.wikipedia.org/wiki/Shwemokhtaw_Pagoda',
+    wiki: 'https://en.wikipedia.org/wiki/Pathein',
     note: 'The delta rice port west of Rangoon, and one of the outlets of the Irrawaddy crop.'
   },
   {
@@ -3287,7 +3287,7 @@ JMAP.CITY_NAMES = [
     note: 'The Mongol trade town in western Rehe, on the road from the Wall to the steppe.'
   },
   {
-    id: 'chinju', en: 'Shinshū (Chinju)', ko: '진주', lat: 35.19, lon: 128.08,
+    id: 'chinju', en: 'Shinshū (Chinju)', ja: '晋州', ko: '진주', lat: 35.19, lon: 128.08,
     wiki: 'https://en.wikipedia.org/wiki/Jinju', local: 'Chinju (Shinshū)',
     note: 'The seat of South Kyŏngsang until 1925, and the site of one of the great sieges of the Japanese invasions of the 1590s.'
   },
@@ -3358,7 +3358,7 @@ JMAP.CITY_NAMES = [
     note: 'The naval town and headquarters of the Combined Fleet’s great anchorage.'
   },
   {
-    id: 'esutoru', en: 'Esutoru (Uglegorsk)', lat: 49.08, lon: 142.07,
+    id: 'esutoru', en: 'Esutoru (Uglegorsk)', ja: '恵須取', lat: 49.08, lon: 142.07,
     wiki: 'https://en.wikipedia.org/wiki/Uglegorsk,_Sakhalin_Oblast',
     note: 'Pulp and coal town, the largest settlement of northern Karafuto.'
   },
@@ -3368,7 +3368,7 @@ JMAP.CITY_NAMES = [
     note: 'The Imperial Naval Academy, on an island in the Inland Sea, through which almost every Japanese admiral of the war had passed.'
   },
   {
-    id: 'zhanjiang', en: 'Fort Bayard (Zhanjiang)', lat: 21.27, lon: 110.36,
+    id: 'zhanjiang', en: 'Fort Bayard (Zhanjiang)', zh: '湛江', lat: 21.27, lon: 110.36,
     wiki: 'https://en.wikipedia.org/wiki/Zhanjiang',
     note: 'The capital of the French leased territory the map already draws, and the smuggling channel into free China until the Japanese took it in February 1943.'
   },
@@ -3378,8 +3378,8 @@ JMAP.CITY_NAMES = [
     note: 'Silk-reeling and the orchards of the Fukushima basin, on the northern trunk railway.'
   },
   {
-    id: 'chichijima', en: 'Futami (Chichijima)', lat: 27.09, lon: 142.19,
-    wiki: 'https://en.wikipedia.org/wiki/Chichijima_Airfield',
+    id: 'chichijima', en: 'Futami (Chichijima)', ja: '父島', lat: 27.09, lon: 142.19,
+    wiki: 'https://en.wikipedia.org/wiki/Chichijima',
     note: 'The administrative centre of the Bonins and a fortified base; the Chichijima incident of 1944–45.'
   },
   {
@@ -3413,7 +3413,7 @@ JMAP.CITY_NAMES = [
     note: 'The seat of Hwanghae, and the port for the wheat and iron of the west coast.'
   },
   {
-    id: 'haikou', en: 'Haikou (Kiungchow)', lat: 20.04, lon: 110.34,
+    id: 'haikou', en: 'Haikou (Kiungchow)', zh: '海口', lat: 20.04, lon: 110.34,
     wiki: 'https://en.wikipedia.org/wiki/Haikou', local: 'Hǎikǒu (Kiungchow, Haikou)',
     note: 'Hainan was occupied in February 1939 and the map marks the landing; the island’s only real town is not on the layer.'
   },
@@ -3424,7 +3424,7 @@ JMAP.CITY_NAMES = [
     note: 'The Hulunbuir garrison and fortified zone facing Mongolia; the base for the Nomonhan fighting.'
   },
   {
-    id: 'hami', en: 'Hami (Kumul)', lat: 42.83, lon: 93.51,
+    id: 'hami', en: 'Hami (Kumul)', zh: '哈密', lat: 42.83, lon: 93.51,
     wiki: 'https://en.wikipedia.org/wiki/Hami',
     note: 'The gate between Sinkiang and Kansu, and the terminus of the Soviet supply road into China.'
   },
@@ -3502,7 +3502,7 @@ JMAP.CITY_NAMES = [
     note: 'The capital of the trans-Salween Shan states the map already draws as Thai-administered.'
   },
   {
-    id: 'khotan', en: 'Khotan (Hotan)', lat: 37.11, lon: 79.93,
+    id: 'khotan', en: 'Khotan (Hotan)', zh: '和闐', lat: 37.11, lon: 79.93,
     wiki: 'https://en.wikipedia.org/wiki/Hotan',
     note: 'The jade and silk oasis on the southern rim of the Tarim, and a centre of the 1933 Turkic republic.'
   },
@@ -3612,7 +3612,7 @@ JMAP.CITY_NAMES = [
     note: 'The rail frontier with the Soviet Union on the Chinese Eastern Railway.'
   },
   {
-    id: 'maoka', en: 'Maoka (Kholmsk)', ja: 'ホルムスク', zh: '霍爾姆斯克', ko: '홀름스크', lat: 47.06,
+    id: 'maoka', en: 'Maoka (Kholmsk)', ja: '真岡', zh: '霍爾姆斯克', ko: '홀름스크', lat: 47.06,
     lon: 142.05, wiki: 'https://en.wikipedia.org/wiki/Kholmsk',
     note: 'West-coast port; the Soviet landing of 20 August 1945 and the telephone operators’ suicides.'
   },
@@ -3721,7 +3721,7 @@ JMAP.CITY_NAMES = [
     note: 'Tin, and the Andaman coast the map already gives Thailand.'
   },
   {
-    id: 'pingfang', en: 'Pingfang', ja: '平房区', ko: '핑팡구', lat: 45.61, lon: 126.63,
+    id: 'pingfang', en: 'Pingfang', ja: '平房区', zh: '平房', ko: '핑팡구', lat: 45.61, lon: 126.63,
     wiki: 'https://en.wikipedia.org/wiki/Pingfang,_Harbin', jpfrom: 'e1942', local: 'Píngfáng',
     note: 'Unit 731. A village rather than a city, but the site of the biological-warfare programme and its human experiments.'
   },
@@ -3757,7 +3757,7 @@ JMAP.CITY_NAMES = [
   },
   {
     id: 'quzhou', en: 'Qúzhōu (Chuchow)', ja: '渠県', zh: '渠縣', ko: '취현', lat: 28.94, lon: 118.87,
-    wiki: 'https://en.wikipedia.org/wiki/Qu_County',
+    wiki: 'https://en.wikipedia.org/wiki/Quzhou',
     note: 'A Doolittle raid recovery airfield, and the reason for the Chekiang–Kiangsi campaign of 1942 and the biological attacks that accompanied it.'
   },
   {
@@ -3766,8 +3766,8 @@ JMAP.CITY_NAMES = [
     note: 'The old Hizen domain, an early adopter of Western guns and shipbuilding, and the porcelain kilns at Arita behind it.'
   },
   {
-    id: 'sanya', en: 'Samah (Sanya)', lat: 18.25, lon: 109.51,
-    wiki: 'https://en.wikipedia.org/wiki/Sanya_River', local: 'Sānyà (Samah)',
+    id: 'sanya', en: 'Samah (Sanya)', zh: '三亞', lat: 18.25, lon: 109.51,
+    wiki: 'https://en.wikipedia.org/wiki/Sanya', local: 'Sānyà (Samah)',
     note: 'The naval base and iron-ore port at the southern tip of Hainan, worked by prisoner and conscript labour.'
   },
   {
@@ -3796,8 +3796,8 @@ JMAP.CITY_NAMES = [
     note: 'The Brunei oilfield, struck in 1929, and the reason Japanese troops came ashore here in December 1941.'
   },
   {
-    id: 'shikuka', en: 'Shikuka (Poronaysk)', ja: 'ポロナイスク', zh: '波羅奈斯克', ko: '포로나이스크',
-    lat: 49.22, lon: 143.1, wiki: 'https://en.wikipedia.org/wiki/Poronaysk',
+    id: 'shikuka', en: 'Shikuka (Poronaysk)', ja: '敷香', zh: '波羅奈斯克', ko: '포로나이스크', lat: 49.22,
+    lon: 143.1, wiki: 'https://en.wikipedia.org/wiki/Poronaysk',
     note: 'The northernmost Japanese town on Sakhalin, on the frontier with the Soviet half.'
   },
   {
@@ -3811,7 +3811,7 @@ JMAP.CITY_NAMES = [
     note: 'One of the main Japanese landing beaches on the morning of 8 December 1941, and the road to Malaya.'
   },
   {
-    id: 'suifenhe', en: 'Suifenho (Pogranichnaya)', lat: 44.4, lon: 131.15,
+    id: 'suifenhe', en: 'Suifenho (Pogranichnaya)', zh: '綏芬河', lat: 44.4, lon: 131.15,
     wiki: 'https://en.wikipedia.org/wiki/Suifenhe', jpfrom: 'e1942',
     local: 'Suífēnhé (Suifenho, Pogranichnaya)',
     note: 'The eastern rail crossing to Vladivostok, and a fortified belt.'
@@ -3842,9 +3842,8 @@ JMAP.CITY_NAMES = [
     note: 'The Perak tin town where the Larut wars brought in British rule in 1874, and the wettest place in Malaya.'
   },
   {
-    id: 'taitung', en: 'Taitō (Táidōng, Taitung)', lat: 22.76, lon: 121.14,
-    wiki: 'https://en.wikipedia.org/wiki/Taitung_Performing_Art_Center',
-    local: 'Táidōng (Taitō, Taitung)',
+    id: 'taitung', en: 'Taitō (Táidōng, Taitung)', zh: '臺東', lat: 22.76, lon: 121.14,
+    wiki: 'https://en.wikipedia.org/wiki/Taitung_City', local: 'Táidōng (Taitō, Taitung)',
     note: 'The last of the eight Taiwanese prefectural seats missing from the layer.'
   },
   {
@@ -3908,9 +3907,8 @@ JMAP.CITY_NAMES = [
     note: 'The capital of the protectorate, taken in May 1942 and the first objective of the Guadalcanal landings.'
   },
   {
-    id: 'tongzhou', en: 'Tungchow (Tongzhou)', lat: 39.91, lon: 116.66,
-    wiki: 'https://en.wikipedia.org/wiki/Xinhua_Subdistrict,_Beijing',
-    local: 'Tōngzhōu (Tungchow)',
+    id: 'tongzhou', en: 'Tungchow (Tongzhou)', zh: '通州', lat: 39.91, lon: 116.66,
+    wiki: 'https://en.wikipedia.org/wiki/Tongzhou,_Beijing', local: 'Tōngzhōu (Tungchow)',
     note: 'The Tungchow Mutiny of 29 July 1937, in which the East Hopei puppet garrison turned on the Japanese and killed most of the Japanese and Korean residents; used afterwards to justify escalation.'
   },
   {
@@ -4018,7 +4016,7 @@ JMAP.CITY_NAMES = [
     note: 'Laid out from 1939 as a new capital to replace Manila, and still mostly plans and open ground when the war reached it.'
   },
   {
-    id: 'beihai', en: 'Pakhoi (Beihai)', lat: 21.48, lon: 109.12,
+    id: 'beihai', en: 'Pakhoi (Beihai)', zh: '北海', lat: 21.48, lon: 109.12,
     wiki: 'https://en.wikipedia.org/wiki/Beihai', local: 'Běihǎi (Pakhoi)',
     note: 'The Gulf of Tonkin treaty port opened in 1876, the outlet for Guangxi before the French built the railway from Haiphong, and occupied in 1940.'
   },

@@ -18027,3 +18027,99 @@ So this is two pieces of work, and the second is the small one:
    there, and pointless before.
 
 The switch is not built. The survey above is what the next session needs.
+
+
+## The characters: an audit that corrects the last one, and sixteen gaps filled
+
+**The earlier survey was wrong and this replaces it.** It looked at
+`data/cities.csv`'s `name_local`, which is mostly blank and is not where the map
+gets its names, and at columns `texts/territories/` does not have. The real
+tables are `texts/city-names.csv` (429 rows with `ja`/`zh`/`ko`) and
+`texts/sites/sites.csv` (126, the same), and the territories carry
+`ja`/`orig`/`zh`/`ko`. Against those, for Japan, Karafuto, Ogasawara, Chōsen,
+Formosa and the Chinese polities:
+
+    cities in scope            238
+      already complete         222
+      short of one field        16   <- filled, below
+      in neither table           0
+
+    provinces and sub-units, in scope, all complete:
+      japan 47/47   japan-islands 28/28   korea 14/14   korea-islands 5/5
+      taiwan 64/64  china 29/29           manchukuo 14/14  mengjiang 3/3
+      occupied-zone 5/5   ccp-base-areas 19/19
+      ryukyus 25/25  kuriles 18/18  bonins 6/6  senkaku 4/4
+
+    natural features           37 of 37 carry both ja and zh
+
+The top-level territory rows without characters are all out of scope — British
+India, the Indies, Siam, the Pacific islands.
+
+### The sixteen, checked against Wikipedia
+
+    Shinshū (Chinju)   ja 晋州      Taitō (Taitung)     zh 臺東
+    Zìgòng             zh 自貢      Esutoru             ja 恵須取
+    Maoka              ja 真岡      Shikuka             ja 敷香
+    Fort Bayard        zh 湛江      Pingfang            zh 平房
+    Suifenho           zh 綏芬河     Haikou              zh 海口
+    Pakhoi             zh 北海      Samah               zh 三亞
+    Tungchow           zh 通州      Futami (Chichijima) ja 父島
+    Hami               zh 哈密      Khotan              zh 和闐
+
+Traditional and kyūjitai throughout, as the sheets of the period print them:
+臺東 rather than 台东, 自貢, 綏芬河, 三亞, and **和闐** rather than the modern 和田.
+
+**Two were not blank but wrong.** Maoka and Shikuka carried ホルムスク and
+ポロナイスク in `ja` — the *modern Russian* names in katakana, an anachronism on
+a map of 1930 and 1942. They are 真岡 and 敷香 now. Their `zh` and `ko` still
+hold the Russian forms, which is defensible for the parenthetical and worth a
+look.
+
+One judgement: Fort Bayard is the French name for the town, so `zh` is 湛江 —
+廣州灣 is the leased territory around it rather than the settlement.
+
+### Eight Wikipedia links that pointed inside the place rather than at it
+
+Found by comparing every link's article name with the row's own names; 38 of 429
+shared no token, and thirty of those are honest modern redirects (Daegu for
+Taikyū, Kolkata for Calcutta, Kimchaek for Sŏngjin) or encoded diacritics.
+Eight were wrong:
+
+    makung     Longgui Park                  -> Magong
+    ulanbator  Zaisan Bridge                 -> Ulaanbaatar
+    bassein    Shwemokhtaw Pagoda            -> Pathein
+    chichijima Chichijima Airfield           -> Chichijima
+    quzhou     Qu County (which is in Sichuan) -> Quzhou
+    sanya      Sanya River                   -> Sanya
+    taitung    Taitung Performing Art Center -> Taitung City
+    tongzhou   Xinhua Subdistrict, Beijing   -> Tongzhou, Beijing
+
+### The airports take their characters from the places they name
+
+`data/air/stops.csv` gains a `han` column, filled from the gazetteer and the
+sites table by position: an airport within 2 km of a named place takes that
+place's characters. 136 distinct airports, **80 now carry characters**. The 56
+without are outside the five polities — Akyab, Allahabad, Ambon, Bali, Bangkok,
+Calcutta, Delhi and the rest of Burma, India, the Indies and Siam.
+
+Four in scope named no place in the gazetteer and were filled by hand against
+Wikipedia: 海州 (Haichow), 沙市 (Shasi), 敘府 (Suifu — the name of the day; 宜賓
+is modern) and 蔚山 (Ulsan).
+
+**The column is data only.** Nothing on the map reads `han` yet; that is the
+switch of item 12, which still waits on the same thing it waited on before —
+except that the gap is now much smaller than the earlier survey claimed.
+
+### A note on the suite while this landed
+
+Three full runs in a row each failed one script, and it was a *different* script
+each time — `airplay` and `run14`, then `run2`, then `labels` — every one of
+them "DID NOT REPORT (exit 1)", which is a crash on startup rather than a failed
+assertion. Each passes on its own: 68/68, 33/33, 51/51, 24/24. The wall clock
+tells the same story, 460s for a normal run against 951s and 935s for these two,
+with `labels` alone taking 329s where it takes 40.
+
+That is the machine, not the tree. This batch changes two CSVs and this file and
+no JavaScript at all. The four scripts that actually read the names — `labels`,
+`names`, `menu`, `air` — were run individually and pass (24, 24, 61, 106).
+Worth a clean full run when the machine is quiet.
