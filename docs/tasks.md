@@ -18123,3 +18123,40 @@ That is the machine, not the tree. This batch changes two CSVs and this file and
 no JavaScript at all. The four scripts that actually read the names — `labels`,
 `names`, `menu`, `air` — were run individually and pass (24, 24, 61, 106).
 Worth a clean full run when the machine is quiet.
+
+
+## Station names: audited, and the surprise is how little is missing
+
+`reports/2026.09.04-station-names.md`. An audit only; no data changed.
+
+**No station anywhere is missing its characters** — all 2,545 records across the
+four tables carry them, so the "look it up on the station-name website" half of
+the ask has nothing to do. Korea's map layer is complete on all four fields:
+850 stations in hangul, hanja, McCune–Reischauer and the Japanese reading.
+
+    kr-stations.js  850    0 no characters   0 no romaji   0 no M–R
+    tw-stations.js  206    0                52            1 no pinyin
+    kr-trains.js  1,302    0               605            605
+    tw-trains.js    187    0                63            1
+
+The real gap is **72 distinct Taiwanese stations with no Japanese reading**, the
+union of the two Taiwan tables. And it is a stated policy rather than an
+oversight: `build_tw_stations.py` writes at the head of its own output that "`ro`
+is empty where none does, and the map shows the hanji rather than a guess."
+
+The "easy conversion from hanzi" turned out to be nothing at all. The single
+station with no pinyin is 宮ノ下 Miyanoshita — named in Japanese, katakana and
+all, with no Chinese reading to convert. The blank is right.
+
+Korea's 605 are the Manchurian and Japanese pages and the ferries, which are not
+Korean stations; 520 of them draw nothing. 85 are placed and short, and they want
+pinyin and Japanese rather than hangul — 濱江 for Harbin, 新京 for Changchun.
+
+**I did not write 72 tentative readings.** Taiwanese station names under Japanese
+rule are exactly where the predictable answer is often wrong — 打狗 became 高雄
+*Takao*, 阿緱 became 屏東 *Heitō* — and several on the list are of that kind.
+Seventy-two guesses written at the end of a session become seventy-two things
+that look sourced. The report carries the list a session with the station-name
+site open would work from, and says that if they are filled tentatively the flag
+should be a field of its own so the map can say the reading is unconfirmed
+rather than presenting it as a reading.
