@@ -348,9 +348,17 @@ window.JMAP_TRAINS = function (host) {
       });
       caseGroup.appendChild(halo);
       casePaths.push(halo);
+      /* A line whose alignment is unsourced — the Manchurian and Japanese
+         connections, drawn straight between city points — is drawn at half
+         strength, so the eye reads it as a diagram of where the trains went
+         and not as a survey of where the track lay. Opacity rather than a
+         dash, because a dash array is in map units and would have to be
+         rewritten on every zoom; see the rule in CLAUDE.md. */
+      var faint = !!(data.lines[best] && data.lines[best].x);
       var path = host.svgEl('path', {
-        'class': 'train-line', d: d, fill: 'none',
+        'class': 'train-line' + (faint ? ' train-line-approx' : ''), d: d, fill: 'none',
         stroke: inks[best] || '#555',
+        'stroke-opacity': faint ? 0.55 : 1,
         'stroke-width': LINE_W,
         'stroke-linecap': 'round', 'stroke-linejoin': 'round',
         'vector-effect': 'non-scaling-stroke',
@@ -763,7 +771,9 @@ window.JMAP_TRAINS = function (host) {
          measured from this transcription; the caption on the table below says
          which of the two the figures are, so the note does not have to carry
          the caveat as well as the prose. */
-      note: line.d || '',
+      note: (line.d || '') + (line.x
+        ? ' The map draws this line straight between the cities it can place; the track\'s real alignment is not yet sourced.'
+        : ''),
       head: 'A day on it, counted from the ' + (data.issued || data.year) + ' table',
       cols: ['', ''],
       rows: rows,
@@ -837,7 +847,8 @@ window.JMAP_TRAINS = function (host) {
       chips.push({ el: sw, li: data.lines.indexOf(l) });
       chip.appendChild(sw);
       chip.appendChild(document.createTextNode(lineName(data.lines.indexOf(l), false)));
-      chip.title = l.en + '   ' + (l.ja ? l.ja + '   ' : '') + l.n;
+      chip.title = l.en + '   ' + (l.ja ? l.ja + '   ' : '') + l.n
+        + (l.x ? '   (drawn straight between cities; alignment unsourced)' : '');
       chip.setAttribute('data-li', data.lines.indexOf(l));
       legend.appendChild(chip);
     });

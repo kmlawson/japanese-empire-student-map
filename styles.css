@@ -2935,6 +2935,10 @@ dialog h3 {
   display: flex;
   flex-wrap: wrap;
   gap: 3px 9px;
+  /* Korea and its connections list seventy-odd lines; capped at about six
+     rows and scrolled, so the strip stays a strip and the map stays a map. */
+  max-height: 7.2em;
+  overflow-y: auto;
 }
 
 .train-chip { white-space: nowrap; }

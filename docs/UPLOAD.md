@@ -27,7 +27,7 @@ to configure.
 | `relief.js` | 2 KB | 1 KB | when **Topo** is pressed |
 | `trains.js` | 46 KB | 15 KB | when the train tools are asked for |
 | `tw-trains.js` | 278 KB | 67 KB | with them, over Taiwan |
-| `kr-trains.js` | 1,426 KB | 405 KB | with them, over Korea |
+| `kr-trains.js` | 1,391 KB | 368 KB | with them, over Korea |
 | `tw-stations.js` | 50 KB | 11 KB | when Taiwan's stations are switched on |
 | `kr-stations.js` | 229 KB | 38 KB | when Korea's are |
 | `air-play.js` | 29 KB | 11 KB | when the plane tools are asked for |

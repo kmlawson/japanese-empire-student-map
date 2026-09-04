@@ -183,8 +183,8 @@ script — `tools/build_map.py` — and neither needs the other to run.
 | `timetable/taiwan-1936.html` | the eighteen printed tables, as published, linked from a station's card |
 | `data/tw-1936-timetable/` | the transcription those two are built from, vendored so the build needs no network |
 | `tools/build_tw_trains.py` | writes `tw-trains.js` and the timetable page from it |
-| `kr-trains.js` | Korea's timetable of early 1938 — 1,089 trains over 42 lines, their stops and the track between them — fetched with the tools over Korea |
-| `timetable/korea-1938.html` | the 103 printed tables of the Korean pages, linked from a station's card |
+| `kr-trains.js` | Korea's timetable of early 1938 — 1,666 trains over 74 lines, the Manchurian and Japanese connections and the ferries among them, their stops and the track between them — fetched with the tools over Korea |
+| `timetable/korea-1938.html` | the 173 printed tables of the Korean, Manchurian and Japanese pages, linked from a station's card |
 | `data/kr-1938-timetable/` | the transcription those two are built from, vendored from the Korea 1938 project |
 | `tools/build_kr_trains.py` | writes `kr-trains.js` and the Korea timetable page from it |
 | `tools/check_deploy.py` | fetches a deployed copy and checks every file against the key it was asked for |

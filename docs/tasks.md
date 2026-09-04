@@ -17523,3 +17523,62 @@ stretches on the 北鮮線 that the GIS has no line for are straight guesses the
 map refuses, as it refuses Taiwan's two. `tools/test/krtrains.js` proves the
 system comes up over Korea and not over Taiwan, and the page reads in three
 languages.
+
+## The connections round Korea, drawn straight until they have a source
+
+Korea's trains do not end at the border, and the booklet they come from is a
+朝鮮・滿洲・內地 timetable: the Manchurian pages (the South Manchuria Railway
+and the Manchukuo State Railways), the Japanese trunk lines from Shimonoseki
+to Tōkyō and Aomori, and the three ferries between them are the network the
+Korean tables connect to. This adds them to the Korea system, and only there:
+a reader looking at Korea sees ひかり go on to Hōten and Shinkyō and the Kanpu
+boat meet 富士 at Shimonoseki; Manchuria and Japan get systems of their own
+when they have a source of their own.
+
+    tables    173 (103 Korean, 70 connecting), 1,666 trains over 74 lines
+    stations  1,298, of which 782 have a coordinate: 697 from the Korean GIS
+              and 85 at the point of a city the map already draws
+              (tools/city_coords.py in the transcription project, copied
+              from data/cities.csv here); the other 516 are not drawn. A
+              station on a Manchurian or Japanese page is its own record
+              even where a Korean station shares its name -- 松江 on the
+              山陰本線 is Matsue, not the 松江 in Kangwon -- except the three
+              on the Tumen where the Manchurian lines end in Korea
+    track     846 stretches traced as before, and 87 straight chords between
+              city points for the connections
+    kr-trains.js  1,391 KB, 368 KB gzipped (was 1,426 / 405; the homonym fix
+              below took 12,000 points of mis-traced track out)
+
+**The chords are marked, not passed off.** A line in the bundle's
+`APPROX_LINES` carries `x: 1`; `trains.js` draws its track at half opacity
+and adds a sentence to its card and its chip, and the build prints how many
+lines are approximate. Opacity rather than a dash array, which is in map
+units and would need rewriting on every zoom.
+
+**The Kanpu ferry is reconstructed**, the only table here the booklet does
+not print as one: four sailings, from the bracketed rows over the 京釜本線
+trains, with day and night settled from the trains they meet. Its note says
+so. The 長項—群山 ferry, the 關門 and 青函 ferries are printed tables.
+
+The legend strip is capped at about six rows and scrolls; seventy-four chips
+were most of the map at a laptop width. `krtrains.js` now expects 74 chips,
+173 tables and at least fifty faint stretches.
+
+## One hanja, two stations
+
+Pointed out by the author: two stations can share a reading, and — the case
+that bites a name match — two can share their characters. The Korean GIS has
+松亭 on the 東海南部線 and 松亭 on the 忠北線 two hundred kilometres apart, 高山
+on the 京元線 and the 平元線, 豊山 on the 北鮮線 and the 慶北線, 龍門 twice,
+and it spells Seoul's 京元線 record 鏡城, which is also a station near 淸津.
+Matched on the characters alone, the first of each pair won and the 咸鏡線's
+鏡城 stood in Seoul.
+
+The transcription project now resolves a name with more than one GIS point
+by the line the table is on (`LINE_KR` in its `edition_lib.py`), then by
+nearness to the train's other stops, and keys such a station as
+`name@gis_id` through the database, the paths and the bundle, printing it as
+the name. `build_kr_trains.py` does the same on this side against
+`kr-stations.js`, which has six duplicated hanja, choosing the square nearest
+the bundle's coordinate. Seven stations split; every one lands on its own
+line.

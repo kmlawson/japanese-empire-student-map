@@ -91,13 +91,14 @@ const shutDialogs=p=>p.evaluate(()=>{
     check('and it is the Korea data that was fetched',
       fetched.filter(f=>f==='kr-trains.js').length===1 && !fetched.includes('tw-trains.js'), fetched.join());
     check('the bar says which timetable it is', /1938/.test(v.note), v.note);
-    /* 42 lines in the Korean pages, every one with a chip; the track count is
+    /* 42 Korean lines and 32 connecting ones, every one with a chip; the track count is
        bounded rather than pinned because the gap-closing across unplaceable
        stations is the map's business and the data's — a change in either
        shows here as a change in the number. */
-    check('a chip per line in the bar', v.chips===42, 'chips='+v.chips);
+    check('a chip per line in the bar', v.chips===74, 'chips='+v.chips);
     check('the track is drawn, hundreds of stretches', v.lines>600, 'lines='+v.lines);
     check('in many colours', v.colours>=20, 'colours='+v.colours);
+    check('the connections are drawn faint', await p.evaluate(()=>document.querySelectorAll('#train-layer .train-line-approx').length)>50, '');
     check('the station squares are borrowed', v.stations>800 && v.railBox,
       JSON.stringify({stations:v.stations,railBox:v.railBox}));
     check('and only those the timetable knows are shown', v.shown>500 && v.shown<v.stations,
@@ -171,7 +172,7 @@ const shutDialogs=p=>p.evaluate(()=>{
       warnFirst:(()=>{const w=document.querySelector('.warn');const t=document.querySelector('table');
         return !!(w&&w.textContent.trim()&&t&&(w.compareDocumentPosition(t)&Node.DOCUMENT_POSITION_FOLLOWING));})()}));
     let pv=await page();
-    check('the Korea page carries all 103 tables', pv.tables===103 && pv.anchors===103,
+    check('the Korea page carries all 173 tables', pv.tables===173 && pv.anchors===173,
       JSON.stringify({t:pv.tables,a:pv.anchors}));
     check('and warns before the tables', pv.warnFirst, '');
     check('it opens in Japanese', pv.lang==='ja' && /転記/.test(pv.h1), pv.lang+' '+pv.h1);

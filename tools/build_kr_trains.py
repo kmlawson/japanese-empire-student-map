@@ -6,10 +6,12 @@ The source is the transcription of a 1938 朝鮮・滿洲・內地 pocket timeta
 shape as the Taiwan bundle so this build does not depend on the network. Two
 things come out of it:
 
-  kr-trains.js               the lines, the stations, the 1,089 trains and the
+  kr-trains.js               the lines, the stations, the 1,666 trains and the
                              track between consecutive stops, in the compact
-                             form trains.js reads
-  timetable/korea-1938.html  the 103 printed tables of the Korean pages, with
+                             form trains.js reads -- the Korean pages and, drawn
+                             straight between city points, the Manchurian and
+                             Japanese connections and the ferries
+  timetable/korea-1938.html  the 173 printed tables of those pages, with
                              an anchor per table so a station card can link
                              to the line the reader is looking at
 
@@ -115,6 +117,41 @@ LINE_NOTES = {
     '京畿線': 'The Keinan Railway\'s line from Tenan inland to Chōkoin.',
     '北鮮線': 'Seishin to Rashin, built by the South Manchuria Railway in the 1930s as the sea outlet for Manchukuo and worked by the Manchukuo State Railways in this table.',
     '會寧炭礦線': 'A colliery line from Kainei to Shinkeirin.',
+    # THE CONNECTIONS. Drawn straight between the cities the map already
+    # places, because no station GIS for Manchuria or Japan is in the map yet;
+    # each note says so. They are the network the Korean tables connect to.
+    '朝開線': 'A Manchukuo line from Kamisanpō on the Tumen across to Chōyōsen, over the border from the Kankyō line.',
+    '京圖線': 'Shinkyō east to Kitsurin, Tonka and the Tumen at Tomon, the Manchukuo State Railways\' route to the Korean ports.',
+    '琿春鐵路線': 'A short line to Konshun from the Tumen valley.',
+    '圖佳線': 'North from the Tumen at Nan\'yō to Botankō, opened in the mid-1930s.',
+    '奉山線': 'Hōten south-west to Sankaikan and the Great Wall, the old Peking–Mukden line.',
+    '拉濱線': 'Rappō on the Keito line north to Harbin.',
+    '錦承線・葉峰線': 'Kinken west through Chōyō to Sekihō and Shōtoku in Jehol.',
+    '京濱線': 'Shinkyō north to Harbin, the former Chinese Eastern Railway\'s southern branch.',
+    '奉吉線': 'Hōten east to Kitsurin.',
+    '平齊線・齊北線・北黑線・濱北線': 'Shiheigai north-west to Chichiharu and on to Hokuan and Harbin, the lines through the Manchurian plain.',
+    '濱綏線・濱洲線': 'The former Chinese Eastern Railway across the north of Manchukuo, Suifenhe through Harbin to Manchouli on the Soviet border.',
+    '連京線': 'The South Manchuria Railway\'s main line, Dairen north through Hōten to Shinkyō and Harbin; the あじあ runs it in this table.',
+    '營口線': 'The branch from Daisekkyō to the port of Eikō.',
+    '旅順線': 'Dairen to the naval port of Ryojun.',
+    '安奉線': 'Antung on the Yalu to Hōten, the South Manchuria Railway\'s link with Korea, over which the Fuzan expresses ran.',
+    '撫順線': 'Hōten to the collieries at Bujun.',
+    '東海道・山陽本線': 'Tōkyō to Shimonoseki, the trunk of Japan, with 富士 and さくら running it in nineteen hours to meet the Kanpu ferry.',
+    '關西線・參宮線': 'Feeder rows from Nagoya to Toba and Uji-Yamada, printed with the trunk tables.',
+    '關門連絡船': 'The fifteen-minute ferry across the strait between Shimonoseki and Moji, sailing every hour or two.',
+    '鹿兒島本線': 'Moji down the west of Kyūshū to Kumamoto and Kagoshima.',
+    '長崎本線': 'Tosu to Nagasaki and Sasebo.',
+    '日豐本線': 'Moji down the east of Kyūshū by Ōita and Miyazaki to Kagoshima.',
+    '豐肥本線': 'Kumamoto across the island to Ōita.',
+    '山陰本線': 'Shimonoseki up the Japan Sea coast by Matsue and Tottori to Fukuchiyama and Kyōto.',
+    '大社線': 'Shuttles between Izumo-Imaichi and the great shrine at Taisha.',
+    '宮津線': 'Toyooka to Maizuru, printed as feeder rows.',
+    '北陸・信越・羽越本線': 'Ōsaka up the Japan Sea coast by Kanazawa and Niigata to Aomori, and over the mountains to Ueno.',
+    '關西本線': 'Kameyama to Nara and Minatomachi in Ōsaka.',
+    '東北本線・常磐線・奧羽本線': 'Ueno north to Sendai, Morioka and Aomori for the Hakodate ferry, by the inland and the coast routes and the Ōu line.',
+    '青函連絡船': 'The ferry between Aomori and Hakodate, four and a half hours across the Tsugaru strait.',
+    '關釜連絡船': 'The Fuzan–Shimonoseki ferry, seven and a half hours across the strait, two boats a day each way: the day boat met the 特急 at Shimonoseki and ひかり at Fuzan, the night boat のぞみ and あかつき. Reconstructed from the connecting rows printed over the trains.',
+    '長項—群山 連絡線': 'The ferry across the Kum estuary between the Keinan Railway at Chōkō and Gunzan, thirty crossings a day.',
 }
 
 # The Japanese reading of each line's name, for when the reader has asked for
@@ -137,6 +174,19 @@ LINE_JA = {
     '興南線': 'Kōnan-sen', '金剛山電氣鐵道': 'Kongōsan denki tetsudō',
     '咸北線': 'Kanhoku-sen', '忠南線': 'Chūnan-sen', '京畿線': 'Keiki-sen',
     '北鮮線': 'Hokusen-sen', '會寧炭礦線': 'Kainei tankō-sen',
+    '朝開線': 'Chōkai-sen', '京圖線': 'Keito-sen', '琿春鐵路線': 'Konshun tetsuro',
+    '圖佳線': 'Toka-sen', '奉山線': 'Hōzan-sen', '拉濱線': 'Rahin-sen',
+    '錦承線・葉峰線': 'Kinshō-sen', '京濱線': 'Keihin-sen', '奉吉線': 'Hōkichi-sen',
+    '平齊線・齊北線・北黑線・濱北線': 'Heisei-sen', '濱綏線・濱洲線': 'Hinsui–Hinshū-sen',
+    '連京線': 'Renkyō-sen', '營口線': 'Eikō-sen', '旅順線': 'Ryojun-sen',
+    '安奉線': 'Anpō-sen', '撫順線': 'Bujun-sen',
+    '東海道・山陽本線': 'Tōkaidō–San\'yō honsen', '關西線・參宮線': 'Kansai–Sangū-sen',
+    '關門連絡船': 'Kanmon renrakusen', '鹿兒島本線': 'Kagoshima honsen',
+    '長崎本線': 'Nagasaki honsen', '日豐本線': 'Nippō honsen', '豐肥本線': 'Hōhi honsen',
+    '山陰本線': 'San\'in honsen', '大社線': 'Taisha-sen', '宮津線': 'Miyazu-sen',
+    '北陸・信越・羽越本線': 'Hokuriku–Shin\'etsu–Uetsu honsen', '關西本線': 'Kansai honsen',
+    '東北本線・常磐線・奧羽本線': 'Tōhoku–Jōban–Ōu honsen', '青函連絡船': 'Seikan renrakusen',
+    '關釜連絡船': 'Kanpu renrakusen', '長項—群山 連絡線': 'Chōkō–Gunzan renrakusen',
 }
 
 LINE_EN = {
@@ -156,6 +206,18 @@ LINE_EN = {
     '興南線': 'Heungnam Line', '金剛山電氣鐵道': 'Kumgangsan Electric Railway',
     '咸北線': 'Hambuk Line', '忠南線': 'Chungnam Line', '京畿線': 'Gyeonggi Line',
     '北鮮線': 'Bukseon Line', '會寧炭礦線': 'Hoeryong Colliery Line',
+    '朝開線': 'Chaokai Line', '京圖線': 'Jingtu Line', '琿春鐵路線': 'Hunchun Railway',
+    '圖佳線': 'Tujia Line', '奉山線': 'Fengshan Line', '拉濱線': 'Labin Line',
+    '錦承線・葉峰線': 'Jincheng–Yefeng Line', '京濱線': 'Jingbin Line', '奉吉線': 'Fengji Line',
+    '平齊線・齊北線・北黑線・濱北線': 'Pingqi–Qibei–Beihei–Binbei Line', '濱綏線・濱洲線': 'Binsui–Binzhou Line',
+    '連京線': 'Lianjing Line (SMR main line)', '營口線': 'Yingkou Line', '旅順線': 'Lüshun Line',
+    '安奉線': 'Anfeng Line', '撫順線': 'Fushun Line',
+    '東海道・山陽本線': 'Tōkaidō–San\'yō Line', '關西線・參宮線': 'Kansai–Sangū feeders',
+    '關門連絡船': 'Kanmon Ferry', '鹿兒島本線': 'Kagoshima Line', '長崎本線': 'Nagasaki Line',
+    '日豐本線': 'Nippō Line', '豐肥本線': 'Hōhi Line', '山陰本線': 'San\'in Line',
+    '大社線': 'Taisha Line', '宮津線': 'Miyazu Line', '北陸・信越・羽越本線': 'Hokuriku–Shin\'etsu–Uetsu Line',
+    '關西本線': 'Kansai Line', '東北本線・常磐線・奧羽本線': 'Tōhoku–Jōban–Ōu Line',
+    '青函連絡船': 'Seikan Ferry', '關釜連絡船': 'Kanpu Ferry', '長項—群山 連絡線': 'Changhang–Gunsan Ferry',
 }
 
 # Korean Wikipedia where it has the article, which is the local language on
@@ -201,10 +263,30 @@ def build_js(anchors=None):
     trains = grab(src, 'TRAINS')
     paths = grab(src, 'PATHS')
     colours = grab(src, 'LINE_COLORS')
+    # THE CONNECTIONS ARE DRAWN STRAIGHT. The Manchurian and Japanese pages
+    # and the ferries have no line GIS behind them yet: their stations sit at
+    # the map's own city points and the track between two of them is a chord,
+    # kept apart in the bundle as CHORDS and the lines it belongs to listed as
+    # APPROX_LINES, so the module can draw them fainter and the card can say
+    # so. Until a source for the alignment arrives that is the honest picture.
+    chords = grab(src, 'CHORDS') if 'const CHORDS = ' in src else {}
+    approx = set(grab(src, 'APPROX_LINES') if 'const APPROX_LINES = ' in src else [])
 
+    # ONE HANJA CAN BE TWO STATIONS -- kr-stations.js has 豊山, 松亭 and 高山
+    # twice, in different provinces -- so a name maps to a list, and the
+    # bundle's own coordinate (already resolved by the line the table is on)
+    # picks the nearer. A station with no coordinate takes the first, which
+    # is the only guess left and is said so here.
     ours = {}
     for r in our_stations():
-        ours.setdefault(name_key(r['han']), r)
+        ours.setdefault(name_key(r['han']), []).append(r)
+
+    def nearest(cands, s):
+        if not cands:
+            return None
+        if s.get('lon') is None or len(cands) == 1:
+            return cands[0]
+        return min(cands, key=lambda r: (r['lon'] - s['lon']) ** 2 + (r['lat'] - s['lat']) ** 2)
 
     line_names = list(colours.keys())
     line_ix = {n: i for i, n in enumerate(line_names)}
@@ -214,12 +296,20 @@ def build_js(anchors=None):
     matched = coordless = 0
     for s in stations:
         st_ix[s['name']] = len(out_st)
-        mine = ours.get(name_key(s['name']))
+        # Only a station the Korean GIS placed can own one of the map's
+        # squares: the same name on a Manchurian page (京城 in a reference
+        # row of the 安奉線 table) is a record without a coordinate, and if it
+        # took the square the card would open on the wrong copy and be empty.
+        mine = None
+        if s.get('lon') is not None and not s.get('approx'):
+            mine = nearest(ours.get(name_key(s.get('label') or s['name'])), s)
         if mine:
             matched += 1
         if s['lon'] is None:
             coordless += 1
-        rec = {'n': s['name']}
+        # `name` is the bundle's key (松亭@dhn_008 where one name is two
+        # places); `label` is what the station is called
+        rec = {'n': s.get('label') or s['name']}
         # The names as this map holds them, so a card can print the
         # characters, the McCune-Reischauer and the Japanese reading in one
         # row without asking a second file at run time. `py` is the local
@@ -274,7 +364,10 @@ def build_js(anchors=None):
     pts_in = pts_out = 0
     out_pa = {}
     ends_ok = ends_seen = 0
-    for k, pts in paths.items():
+    allp = dict(paths)
+    for k, pts in chords.items():
+        allp.setdefault(k, pts)
+    for k, pts in allp.items():
         a, b = k.split('|')
         if a not in st_ix or b not in st_ix:
             continue
@@ -305,6 +398,7 @@ def build_js(anchors=None):
         'local': 'M–R',
         'lines': [{'n': n, 'en': LINE_EN.get(n, n), 'c': colours[n],
                    'a': (anchors or {}).get(n, ''),
+                   'x': 1 if n in approx else 0,
                    'd': LINE_NOTES.get(n, ''),
                    'ja': LINE_JA.get(n, ''),
                    'wl': LINE_WIKI.get(n, ('', ''))[0],
@@ -318,7 +412,7 @@ def build_js(anchors=None):
     }
     head = (
         '/* Built by tools/build_kr_trains.py -- do not edit.\n'
-        ' * The 1938 Korean railway timetable: %d trains over %d lines,\n'
+        ' * The 1938 Korean railway timetable and its connections: %d trains over %d lines,\n'
         ' * calling at %d stations, with the track between consecutive stops.\n'
         ' * Source: the transcription in data/kr-1938-timetable/, from a\n'
         ' * 1938 Korea-Manchuria-Japan pocket timetable (revisions of\n'
@@ -327,7 +421,8 @@ def build_js(anchors=None):
         ' * midnight, past 1440 meaning the small hours of the next day; flags\n'
         ' * are 1 timed on another line, 2 passes without stopping, 4 the\n'
         ' * printed reading is uncertain. Path keys are a pair of station\n'
-        ' * indices, low first, and the coordinates run that way. */\n'
+        ' * indices, low first, and the coordinates run that way. A line with\n'
+        ' * x=1 is drawn straight between city points, its alignment unsourced. */\n'
         % (len(out_tr), len(line_names), len(out_st)))
     body = json.dumps(doc, ensure_ascii=False, separators=(',', ':'))
     with open(OUT_JS, 'w', encoding='utf-8') as f:
@@ -341,9 +436,11 @@ def build_js(anchors=None):
           % (len(out_st), matched, coordless))
     print('trains     %d, %d stop rows'
           % (len(out_tr), sum(len(t['st']) for t in out_tr)))
-    print('paths      %d segments, %d points in, %d out (%.1f%% kept; the loss '
-          'is a station\'s snapped node repeating its own coordinate)'
-          % (len(out_pa), pts_in, pts_out, 100.0 * pts_out / max(1, pts_in)))
+    print('paths      %d segments (%d of them straight chords between city points), '
+          '%d points in, %d out (%.1f%% kept; the loss is a station\'s snapped node '
+          'repeating its own coordinate)'
+          % (len(out_pa), len(chords), pts_in, pts_out, 100.0 * pts_out / max(1, pts_in)))
+    print('lines      %d, %d drawn approximately' % (len(line_names), len(approx)))
     print('           %d of %d segments start within 0.02 deg of their station'
           % (ends_ok, ends_seen))
     print('wrote      %s (%d KB)' % (os.path.relpath(OUT_JS, ROOT),
