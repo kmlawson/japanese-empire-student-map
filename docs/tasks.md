@@ -17582,3 +17582,16 @@ own resolver is told to send `kmlawson.github.io` and `froginawell.net` to the
 loopback, so the page really is served from each name and `location.hostname`
 is the thing under test. The absent case is half the point and would have been
 missed by a check written on one host.
+
+### And on a phone it was under the legend
+
+Reported. With the map wide the two are nowhere near each other — the legend
+is in the right-hand panel — but at the narrow breakpoint the legend is
+anchored to the bottom-left, which is the badge's corner. Measured before the
+fix: they overlapped by 23 px, folded and opened out.
+
+The badge keeps the corner and the legend starts 28 px above it, and only where
+there is a badge: the rule is on `html.is-beta`, so the stable site keeps every
+pixel it had. Measured after, at 390x844, 844x390 and 620x900, folded and open:
+no overlap anywhere, a 5 px gap, and the badge inside the frame. Both checks
+fail on the old stylesheet, which is how they were verified.

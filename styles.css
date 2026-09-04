@@ -2104,6 +2104,18 @@ dialog h3 {
      the sheet wins whenever one is open */
   body.panel-open #legend { display: none; }
 
+  /* **The legend lives in the badge's corner on a phone.** With the map wide
+     the two are nowhere near each other; at this width the legend is anchored
+     to the bottom-left and the BETA mark was underneath it. Reported.
+     The badge takes the corner and the legend starts above it — and only on
+     the copy that carries one, which is what the `is-beta` class on the root
+     is for: the stable site keeps every pixel it had. */
+  #beta-badge {
+    left: max(10px, var(--safe-l));
+    bottom: calc(10px + var(--safe-b));
+  }
+  html.is-beta #legend { bottom: calc(10px + var(--safe-b) + 28px); }
+
   /* The quiz card is a working surface, not a reading one: on a small screen
      it has to leave the map most of the room, or the answer is under it. */
   #quiz {

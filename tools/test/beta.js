@@ -37,11 +37,13 @@ const look=p=>p.evaluate(()=>{
     cls: document.documentElement.classList.contains('is-beta'),
   };});
 
-const on=async(host,args)=>{
+const PHONE={width:390,height:844,isMobile:true,hasTouch:true,deviceScaleFactor:2};
+
+const on=async(host,args,vp)=>{
   const b=await puppeteer.launch({headless:'new',
     args:['--no-sandbox'].concat(args||[])});
   const p=await b.newPage();
-  await p.setViewport({width:1400,height:900});
+  await p.setViewport(vp||{width:1400,height:900});
   const errs=[]; p.on('pageerror',e=>errs.push(String(e)));
   await p.goto('http://'+host+':8123/index.html',{waitUntil:'networkidle2'});
   await ready(p);
@@ -104,6 +106,49 @@ const on=async(host,args)=>{
   check('  no word after the version', !/beta/.test(live.bar) && !live.tag, live.bar);
   check('  and no class on the root', !live.cls, '');
   check('no page errors there either', live.errs.length === 0, live.errs.join(' | '));
+
+  /* **On a phone the legend lives in the badge's corner.** With the map wide
+     the two are nowhere near each other; at the narrow breakpoint the legend
+     is anchored to the bottom-left and the badge was underneath it. Reported.
+     Checked folded *and* open, because the legend grows upward from that
+     corner and only one of the two states would catch a fault in the other. */
+  console.log('\n— and on a phone it is out of the legend\'s way —');
+  const phone=await (async()=>{
+    const b=await puppeteer.launch({headless:'new',
+      args:['--no-sandbox','--host-resolver-rules=MAP kmlawson.github.io 127.0.0.1']});
+    const p=await b.newPage();
+    await p.setViewport(PHONE);
+    await p.goto('http://kmlawson.github.io:8123/index.html',{waitUntil:'networkidle2'});
+    await ready(p);
+    const boxes=()=>p.evaluate(()=>{
+      const bd=document.getElementById('beta-badge').getBoundingClientRect();
+      const lg=document.getElementById('legend').getBoundingClientRect();
+      return {shown: !document.getElementById('beta-badge').hidden,
+              over: !(bd.right<=lg.left||bd.left>=lg.right
+                      ||bd.bottom<=lg.top||bd.top>=lg.bottom),
+              gap: Math.round(bd.top-lg.bottom),
+              inFrame: bd.bottom <= window.innerHeight + 1 && bd.left >= 0};});
+    const shut=await boxes();
+    await p.evaluate(()=>{const h=document.querySelector('#legend .legend-head');
+      if(h) h.click();});
+    await new Promise(r=>setTimeout(r,400));
+    const open=await boxes();
+    await b.close();
+    return {shut, open};
+  })();
+  check('the badge is still there on a phone', phone.shut.shown, '');
+  check('  and clear of the folded legend',
+    !phone.shut.over && phone.shut.gap >= 0, JSON.stringify(phone.shut));
+  check('  and clear of it opened out',
+    !phone.open.over && phone.open.gap >= 0, JSON.stringify(phone.open));
+  check('  and inside the frame', phone.shut.inFrame, JSON.stringify(phone.shut));
+
+  /* And the room the legend gives up is given up only where there is a badge:
+     the stable site sits where it always did. */
+  const livePhone=await on('froginawell.net',
+    ['--host-resolver-rules=MAP froginawell.net 127.0.0.1'], PHONE);
+  check('  with the stable site keeping the corner to itself',
+    !livePhone.shown && !livePhone.cls, JSON.stringify(livePhone));
 
   console.log('\n— nor on a machine somebody is working on —');
   const dev=await on('localhost');
