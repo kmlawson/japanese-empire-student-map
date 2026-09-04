@@ -17887,3 +17887,32 @@ README names the scan.
 Worth remembering: the source link went in *before* the block's own links, and
 four checks that read the first `<a>` in a card started finding the archive
 where they expected the printed table. It goes after them.
+
+
+## Picking a line, from the map as well as the strip
+
+**4. The chips were cut off at the top.** They are boxed when one is picked and
+a box needs room; at `padding: 0` the outline of the top row was clipped by the
+scroller's own edge, under the slider. Reported with a picture. 3px of padding
+and a slightly taller cap.
+
+**1. Pressing the track picks the line**, the way pressing its name in the strip
+does — the two are the same act, and it would be odd for the chip to light the
+map and the line itself not to. The card opens with it, as before.
+
+**3. And a press anywhere that is not a line lets it go.** A picked line dims
+everything else, so leaving it lit after the reader has moved on is the map
+holding a selection they have stopped making.
+
+**5, half of it: the picked line flashes.** A line picked out of a strip of
+forty is often a short one on ground the reader is not looking at, and dimming
+the other thirty-nine is a change they may not see; the picked line is drawn at
+2.4× width for 700 ms and settles back. The same idea as the railway button's
+flash and for the same reason.
+
+### Not done
+
+**2** (a chooser when several lines overlap, the way the air routes have one)
+and the other half of **5** (zooming out far enough to see the whole line when
+it is picked from the strip) are untouched, along with **9** and **12** from the
+previous batch.

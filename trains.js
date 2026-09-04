@@ -512,9 +512,30 @@ window.JMAP_TRAINS = function (host) {
     render();
   }
 
-  function setPick(li) {
-    pickLi = (pickLi === li) ? -1 : li;
+  /* **And it flashes on the way in.** A line picked out of a strip of forty is
+     often a short one on ground the reader is not looking at, and dimming the
+     other thirty-nine is a change they may not see. The picked line is drawn
+     heavy for a moment and settles back — the same idea as the railway button's
+     flash, and for the same reason: a press that changes nothing visible reads
+     as a press that did not work. */
+  var pickFlash = 0;
+  function flashPick() {
+    if (pickFlash) { clearTimeout(pickFlash); pickFlash = 0; }
+    if (pickLi < 0) return;
+    linePaths.forEach(function (p) {
+      if (p.li !== pickLi) return;
+      p.el.style.strokeWidth = (LINE_W * 2.4).toFixed(1);
+    });
+    pickFlash = setTimeout(function () {
+      pickFlash = 0;
+      linePaths.forEach(function (p) { p.el.style.strokeWidth = ''; });
+    }, 700);
+  }
+
+  function setPick(li, force) {
+    pickLi = (!force && pickLi === li) ? -1 : li;
     applyPick();
+    flashPick();
   }
 
   function isConnTrain(t) {
@@ -1258,6 +1279,8 @@ window.JMAP_TRAINS = function (host) {
       });
     },
 
+    /* The map presses a line too, and wants the same light on it. */
+    pick: function (li) { if (bar) setPick(li, li >= 0); return pickLi; },
     departures: departures,
     recolour: recolour,
     connections: function (on) { if (on !== undefined) setConn(on); return connOn; },
