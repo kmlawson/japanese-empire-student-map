@@ -18160,3 +18160,28 @@ that look sourced. The report carries the list a session with the station-name
 site open would work from, and says that if they are filled tentatively the flag
 should be a field of its own so the map can say the reading is unconfirmed
 rather than presenting it as a reading.
+
+### The station-name site: right shape, no Taiwan
+
+「駅名読み方大全」 (`stationname.com`), the source named for the readings, was
+checked. It is organised by 営業線 / 廃線 / 未成線 → region → line, and every
+line page carries a 駅名一覧表 with each station's reading in kana — exactly what
+this wants.
+
+**Taiwan and Korea are empty sections.** 台湾地区 and 朝鮮地区 exist under
+私鉄・公営鉄道廃線 and render "以下のタブより路線を選択してください" with no tabs
+and no tables. The list is built by script, so a plain fetch shows nothing;
+rendered in a browser it is still nothing.
+
+**Karafuto is covered** — 樺太東線, 樺太西線, 川上線, 豊真線 — and it confirms two
+readings this session had filled from ja.wikipedia: 敷香 しくか and 真岡 まおか.
+Those are sourced now rather than asserted.
+
+So Taiwan's fifty-two stay `unverified`. That is not a policy question after
+all — `data/taiwan/stations.csv` already carries a `confidence` column reading
+verified 153 / unverified 52 / inferred 1, and the fifty-two blanks *are* the
+fifty-two marked unverified. They are waiting on a source, and this was the
+source. It has not got there yet.
+
+Recorded in `texts/pages/sources.md` so the next session does not have to find
+it again, which is how this one lost it.
