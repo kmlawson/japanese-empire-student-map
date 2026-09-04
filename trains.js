@@ -783,10 +783,29 @@ window.JMAP_TRAINS = function (host) {
     var trains = data.trains.filter(function (t) { return t.li === li; });
     var down = trains.filter(function (t) { return !t.dir; }).length;
     var stops = {};
+    /* **Every station on the line, and how many of its trains stopped.** The
+       tally above says how many stations were called at; a reader looking at a
+       line wants to know *which*, and which of them were the busy ones. A
+       station counts a train when that train's row for it carries a time of
+       its own — a row flagged as passing without stopping, or timed from
+       another line's table, is on the line but is not a call. */
+    var calls = {};
+    /* And the order to print them in: the longest stop list on the line, which
+       is the line's own order as the table prints it. A station no train of
+       this line reaches is not on this line. */
+    var order = [];
     var firstT = null, lastT = null;
     trains.forEach(function (t) {
+      var seq = t.st.filter(function (s) { return !((s[3] || 0) & 1); })
+                    .map(function (s) { return s[0]; });
+      if (seq.length > order.length) order = t.dir ? seq.slice().reverse() : seq;
       t.st.forEach(function (s) {
         if ((s[3] || 0) & 1) return;
+        var fl = s[3] || 0;
+        if (!(fl & 2) && (s[1] !== null && s[1] !== undefined
+                          || s[2] !== null && s[2] !== undefined)) {
+          calls[s[0]] = (calls[s[0]] || 0) + 1;
+        }
         stops[s[0]] = 1;
         var d = s[2];
         if (d === null || d === undefined) return;
@@ -822,6 +841,15 @@ window.JMAP_TRAINS = function (host) {
       { cells: ['First departure', firstT === null ? '\u2014' : fmt(firstT)] },
       { cells: ['Last departure', lastT === null ? '\u2014' : fmt(lastT)] },
     ];
+    /* The stations themselves, in the line's own order, each with the number
+       of this line's trains that stopped there. Every station the line reaches
+       is listed whether or not every train calls: a line is its stations, and
+       the gaps in the column are what an express looks like. */
+    var stopList = order.filter(function (ix, i) {
+      return order.indexOf(ix) === i;
+    }).map(function (ix) {
+      return placeName(data.stations[ix]) + ' (' + (calls[ix] || 0) + ')';
+    });
     return {
       chip: 'Railway line', colour: inks[li] || '#555',
       primary: lineName(li, false),
@@ -847,6 +875,13 @@ window.JMAP_TRAINS = function (host) {
       head: 'A day on it, counted from the ' + (data.issued || data.year) + ' table',
       cols: ['', ''],
       rows: rows,
+      /* Under the figures rather than in them: it is a list, not a table, and
+         at forty-odd stations it wants to wrap. The number in brackets is how
+         many of the line's trains stopped there. */
+      list: stopList.length > 1
+        ? { head: 'Stations on the line, with the trains that stopped ('
+                  + trains.length + ' in all)', items: stopList }
+        : null,
       links: [
         line.w ? { href: line.w,
                    text: 'Read more on ' + ({ ja: 'Japanese', zh: 'Chinese',

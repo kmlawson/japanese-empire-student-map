@@ -13,8 +13,8 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '306';
-  var JEM_ASSETS = {"admin.js": "3414697d04", "air-play.js": "8db7ba0d73", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "58132ef9c2", "kr-trains.js": "74889615bd", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/korea-1938.html": "090c215143", "timetable/taiwan-1936.html": "4aa70a2001", "trains.js": "614e3d4966", "tw-trains.js": "1655cdb6e0"};
+  var JEM_VERSION = '307';
+  var JEM_ASSETS = {"admin.js": "3414697d04", "air-play.js": "8db7ba0d73", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "58132ef9c2", "kr-trains.js": "74889615bd", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/korea-1938.html": "093219bd51", "timetable/taiwan-1936.html": "0f2a6423af", "trains.js": "1ae398ab56", "tw-trains.js": "1655cdb6e0"};
 
   /* Every file this one fetches, with the version on it.
 
@@ -2229,6 +2229,7 @@
       file: 'tw-trains.js',
       page: 'timetable/taiwan-1936.html',
       note: 'Timetable of February 1936',
+      src: 'Times counted from the Taiwan Government Railway\u2019s working timetable of February 1936.',
       box: [119.9, 21.8, 122.1, 25.5],
       /* Whose ground the lines are drawn over. The timetable's own colours are
          fitted against it, because the trunk line's red and this map's colonial
@@ -2241,6 +2242,7 @@
       file: 'kr-trains.js',
       page: 'timetable/korea-1938.html',
       note: 'Timetable of early 1938',
+      src: 'Times counted from a Ch\u014dsen\u2013Manchuria\u2013Japan pocket timetable of early 1938.',
       box: [124.0, 33.0, 131.2, 43.1],
       atom: 'korea',
       /* Korea is ten degrees tall to Taiwan's three and a half, so the view at
@@ -8280,16 +8282,51 @@
     });
     scroll.appendChild(table);
     host.appendChild(scroll);
+    /* A list under the figures — the stations on a line, with the number of
+       its trains that stopped at each. Not a table: it is one field wrapped
+       over as many lines as it needs, and at forty-odd stations a two-column
+       table of it would be a column of brackets. */
+    if (block.list && block.list.items && block.list.items.length) {
+      var lh = document.createElement('p');
+      lh.className = 'trains-head trains-list-head';
+      lh.textContent = block.list.head;
+      host.appendChild(lh);
+      var lp = document.createElement('p');
+      lp.className = 'trains-list';
+      lp.textContent = block.list.items.join('\u3001');
+      host.appendChild(lp);
+    }
     /* Somewhere to read further, at the foot of the block: the printed table
        the times come from, and for a line the article the history is drawn
        from. A page of this map's own is passed as `page` and goes through
        `asset` so it carries the build's key; anything else is an absolute
        address and is used as it stands. */
+    /* **Where these times came from, in a phrase.** Every one of these cards —
+       a line's, a station's, a train's — is figures counted from one printed
+       book, and a reader who has followed a train across the map should not
+       have to open About to find out which. It is the system's own sentence
+       rather than the block's, because all three are the same source. */
+    var srcSys = trainApi && trainApi.mounted && trainApi.mounted()
+      && trainApi.system && trainApi.system();
+    var srcTxt = srcSys && TRAIN_SYS[srcSys] && TRAIN_SYS[srcSys].src;
+    if (srcTxt) {
+      var sp = document.createElement('p');
+      sp.className = 'trains-src';
+      sp.textContent = srcTxt;
+      host.appendChild(sp);
+    }
     (block.links || []).forEach(function (l) {
       var a = document.createElement('a');
       a.className = 'note-src';
-      a.href = l.page ? asset(l.page) + (l.anchor ? '#' + l.anchor : '')
-                      : l.href;
+      /* **The printed table opens with the reading the map is showing.** The
+         page asks for `rd` separately from its own language, so a reader with
+         the Japanese readings switched on gets Takao over the station name
+         whether the furniture round the table is in English or not. `asset`
+         has already put a `?v=` on it, so this joins with `&`. */
+      a.href = l.page
+        ? asset(l.page) + (state.jpNames ? '&rd=ja' : '')
+          + (l.anchor ? '#' + l.anchor : '')
+        : l.href;
       a.target = '_blank';
       a.rel = 'noopener noreferrer';
       a.textContent = l.text;

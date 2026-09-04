@@ -17803,3 +17803,69 @@ setting across every named thing on the map) are untouched. 12 in particular is
 a data question before it is a code one — what characters exist for cities,
 stations, provinces, airports, airlines and natural features, and in which
 orthography — and it wants its own pass rather than the tail of this one.
+
+
+## Four more of the twelve, and train 20 settled at the source
+
+**2. Every train card says where its times came from.** A line's, a station's
+and a train's are all figures counted from one printed book, and a reader who
+has followed a train across the map should not have to open About to find out
+which. One sentence at the foot of the block, from the system rather than the
+card because all three are the same source: "Times counted from the Taiwan
+Government Railway's working timetable of February 1936", and the Chōsen–
+Manchuria–Japan pocket timetable of early 1938 for Korea.
+
+**8. A line's card lists its stations, with the trains that stopped.** In the
+line's own order — taken from the longest stop list on it, which is the order
+the table prints — each with the number of that line's trains that called
+there in brackets. A row flagged as passing without stopping, or timed from
+another line's table, is on the line but is not a call and does not count. The
+gaps in the column are what an express looks like.
+
+**6. The printed timetables romanise their line headings.** The heading said
+縱貫線 and nothing else, which is no help to a reader who cannot read it; it
+says 縱貫線 (Jūkansen — Trunk Line) now. The map keyed by the characters the
+table prints, so a line that gains a reading in the build gains it here.
+
+**7. The readings follow the map's Japanese-names switch.** The page already
+chose its readings by its own language; it now takes an `rd` parameter as well,
+and the map passes `rd=ja` when its switch is on — so a reader with Japanese
+readings on gets Takao over the station name whether the furniture round the
+table is in English or not.
+
+A slip worth recording: the first version of 8 dropped `var firstT`/`lastT`
+while rewriting the loop above them, and six checks in `trains.js` failed with
+a Train card where a Railway line card belonged — the exception left the
+previous card standing rather than reporting itself. The page-error capture in
+the test is what named it.
+
+### Train 20 on the 連京線: not a day-rollover, and the report's category A
+
+I guessed a day-rollover not applied. **Wrong.** The transcription and the
+photograph of page 53 (IMG_9322) settle it.
+
+Train 20 has 79 rows, and four of them sit immediately after 奉天:
+
+    大連    dep 21:00   flag 1
+    濱江    dep 22:20   flag 1
+    哈爾濱   dep 22:45   flag 1
+    新京    dep 04:40   flag 1
+
+All four carry flag 1 — "timed on another line's table" — and all four repeat a
+station the train already lists. On the printed page they are the little block
+of through-journey times set in the *head cells* of the column, above the
+running order, so a reader can see where the working begins and ends; the
+transcription's own note for the table says as much — "大連 row is a reference
+row". Read as a sequence they land in the middle of the journey, and the map
+flies 奉天 → 大連 → 濱江 → 哈爾濱 → 新京 → 渾河 and back down the peninsula.
+
+The times are right and the running order is right. This is exactly **category
+A** of the fast-trains report, and the narrow rule that report measured — drop
+a flag-1 row that repeats a station the train already lists — fixes it and
+leaves a genuine through-connection row alone, since those appear once. It is
+still the author's call whether the connection belongs on the map at all.
+
+### Still not done
+
+**9** (a horizontal scroll bar locked to the foot of the lightbox) and **12**
+(the Kanji/Hanzi/Hanja setting) are untouched.

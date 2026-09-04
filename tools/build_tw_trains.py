@@ -486,7 +486,7 @@ COLS_EN = {
 }
 
 
-def page_extras(stations):
+def page_extras(stations, lines=None):
     """The language bar, the styles and the script the page is given.
 
     Written out here rather than kept in a file of its own because it exists
@@ -523,6 +523,13 @@ body.no-rd .rd{display:none}
                                  ensure_ascii=False) + ";\n"
           "var RD=" + json.dumps(reads, ensure_ascii=False) + ";\n"
           "var COLS=" + json.dumps(COLS_EN, ensure_ascii=False) + ";\n"
+          # The romanisation of each line name, keyed by the characters the
+          # table prints. The heading said 縱貫線 and nothing else, which is
+          # no help to a reader who cannot read it; it says
+          # "縱貫線 (Jūkansen — Trunk Line)" now.
+          "var LR=" + json.dumps(
+              {l["n"]: [l.get("ja") or "", l.get("en") or ""]
+               for l in (lines or [])}, ensure_ascii=False) + ";\n"
           + PAGE_JS + "})();")
     return css, js
 
@@ -544,6 +551,12 @@ var IX = {ja:0, zh:1, en:2};
 var lang = 'en';
 try { lang = localStorage.getItem('tt-lang') || 'en'; } catch (e) {}
 var asked = (location.search.match(/[?&]lang=(\w+)/) || [])[1];
+/* **Which reading, asked for separately from which language.** The map
+   carries a switch for the Japanese readings of places in the empire, and a
+   reader who has it on wants the same letters here — Takao rather than
+   Gāoxióng — whatever language the furniture round the table is in. The map
+   passes `rd=ja` when its own switch is on; nothing else sets it. */
+var rdWant = (location.search.match(/[?&]rd=(\w+)/) || [])[1] || '';
 if (asked) lang = asked;
 if (!(lang in IX)) lang = 'en';
 
@@ -593,8 +606,18 @@ function apply() {
      characters the table prints, which is what they are called. */
   document.querySelectorAll('h2[data-dir]').forEach(function (h) {
     var dir = h.getAttribute('data-dir') === 'up' ? words('up') : words('down');
-    h.textContent = h.getAttribute('data-line') + ' ' + dir + ' '
-      + h.getAttribute('data-ends');
+    var ln = h.getAttribute('data-line');
+    /* The line's name in the letters the reader has. The characters stay first
+       — they are what the table prints and what the heading is — with the
+       reading after them, and the English name too where it says something the
+       reading does not. */
+    var rom = LR[ln];
+    if (rom && (rom[0] || rom[1])) {
+      var bits = rom[0] && rom[1] && rom[0] !== rom[1] ? rom[0] + ' \u2014 ' + rom[1]
+               : (rom[0] || rom[1]);
+      ln += ' (' + bits + ')';
+    }
+    h.textContent = ln + ' ' + dir + ' ' + h.getAttribute('data-ends');
   });
   document.querySelectorAll('p.pg').forEach(function (p) {
     var pages = p.getAttribute('data-pages') || '';
@@ -630,7 +653,7 @@ function apply() {
   document.querySelectorAll('[data-stn]').forEach(function (c) {
     var r = RD[c.getAttribute('data-stn')] || ['', ''];
     var rd = c.querySelector('.rd');
-    if (rd) rd.textContent = lang === 'ja' ? r[1] : r[0];
+    if (rd) rd.textContent = (rdWant === 'ja' || lang === 'ja') ? r[1] : r[0];
   });
   document.querySelectorAll('#langbar button').forEach(function (b) {
     b.setAttribute('aria-pressed', b.getAttribute('data-lang') === lang
@@ -740,7 +763,11 @@ def build_html(stations):
                         '<p class="notes-head" data-i18n="notes"></p>'
                         '<div class="notes">')
 
-    css, js = page_extras(stations)
+    # The line names as the page will need them: the characters the tables
+    # print, with the reading and the English name beside each.
+    line_recs = [{'n': n, 'ja': LINE_JA.get(n, ''), 'en': LINE_EN.get(n, n)}
+                 for n in sorted(set(list(LINE_EN) + list(LINE_JA)))]
+    css, js = page_extras(stations, line_recs)
     html = html.replace('</style>', css + '</style>', 1)
     html = html.replace(
         '</main>',
