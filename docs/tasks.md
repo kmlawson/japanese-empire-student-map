@@ -17524,6 +17524,139 @@ map refuses, as it refuses Taiwan's two. `tools/test/krtrains.js` proves the
 system comes up over Korea and not over Taiwan, and the page reads in three
 languages.
 
+
+## Korea's timetable merged, and two scripts nobody was running
+
+`korea-trains` merged into main as a fast-forward from `ed83903`. Reviewed
+before merging: the per-system zoom thresholds in `trainZone`/`trainSysFor`
+(Korea is ten degrees tall to Taiwan's three and a half, so it comes up at a
+wider view — `latOn: 13.0`, `latOff: 14.5`, the same hysteresis), the three
+additions in `trains.js` (a `1.2` class string, the reading column named by the
+bundle rather than fixed as "Pinyin", and Korean and English Wikipedia labels),
+the build script — which reads only the vendored bundle and reaches no network
+— and the vendored data itself, which carries its provenance. No personal
+information in any of the new files. The full suite passed on the merged tree.
+
+**But `krtrains` was never in it.** It had been added to `GROUPS.transport`,
+which is what `changed` picks from, and not to `MAP`, which is what
+*everything* means — so it ran when git said the railways had moved and not in
+the full run before a release, which is the one run that is supposed to be
+complete. `layerfind`, added here two releases ago, had the same fault. The
+full suite reported 56 scripts where 58 exist.
+
+Both are in `MAP` now, and the drift cannot happen again: `all.js` reads its
+own directory at startup and stops the run if a script is in neither list,
+naming it. Verified by renaming `layerfind.js` and watching it refuse.
+
+Two checks added to `krtrains.js` for the `trains.js` changes, which nothing
+covered: a train's card names its reading column "M–R" rather than Taiwan's
+"Pinyin", and a line card is dated "early 1938" rather than "February 1938" —
+the month was Taiwan's and hard-coded.
+
+
+## BETA, but only on the copy that is one
+
+There are two copies of this map: the GitHub Pages one, where a change lands
+first, and froginawell.net, which is the one to point a class at. They are
+built from the same files, so nothing in the page can tell them apart except
+the address it was served from.
+
+`betaHost(hostname)` is the whole rule, and it is narrower than "not
+froginawell.net" on purpose: only a `github.io` host is marked, so a copy on a
+local server is somebody working on it and gets no badge over the map. The
+match is on a whole label — `notgithub.io` and `github.io.example.com` are both
+refused, and both are checked.
+
+Three marks go up together or not at all: a small BETA in the bottom-left
+corner of the map (10 px in from each edge, 62 x 22, with the tooltip the
+author gave), " beta" after the version in the bar, and the same after the
+update number in About. On the stable site none of them exists — the elements
+keep their `hidden` attribute.
+
+The beta tag in the About footer is written by `build_texts.py`, not by hand:
+that paragraph is generated, so an edit to `index.html` was wiped by the next
+build, which is how it was found.
+
+`tools/test/beta.js` is new, 18 checks, and it does not stub anything: Chrome's
+own resolver is told to send `kmlawson.github.io` and `froginawell.net` to the
+loopback, so the page really is served from each name and `location.hostname`
+is the thing under test. The absent case is half the point and would have been
+missed by a check written on one host.
+
+### And on a phone it was under the legend
+
+Reported. With the map wide the two are nowhere near each other — the legend
+is in the right-hand panel — but at the narrow breakpoint the legend is
+anchored to the bottom-left, which is the badge's corner. Measured before the
+fix: they overlapped by 23 px, folded and opened out.
+
+The badge keeps the corner and the legend starts 28 px above it, and only where
+there is a badge: the rule is on `html.is-beta`, so the stable site keeps every
+pixel it had. Measured after, at 390x844, 844x390 and 620x900, folded and open:
+no overlap anywhere, a 5 px gap, and the badge inside the frame. Both checks
+fail on the old stylesheet, which is how they were verified.
+
+
+## Report: the trains that move too fast
+
+`reports/2026.09.04-fast-trains.md`. An investigation only — nothing in the map
+or its data was changed.
+
+Of 12,263 timed legs across the two timetables, 138 imply a speed no train of
+the 1930s reached, and **none of them is a misread clock**. Measured two ways:
+along the traced track, and as the crow flies, which is a hard floor no drawing
+can be blamed for.
+
+    A  a call timed on another line   21 Taiwan, 1 Korea   10 trains
+    B  impossible in a straight line   2 Taiwan, 117 Korea 63 trains
+    C  only the drawn track too long  16 Taiwan, 4 Korea   20 trains
+
+A is Taiwan's whole problem and the flag to fix it is already in the file: the
+printed tables carry a neighbouring line's times in the same column, the
+transcription marks those rows `1`, and the animation flies them anyway — train
+43 leaves the coast for Taichung and comes back twice, at 954 km/h.
+
+B is Korea's whole problem and it is one cause: station names matched by name
+alone, and Korean names repeat. 鏡城 sits on *exactly* 京城's coordinate — both
+경성, both Kyŏngsŏng in M–R — 743 km from where it belongs, and 30 legs fly the
+gap. 26 records in all, every one findable by asking how far a station is from
+its nearest neighbour on its own line.
+
+The genuinely fast trains are unremarkable: the quickest thing in either sheet
+is Korea's train 17/18 on the Gyeongbu trunk at 53 km/h straight-line, about 58
+over the ground, against an *Akatsuki* of 1936 at some 67.
+
+The report ends with five recommendations in order of what the effort buys, and
+a suggestion for a test that would keep it from coming back.
+
+### Checked afterwards: three of the five recommendations were untested
+
+Asked whether the recommendations were speculative. Three were assertions, and
+two did not survive being run.
+
+**Wrong:** "the nearest other station on its own line, over about 20 km, would
+name the misplacements and nothing else." It names **one of the twenty-two**,
+with two false positives — a mis-matched station is not isolated, it is sitting
+on top of a real one with all of that station's neighbours around it. The test
+that works is the distance between stations *consecutive in a stop list*: over
+120 km it names 29 Korean stations of which 14 are suspects, and 4 Taiwanese
+ones of which none is — those are the coast and mountain alignments interleaved
+in one table. Worth having as a prompt to look, wrong as a refusal to build.
+
+**Wrong:** "no two of these collisions share a line, so the line id separates
+them." No station name in the Korea bundle is carried by more than one record
+at all — which is the fault, not the cure — and only three of the twenty-two
+suspects carry more than one line id. It fixes those three.
+
+**Right in effect, unsettled in treatment:** dropping the flag-1 rows takes
+Taiwan from 27 impossible legs to 2 (or to 3, for a fifth of the cost, if only
+the rows repeating a station the train already lists are dropped). But `r` in
+the transcription marks two different things — train 43's Taichung is a pure
+connection note, train 351's Tainan is the Trunk Line departure a through
+passenger takes — and which of those the map should draw is the author's call.
+
+The report now carries the numbers, a "what is proven and what is not" section,
+and says plainly which parts were written before they were tested.
 ## The connections round Korea, drawn straight until they have a source
 
 Korea's trains do not end at the border, and the booklet they come from is a

@@ -1212,8 +1212,14 @@ def build_pages():
             with open(vpath, "w", encoding="utf-8", newline="") as fh:
                 fh.write("version\n%s\n" % version)
     stamp = time.strftime("%d %B %Y, %H:%M")
+    # The word after the number on the testing copy, and nothing at all on the
+    # stable one: map.js unhides it, and only for a github.io host. Written
+    # here because this paragraph is generated, so a hand edit to index.html
+    # would be wiped by the next build.
     footer = ('  <p class="version">Version 1 update '
-              '<span id="jem-version">%s</span> · last updated %s</p>\n'
+              '<span id="jem-version">%s</span>'
+              '<span class="beta-tag" hidden> beta</span>'
+              ' · last updated %s</p>\n'
               % (html_escape(version), html_escape(stamp)))
 
     # And the same number into map.js, so the About dialog can report the

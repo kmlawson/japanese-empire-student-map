@@ -1829,6 +1829,31 @@ dialog hr { border: 0; border-top: 1px solid var(--line); margin: 16px 0; }
    coarse pointer gets is untouched — the box is smaller, the target is not. */
 #dlg-options input[type="checkbox"],
 #dlg-options input[type="radio"] { width: 15px; height: 15px; }
+/* **BETA, bottom left of the map.** Only the GitHub Pages copy carries it —
+   `betaHost` in map.js decides, and on froginawell.net the element keeps its
+   `hidden` attribute and nothing is drawn. It sits under the tools' strips
+   rather than over them: it is a standing note about which copy this is, not
+   something to read while a timetable is running. */
+#beta-badge {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  z-index: 6;
+  padding: 3px 8px;
+  border: 1px solid var(--accent);
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--panel) 92%, transparent);
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  line-height: 1.4;
+  cursor: help;
+  box-shadow: var(--shadow);
+}
+#beta-badge[hidden] { display: none; }
+.beta-tag[hidden] { display: none; }
+
 /* **The Layers filter.** `!important` because a row can carry `display: flex`
    from its own rule, and this has to beat it whatever the row is; the class is
    only ever set by the filter, so nothing else is being overridden. The rows'
@@ -2078,6 +2103,18 @@ dialog h3 {
   /* the legend and the detail sheet both live at the bottom on a phone;
      the sheet wins whenever one is open */
   body.panel-open #legend { display: none; }
+
+  /* **The legend lives in the badge's corner on a phone.** With the map wide
+     the two are nowhere near each other; at this width the legend is anchored
+     to the bottom-left and the BETA mark was underneath it. Reported.
+     The badge takes the corner and the legend starts above it — and only on
+     the copy that carries one, which is what the `is-beta` class on the root
+     is for: the stable site keeps every pixel it had. */
+  #beta-badge {
+    left: max(10px, var(--safe-l));
+    bottom: calc(10px + var(--safe-b));
+  }
+  html.is-beta #legend { bottom: calc(10px + var(--safe-b) + 28px); }
 
   /* The quiz card is a working surface, not a reading one: on a small screen
      it has to leave the map most of the room, or the answer is under it. */

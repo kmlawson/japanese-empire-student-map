@@ -68,10 +68,45 @@ const MAP = ['taiwan', 'labels', 'provsource', 'backings', 'mapstrip',
              'relief', 'mono', 'names', 'labuan', 'pin', 'stations', 'zoom', 'colours',
              'trains', 'korea', 'population', 'demography', 'sugar', 'epoch', 'taiwanpop', 'keys',
              'labelcats', 'legendpick', 'subnames', 'japanpop', 'theme', 'twpop1930', 'manchupop', 'routes', 'pointsize', 'islands', 'menu', 'air', 'airplay',
-             'clipping', 'layerinfo'];
+             'clipping', 'layerinfo', 'krtrains', 'layerfind', 'beta'];
 const ANN = ['run', 'run2', 'run3', 'run4', 'run5', 'run6', 'run7',
              'run8', 'run9', 'run10', 'run11', 'run12', 'run13', 'run14',
              'run15'];
+
+/* **A script nobody names is a script nobody runs.**
+ *
+ * `GROUPS` decides what `changed` picks; `MAP` and `ANN` above are what
+ * *everything* means. The two are separate lists and they had drifted:
+ * `krtrains` and `layerfind` were each added to a group and not to `MAP`, so
+ * both ran when git said their subject had moved and neither ran in the full
+ * suite before a release — which is the one run that is supposed to be
+ * complete. Fifty-six scripts were reported where fifty-eight exist.
+ *
+ * So the lists are checked against the directory rather than trusted. Helpers
+ * are named here because they are not scripts; anything else on disk that no
+ * list mentions stops the run and says which. */
+const HELPERS = ['all', 'settle', 'downloads', 'suite'];
+(function orphanCheck() {
+  const seen = {};
+  MAP.concat(ANN).forEach(n => { seen[n] = true; });
+  HELPERS.forEach(n => { seen[n] = true; });
+  const orphans = [];
+  [[__dirname, ''], [path.join(__dirname, 'annotations'), 'annotations/']]
+    .forEach(([dir, pre]) => {
+      let names = [];
+      try { names = fs.readdirSync(dir); } catch (e) { return; }
+      names.filter(f => f.endsWith('.js'))
+        .map(f => f.replace(/\.js$/, ''))
+        .forEach(n => { if (!seen[n]) orphans.push(pre + n); });
+    });
+  if (orphans.length) {
+    console.error('\n  These test scripts are in neither MAP nor ANN, so "everything"'
+                  + ' would not run them:\n    ' + orphans.join('\n    ')
+                  + '\n  Add them to the lists at the top of all.js (and to a group'
+                  + ' in GROUPS), or to HELPERS if they are not scripts.\n');
+    process.exit(2);
+  }
+})();
 
 const fileFor = n => /^run/.test(n)
   ? path.join(__dirname, 'annotations', n + '.js')
@@ -103,7 +138,7 @@ const GROUPS = {
      is what `map.js` changes touch, and `map.js` changes hourly. */
   core: ['labels', 'labelcats', 'legendpick', 'subnames', 'mapstrip', 'keys',
          'theme', 'zoom', 'pin', 'labuan', 'epoch', 'mono', 'colours', 'extent',
-         'names', 'clipping', 'layerfind'],
+         'names', 'clipping', 'layerfind', 'beta'],
 
   /* Everything drawn as a dot or read off one: the markers, the gazetteer,
      the sites table and the menu that hangs off a shape. */
@@ -125,7 +160,7 @@ const GROUPS = {
   transport: ['trains', 'krtrains', 'stations', 'sugar', 'air', 'airplay', 'layerinfo'],
 
   /* What a link carries and what a reload remembers. */
-  links: ['layers-url', 'bookmarks', 'cache-keys', 'layerinfo'],
+  links: ['layers-url', 'bookmarks', 'cache-keys', 'layerinfo', 'beta'],
 
   ann: ANN,
 };
@@ -284,7 +319,7 @@ else list = pick.map(a => (/^\d+$/.test(a) ? 'run' + (a === '1' ? '' : a) : a));
    140, `layers-url` as 18 and takes 70. All three were being scheduled near
    the *back*, so a run ended with its longest scripts and three idle
    workers. Regenerate from a full run's own per-script line. */
-const SECS = { stations: 147, relief: 140, demography: 95, population: 71, 'layers-url': 70, names: 62, mapstrip: 56, trains: 54, krtrains: 40, japanpop: 44, theme: 40, labels: 40, subnames: 37, labelcats: 35, routes: 34, sugar: 33, twpop1930: 33, pin: 31, epoch: 29, mono: 27, colours: 26, extent: 26, islands: 25, manchupop: 25, keys: 24, legendpick: 22, labuan: 22, provsource: 19, bookmarks: 16, 'cache-keys': 15, backings: 15, taiwan: 15, korea: 14, zoom: 13, menu: 13, pointsize: 11, projclip: 11, taiwanpop: 7, air: 30, airplay: 32, clipping: 24, layerinfo: 22,
+const SECS = { stations: 147, relief: 140, demography: 95, population: 71, 'layers-url': 70, names: 62, mapstrip: 56, trains: 54, krtrains: 40, japanpop: 44, theme: 40, labels: 40, subnames: 37, labelcats: 35, routes: 34, sugar: 33, twpop1930: 33, pin: 31, epoch: 29, mono: 27, colours: 26, extent: 26, islands: 25, manchupop: 25, keys: 24, legendpick: 22, labuan: 22, provsource: 19, bookmarks: 16, 'cache-keys': 15, backings: 15, taiwan: 15, korea: 14, zoom: 13, menu: 13, pointsize: 11, projclip: 11, taiwanpop: 7, beta: 22, air: 30, airplay: 32, clipping: 24, layerinfo: 22,
                run2: 41, run15: 40, run5: 35, run14: 32, run: 19, run3: 28, run9: 30, run10: 25, run11: 24, run12: 19, run8: 19, run13: 18, run4: 17, run6: 12, run7: 5 };
 list = list.slice().sort((a, b) => (SECS[b] || 0) - (SECS[a] || 0));
 
