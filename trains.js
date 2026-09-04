@@ -90,6 +90,15 @@ window.JMAP_TRAINS = function (host) {
   var byStation = null;                // our station id -> timetable index
   var byName = null;                   // the characters -> the station record
   var simMin = DEFAULT_MIN;
+  /* THE CONNECTIONS ARE OFF UNTIL THEY HAVE A SOURCE. A line whose track is a
+     straight chord between city points (`x` on the line record: Korea's
+     Manchurian and Japanese connections and its ferries) is built with the
+     rest but hidden — its track, its trains, its chip and its rows in a
+     station's card — until the reader ticks the box in the bar. The setting
+     is remembered in this browser. When the alignments arrive the flag goes
+     and so does the switch. */
+  var connOn = false;
+  try { connOn = localStorage.getItem('jem-train-conn') === '1'; } catch (e) {}
   var playing = false;
   var raf = 0;
   var lastTs = 0;
@@ -339,8 +348,9 @@ window.JMAP_TRAINS = function (host) {
       var d = seg.p.map(function (p, i) {
         return (i ? 'L' : 'M') + p.x.toFixed(1) + ' ' + p.y.toFixed(1);
       }).join('');
+      var isConn = !!(data.lines[best] && data.lines[best].x);
       var halo = host.svgEl('path', {
-        'class': 'train-case', d: d, fill: 'none',
+        'class': 'train-case' + (isConn ? ' train-case-approx' : ''), d: d, fill: 'none',
         stroke: caseInk, 'stroke-opacity': CASE_A,
         'stroke-width': CASE_W,
         'stroke-linecap': 'round', 'stroke-linejoin': 'round',
@@ -375,6 +385,7 @@ window.JMAP_TRAINS = function (host) {
     });
     lineLayer.appendChild(caseGroup);
     lineLayer.appendChild(lineGroup);
+    applyConn();
     return { drawn: drawn, shared: shared, straight: straight,
              refused: refused };
   }
@@ -476,20 +487,42 @@ window.JMAP_TRAINS = function (host) {
   /* One frame. Only the trains that are running are in the document: a mark is
      made the first time its train is needed and hidden, not destroyed, when it
      has arrived — the day is a loop and it will be wanted again. */
+  function isConnTrain(t) {
+    var l = data && data.lines[t.li];
+    return !!(l && l.x);
+  }
+
+  function applyConn() {
+    if (lineLayer) lineLayer.classList.toggle('conn-off', !connOn);
+    if (bar) bar.classList.toggle('conn-off', !connOn);
+    if (els.conn) els.conn.checked = connOn;
+  }
+
+  function setConn(on) {
+    connOn = !!on;
+    try { localStorage.setItem('jem-train-conn', connOn ? '1' : '0'); } catch (e) {}
+    applyConn();
+    render();
+  }
+
   function render() {
     var k = lastK;
     var live = 0;
     for (var i = 0; i < plans.length; i++) {
       var plan = plans[i];
+      var m = marks[i];
       var pos = null;
       /* A train that left before midnight and arrives after it is timed past
          1440 in the source, so the clock is asked twice: once as the minute it
          is, and once as that minute a day later. */
+      if (isConnTrain(plan.tr)) {
+        if (!connOn) { livePos[i] = null; if (m) m.style.display = 'none'; continue; }
+      }
       if (simMin >= plan.t0 && simMin <= plan.t1) pos = positionAt(plan, simMin);
       if (!pos && simMin + DAY >= plan.t0 && simMin + DAY <= plan.t1) {
         pos = positionAt(plan, simMin + DAY);
       }
-      var m = marks[i];
+      m = marks[i];
       if (!pos) {
         livePos[i] = null;
         if (m) m.style.display = 'none';
@@ -582,6 +615,7 @@ window.JMAP_TRAINS = function (host) {
     if (best !== null) return { kind: 'train', dist: bestD, index: best };
     var bl = null, blD = LINE_HIT_PX;
     for (var g = 0; g < lineGeom.length; g++) {
+      if (!connOn && data.lines[lineGeom[g].li] && data.lines[lineGeom[g].li].x) continue;
       var pts = lineGeom[g].pts;
       for (var j = 1; j < pts.length; j++) {
         var dd = distToSeg(p.x, p.y, pts[j - 1].x, pts[j - 1].y,
@@ -850,8 +884,24 @@ window.JMAP_TRAINS = function (host) {
       chip.title = l.en + '   ' + (l.ja ? l.ja + '   ' : '') + l.n
         + (l.x ? '   (drawn straight between cities; alignment unsourced)' : '');
       chip.setAttribute('data-li', data.lines.indexOf(l));
+      if (l.x) chip.classList.add('train-chip-conn');
       legend.appendChild(chip);
     });
+    /* The switch, only where there is something for it to switch. */
+    var hasConn = data.lines.some(function (l) { return l.x; });
+    var connLabel = null;
+    if (hasConn) {
+      connLabel = el('label', 'train-conn');
+      els.conn = document.createElement('input');
+      els.conn.type = 'checkbox';
+      els.conn.id = 'train-conn';
+      els.conn.checked = connOn;
+      els.conn.addEventListener('change', function () { setConn(els.conn.checked); });
+      connLabel.appendChild(els.conn);
+      connLabel.appendChild(document.createTextNode(' Connections beyond the network'));
+      connLabel.title = 'The lines this timetable connects to — drawn as straight lines '
+        + 'between cities, because their real alignment is not yet sourced. Off until it is.';
+    }
 
     var link = el('a', 'train-full', 'Full timetable');
     link.href = host.asset(cfg.page);
@@ -874,11 +924,14 @@ window.JMAP_TRAINS = function (host) {
     row.appendChild(close);
     var row2 = el('div', 'train-row train-row2');
     row2.appendChild(legend);
+    if (connLabel) row2.appendChild(connLabel);
     row2.appendChild(note);
     row2.appendChild(link);
     bar.appendChild(row);
     bar.appendChild(row2);
     host.stage().appendChild(bar);
+    // the bar exists now, so the connections switch can be applied to it
+    applyConn();
     /* The map keeps its names out from under the floating panels, and this is
        one of them: without saying so, every label along the south coast would
        be lettered underneath it. */
@@ -934,6 +987,7 @@ window.JMAP_TRAINS = function (host) {
           if (arr === null || arr === undefined) return;   // passes without stopping
         }
         var line = lineFor(t.li);
+        if (!connOn && line && line.x) return;
         rows.push({
           t: ((dep !== null && dep !== undefined) ? dep : arr) % DAY,
           key: t.no + '|' + (((dep !== null && dep !== undefined) ? dep : arr) % DAY),
@@ -1117,6 +1171,7 @@ window.JMAP_TRAINS = function (host) {
 
     departures: departures,
     recolour: recolour,
+    connections: function (on) { if (on !== undefined) setConn(on); return connOn; },
     stats: null,
   };
 

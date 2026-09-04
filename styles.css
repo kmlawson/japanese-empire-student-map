@@ -2979,6 +2979,13 @@ dialog h3 {
 }
 
 .train-chip { white-space: nowrap; }
+/* The connections drawn straight between cities: hidden, track and chip, until
+   the switch in the bar says otherwise — see `connOn` in trains.js. */
+#train-layer.conn-off .train-line-approx,
+#train-layer.conn-off .train-case-approx { display: none; }
+#train-bar.conn-off .train-chip-conn { display: none; }
+.train-conn { white-space: nowrap; font-size: 12px; color: var(--muted); cursor: pointer; }
+.train-conn input { vertical-align: middle; margin: 0 3px 0 0; }
 
 .train-chip .sw,
 .trains-table .sw {

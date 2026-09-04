@@ -17715,3 +17715,23 @@ the name. `build_kr_trains.py` does the same on this side against
 `kr-stations.js`, which has six duplicated hanja, choosing the square nearest
 the bundle's coordinate. Seven stations split; every one lands on its own
 line.
+
+## The connections have a switch, and it is off
+
+Asked for: the lines beyond Korea are drawn straight because their track is
+not sourced, and until it is they should be off. So every connecting line
+carries `x: 1` in `kr-trains.js` — the flag was already there for the faint
+drawing — and `trains.js` now treats it as a switch: the track, the trains,
+the chip in the legend and the rows in a station's card of any `x` line are
+built with the rest and hidden, until the box in the bar, *Connections beyond
+the network*, is ticked. The choice is remembered in the browser. Nothing
+about Korea's own lines changes; a system with no `x` lines shows no box.
+
+Also on this branch, merged from main: the fast-trains report and the BETA
+badge. The report's cause B — homonyms placed on the wrong station — is what
+the previous entry fixed; its remaining suspect, 麻田 on the 咸鏡線, is a name
+the GIS has only once, on the 京畿線 300 km south, so the transcription
+project now also refuses a match that lies more than 120 km from the stops
+either side of it in the train, preferring the record the GIS puts on the
+table's own line where two stops accuse each other. Six such refusals, all
+right on inspection, and 12,000 more points of mis-traced track gone.

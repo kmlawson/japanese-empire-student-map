@@ -98,7 +98,19 @@ const shutDialogs=p=>p.evaluate(()=>{
     check('a chip per line in the bar', v.chips===74, 'chips='+v.chips);
     check('the track is drawn, hundreds of stretches', v.lines>600, 'lines='+v.lines);
     check('in many colours', v.colours>=20, 'colours='+v.colours);
-    check('the connections are drawn faint', await p.evaluate(()=>document.querySelectorAll('#train-layer .train-line-approx').length)>50, '');
+    const conn=()=>p.evaluate(()=>{
+      const a=[...document.querySelectorAll('#train-layer .train-line-approx')];
+      return {built:a.length, shown:a.filter(e=>getComputedStyle(e).display!=='none').length,
+        box:!!document.querySelector('#train-conn'), boxOn:!!(document.querySelector('#train-conn')||{}).checked,
+        chips:[...document.querySelectorAll('.train-chip-conn')].filter(e=>getComputedStyle(e).display!=='none').length};});
+    let cv=await conn();
+    check('the connections are built but off by default', cv.built>50 && cv.shown===0 && cv.box && !cv.boxOn && cv.chips===0, JSON.stringify(cv));
+    await p.click('#train-conn'); await sleep(300);
+    cv=await conn();
+    check('the switch in the bar shows them, faint, with their chips', cv.shown===cv.built && cv.boxOn && cv.chips>20, JSON.stringify(cv));
+    await p.click('#train-conn'); await sleep(300);
+    cv=await conn();
+    check('and puts them away again', cv.shown===0 && !cv.boxOn, JSON.stringify(cv));
     check('the station squares are borrowed', v.stations>800 && v.railBox,
       JSON.stringify({stations:v.stations,railBox:v.railBox}));
     check('and only those the timetable knows are shown', v.shown>500 && v.shown<v.stations,

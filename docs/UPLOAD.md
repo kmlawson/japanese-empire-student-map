@@ -27,11 +27,11 @@ to configure.
 | `relief.js` | 2 KB | 1 KB | when **Topo** is pressed |
 | `trains.js` | 46 KB | 15 KB | when the train tools are asked for |
 | `tw-trains.js` | 278 KB | 67 KB | with them, over Taiwan |
-| `kr-trains.js` | 1,391 KB | 368 KB | with them, over Korea |
+| `kr-trains.js` | 1,206 KB | 311 KB | with them, over Korea |
 | `tw-stations.js` | 50 KB | 11 KB | when Taiwan's stations are switched on |
 | `kr-stations.js` | 229 KB | 38 KB | when Korea's are |
 | `air-play.js` | 29 KB | 11 KB | when the plane tools are asked for |
-| **total** | **9.6 MB** | **2.7 MB** | |
+| **total** | **9.4 MB** | **2.65 MB** | |
 
 Only the first six are fetched before the map is on screen: **3.7 MB raw,
 1.08 MB gzipped**. The rest wait until something asks for them, and a reader
