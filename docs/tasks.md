@@ -17628,3 +17628,32 @@ over the ground, against an *Akatsuki* of 1936 at some 67.
 
 The report ends with five recommendations in order of what the effort buys, and
 a suggestion for a test that would keep it from coming back.
+
+### Checked afterwards: three of the five recommendations were untested
+
+Asked whether the recommendations were speculative. Three were assertions, and
+two did not survive being run.
+
+**Wrong:** "the nearest other station on its own line, over about 20 km, would
+name the misplacements and nothing else." It names **one of the twenty-two**,
+with two false positives — a mis-matched station is not isolated, it is sitting
+on top of a real one with all of that station's neighbours around it. The test
+that works is the distance between stations *consecutive in a stop list*: over
+120 km it names 29 Korean stations of which 14 are suspects, and 4 Taiwanese
+ones of which none is — those are the coast and mountain alignments interleaved
+in one table. Worth having as a prompt to look, wrong as a refusal to build.
+
+**Wrong:** "no two of these collisions share a line, so the line id separates
+them." No station name in the Korea bundle is carried by more than one record
+at all — which is the fault, not the cure — and only three of the twenty-two
+suspects carry more than one line id. It fixes those three.
+
+**Right in effect, unsettled in treatment:** dropping the flag-1 rows takes
+Taiwan from 27 impossible legs to 2 (or to 3, for a fifth of the cost, if only
+the rows repeating a station the train already lists are dropped). But `r` in
+the transcription marks two different things — train 43's Taichung is a pure
+connection note, train 351's Tainan is the Trunk Line departure a through
+passenger takes — and which of those the map should draw is the author's call.
+
+The report now carries the numbers, a "what is proven and what is not" section,
+and says plainly which parts were written before they were tested.
