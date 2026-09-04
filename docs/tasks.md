@@ -17928,3 +17928,27 @@ tools is enough context for a branch line.
 
 Measured over Taiwan: with the railway and the sugar lines on and no tools, the
 group is `opacity 1, display inline`; with the train tools up, the same.
+
+### 5, the other half: the whole line is brought on screen
+
+Picking a line out of the strip now pulls the view back far enough to hold all
+of it. Korea lists seventy-odd lines and most of them are somewhere the reader
+is not looking, so dimming the other sixty-nine was a change on ground they
+could not see.
+
+`fitSvgBox` in map.js is the new hook — the marquee's `zoomToBox` beside it
+takes *client* coordinates, and anything working from projected geometry has
+the SVG's own. It only ever pulls back: a view that already contains the line
+is left alone, which matters because the commonest use is picking out the line
+you are already reading, and a view that holds the line but is off to one side
+pans rather than zooms. The view moves before the flash, since a flash on
+ground about to be replaced is a flash nobody sees.
+
+Measured over Taiwan: zoomed in to a viewBox 13.74 units wide, picking the
+Trunk Line pulls back to 78.18 — the width the line needs — with the chip
+marked.
+
+### Still not done
+
+**2** (a chooser when several lines overlap), **9** (a scroll bar locked to the
+foot of the lightbox) and **12** (the Kanji/Hanzi/Hanja setting).

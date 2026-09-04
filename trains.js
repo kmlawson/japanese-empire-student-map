@@ -532,8 +532,36 @@ window.JMAP_TRAINS = function (host) {
     }, 700);
   }
 
+  /* **And the whole of it is brought on screen.** A line picked out of the
+     strip is very often one the reader is not looking at — Korea lists
+     seventy-odd and most of them are somewhere else — so the view pulls back
+     far enough to hold it. Only ever *back*: `fitBox` leaves a view that
+     already contains the line alone, which matters because the commonest use
+     is picking out the line you are already reading. */
+  function showPick() {
+    if (pickLi < 0 || !host.fitBox) return;
+    var x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity, n = 0;
+    data.trains.forEach(function (t) {
+      if (t.li !== pickLi) return;
+      t.st.forEach(function (r) {
+        if ((r[3] || 0) & 1) return;         // a call timed on another line
+        var st = data.stations[r[0]];
+        if (!st || st.lon === undefined) return;
+        var p = host.project(st.lon, st.lat);
+        if (!p || !isFinite(p.x) || !isFinite(p.y)) return;
+        n++;
+        if (p.x < x0) x0 = p.x; if (p.x > x1) x1 = p.x;
+        if (p.y < y0) y0 = p.y; if (p.y > y1) y1 = p.y;
+      });
+    });
+    if (n > 1) host.fitBox(x0, y0, x1, y1);
+  }
+
   function setPick(li, force) {
     pickLi = (!force && pickLi === li) ? -1 : li;
+    /* The view first, then the light: a flash on ground that is about to be
+       replaced is a flash nobody sees. */
+    showPick();
     applyPick();
     flashPick();
   }

@@ -13,8 +13,8 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '310';
-  var JEM_ASSETS = {"admin.js": "3414697d04", "air-play.js": "8db7ba0d73", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "58132ef9c2", "kr-trains.js": "74889615bd", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/korea-1938.html": "cfb7d3c8c7", "timetable/taiwan-1936.html": "0f2a6423af", "trains.js": "177b666f35", "tw-trains.js": "1655cdb6e0"};
+  var JEM_VERSION = '311';
+  var JEM_ASSETS = {"admin.js": "3414697d04", "air-play.js": "8db7ba0d73", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "58132ef9c2", "kr-trains.js": "74889615bd", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/korea-1938.html": "cfb7d3c8c7", "timetable/taiwan-1936.html": "0f2a6423af", "trains.js": "5fad39b8b9", "tw-trains.js": "1655cdb6e0"};
 
   /* Every file this one fetches, with the version on it.
 
@@ -2533,6 +2533,9 @@
         svg.insertBefore(marks, markersGroup || null);
       },
       clientToSvg: clientToSvg,
+      /* Show the whole of something the tools have picked, in map units and
+         only by pulling back. */
+      fitBox: fitSvgBox,
       /* The land the network is drawn over, as it is actually painted — the
          reader's palette, their single-colour setting and their dark screen
          all included, because `getComputedStyle` is asked rather than the
@@ -5971,6 +5974,40 @@
      a reader who draws a wide, flat box round the Inland Sea gets all of it
      and some sea above and below, rather than the middle of what they asked
      for. A box smaller than a keystroke is a shift-click, and does nothing. */
+  /* **Fit a box given in map units, and only ever by pulling back.**
+   *
+   * `zoomToBox` below takes the marquee's *client* rectangle; this takes the
+   * SVG's own, which is what anything working from projected coordinates has —
+   * the train tools asking to show the whole of a line the reader has just
+   * picked out of the strip. It moves the view only when the box does not
+   * already fit inside it, and it never zooms *in*: a reader who has gone in
+   * close has not asked to be taken further out than the line needs. */
+  function fitSvgBox(x0, y0, x1, y1) {
+    if (!isFinite(x0) || !isFinite(y0) || !isFinite(x1) || !isFinite(y1)) return false;
+    var c = containerSize();
+    var aspect = c.w / c.h;
+    var pad = 1.14;                          // a little air round the ends
+    var bw = Math.abs(x1 - x0) * pad;
+    var bh = Math.abs(y1 - y0) * pad;
+    var want = Math.max(bw, bh * aspect, minViewW());
+    var cx = (x0 + x1) / 2, cy = (y0 + y1) / 2;
+    var inside = x0 >= view.x && x1 <= view.x + view.w
+              && y0 >= view.y && y1 <= view.y + view.h;
+    if (inside && want <= view.w) return false;    // already all on the screen
+    if (want <= view.w) {
+      // it fits at this scale and is merely off to one side: pan, do not zoom
+      view.x = cx - view.w / 2;
+      view.y = cy - view.h / 2;
+    } else {
+      view.w = Math.min(want, fitView().w);
+      view.h = view.w / aspect;
+      view.x = cx - view.w / 2;
+      view.y = cy - view.h / 2;
+    }
+    applyView();
+    return true;
+  }
+
   function zoomToBox(m) {
     var w = Math.abs(m.x1 - m.x0);
     var h = Math.abs(m.y1 - m.y0);
