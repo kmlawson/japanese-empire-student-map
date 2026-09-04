@@ -17552,3 +17552,33 @@ Two checks added to `krtrains.js` for the `trains.js` changes, which nothing
 covered: a train's card names its reading column "M–R" rather than Taiwan's
 "Pinyin", and a line card is dated "early 1938" rather than "February 1938" —
 the month was Taiwan's and hard-coded.
+
+
+## BETA, but only on the copy that is one
+
+There are two copies of this map: the GitHub Pages one, where a change lands
+first, and froginawell.net, which is the one to point a class at. They are
+built from the same files, so nothing in the page can tell them apart except
+the address it was served from.
+
+`betaHost(hostname)` is the whole rule, and it is narrower than "not
+froginawell.net" on purpose: only a `github.io` host is marked, so a copy on a
+local server is somebody working on it and gets no badge over the map. The
+match is on a whole label — `notgithub.io` and `github.io.example.com` are both
+refused, and both are checked.
+
+Three marks go up together or not at all: a small BETA in the bottom-left
+corner of the map (10 px in from each edge, 62 x 22, with the tooltip the
+author gave), " beta" after the version in the bar, and the same after the
+update number in About. On the stable site none of them exists — the elements
+keep their `hidden` attribute.
+
+The beta tag in the About footer is written by `build_texts.py`, not by hand:
+that paragraph is generated, so an edit to `index.html` was wiped by the next
+build, which is how it was found.
+
+`tools/test/beta.js` is new, 18 checks, and it does not stub anything: Chrome's
+own resolver is told to send `kmlawson.github.io` and `froginawell.net` to the
+loopback, so the page really is served from each name and `location.hostname`
+is the thing under test. The absent case is half the point and would have been
+missed by a check written on one host.

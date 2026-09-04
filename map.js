@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '302';
+  var JEM_VERSION = '303';
   var JEM_ASSETS = {"admin.js": "3414697d04", "air-play.js": "8db7ba0d73", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "58132ef9c2", "kr-trains.js": "b28c07fcd2", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/korea-1938.html": "484d7dfdf5", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "e91ada2b09", "tw-trains.js": "1655cdb6e0"};
 
   /* Every file this one fetches, with the version on it.
@@ -9135,6 +9135,7 @@
     // never fired against the real nineteen, and one nobody has driven is one
     // nobody has tested
     JMAP.__airShortNames = airShortNames;
+
     airGroup = svgEl('g', { id: 'air' });
     airGroup.style.display = 'none';
     // above the land and the railways, below the markers a reader clicks
@@ -16432,9 +16433,48 @@
     if (!el) return;
     var page = ($('#jem-version') || {}).textContent || '';
     var v = (typeof JEM_VERSION !== 'undefined' ? JEM_VERSION : page).trim();
-    el.textContent = v ? '1.' + v : '';
+    el.textContent = v ? '1.' + v + (isBeta() ? ' beta' : '') : '';
     syncBarExtras();
   }
+
+  /* **Which copy of the map this is.**
+   *
+   * There are two: the GitHub Pages one, where a change lands first and where
+   * a reader may be looking at something half an hour old, and froginawell.net,
+   * which is the one to point a class at. They are built from the same files,
+   * so nothing in the page can tell them apart except the address it was
+   * served from.
+   *
+   * Only a `github.io` host is marked. That is narrower than "not
+   * froginawell.net" on purpose: a copy served off a local server or from a
+   * file is somebody working on it, and a badge over the map is the last thing
+   * that reader needs. The rule is a function of the hostname and nothing
+   * else, so a check can put a hostname to it without a browser.
+   */
+  function betaHost(h) {
+    return /(^|\.)github\.io$/i.test(String(h || ''));
+  }
+
+  function isBeta() {
+    try { return betaHost(location.hostname); } catch (e) { return false; }
+  }
+
+  /* The badge in the corner and the word after the version. Both go up
+     together or not at all, and on the stable site neither exists — the badge
+     keeps its `hidden` attribute and the tag beside the update number keeps
+     its own. */
+  function applyBeta() {
+    var on = isBeta();
+    var badge = $('#beta-badge');
+    if (badge) badge.hidden = !on;
+    var tag = document.querySelector('.beta-tag');
+    if (tag) tag.hidden = !on;
+    document.documentElement.classList.toggle('is-beta', on);
+  }
+
+  // the rule itself, so a check can put a hostname to it rather than having to
+  // serve the page from one
+  JMAP.__betaHost = betaHost;
 
   /* The projection, for anything outside this file that needs it.
    *
@@ -16454,6 +16494,7 @@
 
   function annWire() {
     stampVersion();
+    applyBeta();
     barVersion();
     /* The drawing tools need a panel with room for four tools, eight style
        controls, four fields and a list, and a map big enough to draw on beside
