@@ -31,6 +31,16 @@ background:transparent;color:#e8c988;cursor:pointer}
 white-space:nowrap}
 body.no-rd .rd{display:none}
 .notes-head{margin:18px 0 4px;font-size:13px;color:#666}
+/* A scroll bar for the wide tables, held at the foot of the window.
+   Each table scrolls in its own box and that box's bar sits at the bottom of
+   it, which on a table taller than the window is off the screen — so a reader
+   who needs to see the right-hand columns has to scroll down to find the
+   control, use it, and scroll back. This mirrors whichever table is in front
+   of them, wherever they are in it. */
+#hbar{position:fixed;left:0;right:0;bottom:0;height:15px;overflow-x:auto;
+  overflow-y:hidden;z-index:30;background:#00000010;display:none}
+#hbar div{height:1px}
+body.hbar-on{padding-bottom:20px}
 </style></head><body>
 <header><h1 data-i18n="title">臺灣鐵道時刻表（昭和11年・1936）— 転記</h1>
 <a href="../index.html" data-i18n="map">地圖</a> <a href="https://archive.org/details/taiwan-train-times-1936" data-i18n="orig">原本（Internet Archive）</a><span id="langbar"><button type="button" data-lang="ja" aria-pressed="true">日本語</button><button type="button" data-lang="zh" aria-pressed="false">中文</button><button type="button" data-lang="en" aria-pressed="false">English</button><label><input type="checkbox" id="rd-on" checked><span data-i18n="readings">讀み</span></label></span></header><main>
@@ -808,5 +818,73 @@ function boot() {
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', boot);
 } else { boot(); }
+
+/* **The wide tables get a scroll bar at the foot of the window.**
+ *
+ * Each table scrolls inside its own box, and that box's own bar is at the
+ * bottom of the box — which on a table taller than the window is off the
+ * screen. So the reader who wants the right-hand columns has to scroll down to
+ * find the control, use it, and scroll back up to read the result.
+ *
+ * This is one bar, fixed at the foot, wired to whichever table is in front of
+ * the reader: the one covering the middle of the window, or failing that the
+ * first one still on it. It is hidden when that table has nothing to scroll,
+ * which is most of them on a wide screen — a control for something that does
+ * not move is worse than no control.
+ */
+(function () {
+  var bar = document.createElement('div');
+  bar.id = 'hbar';
+  var pad = document.createElement('div');
+  bar.appendChild(pad);
+  document.body.appendChild(bar);
+  var boxes = [].slice.call(document.querySelectorAll('.tw'));
+  var live = null, lock = false;
+
+  function pick() {
+    var mid = window.innerHeight / 2, best = null, first = null;
+    for (var i = 0; i < boxes.length; i++) {
+      var r = boxes[i].getBoundingClientRect();
+      if (r.bottom < 0 || r.top > window.innerHeight) continue;
+      if (!first) first = boxes[i];
+      if (r.top <= mid && r.bottom >= mid) { best = boxes[i]; break; }
+    }
+    return best || first;
+  }
+
+  function sync() {
+    var b = pick();
+    var wide = b && b.scrollWidth > b.clientWidth + 2;
+    if (!wide) {
+      bar.style.display = 'none';
+      document.body.classList.remove('hbar-on');
+      live = null;
+      return;
+    }
+    live = b;
+    var r = b.getBoundingClientRect();
+    bar.style.display = 'block';
+    bar.style.left = Math.max(0, r.left) + 'px';
+    bar.style.width = Math.min(r.width, window.innerWidth) + 'px';
+    pad.style.width = b.scrollWidth + 'px';
+    document.body.classList.add('hbar-on');
+    if (!lock) { lock = true; bar.scrollLeft = b.scrollLeft; lock = false; }
+  }
+
+  bar.addEventListener('scroll', function () {
+    if (lock || !live) return;
+    lock = true; live.scrollLeft = bar.scrollLeft; lock = false;
+  });
+  boxes.forEach(function (b) {
+    b.addEventListener('scroll', function () {
+      if (lock || live !== b) return;
+      lock = true; bar.scrollLeft = b.scrollLeft; lock = false;
+    });
+  });
+  window.addEventListener('scroll', sync, { passive: true });
+  window.addEventListener('resize', sync);
+  sync();
+})();
+
 })();
 </script></body></html>

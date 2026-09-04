@@ -17974,3 +17974,56 @@ keeps working.
 
 **9** (a scroll bar locked to the foot of the lightbox) and **12** (the
 Kanji/Hanzi/Hanja setting).
+
+
+## 9. A scroll bar for the wide tables, held at the foot of the window
+
+Each printed table scrolls inside its own `.tw` box, and that box's own bar is
+at the bottom of the box — which, on a table taller than the window, is off the
+screen. A reader who wanted the right-hand columns had to scroll down to find
+the control, use it, and scroll back up to read the result.
+
+One bar, fixed at the foot, wired to whichever table is in front of the reader:
+the one covering the middle of the window, or failing that the first still on
+it. Hidden when that table has nothing to scroll, because a control for
+something that does not move is worse than no control.
+
+Measured on the Taiwan page: at 560 px the first table overflows by 1,238 px and
+at 1400 px by 398, the bar is flush with the foot of the window in both, and
+dragging it to 120 moves the table to 120. No page errors at either width.
+
+## 12. The Kanji/Hanzi/Hanja switch is blocked on data, not on code
+
+Surveyed before writing anything, and the survey is the answer. What carries
+characters today:
+
+    tw-trains.js stations      187 of   187      lines   7 of  7
+    kr-trains.js stations    1,302 of 1,302      lines  74 of 74
+    air operators               34 of    76
+    data/cities.csv            114 of   446   (25%)
+    air stops                    0 of   273
+    texts/territories/*.csv      0 of   151
+
+So the railways are complete and nothing else is. A switch built today would
+show characters for every station and line, a quarter of the cities, none of the
+seventy-five airports and none of the provinces — and would have to fall back to
+the romanisation everywhere else, which is a switch that mostly does nothing and
+says something false about the map's coverage by existing at all.
+
+**And the missing characters cannot be generated.** The ask names the
+orthography: traditional for Chinese and Taiwanese names, 旧字 hanja for Korean,
+旧字 kanji for Japan proper and Karafuto. A converter run over a romanisation
+would produce plausible-looking forms that are wrong — Korean place names in
+particular do not survive the round trip — and a wrong 漢字 on a history map is
+exactly the class of error this project refuses everywhere else.
+
+So this is two pieces of work, and the second is the small one:
+
+1. **Source the characters.** 332 cities, 273 airports, 151 territories and
+   sub-units, and the 42 air operators without them. Column by column, against
+   period sources, in the orthography the ask names.
+2. **Then the switch**, which is a row in the Layers panel, a flag in the layers
+   code and a preference inside the name helpers — a day's work once the data is
+   there, and pointless before.
+
+The switch is not built. The survey above is what the next session needs.
