@@ -18185,3 +18185,48 @@ source. It has not got there yet.
 
 Recorded in `texts/pages/sources.md` so the next session does not have to find
 it again, which is how this one lost it.
+
+## The July 1942 air sheet: thirty-four lines, every one marked as that sheet's
+
+`data/air/` gains the aviation pages of a July 1942 railway timetable
+(昭和17年7月號, pp. 118–121), read from the project's photographs: twenty-three
+満洲航空 tables stamped 昭和17.6.1改正 and eleven 中華航空 tables stamped
+昭和17.4.1改正. The reading is `manchuria1942.7/air_1942_7.md` in the Korea 1938
+project and `air_rows.py` beside it writes the rows, so a corrected reading is a
+re-run rather than an edit.
+
+**Told apart from the earlier sheets on purpose.** The map already had 満洲航空's
+winter-1935 lines and 中華航空's 1940 ones, and several corridors overlap
+(Shinkyō–Mukden–Dairen, Shinkyō–Manchouli, Peking–Dairen, Peking–Paotow,
+Shanghai–Hankow). So every 1942 row carries the mark three ways: ids `mkkk42-` /
+`cak42-`, an operator string ending "· July 1942 sheet" / "· April 1942 sheet"
+(which is what the chooser menu and the company tally show), and a `season`
+naming the 改正 stamp. Each company's 1942 lines have an ink of their own
+(`#b5473a`, `#4a9a88`) beside the 1935 and 1940 inks, so a shared stretch falls
+to the map's neutral ink and a reader can see two sheets, not one. Nothing
+earlier was removed.
+
+**運休.** Nine tables are headed 運休 (suspended) instead of a stamp — the Peking
+and Chengteh lines from Mukden, Shinkyō–Manchouli, Shinkyō–Hunchun, the Yalu
+line to 中江鎮, Chengteh–Paotow, Kiamusze–鳳翔鎮, Shanghai–Taihoku–Canton and
+Canton–Hoihow. They are carried with their printed times and `grounded_from`
+their first stop, so they draw dimmed and fly nothing; the note on each says so.
+
+**The frontier towns.** Thirty-four stops on the Sungari, Ussuri and Amur lines
+(Fuchin, Paoching, Jaoho, Hutou, Mohe, Huma …) are not cities of the map and
+carry this project's own coordinates to two decimals; four river posts (Oupu,
+Wuyun, Lopei, Fenghsiangchen) are approximate and said to be.
+
+**Two readings the sheet made awkward.** Kiamusze–Paoching–Fuchin–Paoching–Jaoho
+is printed as a zigzag through Paoching twice; the map draws each stop once, the
+second call is on the note, and the Fuchin–Jaoho leg carries both fares. The
+Mukden–Tientsin distance is printed 250 km, which the fares say is a misprint;
+that leg carries no distance, and `build_texts.py` now emits `km: null` for a
+fare leg with none instead of a hole in `data.js`, and skips the sum check
+over such a leg.
+
+Tests: `air.js` counts updated (110 routes, 410 rings, 95 on the 1942 sheet,
+nine company strings, six services on the Shinkyō–Mukden stretch), and the
+overflight check now accepts the chord's line under any route, since the
+April 1942 Shanghai–Nanking–Hankow flies the Nanking–Hankow chord that the
+1940 express's line used to be found under. 106 and 68 pass.

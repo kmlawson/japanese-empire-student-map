@@ -465,6 +465,467 @@ day's other stages imply, about 190 km/h.
 **Grounded from Akyab** — one stop west of Rangoon, not at it, because a leg
 that *lands* at Rangoon is as impossible as one that leaves it.
 
+## The July 1942 sheet: 満洲航空 and 中華航空 as reprinted that summer
+
+Source: the aviation pages (118–121) of a Japanese railway timetable for July 1942 (昭和17年7月號), photographed by the project. Page 118 is the 航空案内 (rules, booking offices, a 日滿支 fare matrix); 119–120 carry 滿洲航空 tables stamped 昭和17.6.1改正; 121 carries 中華航空 tables stamped 昭和17.4.1改正. The reading is in the Korea 1938 project as `manchuria1942.7/air_1942_7.md`, and `air_rows.py` beside it writes these rows.
+
+**Every row from this sheet is marked.** Route ids begin `mkkk42-` or `cak42-`, the operator string ends "· July 1942 sheet" / "· April 1942 sheet", the `season` names the 改正 stamp, and the two companies get their own inks (`#b5473a`, `#4a9a88`) beside the winter-1935 (`#8c2f39`) and 1940 (`#2c6e63`) lines already drawn, so that where the sheets overlap — Shinkyō–Mukden–Dairen, Shinkyō–Manchouli, Peking–Dairen, Peking–Paotow, Shanghai–Hankow — a reader can see which sheet a line came off. Nothing from the earlier sheets was removed.
+
+**運休.** A table headed 運休 instead of a 改正 stamp is a suspended service. Those are carried with the printed times, `grounded_from` their first stop, so they draw dimmed and fly nothing.
+
+**Places.** Stops that are cities of the map carry the city id and sit on its dot. The frontier towns of the Sungari, Ussuri and Amur lines (Tumen, Hunchun, Tungliao, Kailu, Lintung, Linhsi, Peian, Sunwu, Fuchin, Paoching, Jaoho, Hutou, Hulin, Tungan, Tungho, Ilan, Foshan, Wuyun, Huma, Oupu, Mohe, Lopei, Tungkiang, Fuyuan, Paichengtzu, Huanjen, Chian, Hsiuyen, Chungkiangchen, Tungning, Chining, Fenghsiangchen, Yüncheng, Hsinhsiang) are not, and carry coordinates of this project's own to two decimals; Oupu, Wuyun, Lopei and Fenghsiangchen are approximate.
+
+**Days.** Where the sheet gives days of the week they are on the service rows (`down_days` / `up_days`); 每日運航 is all seven. Times are as printed, 24-hour, local.
+
+### 新京・東京間直通 — Shinkyō – Tokyo, through service → `mkkk42-hsinking-tokyo`
+
+| stop | 粁 | 運賃 | leg |  着 / 發 (out) | 着 / 發 (back) |
+|---|---|---|---|---|---|
+| 新京 Xinjing (Changchun) |  |  |  | — / 9.00 | 16.30 / — |
+| 東京 Tokyo | 1600 | 265 | 265 | 15.00 / — | — / 9.00 |
+
+Mondays, Tuesdays, Thursdays and Fridays.
+
+**July 1942 sheet** (昭和17年6月1日改正). The through service to Tokyo, tabled nonstop: Shinkyō 9.00, Tokyo 15.00; back Tokyo 9.00, Shinkyō 16.30, four days a week. 1,600 km for 265 yen. The sheet prints no intermediate call, so none is drawn; the Japan Airways lines on this map show the ground it flew over.
+
+### 新京・奉天・京城間 — Shinkyō – Mukden – Keijō → `mkkk42-hsinking-keijo`
+
+| stop | 粁 | 運賃 | leg |  着 / 發 (out) | 着 / 發 (back) |
+|---|---|---|---|---|---|
+| 新京 Xinjing (Changchun) |  |  |  | — / 7.30 | 16.40 / — |
+| 奉天 Mukden (Shenyang) | 270 | 26 | 26 | 8.40 / 9.00 | 15.10 / 15.30 |
+| 京城 Keijō (Seoul) | 840 | 90 | 64 | 11.10 / — | — / 13.00 |
+
+Out Tuesdays and Fridays; back Wednesdays and Saturdays.
+
+**July 1942 sheet** (昭和17年6月1日改正). Two days a week each way to the Korean capital: out Tuesdays and Fridays, back Wednesdays and Saturdays. This is the Manchurian carrier flying into Korea; the Japan Airways Keijō–Shinkyō line of 1938–39 is the same corridor from the other side.
+
+### 新京・奉天・大連間 — Shinkyō – Mukden – Dairen → `mkkk42-hsinking-dairen`
+
+| stop | 粁 | 運賃 | leg |  着 / 發 (out) | 着 / 發 (back) |
+|---|---|---|---|---|---|
+| 新京 Xinjing (Changchun) |  |  |  | — / 12.20 | 11.55 / — |
+| 奉天 Mukden (Shenyang) | 270 | 26 | 26 | 13.40 / 13.50 | 10.30 / 10.40 |
+| 大連 Dairen (Dalian) | 625 | 58 | 32 | 15.20 / — | — / 9.00 |
+
+Mondays, Wednesdays and Fridays.
+
+**July 1942 sheet** (昭和17年6月1日改正). Three days a week, an afternoon run south and a morning run north. The winter-1935 Harbin–Dairen line on this map is the same trunk seven years earlier, daily and from Harbin; by 1942 the northern leg is the daily Shinkyō–Harbin–Kiamusze service.
+
+### 奉天・安東・大連間 — Mukden – Antung – Dairen, by the Yalu → `mkkk42-mukden-antung-dairen`
+
+| stop | 粁 | 運賃 | leg |  着 / 發 (out) | 着 / 發 (back) |
+|---|---|---|---|---|---|
+| 奉天 Mukden (Shenyang) |  |  |  | — / 10.20 | 14.25 / — |
+| 桓仁 Huanjen (Huanren) | 175 | 17 | 17 | 11.20 / 11.25 | 13.10 / 13.15 |
+| 通化 Tunghua (Tonghua) | … |  | 7 | 11.55 / 12.05 | 12.30 / 12.40 |
+| 輯安 Chian (Ji'an) | … |  | 7 | 12.35 / 12.40 | 11.55 / 12.00 |
+| 安東 Antung (Dandong) | 495 | 55 | 24 | 14.00 / 14.10 | 10.25 / 10.35 |
+| 岫巖 Hsiuyen (Xiuyan) | … |  | 10 | — / — | — / — |
+| 大連 Dairen (Dalian) | 800 | 86 | 21 | 15.55 / — | — / 8.50 |
+
+Out Mondays, Wednesdays and Fridays; back Tuesdays, Thursdays and Saturdays.
+
+**July 1942 sheet** (昭和17年6月1日改正). Flights 21 and 22: Mukden east into the mountains, down the Yalu through Chian to Antung, then west along the coast to Dairen. 岫巖 Hsiuyen is tabled (590 km, 65 yen) and passed without a call both ways (レ). Out Mondays, Wednesdays and Fridays; back Tuesdays, Thursdays and Saturdays.
+
+### 新京・哈爾濱・佳木斯間 — Shinkyō – Harbin – Kiamusze → `mkkk42-hsinking-kiamusze`
+
+| stop | 粁 | 運賃 | leg |  着 / 發 (out) | 着 / 發 (back) |
+|---|---|---|---|---|---|
+| 新京 Xinjing (Changchun) |  |  |  | — / 12.10 | 11.40 / — |
+| 哈爾濱 Harbin | 250 | 22 | 22 | 13.15 / 13.25 | 10.25 / 10.35 |
+| 佳木斯 Kiamusze (Jiamusi) | 555 | 72 | 50 | 14.45 / — | — / 9.00 |
+
+Daily.
+
+**July 1942 sheet** (昭和17年6月1日改正). Flights 1 and 2, daily: the capital to Harbin and on down the Sungari to Kiamusze, the hub of the eastern lines. Northbound is a morning flight, southbound an afternoon one.
+
+### 奉天・天津・北京間 — Mukden – Tientsin – Peking → `mkkk42-mukden-peking` · 運休
+
+| stop | 粁 | 運賃 | leg |  着 / 發 (out) | 着 / 發 (back) |
+|---|---|---|---|---|---|
+| 奉天 Mukden (Shenyang) |  |  |  | — / 9.00 | 15.50 / — |
+| 天津 Tientsin (Tianjin) | … | 66 | 66 | 11.40 / 11.45 | 13.25 / 13.30 |
+| 北京 Peking (Beijing) | … | 86 | 20 | 12.25 / — | — / 12.45 |
+
+Daily.
+
+**Suspended (運休) in the July 1942 sheet.** The times are the ones printed beside the 運休 mark; the line is drawn dimmed and no aeroplane flies it. Flights 13 and 14, tabled daily: Mukden 9.00, Tientsin 11.40, Peking 12.25; back 12.45, 13.25 / 13.30, 15.50. The sheet prints the Tientsin distance as 250 km, which the fares (66 yen, against 86 to Peking at 855 km) say is a misprint for something near 750; the distance is left off that leg.
+
+### 奉天・承德間 — Mukden – Chinchow – Chengteh → `mkkk42-mukden-chengteh` · 運休
+
+| stop | 粁 | 運賃 | leg |  着 / 發 (out) | 着 / 發 (back) |
+|---|---|---|---|---|---|
+| 奉天 Mukden (Shenyang) |  |  |  | — / 9.20 | 15.55 / — |
+| 錦州 Chinchow (Jinzhou) | 200 | 20 | 20 | 10.30 / 10.40 | 14.40 / 14.50 |
+| 承德 Chengteh (Chengde) | 480 | 48 | 28 | 12.20 / — | — / 13.15 |
+
+Daily.
+
+**Suspended (運休) in the July 1942 sheet.** The times are the ones printed beside the 運休 mark; the line is drawn dimmed and no aeroplane flies it. Flights 11 and 12, tabled daily, to the old summer capital in Jehol.
+
+### 承德・張家口・包頭間 — Chengteh – Kalgan – Paotow → `mkkk42-chengteh-paotow` · 運休
+
+| stop | 粁 | 運賃 | leg |  着 / 發 (out) | 着 / 發 (back) |
+|---|---|---|---|---|---|
+| 承德 Chengteh (Chengde) |  |  |  | — / 12.40 | 12.45 / — |
+| 張家口 Kalgan (Zhangjiakou) | 255 | 36 | 36 | 14.20 / 14.35 | 11.10 / 11.25 |
+| 大同 Tatung (Datong) | … |  | 28 | 15.30 / 15.40 | 10.10 / 10.20 |
+| 厚和 Houho (Hohhot) | … |  | 32 | 16.45 / 16.50 | 9.15 / 9.20 |
+| 包頭 Paotow (Baotou) | 710 | 121 | 25 | 17.40 / — | — / 8.30 |
+
+Out Tuesdays and Saturdays; back Wednesdays and Sundays.
+
+**Suspended (運休) in the July 1942 sheet.** The times are the ones printed beside the 運休 mark; the line is drawn dimmed and no aeroplane flies it. Flights 50 and 51 across Inner Mongolia: out Tuesdays and Saturdays in the afternoon, back Sundays and Wednesdays in the morning. 厚和 is Houho (Kweisui, today Hohhot) under its Mengchiang name. The China Airways Peking–Paotow line covers the same three western stops.
+
+### 新京・赤峰間 — Shinkyō – Chihfeng, for Chengteh → `mkkk42-hsinking-chihfeng`
+
+| stop | 粁 | 運賃 | leg |  着 / 發 (out) | 着 / 發 (back) |
+|---|---|---|---|---|---|
+| 新京 Xinjing (Changchun) |  |  |  | — / 8.40 | 14.10 / — |
+| 通遼 Tungliao (Tongliao) | 240 | 29 | 29 | 10.10 / 10.20 | 12.30 / 12.40 |
+| 開魯 Kailu | … |  | 12 | 10.55 / 11.00 | 11.50 / 11.55 |
+| 林東 Lintung (Lindong) | … |  | 24 | 12.05 / 12.10 | 10.50 / 10.55 |
+| 林西 Linhsi (Linxi) | … |  | 15 | 13.00 / 13.05 | 10.00 / 10.05 |
+| 赤峰 Chihfeng (Chifeng) | 755 | 102 | 22 | 14.05 / — | — / 9.00 |
+| 承德 Chengteh (Chengde) | 925 | 124 | 22 | — / — | — / — |
+
+Out Thursdays; back Fridays.
+
+**July 1942 sheet** (昭和17年6月1日改正). Flights 15 and 16, once a week: out Thursdays, back Fridays, across the Mongol banners of western Manchukuo. Chengteh is tabled beyond Chihfeng (925 km, 124 yen) with no times at all, so that leg is drawn and not flown.
+
+### 新京・通化・中江鎮間 — Shinkyō – Tunghua – Chungkiangchen → `mkkk42-hsinking-linkiang` · 運休
+
+| stop | 粁 | 運賃 | leg |  着 / 發 (out) | 着 / 發 (back) |
+|---|---|---|---|---|---|
+| 新京 Xinjing (Changchun) |  |  |  | — / 8.40 | 14.20 / — |
+| 通化 Tunghua (Tonghua) | 265 | 32 | 32 | 10.40 / 10.50 | 12.20 / 12.30 |
+| 中江鎮 Chungkiangchen (Linjiang) | 350 | 42 | 10 | 11.30 / — | — / 11.35 |
+
+Mondays, Wednesdays and Fridays.
+
+**Suspended (運休) in the July 1942 sheet.** The times are the ones printed beside the 運休 mark; the line is drawn dimmed and no aeroplane flies it. Flights 7 and 8, tabled Mondays, Wednesdays and Fridays, to 中江鎮 on the upper Yalu (Linkiang), opposite Korea.
+
+### 新京・圖們・琿春間 — Shinkyō – Yenki – Tumen – Hunchun → `mkkk42-hsinking-hunchun` · 運休
+
+| stop | 粁 | 運賃 | leg |  着 / 發 (out) | 着 / 發 (back) |
+|---|---|---|---|---|---|
+| 新京 Xinjing (Changchun) |  |  |  | — / 8.40 | 13.30 / — |
+| 延吉 Yenki (Yanji) | 375 | 37 | 37 | 10.20 / 10.25 | 11.50 / 11.55 |
+| 圖們 Tumen | … |  | 5 | 10.40 / 10.50 | 11.25 / 11.35 |
+| 琿春 Hunchun | 440 | 49 | 7 | 11.05 / — | — / 11.10 |
+
+Tuesdays, Thursdays and Saturdays.
+
+**Suspended (運休) in the July 1942 sheet.** The times are the ones printed beside the 運休 mark; the line is drawn dimmed and no aeroplane flies it. Flights 9 and 10, tabled Tuesdays, Thursdays and Saturdays, to the Tumen corner where Manchukuo, Korea and the Soviet Union meet.
+
+### 牡丹江・東寧間 — Mutankiang – Suifenho – Tungning → `mkkk42-mutankiang-tungning`
+
+| stop | 粁 | 運賃 | leg |  着 / 發 (out) | 着 / 發 (back) |
+|---|---|---|---|---|---|
+| 牡丹江 Mutankiang (Mudanjiang) |  |  |  | — / 10.30 | 13.30 / — |
+| 綏芬河 Suifenho (Suifenhe) | 125 | 18 | 18 | 11.25 / 11.30 | 12.25 / 12.30 |
+| 東寧 Tungning (Dongning) | 175 | 25 | 7 | 11.55 / — | — / 12.00 |
+
+Mondays, Wednesdays and Fridays.
+
+**July 1942 sheet** (昭和17年6月1日改正). Flights 23 and 24, Mondays, Wednesdays and Fridays: a short morning hop to the Soviet frontier and back, timed to connect at Mutankiang with the daily Shinkyō–Harbin service, which stands there from 10.05 to 15.10.
+
+### 新京・滿洲里間 — Shinkyō – Tsitsihar – Hailar – Manchouli → `mkkk42-hsinking-manchouli` · 運休
+
+| stop | 粁 | 運賃 | leg |  着 / 發 (out) | 着 / 發 (back) |
+|---|---|---|---|---|---|
+| 新京 Xinjing (Changchun) |  |  |  | — / 8.40 | 14.10 (day 2) / — |
+| 白城子 Paichengtzu (Baicheng) | 270 | 28 | 28 | 10.10 / 10.15 | 12.40 (day 2) / 12.45 (day 2) |
+| 齊齊哈爾 Tsitsihar (Qiqihar) | … |  | 22 | 11.25 / 11.35 | 11.25 (day 2) / 11.35 (day 2) |
+| 海拉爾 Hailar | … |  | 48 | 13.50 / 9.40 (day 2) | 12.25 / 9.30 (day 2) |
+| 滿洲里 Manchouli (Manzhouli) | 1065 | 119 | 21 | 11.00 (day 2) / — | — / 11.10 |
+
+Out Mondays, Wednesdays and Fridays; back Tuesdays, Thursdays and Saturdays; a night at Hailar each way.
+
+**Suspended (運休) in the July 1942 sheet.** The times are the ones printed beside the 運休 mark; the line is drawn dimmed and no aeroplane flies it. Flights 5 and 6, a two-day journey each way with the night at Hailar: out Mondays, Wednesdays and Fridays as far as Hailar, on to Manchouli the next morning; back on Tuesdays, Thursdays and Saturdays. The winter-1935 Manchouli–Shinkyō line on this map is the same route by way of Harbin; by 1942 it ran by Paichengtzu instead.
+
+### 哈爾濱・海拉爾間 — Harbin – Tsitsihar – Hailar → `mkkk42-harbin-hailar`
+
+| stop | 粁 | 運賃 | leg |  着 / 發 (out) | 着 / 發 (back) |
+|---|---|---|---|---|---|
+| 哈爾濱 Harbin |  |  |  | — / 8.30 | 13.20 / — |
+| 齊齊哈爾 Tsitsihar (Qiqihar) | 275 | 27 | 27 | 10.10 / 10.20 | 11.35 / 11.45 |
+| 海拉爾 Hailar | 685 | 75 | 48 | 12.30 / — | — / 9.30 |
+
+Out Thursdays; back Fridays.
+
+**July 1942 sheet** (昭和17年6月1日改正). Once a week: out Thursdays, back Fridays. With the Shinkyō–Manchouli line suspended this was the only tabled service to the Barga steppe in July 1942.
+
+### 哈爾濱・黑河間 — Harbin – Peian – Sunwu – Heiho → `mkkk42-harbin-heiho`
+
+| stop | 粁 | 運賃 | leg |  着 / 發 (out) | 着 / 發 (back) |
+|---|---|---|---|---|---|
+| 哈爾濱 Harbin |  |  |  | — / 8.20 | 15.20 / — |
+| 北安 Peian (Bei'an) | 275 | 28 | 28 | 9.55 / 10.00 | 13.45 / 13.50 |
+| 孫呉 Sunwu | … |  | 14 | 10.50 / 10.55 | 12.45 / 12.50 |
+| 黑河 Heiho (Heihe) | 565 | 57 | 15 | 11.40 / — | — / 12.00 |
+
+Mondays, Wednesdays and Fridays.
+
+**July 1942 sheet** (昭和17年6月1日改正). Flights 17 and 18, Mondays, Wednesdays and Fridays, north to the Amur opposite Blagoveshchensk. The sheet tables the line as a circuit going on from Heiho by Nunkiang and Tsitsihar back to Harbin (1,320 km, 137 yen) but prints no times beyond Heiho, so only the timed arm is drawn.
+
+### 新京・牡丹江・哈爾濱間 — Shinkyō – Mutankiang – Harbin → `mkkk42-hsinking-mutankiang-harbin`
+
+| stop | 粁 | 運賃 | leg |  着 / 發 (out) | 着 / 發 (back) |
+|---|---|---|---|---|---|
+| 新京 Xinjing (Changchun) |  |  |  | — / 8.30 | 16.45 / — |
+| 牡丹江 Mutankiang (Mudanjiang) | 380 | 54 | 54 | 10.05 / 15.10 | 10.10 / 15.00 |
+| 哈爾濱 Harbin | 630 | 84 | 30 | 16.40 / — | — / 8.40 |
+
+Daily.
+
+**July 1942 sheet** (昭和17年6月1日改正). Flights 26 and 25, daily: a morning leg to Mutankiang, a five-hour stand while the Tungning and Paoching feeders go out and come back, and an afternoon leg on. The two halves are printed in separate columns on the sheet and are one aeroplane here.
+
+### 牡丹江・東安・寶清間 — Mutankiang – Tungan – Paoching → `mkkk42-mutankiang-paoching`
+
+| stop | 粁 | 運賃 | leg |  着 / 發 (out) | 着 / 發 (back) |
+|---|---|---|---|---|---|
+| 牡丹江 Mutankiang (Mudanjiang) |  |  |  | — / 10.30 | 14.40 / — |
+| 鷄寧 Chining (Jixi) | 180 | 21 | 21 | 11.15 / 11.20 | 13.45 / 13.50 |
+| 東安 Tungan (Mishan) | … |  | 11 | 11.50 / 11.55 | 13.10 / 13.15 |
+| 寶清 Paoching (Baoqing) | 325 | 46 | 14 | 12.30 / — | — / 12.35 |
+
+Tuesdays, Thursdays and Saturdays.
+
+**July 1942 sheet** (昭和17年6月1日改正). Tuesdays, Thursdays and Saturdays, out and back in a day, connecting at Mutankiang with the daily Shinkyō–Harbin service. 東安 Tungan is Mishan under its Manchukuo name; 鷄寧 Chining is Jixi.
+
+### 富錦・虎頭・東安間 — Fuchin – Jaoho – Hutou – Hulin – Tungan → `mkkk42-fuchin-tungan`
+
+| stop | 粁 | 運賃 | leg |  着 / 發 (out) | 着 / 發 (back) |
+|---|---|---|---|---|---|
+| 富錦 Fuchin (Fujin) |  |  |  | — / 8.00 | 16.40 / — |
+| 饒河 Jaoho (Raohe) | 215 | 34 | 34 | 9.35 / 9.45 | 14.50 / 15.00 |
+| 虎頭 Hutou | … |  | 14 | 10.40 / 10.45 | 13.55 / 14.00 |
+| 虎林 Hulin | … |  | 9 | 11.20 / 11.25 | 13.15 / 13.20 |
+| 東安 Tungan (Mishan) | … | 70 | 13 | 12.15 / — | — / 12.25 |
+
+Tuesdays and Saturdays.
+
+**July 1942 sheet** (昭和17年6月1日改正). Tuesdays and Saturdays, down the Ussuri frontier from the Sungari to Tungan (Mishan). The sheet prints no distance for Hulin; 445 km end to end.
+
+### 佳木斯・寶清・饒河間 — Kiamusze – Paoching – Fuchin – Jaoho → `mkkk42-kiamusze-jaoho`
+
+| stop | 粁 | 運賃 | leg |  着 / 發 (out) | 着 / 發 (back) |
+|---|---|---|---|---|---|
+| 佳木斯 Kiamusze (Jiamusi) |  |  |  | — / 9.10 | 14.50 / — |
+| 寶清 Paoching (Baoqing) | 150 | 23 | 23 | 10.15 / 10.20 | 13.40 / 13.45 |
+| 富錦 Fuchin (Fujin) | … |  | 19 | 10.55 / 11.00 | — / — |
+| 饒河 Jaoho (Raohe) | … | 86 | 44 | 12.35 / — | — / 12.40 |
+
+Tuesdays, Thursdays and Saturdays.
+
+**July 1942 sheet** (昭和17年6月1日改正). Tuesdays, Thursdays and Saturdays, and printed as a zigzag: Kiamusze to Paoching (150 km, 23 yen), north to Fuchin (95 km, 19), back through Paoching (11.35 / 11.40, 19 yen) and on to Jaoho (25 yen; no distance printed). The return calls at Paoching only (13.40 / 13.45) and passes Fuchin (レ). The map draws each stop once, so the second Paoching call is on this note and the Fuchin–Jaoho leg carries the two fares together (44 yen).
+
+### 哈爾濱・佳木斯・富錦間 — Harbin – Ilan – Kiamusze – Fuchin → `mkkk42-harbin-fuchin`
+
+| stop | 粁 | 運賃 | leg | Harbin – Kiamusze  着 / 發 (out) | 着 / 發 (back) | Kiamusze – Fuchin  着 / 發 (out) | 着 / 發 (back) |
+|---|---|---|---|---|---|---|---|
+| 哈爾濱 Harbin |  |  |  | — / 8.50 | 15.15 / — | | |
+| 通河 Tungho (Tonghe) | 160 | 24 | 24 | 9.45 / 9.50 | 14.10 / 14.15 | | |
+| 依蘭 Ilan (Yilan) | … |  | 11 | 10.15 / 10.20 | 13.35 / 13.40 | | |
+| 佳木斯 Kiamusze (Jiamusi) | 315 | 47 | 12 | 10.50 / — | — / 13.05 | — / 11.00 | 12.55 / — |
+| 富錦 Fuchin (Fujin) | 455 | 68 | 21 | | | 11.50 / — | — / 12.00 |
+
+Harbin – Kiamusze: Daily except Sundays.
+
+Kiamusze – Fuchin: Tuesdays, Thursdays and Saturdays.
+
+**July 1942 sheet** (昭和17年6月1日改正). Flights 19 and 20 down the Sungari: Harbin–Kiamusze every day but Sunday, the Kiamusze–Fuchin end on Tuesdays, Thursdays and Saturdays. Carried as two services on their own days.
+
+### 佳木斯・黑河・漠河間 — Kiamusze – Heiho – Mohe, up the Amur → `mkkk42-kiamusze-mohe`
+
+| stop | 粁 | 運賃 | leg | Kiamusze – Heiho  着 / 發 (out) | 着 / 發 (back) | Heiho – Mohe  着 / 發 (out) | 着 / 發 (back) |
+|---|---|---|---|---|---|---|---|
+| 佳木斯 Kiamusze (Jiamusi) |  |  |  | — / 8.50 | 12.45 / — | | |
+| 佛山 Foshan (Jiayin) | 230 | 39 | 39 | 10.40 / 10.45 | 10.35 / 10.50 | | |
+| 烏雲 Wuyun | … |  | 13 | 11.20 / 11.25 | 9.55 / 10.00 | | |
+| 孫呉 Sunwu | … |  | 33 | 12.30 / 12.35 | 8.50 / 8.55 | | |
+| 黑河 Heiho (Heihe) | 645 | 100 | 15 | 13.25 / — | — / 8.00 | — / 8.00 | 16.25 / — |
+| 呼瑪 Huma | … |  | 38 | | | 9.30 / 9.40 | 14.50 / 15.00 |
+| 鷗浦 Oupu | … |  | 22 | | | 10.40 / 10.45 | 14.00 / 14.05 |
+| 漠河 Mohe | 1260 | 204 | 44 | | | 12.30 / — | — / 12.35 |
+
+Kiamusze – Heiho: Mondays.
+
+Heiho – Mohe: Tuesdays and Thursdays.
+
+**July 1942 sheet** (昭和17年6月1日改正). Flights 37 and 38, the longest of the frontier lines: 1,260 km up the Amur to Mohe at the top of Manchukuo. Two aeroplanes on the sheet — Kiamusze–Heiho on Mondays, Heiho–Mohe on Tuesdays and Thursdays — carried as two services. 佛山 Foshan is today's Jiayin; Oupu and Wuyun are river posts placed approximately.
+
+### 佳木斯・蘿北・撫遠間 — Kiamusze – Lopei – Fuchin – Tungkiang – Fuyuan → `mkkk42-kiamusze-fuyuan`
+
+| stop | 粁 | 運賃 | leg |  着 / 發 (out) | 着 / 發 (back) |
+|---|---|---|---|---|---|
+| 佳木斯 Kiamusze (Jiamusi) |  |  |  | — / — | — / — |
+| 蘿北 Lopei (Luobei) | 125 | 20 | 20 | — / — | — / — |
+| 富錦 Fuchin (Fujin) | … |  | 13 | — / 9.00 | 13.10 / — |
+| 同江 Tungkiang (Tongjiang) | … |  | 10 | 9.30 / 9.35 | 12.30 / 12.35 |
+| 撫遠 Fuyuan | 460 | 70 | 27 | 10.55 / — | — / 11.05 |
+
+Wednesdays and Fridays.
+
+**July 1942 sheet** (昭和17年6月1日改正). Wednesdays and Fridays. The sheet tables the whole line but prints times only from Fuchin: 9.00 out, Tungkiang 9.30 / 9.35, Fuyuan 10.55; back 11.05, 12.30 / 12.35, Fuchin 13.10. Kiamusze–Lopei–Fuchin is drawn from the fare columns and not flown. Lopei is placed at the old county town on the Amur, approximately.
+
+### 佳木斯・鳳翔鎮・富錦間 — Kiamusze – Fenghsiangchen – Fuchin → `mkkk42-kiamusze-fenghsiang-fuchin` · 運休
+
+| stop | 粁 | 運賃 | leg |  着 / 發 (out) | 着 / 發 (back) |
+|---|---|---|---|---|---|
+| 佳木斯 Kiamusze (Jiamusi) |  |  |  | — / 9.10 | 15.35 / — |
+| 鳳翔鎮 Fenghsiangchen (Fengxiang) | … | 16 | 16 | 10.05 / 10.10 | 14.40 / 14.45 |
+| 富錦 Fuchin (Fujin) | … | 32 | 16 | 10.40 / — | — / 14.10 |
+
+Fridays.
+
+**Suspended (運休) in the July 1942 sheet.** The times are the ones printed beside the 運休 mark; the line is drawn dimmed and no aeroplane flies it. Tabled for Fridays, a morning run down the Sungari with the return in the afternoon. No distances are printed; 16 yen a leg. Fenghsiangchen is placed approximately.
+
+### 北京・大連間 — Peking – Tientsin – Dairen → `cak42-peking-dairen`
+
+| stop | 粁 | 運賃 | leg |  着 / 發 (out) | 着 / 發 (back) |
+|---|---|---|---|---|---|
+| 北京 Peking (Beijing) |  |  |  | — / 9.10 | 17.25 / — |
+| 天津 Tientsin (Tianjin) | 130 | 20 | 20 | 9.45 / 9.55 | 16.40 / 16.50 |
+| 大連 Dairen (Dalian) | 500 | 85 | 65 | 11.25 / — | — / 15.00 |
+
+Tuesdays, Thursdays and Saturdays.
+
+**April 1942 sheet** (昭和17年4月1日改正), as reprinted in July 1942. Flights 5 and 6, Tuesdays, Thursdays and Saturdays. The 1940 China Airways Dairen line on this map is the same route two years earlier, then daily.
+
+### 北京・南京・上海間 — Peking – Tsinan – Hsüchow – Nanking – Shanghai → `cak42-peking-shanghai`
+
+| stop | 粁 | 運賃 | leg |  着 / 發 (out) | 着 / 發 (back) |
+|---|---|---|---|---|---|
+| 北京 Peking (Beijing) |  |  |  | — / 9.30 | 15.10 / — |
+| 天津 Tientsin (Tianjin) | 130 | 20 | 20 | 10.05 / 10.15 | 14.25 / 14.35 |
+| 濟南 Tsinan (Jinan) | … |  | 50 | 11.25 / 11.45 | 12.55 / 13.15 |
+| 徐州 Hsüchow (Xuzhou) | … |  | 55 | 12.55 / 13.15 | 11.25 / 11.45 |
+| 南京 Nanking (Nanjing) | 980 | 185 | 60 | 14.35 / — | — / 10.10 |
+| 上海 Shanghai | 1250 | 235 | 50 | — / — | — / — |
+
+Out Mondays, Wednesdays and Fridays; back Tuesdays, Thursdays and Saturdays.
+
+**April 1942 sheet** (昭和17年4月1日改正), as reprinted in July 1942. Flights 1 and 2 down the Tientsin–Pukow corridor: south Mondays, Wednesdays and Fridays, north Tuesdays, Thursdays and Saturdays. Nanking–Shanghai is tabled (50 yen, 270 km) with no times, so that leg is drawn and not flown. Compare the daily 1940 Shanghai line.
+
+### 北京・張家口・包頭間 — Peking – Kalgan – Tatung – Houho – Paotow → `cak42-peking-paotow`
+
+| stop | 粁 | 運賃 | leg |  着 / 發 (out) | 着 / 發 (back) |
+|---|---|---|---|---|---|
+| 北京 Peking (Beijing) |  |  |  | — / 9.00 | 14.00 / — |
+| 張家口 Kalgan (Zhangjiakou) | 170 | 30 | 30 | 10.10 / 10.30 | 12.40 / 13.00 |
+| 大同 Tatung (Datong) | … |  | 28 | 11.30 / 11.40 | 11.30 / 11.40 |
+| 厚和 Houho (Hohhot) | … |  | 32 | 12.45 / 12.55 | 10.20 / 10.30 |
+| 包頭 Paotow (Baotou) | 635 | 115 | 25 | 13.50 / — | — / 9.30 |
+
+Out Thursdays; back Saturdays.
+
+**April 1942 sheet** (昭和17年4月1日改正), as reprinted in July 1942. Flights 7 and 8, once a week: out Thursdays, back Saturdays. The 1940 Paotow line on this map is the same route.
+
+### 北京・青島・上海間 — Peking – Tientsin – Tsingtao – Shanghai → `cak42-peking-tsingtao-shanghai`
+
+| stop | 粁 | 運賃 | leg |  着 / 發 (out) | 着 / 發 (back) |
+|---|---|---|---|---|---|
+| 北京 Peking (Beijing) |  |  |  | — / 9.20 | 15.15 / — |
+| 天津 Tientsin (Tianjin) | 130 | 20 | 20 | 9.55 / 10.05 | 14.30 / 14.40 |
+| 青島 Tsingtao (Qingdao) | … |  | 85 | 11.45 / 12.05 | 12.30 / 12.50 |
+| 上海 Shanghai | 1200 | 235 | 130 | 14.25 / — | — / 10.00 |
+
+Out Tuesdays and Saturdays; back Mondays and Fridays.
+
+**April 1942 sheet** (昭和17年4月1日改正), as reprinted in July 1942. Flights 32 and 31, by the coast: south Tuesdays and Saturdays, north Mondays and Fridays.
+
+### 上海・臺北・廣東 — Shanghai – Taihoku – Canton → `cak42-shanghai-taihoku-canton` · 運休
+
+| stop | 粁 | 運賃 | leg |  着 / 發 (out) | 着 / 發 (back) |
+|---|---|---|---|---|---|
+| 上海 Shanghai |  |  |  | — / 9.00 | 16.00 / — |
+| 臺北 Taihoku (Taipei) | 740 | 135 | 135 | 11.50 / 12.30 | 12.30 / 13.10 |
+| 廣東 Canton (Guangzhou) | 1565 | 300 | 165 | 16.00 / — | — / 9.00 |
+
+Out Mondays and Thursdays; back Tuesdays and Fridays.
+
+**Suspended (運休) in the July 1942 reprint.** The times are the ones printed beside the 運休 mark; the line is drawn dimmed and no aeroplane flies it. Flights 13 and 14, tabled Mondays and Thursdays south, Tuesdays and Fridays north, with forty minutes on the ground at Taihoku. The only line on the sheet to touch Taiwan.
+
+### 北京・運城間 — Peking – Shihmen – Taiyuan – Linfen – Yüncheng → `cak42-peking-yuncheng`
+
+| stop | 粁 | 運賃 | leg |  着 / 發 (out) | 着 / 發 (back) |
+|---|---|---|---|---|---|
+| 北京 Peking (Beijing) |  |  |  | — / 9.00 | 15.20 / — |
+| 石門 Shihmen (Shijiazhuang) | 270 | 50 | 50 | 10.40 / 10.50 | 13.30 / 13.40 |
+| 太原 Taiyuan | … |  | 40 | 12.00 / 12.10 | 12.00 / 12.20 |
+| 臨汾 Linfen | … |  | 50 | 13.40 / 13.50 | 10.20 / 10.30 |
+| 運城 Yüncheng (Yuncheng) | 815 | 170 | 30 | 14.40 / — | — / 9.30 |
+
+Out Mondays; back Tuesdays.
+
+**April 1942 sheet** (昭和17年4月1日改正), as reprinted in July 1942. Flights 27 and 28 into Shansi, once a week: out Mondays, back Tuesdays. 石門 Shihmen is Shihchiachuang.
+
+### 北京・開封間 — Peking – Shihmen – Changte – Hsinhsiang – Kaifeng → `cak42-peking-kaifeng`
+
+| stop | 粁 | 運賃 | leg |  着 / 發 (out) | 着 / 發 (back) |
+|---|---|---|---|---|---|
+| 北京 Peking (Beijing) |  |  |  | — / 9.00 | 14.25 / — |
+| 石門 Shihmen (Shijiazhuang) | 270 | 50 | 50 | 10.40 / 10.50 | 12.25 / 12.45 |
+| 彰德 Changte (Anyang) | … |  | 40 | 12.00 / 12.10 | 10.55 / 11.05 |
+| 新鄉 Hsinhsiang (Xinxiang) | … |  | 22 | 13.05 / 13.15 | 10.00 / 10.10 |
+| 開封 Kaifeng | 660 | 132 | 20 | 13.45 / — | — / 9.30 |
+
+Out Wednesdays; back Thursdays.
+
+**April 1942 sheet** (昭和17年4月1日改正), as reprinted in July 1942. Flights 23 and 24 down the Peking–Hankow railway to the Yellow River, once a week: out Wednesdays, back Thursdays. The sheet prints the Changte arrival as 12.20 and the departure as 12.10; the arrival is taken as 12.00.
+
+### 南京・九江・漢口間 — Nanking – Anking – Kiukiang – Hankow → `cak42-nanking-hankow`
+
+| stop | 粁 | 運賃 | leg |  着 / 發 (out) | 着 / 發 (back) |
+|---|---|---|---|---|---|
+| 南京 Nanking (Nanjing) |  |  |  | — / 9.00 | 15.10 / — |
+| 安慶 Anking (Anqing) | 240 | 63 | 63 | 10.00 / 10.10 | 14.00 / 14.10 |
+| 九江 Kiukiang (Jiujiang) | … |  | 37 | 10.50 / 11.00 | 13.10 / 13.20 |
+| 漢口 Hankow (Wuhan) | 570 | 150 | 50 | 11.50 / — | — / 12.20 |
+
+Tuesdays, Thursdays and Fridays.
+
+**April 1942 sheet** (昭和17年4月1日改正), as reprinted in July 1942. Flights 11 and 12 up the Yangtze, Tuesdays, Thursdays and Fridays, calling at the two river ports the through Shanghai–Hankow flight passes.
+
+### 上海・南京・漢口間 — Shanghai – Nanking – Hankow → `cak42-shanghai-hankow`
+
+| stop | 粁 | 運賃 | leg |  着 / 發 (out) | 着 / 發 (back) |
+|---|---|---|---|---|---|
+| 上海 Shanghai |  |  |  | — / 8.30 | 16.20 / — |
+| 南京 Nanking (Nanjing) | 270 | 50 | 50 | 9.40 / 10.00 | 14.50 / 15.10 |
+| 漢口 Hankow (Wuhan) | 830 | 200 | 150 | 12.10 / — | — / 12.40 |
+
+Mondays, Wednesdays and Saturdays.
+
+**April 1942 sheet** (昭和17年4月1日改正), as reprinted in July 1942. Flights 15 and 16, Mondays, Wednesdays and Saturdays: the Yangtze trunk, nonstop from Nanking to Hankow. The 1940 line on this map called at Anking and Kiukiang as well.
+
+### 廣東・海口間 — Canton – Hoihow → `cak42-canton-hoihow` · 運休
+
+| stop | 粁 | 運賃 | leg |  着 / 發 (out) | 着 / 發 (back) |
+|---|---|---|---|---|---|
+| 廣東 Canton (Guangzhou) |  |  |  | — / 9.00 | 13.50 / — |
+| 海口 Hoihow (Haikou) | 475 | 120 | 120 | 10.50 / — | — / 12.00 |
+
+Mondays.
+
+**Suspended (運休) in the July 1942 reprint.** The times are the ones printed beside the 運休 mark; the line is drawn dimmed and no aeroplane flies it. Flights 35 and 36, tabled for Mondays, across to Hainan.
+
+### 廣東・汕頭間 — Canton – Swatow → `cak42-canton-swatow`
+
+| stop | 粁 | 運賃 | leg |  着 / 發 (out) | 着 / 發 (back) |
+|---|---|---|---|---|---|
+| 廣東 Canton (Guangzhou) |  |  |  | — / 9.10 | 14.10 / — |
+| 汕頭 Swatow (Shantou) | 350 | 80 | 80 | 10.40 / — | — / 12.40 |
+
+Fridays.
+
+**April 1942 sheet** (昭和17年4月1日改正), as reprinted in July 1942. Flights 37 and 38, Fridays, along the Kwangtung coast.
+
+---
+
 ## `grounded_from`, and what it does
 
 A route names the stop it is grounded at. From there on:

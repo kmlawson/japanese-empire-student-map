@@ -958,6 +958,11 @@ def build_data_js():
             for col, cast in (("yen", int), ("km", int)):
                 if not f.get(col):
                     continue
+                # a leg with no printed distance cannot be summed over; the
+                # July 1942 Mukden–Peking table prints none
+                if any(not step[(names[k], names[k + 1])].get(col)
+                       for k in range(i, j)):
+                    continue
                 want = sum(cast(step[(names[k], names[k + 1])][col])
                            for k in range(i, j))
                 if cast(f[col]) != want:
@@ -1011,7 +1016,9 @@ def build_data_js():
         fr = [f for f in fares if f["route"] == r["id"]]
         fr_js = ",\n".join(
             "      { from: %s, to: %s, yen: %s, km: %s }"
-            % (T.js_string(f["from"]), T.js_string(f["to"]), f["yen"], f["km"])
+            # a leg the sheet prints no distance for is `null`, not a hole
+            % (T.js_string(f["from"]), T.js_string(f["to"]), f["yen"],
+               f["km"] or "null")
             for f in fr)
         inner.append("  {\n    id: %s, name: %s, operator: %s, opened: %s,\n"
                      "    season: %s, epochs: %s, source: %s, srcUrl: %s,\n"
