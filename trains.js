@@ -487,6 +487,36 @@ window.JMAP_TRAINS = function (host) {
   /* One frame. Only the trains that are running are in the document: a mark is
      made the first time its train is needed and hidden, not destroyed, when it
      has arrived — the day is a loop and it will be wanted again. */
+  /* Which line the reader has picked out of the strip, or -1 for all of them.
+     Held here rather than in a class on the document because `render` has to
+     ask it on every frame for the marks. */
+  var pickLi = -1;
+
+  function applyPick() {
+    /* Written on the elements rather than left to a stylesheet rule: the line
+       a path belongs to is held in `linePaths`, not on the node, and a
+       selector cannot ask about it. The halo goes with its line. */
+    linePaths.forEach(function (p, i) {
+      var dim = pickLi >= 0 && p.li !== pickLi;
+      p.el.style.opacity = dim ? '0.12' : '';
+      var c = casePaths[i];
+      if (c) c.style.opacity = dim ? '0.12' : '';
+    });
+    if (bar) {
+      var cs = bar.querySelectorAll('.train-chip');
+      for (var i = 0; i < cs.length; i++) {
+        cs[i].classList.toggle('on', pickLi >= 0
+          && +cs[i].getAttribute('data-li') === pickLi);
+      }
+    }
+    render();
+  }
+
+  function setPick(li) {
+    pickLi = (pickLi === li) ? -1 : li;
+    applyPick();
+  }
+
   function isConnTrain(t) {
     var l = data && data.lines[t.li];
     return !!(l && l.x);
@@ -521,6 +551,12 @@ window.JMAP_TRAINS = function (host) {
       if (simMin >= plan.t0 && simMin <= plan.t1) pos = positionAt(plan, simMin);
       if (!pos && simMin + DAY >= plan.t0 && simMin + DAY <= plan.t1) {
         pos = positionAt(plan, simMin + DAY);
+      }
+      /* And the trains of the lines that are not picked go with their track:
+         a lit line with somebody else's trains running over it is not a line
+         picked out. */
+      if (pickLi >= 0 && plans[i].tr.li !== pickLi) {
+        livePos[i] = null; if (m) m.style.display = 'none'; continue;
       }
       m = marks[i];
       if (!pos) {
@@ -885,6 +921,23 @@ window.JMAP_TRAINS = function (host) {
         + (l.x ? '   (drawn straight between cities; alignment unsourced)' : '');
       chip.setAttribute('data-li', data.lines.indexOf(l));
       if (l.x) chip.classList.add('train-chip-conn');
+      /* **Press the name and the line lights up.** Forty-two chips in a strip
+         and forty-two lines on the map is a matching exercise the reader
+         should not have to do by colour alone — several of these inks are a
+         shade apart. Pressing one dims every other line and its trains;
+         pressing it again, or pressing another, moves the light. A press is
+         used rather than a hover because there is no hover on a touch screen
+         and this is most wanted on the small map. */
+      chip.setAttribute('role', 'button');
+      chip.setAttribute('tabindex', '0');
+      chip.addEventListener('click', function () {
+        setPick(+chip.getAttribute('data-li'));
+      });
+      chip.addEventListener('keydown', function (ev) {
+        if (ev.key === 'Enter' || ev.key === ' ') {
+          ev.preventDefault(); setPick(+chip.getAttribute('data-li'));
+        }
+      });
       legend.appendChild(chip);
     });
     /* The switch, only where there is something for it to switch. */
@@ -1089,6 +1142,7 @@ window.JMAP_TRAINS = function (host) {
       els = {}; plans = []; marks = []; segCache = null; byStation = null;
       byName = null;
       inks = []; linePaths = []; casePaths = []; chips = []; groundNow = '';
+      pickLi = -1;
       shownClock = '';
     },
 

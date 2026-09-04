@@ -223,7 +223,14 @@ const shutDialogs=p=>p.evaluate(()=>{
     check('the Korea page carries all 173 tables', pv.tables===173 && pv.anchors===173,
       JSON.stringify({t:pv.tables,a:pv.anchors}));
     check('and warns before the tables', pv.warnFirst, '');
-    check('it opens in Japanese', pv.lang==='ja' && /転記/.test(pv.h1), pv.lang+' '+pv.h1);
+    /* It opens in English now; the original's own languages are a press away,
+       which is what the next checks press. */
+    check('it opens in English', pv.lang==='en' && /Timetable/.test(pv.h1),
+      pv.lang+' '+pv.h1);
+    await tt.click('#langbar button[data-lang="ja"]');
+    await sleep(300);
+    pv=await page();
+    check('Japanese is a press away', pv.lang==='ja' && /転記/.test(pv.h1), pv.lang+' '+pv.h1);
     check('with the Japanese reading under the station names',
       pv.readings>1000 && pv.first && /^[A-Za-zĀ-ſ'’ -]+$/.test(pv.first[1]),
       JSON.stringify(pv.first)+' of '+pv.readings);

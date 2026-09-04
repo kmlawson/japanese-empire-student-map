@@ -421,18 +421,23 @@ UI = {
              '\u539f\u672c\uff08Internet Archive\uff09',
              'The original (Internet Archive)'),
     'warn': (
-        '\u6ce8\uff1a\u672c\u9801\u306e\u672c\u6587\u306f OCR '
-        '\u306b\u3088\u308b\u3082\u306e\u3067\u3001\u8aa4\u308a\u3092'
-        '\u542b\u3080\u3053\u3068\u306f\u78ba\u5b9f\u3067\u3059\u3002'
-        '2026\u5e749\u6708\u73fe\u5728\u3001\u4eba\u306e\u76ee\u306b'
-        '\u3088\u308b\u78ba\u8a8d\u306f\u307e\u3060\u884c\u308f\u308c'
-        '\u3066\u3044\u307e\u305b\u3093\u3002',
-        '\u6ce8\uff1a\u672c\u9801\u5167\u6587\u7d93 OCR '
-        '\u8f49\u9304\uff0c\u5fc5\u5b9a\u542b\u6709\u932f\u8aa4\u3002'
-        '\u622a\u81f3 2026 \u5e74 9 \u6708\uff0c\u5c1a\u672a\u7d93'
-        '\u4eba\u5de5\u6821\u5c0d\u3002',
-        'Note: OCRed text no doubt contains errors. As of September 2026 this '
-        'has not yet been manually checked for accuracy.'),
+        '\u6ce8\uff1a\u672c\u9801\u306f Claude Code '
+        '\u306e\u753b\u50cf\u30e2\u30c7\u30eb\u306b\u3088\u308b\u8ee2\u8a18\u3067\u3001'
+        '\u8aa4\u308a\u3092\u542b\u3080\u53ef\u80fd\u6027\u304c\u3042\u308a\u307e\u3059\u3002'
+        '\u6642\u523b\u3068\u7dda\u540d\u306f\u307e\u3060\u4eba\u9593\u306b\u3088\u308b'
+        '\u78ba\u8a8d\u3092\u7d4c\u3066\u304a\u3089\u305a\u3001\u4eca\u5f8c\u306e'
+        '\u54c1\u8cea\u7ba1\u7406\u306e\u5bfe\u8c61\u3067\u3059\u3002'
+        '\u8a02\u6b63\u306e\u3054\u9023\u7d61\u3092\u304a\u5f85\u3061\u3057\u3066\u3044\u307e\u3059\u3002',
+        '\u6ce8\uff1a\u672c\u9801\u7531 Claude Code '
+        '\u7684\u8996\u89ba\u6a21\u578b\u8f49\u9304\uff0c\u96e3\u514d\u542b\u6709\u932f\u8aa4\u3002'
+        '\u6642\u523b\u8207\u7dda\u540d\u5c1a\u672a\u7d93\u4eba\u5de5\u4ed4\u7d30\u6821\u5c0d\uff0c'
+        '\u5c07\u5217\u5165\u65e5\u5f8c\u7684\u8cc7\u6599\u54c1\u63a7\u3002'
+        '\u6b61\u8fce\u4f86\u4fe1\u6307\u6b63\u3002',
+        'Note: this page was transcribed by Claude Code\u2019s vision model '
+        'and no doubt contains errors. The times and lines have not yet been '
+        'carefully checked (by a human!) yet, but will be part of a planned '
+        'data quality control check. In the meantime corrections are '
+        'welcome.'),
     'legend': (
         '\u6642\u523b\u306f24\u6642\u9593\u8868\u8a18\uff08\u539f\u672c: '
         '\u7d30\u5b57=\u5348\u524d\u30fb\u592a\u5b57=\u5348\u5f8c\uff09\u3002'
@@ -532,11 +537,15 @@ var IX = {ja:0, zh:1, en:2};
    with Japanese names off is reading the map in English and should not be
    handed a Japanese page because they once pressed 日本語 here. A visit to the
    page directly has no `lang` and keeps their choice. */
-var lang = 'ja';
-try { lang = localStorage.getItem('tt-lang') || 'ja'; } catch (e) {}
+/* English first: this page is read by students of the empire more often
+   than by readers of its languages, and the buttons are right there for
+   anyone who wants the original's own. A choice already made is
+   remembered, so nobody is moved back. */
+var lang = 'en';
+try { lang = localStorage.getItem('tt-lang') || 'en'; } catch (e) {}
 var asked = (location.search.match(/[?&]lang=(\w+)/) || [])[1];
 if (asked) lang = asked;
-if (!(lang in IX)) lang = 'ja';
+if (!(lang in IX)) lang = 'en';
 
 /* Every station name in the tables gets its reading on a second line: the
    kana in Japanese, the Mandarin with its tones otherwise. Matched on the

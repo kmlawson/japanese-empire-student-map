@@ -17735,3 +17735,71 @@ project now also refuses a match that lies more than 120 km from the stops
 either side of it in the train, preferring the record the GIS puts on the
 table's own line where two stops accuse each other. Six such refusals, all
 right on inspection, and 12,000 more points of mis-traced track gone.
+
+
+## Korea's connections merged, and six of a batch of twelve
+
+`korea-connections` merged as a fast-forward. Evaluated before merging and the
+numbers are in the session record: Korea's impossible legs fall from **117 to
+3**, the stations implicated from 24 to 8, and `kr-trains.js` *shrank* from
+1.4 MB to 1.2 MB while gaining 577 trains, because 12,000 points of mis-traced
+track came out. 鏡城 is off 京城's coordinate and back in North Hamgyŏng; 松亭
+and 麻田 are two records each instead of one merged one. That branch reached the
+sequence-distance test independently and put it in the matcher, which is a
+better place than the post-hoc guard the report suggested.
+
+Three of the five legs left are 1-minute bookings over 2–3.5 km, which is
+printing rounding. One is the flag-1 through-connection row. **One is new and
+worth a look:** train 20 on the 連京線 has two rows, 大連 dep 21:00 and 濱江 arr
+22:20 — 830 km in 80 minutes. Its sibling train 16 has the same shape with a
+negative interval. A day-rollover not applied, on a connection line that is
+drawn straight and hidden by default.
+
+Then a batch of twelve from a round of use. Six are done.
+
+**1. The sugar lines stay switchable with the train tools up**, and one
+country's railway at a time. The sugar button was withdrawn while the tools
+were up, on the reasoning that the tools recolour by line and a second network
+is noise; in use that is wrong — the sugar lines branch off the government
+railway and run over ground the timetable's lines do not. And mounting the
+tools for one system now switches the *other* system's railway off: Korea is
+1,089 trains over 42 lines and Taiwan another 346 over 7, and with both on the
+reader is drawing the one they are not looking at.
+
+**3. A train is not a province.** `#info-pop` is filled by whatever record was
+selected before and nothing on the train-card path emptied it, so pressing a
+line, a train or a station left the last province's population block — and its
+two buttons — sitting under the timetable. It is cleared now.
+
+**4. Press a line's name in the strip and that line is the only one lit.**
+Forty-two chips against forty-two lines is a matching exercise by colour alone.
+The other lines, their halos and their trains go to 12% opacity; pressing again
+or pressing another moves the light. Written on the elements rather than left
+to a stylesheet rule, because the line a path belongs to is held in `linePaths`
+and not on the node.
+
+**5. The timetables say who transcribed them.** "transcribed by eye" becomes
+"transcribed by Claude Code's vision model", in all three languages of each
+page, with the author's sentence about the planned quality-control check and
+the invitation to send corrections.
+
+**10.** A Feedback section at the foot of About, with the author's own address,
+at their explicit request.
+
+**11. The timetables open in English.** Both pages defaulted to Japanese; the
+original's own languages are one press away and a choice already made is
+remembered. Four checks in `trains.js` and `krtrains.js` were asserting the old
+default and now assert the new one, pressing through to Japanese to keep what
+they were really guarding.
+
+### Not done, and why
+
+**2** (a short source phrase at the foot of every line, station and train
+card), **6** (romanised line names in the full timetables), **7** (the
+timetables' readings following the Japanese-names switch), **8** (every station
+on a line's card with the count of trains calling), **9** (a horizontal scroll
+bar locked to the foot of the lightbox), and **12** (a Kanji/Hanzi/Hanja
+setting across every named thing on the map) are untouched. 12 in particular is
+a data question before it is a code one — what characters exist for cities,
+stations, provinces, airports, airlines and natural features, and in which
+orthography — and it wants its own pass rather than the tail of this one.

@@ -2979,6 +2979,17 @@ dialog h3 {
 }
 
 .train-chip { white-space: nowrap; }
+/* **A chip is a switch: press it and its line is the only one lit.** Forty-two
+   of them in a strip against forty-two lines on the map is a matching exercise
+   by colour alone, and several of these inks are a shade apart. The picked one
+   is boxed rather than merely darkened, so it reads as chosen at a glance and
+   in a single colour scheme. */
+.train-chip { cursor: pointer; padding: 1px 4px; border-radius: 5px; }
+.train-chip:hover { background: color-mix(in srgb, var(--ink) 10%, transparent); }
+.train-chip.on {
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+  outline: 1px solid var(--accent);
+}
 /* The connections drawn straight between cities: hidden, track and chip, until
    the switch in the bar says otherwise — see `connOn` in trains.js. */
 #train-layer.conn-off .train-line-approx,

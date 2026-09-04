@@ -464,15 +464,21 @@ UI = {
               'Korean Railway Timetable, early 1938 — transcription'),
     'map': ('地圖', '지도', 'Map'),
     'warn': (
-        '注：本頁の時刻は寫眞から人の目で轉記したものです。誤りを含む可能性があり、'
+        '注：本頁の時刻は寫眞から Claude Code の畫像モデルが轉記したものです。'
         '判読に迷った箇所は赤い ? で示しています。午前・午後は活字の太さと連絡船の'
-        '時刻から判定しました。',
-        '주: 이 페이지의 시각은 원본 사진을 사람이 읽어 옮긴 것입니다. 오류가 있을 수 '
-        '있으며, 판독이 불확실한 곳은 빨간 ? 로 표시했습니다.',
-        'Note: these times were transcribed by eye from photographs of the '
-        'original. Errors are possible; a red ? marks a reading the '
-        'transcriber doubted. Morning and afternoon were settled from the '
-        'weight of the type and the ferry connections.'),
+        '時刻から判定しました。時刻と線名はまだ人間による確認を經ておらず、'
+        '今後の品質管理の對象です。訂正のご連絡をお待ちしています。',
+        '주: 이 페이지의 시각은 원본 사진에서 Claude Code 의 이미지 모델이 옮긴 '
+        '것입니다. 판독이 불확실한 곳은 빨간 ? 로 표시했습니다. 시각과 노선명은 '
+        '아직 사람이 검토하지 않았으며, 향후 품질 관리 대상입니다. 정정 제보를 '
+        '환영합니다.',
+        'Note: these times were transcribed by Claude Code\u2019s vision model '
+        'from photographs of the original; a red ? marks a reading it doubted. '
+        'Morning and afternoon were settled from the weight of the type and '
+        'the ferry connections. The times and lines have not yet been '
+        'carefully checked (by a human!) yet, but will be part of a planned '
+        'data quality control check. In the meantime corrections are '
+        'welcome.'),
     'legend': (
         '時刻は24時間表記（原本: 細字=午前・太字=午後）。'
         '↓=通過、*=他線の參考時刻、赤?=判読不確実。',
@@ -531,11 +537,15 @@ body.no-rd .rd{display:none}
 
 PAGE_JS = r"""
 var IX = {ja:0, ko:1, en:2};
-var lang = 'ja';
-try { lang = localStorage.getItem('kt-lang') || 'ja'; } catch (e) {}
+/* English first: this page is read by students of the empire more often
+   than by readers of its languages, and the buttons are right there for
+   anyone who wants the original's own. A choice already made is
+   remembered, so nobody is moved back. */
+var lang = 'en';
+try { lang = localStorage.getItem('kt-lang') || 'en'; } catch (e) {}
 var asked = (location.search.match(/[?&]lang=(\w+)/) || [])[1];
 if (asked) lang = asked;
-if (!(lang in IX)) lang = 'ja';
+if (!(lang in IX)) lang = 'en';
 
 /* Every station name in the tables gets its reading on a second line. Matched
    on the whole text of a cell, so it catches the station column and the

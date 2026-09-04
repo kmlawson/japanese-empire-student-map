@@ -13,8 +13,8 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '305';
-  var JEM_ASSETS = {"admin.js": "3414697d04", "air-play.js": "8db7ba0d73", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "58132ef9c2", "kr-trains.js": "74889615bd", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/korea-1938.html": "0cf6626f70", "timetable/taiwan-1936.html": "babca0fb84", "trains.js": "7d01b397d8", "tw-trains.js": "1655cdb6e0"};
+  var JEM_VERSION = '306';
+  var JEM_ASSETS = {"admin.js": "3414697d04", "air-play.js": "8db7ba0d73", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "58132ef9c2", "kr-trains.js": "74889615bd", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/korea-1938.html": "090c215143", "timetable/taiwan-1936.html": "4aa70a2001", "trains.js": "614e3d4966", "tw-trains.js": "1655cdb6e0"};
 
   /* Every file this one fetches, with the version on it.
 
@@ -2093,12 +2093,17 @@
       }
     }
     /* The sugar lines belong to Taiwan's railway and are offered where it is
-       drawn — with the train tools away, because the tools recolour the
-       network by line and a second network under them is noise rather than
-       context. */
+       drawn.
+
+       **They used to be withdrawn while the train tools were up**, on the
+       reasoning that the tools recolour the network by line and a second
+       network under them is noise. In use that was wrong: the sugar lines
+       branch off the government railway and run over ground the timetable's
+       lines do not, so they add rather than crowd — and a reader looking at
+       the 1936 working timetable is exactly the reader who wants to see what
+       else was on the plain. The switch stays. */
     if (btnSugarEl) {
-      var sugarHere = railUnderView() === 'tw' && state.twRail
-        && !trainDraws('tw');
+      var sugarHere = railUnderView() === 'tw' && state.twRail;
       if (btnSugarEl.hidden !== !sugarHere) btnSugarEl.hidden = !sugarHere;
       var sp = state.twSugar ? 'true' : 'false';
       if (btnSugarEl.getAttribute('aria-pressed') !== sp) {
@@ -2399,6 +2404,22 @@
     if (trainApi.mounted()) return;
     trainBusy = true;
     try {
+      /* **One country's railway at a time while the tools are up.** Korea's
+         network is 1,089 trains over 42 lines and Taiwan's is another 346 over
+         7; with both switched on the reader is fetching and drawing the one
+         they are not looking at, and the timetable they *are* looking at is
+         under somebody else's plain grey line. The other system's railway is
+         switched off here — the switch, not the drawing, so the Layers panel
+         and the button beside the map agree — and the reader can put it back
+         if they want it. */
+      Object.keys(STATION_SYS).forEach(function (k) {
+        if (k === cfg.sys) return;
+        var key = STATION_SYS[k].rail;
+        if (!state[key]) return;
+        state[key] = false;
+        var box = $('#opt-' + k + '-rail');
+        if (box) box.checked = false;
+      });
       borrowStations(cfg);
       trainApi.mount({ sys: cfg.sys, data: JMAP[cfg.data], page: cfg.page,
                        note: cfg.note, ground: cfg.atom });
@@ -11477,6 +11498,15 @@
     grp.setAttribute('data-group', '');
     var flip = $('#info-flip', infoBox);
     if (flip) flip.hidden = true;
+    /* **A train is not a province, and it must not carry a province's
+       figures.** `#info-pop` is filled by whatever record was selected before
+       and nothing on this path emptied it, so pressing a line, a train or a
+       station left the last province's population block — and its "Provinces
+       by Population Density" and "Population Table" buttons — sitting under
+       the timetable. Reported. The block belongs to a place; this card is
+       about a service. */
+    var pop = $('#info-pop');
+    if (pop) { pop.innerHTML = ''; pop.hidden = true; }
     renderTrainBlock($('#info-trains'), block);
     collapseInfo();
     infoBox.hidden = false;

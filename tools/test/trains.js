@@ -756,7 +756,21 @@ const shutDialogs=p=>p.evaluate(()=>{
       }), '');
     check('the timetable page carries all eighteen tables',
       pv.tables===18 && pv.anchors===18, JSON.stringify({t:pv.tables,a:pv.anchors}));
-    check('it opens in Japanese, as the transcription is',
+    /* **It opens in English now.** This page is read by students of the empire
+       more often than by readers of its languages, and the original's own is
+       one press away — which is what the next checks press. A choice already
+       made is remembered, so a reader who has picked Japanese is not moved
+       back. */
+    check('it opens in English', pv.lang==='en' && /Timetable/.test(pv.h1),
+      pv.lang+' '+pv.h1);
+    check('  with the headings translated', pv.cols.join('|')==='km|Station',
+      pv.cols.join('|'));
+    check('  and the printed heading kept on the cell',
+      pv.colTitle==='\u7c81\u7a0b', pv.colTitle);
+    await tt.click('#langbar button[data-lang="ja"]');
+    await sleep(300);
+    pv=await page();
+    check('Japanese is a press away, as the transcription is',
       pv.lang==='ja' && /\u8ee2\u8a18/.test(pv.h1), pv.lang+' '+pv.h1);
     check('with the kana under the station names',
       pv.readings>700 && pv.first && /[\u3040-\u309f]/.test(pv.first[1]),
@@ -775,8 +789,6 @@ const shutDialogs=p=>p.evaluate(()=>{
     check('English translates the furniture and the headings',
       pv.lang==='en' && /Timetable/.test(pv.h1)
       && pv.cols.join('|')==='km|Station', pv.h1+' / '+pv.cols.join('|'));
-    check('and keeps the printed heading on the cell',
-      pv.colTitle==='\u7c81\u7a0b', pv.colTitle);
     check('the readings can be put away',
       await tt.evaluate(async()=>{
         document.querySelector('#rd-on').click();

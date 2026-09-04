@@ -46,3 +46,8 @@ _
 Built with Anthropic's Claude, with [Konrad M. Lawson](https://muninn.net/) at the prompt, primarily as a tool for students in his University of St Andrews honours module, [MO3335](https://github.com/kmlawson/japanese-empire-mo3335/).
 
 Code for the website may be found [here](https://github.com/kmlawson/japanese-empire-student-map).
+
+### Feedback
+
+If you have comments, suggestions, or corrections, please send them to: Konrad M. Lawson  kl@muninn.net
+
