@@ -18185,3 +18185,71 @@ source. It has not got there yet.
 
 Recorded in `texts/pages/sources.md` so the next session does not have to find
 it again, which is how this one lost it.
+
+
+## Ten more Taiwanese readings, out of the article histories
+
+`tools/fetch_tw_readings_by_history.py` is new. The first fetcher asks
+ja.wikipedia for `大甲駅` and reads the furigana out of the lede, which is why
+153 of 206 are verified; it cannot reach the rest, because those stations were
+*renamed*. The article about 車路墘 is called 保安駅, and asking for 車路墘駅
+returns nothing at all. Those articles do carry the answer, in the history:
+
+    保安駅  ->  「1900年 ... 車路墘停車場（しゃろけん-）として開業」
+
+So this searches for the *old* name and takes a kana gloss printed beside it
+anywhere in the text. The first fetcher's rule still holds and is the point: a
+reading only ever comes from a source that states it in kana. Nothing reads a
+kanji.
+
+**Ten accepted. Eleven refused, and the refusals are why the guard exists.**
+
+    日南   にちなん   日南駅 (台中市)     清水   せいすい   清水駅 (台中市)
+    板橋   いたはし   板橋駅 (新北市)     景尾   けいび     景美駅 (台北市)
+    大里   だいり     大里駅 (宜蘭県)     田中   でんちゅう  田中駅 (彰化県)
+    新市   しんし     新市駅 (台南市)     車路墘 しゃろけん  保安駅
+    中洲   ちゅうしゅう 中洲駅             竹田   たけだ     竹田駅 (屏東県)
+
+Searching by characters alone finds the wrong station, and it does so often:
+
+    日南   日南駅            1,323 km away   (Miyazaki's)
+    甲南   甲南駅            1,909 km        (Shiga's)
+    大里   大里駅            1,828 km
+    田中   田中駅            2,194 km
+    水上   水上駅            2,317 km
+    岡山   岡山駅            1,869 km
+    大安   大安駅 (台北市)    wrong region — ours is in 豐原郡, 臺中州
+    大安   大安駅            a disambiguation page
+    新城   新城駅 (曖昧さ回避) a disambiguation page
+    苗栗   苗栗駅 (台湾高速鉄道) no colonial-era history
+    桃園   桃園駅 (台湾高速鉄道) no colonial-era history
+
+Three guards, each added because the one before it let something through:
+
+1. **Coordinates**, where the article has them. Most do not — 清水駅 (台中市)
+   carries none — so this catches only the far-away namesakes.
+2. **Region**, from the table's own `shu` and `district_kanji` against the
+   article's modern city. This is what separates our 大安 in 臺中州 from
+   Taipei's. The 豐/豊 and 臺/台 variants are folded on both sides first.
+3. **A colonial-era history.** 苗栗's reading びょうりつ is right, but the
+   article offering it is the High Speed Rail one, which says in its own second
+   sentence 「在来線（台鉄）の苗栗駅とは別であり」 — a different station.
+   Citing it would have put a source in the table that denies being the source.
+
+Two mistakes of my own, both caught by the output looking wrong:
+
+* The kana came out as `にちなんえき` — the word for *station* on the end of the
+  reading, so `Nichinaneki`. Stripped now.
+* The colonial-era test went in *before* the kana was extracted, so it reported
+  the previous station's reading: 鶯歌 came out as いたはし and five stations in
+  a row as たけだ. A stale variable across loop iterations, obvious only because
+  the values repeated.
+
+And **a lookup that fails is not a station with no reading.** `api` gives up
+after its backoff and returns `None`, and counting that as "nothing stated"
+turned a rate-limited run into a finding — the first full pass reported 3 found
+and 49 with nothing, where the truth was 10 found and 11 lookups timed out.
+Failures are counted on their own now and a second run picks them up, the
+successes being in the cache.
+
+Taiwan's verified goes 153 → 163, unverified 52 → 42.
