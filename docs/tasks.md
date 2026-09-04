@@ -17916,3 +17916,15 @@ flash and for the same reason.
 and the other half of **5** (zooming out far enough to see the whole line when
 it is picked from the strip) are untouched, along with **9** and **12** from the
 previous batch.
+
+### 6. The sugar lines really stay now
+
+The button came back last time and the lines did not: the group was still gated
+on `!trainDraws('tw')`, so switching the tools on took the branch lines off the
+map while the button offering them sat there. Reported. They also needed
+`twRail`, and the tools draw the government railway themselves and leave that
+switch off — so that gate had to go with it. Either the plain railway or the
+tools is enough context for a branch line.
+
+Measured over Taiwan: with the railway and the sugar lines on and no tools, the
+group is `opacity 1, display inline`; with the train tools up, the same.
