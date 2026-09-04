@@ -13,8 +13,8 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '311';
-  var JEM_ASSETS = {"admin.js": "3414697d04", "air-play.js": "8db7ba0d73", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "58132ef9c2", "kr-trains.js": "74889615bd", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/korea-1938.html": "cfb7d3c8c7", "timetable/taiwan-1936.html": "0f2a6423af", "trains.js": "5fad39b8b9", "tw-trains.js": "1655cdb6e0"};
+  var JEM_VERSION = '312';
+  var JEM_ASSETS = {"admin.js": "3414697d04", "air-play.js": "8db7ba0d73", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "58132ef9c2", "kr-trains.js": "74889615bd", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/korea-1938.html": "cfb7d3c8c7", "timetable/taiwan-1936.html": "0f2a6423af", "trains.js": "c0629828d0", "tw-trains.js": "1655cdb6e0"};
 
   /* Every file this one fetches, with the version on it.
 
@@ -6662,6 +6662,54 @@
     menuEl.style.top = Math.max(4, top) + 'px';
   }
 
+  /* **Which line did the reader mean?** Where several run together — out of
+     Keijō, along the Gyeongbu trunk, down the Taiwan west coast — a press is
+     answered by whichever happens to be a pixel nearer, and the reader who
+     wanted the other one has no way to say so. The same little menu the air
+     routes have, built from the same idiom, with each line's own ink beside
+     its name. */
+  function openLineChooser(lines, cx, cy) {
+    closeMenu();
+    menuEl = document.createElement('div');
+    menuEl.id = 'jmap-menu';
+    menuEl.className = 'air-chooser';
+    menuEl.setAttribute('role', 'menu');
+    var head = document.createElement('p');
+    head.className = 'menu-head';
+    head.textContent = lines.length + ' lines run along here';
+    menuEl.appendChild(head);
+    lines.forEach(function (l) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'plain';
+      b.setAttribute('data-line-pick', String(l.index));
+      var dot = document.createElement('span');
+      dot.className = 'air-swatch';
+      dot.style.background = l.colour;
+      b.appendChild(dot);
+      var t = document.createElement('span');
+      t.className = 'air-pick-text';
+      var one = document.createElement('span');
+      one.className = 'air-pick-name';
+      one.textContent = l.name;
+      t.appendChild(one);
+      b.appendChild(t);
+      b.addEventListener('click', function () {
+        closeMenu();
+        var card = trainApi.lineCard(l.index);
+        if (trainApi.pick) trainApi.pick(l.index);
+        if (card) showTrainCard(card);
+      });
+      menuEl.appendChild(b);
+    });
+    document.body.appendChild(menuEl);
+    var b3 = menuEl.getBoundingClientRect();
+    var left = Math.min(cx || 0, window.innerWidth - b3.width - 8);
+    var top = Math.min(cy || 0, window.innerHeight - b3.height - 8);
+    menuEl.style.left = Math.max(4, left) + 'px';
+    menuEl.style.top = Math.max(4, top) + 'px';
+  }
+
   function handleTap(target, cx, cy, sticky) {
     if (planeTap(target)) return;
     if (airTap(target, cx, cy)) return;
@@ -6706,6 +6754,10 @@
       if (tCard) { showTrainCard(tCard); return; }
     }
     if (tHit && tHit.kind === 'line' && !(hit && hit.rec.kind === 'station')) {
+      /* Several lines along the same ground: ask which, rather than answering
+         for the one that happens to be a pixel nearer. */
+      var manyL = trainApi.linesAt ? trainApi.linesAt(cx, cy) : [];
+      if (manyL.length > 1) { openLineChooser(manyL, cx, cy); return; }
       var lCard = trainApi.lineCard(tHit.index);
       if (lCard) {
         /* **Pressing the track picks the line, the way its name in the strip

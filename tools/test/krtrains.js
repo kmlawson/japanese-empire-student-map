@@ -177,6 +177,11 @@ const shutDialogs=p=>p.evaluate(()=>{
       const ev=n=>t.dispatchEvent(new PointerEvent(n,{bubbles:true,
         clientX:r.x+r.width/2,clientY:r.y+r.height/2,pointerType:'mouse'}));
       ev('pointerover'); ev('pointerdown'); ev('pointerup'); ev('click');
+      /* Where several lines run along the same ground the press opens the
+         chooser rather than a card — that is the point of the chooser, and for
+         a check that wants one line it is one more step. */
+      const pick=document.querySelector('#jmap-menu.air-chooser [data-line-pick]');
+      if(pick) pick.click();
       const h=document.querySelector('#info-trains .trains-head');
       return h?h.textContent:'';
     });

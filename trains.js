@@ -712,6 +712,39 @@ window.JMAP_TRAINS = function (host) {
     return null;
   }
 
+  /* **Every line under the press, not only the nearest.**
+   *
+   * Where several run together — out of Keijō, along the Gyeongbu trunk, down
+   * the Taiwan west coast — `hitAt` answers with whichever happens to be a
+   * pixel closer, and the reader who wanted the other one has no way to say
+   * so. This hands back all of them, nearest first, so map.js can offer the
+   * same little menu the air routes have. Measured against the same radius
+   * `hitAt` uses, so a line that would not have answered a press does not
+   * appear in the list. */
+  function linesAt(cx, cy) {
+    if (!cfg) return [];
+    var p = host.clientToSvg(cx, cy);
+    if (!p) return [];
+    var k = lastK > 0 ? lastK : 1;
+    var near = {};
+    for (var g = 0; g < lineGeom.length; g++) {
+      var li = lineGeom[g].li;
+      if (!connOn && data.lines[li] && data.lines[li].x) continue;
+      var pts = lineGeom[g].pts;
+      for (var j = 1; j < pts.length; j++) {
+        var dd = distToSeg(p.x, p.y, pts[j - 1].x, pts[j - 1].y,
+                           pts[j].x, pts[j].y) / k;
+        if (dd < LINE_HIT_PX && (near[li] === undefined || dd < near[li])) {
+          near[li] = dd;
+        }
+      }
+    }
+    return Object.keys(near).map(function (li) {
+      return { index: +li, dist: near[li], name: lineName(+li, false),
+               colour: inks[+li] || (data.lines[+li] || {}).c || '#555' };
+    }).sort(function (a, b) { return a.dist - b.dist; });
+  }
+
   /* ------------------------------------------------------------- cards --
 
      Data, not markup. What a card looks like is map.js's business — it owns
@@ -1285,6 +1318,7 @@ window.JMAP_TRAINS = function (host) {
     },
 
     hitAt: hitAt,
+    linesAt: linesAt,
     trainCard: trainCard,
     lineCard: lineCard,
 

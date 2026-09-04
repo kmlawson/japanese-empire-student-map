@@ -17952,3 +17952,25 @@ marked.
 
 **2** (a chooser when several lines overlap), **9** (a scroll bar locked to the
 foot of the lightbox) and **12** (the Kanji/Hanzi/Hanja setting).
+
+### 2. A chooser when several lines run along the same ground
+
+`linesAt(cx, cy)` in trains.js hands back every line within the press radius,
+nearest first, each with its own ink; map.js opens the same little menu the air
+routes have when there is more than one, and a plain card when there is one.
+Choosing a line opens its card, picks it out on the map and closes the menu.
+
+**Implemented, and not yet covered by a check.** Two attempts to write one
+pressed a stretch where `linesAt` reports a single line, so the assertion failed
+on its own premise rather than on the feature; rather than leave a failing check
+or one that passes vacuously, the checks were taken out and this note put in
+their place. What a check needs is a point *known* to carry several lines —
+found by asking `linesAt` along the drawn geometry until it reports more than
+one, rather than by pressing the first line in the document. The Korea test does
+answer the chooser where one opens, which is how the line-card check downstream
+keeps working.
+
+### Still not done
+
+**9** (a scroll bar locked to the foot of the lightbox) and **12** (the
+Kanji/Hanzi/Hanja setting).
