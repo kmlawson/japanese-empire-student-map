@@ -463,6 +463,10 @@ UI = {
               '조선 철도 시각표 (1938년) — 전사',
               'Korean Railway Timetable, early 1938 — transcription'),
     'map': ('地圖', '지도', 'Map'),
+    # The scan behind the transcription. Named as the book is named, so a
+    # reader can look for it and know they have the right one.
+    'orig': ('原本（Internet Archive）', '원본 (Internet Archive)',
+             'The original (Internet Archive)'),
     'warn': (
         '注：本頁の時刻は寫眞から Claude Code の畫像モデルが轉記したものです。'
         '判読に迷った箇所は赤い ? で示しています。午前・午後は活字の太さと連絡船の'
@@ -710,6 +714,9 @@ def build_html(stations):
         '<h1 data-i18n="title">朝鮮鐵道時刻表（昭和13年・1938）— 転記</h1>')
     html = html.replace('<a href="index.html">地圖</a></header>',
                         '<a href="../index.html" data-i18n="map">地圖</a>'
+                        '<a href="https://archive.org/details/'
+                        'chosen-ressha-jikokuhyo-1938" data-i18n="orig">'
+                        '原本（Internet Archive）</a>'
                         + LANG_BAR + '</header>')
     old_legend = html[html.index('<p class="legend">'):
                       html.index('</p>', html.index('<p class="legend">')) + 4]

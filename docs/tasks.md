@@ -17869,3 +17869,21 @@ still the author's call whether the connection belongs on the map at all.
 
 **9** (a horizontal scroll bar locked to the foot of the lightbox) and **12**
 (the Kanji/Hanzi/Hanja setting) are untouched.
+
+### The source line is the book's own name and a link to the scan
+
+A sentence about the railway is a sentence the reader has to take on trust. The
+foot of every line, station and train card now carries the title as the book is
+titled, linked to the scan: **臺灣鐵道時刻表 (1936)** at
+`archive.org/details/taiwan-train-times-1936`, and **朝鮮列車時刻表 (1938)** at
+`archive.org/details/chosen-ressha-jikokuhyo-1938`.
+
+The Korea timetable page gains the "原本（Internet Archive）" link its Taiwan
+counterpart already had, in all three of its languages; `texts/pages/sources.md`
+gains a **Train Tools, Korea 1938** paragraph, which it had never had — the
+Korea branch brought the data and not the source note; and the vendored bundle's
+README names the scan.
+
+Worth remembering: the source link went in *before* the block's own links, and
+four checks that read the first `<a>` in a card started finding the archive
+where they expected the printed table. It goes after them.

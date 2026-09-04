@@ -13,8 +13,8 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '307';
-  var JEM_ASSETS = {"admin.js": "3414697d04", "air-play.js": "8db7ba0d73", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "58132ef9c2", "kr-trains.js": "74889615bd", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/korea-1938.html": "093219bd51", "timetable/taiwan-1936.html": "0f2a6423af", "trains.js": "1ae398ab56", "tw-trains.js": "1655cdb6e0"};
+  var JEM_VERSION = '308';
+  var JEM_ASSETS = {"admin.js": "3414697d04", "air-play.js": "8db7ba0d73", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "58132ef9c2", "kr-trains.js": "74889615bd", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/korea-1938.html": "cfb7d3c8c7", "timetable/taiwan-1936.html": "0f2a6423af", "trains.js": "1ae398ab56", "tw-trains.js": "1655cdb6e0"};
 
   /* Every file this one fetches, with the version on it.
 
@@ -2229,7 +2229,11 @@
       file: 'tw-trains.js',
       page: 'timetable/taiwan-1936.html',
       note: 'Timetable of February 1936',
-      src: 'Times counted from the Taiwan Government Railway\u2019s working timetable of February 1936.',
+      /* The book itself, named as it is named, with the scan behind it. A
+         sentence about the railway was a sentence the reader has to take on
+         trust; the title and the link are the thing they can check. */
+      src: '\u81fa\u7063\u9435\u9053\u6642\u523b\u8868 (1936)',
+      srcHref: 'https://archive.org/details/taiwan-train-times-1936',
       box: [119.9, 21.8, 122.1, 25.5],
       /* Whose ground the lines are drawn over. The timetable's own colours are
          fitted against it, because the trunk line's red and this map's colonial
@@ -2242,7 +2246,8 @@
       file: 'kr-trains.js',
       page: 'timetable/korea-1938.html',
       note: 'Timetable of early 1938',
-      src: 'Times counted from a Ch\u014dsen\u2013Manchuria\u2013Japan pocket timetable of early 1938.',
+      src: '\u671d\u9bae\u5217\u8eca\u6642\u523b\u8868 (1938)',
+      srcHref: 'https://archive.org/details/chosen-ressha-jikokuhyo-1938',
       box: [124.0, 33.0, 131.2, 43.1],
       atom: 'korea',
       /* Korea is ten degrees tall to Taiwan's three and a half, so the view at
@@ -8301,20 +8306,6 @@
        from. A page of this map's own is passed as `page` and goes through
        `asset` so it carries the build's key; anything else is an absolute
        address and is used as it stands. */
-    /* **Where these times came from, in a phrase.** Every one of these cards —
-       a line's, a station's, a train's — is figures counted from one printed
-       book, and a reader who has followed a train across the map should not
-       have to open About to find out which. It is the system's own sentence
-       rather than the block's, because all three are the same source. */
-    var srcSys = trainApi && trainApi.mounted && trainApi.mounted()
-      && trainApi.system && trainApi.system();
-    var srcTxt = srcSys && TRAIN_SYS[srcSys] && TRAIN_SYS[srcSys].src;
-    if (srcTxt) {
-      var sp = document.createElement('p');
-      sp.className = 'trains-src';
-      sp.textContent = srcTxt;
-      host.appendChild(sp);
-    }
     (block.links || []).forEach(function (l) {
       var a = document.createElement('a');
       a.className = 'note-src';
@@ -8347,6 +8338,29 @@
       }
       host.appendChild(a);
     });
+    /* **Where these times came from, in a phrase.** Every one of these cards —
+       a line's, a station's, a train's — is figures counted from one printed
+       book, and a reader who has followed a train across the map should not
+       have to open About to find out which. It is the system's own sentence
+       rather than the block's, because all three are the same source. */
+    var srcSys = trainApi && trainApi.mounted && trainApi.mounted()
+      && trainApi.system && trainApi.system();
+    var srcCfg = srcSys && TRAIN_SYS[srcSys];
+    if (srcCfg && srcCfg.src) {
+      var sp = document.createElement('p');
+      sp.className = 'trains-src';
+      if (srcCfg.srcHref) {
+        var sa = document.createElement('a');
+        sa.href = srcCfg.srcHref;
+        sa.target = '_blank';
+        sa.rel = 'noopener noreferrer';
+        sa.textContent = srcCfg.src;
+        sp.appendChild(sa);
+      } else {
+        sp.textContent = srcCfg.src;
+      }
+      host.appendChild(sp);
+    }
     host.hidden = false;
   }
 
