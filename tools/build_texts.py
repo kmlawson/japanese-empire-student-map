@@ -211,6 +211,107 @@ POP = os.path.join(ROOT, "data", "population")
 AIR = os.path.join(ROOT, "data", "air")
 
 
+# The pre-war character forms and the tables that guard them. `check_kyu` below
+# is the only thing that trusts them, and it only ever *verifies*.
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import kyujitai as KYU
+
+
+def check_kyu(rows, key, where, polity_of):
+    """`ja_kyu` says nothing that `ja` and the one-to-one table do not agree on.
+
+    Four separate refusals, because they catch four different mistakes:
+
+      * **the round trip** — every `ja_kyu` run back through `BACK` must equal
+        `ja`. A typo, a wrong disambiguation, a name typed on the wrong row and
+        a modern Chinese or Soviet form all fail here, and this is the whole
+        reason the column can be trusted at all;
+      * **the whitelist** — a character may differ from its `ja` counterpart
+        only if the table says so, which stops a stray itaiji;
+      * **the scope** — Japan and Karafuto only. A Korean or Chinese name that
+        acquired one of these would be a claim nobody made;
+      * **the tripwire** — a name holding a character whose reverse mapping is
+        ambiguous may not carry a `ja_kyu` at all. Those are for a person with
+        a source, not for anybody running the table.
+    """
+    for r in rows:
+        kyu = _bare(r.get("ja_kyu", ""))
+        if not kyu:
+            continue
+        who = r.get(key)
+        ja = _bare(r.get("ja", ""))
+        pol = polity_of(who)
+        if pol not in ("Japan", "Karafuto"):
+            raise Problem(
+                "%s: %r has `ja_kyu` and sits in %r. Pre-war Japanese "
+                "character forms are for Japan and Karafuto; on anything else "
+                "they would be a claim about an orthography nobody used there."
+                % (where, who, pol or "no polity"))
+        if not ja:
+            raise Problem(
+                "%s: %r has `ja_kyu` %r and no `ja` to check it against. The "
+                "column is verified by converting it back, so it cannot stand "
+                "on its own." % (where, who, kyu))
+        if len(kyu) != len(ja):
+            raise Problem(
+                "%s: %r has ja %r and ja_kyu %r, which are different lengths. "
+                "A pre-war form is the same name in older characters, not a "
+                "different name." % (where, who, ja, kyu))
+        stop = [c for c in ja if c in KYU.NEVER]
+        if stop:
+            raise Problem(
+                "%s: %r has ja %r, which contains %s — %s. A name with one of "
+                "those cannot be settled by the table; it needs a period "
+                "source and a person, so `ja_kyu` must be left empty here."
+                % (where, who, ja, "".join(stop), KYU.NEVER[stop[0]]))
+        bad = [(a, b) for a, b in zip(ja, kyu)
+               if a != b and KYU.SAFE.get(a) != b]
+        if bad:
+            raise Problem(
+                "%s: %r has ja %r and ja_kyu %r, and %s is not a pre-war form "
+                "this project knows. Add it to SAFE in tools/kyujitai.py with "
+                "a reason, or correct the entry."
+                % (where, who, ja, kyu,
+                   ", ".join("%s->%s" % x for x in bad)))
+        back = "".join(KYU.BACK.get(c, c) for c in kyu)
+        if back != ja:
+            raise Problem(
+                "%s: %r has ja_kyu %r, which converts back to %r and not to "
+                "its own ja %r. Something is wrong with the entry: a typo, the "
+                "wrong row, or a form from another language."
+                % (where, who, kyu, back, ja))
+
+
+def kyu_lint(rows, key, polity_of):
+    """What is left to do, said out loud rather than quietly missing."""
+    todo, blocked, tabled = [], [], 0
+    for r in rows:
+        who = r.get(key)
+        if polity_of(who) not in ("Japan", "Karafuto"):
+            continue
+        ja = _bare(r.get("ja", ""))
+        if not ja:
+            continue
+        if _bare(r.get("ja_kyu", "")):
+            if (r.get("ja_kyu_src") or "").strip() == "table":
+                tabled += 1
+            continue
+        if any(c in KYU.NEVER for c in ja):
+            blocked.append((who, ja))
+        elif any(c in KYU.SAFE for c in ja):
+            todo.append((who, ja))
+    if todo:
+        print("  kyūjitai: %d Japan/Karafuto names could take a pre-war form "
+              "and have none: %s"
+              % (len(todo), ", ".join("%s %s" % t for t in todo[:8])))
+    if blocked:
+        print("  kyūjitai: %d held back for a source, not forgotten: %s"
+              % (len(blocked), ", ".join("%s %s" % t for t in blocked)))
+    if tabled:
+        print("  kyūjitai: %d entered from the table and not yet checked "
+              "against a period document (`ja_kyu_src` is `table`)" % tabled)
+
+
 def read_data_csv(*parts):
     """A CSV under data/, with the same parser everything else here uses.
 
@@ -820,6 +921,11 @@ def build_data_js():
     rows = load("city-names.csv")
     check_unique(rows, "id", "texts/city-names.csv")
     check_names(rows, "id", "texts/city-names.csv")
+    # the pre-war forms are scoped by polity, which lives in the dot table
+    _pol = {c["id"]: c.get("polity_1940", "")
+            for c in read_data_csv("cities.csv")}
+    check_kyu(rows, "id", "texts/city-names.csv", lambda i: _pol.get(i, ""))
+    kyu_lint(rows, "id", lambda i: _pol.get(i, ""))
     ns = notes("city-names.md")
     parts.append("JMAP.CITY_NAMES = [\n%s\n];" % array(rows, ns, snippets, indent=2))
 

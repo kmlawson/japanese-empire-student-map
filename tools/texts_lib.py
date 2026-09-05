@@ -357,7 +357,7 @@ def js_object(d, indent=0):
     return "\n".join(out)
 
 
-SKIP_COLS = ("epoch", "key", "site", "cluster")
+SKIP_COLS = ("epoch", "key", "site", "cluster", "ja_kyu_src")
 
 
 def record_to_js(row, note=None, indent=4, note_field="note"):

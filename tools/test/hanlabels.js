@@ -379,6 +379,41 @@ console.log('\n— a province and its capital may share a name, but not a spot �
   }
 }
 
+console.log('\n— Japan in pre-war characters, where they are known —');
+{
+  /* `ja` holds modern shinjitai — 金沢, 豊橋 — and the switch was asked for
+     旧字 on Japan and Karafuto. `ja_kyu` carries the older form on the eleven
+     names where it differs and the one-to-one table can be trusted; the build
+     refuses unless each converts back to its own `ja`, so what is checked here
+     is only that the column reaches the map.
+     
+     仙台 is the one deliberately left alone: 仙台/仙臺 are both in pre-war
+     official print, so it needs a source and a person rather than a table, and
+     `build_texts.py` refuses a `ja_kyu` on it. It must still be drawn — held
+     back is not the same as dropped. */
+  const p=await browser.newPage(); await p.setViewport({width:1500,height:980});
+  p.on('pageerror',e=>errs.push(String(e)));
+  await p.evaluateOnNewDocument(SHIM);
+  await p.goto(URL+'?where=128,32,146,46',{waitUntil:'networkidle0'}); await ready(p);
+  await p.evaluate(()=>{
+    document.querySelector('#layer-seg button[data-opt="labels"]').click();
+    const c=document.querySelector('#layer-seg button[data-cat="city"]');
+    if(c.getAttribute('aria-pressed')!=='true') c.click();});
+  await sleep(2200);
+  await han(p,true);
+  const on=await labels(p);
+  const KYU=['金澤','靜岡','橫須賀','吳'];
+  const SHIN=['金沢','静岡','横須賀','呉'];
+  const drawn=KYU.filter(w=>on.indexOf(w)>=0);
+  check('the pre-war forms are what is drawn', drawn.length>=3, JSON.stringify(drawn));
+  const modern=SHIN.filter(w=>on.indexOf(w)>=0);
+  check('and the modern forms are not', modern.length===0, JSON.stringify(modern));
+  check('Sendai is still named, held back rather than dropped',
+    on.indexOf('仙台')>=0, JSON.stringify(on.filter(w=>/仙[台臺]/.test(w))));
+  check('and not given a form nobody sourced', on.indexOf('仙臺')<0, '仙臺 drawn');
+  await p.close();
+}
+
 check('no page errors', errs.length===0, errs.slice(0,2).join(' | '));
 await browser.close();
 console.log('\n  '+pass+' passed, '+fail+' failed');

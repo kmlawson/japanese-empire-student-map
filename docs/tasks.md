@@ -18720,3 +18720,70 @@ same reason.
 
 Tests: `airplay.js` 80. Whole suite 1964 checks across 60 scripts, all passing,
 492.2s.
+
+## 旧字 for Japan and Karafuto: the machinery, and eleven names
+
+The review's recommendation, implemented. Its position was *convert, but never
+automatically* — an allow-list of whole names with a build-time guard, on the
+strength of one asymmetry:
+
+    kyū -> shin is deterministic and many-to-one.
+    shin -> kyū is not.
+
+So the build can **verify** what no tool should **generate**.
+
+**`tools/kyujitai.py`** holds three tables and nothing else. `SAFE` is 106
+one-to-one pairs — 沢→澤, 広→廣, 濱←浜 — used only to *find* candidates and to
+check what a person entered. `NEVER` is the nineteen whose reverse mapping is
+ambiguous or where both forms were current in pre-war print: 弁 (辨/瓣/辯/辮),
+台 (臺/颱), 塩 (鹽/塩 both official), 万, 与, 竜, 斉/斎, 辺 and the rest.
+`BACK` is the inverse of `SAFE`, and it is a true inverse — checked: no
+character appears in two tables, and no kyū form is claimed by two shin
+characters.
+
+**`VARIANTS` is a third table because my first cut got this wrong.** 島/嶋/嶌,
+峰/峯, 曽/曾, 崎/﨑 are alternative *spellings*, not pre-war forms of one
+character, so they are simply absent from `SAFE` and pass through untouched.
+Treating them as blockers — which is how I first read the review's "leave alone
+entirely" — stopped 徳島 → 德島, where the only character that moves is 徳 and
+島 does not move at all. Ten names became eleven when that was separated.
+
+**Four refusals in `check_kyu`, each proved to fire** by injecting a bad value
+and watching the build stop:
+
+    a form that does not round-trip   金沢 / 金澤山 -> different lengths
+    a pair the table does not know    金沢 / 金驛   -> 沢->驛 is not a pre-war form
+    out of scope                      qiqihar      -> sits in Manchukuo
+    the contested tripwire            仙台         -> 臺/颱, contested in period print
+
+The tripwire had to be moved *ahead* of the whitelist: 仙臺 was being reported
+as merely an unknown pair, with the message inviting the next person to add
+台→臺 to `SAFE`, which is exactly the mistake the tripwire exists to prevent.
+
+**The eleven.** kanazawa 金澤 · kure 吳 · yokosuka 橫須賀 · hamamatsu 濱松 ·
+shizuoka 靜岡 · tokushima 德島 · toyohashi 豐橋 · mito 水戶 · toyohara 豐原 ·
+maoka 眞岡 · esutoru 惠須取. Of 63 Japan and Karafuto rows, 46 are already their
+own pre-war form (東京, 京都, 名古屋, 大泊) and one is held back.
+
+**What is *not* done, and the file says so.** The review asked for a period
+source per name — the 1930 census tables — and I have not consulted them.
+`ja_kyu_src` reads `table` on all eleven, meaning *derived by the one-to-one
+table and round-trip checked, not yet read off a period document*. The build
+prints that count on every run, beside the one held back, so the remaining
+verification is visible work rather than a thing quietly assumed finished. It
+is weaker than the review's ideal and stronger than the shinjitai it replaces.
+
+`ja_kyu_src` is in `SKIP_COLS`: it is the file's bookkeeping, not something the
+browser needs.
+
+**One bug worth recording.** The column reached `data.js` and still did nothing,
+because `buildGazetteer` merges a *fixed list* of name fields onto the dot and
+`ja_kyu` was not on it. A city's label is drawn from that merged record, so a
+field left out of the list is a field the map can never see — twice over, since
+the site merge has its own copy of the list.
+
+Tests: `hanlabels.js` gains four — the pre-war forms are what is drawn, the
+modern ones are not, Sendai is still named, and Sendai is not given a form
+nobody sourced. 43 pass. `SECS` 95 → 108, and `TRIGGERS` now knows
+`tools/kyujitai.py` reaches `core` and `data`. Whole suite 1968 checks across 60
+scripts, all passing, 495.1s.

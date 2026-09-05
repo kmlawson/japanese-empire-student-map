@@ -2337,7 +2337,7 @@ JMAP.CITY_NAMES = [
   },
   {
     id: 'kanazawa', en: 'Kanazawa', ja: '金沢 (Kanazawa)', zh: '金澤', ko: '가나자와', lat: 36.56,
-    lon: 136.66, wiki: 'https://en.wikipedia.org/wiki/Kanazawa',
+    lon: 136.66, wiki: 'https://en.wikipedia.org/wiki/Kanazawa', ja_kyu: '金澤',
     note: 'A castle town of the Maeda, and one of the largest cities in Japan the bombing never reached.'
   },
   {
@@ -2357,12 +2357,12 @@ JMAP.CITY_NAMES = [
   },
   {
     id: 'kure', en: 'Kure', ja: '呉 (Kure)', zh: '吳', ko: '구레', lat: 34.25, lon: 132.57,
-    wiki: 'https://en.wikipedia.org/wiki/Kure,_Hiroshima',
+    wiki: 'https://en.wikipedia.org/wiki/Kure,_Hiroshima', ja_kyu: '吳',
     note: 'The navy yard that built the Yamato. Carrier raids in July 1945 sank what was left of the fleet at its moorings.'
   },
   {
     id: 'yokosuka', en: 'Yokosuka', ja: '横須賀 (Yokosuka)', zh: '橫須賀', ko: '요코스카', lat: 35.28,
-    lon: 139.67, wiki: 'https://en.wikipedia.org/wiki/Yokosuka',
+    lon: 139.67, wiki: 'https://en.wikipedia.org/wiki/Yokosuka', ja_kyu: '橫須賀',
     note: 'The oldest of the navy yards, built with French help from 1865, and the base that guarded the approaches to Tokyo Bay.'
   },
   {
@@ -2383,7 +2383,7 @@ JMAP.CITY_NAMES = [
   {
     id: 'toyohara', en: 'Toyohara (Yuzhno-Sakhalinsk)', ja: '豊原 (Toyohara)', zh: '豐原',
     ko: '유즈노사할린스크', lat: 46.96, lon: 142.73,
-    wiki: 'https://en.wikipedia.org/wiki/Yuzhno-Sakhalinsk',
+    wiki: 'https://en.wikipedia.org/wiki/Yuzhno-Sakhalinsk', ja_kyu: '豐原',
     note: 'The capital of Karafuto, laid out on a grid by the colonial government. Soviet troops took it in August 1945 and it is Yuzhno-Sakhalinsk now.'
   },
   {
@@ -2966,7 +2966,7 @@ JMAP.CITY_NAMES = [
   },
   {
     id: 'hamamatsu', en: 'Hamamatsu', ja: '浜松', zh: '濱松', ko: '하마마쓰', lat: 34.71, lon: 137.73,
-    wiki: 'https://en.wikipedia.org/wiki/Hamamatsu',
+    wiki: 'https://en.wikipedia.org/wiki/Hamamatsu', ja_kyu: '濱松',
     note: 'Aircraft and instrument industry; bombed and shelled from the sea in 1945.'
   },
   {
@@ -3078,7 +3078,7 @@ JMAP.CITY_NAMES = [
   },
   {
     id: 'shizuoka', en: 'Shizuoka', ja: '静岡 (Shizuoka)', lat: 34.98, lon: 138.38,
-    wiki: 'https://en.wikipedia.org/wiki/Shizuoka_(city)',
+    wiki: 'https://en.wikipedia.org/wiki/Shizuoka_(city)', ja_kyu: '靜岡',
     note: 'Tea and mandarins, and the port of Shimizu that shipped both.'
   },
   {
@@ -3103,7 +3103,7 @@ JMAP.CITY_NAMES = [
   },
   {
     id: 'tokushima', en: 'Tokushima', ja: '徳島', zh: '德島', ko: '도쿠시마', lat: 34.07, lon: 134.55,
-    wiki: 'https://en.wikipedia.org/wiki/Tokushima_(city)',
+    wiki: 'https://en.wikipedia.org/wiki/Tokushima_(city)', ja_kyu: '德島',
     note: 'Indigo, the crop that made the old Awa domain rich, on the Shikoku side of the Naruto strait.'
   },
   {
@@ -3113,7 +3113,7 @@ JMAP.CITY_NAMES = [
   },
   {
     id: 'toyohashi', en: 'Toyohashi', ja: '豊橋', zh: '豐橋', ko: '도요하시', lat: 34.77, lon: 137.39,
-    wiki: 'https://en.wikipedia.org/wiki/Toyohashi',
+    wiki: 'https://en.wikipedia.org/wiki/Toyohashi', ja_kyu: '豐橋',
     note: 'A garrison and silk town on the Tōkaidō between Nagoya and Shizuoka.'
   },
   {
@@ -3367,7 +3367,7 @@ JMAP.CITY_NAMES = [
   },
   {
     id: 'esutoru', en: 'Esutoru (Uglegorsk)', ja: '恵須取', lat: 49.08, lon: 142.07,
-    wiki: 'https://en.wikipedia.org/wiki/Uglegorsk,_Sakhalin_Oblast',
+    wiki: 'https://en.wikipedia.org/wiki/Uglegorsk,_Sakhalin_Oblast', ja_kyu: '惠須取',
     note: 'Pulp and coal town, the largest settlement of northern Karafuto.'
   },
   {
@@ -3621,7 +3621,7 @@ JMAP.CITY_NAMES = [
   },
   {
     id: 'maoka', en: 'Maoka (Kholmsk)', ja: '真岡', ko: '홀름스크', lat: 47.06, lon: 142.05,
-    wiki: 'https://en.wikipedia.org/wiki/Kholmsk',
+    wiki: 'https://en.wikipedia.org/wiki/Kholmsk', ja_kyu: '眞岡',
     note: 'West-coast port; the Soviet landing of 20 August 1945 and the telephone operators’ suicides.'
   },
   {
@@ -3650,7 +3650,7 @@ JMAP.CITY_NAMES = [
   },
   {
     id: 'mito', en: 'Mito', ja: '水戸 (Mito)', lat: 36.37, lon: 140.47,
-    wiki: 'https://en.wikipedia.org/wiki/Mito,_Ibaraki',
+    wiki: 'https://en.wikipedia.org/wiki/Mito,_Ibaraki', ja_kyu: '水戶',
     note: 'The seat of a senior Tokugawa house, and of the school of thought that supplied the slogans of the Restoration.'
   },
   {
