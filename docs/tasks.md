@@ -18635,3 +18635,41 @@ stack can no longer empty.
 
 Tests: `hanlabels.js` 33, `layerinfo.js` 27. Whole suite 1946 checks across 60
 scripts, all passing, 479.8s.
+
+## The twins were already apart, and now they are held apart
+
+Following the last entry: 吉林 and 寧夏 are lettered twice because a province
+and its capital shared those names, and the ask was to make sure the two do not
+sit on top of one another and can be told apart.
+
+**Measured before changing anything, and nothing needed changing.** With both
+labels on the screen and the characters switch on:
+
+    吉林   city (540,514) 20×12   province (1073,174) 22×12   534px apart
+    寧夏   city (567,534) 20×12   province ( 108,265) 23×12   458px apart
+
+Zero overlapping pixels, because a province is lettered at its own centroid and
+a city at its dot, and neither of these capitals sits near the middle of its
+province. A sweep of eight framings — each pair's own ground, the busy Japanese
+home islands, and the whole map at once — found **no repeated name overlapping
+itself anywhere**, 19 to 52 labels a frame.
+
+**And they were already distinct.** The province is `tlabel sublabel` — italic,
+weight 700, tracked 0.735px, `rgb(74,59,42)` at 0.78 opacity. The city is
+`blabel` — upright, weight 500, no tracking, `rgb(90,84,74)` at full opacity.
+Four differences, any one of which would carry it.
+
+**So what this entry actually changes is that the two conditions are now
+enforced rather than true by luck.** Nothing guarantees the distance in general
+— a capital near the middle of its province would put the pair together — so
+the invariant is the check and not the measurement. `hanlabels.js` gains six:
+that Jilin is lettered twice at all, that the pair does not overlap, that the
+two do not share a computed style, the same for Ningxia, and that no repeated
+name overlaps itself at the widest view or over the home islands. Written to
+fail if a future placement change pushes them together, which is the only way
+this stays true.
+
+`SECS` for `hanlabels` moved 60 → 95 to match what it now costs.
+
+Tests: `hanlabels.js` 39. Whole suite 1952 checks across 60 scripts, all
+passing, 483.8s.

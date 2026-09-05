@@ -292,6 +292,93 @@ console.log('\n— one label to a place —');
   await p.close();
 }
 
+console.log('\n— a province and its capital may share a name, but not a spot —');
+{
+  /* 吉林 and 寧夏 are drawn twice on purpose: a province and its capital
+     genuinely shared those names, and under the characters the two labels
+     become the same word. That is a fact worth showing rather than a bug worth
+     hiding — but only while the reader can tell which is which. Two things
+     make that true and both are asserted here rather than assumed:
+
+       * they must not sit on top of one another, and
+       * they must not look alike.
+
+     Measured rather than eyeballed, over framings that put each pair on the
+     screen and over the whole map at once. When this was written the Jilin
+     pair were 534px apart and the Ningxia pair 458px, because a province is
+     lettered at its own centroid and a city at its dot. Nothing guarantees
+     that in general — a capital near the middle of its province would put them
+     together — so the invariant is the check, not the distance. */
+  const boxes=async(p,words)=>p.evaluate(w=>{
+    const out=[];
+    [...document.querySelectorAll('#labels text')].forEach(e=>{
+      const t=e.textContent.trim();
+      if(!t || (w.length && w.indexOf(t)<0)) return;
+      const r=e.getBoundingClientRect();
+      if(!(r.width>0)) return;
+      const cs=getComputedStyle(e);
+      out.push({t, cls:e.getAttribute('class')||'', x:r.x, y:r.y, w:r.width, h:r.height,
+        style:[cs.fontStyle,cs.fontWeight,cs.letterSpacing,cs.fill].join('|')});});
+    return out;},words);
+  const overlaps=list=>{
+    const bad=[];
+    for(let i=0;i<list.length;i++)for(let j=i+1;j<list.length;j++){
+      const a=list[i],b=list[j];
+      if(a.t!==b.t) continue;
+      const ox=Math.max(0,Math.min(a.x+a.w,b.x+b.w)-Math.max(a.x,b.x));
+      const oy=Math.max(0,Math.min(a.y+a.h,b.y+b.h)-Math.max(a.y,b.y));
+      if(ox>0&&oy>0) bad.push(a.t);}
+    return bad;
+  };
+  const openAt=async where=>{
+    const p=await browser.newPage(); await p.setViewport({width:1500,height:980});
+    p.on('pageerror',e=>errs.push(String(e)));
+    await p.evaluateOnNewDocument(SHIM);
+    await p.goto(URL+'?where='+where,{waitUntil:'networkidle0'}); await ready(p);
+    await p.evaluate(()=>{
+      document.querySelector('#layer-seg button[data-opt="labels"]').click();
+      const c=document.querySelector('#layer-seg button[data-cat="city"]');
+      if(c.getAttribute('aria-pressed')!=='true') c.click();
+      const a=document.querySelector('#layer-seg button[data-cat="territory"]');
+      if(a.getAttribute('aria-pressed')!=='true') a.click();});
+    await sleep(2200);
+    await han(p,true);
+    return p;
+  };
+
+  const jl=await openAt('124,41.5,129.5,46');
+  const pair=await boxes(jl,['吉林']);
+  check('Jilin is lettered twice — the province and its capital',
+    pair.length===2, JSON.stringify(pair.map(o=>o.cls)));
+  check('and the two do not sit on top of each other',
+    overlaps(pair).length===0, JSON.stringify(overlaps(pair)));
+  if (pair.length===2) {
+    /* The province is italic, tracked and paler; the city is upright. If those
+       ever converge the reader is left with the same word twice and no way to
+       tell a province from a town. */
+    check('and they do not look alike either', pair[0].style!==pair[1].style,
+      pair[0].style+'  vs  '+pair[1].style);
+  }
+  await jl.close();
+
+  const nx=await openAt('103.5,36,109,41');
+  const np=await boxes(nx,['寧夏']);
+  check('Ningxia likewise', np.length===2 && overlaps(np).length===0,
+    JSON.stringify(np.map(o=>({cls:o.cls,x:Math.round(o.x),y:Math.round(o.y)}))));
+  await nx.close();
+
+  /* And nothing anywhere else, at the widest view and over the busiest ground,
+     because the rule is about every repeated name and not these two. */
+  for (const where of ['70,5,150,55','128,30,146,46']) {
+    const p=await openAt(where);
+    const all=await boxes(p,[]);
+    check('no repeated name overlaps itself at '+where,
+      overlaps(all).length===0, JSON.stringify(overlaps(all).slice(0,4))
+      + ' of ' + all.length + ' labels');
+    await p.close();
+  }
+}
+
 check('no page errors', errs.length===0, errs.slice(0,2).join(' | '));
 await browser.close();
 console.log('\n  '+pass+' passed, '+fail+' failed');
