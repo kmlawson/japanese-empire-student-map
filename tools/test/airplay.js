@@ -760,6 +760,112 @@ const toEpoch=async(p,y)=>{
       flew.hits === 0, flew.hits + ' of ' + flew.mine + ' marks');
   }
 
+  /* ------------------------------- the card gives way to the tools --
+   *
+   * `styles.css` hides `#train-bar` under `(max-height: 520px)` and `.air-bar`
+   * under `(max-width: 820px)` while `body.panel-open`, because a strip across
+   * the foot of a phone on top of a card leaves neither readable. The
+   * consequence nobody had followed through: a reader with a card open who
+   * switches the tools on gets *nothing* — the switch takes, the strip mounts,
+   * and the CSS keeps it off the screen, so the feature looks broken rather
+   * than hidden.
+   *
+   * Both tools are checked here rather than one each in two files, because it
+   * is one rule and it should fail in one place. And the desktop case is
+   * checked too: nothing may close there, or a reader with room for both loses
+   * the card they were reading for no reason. */
+  console.log('\n— on a small screen the card gives way to the tools —');
+  {
+    const look=pg=>pg.evaluate(()=>({
+      panel:!document.getElementById('info').hidden,
+      openCls:document.body.classList.contains('panel-open'),
+      air:(()=>{const b=document.querySelector('.air-bar');
+        return b?getComputedStyle(b).display:'';})(),
+      train:(()=>{const b=document.getElementById('train-bar');
+        return b?getComputedStyle(b).display:'';})()}));
+    const openCard=async pg=>{
+      /* **Press candidates until one answers**, which is what `air.js` does
+         for the same reason. A named dot with "the first in the document" as a
+         fallback is wrong twice over: over Taiwan the first is in the Indian
+         Ocean, and a `.gaz` having a box does not mean it is *drawn* — a dot
+         below the tier floor at this zoom still measures 26px wide and opens
+         nothing when pressed. Keelung was the one that caught this. Worse, the
+         check after this then passed on an empty panel: a vacuous pass, which
+         is more dangerous than the failure it hid. */
+      const spots=await pg.evaluate(()=>{
+        const out=[];
+        for (const g of document.querySelectorAll('.gaz')) {
+          const r=g.getBoundingClientRect();
+          const x=r.x+r.width/2, y=r.y+r.height/2;
+          if (r.width>0 && x>40 && y>80 && x<innerWidth-40 && y<innerHeight-120) {
+            out.push({x,y});
+          }
+        }
+        return out.slice(0,14);});
+      for (const at of spots) {
+        // a finger, not a synthesised click: the map reads pointer events
+        await pg.mouse.move(at.x,at.y); await pg.mouse.down();
+        await sleep(90); await pg.mouse.up(); await sleep(650);
+        if (await pg.evaluate(()=>!document.getElementById('info').hidden)) return true;
+      }
+      return false;
+    };
+    const cases=[
+      ['a phone', {width:420,height:860,isMobile:true,hasTouch:true}, true],
+      ['a landscape phone', {width:860,height:430,isMobile:true,hasTouch:true}, true],
+      ['a desktop', {width:1500,height:980}, false],
+    ];
+    for (const [what, vp, small] of cases) {
+      const pg=await browser.newPage(); await pg.setViewport(vp);
+      pg.on('pageerror',e=>errs.push(String(e)));
+      if(!small) await pg.evaluateOnNewDocument(SHIM);
+      await pg.goto(URL,{waitUntil:'networkidle0'}); await ready(pg);
+      await pg.evaluate(()=>{const c=document.querySelector('#layer-seg button[data-cat="city"]');
+        if(c.getAttribute('aria-pressed')!=='true') c.click();});
+      await sleep(1400);
+      const got=await openCard(pg);
+      check('a card opens on '+what, got && (await look(pg)).panel, String(got));
+      await pg.evaluate(()=>document.getElementById('btn-air').click());
+      await sleep(1700);
+      await pg.evaluate(()=>{const x=document.getElementById('btn-planes');
+        if(x&&!x.hidden)x.click();});
+      await sleep(2200);
+      const now=await look(pg);
+      check('the plane tools are on the screen, not merely switched on, on '+what,
+        now.air==='flex', JSON.stringify(now));
+      if (small) {
+        check('and the card stood aside for them on '+what,
+          now.panel===false && now.openCls===false, JSON.stringify(now));
+      } else {
+        check('and nothing closed on '+what+', which has room for both',
+          now.panel===true, JSON.stringify(now));
+      }
+      await pg.close();
+    }
+
+    /* The trains take the other breakpoint — a short screen rather than a
+       narrow one — so a landscape phone is the case that matters. */
+    const pg=await browser.newPage();
+    await pg.setViewport({width:860,height:430,isMobile:true,hasTouch:true});
+    pg.on('pageerror',e=>errs.push(String(e)));
+    await pg.goto(URL+'?where=119,21.5,122.6,25.6',{waitUntil:'networkidle0'});
+    await ready(pg);
+    await pg.evaluate(()=>{const x=document.getElementById('opt-tw-rail');
+      if(x&&!x.checked)x.click();
+      const c=document.querySelector('#layer-seg button[data-cat="city"]');
+      if(c.getAttribute('aria-pressed')!=='true') c.click();});
+    await sleep(2400);
+    await openCard(pg);
+    check('a card opens over Taiwan', (await look(pg)).panel);
+    await pg.evaluate(()=>{const x=document.getElementById('opt-train-tools');
+      if(x&&!x.checked)x.click();});
+    await sleep(3000);
+    const tr=await look(pg);
+    check('the train tools are on the screen too', tr.train==='flex', JSON.stringify(tr));
+    check('and that card stood aside as well', tr.panel===false, JSON.stringify(tr));
+    await pg.close();
+  }
+
   check('no page errors', errs.length===0 && perrs.length===0,
     errs.concat(perrs).join(' | '));
   await browser.close();

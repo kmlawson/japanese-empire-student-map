@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '320';
+  var JEM_VERSION = '322';
   var JEM_ASSETS = {"admin.js": "3414697d04", "air-play.js": "8db7ba0d73", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "58132ef9c2", "kr-trains.js": "74889615bd", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/korea-1938.html": "91837c326f", "timetable/taiwan-1936.html": "23eaf5f955", "trains.js": "c0629828d0", "tw-trains.js": "7cd1c3f42d"};
 
   /* Every file this one fetches, with the version on it.
@@ -10446,7 +10446,36 @@
    * already put the trains' tools away — this is the rest of the rule, so it
    * holds whichever of the two the reader presses. The *layers* are untouched:
    * the railway stays drawn and so do the air routes. */
+  /* **On a small screen the card and the tools cannot both be there.**
+   *
+   * `styles.css` hides `#train-bar` under `(max-height: 520px)` and `.air-bar`
+   * under `(max-width: 820px)` while `body.panel-open` — deliberately, because
+   * a strip across the foot of a phone on top of a card leaves neither
+   * readable. The consequence nobody had followed through: a reader with a
+   * card open who switches the tools on gets *nothing*. The switch takes, the
+   * strip mounts, and the CSS keeps it off the screen, so the feature looks
+   * broken rather than hidden.
+   *
+   * So the card gives way when the tools are asked for. Only then — turning
+   * the tools *off* leaves whatever the reader was reading alone — and only on
+   * the screens where the two actually collide, which is what this query is:
+   * the union of the two in the stylesheet, and it has to be kept in step with
+   * them. On a desktop nothing closes.
+   *
+   * The card is not lost, only dismissed: tapping the map brings it back, and
+   * the reader now has the tools they just asked for in front of them. */
+  var TOOLS_CROWD_OUT = '(max-width: 820px), (max-height: 520px)';
+
+  function clearForTools() {
+    if (!infoBox || infoBox.hidden) return;
+    try {
+      if (!window.matchMedia(TOOLS_CROWD_OUT).matches) return;
+    } catch (err) { return; }
+    select(null);
+  }
+
   function setTrainTools(on) {
+    if (on) clearForTools();
     state.trainTools = !!on;
     var box = $('#opt-train-tools');
     if (box) box.checked = state.trainTools;
@@ -10455,6 +10484,7 @@
   }
 
   function setAirPlay(on) {
+    if (on && state.air) clearForTools();
     airPlayWanted = !!on && !!state.air;
     var tookTrains = false;
     if (airPlayWanted && state.trainTools) {

@@ -18673,3 +18673,50 @@ this stays true.
 
 Tests: `hanlabels.js` 39. Whole suite 1952 checks across 60 scripts, all
 passing, 483.8s.
+
+## The card gives way to the tools on a small screen
+
+**The report was that the info pane blocks the tools on a phone. It is worse
+than blocking.** `styles.css` hides `#train-bar` under `(max-height: 520px)` and
+`.air-bar` under `(max-width: 820px)` while `body.panel-open` — deliberately,
+because a strip across the foot of a phone on top of a card leaves neither
+readable. What nobody had followed through is the consequence: a reader with a
+card open who switches the tools on gets *nothing*. The switch takes, the strip
+mounts, and the CSS keeps it off the screen. The feature does not look hidden,
+it looks broken.
+
+So `clearForTools()` dismisses the card when the tools are asked for.
+
+* **Only when turning them on.** Switching the tools off leaves whatever the
+  reader was reading alone.
+* **Only where the two actually collide.** The query is
+  `(max-width: 820px), (max-height: 520px)` — the union of the two in the
+  stylesheet, and it has to be kept in step with them. Measured: on a
+  1500×980 desktop the card stays open and the strip is `flex`; both fit, so
+  nothing closes.
+* **Dismissed, not lost.** It goes through `select(null)`, the same path as the
+  close button, so a tap on the map brings it straight back — with the tools
+  the reader just asked for now in front of them.
+
+Measured on three viewports, driven with a finger rather than a synthesised
+click: 420×860 and 860×430 both close the card and show the bar; 1500×980 keeps
+both. The trains take the short-screen breakpoint rather than the narrow one, so
+the landscape phone is the case that matters for them and it is checked
+separately over Taiwan.
+
+**Two faults in my own test, and the second is the instructive one.** The first
+was picking a named dot with "the first in the document" as a fallback, which
+over Taiwan is a dot in the Indian Ocean. The second survived that fix: a `.gaz`
+having a bounding box does not mean it is *drawn*, because a dot below the tier
+floor at this zoom still measures 26px wide and opens nothing when pressed.
+Keelung was the one that caught it. Both times the card never opened — and the
+check *after* it, "and that card stood aside as well", then passed on an empty
+panel. A vacuous pass is more dangerous than the failure it hides, because it
+reports the feature working when nothing was exercised at all. It presses
+candidates until one answers now, which is what `air.js` already does for the
+same reason.
+
+`SECS` for `airplay` moved 32 → 78 to match what it now costs.
+
+Tests: `airplay.js` 80. Whole suite 1964 checks across 60 scripts, all passing,
+492.2s.
