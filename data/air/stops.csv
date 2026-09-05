@@ -272,3 +272,140 @@ iaw39-karachi-calcutta,6,calcutta,Calcutta,88.36,22.57,
 airfrance-bangkok-hanoi,1,bangkok,Bangkok,100.5,13.75,
 airfrance-bangkok-hanoi,2,vientiane,Vientiane,102.6,17.97,
 airfrance-bangkok-hanoi,3,hanoi,Hanoi,105.85,21.03,河內
+mkkk42-hsinking-tokyo,1,changchun,Xinjing (Changchun),125.32,43.88,新京
+mkkk42-hsinking-tokyo,2,tokyo,Tokyo,139.76,35.68,東京
+mkkk42-hsinking-keijo,1,changchun,Xinjing (Changchun),125.32,43.88,新京
+mkkk42-hsinking-keijo,2,mukden,Mukden (Shenyang),123.43,41.8,奉天
+mkkk42-hsinking-keijo,3,seoul,Keijō (Seoul),126.98,37.57,京城
+mkkk42-hsinking-dairen,1,changchun,Xinjing (Changchun),125.32,43.88,新京
+mkkk42-hsinking-dairen,2,mukden,Mukden (Shenyang),123.43,41.8,奉天
+mkkk42-hsinking-dairen,3,dairen,Dairen (Dalian),121.61,38.91,大連
+mkkk42-mukden-antung-dairen,1,mukden,Mukden (Shenyang),123.43,41.8,奉天
+mkkk42-mukden-antung-dairen,2,,Huanjen (Huanren),125.36,41.27,桓仁
+mkkk42-mukden-antung-dairen,3,tonghua,Tunghua (Tonghua),125.94,41.73,通化
+mkkk42-mukden-antung-dairen,4,,Chian (Ji'an),126.18,41.12,輯安
+mkkk42-mukden-antung-dairen,5,dandong,Antung (Dandong),124.39,40.13,安東
+mkkk42-mukden-antung-dairen,6,,Hsiuyen (Xiuyan),123.28,40.29,岫巖
+mkkk42-mukden-antung-dairen,7,dairen,Dairen (Dalian),121.61,38.91,大連
+mkkk42-hsinking-kiamusze,1,changchun,Xinjing (Changchun),125.32,43.88,新京
+mkkk42-hsinking-kiamusze,2,harbin,Harbin,126.53,45.8,哈爾濱
+mkkk42-hsinking-kiamusze,3,jiamusi,Kiamusze (Jiamusi),130.32,46.81,佳木斯
+mkkk42-mukden-peking,1,mukden,Mukden (Shenyang),123.43,41.8,奉天
+mkkk42-mukden-peking,2,tianjin,Tientsin (Tianjin),117.2,39.13,天津
+mkkk42-mukden-peking,3,beijing,Peking (Beijing),116.4,39.9,北京
+mkkk42-mukden-chengteh,1,mukden,Mukden (Shenyang),123.43,41.8,奉天
+mkkk42-mukden-chengteh,2,jinzhou,Chinchow (Jinzhou),121.13,41.1,錦州
+mkkk42-mukden-chengteh,3,chengde,Chengteh (Chengde),117.94,40.98,承德
+mkkk42-chengteh-paotow,1,chengde,Chengteh (Chengde),117.94,40.98,承德
+mkkk42-chengteh-paotow,2,kalgan,Kalgan (Zhangjiakou),114.88,40.81,張家口
+mkkk42-chengteh-paotow,3,datong,Tatung (Datong),113.3,40.09,大同
+mkkk42-chengteh-paotow,4,hohhot,Houho (Hohhot),111.75,40.84,厚和
+mkkk42-chengteh-paotow,5,baotou,Paotow (Baotou),109.84,40.66,包頭
+mkkk42-hsinking-chihfeng,1,changchun,Xinjing (Changchun),125.32,43.88,新京
+mkkk42-hsinking-chihfeng,2,,Tungliao (Tongliao),122.26,43.62,通遼
+mkkk42-hsinking-chihfeng,3,,Kailu,121.31,43.6,開魯
+mkkk42-hsinking-chihfeng,4,,Lintung (Lindong),119.38,43.98,林東
+mkkk42-hsinking-chihfeng,5,,Linhsi (Linxi),118.04,43.52,林西
+mkkk42-hsinking-chihfeng,6,chifeng,Chihfeng (Chifeng),118.89,42.26,赤峰
+mkkk42-hsinking-chihfeng,7,chengde,Chengteh (Chengde),117.94,40.98,承德
+mkkk42-hsinking-linkiang,1,changchun,Xinjing (Changchun),125.32,43.88,新京
+mkkk42-hsinking-linkiang,2,tonghua,Tunghua (Tonghua),125.94,41.73,通化
+mkkk42-hsinking-linkiang,3,,Chungkiangchen (Linjiang),126.92,41.81,中江鎮
+mkkk42-hsinking-hunchun,1,changchun,Xinjing (Changchun),125.32,43.88,新京
+mkkk42-hsinking-hunchun,2,yanji,Yenki (Yanji),129.51,42.91,延吉
+mkkk42-hsinking-hunchun,3,,Tumen,129.84,42.97,圖們
+mkkk42-hsinking-hunchun,4,,Hunchun,130.37,42.86,琿春
+mkkk42-mutankiang-tungning,1,mudanjiang,Mutankiang (Mudanjiang),129.6,44.58,牡丹江
+mkkk42-mutankiang-tungning,2,suifenhe,Suifenho (Suifenhe),131.15,44.4,綏芬河
+mkkk42-mutankiang-tungning,3,,Tungning (Dongning),131.12,44.06,東寧
+mkkk42-hsinking-manchouli,1,changchun,Xinjing (Changchun),125.32,43.88,新京
+mkkk42-hsinking-manchouli,2,,Paichengtzu (Baicheng),122.84,45.62,白城子
+mkkk42-hsinking-manchouli,3,qiqihar,Tsitsihar (Qiqihar),123.92,47.35,齊齊哈爾
+mkkk42-hsinking-manchouli,4,hailar,Hailar,119.7,49.2,海拉爾
+mkkk42-hsinking-manchouli,5,manzhouli,Manchouli (Manzhouli),117.45,49.6,滿洲里
+mkkk42-harbin-hailar,1,harbin,Harbin,126.53,45.8,哈爾濱
+mkkk42-harbin-hailar,2,qiqihar,Tsitsihar (Qiqihar),123.92,47.35,齊齊哈爾
+mkkk42-harbin-hailar,3,hailar,Hailar,119.7,49.2,海拉爾
+mkkk42-harbin-heiho,1,harbin,Harbin,126.53,45.8,哈爾濱
+mkkk42-harbin-heiho,2,,Peian (Bei'an),126.49,48.24,北安
+mkkk42-harbin-heiho,3,,Sunwu,127.34,49.43,孫呉
+mkkk42-harbin-heiho,4,heihe,Heiho (Heihe),127.53,50.25,黑河
+mkkk42-hsinking-mutankiang-harbin,1,changchun,Xinjing (Changchun),125.32,43.88,新京
+mkkk42-hsinking-mutankiang-harbin,2,mudanjiang,Mutankiang (Mudanjiang),129.6,44.58,牡丹江
+mkkk42-hsinking-mutankiang-harbin,3,harbin,Harbin,126.53,45.8,哈爾濱
+mkkk42-mutankiang-paoching,1,mudanjiang,Mutankiang (Mudanjiang),129.6,44.58,牡丹江
+mkkk42-mutankiang-paoching,2,,Chining (Jixi),130.97,45.3,鷄寧
+mkkk42-mutankiang-paoching,3,,Tungan (Mishan),131.87,45.55,東安
+mkkk42-mutankiang-paoching,4,,Paoching (Baoqing),132.2,46.33,寶清
+mkkk42-fuchin-tungan,1,,Fuchin (Fujin),132.03,47.25,富錦
+mkkk42-fuchin-tungan,2,,Jaoho (Raohe),134.02,46.8,饒河
+mkkk42-fuchin-tungan,3,,Hutou,133.65,45.97,虎頭
+mkkk42-fuchin-tungan,4,,Hulin,132.97,45.76,虎林
+mkkk42-fuchin-tungan,5,,Tungan (Mishan),131.87,45.55,東安
+mkkk42-kiamusze-jaoho,1,jiamusi,Kiamusze (Jiamusi),130.32,46.81,佳木斯
+mkkk42-kiamusze-jaoho,2,,Paoching (Baoqing),132.2,46.33,寶清
+mkkk42-kiamusze-jaoho,3,,Fuchin (Fujin),132.03,47.25,富錦
+mkkk42-kiamusze-jaoho,4,,Jaoho (Raohe),134.02,46.8,饒河
+mkkk42-harbin-fuchin,1,harbin,Harbin,126.53,45.8,哈爾濱
+mkkk42-harbin-fuchin,2,,Tungho (Tonghe),128.75,45.97,通河
+mkkk42-harbin-fuchin,3,,Ilan (Yilan),129.57,46.32,依蘭
+mkkk42-harbin-fuchin,4,jiamusi,Kiamusze (Jiamusi),130.32,46.81,佳木斯
+mkkk42-harbin-fuchin,5,,Fuchin (Fujin),132.03,47.25,富錦
+mkkk42-kiamusze-mohe,1,jiamusi,Kiamusze (Jiamusi),130.32,46.81,佳木斯
+mkkk42-kiamusze-mohe,2,,Foshan (Jiayin),130.39,48.89,佛山
+mkkk42-kiamusze-mohe,3,,Wuyun,129.5,49.25,烏雲
+mkkk42-kiamusze-mohe,4,,Sunwu,127.34,49.43,孫呉
+mkkk42-kiamusze-mohe,5,heihe,Heiho (Heihe),127.53,50.25,黑河
+mkkk42-kiamusze-mohe,6,,Huma,126.65,51.72,呼瑪
+mkkk42-kiamusze-mohe,7,,Oupu,125.2,52.5,鷗浦
+mkkk42-kiamusze-mohe,8,,Mohe,122.36,53.47,漠河
+mkkk42-kiamusze-fuyuan,1,jiamusi,Kiamusze (Jiamusi),130.32,46.81,佳木斯
+mkkk42-kiamusze-fuyuan,2,,Lopei (Luobei),131.03,47.88,蘿北
+mkkk42-kiamusze-fuyuan,3,,Fuchin (Fujin),132.03,47.25,富錦
+mkkk42-kiamusze-fuyuan,4,,Tungkiang (Tongjiang),132.51,47.65,同江
+mkkk42-kiamusze-fuyuan,5,,Fuyuan,134.29,48.36,撫遠
+mkkk42-kiamusze-fenghsiang-fuchin,1,jiamusi,Kiamusze (Jiamusi),130.32,46.81,佳木斯
+mkkk42-kiamusze-fenghsiang-fuchin,2,,Fenghsiangchen (Fengxiang),130.83,47.58,鳳翔鎮
+mkkk42-kiamusze-fenghsiang-fuchin,3,,Fuchin (Fujin),132.03,47.25,富錦
+cak42-peking-dairen,1,beijing,Peking (Beijing),116.4,39.9,北京
+cak42-peking-dairen,2,tianjin,Tientsin (Tianjin),117.2,39.13,天津
+cak42-peking-dairen,3,dairen,Dairen (Dalian),121.61,38.91,大連
+cak42-peking-shanghai,1,beijing,Peking (Beijing),116.4,39.9,北京
+cak42-peking-shanghai,2,tianjin,Tientsin (Tianjin),117.2,39.13,天津
+cak42-peking-shanghai,3,jinan,Tsinan (Jinan),116.99,36.67,濟南
+cak42-peking-shanghai,4,xuzhou,Hsüchow (Xuzhou),117.19,34.26,徐州
+cak42-peking-shanghai,5,nanjing,Nanking (Nanjing),118.8,32.06,南京
+cak42-peking-shanghai,6,shanghai,Shanghai,121.47,31.23,上海
+cak42-peking-paotow,1,beijing,Peking (Beijing),116.4,39.9,北京
+cak42-peking-paotow,2,kalgan,Kalgan (Zhangjiakou),114.88,40.81,張家口
+cak42-peking-paotow,3,datong,Tatung (Datong),113.3,40.09,大同
+cak42-peking-paotow,4,hohhot,Houho (Hohhot),111.75,40.84,厚和
+cak42-peking-paotow,5,baotou,Paotow (Baotou),109.84,40.66,包頭
+cak42-peking-tsingtao-shanghai,1,beijing,Peking (Beijing),116.4,39.9,北京
+cak42-peking-tsingtao-shanghai,2,tianjin,Tientsin (Tianjin),117.2,39.13,天津
+cak42-peking-tsingtao-shanghai,3,qingdao,Tsingtao (Qingdao),120.38,36.07,青島
+cak42-peking-tsingtao-shanghai,4,shanghai,Shanghai,121.47,31.23,上海
+cak42-shanghai-taihoku-canton,1,shanghai,Shanghai,121.47,31.23,上海
+cak42-shanghai-taihoku-canton,2,taipei,Taihoku (Taipei),121.57,25.03,臺北
+cak42-shanghai-taihoku-canton,3,guangzhou,Canton (Guangzhou),113.26,23.13,廣東
+cak42-peking-yuncheng,1,beijing,Peking (Beijing),116.4,39.9,北京
+cak42-peking-yuncheng,2,shijiazhuang,Shihmen (Shijiazhuang),114.51,38.04,石門
+cak42-peking-yuncheng,3,taiyuan,Taiyuan,112.55,37.87,太原
+cak42-peking-yuncheng,4,linfen,Linfen,111.52,36.09,臨汾
+cak42-peking-yuncheng,5,,Yüncheng (Yuncheng),111.0,35.03,運城
+cak42-peking-kaifeng,1,beijing,Peking (Beijing),116.4,39.9,北京
+cak42-peking-kaifeng,2,shijiazhuang,Shihmen (Shijiazhuang),114.51,38.04,石門
+cak42-peking-kaifeng,3,anyang,Changte (Anyang),114.39,36.1,彰德
+cak42-peking-kaifeng,4,,Hsinhsiang (Xinxiang),113.93,35.3,新鄉
+cak42-peking-kaifeng,5,kaifeng,Kaifeng,114.31,34.8,開封
+cak42-nanking-hankow,1,nanjing,Nanking (Nanjing),118.8,32.06,南京
+cak42-nanking-hankow,2,anqing,Anking (Anqing),117.05,30.51,安慶
+cak42-nanking-hankow,3,jiujiang,Kiukiang (Jiujiang),116.0,29.71,九江
+cak42-nanking-hankow,4,wuhan,Hankow (Wuhan),114.28,30.58,漢口
+cak42-shanghai-hankow,1,shanghai,Shanghai,121.47,31.23,上海
+cak42-shanghai-hankow,2,nanjing,Nanking (Nanjing),118.8,32.06,南京
+cak42-shanghai-hankow,3,wuhan,Hankow (Wuhan),114.28,30.58,漢口
+cak42-canton-hoihow,1,guangzhou,Canton (Guangzhou),113.26,23.13,廣東
+cak42-canton-hoihow,2,haikou,Hoihow (Haikou),110.34,20.04,海口
+cak42-canton-swatow,1,guangzhou,Canton (Guangzhou),113.26,23.13,廣東
+cak42-canton-swatow,2,shantou,Swatow (Shantou),116.68,23.35,汕頭

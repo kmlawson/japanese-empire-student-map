@@ -246,20 +246,23 @@ const card_=p=>p.evaluate(()=>{
      map, and four more KNILM lines with times from the company's own 1931
      timetable — those four on the 1930 sheet, where the rest of the Dutch
      network is not. */
-  check('seventy-six routes', data.n===76, String(data.n));
+  /* One hundred and ten now: the thirty-four lines of the July 1942 sheet —
+     twenty-three 満洲航空, eleven 中華航空 — arrived in one go, every one
+     marked by id prefix, operator string and season as that sheet's. */
+  check('a hundred and ten routes', data.n===110, String(data.n));
   /* **Every route with a timetable says which sheet it was read from.** The
      card's heading used to fall back to "Summer timetable, June–August 1931"
      for any route with no season of its own, which put the 1931 trunk's
      diagram at the head of the Fukuoka–Naha–Taihoku table — a citation for a
      document those times were never in. `build_texts.py` refuses that now. */
-  check('seventy-five of the seventy-six name the sheet they were read from',
-    data.seasoned===75, String(data.seasoned));
+  check('a hundred and nine of the hundred and ten name the sheet they were read from',
+    data.seasoned===109, String(data.seasoned));
   const unsourced=await page.evaluate(()=>(JMAP.AIR||[])
     .filter(r=>(r.times||[]).length && !r.season).map(r=>r.id));
   check('and not one route with a timetable is missing it',
     unsourced.length===0, JSON.stringify(unsourced));
   check('each of those names the airline',
-    data.opWithSeason===75, String(data.opWithSeason));
+    data.opWithSeason===109, String(data.opWithSeason));
   check('the trunk runs Tokyo to Dairen in seven stops',
     data.trunk && data.trunk.stops.length===7
       && data.trunk.stops[0].name==='Tokyo'
@@ -308,13 +311,13 @@ const card_=p=>p.evaluate(()=>{
     haloW:getComputedStyle(document.querySelector('#air .air-halo')).strokeWidth,
     lineW:getComputedStyle(document.querySelector('#air .air-line')).strokeWidth,
   }));
-  check('the button builds them all', on.shown && on.routes===76, JSON.stringify(on));
+  check('the button builds them all', on.shown && on.routes===110, JSON.stringify(on));
   check('the pane box and the button agree',
     on.pressed==='true' && on.box===true, on.pressed+' / '+on.box);
-  check('every route has a white halo under it', on.halo===76, String(on.halo));
+  check('every route has a white halo under it', on.halo===110, String(on.halo));
   check('and the halo is wider than the line it backs',
     parseFloat(on.haloW)>parseFloat(on.lineW), on.haloW+' vs '+on.lineW);
-  check('every stop is ringed', on.rings===273, String(on.rings));
+  check('every stop is ringed', on.rings===410, String(on.rings));
 
   /* **A route belongs to the dates it was flown.** The 1930 sheet has one:
      the Tokyo–Dairen trunk, the only service already running and the only one
@@ -339,7 +342,7 @@ const card_=p=>p.evaluate(()=>{
     on1930.join(', '));
   await toEpoch(page,'1942');
   const on1942=await drawn(page);
-  check('the 1942 sheet draws the other sixty-one', on1942.length===61,
+  check('the 1942 sheet draws the other ninety-five', on1942.length===95,
     String(on1942.length));
   /* **The trunk is not on both — it is a different aeroplane.** In 1931 it
      called at Ulsan and Heijō and slept at Keijō; by the 1938–39 timetable it
@@ -597,11 +600,16 @@ const card_=p=>p.evaluate(()=>{
       'Indian National Airways': 1,
       'Air France': 2,
       'Imperial Airways': 2,
+      /* The July 1942 sheet: the two companies again, under operator strings
+         that name the sheet so the tally — and the menu — keeps the 1935 and
+         1940 readings apart from the 1942 ones. */
+      'Manchuria Aviation Company (満洲航空株式会社) · July 1942 sheet': 23,
+      'China Airways Co. (中華航空株式會社) · April 1942 sheet': 11,
     };
     const got = nl.byOperator;
     const same = Object.keys(want).length === Object.keys(got).length
       && Object.keys(want).every(k => got[k] === want[k]);
-    check('seven companies on the 1942 sheet, in the numbers the sources give',
+    check('nine company strings on the 1942 sheet, in the numbers the sources give',
       same, JSON.stringify(got));
   }
   /* **The date on the document, not the date on the map.** */
@@ -752,7 +760,7 @@ const card_=p=>p.evaluate(()=>{
             long:(JMAP.AIR||[])[0].name};
   });
   check('every route carries a short name as well as its full one',
-    names.n===76 && /–/.test(names.sample[0]) && names.long.length>names.sample[0].length,
+    names.n===110 && /–/.test(names.sample[0]) && names.long.length>names.sample[0].length,
     JSON.stringify(names.sample));
   check('and the trunk is named by its two ends',
     names.sample[0]==='Tokyo – Dairen', names.sample[0]);
@@ -777,15 +785,17 @@ const card_=p=>p.evaluate(()=>{
      numbered, because neither pair is ever drawn together: the 1931 Tokyo–
      Dairen trunk and its 1938–39 replacement, and KNILM's Batavia–Bandoeng as
      the 1931 timetable gives it and as the 1935 route map does. */
-  /* Three pairs now. The third is the Yangtze: CNAC flew Shanghai to Hankow
-     on the 1930 sheet and the Japanese-run 中華航空 flew the same four towns
-     on the 1942 one, which is the point of drawing both — one network
-     replaced the other — and they are never on screen together. */
+  /* Three pairs now. The third was the Yangtze — CNAC's Shanghai–Hankow on
+     the 1930 sheet against 中華航空's on the 1942 one — until the April 1942
+     中華航空 sheet put a second Shanghai–Hankow on the 1942 map, so those two
+     are numbered and the 1930 one stands alone. The third pair is now the
+     coast: CNAC's 1935 Shanghai–Canton on the 1930 sheet and 中華航空's
+     Shanghai–Taihoku–Canton of April 1942 on the other. */
   check('names shared across the two dates are not numbered',
     names.clash.length===3
     && names.clash.indexOf('Tokyo – Dairen')>=0
     && names.clash.indexOf('Batavia – Bandoeng')>=0
-    && names.clash.indexOf('Shanghai – Hankow')>=0,
+    && names.clash.indexOf('Shanghai – Canton')>=0,
     JSON.stringify(names.clash));
   const planted=await page.evaluate(()=>{
     /* Two lines from Tokyo to Dairen by different roads is a thing the file
@@ -910,7 +920,7 @@ const card_=p=>p.evaluate(()=>{
       });
       return { near, mid: [Math.round(mid.x), Math.round(mid.y)] };
     }, SHARED);
-    check('the stretch four services fly is drawn once', over.near.length === 1,
+    check('the stretch six services fly is drawn once', over.near.length === 1,
       JSON.stringify(over.near));
     check('  and in nobody’s ink', await page.evaluate(() => {
       const l = document.querySelector('.air-route[data-air="keijo-shinkyo"] .air-line-shared');
@@ -925,7 +935,7 @@ const card_=p=>p.evaluate(()=>{
           .map(b => b.getAttribute('data-air-pick')) } : null;
     });
     check('pressing it asks which service', !!menu && menu.chooser, JSON.stringify(menu));
-    check('  with all four on the menu', menu && menu.picks.length === 4,
+    check('  with all six on the menu', menu && menu.picks.length === 6,
       menu ? JSON.stringify(menu.picks) : 'none');
     const want = menu && menu.picks[2];
     await page.evaluate(id =>
@@ -968,13 +978,19 @@ const card_=p=>p.evaluate(()=>{
         return { x: r.left + r.width / 2, y: r.top + r.height / 2 }; };
       const A = ring(ka), B = ring(kb);
       if (!A || !B) return null;
-      const g = document.querySelector('.air-route[data-air="' + id + '"]');
+      /* Any route's line will do: a chord two services share is drawn once,
+         under whichever of them the map picked, and since April 1942's
+         中華航空 Shanghai–Nanking–Hankow flies Nanking–Hankow direct too, the
+         express's chord is under that one. What is asked is that a line is
+         there, not whose group holds it. */
       const pts = [];
-      ['.air-line', '.air-line-shared', '.air-line-idle'].forEach(sel => {
-        const l = g.querySelector(sel);
-        if (!l || !l.getAttribute('d')) return;
-        const L = l.getTotalLength();
-        for (let i = 0; i <= 800; i++) pts.push(l.getPointAtLength(L * i / 800).matrixTransform(m));
+      document.querySelectorAll('.air-route').forEach(g => {
+        ['.air-line', '.air-line-shared', '.air-line-idle'].forEach(sel => {
+          const l = g.querySelector(sel);
+          if (!l || !l.getAttribute('d')) return;
+          const L = l.getTotalLength();
+          for (let i = 0; i <= 800; i++) pts.push(l.getPointAtLength(L * i / 800).matrixTransform(m));
+        });
       });
       let on = 0, tried = 0;
       for (let t = 0.15; t <= 0.85; t += 0.05) {

@@ -232,3 +232,142 @@ iaw39-karachi-calcutta,,6,Calcutta,17:00,1,,,,,,,Thursdays and Sundays,4 7,
 airfrance-bangkok-hanoi,,1,Bangkok,,,8:00,1,11:30,1,,,"weekly; the times are assumed, not in the source",3,7
 airfrance-bangkok-hanoi,,2,Vientiane,9:40,1,10:00,1,9:30,1,9:50,1,"weekly; the times are assumed, not in the source",3,7
 airfrance-bangkok-hanoi,,3,Hanoi,11:30,1,,,,,8:00,1,"weekly; the times are assumed, not in the source",3,7
+mkkk42-hsinking-tokyo,,1,新京 Xinjing,,,9:00,,16:30,,,,"Mondays, Tuesdays, Thursdays and Fridays",1 2 4 5,1 2 4 5
+mkkk42-hsinking-tokyo,,2,東京 Tokyo,15:00,,,,,,9:00,,"Mondays, Tuesdays, Thursdays and Fridays",1 2 4 5,1 2 4 5
+mkkk42-hsinking-keijo,,1,新京 Xinjing,,,7:30,,16:40,,,,out Tuesdays and Fridays; back Wednesdays and Saturdays,2 5,3 6
+mkkk42-hsinking-keijo,,2,奉天 Mukden,8:40,,9:00,,15:10,,15:30,,out Tuesdays and Fridays; back Wednesdays and Saturdays,2 5,3 6
+mkkk42-hsinking-keijo,,3,京城 Keijō,11:10,,,,,,13:00,,out Tuesdays and Fridays; back Wednesdays and Saturdays,2 5,3 6
+mkkk42-hsinking-dairen,,1,新京 Xinjing,,,12:20,,11:55,,,,"Mondays, Wednesdays and Fridays",1 3 5,1 3 5
+mkkk42-hsinking-dairen,,2,奉天 Mukden,13:40,,13:50,,10:30,,10:40,,"Mondays, Wednesdays and Fridays",1 3 5,1 3 5
+mkkk42-hsinking-dairen,,3,大連 Dairen,15:20,,,,,,9:00,,"Mondays, Wednesdays and Fridays",1 3 5,1 3 5
+mkkk42-mukden-antung-dairen,,1,奉天 Mukden,,,10:20,,14:25,,,,"out Mondays, Wednesdays and Fridays; back Tuesdays, Thursdays and Saturdays",1 3 5,2 4 6
+mkkk42-mukden-antung-dairen,,2,桓仁 Huanjen,11:20,,11:25,,13:10,,13:15,,"out Mondays, Wednesdays and Fridays; back Tuesdays, Thursdays and Saturdays",1 3 5,2 4 6
+mkkk42-mukden-antung-dairen,,3,通化 Tunghua,11:55,,12:05,,12:30,,12:40,,"out Mondays, Wednesdays and Fridays; back Tuesdays, Thursdays and Saturdays",1 3 5,2 4 6
+mkkk42-mukden-antung-dairen,,4,輯安 Chian,12:35,,12:40,,11:55,,12:00,,"out Mondays, Wednesdays and Fridays; back Tuesdays, Thursdays and Saturdays",1 3 5,2 4 6
+mkkk42-mukden-antung-dairen,,5,安東 Antung,14:00,,14:10,,10:25,,10:35,,"out Mondays, Wednesdays and Fridays; back Tuesdays, Thursdays and Saturdays",1 3 5,2 4 6
+mkkk42-mukden-antung-dairen,,6,岫巖 Hsiuyen,,,,,,,,,"out Mondays, Wednesdays and Fridays; back Tuesdays, Thursdays and Saturdays",1 3 5,2 4 6
+mkkk42-mukden-antung-dairen,,7,大連 Dairen,15:55,,,,,,8:50,,"out Mondays, Wednesdays and Fridays; back Tuesdays, Thursdays and Saturdays",1 3 5,2 4 6
+mkkk42-hsinking-kiamusze,,1,新京 Xinjing,,,12:10,,11:40,,,,daily,1 2 3 4 5 6 7,1 2 3 4 5 6 7
+mkkk42-hsinking-kiamusze,,2,哈爾濱 Harbin,13:15,,13:25,,10:25,,10:35,,daily,1 2 3 4 5 6 7,1 2 3 4 5 6 7
+mkkk42-hsinking-kiamusze,,3,佳木斯 Kiamusze,14:45,,,,,,9:00,,daily,1 2 3 4 5 6 7,1 2 3 4 5 6 7
+mkkk42-mukden-peking,,1,奉天 Mukden,,,9:00,,15:50,,,,daily,1 2 3 4 5 6 7,1 2 3 4 5 6 7
+mkkk42-mukden-peking,,2,天津 Tientsin,11:40,,11:45,,13:25,,13:30,,daily,1 2 3 4 5 6 7,1 2 3 4 5 6 7
+mkkk42-mukden-peking,,3,北京 Peking,12:25,,,,,,12:45,,daily,1 2 3 4 5 6 7,1 2 3 4 5 6 7
+mkkk42-mukden-chengteh,,1,奉天 Mukden,,,9:20,,15:55,,,,daily,1 2 3 4 5 6 7,1 2 3 4 5 6 7
+mkkk42-mukden-chengteh,,2,錦州 Chinchow,10:30,,10:40,,14:40,,14:50,,daily,1 2 3 4 5 6 7,1 2 3 4 5 6 7
+mkkk42-mukden-chengteh,,3,承德 Chengteh,12:20,,,,,,13:15,,daily,1 2 3 4 5 6 7,1 2 3 4 5 6 7
+mkkk42-chengteh-paotow,,1,承德 Chengteh,,,12:40,,12:45,,,,out Tuesdays and Saturdays; back Wednesdays and Sundays,2 6,3 7
+mkkk42-chengteh-paotow,,2,張家口 Kalgan,14:20,,14:35,,11:10,,11:25,,out Tuesdays and Saturdays; back Wednesdays and Sundays,2 6,3 7
+mkkk42-chengteh-paotow,,3,大同 Tatung,15:30,,15:40,,10:10,,10:20,,out Tuesdays and Saturdays; back Wednesdays and Sundays,2 6,3 7
+mkkk42-chengteh-paotow,,4,厚和 Houho,16:45,,16:50,,9:15,,9:20,,out Tuesdays and Saturdays; back Wednesdays and Sundays,2 6,3 7
+mkkk42-chengteh-paotow,,5,包頭 Paotow,17:40,,,,,,8:30,,out Tuesdays and Saturdays; back Wednesdays and Sundays,2 6,3 7
+mkkk42-hsinking-chihfeng,,1,新京 Xinjing,,,8:40,,14:10,,,,out Thursdays; back Fridays,4,5
+mkkk42-hsinking-chihfeng,,2,通遼 Tungliao,10:10,,10:20,,12:30,,12:40,,out Thursdays; back Fridays,4,5
+mkkk42-hsinking-chihfeng,,3,開魯 Kailu,10:55,,11:00,,11:50,,11:55,,out Thursdays; back Fridays,4,5
+mkkk42-hsinking-chihfeng,,4,林東 Lintung,12:05,,12:10,,10:50,,10:55,,out Thursdays; back Fridays,4,5
+mkkk42-hsinking-chihfeng,,5,林西 Linhsi,13:00,,13:05,,10:00,,10:05,,out Thursdays; back Fridays,4,5
+mkkk42-hsinking-chihfeng,,6,赤峰 Chihfeng,14:05,,,,,,9:00,,out Thursdays; back Fridays,4,5
+mkkk42-hsinking-chihfeng,,7,承德 Chengteh,,,,,,,,,out Thursdays; back Fridays,4,5
+mkkk42-hsinking-linkiang,,1,新京 Xinjing,,,8:40,,14:20,,,,"Mondays, Wednesdays and Fridays",1 3 5,1 3 5
+mkkk42-hsinking-linkiang,,2,通化 Tunghua,10:40,,10:50,,12:20,,12:30,,"Mondays, Wednesdays and Fridays",1 3 5,1 3 5
+mkkk42-hsinking-linkiang,,3,中江鎮 Chungkiangchen,11:30,,,,,,11:35,,"Mondays, Wednesdays and Fridays",1 3 5,1 3 5
+mkkk42-hsinking-hunchun,,1,新京 Xinjing,,,8:40,,13:30,,,,"Tuesdays, Thursdays and Saturdays",2 4 6,2 4 6
+mkkk42-hsinking-hunchun,,2,延吉 Yenki,10:20,,10:25,,11:50,,11:55,,"Tuesdays, Thursdays and Saturdays",2 4 6,2 4 6
+mkkk42-hsinking-hunchun,,3,圖們 Tumen,10:40,,10:50,,11:25,,11:35,,"Tuesdays, Thursdays and Saturdays",2 4 6,2 4 6
+mkkk42-hsinking-hunchun,,4,琿春 Hunchun,11:05,,,,,,11:10,,"Tuesdays, Thursdays and Saturdays",2 4 6,2 4 6
+mkkk42-mutankiang-tungning,,1,牡丹江 Mutankiang,,,10:30,,13:30,,,,"Mondays, Wednesdays and Fridays",1 3 5,1 3 5
+mkkk42-mutankiang-tungning,,2,綏芬河 Suifenho,11:25,,11:30,,12:25,,12:30,,"Mondays, Wednesdays and Fridays",1 3 5,1 3 5
+mkkk42-mutankiang-tungning,,3,東寧 Tungning,11:55,,,,,,12:00,,"Mondays, Wednesdays and Fridays",1 3 5,1 3 5
+mkkk42-hsinking-manchouli,,1,新京 Xinjing,,,8:40,,14:10,2,,,"out Mondays, Wednesdays and Fridays; back Tuesdays, Thursdays and Saturdays; a night at Hailar each way",1 3 5,2 4 6
+mkkk42-hsinking-manchouli,,2,白城子 Paichengtzu,10:10,,10:15,,12:40,2,12:45,2,"out Mondays, Wednesdays and Fridays; back Tuesdays, Thursdays and Saturdays; a night at Hailar each way",1 3 5,2 4 6
+mkkk42-hsinking-manchouli,,3,齊齊哈爾 Tsitsihar,11:25,,11:35,,11:25,2,11:35,2,"out Mondays, Wednesdays and Fridays; back Tuesdays, Thursdays and Saturdays; a night at Hailar each way",1 3 5,2 4 6
+mkkk42-hsinking-manchouli,,4,海拉爾 Hailar,13:50,,9:40,2,12:25,,9:30,2,"out Mondays, Wednesdays and Fridays; back Tuesdays, Thursdays and Saturdays; a night at Hailar each way",1 3 5,2 4 6
+mkkk42-hsinking-manchouli,,5,滿洲里 Manchouli,11:00,2,,,,,11:10,,"out Mondays, Wednesdays and Fridays; back Tuesdays, Thursdays and Saturdays; a night at Hailar each way",1 3 5,2 4 6
+mkkk42-harbin-hailar,,1,哈爾濱 Harbin,,,8:30,,13:20,,,,out Thursdays; back Fridays,4,5
+mkkk42-harbin-hailar,,2,齊齊哈爾 Tsitsihar,10:10,,10:20,,11:35,,11:45,,out Thursdays; back Fridays,4,5
+mkkk42-harbin-hailar,,3,海拉爾 Hailar,12:30,,,,,,9:30,,out Thursdays; back Fridays,4,5
+mkkk42-harbin-heiho,,1,哈爾濱 Harbin,,,8:20,,15:20,,,,"Mondays, Wednesdays and Fridays",1 3 5,1 3 5
+mkkk42-harbin-heiho,,2,北安 Peian,9:55,,10:00,,13:45,,13:50,,"Mondays, Wednesdays and Fridays",1 3 5,1 3 5
+mkkk42-harbin-heiho,,3,孫呉 Sunwu,10:50,,10:55,,12:45,,12:50,,"Mondays, Wednesdays and Fridays",1 3 5,1 3 5
+mkkk42-harbin-heiho,,4,黑河 Heiho,11:40,,,,,,12:00,,"Mondays, Wednesdays and Fridays",1 3 5,1 3 5
+mkkk42-hsinking-mutankiang-harbin,,1,新京 Xinjing,,,8:30,,16:45,,,,daily,1 2 3 4 5 6 7,1 2 3 4 5 6 7
+mkkk42-hsinking-mutankiang-harbin,,2,牡丹江 Mutankiang,10:05,,15:10,,10:10,,15:00,,daily,1 2 3 4 5 6 7,1 2 3 4 5 6 7
+mkkk42-hsinking-mutankiang-harbin,,3,哈爾濱 Harbin,16:40,,,,,,8:40,,daily,1 2 3 4 5 6 7,1 2 3 4 5 6 7
+mkkk42-mutankiang-paoching,,1,牡丹江 Mutankiang,,,10:30,,14:40,,,,"Tuesdays, Thursdays and Saturdays",2 4 6,2 4 6
+mkkk42-mutankiang-paoching,,2,鷄寧 Chining,11:15,,11:20,,13:45,,13:50,,"Tuesdays, Thursdays and Saturdays",2 4 6,2 4 6
+mkkk42-mutankiang-paoching,,3,東安 Tungan,11:50,,11:55,,13:10,,13:15,,"Tuesdays, Thursdays and Saturdays",2 4 6,2 4 6
+mkkk42-mutankiang-paoching,,4,寶清 Paoching,12:30,,,,,,12:35,,"Tuesdays, Thursdays and Saturdays",2 4 6,2 4 6
+mkkk42-fuchin-tungan,,1,富錦 Fuchin,,,8:00,,16:40,,,,Tuesdays and Saturdays,2 6,2 6
+mkkk42-fuchin-tungan,,2,饒河 Jaoho,9:35,,9:45,,14:50,,15:00,,Tuesdays and Saturdays,2 6,2 6
+mkkk42-fuchin-tungan,,3,虎頭 Hutou,10:40,,10:45,,13:55,,14:00,,Tuesdays and Saturdays,2 6,2 6
+mkkk42-fuchin-tungan,,4,虎林 Hulin,11:20,,11:25,,13:15,,13:20,,Tuesdays and Saturdays,2 6,2 6
+mkkk42-fuchin-tungan,,5,東安 Tungan,12:15,,,,,,12:25,,Tuesdays and Saturdays,2 6,2 6
+mkkk42-kiamusze-jaoho,,1,佳木斯 Kiamusze,,,9:10,,14:50,,,,"Tuesdays, Thursdays and Saturdays",2 4 6,2 4 6
+mkkk42-kiamusze-jaoho,,2,寶清 Paoching,10:15,,10:20,,13:40,,13:45,,"Tuesdays, Thursdays and Saturdays",2 4 6,2 4 6
+mkkk42-kiamusze-jaoho,,3,富錦 Fuchin,10:55,,11:00,,,,,,"Tuesdays, Thursdays and Saturdays",2 4 6,2 4 6
+mkkk42-kiamusze-jaoho,,4,饒河 Jaoho,12:35,,,,,,12:40,,"Tuesdays, Thursdays and Saturdays",2 4 6,2 4 6
+mkkk42-harbin-fuchin,Harbin – Kiamusze,1,哈爾濱 Harbin,,,8:50,,15:15,,,,daily except Sundays,1 2 3 4 5 6,1 2 3 4 5 6
+mkkk42-harbin-fuchin,Harbin – Kiamusze,2,通河 Tungho,9:45,,9:50,,14:10,,14:15,,daily except Sundays,1 2 3 4 5 6,1 2 3 4 5 6
+mkkk42-harbin-fuchin,Harbin – Kiamusze,3,依蘭 Ilan,10:15,,10:20,,13:35,,13:40,,daily except Sundays,1 2 3 4 5 6,1 2 3 4 5 6
+mkkk42-harbin-fuchin,Harbin – Kiamusze,4,佳木斯 Kiamusze,10:50,,,,,,13:05,,daily except Sundays,1 2 3 4 5 6,1 2 3 4 5 6
+mkkk42-harbin-fuchin,Kiamusze – Fuchin,4,佳木斯 Kiamusze,,,11:00,,12:55,,,,"Tuesdays, Thursdays and Saturdays",2 4 6,2 4 6
+mkkk42-harbin-fuchin,Kiamusze – Fuchin,5,富錦 Fuchin,11:50,,,,,,12:00,,"Tuesdays, Thursdays and Saturdays",2 4 6,2 4 6
+mkkk42-kiamusze-mohe,Kiamusze – Heiho,1,佳木斯 Kiamusze,,,8:50,,12:45,,,,Mondays,1,1
+mkkk42-kiamusze-mohe,Kiamusze – Heiho,2,佛山 Foshan,10:40,,10:45,,10:35,,10:50,,Mondays,1,1
+mkkk42-kiamusze-mohe,Kiamusze – Heiho,3,烏雲 Wuyun,11:20,,11:25,,9:55,,10:00,,Mondays,1,1
+mkkk42-kiamusze-mohe,Kiamusze – Heiho,4,孫呉 Sunwu,12:30,,12:35,,8:50,,8:55,,Mondays,1,1
+mkkk42-kiamusze-mohe,Kiamusze – Heiho,5,黑河 Heiho,13:25,,,,,,8:00,,Mondays,1,1
+mkkk42-kiamusze-mohe,Heiho – Mohe,5,黑河 Heiho,,,8:00,,16:25,,,,Tuesdays and Thursdays,2 4,2 4
+mkkk42-kiamusze-mohe,Heiho – Mohe,6,呼瑪 Huma,9:30,,9:40,,14:50,,15:00,,Tuesdays and Thursdays,2 4,2 4
+mkkk42-kiamusze-mohe,Heiho – Mohe,7,鷗浦 Oupu,10:40,,10:45,,14:00,,14:05,,Tuesdays and Thursdays,2 4,2 4
+mkkk42-kiamusze-mohe,Heiho – Mohe,8,漠河 Mohe,12:30,,,,,,12:35,,Tuesdays and Thursdays,2 4,2 4
+mkkk42-kiamusze-fuyuan,,1,佳木斯 Kiamusze,,,,,,,,,Wednesdays and Fridays,3 5,3 5
+mkkk42-kiamusze-fuyuan,,2,蘿北 Lopei,,,,,,,,,Wednesdays and Fridays,3 5,3 5
+mkkk42-kiamusze-fuyuan,,3,富錦 Fuchin,,,9:00,,13:10,,,,Wednesdays and Fridays,3 5,3 5
+mkkk42-kiamusze-fuyuan,,4,同江 Tungkiang,9:30,,9:35,,12:30,,12:35,,Wednesdays and Fridays,3 5,3 5
+mkkk42-kiamusze-fuyuan,,5,撫遠 Fuyuan,10:55,,,,,,11:05,,Wednesdays and Fridays,3 5,3 5
+mkkk42-kiamusze-fenghsiang-fuchin,,1,佳木斯 Kiamusze,,,9:10,,15:35,,,,Fridays,5,5
+mkkk42-kiamusze-fenghsiang-fuchin,,2,鳳翔鎮 Fenghsiangchen,10:05,,10:10,,14:40,,14:45,,Fridays,5,5
+mkkk42-kiamusze-fenghsiang-fuchin,,3,富錦 Fuchin,10:40,,,,,,14:10,,Fridays,5,5
+cak42-peking-dairen,,1,北京 Peking,,,9:10,,17:25,,,,"Tuesdays, Thursdays and Saturdays",2 4 6,2 4 6
+cak42-peking-dairen,,2,天津 Tientsin,9:45,,9:55,,16:40,,16:50,,"Tuesdays, Thursdays and Saturdays",2 4 6,2 4 6
+cak42-peking-dairen,,3,大連 Dairen,11:25,,,,,,15:00,,"Tuesdays, Thursdays and Saturdays",2 4 6,2 4 6
+cak42-peking-shanghai,,1,北京 Peking,,,9:30,,15:10,,,,"out Mondays, Wednesdays and Fridays; back Tuesdays, Thursdays and Saturdays",1 3 5,2 4 6
+cak42-peking-shanghai,,2,天津 Tientsin,10:05,,10:15,,14:25,,14:35,,"out Mondays, Wednesdays and Fridays; back Tuesdays, Thursdays and Saturdays",1 3 5,2 4 6
+cak42-peking-shanghai,,3,濟南 Tsinan,11:25,,11:45,,12:55,,13:15,,"out Mondays, Wednesdays and Fridays; back Tuesdays, Thursdays and Saturdays",1 3 5,2 4 6
+cak42-peking-shanghai,,4,徐州 Hsüchow,12:55,,13:15,,11:25,,11:45,,"out Mondays, Wednesdays and Fridays; back Tuesdays, Thursdays and Saturdays",1 3 5,2 4 6
+cak42-peking-shanghai,,5,南京 Nanking,14:35,,,,,,10:10,,"out Mondays, Wednesdays and Fridays; back Tuesdays, Thursdays and Saturdays",1 3 5,2 4 6
+cak42-peking-shanghai,,6,上海 Shanghai,,,,,,,,,"out Mondays, Wednesdays and Fridays; back Tuesdays, Thursdays and Saturdays",1 3 5,2 4 6
+cak42-peking-paotow,,1,北京 Peking,,,9:00,,14:00,,,,out Thursdays; back Saturdays,4,6
+cak42-peking-paotow,,2,張家口 Kalgan,10:10,,10:30,,12:40,,13:00,,out Thursdays; back Saturdays,4,6
+cak42-peking-paotow,,3,大同 Tatung,11:30,,11:40,,11:30,,11:40,,out Thursdays; back Saturdays,4,6
+cak42-peking-paotow,,4,厚和 Houho,12:45,,12:55,,10:20,,10:30,,out Thursdays; back Saturdays,4,6
+cak42-peking-paotow,,5,包頭 Paotow,13:50,,,,,,9:30,,out Thursdays; back Saturdays,4,6
+cak42-peking-tsingtao-shanghai,,1,北京 Peking,,,9:20,,15:15,,,,out Tuesdays and Saturdays; back Mondays and Fridays,2 6,1 5
+cak42-peking-tsingtao-shanghai,,2,天津 Tientsin,9:55,,10:05,,14:30,,14:40,,out Tuesdays and Saturdays; back Mondays and Fridays,2 6,1 5
+cak42-peking-tsingtao-shanghai,,3,青島 Tsingtao,11:45,,12:05,,12:30,,12:50,,out Tuesdays and Saturdays; back Mondays and Fridays,2 6,1 5
+cak42-peking-tsingtao-shanghai,,4,上海 Shanghai,14:25,,,,,,10:00,,out Tuesdays and Saturdays; back Mondays and Fridays,2 6,1 5
+cak42-shanghai-taihoku-canton,,1,上海 Shanghai,,,9:00,,16:00,,,,out Mondays and Thursdays; back Tuesdays and Fridays,1 4,2 5
+cak42-shanghai-taihoku-canton,,2,臺北 Taihoku,11:50,,12:30,,12:30,,13:10,,out Mondays and Thursdays; back Tuesdays and Fridays,1 4,2 5
+cak42-shanghai-taihoku-canton,,3,廣東 Canton,16:00,,,,,,9:00,,out Mondays and Thursdays; back Tuesdays and Fridays,1 4,2 5
+cak42-peking-yuncheng,,1,北京 Peking,,,9:00,,15:20,,,,out Mondays; back Tuesdays,1,2
+cak42-peking-yuncheng,,2,石門 Shihmen,10:40,,10:50,,13:30,,13:40,,out Mondays; back Tuesdays,1,2
+cak42-peking-yuncheng,,3,太原 Taiyuan,12:00,,12:10,,12:00,,12:20,,out Mondays; back Tuesdays,1,2
+cak42-peking-yuncheng,,4,臨汾 Linfen,13:40,,13:50,,10:20,,10:30,,out Mondays; back Tuesdays,1,2
+cak42-peking-yuncheng,,5,運城 Yüncheng,14:40,,,,,,9:30,,out Mondays; back Tuesdays,1,2
+cak42-peking-kaifeng,,1,北京 Peking,,,9:00,,14:25,,,,out Wednesdays; back Thursdays,3,4
+cak42-peking-kaifeng,,2,石門 Shihmen,10:40,,10:50,,12:25,,12:45,,out Wednesdays; back Thursdays,3,4
+cak42-peking-kaifeng,,3,彰德 Changte,12:00,,12:10,,10:55,,11:05,,out Wednesdays; back Thursdays,3,4
+cak42-peking-kaifeng,,4,新鄉 Hsinhsiang,13:05,,13:15,,10:00,,10:10,,out Wednesdays; back Thursdays,3,4
+cak42-peking-kaifeng,,5,開封 Kaifeng,13:45,,,,,,9:30,,out Wednesdays; back Thursdays,3,4
+cak42-nanking-hankow,,1,南京 Nanking,,,9:00,,15:10,,,,"Tuesdays, Thursdays and Fridays",2 4 5,2 4 5
+cak42-nanking-hankow,,2,安慶 Anking,10:00,,10:10,,14:00,,14:10,,"Tuesdays, Thursdays and Fridays",2 4 5,2 4 5
+cak42-nanking-hankow,,3,九江 Kiukiang,10:50,,11:00,,13:10,,13:20,,"Tuesdays, Thursdays and Fridays",2 4 5,2 4 5
+cak42-nanking-hankow,,4,漢口 Hankow,11:50,,,,,,12:20,,"Tuesdays, Thursdays and Fridays",2 4 5,2 4 5
+cak42-shanghai-hankow,,1,上海 Shanghai,,,8:30,,16:20,,,,"Mondays, Wednesdays and Saturdays",1 3 6,1 3 6
+cak42-shanghai-hankow,,2,南京 Nanking,9:40,,10:00,,14:50,,15:10,,"Mondays, Wednesdays and Saturdays",1 3 6,1 3 6
+cak42-shanghai-hankow,,3,漢口 Hankow,12:10,,,,,,12:40,,"Mondays, Wednesdays and Saturdays",1 3 6,1 3 6
+cak42-canton-hoihow,,1,廣東 Canton,,,9:00,,13:50,,,,Mondays,1,1
+cak42-canton-hoihow,,2,海口 Hoihow,10:50,,,,,,12:00,,Mondays,1,1
+cak42-canton-swatow,,1,廣東 Canton,,,9:10,,14:10,,,,Fridays,5,5
+cak42-canton-swatow,,2,汕頭 Swatow,10:40,,,,,,12:40,,Fridays,5,5

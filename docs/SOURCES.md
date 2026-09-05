@@ -108,6 +108,8 @@ the lines with no clock against it, and the times drawn there are inferred from
 the printed ends and distances — each card says which. The whole transcription
 is in `data/air/README.md`. Also consulted: Mizusawa Hikari, "The Civilian Air Transportation Network that Linked Japan with Its Colonies", [JACAR](https://www.jacar.go.jp/english/exhibition/glossary_en/gaichitonaichi/column/column1.html).
 
+**The July 1942 sheet.** The aviation pages (118–121) of a Japanese railway timetable for July 1942 (昭和17年7月號), photographed for this project, carry 滿洲航空's tables as revised on 1 June 1942 and 中華航空's as revised on 1 April 1942 — thirty-four lines, from the Shinkyō–Tokyo through flight to the Amur frontier posts of Huma and Mohe. They are on the 1942 map beside the winter-1935 and 1940 readings, not in their place, and every one is marked as that sheet's: the company string on the chooser and the card ends "July 1942 sheet" or "April 1942 sheet", the season names the 改正 stamp, and each has an ink of its own. Nine of the tables are headed 運休 (suspended); those are drawn dimmed with their printed times and are not flown. `data/air/README.md` has the reading, and its two awkward tables — a zigzag through Paoching, a misprinted distance — are explained there.
+
 ## Download the geometry
 
 The map's own shapes, in lon/lat as GeoJSON, for opening in QGIS or anything

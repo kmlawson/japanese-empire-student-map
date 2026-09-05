@@ -8584,6 +8584,829 @@ JMAP.AIR = [
       { seq: '2', station: 'Vientiane', da: '9:40', dd: '10:00', ua: '9:30', ud: '9:50', freq: 'weekly; the times are assumed, not in the source', dad: '1', ddd: '1', uad: '1', udd: '1', dw: '3', uw: '7' },
       { seq: '3', station: 'Hanoi', da: '11:30', ud: '8:00', freq: 'weekly; the times are assumed, not in the source', dad: '1', udd: '1', dw: '3', uw: '7' }
     ]
+  },
+  {
+    id: 'mkkk42-hsinking-tokyo', name: 'Shinkyō – Tokyo, through service', operator: 'Manchuria Aviation Company (満洲航空株式会社) · July 1942 sheet', opened: '',
+    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    ink: '#b5473a', days: [], groundedFrom: '',
+    note: '**July 1942 sheet** (昭和17年6月1日改正). The through service to Tokyo, tabled nonstop: Shinkyō 9.00, Tokyo 15.00; back Tokyo 9.00, Shinkyō 16.30, four days a week. 1,600 km for 265 yen. The sheet prints no intermediate call, so none is drawn; the Japan Airways lines on this map show the ground it flew over.',
+    stops: [
+      { id: 'changchun', name: 'Xinjing (Changchun)', lon: 125.32, lat: 43.88 },
+      { id: 'tokyo', name: 'Tokyo', lon: 139.76, lat: 35.68 }
+    ],
+    times: [
+      { seq: '1', station: '新京 Xinjing', dd: '9:00', ua: '16:30', freq: 'Mondays, Tuesdays, Thursdays and Fridays', dw: '1 2 4 5', uw: '1 2 4 5' },
+      { seq: '2', station: '東京 Tokyo', da: '15:00', ud: '9:00', freq: 'Mondays, Tuesdays, Thursdays and Fridays', dw: '1 2 4 5', uw: '1 2 4 5' }
+    ],
+    fares: [
+      { from: 'Xinjing', to: 'Tokyo', yen: 265, km: 1600 }
+    ]
+  },
+  {
+    id: 'mkkk42-hsinking-keijo', name: 'Shinkyō – Mukden – Keijō', operator: 'Manchuria Aviation Company (満洲航空株式会社) · July 1942 sheet', opened: '',
+    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    ink: '#b5473a', days: [], groundedFrom: '',
+    note: '**July 1942 sheet** (昭和17年6月1日改正). Two days a week each way to the Korean capital: out Tuesdays and Fridays, back Wednesdays and Saturdays. This is the Manchurian carrier flying into Korea; the Japan Airways Keijō–Shinkyō line of 1938–39 is the same corridor from the other side.',
+    stops: [
+      { id: 'changchun', name: 'Xinjing (Changchun)', lon: 125.32, lat: 43.88 },
+      { id: 'mukden', name: 'Mukden (Shenyang)', lon: 123.43, lat: 41.8 },
+      { id: 'seoul', name: 'Keijō (Seoul)', lon: 126.98, lat: 37.57 }
+    ],
+    times: [
+      { seq: '1', station: '新京 Xinjing', dd: '7:30', ua: '16:40', freq: 'out Tuesdays and Fridays; back Wednesdays and Saturdays', dw: '2 5', uw: '3 6' },
+      { seq: '2', station: '奉天 Mukden', da: '8:40', dd: '9:00', ua: '15:10', ud: '15:30', freq: 'out Tuesdays and Fridays; back Wednesdays and Saturdays', dw: '2 5', uw: '3 6' },
+      { seq: '3', station: '京城 Keijō', da: '11:10', ud: '13:00', freq: 'out Tuesdays and Fridays; back Wednesdays and Saturdays', dw: '2 5', uw: '3 6' }
+    ],
+    fares: [
+      { from: 'Xinjing', to: 'Mukden', yen: 26, km: 270 },
+      { from: 'Mukden', to: 'Keijō', yen: 64, km: 570 },
+      { from: 'Xinjing', to: 'Keijō', yen: 90, km: 840 }
+    ]
+  },
+  {
+    id: 'mkkk42-hsinking-dairen', name: 'Shinkyō – Mukden – Dairen', operator: 'Manchuria Aviation Company (満洲航空株式会社) · July 1942 sheet', opened: '',
+    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    ink: '#b5473a', days: [], groundedFrom: '',
+    note: '**July 1942 sheet** (昭和17年6月1日改正). Three days a week, an afternoon run south and a morning run north. The winter-1935 Harbin–Dairen line on this map is the same trunk seven years earlier, daily and from Harbin; by 1942 the northern leg is the daily Shinkyō–Harbin–Kiamusze service.',
+    stops: [
+      { id: 'changchun', name: 'Xinjing (Changchun)', lon: 125.32, lat: 43.88 },
+      { id: 'mukden', name: 'Mukden (Shenyang)', lon: 123.43, lat: 41.8 },
+      { id: 'dairen', name: 'Dairen (Dalian)', lon: 121.61, lat: 38.91 }
+    ],
+    times: [
+      { seq: '1', station: '新京 Xinjing', dd: '12:20', ua: '11:55', freq: 'Mondays, Wednesdays and Fridays', dw: '1 3 5', uw: '1 3 5' },
+      { seq: '2', station: '奉天 Mukden', da: '13:40', dd: '13:50', ua: '10:30', ud: '10:40', freq: 'Mondays, Wednesdays and Fridays', dw: '1 3 5', uw: '1 3 5' },
+      { seq: '3', station: '大連 Dairen', da: '15:20', ud: '9:00', freq: 'Mondays, Wednesdays and Fridays', dw: '1 3 5', uw: '1 3 5' }
+    ],
+    fares: [
+      { from: 'Xinjing', to: 'Mukden', yen: 26, km: 270 },
+      { from: 'Mukden', to: 'Dairen', yen: 32, km: 355 },
+      { from: 'Xinjing', to: 'Dairen', yen: 58, km: 625 }
+    ]
+  },
+  {
+    id: 'mkkk42-mukden-antung-dairen', name: 'Mukden – Antung – Dairen, by the Yalu', operator: 'Manchuria Aviation Company (満洲航空株式会社) · July 1942 sheet', opened: '',
+    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    ink: '#b5473a', days: [], groundedFrom: '',
+    note: '**July 1942 sheet** (昭和17年6月1日改正). Flights 21 and 22: Mukden east into the mountains, down the Yalu through Chian to Antung, then west along the coast to Dairen. 岫巖 Hsiuyen is tabled (590 km, 65 yen) and passed without a call both ways (レ). Out Mondays, Wednesdays and Fridays; back Tuesdays, Thursdays and Saturdays.',
+    stops: [
+      { id: 'mukden', name: 'Mukden (Shenyang)', lon: 123.43, lat: 41.8 },
+      { name: 'Huanjen (Huanren)', lon: 125.36, lat: 41.27 },
+      { id: 'tonghua', name: 'Tunghua (Tonghua)', lon: 125.94, lat: 41.73 },
+      { name: 'Chian (Ji\'an)', lon: 126.18, lat: 41.12 },
+      { id: 'dandong', name: 'Antung (Dandong)', lon: 124.39, lat: 40.13 },
+      { name: 'Hsiuyen (Xiuyan)', lon: 123.28, lat: 40.29 },
+      { id: 'dairen', name: 'Dairen (Dalian)', lon: 121.61, lat: 38.91 }
+    ],
+    times: [
+      { seq: '1', station: '奉天 Mukden', dd: '10:20', ua: '14:25', freq: 'out Mondays, Wednesdays and Fridays; back Tuesdays, Thursdays and Saturdays', dw: '1 3 5', uw: '2 4 6' },
+      { seq: '2', station: '桓仁 Huanjen', da: '11:20', dd: '11:25', ua: '13:10', ud: '13:15', freq: 'out Mondays, Wednesdays and Fridays; back Tuesdays, Thursdays and Saturdays', dw: '1 3 5', uw: '2 4 6' },
+      { seq: '3', station: '通化 Tunghua', da: '11:55', dd: '12:05', ua: '12:30', ud: '12:40', freq: 'out Mondays, Wednesdays and Fridays; back Tuesdays, Thursdays and Saturdays', dw: '1 3 5', uw: '2 4 6' },
+      { seq: '4', station: '輯安 Chian', da: '12:35', dd: '12:40', ua: '11:55', ud: '12:00', freq: 'out Mondays, Wednesdays and Fridays; back Tuesdays, Thursdays and Saturdays', dw: '1 3 5', uw: '2 4 6' },
+      { seq: '5', station: '安東 Antung', da: '14:00', dd: '14:10', ua: '10:25', ud: '10:35', freq: 'out Mondays, Wednesdays and Fridays; back Tuesdays, Thursdays and Saturdays', dw: '1 3 5', uw: '2 4 6' },
+      { seq: '6', station: '岫巖 Hsiuyen', freq: 'out Mondays, Wednesdays and Fridays; back Tuesdays, Thursdays and Saturdays', dw: '1 3 5', uw: '2 4 6' },
+      { seq: '7', station: '大連 Dairen', da: '15:55', ud: '8:50', freq: 'out Mondays, Wednesdays and Fridays; back Tuesdays, Thursdays and Saturdays', dw: '1 3 5', uw: '2 4 6' }
+    ],
+    fares: [
+      { from: 'Mukden', to: 'Huanjen', yen: 17, km: 175 },
+      { from: 'Huanjen', to: 'Tunghua', yen: 7, km: 60 },
+      { from: 'Tunghua', to: 'Chian', yen: 7, km: 60 },
+      { from: 'Chian', to: 'Antung', yen: 24, km: 200 },
+      { from: 'Antung', to: 'Hsiuyen', yen: 10, km: 95 },
+      { from: 'Hsiuyen', to: 'Dairen', yen: 21, km: 210 },
+      { from: 'Mukden', to: 'Dairen', yen: 86, km: 800 },
+      { from: 'Mukden', to: 'Antung', yen: 55, km: 495 }
+    ]
+  },
+  {
+    id: 'mkkk42-hsinking-kiamusze', name: 'Shinkyō – Harbin – Kiamusze', operator: 'Manchuria Aviation Company (満洲航空株式会社) · July 1942 sheet', opened: '',
+    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    ink: '#b5473a', days: [], groundedFrom: '',
+    note: '**July 1942 sheet** (昭和17年6月1日改正). Flights 1 and 2, daily: the capital to Harbin and on down the Sungari to Kiamusze, the hub of the eastern lines. Northbound is a morning flight, southbound an afternoon one.',
+    stops: [
+      { id: 'changchun', name: 'Xinjing (Changchun)', lon: 125.32, lat: 43.88 },
+      { id: 'harbin', name: 'Harbin', lon: 126.53, lat: 45.8 },
+      { id: 'jiamusi', name: 'Kiamusze (Jiamusi)', lon: 130.32, lat: 46.81 }
+    ],
+    times: [
+      { seq: '1', station: '新京 Xinjing', dd: '12:10', ua: '11:40', freq: 'daily', dw: '1 2 3 4 5 6 7', uw: '1 2 3 4 5 6 7' },
+      { seq: '2', station: '哈爾濱 Harbin', da: '13:15', dd: '13:25', ua: '10:25', ud: '10:35', freq: 'daily', dw: '1 2 3 4 5 6 7', uw: '1 2 3 4 5 6 7' },
+      { seq: '3', station: '佳木斯 Kiamusze', da: '14:45', ud: '9:00', freq: 'daily', dw: '1 2 3 4 5 6 7', uw: '1 2 3 4 5 6 7' }
+    ],
+    fares: [
+      { from: 'Xinjing', to: 'Harbin', yen: 22, km: 250 },
+      { from: 'Harbin', to: 'Kiamusze', yen: 50, km: 305 },
+      { from: 'Xinjing', to: 'Kiamusze', yen: 72, km: 555 }
+    ]
+  },
+  {
+    id: 'mkkk42-mukden-peking', name: 'Mukden – Tientsin – Peking', operator: 'Manchuria Aviation Company (満洲航空株式会社) · July 1942 sheet', opened: '',
+    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    ink: '#b5473a', days: [], groundedFrom: 'mukden',
+    note: '**Suspended (運休) in the July 1942 sheet.** The times are the ones printed beside the 運休 mark; the line is drawn dimmed and no aeroplane flies it. Flights 13 and 14, tabled daily: Mukden 9.00, Tientsin 11.40, Peking 12.25; back 12.45, 13.25 / 13.30, 15.50. The sheet prints the Tientsin distance as 250 km, which the fares (66 yen, against 86 to Peking at 855 km) say is a misprint for something near 750; the distance is left off that leg.',
+    stops: [
+      { id: 'mukden', name: 'Mukden (Shenyang)', lon: 123.43, lat: 41.8 },
+      { id: 'tianjin', name: 'Tientsin (Tianjin)', lon: 117.2, lat: 39.13 },
+      { id: 'beijing', name: 'Peking (Beijing)', lon: 116.4, lat: 39.9 }
+    ],
+    times: [
+      { seq: '1', station: '奉天 Mukden', dd: '9:00', ua: '15:50', freq: 'daily', dw: '1 2 3 4 5 6 7', uw: '1 2 3 4 5 6 7' },
+      { seq: '2', station: '天津 Tientsin', da: '11:40', dd: '11:45', ua: '13:25', ud: '13:30', freq: 'daily', dw: '1 2 3 4 5 6 7', uw: '1 2 3 4 5 6 7' },
+      { seq: '3', station: '北京 Peking', da: '12:25', ud: '12:45', freq: 'daily', dw: '1 2 3 4 5 6 7', uw: '1 2 3 4 5 6 7' }
+    ],
+    fares: [
+      { from: 'Mukden', to: 'Tientsin', yen: 66, km: null },
+      { from: 'Tientsin', to: 'Peking', yen: 20, km: null },
+      { from: 'Mukden', to: 'Peking', yen: 86, km: null }
+    ]
+  },
+  {
+    id: 'mkkk42-mukden-chengteh', name: 'Mukden – Chinchow – Chengteh', operator: 'Manchuria Aviation Company (満洲航空株式会社) · July 1942 sheet', opened: '',
+    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    ink: '#b5473a', days: [], groundedFrom: 'mukden',
+    note: '**Suspended (運休) in the July 1942 sheet.** The times are the ones printed beside the 運休 mark; the line is drawn dimmed and no aeroplane flies it. Flights 11 and 12, tabled daily, to the old summer capital in Jehol.',
+    stops: [
+      { id: 'mukden', name: 'Mukden (Shenyang)', lon: 123.43, lat: 41.8 },
+      { id: 'jinzhou', name: 'Chinchow (Jinzhou)', lon: 121.13, lat: 41.1 },
+      { id: 'chengde', name: 'Chengteh (Chengde)', lon: 117.94, lat: 40.98 }
+    ],
+    times: [
+      { seq: '1', station: '奉天 Mukden', dd: '9:20', ua: '15:55', freq: 'daily', dw: '1 2 3 4 5 6 7', uw: '1 2 3 4 5 6 7' },
+      { seq: '2', station: '錦州 Chinchow', da: '10:30', dd: '10:40', ua: '14:40', ud: '14:50', freq: 'daily', dw: '1 2 3 4 5 6 7', uw: '1 2 3 4 5 6 7' },
+      { seq: '3', station: '承德 Chengteh', da: '12:20', ud: '13:15', freq: 'daily', dw: '1 2 3 4 5 6 7', uw: '1 2 3 4 5 6 7' }
+    ],
+    fares: [
+      { from: 'Mukden', to: 'Chinchow', yen: 20, km: 200 },
+      { from: 'Chinchow', to: 'Chengteh', yen: 28, km: 280 },
+      { from: 'Mukden', to: 'Chengteh', yen: 48, km: 480 }
+    ]
+  },
+  {
+    id: 'mkkk42-chengteh-paotow', name: 'Chengteh – Kalgan – Paotow', operator: 'Manchuria Aviation Company (満洲航空株式会社) · July 1942 sheet', opened: '',
+    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    ink: '#b5473a', days: [], groundedFrom: 'chengde',
+    note: '**Suspended (運休) in the July 1942 sheet.** The times are the ones printed beside the 運休 mark; the line is drawn dimmed and no aeroplane flies it. Flights 50 and 51 across Inner Mongolia: out Tuesdays and Saturdays in the afternoon, back Sundays and Wednesdays in the morning. 厚和 is Houho (Kweisui, today Hohhot) under its Mengchiang name. The China Airways Peking–Paotow line covers the same three western stops.',
+    stops: [
+      { id: 'chengde', name: 'Chengteh (Chengde)', lon: 117.94, lat: 40.98 },
+      { id: 'kalgan', name: 'Kalgan (Zhangjiakou)', lon: 114.88, lat: 40.81 },
+      { id: 'datong', name: 'Tatung (Datong)', lon: 113.3, lat: 40.09 },
+      { id: 'hohhot', name: 'Houho (Hohhot)', lon: 111.75, lat: 40.84 },
+      { id: 'baotou', name: 'Paotow (Baotou)', lon: 109.84, lat: 40.66 }
+    ],
+    times: [
+      { seq: '1', station: '承德 Chengteh', dd: '12:40', ua: '12:45', freq: 'out Tuesdays and Saturdays; back Wednesdays and Sundays', dw: '2 6', uw: '3 7' },
+      { seq: '2', station: '張家口 Kalgan', da: '14:20', dd: '14:35', ua: '11:10', ud: '11:25', freq: 'out Tuesdays and Saturdays; back Wednesdays and Sundays', dw: '2 6', uw: '3 7' },
+      { seq: '3', station: '大同 Tatung', da: '15:30', dd: '15:40', ua: '10:10', ud: '10:20', freq: 'out Tuesdays and Saturdays; back Wednesdays and Sundays', dw: '2 6', uw: '3 7' },
+      { seq: '4', station: '厚和 Houho', da: '16:45', dd: '16:50', ua: '9:15', ud: '9:20', freq: 'out Tuesdays and Saturdays; back Wednesdays and Sundays', dw: '2 6', uw: '3 7' },
+      { seq: '5', station: '包頭 Paotow', da: '17:40', ud: '8:30', freq: 'out Tuesdays and Saturdays; back Wednesdays and Sundays', dw: '2 6', uw: '3 7' }
+    ],
+    fares: [
+      { from: 'Chengteh', to: 'Kalgan', yen: 36, km: 255 },
+      { from: 'Kalgan', to: 'Tatung', yen: 28, km: 150 },
+      { from: 'Tatung', to: 'Houho', yen: 32, km: 170 },
+      { from: 'Houho', to: 'Paotow', yen: 25, km: 135 },
+      { from: 'Chengteh', to: 'Paotow', yen: 121, km: 710 }
+    ]
+  },
+  {
+    id: 'mkkk42-hsinking-chihfeng', name: 'Shinkyō – Chihfeng, for Chengteh', operator: 'Manchuria Aviation Company (満洲航空株式会社) · July 1942 sheet', opened: '',
+    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    ink: '#b5473a', days: [], groundedFrom: '',
+    note: '**July 1942 sheet** (昭和17年6月1日改正). Flights 15 and 16, once a week: out Thursdays, back Fridays, across the Mongol banners of western Manchukuo. Chengteh is tabled beyond Chihfeng (925 km, 124 yen) with no times at all, so that leg is drawn and not flown.',
+    stops: [
+      { id: 'changchun', name: 'Xinjing (Changchun)', lon: 125.32, lat: 43.88 },
+      { name: 'Tungliao (Tongliao)', lon: 122.26, lat: 43.62 },
+      { name: 'Kailu', lon: 121.31, lat: 43.6 },
+      { name: 'Lintung (Lindong)', lon: 119.38, lat: 43.98 },
+      { name: 'Linhsi (Linxi)', lon: 118.04, lat: 43.52 },
+      { id: 'chifeng', name: 'Chihfeng (Chifeng)', lon: 118.89, lat: 42.26 },
+      { id: 'chengde', name: 'Chengteh (Chengde)', lon: 117.94, lat: 40.98 }
+    ],
+    times: [
+      { seq: '1', station: '新京 Xinjing', dd: '8:40', ua: '14:10', freq: 'out Thursdays; back Fridays', dw: '4', uw: '5' },
+      { seq: '2', station: '通遼 Tungliao', da: '10:10', dd: '10:20', ua: '12:30', ud: '12:40', freq: 'out Thursdays; back Fridays', dw: '4', uw: '5' },
+      { seq: '3', station: '開魯 Kailu', da: '10:55', dd: '11:00', ua: '11:50', ud: '11:55', freq: 'out Thursdays; back Fridays', dw: '4', uw: '5' },
+      { seq: '4', station: '林東 Lintung', da: '12:05', dd: '12:10', ua: '10:50', ud: '10:55', freq: 'out Thursdays; back Fridays', dw: '4', uw: '5' },
+      { seq: '5', station: '林西 Linhsi', da: '13:00', dd: '13:05', ua: '10:00', ud: '10:05', freq: 'out Thursdays; back Fridays', dw: '4', uw: '5' },
+      { seq: '6', station: '赤峰 Chihfeng', da: '14:05', ud: '9:00', freq: 'out Thursdays; back Fridays', dw: '4', uw: '5' },
+      { seq: '7', station: '承德 Chengteh', freq: 'out Thursdays; back Fridays', dw: '4', uw: '5' }
+    ],
+    fares: [
+      { from: 'Xinjing', to: 'Tungliao', yen: 29, km: 240 },
+      { from: 'Tungliao', to: 'Kailu', yen: 12, km: 85 },
+      { from: 'Kailu', to: 'Lintung', yen: 24, km: 170 },
+      { from: 'Lintung', to: 'Linhsi', yen: 15, km: 105 },
+      { from: 'Linhsi', to: 'Chihfeng', yen: 22, km: 155 },
+      { from: 'Chihfeng', to: 'Chengteh', yen: 22, km: 170 },
+      { from: 'Xinjing', to: 'Chihfeng', yen: 102, km: 755 },
+      { from: 'Xinjing', to: 'Chengteh', yen: 124, km: 925 }
+    ]
+  },
+  {
+    id: 'mkkk42-hsinking-linkiang', name: 'Shinkyō – Tunghua – Chungkiangchen', operator: 'Manchuria Aviation Company (満洲航空株式会社) · July 1942 sheet', opened: '',
+    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    ink: '#b5473a', days: [], groundedFrom: 'changchun',
+    note: '**Suspended (運休) in the July 1942 sheet.** The times are the ones printed beside the 運休 mark; the line is drawn dimmed and no aeroplane flies it. Flights 7 and 8, tabled Mondays, Wednesdays and Fridays, to 中江鎮 on the upper Yalu (Linkiang), opposite Korea.',
+    stops: [
+      { id: 'changchun', name: 'Xinjing (Changchun)', lon: 125.32, lat: 43.88 },
+      { id: 'tonghua', name: 'Tunghua (Tonghua)', lon: 125.94, lat: 41.73 },
+      { name: 'Chungkiangchen (Linjiang)', lon: 126.92, lat: 41.81 }
+    ],
+    times: [
+      { seq: '1', station: '新京 Xinjing', dd: '8:40', ua: '14:20', freq: 'Mondays, Wednesdays and Fridays', dw: '1 3 5', uw: '1 3 5' },
+      { seq: '2', station: '通化 Tunghua', da: '10:40', dd: '10:50', ua: '12:20', ud: '12:30', freq: 'Mondays, Wednesdays and Fridays', dw: '1 3 5', uw: '1 3 5' },
+      { seq: '3', station: '中江鎮 Chungkiangchen', da: '11:30', ud: '11:35', freq: 'Mondays, Wednesdays and Fridays', dw: '1 3 5', uw: '1 3 5' }
+    ],
+    fares: [
+      { from: 'Xinjing', to: 'Tunghua', yen: 32, km: 265 },
+      { from: 'Tunghua', to: 'Chungkiangchen', yen: 10, km: 85 },
+      { from: 'Xinjing', to: 'Chungkiangchen', yen: 42, km: 350 }
+    ]
+  },
+  {
+    id: 'mkkk42-hsinking-hunchun', name: 'Shinkyō – Yenki – Tumen – Hunchun', operator: 'Manchuria Aviation Company (満洲航空株式会社) · July 1942 sheet', opened: '',
+    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    ink: '#b5473a', days: [], groundedFrom: 'changchun',
+    note: '**Suspended (運休) in the July 1942 sheet.** The times are the ones printed beside the 運休 mark; the line is drawn dimmed and no aeroplane flies it. Flights 9 and 10, tabled Tuesdays, Thursdays and Saturdays, to the Tumen corner where Manchukuo, Korea and the Soviet Union meet.',
+    stops: [
+      { id: 'changchun', name: 'Xinjing (Changchun)', lon: 125.32, lat: 43.88 },
+      { id: 'yanji', name: 'Yenki (Yanji)', lon: 129.51, lat: 42.91 },
+      { name: 'Tumen', lon: 129.84, lat: 42.97 },
+      { name: 'Hunchun', lon: 130.37, lat: 42.86 }
+    ],
+    times: [
+      { seq: '1', station: '新京 Xinjing', dd: '8:40', ua: '13:30', freq: 'Tuesdays, Thursdays and Saturdays', dw: '2 4 6', uw: '2 4 6' },
+      { seq: '2', station: '延吉 Yenki', da: '10:20', dd: '10:25', ua: '11:50', ud: '11:55', freq: 'Tuesdays, Thursdays and Saturdays', dw: '2 4 6', uw: '2 4 6' },
+      { seq: '3', station: '圖們 Tumen', da: '10:40', dd: '10:50', ua: '11:25', ud: '11:35', freq: 'Tuesdays, Thursdays and Saturdays', dw: '2 4 6', uw: '2 4 6' },
+      { seq: '4', station: '琿春 Hunchun', da: '11:05', ud: '11:10', freq: 'Tuesdays, Thursdays and Saturdays', dw: '2 4 6', uw: '2 4 6' }
+    ],
+    fares: [
+      { from: 'Xinjing', to: 'Yenki', yen: 37, km: 375 },
+      { from: 'Yenki', to: 'Tumen', yen: 5, km: 20 },
+      { from: 'Tumen', to: 'Hunchun', yen: 7, km: 45 },
+      { from: 'Xinjing', to: 'Hunchun', yen: 49, km: 440 }
+    ]
+  },
+  {
+    id: 'mkkk42-mutankiang-tungning', name: 'Mutankiang – Suifenho – Tungning', operator: 'Manchuria Aviation Company (満洲航空株式会社) · July 1942 sheet', opened: '',
+    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    ink: '#b5473a', days: [], groundedFrom: '',
+    note: '**July 1942 sheet** (昭和17年6月1日改正). Flights 23 and 24, Mondays, Wednesdays and Fridays: a short morning hop to the Soviet frontier and back, timed to connect at Mutankiang with the daily Shinkyō–Harbin service, which stands there from 10.05 to 15.10.',
+    stops: [
+      { id: 'mudanjiang', name: 'Mutankiang (Mudanjiang)', lon: 129.6, lat: 44.58 },
+      { id: 'suifenhe', name: 'Suifenho (Suifenhe)', lon: 131.15, lat: 44.4 },
+      { name: 'Tungning (Dongning)', lon: 131.12, lat: 44.06 }
+    ],
+    times: [
+      { seq: '1', station: '牡丹江 Mutankiang', dd: '10:30', ua: '13:30', freq: 'Mondays, Wednesdays and Fridays', dw: '1 3 5', uw: '1 3 5' },
+      { seq: '2', station: '綏芬河 Suifenho', da: '11:25', dd: '11:30', ua: '12:25', ud: '12:30', freq: 'Mondays, Wednesdays and Fridays', dw: '1 3 5', uw: '1 3 5' },
+      { seq: '3', station: '東寧 Tungning', da: '11:55', ud: '12:00', freq: 'Mondays, Wednesdays and Fridays', dw: '1 3 5', uw: '1 3 5' }
+    ],
+    fares: [
+      { from: 'Mutankiang', to: 'Suifenho', yen: 18, km: 125 },
+      { from: 'Suifenho', to: 'Tungning', yen: 7, km: 50 },
+      { from: 'Mutankiang', to: 'Tungning', yen: 25, km: 175 }
+    ]
+  },
+  {
+    id: 'mkkk42-hsinking-manchouli', name: 'Shinkyō – Tsitsihar – Hailar – Manchouli', operator: 'Manchuria Aviation Company (満洲航空株式会社) · July 1942 sheet', opened: '',
+    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    ink: '#b5473a', days: [], groundedFrom: 'changchun',
+    note: '**Suspended (運休) in the July 1942 sheet.** The times are the ones printed beside the 運休 mark; the line is drawn dimmed and no aeroplane flies it. Flights 5 and 6, a two-day journey each way with the night at Hailar: out Mondays, Wednesdays and Fridays as far as Hailar, on to Manchouli the next morning; back on Tuesdays, Thursdays and Saturdays. The winter-1935 Manchouli–Shinkyō line on this map is the same route by way of Harbin; by 1942 it ran by Paichengtzu instead.',
+    stops: [
+      { id: 'changchun', name: 'Xinjing (Changchun)', lon: 125.32, lat: 43.88 },
+      { name: 'Paichengtzu (Baicheng)', lon: 122.84, lat: 45.62 },
+      { id: 'qiqihar', name: 'Tsitsihar (Qiqihar)', lon: 123.92, lat: 47.35 },
+      { id: 'hailar', name: 'Hailar', lon: 119.7, lat: 49.2 },
+      { id: 'manzhouli', name: 'Manchouli (Manzhouli)', lon: 117.45, lat: 49.6 }
+    ],
+    times: [
+      { seq: '1', station: '新京 Xinjing', dd: '8:40', ua: '14:10', freq: 'out Mondays, Wednesdays and Fridays; back Tuesdays, Thursdays and Saturdays; a night at Hailar each way', uad: '2', dw: '1 3 5', uw: '2 4 6' },
+      { seq: '2', station: '白城子 Paichengtzu', da: '10:10', dd: '10:15', ua: '12:40', ud: '12:45', freq: 'out Mondays, Wednesdays and Fridays; back Tuesdays, Thursdays and Saturdays; a night at Hailar each way', uad: '2', udd: '2', dw: '1 3 5', uw: '2 4 6' },
+      { seq: '3', station: '齊齊哈爾 Tsitsihar', da: '11:25', dd: '11:35', ua: '11:25', ud: '11:35', freq: 'out Mondays, Wednesdays and Fridays; back Tuesdays, Thursdays and Saturdays; a night at Hailar each way', uad: '2', udd: '2', dw: '1 3 5', uw: '2 4 6' },
+      { seq: '4', station: '海拉爾 Hailar', da: '13:50', dd: '9:40', ua: '12:25', ud: '9:30', freq: 'out Mondays, Wednesdays and Fridays; back Tuesdays, Thursdays and Saturdays; a night at Hailar each way', ddd: '2', udd: '2', dw: '1 3 5', uw: '2 4 6' },
+      { seq: '5', station: '滿洲里 Manchouli', da: '11:00', ud: '11:10', freq: 'out Mondays, Wednesdays and Fridays; back Tuesdays, Thursdays and Saturdays; a night at Hailar each way', dad: '2', dw: '1 3 5', uw: '2 4 6' }
+    ],
+    fares: [
+      { from: 'Xinjing', to: 'Paichengtzu', yen: 28, km: 270 },
+      { from: 'Paichengtzu', to: 'Tsitsihar', yen: 22, km: 205 },
+      { from: 'Tsitsihar', to: 'Hailar', yen: 48, km: 410 },
+      { from: 'Hailar', to: 'Manchouli', yen: 21, km: 180 },
+      { from: 'Xinjing', to: 'Manchouli', yen: 119, km: 1065 }
+    ]
+  },
+  {
+    id: 'mkkk42-harbin-hailar', name: 'Harbin – Tsitsihar – Hailar', operator: 'Manchuria Aviation Company (満洲航空株式会社) · July 1942 sheet', opened: '',
+    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    ink: '#b5473a', days: [], groundedFrom: '',
+    note: '**July 1942 sheet** (昭和17年6月1日改正). Once a week: out Thursdays, back Fridays. With the Shinkyō–Manchouli line suspended this was the only tabled service to the Barga steppe in July 1942.',
+    stops: [
+      { id: 'harbin', name: 'Harbin', lon: 126.53, lat: 45.8 },
+      { id: 'qiqihar', name: 'Tsitsihar (Qiqihar)', lon: 123.92, lat: 47.35 },
+      { id: 'hailar', name: 'Hailar', lon: 119.7, lat: 49.2 }
+    ],
+    times: [
+      { seq: '1', station: '哈爾濱 Harbin', dd: '8:30', ua: '13:20', freq: 'out Thursdays; back Fridays', dw: '4', uw: '5' },
+      { seq: '2', station: '齊齊哈爾 Tsitsihar', da: '10:10', dd: '10:20', ua: '11:35', ud: '11:45', freq: 'out Thursdays; back Fridays', dw: '4', uw: '5' },
+      { seq: '3', station: '海拉爾 Hailar', da: '12:30', ud: '9:30', freq: 'out Thursdays; back Fridays', dw: '4', uw: '5' }
+    ],
+    fares: [
+      { from: 'Harbin', to: 'Tsitsihar', yen: 27, km: 275 },
+      { from: 'Tsitsihar', to: 'Hailar', yen: 48, km: 410 },
+      { from: 'Harbin', to: 'Hailar', yen: 75, km: 685 }
+    ]
+  },
+  {
+    id: 'mkkk42-harbin-heiho', name: 'Harbin – Peian – Sunwu – Heiho', operator: 'Manchuria Aviation Company (満洲航空株式会社) · July 1942 sheet', opened: '',
+    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    ink: '#b5473a', days: [], groundedFrom: '',
+    note: '**July 1942 sheet** (昭和17年6月1日改正). Flights 17 and 18, Mondays, Wednesdays and Fridays, north to the Amur opposite Blagoveshchensk. The sheet tables the line as a circuit going on from Heiho by Nunkiang and Tsitsihar back to Harbin (1,320 km, 137 yen) but prints no times beyond Heiho, so only the timed arm is drawn.',
+    stops: [
+      { id: 'harbin', name: 'Harbin', lon: 126.53, lat: 45.8 },
+      { name: 'Peian (Bei\'an)', lon: 126.49, lat: 48.24 },
+      { name: 'Sunwu', lon: 127.34, lat: 49.43 },
+      { id: 'heihe', name: 'Heiho (Heihe)', lon: 127.53, lat: 50.25 }
+    ],
+    times: [
+      { seq: '1', station: '哈爾濱 Harbin', dd: '8:20', ua: '15:20', freq: 'Mondays, Wednesdays and Fridays', dw: '1 3 5', uw: '1 3 5' },
+      { seq: '2', station: '北安 Peian', da: '9:55', dd: '10:00', ua: '13:45', ud: '13:50', freq: 'Mondays, Wednesdays and Fridays', dw: '1 3 5', uw: '1 3 5' },
+      { seq: '3', station: '孫呉 Sunwu', da: '10:50', dd: '10:55', ua: '12:45', ud: '12:50', freq: 'Mondays, Wednesdays and Fridays', dw: '1 3 5', uw: '1 3 5' },
+      { seq: '4', station: '黑河 Heiho', da: '11:40', ud: '12:00', freq: 'Mondays, Wednesdays and Fridays', dw: '1 3 5', uw: '1 3 5' }
+    ],
+    fares: [
+      { from: 'Harbin', to: 'Peian', yen: 28, km: 275 },
+      { from: 'Peian', to: 'Sunwu', yen: 14, km: 145 },
+      { from: 'Sunwu', to: 'Heiho', yen: 15, km: 145 },
+      { from: 'Harbin', to: 'Heiho', yen: 57, km: 565 }
+    ]
+  },
+  {
+    id: 'mkkk42-hsinking-mutankiang-harbin', name: 'Shinkyō – Mutankiang – Harbin', operator: 'Manchuria Aviation Company (満洲航空株式会社) · July 1942 sheet', opened: '',
+    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    ink: '#b5473a', days: [], groundedFrom: '',
+    note: '**July 1942 sheet** (昭和17年6月1日改正). Flights 26 and 25, daily: a morning leg to Mutankiang, a five-hour stand while the Tungning and Paoching feeders go out and come back, and an afternoon leg on. The two halves are printed in separate columns on the sheet and are one aeroplane here.',
+    stops: [
+      { id: 'changchun', name: 'Xinjing (Changchun)', lon: 125.32, lat: 43.88 },
+      { id: 'mudanjiang', name: 'Mutankiang (Mudanjiang)', lon: 129.6, lat: 44.58 },
+      { id: 'harbin', name: 'Harbin', lon: 126.53, lat: 45.8 }
+    ],
+    times: [
+      { seq: '1', station: '新京 Xinjing', dd: '8:30', ua: '16:45', freq: 'daily', dw: '1 2 3 4 5 6 7', uw: '1 2 3 4 5 6 7' },
+      { seq: '2', station: '牡丹江 Mutankiang', da: '10:05', dd: '15:10', ua: '10:10', ud: '15:00', freq: 'daily', dw: '1 2 3 4 5 6 7', uw: '1 2 3 4 5 6 7' },
+      { seq: '3', station: '哈爾濱 Harbin', da: '16:40', ud: '8:40', freq: 'daily', dw: '1 2 3 4 5 6 7', uw: '1 2 3 4 5 6 7' }
+    ],
+    fares: [
+      { from: 'Xinjing', to: 'Mutankiang', yen: 54, km: 380 },
+      { from: 'Mutankiang', to: 'Harbin', yen: 30, km: 250 },
+      { from: 'Xinjing', to: 'Harbin', yen: 84, km: 630 }
+    ]
+  },
+  {
+    id: 'mkkk42-mutankiang-paoching', name: 'Mutankiang – Tungan – Paoching', operator: 'Manchuria Aviation Company (満洲航空株式会社) · July 1942 sheet', opened: '',
+    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    ink: '#b5473a', days: [], groundedFrom: '',
+    note: '**July 1942 sheet** (昭和17年6月1日改正). Tuesdays, Thursdays and Saturdays, out and back in a day, connecting at Mutankiang with the daily Shinkyō–Harbin service. 東安 Tungan is Mishan under its Manchukuo name; 鷄寧 Chining is Jixi.',
+    stops: [
+      { id: 'mudanjiang', name: 'Mutankiang (Mudanjiang)', lon: 129.6, lat: 44.58 },
+      { name: 'Chining (Jixi)', lon: 130.97, lat: 45.3 },
+      { name: 'Tungan (Mishan)', lon: 131.87, lat: 45.55 },
+      { name: 'Paoching (Baoqing)', lon: 132.2, lat: 46.33 }
+    ],
+    times: [
+      { seq: '1', station: '牡丹江 Mutankiang', dd: '10:30', ua: '14:40', freq: 'Tuesdays, Thursdays and Saturdays', dw: '2 4 6', uw: '2 4 6' },
+      { seq: '2', station: '鷄寧 Chining', da: '11:15', dd: '11:20', ua: '13:45', ud: '13:50', freq: 'Tuesdays, Thursdays and Saturdays', dw: '2 4 6', uw: '2 4 6' },
+      { seq: '3', station: '東安 Tungan', da: '11:50', dd: '11:55', ua: '13:10', ud: '13:15', freq: 'Tuesdays, Thursdays and Saturdays', dw: '2 4 6', uw: '2 4 6' },
+      { seq: '4', station: '寶清 Paoching', da: '12:30', ud: '12:35', freq: 'Tuesdays, Thursdays and Saturdays', dw: '2 4 6', uw: '2 4 6' }
+    ],
+    fares: [
+      { from: 'Mutankiang', to: 'Chining', yen: 21, km: 180 },
+      { from: 'Chining', to: 'Tungan', yen: 11, km: 50 },
+      { from: 'Tungan', to: 'Paoching', yen: 14, km: 95 },
+      { from: 'Mutankiang', to: 'Paoching', yen: 46, km: 325 }
+    ]
+  },
+  {
+    id: 'mkkk42-fuchin-tungan', name: 'Fuchin – Jaoho – Hutou – Hulin – Tungan', operator: 'Manchuria Aviation Company (満洲航空株式会社) · July 1942 sheet', opened: '',
+    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    ink: '#b5473a', days: [], groundedFrom: '',
+    note: '**July 1942 sheet** (昭和17年6月1日改正). Tuesdays and Saturdays, down the Ussuri frontier from the Sungari to Tungan (Mishan). The sheet prints no distance for Hulin; 445 km end to end.',
+    stops: [
+      { name: 'Fuchin (Fujin)', lon: 132.03, lat: 47.25 },
+      { name: 'Jaoho (Raohe)', lon: 134.02, lat: 46.8 },
+      { name: 'Hutou', lon: 133.65, lat: 45.97 },
+      { name: 'Hulin', lon: 132.97, lat: 45.76 },
+      { name: 'Tungan (Mishan)', lon: 131.87, lat: 45.55 }
+    ],
+    times: [
+      { seq: '1', station: '富錦 Fuchin', dd: '8:00', ua: '16:40', freq: 'Tuesdays and Saturdays', dw: '2 6', uw: '2 6' },
+      { seq: '2', station: '饒河 Jaoho', da: '9:35', dd: '9:45', ua: '14:50', ud: '15:00', freq: 'Tuesdays and Saturdays', dw: '2 6', uw: '2 6' },
+      { seq: '3', station: '虎頭 Hutou', da: '10:40', dd: '10:45', ua: '13:55', ud: '14:00', freq: 'Tuesdays and Saturdays', dw: '2 6', uw: '2 6' },
+      { seq: '4', station: '虎林 Hulin', da: '11:20', dd: '11:25', ua: '13:15', ud: '13:20', freq: 'Tuesdays and Saturdays', dw: '2 6', uw: '2 6' },
+      { seq: '5', station: '東安 Tungan', da: '12:15', ud: '12:25', freq: 'Tuesdays and Saturdays', dw: '2 6', uw: '2 6' }
+    ],
+    fares: [
+      { from: 'Fuchin', to: 'Jaoho', yen: 34, km: 215 },
+      { from: 'Jaoho', to: 'Hutou', yen: 14, km: 95 },
+      { from: 'Hutou', to: 'Hulin', yen: 9, km: null },
+      { from: 'Hulin', to: 'Tungan', yen: 13, km: null },
+      { from: 'Fuchin', to: 'Tungan', yen: 70, km: null }
+    ]
+  },
+  {
+    id: 'mkkk42-kiamusze-jaoho', name: 'Kiamusze – Paoching – Fuchin – Jaoho', operator: 'Manchuria Aviation Company (満洲航空株式会社) · July 1942 sheet', opened: '',
+    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    ink: '#b5473a', days: [], groundedFrom: '',
+    note: '**July 1942 sheet** (昭和17年6月1日改正). Tuesdays, Thursdays and Saturdays, and printed as a zigzag: Kiamusze to Paoching (150 km, 23 yen), north to Fuchin (95 km, 19), back through Paoching (11.35 / 11.40, 19 yen) and on to Jaoho (25 yen; no distance printed). The return calls at Paoching only (13.40 / 13.45) and passes Fuchin (レ). The map draws each stop once, so the second Paoching call is on this note and the Fuchin–Jaoho leg carries the two fares together (44 yen).',
+    stops: [
+      { id: 'jiamusi', name: 'Kiamusze (Jiamusi)', lon: 130.32, lat: 46.81 },
+      { name: 'Paoching (Baoqing)', lon: 132.2, lat: 46.33 },
+      { name: 'Fuchin (Fujin)', lon: 132.03, lat: 47.25 },
+      { name: 'Jaoho (Raohe)', lon: 134.02, lat: 46.8 }
+    ],
+    times: [
+      { seq: '1', station: '佳木斯 Kiamusze', dd: '9:10', ua: '14:50', freq: 'Tuesdays, Thursdays and Saturdays', dw: '2 4 6', uw: '2 4 6' },
+      { seq: '2', station: '寶清 Paoching', da: '10:15', dd: '10:20', ua: '13:40', ud: '13:45', freq: 'Tuesdays, Thursdays and Saturdays', dw: '2 4 6', uw: '2 4 6' },
+      { seq: '3', station: '富錦 Fuchin', da: '10:55', dd: '11:00', freq: 'Tuesdays, Thursdays and Saturdays', dw: '2 4 6', uw: '2 4 6' },
+      { seq: '4', station: '饒河 Jaoho', da: '12:35', ud: '12:40', freq: 'Tuesdays, Thursdays and Saturdays', dw: '2 4 6', uw: '2 4 6' }
+    ],
+    fares: [
+      { from: 'Kiamusze', to: 'Paoching', yen: 23, km: 150 },
+      { from: 'Paoching', to: 'Fuchin', yen: 19, km: 95 },
+      { from: 'Fuchin', to: 'Jaoho', yen: 44, km: null },
+      { from: 'Kiamusze', to: 'Jaoho', yen: 86, km: null }
+    ]
+  },
+  {
+    id: 'mkkk42-harbin-fuchin', name: 'Harbin – Ilan – Kiamusze – Fuchin', operator: 'Manchuria Aviation Company (満洲航空株式会社) · July 1942 sheet', opened: '',
+    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    ink: '#b5473a', days: [], groundedFrom: '',
+    note: '**July 1942 sheet** (昭和17年6月1日改正). Flights 19 and 20 down the Sungari: Harbin–Kiamusze every day but Sunday, the Kiamusze–Fuchin end on Tuesdays, Thursdays and Saturdays. Carried as two services on their own days.',
+    stops: [
+      { id: 'harbin', name: 'Harbin', lon: 126.53, lat: 45.8 },
+      { name: 'Tungho (Tonghe)', lon: 128.75, lat: 45.97 },
+      { name: 'Ilan (Yilan)', lon: 129.57, lat: 46.32 },
+      { id: 'jiamusi', name: 'Kiamusze (Jiamusi)', lon: 130.32, lat: 46.81 },
+      { name: 'Fuchin (Fujin)', lon: 132.03, lat: 47.25 }
+    ],
+    times: [
+      { svc: 'Harbin – Kiamusze', seq: '1', station: '哈爾濱 Harbin', dd: '8:50', ua: '15:15', freq: 'daily except Sundays', dw: '1 2 3 4 5 6', uw: '1 2 3 4 5 6' },
+      { svc: 'Harbin – Kiamusze', seq: '2', station: '通河 Tungho', da: '9:45', dd: '9:50', ua: '14:10', ud: '14:15', freq: 'daily except Sundays', dw: '1 2 3 4 5 6', uw: '1 2 3 4 5 6' },
+      { svc: 'Harbin – Kiamusze', seq: '3', station: '依蘭 Ilan', da: '10:15', dd: '10:20', ua: '13:35', ud: '13:40', freq: 'daily except Sundays', dw: '1 2 3 4 5 6', uw: '1 2 3 4 5 6' },
+      { svc: 'Harbin – Kiamusze', seq: '4', station: '佳木斯 Kiamusze', da: '10:50', ud: '13:05', freq: 'daily except Sundays', dw: '1 2 3 4 5 6', uw: '1 2 3 4 5 6' },
+      { svc: 'Kiamusze – Fuchin', seq: '4', station: '佳木斯 Kiamusze', dd: '11:00', ua: '12:55', freq: 'Tuesdays, Thursdays and Saturdays', dw: '2 4 6', uw: '2 4 6' },
+      { svc: 'Kiamusze – Fuchin', seq: '5', station: '富錦 Fuchin', da: '11:50', ud: '12:00', freq: 'Tuesdays, Thursdays and Saturdays', dw: '2 4 6', uw: '2 4 6' }
+    ],
+    fares: [
+      { from: 'Harbin', to: 'Tungho', yen: 24, km: 160 },
+      { from: 'Tungho', to: 'Ilan', yen: 11, km: 75 },
+      { from: 'Ilan', to: 'Kiamusze', yen: 12, km: 80 },
+      { from: 'Kiamusze', to: 'Fuchin', yen: 21, km: 140 },
+      { from: 'Harbin', to: 'Kiamusze', yen: 47, km: 315 },
+      { from: 'Harbin', to: 'Fuchin', yen: 68, km: 455 }
+    ]
+  },
+  {
+    id: 'mkkk42-kiamusze-mohe', name: 'Kiamusze – Heiho – Mohe, up the Amur', operator: 'Manchuria Aviation Company (満洲航空株式会社) · July 1942 sheet', opened: '',
+    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    ink: '#b5473a', days: [], groundedFrom: '',
+    note: '**July 1942 sheet** (昭和17年6月1日改正). Flights 37 and 38, the longest of the frontier lines: 1,260 km up the Amur to Mohe at the top of Manchukuo. Two aeroplanes on the sheet — Kiamusze–Heiho on Mondays, Heiho–Mohe on Tuesdays and Thursdays — carried as two services. 佛山 Foshan is today\'s Jiayin; Oupu and Wuyun are river posts placed approximately.',
+    stops: [
+      { id: 'jiamusi', name: 'Kiamusze (Jiamusi)', lon: 130.32, lat: 46.81 },
+      { name: 'Foshan (Jiayin)', lon: 130.39, lat: 48.89 },
+      { name: 'Wuyun', lon: 129.5, lat: 49.25 },
+      { name: 'Sunwu', lon: 127.34, lat: 49.43 },
+      { id: 'heihe', name: 'Heiho (Heihe)', lon: 127.53, lat: 50.25 },
+      { name: 'Huma', lon: 126.65, lat: 51.72 },
+      { name: 'Oupu', lon: 125.2, lat: 52.5 },
+      { name: 'Mohe', lon: 122.36, lat: 53.47 }
+    ],
+    times: [
+      { svc: 'Kiamusze – Heiho', seq: '1', station: '佳木斯 Kiamusze', dd: '8:50', ua: '12:45', freq: 'Mondays', dw: '1', uw: '1' },
+      { svc: 'Kiamusze – Heiho', seq: '2', station: '佛山 Foshan', da: '10:40', dd: '10:45', ua: '10:35', ud: '10:50', freq: 'Mondays', dw: '1', uw: '1' },
+      { svc: 'Kiamusze – Heiho', seq: '3', station: '烏雲 Wuyun', da: '11:20', dd: '11:25', ua: '9:55', ud: '10:00', freq: 'Mondays', dw: '1', uw: '1' },
+      { svc: 'Kiamusze – Heiho', seq: '4', station: '孫呉 Sunwu', da: '12:30', dd: '12:35', ua: '8:50', ud: '8:55', freq: 'Mondays', dw: '1', uw: '1' },
+      { svc: 'Kiamusze – Heiho', seq: '5', station: '黑河 Heiho', da: '13:25', ud: '8:00', freq: 'Mondays', dw: '1', uw: '1' },
+      { svc: 'Heiho – Mohe', seq: '5', station: '黑河 Heiho', dd: '8:00', ua: '16:25', freq: 'Tuesdays and Thursdays', dw: '2 4', uw: '2 4' },
+      { svc: 'Heiho – Mohe', seq: '6', station: '呼瑪 Huma', da: '9:30', dd: '9:40', ua: '14:50', ud: '15:00', freq: 'Tuesdays and Thursdays', dw: '2 4', uw: '2 4' },
+      { svc: 'Heiho – Mohe', seq: '7', station: '鷗浦 Oupu', da: '10:40', dd: '10:45', ua: '14:00', ud: '14:05', freq: 'Tuesdays and Thursdays', dw: '2 4', uw: '2 4' },
+      { svc: 'Heiho – Mohe', seq: '8', station: '漠河 Mohe', da: '12:30', ud: '12:35', freq: 'Tuesdays and Thursdays', dw: '2 4', uw: '2 4' }
+    ],
+    fares: [
+      { from: 'Kiamusze', to: 'Foshan', yen: 39, km: 230 },
+      { from: 'Foshan', to: 'Wuyun', yen: 13, km: 75 },
+      { from: 'Wuyun', to: 'Sunwu', yen: 33, km: 195 },
+      { from: 'Sunwu', to: 'Heiho', yen: 15, km: 145 },
+      { from: 'Heiho', to: 'Huma', yen: 38, km: 225 },
+      { from: 'Huma', to: 'Oupu', yen: 22, km: 130 },
+      { from: 'Oupu', to: 'Mohe', yen: 44, km: 260 },
+      { from: 'Kiamusze', to: 'Heiho', yen: 100, km: 645 },
+      { from: 'Kiamusze', to: 'Mohe', yen: 204, km: 1260 }
+    ]
+  },
+  {
+    id: 'mkkk42-kiamusze-fuyuan', name: 'Kiamusze – Lopei – Fuchin – Tungkiang – Fuyuan', operator: 'Manchuria Aviation Company (満洲航空株式会社) · July 1942 sheet', opened: '',
+    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    ink: '#b5473a', days: [], groundedFrom: '',
+    note: '**July 1942 sheet** (昭和17年6月1日改正). Wednesdays and Fridays. The sheet tables the whole line but prints times only from Fuchin: 9.00 out, Tungkiang 9.30 / 9.35, Fuyuan 10.55; back 11.05, 12.30 / 12.35, Fuchin 13.10. Kiamusze–Lopei–Fuchin is drawn from the fare columns and not flown. Lopei is placed at the old county town on the Amur, approximately.',
+    stops: [
+      { id: 'jiamusi', name: 'Kiamusze (Jiamusi)', lon: 130.32, lat: 46.81 },
+      { name: 'Lopei (Luobei)', lon: 131.03, lat: 47.88 },
+      { name: 'Fuchin (Fujin)', lon: 132.03, lat: 47.25 },
+      { name: 'Tungkiang (Tongjiang)', lon: 132.51, lat: 47.65 },
+      { name: 'Fuyuan', lon: 134.29, lat: 48.36 }
+    ],
+    times: [
+      { seq: '1', station: '佳木斯 Kiamusze', freq: 'Wednesdays and Fridays', dw: '3 5', uw: '3 5' },
+      { seq: '2', station: '蘿北 Lopei', freq: 'Wednesdays and Fridays', dw: '3 5', uw: '3 5' },
+      { seq: '3', station: '富錦 Fuchin', dd: '9:00', ua: '13:10', freq: 'Wednesdays and Fridays', dw: '3 5', uw: '3 5' },
+      { seq: '4', station: '同江 Tungkiang', da: '9:30', dd: '9:35', ua: '12:30', ud: '12:35', freq: 'Wednesdays and Fridays', dw: '3 5', uw: '3 5' },
+      { seq: '5', station: '撫遠 Fuyuan', da: '10:55', ud: '11:05', freq: 'Wednesdays and Fridays', dw: '3 5', uw: '3 5' }
+    ],
+    fares: [
+      { from: 'Kiamusze', to: 'Lopei', yen: 20, km: 125 },
+      { from: 'Lopei', to: 'Fuchin', yen: 13, km: 105 },
+      { from: 'Fuchin', to: 'Tungkiang', yen: 10, km: 65 },
+      { from: 'Tungkiang', to: 'Fuyuan', yen: 27, km: 165 },
+      { from: 'Kiamusze', to: 'Fuyuan', yen: 70, km: 460 }
+    ]
+  },
+  {
+    id: 'mkkk42-kiamusze-fenghsiang-fuchin', name: 'Kiamusze – Fenghsiangchen – Fuchin', operator: 'Manchuria Aviation Company (満洲航空株式会社) · July 1942 sheet', opened: '',
+    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    ink: '#b5473a', days: [], groundedFrom: 'jiamusi',
+    note: '**Suspended (運休) in the July 1942 sheet.** The times are the ones printed beside the 運休 mark; the line is drawn dimmed and no aeroplane flies it. Tabled for Fridays, a morning run down the Sungari with the return in the afternoon. No distances are printed; 16 yen a leg. Fenghsiangchen is placed approximately.',
+    stops: [
+      { id: 'jiamusi', name: 'Kiamusze (Jiamusi)', lon: 130.32, lat: 46.81 },
+      { name: 'Fenghsiangchen (Fengxiang)', lon: 130.83, lat: 47.58 },
+      { name: 'Fuchin (Fujin)', lon: 132.03, lat: 47.25 }
+    ],
+    times: [
+      { seq: '1', station: '佳木斯 Kiamusze', dd: '9:10', ua: '15:35', freq: 'Fridays', dw: '5', uw: '5' },
+      { seq: '2', station: '鳳翔鎮 Fenghsiangchen', da: '10:05', dd: '10:10', ua: '14:40', ud: '14:45', freq: 'Fridays', dw: '5', uw: '5' },
+      { seq: '3', station: '富錦 Fuchin', da: '10:40', ud: '14:10', freq: 'Fridays', dw: '5', uw: '5' }
+    ],
+    fares: [
+      { from: 'Kiamusze', to: 'Fenghsiangchen', yen: 16, km: null },
+      { from: 'Fenghsiangchen', to: 'Fuchin', yen: 16, km: null },
+      { from: 'Kiamusze', to: 'Fuchin', yen: 32, km: null }
+    ]
+  },
+  {
+    id: 'cak42-peking-dairen', name: 'Peking – Tientsin – Dairen', operator: 'China Airways Co. (中華航空株式會社) · April 1942 sheet', opened: '',
+    season: 'April 1942 (昭和17.4.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    ink: '#4a9a88', days: [], groundedFrom: '',
+    note: '**April 1942 sheet** (昭和17年4月1日改正), as reprinted in July 1942. Flights 5 and 6, Tuesdays, Thursdays and Saturdays. The 1940 China Airways Dairen line on this map is the same route two years earlier, then daily.',
+    stops: [
+      { id: 'beijing', name: 'Peking (Beijing)', lon: 116.4, lat: 39.9 },
+      { id: 'tianjin', name: 'Tientsin (Tianjin)', lon: 117.2, lat: 39.13 },
+      { id: 'dairen', name: 'Dairen (Dalian)', lon: 121.61, lat: 38.91 }
+    ],
+    times: [
+      { seq: '1', station: '北京 Peking', dd: '9:10', ua: '17:25', freq: 'Tuesdays, Thursdays and Saturdays', dw: '2 4 6', uw: '2 4 6' },
+      { seq: '2', station: '天津 Tientsin', da: '9:45', dd: '9:55', ua: '16:40', ud: '16:50', freq: 'Tuesdays, Thursdays and Saturdays', dw: '2 4 6', uw: '2 4 6' },
+      { seq: '3', station: '大連 Dairen', da: '11:25', ud: '15:00', freq: 'Tuesdays, Thursdays and Saturdays', dw: '2 4 6', uw: '2 4 6' }
+    ],
+    fares: [
+      { from: 'Peking', to: 'Tientsin', yen: 20, km: 130 },
+      { from: 'Tientsin', to: 'Dairen', yen: 65, km: 370 },
+      { from: 'Peking', to: 'Dairen', yen: 85, km: 500 }
+    ]
+  },
+  {
+    id: 'cak42-peking-shanghai', name: 'Peking – Tsinan – Hsüchow – Nanking – Shanghai', operator: 'China Airways Co. (中華航空株式會社) · April 1942 sheet', opened: '',
+    season: 'April 1942 (昭和17.4.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    ink: '#4a9a88', days: [], groundedFrom: '',
+    note: '**April 1942 sheet** (昭和17年4月1日改正), as reprinted in July 1942. Flights 1 and 2 down the Tientsin–Pukow corridor: south Mondays, Wednesdays and Fridays, north Tuesdays, Thursdays and Saturdays. Nanking–Shanghai is tabled (50 yen, 270 km) with no times, so that leg is drawn and not flown. Compare the daily 1940 Shanghai line.',
+    stops: [
+      { id: 'beijing', name: 'Peking (Beijing)', lon: 116.4, lat: 39.9 },
+      { id: 'tianjin', name: 'Tientsin (Tianjin)', lon: 117.2, lat: 39.13 },
+      { id: 'jinan', name: 'Tsinan (Jinan)', lon: 116.99, lat: 36.67 },
+      { id: 'xuzhou', name: 'Hsüchow (Xuzhou)', lon: 117.19, lat: 34.26 },
+      { id: 'nanjing', name: 'Nanking (Nanjing)', lon: 118.8, lat: 32.06 },
+      { id: 'shanghai', name: 'Shanghai', lon: 121.47, lat: 31.23 }
+    ],
+    times: [
+      { seq: '1', station: '北京 Peking', dd: '9:30', ua: '15:10', freq: 'out Mondays, Wednesdays and Fridays; back Tuesdays, Thursdays and Saturdays', dw: '1 3 5', uw: '2 4 6' },
+      { seq: '2', station: '天津 Tientsin', da: '10:05', dd: '10:15', ua: '14:25', ud: '14:35', freq: 'out Mondays, Wednesdays and Fridays; back Tuesdays, Thursdays and Saturdays', dw: '1 3 5', uw: '2 4 6' },
+      { seq: '3', station: '濟南 Tsinan', da: '11:25', dd: '11:45', ua: '12:55', ud: '13:15', freq: 'out Mondays, Wednesdays and Fridays; back Tuesdays, Thursdays and Saturdays', dw: '1 3 5', uw: '2 4 6' },
+      { seq: '4', station: '徐州 Hsüchow', da: '12:55', dd: '13:15', ua: '11:25', ud: '11:45', freq: 'out Mondays, Wednesdays and Fridays; back Tuesdays, Thursdays and Saturdays', dw: '1 3 5', uw: '2 4 6' },
+      { seq: '5', station: '南京 Nanking', da: '14:35', ud: '10:10', freq: 'out Mondays, Wednesdays and Fridays; back Tuesdays, Thursdays and Saturdays', dw: '1 3 5', uw: '2 4 6' },
+      { seq: '6', station: '上海 Shanghai', freq: 'out Mondays, Wednesdays and Fridays; back Tuesdays, Thursdays and Saturdays', dw: '1 3 5', uw: '2 4 6' }
+    ],
+    fares: [
+      { from: 'Peking', to: 'Tientsin', yen: 20, km: 130 },
+      { from: 'Tientsin', to: 'Tsinan', yen: 50, km: 280 },
+      { from: 'Tsinan', to: 'Hsüchow', yen: 55, km: 280 },
+      { from: 'Hsüchow', to: 'Nanking', yen: 60, km: 290 },
+      { from: 'Nanking', to: 'Shanghai', yen: 50, km: 270 },
+      { from: 'Peking', to: 'Nanking', yen: 185, km: 980 },
+      { from: 'Peking', to: 'Shanghai', yen: 235, km: 1250 }
+    ]
+  },
+  {
+    id: 'cak42-peking-paotow', name: 'Peking – Kalgan – Tatung – Houho – Paotow', operator: 'China Airways Co. (中華航空株式會社) · April 1942 sheet', opened: '',
+    season: 'April 1942 (昭和17.4.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    ink: '#4a9a88', days: [], groundedFrom: '',
+    note: '**April 1942 sheet** (昭和17年4月1日改正), as reprinted in July 1942. Flights 7 and 8, once a week: out Thursdays, back Saturdays. The 1940 Paotow line on this map is the same route.',
+    stops: [
+      { id: 'beijing', name: 'Peking (Beijing)', lon: 116.4, lat: 39.9 },
+      { id: 'kalgan', name: 'Kalgan (Zhangjiakou)', lon: 114.88, lat: 40.81 },
+      { id: 'datong', name: 'Tatung (Datong)', lon: 113.3, lat: 40.09 },
+      { id: 'hohhot', name: 'Houho (Hohhot)', lon: 111.75, lat: 40.84 },
+      { id: 'baotou', name: 'Paotow (Baotou)', lon: 109.84, lat: 40.66 }
+    ],
+    times: [
+      { seq: '1', station: '北京 Peking', dd: '9:00', ua: '14:00', freq: 'out Thursdays; back Saturdays', dw: '4', uw: '6' },
+      { seq: '2', station: '張家口 Kalgan', da: '10:10', dd: '10:30', ua: '12:40', ud: '13:00', freq: 'out Thursdays; back Saturdays', dw: '4', uw: '6' },
+      { seq: '3', station: '大同 Tatung', da: '11:30', dd: '11:40', ua: '11:30', ud: '11:40', freq: 'out Thursdays; back Saturdays', dw: '4', uw: '6' },
+      { seq: '4', station: '厚和 Houho', da: '12:45', dd: '12:55', ua: '10:20', ud: '10:30', freq: 'out Thursdays; back Saturdays', dw: '4', uw: '6' },
+      { seq: '5', station: '包頭 Paotow', da: '13:50', ud: '9:30', freq: 'out Thursdays; back Saturdays', dw: '4', uw: '6' }
+    ],
+    fares: [
+      { from: 'Peking', to: 'Kalgan', yen: 30, km: 170 },
+      { from: 'Kalgan', to: 'Tatung', yen: 28, km: 160 },
+      { from: 'Tatung', to: 'Houho', yen: 32, km: 170 },
+      { from: 'Houho', to: 'Paotow', yen: 25, km: 135 },
+      { from: 'Peking', to: 'Paotow', yen: 115, km: 635 }
+    ]
+  },
+  {
+    id: 'cak42-peking-tsingtao-shanghai', name: 'Peking – Tientsin – Tsingtao – Shanghai', operator: 'China Airways Co. (中華航空株式會社) · April 1942 sheet', opened: '',
+    season: 'April 1942 (昭和17.4.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    ink: '#4a9a88', days: [], groundedFrom: '',
+    note: '**April 1942 sheet** (昭和17年4月1日改正), as reprinted in July 1942. Flights 32 and 31, by the coast: south Tuesdays and Saturdays, north Mondays and Fridays.',
+    stops: [
+      { id: 'beijing', name: 'Peking (Beijing)', lon: 116.4, lat: 39.9 },
+      { id: 'tianjin', name: 'Tientsin (Tianjin)', lon: 117.2, lat: 39.13 },
+      { id: 'qingdao', name: 'Tsingtao (Qingdao)', lon: 120.38, lat: 36.07 },
+      { id: 'shanghai', name: 'Shanghai', lon: 121.47, lat: 31.23 }
+    ],
+    times: [
+      { seq: '1', station: '北京 Peking', dd: '9:20', ua: '15:15', freq: 'out Tuesdays and Saturdays; back Mondays and Fridays', dw: '2 6', uw: '1 5' },
+      { seq: '2', station: '天津 Tientsin', da: '9:55', dd: '10:05', ua: '14:30', ud: '14:40', freq: 'out Tuesdays and Saturdays; back Mondays and Fridays', dw: '2 6', uw: '1 5' },
+      { seq: '3', station: '青島 Tsingtao', da: '11:45', dd: '12:05', ua: '12:30', ud: '12:50', freq: 'out Tuesdays and Saturdays; back Mondays and Fridays', dw: '2 6', uw: '1 5' },
+      { seq: '4', station: '上海 Shanghai', da: '14:25', ud: '10:00', freq: 'out Tuesdays and Saturdays; back Mondays and Fridays', dw: '2 6', uw: '1 5' }
+    ],
+    fares: [
+      { from: 'Peking', to: 'Tientsin', yen: 20, km: 130 },
+      { from: 'Tientsin', to: 'Tsingtao', yen: 85, km: 540 },
+      { from: 'Tsingtao', to: 'Shanghai', yen: 130, km: 530 },
+      { from: 'Peking', to: 'Shanghai', yen: 235, km: 1200 }
+    ]
+  },
+  {
+    id: 'cak42-shanghai-taihoku-canton', name: 'Shanghai – Taihoku – Canton', operator: 'China Airways Co. (中華航空株式會社) · April 1942 sheet', opened: '',
+    season: 'April 1942 (昭和17.4.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    ink: '#4a9a88', days: [], groundedFrom: 'shanghai',
+    note: '**Suspended (運休) in the July 1942 reprint.** The times are the ones printed beside the 運休 mark; the line is drawn dimmed and no aeroplane flies it. Flights 13 and 14, tabled Mondays and Thursdays south, Tuesdays and Fridays north, with forty minutes on the ground at Taihoku. The only line on the sheet to touch Taiwan.',
+    stops: [
+      { id: 'shanghai', name: 'Shanghai', lon: 121.47, lat: 31.23 },
+      { id: 'taipei', name: 'Taihoku (Taipei)', lon: 121.57, lat: 25.03 },
+      { id: 'guangzhou', name: 'Canton (Guangzhou)', lon: 113.26, lat: 23.13 }
+    ],
+    times: [
+      { seq: '1', station: '上海 Shanghai', dd: '9:00', ua: '16:00', freq: 'out Mondays and Thursdays; back Tuesdays and Fridays', dw: '1 4', uw: '2 5' },
+      { seq: '2', station: '臺北 Taihoku', da: '11:50', dd: '12:30', ua: '12:30', ud: '13:10', freq: 'out Mondays and Thursdays; back Tuesdays and Fridays', dw: '1 4', uw: '2 5' },
+      { seq: '3', station: '廣東 Canton', da: '16:00', ud: '9:00', freq: 'out Mondays and Thursdays; back Tuesdays and Fridays', dw: '1 4', uw: '2 5' }
+    ],
+    fares: [
+      { from: 'Shanghai', to: 'Taihoku', yen: 135, km: 740 },
+      { from: 'Taihoku', to: 'Canton', yen: 165, km: 825 },
+      { from: 'Shanghai', to: 'Canton', yen: 300, km: 1565 }
+    ]
+  },
+  {
+    id: 'cak42-peking-yuncheng', name: 'Peking – Shihmen – Taiyuan – Linfen – Yüncheng', operator: 'China Airways Co. (中華航空株式會社) · April 1942 sheet', opened: '',
+    season: 'April 1942 (昭和17.4.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    ink: '#4a9a88', days: [], groundedFrom: '',
+    note: '**April 1942 sheet** (昭和17年4月1日改正), as reprinted in July 1942. Flights 27 and 28 into Shansi, once a week: out Mondays, back Tuesdays. 石門 Shihmen is Shihchiachuang.',
+    stops: [
+      { id: 'beijing', name: 'Peking (Beijing)', lon: 116.4, lat: 39.9 },
+      { id: 'shijiazhuang', name: 'Shihmen (Shijiazhuang)', lon: 114.51, lat: 38.04 },
+      { id: 'taiyuan', name: 'Taiyuan', lon: 112.55, lat: 37.87 },
+      { id: 'linfen', name: 'Linfen', lon: 111.52, lat: 36.09 },
+      { name: 'Yüncheng (Yuncheng)', lon: 111.0, lat: 35.03 }
+    ],
+    times: [
+      { seq: '1', station: '北京 Peking', dd: '9:00', ua: '15:20', freq: 'out Mondays; back Tuesdays', dw: '1', uw: '2' },
+      { seq: '2', station: '石門 Shihmen', da: '10:40', dd: '10:50', ua: '13:30', ud: '13:40', freq: 'out Mondays; back Tuesdays', dw: '1', uw: '2' },
+      { seq: '3', station: '太原 Taiyuan', da: '12:00', dd: '12:10', ua: '12:00', ud: '12:20', freq: 'out Mondays; back Tuesdays', dw: '1', uw: '2' },
+      { seq: '4', station: '臨汾 Linfen', da: '13:40', dd: '13:50', ua: '10:20', ud: '10:30', freq: 'out Mondays; back Tuesdays', dw: '1', uw: '2' },
+      { seq: '5', station: '運城 Yüncheng', da: '14:40', ud: '9:30', freq: 'out Mondays; back Tuesdays', dw: '1', uw: '2' }
+    ],
+    fares: [
+      { from: 'Peking', to: 'Shihmen', yen: 50, km: 270 },
+      { from: 'Shihmen', to: 'Taiyuan', yen: 40, km: 180 },
+      { from: 'Taiyuan', to: 'Linfen', yen: 50, km: 235 },
+      { from: 'Linfen', to: 'Yüncheng', yen: 30, km: 130 },
+      { from: 'Peking', to: 'Yüncheng', yen: 170, km: 815 }
+    ]
+  },
+  {
+    id: 'cak42-peking-kaifeng', name: 'Peking – Shihmen – Changte – Hsinhsiang – Kaifeng', operator: 'China Airways Co. (中華航空株式會社) · April 1942 sheet', opened: '',
+    season: 'April 1942 (昭和17.4.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    ink: '#4a9a88', days: [], groundedFrom: '',
+    note: '**April 1942 sheet** (昭和17年4月1日改正), as reprinted in July 1942. Flights 23 and 24 down the Peking–Hankow railway to the Yellow River, once a week: out Wednesdays, back Thursdays. The sheet prints the Changte arrival as 12.20 and the departure as 12.10; the arrival is taken as 12.00.',
+    stops: [
+      { id: 'beijing', name: 'Peking (Beijing)', lon: 116.4, lat: 39.9 },
+      { id: 'shijiazhuang', name: 'Shihmen (Shijiazhuang)', lon: 114.51, lat: 38.04 },
+      { id: 'anyang', name: 'Changte (Anyang)', lon: 114.39, lat: 36.1 },
+      { name: 'Hsinhsiang (Xinxiang)', lon: 113.93, lat: 35.3 },
+      { id: 'kaifeng', name: 'Kaifeng', lon: 114.31, lat: 34.8 }
+    ],
+    times: [
+      { seq: '1', station: '北京 Peking', dd: '9:00', ua: '14:25', freq: 'out Wednesdays; back Thursdays', dw: '3', uw: '4' },
+      { seq: '2', station: '石門 Shihmen', da: '10:40', dd: '10:50', ua: '12:25', ud: '12:45', freq: 'out Wednesdays; back Thursdays', dw: '3', uw: '4' },
+      { seq: '3', station: '彰德 Changte', da: '12:00', dd: '12:10', ua: '10:55', ud: '11:05', freq: 'out Wednesdays; back Thursdays', dw: '3', uw: '4' },
+      { seq: '4', station: '新鄉 Hsinhsiang', da: '13:05', dd: '13:15', ua: '10:00', ud: '10:10', freq: 'out Wednesdays; back Thursdays', dw: '3', uw: '4' },
+      { seq: '5', station: '開封 Kaifeng', da: '13:45', ud: '9:30', freq: 'out Wednesdays; back Thursdays', dw: '3', uw: '4' }
+    ],
+    fares: [
+      { from: 'Peking', to: 'Shihmen', yen: 50, km: 270 },
+      { from: 'Shihmen', to: 'Changte', yen: 40, km: 210 },
+      { from: 'Changte', to: 'Hsinhsiang', yen: 22, km: 110 },
+      { from: 'Hsinhsiang', to: 'Kaifeng', yen: 20, km: 70 },
+      { from: 'Peking', to: 'Kaifeng', yen: 132, km: 660 }
+    ]
+  },
+  {
+    id: 'cak42-nanking-hankow', name: 'Nanking – Anking – Kiukiang – Hankow', operator: 'China Airways Co. (中華航空株式會社) · April 1942 sheet', opened: '',
+    season: 'April 1942 (昭和17.4.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    ink: '#4a9a88', days: [], groundedFrom: '',
+    note: '**April 1942 sheet** (昭和17年4月1日改正), as reprinted in July 1942. Flights 11 and 12 up the Yangtze, Tuesdays, Thursdays and Fridays, calling at the two river ports the through Shanghai–Hankow flight passes.',
+    stops: [
+      { id: 'nanjing', name: 'Nanking (Nanjing)', lon: 118.8, lat: 32.06 },
+      { id: 'anqing', name: 'Anking (Anqing)', lon: 117.05, lat: 30.51 },
+      { id: 'jiujiang', name: 'Kiukiang (Jiujiang)', lon: 116.0, lat: 29.71 },
+      { id: 'wuhan', name: 'Hankow (Wuhan)', lon: 114.28, lat: 30.58 }
+    ],
+    times: [
+      { seq: '1', station: '南京 Nanking', dd: '9:00', ua: '15:10', freq: 'Tuesdays, Thursdays and Fridays', dw: '2 4 5', uw: '2 4 5' },
+      { seq: '2', station: '安慶 Anking', da: '10:00', dd: '10:10', ua: '14:00', ud: '14:10', freq: 'Tuesdays, Thursdays and Fridays', dw: '2 4 5', uw: '2 4 5' },
+      { seq: '3', station: '九江 Kiukiang', da: '10:50', dd: '11:00', ua: '13:10', ud: '13:20', freq: 'Tuesdays, Thursdays and Fridays', dw: '2 4 5', uw: '2 4 5' },
+      { seq: '4', station: '漢口 Hankow', da: '11:50', ud: '12:20', freq: 'Tuesdays, Thursdays and Fridays', dw: '2 4 5', uw: '2 4 5' }
+    ],
+    fares: [
+      { from: 'Nanking', to: 'Anking', yen: 63, km: 240 },
+      { from: 'Anking', to: 'Kiukiang', yen: 37, km: 140 },
+      { from: 'Kiukiang', to: 'Hankow', yen: 50, km: 190 },
+      { from: 'Nanking', to: 'Hankow', yen: 150, km: 570 }
+    ]
+  },
+  {
+    id: 'cak42-shanghai-hankow', name: 'Shanghai – Nanking – Hankow', operator: 'China Airways Co. (中華航空株式會社) · April 1942 sheet', opened: '',
+    season: 'April 1942 (昭和17.4.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    ink: '#4a9a88', days: [], groundedFrom: '',
+    note: '**April 1942 sheet** (昭和17年4月1日改正), as reprinted in July 1942. Flights 15 and 16, Mondays, Wednesdays and Saturdays: the Yangtze trunk, nonstop from Nanking to Hankow. The 1940 line on this map called at Anking and Kiukiang as well.',
+    stops: [
+      { id: 'shanghai', name: 'Shanghai', lon: 121.47, lat: 31.23 },
+      { id: 'nanjing', name: 'Nanking (Nanjing)', lon: 118.8, lat: 32.06 },
+      { id: 'wuhan', name: 'Hankow (Wuhan)', lon: 114.28, lat: 30.58 }
+    ],
+    times: [
+      { seq: '1', station: '上海 Shanghai', dd: '8:30', ua: '16:20', freq: 'Mondays, Wednesdays and Saturdays', dw: '1 3 6', uw: '1 3 6' },
+      { seq: '2', station: '南京 Nanking', da: '9:40', dd: '10:00', ua: '14:50', ud: '15:10', freq: 'Mondays, Wednesdays and Saturdays', dw: '1 3 6', uw: '1 3 6' },
+      { seq: '3', station: '漢口 Hankow', da: '12:10', ud: '12:40', freq: 'Mondays, Wednesdays and Saturdays', dw: '1 3 6', uw: '1 3 6' }
+    ],
+    fares: [
+      { from: 'Shanghai', to: 'Nanking', yen: 50, km: 270 },
+      { from: 'Nanking', to: 'Hankow', yen: 150, km: 560 },
+      { from: 'Shanghai', to: 'Hankow', yen: 200, km: 830 }
+    ]
+  },
+  {
+    id: 'cak42-canton-hoihow', name: 'Canton – Hoihow', operator: 'China Airways Co. (中華航空株式會社) · April 1942 sheet', opened: '',
+    season: 'April 1942 (昭和17.4.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    ink: '#4a9a88', days: [], groundedFrom: 'guangzhou',
+    note: '**Suspended (運休) in the July 1942 reprint.** The times are the ones printed beside the 運休 mark; the line is drawn dimmed and no aeroplane flies it. Flights 35 and 36, tabled for Mondays, across to Hainan.',
+    stops: [
+      { id: 'guangzhou', name: 'Canton (Guangzhou)', lon: 113.26, lat: 23.13 },
+      { id: 'haikou', name: 'Hoihow (Haikou)', lon: 110.34, lat: 20.04 }
+    ],
+    times: [
+      { seq: '1', station: '廣東 Canton', dd: '9:00', ua: '13:50', freq: 'Mondays', dw: '1', uw: '1' },
+      { seq: '2', station: '海口 Hoihow', da: '10:50', ud: '12:00', freq: 'Mondays', dw: '1', uw: '1' }
+    ],
+    fares: [
+      { from: 'Canton', to: 'Hoihow', yen: 120, km: 475 }
+    ]
+  },
+  {
+    id: 'cak42-canton-swatow', name: 'Canton – Swatow', operator: 'China Airways Co. (中華航空株式會社) · April 1942 sheet', opened: '',
+    season: 'April 1942 (昭和17.4.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    ink: '#4a9a88', days: [], groundedFrom: '',
+    note: '**April 1942 sheet** (昭和17年4月1日改正), as reprinted in July 1942. Flights 37 and 38, Fridays, along the Kwangtung coast.',
+    stops: [
+      { id: 'guangzhou', name: 'Canton (Guangzhou)', lon: 113.26, lat: 23.13 },
+      { id: 'shantou', name: 'Swatow (Shantou)', lon: 116.68, lat: 23.35 }
+    ],
+    times: [
+      { seq: '1', station: '廣東 Canton', dd: '9:10', ua: '14:10', freq: 'Fridays', dw: '5', uw: '5' },
+      { seq: '2', station: '汕頭 Swatow', da: '10:40', ud: '12:40', freq: 'Fridays', dw: '5', uw: '5' }
+    ],
+    fares: [
+      { from: 'Canton', to: 'Swatow', yen: 80, km: 350 }
+    ]
   }
 ];
 

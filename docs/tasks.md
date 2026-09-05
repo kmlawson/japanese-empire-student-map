@@ -18253,3 +18253,99 @@ Failures are counted on their own now and a second run picks them up, the
 successes being in the cache.
 
 Taiwan's verified goes 153 → 163, unverified 52 → 42.
+## The July 1942 air sheet: thirty-four lines, every one marked as that sheet's
+
+`data/air/` gains the aviation pages of a July 1942 railway timetable
+(昭和17年7月號, pp. 118–121), read from the project's photographs: twenty-three
+満洲航空 tables stamped 昭和17.6.1改正 and eleven 中華航空 tables stamped
+昭和17.4.1改正. The reading is `manchuria1942.7/air_1942_7.md` in the Korea 1938
+project and `air_rows.py` beside it writes the rows, so a corrected reading is a
+re-run rather than an edit.
+
+**Told apart from the earlier sheets on purpose.** The map already had 満洲航空's
+winter-1935 lines and 中華航空's 1940 ones, and several corridors overlap
+(Shinkyō–Mukden–Dairen, Shinkyō–Manchouli, Peking–Dairen, Peking–Paotow,
+Shanghai–Hankow). So every 1942 row carries the mark three ways: ids `mkkk42-` /
+`cak42-`, an operator string ending "· July 1942 sheet" / "· April 1942 sheet"
+(which is what the chooser menu and the company tally show), and a `season`
+naming the 改正 stamp. Each company's 1942 lines have an ink of their own
+(`#b5473a`, `#4a9a88`) beside the 1935 and 1940 inks, so a shared stretch falls
+to the map's neutral ink and a reader can see two sheets, not one. Nothing
+earlier was removed.
+
+**運休.** Nine tables are headed 運休 (suspended) instead of a stamp — the Peking
+and Chengteh lines from Mukden, Shinkyō–Manchouli, Shinkyō–Hunchun, the Yalu
+line to 中江鎮, Chengteh–Paotow, Kiamusze–鳳翔鎮, Shanghai–Taihoku–Canton and
+Canton–Hoihow. They are carried with their printed times and `grounded_from`
+their first stop, so they draw dimmed and fly nothing; the note on each says so.
+
+**The frontier towns.** Thirty-four stops on the Sungari, Ussuri and Amur lines
+(Fuchin, Paoching, Jaoho, Hutou, Mohe, Huma …) are not cities of the map and
+carry this project's own coordinates to two decimals; four river posts (Oupu,
+Wuyun, Lopei, Fenghsiangchen) are approximate and said to be.
+
+**Two readings the sheet made awkward.** Kiamusze–Paoching–Fuchin–Paoching–Jaoho
+is printed as a zigzag through Paoching twice; the map draws each stop once, the
+second call is on the note, and the Fuchin–Jaoho leg carries both fares. The
+Mukden–Tientsin distance is printed 250 km, which the fares say is a misprint;
+that leg carries no distance, and `build_texts.py` now emits `km: null` for a
+fare leg with none instead of a hole in `data.js`, and skips the sum check
+over such a leg.
+
+Tests: `air.js` counts updated (110 routes, 410 rings, 95 on the 1942 sheet,
+nine company strings, six services on the Shinkyō–Mukden stretch), and the
+overflight check now accepts the chord's line under any route, since the
+April 1942 Shanghai–Nanking–Hankow flies the Nanking–Hankow chord that the
+1940 express's line used to be found under. 106 and 68 pass.
+
+## The July 1942 sheet merged into main, and what was checked rather than assumed
+
+`origin/manchuria-air-1942` had diverged, so this is a merge and not a
+fast-forward. Three files conflicted and all three were build stamps —
+`texts/version.csv`'s number, `JEM_ASSETS` in `map.js`, the `?v=` on the script
+tag and the version line in `index.html`. None of them is authored, so both
+sides were thrown away and `build_texts.py` restamped them from the merged
+tree. `docs/tasks.md` conflicted because both sides had appended an entry at the
+end; both were kept. Nothing else needed a hand.
+
+**The two follow-up asks turned out to be already satisfied, and were measured
+rather than believed.** The ask was to note the different source and time on the
+lines and to give them a different colour. On the merged tree, with the 1942
+sheet up and the network on, all thirty-four new routes draw, twenty-three in
+`rgb(181,71,58)` and eleven in `rgb(74,154,136)` — and the older 満洲航空 lines
+in the same corridors draw in `rgb(140,47,57)`, so the two sheets are not one
+colour on the map. `season` reaches the reader in three places already:
+`airGrounding`'s hover tip appends "· July 1942 (昭和17.6.1改正) timetable", the
+timetable card heads itself "Timetable, " + the season, and the route card says
+"in the July 1942 (昭和17.6.1改正)". No new code was needed for either.
+
+**Two things I measured wrongly first, and what they actually were.**
+`grounded_from` is set on nine of the new routes, and a static reading of every
+route's `.air-line` opacity found nothing faint — which looked like a silent
+failure and was not. Grounding is per *leg*, not per route: `air-line-idle`
+carries the unflown subpaths and is empty except while the week is running, so a
+map with the player stopped is supposed to look like that. And the id it matches
+on cannot silently miss, because `build_texts.py` already raises if
+`grounded_from` names a stop the route does not call at; all fourteen resolve.
+The route card also came back empty under a synthetic `click`, which is the
+technique `air.js` warns about at its head — the map retargets pointer events to
+the container, so a dispatched event opens nothing. Both were faults in my
+one-off probe, not in the tree.
+
+**The `han` column survived the merge.** `data/air/stops.csv` was rewritten on
+both sides and merged without conflict; it is 410 rows now, 296 carrying `han`,
+and none of the new sheet's stop rows is missing one. `data.js` was regenerated
+rather than taken from either side, because `build_texts.py` itself changed on
+the branch — it emits `km: null` for a fare leg with no printed distance and
+skips the sum check over it.
+
+**Not fixed, and deliberately.** The thirty-four new routes have a `source` that
+names the sheet and its pages but no `source_url`. That is not new — the CNAC
+1940 and Air France 1938 lines have none either, and the build does not ask for
+one. I did not invent a link.
+
+Tests: the whole suite, 1896 checks across 59 scripts, all passing, in 598.5s.
+An earlier run of it reported all 59 scripts failing to start in 28s, which was
+my own doing: `all.js` does not start the static server — its docstring says
+`python3 -m http.server 8123 &` — and a port cleanup earlier in the session had
+killed it.
