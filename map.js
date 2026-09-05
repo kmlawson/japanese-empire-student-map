@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '317';
+  var JEM_VERSION = '318';
   var JEM_ASSETS = {"admin.js": "3414697d04", "air-play.js": "8db7ba0d73", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "58132ef9c2", "kr-trains.js": "74889615bd", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/korea-1938.html": "91837c326f", "timetable/taiwan-1936.html": "23eaf5f955", "trains.js": "c0629828d0", "tw-trains.js": "7cd1c3f42d"};
 
   /* Every file this one fetches, with the version on it.
@@ -479,6 +479,64 @@
     return r[state.lang] || r.en;
   }
 
+  /* **The characters a record has, and which field they are in.**
+   *
+   * The ask is traditional Chinese for Chinese and Taiwanese names, hanja for
+   * Korean and kanji for Japan and Karafuto — three orthographies, and the
+   * table has two columns to find them in. `ja` first and `zh` behind it,
+   * which is the rule `popKanji` has used all along, and it lands right in
+   * every case for a reason worth writing down:
+   *
+   *   * Japan, Karafuto and Chōsen have `ja` on every row — 58, 5 and 22 of
+   *     them — so those never reach the fallback. This matters more than it
+   *     looks. `zh` on a Japanese row is the modern Chinese Wikipedia title
+   *     and it is often not the place at all: Akita's is 八橋球技場, a ball
+   *     ground inside it; Mito's is 水戶東照宮, a shrine; Tsu's is 攝津國,
+   *     which is the wrong province. Karafuto's are worse — Maoka's `zh` is
+   *     霍爾姆斯克, the Russian Kholmsk spelt out in characters. Reaching for
+   *     `zh` on a Japanese name would print those.
+   *   * A Chinese row's `ja` is usually katakana — チチハル for Qiqihar — and
+   *     katakana is not what was asked for, so a kana-only reading is refused
+   *     and `zh` answers with 齊齊哈爾. Where a Chinese row's `ja` is real
+   *     kanji it is the same characters as `zh` anyway.
+   *
+   * The reading in brackets is cut: the field is written `豊原 (Toyohara)`.
+   * Nothing is generated — a record with neither field gets an empty string
+   * and the caller keeps the romanisation. */
+  var KANA_RUN = /^[\u30a0-\u30ff\u3040-\u309f\u3000\u30fb\u30fc\s-]+$/;
+
+  function charsOf(v) {
+    var raw = String(v || '').replace(/\s*[（(].*$/, '').trim();
+    if (!raw || KANA_RUN.test(raw)) return '';
+    return /[\u3400-\u9fff]/.test(raw) ? raw : '';
+  }
+
+  function hanOf(rec) {
+    if (!rec) return '';
+    /* **The epoch's own characters beat the record's.**
+     *
+     * `EPOCH_OVERRIDES` is where a place that was called something else at one
+     * of the two dates says so, and it rewrites whichever fields moved. Peking
+     * is the case that matters: the 1930 entry carries `zh: 北平 (Běipíng)`
+     * because the Nationalists had demoted it in 1928, while the record's `ja`
+     * is 北京 all along. Reading the record first put 北京 on a 1930 map under
+     * a headline that said Běipíng — the characters and the romanisation
+     * disagreeing about which city it was.
+     *
+     * `shown` already merges the override, but only for the field it is asked
+     * about; the preference between `ja` and `zh` has to be made twice, once
+     * inside the override and once outside, or a `zh` correction loses to an
+     * uncorrected `ja`. */
+    var over = rec.id && JMAP.EPOCH_OVERRIDES && JMAP.EPOCH_OVERRIDES[rec.id];
+    over = over && over[state.epoch];
+    if (over) {
+      var fixed = charsOf(over.ja) || charsOf(over.zh);
+      if (fixed) return fixed;
+    }
+    var r = shown(rec);
+    return charsOf(r.ja) || charsOf(r.zh) || '';
+  }
+
   /* `Name — what it was` splits into a headline and the first line of the
      card. Only the em dash with spaces round it counts: an en dash inside a
      date range, and a hyphen inside Kankyōhoku-dō, are not separators. */
@@ -756,6 +814,9 @@
      the longest thing on that part of the map. The other names are one hover
      away; the label's job is to say which stop this is. */
   function stationLabel(rec) {
+    // The characters first when the switch asks for them; a station that has
+    // none falls through to the readings, as it does for everything else.
+    if (state.hanLabels && rec && rec.han) return rec.han;
     var head = state.jpNames ? rec.jpro : rec.locro;
     // The characters stand in for a romanisation that was never sourced —
     // 79 of Taiwan's 191 — rather than one being invented on the spot.
@@ -777,6 +838,15 @@
     if (rec && rec.kind === 'station') return stationLabel(rec);
     // A figure off the shaded map, already formatted: see `ensurePopValues`.
     if (rec && rec.kind === 'popval') return rec.txt;
+    /* The characters switch, before any of the romanisation ladder below:
+       when it is on and this record has them, the characters *are* the label.
+       Where it has none the ladder runs as it always did — that is the "when
+       available" in the switch's own wording, and it is why a map of Java or
+       Bengal looks no different with it on. */
+    if (state.hanLabels) {
+      var han = hanOf(rec);
+      if (han) return han;
+    }
     var r = shown(rec);
     if (r && r.label && state.lang === 'en') {
       return r.label === '-' ? '' : r.label;
@@ -8186,6 +8256,14 @@
     // is the first thing the card says about it.
     var split = splitGloss(nameOf(head));
     var primary = split.name;
+    /* "...use that for the label and the first name shown in description."
+       The headline takes the characters too, and the romanisation it displaces
+       is not lost: it joins the other names on the line below, which is what
+       that line is for. */
+    if (state.hanLabels) {
+      var headHan = rec.kind === 'station' ? (head.han || '') : hanOf(head);
+      if (headHan && headHan !== primary) primary = headHan;
+    }
     /* A station's Japanese and Chinese names are the same characters, and the
        Japanese one carries the reading in brackets: taking one field per
        language printed `大甲（だいこう）  ·  大甲`, the same name twice.
@@ -8198,6 +8276,17 @@
         .filter(function (l) { return l !== state.lang; })
         .map(function (l) { return head[l]; })
         .filter(function (n) { return n && n !== primary; });
+
+    /* The romanisation the characters displaced goes on the line below rather
+       than nowhere. Put first, because it is the name the reader most likely
+       came in knowing, and only when it is not already there. */
+    if (state.hanLabels && split.name && split.name !== primary) {
+      /* And the characters come *out* of that line, because they are the
+         headline now. A station's other-names list is just its characters, so
+         without this the card read `后里` over `Hòulǐ · 后里`. */
+      others = others.filter(function (n) { return n !== primary; });
+      if (others.indexOf(split.name) < 0) others.unshift(split.name);
+    }
 
     var info = rec.kind === 'station'
       ? (STATION_CATS[rec.staKind] || STATION_CATS.station) : catInfo(rec.cat);
@@ -10006,8 +10095,19 @@
     var others = airAltNames(st);
     var count = mine.length === 1 ? 'On one of the scheduled routes'
       : ('On ' + mine.length + ' of the scheduled routes');
+    /* The characters switch leads the headline here too — the same rule the
+       place cards follow — and the romanisation it displaces takes the front
+       of the line below, where the reader who came in knowing "Shanghai" will
+       still find it. */
+    var head = forms.lead || st.name;
+    if (state.hanLabels && forms.han) {
+      head = forms.han;
+      others = [forms.lead].concat(others.filter(function (v) {
+        return v !== forms.han;
+      })).filter(Boolean);
+    }
     if (chip) chip.textContent = 'Airport';
-    if (prim) prim.textContent = forms.lead || st.name;
+    if (prim) prim.textContent = head;
     if (alt) {
       alt.textContent = others.length ? others.join(' · ') : count;
       alt.hidden = false;
@@ -15750,7 +15850,12 @@
 
     [['#opt-manchukuo', 'manchukuo'], ['#opt-mengjiang', 'mengjiang'],
      ['#opt-mono', 'mono'], ['#opt-world', 'world'],
-     ['#opt-jpnames', 'jpNames']].forEach(function (pair) {
+     ['#opt-jpnames', 'jpNames'],
+     /* Beside `jpNames` because it is the same question a step further on and
+        wants the same three things done after it: the state applied, the
+        highlight redrawn, and — added below — the open card rebuilt, since its
+        headline is one of the things that changes. */
+     ['#opt-han-labels', 'hanLabels']].forEach(function (pair) {
       var el = $(pair[0]);
       if (!el) return;
       el.checked = !!state[pair[1]];
@@ -15768,6 +15873,13 @@
         applyState();
         // the colour picker belongs to the single-colour switch and goes with it
         if (pair[1] === 'mono') syncMono();
+        /* A card standing open is showing a headline this switch just changed,
+           and nothing else rebuilds it — `applyState` redraws the map, not the
+           pane. Both name switches need this; only the characters one made it
+           obvious, because it changes the headline rather than the brackets. */
+        if ((pair[1] === 'hanLabels' || pair[1] === 'jpNames') && selected) {
+          select(selected);
+        }
         redrawHighlight();
         /* And then, for the world switch, the frame. In that order: the frame
            is measured from what is *drawn*, so the atoms have to be hidden or
@@ -16043,18 +16155,6 @@
       boxAirNm.checked = !!state.airNames;
       boxAirNm.addEventListener('change', function () {
         state.airNames = boxAirNm.checked;
-        applyState();
-      });
-    }
-
-    /* Characters instead of romanisation on the airport labels. Like the
-       switch above it this rewrites text that is already on the map, so there
-       is nothing to rebuild. */
-    var boxHan = $('#opt-han-labels');
-    if (boxHan) {
-      boxHan.checked = !!state.hanLabels;
-      boxHan.addEventListener('change', function () {
-        state.hanLabels = boxHan.checked;
         applyState();
       });
     }

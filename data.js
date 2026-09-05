@@ -3149,7 +3149,7 @@ JMAP.CITY_NAMES = [
     note: 'The Miike coal mines: Mitsui’s largest pit, worked by Korean, Chinese and Allied prisoner labour.'
   },
   {
-    id: 'akita', en: 'Akita', ja: '秋田 (Akita)', zh: '八橋球技場', lat: 39.72, lon: 140.1,
+    id: 'akita', en: 'Akita', ja: '秋田 (Akita)', lat: 39.72, lon: 140.1,
     wiki: 'https://en.wikipedia.org/wiki/Akita_(city)',
     note: 'Rice, sake and the Kosaka copper mines behind it, on the Japan Sea coast.'
   },
@@ -3455,8 +3455,8 @@ JMAP.CITY_NAMES = [
     note: 'Noguchi Jun’s chemical combine, the largest industrial complex in the empire outside Japan, built on Korean and later forced labour.'
   },
   {
-    id: 'ise', en: 'Ise (Uji-Yamada)', ja: '宇治山田 (Uji-Yamada)', zh: '伊勢國', ko: '이세국',
-    lat: 34.49, lon: 136.71, wiki: 'https://en.wikipedia.org/wiki/Ise,_Mie',
+    id: 'ise', en: 'Ise (Uji-Yamada)', ja: '宇治山田 (Uji-Yamada)', ko: '이세국', lat: 34.49,
+    lon: 136.71, wiki: 'https://en.wikipedia.org/wiki/Ise,_Mie',
     note: 'The Ise Grand Shrine, the ritual centre of the state cult.'
   },
   {
@@ -3612,8 +3612,8 @@ JMAP.CITY_NAMES = [
     note: 'The rail frontier with the Soviet Union on the Chinese Eastern Railway.'
   },
   {
-    id: 'maoka', en: 'Maoka (Kholmsk)', ja: '真岡', zh: '霍爾姆斯克', ko: '홀름스크', lat: 47.06,
-    lon: 142.05, wiki: 'https://en.wikipedia.org/wiki/Kholmsk',
+    id: 'maoka', en: 'Maoka (Kholmsk)', ja: '真岡', ko: '홀름스크', lat: 47.06, lon: 142.05,
+    wiki: 'https://en.wikipedia.org/wiki/Kholmsk',
     note: 'West-coast port; the Soviet landing of 20 August 1945 and the telephone operators’ suicides.'
   },
   {
@@ -3641,7 +3641,7 @@ JMAP.CITY_NAMES = [
     note: 'The Sarawak oilfields and refinery, seized on 16 December 1941 — the first objective in Borneo.'
   },
   {
-    id: 'mito', en: 'Mito', ja: '水戸 (Mito)', zh: '水戶東照宮', lat: 36.37, lon: 140.47,
+    id: 'mito', en: 'Mito', ja: '水戸 (Mito)', lat: 36.37, lon: 140.47,
     wiki: 'https://en.wikipedia.org/wiki/Mito,_Ibaraki',
     note: 'The seat of a senior Tokugawa house, and of the school of thought that supplied the slogans of the Restoration.'
   },
@@ -3796,8 +3796,8 @@ JMAP.CITY_NAMES = [
     note: 'The Brunei oilfield, struck in 1929, and the reason Japanese troops came ashore here in December 1941.'
   },
   {
-    id: 'shikuka', en: 'Shikuka (Poronaysk)', ja: '敷香', zh: '波羅奈斯克', ko: '포로나이스크', lat: 49.22,
-    lon: 143.1, wiki: 'https://en.wikipedia.org/wiki/Poronaysk',
+    id: 'shikuka', en: 'Shikuka (Poronaysk)', ja: '敷香', ko: '포로나이스크', lat: 49.22, lon: 143.1,
+    wiki: 'https://en.wikipedia.org/wiki/Poronaysk',
     note: 'The northernmost Japanese town on Sakhalin, on the frontier with the Soviet half.'
   },
   {
@@ -3897,7 +3897,7 @@ JMAP.CITY_NAMES = [
     note: 'The forward base for the New Guinea campaign, and bombed in July 1942.'
   },
   {
-    id: 'tsu', en: 'Tsu', ja: '津 (Tsu)', zh: '攝津國', ko: '셋쓰국', lat: 34.72, lon: 136.51,
+    id: 'tsu', en: 'Tsu', ja: '津 (Tsu)', ko: '셋쓰국', lat: 34.72, lon: 136.51,
     wiki: 'https://en.wikipedia.org/wiki/Tsu,_Mie',
     note: 'The seat of Mie, on the bay road to the Ise shrines.'
   },
@@ -3992,13 +3992,13 @@ JMAP.CITY_NAMES = [
     note: 'Hubei\'s wartime capital in the western gorges after Wuhan fell, and out of reach of the Japanese army for the rest of the war.'
   },
   {
-    id: 'ominato', en: 'Ōminato', ja: '大湊 (Ōminato)', zh: '陸奧', ko: '무쓰', lat: 41.29,
-    lon: 141.12, wiki: 'https://en.wikipedia.org/wiki/Mutsu,_Aomori',
+    id: 'ominato', en: 'Ōminato', ja: '大湊 (Ōminato)', ko: '무쓰', lat: 41.29, lon: 141.12,
+    wiki: 'https://en.wikipedia.org/wiki/Mutsu,_Aomori',
     note: 'The naval district guarding the Tsugaru Strait between Honshū and Hokkaidō.'
   },
   {
-    id: 'otomari', en: 'Ōtomari (Korsakov)', ja: 'コルサコフ管区', zh: '科爾薩科夫區', lat: 46.63,
-    lon: 142.78, wiki: 'https://en.wikipedia.org/wiki/Korsakovsky_District,_Sakhalin_Oblast',
+    id: 'otomari', en: 'Ōtomari (Korsakov)', ja: '大泊 (Ōtomari)', lat: 46.63, lon: 142.78,
+    wiki: 'https://en.wikipedia.org/wiki/Korsakovsky_District,_Sakhalin_Oblast',
     note: 'Karafuto\'s ferry port to Hokkaidō, and the way almost everyone entered and left the colony.'
   },
   {

@@ -18426,3 +18426,86 @@ characters, blanks nothing, leaves the characterless stops in roman and puts
 them all back. Two existing checks were updated to the new names and one to read
 the count from `.when` rather than `.alt`. 117 pass. Whole suite 1907 checks
 across 59 scripts, all passing, 460.5s.
+
+## 12. The Kanji/Hanzi/Hanja switch, built
+
+The ask, from the batch that also gave us the Korea seam and the feedback
+section: *"In the layers pane, add option under use japanese names: 'When
+available, show labels and names in Kanji/Hanzi/Hanja'; add explanatory note:
+'For now limited to Japan, Korea, Taiwan, China, Karafuto.' … Look through:
+natural place names, cities, stations, provinces, airports, airlines, basically
+anything that has a name for which we have kanji, use that for the label and
+the first name shown in description."* It is built, in that place, with that
+wording and that note.
+
+**The earlier survey said this was blocked on data and the survey was wrong.**
+`docs/tasks.md` has a note above claiming a quarter of cities and none of the
+airports carried characters. Counted again against the right columns: of the
+429 rows in `texts/city-names.csv`, the 193 inside the five regions the note
+names carry characters — **all 193 of them**. The airports were wired up in the
+previous entry. So the "when available" caveat barely bites inside the scope;
+it is doing its work outside it, where 236 rows have 31.
+
+**Which column the characters come from, and why it matters.** `ja` first, `zh`
+behind it — the rule `popKanji` already used. It lands right in every case, but
+not by luck:
+
+* Japan, Karafuto and Chōsen have `ja` on every row, so they never reach the
+  fallback. That is what saves them. `zh` on a Japanese row is the modern
+  Chinese Wikipedia title and it is often not the place at all — Akita's was
+  八橋球技場, a ball ground inside the city; Mito's was 水戶東照宮, a shrine;
+  Tsu's was 攝津國, a different province. Reaching for `zh` there would have
+  printed those under the city's own dot.
+* A Chinese row's `ja` is usually katakana — チチハル — so a kana-only reading is
+  refused and `zh` answers with 齊齊哈爾. Where a Chinese row's `ja` is real
+  kanji it is the same characters as `zh` anyway.
+
+**The epoch's characters beat the record's.** Peking is the case that proves
+it. The record says `ja: 北京 (Pekin)` at both dates; only `EPOCH_OVERRIDES`
+knows that the Nationalists demoted it to 北平 in 1928 and the occupation put
+北京 back. `shown()` merges the override, but only for the field it is asked
+about, so the preference between `ja` and `zh` has to be made twice — inside
+the override and outside it — or a corrected `zh` loses to an uncorrected `ja`.
+The first attempt did exactly that and put 北京 on a 1930 map under a headline
+reading Běipíng. It is checked at both dates now.
+
+**Two data errors the switch exposed, and they are fixed.** Ōtomari's `ja` was
+コルサコフ管区 — Korsakov, the name the town took in 1946 — so the switch would
+have labelled a Karafuto port on a 1930 map with its Soviet name. It is 大泊
+(Ōtomari) now. Maoka's and Shikuka's `zh` were 霍爾姆斯克 and 波羅奈斯克, Kholmsk
+and Poronaysk spelt out in characters; those are cleared. So are the five
+Japanese `zh` values above. Cleared rather than corrected on purpose: removing a
+falsehood needs no source, and supplying the right characters for those rows is
+its own small job.
+
+**What changes when it is on.** The label and the card headline, everywhere
+`mapLabel` and `stationLabel` reach — country and colony names, provinces,
+cities, the seas and mountains and deserts, railway stations, and the airport
+rings. Measured zoomed in over north China: 209 of 702 labels on the 1930 map,
+256 of 713 on the 1942 one, and not one label lost — the count before and after
+is identical, which is the "when available" contract stated as a test. The
+romanisation the characters displace moves to the head of the line below, and
+comes out of it where it was already there, so a station reads 后里 over
+`Hòulǐ` rather than 后里 over `Hòulǐ · 后里`.
+
+**Not done.** Airline company names still read in English with the characters in
+brackets — the operator strings are prose in `data/air/routes.csv` rather than a
+name field, so leading with the characters there means parsing a sentence, and
+that is worth doing deliberately rather than as the tail of this. The switch's
+own note already tells the reader the scope is the five regions.
+
+**And the orthography, stated plainly.** Chinese and Taiwanese names come out
+traditional, which is what the ask names and what `zh` holds — 臺北, not 台北,
+and that is asserted in the tests. Korean names come out as the hanja in `ja` —
+京城. Japan and Karafuto come out as the kanji in `ja`, and those are the
+**shinjitai** the source gives: 金沢, not 金澤; 豊橋, not 豐橋. The ask said 旧字
+for Japan, and this does not do that. Converting would be a mechanical
+substitution over twenty-odd rows and it is a real piece of work with a real
+risk of over-conversion, so it is named here rather than done quietly.
+
+Tests: `tools/test/hanlabels.js` is new — 26 checks, registered in `MAP` and in
+the `core`, `data`, `links` and `transport` groups with its measured 60s, so it
+runs both in the full sweep and when git says a naming file moved. It guards the
+three ways this breaks: a label emptied, the wrong century's characters, and the
+same name printed twice. Whole suite 1933 checks across 60 scripts, all passing,
+472.7s; `changed` after the data fix, 1039 checks across 34 scripts, 255.7s.
