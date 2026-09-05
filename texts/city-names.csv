@@ -189,7 +189,7 @@ jamshedpur,Jamshedpur,,,,,,22.8,86.18,
 jodhpur,Jodhpur,,,,,,26.24,73.02,
 kabul,Kabul,,,,,,34.53,69.17,
 kathmandu,Kathmandu,,,,,,27.71,85.32,https://en.wikipedia.org/wiki/Kathmandu
-kawasaki,Kawasaki,,,가와사키구,川崎 (Kawasaki),川崎區,35.53,139.7,"https://en.wikipedia.org/wiki/Kawasaki,_Kanagawa"
+kawasaki,Kawasaki,,,가와사키구,川崎 (Kawasaki),川崎,35.53,139.7,"https://en.wikipedia.org/wiki/Kawasaki,_Kanagawa"
 kokura,Kokura,,,고쿠라,小倉,小倉,33.88,130.88,https://en.wikipedia.org/wiki/Kokura
 kochi,Kōchi,,,고치,高知,高知,33.56,133.53,"https://en.wikipedia.org/wiki/K%C5%8Dchi,_K%C5%8Dchi"
 kofu,Kōfu,,,고후,甲府,甲府,35.66,138.57,https://en.wikipedia.org/wiki/K%C5%8Dfu
@@ -197,14 +197,14 @@ liuzhou,Liǔzhōu (Liuchow),,,류저우,柳州,柳州,24.31,109.42,https://en.wi
 luzhou,Lúzhōu (Luchow),,,루저우,瀘州,瀘州,28.87,105.44,https://en.wikipedia.org/wiki/Luzhou
 macaucity,Macao (Cidade do Santo Nome de Deus),,,마카오,マカオ,澳門,22.19,113.54,https://en.wikipedia.org/wiki/Macau
 maebashi,Maebashi,,,마에바시,前橋,前橋,36.39,139.06,https://en.wikipedia.org/wiki/Maebashi
-moji,Moji,,,모지구,門司 (Moji),門司區,33.94,130.96,"https://en.wikipedia.org/wiki/Moji-ku,_Kitaky%C5%ABsh%C5%AB"
+moji,Moji,,,모지구,門司 (Moji),門司,33.94,130.96,"https://en.wikipedia.org/wiki/Moji-ku,_Kitaky%C5%ABsh%C5%AB"
 morioka,Morioka,,,모리오카,盛岡,盛岡,39.7,141.15,https://en.wikipedia.org/wiki/Morioka
 nagano,Nagano,,,,長野 (Nagano),,36.65,138.18,https://en.wikipedia.org/wiki/Nagano_(city)
 nanchong,Nánchōng (Nanchung),,,난충,南充,南充,30.8,106.08,https://en.wikipedia.org/wiki/Nanchong
 nantong,Nántōng (Nantung),,,난퉁,南通,南通,32.01,120.86,https://en.wikipedia.org/wiki/Nantong
 otaru,Otaru,,,오타루,小樽,小樽,43.19,140.99,https://en.wikipedia.org/wiki/Otaru
 patna,Patna,,,,,,25.61,85.14,https://en.wikipedia.org/wiki/Patna
-sakai,Sakai,,,,堺 (Sakai),堺市,34.57,135.48,https://en.wikipedia.org/wiki/Sakai
+sakai,Sakai,,,,堺 (Sakai),堺,34.57,135.48,https://en.wikipedia.org/wiki/Sakai
 shizuoka,Shizuoka,,,,静岡 (Shizuoka),,34.98,138.38,https://en.wikipedia.org/wiki/Shizuoka_(city)
 shaoxing,Shàoxīng (Shaohing),,,사오싱,紹興,紹興,30.0,120.58,https://en.wikipedia.org/wiki/Shaoxing
 srinagar,Srinagar,,,,,,34.08,74.8,https://en.wikipedia.org/wiki/Srinagar
@@ -219,7 +219,7 @@ yawata,Yawata (Yahata),,,야하타,八幡 (Yahata),,33.86,130.81,"https://en.wik
 yangzhou,Yángzhōu (Yangchow),,,양저우,揚州,揚州,32.39,119.42,https://en.wikipedia.org/wiki/Yangzhou
 zamboanga,Zamboanga,,,,,,6.91,122.08,https://en.wikipedia.org/wiki/Zamboanga_(province)
 zigong,Zìgòng (Tzukung),,,,,自貢,29.34,104.78,https://en.wikipedia.org/wiki/Zigong
-oita,Ōita,,,오이타현,大分 (Ōita),大分縣,33.24,131.61,https://en.wikipedia.org/wiki/Ōita_(city)
+oita,Ōita,,,오이타현,大分 (Ōita),大分,33.24,131.61,https://en.wikipedia.org/wiki/Ōita_(city)
 omuta,Ōmuta,,,오무타,大牟田,大牟田,33.03,130.45,"https://en.wikipedia.org/wiki/%C5%8Cmuta,_Fukuoka"
 akita,Akita,,,,秋田 (Akita),,39.72,140.1,https://en.wikipedia.org/wiki/Akita_(city)
 aleksandrovsk,Aleksandrovsk-Sakhalinsky,,,알렉산드롭스크사할린스키,アレクサンドロフスク・サハリンスキー,薩哈林島亞歷山德羅夫斯克,50.9,142.16,https://en.wikipedia.org/wiki/Alexandrovsk-Sakhalinsky_(town)
@@ -274,7 +274,7 @@ gyantse,Gyantse,,,,,,28.95,89.6,https://en.wikipedia.org/wiki/Gyantse
 ganzhou,Gànzhōu (Kanchow),,,간저우,贛州,贛州,25.83,114.93,https://en.wikipedia.org/wiki/Ganzhou
 haeju,Kaishū (Haeju),,Haeju (Kaishū),해주,海州,海州,38.04,125.71,https://en.wikipedia.org/wiki/Haeju
 haikou,Haikou (Kiungchow),,"Hǎikǒu (Kiungchow, Haikou)",,,海口,20.04,110.34,https://en.wikipedia.org/wiki/Haikou
-hailar,Hailar,e1942,Hailar (Hǎilā’ěr),하이라얼구,ハイラル区,海拉爾,49.2,119.7,https://en.wikipedia.org/wiki/Hailar_District
+hailar,Hailar,e1942,Hailar (Hǎilā’ěr),하이라얼구,海拉爾,海拉爾,49.2,119.7,https://en.wikipedia.org/wiki/Hailar_District
 hami,Hami (Kumul),,,,,哈密,42.83,93.51,https://en.wikipedia.org/wiki/Hami
 heihe,Heihe (Sakhalyan/Aigun),e1942,"Hēihé (Sakhalyan, Aigun, Heihe)",헤이허,黒河,黑河,50.25,127.53,https://en.wikipedia.org/wiki/Heihe
 hitachi,Hitachi,,,히타치,日立,日立,36.6,140.65,"https://en.wikipedia.org/wiki/Hitachi,_Ibaraki"
@@ -335,7 +335,7 @@ pegu,Pegu (Bago),,,,,,17.34,96.48,"https://en.wikipedia.org/wiki/Bago,_Myanmar"
 pekanbaru,Pekanbaru,,,,,,0.51,101.45,https://en.wikipedia.org/wiki/Pekanbaru
 petropavlovsk,Petropavlovsk-Kamchatsky,,,,,,53.02,158.65,https://en.wikipedia.org/wiki/Petropavlovsk-Kamchatsky
 phuket,Phuket,,,,,,7.88,98.39,https://en.wikipedia.org/wiki/Phuket_province
-pingfang,Pingfang,e1942,Píngfáng,핑팡구,平房区,平房,45.61,126.63,"https://en.wikipedia.org/wiki/Pingfang,_Harbin"
+pingfang,Pingfang,e1942,Píngfáng,핑팡구,平房,平房,45.61,126.63,"https://en.wikipedia.org/wiki/Pingfang,_Harbin"
 pingtung,"Heitō (Píngdōng, Pingtung)",,"Píngdōng (Heitō, Pingtung)",,,屏東,22.68,120.49,https://en.wikipedia.org/wiki/Pingtung_City
 pondicherrycity,Pondicherry,,,,,,11.93,79.83,https://en.wikipedia.org/wiki/Pondicherry
 portblair,Port Blair,,,,,,11.62,92.73,https://en.wikipedia.org/wiki/Port_Blair

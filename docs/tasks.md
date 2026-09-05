@@ -18509,3 +18509,65 @@ runs both in the full sweep and when git says a naming file moved. It guards the
 three ways this breaks: a label emptied, the wrong century's characters, and the
 same name printed twice. Whole suite 1933 checks across 60 scripts, all passing,
 472.7s; `changed` after the data fix, 1039 checks across 34 scripts, 255.7s.
+
+## A sweep for names that name something else
+
+Prompted by the Karafuto find in the last entry. The question was whether
+`akita → 八橋球技場` was one bad row or a class, and it is a class: these tables
+were filled partly from Wikipedia titles, and a title is not always the article
+anybody wanted.
+
+**The audit, by signature rather than by eye.** Four tests over
+`city-names.csv`, `sites.csv`, `features.csv`, the two territory tables and the
+sub-unit files: a name ending in a facility word (球技場, 東照宮, 神社, 空港…);
+`ja` and `zh` differing only by a trailing administrative unit; the two fields
+sharing no character at all; and a field written mostly in kana. The first three
+produced 111 candidates, most of them legitimate — a Japanese *event* name
+beside a Chinese *place* name (盧溝橋事件 / 盧溝橋) is not an error, and 金澤
+beside 金沢 is the traditional form doing its job.
+
+**What was actually wrong, and is now fixed.** Seven fields:
+
+    kawasaki   zh 川崎區  → 川崎     區 is a ward of present-day Kawasaki
+    moji       zh 門司區  → 門司     a ward of present-day Kitakyushu
+    oita       zh 大分縣  → 大分     the prefecture, not the city
+    sakai      zh 堺市    → 堺       every other row gives the bare name
+    pingfang   ja 平房区  → 平房     a district of present-day Harbin
+    hailar     ja ハイラル区 → 海拉爾  the modern district, in katakana
+    Aogashima  zh 青島    → (cleared) 青島 is Qingdao
+
+**And a bug in the switch itself, which the fourth test found.** `charsOf`
+refused a field only when it was kana from end to end, so a great deal of
+katakana came through on the strength of one character: オホーツク海, ベンガル湾,
+タクラマカン砂漠, ハイラル区. Sixty-six fields were like that, and the switch was
+drawing kana under a control called Kanji/Hanzi/Hanja. In every one of those
+cases `zh` was sitting behind it with the characters. The rule is now *any* kana
+disqualifies a field, with `ヶ` set aside because 青ヶ島 has no other spelling.
+Fifty-seven labels changed to real characters — 鄂霍次克海, 孟加拉灣,
+塔克拉瑪干沙漠, 諾門罕 — and three (Miangas twice, Wake) have no character form
+at all and correctly keep their romanisation.
+
+**Two wiki links that pointed at the wrong article.** Of 181 links whose slug
+matches no name on their row, all but two are deliberate — a modern-name link
+(Busan for Fusan), a parent article (Taihoku Prefecture for its 郡), a topic
+article (Salt March for Dandi). The two real ones: Kaohsiung pointed at
+*Xin-Fu-Hwa*, Batavia at *Manggarai railway station*. Both replacements were
+fetched and confirmed to resolve before being written.
+
+**The guard, so this class cannot come back.** `check_names` in
+`build_texts.py` refuses the build on the two signatures that produced every
+real error: a facility word at the end of a name field, and `ja`/`zh` differing
+only by an administrative tail. The tail test only fires when the rest of the
+name matches, so a record that really is a district passes. Both were proved to
+fire by re-injecting 八橋球技場 and 川崎區 and watching the build stop, then
+restoring.
+
+Tests: `hanlabels.js` gained the kana invariant — with the switch on, nothing
+drawn may contain kana — and a named check that オホーツク海 is not on the map.
+28 pass. Whole suite 1935 checks across 60 scripts, all passing, 473.3s.
+
+**Still shinjitai for Japan, and the switch now says so.** The tooltip reads
+"Japanese names are in modern character forms for now." A separate review of the
+旧字 conversion recommends against any bulk pass and for a hand-verified
+`ja_kyu` column with a build-time round-trip check; that is written up for the
+next session rather than started here.

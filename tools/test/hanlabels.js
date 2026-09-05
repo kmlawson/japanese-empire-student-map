@@ -104,6 +104,17 @@ console.log('\n— characters on the map, and nothing emptied —');
      simplified 台 would mean the wrong table had been reached for. */
   check('Taiwanese names are in traditional characters',
     on.indexOf('臺北')>=0 && on.indexOf('台北')<0, JSON.stringify(on.filter(t=>/北$/.test(t))));
+  /* **Katakana is not one of the three scripts the switch names.**
+     The first rule refused a field only when it was kana end to end, which let
+     オホーツク海 and ベンガル湾 and タクラマカン砂漠 through on the strength of
+     one character — sixty-six fields across the tables — while `zh` sat behind
+     them holding 鄂霍次克海 and 孟加拉灣 and 塔克拉瑪干沙漠. So: with the switch
+     on, nothing drawn may contain kana. `ヶ` is the exception and a real one,
+     because 青ヶ島 has no other spelling. */
+  const kana=on.filter(t=>/[\u30a0-\u30f5\u30f7-\u30fa\u3040-\u309f]/.test(t));
+  check('and no label comes out in kana', kana.length===0, JSON.stringify(kana.slice(0,6)));
+  check('a sea reads in characters, not katakana',
+    on.indexOf('オホーツク海')<0, 'オホーツク海 still drawn');
   await han(p,false);
   const back=await labels(p);
   check('turning it off puts the romanisation back',

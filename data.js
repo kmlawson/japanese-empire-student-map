@@ -1440,7 +1440,7 @@ JMAP.SITES = [
   {
     id: 'kaohsiung', en: 'Takao (Gāoxióng, Kaohsiung)', ja: '高雄 (Takao)', orig: '高雄 (Ko-hiông)',
     zh: '高雄', date: 'Developed from 1908', cat: 'city', lvl: 3, lat: 22.63, lon: 120.3,
-    wiki: 'https://en.wikipedia.org/wiki/Xin-Fu-Hwa', local: 'Gāoxióng (Takao, Kaohsiung)',
+    wiki: 'https://en.wikipedia.org/wiki/Kaohsiung', local: 'Gāoxióng (Takao, Kaohsiung)',
     year: 1908,
     note: 'The southern port built up by the colonial government, and the springboard for the "southward advance" into Southeast Asia.'
   },
@@ -1522,7 +1522,7 @@ JMAP.SITES = [
   {
     id: 'batavia', en: 'Batavia (Jakarta)', ja: 'ジャカルタ (Jakaruta)', orig: 'Batavia / Jakarta',
     zh: '巴達維亞', date: 'Dutch surrender, 8 March 1942', cat: 'city', lvl: 2, lat: -6.21,
-    lon: 106.85, wiki: 'https://en.wikipedia.org/wiki/Manggarai_railway_station', year: 1619,
+    lon: 106.85, wiki: 'https://en.wikipedia.org/wiki/Batavia,_Dutch_East_Indies', year: 1619,
     note: 'Capital of the Netherlands East Indies for three centuries. Sukarno and Hatta chose to work with the occupation, and declared independence two days after the surrender in 1945.'
   },
   {
@@ -2989,7 +2989,7 @@ JMAP.CITY_NAMES = [
     note: 'The capital of an independent state the map already draws, and the source of the Gurkha regiments.'
   },
   {
-    id: 'kawasaki', en: 'Kawasaki', ja: '川崎 (Kawasaki)', zh: '川崎區', ko: '가와사키구', lat: 35.53,
+    id: 'kawasaki', en: 'Kawasaki', ja: '川崎 (Kawasaki)', zh: '川崎', ko: '가와사키구', lat: 35.53,
     lon: 139.7, wiki: 'https://en.wikipedia.org/wiki/Kawasaki,_Kanagawa',
     note: 'Steel and shipbuilding between Tokyo and Yokohama, some 300,000 people by 1940, and among the most heavily firebombed places in Japan.'
   },
@@ -3029,7 +3029,7 @@ JMAP.CITY_NAMES = [
     note: 'The silk-reeling town of Gunma, at the centre of the trade that paid for Japan\'s industrialisation.'
   },
   {
-    id: 'moji', en: 'Moji', ja: '門司 (Moji)', zh: '門司區', ko: '모지구', lat: 33.94, lon: 130.96,
+    id: 'moji', en: 'Moji', ja: '門司 (Moji)', zh: '門司', ko: '모지구', lat: 33.94, lon: 130.96,
     wiki: 'https://en.wikipedia.org/wiki/Moji-ku,_Kitaky%C5%ABsh%C5%AB',
     note: 'The Kanmon Strait coaling and transhipment port; the embarkation point for the continent.'
   },
@@ -3064,7 +3064,7 @@ JMAP.CITY_NAMES = [
     note: 'The seat of Bihar on the Ganges, and the old Mauryan capital of Pataliputra beneath it.'
   },
   {
-    id: 'sakai', en: 'Sakai', ja: '堺 (Sakai)', zh: '堺市', lat: 34.57, lon: 135.48,
+    id: 'sakai', en: 'Sakai', ja: '堺 (Sakai)', zh: '堺', lat: 34.57, lon: 135.48,
     wiki: 'https://en.wikipedia.org/wiki/Sakai',
     note: 'The free port that armed the sixteenth-century wars and, by the 1930s, an industrial suburb of Osaka.'
   },
@@ -3139,7 +3139,7 @@ JMAP.CITY_NAMES = [
     note: 'The salt wells that supplied wartime free China after the coastal salt was lost.'
   },
   {
-    id: 'oita', en: 'Ōita', ja: '大分 (Ōita)', zh: '大分縣', ko: '오이타현', lat: 33.24, lon: 131.61,
+    id: 'oita', en: 'Ōita', ja: '大分 (Ōita)', zh: '大分', ko: '오이타현', lat: 33.24, lon: 131.61,
     wiki: 'https://en.wikipedia.org/wiki/Ōita_(city)',
     note: 'The hot-spring country of eastern Kyūshū, and a port facing the Inland Sea.'
   },
@@ -3418,7 +3418,7 @@ JMAP.CITY_NAMES = [
     note: 'Hainan was occupied in February 1939 and the map marks the landing; the island’s only real town is not on the layer.'
   },
   {
-    id: 'hailar', en: 'Hailar', ja: 'ハイラル区', zh: '海拉爾', ko: '하이라얼구', lat: 49.2, lon: 119.7,
+    id: 'hailar', en: 'Hailar', ja: '海拉爾', zh: '海拉爾', ko: '하이라얼구', lat: 49.2, lon: 119.7,
     wiki: 'https://en.wikipedia.org/wiki/Hailar_District', jpfrom: 'e1942',
     local: 'Hailar (Hǎilā’ěr)',
     note: 'The Hulunbuir garrison and fortified zone facing Mongolia; the base for the Nomonhan fighting.'
@@ -3721,7 +3721,7 @@ JMAP.CITY_NAMES = [
     note: 'Tin, and the Andaman coast the map already gives Thailand.'
   },
   {
-    id: 'pingfang', en: 'Pingfang', ja: '平房区', zh: '平房', ko: '핑팡구', lat: 45.61, lon: 126.63,
+    id: 'pingfang', en: 'Pingfang', ja: '平房', zh: '平房', ko: '핑팡구', lat: 45.61, lon: 126.63,
     wiki: 'https://en.wikipedia.org/wiki/Pingfang,_Harbin', jpfrom: 'e1942', local: 'Píngfáng',
     note: 'Unit 731. A village rather than a city, but the site of the biological-warfare programme and its human experiments.'
   },
@@ -5016,7 +5016,7 @@ JMAP.PROVINCES = {
     note: 'Split from Niijima by an earthquake, the islanders say, and left with hot springs among the rocks at the water\'s edge.'
   },
   Aogashima: {
-    en: 'Aogashima', ja: '青ヶ島 (Aogashima)', zh: '青島', ko: '아오가섬',
+    en: 'Aogashima', ja: '青ヶ島 (Aogashima)', ko: '아오가섬',
     wiki: 'https://en.wikipedia.org/wiki/Aogashima', part_of: 'Tokyo',
     short: 'A crater within a crater',
     note: 'A crater within a crater, 360 km south of Tokyo and the remotest inhabited island of the Izu chain. The eruption of 1785 killed about half the islanders; the rest fled to Hachijōjima and did not return for fifty years.'

@@ -68,6 +68,65 @@ class Problem(Exception):
     pass
 
 
+
+# ---------------------------------------------------------------- names --
+#
+# **A name field that names something else.** These tables were filled partly
+# from Wikipedia titles, and a title is not always the place: Akita's `zh` was
+# 八橋球技場, a ball ground inside the city; Mito's was 水戶東照宮, a shrine;
+# Tsu's was 攝津國, a different province; Ōtomari's `ja` was コルサコフ管区, the
+# name the town took in 1946. Every one of those reached the reader, and the
+# characters switch put them on the map itself rather than three lines down a
+# card.
+#
+# Two signatures caught all of them and both are cheap to test for, so they
+# stop the build now instead of being found by eye a year later.
+FACILITY_WORDS = ("球技場", "競技場", "球場", "体育館", "體育館", "東照宮",
+                  "神社", "神宮", "記念館", "博物館", "美術館", "会館", "會館",
+                  "大学", "大學", "病院", "空港", "飛行場", "劇場", "図書館",
+                  "製作所", "工場")
+
+# a trailing administrative unit that the bare place name does not carry. Only
+# checked when the row's other character field gives the same name without it,
+# which is the exact shape of the four that were wrong (川崎/川崎區,
+# 大分/大分縣, 堺/堺市, 平房区/平房) and lets a record that really is a district
+# through untouched.
+ADMIN_TAILS = ("區", "区", "市", "縣", "県", "郡", "省", "管区", "管區",
+               "区域", "區域")
+
+
+def _bare(v):
+    """The characters, without the reading a field may carry in brackets."""
+    return re.sub(r"\s*[（(].*$", "", str(v or "")).strip()
+
+
+def check_names(rows, key, where):
+    for r in rows:
+        vals = {c: _bare(r.get(c, "")) for c in ("ja", "zh", "ko", "orig")}
+        for col, v in vals.items():
+            if not v:
+                continue
+            for w in FACILITY_WORDS:
+                if v.endswith(w) and v != w:
+                    raise Problem(
+                        "%s: %r has %s = %r, which names a building rather "
+                        "than the place. A Wikipedia title is not always the "
+                        "article you wanted; clear the field or put the "
+                        "place's own name in it."
+                        % (where, r.get(key), col, v))
+        ja, zh = vals["ja"], vals["zh"]
+        if ja and zh and ja != zh:
+            longer, shorter = (zh, ja) if len(zh) > len(ja) else (ja, zh)
+            for t in ADMIN_TAILS:
+                if longer.endswith(t) and longer[:-len(t)] == shorter:
+                    raise Problem(
+                        "%s: %r has ja = %r and zh = %r, the same name with "
+                        "%r on one of them. That tail is usually a present-day "
+                        "ward or prefecture rather than the place this map "
+                        "shows; drop it, or if the record really is that unit, "
+                        "give both fields the tail."
+                        % (where, r.get(key), ja, zh, t))
+
 def check_unique(rows, field, where):
     seen = {}
     for i, r in enumerate(rows):
@@ -741,6 +800,7 @@ def build_data_js():
     # live, and nothing else in the project has them.
     rows = load("city-names.csv")
     check_unique(rows, "id", "texts/city-names.csv")
+    check_names(rows, "id", "texts/city-names.csv")
     ns = notes("city-names.md")
     parts.append("JMAP.CITY_NAMES = [\n%s\n];" % array(rows, ns, snippets, indent=2))
 
