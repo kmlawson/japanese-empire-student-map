@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '319';
+  var JEM_VERSION = '320';
   var JEM_ASSETS = {"admin.js": "3414697d04", "air-play.js": "8db7ba0d73", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "58132ef9c2", "kr-trains.js": "74889615bd", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/korea-1938.html": "91837c326f", "timetable/taiwan-1936.html": "23eaf5f955", "trains.js": "c0629828d0", "tw-trains.js": "7cd1c3f42d"};
 
   /* Every file this one fetches, with the version on it.
@@ -432,7 +432,11 @@
       .toLowerCase();
   }
 
-  function otherNames(rec) {
+  /* `headline` is what the caller has actually put on the top line, which is
+     not always `nameOf` any more: with the characters switch on the headline
+     is the characters, and without being told that this would list them again
+     directly underneath themselves. Omitted, it behaves as it always did. */
+  function otherNames(rec, headline) {
     if (!rec) return '';
     var r = shown(rec);
     // One entry per distinct name, keeping the fullest spelling of each: the
@@ -454,7 +458,7 @@
       else if (v.length > best[id].length) best[id] = v;
     });
     var keys = order.slice();
-    var head = nameKey(nameOf(r));
+    var head = nameKey(headline || nameOf(r));
     return order
       .filter(function (id) {
         // and nothing that is already contained in the headline, or in another
@@ -520,8 +524,17 @@
    * rather than allowed to fail it. */
   var KANA_ANY = /[\u30a0-\u30f5\u30f7-\u30fa\u3040-\u309f]/;
 
+  /* The bracket is stripped only when what is inside it is a *reading* —
+     `豊原 (Toyohara)`, `大泊 (Ōtomari)`. A bracket holding characters is part
+     of the name and stays: Japan is written 日本（内地）, Seoul 京城（漢城）, and
+     cutting at the first bracket turned those into 日本 and 京城, which is a
+     different claim about what the place was called. */
   function charsOf(v) {
-    var raw = String(v || '').replace(/\s*[（(].*$/, '').trim();
+    var raw = String(v || '').trim()
+      .replace(/\s*[（(]([^）)]*)[）)]\s*$/, function (all, inner) {
+        return /[\u3400-\u9fff]/.test(inner) ? all : '';
+      })
+      .trim();
     if (!raw) return '';
     var probe = raw.replace(/[\u30f6\u30fb\u30fc\u3000\s\u00b7-]/g, '');
     if (!probe || KANA_ANY.test(probe)) return '';
@@ -1016,6 +1029,21 @@
        is the one for the date now showing. */
     if (rec.kind === 'gaz') {
       if (!labelsOn('city') || labelLevel() < 2) return false;
+      /* **One label per place.** Fifty-one of the gazetteer's cities have a
+         curated site record as well — Tokyo, Shanghai, Beijing, Hankou — and
+         the site's marker is drawn *over* the dot, which is what
+         `buildGazetteer` merges the site's names and note into the dot for.
+         Both then wrote a name, a few pixels apart, and at Hankou that came
+         out as 漢口 over 漢口.
+
+         It was there before the characters switch and the switch is what made
+         it unmissable: the two labels used to differ slightly — `Wǔhàn
+         (Hankow)` beside `Hankow` — and read as two facts rather than one said
+         twice. The site is the richer symbol and keeps its name; the dot under
+         it yields, and only while that marker is actually drawn, so a city
+         whose site has thinned out at this zoom is still named. */
+      var twin = siteById[rec.id];
+      if (twin && siteVisible(twin)) return false;
       var dot = gazFor(rec.id);
       return !!dot && gazVisible(dot);
     }
@@ -7524,7 +7552,11 @@
               // which pie is being drawn, if any: the same province says a
               // different thing under the citizenship map and the occupation
               // one, and the cache would have handed back the first
-              + '|' + (popPieOn()[0] ? popPieOn()[0].mode : '');
+              + '|' + (popPieOn()[0] ? popPieOn()[0].mode : '')
+              // the switch changes every line of this without changing which
+              // record is under the pointer, so a stale key would leave the
+              // romanisation showing until the reader moved off and back
+              + '|' + (state.hanLabels ? 'han' : '');
     if (key === tipKey && !tooltip.hidden) {
       if (!tipFrame) tipFrame = requestAnimationFrame(placeTooltip);
       return;
@@ -7535,9 +7567,25 @@
     // the tooltip was printing the whole string as its headline: Qīnghǎi came
     // up as five hundred and fifty-eight characters of pasture and salt lake
     // in bold. The card splits it, the map label splits it, and so does this.
-    tooltip.appendChild(document.createTextNode(splitGloss(nameOf(head)).name));
+    /* **The characters lead here too.** The card and the map label both do it
+       already; the tooltip is the third place a name is written and it was
+       still putting the romanisation on top, so hovering a station under the
+       switch gave `Yŏnch'ŏn` over 漣川 while the card gave 漣川 over
+       `Yŏnch'ŏn`. One rule, three places. A station keeps its own `han`; every
+       other record — province, country, city, base area, island — goes through
+       `hanOf`, which is what decides the label. */
+    var headline = splitGloss(nameOf(head)).name;
+    var displaced = '';
+    if (state.hanLabels) {
+      var hh = head.kind === 'station' ? (head.han || '') : hanOf(head);
+      if (hh && hh !== headline) { displaced = headline; headline = hh; }
+    }
+    tooltip.appendChild(document.createTextNode(headline));
     if (head !== rec) {
-      var alt = otherNames(head);
+      // the romanisation goes first on the line below, ahead of the other
+      // scripts, because it is the name the reader most likely came in knowing
+      var alt = [displaced, otherNames(head, headline)]
+        .filter(Boolean).join('  ');
       if (alt) {
         var pa = document.createElement('span');
         pa.className = 'sub alt-script';
@@ -7582,8 +7630,18 @@
         tooltip.appendChild(rl);
       }
     } else {
-      var second = state.lang === 'en' ? rec.ja : rec.en;
-      if (second && second !== nameOf(rec)) {
+      /* With the switch on this line carries the romanisation the characters
+         pushed off the top; `rec.ja` would be those same characters again. */
+      var second = displaced
+        || (state.lang === 'en' ? rec.ja : rec.en);
+      /* The `!== nameOf(rec)` guard is there to stop this line repeating the
+         headline, and when the characters have taken the headline the
+         romanisation *is* `nameOf(rec)` — so the guard threw away the very
+         thing being moved down, and Shanghai lost its `Shànghǎi` altogether.
+         With the switch on there is only one thing to guard against, and it is
+         the headline. */
+      if (second && second !== headline
+          && (displaced || second !== nameOf(rec))) {
         var sub = document.createElement('span');
         sub.className = 'sub';
         sub.textContent = second;
@@ -10681,8 +10739,18 @@
   var layerInfoStack = [];        // ids, newest first
   var layerInfoFlash = 0;
 
+  /* A row is on because its layer is switched on — or, for the two that
+     describe the map itself, because its date is the one showing. The date is
+     not a boolean in `state`, so it cannot be a `flag`; `on_epoch` is its own
+     column — named that because the emitter reserves `epoch` for "which file
+     this row came from" and drops it — and the two are mutually exclusive. Turning to the other
+     date takes one of these off the stack and puts the other on, which is what
+     "swap out any 1930 layer-info" asks for and needs no special case: the
+     stack already removes a row that has stopped being true. */
   function layerInfoOn(row) {
-    return !!(row && row.flag && state[row.flag]);
+    if (!row) return false;
+    if (row.on_epoch) return state.epoch === row.on_epoch;
+    return !!(row.flag && state[row.flag]);
   }
 
   /* Called wherever the layers change. Newly-on layers go on the top of the

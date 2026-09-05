@@ -1,2 +1,4 @@
-id,title,flag,source,source_url
-air,Airline Routes,air,Japanese network: 酒井正子「変容する世界の航空界・その4 日本の航空100年」and 昭和五年四月改正 定期航空発着時刻及賃金表 (1930). Occupied China: 中華航空株式會社 時刻表 (1940). Dutch East Indies: KLM Amsterdam–Batavia summer service (1938) and the K.N.I.L.M. route map (c. 1935).,https://www.timetableimages.com/ttimages/ckkk/ckkk40c/ckkk3.jpg
+id,title,flag,on_epoch,source,source_url
+air,Airline Routes,air,,Japanese network: 酒井正子「変容する世界の航空界・その4 日本の航空100年」and 昭和五年四月改正 定期航空発着時刻及賃金表 (1930). Occupied China: 中華航空株式會社 時刻表 (1940). Dutch East Indies: KLM Amsterdam–Batavia summer service (1938) and the K.N.I.L.M. route map (c. 1935).,https://www.timetableimages.com/ttimages/ckkk/ckkk40c/ckkk3.jpg
+map1930,1930 Map,,e1930,,
+map1942,Dec 1942 Map,,e1942,,

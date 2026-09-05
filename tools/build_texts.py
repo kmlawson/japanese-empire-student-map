@@ -699,11 +699,30 @@ def build_data_js():
     # `flag` names the entry in map.js's `state` that says whether the layer
     # is drawn. It is here rather than in a table inside map.js so that the two
     # cannot drift: a row is the whole of what this layer's "i" needs.
-    noflag = [r["id"] for r in rows if not r.get("flag")]
+    # A row about the *map itself* rather than a layer is gated on the date
+    # instead, which is not a boolean in `state` and so cannot be a flag.
+    # `on_epoch` is that column, and a row must have exactly one of the two: with
+    # neither it could never appear, and with both they would disagree.
+    bothly = [r["id"] for r in rows if r.get("flag") and r.get("on_epoch")]
+    if bothly:
+        raise Problem(
+            "texts/layer-info.csv: %s has both `flag` and `on_epoch`. A row is "
+            "shown because its layer is on, or because its date is the one "
+            "showing; the two would contradict each other."
+            % ", ".join(map(repr, bothly)))
+    for r in rows:
+        e = (r.get("on_epoch") or "").strip()
+        if e and e not in ("e1930", "e1942"):
+            raise Problem(
+                "texts/layer-info.csv: %r has on_epoch %r; it must be 'e1930' or "
+                "'e1942', which are the two the map draws." % (r["id"], e))
+    noflag = [r["id"] for r in rows
+              if not r.get("flag") and not (r.get("on_epoch") or "").strip()]
     if noflag:
         raise Problem(
-            "texts/layer-info.csv: %s has no `flag`. It names the state entry "
-            "that says whether the layer is drawn, and without one the info "
+            "texts/layer-info.csv: %s has neither `flag` nor `on_epoch`. One "
+            "names the state entry that says whether the layer is drawn and "
+            "the other the date it belongs to; without either the info "
             "would never appear or never go away."
             % ", ".join(map(repr, noflag)))
     missing = [r["id"] for r in rows if r["id"] not in ns]

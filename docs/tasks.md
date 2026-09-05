@@ -18571,3 +18571,67 @@ drawn may contain kana — and a named check that オホーツク海 is not on t
 旧字 conversion recommends against any bulk pass and for a hand-verified
 `ja_kyu` column with a build-time round-trip check; that is written up for the
 next session rather than started here.
+
+## The characters lead in the hover too, one label to a place, and the map's own "i"
+
+**The tooltip was the third place a name is written and the only one still
+leading with the romanisation.** Hovering a station under the characters switch
+gave `Yŏnch'ŏn` over 漣川 while its card gave 漣川 over `Yŏnch'ŏn`. Fixed in
+`showTooltip`, which is one function and therefore covers stations, cities,
+provinces, countries, islands and the base areas alike — a station takes its own
+`han`, everything else goes through `hanOf`, the same rule the label uses. The
+romanisation displaced goes on the line below, ahead of the other scripts.
+
+Three things had to move with it. `otherNames` filters out anything already in
+the headline and was still filtering against `nameOf`, so it listed the
+characters again directly under themselves; it takes the real headline as an
+argument now. The guard on the second line was `second !== nameOf(rec)`, which
+is exactly the romanisation being moved down — Shanghai lost its `Shànghǎi`
+altogether until that was narrowed. And the tooltip is cached on what it says
+rather than rebuilt per pointer move, so `hanLabels` had to join the key or a
+tooltip already on screen kept the romanisation until the reader moved off and
+back.
+
+**One label to a place.** Fifty-one gazetteer cities carry a curated site record
+as well, and the site's marker is drawn over the dot — which is what
+`buildGazetteer` merges the site's names and note into the dot for. Both then
+wrote a name a few pixels apart. At Hankou that came out as 漢口 over 漢口. It
+predates the switch and the switch is what made it unmissable: the two used to
+differ slightly, `Wǔhàn (Hankow)` beside `Hankow`, and read as two facts rather
+than one said twice. The dot now yields to the marker, and only while that
+marker is actually drawn, so a city whose site has thinned out at this zoom is
+still named.
+
+*Jilin and Ningxia stay doubled and should.* A province and its capital
+genuinely share those names — 吉林 city inside 吉林省, and Yinchuan, which was
+寧夏 in this period, inside 寧夏 province. The Jilin pair was doubled under the
+romanisation too. That is a fact about the period, not a bug, and the test names
+them as the two allowed.
+
+**日本（内地）, and the bracket rule behind it.** Japan read 内地 alone. Writing
+it 日本（内地） exposed a flaw in `charsOf`: it cut everything from the first
+bracket, which is right for a reading — `豊原 (Toyohara)` — and wrong for a
+bracket holding characters. It now strips the bracket only when what is inside
+it has none, so 日本（内地） and 京城（漢城） survive whole.
+
+**The map explains itself.** `layer-info.csv` gains an `on_epoch` column and two
+rows, `map1930` and `map1942`, with the author's own wording. Turning to the
+other date takes one off the stack and puts the other on, which needs no special
+case — the stack already drops a row that has stopped being true. The column is
+`on_epoch` and not `epoch` because the emitter reserves `epoch` for "which file
+this row came from" and drops it before the browser sees it; the first attempt
+used `epoch` and the panel simply never appeared, silently. The build now
+refuses a row with both `flag` and `on_epoch`, or with neither, or with an
+`on_epoch` that is not one of the two dates.
+
+*One typo corrected, as asked, and nothing added:* the 1942 text said the layers
+"are usually not from exactly 1930", which in that panel should read 1942.
+
+Three checks in `layerinfo.js` encoded the old contract — no layer on, no "i"
+button — and are rewritten rather than left red, because that contract is what
+the author has deliberately changed. A fourth, "and the lightbox with it",
+asserted the box closes when the last layer goes off; it cannot now, because the
+stack can no longer empty.
+
+Tests: `hanlabels.js` 33, `layerinfo.js` 27. Whole suite 1946 checks across 60
+scripts, all passing, 479.8s.

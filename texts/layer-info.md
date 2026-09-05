@@ -37,3 +37,29 @@ crosses a zone has its drawn duration stretched or squeezed by the difference:
 forty-nine of the three hundred and twenty-two timed stages on this map cross
 one, by between twenty-three and ninety minutes. Imperial Airways' Bangkok to
 Penang reads as four hours and was in fact five and a half.
+
+## map1930
+
+This map is set in 1930 and gives you a depiction of the colonies, cities, and
+countries of that time. Some descriptions may differ between this map and those
+of the 1942 map.
+
+**Important:** When you load railways, airlines, population maps, etc. with this
+map showing, the additional layers you see are usually not from exactly 1930.
+Each layer is constructed from its own historical sources. Generally, historical
+sources from around 1928–1935 are assigned to the 1930 map, while those using
+sources from around 1936 onwards are assigned to the 1942 map. This means there
+are anachronisms visible on both maps.
+
+## map1942
+
+This map is set around December 1942 and gives you a depiction of the colonies,
+cities, countries, and occupation zones of that time. Some descriptions may
+differ between this map and those of the 1930 map.
+
+**Important:** When you load railways, airlines, population maps, etc. with this
+map showing, the additional layers you see are usually not from exactly 1942.
+Each layer is constructed from its own historical sources. Generally, historical
+sources from around 1928–1935 are assigned to the 1930 map, while those using
+sources from around 1936 onwards are assigned to the 1942 map. This means there
+are anachronisms visible on both maps.

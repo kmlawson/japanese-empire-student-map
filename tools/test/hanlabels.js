@@ -220,6 +220,78 @@ console.log('\n— and it travels in a shared link —');
   await p.close();
 }
 
+console.log('\n— the hover says it the same way the card does —');
+{
+  const p=await browser.newPage(); await p.setViewport({width:1500,height:980});
+  p.on('pageerror',e=>errs.push(String(e)));
+  await p.evaluateOnNewDocument(SHIM);
+  await p.goto(URL,{waitUntil:'networkidle0'}); await ready(p);
+  await p.evaluate(()=>{const c=document.querySelector('#layer-seg button[data-cat="city"]');
+    if(c.getAttribute('aria-pressed')!=='true') c.click();});
+  await sleep(1500);
+  const tipOf=async id=>{
+    const at=await p.evaluate(k=>{const g=document.querySelector('.gaz[data-id$="_'+k+'"]');
+      if(!g) return null; const r=g.getBoundingClientRect();
+      const x=r.x+r.width/2,y=r.y+r.height/2;
+      return (r.width>0&&x>0&&y>0&&x<innerWidth&&y<innerHeight)?{x,y}:null;},id);
+    if(!at) return null;
+    await p.mouse.move(at.x-4,at.y-4); await sleep(70);
+    await p.mouse.move(at.x,at.y); await sleep(520);
+    return p.evaluate(()=>{const t=document.getElementById('tooltip');
+      if(!t||t.hidden) return null;
+      const k=[...t.childNodes].map(n=>(n.textContent||'').trim()).filter(Boolean);
+      return {head:k[0]||'', next:k[1]||''};});
+  };
+  const before=await tipOf('shanghai');
+  await han(p,true);
+  const after=await tipOf('shanghai');
+  if(!before||!after) check('Shanghai was hoverable', false, 'no tooltip');
+  else {
+    /* The card and the map label lead with the characters; the tooltip is the
+       third place a name is written and it was still putting the romanisation
+       on top. One rule, three places. */
+    check('the tooltip headline is the characters', after.head==='上海', after.head);
+    check('and the romanisation it displaced is the line under it',
+      after.next.indexOf(before.head)>=0, JSON.stringify(after));
+    /* The tooltip is cached on what it says rather than rebuilt per move, so
+       the switch has to be part of that key or a tooltip already on the screen
+       keeps the romanisation until the pointer leaves and comes back. */
+    check('and it did not have to be re-entered to change', after.head!==before.head,
+      before.head+' -> '+after.head);
+  }
+  await p.close();
+}
+
+console.log('\n— one label to a place —');
+{
+  const p=await browser.newPage(); await p.setViewport({width:1500,height:980});
+  p.on('pageerror',e=>errs.push(String(e)));
+  await p.evaluateOnNewDocument(SHIM);
+  await p.goto(URL,{waitUntil:'networkidle0'}); await ready(p);
+  await p.evaluate(()=>{
+    document.querySelector('#layer-seg button[data-opt="labels"]').click();
+    const c=document.querySelector('#layer-seg button[data-cat="city"]');
+    if(c.getAttribute('aria-pressed')!=='true') c.click();});
+  await sleep(1500);
+  for(let i=0;i<5;i++){await p.evaluate(()=>document.getElementById('zoom-in').click());await sleep(400);}
+  await han(p,true); await sleep(600);
+  /* Fifty-one gazetteer cities carry a curated site record too and the site's
+     marker is drawn over the dot. Both used to write a name a few pixels
+     apart, which at Hankou read as 漢口 over 漢口. The dot yields to the marker
+     now. Jilin and Ningxia stay doubled and should: a province and its capital
+     genuinely share those names, and the Jilin pair was doubled under the
+     romanisation too. */
+  const seen=await labels(p);
+  const count=t=>seen.filter(x=>x===t).length;
+  check('Hankou is named once, not twice', count('漢口')<=1, String(count('漢口')));
+  const twins=seen.filter((t,i)=>seen.indexOf(t)!==i);
+  const allowed=['吉林','寧夏'];
+  const unexpected=[...new Set(twins)].filter(t=>allowed.indexOf(t)<0);
+  check('and no other place is written twice', unexpected.length===0,
+    JSON.stringify(unexpected.slice(0,6)));
+  await p.close();
+}
+
 check('no page errors', errs.length===0, errs.slice(0,2).join(' | '));
 await browser.close();
 console.log('\n  '+pass+' passed, '+fail+' failed');

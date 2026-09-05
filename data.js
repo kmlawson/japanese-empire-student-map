@@ -83,6 +83,14 @@ JMAP.LAYER_INFO = [
     title: 'Airline Routes',
     note: '**Note**: This layer is incomplete and is under active development. More data incoming.\n\n**Limitations:** This layer visualizes some of the commercial airline routes in operation, mostly in the 1930s. **IMPORTANT:** It does not accurately replicate the network in 1930 or 1942, and in fact, much of what you see in the 1942 snapshot will be from before December, 1941. It is also important to note that the sources used are often from different moments. The 1942 map routes, for example, show mostly data from a 1938 Japanese source with mainland China routes from a brochure that may be from around 1940, while the Dutch East Indies data combines a 1938 KLM brochure, with a KNILM airline network map from 1935. That means it is not possible to plot a journey that crosses networks, given the different times and origins of the information about them. Finally, some of the lines have times attached to them which permit animation using the tools, and others are present only on network maps without any schedules included.\n\n**On the clock:** every timetable here keeps the local time of the place it was printed for, which is what its own source gives and what a reader checking it against that source needs. The animation puts all of them on one dial, and that has two consequences worth knowing. Across networks, a seven o\'clock departure from Calcutta and a seven o\'clock departure from Tokyo are not the same moment — they are three and a half hours apart — so the tools cannot be used to time a connection from one airline to another. And within a single line, a stage that crosses a zone has its drawn duration stretched or squeezed by the difference: forty-nine of the three hundred and twenty-two timed stages on this map cross one, by between twenty-three and ninety minutes. Imperial Airways\' Bangkok to Penang reads as four hours and was in fact five and a half.'
   },
+  {
+    id: 'map1930', on_epoch: 'e1930', title: '1930 Map',
+    note: 'This map is set in 1930 and gives you a depiction of the colonies, cities, and countries of that time. Some descriptions may differ between this map and those of the 1942 map.\n\n**Important:** When you load railways, airlines, population maps, etc. with this map showing, the additional layers you see are usually not from exactly 1930. Each layer is constructed from its own historical sources. Generally, historical sources from around 1928–1935 are assigned to the 1930 map, while those using sources from around 1936 onwards are assigned to the 1942 map. This means there are anachronisms visible on both maps.'
+  },
+  {
+    id: 'map1942', on_epoch: 'e1942', title: 'Dec 1942 Map',
+    note: 'This map is set around December 1942 and gives you a depiction of the colonies, cities, countries, and occupation zones of that time. Some descriptions may differ between this map and those of the 1930 map.\n\n**Important:** When you load railways, airlines, population maps, etc. with this map showing, the additional layers you see are usually not from exactly 1942. Each layer is constructed from its own historical sources. Generally, historical sources from around 1928–1935 are assigned to the 1930 map, while those using sources from around 1936 onwards are assigned to the 1942 map. This means there are anachronisms visible on both maps.'
+  },
 ];
 
 JMAP.CATEGORIES = {
@@ -223,7 +231,7 @@ JMAP.SITE_CATEGORIES = [
 JMAP.TERRITORIES = {
   e1930: [
     {
-      id: 'japan', en: 'Japan', ja: '内地 (Naichi)', orig: '日本 (Nihon)', zh: '日本內地',
+      id: 'japan', en: 'Japan', ja: '日本（内地）', orig: '日本 (Nihon)', zh: '日本內地',
       when: 'The metropole', cat: 'metropole', lvl: 1, atoms: ['japan'],
       wiki: 'https://en.wikipedia.org/wiki/Empire_of_Japan',
       short: '1930 Census Population: 64,450,005 · Males per 100 Females: 101.03 · Per km²: 173',
@@ -646,7 +654,7 @@ JMAP.TERRITORIES = {
   ],
   e1942: [
     {
-      id: 'japan', en: 'Japan', ja: '内地 (Naichi)', orig: '日本 (Nihon)', zh: '日本內地',
+      id: 'japan', en: 'Japan', ja: '日本（内地）', orig: '日本 (Nihon)', zh: '日本內地',
       when: 'The metropole', cat: 'metropole', lvl: 1, atoms: ['japan'],
       wiki: 'https://en.wikipedia.org/wiki/Empire_of_Japan',
       short: '1940 Census Population: 73,114,308 · Males per 100 Females: 100.05 · Per km²: 196 The census of 1 October 1940, Okinawa included — the report prints the country both ways and the map draws Okinawa, so this is its 73,114,308 rather than the 72,539,729 without it. 1,265,049 of these people were registered in the 外地, chiefly Koreans, and 1,694,428 were service personnel, who are inside the total rather than beside it.',

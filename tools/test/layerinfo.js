@@ -54,9 +54,23 @@ const st=p=>p.evaluate(()=>({
   await p.goto('http://localhost:8123/index.html',{waitUntil:'networkidle2'});
   await ready(p);
 
-  console.log('\n- with nothing on, there is nothing to read -');
+  /* This used to read "with nothing on, there is nothing to read", and the
+     button was hidden until a layer was switched on. The map itself now
+     explains itself — which date it is set in, and that the layers over it are
+     built from sources of their own and are not all of that year — so there is
+     always exactly one thing to read, and never none. */
+  console.log('\n- with nothing on, the map still explains itself -');
   let s=await st(p);
-  check('the i button is hidden', s.info.hidden===true, JSON.stringify(s.info));
+  check('the i button is offered', s.info.hidden===false, JSON.stringify(s.info));
+  /* `items` is what was last *rendered*, and the body is only built when the
+     dialog opens — so it has to be opened before it can be asked what is in
+     it. Reading it cold gives the previous answer, or none at all. */
+  await p.evaluate(()=>document.getElementById('btn-layer-info').click());
+  await sleep(500);
+  s=await st(p);
+  check('and it holds the map’s own account and nothing else',
+    JSON.stringify(s.items)==='["map1930"]', JSON.stringify(s.items));
+  await p.keyboard.press('Escape'); await sleep(400);
   check('the full-screen button is offered', s.fs.hidden===false, JSON.stringify(s.fs));
 
   console.log('\n- switch the air routes on -');
@@ -74,7 +88,9 @@ const st=p=>p.evaluate(()=>({
   await sleep(500);
   s=await st(p);
   check('the lightbox opens', s.dlg===true);
-  check('with the air layer in it', JSON.stringify(s.items)==='["air"]', JSON.stringify(s.items));
+  // the layer goes on top of the map's own row, newest first
+  check('with the air layer in it', JSON.stringify(s.items)==='["air","map1930"]',
+    JSON.stringify(s.items));
   check('headed with its title', s.title==='Airline Routes', s.title);
   check('the emphasis is rendered', s.strongs.length>=2, JSON.stringify(s.strongs));
   check('no literal ** in the prose', !/\*\*/.test(s.paras), s.paras.slice(0,60));
@@ -86,9 +102,22 @@ const st=p=>p.evaluate(()=>({
   console.log('\n- switch it off again -');
   await p.evaluate(()=>document.getElementById('btn-air').click());
   await sleep(900);
+  await p.evaluate(()=>document.getElementById('btn-layer-info').click());
+  await sleep(500);
   s=await st(p);
-  check('the i goes away', s.info.hidden===true, JSON.stringify(s.info));
-  check('and the lightbox with it', s.dlg===false);
+  check('the layer’s account goes away with it',
+    s.items.indexOf('air')<0, JSON.stringify(s.items));
+  check('and the map’s own is what is left',
+    JSON.stringify(s.items)==='["map1930"]', JSON.stringify(s.items));
+  /* This used to be "and the lightbox with it": the panel closed itself when
+     the last layer went off, because there was then nothing to read. There is
+     always something now — the map's own account of which date it is — so the
+     button stays and the box has a page in it. The behaviour it was guarding
+     still exists one step further out: `syncLayerInfo` closes the box when the
+     stack empties, and the stack can no longer empty. */
+  check('and the box still has the map’s page in it', s.dlg===true,
+    'the box closed with the map’s own account still to read');
+  await p.keyboard.press('Escape'); await sleep(400);
 
   console.log('\n- the button wears the aeroplane the sheet flies -');
   let ic=await shownIcon(p);
@@ -122,6 +151,50 @@ const st=p=>p.evaluate(()=>({
   const before=await p.evaluate(()=>({w:document.getElementById('map-container').clientWidth,
     atoms:document.querySelectorAll('#land .atom').length}));
   check('the map is drawn before', before.atoms>0, JSON.stringify(before));
+  /* ------------------------------------------- the map's own "i" panel --
+   *
+   * Two rows describe the map rather than a layer, and they are gated on the
+   * date instead of on a switch. The date is not a boolean in `state`, so it
+   * cannot be a `flag`; the column is `on_epoch`, named that because the
+   * emitter reserves `epoch` for "which file this row came from" and drops it
+   * before the browser ever sees it — which is exactly how the first attempt
+   * failed, silently and with the panel simply never appearing.
+   *
+   * What matters to a reader: the panel is there on both dates, it says the
+   * right one, and turning to the other date *replaces* it rather than leaving
+   * two accounts of which map this is. */
+  console.log('\n- the map itself has an "i", and it follows the date -');
+  const infoNow=async()=>{
+    await p.evaluate(()=>{const b=document.getElementById('btn-layer-info');
+      if(b&&!b.hidden)b.click();});
+    await sleep(600);
+    return p.evaluate(()=>{
+      const h=document.getElementById('layer-info-body');
+      const secs=[...h.querySelectorAll('.layer-info-item')]
+        .map(s=>s.getAttribute('data-layer-info'));
+      const d=document.getElementById('dlg-layer-info'); if(d&&d.open)d.close();
+      return {hidden:document.getElementById('btn-layer-info').hidden, secs};});
+  };
+  const on1930=await infoNow();
+  check('the 1930 map explains itself', on1930.secs.indexOf('map1930')>=0,
+    JSON.stringify(on1930));
+  await p.evaluate(()=>{const x=[...document.querySelectorAll('#epoch-seg button')]
+    .find(y=>/1942/.test(y.textContent)); if(x)x.click();});
+  await sleep(3000);
+  const on1942=await infoNow();
+  check('and so does the 1942 map', on1942.secs.indexOf('map1942')>=0,
+    JSON.stringify(on1942));
+  check('and the 1930 account is taken away, not left beside it',
+    on1942.secs.indexOf('map1930')<0, JSON.stringify(on1942.secs));
+  /* A layer's own note and the map's note are different questions and both are
+     worth having; the map's must not push the layer's off. */
+  await p.evaluate(()=>document.getElementById('btn-air').click());
+  await sleep(2000);
+  const withAir=await infoNow();
+  check('a layer keeps its own note beside the map’s',
+    withAir.secs.indexOf('air')>=0 && withAir.secs.indexOf('map1942')>=0,
+    JSON.stringify(withAir.secs));
+
   check('no page errors', errs.length===0, errs.slice(0,3).join(' | '));
   console.log('\n  '+pass+' passed, '+fail+' failed');
   await b.close(); process.exit(fail?1:0);

@@ -1,5 +1,5 @@
 id,en,label,labelAt,ja,orig,zh,ko,when,rule,cat,lvl,c,atoms,within,under,hatch,edge,edgeAtoms,edgeClip,edgeWidth,outline,outlineColor,adminOnly,srcOnly,wiki,sub
-japan,Japan,,,内地 (Naichi),日本 (Nihon),日本內地,,The metropole,,metropole,1,,japan,,,,,,,,,,,,https://en.wikipedia.org/wiki/Empire_of_Japan,
+japan,Japan,,,日本（内地）,日本 (Nihon),日本內地,,The metropole,,metropole,1,,japan,,,,,,,,,,,,https://en.wikipedia.org/wiki/Empire_of_Japan,
 ryukyu,Ryūkyū and Ōsumi Islands,,,沖縄県・鹿児島県 (Okinawa-ken・Kagoshima-ken),琉球 (Ruuchuu),琉球・沖繩縣,,Annexed 1879,"Okinawa Prefecture, and Kagoshima from the Amami group north",metropole,1,,ryukyu,,,,,,,,,,,,https://en.wikipedia.org/wiki/Ryukyu_Islands,
 ogasawara,Bonin Islands (Ogasawara),,,小笠原諸島 (Ogasawara Shotō),小笠原諸島,小笠原群島,,Claimed 1876,"Japanese, part of Tokyo prefecture",metropole,3,,ogasawara,,,,,,,,,,,,https://en.wikipedia.org/wiki/Bonin_Islands,
 chishima,Kurile Islands (Chishima),,,千島列島 (Chishima Rettō),Курильские острова,千島群島,,Japanese from 1875,,metropole,2,,chishima,,,,,,,,,,,,https://en.wikipedia.org/wiki/Kuril_Islands,
