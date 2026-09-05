@@ -407,6 +407,10 @@
        airport is a thing the air layer draws. Its own switch, off by default,
        and it needs Air Routes on to have anything to name. -->
   <label class="row"><input type="checkbox" id="opt-airport-names"> Airport names</label>
+  <!-- The characters where the map has them, and the romanisation where it
+       does not. Under Airport names because it changes what those labels say
+       rather than whether they are drawn. -->
+  <label class="row" title="Draws 齊齊哈爾 rather than Qiqihar where the map has the characters. Airports without them keep their romanisation."><input type="checkbox" id="opt-han-labels"> Airport names in characters</label>
 
   <h3>Transport</h3>
   <!-- One row per railway system: the line, and the stations that hang off
@@ -603,7 +607,7 @@
 
   <h3>Feedback</h3>
 
-  <p>If you have comments, suggestions, or corrections, please send them to: Konrad M. Lawson  kl@muninn.net</p>  <p class="version">Version 1 update <span id="jem-version">316</span><span class="beta-tag" hidden> beta</span> · last updated 05 September 2026, 07:11</p>
+  <p>If you have comments, suggestions, or corrections, please send them to: Konrad M. Lawson  kl@muninn.net</p>  <p class="version">Version 1 update <span id="jem-version">317</span><span class="beta-tag" hidden> beta</span> · last updated 05 September 2026, 08:50</p>
 
 <!-- END about -->
 </dialog>
@@ -659,7 +663,7 @@
 <!-- END help -->
 </dialog>
 
-<script src="data.js?v=6efc13346e"></script>
+<script src="data.js?v=4befadad13"></script>
 <script src="cities-gaz.js?v=c87d993474"></script>
 <script src="tw-stations.js?v=1c5f5eb043"></script>
 <script src="kr-stations.js?v=bd9f42c9d3"></script>
@@ -669,6 +673,6 @@
      and data.js then hides it behind a fresh one. cities-gaz.js sits here for
      the same reason. -->
 <script src="relief.js?v=a584543962"></script>
-<script src="map.js?v=951f28bb6a"></script>
+<script src="map.js?v=7bfcdbfcac"></script>
 </body>
 </html>

@@ -18349,3 +18349,80 @@ An earlier run of it reported all 59 scripts failing to start in 28s, which was
 my own doing: `all.js` does not start the static server — its docstring says
 `python3 -m http.server 8123 &` — and a port cleanup earlier in the session had
 killed it.
+
+## Pinyin leads on the air layer, and a switch that draws the characters
+
+**The change.** Chinese places on the air layer led with the postal
+romanisation — Tsitsihar, Manchouli, Kiamusze — with the modern name in
+brackets after it. That is now the other way round, for every Chinese stop on
+every sheet rather than only the Manchurian ones: 71 stop names and 92 route
+names and notes. The postal form is not thrown away; it is what stands in the
+brackets, and the card prints it beside the characters.
+
+**Why the whole layer and not just Manchuria.** The ask named Manchuria, but
+the city gazetteer had led with pinyin all along — `texts/city-names.csv` has
+`Mǎnzhōulǐ (Manchouli)` — so it was the air layer that was inconsistent, and
+flipping only one operator would have left 中華航空's lines saying Canton
+beside 満洲航空's saying Guangzhou on the same sheet.
+
+**The per-sheet distinction survives, which was the risk.** The air layer names
+each stop as its own source printed it, and three pairs carried real
+information: 北京 read Peking on the 1942 Japanese sheet and Peiping on the
+Chinese-republic one, 奉天 read Mukden and Hōten, 厚和 read Houho and Kōwa. A
+blanket flip would have collapsed them. It does not, because the discarded form
+goes in the brackets: `Beijing (Peking)` and `Beijing (Peiping)` are still two
+different labels, and a reader can still tell which sheet they are on.
+
+**Four the mechanical swap got wrong**, and they are hand-set rather than
+derived. `Hong Kong (Victoria)` is not a postal/modern pair at all — Victoria
+was the city inside the colony — so it is left alone. `Shingishū (Sinŭiju)` is
+Korean and out of the scope of a Chinese-names change. `Hōten (Mukden)` and
+`Shinkyō (Xinjing)` have a *historical* form in the brackets rather than a
+modern one, so swapping them would have led with a historical name either way;
+they are written `Shenyang (Hōten)` and `Changchun (Shinkyō)` so that both
+readings of 奉天 and of 新京 lead with the same word as their twin.
+
+**`fares.csv` had to move with it.** `build_texts.py` matches a fare's `from`
+and `to` against the stop name up to the first bracket, so 246 fare endpoints
+were rewritten in the same pass. `timetable.csv` did not need touching: its
+match is lenient — any word of the stop name appearing in the printed station
+string will do — and a reorder keeps both words. The build's own sum check over
+the legs is what proves the fares still line up, and it passes.
+
+**The characters now reach the browser.** `han` has been on `data/air/stops.csv`
+for a while and `build_texts.py` never emitted it, so nothing could read it. It
+is on the stop record now: 132 of 187 distinct stops carry characters, 296 of
+the 410 rows.
+
+**The card names a place every way it can.** The headline is the pinyin, and the
+line under it carries the characters and the timetable's own spelling —
+`Qiqihar` over `齊齊哈爾 · Tsitsihar`. Deduplicated, so Harbin and Shanghai, whose
+old and new spellings are the same word, say it once.
+
+**A switch for characters on the labels**, in Layers under Airport names, off by
+default and carried in the layers code at place 8388608. It rewrites text that
+is already on the map rather than redrawing the layer. 296 labels change; the
+114 with no characters keep their romanisation, because a switch that blanks a
+quarter of the names is worse than one that does nothing to them.
+
+*This is not the Kanji/Hanzi/Hanja switch of item 12.* It covers the airport
+labels and nothing else. Cities, provinces and the physical features still have
+no such switch, and item 12's second half — the switch across the whole map —
+is still to do.
+
+**Three of my own mistakes, since they cost the time.** The label switch did
+nothing at first and I spent three probes on the wrong hypothesis: the layer is
+drawn lazily, so `applyAir` had already written the labels before the nodes
+existed, and the build had to read the switch too. Then the count on the airport
+card went in invisible, because `.when` is hidden by whatever card was there
+before and I wrote to it without showing it. And my first finger test reported
+every tap opening Qiqihar — that was the info panel covering the map on a 420px
+screen, not the map; closing it between taps, a single tap opens the right card.
+
+Tests: `air.js` gained eleven checks — that no stop leads with a postal form
+(over the whole file, not a sample), that the old spelling survives, that the
+card carries the characters and the count, and that the switch writes the
+characters, blanks nothing, leaves the characterless stops in roman and puts
+them all back. Two existing checks were updated to the new names and one to read
+the count from `.when` rather than `.alt`. 117 pass. Whole suite 1907 checks
+across 59 scripts, all passing, 460.5s.

@@ -978,11 +978,18 @@ def build_data_js():
         if len(mine) < 2:
             raise Problem("data/air/routes.csv: %r has fewer than two stops, "
                           "so there is no line to draw" % r["id"])
+        # `han` rides along with the point because the card names the place in
+        # every form it has and the label switch draws the characters instead
+        # of the romanisation. It is not on every stop -- an airport this
+        # project has no characters for simply has none, and both the card and
+        # the switch fall back rather than inventing them.
         pts = ",\n".join(
             "      { %s }" % ", ".join(
-                "%s: %s" % (k, T.js_string(v) if k in ("id", "name") else v)
+                "%s: %s" % (k, T.js_string(v)
+                            if k in ("id", "name", "han") else v)
                 for k, v in (("id", st["id"]), ("name", st["name"]),
-                             ("lon", st["lon"]), ("lat", st["lat"]))
+                             ("lon", st["lon"]), ("lat", st["lat"]),
+                             ("han", st.get("han", "")))
                 if v != "")
             for st in mine)
         tt = [t for t in times if t["route"] == r["id"]]

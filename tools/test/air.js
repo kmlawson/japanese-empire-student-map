@@ -286,11 +286,11 @@ const card_=p=>p.evaluate(()=>{
       let s=0; for(let k=i;k<j;k++) s+=leg[names[k]+'|'+names[k+1]];
       if(s!==f.yen) bad.push(f.from+'–'+f.to+' '+f.yen+' vs '+s);
     });
-    return {bad, whole:r.fares.filter(f=>f.from==='Tokyo'&&f.to==='Dairen')[0]};
+    return {bad, whole:r.fares.filter(f=>f.from==='Tokyo'&&f.to==='Dalian')[0]};
   });
   check('every through fare is the sum of its legs', sums.bad.length===0,
     sums.bad.join('; '));
-  check('Tokyo to Dairen is 145 yen', sums.whole && sums.whole.yen===145,
+  check('Tokyo to Dalian is 145 yen', sums.whole && sums.whole.yen===145,
     sums.whole ? String(sums.whole.yen) : 'absent');
 
   check('every route has at least two stops to fly between',
@@ -704,8 +704,14 @@ const card_=p=>p.evaluate(()=>{
   const fuk=await port('fukuoka');
   check('pressing a ring opens an airport card', fuk.chip==='Airport', fuk.chip);
   check('named for the airport', /Fukuoka/.test(fuk.name), fuk.name);
-  check('Fukuoka is on five of the routes', /5 of the scheduled/.test(fuk.alt),
-    fuk.alt);
+  /* The count moved off `.alt` when the names took it: the second line of an
+     airport card now carries the characters and the timetable's own spelling,
+     and the count sits under them. Read from whichever line has it, so this
+     says what it means — Fukuoka is on five routes — rather than which slot
+     the renderer happened to use. */
+  check('Fukuoka is on five of the routes',
+    /5 of the scheduled/.test(fuk.when || '') || /5 of the scheduled/.test(fuk.alt),
+    JSON.stringify({alt: fuk.alt, when: fuk.when}));
   check('and every one of them is listed', fuk.rows>=5, String(fuk.rows));
   /* One row per call, in the order of the clock: the time, whether it was an
      arrival or a departure, and the place at the other end of that leg. The
@@ -763,8 +769,8 @@ const card_=p=>p.evaluate(()=>{
     names.n===110 && /–/.test(names.sample[0]) && names.long.length>names.sample[0].length,
     JSON.stringify(names.sample));
   check('and the trunk is named by its two ends',
-    names.sample[0]==='Tokyo – Dairen', names.sample[0]);
-  /* **Only a clash a reader could see.** "Tokyo – Dairen" is the short name of
+    names.sample[0]==='Tokyo – Dalian', names.sample[0]);
+  /* **Only a clash a reader could see.** "Tokyo – Dalian" is the short name of
      both trunks — the 1931 one and the 1938–39 one that replaced it — and they
      are never drawn together, so neither is numbered. Numbering them would put
      a "(2)" on the 1942 sheet with no "(1)" anywhere on it. */
@@ -783,19 +789,19 @@ const card_=p=>p.evaluate(()=>{
     JSON.stringify(perEpoch));
   /* Two pairs share a short name across the two dates and neither is
      numbered, because neither pair is ever drawn together: the 1931 Tokyo–
-     Dairen trunk and its 1938–39 replacement, and KNILM's Batavia–Bandoeng as
+     Dalian trunk and its 1938–39 replacement, and KNILM's Batavia–Bandoeng as
      the 1931 timetable gives it and as the 1935 route map does. */
-  /* Three pairs now. The third was the Yangtze — CNAC's Shanghai–Hankow on
+  /* Three pairs now. The third was the Yangtze — CNAC's Shanghai–Wuhan on
      the 1930 sheet against 中華航空's on the 1942 one — until the April 1942
-     中華航空 sheet put a second Shanghai–Hankow on the 1942 map, so those two
+     中華航空 sheet put a second Shanghai–Wuhan on the 1942 map, so those two
      are numbered and the 1930 one stands alone. The third pair is now the
-     coast: CNAC's 1935 Shanghai–Canton on the 1930 sheet and 中華航空's
-     Shanghai–Taihoku–Canton of April 1942 on the other. */
+     coast: CNAC's 1935 Shanghai–Guangzhou on the 1930 sheet and 中華航空's
+     Shanghai–Taihoku–Guangzhou of April 1942 on the other. */
   check('names shared across the two dates are not numbered',
     names.clash.length===3
-    && names.clash.indexOf('Tokyo – Dairen')>=0
+    && names.clash.indexOf('Tokyo – Dalian')>=0
     && names.clash.indexOf('Batavia – Bandoeng')>=0
-    && names.clash.indexOf('Shanghai – Canton')>=0,
+    && names.clash.indexOf('Shanghai – Guangzhou')>=0,
     JSON.stringify(names.clash));
   const planted=await page.evaluate(()=>{
     /* Two lines from Tokyo to Dairen by different roads is a thing the file
@@ -806,14 +812,14 @@ const card_=p=>p.evaluate(()=>{
     JMAP.__airShortNames();
     // the twin shares the 1931 trunk's dates, so those two are the clash
     const out=JMAP.AIR.filter(r=>r.epochs&&r.epochs.indexOf('e1930')>=0
-                                 &&r.shortName.indexOf('Tokyo – Dairen')===0)
+                                 &&r.shortName.indexOf('Tokyo – Dalian')===0)
       .map(r=>r.shortName);
     JMAP.AIR.pop(); JMAP.__airShortNames();
     return out;
   });
   check('and a clash is numbered rather than left to collide',
-    planted.length===2 && planted[0]==='Tokyo – Dairen (1)'
-    && planted[1]==='Tokyo – Dairen (2)', JSON.stringify(planted));
+    planted.length===2 && planted[0]==='Tokyo – Dalian (1)'
+    && planted[1]==='Tokyo – Dalian (2)', JSON.stringify(planted));
 
   const tky=await port('tokyo');
   /* **Which aeroplane, where it matters.** Dropping the route column dropped
@@ -1214,6 +1220,96 @@ const card_=p=>p.evaluate(()=>{
     check('a blank line in a note is honoured', klm.noteWrap==='pre-line',
       klm.noteWrap);
   }
+
+  /* ------------------------------------------------ the names on a stop --
+   *
+   * Chinese places lead with pinyin now — Qiqihar, not Tsitsihar — because the
+   * postal romanisations are unreadable to a student and the city gazetteer
+   * already led that way. What the timetable printed is not thrown away: it
+   * goes in the brackets, and the card prints it beside the characters.
+   *
+   * Two things are worth guarding rather than the spelling of any one place.
+   * The first is that nothing leads with a postal form any more, which is the
+   * whole of the change and is checked over the file rather than a sample. The
+   * second is that the characters switch never *empties* a label: 114 of the
+   * 410 rings have no characters and they have to keep their romanisation, or
+   * turning it on silently deletes a quarter of the names. */
+  console.log('\n— pinyin leads, and the old spelling is kept —');
+  const POSTAL = ['Tsitsihar','Manchouli','Peking','Peiping','Kiamusze',
+                  'Mutankiang','Tientsin','Tsingtao','Tsinan','Chengteh',
+                  'Kalgan','Chinchow','Swatow','Hoihow','Paotow','Nanking',
+                  'Kiukiang','Chungking','Foochow','Amoy','Hankow','Canton'];
+  const leads=await page.evaluate(()=>{
+    const out=[];
+    (JMAP.AIR||[]).forEach(r=>(r.stops||[]).forEach(s=>
+      out.push({lead:String(s.name||'').split(' (')[0],
+                whole:String(s.name||''), han:s.han||''})));
+    return out;
+  });
+  const stillPostal=leads.filter(s=>POSTAL.indexOf(s.lead)>=0);
+  check('no stop leads with a postal romanisation', stillPostal.length===0,
+    JSON.stringify(stillPostal.slice(0,4).map(s=>s.whole)));
+  /* The old spelling survives in the brackets — a reader who knows the place
+     as Tsitsihar has to be able to find it. */
+  const kept=leads.filter(s=>/^Qiqihar \(Tsitsihar\)$/.test(s.whole));
+  check('and the timetable’s own spelling is still there', kept.length>0,
+    'no "Qiqihar (Tsitsihar)" anywhere');
+  check('the characters ride on the stop', leads.filter(s=>s.han).length>0,
+    String(leads.filter(s=>s.han).length)+' of '+leads.length);
+
+  console.log('\n— the card names the place every way it can —');
+  const qq=await page.evaluate(()=>{
+    const g=document.querySelector('#air [data-air-stop="qiqihar"]');
+    if(!g) return null; const r=g.getBoundingClientRect();
+    return {x:r.x+r.width/2, y:r.y+r.height/2};
+  });
+  if (!qq) check('Qiqihar is on the screen to press', false, 'no ring');
+  else {
+    await page.mouse.click(qq.x, qq.y); await sleep(600);
+    const c=await page.evaluate(()=>{
+      const b=document.getElementById('info');
+      const g=s=>{const e=b&&b.querySelector(s);
+        return e&&!e.hidden?(e.textContent||'').trim():'';};
+      return {prim:g('.primary'), alt:g('.alt'), when:g('.when')};
+    });
+    check('the headline is the pinyin', c.prim==='Qiqihar', c.prim);
+    check('the characters and the old spelling are under it',
+      /齊齊哈爾/.test(c.alt) && /Tsitsihar/.test(c.alt), c.alt);
+    /* The count moved to `.when` when the names took `.alt`, and `.when` is
+       hidden by whatever card was there before — so it has to be shown as well
+       as written. It went in invisible the first time. */
+    check('and the count is still shown, not merely written',
+      /scheduled routes/.test(c.when), JSON.stringify(c.when));
+  }
+
+  console.log('\n— characters on the labels, and nothing lost by it —');
+  const labels=async ()=>page.evaluate(()=>{
+    const n=[...document.querySelectorAll('#air .air-name')];
+    return {total:n.length, withHan:n.filter(e=>e.getAttribute('data-han')).length,
+      cjk:n.filter(e=>/[一-鿿]/.test(e.textContent)).length,
+      empty:n.filter(e=>!String(e.textContent||'').trim()).length};
+  });
+  await page.evaluate(()=>{const x=document.getElementById('opt-airport-names');
+    if(x&&!x.checked)x.click();});
+  await sleep(500);
+  const before=await labels();
+  check('the switch exists and the rings are named',
+    before.total>0 && before.withHan>0,
+    JSON.stringify(before));
+  await page.evaluate(()=>document.getElementById('opt-han-labels').click());
+  await sleep(600);
+  const hanOn=await labels();
+  check('turning it on writes the characters', hanOn.cjk===before.withHan,
+    hanOn.cjk+' in characters, '+before.withHan+' have any');
+  check('and no label is left blank', hanOn.empty===0, String(hanOn.empty));
+  check('a stop with no characters keeps its romanisation',
+    hanOn.total-hanOn.cjk === before.total-before.withHan,
+    (hanOn.total-hanOn.cjk)+' roman vs '+(before.total-before.withHan)+' without characters');
+  await page.evaluate(()=>document.getElementById('opt-han-labels').click());
+  await sleep(600);
+  const hanOff=await labels();
+  check('and turning it off puts the romanisation back', hanOff.cjk===0,
+    String(hanOff.cjk));
 
   check('no page errors', errs.concat(perrs).length===0, errs.concat(perrs).join(' | '));
   await browser.close();

@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '316';
+  var JEM_VERSION = '317';
   var JEM_ASSETS = {"admin.js": "3414697d04", "air-play.js": "8db7ba0d73", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "58132ef9c2", "kr-trains.js": "74889615bd", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/korea-1938.html": "91837c326f", "timetable/taiwan-1936.html": "23eaf5f955", "trains.js": "c0629828d0", "tw-trains.js": "7cd1c3f42d"};
 
   /* Every file this one fetches, with the version on it.
@@ -241,6 +241,7 @@
        airport is a thing the air layer draws. Off by default — seventy-five
        of them is a lot of type over one island. */
     airNames: false,
+    hanLabels: false,
     /* Japanese names foremost inside the empire — the names an official
        document or a railway timetable of the period would print — or the local
        ones. On by default because the map is a map *of* the empire, and the
@@ -2405,7 +2406,7 @@
 
   function syncTrainBoxes() {
     [['#opt-air', 'air'], ['#opt-air-all', 'airAll'],
-     ['#opt-airport-names', 'airNames'],
+     ['#opt-airport-names', 'airNames'], ['#opt-han-labels', 'hanLabels'],
      ['#opt-tw-rail', 'twRail'], ['#opt-tw-stations', 'twStations'],
      ['#opt-kr-rail', 'krRail'], ['#opt-kr-stations', 'krStations']]
       .forEach(function (pair) {
@@ -4209,6 +4210,7 @@
     if (!state.mengjiang) hi += MENGJIANG_PLACE;
     if (state.airAll) hi += AIRALL_PLACE;
     if (state.airNames) hi += AIRNAMES_PLACE;
+    if (state.hanLabels) hi += HANLABELS_PLACE;
     hi += THEME_PLACE * (THEME_MODES.indexOf(state.theme) + 1 || 0);
     // set when the row is OFF — an old link carries zeroes here and must open
     // with every name switched on, which is what it showed its sender
@@ -4301,6 +4303,7 @@
     state.mengjiang = !(Math.floor(hi / MENGJIANG_PLACE) % 2);   // inverted
     state.airAll = !!(Math.floor(hi / AIRALL_PLACE) % 2);
     state.airNames = !!(Math.floor(hi / AIRNAMES_PLACE) % 2);
+    state.hanLabels = !!(Math.floor(hi / HANLABELS_PLACE) % 2);
     state.theme = THEME_MODES[(Math.floor(hi / THEME_PLACE) % 4) - 1] || 'auto';
     LABEL_CATS.forEach(function (c) {          // inverted; see layerCode
       state.labelCats[c.id] = !(Math.floor(hi / c.place) % 2);
@@ -9418,7 +9421,19 @@
            tooltip and its card carry the rest, and "Rangoon (Yangon)" beside
            seventy-four others is a wall of type. */
         var nm = svgEl('text', { 'class': 'air-name', x: 7, y: 3.4 });
-        nm.textContent = String(st.name || '').split(' (')[0];
+        /* Both readings ride on the node and `airLabelsWrite` picks one, so
+           the characters switch is a rewrite of some text rather than a
+           rebuild of the layer. A stop with no characters keeps its
+           romanisation whatever the switch says — the alternative is a gap
+           where a name was. */
+        var lf = airNameForms(st);
+        nm.setAttribute('data-ro', lf.lead);
+        if (lf.han) nm.setAttribute('data-han', lf.han);
+        /* From the switch, not always the romanisation. The layer is drawn
+           lazily and `applyAir` may already have run by the time it is, so a
+           node built after the switch was read would otherwise come out in the
+           wrong script and stay there until something else changed. */
+        nm.textContent = (state.hanLabels && lf.han) ? lf.han : lf.lead;
         ring.appendChild(nm);
         airRings.appendChild(ring);
         scalables.push({ el: ring, x: p.x, y: p.y });
@@ -9479,6 +9494,20 @@
     return han && !KANA_ONLY.test(han) ? han : '';
   }
 
+  /* Which of the two readings every airport label is showing. Called from
+     `applyAir` so it answers the switch, and it never empties a label: a stop
+     the project has no characters for keeps its romanisation. */
+  function airLabelsWrite() {
+    if (!airGroup) return;
+    var want = !!state.hanLabels;
+    var all = airGroup.querySelectorAll('.air-name');
+    for (var i = 0; i < all.length; i++) {
+      var el = all[i];
+      var han = el.getAttribute('data-han');
+      el.textContent = (want && han) ? han : (el.getAttribute('data-ro') || '');
+    }
+  }
+
   function airStopName(st) {
     var rec = st && st.id && (gazFor(st.id) || byId[st.id]);
     if (!rec) return String((st && st.name) || '').split(' (')[0];
@@ -9486,6 +9515,57 @@
     var han = airHan(v);
     var ro = String(v.en || v.n || '').split(' (')[0].trim();
     return han && ro ? han + ' ' + ro : (ro || han);
+  }
+
+  /* **Every name a stop has, each one separate.**
+   *
+   * `stops.csv` writes one place as "Qiqihar (Tsitsihar)" because a label is
+   * read at a glance, and a card is not: a reader looking at 齊齊哈爾 wants to
+   * know that the sheet called it Tsitsihar, and one glued string cannot be
+   * pulled apart without guessing where the romanisation stops. So the pieces
+   * are named here and the card prints them in a row.
+   *
+   *   lead  the form the map leads with — pinyin for Chinese names
+   *   hist  what the timetable itself printed, where that is not the lead
+   *   han   the characters, from the stop or from the map's own city record
+   *
+   * Nothing is invented. A stop with no characters returns an empty `han` and
+   * the card simply has one fewer thing to say. */
+  function airNameForms(st) {
+    if (!st) return { lead: '', hist: '', han: '' };
+    var whole = String(st.name || '');
+    var m = /^(.+?) \((.+)\)$/.exec(whole);
+    var lead = (m ? m[1] : whole).trim();
+    var hist = m ? m[2].trim() : '';
+    /* The stop's own characters first: they are the ones on the sheet this
+       line was read from. The city record is the fallback, and it is a
+       fallback rather than the source because a city may have been renamed
+       since — 新京 is Changchun's record and 長春（新京）on the stop. */
+    var han = String(st.han || '').trim();
+    if (!han) {
+      var rec = st.id && (gazFor(st.id) || byId[st.id]);
+      if (rec) han = airHan(shown(rec));
+    }
+    if (KANA_ONLY.test(han || 'x')) han = '';
+    return { lead: lead, hist: hist, han: han };
+  }
+
+  /* The forms other than the one already leading, for a card's second line.
+     Deduplicated, because a stop whose historical romanisation is its modern
+     one — Harbin, Shanghai — would otherwise say the same word twice. */
+  function airAltNames(st) {
+    var f = airNameForms(st);
+    var out = [];
+    var seen = {};
+    seen[f.lead.toLowerCase()] = 1;
+    [f.han, f.hist].forEach(function (v) {
+      if (!v) return;
+      var k = v.toLowerCase();
+      if (seen[k]) return;
+      seen[k] = 1;
+      out.push(v);
+    });
+    return out;
   }
 
   function airPlace(r, t) {
@@ -9917,13 +9997,28 @@
     var alt = infoBox.querySelector('.alt');
     var when = infoBox.querySelector('.when');
     var note = infoBox.querySelector('.note-own');
+    /* **The name in every form it has, then the count.** The headline is the
+       one the map leads with and the line under it carries the rest — the
+       characters and the romanisation the timetable printed — so a reader who
+       knows the place as Tsitsihar can find it under Qiqihar. Where a stop has
+       no other form the line is the count alone, as it was before. */
+    var forms = airNameForms(st);
+    var others = airAltNames(st);
+    var count = mine.length === 1 ? 'On one of the scheduled routes'
+      : ('On ' + mine.length + ' of the scheduled routes');
     if (chip) chip.textContent = 'Airport';
-    if (prim) prim.textContent = st.name;
+    if (prim) prim.textContent = forms.lead || st.name;
     if (alt) {
-      alt.textContent = mine.length === 1 ? 'On one of the scheduled routes'
-        : ('On ' + mine.length + ' of the scheduled routes');
+      alt.textContent = others.length ? others.join(' · ') : count;
+      alt.hidden = false;
     }
-    if (when) when.textContent = '';
+    /* `.when` is hidden by whatever card was here before, so it has to be
+       shown again as well as written — the count went in and stayed invisible
+       the first time this was tried. */
+    if (when) {
+      when.textContent = others.length ? count : '';
+      when.hidden = !others.length;
+    }
     if (note) { note.textContent = ''; note.hidden = true; }
     var prov = infoBox.querySelector('.prov');
     if (prov) prov.hidden = true;
@@ -10706,6 +10801,7 @@
       if (set) Object.keys(set).forEach(function (k) { live[k] = true; });
     });
     if (airGroup) airGroup.classList.toggle('air-names', !!state.airNames);
+    airLabelsWrite();
     if (airRings) {
       Array.prototype.forEach.call(airRings.children, function (g) {
         var k = g.getAttribute('data-air-stop');
@@ -12480,6 +12576,10 @@
      has always meant. */
   var AIRALL_PLACE = 2097152;
   var AIRNAMES_PLACE = 4194304;   // the names beside the airport rings
+  /* Characters instead of romanisation on the labels that have them. Off
+     by default, so an older link without this place reads as it always
+     did. */
+  var HANLABELS_PLACE = 8388608;
   var THEME_MODES = ['light', 'dark'];
 
   /* The whole of the switch. `data-theme` on the root element is what
@@ -15943,6 +16043,18 @@
       boxAirNm.checked = !!state.airNames;
       boxAirNm.addEventListener('change', function () {
         state.airNames = boxAirNm.checked;
+        applyState();
+      });
+    }
+
+    /* Characters instead of romanisation on the airport labels. Like the
+       switch above it this rewrites text that is already on the map, so there
+       is nothing to rebuild. */
+    var boxHan = $('#opt-han-labels');
+    if (boxHan) {
+      boxHan.checked = !!state.hanLabels;
+      boxHan.addEventListener('change', function () {
+        state.hanLabels = boxHan.checked;
         applyState();
       });
     }
