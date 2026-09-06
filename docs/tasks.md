@@ -18881,3 +18881,49 @@ rows in the panel — and fixing one would have looked complete. `air.js` gains
 one, that the three links compute to `display: inline`. 111 and 131 pass.
 `SECS` for `trains` 54 → 82. Whole suite 1994 checks across 60 scripts, all
 passing, 498.9s.
+
+## Airport names: a buffer that never rendered, a place among the names, and room to read them
+
+**1. The white buffer was never there at all.** `#air .air-name` asked for
+`stroke: var(--paper)` and `--paper` is defined *nowhere* — used once, in that
+rule, and set in no block. So the declaration was invalid at computed-value time
+and `stroke` fell back to `none`: measured `rgb(0,0,0,0)` against `.blabel`'s
+`rgb(255,253,248)`. The airport names were the one set of labels on the map with
+no halo under them, which over the red of occupied Manchuria is exactly where it
+showed. They take `.blabel`'s literal now, and like `.blabel` it does not change
+with the theme, because the land under it does not invert.
+
+**2. They are a kind of name now, not a switch of their own.** They hang off
+Other with the other five: drawn when `state.airNames && labelsOn() && state.air`
+— this row ticked, the map lettered at all, and the network actually drawn,
+since a name beside a ring that is not there would be a label for nothing. The
+default flips to on, and the bit in the layer code is now **set when off**, the
+way every other name row is. A link shared in the last day that carried the old
+bit will read as *off* rather than on; the feature is a day old and nothing else
+depends on it.
+
+The long-press menu gets a sixth row, written beside the five rather than added
+to `LABEL_CATS` — the five places in the layer code stay as they are, and the
+row behaves the same. Ticking it with Other off turns Other on, which is the
+rule `setLabelCat` already follows: asking for a kind of name with nothing
+lettered is asking for both, and without it the tick does nothing and reads as
+broken.
+
+**3. 10px → 11px, and 13px once a country fills the screen.** `applyAir` puts
+`air-close` on the layer below twelve degrees of latitude in view; the two sizes
+are in the stylesheet.
+
+**Two tests had to change, and both were guarding something real.** `air.js`
+asserted the name was the *same* height at two zooms — the map-units-versus-
+screen-pixels rule, this project's most-repeated bug. That is no longer true on
+purpose, so the bound is the step rather than zero: it now asserts the ratio
+stays under 1.5, which a label scaling with the map could never satisfy, and
+separately that it does step up. `labelcats.js` asserted the panel and the menu
+were the same five rows; the menu has six now and it says so, with the reason
+written down.
+
+Tests: `air.js` gains eight — that the network alone does not letter the
+airports, that Other switches them on, that both rows agree, that the buffer is
+there, that the menu row can take them off and put them back on their own, and
+that they are larger close in. 139 pass. `SECS` for `air` 66 → 84. Whole suite
+2002 checks across 60 scripts, all passing, 532.4s.

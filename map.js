@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '325';
+  var JEM_VERSION = '326';
   var JEM_ASSETS = {"admin.js": "3414697d04", "air-play.js": "8db7ba0d73", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "58132ef9c2", "kr-trains.js": "74889615bd", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/korea-1938.html": "91837c326f", "timetable/taiwan-1936.html": "23eaf5f955", "trains.js": "c0629828d0", "tw-trains.js": "7cd1c3f42d"};
 
   /* Every file this one fetches, with the version on it.
@@ -240,7 +240,11 @@
        five kinds of name behind Other: those are the map's own places, and an
        airport is a thing the air layer draws. Off by default — seventy-five
        of them is a lot of type over one island. */
-    airNames: false,
+    /* **On by default, because it is a kind of name now.** It used to be a
+       switch of its own that a reader had to find; it hangs off Other with the
+       other five, so with Other off it shows nothing and with Other on it
+       shows unless the reader has said not to. */
+    airNames: true,
     hanLabels: false,
     /* Japanese names foremost inside the empire — the names an official
        document or a railway timetable of the period would print — or the local
@@ -2564,7 +2568,7 @@
 
   function syncTrainBoxes() {
     [['#opt-air', 'air'], ['#opt-air-all', 'airAll'],
-     ['#opt-airport-names', 'airNames'], ['#opt-han-labels', 'hanLabels'],
+     ['#opt-han-labels', 'hanLabels'],
      ['#opt-tw-rail', 'twRail'], ['#opt-tw-stations', 'twStations'],
      ['#opt-kr-rail', 'krRail'], ['#opt-kr-stations', 'krStations']]
       .forEach(function (pair) {
@@ -4369,7 +4373,7 @@
     if (!state.manchukuo) hi += MANCHUKUO_PLACE;
     if (!state.mengjiang) hi += MENGJIANG_PLACE;
     if (state.airAll) hi += AIRALL_PLACE;
-    if (state.airNames) hi += AIRNAMES_PLACE;
+    if (!state.airNames) hi += AIRNAMES_PLACE;   // inverted; see LABEL_CATS
     if (state.hanLabels) hi += HANLABELS_PLACE;
     hi += THEME_PLACE * (THEME_MODES.indexOf(state.theme) + 1 || 0);
     // set when the row is OFF — an old link carries zeroes here and must open
@@ -4462,7 +4466,7 @@
     state.manchukuo = !(Math.floor(hi / MANCHUKUO_PLACE) % 2);   // inverted
     state.mengjiang = !(Math.floor(hi / MENGJIANG_PLACE) % 2);   // inverted
     state.airAll = !!(Math.floor(hi / AIRALL_PLACE) % 2);
-    state.airNames = !!(Math.floor(hi / AIRNAMES_PLACE) % 2);
+    state.airNames = !(Math.floor(hi / AIRNAMES_PLACE) % 2);    // inverted
     state.hanLabels = !!(Math.floor(hi / HANLABELS_PLACE) % 2);
     state.theme = THEME_MODES[(Math.floor(hi / THEME_PLACE) % 4) - 1] || 'auto';
     LABEL_CATS.forEach(function (c) {          // inverted; see layerCode
@@ -5215,6 +5219,10 @@
      Memoised on the view and the projection, because it is asked once per
      label per gate pass and there are 191 stations. */
   var STATION_LABEL_LAT = 1.0;
+  /* Degrees of latitude in view below which the airport names are given the
+     larger size. Roughly one country on the screen — the zoom a reader is at
+     when the names are the thing they are reading rather than furniture. */
+  var AIR_NAME_CLOSE_LAT = 12;
   var latKey = null, latVal = 0;
 
   function latSpan() {
@@ -11136,7 +11144,17 @@
       var set = pp && (playing ? pp.stops : pp.stopsPaused);
       if (set) Object.keys(set).forEach(function (k) { live[k] = true; });
     });
-    if (airGroup) airGroup.classList.toggle('air-names', !!state.airNames);
+    if (airGroup) {
+      /* Other decides whether the map is lettered at all, this row decides
+         whether the airports are among the names — the same two questions
+         every other kind of name answers, and `labelsOn()` is the first of
+         them. The layer being drawn is the third: a name beside a ring that
+         is not there would be a label for nothing. */
+      airGroup.classList.toggle('air-names',
+        !!(state.airNames && labelsOn() && state.air));
+      // and larger once the reader is close in; styles.css holds the two sizes
+      airGroup.classList.toggle('air-close', latSpan() <= AIR_NAME_CLOSE_LAT);
+    }
     airLabelsWrite();
     if (airRings) {
       Array.prototype.forEach.call(airRings.children, function (g) {
@@ -13221,6 +13239,29 @@
     host.appendChild(label);
   }
 
+  /* The airports' own row, in the shape `labelRow` gives the other five. */
+  function airNameRow(host, id) {
+    var label = document.createElement('label');
+    label.className = 'row';
+    var el = document.createElement('input');
+    el.type = 'checkbox';
+    el.id = id;
+    el.setAttribute('data-lcat', 'airport');
+    el.addEventListener('change', function () {
+      state.airNames = el.checked;
+      /* Asking for a kind of name with Other off is asking for Other as well
+         — the same rule `setLabelCat` follows, and without it the tick does
+         nothing and reads as broken. */
+      if (el.checked && !state.labels) state.labels = true;
+      syncLabelBoxes();
+      syncLayerButtons();
+      applyState();
+    });
+    label.appendChild(el);
+    label.appendChild(document.createTextNode(' Airport names'));
+    host.appendChild(label);
+  }
+
   function buildLabelRows() {
     var host = $('#label-rows');
     if (host) {
@@ -13235,6 +13276,11 @@
       head.textContent = 'Which names to show';
       menu.appendChild(head);
       LABEL_CATS.forEach(function (c) { labelRow(c, menu, 'menu-lcat-'); });
+      /* And the airports, which are a kind of name but not one of the map's
+         own categories — they belong to the air layer and go with it. Written
+         here rather than added to `LABEL_CATS` so that its five places in the
+         layer code stay as they are; the row behaves the same. */
+      airNameRow(menu, 'menu-air-names');
     }
     syncLabelBoxes();
   }
@@ -13254,6 +13300,12 @@
         var el = $('#' + pre + c.id);
         if (el) el.checked = on;
       });
+    });
+    // the airports answer the same two questions, so the tick reads the same
+    var airOn = !!(state.labels && state.airNames);
+    ['#opt-airport-names', '#menu-air-names'].forEach(function (sel) {
+      var el = $(sel);
+      if (el) el.checked = airOn;
     });
   }
 
@@ -16391,9 +16443,13 @@
        is drawn — so this is a plain switch. */
     var boxAirNm = $('#opt-airport-names');
     if (boxAirNm) {
-      boxAirNm.checked = !!state.airNames;
+      boxAirNm.checked = !!(state.labels && state.airNames);
       boxAirNm.addEventListener('change', function () {
         state.airNames = boxAirNm.checked;
+        // the same rule as the menu row and as `setLabelCat`
+        if (boxAirNm.checked && !state.labels) state.labels = true;
+        syncLabelBoxes();
+        syncLayerButtons();
         applyState();
       });
     }

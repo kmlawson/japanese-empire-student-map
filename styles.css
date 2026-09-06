@@ -4050,17 +4050,29 @@ dialog h3 {
    project means what it says. Off unless the reader asks for it, and never a
    press target: a name is for reading and the ring under it is the thing to
    aim at. */
+/* **The buffer never rendered, because `--paper` does not exist.** It was used
+   here and defined nowhere, so `stroke: var(--paper)` was invalid at
+   computed-value time and the property fell back to `none` — the airport names
+   were the one set of labels on the map with no halo under them, which over
+   the red of occupied Manchuria left them hard to read. The literal is the one
+   `.blabel` uses, and like `.blabel` it does not change with the theme: the
+   land colours under it do not invert. */
 #air .air-name {
   display: none;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 600;
   fill: var(--ink);
   paint-order: stroke;
-  stroke: var(--paper);
-  stroke-width: 2.6px;
+  stroke: #fffdf8;
+  stroke-width: 3px;
   stroke-linejoin: round;
   pointer-events: none;
 }
+
+/* Zoomed in on one country there is room for more of it, and the names are
+   what the reader came that close to read. `applyAir` puts the class on when
+   less than `AIR_NAME_CLOSE_LAT` degrees of latitude are in view. */
+#air.air-close .air-name { font-size: 13px; }
 #air.air-names .air-name { display: inline; }
 
 #air [data-air-stop].air-idle { opacity: .3; }

@@ -79,6 +79,14 @@ const st = p => p.evaluate(() => ({
 
 const ALL_ON = 'territory=true city=true sub=true poi=true feature=true';
 const ALL_OFF = 'territory=false city=false sub=false poi=false feature=false';
+/* **The airports are a sixth row in the menu and not a sixth category.** They
+   belong to the air layer rather than to the map's own five kinds of name — so
+   they are appended to the menu beside the five rather than added to
+   `LABEL_CATS`, whose five places in the layer code stay as they are. They
+   answer the same two questions the five do (is Other on, is this row ticked),
+   which is why they read the same here. */
+const ALL_ON_MENU = ALL_ON + ' airport=true';
+const ALL_OFF_MENU = ALL_OFF + ' airport=false';
 
 (async () => {
   const b = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox'] });
@@ -88,8 +96,8 @@ const ALL_OFF = 'territory=false city=false sub=false poi=false feature=false';
   let s = await st(p);
   check('five rows in the Layers panel',
     s.panel.split(' ').length === 5, s.panel);
-  check('and the same five in the button\'s menu',
-    s.menu.split(' ').length === 5, s.menu);
+  check('and those five plus the airports in the button\'s menu',
+    s.menu.split(' ').length === 6 && /(^| )airport=/.test(s.menu), s.menu);
   check('all unticked while Other is off', s.panel === ALL_OFF, s.panel);
   check('and nothing written', s.names.length === 0, String(s.names.length));
 
@@ -98,7 +106,7 @@ const ALL_OFF = 'territory=false city=false sub=false poi=false feature=false';
   await sleep(1600);
   s = await st(p);
   check('every row ticks', s.panel === ALL_ON, s.panel);
-  check('the menu agrees', s.menu === ALL_ON, s.menu);
+  check('the menu agrees', s.menu === ALL_ON_MENU, s.menu);
   /* Four provinces and one physical feature, which is what this frame holds
      with Cities off: it is the province names that a category has to be able
      to take away on its own. */

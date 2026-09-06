@@ -392,8 +392,20 @@ const card_=p=>p.evaluate(()=>{
   await page.evaluate(()=>document.getElementById('zoom-reset').click());
   await sleep(1200);
   const nmWide=await nameH();
-  check('a name is a size on screen too', nmWide && nmDeep
-    && Math.abs(nmWide-nmDeep)<1.2, nmWide+' px wide out, '+nmDeep+' px zoomed in');
+  /* **Still a size on screen, and now two of them.** The rule this guards is
+     that the name does not live in map units: eight wheel steps in, a label
+     that scaled with the view would be a name across a province, and that is
+     this project's most-repeated bug. It used to assert the two zooms gave the
+     *same* height, which is no longer true on purpose — the names step up from
+     11px to 13px once the reader is close in, because that is the zoom at
+     which they are the thing being read. So the bound is the step and not
+     zero: anything scaling with the map would be several times larger, not a
+     fifth. */
+  check('a name is a size on screen, not in map units',
+    nmWide && nmDeep && nmDeep >= nmWide && (nmDeep / nmWide) < 1.5,
+    nmWide+' px wide out, '+nmDeep+' px zoomed in');
+  check('  and it does step up when the reader is close in',
+    nmDeep > nmWide, nmWide+' -> '+nmDeep);
   check('  and big enough to read', nmWide>=8, nmWide+' px');
   await page.evaluate(()=>{const e=document.getElementById('opt-airport-names');
     e.checked=false; e.dispatchEvent(new Event('change',{bubbles:true}));});
@@ -1461,6 +1473,60 @@ const card_=p=>p.evaluate(()=>{
     if (!outside) check('a line out of Manchukuo was pressable', true, 'not on screen');
     else check('a line reaching outside Manchukuo does not cite it',
       !/Bill Sewell/.test(outside.note), outside.note.slice(-80));
+  }
+
+  console.log('\n— the airport names are a kind of name, and readable —');
+  {
+    const pg=await browser.newPage(); await pg.setViewport({width:1500,height:980});
+    pg.on('pageerror',e=>errs.push(String(e)));
+    await pg.evaluateOnNewDocument(SHIM);
+    await pg.goto(URL,{waitUntil:'networkidle0'}); await ready(pg);
+    const look=()=>pg.evaluate(()=>{
+      const air=document.getElementById('air');
+      const n=air&&air.querySelector('.air-name');
+      const c=n?getComputedStyle(n):null;
+      return {on:!!(air&&air.classList.contains('air-names')),
+        close:!!(air&&air.classList.contains('air-close')),
+        fs:c?parseFloat(c.fontSize):0, stroke:c?c.stroke:'',
+        sw:c?c.strokeWidth:'', panel:(document.getElementById('opt-airport-names')||{}).checked,
+        menu:(document.getElementById('menu-air-names')||{}).checked};});
+    await pg.evaluate(()=>document.getElementById('btn-air').click());
+    await sleep(2000);
+    const noOther=await look();
+    /* They hang off Other with the other five kinds of name, so the network
+       alone does not letter it. */
+    check('the network alone does not name the airports', noOther.on===false,
+      JSON.stringify(noOther));
+    await pg.evaluate(()=>document.querySelector('#layer-seg button[data-opt="labels"]').click());
+    await sleep(1600);
+    const withOther=await look();
+    check('Other switches them on', withOther.on===true, JSON.stringify(withOther));
+    check('and both rows say so', withOther.panel===true && withOther.menu===true,
+      JSON.stringify(withOther));
+    /* **The buffer.** `stroke: var(--paper)` was invalid — the variable is
+       defined nowhere — so the property fell back to `none` and these were the
+       one set of labels on the map with no halo, which over the red of
+       occupied Manchuria is what made them hard to read. */
+    check('and they carry the white buffer every other label has',
+      /255/.test(withOther.stroke) && parseFloat(withOther.sw) >= 2.5,
+      withOther.stroke+' at '+withOther.sw);
+    /* The row in the long-press menu is the individual override. */
+    await pg.evaluate(()=>document.getElementById('menu-air-names').click());
+    await sleep(1200);
+    const off=await look();
+    check('and the menu row can take them off on their own',
+      off.on===false, JSON.stringify(off));
+    await pg.evaluate(()=>document.getElementById('menu-air-names').click());
+    await sleep(1200);
+    const back=await look();
+    check('and put them back', back.on===true, JSON.stringify(back));
+    for (let i=0;i<6;i++){ await pg.evaluate(()=>document.getElementById('zoom-in').click());
+      await sleep(300); }
+    await sleep(1200);
+    const near=await look();
+    check('and they are set larger once the reader is close in',
+      near.close===true && near.fs > back.fs, back.fs+'px -> '+near.fs+'px');
+    await pg.close();
   }
 
   check('no page errors', errs.concat(perrs).length===0, errs.concat(perrs).join(' | '));
