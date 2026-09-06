@@ -1367,6 +1367,14 @@ const card_=p=>p.evaluate(()=>{
          reference back to this one. */
       check('and they do not hand the opener away',
         got.links.every(l=>/noopener/.test(l.rel)), JSON.stringify(got.links.map(l=>l.rel)));
+      /* **In the run of the sentence, not on lines of their own.** The first
+         cut gave them `note-src`, which is `display: block` with a top margin
+         — it is the standalone source line at the foot of a card — and the
+         note came out as "Flew with / Fokker F.VII / (8 passengers) and". */
+      const inline=await page.evaluate(()=>[...document.querySelectorAll('#info .note-own a')]
+        .map(a=>({d:getComputedStyle(a).display, c:a.className})));
+      check('and they sit in the run of the text',
+        inline.length===3 && inline.every(x=>x.d==='inline'), JSON.stringify(inline));
     }
     /* **A scheme that is not http(s) is written out, not linked.** These notes
        come from files rather than from a person typing into the page, which is

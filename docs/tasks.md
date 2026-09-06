@@ -18850,3 +18850,34 @@ been measured. Three checks failed for that and none of them was about links.
 
 `SECS` for `air` moved 30 → 66. Whole suite 1981 checks across 60 scripts, all
 passing, 494.3s.
+
+## The tools go with the railway, and a link in a note stays in the sentence
+
+**No railway, no train tools.** The tools are a timetable run over a line, so
+with every railway switched off there is nothing left for them to be about — and
+the strip stayed across the foot of the map with the track gone from under it,
+which reads as a tool that has come loose from its layer. Four things follow the
+railway now, which is what "in all places" asked for: the switch in Layers, the
+row it sits in, the button beside the zoom controls, and the strip.
+
+`dropToolsWithRails` is called from the two places a *reader* turns a railway
+off — the button and the two rows in the panel — and deliberately not from
+`applyState`, because the tools borrow the railway while they are up and a rule
+that fired on any railway being off would take them down in the middle of their
+own mount. The button and the row also stay on the screen while the tools are
+up, so there is always something to press to put them away; that cannot be
+reached by turning a railway off, but it can by ticking the tools with no
+railway on, and leaving the reader no way back would be worse.
+
+**And a link inside a note now sits in the run of the sentence.** The first cut
+gave them `note-src`, which is `display: block` with a top margin — it is the
+standalone source line at the foot of a card, not something to put mid-sentence
+— so the trunk's note came out as "Flew with / Fokker F.VII / (8 passengers)
+and". They have their own class, `note-link`, inline and in the accent colour.
+
+Tests: `trains.js` gains twelve, both ways of turning the railway off, because
+they are different code — one button that toggles every network at once, and two
+rows in the panel — and fixing one would have looked complete. `air.js` gains
+one, that the three links compute to `display: inline`. 111 and 131 pass.
+`SECS` for `trains` 54 → 82. Whole suite 1994 checks across 60 scripts, all
+passing, 498.9s.

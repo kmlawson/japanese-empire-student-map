@@ -1630,6 +1630,18 @@ button.plain:hover { background: var(--hover-fill); }
 
 /* The source line under a note. Set apart from the prose and quiet enough that
    it does not compete with it, but a real link and a real target. */
+/* A link inside the run of a note, as against `.note-src` below, which is the
+   source line standing on its own at the foot of a card. Inline, and it takes
+   the surrounding size and leading so a sentence with one in it still sets as
+   a sentence. */
+#info .note-link {
+  display: inline;
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-thickness: 1px;
+}
+
 #info .note-src {
   display: block;
   margin-top: 7px;

@@ -795,6 +795,67 @@ const shutDialogs=p=>p.evaluate(()=>{
         return document.body.classList.contains('no-rd');}), '');
     check('no page errors on the timetable', ttErr.length===0, ttErr.join(' | '));
     await tt.close();
+
+    /* --------------------------- no railway, no train tools ------------
+     *
+     * The tools are a timetable run over a line, so with every railway
+     * switched off there is nothing left for them to be about — and the strip
+     * stayed across the foot of the map with the track gone from under it.
+     * Four things have to follow the railway, and they are checked together
+     * because the report was "in all places": the switch in Layers, the row it
+     * sits in, the button beside the zoom controls, and the strip itself.
+     *
+     * Both ways of turning the railway off are exercised. They are different
+     * code — one is the button that toggles every network at once, the other
+     * the two rows in the panel — and fixing one would have looked complete.
+     */
+    console.log('\n- the last railway off takes the tools with it -');
+    const toolsState=pg=>pg.evaluate(()=>({
+      box:document.getElementById('opt-train-tools').checked,
+      row:!!document.getElementById('row-train-tools').hidden,
+      btn:!!document.getElementById('btn-trains').hidden,
+      bar:(()=>{const b=document.getElementById('train-bar');
+        return b?getComputedStyle(b).display:'gone';})()}));
+    for (const how of ['the button', 'the Layers rows']) {
+      const pg=await browser.newPage();
+      await pg.setViewport({width:1400,height:900});
+      await pg.evaluateOnNewDocument(SHIM);
+      const es=[]; pg.on('pageerror',e=>es.push(String(e)));
+      await pg.goto(BASE+'?where=119,21.5,122.6,25.6',{waitUntil:'networkidle0'});
+      await ready(pg);
+      /* Before any railway is on there is nothing to run a timetable over, so
+         neither the row nor the button is offered. */
+      const cold=await toolsState(pg);
+      check('with no railway on, the tools are not offered ('+how+')',
+        cold.row===true && cold.btn===true, JSON.stringify(cold));
+      await pg.evaluate(()=>{const x=document.getElementById('opt-tw-rail');
+        if(x&&!x.checked)x.click();});
+      await sleep(2000);
+      const railed=await toolsState(pg);
+      check('the railway on offers them ('+how+')',
+        railed.row===false && railed.btn===false, JSON.stringify(railed));
+      await pg.evaluate(()=>{const x=document.getElementById('opt-train-tools');
+        if(!x.checked)x.click();});
+      await sleep(3000);
+      const up=await toolsState(pg);
+      check('and the tools come up ('+how+')',
+        up.box===true && up.bar==='flex', JSON.stringify(up));
+      if (how==='the button') {
+        await pg.evaluate(()=>document.getElementById('btn-rail').click());
+      } else {
+        await pg.evaluate(()=>{
+          const t=document.getElementById('opt-tw-rail'); if(t.checked)t.click();
+          const k=document.getElementById('opt-kr-rail'); if(k&&k.checked)k.click();});
+      }
+      await sleep(2500);
+      const gone=await toolsState(pg);
+      check('turning the last railway off puts the tools away ('+how+')',
+        gone.box===false && gone.bar!=='flex', JSON.stringify(gone));
+      check('and takes the row and the button with them ('+how+')',
+        gone.row===true && gone.btn===true, JSON.stringify(gone));
+      check('with nothing thrown ('+how+')', es.length===0, es.slice(0,2).join(' | '));
+      await pg.close();
+    }
   } finally { await browser.close(); }
   console.log('\n'+pass+' passed, '+fail+' failed');
   process.exit(fail?1:0);

@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '324';
+  var JEM_VERSION = '325';
   var JEM_ASSETS = {"admin.js": "3414697d04", "air-play.js": "8db7ba0d73", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "58132ef9c2", "kr-trains.js": "74889615bd", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/korea-1938.html": "91837c326f", "timetable/taiwan-1936.html": "23eaf5f955", "trains.js": "c0629828d0", "tw-trains.js": "7cd1c3f42d"};
 
   /* Every file this one fetches, with the version on it.
@@ -2263,9 +2263,23 @@
       }
     }
     var bt = btnTrnEl;
+    /* **And the tools are not offered where there is no railway to run them
+       over.** The button used to depend on the ground under the view alone, so
+       with every railway switched off it still sat beside the zoom controls
+       offering a timetable over nothing. The Layers row went the same way; the
+       station rows had this rule already and it is the same rule.
+
+       `state.trainTools` keeps both on the screen while the tools are up, so
+       there is always something to press to put them away. That cannot be
+       reached by turning a railway off — `dropToolsWithRails` has taken them
+       down first — but it can by ticking the tools with no railway on, and
+       leaving the reader no way back would be worse than the row being there. */
+    var noRail = railsAllOff() && !state.trainTools;
+    var trRow = $('#row-train-tools');
+    if (trRow && trRow.hidden !== noRail) trRow.hidden = noRail;
     if (bt) {
       var zone = trainZone();
-      var hide = !zone;
+      var hide = !zone || noRail;
       if (bt.hidden !== hide) bt.hidden = hide;
       var tp = state.trainTools ? 'true' : 'false';
       if (bt.getAttribute('aria-pressed') !== tp) {
@@ -2281,6 +2295,28 @@
 
   function trainDraws(sys) {
     return !!(trainApi && trainApi.mounted() && trainApi.system() === sys);
+  }
+
+  /* **No railway, no train tools.**
+   *
+   * The tools are a timetable run over a line, so with every railway switched
+   * off there is nothing for them to be about — and the strip stayed across
+   * the foot of the map with the track gone from under it, which reads as a
+   * tool that has come loose from its layer.
+   *
+   * Called only from the two places a *reader* turns a railway off: the button
+   * beside the zoom controls and the two rows in the Layers panel. Deliberately
+   * not from `applyState`, because the tools borrow the railway while they are
+   * up — a rule that fired on any railway being off would take them down in the
+   * middle of their own mount. */
+  function railsAllOff() {
+    return !Object.keys(STATION_SYS).some(function (k) {
+      return !!state[STATION_SYS[k].rail];
+    });
+  }
+
+  function dropToolsWithRails() {
+    if (state.trainTools && railsAllOff()) setTrainTools(false);
   }
 
   /* **A railway switched on where it cannot be seen still has to answer.**
@@ -8296,7 +8332,12 @@
         var href = safeHref(lm[2]);
         if (href) {
           var link = document.createElement('a');
-          link.className = 'note-src';
+          /* `note-link`, not `note-src`. The latter is `display: block` — it
+             is the standalone source line at the foot of a card — and giving
+             it to a link inside a sentence put each one on a line of its own,
+             so the trunk's note read "Flew with / Fokker F.VII / (8
+             passengers) and". These sit in the run of text. */
+          link.className = 'note-link';
           link.href = href;
           link.target = '_blank';
           link.rel = 'noopener noreferrer';
@@ -16322,6 +16363,9 @@
         box.checked = state[pair[1]];
         box.addEventListener('change', function () {
           state[pair[1]] = box.checked;
+          // unticking the last railway here means the same as pressing the
+          // button: the tools have nothing left to run over
+          if (pair[1] === 'twRail' || pair[1] === 'krRail') dropToolsWithRails();
           applyState();
         });
       });
@@ -16459,6 +16503,8 @@
             trainBorrowed.hadRail = state[k];
           }
         });
+        // the last railway off takes the tools with it
+        dropToolsWithRails();
         applyState();
         /* Switched on where the fade has taken the lines away: show them for a
            moment so the press is seen to have done something. */
