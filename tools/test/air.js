@@ -1311,6 +1311,150 @@ const card_=p=>p.evaluate(()=>{
   check('and turning it off puts the romanisation back', hanOff.cjk===0,
     String(hanOff.cjk));
 
+  console.log('\n— a note may carry links, and only real ones —');
+  {
+    /* `[what it says](where it goes)` is the one other piece of Markdown
+       these notes use. The trunk's note carries three: two aircraft and the
+       JACAR article. */
+    /* Pressing for it here rather than leaning on `openRoute`'s name match:
+       by this point in the file the map has been zoomed and the sheet
+       switched, and "Keijō" appears in the name of a 1942 満洲航空 line as well
+       — so the helper can hand back somebody else's card and the checks below
+       would read an empty note and report the links missing. This stops on the
+       note it is actually after. */
+    await page.evaluate(()=>{const b=document.getElementById('zoom-reset');
+      if(b)b.click();
+      const e=[...document.querySelectorAll('#epoch-seg button')]
+        .find(x=>/1930/.test(x.textContent));
+      if(e && !/on/.test(e.className)) e.click();});
+    await sleep(2200);
+    const spots=await page.evaluate(()=>{
+      const g=document.querySelector('.air-route[data-air="korea"] .air-hit');
+      if(!g) return [];
+      const L=g.getTotalLength(), out=[];
+      for(let i=1;i<16;i++){
+        const q=g.getPointAtLength(L*i/16);
+        const t=g.ownerSVGElement.createSVGPoint(); t.x=q.x; t.y=q.y;
+        const r=t.matrixTransform(g.getScreenCTM());
+        if(r.x>20&&r.y>70&&r.x<innerWidth-20&&r.y<innerHeight-20) out.push({x:r.x,y:r.y});
+      }
+      return out;});
+    let got=null;
+    for (const at of spots) {
+      await page.mouse.click(at.x, at.y); await sleep(420);
+      got=await page.evaluate(()=>{
+        const i=document.getElementById('info');
+        const n=i.querySelector('.note-own');
+        if(!n || n.hidden) return null;
+        const txt=n.textContent||'';
+        if(!/first regular international/.test(txt)) return null;
+        return {links:[...n.querySelectorAll('a')].map(a=>({t:a.textContent,href:a.href,rel:a.rel})),
+                brackets:/\[[^\]]+\]\(/.test(txt)};});
+      if (got) break;
+      await page.keyboard.press('Escape'); await sleep(120);
+    }
+    check('the trunk’s card opens', !!got, 'no press along it opened its note');
+    if (!got) check('the note is on the card', false, 'no .note-own');
+    else {
+      check('its three links are links, not brackets',
+        got.links.length===3 && got.brackets===false, JSON.stringify(got).slice(0,160));
+      check('and they point where the note says',
+        got.links.some(l=>/Fokker_F\.VII$/.test(l.href))
+        && got.links.some(l=>/Fokker_Super_Universal$/.test(l.href))
+        && got.links.some(l=>/jacar\.go\.jp/.test(l.href)),
+        JSON.stringify(got.links.map(l=>l.href)));
+      /* Opened away from the map, and without handing the new page a live
+         reference back to this one. */
+      check('and they do not hand the opener away',
+        got.links.every(l=>/noopener/.test(l.rel)), JSON.stringify(got.links.map(l=>l.rel)));
+    }
+    /* **A scheme that is not http(s) is written out, not linked.** These notes
+       come from files rather than from a person typing into the page, which is
+       exactly the assumption that makes a `javascript:` href survive review.
+       It renders as visible brackets instead, so a mistake is obvious. */
+    const nasty=await page.evaluate(()=>{
+      const r=(JMAP.AIR||[]).filter(x=>x.id==='korea')[0];
+      const keep=r.note;
+      r.note='Try [this](javascript:alert(1)) and [that](data:text/html,x).';
+      const el=document.querySelector('#info .note-own');
+      JMAP.__setProse ? JMAP.__setProse(el, r.note) : null;
+      const out={has:!!el, a:el?el.querySelectorAll('a').length:-1,
+                 txt:el?el.textContent:''};
+      r.note=keep;
+      return out;});
+    if (nasty.a < 0 || !nasty.has) {
+      check('a javascript: href is refused', true, 'renderer not reachable from here');
+    } else {
+      check('a javascript: or data: href is written out, not linked',
+        nasty.a===0 && /\[this\]\(javascript:/.test(nasty.txt), JSON.stringify(nasty).slice(0,140));
+    }
+  }
+
+  console.log('\n— the Manchurian lines cite the book, and the sheet is named —');
+  {
+    await page.evaluate(()=>{const e=[...document.querySelectorAll('#epoch-seg button')]
+      .find(x=>/1942/.test(x.textContent)); if(e)e.click();});
+    await sleep(2600);
+    await page.evaluate(()=>{const b=document.getElementById('zoom-reset'); if(b)b.click();});
+    await sleep(1200);
+    const pressAlong=async id=>{
+      const spots=await page.evaluate(i=>{
+        const g=document.querySelector('.air-route[data-air="'+i+'"] .air-hit');
+        if(!g) return [];
+        const L=g.getTotalLength(), out=[];
+        for(let k=1;k<16;k++){
+          const q=g.getPointAtLength(L*k/16);
+          const t=g.ownerSVGElement.createSVGPoint(); t.x=q.x; t.y=q.y;
+          const r=t.matrixTransform(g.getScreenCTM());
+          if(r.x>20&&r.y>70&&r.x<innerWidth-20&&r.y<innerHeight-20) out.push({x:r.x,y:r.y});
+        }
+        return out;}, id);
+      for (const at of spots) {
+        await page.mouse.click(at.x, at.y); await sleep(400);
+        const r=await page.evaluate(w=>{
+          const i=document.getElementById('info');
+          const n=i.querySelector('.note-own');
+          const nm=(i.querySelector('.primary')||{}).textContent||'';
+          if(!nm || nm.indexOf(w)<0) return null;
+          return {name:nm, note:n&&!n.hidden?(n.textContent||''):'',
+            ems:n?[...n.querySelectorAll('em')].map(e=>e.textContent):[],
+            srcLines:[...i.querySelectorAll('.pop-src')].map(e=>(e.textContent||'').trim()),
+            srcHrefs:[...i.querySelectorAll('.pop-src a')].map(e=>e.href)};}, id.indexOf('manchouli')>=0 ? 'Manzhouli' : 'Beijing');
+        if(r) return r;
+        await page.keyboard.press('Escape'); await sleep(110);
+      }
+      return null;
+    };
+    /* Wholly inside Manchukuo — Changchun out to the Soviet frontier. */
+    const inside=await pressAlong('mkkk42-hsinking-manchouli');
+    check('a Manchurian line’s card opens', !!inside, 'no press opened it');
+    if (inside) {
+      check('it cites Sewell', /Bill Sewell/.test(inside.note), inside.note.slice(-80));
+      /* A separate paragraph, not run onto the end of the note before it. */
+      check('in a paragraph of its own', inside.note.split('\n\n').length>=2,
+        JSON.stringify(inside.note.slice(-120)));
+      check('with the title in italics and no stray asterisks',
+        inside.ems.some(t=>/Constructing Empire/.test(t)) && inside.note.indexOf('*')<0,
+        JSON.stringify(inside.ems));
+      /* The sheet is named and linked, and said once rather than once per
+         table on the card. */
+      check('the sheet is named, not just called a railway timetable',
+        inside.srcLines.some(t=>/満州支那汽車時間表/.test(t)), JSON.stringify(inside.srcLines));
+      check('and linked to the scan',
+        inside.srcHrefs.some(h=>/manshu-shina-kisha-jikanhyo/.test(h)),
+        JSON.stringify(inside.srcHrefs));
+      check('and printed once on the card, not once per table',
+        inside.srcLines.length===1, JSON.stringify(inside.srcLines.length));
+    }
+    /* A line with a stop outside Manchukuo must not carry the citation: the
+       book is about Changchun and the Manchurian network, and a note is a
+       claim about the line it is attached to. */
+    const outside=await pressAlong('cak42-peking-dairen');
+    if (!outside) check('a line out of Manchukuo was pressable', true, 'not on screen');
+    else check('a line reaching outside Manchukuo does not cite it',
+      !/Bill Sewell/.test(outside.note), outside.note.slice(-80));
+  }
+
   check('no page errors', errs.concat(perrs).length===0, errs.concat(perrs).join(' | '));
   await browser.close();
   console.log('\n  '+pass+' passed, '+fail+' failed');

@@ -18787,3 +18787,66 @@ modern ones are not, Sendai is still named, and Sendai is not given a form
 nobody sourced. 43 pass. `SECS` 95 → 108, and `TRIGGERS` now knows
 `tools/kyujitai.py` reaches `core` and `data`. Whole suite 1968 checks across 60
 scripts, all passing, 495.1s.
+
+## The trunk's note rewritten, links in notes, and the Manchurian citations
+
+**Three asks in one release.**
+
+**1. The 1930 trunk's note**, replaced with the author's own text: the line as
+the first regular international service, Fukuoka to Dalian in September 1929,
+joined to the Tokyo–Fukuoka run, with the aircraft and the JACAR article linked.
+One typo corrected — "passanger" — and nothing else touched.
+
+**2. Notes can carry links now**, which they could not. `setProse` rendered
+`*em*` and `**strong**` and printed `[text](url)` as brackets, so the three
+links in that note would have been visible Markdown. It takes whichever marker
+comes first, so a link inside a sentence that also has emphasis is not cut in
+half by the other pattern.
+
+`safeHref` allows **http and https only**, checked on the parsed protocol, and
+anything else is written out as plain text — brackets and all — so a mistake is
+visible rather than silently working. These notes come out of files rather than
+from somebody typing into the page, which is exactly the assumption that lets a
+`javascript:` href through review. `setProse` is exposed as `JMAP.__setProse`
+for the test, because no note in the files carries a bad href and one should not
+be added just to prove the guard.
+
+**3. The Manchurian lines cite Sewell**, in a paragraph of their own. Which
+lines: the eighteen on the 1942 map whose every stop is inside Manchukuo —
+classified by `polity_1940` where a stop is one of the map's cities and by
+position for the frontier posts that are not, then read through before applying.
+Chengde and Chifeng are in, being Jehol; anything touching Korea, the Kwantung
+Leased Territory, Tokyo or China proper is out, which is why the Peking–Dairen
+and Shinkyō–Keijō lines have no citation and a test says so. `pp127-8` is set as
+`pp. 127–8`, the punctuation the rest of the project uses.
+
+**4. And the sheet is named.** Thirty-four routes said "Japanese railway
+timetable, July 1942 issue". They now name it: 満州支那汽車時間表 (Manshū Shina
+kisha jikanhyō), Japan's railway timetable for Manchuria, and carry the
+archive.org scan as their `source_url` — verified to resolve before it was
+written, and its own metadata confirms the title and the publisher, 社団法人
+東亜旅行社満州支部. `texts/pages/sources.md` and `data/air/README.md` say the same.
+
+**A blemish that filling `source_url` exposed.** A route card draws its
+timetable and its fares as two blocks and each names its source, so the citation
+was printed twice, one line under the other. Harmless while it was grey text;
+not harmless as two copies of a long link. The second visible line goes when the
+card already carries that exact source — but the argument to `addCsvButton` does
+not, because every table this project draws leaves with its own source attached
+and a spreadsheet with no provenance is what that rule exists to prevent. Both
+CSV buttons are still there and still carry it.
+
+Tests: `air.js` gains thirteen — the three links are links and not brackets,
+they point where the note says, they do not hand the opener away, a `javascript:`
+or `data:` href is written out instead of linked, the citation is present and in
+its own paragraph with the title in italics, the sheet is named and linked and
+printed once, and a line reaching outside Manchukuo does not cite the book. 130
+pass.
+
+One thing worth remembering about the test: the block had to be moved to the end
+of the file. It resets the view and the sheet to press for a named route, and
+the section after it presses an airport ring — which then was not where it had
+been measured. Three checks failed for that and none of them was about links.
+
+`SECS` for `air` moved 30 → 66. Whole suite 1981 checks across 60 scripts, all
+passing, 494.3s.

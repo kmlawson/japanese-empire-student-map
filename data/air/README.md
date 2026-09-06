@@ -467,6 +467,12 @@ that *lands* at Rangoon is as impossible as one that leaves it.
 
 ## The July 1942 sheet: 満洲航空 and 中華航空 as reprinted that summer
 
+The sheet is 満州支那汽車時間表 (Manshū Shina kisha jikanhyō), Japan's railway
+timetable for Manchuria, July 1942 issue (昭和17年7月號), published by 社団法人
+東亜旅行社満州支部. A scan is at
+<https://archive.org/details/manshu-shina-kisha-jikanhyo-1942.7>; the aviation
+tables are pages 118–121.
+
 Source: the aviation pages (118–121) of a Japanese railway timetable for July 1942 (昭和17年7月號), photographed by the project. Page 118 is the 航空案内 (rules, booking offices, a 日滿支 fare matrix); 119–120 carry 滿洲航空 tables stamped 昭和17.6.1改正; 121 carries 中華航空 tables stamped 昭和17.4.1改正. The reading is in the Korea 1938 project as `manchuria1942.7/air_1942_7.md`, and `air_rows.py` beside it writes these rows.
 
 **Every row from this sheet is marked.** Route ids begin `mkkk42-` or `cak42-`, the operator string ends "· July 1942 sheet" / "· April 1942 sheet", the `season` names the 改正 stamp, and the two companies get their own inks (`#b5473a`, `#4a9a88`) beside the winter-1935 (`#8c2f39`) and 1940 (`#2c6e63`) lines already drawn, so that where the sheets overlap — Shinkyō–Mukden–Dairen, Shinkyō–Manchouli, Peking–Dairen, Peking–Paotow, Shanghai–Hankow — a reader can see which sheet a line came off. Nothing from the earlier sheets was removed.

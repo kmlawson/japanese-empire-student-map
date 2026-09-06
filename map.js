@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '323';
+  var JEM_VERSION = '324';
   var JEM_ASSETS = {"admin.js": "3414697d04", "air-play.js": "8db7ba0d73", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "58132ef9c2", "kr-trains.js": "74889615bd", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/korea-1938.html": "91837c326f", "timetable/taiwan-1936.html": "23eaf5f955", "trains.js": "c0629828d0", "tw-trains.js": "7cd1c3f42d"};
 
   /* Every file this one fetches, with the version on it.
@@ -8258,6 +8258,27 @@
      card, it is the map failing to load. The "no space before the closing
      marker" rule is checked in code below instead. */
   var EMPH = /(\*\*?)(?!\s)([^*]+?)\1/;
+  /* `[what it says](where it goes)`, the one other piece of Markdown these
+     notes use. Kept deliberately narrow: no nesting, no titles, no reference
+     style — a note is one or two sentences and anything more elaborate belongs
+     in `docs/`. */
+  var MDLINK = /\[([^\]\n]+)\]\((\S+?)\)/;
+  /* **Only http and https, and the check is on the parsed scheme.** These
+     notes come out of `data/` and `texts/`, which are files rather than a
+     person typing into the page — but a `javascript:` or `data:` href would
+     still run, and "it is our own data" is exactly the assumption that makes
+     that kind of hole. A link that is not one of the two is written out as
+     plain text, so a mistake shows up as visible brackets rather than as
+     something that silently works. */
+  function safeHref(u) {
+    var raw = String(u || '').trim();
+    if (!/^https?:\/\//i.test(raw)) return '';
+    try {
+      var url = new URL(raw);
+      return (url.protocol === 'http:' || url.protocol === 'https:') ? url.href : '';
+    } catch (err) { return ''; }
+  }
+
   function setProse(el, text) {
     if (!el) return;
     while (el.firstChild) el.removeChild(el.firstChild);
@@ -8266,7 +8287,29 @@
     // a bound on the loop as well as on the string: a pattern that somehow
     // matched empty would otherwise spin here for ever
     for (var guard = 0; guard < 500; guard++) {
-      var m = EMPH.exec(rest);
+      /* Whichever marker comes first, so a link inside a sentence that also
+         has emphasis is not cut in half by the other pattern. */
+      var lm = MDLINK.exec(rest);
+      var em = EMPH.exec(rest);
+      if (lm && (!em || lm.index <= em.index)) {
+        if (lm.index) el.appendChild(document.createTextNode(rest.slice(0, lm.index)));
+        var href = safeHref(lm[2]);
+        if (href) {
+          var link = document.createElement('a');
+          link.className = 'note-src';
+          link.href = href;
+          link.target = '_blank';
+          link.rel = 'noopener noreferrer';
+          link.textContent = lm[1];
+          el.appendChild(link);
+        } else {
+          // written out as it stands, brackets and all
+          el.appendChild(document.createTextNode(lm[0]));
+        }
+        rest = rest.slice(lm.index + lm[0].length);
+        continue;
+      }
+      var m = em;
       if (!m || !m[2]) break;
       // ` *not this* ` — a marker with a space in front of it is a stray
       // asterisk in the prose, not emphasis, and is left as it was written
@@ -9494,7 +9537,11 @@
     // so a test can plant a clash and ask for the names again: the rule has
     // never fired against the real nineteen, and one nobody has driven is one
     // nobody has tested
-    JMAP.__airShortNames = airShortNames;
+    /* Exposed for the tests: the scheme guard in `safeHref` is the kind of
+     thing that has to be exercised directly, because no note in the files
+     carries a bad href and one should never be added just to prove a point. */
+  JMAP.__setProse = setProse;
+  JMAP.__airShortNames = airShortNames;
 
     airGroup = svgEl('g', { id: 'air' });
     airGroup.style.display = 'none';
@@ -10047,6 +10094,18 @@
   /* One small table, with the notes and the source under it and a CSV beside
      them. `tableSpec` is what `addCsvButton` reads, so the file carries the
      figures rather than whatever the screen last showed. */
+  /* Whether this card is already showing that exact source line. Compared on
+     the text rather than on the url, because a source with no link is still
+     the same source said twice. */
+  function sameSrcShown(host, source) {
+    if (!host) return false;
+    var seen = host.querySelectorAll('.pop-src');
+    for (var i = 0; i < seen.length; i++) {
+      if ((seen[i].textContent || '').trim() === String(source).trim()) return true;
+    }
+    return false;
+  }
+
   function airTable(host, title, cols, rows, notes, source, srcUrl) {
     if (!rows.length) return;
     var wrap = document.createElement('div');
@@ -10097,7 +10156,19 @@
       p2.textContent = n;
       wrap.appendChild(p2);
     });
-    if (source) {
+    /* **Once on the card, still once per exported file.** A route's timetable
+       and its fares come off the same page of the same book, so both blocks
+       name the same source and it was printed twice, one line under the other.
+       Harmless while it was grey text and not while it is a link: the July
+       1942 sheet's citation is long, and two identical copies of it read as a
+       mistake.
+
+       The line is dropped only when the card already carries that exact
+       source. What is *not* dropped is the argument to `addCsvButton` — every
+       table this project draws leaves with its own source attached, and a
+       spreadsheet that has left the site with no provenance is the one thing
+       the rule about tables exists to prevent. */
+    if (source && !sameSrcShown(host, source)) {
       var sp = document.createElement('p');
       sp.className = 'pop-src';
       if (srcUrl) {

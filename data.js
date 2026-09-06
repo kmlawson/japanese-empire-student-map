@@ -7368,7 +7368,7 @@ JMAP.AIR = [
     id: 'korea', name: 'Tokyo – Osaka – Fukuoka – Ulsan – Keijō – Heijō – Dalian', operator: 'Japan Air Transport (日本航空輸送株式会社)', opened: 'September 1929',
     season: 'April 1930', epochs: ['e1930'], source: '昭和五年四月改正 定期航空発着時刻及賃金表 (Japan Air Transport, April 1930)', srcUrl: 'https://www.timetableimages.com/ttimages/jat3004.htm',
     ink: '', days: [], groundedFrom: '',
-    note: 'The trunk line of the empire\'s air network: down the home islands, across to the peninsula and on to the Kwantung Leased Territory. Two days each way, with a night at Keijō in both directions, and no service on Sundays. The Osaka and Fukuoka calls were made by seaplane — Kizugawajiri and Najima — and the rest by landplane; the sheet marks the water legs with an asterisk. It also promises that a through service between Tokyo and Keijō arrives the same day, which is the one part of the line flown in daylight end to end.',
+    note: 'This line began as the first regular international service from Fukuoka to Dalian in September 1929. This was connected up to the Tokyo to Fukuoka service. In this 1930 source, the passenger leaves Tokyo in the morning, stays overnight in Keijō (Seoul), and arrives late morning the next day. Flew with [Fokker F.VII](https://en.wikipedia.org/wiki/Fokker_F.VII) (8 passengers) and [Fokker Super Universal](https://en.wikipedia.org/wiki/Fokker_Super_Universal) (6 passengers). Read more [here](https://www.jacar.go.jp/english/exhibition/glossary_en/gaichitonaichi/column/column1.html).',
     stops: [
       { id: 'tokyo', name: 'Tokyo', lon: 139.76, lat: 35.68, han: '東京' },
       { id: 'osaka', name: 'Osaka', lon: 135.5, lat: 34.69, han: '大阪' },
@@ -8285,7 +8285,7 @@ JMAP.AIR = [
     id: 'mkkk-manchouli-hsinking', name: 'Manzhouli – Hailar – Qiqihar – Harbin – Changchun', operator: 'Manchuria Aviation Company (満洲航空株式会社)', opened: '',
     season: 'winter 1935', epochs: ['e1942'], source: 'Manchuria Aviation Company timetable, winter 1935', srcUrl: 'https://www.timetableimages.com/ttimages/mkkk35.htm',
     ink: '#8c2f39', days: [], groundedFrom: '',
-    note: 'These are 1935 times on a map of December 1942.',
+    note: 'These are 1935 times on a map of December 1942.\n\nRead more in Bill Sewell, *Constructing Empire: The Japanese in Changchun, 1905–45* (UBC Press, 2019), pp. 127–8.',
     stops: [
       { id: 'manzhouli', name: 'Manzhouli (Manchouli)', lon: 117.45, lat: 49.6, han: '滿洲里' },
       { id: 'hailar', name: 'Hailar', lon: 119.7, lat: 49.2, han: '海拉爾' },
@@ -8595,7 +8595,7 @@ JMAP.AIR = [
   },
   {
     id: 'mkkk42-hsinking-tokyo', name: 'Changchun – Tokyo, through service', operator: 'Manchuria Aviation Company (満洲航空株式会社) · July 1942 sheet', opened: '',
-    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: '満州支那汽車時間表 (Manshū Shina kisha jikanhyō), Japan\'s railway timetable for Manchuria, July 1942 issue (昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: 'https://archive.org/details/manshu-shina-kisha-jikanhyo-1942.7',
     ink: '#b5473a', days: [], groundedFrom: '',
     note: '**July 1942 sheet** (昭和17年6月1日改正). The through service to Tokyo, tabled nonstop: Changchun 9.00, Tokyo 15.00; back Tokyo 9.00, Changchun 16.30, four days a week. 1,600 km for 265 yen. The sheet prints no intermediate call, so none is drawn; the Japan Airways lines on this map show the ground it flew over.',
     stops: [
@@ -8612,7 +8612,7 @@ JMAP.AIR = [
   },
   {
     id: 'mkkk42-hsinking-keijo', name: 'Changchun – Shenyang – Keijō', operator: 'Manchuria Aviation Company (満洲航空株式会社) · July 1942 sheet', opened: '',
-    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: '満州支那汽車時間表 (Manshū Shina kisha jikanhyō), Japan\'s railway timetable for Manchuria, July 1942 issue (昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: 'https://archive.org/details/manshu-shina-kisha-jikanhyo-1942.7',
     ink: '#b5473a', days: [], groundedFrom: '',
     note: '**July 1942 sheet** (昭和17年6月1日改正). Two days a week each way to the Korean capital: out Tuesdays and Fridays, back Wednesdays and Saturdays. This is the Manchurian carrier flying into Korea; the Japan Airways Keijō–Changchun line of 1938–39 is the same corridor from the other side.',
     stops: [
@@ -8633,7 +8633,7 @@ JMAP.AIR = [
   },
   {
     id: 'mkkk42-hsinking-dairen', name: 'Changchun – Shenyang – Dalian', operator: 'Manchuria Aviation Company (満洲航空株式会社) · July 1942 sheet', opened: '',
-    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: '満州支那汽車時間表 (Manshū Shina kisha jikanhyō), Japan\'s railway timetable for Manchuria, July 1942 issue (昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: 'https://archive.org/details/manshu-shina-kisha-jikanhyo-1942.7',
     ink: '#b5473a', days: [], groundedFrom: '',
     note: '**July 1942 sheet** (昭和17年6月1日改正). Three days a week, an afternoon run south and a morning run north. The winter-1935 Harbin–Dalian line on this map is the same trunk seven years earlier, daily and from Harbin; by 1942 the northern leg is the daily Changchun–Harbin–Jiamusi service.',
     stops: [
@@ -8654,7 +8654,7 @@ JMAP.AIR = [
   },
   {
     id: 'mkkk42-mukden-antung-dairen', name: 'Shenyang – Dandong – Dalian, by the Yalu', operator: 'Manchuria Aviation Company (満洲航空株式会社) · July 1942 sheet', opened: '',
-    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: '満州支那汽車時間表 (Manshū Shina kisha jikanhyō), Japan\'s railway timetable for Manchuria, July 1942 issue (昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: 'https://archive.org/details/manshu-shina-kisha-jikanhyo-1942.7',
     ink: '#b5473a', days: [], groundedFrom: '',
     note: '**July 1942 sheet** (昭和17年6月1日改正). Flights 21 and 22: Shenyang east into the mountains, down the Yalu through Chian to Dandong, then west along the coast to Dalian. 岫巖 Xiuyan is tabled (590 km, 65 yen) and passed without a call both ways (レ). Out Mondays, Wednesdays and Fridays; back Tuesdays, Thursdays and Saturdays.',
     stops: [
@@ -8688,9 +8688,9 @@ JMAP.AIR = [
   },
   {
     id: 'mkkk42-hsinking-kiamusze', name: 'Changchun – Harbin – Jiamusi', operator: 'Manchuria Aviation Company (満洲航空株式会社) · July 1942 sheet', opened: '',
-    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: '満州支那汽車時間表 (Manshū Shina kisha jikanhyō), Japan\'s railway timetable for Manchuria, July 1942 issue (昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: 'https://archive.org/details/manshu-shina-kisha-jikanhyo-1942.7',
     ink: '#b5473a', days: [], groundedFrom: '',
-    note: '**July 1942 sheet** (昭和17年6月1日改正). Flights 1 and 2, daily: the capital to Harbin and on down the Sungari to Jiamusi, the hub of the eastern lines. Northbound is a morning flight, southbound an afternoon one.',
+    note: '**July 1942 sheet** (昭和17年6月1日改正). Flights 1 and 2, daily: the capital to Harbin and on down the Sungari to Jiamusi, the hub of the eastern lines. Northbound is a morning flight, southbound an afternoon one.\n\nRead more in Bill Sewell, *Constructing Empire: The Japanese in Changchun, 1905–45* (UBC Press, 2019), pp. 127–8.',
     stops: [
       { id: 'changchun', name: 'Changchun (Xinjing)', lon: 125.32, lat: 43.88, han: '新京' },
       { id: 'harbin', name: 'Harbin', lon: 126.53, lat: 45.8, han: '哈爾濱' },
@@ -8709,7 +8709,7 @@ JMAP.AIR = [
   },
   {
     id: 'mkkk42-mukden-peking', name: 'Shenyang – Tianjin – Beijing', operator: 'Manchuria Aviation Company (満洲航空株式会社) · July 1942 sheet', opened: '',
-    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: '満州支那汽車時間表 (Manshū Shina kisha jikanhyō), Japan\'s railway timetable for Manchuria, July 1942 issue (昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: 'https://archive.org/details/manshu-shina-kisha-jikanhyo-1942.7',
     ink: '#b5473a', days: [], groundedFrom: 'mukden',
     note: '**Suspended (運休) in the July 1942 sheet.** The times are the ones printed beside the 運休 mark; the line is drawn dimmed and no aeroplane flies it. Flights 13 and 14, tabled daily: Shenyang 9.00, Tianjin 11.40, Beijing 12.25; back 12.45, 13.25 / 13.30, 15.50. The sheet prints the Tianjin distance as 250 km, which the fares (66 yen, against 86 to Beijing at 855 km) say is a misprint for something near 750; the distance is left off that leg.',
     stops: [
@@ -8730,9 +8730,9 @@ JMAP.AIR = [
   },
   {
     id: 'mkkk42-mukden-chengteh', name: 'Shenyang – Jinzhou – Chengde', operator: 'Manchuria Aviation Company (満洲航空株式会社) · July 1942 sheet', opened: '',
-    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: '満州支那汽車時間表 (Manshū Shina kisha jikanhyō), Japan\'s railway timetable for Manchuria, July 1942 issue (昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: 'https://archive.org/details/manshu-shina-kisha-jikanhyo-1942.7',
     ink: '#b5473a', days: [], groundedFrom: 'mukden',
-    note: '**Suspended (運休) in the July 1942 sheet.** The times are the ones printed beside the 運休 mark; the line is drawn dimmed and no aeroplane flies it. Flights 11 and 12, tabled daily, to the old summer capital in Jehol.',
+    note: '**Suspended (運休) in the July 1942 sheet.** The times are the ones printed beside the 運休 mark; the line is drawn dimmed and no aeroplane flies it. Flights 11 and 12, tabled daily, to the old summer capital in Jehol.\n\nRead more in Bill Sewell, *Constructing Empire: The Japanese in Changchun, 1905–45* (UBC Press, 2019), pp. 127–8.',
     stops: [
       { id: 'mukden', name: 'Shenyang (Mukden)', lon: 123.43, lat: 41.8, han: '奉天' },
       { id: 'jinzhou', name: 'Jinzhou (Chinchow)', lon: 121.13, lat: 41.1, han: '錦州' },
@@ -8751,7 +8751,7 @@ JMAP.AIR = [
   },
   {
     id: 'mkkk42-chengteh-paotow', name: 'Chengde – Zhangjiakou – Baotou', operator: 'Manchuria Aviation Company (満洲航空株式会社) · July 1942 sheet', opened: '',
-    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: '満州支那汽車時間表 (Manshū Shina kisha jikanhyō), Japan\'s railway timetable for Manchuria, July 1942 issue (昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: 'https://archive.org/details/manshu-shina-kisha-jikanhyo-1942.7',
     ink: '#b5473a', days: [], groundedFrom: 'chengde',
     note: '**Suspended (運休) in the July 1942 sheet.** The times are the ones printed beside the 運休 mark; the line is drawn dimmed and no aeroplane flies it. Flights 50 and 51 across Inner Mongolia: out Tuesdays and Saturdays in the afternoon, back Sundays and Wednesdays in the morning. 厚和 is Hohhot (Kweisui, today Hohhot) under its Mengchiang name. The China Airways Beijing–Baotou line covers the same three western stops.',
     stops: [
@@ -8778,9 +8778,9 @@ JMAP.AIR = [
   },
   {
     id: 'mkkk42-hsinking-chihfeng', name: 'Changchun – Chifeng, for Chengde', operator: 'Manchuria Aviation Company (満洲航空株式会社) · July 1942 sheet', opened: '',
-    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: '満州支那汽車時間表 (Manshū Shina kisha jikanhyō), Japan\'s railway timetable for Manchuria, July 1942 issue (昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: 'https://archive.org/details/manshu-shina-kisha-jikanhyo-1942.7',
     ink: '#b5473a', days: [], groundedFrom: '',
-    note: '**July 1942 sheet** (昭和17年6月1日改正). Flights 15 and 16, once a week: out Thursdays, back Fridays, across the Mongol banners of western Manchukuo. Chengde is tabled beyond Chifeng (925 km, 124 yen) with no times at all, so that leg is drawn and not flown.',
+    note: '**July 1942 sheet** (昭和17年6月1日改正). Flights 15 and 16, once a week: out Thursdays, back Fridays, across the Mongol banners of western Manchukuo. Chengde is tabled beyond Chifeng (925 km, 124 yen) with no times at all, so that leg is drawn and not flown.\n\nRead more in Bill Sewell, *Constructing Empire: The Japanese in Changchun, 1905–45* (UBC Press, 2019), pp. 127–8.',
     stops: [
       { id: 'changchun', name: 'Changchun (Xinjing)', lon: 125.32, lat: 43.88, han: '新京' },
       { name: 'Tongliao (Tungliao)', lon: 122.26, lat: 43.62, han: '通遼' },
@@ -8812,9 +8812,9 @@ JMAP.AIR = [
   },
   {
     id: 'mkkk42-hsinking-linkiang', name: 'Changchun – Tonghua – Linjiang', operator: 'Manchuria Aviation Company (満洲航空株式会社) · July 1942 sheet', opened: '',
-    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: '満州支那汽車時間表 (Manshū Shina kisha jikanhyō), Japan\'s railway timetable for Manchuria, July 1942 issue (昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: 'https://archive.org/details/manshu-shina-kisha-jikanhyo-1942.7',
     ink: '#b5473a', days: [], groundedFrom: 'changchun',
-    note: '**Suspended (運休) in the July 1942 sheet.** The times are the ones printed beside the 運休 mark; the line is drawn dimmed and no aeroplane flies it. Flights 7 and 8, tabled Mondays, Wednesdays and Fridays, to 中江鎮 on the upper Yalu (Linkiang), opposite Korea.',
+    note: '**Suspended (運休) in the July 1942 sheet.** The times are the ones printed beside the 運休 mark; the line is drawn dimmed and no aeroplane flies it. Flights 7 and 8, tabled Mondays, Wednesdays and Fridays, to 中江鎮 on the upper Yalu (Linkiang), opposite Korea.\n\nRead more in Bill Sewell, *Constructing Empire: The Japanese in Changchun, 1905–45* (UBC Press, 2019), pp. 127–8.',
     stops: [
       { id: 'changchun', name: 'Changchun (Xinjing)', lon: 125.32, lat: 43.88, han: '新京' },
       { id: 'tonghua', name: 'Tonghua (Tunghua)', lon: 125.94, lat: 41.73, han: '通化' },
@@ -8833,9 +8833,9 @@ JMAP.AIR = [
   },
   {
     id: 'mkkk42-hsinking-hunchun', name: 'Changchun – Yanji – Tumen – Hunchun', operator: 'Manchuria Aviation Company (満洲航空株式会社) · July 1942 sheet', opened: '',
-    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: '満州支那汽車時間表 (Manshū Shina kisha jikanhyō), Japan\'s railway timetable for Manchuria, July 1942 issue (昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: 'https://archive.org/details/manshu-shina-kisha-jikanhyo-1942.7',
     ink: '#b5473a', days: [], groundedFrom: 'changchun',
-    note: '**Suspended (運休) in the July 1942 sheet.** The times are the ones printed beside the 運休 mark; the line is drawn dimmed and no aeroplane flies it. Flights 9 and 10, tabled Tuesdays, Thursdays and Saturdays, to the Tumen corner where Manchukuo, Korea and the Soviet Union meet.',
+    note: '**Suspended (運休) in the July 1942 sheet.** The times are the ones printed beside the 運休 mark; the line is drawn dimmed and no aeroplane flies it. Flights 9 and 10, tabled Tuesdays, Thursdays and Saturdays, to the Tumen corner where Manchukuo, Korea and the Soviet Union meet.\n\nRead more in Bill Sewell, *Constructing Empire: The Japanese in Changchun, 1905–45* (UBC Press, 2019), pp. 127–8.',
     stops: [
       { id: 'changchun', name: 'Changchun (Xinjing)', lon: 125.32, lat: 43.88, han: '新京' },
       { id: 'yanji', name: 'Yanji (Yenki)', lon: 129.51, lat: 42.91, han: '延吉' },
@@ -8857,9 +8857,9 @@ JMAP.AIR = [
   },
   {
     id: 'mkkk42-mutankiang-tungning', name: 'Mudanjiang – Suifenhe – Dongning', operator: 'Manchuria Aviation Company (満洲航空株式会社) · July 1942 sheet', opened: '',
-    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: '満州支那汽車時間表 (Manshū Shina kisha jikanhyō), Japan\'s railway timetable for Manchuria, July 1942 issue (昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: 'https://archive.org/details/manshu-shina-kisha-jikanhyo-1942.7',
     ink: '#b5473a', days: [], groundedFrom: '',
-    note: '**July 1942 sheet** (昭和17年6月1日改正). Flights 23 and 24, Mondays, Wednesdays and Fridays: a short morning hop to the Soviet frontier and back, timed to connect at Mudanjiang with the daily Changchun–Harbin service, which stands there from 10.05 to 15.10.',
+    note: '**July 1942 sheet** (昭和17年6月1日改正). Flights 23 and 24, Mondays, Wednesdays and Fridays: a short morning hop to the Soviet frontier and back, timed to connect at Mudanjiang with the daily Changchun–Harbin service, which stands there from 10.05 to 15.10.\n\nRead more in Bill Sewell, *Constructing Empire: The Japanese in Changchun, 1905–45* (UBC Press, 2019), pp. 127–8.',
     stops: [
       { id: 'mudanjiang', name: 'Mudanjiang (Mutankiang)', lon: 129.6, lat: 44.58, han: '牡丹江' },
       { id: 'suifenhe', name: 'Suifenhe (Suifenho)', lon: 131.15, lat: 44.4, han: '綏芬河' },
@@ -8878,9 +8878,9 @@ JMAP.AIR = [
   },
   {
     id: 'mkkk42-hsinking-manchouli', name: 'Changchun – Qiqihar – Hailar – Manzhouli', operator: 'Manchuria Aviation Company (満洲航空株式会社) · July 1942 sheet', opened: '',
-    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: '満州支那汽車時間表 (Manshū Shina kisha jikanhyō), Japan\'s railway timetable for Manchuria, July 1942 issue (昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: 'https://archive.org/details/manshu-shina-kisha-jikanhyo-1942.7',
     ink: '#b5473a', days: [], groundedFrom: 'changchun',
-    note: '**Suspended (運休) in the July 1942 sheet.** The times are the ones printed beside the 運休 mark; the line is drawn dimmed and no aeroplane flies it. Flights 5 and 6, a two-day journey each way with the night at Hailar: out Mondays, Wednesdays and Fridays as far as Hailar, on to Manzhouli the next morning; back on Tuesdays, Thursdays and Saturdays. The winter-1935 Manzhouli–Changchun line on this map is the same route by way of Harbin; by 1942 it ran by Baicheng instead.',
+    note: '**Suspended (運休) in the July 1942 sheet.** The times are the ones printed beside the 運休 mark; the line is drawn dimmed and no aeroplane flies it. Flights 5 and 6, a two-day journey each way with the night at Hailar: out Mondays, Wednesdays and Fridays as far as Hailar, on to Manzhouli the next morning; back on Tuesdays, Thursdays and Saturdays. The winter-1935 Manzhouli–Changchun line on this map is the same route by way of Harbin; by 1942 it ran by Baicheng instead.\n\nRead more in Bill Sewell, *Constructing Empire: The Japanese in Changchun, 1905–45* (UBC Press, 2019), pp. 127–8.',
     stops: [
       { id: 'changchun', name: 'Changchun (Xinjing)', lon: 125.32, lat: 43.88, han: '新京' },
       { name: 'Baicheng (Paichengtzu)', lon: 122.84, lat: 45.62, han: '白城子' },
@@ -8905,9 +8905,9 @@ JMAP.AIR = [
   },
   {
     id: 'mkkk42-harbin-hailar', name: 'Harbin – Qiqihar – Hailar', operator: 'Manchuria Aviation Company (満洲航空株式会社) · July 1942 sheet', opened: '',
-    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: '満州支那汽車時間表 (Manshū Shina kisha jikanhyō), Japan\'s railway timetable for Manchuria, July 1942 issue (昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: 'https://archive.org/details/manshu-shina-kisha-jikanhyo-1942.7',
     ink: '#b5473a', days: [], groundedFrom: '',
-    note: '**July 1942 sheet** (昭和17年6月1日改正). Once a week: out Thursdays, back Fridays. With the Changchun–Manzhouli line suspended this was the only tabled service to the Barga steppe in July 1942.',
+    note: '**July 1942 sheet** (昭和17年6月1日改正). Once a week: out Thursdays, back Fridays. With the Changchun–Manzhouli line suspended this was the only tabled service to the Barga steppe in July 1942.\n\nRead more in Bill Sewell, *Constructing Empire: The Japanese in Changchun, 1905–45* (UBC Press, 2019), pp. 127–8.',
     stops: [
       { id: 'harbin', name: 'Harbin', lon: 126.53, lat: 45.8, han: '哈爾濱' },
       { id: 'qiqihar', name: 'Qiqihar (Tsitsihar)', lon: 123.92, lat: 47.35, han: '齊齊哈爾' },
@@ -8926,9 +8926,9 @@ JMAP.AIR = [
   },
   {
     id: 'mkkk42-harbin-heiho', name: 'Harbin – Bei\'an – Sunwu – Heihe', operator: 'Manchuria Aviation Company (満洲航空株式会社) · July 1942 sheet', opened: '',
-    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: '満州支那汽車時間表 (Manshū Shina kisha jikanhyō), Japan\'s railway timetable for Manchuria, July 1942 issue (昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: 'https://archive.org/details/manshu-shina-kisha-jikanhyo-1942.7',
     ink: '#b5473a', days: [], groundedFrom: '',
-    note: '**July 1942 sheet** (昭和17年6月1日改正). Flights 17 and 18, Mondays, Wednesdays and Fridays, north to the Amur opposite Blagoveshchensk. The sheet tables the line as a circuit going on from Heihe by Nunkiang and Qiqihar back to Harbin (1,320 km, 137 yen) but prints no times beyond Heihe, so only the timed arm is drawn.',
+    note: '**July 1942 sheet** (昭和17年6月1日改正). Flights 17 and 18, Mondays, Wednesdays and Fridays, north to the Amur opposite Blagoveshchensk. The sheet tables the line as a circuit going on from Heihe by Nunkiang and Qiqihar back to Harbin (1,320 km, 137 yen) but prints no times beyond Heihe, so only the timed arm is drawn.\n\nRead more in Bill Sewell, *Constructing Empire: The Japanese in Changchun, 1905–45* (UBC Press, 2019), pp. 127–8.',
     stops: [
       { id: 'harbin', name: 'Harbin', lon: 126.53, lat: 45.8, han: '哈爾濱' },
       { name: 'Bei\'an (Peian)', lon: 126.49, lat: 48.24, han: '北安' },
@@ -8950,9 +8950,9 @@ JMAP.AIR = [
   },
   {
     id: 'mkkk42-hsinking-mutankiang-harbin', name: 'Changchun – Mudanjiang – Harbin', operator: 'Manchuria Aviation Company (満洲航空株式会社) · July 1942 sheet', opened: '',
-    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: '満州支那汽車時間表 (Manshū Shina kisha jikanhyō), Japan\'s railway timetable for Manchuria, July 1942 issue (昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: 'https://archive.org/details/manshu-shina-kisha-jikanhyo-1942.7',
     ink: '#b5473a', days: [], groundedFrom: '',
-    note: '**July 1942 sheet** (昭和17年6月1日改正). Flights 26 and 25, daily: a morning leg to Mudanjiang, a five-hour stand while the Dongning and Baoqing feeders go out and come back, and an afternoon leg on. The two halves are printed in separate columns on the sheet and are one aeroplane here.',
+    note: '**July 1942 sheet** (昭和17年6月1日改正). Flights 26 and 25, daily: a morning leg to Mudanjiang, a five-hour stand while the Dongning and Baoqing feeders go out and come back, and an afternoon leg on. The two halves are printed in separate columns on the sheet and are one aeroplane here.\n\nRead more in Bill Sewell, *Constructing Empire: The Japanese in Changchun, 1905–45* (UBC Press, 2019), pp. 127–8.',
     stops: [
       { id: 'changchun', name: 'Changchun (Xinjing)', lon: 125.32, lat: 43.88, han: '新京' },
       { id: 'mudanjiang', name: 'Mudanjiang (Mutankiang)', lon: 129.6, lat: 44.58, han: '牡丹江' },
@@ -8971,9 +8971,9 @@ JMAP.AIR = [
   },
   {
     id: 'mkkk42-mutankiang-paoching', name: 'Mudanjiang – Mishan – Baoqing', operator: 'Manchuria Aviation Company (満洲航空株式会社) · July 1942 sheet', opened: '',
-    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: '満州支那汽車時間表 (Manshū Shina kisha jikanhyō), Japan\'s railway timetable for Manchuria, July 1942 issue (昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: 'https://archive.org/details/manshu-shina-kisha-jikanhyo-1942.7',
     ink: '#b5473a', days: [], groundedFrom: '',
-    note: '**July 1942 sheet** (昭和17年6月1日改正). Tuesdays, Thursdays and Saturdays, out and back in a day, connecting at Mudanjiang with the daily Changchun–Harbin service. 東安 Mishan is Mishan under its Manchukuo name; 鷄寧 Jixi is Jixi.',
+    note: '**July 1942 sheet** (昭和17年6月1日改正). Tuesdays, Thursdays and Saturdays, out and back in a day, connecting at Mudanjiang with the daily Changchun–Harbin service. 東安 Mishan is Mishan under its Manchukuo name; 鷄寧 Jixi is Jixi.\n\nRead more in Bill Sewell, *Constructing Empire: The Japanese in Changchun, 1905–45* (UBC Press, 2019), pp. 127–8.',
     stops: [
       { id: 'mudanjiang', name: 'Mudanjiang (Mutankiang)', lon: 129.6, lat: 44.58, han: '牡丹江' },
       { name: 'Jixi (Chining)', lon: 130.97, lat: 45.3, han: '鷄寧' },
@@ -8995,9 +8995,9 @@ JMAP.AIR = [
   },
   {
     id: 'mkkk42-fuchin-tungan', name: 'Fujin – Raohe – Hutou – Hulin – Mishan', operator: 'Manchuria Aviation Company (満洲航空株式会社) · July 1942 sheet', opened: '',
-    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: '満州支那汽車時間表 (Manshū Shina kisha jikanhyō), Japan\'s railway timetable for Manchuria, July 1942 issue (昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: 'https://archive.org/details/manshu-shina-kisha-jikanhyo-1942.7',
     ink: '#b5473a', days: [], groundedFrom: '',
-    note: '**July 1942 sheet** (昭和17年6月1日改正). Tuesdays and Saturdays, down the Ussuri frontier from the Sungari to Mishan (Mishan). The sheet prints no distance for Hulin; 445 km end to end.',
+    note: '**July 1942 sheet** (昭和17年6月1日改正). Tuesdays and Saturdays, down the Ussuri frontier from the Sungari to Mishan (Mishan). The sheet prints no distance for Hulin; 445 km end to end.\n\nRead more in Bill Sewell, *Constructing Empire: The Japanese in Changchun, 1905–45* (UBC Press, 2019), pp. 127–8.',
     stops: [
       { name: 'Fujin (Fuchin)', lon: 132.03, lat: 47.25, han: '富錦' },
       { name: 'Raohe (Jaoho)', lon: 134.02, lat: 46.8, han: '饒河' },
@@ -9022,9 +9022,9 @@ JMAP.AIR = [
   },
   {
     id: 'mkkk42-kiamusze-jaoho', name: 'Jiamusi – Baoqing – Fujin – Raohe', operator: 'Manchuria Aviation Company (満洲航空株式会社) · July 1942 sheet', opened: '',
-    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: '満州支那汽車時間表 (Manshū Shina kisha jikanhyō), Japan\'s railway timetable for Manchuria, July 1942 issue (昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: 'https://archive.org/details/manshu-shina-kisha-jikanhyo-1942.7',
     ink: '#b5473a', days: [], groundedFrom: '',
-    note: '**July 1942 sheet** (昭和17年6月1日改正). Tuesdays, Thursdays and Saturdays, and printed as a zigzag: Jiamusi to Baoqing (150 km, 23 yen), north to Fujin (95 km, 19), back through Baoqing (11.35 / 11.40, 19 yen) and on to Raohe (25 yen; no distance printed). The return calls at Baoqing only (13.40 / 13.45) and passes Fujin (レ). The map draws each stop once, so the second Baoqing call is on this note and the Fujin–Raohe leg carries the two fares together (44 yen).',
+    note: '**July 1942 sheet** (昭和17年6月1日改正). Tuesdays, Thursdays and Saturdays, and printed as a zigzag: Jiamusi to Baoqing (150 km, 23 yen), north to Fujin (95 km, 19), back through Baoqing (11.35 / 11.40, 19 yen) and on to Raohe (25 yen; no distance printed). The return calls at Baoqing only (13.40 / 13.45) and passes Fujin (レ). The map draws each stop once, so the second Baoqing call is on this note and the Fujin–Raohe leg carries the two fares together (44 yen).\n\nRead more in Bill Sewell, *Constructing Empire: The Japanese in Changchun, 1905–45* (UBC Press, 2019), pp. 127–8.',
     stops: [
       { id: 'jiamusi', name: 'Jiamusi (Kiamusze)', lon: 130.32, lat: 46.81, han: '佳木斯' },
       { name: 'Baoqing (Paoching)', lon: 132.2, lat: 46.33, han: '寶清' },
@@ -9046,9 +9046,9 @@ JMAP.AIR = [
   },
   {
     id: 'mkkk42-harbin-fuchin', name: 'Harbin – Yilan – Jiamusi – Fujin', operator: 'Manchuria Aviation Company (満洲航空株式会社) · July 1942 sheet', opened: '',
-    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: '満州支那汽車時間表 (Manshū Shina kisha jikanhyō), Japan\'s railway timetable for Manchuria, July 1942 issue (昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: 'https://archive.org/details/manshu-shina-kisha-jikanhyo-1942.7',
     ink: '#b5473a', days: [], groundedFrom: '',
-    note: '**July 1942 sheet** (昭和17年6月1日改正). Flights 19 and 20 down the Sungari: Harbin–Jiamusi every day but Sunday, the Jiamusi–Fujin end on Tuesdays, Thursdays and Saturdays. Carried as two services on their own days.',
+    note: '**July 1942 sheet** (昭和17年6月1日改正). Flights 19 and 20 down the Sungari: Harbin–Jiamusi every day but Sunday, the Jiamusi–Fujin end on Tuesdays, Thursdays and Saturdays. Carried as two services on their own days.\n\nRead more in Bill Sewell, *Constructing Empire: The Japanese in Changchun, 1905–45* (UBC Press, 2019), pp. 127–8.',
     stops: [
       { id: 'harbin', name: 'Harbin', lon: 126.53, lat: 45.8, han: '哈爾濱' },
       { name: 'Tonghe (Tungho)', lon: 128.75, lat: 45.97, han: '通河' },
@@ -9075,9 +9075,9 @@ JMAP.AIR = [
   },
   {
     id: 'mkkk42-kiamusze-mohe', name: 'Jiamusi – Heihe – Mohe, up the Amur', operator: 'Manchuria Aviation Company (満洲航空株式会社) · July 1942 sheet', opened: '',
-    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: '満州支那汽車時間表 (Manshū Shina kisha jikanhyō), Japan\'s railway timetable for Manchuria, July 1942 issue (昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: 'https://archive.org/details/manshu-shina-kisha-jikanhyo-1942.7',
     ink: '#b5473a', days: [], groundedFrom: '',
-    note: '**July 1942 sheet** (昭和17年6月1日改正). Flights 37 and 38, the longest of the frontier lines: 1,260 km up the Amur to Mohe at the top of Manchukuo. Two aeroplanes on the sheet — Jiamusi–Heihe on Mondays, Heihe–Mohe on Tuesdays and Thursdays — carried as two services. 佛山 Jiayin is today\'s Jiayin; Oupu and Wuyun are river posts placed approximately.',
+    note: '**July 1942 sheet** (昭和17年6月1日改正). Flights 37 and 38, the longest of the frontier lines: 1,260 km up the Amur to Mohe at the top of Manchukuo. Two aeroplanes on the sheet — Jiamusi–Heihe on Mondays, Heihe–Mohe on Tuesdays and Thursdays — carried as two services. 佛山 Jiayin is today\'s Jiayin; Oupu and Wuyun are river posts placed approximately.\n\nRead more in Bill Sewell, *Constructing Empire: The Japanese in Changchun, 1905–45* (UBC Press, 2019), pp. 127–8.',
     stops: [
       { id: 'jiamusi', name: 'Jiamusi (Kiamusze)', lon: 130.32, lat: 46.81, han: '佳木斯' },
       { name: 'Jiayin (Foshan)', lon: 130.39, lat: 48.89, han: '佛山' },
@@ -9113,9 +9113,9 @@ JMAP.AIR = [
   },
   {
     id: 'mkkk42-kiamusze-fuyuan', name: 'Jiamusi – Luobei – Fujin – Tongjiang – Fuyuan', operator: 'Manchuria Aviation Company (満洲航空株式会社) · July 1942 sheet', opened: '',
-    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: '満州支那汽車時間表 (Manshū Shina kisha jikanhyō), Japan\'s railway timetable for Manchuria, July 1942 issue (昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: 'https://archive.org/details/manshu-shina-kisha-jikanhyo-1942.7',
     ink: '#b5473a', days: [], groundedFrom: '',
-    note: '**July 1942 sheet** (昭和17年6月1日改正). Wednesdays and Fridays. The sheet tables the whole line but prints times only from Fujin: 9.00 out, Tongjiang 9.30 / 9.35, Fuyuan 10.55; back 11.05, 12.30 / 12.35, Fujin 13.10. Jiamusi–Luobei–Fujin is drawn from the fare columns and not flown. Luobei is placed at the old county town on the Amur, approximately.',
+    note: '**July 1942 sheet** (昭和17年6月1日改正). Wednesdays and Fridays. The sheet tables the whole line but prints times only from Fujin: 9.00 out, Tongjiang 9.30 / 9.35, Fuyuan 10.55; back 11.05, 12.30 / 12.35, Fujin 13.10. Jiamusi–Luobei–Fujin is drawn from the fare columns and not flown. Luobei is placed at the old county town on the Amur, approximately.\n\nRead more in Bill Sewell, *Constructing Empire: The Japanese in Changchun, 1905–45* (UBC Press, 2019), pp. 127–8.',
     stops: [
       { id: 'jiamusi', name: 'Jiamusi (Kiamusze)', lon: 130.32, lat: 46.81, han: '佳木斯' },
       { name: 'Luobei (Lopei)', lon: 131.03, lat: 47.88, han: '蘿北' },
@@ -9140,9 +9140,9 @@ JMAP.AIR = [
   },
   {
     id: 'mkkk42-kiamusze-fenghsiang-fuchin', name: 'Jiamusi – Fengxiang – Fujin', operator: 'Manchuria Aviation Company (満洲航空株式会社) · July 1942 sheet', opened: '',
-    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    season: 'July 1942 (昭和17.6.1改正)', epochs: ['e1942'], source: '満州支那汽車時間表 (Manshū Shina kisha jikanhyō), Japan\'s railway timetable for Manchuria, July 1942 issue (昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: 'https://archive.org/details/manshu-shina-kisha-jikanhyo-1942.7',
     ink: '#b5473a', days: [], groundedFrom: 'jiamusi',
-    note: '**Suspended (運休) in the July 1942 sheet.** The times are the ones printed beside the 運休 mark; the line is drawn dimmed and no aeroplane flies it. Tabled for Fridays, a morning run down the Sungari with the return in the afternoon. No distances are printed; 16 yen a leg. Fengxiang is placed approximately.',
+    note: '**Suspended (運休) in the July 1942 sheet.** The times are the ones printed beside the 運休 mark; the line is drawn dimmed and no aeroplane flies it. Tabled for Fridays, a morning run down the Sungari with the return in the afternoon. No distances are printed; 16 yen a leg. Fengxiang is placed approximately.\n\nRead more in Bill Sewell, *Constructing Empire: The Japanese in Changchun, 1905–45* (UBC Press, 2019), pp. 127–8.',
     stops: [
       { id: 'jiamusi', name: 'Jiamusi (Kiamusze)', lon: 130.32, lat: 46.81, han: '佳木斯' },
       { name: 'Fengxiang (Fenghsiangchen)', lon: 130.83, lat: 47.58, han: '鳳翔鎮' },
@@ -9161,7 +9161,7 @@ JMAP.AIR = [
   },
   {
     id: 'cak42-peking-dairen', name: 'Beijing – Tianjin – Dalian', operator: 'China Airways Co. (中華航空株式會社) · April 1942 sheet', opened: '',
-    season: 'April 1942 (昭和17.4.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    season: 'April 1942 (昭和17.4.1改正)', epochs: ['e1942'], source: '満州支那汽車時間表 (Manshū Shina kisha jikanhyō), Japan\'s railway timetable for Manchuria, July 1942 issue (昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: 'https://archive.org/details/manshu-shina-kisha-jikanhyo-1942.7',
     ink: '#4a9a88', days: [], groundedFrom: '',
     note: '**April 1942 sheet** (昭和17年4月1日改正), as reprinted in July 1942. Flights 5 and 6, Tuesdays, Thursdays and Saturdays. The 1940 China Airways Dalian line on this map is the same route two years earlier, then daily.',
     stops: [
@@ -9182,7 +9182,7 @@ JMAP.AIR = [
   },
   {
     id: 'cak42-peking-shanghai', name: 'Beijing – Jinan – Xuzhou – Nanjing – Shanghai', operator: 'China Airways Co. (中華航空株式會社) · April 1942 sheet', opened: '',
-    season: 'April 1942 (昭和17.4.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    season: 'April 1942 (昭和17.4.1改正)', epochs: ['e1942'], source: '満州支那汽車時間表 (Manshū Shina kisha jikanhyō), Japan\'s railway timetable for Manchuria, July 1942 issue (昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: 'https://archive.org/details/manshu-shina-kisha-jikanhyo-1942.7',
     ink: '#4a9a88', days: [], groundedFrom: '',
     note: '**April 1942 sheet** (昭和17年4月1日改正), as reprinted in July 1942. Flights 1 and 2 down the Tianjin–Pukow corridor: south Mondays, Wednesdays and Fridays, north Tuesdays, Thursdays and Saturdays. Nanjing–Shanghai is tabled (50 yen, 270 km) with no times, so that leg is drawn and not flown. Compare the daily 1940 Shanghai line.',
     stops: [
@@ -9213,7 +9213,7 @@ JMAP.AIR = [
   },
   {
     id: 'cak42-peking-paotow', name: 'Beijing – Zhangjiakou – Datong – Hohhot – Baotou', operator: 'China Airways Co. (中華航空株式會社) · April 1942 sheet', opened: '',
-    season: 'April 1942 (昭和17.4.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    season: 'April 1942 (昭和17.4.1改正)', epochs: ['e1942'], source: '満州支那汽車時間表 (Manshū Shina kisha jikanhyō), Japan\'s railway timetable for Manchuria, July 1942 issue (昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: 'https://archive.org/details/manshu-shina-kisha-jikanhyo-1942.7',
     ink: '#4a9a88', days: [], groundedFrom: '',
     note: '**April 1942 sheet** (昭和17年4月1日改正), as reprinted in July 1942. Flights 7 and 8, once a week: out Thursdays, back Saturdays. The 1940 Baotou line on this map is the same route.',
     stops: [
@@ -9240,7 +9240,7 @@ JMAP.AIR = [
   },
   {
     id: 'cak42-peking-tsingtao-shanghai', name: 'Beijing – Tianjin – Qingdao – Shanghai', operator: 'China Airways Co. (中華航空株式會社) · April 1942 sheet', opened: '',
-    season: 'April 1942 (昭和17.4.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    season: 'April 1942 (昭和17.4.1改正)', epochs: ['e1942'], source: '満州支那汽車時間表 (Manshū Shina kisha jikanhyō), Japan\'s railway timetable for Manchuria, July 1942 issue (昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: 'https://archive.org/details/manshu-shina-kisha-jikanhyo-1942.7',
     ink: '#4a9a88', days: [], groundedFrom: '',
     note: '**April 1942 sheet** (昭和17年4月1日改正), as reprinted in July 1942. Flights 32 and 31, by the coast: south Tuesdays and Saturdays, north Mondays and Fridays.',
     stops: [
@@ -9264,7 +9264,7 @@ JMAP.AIR = [
   },
   {
     id: 'cak42-shanghai-taihoku-canton', name: 'Shanghai – Taihoku – Guangzhou', operator: 'China Airways Co. (中華航空株式會社) · April 1942 sheet', opened: '',
-    season: 'April 1942 (昭和17.4.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    season: 'April 1942 (昭和17.4.1改正)', epochs: ['e1942'], source: '満州支那汽車時間表 (Manshū Shina kisha jikanhyō), Japan\'s railway timetable for Manchuria, July 1942 issue (昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: 'https://archive.org/details/manshu-shina-kisha-jikanhyo-1942.7',
     ink: '#4a9a88', days: [], groundedFrom: 'shanghai',
     note: '**Suspended (運休) in the July 1942 reprint.** The times are the ones printed beside the 運休 mark; the line is drawn dimmed and no aeroplane flies it. Flights 13 and 14, tabled Mondays and Thursdays south, Tuesdays and Fridays north, with forty minutes on the ground at Taihoku. The only line on the sheet to touch Taiwan.',
     stops: [
@@ -9285,7 +9285,7 @@ JMAP.AIR = [
   },
   {
     id: 'cak42-peking-yuncheng', name: 'Beijing – Shijiazhuang – Taiyuan – Linfen – Yuncheng', operator: 'China Airways Co. (中華航空株式會社) · April 1942 sheet', opened: '',
-    season: 'April 1942 (昭和17.4.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    season: 'April 1942 (昭和17.4.1改正)', epochs: ['e1942'], source: '満州支那汽車時間表 (Manshū Shina kisha jikanhyō), Japan\'s railway timetable for Manchuria, July 1942 issue (昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: 'https://archive.org/details/manshu-shina-kisha-jikanhyo-1942.7',
     ink: '#4a9a88', days: [], groundedFrom: '',
     note: '**April 1942 sheet** (昭和17年4月1日改正), as reprinted in July 1942. Flights 27 and 28 into Shansi, once a week: out Mondays, back Tuesdays. 石門 Shijiazhuang is Shihchiachuang.',
     stops: [
@@ -9312,7 +9312,7 @@ JMAP.AIR = [
   },
   {
     id: 'cak42-peking-kaifeng', name: 'Beijing – Shijiazhuang – Anyang – Xinxiang – Kaifeng', operator: 'China Airways Co. (中華航空株式會社) · April 1942 sheet', opened: '',
-    season: 'April 1942 (昭和17.4.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    season: 'April 1942 (昭和17.4.1改正)', epochs: ['e1942'], source: '満州支那汽車時間表 (Manshū Shina kisha jikanhyō), Japan\'s railway timetable for Manchuria, July 1942 issue (昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: 'https://archive.org/details/manshu-shina-kisha-jikanhyo-1942.7',
     ink: '#4a9a88', days: [], groundedFrom: '',
     note: '**April 1942 sheet** (昭和17年4月1日改正), as reprinted in July 1942. Flights 23 and 24 down the Beijing–Wuhan railway to the Yellow River, once a week: out Wednesdays, back Thursdays. The sheet prints the Anyang arrival as 12.20 and the departure as 12.10; the arrival is taken as 12.00.',
     stops: [
@@ -9339,7 +9339,7 @@ JMAP.AIR = [
   },
   {
     id: 'cak42-nanking-hankow', name: 'Nanjing – Anqing – Jiujiang – Wuhan', operator: 'China Airways Co. (中華航空株式會社) · April 1942 sheet', opened: '',
-    season: 'April 1942 (昭和17.4.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    season: 'April 1942 (昭和17.4.1改正)', epochs: ['e1942'], source: '満州支那汽車時間表 (Manshū Shina kisha jikanhyō), Japan\'s railway timetable for Manchuria, July 1942 issue (昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: 'https://archive.org/details/manshu-shina-kisha-jikanhyo-1942.7',
     ink: '#4a9a88', days: [], groundedFrom: '',
     note: '**April 1942 sheet** (昭和17年4月1日改正), as reprinted in July 1942. Flights 11 and 12 up the Yangtze, Tuesdays, Thursdays and Fridays, calling at the two river ports the through Shanghai–Wuhan flight passes.',
     stops: [
@@ -9363,7 +9363,7 @@ JMAP.AIR = [
   },
   {
     id: 'cak42-shanghai-hankow', name: 'Shanghai – Nanjing – Wuhan', operator: 'China Airways Co. (中華航空株式會社) · April 1942 sheet', opened: '',
-    season: 'April 1942 (昭和17.4.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    season: 'April 1942 (昭和17.4.1改正)', epochs: ['e1942'], source: '満州支那汽車時間表 (Manshū Shina kisha jikanhyō), Japan\'s railway timetable for Manchuria, July 1942 issue (昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: 'https://archive.org/details/manshu-shina-kisha-jikanhyo-1942.7',
     ink: '#4a9a88', days: [], groundedFrom: '',
     note: '**April 1942 sheet** (昭和17年4月1日改正), as reprinted in July 1942. Flights 15 and 16, Mondays, Wednesdays and Saturdays: the Yangtze trunk, nonstop from Nanjing to Wuhan. The 1940 line on this map called at Anqing and Jiujiang as well.',
     stops: [
@@ -9384,7 +9384,7 @@ JMAP.AIR = [
   },
   {
     id: 'cak42-canton-hoihow', name: 'Guangzhou – Haikou', operator: 'China Airways Co. (中華航空株式會社) · April 1942 sheet', opened: '',
-    season: 'April 1942 (昭和17.4.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    season: 'April 1942 (昭和17.4.1改正)', epochs: ['e1942'], source: '満州支那汽車時間表 (Manshū Shina kisha jikanhyō), Japan\'s railway timetable for Manchuria, July 1942 issue (昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: 'https://archive.org/details/manshu-shina-kisha-jikanhyo-1942.7',
     ink: '#4a9a88', days: [], groundedFrom: 'guangzhou',
     note: '**Suspended (運休) in the July 1942 reprint.** The times are the ones printed beside the 運休 mark; the line is drawn dimmed and no aeroplane flies it. Flights 35 and 36, tabled for Mondays, across to Hainan.',
     stops: [
@@ -9401,7 +9401,7 @@ JMAP.AIR = [
   },
   {
     id: 'cak42-canton-swatow', name: 'Guangzhou – Shantou', operator: 'China Airways Co. (中華航空株式會社) · April 1942 sheet', opened: '',
-    season: 'April 1942 (昭和17.4.1改正)', epochs: ['e1942'], source: 'Japanese railway timetable, July 1942 issue (時間表 昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: '',
+    season: 'April 1942 (昭和17.4.1改正)', epochs: ['e1942'], source: '満州支那汽車時間表 (Manshū Shina kisha jikanhyō), Japan\'s railway timetable for Manchuria, July 1942 issue (昭和17年7月號), aviation pages 119–121; 滿洲航空 tables stamped 昭和17.6.1改正, 中華航空 tables 昭和17.4.1改正', srcUrl: 'https://archive.org/details/manshu-shina-kisha-jikanhyo-1942.7',
     ink: '#4a9a88', days: [], groundedFrom: '',
     note: '**April 1942 sheet** (昭和17年4月1日改正), as reprinted in July 1942. Flights 37 and 38, Fridays, along the Kwangtung coast.',
     stops: [
