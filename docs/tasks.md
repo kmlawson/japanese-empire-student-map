@@ -19025,3 +19025,35 @@ than only adding `f` to the list it checks. A key named in the help and wired to
 nothing is the failure that section exists to prevent, so the list is not enough
 on its own. 28 pass. `SECS` for `keys` 48 → 52. Whole suite 2015 checks across
 60 scripts, all passing, 506.3s.
+
+## Several sources, several addresses
+
+`source_url` is one field, so the air layer — which names four sources in one
+sentence — had the whole thing wrapped in a single anchor, and that anchor
+pointed at 中華航空's timetable scan. A reader following the KLM citation, or
+酒井's article, arrived somewhere else. That is worse than no link: an
+unlinked citation says "look this up", a wrong one says "here it is".
+
+A `source` written with `[text](url)` in it is rendered as prose now, so each
+citation carries its own address. It goes through `setProse` — the same
+renderer the notes use, with the same http(s)-only guard — so nothing new was
+built for it. A row with a plain source and one `source_url` behaves exactly as
+before, which is every other row.
+
+**No URL was invented.** All five were already in `data/air/routes.csv`, on the
+routes read from each: 酒井's article at Teikyo, the April 1930 Japan Air
+Transport sheet and 中華航空's 1940 timetable at timetableimages, KLM's 1938
+Amsterdam–Batavia service, and the K.N.I.L.M. route map at David Rumsey. Each
+was fetched and returned 200 before it was written in. `source_url` on the row
+is cleared: two answers to "where is this from" is one too many.
+
+Tests: `layerinfo.js` gains four — the layer names its sources, each is its own
+link, no two point at the same place, and no Markdown is left showing. The
+property rather than the count, so adding a fifth source does not break it.
+
+One existing check had to change. "And the sources are linked" read the *first*
+link and asserted it was at timetableimages; the first is now the Teikyo PDF.
+Its intent held all along — that the citations are linked — so it asks that,
+and that the timetable is among them, rather than which host happens to come
+first in the sentence. 31 pass. `SECS` for `layerinfo` 22 → 34. Whole suite
+2019 checks across 60 scripts, all passing, 507.6s.

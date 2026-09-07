@@ -43,6 +43,7 @@ const st=p=>p.evaluate(()=>({
   paras:(document.querySelector('#layer-info-body .layer-info-note')||{}).textContent||'',
   strongs:[...document.querySelectorAll('#layer-info-body strong')].map(x=>x.textContent),
   src:(document.querySelector('#layer-info-body .layer-info-src a')||{}).href||'',
+  srcs:[...document.querySelectorAll('#layer-info-body .layer-info-src a')].map(a=>a.href),
   wrap:(()=>{const n=document.querySelector('#layer-info-body .layer-info-note');
     return n?getComputedStyle(n).whiteSpace:'';})(),
 }));
@@ -96,7 +97,14 @@ const st=p=>p.evaluate(()=>({
   check('no literal ** in the prose', !/\*\*/.test(s.paras), s.paras.slice(0,60));
   check('the two paragraphs are kept apart', /\n\n/.test(s.paras) && s.wrap==='pre-line',
     JSON.stringify(s.paras.slice(0,90))+' wrap='+s.wrap);
-  check('and the sources are linked', /timetableimages/.test(s.src), s.src);
+  /* The air layer names four sources and each carries its own address now,
+     so the first link is 酒井's article rather than the timetable scan. What
+     this asks is what it always meant — that the citations are linked, and
+     that the timetable is among them — rather than which host happens to come
+     first in the sentence. */
+  check('and the sources are linked',
+    s.srcs.length >= 4 && s.srcs.some(h => /timetableimages/.test(h)),
+    s.srcs.length + ' links: ' + JSON.stringify(s.srcs.slice(0, 2)));
   await p.keyboard.press('Escape'); await sleep(400);
 
   console.log('\n- switch it off again -');
@@ -194,6 +202,46 @@ const st=p=>p.evaluate(()=>({
   check('a layer keeps its own note beside the map’s',
     withAir.secs.indexOf('air')>=0 && withAir.secs.indexOf('map1942')>=0,
     JSON.stringify(withAir.secs));
+
+  /* --------------------------- several sources, several addresses --------
+   *
+   * `source_url` is one field, so a layer naming four sources had the whole
+   * sentence wrapped in a single anchor — and it pointed at the Chinese
+   * timetable scan, so a reader following the KLM citation landed somewhere
+   * else entirely. Worse than no link. A source written with `[text](url)` in
+   * it is rendered as prose now and each citation carries its own address.
+   *
+   * What is guarded is the property, not the count: every link in a source
+   * line goes somewhere different, and no Markdown is left showing. */
+  console.log('\n- a layer with several sources links each of them -');
+  {
+    const pg = await b.newPage();
+    await pg.setViewport({ width: 1400, height: 900 });
+    pg.on('pageerror', e => errs.push(String(e)));
+    await pg.evaluateOnNewDocument(SHIM);
+    await pg.goto('http://localhost:8123/index.html', { waitUntil: 'networkidle0' });
+    await ready(pg);
+    await pg.keyboard.press('f'); await sleep(2000);
+    await pg.evaluate(() => { const t = document.getElementById('btn-layer-info');
+      if (t && !t.hidden) t.click(); });
+    await sleep(800);
+    const src = await pg.evaluate(() => {
+      const el = document.querySelector('.layer-info-item[data-layer-info="air"] .layer-info-src');
+      if (!el) return null;
+      return { text: el.textContent || '',
+               hrefs: [...el.querySelectorAll('a')].map(a => a.href) };
+    });
+    check('the air layer names its sources', !!src, 'no source line');
+    if (src) {
+      check('each one is its own link', src.hrefs.length >= 4, String(src.hrefs.length));
+      check('and no two point at the same place',
+        new Set(src.hrefs).size === src.hrefs.length, JSON.stringify(src.hrefs.length
+          + ' links, ' + new Set(src.hrefs).size + ' distinct'));
+      check('with no Markdown left showing',
+        !/\[[^\]]+\]\(/.test(src.text), src.text.slice(0, 80));
+    }
+    await pg.close();
+  }
 
   check('no page errors', errs.length===0, errs.slice(0,3).join(' | '));
   console.log('\n  '+pass+' passed, '+fail+' failed');

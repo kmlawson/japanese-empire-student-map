@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '329';
+  var JEM_VERSION = '330';
   var JEM_ASSETS = {"admin.js": "3414697d04", "air-play.js": "8db7ba0d73", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "58132ef9c2", "kr-trains.js": "74889615bd", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/korea-1938.html": "91837c326f", "timetable/taiwan-1936.html": "23eaf5f955", "trains.js": "c0629828d0", "tw-trains.js": "7cd1c3f42d"};
 
   /* Every file this one fetches, with the version on it.
@@ -11016,7 +11016,25 @@
         var src = document.createElement('p');
         src.className = 'layer-info-src';
         src.appendChild(document.createTextNode('Source: '));
-        if (row.source_url) {
+        /* **A layer with several sources gets several links.**
+         *
+         * The air layer names four — 酒井's article, the 1930 Japan Air
+         * Transport sheet, 中華航空's 1940 timetable, KLM's 1938 service and the
+         * K.N.I.L.M. route map — and `source_url` is one field, so the whole
+         * sentence was wrapped in a single anchor pointing at the Chinese
+         * timetable scan. A reader following the KLM citation arrived at a
+         * page about somewhere else, which is worse than no link.
+         *
+         * So a source written with `[text](url)` in it is rendered as prose
+         * and each citation carries its own address. `setProse` is the same
+         * renderer the notes use, with the same http(s)-only guard, and it
+         * clears what it is given — hence the span. A row with a plain source
+         * and one `source_url` behaves exactly as before. */
+        if (/\[[^\]]+\]\(/.test(row.source)) {
+          var many = document.createElement('span');
+          setProse(many, row.source);
+          src.appendChild(many);
+        } else if (row.source_url) {
           var a = document.createElement('a');
           a.href = row.source_url;
           a.target = '_blank';
