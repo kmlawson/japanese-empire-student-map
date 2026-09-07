@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '326';
+  var JEM_VERSION = '327';
   var JEM_ASSETS = {"admin.js": "3414697d04", "air-play.js": "8db7ba0d73", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "58132ef9c2", "kr-trains.js": "74889615bd", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/korea-1938.html": "91837c326f", "timetable/taiwan-1936.html": "23eaf5f955", "trains.js": "c0629828d0", "tw-trains.js": "7cd1c3f42d"};
 
   /* Every file this one fetches, with the version on it.
@@ -4978,6 +4978,11 @@
      way and readers arrive knowing it: hold the space bar and the pointer is a
      hand until it is let go. */
   var spaceHeld = false;
+  /* Where the pointer was when the space pan last moved the map. Held apart
+     from `dragStart` because there is no button down: the anchor is taken from
+     the first move after the key, and re-taken on every frame, so the map
+     follows the pointer rather than sliding from wherever it was pressed. */
+  var spaceFrom = null;
   var pendingTap = 0;
 
 
@@ -5989,12 +5994,14 @@
       if (typing(e.target) || e.repeat) return;
       if (spaceHeld) return;
       spaceHeld = true;
+      spaceFrom = null;                    // the first move sets the anchor
       container.classList.add('space-pan');
       e.preventDefault();
     });
     var releaseSpace = function () {
       if (!spaceHeld) return;
       spaceHeld = false;
+      spaceFrom = null;
       container.classList.remove('space-pan');
     };
     window.addEventListener('keyup', function (e) {
@@ -6236,6 +6243,38 @@
       if (annApi.boxMove && annApi.boxMove(e.clientX, e.clientY)) return;
       annApi.held(e.clientX, e.clientY);
       if (annApi.drag(e.clientX, e.clientY)) { e.preventDefault(); return; }
+    }
+    /* **Space held: the map follows the pointer, with no button down.**
+     *
+     * This is what "hold space to pan" is asked to mean, and it was not what
+     * the flag did — `spaceHeld` was read in two places, both inside
+     * `onPointerDown`, and both only to let a press through the reader's own
+     * annotations. So the cursor changed to a grab hand and nothing else
+     * happened, in every browser, because nothing on the pan path ever looked
+     * at it. Reported as "spacebar does nothing in Safari or Firefox"; it did
+     * nothing in Chrome either.
+     *
+     * Before the `pointers` test below, because that is exactly what stops it:
+     * with no button down there is no tracked pointer and the handler returns.
+     * A drag with the button held still goes the ordinary way — `dragStart` is
+     * set and this branch is skipped — so the two cannot fight. */
+    if (spaceHeld && !dragStart && pointers.size === 0) {
+      if (spaceFrom) {
+        var sdx = e.clientX - spaceFrom.x;
+        var sdy = e.clientY - spaceFrom.y;
+        if (sdx || sdy) {
+          var scs = containerSize();
+          var sscale = view.w / scs.w;
+          view.x -= sdx * sscale;
+          view.y -= sdy * sscale;
+          dropForGesture();
+          applyView();
+        }
+      }
+      spaceFrom = { x: e.clientX, y: e.clientY };
+      hideTooltip();
+      e.preventDefault();
+      return;
     }
     if (!pointers.has(e.pointerId)) return;
     pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });

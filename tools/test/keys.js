@@ -135,6 +135,71 @@ const open = async (b, url) => {
     flash[flash.length - 1] <= 0.02, flash[flash.length - 1] + '');
   await p.close();
 
+  /* ------------------------------------------ space, held, pans the map --
+   *
+   * `spaceHeld` existed and was read in exactly two places, both inside
+   * `onPointerDown` and both only to let a press through the reader's own
+   * annotations. So the cursor became a grab hand and nothing else happened:
+   * nothing on the pan path ever looked at the flag. Reported as "the spacebar
+   * does nothing in Safari or Firefox"; it did nothing in Chrome either, and
+   * no test would have caught it because none asked.
+   *
+   * It pans at any time now — over the map, over a card, with an annotation
+   * tool armed, over the reader's own shapes — with one exception, which is
+   * the point of the last two checks: a space typed into a field is a space,
+   * not a pan. */
+  console.log('\n- space, held, pans the map -');
+  p = await open(b, 'http://localhost:8123/index.html?where=60.97,-3.62,144.87,41.87');
+  const mapBox = await p.evaluate(() => {
+    const r = document.getElementById('map-container').getBoundingClientRect();
+    return { x: r.x, y: r.y, w: r.width, h: r.height };
+  });
+  const at = { x: Math.round(mapBox.x + mapBox.w * 0.42),
+               y: Math.round(mapBox.y + mapBox.h * 0.5) };
+  const glide = async () => {
+    await p.mouse.move(at.x, at.y); await sleep(120);
+    const was = await p.evaluate(() => location.search);
+    await p.keyboard.down(' '); await sleep(160);
+    for (let i = 1; i <= 8; i++) { await p.mouse.move(at.x - i * 13, at.y - i * 8); await sleep(40); }
+    await sleep(450); await p.keyboard.up(' '); await sleep(180);
+    return (await p.evaluate(() => location.search)) !== was;
+  };
+  /* Moving with no button down and no space must do nothing, or the map would
+     slide under a reader who is only looking. */
+  await p.mouse.move(at.x, at.y);
+  const idle = await p.evaluate(() => location.search);
+  for (let i = 1; i <= 8; i++) { await p.mouse.move(at.x - i * 13, at.y - i * 8); await sleep(40); }
+  await sleep(400);
+  check('a bare mouse move does not pan',
+    (await p.evaluate(() => location.search)) === idle);
+  check('holding space and moving does', await glide());
+  check('and the cursor says so', await p.evaluate(() => {
+    document.getElementById('map-container').classList.add('space-pan');
+    const c = getComputedStyle(document.getElementById('map-container')).cursor;
+    document.getElementById('map-container').classList.remove('space-pan');
+    return c === 'grab';
+  }));
+  /* Released, the map stops following. A flag left set would leave the map
+     sliding after every idle move, which is worse than it never working. */
+  await p.mouse.move(at.x, at.y); await sleep(120);
+  const after = await p.evaluate(() => location.search);
+  for (let i = 1; i <= 8; i++) { await p.mouse.move(at.x - i * 13, at.y - i * 8); await sleep(40); }
+  await sleep(400);
+  check('and it stops when the key is let go',
+    (await p.evaluate(() => location.search)) === after);
+  /* The exception: a space typed into a field is a space. */
+  await p.evaluate(() => document.getElementById('btn-options').click());
+  await sleep(800);
+  await p.evaluate(() => document.getElementById('layers-find').focus());
+  await p.keyboard.down(' '); await sleep(140); await p.keyboard.up(' '); await sleep(160);
+  check('a space typed into a field is typed, not a pan',
+    (await p.evaluate(() => document.getElementById('layers-find').value)) === ' ',
+    JSON.stringify(await p.evaluate(() => document.getElementById('layers-find').value)));
+  check('and the map did not go into pan mode',
+    await p.evaluate(() => !document.getElementById('map-container')
+      .classList.contains('space-pan')));
+  await p.close();
+
   console.log('\n  ' + pass + ' passed, ' + fail + ' failed');
   await b.close();
   process.exit(fail ? 1 : 0);

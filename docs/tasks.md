@@ -18927,3 +18927,55 @@ airports, that Other switches them on, that both rows agree, that the buffer is
 there, that the menu row can take them off and put them back on their own, and
 that they are larger close in. 139 pass. `SECS` for `air` 66 → 84. Whole suite
 2002 checks across 60 scripts, all passing, 532.4s.
+
+## Space, held, pans the map — and why panning over land had stopped
+
+**The panning report was not a bug, and it is reproduced.** With the annotation
+editor open, a polygon drawn over land, and the pointer on it:
+
+    under the pointer          path.ann-f ann-shape sel
+    pan from ON the drawn area false
+    pan from empty sea         true
+    pan from the area, space   true
+
+That is the whole of it. `annApi.grab()` returns false unless `on`, and `on` is
+true only while the annotation panel is up — so reloading closed the panel and
+the map panned again, which is exactly what happened. A press on the reader's
+own mark moves the mark; over the sea there was no mark, so the sea worked.
+Nothing to fix in the map.
+
+**I got there through a wrong answer first, twice, and both are worth
+recording.** I said there was no spacebar mode at all, having grepped for
+`Space` when the flag is `spaceHeld`. And before the reload was mentioned I had
+put in a `dragstart` guard and `user-drag: none`, on the theory that a native
+image-drag was eating the press. When the real cause came out that guard fixed
+nothing, so it was taken out again rather than shipped on a disproven diagnosis.
+
+**The spacebar mode existed and did almost nothing.** `spaceHeld` was read in
+exactly two places, both inside `onPointerDown`, and both only to let a press
+through the reader's own annotations. Nothing on the pan path ever looked at it,
+so holding space changed the cursor to a grab hand and that was all — in every
+browser, not only Safari and Firefox. Reported as a browser problem; it was not
+one.
+
+It pans now. `onPointerMove` takes the space branch before the `pointers` test —
+which is the line that stopped it, since with no button down there is no tracked
+pointer and the handler returns — and re-anchors on every move, so the map
+follows the pointer rather than sliding from wherever it was last pressed. A
+button-held drag still goes the ordinary way, because `dragStart` is set and the
+branch is skipped; the two cannot fight.
+
+Measured at any time, which is what was asked: over the plain map, with a card
+open, with the polygon tool armed, and with the pointer over the reader's own
+shape — all pan. The exception is the one the author named: focus in an edit box
+types a space. Verified both ways — the field receives `" "` and the map does
+not enter pan mode.
+
+Tests: `keys.js` gains six — a bare mouse move does not pan, holding space does,
+the cursor says so, it stops on release, a space typed into a field is typed,
+and the map does not go into pan mode while it is. 21 pass. `SECS` for `keys`
+24 → 40. Whole suite 2008 checks across 60 scripts, all passing, 505.4s.
+
+**Still to do from this batch:** the Station names row in Other and the Layers
+pane, and suppressing an airport label where a city beside it carries the same
+name.
