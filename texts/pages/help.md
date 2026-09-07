@@ -24,6 +24,53 @@
 * **Links** - If you pan or zoom to a location, and copy the URL, it will keep the bounding box information in the link allowing the person you are sharing the link with to view roughly the same location you are looking at. Useful if you want to share a specific view. Click on the page title in the top left to load the default view.
 
 
+### Shortcuts
+
+Keys work while you are looking at the map, and never while you are typing in a
+box — a space in a description stays a space.
+
+**Spacebar** - Hold it and the mouse pans the map without clicking, over anything, including your own annotations.
+
+**Shift-drag** - Draws a box and zooms to it. With the annotation tools out it selects the marks inside instead.
+
+**Double-click** - Zooms in a step. Drag up or down after the second press for smooth zoom.
+
+**+ / −** - Zoom in and out a step.
+
+**Escape** - Closes the card if one is open; otherwise returns to the opening view.
+
+**c** - Cities on or off.
+
+**a** - Administrative on or off.
+
+**e** - Events on or off.
+
+**t** - Topography on or off.
+
+**o** - Other names on or off.
+
+**r** - Railways on or off.
+
+**0** - The 1930 map.
+
+**2** - The other date.
+
+**l** - Opens Layers.
+
+**n** - Starts annotations.
+
+**?** - This help.
+
+While the annotation tools are open:
+
+**Enter** - Finishes the shape you are drawing.
+
+**Escape** - Cancels the shape, or puts the tool away.
+
+**Delete** - Removes the selected mark.
+
+**Ctrl-Z / ⌘Z** - Undoes the last change.
+
 ### Drawing your own annotations
 
 Press **Create** at the top of the screen, or open **Layers** and press **Create annotations**. Nothing is sent anywhere: the file is written by your own browser and read back by it, and a map you load stays on your machine. It works on a phone, but a desktop or a tablet is easier.

@@ -18979,3 +18979,32 @@ and the map does not go into pan mode while it is. 21 pass. `SECS` for `keys`
 **Still to do from this batch:** the Station names row in Other and the Layers
 pane, and suppressing an airport label where a city beside it carries the same
 name.
+
+## A Shortcuts section in the help
+
+Above **Drawing your own annotations**, as asked. Eighteen lines, one clause
+each, in the author's own format.
+
+**Read off the handler rather than remembered.** The list is `map.js`'s keydown
+handler and `annotate.js`'s, gone through in order: Escape, `+`/`−`, `?`, `0`,
+`2`, `l`, `n`, and the five bar switches `c a e t o` plus `r` for the railways;
+then space; then the two mouse gestures that are not discoverable — shift-drag
+for a zoom box, double-click for a step — and the four keys that only mean
+something while the annotation tools are out (Enter, Escape, Delete, Ctrl/⌘-Z).
+
+**Every one of them was pressed before it was written down.** The five bar
+switches flip their `aria-pressed`, `l` and `?` open their dialogs, `2` reaches
+Dec 1942 and `0` comes back to 1930, `+` and `−` move the view; shift-drag took
+the span from 83.9° to 16.8° and a double-click from 16.8° to 8.8°. A shortcut
+list that names a key which does nothing is worse than no list.
+
+The section opens by saying the keys are ignored while you are typing, because
+that is the one rule a reader will otherwise meet as a bug — a space in a
+description staying a space rather than panning the map behind the panel.
+
+Tests: `keys.js` gains five. It reads the rendered dialog: the section exists,
+it is above the annotations, every key the handler answers to appears in it, and
+the typing exception is stated. A key added to `map.js` and not to `help.md`
+fails there — the list and the handler have never had anything holding them
+together before. 26 pass. `SECS` for `keys` 40 → 48. Whole suite 2013 checks
+across 60 scripts, all passing, 506.5s.

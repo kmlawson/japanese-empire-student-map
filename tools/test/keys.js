@@ -200,6 +200,40 @@ const open = async (b, url) => {
       .classList.contains('space-pan')));
   await p.close();
 
+  /* ------------------------------------ the help lists what the keys do --
+   *
+   * A shortcut list is the one piece of prose on this map that can go quietly
+   * wrong: the keys are in `map.js` and the list is in `texts/pages/help.md`,
+   * and nothing has ever made them agree. So this asserts the section exists,
+   * sits above the annotations, and names every key the handler actually
+   * answers to. Adding a key without documenting it fails here. */
+  console.log('\n- the help says what the keys do -');
+  p = await open(b, 'http://localhost:8123/index.html');
+  await p.keyboard.press('?'); await sleep(700);
+  const help = await p.evaluate(() => {
+    const d = document.getElementById('dlg-help');
+    if (!d || !d.open) return null;
+    const heads = [...d.querySelectorAll('h3')].map(h => h.textContent.trim());
+    return { heads, text: d.textContent || '' };
+  });
+  check('the ? key opens the help', !!help);
+  if (help) {
+    const i = help.heads.indexOf('Shortcuts');
+    const j = help.heads.indexOf('Drawing your own annotations');
+    check('there is a Shortcuts section', i >= 0, JSON.stringify(help.heads));
+    check('and it sits above the annotations', i >= 0 && j > i, i + ' vs ' + j);
+    /* Every key the map answers to, as the handler has them. */
+    const keys = ['Spacebar', 'Shift-drag', 'Escape', 'c', 'a', 'e', 't', 'o',
+                  'r', '0', '2', 'l', 'n', '?'];
+    const missing = keys.filter(k => help.text.indexOf('**' + k + '**') < 0
+                                  && help.text.indexOf(k) < 0);
+    check('and every key is listed', missing.length === 0, JSON.stringify(missing));
+    /* The exception is worth saying to the reader, not only to the code. */
+    check('and it says a key does nothing while you are typing',
+      /never while you are typing/i.test(help.text), 'the typing exception is unsaid');
+  }
+  await p.close();
+
   console.log('\n  ' + pass + ' passed, ' + fail + ' failed');
   await b.close();
   process.exit(fail ? 1 : 0);
