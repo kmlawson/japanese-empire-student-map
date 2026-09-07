@@ -51,6 +51,8 @@ box — a space in a description stays a space.
 
 **r** - Railways on or off.
 
+**f** - Air routes on or off.
+
 **0** - The 1930 map.
 
 **2** - The other date.

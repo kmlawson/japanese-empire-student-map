@@ -19008,3 +19008,20 @@ the typing exception is stated. A key added to `map.js` and not to `help.md`
 fails there — the list and the handler have never had anything holding them
 together before. 26 pass. `SECS` for `keys` 40 → 48. Whole suite 2013 checks
 across 60 scripts, all passing, 506.5s.
+
+## `f` for the air routes
+
+Beside `r`, and the same shape: `pressLayer('#btn-air')`. `f` for flights, since
+`a` is Administrative and `l` is Layers. Unlike the railway key, whose button
+comes and goes with the ground under the view, this one is offered at every zoom
+and on both dates, so it always answers.
+
+Measured: off → on → off, with the button's `aria-pressed`, the Layers checkbox
+and the layer's own `display` all following; the same on the 1942 sheet; and
+`f` typed into the Layers search box types an `f` and leaves the layer alone.
+
+Tests: `keys.js` gains two — that the key turns the routes on and off — rather
+than only adding `f` to the list it checks. A key named in the help and wired to
+nothing is the failure that section exists to prevent, so the list is not enough
+on its own. 28 pass. `SECS` for `keys` 48 → 52. Whole suite 2015 checks across
+60 scripts, all passing, 506.3s.

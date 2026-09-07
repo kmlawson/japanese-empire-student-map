@@ -209,6 +209,20 @@ const open = async (b, url) => {
    * answers to. Adding a key without documenting it fails here. */
   console.log('\n- the help says what the keys do -');
   p = await open(b, 'http://localhost:8123/index.html');
+  /* `f` for the air routes. Checked here rather than only in the list, because
+     a key named in the help and wired to nothing is the failure this section
+     exists to prevent — and unlike `r`, whose button comes and goes with the
+     ground under the view, this one is offered at every zoom and on both
+     dates, so it must always answer. */
+  const airPressed = () => p.evaluate(() =>
+    document.getElementById('btn-air').getAttribute('aria-pressed'));
+  const airWas = await airPressed();
+  await p.keyboard.press('f'); await sleep(1800);
+  const airNow = await airPressed();
+  check('f turns the air routes on', airWas === 'false' && airNow === 'true',
+    airWas + ' -> ' + airNow);
+  await p.keyboard.press('f'); await sleep(1200);
+  check('and off again', (await airPressed()) === 'false');
   await p.keyboard.press('?'); await sleep(700);
   const help = await p.evaluate(() => {
     const d = document.getElementById('dlg-help');
@@ -224,7 +238,7 @@ const open = async (b, url) => {
     check('and it sits above the annotations', i >= 0 && j > i, i + ' vs ' + j);
     /* Every key the map answers to, as the handler has them. */
     const keys = ['Spacebar', 'Shift-drag', 'Escape', 'c', 'a', 'e', 't', 'o',
-                  'r', '0', '2', 'l', 'n', '?'];
+                  'r', 'f', '0', '2', 'l', 'n', '?'];
     const missing = keys.filter(k => help.text.indexOf('**' + k + '**') < 0
                                   && help.text.indexOf(k) < 0);
     check('and every key is listed', missing.length === 0, JSON.stringify(missing));
