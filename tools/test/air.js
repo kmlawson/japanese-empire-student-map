@@ -1529,6 +1529,73 @@ const card_=p=>p.evaluate(()=>{
     await pg.close();
   }
 
+  console.log('\n— the lines follow the projection —');
+  {
+    /* `airGeoms` holds each route's legs already projected, worked out once in
+       `buildAir`. `reprojectDocument` rewrote the drawn `d` with every other
+       path and the lines looked right for a moment — then the next rescale
+       called `airRepath`, which regenerates them from `airGeoms`, and the
+       stale Mercator points won. Straight white lines across the map.
+     
+       Measured as: does a route's drawn line still lie over the rings it calls
+       at? The rings are `scalables` and `rescale` re-projects those from the
+       originals it cached, so they are the honest reference. The worst gap
+       sits near 38 map units — the lanes displace a shared leg sideways, so it
+       is never zero — and went to 302 in Albers before this was fixed. A
+       ceiling of 120 is clear of the one and nowhere near the other. */
+    const pg = await browser.newPage();
+    await pg.setViewport({ width: 1400, height: 900 });
+    pg.on('pageerror', e => errs.push(String(e)));
+    await pg.evaluateOnNewDocument(SHIM);
+    await pg.goto(URL, { waitUntil: 'networkidle0' }); await ready(pg);
+    await pg.keyboard.press('f'); await sleep(2200);
+    const drift = () => pg.evaluate(() => {
+      let worst = 0, id = '';
+      document.querySelectorAll('.air-route[data-air]').forEach(g => {
+        const rid = g.getAttribute('data-air');
+        const r = (JMAP.AIR || []).find(x => x.id === rid);
+        if (!r) return;
+        const hit = g.querySelector('.air-hit');
+        let bb; try { bb = hit.getBBox(); } catch (e) { return; }
+        if (!(bb.width || bb.height)) return;
+        let x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9, n = 0;
+        (r.stops || []).forEach(s => {
+          const ring = document.querySelector('#air [data-air-stop="' + (s.id || s.name) + '"]');
+          if (!ring) return;
+          const q = /translate\(\s*([-\d.]+)[ ,]\s*([-\d.]+)/
+            .exec(ring.getAttribute('transform') || '');
+          if (!q) return;
+          const x = +q[1], y = +q[2];
+          x0 = Math.min(x0, x); x1 = Math.max(x1, x);
+          y0 = Math.min(y0, y); y1 = Math.max(y1, y); n++;
+        });
+        if (n < 2) return;
+        const d = Math.hypot((bb.x + bb.width / 2) - (x0 + x1) / 2,
+                             (bb.y + bb.height / 2) - (y0 + y1) / 2);
+        if (d > worst) { worst = d; id = rid; }
+      });
+      return { worst: Math.round(worst * 10) / 10, id };
+    });
+    const base = await drift();
+    check('the lines lie over their airports to begin with', base.worst < 120,
+      JSON.stringify(base));
+    for (const proj of ['albers', 'laea', 'mercator']) {
+      await pg.evaluate(v => {
+        const el = [...document.querySelectorAll('input[type=radio]')]
+          .find(i => i.value === v || i.id === 'opt-proj-' + v);
+        if (el) { el.checked = true; el.dispatchEvent(new Event('change', { bubbles: true })); }
+      }, proj);
+      await sleep(2600);
+      /* The zoom is the point: a rescale is what used to overwrite the
+         reprojected paths with the stale geometry. */
+      await pg.evaluate(() => document.getElementById('zoom-in').click());
+      await sleep(800);
+      const d = await drift();
+      check('and still do in ' + proj, d.worst < 120, JSON.stringify(d));
+    }
+    await pg.close();
+  }
+
   check('no page errors', errs.concat(perrs).length===0, errs.concat(perrs).join(' | '));
   await browser.close();
   console.log('\n  '+pass+' passed, '+fail+' failed');

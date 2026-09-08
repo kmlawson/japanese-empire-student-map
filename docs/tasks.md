@@ -19057,3 +19057,62 @@ Its intent held all along — that the citations are linked — so it asks that,
 and that the timetable is among them, rather than which host happens to come
 first in the sentence. 31 pass. `SECS` for `layerinfo` 22 → 34. Whole suite
 2019 checks across 60 scripts, all passing, 507.6s.
+
+## Air lines after a projection change, a compact download button, and a menu of airline sheets
+
+Three items in one batch.
+
+**1. The lines came off their airports whenever the projection changed.**
+Reported with a picture — the routes lying across the map with no relation to
+the places they join. `reprojectDocument()` did its job: it rewrote each drawn
+`d` correctly. But an air leg is drawn from `airGeoms[id]`, a cache of
+*pre-projected* points built once at mount, and the very next `rescale()` calls
+`airRepath()`, which rebuilt every path from that stale cache and overwrote the
+correct geometry. So the fix was reverted a frame after it landed, by the code
+that draws.
+
+The trains already had the answer — `trainApi.reprojected()` — and this is the
+same shape: `airReprojected()` rebuilds `airGeoms` from `r.stops` through the
+current projection, then repaths and reapplies. It is called beside the train
+one, from the same place.
+
+Measured rather than eyeballed. `air.js` gains four checks that take the worst
+gap, across every drawn route, between the centre of its `.air-hit` bbox and
+the centre of its rings' bbox — the airports it claims to join. Baseline 38.5
+units; in Albers, LAEA and Mercator it stays there. **With `airReprojected()`
+removed the same measurement gives 302.6 in Albers**, so the ceiling of 120
+sits between the two states and the check would have caught this. 143 pass.
+
+**2. The layer pane's downloads are buttons again, compactly.** They had been
+made bare glyphs to stop `button.plain`'s 38px minimum stretching the rows,
+which fixed the height and lost the affordance: the pane's lower downloads are
+buttons and these read as inert text beside them. Now `#dlg-options .pop-dl` is
+22px with a 1px border and a 6px radius — a button that is *shorter than its
+row*, which is what the original bug was about. Measured: 17 of them at 22px,
+rows with a download 24px against 23px without.
+
+`layerfind.js`'s third check asserted the mechanism — "a glyph, not a
+button-sized box" — and so failed by design. It now asserts what actually
+matters: the control is shorter than the row that holds it, and it has an edge
+and a corner. The row-height check either side of it is untouched, because that
+is the reported bug and it still holds. 31 pass.
+
+**3. Long-press or option-click the plane for a menu of airline sheets.**
+Twenty-two of them, labelled operator and year — "Air France (1938)", "China
+Airways Co. (中華航空株式會社) (1940)" — keyed on `operator|season` with the
+`· …` suffix stripped, so a sheet is one row however many routes it carries.
+
+The default is the date's own: nine sets for 1930, and switching the date
+clears any customisation and restores that date's defaults, as asked. A custom
+selection rides in `layers=` as a third field, `said-onMask` in base 36 —
+*which sets were spoken for* and *which of those are on*, both absolute, so a
+code says what it means without reference to a default that may since have
+changed. Verified live: on the 1930 map, adding one 1942 sheet took the drawn
+routes 15 → 17, the URL became `2o.2t4w.2-2`, a cold load of that URL drew 17,
+and pressing `2` gave 95 routes with the third field gone.
+
+The plane icons follow the sheet, not the map. `air-play.js` reads the route's
+own `epochs` and draws the Fokker for a 1930 sheet and the later aircraft for a
+1942 one, so a mixed selection is legible in flight.
+
+Whole suite: 2022 checks across 60 scripts, 510.3s.

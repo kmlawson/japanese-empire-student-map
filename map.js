@@ -13,8 +13,8 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '330';
-  var JEM_ASSETS = {"admin.js": "3414697d04", "air-play.js": "8db7ba0d73", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "58132ef9c2", "kr-trains.js": "74889615bd", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/korea-1938.html": "91837c326f", "timetable/taiwan-1936.html": "23eaf5f955", "trains.js": "c0629828d0", "tw-trains.js": "7cd1c3f42d"};
+  var JEM_VERSION = '331';
+  var JEM_ASSETS = {"admin.js": "3414697d04", "air-play.js": "14f9f02e79", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "58132ef9c2", "kr-trains.js": "74889615bd", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/korea-1938.html": "91837c326f", "timetable/taiwan-1936.html": "23eaf5f955", "trains.js": "c0629828d0", "tw-trains.js": "7cd1c3f42d"};
 
   /* Every file this one fetches, with the version on it.
 
@@ -245,6 +245,10 @@
        other five, so with Other off it shows nothing and with Other on it
        shows unless the reader has said not to. */
     airNames: true,
+    /* Only what the reader has changed away from the date's own answer. An
+       empty object is "as this map has it", which is almost always true and
+       so costs a shared link nothing. */
+    airSets: {},
     hanLabels: false,
     /* Japanese names foremost inside the empire — the names an official
        document or a railway timetable of the period would print — or the local
@@ -4409,11 +4413,52 @@
         + '. Settings above it will be rounded. Give it its own field.'); }
       catch (e) { /* no console */ }
     }
-    return hi ? (bits.toString(36) + '.' + hi.toString(36)) : bits.toString(36);
+    /* **A third field, for the sheets the reader has chosen by hand.**
+     *
+     * Two numbers rather than one, and both absolute: `said` marks the sets
+     * that carry an explicit answer and `on` which of those are drawn. A
+     * "differs from the default" mask would have been shorter and wrong — the
+     * default depends on which date is showing, so reading it back would
+     * depend on the epoch having been parsed first, and a link is not obliged
+     * to arrive in that order.
+     *
+     * Written only when something has been changed, so an ordinary link is
+     * the two fields it always was. */
+    var said = 0, onMask = 0;
+    airSets().forEach(function (set, i) {
+      if (!Object.prototype.hasOwnProperty.call(state.airSets, set.key)) return;
+      said += Math.pow(2, i);
+      if (state.airSets[set.key]) onMask += Math.pow(2, i);
+    });
+    var tail = said ? ('.' + said.toString(36) + '-' + onMask.toString(36)) : '';
+    if (!hi && tail) hi = 0;        // the field has to be there to hold a place
+    return (hi || tail)
+      ? (bits.toString(36) + '.' + (hi || 0).toString(36) + tail)
+      : bits.toString(36);
   }
 
   function applyLayerCode(code) {
     var bits, hi;
+    /* The third field is the hand-picked sheets; see `layerCode`. Split off
+       first so the two that were always there parse exactly as before. */
+    var whole = String(code || '');
+    var parts = whole.split('.');
+    if (parts.length > 2) {
+      var pair = String(parts[2] || '').split('-');
+      var said = parseInt(pair[0], 36) || 0;
+      var onMask = parseInt(pair[1], 36) || 0;
+      state.airSets = {};
+      airSets().forEach(function (set, i) {
+        var bit = Math.pow(2, i);
+        if (Math.floor(said / bit) % 2) {
+          state.airSets[set.key] = !!(Math.floor(onMask / bit) % 2);
+        }
+      });
+      whole = parts[0] + '.' + parts[1];
+      code = whole;
+    } else {
+      state.airSets = {};
+    }
     var dot = String(code || '').indexOf('.');
     if (dot >= 0) {
       bits = parseInt(String(code).slice(0, dot), 36);
@@ -9521,6 +9566,32 @@
     });
   }
 
+  /* **A change of projection moves every coordinate, including these.**
+   *
+   * `airGeoms` holds each route's legs already *projected* — `airGeom` calls
+   * `project()` once, in `buildAir`, and `buildAir` returns early ever after.
+   * `reprojectDocument` rewrote the drawn `d` along with every other path and
+   * the lines looked right for a moment; then the next `rescale` called
+   * `airRepath`, which regenerates every path from `airGeoms`, and the stale
+   * Mercator points won. That is the straight white lines shooting off across
+   * the map that was reported.
+   *
+   * So the geometry is rebuilt from the lon/lat it was always derived from,
+   * which is the same thing `trainApi.reprojected()` does for the trains and
+   * is called from the same place. The lanes need no help: `airLanes` and
+   * `airShare` key on stop ids, not coordinates. The stop rings need none
+   * either — they are `scalables`, and `rescale` already re-projects those
+   * from the originals it cached. */
+  function airReprojected() {
+    if (!airGroup || !JMAP.AIR) return;
+    JMAP.AIR.forEach(function (r) {
+      var geom = airGeom(r.stops, airChordsOf(r));
+      if (geom.length) airGeoms[r.id] = geom;
+    });
+    airRepath();
+    applyAir();
+  }
+
   function airRepath() {
     Object.keys(airGeoms).forEach(function (id) {
       var geom = airGeoms[id];
@@ -10507,9 +10578,85 @@
      one timed here from a 1931 table. Everything else is read off the 1938–39
      timetable or opened after 1930, so drawing it over a 1930 map would put
      aeroplanes in the sky eight years early. */
+  /* ------------------------------------------- which sheets are drawn --
+   *
+   * The air layer is not one network but twenty-two readings, each an
+   * operator and the sheet it was read off — 満洲航空 in the winter of 1935 and
+   * again in July 1942, 中華航空 in 1940 and in April 1942, KNILM's 1931
+   * timetable and its route map of about 1935. Until now the date chose them:
+   * a route drew on the map its `epochs` named and there was no way to ask for
+   * one sheet without the rest.
+   *
+   * A set is `(operator, season)`, which is exactly the pair a citation names,
+   * and it is derived rather than stored — nothing in `data/air/` changes for
+   * this. `state.airSets` holds only what the reader has *changed*: absent
+   * means "as this date has it", so the common case carries nothing and a
+   * shared link stays short.
+   *
+   * The date still decides the default, and switching the date throws the
+   * reader's choices away. That is deliberate and it is what was asked for:
+   * the two maps are two arguments, and carrying a hand-made mixture across
+   * from one to the other would quietly restate the 1930 network as 1942's. */
+  function airSetKey(r) {
+    var op = String((r && r.operator) || '').replace(/\s*·.*$/, '').trim();
+    var se = String((r && r.season) || '').trim();
+    return (op + '|' + se).replace(/\s+/g, ' ');
+  }
+
+  /* "Manchuria Aviation Company (July 1942)". The company without the sheet it
+     came off would name two different readings the same thing, which is the
+     whole reason these are separate rows. */
+  function airSetLabel(r) {
+    var op = String((r && r.operator) || '').replace(/\s*·.*$/, '').trim();
+    var se = String((r && r.season) || '').trim();
+    /* The year is what tells them apart; the rest of a season — "昭和17.6.1改正",
+       "October 1938 – March 1939" — is on the card and too long for a row. */
+    var yrs = se.match(/1[89]\d\d/g);
+    var when = yrs ? (yrs.length > 1 && yrs[0] !== yrs[yrs.length - 1]
+                        ? yrs[0] + '–' + yrs[yrs.length - 1].slice(2) : yrs[0])
+                   : (se || 'undated');
+    if (/map/i.test(se)) when += ' map';
+    return op + ' (' + when + ')';
+  }
+
+  /* Every set, in a fixed order, because the layer code is a bit per set and
+     the bits have to mean the same thing tomorrow. Sorted by the key rather
+     than by anything a reader sees, so re-labelling a row cannot silently
+     renumber somebody's saved link. */
+  var airSetsCache = null;
+  function airSets() {
+    if (airSetsCache) return airSetsCache;
+    var by = {};
+    (JMAP.AIR || []).forEach(function (r) {
+      var k = airSetKey(r);
+      if (!by[k]) by[k] = { key: k, label: airSetLabel(r), epochs: {}, n: 0 };
+      by[k].n++;
+      (r.epochs || []).forEach(function (e) { by[k].epochs[e] = true; });
+    });
+    airSetsCache = Object.keys(by).sort().map(function (k) { return by[k]; });
+    return airSetsCache;
+  }
+
+  /* On by default where the sheet belongs to the date being drawn — which is
+     what `epochs` has always meant, so with nothing changed the map looks
+     exactly as it did. */
+  function airSetDefault(set) {
+    return !!(set && (!set.epochs || set.epochs[state.epoch]));
+  }
+
+  function airSetOn(key) {
+    if (Object.prototype.hasOwnProperty.call(state.airSets, key)) {
+      return !!state.airSets[key];
+    }
+    var all = airSets();
+    for (var i = 0; i < all.length; i++) {
+      if (all[i].key === key) return airSetDefault(all[i]);
+    }
+    return false;
+  }
+
   function airShown(r) {
-    var eps = r && r.epochs;
-    return !eps || !eps.length || eps.indexOf(state.epoch) >= 0;
+    return airSetOn(airSetKey(r));
   }
 
 
@@ -12370,6 +12517,9 @@
       // the coloured track moved with every other path; the trains did not,
       // because where they are is worked out from points already projected
       if (trainApi && trainApi.mounted()) trainApi.reprojected();
+      // and the air routes, for the same reason: their legs are projected
+      // once and kept, so they have to be worked out again
+      airReprojected();
     }
     drawGraticule();
     drawRelief();
@@ -13420,6 +13570,109 @@
                                                        : Math.max(6, b.top - h - 4);
     menu.style.left = left + 'px';
     menu.style.top = top + 'px';
+  }
+
+  /* ------------------------------------------- the sheets, on a menu --
+   *
+   * The same gesture the names menu answers to — hold the button, or
+   * option-click it — because a reader who has found one has found the other.
+   * One row per set, and the row says the operator and the sheet's year, which
+   * is the pair a citation names. */
+  var airMenuOn = false;
+  var airPressLong = false;
+
+  function airMenuEl() {
+    var m = $('#air-menu');
+    if (m) return m;
+    m = document.createElement('div');
+    m.id = 'air-menu';
+    m.className = 'pick-menu';
+    m.setAttribute('role', 'group');
+    m.setAttribute('aria-label', 'Which airline sheets to draw');
+    m.hidden = true;
+    (container || document.body).appendChild(m);
+    return m;
+  }
+
+  function buildAirMenu() {
+    var m = airMenuEl();
+    m.innerHTML = '';
+    var head = document.createElement('p');
+    head.className = 'menu-head';
+    head.textContent = 'Which airlines to draw';
+    m.appendChild(head);
+    airSets().forEach(function (set) {
+      var label = document.createElement('label');
+      label.className = 'row';
+      var el = document.createElement('input');
+      el.type = 'checkbox';
+      el.setAttribute('data-air-set', set.key);
+      el.checked = airSetOn(set.key);
+      el.addEventListener('change', function () {
+        /* Written down whichever way it goes, including back to what the date
+           says: "off, and I meant it" and "off, because this is 1930" are the
+           same picture and different intentions, and only the first should
+           survive a link. */
+        state.airSets[set.key] = el.checked;
+        if (el.checked && !state.air) state.air = true;
+        applyState();
+        syncLayerButtons();
+        saveState();
+      });
+      label.appendChild(el);
+      label.appendChild(document.createTextNode(' ' + set.label));
+      m.appendChild(label);
+    });
+    /* A way back, because twenty-two switches is easy to get lost in. */
+    var back = document.createElement('button');
+    back.type = 'button';
+    back.className = 'plain menu-reset';
+    back.textContent = 'Back to this date’s own';
+    back.addEventListener('click', function () {
+      state.airSets = {};
+      syncAirMenu();
+      applyState();
+      saveState();
+    });
+    m.appendChild(back);
+  }
+
+  function syncAirMenu() {
+    $$('#air-menu input[data-air-set]').forEach(function (el) {
+      el.checked = airSetOn(el.getAttribute('data-air-set'));
+    });
+  }
+
+  /* Viewport coordinates, because the menu is `position: fixed` like the
+     names menu it copies. The air button sits at the right-hand edge of the
+     map beside the zoom controls, so the menu goes to its *left* — hung off
+     the button's own edge rather than under it, which is where the names menu
+     goes because that button is in the bar. */
+  function placeAirMenu() {
+    var m = $('#air-menu'), btn = $('#btn-air');
+    if (!m || !btn) return;
+    var b = btn.getBoundingClientRect();
+    var w = m.offsetWidth, h = m.offsetHeight;
+    var left = b.left - w - 8;
+    if (left < 6) left = Math.min(b.right + 8, window.innerWidth - w - 6);
+    var top = Math.max(6, Math.min(b.top, window.innerHeight - h - 6));
+    m.style.left = Math.max(6, left) + 'px';
+    m.style.top = top + 'px';
+  }
+
+  function openAirMenu() {
+    buildAirMenu();
+    var m = airMenuEl();
+    m.hidden = false;
+    airMenuOn = true;
+    placeAirMenu();
+  }
+
+  function closeAirMenu() {
+    var m = $('#air-menu');
+    if (!m || !airMenuOn) return;
+    m.hidden = true;
+    airMenuOn = false;
   }
 
   function openLabelMenu() {
@@ -14756,6 +15009,11 @@
     var wasProv = selProv && selProv.key ? selProv.key : null;
     var wasCluster = selCluster;
     state.epoch = id;
+    /* **Turning to the other date puts the sheets back to that date's own.**
+       Asked for in those words, and right: the two maps are two arguments, and
+       a mixture carried across would quietly restate the 1930 network as
+       1942's. A reader who wants the mixture again has the link they saved. */
+    state.airSets = {};
     $$('#epoch-seg button').forEach(function (x) {
       x.classList.toggle('on', x.getAttribute('data-epoch') === id);
     });
@@ -16138,6 +16396,13 @@
     /* And the ways out of it. A menu that stays open while the reader works
        the map is a panel, and this is not one. */
     document.addEventListener('pointerdown', function (e) {
+      if (airMenuOn) {
+        var am = $('#air-menu');
+        var ab = $('#btn-air');
+        if (!(am && am.contains(e.target)) && !(ab && ab.contains(e.target))) {
+          closeAirMenu();
+        }
+      }
       if (!labelMenuOn) return;
       var menu = $('#label-menu');
       if (menu && menu.contains(e.target)) return;
@@ -16557,7 +16822,36 @@
     /* The air routes: one switch, no zone to work out and no zoom gate. */
     var btnAir = $('#btn-air');
     if (btnAir) {
-      btnAir.addEventListener('click', function () {
+      /* Hold it, or option-click it, for the sheets — the same two doors the
+         names menu offers, and for the same reason: a phone has no option key
+         and a desktop has no press-and-hold. The long press has already opened
+         the menu by the time the click arrives, so that click is swallowed;
+         otherwise it would switch the layer off under the menu it just
+         opened. */
+      var airHold = 0;
+      var stopAirHold = function () {
+        if (airHold) { clearTimeout(airHold); airHold = 0; }
+      };
+      btnAir.addEventListener('pointerdown', function () {
+        airPressLong = false;
+        stopAirHold();
+        airHold = setTimeout(function () {
+          airHold = 0;
+          airPressLong = true;
+          if (airMenuOn) closeAirMenu(); else openAirMenu();
+        }, LABEL_HOLD_MS);
+      });
+      ['pointerup', 'pointercancel', 'pointerleave'].forEach(function (ev) {
+        btnAir.addEventListener(ev, stopAirHold);
+      });
+      btnAir.addEventListener('contextmenu', function (e) { e.preventDefault(); });
+      btnAir.addEventListener('click', function (e) {
+        if (airPressLong) { airPressLong = false; return; }
+        if (e.altKey) {
+          if (airMenuOn) closeAirMenu(); else openAirMenu();
+          return;
+        }
+        closeAirMenu();
         state.air = !state.air;
         /* **One network in motion at a time.** The train tools carry their own
            control strip across the foot of the map and the plane tools carry

@@ -3705,7 +3705,8 @@ dialog h3 {
    Fixed rather than absolute: the bar it hangs from scrolls on a narrow
    screen, and a menu that stays behind while its button moves is worse than
    no menu. map.js positions it against the button on every open. */
-#label-menu {
+#label-menu,
+#air-menu {
   position: fixed;
   z-index: 60;
   min-width: 15rem;
@@ -3718,13 +3719,15 @@ dialog h3 {
   font-size: 13px;
   color: var(--ink);
 }
-#label-menu[hidden] { display: none; }
-#label-menu .menu-head {
+#label-menu[hidden], #air-menu[hidden] { display: none; }
+#label-menu .menu-head,
+#air-menu .menu-head {
   padding: 2px 10px 5px;
   color: var(--muted);
   font-size: 11.5px;
 }
-#label-menu label {
+#label-menu label,
+#air-menu label {
   display: flex;
   gap: 8px;
   align-items: flex-start;
@@ -3732,8 +3735,22 @@ dialog h3 {
   border-radius: 5px;
   cursor: pointer;
 }
-#label-menu label:hover { background: var(--hover-fill); }
-#label-menu input { margin-top: 2px; flex: none; }
+#label-menu label:hover,
+#air-menu label:hover { background: var(--hover-fill); }
+#label-menu input,
+#air-menu input { margin-top: 2px; flex: none; }
+
+/* Twenty-two sheets is a long menu, so it scrolls rather than running off the
+   screen, and the way back sits at the foot of it. */
+#air-menu { max-height: min(70vh, 30rem); overflow-y: auto; }
+#air-menu .menu-reset {
+  display: block;
+  width: calc(100% - 12px);
+  margin: 6px 6px 2px;
+  min-height: 0;
+  padding: 5px 8px;
+  font-size: 12px;
+}
 
 /* ------------------------------------- the key used as a set of switches ---
 
@@ -3919,26 +3936,38 @@ dialog h3 {
    them — reported with a picture. The size is stated here instead: 18px of
    glyph, no border, no minimum. The touch target is put back below. */
 #pop-rows .row { display: flex; align-items: center; gap: 0.35rem; }
+/* **It looks like a button again, and it is still small.** Borderless and
+   45% opaque, it read as a mark rather than a control and a reader had to
+   discover it by hovering. It takes the chrome `button.plain` has — the same
+   border, radius, panel ground and hover fill as Save and Load lower down the
+   pane — and states its own size, which is the whole reason `button.plain`
+   was dropped in the first place: that class carries `min-height: 38px`, and
+   the rows offering a download stood a third taller than the rows that do not.
+   22px, and the Demography lists keep their spacing. */
 #dlg-options .pop-dl {
   margin-left: auto;
   min-height: 0;
-  height: 18px;
-  padding: 0 4px;
-  border: 0;
-  background: none;
-  color: inherit;
+  height: 22px;
+  min-width: 24px;
+  padding: 0 5px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--panel);
+  color: var(--ink);
   font: inherit;
   font-size: 12px;
   line-height: 1;
-  opacity: 0.45;
+  opacity: 0.75;
   cursor: pointer;
 }
 #dlg-options .row:hover .pop-dl,
 #dlg-options .pop-dl:focus-visible { opacity: 1; }
-/* And a finger still gets something to hit. The mark stays 18px; what grows is
-   the box round it, which is the same division the rest of this panel makes. */
+#dlg-options .pop-dl:hover { background: var(--hover-fill); opacity: 1; }
+/* And a finger still gets something to hit. What grows is the box, not the
+   glyph — the same division the rest of this panel makes. The row is already
+   44px tall on a coarse pointer, so this adds no height to it. */
 @media (pointer: coarse) {
-  #dlg-options .pop-dl { min-height: 44px; min-width: 40px; }
+  #dlg-options .pop-dl { min-height: 32px; min-width: 40px; }
 }
 
 /* The Demography rows sit closer than the rest of the panel: they are four

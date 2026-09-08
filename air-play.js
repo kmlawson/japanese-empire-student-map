@@ -427,10 +427,20 @@ window.JMAP_AIRPLAY = function (host) {
        route in the air" could not be written otherwise. */
     if (plans[i] && plans[i].route) g.setAttribute('data-route', plans[i].route.id);
     g.appendChild(host.svgEl('circle', { 'class': 'plane-hit', r: 11 }));
-    /* Each sheet flies the type that flew it: a Fokker F.VII on the 1930 map
-       and a Nakajima Ki-34 on the 1942 one. The arrowhead this replaced said
-       where and which way and nothing else. */
-    g.appendChild(drawnPlane((host.epoch && host.epoch()) || 'e1930'));
+    /* **Each sheet flies the type that flew it — the sheet's, not the map's.**
+       A Fokker F.VII for a 1930 reading and a Nakajima Ki-34 for a 1942 one.
+       This used to ask the *map* which date it was showing, which was the same
+       answer for every aeroplane and right only while the two could not be
+       mixed. They can now: a reader may draw the 1930 sheets over the 1942 map
+       from the sheets menu, and then the aeroplanes are the one thing that
+       says which reading each line came off. So it asks the route.
+
+       A route drawn on both dates has no year of its own to show and takes the
+       map's, which is what it would have got before. */
+    var eps = (plans[i] && plans[i].route && plans[i].route.epochs) || [];
+    var mine = (eps.length === 1) ? eps[0]
+                                  : ((host.epoch && host.epoch()) || 'e1930');
+    g.appendChild(drawnPlane(mine));
     layer.appendChild(g);
     marks[i] = g;
     return g;

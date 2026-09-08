@@ -93,7 +93,14 @@ const heads=p=>p.evaluate(()=>[...document.querySelectorAll('#dlg-options h3')]
   /* **The download arrow carried `button.plain`, and with it a 38 px minimum
      height.** So the two rows in each Demography group that offer a download
      stood a third taller than the rows that do not, and the section read as
-     four lists with gaps torn in them. Reported with a picture. */
+     four lists with gaps torn in them. Reported with a picture.
+
+     It is a button again now, by request — the pane's lower downloads are
+     buttons and these read as an inert glyph beside them — but a *compact*
+     one, and the height is the whole point. The row must not grow to fit it,
+     so what is measured is the same thing as before: the two kinds of row
+     still stand level, and the control is shorter than the row that holds
+     it. What changed is only that it now has a border to be seen by. */
   console.log('\n— the rows that carry a download arrow —');
   const dlRows=await page.evaluate(()=>{
     const rows=[...document.querySelectorAll('#pop-rows label.row')];
@@ -101,16 +108,22 @@ const heads=p=>p.evaluate(()=>[...document.querySelectorAll('#dlg-options h3')]
     const h=r=>Math.round(r.getBoundingClientRect().height*10)/10;
     const withDl=rows.filter(r=>r.querySelector('.pop-dl'));
     const without=rows.filter(r=>!r.querySelector('.pop-dl'));
-    const a=document.querySelector('#pop-rows .pop-dl').getBoundingClientRect();
+    const el=document.querySelector('#pop-rows .pop-dl');
+    const a=el.getBoundingClientRect(), cs=getComputedStyle(el);
     return {n:rows.length, withDl:withDl.length?h(withDl[0]):null,
             without:without.length?h(without[0]):null,
-            arrow:[Math.round(a.width),Math.round(a.height)]};});
+            arrow:[Math.round(a.width),Math.round(a.height)],
+            edge:parseFloat(cs.borderTopWidth)||0,
+            round:parseFloat(cs.borderTopLeftRadius)||0};});
   check('there are rows with an arrow and rows without',
     dlRows && dlRows.withDl && dlRows.without, JSON.stringify(dlRows));
   check('  and they are the same height',
     dlRows && Math.abs(dlRows.withDl-dlRows.without) < 1.5, JSON.stringify(dlRows));
-  check('  because the arrow is a glyph, not a button-sized box',
-    dlRows && dlRows.arrow[1] <= 20 && dlRows.arrow[0] <= 24, JSON.stringify(dlRows));
+  check('  because the button is shorter than the row it sits in',
+    dlRows && dlRows.arrow[1] <= dlRows.withDl && dlRows.arrow[0] <= 28,
+    JSON.stringify(dlRows));
+  check('  and it is drawn as a button, with an edge and a corner',
+    dlRows && dlRows.edge >= 1 && dlRows.round >= 3, JSON.stringify(dlRows));
 
   console.log('\n— what a word finds —');
   await type(page,'graticule'); await sleep(200);
