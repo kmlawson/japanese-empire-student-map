@@ -40,6 +40,23 @@ const SHIM = () => { const o = window.matchMedia;
         addEventListener() {}, removeEventListener() {} } : o.call(window, q)); };
 
 const BLUR_PX = 2.2;                  // must match PIN_BLUR_PX in map.js
+
+/* **The tolerance has to allow for the rounding the map itself does.**
+   `setPinBlur` writes `Math.round(v * 1000) / 1000`, deliberately, so the
+   filter is not rewritten with fifteen decimals on every wheel step. Dividing
+   that back by `k` and asking for 2.2 within 0.02 works at the opening view
+   and stops working as you zoom in: at k = 0.013 a single step of that
+   rounding is 0.0005 / 0.013 = 0.038 screen pixels, nearly twice the whole
+   tolerance, so the check was failing on arithmetic it had asked for. It came
+   up when the header lost seven pixels of height and the wheel zooms landed
+   at a slightly different k — nothing to do with the pin.
+
+   So the question asked is the one that was always meant: *did the map write
+   the right number*, which is the correctly rounded 2.2 × k, exact at every
+   zoom rather than accurate at one. */
+const wantDev = k => Math.round(BLUR_PX * k * 1000) / 1000;
+const devOk = st => Math.abs(st.dev - wantDev(st.k)) <= 0.001;
+
 const STATE = () => {
   const g = document.querySelector('#highlight .hi-pinned');
   const f = document.querySelector('#pin-glow feGaussianBlur');
@@ -116,7 +133,7 @@ console.log('— a country, with Admin off —');
   }
   check('and it wears the blur filter', a.filter === 'url(#pin-glow)', String(a.filter));
   check('the deviation is ' + BLUR_PX + ' screen pixels',
-        Math.abs(a.dev / a.k - BLUR_PX) < 0.02, a.dev + ' / ' + a.k.toFixed(4));
+        devOk(a), a.dev + ' / ' + a.k.toFixed(4) + ' want ' + wantDev(a.k));
 
   // the pointer leaving is not a reason to drop it
   await p.mouse.move(at.x + 300, at.y - 200); await sleep(400);
@@ -137,12 +154,12 @@ console.log('— a country, with Admin off —');
   const d = await p.evaluate(STATE);
   check('it survives a zoom in', d.pin);
   check('the blur is still ' + BLUR_PX + ' screen pixels at k=' + d.k.toFixed(3),
-        Math.abs(d.dev / d.k - BLUR_PX) < 0.02, d.dev + ' / ' + d.k.toFixed(4));
+        devOk(d), d.dev + ' / ' + d.k.toFixed(4) + ' want ' + wantDev(d.k));
   for (let i = 0; i < 9; i++) { await p.mouse.wheel({ deltaY: 220 }); await sleep(150); }
   await sleep(600);
   const e = await p.evaluate(STATE);
   check('and at k=' + e.k.toFixed(3) + ', a hundredfold away from the first',
-        Math.abs(e.dev / e.k - BLUR_PX) < 0.02, e.dev + ' / ' + e.k.toFixed(4));
+        devOk(e), e.dev + ' / ' + e.k.toFixed(4) + ' want ' + wantDev(e.k));
   check('the two zooms really were far apart', e.k / d.k > 15,
         d.k.toFixed(4) + ' -> ' + e.k.toFixed(4));
   await p.__ctx.close();

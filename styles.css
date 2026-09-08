@@ -329,6 +329,30 @@ button.plain {
    reported. There is no hard-coded hover colour left in this file. */
 button.plain:hover { background: var(--hover-fill); }
 
+/* THE HEADER'S OWN BUTTONS, A SIZE DOWN.
+   Asked for: smaller type, less padding inside each button, less space
+   between them. Scoped to `#bar` rather than changed on `.seg`/`.plain`
+   themselves, because those two carry the Layers panel's controls as well and
+   the panel was not what was crowded.
+
+   The height goes with them, or the padding would have nothing to do: a
+   `min-height` of 38 was setting the height on its own and the padding never
+   reached it. On a touch screen it stops at 40 rather than following the rest
+   down — the finger rule elsewhere in this file is 44, and this is the one
+   place it is bent, for a bar of seven controls across a phone. 40 css px is
+   still over a centimetre of glass. */
+#bar .seg button,
+#bar button.plain {
+  font-size: 13px;
+  padding: 4px 9px;
+  min-height: 31px;
+}
+#bar { gap: 6px 7px; }
+
+@media (pointer: coarse) {
+  #bar .seg button, #bar button.plain { min-height: 40px; }
+}
+
 /* Two labels per button: the words on a screen with room for them, a single
    character when the header would otherwise wrap into four rows and take a
    quarter of a phone. */
@@ -2043,7 +2067,7 @@ dialog h3 {
 }
 
 @media (max-width: 900px) {
-  #bar { gap: 6px 8px; padding: 6px 8px; }
+  #bar { gap: 5px 6px; padding: 5px 8px; }
   .seg button { padding: 7px 10px; font-size: 13.5px; }
   #zoom-controls button { width: 44px; height: 44px; }
   #legend { font-size: 11.5px; padding: 6px 8px; }

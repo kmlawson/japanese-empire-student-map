@@ -19183,3 +19183,68 @@ exact URL is wanted before anything is changed.
 `SECS` updated from this run: `air` 84 → 159, `trains` 82 → 79, `krtrains`
 40 → 16, `layers-url` 70 → 158. Whole suite 2034 checks across 60 scripts,
 560s, all passing.
+
+## Cheju's figures are headed with the province that counted them, and the header is a size down
+
+**1. The card said Cheju held eleven per cent of Korea.** Reported: the block
+of figures on Cheju's card was headed *Cheju-do (Saishū-tō), census of 1
+October 1930* over 2,332,256 people. Those are Chŏllanam-do's — the census did
+not break the island out — and read straight the heading claimed them for a
+hundred-kilometre island. The card's own prose about Cheju is right and wanted;
+it was the table over it that named the wrong place.
+
+The machinery was already there and this case walked past it. `fillPopCard`
+marks a block as *borrowed* when the dataset has **no row** for the place — the
+Sado-and-Niigata case — and heads it with the lender. Cheju has a row, because
+the source prints one, and that row says `same_as`; the build copies
+Chŏllanam-do's numbers into it and the card then headed them with the row's own
+name. So the same borrowing was labelled two different ways depending on
+whether the source happened to print a line. Both now name the lender.
+
+Only the heading moved. The row that is read is unchanged — it already held the
+copied figures — so which numbers are shown is untouched, and the test pins
+2,332,256 either side of the change. Checked on both dates separately, the two
+tables carrying the row independently: 1930 reads *Chŏllanam-do (Zenranan-dō,
+全羅南道), census of 1 October 1930* and 1942 *…, estimated population at 1
+October 1942*, against the province's own card which reads the same. The card's
+headline still says Cheju-do, which is whose card it is.
+
+One thing the first attempt got wrong and the measurement caught: adding the
+borrowed-figures sentence printed the caveat **twice**, because a `same_as` row
+carries a note of its own out of the source table saying the same thing in the
+dataset's more exact words. The added sentence is now suppressed where the row
+has its own. The island with no row at all has no such note and still gets one.
+
+Cheju is the only `same_as` row in the data — twice, once per date — so the
+change reaches exactly the reported card and nothing else.
+
+**2. The header buttons are a size down.** Asked for: smaller type, less
+padding inside each button, less space between them. 14px → 13px, 7×12 → 4×9,
+gap 8/10 → 6/7. Scoped to `#bar` rather than to `.seg`/`button.plain`
+themselves, because those carry the Layers panel's controls too and the panel
+was not what was crowded.
+
+The height had to come down with them or the padding would have had nothing to
+do: `min-height: 38px` was setting the height on its own and the padding never
+reached it. Measured in one renderer either side of the change — desktop bar
+57 → 50px, buttons 38 → 31, the buttons' total width 752 → 658; phone bar
+59 → 53, buttons 44 → 40, total width 503 → 443 and the row ending 71px sooner.
+
+**The finger rule is bent once, deliberately.** This file's rule is 44px on a
+touch screen and the header now stops at 40, for a bar of seven controls across
+a phone. 40 css px is still over a centimetre of glass. Everything else on the
+map keeps 44, and the test guards 36 as the floor.
+
+**A pin check had to be rewritten, and it was not the pin.** `pin.js` asked
+whether `stdDeviation / k` came to 2.2 within 0.02. `setPinBlur` rounds what it
+writes to three decimals — deliberately, so the filter is not rewritten with
+fifteen decimals on every wheel step — and at k = 0.013 one step of that
+rounding is 0.038 screen pixels, nearly twice the whole tolerance. The check
+worked at the opening view and was arithmetic waiting to fail further in; the
+header losing seven pixels changed the container's aspect and the wheel zooms
+landed somewhere that failed it. It now asks whether the map wrote the
+correctly rounded 2.2 × k, which is exact at every zoom. **Proved it still
+bites**: dropping the `* k` from `setPinBlur` fails all three of its checks.
+
+`SECS`: `population` 71 → 97. Whole suite 2055 checks across 60 scripts, 558s,
+all passing.

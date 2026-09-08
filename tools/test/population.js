@@ -735,6 +735,116 @@ const spot = (p, sel, fx, fy) => p.evaluate((s, ax, ay) => {
     await q.close();
   }
 
+  /* WHOSE FIGURES ARE THESE?
+   *
+   * Cheju's card carries Chŏllanam-do's count, because the census did not
+   * break the island out — and it was headed *Cheju-do (Saishū-tō), census of
+   * 1 October 1930*, over 2,332,256 people. Read straight, that says a
+   * hundred-kilometre island held eleven per cent of Korea. Reported.
+   *
+   * The map already had the machinery: an island with no row of its own reads
+   * its province's and is headed with the province. Cheju has a row — the
+   * source prints one — and it says `same_as`, so it went down a different
+   * path and was headed with itself. Both now name the lender.
+   *
+   * Checked on both dates, because the two tables carry the row separately
+   * and a fix to one is not a fix to the other. The card's own headline is
+   * checked to be *unchanged*: it is Cheju's card and it should say Cheju.
+   */
+  console.log('\n— Cheju is headed with the province that counted it —');
+  for (const [when, to42, caption] of [
+    ['1930', false, 'census of 1 October 1930'],
+    ['1942', true, 'estimated population at 1 October 1942'],
+  ]) {
+    const q = await b.newPage();
+    await q.evaluateOnNewDocument(SHIM);
+    await q.setViewport({ width: 1400, height: 950 });
+    await q.goto('http://localhost:8123/index.html?where=125.2,32.6,128.8,35.4',
+                 { waitUntil: 'networkidle0' });
+    await sleep(3000);
+    await q.evaluate(() => document.querySelectorAll('dialog[open]').forEach(d => d.close()));
+    if (to42) { await q.keyboard.press('2'); await sleep(3200); }
+    await q.keyboard.press('a');
+    await sleep(3200);
+    const opened = await q.evaluate(() => {
+      const el = [...document.querySelectorAll('[data-prov]')]
+        .find(e => e.getAttribute('data-prov') === 'Saishu');
+      if (!el) return false;
+      const r = el.getBoundingClientRect();
+      const o = { bubbles: true, clientX: r.x + r.width / 2, clientY: r.y + r.height / 2,
+                  pointerType: 'mouse', pointerId: 1, isPrimary: true, button: 0 };
+      ['pointerover', 'pointerdown', 'pointerup', 'click']
+        .forEach(n => el.dispatchEvent(new PointerEvent(n, o)));
+      return true;
+    });
+    await sleep(1400);
+    const got = await q.evaluate(() => {
+      const h = document.querySelector('#info-pop');
+      return {
+        headline: (document.querySelector('#info .primary') || {}).textContent || '',
+        heads: h && !h.hidden
+          ? [...h.querySelectorAll('.pop-head')].map(e => e.textContent) : [],
+        notes: h && !h.hidden
+          ? [...h.querySelectorAll('.pop-note')].map(e => e.textContent) : [],
+        pop: h && !h.hidden
+          ? ([...h.querySelectorAll('.pop-row')]
+              .find(r => /Population/.test(r.textContent)) || {}).textContent || '' : '',
+      };
+    });
+    check(when + ': Cheju\u2019s card opens', opened && got.heads.length === 1,
+      JSON.stringify(got.heads));
+    check('  and the card is still Cheju\u2019s', /Cheju/.test(got.headline), got.headline);
+    check('  but the figures are headed with the province',
+      /Ch\u014fllanam-do/.test(got.heads[0]) && !/Cheju|Saish/.test(got.heads[0]),
+      got.heads[0] || '(none)');
+    check('  and dated from this map', got.heads[0].indexOf(caption) > -1, got.heads[0] || '');
+    check('  with one note saying why, not two',
+      got.notes.length === 1 && /break the island out/.test(got.notes[0]),
+      JSON.stringify(got.notes));
+    /* And the numbers themselves are untouched — only the name over them
+       moved. 2,332,256 is Chŏllanam-do's on the 1930 census. */
+    if (!to42) {
+      check('  over the same figures as before', /2,332,256/.test(got.pop), got.pop);
+    }
+    await q.close();
+  }
+
+  /* THE HEADER, A SIZE DOWN. Asked for: smaller type, less padding, less
+     space between. Pinned as the three that were asked for, plus the finger
+     rule the last of them is allowed to bend — 40px on a touch screen rather
+     than the 44 everything else keeps, for a bar of seven controls across a
+     phone. Anything under 36 would be a miss waiting to happen and is what
+     this guards. */
+  console.log('\n— the header buttons —');
+  for (const [w, h, touch, floor] of [[1400, 950, false, 28], [390, 844, true, 36]]) {
+    const q = await b.newPage();
+    if (!touch) await q.evaluateOnNewDocument(SHIM);
+    await q.setViewport({ width: w, height: h, isMobile: touch, hasTouch: touch });
+    await q.goto('http://localhost:8123/index.html', { waitUntil: 'networkidle0' });
+    await sleep(2200);
+    await q.evaluate(() => document.querySelectorAll('dialog[open]').forEach(d => d.close()));
+    const bar = await q.evaluate(() => {
+      const el = document.querySelector('#bar');
+      const bs = [...el.querySelectorAll('button')].filter(b => b.offsetParent);
+      const cs = getComputedStyle(bs[0]);
+      return { barH: Math.round(el.getBoundingClientRect().height),
+               btnH: Math.round(bs[0].getBoundingClientRect().height),
+               font: parseFloat(cs.fontSize),
+               padX: parseFloat(cs.paddingLeft),
+               gap: parseFloat(getComputedStyle(el).columnGap),
+               n: bs.length };
+    });
+    const what = touch ? 'phone' : 'desktop';
+    check(what + ': the type is smaller than it was', bar.font <= 13, bar.font + 'px');
+    check(what + ': the padding is tighter', bar.padX <= 9, bar.padX + 'px');
+    check(what + ': and so is the space between', bar.gap <= 7, bar.gap + 'px');
+    check(what + ': the bar is shorter than the 57/59 it was',
+      bar.barH <= (touch ? 55 : 52), bar.barH + 'px');
+    check(what + ': but a button is still big enough to hit',
+      bar.btnH >= floor, bar.btnH + 'px');
+    await q.close();
+  }
+
   console.log('\n  ' + pass + ' passed, ' + fail + ' failed');
   await b.close();
   process.exit(fail ? 1 : 0);
