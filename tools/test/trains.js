@@ -54,6 +54,7 @@ const look=p=>p.evaluate(()=>{
     data: typeof JMAP!=='undefined' && !!JMAP.TW_TRAINS,
     stations: document.querySelectorAll('#tw-stations .sta-mark').length,
     railBox: !!(document.querySelector('#opt-tw-rail')||{}).checked,
+    staBox: !!(document.querySelector('#opt-tw-stations')||{}).checked,
   };});
 
 /* One train's radius as the reader sees it, in screen pixels. */
@@ -71,6 +72,15 @@ const setSwitch=async(p,on)=>{
   await sleep(120);
 };
 
+/* The train tools bring the railway up but no longer the station squares —
+   that is the reader's own switch now. Every check below that needs to *point*
+   at a station has to ask for them, the way a reader would. */
+const askForSquares=async(p,sys)=>{
+  await p.evaluate(id=>{const b=document.querySelector(id);
+    if(b&&!b.checked){b.checked=true;b.dispatchEvent(new Event('change',{bubbles:true}));}},
+    '#opt-'+(sys||'tw')+'-stations');
+  await sleep(900);
+};
 const shutDialogs=p=>p.evaluate(()=>{
   document.querySelectorAll('dialog[open]').forEach(d=>d.close());});
 
@@ -184,11 +194,22 @@ const shutDialogs=p=>p.evaluate(()=>{
       near.toFixed(2)+' px vs '+closer.toFixed(2)+' px');
 
     /* ---- 6. a station answers with its trains ------------------------ */
-    /* The squares are the railway layer's, not the train tools', and the tools
-       borrow them: a reader who has asked for a timetable has to be able to
-       point at a station without first finding two more switches. */
+    /* The squares are the railway layer's, not the train tools'. The tools
+       borrow the *railway* — a clock over an empty island is not a timetable —
+       but no longer the squares: they used to be switched on with the tools,
+       on the argument that a reader who asked for a timetable should be able
+       to point at a station without finding two more switches, and the author
+       asked for the reader's own setting to be left alone instead. So the
+       railway is checked on, the squares are asked for here, and the rest of
+       this section goes on as before. */
     v=await look(p);
-    check('the station squares are borrowed', v.stations>150 && v.railBox,
+    check('the railway is borrowed, the squares are not',
+      v.railBox && !v.staBox, JSON.stringify({railBox:v.railBox,staBox:v.staBox}));
+    await p.evaluate(()=>{const b=document.querySelector('#opt-tw-stations');
+      if(b&&!b.checked){b.checked=true;b.dispatchEvent(new Event('change',{bubbles:true}));}});
+    await sleep(1500);
+    v=await look(p);
+    check('and the reader can turn the squares on', v.stations>150 && v.railBox,
       JSON.stringify({stations:v.stations,railBox:v.railBox}));
     /* And only the ones the timetable knows. 167 of the map's 206 Taiwanese
        stations are on a line in the February 1936 table; the other 39 would
@@ -423,6 +444,14 @@ const shutDialogs=p=>p.evaluate(()=>{
                  own style says nothing about whether it is on screen. */
               shown:[...document.querySelectorAll('#tw-stations .sta-mark')]
                 .filter(m=>m.getBoundingClientRect().width>0).length};});
+    /* The zoom-out in section 7 took the tools down and gave the railway back,
+       and the tools no longer switch the squares on when they come up again —
+       so this block asks for them itself rather than inheriting whatever the
+       section above happened to leave. What is being tested here is the
+       button, and a button is tested from a state you named. */
+    await p.evaluate(()=>{const b=document.querySelector('#opt-tw-stations');
+      if(b&&!b.checked){b.checked=true;b.dispatchEvent(new Event('change',{bubbles:true}));}});
+    await sleep(700);
     let bv=await btns();
     check('the station button is offered over a drawn railway',
       bv.sta && !bv.sta.hidden && bv.sta.pressed==='true', JSON.stringify(bv.sta));
@@ -573,6 +602,7 @@ const shutDialogs=p=>p.evaluate(()=>{
     await shutDialogs(t);
     await setSwitch(t,true);
     await sleep(1400);
+    await askForSquares(t);
     const tv=await look(t);
     check('finger: the bar is up', tv.bar && tv.layer, JSON.stringify(tv));
     const playBox=await t.evaluate(()=>{
@@ -646,6 +676,7 @@ const shutDialogs=p=>p.evaluate(()=>{
       await shutDialogs(q);
       await setSwitch(q,true);
       await sleep(1500);
+      await askForSquares(q);
       await q.evaluate(()=>{
         const el=document.querySelector('[data-id="tws029"]');
         if(!el) return;
@@ -692,6 +723,7 @@ const shutDialogs=p=>p.evaluate(()=>{
     await shutDialogs(L);
     await setSwitch(L,true);
     await sleep(1500);
+    await askForSquares(L);
     const land=await L.evaluate(()=>{
       const R=s=>{const e=document.querySelector(s);const b=e.getBoundingClientRect();
         return {l:Math.round(b.left),r:Math.round(b.right),t:Math.round(b.top),b:Math.round(b.bottom)};};

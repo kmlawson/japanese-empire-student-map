@@ -1596,6 +1596,100 @@ const card_=p=>p.evaluate(()=>{
     await pg.close();
   }
 
+  /* THE MENU OF AIRLINE SHEETS, AND THE ORDER TWO DIFFERENT THINGS ARE IN.
+   *
+   * The reader sees the sheets grouped by the map they belong to and dated
+   * within each group. The layer code sees them in key order, one bit each.
+   * **These two orders are deliberately different**, and the test that matters
+   * is that regrouping the first did not renumber the second: a link somebody
+   * saved has to mean the same sheets tomorrow. `2o.2t4w.2-2` was recorded off
+   * a live map before the menu was grouped, and it drew 17 routes with Air
+   * France's 1938 sheet added to the 1930 map. It still has to.
+   *
+   * Last in the file: this block opens its own page and leaves the shared one
+   * alone, after an earlier block reset the view mid-file and broke the
+   * section under it. */
+  {
+    const pg = await browser.newPage();
+    await pg.setViewport({ width: 1500, height: 980 });
+    await pg.evaluateOnNewDocument(SHIM);
+    pg.on('pageerror', e => perrs.push(String(e).slice(0, 200)));
+    await pg.goto(URL, { waitUntil: 'networkidle0' });
+    await sleep(2600);
+    await pg.evaluate(() => document.querySelectorAll('dialog[open]').forEach(d => d.close()));
+    await pg.keyboard.press('f');
+    await sleep(2500);
+    await pg.evaluate(() => document.getElementById('btn-air')
+      .dispatchEvent(new MouseEvent('click', { bubbles: true, altKey: true })));
+    await sleep(800);
+
+    console.log('\n— the sheets, grouped by the map they belong to —');
+    const menu = await pg.evaluate(() => {
+      const m = document.getElementById('air-menu');
+      if (!m || m.hidden) return null;
+      const groups = []; let cur = null;
+      [...m.children].forEach(el => {
+        if (el.classList.contains('menu-sub')) {
+          cur = { title: el.textContent.trim(), rows: [] };
+          groups.push(cur);
+        } else if (el.tagName === 'LABEL' && cur) {
+          cur.rows.push({ t: el.textContent.trim(),
+                          on: el.querySelector('input').checked });
+        }
+      });
+      const labels = [...m.querySelectorAll('label')].map(l => l.textContent.trim());
+      return { groups, n: labels.length, dupes: labels.length - new Set(labels).size };
+    });
+    check('the menu opens on the plane button', !!menu, 'no menu');
+    check('  in two groups, the 1930 map then December 1942',
+      menu && menu.groups.length === 2 && /1930/.test(menu.groups[0].title)
+        && /1942/.test(menu.groups[1].title),
+      menu ? JSON.stringify(menu.groups.map(g => g.title)) : '');
+    // every sheet is in exactly one group, and none is listed twice
+    const inGroups = menu ? menu.groups.reduce((n, g) => n + g.rows.length, 0) : 0;
+    check('  every sheet is in one of them, and only once',
+      menu && inGroups === menu.n && menu.dupes === 0,
+      JSON.stringify({ inGroups, n: menu && menu.n, dupes: menu && menu.dupes }));
+    /* The year is in the label, which is what the reader sorts by eye. An
+       undated sheet reads "(undated)" and belongs at the end of its group. */
+    const dated = g => {
+      const ys = g.rows.map(r => {
+        const m = /\((\d{4})/.exec(r.t);
+        return m ? +m[1] : 9999;
+      });
+      return ys.every((y, i) => i === 0 || ys[i - 1] <= y);
+    };
+    check('  and each group runs in date order',
+      menu && menu.groups.every(dated),
+      menu ? JSON.stringify(menu.groups.map(g => g.rows.map(r => r.t.slice(-8)))) : '');
+    check('  the 1930 group is the one switched on, on the 1930 map',
+      menu && menu.groups[0].rows.every(r => r.on)
+        && menu.groups[1].rows.every(r => !r.on),
+      menu ? JSON.stringify(menu.groups.map(g => g.rows.filter(r => r.on).length)) : '');
+
+    console.log('\n— and a link saved before the grouping still means the same —');
+    const pg2 = await browser.newPage();
+    await pg2.setViewport({ width: 1500, height: 980 });
+    await pg2.evaluateOnNewDocument(SHIM);
+    pg2.on('pageerror', e => perrs.push(String(e).slice(0, 200)));
+    await pg2.goto(URL + '?layers=2o.2t4w.2-2', { waitUntil: 'networkidle0' });
+    await sleep(4000);
+    await pg2.evaluate(() => document.querySelectorAll('dialog[open]').forEach(d => d.close()));
+    const drawn = await pg2.evaluate(() => [...document.querySelectorAll('.air-route')]
+      .filter(g => getComputedStyle(g).display !== 'none').length);
+    check('the recorded code still draws the routes it drew', drawn === 17,
+      'drew ' + drawn + ', expected 17');
+    await pg2.evaluate(() => document.getElementById('btn-air')
+      .dispatchEvent(new MouseEvent('click', { bubbles: true, altKey: true })));
+    await sleep(700);
+    check('  and it is still Air France 1938 that it adds',
+      await pg2.evaluate(() => [...document.querySelectorAll('#air-menu label')]
+        .some(l => l.querySelector('input').checked && /Air France/.test(l.textContent))),
+      'the bit order moved');
+    await pg2.close();
+    await pg.close();
+  }
+
   check('no page errors', errs.concat(perrs).length===0, errs.concat(perrs).join(' | '));
   await browser.close();
   console.log('\n  '+pass+' passed, '+fail+' failed');

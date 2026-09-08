@@ -3726,6 +3726,23 @@ dialog h3 {
   color: var(--muted);
   font-size: 11.5px;
 }
+/* The date each block of sheets belongs to. Set apart from `.menu-head` above
+   it — which names the whole menu — by a rule and the weight, so a reader
+   scanning twenty-two rows can see where 1930 stops and 1942 starts. The first
+   one has no rule above it, because the menu's own heading is already there. */
+#air-menu .menu-sub {
+  margin: 6px 0 2px;
+  padding: 6px 10px 3px;
+  border-top: 1px solid var(--line);
+  color: var(--ink);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+#air-menu .menu-head + .menu-sub {
+  margin-top: 0;
+  border-top: 0;
+}
 #label-menu label,
 #air-menu label {
   display: flex;

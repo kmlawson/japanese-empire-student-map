@@ -19116,3 +19116,70 @@ own `epochs` and draws the Fokker for a 1930 sheet and the later aircraft for a
 1942 one, so a mixed selection is legible in flight.
 
 Whole suite: 2022 checks across 60 scripts, 510.3s.
+
+## The airline sheets in two dated groups, and the tools stop switching stations on
+
+**1. The menu of airline sheets is grouped by the map each belongs to.** The
+1930 sheets first and the December 1942 ones under them, each block in date
+order — Japan Air Transport (1930) down to CNAC (1935), then KNILM (1935) down
+to Manchuria Aviation (1942), with the one undated sheet last in its group
+rather than first, which is where an unknown date belongs in a chronology.
+Twenty-two operators in one alphabetical column asked the reader to remember
+which date each sheet came from; grouped, the list answers that itself.
+
+**The grouping is in the menu and nowhere else.** `airSets()` still returns
+them in key order, because that order is the bit order of the layer code's
+third field and a saved link has to mean the same sheets tomorrow. What the
+reader sees and what the URL encodes are deliberately different lists. Proved
+rather than asserted: `2o.2t4w.2-2` was recorded off a live map before the
+regrouping and it still draws 17 routes and still adds Air France's 1938 sheet
+to the 1930 map. That case is now in `air.js` so the next reordering cannot
+quietly renumber it.
+
+Checked against `routes.csv` first: no sheet belongs to both dates — 9 in 1930,
+13 in 1942 — so nothing is listed twice. A sheet belonging to neither would be
+put at the end rather than dropped, because a switch the menu does not draw is
+a layer the reader cannot turn off.
+
+**2. Turning the train tools on no longer turns the station squares on.**
+Asked for: *"when train tools are turned on, stations should not turn on if
+they were off. Let the user decide that."* The railway still comes up — the
+tools draw trains running along a network, and without it the strip is a clock
+over an empty country — but the squares are the reader's own switch and are
+left exactly as found. They were being switched on with the tools on the
+argument that a timetable you cannot point at is a picture of a timetable;
+that was the map making the reader's decision for them, and over Korea it is
+850 marks appearing uninvited.
+
+Measured: with the tools on, `#opt-kr-rail` is ticked and 782 stretches of
+track are drawn, `#opt-kr-stations` is untouched and no square is built at all.
+The reader ticking it themselves gets all 850, every one correctly placed,
+filtered to the 520 the timetable knows.
+
+Three test blocks had been resting on the borrow without saying so, and now ask
+for the squares the way a reader would: the finger tap, the card-and-strip
+overlap checks at four sizes, and the landscape one. The station-button block
+sets its own starting state rather than inheriting whatever the section above
+left. `trains.js` 112 pass, `krtrains.js` 38.
+
+One check in `layers-url.js` changed meaning rather than being repaired.
+`9frtd4` sets bit 25 (the Taiwan railway) and bit 29 (the tools) and leaves bit
+26 (the squares) **off**; it used to arrive with the squares on regardless,
+because the mount overrode the link. It now asserts `!sta` — the stronger of
+the two, since the old form could not have failed even if the code had lost
+bit 26 entirely.
+
+**3. The blob near Kunsan is not diagnosed.** Reported with a picture: a large
+dark disc with a pale ring, on the 1930 map with the train tools up. Not
+reproduced, and nothing is changed for it. Ruled out by measurement on a phone
+viewport (390×844, DPR 3), at the reported view and at ten steps of zoom either
+side of it: the train dots hold 7 px at every zoom and every clock setting; the
+station squares hold 10 px and all 850 carry a transform; the pin filter is not
+created by a tap at all; and no element in the drawn SVG within the viewport
+exceeds 40 px that is not a stretch of track or a country. The reporter is on
+iOS Safari, which this project has had a rendering difference from before. The
+exact URL is wanted before anything is changed.
+
+`SECS` updated from this run: `air` 84 → 159, `trains` 82 → 79, `krtrains`
+40 → 16, `layers-url` 70 → 158. Whole suite 2034 checks across 60 scripts,
+560s, all passing.

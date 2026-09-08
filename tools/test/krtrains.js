@@ -48,6 +48,7 @@ const look=p=>p.evaluate(()=>{
     stations: document.querySelectorAll('#kr-stations .sta-mark').length,
     shown:[...document.querySelectorAll('#kr-stations .sta-mark')].filter(m=>m.style.display!=='none').length,
     railBox: !!(document.querySelector('#opt-kr-rail')||{}).checked,
+    staBox: !!(document.querySelector('#opt-kr-stations')||{}).checked,
   };});
 
 const setSwitch=async(p,on)=>{
@@ -111,10 +112,28 @@ const shutDialogs=p=>p.evaluate(()=>{
     await p.click('#train-conn'); await sleep(300);
     cv=await conn();
     check('and puts them away again', cv.shown===0 && !cv.boxOn, JSON.stringify(cv));
-    check('the station squares are borrowed', v.stations>800 && v.railBox,
-      JSON.stringify({stations:v.stations,railBox:v.railBox}));
-    check('and only those the timetable knows are shown', v.shown>500 && v.shown<v.stations,
-      JSON.stringify({stations:v.stations,shown:v.shown}));
+    /* **The tools borrow the railway. They do not borrow the squares.**
+       The network has to be drawn — a clock over an empty country is not a
+       timetable — but the station squares are hundreds of marks across the
+       peninsula and a reader who had them off had them off on purpose. Asked
+       for by the author, and it used to work the other way: switching the
+       tools on switched the squares on with them. So the two are checked
+       apart, the railway on and the squares untouched. */
+    check('the railway is borrowed', v.railBox, JSON.stringify({railBox:v.railBox}));
+    check('  but the station squares are left as the reader had them',
+      !v.staBox && v.stations===0,
+      JSON.stringify({staBox:v.staBox,stations:v.stations}));
+    /* And when the reader asks for them, they come — filtered to the ones the
+       timetable knows, which is what the tools do to them. */
+    await p.evaluate(()=>{const b=document.querySelector('#opt-kr-stations');
+      if(b&&!b.checked){b.checked=true;b.dispatchEvent(new Event('change',{bubbles:true}));}});
+    await sleep(1500);
+    const sv=await look(p);
+    check('  and the reader can still turn them on', sv.stations>800 && sv.staBox,
+      JSON.stringify({stations:sv.stations,staBox:sv.staBox}));
+    check('  with only those the timetable knows shown',
+      sv.shown>500 && sv.shown<sv.stations,
+      JSON.stringify({stations:sv.stations,shown:sv.shown}));
 
     /* ---- 3. the clock and the trains -------------------------------- */
     const t0=(await look(p)).clock;

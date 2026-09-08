@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '331';
+  var JEM_VERSION = '332';
   var JEM_ASSETS = {"admin.js": "3414697d04", "air-play.js": "14f9f02e79", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "58132ef9c2", "kr-trains.js": "74889615bd", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/korea-1938.html": "91837c326f", "timetable/taiwan-1936.html": "23eaf5f955", "trains.js": "c0629828d0", "tw-trains.js": "7cd1c3f42d"};
 
   /* Every file this one fetches, with the version on it.
@@ -2517,16 +2517,24 @@
     mountTrainTools(cfg);
   }
 
-  /* THE TOOLS BORROW THE STATION SQUARES.
+  /* THE TOOLS BORROW THE RAILWAY. THEY NO LONGER BORROW THE STATION SQUARES.
    *
-   * A timetable the reader cannot point at is a picture of a timetable: the
-   * whole of *what trains went through here* is a tap on a station, and the
-   * squares are drawn by the railway layer, not by this. So switching the
-   * tools on switches those on with them, and switching the tools off puts
-   * them back the way they were found.
+   * The railway itself has to come on: the tools draw trains running along a
+   * network, and the network is drawn by that layer. Without it the strip is a
+   * clock over an empty country.
    *
-   * Not through `applyState`: these two are borrowed for the duration and are
-   * not the reader's own choice, so they do not go into the address bar or the
+   * The squares are a different matter, and they used to be switched on here
+   * too, on the argument that a timetable the reader cannot point at is a
+   * picture of a timetable. That was the map making the reader's decision for
+   * them. A station is a mark on every line of the network at once — hundreds
+   * of them over Korea — and a reader who had turned them off had turned them
+   * off for a reason. **Asked for by the author: turning the tools on must not
+   * turn the squares on if they were off.** So the switch is left exactly as
+   * it was found, and the reader who wants to tap a station turns them on
+   * themselves, from the same checkbox they turned them off with.
+   *
+   * Not through `applyState`: the railway is borrowed for the duration and is
+   * not the reader's own choice, so it does not go into the address bar or the
    * saved state, and a link shared from here does not arrive with somebody
    * else's railway layer on. `syncStationLayers` and `railFade` are what
    * actually draw them, and they are called directly.
@@ -2543,7 +2551,9 @@
     trainBorrowed = { rail: railKey, on: onKey,
                       hadRail: state[railKey], hadOn: state[onKey] };
     state[railKey] = true;
-    state[onKey] = true;
+    /* `state[onKey]` is deliberately left alone — see above. It is still
+       recorded in `hadOn` so that `giveBackStations` behaves the same way
+       whichever the reader left it at. */
     syncTrainBoxes();
     syncStationLayers();
     railFade();
@@ -10619,6 +10629,17 @@
     return op + ' (' + when + ')';
   }
 
+  /* The year the sheet was printed, for putting the menu in date order. The
+     season is prose — "16 May 1931", "October 1938 - March 1939", "c. mid-1930s"
+     — so the first four digits that look like a year are taken and the rest
+     left alone. One sheet has no season at all; it sorts last rather than
+     first, which is where an unknown date belongs in a list read as a
+     chronology. */
+  function airSetYear(r) {
+    var m = String((r && r.season) || '').match(/1[89]\d\d/);
+    return m ? +m[0] : 9999;
+  }
+
   /* Every set, in a fixed order, because the layer code is a bit per set and
      the bits have to mean the same thing tomorrow. Sorted by the key rather
      than by anything a reader sees, so re-labelling a row cannot silently
@@ -10629,7 +10650,8 @@
     var by = {};
     (JMAP.AIR || []).forEach(function (r) {
       var k = airSetKey(r);
-      if (!by[k]) by[k] = { key: k, label: airSetLabel(r), epochs: {}, n: 0 };
+      if (!by[k]) by[k] = { key: k, label: airSetLabel(r), epochs: {}, n: 0,
+                            year: airSetYear(r) };
       by[k].n++;
       (r.epochs || []).forEach(function (e) { by[k].epochs[e] = true; });
     });
@@ -13601,7 +13623,42 @@
     head.className = 'menu-head';
     head.textContent = 'Which airlines to draw';
     m.appendChild(head);
-    airSets().forEach(function (set) {
+    /* **Two groups, the 1930 sheets and then the 1942 ones, each in date
+       order.** Twenty-two operators in one alphabetical column asks the reader
+       to remember which date each sheet belongs to; grouped, the list answers
+       the question they are actually asking — what does this map draw, and
+       what could it draw instead.
+
+       The grouping is done *here* and not in `airSets()`, which stays in key
+       order: that order is the bit order of the layer code's third field, and
+       a link somebody saved yesterday has to mean the same thing tomorrow.
+       What a reader sees and what a URL encodes are deliberately not the same
+       list. No sheet is in both epochs — checked against `routes.csv`, 9 in
+       1930 and 13 in 1942 — so nothing is listed twice; anything that somehow
+       belongs to neither is put at the end rather than dropped, because a
+       switch the menu does not draw is a layer the reader cannot turn off. */
+    var groups = [{ ep: 'e1930', title: '1930 map' },
+                  { ep: 'e1942', title: 'December 1942 map' }];
+    var placed = {};
+    groups.forEach(function (g) {
+      var mine = airSets().filter(function (set) {
+        return set.epochs && set.epochs[g.ep];
+      });
+      if (!mine.length) return;
+      mine.forEach(function (set) { placed[set.key] = true; });
+      mine.sort(function (a, b) {
+        return (a.year - b.year) || (a.label < b.label ? -1 : 1);
+      });
+      var h = document.createElement('p');
+      h.className = 'menu-sub';
+      h.textContent = g.title;
+      m.appendChild(h);
+      mine.forEach(addSetRow);
+    });
+    var rest = airSets().filter(function (set) { return !placed[set.key]; });
+    if (rest.length) rest.forEach(addSetRow);
+
+    function addSetRow(set) {
       var label = document.createElement('label');
       label.className = 'row';
       var el = document.createElement('input');
@@ -13622,7 +13679,7 @@
       label.appendChild(el);
       label.appendChild(document.createTextNode(' ' + set.label));
       m.appendChild(label);
-    });
+    }
     /* A way back, because twenty-two switches is easy to get lost in. */
     var back = document.createElement('button');
     back.type = 'button';

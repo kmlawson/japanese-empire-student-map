@@ -306,8 +306,16 @@ for (const [label, q] of [
     sta: document.querySelector('#opt-tw-stations').checked,
     search: location.search,
   }));
+  /* `9frtd4` sets bit 25 (the Taiwan railway) and bit 29 (the tools) and
+     leaves bit 26 (the station squares) **off**. It used to arrive with the
+     squares on all the same, because mounting the tools switched them on over
+     the top of the link; they are the reader's own switch now, so the link is
+     honoured and `sta` is false. That is the stronger check of the two — a bit
+     that is off staying off is what "the layers survive" has to mean, and the
+     old expectation could not have failed if the code had lost bit 26
+     entirely. */
   check('the layers survive "' + label + '"',
-    got.tools && got.rail && got.sta, JSON.stringify(got));
+    got.tools && got.rail && !got.sta, JSON.stringify(got));
   check('  and no tracking is left in the address',
     !/fbclid|utm_|amp;/.test(got.search), got.search);
   await p.close();
