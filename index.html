@@ -422,6 +422,10 @@
     <label class="half" title="The colonial railway network of Korea, drawn per date: the network of 1930 on the 1930 map and of 1942 on the December 1942 map. From the NIKH historical GIS."><input type="checkbox" id="opt-kr-rail"> Korea Railways</label>
     <label class="half" id="row-kr-stations" hidden title="A small square at every station on those lines — 636 in 1930 and 918 in 1942. Point at one for its name and the line it stood on: McCune–Reischauer, or with Japanese names on the Japanese reading, with the hanja under it."><input type="checkbox" id="opt-kr-stations"> Show Korea Stations</label>
   </div>
+  <div class="row pair">
+    <label class="half" title="The railways of Karafuto, southern Sakhalin: the state lines and the two private companies, traced from the network of 1935 and drawn on both dates, the rails having barely moved between them."><input type="checkbox" id="opt-kf-rail"> Karafuto Railways</label>
+    <label class="half" id="row-kf-stations" hidden title="A small square at every station on those lines — 97 of them. Point at one for its name in 1935 and the Russian name of the place today, with the reading and the characters under it."><input type="checkbox" id="opt-kf-stations"> Show Karafuto Stations</label>
+  </div>
   <!-- The scheduled air services, which are not railways and are not faded by
        the zoom: they cross the whole map, and the widest view is where they
        read best. -->
@@ -430,12 +434,12 @@
   <p class="hint">Our 1942 map flight paths are usually from late 1930s sources and unlikely to be
      flying during the Japanese occupation so they are &ldquo;grounded&rdquo; in the animation. If you
      would like to see those pre-war lines with times available all animated, select this option.</p>
-  <label class="row" id="row-train-tools" title="A working timetable over the railway it ran on — Taiwan’s of February 1936, Korea’s of early 1938: the lines in the colours the timetable gives them, the day’s trains moving along it at a rate you choose, and the trains that called at a station in its card."><input type="checkbox" id="opt-train-tools"> Train Tools</label>
+  <label class="row" id="row-train-tools" title="A working timetable over the railway it ran on — Taiwan’s of February 1936, Korea’s of early 1938, Karafuto’s of April 1935: the lines in the colours the timetable gives them, the day’s trains moving along it at a rate you choose, and the trains that called at a station in its card."><input type="checkbox" id="opt-train-tools"> Train Tools</label>
   <!-- Said here rather than found out: a reader who ticks this at the
        whole-empire view sees nothing happen, and without a word about why,
        that reads as a broken switch. -->
   <p class="pane-note">Note: The train tools appear once you zoom in to a
-     railway that has a timetable &mdash; Taiwan or Korea &mdash; and are put
+     railway that has a timetable &mdash; Taiwan, Korea or Karafuto &mdash; and are put
      away again when you zoom back out.</p>
   <hr>
   <!-- One row per dataset in data/population/ that has densities in it,
@@ -610,7 +614,7 @@
 
   <h3>Feedback</h3>
 
-  <p>If you have comments, suggestions, or corrections, please send them to: Konrad M. Lawson  kl@muninn.net</p>  <p class="version">Version 1 update <span id="jem-version">333</span><span class="beta-tag" hidden> beta</span> · last updated 08 September 2026, 13:33</p>
+  <p>If you have comments, suggestions, or corrections, please send them to: Konrad M. Lawson  kl@muninn.net</p>  <p class="version">Version 1 update <span id="jem-version">334</span><span class="beta-tag" hidden> beta</span> · last updated 09 September 2026, 12:56</p>
 
 <!-- END about -->
 </dialog>
@@ -718,12 +722,13 @@
 <script src="cities-gaz.js?v=c87d993474"></script>
 <script src="tw-stations.js?v=1c5f5eb043"></script>
 <script src="kr-stations.js?v=bd9f42c9d3"></script>
+<script src="kf-stations.js?v=5b813d9ab0"></script>
 <!-- After data.js, not before it: data.js opens with `const JMAP = {}`,
      which is a global *lexical* binding and shadows `window.JMAP` for every
      script after it. Loaded first, this file sets RELIEF on the window object
      and data.js then hides it behind a fresh one. cities-gaz.js sits here for
      the same reason. -->
 <script src="relief.js?v=a584543962"></script>
-<script src="map.js?v=0663bb2b4e"></script>
+<script src="map.js?v=94907f9e1d"></script>
 </body>
 </html>
