@@ -19512,3 +19512,17 @@ metres of the water.
 shape when the reader zooms in is the fine-sheet machinery in `build_map.py`
 and `map.js` — `fetchFine`, the windows, `reprune` — and is the next piece of
 work, not this one.
+
+## The Karafuto source section is the author's account alone
+
+The branch's own paragraph — the 97 stations, the ownership change of 1941, the
+sixty that are gone — was kept beside the author's text when that went in, on
+the reasoning that it was context the new text did not cover. It was not
+wanted: the section already says what it needs to. Cut.
+
+One line had to move with it. The paragraph under it read "calling at *those*
+97 stations", and *those* was the deleted sentence's; it now says 97 stations
+and stands on its own. That is the whole risk in cutting a paragraph out of
+running prose, and it is worth looking for every time.
+
+27 paragraphs on the page now.
