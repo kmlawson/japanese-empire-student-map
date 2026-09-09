@@ -19476,3 +19476,39 @@ closing the card there would take away whatever the reader opened next.
 
 `trains.js` gains 11 checks and `kftrains.js` 3. Whole suite 2112 checks across
 61 scripts, 540s, all passing.
+
+## A detailed Karafuto coastline, clipped at the 50th parallel (data only, not yet drawn)
+
+The source is the author's own trace: 27,446 vertices for southern Sakhalin and
+Moneron Island against the 446 the coarse sheet draws. It is the island as it is
+today, so it ran north past the frontier to 50.64; Karafuto ends at 50.0000,
+which is where the coarse shape ends and where the border stood from 1905 to
+1945. Drawn unclipped it would have put Japanese territory across the Soviet
+half.
+
+Cut against the half-plane `lat <= 50` — Sutherland–Hodgman, exact for a
+half-plane, adding only the two vertices where a ring meets the line and moving
+nothing else. 27,446 vertices in, 25,734 out, no ring lost, and the north edge
+is now exactly 50.0000, the same number the coarse shape carries. **Stored
+already clipped**, by request, so nothing re-cuts 25,734 vertices on every
+build; `tools/build_kf_coast.py` is kept as the record of how the cut was made
+and is not part of the build.
+
+**Why it is wanted, measured.** The complaint was that the railway does not sit
+inside the coastline, and it does not:
+
+| | off the land |
+|---|---|
+| stations, coarse outline | 14 of 97 |
+| stations, detailed outline | 5 of 97 |
+| traced track vertices, coarse | 224 of 1,480 (15.1%) |
+| traced track vertices, detailed | 49 of 1,480 (3.3%) |
+
+The five stations still outside are harbour and shoreline ones — Ōdomari-minato
+is a pier — where any coastline has metres of error and a station sits within
+metres of the water.
+
+**Not yet drawn.** This is the data step only. Making it supersede the coarse
+shape when the reader zooms in is the fine-sheet machinery in `build_map.py`
+and `map.js` — `fetchFine`, the windows, `reprune` — and is the next piece of
+work, not this one.
