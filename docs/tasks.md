@@ -19526,3 +19526,22 @@ and stands on its own. That is the whole risk in cutting a paragraph out of
 running prose, and it is worth looking for every time.
 
 27 paragraphs on the page now.
+
+## The Karafuto timetable paragraph comes out
+
+The paragraph describing the sheet — the 86 trains, the fourteen tables, the
+舊字體 page and its CSV, the twelve-hour clock, the Wakkanai ferries — is cut,
+and one sentence of it kept in the author's own: the fourteen tables are
+reproduced whole at the timetable page, linked absolutely rather than
+relatively because that is how it was given. Fetched and 200 before it went in.
+26 paragraphs on the page.
+
+**What went with it, said plainly here because the page no longer says it.**
+That paragraph carried the only statement that the *times* were read by machine
+and have not been checked against the sheet by a human. The author's text
+covers the OCR and states that the station names were proofread against the
+1947 sheet; it does not speak for the times. So the caveat is not on the
+sources page any more. That is the author's call and it is recorded rather than
+argued with, but it is the sort of thing this file exists to remember: if the
+times are checked later, or if somebody asks what stands behind them, the
+answer is in the history and not on the page.
