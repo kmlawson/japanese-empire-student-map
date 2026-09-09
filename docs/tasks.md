@@ -19818,3 +19818,35 @@ has an `index.html`. Not pushed for that reason.
 `tools/bundle.py` was already unable to find the script tags it replaces
 (the station and relief tags had come between the three it looks for); it
 still is, and says so.
+
+## Karafuto's stations lead with the Japanese reading, and the Korea page drops the scan ids
+
+**The Japanese reading leads on both name settings.** Karafuto's second name is
+the Russian one, and it is not a second reading the way Taiwan's and Korea's
+are: 大泊 is Ōtomari and it is *also* Korsakov, which is what the place is
+called now rather than what it was called then. It sat in the `local` slot —
+the one the Japanese-names switch turns off — so switching Japanese names off
+renamed every station on the island to its Soviet successor, on a map of 1930
+and 1942. Asked for: romaji first, the Russian as an alternative.
+
+Both slots carry the reading now and the switch does not move it. Nothing is
+lost: `ru` and `locro` are what the card lists under the name, and they are the
+whole reason a reader can find the place on a map of today. Measured on 大泊 —
+Japanese names off *Ōtomari*, on *Ōtomari*, characters on **大泊** with Ōtomari
+beneath it. The characters case is `stationLabel`'s doing and is the same for
+all three systems.
+
+**The Korea timetable says the page, not the photograph of it.** Each table was
+headed `p. 12 (IMG_9297)`; the second half is the file name of the scan the
+transcription was made from. It is provenance for whoever checks the work and
+noise for everybody reading a timetable, so it comes out of the rendered line
+and stays in `data-src` on the element, where a checker can still find it.
+
+`kftrains` 39, `krtrains` 38.
+
+**Note for the next session: the site is `deploy/` now.** The sources stay at
+the repo root and the build writes the served copy under `deploy/`, with the
+scripts in `deploy/lean/`. The test server is rooted at the *repo*, not at
+`deploy/` — the scripts ask for `/deploy/index.html` — and starting it in the
+wrong place gives `ready() … this page has no #stage`, which is what that
+message means.

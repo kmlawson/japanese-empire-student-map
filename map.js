@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '342';
+  var JEM_VERSION = '343';
 
   /* Every file this one fetches, with the version on it.
 
@@ -3312,14 +3312,24 @@
       rail: 'kfRail', on: 'kfStations',
       row: 'row-kf-stations', box: 'opt-kf-stations',
       ground: [141.5, 45.9, 145.0, 50.1],
-      /* Karafuto's second name is the Russian one, which is not a second
-         reading of the same name but the name of the place today: 大泊 is
-         Korsakov and 眞岡 is Kholmsk. It goes in the local slot all the same,
-         because that is the slot the Japanese-names switch turns off, and a
-         reader who wants the island as it is now wants exactly that. The
-         Cyrillic is on the card under it. */
+      /* **The Japanese reading leads, on both settings.** Karafuto's second
+         name is the Russian one, and it is not a second reading of the same
+         name the way Taiwan's and Korea's are — 大泊 is Ōtomari and it is also
+         Korsakov, which is what the place is called now rather than what it
+         was called then. It was in the `local` slot, which is the one the
+         Japanese-names switch turns off, so switching Japanese names off
+         renamed every station on the island to its Soviet successor. On a map
+         of 1930 and 1942 that is the wrong name in the headline. Asked for:
+         romaji first, the Russian as an alternative.
+
+         So both slots carry the reading and the switch does not move it. The
+         Russian is not lost — `ru` and `locro` are what the card lists under
+         the name, and they are the whole reason a reader can find the place on
+         a map of today. And with the characters switch on, `han` leads instead;
+         that is `stationLabel`'s doing and it is the same for all three
+         systems. */
       rec: function (t) {
-        return { en: t.ro || t.han, local: t.ruen || t.ro,
+        return { en: t.ro || t.han, local: t.ro || t.han,
                  ja: t.kana ? t.han + '\uff08' + t.kana + '\uff09' : t.han,
                  ru: t.ru || '',
                  jpro: t.ro || '', locro: t.ruen || '', han: t.han,

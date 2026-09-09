@@ -13,7 +13,7 @@
 
 (function () {
   'use strict';
-  var JEM_VERSION = '342';
+  var JEM_VERSION = '343';
 
 
 
@@ -3318,8 +3318,18 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
       rec: function (t) {
-        return { en: t.ro || t.han, local: t.ruen || t.ro,
+        return { en: t.ro || t.han, local: t.ro || t.han,
                  ja: t.kana ? t.han + '\uff08' + t.kana + '\uff09' : t.han,
                  ru: t.ru || '',
                  jpro: t.ro || '', locro: t.ruen || '', han: t.han,

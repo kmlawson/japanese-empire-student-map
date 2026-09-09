@@ -671,10 +671,13 @@ function apply() {
     h.textContent = ln + ' ' + dir + ' ' + h.getAttribute('data-ends');
   });
   document.querySelectorAll('p.pg').forEach(function (p) {
+    /* The page, and not the photograph of it. This read `p. 12 (IMG_9297)`:
+       the second half is the file name of the scan the transcription was made
+       from, which is provenance for whoever checks the work and noise for
+       everybody reading a timetable. It stays in `data-src` on the element,
+       where the checker can still find it. */
     var pages = p.getAttribute('data-pages') || '';
-    var open = lang === 'en' ? ' (' : '（', shut = lang === 'en' ? ')' : '）';
-    p.textContent = words('page') + ' ' + pages + open
-      + (p.getAttribute('data-src') || '') + shut;
+    p.textContent = words('page') + ' ' + pages;
   });
   document.querySelectorAll('tr.hd th').forEach(function (th) {
     var was = th.getAttribute('data-was');
@@ -839,8 +842,8 @@ def build_html(stations):
     html, n = re.subn(r'<h2>([^<]*)</h2>', anchor, html)
 
     def pages(m):
-        return ('<p class="pg" data-pages="%s" data-src="%s">原本 %s（%s）</p>'
-                % (m.group(1), m.group(2), m.group(1), m.group(2)))
+        return ('<p class="pg" data-pages="%s" data-src="%s">原本 %s</p>'
+                % (m.group(1), m.group(2), m.group(1)))
     html, npg = re.subn(r'<p class="pg">原本 ([^（<]*)（([^）]*)）</p>', pages, html)
 
     html = html.replace(
