@@ -881,6 +881,15 @@ window.JMAP_TRAINS = function (host) {
   function lineName(li, withChars) {
     var l = data.lines[li];
     if (!l) return '';
+    /* **The characters switch reaches the lines too.** It says *when
+       available, show labels and names in Kanji/Hanzi/Hanja*, and the strip
+       was answering in romanisation whatever it was set to — 京釜線 read
+       "Gyeongbu Line" beside a map lettered in characters. Reported. `l.n` is
+       the line's own characters where the source prints them, so where there
+       are none the romanised name stands, which is what *when available*
+       means. One function, so the chips, the cards, the tooltip and the
+       exported feature all follow at once. */
+    if (host.hanLabels && host.hanLabels() && l.n) return l.n;
     var head = host.jpNames() ? (l.ja || l.en) : l.en;
     return withChars && l.n ? head + ' ' + l.n : head;
   }

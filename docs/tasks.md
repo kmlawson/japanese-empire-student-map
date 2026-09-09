@@ -19545,3 +19545,38 @@ sources page any more. That is the author's call and it is recorded rather than
 argued with, but it is the sort of thing this file exists to remember: if the
 times are checked later, or if somebody asks what stands behind them, the
 answer is in the history and not on the page.
+
+## The characters switch reaches the railway lines
+
+Reported with a picture: the map lettered in characters and the train strip
+still reading *Gyeongbu Line*, *Gyeongui Line*, *Honam Line*. The switch says
+**when available, show labels and names in Kanji/Hanzi/Hanja** and the lines
+were not listening.
+
+One function, `lineName` in `trains.js`, and every reader of a line name
+follows it at once: the chips in the strip, the line card's headline, a train
+card's second line, the moving dot's title, the names in the line chooser when
+two lines share ground, and the `line` property of the exported GeoJSON. The
+rule is the switch's own words — the line's own characters where the source
+prints them, and the romanised name where it does not, which is what *when
+available* means.
+
+Measured in all three systems, four chips each:
+
+* Korea: Gyeongbu Line → 京釜本線, Gyeongui Line → 京義本線
+* Taiwan: Trunk Line → 縱貫線, Tamsui Line → 淡水線
+* Karafuto: East Coast Line → 東海岸線, Kawakami Line → 川上線
+
+`renamed()` already existed to relabel the strip when the Japanese-names switch
+moved, and it is called from the same place, so the strip follows without a
+remount.
+
+One thing that had to move with it. `railFileName` names a downloaded line
+after `properties.line`, which is now 京釜線 when the switch is on, and `slug`
+takes every non-ASCII character out — the file would have been called
+`table.geojson`. It reads `line_en` instead, which the feature has carried
+since the export was written.
+
+`kftrains.js` gains three checks: romanised with the switch off, characters
+with it on, and 東海岸線 by name. 36 pass. `trains` 123, `krtrains` 38,
+`hanlabels` 43.

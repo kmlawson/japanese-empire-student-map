@@ -226,6 +226,37 @@ const shutDialogs=p=>p.evaluate(()=>{
       /樺太国有鉄道/.test(shin), shin);
     check('no page errors on the timetable', ttErr.length===0, ttErr.join(' | '));
 
+    /* **The characters switch reaches the line names.** It says "when
+       available", and every Karafuto line has characters, so all seven chips
+       change. Checked here rather than only for Korea because `lineName` is
+       one function for three systems and a regression would show in all of
+       them — but only if something looks. */
+    console.log('\n— the lines in the characters the sheet prints —');
+    {
+      const q = await browser.newPage();
+      await q.evaluateOnNewDocument(SHIM);
+      await q.setViewport({ width: 1300, height: 950 });
+      await q.goto(KARAFUTO, { waitUntil: 'networkidle0' });
+      await sleep(3000);
+      await shutDialogs(q);
+      await setSwitch(q, '#opt-train-tools', true);
+      await sleep(4200);
+      const chips = () => q.evaluate(() =>
+        [...document.querySelectorAll('.train-chip')].map(c => c.textContent.trim()));
+      const off = await chips();
+      await setSwitch(q, '#opt-han-labels', true);
+      await sleep(1800);
+      const on = await chips();
+      const han = t => /[\u3400-\u9fff]/.test(t);
+      check('romanised with the switch off',
+        off.length === 7 && off.every(t => !han(t)), JSON.stringify(off));
+      check('  and in characters with it on',
+        on.length === 7 && on.every(han), JSON.stringify(on));
+      check('  the East Coast Line is \u6771\u6d77\u5cb8\u7dda',
+        on.indexOf('\u6771\u6d77\u5cb8\u7dda') >= 0, JSON.stringify(on));
+      await q.close();
+    }
+
     /* **Karafuto comes up further out than Taiwan's defaults, by request.**
        Southern Sakhalin is 4.2 degrees of latitude to Taiwan's 3.6, so at the
        inherited 5.0 the island already filled the frame before the tools
