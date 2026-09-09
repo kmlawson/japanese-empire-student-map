@@ -3269,7 +3269,7 @@
 
   var STATION_SYS = {
     tw: {
-      data: 'TW_STATIONS', gid: 'tw-stations',
+      data: 'TW_STATIONS', file: 'tw-stations.js', gid: 'tw-stations',
       rail: 'twRail', on: 'twStations',
       row: 'row-tw-stations', box: 'opt-tw-stations',
 
@@ -3286,7 +3286,7 @@
       },
     },
     kr: {
-      data: 'KR_STATIONS', gid: 'kr-stations',
+      data: 'KR_STATIONS', file: 'kr-stations.js', gid: 'kr-stations',
       rail: 'krRail', on: 'krStations',
       row: 'row-kr-stations', box: 'opt-kr-stations',
       ground: [124.0, 33.0, 131.2, 43.1],
@@ -3308,7 +3308,7 @@
       },
     },
     kf: {
-      data: 'KF_STATIONS', gid: 'kf-stations',
+      data: 'KF_STATIONS', file: 'kf-stations.js', gid: 'kf-stations',
       rail: 'kfRail', on: 'kfStations',
       row: 'row-kf-stations', box: 'opt-kf-stations',
       ground: [141.5, 45.9, 145.0, 50.1],
@@ -3712,6 +3712,27 @@
     buildStations = function (sys) {
       var cfg = STATION_SYS[sys];
       if (!cfg || cfg.built) return;
+
+
+
+
+
+
+      if (!JMAP[cfg.data]) {
+        if (cfg.loading) return;
+        cfg.loading = true;
+        loadScript(cfg.file).then(function () {
+          cfg.loading = false;
+          buildStations(sys);
+        }, function () {
+          cfg.loading = false;
+          cfg.failed = true;
+          state[cfg.on] = false;
+          var box = $('#' + cfg.box);
+          if (box) box.checked = false;
+        });
+        return;
+      }
       cfg.built = true;
       var group = svgEl('g', { id: cfg.gid, 'class': 'sta-layer' });
 
