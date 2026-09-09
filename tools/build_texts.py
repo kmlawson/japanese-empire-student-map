@@ -1500,6 +1500,8 @@ def build_pages():
         want = set(n for n in FETCHED if not n.startswith("relief/")
                    and not n.startswith("timetable/"))
         want |= set(n for n in os.listdir(ROOT) if n.endswith(".js"))
+        want |= set("lean/" + n for n in ("map.js", "annotate.js", "admin.js",
+                                           "trains.js", "air-play.js"))
         missing = sorted(n for n in want if "`%s`" % n not in listed)
         if missing:
             raise Problem(
@@ -1511,9 +1513,11 @@ def build_pages():
     mpath = os.path.join(ROOT, "map.js")
     if os.path.exists(mpath):
         mjs = open(mpath, encoding="utf-8").read()
-        stamps = ["  var JEM_VERSION = '%s';" % version,
-                  "  var JEM_ASSETS = %s;" % json.dumps(assets, sort_keys=True)]
-        want = "\n".join(stamps)
+        # The asset table used to be stamped here too, which made every
+        # release of a relief tile a new map.js for every reader. It goes
+        # into index.html now (below); a line left here by an older build is
+        # taken out.
+        want = "  var JEM_VERSION = '%s';" % version
         pat = re.compile(r"^  var JEM_VERSION = '[^']*';(?:\n  var JEM_ASSETS = \{[^\n]*\};)?", re.M)
         if pat.search(mjs):
             mjs2 = pat.sub(lambda m: want, mjs, count=1)
@@ -1525,6 +1529,71 @@ def build_pages():
                 fh.write(mjs2)
             written.append("map.js (version and asset hashes)")
 
+    # ------------------------------------------------------------ lean copies
+    #
+    # The hand-written scripts argue at length in their comments, on purpose:
+    # the next editor needs the reasoning. The reader does not, and on the
+    # wire the comments were 369 KB of map.js's 844, and 144 KB of its 272
+    # gzipped — prose compresses worse than code. So what ships is a copy
+    # with the whole-line comments taken out, under lean/, keyed by its own
+    # hash. Line numbers are preserved (a stripped line is an empty one) so a
+    # stack trace from the shipped copy points at the same line of the source.
+    #
+    # Only comments that own their line are removed: a `/* ... */` or `//`
+    # that starts a line, and the lines inside a block. A comment after code
+    # on the same line stays, because telling a `//` from a URL or a regex
+    # in a string is exactly the kind of parsing that goes wrong once, and
+    # the trailing ones are a few kilobytes.
+    def lean_of(text):
+        out = []
+        inblock = False
+        for line in text.split("\n"):
+            if inblock:
+                if "*/" in line:
+                    inblock = False
+                    rest = line.split("*/", 1)[1]
+                    out.append(rest if rest.strip() else "")
+                else:
+                    out.append("")
+                continue
+            st = line.lstrip()
+            if st.startswith("//"):
+                out.append("")
+                continue
+            if st.startswith("/*"):
+                if "*/" in st:
+                    rest = st.split("*/", 1)[1]
+                    out.append(rest if rest.strip() else "")
+                else:
+                    inblock = True
+                    out.append("")
+                continue
+            out.append(line)
+        return "\n".join(out)
+
+    LEAN = ("map.js", "annotate.js", "admin.js", "trains.js", "air-play.js")
+    lean_dir = os.path.join(ROOT, "lean")
+    os.makedirs(lean_dir, exist_ok=True)
+    for name in LEAN:
+        spath = os.path.join(ROOT, name)
+        if not os.path.exists(spath):
+            continue
+        lean = lean_of(open(spath, encoding="utf-8").read())
+        lpath = os.path.join(lean_dir, name)
+        old_lean = open(lpath, encoding="utf-8").read() if os.path.exists(lpath) else None
+        if lean != old_lean:
+            with open(lpath, "w", encoding="utf-8") as fh:
+                fh.write(lean)
+            written.append("lean/" + name)
+        # what map.js fetches is the lean copy, so that is the key it carries
+        if name in assets:
+            assets[name] = digest(lpath)
+
+    # the table, on the page, ahead of map.js
+    splice_between(os.path.join(ROOT, "index.html"), "assets",
+                   "<script>window.JEM_ASSETS = %s;</script>"
+                   % json.dumps(assets, sort_keys=True))
+
     # and now the pages, with map.js hashed as it now stands
     for page in ("index.html", "sources.html"):
         ppath = os.path.join(ROOT, page)
@@ -1534,11 +1603,15 @@ def build_pages():
 
         def stamp_ref(m):
             name = m.group(2)
+            # a hand-written script is served from its lean copy
+            base = name[5:] if name.startswith("lean/") else name
+            if base in LEAN and os.path.exists(os.path.join(lean_dir, base)):
+                name = "lean/" + base
             fpath = os.path.join(ROOT, name)
             key = digest(fpath) if os.path.exists(fpath) else version
             return '%s="%s?v=%s"' % (m.group(1), name, key)
 
-        out = re.sub(r'\b(src|href)="([A-Za-z0-9_.-]+\.(?:js|css))(?:\?v=[^"]*)?"',
+        out = re.sub(r'\b(src|href)="((?:lean/)?[A-Za-z0-9_.-]+\.(?:js|css))(?:\?v=[^"]*)?"',
                      stamp_ref, txt)
         if out != txt:
             with open(ppath, "w", encoding="utf-8") as fh:

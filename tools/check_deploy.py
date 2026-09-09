@@ -68,7 +68,7 @@ def main():
     page_text = page.decode("utf-8", "replace")
 
     # what the page asks for, and with which key
-    refs = re.findall(r'\b(?:src|href)="([A-Za-z0-9_.-]+\.(?:js|css))\?v=([A-Za-z0-9.]+)"',
+    refs = re.findall(r'\b(?:src|href)="((?:lean/)?[A-Za-z0-9_.-]+\.(?:js|css))\?v=([A-Za-z0-9.]+)"',
                       page_text)
     if not refs:
         print("  ! the page carries no cache keys at all — an old build, or a "
@@ -80,16 +80,23 @@ def main():
     m = re.search(r'<span id="jem-version">([^<]*)</span>', page_text)
     if m:
         version = m.group(1).strip()
+    # the table is on the page now (an older build stamped it into map.js)
+    ma = re.search(r"window\.JEM_ASSETS = (\{[^\n]*\});", page_text)
+    if ma:
+        asset_refs = sorted(json.loads(ma.group(1)).items())
+    map_name = "map.js"
     for name, _ in refs:
-        if name == "map.js":
+        if name.endswith("map.js"):
+            map_name = name
             break
     try:
-        mjs, _, _ = fetch(base + "map.js")
+        mjs, _, _ = fetch(base + map_name)
         mtext = mjs.decode("utf-8", "replace")
         mv = re.search(r"var JEM_VERSION = '([^']*)'", mtext)
-        ma = re.search(r"var JEM_ASSETS = (\{[^\n]*\});", mtext)
-        if ma:
-            asset_refs = sorted(json.loads(ma.group(1)).items())
+        if not ma:
+            ma = re.search(r"var JEM_ASSETS = (\{[^\n]*\});", mtext)
+            if ma:
+                asset_refs = sorted(json.loads(ma.group(1)).items())
         if mv and mv.group(1) != version:
             print("  ! the page says version %s and map.js says %s — one of "
                   "them did not go up" % (version, mv.group(1)))

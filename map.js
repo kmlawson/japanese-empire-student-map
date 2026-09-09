@@ -14,7 +14,6 @@
 (function () {
   'use strict';
   var JEM_VERSION = '339';
-  var JEM_ASSETS = {"admin.js": "3414697d04", "air-play.js": "14f9f02e79", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "0f736bbd33", "kf-trains.js": "3031627e46", "kr-trains.js": "74889615bd", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/karafuto-1935.html": "9cb3d8962f", "timetable/korea-1938.html": "91837c326f", "timetable/taiwan-1936.html": "23eaf5f955", "trains.js": "1885b34dec", "tw-trains.js": "7cd1c3f42d"};
 
   /* Every file this one fetches, with the version on it.
 
@@ -34,14 +33,64 @@
      content hash cannot be forgotten. Bump or not, an edited file gets a new
      name and an unedited one keeps its cache.
 
-     `JEM_ASSETS` is written by `build_texts.py` and holds only what this file
-     fetches for itself; the pages carry their own. The version is kept as a
-     fallback for a build that has not been run. */
+     `window.JEM_ASSETS` is written into `index.html` by `build_texts.py` and
+     holds only what this file fetches for itself; the pages carry their own.
+     It is on the page and not in this file so that a change to a relief tile
+     does not change this file's own key. The version is kept as a fallback
+     for a build that has not been run. */
+  var LEAN = ['admin.js', 'annotate.js', 'trains.js', 'air-play.js'];
   function asset(name) {
-    var key = (typeof JEM_ASSETS !== 'undefined' && JEM_ASSETS
-               && JEM_ASSETS[name]) || null;
+    var table = window.JEM_ASSETS || null;
+    var key = (table && table[name]) || null;
+    /* The five hand-written scripts ship as comment-stripped copies under
+       lean/ — see LEAN in build_texts.py — and the key is that copy's. */
+    if (LEAN.indexOf(name) >= 0) name = 'lean/' + name;
     if (!key && typeof JEM_VERSION !== 'undefined' && JEM_VERSION) key = JEM_VERSION;
     return key ? name + '?v=' + encodeURIComponent(key) : name;
+  }
+
+  /* **One way to fetch a script, for everything fetched on demand.**
+
+     The admin panel, the train tools and their timetables, the plane tools
+     and the annotation module are all `<script>` elements added when a
+     reader asks for them. Each had its own eleven lines to do it, with its
+     own idea of what a failure meant and its own guard against asking twice.
+     This is the one copy: a memoised Promise per file, so a second caller
+     joins the first fetch rather than starting another, and a failed fetch
+     is forgotten so the next press can try again. What to *do* on failure —
+     untick a box, say so once, alert — stays with the caller, which is the
+     only place that knows. */
+  var scriptLoads = {};
+  function loadScript(name) {
+    if (!scriptLoads[name]) {
+      scriptLoads[name] = new Promise(function (resolve, reject) {
+        var el = document.createElement('script');
+        el.src = asset(name);
+        el.onload = function () { resolve(name); };
+        el.onerror = function () {
+          delete scriptLoads[name];
+          reject(new Error(name + ' could not be loaded'));
+        };
+        document.head.appendChild(el);
+      });
+    }
+    return scriptLoads[name];
+  }
+
+  /* And one way to fetch a sheet of SVG. Five loaders — the sugar lines, the
+     ROC provinces, Korea at survey resolution, the administrative sheet, the
+     fine coastline — each had the same eight lines of `fetch`, `r.ok`,
+     `r.text()` and `DOMParser`. */
+  function fetchText(name) {
+    return fetch(asset(name)).then(function (r) {
+      if (!r.ok) throw new Error(r.status);
+      return r.text();
+    });
+  }
+  function fetchSvg(name) {
+    return fetchText(name).then(function (text) {
+      return new DOMParser().parseFromString(text, 'image/svg+xml');
+    });
   }
 
   var $ = function (sel, root) { return (root || document).querySelector(sel); };
@@ -650,14 +699,6 @@
     return '';
   }
 
-  function subtypesFor(type) {
-    var c = (JMAP.SITE_CATEGORIES || []).filter(function (x) {
-      return x.id === type;
-    })[0];
-    return (c && c.subtypes ? String(c.subtypes).split(';') : [])
-      .map(function (t) { return t.trim(); }).filter(Boolean);
-  }
-
   /* **How big a point is drawn, and therefore when it is drawn at all.**
 
      One tier for both tables. A curated point says `size` in `sites.csv`; a
@@ -1114,6 +1155,7 @@
   }
 
   function init(markup) {
+    checkLayerBits();
     svgHost.innerHTML = markup;
     svg = svgHost.querySelector('svg');
     if (!svg) { showLoadError(); return; }
@@ -1345,15 +1387,9 @@
   /* admin.js, once, on demand. It is a tool for working on the map and not
      part of it: it is never referenced from index.html, and nothing but an
      option-click on Layers or the key it leaves behind will fetch it. */
-  var adminPending = false;
   function loadAdminPanel() {
     if (window.JMAP_ADMIN) { window.JMAP_ADMIN.toggle(); return; }
-    if (adminPending) return;
-    adminPending = true;
-    var s = document.createElement('script');
-    s.src = asset('admin.js');
-    s.onerror = function () { adminPending = false; };
-    document.head.appendChild(s);
+    loadScript('admin.js').catch(function () { /* the panel is a tool, not the map */ });
   }
 
   /* ---------------------------------------------------------- projection --
@@ -1534,7 +1570,6 @@
      which is where a label hangs, and `data-hits`, which is where the finger
      targets for a tiny country go. Patterns are in their own space and are
      left alone; masks are rebuilt from the paths on the next hover anyway. */
-  var COORD = /(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)/g;
 
   /* A straight line in one projection is not straight in another, and moving
      only the ends of it draws the chord instead of the line. Every shape here
@@ -1582,12 +1617,31 @@
     return out;
   }
 
-  /* Points that are not part of a line, so nothing to walk between. */
-  function movePairs(text) {
-    return text.replace(COORD, function (_m, a, b) {
-      var q = reprojectXY(parseFloat(a), parseFloat(b));
-      return (Math.round(q.x * 100) / 100) + ' ' + (Math.round(q.y * 100) / 100);
-    });
+  /* A rectangular clip in the current projection from a lon/lat box — the
+     edge a hand-clipped territory is cut at. Written into the highlight defs
+     and owned there, so a change of projection throws it away with the rest. */
+  function edgeClipPath(id, box) {
+    var a1 = project(box[0], box[1]), a2 = project(box[2], box[3]);
+    var cp = svgEl('clipPath', { id: id, clipPathUnits: 'userSpaceOnUse' });
+    cp.appendChild(svgEl('rect', {
+      x: Math.min(a1.x, a2.x), y: Math.min(a1.y, a2.y),
+      width: Math.abs(a2.x - a1.x), height: Math.abs(a2.y - a1.y),
+    }));
+    hiDefs.appendChild(cp);
+    ownedDefs.sub.push(cp);
+    return cp;
+  }
+
+  /* A circle's centre, moved to the current projection from where the file
+     drew it. The first call remembers the drawn centre on the node, so every
+     later projection change starts from the same place. */
+  function reprojectCircle(el) {
+    if (el.__c0 === undefined) {
+      el.__c0 = [parseFloat(el.getAttribute('cx')), parseFloat(el.getAttribute('cy'))];
+    }
+    var q = reprojectXY(el.__c0[0], el.__c0[1]);
+    el.setAttribute('cx', Math.round(q.x * 100) / 100);
+    el.setAttribute('cy', Math.round(q.y * 100) / 100);
   }
 
   /* Anything grafted in later — the administrative sheet, a window of fine
@@ -1618,12 +1672,7 @@
           }
           if (el.getAttribute('d') !== el[gKey]) el.setAttribute('d', el[gKey]);
         } else if (el.tagName === 'circle' && el.hasAttribute('cx')) {
-          if (el.__c0 === undefined) {
-            el.__c0 = [parseFloat(el.getAttribute('cx')), parseFloat(el.getAttribute('cy'))];
-          }
-          var q = reprojectXY(el.__c0[0], el.__c0[1]);
-          el.setAttribute('cx', Math.round(q.x * 100) / 100);
-          el.setAttribute('cy', Math.round(q.y * 100) / 100);
+          reprojectCircle(el);
         }
         if (el.hasAttribute && el.hasAttribute('data-cx')) {
           if (el.__a0 === undefined) {
@@ -1653,15 +1702,7 @@
       var line = $$('#sub-outlines .edge-line[data-id="' + t.id + '"]', svg)[0];
       var cp = hiDefs.querySelector('#' + want);
       if (!cp) {
-        var b = t.edgeClip;
-        var a1 = project(b[0], b[1]), a2 = project(b[2], b[3]);
-        cp = svgEl('clipPath', { id: want, clipPathUnits: 'userSpaceOnUse' });
-        cp.appendChild(svgEl('rect', {
-          x: Math.min(a1.x, a2.x), y: Math.min(a1.y, a2.y),
-          width: Math.abs(a2.x - a1.x), height: Math.abs(a2.y - a1.y),
-        }));
-        hiDefs.appendChild(cp);
-        ownedDefs.sub.push(cp);
+        cp = edgeClipPath(want, t.edgeClip);
       }
       if (line) line.setAttribute('clip-path', 'url(#' + want + ')');
     });
@@ -1698,12 +1739,7 @@
     });
     $$('circle[cx]', svg).forEach(function (el) {
       if (el.closest('pattern')) return;
-      if (el.__c0 === undefined) {
-        el.__c0 = [parseFloat(el.getAttribute('cx')), parseFloat(el.getAttribute('cy'))];
-      }
-      var q = reprojectXY(el.__c0[0], el.__c0[1]);
-      el.setAttribute('cx', Math.round(q.x * 100) / 100);
-      el.setAttribute('cy', Math.round(q.y * 100) / 100);
+      reprojectCircle(el);
       moved++;
     });
     $$('[data-cx]', svg).forEach(function (el) {
@@ -2008,13 +2044,8 @@
   function loadSugar() {
     if (sugarState === 'loading' || sugarState === 'ready') return;
     sugarState = 'loading';
-    fetch(asset('japan-empire-map-tw-sugar.svg'))
-      .then(function (r) {
-        if (!r.ok) throw new Error(r.status);
-        return r.text();
-      })
-      .then(function (text) {
-        var doc = new DOMParser().parseFromString(text, 'image/svg+xml');
+    fetchSvg('japan-empire-map-tw-sugar.svg')
+      .then(function (doc) {
         var g = doc.querySelector('#tw-sugar');
         if (!g || !svg) { sugarState = 'failed'; return; }
         sugarGroup = document.importNode(g, true);
@@ -2704,11 +2735,9 @@
     var fetchOne = function (file, ready) {
       if (ready()) return;
       left++;
-      var el = document.createElement('script');
-      el.src = asset(file);
-      el.onload = function () { if (!ready()) failed = true; done(); };
-      el.onerror = function () { failed = true; done(); };
-      document.head.appendChild(el);
+      loadScript(file).then(
+        function () { if (!ready()) failed = true; done(); },
+        function () { failed = true; done(); });
     };
     fetchOne('trains.js', function () { return !!window.JMAP_TRAINS; });
     fetchOne(cfg.file, function () { return !!JMAP[cfg.data]; });
@@ -3840,15 +3869,7 @@
          one was already right. */
       var id = 'edge-clip-' + t.id + '-' + projMode;
       if (!hiDefs.querySelector('#' + id)) {
-        var b = t.edgeClip;
-        var a1 = project(b[0], b[1]), a2 = project(b[2], b[3]);
-        var cp = svgEl('clipPath', { id: id, clipPathUnits: 'userSpaceOnUse' });
-        cp.appendChild(svgEl('rect', {
-          x: Math.min(a1.x, a2.x), y: Math.min(a1.y, a2.y),
-          width: Math.abs(a2.x - a1.x), height: Math.abs(a2.y - a1.y),
-        }));
-        hiDefs.appendChild(cp);
-        ownedDefs.sub.push(cp);
+        edgeClipPath(id, t.edgeClip);
       }
       line.setAttribute('clip-path', 'url(#' + id + ')');
     }
@@ -4343,13 +4364,74 @@
     function () { return provSource === 'roc'; },
   ];
 
+  /* **Every bit of the low field, by name, and a check that no two share one.**
+
+     The field was written with literal integers — `8388608`, `2097152`,
+     `16777216` — and three times a new setting was written to a bit another
+     already had: relief and the hidden occupation on bit 18; the airlines
+     on the projection's high bit; Manchukuo and Mengjiang on the relief
+     sheet's two. Each was found by a reader whose shared link opened as a
+     different map. Named here, and `checkLayerBits()` at start-up says at
+     once if two names resolve to the same bit or two high-field places
+     overlap, which is the check the literals could never make. The high
+     field's places (`SUGAR_PLACE`, `POP_BITS`, `LABEL_CATS[].place`…) are
+     defined beside the features that own them and gathered by the check. */
+  var LOW_SHIFT = { level: 8, projection: 15, reliefDetail: 19 };
+  var LOW_BIT = {
+    epoch: 1, cities: 2, battles: 4, territory: 8, labels: 16, extent: 32,
+    rivers: 64, roc: 128,                      // LAYER_FLAGS, in that order
+    level: 3 << LOW_SHIFT.level,               // two bits
+    hairline: 1 << 10, nca: 1 << 11, ccp: 1 << 12, backs: 1 << 13,
+    indiaRivers: 1 << 14,
+    projection: 3 << LOW_SHIFT.projection,     // two bits
+    graticule: 1 << 17, relief: 1 << 18,
+    reliefDetail: 3 << LOW_SHIFT.reliefDetail, // two bits
+    mono: 1 << 21, jpNames: 1 << 22, occNone: 1 << 23, world: 1 << 24,
+    twRail: 1 << 25, twStations: 1 << 26, krRail: 1 << 27, krStations: 1 << 28,
+    trainTools: 1 << 29,
+  };
+  function checkLayerBits() {
+    var bad = [];
+    var names = Object.keys(LOW_BIT);
+    for (var i = 0; i < names.length; i++) {
+      if (LOW_BIT[names[i]] >= HI_BASE) bad.push(names[i] + ' is past bit 29');
+      for (var j = i + 1; j < names.length; j++) {
+        if (LOW_BIT[names[i]] & LOW_BIT[names[j]]) {
+          bad.push(names[i] + ' and ' + names[j] + ' share a bit');
+        }
+      }
+    }
+    // the high field: each place holds `width` values, so it spans
+    // [place, place * width) and the next place must start at or past that
+    var hi = [];
+    Object.keys(POP_BITS).forEach(function (k) { hi.push([k, POP_BITS[k], 4]); });
+    hi.push(['sugar', SUGAR_PLACE, 2], ['theme', THEME_PLACE, 4],
+            ['air', AIR_PLACE, 2], ['airplay', AIRPLAY_PLACE, 2],
+            ['manchukuo', MANCHUKUO_PLACE, 2], ['mengjiang', MENGJIANG_PLACE, 2],
+            ['airAll', AIRALL_PLACE, 2], ['airNames', AIRNAMES_PLACE, 2],
+            ['hanLabels', HANLABELS_PLACE, 2], ['kfRail', KFRAIL_PLACE, 2],
+            ['kfStations', KFSTA_PLACE, 2]);
+    LABEL_CATS.forEach(function (c) { hi.push(['labels:' + c.id, c.place, 2]); });
+    hi.sort(function (a, b) { return a[1] - b[1]; });
+    for (var h = 0; h + 1 < hi.length; h++) {
+      if (hi[h][1] * hi[h][2] > hi[h + 1][1]) {
+        bad.push(hi[h][0] + ' (' + hi[h][1] + ', ' + hi[h][2] + ' values) runs into '
+                 + hi[h + 1][0] + ' (' + hi[h + 1][1] + ')');
+      }
+    }
+    if (bad.length) {
+      try { console.error('layers= code: ' + bad.join('; ')); } catch (e) { /* no console */ }
+    }
+    return bad;
+  }
+
   function layerCode() {
     var bits = 0;
     LAYER_FLAGS.forEach(function (on, i) { if (on()) bits |= (1 << i); });
-    bits |= ((Math.min(3, Math.max(1, state.level)) - 1) & 3) << 8;
+    bits |= ((Math.min(3, Math.max(1, state.level)) - 1) & 3) << LOW_SHIFT.level;
     // bit 10, not 8: the level has 8 and 9, and LAYER_FLAGS is indexed by bit
-    if (state.hairline) bits |= 1024;
-    if (state.occSource === 'nca') bits |= 2048;
+    if (state.hairline) bits |= LOW_BIT.hairline;
+    if (state.occSource === 'nca') bits |= LOW_BIT.nca;
     // A third reading — none at all — needs a second bit, and it is read
     // first, so a link written before this one existed still says what it
     // meant. The two client states and the base areas go the same way round
@@ -4359,7 +4441,7 @@
        link with the occupation hidden turned Topography on. Old links with
        bit 18 set now read as what the documented table always said bit 18
        was: the relief. */
-    if (state.occSource === 'none') bits |= 8388608;
+    if (state.occSource === 'none') bits |= LOW_BIT.occNone;
     /* **The two client states and the air layer are in the high field**, and
        this is the third time this file has had two settings on one bit.
        `state.air` was written to 65536 — bit 16, which is the projection's
@@ -4375,13 +4457,13 @@
        up into the arithmetic field, which has room and does not have to be
        hunted for. An old link carrying one of the stolen bits now reads as the
        documented meaning; it never round-tripped its own setting anyway. */
-    if (state.mono) bits |= 2097152;
+    if (state.mono) bits |= LOW_BIT.mono;
     /* Bit 24, not 22. This wrote 4194304 — the bit the name switch below
        has carried since it shipped (tools/test/names.js pins it) — so a link
        made with Japanese names off forced East Asia on whoever opened it,
        whatever the sender's own frame was. That is the reported fault:
        ?layers=2o7zc opening cropped despite the sender's whole-map setting. */
-    if (!state.world) bits |= 16777216;     // inverted: the whole map is the default
+    if (!state.world) bits |= LOW_BIT.world;     // inverted: the whole map is the default
     // Bit 4096 means the base areas are OFF, not on. It is the one layer here
     // that starts switched on, and a bitfield cannot tell "the sender had it
     // off" from "the sender's build had no such bit": every link made before
@@ -4389,9 +4471,9 @@
     // that turned the base areas off for anybody following an older link.
     // Inverted, an absent bit means the default, which is what an old link
     // should mean.
-    if (!state.ccp) bits |= 4096;
-    if (state.backs) bits |= 8192;
-    if (state.indiaRivers) bits |= 16384;
+    if (!state.ccp) bits |= LOW_BIT.ccp;
+    if (state.backs) bits |= LOW_BIT.backs;
+    if (state.indiaRivers) bits |= LOW_BIT.indiaRivers;
     /* The railway switches, as the *reader* has them.
      *
      * While the train tools are open they borrow the railway and its stations
@@ -4425,11 +4507,11 @@
     Object.keys(STATION_SYS).forEach(function (k) {
       if (asRead[STATION_SYS[k].on]) asRead[STATION_SYS[k].rail] = true;
     });
-    if (asRead.twRail) bits |= 33554432;   // bit 25: Taiwan's railways
-    if (asRead.twStations) bits |= 67108864;    // bit 26: and their stations
-    if (asRead.krRail) bits |= 134217728; // bit 27: Korea's railways
-    if (asRead.krStations) bits |= 268435456;  // bit 28: and their stations
-    if (state.trainTools) bits |= 536870912; // bit 29: the train tools
+    if (asRead.twRail) bits |= LOW_BIT.twRail;   // bit 25: Taiwan's railways
+    if (asRead.twStations) bits |= LOW_BIT.twStations;    // bit 26: and their stations
+    if (asRead.krRail) bits |= LOW_BIT.krRail; // bit 27: Korea's railways
+    if (asRead.krStations) bits |= LOW_BIT.krStations;  // bit 28: and their stations
+    if (state.trainTools) bits |= LOW_BIT.trainTools; // bit 29: the train tools
     /* Bits 0 to 29 are the field above; `|=` is a 32-bit *signed* operation,
        so bit 31 would come back negative and bit 30 is the last one that can
        be set that way. Everything past it is carried as a small number
@@ -4442,11 +4524,11 @@
        railways, and 64 upwards one per kind of name, inverted so that an
        absent bit means the default and the default is on. */
 
-    bits |= ({ albers: 1, laea: 2 }[state.projection] || 0) << 15;
-    if (state.graticule) bits |= 131072;
-    if (state.relief) bits |= 262144;
-    bits |= (state.reliefDetail & 3) << 19;
-    if (state.jpNames) bits |= 4194304;    // set = Japanese names on (off is the default)
+    bits |= ({ albers: 1, laea: 2 }[state.projection] || 0) << LOW_SHIFT.projection;
+    if (state.graticule) bits |= LOW_BIT.graticule;
+    if (state.relief) bits |= LOW_BIT.relief;
+    bits |= (state.reliefDetail & 3) << LOW_SHIFT.reliefDetail;
+    if (state.jpNames) bits |= LOW_BIT.jpNames;    // set = Japanese names on (off is the default)
     /* LAST, AFTER EVERY BITWISE OPERATION. `|=` coerces to a 32-bit signed
        integer, so a number carrying the high field through one of them comes
        back wrapped and negative — `layers=-zik0zk`, which parses to something
@@ -4567,31 +4649,31 @@
     }
     var epochs = JMAP.EPOCHS ? JMAP.EPOCHS.map(function (e) { return e.id; }) : [];
     var other = epochs.filter(function (id) { return id !== JMAP.DEFAULT_EPOCH; })[0];
-    if ((bits & 1) && other) state.epoch = other;
-    state.cats.city = !!(bits & 2);
+    if ((bits & LOW_BIT.epoch) && other) state.epoch = other;
+    state.cats.city = !!(bits & LOW_BIT.cities);
     state.cats.poi = state.cats.city;
-    state.cats.battle = !!(bits & 4);
-    state.cats.territory = !!(bits & 8);
-    state.labels = !!(bits & 16);
-    state.extent = !!(bits & 32);
-    state.rivers = !!(bits & 64);
+    state.cats.battle = !!(bits & LOW_BIT.battles);
+    state.cats.territory = !!(bits & LOW_BIT.territory);
+    state.labels = !!(bits & LOW_BIT.labels);
+    state.extent = !!(bits & LOW_BIT.extent);
+    state.rivers = !!(bits & LOW_BIT.rivers);
     // 1 to 3. The two bits can say 4 and nothing else can: the buttons offer
     // three, `layerCode` writes three, and a saved state is only accepted at
     // three — so a hand-edited link asking for 4 used to run at a level with
     // no button lit and an address bar that disagreed with the map.
-    state.level = Math.min(3, ((bits >> 8) & 3) + 1);
-    state.hairline = !!(bits & 1024);
-    state.occSource = (bits & 8388608) ? 'none' : ((bits & 2048) ? 'nca' : 'traced');
-    state.mono = !!(bits & 2097152);
-    state.world = !(bits & 16777216);
-    state.ccp = !(bits & 4096);          // inverted; see layerCode
-    state.backs = !!(bits & 8192);
-    state.indiaRivers = !!(bits & 16384);
-    state.twRail = !!(bits & 33554432);
-    state.twStations = !!(bits & 67108864);
-    state.krRail = !!(bits & 134217728);
-    state.krStations = !!(bits & 268435456);
-    state.trainTools = !!(bits & 536870912);
+    state.level = Math.min(3, ((bits >> LOW_SHIFT.level) & 3) + 1);
+    state.hairline = !!(bits & LOW_BIT.hairline);
+    state.occSource = (bits & LOW_BIT.occNone) ? 'none' : ((bits & LOW_BIT.nca) ? 'nca' : 'traced');
+    state.mono = !!(bits & LOW_BIT.mono);
+    state.world = !(bits & LOW_BIT.world);
+    state.ccp = !(bits & LOW_BIT.ccp);          // inverted; see layerCode
+    state.backs = !!(bits & LOW_BIT.backs);
+    state.indiaRivers = !!(bits & LOW_BIT.indiaRivers);
+    state.twRail = !!(bits & LOW_BIT.twRail);
+    state.twStations = !!(bits & LOW_BIT.twStations);
+    state.krRail = !!(bits & LOW_BIT.krRail);
+    state.krStations = !!(bits & LOW_BIT.krStations);
+    state.trainTools = !!(bits & LOW_BIT.trainTools);
     popGroups().forEach(function (g) {
       var place = POP_BITS[g.id];
       var mode = place ? POP_MODES[(Math.floor(hi / place) % 4) - 1] : null;
@@ -4611,12 +4693,12 @@
     LABEL_CATS.forEach(function (c) {          // inverted; see layerCode
       state.labelCats[c.id] = !(Math.floor(hi / c.place) % 2);
     });
-    state.projection = ['mercator', 'albers', 'laea'][(bits >> 15) & 3] || 'mercator';
-    state.graticule = !!(bits & 131072);
-    state.relief = !!(bits & 262144);
-    state.reliefDetail = Math.min(2, (bits >> 19) & 3);
-    state.jpNames = !!(bits & 4194304);
-    urlProvSource = (bits & 128) ? 'roc' : 'enp';
+    state.projection = ['mercator', 'albers', 'laea'][(bits >> LOW_SHIFT.projection) & 3] || 'mercator';
+    state.graticule = !!(bits & LOW_BIT.graticule);
+    state.relief = !!(bits & LOW_BIT.relief);
+    state.reliefDetail = Math.min(2, (bits >> LOW_SHIFT.reliefDetail) & 3);
+    state.jpNames = !!(bits & LOW_BIT.jpNames);
+    urlProvSource = (bits & LOW_BIT.roc) ? 'roc' : 'enp';
   }
 
   var urlProvSource = null;      // applied once the administrative file is in
@@ -6830,6 +6912,14 @@
    * so it is the element actually under the finger, and this is the same path
    * the markers and the provinces are chosen by. */
 
+  /* The card's five fixed lines. Three cards — a plane, a route, an
+     airport — each looked them up by hand. */
+  function cardFields() {
+    return { chip: infoBox.querySelector('.chip'), prim: infoBox.querySelector('.primary'),
+             alt: infoBox.querySelector('.alt'), when: infoBox.querySelector('.when'),
+             note: infoBox.querySelector('.note-own') };
+  }
+
   /* **The card for one aeroplane in the air.**
    *
    * The route's card says what the service was; this says what *this* machine
@@ -6843,11 +6933,7 @@
     if (!d) return false;
     select(null);
     if (!infoBox) return false;
-    var chip = infoBox.querySelector('.chip');
-    var prim = infoBox.querySelector('.primary');
-    var alt = infoBox.querySelector('.alt');
-    var when = infoBox.querySelector('.when');
-    var note = infoBox.querySelector('.note-own');
+    var f = cardFields(), chip = f.chip, prim = f.prim, alt = f.alt, when = f.when, note = f.note;
     if (chip) chip.textContent = 'In the air';
     if (prim) prim.textContent = d.from + ' \u2192 ' + d.to;
     if (alt) {
@@ -6968,7 +7054,10 @@
      pair of cities. Each row is the company and the route, because two
      services of one company can share a leg and "Japan Airways" twice would
      be a menu that cannot be chosen from. */
-  function openAirChooser(routes, cx, cy) {
+  /* The little menu both choosers are: a heading, then one button per
+     choice with a swatch of its ink, its name and, if it has one, its
+     operator. Placed at the press and kept inside the window. */
+  function openChooser(heading, items, cx, cy) {
     closeMenu();
     menuEl = document.createElement('div');
     menuEl.id = 'jmap-menu';
@@ -6976,39 +7065,47 @@
     menuEl.setAttribute('role', 'menu');
     var head = document.createElement('p');
     head.className = 'menu-head';
-    head.textContent = routes.length + ' services fly this stretch';
+    head.textContent = heading;
     menuEl.appendChild(head);
-    routes.forEach(function (r) {
+    items.forEach(function (it) {
       var b = document.createElement('button');
       b.type = 'button';
       b.className = 'plain';
-      b.setAttribute('data-air-pick', r.id);
+      b.setAttribute(it.attr, it.value);
       var dot = document.createElement('span');
       dot.className = 'air-swatch';
-      dot.style.background = r.ink || 'var(--air-ink, #23405c)';
+      dot.style.background = it.ink;
       b.appendChild(dot);
       var t = document.createElement('span');
       t.className = 'air-pick-text';
       var one = document.createElement('span');
       one.className = 'air-pick-name';
-      one.textContent = r.shortName || r.name;
+      one.textContent = it.name;
       t.appendChild(one);
-      if (r.operator) {
+      if (it.op) {
         var two = document.createElement('span');
         two.className = 'air-pick-op';
-        two.textContent = r.operator;
+        two.textContent = it.op;
         t.appendChild(two);
       }
       b.appendChild(t);
-      b.addEventListener('click', function () { closeMenu(); selectAir(r); });
+      b.addEventListener('click', function () { closeMenu(); it.pick(); });
       menuEl.appendChild(b);
     });
     document.body.appendChild(menuEl);
-    var b2 = menuEl.getBoundingClientRect();
-    var left = Math.min(cx || 0, window.innerWidth - b2.width - 8);
-    var top = Math.min(cy || 0, window.innerHeight - b2.height - 8);
+    var box = menuEl.getBoundingClientRect();
+    var left = Math.min(cx || 0, window.innerWidth - box.width - 8);
+    var top = Math.min(cy || 0, window.innerHeight - box.height - 8);
     menuEl.style.left = Math.max(4, left) + 'px';
     menuEl.style.top = Math.max(4, top) + 'px';
+  }
+  function openAirChooser(routes, cx, cy) {
+    openChooser(routes.length + ' services fly this stretch', routes.map(function (r) {
+      return { attr: 'data-air-pick', value: r.id,
+               ink: r.ink || 'var(--air-ink, #23405c)',
+               name: r.shortName || r.name, op: r.operator,
+               pick: function () { selectAir(r); } };
+    }), cx, cy);
   }
 
   /* **Which line did the reader mean?** Where several run together — out of
@@ -7018,45 +7115,15 @@
      routes have, built from the same idiom, with each line's own ink beside
      its name. */
   function openLineChooser(lines, cx, cy) {
-    closeMenu();
-    menuEl = document.createElement('div');
-    menuEl.id = 'jmap-menu';
-    menuEl.className = 'air-chooser';
-    menuEl.setAttribute('role', 'menu');
-    var head = document.createElement('p');
-    head.className = 'menu-head';
-    head.textContent = lines.length + ' lines run along here';
-    menuEl.appendChild(head);
-    lines.forEach(function (l) {
-      var b = document.createElement('button');
-      b.type = 'button';
-      b.className = 'plain';
-      b.setAttribute('data-line-pick', String(l.index));
-      var dot = document.createElement('span');
-      dot.className = 'air-swatch';
-      dot.style.background = l.colour;
-      b.appendChild(dot);
-      var t = document.createElement('span');
-      t.className = 'air-pick-text';
-      var one = document.createElement('span');
-      one.className = 'air-pick-name';
-      one.textContent = l.name;
-      t.appendChild(one);
-      b.appendChild(t);
-      b.addEventListener('click', function () {
-        closeMenu();
-        var card = trainApi.lineCard(l.index);
-        if (trainApi.pick) trainApi.pick(l.index);
-        if (card) showTrainCard(card);
-      });
-      menuEl.appendChild(b);
-    });
-    document.body.appendChild(menuEl);
-    var b3 = menuEl.getBoundingClientRect();
-    var left = Math.min(cx || 0, window.innerWidth - b3.width - 8);
-    var top = Math.min(cy || 0, window.innerHeight - b3.height - 8);
-    menuEl.style.left = Math.max(4, left) + 'px';
-    menuEl.style.top = Math.max(4, top) + 'px';
+    openChooser(lines.length + ' lines run along here', lines.map(function (l) {
+      return { attr: 'data-line-pick', value: String(l.index), ink: l.colour,
+               name: l.name,
+               pick: function () {
+                 var card = trainApi.lineCard(l.index);
+                 if (trainApi.pick) trainApi.pick(l.index);
+                 if (card) showTrainCard(card);
+               } };
+    }), cx, cy);
   }
 
   function handleTap(target, cx, cy, sticky) {
@@ -9381,12 +9448,11 @@
     return legs;
   }
 
-  /* Every pair of stops a service actually flies between, where they are not
-     next to each other on the route. Read off the timetable, in both
-     directions, and deduplicated. */
-  function airChordsOf(r) {
-    var rows = (r && r.times) || [];
-    var out = [], seen = {};
+  /* Walk a route's timetable service by service and direction by direction,
+     calling `each(a, b)` for every pair of stops the service calls at next to
+     each other — `a` and `b` being stop indices, in flying order. The chords
+     a route needs and the legs it actually flies are both read off this. */
+  function airServiceRuns(rows, each) {
     var svcs = rows.map(function (t) { return t.svc || ''; })
       .filter(function (v, i, a) { return a.indexOf(v) === i; });
     svcs.forEach(function (svc) {
@@ -9395,15 +9461,23 @@
         var seq = mine.filter(function (t) { return t[pre + 'a'] || t[pre + 'd']; })
           .map(function (t) { return (+t.seq) - 1; })
           .sort(function (a, b) { return a - b; });
-        for (var k = 0; k + 1 < seq.length; k++) {
-          var a = seq[k], b = seq[k + 1];
-          if (b - a < 2) continue;
-          var key = a + ':' + b;
-          if (seen[key]) continue;
-          seen[key] = true;
-          out.push([a, b]);
-        }
+        for (var k = 0; k + 1 < seq.length; k++) each(seq[k], seq[k + 1]);
       });
+    });
+  }
+
+  /* Every pair of stops a service actually flies between, where they are not
+     next to each other on the route. Read off the timetable, in both
+     directions, and deduplicated. */
+  function airChordsOf(r) {
+    var rows = (r && r.times) || [];
+    var out = [], seen = {};
+    airServiceRuns(rows, function (a, b) {
+      if (b - a < 2) return;
+      var key = a + ':' + b;
+      if (seen[key]) return;
+      seen[key] = true;
+      out.push([a, b]);
     });
     return out;
   }
@@ -9610,20 +9684,10 @@
     pairs.forEach(function (pr, i) {
       index[Math.min(pr[0], pr[1]) + ':' + Math.max(pr[0], pr[1])] = i;
     });
-    var svcs = rows.map(function (t) { return t.svc || ''; })
-      .filter(function (v, i, a) { return a.indexOf(v) === i; });
-    svcs.forEach(function (svc) {
-      var mine = rows.filter(function (t) { return (t.svc || '') === svc; });
-      ['d', 'u'].forEach(function (pre) {
-        var seq = mine.filter(function (t) { return t[pre + 'a'] || t[pre + 'd']; })
-          .map(function (t) { return (+t.seq) - 1; })
-          .sort(function (a, b) { return a - b; });
-        for (var k = 0; k + 1 < seq.length; k++) {
-          var at = index[seq[k] + ':' + seq[k + 1]];
-          // a grounded leg is never flown, whatever the timetable says
-          if (at != null && !dead[at]) out[at] = true;
-        }
-      });
+    airServiceRuns(rows, function (a, b) {
+      var at = index[a + ':' + b];
+      // a grounded leg is never flown, whatever the timetable says
+      if (at != null && !dead[at]) out[at] = true;
     });
     return out;
   }
@@ -10283,11 +10347,7 @@
   function selectAir(r) {
     select(null);
     if (!infoBox) return;
-    var chip = infoBox.querySelector('.chip');
-    var prim = infoBox.querySelector('.primary');
-    var alt = infoBox.querySelector('.alt');
-    var when = infoBox.querySelector('.when');
-    var note = infoBox.querySelector('.note-own');
+    var f = cardFields(), chip = f.chip, prim = f.prim, alt = f.alt, when = f.when, note = f.note;
     if (chip) chip.textContent = 'Air route';
     if (prim) prim.textContent = r.name;
     /* **Not the same list twice.** `primary` is already the chain of stops —
@@ -10521,11 +10581,7 @@
     select(null);
     if (!infoBox) return;
     var mine = airportRoutes(st);
-    var chip = infoBox.querySelector('.chip');
-    var prim = infoBox.querySelector('.primary');
-    var alt = infoBox.querySelector('.alt');
-    var when = infoBox.querySelector('.when');
-    var note = infoBox.querySelector('.note-own');
+    var f = cardFields(), chip = f.chip, prim = f.prim, alt = f.alt, when = f.when, note = f.note;
     /* **The name in every form it has, then the count.** The headline is the
        one the map leads with and the line under it carries the rest — the
        characters and the romanisation the timetable printed — so a reader who
@@ -10862,17 +10918,15 @@
 
   function loadAirPlay() {
     if (window.JMAP_AIRPLAY) { mountAirPlay(); return; }
-    var el = document.createElement('script');
-    el.src = asset('air-play.js');
-    el.onload = function () {
-      if (window.JMAP_AIRPLAY && airPlayWanted) mountAirPlay();
-      syncAirPlayButton();
-    };
-    el.onerror = function () {
-      airPlayWanted = false;
-      syncAirPlayButton();
-    };
-    document.head.appendChild(el);
+    loadScript('air-play.js').then(
+      function () {
+        if (window.JMAP_AIRPLAY && airPlayWanted) mountAirPlay();
+        syncAirPlayButton();
+      },
+      function () {
+        airPlayWanted = false;
+        syncAirPlayButton();
+      });
   }
 
   function syncAirPlayButton() {
@@ -14149,6 +14203,21 @@
 
   /* ------------------------------------------------ the pies --------- */
 
+  /* One slice of a pie, as a path: the wedge from `a0` to `a1` at radius
+     `r`, or the whole disc when one value is everything — an arc of 360° is
+     a point, so the full circle is two half-arcs. Drawn twice, on the map
+     and in the tooltip, at two radii. */
+  function pieSlicePath(r, a0, a1, whole) {
+    if (whole) {
+      return 'M0 ' + (-r) + 'A' + r + ' ' + r + ' 0 1 1 0 ' + r
+        + 'A' + r + ' ' + r + ' 0 1 1 0 ' + (-r) + 'Z';
+    }
+    var big = (a1 - a0) > Math.PI ? 1 : 0;
+    return 'M0 0L' + (r * Math.cos(a0)).toFixed(2) + ' ' + (r * Math.sin(a0)).toFixed(2)
+      + 'A' + r + ' ' + r + ' 0 ' + big + ' 1 '
+      + (r * Math.cos(a1)).toFixed(2) + ' ' + (r * Math.sin(a1)).toFixed(2) + 'Z';
+  }
+
   /* A pie over each province, at the anchor the build put on its largest
      block — the same point the province's own name is hung from, so the two
      never disagree about where a province "is".
@@ -14207,13 +14276,7 @@
       var big = (a1 - a0) > Math.PI ? 1 : 0;
       box.appendChild(svgEl2('path', {
         fill: cut.defs[i].c, stroke: 'rgba(18,15,10,.35)', 'stroke-width': .6,
-        d: v >= cut.total
-          ? 'M0 ' + (-TIP_R) + 'A' + TIP_R + ' ' + TIP_R + ' 0 1 1 0 ' + TIP_R
-            + 'A' + TIP_R + ' ' + TIP_R + ' 0 1 1 0 ' + (-TIP_R) + 'Z'
-          : 'M0 0L' + (TIP_R * Math.cos(a0)).toFixed(2) + ' '
-            + (TIP_R * Math.sin(a0)).toFixed(2) + 'A' + TIP_R + ' ' + TIP_R
-            + ' 0 ' + big + ' 1 ' + (TIP_R * Math.cos(a1)).toFixed(2) + ' '
-            + (TIP_R * Math.sin(a1)).toFixed(2) + 'Z',
+        d: pieSlicePath(TIP_R, a0, a1, v >= cut.total),
       }));
       a0 = a1;
     });
@@ -14291,16 +14354,7 @@
           var p = svgEl('path', {
             'class': 'pie-slice',
             fill: cut.defs[i].c,
-            d: v >= cut.total
-              // one slice of everything is a circle, and an arc of 360° is a
-              // point: the province where nobody was anything else
-              ? 'M0 ' + (-PIE_R) + 'A' + PIE_R + ' ' + PIE_R + ' 0 1 1 0 '
-                + PIE_R + 'A' + PIE_R + ' ' + PIE_R + ' 0 1 1 0 ' + (-PIE_R) + 'Z'
-              : 'M0 0L' + (PIE_R * Math.cos(a0)).toFixed(2) + ' '
-                + (PIE_R * Math.sin(a0)).toFixed(2)
-                + 'A' + PIE_R + ' ' + PIE_R + ' 0 ' + big + ' 1 '
-                + (PIE_R * Math.cos(a1)).toFixed(2) + ' '
-                + (PIE_R * Math.sin(a1)).toFixed(2) + 'Z',
+            d: pieSlicePath(PIE_R, a0, a1, v >= cut.total),
           });
           g.appendChild(p);
           a0 = a1;
@@ -15714,11 +15768,7 @@
       then();
     };
     if (window.JMAP_INLINE_FINE) { parse(window.JMAP_INLINE_FINE); return; }
-    fetch(asset('japan-empire-map-fine.svg'))
-      .then(function (r) {
-        if (!r.ok) throw new Error(r.status);
-        return r.text();
-      })
+    fetchText('japan-empire-map-fine.svg')
       .then(parse)
       .catch(function () {
         fineState = 'failed';
@@ -16076,13 +16126,8 @@
   function loadRoc() {
     if (rocState === 'loading' || rocState === 'ready') return;
     rocState = 'loading';
-    fetch(asset('japan-empire-map-roc.svg'))
-      .then(function (r) {
-        if (!r.ok) throw new Error(r.status);
-        return r.text();
-      })
-      .then(function (text) {
-        var doc = new DOMParser().parseFromString(text, 'image/svg+xml');
+    fetchSvg('japan-empire-map-roc.svg')
+      .then(function (doc) {
         var got = 0;
         $$('g[data-for]', doc.documentElement).forEach(function (g) {
           var key = g.getAttribute('data-for');
@@ -16177,13 +16222,8 @@
 
   function loadKoreaFine() {
     koreaFineState = 'loading';
-    fetch(asset('japan-empire-map-korea.svg'))
-      .then(function (r) {
-        if (!r.ok) throw new Error(r.status);
-        return r.text();
-      })
-      .then(function (text) {
-        var doc = new DOMParser().parseFromString(text, 'image/svg+xml');
+    fetchSvg('japan-empire-map-korea.svg')
+      .then(function (doc) {
         var g = doc.querySelector('g[data-for="korea"]');
         var el = atomEls.korea;
         if (!g || !el) { koreaFineState = 'failed'; return; }
@@ -16251,11 +16291,7 @@
       if (selected) select(selected);
     };
     if (window.JMAP_INLINE_ADMIN) { graft(window.JMAP_INLINE_ADMIN); return; }
-    fetch(asset('japan-empire-map-admin.svg'))
-      .then(function (r) {
-        if (!r.ok) throw new Error(r.status);
-        return r.text();
-      })
+    fetchText('japan-empire-map-admin.svg')
       .then(graft)
       .catch(function () {
         // say so rather than sitting there looking switched on and empty; the
@@ -17731,19 +17767,17 @@
       annLoading = null;
       queue.forEach(function (f) { if (f) f(ok ? annApi : null); });
     };
-    var el = document.createElement('script');
-    el.src = asset('annotate.js');
-    el.onload = function () {
-      if (!window.JMAP_ANNOTATE) { done(false); return; }
-      annApi = window.JMAP_ANNOTATE(annHost());
-      done(true);
-    };
-    el.onerror = function () {
-      done(false);
-      window.alert('The annotation tools could not be loaded. '
-        + 'They are in annotate.js, which has to sit beside index.html.');
-    };
-    document.head.appendChild(el);
+    loadScript('annotate.js').then(
+      function () {
+        if (!window.JMAP_ANNOTATE) { done(false); return; }
+        annApi = window.JMAP_ANNOTATE(annHost());
+        done(true);
+      },
+      function () {
+        done(false);
+        window.alert('The annotation tools could not be loaded. '
+          + 'They are in annotate.js, which has to sit beside index.html.');
+      });
   }
 
   /* Which backings are a second copy of ground that is already drawn.

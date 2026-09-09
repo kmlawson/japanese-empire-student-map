@@ -1,18 +1,18 @@
-/* The admin panel — tools for working on the map, not for reading it.
- *
- * Nothing here is fetched by a reader. `map.js` loads this file when someone
- * option-clicks (alt-clicks) Layers, and remembers in localStorage that the
- * panel was open so that a reload comes back with it and with whatever it was
- * set to — which is the point of the backings switch, below.
- *
- * It asks `map.js` for as little as possible: the projection is read off the
- * `#proj` element in the SVG, screen coordinates come from the SVG's own CTM,
- * and taps arrive through one optional hook (`window.JMAP_TAP`). So this file
- * can be edited, broken or deleted without the map noticing.
- *
- * To add a tool, push another object onto TOOLS. Each one gets a titled
- * section in the panel and is handed the same small api.
- */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 (function () {
   'use strict';
 
@@ -21,11 +21,11 @@
 
   var $ = function (sel, root) { return (root || document).querySelector(sel); };
 
-  /* **The panel's furniture, built once.** Every section wants the same few
-     things — a switch with a label, a line of readout under it, a row of
-     buttons, a read-only box of text to copy from — and each section had
-     built its own, so the panel was 1,900 lines of which a good part was
-     the same `createElement` four times over. */
+
+
+
+
+
   function switchRow(sec, html) {
     var wrap = document.createElement('label');
     wrap.className = 'sw';
@@ -46,8 +46,8 @@
     sec.appendChild(ta);
     return ta;
   }
-  /* A row of buttons: returns the function that adds one. The handler is
-     given the button, for the ones that change their own label. */
+
+
   function buttonRow(sec) {
     var row = document.createElement('div');
     row.className = 'row';
@@ -77,7 +77,7 @@
   var container = $('#map-container');
   if (!svg || !container) return;
 
-  /* ---- the projection, read off the map rather than passed in ---- */
+
 
   var meta = svg.querySelector('#proj');
   var P = {
@@ -88,14 +88,14 @@
   };
   P.yTop = P.R * Math.log(Math.tan(Math.PI / 4 + P.latMax * Math.PI / 360));
 
-  /* The map's own projection where it will hand it over, and the Mercator
-     worked out from `#proj` where it will not.
-     
-     The fallback is what this always did, and it is only right on the map's
-     own projection: switch to Albers or Lambert and every coordinate a tool
-     reported was the one the point would have had in Mercator. `map.js`
-     exposes both directions now — see `JMAP_GEO` there — so a tool gets the
-     projection the reader is actually looking at. */
+
+
+
+
+
+
+
+
   function toLonLat(x, y) {
     if (window.JMAP_GEO && window.JMAP_GEO.unproject) {
       var q = window.JMAP_GEO.unproject(x, y);
@@ -127,15 +127,15 @@
     return pt.matrixTransform(ctm.inverse());
   }
 
-  /* One CSS pixel in user units, so a mark drawn in the map's own coordinates
-     can be given a size in screen terms. */
+
+
   function unitsPerPixel() {
     var vb = (svg.getAttribute('viewBox') || '').split(/\s+/).map(Number);
     var w = svg.getBoundingClientRect().width || 1;
     return (vb[2] || w) / w;
   }
 
-  /* ---- the shell ---- */
+
 
   var STYLE = [
     '#jmap-admin{position:fixed;top:0;right:0;bottom:0;width:var(--admin-w,320px);',
@@ -164,8 +164,8 @@
     ' font:11px/1.4 ui-monospace,Menlo,monospace}',
     '#jmap-admin .close{border:0;background:transparent;color:#9a8f83;font-size:18px;padding:0 4px}',
     'body.jmap-admin-open #stage{padding-right:var(--admin-w,320px)}',
-    // 16% orange over the pale blue sea blends to a neutral grey and stops
-    // reading as a drawing at all, so the tint is stronger than it looks here
+
+
     '#jmap-draw .edge{fill:rgba(255,146,54,.34);stroke:#c2542e;stroke-width:1.8;',
     ' vector-effect:non-scaling-stroke;stroke-linejoin:round}',
     '#jmap-draw .vtx{fill:#fff;stroke:#c2542e;stroke-width:1.4;vector-effect:non-scaling-stroke}',
@@ -179,8 +179,8 @@
     '#jmap-extent-edit .vtx.gone{fill:none;stroke:#c2542e;stroke-width:1.6;',
     ' stroke-dasharray:2 2;cursor:pointer}',
     'body.jmap-drawing #map-container{cursor:crosshair}',
-    /* the shipping-route tool. A route is drawn over the sea, so it is a
-       colour the sea has none of, and heavy enough to shift-click on. */
+
+
     '#jmap-route .leg{fill:none;stroke:#1d9bd1;stroke-width:2.4;',
     ' vector-effect:non-scaling-stroke;stroke-linecap:round;stroke-linejoin:round}',
     '#jmap-route .grab{fill:none;stroke:transparent;stroke-width:14;',
@@ -230,8 +230,8 @@
   }
 
   function relayout() {
-    // #map-container is inset:0 inside #stage, so #stage's padding shrinks it;
-    // the map refits itself off a resize and does not need telling directly
+
+
     window.dispatchEvent(new Event('resize'));
   }
 
@@ -255,9 +255,9 @@
     if (panel && panel.style.display !== 'none') close(); else open();
   }
 
-  /* Taps reach the tools through map.js's one hook. Returning false there
-     means the map does not treat the tap as a selection. Drags are never
-     offered, so panning and pinching go on working while a tool is armed. */
+
+
+
   window.JMAP_TAP = function (e) {
     for (var i = 0; i < tapTools.length; i++) {
       if (tapTools[i](e) === false) return false;
@@ -265,11 +265,11 @@
     return true;
   };
 
-  /* Shift-press belongs to the marquee unless a tool says otherwise. The route
-     tool says otherwise: a shift-press on a course is how a bend goes into it,
-     and the marquee was taking every one of them and returning before the tap
-     hook was ever reached — so the gesture did nothing at all and left no sign
-     of why. A tool registers here to claim shift while it is armed. */
+
+
+
+
+
   var shiftTools = [];
   window.JMAP_SHIFT = function (e) {
     for (var i = 0; i < shiftTools.length; i++) {
@@ -303,22 +303,22 @@
                                                function () { done(false); });
       return;
     }
-    // file:// and plain http have no clipboard; the textarea is the fallback
+
     done(false);
   }
 
-  /* ================= tools ================= */
+
 
   var TOOLS = [];
 
-  /* ---- Natural Earth's own coastline, laid over the map ---- */
 
-  /* The comparison that found the Korea fault, without needing QGIS.
-     `japan-empire-map-ne.svg` is Natural Earth 1:10m unsimplified, stroke and
-     no fill, written by build_map.py in the map's own projection — so laying
-     it over the drawing puts every shape against the source it came from.
-     1.7 MB and 120,000 vertices, so it is fetched the first time it is asked
-     for and never on a reader's behalf. */
+
+
+
+
+
+
+
   TOOLS.push({
     title: 'Natural Earth outline',
     hint: 'Natural Earth 1:10m, unsimplified, drawn as a line over the map. ' +
@@ -347,8 +347,8 @@
         say('fetching…');
         var url = 'japan-empire-map-ne.svg';
         try {
-          /* the same cache key the map stamps on its own sheets, so a rebuild
-             is not served from a stale cache */
+
+
           if (window.JEM_ASSETS && window.JEM_ASSETS[url]) {
             url += '?v=' + encodeURIComponent(window.JEM_ASSETS[url]);
           }
@@ -381,7 +381,7 @@
     },
   });
 
-  /* ---- backings on and off ---- */
+
 
   TOOLS.push({
     title: 'Backings',
@@ -404,16 +404,16 @@
 
       var out = readout(sec);
 
-      /* Asked for: turning the toggle off reloads, so that what is measured
-         afterwards is a page that has never had the backings in it — no
-         detached subtree still held by this closure, no heap or GC state left
-         over from having parsed and laid them out once. The detach below is
-         still done first, so the panel is right either way and the reload is
-         about starting clean rather than about hiding anything.
 
-         The view survives it: `map.js` keeps `bbox` and `layers` in the address
-         bar, so the reload comes back to the same ground at the same zoom with
-         the same layers on, and this panel reopens itself from its own key. */
+
+
+
+
+
+
+
+
+
 
       function measure() {
         var g = detached || svg.querySelector('#backings');
@@ -428,9 +428,9 @@
                Math.round(chars / 1024) + ' KB of path data';
       }
 
-      /* How many countries on screen would go with them — an atom whose
-         divisions are still in the administrative file has no shape of its
-         own, and its backing is all there is. */
+
+
+
       function leaning() {
         var n = 0;
         var atoms = svg.querySelectorAll('.atom');
@@ -467,8 +467,8 @@
         setting('backings', on);
       }
 
-      // the first call is this panel catching up with a setting the page was
-      // already built from; only a click on the switch should reload
+
+
       var booted = false;
       box.addEventListener('change', function () {
         apply(box.checked);
@@ -482,7 +482,7 @@
     },
   });
 
-  /* ---- the 1.3px stroke on the land, on and off ---- */
+
 
   TOOLS.push({
     title: 'Land stroke',
@@ -507,8 +507,8 @@
 
       var out = readout(sec);
 
-      /* What the switch is actually turning off. Vertices are counted off the
-         path data rather than guessed: one per drawing command. */
+
+
       function census() {
         var sel = '#land .atom, #land .atom path, #backings path, #land path.coast';
         var els = svg.querySelectorAll(sel);
@@ -518,8 +518,8 @@
           if (el.tagName !== 'path') continue;
           var d = el.getAttribute('d');
           if (!d) continue;
-          // an atom that holds its own sub-paths is stroked through them, and
-          // counting both would count the same coast twice
+
+
           if (el.parentNode && el.parentNode.classList &&
               el.parentNode.classList.contains('atom') &&
               el.parentNode.getAttribute('d')) continue;
@@ -558,7 +558,7 @@
     },
   });
 
-  /* ---- the neutral filler under China, on and off ---- */
+
 
   TOOLS.push({
     title: 'China filler',
@@ -624,13 +624,13 @@
     },
   });
 
-  /* ---- draw a polygon and take its coordinates away ---- */
+
 
   var drawingOn = false;
-  /* Escape closes the panel — but not while a tool has something live on the
-     map. The extent editor puts draggable handles over the line, and closing
-     the panel under them would leave them there catching presses meant for
-     the map, with nothing on screen to explain it. */
+
+
+
+
   var editingExtent = false;
   function drawing() { return drawingOn || editingExtent; }
 
@@ -671,8 +671,8 @@
         }, null, 1);
       }
 
-      /* Rough km², good enough to say whether a ring is the size intended.
-         Shoelace on lon/lat with a cosine correction at the mean latitude. */
+
+
       function areaKm2() {
         if (pts.length < 3) return 0;
         var a = 0;
@@ -718,9 +718,9 @@
         clearBtn.disabled = !pts.length;
       }
 
-      /* The dots are drawn in map units, so they would grow with a zoom.
-         Watched only while the tool is on, and only one redraw per frame, so
-         it costs nothing when the panel is being used to measure a pan. */
+
+
+
       var pending = false;
       var obs = new MutationObserver(function () {
         if (pending || !pts.length) return;
@@ -759,29 +759,29 @@
     },
   });
 
-  /* ---- shipping routes between cities ---- */
 
-  /* A route is a chain of ports with a *drawn* course between them, because a
-     shipping lane is not a straight line: it rounds Shandong, threads the
-     Inland Sea, keeps off the Ryūkyūs. So a leg is a city, then as many bends
-     as it takes, then the next city, and the line is drawn smoothly through
-     every one of them.
 
-     Through, not near. The curve is a Catmull–Rom spline written out as cubic
-     Béziers — for each span the two controls are `P + (next − prev)/6` and
-     `Q − (after − P)/6`, with the ends clamped — which passes through every
-     point it is given and has a continuous tangent at each. With two points
-     and no bends it collapses to the straight line between them, which is what
-     a leg across open water should be.
 
-     This is the same lesson the annotation arrow had to learn and the reason
-     the arrow is mentioned in the hint: a single quadratic can be made to pass
-     through a dragged point, and it will still bulge in its own middle. A
-     spline through the points bends where the points are.
 
-     Nothing here is saved to the map. The textarea is the output — the tool
-     exists to produce the coordinates for a routes file somebody writes
-     later — so `Clear` really does throw the work away. */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   var routingOn = false;
 
   TOOLS.push({
@@ -793,11 +793,11 @@
           '<b>Add another stop</b> goes back to picking cities, ' +
           '<b>Finish line</b> puts the tool away and leaves the readout to copy.',
     build: function (sec, api) {
-      /* One list, in order along the route. A `stop` is a city and carries its
-         id; a `bend` is a point in the sea and carries none. Both keep map
-         units beside their lon/lat so a zoom does not have to reproject —
-         the same bargain the polygon tool makes, and with the same limit: a
-         change of projection while the tool is open would strand them. */
+
+
+
+
+
       var nodes = [];                  // {kind, id, name, lon, lat, x, y}
       var freq = '';
       var picking = true;              // a tap on a city adds a stop
@@ -826,9 +826,9 @@
       var clearBtn = btn('Clear', function () { nodes = []; sel = -1; redraw(); }, row2);
       var copyBtn = btn('Copy route', function (b) { api.copy(ta.value, b); }, row2);
 
-      /* Whatever the reader wants to say about how often it ran — "weekly",
-         "3 sailings a month", a company name. It is their field and this tool
-         does not read it; it only carries it into the output. */
+
+
+
       var row3 = document.createElement('div');
       row3.className = 'row';
       sec.appendChild(row3);
@@ -851,52 +851,52 @@
       ta.style.height = '150px';
       sec.appendChild(ta);
 
-      /* ---- the shape ---- */
 
-      /* Catmull–Rom through every node, as cubic Béziers — **centripetal**,
-       * which is the whole difference between a course and a cat's cradle.
-       *
-       * The uniform form is the one everybody writes first: the tangent at a
-       * point is (next − previous)/6, and it is fine while the points are
-       * evenly spaced. Ports are not evenly spaced. Put a bend a few miles off
-       * a harbour mouth with the next port two hundred miles away and that
-       * tangent is enormous next to the span it belongs to — so the curve
-       * shoots past the bend, turns round and comes back. Reported with a
-       * picture of the line looping out to sea and back over the land: "it
-       * becomes impossible to guide the shipping route out of a port".
-       *
-       * Centripetal parameterisation — the knots spaced by the *square root*
-       * of the distance between points, α = 0.5 — is the standard cure, and it
-       * is a theorem rather than a tuning: it can produce neither a cusp nor a
-       * self-intersection within a segment, whatever the spacing. It also does
-       * what was asked for directly. The tangent at a port is dominated by the
-       * near neighbour rather than shared evenly with the far one, so a bend
-       * dropped just outside the harbour is what decides the direction the
-       * line leaves by — which is how you take a route out through the channel
-       * instead of across the headland.
-       *
-       * Two points and no bends still give the straight line between them. */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       var ALPHA = 0.5;
       function knot(a, b) {
         var d = Math.hypot(b.x - a.x, b.y - a.y);
         return Math.pow(d, ALPHA) || 1e-6;
       }
 
-      /* **A leg is a great circle, and it bends because the projection bends
-       * it.** Interpolated straight in projected units it was a straight line
-       * on the screen, which is a course no ship ever steered and which
-       * changes meaning with every projection the map offers: the shortest way
-       * from Yokohama to Seattle runs up past the Aleutians and looks like an
-       * arc on Mercator and nearly a straight line on the azimuthal.
-       *
-       * So the span is walked on the sphere — spherical interpolation between
-       * the two ends, which is the great circle — and every point on it is
-       * projected. What is drawn then follows whatever projection is on, with
-       * no special case for any of them.
-       *
-       * One sample every two degrees of arc, between two and sixty-four of
-       * them. Two degrees is about 220 km, which at any zoom this map reaches
-       * is well under a pixel of departure from the true curve. */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       function gcPoints(a, b) {
         var d2r = Math.PI / 180;
         var la1 = a.lat * d2r, lo1 = a.lon * d2r;
@@ -907,9 +907,9 @@
         var w = Math.acos(dot);
         var out = [];
         var n = Math.max(2, Math.min(64, Math.ceil(w / d2r / 2)));
-        /* Two ports on top of each other, or antipodal: there is no unique
-           great circle through the second and no distance in the first, so the
-           straight line between them is the honest answer. */
+
+
+
         if (!isFinite(w) || w < 1e-9 || Math.abs(Math.PI - w) < 1e-9) return out;
         var sw = Math.sin(w);
         for (var i = 1; i < n; i++) {
@@ -926,9 +926,9 @@
         return out;
       }
 
-      /* The nodes with the great circle between each pair filled in. The
-         spline below runs through all of it, so it hugs the true course
-         between the ports and is still smooth where a bend turns it. */
+
+
+
       function coursepoints() {
         var out = [];
         for (var i = 0; i < nodes.length; i++) {
@@ -985,10 +985,10 @@
         legs = document.createElementNS(NS, 'path');
         legs.setAttribute('class', 'leg');
         legs.setAttribute('pointer-events', 'none');
-        /* A second copy of the same course, invisible and fat, is what a
-           shift-click actually lands on: a 2.4px line is not a thing anybody
-           can hit, and widening the drawn one to be hittable would draw a
-           shipping lane the width of the Tsushima Strait. */
+
+
+
+
         grab = document.createElementNS(NS, 'path');
         grab.setAttribute('class', 'grab');
         dots = document.createElementNS(NS, 'g');
@@ -1040,12 +1040,12 @@
              : ' · finished');
       }
 
-      /* ---- what comes out ---- */
 
-      /* Both readings, because they answer different questions. `stops` is the
-         route as a timetable would give it; `legs` is what has to be drawn,
-         city to city with the bends between. And `course` is the whole thing
-         as one line, for anything that only wants to draw it. */
+
+
+
+
+
       function asJSON() {
         var st = stops();
         var legsOut = [], cur = null;
@@ -1071,16 +1071,16 @@
 
       function write() { ta.value = nodes.length ? asJSON() : ''; }
 
-      /* ---- the cities ---- */
+
 
       function epochNow() {
         var on = document.querySelector('#epoch-seg button.on');
         return (on && on.getAttribute('data-epoch')) || '';
       }
 
-      /* The dots have to be on to be tapped, and a reader who pressed Add
-         route has said they want them. Put back on the way out only if this
-         tool was what turned them on. */
+
+
+
       var citiesWere = null;
       function cities(on) {
         var b = document.querySelector('[data-cat="city"]');
@@ -1090,19 +1090,19 @@
         else if (!on && citiesWere === false) { if (isOn) b.click(); citiesWere = null; }
       }
 
-      /* The city under a press, whatever part of its marker was hit.
-       *
-       * **There are two kinds of city dot and this needs both.** The curated
-       * places are `#markers g.site[data-cat="city"]`, keyed by a plain id;
-       * the gazetteer's four hundred are `#gaz g`, keyed `g_e1930_kobe`
-       * because the same port is a separate record on each map. Looking only
-       * in `#gaz` found nothing at Kobe — Kobe is curated — and the tool
-       * silently did nothing when tapped.
-       *
-       * `elementsFromPoint`, not `elementFromPoint`: the dots overlap at this
-       * scale, and the topmost thing under the pointer at Kobe is Ōsaka's hit
-       * circle as often as not. The first ancestor that is a city wins, which
-       * is the same rule the map's own picking uses. */
+
+
+
+
+
+
+
+
+
+
+
+
+
       function cityAt(cx, cy) {
         var stack = document.elementsFromPoint
           ? document.elementsFromPoint(cx, cy)
@@ -1133,10 +1133,10 @@
             if (JMAP.SITES[j].id === id) { rec = JMAP.SITES[j]; break; }
           }
         }
-        /* The marker's own place on screen, not the record's, so a stop lands
-           exactly on the dot the reader pressed. The lon/lat comes from the
-           record where there is one — it is the figure a routes file should
-           carry — and off the screen only if there is not. */
+
+
+
+
         var box = g.getBoundingClientRect();
         var u = api.clientToUser(box.left + box.width / 2, box.top + box.height / 2);
         if (!u) return null;
@@ -1148,13 +1148,13 @@
                  x: u.x, y: u.y };
       }
 
-      /* ---- putting a bend in ---- */
 
-      /* Which span a press belongs to: the nearest one, measured to the
-         straight line between consecutive nodes rather than to the drawn
-         curve. The curve never strays far from that chord, and the chord can
-         be solved in closed form — no sampling, and no arguing with a spline
-         about where its nearest point is. */
+
+
+
+
+
+
       function spanAt(u) {
         var best = -1, bestD = Infinity;
         for (var i = 0; i < nodes.length - 1; i++) {
@@ -1183,7 +1183,7 @@
         return true;
       }
 
-      /* ---- the pointer ---- */
+
 
       function onDown(e) {
         if (!routingOn) return;
@@ -1208,10 +1208,10 @@
         p.x = u.x; p.y = u.y; p.lon = ll.lon; p.lat = ll.lat;
         dragging.el.setAttribute('cx', u.x);
         dragging.el.setAttribute('cy', u.y);
-        /* The line follows the handle while it is held, but the handles are
-           not rebuilt — `redraw()` empties the group and would take away the
-           circle the press is captured on, which is the trap the extent editor
-           left a note about. */
+
+
+
+
         var d = pathD();
         legs.setAttribute('d', d);
         grab.setAttribute('d', d);
@@ -1224,16 +1224,16 @@
         redraw();
       }
 
-      // while the tool is armed, shift is the bend rather than the marquee
+
       api.onShift(function () { return routingOn; });
 
       api.onTap(function (e) {
         if (!routingOn) return true;
         var u = api.clientToUser(e.clientX, e.clientY);
         if (!u) return true;
-        /* Shift is the bend. It is checked before the city, so a shift-press
-           that happens to land on a port still puts a bend in rather than
-           adding the same stop twice. */
+
+
+
         if (e.shiftKey) return addBend(u) ? false : true;
         if (!picking) return true;
         var c = cityAt(e.clientX, e.clientY);
@@ -1242,10 +1242,10 @@
         if (last && last.id === c.id) return false;   // the same port twice is not a leg
         nodes.push(c);
         sel = -1;
-        /* The first stop leaves the tool picking, because a route of one port
-           is not a route. After a leg exists the reader is most likely to want
-           to shape it, so the tool steps aside and `Add another stop` brings
-           it back. */
+
+
+
+
         if (stops().length > 1) setPicking(false);
         redraw();
         return false;
@@ -1262,8 +1262,8 @@
         setOn(false, true);
       }
 
-      /* The handles are drawn in map units, so a zoom would leave them the
-         wrong size. Watched only while the tool is on. */
+
+
       var pending = false;
       var obs = new MutationObserver(function () {
         if (pending || !nodes.length || !routingOn) return;
@@ -1294,10 +1294,10 @@
         window.removeEventListener('pointerup', onUp, true);
         cities(false);
         dragging = null;
-        /* Finishing keeps the course on screen and the JSON in the box —
-           that is the whole product of the tool, and taking it away at the
-           moment the reader says "finished" would be the tool throwing the
-           work out. Switching the tool off with the button clears it. */
+
+
+
+
         if (keep) { say(); return; }
         nodes = [];
         sel = -1;
@@ -1311,23 +1311,23 @@
     },
   });
 
-  /* ---- edit the 1942 line of control ---- */
 
-  /* The perimeter is built, not drawn by hand: a course through
-     `EXTENT_SOUTH_CHINA`, arcs taken off territory outlines, and a pass that
-     pushes it off the shore. That makes it hard to say "this bit is wrong" in
-     the only language the build understands, which is coordinates.
 
-     So this tool lets the line be taken hold of. Every vertex in view gets a
-     handle; drag one and it moves. Nothing is saved into the map — the edit
-     lives in this browser and comes out as a list of moves, each naming where
-     a vertex was and where it should be, which is exactly what the build needs
-     to be told.
 
-     Mercator only. The line is drawn in the sheet's own space, and under the
-     two equal-area projections what is on screen is a reprojection of it; a
-     vertex dragged there would come back as a coordinate in a space the source
-     does not use. */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   TOOLS.push({
     title: 'Edit the 1942 extent',
     hint: 'Switch it on and every vertex of the line of control in view gets ' +
@@ -1355,7 +1355,7 @@
       try {
         var saved = api.setting(EDIT_KEY);
         if (saved && typeof saved === 'object') {
-          // the first version of this tool stored the moves alone
+
           if (saved.moves || saved.drops) {
             moves = saved.moves || {};
             drops = saved.drops || {};
@@ -1363,16 +1363,16 @@
         }
       } catch (err) { moves = {}; drops = {}; }
 
-      /* Undo needs to know the order the edits were made in, and the saved
-         state does not carry it — an object with numeric keys reads back in
-         index order however it was written, which is why the first version's
-         undo took the highest-numbered move rather than the last one. Read
-         the saved edits as a history in index order: arbitrary, but every
-         entry undoes to the right thing. */
+
+
+
+
+
+
       Object.keys(moves).forEach(function (i) { hist.push({ i: +i }); });
       Object.keys(drops).forEach(function (i) { hist.push({ i: +i }); });
 
-      // what index `i` held before this edit, so undo can put it back
+
       function note(i) {
         hist.push({ i: i, move: moves[i], drop: drops[i] });
       }
@@ -1413,7 +1413,7 @@
 
       function mercator() {
         var m = api.svg && api.svg.querySelector('#proj');
-        // map.js writes the projection onto the root; absent means Mercator
+
         return !api.svg.classList.contains('proj-albers')
             && !api.svg.classList.contains('proj-laea')
             && !!m;
@@ -1421,10 +1421,10 @@
 
       function pathEl() { return api.svg && api.svg.querySelector('#extent-1942'); }
 
-      /* The line as built. `__d0` is what map.js keeps of a path's original
-         `d` before any reprojection, so it is the sheet's own Mercator
-         geometry whatever is on screen — and the only geometry the source
-         can be told about. */
+
+
+
+
       function readBase() {
         var el = pathEl();
         if (!el) return null;
@@ -1447,10 +1447,10 @@
         var keys = Object.keys(moves).map(Number).sort(function (a, b) { return a - b; });
         var gone = Object.keys(drops).map(Number).sort(function (a, b) { return a - b; });
         if (!keys.length && !gone.length) return '# nothing edited yet';
-        /* Moves kept from a previous session are read back before the tool is
-           switched on, so the line they refer to has not been looked at yet.
-           Read it now rather than throwing — which is what the first version
-           did, on every reload with edits in hand. */
+
+
+
+
         if (!base) base = readBase();
         if (!base) return '# ' + (keys.length + gone.length) + ' edit(s) held — ' +
                           'switch the tool on, on the Dec 1942 map, to read ' +
@@ -1503,8 +1503,8 @@
         api.svg.appendChild(layer);
       }
 
-      /* Only the handles in view, because the line has eleven hundred vertices
-         and a handle for each is both unusable and slow. */
+
+
       function viewBox() {
         var vb = (api.svg.getAttribute('viewBox') || '').split(/\s+/).map(Number);
         return vb.length === 4 ? vb : null;
@@ -1528,7 +1528,7 @@
         dots.textContent = '';
         var live = pathEl();
         if (live) {
-          // the edited course, drawn over the built one
+
           var d = ghostD();
           var ghost = layer.querySelector('.edited');
           if (!ghost) {
@@ -1565,9 +1565,9 @@
         resetBtn.disabled = !edits();
       }
 
-      /* The handles take the press themselves, so the map does not pan under
-         a drag that was meant for a vertex. Everywhere else on the map the
-         press is not ours and panning goes on working. */
+
+
+
       function onDown(e) {
         if (!on) return;
         var t = e.target;
@@ -1575,8 +1575,8 @@
         e.stopPropagation();
         e.preventDefault();
         var i = +t.getAttribute('data-i');
-        // a vertex already taken out: pressing it puts it back, and there is
-        // nothing to drag
+
+
         if (drops[i]) {
           note(i);
           delete drops[i];
@@ -1591,8 +1591,8 @@
         try { t.setPointerCapture(e.pointerId); } catch (err) { /* older engine */ }
       }
 
-      /* Picking one out must not go through redraw(), which empties the layer
-         and would take away the very circle the press was captured on. */
+
+
       function markSel(el) {
         var prev = dots && dots.querySelector('.vtx.sel');
         if (prev) prev.classList.remove('sel');
@@ -1620,8 +1620,8 @@
         if (ghost) ghost.setAttribute('d', ghostD());
       }
 
-      /* After a removal the next surviving vertex is picked up, so a run can
-         be cut by holding the key rather than pressing and re-aiming. */
+
+
       function nextLive(i) {
         var j;
         for (j = i + 1; j < base.length; j++) if (!drops[j]) return j;
@@ -1632,8 +1632,8 @@
       function onKey(e) {
         if (!on || sel === null) return;
         if (e.key !== 'Backspace' && e.key !== 'Delete') return;
-        // a field being typed in owns its own Backspace; the readout is
-        // read-only, so a press there is meant for the map
+
+
         var t = e.target, n = t && t.tagName ? String(t.tagName).toLowerCase() : '';
         if (t && t.isContentEditable) return;
         if ((n === 'input' || n === 'textarea') && !t.readOnly) return;
@@ -1701,7 +1701,7 @@
     },
   });
 
-  /* ---- isolate one shape ---- */
+
 
   TOOLS.push({
     title: 'Isolate or remove a shape',
@@ -1716,19 +1716,19 @@
           'are hidden and put back exactly as they were, so an atom that this ' +
           'epoch was already hiding stays hidden when you finish.',
     build: function (sec) {
-      // What is never hidden: the sea, so the shape has something to sit on,
-      // and the parts of the drawing that are not shapes at all.
+
+
       var KEEP_ID = { ocean: 1, proj: 1 };
       var KEEP_TAG = { defs: 1, metadata: 1, title: 1, style: 1 };
-      // Where a shape worth isolating lives. A tap can land on the highlight
-      // above the map or on the shading laid over it; neither is the shape.
+
+
       var LAYERS = ['#land', '#backings', '#seams'];
 
       var stack = [];               // [element, the display it had]
       var solo = null;
       var removed = 0;              // how many of the stack were taken away
-                                    // one by one rather than hidden by an
-                                    // isolate, which is all the readout needs
+
+
 
       var out = readout(sec);
 
@@ -1764,8 +1764,8 @@
             if (s === n) continue;
             if (s.id && KEEP_ID[s.id]) continue;
             if (KEEP_TAG[String(s.tagName).toLowerCase()]) continue;
-            // already out of the drawing — leave it alone, and leave it out of
-            // the undo, or finishing would turn it on
+
+
             if (s.style.display === 'none') continue;
             hide(s);
           }
@@ -1773,9 +1773,9 @@
         report();
       }
 
-      /* The opposite of isolate: this shape goes, everything else stays. Done
-         again it takes the next thing down, which is the point — it is how to
-         see what a shape is sitting on. */
+
+
+
       function remove(el) {
         if (!el || el.style.display === 'none') return;
         hide(el);
@@ -1820,8 +1820,8 @@
         back.disabled = !stack.length;
       }
 
-      /* The shape under the pointer, and not whatever overlay happens to be
-         above it. elementsFromPoint gives the whole stack, topmost first. */
+
+
       function shapeAt(x, y) {
         var els = document.elementsFromPoint ? document.elementsFromPoint(x, y) : [];
         for (var i = 0; i < els.length; i++) {
@@ -1835,10 +1835,10 @@
         return null;
       }
 
-      /* macOS turns control-click into a context menu, and depending on the
-         browser the pointer event that comes with it may never reach the tap
-         hook. So the same click is caught in both places and the second one to
-         arrive is ignored. */
+
+
+
+
       var lastCtrl = 0;
       function ctrlClick(x, y) {
         var now = new Date().getTime();
@@ -1870,7 +1870,7 @@
     },
   });
 
-  /* ================= go ================= */
+
 
   window.JMAP_ADMIN = { open: open, close: close, toggle: toggle, tools: TOOLS };
   open();

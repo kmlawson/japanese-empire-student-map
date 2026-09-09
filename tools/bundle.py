@@ -95,7 +95,7 @@ def main():
     html = re.sub(
         r'<script src="data\.js(?:\?v=[^"]*)?"></script>\s*'
         r'<script src="cities-gaz\.js(?:\?v=[^"]*)?"></script>\s*'
-        r'<script src="map\.js(?:\?v=[^"]*)?"></script>',
+        r'<script src="(?:lean/)?map\.js(?:\?v=[^"]*)?"></script>',
         lambda m: inline, html, count=1)
 
     if "JMAP_INLINE_SVG" not in html or "JMAP_INLINE_ADMIN" not in html:

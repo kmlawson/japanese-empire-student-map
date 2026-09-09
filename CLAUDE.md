@@ -286,3 +286,18 @@ Both can be driven headlessly. Two cautions:
   viewport and leave the shim off. Drive it with `mouse.down()`/`mouse.up()`
   rather than `click()`, with a pause between: the map reads pointer events
   and a synthesised click can arrive without them.
+
+## New code may be written in the JavaScript the browsers actually run
+
+The five hand-written scripts are ES5 by syntax — `var`, `function ()`
+closures, `Array.prototype.slice.call` — while depending on Pointer Events,
+`Map`, `Set`, `fetch`, `Promise` and `non-scaling-stroke`. Every browser that
+can run the map runs ES2015, so the old syntax buys no compatibility. It does
+cost something: `var` is function-scoped, so a `var k` in a loop inside a
+900-line function is the same `k` as one three hundred lines up, and nothing
+says so until it goes wrong.
+
+So: `const` and `let`, arrow functions and spread are fine in new code, and
+`let`/`const` are preferred because a redeclaration is then an error at parse
+time. Nothing old needs converting — it works — but no new `var`. Written
+after the 9 September 2026 review (`reports/2026.09.09-js-and-tests-review.md`).

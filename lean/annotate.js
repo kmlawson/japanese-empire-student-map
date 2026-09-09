@@ -1,31 +1,31 @@
-/* Annotations: a reader's own marks on the map.
- *
- * Loaded only when somebody asks for it — from Layers, or because the address
- * carries a shared set. A reader who never annotates never fetches this file,
- * which is why it is a file and not another eight thousand lines of `map.js`.
- *
- * `map.js` hands it a small host object and takes back a handful of hooks;
- * nothing here reaches into the map's internals and nothing there knows what
- * a feature is.
- *
- * WHERE THE STYLING LIVES. GeoJSON says nothing about how a feature should
- * look, and the question has one good answer: **simplestyle-spec**, which
- * QGIS, geojson.io, GitHub's GeoJSON preview, Mapbox and the Leaflet plugins
- * all read. It is plain members of `properties`, so it survives a tool that
- * has never heard of it rather than being stripped as foreign:
- *
- *     title, description
- *     marker-color, marker-size, marker-symbol
- *     stroke, stroke-width, stroke-opacity
- *     fill, fill-opacity
- *
- * Two things the spec has no word for are kept in members of our own, prefixed
- * so that nobody mistakes them for standard: `jem-dash` for a dashed line, and
- * the diamond-versus-dot distinction, which rides in `marker-symbol` because
- * the spec leaves that open to any string. Anything else opening the file sees
- * a marker with an unfamiliar symbol and draws its default, which is the right
- * failure.
- */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 (function () {
   'use strict';
 
@@ -35,44 +35,44 @@
       return Array.prototype.slice.call((r || document).querySelectorAll(s));
     };
 
-    /* What this map will read. The ceiling was 24 MB and 240,000 points,
-       which is not a limit so much as an absence of one: at that size the SVG
-       is hundreds of thousands of nodes and the browser stops being able to
-       pan. 6 MB and 60,000 points is the size at which the map still behaves
-       — `tools/cache/india-rivers.geojson`, this project's own and one of the
-       larger files anybody will hand it, is 354 KB and 14,851 points, a
-       quarter of the ceiling. A file past it is refused with both numbers, so
-       the reader can see how far past it they are. */
+
+
+
+
+
+
+
+
     var ANN_MAX_BYTES = 6 * 1024 * 1024;
     var ANN_MAX_VERTS = 60000;
-    /* And past this, a set arrives with its names switched off. Sixty
-       thousand points may be forty thousand names, and a map wearing forty
-       thousand names is a grey mat with a coastline somewhere under it. */
+
+
+
     var ANN_QUIET_FEATURES = 40;
     var ANN_QUIET_VERTS = 4000;
-    /* How much GeoJSON will go in a link. Browsers differ, and so do the
-       servers and chat clients that pass a URL along; 6,000 characters of
-       payload keeps the whole address near 6.2 KB, which everything in use
-       accepts and which survives being pasted into mail. */
+
+
+
+
     var ANN_URL_MAX = 6000;
     var ANN_STORE = 'jem-annotations-v1';
-    /* Where a set that arrived by link is kept while the reader still has work
-       of their own in the ordinary place. See `shadowed`. */
+
+
     var ANN_STORE_SHARED = 'jem-annotations-shared-v1';
     var ANN_UNDO_MAX = 40;
 
-    /* simplestyle-spec leaves `marker-symbol` open to any string, so these
-       ride in it and anything else opening the file draws its own default. */
+
+
     var SYMBOLS = ['circle', 'ring', 'square', 'triangle', 'down-triangle',
                    'diamond', 'star', 'cross', 'plus', 'pin',
-                   /* The military set. A unit is a box with its branch drawn
-                      inside — infantry a saltire, armour an oval, and so on —
-                      and its size written above it in the echelon marks that
-                      APP-6 and its predecessors use: XX a division, XXX a
-                      corps, XXXX an army. They are drawn plainly rather than
-                      to the standard's letter: this is a teaching map, and a
-                      shape a student can tell apart at 14 pixels is worth more
-                      here than a faithful one they cannot. */
+
+
+
+
+
+
+
+
                    'unit', 'infantry', 'armour', 'artillery', 'cavalry',
                    'airborne', 'hq', 'division', 'corps', 'army',
                    'ship', 'aircraft', 'anchor', 'battle', 'fort'];
@@ -90,32 +90,32 @@
     var linkCode = null;            // the packed set, kept ready for the click
     var linkDirty = true;
     var dragging = null;            // {feat, ring, index} while a mark is moved
-    /* The reader's own saved set, standing aside while a shared link is being
-       looked at. Following a classmate's link used to overwrite it silently:
-       `fromUrl` skipped the restore offer, `loadText` replaced everything and
-       `store()` wrote it over the top, with no dialog and nothing said. Now
-       their work is left exactly where it is and the shared set is kept under
-       a key of its own until they choose. */
+
+
+
+
+
+
     var shadowed = null;
-    /* Whether what is on screen came from a link. Separate from `shadowed`,
-       which is only about whether the reader *also* had something of their
-       own — the two were conflated, and a reader with an empty browser had a
-       stranger's set filed as their own. */
+
+
+
+
     var fromLink = false;
     var declined = false;          // the restore offer, refused for this session
-    /* Locked: the marks are on the map and nothing can move them. This is how
-       a shared link opens, because the reader who followed it came to look,
-       and a set somebody else made is the last thing that should lose a point
-       to a stray press. Hover still names a mark — reading is not editing. */
+
+
+
+
     var locked = false;
     var editBtn = null;
-    /* Whether there is work in memory that has not been written to a file.
-       Loading a file or saving one clears it; drawing, moving or deleting
-       sets it. It is what the leaving-the-page warning is armed on. */
+
+
+
     var dirty = false;
     var panel, msgEl, listEl, hintEl, drawEl, bodyEl, msgTimer = 0;
 
-    /* ------------------------------------------------------------ state -- */
+
 
     function snapshot() {
       undoStack.push(JSON.stringify({ f: feats, s: sourceName }));
@@ -123,10 +123,10 @@
     }
 
     function undo() {
-      /* While a shape is being drawn, undo means the last corner — not the
-         whole shape, and not the feature before it. A reader who has clicked
-         nine corners and misplaced the tenth wants the tenth back, and taking
-         the lot was an answer to a question nobody asked. */
+
+
+
+
       if (draft && draft.pts.length) {
         draft.pts.pop();
         if (!draft.pts.length) {
@@ -147,14 +147,14 @@
       say('Undone.');
     }
 
-    /* Everything that has to happen after the set changes, in one place so
-       that no path can forget one of them. `quiet` skips the undo snapshot,
-       for the callers that took one themselves. */
-    /* `changed` means something about the set is different from what was last
-       written to a file. It used to say `feats.length > 0`, which is a
-       different question and gets two cases wrong: editing a title after
-       saving left the page willing to close without a word, and deleting the
-       last mark *cleared* the warning because the count went to zero. */
+
+
+
+
+
+
+
+
     function changed(quiet) {
       linkDirty = true;
       setDirty(true);
@@ -168,25 +168,25 @@
       schedulePack();
     }
 
-    /* Packing is deflate, and a description is typed a letter at a time; a
-       quarter of a second after the last one is soon enough for a counter and
-       spares the reader's machine forty compressions of the same set. */
+
+
+
     var packTimer = 0;
     function schedulePack() {
       if (packTimer) window.clearTimeout(packTimer);
       packTimer = window.setTimeout(function () { packTimer = 0; prepLink(); }, 250);
     }
 
-    /* THE WARNING ON LEAVING, and why it is not the greedy kind.
 
-       `beforeunload` is abused often enough that browsers have rules about it:
-       the handler is ignored unless the reader has interacted with the page,
-       and the message is the browser's own rather than anything we write. Both
-       suit us. A reader who has drawn something has interacted by definition,
-       and the listener is **added only while there is unsaved work and removed
-       the moment there is not** — so somebody who saves, or who never draws,
-       or who is only looking at a shared set, is never stopped. That is the
-       difference between a guard and a nuisance. */
+
+
+
+
+
+
+
+
+
     function setDirty(yes) {
       if (dirty === yes) return;
       dirty = yes;
@@ -202,25 +202,25 @@
     }
 
     function store() {
-      /* A set that arrived in a link is written under its own key, whether or
-         not the reader had anything of their own. `shadowed ? …` was the test,
-         and `shadowed` is only set when `restore()` found something — so a
-         reader with an empty browser who opened a classmate's link had it
-         written into `jem-annotations-v1`, their own place, and was offered it
-         back as their own work the next time they came without the link.
-         Confirmed: own-store features 1 after opening a stranger's link. */
+
+
+
+
+
+
+
       var key = fromLink ? ANN_STORE_SHARED : ANN_STORE;
       try {
         if (!feats.length) window.localStorage.removeItem(key);
         else window.localStorage.setItem(key,
           JSON.stringify({ f: feats, s: sourceName, v: homeView, t: Date.now() }));
       } catch (err) {
-        /* It *is* worth a message. This is the only automatic copy of a
-           reader's work, and it can fail for two ordinary reasons — private
-           browsing, and a full quota — neither of which the reader can see.
-           Swallowing it meant a student built a set, the storage filled, the
-           tab died, and nothing had ever said the backup was not happening.
-           Once per session: on every keystroke it would be a stutter. */
+
+
+
+
+
+
         if (!storeWarned) {
           storeWarned = true;
           say('This browser will not keep a copy of your work — private mode, '
@@ -230,17 +230,17 @@
     }
     var storeWarned = false;
 
-    /* The automatic copy, a beat behind the typing.
 
-       `store()` is a stringify of the whole set and a synchronous disk write,
-       and `fieldChanged` runs per keystroke, `styleChanged` per slider input —
-       several a frame. The copy exists so a closed tab loses nothing, and a
-       copy taken a quarter-second after the last keystroke protects exactly as
-       well **provided it cannot be skipped by leaving** — so the timer is
-       flushed the moment the page hides. `pagehide` and `visibilitychange`
-       both, because iOS Safari historically fires one without the other.
-       Everything that is not a typing or slider burst still calls `store()`
-       directly and pays nothing new. */
+
+
+
+
+
+
+
+
+
+
     var storeTimer = 0;
 
     function storeSoon() {
@@ -271,30 +271,30 @@
       } catch (err) { return null; }
     }
 
-    /* ------------------------------------------------------------ style -- */
 
-    /* Fifteen steps, and the reader is told which one they are on.
-     *
-     * The three sliders used to be a raw number each — a weight of 0 to 16, an
-     * opacity of 10 to 100 in fives, a fill of 0 to 100 in fives — so they had
-     * different lengths, different granularities, and no answer to "how heavy
-     * is heavy?" beside a number in pixels that means nothing to a reader.
-     * They are all 1 to 15 now, and what the slider carries is the *step*; the
-     * table turns it into the value that goes in the file, which is still an
-     * ordinary stroke width and an ordinary opacity.
-     *
-     * The tables are not linear on purpose. Weight matters most at the thin
-     * end — 1, 2 and 3 are visibly different and 14 and 16 are not — so the
-     * steps are close together where the eye can tell them apart. */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     var STEPS = 15;
     var WEIGHT_STEPS = [0, 1, 1.5, 2, 2.5, 3, 4, 5, 6, 7, 8, 10, 12, 14, 16];
     var ALPHA_STEPS  = [10, 16, 23, 29, 36, 42, 49, 55, 62, 68, 75, 81, 88, 94, 100];
     var FILL_STEPS   = [0, 7, 14, 21, 29, 36, 43, 50, 57, 64, 71, 79, 86, 93, 100];
 
-    /* The step, shown over the thumb while it is being moved. A slider with
-       no numbers on it is a guess; a slider with a number permanently beside
-       it is clutter in a 280px rail. It appears on the way down and goes a
-       moment after the reader lets go. */
+
+
+
+
     var stepBubble = null, bubbleTimer = 0;
     function showStep(el) {
       if (!el) return;
@@ -307,9 +307,9 @@
       var top = parseInt(el.max, 10) || STEPS;
       stepBubble.textContent = n + ' / ' + top;
       var r = el.getBoundingClientRect();
-      /* Where the thumb is: the track runs from half a thumb in to half a
-         thumb from the end, so the fraction is taken across that and not
-         across the whole width, or the bubble drifts off the end at 15. */
+
+
+
       var lo = parseInt(el.min, 10) || 1;
       var frac = top === lo ? 0 : (n - lo) / (top - lo);
       var pad = 8;
@@ -330,8 +330,8 @@
       return table[Math.max(0, Math.min(table.length - 1, n - 1))];
     }
 
-    /* And back: the nearest step to a value that came out of a file, which may
-       have been written by anything and need not be one of ours. */
+
+
     function stepFor(table, v) {
       var best = 0, gap = Infinity;
       for (var i = 0; i < table.length; i++) {
@@ -344,8 +344,8 @@
     function styleNow() {
       return {
         colour: ($('#ann-colour') || {}).value || '#1b1b1b',
-        // 0 is a weight, not a missing one — a point at no weight draws
-        // nothing and still answers the pointer
+
+
         size: stepValue(WEIGHT_STEPS, $('#ann-size'), 2),
         alpha: stepValue(ALPHA_STEPS, $('#ann-opacity'), 100) / 100,
         fillAlpha: stepValue(FILL_STEPS, $('#ann-fillop'), 29) / 100,
@@ -388,7 +388,7 @@
         p['marker-color'] = st.colour;
         p['marker-size'] = st.size <= 2 ? 'small' : (st.size >= 5 ? 'large' : 'medium');
         p['marker-symbol'] = st.symbol;
-        // simplestyle has no opacity for a marker, so ours is prefixed
+
         if (st.alpha < 1) p['jem-marker-opacity'] = st.alpha;
       }
       if (kind === 'polygon') {
@@ -409,34 +409,34 @@
       return p;
     }
 
-    /* What a feature is, from its geometry alone.
 
-       It used to read `marker-symbol === 'diamond'` as "this is an event", so
-       that the Event tool could be told apart from the Point tool. That made
-       choosing the diamond shape a **one-way door**: the feature became an
-       event, `styleChanged` writes a symbol only for a point, and every later
-       change of shape was silently ignored. Picking diamond and then star was
-       the reported case, and star had nothing to do with it — it is simply the
-       next one along in the menu.
 
-       There is no Event tool now, so there is nothing to tell apart. A diamond
-       is a shape like any other, and a file that arrives with `marker-symbol:
-       diamond` draws a diamond, which is what it asked for. */
+
+
+
+
+
+
+
+
+
+
+
     function kindOf(f) {
       var t = (f.geometry || {}).type;
       if (t === 'Point' || t === 'MultiPoint') return 'point';
       if (t === 'LineString' || t === 'MultiLineString') {
-        // an arrow is a two-point line that says so; anything reading the file
-        // without knowing the word draws the line, which is the right failure
+
+
         return (f.properties || {})['jem-kind'] === 'arrow' ? 'arrow' : 'line';
       }
-      // and a text box is a rectangle that says so, for the same reason: QGIS
-      // draws the box, which is where the words are
+
+
       if ((f.properties || {})['jem-kind'] === 'text') return 'text';
       return 'polygon';
     }
 
-    /* --------------------------------------------------- what it measures -- */
+
 
     var R_EARTH = 6371.0088;                 // km, the mean radius
     var RAD = Math.PI / 180;
@@ -449,11 +449,11 @@
       return 2 * R_EARTH * Math.asin(Math.min(1, Math.sqrt(s)));
     }
 
-    /* The spherical excess, which is what a polygon on a globe actually
-       encloses. Planar shoelace on longitude and latitude would call a shape
-       in Hokkaido a third smaller than the same shape on the equator, which
-       for a map whose whole point is that Mercator lies about area would be a
-       poor thing to do in its own annotations. */
+
+
+
+
+
     function sphericalArea(ring) {
       if (ring.length < 3) return 0;
       var total = 0;
@@ -464,25 +464,25 @@
       return Math.abs(total * R_EARTH * R_EARTH / 2);
     }
 
-    /* What a mark measures, remembered until the mark moves.
 
-       A line's length and an area's area are trigonometry over every vertex,
-       and the list of marks asks for one of each on every rebuild — fifty of
-       them for a single keystroke in the description field, and the same fifty
-       answers each time. Measured with the CPU throttled to a quarter and
-       fifty marks loaded, `measureOf` was **22%** of the time a selection or a
-       keystroke took; with a dense imported set (india-rivers, 63 features and
-       tens of thousands of vertices) it was most of a 23 ms keystroke.
 
-       The answer is kept *beside* the feature and not on it. `store()` and the
-       file writer both hand these objects to `JSON.stringify`, so a field
-       added to the feature would end up in the reader's saved file and in
-       every shared link. A WeakMap keyed on the feature has no such reach, and
-       it lets go of a mark that has been deleted without being told.
 
-       Every place that moves a coordinate calls `forget()`; anything that
-       replaces a feature wholesale — undo, load, duplicate — is making new
-       objects and has nothing to forget. */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     var measCache = (typeof WeakMap === 'function') ? new WeakMap() : null;
 
     function forget(f) { if (measCache && f) measCache['delete'](f); }
@@ -497,7 +497,7 @@
     function measureNow(f) {
       var kind = kindOf(f);
       var rings = ringsOf(f.geometry);
-      // an arrow is a line for this purpose: what it says is how far it reaches
+
       if (kind === 'line' || kind === 'arrow') {
         var km = 0;
         rings.forEach(function (r) {
@@ -524,12 +524,12 @@
       return Math.abs(Math.round(w * 100) / 100) + '°' + (w < 0 ? 'W' : 'E');
     }
 
-    /* ---------------------------------------------------------- drawing -- */
 
-    /* Every ring of a geometry, whatever its type, as arrays of [lon, lat].
-       One shape of code for the seven geometry types, so a file from anywhere
-       — a Natural Earth export, a QGIS layer, one of this map's own caches —
-       draws without a special case for each. */
+
+
+
+
+
     function ringsOf(g) {
       if (!g) return [];
       var t = g.type, c = g.coordinates;
@@ -545,13 +545,13 @@
       return [];
     }
 
-    /* An arrow, in projected units: where it starts, where it ends, the
-       control point of the quadratic that bends it, and the apex a reader
-       drags to bend it further.
 
-       `curve` is a signed fraction of the arrow's own length, so a bend keeps
-       its shape as the map is zoomed and as the projection changes — which a
-       control point stored in map units would not. */
+
+
+
+
+
+
     function arrowGeom(f) {
       var c = (f.geometry || {}).coordinates || [];
       if (c.length < 2 || !ok2(c[0]) || !ok2(c[1])) return null;
@@ -559,91 +559,91 @@
       var b2 = host.project(c[1][0], c[1][1]);
       var bend = parseFloat((f.properties || {})['jem-curve']);
       if (!isFinite(bend)) bend = 0;
-      /* Where along the shaft the bend is. A bow that can only swell at its
-         middle is not a bow a reader can aim: an arrow round a headland or
-         into a bay bulges near one end. `jem-curve` is how far off the chord
-         and this is how far along it, and an arrow drawn before this existed
-         has no `jem-curve-t` and gets 0.5, which is exactly where its apex
-         already was. */
+
+
+
+
+
+
       var t = parseFloat((f.properties || {})['jem-curve-t']);
       if (!isFinite(t)) t = 0.5;
       t = Math.max(0.08, Math.min(0.92, t));
       var dx = b2.x - a.x, dy = b2.y - a.y;
       var len = Math.sqrt(dx * dx + dy * dy) || 1;
-      // the foot of the apex: t of the way along the chord, not its middle
+
       var fx = a.x + dx * t, fy = a.y + dy * t;
-      // the perpendicular, which is what "one way or the other" means
+
       var px = -dy / len, py = dx / len;
       var apex = { x: fx + px * bend * len, y: fy + py * bend * len };
-      /* **Two quadratics, not one, and this is the whole of the bend fix.**
-       *
-       * A single quadratic was solved to *pass through* the apex at parameter
-       * t, and it did. It still looked wrong, and the reason is a property of
-       * the curve rather than of the arithmetic: subtract the chord from
-       * B(t) = (1-t)²a + 2t(1-t)c + t²b and what is left is 2t(1-t)·(c − mid),
-       * a fixed direction times a bump that peaks at t = 0.5 whatever c is. So
-       * the curve went through the dragged point and *bulged in the middle
-       * anyway* — reported as "I can move the middle point but it doesn't
-       * change the shape of the arrow". A quadratic cannot hump off-centre.
-       *
-       * Two of them can. The path runs a → apex → b, and both control points
-       * sit at the apex's own distance from the chord, at the midpoints of the
-       * two half-chords. In the chord's frame — u along, v across, the apex at
-       * (t·len, H) — the first segment's height is H·s(2−s), climbing to H, and
-       * the second's is H(1−s²), falling from it. The maximum is *at the apex*,
-       * exactly, for every t.
-       *
-       * And it costs nothing already drawn. At t = 0.5 the two segments
-       * reproduce the old single quadratic point for point — the height works
-       * out to 4H·u(1−u) either way, and u runs evenly along the chord in both
-       * — so every arrow saved before this bends exactly as it did. */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       var half = bend * len;
       var c1 = { x: a.x + dx * (t / 2) + px * half,
                  y: a.y + dy * (t / 2) + py * half };
       var c2 = { x: a.x + dx * ((1 + t) / 2) + px * half,
                  y: a.y + dy * ((1 + t) / 2) + py * half };
-      /* `ctrl` is the control point of the segment that *ends* at b, which is
-         what the head takes its angle from and what the trim shortens. */
+
+
       return { a: a, b: b2, c1: c1, ctrl: c2, apex: apex,
                len: len, bend: bend, t: t };
     }
 
-    /* The head, drawn at the end and turned along the tangent there. It is a
-       scalable, so it stays the size it was drawn at whatever the zoom — the
-       same as the stroke it belongs to, which is `non-scaling-stroke`. A head
-       in map units would grow while its own line did not. */
-    /* How big a head of each kind is, in the head's own frame: `len` from apex
-       to base, `half` across at the base, and `over` — how far the apex sits
-       *past* the point the reader placed.
 
-       The overshoot is the fix for a blunt tip. The shaft is drawn to that
-       point with a round cap, so half its weight bulges beyond it; at weight 3
-       that is 1.5px against a 14px head and invisible, and at 12 it is 6px of
-       dome sitting exactly where the point should be. The apex now reaches as
-       far as the cap would have, so the sharp thing is the outermost thing.
 
-       And the triangle is longer than it is wide now. It was 1.15r long and
-       1.24r across — wider than long, an apex of 57°, which reads as blunt at
-       any weight and as a lozenge at a heavy one. 1.55r by 1.2r is 42°. */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     function headSize(kind, width) {
       var r = 4 + width * 1.7;
       var over = width * 0.5;
       if (kind === 'dot') return { r: r, len: r * 0.6, half: r * 0.6, over: 0 };
       if (kind === 'line') return { r: r, len: r * 1.35, half: r * 0.78, over: over };
       if (kind === 'barbed') return { r: r, len: r * 1.7, half: r * 0.68, over: over };
-      /* An advance that was stopped: the head, and a bar across it at right
-         angles standing for whatever held it. The bar is drawn beyond the
-         head, so the arrow visibly runs *into* it rather than through it. */
+
+
+
       if (kind === 'blocked') return { r: r, len: r * 1.35, half: r * 0.55, over: over };
       return { r: r, len: r * 1.55, half: r * 0.6, over: over };
     }
 
-    /* How far back from the placed point the shaft has to stop so that its cap
-       is buried in the head rather than showing through it. The head narrows
-       towards the apex, so the shaft is covered from the depth at which the
-       head is at least as wide — `len·width / 2·half` — plus the cap's own
-       reach. An open chevron covers nothing, and a dot is drawn over the end
-       on purpose, so neither trims. */
+
+
+
+
+
+
     function shaftTrim(kind, width) {
       if (kind === 'none' || kind === 'dot' || kind === 'line') return 0;
       if (kind === 'blocked') kind = 'blocked';
@@ -696,34 +696,34 @@
       return wrap;
     }
 
-    /* The shaft, stopped short of the head. A quadratic cut at `t` by de
-       Casteljau — cutting it is the only way to keep the curve's own shape;
-       moving the end point back along the tangent would straighten the last
-       part of a bent arrow. Arc length is approximated as the mean of the
-       chord and the control net, which is close enough over the fraction of a
-       head, and much closer than the chord alone on a hard bend. */
-    /* Map units per screen pixel, right now. The shaft is drawn in map units
-       and its width is in screen pixels — `non-scaling-stroke` — so anything
-       derived from the width has to be converted before it can be subtracted
-       from a length along the curve.
 
-       This is the whole of the detached-arrowhead bug. At the opening view a
-       map unit is about a screen pixel, so the two were interchangeable and
-       every test passed; zoomed in, a map unit is a fraction of a pixel, the
-       trim in units became enormous, and the shaft was cut back until the head
-       was floating on its own well past the end of the line. */
-    /* This is `k`, and the map already knows it.
 
-       `rescaled(k)` is handed the number on every rescale, so asking the DOM
-       for it again is slower and no more true: `host.clientToSvg` goes through
-       `getScreenCTM()`, which is a forced style-and-layout sync, and this ran
-       **twice per arrow per redraw** — in the middle of rebuilding the layer,
-       once per pointer event of a drag. Resizing a text box asked four times
-       in a single move.
 
-       The DOM is still asked once, for the one moment `lastK` cannot be
-       trusted: before the map has rescaled since the annotation hook was
-       attached. After that the map's own number stands. */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     var kKnown = false;
 
     function unitsPerPx() {
@@ -739,23 +739,23 @@
       var a = g.a, m0 = g.apex, c1 = g.c1, c = g.ctrl, b = g.b;
       trim = trim * unitsPerPx();
       if (trim > 0) {
-        /* Arc length over both segments now, not one. Each is approximated as
-           the mean of its chord and its control net, which is the same
-           estimate as before and is why this is still cheap enough to run
-           twice per arrow per redraw. */
+
+
+
+
         var seg = function (p0, pc, p1) {
           return (Math.hypot(p1.x - p0.x, p1.y - p0.y)
                   + Math.hypot(pc.x - p0.x, pc.y - p0.y)
                   + Math.hypot(p1.x - pc.x, p1.y - pc.y)) / 2;
         };
         var arc = (seg(a, c1, m0) + seg(m0, c, b)) || 1;
-        /* And never more than a third of the arrow. A short arrow with a heavy
-           head would otherwise be trimmed away to nothing and leave the head
-           standing alone — the same symptom by a different route.
 
-           The trim comes off the *second* segment only: it is the end that
-           runs into the head, and shortening the whole path would move the
-           bend the reader placed. */
+
+
+
+
+
+
         var k = Math.max(0.67, Math.min(1, 1 - trim / arc));
         if (k < 1) {
           var q1 = { x: m0.x + (c.x - m0.x) * k, y: m0.y + (c.y - m0.y) * k };
@@ -769,14 +769,14 @@
              + 'Q' + r2(c.x) + ' ' + r2(c.y) + ' ' + r2(b.x) + ' ' + r2(b.y);
     }
 
-    /* How round a smoothed corner is, per step of the Smooth slider. Four
-       steps because a fifth is not tellable from the fourth at this scale, and
-       because a shape traced by hand round a coast wants a nudge, not a
-       cartoon. 0.5 is the usual Catmull-Rom tension and is already generous.  */
-    /* Eight steps now. The first four are what they were; the four above them
-       go further than a Catmull-Rom tension of 0.5, which is where a spline
-       stops merely rounding a corner and starts bulging past it — wanted, for
-       a coast sketched from memory, and firmly the far end of the dial. */
+
+
+
+
+
+
+
+
     var SMOOTH_STEPS = [0.14, 0.26, 0.38, 0.5, 0.62, 0.74, 0.86, 1.0];
 
     function smoothOf(p) {
@@ -785,16 +785,16 @@
     }
 
 
-    /* A Catmull-Rom spline through the points, written as cubic Béziers.
-     *
-     * Through, not near: the vertices a reader placed are still on the line,
-     * and dragging one still moves the line to it. Only the pieces between
-     * them bend. That matters for a shape traced off a map — smoothing that
-     * pulled the line away from the corners would be quietly editing the
-     * tracing.
-     *
-     * A closed ring wraps round for its neighbours so the join at the start is
-     * as round as every other corner; an open line clamps at both ends. */
+
+
+
+
+
+
+
+
+
+
     function smoothPath(pts, close, tension) {
       var n = pts.length;
       if (n < 3) return null;
@@ -819,8 +819,8 @@
     function pathFor(ring, close, smooth) {
       var pts = [];
       for (var i = 0; i < ring.length; i++) pts.push(host.project(ring[i][0], ring[i][1]));
-      // a closed ring repeats its first point; the spline wraps instead, and
-      // the repeat would put a zero-length segment in the middle of the join
+
+
       if (close && pts.length > 1) {
         var a = pts[0], z = pts[pts.length - 1];
         if (Math.abs(a.x - z.x) < 1e-9 && Math.abs(a.y - z.y) < 1e-9) pts.pop();
@@ -837,19 +837,19 @@
       return d + (close ? 'Z' : '');
     }
 
-    /* Every mark carries a pale casing so that a dark one reads over dark
-       ground and a pale one over pale — the same trick the mandate lines use.
-       The two open shapes, `cross` and `plus`, have no fill to put a casing
-       round, so they are drawn twice instead: a thick light stroke under a
-       thin coloured one. */
-    /* A unit: a box with its branch inside it, and for the three formation
-       sizes the echelon marks written above. The box is wider than it is tall
-       because that is what the symbol is, and because a wide box leaves room
-       for the branch mark to be legible at the size these are drawn.
 
-       Every stroke inside carries a pale casing under it, the same trick the
-       markers and the mandate lines use, so that a black unit on a dark map
-       and a white one on a pale map both read. */
+
+
+
+
+
+
+
+
+
+
+
+
     function unitBox(g, symbol, r, colour, alpha) {
       var w = r * 1.55, h = r * 0.95;               // half-width, half-height
       var pale = '#fffdf8';
@@ -875,13 +875,13 @@
       } else if (symbol === 'cavalry') {
         ink('M' + (-w) + ' ' + h + 'L' + w + ' ' + (-h));
       } else if (symbol === 'airborne') {
-        // the parachute canopy, an arc on two legs
+
         ink('M' + (-w * 0.72) + ' ' + (h * 0.15) + 'A' + (w * 0.72) + ' ' + (w * 0.72)
           + ' 0 0 1 ' + (w * 0.72) + ' ' + (h * 0.15)
           + 'M' + (-w * 0.4) + ' ' + (h * 0.05) + 'L0 ' + (h * 0.8)
           + 'M' + (w * 0.4) + ' ' + (h * 0.05) + 'L0 ' + (h * 0.8));
       } else if (symbol === 'hq') {
-        // the staff a headquarters flag stands on, dropping from the corner
+
         ink('M' + (-w) + ' ' + (-h) + 'L' + (-w) + ' ' + (h * 2.9), lw * 1.6);
       }
       var marks = symbol === 'division' ? 2 : symbol === 'corps' ? 3
@@ -901,10 +901,10 @@
 
     function markerShape(symbol, r, colour, alpha) {
       var g = host.svgEl('g', {});
-      /* A point at no weight draws nothing and is still there: a name that
-         belongs at a place, with no dot competing with the map under it. It
-         keeps a transparent disc so it can still be pointed at, moved and
-         deleted — an annotation nobody can reach is not an annotation. */
+
+
+
+
       if (r <= 2.7) {
         g.appendChild(host.svgEl('circle', { r: 9, fill: 'transparent', stroke: 'none' }));
         g.setAttribute('class', 'ann-ghost');
@@ -961,8 +961,8 @@
           return open('M0 ' + (-r * 1.15) + 'L0 ' + (r * 1.15)
                     + 'M' + (-r * 1.15) + ' 0L' + (r * 1.15) + ' 0', Math.max(1.6, r * 0.42));
         case 'pin':
-          // a teardrop standing on the point it marks, so the coordinate is the
-          // tip and not the middle of a blob
+
+
           return solid({ d: 'M0 0C' + (-r * 1.5) + ' ' + (-r * 1.5) + ' ' + (-r) + ' ' + (-r * 2.9)
             + ' 0 ' + (-r * 2.9) + 'C' + r + ' ' + (-r * 2.9) + ' ' + (r * 1.5) + ' '
             + (-r * 1.5) + ' 0 0Z' });
@@ -971,9 +971,9 @@
         case 'division': case 'corps': case 'army':
           return unitBox(g, symbol, r, colour, alpha);
         case 'ship':
-          /* A hull and a superstructure, seen from the side. Two shapes rather
-             than one outline: at 14 pixels an outline of a ship is a smudge,
-             and a filled block with a notch in it still reads as one. */
+
+
+
           return solid({ d: 'M' + (-r * 1.5) + ' ' + (-r * 0.15) + 'L' + (r * 1.5) + ' '
             + (-r * 0.15) + 'L' + (r * 0.95) + ' ' + (r * 0.62) + 'L' + (-r * 1.1) + ' '
             + (r * 0.62) + 'Z'
@@ -982,7 +982,7 @@
             + 'M' + (-r * 0.12) + ' ' + (-r * 0.85) + 'L' + (r * 0.06) + ' ' + (-r * 0.85)
             + 'L' + (r * 0.06) + ' ' + (-r * 1.5) + 'L' + (-r * 0.12) + ' ' + (-r * 1.5) + 'Z' });
         case 'aircraft':
-          // swept wings and a tail, nose up
+
           return solid({ d: 'M0 ' + (-r * 1.5) + 'L' + (r * 0.22) + ' ' + (-r * 0.5)
             + 'L' + (r * 1.45) + ' ' + (r * 0.35) + 'L' + (r * 1.45) + ' ' + (r * 0.68)
             + 'L' + (r * 0.22) + ' ' + (r * 0.3) + 'L' + (r * 0.22) + ' ' + (r * 0.95)
@@ -997,14 +997,14 @@
             + 'M' + (-r * 1.15) + ' ' + (r * 0.35) + 'A' + (r * 1.15) + ' ' + (r * 1.15)
             + ' 0 0 0 ' + (r * 1.15) + ' ' + (r * 0.35), Math.max(1.5, r * 0.32));
         case 'battle':
-          // two blades crossed: the sign a map puts where a battle was fought
+
           return open('M' + (-r * 1.25) + ' ' + (r * 1.25) + 'L' + (r * 1.05) + ' ' + (-r * 1.05)
             + 'M' + (r * 1.25) + ' ' + (r * 1.25) + 'L' + (-r * 1.05) + ' ' + (-r * 1.05)
             + 'M' + (-r * 1.35) + ' ' + (r * 0.7) + 'L' + (-r * 0.7) + ' ' + (r * 1.35)
             + 'M' + (r * 1.35) + ' ' + (r * 0.7) + 'L' + (r * 0.7) + ' ' + (r * 1.35),
             Math.max(1.5, r * 0.34));
         case 'fort':
-          // a bastioned trace, flattened to four points so it survives the size
+
           return solid({ d: poly([[-r * 1.35, 0], [-r * 0.6, -r * 0.55], [-r * 0.55, -r * 1.25],
             [0, -r * 0.7], [r * 0.55, -r * 1.25], [r * 0.6, -r * 0.55], [r * 1.35, 0],
             [r * 0.6, r * 0.55], [r * 0.55, r * 1.25], [0, r * 0.7],
@@ -1015,16 +1015,16 @@
       }
     }
 
-    /* A mark at a place already projected — the arrow's ends and its bend
-       handle are worked out in map units, and going back to longitude and
-       latitude only to project them again would be a round trip for nothing. */
+
+
+
     function addMarkerAt(symbol, x, y, colour, size, cls, meta, alpha) {
       var g = host.svgEl('g', { 'class': 'ann-mark ' + cls });
-      /* A vertex is drawn at about three pixels, which is the right size to
-         look at and much too small to hit — especially with a finger, and
-         especially on a corner where two of them nearly touch. A transparent
-         disc over it gives the pointer something to find without changing what
-         the reader sees. It goes *under* the dot so the dot still draws. */
+
+
+
+
+
       if (/ann-vertex|ann-bend/.test(cls)) {
         g.appendChild(host.svgEl('circle', { r: 11, fill: 'transparent',
                                              stroke: 'none', 'class': 'ann-grab' }));
@@ -1042,8 +1042,8 @@
 
     function addMarker(symbol, lon, lat, colour, size, cls, meta, alpha) {
       var g = host.svgEl('g', { 'class': 'ann-mark ' + cls });
-      // the same transparent disc as `addMarkerAt`: a three-pixel handle is
-      // the right size to look at and much too small to hit
+
+
       if (/ann-vertex|ann-bend/.test(cls)) {
         g.appendChild(host.svgEl('circle', { r: 11, fill: 'transparent',
                                              stroke: 'none', 'class': 'ann-grab' }));
@@ -1060,13 +1060,13 @@
       return g;
     }
 
-    /* -------------------------------- one feature at a time -- */
 
-    /* Which feature the nodes being made belong to. Set by `drawOne` around
-       the drawing of each feature, so that every scalable registered while a
-       feature is drawn can be dropped with that feature and no other. The
-       draft's own handles are drawn at -1, which no `redrawOne` ever asks
-       for, so a full redraw is the only thing that clears them — as before. */
+
+
+
+
+
+
     var drawIdx = -1;
 
     function addScalable(entry) {
@@ -1074,15 +1074,15 @@
       host.addScalable(entry);
     }
 
-    /* One feature drawn, and every node it made stamped with its index — the
-       label texts and the wrapping group of a pinned text box included, which
-       used to carry nothing. The stamp is what lets `redrawOne` find and
-       remove exactly this feature's nodes later; without it a targeted redraw
-       would strand the labels of the thing it was redrawing.
 
-       Stamping by position — everything appended since the count was taken —
-       works because each feature's nodes are appended contiguously, which is
-       also what keeps the layer's paint order equal to feature order. */
+
+
+
+
+
+
+
+
     function drawOne(f, i) {
       if (!inScope(f)) return;
       var g0 = group.childNodes.length, l0 = labelGroup.childNodes.length;
@@ -1102,20 +1102,20 @@
       }
     }
 
-    /* One feature redrawn in place, instead of the whole layer.
 
-       `redraw()` is honest and total: empty the groups, draw everything. That
-       is right when the set changes shape — a load, an undo, a delete, a new
-       epoch of the clock — and it is what a pointer move of a drag, a change
-       of selection and a nudge of a style slider used to pay as well. With a
-       set imported from GIS (india-rivers: 63 features, tens of thousands of
-       vertices) every one of those re-projected and re-pathed every vertex of
-       every feature, 13 ms a pointer move at a quarter CPU, for geometry that
-       had not moved.
 
-       Only this feature's nodes are removed — direct children carrying its
-       stamp — and its new ones are inserted where the old ones stood, so the
-       paint order of the layer never changes. Everything else stands. */
+
+
+
+
+
+
+
+
+
+
+
+
     function redrawOne(i) {
       if (!on || !group) { redraw(); return; }
       removeOwn(group, i);
@@ -1142,9 +1142,9 @@
       }
     }
 
-    /* The first child belonging to a later feature, or to the draft — which
-       is where feature `i` goes back in. Children are ordered by feature
-       because `redraw` draws them in order and this insertion keeps it so. */
+
+
+
     function refAfter(parent, i) {
       var kids = parent.children;
       for (var n = 0; n < kids.length; n++) {
@@ -1154,10 +1154,10 @@
       return null;
     }
 
-    /* A change of selection is two features' worth of drawing — the one that
-       loses its handles and the one that gains them — and one pass over the
-       list's classes. It used to be a full `drawList` (every row, three
-       listeners each, a measurement per feature) plus a full `redraw`. */
+
+
+
+
     function reselect(was) {
       if (was === sel) return;
       if (was >= 0 && feats[was]) redrawOne(was);
@@ -1217,7 +1217,7 @@
               group.appendChild(head);
             }
             if (i === sel) {
-              // the two ends, and the handle that bends it
+
               [[g2.a, 0], [g2.b, 1]].forEach(function (pair) {
                 group.appendChild(addMarkerAt('circle', pair[0].x, pair[0].y, colour,
                   0.6, 'ann-vertex', { i: i, r: 0, v: pair[1] }));
@@ -1230,13 +1230,13 @@
           drawText(f, i, cls);
         } else {
           var closed = kind === 'polygon';
-          /* An approximate territory. A hard edge on a shape drawn from a
-             sentence in a book asserts a frontier the source never had; a soft
-             one says "about here", which is what the reader meant. It is a
-             blur in map units, not screen units — the vagueness belongs to the
-             ground, so it grows and shrinks with the zoom the way the shape
-             does, rather than staying a fixed haze the reader cannot get
-             inside. */
+
+
+
+
+
+
+
           var soft = closed && p['jem-edge'] === 'blurred' ? blurFor(width) : null;
           rings.forEach(function (ring) {
             if (ring.length < 2) return;
@@ -1260,7 +1260,7 @@
           if (kind === 'line' && p['jem-distances']) {
             addDistances(f, rings, p['jem-distances'], colour);
           }
-          // the vertices of whichever shape is selected, so it can be reshaped
+
           if (i === sel) {
             rings.forEach(function (ring, ri) {
               ring.forEach(function (pt, vi) {
@@ -1285,8 +1285,8 @@
         if (before) { svg.insertBefore(group, before); svg.insertBefore(labelGroup, before); }
         else { svg.appendChild(group); svg.appendChild(labelGroup); }
       }
-      // the constant-size marks are rebuilt with the rest, so their old
-      // entries have to go or the map rescales a list of detached nodes
+
+
       host.dropScalables();
       group.innerHTML = '';
       labelGroup.innerHTML = '';
@@ -1297,7 +1297,7 @@
       clockDate = clockNow();          // once, not once per feature
       feats.forEach(drawOne);
 
-      // the shape under the pointer, while it is still being drawn
+
       if (draft && draft.pts.length) {
         var st = styleNow();
         if (draft.pts.length > 1) {
@@ -1306,20 +1306,20 @@
             stroke: st.colour, 'stroke-width': st.size, fill: 'none',
           }));
         }
-        /* The corners of a shape still being drawn are handles like any
-           other. They were drawn as plain dots with no `data-ann`, so
-           `markUnder` could not see them and a long press on one panned the
-           map: a reader who put a corner in the wrong place had to cancel the
-           whole shape. `-1` is the feature index for "the draft", which
-           `drag` understands. */
+
+
+
+
+
+
         draft.pts.forEach(function (pt, vi) {
           group.appendChild(addMarker('circle', pt[0], pt[1], st.colour, 0.6,
             'ann-vertex ann-draft-vertex', { i: -1, r: 0, v: vi }));
         });
       }
-      /* Only the marks, not the whole map: the zoom has not changed, so every
-         city dot and every name is already where it belongs. See `rescaleAnn`
-         in map.js for what this used to cost on every pointer move. */
+
+
+
       (host.rescaleAnn || host.rescale)();
     }
 
@@ -1329,9 +1329,9 @@
 
     function r2(v) { return Math.round(v * 100) / 100; }
 
-    /* A dash pattern, scaled to the line's own weight so that a dotted hairline
-       and a dotted heavy line read as the same pattern rather than as two
-       different ones. `true` is what the checkbox this replaced used to write. */
+
+
+
     function dashFor(spec, w) {
       if (spec === true) spec = 'dashed';
       if (!spec) return null;
@@ -1345,13 +1345,13 @@
       }
     }
 
-    /* The blur, one filter per weight so a heavy outline is blurred more than a
-       hairline and the two read as equally uncertain. Defined once and reused:
-       a filter per shape would be a hundred definitions on a set that size.
 
-       `filterUnits: userSpaceOnUse` with a deviation in map units is what makes
-       the haze belong to the ground rather than to the screen — zoom in and the
-       uncertain band gets wider, exactly as an uncertain frontier should. */
+
+
+
+
+
+
     var blurs = {};
 
     function blurFor(width) {
@@ -1365,32 +1365,32 @@
         defs = host.svgEl('defs', { id: 'ann-defs' });
         svg.appendChild(defs);
       }
-      /* THE BLUR IS A SCREEN-PIXEL QUANTITY, KEPT SO ON EVERY ZOOM.
 
-         In map units it was the arrowhead bug over again. `stdDeviation` was
-         `2.4 + w·1.7` in the map's coordinates, so zooming in multiplied it in
-         screen pixels without limit: the shape smeared into a cloud and then
-         into nothing, and came back when the reader zoomed out — reported as
-         "the polygon disappeared, and it reappears when I zoom way out".
 
-         And the region was wrong in a second way. Under
-         `filterUnits="userSpaceOnUse"` a percentage resolves against the
-         *viewport*, not the shape, so the filter's rectangle was a fixed patch
-         of the map: a polygon that fell outside it was clipped and drew with no
-         blur at all, which is why "blurred works on that first unit but not on
-         the second".
 
-         A fraction of the bounding box does *not* fix it, which was the second
-         attempt: `primitiveUnits="objectBoundingBox"` resolves the fraction
-         against a box that is itself in user units, so the deviation is still
-         a fixed number of map units and still grows on screen. Measured — at
-         eight wheel steps the whole viewport was smeared.
 
-         So the region is left bbox-relative, which is the default and follows
-         the shape wherever it is, and the deviation is written in user units
-         and **rewritten on every zoom** from `rescaled(k)`, which the map hands
-         us. `blurPx` is the size in screen pixels; that is the number that
-         means something to a reader. */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       var f = host.svgEl('filter', {
         id: id, x: '-60%', y: '-60%', width: '220%', height: '220%' });
       var dev = host.svgEl('feGaussianBlur', { stdDeviation: blurPx(w) * lastK });
@@ -1400,17 +1400,17 @@
       return id;
     }
 
-    /* How soft, in screen pixels. A heavy outline is blurred more than a
-       hairline so the two read as equally uncertain. */
+
+
     function blurPx(w) { return 2.2 + w * 1.5; }
 
     var lastK = 1;              // SVG units per screen pixel, from the map
 
-    /* The map has zoomed. Every blur is rewritten so that its softness on
-       screen is what it was before — which is the whole of the fix, and the
-       reason the map calls in here at all. */
-    /* Which of its three forms a scaling text box should be in at this zoom:
-       the box with its words, the box without them, or a dot. */
+
+
+
+
+
     function textMode(f, k) {
       var p = f.properties || {};
       if (+p['jem-scales'] !== 1) return 'box';
@@ -1434,13 +1434,13 @@
           dev.setAttribute('stdDeviation', Math.round(blurPx(+w) * k * 1000) / 1000);
         }
       });
-      /* A scaling text box changes *form* with the zoom — box, then box
-         without words, then a dot — and `redraw` is what decides which. Zooming
-         does not redraw, it rescales, so without this the box drawn at one zoom
-         kept its form for ever and a note the size of a full stop still tried
-         to render two paragraphs inside itself. Only when a form actually
-         changes: a redraw on every wheel click would be the cost this whole
-         mechanism exists to avoid. */
+
+
+
+
+
+
+
       var moved = false;
       feats.forEach(function (f, i) {
         if (kindOf(f) !== 'text') return;
@@ -1451,15 +1451,15 @@
     }
     var textModes = {};
 
-    /* How far along a line, written on the line. Either every leg or the whole
-       of it, and never both, because the two answer different questions and a
-       line carrying both is a line nobody reads.
 
-       They go on the *opposite side* of the line from the name. The name hangs
-       below its anchor, which for a line is the middle of the line, so a
-       distance written in the same place lands on top of it — and the middle
-       is exactly where a total wants to be. Above, then, when there is a name
-       to avoid, and below when there is not. */
+
+
+
+
+
+
+
+
     function addDistances(f, rings, mode, colour) {
       var p = f.properties || {};
       var named = !!(p.title || '').toString().trim()
@@ -1483,9 +1483,9 @@
       });
     }
 
-    /* The point halfway *along* a line rather than the middle of the box round
-       it: a line that doubles back has a centroid off the line itself, and a
-       total written there is a number floating in the sea. */
+
+
+
     function midOf(ring) {
       var total = 0, i;
       for (i = 1; i < ring.length; i++) total += haversine(ring[i - 1], ring[i]);
@@ -1513,20 +1513,20 @@
       labelGroup.appendChild(t);
     }
 
-    /* A name typed into the panel belongs on the map, or the reader is writing
-       into a list and looking at anonymous dots. */
+
+
     function addLabel(f, rings, colour) {
-      // A text box already writes its own name, in bold, at the top of itself.
-      // Writing it again over the middle of the box is the same word twice.
+
+
       if (kindOf(f) === 'text') return;
       var props = f.properties || {};
       var name = (props.title || '').toString().trim();
       if (!name || !$('#ann-names') || !$('#ann-names').checked) return;
-      /* One mark's own answer beats the global switch, in the one direction
-         that is useful: names on, except this one. A dense corner of a map is
-         the case — six units in a bay, and their names in a heap — and the
-         reader wants the other forty named. The pointer still says it, so
-         nothing is lost, only moved out of the way. */
+
+
+
+
+
       if (props['jem-nolabel']) return;
       var pt = anchorOf(rings);
       if (!pt) return;
@@ -1537,15 +1537,15 @@
       labelGroup.appendChild(t);
     }
 
-    /* How far under a mark its name hangs. A fixed 15 pixels was right when
-       every symbol was a dot of about that size, and wrong the moment there
-       were symbols that reach further down than they reach across: an anchor's
-       fluke, a headquarters' staff, an aeroplane's tail. The name was drawn
-       over them, and its own pale halo — the thing that makes it readable —
-       rubbed out the bottom of the symbol it was naming.
 
-       Each symbol says how far below the point it goes, in units of `r`, and
-       the name clears that. */
+
+
+
+
+
+
+
+
     var BELOW = {
       pin: 0.1, triangle: 0.85, 'down-triangle': 1.2, star: 1.25, diamond: 1.05,
       square: 0.9, ring: 1.5, cross: 1.25, plus: 1.2,
@@ -1565,9 +1565,9 @@
       return Math.round(r * below + 11);
     }
 
-    /* Where a name hangs: on a point, the point; on anything else the middle
-       of its own extent, which for a line is the middle of the line and not
-       the middle of the box round it. */
+
+
+
     function anchorOf(rings) {
       var all = [];
       rings.forEach(function (r) { r.forEach(function (c) { if (ok2(c)) all.push(c); }); });
@@ -1578,19 +1578,19 @@
       return [x / all.length, y / all.length];
     }
 
-    /* ------------------------------------------------------------ tools -- */
+
 
     var sticky = false;         // the tool stays out after a shape is made
 
     function setTool(t) {
-      // see keepDraft: an abandoned trace is kept rather than thrown away
+
       if (draft && draft.kind !== t) { keepDraft(); cancelDraft(); }
-      /* One press arms the tool, a second makes it stick, a third puts it
-         away. A tool that stayed armed for ever meant every press after the
-         first shape was another shape — a reader who wanted to adjust what
-         they had just drawn had to remember to put the tool down first, and
-         mostly did not. One shape and it steps back, which is the common case;
-         press it again and it stays, which is the other one. */
+
+
+
+
+
+
       if (t && tool === t) {
         if (!sticky) { sticky = true; syncTools(); return; }
         tool = null; sticky = false;
@@ -1601,8 +1601,8 @@
       syncTools();
       var c = host.container();
       if (c) c.classList.toggle('ann-drawing', !!tool);
-      // on a phone the sheet stands back while a tool is out: a reader who has
-      // said "point" wants the map, not the description field
+
+
       if (panel) panel.classList.toggle('tooling', !!tool);
       syncControls();
       hintEl.textContent = !tool
@@ -1618,10 +1618,10 @@
       if (!tool) cancelDraft();
     }
 
-    /* Which style controls are worth showing. Shape belongs to a point and
-       Fill to an area, and offering either against the other is offering a
-       control that does nothing. What is on screen follows whichever is being
-       worked on: the tool that is out, or failing that the feature selected. */
+
+
+
+
     function syncControls() {
       if (!panel) return;
       var kind = tool || (feats[sel] ? kindOf(feats[sel]) : null);
@@ -1634,28 +1634,28 @@
         .forEach(function (id) { var el = $(id); if (el) el.hidden = !isText; });
       if (shape) shape.hidden = kind !== 'point';
       if (fill) fill.hidden = kind !== 'polygon';
-      // a text box has its own three colours and no weight to set
+
       var szRow = $('#ann-size') ? $('#ann-size').parentNode : null;
       if (szRow) szRow.hidden = isText;
       var opRow = $('#ann-opacity-row');
       if (opRow) opRow.hidden = isText;
       if (edge) edge.hidden = kind !== 'polygon';
-      /* On an area this slider is the *outline's* opacity and the one beside
-         it is the fill's, so calling it "Opacity" invited the reader to read
-         it as the shape's. Turned down with the fill also low the shape becomes
-         a ghost, and clicking elsewhere takes away the halo that was still
-         making it findable — which is how "the polygon disappeared" was
-         reported. It is named for what it does. */
+
+
+
+
+
+
       var opName = $('#ann-opacity-name');
       if (opName) opName.textContent = kind === 'polygon' ? 'Stroke' : 'Opacity';
       if (dash) dash.hidden = kind !== 'line' && kind !== 'arrow';
       if (dist) dist.hidden = kind !== 'line';
-      // a line and an area have corners to round off; an arrow has its own
-      // bend handle and a point has no corners at all
+
+
       if (smooth) smooth.hidden = kind !== 'line' && kind !== 'polygon';
       var amt = $('#ann-smooth-amt'), sw = $('#ann-smooth');
-      // the amount is meaningless until it is switched on, and a live slider
-      // that does nothing is a control that lies
+
+
       if (amt && sw) amt.disabled = !sw.checked;
       if (head) head.hidden = kind !== 'arrow';
       if (curve) curve.hidden = kind !== 'arrow';
@@ -1674,8 +1674,8 @@
       });
     }
 
-    /* A shape has just been made. The tool steps back unless it was told to
-       stay, so the next press selects rather than draws. */
+
+
     function toolDone() {
       if (sticky) return;
       tool = null;
@@ -1686,16 +1686,16 @@
       syncControls();
     }
 
-    /* Twenty corners traced round a coast, then a stray press on another tool,
-       and the trace was gone — no undo, no question, nothing.
-     *
-     * A question was tried and is the wrong instrument: a modal on every tool
-     * switch punishes the ordinary case to guard the rare one, and it stops
-     * the reader to ask about something they can simply be given. What is
-     * drawn is kept instead. If the draft is already a shape — two points for
-     * a line, three for an area — it is finished as one, which is undoable
-     * like anything else and can be deleted in a press. Only a draft too
-     * small to be anything is dropped. */
+
+
+
+
+
+
+
+
+
+
     function keepDraft() {
       if (!draft || !draft.pts) return false;
       var need = draft.kind === 'polygon' ? 3 : 2;
@@ -1712,19 +1712,19 @@
       redraw();
     }
 
-    /* The pointer over one of the reader's own marks: its name and its
-       description, in the map's own tooltip.
 
-       This is what makes the names switch a display choice rather than a loss.
-       Forty thousand names written across a map are unreadable and a set that
-       size arrives with them off — but every one of them is still *there*, and
-       pointing at the mark says what it is. It is also the only way to read a
-       description, which never goes on the map at any setting.
 
-       Returns true when it has taken the pointer, so the country underneath is
-       not named over the top of it. */
+
+
+
+
+
+
+
+
+
     function hover(target, cx, cy) {
-      // reading is not editing, so this one works locked too
+
       if (!on || dragging) return false;
       var el = target && target.closest ? target.closest('[data-ann]') : null;
       if (!el) return false;
@@ -1736,18 +1736,18 @@
       var desc = (p.description || '').toString().trim();
       var meas = measureOf(f);
       if (!name) name = kindOf(f).charAt(0).toUpperCase() + kindOf(f).slice(1);
-      /* The short line if there is one, and the first clause of the long one
-         if there is not — the same rule the map's own sub-units follow. A
-         description of two hundred words does not go under a pointer. */
+
+
+
       var line = short || (desc.length <= 90 ? desc : desc.split(/(?<=[.!?])\s/)[0]);
       if (line && line.length > 110) line = '';
       host.tip(name, [line, meas].filter(Boolean).join('  ·  '), cx, cy);
       return true;
     }
 
-    /* A tap on the map. Returns true when it has taken it, so the map's own
-       selection never also happens. */
-    /* Which of the reader's own features the pointer is on, or -1. */
+
+
+
     function featUnder(target) {
       var el = target && target.closest ? target.closest('[data-ann]') : null;
       if (!el) return -1;
@@ -1757,41 +1757,41 @@
 
     function tap(cx, cy, target) {
       if (!on) return false;
-      /* Locked is not silent. A reader who followed a link is *reading*: the
-         pointer already names a mark and gives its short note, and a press is
-         how the same reader asks for the description — the long account that
-         never goes on the map at any setting. Refusing the press left them a
-         set they could see and could not read, which is the opposite of what
-         locking is for. It stays read-only: no selection to edit, no drag, no
-         delete, and no tool. */
+
+
+
+
+
+
+
       if (locked) {
         var seen = featUnder(target);
         if (seen >= 0) { showCard(feats[seen]); return true; }
         return false;
       }
-      /* A press on one of the reader's own marks addresses **that mark**,
-         whatever tool is out: it selects it, with its name and description in
-         the fields, ready to edit.
 
-         This used to hold only when no tool was armed, and the tool stays
-         armed after a point is placed — so the ordinary way of working, place
-         one and then adjust it, met a map that ignored the mark and put a
-         second point on top of it. Placing happens on empty map now, which is
-         where somebody who means to place is pointing anyway. */
+
+
+
+
+
+
+
+
       var hit = featUnder(target);
-      /* A press on a shape the reader already drew, while a tool is out, is a
-         corner of the next one — not a request to select.
 
-         Selecting on a press was right for *handles*: a point marker is a few
-         pixels across and "place one, then adjust it" is the ordinary way of
-         working. An area is not a few pixels across. Draw one over China and
-         the whole country stopped accepting marks: every press inside it
-         selected the area instead, so a second area begun inside the first
-         swallowed all three corners and nothing appeared. That is what "the
-         first area disappears when I start another" was.
 
-         Handles keep their behaviour, because they are small and that is what
-         they are for. With no tool out, everything is selectable as before. */
+
+
+
+
+
+
+
+
+
+
+
       if (hit >= 0 && tool && target && target.closest
           && target.closest('.ann-shape')) {
         hit = -1;
@@ -1816,14 +1816,14 @@
         snapshot();
         var st = styleNow();
         var p = props(tool, st);
-        // the place under the pointer names it, which is most of the typing a
-        // reader would otherwise do on a map like this one
-        /* Called "point", not named for the ground under it. Naming it after
-           the nearest place was meant to save typing and did the opposite: a
-           reader who wanted "8th Route Army HQ" had to clear "Yan'an" first,
-           and one who wanted nothing at all was left with a place name they
-           had not asked for written across the map. The place is still
-           reported in the message below, which is where it is useful. */
+
+
+
+
+
+
+
+
         var where = host.placeAt ? host.placeAt(cx, cy) : '';
         p.title = 'point';
         feats.push({ type: 'Feature', geometry: { type: 'Point', coordinates: here },
@@ -1836,8 +1836,8 @@
       }
       if (!draft) draft = { kind: tool, pts: [] };
       draft.pts.push(here);
-      // an arrow has a start and an end and nothing in between, so the second
-      // press finishes it rather than waiting to be told
+
+
       if (tool === 'arrow' && draft.pts.length === 2) { finish(); return true; }
       if (drawEl) drawEl.hidden = false;
       redraw();
@@ -1846,7 +1846,7 @@
 
     function round5(v) { return Math.round(v * 1e5) / 1e5; }
 
-    /* Longitude and latitude under a screen point, or null off the projection. */
+
     function llAt(cx, cy) {
       var pt = host.clientToSvg(cx, cy);
       var ll = host.unproject(pt.x, pt.y);
@@ -1854,7 +1854,7 @@
       return [round5(ll.lon), round5(ll.lat)];
     }
 
-    /* What a click on a mark puts in the detail card. */
+
     function showCard(f) {
       if (!f || !host.card) return;
       var p = f.properties || {};
@@ -1879,11 +1879,11 @@
       feats.push({
         type: 'Feature',
         geometry: kind === 'polygon'
-          // `pts[0].slice()`, not `pts[0]`: a ring that closes on the *same
-          // array object* has one coordinate in it twice, and anything that
-          // walks every coordinate then moves that one twice. Dragging a
-          // polygon by its middle pulled its first corner away at double
-          // speed, which is the stretched shape in the report.
+
+
+
+
+
           ? { type: 'Polygon', coordinates: [pts.concat([pts[0].slice()])] }
           : { type: 'LineString', coordinates: pts.slice() },
         properties: props(kind, st),
@@ -1896,19 +1896,19 @@
       say('Added — ' + measureOf(feats[sel]) + '. Name it if you like.');
     }
 
-    /* ------------------------------------------------------ a copy of it -- */
 
-    /* The selected mark again, a little to the south-east so the copy is not
-       hidden under the original. A reader building a legend of six identical
-       unit symbols, or three arrows of the same weight and colour, was setting
-       every one of them by hand. */
+
+
+
+
+
     function duplicate() {
       var f = feats[sel];
       if (!f) { say('Select something to copy first.', 'bad'); return; }
       snapshot();
       var copy = JSON.parse(JSON.stringify(f));
-      // a twentieth of what is on screen: far enough to see, near enough to
-      // still be where the reader is looking
+
+
       var step = viewStep();
       shiftGeom(copy.geometry, step, -step);
       copy.properties = copy.properties || {};
@@ -1918,36 +1918,36 @@
       say('Copied. Drag it where you want it.');
     }
 
-    /* How far a copy moves, in degrees: a twentieth of the width on screen, so
-       it is the same apparent distance at every zoom. */
+
+
     function viewStep() {
       var a = llAt(0, 0), b2 = llAt(200, 0);
       if (!a || !b2) return 0.5;
       return Math.max(0.002, Math.abs(b2[0] - a[0]) * 0.35);
     }
 
-    /* ------------------------------------------------- moving a mark ----- */
 
-    /* A mark can be dragged. The map's own pan is what a drag normally means,
-       so this only takes the pointer when it went down on a mark of ours and
-       no tool is armed — otherwise dragging to reposition and dragging to pan
-       would be the same gesture with two meanings. */
+
+
+
+
+
     var holdTimer = 0;
     var armed = null;                   // a press waiting to become a hold
 
-    /* THE LONG PRESS. A mouse can grab a mark the moment it goes down, because
-       a mouse has a second button and a cursor to say what is under it. A
-       finger has neither, and every press on the map might be the start of a
-       pan — so on a touch screen the press has to *wait*, and only becomes a
-       move if the finger stays put for a third of a second.
-       `HOLD_SLOP` is what "stays put" means: a finger never rests perfectly
-       still, and 10 px is the wobble of a held thumb rather than the beginning
-       of a drag.
 
-       This is also what fixes moving a mark with a finger at all. `drag` used
-       to be called only from the map's `mousemove` handler, which is wired
-       only where a pointer can hover — so on a phone the press cancelled the
-       pan and then did nothing. */
+
+
+
+
+
+
+
+
+
+
+
+
     var HOLD_MS = 330;
     var HOLD_SLOP = 10;
 
@@ -1963,9 +1963,9 @@
       return { i: i, r: r, v: v };
     }
 
-    /* Every coordinate of a geometry moved by the same amount. */
-    /* The first coordinate of anything, whatever it is wrapped in. Used as the
-       handle a whole-shape drag hangs from. */
+
+
+
     function firstCoord(g) {
       if (!g) return null;
       if (g.type === 'GeometryCollection') {
@@ -1984,11 +1984,11 @@
         (g.geometries || []).forEach(function (x) { shiftGeom(x, dlon, dlat); });
         return;
       }
-      /* Once per coordinate *object*, however many times it appears.
-         Closing a ring with the same array the ring opened with is legal
-         GeoJSON and something we no longer write, but a file from anywhere may
-         do it — and a shape that arrives that way would tear itself apart the
-         first time it was dragged. Seen once, moved once. */
+
+
+
+
+
       var done = (typeof WeakSet === 'function') ? new WeakSet() : null;
       var walk = function (c) {
         if (done) { if (done.has(c)) return; done.add(c); }
@@ -2003,13 +2003,13 @@
     }
 
     function beginDrag(what) {
-      /* No snapshot here: `drag()` takes one at the first movement, so a
-         press that never moves — which is most presses, because a click on a
-         mark comes through here — costs no serialisation at all. */
+
+
+
       dragging = { i: what.i, r: what.r, v: what.v, whole: !!what.whole,
                    snapped: false, moved: false, last: null,
                    start: what.start || null };
-      // a corner of the draft belongs to no feature, so nothing is selected
+
       if (what.i === -1) { redraw(); return; }
       var had = sel;
       sel = what.i;
@@ -2020,15 +2020,15 @@
       if (c) c.classList.add('ann-moving');
     }
 
-    /* `coarse` says the press came from a finger: wait for it to become a
-       hold. A mouse takes the mark at once, as it always did. */
-    /* A text box is dragged out, not clicked corner by corner: press, pull a
-       rectangle, let go. That is what everything else that makes a box does,
-       and a note is a box before it is a polygon.
 
-       Held in client pixels while it is being pulled, because that is what the
-       pointer gives and what the preview is drawn in; it becomes degrees at
-       the moment it is let go. */
+
+
+
+
+
+
+
+
     var textDraft = null;
 
     function textPreview() {
@@ -2050,14 +2050,14 @@
       el.style.height = Math.abs(textDraft.y1 - textDraft.y0) + 'px';
     }
 
-    /* With a tool out, only that tool's own kind answers the pointer.
-     
-       A reader drawing a chain of arrows across a map that already has lines
-       on it was having presses taken by whatever happened to be nearest — a
-       line's handle a few pixels away would grab instead of the arrow being
-       aimed at. While a tool is armed the reader has said what they are
-       working on, so everything else stands down; with no tool out every mark
-       answers, as before. */
+
+
+
+
+
+
+
+
     function kindAt(i) {
       return feats[i] ? kindOf(feats[i]) : null;
     }
@@ -2068,55 +2068,55 @@
     }
 
     function grab(target, cx, cy, coarse) {
-      // likewise a press that lands on a mark: it moves the mark, not the map,
-      // even mid-drawing
-      if (!on || locked) return false;
-      /* With a tool out, the invisible enlargement round a mark does not
-         answer — only the mark a reader can actually see.
-         
-         Every mark carries an `.ann-grab` disc so that a three-pixel handle is
-         findable by a finger; measured, it is 22 pixels across. With a tool
-         armed that disc sits over the map like a trap: a point placed within
-         eleven pixels of an existing one was taken as a press *on* that one and
-         the placement was simply swallowed, which is exactly how it was
-         reported — "near other items" it did nothing. Placing wins over
-         adjusting when the reader has a tool out and is a hand's breadth away;
-         the visible mark still answers, so "place a point, then move it" is
-         untouched.
 
-         The point tool only. The other tools place by tapping empty map and
-         their handles are wanted at finger size — an arrow's head sits over
-         its own tip handle, so blocking the disc for every tool made the head
-         unusable, which `run14` caught. */
+
+      if (!on || locked) return false;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       if (tool === 'point' && target && target.classList
           && target.classList.contains('ann-grab')) {
         return false;
       }
       var what = minesOnly(markUnder(target));
-      // the text tool takes an empty press and turns it into a rectangle
+
       if (!what && tool === 'text'
           && !(target && target.closest && target.closest('.ann-shape'))) {
         textDraft = { x0: cx, y0: cy, x1: cx, y1: cy };
         textPreview();
         return true;
       }
-      /* Failing a handle, the *body* of a shape: taking hold of an area in the
-         middle and dragging moves the whole of it.
 
-         With a tool armed this is allowed only for a shape with no inside —
-         an arrow or a line. The rule that a press on a shape is a corner of
-         the *next* shape exists so that a second area can be drawn inside the
-         first, and an area is the only thing that has an inside to draw in. A
-         stroke has none: a press that lands on the three pixels of an arrow is
-         a reader reaching for that arrow, not somebody starting a new one from
-         a point that happens to sit on it. Measured before this: draw an arrow
-         with the tool still out, press anywhere along the shaft, and nothing
-         happened at all — the press was taken as the first corner of an arrow
-         that was never finished, and the reader saw no response of any kind. */
+
+
+
+
+
+
+
+
+
+
+
+
       var body = target && target.closest ? target.closest('[data-shape]') : null;
       var bodyKind = body && body.getAttribute('data-shape');
-      /* A stroke has no inside to draw a new shape in, so its body may be
-         taken hold of even with a tool armed — but only by its *own* tool. */
+
+
       var strokeOnly = /^(arrow|line)$/.test(bodyKind || '') && bodyKind === tool;
       if (!what && (!tool || strokeOnly)) {
         if (body) {
@@ -2139,23 +2139,23 @@
         beginDrag(a.what);
         say('Hold to move — drag it where you want it.');
       }, HOLD_MS);
-      // the press is not taken yet: until the hold matures it is still the
-      // map's, so a finger that moves away pans as it always did
+
+
       return false;
     }
 
-    /* ------------------------------------------------ a box round one -- */
 
-    /* Shift and drag draws a box, and the first mark the box touches is
-       selected. Shift, because a plain drag on empty map pans and has to go on
-       doing so — a map you cannot move is worse than a map you must hold a key
-       to select on. "First" is in drawing order, and the box stops growing as
-       far as the selection is concerned the moment it has found something:
-       the reader asked for one object, not a heap.
 
-       It is the way to reach a mark that is under something else, or so thin
-       that pointing at it is a matter of luck — a hairline arrow across a
-       crowded coast. */
+
+
+
+
+
+
+
+
+
+
     var boxing = null;
 
     function boxStart(cx, cy) {
@@ -2198,7 +2198,7 @@
                t: Math.min(boxing.y0, boxing.y1), b: Math.max(boxing.y0, boxing.y1) };
     }
 
-    /* The first drawn mark the box touches, by its rendered box on screen. */
+
     function firstIn(r) {
       var best = -1;
       $$('#annotations [data-ann]').forEach(function (el) {
@@ -2233,7 +2233,7 @@
       boxEl.classList.toggle('got', boxing.got >= 0);
     }
 
-    /* A press that wandered before the timer fired was a pan after all. */
+
     function held(cx, cy) {
       if (!armed) return;
       if (Math.abs(cx - armed.x) > HOLD_SLOP || Math.abs(cy - armed.y) > HOLD_SLOP) {
@@ -2253,19 +2253,19 @@
       var pt = host.clientToSvg(cx, cy);
       var ll = host.unproject(pt.x, pt.y);
       if (!isFinite(ll.lon) || !isFinite(ll.lat)) return true;
-      // where the pointer is, in degrees. Declared here because the two cases
-      // below both need it: `var` hoists the name and not the value, so a use
-      // above this line reads `undefined` and throws on its first index.
+
+
+
       var here = [round5(ll.lon), round5(ll.lat)];
-      /* The undo snapshot, at the first movement rather than on the press.
-         `snapshot()` stringifies the whole set, and a press is most often a
-         click — select, read, let go — that never moves anything. Paying the
-         stringify on the press put a dense set's whole serialisation between
-         the reader's finger and the card opening. Nothing has been mutated
-         yet at this line, so the state captured is the state before the
-         drag, which is what undo has to give back. */
+
+
+
+
+
+
+
       if (!dragging.snapped) { snapshot(); dragging.snapped = true; }
-      /* A corner of the shape still being drawn. */
+
       if (dragging.i === -1) {
         if (!draft || !draft.pts[dragging.v]) { dragging = null; return false; }
         draft.pts[dragging.v] = here;
@@ -2276,33 +2276,33 @@
       var f = feats[dragging.i];
       if (!f) { dragging = null; return false; }
       forget(f);                        // its length or its area has just changed
-      /* The whole shape, moved by its middle. Every coordinate shifts by the
-         same amount the pointer has, which is what dragging a thing means —
-         and what a reader expects when they take hold of an area rather than
-         one of its corners. */
+
+
+
+
       if (dragging.whole) {
-        /* The ground under the pointer stays under the pointer.
-         *
-         * `here` is where the pointer is now, in degrees; `dragging.last` is
-         * where it was, in degrees, *after* the last shift — so the difference
-         * is how far the piece of ground the reader took hold of has to move
-         * to stay under their finger. Applied to every coordinate, which keeps
-         * the shape's extent in degrees.
-         *
-         * Keeping the extent in degrees is deliberate, and is why the shape's
-         * outline changes a little as it travels: it is a piece of ground, not
-         * a picture, and ground carried north is drawn taller in Mercator and a
-         * different shape again in the two equal-area projections.
-         *
-         * Checked in all three, dragging a 20° x 25° block 144 px: the shape
-         * is under the pointer at the point it was dropped every time. Its
-         * drawn size changes as it goes — 3.5% in height in Mercator, about 2%
-         * in Albers and Lambert — and a corner ten degrees from the pointer
-         * travels 9 px differently from it in Mercator and 21 to 25 px in the
-         * equal-area two. That is not lag: it is those corners landing where
-         * their own ground lands, which is the point of moving a shape rather
-         * than a picture of one.
-         */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         var from = dragging.last || dragging.start;
         if (from) {
           var dlon = here[0] - from[0], dlat = here[1] - from[1];
@@ -2314,12 +2314,12 @@
         return true;
       }
       var g = f.geometry;
-      /* A text box is resized by its far corner, and it has two sizes to keep
-         in step: the rectangle on the ground, which is what a box that scales
-         is drawn from and what goes in the file as geometry, and `jem-w`/
-         `jem-h` in screen pixels, which is what a box that does not scale is
-         drawn at. Dragging the corner sets both, so the two never disagree and
-         switching Scales does not change the size under the reader. */
+
+
+
+
+
+
       if (kindOf(f) === 'text' && dragging.v === 2) {
         var ring0 = (g.coordinates || [])[0];
         if (ring0 && ring0.length >= 4) {
@@ -2329,7 +2329,7 @@
           f.properties = f.properties || {};
           f.properties['jem-w'] = Math.round(wpx);
           f.properties['jem-h'] = Math.round(hpx);
-          // and the same box on the ground
+
           var far = host.unproject(a0.x + wpx * unitsPerPx(), a0.y + hpx * unitsPerPx());
           if (isFinite(far.lon) && isFinite(far.lat)) {
             var lon1 = round5(far.lon), lat1 = round5(far.lat);
@@ -2345,11 +2345,11 @@
       }
       if (kindOf(f) === 'arrow') {
         if (dragging.v === 2) {
-          /* The bend, which the apex simply follows. The pointer is resolved
-             into the chord's own frame — how far along it, and how far off it
-             — and both are kept. It used to keep only the second, so the apex
-             slid back to the middle however the reader dragged it and an arrow
-             could only ever bow symmetrically. */
+
+
+
+
+
           var ga = host.project(g.coordinates[0][0], g.coordinates[0][1]);
           var gb = host.project(g.coordinates[1][0], g.coordinates[1][1]);
           var dx2 = gb.x - ga.x, dy2 = gb.y - ga.y;
@@ -2375,7 +2375,7 @@
       else if (g.type === 'Polygon') {
         var ring = g.coordinates[dragging.r];
         ring[dragging.v] = here;
-        // a polygon's first and last point are the same point
+
         if (dragging.v === 0) ring[ring.length - 1] = here;
       } else { dragging = null; return false; }
       dragging.moved = true;
@@ -2399,22 +2399,22 @@
       dragging = null;
       if (moved) { changed(true); say('Moved.'); }
       else {
-        // a press that never moved took no snapshot, so there is nothing to pop
-        /* A mouse takes a mark on the press, so a plain click on one never
-           reaches `tap` — the map has already written the press off as a
-           handle rather than a tap. Lifting it where it landed is that click,
-           and it is where the card is opened; without this the description
-           could be read with a finger and not with a mouse. */
+
+
+
+
+
+
         if (panel && panel.classList.contains('folded')) fold(false);
         showCard(feats[was]);
       }
       return moved;
     }
 
-    /* Put the box's rectangle on the ground where the box is on the screen.
-       Called when Scales is switched, and after a resize, so the two records of
-       the box's size — `jem-w`/`jem-h` in screen pixels and the ring in
-       degrees — always agree about right now. */
+
+
+
+
     function reseatText(f) {
       forget(f);
       var p = f.properties || {};
@@ -2432,33 +2432,33 @@
       ring[4] = ring[0].slice();
     }
 
-    /* Below this a box is not a box any more. `TEXT_MIN_PX` is where the
-       reader stops being able to read it and it becomes a dot, and
-       `TEXT_MIN_FONT` is where the words go but the box is still worth
-       drawing — a coloured rectangle over the ground it belongs to. */
+
+
+
+
     var TEXT_MIN_PX = 22;
     var TEXT_MIN_FONT = 6.5;
 
-    /* A note on the map: a box with the name as its heading and the
-     * description as its body.
-     *
-     * `foreignObject` rather than `tspan`s, because SVG has no line wrapping
-     * and a note that does not wrap is not a note. The cost is that it is HTML
-     * inside the drawing; the gain is real paragraphs, a real bold heading,
-     * and no re-implementation of word breaking.
-     *
-     * **Scales.** Two honest answers, and the reader picks:
-     *
-     *   * *off* (the default) — the box keeps its size on screen and stays
-     *     anchored by its top-left corner. It is a note *about* the map, like
-     *     a caption, and it stays readable at every zoom.
-     *   * *on* — the box is drawn from its rectangle in degrees, so it covers
-     *     the same ground however far in you go, and its text grows with it.
-     *     It is a label *on* the map, for when the note belongs to an area.
-     *
-     * Off is the default because a note that shrinks to nothing two turns of
-     * the wheel out is a note nobody can read, and that is the surprising
-     * failure. On is there because a box tied to territory should stay tied. */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     function drawText(f, i, cls) {
       var p = f.properties || {};
       var noWords = false;
@@ -2469,19 +2469,19 @@
       var scales = +p['jem-scales'] === 1;
       var w, h, fs, x, y, host_g = null;
       if (scales) {
-        /* Drawn from the rectangle in degrees, so it belongs to the ground and
-           shrinks as the reader pulls back. Everything here is in map units,
-           including the font, which is why it is scaled by how much bigger the
-           ground rectangle is than the pixel size it was drawn at. */
+
+
+
+
         w = Math.abs(c.x - a.x); h = Math.abs(c.y - a.y);
         fs = fontOf(p) * (w / Math.max(1, +p['jem-w'] || 1));
         x = Math.min(a.x, c.x); y = Math.min(a.y, c.y);
         var kNow = unitsPerPx();
         var onScreen = w / kNow;
-        /* Too small to be a box. It becomes a dot, the way a city does — a
-           mark that says something is here and can be pointed at, rather than
-           a rectangle two pixels across that reads as dirt on the screen. It
-           comes back the moment the reader zooms in far enough to read it. */
+
+
+
+
         if (onScreen < TEXT_MIN_PX || (h / kNow) < TEXT_MIN_PX * 0.7) {
           var dot = addMarkerAt('square', x + w / 2, y + h / 2,
             p.stroke || '#1b1b1b', 2.2,
@@ -2491,19 +2491,19 @@
                      group.appendChild(dot); }
           return;
         }
-        // and between the two: the box, without the words, because type below
-        // about six pixels is a grey smear rather than something to read
+
+
         if (fs / kNow < TEXT_MIN_FONT) noWords = true;
       } else {
-        /* Constant on screen. Not "map units that work out to the right number
-           of pixels at this instant" — that is only right until the next
-           wheel click, because a redraw does not happen on every zoom. The
-           map's own `scalables` mechanism does: a group at the anchor with
-           `scale(k)` on it, rebuilt by `rescale()` on every zoom, inside which
-           a length is a screen pixel. Same trick as the city dots.
-           This is the map-units-versus-screen-pixels rule in CLAUDE.md, and
-           the first version of this box got it wrong in exactly the documented
-           way: it looked right at the zoom it was written at. */
+
+
+
+
+
+
+
+
+
         w = +p['jem-w'] || 120;
         h = +p['jem-h'] || 60;
         fs = fontOf(p);
@@ -2521,15 +2521,15 @@
       div.style.color = p['jem-text-color'] || '#000000';
       div.style.borderColor = p.stroke || '#1b1b1b';
       div.style.fontSize = fs + 'px';
-      /* Inside a foreignObject a length is a *user* unit, so `1px` of border
-         is one map unit and grows into a slab as the box scales up. The border
-         and the corner are set in the same units the box is drawn in, so they
-         come to about a pixel on screen whichever mode this is. */
+
+
+
+
       var unit = scales ? Math.max(0.4, fs / fontOf(p)) : 1;
       div.style.borderWidth = unit + 'px';
       div.style.borderRadius = (3 * unit) + 'px';
-      // a heading takes no room when there is no heading: a box with only a
-      // description begins at the description
+
+
       var t = noWords ? '' : (p.title || '').trim();
       if (t) {
         var hd = document.createElementNS('http://www.w3.org/1999/xhtml', 'div');
@@ -2551,7 +2551,7 @@
       } else {
         group.appendChild(fo);
       }
-      // one handle, at the far corner: it resizes the box, and the body drags it
+
       if (i === sel) {
         var k2 = unitsPerPx();
         var hx = host_g ? a.x + w * k2 : x + Math.max(8, w);
@@ -2561,9 +2561,9 @@
       }
     }
 
-    /* How big a text box may be told to be. Four steps and no more: the point
-       of a note on a map is that it is a note, and a reader who wants a
-       headline has the name of a mark for that. */
+
+
+
     var FONT_STEPS = [10, 11.5, 13, 15];
 
     function fontOf(p) {
@@ -2571,18 +2571,18 @@
       return FONT_STEPS[(isFinite(n) && n >= 1 && n <= 4 ? n : 2) - 1];
     }
 
-    /* The rectangle, turned into a feature.
-     *
-     * Geometry is an ordinary five-point Polygon in degrees, so the file is
-     * valid GeoJSON and anything that does not know the word "text" draws the
-     * box — which is where the words are, so that is the right failure.
-     *
-     * `jem-w` and `jem-h` are the box's size in *screen pixels* at the moment
-     * it was drawn. They are what a box that does not scale is drawn at; see
-     * the note on `jem-scales` in `drawText`. */
+
+
+
+
+
+
+
+
+
     function finishText(d) {
       var w = Math.abs(d.x1 - d.x0), h = Math.abs(d.y1 - d.y0);
-      // a press that never moved is a press, not a box
+
       if (w < 24 || h < 18) { toolDone(); return; }
       var x0 = Math.min(d.x0, d.x1), y0 = Math.min(d.y0, d.y1);
       var corners = [[x0, y0], [x0 + w, y0], [x0 + w, y0 + h], [x0, y0 + h]];
@@ -2618,7 +2618,7 @@
       say('A box. Type into Description to fill it; the name is its heading.');
     }
 
-    /* -------------------------------------------------------- the list -- */
+
 
     function labelOf(f, i) {
       var p = f.properties || {};
@@ -2686,12 +2686,12 @@
       }
     }
 
-    /* One point out of a shape, rather than the whole shape.
 
-       A line of five points that should have been four is otherwise a line to
-       be drawn again from scratch. Below the minimum — two for a line, three
-       for an area — there is no shape left to take a point from, so the whole
-       feature goes and the message says so. */
+
+
+
+
+
     function removeVertex(i, r, v) {
       var f = feats[i];
       if (!f) return false;
@@ -2716,7 +2716,7 @@
       ring.splice(v, 1);
       forget(f);
       if (closed) {
-        // a polygon's first and last point are one point
+
         ring[ring.length - 1] = ring[0].slice();
       }
       changed(true);
@@ -2724,10 +2724,10 @@
       return true;
     }
 
-    /* A press on a mark, asking for it to go. Returns true when it took the
-       press, so the map's own context menu never appears over it. */
+
+
     function rightClick(target) {
-      // whatever tool is out: a right click on a mark is unambiguous
+
       if (!on || locked) return false;
       var el = target && target.closest ? target.closest('[data-ann]') : null;
       if (!el) return false;
@@ -2773,18 +2773,18 @@
       var m = $('#ann-measure');
       if (m) m.textContent = f ? measureOf(f) : '';
       syncControls();
-      // the style controls follow the selection, so that pressing a colour
-      // after clicking a mark changes that mark and not only the next one
+
+
       if (f) {
         var p = f.properties || {};
         var col = $('#ann-colour'), sz = $('#ann-size'),
             op = $('#ann-opacity'), fop = $('#ann-fillop'),
             dash = $('#ann-dash'), sym = $('#ann-symbol');
         if (col && (p['marker-color'] || p.stroke)) col.value = p['marker-color'] || p.stroke;
-        // The sliders carry a step, so a width or an opacity read out of a
-        // file — which may have been written by anything — becomes the step
-        // nearest to it. Nothing is rounded in the file itself: the value only
-        // changes if the reader then moves the slider.
+
+
+
+
         if (sz && isFinite(parseFloat(p['stroke-width']))) {
           sz.value = stepFor(WEIGHT_STEPS, parseFloat(p['stroke-width']));
         }
@@ -2809,8 +2809,8 @@
           if (smAmt) { if (sv) smAmt.value = sv; smAmt.disabled = !sv; }
         }
         if (dash) {
-          // `true` is what the first version of this wrote, when it was a
-          // checkbox; a file from then still means "dashed"
+
+
           var d0 = p['jem-dash'];
           dash.value = d0 === true ? 'dashed' : (d0 || '');
         }
@@ -2828,21 +2828,21 @@
       }
     }
 
-    /* One snapshot per burst of typing, not one per keystroke.
-     *
-     * Undo used to have no snapshot at all for a rename, a description or a
-     * date, which did not merely mean "you cannot undo a rename" — it meant
-     * Undo reached past it and consumed whatever structural snapshot was
-     * underneath. Measured: load two marks, rename one, press Undo, and the
-     * list is *empty*, because the snapshot it found was the state before the
-     * load. A second press says "Nothing left to undo." One careless press
-     * after a rename destroyed the lot.
-     *
-     * Per keystroke would be as bad the other way: forty presses of Undo to
-     * get back through a sentence, and the forty-deep stack full of one field.
-     * So the first change in a burst takes the snapshot and the rest ride on
-     * it, the burst ending when the reader stops typing for a moment or
-     * touches something else. */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     var typingIn = null, typingTimer = 0;
     function noteEdit(what) {
       if (typingIn !== what) {
@@ -2852,21 +2852,21 @@
       if (typingTimer) clearTimeout(typingTimer);
       typingTimer = setTimeout(function () { typingIn = null; typingTimer = 0; }, 900);
     }
-    // anything that is not typing ends the burst, so the next keystroke is a
-    // fresh snapshot rather than joining one from before a selection changed
+
+
     function endEdit() {
       if (typingTimer) { clearTimeout(typingTimer); typingTimer = 0; }
       typingIn = null;
     }
 
-    /* What of a mark's fields the *drawing* depends on: its name, whether that
-       name is shown, and the two dates, which decide whether the clock is
-       showing it at all. A description is read in the card and under the
-       pointer and is drawn nowhere —
 
-       — except in a text box, where the description **is** the mark. That is
-       the whole of that tool: the words go on the map. run14 caught this the
-       moment the skip went in, which is what it is for. */
+
+
+
+
+
+
+
     function drawnFields(f) {
       var p = (f && f.properties) || {};
       var drawn = [p.title || '', p['jem-nolabel'] ? '1' : '',
@@ -2883,10 +2883,10 @@
       f.properties = f.properties || {};
       f.properties.title = ($('#ann-title') || {}).value || '';
       f.properties.description = ($('#ann-desc') || {}).value || '';
-      /* simplestyle has `title` and `description` and no third thing, so the
-         short line is ours and prefixed. It is what the pointer says; the
-         description is what a click puts in the card, where every other
-         description on this map is read. */
+
+
+
+
       var sh2 = ($('#ann-short') || {}).value || '';
       if (sh2) f.properties['jem-short'] = sh2; else delete f.properties['jem-short'];
       [['#ann-start', 'jem-start'], ['#ann-end', 'jem-end']].forEach(function (pair) {
@@ -2897,18 +2897,18 @@
       if (nl && nl.checked) f.properties['jem-nolabel'] = true;
       else delete f.properties['jem-nolabel'];
       linkDirty = true;
-      // `changed()` is where this normally happens, and these two handlers do
-      // their own drawing instead of calling it — so a title, a description or
-      // a date edited after a save left the page willing to close without a
-      // word. Measured before the fix: save, rename, and `beforeunload` was
-      // not cancelled.
+
+
+
+
+
       setDirty(true);
-      /* Typing a description used to rebuild every row of the list and the
-         whole of the drawing on every keystroke, and a description changes
-         neither: the name on the map follows the name field, the clock follows
-         the dates, and nothing on the map follows the description at all.
-         Measured at CPU/4 with a dense imported set, a keystroke was 15 ms of
-         re-projecting and re-pathing geometry that had not moved. */
+
+
+
+
+
+
       if (drawnFields(f) !== was) {
         drawList();
         redrawOne(sel);            // the name on the map follows the field
@@ -2918,31 +2918,31 @@
       schedulePack();
     }
 
-    /* ------------------------------------------------------- the dates -- */
 
-    /* A date as a number that sorts: year, then month, then day, each absent
-       part reading as the earliest it could be. Deliberately lenient — a
-       teaching map is annotated with "1937", "Sept 1931" and "1941-12-08" in
-       the same set, and refusing two of those to be strict about the third
-       would only push the reader into typing the date into the name.
 
-       Returns null for anything it cannot read, and null is what keeps a mark
-       out of the walk rather than putting it at the front. */
+
+
+
+
+
+
+
+
     var MONTHS = ['jan', 'feb', 'mar', 'apr', 'may', 'jun',
                   'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
 
-    /* `upto` is for an end date. "1931" as a start means the beginning of
-       1931 and as an end means the end of it, and reading both as 1 January
-       had the clock hide a mark that ran through 1931 the moment it reached
-       September 1931 — and hide one written start 1931-05-01, end 1931
-       always, its end landing four months before its start. */
+
+
+
+
+
     function parseWhen(v, upto) {
       if (!v) return null;
       var t = String(v).trim().toLowerCase();
       if (!t) return null;
       var m = t.match(/^(\d{3,4})(?:[-/.](\d{1,2})(?:[-/.](\d{1,2}))?)?$/);
       if (m) return num(m[1], m[2], m[3]);
-      // a month by name, either side of the year: "sept 1931", "1931 sept"
+
       var mon = null, year = null, day = null;
       var name = t.match(/[a-z]{3,}/);
       if (name) {
@@ -2975,20 +2975,20 @@
       }
     }
 
-    /* ------------------------------------------------------- the clock --
-     *
-     * A different thing from the walk below, and the one a class actually
-     * uses. The walk steps from one mark to the next and flies the map to
-     * each; this steps through *time* and leaves the map exactly where the
-     * reader put it, showing and hiding the marks as their dates come round.
-     * Shapes appear and disappear over the same ground, which is the thing a
-     * sequence of maps is for.
-     *
-     * A stage is a date at which what is on the map changes — so every start
-     * date and every end date in the set, deduplicated and sorted. Nothing is
-     * interpolated and no stage is invented: if three marks start in 1931 and
-     * one ends in 1933, there are two stages.
-     */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     var clockAt = -1;         // -1: the clock is off and everything is drawn
     var clockTimer = 0;
     var CLOCK_MS = 2000;
@@ -3007,17 +3007,17 @@
       return out;
     }
 
-    /* Is this mark on the map at the date the clock is showing?
-     *
-     * A mark with no dates at all is always on: it is the coastline of the
-     * argument, the thing the dated marks are drawn against, and hiding it
-     * would leave the reader watching arrows over an empty sea. A mark with a
-     * start and no end has arrived and stays; one with an end and no start was
-     * always there and goes. */
-    /* The date the clock is showing, worked out once per redraw and held here.
-       `inScope` used to call `stages()` itself — which walks every feature and
-       sorts — and `redraw` calls `inScope` once per feature, so drawing was
-       quadratic in the number of marks and playback did that once a frame. */
+
+
+
+
+
+
+
+
+
+
+
     var clockDate = null;
     function clockNow() {
       if (clockAt < 0) return null;
@@ -3037,16 +3037,16 @@
       return true;
     }
 
-    /* How a stage's date is written. The stored form is yyyymmdd, and a date
-       whose month and day were never given is stored as the first of January —
-       so a stage that came from "1931" must be written "1931" and not
-       "1 January 1931", which would be a precision the reader never claimed. */
+
+
+
+
     var MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June',
                        'July', 'August', 'September', 'October', 'November',
                        'December'];
     function stageLabel(d) {
       var y = Math.floor(d / 10000), m = Math.floor(d / 100) % 100, dd = d % 100;
-      // whichever mark contributed this date says how precisely it was written
+
       var prec = 0, isStart = false;
       feats.forEach(function (f) {
         var p = f.properties || {};
@@ -3061,20 +3061,20 @@
           if (got > prec) prec = got;
         });
       });
-      /* A stage nothing starts at is a stage something *stops* at, and with a
-         date written as a year it reads as the same stage twice: a mark
-         running through 1931 puts 1 January and 31 December into the list, and
-         the reader stepped from "1931" to "1931". Say which end it is. */
+
+
+
+
       var when = prec === 0 ? String(y)
                : prec === 1 ? MONTH_NAMES[m - 1] + ' ' + y
                : dd + ' ' + MONTH_NAMES[m - 1] + ' ' + y;
       return isStart || prec === 2 ? when : 'end of ' + when;
     }
 
-    /* The clock's own controls, on the map beside the zoom buttons rather
-       than in the panel. They belong there because they are for *reading* the
-       map and not for editing it: a reader who has been sent a set and has
-       locked the tools away still wants to watch it run. */
+
+
+
+
     var clockBar = null;
     function buildClock() {
       if (clockBar) return clockBar;
@@ -3105,10 +3105,10 @@
       var bar = buildClock();
       if (!bar) return;
       var list = stages();
-      /* One date is not a sequence — there is no second thing to step to — and
-         a set nobody is showing has nothing to step through. `on` and not
-         `locked`: a reader who followed a link has the marks and not the
-         tools, and the clock is the one control they are meant to have. */
+
+
+
+
       bar.hidden = !on || list.length < 2;
       if (bar.hidden) {
         if (clockAt >= 0) { clockAt = -1; stopClock(); }
@@ -3134,9 +3134,9 @@
       $('#ann-clock-next', bar).disabled = clockAt >= 0 && clockAt === list.length - 1;
     }
 
-    /* A step. It redraws and nothing else — no flying, no zooming, no
-       selection: the reader chose the view and watching the marks come and go
-       over one piece of ground is the whole point. */
+
+
+
     function stepClock(n) {
       var list = stages();
       if (list.length < 2) return;
@@ -3152,9 +3152,9 @@
       if (clockTimer) { clearInterval(clockTimer); clockTimer = 0; }
     }
 
-    /* Play. Two seconds a stage, and it runs off the end and stops there
-       rather than looping — a loop makes a reader wait to find out whether
-       what they are looking at is the beginning or the end. */
+
+
+
     function playPause() {
       var list = stages();
       if (list.length < 2) return;
@@ -3221,32 +3221,32 @@
         p['fill-opacity'] = 1;
         p.stroke = st.boxLine;
         p['jem-font'] = st.font;
-        /* The switch changes what happens *next*, not what is on screen now.
-           Turning Scales on used to redraw the box from a rectangle in degrees
-           that was fixed when it was made — so a reader who had zoomed in
-           since watched it leap to several times its size with a border to
-           match. The ground rectangle is re-derived from where the box is at
-           this instant instead, so the box does not move or change size at the
-           moment of the press; only its behaviour on the next zoom differs. */
+
+
+
+
+
+
+
         var wasScaled = +p['jem-scales'] === 1;
         p['jem-scales'] = st.scales ? 1 : 0;
         if (st.scales !== wasScaled) reseatText(f);
       }
       linkDirty = true;
       setDirty(true);              // see fieldChanged: this does its own drawing
-      /* Only the selected feature: a style belongs to one mark, and a slider
-         emits several inputs per frame. Redrawing the layer per input meant a
-         dense set visibly trailed the thumb. */
+
+
+
       redrawOne(sel);
       storeSoon();
       schedulePack();
     }
 
-    /* ---------------------------------------------- reading a file in -- */
 
-    /* What is wrong with this GeoJSON, in a sentence a reader can act on, or
-       null if there is nothing wrong with it. Every message names the thing it
-       found: "invalid GeoJSON" tells somebody with a broken file nothing. */
+
+
+
+
     function problemWith(o) {
       if (o === null || typeof o !== 'object') return 'That file is not a GeoJSON object.';
       if (Array.isArray(o)) return 'That file is a bare array. GeoJSON needs a "type" — a FeatureCollection, a Feature, or a geometry.';
@@ -3282,11 +3282,11 @@
       if (!Array.isArray(g.coordinates)) return false;
       var rings = ringsOf(g);
       if (!rings.length) return false;
-      /* Every position, not the first one that looks right. Returning true at
-         the first good coordinate let `[[139,35], null]` through validation,
-         and the drawing code then dereferenced the null — after `feats` had
-         already been replaced, so a file that was supposed to be refused whole
-         had half-loaded. One good point is not a good geometry. */
+
+
+
+
+
       var any = false;
       for (var i = 0; i < rings.length; i++) {
         var r = rings[i];
@@ -3314,10 +3314,10 @@
       return [{ type: 'Feature', geometry: o, properties: {} }];
     }
 
-    /* Fill in what a foreign file has not got. A layer exported from QGIS has
-       no simplestyle at all, so it would draw in a default and then save back
-       styleless — this gives every feature one, and takes a name from
-       whichever of the usual property spellings the file happens to use. */
+
+
+
+
     function adopt(list, offset) {
       return list.map(function (f, i) {
         var p = (f.properties && typeof f.properties === 'object') ? f.properties : {};
@@ -3335,13 +3335,13 @@
         if (out['stroke-width'] === undefined) out['stroke-width'] = 3;
         if (kind === 'point') {
           if (!out['marker-color']) out['marker-color'] = colour;
-          /* simplestyle's three sizes, derived from the weight rather than
-             assumed. 'medium' unconditionally was wrong twice over: a link
-             drops `marker-size` when it only repeats what the weight says, so
-             a large marker came back through a link labelled medium — and a
-             foreign file with a weight and no size got the same wrong label.
-             The map draws from the weight either way; this is what another
-             program reading the file is told. */
+
+
+
+
+
+
+
           if (!out['marker-size']) {
             var mw = parseFloat(out['stroke-width']);
             out['marker-size'] = (mw <= 2 ? 'small' : (mw >= 5 ? 'large' : 'medium'));
@@ -3377,15 +3377,15 @@
     function zoomTo(list) {
       var b = boundsOf(list || feats);
       if (!b) return false;
-      // a single point has no extent, so it is given room rather than a
-      // zero-width box the map would refuse
+
+
       var padLon = Math.max((b.e - b.w) * 0.12, 0.6);
       var padLat = Math.max((b.n - b.s) * 0.12, 0.6);
       return host.zoomToBox(b.w - padLon, b.s - padLat, b.e + padLon, b.n + padLat);
     }
 
-    /* `merge` keeps what is already on the map and adds to it, which is what a
-       reader who has drawn something and then opens a second file means. */
+
+
     function loadText(text, name, merge) {
       var o;
       try {
@@ -3418,9 +3418,9 @@
       var names = $('#ann-names');
       if (quiet && names && names.checked) names.checked = false;
       if (!merge) sourceName = (name || '').replace(/\.(geo)?json$/i, '');
-      /* And where it wants to be looked at from, if it says. A merge keeps
-         whatever frame is already set: the file being added is joining a set,
-         not replacing its point of view. */
+
+
+
       if (!merge) {
         var hv = (o && o.properties && o.properties['jem-view']) || null;
         homeView = (Array.isArray(hv) && hv.length === 4
@@ -3436,7 +3436,7 @@
         + (zoomed ? ', and the map has moved to them' : '')
         + (quiet ? '. Names are off — that is too many to write on the map at '
                  + 'once; switch "Names on the map" back on if you want them.' : '.')
-        // see `replaced`: not a question, but not a silence either
+
         + (replaced && !merge
             ? ' This replaced ' + replaced + ' unsaved mark'
               + (replaced === 1 ? '' : 's') + ' — Undo brings them back.' : ''));
@@ -3446,21 +3446,21 @@
       return true;
     }
 
-    /* Replacing a set the reader has not saved.
-     *
-     * A modal was tried first and is the wrong instrument. The old set is
-     * already snapshotted, so the load is undoable, and asking before every
-     * load punishes the ordinary case — a reader loading a file into an empty
-     * map, or into one they have just saved — to guard a rare one. What was
-     * missing was not permission but *notice*: the reader was not told, and
-     * the load then disarmed the unload warning so the tab could close on it
-     * in silence. Both of those are fixed — the warning stays armed now — and
-     * this says plainly what happened and how to get it back. */
+
+
+
+
+
+
+
+
+
+
     var replaced = 0;
 
     function loadFile(file, merge) {
       if (!file) return;
-      // merging adds to what is there and takes nothing away
+
       replaced = (!merge && dirty) ? feats.length : 0;
       if (file.size > ANN_MAX_BYTES) {
         say('That file is ' + (file.size / 1048576).toFixed(1) + ' MB, past the '
@@ -3474,16 +3474,16 @@
       fr.readAsText(file);
     }
 
-    /* ------------------------------------------------------ saving out -- */
 
-    /* Where the set wants to be looked at from.
-     *
-     * A teacher builds a set round Manchuria and shares it; the reader opens
-     * the link, wanders off to the Solomons and has no way back to what they
-     * were sent. `Set default view` writes the current frame onto the set, so
-     * it travels in the file and in the link, and a button appears beside the
-     * map's own reset to come back to it. Four numbers, west south east north,
-     * which is the same shape the address bar already uses. */
+
+
+
+
+
+
+
+
+
     var homeView = null;
 
     function collection() {
@@ -3504,11 +3504,11 @@
       say('This is where the map will open for anyone you send it to.');
     }
 
-    /* The way back, beside the map's own reset button. It is only there when
-       there is somewhere to go back *to* and the reader has since moved: a
-       button that does nothing is furniture, and this one is next to a button
-       that resets to a different place, so it has to be obviously about the
-       annotations. */
+
+
+
+
+
     var homeBtn = null;
     function syncHomeBtn() {
       var stack = document.getElementById('zoom-controls');
@@ -3534,8 +3534,8 @@
       var away = false;
       if (homeView && host.viewBox) {
         var now = host.viewBox();
-        // "somewhere else" means a tenth of the frame's own width away, or a
-        // tenth wider or narrower — not a pixel, which every pan would trip
+
+
         if (now) {
           var wide = Math.abs(homeView[2] - homeView[0]) || 1;
           away = Math.abs(now[0] - homeView[0]) > wide * 0.1
@@ -3574,7 +3574,7 @@
       }
     }
 
-    /* ----------------------------------------------- a link that holds -- */
+
 
     function b64(bytes) {
       var s = '';
@@ -3591,29 +3591,29 @@
       return out;
     }
 
-    /* Deflate where the browser has it, plain where it has not. The prefix
-       says which, so a link made in one browser opens in another. GeoJSON is
-       mostly punctuation and repeated property names, and deflate takes a
-       typical set to about a fifth of its size — the difference between a link
-       that fits and one that does not. */
-    /* ---------------------------------------------- what a link carries --
 
-       A link is capped at 6,000 characters and the file is not, so the two are
-       not the same document. The file is the archival copy and keeps whatever
-       the reader gave it; the link keeps only what is needed to draw the same
-       map again.
 
-       Two savings, and both are safe because the loader already fills in what
-       is missing — every default dropped here is a default `adopt()` puts
-       back, and the ones it does *not* put back are left alone. `stroke` is
-       the example of the second kind: dropped, `adopt` would hand the feature
-       a palette colour rather than the black it had, so it stays.
 
-       COORDINATES ARE CUT TO FOUR DECIMALS. That is about 11 metres at the
-       equator and less further north — far below the accuracy of anything this
-       map is traced from, and below a pixel at every zoom it allows. A river
-       imported from a GIS file carries fifteen; that is where the length of a
-       link mostly goes. */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     var LINK_DP = 4;
 
     function slimCoords(c) {
@@ -3628,15 +3628,15 @@
       return c.map(slimCoords);
     }
 
-    /* What each property falls back to when it is absent, for the kind of
-       feature it is on. A value equal to its fallback is not information. */
+
+
     function linkDefaults(kind, p) {
       var d = { 'stroke-width': 3, 'stroke-opacity': 1, title: '', description: '' };
       if (kind === 'point') {
         d['marker-symbol'] = 'circle';
         d['marker-color'] = p.stroke;
-        // `adopt` writes 'medium' when there is none, so a value that says the
-        // same thing as the weight already does is not worth carrying
+
+
         d['marker-size'] = (p['stroke-width'] <= 2 ? 'small'
                           : (p['stroke-width'] >= 5 ? 'large' : 'medium'));
       }
@@ -3696,14 +3696,14 @@
         .pipeThrough(new DecompressionStream('deflate-raw'))).text();
     }
 
-    /* THE LINK IS PACKED BEFORE IT IS ASKED FOR, and this is the whole reason
-       Copy link needed fixing. Deflating is asynchronous, and a clipboard
-       write that happens after an `await` is outside the click that caused it:
-       Safari refuses it outright, and the old code then fell back to
-       `window.prompt`, which is a dialog a reader did not ask for and which
-       some browsers suppress altogether. So the press does nothing but read a
-       string that is already there — synchronous, inside the gesture, allowed
-       everywhere. */
+
+
+
+
+
+
+
+
     function prepLink() {
       var warn = $('#ann-warn');
       if (!feats.length) {
@@ -3720,11 +3720,11 @@
       }, function () { linkCode = null; });
     }
 
-    /* Whether these will go in a link, said before the reader presses the
-       button rather than after. A set loaded from a file is very often past
-       it — `india-rivers` packs to 160,000 characters against a ceiling of
-       6,000 — and being told that only on pressing Copy link is being told it
-       at the wrong moment. The line names both numbers and how far over. */
+
+
+
+
+
     function tellLinkSize() {
       var warn = $('#ann-warn'), b = $('#ann-link');
       var cap = $('#ann-cap'), capText = $('#ann-cap-text'), bar = $('#ann-bar-fill');
@@ -3740,13 +3740,13 @@
         ? 'Too much for a link — save the file instead'
         : 'Copy a link that carries these annotations';
 
-      /* The running count. It is the *compressed* length, because that is what
-         actually has to fit in an address — and it is why a counter is worth
-         having rather than a count of features: a name and a description are
-         characters too, and so is every vertex of a shape traced closely, so
-         two readers with ten marks each can be a long way apart. Deflate also
-         means the number does not climb evenly; a second description much like
-         the first costs far less than the first did. */
+
+
+
+
+
+
+
       if (cap && capText && bar) {
         var share = Math.min(1, linkCode.length / ANN_URL_MAX);
         cap.hidden = false;
@@ -3783,8 +3783,8 @@
     function copyLink() {
       if (!feats.length) { say('There is nothing to put in a link yet.', 'bad'); return; }
       if (linkDirty || !linkCode) {
-        // packing has not finished — do it, then show the field rather than
-        // trying a clipboard write outside the gesture that will be refused
+
+
         prepLink();
         window.setTimeout(function () { showLink(true); }, 350);
         return;
@@ -3799,7 +3799,7 @@
       var told = 'Link copied — ' + url.length.toLocaleString()
         + ' characters. Anyone who opens it sees these annotations.';
       if (navigator.clipboard && navigator.clipboard.writeText) {
-        // synchronous call inside the click: no await stands between them
+
         navigator.clipboard.writeText(url).then(function () {
           say(told);
           showLink(false);
@@ -3809,10 +3809,10 @@
       }
     }
 
-    /* The link, visible and selected, for when the clipboard refuses — and
-       always available from the box itself. A field beats `window.prompt`:
-       it cannot be suppressed, it can be read before it is copied, and it does
-       not stop the page. */
+
+
+
+
     function showLink(because) {
       var box = $('#ann-link-out'), field = $('#ann-link-field');
       if (!box || !field) return;
@@ -3829,7 +3829,7 @@
       if (because) say('Your browser would not write to the clipboard, so here is the link — it is selected, ready to copy.', 'bad');
     }
 
-    /* --------------------------------------------------------- the panel -- */
+
 
     var PANEL = '' +
       '<div class="ann-head">' +
@@ -3989,7 +3989,7 @@
           if (msgEl.textContent === text) msgEl.textContent = '';
         }, 7000);
       }
-      // a message a folded panel cannot show is a message nobody reads
+
       if (text && kind === 'bad' && panel && panel.classList.contains('folded')) fold(false);
     }
 
@@ -4001,42 +4001,42 @@
       if (yes) setTool(null);
     }
 
-    /* The panel's own stylesheet, injected when the file loads. It is here
-       rather than in `styles.css` for the same reason the code is here: a
-       reader who never annotates should not download the rules for a panel
-       they will never see. */
+
+
+
+
     var CSS = "/* ------------------------------------------------------------ annotations */\n\n/* The panel lives in the rail with the legend and the card. On a phone the\n   rail is a sheet over the map, which is the same place the card goes, and\n   the same rules carry it. */\n#annotate {\n  position: absolute;\n  left: max(10px, var(--safe-l));\n  top: 10px;\n  width: min(46vw, 280px);\n  max-height: calc(100% - 20px);\n  overflow-y: auto;\n  padding: 10px;\n  background: rgba(255, 253, 248, .97);\n  border: 1px solid var(--line);\n  border-radius: 8px;\n  box-shadow: var(--shadow);\n  font-size: 12.5px;\n  z-index: 6;\n}\n\n#annotate .ann-head {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  gap: 8px;\n  margin-bottom: 8px;\n}\n\n#annotate .ann-head strong {\n  font-size: 11.5px;\n  font-weight: 700;\n  letter-spacing: .08em;\n  text-transform: uppercase;\n  color: var(--muted);\n}\n\n#ann-close {\n  border: 0;\n  background: none;\n  font: inherit;\n  font-size: 17px;\n  line-height: 1;\n  padding: 2px 4px;\n  color: var(--muted);\n  cursor: pointer;\n}\n#ann-close:hover { color: var(--ink); }\n\n#annotate .ann-tools {\n  display: grid;\n  grid-template-columns: repeat(5, 1fr);\n  gap: 3px;\n}\n#annotate .ann-tools .ann-tool { padding: 6px 1px; font-size: 11px; }\n\n#annotate .ann-tool {\n  padding: 6px 2px;\n  border: 1px solid var(--line);\n  border-radius: 6px;\n  background: var(--panel);\n  font: inherit;\n  font-size: 11.5px;\n  color: var(--ink);\n  cursor: pointer;\n}\n#annotate .ann-tool:hover { border-color: var(--muted); }\n#annotate .ann-tool.on {\n  background: var(--ink);\n  border-color: var(--ink);\n  color: #fffdf8;\n}\n\n#annotate .ann-hint {\n  margin: 6px 0 8px;\n  color: var(--muted);\n  font-size: 11.5px;\n  line-height: 1.35;\n}\n\n/* `display` on a class beats the user agent's `[hidden] { display: none }`,\n   so the row of finish-and-cancel buttons stood there from the moment the\n   panel opened, offering to finish a shape nobody had started. */\n#annotate .ann-drawing {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 4px;\n  margin-bottom: 8px;\n}\n#annotate .ann-drawing[hidden] { display: none; }\n#annotate .ann-drawing button {\n  padding: 5px 8px;\n  border: 1px solid var(--line);\n  border-radius: 6px;\n  background: var(--panel);\n  font: inherit;\n  font-size: 11.5px;\n  cursor: pointer;\n}\n#annotate #ann-finish { background: var(--ink); border-color: var(--ink); color: #fffdf8; }\n\n#annotate .ann-style {\n  display: flex;\n  flex-wrap: wrap;\n  align-items: center;\n  gap: 4px 10px;\n  margin-bottom: 8px;\n}\n#annotate .ann-style label[hidden] { display: none; }\n#annotate .ann-style label {\n  display: flex;\n  align-items: center;\n  gap: 5px;\n  font-size: 11.5px;\n  color: var(--muted);\n}\n#annotate .ann-style input[type=\"color\"] {\n  width: 26px;\n  height: 20px;\n  padding: 0;\n  border: 1px solid var(--line);\n  border-radius: 4px;\n  background: none;\n  cursor: pointer;\n}\n#annotate .ann-style input[type=\"range\"] { width: 74px; }\n\n/* Smooth is a switch and an amount, and they belong together: the amount is\n   meaningless on its own and is greyed until the switch is on. */\n#annotate #ann-smooth-row { gap: 5px; }\n#annotate #ann-smooth-amt { width: 52px; }\n#annotate #ann-smooth-amt:disabled { opacity: .4; }\n\n#annotate .ann-field {\n  display: block;\n  margin-bottom: 7px;\n  font-size: 11.5px;\n  color: var(--muted);\n}\n#annotate .ann-field input,\n#annotate .ann-field textarea {\n  display: block;\n  /* Not 100%: on a Mac the rail's scrollbar is drawn *over* the content, and\n     a field the full width of the panel loses its right-hand border under it.\n     `scrollbar-gutter` handles the browsers that support it and this handles\n     the rest, at the cost of six pixels nobody was using. */\n  width: calc(100% - 6px);\n  margin-top: 3px;\n  padding: 5px 6px;\n  border: 1px solid var(--line);\n  border-radius: 5px;\n  background: var(--panel);\n  font: inherit;\n  font-size: 12.5px;\n  color: var(--ink);\n  resize: vertical;\n}\n#annotate .ann-field input:disabled,\n#annotate .ann-field textarea:disabled { background: #f4f1ea; color: var(--muted); }\n\n#ann-list {\n  list-style: none;\n  margin: 0 0 8px;\n  padding: 0;\n  max-height: 172px;\n  overflow-y: auto;\n}\n#ann-list li {\n  display: flex;\n  align-items: center;\n  gap: 4px;\n  border-bottom: 1px solid var(--line);\n}\n#ann-list li.sel { background: rgba(0, 0, 0, .05); }\n#ann-list .ann-pick {\n  flex: 1 1 auto;\n  min-width: 0;\n  text-align: left;\n  padding: 5px 4px;\n  border: 0;\n  background: none;\n  font: inherit;\n  font-size: 12px;\n  color: var(--ink);\n  cursor: pointer;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n#ann-list .ann-del {\n  flex: 0 0 auto;\n  border: 0;\n  background: none;\n  font: inherit;\n  font-size: 14px;\n  line-height: 1;\n  padding: 3px 5px;\n  color: var(--muted);\n  cursor: pointer;\n}\n#ann-list .ann-del:hover { color: #8c2f39; }\n\n#annotate .ann-actions {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 5px;\n}\n#annotate .ann-actions button {\n  padding: 6px 9px;\n  border: 1px solid var(--line);\n  border-radius: 6px;\n  background: var(--panel);\n  font: inherit;\n  font-size: 11.5px;\n  cursor: pointer;\n}\n#annotate .ann-actions button:disabled { opacity: .45; cursor: default; }\n#annotate #ann-save { background: var(--ink); border-color: var(--ink); color: #fffdf8; }\n#annotate #ann-save:disabled { background: var(--muted); border-color: var(--muted); }\n\n.ann-msg {\n  margin: 8px 0 0;\n  font-size: 11.5px;\n  line-height: 1.4;\n  color: var(--muted);\n}\n/* An error is the one message that has to be read, so it is the one that is\n   coloured and that stays until something replaces it. */\n.ann-msg.bad { color: #8c2f39; font-weight: 600; }\n\n/* The running count of what will fit in a link. Always there once there is\n   anything to count, because the useful moment to know is while typing the\n   description that will push it over, not afterwards. */\n.ann-cap {\n  display: flex;\n  align-items: center;\n  gap: 7px;\n  margin: 0 0 6px;\n  font-size: 11px;\n  font-variant-numeric: tabular-nums;\n  color: var(--muted);\n}\n.ann-cap .ann-bar {\n  flex: 0 0 62px;\n  height: 4px;\n  border-radius: 2px;\n  background: rgba(0, 0, 0, .12);\n  overflow: hidden;\n}\n.ann-cap .ann-bar i {\n  display: block;\n  height: 100%;\n  width: 0;\n  background: var(--muted);\n  transition: width .18s ease;\n}\n.ann-cap.near { color: #a8642a; }\n.ann-cap.near .ann-bar i { background: #a8642a; }\n.ann-cap.over { color: #8c2f39; font-weight: 600; }\n.ann-cap.over .ann-bar i { background: #8c2f39; }\n\n/* The pencil that unlocks a shared set. It sits under the zoom controls in\n   the corner of the map, and it is the only annotation control a reader who\n   followed a link is shown until they ask for more. */\n#ann-edit {\n  position: absolute;\n  right: 10px;\n  top: 176px;\n  z-index: 5;\n  display: grid;\n  place-items: center;\n  width: 40px;\n  height: 40px;\n  padding: 0;\n  border: 1px solid var(--line);\n  border-radius: 9px;\n  background: #8c2f39;\n  box-shadow: var(--shadow);\n  cursor: pointer;\n}\n#ann-edit svg {\n  width: 19px;\n  height: 19px;\n  fill: none;\n  stroke: #fffdf8;\n  stroke-width: 1.9;\n  stroke-linecap: round;\n  stroke-linejoin: round;\n}\n#ann-edit:hover { background: #7a2831; }\n\n/* locked: the marks are there to be read, and nothing else */\n#map-container.ann-locked #annotations .ann-mark { cursor: default; }\n#map-container.ann-locked #annotations .ann-vertex { display: none; }\n\n#annotate #ann-lock {\n  display: grid;\n  place-items: center;\n  width: 26px;\n  height: 24px;\n  padding: 0;\n  border: 0;\n  background: none;\n  cursor: pointer;\n}\n#annotate #ann-lock svg {\n  width: 15px;\n  height: 15px;\n  fill: none;\n  stroke: var(--muted);\n  stroke-width: 1.7;\n  stroke-linecap: round;\n  stroke-linejoin: round;\n}\n#annotate #ann-lock:hover svg { stroke: var(--ink); }\n\n/* the way back to a reader's own work, when a link has taken the screen */\n.ann-mine { margin: 0 0 7px; }\n.ann-mine button {\n  width: 100%;\n  padding: 7px 9px;\n  border: 1px solid var(--line);\n  border-radius: 6px;\n  background: rgba(31, 92, 122, .10);\n  font: inherit;\n  font-size: 11.5px;\n  font-weight: 600;\n  color: var(--ink);\n  cursor: pointer;\n}\n.ann-mine button:hover { border-color: var(--muted); }\n\n/* the standing note about a set too big for a link */\n.ann-warn {\n  margin: 0 0 7px;\n  padding: 6px 8px;\n  border-radius: 5px;\n  background: rgba(140, 47, 57, .09);\n  font-size: 11.5px;\n  line-height: 1.4;\n  color: #8c2f39;\n}\n#annotate .ann-actions button.too-big {\n  opacity: .55;\n  text-decoration: line-through;\n}\n\n/* the marks themselves */\n#annotations { pointer-events: none; }\n#annotations .ann-shape { vector-effect: non-scaling-stroke; stroke-linejoin: round; }\n#annotations .ann-draft {\n  vector-effect: non-scaling-stroke;\n  stroke-dasharray: 5 4;\n  opacity: .8;\n}\n/* The selected feature: a halo, and nothing else.\n   Lightening it was tried and is worse \u2014 the whole point of choosing a colour\n   is that the colour you chose is the colour you see, and a selection that\n   changes it makes you doubt what you picked. Two shadows instead, a tight\n   dark one to lift the shape off the map and a wider soft one to catch the\n   eye from across it. */\n#annotations .sel {\n  filter: drop-shadow(0 0 2px rgba(0, 0, 0, .9))\n          drop-shadow(0 0 7px rgba(0, 0, 0, .55));\n}\n#annotations .ann-mark.sel {\n  filter: drop-shadow(0 0 2px rgba(0, 0, 0, .95))\n          drop-shadow(0 0 9px rgba(0, 0, 0, .6));\n}\n\n/* a pen, not a pointer */\n#map-container.ann-drawing { cursor: crosshair; }\n\n/* Below the rail's breakpoint both the legend and this panel float in the\n   top-left corner of the map, and the annotation panel is the taller of the\n   two \u2014 so they were drawn one over the other, the legend's colours showing\n   faintly through. While a reader is drawing, the panel is what they are\n   using; the legend stands down and comes back when the panel closes. */\n/* Below the rail's breakpoint the panel docks to the foot of the screen\n   rather than floating in the top-left corner, where it took a third of a\n   phone and covered half the map's width \u2014 and where it stood on top of the\n   legend, which had to be hidden to make room. A sheet along the bottom\n   leaves the map whole above it, puts the tools under the thumb, and lets the\n   legend stay where it was. */\n@media (max-width: 999.98px) {\n  /* clear of the zoom controls on a narrow screen, where they stack lower */\n  #ann-edit { top: auto; bottom: calc(14px + var(--safe-b, 0px)); }\n  #annotate {\n    left: 0;\n    right: 0;\n    top: auto;\n    bottom: 0;\n    width: auto;\n    max-width: none;\n    max-height: 46vh;\n    border-width: 1px 0 0;\n    border-radius: 12px 12px 0 0;\n    padding: 8px 12px calc(10px + var(--safe-b, 0px));\n    box-shadow: 0 -4px 18px rgba(0, 0, 0, .16);\n  }\n  /* folded it is a bar the map can be worked around */\n  #annotate.folded { max-height: none; }\n  /* and with a tool out it keeps the tools and the hint and nothing else */\n  #annotate.tooling .ann-style,\n  #annotate.tooling .ann-field,\n  #annotate.tooling .ann-check,\n  #annotate.tooling .ann-dates,\n  #annotate.tooling .ann-measure,\n  #annotate.tooling #ann-list,\n  #annotate.tooling .ann-actions,\n  #annotate.tooling .ann-link-out { display: none; }\n  #annotate .ann-style { gap: 6px 14px; }\n  #ann-list { max-height: 120px; }\n}\n\n@media (prefers-color-scheme: dark) {\n  #annotate { background: rgba(20, 26, 32, .97); }\n  #annotate .ann-tool,\n  #annotate .ann-drawing button,\n  #annotate .ann-actions button,\n  #annotate .ann-field input,\n  #annotate .ann-field textarea,\n  .ann-row button { background: #1b232b; color: var(--ink); }\n  #annotate .ann-field input:disabled,\n  #annotate .ann-field textarea:disabled { background: #161d24; }\n  #annotate .ann-tool.on,\n  #annotate #ann-finish,\n  #annotate #ann-save { background: var(--ink); color: #12181e; }\n  .ann-msg.bad { color: #e08b95; }\n  .ann-warn { background: rgba(224, 139, 149, .14); color: #e08b95; }\n  .ann-cap .ann-bar { background: rgba(255, 255, 255, .14); }\n  .ann-cap.near { color: #d99a5e; }\n  .ann-cap.near .ann-bar i { background: #d99a5e; }\n  .ann-cap.over { color: #e08b95; }\n  .ann-cap.over .ann-bar i { background: #e08b95; }\n}\n\n\n/* what the new controls need */\n#annotate .ann-style select {\n  padding: 2px 4px;\n  border: 1px solid var(--line);\n  border-radius: 4px;\n  background: var(--panel);\n  font: inherit;\n  font-size: 11.5px;\n  color: var(--ink);\n}\n\n#annotate .ann-foldbtn {\n  display: flex;\n  align-items: center;\n  gap: 7px;\n  flex: 1 1 auto;\n  min-width: 0;\n  padding: 3px 3px 3px 0;\n  border: 0;\n  background: none;\n  font: inherit;\n  color: var(--muted);\n  cursor: pointer;\n  text-align: left;\n}\n#annotate .ann-foldbtn strong {\n  font-size: 11.5px;\n  font-weight: 700;\n  letter-spacing: .08em;\n  text-transform: uppercase;\n}\n#annotate .ann-foldbtn:hover { color: var(--ink); }\n/* the caret is a square on one corner: its rotated bounding box is 1.41 times\n   its side, so it is given room rather than sticking out of the panel */\n#annotate .ann-foldbtn .caret {\n  flex: 0 0 auto;\n  width: 7px;\n  height: 7px;\n  margin-left: 2px;\n  border-right: 2px solid currentColor;\n  border-bottom: 2px solid currentColor;\n  transform: translateY(-2px) rotate(45deg);\n  transition: transform .15s ease;\n}\n#annotate.folded .ann-foldbtn .caret { transform: translateY(1px) rotate(-135deg); }\n#annotate.folded .ann-body { display: none; }\n#annotate .ann-count { font-size: 11px; color: var(--muted); }\n\n#annotate .ann-measure {\n  margin: 0 0 7px;\n  font-size: 11.5px;\n  font-variant-numeric: tabular-nums;\n  color: var(--muted);\n}\n\n#ann-list .ann-pick { display: flex; gap: 8px; align-items: baseline; }\n#ann-list .ann-name {\n  flex: 1 1 auto;\n  min-width: 0;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n#ann-list .ann-meas {\n  flex: 0 0 auto;\n  font-size: 10.5px;\n  font-variant-numeric: tabular-nums;\n  color: var(--muted);\n}\n#ann-list .ann-go {\n  flex: 0 0 auto;\n  border: 0;\n  background: none;\n  font: inherit;\n  font-size: 13px;\n  line-height: 1;\n  padding: 3px 4px;\n  color: var(--muted);\n  cursor: pointer;\n}\n#ann-list .ann-go:hover { color: var(--ink); }\n\n.ann-link-out { margin-top: 7px; }\n.ann-link-out input {\n  width: 100%;\n  padding: 5px 6px;\n  border: 1px solid var(--line);\n  border-radius: 5px;\n  background: var(--panel);\n  font: inherit;\n  font-size: 11px;\n  color: var(--ink);\n}\n\n/* a name the reader typed, written on the map beside its mark */\n#ann-labels .ann-label {\n  pointer-events: none;\n  text-anchor: middle;\n  paint-order: stroke;\n  stroke: #fffdf8;\n  stroke-width: 3.2px;\n  stroke-linejoin: round;\n  fill: #2b2b2b;\n  font-weight: 600;\n  font-size: 11px;\n}\n/* A mark is a handle, so it takes the pointer where nothing else here does.\n   A shape takes it on its stroke and on its fill where it has one, so that\n   pointing at an outlined area anywhere inside it still names it \u2014 `all`\n   rather than `visiblePainted`, because a fill at zero opacity is still the\n   thing the reader drew and still has a name. */\n#annotations .ann-mark { pointer-events: auto; cursor: grab; }\n#annotations .ann-shape { pointer-events: all; }\n#annotations .ann-vertex { opacity: .9; }\n#annotations .ann-bend { cursor: ew-resize; }\n/* A weightless point: nothing to see, and still something to press. Selected,\n   it is given a faint ring so that a reader editing it can find it again. */\n#annotations .ann-ghost circle { pointer-events: all; }\n#annotations .sel .ann-ghost circle,\n#annotations .ann-mark.sel .ann-ghost circle {\n  fill: rgba(0, 0, 0, .06);\n  stroke: rgba(0, 0, 0, .45);\n  stroke-width: 1;\n  stroke-dasharray: 3 3;\n}\n#annotations .ann-head { pointer-events: all; cursor: grab; }\n/* A mark stays pressable while a tool is out. It used to be made inert so that\n   drawing over one was never blocked, and the cost was that the ordinary way of\n   working \u2014 place a point, then adjust it \u2014 could not reach the point at all:\n   the tool stays armed after a placement, so the mark was unclickable exactly\n   when a reader would first want it. Placing happens on empty map, which is\n   where somebody who means to place is pointing. */\n\n@media (prefers-color-scheme: dark) {\n  #annotate .ann-style select,\n  .ann-link-out input { background: #1b232b; color: var(--ink); }\n  #ann-labels .ann-label { stroke: #10161c; fill: #dfe6ec; }\n  /* over a dark map a black halo is invisible, so it is light there */\n  #annotations .sel {\n    filter: drop-shadow(0 0 2px rgba(255, 255, 255, .85))\n            drop-shadow(0 0 8px rgba(255, 255, 255, .5));\n  }\n  #annotations .ann-mark.sel {\n    filter: drop-shadow(0 0 2px rgba(255, 255, 255, .9))\n            drop-shadow(0 0 10px rgba(255, 255, 255, .55));\n  }\n}\n\n/* The global switch, first thing in the panel: it governs every name, and a\n   thing that governs the rest belongs above the rest. */\n#annotate .ann-check {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  margin: 0 0 8px;\n  font-size: 11.5px;\n  color: var(--muted);\n  cursor: pointer;\n}\n#annotate .ann-homeset { margin: 0 0 8px; }\n#annotate .ann-homeset button {\n  width: 100%;\n  padding: 6px 9px;\n  border: 1px solid var(--line);\n  border-radius: 6px;\n  background: var(--panel);\n  font: inherit;\n  font-size: 11.5px;\n  color: var(--ink);\n  cursor: pointer;\n}\n#annotate .ann-homeset button:hover { border-color: var(--muted); }\n\n/* The way back to where a set is meant to be seen from. It joins the map's\n   own zoom stack rather than floating somewhere new, because it is the same\n   kind of thing as the reset button it sits under \u2014 and it is only there when\n   there is somewhere to go back to and the reader has moved away. */\n#ann-home {\n  appearance: none;\n  display: grid;\n  place-items: center;\n  width: 40px;\n  height: 40px;\n  padding: 0;\n  border: 1px solid var(--line);\n  border-radius: 8px;\n  background: color-mix(in srgb, var(--panel) 94%, transparent);\n  box-shadow: var(--shadow);\n  cursor: pointer;\n}\n#ann-home[hidden] { display: none; }\n#ann-home svg {\n  width: 19px;\n  height: 19px;\n  fill: none;\n  stroke: var(--accent);\n  stroke-width: 1.8;\n  stroke-linecap: round;\n  stroke-linejoin: round;\n}\n#ann-home:hover { background: var(--panel); }\n\n#annotate .ann-names-row {\n  padding-bottom: 7px;\n  border-bottom: 1px solid var(--line);\n  font-weight: 600;\n  color: var(--ink);\n}\n/* and the one mark's own answer, which sits under the name it is about */\n#annotate .ann-nolabel { margin: -3px 0 8px; }\n#annotate .ann-check input:disabled + * ,\n#annotate .ann-check:has(input:disabled) { opacity: .5; }\n\n/* Start and end on a line of their own. Side by side while there is room and\n   stacked when there is not \u2014 they were tried beside the name and there is\n   no width for three fields in a 280px rail, let alone a phone. */\n#annotate .ann-dates {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 0 8px;\n}\n\n/* Which step a slider is on, over the thumb, while it is being moved. On the\n   body rather than in the panel: the panel scrolls and clips, and a bubble\n   that disappeared under its own edge would be worse than no bubble. */\n#ann-step {\n  position: fixed;\n  z-index: 40;\n  transform: translateX(-50%);\n  padding: 2px 7px;\n  border-radius: 5px;\n  background: var(--ink);\n  color: #fffdf8;\n  font: 600 11px/1.5 system-ui, -apple-system, sans-serif;\n  font-variant-numeric: tabular-nums;\n  white-space: nowrap;\n  pointer-events: none;\n  opacity: 0;\n  transition: opacity .12s ease;\n}\n#ann-step.on { opacity: .95; }\n@media (prefers-color-scheme: dark) {\n  #ann-step { background: var(--ink); color: #12181e; }\n}\n#annotate .ann-dates .ann-field { flex: 1 1 96px; min-width: 96px; }\n\n/* The clock, on the map beside the zoom buttons.\n   Not in the panel: it is for reading a set, not for editing one, and a\n   reader who has locked the tools away still wants to watch the thing run.\n   Beside the zoom column rather than under it, because it is a row and the\n   zooms are a stack, and the corner is where a reader already looks for a\n   control that belongs to the map rather than to the page. */\n#ann-clock {\n  position: absolute;\n  top: 10px;\n  right: calc(max(10px, var(--safe-r)) + 48px);\n  z-index: 9;\n  display: flex;\n  align-items: center;\n  gap: 1px;\n  max-width: calc(100% - 120px);\n  padding: 3px 4px;\n  border: 1px solid var(--line);\n  border-radius: 8px;\n  background: color-mix(in srgb, var(--panel) 94%, transparent);\n  box-shadow: var(--shadow);\n}\n#ann-clock[hidden] { display: none; }\n#ann-clock button {\n  flex: 0 0 auto;\n  min-width: 26px;\n  height: 30px;\n  padding: 0 5px;\n  border: 0;\n  border-radius: 5px;\n  background: none;\n  font: inherit;\n  font-size: 15px;\n  line-height: 1;\n  color: var(--ink);\n  cursor: pointer;\n}\n#ann-clock button:hover:not(:disabled) { background: rgba(0, 0, 0, .08); }\n#ann-clock button:disabled { opacity: .3; cursor: default; }\n#ann-clock button[hidden] { display: none; }\n/* while it is running, the pause glyph is the thing to find */\n#ann-clock.running #ann-clock-play { color: #8c2f39; }\n#ann-clock span {\n  flex: 0 1 auto;\n  min-width: 0;\n  padding: 0 6px;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n  font-size: 11.5px;\n  font-variant-numeric: tabular-nums;\n  color: var(--muted);\n}\n\n/* A phone has no room for it beside a 44px zoom stack and the header above,\n   so it goes to the foot of the map, where the annotation sheet is not yet\n   and where a thumb is anyway. */\n@media (max-width: 700px) {\n  #ann-clock {\n    top: auto;\n    right: auto;\n    left: 50%;\n    transform: translateX(-50%);\n    bottom: calc(10px + var(--safe-b, 0px));\n    max-width: calc(100% - 20px);\n  }\n}\n\n@media (prefers-color-scheme: dark) {\n  #ann-clock button:hover:not(:disabled) { background: rgba(255, 255, 255, .12); }\n  #ann-clock.running #ann-clock-play { color: #e08b95; }\n}\n\n/* A distance written on a line: smaller and lighter than a name, because it is\n   a measurement beside the thing and not the thing's name. */\n#ann-labels .ann-dist {\n  font-size: 9.5px;\n  font-weight: 500;\n  font-variant-numeric: tabular-nums;\n  fill: #4a4a4a;\n  stroke-width: 2.6px;\n}\n@media (prefers-color-scheme: dark) {\n  #ann-labels .ann-dist { fill: #b9c4cd; }\n}\n\n/* A tool told to stay out. It is the same pressed state with a mark on it,\n   because it *is* the pressed state — the difference is only whether it steps\n   back after one shape.\n\n   The mark is a ring drawn *inside* the button, not a rim along its foot. A\n   rim under one button in a row of five reads as that button sitting lower\n   than its neighbours rather than as a state, and it pushed the label up by\n   the four pixels it took. A ring is the button's own shape, so nothing\n   moves, and it is a shade off the pressed colour so it can be seen. */\n#annotate .ann-tool.sticky {\n  box-shadow: inset 0 0 0 2.5px color-mix(in srgb, var(--accent) 78%, #fffdf8);\n}\n@media (prefers-color-scheme: dark) {\n  #annotate .ann-tool.sticky {\n    box-shadow: inset 0 0 0 2.5px color-mix(in srgb, var(--accent) 82%, #12181e);\n  }\n}\n/* the transparent disc that makes a three-pixel handle findable */\n#annotations .ann-grab { pointer-events: all; }\n\n/* A note on the map. HTML inside the drawing, because SVG has no line\n   wrapping and a note that does not wrap is not a note. */\n#annotations .ann-textbox { overflow: visible; }\n#annotations .ann-textbody {\n  box-sizing: border-box;\n  width: 100%;\n  height: 100%;\n  overflow: hidden;\n  padding: .45em .6em;\n  border: 1px solid;\n  border-radius: 3px;\n  font-family: Georgia, 'Times New Roman', serif;\n  line-height: 1.35;\n  white-space: pre-wrap;\n  overflow-wrap: break-word;\n}\n/* No heading, no room for one: a box with only a description starts at the\n   description rather than with an empty line where a title would go. */\n#annotations .ann-texthead {\n  font-weight: 700;\n  margin-bottom: .3em;\n}\n\n/* the rectangle while it is being pulled out */\n#ann-textdraft {\n  position: absolute;\n  z-index: 4;\n  pointer-events: none;\n  border: 1px dashed var(--ink);\n  background: rgba(255, 255, 255, .55);\n}\n\n/* The selection box. Dashed while it has found nothing, solid once it has —\n   so the reader can see the moment it caught something without letting go. */\n#ann-box {\n  position: absolute;\n  z-index: 4;\n  pointer-events: none;\n  border: 1px dashed var(--muted);\n  background: rgba(0, 0, 0, .05);\n}\n#ann-box.got { border-style: solid; border-color: var(--accent); }\n\n@media (min-width: 1000px) {\n  /* Leave the scrollbar its own lane. On a Mac the rail's scrollbar is an\n     overlay drawn *over* the content, so a field at `width: 100%` runs under\n     it and its right-hand border disappears \u2014 which is what \"the pane is too\n     wide to fit everything\" was. `scrollbar-gutter` reserves the space when\n     the browser supports it, and the padding covers the browsers that do not. */\n  #side { scrollbar-gutter: stable; }\n  #annotate {\n    position: relative;\n    inset: auto;\n    width: auto;\n    max-width: none;\n    max-height: none;\n    padding: 0 3px 0 0;\n    background: transparent;\n    border: 0;\n    box-shadow: none;\n  }\n}\n";
 
-    /* The colour scheme, and why this rewrites its own stylesheet.
-     *
-     * The map now has a three-way Auto/Light/Dark control at the foot of the
-     * Layers pane, and it works by writing `data-theme` on the root element.
-     * A media query cannot see an attribute, so every
-     * `@media (prefers-color-scheme: dark)` block above would have gone on
-     * following the *system* while the rest of the page followed the reader —
-     * a light annotation panel over a dark map, and a dark one over a light
-     * page, which is worse.
-     *
-     * `styles.css` answers this by writing its dark list twice under two
-     * selectors. Six blocks and thirty-odd declarations is too much to keep in
-     * step by hand, so it is done here instead, once, as the sheet goes in:
-     * each dark block's rules are scoped to `:root:not([data-theme="light"])`
-     * inside the query — the automatic case, minus a reader who asked for
-     * light — and repeated outside it under `:root[data-theme="dark"]`, which
-     * is the reader asking for dark outright.
-     *
-     * The gain over doing it by hand is that a dark block added to the CSS
-     * above later is carried through without anybody having to remember this.
-     *
-     * **`:where()`, and it matters.** A bare `:root[data-theme="dark"] #annotate`
-     * is (0,2,0) where the rule it replaces was (0,1,0), and that extra point
-     * beat rules further down this file that used to win — the panel's own
-     * background is set to none once the rail is opaque at desktop width, and
-     * with the prefix the forced-dark panel came out as a slab over it that
-     * the automatic dark never was. `:where()` contributes nothing to
-     * specificity, so each rule keeps exactly the weight it had inside the
-     * media query and source order decides as before.
-     */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     function guardRules(body, root) {
       return body.replace(/(^|\})([^{}]*)\{/g, function (whole, close, sel) {
         var parts = sel.replace(/\/\*[\s\S]*?\*\//g, '').split(',')
@@ -4131,8 +4131,8 @@
         el.addEventListener('input', styleChanged);
         el.addEventListener('change', styleChanged);
       });
-      // Smooth governs its own amount slider, so the row has to be re-read
-      // after it is pressed and not only when the selection changes
+
+
       var smoothBox = $('#ann-smooth', panel);
       if (smoothBox) smoothBox.addEventListener('change', syncControls);
       $('#ann-names', panel).addEventListener('change', redraw);
@@ -4189,12 +4189,12 @@
       }
     }
 
-    /* ------------------------------------------------------ opening up -- */
 
-    /* The edit button: a pencil on a coloured disc, in the corner of the map.
-       It is the only way back into the panel while the marks are locked, and
-       it exists only while there are marks — a reader who has never annotated
-       anything is never shown a control for annotations. */
+
+
+
+
+
     function makeEditBtn() {
       if (editBtn) return;
       editBtn = document.createElement('button');
@@ -4225,8 +4225,8 @@
         keepDraft();
         cancelDraft();
       } else if (on) {
-        // somebody who pressed the pencil asked to edit: give them the panel
-        // open, not folded down to its title
+
+
         fold(false);
       }
       showEdit();
@@ -4245,14 +4245,14 @@
       var stage = document.getElementById('stage');
       if (stage) stage.classList.add('annotating');
       if (folded) fold(true);
-      /* The legend folds to its title and the detail card is set aside. All
-         three live in one column and the panel is the tallest, so a reader who
-         opens the tools was otherwise scrolling past a colour key and a
-         country's description to reach them.
 
-         The map does it, not this file: the legend's folded class is written
-         from `state.legend` on every `applyState`, so setting the class here
-         lasted until the next hover. */
+
+
+
+
+
+
+
       if (host.makeRoom) host.makeRoom();
       redraw();
       drawList();
@@ -4262,7 +4262,7 @@
     }
 
     function close() {
-      // and the legend comes back, unless the reader has since chosen otherwise
+
       if (host.giveBack) host.giveBack();
       on = false;
       locked = false;
@@ -4280,13 +4280,13 @@
     }
 
     function fromUrl(code) {
-      /* Locked, and the panel not shown at all. Somebody followed a link to
-         look at what a classmate made; the tools are not what they came for,
-         and a set that is not theirs should not lose a point to a stray press.
-         The pencil in the corner is how they get in. */
+
+
+
+
       open(true);
       setLocked(true);
-      // whatever they had is set aside, not replaced
+
       fromLink = true;
       shadowed = restore();
       unpack(code).then(function (text) {
@@ -4298,8 +4298,8 @@
           say('These annotations came with the link. Your own '
             + shadowed.f.length + ' — still here, untouched — are one press away.');
         } else {
-          // it was opened folded on purpose: the marks are the point, the
-          // tools are there if wanted. The message says where they are.
+
+
           say('These annotations came with the link.');
         }
       }, function (err) {
@@ -4310,7 +4310,7 @@
       });
     }
 
-    /* The way back to a reader's own work after a link has taken the screen. */
+
     function showShadow() {
       var row = $('#ann-mine');
       if (!row) return;
@@ -4345,20 +4345,20 @@
       if (!was || feats.length) return;
       var when = was.t ? new Date(was.t) : null;
       var ago = when ? when.toLocaleString() : 'earlier';
-      /* Cancel throws them away, and the prompt says so before it is pressed.
-       *
-       * This has been both ways round. It used to delete them *silently*,
-       * which is how a reader who did not want them back this minute lost them
-       * for good — so it was changed to keep them and simply not ask again.
-       * That left a browser holding a set nobody had wanted for weeks, offered
-       * afresh every session, and asked for the other way on 01-09.
-       *
-       * The fault the first time was not the deleting; it was deleting without
-       * saying. So Cancel deletes and the sentence under the question says
-       * that, in those words, with the count in front of it. A reader who
-       * wants them kept has the third answer every browser dialog has: close
-       * it, or press Escape, which is neither button — but Escape resolves as
-       * Cancel here, so the only honest thing is to warn. */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       if (!window.confirm('You have ' + was.f.length + ' annotation'
           + (was.f.length === 1 ? '' : 's') + ' from ' + ago
           + ' still in this browser. Bring them back?\n\n'
@@ -4380,7 +4380,7 @@
         + (feats.length === 1 ? '' : 's') + ' from this browser.');
     }
 
-    /* Everything `map.js` is allowed to ask of this file. */
+
     return {
       open: function () { open(false); offerRestore(); },
       loadFile: loadFile,

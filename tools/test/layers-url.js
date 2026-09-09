@@ -51,12 +51,21 @@ const open=async(b,url)=>{const p=await b.newPage(); await p.setViewport({width:
   await ready(p);
   await p.evaluate(()=>document.querySelector('#btn-options').click()); await sleep(400);
   return p;};
+/* Do something, then wait for the address to change — it is rewritten 400 ms
+   after the state settles, and a fixed 1,200 ms sleep was standing in for
+   that at every site below. Returns the new address. */
+const hrefAfter=async(p,act)=>{
+  const was=await p.evaluate(()=>location.href);
+  await act();
+  try { await until(p, w=>location.href!==w, was, {timeout:3000}); } catch(e){ /* the caller's check says */ }
+  return p.evaluate(()=>location.href);
+};
 
 (async()=>{const b=await launch();
 console.log('\n— every layer setting, out and back through the URL —');
 const p=await open(b);
-for (const [name,set] of SETTINGS) { await set(p); await sleep(500); }
-await sleep(1800);
+for (const [name,set] of SETTINGS) { await set(p); await sleep(150); }
+await sleep(700);   // the last rewrite, 400 ms after the last change
 const url=await p.evaluate(()=>location.href);
 const code=(/[?&]layers=([^&#]+)/.exec(url)||[])[1];
 console.log('    layers=' + code);
@@ -98,9 +107,7 @@ console.log('\n— the railway layer travels in the address —');
      view by design — a network of dots on a thirteen-pixel Taiwan is a white
      blob, and the zoom gate below is the check for that. */
   const r = await open(b, HOST+'/index.html?bbox=119.9,21.8,122.2,25.4');
-  await r.evaluate(() => document.querySelector('#opt-tw-rail').click());
-  await sleep(1200);
-  const href = await r.evaluate(() => location.href);
+  const href = await hrefAfter(r, () => r.evaluate(() => document.querySelector('#opt-tw-rail').click()));
   const drawnHere = await r.evaluate(() =>
     getComputedStyle(document.getElementById('tw-rail')).display);
   await r.close();
@@ -245,13 +252,11 @@ for (const [flip, keep, want] of [
   /* No scrub needed any more: the map neither reads nor writes stored
      state, so every page opens on the canonical defaults. */
   const r = await open(b);
-  await r.evaluate(k => {
+  const href = await hrefAfter(r, () => r.evaluate(k => {
     if (k === 'jpNames') document.querySelector('#opt-jpnames').click();
     if (k === 'world') document.querySelector('#opt-world').click();
     if (k === 'relief') document.querySelector('#opt-relief').click();
-  }, flip);
-  await sleep(1200);
-  const href = await r.evaluate(() => location.href);
+  }, flip));
   await r.close();
   const s2 = await open(b, href);
   /* Read the controls, not localStorage: the map no longer stores its state
@@ -350,12 +355,12 @@ console.log('\n— one setting at a time, and nothing rides along with it —');
     airNames: document.querySelector('#opt-airport-names').checked,
   }));
   const trip = async (name, setup, keys) => {
-    const p = await open(b); await setup(p); await sleep(1600);
+    const p = await open(b);
+    const url = await hrefAfter(p, () => setup(p));
     const before = await read(p);
-    const url = await p.evaluate(() => location.href);
     const code = (/[?&]layers=([^&#]+)/.exec(url) || [])[1];
     await p.close();
-    const q = await open(b, url); await sleep(1400);
+    const q = await open(b, url);
     const after = await read(q); await q.close();
     check(name + ' (layers=' + code + ')',
       keys.every(k => JSON.stringify(before[k]) === JSON.stringify(after[k])),
@@ -437,9 +442,8 @@ console.log('\n— one setting at a time, and nothing rides along with it —');
      them, and each part is a number in its own right. */
   const shape = await (async () => {
     const p = await open(b);
-    await p.evaluate(() => document.getElementById('btn-air').click());
-    await sleep(1500);
-    const c = (/[?&]layers=([^&#]+)/.exec(await p.evaluate(() => location.href)) || [])[1];
+    const href = await hrefAfter(p, () => p.evaluate(() => document.getElementById('btn-air').click()));
+    const c = (/[?&]layers=([^&#]+)/.exec(href) || [])[1];
     await p.close(); return c;
   })();
   check('a code with a high field is written as two parts', /^[0-9a-z]+\.[0-9a-z]+$/.test(shape || ''), shape);

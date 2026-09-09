@@ -15,7 +15,12 @@
  * folder is arranged and what each column holds; edit there, not here.
  */
 
-const JMAP = {};
+/* One object on the window, shared with every generated table that loads
+   beside this file — relief.js, cities-gaz.js, the station lists — whatever
+   order they arrive in. This was `const JMAP = {}`, a lexical global that
+   shadowed `window.JMAP` for every later script, so a file loaded before it
+   wrote to an object nobody else could see. */
+var JMAP = window.JMAP = window.JMAP || {};
 
 /* The region the map opens on when the whole frame will not fit usefully. */
 JMAP.HOME = { lon0: 100, lat0: -4, lon1: 160, lat1: 52 };

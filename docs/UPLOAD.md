@@ -14,7 +14,12 @@ to configure.
 | --- | ---: | ---: | --- |
 | `index.html` | 12 KB | 5 KB | first |
 | `styles.css` | 57 KB | 18 KB | first |
-| `map.js` | 219 KB | 69 KB | first |
+| `lean/map.js` | 411 KB | 105 KB | first — the shipped copy of `map.js`, comments stripped |
+| `lean/annotate.js` | — | — | when **Create** or **Load annotations** is pressed |
+| `lean/admin.js` | — | — | if the author option-clicks Layers |
+| `lean/trains.js` | — | — | when the train tools are asked for |
+| `lean/air-play.js` | — | — | when the plane tools are asked for |
+| `map.js` | 844 KB | 272 KB | never fetched by a reader: the source, kept beside its lean copy |
 | `data.js` | 564 KB | 169 KB | first |
 | `cities-gaz.js` | 94 KB | 23 KB | first |
 | `japan-empire-map.svg` | 2,784 KB | 797 KB | first |
