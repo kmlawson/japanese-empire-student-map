@@ -226,6 +226,37 @@ const shutDialogs=p=>p.evaluate(()=>{
       /樺太国有鉄道/.test(shin), shin);
     check('no page errors on the timetable', ttErr.length===0, ttErr.join(' | '));
 
+    /* **Karafuto comes up further out than Taiwan's defaults, by request.**
+       Southern Sakhalin is 4.2 degrees of latitude to Taiwan's 3.6, so at the
+       inherited 5.0 the island already filled the frame before the tools
+       arrived. The threshold is 7.0 on and 8.0 off. Checked at three views:
+       comfortably inside it, comfortably outside, and at 5.5 — which is where
+       the old default would have refused and the new one must not. */
+    console.log('\n— how far out the tools come up —');
+    for (const [span, where, want] of [
+      [6.5, '139.8,44.6,146.5,51.1', true],
+      [5.5, '140.6,45.0,145.8,50.5', true],
+      [11,  '137.5,41.5,148.5,52.5', false],
+    ]) {
+      const q = await browser.newPage();
+      await q.evaluateOnNewDocument(SHIM);
+      await q.setViewport({ width: 1300, height: 950 });
+      await q.goto(BASE + '?where=' + where, { waitUntil: 'networkidle0' });
+      await sleep(3000);
+      await shutDialogs(q);
+      await setSwitch(q, '#opt-train-tools', true);
+      await sleep(4200);
+      const up = await q.evaluate(() => ({
+        bar: !!document.querySelector('#train-bar'),
+        note: (document.querySelector('.train-note') || {}).textContent || '',
+      }));
+      check('at about ' + span + '\u00b0 of latitude the tools are '
+              + (want ? 'up' : 'away'),
+        up.bar === want && (!want || /1935/.test(up.note)),
+        JSON.stringify(up));
+      await q.close();
+    }
+
   } finally { await browser.close(); }
   console.log('\n%d passed, %d failed', pass, fail);
   process.exit(fail?1:0);

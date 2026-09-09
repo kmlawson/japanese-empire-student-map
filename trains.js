@@ -274,6 +274,78 @@ window.JMAP_TRAINS = function (host) {
     return seg;
   }
 
+  /* THE TRACK AS COORDINATES, NOT AS A DRAWING.
+   *
+   * `segment` above hands back map units, because what it is for is putting a
+   * train on the screen. A reader who wants the line in QGIS wants the other
+   * thing: longitude and latitude, as the source has them, before any
+   * projection and before the thinning the drawing does. So this reads the
+   * same two places `segment` reads — the traced path between a pair of
+   * stations, or the pair of stations themselves where nothing was traced —
+   * and returns the numbers rather than the picture.
+   *
+   * `data.paths` is a flat array of lon, lat, lon, lat as the build wrote it,
+   * which is the whole reason it can be handed out unchanged. */
+  function pairCoords(a, b) {
+    var lo = Math.min(a, b), hi = Math.max(a, b);
+    var flat = data.paths[lo + '|' + hi];
+    var pts = [], i;
+    if (flat) {
+      for (i = 0; i < flat.length; i += 2) pts.push([flat[i], flat[i + 1]]);
+      return pts.length > 1 ? pts : null;
+    }
+    var A = data.stations[lo], B = data.stations[hi];
+    if (!A || !B || A.lon === undefined || B.lon === undefined) return null;
+    if (apart(A, B) > BRIDGE_KM) return null;
+    return [[A.lon, A.lat], [B.lon, B.lat]];
+  }
+
+  /* One line, as one feature. The stretches are the pairs of consecutive
+     stops the trains of this line actually ran between — `lineOwns` is what
+     decides whose a shared stretch is, the same answer the colour on screen
+     gives — so the file and the drawing agree by construction rather than by
+     being kept in step.
+     `straight` counts the stretches with no traced track under them, drawn as
+     a chord between two stations; a reader plotting this needs to know which
+     part of it is a survey and which is an assertion that two places were
+     joined. */
+  function lineFeature(li) {
+    var line = data.lines[li];
+    if (!line) return null;
+    var parts = [], straight = 0;
+    Object.keys(lineOwns).forEach(function (k) {
+      if (lineOwns[k] !== li) return;
+      var c = pairCoords.apply(null, k.split('|').map(Number));
+      if (!c) return;
+      if (!data.paths[k]) straight++;
+      parts.push(c);
+    });
+    if (!parts.length) return null;
+    return {
+      type: 'Feature',
+      geometry: { type: 'MultiLineString', coordinates: parts },
+      properties: {
+        line: lineName(li, false),
+        line_chars: line.n || null,
+        line_en: line.en || null,
+        line_ja: line.ja || null,
+        system: cfg ? cfg.sys : null,
+        timetable: (cfg && cfg.note) || null,
+        source: (cfg && cfg.src) || null,
+        source_url: (cfg && cfg.srcHref) || null,
+        stretches: parts.length,
+        straight: straight,
+        approximate: !!line.x,
+        note: GEO_NOTE,
+      },
+    };
+  }
+
+  var GEO_NOTE = 'Longitude and latitude, unprojected. The track between two '
+    + 'consecutive stops is traced along the line file where the source has '
+    + 'it and drawn straight where it does not; the `straight` count says how '
+    + 'many of this line\u2019s stretches are the second kind.';
+
   /* Kilometres between two stations as the crow flies. Not in map units: this
      is a question about the ground, and a map unit is worth a different number
      of kilometres at every latitude on a Mercator sheet. */
@@ -564,6 +636,16 @@ window.JMAP_TRAINS = function (host) {
     showPick();
     applyPick();
     flashPick();
+    /* **And the card that names what was just lit.** Pressing the track on the
+       map has always opened the line's card; pressing its name in the strip
+       lit the line and said nothing, so the two halves of the same act
+       answered differently. Reported. Only on the way *on* — letting a line go
+       is not a request to read about it, and closing the card there would take
+       away whatever the reader had opened next. */
+    if (pickLi >= 0 && host.showCard) {
+      var card = lineCard(pickLi);
+      if (card) host.showCard(card);
+    }
   }
 
   function isConnTrain(t) {
@@ -933,6 +1015,9 @@ window.JMAP_TRAINS = function (host) {
       return placeName(data.stations[ix]) + ' (' + (calls[ix] || 0) + ')';
     });
     return {
+      /* So the card can offer this line's own geometry; see
+         `renderTrainBlock` in map.js. */
+      geoLi: li,
       chip: 'Railway line', colour: inks[li] || '#555',
       primary: lineName(li, false),
       alt: line.n,
@@ -1321,6 +1406,19 @@ window.JMAP_TRAINS = function (host) {
     linesAt: linesAt,
     trainCard: trainCard,
     lineCard: lineCard,
+
+    /* The geometry, for taking away. One line, or every line this system
+       draws — the second is what the reader gets from a right click when the
+       tools are not up and there is no one line under the pointer. */
+    lineFeature: lineFeature,
+    systemFeatures: function () {
+      var out = [];
+      (data.lines || []).forEach(function (l, i) {
+        var f = lineFeature(i);
+        if (f) out.push(f);
+      });
+      return out;
+    },
 
     /* The reader turned Japanese names on or off. Every name this module puts
        on the screen follows that switch, so the strip's line chips are

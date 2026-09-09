@@ -13,8 +13,8 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '335';
-  var JEM_ASSETS = {"admin.js": "3414697d04", "air-play.js": "14f9f02e79", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "0f736bbd33", "kf-trains.js": "3031627e46", "kr-trains.js": "74889615bd", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/karafuto-1935.html": "9cb3d8962f", "timetable/korea-1938.html": "91837c326f", "timetable/taiwan-1936.html": "23eaf5f955", "trains.js": "c0629828d0", "tw-trains.js": "7cd1c3f42d"};
+  var JEM_VERSION = '336';
+  var JEM_ASSETS = {"admin.js": "3414697d04", "air-play.js": "14f9f02e79", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "0f736bbd33", "kf-trains.js": "3031627e46", "kr-trains.js": "74889615bd", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/karafuto-1935.html": "9cb3d8962f", "timetable/korea-1938.html": "91837c326f", "timetable/taiwan-1936.html": "23eaf5f955", "trains.js": "a62e6d9439", "tw-trains.js": "7cd1c3f42d"};
 
   /* Every file this one fetches, with the version on it.
 
@@ -2448,8 +2448,17 @@
       srcHref: 'https://archive.org/details/karafuto-kokuyu-tetsudo-ressha-jikokuhyo',
       box: [141.5, 45.9, 145.0, 50.1],
       atom: 'karafuto',
-      /* Four degrees tall, close to Taiwan's, so the defaults are right: the
-         island is the subject of the view before the tools come up. */
+      /* **Karafuto comes up further out than the default, by request.** The
+         defaults are Taiwan's — 5.0 on and 5.8 off — and southern Sakhalin is
+         4.2 degrees of latitude against Taiwan's 3.6, so at five it already
+         fills the frame and the tools arrived later than the island became
+         the subject. At seven the whole of it sits in the view with the
+         Sōya strait and the Hokkaidō coast still showing, which is the
+         picture a reader means by *Karafuto*. The gap to the off threshold is
+         kept, for the reason the defaults have one: a pinch that hovers on a
+         single line builds and destroys the layer several times a second. */
+      latOn: 7.0,
+      latOff: 8.0,
     },
   };
 
@@ -2633,8 +2642,13 @@
         if (box) box.checked = false;
       });
       borrowStations(cfg);
+      /* `src` and `srcHref` go with it so an exported line can carry its own
+         citation. They were not passed before because nothing downstream
+         wanted them — the strip prints the note and links the page — and the
+         GeoJSON came out with a null source until they were. */
       trainApi.mount({ sys: cfg.sys, data: JMAP[cfg.data], page: cfg.page,
-                       note: cfg.note, ground: cfg.atom });
+                       note: cfg.note, ground: cfg.atom,
+                       src: cfg.src || '', srcHref: cfg.srcHref || '' });
       /* So the stylesheet can make room for the strip without asking the
          module how tall it is: the detail card is lifted above it rather than
          being drawn under it at the widths where the panels float over the
@@ -2743,6 +2757,10 @@
          thrown between two frames cannot leave half the strip in one language
          and half in the other. */
       jpNames: function () { return !!state.jpNames; },
+      /* So the strip can raise a card, which until now only the map could do.
+         The block is the same shape `lineCard` hands back for a press on the
+         track, and it goes through the same renderer. */
+      showCard: function (block) { if (block) showTrainCard(block); },
       /* The map keeps its names out from under the floating panels. The bar is
          one, and without saying so every name along the coast it covers would
          be lettered underneath it. */
@@ -8877,6 +8895,38 @@
       }
       host.appendChild(a);
     });
+    /* **And the line itself, as coordinates.** A line card is where a reader
+       has just asked *what is this*, and it is the one place that knows which
+       line they mean — the right click below can offer the network, but only
+       this knows the answer is the Kawakami Line and not the other six. The
+       same rule as every table on this map: what somebody can read, they can
+       take away, with its source on it. */
+    if (block.geoLi !== undefined && block.geoLi !== null
+        && trainApi && trainApi.mounted() && trainApi.lineFeature) {
+      var geo = trainApi.lineFeature(block.geoLi);
+      if (geo) {
+        /* The same row and the same button every table on this map offers
+           its CSV in, so a download looks like a download wherever it is. */
+        var grow = document.createElement('p');
+        grow.className = 'pop-actions';
+        var gname = railFileName(geo);
+        var gb = document.createElement('button');
+        gb.type = 'button';
+        gb.className = 'plain pop-csv';
+        gb.textContent = 'Download GeoJSON';
+        gb.title = 'The track of this line in longitude and latitude, '
+          + 'unprojected, for QGIS or anything else';
+        gb.addEventListener('click', function () {
+          var ok = saveRailGeoJSON([geo], gname);
+          gb.textContent = ok ? 'Downloaded' : 'Could not save';
+          window.setTimeout(function () {
+            gb.textContent = 'Download GeoJSON';
+          }, 1400);
+        });
+        grow.appendChild(gb);
+        host.appendChild(grow);
+      }
+    }
     /* **Where these times came from, in a phrase.** Every one of these cards —
        a line's, a station's, a train's — is figures counted from one printed
        book, and a reader who has followed a train across the map should not
@@ -11656,6 +11706,81 @@
                         slug(name) + '.geojson', 'application/geo+json');
   }
 
+  /* THE RAILWAYS, FOR TAKING AWAY.
+   *
+   * The polygons above are read back out of the drawing and unprojected; the
+   * railways are not, because they do not have to be. `trains.js` holds the
+   * track as the build wrote it — longitude and latitude, one array per
+   * stretch between consecutive stops — so what leaves here is the source
+   * rather than a reading of the screen, and it carries no thinning and no
+   * projection to undo. That is the better file, and it is also the simpler
+   * code: nothing to invert.
+   *
+   * It is offered in two sizes because a reader wants one of two things: this
+   * line, or this network. Both go through here. */
+  function saveRailGeoJSON(feats, name) {
+    if (!feats || !feats.length) return false;
+    return downloadText(JSON.stringify({ type: 'FeatureCollection',
+                                         features: feats }, null, 1),
+                        slug(name) + '.geojson', 'application/geo+json');
+  }
+
+  /* The plain layer, read out of the drawing. Only reached with the train
+     tools down, when there is no source geometry in memory to hand out
+     instead — the tools are what load it. Each path becomes one LineString,
+     and the note says plainly that this one carries the drawing's thinning,
+     unlike the file the tools give. */
+  function saveDrawnRail(sys) {
+    var g = document.getElementById(sys + '-rail');
+    if (!g) return false;
+    var feats = [];
+    $$('path', g).forEach(function (el) {
+      var lines = ringsToLonLat(pathToRings(el.getAttribute('d')));
+      lines.forEach(function (c) {
+        if (c.length > 1) {
+          feats.push({ type: 'Feature',
+                       geometry: { type: 'LineString', coordinates: c },
+                       properties: { system: sys,
+                                     railway: RAIL_LABEL[sys] || sys,
+                                     epoch: el.getAttribute('data-epoch') || state.epoch,
+                                     note: RAIL_DRAWN_NOTE } });
+        }
+      });
+    });
+    return saveRailGeoJSON(feats, (RAIL_LABEL[sys] || sys) + '-railways');
+  }
+
+  var RAIL_DRAWN_NOTE = 'Read from the drawn network and unprojected, so it '
+    + 'carries the thinning the map draws at, and it has no line names: the '
+    + 'plain layer is one shape. Open the train tools over this ground and the '
+    + 'same menu offers the lines separately, from the source coordinates.';
+
+  /* What to call a line's file. The system in front so a folder of these
+     sorts by network, and no "-line" tacked on: most of these names already
+     end in one, and `kawakami-line-line.geojson` is what that produced. */
+  function railFileName(f) {
+    var pr = (f && f.properties) || {};
+    var where = RAIL_LABEL[pr.system] || pr.system || 'railway';
+    return where + ' ' + (pr.line || 'line');
+  }
+
+  /* Which system's railway is under this element, if any. The plain layer is
+     three groups with a path each, and it answers the pointer whether or not
+     the train tools are up — which is the point: a reader who has never opened
+     the tools should still be able to take the track away. */
+  function railSysOf(target) {
+    if (!target || !target.closest) return '';
+    var g = target.closest('#tw-rail, #kr-rail, #kf-rail');
+    if (!g) return '';
+    return String(g.id || '').replace(/-rail$/, '');
+  }
+
+  /* What to call the file and the menu row. The registry already names each
+     system for the button beside the map; this is the same name in the
+     possessive, and it is the one place that has to change when a fourth
+     system arrives. */
+  var RAIL_LABEL = { tw: 'Taiwan', kr: 'Korea', kf: 'Karafuto' };
+
   /* Where a shape came from, in a line rather than a paragraph. The registry
      is coarse on purpose — provenance here is per dataset, not per province —
      so an atom picks up every source that names it, and everything unnamed
@@ -11756,7 +11881,25 @@
     var el = target && target.closest ? target.closest('#land [data-prov]') : null;
     var atomKey = atomKeyOf(target);
     var atomEl = atomKey ? document.getElementById('a-' + atomKey) : null;
-    if (!el && !atomKey) return false;
+    /* THE RAILWAY UNDER THE POINTER, IF THERE IS ONE.
+     *
+     * Two ways to be over a railway and they need different questions asked.
+     * With the tools up the coloured track is `pointer-events: none` — a dot
+     * on it would answer instead of the province beneath — so the line is
+     * found the way a tap finds it, by distance from the drawn geometry, and
+     * the answer is *which* line. With the tools down the plain layer is an
+     * ordinary path and answers for itself, but it is the whole network in
+     * one shape and knows no line names, so the answer is the system.
+     *
+     * Both are offered where both apply, narrowest first, which is the rule
+     * the shapes below already follow. */
+    var railLine = null, railSys = railSysOf(target);
+    if (trainApi && trainApi.mounted() && trainApi.hitAt && trainApi.lineFeature) {
+      var rh = trainApi.hitAt(x, y);
+      if (rh && rh.kind === 'line') railLine = trainApi.lineFeature(rh.index);
+      if (railLine) railSys = railSys || trainApi.system();
+    }
+    if (!el && !atomKey && !railLine && !railSys) return false;
     var name = el ? (el.getAttribute('data-prov') || '') : '';
     var group = el ? el.getAttribute('data-group') : '';
 
@@ -11769,6 +11912,33 @@
     head.textContent = name || atomName(atomKey) || atomKey || 'This shape';
     menuEl.appendChild(head);
 
+    /* The railway first where there is one under the pointer: the reader who
+       right-clicked a line meant the line, not the province it crosses. */
+    if (railLine) {
+      menuEl.appendChild(menuItem('Download GeoJSON \u2014 '
+        + (railLine.properties.line || 'this line'),
+        function () { saveRailGeoJSON([railLine], railFileName(railLine)); }));
+    }
+    if (railSys && trainApi && trainApi.mounted()
+        && trainApi.system() === railSys && trainApi.systemFeatures) {
+      var whole = trainApi.systemFeatures();
+      if (whole.length > (railLine ? 1 : 0)) {
+        menuEl.appendChild(menuItem('Download GeoJSON \u2014 all of '
+          + (RAIL_LABEL[railSys] || railSys) + '\u2019s railways ('
+          + whole.length + ' lines)',
+          function () {
+            saveRailGeoJSON(whole, (RAIL_LABEL[railSys] || railSys) + '-railways');
+          }));
+      }
+    } else if (railSys) {
+      /* The tools are not up, so there are no line names to offer and no
+         timetable to name them from — but the drawn network is right there
+         and is the thing the reader pointed at. Read back out of the drawing
+         and unprojected, the way the polygons are. */
+      menuEl.appendChild(menuItem('Download GeoJSON \u2014 '
+        + (RAIL_LABEL[railSys] || railSys) + '\u2019s railways',
+        function () { saveDrawnRail(railSys); }));
+    }
     /* Unit, then group, then layer — narrowest first, because the reader
        right-clicked one shape and the wider offers are the afterthought. A
        group is only offered where there is one: an island belongs to an

@@ -19401,3 +19401,78 @@ passing** — 33 of them the new `kftrains`.
 
 The update number went to 334 on both sides independently, so this release is
 335 rather than 336; nothing a reader has seen goes backwards.
+
+## The sources page comes apart, and the railways can be taken away
+
+**1. Twelve sources were sharing one paragraph.** Reported with a picture: the
+Korean timetable ran straight into the air routes, and those ran into the Dutch
+networks, CNAC, Air Orient, Imperial Airways, Air France, Indian National
+Airways, PATCO, Siam, Manchuria Aviation and China Airways — 7,419 characters
+without a break. A sources page that cannot be scanned is a sources page nobody
+checks a citation in.
+
+Split into one paragraph per source, and **not** by splitting on every bold
+run, which would have been the quick way and the wrong one: several of those
+are emphasis inside a sentence — *By December 1942 neither network was
+running* — and would have been cut into headings for sources that do not
+exist. The boundaries were read. 17 paragraphs became 28 and the longest is
+1,442 characters. The Korean and Karafuto entries were also glued to each
+other, that one a missing blank line.
+
+**2. The Karafuto railway source, in the author's own account.** Replaces what
+the branch had written, which said the lines were traced from the 1935 network
+and the station positions taken from Japanese Wikipedia and OpenStreetMap. The
+real provenance is longer and is now on the page: first traced from 最新樺太地圖,
+which was not detailed enough; corrected against remnant track on satellite;
+still ambiguous between 手井 and 豊原, so corrected again from 時刻表倉庫's
+樺太路線図 with the 1947 U.S. Army sheet beside it; the timetable OCRed and
+reassembled by machine and the station names then proofread against that 1947
+sheet. All four links were fetched and returned 200 before they went in.
+
+One sentence elsewhere had to change with it. The timetable paragraph said the
+pages "have not been checked by a human", which is no longer true of the names
+and is still true of the times; it now says which is which rather than
+contradicting the paragraph above it.
+
+**3. The railways, downloadable.** Two offers, deliberately different files:
+
+* **A line at a time, from the source.** `trains.js` holds the track as the
+  build wrote it — longitude and latitude, one array per stretch between
+  consecutive stops — so `lineFeature` hands that out unchanged. No projection
+  to undo and no thinning to carry. The feature names the line in both scripts,
+  the system, the timetable and its citation, and counts the stretches that are
+  **drawn straight** rather than traced, which is the difference between a
+  survey and an assertion that two places were joined. Offered on the line's
+  card and on a right click over the track.
+* **The whole network, with the tools down.** There is no line to name then and
+  no source geometry in memory — the tools are what load it — so the drawn
+  layer is read back and unprojected, the way the polygons already are, and its
+  note says plainly that it carries the drawing's thinning and has no line
+  names. This is the half that answers *with or without train tools on*.
+
+Measured: `karafuto-kawakami-line.geojson`, a MultiLineString of 5 parts
+starting at 142.7262, 47.0533, with 川上線 in `line_chars` and
+樺太國有鐵道列車時刻表 (1935) as the source. With the tools off, Taiwan, Korea and
+Karafuto each write their network — 484, 1,804 and 24 LineStrings — beginning
+at Keelung, at Seoul and on the west coast of Sakhalin.
+
+Two things the first run got wrong and the measurement caught: the file was
+called `kawakami-line-line.geojson`, most of these names ending in *Line*
+already; and `source` came out null, because `mount` had never been passed the
+citation the registry holds.
+
+**4. Karafuto's tools come up further out.** The defaults are Taiwan's — 5.0 on,
+5.8 off — and southern Sakhalin is 4.2 degrees of latitude to Taiwan's 3.6, so
+the island filled the frame before the tools arrived. 7.0 and 8.0 now. The
+check that proves it is the one at 5.5 degrees, which the old threshold would
+have refused.
+
+**5. A line chip opens its card.** Pressing the track on the map has always
+opened the line's card; pressing the line's *name* in the strip lit the line
+and said nothing, so the two halves of one act answered differently. Reported.
+`setPick` now raises the card through a new `showCard` on the host — only on
+the way on, because letting a line go is not a request to read about it and
+closing the card there would take away whatever the reader opened next.
+
+`trains.js` gains 11 checks and `kftrains.js` 3. Whole suite 2112 checks across
+61 scripts, 540s, all passing.

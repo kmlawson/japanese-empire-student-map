@@ -23,6 +23,8 @@ const puppeteer=(function(){const t=[];if(process.env.PUPPETEER_PATH)t.push(proc
   console.error('trains test: puppeteer not found.');process.exit(1);})();
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 const { ready } = require('./settle.js');
+const { sandboxDownloads } = require('./downloads.js');
+const fs = require('fs');
 let pass=0,fail=0; const check=(n,c,d)=>{ if(c){pass++;console.log('  ok   '+n);} else {fail++;console.log('  FAIL '+n+(d?' — '+d:''));} };
 const SHIM=()=>{const o=window.matchMedia;window.matchMedia=q=>(/hover:\s*hover|pointer:\s*fine/.test(q)?{matches:true,media:q,addListener(){},removeListener(){},addEventListener(){},removeEventListener(){}}:o.call(window,q));};
 
@@ -888,6 +890,152 @@ const shutDialogs=p=>p.evaluate(()=>{
       check('with nothing thrown ('+how+')', es.length===0, es.slice(0,2).join(' | '));
       await pg.close();
     }
+    /* ---- 13. the track, for taking away ----------------------------- */
+    /* **What a reader can see, a reader can take.** The rule this map already
+       keeps for every table it draws, applied to the lines. Two offers, and
+       they are deliberately different files:
+
+       * with the tools up, one line at a time, straight from the coordinates
+         `trains.js` holds — unprojected, unthinned, with the timetable and its
+         citation in the properties;
+       * with the tools down there is no line to name and no source geometry in
+         memory, so the offer is the drawn network read back and unprojected,
+         and its note says so.
+
+       The second matters because a reader who never opens the tools should
+       still be able to take the railway away, which is what the author asked
+       for: *with or without train tools on*. */
+    const dl = await sandboxDownloads(browser);
+    const nSaved = () => fs.readdirSync(dl.dir).length;
+
+    console.log('\n— the railway, as coordinates —');
+    {
+      const q = await browser.newPage();
+      await q.evaluateOnNewDocument(SHIM);
+      await q.setViewport({ width: 1300, height: 950 });
+      await q.goto(TAIWAN, { waitUntil: 'networkidle0' });
+      await sleep(3200);
+      await shutDialogs(q);
+      await setSwitch(q, true);
+      await sleep(2600);
+
+      /* Pressing a line's name in the strip lights the line *and* opens its
+         card. It used to do only the first, so the two halves of one act —
+         pressing the track, pressing its name — answered differently. */
+      const chip = await q.evaluate(() => {
+        const c = document.querySelectorAll('.train-chip');
+        if (!c.length) return null;
+        c[0].click();
+        return c[0].textContent.trim();
+      });
+      await sleep(900);
+      const card = await q.evaluate(() => ({
+        chip: (document.querySelector('.chip') || {}).textContent || '',
+        name: (document.querySelector('#info .primary') || {}).textContent || '',
+        table: !!document.querySelector('#info-trains .trains-table'),
+        dl: [...document.querySelectorAll('#info-trains button')]
+              .filter(b => /GeoJSON/.test(b.textContent)).length,
+      }));
+      check('pressing a line in the strip opens its card',
+        !!chip && /line/i.test(card.chip) && !!card.name,
+        JSON.stringify({ chip, card }));
+      check('  and the card offers the line as GeoJSON', card.dl === 1,
+        String(card.dl));
+
+      const n0 = nSaved();
+      await q.evaluate(() => {
+        const b = [...document.querySelectorAll('#info-trains button')]
+          .find(x => /GeoJSON/.test(x.textContent));
+        if (b) b.click();
+      });
+      await sleep(1600);
+      const made = fs.readdirSync(dl.dir).filter(f => /\.geojson$/.test(f));
+      check('  and pressing it writes a file', made.length > 0 && nSaved() > n0,
+        JSON.stringify(fs.readdirSync(dl.dir)));
+      if (made.length) {
+        const j = JSON.parse(fs.readFileSync(dl.dir + '/' + made[0], 'utf8'));
+        const f0 = j.features[0];
+        check('  a FeatureCollection of one line',
+          j.type === 'FeatureCollection' && j.features.length === 1
+            && f0.geometry.type === 'MultiLineString',
+          j.type + ' / ' + j.features.length + ' / ' + f0.geometry.type);
+        /* Longitude and latitude, not map units and not screen pixels — the
+           whole point of taking it from the data rather than the drawing.
+           Taiwan is 119–123E, 21–26N and nothing else is. */
+        const pt = f0.geometry.coordinates[0][0];
+        check('  in longitude and latitude, over Taiwan',
+          pt[0] > 119 && pt[0] < 123 && pt[1] > 21 && pt[1] < 26,
+          JSON.stringify(pt));
+        check('  carrying the line, the timetable and the citation',
+          !!f0.properties.line && !!f0.properties.timetable
+            && !!f0.properties.source && f0.properties.system === 'tw',
+          JSON.stringify(f0.properties).slice(0, 160));
+        /* How much of it is traced and how much is a chord between two
+           stations: a reader plotting this has to be able to tell a survey
+           from an assertion that two places were joined. */
+        check('  and saying how many stretches are drawn straight',
+          typeof f0.properties.straight === 'number'
+            && f0.properties.stretches > 0,
+          f0.properties.straight + ' of ' + f0.properties.stretches);
+      }
+      await q.close();
+    }
+
+    console.log('\n— and with the train tools switched off —');
+    {
+      const q = await browser.newPage();
+      await q.evaluateOnNewDocument(SHIM);
+      await q.setViewport({ width: 1300, height: 950 });
+      await q.goto(TAIWAN, { waitUntil: 'networkidle0' });
+      await sleep(3200);
+      await shutDialogs(q);
+      await q.evaluate(() => {
+        const r = document.querySelector('#opt-tw-rail');
+        if (r && !r.checked) { r.checked = true; r.dispatchEvent(new Event('change', { bubbles: true })); }
+      });
+      await sleep(3200);
+      const rows = await q.evaluate(() => {
+        const g = document.getElementById('tw-rail');
+        const path = g && g.querySelector('path');
+        if (!path) return { err: 'no rail drawn' };
+        const r = path.getBoundingClientRect();
+        path.dispatchEvent(new MouseEvent('contextmenu', { bubbles: true,
+          clientX: Math.round(r.x + r.width / 2),
+          clientY: Math.round(r.y + r.height / 2) }));
+        const m = document.querySelector('#jmap-menu');
+        return { tools: !!document.querySelector('#train-bar'),
+                 rows: m ? [...m.querySelectorAll('button')].map(b => b.textContent) : [] };
+      });
+      check('a right click on the plain railway offers it',
+        !rows.err && rows.tools === false
+          && rows.rows.some(t => /GeoJSON/.test(t) && /Taiwan/.test(t)),
+        JSON.stringify(rows));
+      const n1 = nSaved();
+      await q.evaluate(() => {
+        const m = document.querySelector('#jmap-menu');
+        const b = m && [...m.querySelectorAll('button')].find(x => /GeoJSON/.test(x.textContent));
+        if (b) b.click();
+      });
+      await sleep(1600);
+      const net = fs.readdirSync(dl.dir).filter(f => /railways\.geojson$/.test(f));
+      check('  and it writes the network', net.length > 0 && nSaved() > n1,
+        JSON.stringify(fs.readdirSync(dl.dir)));
+      if (net.length) {
+        const j = JSON.parse(fs.readFileSync(dl.dir + '/' + net[0], 'utf8'));
+        const pt = j.features[0].geometry.coordinates[0];
+        check('  as lines in longitude and latitude, over Taiwan',
+          j.features[0].geometry.type === 'LineString'
+            && pt[0] > 119 && pt[0] < 123 && pt[1] > 21 && pt[1] < 26,
+          j.features.length + ' features, first ' + JSON.stringify(pt));
+        /* And it says what it is, because it is the lesser of the two files:
+           read off the drawing, so it carries the thinning and has no names. */
+        check('  and admits it is read off the drawing',
+          /thinning/.test(j.features[0].properties.note || ''),
+          (j.features[0].properties.note || '').slice(0, 60));
+      }
+      await q.close();
+    }
+    dl.clean();
   } finally { await browser.close(); }
   console.log('\n'+pass+' passed, '+fail+' failed');
   process.exit(fail?1:0);
