@@ -377,6 +377,130 @@ const admin=async p=>{ await p.evaluate(()=>{
     && /never under Japanese control/.test(JSON.stringify(got['opt-mengjiang-claim'].props)),
     JSON.stringify(got['opt-mengjiang'].props).slice(0,140));
 
+  /* ===================== the gazetteer =============================
+   *
+   * A right click on a dot. Two things are being guarded: that the dot answers
+   * at all — before this it fell through to the province underneath, so a
+   * reader who pressed Shanghai was offered Jiangsu — and that the file which
+   * comes out carries what a gazetteer is *for*. A point layer with one glued
+   * display string in it can be sorted by nothing and joined to nothing, so
+   * the names are checked apart from each other and the size is checked as a
+   * word as well as a number.
+   *
+   * The curated markers are tested beside the plain dots because fifty-odd
+   * places have both, the marker is drawn on top, and it is the marker the
+   * pointer meets. Those answered from a different record and had to be sent
+   * back to the gazetteer for the size. */
+  console.log('\n— a city dot, and the gazetteer behind it —');
+  /* A page of its own. The section above loads every layer the pane offers
+     into this one, and asking that page to switch the gazetteer on and redraw
+     four hundred dots is enough work to outrun the protocol timeout — which
+     reads as a hang in a test that is measuring neither. */
+  const town=await browser.newPage();
+  await town.setViewport({width:1280,height:900});
+  await town.evaluateOnNewDocument(SHIM);
+  town.on('pageerror',e=>errs.push(String(e)));
+  await town.goto(URL+'?layers=2',{waitUntil:'domcontentloaded'});
+  await ready(town);
+  await sleep(900);
+
+  /* Pressed on the element rather than at a coordinate: at the opening view
+     the big dots sit within a few pixels of each other and a press aimed at
+     one lands on its neighbour, which measures nothing about either. */
+  const cityMenu=(p,sel)=>p.evaluate(s=>{
+    document.getElementById('jmap-menu')?.remove();
+    const el=document.querySelector(s);
+    if(!el) return {opened:false, why:'no such element: '+s};
+    const hit=el.querySelector('.hit')||el;
+    const r=el.getBoundingClientRect();
+    hit.dispatchEvent(new MouseEvent('contextmenu',{bubbles:true,cancelable:true,
+      clientX:Math.round(r.x+r.width/2), clientY:Math.round(r.y+r.height/2)}));
+    const m=document.getElementById('jmap-menu');
+    if(!m) return {opened:false, why:'no menu'};
+    return {opened:true, head:m.querySelector('.menu-head').textContent,
+            items:[...m.querySelectorAll('button')].map(b=>b.textContent)};
+  }, sel);
+
+  const dot=await cityMenu(town,'#gaz g.gaz[data-id="g_e1930_shanghai"]');
+  check('a plain gazetteer dot opens the menu', dot.opened, dot.why||'');
+  check('headed with the place, not the province under it',
+        /Shàng|Shang/.test(dot.head||''), dot.head);
+  check('it offers that one place',
+        (dot.items||[]).some(t=>/^Download GeoJSON — Shàng|^Download GeoJSON — Shang/.test(t)),
+        (dot.items||[]).join(' | '));
+  check('and every city on the date',
+        (dot.items||[]).some(t=>/^Download GeoJSON — all cities and towns, 1930 \(\d+\)/.test(t)),
+        (dot.items||[]).join(' | '));
+
+  /* Tokyo carries a curated marker over its dot, so the record that answers is
+     the site's and not the gazetteer's. */
+  const site=await cityMenu(town,'g.site[data-cat="city"][data-id="tokyo"]');
+  check('a curated city marker opens it too', site.opened, site.why||'');
+  check('and offers the same two things',
+        (site.items||[]).filter(t=>/^Download GeoJSON/.test(t)).length>=2,
+        (site.items||[]).join(' | '));
+
+  console.log('\n— and the file is a point layer worth joining to —');
+  const cities=await town.evaluate(()=>{
+    let caught=null;
+    const realBlob=window.Blob, realURL=URL.createObjectURL;
+    window.Blob=function(parts,opts){ caught=String(parts[0]);
+                                      return new realBlob(parts,opts); };
+    URL.createObjectURL=function(){ return 'blob:stub'; };
+    const b=[...document.querySelectorAll('#jmap-menu button')]
+      .filter(x=>/all cities and towns/.test(x.textContent))[0];
+    if(b) b.click();
+    window.Blob=realBlob; URL.createObjectURL=realURL;
+    if(!caught) return {ok:false};
+    let j=null; try{ j=JSON.parse(caught); }catch(e){ return {ok:false, parse:String(e)}; }
+    const P=j.features.map(f=>f.properties);
+    const sh=P.filter(p=>p.id==='shanghai')[0]||{};
+    return {ok:true, type:j.type, n:j.features.length, layer:j.layer,
+            gtype:(j.features[0]||{}).geometry.type,
+            epochs:[...new Set(P.map(p=>p.epoch))],
+            sizes:[...new Set(P.map(p=>p.size))].sort(),
+            tiersAgree:P.every(p=>['small','medium','large','largest'][p.size_tier]===p.size),
+            named:P.filter(p=>p.name_en).length,
+            ja:P.filter(p=>p.name_ja).length,
+            caps:P.filter(p=>p.capital).length,
+            capsNamed:P.filter(p=>p.capital&&p.capital_of).length,
+            coords:(j.features[0]||{}).geometry.coordinates,
+            shanghai:sh};
+  });
+  check('the download parses as GeoJSON', cities.ok && cities.type==='FeatureCollection',
+        cities.parse||JSON.stringify(cities).slice(0,120));
+  check('of points', cities.gtype==='Point', cities.gtype);
+  /* Not "some cities": the whole date. A file whose extent nobody can state
+     afterwards is a file nobody can cite. */
+  check('every place on the date, not the ones the zoom left on screen',
+        cities.n>400, cities.n+' features');
+  check('and only that date', (cities.epochs||[]).length===1, (cities.epochs||[]).join(' | '));
+  check('the layer says what it is and where it came from',
+        !!(cities.layer && cities.layer.title && cities.layer.source && cities.layer.note),
+        JSON.stringify(cities.layer||{}).slice(0,120));
+  /* The size as a word — the thing the whole request was about — and the
+     number beside it, agreeing. A tier that reads 2 and says `medium` would
+     pass any check of either half alone. */
+  check('the size is a word, at four tiers',
+        (cities.sizes||[]).join(',')==='large,largest,medium,small',
+        (cities.sizes||[]).join(','));
+  check('and the number beside it agrees, on every row', cities.tiersAgree===true,
+        'tier and word disagree somewhere');
+  check('every place carries a romanised name', cities.named===cities.n,
+        cities.named+' of '+cities.n);
+  /* Separate columns, not one display string: this is the rule the tables
+     follow and the reason the export exists. */
+  check('the names are separate fields, not one glued string',
+        cities.ja>100 && 'name_local' in cities.shanghai && 'characters' in cities.shanghai,
+        cities.ja+' with Japanese; keys '+Object.keys(cities.shanghai).join(','));
+  check('a capital says what it is the capital of',
+        cities.caps>0 && cities.capsNamed>0,
+        cities.caps+' capitals, '+cities.capsNamed+' naming their unit');
+  check('the coordinates are the source pair, not a reading of the screen',
+        Math.abs(cities.shanghai.size_tier)>=0
+        && Math.abs(cities.coords[0])<=180 && Math.abs(cities.coords[1])<=90,
+        JSON.stringify(cities.coords));
+
   check('no page errors', errs.concat(perrs).length===0, errs.concat(perrs).join(' | '));
   await browser.close();
   process.exit(report());

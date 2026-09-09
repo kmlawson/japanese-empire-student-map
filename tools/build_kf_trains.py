@@ -58,6 +58,57 @@ LINE_JA = {
 }
 
 
+
+# The scan the transcription was made from. The header has always linked it;
+# each table's page reference links it too, so a reader who has scrolled to one
+# table among fourteen can open the sheet it came from without going back up.
+ARCHIVE = 'https://archive.org/details/karafuto-kokuyu-tetsudo-ressha-jikokuhyo'
+
+# The reading under each station name, and the switch that hides it. The page
+# the transcription project builds prints the characters alone, which is right
+# for the sheet and no help to a reader who cannot pronounce 内幌; the Taiwan
+# and Korea pages both carry a reading and a `讀み` box in the header, and this
+# is the same thing for Karafuto. Kana in Japanese, romaji in English -- the
+# Russian name of the place is on the map's own card and is not a reading of
+# what the sheet prints.
+RD_CSS = """
+#langbar label{color:#e8c988;display:flex;gap:4px;align-items:center;cursor:pointer}
+.rd{display:block;font-size:10px;line-height:1.25;color:#7a6a52;font-weight:400;
+white-space:nowrap}
+body.no-rd .rd{display:none}
+"""
+
+RD_BOX = ('<label><input type="checkbox" id="rd-on" checked>'
+          '<span data-i18n="readings">\u8b80\u307f</span></label>')
+
+RD_JS = r"""
+/* Every cell whose whole text is a station name gains a second line with the
+   reading. Keyed by both character forms, because the sheet's own forms are
+   the default and the header switches them: a cell read after that switch says
+   内幌 where the table was built with 內幌. */
+function annotate(){
+  var cells=document.querySelectorAll('td, th');
+  for(var i=0;i<cells.length;i++){
+    var c=cells[i];
+    if(c.querySelector('.rd')) continue;
+    var t=(c.textContent||'').trim();
+    if(!t||!RD[t]) continue;
+    c.setAttribute('data-stn',t);
+    var sp=document.createElement('span'); sp.className='rd'; c.appendChild(sp);
+  }
+}
+function readings(){
+  document.querySelectorAll('[data-stn]').forEach(function(c){
+    var r=RD[c.getAttribute('data-stn')]; if(!r) return;
+    var sp=c.querySelector('.rd'); if(!sp) return;
+    /* kana for the Japanese page, romaji for the English one; the second is
+       the fallback because every station has it and not every one has kana */
+    sp.textContent=(lang==='en'?(r[1]||r[0]):(r[0]||r[1]))||'';
+  });
+  document.body.classList.toggle('no-rd',!rdOn);
+}
+"""
+
 def fold(s):
     return ''.join(FOLD.get(c, c) for c in s)
 
@@ -92,6 +143,90 @@ def table_anchors():
     for m in re.finditer(r'<h2 id="(line-\d+)" data-line="([^"]*)" data-dir="([^"]*)"', html):
         out.append({'a': m.group(1), 'line': m.group(2), 'dir': m.group(3)})
     return out
+
+
+
+def dress_html(src, out, stations):
+    """The transcription project's page, with the two things this map wants on
+    it: the scan linked from every table's page reference, and a reading under
+    every station name behind a switch in the header.
+
+    Patched here rather than in `data/kf-1935-timetable/tables.html` because
+    that file is the transcription as it was made, and a replacement of it
+    should not have to carry this map's furniture. Every substitution is
+    asserted, so a source that has moved on fails the build instead of quietly
+    shipping a page missing half of what was asked for.
+    """
+    html = io.open(src, encoding='utf-8').read()
+
+    def sub(old, new, what):
+        if html.count(old) != 1:
+            raise SystemExit('tables.html: %s -- expected one %r, found %d'
+                             % (what, old[:60], html.count(old)))
+        return html.replace(old, new, 1)
+
+    # the reading, keyed by both character forms
+    reads = {}
+    for st in stations:
+        r = [st.get('kana', ''), st.get('romaji', '')]
+        if not (r[0] or r[1]):
+            continue
+        for k in (st.get('name', ''), st.get('shin', ''), fold(st.get('name', ''))):
+            if k:
+                reads[k] = r
+
+    html = sub('</style></head>', RD_CSS + '</style></head>', 'the stylesheet')
+    html = sub('</span></header>', RD_BOX + '</span></header>', 'the header bar')
+    html = sub('"to_new": [',
+               '"readings": ["\u8b80\u307f", "Readings"], "to_new": [',
+               'the word list')
+    html = sub("/* Two settings, both remembered:",
+               "var RD=" + json.dumps(reads, ensure_ascii=False) + ";\n"
+               + RD_JS
+               + "\n/* Two settings, both remembered:",
+               'the settings block')
+
+    # the reading is a third setting, remembered beside the other two
+    html = sub("try{lang=localStorage.getItem('kt-lang')||'ja'; "
+               "old=localStorage.getItem('kt-jitai')!=='new';}catch(e){}",
+               "var rdOn=true;\n"
+               "try{lang=localStorage.getItem('kt-lang')||'ja'; "
+               "old=localStorage.getItem('kt-jitai')!=='new'; "
+               "rdOn=localStorage.getItem('kt-rd')!=='off';}catch(e){}",
+               'the remembered settings')
+
+    # the page reference carries the link
+    html = sub("document.querySelectorAll('p.pg').forEach(function(p){"
+               "p.textContent=w('page')+' '+p.getAttribute('data-pages');});",
+               "document.querySelectorAll('p.pg').forEach(function(p){"
+               "p.textContent='';"
+               "var o=lang==='en'?' (':'\uff08', c=lang==='en'?')':'\uff09';"
+               "p.appendChild(document.createTextNode(w('page')+' '"
+               "+p.getAttribute('data-pages')+o));"
+               "var a=document.createElement('a');a.href=" + json.dumps(ARCHIVE) + ";"
+               "a.textContent='Internet Archive';p.appendChild(a);"
+               "p.appendChild(document.createTextNode(c));});",
+               'the page references')
+
+    # annotate before the text nodes are collected, or the reading's own node
+    # is remembered a beat late and the character switch misses it
+    html = sub("collect(); form();",
+               "annotate(); readings();\n  "
+               "var rb=document.getElementById('rd-on'); if(rb) rb.checked=rdOn;\n  "
+               "collect(); form();",
+               'the apply pass')
+
+    html = sub("document.getElementById('langbar').addEventListener('click',",
+               "document.getElementById('langbar').addEventListener('change',function(e){\n"
+               "  if(e.target.id!=='rd-on')return; rdOn=e.target.checked;\n"
+               "  try{localStorage.setItem('kt-rd',rdOn?'on':'off');}catch(err){}\n"
+               "  readings();});\n"
+               "document.getElementById('langbar').addEventListener('click',",
+               'the header handler')
+
+    with io.open(out, 'w', encoding='utf-8', newline='\n') as fh:
+        fh.write(html)
+    return html.count('<p class="pg"'), len(set(map(tuple, reads.values())))
 
 
 def main():
@@ -203,9 +338,9 @@ def main():
         fh.write("JMAP.KF_TRAINS = %s;\n" % json.dumps(bundle, ensure_ascii=False,
                                                        separators=(',', ':')))
 
-    # --- the printed tables, as the transcription project builds them
+    # --- the printed tables, as the transcription project builds them, dressed
     os.makedirs(os.path.dirname(OUT_HTML), exist_ok=True)
-    shutil.copyfile(os.path.join(SRC, 'tables.html'), OUT_HTML)
+    npg, nrd = dress_html(os.path.join(SRC, 'tables.html'), OUT_HTML, src_st)
 
     sys.stderr.write('kf-trains.js: %d trains, %d lines, %d stations (%d matched to kf-stations.js'
                      '%s), %d stretches of track, %d points in and %d out\n'
@@ -214,8 +349,9 @@ def main():
                         len(paths), pts_in, pts_out))
     if dropped:
         sys.stderr.write('  %d trains dropped for want of a line or of two placed stops\n' % dropped)
-    sys.stderr.write('timetable/karafuto-1935.html: %d tables, %d KB\n'
-                     % (len(anchors), os.path.getsize(OUT_HTML) // 1024))
+    sys.stderr.write('timetable/karafuto-1935.html: %d tables, %d page references linked to '
+                     'the scan, %d station readings, %d KB\n'
+                     % (len(anchors), npg, nrd, os.path.getsize(OUT_HTML) // 1024))
 
 
 if __name__ == '__main__':

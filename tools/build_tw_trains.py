@@ -472,13 +472,6 @@ UI = {
     'readings': ('\u8b80\u307f', '\u8b80\u97f3', 'Readings'),
     'down': ('\u4e0b\u308a', '\u4e0b\u884c', 'down'),
     'up': ('\u4e0a\u308a', '\u4e0a\u884c', 'up'),
-    'from': ('\u3053\u306e\u9801\u306f kmlawson.github.io/taiwan-1936-timetable '
-             '\u306e\u8ee2\u8a18\u3092\u305d\u306e\u307e\u307e\u53ce\u3081\u305f\u3082\u306e\u3067\u3059\u3002',
-             '\u672c\u9801\u70ba kmlawson.github.io/taiwan-1936-timetable '
-             '\u8f49\u8a18\u4e4b\u539f\u6a23\u6536\u9304\u3002',
-             'This page is the transcription published at '
-             'kmlawson.github.io/taiwan-1936-timetable, reproduced here so the '
-             'map can link to it offline.'),
 }
 
 # The column headings, translated in English only. Anything not in this table
@@ -857,7 +850,7 @@ def build_html(stations):
     html = html.replace('</style>', css + '</style>', 1)
     html = html.replace(
         '</main>',
-        '<p class="legend" data-i18n="from"></p></main>\n<script>\n'
+        '</main>\n<script>\n'
         + js + '\n</script>')
 
     os.makedirs(os.path.dirname(OUT_HTML), exist_ok=True)

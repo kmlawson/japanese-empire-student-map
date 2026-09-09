@@ -614,6 +614,9 @@ body.hbar-on{padding-bottom:20px}
 
 PAGE_JS = r"""
 var IX = {ja:0, ko:1, en:2};
+/* The scan the whole transcription was made from. Named once: the header
+   links it and so does every table's page reference. */
+var ARCHIVE = 'https://archive.org/details/chosen-ressha-jikokuhyo-1938';
 /* English first: this page is read by students of the empire more often
    than by readers of its languages, and the buttons are right there for
    anyone who wants the original's own. A choice already made is
@@ -675,9 +678,21 @@ function apply() {
        the second half is the file name of the scan the transcription was made
        from, which is provenance for whoever checks the work and noise for
        everybody reading a timetable. It stays in `data-src` on the element,
-       where the checker can still find it. */
+       where the checker can still find it.
+
+       The scan itself is linked from here rather than only from the header,
+       so that a reader who has scrolled to one table among forty can open the
+       page it was made from without going back to the top. */
     var pages = p.getAttribute('data-pages') || '';
-    p.textContent = words('page') + ' ' + pages;
+    p.textContent = '';
+    // full-width brackets in Japanese, ASCII in the other two
+    var open = lang === 'ja' ? '\uff08' : ' (', shut = lang === 'ja' ? '\uff09' : ')';
+    p.appendChild(document.createTextNode(words('page') + ' ' + pages + open));
+    var a = document.createElement('a');
+    a.href = ARCHIVE;
+    a.textContent = 'Internet Archive';
+    p.appendChild(a);
+    p.appendChild(document.createTextNode(shut));
   });
   document.querySelectorAll('tr.hd th').forEach(function (th) {
     var was = th.getAttribute('data-was');

@@ -19850,3 +19850,67 @@ scripts in `deploy/lean/`. The test server is rooted at the *repo*, not at
 `deploy/` — the scripts ask for `/deploy/index.html` — and starting it in the
 wrong place gives `ready() … this page has no #stage`, which is what that
 message means.
+
+## The scan under every table, a reading on the Karafuto page, and the gazetteer as a file
+
+**Every table's page reference links the scan.** Taiwan already did; Korea and
+Karafuto named the page and stopped there, so a reader forty tables down had to
+go back to the header to reach the original. Korea's handler builds the link the
+way Taiwan's does — 173 references, full-width brackets in Japanese and ASCII in
+Korean and English — and Karafuto's 14 the same, against
+`archive.org/details/karafuto-kokuyu-tetsudo-ressha-jikokuhyo`.
+
+**Karafuto has readings and a `讀み` box.** It had neither: the transcription
+prints the characters alone, which is right for the sheet and no use to a reader
+who cannot pronounce 内幌. All 97 stations carry kana and romaji in
+`data/kf-1935-timetable/data.js`, so the reading goes under the name — kana in
+Japanese, romaji in English — behind the same checkbox Taiwan and Korea have.
+**357 cells annotated**, and the setting is remembered beside the other two.
+
+The page is dressed in `build_kf_trains.py` rather than edited in
+`data/kf-1935-timetable/tables.html`, because that file is the transcription as
+it was made and a replacement of it should not have to carry this map's
+furniture. Every substitution is asserted, so a source that has moved on fails
+the build rather than shipping a page missing half of this.
+
+One trap, and it is the reason the order in `apply()` matters: the character
+switch works by remembering every text node as it was built and rewriting from
+that. A reading span added *after* `collect()` is not in the list, so it misses
+the switch. `annotate()` runs before `collect()`. Driven through it — open,
+English, 新字体, readings off, back to Japanese, readings on, reload — the cell
+reads 榮濱/栄浜 and さかえはま/Sakaehama in the right pairs each time, no page
+errors.
+
+**The Taiwan footer is gone.** "This page is the transcription published at
+kmlawson.github.io/taiwan-1936-timetable, reproduced here so the map can link to
+it offline." Korea's own closing sentence stays — it says which pages of the
+1938 transcription this is, which is not the same statement.
+
+**Right-clicking a city hands over the gazetteer.** The dot fell through to the
+province beneath it, so a reader who pressed Shanghai was offered Jiangsu. It
+answers now, and offers two things: that one place, and every city on the date —
+**486 in 1930, 488 in December 1942**.
+
+Two decisions worth keeping. **Every name gets its own field.** The dot carries
+one display string, chosen by whichever names switch the reader has set, and a
+point layer with only that in it can be sorted by nothing and joined to nothing;
+`name_en`, `name_local`, `name_ja`, `name_ja_kyujitai`, `name_zh`, `name_ko` and
+`characters` are separate, with `label` beside them because it is what was on
+the screen. This is the rule the tables already follow. **And the size is a word
+as well as a number** — `largest` and `3` — because `t` is 0–3 in the data only
+so the drawing has a radius. 1930 came out 9 largest, 40 large, 124 medium, 313
+small; 230 capitals, 287 with a Japanese name.
+
+The whole date goes out, not what the zoom has left on screen: a file of "the
+cities I could see when I asked" is a file nobody can state the extent of
+afterwards. `drawn_at_this_zoom` records which they were — 23 of the 486 at the
+opening view.
+
+The curated markers had to be sent back to the gazetteer for the size. Fifty-odd
+places have both a quiz marker and a dot, the marker is drawn on top, and it is
+the marker the pointer meets; its record knows the names and not the tier.
+Checked on Tokyo, Shanghai, Singapore, Manila and Hiroshima.
+
+`menu` 61 → **78 checks**. Both halves proved by breaking them: making `cityAt`
+return null for a plain dot fails 4, and blanking `name_ja` fails the
+separate-fields check alone. Full suite before the push.

@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '343';
+  var JEM_VERSION = '344';
 
   /* Every file this one fetches, with the version on it.
 
@@ -11870,6 +11870,120 @@
      system arrives. */
   var RAIL_LABEL = { tw: 'Taiwan', kr: 'Korea', kf: 'Karafuto' };
 
+  /* THE GAZETTEER, FOR TAKING AWAY.
+   *
+   * Like the railways and unlike the polygons, this is the source rather than
+   * a reading of the screen: a dot's position is a longitude and a latitude
+   * the build wrote, and nothing has been projected or thinned on the way to
+   * it. So the file is exact, and the only decision is what to say about each
+   * place.
+   *
+   * **Every name gets its own field.** The dot on screen carries one string,
+   * chosen by whichever names switch the reader has set — Takao or Kaohsiung,
+   * 京城 or Keijō — and a file with that one string in it can be sorted by
+   * nothing and matched against nothing. The same rule the tables follow (see
+   * CLAUDE.md, "Give the name its own columns"): the display name is there
+   * because it is what the reader saw, and the romanisation, the local form,
+   * the Japanese, the Chinese, the Korean and the characters are each beside
+   * it under their own key.
+   *
+   * **And the size is written as a word.** `t` is 0 to 3 in the data because
+   * the drawing wants a radius; a reader opening this in QGIS wants to know
+   * that Shanghai is `largest` and a county town is `small`. Both go in — the
+   * word to read and the number to sort on — with `always` beside them, which
+   * is the separate statement that a place is drawn at every zoom.
+   *
+   * The whole date goes out, not what the zoom has left on screen. A file of
+   * "the cities I could see at the moment I asked" is a file nobody can say
+   * the extent of afterwards; `drawn_at_this_zoom` records which they were. */
+  var CITY_TIER = ['small', 'medium', 'large', 'largest'];
+  var CITY_CAP = { 1: 'provincial', 2: 'country or territory' };
+
+  var CITY_NOTE = 'Positions are the source coordinates, not read off the '
+    + 'drawing: they carry no projection and no thinning. Sizes are the '
+    + 'gazetteer’s four tiers, which are a coarse statement about a '
+    + 'place, not a population; the population columns are in '
+    + 'data/cities-*.csv.';
+
+  function cityFeature(c) {
+    var props = {
+      id: c.id,
+      /* what the reader saw, whichever names switch they had set — kept so a
+         row can be found again by the string that was on the screen */
+      label: shownName(c) || c.n || '',
+      name: c.n || '',
+      name_en: c.en || c.n || '',
+      name_local: c.local || '',
+      name_ja: c.ja || '',
+      name_ja_kyujitai: c.ja_kyu || '',
+      name_zh: c.zh || '',
+      name_ko: c.ko || '',
+      characters: c.orig || '',
+      size: CITY_TIER[c.t] === undefined ? '' : CITY_TIER[c.t],
+      size_tier: c.t === undefined ? null : c.t,
+      /* the weight it is *drawn* at where the table pins one, which is not the
+         same statement as how big the place was */
+      drawn_at_tier: c.a === undefined ? null : c.a,
+      always_drawn: c.a !== undefined,
+      capital: CITY_CAP[c.c] || '',
+      capital_of: c.of || '',
+      polity: c.p || '',
+      epoch: c.epoch || state.epoch,
+      wikipedia: c.wiki || '',
+      note: c.extra || '',
+    };
+    return { type: 'Feature',
+             geometry: { type: 'Point', coordinates: [c.lon, c.lat] },
+             properties: props };
+  }
+
+  /* The name as the dot is labelled, so a row can be found by what was on the
+     screen. `shown()` is the epoch's answer and the names switches pick from
+     it; a record the switches say nothing about falls back to its own. */
+  function shownName(c) {
+    try {
+      var r = shown(c) || c;
+      return nameOf(r) || r.en || r.n || '';
+    } catch (e) { return c.en || c.n || ''; }
+  }
+
+  function saveCities(epoch) {
+    var floor = gazMinTier();
+    var feats = gazRecs.filter(function (c) { return c.epoch === epoch; })
+      .map(function (c) {
+        var f = cityFeature(c);
+        f.properties.drawn_at_this_zoom =
+          (c.a !== undefined || c.t >= floor);
+        return f;
+      });
+    if (!feats.length) return false;
+    var ep = (JMAP.EPOCHS || []).filter(function (e) { return e.id === epoch; })[0];
+    var when = (ep && ep.en) || String(epoch).replace(/^e/, '');
+    return downloadText(JSON.stringify({
+      type: 'FeatureCollection',
+      layer: { title: 'Cities and towns, ' + when,
+               epoch: epoch,
+               count: feats.length,
+               source: 'data/cities-*.csv in the map’s repository',
+               note: CITY_NOTE },
+      features: feats,
+    }, null, 1), slug('cities-' + when) + '.geojson', 'application/geo+json');
+  }
+
+  /* The place under the pointer, where it is one of the gazetteer's. A curated
+     marker sits over the dot at fifty-odd of them and answers instead, so both
+     kinds are asked and both are cities. */
+  function cityAt(target) {
+    var hit = recordFor(target);
+    var rec = hit && hit.rec;
+    if (!rec) return null;
+    if (rec.kind === 'gaz') return rec;
+    /* A quiz site drawn over a gazetteer dot: the record answering is the
+       site's, and the gazetteer's is the one that knows the size. Same id. */
+    if (rec.cat === 'city') return gazFor(rec.id) || null;
+    return null;
+  }
+
   /* Where a shape came from, in a line rather than a paragraph. The registry
      is coarse on purpose — provenance here is per dataset, not per province —
      so an atom picks up every source that names it, and everything unnamed
@@ -11988,7 +12102,8 @@
       if (rh && rh.kind === 'line') railLine = trainApi.lineFeature(rh.index);
       if (railLine) railSys = railSys || trainApi.system();
     }
-    if (!el && !atomKey && !railLine && !railSys) return false;
+    var city = cityAt(target);
+    if (!el && !atomKey && !railLine && !railSys && !city) return false;
     var name = el ? (el.getAttribute('data-prov') || '') : '';
     var group = el ? el.getAttribute('data-group') : '';
 
@@ -11998,10 +12113,36 @@
 
     var head = document.createElement('p');
     head.className = 'menu-head';
-    head.textContent = name || atomName(atomKey) || atomKey || 'This shape';
+    head.textContent = (city && shownName(city))
+      || name || atomName(atomKey) || atomKey || 'This shape';
     menuEl.appendChild(head);
 
-    /* The railway first where there is one under the pointer: the reader who
+    /* The city first where the pointer is on a dot. Narrowest first is the
+       rule the whole menu follows, and a dot is narrower than the line that
+       runs past it and the province both sit on. */
+    if (city) {
+      menuEl.appendChild(menuItem('Download GeoJSON \u2014 '
+        + (shownName(city) || 'this place'),
+        function () {
+          downloadText(JSON.stringify({ type: 'FeatureCollection',
+                                        layer: { note: CITY_NOTE },
+                                        features: [cityFeature(city)] }, null, 1),
+                       slug(city.en || city.n || city.id) + '.geojson',
+                       'application/geo+json');
+        }));
+      var nCity = gazRecs.filter(function (c) { return c.epoch === state.epoch; }).length;
+      if (nCity > 1) {
+        var epLab = (JMAP.EPOCHS || []).filter(function (e) {
+          return e.id === state.epoch;
+        })[0];
+        menuEl.appendChild(menuItem('Download GeoJSON \u2014 all cities and towns, '
+          + ((epLab && epLab.en) || String(state.epoch).replace(/^e/, ''))
+          + ' (' + nCity + ')',
+          function () { saveCities(state.epoch); }));
+      }
+    }
+
+    /* The railway next where there is one under the pointer: the reader who
        right-clicked a line meant the line, not the province it crosses. */
     if (railLine) {
       menuEl.appendChild(menuItem('Download GeoJSON \u2014 '

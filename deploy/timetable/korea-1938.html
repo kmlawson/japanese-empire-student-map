@@ -5083,6 +5083,9 @@ var COLS={"粁程": "km", "驛名": "Station", "等級": "Class", "行先": "To"
 var LR={"京仁線": ["Keijin-sen", "Kyŏngin Line"], "京元・咸鏡本線": ["Keigen–Kankyō honsen", "Kyŏngwŏn–Hamgyŏng Line"], "京圖線": ["Keito-sen", "Jingtu Line"], "京濱線": ["Keihin-sen", "Jingbin Line"], "京畿線": ["Keiki-sen", "Kyŏnggi Line"], "京義本線": ["Keigi honsen", "Kyŏngŭi Line"], "京釜本線": ["Keifu honsen", "Kyŏngbu Line"], "价川線": ["Kaisen-sen", "Kaech'ŏn Line"], "光州線": ["Kōshū-sen", "Kwangju Line"], "全羅線": ["Zenra-sen", "Chŏlla Line"], "兼二浦線": ["Kenjiho-sen", "Kyŏmip'o Line"], "北陸・信越・羽越本線": ["Hokuriku–Shin'etsu–Uetsu honsen", "Hokuriku–Shin'etsu–Uetsu Line"], "北青線": ["Hokusei-sen", "Pukch'ŏng Line"], "北鮮線": ["Hokusen-sen", "Puksŏn Line"], "博川線": ["Hakusen-sen", "Pakch'ŏn Line"], "咸北線": ["Kanhoku-sen", "Hambuk Line"], "咸南線": ["Kannan-sen", "Hamnam Line"], "咸平軌道": ["Kanpei kidō", "Hamp'yŏng Tramway"], "圖佳線": ["Toka-sen", "Tujia Line"], "大社線": ["Taisha-sen", "Taisha Line"], "奉吉線": ["Hōkichi-sen", "Fengji Line"], "奉山線": ["Hōzan-sen", "Fengshan Line"], "安奉線": ["Anpō-sen", "Anfeng Line"], "宮津線": ["Miyazu-sen", "Miyazu Line"], "山陰本線": ["San'in honsen", "San'in Line"], "川內里線": ["Sennairi-sen", "Ch'ŏnnaeri Line"], "平元線": ["Heigen-sen", "P'yŏngwŏn Line"], "平南線": ["Heinan-sen", "P'yŏngnam Line"], "平壤炭礦線": ["Heijō tankō-sen", "P'yŏngyang Colliery Line"], "平齊線・齊北線・北黑線・濱北線": ["Heisei-sen", "Pingqi–Qibei–Beihei–Binbei Line"], "忠北線": ["Chūhoku-sen", "Ch'ungbuk Line"], "忠南線": ["Chūnan-sen", "Ch'ungnam Line"], "惠山線": ["Keizan-sen", "Hyesan Line"], "慶全線": ["Keizen-sen", "Kyŏngjŏn Line"], "慶北線": ["Keihoku-sen", "Kyŏngbuk Line"], "拉濱線": ["Rahin-sen", "Labin Line"], "撫順線": ["Bujun-sen", "Fushun Line"], "新義州江岸線": ["Shingishū kōgan-sen", "Sinŭiju River-bank Line"], "旅順線": ["Ryojun-sen", "Lüshun Line"], "日豐本線": ["Nippō honsen", "Nippō Line"], "會寧炭礦線": ["Kainei tankō-sen", "Hoeryŏng Colliery Line"], "朝開線": ["Chōkai-sen", "Chaokai Line"], "東北本線・常磐線・奧羽本線": ["Tōhoku–Jōban–Ōu honsen", "Tōhoku–Jōban–Ōu Line"], "東海線": ["Tōkai-sen", "East Sea Line"], "東海道・山陽本線": ["Tōkaidō–San'yō honsen", "Tōkaidō–San'yō Line"], "松興線": ["Shōkō-sen", "Songhŭng Line"], "水仁線": ["Suijin-sen", "Suin Line"], "水驪線": ["Suiyo-sen", "Suryŏ Line"], "湖南本線": ["Konan honsen", "Honam Line"], "滿浦線": ["Manpo-sen", "Manp'o Line"], "濱綏線・濱洲線": ["Hinsui–Hinshū-sen", "Binsui–Binzhou Line"], "營口線": ["Eikō-sen", "Yingkou Line"], "琿春鐵路線": ["Konshun tetsuro", "Hunchun Railway"], "白茂線": ["Hakumu-sen", "Paengmu Line"], "群山線": ["Gunzan-sen", "Kunsan Line"], "興南線": ["Kōnan-sen", "Hŭngnam Line"], "豐肥本線": ["Hōhi honsen", "Hōhi Line"], "連京線": ["Renkyō-sen", "Lianjing Line (SMR main line)"], "金剛山電氣鐵道": ["Kongōsan denki tetsudō", "Kŭmgangsan Electric Railway"], "錦承線・葉峰線": ["Kinshō-sen", "Jincheng–Yefeng Line"], "鎭海線": ["Chinkai-sen", "Chinhae Line"], "鐵山・遮湖線": ["Tessan–Shako-sen", "Ch'ŏlsan–Ch'aho Line"], "長崎本線": ["Nagasaki honsen", "Nagasaki Line"], "長津線": ["Chōshin-sen", "Changjin Line"], "長項—群山 連絡線": ["Chōkō–Gunzan renrakusen", "Changhang–Kunsan Ferry"], "關西本線": ["Kansai honsen", "Kansai Line"], "關西線・參宮線": ["Kansai–Sangū-sen", "Kansai–Sangū feeders"], "關釜連絡船": ["Kanpu renrakusen", "Kanpu Ferry"], "關門連絡船": ["Kanmon renrakusen", "Kanmon Ferry"], "青函連絡船": ["Seikan renrakusen", "Seikan Ferry"], "鹿兒島本線": ["Kagoshima honsen", "Kagoshima Line"], "黃海線": ["Kōkai-sen", "Hwanghae Line"], "龍山線": ["Ryūzan-sen", "Yongsan Line"], "龍登線": ["Ryūtō-sen", "Yongdŭng Line"]};
 
 var IX = {ja:0, ko:1, en:2};
+/* The scan the whole transcription was made from. Named once: the header
+   links it and so does every table's page reference. */
+var ARCHIVE = 'https://archive.org/details/chosen-ressha-jikokuhyo-1938';
 /* English first: this page is read by students of the empire more often
    than by readers of its languages, and the buttons are right there for
    anyone who wants the original's own. A choice already made is
@@ -5144,9 +5147,21 @@ function apply() {
        the second half is the file name of the scan the transcription was made
        from, which is provenance for whoever checks the work and noise for
        everybody reading a timetable. It stays in `data-src` on the element,
-       where the checker can still find it. */
+       where the checker can still find it.
+
+       The scan itself is linked from here rather than only from the header,
+       so that a reader who has scrolled to one table among forty can open the
+       page it was made from without going back to the top. */
     var pages = p.getAttribute('data-pages') || '';
-    p.textContent = words('page') + ' ' + pages;
+    p.textContent = '';
+    // full-width brackets in Japanese, ASCII in the other two
+    var open = lang === 'ja' ? '\uff08' : ' (', shut = lang === 'ja' ? '\uff09' : ')';
+    p.appendChild(document.createTextNode(words('page') + ' ' + pages + open));
+    var a = document.createElement('a');
+    a.href = ARCHIVE;
+    a.textContent = 'Internet Archive';
+    p.appendChild(a);
+    p.appendChild(document.createTextNode(shut));
   });
   document.querySelectorAll('tr.hd th').forEach(function (th) {
     var was = th.getAttribute('data-was');

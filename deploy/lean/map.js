@@ -13,7 +13,7 @@
 
 (function () {
   'use strict';
-  var JEM_VERSION = '343';
+  var JEM_VERSION = '344';
 
 
 
@@ -11874,6 +11874,120 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  var CITY_TIER = ['small', 'medium', 'large', 'largest'];
+  var CITY_CAP = { 1: 'provincial', 2: 'country or territory' };
+
+  var CITY_NOTE = 'Positions are the source coordinates, not read off the '
+    + 'drawing: they carry no projection and no thinning. Sizes are the '
+    + 'gazetteer’s four tiers, which are a coarse statement about a '
+    + 'place, not a population; the population columns are in '
+    + 'data/cities-*.csv.';
+
+  function cityFeature(c) {
+    var props = {
+      id: c.id,
+
+
+      label: shownName(c) || c.n || '',
+      name: c.n || '',
+      name_en: c.en || c.n || '',
+      name_local: c.local || '',
+      name_ja: c.ja || '',
+      name_ja_kyujitai: c.ja_kyu || '',
+      name_zh: c.zh || '',
+      name_ko: c.ko || '',
+      characters: c.orig || '',
+      size: CITY_TIER[c.t] === undefined ? '' : CITY_TIER[c.t],
+      size_tier: c.t === undefined ? null : c.t,
+
+
+      drawn_at_tier: c.a === undefined ? null : c.a,
+      always_drawn: c.a !== undefined,
+      capital: CITY_CAP[c.c] || '',
+      capital_of: c.of || '',
+      polity: c.p || '',
+      epoch: c.epoch || state.epoch,
+      wikipedia: c.wiki || '',
+      note: c.extra || '',
+    };
+    return { type: 'Feature',
+             geometry: { type: 'Point', coordinates: [c.lon, c.lat] },
+             properties: props };
+  }
+
+
+
+
+  function shownName(c) {
+    try {
+      var r = shown(c) || c;
+      return nameOf(r) || r.en || r.n || '';
+    } catch (e) { return c.en || c.n || ''; }
+  }
+
+  function saveCities(epoch) {
+    var floor = gazMinTier();
+    var feats = gazRecs.filter(function (c) { return c.epoch === epoch; })
+      .map(function (c) {
+        var f = cityFeature(c);
+        f.properties.drawn_at_this_zoom =
+          (c.a !== undefined || c.t >= floor);
+        return f;
+      });
+    if (!feats.length) return false;
+    var ep = (JMAP.EPOCHS || []).filter(function (e) { return e.id === epoch; })[0];
+    var when = (ep && ep.en) || String(epoch).replace(/^e/, '');
+    return downloadText(JSON.stringify({
+      type: 'FeatureCollection',
+      layer: { title: 'Cities and towns, ' + when,
+               epoch: epoch,
+               count: feats.length,
+               source: 'data/cities-*.csv in the map’s repository',
+               note: CITY_NOTE },
+      features: feats,
+    }, null, 1), slug('cities-' + when) + '.geojson', 'application/geo+json');
+  }
+
+
+
+
+  function cityAt(target) {
+    var hit = recordFor(target);
+    var rec = hit && hit.rec;
+    if (!rec) return null;
+    if (rec.kind === 'gaz') return rec;
+
+
+    if (rec.cat === 'city') return gazFor(rec.id) || null;
+    return null;
+  }
+
+
+
+
+
   function sourcesFor(atomKey) {
     var all = JMAP.SOURCES_SHORT || [];
     var hit = all.filter(function (r) {
@@ -11988,7 +12102,8 @@
       if (rh && rh.kind === 'line') railLine = trainApi.lineFeature(rh.index);
       if (railLine) railSys = railSys || trainApi.system();
     }
-    if (!el && !atomKey && !railLine && !railSys) return false;
+    var city = cityAt(target);
+    if (!el && !atomKey && !railLine && !railSys && !city) return false;
     var name = el ? (el.getAttribute('data-prov') || '') : '';
     var group = el ? el.getAttribute('data-group') : '';
 
@@ -11998,8 +12113,34 @@
 
     var head = document.createElement('p');
     head.className = 'menu-head';
-    head.textContent = name || atomName(atomKey) || atomKey || 'This shape';
+    head.textContent = (city && shownName(city))
+      || name || atomName(atomKey) || atomKey || 'This shape';
     menuEl.appendChild(head);
+
+
+
+
+    if (city) {
+      menuEl.appendChild(menuItem('Download GeoJSON \u2014 '
+        + (shownName(city) || 'this place'),
+        function () {
+          downloadText(JSON.stringify({ type: 'FeatureCollection',
+                                        layer: { note: CITY_NOTE },
+                                        features: [cityFeature(city)] }, null, 1),
+                       slug(city.en || city.n || city.id) + '.geojson',
+                       'application/geo+json');
+        }));
+      var nCity = gazRecs.filter(function (c) { return c.epoch === state.epoch; }).length;
+      if (nCity > 1) {
+        var epLab = (JMAP.EPOCHS || []).filter(function (e) {
+          return e.id === state.epoch;
+        })[0];
+        menuEl.appendChild(menuItem('Download GeoJSON \u2014 all cities and towns, '
+          + ((epLab && epLab.en) || String(state.epoch).replace(/^e/, ''))
+          + ' (' + nCity + ')',
+          function () { saveCities(state.epoch); }));
+      }
+    }
 
 
 
