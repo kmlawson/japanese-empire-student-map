@@ -4,7 +4,7 @@
 
        node tools/test/mapstrip.js      # with python3 -m http.server 8123 up
 */
-const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch, HOST } = require('./suite.js');
 const tick=async(p,sel,on)=>{await p.evaluate((s,v)=>{const e=document.querySelector(s);
   e.checked=v; e.dispatchEvent(new Event('change',{bubbles:true}));},sel,on); await sleep(1500);};
 const cvar=(p,sel)=>p.evaluate(s=>{const e=document.querySelector(s);
@@ -16,7 +16,7 @@ const fillOf=(p,sel)=>p.evaluate(s=>{const e=document.querySelector(s); if(!e) r
 const p=await b.newPage(); await p.setViewport({width:1500,height:950});
 await p.evaluateOnNewDocument(SHIM);
 const errs=[]; p.on('pageerror',e=>errs.push(String(e)));
-await p.goto('http://localhost:8123/index.html',{waitUntil:'networkidle0'}); await sleep(3500);
+await p.goto(HOST+'/index.html',{waitUntil:'domcontentloaded'}); await ready(p);
 await p.evaluate(()=>{const t=[...document.querySelectorAll('#epoch-seg button')].find(x=>/1942/.test(x.textContent)); t.click();}); await sleep(2200);
 await p.evaluate(()=>document.querySelector('#btn-options').click()); await sleep(500);
 
@@ -235,7 +235,7 @@ await sleep(1200);
 const search=await p.evaluate(()=>location.search);
 const p2=await b.newPage(); await p2.setViewport({width:1500,height:950});
 await p2.evaluateOnNewDocument(SHIM);
-await p2.goto('http://localhost:8123/index.html'+search,{waitUntil:'networkidle0'}); await sleep(3600);
+await p2.goto(HOST+'/index.html'+search,{waitUntil:'domcontentloaded'}); await ready(p2);
 await p2.evaluate(()=>document.querySelector('#btn-options').click()); await sleep(500);
 const got=await p2.evaluate(()=>({occ:document.querySelector('#occ-none').checked,
   man:document.querySelector('#opt-manchukuo').checked,

@@ -26,11 +26,11 @@
  *     swallowed, which is not the same code as the option-click's toggle. Done
  *     the same way, the hold opened the menu and its own click shut it again.
  */
-const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch, HOST } = require('./suite.js');
 
 /* Central China, in far enough for the province names: the four provinces and
    the Dabie Mountains are what tells the categories apart from one another. */
-const CHINA = 'http://localhost:8123/index.html?where=108.5,26.5,118.5,33.5';
+const CHINA = HOST+'/index.html?where=108.5,26.5,118.5,33.5';
 
 /* Headless Chrome does not match `(hover: hover) and (pointer: fine)`, so the
    hover handlers are never wired and a mouse test measures nothing. */
@@ -46,9 +46,9 @@ const open = async (b, url, vp) => {
   const p = await b.newPage();
   if (!vp) await p.evaluateOnNewDocument(HOVER);
   await p.setViewport(vp || { width: 1280, height: 950 });
-  await p.goto(url, { waitUntil: 'networkidle0' });
+  await p.goto(url, { waitUntil: 'domcontentloaded' });
+  await ready(p);
   await p.evaluate(() => document.querySelectorAll('dialog[open]').forEach(d => d.close()));
-  await sleep(2800);
   return p;
 };
 

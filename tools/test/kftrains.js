@@ -16,9 +16,9 @@
  * The cautions from trains.js apply: shut the Layers dialog before pointing at the map, and shim
  * matchMedia for the mouse.
  */
-const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch, HOST } = require('./suite.js');
 
-const BASE='http://localhost:8123/index.html';
+const BASE=HOST+'/index.html';
 const WHOLE=BASE+'?where=66,-12,180,55';
 const KARAFUTO=BASE+'?where=141.4,45.8,145.1,50.2';
 /* Korea's ground, which is nowhere near Karafuto's box: the wrong system must not come up. */
@@ -67,7 +67,8 @@ const shutDialogs=p=>p.evaluate(()=>{
     p.on('request',r=>{const u=r.url(); if(/(tw|kr|kf)-trains\.js/.test(u))fetched.push(u.split('/').pop().split('?')[0]);});
 
     /* ---- 1. the switch over the empire: nothing --------------------- */
-    await p.goto(WHOLE,{waitUntil:'networkidle0'});
+    await p.goto(WHOLE,{waitUntil:'domcontentloaded'});
+    await ready(p);
     await shutDialogs(p);
     await setSwitch(p,'#opt-train-tools',true);
     await sleep(400);
@@ -77,9 +78,9 @@ const shutDialogs=p=>p.evaluate(()=>{
 
     /* ---- 2. the island as the subject builds Karafuto's tools -------- */
     const on=await p.evaluate(()=>new URL(location.href).searchParams.get('layers')||'');
-    await p.goto(KARAFUTO+'&layers='+on,{waitUntil:'networkidle0'});
+    await p.goto(KARAFUTO+'&layers='+on,{waitUntil:'domcontentloaded'});
+    await ready(p);
     await shutDialogs(p);
-    await sleep(1800);
     v=await look(p);
     check('over Karafuto: the layer is built', v.layer, JSON.stringify(v));
     check('over Karafuto: the bar is up', v.bar, JSON.stringify(v));
@@ -169,9 +170,9 @@ const shutDialogs=p=>p.evaluate(()=>{
 
     /* ---- 5. the layer code carries the two switches home ------------- */
     const code=await p.evaluate(()=>new URL(location.href).searchParams.get('layers')||'');
-    await p.goto(KARAFUTO+'&layers='+code,{waitUntil:'networkidle0'});
+    await p.goto(KARAFUTO+'&layers='+code,{waitUntil:'domcontentloaded'});
+    await ready(p);
     await shutDialogs(p);
-    await sleep(1500);
     const back=await look(p);
     check('a link made here comes back with the railway and its squares on',
       back.railBox && back.staBox && back.stations===97,
@@ -185,9 +186,9 @@ const shutDialogs=p=>p.evaluate(()=>{
     check('zoomed out: the layer is gone', !v.layer && !v.bar, JSON.stringify(v));
     check('but the data stays in memory', v.kf, JSON.stringify(v));
 
-    await p.goto(KOREA+'&layers='+code,{waitUntil:'networkidle0'});
+    await p.goto(KOREA+'&layers='+code,{waitUntil:'domcontentloaded'});
+    await ready(p);
     await shutDialogs(p);
-    await sleep(1800);
     v=await look(p);
     check('over Korea the Korea tools come up, not Karafuto’s',
       v.bar && v.kr && fetched.includes('kr-trains.js'), JSON.stringify({bar:v.bar,kr:v.kr,fetched:fetched.join()}));
@@ -197,7 +198,7 @@ const shutDialogs=p=>p.evaluate(()=>{
     const ttErr=[];
     const q=await browser.newPage();
     q.on('pageerror',e=>ttErr.push(String(e).slice(0,200)));
-    await q.goto('http://localhost:8123/timetable/karafuto-1935.html',{waitUntil:'networkidle0'});
+    await q.goto(HOST+'/timetable/karafuto-1935.html',{waitUntil:'networkidle0'});
     const pv=await q.evaluate(()=>{
       const h2=[...document.querySelectorAll('h2[data-dir]')];
       const first=document.querySelector('table td');
@@ -231,8 +232,8 @@ const shutDialogs=p=>p.evaluate(()=>{
       const q = await browser.newPage();
       await q.evaluateOnNewDocument(SHIM);
       await q.setViewport({ width: 1300, height: 950 });
-      await q.goto(KARAFUTO, { waitUntil: 'networkidle0' });
-      await sleep(3000);
+      await q.goto(KARAFUTO, { waitUntil: 'domcontentloaded' });
+      await ready(q);
       await shutDialogs(q);
       await setSwitch(q, '#opt-train-tools', true);
       await sleep(4200);
@@ -267,8 +268,8 @@ const shutDialogs=p=>p.evaluate(()=>{
       const q = await browser.newPage();
       await q.evaluateOnNewDocument(SHIM);
       await q.setViewport({ width: 1300, height: 950 });
-      await q.goto(BASE + '?where=' + where, { waitUntil: 'networkidle0' });
-      await sleep(3000);
+      await q.goto(BASE + '?where=' + where, { waitUntil: 'domcontentloaded' });
+      await ready(q);
       await shutDialogs(q);
       await setSwitch(q, '#opt-train-tools', true);
       await sleep(4200);

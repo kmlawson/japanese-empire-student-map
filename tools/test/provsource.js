@@ -24,7 +24,7 @@
  *     at all, so in Albers or Lambert it was drawn at its Mercator
  *     coordinates — a couple of hundred map units from the country.
  */
-const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch, HOST } = require('./suite.js');
 
 // admin on (8) + level 3 (512), and bit 128 for the Republic's sheet
 const code=(...bits)=>bits.reduce((a,b)=>a|b,0).toString(36);
@@ -44,9 +44,8 @@ const CHINA=()=>{
 };
 
 const open=async(p,c)=>{
-  await p.goto('http://localhost:8123/index.html?layers='+c,{waitUntil:'networkidle0'});
-  await p.waitForFunction(()=>document.querySelectorAll('#land .atom').length>0,{polling:'raf',timeout:25000});
-  await sleep(3500);           // both province fetches have to land
+  await p.goto(HOST+'/index.html?layers='+c,{waitUntil:'domcontentloaded'});
+  await ready(p);
   return p.evaluate(CHINA);
 };
 

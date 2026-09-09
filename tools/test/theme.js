@@ -24,7 +24,7 @@
  */
 const fs = require('fs');
 const path = require('path');
-const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch, HOST } = require('./suite.js');
 
 const CSS = fs.readFileSync(path.join(__dirname, '..', '..', 'styles.css'), 'utf8');
 
@@ -104,7 +104,7 @@ const open = async (u, dark) => {
      test that had never said what it wanted. */
   await p.emulateMediaFeatures([{ name: 'prefers-color-scheme',
                                   value: dark ? 'dark' : 'light' }]);
-  await p.goto(u, { waitUntil: 'networkidle0' });
+  await p.goto(u, { waitUntil: 'domcontentloaded' });
   await ready(p);
   return p;
 };
@@ -116,7 +116,7 @@ const press = async (p, which) => {
 
 console.log('\n— auto follows the system, and says so —');
 {
-  const p = await open('http://localhost:8123/index.html', false);
+  const p = await open(HOST+'/index.html', false);
   let s = await p.evaluate(STATE);
   check('a light system opens light', s.ocean === LIGHT_OCEAN, s.ocean);
   check('with no attribute on the root', s.attr === null, String(s.attr));
@@ -138,7 +138,7 @@ console.log('\n— auto follows the system, and says so —');
 
 console.log('\n— and the other way round —');
 {
-  const p = await open('http://localhost:8123/index.html', true);
+  const p = await open(HOST+'/index.html', true);
   let s = await p.evaluate(STATE);
   check('a dark system opens dark with no attribute', s.ocean === DARK_OCEAN && s.attr === null,
     s.ocean + ' / ' + s.attr);
@@ -183,7 +183,7 @@ console.log('\n— the annotation panel follows it too —');
   });
   const LIGHT = 'rgb(255, 253, 248)', DARK = 'rgb(27, 35, 43)';
 
-  const p = await open('http://localhost:8123/index.html', false);
+  const p = await open(HOST+'/index.html', false);
   await opened(p);
   let t = await tool(p);
   check('the panel goes in rewritten for the attribute', t.guarded);
@@ -198,7 +198,7 @@ console.log('\n— the annotation panel follows it too —');
   check('and Light puts it back', t.bg === LIGHT, t.bg);
   await p.close();
 
-  const q = await open('http://localhost:8123/index.html', true);
+  const q = await open(HOST+'/index.html', true);
   await opened(q);
   t = await tool(q);
   check('on a dark system it opens dark', t.bg === DARK, t.bg);
@@ -213,19 +213,19 @@ console.log('\n— it travels in the link —');
   /* The scheme is in the layers code like every other switch, so a link
      carries it and a bare URL does not — which is this map's rule: nothing is
      stored, and the address is the whole of the state. */
-  const p = await open('http://localhost:8123/index.html', false);
+  const p = await open(HOST+'/index.html', false);
   await press(p, 'dark');
   const share = await p.evaluate(() => location.search);
   await p.close();
 
-  const q = await open('http://localhost:8123/index.html' + share, false);
+  const q = await open(HOST+'/index.html' + share, false);
   const s = await q.evaluate(STATE);
   check('opening the shared link on a light system arrives dark',
     s.ocean === DARK_OCEAN && s.attr === 'dark', s.ocean + ' / ' + s.attr);
   check('and the panel agrees with the map', s.seg.join(',') === 'auto,light,dark*', s.seg.join(','));
   await q.close();
 
-  const r = await open('http://localhost:8123/index.html', false);
+  const r = await open(HOST+'/index.html', false);
   const t = await r.evaluate(STATE);
   check('a bare URL is still Auto', t.attr === null && t.seg[0] === 'auto*', String(t.attr));
   await r.close();
@@ -240,7 +240,7 @@ console.log('\n— and with a finger —');
   const p = await b.newPage();
   await p.setViewport({ width: 420, height: 900, isMobile: true, hasTouch: true,
                         deviceScaleFactor: 2 });
-  await p.goto('http://localhost:8123/index.html', { waitUntil: 'networkidle0' });
+  await p.goto(HOST+'/index.html', { waitUntil: 'domcontentloaded' });
   await ready(p);
   await p.evaluate(() => {
     const d = document.querySelector('#dlg-options');

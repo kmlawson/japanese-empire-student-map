@@ -10,8 +10,8 @@
  * palette knows and values that are exactly six hex digits behind a hash get
  * through; everything else is dropped without comment.
  */
-const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
-const URL0='http://localhost:8123/index.html';
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch, HOST } = require('./suite.js');
+const URL0=HOST+'/index.html';
 const sea=p=>p.evaluate(()=>getComputedStyle(document.getElementById('ocean')).fill);
 
 (async()=>{
@@ -26,7 +26,7 @@ await p.setViewport({width:1300,height:950});
    answer. A test that does not say what it wants is not measuring. */
 await p.emulateMediaFeatures([{name:'prefers-color-scheme',value:'light'}]);
 p.on('pageerror',e=>errs.push(String(e)));
-await p.goto(URL0,{waitUntil:'networkidle0'});
+await p.goto(URL0,{waitUntil:'domcontentloaded'});
 await ready(p);
 
 console.log('\n— the button, and what it opens —');
@@ -147,7 +147,7 @@ let shared='';
   await q.setViewport({width:1300,height:950});
   await q.emulateMediaFeatures([{name:'prefers-color-scheme',value:'light'}]);
   q.on('pageerror',e=>errs.push(String(e)));
-  await q.goto(shared,{waitUntil:'networkidle0'});
+  await q.goto(shared,{waitUntil:'domcontentloaded'});
   await ready(q);
   check('following the link paints the same sea',
     (await sea(q))==='rgb(32, 64, 96)', await sea(q));
@@ -163,7 +163,7 @@ console.log('\n— what a link is not allowed to carry —');
   await q.setViewport({width:1200,height:900});
   await q.emulateMediaFeatures([{name:'prefers-color-scheme',value:'light'}]);
   q.on('pageerror',e=>errs.push(String(e)));
-  await q.goto(URL0+'?colours='+encodeURIComponent(nasty),{waitUntil:'networkidle0'});
+  await q.goto(URL0+'?colours='+encodeURIComponent(nasty),{waitUntil:'domcontentloaded'});
   await ready(q);
   check('a value that is not six hex digits is dropped',
     (await sea(q))==='rgb(202, 223, 235)', await sea(q));
@@ -176,13 +176,18 @@ console.log('\n— what a link is not allowed to carry —');
   /* The address is written in the short form even when the link that made
      it used the long one: two letters of code and six hex digits, no
      separators. `metropole` is `mp`. */
+  // the address is rewritten 400 ms after the state settles, not at once
+  try { await until(q, () => /colours=mp00aa55/.test(location.href), null, { timeout: 3000 }); }
+  catch (e) { /* the check says so */ }
   check('the one good colour in it survives',
     /colours=mp00aa55/.test(await q.url()), (await q.url()).slice(-60));
   /* A colour set is a few hundred bytes; a link repeating one four hundred
      times is not one, and the cap is the palette's own size. */
   await q.goto(URL0+'?colours='+Array(400).fill('ocean-204060').join('.'),
-               {waitUntil:'networkidle0'});
+               {waitUntil:'domcontentloaded'});
   await ready(q);
+  try { await until(q, () => (location.href.match(/se204060/g) || []).length === 1, null, { timeout: 3000 }); }
+  catch (e) { /* the check says so */ }
   const u=await q.url();
   check('a four-hundred-entry link collapses to one', (u.match(/se204060/g)||[]).length===1,
     'length '+u.length);

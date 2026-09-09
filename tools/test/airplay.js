@@ -22,8 +22,8 @@
  *     Yokohama flying boat is out and back over a week, two nights at Saipan,
  *     two at Palau and two more at Saipan on the way home.
  */
-const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
-const URL='http://localhost:8123/index.html';
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch, HOST } = require('./suite.js');
+const URL=HOST+'/index.html';
 
 const at=p=>p.evaluate(()=>({
   bar:!!document.getElementById('air-bar'),
@@ -73,7 +73,7 @@ const toEpoch=async(p,y)=>{
   await page.setViewport({width:1400,height:950});
   await page.evaluateOnNewDocument(SHIM);
   const errs=[]; page.on('pageerror',e=>errs.push(String(e)));
-  await page.goto(URL,{waitUntil:'networkidle0'});
+  await page.goto(URL,{waitUntil:'domcontentloaded'});
   await ready(page);
 
   console.log('\n— the button comes with the network and goes with it —');
@@ -474,7 +474,7 @@ const toEpoch=async(p,y)=>{
     const tp = await browser.newPage();
     await tp.setViewport({ width: 1400, height: 950 });
     await tp.evaluateOnNewDocument(SHIM);
-    await tp.goto(URL, { waitUntil: 'networkidle2' });
+    await tp.goto(URL, { waitUntil: 'domcontentloaded' });
     await ready(tp);
     await tp.evaluate(() => document.getElementById('btn-air').click());
     await sleep(2000);
@@ -520,7 +520,7 @@ const toEpoch=async(p,y)=>{
   const phone=await browser.newPage();
   await phone.setViewport({width:390,height:844,isMobile:true,hasTouch:true});
   const perrs=[]; phone.on('pageerror',e=>perrs.push(String(e)));
-  await phone.goto(URL,{waitUntil:'networkidle0'});
+  await phone.goto(URL,{waitUntil:'domcontentloaded'});
   await ready(phone);
   await toEpoch(phone,'1942');
   await phone.evaluate(()=>document.getElementById('btn-air').click());
@@ -598,7 +598,7 @@ const toEpoch=async(p,y)=>{
     const fp = await browser.newPage();
     await fp.setViewport({ width: 1400, height: 900 });
     await fp.evaluateOnNewDocument(SHIM);
-    await fp.goto(URL, { waitUntil: 'networkidle2' });
+    await fp.goto(URL, { waitUntil: 'domcontentloaded' });
     await ready(fp);
     await fp.evaluate(() => { const x = [...document.querySelectorAll('#epoch-seg button')]
       .find(y => /1942/.test(y.textContent)); if (x) x.click(); });
@@ -691,7 +691,7 @@ const toEpoch=async(p,y)=>{
     const gp = await browser.newPage();
     await gp.setViewport({ width: 1400, height: 900 });
     await gp.evaluateOnNewDocument(SHIM);
-    await gp.goto(URL, { waitUntil: 'networkidle2' });
+    await gp.goto(URL, { waitUntil: 'domcontentloaded' });
     await ready(gp);
     await gp.evaluate(() => { const x = [...document.querySelectorAll('#epoch-seg button')]
       .find(y => /1942/.test(y.textContent)); if (x) x.click(); });
@@ -813,7 +813,7 @@ const toEpoch=async(p,y)=>{
       const pg=await browser.newPage(); await pg.setViewport(vp);
       pg.on('pageerror',e=>errs.push(String(e)));
       if(!small) await pg.evaluateOnNewDocument(SHIM);
-      await pg.goto(URL,{waitUntil:'networkidle0'}); await ready(pg);
+      await pg.goto(URL,{waitUntil:'domcontentloaded'}); await ready(pg);
       await pg.evaluate(()=>{const c=document.querySelector('#layer-seg button[data-cat="city"]');
         if(c.getAttribute('aria-pressed')!=='true') c.click();});
       await sleep(1400);
@@ -842,7 +842,7 @@ const toEpoch=async(p,y)=>{
     const pg=await browser.newPage();
     await pg.setViewport({width:860,height:430,isMobile:true,hasTouch:true});
     pg.on('pageerror',e=>errs.push(String(e)));
-    await pg.goto(URL+'?where=119,21.5,122.6,25.6',{waitUntil:'networkidle0'});
+    await pg.goto(URL+'?where=119,21.5,122.6,25.6',{waitUntil:'domcontentloaded'});
     await ready(pg);
     await pg.evaluate(()=>{const x=document.getElementById('opt-tw-rail');
       if(x&&!x.checked)x.click();

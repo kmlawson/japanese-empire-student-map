@@ -17,8 +17,8 @@
  *     legs, and that is what proves the reading of a printed triangle whose
  *     rows and columns are only implied by position.
  */
-const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
-const URL='http://localhost:8123/index.html';
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch, HOST } = require('./suite.js');
+const URL=HOST+'/index.html';
 
 /* **Press it, do not dispatch at it.**
  *
@@ -223,7 +223,7 @@ const card_=p=>p.evaluate(()=>{
   await page.setViewport({width:1400,height:950});
   await page.evaluateOnNewDocument(SHIM);
   const errs=[]; page.on('pageerror',e=>errs.push(String(e)));
-  await page.goto(URL,{waitUntil:'networkidle0'});
+  await page.goto(URL,{waitUntil:'domcontentloaded'});
   await ready(page);
 
   console.log('\n— the table —');
@@ -848,7 +848,7 @@ const card_=p=>p.evaluate(()=>{
   const phone=await browser.newPage();
   await phone.setViewport({width:390,height:844,isMobile:true,hasTouch:true});
   const perrs=[]; phone.on('pageerror',e=>perrs.push(String(e)));
-  await phone.goto(URL,{waitUntil:'networkidle0'});
+  await phone.goto(URL,{waitUntil:'domcontentloaded'});
   await ready(phone);
   await phone.evaluate(()=>document.getElementById('btn-air').click());
   await sleep(800);
@@ -1474,7 +1474,7 @@ const card_=p=>p.evaluate(()=>{
     const pg=await browser.newPage(); await pg.setViewport({width:1500,height:980});
     pg.on('pageerror',e=>errs.push(String(e)));
     await pg.evaluateOnNewDocument(SHIM);
-    await pg.goto(URL,{waitUntil:'networkidle0'}); await ready(pg);
+    await pg.goto(URL,{waitUntil:'domcontentloaded'}); await ready(pg);
     const look=()=>pg.evaluate(()=>{
       const air=document.getElementById('air');
       const n=air&&air.querySelector('.air-name');
@@ -1541,7 +1541,7 @@ const card_=p=>p.evaluate(()=>{
     await pg.setViewport({ width: 1400, height: 900 });
     pg.on('pageerror', e => errs.push(String(e)));
     await pg.evaluateOnNewDocument(SHIM);
-    await pg.goto(URL, { waitUntil: 'networkidle0' }); await ready(pg);
+    await pg.goto(URL, { waitUntil: 'domcontentloaded' }); await ready(pg);
     await pg.keyboard.press('f'); await sleep(2200);
     const drift = () => pg.evaluate(() => {
       let worst = 0, id = '';
@@ -1608,8 +1608,8 @@ const card_=p=>p.evaluate(()=>{
     await pg.setViewport({ width: 1500, height: 980 });
     await pg.evaluateOnNewDocument(SHIM);
     pg.on('pageerror', e => perrs.push(String(e).slice(0, 200)));
-    await pg.goto(URL, { waitUntil: 'networkidle0' });
-    await sleep(2600);
+    await pg.goto(URL, { waitUntil: 'domcontentloaded' });
+    await ready(pg);
     await pg.evaluate(() => document.querySelectorAll('dialog[open]').forEach(d => d.close()));
     await pg.keyboard.press('f');
     await sleep(2500);
@@ -1666,8 +1666,8 @@ const card_=p=>p.evaluate(()=>{
     await pg2.setViewport({ width: 1500, height: 980 });
     await pg2.evaluateOnNewDocument(SHIM);
     pg2.on('pageerror', e => perrs.push(String(e).slice(0, 200)));
-    await pg2.goto(URL + '?layers=2o.2t4w.2-2', { waitUntil: 'networkidle0' });
-    await sleep(4000);
+    await pg2.goto(URL + '?layers=2o.2t4w.2-2', { waitUntil: 'domcontentloaded' });
+    await ready(pg2);
     await pg2.evaluate(() => document.querySelectorAll('dialog[open]').forEach(d => d.close()));
     const drawn = await pg2.evaluate(() => [...document.querySelectorAll('.air-route')]
       .filter(g => getComputedStyle(g).display !== 'none').length);

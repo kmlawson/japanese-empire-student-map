@@ -22,9 +22,9 @@ const { sandboxDownloads } = require('./downloads.js');
  * dates: the one thing a reader looking at the peninsula should not have to
  * hunt for is the towns.
  */
-const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch, HOST } = require('./suite.js');
 
-const KOREA = 'http://localhost:8123/index.html?where=123.5,32.8,132.5,43.5';
+const KOREA = HOST+'/index.html?where=123.5,32.8,132.5,43.5';
 const CITIES = ['seoul', 'incheon', 'kaesong', 'kunsan', 'mokpo', 'taegu',
                 'pusan', 'masan', 'pyongyang', 'nampo', 'sinuiju', 'wonsan',
                 'hamhung', 'chongjin'];
@@ -35,9 +35,9 @@ const open = async (b, url, opts) => {
   await p.setViewport(opts && opts.touch
     ? { width: 390, height: 844, isMobile: true, hasTouch: true }
     : { width: 1280, height: 900 });
-  await p.goto(url, { waitUntil: 'networkidle0' });
+  await p.goto(url, { waitUntil: 'domcontentloaded' });
+  await ready(p);
   await p.evaluate(() => document.querySelectorAll('dialog[open]').forEach(d => d.close()));
-  await sleep(2600);
   return p;
 };
 
@@ -289,7 +289,7 @@ const spot = (p, sel, fx, fy) => p.evaluate((s, ax, ay) => {
         ['the whole map, 1942', '?layers=3', 'e1942'],
         ['the whole map, 1930', '?layers=2', 'e1930'],
         ['close in on Korea', '?where=123.5,32.8,132.5,43.5&layers=3', 'e1942']]) {
-    const q = await open(b, 'http://localhost:8123/index.html' + url);
+    const q = await open(b, HOST+'/index.html' + url);
     const got = await q.evaluate(ids => {
       const out = {};
       ids.forEach(id => {
@@ -457,6 +457,9 @@ const spot = (p, sel, fx, fy) => p.evaluate((s, ax, ay) => {
 
   /* The parameter this travelled as for one update still opens a link. */
   p = await open(b, KOREA + '&layers=1&pop=korea-1942');
+  // the address is rewritten 400 ms after the state settles, not at once
+  try { await until(p, () => !/pop=/.test(location.search), null, { timeout: 3000 }); }
+  catch (e) { /* the check below says so */ }
   const legacy = await p.evaluate(() => ({
     shaded: document.querySelectorAll('path.pop-shaded').length,
     url: location.search }));
@@ -695,7 +698,7 @@ const spot = (p, sel, fx, fy) => p.evaluate((s, ax, ay) => {
          { seoul: '4.4', pusan: '3.4', incheon: '3.4', pyongyang: '3.4' }],
         ['1930', '?where=124.5,33.2,131.5,43.2&layers=2',
          { seoul: '4.4', pusan: '3.4', incheon: '2.5', pyongyang: '3.4' }]]) {
-    const q = await open(b, 'http://localhost:8123/index.html' + url);
+    const q = await open(b, HOST+'/index.html' + url);
     const got = await q.evaluate(ids => {
       const out = {};
       ids.forEach(id => {
@@ -744,9 +747,9 @@ const spot = (p, sel, fx, fy) => p.evaluate((s, ax, ay) => {
     const q = await b.newPage();
     await q.evaluateOnNewDocument(SHIM);
     await q.setViewport({ width: 1400, height: 950 });
-    await q.goto('http://localhost:8123/index.html?where=125.2,32.6,128.8,35.4',
-                 { waitUntil: 'networkidle0' });
-    await sleep(3000);
+    await q.goto(HOST+'/index.html?where=125.2,32.6,128.8,35.4',
+                 { waitUntil: 'domcontentloaded' });
+    await ready(q);
     await q.evaluate(() => document.querySelectorAll('dialog[open]').forEach(d => d.close()));
     if (to42) { await q.keyboard.press('2'); await sleep(3200); }
     await q.keyboard.press('a');
@@ -805,8 +808,8 @@ const spot = (p, sel, fx, fy) => p.evaluate((s, ax, ay) => {
     const q = await b.newPage();
     if (!touch) await q.evaluateOnNewDocument(SHIM);
     await q.setViewport({ width: w, height: h, isMobile: touch, hasTouch: touch });
-    await q.goto('http://localhost:8123/index.html', { waitUntil: 'networkidle0' });
-    await sleep(2200);
+    await q.goto(HOST+'/index.html', { waitUntil: 'domcontentloaded' });
+    await ready(q);
     await q.evaluate(() => document.querySelectorAll('dialog[open]').forEach(d => d.close()));
     const bar = await q.evaluate(() => {
       const el = document.querySelector('#bar');

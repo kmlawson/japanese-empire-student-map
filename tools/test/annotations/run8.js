@@ -30,7 +30,7 @@ async function open(_ignored, touch){
   await p.setViewport(touch?{width:900,height:1100,isMobile:true,hasTouch:true}:{width:1500,height:950});
   if(!touch) await p.evaluateOnNewDocument(SHIM);
   p.__errs=[]; p.on('pageerror',e=>p.__errs.push(String(e)));
-  await p.goto('http://localhost:8123/index.html',{waitUntil:'networkidle0'}); await ready(p, false);
+  await p.goto(require('./suite.js').BASE,{waitUntil:'networkidle0'}); await ready(p, false);
   await p.evaluate(()=>document.querySelector('#ann-create').click()); await sleep(1400);
   return p;
 }

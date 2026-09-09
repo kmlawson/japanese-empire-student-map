@@ -56,7 +56,7 @@ const STATE = () => {
   await p.evaluateOnNewDocument(S.SHIM);
   const errs = []; p.on('pageerror', e => errs.push(String(e)));
   p.on('dialog', async d => { try { await d.accept(); } catch (e) { /* gone */ } });
-  await p.goto('http://localhost:8123/index.html', { waitUntil: 'networkidle0' });
+  await p.goto(require('./suite.js').BASE, { waitUntil: 'networkidle0' });
   await S.ready(p, false);
   await p.evaluate(() => document.querySelector('#ann-create').click());
   await sleep(1200);
@@ -131,7 +131,7 @@ const STATE = () => {
   await t.setViewport({ width: 1300, height: 1000, isMobile: true, hasTouch: true });
   const errs2 = []; t.on('pageerror', e => errs2.push(String(e)));
   t.on('dialog', async d => { try { await d.accept(); } catch (e) { /* gone */ } });
-  await t.goto('http://localhost:8123/index.html', { waitUntil: 'networkidle0' });
+  await t.goto(require('./suite.js').BASE, { waitUntil: 'networkidle0' });
   await S.ready(t, false);
   await t.evaluate(() => document.querySelector('#ann-create').click());
   await sleep(1200);

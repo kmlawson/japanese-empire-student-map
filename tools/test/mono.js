@@ -16,11 +16,11 @@
  * drawing round. The two ends of that rule reproduce the stylesheet's own
  * pairs, which is checked here rather than asserted in a comment.
  */
-const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch, HOST } = require('./suite.js');
 
 const BASE = (1 << 5) | (1 << 6);
 const MONO = 1 << 21;
-const url = bits => 'http://localhost:8123/index.html?layers=' + (bits >>> 0).toString(36);
+const url = bits => HOST+'/index.html?layers=' + (bits >>> 0).toString(36);
 
 const STATE = () => {
   const svg = document.getElementById('jmap');
@@ -52,14 +52,14 @@ const open = async (u, dark) => {
      test that had never said what it wanted. */
   await p.emulateMediaFeatures([{ name: 'prefers-color-scheme',
                                   value: dark ? 'dark' : 'light' }]);
-  await p.goto(u, { waitUntil: 'networkidle0' });
+  await p.goto(u, { waitUntil: 'domcontentloaded' });
   await ready(p);
   return p;
 };
 
 console.log('\n— the picker belongs to the switch —');
 {
-  const p = await open('http://localhost:8123/index.html', false);
+  const p = await open(HOST+'/index.html', false);
   const errs = []; p.on('pageerror', e => errs.push(String(e)));
   let s = await p.evaluate(STATE);
   check('with the map in its colours there is no picker', s.rowHidden);

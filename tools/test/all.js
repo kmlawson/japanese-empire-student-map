@@ -174,6 +174,7 @@ const TRIGGERS = [
   [/^docs\//,                       []],
   [/^reports\//,                    []],
   [/^gis\//,                        []],            // published exports
+  [/^lean\//,                       []],            // built: the shipped copies of the scripts
   [/^README|\.md$/,                 []],
   [/^\.gitignore$/,                  []],
   [/^texts\/version\.csv$/,         []],        // the update number

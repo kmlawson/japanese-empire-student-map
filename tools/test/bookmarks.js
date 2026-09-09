@@ -5,14 +5,14 @@
  * The versioned asset URLs must not reach the address bar, and a page that
  * asks for an old one must be served rather than refused. See docs/tasks.md.
  */
-const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch, HOST } = require('./suite.js');
 const tap=async(p,x,y)=>{await p.mouse.move(x,y);await p.mouse.down();await sleep(60);await p.mouse.up();await sleep(250);};
 (async()=>{const b=await launch();
 
 console.log('\n— bookmarks —');
 { const ctx=await b.createBrowserContext(); const p=await ctx.newPage();
   await p.setViewport({width:1300,height:900});
-  await p.goto('http://localhost:8123/index.html',{waitUntil:'networkidle0'}); await sleep(3300);
+  await p.goto(HOST+'/index.html',{waitUntil:'domcontentloaded'}); await ready(p);
   // pan and switch a layer, as a reader would before bookmarking
   await p.mouse.move(700,500); await p.mouse.down();
   for(let i=0;i<12;i++){await p.mouse.move(700-i*9,500+i*3); await sleep(14);} await p.mouse.up();
@@ -27,7 +27,7 @@ console.log('\n— bookmarks —');
   const ctx2=await b.createBrowserContext(); const q=await ctx2.newPage();
   await q.setViewport({width:1300,height:900});
   const errs=[]; q.on('pageerror',e=>errs.push(String(e)));
-  await q.goto(url,{waitUntil:'networkidle0'}); await sleep(3500);
+  await q.goto(url,{waitUntil:'domcontentloaded'}); await ready(q);
   const vA=(await p.evaluate(()=>document.getElementById('jmap').getAttribute('viewBox'))).split(' ').map(Number);
   const vB=(await q.evaluate(()=>document.getElementById('jmap').getAttribute('viewBox'))).split(' ').map(Number);
   const drift=Math.max(...vA.map((n,i)=>Math.abs(n-vB[i])));
@@ -55,7 +55,7 @@ console.log('\n— an out-of-date version is asked for —');
       r.respond({status:200,contentType:'text/html',body:t});
     } else r.continue();});
   const errs=[]; p.on('pageerror',e=>errs.push(String(e)));
-  await p.goto('http://localhost:8123/index.html',{waitUntil:'networkidle0'}); await sleep(3800);
+  await p.goto(HOST+'/index.html',{waitUntil:'domcontentloaded'}); await ready(p);
   console.log('  ' + fetched.join('  '));
   /* `every` on an empty array is true, so this passed when nothing had been
      fetched at all — which is the failure it exists to catch. The count is

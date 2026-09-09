@@ -17,7 +17,7 @@
  * The arithmetic is checked here rather than assumed: the sums the source
  * prints are the ones the map shows.
  */
-const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch, HOST } = require('./suite.js');
 const fs = require('fs');
 
 /* ---- what the file says, before any browser is opened ---------------- */
@@ -106,10 +106,10 @@ check('and is marked as counted inside the districts', banchi.apart === 'yes');
   await p.evaluateOnNewDocument(SHIM);
   await p.setViewport({ width: 1280, height: 950 });
   // Taiwan on the December 1942 map with its divisions drawn
-  await p.goto('http://localhost:8123/index.html?where=119.5,21.5,122.5,25.5&layers=9',
-               { waitUntil: 'networkidle0' });
+  await p.goto(HOST+'/index.html?where=119.5,21.5,122.5,25.5&layers=9',
+               { waitUntil: 'domcontentloaded' });
+  await ready(p);
   await p.evaluate(() => document.querySelectorAll('dialog[open]').forEach(d => d.close()));
-  await sleep(3400);
 
   console.log('\n— on the card —');
   const at = await p.evaluate(() => {

@@ -16,9 +16,9 @@
  * no longer buy: at the bottom of the phone's range a hundredth of a degree is
  * three per cent of the view.
  */
-const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch, HOST } = require('./suite.js');
 
-const URL='http://localhost:8123/index.html';
+const URL=HOST+'/index.html';
 const box=p=>p.evaluate(()=>document.getElementById('jmap').getAttribute('viewBox')
   .split(/\s+/).map(Number));
 
@@ -47,7 +47,7 @@ const d=await b.newPage();
 await d.setViewport({width:1200,height:900});
 await d.evaluateOnNewDocument(SHIM);
 d.on('pageerror',e=>errs.push(String(e)));
-await d.goto(URL,{waitUntil:'networkidle0'});
+await d.goto(URL,{waitUntil:'domcontentloaded'});
 await ready(d);
 check('the desktop is not a coarse pointer',
   (await d.evaluate(()=>matchMedia('(pointer: coarse)').matches))===false);
@@ -59,7 +59,7 @@ console.log('\n— a phone goes several times further —');
 const m=await b.newPage();
 await m.setViewport({width:390,height:844,isMobile:true,hasTouch:true,deviceScaleFactor:3});
 m.on('pageerror',e=>errs.push(String(e)));
-await m.goto(URL,{waitUntil:'networkidle0'});
+await m.goto(URL,{waitUntil:'domcontentloaded'});
 await ready(m);
 check('the phone is a coarse pointer',
   (await m.evaluate(()=>matchMedia('(pointer: coarse)').matches))===true);
@@ -100,7 +100,7 @@ console.log('\n— and a link written down there comes back to it —');
   const again=await b.newPage();
   await again.setViewport({width:390,height:844,isMobile:true,hasTouch:true,deviceScaleFactor:3});
   again.on('pageerror',e=>errs.push(String(e)));
-  await again.goto(url,{waitUntil:'networkidle0'});
+  await again.goto(url,{waitUntil:'domcontentloaded'});
   await ready(again);
   const after=await box(again);
   const off=Math.max(Math.abs(after[0]-before[0]),Math.abs(after[1]-before[1]));

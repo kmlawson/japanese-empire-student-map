@@ -14,16 +14,16 @@
  *     units and screen pixels are interchangeable and this always passes;
  *   * the layer travels in a link, and a link that carries it fetches it.
  */
-const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch, HOST } = require('./suite.js');
 
 const RAIL = (33554432 + 1).toString(36);      // Taiwan railways, Dec 1942
-const ISLAND = 'http://localhost:8123/index.html?where=119.5,21.5,122.5,25.5&layers=';
+const ISLAND = HOST+'/index.html?where=119.5,21.5,122.5,25.5&layers=';
 const open = async (b, url) => {
   const p = await b.newPage();
   await p.setViewport({ width: 1280, height: 900 });
-  await p.goto(url, { waitUntil: 'networkidle0' });
+  await p.goto(url, { waitUntil: 'domcontentloaded' });
+  await ready(p);
   await p.evaluate(() => document.querySelectorAll('dialog[open]').forEach(d => d.close()));
-  await sleep(2800);
   return p;
 };
 const st = p => p.evaluate(() => {
@@ -46,7 +46,7 @@ const st = p => p.evaluate(() => {
   check('and nothing is fetched until it is pressed', s.lines === 0, String(s.lines));
   await p.close();
 
-  p = await open(b, 'http://localhost:8123/index.html?layers=' + RAIL);
+  p = await open(b, HOST+'/index.html?layers=' + RAIL);
   check('at the whole map it is not', (await st(p)).offered === false);
   await p.close();
 
@@ -113,7 +113,7 @@ const st = p => p.evaluate(() => {
      it, so gated on that it appeared only once the line it switches was
      already on. */
   console.log('\n— the railway switch beside it —');
-  p = await open(b, 'http://localhost:8123/index.html?where=126.0,36.5,128.5,38.5&layers=1');
+  p = await open(b, HOST+'/index.html?where=126.0,36.5,128.5,38.5&layers=1');
   let r = await p.evaluate(() => {
     const b = document.querySelector('#btn-rail');
     return { shown: !b.hidden, pressed: b.getAttribute('aria-pressed'),
@@ -158,7 +158,7 @@ const st = p => p.evaluate(() => {
   /* The railway button is offered at every zoom now — see `keys.js`. What is
      still true out here is that the *lines* are faded out, and the sugar
      network with them. */
-  p = await open(b, 'http://localhost:8123/index.html?layers=1');
+  p = await open(b, HOST+'/index.html?layers=1');
   check('and the railway is still offered at the whole map',
     (await p.evaluate(() => document.querySelector('#btn-rail').hidden)) === false);
   await p.close();

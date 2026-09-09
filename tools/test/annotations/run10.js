@@ -23,7 +23,7 @@ const arm=async(p,t)=>p.evaluate(t=>{const b=document.querySelector('.ann-tool[d
 const p=await b.newPage(); await p.setViewport({width:1500,height:950});
 await p.evaluateOnNewDocument(SHIM);
 const errs=[]; p.on('pageerror',e=>errs.push(String(e)));
-await p.goto('http://localhost:8123/index.html',{waitUntil:'networkidle0'}); await ready(p, false);
+await p.goto(require('./suite.js').BASE,{waitUntil:'networkidle0'}); await ready(p, false);
 await p.evaluate(()=>document.querySelector('#ann-create').click()); await sleep(1500);
 
 const tools=await p.evaluate(()=>[...document.querySelectorAll('.ann-tool')].map(b=>b.textContent));
@@ -184,7 +184,7 @@ console.log('\n— a sharp tip at every weight —');
   const p2=await b2.newPage(); await p2.setViewport({width:1400,height:900});
   await p2.evaluateOnNewDocument(SHIM);
   const e2=[]; p2.on('pageerror',x=>e2.push(String(x)));
-  await p2.goto('http://localhost:8123/index.html',{waitUntil:'networkidle0'}); await ready(p2, false);
+  await p2.goto(require('./suite.js').BASE,{waitUntil:'networkidle0'}); await ready(p2, false);
   await p2.evaluate(()=>document.querySelector('#ann-create').click()); await sleep(1500);
   // The slider carries a step now, 1 to 15, and the table behind it ends at a
   // stroke width of 16 — so the thing to check is that the heaviest step still
@@ -235,7 +235,7 @@ console.log('\n— what the reader sees the size of stays that size —');
   const p3=await b3.newPage(); await p3.setViewport({width:1400,height:900});
   await p3.evaluateOnNewDocument(SHIM);
   const e3=[]; p3.on('pageerror',x=>e3.push(String(x)));
-  await p3.goto('http://localhost:8123/index.html',{waitUntil:'networkidle0'}); await ready(p3, false);
+  await p3.goto(require('./suite.js').BASE,{waitUntil:'networkidle0'}); await ready(p3, false);
   await p3.evaluate(()=>document.querySelector('#ann-create').click()); await sleep(1500);
   const put3=async(id,v)=>p3.evaluate((i,val)=>{const el=document.querySelector(i);
     el.value=val; el.dispatchEvent(new Event('input',{bubbles:true}));

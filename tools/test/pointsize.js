@@ -13,8 +13,8 @@
  * And `always` — the rule the fourteen 府 of colonial Korea are on, spelled
  * `a` in the gazetteer — has to survive that, at the widest view of all.
  */
-const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
-const URL='http://localhost:8123/index.html';
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch, HOST } = require('./suite.js');
+const URL=HOST+'/index.html';
 
 const shown=(p,id)=>p.evaluate(i=>{
   const g=document.getElementById('s-'+i);
@@ -50,7 +50,7 @@ const zoomIn=async (p,n)=>{
   const page=await browser.newPage();
   await page.setViewport({width:1280,height:900});
   const errs=[]; page.on('pageerror',e=>errs.push(String(e)));
-  await page.goto(URL,{waitUntil:'networkidle0'});
+  await page.goto(URL,{waitUntil:'domcontentloaded'});
   await ready(page);
   /* Rabaul and Port Moresby are points of the 1942 sheet and the map opens on
      1930, so the epoch is switched by pressing the reader's own button. The

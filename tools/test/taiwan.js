@@ -18,7 +18,7 @@
  * scattered polity that *replaces* the territory (the Straits Settlements),
  * and this is a plain hierarchy that *adds* an outline.
  */
-const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch, HOST } = require('./suite.js');
 
 const code=(...bits)=>bits.reduce((a,b)=>a|b,0).toString(36);
 const TAIWAN='&bbox=119.2,21.7,122.4,25.5';
@@ -47,7 +47,7 @@ const hoverProv=async(p,key)=>{
 const p=await b.newPage(); await p.setViewport({width:1300,height:1000});
 await p.evaluateOnNewDocument(SHIM);
 const errs=[]; p.on('pageerror',e=>errs.push(String(e)));
-await p.goto('http://localhost:8123/index.html?layers='+code(8,512,4194304)+TAIWAN,{waitUntil:'networkidle0'});
+await p.goto(HOST+'/index.html?layers='+code(8,512,4194304)+TAIWAN,{waitUntil:'networkidle0'});
 await p.waitForFunction(()=>document.querySelectorAll('#a-taiwan [data-prov]').length>10,
   {timeout:25000,polling:'raf'}).catch(()=>{});
 await sleep(1200);
@@ -250,7 +250,7 @@ console.log('\n— a book title in a note is set in italics, not in asterisks �
 
 console.log('\n— and the names layer writes prefectures, not districts —');
 {
-  await p.goto('http://localhost:8123/index.html?layers='+code(16,8,512,4194304)+TAIWAN,
+  await p.goto(HOST+'/index.html?layers='+code(16,8,512,4194304)+TAIWAN,
     {waitUntil:'networkidle0'});
   await p.waitForFunction(()=>document.querySelectorAll('#a-taiwan [data-prov]').length>10,
     {timeout:25000,polling:'raf'}).catch(()=>{});
@@ -283,9 +283,9 @@ console.log('\n— and the names layer writes prefectures, not districts —');
 console.log('\n— and the cities are named the same way —');
 {
   // bit 22: this file is about the Japanese naming, which is a switch now
-  await p.goto('http://localhost:8123/index.html?layers='
+  await p.goto(HOST+'/index.html?layers='
     + ((1<<1)|(1<<4)|(1<<5)|(1<<6)|(2<<8)|(1<<22)).toString(36)
-    + '&bbox=118.5,21.3,123,25.8', {waitUntil:'networkidle0'});
+    + '&bbox=118.5,21.3,123,25.8', {waitUntil:'domcontentloaded'});
   await ready(p);
   const drawn = await p.evaluate(()=>[...document.querySelectorAll('text.blabel')]
     .filter(e=>e.textContent.trim() && e.getBoundingClientRect().width>0)

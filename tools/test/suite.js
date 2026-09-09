@@ -74,6 +74,10 @@ const SHIM = () => {
 };
 
 const BASE = process.env.MAP_URL || 'http://localhost:8123/index.html';
+/* The origin the map is served from, so every script can be pointed at
+   another copy — a pinned worktree on another port, say — with one
+   variable: `MAP_URL=http://localhost:8124/index.html node tools/test/all.js`. */
+const HOST = BASE.replace(/\/[^/]*$/, '');
 
 /* One launch configuration. `protocolTimeout` is long because a script that
    is starved of CPU while three other browsers start can take a while to get
@@ -122,4 +126,4 @@ async function open(browser, url, opts) {
 }
 
 module.exports = { puppeteer, sleep, ready, until, check, report, SHIM,
-                   launch, open, BASE, sandboxDownloads };
+                   launch, open, BASE, HOST, sandboxDownloads };

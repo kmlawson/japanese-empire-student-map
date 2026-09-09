@@ -30,9 +30,9 @@
  *     1930 in moved 1941's. Both dates must be reading the same four breaks or
  *     a colour means two things.
  */
-const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch, HOST } = require('./suite.js');
 
-const TAIWAN = 'http://localhost:8123/index.html?where=118.5,21.5,123.2,25.9';
+const TAIWAN = HOST+'/index.html?where=118.5,21.5,123.2,25.9';
 
 const open = async (b, url) => {
   const p = await b.newPage();
@@ -44,9 +44,9 @@ const open = async (b, url) => {
       : m.call(window, q));
   });
   await p.setViewport({ width: 1280, height: 950 });
-  await p.goto(url, { waitUntil: 'networkidle0' });
+  await p.goto(url, { waitUntil: 'domcontentloaded' });
+  await ready(p);
   await p.evaluate(() => document.querySelectorAll('dialog[open]').forEach(d => d.close()));
-  await sleep(2800);
   return p;
 };
 

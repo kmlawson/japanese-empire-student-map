@@ -33,7 +33,7 @@ let url;
   await p.evaluateOnNewDocument(SHIM);
   await p.evaluateOnNewDocument(()=>{window.__clip=null;
     if(navigator.clipboard) navigator.clipboard.writeText=t=>{window.__clip=t;return Promise.resolve();};});
-  await p.goto('http://localhost:8123/index.html',{waitUntil:'networkidle0'}); await ready(p, false);
+  await p.goto(require('./suite.js').BASE,{waitUntil:'networkidle0'}); await ready(p, false);
   await p.evaluate(()=>document.querySelector('#ann-create').click()); await sleep(1400);
   await p.evaluate(()=>{const b=document.querySelector('.ann-tool[data-tool="point"]'); if(b.getAttribute('aria-pressed')!=='true') b.click();});
   await sleep(250); await tap(p,700,450);

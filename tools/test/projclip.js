@@ -12,7 +12,7 @@
  * It is the same family as the blur and the arrowhead: a quantity worked out
  * in one space and used in another. This is the guard.
  */
-const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch, HOST } = require('./suite.js');
 
 const clips=p=>p.evaluate(()=>[...document.querySelectorAll('clipPath[id^="edge-clip"]')]
   .map(c=>{const r=c.querySelector('rect');
@@ -23,9 +23,8 @@ const used=p=>p.evaluate(()=>[...document.querySelectorAll('#sub-outlines .edge-
 
 (async()=>{const b=await launch();
 const p=await b.newPage(); await p.setViewport({width:1200,height:900});
-await p.goto('http://localhost:8123/index.html?bbox=68,20,84,30',{waitUntil:'networkidle0'});
-await p.waitForFunction(()=>document.querySelectorAll('#land .atom').length>0,{polling:'raf',timeout:25000});
-await sleep(1400);
+await p.goto(HOST+'/index.html?bbox=68,20,84,30',{waitUntil:'domcontentloaded'});
+await ready(p);
 
 console.log('\n— the clip window follows the projection —');
 const m=await clips(p);

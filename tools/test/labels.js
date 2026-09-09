@@ -25,7 +25,7 @@
  * The first and the third are measured here. The second is guarded rather
  * than reproduced — see the note above that section.
  */
-const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch, HOST } = require('./suite.js');
 
 /* Every name that is actually drawn, and every pair of them that overlap.
    The placer's whole job is that this list is empty. */
@@ -66,10 +66,9 @@ const errs=[]; p.on('pageerror',e=>errs.push(String(e)));
 
 /* ---------------------------------------------- 1. the nudge is applied -- */
 // names on, level 3, administrative on: as many names in play as the map has
-await p.goto('http://localhost:8123/index.html?layers='+((16|8|512).toString(36)),
-  {waitUntil:'networkidle0'});
-await p.waitForFunction(()=>document.querySelectorAll('#land .atom').length>0,{polling:'raf',timeout:25000});
-await sleep(2500);
+await p.goto(HOST+'/index.html?layers='+((16|8|512).toString(36)),
+  {waitUntil:'domcontentloaded'});
+await ready(p);
 
 console.log('\n— a name that is moved to clear another is drawn where it was moved to —');
 {
@@ -107,17 +106,15 @@ for (const step of [1,2,3,4,5,6]) {
    a given view is the same every time it is opened, and that the islands still
    have their names when you come back to them. */
 console.log('\n— leaving a fine-coastline window takes its names with it —');
-await p.goto('http://localhost:8123/index.html?layers='+((16|8|512).toString(36)),
-  {waitUntil:'networkidle0'});
-await p.waitForFunction(()=>document.querySelectorAll('#land .atom').length>0,{polling:'raf',timeout:25000});
-await sleep(2500);
+await p.goto(HOST+'/index.html?layers='+((16|8|512).toString(36)),
+  {waitUntil:'domcontentloaded'});
+await ready(p);
 // `bbox` is the only way in from outside; a reload per hop is the price
 const RYU='126.5,25.5,128.5,27.0', SOL='156.0,-9.5,158.5,-7.0';
 const hop=async where=>{
-  await p.goto('http://localhost:8123/index.html?layers='+((16|8|512).toString(36))+'&bbox='+where,
-    {waitUntil:'networkidle0'});
-  await p.waitForFunction(()=>document.querySelectorAll('#land .atom').length>0,{polling:'raf',timeout:25000});
-  await sleep(2500);
+  await p.goto(HOST+'/index.html?layers='+((16|8|512).toString(36))+'&bbox='+where,
+    {waitUntil:'domcontentloaded'});
+  await ready(p);
 };
 await hop(RYU);
 const first=await p.evaluate(COUNT);
@@ -140,9 +137,8 @@ check('the islands are still named when you come back',
 
 /* -------------------------- 3. a zoom in a pan's frame is not lost -- */
 console.log('\n— a pan and a zoom in one frame keep the screen scale —');
-await p.goto('http://localhost:8123/index.html?layers=2',{waitUntil:'networkidle0'});
-await p.waitForFunction(()=>document.querySelectorAll('#land .atom').length>0,{polling:'raf',timeout:25000});
-await sleep(2500);
+await p.goto(HOST+'/index.html?layers=2',{waitUntil:'domcontentloaded'});
+await ready(p);
 {
   const base=await p.evaluate(SCALE);
   check('at rest, the markers are at the scale the view asks for',
@@ -194,8 +190,8 @@ await sleep(2500);
  * and the placer reserves a box that wide. */
 console.log('\n— a long name is broken across lines —');
 {
-  await p.goto('http://localhost:8123/index.html?bbox=119.5,21.5,122.6,25.6',
-               {waitUntil:'networkidle0'});
+  await p.goto(HOST+'/index.html?bbox=119.5,21.5,122.6,25.6',
+               {waitUntil:'domcontentloaded'});
   await ready(p);
   await p.evaluate(()=>{document.querySelector('header button[data-cat="territory"]').click();});
   await sleep(1400);

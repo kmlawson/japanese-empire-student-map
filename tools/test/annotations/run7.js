@@ -32,7 +32,7 @@ const errs=[]; p.on('pageerror',e=>errs.push(String(e)));
    reason the suite took three minutes: eight checks, six seconds of work, and
    two and a half minutes waiting for a dialog. */
 p.on('dialog', async d => { try { await d.accept(); } catch (e) { /* gone already */ } });
-await p.goto('http://localhost:8123/index.html',{waitUntil:'networkidle0'}); await ready(p, false);
+await p.goto(require('./suite.js').BASE,{waitUntil:'networkidle0'}); await ready(p, false);
 check('a reader who has drawn nothing is never stopped', (await p.evaluate(ASKS))===false);
 await p.evaluate(()=>document.querySelector('#ann-create').click()); await sleep(1400);
 check('nor one who has only opened the panel', (await p.evaluate(ASKS))===false);

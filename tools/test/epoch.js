@@ -20,15 +20,15 @@
  * a reader who had a card open asked to see *that* on this date, and a card
  * about the date on top of it is the map talking over them.
  */
-const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch, HOST } = require('./suite.js');
 
 const open = async (b, url) => {
   const p = await b.newPage();
   await p.evaluateOnNewDocument(SHIM);
   await p.setViewport({ width: 1280, height: 950 });
-  await p.goto(url, { waitUntil: 'networkidle0' });
+  await p.goto(url, { waitUntil: 'domcontentloaded' });
+  await ready(p);
   await p.evaluate(() => document.querySelectorAll('dialog[open]').forEach(d => d.close()));
-  await sleep(3000);
   return p;
 };
 const clickOn = async (p, sel, fx, fy) => {
@@ -63,7 +63,7 @@ const card = p => p.evaluate(() => ({
   const b = await launch();
 
   console.log('\n— a province on both dates —');
-  let p = await open(b, 'http://localhost:8123/index.html?where=123.5,32.8,132.5,43.5&layers=8');
+  let p = await open(b, HOST+'/index.html?where=123.5,32.8,132.5,43.5&layers=8');
   await clickOn(p, '#a-korea path[data-prov="Kogen"]');
   let c = await card(p);
   check('opens on the province', /Kangw.n/.test(c.name), c.name);
@@ -77,7 +77,7 @@ const card = p => p.evaluate(() => ({
   await p.close();
 
   console.log('\n— a city, which is a record per date —');
-  p = await open(b, 'http://localhost:8123/index.html?where=123.5,32.8,132.5,43.5&layers=2');
+  p = await open(b, HOST+'/index.html?where=123.5,32.8,132.5,43.5&layers=2');
   await clickOn(p, '#gaz .gaz[data-id="g_e1930_kaesong"]');
   c = await card(p);
   check('opens on the city', /Kaes.ng/.test(c.name), c.name);
@@ -100,7 +100,7 @@ const card = p => p.evaluate(() => ({
   await p.close();
 
   console.log('\n— a territory that is on one date only —');
-  p = await open(b, 'http://localhost:8123/index.html?layers=1');
+  p = await open(b, HOST+'/index.html?layers=1');
   // the backing, not the atom: at the whole-map view the atom is empty — its
   // divisions are in the sheet nobody has asked for — and has no box to click
   await clickOn(p, '#backings [data-for="manchukuo"]', 0.5, 0.45);

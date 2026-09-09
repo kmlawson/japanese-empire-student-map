@@ -22,9 +22,9 @@
  *     the Kuriles are in the census figure and are drawn as a territory of
  *     their own, so the area must be Hokkaidō without them.
  */
-const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch, HOST } = require('./suite.js');
 
-const JAPAN = 'http://localhost:8123/index.html?where=126,29,148,47';
+const JAPAN = HOST+'/index.html?where=126,29,148,47';
 
 const open = async (b, url) => {
   const p = await b.newPage();
@@ -36,9 +36,9 @@ const open = async (b, url) => {
       : m.call(window, q));
   });
   await p.setViewport({ width: 1280, height: 950 });
-  await p.goto(url, { waitUntil: 'networkidle0' });
+  await p.goto(url, { waitUntil: 'domcontentloaded' });
+  await ready(p);
   await p.evaluate(() => document.querySelectorAll('dialog[open]').forEach(d => d.close()));
-  await sleep(2800);
   return p;
 };
 
@@ -229,7 +229,7 @@ const open = async (b, url) => {
   /* Four dot sizes on the 1930 map, decided by p16. The two largest cities are
      Ōsaka and Tōkyō *in that order*: the fifteen wards were still the whole of
      Tōkyō in 1930 and the amalgamation came in 1932. */
-  p = await open(b, 'http://localhost:8123/index.html?layers=2&where=128,30,146,46');
+  p = await open(b, HOST+'/index.html?layers=2&where=128,30,146,46');
   const dots = await p.evaluate(() => {
     const g = (JMAP.GAZ && JMAP.GAZ.e1930) || [];
     const out = {};
@@ -279,7 +279,7 @@ const open = async (b, url) => {
   await p.close();
 
   console.log('\n— a city card —');
-  p = await open(b, 'http://localhost:8123/index.html?layers=2&where=133,32,142,38');
+  p = await open(b, HOST+'/index.html?layers=2&where=133,32,142,38');
   const cAt = await p.evaluate(() => {
     const g = [...document.querySelectorAll('#gaz g')]
       .find(e => (e.getAttribute('data-gid') || e.getAttribute('data-id') || '')
@@ -328,7 +328,7 @@ const open = async (b, url) => {
        two sexes, and each of the two identities the report can be held to —
        the three registers adding to the total, and the civilians plus the
        service personnel adding to it as well — holds in every row. */
-    const q = await open(b, 'http://localhost:8123/index.html?layers=1&where=126,29,148,47');
+    const q = await open(b, HOST+'/index.html?layers=1&where=126,29,148,47');
     const y = await q.evaluate(() => {
       const s = (JMAP.POPULATION || []).filter(x => x.id === 'japan-1940')[0];
       if (!s) return null;

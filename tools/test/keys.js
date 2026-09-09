@@ -15,7 +15,7 @@
  *   * and Escape does the nearer thing first: it closes an open card, and
  *     resets the view only when there is nothing to close.
  */
-const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch, HOST } = require('./suite.js');
 
 const st = p => p.evaluate(() => ({
   epoch: [...document.querySelectorAll('#epoch-seg button')]
@@ -33,9 +33,9 @@ const st = p => p.evaluate(() => ({
 const open = async (b, url) => {
   const p = await b.newPage();
   await p.setViewport({ width: 1280, height: 950 });
-  await p.goto(url, { waitUntil: 'networkidle0' });
+  await p.goto(url, { waitUntil: 'domcontentloaded' });
+  await ready(p);
   await p.evaluate(() => document.querySelectorAll('dialog[open]').forEach(d => d.close()));
-  await sleep(2800);
   return p;
 };
 
@@ -44,7 +44,7 @@ const open = async (b, url) => {
 
   console.log('\n— the five switches, and the railway —');
   // over Korea, close enough that a railway is on offer, everything else off
-  let p = await open(b, 'http://localhost:8123/index.html?where=126.0,36.5,128.5,38.5&layers=0');
+  let p = await open(b, HOST+'/index.html?where=126.0,36.5,128.5,38.5&layers=0');
   let s = await st(p);
   check('nothing is on to begin with',
     [s.city, s.admin, s.events, s.topo, s.other, s.rail].join(' ')
@@ -98,7 +98,7 @@ const open = async (b, url) => {
      has not changed — they are shown for a moment and let go, so the press is
      seen to have done something. */
   console.log('\n— the railway key at the whole map —');
-  p = await open(b, 'http://localhost:8123/index.html?layers=0');   // the whole map
+  p = await open(b, HOST+'/index.html?layers=0');   // the whole map
   s = await st(p);
   check('the railway is offered at the whole map too', s.railShown === true);
   await p.keyboard.press('r'); await sleep(700);
@@ -138,7 +138,7 @@ const open = async (b, url) => {
    * the point of the last two checks: a space typed into a field is a space,
    * not a pan. */
   console.log('\n- space, held, pans the map -');
-  p = await open(b, 'http://localhost:8123/index.html?where=60.97,-3.62,144.87,41.87');
+  p = await open(b, HOST+'/index.html?where=60.97,-3.62,144.87,41.87');
   const mapBox = await p.evaluate(() => {
     const r = document.getElementById('map-container').getBoundingClientRect();
     return { x: r.x, y: r.y, w: r.width, h: r.height };
@@ -156,6 +156,10 @@ const open = async (b, url) => {
   /* Moving with no button down and no space must do nothing, or the map would
      slide under a reader who is only looking. */
   await p.mouse.move(at.x, at.y);
+  // the address is rewritten 400 ms after the view settles; let the load's
+  // own rewrite land before taking the baseline, or it lands mid-move and
+  // reads as a pan
+  await sleep(500);
   const idle = await p.evaluate(() => location.search);
   for (let i = 1; i <= 8; i++) { await p.mouse.move(at.x - i * 13, at.y - i * 8); await sleep(40); }
   await sleep(400);
@@ -197,7 +201,7 @@ const open = async (b, url) => {
    * sits above the annotations, and names every key the handler actually
    * answers to. Adding a key without documenting it fails here. */
   console.log('\n- the help says what the keys do -');
-  p = await open(b, 'http://localhost:8123/index.html');
+  p = await open(b, HOST+'/index.html');
   /* `f` for the air routes. Checked here rather than only in the list, because
      a key named in the help and wired to nothing is the failure this section
      exists to prevent — and unlike `r`, whose button comes and goes with the

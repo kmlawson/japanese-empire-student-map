@@ -23,7 +23,7 @@ for (const [w,h,tag,touch] of [[390,780,'phone   ',true],[768,1024,'tablet  ',tr
   const p=await b.newPage();
   await p.setViewport(touch?{width:w,height:h,isMobile:true,hasTouch:true}:{width:w,height:h});
   const errs=[]; p.on('pageerror',e=>errs.push(String(e)));
-  await p.goto('http://localhost:8123/index.html',{waitUntil:'networkidle0'}); await ready(p, false);
+  await p.goto(require('./suite.js').BASE,{waitUntil:'networkidle0'}); await ready(p, false);
   await p.evaluate(()=>document.querySelector('#btn-options').click()); await sleep(500);
   const btn=await p.evaluate(()=>{const b=document.querySelector('#ann-create').getBoundingClientRect();
     return {vis:b.width>0&&b.height>0, w:Math.round(b.width)};});

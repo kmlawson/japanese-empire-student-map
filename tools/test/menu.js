@@ -17,8 +17,8 @@ const { sandboxDownloads } = require('./downloads.js');
  *     pointer. If it swallowed it without opening this, the whole feature
  *     would be desktop-only and every mouse test would still pass.
  */
-const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
-const URL='http://localhost:8123/index.html';
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch, HOST } = require('./suite.js');
+const URL=HOST+'/index.html';
 
 /* Aim at a place and open the menu there in one go — and report back what the
    pressed *pixel* stands for, not what was aimed at.
@@ -66,7 +66,7 @@ const admin=async p=>{ await p.evaluate(()=>{
   await page.setViewport({width:1280,height:900});
   await page.evaluateOnNewDocument(SHIM);
   const errs=[]; page.on('pageerror',e=>errs.push(String(e)));
-  await page.goto(URL,{waitUntil:'networkidle0'});
+  await page.goto(URL,{waitUntil:'domcontentloaded'});
   await ready(page);
   await admin(page);
 
@@ -233,7 +233,7 @@ const admin=async p=>{ await p.evaluate(()=>{
      mandates and Japan-without-Administrative all offered nothing. */
   console.log('\n— every shape offers a download, whatever kind it is —');
   await page.keyboard.press('Escape');
-  await page.goto(URL,{waitUntil:'networkidle0'});
+  await page.goto(URL,{waitUntil:'domcontentloaded'});
   await ready(page);
   const PLACES=[['British India',78.5,23.0],['Nepal',84.0,28.3],
                 ['Karafuto',142.5,49.5],['Weihaiwei',122.1,37.5],
@@ -275,7 +275,7 @@ const admin=async p=>{ await p.evaluate(()=>{
   const phone=await browser.newPage();
   await phone.setViewport({width:390,height:844,isMobile:true,hasTouch:true});
   const perrs=[]; phone.on('pageerror',e=>perrs.push(String(e)));
-  await phone.goto(URL,{waitUntil:'networkidle0'});
+  await phone.goto(URL,{waitUntil:'domcontentloaded'});
   await ready(phone);
   await admin(phone);
   const tap=await menuAt(phone,136.5,35.4);

@@ -27,10 +27,13 @@ async function ready(page, opts) {
      printed timetable is the one in this suite — the wait below can never come
      true and the script died on a 25-second timeout with a stack trace and no
      hint. This turns that into one line naming the mistake, immediately. */
-  const isMap = await page.evaluate(() => !!document.getElementById('jmap'));
+  /* `#stage` is in the HTML itself; `#jmap` is the SVG the script fetches
+     and inserts, so on a page opened at `domcontentloaded` it is not there
+     yet and asking for it said every map page was not the map. */
+  const isMap = await page.evaluate(() => !!document.getElementById('stage'));
   if (!isMap) {
     throw new Error('ready() waits for the map to draw its land, and this page '
-      + 'has no #jmap: ' + page.url() + '. Use a plain sleep, or `until` with a '
+      + 'has no #stage: ' + page.url() + '. Use a plain sleep, or `until` with a '
       + 'condition this page can meet.');
   }
   await page.waitForFunction(
@@ -38,6 +41,16 @@ async function ready(page, opts) {
     { polling: 'raf', timeout: o.timeout || 25000 });
   await page.evaluate(() => new Promise(r =>
     requestAnimationFrame(() => requestAnimationFrame(r))));
+  /* And whatever the map started fetching on the way in — the administrative
+     sheet a `?layers=` code asked for, a fine coastline for a deep `bbox` —
+     given a moment to land. Pages used to be opened with `networkidle0`,
+     which is a fixed half second after the last request; this is a hundred
+     and fifty milliseconds after it, and only when something is in flight.
+     Bounded, because a page that keeps a connection open is not a fault in
+     the test. */
+  try {
+    await page.waitForNetworkIdle({ idleTime: 150, timeout: o.idle || 8000 });
+  } catch (err) { /* still busy after eight seconds: the script's own checks say */ }
   if (o.then) await sleep(o.then);
 }
 

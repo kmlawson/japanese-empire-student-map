@@ -20,8 +20,8 @@
  *     they displaced has to join it, or the reader who came in knowing
  *     "Hòulǐ" cannot find it anywhere on the card.
  */
-const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
-const URL='http://localhost:8123/index.html';
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch, HOST } = require('./suite.js');
+const URL=HOST+'/index.html';
 const CJK=/[㐀-鿿]/;
 
 const labels=p=>p.evaluate(()=>[...document.querySelectorAll('#labels text')]
@@ -41,7 +41,7 @@ console.log('\n— the switch is where the ask put it —');
   const p=await browser.newPage(); await p.setViewport({width:1500,height:980});
   p.on('pageerror',e=>errs.push(String(e)));
   await p.evaluateOnNewDocument(SHIM);
-  await p.goto(URL,{waitUntil:'networkidle0'}); await ready(p);
+  await p.goto(URL,{waitUntil:'domcontentloaded'}); await ready(p);
   const ui=await p.evaluate(()=>{
     const box=document.getElementById('opt-han-labels');
     const jp=document.getElementById('opt-jpnames');
@@ -68,7 +68,7 @@ console.log('\n— characters on the map, and nothing emptied —');
   const p=await browser.newPage(); await p.setViewport({width:1500,height:980});
   p.on('pageerror',e=>errs.push(String(e)));
   await p.evaluateOnNewDocument(SHIM);
-  await p.goto(URL,{waitUntil:'networkidle0'}); await ready(p);
+  await p.goto(URL,{waitUntil:'domcontentloaded'}); await ready(p);
   await p.evaluate(()=>{
     document.querySelector('#layer-seg button[data-opt="labels"]').click();
     const c=document.querySelector('#layer-seg button[data-cat="city"]');
@@ -117,7 +117,7 @@ for (const [ep,want,wrong] of [['1930','北平','北京'],['1942','北京','北�
   const p=await browser.newPage(); await p.setViewport({width:1500,height:980});
   p.on('pageerror',e=>errs.push(String(e)));
   await p.evaluateOnNewDocument(SHIM);
-  await p.goto(URL,{waitUntil:'networkidle0'}); await ready(p);
+  await p.goto(URL,{waitUntil:'domcontentloaded'}); await ready(p);
   if(ep==='1942'){ await p.evaluate(()=>{const x=[...document.querySelectorAll('#epoch-seg button')]
     .find(y=>/1942/.test(y.textContent)); if(x)x.click();}); await sleep(3000); }
   await p.evaluate(()=>{
@@ -139,7 +139,7 @@ console.log('\n— the card leads with them, and loses nothing —');
   const p=await browser.newPage(); await p.setViewport({width:1500,height:980});
   p.on('pageerror',e=>errs.push(String(e)));
   await p.evaluateOnNewDocument(SHIM);
-  await p.goto(URL,{waitUntil:'networkidle0'}); await ready(p);
+  await p.goto(URL,{waitUntil:'domcontentloaded'}); await ready(p);
   await p.evaluate(()=>{const c=document.querySelector('#layer-seg button[data-cat="city"]');
     if(c.getAttribute('aria-pressed')!=='true') c.click();});
   await sleep(1400);
@@ -171,7 +171,7 @@ console.log('\n— a station too —');
   const p=await browser.newPage(); await p.setViewport({width:1500,height:980});
   p.on('pageerror',e=>errs.push(String(e)));
   await p.evaluateOnNewDocument(SHIM);
-  await p.goto(URL,{waitUntil:'networkidle0'}); await ready(p);
+  await p.goto(URL,{waitUntil:'domcontentloaded'}); await ready(p);
   await p.evaluate(()=>{const x=document.getElementById('opt-tw-rail'); if(x&&!x.checked)x.click();});
   await sleep(1500);
   await p.evaluate(()=>{const x=document.getElementById('opt-tw-stations'); if(x&&!x.checked)x.click();});
@@ -201,10 +201,10 @@ console.log('\n— and it travels in a shared link —');
   const p=await browser.newPage(); await p.setViewport({width:1500,height:980});
   p.on('pageerror',e=>errs.push(String(e)));
   await p.evaluateOnNewDocument(SHIM);
-  await p.goto(URL,{waitUntil:'networkidle0'}); await ready(p);
+  await p.goto(URL,{waitUntil:'domcontentloaded'}); await ready(p);
   await han(p,true);
   const url=await p.evaluate(()=>location.search);
-  await p.goto(URL+url,{waitUntil:'networkidle0'}); await ready(p); await sleep(900);
+  await p.goto(URL+url,{waitUntil:'domcontentloaded'}); await ready(p); await sleep(900);
   check('a link carrying the switch opens with it on',
     await p.evaluate(()=>document.getElementById('opt-han-labels').checked), url);
   await p.close();
@@ -215,7 +215,7 @@ console.log('\n— the hover says it the same way the card does —');
   const p=await browser.newPage(); await p.setViewport({width:1500,height:980});
   p.on('pageerror',e=>errs.push(String(e)));
   await p.evaluateOnNewDocument(SHIM);
-  await p.goto(URL,{waitUntil:'networkidle0'}); await ready(p);
+  await p.goto(URL,{waitUntil:'domcontentloaded'}); await ready(p);
   await p.evaluate(()=>{const c=document.querySelector('#layer-seg button[data-cat="city"]');
     if(c.getAttribute('aria-pressed')!=='true') c.click();});
   await sleep(1500);
@@ -257,7 +257,7 @@ console.log('\n— one label to a place —');
   const p=await browser.newPage(); await p.setViewport({width:1500,height:980});
   p.on('pageerror',e=>errs.push(String(e)));
   await p.evaluateOnNewDocument(SHIM);
-  await p.goto(URL,{waitUntil:'networkidle0'}); await ready(p);
+  await p.goto(URL,{waitUntil:'domcontentloaded'}); await ready(p);
   await p.evaluate(()=>{
     document.querySelector('#layer-seg button[data-opt="labels"]').click();
     const c=document.querySelector('#layer-seg button[data-cat="city"]');
@@ -324,7 +324,7 @@ console.log('\n— a province and its capital may share a name, but not a spot �
     const p=await browser.newPage(); await p.setViewport({width:1500,height:980});
     p.on('pageerror',e=>errs.push(String(e)));
     await p.evaluateOnNewDocument(SHIM);
-    await p.goto(URL+'?where='+where,{waitUntil:'networkidle0'}); await ready(p);
+    await p.goto(URL+'?where='+where,{waitUntil:'domcontentloaded'}); await ready(p);
     await p.evaluate(()=>{
       document.querySelector('#layer-seg button[data-opt="labels"]').click();
       const c=document.querySelector('#layer-seg button[data-cat="city"]');
@@ -384,7 +384,7 @@ console.log('\n— Japan in pre-war characters, where they are known —');
   const p=await browser.newPage(); await p.setViewport({width:1500,height:980});
   p.on('pageerror',e=>errs.push(String(e)));
   await p.evaluateOnNewDocument(SHIM);
-  await p.goto(URL+'?where=128,32,146,46',{waitUntil:'networkidle0'}); await ready(p);
+  await p.goto(URL+'?where=128,32,146,46',{waitUntil:'domcontentloaded'}); await ready(p);
   await p.evaluate(()=>{
     document.querySelector('#layer-seg button[data-opt="labels"]').click();
     const c=document.querySelector('#layer-seg button[data-cat="city"]');

@@ -9,8 +9,8 @@
  * vanish for any reader who zoomed near it. See docs/tasks.md.
  */
 'use strict';
-const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
-const BASE = process.env.MAP_URL || 'http://localhost:8123/index.html';
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch, HOST } = require('./suite.js');
+const BASE = process.env.MAP_URL || HOST+'/index.html';
 
 /* How much of a country is actually painted: its atom's live paths plus its
    backing, if that is showing. Zero means the country is not on the map. */
@@ -34,7 +34,7 @@ const PAINTED = (key) => {
   await p.setViewport({ width: 900, height: 1200, isMobile: true, hasTouch: true });
   const errs = [];
   p.on('pageerror', e => errs.push(String(e)));
-  await p.goto(BASE, { waitUntil: 'networkidle0' });
+  await p.goto(BASE, { waitUntil: 'domcontentloaded' });
   await ready(p);
 
   const home = await p.evaluate(PAINTED, 'japan');

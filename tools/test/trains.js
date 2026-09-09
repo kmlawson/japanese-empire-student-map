@@ -18,11 +18,11 @@
  * pointing at the map, shim matchMedia for the mouse, and use
  * `touchscreen.tap` — never `mouse.down` — for the finger.
  */
-const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch, HOST } = require('./suite.js');
 const { sandboxDownloads } = require('./downloads.js');
 const fs = require('fs');
 
-const BASE='http://localhost:8123/index.html';
+const BASE=HOST+'/index.html';
 const WHOLE=BASE+'?where=66,-12,180,55';
 const TAIWAN=BASE+'?where=119.9,21.7,122.2,25.5';
 
@@ -89,7 +89,8 @@ const shutDialogs=p=>p.evaluate(()=>{
     await p.setViewport({width:1200,height:860});
     const fetched=[];
     p.on('request',r=>{const u=r.url(); if(/trains\.js|tw-trains\.js/.test(u))fetched.push(u.split('/').pop().split('?')[0]);});
-    await p.goto(TAIWAN,{waitUntil:'networkidle0'});
+    await p.goto(TAIWAN,{waitUntil:'domcontentloaded'});
+    await ready(p);
     await shutDialogs(p);
     let v=await look(p);
     check('off: no layer, no bar', !v.layer && !v.bar, JSON.stringify(v));
@@ -127,7 +128,8 @@ const shutDialogs=p=>p.evaluate(()=>{
     check('still nothing fetched by any of that', fetched.length===0, fetched.join());
 
     /* ---- 2. the switch alone is not enough -------------------------- */
-    await p.goto(WHOLE,{waitUntil:'networkidle0'});
+    await p.goto(WHOLE,{waitUntil:'domcontentloaded'});
+    await ready(p);
     await shutDialogs(p);
     await setSwitch(p,true);
     await sleep(400);
@@ -141,9 +143,9 @@ const shutDialogs=p=>p.evaluate(()=>{
        looks at the island. Everything from here to step 9 is one page, so the
        fetch counts mean what they say. */
     const on=await p.evaluate(()=>new URL(location.href).searchParams.get('layers')||'');
-    await p.goto(TAIWAN+'&layers='+on,{waitUntil:'networkidle0'});
+    await p.goto(TAIWAN+'&layers='+on,{waitUntil:'domcontentloaded'});
+    await ready(p);
     await shutDialogs(p);
-    await sleep(1400);
     v=await look(p);
     check('zoomed in: the layer is built', v.layer, JSON.stringify(v));
     check('zoomed in: the bar is up', v.bar, JSON.stringify(v));
@@ -538,9 +540,9 @@ const shutDialogs=p=>p.evaluate(()=>{
     const back=await browser.newPage();
     await back.evaluateOnNewDocument(SHIM);
     await back.setViewport({width:1200,height:860});
-    await back.goto(TAIWAN+'&layers='+code,{waitUntil:'networkidle0'});
+    await back.goto(TAIWAN+'&layers='+code,{waitUntil:'domcontentloaded'});
+    await ready(back);
     await shutDialogs(back);
-    await sleep(1400);
     const shared=await look(back);
     check('a shared link carries the train tools', shared.bar && shared.layer,
       'layers='+code+' '+JSON.stringify(shared));
@@ -566,9 +568,9 @@ const shutDialogs=p=>p.evaluate(()=>{
       const q = await browser.newPage();
       await q.evaluateOnNewDocument(SHIM);
       await q.setViewport({width:1200,height:860});
-      await q.goto(TAIWAN+'&layers='+code.toString(36),{waitUntil:'networkidle0'});
+      await q.goto(TAIWAN+'&layers='+code.toString(36),{waitUntil:'domcontentloaded'});
+      await ready(q);
       await shutDialogs(q);
-      await sleep(2000);
       const got = await q.evaluate(()=>({
         twRail:document.querySelector('#opt-tw-rail').checked,
         twSta:document.querySelector('#opt-tw-stations').checked,
@@ -594,7 +596,8 @@ const shutDialogs=p=>p.evaluate(()=>{
     /* ---- 10. and all of it with a finger ---------------------------- */
     const t=await browser.newPage();
     await t.setViewport({width:414,height:820,isMobile:true,hasTouch:true});
-    await t.goto(TAIWAN,{waitUntil:'networkidle0'});
+    await t.goto(TAIWAN,{waitUntil:'domcontentloaded'});
+    await ready(t);
     await shutDialogs(t);
     await setSwitch(t,true);
     await sleep(1400);
@@ -668,7 +671,8 @@ const shutDialogs=p=>p.evaluate(()=>{
       const q=await browser.newPage();
       await q.evaluateOnNewDocument(SHIM);
       await q.setViewport({width:w,height:h});
-      await q.goto(TAIWAN,{waitUntil:'networkidle0'});
+      await q.goto(TAIWAN,{waitUntil:'domcontentloaded'});
+      await ready(q);
       await shutDialogs(q);
       await setSwitch(q,true);
       await sleep(1500);
@@ -715,7 +719,8 @@ const shutDialogs=p=>p.evaluate(()=>{
        so the strip stands down while one is, as the legend already does. */
     const L=await browser.newPage();
     await L.setViewport({width:667,height:375,isMobile:true,hasTouch:true});
-    await L.goto(TAIWAN,{waitUntil:'networkidle0'});
+    await L.goto(TAIWAN,{waitUntil:'domcontentloaded'});
+    await ready(L);
     await shutDialogs(L);
     await setSwitch(L,true);
     await sleep(1500);
@@ -757,7 +762,7 @@ const shutDialogs=p=>p.evaluate(()=>{
     const ttErr=[];
     tt.on('pageerror',e=>ttErr.push(String(e).slice(0,160)));
     await tt.setViewport({width:1200,height:900});
-    await tt.goto('http://localhost:8123/timetable/taiwan-1936.html',
+    await tt.goto(HOST+'/timetable/taiwan-1936.html',
                   {waitUntil:'networkidle0'});
     /* The printed tables, which are not the map: `ready` waits for `#land`
        and this page has none. `networkidle0` is the whole of the wait here. */
@@ -849,7 +854,7 @@ const shutDialogs=p=>p.evaluate(()=>{
       await pg.setViewport({width:1400,height:900});
       await pg.evaluateOnNewDocument(SHIM);
       const es=[]; pg.on('pageerror',e=>es.push(String(e)));
-      await pg.goto(BASE+'?where=119,21.5,122.6,25.6',{waitUntil:'networkidle0'});
+      await pg.goto(BASE+'?where=119,21.5,122.6,25.6',{waitUntil:'domcontentloaded'});
       await ready(pg);
       /* Before any railway is on there is nothing to run a timetable over, so
          neither the row nor the button is offered. */
@@ -907,8 +912,8 @@ const shutDialogs=p=>p.evaluate(()=>{
       const q = await browser.newPage();
       await q.evaluateOnNewDocument(SHIM);
       await q.setViewport({ width: 1300, height: 950 });
-      await q.goto(TAIWAN, { waitUntil: 'networkidle0' });
-      await sleep(3200);
+      await q.goto(TAIWAN, { waitUntil: 'domcontentloaded' });
+      await ready(q);
       await shutDialogs(q);
       await setSwitch(q, true);
       await sleep(2600);
@@ -980,8 +985,8 @@ const shutDialogs=p=>p.evaluate(()=>{
       const q = await browser.newPage();
       await q.evaluateOnNewDocument(SHIM);
       await q.setViewport({ width: 1300, height: 950 });
-      await q.goto(TAIWAN, { waitUntil: 'networkidle0' });
-      await sleep(3200);
+      await q.goto(TAIWAN, { waitUntil: 'domcontentloaded' });
+      await ready(q);
       await shutDialogs(q);
       await q.evaluate(() => {
         const r = document.querySelector('#opt-tw-rail');

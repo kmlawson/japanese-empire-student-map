@@ -22,7 +22,7 @@ const arm=async(p,t)=>p.evaluate(t=>{const b=document.querySelector('.ann-tool[d
 const p=await b.newPage(); await p.setViewport({width:1500,height:950});
 await p.evaluateOnNewDocument(SHIM);
 const errs=[]; p.on('pageerror',e=>errs.push(String(e)));
-await p.goto('http://localhost:8123/index.html',{waitUntil:'networkidle0'}); await ready(p, false);
+await p.goto(require('./suite.js').BASE,{waitUntil:'networkidle0'}); await ready(p, false);
 
 console.log('\n— 8) the tools on offer —');
 await p.evaluate(()=>document.querySelector('#ann-create').click()); await sleep(1500);

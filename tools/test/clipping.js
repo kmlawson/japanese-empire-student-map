@@ -17,8 +17,8 @@
  * gives a mark that hangs outside its content — which is the fix the strip
  * uses. An element inside that room is fine; one outside it is lost.
  */
-const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
-const URL='http://localhost:8123/index.html';
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch, HOST } = require('./suite.js');
+const URL=HOST+'/index.html';
 
 const DETECT=()=>{
   const out=[];
@@ -70,7 +70,7 @@ const DETECT=()=>{
        `evaluate` never returns and the run dies on a protocol timeout rather
        than a failed check. */
     p.on('dialog',d=>d.accept().catch(()=>{}));
-    await p.goto(URL,{waitUntil:'networkidle0'});
+    await p.goto(URL,{waitUntil:'domcontentloaded'});
     await ready(p);
     console.log('\n— '+tag+' —');
     const asLoaded=await p.evaluate(DETECT);

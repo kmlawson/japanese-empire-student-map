@@ -46,7 +46,7 @@ await p.setViewport({ width: 1400, height: 950 });
 await p.evaluateOnNewDocument(S.SHIM);
 const errs = []; p.on('pageerror', e => errs.push(String(e)));
 p.on('dialog', async d => { try { await d.accept(); } catch (e) { /* gone */ } });
-await p.goto('http://localhost:8123/index.html', { waitUntil: 'networkidle0' });
+await p.goto(require('./suite.js').BASE, { waitUntil: 'networkidle0' });
 await S.ready(p, false);
 await p.evaluate(() => document.querySelector('#ann-create').click());
 await sleep(1200);
@@ -94,7 +94,7 @@ await type(p, '#ann-desc', 'a description written after the second save');
 check('so does editing a description', (await p.evaluate(ASKS)) === true);
 
 console.log('\n  — an end date means the end of what was written, not the first of January —');
-await p.goto('http://localhost:8123/index.html', { waitUntil: 'networkidle0' });
+await p.goto(require('./suite.js').BASE, { waitUntil: 'networkidle0' });
 await S.ready(p, false);
 await p.evaluate(() => document.querySelector('#ann-create').click());
 await sleep(1200);

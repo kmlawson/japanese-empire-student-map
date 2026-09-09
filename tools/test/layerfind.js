@@ -17,8 +17,8 @@
  *   * **The chrome follows the rows.** A heading with nothing left under it is
  *     noise.
  */
-const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
-const URL='http://localhost:8123/index.html';
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch, HOST } = require('./suite.js');
+const URL=HOST+'/index.html';
 
 const type=(p,v)=>p.evaluate(x=>{const e=document.getElementById('layers-find');
   e.value=x; e.dispatchEvent(new Event('input',{bubbles:true}));},v);
@@ -37,7 +37,7 @@ const heads=p=>p.evaluate(()=>[...document.querySelectorAll('#dlg-options h3')]
   await page.setViewport({width:1400,height:950});
   await page.evaluateOnNewDocument(SHIM);
   const errs=[]; page.on('pageerror',e=>errs.push(String(e)));
-  await page.goto(URL,{waitUntil:'networkidle2'});
+  await page.goto(URL,{waitUntil:'domcontentloaded'});
   await ready(page);
 
   console.log('\n— a box at the top of the panel —');

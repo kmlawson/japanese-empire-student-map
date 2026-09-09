@@ -10,7 +10,7 @@
  * every one of them is set to its non-default, packed, opened in a fresh page
  * and read back.
  */
-const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch, HOST } = require('./suite.js');
 
 /* Everything the code carries, as it appears in the interface. Each is set to
    the opposite of its default, so a bit that is dropped shows up as a value
@@ -47,9 +47,8 @@ const radio=(p,sel)=>p.evaluate(s=>{const e=document.querySelector(s);
 
 const open=async(b,url)=>{const p=await b.newPage(); await p.setViewport({width:1500,height:950});
   await p.evaluateOnNewDocument(SHIM);
-  await p.goto(url||'http://localhost:8123/index.html',{waitUntil:'networkidle0'});
-  await p.waitForFunction(()=>document.querySelectorAll('#land .atom').length>0,{polling:'raf',timeout:25000});
-  await sleep(900);
+  await p.goto(url||HOST+'/index.html',{waitUntil:'domcontentloaded'});
+  await ready(p);
   await p.evaluate(()=>document.querySelector('#btn-options').click()); await sleep(400);
   return p;};
 
@@ -78,7 +77,7 @@ check('nothing was dropped', wrong.length===0, wrong.join(' | '));
 /* And an address written before any of these bits existed still means what it
    meant: an absent bit is the default, which is why the three that start on
    are stored inverted. */
-const old=await open(b,'http://localhost:8123/index.html?layers=1f');
+const old=await open(b,HOST+'/index.html?layers=1f');
 check('a code from before these settings still opens sensibly',
   await boxIs(old,'#opt-manchukuo') && await boxIs(old,'#opt-mengjiang')
   && await boxIs(old,'#opt-world') && !(await boxIs(old,'#opt-mono')),
@@ -98,7 +97,7 @@ console.log('\n— the railway layer travels in the address —');
   /* Opened on the island, because the layer is faded out at the whole-map
      view by design — a network of dots on a thirteen-pixel Taiwan is a white
      blob, and the zoom gate below is the check for that. */
-  const r = await open(b, 'http://localhost:8123/index.html?bbox=119.9,21.8,122.2,25.4');
+  const r = await open(b, HOST+'/index.html?bbox=119.9,21.8,122.2,25.4');
   await r.evaluate(() => document.querySelector('#opt-tw-rail').click());
   await sleep(1200);
   const href = await r.evaluate(() => location.href);
@@ -210,7 +209,7 @@ console.log('\n— the railway layer travels in the address —');
   /* And it is not drawn at all until the ground is worth it. At the opening
      view Taiwan is thirteen pixels across and the whole network merged into
      one white mass — reported as "a big white dot in SW Taiwan". */
-  const wide = await open(b, 'http://localhost:8123/index.html?layers='
+  const wide = await open(b, HOST+'/index.html?layers='
     + ((1|(1<<5)|(1<<6)|(1<<8)|(1<<25))>>>0).toString(36));
   const far = await wide.evaluate(() => {
     const g = document.getElementById('tw-rail');
@@ -221,7 +220,7 @@ console.log('\n— the railway layer travels in the address —');
     far.ticked && far.display === 'none', JSON.stringify(far));
   await wide.close();
 
-  const close = await open(b, 'http://localhost:8123/index.html?layers='
+  const close = await open(b, HOST+'/index.html?layers='
     + ((1|(1<<5)|(1<<6)|(1<<8)|(1<<25))>>>0).toString(36) + '&bbox=119.9,21.8,122.2,25.4');
   const near = await close.evaluate(() => {
     const g = document.getElementById('tw-rail');
@@ -292,9 +291,9 @@ for (const [label, q] of [
   const p = await b.newPage();
   await p.evaluateOnNewDocument(SHIM);
   await p.setViewport({ width: 1200, height: 860 });
-  await p.goto('http://localhost:8123/index.html' + q, { waitUntil: 'networkidle0' });
+  await p.goto(HOST+'/index.html' + q, { waitUntil: 'domcontentloaded' });
+  await ready(p);
   await p.evaluate(() => document.querySelectorAll('dialog[open]').forEach(d => d.close()));
-  await new Promise(r => setTimeout(r, 2200));
   const got = await p.evaluate(() => ({
     tools: document.querySelector('#opt-train-tools').checked,
     rail: document.querySelector('#opt-tw-rail').checked,
@@ -426,7 +425,7 @@ console.log('\n— one setting at a time, and nothing rides along with it —');
                               ['1en4', { proj: 'laea' }],
                               ['1f', { manchukuo: true, mengjiang: true }],
                               ['s3fk', { relief: true }]]) {
-    const o = await open(b, 'http://localhost:8123/index.html?layers=' + code);
+    const o = await open(b, HOST+'/index.html?layers=' + code);
     const got = await read(o); await o.close();
     check('  layers=' + code + ' still means what it meant',
       Object.keys(want).every(k => JSON.stringify(got[k]) === JSON.stringify(want[k])),

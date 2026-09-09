@@ -13,9 +13,9 @@
  * The cautions from trains.js apply: shut the Layers dialog before pointing
  * at the map, and shim matchMedia for the mouse.
  */
-const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch, HOST } = require('./suite.js');
 
-const BASE='http://localhost:8123/index.html';
+const BASE=HOST+'/index.html';
 const WHOLE=BASE+'?where=66,-12,180,55';
 const KOREA=BASE+'?where=124,33,131.5,43.2';
 /* Taiwan's opening view, which is under the Korea system's box padding and
@@ -68,7 +68,8 @@ const shutDialogs=p=>p.evaluate(()=>{
     p.on('request',r=>{const u=r.url(); if(/trains\.js|kr-trains\.js|tw-trains\.js/.test(u))fetched.push(u.split('/').pop().split('?')[0]);});
 
     /* ---- 1. the switch over the empire: nothing --------------------- */
-    await p.goto(WHOLE,{waitUntil:'networkidle0'});
+    await p.goto(WHOLE,{waitUntil:'domcontentloaded'});
+    await ready(p);
     await shutDialogs(p);
     await setSwitch(p,true);
     await sleep(400);
@@ -78,9 +79,9 @@ const shutDialogs=p=>p.evaluate(()=>{
 
     /* ---- 2. the peninsula as the subject builds Korea's tools ------- */
     const on=await p.evaluate(()=>new URL(location.href).searchParams.get('layers')||'');
-    await p.goto(KOREA+'&layers='+on,{waitUntil:'networkidle0'});
+    await p.goto(KOREA+'&layers='+on,{waitUntil:'domcontentloaded'});
+    await ready(p);
     await shutDialogs(p);
-    await sleep(1600);
     v=await look(p);
     check('over Korea: the layer is built', v.layer, JSON.stringify(v));
     check('over Korea: the bar is up', v.bar, JSON.stringify(v));
@@ -210,9 +211,9 @@ const shutDialogs=p=>p.evaluate(()=>{
     v=await look(p);
     check('zoomed out: the layer is gone', !v.layer && !v.bar, JSON.stringify(v));
     check('but the data stays in memory', v.kr && v.module, JSON.stringify(v));
-    await p.goto(TAIWAN+'&layers='+on,{waitUntil:'networkidle0'});
+    await p.goto(TAIWAN+'&layers='+on,{waitUntil:'domcontentloaded'});
+    await ready(p);
     await shutDialogs(p);
-    await sleep(1600);
     v=await look(p);
     check('over Taiwan the Taiwan tools come up, not Korea\'s',
       v.bar && !/1938/.test(v.note) && fetched.filter(f=>f==='tw-trains.js').length===1,
@@ -225,7 +226,7 @@ const shutDialogs=p=>p.evaluate(()=>{
     const ttErr=[];
     tt.on('pageerror',e=>ttErr.push(String(e).slice(0,160)));
     await tt.setViewport({width:1200,height:900});
-    await tt.goto('http://localhost:8123/timetable/korea-1938.html',{waitUntil:'networkidle0'});
+    await tt.goto(HOST+'/timetable/korea-1938.html',{waitUntil:'networkidle0'});
     await sleep(400);
     const page=()=>tt.evaluate(()=>({
       lang:document.documentElement.lang,

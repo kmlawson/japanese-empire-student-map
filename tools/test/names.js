@@ -21,12 +21,12 @@
  *     so those rows carry `jpfrom` and read Chinese-first there whatever the
  *     switch says.
  */
-const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch, HOST } = require('./suite.js');
 
 const BASE = (1 << 1) | (1 << 3) | (1 << 4) | (1 << 5) | (1 << 6) | (2 << 8);
 const JP = 1 << 22;                     // set means Japanese names ON — off is the default
 const E1942 = 1;
-const url = (bits, bbox) => 'http://localhost:8123/index.html?layers='
+const url = (bits, bbox) => HOST+'/index.html?layers='
   + (bits >>> 0).toString(36) + (bbox ? '&bbox=' + bbox : '');
 
 const LABELS = () => [...document.querySelectorAll('text')]
@@ -39,7 +39,7 @@ const open = async (bits, bbox) => {
   const p = await b.newPage();
   await p.setViewport({ width: 1300, height: 1000 });
   await p.evaluateOnNewDocument(SHIM);
-  await p.goto(url(bits, bbox), { waitUntil: 'networkidle0' });
+  await p.goto(url(bits, bbox), { waitUntil: 'domcontentloaded' });
   await ready(p);
   return p;
 };
@@ -202,10 +202,10 @@ for (const [year, layers, want] of [['1930', '0', 'c30'], ['Dec 1942', '1', 'e42
   const p = await b.newPage();
   await p.evaluateOnNewDocument(SHIM);
   await p.setViewport({ width: 1200, height: 860 });
-  await p.goto('http://localhost:8123/index.html?where=123.5,32.8,132.5,43.5&layers=' + layers,
-               { waitUntil: 'networkidle0' });
+  await p.goto(HOST+'/index.html?where=123.5,32.8,132.5,43.5&layers=' + layers,
+               { waitUntil: 'domcontentloaded' });
+  await ready(p);
   await p.evaluate(() => document.querySelectorAll('dialog[open]').forEach(d => d.close()));
-  await new Promise(r => setTimeout(r, 1500));
   const spot = async sel => p.evaluate(s => {
     const e = document.querySelector(s);
     if (!e) return null;
@@ -300,8 +300,8 @@ console.log('\n— Karafuto\u2019s small towns —');
   const p = await b.newPage();
   await p.evaluateOnNewDocument(SHIM);
   await p.setViewport({ width: 1200, height: 860 });
-  await p.goto('http://localhost:8123/index.html', { waitUntil: 'networkidle0' });
-  await new Promise(r => setTimeout(r, 2600));
+  await p.goto(HOST+'/index.html', { waitUntil: 'domcontentloaded' });
+  await ready(p);
   const got = await p.evaluate(want => {
     const out = {};
     ['e1930', 'e1942'].forEach(ep => {

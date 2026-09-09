@@ -27,7 +27,7 @@
  * `Finish line` has to leave the JSON in the box, because taking it away at
  * the moment the reader says finished would throw the work out.
  */
-const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch, HOST } = require('./suite.js');
 
 const SEC = () => [...document.querySelectorAll('#jmap-admin section')]
   .find(x => /Shipping routes/.test((x.querySelector('h2') || {}).textContent || ''));
@@ -93,8 +93,8 @@ const onCourse = (p, frac) => p.evaluate(f => {
       : m.call(window, q));
     try { localStorage.setItem('jmap-admin', '1'); } catch (e) { /* private */ }
   });
-  await p.goto('http://localhost:8123/index.html?where=118,26,146,44',
-               { waitUntil: 'networkidle0' });
+  await p.goto(HOST+'/index.html?where=118,26,146,44',
+               { waitUntil: 'domcontentloaded' });
   await ready(p);
 
   console.log('\n— the tool is there and asleep —');
@@ -279,8 +279,8 @@ const onCourse = (p, frac) => p.evaluate(f => {
     await q.evaluateOnNewDocument(() => {
       try { localStorage.setItem('jmap-admin', '1'); } catch (e) { /* private */ }
     });
-    await q.goto('http://localhost:8123/index.html?layers=' + code(bits),
-                 { waitUntil: 'networkidle0' });
+    await q.goto(HOST+'/index.html?layers=' + code(bits),
+                 { waitUntil: 'domcontentloaded' });
     await ready(q);
     const mode = await q.evaluate(() =>
       window.JMAP_GEO ? window.JMAP_GEO.mode() : null);

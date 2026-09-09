@@ -18,7 +18,7 @@
  *     `air-play.js` character for character, because two copies of a drawing
  *     drift and a guard is cheaper than noticing.
  */
-const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch, HOST } = require('./suite.js');
 const fs=require('fs');
 const shownIcon=p=>p.evaluate(()=>{
   const b=document.getElementById('btn-air');
@@ -47,7 +47,7 @@ const st=p=>p.evaluate(()=>({
   const p=await b.newPage(); await p.setViewport({width:1400,height:900});
   await p.evaluateOnNewDocument(SHIM);
   const errs=[]; p.on('pageerror',e=>errs.push(String(e)));
-  await p.goto('http://localhost:8123/index.html',{waitUntil:'networkidle2'});
+  await p.goto(HOST+'/index.html',{waitUntil:'domcontentloaded'});
   await ready(p);
 
   /* This used to read "with nothing on, there is nothing to read", and the
@@ -214,7 +214,7 @@ const st=p=>p.evaluate(()=>({
     await pg.setViewport({ width: 1400, height: 900 });
     pg.on('pageerror', e => errs.push(String(e)));
     await pg.evaluateOnNewDocument(SHIM);
-    await pg.goto('http://localhost:8123/index.html', { waitUntil: 'networkidle0' });
+    await pg.goto(HOST+'/index.html', { waitUntil: 'domcontentloaded' });
     await ready(pg);
     await pg.keyboard.press('f'); await sleep(2000);
     await pg.evaluate(() => { const t = document.getElementById('btn-layer-info');

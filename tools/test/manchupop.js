@@ -28,12 +28,12 @@
  * ground. And they need a decimal: Kōan-hoku is 0.8 to the square kilometre
  * and Kokka 1.3, and rounded to whole numbers both print 1.
  */
-const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch, HOST } = require('./suite.js');
 
 const WHERE = '&where=115,38,135,54';
-const MANCHURIA = 'http://localhost:8123/index.html?layers=1' + WHERE;
+const MANCHURIA = HOST+'/index.html?layers=1' + WHERE;
 // the same view, with whatever layer code is being tried
-const withCode = code => 'http://localhost:8123/index.html?layers=' + code + WHERE;
+const withCode = code => HOST+'/index.html?layers=' + code + WHERE;
 
 const open = async (b, url) => {
   const p = await b.newPage();
@@ -45,9 +45,9 @@ const open = async (b, url) => {
       : m.call(window, q));
   });
   await p.setViewport({ width: 1400, height: 1000 });
-  await p.goto(url, { waitUntil: 'networkidle0' });
+  await p.goto(url, { waitUntil: 'domcontentloaded' });
+  await ready(p);
   await p.evaluate(() => document.querySelectorAll('dialog[open]').forEach(d => d.close()));
-  await sleep(3000);
   return p;
 };
 

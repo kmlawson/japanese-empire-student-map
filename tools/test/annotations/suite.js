@@ -32,7 +32,7 @@ async function page(b, opts={}) {
   });
   p.__errs=[]; p.on('pageerror',e=>p.__errs.push(String(e)));
   p.on('console',m=>{if(m.type()==='error')p.__errs.push('console: '+m.text());});
-  await p.goto('http://localhost:8123/index.html'+(opts.query||''),{waitUntil:'networkidle0'});
+  await p.goto(shared.BASE+(opts.query||''),{waitUntil:'networkidle0'});
   await ready(p, opts);
   return p;
 }
@@ -163,4 +163,4 @@ function shot(name){
   return _path.join(SHOTS,name);
 }
 
-module.exports={puppeteer,sleep,page,ready,tap,openPanel,pickTool,stickTool,dropTool,SPOT,FIX,BIG,check,SHIM,shot,report};
+module.exports={puppeteer,sleep,page,ready,tap,openPanel,pickTool,stickTool,dropTool,SPOT,FIX,BIG,check,SHIM,shot,report,BASE:shared.BASE};

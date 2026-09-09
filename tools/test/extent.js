@@ -11,7 +11,7 @@
    Indies and says nothing about China at all. Switching source silently took
    the whole line, and `occSource` is saved, so it stayed gone across reloads
    with the checkbox still ticked. */
-const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch, HOST } = require('./suite.js');
 const state=p=>p.evaluate(()=>{const e=document.querySelector('#extent-1942');
   return {line:!!e&&getComputedStyle(e).display!=='none',
           legend:[...document.querySelectorAll('#legend .item')].some(i=>/Extent of Japanese control/.test(i.textContent)),
@@ -24,7 +24,7 @@ const occ=async(p,which)=>{await p.evaluate(w=>{const r=document.querySelector('
 (async()=>{const b=await launch();
 const p=await b.newPage(); await p.setViewport({width:1500,height:950});
 const errs=[]; p.on('pageerror',e=>errs.push(String(e)));
-await p.goto('http://localhost:8123/index.html',{waitUntil:'networkidle0'}); await sleep(3500);
+await p.goto(HOST+'/index.html',{waitUntil:'domcontentloaded'}); await ready(p);
 
 console.log('\n— where it belongs —');
 check('1930 has no perimeter', !(await state(p)).line);

@@ -22,10 +22,10 @@
  * `elementFromPoint` over a station returns the dialog — every hover check
  * then fails for a reason that has nothing to do with the map.
  */
-const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch, HOST } = require('./suite.js');
 
 const TAIWAN='?bbox=119.5,21.5,122.5,25.6';
-const URL='http://localhost:8123/index.html'+TAIWAN;
+const URL=HOST+'/index.html'+TAIWAN;
 
 /* Whatever station names are on the sheet right now. The label elements are
    always present; an unasked-for one simply holds no text. */
@@ -86,7 +86,7 @@ const p=await b.newPage();
 await p.setViewport({width:900,height:1000});
 await p.evaluateOnNewDocument(SHIM);
 p.on('pageerror',e=>errs.push(String(e)));
-await p.goto(URL,{waitUntil:'networkidle0'});
+await p.goto(URL,{waitUntil:'domcontentloaded'});
 await ready(p);
 
 console.log('\n— the toggle only exists once the railways are drawn —');
@@ -173,7 +173,7 @@ console.log('\n— a finger, which has no hover at all —');
 const q=await b.newPage();
 await q.setViewport({width:900,height:1000,isMobile:true,hasTouch:true});
 q.on('pageerror',e=>errs.push(String(e)));
-await q.goto(URL,{waitUntil:'networkidle0'});
+await q.goto(URL,{waitUntil:'domcontentloaded'});
 await ready(q);
 await turnOn(q);
 {
@@ -276,7 +276,7 @@ console.log('\n— with Other on, the names wait for the zoom —');
   await far.setViewport({width:1100,height:900});
   await far.evaluateOnNewDocument(SHIM);
   far.on('pageerror',e=>errs.push(String(e)));
-  await far.goto('http://localhost:8123/index.html?bbox=119.5,21.5,122.5,25.6',{waitUntil:'networkidle0'});
+  await far.goto(HOST+'/index.html?bbox=119.5,21.5,122.5,25.6',{waitUntil:'domcontentloaded'});
   await ready(far);
   await turnOn(far);
   await otherOn(far);
@@ -287,7 +287,7 @@ console.log('\n— with Other on, the names wait for the zoom —');
   const wideDots=await far.evaluate(()=>document.querySelectorAll('#tw-stations .sta-mark').length);
   check('the whole island in view draws stations', wideDots>0, wideDots+' drawn');
   check('and names none of them', (await names(far)).length===0);
-  await far.goto('http://localhost:8123/index.html?bbox=120.8,24.3,121.3,24.7',{waitUntil:'networkidle0'});
+  await far.goto(HOST+'/index.html?bbox=120.8,24.3,121.3,24.7',{waitUntil:'domcontentloaded'});
   await ready(far);
   await turnOn(far);
   check('and still nothing before Other is pressed', (await names(far)).length===0);
@@ -329,7 +329,7 @@ console.log('\n— Korea: the same machinery, a different pair of names —');
   await k.setViewport({width:1100,height:950});
   await k.evaluateOnNewDocument(SHIM);
   k.on('pageerror',e=>errs.push(String(e)));
-  await k.goto('http://localhost:8123/index.html?bbox=125.0,34.5,130.0,38.5',{waitUntil:'networkidle0'});
+  await k.goto(HOST+'/index.html?bbox=125.0,34.5,130.0,38.5',{waitUntil:'domcontentloaded'});
   await ready(k);
 
   check('the row is hidden until the railways are on',

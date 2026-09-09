@@ -21,7 +21,7 @@
  * it, a cmd-click on the sea clears it. A finger cannot pin at all — there is
  * no modifier on a touch screen — so a plain tap must be untouched.
  */
-const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch, HOST } = require('./suite.js');
 
 const BLUR_PX = 2.2;                  // must match PIN_BLUR_PX in map.js
 
@@ -65,7 +65,7 @@ const open = async (bbox, touch) => {
   await p.setViewport(touch ? { width: 900, height: 800, isMobile: true, hasTouch: true }
                             : { width: 1300, height: 900 });
   if (!touch) await p.evaluateOnNewDocument(SHIM);
-  await p.goto('http://localhost:8123/index.html?bbox=' + bbox, { waitUntil: 'networkidle0' });
+  await p.goto(HOST+'/index.html?bbox=' + bbox, { waitUntil: 'domcontentloaded' });
   await ready(p);
   p.__ctx = ctx;
   return p;

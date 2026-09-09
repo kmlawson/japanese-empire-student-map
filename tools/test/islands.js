@@ -16,8 +16,8 @@
  * so the table leaves it out on purpose and this test says so — if somebody
  * fills it in island by island, this check is the one to update.
  */
-const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
-const URL='http://localhost:8123/index.html';
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch, HOST } = require('./suite.js');
+const URL=HOST+'/index.html';
 
 const at=(p,lon,lat)=>p.evaluate((lo,la)=>{
   const svg=document.getElementById('jmap'),pt=svg.createSVGPoint(),m=svg.getScreenCTM();
@@ -61,7 +61,7 @@ const fineIn=p=>p.evaluate(()=>{
   const page=await browser.newPage();
   await page.setViewport({width:1280,height:900});
   const errs=[]; page.on('pageerror',e=>errs.push(String(e)));
-  await page.goto(URL,{waitUntil:'networkidle0'});
+  await page.goto(URL,{waitUntil:'domcontentloaded'});
   await ready(page);
   await page.evaluate(()=>{
     const b=[...document.querySelectorAll('#epoch-seg button')].find(x=>/1942/.test(x.textContent));
@@ -106,7 +106,7 @@ const fineIn=p=>p.evaluate(()=>{
         [...oki][0]+' vs '+[...ama][0]);
 
   console.log('\n— the Inland Sea, where the red specks were —');
-  await page.goto(URL,{waitUntil:'networkidle0'});
+  await page.goto(URL,{waitUntil:'domcontentloaded'});
   await ready(page);
   await page.evaluate(()=>{
     const b=[...document.querySelectorAll('#epoch-seg button')].find(x=>/1942/.test(x.textContent));

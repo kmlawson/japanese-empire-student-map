@@ -22,11 +22,11 @@
  * right in Safari for a month while nothing on screen changed. A fill that
  * differs from the base colour is what a reader actually sees.
  */
-const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch, HOST } = require('./suite.js');
 
 const BASE = (1 << 3) | (1 << 5) | (1 << 6) | (2 << 8);
 const BBOX = '&bbox=113.5,4.2,116.8,6.8';
-const url = bits => 'http://localhost:8123/index.html?layers='
+const url = bits => HOST+'/index.html?layers='
   + (bits >>> 0).toString(36) + BBOX;
 
 const LABUAN_AT = () => {
@@ -61,7 +61,7 @@ const open = async (bits, touch) => {
   await p.setViewport(touch ? { width: 900, height: 1000, isMobile: true, hasTouch: true }
                             : { width: 1300, height: 950 });
   if (!touch) await p.evaluateOnNewDocument(SHIM);
-  await p.goto(url(bits), { waitUntil: 'networkidle0' });
+  await p.goto(url(bits), { waitUntil: 'domcontentloaded' });
   await ready(p);
   p.__ctx = ctx;
   return p;

@@ -25,15 +25,15 @@
  *     say nothing about which province is which, so the boundaries come with
  *     the layer.
  */
-const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch, HOST } = require('./suite.js');
 
-const KOREA = 'http://localhost:8123/index.html?where=123.5,32.8,132.5,43.5';
+const KOREA = HOST+'/index.html?where=123.5,32.8,132.5,43.5';
 const open = async (b, url) => {
   const p = await b.newPage();
   await p.setViewport({ width: 1280, height: 950 });
-  await p.goto(url, { waitUntil: 'networkidle0' });
+  await p.goto(url, { waitUntil: 'domcontentloaded' });
+  await ready(p);
   await p.evaluate(() => document.querySelectorAll('dialog[open]').forEach(d => d.close()));
-  await sleep(2800);
   return p;
 };
 const st = p => p.evaluate(() => ({
@@ -132,7 +132,7 @@ const st = p => p.evaluate(() => ({
   /* Left alone it showed the country's own colour and the relief through the
      middle of a shaded island, which reads as a fault in the drawing rather
      than as a gap in the table. */
-  p = await open(b, 'http://localhost:8123/index.html?where=119.5,21.5,122.5,25.5&layers=1');
+  p = await open(b, HOST+'/index.html?where=119.5,21.5,122.5,25.5&layers=1');
   await p.evaluate(() => document.querySelector('#opt-pop-taiwan-density-density').click());
   // and the relief, because the fault reported was the hillshade coming
   // through the blank — with Topography off there is no `#relief` to be above
@@ -408,8 +408,8 @@ const st = p => p.evaluate(() => ({
   /* Taiwan, at two zooms. The prefectures and the larger districts answer at
      the island view; the rest come in as the reader does. The unit with no
      figure never gets one at either. */
-  const TW_WIDE = 'http://localhost:8123/index.html?layers=1&where=118.8,21.4,122.6,25.8';
-  const TW_NEAR = 'http://localhost:8123/index.html?layers=1&where=120.4,24.2,122.0,25.4';
+  const TW_WIDE = HOST+'/index.html?layers=1&where=118.8,21.4,122.6,25.8';
+  const TW_NEAR = HOST+'/index.html?layers=1&where=120.4,24.2,122.0,25.4';
   p = await open(b, TW_WIDE);
   await p.evaluate(() => document.querySelector('#opt-pop-taiwan-density-density').click());
   await sleep(2400);

@@ -24,7 +24,7 @@
  * often in the *next* province, and a name over the wrong province is worse
  * than a name missing.
  */
-const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch, HOST } = require('./suite.js');
 
 // names on and nothing else
 const box = (lon, lat, w) => {
@@ -35,10 +35,10 @@ const box = (lon, lat, w) => {
 const open = async (b, where) => {
   const p = await b.newPage();
   await p.setViewport({ width: 1280, height: 950 });
-  await p.goto('http://localhost:8123/index.html?layers=g&where=' + where,
-               { waitUntil: 'networkidle0' });
+  await p.goto(HOST+'/index.html?layers=g&where=' + where,
+               { waitUntil: 'domcontentloaded' });
+  await ready(p);
   await p.evaluate(() => document.querySelectorAll('dialog[open]').forEach(d => d.close()));
-  await sleep(3000);
   return p;
 };
 const subs = p => p.evaluate(() => [...document.querySelectorAll('#labels text.sublabel')]

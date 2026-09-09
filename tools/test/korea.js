@@ -13,13 +13,13 @@
  *     back, and the file is fetched once however often that happens;
  *   * the provinces answer the pointer and are named.
  */
-const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch, HOST } = require('./suite.js');
 
-const WIDE='http://localhost:8123/index.html?where=123.5,32.8,132.5,43.5';
+const WIDE=HOST+'/index.html?where=123.5,32.8,132.5,43.5';
 /* The ria coast south-west of Mokpo. Chosen because it is where the two
    resolutions differ most: the coarse set draws blocks and the fine one draws
    the archipelago. */
-const CLOSE='http://localhost:8123/index.html?where=126.05,34.55,126.75,35.05';
+const CLOSE=HOST+'/index.html?where=126.05,34.55,126.75,35.05';
 
 const shape=p=>p.evaluate(()=>{
   const el=document.querySelector('#a-korea');
@@ -47,9 +47,9 @@ const adminOn=async p=>{
     p.on('pageerror',e=>errs.push(String(e).slice(0,160)));
     p.on('request',r=>{ if(/map-korea\.svg/.test(r.url())) fetched.push(1); });
 
-    await p.goto(WIDE,{waitUntil:'networkidle0'});
+    await p.goto(WIDE,{waitUntil:'domcontentloaded'});
+    await ready(p);
     await p.evaluate(()=>document.querySelectorAll('dialog[open]').forEach(d=>d.close()));
-    await sleep(600);
     check('the fine sheet is not fetched at the opening view', fetched.length===0, '');
 
     await adminOn(p);
@@ -65,7 +65,8 @@ const adminOn=async p=>{
     check('and the fine sheet is still not fetched', fetched.length===0, '');
 
     // and now close in, where the finer set is worth its weight
-    await p.goto(CLOSE,{waitUntil:'networkidle0'});
+    await p.goto(CLOSE,{waitUntil:'domcontentloaded'});
+    await ready(p);
     await p.evaluate(()=>document.querySelectorAll('dialog[open]').forEach(d=>d.close()));
     await adminOn(p);
     await sleep(1200);

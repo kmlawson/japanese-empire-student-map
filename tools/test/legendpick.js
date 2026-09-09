@@ -30,11 +30,11 @@
  *     click it still sends; the option-click toggles. One shared toggle turned
  *     the boxes on and straight off again.
  */
-const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch, HOST } = require('./suite.js');
 
 /* 1942, cities on, the rivers and the line of control on — the map's own
    footing, so that Reset has nothing to offer until something is taken off. */
-const WHOLE = 'http://localhost:8123/index.html?layers=2r&where=95,10,150,50';
+const WHOLE = HOST+'/index.html?layers=2r&where=95,10,150,50';
 
 const st = p => p.evaluate(() => {
   const row = re => [...document.querySelectorAll('#legend .item')]
@@ -83,9 +83,9 @@ const clickRow = (p, re) => p.evaluate(rx => {
 const open = async (b, vp) => {
   const p = await b.newPage();
   await p.setViewport(vp || { width: 1280, height: 950 });
-  await p.goto(WHOLE, { waitUntil: 'networkidle0' });
+  await p.goto(WHOLE, { waitUntil: 'domcontentloaded' });
+  await ready(p);
   await p.evaluate(() => document.querySelectorAll('dialog[open]').forEach(d => d.close()));
-  await sleep(2800);
   return p;
 };
 

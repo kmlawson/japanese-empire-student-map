@@ -6,12 +6,12 @@
  * because the version moves once per push, so keying on it meant a file edited
  * without a bump kept its old URL — and its old place in a week-long cache.
  */
-const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch, HOST } = require('./suite.js');
 (async()=>{const b=await launch();
 const p=await b.newPage(); await p.setViewport({width:1300,height:900});
 const urls=[]; p.on('request',r=>{const u=r.url(); if(/\.(js|css|svg)(\?|$)/.test(u)) urls.push(u.split('/').pop());});
 const errs=[]; p.on('pageerror',e=>errs.push(String(e))); p.on('requestfailed',r=>errs.push('failed: '+r.url().split('/').pop()));
-await p.goto('http://localhost:8123/index.html',{waitUntil:'networkidle0'}); await sleep(3500);
+await p.goto(HOST+'/index.html',{waitUntil:'domcontentloaded'}); await ready(p);
 console.log('  first load :', urls.join('  '));
 // the key is a hash of the file's own contents, not the version number
 const KEY=/\?v=[0-9a-f]{10}$/;
@@ -28,7 +28,9 @@ check('the admin sheet carries one', urls.some(u=>/^japan-empire-map-admin\.svg\
 check('annotate.js carries one', urls.some(u=>/^annotate\.js\?v=[0-9a-f]{10}$/.test(u)), urls.join(' '));
 // and a deep zoom for the fine coastlines
 urls.length=0;
-await p.goto('http://localhost:8123/index.html?bbox=126.5,25.8,128.6,26.9',{waitUntil:'networkidle0'}); await sleep(4500);
+await p.goto(HOST+'/index.html?bbox=126.5,25.8,128.6,26.9',{waitUntil:'domcontentloaded'}); await ready(p);
+// the fine sheet is asked for 220 ms after the view settles, not on load
+try { await p.waitForResponse(r=>/japan-empire-map-fine\.svg/.test(r.url()),{timeout:8000}); } catch(e){ /* the check says so */ }
 check('the fine coastlines carry one', urls.some(u=>/^japan-empire-map-fine\.svg\?v=[0-9a-f]{10}$/.test(u)), urls.join(' '));
 check('the map still works', await p.evaluate(()=>document.querySelectorAll('#land .atom').length)===86);
 check('no errors and nothing failed to load', errs.length===0, errs[0]);

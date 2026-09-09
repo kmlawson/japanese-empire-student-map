@@ -24,13 +24,13 @@
  *     and one nobody would think to test for because it looks like a design
  *     choice.
  */
-const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch, HOST } = require('./suite.js');
 
 const BASE = (1 << 5) | (1 << 6);          // line of control and rivers, as they start
 const RELIEF = 1 << 18;
 const PROJBIT = { mercator: 0, albers: 1 << 15, laea: 2 << 15 };
 const DETAIL = n => n << 19;
-const url = (bits) => 'http://localhost:8123/index.html?layers=' + (bits >>> 0).toString(36);
+const url = (bits) => HOST+'/index.html?layers=' + (bits >>> 0).toString(36);
 
 (async () => {
 const b = await launch();
@@ -42,7 +42,7 @@ console.log('\n— off until it is asked for —');
   const got = [];
   p.on('request', r => { if (/relief-/.test(r.url())) got.push(r.url().split('/').pop().split('?')[0]); });
   const errs = []; p.on('pageerror', e => errs.push(String(e)));
-  await p.goto('http://localhost:8123/index.html', { waitUntil: 'networkidle0' });
+  await p.goto(HOST+'/index.html', { waitUntil: 'domcontentloaded' });
   await ready(p);
   check('the box is unticked', !(await p.evaluate(() =>
     document.querySelector('#opt-relief').checked)));
@@ -192,7 +192,7 @@ console.log('\n— it is in the right place, in all three projections —');
     const open = async (on) => {
       const p = await b.newPage();
       await p.setViewport({ width: 1300, height: 900 });
-      await p.goto(url(BASE | (on ? RELIEF : 0) | PROJBIT[mode]), { waitUntil: 'networkidle0' });
+      await p.goto(url(BASE | (on ? RELIEF : 0) | PROJBIT[mode]), { waitUntil: 'domcontentloaded' });
       await ready(p);
       return p;
     };
@@ -269,7 +269,7 @@ console.log('\n— it goes away as the reader zooms in, and not before —');
     const p = await b.newPage();
     await p.setViewport(touch ? { width: w, height: h, isMobile: true, hasTouch: true }
                               : { width: w, height: h });
-    await p.goto(url(BASE | RELIEF), { waitUntil: 'networkidle0' });
+    await p.goto(url(BASE | RELIEF), { waitUntil: 'domcontentloaded' });
     await ready(p);
     return p;
   };
@@ -318,7 +318,7 @@ console.log('\n— one warp per projection, and only the one in use —');
     const got = [];
     p.on('request', r => { if (/relief-/.test(r.url())) got.push(r.url().split('/').pop().split('?')[0]); });
     const errs = []; p.on('pageerror', e => errs.push(String(e)));
-    await p.goto(url(BASE | RELIEF | PROJBIT[mode]), { waitUntil: 'networkidle0' });
+    await p.goto(url(BASE | RELIEF | PROJBIT[mode]), { waitUntil: 'domcontentloaded' });
     await ready(p);
     check(mode + ': its own image and no other',
       got.length === 1 && got[0] === 'relief-finest-' + mode + '.webp', got.join(','));
@@ -363,7 +363,7 @@ console.log('\n— one sheet is offered, and it is the finest —');
   await p.setViewport({ width: 1300, height: 900 });
   const got = [];
   p.on('request', r => { if (/relief-/.test(r.url())) got.push(r.url().split('/').pop().split('?')[0]); });
-  await p.goto(url(BASE | RELIEF | (0 << 19)), { waitUntil: 'networkidle0' });
+  await p.goto(url(BASE | RELIEF | (0 << 19)), { waitUntil: 'domcontentloaded' });
   await ready(p);
   check('a link asking for coarse still gets the finest',
     got.length === 1 && got[0] === 'relief-finest-mercator.webp', got.join(','));
@@ -393,9 +393,9 @@ console.log('\n— its two switches agree —');
      The store is emptied from a page on the same origin that does *not* run
      the map — clearing it from index.html does not work, because the app is
      already live and writes its state straight back over the empty store. */
-  await p.goto('http://localhost:8123/relief.js', { waitUntil: 'domcontentloaded' });
+  await p.goto(HOST+'/relief.js', { waitUntil: 'domcontentloaded' });
   await p.evaluate(() => { try { localStorage.clear(); } catch (e) { /* fine */ } });
-  await p.goto('http://localhost:8123/index.html', { waitUntil: 'networkidle0' });
+  await p.goto(HOST+'/index.html', { waitUntil: 'domcontentloaded' });
   await ready(p);
   const both = () => p.evaluate(() => ({
     bar: document.querySelector('#btn-topo').getAttribute('aria-pressed'),
@@ -423,9 +423,9 @@ console.log('\n— its two switches agree —');
      on a wide screen only — the same rule the 1942 pair follows. */
   const q = await b.newPage();
   await q.setViewport({ width: 390, height: 780, isMobile: true, hasTouch: true });
-  await q.goto('http://localhost:8123/relief.js', { waitUntil: 'domcontentloaded' });
+  await q.goto(HOST+'/relief.js', { waitUntil: 'domcontentloaded' });
   await q.evaluate(() => { try { localStorage.clear(); } catch (e) { /* fine */ } });
-  await q.goto('http://localhost:8123/index.html', { waitUntil: 'networkidle0' });
+  await q.goto(HOST+'/index.html', { waitUntil: 'domcontentloaded' });
   await ready(q);
   check('on a phone the bar does not carry it',
     await q.evaluate(() => document.querySelector('#btn-topo').hidden));
@@ -454,7 +454,7 @@ console.log('\n— it says it is loading, and arrives whole —');
   await cdp.send('Network.setCacheDisabled', { cacheDisabled: true });
   await cdp.send('Network.emulateNetworkConditions', { offline: false,
     downloadThroughput: 220 * 1024, uploadThroughput: 220 * 1024, latency: 120 });
-  await p.goto('http://localhost:8123/index.html', { waitUntil: 'networkidle0' });
+  await p.goto(HOST+'/index.html', { waitUntil: 'domcontentloaded' });
   await ready(p);
   const look = () => p.evaluate(() => {
     const btn = document.querySelector('#btn-topo');
@@ -501,7 +501,7 @@ console.log('\n— a sheet already fetched is not fetched again —');
   await p.setViewport({ width: 1400, height: 950 });
   const got = [];
   p.on('request', r => { if (/relief-/.test(r.url())) got.push(r.url().split('/').pop().split('?')[0]); });
-  await p.goto('http://localhost:8123/index.html', { waitUntil: 'networkidle0' });
+  await p.goto(HOST+'/index.html', { waitUntil: 'domcontentloaded' });
   await ready(p);
   /* Waited on from the outside, by counting the requests that actually
      happen, rather than on a page-side proxy for them: the href is a blob
@@ -549,7 +549,7 @@ console.log('\n— and it says so when it fails —');
   await p.setViewport({ width: 1400, height: 950 });
   await p.setRequestInterception(true);
   p.on('request', r => { if (/relief-.*\.webp/.test(r.url())) r.abort(); else r.continue(); });
-  await p.goto('http://localhost:8123/index.html', { waitUntil: 'networkidle0' });
+  await p.goto(HOST+'/index.html', { waitUntil: 'domcontentloaded' });
   await ready(p);
   await p.evaluate(() => document.querySelector('#btn-topo').click());
   await sleep(2600);
