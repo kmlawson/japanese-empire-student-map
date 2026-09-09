@@ -1,0 +1,37 @@
+# Publish deploy/ to GitHub Pages.
+#
+# The site lives in deploy/ — everything the web server needs and nothing
+# else — and GitHub Pages can only publish a branch's root or its docs/
+# folder by itself. So the folder is uploaded as a Pages artifact instead.
+# One setting has to be changed once on github.com for this to take effect:
+#   Settings → Pages → Build and deployment → Source: "GitHub Actions"
+# Until it is, Pages goes on serving the branch root, which no longer holds
+# an index.html.
+name: pages
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: true
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: deploy
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: deploy
+      - id: deployment
+        uses: actions/deploy-pages@v4

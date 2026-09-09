@@ -37,6 +37,7 @@ import urllib.request
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
+SITE = os.path.join(ROOT, "deploy")
 CACHE = os.path.join(HERE, "cache", "station_wiki_check.json")
 
 # A descriptive agent and no address in it: see the standing instruction in
@@ -110,7 +111,7 @@ def post(host, params, fresh=False):
 
 
 def load_js(name):
-    txt = io.open(os.path.join(ROOT, name), encoding="utf-8").read()
+    txt = io.open(os.path.join(SITE, name), encoding="utf-8").read()
     body = txt[txt.index("["):txt.rindex("]") + 1]
     return json.loads(re.sub(r",\s*([\]}])", r"\1", body))
 

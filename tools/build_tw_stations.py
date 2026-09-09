@@ -38,6 +38,7 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
+SITE = os.path.join(ROOT, "deploy")     # what the web server gets; the rest is how it is made
 SRC = os.path.join(HERE, "cache", "taiwan_1930_station_names_v1.geojson")
 OUT = os.path.join(ROOT, "data", "taiwan", "stations.csv")
 
@@ -447,7 +448,7 @@ def write_js(rows):
             o["when"] = ("from " + r["valid_from"] if r.get("valid_from")
                          else "until " + r["valid_to"])
         out.append(o)
-    path = os.path.join(ROOT, "tw-stations.js")
+    path = os.path.join(SITE, "tw-stations.js")
     with io.open(path, "w", encoding="utf-8", newline="\n") as fh:
         fh.write("/* Built by tools/build_tw_stations.py -- do not edit.\n"
                  " * Taiwan's colonial railway stations: %d of them, named in\n"

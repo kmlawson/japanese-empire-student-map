@@ -24,8 +24,9 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
+SITE = os.path.join(ROOT, "deploy")     # what the web server gets; the rest is how it is made
 SRC = os.path.join(ROOT, 'data', 'kf-1935-timetable', 'karafuto-1935-stations.geojson')
-OUT = os.path.join(ROOT, 'kf-stations.js')
+OUT = os.path.join(SITE, 'kf-stations.js')
 
 # What the card says about a station that is not there any more. The geojson's own wording is a
 # phrase, not a sentence, and the card wants a sentence.

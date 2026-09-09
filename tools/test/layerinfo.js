@@ -135,8 +135,8 @@ const st=p=>p.evaluate(()=>({
   check('and back again', ic.epoch==='e1930'&&ic.e1930&&!ic.e1942, JSON.stringify(ic));
 
   console.log('\n- and it is the same drawing the animation flies -');
-  const html=fs.readFileSync('index.html','utf8');
-  const play=fs.readFileSync('air-play.js','utf8');
+  const html=fs.readFileSync(require('path').join(__dirname,'..','..','deploy','index.html'),'utf8');
+  const play=fs.readFileSync(require('path').join(__dirname,'..','..','air-play.js'),'utf8');
   const grab=(name)=>{const i=play.indexOf('var '+name+' = [');
     const j=play.indexOf('\n  ];',i); return play.slice(i,j);};
   const dsOf=blk=>[...blk.matchAll(/\['path', '([^']+)'\]/g)].map(m=>m[1]);

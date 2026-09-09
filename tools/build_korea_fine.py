@@ -28,12 +28,13 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
+SITE = os.path.join(ROOT, "deploy")     # what the web server gets; the rest is how it is made
 sys.path.insert(0, HERE)
 
 import build_map as bm          # noqa: E402  (the projection and the formatter)
 
 SRC = os.path.join(HERE, "cache", "korea_13_provinces_fine.json")
-OUT = os.path.join(ROOT, "japan-empire-map-korea.svg")
+OUT = os.path.join(SITE, "japan-empire-map-korea.svg")
 
 
 def main():

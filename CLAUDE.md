@@ -249,10 +249,21 @@ one file back, and unlike a zip they know what everyone else did.
 
 ## Other sessions may be working in this checkout
 
-`index.html`, `data.js`, `sources.html` and `SOURCES.md` are **built** from
-`texts/`. Running `build_texts.py` while somebody is midway through editing the
-prose splices a half-finished argument into the page. Check `git status` before
-building, and before committing files you did not edit.
+`deploy/index.html`, `deploy/data.js`, `deploy/sources.html` and
+`docs/SOURCES.md` are **built** from `texts/`. Running `build_texts.py` while
+somebody is midway through editing the prose splices a half-finished argument
+into the page. Check `git status` before building, and before committing files
+you did not edit.
+
+## The site is `deploy/`; the rest of the repository is how it is made
+
+Everything a web server needs lives in `deploy/` and nothing else does. The
+five hand-written scripts stay at the root as sources; `build_texts.py`
+writes their comment-stripped copies to `deploy/lean/`, and the page loads
+those. Every build tool writes into `deploy/` (`SITE` in each), the tests
+open `http://localhost:8123/deploy/index.html` from a server started at the
+repository root, and `docs/UPLOAD.md` names what the folder holds. A new
+runtime file goes in `deploy/` and on that list, or the build refuses.
 
 ## A fix is not done until it works with a finger
 

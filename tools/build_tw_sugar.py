@@ -20,8 +20,9 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
+SITE = os.path.join(ROOT, "deploy")     # what the web server gets; the rest is how it is made
 SRC = os.path.join(HERE, "cache", "1929_taiwan_sugar_rail_lines.geojson")
-OUT = os.path.join(ROOT, "japan-empire-map-tw-sugar.svg")
+OUT = os.path.join(SITE, "japan-empire-map-tw-sugar.svg")
 
 # --------------------------------------------------------------- EPSG:3826
 A = 6378137.0                 # GRS80, which WGS84 shares to a tenth of a mm

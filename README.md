@@ -124,11 +124,13 @@ might be gone next year.
 
 ## Running it
 
-Any static web server will do:
+The site is the `deploy/` folder — everything a web server needs and nothing
+else; the rest of the repository is how it is made. Any static web server
+will do, started from the repository root so the tools and tests find it:
 
 ```sh
-python3 -m http.server
-# then open http://localhost:8000/
+python3 -m http.server 8123
+# then open http://localhost:8123/deploy/
 ```
 
 Opening `index.html` straight off the disk will not work, because browsers
@@ -256,9 +258,11 @@ Built with Anthropic's Claude, with Konrad Lawson at the prompt.
 
 ## Putting it on a server
 
-It is eleven static files and about 6 MB. See **[DEPLOY.md](docs/DEPLOY.md)** for
-the list, a sparse shallow checkout that pulls 8 MB instead of 420 and can be
-updated with one `git pull`, and the one `.htaccess` worth adding.
+Upload the `deploy/` folder; nothing outside it is used at run time. See
+**[DEPLOY.md](docs/DEPLOY.md)** for what is in it, a sparse shallow checkout
+that pulls the folder alone and can be updated with one `git pull`, and the
+`.htaccess` inside it that makes Apache compress the lot. GitHub Pages
+publishes the same folder through `.github/workflows/pages.yml`.
 
 ## Licence
 

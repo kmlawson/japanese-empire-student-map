@@ -54,7 +54,7 @@ function loadPuppeteer() {
 const TARGETS = {
   live:  ['froginawell', 'https://froginawell.net/reference/japanese-empire/index.html'],
   pages: ['github pages', 'https://kmlawson.github.io/japanese-empire-student-map/index.html'],
-  local: ['working tree', 'http://localhost:8123/index.html'],
+  local: ['working tree', 'http://localhost:8123/deploy/index.html'],
 };
 
 /* Where to measure. India is first because it is the worst case — the most

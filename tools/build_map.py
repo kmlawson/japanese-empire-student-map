@@ -45,6 +45,7 @@ import shapefile  # noqa: E402
 import gpkg  # noqa: E402
 
 ROOT = os.path.dirname(HERE)
+SITE = os.path.join(ROOT, "deploy")     # what the web server gets; the rest is how it is made
 CACHE = os.path.join(HERE, "cache")
 
 
@@ -7890,7 +7891,7 @@ def main():
     if seam_out:
         out[head:head] = ['    <g id="seams">'] + seam_out + ['    </g>']
 
-    dest = os.path.join(ROOT, "japan-empire-map.svg")
+    dest = os.path.join(SITE, "japan-empire-map.svg")
     _text = "\n".join(out) + "\n"
     check_no_zero_subpaths(_text, "japan-empire-map.svg")
     with open(dest, "w") as fh:
@@ -7904,7 +7905,7 @@ def main():
              "  <title>Administrative divisions</title>"]
     admin.extend(admin_out)
     admin.append("</svg>")
-    adest = os.path.join(ROOT, "japan-empire-map-admin.svg")
+    adest = os.path.join(SITE, "japan-empire-map-admin.svg")
     with open(adest, "w") as fh:
         fh.write("\n".join(admin) + "\n")
     ab = os.path.getsize(adest)
@@ -7919,7 +7920,7 @@ def main():
                "  <title>Republican provinces, AMS 1:250,000</title>"]
         roc.extend(roc_out)
         roc.append("</svg>")
-        rdest = os.path.join(ROOT, "japan-empire-map-roc.svg")
+        rdest = os.path.join(SITE, "japan-empire-map-roc.svg")
         with open(rdest, "w") as fh:
             fh.write("\n".join(roc) + "\n")
         sys.stderr.write(f"wrote {rdest} ({os.path.getsize(rdest) // 1024} KB)\n")
@@ -7953,14 +7954,14 @@ def main():
         ne.extend(ne_out)
         ne.append("  </g>")
         ne.append("</svg>")
-        ndest = os.path.join(ROOT, "japan-empire-map-ne.svg")
+        ndest = os.path.join(SITE, "japan-empire-map-ne.svg")
         with open(ndest, "w") as fh:
             fh.write("\n".join(ne) + "\n")
         sys.stderr.write("wrote %s (%d KB, %d rings, %d vertices)\n"
                          % (ndest, os.path.getsize(ndest) // 1024, len(ne_out), ne_pts))
 
     if fine_svg:
-        fdest = os.path.join(ROOT, "japan-empire-map-fine.svg")
+        fdest = os.path.join(SITE, "japan-empire-map-fine.svg")
         with open(fdest, "w") as fh:
             fh.write(fine_svg)
         sys.stderr.write(f"wrote {fdest} ({os.path.getsize(fdest) // 1024} KB)\n")

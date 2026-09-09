@@ -41,6 +41,7 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
+SITE = os.path.join(ROOT, "deploy")     # what the web server gets; the rest is how it is made
 SRC = {"e1930": os.path.join(HERE, "cache", "korea_1930_stations.geojson"),
        "e1942": os.path.join(HERE, "cache", "korea_1942_stations.geojson")}
 OUT = os.path.join(ROOT, "data", "korea", "stations.csv")
@@ -367,7 +368,7 @@ def write_js(rows):
         if r.get("note"):
             o["note"] = r["note"]
         out.append(o)
-    path = os.path.join(ROOT, "kr-stations.js")
+    path = os.path.join(SITE, "kr-stations.js")
     with io.open(path, "w", encoding="utf-8", newline="\n") as fh:
         fh.write("/* Built by tools/build_kr_stations.py -- do not edit.\n"
                  " * Korea's colonial railway stations: %d of them, named in\n"

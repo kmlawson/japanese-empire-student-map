@@ -44,6 +44,7 @@ import md as markdown
 import texts_lib as T
 
 ROOT = T.ROOT
+SITE = os.path.join(ROOT, "deploy")     # what the web server gets; the rest is how it is made
 TEXTS = T.TEXTS
 
 BANNER = """/* ==================================================================
@@ -1339,7 +1340,7 @@ BANNER_RE = re.compile(r"/\* =+\n \* Generated from texts/.*?=+ \*/\n", re.S)
 
 
 def splice_data_js():
-    path = os.path.join(ROOT, "data.js")
+    path = os.path.join(SITE, "data.js")
     with open(path, encoding="utf-8") as fh:
         src = fh.read()
     m = BANNER_RE.search(src)
@@ -1482,7 +1483,7 @@ def build_pages():
                    for mode in ("mercator", "albers", "laea"))
     assets = {}
     for name in FETCHED:
-        apath = os.path.join(ROOT, name)
+        apath = os.path.join(SITE, name)
         if os.path.exists(apath):
             assets[name] = digest(apath)
 
@@ -1502,7 +1503,7 @@ def build_pages():
         listed = open(upath, encoding="utf-8").read()
         want = set(n for n in FETCHED if not n.startswith("relief/")
                    and not n.startswith("timetable/"))
-        want |= set(n for n in os.listdir(ROOT) if n.endswith(".js"))
+        want |= set(n for n in os.listdir(SITE) if n.endswith(".js"))
         want |= set("lean/" + n for n in ("map.js", "annotate.js", "admin.js",
                                            "trains.js", "air-play.js"))
         missing = sorted(n for n in want if "`%s`" % n not in listed)
@@ -1575,7 +1576,7 @@ def build_pages():
         return "\n".join(out)
 
     LEAN = ("map.js", "annotate.js", "admin.js", "trains.js", "air-play.js")
-    lean_dir = os.path.join(ROOT, "lean")
+    lean_dir = os.path.join(SITE, "lean")
     os.makedirs(lean_dir, exist_ok=True)
     for name in LEAN:
         spath = os.path.join(ROOT, name)
@@ -1588,18 +1589,20 @@ def build_pages():
             with open(lpath, "w", encoding="utf-8") as fh:
                 fh.write(lean)
             written.append("lean/" + name)
-        # what map.js fetches is the lean copy, so that is the key it carries
-        if name in assets:
+        # what map.js fetches is the lean copy, so that is the key it carries.
+        # The source is not in deploy/, so the loop above found nothing for
+        # these four; the lean copy is the asset.
+        if name in FETCHED:
             assets[name] = digest(lpath)
 
     # the table, on the page, ahead of map.js
-    splice_between(os.path.join(ROOT, "index.html"), "assets",
+    splice_between(os.path.join(SITE, "index.html"), "assets",
                    "<script>window.JEM_ASSETS = %s;</script>"
                    % json.dumps(assets, sort_keys=True))
 
     # and now the pages, with map.js hashed as it now stands
     for page in ("index.html", "sources.html"):
-        ppath = os.path.join(ROOT, page)
+        ppath = os.path.join(SITE, page)
         if not os.path.exists(ppath):
             continue
         txt = open(ppath, encoding="utf-8").read()
@@ -1610,7 +1613,7 @@ def build_pages():
             base = name[5:] if name.startswith("lean/") else name
             if base in LEAN and os.path.exists(os.path.join(lean_dir, base)):
                 name = "lean/" + base
-            fpath = os.path.join(ROOT, name)
+            fpath = os.path.join(SITE, name)
             key = digest(fpath) if os.path.exists(fpath) else version
             return '%s="%s?v=%s"' % (m.group(1), name, key)
 
@@ -1623,7 +1626,7 @@ def build_pages():
 
     about = open(os.path.join(TEXTS, "pages", "about.md"),
                  encoding="utf-8").read()
-    splice_between(os.path.join(ROOT, "index.html"), "about",
+    splice_between(os.path.join(SITE, "index.html"), "about",
                    markdown.render(about, indent=2, drop_h1=True) + footer)
     written.append("index.html")
 
@@ -1632,12 +1635,12 @@ def build_pages():
     # two were one page that a reader had to scroll through to find either.
     help_md = open(os.path.join(TEXTS, "pages", "help.md"),
                    encoding="utf-8").read()
-    splice_between(os.path.join(ROOT, "index.html"), "help",
+    splice_between(os.path.join(SITE, "index.html"), "help",
                    markdown.render(help_md, indent=2, drop_h1=True))
 
     src = open(os.path.join(TEXTS, "pages", "sources.md"),
                encoding="utf-8").read()
-    splice_between(os.path.join(ROOT, "sources.html"), "sources",
+    splice_between(os.path.join(SITE, "sources.html"), "sources",
                    markdown.render(src, indent=0, drop_h1=True))
     written.append("sources.html")
 

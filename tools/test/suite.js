@@ -73,7 +73,9 @@ const SHIM = () => {
     : o.call(window, q));
 };
 
-const BASE = process.env.MAP_URL || 'http://localhost:8123/index.html';
+/* The site lives in deploy/ and the server is started from the repository
+   root — `python3 -m http.server 8123` — so the page is under /deploy/. */
+const BASE = process.env.MAP_URL || 'http://localhost:8123/deploy/index.html';
 /* The origin the map is served from, so every script can be pointed at
    another copy — a pinned worktree on another port, say — with one
    variable: `MAP_URL=http://localhost:8124/index.html node tools/test/all.js`. */

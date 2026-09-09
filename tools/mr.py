@@ -40,6 +40,7 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
+SITE = os.path.join(ROOT, "deploy")     # what the web server gets; the rest is how it is made
 
 # The jamo, in Unicode order. A syllable is (initial, vowel, final).
 INITIALS = list("ㄱㄲㄴㄷㄸㄹㅁㅂㅃ"
@@ -225,7 +226,7 @@ def name(word):
 
 def check():
     """Every station that carries both a hangul name and a checked reading."""
-    s = io.open(os.path.join(ROOT, "kr-stations.js"), encoding="utf-8").read()
+    s = io.open(os.path.join(SITE, "kr-stations.js"), encoding="utf-8").read()
     recs = [json.loads(m) for m in
             re.findall(r'\{"[^\n]*?\}(?=,\n|\n\])', s)]
     pairs = [(r["kr"], r["mr"]) for r in recs if r.get("kr") and r.get("mr")]

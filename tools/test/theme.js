@@ -26,7 +26,7 @@ const fs = require('fs');
 const path = require('path');
 const { puppeteer, sleep, ready, until, check, report, SHIM, launch, HOST } = require('./suite.js');
 
-const CSS = fs.readFileSync(path.join(__dirname, '..', '..', 'styles.css'), 'utf8');
+const CSS = fs.readFileSync(path.join(__dirname, '..', '..', 'deploy', 'styles.css'), 'utf8');
 
 /* The declarations of the rule that starts at `sel`, as `name: value` lines
    with comments and blank lines dropped. Deliberately crude — the two blocks

@@ -1,12 +1,13 @@
 # What to upload
 
-Twenty files. Nothing else in this repository is used at runtime — `texts/`,
-`tools/`, `data/` and `occupation-maps/` are how the map is *made*, and
-uploading them costs bandwidth and gives a reader nothing.
+The `deploy/` folder, whole. Nothing else in this repository is used at run
+time — `texts/`, `tools/`, `data/` and `occupation-maps/` are how the map is
+*made*, and the scripts at the root are the sources of the copies in
+`deploy/lean/`. Uploading any of it costs bandwidth and gives a reader nothing.
 
-Put them all in the same directory. Every path in the site is relative, so it
-works at a domain root, in a subdirectory, or off a memory stick, with nothing
-to configure.
+Every path in the site is relative, so `deploy/` works as a domain root, in a
+subdirectory, or off a memory stick, with nothing to configure. The files
+below are what it holds, named relative to it.
 
 ## The files
 

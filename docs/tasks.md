@@ -19787,3 +19787,34 @@ half is already McCune–Reischauer in the ones checked. What is left there is
 romanisation, and is a decision rather than an oversight.
 
 Whole suite 2115 checks across 61 scripts, 399s, all passing.
+
+## The site is `deploy/`; everything else is how it is made
+
+Asked for after `lean/` put a second `admin.js` in the root: it had become
+hard to see what a server needs and what it does not. Now the rule is a
+folder. **`deploy/`** holds every file the web server serves — the pages, the
+stylesheet, `.htaccess`, the generated tables, the seven sheets, `relief/`,
+`timetable/`, `gis/` and `lean/` — and nothing outside it is used at run
+time. The five hand-written scripts stay at the root as the sources of their
+lean copies; `texts/`, `data/`, `tools/`, `docs/` and the rest are the making
+of it. Moved with `git mv`, so history follows.
+
+Every build tool writes there (`SITE` beside `ROOT` in each), and each was
+run after the move: the sheets, the tables, the timetables and the pages came
+out byte-identical in their new place. The tests open
+`http://localhost:8123/deploy/index.html` from a server started at the
+repository root; `MAP_URL` still points them anywhere else. `all.js`'s
+triggers know the new paths, and `lean/`, `gis/` and `.htaccess` under it are
+built or served-only. `docs/DEPLOY.md` and `docs/UPLOAD.md` say "upload
+`deploy/`"; the sparse checkout is one line.
+
+**GitHub Pages needs one setting changed.** Pages can publish a branch root
+or `docs/` on its own and nothing else, so `.github/workflows/pages.yml`
+uploads `deploy/` as a Pages artifact instead. That takes effect only once
+*Settings → Pages → Source* is switched to **GitHub Actions**; until then the
+testing copy at kmlawson.github.io serves the branch root, which no longer
+has an `index.html`. Not pushed for that reason.
+
+`tools/bundle.py` was already unable to find the script tags it replaces
+(the station and relief tags had come between the three it looks for); it
+still is, and says so.

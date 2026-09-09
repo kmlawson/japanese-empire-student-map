@@ -56,7 +56,8 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
-SVG = os.path.join(ROOT, "japan-empire-map.svg")
+SITE = os.path.join(ROOT, "deploy")     # what the web server gets; the rest is how it is made
+SVG = os.path.join(SITE, "japan-empire-map.svg")
 SR50 = os.path.expanduser("~/Library/CloudStorage/Dropbox/GIS/SR_50M/SR_50M.tif")
 SR_HR = os.path.expanduser("~/Library/CloudStorage/Dropbox/GIS/SR_50M/SR_HR/SR_HR.tif")
 
@@ -313,7 +314,7 @@ def main():
     ap.add_argument("--sea", type=int, default=0,
                     help="the flat grey the sheet uses for water "
                          "(default: the commonest value in the clip)")
-    ap.add_argument("--out", default=ROOT)
+    ap.add_argument("--out", default=SITE)
     args = ap.parse_args()
 
     try:

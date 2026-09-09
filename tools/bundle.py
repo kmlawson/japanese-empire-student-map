@@ -15,10 +15,13 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
+SITE = os.path.join(ROOT, "deploy")
 
 
 def read(name):
-    with open(os.path.join(ROOT, name), encoding="utf-8") as fh:
+    # the hand-written scripts are read from the root; everything served, from deploy/
+    where = ROOT if name in ("map.js", "annotate.js") else SITE
+    with open(os.path.join(where, name), encoding="utf-8") as fh:
         return fh.read()
 
 
@@ -66,7 +69,7 @@ def main():
     css = read("styles.css")
     data = read("data.js")
     gaz = read("cities-gaz.js") if os.path.exists(
-        os.path.join(ROOT, "cities-gaz.js")) else ""
+        os.path.join(SITE, "cities-gaz.js")) else ""
     js = read("map.js")
     # The annotation tools are a separate file that `map.js` fetches when a
     # reader asks for them — which a page opened from the file system cannot
@@ -76,7 +79,7 @@ def main():
     svg = read("japan-empire-map.svg")
     admin = read("japan-empire-map-admin.svg")
     fine = read("japan-empire-map-fine.svg") if os.path.exists(
-        os.path.join(ROOT, "japan-empire-map-fine.svg")) else ""
+        os.path.join(SITE, "japan-empire-map-fine.svg")) else ""
 
     # strip the XML declaration; it is only legal at the very top of a document
     svg = re.sub(r"^\s*<\?xml[^>]*\?>\s*", "", svg)

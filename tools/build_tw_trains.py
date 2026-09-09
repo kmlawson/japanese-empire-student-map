@@ -37,9 +37,10 @@ import rail_route
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
+SITE = os.path.join(ROOT, "deploy")     # what the web server gets; the rest is how it is made
 SRC = os.path.join(ROOT, 'data', 'tw-1936-timetable')
-OUT_JS = os.path.join(ROOT, 'tw-trains.js')
-OUT_HTML = os.path.join(ROOT, 'timetable', 'taiwan-1936.html')
+OUT_JS = os.path.join(SITE, 'tw-trains.js')
+OUT_HTML = os.path.join(SITE, 'timetable', 'taiwan-1936.html')
 
 # The same fold as KANJI_VARIANTS in map.js. Kept in step by hand; the two
 # tables are small and the alternative is map.js importing Python.
@@ -219,7 +220,7 @@ def pinyin_table():
 
 def our_stations():
     """tw-stations.js, which is JSON with a JS wrapper and trailing commas."""
-    txt = open(os.path.join(ROOT, 'tw-stations.js'), encoding='utf-8').read()
+    txt = open(os.path.join(SITE, 'tw-stations.js'), encoding='utf-8').read()
     body = txt[txt.index('['):txt.rindex(']') + 1]
     return json.loads(re.sub(r',\s*([\]}])', r'\1', body))
 

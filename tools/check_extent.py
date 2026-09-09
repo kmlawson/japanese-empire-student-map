@@ -1,3 +1,4 @@
+import os
 #!/usr/bin/env python3
 """Which unoccupied ground the 1942 line of control encloses.
 
@@ -20,7 +21,7 @@ so a fix can be aimed. It exits non-zero while any remain.
 """
 
 import re, io, math, sys
-s = io.open('japan-empire-map.svg', encoding='utf-8').read()
+s = io.open(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'deploy', 'japan-empire-map.svg'), encoding='utf-8').read()
 meta = re.search(r'<metadata id="proj"[^>]*>', s).group(0)
 LON0 = float(re.search(r'data-lon-min="([-\d.]+)"', meta).group(1))
 LATMAX = float(re.search(r'data-lat-max="([-\d.]+)"', meta).group(1))

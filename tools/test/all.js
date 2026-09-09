@@ -174,7 +174,7 @@ const TRIGGERS = [
   [/^docs\//,                       []],
   [/^reports\//,                    []],
   [/^gis\//,                        []],            // published exports
-  [/^lean\//,                       []],            // built: the shipped copies of the scripts
+  [/^deploy\/lean\//,               []],            // built: the shipped copies of the scripts
   [/^README|\.md$/,                 []],
   [/^\.gitignore$/,                  []],
   [/^texts\/version\.csv$/,         []],        // the update number
@@ -210,17 +210,19 @@ const TRIGGERS = [
   [/^texts\/layer-info\.(csv|md)$/, ['links', 'transport']],
   [/^texts\/.*\.csv$/,             ['data', 'core']],
 
-  [/^cities-gaz\.js$/,              ['points']],
+  [/^deploy\/cities-gaz\.js$/,      ['points']],
   [/^data\/cities/,                 ['points']],
   [/^data\/air\//,                  ['transport', 'points']],
-  [/^(tw|kr|kf)-(stations|trains)\.js$/, ['transport']],
+  [/^deploy\/(tw|kr|kf)-(stations|trains)\.js$/, ['transport']],
   [/^tools\/build_(tw|kr|kf)_(trains|stations)\.py$/, ['transport']],
   [/^data\/(tw-1936|kr-1938|kf-1935)-timetable\//, []],   // vendored; the build reads it
-  [/^timetable\//,                 ['transport']],
+  [/^deploy\/timetable\//,         ['transport']],
   [/^trains\.js$/,                  ['transport']],
   // the air player: its own module, fetched when the tools are asked for
   [/^air-play\.js$/,                ['transport']],
-  [/^relief\.js$/,                  ['geometry']],
+  [/^deploy\/relief\.js$/,          ['geometry']],
+  [/^deploy\/relief\//,             ['geometry']],
+  [/^deploy\/gis\//,                []],            // published exports
 
   [/\.svg$/,                        ['geometry', 'core']],
   [/^tools\/build_map\.py$/,       ['geometry', 'core']],
@@ -233,10 +235,11 @@ const TRIGGERS = [
      data or the annotation pane, and those are the three most expensive things
      in the suite. */
   [/^map\.js$/,                     ['core', 'points', 'links', 'data']],
-  [/^styles\.css$/,                 ['core', 'points']],
-  [/^data\.js$/,                    ['core', 'points', 'data']],
-  [/^index\.html$/,                 ['core', 'links']],
-  [/^sources\.html$/,               []],
+  [/^deploy\/styles\.css$/,         ['core', 'points']],
+  [/^deploy\/data\.js$/,            ['core', 'points', 'data']],
+  [/^deploy\/index\.html$/,         ['core', 'links']],
+  [/^deploy\/sources\.html$/,       []],
+  [/^deploy\/\.htaccess$/,          []],
 ];
 
 /* ---------------------------------------------------------------------

@@ -42,9 +42,10 @@ from urllib.parse import quote
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
+SITE = os.path.join(ROOT, "deploy")     # what the web server gets; the rest is how it is made
 SRC = os.path.join(ROOT, 'data', 'kr-1938-timetable')
-OUT_JS = os.path.join(ROOT, 'kr-trains.js')
-OUT_HTML = os.path.join(ROOT, 'timetable', 'korea-1938.html')
+OUT_JS = os.path.join(SITE, 'kr-trains.js')
+OUT_HTML = os.path.join(SITE, 'timetable', 'korea-1938.html')
 
 # The same fold the transcription project uses to match its names to the GIS
 # (tools/edition_lib.py there). Applied to both sides before comparing, because
@@ -300,7 +301,7 @@ def grab(text, name):
 
 def our_stations():
     """kr-stations.js, which is JSON with a JS wrapper and trailing commas."""
-    txt = open(os.path.join(ROOT, 'kr-stations.js'), encoding='utf-8').read()
+    txt = open(os.path.join(SITE, 'kr-stations.js'), encoding='utf-8').read()
     body = txt[txt.index('['):txt.rindex(']') + 1]
     return json.loads(re.sub(r',\s*([\]}])', r'\1', body))
 

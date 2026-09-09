@@ -22,8 +22,9 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
+SITE = os.path.join(ROOT, "deploy")     # what the web server gets; the rest is how it is made
 DATA = os.path.join(ROOT, "data")
-OUT = os.path.join(ROOT, "cities-gaz.js")
+OUT = os.path.join(SITE, "cities-gaz.js")
 
 EPOCHS = (("e1930", "cities-1930.csv"), ("e1942", "cities-1942.csv"))
 

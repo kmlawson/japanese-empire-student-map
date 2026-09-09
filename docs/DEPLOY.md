@@ -4,12 +4,16 @@ The site is static — no PHP, no database, no build step on the server. Every
 path in it is relative, so it works at a domain root, in a subdirectory, or off
 a memory stick, without changing anything.
 
-## The files it needs, one folder, and one more worth adding
+## One folder: `deploy/`
 
-Nothing else in this repository is used at runtime. `texts/`, `tools/`,
-`data/`, `occupation-maps/` and `reports/` are how the site is *made*; they are
-not part of it. The nine Topography sheets live in **`relief/`** — the one
-folder the deployment carries; everything else sits beside `index.html`.
+Everything the web server needs is in **`deploy/`**, and nothing outside it is
+used at run time — `texts/`, `tools/`, `data/`, `occupation-maps/` and
+`reports/` are how the site is *made*, and the hand-written scripts at the
+root (`map.js`, `annotate.js`, `admin.js`, `trains.js`, `air-play.js`) are
+the *sources* of the comment-stripped copies the site serves from
+`deploy/lean/`. Upload `deploy/` whole, as the web root or as a subdirectory;
+every path inside it is relative. The table below is what it holds, and
+`docs/UPLOAD.md` is the list the build checks.
 
 | file | size | gzipped | when it loads |
 |---|---:|---:|---|
@@ -56,25 +60,22 @@ cd ~
 git clone --depth 1 --filter=blob:none --sparse \
     https://github.com/kmlawson/japanese-empire-student-map.git map-src
 cd map-src
-git sparse-checkout set --no-cone \
-    /index.html /sources.html /styles.css /map.js /admin.js /annotate.js \
-    /data.js /cities-gaz.js /relief.js /relief /.htaccess \
-    '/japan-empire-map*.svg'
+git sparse-checkout set deploy
 ```
 
-That leaves exactly those files and the `.htaccess`. Then either point the domain at
-`~/map-src` in the DreamHost panel, or keep the checkout separate from the web
-root and copy into it:
+That leaves `deploy/` and nothing else. Then either point the domain at
+`~/map-src/deploy` in the DreamHost panel, or keep the checkout separate from
+the web root and copy into it:
 
 ```sh
-rsync -a --delete --exclude '.git' ~/map-src/ ~/example.com/
+rsync -a --delete ~/map-src/deploy/ ~/example.com/
 ```
 
 **To update, afterwards:**
 
 ```sh
 cd ~/map-src && git pull --depth 1 && \
-  rsync -a --delete --exclude '.git' ~/map-src/ ~/example.com/
+  rsync -a --delete ~/map-src/deploy/ ~/example.com/
 ```
 
 Save that as `~/update-map.sh`, `chmod +x` it, and it is one command from then

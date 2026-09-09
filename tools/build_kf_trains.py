@@ -36,9 +36,10 @@ import rail_route
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
+SITE = os.path.join(ROOT, "deploy")     # what the web server gets; the rest is how it is made
 SRC = os.path.join(ROOT, 'data', 'kf-1935-timetable')
-OUT_JS = os.path.join(ROOT, 'kf-trains.js')
-OUT_HTML = os.path.join(ROOT, 'timetable', 'karafuto-1935.html')
+OUT_JS = os.path.join(SITE, 'kf-trains.js')
+OUT_HTML = os.path.join(SITE, 'timetable', 'karafuto-1935.html')
 
 FOLD = {'內': '内', '奧': '奥', '寶': '宝', '巢': '巣', '廣': '広', '榮': '栄', '樂': '楽',
         '氣': '気', '淸': '清', '溪': '渓', '澤': '沢', '濱': '浜', '眞': '真', '禮': '礼',
@@ -77,7 +78,7 @@ def our_stations():
     """kf-stations.js is written one record to a line with a trailing comma, so it is read a
     line at a time rather than as one array."""
     out = []
-    for line in io.open(os.path.join(ROOT, 'kf-stations.js'), encoding='utf-8'):
+    for line in io.open(os.path.join(SITE, 'kf-stations.js'), encoding='utf-8'):
         line = line.strip().rstrip(',')
         if line.startswith('{') and line.endswith('}'):
             out.append(json.loads(line))
