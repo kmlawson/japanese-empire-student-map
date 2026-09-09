@@ -7,9 +7,9 @@ describing what was actually changed, before it is marked done.
 
 ## Open — asked for and not yet done
 
-Seven entries. The first four are work asked for and not yet done; the last
-three are measured rather than assumed, and everything else that once stood
-here has been closed. Where a fix was a generalisation rather than an answer,
+Nine entries. Six are work asked for and not yet done; three are measured
+rather than assumed, and everything else that once stood here has been
+closed. Where a fix was a generalisation rather than an answer,
 the source that would settle it is named at the foot of this file.
 
 - **The India–Burma frontier: 469 km² of genuine disagreement left.**
@@ -117,6 +117,25 @@ the source that would settle it is named at the foot of this file.
   pieces end is where the map says the lease ended; a period map draws one line
   round the bay and its shores instead, and that is the thing to trace. This is
   no longer a fault in the drawing, only a limit on what is being drawn.
+
+- **The detailed Karafuto coastline is in the repository and nothing draws it.**
+  The data step is done — `japan-empire-map-fine.svg` carries the island
+  clipped at the 50th parallel and verified (see *A detailed Karafuto coastline*,
+  below) — but it does not load on zoom and was never meant to yet. Making it
+  supersede the coarse shape is the fine-sheet machinery: `fetchFine`, the
+  windows and `reprune` in `map.js` have to learn the island, which is a real
+  piece of work. The point of the finer shape is the railway: the Karafuto
+  lines are drawn against a coarse coast and go into the water where the
+  coast is drawn too roughly. Asked for on 9 September 2026.
+
+- **A stretch of the Hwanghae Line is drawn as a straight line.** With the
+  Korean train tools on, the north–south leg of the Hwanghae Line renders as
+  one straight segment between its two ends rather than following the
+  railway's route, while the neighbouring stretches follow the drawn line.
+  The route geometry between those stations is either missing from the
+  timetable's chain or not matched to the railway path, so the plan falls
+  back to the chord. Reported with screenshots on 9 September 2026; see
+  `trains.js` (`lineFeature`, `segment`) and `data/kr-1938-timetable/`.
 
 ---
 
@@ -19580,3 +19599,94 @@ since the export was written.
 `kftrains.js` gains three checks: romanised with the switch off, characters
 with it on, and 東海岸線 by name. 36 pass. `trains` 123, `krtrains` 38,
 `hanlabels` 43.
+
+## The scripts and the tests, after the 9 September review
+
+What `reports/2026.09.09-js-and-tests-review.md` recommended, carried out the
+same day. Four commits, each verified by the full suite before it went in;
+the last full run was 2,115 checks across 61 scripts, all passing, in
+407 s, from 542 s at the start of the day on the same machine.
+
+**The tests.**
+
+* One harness, `tools/test/suite.js`: the puppeteer resolver, the pass/fail
+  counter, the `matchMedia` shim, one launch configuration and `open()`,
+  which loads a page at `domcontentloaded` and waits for the map. The 57
+  private copies of `check`, 52 of the resolver, 34 of the shim and the five
+  launch variants are gone; `annotations/suite.js` builds on the shared one.
+  `annotations/all.js`, a copy of the runner that did not know `run15`, is
+  deleted and its README points at the one runner.
+* `ready()` in place of a sleep after every page load. Literal sleeps in the
+  suite: 871 (833 s on one pass) → 558 (579 s); what is left waits for
+  transitions. Four checks that read the address before the 400 ms rewrite
+  now wait for it (`until`), and `cache-keys` waits for the fine sheet's own
+  response. `layers-url` waits for the address to change rather than
+  sleeping 1,200 ms at each site: 158 s → 89 s. `ready()` also waits 150 ms
+  of network idle so the sheets a `?layers=` code asked for have landed.
+* `all.js` writes each script's seconds and verdict into `runs.jsonl`
+  (`per`) and schedules from the latest measurement; the hand-kept `SECS`
+  table is the fallback. Sixteen of its entries were more than 30% out.
+* `changed` reads a `map.js` diff against the file's section banners
+  (`MAP_SECTIONS`), so an edit to the labels runs the label groups and not
+  the 34 scripts the whole-file rule implied; a hunk outside a known section
+  gets the old rule. `changedFiles()` runs git from the repository root, so
+  the runner works from any directory. `lean/` is a built path.
+* `MAP_URL` points every script at another copy of the site, so the suite
+  can run against a pinned worktree on another port while the tree is being
+  edited. That is how the runs today were done.
+
+**The scripts.**
+
+* `lean/`: `build_texts.py` writes a copy of each hand-written script with
+  its whole-line comments removed and its line numbers kept, and the page
+  loads those. `map.js` on the wire: 272 KB gzipped → 105 KB. The source is
+  untouched and stays beside it. `docs/UPLOAD.md` lists the copies;
+  `check_deploy.py` and `bundle.py` know the path.
+* `JEM_ASSETS` is written into `index.html` (between `assets` markers) and
+  read off the window, so a new relief tile or timetable no longer changes
+  `map.js`'s own cache key.
+* `data.js` opens with `var JMAP = window.JMAP = window.JMAP || {}` rather
+  than a lexical `const`, so the generated tables beside it no longer depend
+  on load order.
+* The three station tables (300 KB, 59 gzipped) are fetched the first time
+  a station layer is switched on — `buildStations` asks for the file through
+  `loadScript` and comes back when it lands — rather than with the page.
+  Measured from cold: a link with Korea's stations on builds all 850.
+* `map.js`: one `loadScript()` for the five on-demand modules where there
+  were four loaders; `fetchSvg()`/`fetchText()` for the five sheets;
+  `LOW_BIT` names every bit of the `layers=` low field and
+  `checkLayerBits()` at start-up reports a shared bit or overlapping
+  high-field places to the console — the fault that shipped three times;
+  the duplicated chooser menu, card lookup, pie slice, circle reprojection,
+  edge clip and air service walk are each written once. `subtypesFor`,
+  `movePairs`, `COORD` (map.js) and `pct`, `dated` (annotate.js) removed:
+  defined and never referenced. `admin.js` builds its widgets through
+  `switchRow`, `readout`, `textarea` and `buttonRow`.
+* Hover-path layout reads, measured rather than guessed: with the
+  administrative sheet on and the CPU throttled 4×, a sweep of 80 mouse moves
+  across China at the opening view forced 47 layouts, 156 ms of layout in
+  all — under 2 ms a move throttled, well under a frame. Left as they are.
+* `CLAUDE.md`: new code may use the JavaScript the browsers run (`const`,
+  `let`, arrows); nothing old is converted.
+
+**Not done, and why.**
+
+* *Splitting `data.js` into per-feature files.* `POPULATION` and `AIR` are
+  read by `layerCode`/`applyLayerCode` — `popGroups()` and `airSets()` decide
+  the link's high field — so both tables have to be in before a link can be
+  read or written. Making them lazy means redesigning the link code, which
+  is not a build change. `PROVINCES` is read on every hover over a sub-unit.
+  `CITY_NAMES` is merged into the gazetteer at boot. The station files were
+  the part of this with no such dependency and are done.
+* *Splitting the air section out of `map.js`.* 1,700 lines that reach the
+  module's state, the card, the selection and the projection directly; the
+  `annotate.js` pattern (a host object and hooks) would take a day of careful
+  work and another session was editing `map.js` throughout. The concatenate-
+  at-build alternative changes where the file is edited and was not imposed.
+  Still recommended; the section banners now give `changed` a way to run
+  only the air suites for an air edit, which was half the cost.
+* *Merging the train and population triplets.* `krtrains.js` and
+  `kftrains.js` differ in 287 of their ~560 lines once names are normalised —
+  each checks things only its system has (Korea's connections, Karafuto's
+  arithmetic-field bits). A parametrised suite is a rewrite, not a merge,
+  and the saving is a few launches. Not done.

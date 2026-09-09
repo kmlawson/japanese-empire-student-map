@@ -1465,6 +1465,9 @@ def build_pages():
                # the train tools and their timetable, both fetched only when a
                # reader zooms in to a railway that has one
                "trains.js", "tw-trains.js", "kr-trains.js", "kf-trains.js",
+               # and the station tables, fetched the first time a station
+               # layer is switched on
+               "tw-stations.js", "kr-stations.js", "kf-stations.js",
                # the air player, fetched when a reader asks for the plane tools
                "air-play.js",
                # and the printed tables, which a station's card links to

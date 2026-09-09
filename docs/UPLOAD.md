@@ -34,7 +34,7 @@ to configure.
 | `tw-trains.js` | 278 KB | 67 KB | with them, over Taiwan |
 | `kr-trains.js` | 1,206 KB | 311 KB | with them, over Korea |
 | `kf-trains.js` | 66 KB | 21 KB | with them, over Karafuto |
-| `tw-stations.js` | 50 KB | 11 KB | when Taiwan's stations are switched on |
+| `tw-stations.js` | 50 KB | 11 KB | when Taiwan's stations are switched on (fetched then, not with the page) |
 | `kr-stations.js` | 229 KB | 38 KB | when Korea's are |
 | `kf-stations.js` | 41 KB | 8 KB | when Karafuto's are |
 | `air-play.js` | 29 KB | 11 KB | when the plane tools are asked for |
