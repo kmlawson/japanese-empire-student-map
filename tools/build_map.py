@@ -2982,12 +2982,23 @@ KR_RAIL_FILES = {"e1930": "korea_1930_lines_dedup.geojson",
                  "e1942": "korea_1942_lines_dedup.geojson"}
 KR_RAIL_TOL = 0.021
 
+# Karafuto's, traced for this map from the 1935 network and used for both dates. The island's
+# railways were built between 1906 and the late 1920s and the map's two years fall either side of
+# nothing much: the state lines and the two private companies stood in 1930 as they stood in 1942,
+# except that the Karafuto Railway Company was bought by the government in 1941, which changed who
+# ran the trains and not where the rails were. One drawing is therefore the honest answer for both
+# epochs, and it is a hand trace, so it is thinned at TRACED_TOL like Taiwan's.
+KF_RAIL_FILES = {"e1930": "karafuto_railways_1935.geojson",
+                 "e1942": "karafuto_railways_1935.geojson"}
+KF_RAIL_TOL = 0.021
+
 # Every railway layer the map draws, and the atom whose fill inks its dots.
 # One table so that the next one is a line here rather than a block of code in
 # three places.
 RAIL_LAYERS = [
     ("tw-rail", "taiwan", TW_RAIL_FILES, TW_RAIL_TOL, "taiwan"),
     ("kr-rail", "korea", KR_RAIL_FILES, KR_RAIL_TOL, "korea"),
+    ("kf-rail", "karafuto", KF_RAIL_FILES, KF_RAIL_TOL, "karafuto"),
 ]
 
 SEAM_STEP = 0.015          # degrees; how finely the gap is searched

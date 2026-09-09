@@ -13,8 +13,8 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '334';
-  var JEM_ASSETS = {"admin.js": "3414697d04", "air-play.js": "14f9f02e79", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "58132ef9c2", "kr-trains.js": "74889615bd", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/korea-1938.html": "91837c326f", "timetable/taiwan-1936.html": "23eaf5f955", "trains.js": "c0629828d0", "tw-trains.js": "7cd1c3f42d"};
+  var JEM_VERSION = '335';
+  var JEM_ASSETS = {"admin.js": "3414697d04", "air-play.js": "14f9f02e79", "annotate.js": "3c719a9aef", "japan-empire-map-admin.svg": "be2a134860", "japan-empire-map-fine.svg": "0f0c4fdf64", "japan-empire-map-korea.svg": "f2f2df9d4f", "japan-empire-map-roc.svg": "3f582f76fc", "japan-empire-map.svg": "0f736bbd33", "kf-trains.js": "3031627e46", "kr-trains.js": "74889615bd", "relief/relief-coarse-albers.webp": "b57f3373ec", "relief/relief-coarse-laea.webp": "4a79ce52b8", "relief/relief-coarse-mercator.webp": "dd24772c29", "relief/relief-fine-albers.webp": "641d43c5c5", "relief/relief-fine-laea.webp": "52676e1c50", "relief/relief-fine-mercator.webp": "1dc7a621a2", "relief/relief-finest-albers.webp": "05b24e1e30", "relief/relief-finest-laea.webp": "1325488946", "relief/relief-finest-mercator.webp": "cac01f8da0", "timetable/karafuto-1935.html": "9cb3d8962f", "timetable/korea-1938.html": "91837c326f", "timetable/taiwan-1936.html": "23eaf5f955", "trains.js": "c0629828d0", "tw-trains.js": "7cd1c3f42d"};
 
   /* Every file this one fetches, with the version on it.
 
@@ -163,9 +163,11 @@
     // on a map of an empire, and a reader who wants it asks for it.
     twRail: false,
     krRail: false,
+    kfRail: false,
     air: false,
     krStations: false,
     twStations: false,
+    kfStations: false,
     /* The working timetable over Taiwan: the lines in the colours the
        timetable gives them, the day's trains running on it, and a station's
        departures in the card. Off by default, and even switched on it draws
@@ -1215,6 +1217,7 @@
     indiaRiversGroup = svg.querySelector('#india-rivers');
     twRailGroup = svg.querySelector('#tw-rail');
     krRailGroup = svg.querySelector('#kr-rail');
+    kfRailGroup = svg.querySelector('#kf-rail');
     buildYellow1938();
     buildAir();
     buildPopRows();
@@ -2069,6 +2072,7 @@
     }
     railFadeOne(twRailGroup, state.twRail && !trainDraws('tw'));
     railFadeOne(krRailGroup, state.krRail && !trainDraws('kr'));
+    railFadeOne(kfRailGroup, state.kfRail && !trainDraws('kf'));
     /* Not faded by the zoom, unlike the railways. A railway is local ground
        and only means anything once the reader is over it; these five services
        cross the whole map and are most legible at the widest view. */
@@ -2223,7 +2227,8 @@
       var rp = railOn ? 'true' : 'false';
       var rl = (railOn ? 'Hide ' : 'Show ')
         + (railSys === 'tw' ? 'Taiwan\u2019s railways'
-         : railSys === 'kr' ? 'Korea\u2019s railways' : 'the railways');
+         : railSys === 'kr' ? 'Korea\u2019s railways'
+         : railSys === 'kf' ? 'Karafuto\u2019s railways' : 'the railways');
       if (btnRailEl.getAttribute('aria-pressed') !== rp || btnRailEl.title !== rl) {
         btnRailEl.setAttribute('aria-pressed', rp);
         btnRailEl.classList.toggle('on', railOn);
@@ -2433,6 +2438,19 @@
       latOn: 13.0,
       latOff: 14.5,
     },
+    kf: {
+      sys: 'kf',
+      data: 'KF_TRAINS',
+      file: 'kf-trains.js',
+      page: 'timetable/karafuto-1935.html',
+      note: 'Timetable of April 1935',
+      src: '\u6a3a\u592a\u570b\u6709\u9435\u9053\u5217\u8eca\u6642\u523b\u8868 (1935)',
+      srcHref: 'https://archive.org/details/karafuto-kokuyu-tetsudo-ressha-jikokuhyo',
+      box: [141.5, 45.9, 145.0, 50.1],
+      atom: 'karafuto',
+      /* Four degrees tall, close to Taiwan's, so the defaults are right: the
+         island is the subject of the view before the tools come up. */
+    },
   };
 
   /* How close in the reader has to be, in degrees of latitude on screen.
@@ -2584,7 +2602,8 @@
     [['#opt-air', 'air'], ['#opt-air-all', 'airAll'],
      ['#opt-han-labels', 'hanLabels'],
      ['#opt-tw-rail', 'twRail'], ['#opt-tw-stations', 'twStations'],
-     ['#opt-kr-rail', 'krRail'], ['#opt-kr-stations', 'krStations']]
+     ['#opt-kr-rail', 'krRail'], ['#opt-kr-stations', 'krStations'],
+     ['#opt-kf-rail', 'kfRail'], ['#opt-kf-stations', 'kfStations']]
       .forEach(function (pair) {
         var box = $(pair[0]);
         if (box) box.checked = !!state[pair[1]];
@@ -3184,6 +3203,7 @@
   var indiaRiversGroup = null;
   var twRailGroup = null;
   var krRailGroup = null;
+  var kfRailGroup = null;
   var staRecs = [];                   // the station records, to re-register
   var buildStations = null;           // set in buildSiteLabels, called on demand
 
@@ -3235,6 +3255,26 @@
                     one, Korean otherwise. The rest have none: the card says
                     what the map knows and offers nothing further, which is
                     the truth about a halt on a branch in Hamgyong. */
+                 wiki: t.wiki || '',
+                 staKind: 'station' };
+      },
+    },
+    kf: {
+      data: 'KF_STATIONS', gid: 'kf-stations',
+      rail: 'kfRail', on: 'kfStations',
+      row: 'row-kf-stations', box: 'opt-kf-stations',
+      ground: [141.5, 45.9, 145.0, 50.1],
+      /* Karafuto's second name is the Russian one, which is not a second
+         reading of the same name but the name of the place today: 大泊 is
+         Korsakov and 眞岡 is Kholmsk. It goes in the local slot all the same,
+         because that is the slot the Japanese-names switch turns off, and a
+         reader who wants the island as it is now wants exactly that. The
+         Cyrillic is on the card under it. */
+      rec: function (t) {
+        return { en: t.ro || t.han, local: t.ruen || t.ro,
+                 ja: t.kana ? t.han + '\uff08' + t.kana + '\uff09' : t.han,
+                 ru: t.ru || '',
+                 jpro: t.ro || '', locro: t.ruen || '', han: t.han,
                  wiki: t.wiki || '',
                  staKind: 'station' };
       },
@@ -4251,6 +4291,9 @@
    *   27  Korea's railways    28  its stations
    *   29  the train tools
    *
+   * Karafuto's railway and its stations are not here. Bit 30 is where the low
+   * field ends, so they are two more places in the arithmetic field below.
+   *
    * Above bit 30 is a second, *arithmetic* field — `hi`, multiplied by 2³⁰ —
    * because `|=` is a 32-bit signed operation and bit 31 would come back
    * negative. The population maps, the colour scheme and the name switches
@@ -4339,16 +4382,34 @@
      * else's map with a railway layer switched on that they never chose. What
      * goes in the link is what was there before the borrow; the tools
      * themselves are bit 29, and they will borrow again at the other end. */
-    var railOn = state.twRail, staOn = state.twStations;
-    var kRailOn = state.krRail, kStaOn = state.krStations;
+    var asRead = {};
+    Object.keys(STATION_SYS).forEach(function (k) {
+      var cfg = STATION_SYS[k];
+      asRead[cfg.rail] = state[cfg.rail];
+      asRead[cfg.on] = state[cfg.on];
+    });
     if (trainBorrowed) {
-      if (trainBorrowed.rail === 'twRail') { railOn = trainBorrowed.hadRail; staOn = trainBorrowed.hadOn; }
-      if (trainBorrowed.rail === 'krRail') { kRailOn = trainBorrowed.hadRail; kStaOn = trainBorrowed.hadOn; }
+      asRead[trainBorrowed.rail] = trainBorrowed.hadRail;
+      asRead[trainBorrowed.on] = trainBorrowed.hadOn;
     }
-    if (railOn) bits |= 33554432;   // bit 25: Taiwan's railways
-    if (staOn) bits |= 67108864;    // bit 26: and their stations
-    if (kRailOn) bits |= 134217728; // bit 27: Korea's railways
-    if (kStaOn) bits |= 268435456;  // bit 28: and their stations
+    /* A LINK NEVER CARRIES SQUARES WITHOUT THE LINE THEY HANG OFF.
+     *
+     * The railway a reader is looking at inside the train tools is borrowed,
+     * so it is written as they had it — off, usually, because the tools
+     * switched it on and not them. The squares are not borrowed: ticking
+     * Show stations there is the reader's own choice and is written on. That
+     * pair is not a state the map can be in — `syncStationLayers` drops the
+     * squares the moment their railway is off — so the link arrived with
+     * nothing marked and the reader who sent it had a station under every
+     * dot. Writing the line with them is the smaller of the two lies, and it
+     * is the one the reader meant. */
+    Object.keys(STATION_SYS).forEach(function (k) {
+      if (asRead[STATION_SYS[k].on]) asRead[STATION_SYS[k].rail] = true;
+    });
+    if (asRead.twRail) bits |= 33554432;   // bit 25: Taiwan's railways
+    if (asRead.twStations) bits |= 67108864;    // bit 26: and their stations
+    if (asRead.krRail) bits |= 134217728; // bit 27: Korea's railways
+    if (asRead.krStations) bits |= 268435456;  // bit 28: and their stations
     if (state.trainTools) bits |= 536870912; // bit 29: the train tools
     /* Bits 0 to 29 are the field above; `|=` is a 32-bit *signed* operation,
        so bit 31 would come back negative and bit 30 is the last one that can
@@ -4389,6 +4450,8 @@
     if (state.airAll) hi += AIRALL_PLACE;
     if (!state.airNames) hi += AIRNAMES_PLACE;   // inverted; see LABEL_CATS
     if (state.hanLabels) hi += HANLABELS_PLACE;
+    if (asRead.kfRail) hi += KFRAIL_PLACE;      // Karafuto's railways; see the note there
+    if (asRead.kfStations) hi += KFSTA_PLACE;   // and their stations
     hi += THEME_PLACE * (THEME_MODES.indexOf(state.theme) + 1 || 0);
     // set when the row is OFF — an old link carries zeroes here and must open
     // with every name switched on, which is what it showed its sender
@@ -4523,6 +4586,8 @@
     state.airAll = !!(Math.floor(hi / AIRALL_PLACE) % 2);
     state.airNames = !(Math.floor(hi / AIRNAMES_PLACE) % 2);    // inverted
     state.hanLabels = !!(Math.floor(hi / HANLABELS_PLACE) % 2);
+    state.kfRail = !!(Math.floor(hi / KFRAIL_PLACE) % 2);
+    state.kfStations = !!(Math.floor(hi / KFSTA_PLACE) % 2);
     state.theme = THEME_MODES[(Math.floor(hi / THEME_PLACE) % 4) - 1] || 'auto';
     LABEL_CATS.forEach(function (c) {          // inverted; see layerCode
       state.labelCats[c.id] = !(Math.floor(hi / c.place) % 2);
@@ -12723,7 +12788,7 @@
     // whether either is drawn at all is `railFade`'s business: it depends on
     // the zoom as well as on the switch
     railFade();
-    [twRailGroup, krRailGroup].forEach(function (g) {
+    [twRailGroup, krRailGroup, kfRailGroup].forEach(function (g) {
       if (!g) return;
       /* A LINE WITH TIES, NOT A ROW OF DOTS.
        *
@@ -13163,6 +13228,13 @@
      by default, so an older link without this place reads as it always
      did. */
   var HANLABELS_PLACE = 8388608;
+  /* Karafuto's railway and its stations. Up here and not beside Taiwan's and
+     Korea's at bits 25 to 28, because bit 29 is the train tools and bit 30 is
+     where the low field ends — `bits = whole % HI_BASE` would swallow
+     anything written there. Off by default, so an older link without these
+     two places reads as it always did. */
+  var KFRAIL_PLACE = 16777216;
+  var KFSTA_PLACE = 33554432;
   var THEME_MODES = ['light', 'dark'];
 
   /* The whole of the switch. `data-theme` on the root element is what
@@ -16808,17 +16880,33 @@
        nothing to mark when the lines are not drawn, so the row is not offered,
        and switching the lines off takes the squares with them rather than
        leaving a checkbox ticked for something invisible. */
-    [['#opt-air', 'air'], ['#opt-tw-rail', 'twRail'], ['#opt-kr-rail', 'krRail'],
-     ['#opt-tw-stations', 'twStations'], ['#opt-kr-stations', 'krStations']]
-      .forEach(function (pair) {
+    var railPairs = [['#opt-air', 'air']];
+    var railKeys = {};
+    Object.keys(STATION_SYS).forEach(function (k) {
+      railPairs.push(['#opt-' + k + '-rail', STATION_SYS[k].rail]);
+      railPairs.push(['#' + STATION_SYS[k].box, STATION_SYS[k].on]);
+      railKeys[STATION_SYS[k].rail] = true;
+    });
+    railPairs.forEach(function (pair) {
         var box = $(pair[0]);
         if (!box) return;
         box.checked = state[pair[1]];
         box.addEventListener('change', function () {
           state[pair[1]] = box.checked;
+          /* THE PANEL IS AS MUCH THE READER AS THE BUTTON IS.
+             While the train tools are up the railway and the squares are
+             borrowed, and what a link carries is what the reader had before
+             the borrow. The two buttons beside the map already move that
+             record when they are pressed; this did not, so a reader who
+             ticked Show stations *here* and shared the link sent it with
+             them off. Same rule, same place. */
+          if (trainBorrowed) {
+            if (trainBorrowed.rail === pair[1]) trainBorrowed.hadRail = box.checked;
+            if (trainBorrowed.on === pair[1]) trainBorrowed.hadOn = box.checked;
+          }
           // unticking the last railway here means the same as pressing the
           // button: the tools have nothing left to run over
-          if (pair[1] === 'twRail' || pair[1] === 'krRail') dropToolsWithRails();
+          if (railKeys[pair[1]]) dropToolsWithRails();
           applyState();
         });
       });
@@ -16977,10 +17065,14 @@
         var keys = Object.keys(STATION_SYS).map(function (k) {
           return STATION_SYS[k].rail;
         });
+        var boxOf = {};
+        Object.keys(STATION_SYS).forEach(function (k) {
+          boxOf[STATION_SYS[k].rail] = '#opt-' + k + '-rail';
+        });
         var anyOn = keys.some(function (k) { return !!state[k]; });
         keys.forEach(function (k) {
           state[k] = !anyOn;
-          var box = $('#opt-' + (k === STATION_SYS.tw.rail ? 'tw-rail' : 'kr-rail'));
+          var box = $(boxOf[k]);
           if (box) box.checked = state[k];
           /* While the train tools are up the railway is borrowed, and the
              reader turning it off here is a decision of their own — the same

@@ -122,6 +122,54 @@ the source that would settle it is named at the foot of this file.
 
 ## Done
 
+### Karafuto's railway, its 97 stations and the April 1935 timetable
+
+A third train-tools system beside Taiwan's and Korea's, over southern Sakhalin. The lines are
+traced for this map from the network of 1935 and drawn on both dates — the state railway and the
+two private companies were built between 1906 and the late 1920s, and what changed between 1930
+and 1942 was that the government bought the Karafuto Railway Company in 1941, not where the rails
+were. `kf-stations.js` carries the 97 stations with the name the sheet prints, the same name in
+modern characters, the kana, a romanisation and the Russian name of the station or the place, so a
+card reads *Yuzhno-Sakhalinsk · 豐原（とよはら）* and a reader can find the ground on a map of
+today. Sixty of the ninety-seven are gone and the card says so.
+
+`kf-trains.js` is **86 trains over seven lines, 96 stretches of track, every one of them traced
+along the line file rather than drawn straight** — the transcription snapped each station to the
+drawn rails and ran a shortest path between consecutive stops, and no pair needed a fallback. Eight
+stations sit more than 400 m from the traced line and one, 北白鳥湖, is 2.6 km from it, the line
+being coarse where it runs north of Ochiai; the spur to the square is visible at that zoom. The two
+ferries to Wakkanai are left off the map: the sheet gives them as prose, sailing times by season
+rather than a column of stops, and a chord between two ports would be a line the transcription
+cannot time. They are on the printed page instead.
+
+**Two things in the shared code were written for exactly two systems and had to be opened up.**
+
+The Layers panel and the button beside the map both named Taiwan's box and Korea's in so many
+words. `$('#opt-' + (k === STATION_SYS.tw.rail ? 'tw-rail' : 'kr-rail'))` is a two-way ternary: with
+a third system it ticked *Korea's* box whenever Karafuto's railway was switched, so the panel
+disagreed with the map. Both are now derived from the registry the stations are built from, which
+is what the rest of that file already did.
+
+And the layer code had no room. Bits 25 to 28 are Taiwan's and Korea's railways and stations, bit
+29 is the tools, and bit 30 is where the low field ends — `bits = whole % HI_BASE` would swallow
+anything written above it — so Karafuto's two are places in the arithmetic high field, at 2²⁴ and
+2²⁵, and the table at the head of `layerCode` says so.
+
+**A link made inside the train tools arrived with no stations on it.** The railway there is
+borrowed, so it is written as the reader had it, which is off; the squares are not borrowed, so
+ticking *Show stations* is the reader's own choice and was written on. That pair is not a state the
+map can be in — `syncStationLayers` drops the squares the moment their railway is off — so the link
+came back blank. This was true of Korea and Taiwan too, and is fixed for all three: a link never
+carries squares without the line they hang off. The panel's checkbox now also moves the borrow
+record, which only the two map-side buttons were doing.
+
+`tools/test/kftrains.js`, 33 checks, 19s: the third system rides on the mechanism, the switches are
+its own, the card names the Russian column rather than Pinyin, the layer code carries both switches
+home, and the printed page opens in 舊字體 with a press to modern forms and CSV under every table.
+
+`SECS`: `kftrains` 19, measured. 46 scripts run for this change — 1,710 checks, 503s, all passing.
+
+
 ### A yellow rim round the Miaodao islands, and where the extra islands come from
 
 The islands off Penglai are filled as taken and were being outlined in Free
@@ -19308,3 +19356,48 @@ on Sakhalin and in the right order down it, each with its characters and its
 own article. 34 pass.
 
 Whole suite 2065 checks across 60 scripts, 604s, all passing.
+
+## Merged the Karafuto railway branch
+
+`origin/karafuto-trains` brought in as a merge, not a rebase: it is one
+self-contained commit — the lines, the 97 stations, 86 trains over seven lines,
+the printed April 1935 page, its two build scripts and a test — and its own
+entry is at the head of Done above. What follows is only what was checked
+before it went in.
+
+**The conflicts were all generated lines** — the asset-hash table in `map.js`,
+the version stamp and the `map.js?v=` cache key in `index.html`. Nothing
+hand-written collided, and the resolution was to take the branch's side and
+then rebuild, so every hash is recomputed from what is actually on disk rather
+than picked from one side of a conflict. `kf-trains.js` and
+`timetable/karafuto-1935.html` are in `JEM_ASSETS` with hashes matching the
+files.
+
+**The arithmetic was the part worth checking, and it is right.** Karafuto's two
+switches go in the high field at 2²⁴ and 2²⁵, and this map has shipped a bit
+collision three times. Every place in that field was enumerated: the four
+population maps take bits 0–1, 4–5, 11–12 and 15–16, sugar 2, the five label
+categories 6–10, the theme 13–14, then 17 to 23 for the air switches and the
+character labels. 24 and 25 were free, and are now the only ones above 3 that
+are not. A second question the branch does not raise but the change invites —
+whether the high field can still be multiplied safely — does not arise: the two
+fields have been written apart with a stop since the shrinking of the link, so
+`hi` has the whole of 2⁵³, and the old single-number form is read and never
+written.
+
+**It builds on the station-borrow rule rather than around it.** The tools were
+stopped from switching the squares on two updates ago; `kftrains.js` asserts
+exactly that for the new system, and the branch's own fix — that a link must
+never carry squares without the line they hang off — is the other half of the
+same problem, and it fixes Taiwan and Korea too.
+
+Run and seen: the strip says *Timetable of April 1935*, 96 stretches of track
+in 7 colours with a chip each, 97 station squares once the reader asks for
+them, all 97 known to the timetable, 13 trains running at 10:00, and the
+network drawn on the island with the Soviet north bare.
+
+Whole suite after the merge: **2098 checks across 61 scripts, 530s, all
+passing** — 33 of them the new `kftrains`.
+
+The update number went to 334 on both sides independently, so this release is
+335 rather than 336; nothing a reader has seen goes backwards.
