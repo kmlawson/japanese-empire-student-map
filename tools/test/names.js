@@ -292,6 +292,75 @@ for (const [year, layers, want] of [['1930', '0', 'c30'], ['Dec 1942', '1', 'e42
   await p.close();
 }
 
+/* KARAFUTO'S SMALL TOWNS.
+ *
+ * Three added by request — Ochiai, Tomarioru and Rutaka — and they are here
+ * rather than in a table of counts because what matters about them is the
+ * *pair* of names. Every Karafuto place on this map is written the Japanese
+ * way with the town's present Russian name after it, because that is how a
+ * reader finds it on a modern map; and each is a gazetteer row on both dates,
+ * the tables being separate files that a later edit could drop one of.
+ *
+ * The coordinates are GeoNames' for the modern towns — Dolinsk, Tomari and
+ * Aniva are the same places — and are checked only for being on Sakhalin and
+ * in the right order down the island, which is what would catch a
+ * latitude and longitude written the wrong way round.
+ */
+console.log('\n— Karafuto\u2019s small towns —');
+{
+  const WANT = [
+    { id: 'ochiai', en: 'Ochiai (Dolinsk)', ja: '\u843d\u5408', lat: 47.3284, lon: 142.7963 },
+    { id: 'tomarioru', en: 'Tomarioru (Tomari)', ja: '\u6cca\u5c45', lat: 47.7660, lon: 142.0655 },
+    { id: 'rutaka', en: 'Rutaka (Aniva)', ja: '\u7559\u591a\u52a0', lat: 46.7158, lon: 142.5324 },
+  ];
+  const p = await b.newPage();
+  await p.evaluateOnNewDocument(SHIM);
+  await p.setViewport({ width: 1200, height: 860 });
+  await p.goto('http://localhost:8123/index.html', { waitUntil: 'networkidle0' });
+  await new Promise(r => setTimeout(r, 2600));
+  const got = await p.evaluate(want => {
+    const out = {};
+    ['e1930', 'e1942'].forEach(ep => {
+      out[ep] = want.map(w => {
+        const c = (JMAP.GAZ[ep] || []).find(x => x.id === w.id);
+        return c ? { id: c.id, n: c.n, lat: c.lat, lon: c.lon, t: c.t, p: c.p,
+                     wiki: c.wiki || '' } : null;
+      });
+    });
+    out.names = want.map(w =>
+      (JMAP.CITY_NAMES || []).find(x => x.id === w.id) || null);
+    return out;
+  }, WANT);
+
+  ['e1930', 'e1942'].forEach(ep => {
+    check(ep + ': all three are in the gazetteer',
+      got[ep].every(Boolean), JSON.stringify(got[ep].map((c, i) => c ? c.id : WANT[i].id + '!')));
+    if (!got[ep].every(Boolean)) return;
+    check('  named the Japanese way, with the Russian town after it',
+      got[ep].every((c, i) => c.n === WANT[i].en),
+      JSON.stringify(got[ep].map(c => c.n)));
+    check('  drawn as small towns in Karafuto',
+      got[ep].every(c => c.t === 0 && c.p === 'Karafuto'),
+      JSON.stringify(got[ep].map(c => c.t + '/' + c.p)));
+    /* On Sakhalin, and in the order they stand down the island: Tomarioru
+       north, Ochiai below it, Rutaka on Aniva Bay at the foot. */
+    check('  on Sakhalin, and in the right order down it',
+      got[ep].every(c => c.lat > 45.8 && c.lat < 50.5 && c.lon > 141.5 && c.lon < 143.5)
+        && got[ep][1].lat > got[ep][0].lat && got[ep][0].lat > got[ep][2].lat,
+      JSON.stringify(got[ep].map(c => c.lat + ',' + c.lon)));
+  });
+  check('each carries its characters and its own article',
+    got.names.every((r, i) => r && r.ja === WANT[i].ja
+      && /^https:\/\/en\.wikipedia\.org\/wiki\/\S+$/.test(r.wiki || '')),
+    JSON.stringify(got.names.map(r => r && [r.ja, r.wiki])));
+  /* Three different articles: the first pass reached for `Tomari` and `Dolinsk`,
+     which are a disambiguation page and a set index. */
+  check('  and the three articles are three different pages',
+    new Set(got.names.map(r => r && r.wiki)).size === 3,
+    JSON.stringify(got.names.map(r => r && r.wiki)));
+  await p.close();
+}
+
 console.log('\n  ' + pass + ' passed, ' + fail + ' failed');
 await b.close();
 process.exit(fail);

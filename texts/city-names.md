@@ -1616,6 +1616,18 @@ The naval district guarding the Tsugaru Strait between Honshū and Hokkaidō.
 
 Karafuto's ferry port to Hokkaidō, and the way almost everyone entered and left the colony.
 
+## ochiai
+
+Forty kilometres north of Toyohara, on the east side of the island.
+
+## tomarioru
+
+A west-coast port, a hundred kilometres north-west of Toyohara.
+
+## rutaka
+
+At the head of Aniva Bay, thirty kilometres south of Toyohara.
+
 ## otsu
 
 On Lake Biwa at the head of the Tōkaidō, where a policeman wounded the Russian crown prince in 1891.

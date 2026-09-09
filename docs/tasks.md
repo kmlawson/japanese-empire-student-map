@@ -19248,3 +19248,63 @@ bites**: dropping the `* k` from `setPinBlur` fails all three of its checks.
 
 `SECS`: `population` 71 → 97. Whole suite 2055 checks across 60 scripts, 558s,
 all passing.
+
+## Three more Karafuto towns: Ochiai, Tomarioru and Rutaka
+
+Asked for as small towns. Each is a row in `data/cities-1930.csv` and
+`data/cities-1942.csv` — both dates, the tables being separate files — with
+its name in `texts/city-names.csv` and a sentence in `city-names.md`, and
+`data/cities.csv`, the working table the two dated ones are cut from, carries
+them too.
+
+| | characters | now | where |
+|---|---|---|---|
+| Ochiai | 落合 | Dolinsk | 47.3284, 142.7963 |
+| Tomarioru | 泊居 | Tomari | 47.7660, 142.0655 |
+| Rutaka | 留多加 | Aniva | 46.7158, 142.5324 |
+
+**The coordinates are GeoNames', not remembered.** `data/ignored/cities500.txt`
+is in the repository and holds all three under their present names, which is a
+better authority than anything typed from memory into a map. Checked after the
+build: each falls on Sakhalin and they run down the island in the right order —
+Tomarioru on the west coast, Ochiai forty kilometres north of Toyohara on the
+east side, Rutaka thirty kilometres south of it on Aniva Bay. The distances in
+the notes are computed from those coordinates rather than copied.
+
+**Three articles, not two.** The obvious `Tomari` and `Dolinsk` are a
+disambiguation page and a set index; the towns are at `Tomari,_Russia`,
+`Dolinsk,_Sakhalin_Oblast` and `Aniva`. Every one was fetched and read before
+it was written in, and the test asserts the three links are three different
+pages, which is what would have caught the first guess.
+
+No population figures. The other Karafuto towns carry estimates and these have
+none to carry, and a figure invented to fill a column is worse than a gap —
+thirty-nine rows in the table are already like this.
+
+Named the way Karafuto is named throughout: the Japanese name with the present
+Russian one after it, so a reader can find the place on a modern map. `ja` is
+bare characters, matching Maoka and Esutoru, because the English already
+carries the reading. No kyūjitai: none of 落合泊居留多加 has a variant form, so
+`ja_kyu` is left empty rather than filled with the same characters.
+
+Two tests had pinned counts that a new town breaks, and both were guarding
+something else:
+
+* `pointsize.js` asked whether `JMAP.CITY_NAMES` held exactly 429 — the count
+  on the day the browse layer was retired. What it guards is that the records
+  survived that move, so it now asks that the table has not fallen *below* 429.
+  Losing a record still fails; adding one does not. The two checks under it,
+  that the names reach the gazetteer, are the sharper half and are untouched.
+* `taiwan.js` requires every curated city name to say something, and caught all
+  three of mine bare — the `rationale` in `data/cities-*.csv` is a working note
+  and not what the card shows. The sentences went into `city-names.md`, beside
+  Ōtomari: that file groups by region rather than alphabetically, which two
+  attempts at alphabetical insertion demonstrated by landing Ochiai in the
+  middle of the South Asian entries.
+
+`names.js` gains nine checks: all three in the gazetteer on both dates, named
+the Japanese way with the Russian town after, drawn as small towns in Karafuto,
+on Sakhalin and in the right order down it, each with its characters and its
+own article. 34 pass.
+
+Whole suite 2065 checks across 60 scripts, 604s, all passing.

@@ -4009,6 +4009,21 @@ JMAP.CITY_NAMES = [
     note: 'Karafuto\'s ferry port to Hokkaidō, and the way almost everyone entered and left the colony.'
   },
   {
+    id: 'ochiai', en: 'Ochiai (Dolinsk)', ja: '落合', lat: 47.3284, lon: 142.7963,
+    wiki: 'https://en.wikipedia.org/wiki/Dolinsk,_Sakhalin_Oblast',
+    note: 'Forty kilometres north of Toyohara, on the east side of the island.'
+  },
+  {
+    id: 'tomarioru', en: 'Tomarioru (Tomari)', ja: '泊居', lat: 47.7660, lon: 142.0655,
+    wiki: 'https://en.wikipedia.org/wiki/Tomari,_Russia',
+    note: 'A west-coast port, a hundred kilometres north-west of Toyohara.'
+  },
+  {
+    id: 'rutaka', en: 'Rutaka (Aniva)', ja: '留多加', lat: 46.7158, lon: 142.5324,
+    wiki: 'https://en.wikipedia.org/wiki/Aniva',
+    note: 'At the head of Aniva Bay, thirty kilometres south of Toyohara.'
+  },
+  {
     id: 'otsu', en: 'Ōtsu', ja: '大津', zh: '大津', ko: '오쓰', lat: 35.02, lon: 135.85,
     wiki: 'https://en.wikipedia.org/wiki/%C5%8Ctsu',
     note: 'On Lake Biwa at the head of the Tōkaidō, where a policeman wounded the Russian crown prince in 1891.'

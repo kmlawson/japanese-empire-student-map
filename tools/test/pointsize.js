@@ -229,7 +229,14 @@ const zoomIn=async (p,n)=>{
     JSON.stringify(gone));
   check('and nothing answers to the old key', gone.oldKey==='undefined',
     gone.oldKey);
-  check('the curated names survived the move', gone.names===429,
+  /* 429 was the count on the day the layer was retired, and pinning it exactly
+     made the check fail the next time a town was added — three Karafuto ones,
+     Ochiai, Tomarioru and Rutaka. What it is guarding is that the records
+     survived the move, so it guards *that*: the table never falls below what
+     the move carried across. Losing a record still fails; adding one does not.
+     The two checks under it are the sharper half anyway — the names have to
+     reach the gazetteer, not merely exist. */
+  check('the curated names survived the move', gone.names>=429,
     String(gone.names));
   check('and reached the gazetteer: wiki links',
     gone.enriched>400, String(gone.enriched));
