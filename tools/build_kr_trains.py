@@ -36,6 +36,8 @@ import json
 import os
 import re
 import sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import rail_route
 from urllib.parse import quote
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -410,6 +412,13 @@ def build_js(anchors=None):
         'trains': out_tr,
         'paths': out_pa,
     }
+    # Where the source drew a chord — its stops between two placed stations
+    # could not be placed, so it joined the two straight — the stretch is
+    # routed along the railway the map draws instead. Listed in the bundle as
+    # `routed`; see tools/rail_route.py.
+    rail_route.fill(doc, [os.path.join(ROOT, 'tools', 'cache', f)
+                          for f in ('korea_1942_lines_dedup.geojson',
+                                    'korea_1930_lines_dedup.geojson')], 'Korea 1938')
     head = (
         '/* Built by tools/build_kr_trains.py -- do not edit.\n'
         ' * The 1938 Korean railway timetable and its connections: %d trains over %d lines,\n'

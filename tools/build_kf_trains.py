@@ -31,6 +31,8 @@ import os
 import re
 import shutil
 import sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import rail_route
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
@@ -180,6 +182,10 @@ def main():
 
     bundle = {'year': 1935, 'issued': '15 April 1935', 'local': 'Russian',
               'lines': lines, 'stations': stations, 'trains': trains, 'paths': paths}
+    # chords across stops the source could not place are routed along the
+    # railway the map draws; see tools/rail_route.py
+    rail_route.fill(bundle, [os.path.join(ROOT, 'tools', 'cache', 'karafuto_railways_1935.geojson')],
+                    'Karafuto 1935')
     with io.open(OUT_JS, 'w', encoding='utf-8', newline='\n') as fh:
         fh.write("/* Built by tools/build_kf_trains.py -- do not edit.\n"
                  " * The 1935 Karafuto railway timetable: %d trains over %d lines,\n"

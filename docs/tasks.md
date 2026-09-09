@@ -7,7 +7,7 @@ describing what was actually changed, before it is marked done.
 
 ## Open — asked for and not yet done
 
-Nine entries. Six are work asked for and not yet done; three are measured
+Seven entries. Four are work asked for and not yet done; three are measured
 rather than assumed, and everything else that once stood here has been
 closed. Where a fix was a generalisation rather than an answer,
 the source that would settle it is named at the foot of this file.
@@ -117,25 +117,6 @@ the source that would settle it is named at the foot of this file.
   pieces end is where the map says the lease ended; a period map draws one line
   round the bay and its shores instead, and that is the thing to trace. This is
   no longer a fault in the drawing, only a limit on what is being drawn.
-
-- **The detailed Karafuto coastline is in the repository and nothing draws it.**
-  The data step is done — `japan-empire-map-fine.svg` carries the island
-  clipped at the 50th parallel and verified (see *A detailed Karafuto coastline*,
-  below) — but it does not load on zoom and was never meant to yet. Making it
-  supersede the coarse shape is the fine-sheet machinery: `fetchFine`, the
-  windows and `reprune` in `map.js` have to learn the island, which is a real
-  piece of work. The point of the finer shape is the railway: the Karafuto
-  lines are drawn against a coarse coast and go into the water where the
-  coast is drawn too roughly. Asked for on 9 September 2026.
-
-- **A stretch of the Hwanghae Line is drawn as a straight line.** With the
-  Korean train tools on, the north–south leg of the Hwanghae Line renders as
-  one straight segment between its two ends rather than following the
-  railway's route, while the neighbouring stretches follow the drawn line.
-  The route geometry between those stations is either missing from the
-  timetable's chain or not matched to the railway path, so the plan falls
-  back to the chord. Reported with screenshots on 9 September 2026; see
-  `trains.js` (`lineFeature`, `segment`) and `data/kr-1938-timetable/`.
 
 ---
 
@@ -19690,3 +19671,61 @@ the last full run was 2,115 checks across 61 scripts, all passing, in
   each checks things only its system has (Korea's connections, Karafuto's
   arithmetic-field bits). A parametrised suite is a rewrite, not a merge,
   and the saving is a few launches. Not done.
+
+## The detailed Karafuto coastline is drawn
+
+The data step (*A detailed Karafuto coastline*, above) left the island's
+25,625-vertex trace in `data/karafuto/` with nothing drawing it. It is now the
+fine sheet's: `build_fine_coast()` in `build_map.py` takes, beside the island
+windows it has always taken, a coastline traced for a whole atom
+(`FINE_ATOM_FILES`), and writes Karafuto's under `data-for="karafuto"` in
+`japan-empire-map-fine.svg`. Unnamed, because the rings are the atom itself
+and answer with its name; outer rings only, since the map draws no lakes;
+and not thinned — 23,633 of 25,625 vertices survive the write (92.2%), the
+rest being points closer together than the sheet's own precision, and the
+figure is printed by every build so a tolerance cannot undo the work
+quietly. The base map carries the box, so `fetchFine`, the windows and
+`reprune` do the rest as they stand: the sheet is fetched when the view
+closes on the island, grafted, and the coarse shape stands aside whole.
+Nothing in `map.js` changed.
+
+Measured in the browser, sampling the Karafuto railway every 0.3 map units:
+
+| | samples off the land |
+|---|---|
+| coarse outline | 348 of 2,032 |
+| detailed outline | 152 of 2,032 |
+
+The fine sheet grows from 635 KB to 976 KB and is still fetched only on a
+deep zoom. 722 checks across the 30 scripts a sheet change implicates, all
+passing.
+
+## A stretch of the Hwanghae Line ran straight, and the timetables route their chords along the railway
+
+The north–south leg of the Hwanghae Line from Hakhyŏn to Sŏsariwŏn was a
+two-point path in the 1938 bundle: the nine stations between them —
+上海, 廣灘, 石灘, 花山, 長壽山, 未力, 新院, 新灘, 新酒幕 — have no coordinate in
+the transcription, so its trace of that stretch was the 55 km chord, and
+`trains.js` drew it as a straight line across country the railway layer
+bends around a few pixels away.
+
+`tools/rail_route.py` walks the railway the map already draws instead. The
+line file for each system (`KR_RAIL_FILES` and the rest in `build_map.py`)
+becomes a graph, the two stations snap onto the nearest track, and the
+shortest path along the rails is the stretch. It is used only where the
+source gave a chord over 3 km or nothing at all, never over a traced path,
+and accepted only when plausible — both ends within 1.2 km of a rail and
+the route no longer than 1.6 times the chord. Each timetable build calls it
+before writing, and the bundle lists what was routed as `routed`, so a
+GeoJSON taken away says which stretches are a survey, which an inference
+and which an assertion (`lineFeature` counts `routed` beside `straight`).
+
+| bundle | routed |
+|---|---|
+| Korea 1938 | Hakhyŏn → Sŏsariwŏn: 55.0 km chord, 75.6 km of rail, 218 points |
+| Taiwan 1936 | 追分 → 花壇: 11.1 km chord, 13.9 km of rail; 追分 → 烏日: 5.5 km, 5.6 km |
+| Karafuto 1935 | nothing to route |
+
+The 87 Manchurian, Japanese and ferry connections in the Korean bundle stay
+chords: there is no railway under them in any file the map has, and the
+router says nothing rather than something false.

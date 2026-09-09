@@ -32,6 +32,8 @@ import json
 import os
 import re
 import sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import rail_route
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
@@ -361,6 +363,11 @@ def build_js(anchors=None):
         'trains': out_tr,
         'paths': out_pa,
     }
+    # chords across stops the source could not place are routed along the
+    # railway the map draws; see tools/rail_route.py
+    rail_route.fill(doc, [os.path.join(ROOT, 'tools', 'cache', f)
+                          for f in ('taiwan_railways_1930_v2.geojson',
+                                    'taiwan_railways_1944_v2.geojson')], 'Taiwan 1936')
     head = (
         '/* Built by tools/build_tw_trains.py -- do not edit.\n'
         ' * The 1936 Taiwan railway timetable: %d trains over %d lines,\n'

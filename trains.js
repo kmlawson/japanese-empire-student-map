@@ -312,12 +312,14 @@ window.JMAP_TRAINS = function (host) {
   function lineFeature(li) {
     var line = data.lines[li];
     if (!line) return null;
-    var parts = [], straight = 0;
+    var parts = [], straight = 0, routed = 0;
+    var wasRouted = data.routed || [];
     Object.keys(lineOwns).forEach(function (k) {
       if (lineOwns[k] !== li) return;
       var c = pairCoords.apply(null, k.split('|').map(Number));
       if (!c) return;
       if (!data.paths[k]) straight++;
+      else if (wasRouted.indexOf(k) >= 0) routed++;
       parts.push(c);
     });
     if (!parts.length) return null;
@@ -335,6 +337,7 @@ window.JMAP_TRAINS = function (host) {
         source_url: (cfg && cfg.srcHref) || null,
         stretches: parts.length,
         straight: straight,
+        routed: routed,
         approximate: !!line.x,
         note: GEO_NOTE,
       },
@@ -343,8 +346,10 @@ window.JMAP_TRAINS = function (host) {
 
   var GEO_NOTE = 'Longitude and latitude, unprojected. The track between two '
     + 'consecutive stops is traced along the line file where the source has '
-    + 'it and drawn straight where it does not; the `straight` count says how '
-    + 'many of this line\u2019s stretches are the second kind.';
+    + 'it, routed along the map\u2019s own railway where the source drew a '
+    + 'chord across stops it could not place, and drawn straight where it '
+    + 'has neither; the `routed` and `straight` counts say how many of this '
+    + 'line\u2019s stretches are the second and third kinds.';
 
   /* Kilometres between two stations as the crow flies. Not in map units: this
      is a question about the ground, and a map unit is worth a different number
