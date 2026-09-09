@@ -18,11 +18,8 @@
  *     `air-play.js` character for character, because two copies of a drawing
  *     drift and a guard is cheaper than noticing.
  */
-const puppeteer=require('puppeteer');
-const sleep=ms=>new Promise(r=>setTimeout(r,ms));
-const { ready } = require('./settle.js');
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
 const fs=require('fs');
-const SHIM=()=>{const o=window.matchMedia;window.matchMedia=q=>(/hover:\s*hover|pointer:\s*fine/.test(q)?{matches:true,media:q,addListener(){},removeListener(){},addEventListener(){},removeEventListener(){}}:o.call(window,q));};
 const shownIcon=p=>p.evaluate(()=>{
   const b=document.getElementById('btn-air');
   const vis=g=>getComputedStyle(g).display!=='none';
@@ -30,8 +27,6 @@ const shownIcon=p=>p.evaluate(()=>{
     e1930:vis(b.querySelector('.air-icon-e1930')),
     e1942:vis(b.querySelector('.air-icon-e1942'))};
 });
-let pass=0,fail=0;
-const check=(n,c,d)=>{ if(c){pass++;console.log('  ok   '+n);} else {fail++;console.log('  FAIL '+n+(d?' — '+d:''));} };
 const st=p=>p.evaluate(()=>({
   info:{hidden:document.getElementById('btn-layer-info').hidden,
         flash:document.getElementById('btn-layer-info').classList.contains('flash')},
@@ -48,7 +43,7 @@ const st=p=>p.evaluate(()=>({
     return n?getComputedStyle(n).whiteSpace:'';})(),
 }));
 (async()=>{
-  const b=await puppeteer.launch({headless:'new',args:['--no-sandbox']});
+  const b=await launch();
   const p=await b.newPage(); await p.setViewport({width:1400,height:900});
   await p.evaluateOnNewDocument(SHIM);
   const errs=[]; p.on('pageerror',e=>errs.push(String(e)));
@@ -244,6 +239,5 @@ const st=p=>p.evaluate(()=>({
   }
 
   check('no page errors', errs.length===0, errs.slice(0,3).join(' | '));
-  console.log('\n  '+pass+' passed, '+fail+' failed');
-  await b.close(); process.exit(fail?1:0);
+  await b.close(); process.exit(report());
 })();

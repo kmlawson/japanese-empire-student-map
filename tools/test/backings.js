@@ -9,16 +9,7 @@
  * vanish for any reader who zoomed near it. See docs/tasks.md.
  */
 'use strict';
-const puppeteer = (function () {
-  const tries = [];
-  if (process.env.PUPPETEER_PATH) tries.push(process.env.PUPPETEER_PATH);
-  tries.push('puppeteer');
-  for (const t of tries) { try { return require(t); } catch (e) { /* keep looking */ } }
-  console.error('backings test: puppeteer not found. npm install puppeteer, or set PUPPETEER_PATH.');
-  process.exit(1);
-})();
-const sleep = ms => new Promise(r => setTimeout(r, ms));
-const { ready } = require('./settle.js');
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
 const BASE = process.env.MAP_URL || 'http://localhost:8123/index.html';
 
 /* How much of a country is actually painted: its atom's live paths plus its
@@ -36,14 +27,9 @@ const PAINTED = (key) => {
   return Math.round(n);
 };
 
-let pass = 0, fail = 0;
-function check(name, cond, detail) {
-  if (cond) { pass++; console.log('  ok   ' + name); }
-  else { fail++; console.log('  FAIL ' + name + (detail ? ' — ' + detail : '')); }
-}
 
 (async () => {
-  const b = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox'] });
+  const b = await launch();
   const p = await b.newPage();
   await p.setViewport({ width: 900, height: 1200, isMobile: true, hasTouch: true });
   const errs = [];
@@ -125,6 +111,5 @@ function check(name, cond, detail) {
   check('no page errors', errs.length === 0, errs[0]);
 
   await b.close();
-  console.log('\n  ' + pass + ' passed, ' + fail + ' failed');
-  process.exit(fail);
+  process.exit(report());
 })();

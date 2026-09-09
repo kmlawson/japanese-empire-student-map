@@ -1,25 +1,14 @@
-/* The annotation test suite. One page per case, so nothing leaks between. */
-/* Puppeteer is not a dependency of this repository — it is 300 MB and nothing
-   the map ships needs it — so it is looked for rather than required outright.
-   `npm install puppeteer` here, or set PUPPETEER_PATH. */
-const puppeteer = (function () {
-  const tries = [];
-  if (process.env.PUPPETEER_PATH) tries.push(process.env.PUPPETEER_PATH);
-  tries.push('puppeteer');
-  for (const t of tries) { try { return require(t); } catch (e) { /* keep looking */ } }
-  console.error('annotation tests: puppeteer not found.\n\n'
-    + '  npm install puppeteer            # in the repository root, or\n'
-    + '  PUPPETEER_PATH=/path/to/puppeteer node tools/test/annotations/run.js\n');
-  process.exit(1);
-})(); const path=require('path'); const fs=require('fs');
-const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+/* The annotation test suite. One page per case, so nothing leaks between.
+   The puppeteer resolver, the pass/fail counter and the `matchMedia` shim are
+   the shared ones in `../suite.js`; this file adds what the drawing tools
+   need on top. */
+const shared = require('../suite.js');
+const { puppeteer, sleep, check, report, SHIM } = shared;
+const path=require('path'); const fs=require('fs');
 const FIX=path.join(__dirname,'fixtures');
-const SHIM=()=>{const o=window.matchMedia;window.matchMedia=q=>(/hover:\s*hover|pointer:\s*fine/.test(q)?{matches:true,media:q,addListener(){},removeListener(){},addEventListener(){},removeEventListener(){}}:o.call(window,q));};
 const CATCH=()=>{window.__saved=null;window.__clip=null;
   const r=URL.createObjectURL; URL.createObjectURL=b=>{b.text().then(t=>{window.__saved=t;});return r.call(URL,b);};
   if(navigator.clipboard) navigator.clipboard.writeText=t=>{window.__clip=t;return Promise.resolve();};};
-let pass=0, fail=0; const failures=[];
-function check(name, cond, detail){ if(cond){pass++; console.log('  ok   '+name);} else {fail++; failures.push(name+(detail?' — '+detail:'')); console.log('  FAIL '+name+(detail?' — '+detail:''));} }
 
 async function page(b, opts={}) {
   const p=await b.newPage();
@@ -174,7 +163,4 @@ function shot(name){
   return _path.join(SHOTS,name);
 }
 
-module.exports={puppeteer,sleep,page,ready,tap,openPanel,pickTool,stickTool,dropTool,SPOT,FIX,BIG,check,SHIM,shot,
-  report:()=>{console.log('\n  '+pass+' passed, '+fail+' failed');
-    if(fail) failures.forEach(f=>console.log('   × '+f));
-    return fail;}};
+module.exports={puppeteer,sleep,page,ready,tap,openPanel,pickTool,stickTool,dropTool,SPOT,FIX,BIG,check,SHIM,shot,report};

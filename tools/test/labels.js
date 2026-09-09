@@ -25,12 +25,7 @@
  * The first and the third are measured here. The second is guarded rather
  * than reproduced — see the note above that section.
  */
-const puppeteer=(function(){const t=[];if(process.env.PUPPETEER_PATH)t.push(process.env.PUPPETEER_PATH);t.push('puppeteer');
-  for(const x of t){try{return require(x);}catch(e){}}
-  console.error('labels test: puppeteer not found.');process.exit(1);})();
-const sleep=ms=>new Promise(r=>setTimeout(r,ms));
-const { ready } = require('./settle.js');
-let pass=0,fail=0; const check=(n,c,d)=>{ if(c){pass++;console.log('  ok   '+n);} else {fail++;console.log('  FAIL '+n+(d?' — '+d:''));} };
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
 
 /* Every name that is actually drawn, and every pair of them that overlap.
    The placer's whole job is that this list is empty. */
@@ -65,7 +60,7 @@ const COUNT=()=>({
   live:   document.querySelectorAll('#land .fine').length,
 });
 
-(async()=>{const b=await puppeteer.launch({headless:'new',args:['--no-sandbox'],protocolTimeout:240000});
+(async()=>{const b=await launch();
 const p=await b.newPage(); await p.setViewport({width:1400,height:900});
 const errs=[]; p.on('pageerror',e=>errs.push(String(e)));
 
@@ -237,5 +232,4 @@ console.log('\n— a long name is broken across lines —');
 }
 
 check('no page errors', errs.length===0, errs[0]);
-console.log('\n  '+pass+' passed, '+fail+' failed');
-await b.close(); process.exit(fail);})();
+await b.close(); process.exit(report());})();

@@ -24,19 +24,7 @@
  */
 const fs = require('fs');
 const path = require('path');
-const puppeteer = (function () {
-  const t = [];
-  if (process.env.PUPPETEER_PATH) t.push(process.env.PUPPETEER_PATH);
-  t.push('puppeteer');
-  for (const x of t) { try { return require(x); } catch (e) { /* keep looking */ } }
-  console.error('theme test: puppeteer not found.');
-  process.exit(1);
-})();
-const sleep = ms => new Promise(r => setTimeout(r, ms));
-const { ready } = require('./settle.js');
-let pass = 0, fail = 0;
-const check = (n, c, d) => { if (c) { pass++; console.log('  ok   ' + n); }
-                             else { fail++; console.log('  FAIL ' + n + (d ? ' — ' + d : '')); } };
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
 
 const CSS = fs.readFileSync(path.join(__dirname, '..', '..', 'styles.css'), 'utf8');
 
@@ -104,7 +92,7 @@ console.log('\n— the two dark lists are one list —');
     !miss.length, miss.join(', '));
 }
 
-const b = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox'] });
+const b = await launch();
 const open = async (u, dark) => {
   const p = await b.newPage();
   await p.setViewport({ width: 1300, height: 900 });
@@ -279,6 +267,5 @@ console.log('\n— and with a finger —');
 }
 
 await b.close();
-console.log('\n' + pass + ' passed, ' + fail + ' failed\n');
-process.exit(fail ? 1 : 0);
+process.exit(report());
 })();

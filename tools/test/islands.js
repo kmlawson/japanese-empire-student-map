@@ -16,12 +16,7 @@
  * so the table leaves it out on purpose and this test says so — if somebody
  * fills it in island by island, this check is the one to update.
  */
-const puppeteer=(function(){const t=[];if(process.env.PUPPETEER_PATH)t.push(process.env.PUPPETEER_PATH);t.push('puppeteer');
-  for(const x of t){try{return require(x);}catch(e){}}
-  console.error('islands test: puppeteer not found.');process.exit(1);})();
-const sleep=ms=>new Promise(r=>setTimeout(r,ms));
-const { ready } = require('./settle.js');
-let pass=0,fail=0; const check=(n,c,d)=>{ if(c){pass++;console.log('  ok   '+n);} else {fail++;console.log('  FAIL '+n+(d?' — '+d:''));} };
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
 const URL='http://localhost:8123/index.html';
 
 const at=(p,lon,lat)=>p.evaluate((lo,la)=>{
@@ -62,7 +57,7 @@ const fineIn=p=>p.evaluate(()=>{
 });
 
 (async()=>{
-  const browser=await puppeteer.launch({headless:'new',args:['--no-sandbox']});
+  const browser=await launch();
   const page=await browser.newPage();
   await page.setViewport({width:1280,height:900});
   const errs=[]; page.on('pageerror',e=>errs.push(String(e)));
@@ -154,6 +149,5 @@ const fineIn=p=>p.evaluate(()=>{
 
   check('no page errors', errs.length===0, errs.join(' | '));
   await browser.close();
-  console.log('\n  '+pass+' passed, '+fail+' failed');
-  process.exit(fail?1:0);
+  process.exit(report());
 })();

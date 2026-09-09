@@ -1,10 +1,7 @@
 /* Short note against long description, the menu of dashes, and a point of no
    weight — with a mouse and then with a finger, because the card is opened
    from two different places in the code and only one of them is the tap. */
-const puppeteer=(function(){const t=[];if(process.env.PUPPETEER_PATH)t.push(process.env.PUPPETEER_PATH);t.push('puppeteer');
-  for(const x of t){try{return require(x);}catch(e){}}
-  console.error('annotation tests: puppeteer not found. npm install puppeteer, or set PUPPETEER_PATH.');process.exit(1);})();
-const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const { puppeteer, sleep, check, report, SHIM } = require('./suite.js');
 
 /* Wait for the map rather than for a number. Measured: the atoms and the first
    labels are there 730 ms after the navigation resolves — these scripts were
@@ -20,9 +17,7 @@ async function ready(pg, wantsAnn){
   } catch(e){ /* the script's own checks will say so */ }
   await sleep(250);
 }
-const SHIM=()=>{const o=window.matchMedia;window.matchMedia=q=>(/hover:\s*hover|pointer:\s*fine/.test(q)?{matches:true,media:q,addListener(){},removeListener(){},addEventListener(){},removeEventListener(){}}:o.call(window,q));};
 const press=async(p,x,y)=>{await p.mouse.move(x,y);await p.mouse.down();await sleep(70);await p.mouse.up();await sleep(300);};
-let pass=0,fail=0; const check=(n,c,d)=>{ if(c){pass++;console.log('  ok   '+n);} else {fail++;console.log('  FAIL '+n+(d?' — '+d:''));} };
 const STORE=()=>JSON.parse(window.localStorage.getItem('jem-annotations-v1')||'{"f":[]}').f;
 const CARD=()=>{const i=document.querySelector('#info');
   return {open:!i.hidden, title:i.querySelector('.primary').textContent,
@@ -157,5 +152,4 @@ console.log('\n— the card, with a finger —');
   check('no page errors on touch', p.__errs.length===0, p.__errs[0]);
   await p.__b.close(); }
 
-console.log('\n  '+pass+' passed, '+fail+' failed');
-process.exit(fail);})();
+process.exit(report());})();

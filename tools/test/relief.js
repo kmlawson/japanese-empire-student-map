@@ -24,19 +24,7 @@
  *     and one nobody would think to test for because it looks like a design
  *     choice.
  */
-const puppeteer = (function () {
-  const t = [];
-  if (process.env.PUPPETEER_PATH) t.push(process.env.PUPPETEER_PATH);
-  t.push('puppeteer');
-  for (const x of t) { try { return require(x); } catch (e) { /* keep looking */ } }
-  console.error('relief test: puppeteer not found.');
-  process.exit(1);
-})();
-const sleep = ms => new Promise(r => setTimeout(r, ms));
-const { ready } = require('./settle.js');
-let pass = 0, fail = 0;
-const check = (n, c, d) => { if (c) { pass++; console.log('  ok   ' + n); }
-                             else { fail++; console.log('  FAIL ' + n + (d ? ' — ' + d : '')); } };
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
 
 const BASE = (1 << 5) | (1 << 6);          // line of control and rivers, as they start
 const RELIEF = 1 << 18;
@@ -45,7 +33,7 @@ const DETAIL = n => n << 19;
 const url = (bits) => 'http://localhost:8123/index.html?layers=' + (bits >>> 0).toString(36);
 
 (async () => {
-const b = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox'] });
+const b = await launch();
 
 console.log('\n— off until it is asked for —');
 {
@@ -508,7 +496,7 @@ console.log('\n— a sheet already fetched is not fetched again —');
      third time that has cost something: a shared HTTP cache hid the download
      from the throttling above, and a shared profile carried a projection
      and a stored state into a block that is about a reader starting fresh. */
-  const b2 = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox'] });
+  const b2 = await launch();
   const p = await b2.newPage();
   await p.setViewport({ width: 1400, height: 950 });
   const got = [];
@@ -579,7 +567,6 @@ console.log('\n— and it says so when it fails —');
   await p.close();
 }
 
-console.log('\n  ' + pass + ' passed, ' + fail + ' failed');
 await b.close();
-process.exit(fail);
+process.exit(report());
 })();

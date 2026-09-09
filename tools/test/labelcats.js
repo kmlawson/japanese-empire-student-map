@@ -26,18 +26,7 @@
  *     swallowed, which is not the same code as the option-click's toggle. Done
  *     the same way, the hold opened the menu and its own click shut it again.
  */
-const puppeteer = (function () {
-  const t = [];
-  if (process.env.PUPPETEER_PATH) t.push(process.env.PUPPETEER_PATH);
-  t.push('puppeteer');
-  for (const x of t) { try { return require(x); } catch (e) { /* keep looking */ } }
-  console.error('labelcats test: puppeteer not found.');
-  process.exit(1);
-})();
-const sleep = ms => new Promise(r => setTimeout(r, ms));
-let pass = 0, fail = 0;
-const check = (n, c, d) => { if (c) { pass++; console.log('  ok   ' + n); }
-                             else { fail++; console.log('  FAIL ' + n + (d ? ' — ' + d : '')); } };
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
 
 /* Central China, in far enough for the province names: the four provinces and
    the Dabie Mountains are what tells the categories apart from one another. */
@@ -89,7 +78,7 @@ const ALL_ON_MENU = ALL_ON + ' airport=true';
 const ALL_OFF_MENU = ALL_OFF + ' airport=false';
 
 (async () => {
-  const b = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox'] });
+  const b = await launch();
 
   console.log('\n— the panel and the menu are the same five rows —');
   let p = await open(b, CHINA);
@@ -245,6 +234,5 @@ const ALL_OFF_MENU = ALL_OFF + ' airport=false';
   await p.close();
 
   await b.close();
-  console.log('\n  ' + pass + ' passed, ' + fail + ' failed\n');
-  process.exit(fail ? 1 : 0);
+  process.exit(report());
 })();

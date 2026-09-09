@@ -24,11 +24,7 @@
  *     at all, so in Albers or Lambert it was drawn at its Mercator
  *     coordinates — a couple of hundred map units from the country.
  */
-const puppeteer=(function(){const t=[];if(process.env.PUPPETEER_PATH)t.push(process.env.PUPPETEER_PATH);t.push('puppeteer');
-  for(const x of t){try{return require(x);}catch(e){}}
-  console.error('provsource test: puppeteer not found.');process.exit(1);})();
-const sleep=ms=>new Promise(r=>setTimeout(r,ms));
-let pass=0,fail=0; const check=(n,c,d)=>{ if(c){pass++;console.log('  ok   '+n);} else {fail++;console.log('  FAIL '+n+(d?' — '+d:''));} };
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
 
 // admin on (8) + level 3 (512), and bit 128 for the Republic's sheet
 const code=(...bits)=>bits.reduce((a,b)=>a|b,0).toString(36);
@@ -54,7 +50,7 @@ const open=async(p,c)=>{
   return p.evaluate(CHINA);
 };
 
-(async()=>{const b=await puppeteer.launch({headless:'new',args:['--no-sandbox'],protocolTimeout:240000});
+(async()=>{const b=await launch();
 const p=await b.newPage(); await p.setViewport({width:1400,height:900});
 const errs=[]; p.on('pageerror',e=>errs.push(String(e)));
 
@@ -89,5 +85,4 @@ check('the two sheets agree about where Gansu is, to within the sources\' own di
 check('and the Republic\'s sheet is still the one showing', rocA.n===enp.n, JSON.stringify(rocA));
 
 check('no page errors', errs.length===0, errs[0]);
-console.log('\n  '+pass+' passed, '+fail+' failed');
-await b.close(); process.exit(fail);})();
+await b.close(); process.exit(report());})();

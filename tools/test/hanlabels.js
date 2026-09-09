@@ -20,17 +20,7 @@
  *     they displaced has to join it, or the reader who came in knowing
  *     "Hòulǐ" cannot find it anywhere on the card.
  */
-const puppeteer=(function(){const t=[];if(process.env.PUPPETEER_PATH)t.push(process.env.PUPPETEER_PATH);
-  t.push('puppeteer');for(const x of t){try{return require(x);}catch(e){}}
-  console.error('hanlabels test: puppeteer not found.');process.exit(1);})();
-const sleep=ms=>new Promise(r=>setTimeout(r,ms));
-const { ready } = require('./settle.js');
-let pass=0,fail=0;
-const check=(n,c,d)=>{ if(c){pass++;console.log('  ok   '+n);}
-  else {fail++;console.log('  FAIL '+n+(d?' — '+d:''));} };
-const SHIM=()=>{const o=window.matchMedia;window.matchMedia=q=>(/hover:\s*hover|pointer:\s*fine/.test(q)
-  ?{matches:true,media:q,addListener(){},removeListener(){},addEventListener(){},removeEventListener(){}}
-  :o.call(window,q));};
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
 const URL='http://localhost:8123/index.html';
 const CJK=/[㐀-鿿]/;
 
@@ -43,7 +33,7 @@ const han=async(p,on)=>{ await p.evaluate(v=>{const x=document.getElementById('o
   if(x && x.checked!==v) x.click();}, on); await sleep(1600); };
 
 (async()=>{
-const browser=await puppeteer.launch({headless:'new',args:['--no-sandbox']});
+const browser=await launch();
 const errs=[];
 
 console.log('\n— the switch is where the ask put it —');
@@ -416,6 +406,5 @@ console.log('\n— Japan in pre-war characters, where they are known —');
 
 check('no page errors', errs.length===0, errs.slice(0,2).join(' | '));
 await browser.close();
-console.log('\n  '+pass+' passed, '+fail+' failed');
-process.exit(fail?1:0);
+process.exit(report());
 })();

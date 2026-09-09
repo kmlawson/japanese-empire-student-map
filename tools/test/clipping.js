@@ -17,13 +17,7 @@
  * gives a mark that hangs outside its content — which is the fix the strip
  * uses. An element inside that room is fine; one outside it is lost.
  */
-const puppeteer=(function(){const t=[];if(process.env.PUPPETEER_PATH)t.push(process.env.PUPPETEER_PATH);t.push('puppeteer');
-  for(const x of t){try{return require(x);}catch(e){}}
-  console.error('clipping test: puppeteer not found.');process.exit(1);})();
-const sleep=ms=>new Promise(r=>setTimeout(r,ms));
-const { ready } = require('./settle.js');
-let pass=0,fail=0; const check=(n,c,d)=>{ if(c){pass++;console.log('  ok   '+n);} else {fail++;console.log('  FAIL '+n+(d?' — '+d:''));} };
-const SHIM=()=>{const o=window.matchMedia;window.matchMedia=q=>(/hover:\s*hover|pointer:\s*fine/.test(q)?{matches:true,media:q,addListener(){},removeListener(){},addEventListener(){},removeEventListener(){}}:o.call(window,q));};
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
 const URL='http://localhost:8123/index.html';
 
 const DETECT=()=>{
@@ -64,7 +58,7 @@ const DETECT=()=>{
 };
 
 (async()=>{
-  const browser=await puppeteer.launch({headless:'new',args:['--no-sandbox']});
+  const browser=await launch();
   const errs=[];
   for (const [w,h,tag] of [[1400,950,'a desktop'],[390,844,'a phone']]) {
     const p=await browser.newPage();
@@ -139,6 +133,5 @@ const DETECT=()=>{
   }
   check('no page errors', errs.length===0, errs.join(' | '));
   await browser.close();
-  console.log('\n  '+pass+' passed, '+fail+' failed');
-  process.exit(fail?1:0);
+  process.exit(report());
 })();

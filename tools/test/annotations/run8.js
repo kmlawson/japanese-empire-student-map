@@ -1,6 +1,4 @@
-const puppeteer=(function(){const t=[];if(process.env.PUPPETEER_PATH)t.push(process.env.PUPPETEER_PATH);t.push('puppeteer');
-  for(const x of t){try{return require(x);}catch(e){}}
-  console.error('annotation tests: puppeteer not found. npm install puppeteer, or set PUPPETEER_PATH.');process.exit(1);})(); const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const { puppeteer, sleep, check, report, SHIM } = require('./suite.js');
 
 /* Wait for the map rather than for a number. Measured: the atoms and the first
    labels are there 730 ms after the navigation resolves — these scripts were
@@ -16,9 +14,7 @@ async function ready(pg, wantsAnn){
   } catch(e){ /* the script's own checks will say so */ }
   await sleep(250);
 }
-const SHIM=()=>{const o=window.matchMedia;window.matchMedia=q=>(/hover:\s*hover|pointer:\s*fine/.test(q)?{matches:true,media:q,addListener(){},removeListener(){},addEventListener(){},removeEventListener(){}}:o.call(window,q));};
 const tap=async(p,x,y)=>{await p.mouse.move(x,y);await p.mouse.down();await sleep(60);await p.mouse.up();await sleep(250);};
-let pass=0,fail=0; const check=(n,c,d)=>{ if(c){pass++;console.log('  ok   '+n);} else {fail++;console.log('  FAIL '+n+(d?' — '+d:''));} };
 const COORD=()=>{const m=document.querySelector('#annotations .ann-mark');
   if(!m)return null; const r=m.getBoundingClientRect(); return {x:Math.round((r.left+r.right)/2),y:Math.round((r.top+r.bottom)/2)};};
 const VB=p=>p.evaluate(()=>document.getElementById('jmap').getAttribute('viewBox'));
@@ -112,5 +108,4 @@ console.log('\n— a finger: hold to move, flick to pan —');
   check('no page errors on touch', p.__errs.length===0, p.__errs[0]);
   await p.__b.close(); }
 
-console.log('\n  '+pass+' passed, '+fail+' failed');
-process.exit(fail);})();
+process.exit(report());})();

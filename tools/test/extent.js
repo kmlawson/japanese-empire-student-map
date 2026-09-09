@@ -11,11 +11,7 @@
    Indies and says nothing about China at all. Switching source silently took
    the whole line, and `occSource` is saved, so it stayed gone across reloads
    with the checkbox still ticked. */
-const puppeteer=(function(){const t=[];if(process.env.PUPPETEER_PATH)t.push(process.env.PUPPETEER_PATH);t.push('puppeteer');
-  for(const x of t){try{return require(x);}catch(e){}}
-  console.error('extent test: puppeteer not found. npm install puppeteer, or set PUPPETEER_PATH.');process.exit(1);})();
-const sleep=ms=>new Promise(r=>setTimeout(r,ms));
-let pass=0,fail=0; const check=(n,c,d)=>{ if(c){pass++;console.log('  ok   '+n);} else {fail++;console.log('  FAIL '+n+(d?' — '+d:''));} };
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
 const state=p=>p.evaluate(()=>{const e=document.querySelector('#extent-1942');
   return {line:!!e&&getComputedStyle(e).display!=='none',
           legend:[...document.querySelectorAll('#legend .item')].some(i=>/Extent of Japanese control/.test(i.textContent)),
@@ -25,7 +21,7 @@ const epoch=async(p,y)=>{await p.evaluate(y=>{const b=[...document.querySelector
 const occ=async(p,which)=>{await p.evaluate(w=>{const r=document.querySelector('#occ-'+w);
   r.checked=true; r.dispatchEvent(new Event('change',{bubbles:true}));},which); await sleep(2200);};
 
-(async()=>{const b=await puppeteer.launch({headless:'new',args:['--no-sandbox'],protocolTimeout:180000});
+(async()=>{const b=await launch();
 const p=await b.newPage(); await p.setViewport({width:1500,height:950});
 const errs=[]; p.on('pageerror',e=>errs.push(String(e)));
 await p.goto('http://localhost:8123/index.html',{waitUntil:'networkidle0'}); await sleep(3500);
@@ -68,5 +64,4 @@ for (const m of ['albers','laea','mercator']) {
   check(m+' draws it, and at a size', (await state(p)).line && box[0]>200 && box[1]>200, JSON.stringify(box));
 }
 check('no page errors', errs.length===0, errs[0]);
-console.log('\n  '+pass+' passed, '+fail+' failed');
-await b.close(); process.exit(fail);})();
+await b.close(); process.exit(report());})();

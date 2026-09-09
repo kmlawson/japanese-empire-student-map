@@ -24,18 +24,7 @@
  * often in the *next* province, and a name over the wrong province is worse
  * than a name missing.
  */
-const puppeteer = (function () {
-  const t = [];
-  if (process.env.PUPPETEER_PATH) t.push(process.env.PUPPETEER_PATH);
-  t.push('puppeteer');
-  for (const x of t) { try { return require(x); } catch (e) { /* keep looking */ } }
-  console.error('subnames test: puppeteer not found.');
-  process.exit(1);
-})();
-const sleep = ms => new Promise(r => setTimeout(r, ms));
-let pass = 0, fail = 0;
-const check = (n, c, d) => { if (c) { pass++; console.log('  ok   ' + n); }
-                             else { fail++; console.log('  FAIL ' + n + (d ? ' — ' + d : '')); } };
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
 
 // names on and nothing else
 const box = (lon, lat, w) => {
@@ -82,7 +71,7 @@ const named = p => p.evaluate(() => {
 });
 
 (async () => {
-  const b = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox'] });
+  const b = await launch();
 
   console.log('\n— each country\'s divisions at its own zoom —');
   /* Nothing at all while the whole map is in view: the entries are not even
@@ -142,6 +131,5 @@ const named = p => p.evaluate(() => {
   }
 
   await b.close();
-  console.log('\n  ' + pass + ' passed, ' + fail + ' failed\n');
-  process.exit(fail ? 1 : 0);
+  process.exit(report());
 })();

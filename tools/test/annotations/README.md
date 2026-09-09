@@ -10,15 +10,18 @@ cd /path/to/this/repo
 python3 -m http.server 8123 &          # the suite drives a real page
 npm install puppeteer                  # node_modules/ is gitignored
 
-node tools/test/annotations/all.js     # all of them, four at a time
-node tools/test/annotations/all.js 7 9 # or just these
-JOBS=2 node tools/test/annotations/all.js   # narrower, on a small machine
+node tools/test/all.js ann             # all of them, four at a time
+node tools/test/all.js 7 9             # or just these
+JOBS=2 node tools/test/all.js ann      # narrower, on a small machine
 ```
 
-`all.js` buffers each script's output and prints it whole when that script
-ends, so eleven interleaved streams do not become one unreadable one, and it
-finishes with a table sorted by how long each took. Its exit code is the number
-of scripts that failed. To run one on its own:
+The runner is the project's one runner, `tools/test/all.js`; this directory
+had a copy of its own until 9 September 2026, which had fallen behind (it did
+not know `run15`) and is gone. `all.js` buffers each script's output and
+prints it whole when that script ends, so the interleaved streams do not
+become one unreadable one, and it finishes with a table sorted by how long
+each took. Its exit code is the number of scripts that failed. To run one on
+its own:
 
 ```sh
 node tools/test/annotations/run.js     # tools, styling, undo, dragging
@@ -32,6 +35,10 @@ node tools/test/annotations/run8.js    # right click, and the long press
 node tools/test/annotations/run9.js    # the tools, the controls, undo, selection
 node tools/test/annotations/run10.js   # arrows: heads, bend, and the handle
 node tools/test/annotations/run11.js   # short note vs description, dashes, weightless points
+node tools/test/annotations/run12.js   # the clock: stepping through time on the map itself
+node tools/test/annotations/run13.js   # losing a reader's work: the three ways it could happen
+node tools/test/annotations/run14.js   # the text box, the fifteen-step sliders, and Smooth
+node tools/test/annotations/run15.js   # what a pointer event is allowed to cost
 ```
 
 Each exits non-zero on a failure and prints which check failed.

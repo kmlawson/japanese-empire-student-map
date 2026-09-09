@@ -26,11 +26,7 @@
  * `redraw()` empties the group, so a node that survives was never touched.
  */
 const S = require('./suite.js');
-const puppeteer = S.puppeteer;
-const sleep = ms => new Promise(r => setTimeout(r, ms));
-let pass = 0, fail = 0;
-const check = (n, c, d) => { if (c) { pass++; console.log('    ok   ' + n); }
-                             else { fail++; console.log('    FAIL ' + n + (d ? ' — ' + d : '')); } };
+const { puppeteer, sleep, check, report, SHIM } = require('./suite.js');
 
 /* Every transform the map is holding, keyed by something stable. The city
    dots and the names are the bulk of it and are what a drag used to rewrite. */
@@ -64,7 +60,7 @@ const type = async (p, sel, v) => {
 };
 
 (async () => {
-const b = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox'] });
+const b = await puppeteer.launch({headless:'new',args:['--no-sandbox'],protocolTimeout:180000});
 
 console.log('\n  — a drag moves the marks and nothing else —');
 {
@@ -359,7 +355,6 @@ console.log('\n  — and the same with a finger —');
   await p.close();
 }
 
-console.log('\n  ' + pass + ' passed, ' + fail + ' failed');
 await b.close();
-process.exit(fail);
+process.exit(report());
 })();

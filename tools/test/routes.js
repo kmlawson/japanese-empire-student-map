@@ -27,19 +27,7 @@
  * `Finish line` has to leave the JSON in the box, because taking it away at
  * the moment the reader says finished would throw the work out.
  */
-const puppeteer = (function () {
-  const t = [];
-  if (process.env.PUPPETEER_PATH) t.push(process.env.PUPPETEER_PATH);
-  t.push('puppeteer');
-  for (const x of t) { try { return require(x); } catch (e) { /* keep looking */ } }
-  console.error('routes test: puppeteer not found.');
-  process.exit(1);
-})();
-const sleep = ms => new Promise(r => setTimeout(r, ms));
-const { ready } = require('./settle.js');
-let pass = 0, fail = 0;
-const check = (n, c, d) => { if (c) { pass++; console.log('  ok   ' + n); }
-                             else { fail++; console.log('  FAIL ' + n + (d ? ' — ' + d : '')); } };
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
 
 const SEC = () => [...document.querySelectorAll('#jmap-admin section')]
   .find(x => /Shipping routes/.test((x.querySelector('h2') || {}).textContent || ''));
@@ -93,7 +81,7 @@ const onCourse = (p, frac) => p.evaluate(f => {
 }, frac);
 
 (async () => {
-  const b = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox'] });
+  const b = await launch();
   const p = await b.newPage();
   await p.setViewport({ width: 1500, height: 950 });
   const errs = []; p.on('pageerror', e => errs.push(String(e)));
@@ -337,6 +325,5 @@ const onCourse = (p, frac) => p.evaluate(f => {
     JSON.stringify(seen));
 
   await b.close();
-  console.log('\n' + pass + ' passed, ' + fail + ' failed\n');
-  process.exit(fail ? 1 : 0);
+  process.exit(report());
 })();

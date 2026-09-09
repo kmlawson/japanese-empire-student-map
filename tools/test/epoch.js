@@ -20,22 +20,7 @@
  * a reader who had a card open asked to see *that* on this date, and a card
  * about the date on top of it is the map talking over them.
  */
-const puppeteer = (function () {
-  const t = [];
-  if (process.env.PUPPETEER_PATH) t.push(process.env.PUPPETEER_PATH);
-  t.push('puppeteer');
-  for (const x of t) { try { return require(x); } catch (e) { /* keep looking */ } }
-  console.error('epoch test: puppeteer not found.');
-  process.exit(1);
-})();
-const sleep = ms => new Promise(r => setTimeout(r, ms));
-let pass = 0, fail = 0;
-const check = (n, c, d) => { if (c) { pass++; console.log('  ok   ' + n); }
-                             else { fail++; console.log('  FAIL ' + n + (d ? ' — ' + d : '')); } };
-const SHIM = () => { const o = window.matchMedia;
-  window.matchMedia = q => (/hover:\s*hover|pointer:\s*fine/.test(q)
-    ? { matches: true, media: q, addListener() {}, removeListener() {},
-        addEventListener() {}, removeEventListener() {} } : o.call(window, q)); };
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
 
 const open = async (b, url) => {
   const p = await b.newPage();
@@ -75,7 +60,7 @@ const card = p => p.evaluate(() => ({
 }));
 
 (async () => {
-  const b = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox'] });
+  const b = await launch();
 
   console.log('\n— a province on both dates —');
   let p = await open(b, 'http://localhost:8123/index.html?where=123.5,32.8,132.5,43.5&layers=8');
@@ -132,7 +117,6 @@ const card = p => p.evaluate(() => ({
   }
   await p.close();
 
-  console.log('\n  ' + pass + ' passed, ' + fail + ' failed');
   await b.close();
-  process.exit(fail ? 1 : 0);
+  process.exit(report());
 })();

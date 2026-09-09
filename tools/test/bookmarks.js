@@ -5,12 +5,9 @@
  * The versioned asset URLs must not reach the address bar, and a page that
  * asks for an old one must be served rather than refused. See docs/tasks.md.
  */
-const puppeteer=(function(){const t=[];if(process.env.PUPPETEER_PATH)t.push(process.env.PUPPETEER_PATH);t.push('puppeteer');
-  for(const x of t){try{return require(x);}catch(e){}}
-  console.error('bookmarks test: puppeteer not found. npm install puppeteer, or set PUPPETEER_PATH.');process.exit(1);})(); const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
 const tap=async(p,x,y)=>{await p.mouse.move(x,y);await p.mouse.down();await sleep(60);await p.mouse.up();await sleep(250);};
-let pass=0,fail=0; const check=(n,c,d)=>{ if(c){pass++;console.log('  ok   '+n);} else {fail++;console.log('  FAIL '+n+(d?' — '+d:''));} };
-(async()=>{const b=await puppeteer.launch({headless:'new',args:['--no-sandbox'],protocolTimeout:150000});
+(async()=>{const b=await launch();
 
 console.log('\n— bookmarks —');
 { const ctx=await b.createBrowserContext(); const p=await ctx.newPage();
@@ -76,5 +73,4 @@ console.log('\n— an out-of-date version is asked for —');
   check('no errors', errs.length===0, errs[0]);
   await p.close(); }
 
-console.log('\n  '+pass+' passed, '+fail+' failed');
-await b.close(); process.exit(fail);})();
+await b.close(); process.exit(report());})();

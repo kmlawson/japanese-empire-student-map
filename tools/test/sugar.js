@@ -14,18 +14,7 @@
  *     units and screen pixels are interchangeable and this always passes;
  *   * the layer travels in a link, and a link that carries it fetches it.
  */
-const puppeteer = (function () {
-  const t = [];
-  if (process.env.PUPPETEER_PATH) t.push(process.env.PUPPETEER_PATH);
-  t.push('puppeteer');
-  for (const x of t) { try { return require(x); } catch (e) { /* keep looking */ } }
-  console.error('sugar test: puppeteer not found.');
-  process.exit(1);
-})();
-const sleep = ms => new Promise(r => setTimeout(r, ms));
-let pass = 0, fail = 0;
-const check = (n, c, d) => { if (c) { pass++; console.log('  ok   ' + n); }
-                             else { fail++; console.log('  FAIL ' + n + (d ? ' — ' + d : '')); } };
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
 
 const RAIL = (33554432 + 1).toString(36);      // Taiwan railways, Dec 1942
 const ISLAND = 'http://localhost:8123/index.html?where=119.5,21.5,122.5,25.5&layers=';
@@ -48,7 +37,7 @@ const st = p => p.evaluate(() => {
 });
 
 (async () => {
-  const b = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox'] });
+  const b = await launch();
 
   console.log('\n— where the button is —');
   let p = await open(b, ISLAND + RAIL);
@@ -174,7 +163,6 @@ const st = p => p.evaluate(() => {
     (await p.evaluate(() => document.querySelector('#btn-rail').hidden)) === false);
   await p.close();
 
-  console.log('\n  ' + pass + ' passed, ' + fail + ' failed');
   await b.close();
-  process.exit(fail ? 1 : 0);
+  process.exit(report());
 })();

@@ -21,23 +21,7 @@
  * it, a cmd-click on the sea clears it. A finger cannot pin at all — there is
  * no modifier on a touch screen — so a plain tap must be untouched.
  */
-const puppeteer = (function () {
-  const t = [];
-  if (process.env.PUPPETEER_PATH) t.push(process.env.PUPPETEER_PATH);
-  t.push('puppeteer');
-  for (const x of t) { try { return require(x); } catch (e) { /* keep looking */ } }
-  console.error('pin test: puppeteer not found.');
-  process.exit(1);
-})();
-const sleep = ms => new Promise(r => setTimeout(r, ms));
-const { ready } = require('./settle.js');
-let pass = 0, fail = 0;
-const check = (n, c, d) => { if (c) { pass++; console.log('  ok   ' + n); }
-                             else { fail++; console.log('  FAIL ' + n + (d ? ' — ' + d : '')); } };
-const SHIM = () => { const o = window.matchMedia;
-  window.matchMedia = q => (/hover:\s*hover|pointer:\s*fine/.test(q)
-    ? { matches: true, media: q, addListener() {}, removeListener() {},
-        addEventListener() {}, removeEventListener() {} } : o.call(window, q)); };
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
 
 const BLUR_PX = 2.2;                  // must match PIN_BLUR_PX in map.js
 
@@ -74,7 +58,7 @@ const STATE = () => {
 };
 
 (async () => {
-const b = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox'] });
+const b = await launch();
 const open = async (bbox, touch) => {
   const ctx = await b.createBrowserContext();
   const p = await ctx.newPage();
@@ -241,7 +225,6 @@ console.log('\n— and a finger, which has no modifier to press —');
   await p.__ctx.close();
 }
 
-console.log('\n  ' + pass + ' passed, ' + fail + ' failed');
 await b.close();
-process.exit(fail);
+process.exit(report());
 })();

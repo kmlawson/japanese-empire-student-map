@@ -18,13 +18,7 @@
  * scattered polity that *replaces* the territory (the Straits Settlements),
  * and this is a plain hierarchy that *adds* an outline.
  */
-const puppeteer=(function(){const t=[];if(process.env.PUPPETEER_PATH)t.push(process.env.PUPPETEER_PATH);t.push('puppeteer');
-  for(const x of t){try{return require(x);}catch(e){}}
-  console.error('taiwan test: puppeteer not found.');process.exit(1);})();
-const sleep=ms=>new Promise(r=>setTimeout(r,ms));
-const { ready } = require('./settle.js');
-let pass=0,fail=0; const check=(n,c,d)=>{ if(c){pass++;console.log('  ok   '+n);} else {fail++;console.log('  FAIL '+n+(d?' — '+d:''));} };
-const SHIM=()=>{const o=window.matchMedia;window.matchMedia=q=>(/hover:\s*hover|pointer:\s*fine/.test(q)?{matches:true,media:q,addListener(){},removeListener(){},addEventListener(){},removeEventListener(){}}:o.call(window,q));};
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
 
 const code=(...bits)=>bits.reduce((a,b)=>a|b,0).toString(36);
 const TAIWAN='&bbox=119.2,21.7,122.4,25.5';
@@ -49,7 +43,7 @@ const hoverProv=async(p,key)=>{
   return pt;
 };
 
-(async()=>{const b=await puppeteer.launch({headless:'new',args:['--no-sandbox'],protocolTimeout:180000});
+(async()=>{const b=await launch();
 const p=await b.newPage(); await p.setViewport({width:1300,height:1000});
 await p.evaluateOnNewDocument(SHIM);
 const errs=[]; p.on('pageerror',e=>errs.push(String(e)));
@@ -344,5 +338,4 @@ console.log('\n— and every curated city name says something —');
 }
 
 check('no page errors', errs.length===0, errs[0]);
-console.log('\n  '+pass+' passed, '+fail+' failed');
-await b.close(); process.exit(fail);})();
+await b.close(); process.exit(report());})();

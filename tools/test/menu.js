@@ -17,13 +17,7 @@ const { sandboxDownloads } = require('./downloads.js');
  *     pointer. If it swallowed it without opening this, the whole feature
  *     would be desktop-only and every mouse test would still pass.
  */
-const puppeteer=(function(){const t=[];if(process.env.PUPPETEER_PATH)t.push(process.env.PUPPETEER_PATH);t.push('puppeteer');
-  for(const x of t){try{return require(x);}catch(e){}}
-  console.error('menu test: puppeteer not found.');process.exit(1);})();
-const sleep=ms=>new Promise(r=>setTimeout(r,ms));
-const { ready } = require('./settle.js');
-let pass=0,fail=0; const check=(n,c,d)=>{ if(c){pass++;console.log('  ok   '+n);} else {fail++;console.log('  FAIL '+n+(d?' — '+d:''));} };
-const SHIM=()=>{const o=window.matchMedia;window.matchMedia=q=>(/hover:\s*hover|pointer:\s*fine/.test(q)?{matches:true,media:q,addListener(){},removeListener(){},addEventListener(){},removeEventListener(){}}:o.call(window,q));};
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
 const URL='http://localhost:8123/index.html';
 
 /* Aim at a place and open the menu there in one go — and report back what the
@@ -67,7 +61,7 @@ const admin=async p=>{ await p.evaluate(()=>{
   if(b && b.getAttribute('aria-pressed')!=='true') b.click(); }); await sleep(1200); };
 
 (async()=>{
-  const browser=await puppeteer.launch({headless:'new',args:['--no-sandbox']}); await sandboxDownloads(browser);
+  const browser=await launch(); await sandboxDownloads(browser);
   const page=await browser.newPage();
   await page.setViewport({width:1280,height:900});
   await page.evaluateOnNewDocument(SHIM);
@@ -385,6 +379,5 @@ const admin=async p=>{ await p.evaluate(()=>{
 
   check('no page errors', errs.concat(perrs).length===0, errs.concat(perrs).join(' | '));
   await browser.close();
-  console.log('\n  '+pass+' passed, '+fail+' failed');
-  process.exit(fail?1:0);
+  process.exit(report());
 })();

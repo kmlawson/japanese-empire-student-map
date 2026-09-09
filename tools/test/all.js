@@ -238,9 +238,92 @@ const TRIGGERS = [
   [/^sources\.html$/,               []],
 ];
 
+/* ---------------------------------------------------------------------
+ * MAP.JS, BY SECTION
+ *
+ * `map.js` is the file that changes most — 329 commits in the forty days to
+ * 9 September — and the trigger table can only say that it touches `core`,
+ * `points`, `links` and `data`: 34 of the 61 scripts, 1,293 serial seconds,
+ * more than half the suite. So `changed` on a `map.js` edit was saving a
+ * third of a full run and no more.
+ *
+ * But the file is not one thing. Its banner comments already divide it into
+ * forty-odd sections — `labels`, `train tools`, `the air routes`, `legend` —
+ * and a hunk in the label placer does not need the timetable suite. So the
+ * diff's hunks are read against the banners in the working copy, and each
+ * section names the groups it can break. A hunk that lands before the first
+ * banner (the shared state at the top), or in a section this table has not
+ * been taught, gets the whole-file rule — which is what every edit got before,
+ * so the narrowing can only ever run less than it did, never less than it
+ * should. Print `--dry` to see which sections the diff was read as.
+ */
+const MAP_SECTIONS = [
+  [/^(state|boot|projection|view control|pointering|hit testing|labels|quiz|full screen|the label categories|a name that has left the frame)$/, ['core']],
+  [/^what kind of point is it$/, ['core', 'points']],
+  [/^controls$/, ['core', 'links']],
+  [/^(shareable links|reading a shared address)$/, ['links']],
+  [/^(shaded relief|the fine coastlines|Korea at survey resolution)$/, ['geometry']],
+  [/^(the sugar railways|train tools|a station's trains)$/, ['transport']],
+  [/^epoch composition$/, ['core', 'data']],
+  [/^(the air routes|reading a clock|which sheets are drawn|the air)$/, ['transport', 'points']],
+  [/^(layers as GeoJSON|what a layer is, and what it is not)$/, ['links', 'points']],
+  [/^(a choropleth, taken away whole|population by density|the pies|the units with no figure|the figure on each unit|and in the info card|taking a table away)$/, ['data']],
+  [/^(legend|the palette|the key as a set of switches|the sheets, on a menu)$/, ['core', 'data']],
+  [/^the right-click menu$/, ['points', 'core']],
+  [/^annotations$/, ['ann', 'core']],
+];
+const MAP_WHOLE = ['core', 'points', 'links', 'data'];   // the file's own rule
+
+function mapSections() {
+  const { execSync } = require('child_process');
+  const root = path.join(__dirname, '..', '..');
+  let diff, src;
+  try {
+    diff = execSync('git diff -U0 HEAD -- map.js', { cwd: root, encoding: 'utf8' });
+    src = fs.readFileSync(path.join(root, 'map.js'), 'utf8').split('\n');
+  } catch (e) { return null; }
+  // the banners, with the line each starts on
+  const banners = [];
+  src.forEach((l, i) => {
+    const m = /^  \/\* [-=]{6,} (.+?) [-=]{2,}(?: \*\/)?\s*$/.exec(l);
+    if (m) banners.push({ line: i + 1, title: m[1] });
+  });
+  if (!banners.length) return null;
+  const at = n => {
+    let s = null;
+    for (const b of banners) { if (b.line <= n) s = b; else break; }
+    return s;
+  };
+  const groups = new Set(), titles = [];
+  let whole = false;
+  const re = /^@@ -\d+(?:,\d+)? \+(\d+)(?:,(\d+))? @@/gm;
+  let m;
+  while ((m = re.exec(diff))) {
+    const from = +m[1], len = m[2] === undefined ? 1 : +m[2];
+    const to = from + Math.max(1, len) - 1;
+    const hit = new Set();
+    for (const n of [from, to]) {
+      const b = at(n);
+      if (!b) { whole = true; continue; }
+      const rule = MAP_SECTIONS.find(([r]) => r.test(b.title));
+      if (!rule) { whole = true; titles.push(b.title + '?'); continue; }
+      hit.add(b.title);
+      rule[1].forEach(g => groups.add(g));
+    }
+    hit.forEach(t => { if (titles.indexOf(t) < 0) titles.push(t); });
+  }
+  if (whole) MAP_WHOLE.forEach(g => groups.add(g));
+  return { groups: [...groups], titles, whole };
+}
+
 function changedFiles() {
   const { execSync } = require('child_process');
-  const run = c => { try { return execSync(c, { encoding: 'utf8' }); }
+  /* From the repository root, whatever directory this was started in:
+     `git diff --name-only` prints paths from the root and `ls-files --others`
+     prints them from the current directory, so run from `tools/test/` a new
+     helper came out as `suite.js`, matched nothing, and ran everything. */
+  const root = path.join(__dirname, '..', '..');
+  const run = c => { try { return execSync(c, { encoding: 'utf8', cwd: root }); }
                      catch (e) { return ''; } };
   const out = run('git diff --name-only HEAD')
             + run('git ls-files --others --exclude-standard');
@@ -264,6 +347,16 @@ function chooseFor(files) {
       want.add('#' + own[1]);
       why.push(f + ' → itself');
       continue;
+    }
+    if (f === 'map.js') {
+      const s = mapSections();
+      if (s) {
+        s.groups.forEach(g => want.add(g));
+        why.push(f + ' → ' + (s.titles.length ? 'sections ' + s.titles.join(', ') + ' → ' : '')
+          + s.groups.join(', ')
+          + (s.whole ? '  (a hunk outside any known section, so the whole-file rule)' : ''));
+        continue;
+      }
     }
     const hit = TRIGGERS.find(([re]) => re.test(f));
     if (!hit) {
@@ -326,6 +419,23 @@ else list = pick.map(a => (/^\d+$/.test(a) ? 'run' + (a === '1' ? '' : a) : a));
    workers. Regenerate from a full run's own per-script line. */
 const SECS = { stations: 147, relief: 140, demography: 95, population: 97, 'layers-url': 158, names: 62, mapstrip: 56, trains: 79, krtrains: 16, kftrains: 19, japanpop: 44, theme: 40, labels: 40, subnames: 37, labelcats: 35, routes: 34, sugar: 33, twpop1930: 33, pin: 31, epoch: 29, mono: 27, colours: 26, extent: 26, islands: 25, manchupop: 25, keys: 52, legendpick: 22, labuan: 22, provsource: 19, bookmarks: 16, 'cache-keys': 15, backings: 15, taiwan: 15, korea: 14, zoom: 13, menu: 13, pointsize: 11, projclip: 11, taiwanpop: 7, beta: 22, hanlabels: 108, air: 159, airplay: 78, clipping: 24, layerinfo: 34,
                run2: 41, run15: 40, run5: 35, run14: 32, run: 19, run3: 28, run9: 30, run10: 25, run11: 24, run12: 19, run8: 19, run13: 18, run4: 17, run6: 12, run7: 5 };
+/* And now measured rather than transcribed. Every run writes what each script
+   took (`per`, in runs.jsonl) and the latest figure for a script overrides the
+   table above — so the table is the fallback for a script nobody has run
+   since this was added, not the authority. On 9 September sixteen of its
+   entries were more than 30% out, and `airplay`, the third-longest script,
+   was scheduled as the eleventh. */
+(function measured() {
+  let recs;
+  try {
+    recs = fs.readFileSync(RUNS, 'utf8').split('\n').filter(Boolean)
+      .map(l => { try { return JSON.parse(l); } catch (e) { return null; } })
+      .filter(r => r && Array.isArray(r.per));
+  } catch (e) { return; }
+  recs.forEach(r => r.per.forEach(p => {
+    if (p.f !== null && p.s > 0) SECS[p.n] = p.s;   // file order: the last run wins
+  }));
+})();
 list = list.slice().sort((a, b) => (SECS[b] || 0) - (SECS[a] || 0));
 
 const KEY = runKey(list);
@@ -431,6 +541,11 @@ function done() {
     secs: Number(secs),
     jobs: JOBS,
     failed: bad.length,
+    /* Each script's own seconds and verdict, so the next run can schedule on
+       what was measured (see `measured()` above) and so a script that fails
+       one run in five can be found without reading the log. */
+    per: results.map(r => ({ n: r.name.replace(/ \*$/, ''), s: r.secs,
+                             p: r.passed, f: r.failed })),
   });
   process.exit(bad.length);
 }

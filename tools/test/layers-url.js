@@ -10,12 +10,7 @@
  * every one of them is set to its non-default, packed, opened in a fresh page
  * and read back.
  */
-const puppeteer=(function(){const t=[];if(process.env.PUPPETEER_PATH)t.push(process.env.PUPPETEER_PATH);t.push('puppeteer');
-  for(const x of t){try{return require(x);}catch(e){}}
-  console.error('layers-url test: puppeteer not found.');process.exit(1);})();
-const sleep=ms=>new Promise(r=>setTimeout(r,ms));
-const SHIM=()=>{const o=window.matchMedia;window.matchMedia=q=>(/hover:\s*hover|pointer:\s*fine/.test(q)?{matches:true,media:q,addListener(){},removeListener(){},addEventListener(){},removeEventListener(){}}:o.call(window,q));};
-let pass=0,fail=0; const check=(n,c,d)=>{ if(c){pass++;console.log('  ok   '+n);} else {fail++;console.log('  FAIL '+n+(d?' — '+d:''));} };
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
 
 /* Everything the code carries, as it appears in the interface. Each is set to
    the opposite of its default, so a bit that is dropped shows up as a value
@@ -58,7 +53,7 @@ const open=async(b,url)=>{const p=await b.newPage(); await p.setViewport({width:
   await p.evaluate(()=>document.querySelector('#btn-options').click()); await sleep(400);
   return p;};
 
-(async()=>{const b=await puppeteer.launch({headless:'new',args:['--no-sandbox'],protocolTimeout:180000});
+(async()=>{const b=await launch();
 console.log('\n— every layer setting, out and back through the URL —');
 const p=await open(b);
 for (const [name,set] of SETTINGS) { await set(p); await sleep(500); }
@@ -451,5 +446,4 @@ console.log('\n— one setting at a time, and nothing rides along with it —');
   check('a code with a high field is written as two parts', /^[0-9a-z]+\.[0-9a-z]+$/.test(shape || ''), shape);
 }
 
-console.log('\n  '+pass+' passed, '+fail+' failed');
-await b.close(); process.exit(fail);})();
+await b.close(); process.exit(report());})();

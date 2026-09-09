@@ -17,13 +17,7 @@
  *     legs, and that is what proves the reading of a printed triangle whose
  *     rows and columns are only implied by position.
  */
-const puppeteer=(function(){const t=[];if(process.env.PUPPETEER_PATH)t.push(process.env.PUPPETEER_PATH);t.push('puppeteer');
-  for(const x of t){try{return require(x);}catch(e){}}
-  console.error('air test: puppeteer not found.');process.exit(1);})();
-const sleep=ms=>new Promise(r=>setTimeout(r,ms));
-const { ready } = require('./settle.js');
-let pass=0,fail=0; const check=(n,c,d)=>{ if(c){pass++;console.log('  ok   '+n);} else {fail++;console.log('  FAIL '+n+(d?' — '+d:''));} };
-const SHIM=()=>{const o=window.matchMedia;window.matchMedia=q=>(/hover:\s*hover|pointer:\s*fine/.test(q)?{matches:true,media:q,addListener(){},removeListener(){},addEventListener(){},removeEventListener(){}}:o.call(window,q));};
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
 const URL='http://localhost:8123/index.html';
 
 /* **Press it, do not dispatch at it.**
@@ -224,7 +218,7 @@ const card_=p=>p.evaluate(()=>{
 
 
 (async()=>{
-  const browser=await puppeteer.launch({headless:'new',args:['--no-sandbox']});
+  const browser=await launch();
   const page=await browser.newPage();
   await page.setViewport({width:1400,height:950});
   await page.evaluateOnNewDocument(SHIM);
@@ -1692,6 +1686,5 @@ const card_=p=>p.evaluate(()=>{
 
   check('no page errors', errs.concat(perrs).length===0, errs.concat(perrs).join(' | '));
   await browser.close();
-  console.log('\n  '+pass+' passed, '+fail+' failed');
-  process.exit(fail?1:0);
+  process.exit(report());
 })();

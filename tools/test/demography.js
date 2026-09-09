@@ -25,18 +25,7 @@
  *     say nothing about which province is which, so the boundaries come with
  *     the layer.
  */
-const puppeteer = (function () {
-  const t = [];
-  if (process.env.PUPPETEER_PATH) t.push(process.env.PUPPETEER_PATH);
-  t.push('puppeteer');
-  for (const x of t) { try { return require(x); } catch (e) { /* keep looking */ } }
-  console.error('demography test: puppeteer not found.');
-  process.exit(1);
-})();
-const sleep = ms => new Promise(r => setTimeout(r, ms));
-let pass = 0, fail = 0;
-const check = (n, c, d) => { if (c) { pass++; console.log('  ok   ' + n); }
-                             else { fail++; console.log('  FAIL ' + n + (d ? ' — ' + d : '')); } };
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
 
 const KOREA = 'http://localhost:8123/index.html?where=123.5,32.8,132.5,43.5';
 const open = async (b, url) => {
@@ -62,7 +51,7 @@ const st = p => p.evaluate(() => ({
 }));
 
 (async () => {
-  const b = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox'] });
+  const b = await launch();
 
   console.log('\n— the panel —');
   let p = await open(b, KOREA + '&layers=0');          // 1930, nothing on
@@ -448,7 +437,6 @@ const st = p => p.evaluate(() => ({
     Math.abs(twNear.box - twWide.box) <= 1, twWide.box + 'px then ' + twNear.box + 'px');
   await p.close();
 
-  console.log('\n  ' + pass + ' passed, ' + fail + ' failed');
   await b.close();
-  process.exit(fail ? 1 : 0);
+  process.exit(report());
 })();

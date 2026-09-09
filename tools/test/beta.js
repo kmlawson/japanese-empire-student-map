@@ -14,11 +14,7 @@
  * really is loaded from `http://kmlawson.github.io:8123/` and `location
  * .hostname` is the thing under test rather than something stubbed.
  */
-const puppeteer=(function(){const t=[];if(process.env.PUPPETEER_PATH)t.push(process.env.PUPPETEER_PATH);t.push('puppeteer');
-  for(const x of t){try{return require(x);}catch(e){}}
-  console.error('beta test: puppeteer not found.');process.exit(1);})();
-const { ready } = require('./settle.js');
-let pass=0,fail=0; const check=(n,c,d)=>{ if(c){pass++;console.log('  ok   '+n);} else {fail++;console.log('  FAIL '+n+(d?' — '+d:''));} };
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
 
 const look=p=>p.evaluate(()=>{
   const b=document.getElementById('beta-badge');
@@ -40,8 +36,7 @@ const look=p=>p.evaluate(()=>{
 const PHONE={width:390,height:844,isMobile:true,hasTouch:true,deviceScaleFactor:2};
 
 const on=async(host,args,vp)=>{
-  const b=await puppeteer.launch({headless:'new',
-    args:['--no-sandbox'].concat(args||[])});
+  const b=await launch({args:args||[]});
   const p=await b.newPage();
   await p.setViewport(vp||{width:1400,height:900});
   const errs=[]; p.on('pageerror',e=>errs.push(String(e)));
@@ -55,7 +50,7 @@ const on=async(host,args,vp)=>{
 (async()=>{
   console.log('\n— the rule is a function of the hostname —');
   const rule=await (async()=>{
-    const b=await puppeteer.launch({headless:'new',args:['--no-sandbox']});
+    const b=await launch();
     const p=await b.newPage();
     await p.goto('http://localhost:8123/index.html',{waitUntil:'networkidle2'});
     await ready(p);
@@ -114,8 +109,7 @@ const on=async(host,args,vp)=>{
      corner and only one of the two states would catch a fault in the other. */
   console.log('\n— and on a phone it is out of the legend\'s way —');
   const phone=await (async()=>{
-    const b=await puppeteer.launch({headless:'new',
-      args:['--no-sandbox','--host-resolver-rules=MAP kmlawson.github.io 127.0.0.1']});
+    const b=await launch({args:["--host-resolver-rules=MAP kmlawson.github.io 127.0.0.1"]});
     const p=await b.newPage();
     await p.setViewport(PHONE);
     await p.goto('http://kmlawson.github.io:8123/index.html',{waitUntil:'networkidle2'});
@@ -155,6 +149,5 @@ const on=async(host,args,vp)=>{
   check('nothing marked', !dev.shown && !dev.tag && !/beta/.test(dev.bar),
     JSON.stringify(dev));
 
-  console.log('\n  '+pass+' passed, '+fail+' failed\n');
-  process.exit(fail?1:0);
+  process.exit(report());
 })();

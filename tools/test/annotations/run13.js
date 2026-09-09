@@ -23,12 +23,8 @@ const { sandboxDownloads } = require('../downloads.js');
  *      all, its end landing four months before its start.
  */
 const S = require('./suite.js');
-const puppeteer = S.puppeteer;
+const { puppeteer, sleep, check, report, SHIM } = require('./suite.js');
 const fs = require('fs'), os = require('os'), path = require('path');
-const sleep = ms => new Promise(r => setTimeout(r, ms));
-let pass = 0, fail = 0;
-const check = (n, c, d) => { if (c) { pass++; console.log('    ok   ' + n); }
-                             else { fail++; console.log('    FAIL ' + n + (d ? ' — ' + d : '')); } };
 
 const titles = p => p.evaluate(() =>
   [...document.querySelectorAll('#ann-list .ann-name')].map(e => e.textContent.trim()));
@@ -44,7 +40,7 @@ const type = async (p, id, v) => { await p.evaluate((i, val) => {
   el.dispatchEvent(new Event('input', { bubbles: true })); }, id, v); await sleep(700); };
 
 (async () => {
-const b = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox'], protocolTimeout: 150000 }); await sandboxDownloads(b);
+const b = await puppeteer.launch({headless:'new',args:['--no-sandbox'],protocolTimeout:180000}); await sandboxDownloads(b);
 const p = await b.newPage();
 await p.setViewport({ width: 1400, height: 950 });
 await p.evaluateOnNewDocument(S.SHIM);
@@ -128,7 +124,6 @@ check('as is the one that runs from May through 1931',
 check('and September\'s own mark has arrived', on.includes('September 1931'), JSON.stringify(on));
 
 check('no page errors', errs.length === 0, errs[0]);
-console.log('\n    ' + pass + ' passed, ' + fail + ' failed');
 await b.close();
-process.exit(fail);
+process.exit(report());
 })();

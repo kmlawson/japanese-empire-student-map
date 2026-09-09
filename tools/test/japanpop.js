@@ -22,18 +22,7 @@
  *     the Kuriles are in the census figure and are drawn as a territory of
  *     their own, so the area must be Hokkaidō without them.
  */
-const puppeteer = (function () {
-  const t = [];
-  if (process.env.PUPPETEER_PATH) t.push(process.env.PUPPETEER_PATH);
-  t.push('puppeteer');
-  for (const x of t) { try { return require(x); } catch (e) { /* keep looking */ } }
-  console.error('japanpop test: puppeteer not found.');
-  process.exit(1);
-})();
-const sleep = ms => new Promise(r => setTimeout(r, ms));
-let pass = 0, fail = 0;
-const check = (n, c, d) => { if (c) { pass++; console.log('  ok   ' + n); }
-                             else { fail++; console.log('  FAIL ' + n + (d ? ' — ' + d : '')); } };
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
 
 const JAPAN = 'http://localhost:8123/index.html?where=126,29,148,47';
 
@@ -54,7 +43,7 @@ const open = async (b, url) => {
 };
 
 (async () => {
-  const b = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox'] });
+  const b = await launch();
 
   console.log('\n— the figures —');
   let p = await open(b, JAPAN);
@@ -521,6 +510,5 @@ const open = async (b, url) => {
   await p.close();
 
   await b.close();
-  console.log('\n  ' + pass + ' passed, ' + fail + ' failed\n');
-  process.exit(fail ? 1 : 0);
+  process.exit(report());
 })();

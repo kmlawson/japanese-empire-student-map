@@ -22,23 +22,7 @@
  * right in Safari for a month while nothing on screen changed. A fill that
  * differs from the base colour is what a reader actually sees.
  */
-const puppeteer = (function () {
-  const t = [];
-  if (process.env.PUPPETEER_PATH) t.push(process.env.PUPPETEER_PATH);
-  t.push('puppeteer');
-  for (const x of t) { try { return require(x); } catch (e) { /* keep looking */ } }
-  console.error('labuan test: puppeteer not found.');
-  process.exit(1);
-})();
-const sleep = ms => new Promise(r => setTimeout(r, ms));
-const { ready } = require('./settle.js');
-let pass = 0, fail = 0;
-const check = (n, c, d) => { if (c) { pass++; console.log('  ok   ' + n); }
-                             else { fail++; console.log('  FAIL ' + n + (d ? ' — ' + d : '')); } };
-const SHIM = () => { const o = window.matchMedia;
-  window.matchMedia = q => (/hover:\s*hover|pointer:\s*fine/.test(q)
-    ? { matches: true, media: q, addListener() {}, removeListener() {},
-        addEventListener() {}, removeEventListener() {} } : o.call(window, q)); };
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
 
 const BASE = (1 << 3) | (1 << 5) | (1 << 6) | (2 << 8);
 const BBOX = '&bbox=113.5,4.2,116.8,6.8';
@@ -70,7 +54,7 @@ const STATE = () => {
 };
 
 (async () => {
-const b = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox'] });
+const b = await launch();
 const open = async (bits, touch) => {
   const ctx = await b.createBrowserContext();
   const p = await ctx.newPage();
@@ -146,7 +130,6 @@ console.log('\n— and in 1942 the Dindings are Perak\'s again —');
   await p.__ctx.close();
 }
 
-console.log('\n  ' + pass + ' passed, ' + fail + ' failed');
 await b.close();
-process.exit(fail);
+process.exit(report());
 })();

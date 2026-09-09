@@ -30,18 +30,7 @@
  *     1930 in moved 1941's. Both dates must be reading the same four breaks or
  *     a colour means two things.
  */
-const puppeteer = (function () {
-  const t = [];
-  if (process.env.PUPPETEER_PATH) t.push(process.env.PUPPETEER_PATH);
-  t.push('puppeteer');
-  for (const x of t) { try { return require(x); } catch (e) { /* keep looking */ } }
-  console.error('twpop1930 test: puppeteer not found.');
-  process.exit(1);
-})();
-const sleep = ms => new Promise(r => setTimeout(r, ms));
-let pass = 0, fail = 0;
-const check = (n, c, d) => { if (c) { pass++; console.log('  ok   ' + n); }
-                             else { fail++; console.log('  FAIL ' + n + (d ? ' — ' + d : '')); } };
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
 
 const TAIWAN = 'http://localhost:8123/index.html?where=118.5,21.5,123.2,25.9';
 
@@ -65,7 +54,7 @@ const SHU = ['TwShuTaihoku', 'TwShuShinchiku', 'TwShuTaichu', 'TwShuTainan', 'Tw
 const CHO = ['TwTaito', 'TwKarenko', 'TwHoko'];
 
 (async () => {
-  const b = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox'] });
+  const b = await launch();
 
   console.log('\n— the figures —');
   let p = await open(b, TAIWAN);
@@ -444,6 +433,5 @@ const CHO = ['TwTaito', 'TwKarenko', 'TwHoko'];
   await p.close();
 
   await b.close();
-  console.log('\n' + pass + ' passed, ' + fail + ' failed\n');
-  process.exit(fail ? 1 : 0);
+  process.exit(report());
 })();

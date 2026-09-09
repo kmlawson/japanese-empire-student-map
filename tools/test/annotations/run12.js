@@ -10,12 +10,8 @@
  * The controls are on the map beside the zoom buttons and not in the panel,
  * because they are for reading a set rather than editing one.
  */
-const puppeteer = require('./suite.js').puppeteer;
+const { puppeteer, sleep, check, report, SHIM } = require('./suite.js');
 const S = require('./suite.js');
-const sleep = ms => new Promise(r => setTimeout(r, ms));
-let pass = 0, fail = 0;
-const check = (n, c, d) => { if (c) { pass++; console.log('    ok   ' + n); }
-                             else { fail++; console.log('    FAIL ' + n + (d ? ' — ' + d : '')); } };
 
 /* Four marks and four dates. One has no date at all and must never go: it is
    the ground the dated ones are drawn against. */
@@ -52,7 +48,7 @@ const STATE = () => {
   const file = path.join(os.tmpdir(), 'jem-clock-set.geojson');
   fs.writeFileSync(file, JSON.stringify(SET));
 
-  const b = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox'], protocolTimeout: 150000 });
+  const b = await puppeteer.launch({headless:'new',args:['--no-sandbox'],protocolTimeout:180000});
 
   /* ---------------------------------------------------- with a mouse -- */
   const p = await b.newPage();
@@ -166,7 +162,6 @@ const STATE = () => {
     !(await t.evaluate(STATE)).running);
   check('no page errors on touch', errs2.length === 0, errs2[0]);
 
-  console.log('\n    ' + pass + ' passed, ' + fail + ' failed');
   await b.close();
-  process.exit(fail);
+  process.exit(report());
 })();

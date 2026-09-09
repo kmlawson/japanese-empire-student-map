@@ -16,19 +16,7 @@
  * drawing round. The two ends of that rule reproduce the stylesheet's own
  * pairs, which is checked here rather than asserted in a comment.
  */
-const puppeteer = (function () {
-  const t = [];
-  if (process.env.PUPPETEER_PATH) t.push(process.env.PUPPETEER_PATH);
-  t.push('puppeteer');
-  for (const x of t) { try { return require(x); } catch (e) { /* keep looking */ } }
-  console.error('mono test: puppeteer not found.');
-  process.exit(1);
-})();
-const sleep = ms => new Promise(r => setTimeout(r, ms));
-const { ready } = require('./settle.js');
-let pass = 0, fail = 0;
-const check = (n, c, d) => { if (c) { pass++; console.log('  ok   ' + n); }
-                             else { fail++; console.log('  FAIL ' + n + (d ? ' — ' + d : '')); } };
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
 
 const BASE = (1 << 5) | (1 << 6);
 const MONO = 1 << 21;
@@ -52,7 +40,7 @@ const STATE = () => {
 const rgb = hex => 'rgb(' + [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16)).join(', ') + ')';
 
 (async () => {
-const b = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox'] });
+const b = await launch();
 const open = async (u, dark) => {
   const p = await b.newPage();
   await p.setViewport({ width: 1300, height: 900 });
@@ -156,7 +144,6 @@ console.log('\n— light and dark, and a chosen colour overriding both —');
   await p.close();
 }
 
-console.log('\n  ' + pass + ' passed, ' + fail + ' failed');
 await b.close();
-process.exit(fail);
+process.exit(report());
 })();

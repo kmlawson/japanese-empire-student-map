@@ -12,11 +12,7 @@
  * It is the same family as the blur and the arrowhead: a quantity worked out
  * in one space and used in another. This is the guard.
  */
-const puppeteer=(function(){const t=[];if(process.env.PUPPETEER_PATH)t.push(process.env.PUPPETEER_PATH);t.push('puppeteer');
-  for(const x of t){try{return require(x);}catch(e){}}
-  console.error('projclip test: puppeteer not found.');process.exit(1);})();
-const sleep=ms=>new Promise(r=>setTimeout(r,ms));
-let pass=0,fail=0; const check=(n,c,d)=>{ if(c){pass++;console.log('  ok   '+n);} else {fail++;console.log('  FAIL '+n+(d?' — '+d:''));} };
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
 
 const clips=p=>p.evaluate(()=>[...document.querySelectorAll('clipPath[id^="edge-clip"]')]
   .map(c=>{const r=c.querySelector('rect');
@@ -25,7 +21,7 @@ const clips=p=>p.evaluate(()=>[...document.querySelectorAll('clipPath[id^="edge-
 const used=p=>p.evaluate(()=>[...document.querySelectorAll('#sub-outlines .edge-line[clip-path]')]
   .map(e=>e.getAttribute('clip-path')));
 
-(async()=>{const b=await puppeteer.launch({headless:'new',args:['--no-sandbox'],protocolTimeout:180000});
+(async()=>{const b=await launch();
 const p=await b.newPage(); await p.setViewport({width:1200,height:900});
 await p.goto('http://localhost:8123/index.html?bbox=68,20,84,30',{waitUntil:'networkidle0'});
 await p.waitForFunction(()=>document.querySelectorAll('#land .atom').length>0,{polling:'raf',timeout:25000});
@@ -59,5 +55,4 @@ for (const proj of ['albers','laea']) {
     !mer || Math.abs(now.x - mer.x) > 2 || Math.abs(now.y - mer.y) > 2 || Math.abs(now.w - mer.w) > 2,
     JSON.stringify({mercator:mer, [proj]:now}));
 }
-console.log('\n  '+pass+' passed, '+fail+' failed');
-await b.close(); process.exit(fail);})();
+await b.close(); process.exit(report());})();

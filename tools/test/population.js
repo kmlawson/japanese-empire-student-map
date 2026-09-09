@@ -22,22 +22,7 @@ const { sandboxDownloads } = require('./downloads.js');
  * dates: the one thing a reader looking at the peninsula should not have to
  * hunt for is the towns.
  */
-const puppeteer = (function () {
-  const t = [];
-  if (process.env.PUPPETEER_PATH) t.push(process.env.PUPPETEER_PATH);
-  t.push('puppeteer');
-  for (const x of t) { try { return require(x); } catch (e) { /* keep looking */ } }
-  console.error('population test: puppeteer not found.');
-  process.exit(1);
-})();
-const sleep = ms => new Promise(r => setTimeout(r, ms));
-let pass = 0, fail = 0;
-const check = (n, c, d) => { if (c) { pass++; console.log('  ok   ' + n); }
-                             else { fail++; console.log('  FAIL ' + n + (d ? ' — ' + d : '')); } };
-const SHIM = () => { const o = window.matchMedia;
-  window.matchMedia = q => (/hover:\s*hover|pointer:\s*fine/.test(q)
-    ? { matches: true, media: q, addListener() {}, removeListener() {},
-        addEventListener() {}, removeEventListener() {} } : o.call(window, q)); };
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
 
 const KOREA = 'http://localhost:8123/index.html?where=123.5,32.8,132.5,43.5';
 const CITIES = ['seoul', 'incheon', 'kaesong', 'kunsan', 'mokpo', 'taegu',
@@ -64,7 +49,7 @@ const spot = (p, sel, fx, fy) => p.evaluate((s, ax, ay) => {
 }, sel, fx === undefined ? 0.5 : fx, fy === undefined ? 0.5 : fy);
 
 (async () => {
-  const b = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox'] }); await sandboxDownloads(b);
+  const b = await launch(); await sandboxDownloads(b);
 
   /* ---- the shading, from a link that asks for it ------------------- */
   console.log('\n— the choropleth —');
@@ -845,7 +830,6 @@ const spot = (p, sel, fx, fy) => p.evaluate((s, ax, ay) => {
     await q.close();
   }
 
-  console.log('\n  ' + pass + ' passed, ' + fail + ' failed');
   await b.close();
-  process.exit(fail ? 1 : 0);
+  process.exit(report());
 })();

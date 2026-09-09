@@ -16,13 +16,7 @@
  * no longer buy: at the bottom of the phone's range a hundredth of a degree is
  * three per cent of the view.
  */
-const puppeteer=(function(){const t=[];if(process.env.PUPPETEER_PATH)t.push(process.env.PUPPETEER_PATH);t.push('puppeteer');
-  for(const x of t){try{return require(x);}catch(e){}}
-  console.error('zoom test: puppeteer not found.');process.exit(1);})();
-const sleep=ms=>new Promise(r=>setTimeout(r,ms));
-const { ready } = require('./settle.js');
-let pass=0,fail=0; const check=(n,c,d)=>{ if(c){pass++;console.log('  ok   '+n);} else {fail++;console.log('  FAIL '+n+(d?' — '+d:''));} };
-const SHIM=()=>{const o=window.matchMedia;window.matchMedia=q=>(/hover:\s*hover|pointer:\s*fine/.test(q)?{matches:true,media:q,addListener(){},removeListener(){},addEventListener(){},removeEventListener(){}}:o.call(window,q));};
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
 
 const URL='http://localhost:8123/index.html';
 const box=p=>p.evaluate(()=>document.getElementById('jmap').getAttribute('viewBox')
@@ -45,7 +39,7 @@ const width=p=>p.evaluate(()=>document.getElementById('map-container')
   .getBoundingClientRect().width);
 
 (async()=>{
-const b=await puppeteer.launch({headless:'new',args:['--no-sandbox'],protocolTimeout:180000});
+const b=await launch();
 const errs=[];
 
 console.log('\n— a desktop reaches the depth it always did —');
@@ -117,5 +111,4 @@ console.log('\n— and a link written down there comes back to it —');
 }
 
 check('no page errors', errs.length===0, errs[0]);
-console.log('\n  '+pass+' passed, '+fail+' failed');
-await b.close(); process.exit(fail);})();
+await b.close(); process.exit(report());})();

@@ -17,11 +17,7 @@ const { sandboxDownloads } = require('../downloads.js');
  * the first version of this box broke in the documented way.
  */
 const S = require('./suite.js');
-const puppeteer = S.puppeteer;
-const sleep = ms => new Promise(r => setTimeout(r, ms));
-let pass = 0, fail = 0;
-const check = (n, c, d) => { if (c) { pass++; console.log('    ok   ' + n); }
-                             else { fail++; console.log('    FAIL ' + n + (d ? ' — ' + d : '')); } };
+const { puppeteer, sleep, check, report, SHIM } = require('./suite.js');
 
 const boxRect = p => p.evaluate(() => {
   const f = document.querySelector('.ann-textbox');
@@ -42,7 +38,7 @@ const type = async (p, id, v) => { await p.evaluate((i, val) => {
   el.dispatchEvent(new Event('input', { bubbles: true })); }, id, v); await sleep(650); };
 
 (async () => {
-const b = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox'], protocolTimeout: 150000 }); await sandboxDownloads(b);
+const b = await puppeteer.launch({headless:'new',args:['--no-sandbox'],protocolTimeout:180000}); await sandboxDownloads(b);
 const p = await S.page(b, { accept: true });
 const errs = p.__errs;
 await S.openPanel(p);
@@ -302,7 +298,6 @@ console.log('\n  — and an area still takes the press as the next shape —');
 
 check('no page errors', errs.length === 0 && p2.__errs.length === 0,
   errs[0] || p2.__errs[0]);
-console.log('\n    ' + pass + ' passed, ' + fail + ' failed');
 await b.close();
-process.exit(fail);
+process.exit(report());
 })();

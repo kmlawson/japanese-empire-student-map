@@ -13,12 +13,7 @@
  *     back, and the file is fetched once however often that happens;
  *   * the provinces answer the pointer and are named.
  */
-const puppeteer=(function(){const t=[];if(process.env.PUPPETEER_PATH)t.push(process.env.PUPPETEER_PATH);t.push('puppeteer');
-  for(const x of t){try{return require(x);}catch(e){}}
-  console.error('korea test: puppeteer not found.');process.exit(1);})();
-const sleep=ms=>new Promise(r=>setTimeout(r,ms));
-let pass=0,fail=0; const check=(n,c,d)=>{ if(c){pass++;console.log('  ok   '+n);} else {fail++;console.log('  FAIL '+n+(d?' — '+d:''));} };
-const SHIM=()=>{const o=window.matchMedia;window.matchMedia=q=>(/hover:\s*hover|pointer:\s*fine/.test(q)?{matches:true,media:q,addListener(){},removeListener(){},addEventListener(){},removeEventListener(){}}:o.call(window,q));};
+const { puppeteer, sleep, ready, until, check, report, SHIM, launch } = require('./suite.js');
 
 const WIDE='http://localhost:8123/index.html?where=123.5,32.8,132.5,43.5';
 /* The ria coast south-west of Mokpo. Chosen because it is where the two
@@ -42,7 +37,7 @@ const adminOn=async p=>{
 };
 
 (async()=>{
-  const browser=await puppeteer.launch({headless:'new',args:['--no-sandbox']});
+  const browser=await launch();
   try{
     const p=await browser.newPage();
     await p.evaluateOnNewDocument(SHIM);
@@ -99,6 +94,5 @@ const adminOn=async p=>{
     check('no page errors', errs.length===0, errs.join(' | '));
     await p.close();
   } finally { await browser.close(); }
-  console.log('\n'+pass+' passed, '+fail+' failed');
-  process.exit(fail?1:0);
+  process.exit(report());
 })();
