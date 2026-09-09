@@ -8013,6 +8013,12 @@ FINE_FILES = [
     ("central-pacific-islands.geojson", ["osm-islands-central-pacific.json"]),
 ]
 
+# Whole coastlines traced for one atom, keyed by the atom, drawn in place of
+# its coarse shape when the reader is close. See build_fine_coast.
+FINE_ATOM_FILES = [
+    ("karafuto", os.path.join(ROOT, "data", "karafuto", "karafuto-coast-detailed.geojson")),
+]
+
 # Only these windows are taken from the sources above; the Pacific file covers
 # the whole south-west Pacific and only the Marianas are wanted from it so far.
 # Each is (name, ja, lon0, lat0, lon1, lat1) and they are tested in order.
@@ -8856,10 +8862,52 @@ def build_fine_coast(groups):
                 t = _atoll_of(ring, atolls) or {}
             rows.append((area, ring, t))
 
-    if not rows:
-        return "", {}
     by_atom = collections.defaultdict(list)
     unnamed = 0
+    # A whole coastline traced for one atom, drawn in place of its coarse
+    # shape when the reader is close. Karafuto is the one so far: the author's
+    # own trace of southern Sakhalin, 25,734 vertices against the 446 the
+    # coarse sheet draws, already cut at the 50th parallel (data/karafuto/,
+    # and tools/build_kf_coast.py for how). It is wanted because the railway
+    # was going into the water — 224 of 1,480 traced track vertices lay off
+    # the coarse land, 49 off this one.
+    #
+    # Not thinned: a hand-traced edge keeps every vertex (CLAUDE.md), and how
+    # many survive the write is said on stderr so a tolerance can never undo
+    # the work quietly. Unnamed, because these rings *are* the atom and answer
+    # with its name — a data-prov here would make the island a sub-unit of
+    # itself. Outer rings only: the map draws no lakes.
+    for key, path in FINE_ATOM_FILES:
+        if not os.path.exists(path):
+            sys.stderr.write(f"note: {path} missing, {key}'s fine coastline not drawn\n")
+            continue
+        vin = vout = nrings = 0
+        with open(path) as fh:
+            feats = json.load(fh)["features"]
+        for feat in feats:
+            g = feat.get("geometry") or {}
+            if g.get("type") == "Polygon":
+                polys = [g["coordinates"]]
+            elif g.get("type") == "MultiPolygon":
+                polys = g["coordinates"]
+            else:
+                continue
+            for poly in polys:
+                outer = [(float(c[0]), float(c[1])) for c in poly[0]]
+                if len(outer) < 4:
+                    continue
+                vin += len(outer)
+                pts = [project(x, y) for x, y in normalise_ring(outer)]
+                d = ring_to_path(pts, FINE_PRECISION)
+                vout += d.count("L") + 1
+                nrings += 1
+                by_atom[key].append(("", "", "", "", "", d))
+        if vin:
+            sys.stderr.write(
+                f"fine coastline for {key}: {nrings} rings, {vout} of {vin} "
+                f"vertices written ({100 * vout / vin:.1f}%)\n")
+    if not rows and not by_atom:
+        return "", {}
     for area, ring, t in rows:
         simp = simplify([(x, y) for x, y in ring], FINE_TOL_DEG)
         if len(simp) < 4:
