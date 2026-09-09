@@ -25,18 +25,18 @@ bs_008,전거리,全巨里,Chŏn'gŏri,Zengori,북선,129.72020,42.19920,1,1,Kan
 bs_009,풍산,豊山,P'ungsan,Hōzan,북선,129.76230,42.25330,1,1,Kankyōhoku-dō,,
 bs_010,중도,中島,Chungdo,Chūdō,북선,129.80240,42.34250,1,1,Kankyōhoku-dō,,https://ko.wikipedia.org/wiki/%EC%A4%91%EB%8F%84%EC%97%AD
 bs_011,회령,會寧,Hoeryŏng,Kainei,북선 / 회령탄광선,129.74110,42.45130,1,1,Kankyōhoku-dō,,https://en.wikipedia.org/wiki/Hoeryong_Chongnyon_station
-bs_012,금생,金生,Kŭmsaeng,Kinsei,북선,129.74400,42.47580,1,1,,,
-bs_013,고령진,高嶺鎮,Koryŏngjin,Kōreichin,북선,129.74820,42.52750,1,1,,,
+bs_012,금생,金生,Kŭmsaeng,Kinsei,북선,129.74400,42.47580,1,1,Kankyōhoku-dō,,
+bs_013,고령진,高嶺鎮,Koryŏngjin,Kōreichin,북선,129.74820,42.52750,1,1,Kankyōhoku-dō,,
 bs_014,학포,鶴浦,Hakp'o,Kakuho,북선,129.75760,42.59550,1,1,,,
-bs_015,신전,新田,Sinjŏn,Shinden,북선,129.75600,42.64090,1,1,,,https://ko.wikipedia.org/wiki/%EC%8B%A0%EC%A0%84%EC%97%AD
-bs_016,간평,間坪,Kanp'yŏng,Kanpei,북선,129.78670,42.64830,1,1,,,
-bs_017,상삼봉,上三峰,Sangsambong,Jōsanpō,북선,129.79870,42.68260,1,1,,,
-bs_018,종성,鍾城,Chongsŏng,Shōjō,북선,129.78650,42.75730,1,1,,,
-bs_019,○암,小岩,Soam,Shōgan,북선,129.80930,42.79570,1,1,,,
+bs_015,신전,新田,Sinjŏn,Shinden,북선,129.75600,42.64090,1,1,Kankyōhoku-dō,,https://ko.wikipedia.org/wiki/%EC%8B%A0%EC%A0%84%EC%97%AD
+bs_016,간평,間坪,Kanp'yŏng,Kanpei,북선,129.78670,42.64830,1,1,Kankyōhoku-dō,,
+bs_017,상삼봉,上三峰,Sangsambong,Jōsanpō,북선,129.79870,42.68260,1,1,Kankyōhoku-dō,,
+bs_018,종성,鍾城,Chongsŏng,Shōjō,북선,129.78650,42.75730,1,1,Kankyōhoku-dō,,
+bs_019,○암,小岩,Soam,Shōgan,북선,129.80930,42.79570,1,1,Kankyōhoku-dō,,
 bs_020,동관,東關,Tonggwan,Tōken,북선,129.82450,42.82150,1,1,Kankyōhoku-dō,,
-bs_021,수구포,水口浦,Sugup'o,Suigōho,북선,129.84420,42.87790,,1,,,
-bs_022,강양,江陽,Kangyang,Kōyō,북선,129.85460,42.91630,,1,,,
-bs_023,남양,南陽,Namyang,Nan'yō,북선,129.85650,42.94370,,1,,,https://en.wikipedia.org/wiki/Namyang_station
+bs_021,수구포,水口浦,Sugup'o,Suigōho,북선,129.84420,42.87790,,1,Kankyōhoku-dō,,
+bs_022,강양,江陽,Kangyang,Kōyō,북선,129.85460,42.91630,,1,Kankyōhoku-dō,,
+bs_023,남양,南陽,Namyang,Nan'yō,북선,129.85650,42.94370,,1,Kankyōhoku-dō,,https://en.wikipedia.org/wiki/Namyang_station
 bs_024,풍이,豊利,P'ungi,Hōri,북선,129.89170,42.96160,,1,Kankyōhoku-dō,,
 bs_025,세선,世仙,Sesŏn,Seizen,북선,129.93920,42.97430,,1,Kankyōhoku-dō,,https://ko.wikipedia.org/wiki/%EC%84%B8%EC%84%A0%EC%97%AD
 bs_026,온성,穏城,Onsŏng,Onjō,북선,129.98870,42.95230,,1,Kankyōhoku-dō,,https://ko.wikipedia.org/wiki/%EC%98%A8%EC%84%B1%EC%97%AD
@@ -68,17 +68,17 @@ bsc_009,무산,茂山,Musan,Mōzan,북선철식철도 / 함북선,129.23210,42.2
 cc_001,이원철산,利原鐵山,Iwŏnch'ŏlsan,Rigentetsuzan,철산차호선,128.58130,40.21450,1,1,Kankyōnan-dō,,
 cc_002,나흥,羅興,Nahŭng,Nakō,철산차호선 / 함경선,128.59040,40.19230,1,1,Kankyōnan-dō,,
 cc_003,증산,曾山,Chŭngsan,Sōzan,철산차호선 / 함경선,128.60280,40.21520,1,1,Kankyōnan-dō,,https://ko.wikipedia.org/wiki/%EC%A6%9D%EC%82%B0%EC%97%AD_%28%EB%A6%AC%EC%9B%90%29
-cc_004,차호,遮湖,Ch'aho,Shako,철산차호선,128.64830,40.20090,1,1,Kankyōnan-dō,,
+cc_004,차호,遮湖,Ch'aho,Shako,철산차호선,128.64830,40.20090,1,1,,,
 db_001,원산,元山,Wŏnsan,Genzan,동해북부선 / 경원선,127.44270,39.14630,1,1,Kankyōnan-dō,,https://en.wikipedia.org/wiki/Wonsan_station
 db_002,갈마,葛麻,Kalma,Katsuba,동해북부선 / 경원선,127.47670,39.13550,1,1,Kankyōnan-dō,,https://en.wikipedia.org/wiki/Kalma_station
 db_003,배화,培花,Paehwa,Haika,동해북부선 / 경원선,127.49000,39.07900,1,1,Kankyōnan-dō,,https://en.wikipedia.org/wiki/Paehwa_station
 db_004,안변,安辺,Anbyŏn,Anpen,동해북부선 / 경원선,127.49870,39.04730,1,1,Kankyōnan-dō,,https://en.wikipedia.org/wiki/Anbyon_station
-db_005,상음,桑陰,Sangŭm,Sōin,동해북부선,127.60920,39.13400,1,1,,,
+db_005,상음,桑陰,Sangŭm,Sōin,동해북부선,127.60920,39.13400,1,1,Kōgen-dō,,
 db_006,흡곡,歙谷,Hŭpkok,Kyūkoku,동해북부선,127.73830,39.06770,1,1,Kōgen-dō,,
 db_007,패천,沛川,P'aech'ŏn,Haisen,동해북부선,127.78900,39.02580,,1,Kōgen-dō,,
 db_008,고저,庫底,Kojŏ,Kotei,동해북부선,127.89260,38.93870,,1,Kōgen-dō,,
 db_009,통천,通川,T'ongch'ŏn,Tsūsen,동해북부선,127.90870,38.89680,,1,Kōgen-dō,,https://en.wikipedia.org/wiki/Tongchon_station
-db_010,두백,荳白,Tubaek,Tōhaku,동해북부선,128.06130,38.84600,,1,,,
+db_010,두백,荳白,Tubaek,Tōhaku,동해북부선,128.06130,38.84600,,1,Kōgen-dō,,
 db_011,장전,長箭,Changjŏn,Chōsen,동해북부선,128.18110,38.73540,,1,Kōgen-dō,,
 db_012,외금강,外金剛,Oegŭmgang,Gaikongō,동해북부선,128.22110,38.69010,,1,Kōgen-dō,,https://en.wikipedia.org/wiki/Kumgangsan_Chongnyon_station
 db_013,고성,高城,Kosŏng,Kōjō,동해북부선,128.32490,38.67110,,1,Kōgen-dō,,
@@ -101,7 +101,7 @@ dhj_016,안강,安康,An'gang,Ankō,동해중부선,129.23050,35.98810,1,1,Keish
 dhj_017,부조,扶助,Pujo,Fujo,동해중부선,129.27490,35.99150,1,1,Keishōhoku-dō,,https://ko.wikipedia.org/wiki/%EB%B6%80%EC%A1%B0%EC%97%AD
 dhj_018,효자,孝子,Hyoja,Kōshi,동해중부선,129.33540,36.00890,1,1,Keishōhoku-dō,,https://ko.wikipedia.org/wiki/%ED%9A%A8%EC%9E%90%EC%97%AD_%28%ED%8F%AC%ED%95%AD%29
 dhj_019,포항,浦項,P'ohang,Hokō,동해중부선,129.36020,36.03680,1,1,Keishōhoku-dō,,https://en.wikipedia.org/wiki/Pohang_station
-dhj_020,학산,鶴山,Haksan,Kakuzan,동해중부선,129.37540,36.05220,1,1,Keishōhoku-dō,,https://ko.wikipedia.org/wiki/%ED%95%99%EC%82%B0%EC%97%AD
+dhj_020,학산,鶴山,Haksan,Kakuzan,동해중부선,129.37540,36.05220,1,1,,,https://ko.wikipedia.org/wiki/%ED%95%99%EC%82%B0%EC%97%AD
 dhn_001,부산,釜山,Pusan,Fuzan,동해남부선 / 경부선,129.04000,35.11400,1,1,Keishōnan-dō,,https://en.wikipedia.org/wiki/Busan_station
 dhn_002,초량,草梁,Ch'oryang,Sōryō,동해남부선 / 경부선,129.04330,35.12110,1,1,Keishōnan-dō,,https://en.wikipedia.org/wiki/Choryang_station
 dhn_003,부산진,釜山鎮,Pusanjin,Fuzanchin,동해남부선 / 경부선,129.04860,35.12740,1,1,Keishōnan-dō,,https://en.wikipedia.org/wiki/Busanjin_station_%28Busan_Metro%29
@@ -118,7 +118,7 @@ dhn_013,남창,南倉,Namch'ang,Nansō,동해남부선,129.28500,35.41480,,1,Kei
 dhn_014,덕하,徳下,Tŏkha,Tokuka,동해남부선,129.30500,35.49200,,1,Keishōnan-dō,,https://en.wikipedia.org/wiki/Deokha_station
 dhn_015,울산,蔚山,Ulsan,Urusan,동해남부선,129.32960,35.55560,1,1,Keishōnan-dō,,
 dhn_016,병영,兵營,Pyŏngyŏng,Heiei,동해남부선,129.34320,35.56540,1,1,Keishōnan-dō,,https://ko.wikipedia.org/wiki/%EB%B3%91%EC%98%81%EC%97%AD
-dhn_017,호계,虎溪,Hogye,Kokei,동해남부선,129.35610,35.61950,1,1,Keishōhoku-dō,,https://ko.wikipedia.org/wiki/%ED%98%B8%EA%B3%84%EC%97%AD
+dhn_017,호계,虎溪,Hogye,Kokei,동해남부선,129.35610,35.61950,1,1,Keishōnan-dō,,https://ko.wikipedia.org/wiki/%ED%98%B8%EA%B3%84%EC%97%AD
 dhn_018,모화,毛火,Mohwa,Mōka,동해남부선,129.33810,35.67480,1,1,Keishōhoku-dō,,https://ko.wikipedia.org/wiki/%EB%AA%A8%ED%99%94%EC%97%AD
 dhn_019,입실,入室,Ipsil,Nyūshitsu,동해남부선,129.32250,35.71550,1,1,Keishōhoku-dō,,https://ko.wikipedia.org/wiki/%EC%9E%85%EC%8B%A4%EC%97%AD
 dhn_020,불국사,佛國寺,Pulguksa,Bukkokuji,동해남부선,129.30120,35.77300,1,1,Keishōhoku-dō,,https://ko.wikipedia.org/wiki/%EB%B6%88%EA%B5%AD%EC%82%AC%EC%97%AD
@@ -141,14 +141,14 @@ dsd_005,불인,不二,Purin,Funi,다사도선,124.41840,39.86310,,1,Heianhoku-d�
 dsd_006,다사도,多獅島,Tasado,Tashitō,다사도선,124.42860,39.84220,,1,Heianhoku-dō,,https://ko.wikipedia.org/wiki/%EB%8B%A4%EC%82%AC%EB%8F%84%EC%97%AD
 dsd_007,서다사도,西多獅島,Sŏdasado,Seitashitō,다사도선,124.41870,39.82510,,1,Heianhoku-dō,,
 gc_001,신안주,新安州,Sinanju,Shin'anshū,개천선 / 경의선,125.60340,39.60170,1,1,Heiannan-dō,,
-gc_002,안주,安州,Anju,Anshū,개천선,125.67930,39.63180,1,1,Heianhoku-dō,,
+gc_002,안주,安州,Anju,Anshū,개천선,125.67930,39.63180,1,1,Heiannan-dō,,
 gc_003,북송리,北松里,Puksongni,Hokushō-ri,개천선,125.75520,39.65580,1,1,Heiannan-dō,,
 gc_004,용흥리,雲興里,Yonghŭngni,Unkōri,개천선,125.82880,39.68020,1,1,Heiannan-dō,,
 gc_005,운흥리,雲興里,Unhŭngni,Unkō-ri,개천선,125.85780,39.68680,1,1,Heiannan-dō,,
 gc_006,개천,价川,Kaech'ŏn,Kaisen,개천선,125.89290,39.70090,1,1,Heiannan-dō,,
 gg_001,천안,天安,Ch'ŏnan,Ten'an,경기선 / 경부선 / 장항선,127.14690,36.80910,1,1,Chūseinan-dō,,https://en.wikipedia.org/wiki/Cheonan_station
 gg_002,석교,石橋,Sŏkkyo,Sekikyō,경기선,127.18560,36.85620,1,1,Chūseinan-dō,,
-gg_003,입장,笠場,Ipchang,Ryūjō,경기선,127.21050,36.91210,1,1,Keiki-dō,,https://ko.wikipedia.org/wiki/%EC%9E%85%EC%9E%A5%EC%97%AD
+gg_003,입장,笠場,Ipchang,Ryūjō,경기선,127.21050,36.91210,1,1,Chūseinan-dō,,https://ko.wikipedia.org/wiki/%EC%9E%85%EC%9E%A5%EC%97%AD
 gg_004,고지,古池,Koji,Kochi,경기선,127.21370,36.95930,1,1,Keiki-dō,,https://ko.wikipedia.org/wiki/%EA%B3%A0%EC%A7%80%EC%97%AD
 gg_005,미양,薇陽,Miyang,Miyō,경기선,127.21760,36.97960,1,1,Keiki-dō,,https://ko.wikipedia.org/wiki/%EB%AF%B8%EC%96%91%EC%97%AD
 gg_006,안성,安城,Ansŏng,Ansei,경기선,127.26420,37.00830,1,1,Keiki-dō,,https://ko.wikipedia.org/wiki/%EC%95%88%EC%84%B1%EC%97%AD
@@ -160,14 +160,14 @@ gg_011,죽산,竹山,Chuksan,Chikuzan,경기선,127.41200,37.07400,1,1,Keiki-dō
 gg_012,죽산읍내,竹山邑内,Chuksanŭmnae,Chikuzanōnai,경기선,127.42410,37.07530,1,1,Keiki-dō,,
 gg_013,매산,梅山,Maesan,Maisan,경기선,127.44110,37.09760,1,1,Keiki-dō,,
 gg_014,주천,注川,Chuch'ŏn,Shusen,경기선,127.48890,37.10440,1,1,Keiki-dō,,
-gg_015,장호원,長湖院,Changhowŏn,Chōkoen,경기선,127.63160,37.11710,1,1,Kōgen-dō,,
+gg_015,장호원,長湖院,Changhowŏn,Chōkoen,경기선,127.63160,37.11710,1,1,Keiki-dō,,
 gs_001,이리,裡里,Iri,Riri,군산선 / 호남선 / 전라선,126.94550,35.94030,1,1,Zenrahoku-dō,,https://en.wikipedia.org/wiki/Iksan_station
 gs_002,오산,五山里,Osan,Gosanri,군산선,126.91300,35.94110,1,1,Zenrahoku-dō,,
 gs_003,임피,臨陂,Imp'i,Rinpi,군산선,126.86580,35.95340,1,1,Zenrahoku-dō,,https://ko.wikipedia.org/wiki/%EC%9E%84%ED%94%BC%EC%97%AD
 gs_004,지경,地境,Chigyŏng,Jikyō,군산선,126.81110,35.94300,1,1,Zenrahoku-dō,,https://ko.wikipedia.org/wiki/%EB%8C%80%EC%95%BC%EC%97%AD
 gs_005,개정,開井,Kaejŏng,Kaishō,군산선,126.77180,35.96060,1,1,Zenrahoku-dō,,https://ko.wikipedia.org/wiki/%EA%B0%9C%EC%A0%95%EC%97%AD
-gs_006,군산,群山,Kunsan,Gunsan,군산선,126.72140,35.98040,1,1,,,https://ko.wikipedia.org/wiki/%EA%B5%B0%EC%82%B0%EC%97%AD
-gs_007,군산항,群山港,Kunsanhang,Gunsankō,군산선,126.71260,35.99050,1,1,Chūseinan-dō,,
+gs_006,군산,群山,Kunsan,Gunsan,군산선,126.72140,35.98040,1,1,Zenrahoku-dō,,https://ko.wikipedia.org/wiki/%EA%B5%B0%EC%82%B0%EC%97%AD
+gs_007,군산항,群山港,Kunsanhang,Gunsankō,군산선,126.71260,35.99050,1,1,Zenrahoku-dō,,
 gyp_001,황해황주,黃海黃州,Hwanghaehwangju,Hōkai-Kōshū,겸이포선 / 경의선,125.76050,38.69570,1,1,Kōkai-dō,,
 gyp_002,장천리,長川里,Changch'ŏlli,Chōsenri,겸이포선,125.68840,38.71380,1,1,Kōkai-dō,,
 gyp_003,겸이포,兼二浦,Kyŏmip'o,Kenjiho,겸이포선,125.62680,38.73810,1,1,Kōkai-dō,,
@@ -192,7 +192,7 @@ hk_015,강상리,江上里,Kangsangni,Kōjōri,함경선,128.33900,40.08200,1,1,
 hk_016,속후,俗厚,Sokhu,Zokugu,함경선,128.36920,40.10820,1,1,Kankyōnan-dō,,https://ko.wikipedia.org/wiki/%EC%86%8D%ED%9B%84%EC%97%AD
 hk_018,신창,新昌,Sinch'ang,Shinshō,함경선,128.44220,40.17400,1,1,Kankyōnan-dō,,
 hk_019,거산,居山,Kŏsan,Kyozan,함경선,128.50050,40.18850,1,1,Kankyōnan-dō,,https://ko.wikipedia.org/wiki/%EA%B1%B0%EC%82%B0%EC%97%AD
-hk_020,건자,乾自,Kŏnja,Kanji,함경선,128.55110,40.16920,1,1,Kankyōnan-dō,,https://ko.wikipedia.org/wiki/%EA%B1%B4%EC%9E%90%EC%97%AD
+hk_020,건자,乾自,Kŏnja,Kanji,함경선,128.55110,40.16920,1,1,,,https://ko.wikipedia.org/wiki/%EA%B1%B4%EC%9E%90%EC%97%AD
 hk_023,염분,鹽盆,Yŏmbun,Enbon,함경선,128.60990,40.26510,1,1,Kankyōnan-dō,,https://ko.wikipedia.org/wiki/%EC%97%BC%EB%B6%84%EC%97%AD
 hk_024,이원,利原,Iwŏn,Rigen,함경선,128.64700,40.32290,1,1,Kankyōnan-dō,,
 hk_025,군선,群仙,Kunsŏn,Gunsen,함경선,128.68830,40.33310,1,1,Kankyōnan-dō,,
@@ -245,7 +245,7 @@ hn_012,부용,芙蓉,Puyong,Fuyō,호남선,126.94540,35.87190,1,1,Zenrahoku-dō
 hn_013,김제,金堤,Kimje,Kintei,호남선,126.90330,35.79230,1,1,Zenrahoku-dō,,https://en.wikipedia.org/wiki/Gimje_station
 hn_014,신태인,新泰仁,Sint'aein,Shintaijin,호남선,126.88420,35.68840,1,1,Zenrahoku-dō,,https://ko.wikipedia.org/wiki/%EC%8B%A0%ED%83%9C%EC%9D%B8%EC%97%AD
 hn_015,정읍,井邑,Chŏngŭp,Seiyū,호남선,126.84230,35.57660,1,1,Zenrahoku-dō,,https://en.wikipedia.org/wiki/Jeongeup_station
-hn_016,사가리,四街里,Sagari,Shigairi,호남선,126.80810,35.43070,1,1,Zenrahoku-dō,,
+hn_016,사가리,四街里,Sagari,Shigairi,호남선,126.80810,35.43070,1,1,Zenranan-dō,,
 hn_017,신흥리,新興里,Sinhŭngni,Shinkyōri,호남선,126.80470,35.37390,1,1,Zenranan-dō,,https://ko.wikipedia.org/wiki/%EC%8B%A0%ED%9D%A5%EB%A6%AC%EC%97%AD
 hn_018,장성,長城,Changsŏng,Chōjō,호남선,126.77970,35.29970,1,1,Zenranan-dō,,https://en.wikipedia.org/wiki/Jangseong_station
 hn_019,임곡,林谷,Imgok,Rinkoku,호남선,126.74380,35.21860,1,1,Zenranan-dō,,https://ko.wikipedia.org/wiki/%EC%9E%84%EA%B3%A1%EC%97%AD
@@ -256,10 +256,10 @@ hn_023,다시,多侍,Tasi,Taji,호남선,126.64100,35.01670,1,1,Zenranan-dō,,ht
 hn_024,고막원,古幕院,Komagwŏn,Komakuin,호남선,126.59110,35.03110,1,1,Zenranan-dō,,https://ko.wikipedia.org/wiki/%EA%B3%A0%EB%A7%89%EC%9B%90%EC%97%AD
 hn_025,학교,鶴橋,Hakkyo,Kakukyō,호남선,126.53510,35.01480,1,1,Zenranan-dō,,https://ko.wikipedia.org/wiki/%ED%95%A8%ED%8F%89%EC%97%AD
 hn_026,몽탄,夢灘,Mongt'an,Munan,호남선,126.50420,34.92950,1,1,Zenranan-dō,,https://ko.wikipedia.org/wiki/%EB%AA%BD%ED%83%84%EC%97%AD
-hn_027,명산,明山,Myŏngsan,Meizan,호남선,126.52380,34.89730,1,1,Zenranan-dō,,https://ko.wikipedia.org/wiki/%EB%AA%85%EC%82%B0%EC%97%AD
+hn_027,명산,明山,Myŏngsan,Meizan,호남선,126.52380,34.89730,1,1,,,https://ko.wikipedia.org/wiki/%EB%AA%85%EC%82%B0%EC%97%AD
 hn_028,삼향,三鄕,Samhyang,Sankyō,호남선,126.49550,34.84930,1,1,Zenranan-dō,,
 hn_029,임성리,任城里,Imsŏngni,Ninjōri,호남선,126.43430,34.82020,1,1,Zenranan-dō,,https://en.wikipedia.org/wiki/Imseong-ri_Station
-hn_030,목포,木浦,Mokp'o,Moppo,호남선,126.38720,34.79100,1,1,Zenranan-dō,,https://en.wikipedia.org/wiki/Mokpo_station
+hn_030,목포,木浦,Mokp'o,Moppo,호남선,126.38720,34.79100,1,1,,,https://en.wikipedia.org/wiki/Mokpo_station
 hrt_002,영수,永綏,Yŏngsu,Yōsui,회령탄광선,129.69810,42.42390,1,1,Kankyōhoku-dō,,
 hrt_003,봉의,鳳儀,Pongŭi,Hōgi,회령탄광선,129.66280,42.42990,1,1,Kankyōhoku-dō,,
 hrt_004,유선,遊仙,Yusŏn,Yūsen,회령탄광선,129.65520,42.41850,1,1,Kankyōhoku-dō,,
@@ -276,7 +276,7 @@ hs_011,봉두리,鳳頭里,Pongduri,Hōtōri,혜산선,128.51990,41.30050,,1,Kan
 hs_012,심포리,深浦里,Simp'ori,Shinpori,혜산선,128.37520,41.37550,,1,Kankyōnan-dō,,https://en.wikipedia.org/wiki/Simpori_station
 hs_013,대오천,大五川,Taeoch'ŏn,Taigosen,혜산선,128.35710,41.41720,,1,Kankyōnan-dō,,https://en.wikipedia.org/wiki/Taeochon_station
 hs_014,위연,渭淵靑年,Wiyŏn,Ienseinen,혜산선,128.26350,41.42230,,1,Kankyōnan-dō,,https://en.wikipedia.org/wiki/Wiyon_Chongnyon_station
-hs_015,혜산진,惠山鎭,Hyesanjin,Keisanchin,혜산선,128.19570,41.40760,,1,,,
+hs_015,혜산진,惠山鎭,Hyesanjin,Keisanchin,혜산선,128.19570,41.40760,,1,Kankyōnan-dō,,
 jh_001,창원,昌原,Ch'angwŏn,Shōgen,진해선 / 경전남부선,128.60580,35.25710,1,1,Keishōnan-dō,,https://en.wikipedia.org/wiki/Changwon_station
 jh_002,상남,上南,Sangnam,Jōnan,진해선,128.68700,35.22220,1,1,Keishōnan-dō,,https://ko.wikipedia.org/wiki/%EB%82%A8%EC%B0%BD%EC%9B%90%EC%97%AD
 jh_003,성주사,聖住寺,Sŏngjusa,Seijūji,진해선,128.69950,35.18210,1,1,Keishōnan-dō,,https://ko.wikipedia.org/wiki/%EC%84%B1%EC%A3%BC%EC%82%AC%EC%97%AD
@@ -302,13 +302,13 @@ jj_018,상평,上坪,Sangp'yŏng,Jōhei,장진선,127.27720,40.34300,,1,Kankyōn
 jj_019,하갈,下碣,Hagal,Kekatsu,장진선,127.25760,40.40010,,1,Kankyōnan-dō,,
 jj_020,사수,泗水,Sasu,Shisui,장진선,127.27000,40.43400,,1,Kankyōnan-dō,,
 jr_001,여수항,麗水港,Yŏsuhang,Reisuikō,전라선,127.75650,34.74290,1,1,,,https://ko.wikipedia.org/wiki/%EC%97%AC%EC%88%98%ED%95%AD%EC%97%AD
-jr_002,여수,麗水,Yŏsu,Reisui,전라선,127.74750,34.74740,1,1,Zenranan-dō,,https://en.wikipedia.org/wiki/Yeosu_Expo_station
+jr_002,여수,麗水,Yŏsu,Reisui,전라선,127.74750,34.74740,1,1,,,https://en.wikipedia.org/wiki/Yeosu_Expo_station
 jr_003,만성,万聖,Mansŏng,Mansei,전라선,127.74630,34.77310,1,1,Zenranan-dō,,https://ko.wikipedia.org/wiki/%EB%A7%8C%EC%84%B1%EC%97%AD
 jr_004,미평,美坪,Mip'yŏng,Mihyō,전라선,127.70610,34.76640,1,1,Zenranan-dō,,https://ko.wikipedia.org/wiki/%EB%AF%B8%ED%8F%89%EC%97%AD
 jr_005,쌍봉,雙鳳,Ssangbong,Sōhō,전라선,127.65870,34.76850,1,1,Zenranan-dō,,https://en.wikipedia.org/wiki/Yeocheon_station
-jr_006,덕양,徳陽,Tŏgyang,Tokuyō,전라선,127.63530,34.79860,1,1,,,https://ko.wikipedia.org/wiki/%EB%8D%95%EC%96%91%EC%97%AD
-jr_007,신풍,新豊,Sinp'ung,Shinhō,전라선,127.61470,34.83500,1,1,,,
-jr_008,율촌,栗村,Yulch'on,Risson,전라선,127.58100,34.87710,1,1,,,https://ko.wikipedia.org/wiki/%EC%9C%A8%EC%B4%8C%EC%97%AD
+jr_006,덕양,徳陽,Tŏgyang,Tokuyō,전라선,127.63530,34.79860,1,1,Zenranan-dō,,https://ko.wikipedia.org/wiki/%EB%8D%95%EC%96%91%EC%97%AD
+jr_007,신풍,新豊,Sinp'ung,Shinhō,전라선,127.61470,34.83500,1,1,Zenranan-dō,,
+jr_008,율촌,栗村,Yulch'on,Risson,전라선,127.58100,34.87710,1,1,Zenranan-dō,,https://ko.wikipedia.org/wiki/%EC%9C%A8%EC%B4%8C%EC%97%AD
 jr_009,성산,星山,Sŏngsan,Seisan,전라선,127.54740,34.92150,1,1,Zenranan-dō,,https://ko.wikipedia.org/wiki/%EC%84%B1%EC%82%B0%EC%97%AD_%28%EC%88%9C%EC%B2%9C%29
 jr_010,순천,順天,Sunch'ŏn,Junten,전라선 / 경전선,127.51500,34.94250,1,1,Zenranan-dō,,https://en.wikipedia.org/wiki/Suncheon
 jr_011,동순천,東順天,Tongsunch'ŏn,Tōjunten,전라선,127.49240,34.95380,1,1,Zenranan-dō,,https://ko.wikipedia.org/wiki/%EB%8F%99%EC%88%9C%EC%B2%9C%EC%97%AD
@@ -316,8 +316,8 @@ jr_012,학구,鶴口,Hakku,Kakukō,전라선,127.45110,35.02420,,1,Zenranan-dō,
 jr_013,괴목,槐木,Koemok,Kaimoku,전라선,127.42360,35.09130,,1,Zenranan-dō,,https://ko.wikipedia.org/wiki/%EA%B4%B4%EB%AA%A9%EC%97%AD
 jr_014,구례구,求礼口,Kuryegu,Ureijichi,전라선,127.45540,35.16100,,1,Zenranan-dō,,https://en.wikipedia.org/wiki/Guryegu_station
 jr_015,압록,鴨緑,Amnok,Ōryoku,전라선,127.37420,35.19530,,1,Zenranan-dō,,https://ko.wikipedia.org/wiki/%EC%95%95%EB%A1%9D%EC%97%AD
-jr_016,침곡,寢谷,Ch'imgok,Shinkoku,전라선,127.35050,35.25860,,1,Zenrahoku-dō,,
-jr_017,곡성,谷城,Koksŏng,Kokujō,전라선,127.30960,35.27730,,1,Zenrahoku-dō,,https://en.wikipedia.org/wiki/Gokseong_station
+jr_016,침곡,寢谷,Ch'imgok,Shinkoku,전라선,127.35050,35.25860,,1,Zenranan-dō,,
+jr_017,곡성,谷城,Koksŏng,Kokujō,전라선,127.30960,35.27730,,1,Zenranan-dō,,https://en.wikipedia.org/wiki/Gokseong_station
 jr_018,금지,金池,Kŭmji,Kinchi,전라선,127.28980,35.32840,,1,Zenrahoku-dō,,https://ko.wikipedia.org/wiki/%EA%B8%88%EC%A7%80%EC%97%AD
 jr_019,주생,周生,Chusaeng,Shūsei,전라선,127.32230,35.38010,,1,Zenrahoku-dō,,https://ko.wikipedia.org/wiki/%EC%A3%BC%EC%83%9D%EC%97%AD
 jr_020,남원,南原,Namwŏn,Nangen,전라선,127.38480,35.41600,,1,Zenrahoku-dō,,https://en.wikipedia.org/wiki/Namwon_station
@@ -401,7 +401,7 @@ ke_058,비현,枇峴,Pihyŏn,Hiken,경의선,124.61030,40.01370,1,1,Heianhoku-d�
 ke_059,백마,白馬,Paengma,Hakuba,경의선,124.56020,40.07410,1,1,Heianhoku-dō,,
 ke_060,석하,石下,Sŏkha,Sekka,경의선,124.45230,40.06020,1,1,Heianhoku-dō,,
 ke_061,남신의주,南新義州,Namsinŭiju,Minami-Shingishū,경의선,124.40160,40.10700,1,1,Heianhoku-dō,,https://en.wikipedia.org/wiki/Namsinuiju_station
-ke_062,신의주,新義州,Sinŭiju,Shingishū,경의선,124.37990,40.12300,1,1,Heianhoku-dō,,https://en.wikipedia.org/wiki/Sinuiju_Chongnyon_station
+ke_062,신의주,新義州,Sinŭiju,Shingishū,경의선,124.37990,40.12300,1,1,,,https://en.wikipedia.org/wiki/Sinuiju_Chongnyon_station
 ke경인_002,용산,龍山,Yongsan,Ryūzan,경인선 / 경부선 / 경원선,126.96430,37.52970,1,1,Keiki-dō,,https://en.wikipedia.org/wiki/Yongsan_Station
 ke경인_003,노량진,鷺梁津,Noryangjin,Roryōshin,경인선 / 경부선,126.94050,37.51410,1,1,Keiki-dō,,https://en.wikipedia.org/wiki/Noryangjin_station
 ke경인_004,영등포,永登浦,Yŏngdŭngp'o,Eitōho,경인선,126.90750,37.51570,1,1,Keiki-dō,,https://en.wikipedia.org/wiki/Yeongdeungpo_Station
@@ -499,7 +499,7 @@ kp_005,구포,亀浦,Kup'o,Kihō,경부선,128.99760,35.20600,1,1,Keishōnan-dō
 kp_006,물금,勿禁,Mulgŭm,Fukkin,경부선,128.98210,35.30890,1,1,Keishōnan-dō,,https://en.wikipedia.org/wiki/Mulgeum_station
 kp_007,원동,院洞,Wŏndong,Indō,경부선,128.92250,35.36180,1,1,Keishōnan-dō,,https://en.wikipedia.org/wiki/Wondong_station
 kp_009,밀양,密陽,Miryang,Mitsuyō,경부선,128.76850,35.47610,1,1,Keishōnan-dō,,https://en.wikipedia.org/wiki/Miryang_Station
-kp_010,유천,楡川,Yuch'ŏn,Yusen,경부선,128.76210,35.56440,1,1,Keishōhoku-dō,,https://en.wikipedia.org/wiki/Sangdong_station
+kp_010,유천,楡川,Yuch'ŏn,Yusen,경부선,128.76210,35.56440,1,1,Keishōnan-dō,,https://en.wikipedia.org/wiki/Sangdong_station
 kp_011,청도,清道,Ch'ŏngdo,Seidō,경부선,128.74580,35.64020,1,1,Keishōhoku-dō,,https://en.wikipedia.org/wiki/Cheongdo_station
 kp_012,남성현,南省峴,Namsŏnghyŏn,Minamishōgen,경부선,128.71560,35.70620,1,1,Keishōhoku-dō,,https://en.wikipedia.org/wiki/Namseonghyeon_station
 kp_013,삼성,三省,Samsŏng,Sanshō,경부선,128.72210,35.76330,1,1,Keishōhoku-dō,,
@@ -514,24 +514,24 @@ kp_022,아포,牙浦,Ap'o,Gaho,경부선,128.25770,36.15780,1,1,Keishōhoku-dō,
 kp_023,대신,大新,Taesin,Taishin,경부선,128.19480,36.15210,1,1,Keishōhoku-dō,,https://en.wikipedia.org/wiki/Daesin_station
 kp_024,김천,金泉,Kimch'ŏn,Kinsen,경부선 / 경북선,128.11480,36.12360,1,1,Keishōhoku-dō,,https://en.wikipedia.org/wiki/Gimcheon_station
 kp_025,직지사,直指寺,Chikchisa,Chokushiji,경부선,128.03950,36.12510,1,1,Keishōhoku-dō,,https://en.wikipedia.org/wiki/Jikjisa_station
-kp_026,추풍령,秋風嶺,Ch'up'ungnyŏng,Shūfūrei,경부선,127.99640,36.21300,1,1,Keishōhoku-dō,,https://en.wikipedia.org/wiki/Chupungnyeong_station
-kp_027,황간,黄澗,Hwanggan,Kōkan,경부선,127.91110,36.22440,1,1,Keishōhoku-dō,,https://en.wikipedia.org/wiki/Hwanggan_station
+kp_026,추풍령,秋風嶺,Ch'up'ungnyŏng,Shūfūrei,경부선,127.99640,36.21300,1,1,Chūseihoku-dō,,https://en.wikipedia.org/wiki/Chupungnyeong_station
+kp_027,황간,黄澗,Hwanggan,Kōkan,경부선,127.91110,36.22440,1,1,Chūseihoku-dō,,https://en.wikipedia.org/wiki/Hwanggan_station
 kp_028,영동,永同,Yŏngdong,Eigō,경부선,127.78490,36.17310,1,1,Chūseihoku-dō,,https://en.wikipedia.org/wiki/Yeongdong_station
 kp_029,심천,深川,Simch'ŏn,Shinsen,경부선,127.72060,36.23670,1,1,Chūseihoku-dō,,https://ko.wikipedia.org/wiki/%EC%8B%AC%EC%B2%9C%EC%97%AD
 kp_030,이원,伊院,Iwŏn,Iin,경부선,127.62790,36.24890,1,1,Chūseihoku-dō,,https://en.wikipedia.org/wiki/Iwon_station
 kp_031,옥천,沃川,Okch'ŏn,Yokusen,경부선,127.56540,36.29840,1,1,Chūseihoku-dō,,https://en.wikipedia.org/wiki/Okcheon_station
 kp_032,세천,細川,Sech'ŏn,Saisen,경부선,127.49050,36.33710,1,1,Chūseinan-dō,,https://ko.wikipedia.org/wiki/%EC%84%B8%EC%B2%9C%EC%97%AD
-kp_034,회덕,懐徳,Hoedŏk,Kaitoku,경부선,127.42140,36.40250,1,1,Chūseihoku-dō,,https://en.wikipedia.org/wiki/Hoedeok_station
-kp_035,신탄진,新灘津,Sint'anjin,Shinnanshin,경부선,127.42820,36.44830,1,1,Chūseihoku-dō,,https://en.wikipedia.org/wiki/Sintanjin_station
+kp_034,회덕,懐徳,Hoedŏk,Kaitoku,경부선,127.42140,36.40250,1,1,Chūseinan-dō,,https://en.wikipedia.org/wiki/Hoedeok_station
+kp_035,신탄진,新灘津,Sint'anjin,Shinnanshin,경부선,127.42820,36.44830,1,1,Chūseinan-dō,,https://en.wikipedia.org/wiki/Sintanjin_station
 kp_036,매포,梅浦,Maep'o,Haiho,경부선,127.39100,36.49810,1,1,Chūseihoku-dō,,https://en.wikipedia.org/wiki/Maepo_station
 kp_037,부강,芙江,Pugang,Fukō,경부선,127.36520,36.53230,1,1,Chūseihoku-dō,,https://en.wikipedia.org/wiki/Bugang_station
-kp_038,내판,内板,Naep'an,Naihan,경부선,127.32810,36.55180,1,1,Chūseihoku-dō,,https://ko.wikipedia.org/wiki/%EB%82%B4%ED%8C%90%EC%97%AD
-kp_039,조치원,鳥致院,Choch'iwŏn,Chōchiin,경부선 / 충북선,127.29570,36.60130,1,1,Chūseihoku-dō,,https://en.wikipedia.org/wiki/Jochiwon_station
+kp_038,내판,内板,Naep'an,Naihan,경부선,127.32810,36.55180,1,1,Chūseinan-dō,,https://ko.wikipedia.org/wiki/%EB%82%B4%ED%8C%90%EC%97%AD
+kp_039,조치원,鳥致院,Choch'iwŏn,Chōchiin,경부선 / 충북선,127.29570,36.60130,1,1,Chūseinan-dō,,https://en.wikipedia.org/wiki/Jochiwon_station
 kp_040,전동,全東,Chŏndong,Zentō,경부선,127.26330,36.65470,1,1,Chūseinan-dō,,https://en.wikipedia.org/wiki/Jeondong_station
 kp_041,전의,全義,Chŏnŭi,Zengi,경부선,127.20350,36.67810,1,1,Chūseinan-dō,,https://en.wikipedia.org/wiki/Jeonui_station
 kp_042,소정리,小井里,Sojŏngni,Shōseiri,경부선,127.15570,36.71900,1,1,Chūseinan-dō,,https://en.wikipedia.org/wiki/Sojeong-ri_station
 kp_044,직산,稷山,Chiksan,Shokusan,경부선,127.14600,36.86560,1,1,Chūseinan-dō,,https://en.wikipedia.org/wiki/Jiksan_station
-kp_045,성환,成歓,Sŏnghwan,Seikan,경부선,127.12690,36.91580,1,1,Keiki-dō,,https://en.wikipedia.org/wiki/Seonghwan_station
+kp_045,성환,成歓,Sŏnghwan,Seikan,경부선,127.12690,36.91580,1,1,Chūseinan-dō,,https://en.wikipedia.org/wiki/Seonghwan_station
 kp_046,평택,平沢,P'yŏngt'aek,Heitaku,경부선,127.08640,36.98980,1,1,Keiki-dō,,https://en.wikipedia.org/wiki/Pyeongtaek_station
 kp_047,서정리,西井里,Sŏjŏngni,Seiseiri,경부선,127.05280,37.05650,1,1,Keiki-dō,,https://en.wikipedia.org/wiki/Seojeongni_station
 kp_048,오산,烏山,Osan,Uzan,경부선,127.06680,37.14620,1,1,Keiki-dō,,https://en.wikipedia.org/wiki/Osan_station
@@ -549,7 +549,7 @@ kw_009,의정부,議政府,Ŭijŏngbu,Giseifu,경원선,127.04610,37.73800,1,1,K
 kw_010,덕정,德亭,Tŏkchŏng,Tokutei,경원선,127.06090,37.84380,1,1,Keiki-dō,,https://en.wikipedia.org/wiki/Deokjeong_station
 kw_011,동두천,東豆川,Tongduch'ŏn,Tōtōsen,경원선,127.05470,37.92820,1,1,Keiki-dō,,https://en.wikipedia.org/wiki/Dongducheon_station
 kw_012,전곡,全谷,Chŏn'gok,Zenkoku,경원선,127.07100,38.02480,1,1,Keiki-dō,,https://en.wikipedia.org/wiki/Jeongok_station
-kw_013,연천,漣川,Yŏnch'ŏn,Rensen,경원선,127.07380,38.10180,1,1,Kōgen-dō,,https://en.wikipedia.org/wiki/Yeoncheon_station
+kw_013,연천,漣川,Yŏnch'ŏn,Rensen,경원선,127.07380,38.10180,1,1,Keiki-dō,,https://en.wikipedia.org/wiki/Yeoncheon_station
 kw_014,대광리,大光里,Taegwangni,Daikōri,경원선,127.10820,38.18490,1,1,Kōgen-dō,,https://en.wikipedia.org/wiki/Daegwang-ri_station
 kw_015,철원,鉄原,Ch'ŏrwŏn,Tetsugen,경원선,127.19460,38.27380,1,1,Kōgen-dō,,https://en.wikipedia.org/wiki/Cheorwon_station
 kw_016,월정리,月井里,Wŏljŏngni,Gesseiri,경원선,127.22920,38.30960,1,1,Kōgen-dō,,https://en.wikipedia.org/wiki/Woljeong-ri_station
@@ -594,7 +594,7 @@ mp_014,천동,泉洞,Ch'ŏndong,Sentō,만포선,125.90970,39.66190,,1,Heiannan-
 mp_015,개천,价川,Kaech'ŏn,Kaisen,만포선,125.88890,39.69810,1,1,Heiannan-dō,,
 mp_016,원리,院里,Wŏlli,Inri,만포선,125.91590,39.76180,,1,Heiannan-dō,,
 mp_017,봉천,鳳泉,Pongch'ŏn,Hōsen,만포선,125.94260,39.78340,,1,Heiannan-dō,,
-mp_018,자작,自作,Chajak,Jisaku,만포선,125.96770,39.81510,,1,Heianhoku-dō,,https://en.wikipedia.org/wiki/Chajak_station
+mp_018,자작,自作,Chajak,Jisaku,만포선,125.96770,39.81510,,1,Heiannan-dō,,https://en.wikipedia.org/wiki/Chajak_station
 mp_019,구장,球場,Kujang,Kyūjō,만포선 / 용등선,126.02190,39.87090,,1,Heianhoku-dō,,https://en.wikipedia.org/wiki/Kujang_Chongnyon_station
 mp_020,신흥동,新興洞,Sinhŭngdong,Shinkōdō,만포선,126.08980,39.92400,,1,Heianhoku-dō,,
 mp_021,북신현,北薪峴,Puksinhyŏn,Hokushinken,만포선,126.12140,39.98430,,1,Heianhoku-dō,,
@@ -631,11 +631,11 @@ oj_009,장둔,長屯,Changdun,Chōton,옹진선,125.47220,37.98590,,1,Kōkai-dō
 oj_010,신강령,新康翎,Sin'gangnyŏng,Shinkōrei,옹진선,125.46220,37.94700,,1,Kōkai-dō,,https://ko.wikipedia.org/wiki/%EC%8B%A0%EA%B0%95%EB%A0%B9%EC%97%AD
 oj_011,냉정,冷井,Naengjŏng,Reisei,옹진선,125.39970,37.93800,,1,Kōkai-dō,,
 oj_012,옹진,甕津,Ongjin,Ōshin,옹진선,125.36190,37.93800,,1,Kōkai-dō,,https://en.wikipedia.org/wiki/Ongjin_station
-pa_001,진남포,鎮南浦,Chinnamp'o,Chin'nanpo,평안선 / 평남선,125.41250,38.73330,1,1,,,
+pa_001,진남포,鎮南浦,Chinnamp'o,Chin'nanpo,평안선 / 평남선,125.41250,38.73330,1,1,Heiannan-dō,,
 pa_002,덕동,徳洞,Tŏktong,Tokutō,평안선,125.33240,38.74530,,1,Heiannan-dō,,
 pa_003,동광량,東広梁,Tonggwangnyang,Higashikōryō,평안선,125.25770,38.79330,,1,Heiannan-dō,,
 pa_004,서광량,西広梁,Sŏgwangnyang,Nishikōryō,평안선,125.24400,38.80570,,1,Heiannan-dō,,
-pa_005,귀성,貴城,Kwisŏng,Kijō,평안선,125.17960,38.85780,,1,Heiannan-dō,,
+pa_005,귀성,貴城,Kwisŏng,Kijō,평안선,125.17960,38.85780,,1,,,
 pa_006,용강온천,龍岡温泉,Yonggangonch'ŏn,Ryōkōonsen,평안선,125.22630,38.88370,,1,Heiannan-dō,,
 pb_002,고안,高安,Koan,Kōan,평북선,125.23700,39.74490,,1,Heianhoku-dō,,
 pb_003,봉명,鳳鳴,Pongmyŏng,Hōmei,평북선,125.24550,39.77820,,1,Heianhoku-dō,,
@@ -649,7 +649,7 @@ pb_010,삭주온천,朔州温泉,Sakchuonch'ŏn,Sakushū Onsen,평북선,125.066
 pb_011,삭주,朔州,Sakchu,Sakushū,평북선,125.03620,40.39220,,1,Heianhoku-dō,,
 pb_012,신안,新安,Sinan,Shin'an,평북선,124.99760,40.41140,,1,Heianhoku-dō,,
 pb_013,부풍,富豊,Pup'ung,Fūhō,평북선,124.94690,40.43490,,1,Heianhoku-dō,,
-pb_014,수풍,水豊,Sup'ung,Suihō,평북선,124.92540,40.45150,,1,,,
+pb_014,수풍,水豊,Sup'ung,Suihō,평북선,124.92540,40.45150,,1,Heianhoku-dō,,
 pc_002,일원,一院,Irwŏn,Ichiin,박천선,125.59790,39.69310,1,1,Heianhoku-dō,,
 pc_003,박천,博川,Pakch'ŏn,Hakusen,박천선,125.57660,39.72080,1,1,Heianhoku-dō,,
 pn_002,조촌,趙村,Choch'on,Chōson,평남선,125.66150,39.03060,1,1,Heiannan-dō,,
@@ -698,9 +698,9 @@ si_002,고색,古索,Kosaek,Kosaku,수인선,126.98600,37.25130,,1,Keiki-dō,,ht
 si_003,어천,漁川,Ŏch'ŏn,Gyosen,수인선,126.90870,37.24990,,1,Keiki-dō,,https://en.wikipedia.org/wiki/Eocheon_station
 si_004,일리,一里,Illi,Itsuri,수인선,126.85540,37.30810,,1,Keiki-dō,,https://en.wikipedia.org/wiki/Hanyang_University_at_Ansan_station
 si_005,원곡,元谷,Wŏn'gok,Genkoku,수인선,126.77130,37.33490,,1,Keiki-dō,,https://en.wikipedia.org/wiki/Ansan_station
-si_006,군자,君子,Kunja,Kunshi,수인선,126.74230,37.35170,,1,Keiki-dō,,
+si_006,군자,君子,Kunja,Kunshi,수인선,126.74230,37.35170,,1,,,
 si_007,소래,蘇萊,Sorae,Sorai,수인선,126.73630,37.40150,,1,Keiki-dō,,https://en.wikipedia.org/wiki/Soraepogu_station
-si_008,남동,南洞,Namdong,Nantō,수인선,126.69710,37.40640,,1,Keiki-dō,,https://en.wikipedia.org/wiki/Namdong_Induspark_station
+si_008,남동,南洞,Namdong,Nantō,수인선,126.69710,37.40640,,1,,,https://en.wikipedia.org/wiki/Namdong_Induspark_station
 si_009,송도,松島,Songdo,Matsushima,수인선,126.65010,37.43190,,1,Keiki-dō,,https://en.wikipedia.org/wiki/Songdo_station
 sj_002,서사리원,西沙里院,Sŏsariwŏn,Nishi-Shariin,사장선,125.74650,38.50470,1,1,Kōkai-dō,,
 sj_003,미곡,嵋谷,Migok,Bikoku,사장선,125.73430,38.48850,1,1,Kōkai-dō,,
@@ -800,7 +800,7 @@ yd_003,용등,龍登,Yongdŭng,Ryūtō,용등선,126.09480,39.82610,,1,Heianhoku
 장항_013,신곡,新谷,Sin'gok,Shinkoku,장항선,126.63700,36.53340,1,1,Chūseinan-dō,,
 장항_014,광천,廣川,Kwangch'ŏn,Kōsen,장항선,126.62260,36.50210,1,1,Chūseinan-dō,,https://en.wikipedia.org/wiki/Gwangcheon_station
 장항_015,죽림,竹林,Chungnim,Chikurin,장항선,126.61750,36.46710,1,1,Chūseinan-dō,,
-장항_016,진죽,眞竹,Chinjuk,Shinchiku,장항선,126.59100,36.44550,1,1,,,https://ko.wikipedia.org/wiki/%EC%B2%AD%EC%86%8C%EC%97%AD
+장항_016,진죽,眞竹,Chinjuk,Shinchiku,장항선,126.59100,36.44550,1,1,Chūseinan-dō,,https://ko.wikipedia.org/wiki/%EC%B2%AD%EC%86%8C%EC%97%AD
 장항_017,주포,周浦,Chup'o,Shūho,장항선,126.56880,36.40640,1,1,Chūseinan-dō,,https://ko.wikipedia.org/wiki/%EC%A3%BC%ED%8F%AC%EC%97%AD
 장항_018,대천,大川,Taech'ŏn,Daisen,장항선,126.58980,36.35130,1,1,Chūseinan-dō,,https://ko.wikipedia.org/wiki/%EB%8C%80%EC%B2%9C%EC%97%AD
 장항_019,남포,藍浦,Namp'o,Ranpo,장항선,126.59480,36.31570,1,1,Chūseinan-dō,,https://ko.wikipedia.org/wiki/%EB%82%A8%ED%8F%AC%EC%97%AD_%28%EB%B3%B4%EB%A0%B9%29
@@ -811,7 +811,7 @@ yd_003,용등,龍登,Yongdŭng,Ryūtō,용등선,126.09480,39.82610,,1,Heianhoku
 장항_024,서천,舒川,Sŏch'ŏn,Shosen,장항선,126.70090,36.07700,1,1,Chūseinan-dō,,https://ko.wikipedia.org/wiki/%EC%84%9C%EC%B2%9C%EC%97%AD
 장항_025,삼산리,三山里,Samsalli,Sansanri,장항선,126.71130,36.06620,1,1,Chūseinan-dō,,
 장항_026,장항,長項,Changhang,Chōkō,장항선,126.69610,36.01970,1,1,Chūseinan-dō,,https://ko.wikipedia.org/wiki/%EC%9E%A5%ED%95%AD%EC%97%AD
-장항_027,장항잔교,長項棧橋,Changhangjan'gyo,Chōkō Sanbashi,장항선,126.67360,36.00780,1,1,Chūseinan-dō,,
+장항_027,장항잔교,長項棧橋,Changhangjan'gyo,Chōkō Sanbashi,장항선,126.67360,36.00780,1,1,,,
 중앙선_001,제천,堤川,Chech'ŏn,Teisen,중앙선,128.21300,37.12440,,1,Chūseihoku-dō,,https://en.wikipedia.org/wiki/Jecheon_station
 충북_002,오송,五松,Osong,Goshō,충북선,127.32370,36.61840,1,1,Chūseihoku-dō,,https://en.wikipedia.org/wiki/Osong_station
 충북_003,월곡,月谷,Wŏlgok,Gekkoku,충북선,127.36350,36.62490,1,1,Chūseihoku-dō,,

@@ -27,7 +27,7 @@ thing that can be said about them without somebody writing 900 paragraphs.
 
 A JUNCTION IS IN THE SOURCE ONCE PER LINE, at the same coordinate under a
 different `st_id` -- Iri is there three times, on the Honam, the Jeolla and the
-Gunsan. Drawn as they arrive that is three squares stacked on one spot and the
+Kunsan. Drawn as they arrive that is three squares stacked on one spot and the
 same name lettered three times over, which is what the map did. They are merged
 here into one station that knows all its lines, which is both one square and a
 better sentence: not "a station on the Honam line" but "a junction where three
@@ -68,29 +68,29 @@ def clean(v):
 # lines that carry stations are here; anything unlisted falls back to the
 # Korean, which is true if not helpful, and shows up in --report.
 LINES = {
-    "경부선": "Gyeongbu line (Keifu, Seoul–Pusan)",
-    "경의선": "Gyeongui line (Keigi, Seoul–Sinuiju)",
-    "경인선": "Gyeongin line (Keijin, Seoul–Inchon)",
-    "경원선": "Gyeongwon line (Keigen, Seoul–Wonsan)",
-    "함경선": "Hamgyong line (Kankyō, the north-east coast)",
+    "경부선": "Kyŏngbu line (Keifu, Seoul–Pusan)",
+    "경의선": "Kyŏngŭi line (Keigi, Seoul–Sinŭiju)",
+    "경인선": "Kyŏngin line (Keijin, Seoul–Inch'ŏn)",
+    "경원선": "Kyŏngwŏn line (Keigen, Seoul–Wŏnsan)",
+    "함경선": "Hamgyŏng line (Kankyō, the north-east coast)",
     "호남선": "Honam line (Konan, the south-west)",
-    "전라선": "Jeolla line (Zenra, the south-west)",
-    "만포선": "Manpo line (Mampo, up the Yalu)",
+    "전라선": "Chŏlla line (Zenra, the south-west)",
+    "만포선": "Manp'o line (Mampo, up the Yalu)",
     "북선": "Northern lines",
-    "평원선": "Pyongwon line (Heigen, Pyongyang–Wonsan)",
+    "평원선": "P'yŏngwŏn line (Heigen, P'yŏngyang–Wŏnsan)",
     "중앙선": "Central line (Chūō)",
     "동해선": "East Sea line (Tōkai)",
     "황해선": "Hwanghae line (Kōkai)",
-    "경전선": "Gyeongjeon line (Keiden)",
-    "장항선": "Janghang line (Chōkō)",
+    "경전선": "Kyŏngjŏn line (Keiden)",
+    "장항선": "Changhang line (Chōkō)",
     "안봉선": "Antung–Mukden line",
     "혜산선": "Hyesan line (Keizan)",
     "백무선": "Paengmu line (Hakumu)",
-    "평북선": "North Pyongan line (Heihoku)",
-    "개천선": "Kaechon line (Kaisen)",
-    "송흥선": "Songhung line (Shōkō)",
-    "차량선": "Charyang line",
-    "금강산선": "Kumgangsan line (Kongōsan, to the Diamond Mountains)",
+    "평북선": "North P'yŏngan line (Heihoku)",
+    "개천선": "Kaech'ŏn line (Kaisen)",
+    "송흥선": "Songhŭng line (Shōkō)",
+    "차량선": "Ch'aryang line",
+    "금강산선": "Kŭmgangsan line (Kongōsan, to the Diamond Mountains)",
     # The rest, in the same order of size. Where the compound says plainly
     # what it is -- 남부 southern, 북부 northern, 중부 central, 탄광 colliery --
     # that is said in English; where the name is only a place name it is left
@@ -98,37 +98,37 @@ LINES = {
     "동해남부선": "East Sea line (southern section)",
     "동해북부선": "East Sea line (northern section)",
     "동해중부선": "East Sea line (central section)",
-    "경전남부선": "Gyeongjeon line (southern section)",
-    "경경남부선": "Gyeonggyeong line (southern section)",
-    "경경북부선": "Gyeonggyeong line (northern section)",
-    "장진선": "Jangjin line (Chōshin)",
+    "경전남부선": "Kyŏngjŏn line (southern section)",
+    "경경남부선": "Kyŏnggyŏng line (southern section)",
+    "경경북부선": "Kyŏnggyŏng line (northern section)",
+    "장진선": "Changjin line (Chōshin)",
     "사장선": "Sajang line",
-    "수려선": "Suryeo line (Suwon–Yeoju)",
-    "경북선": "North Gyeongsang line (Keihoku)",
-    "토해선": "Tohae line",
-    "충북선": "North Chungcheong line (Chūhoku)",
-    "경기선": "Gyeonggi line (Keiki)",
+    "수려선": "Suryŏ line (Suwŏn–Yŏju)",
+    "경북선": "North Kyŏngsang line (Keihoku)",
+    "토해선": "T'ohae line",
+    "충북선": "North Ch'ungch'ŏng line (Chūhoku)",
+    "경기선": "Kyŏnggi line (Keiki)",
     "옹진선": "Ongjin line (Yōshin)",
-    "수인선": "Suin line (Suwon–Incheon)",
-    "삼척철도선": "Samcheok Railway Company line",
-    "삼척선": "Samcheok line (Sanchoku)",
-    "단풍선": "Danpung line",
-    "평남선": "South Pyongan line (Heinan)",
-    "평안선": "Pyongan line (Heian)",
-    "함북선": "North Hamgyong line (Kanhoku)",
-    "경춘선": "Gyeongchun line (Seoul–Chuncheon)",
-    "평양탄광선": "Pyongyang colliery line",
-    "회령탄광선": "Hoeryong colliery line",
-    "다사도선": "Dasado line",
-    "겸이포선": "Gyeomipo line (Kenipo)",
-    "광주선": "Gwangju line (Kōshū)",
-    "군산선": "Gunsan line (Gunzan)",
-    "박천선": "Bakcheon line (Hakusen)",
-    "북청선": "Bukcheong line (Hokusei)",
-    "용등선": "Yongdeung line",
-    "장지리선": "Jangjiri line",
-    "진해선": "Jinhae line (Chinkai)",
-    "철산차호선": "Cheolsan–Chaho line",
+    "수인선": "Suin line (Suwŏn–Inch'ŏn)",
+    "삼척철도선": "Samch'ŏk Railway Company line",
+    "삼척선": "Samch'ŏk line (Sanchoku)",
+    "단풍선": "Tanp'ung line",
+    "평남선": "South P'yŏngan line (Heinan)",
+    "평안선": "P'yŏngan line (Heian)",
+    "함북선": "North Hamgyŏng line (Kanhoku)",
+    "경춘선": "Kyŏngch'un line (Seoul–Ch'unch'ŏn)",
+    "평양탄광선": "P'yŏngyang colliery line",
+    "회령탄광선": "Hoeryŏng colliery line",
+    "다사도선": "Tasado line",
+    "겸이포선": "Kyŏmip'o line (Kenipo)",
+    "광주선": "Kwangju line (Kōshū)",
+    "군산선": "Kunsan line (Gunzan)",
+    "박천선": "Pakch'ŏn line (Hakusen)",
+    "북청선": "Pukch'ŏng line (Hokusei)",
+    "용등선": "Yongdŭng line",
+    "장지리선": "Changjiri line",
+    "진해선": "Chinhae line (Chinkai)",
+    "철산차호선": "Ch'ŏlsan–Ch'aho line",
     "해주선": "Haeju line (Kaishū)",
     "황해청년선": "Hwanghae line",
     "서선중앙철도": "West Korea Central Railway",
@@ -340,7 +340,7 @@ def write_js(rows):
             # A junction says so, and names what met there. `Honam line
             # (Konan, the south-west)` is a mouthful three times over, so in a
             # list the bracket goes and the word `line` is said once at the
-            # end: "where the Honam, Jeolla and Gunsan lines met". Everything
+            # end: "where the Honam, Chŏlla and Kunsan lines met". Everything
             # after the first bracket is a gloss or a section, and two
             # sections of one line meeting is still one name.
             bare = []

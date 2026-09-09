@@ -19729,3 +19729,61 @@ and which an assertion (`lineFeature` counts `routed` beside `straight`).
 The 87 Manchurian, Japanese and ferry connections in the Korean bundle stay
 chords: there is no railway under them in any file the map has, and the
 router says nothing rather than something false.
+
+## The Korean railway labels move to McCune–Reischauer
+
+The strip read *Gyeongbu Line*, *Gyeongui Line*, *Jeolla Line* — Revised
+Romanization — over a map that is McCune–Reischauer everywhere else: the
+stations carry it from the source database, the provinces are Chŏllanam-do and
+Kyŏnggi-do, the cities Pusan and Kaesŏng. One name written two ways in one
+strip is the map contradicting itself.
+
+**Derived from hangul, not converted from the romanisation.** Going RR → MR is
+a guess: `eo` is `ŏ` reliably, but RR `g` is MR `k` or `g` depending on where it
+stands, and RR spells no aspiration at all, so `cheon` is 천 (ch'ŏn) and 전 is
+`jeon` and the two collapse. The tables are keyed by hangul, so `tools/mr.py`
+reads that instead.
+
+**It is checked rather than trusted, which is the point.** `kr-stations.js`
+holds 850 stations with both the hangul and a McCune–Reischauer reading taken
+from the source database and checked by its compilers. `python3 tools/mr.py
+--check` runs the rules over every one: **848 of 850**. The two it misses,
+팔당 P'altang and 율동 Yultong, are the ㄹ+ㄷ tensing of a Sino-Korean compound,
+which is a fact about the word and not about its hangul — no rule over these
+letters can get it right, and the file says so.
+
+Four rules were wrong on the first pass and the check is what found them:
+`ㄹ`+`ㄴ` assimilating in both directions (월내 Wŏllae), `ㄹ`+`ㄹ` before the
+stop-before-`ㄹ` rule (수철리 Such'ŏlli), `ㄹ` before `ㅎ` written `r`
+(별하 Pyŏrha), and the apostrophe in `n'g` — which on the first try was applied
+over the finished string and broke the `ng` digraph, turning 장흥 into
+`chan'ghŭn'g`. It is decided in the loop now, where the provenance of each
+letter is known, and only before `g`: the database writes 진해 Chinhae and
+문화 Munhwa with no apostrophe.
+
+35 of the 74 line labels change — Kyŏngbu, Kyŏngŭi, Kyŏngwŏn–Hamgyŏng, Chŏlla,
+Manp'o, P'yŏngwŏn, Kyŏmip'o, Kaech'ŏn, Pakch'ŏn, Pukch'ŏng — and the station
+prose that names a line follows, since both build scripts read the same words.
+
+**What was deliberately not touched**, each after being caught doing damage in
+a first attempt:
+
+* **The Japanese readings.** 滿浦線 is *Manpo-sen* and 群山 is *Gunsan* in the
+  romaji column; a blind sweep rewrote both, and the second is a Japanese
+  reading sitting beside an `mr` column that already said Kunsan.
+* **Wikipedia addresses.** `.../wiki/Gwangju` is where the article is, not a
+  label, and rewriting it breaks the link. Four were broken before this was
+  noticed.
+* **English translations.** *Northern lines*, *Central line*, *East Sea line*,
+  *Antung–Mukden line* are translations, not romanisations, and stay.
+* **Line-ending style.** Three CSVs are CRLF; reading and writing them as text
+  rewrote all 1,702 lines. Redone as bytes, they show 6 changed lines.
+
+The city and site names were reverted with them and are **not** converted:
+`texts/city-names.csv` and `texts/sites/sites.csv` write Korean cities
+Japanese-first — *Kōshū (Kwangju)*, *Heijō (P'yŏngyang)* — and the romanised
+half is already McCune–Reischauer in the ones checked. What is left there is
+`Battle of Pyongyang`, which is a conventional English title rather than a
+romanisation, and is a decision rather than an oversight.
+
+Whole suite 2115 checks across 61 scripts, 399s, all passing.
