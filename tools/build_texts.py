@@ -827,17 +827,41 @@ def build_data_js():
             "the other the date it belongs to; without either the info "
             "would never appear or never go away."
             % ", ".join(map(repr, noflag)))
+    # **A row with no prose is a template, not a layer that is ready.**
+    #
+    # Every switch on the map can have an "i" beside it, and most of them do
+    # not yet — so the table carries a blank row per layer, waiting to be
+    # filled in the texts editor. Those must not reach the reader: an "i"
+    # button that opens an empty box is worse than no button, which is the
+    # rule at the head of this block.
+    #
+    # So a row is emitted when its section in layer-info.md has words in it,
+    # and counted when it does not. Missing *sections* are still an error —
+    # that is a row nobody has made a template for, which is a mistake rather
+    # than a stage of the work.
     missing = [r["id"] for r in rows if r["id"] not in ns]
     if missing:
         raise Problem(
             "texts/layer-info.csv names %s, and texts/layer-info.md has no "
-            "section for %s. The row is the title and the source; the prose is "
-            "the whole of what the reader came to read, and a row without it "
-            "would open an empty box."
+            "section for %s. Add a section, even an empty one: an empty one is "
+            "a template and this build will pass over it, but a row with no "
+            "section at all is a row nobody has started."
             % (", ".join(map(repr, missing)),
                "it" if len(missing) == 1 else "them"))
+    # `read_notes(keep_paras=True)` hands back a dict per section — the note,
+    # its commentary lines and its group — so "has prose" is the note field,
+    # not the section's presence.
+    def has_prose(lid):
+        sec = ns.get(lid) or {}
+        return bool((sec.get("note") or "").strip())
+
+    ready = [r for r in rows if has_prose(r["id"])]
+    drafts = [r["id"] for r in rows if not has_prose(r["id"])]
+    if drafts:
+        print("layer info    %d of %d written; %d waiting for prose: %s"
+              % (len(ready), len(rows), len(drafts), " ".join(sorted(drafts))))
     parts.append("JMAP.LAYER_INFO = [\n%s\n];"
-                 % array(rows, ns, snippets, indent=2))
+                 % array(ready, ns, snippets, indent=2))
 
     # --------------------------------------------------------- categories
     rows = load("categories.csv")

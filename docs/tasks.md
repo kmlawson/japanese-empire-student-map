@@ -20043,3 +20043,92 @@ Six checks in `relief.js` were asserting the old default from a bare URL. They
 open with `url(BASE)` now — a link with a layers code and no relief bit, which is
 what every shared link looks like — so they test the button rather than inheriting
 a default. `relief` 43 → **55**, `trains` 131 → **144**.
+
+## The texts editor, brought back into line — and three bugs that ate files
+
+`texts/admin/` had not been touched since 24 August. Seventeen days and a great
+deal of new corpus later, it was wrong in ways that would have damaged the very
+files it exists to edit. It is gitignored, so none of this is committed; it is
+recorded here because the *findings* are about the corpus, not the tool.
+
+**About and Sources were corrupted by saving them.** They have no `##` headings
+— the reader hands the whole file over as one record, keyed by its path. The
+note writer looked for that heading, failed, concluded "this record has no note
+yet", and **appended the entire document to itself**: `about.md` went from 4,458
+characters to 8,917 on one save, with its bullet list run together into a
+paragraph on the way. Whole documents are written back verbatim now, down to the
+trailing newline `sources.md` does not have. All five round-trip byte for byte.
+
+**Ten of the 49 tables are CRLF and the writer emitted LF.** `sites.csv`, both
+territory sheets, `taiwan.csv`, `city-names.csv` and five others. Editing one
+cell of `sites.csv` rewrote all 127 of its lines and the actual edit was
+invisible in the diff — the same accident CLAUDE.md records from the sweep that
+reflowed 1,702 lines. The terminator is read off the file and given back.
+Measured after: one cell edit changes **2 lines of 127**, CRLF intact.
+
+**`pages/help.md` was invisible.** Eighteen kilobytes of the ? dialog, added with
+that feature and never added to `WHOLE_DOCS`, so it produced no record and could
+not be opened.
+
+### The placements had drifted, and the boxes were wrong
+
+**107 records were unplaced** — all 64 Taiwanese 州廳, the 23-row citation
+registry, the 15 island groups, the two New Guinea free zones. A further **67
+were placed correctly but reported "Not placed"**, because a `continue` sat
+above the two lines meant to set the tag, making them unreachable. 1,496 of
+1,496 are placed now, by five rules rather than four: `part_of` was added for the
+island groups, which name a parent and have no key of their own.
+
+**And the bounding boxes were quietly misfiling cities.** A box that reaches a
+degree too far raises nothing; the record simply turns up under the wrong
+heading. `texts/admin/check_regions.py` holds them against the 329 places in
+`data/cities-*.csv` that carry a `polity` — the map's own statement of whose each
+was. It found **43 wrong**:
+
+* **Peking, Tangshan, Tungchow, Shanhaikuan** under Manchuria — the box reached
+  south of the Great Wall. North of 40.5 now, with Liaodong its own box below.
+* **Chengtu, Tzukung, Lanchow, Sining, Kangting** under Tibet — the innerasia
+  box reached to 105 E over Szechwan, Kansu and Tsinghai. 99 E now.
+* **Phnom Penh, Vientiane, Luang Prabang, Savannakhet, Battambang, Vinh** under
+  Siam. The frontier is the Mekong and no rectangle follows a river, so those
+  five towns are named in `BY_ID` and Vietnam east of 105 E is a box.
+* **Eight Dutch towns** — Medan, Padang, Pekanbaru, Pontianak, Banjarmasin,
+  Balikpapan, Samarinda, Tarakan — under Malaya.
+* **Sasebo** under Korea (129.72 E against a box reaching 129.9), **Imphal,
+  Digboi and Ledo** under Burma, **Taiyuan and Yinchuan** under Mengjiang,
+  **Sorong** under the Pacific mandate, **Mudanjiang** under Japan.
+
+All 329 agree now, and every bound in `BOXES` that looks arbitrary names the
+city it is keeping out.
+
+The round trip is measured rather than asserted: **15,734 cells and 1,187 note
+bodies written back to the values they already hold**, all 49 CSVs byte-identical,
+no Markdown file losing or moving a word.
+
+### Layer notes: sixteen blank templates, and a build that passes over them
+
+Every switch in the Layers pane can carry an **i** — where the layer came from,
+how complete it is, what it cannot be used for. **Three of nineteen were
+written** and the other sixteen had no row at all, so there was nothing to open
+in the editor and no way to start one.
+
+There is a blank row for each now, with the right `flag` already set and a
+matching empty section in `layer-info.md`. **`build_texts.py` emits a row only
+when its prose has words in it** and reports the rest:
+
+```
+layer info    3 of 19 written; 16 waiting for prose: ccp extent graticule …
+```
+
+An "i" that opens an empty box is worse than no button, which is the rule the
+feature was built on; filling one in is the whole of what turns it on. The five
+whose citation was already known — the three railways, the sugar lines and the
+relief — have `source` and `source_url` filled from this session's own work, and
+the paragraph left blank.
+
+Display switches get no row on purpose: what *Kanji labels*, *Japanese names*,
+*single colour*, *whole map*, *airport names* and *all flights* do is change how
+the map is drawn, not what it claims, and an "i" about a source would have
+nothing to point at.
+
+`changed` 1,666 checks across 41 scripts, all passing, 339s.

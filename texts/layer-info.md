@@ -63,3 +63,35 @@ Each layer is constructed from its own historical sources. Generally, historical
 sources from around 1928–1935 are assigned to the 1930 map, while those using
 sources from around 1936 onwards are assigned to the 1942 map. This means there
 are anachronisms visible on both maps.
+
+## rivers
+
+## india-rivers
+
+## extent
+
+## ccp
+
+## manchukuo
+
+## mengjiang
+
+## tw-rail
+
+## kr-rail
+
+## kf-rail
+
+## tw-stations
+
+## kr-stations
+
+## kf-stations
+
+## tw-sugar
+
+## train-tools
+
+## relief
+
+## graticule
