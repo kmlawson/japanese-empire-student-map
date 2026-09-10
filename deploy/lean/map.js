@@ -13,7 +13,7 @@
 
 (function () {
   'use strict';
-  var JEM_VERSION = '345';
+  var JEM_VERSION = '346';
 
 
 
@@ -4939,9 +4939,37 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  var RELIEF_WIDE_PX = 1000;
+
+  function reliefByDefault() {
+    var bare = !cleanQuery(window.location.search);
+    var wide = (window.innerWidth || 0) >= RELIEF_WIDE_PX;
+    return bare && wide;
+  }
+
   function readUrl() {
     var q = params();
     var code = q.get('layers');
+    if (!code && reliefByDefault()) state.relief = true;
     if (code) applyLayerCode(code);
     var mc = q.get('mono');
     if (mc && HEX.test('#' + mc)) state.monoColour = '#' + mc;
@@ -7222,6 +7250,15 @@
     if (trainApi && trainApi.mounted && trainApi.mounted() && trainApi.pick) {
       trainApi.pick(-1);
     }
+
+
+
+
+
+
+    var plainSys = railSysOf(target);
+    if (plainSys && !trainDraws(plainSys)) { showRailCard(plainSys); return; }
+    if (railPicked) setRailPicked('');
 
     var id = hit ? (hit.rec.rid || hit.rec.id) : null;
 
@@ -11816,11 +11853,21 @@
 
 
 
-  function saveDrawnRail(sys) {
+
+
+
+
+
+
+
+  function saveDrawnRail(sys, want) {
     var g = document.getElementById(sys + '-rail');
     if (!g) return false;
+    var pick = want || state.epoch;
     var feats = [];
-    $$('path', g).forEach(function (el) {
+    $$('path.rail', g).forEach(function (el) {
+      var ep = el.getAttribute('data-epoch') || state.epoch;
+      if (pick !== 'both' && ep !== pick) return;
       var lines = ringsToLonLat(pathToRings(el.getAttribute('d')));
       lines.forEach(function (c) {
         if (c.length > 1) {
@@ -11828,12 +11875,27 @@
                        geometry: { type: 'LineString', coordinates: c },
                        properties: { system: sys,
                                      railway: RAIL_LABEL[sys] || sys,
-                                     epoch: el.getAttribute('data-epoch') || state.epoch,
+                                     epoch: ep,
+                                     network_year: railYear(sys, ep),
+                                     source: (RAIL_INFO[sys] || {}).source || '',
+                                     source_url: (RAIL_INFO[sys] || {}).url || '',
                                      note: RAIL_DRAWN_NOTE } });
         }
       });
     });
-    return saveRailGeoJSON(feats, (RAIL_LABEL[sys] || sys) + '-railways');
+    if (!feats.length) return false;
+
+
+
+    var name = (RAIL_LABEL[sys] || sys) + '-railways';
+    if (pick === 'both') {
+      var ys = ['e1930', 'e1942'].map(function (e) { return railYear(sys, e); })
+        .filter(function (y, i, a) { return y && a.indexOf(y) === i; });
+      name += '-' + ys.join('-and-');
+    } else {
+      name += '-' + (railYear(sys, pick) || String(pick).replace(/^e/, ''));
+    }
+    return saveRailGeoJSON(feats, name);
   }
 
   var RAIL_DRAWN_NOTE = 'Read from the drawn network and unprojected, so it '
@@ -11869,6 +11931,67 @@
 
 
   var RAIL_LABEL = { tw: 'Taiwan', kr: 'Korea', kf: 'Karafuto' };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  var RAIL_INFO = {
+    tw: {
+      label: 'Taiwan Railways',
+
+
+
+
+
+
+
+
+
+
+
+      years: { e1930: '1930', e1942: 'December 1942' },
+      source: '日治時期鐵路分布圖 (Academia Sinica), reprojected to TWD97, with '
+        + 'several stretches traced from the 1944 American 1:25,000 sheet',
+      url: 'https://data.depositar.io/dataset/rd15-07030',
+      note: 'Drawn per date, because the island gained lines between them: some '
+        + 'southern lines are on the 1942 map and not the 1930 one.',
+    },
+    kr: {
+      label: 'Korea Railways',
+      years: { e1930: '1930', e1942: '1942' },
+      source: '근대 철도 DB (김종혁), filtered by the year each line opened',
+      url: 'https://www.hisgeo.info/wiki/%EA%B7%BC%EB%8C%80_%EC%B2%A0%EB%8F%84_DB',
+      note: 'Lines open by 1931 on the 1930 map and by 1943 on the December '
+        + '1942 map. Not yet checked against contemporary sheets.',
+    },
+    kf: {
+      label: 'Karafuto Railways',
+      years: { e1930: '1935', e1942: '1935' },
+      source: 'traced for this map from 最新樺太地圖 and the 樺太路線図 at '
+        + '時刻表倉庫, checked against the 1947 U.S. Army sheets',
+      url: 'https://jikokusouko.pages.dev/index.htm',
+      note: 'One drawing for both dates: the island’s railways were built '
+        + 'between 1906 and the late 1920s and the rails did not move between '
+        + '1930 and 1942.',
+    },
+  };
+
+
+  function railYear(sys, epoch) {
+    var inf = RAIL_INFO[sys];
+    return (inf && inf.years[epoch || state.epoch]) || '';
+  }
+
 
 
 
@@ -12192,9 +12315,28 @@
 
 
 
-      menuEl.appendChild(menuItem('Download GeoJSON \u2014 '
-        + (RAIL_LABEL[railSys] || railSys) + '\u2019s railways',
-        function () { saveDrawnRail(railSys); }));
+
+
+
+
+
+      var railName = RAIL_LABEL[railSys] || railSys;
+      var here = state.epoch;
+      var other = here === 'e1930' ? 'e1942' : 'e1930';
+      var yHere = railYear(railSys, here), yOther = railYear(railSys, other);
+      menuEl.appendChild(menuItem('Download GeoJSON \u2014 ' + railName
+        + '\u2019s railways' + (yHere ? ', ' + yHere : ''),
+        function () { saveDrawnRail(railSys, here); }));
+
+
+      if (yOther && yOther !== yHere) {
+        menuEl.appendChild(menuItem('Download GeoJSON \u2014 ' + railName
+          + '\u2019s railways, ' + yOther,
+          function () { saveDrawnRail(railSys, other); }));
+        menuEl.appendChild(menuItem('Download GeoJSON \u2014 ' + railName
+          + '\u2019s railways, both dates',
+          function () { saveDrawnRail(railSys, 'both'); }));
+      }
     }
 
 
@@ -12803,6 +12945,118 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+  function showRailCard(sys) {
+    var inf = RAIL_INFO[sys];
+    if (!inf || !infoBox) return;
+    markSelected(selected, false);
+    selected = null;
+    selCluster = null;
+    redrawHighlight();
+    setRailPicked(sys);
+
+    var chip = $('.chip', infoBox);
+    chip.textContent = 'Railway';
+    chip.style.setProperty('--chip', 'var(--muted)');
+    $('.primary', infoBox).textContent = inf.label;
+    var yr = railYear(sys, state.epoch);
+    $('.alt', infoBox).textContent = yr ? 'the network of ' + yr : '';
+    var prov = $('.prov', infoBox);
+    prov.textContent = '';
+    prov.hidden = true;
+    var when = $('.when', infoBox);
+    when.textContent = '';
+    when.hidden = true;
+    var own = $('.note-own', infoBox);
+    setProse(own, inf.note || '');
+    own.hidden = !inf.note;
+    var grp = $('.note-group', infoBox);
+    setProse(grp, '');
+    grp.hidden = true;
+    grp.setAttribute('data-group', '');
+    var flip = $('#info-flip', infoBox);
+    if (flip) flip.hidden = true;
+    var pop = $('#info-pop');
+    if (pop) { pop.innerHTML = ''; pop.hidden = true; }
+    renderRailBlock($('#info-trains'), sys, inf);
+    collapseInfo();
+    infoBox.hidden = false;
+    document.body.classList.add('panel-open');
+    hideTooltip();
+    gateLabels();
+    placeLabels();
+  }
+
+
+
+
+  function renderRailBlock(host, sys, inf) {
+    if (!host) return;
+    host.textContent = '';
+    host.hidden = false;
+
+    var src = document.createElement('p');
+    src.className = 'trains-head';
+    src.textContent = 'Source: ';
+    var a = document.createElement('a');
+    a.href = inf.url;
+    a.target = '_blank';
+    a.rel = 'noopener';
+    a.textContent = inf.source;
+    src.appendChild(a);
+    host.appendChild(src);
+
+    var row = document.createElement('p');
+    row.className = 'tbar';
+
+
+
+
+    if (TRAIN_SYS[sys] && trainZone() === sys && !state.trainTools) {
+      var t = document.createElement('button');
+      t.type = 'button';
+      t.className = 'plain';
+      t.textContent = 'Open the train tools';
+      t.addEventListener('click', function () { setTrainTools(true); });
+      row.appendChild(t);
+    }
+
+    var d = document.createElement('button');
+    d.type = 'button';
+    d.className = 'plain';
+    d.textContent = 'Download GeoJSON';
+    d.addEventListener('click', function () { saveDrawnRail(sys, state.epoch); });
+    row.appendChild(d);
+
+    host.appendChild(row);
+
+    var hint = document.createElement('p');
+    hint.className = 'trains-foot';
+    hint.textContent = 'Right-click the line for the other date, or both together.';
+    host.appendChild(hint);
+  }
+
+
+
+  var railPicked = '';
+
+  function setRailPicked(sys) {
+    railPicked = sys || '';
+    ['tw', 'kr', 'kf'].forEach(function (k) {
+      var g = document.getElementById(k + '-rail');
+      if (g) g.classList.toggle('picked', k === railPicked);
+    });
+  }
+
   function showTrainCard(block) {
     if (!block || !infoBox) return;
     markSelected(selected, false);
@@ -13250,6 +13504,23 @@
         }
         tie.style.display = on ? '' : 'none';
         tie.style.setProperty('--rail-ground', railGround(over));
+
+
+
+
+
+
+
+
+
+
+
+        var hit = tie.nextSibling;
+        if (!hit || !hit.classList || !hit.classList.contains('rail-hit')) {
+          hit = svgEl('path', { 'class': 'rail-hit', d: el.getAttribute('d') });
+          tie.parentNode.insertBefore(hit, tie.nextSibling);
+        }
+        hit.style.display = on ? '' : 'none';
       });
     });
 

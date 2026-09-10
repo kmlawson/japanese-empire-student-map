@@ -35,6 +35,11 @@ const url = (bits) => HOST+'/index.html?layers=' + (bits >>> 0).toString(36);
 (async () => {
 const b = await launch();
 
+/* **Off until it is asked for — on a link that says anything at all.**
+   A bare address on a wide screen now opens with the ground showing (see the
+   last block), so a test of "starts off" has to name the case it means.
+   `url(BASE)` is a link with a layers code and no relief bit in it, which is
+   what every shared link from this map looks like. */
 console.log('\n— off until it is asked for —');
 {
   const p = await b.newPage();
@@ -42,7 +47,7 @@ console.log('\n— off until it is asked for —');
   const got = [];
   p.on('request', r => { if (/relief-/.test(r.url())) got.push(r.url().split('/').pop().split('?')[0]); });
   const errs = []; p.on('pageerror', e => errs.push(String(e)));
-  await p.goto(HOST+'/index.html', { waitUntil: 'domcontentloaded' });
+  await p.goto(url(BASE), { waitUntil: 'domcontentloaded' });
   await ready(p);
   check('the box is unticked', !(await p.evaluate(() =>
     document.querySelector('#opt-relief').checked)));
@@ -395,7 +400,7 @@ console.log('\n— its two switches agree —');
      already live and writes its state straight back over the empty store. */
   await p.goto(HOST+'/relief.js', { waitUntil: 'domcontentloaded' });
   await p.evaluate(() => { try { localStorage.clear(); } catch (e) { /* fine */ } });
-  await p.goto(HOST+'/index.html', { waitUntil: 'domcontentloaded' });
+  await p.goto(url(BASE), { waitUntil: 'domcontentloaded' });
   await ready(p);
   const both = () => p.evaluate(() => ({
     bar: document.querySelector('#btn-topo').getAttribute('aria-pressed'),
@@ -425,7 +430,7 @@ console.log('\n— its two switches agree —');
   await q.setViewport({ width: 390, height: 780, isMobile: true, hasTouch: true });
   await q.goto(HOST+'/relief.js', { waitUntil: 'domcontentloaded' });
   await q.evaluate(() => { try { localStorage.clear(); } catch (e) { /* fine */ } });
-  await q.goto(HOST+'/index.html', { waitUntil: 'domcontentloaded' });
+  await q.goto(url(BASE), { waitUntil: 'domcontentloaded' });
   await ready(q);
   check('on a phone the bar does not carry it',
     await q.evaluate(() => document.querySelector('#btn-topo').hidden));
@@ -454,7 +459,7 @@ console.log('\n— it says it is loading, and arrives whole —');
   await cdp.send('Network.setCacheDisabled', { cacheDisabled: true });
   await cdp.send('Network.emulateNetworkConditions', { offline: false,
     downloadThroughput: 220 * 1024, uploadThroughput: 220 * 1024, latency: 120 });
-  await p.goto(HOST+'/index.html', { waitUntil: 'domcontentloaded' });
+  await p.goto(url(BASE), { waitUntil: 'domcontentloaded' });
   await ready(p);
   const look = () => p.evaluate(() => {
     const btn = document.querySelector('#btn-topo');
@@ -501,7 +506,7 @@ console.log('\n— a sheet already fetched is not fetched again —');
   await p.setViewport({ width: 1400, height: 950 });
   const got = [];
   p.on('request', r => { if (/relief-/.test(r.url())) got.push(r.url().split('/').pop().split('?')[0]); });
-  await p.goto(HOST+'/index.html', { waitUntil: 'domcontentloaded' });
+  await p.goto(url(BASE), { waitUntil: 'domcontentloaded' });
   await ready(p);
   /* Waited on from the outside, by counting the requests that actually
      happen, rather than on a page-side proxy for them: the href is a blob
@@ -549,7 +554,7 @@ console.log('\n— and it says so when it fails —');
   await p.setViewport({ width: 1400, height: 950 });
   await p.setRequestInterception(true);
   p.on('request', r => { if (/relief-.*\.webp/.test(r.url())) r.abort(); else r.continue(); });
-  await p.goto(HOST+'/index.html', { waitUntil: 'domcontentloaded' });
+  await p.goto(url(BASE), { waitUntil: 'domcontentloaded' });
   await ready(p);
   await p.evaluate(() => document.querySelector('#btn-topo').click());
   await sleep(2600);
@@ -564,6 +569,47 @@ console.log('\n— and it says so when it fails —');
     st.failed && !st.busy, JSON.stringify(st));
   check('and both switches say what went wrong',
     /did not load/.test(st.note) && /did not load/.test(st.title), JSON.stringify(st));
+  await p.close();
+}
+
+/* ============ on by default, on a big screen and a bare address ============
+ *
+ * Asked for: a wide screen opening on a bare URL should show the ground. Both
+ * halves of the condition need guarding, and for different reasons.
+ *
+ * **Wide only.** The coarsest sheet is 347 KB and a phone is the machine least
+ * able to spare it. 1000 px is styles.css's own breakpoint for a big screen,
+ * not a number invented for this.
+ *
+ * **A bare query only.** Every link this map writes carries the reader's
+ * switches, so anything in the query is a choice somebody made; switching a
+ * layer on over a shared `?where=` link would be the map arguing with whoever
+ * sent it. The test that catches a regression here is the third one — a query
+ * that says nothing about relief must still leave it off. */
+console.log('\n— the ground shows itself on a big screen, and only there —');
+for (const [w, h, q, want, why] of [
+  [1400, 900, '', true, 'wide and bare'],
+  [ 900, 900, '', false, 'narrow and bare'],
+  [1400, 900, '?where=119.9,21.7,122.2,25.5', false, 'wide, but the link says where'],
+  [ 390, 850, '', false, 'a phone'],
+]) {
+  const p = await b.newPage();
+  await p.setViewport({ width: w, height: h });
+  await p.evaluateOnNewDocument(SHIM);
+  await p.goto(HOST + '/index.html' + q, { waitUntil: 'domcontentloaded' });
+  await ready(p);
+  await sleep(1200);
+  const got = await p.evaluate(() => ({
+    box: !!(document.querySelector('#opt-relief') || {}).checked,
+    imgs: document.querySelectorAll('#relief image').length,
+  }));
+  check(why + ': relief ' + (want ? 'on' : 'off'), got.box === want,
+    'checkbox ' + got.box + ', ' + got.imgs + ' image(s)');
+  /* Not just the switch: the sheet has to actually arrive, or the default is a
+     ticked box over an empty layer. */
+  if (want) {
+    check('  and the sheet is actually fetched', got.imgs > 0, got.imgs + ' images');
+  }
   await p.close();
 }
 

@@ -19979,3 +19979,67 @@ it. Korea's network file now measures 19,455 vertices with **0 duplicate pairs**
 `trains` 123 → **131 checks**. Both halves proved by breaking them: forcing
 `twoPointChord` to return false fails 2, and the ninety-byte file is what the
 `> 100000 bytes` check was written against.
+
+## The white railway answers for itself, and the ground shows on a big screen
+
+**It was the one drawn layer that named nothing.** A press went through the
+railway to the province beneath, so a reader looking at the line could not learn
+whose it was, which date it showed or where it came from — and it carries all
+three. It opens a card now: the network, the date of the drawing, the source as
+a link, a button into the train tools where this ground has any, and a download.
+The whole network lights as one thing, because a railway is not a shape with an
+inside.
+
+**It had no hit target, which is why this was never noticed.** The line is drawn
+at 1.9 *screen* pixels — `non-scaling-stroke`, so that is its width at every
+zoom — and that was the whole of what a pointer could land on. A mouse could
+just about manage it; a finger could not. There is a third clone now, `.rail-hit`,
+invisible and 16 px wide with `pointer-events: stroke`, the same trick the
+gazetteer dots use with `circle.hit`. Cheap: this layer is four paths for Taiwan,
+not a thousand.
+
+**Both dates come out of one drawing.** `railFadeOne` hides the other epoch's
+paths rather than removing them, so all of both networks is in the DOM and the
+right-click offers three files: the date on screen, the other one, and both
+together with every feature saying which it belongs to. Measured on Taiwan:
+**242 features, 119 on the 1930 sheet and 123 on the 1942 one**. Karafuto is
+offered once, not twice, because it is one drawing on both dates — the rails did
+not move between them.
+
+### A survey's date is not a network's date
+
+The first version of this card said **"the network of 1944"** on the December
+1942 sheet, reading build_map.py's *"the 1930 network for the earlier sheet and
+the 1944 one for the later"* as the year of the railway. Queried, and it is an
+over-claim. `texts/pages/sources.md` says the 東港 and 溪州/南州–枋寮 lines are
+**kept for 1942 and removed for 1930** — a file curated to this map's own two
+dates — and the 1944 American 1:25,000 sheet is what several stretches were
+**traced from**. The GeoJSON settles nothing either way: its only property is
+`fid`.
+
+So the card prints the map's dates, 1930 and December 1942, and the 1944 sheet is
+named in the source line where it belongs. **The two in-repo descriptions still
+emphasise different things and should be reconciled** — build_map.py's comment
+reads as a claim about the network and sources.md reads as a claim about the
+tracing. Whoever knows which is meant should fix the loser.
+
+### The ground, on a big screen
+
+A bare address on a wide screen opens with the relief showing. Two conditions,
+both deliberate:
+
+* **No query at all**, not merely no `layers`. Every link this map writes carries
+  the reader's switches, so anything in the query is a choice somebody made;
+  switching a layer on over a shared `?where=` link would be the map arguing with
+  whoever sent it.
+* **1000 px**, which is styles.css's existing breakpoint for a big screen rather
+  than a new number. Below it the sheet stays off: it is 347 KB at the coarsest
+  level and a phone is the machine least able to spare it.
+
+`reliefDetail` stays at 0. A default that fetched 1.7 MB unasked is a different
+proposition.
+
+Six checks in `relief.js` were asserting the old default from a bare URL. They
+open with `url(BASE)` now — a link with a layers code and no relief bit, which is
+what every shared link looks like — so they test the button rather than inheriting
+a default. `relief` 43 → **55**, `trains` 131 → **144**.

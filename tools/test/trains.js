@@ -1016,12 +1016,19 @@ const shutDialogs=p=>p.evaluate(()=>{
         if (b) b.click();
       });
       await sleep(1600);
-      const net = fs.readdirSync(dl.dir).filter(f => /railways\.geojson$/.test(f));
+      /* `taiwan-railways.geojson` until the file learned to say which year's
+         network it holds; it is `taiwan-railways-1930.geojson` now, and the
+         later sheet's is `-1944`, because Taiwan's 1942 drawing is the 1944
+         survey. Matching on the year rather than pinning one, so this does not
+         have to be edited again when a source is replaced. */
+      const net = fs.readdirSync(dl.dir).filter(f => /railways(-\d{4})?\.geojson$/.test(f));
       check('  and it writes the network', net.length > 0 && nSaved() > n1,
         JSON.stringify(fs.readdirSync(dl.dir)));
       if (net.length) {
         const j = JSON.parse(fs.readFileSync(dl.dir + '/' + net[0], 'utf8'));
         const pt = j.features[0].geometry.coordinates[0];
+        check('  named for the year of the network it holds',
+          /railways-\d{4}\.geojson$/.test(net[0]), net[0]);
         check('  as lines in longitude and latitude, over Taiwan',
           j.features[0].geometry.type === 'LineString'
             && pt[0] > 119 && pt[0] < 123 && pt[1] > 21 && pt[1] < 26,
@@ -1135,6 +1142,161 @@ const shutDialogs=p=>p.evaluate(()=>{
         (got.tracedNote||'').slice(0,70));
     }
     await net.close();
+
+    /* ============ the plain railway answers for itself ============
+     *
+     * It was the one drawn layer that named nothing: a press went through it
+     * to the province beneath, so a reader looking at the line could not learn
+     * whose it was, which year it showed, or where it came from — and it
+     * carries all three.
+     *
+     * The year is the part worth guarding. The layer is drawn per date and the
+     * dates are **not the map's dates**: Taiwan's later sheet is the 1944
+     * network, because that is the survey its added lines were traced from,
+     * and Karafuto is 1935 on both because the rails did not move. A card that
+     * said "1942" over Taiwan's later drawing would be wrong in a way nobody
+     * could catch by looking. */
+    console.log('\n— the white railway, pressed —');
+    const rc = await browser.newPage();
+    await rc.setViewport({width:1300,height:950});
+    await rc.evaluateOnNewDocument(SHIM);
+    await rc.goto(TAIWAN,{waitUntil:'domcontentloaded'});
+    await ready(rc);
+    await shutDialogs(rc);
+    await rc.evaluate(()=>{const r=document.querySelector('#opt-tw-rail');
+      if(r&&!r.checked){r.checked=true;r.dispatchEvent(new Event('change',{bubbles:true}));}});
+    await sleep(3000);
+
+    /* A point on the invisible hit band, not on the drawn line: the drawn line
+       is 1.9 screen pixels and a press cannot reliably land on it, which is
+       the whole reason `.rail-hit` exists. */
+    const onRail = await rc.evaluate(()=>{
+      const els=[...document.querySelectorAll('#tw-rail .rail-hit')]
+        .filter(e=>e.style.display!=='none');
+      for(const el of els){
+        const L=el.getTotalLength();
+        for(const f of [0.5,0.3,0.7,0.2]){
+          const q=el.getPointAtLength(L*f);
+          const s=el.ownerSVGElement.createSVGPoint(); s.x=q.x; s.y=q.y;
+          const scr=s.matrixTransform(el.getScreenCTM());
+          const x=Math.round(scr.x), y=Math.round(scr.y);
+          if(x>60&&x<innerWidth-60&&y>90&&y<innerHeight-60) return {x,y,n:els.length};
+        }
+      }
+      return null;
+    });
+    check('the railway has a hit band wide enough to press', !!onRail,
+      'no .rail-hit on screen');
+
+    if (onRail) {
+      await rc.mouse.click(onRail.x, onRail.y);
+      await sleep(600);
+      const card = await rc.evaluate(()=>{
+        const b=document.getElementById('info');
+        if(!b||b.hidden) return {open:false};
+        return {open:true,
+          chip:(b.querySelector('.chip')||{}).textContent,
+          primary:(b.querySelector('.primary')||{}).textContent,
+          alt:(b.querySelector('.alt')||{}).textContent,
+          src:(b.querySelector('#info-trains a')||{}).textContent||'',
+          href:(b.querySelector('#info-trains a')||{}).href||'',
+          buttons:[...b.querySelectorAll('#info-trains button')].map(x=>x.textContent),
+          picked:!!document.querySelector('#tw-rail.picked')};
+      });
+      check('pressing it opens a card for the railway, not the island',
+        card.open && card.chip==='Railway' && /Taiwan Railways/.test(card.primary||''),
+        JSON.stringify(card).slice(0,140));
+      /* 1930 on this sheet — and 1944, not 1942, on the other. */
+      check('  naming the date of the network it is showing',
+        /1930/.test(card.alt||''), card.alt);
+      check('  with the source named and linked',
+        /鐵路分布圖/.test(card.src||'') && /^https?:/.test(card.href||''),
+        (card.src||'').slice(0,50)+' | '+(card.href||''));
+      check('  a way into the train tools',
+        (card.buttons||[]).some(t=>/train tools/i.test(t)), JSON.stringify(card.buttons));
+      check('and the whole network lights as one thing', card.picked===true,
+        'the group has no .picked class');
+
+      /* Both dates are in the drawing — the other epoch's paths are hidden,
+         not absent — so all three files can be written from what is here. */
+      await rc.mouse.click(onRail.x, onRail.y, {button:'right'});
+      await sleep(400);
+      const rows = await rc.evaluate(()=>{
+        const m=document.getElementById('jmap-menu');
+        return m?[...m.querySelectorAll('button')].map(b=>b.textContent)
+          .filter(t=>/railways/.test(t)):[];
+      });
+      check('the menu offers each date and both together', rows.length===3,
+        JSON.stringify(rows));
+      /* The map's dates, not the tracing source's. 1944 is the American sheet
+         several stretches were traced from, not the year of the network, and a
+         card that printed it would be stating a survey's date as a fact about
+         the railway. */
+      check('  named for the map’s dates, not the sheet traced from',
+        rows.some(t=>/1930/.test(t)) && rows.some(t=>/1942/.test(t))
+          && !rows.some(t=>/1944/.test(t)),
+        JSON.stringify(rows));
+
+      const both = await rc.evaluate(async ()=>{
+        const m=document.getElementById('jmap-menu');
+        const b=[...m.querySelectorAll('button')].find(x=>/both dates/.test(x.textContent));
+        if(!b) return {err:'no both-dates row'};
+        let caught=null;
+        const realBlob=window.Blob, realURL=URL.createObjectURL;
+        window.Blob=function(parts,opts){caught=String(parts[0]); return new realBlob(parts,opts);};
+        URL.createObjectURL=function(){return 'blob:stub';};
+        b.click();
+        window.Blob=realBlob; URL.createObjectURL=realURL;
+        if(!caught) return {err:'nothing written'};
+        let j=null; try{ j=JSON.parse(caught);}catch(e){return {err:'not JSON: '+e};}
+        const eps={}, yrs={};
+        (j.features||[]).forEach(f=>{eps[f.properties.epoch]=(eps[f.properties.epoch]||0)+1;
+                                     yrs[f.properties.network_year]=1;});
+        return {n:(j.features||[]).length, eps, yrs:Object.keys(yrs).sort(),
+                src:(j.features[0]||{properties:{}}).properties.source||''};
+      });
+      check('  and the both-dates file carries both, told apart',
+        !both.err && both.eps && both.eps.e1930>0 && both.eps.e1942>0,
+        JSON.stringify(both).slice(0,150));
+      check('  each feature saying which date it belongs to',
+        !both.err && both.yrs && both.yrs.join(',')==='1930,December 1942',
+        JSON.stringify((both||{}).yrs));
+      check('  and carrying its source',
+        !both.err && /鐵路分布圖/.test(both.src||''), (both.src||'').slice(0,40));
+    }
+
+    /* Karafuto is one drawing on both sheets, so it must not be offered twice
+       under two names — the same file would be written either way. */
+    await rc.goto(BASE+'?where=141.0,45.8,145.0,50.2',{waitUntil:'domcontentloaded'});
+    await ready(rc);
+    await shutDialogs(rc);
+    await rc.evaluate(()=>{const r=document.querySelector('#opt-kf-rail');
+      if(r&&!r.checked){r.checked=true;r.dispatchEvent(new Event('change',{bubbles:true}));}});
+    await sleep(3000);
+    const kfRows = await rc.evaluate(()=>{
+      const els=[...document.querySelectorAll('#kf-rail .rail-hit')]
+        .filter(e=>e.style.display!=='none');
+      for(const el of els){
+        const L=el.getTotalLength();
+        for(const f of [0.5,0.3,0.7]){
+          const q=el.getPointAtLength(L*f);
+          const s=el.ownerSVGElement.createSVGPoint(); s.x=q.x; s.y=q.y;
+          const scr=s.matrixTransform(el.getScreenCTM());
+          const x=Math.round(scr.x), y=Math.round(scr.y);
+          if(x>60&&x<innerWidth-60&&y>90&&y<innerHeight-60){
+            el.dispatchEvent(new MouseEvent('contextmenu',{bubbles:true,clientX:x,clientY:y}));
+            const m=document.getElementById('jmap-menu');
+            return m?[...m.querySelectorAll('button')].map(b=>b.textContent)
+              .filter(t=>/railways/.test(t)):[];
+          }
+        }
+      }
+      return null;
+    });
+    check('Karafuto, one drawing for both dates, is offered once',
+      kfRows && kfRows.length===1 && /1935/.test(kfRows[0]),
+      JSON.stringify(kfRows));
+    await rc.close();
   } finally { await browser.close(); }
   process.exit(report());
 })();

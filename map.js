@@ -13,7 +13,7 @@
  */
 (function () {
   'use strict';
-  var JEM_VERSION = '345';
+  var JEM_VERSION = '346';
 
   /* Every file this one fetches, with the version on it.
 
@@ -4939,9 +4939,37 @@
 
   /* Read once, before anything is composed, so the layers are right the first
      time the map is drawn rather than switched on in front of the reader. */
+  /* **The relief comes up on a big screen and not on a small one.**
+   *
+   * Asked for: a bare address on a wide screen should open with the ground
+   * showing. Two conditions, and both matter.
+   *
+   * *No query at all*, not merely no `layers`. Every link this map writes
+   * carries the reader's switches, so a link with anything in its query is a
+   * link somebody made on purpose and is honoured as it stands. Defaulting a
+   * layer on over a shared `?where=` link would be the map arguing with the
+   * person who sent it.
+   *
+   * *1000 px*, which is the breakpoint styles.css already uses to mean a big
+   * screen rather than a new number invented here. Below it the sheet stays
+   * off: it is 347 KB at the coarsest level and a phone is the machine least
+   * able to spare it, and the ground is the least of what a small screen has
+   * room to say.
+   *
+   * `reliefDetail` is left at 0 — the reader raises it if they want to. A
+   * default that fetches 1.7 MB unasked is a different proposition. */
+  var RELIEF_WIDE_PX = 1000;
+
+  function reliefByDefault() {
+    var bare = !cleanQuery(window.location.search);
+    var wide = (window.innerWidth || 0) >= RELIEF_WIDE_PX;
+    return bare && wide;
+  }
+
   function readUrl() {
     var q = params();
     var code = q.get('layers');
+    if (!code && reliefByDefault()) state.relief = true;
     if (code) applyLayerCode(code);
     var mc = q.get('mono');
     if (mc && HEX.test('#' + mc)) state.monoColour = '#' + mc;
@@ -7222,6 +7250,15 @@
     if (trainApi && trainApi.mounted && trainApi.mounted() && trainApi.pick) {
       trainApi.pick(-1);
     }
+
+    /* **The plain railway answers for itself.** Only with the tools down: with
+       them up the coloured track is the thing being pressed and the branches
+       above have already had their say. Below the train tools and above the
+       ground, which is the same place in the order the line occupies when the
+       tools are up. */
+    var plainSys = railSysOf(target);
+    if (plainSys && !trainDraws(plainSys)) { showRailCard(plainSys); return; }
+    if (railPicked) setRailPicked('');
 
     var id = hit ? (hit.rec.rid || hit.rec.id) : null;
     /* A second tap on a station already open closes it. Everything else on
@@ -11816,11 +11853,21 @@
      instead — the tools are what load it. Each path becomes one LineString,
      and the note says plainly that this one carries the drawing's thinning,
      unlike the file the tools give. */
-  function saveDrawnRail(sys) {
+  /* **Both dates are in the drawing, and only one of them is on screen.**
+
+     `railFadeOne` hides the other epoch's paths rather than removing them, so
+     the whole of both networks is here to be taken away. `want` is an epoch
+     id, or 'both'. A file of one date says which; a file of both says so on
+     every feature, because two networks in one layer that cannot be told apart
+     is worse than either alone. */
+  function saveDrawnRail(sys, want) {
     var g = document.getElementById(sys + '-rail');
     if (!g) return false;
+    var pick = want || state.epoch;
     var feats = [];
-    $$('path', g).forEach(function (el) {
+    $$('path.rail', g).forEach(function (el) {
+      var ep = el.getAttribute('data-epoch') || state.epoch;
+      if (pick !== 'both' && ep !== pick) return;
       var lines = ringsToLonLat(pathToRings(el.getAttribute('d')));
       lines.forEach(function (c) {
         if (c.length > 1) {
@@ -11828,12 +11875,27 @@
                        geometry: { type: 'LineString', coordinates: c },
                        properties: { system: sys,
                                      railway: RAIL_LABEL[sys] || sys,
-                                     epoch: el.getAttribute('data-epoch') || state.epoch,
+                                     epoch: ep,
+                                     network_year: railYear(sys, ep),
+                                     source: (RAIL_INFO[sys] || {}).source || '',
+                                     source_url: (RAIL_INFO[sys] || {}).url || '',
                                      note: RAIL_DRAWN_NOTE } });
         }
       });
     });
-    return saveRailGeoJSON(feats, (RAIL_LABEL[sys] || sys) + '-railways');
+    if (!feats.length) return false;
+    /* Named for the years of the *networks*, not of the map's sheets. Taiwan's
+       later drawing is the 1944 survey, so `taiwan-railways-1930-and-1942`
+       would be a file whose name disagreed with its own contents. */
+    var name = (RAIL_LABEL[sys] || sys) + '-railways';
+    if (pick === 'both') {
+      var ys = ['e1930', 'e1942'].map(function (e) { return railYear(sys, e); })
+        .filter(function (y, i, a) { return y && a.indexOf(y) === i; });
+      name += '-' + ys.join('-and-');
+    } else {
+      name += '-' + (railYear(sys, pick) || String(pick).replace(/^e/, ''));
+    }
+    return saveRailGeoJSON(feats, name);
   }
 
   var RAIL_DRAWN_NOTE = 'Read from the drawn network and unprojected, so it '
@@ -11869,6 +11931,67 @@
      possessive, and it is the one place that has to change when a fourth
      system arrives. */
   var RAIL_LABEL = { tw: 'Taiwan', kr: 'Korea', kf: 'Karafuto' };
+
+  /* **What the white railway is, and which year's network it is.**
+   *
+   * The layer is drawn per date and the dates are not the map's dates, which
+   * is the thing a reader cannot possibly guess and the reason this table
+   * exists. Taiwan's later sheet is the **1944** network, not 1942, because
+   * that is the survey the island's added lines were traced from; Karafuto is
+   * the **1935** network on both sheets, because the rails did not move
+   * between them — the Karafuto Railway Company was bought by the government
+   * in 1941, which changed who ran the trains and not where they ran.
+   *
+   * These years must agree with `TW_RAIL_FILES`, `KR_RAIL_FILES` and
+   * `KF_RAIL_FILES` in tools/build_map.py, which is where the geometry is
+   * actually chosen. Change a file there and change the year here. */
+  var RAIL_INFO = {
+    tw: {
+      label: 'Taiwan Railways',
+      /* **The map's own dates, not the tracing source's.**
+       *
+       * An earlier draft of this said 1944 for the later sheet, reading
+       * build_map.py's "the 1944 one" as the year of the network. It is not:
+       * sources.md says the 東港 and 溪州/南州–枋寮 lines are *kept for 1942 and
+       * removed for 1930*, which is a file curated to the map's two dates, and
+       * the 1944 American 1:25,000 sheet is what several stretches were
+       * **traced from**. A survey's date and a network's date are different
+       * facts and the card must not print one for the other.
+       *
+       * The tracing source is named in `source` below, where it belongs. */
+      years: { e1930: '1930', e1942: 'December 1942' },
+      source: '日治時期鐵路分布圖 (Academia Sinica), reprojected to TWD97, with '
+        + 'several stretches traced from the 1944 American 1:25,000 sheet',
+      url: 'https://data.depositar.io/dataset/rd15-07030',
+      note: 'Drawn per date, because the island gained lines between them: some '
+        + 'southern lines are on the 1942 map and not the 1930 one.',
+    },
+    kr: {
+      label: 'Korea Railways',
+      years: { e1930: '1930', e1942: '1942' },
+      source: '근대 철도 DB (김종혁), filtered by the year each line opened',
+      url: 'https://www.hisgeo.info/wiki/%EA%B7%BC%EB%8C%80_%EC%B2%A0%EB%8F%84_DB',
+      note: 'Lines open by 1931 on the 1930 map and by 1943 on the December '
+        + '1942 map. Not yet checked against contemporary sheets.',
+    },
+    kf: {
+      label: 'Karafuto Railways',
+      years: { e1930: '1935', e1942: '1935' },
+      source: 'traced for this map from 最新樺太地圖 and the 樺太路線図 at '
+        + '時刻表倉庫, checked against the 1947 U.S. Army sheets',
+      url: 'https://jikokusouko.pages.dev/index.htm',
+      note: 'One drawing for both dates: the island’s railways were built '
+        + 'between 1906 and the late 1920s and the rails did not move between '
+        + '1930 and 1942.',
+    },
+  };
+
+  /* The year the drawn lines are showing, on the sheet in front of the reader. */
+  function railYear(sys, epoch) {
+    var inf = RAIL_INFO[sys];
+    return (inf && inf.years[epoch || state.epoch]) || '';
+  }
+
 
   /* THE GAZETTEER, FOR TAKING AWAY.
    *
@@ -12191,10 +12314,29 @@
       /* The tools are not up, so there are no line names to offer and no
          timetable to name them from — but the drawn network is right there
          and is the thing the reader pointed at. Read back out of the drawing
-         and unprojected, the way the polygons are. */
-      menuEl.appendChild(menuItem('Download GeoJSON \u2014 '
-        + (RAIL_LABEL[railSys] || railSys) + '\u2019s railways',
-        function () { saveDrawnRail(railSys); }));
+         and unprojected, the way the polygons are.
+
+         **Both dates, and either.** The layer is drawn per date and the other
+         date's paths are hidden rather than absent, so all three files can be
+         written from what is already here. The date on screen goes first
+         because it is what the reader is looking at. */
+      var railName = RAIL_LABEL[railSys] || railSys;
+      var here = state.epoch;
+      var other = here === 'e1930' ? 'e1942' : 'e1930';
+      var yHere = railYear(railSys, here), yOther = railYear(railSys, other);
+      menuEl.appendChild(menuItem('Download GeoJSON \u2014 ' + railName
+        + '\u2019s railways' + (yHere ? ', ' + yHere : ''),
+        function () { saveDrawnRail(railSys, here); }));
+      /* Karafuto is one drawing on both sheets, so offering it twice would be
+         the same file under two names. */
+      if (yOther && yOther !== yHere) {
+        menuEl.appendChild(menuItem('Download GeoJSON \u2014 ' + railName
+          + '\u2019s railways, ' + yOther,
+          function () { saveDrawnRail(railSys, other); }));
+        menuEl.appendChild(menuItem('Download GeoJSON \u2014 ' + railName
+          + '\u2019s railways, both dates',
+          function () { saveDrawnRail(railSys, 'both'); }));
+      }
     }
     /* Unit, then group, then layer — narrowest first, because the reader
        right-clicked one shape and the wider offers are the afterthought. A
@@ -12803,6 +12945,118 @@
      `trains.js` hands back, and the selection is dropped rather than moved:
      nothing on the map is outlined, because what the reader pointed at is not
      a shape on the map. */
+  /* **The white railway, as a thing a reader can press.**
+   *
+   * It was the one drawn layer on the map that answered nothing: a click went
+   * through it to the province underneath, so a reader looking at the line
+   * could not find out whose it was, what year it showed, or where it came
+   * from. It carries all three and had no way to say so.
+   *
+   * The card names the network, the year of the drawn geometry — which is not
+   * the year of the sheet, see RAIL_INFO — and the source, and offers the
+   * train tools where there are any for this ground. */
+  function showRailCard(sys) {
+    var inf = RAIL_INFO[sys];
+    if (!inf || !infoBox) return;
+    markSelected(selected, false);
+    selected = null;
+    selCluster = null;
+    redrawHighlight();
+    setRailPicked(sys);
+
+    var chip = $('.chip', infoBox);
+    chip.textContent = 'Railway';
+    chip.style.setProperty('--chip', 'var(--muted)');
+    $('.primary', infoBox).textContent = inf.label;
+    var yr = railYear(sys, state.epoch);
+    $('.alt', infoBox).textContent = yr ? 'the network of ' + yr : '';
+    var prov = $('.prov', infoBox);
+    prov.textContent = '';
+    prov.hidden = true;
+    var when = $('.when', infoBox);
+    when.textContent = '';
+    when.hidden = true;
+    var own = $('.note-own', infoBox);
+    setProse(own, inf.note || '');
+    own.hidden = !inf.note;
+    var grp = $('.note-group', infoBox);
+    setProse(grp, '');
+    grp.hidden = true;
+    grp.setAttribute('data-group', '');
+    var flip = $('#info-flip', infoBox);
+    if (flip) flip.hidden = true;
+    var pop = $('#info-pop');
+    if (pop) { pop.innerHTML = ''; pop.hidden = true; }
+    renderRailBlock($('#info-trains'), sys, inf);
+    collapseInfo();
+    infoBox.hidden = false;
+    document.body.classList.add('panel-open');
+    hideTooltip();
+    gateLabels();
+    placeLabels();
+  }
+
+  /* The source, and the way in to the timetable. Two sentences and two
+     buttons: a card is read at a glance and the argument lives in
+     sources.html. */
+  function renderRailBlock(host, sys, inf) {
+    if (!host) return;
+    host.textContent = '';
+    host.hidden = false;
+
+    var src = document.createElement('p');
+    src.className = 'trains-head';
+    src.textContent = 'Source: ';
+    var a = document.createElement('a');
+    a.href = inf.url;
+    a.target = '_blank';
+    a.rel = 'noopener';
+    a.textContent = inf.source;
+    src.appendChild(a);
+    host.appendChild(src);
+
+    var row = document.createElement('p');
+    row.className = 'tbar';
+
+    /* The tools, where this ground has any and the reader is close enough for
+       them to draw. Offering a button that does nothing visible would be
+       worse than not offering it. */
+    if (TRAIN_SYS[sys] && trainZone() === sys && !state.trainTools) {
+      var t = document.createElement('button');
+      t.type = 'button';
+      t.className = 'plain';
+      t.textContent = 'Open the train tools';
+      t.addEventListener('click', function () { setTrainTools(true); });
+      row.appendChild(t);
+    }
+
+    var d = document.createElement('button');
+    d.type = 'button';
+    d.className = 'plain';
+    d.textContent = 'Download GeoJSON';
+    d.addEventListener('click', function () { saveDrawnRail(sys, state.epoch); });
+    row.appendChild(d);
+
+    host.appendChild(row);
+
+    var hint = document.createElement('p');
+    hint.className = 'trains-foot';
+    hint.textContent = 'Right-click the line for the other date, or both together.';
+    host.appendChild(hint);
+  }
+
+  /* Lit as one thing, because that is what it is. A railway is not a shape with
+     an inside; the reader pressed *the network*, and the whole of it answers. */
+  var railPicked = '';
+
+  function setRailPicked(sys) {
+    railPicked = sys || '';
+    ['tw', 'kr', 'kf'].forEach(function (k) {
+      var g = document.getElementById(k + '-rail');
+      if (g) g.classList.toggle('picked', k === railPicked);
+    });
+  }
+
   function showTrainCard(block) {
     if (!block || !infoBox) return;
     markSelected(selected, false);
@@ -13250,6 +13504,23 @@
         }
         tie.style.display = on ? '' : 'none';
         tie.style.setProperty('--rail-ground', railGround(over));
+
+        /* **Something wide enough to press.** The rail is drawn at 1.9 screen
+           pixels and that is the whole of its hit area: a mouse can just about
+           land on it and a finger cannot, which is why the line answered
+           nothing for so long. So a third clone, invisible and fat, carrying
+           the pointer for the two that are drawn — the same trick the
+           gazetteer dots use with `circle.hit`.
+
+           Cheap, because this layer is a handful of paths and not a thousand:
+           Taiwan is four. It goes *after* the tie so it is on top of both, and
+           the drawn pair take no pointer events of their own. */
+        var hit = tie.nextSibling;
+        if (!hit || !hit.classList || !hit.classList.contains('rail-hit')) {
+          hit = svgEl('path', { 'class': 'rail-hit', d: el.getAttribute('d') });
+          tie.parentNode.insertBefore(hit, tie.nextSibling);
+        }
+        hit.style.display = on ? '' : 'none';
       });
     });
 

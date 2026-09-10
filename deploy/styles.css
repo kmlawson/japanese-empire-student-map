@@ -942,6 +942,41 @@ button.plain:hover { background: var(--hover-fill); }
   stroke-linejoin: round;
   vector-effect: non-scaling-stroke;
 }
+/* The railway's hit target: invisible, and wide enough for a finger. The drawn
+   line is 1.9 screen pixels and nobody can press that; this is 16, which is
+   inside the 44 px a touch target wants but is as much as can be given to a
+   line that runs beside coastlines and through cities without stealing their
+   presses. `pointer-events: stroke` so only the band round the line answers,
+   never the area a closed path would enclose. */
+.rail-hit {
+  fill: none;
+  stroke: transparent;
+  stroke-width: 16;
+  stroke-linecap: butt;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+  pointer-events: stroke;
+}
+/* and the two drawn lines get out of its way */
+.rail { pointer-events: none; }
+
+/* **A picked railway lights as one thing.** It is a network, not a shape with
+   an inside: the reader pressed the line and what answers is the whole of it,
+   so the highlight goes on the group and every path in it thickens together.
+   Screen pixels, via non-scaling-stroke, so it reads the same at every zoom —
+   the map-units/screen-pixels rule in CLAUDE.md. */
+#tw-rail.picked .rail,
+#kr-rail.picked .rail,
+#kf-rail.picked .rail {
+  stroke-width: 3.4;
+  stroke: var(--pick, #b8860b);
+}
+#tw-rail.picked .rail-tie,
+#kr-rail.picked .rail-tie,
+#kf-rail.picked .rail-tie {
+  stroke-width: 3.4;
+}
+
 .rail-tie {
   fill: none;
   stroke: var(--rail-ground, var(--bg));
